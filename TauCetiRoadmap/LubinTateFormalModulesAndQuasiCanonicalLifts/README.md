@@ -34,410 +34,6 @@ GrossZagierAndArithmeticHeights §7.2 and with elliptic curves are stated for fi
 the quadratic results cover ramified and unramified `F/F₀`, including residue characteristic two.
 Only the BKO layers impose `p ≥ 5` and `Φ/ℚ_p` unramified quadratic.
 
-## Scope and ownership
-
-**Owned here.** The coefficient-ring action on a commutative formal group law with its tangent
-condition, and the `O_K`-height (§0.1); the `O`-module structure, Galois action and elliptic
-comparisons on evaluated formal points (§0.2); the evaluated logarithm homomorphism and its deep
-analytic inverse over finite extensions of `ℚ_p` (§0.3); number-field models of finite extensions of
-`ℚ_p` carrying Tau Ceti's elliptic formal-point homomorphism (§0.4). Lubin–Tate series and
-polynomials, the interpolation lemma, the Lubin–Tate formal module and its coordinate independence
-(Layer 1). Finite-height torsion and the `π`-adic Tate module of a formal `O_K`-module, the
-primitive-root presentation of the supplied Lubin–Tate division fields, their coordinate and
-Tate-module comparisons, the arithmetic Artin comparison and the change-of-uniformizer twist (Layer
-2). Marked deformations of formal `O_K`-modules over a specified coefficient ring, their coefficient
-algebra, cocycles, lifting torsors, tangent space and the extension of universal deformations to
-arbitrary specified coefficient bases (Layer 3). Honda type operators, functional-equation
-integrality and the unramified and supersingular elliptic Lubin–Tate comparisons (Layer 4). Tate
-lattices, integral lattice quotients of formal modules with their Frobenius-twisted markings,
-homomorphisms and descent (Layer 5). Finite-residue descent and higher-degree lattice classification
-of canonical and quasi-canonical lifts, quadratic order algebra and fields of moduli (Layer 6).
-Finite-residue quadratic ring-class degrees, the uniformizer property of the quasi-canonical
-modulus, the BKO primed tower, the ramified Honda boundary example and neighbouring lattices (Layer
-7). The BKO character data, cyclotomic and anticyclotomic directions, fixed fields and generator
-comparisons (Layer 8). Formal traces with their logarithm comparison, tame descent, the sign
-correction of traces between differently indexed generators and the trace-compatible tower square
-(Layer 9).
-
-**Taken from other owners, not restated.**
-
-- The finite Lubin–Tate division fields and their compatible scalar-action Galois isomorphisms,
-  and the infinite unit-group comparison: RelativeFarguesFontaine §2.5, built on the Lubin–Tate
-  formal `O_E`-module `G_LT` of VectorBundlesAndIsocrystals Layer 5, "Lubin–Tate universal cover
-  and sections of O(1)". Section 2.3 proves that `G_LT` is Lubin–Tate for `π` in the sense of §1.1,
-  and §§2.3–2.4 identify these objects with the elementary series construction and its
-  primitive-root coordinates and Tate character; §2.5 adds the comparison with the pinned
-  arithmetic Artin map.
-- Quadratic canonical and quasi-canonical lifts over the completed strict base, with markings,
-  orders, orbit sizes and integral endomorphism lifting filtrations, in mixed characteristic:
-  GrossZagierAndArithmeticHeights §7.2. Layers 6–7 add finite-residue descent, higher-degree lattice
-  classification, explicit moduli coordinates, the equal-characteristic case, which that section
-  does not state, and the comparisons used by the BKO towers.
-- The marked strict formal `O`-module deformation rings at the finite-residue base `O_r`, and
-  the deformation spaces over an algebraically closed residue field framed by quasi-isogenies:
-  EndoscopicTransferAndUnitaryTraceComparison §§10.2, 12.3. Section 3.6 constructs the functor
-  over arbitrary specified `B` and residue field, for `K` of either characteristic, and for `K/ℚ_p`
-  finite identifies its restriction with the §10.2 functor of a connected residual module and with
-  the level-zero component of quasi-isogeny height zero of §12.3, retaining their markings.
-- The formal-group algebra on Mathlib's carrier: homomorphisms, isomorphisms and strict
-  isomorphisms of one-dimensional formal group laws with composition and base change, the formal
-  inverse series, the multiplication series `[n]`, evaluated points on complete Hausdorff linearly
-  topologized algebras, the normalized logarithm and exponential over `ℚ`-algebras (every additive
-  series along `F` is a multiple of the logarithm, and `ℓ_G ∘ φ = φ′(0)·ℓ_F` for every homomorphism
-  `φ`), integral logarithm coefficient bounds and convergence, exponential convergence on the
-  standard disc, the height over a field of characteristic `p` with its invariance under
-  isomorphism and base change, the Lazard ring with Lazard's polynomial theorem and the symmetric
-  two-cocycle lemma, and finite-height rigidity: already in Tau Ceti, the development planned by
-  BordismFormalGroups §F1, with the exact declarations below. The universal deformation ring
-  `W(k)[[u₁,…,u_(h−1)]]` of a height-`h` formal group over a perfect field `k`: BordismFormalGroups
-  §F5. Section 3.6 differs by the coefficient action of `O_K`, an arbitrary residue field and an
-  arbitrary specified coefficient ring.
-- Formal Lie groups `FormalLieGroup` of any dimension with `FormalLieGroup.Hom`,
-  `FormalLieGroup.End`, `FormalLieGroup.Points` and the dimension-one comparison
-  `FormalLieGroup.ofFormalGroup`; the equivalence `BarsottiTate.equivFormalLieGroup` between
-  `p`-divisible formal Lie groups and connected `p`-divisible groups; the `ℤ_p`-Tate module
-  `BarsottiTate.tateModule`; schematic closure `schematicClosure_flat`; quotients
-  `BarsottiTate.quotientFiniteFlatSubgroup` by finite flat subgroups over a complete discrete
-  valuation ring; relative Frobenius and Verschiebung `frobeniusHom`, `verschiebungHom` and finite
-  Dieudonné theory `dieudonneEquivalenceFinite`: FiniteFlatGroupsAndIntegralPadicHodgeTheory
-  §§R07.1.1, R07.1.8, R07.1.12–R07.1.13, R07.1.20–R07.1.20a, R07.2.6–R07.2.8. Sections 2.1–2.2
-  differ by working `π`-adically with the `O_K`-action; §5.2 differs by constructing the quotient
-  as a formal `O₀`-module with an explicit integral coordinate and a Frobenius-twisted marking.
-- The elliptic formal group law and its base change (`WeierstrassCurve.formalGroup`,
-  `WeierstrassCurve.map_formalGroup`), its adic point group `WeierstrassCurve.FormalGroupPoint`
-  and the formal-point homomorphisms `WeierstrassCurve.formalPointHom` and
-  `WeierstrassCurve.formalPointHomAdicCompletion` with its injectivity and range: already in Tau
-  Ceti. The elliptic formal logarithm, exponential and their convergence on maximal ideals:
-  EllipticCurves Layer 1. Frobenius on elliptic curves over finite fields and the Hasse bound:
-  EllipticCurves Layer 3.
-- Finite locally free commutative affine group schemes over an affine base, as spectra of finite
-  projective bicommutative Hopf algebras: already in Tau Ceti; §2.1 builds the torsion group
-  schemes of a formal module as such spectra. Exactness for short sequences of finite locally free
-  group schemes, finite quotients, elliptic isogenies and quotients, formal completion at the zero
-  section, universal elliptic deformations, elliptic `p`-divisible groups and Serre–Tate theory:
-  ModularCurves §§0B, 0C, 2B, 7C, 7D, 7E, 7F.
-- The arithmetic local Artin map `TauCeti.ClassFieldTheory.artinMap` with its finite restrictions
-  and norm subgroups: already in Tau Ceti; local existence and the local class-field
-  correspondence: ClassFieldTheory Layers 6–8. The cyclotomic case of the explicit reciprocity law
-  of §2.5 (`K = ℚ_p`, `f = (1 + X)^p − 1`: the Artin symbol of `p^k u` raises `p`-power roots of
-  unity to the power `u⁻¹`) is already in Tau Ceti as
-  `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic` and
-  `TauCeti.ClassFieldTheory.localArtinMap_cyclotomic_padic_primePow`; §2.5 proves the statement for
-  every Lubin–Tate polynomial over every nonarchimedean local field. No Lubin–Tate construction of
-  reciprocity is made here; Layer 2 compares the Lubin–Tate character with the existing map.
-- Finite extensions of local fields, the unit filtration `TauCeti.unitFiltration`, Teichmüller
-  lifts and the logarithm isomorphism `U(K,i) ≃ 𝓂[K]^i` for `(p−1)i > e`: LocalFieldsRamification
-  Layers 0–1 and Tau Ceti. The maximal unramified extension `K^ur` and arithmetic Frobenius:
-  LocalFieldsRamification Layer 2. Its completion `K̂^ur`, with `G_(K̂^ur) ≅ I_K`:
-  RamificationOfCompleteDiscretelyValuedFields §4a.3.
-
-## Conventions
-
-- `K` is a nonarchimedean local field with integers `O = O_K`, uniformizer `π`, maximal ideal
-  `𝔪_K` and residue field `k_K` of cardinality `q`. In Layer 1, `O` may be any discrete valuation
-  ring with finite residue field of cardinality `q` and `π` any irreducible element; in §§4.1–4.2,
-  `O` is any discrete valuation ring of characteristic zero and residue characteristic `p`
-  satisfying Honda's condition (F) of §4.1, `q` is the power of `p` in (F) and need not be the
-  residue cardinality, the residue field may be infinite, and the fraction field `K` need be neither
-  complete nor finite over `ℚ_p`; Layers 2, 3, 5 and 6 and §§7.1–7.2 allow either characteristic
-  and assume `K/ℚ_p` or `F₀/ℚ_p` finite only in the clauses that say so (all of §5.5); in §§0.3–0.4,
-  4.3–4.4 and 7.3–7.6 and in Layers 8–9, `K` has characteristic zero, so `K/ℚ_p` is finite with
-  ramification index `e` and residue degree `f`.
-- A formal `A`-module over an `A`-algebra `R` (`FormalModule`, §0.1) is a commutative
-  one-dimensional Mathlib `FormalGroup R` together with an action `a ↦ [a]` of `A` by
-  endomorphisms `TauCeti.FormalGroupHom F F`, additive for the formal sum `[a + b] = F([a], [b])`,
-  multiplicative for composition, with `[1] = X` and linear coefficient of `[a]` the image of `a`
-  under the structure map `A → R`. Its `O_K`-height `h` is read off `[π]` over a field; for
-  `K/ℚ_p` finite the underlying `p`-height is `h[K:ℚ_p]`, and in characteristic `p` it is infinite,
-  since `[p] = [0] = 0`.
-- A coordinate change `X ↦ uX + ⋯` is strict when `u = 1`. A marked deformation carries an
-  isomorphism of its special fibre with a given residual module, and marked isomorphisms preserve
-  that whole isomorphism. Strictness and marking are different conditions.
-- Formal logarithms have zero constant term and linear coefficient one. They converge on maximal
-  ideals of finite extensions of `ℚ_p`; their exponentials are inverse only on a sufficiently deep
-  ideal, and torsion lies in the kernel of the logarithm.
-- Separable closures and embeddings are fixed before fields are formed. The local Artin map is
-  arithmetically normalized: a uniformizer maps to a lift of arithmetic Frobenius. Thus
-  `χ_π(Art_K(π^r u)) = u⁻¹` for `u ∈ O_K^×`, and replacing `π` by `uπ` multiplies `χ` by the
-  unramified character sending arithmetic Frobenius to `u`.
-- The deformation coefficient ring `B` is specified together with its residue field; no Cohen ring
-  of an imperfect field is chosen implicitly. For the CM problem with finite `k_F`, `B = O_(F_u)`
-  with `F_u` the maximal subextension of `F/F₀` that is unramified over `F₀`. The symbols `K^ur`
-  and `F^ur` always denote maximal unramified extensions inside a fixed algebraic closure, and
-  `K̂^ur`, `F̂^ur` their completions.
-- For a lattice `L ⊃ T` with `[L:T] = q₀^N` the lattice quotient is marked to the `q₀^N`-Frobenius
-  twist of the special fibre; multiplication by `π_F` compares markings when the exponent changes
-  by the residue degree.
-- For quadratic `F/F₀`, `O_s = O₀ + ϖ₀^s O_F` uses the uniformizer `ϖ₀` of the smaller field.
-  Fields of moduli are smallest fields containing `F` over which the marked deformation is
-  defined.
-- In the BKO layers `p ≥ 5`, `Φ/ℚ_p` is unramified quadratic with integers `O = O_Φ`, and
-  `π = −p`. The field `Φ_n` is generated by `π^(n+1)`-torsion; `Ψ′_s` is the level-`s`
-  quasi-canonical field. A `π`-adic Tate generator `(v_n)` satisfies `[−p]v_(n+1) = v_n`, and the
-  `p`-adic generator is `w_n = [(−1)^n]v_n`.
-- Polynomial iterates are written `f^{∘m}`, with `f^{∘0} = X`; in Lean this is
-  `(f.comp)^[m] Polynomial.X`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `FormalGroup` (one-dimensional formal group law: zero constant term, linear terms `X` and `Y`,
-  associativity; no commutativity and no inverse field), `FormalGroup.IsComm`, `FormalGroup.map`
-  and `FormalGroup.Point`, in `Mathlib/RingTheory/FormalGroup/Basic.lean`. `FormalGroup.Point`
-  consists of power series with nilpotent constant coefficient; it is not a group of
-  maximal-ideal-valued points of a valued field.
-- `PowerSeries.subst`, `MvPowerSeries.subst` and `PowerSeries.HasSubst`: substitution, agreeing
-  with polynomial evaluation even outside `PowerSeries.HasSubst`. For general power series the
-  substitution laws used here require `HasSubst`; every substitution here has zero constant term.
-- `PowerSeries.substInv`, `PowerSeries.substInvOfIsUnit`, `PowerSeries.subst_substInv_left` and
-  `PowerSeries.subst_substInv_right`: the two-sided substitution inverse of a series with zero
-  constant term and invertible linear coefficient.
-- `PowerSeries.eval₂Hom` and `PowerSeries.comp_eval₂`: evaluation at an element with
-  `PowerSeries.HasEval` in a complete separated linearly topologized ring, and its compatibility
-  with continuous ring maps.
-- `PowerSeries.exists_isWeierstrassFactorization` and
-  `PowerSeries.IsWeierstrassFactorizationAt.algEquivQuotient`: Weierstrass preparation over an
-  adically complete local ring for a series with nonzero reduction, and the identification of the
-  power-series quotient with the polynomial quotient.
-- `IsNonarchimedeanLocalField`, `Valuation.integer` (notation `𝒪[K]`), `IsLocalRing.ResidueField`
-  (notation `𝓀[K]`), `IsDiscreteValuationRing`, `IsLocalRing.residue`, `Polynomial.Monic`,
-  `PowerSeries.map`, `AlgebraicClosure`, `IntermediateField.adjoin`, `Field.absoluteGaloisGroup`,
-  `Field.absoluteGaloisGroupAbelianization` (`TopologicalAbelianization` of the absolute Galois
-  group), `IsKrasner` and `IsKrasner.krasner`, `spectralNorm`, `WittVector`, `GaloisField`,
-  `WeierstrassCurve.map`, `WeierstrassCurve.Δ`, `WeierstrassCurve.Affine.Point`,
-  `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and
-  `IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`.
-
-**Checks.**
-
-- Over `ℤ`, substituting the constant `1` into the polynomial `X` gives `1`, although `1` is
-  not nilpotent and fails `HasSubst`; a rule forcing all inadmissible substitutions to zero
-  would give the wrong polynomial value.
-
-### From Tau Ceti
-
-- `TauCeti.FormalGroupHom` and `TauCeti.FormalGroupIso`
-  (`TauCeti/RingTheory/FormalGroup/Hom.lean`): origin-preserving homomorphism series and mutually
-  inverse homomorphisms on the native formal-group carrier, with `TauCeti.FormalGroupHom.id`,
-  `TauCeti.FormalGroupHom.comp` (composition is substitution, outer map first), base change
-  `TauCeti.FormalGroupHom.map` and `TauCeti.FormalGroupIso.map`, and strictness
-  `TauCeti.FormalGroupIso.IsStrict` (linear coefficient one). Sums of homomorphisms are not
-  bundled there; this roadmap writes them as the formal sum `F(φ, ψ)`.
-- `FormalGroup.addInvX` (`…/FormalGroup/AddInv.lean`), the formal inverse series;
-  `FormalGroup.nsmulSeries` and `FormalGroup.zsmulSeries` (`…/NSMul/Basic.lean`, `…/ZSMul.lean`),
-  the multiplication series `[n]_F` with linear coefficient `n`, and `FormalGroup.zsmulHom`, the
-  endomorphism `[n]` of a commutative law.
-- `FormalGroup.log`, `FormalGroup.exp`, `FormalGroup.logIso` and
-  `FormalGroup.subst_toPowerSeries_eq_add_iff` (`…/Logarithm/Basic.lean`): over a `ℚ`-algebra, the
-  normalized logarithm and exponential, the strict isomorphism to the additive law, and the fact
-  that the additive series along `F` are exactly the multiples of the logarithm;
-  `TauCeti.FormalGroupHom.subst_log` and `TauCeti.FormalGroupHom.coeff_one_injective`
-  (`…/Logarithm/Naturality.lean`): `ℓ_G ∘ φ = φ′(0)·ℓ_F` for a homomorphism `φ : F → G`, and a
-  homomorphism over a `ℚ`-algebra is determined by its linear coefficient.
-- `FormalGroup.height`, `FormalGroup.height_map` and `TauCeti.FormalGroupIso.height_eq`
-  (`…/Height/Basic.lean`): the height of a formal group law over a field at a prime `p` (`⊤` when
-  `[p] = 0`), its invariance under field extension and under isomorphism.
-- `TauCeti.LazardRing`, `TauCeti.LazardRing.lift` and `TauCeti.LazardRing.mvPolynomialEquiv`
-  (`…/LazardRing/Basic.lean`, `…/LazardRing/Polynomial.lean`): the Lazard ring, its universal
-  property for commutative laws and Lazard's polynomial theorem; and
-  `TauCeti.existsUnique_eq_smul_lazardCocycle` (`…/SymmetricCocycle/Classification.lean`): a
-  homogeneous symmetric additive two-cocycle of degree `n ≥ 2` over any commutative ring is a
-  unique multiple of the divided binomial cocycle.
-- `FormalGroup.exists_iso_lifting_coordinate` (`…/CoordinateChange/Lifting.lean`): over a
-  coefficient map surjective on elements and on units, a prescribed change of coordinates of the
-  reduction lifts to an isomorphism onto a lift with the prescribed special fibre.
-- `FormalGroup.TopNilpotentPoint` (`TauCeti/RingTheory/FormalGroup/TopNilpotentPoint/Basic.lean`)
-  has a coordinate and a `PowerSeries.HasEval` proof. Its group structure requires a complete
-  Hausdorff linearly topologized algebra, and commutativity requires `F.IsComm`.
-  `TauCeti.FormalGroupHom.toTopNilpotentPointHom` (`…/TopNilpotentPoint/Hom.lean`) evaluates a
-  homomorphism on those points. For a local field extension these are used on `O_L` with its
-  maximal-ideal adic topology, not on `L` with a field-linear topology.
-- `FormalGroup.norm_coeff_log_le_inv_norm_natCast`, `FormalGroup.onOpenDisc_log`,
-  `FormalGroup.summable_norm_coeff_log_mul_pow` and `FormalGroup.summable_coeff_log_mul_pow`
-  (`TauCeti/RingTheory/FormalGroup/Logarithm/Convergence.lean`): for a coefficient map to a
-  characteristic-zero normed field taking every coefficient into the closed unit ball, the
-  normalized logarithm has coefficient bound `‖n⁻¹‖` and converges for `‖x‖ < 1`; the last result
-  requires completeness. `FormalGroup.summable_coeff_exp_mul_pow`
-  (`…/Exponential/Padic.lean`) supplies exponential convergence in a complete normed `ℚ_p`-algebra
-  field for `‖x‖ < p^(−1/(p−1))`, including `p = 2`.
-- `TauCeti.FormalGroupHom.eq_of_map_residue_eq` and
-  `TauCeti.FormalGroupIso.eq_of_map_residue_eq` (`…/Rigidity.lean`): over a maximal-ideal-adically
-  Hausdorff local ring with residue characteristic `p`, homomorphisms and isomorphisms between
-  commutative formal groups agree if their reductions agree and the source has finite residual
-  `p`-height. Section 3.4 uses them for `K/ℚ_p` finite, with residual `p`-height `h[K:ℚ_p]`; in
-  characteristic `p` the residual `p`-height is infinite and §3.4 proves rigidity itself.
-- `WeierstrassCurve.formalGroup`, `WeierstrassCurve.isComm_formalGroup` and
-  `WeierstrassCurve.map_formalGroup` (`TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Basic.lean`):
-  the elliptic formal group law in the parameter `z = −x/y`, its commutativity and base change.
-- `WeierstrassCurve.FormalGroupPoint` (`…/FormalGroup/AdicPoint.lean`): parameters in an adic ideal
-  with evaluated elliptic addition, inverse and `AddCommGroup` structure.
-- `WeierstrassCurve.formalPointHom` (`…/FormalGroup/Point/Hom.lean`), an injective homomorphism into
-  affine points under an explicit auxiliary-point hypothesis; and
-  `WeierstrassCurve.formalPointHomAdicCompletion`,
-  `WeierstrassCurve.formalPointHomAdicCompletion_injective` (`…/Point/AdicCompletion.lean`) and
-  `WeierstrassCurve.range_formalPointHomAdicCompletion` (`…/Point/Range.lean`): for a curve over the
-  integers of the completion of a Dedekind domain at a height-one prime, elliptic over the
-  completed fraction field, the unconditional injective formal-point homomorphism and its range,
-  the kernel of reduction.
-- `TauCeti.ClassFieldTheory.artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`):
-  the arithmetic local Artin map `Kˣ →* Field.absoluteGaloisGroupAbelianization K` of a
-  nonarchimedean local field, with `TauCeti.ClassFieldTheory.artinMap_restrict` (finite
-  restrictions are the finite local Artin maps), `TauCeti.ClassFieldTheory.exists_artinMap_mem_iff`
-  (preimages of open subgroups are norm subgroups), `TauCeti.ClassFieldTheory.artinMap_norm` and
-  `TauCeti.ClassFieldTheory.artinMap_congr` (norm functoriality and naturality in the field); and
-  `TauCeti.ClassFieldTheory.localArtinMap_eq_zero_iff`
-  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Reciprocity.lean`): the finite local Artin symbol of
-  `a ∈ Kˣ` for a finite Galois `L/K` is trivial exactly when `a` is a norm from `L`. The map
-  `TauCeti.ClassFieldTheory.artinMap` is stated for `K : Type`.
-- `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic` and
-  `TauCeti.ClassFieldTheory.localArtinMap_cyclotomic_padic_primePow`
-  (`TauCeti/NumberTheory/ClassFieldTheory/Local/ExplicitCyclotomicSymbol/ArtinMap.lean`): a lift of
-  the Artin symbol of `p^k u`, `u ∈ ℤ_p^×`, has cyclotomic character `u⁻¹` and raises every root of
-  unity of order dividing `p^n` to the power `u⁻¹ mod p^n`. This is the case `K = ℚ_p`,
-  `f = (1 + X)^p − 1` of §2.5, proved there without Lubin–Tate theory.
-- `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat` and
-  `TauCeti.finiteLocallyFreeBicommutativeHopfAlgCatOpEquivFiniteLocallyFreeCommAffineGroupSchemeCat`
-  (`TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/FiniteLocallyFree.lean`): commutative
-  affine group schemes over `Spec R` that are finite, flat and locally of finite presentation, and
-  `Spec` as an anti-equivalence onto them from finite projective commutative and cocommutative
-  Hopf `R`-algebras, for any commutative ring `R`. These are ordinary spectra: the formal spectrum
-  of an adic ring has as points only the open primes, the zero locus of an ideal of definition
-  (`TauCeti.FormalScheme.Spf.carrier_eq_zeroLocus`,
-  `TauCeti/AlgebraicGeometry/FormalScheme/Spf/Carrier.lean`).
-- `TauCeti.unitFiltration` (`TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`):
-  `U(K,i) ⊂ Kˣ`, the image of `O_K^×` for `i = 0` and `1 + 𝔪_K^i` for `i ≥ 1`.
-- `TauCeti.teichmuller` (`TauCeti/RingTheory/Henselian/Teichmuller.lean`) and
-  `TauCeti.GlobalNumberFields.weakApproximation_denseRange`
-  (`TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`).
-
-### From TauCetiRoadmap.RelativeFarguesFontaine
-
-§2.5 supplies `E_m = E(LT[π^m])`, their compatible inclusions and scalar-action isomorphisms
-`Gal(E_m/E) ≅ (O_E/π^m)^×`, and the infinite unit-group comparison, for a nonarchimedean local
-field `E` of either characteristic. The module `LT` of that section is the Lubin–Tate formal
-`O_E`-module `G_LT` of VectorBundlesAndIsocrystals Layer 5. Section 2.3 proves that, for `E = K`,
-`[π]` of this module is a Lubin–Tate series for `π`, and then identifies this tower with
-`K(F_f[π^m])` for every Lubin–Tate series `f` for `π`, using the same-parameter coordinate
-comparison. Under that identification the scalar `a` acts by `[a]_f`; §2.5 determines its
-inverse-unit value on arithmetic Artin symbols.
-
-### From TauCetiRoadmap.VectorBundlesAndIsocrystals
-
-Layer 5, "Lubin–Tate universal cover and sections of O(1)", supplies, for a nonarchimedean local
-field `E` of either characteristic, the Lubin–Tate formal `O_E`-module `G_LT`, normalized by its
-Dieudonné module `W_(O_E)(k)` with `F = σ/π` and defined over `O_E`, and its universal cover
-`G̃ = lim_[π] G_LT`, with `G̃(A) = G̃(A/π)` identified with the topologically nilpotent elements of
-`A^♭` for `π`-adically complete `A` (in equal characteristic by sequences with
-`r_i = r_(i+1)^q`). It is used only in §§2.3–2.4, through the statement of §2.3 that this module is
-Lubin–Tate for `π`; its normalization and variance are those of the supplier.
-
-### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
-
-§7.2 supplies, for `F₀` of mixed characteristic, quadratic canonical and level-`s`
-quasi-canonical lifts over the completed strict integer ring of `F`, their special-fibre markings
-and prescribed tangent CM embedding, orders `O_s`, degree-`q₀^s` quotient isogenies, and marked
-orbit `O_F^×/O_s^×`. For `s ≥ 1` its size is `q₀^(s−1)(q₀+1)` when unramified and `q₀^s` when
-ramified; level zero has one class. Its integral endomorphism filtrations and lifting lengths remain
-with that supplier. For `F₀/ℚ_p` finite, §§6.1–6.6 identify the quadratic base changes of the
-finite-residue lattice models with these lifts and markings, and §7.1 identifies their
-finite-residue fields with the fields whose strict completions occur there. For each comparison
-choose the supplier's residual module to be the designated Frobenius twist and transport the same
-residual CM embedding and marking.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§10.2 supplies the marked strict `O`-module deformation functor for its residual strict
-`ϖ`-divisible `O`-modules `H_β` over `κ_r` and its ring `O_r[[T₁,…,T_(h−1)]]`; these residual
-modules include ones with a nonzero étale part. §12.3 supplies the deformation spaces of a
-one-dimensional formal `O_E`-module over an algebraically closed residue field, framed by an
-`O_E`-linear quasi-isogeny of the special fibre, as a union of components indexed by the height of
-the quasi-isogeny. The tangent action is the structural action, and markings preserve it.
-Section 3.6 extends to arbitrary specified complete noetherian local `B` with residue field `k`; it
-identifies its specialization at `B = O_r` with the §10.2 functor only for connected `H_β`, and
-over the algebraically closed residue base with the level-zero component of quasi-isogeny height
-zero of §12.3, by their marked universal properties. It does not construct a second
-finite-residue deformation space.
-
-### From TauCetiRoadmap.BordismFormalGroups
-
-§F5 supplies the universal deformation ring `W(k)[[u₁,…,u_(h−1)]]` of a specified height-`h`
-formal group over a perfect field `k`, with its universal property, coordinate changes and
-automorphism action, assumed with the hypotheses stated there; §3.6 here specializes to it when
-`O_K = ℤ_p`, `k` is perfect and `B = W(k)`. The formal-group algebra that §F1 plans is consumed
-from its Tau Ceti implementation, through the declarations listed under "From Tau Ceti".
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-§R07.1.12 supplies `FormalLieGroup`, `FormalLieGroup.Hom`, `FormalLieGroup.End`,
-`FormalLieGroup.Points F S J` (for an algebra `S` over the complete noetherian local base that is
-complete and separated for an ideal `J`, the tuples with coordinates in the radical of `J`, with
-convergent addition and functoriality along continuous algebra maps carrying the ideals into one
-another), `FormalLieGroup.evalPoints` and `FormalLieGroup.ofFormalGroup`. Section 0.2 uses
-`FormalLieGroup.Points` only through the comparison stated there: when the topology of `S` is
-the `J`-adic one, the native points with coordinate in `J` form the subgroup of
-`FormalLieGroup.Points` of points with coordinate in `J`, all of it exactly when `J` is
-radical. §R07.1.13 supplies
-`BarsottiTate.equivFormalLieGroup` over a complete noetherian local ring with residue
-characteristic `p`. §R07.1.8 supplies `BarsottiTate.tateModule`, free of rank the height over
-`ℤ_p` with continuous Galois action, over a henselian local domain with fraction field of
-characteristic zero. §R07.1.20 supplies `schematicClosure_flat` over a Dedekind base and
-§R07.1.20a supplies `BarsottiTate.quotientFiniteFlatSubgroup`, with the exact sequence
-`0 → T_p(G) → T_p(G/H) → H(K̄) → 0`, over a complete discrete valuation ring of mixed
-characteristic. §R07.1.1 supplies `frobeniusHom` and `verschiebungHom` with `V∘F = [p] = F∘V`;
-§§R07.2.6–R07.2.8 supply the contravariant finite Dieudonné module and
-`dieudonneEquivalenceFinite`. Variances are those of the supplier.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Layer 1 supplies isogenies, the dual isogeny, the invariant differential and the four elliptic
-formal-group milestones: the law, the logarithm and exponential over a `ℚ`-algebra, convergence on
-the maximal ideal of a complete valued field, and the identification with the kernel of reduction.
-Layer 3 supplies the Frobenius endomorphism of an elliptic curve over a finite field, its
-characteristic polynomial `T² − a_q T + q` with `#E(𝔽_q) = q + 1 − a_q`, and positivity and
-multiplicativity of the isogeny degree.
-
-### From TauCetiRoadmap.ModularCurves
-
-§0B (finite locally free commutative group schemes and Cartier duality), §0C (finite quotients and
-torsors), §2B (isogenies and quotients of elliptic curves by finite locally free subgroups), §7C
-(formal completion at the zero section, with coordinate changes `X ↦ uX + ⋯`), §7D (universal
-marked deformations of an elliptic curve over an algebraically closed field of characteristic `p`,
-over `W(k)[[T]]`), §7E (the elliptic `p`-divisible group, PD-1 to PD-5) and §7F (the Serre–Tate
-equivalence ST-1 and ST-2). The elliptic comparisons of §§3.7 and 5.5 are stated on the domains of
-these theorems.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layers 6–7: finite local reciprocity, the absolute local Artin map with its arithmetic
-normalization, unramified coordinate, norm functoriality and naturality (implemented in Tau Ceti as
-`TauCeti.ClassFieldTheory.artinMap`), with the Frobenius convention of its Conventions C.6 (a
-uniformizer maps to arithmetic Frobenius, and `χ_cyc(Art_K(u)) = N_(K/ℚ_p)(u)⁻¹` for units `u`
-of a finite extension `K/ℚ_p`). Layer 8: the local norm subgroups and the uniqueness of a finite
-abelian extension with a given norm subgroup, in every characteristic, used to identify fields of
-moduli and fixed fields by their norm groups; and the class-field correspondence, including
-`localAbelianExistence`, for finite extensions of `ℚ_p`. Fields of moduli in equal characteristic
-are identified without an existence theorem (§6.6).
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-Layer 0: finite extensions of local fields with their integers, residue fields, uniformizers and
-normalized valuations, and finite Galois fixed fields. Layer 1: the unit filtration, the
-Teichmüller section, the structure of `Kˣ` and of `O_K^×`, and the logarithm isomorphism
-`U(K,i) ≃ (𝔪_K^i, +)` with inverse `exp` when `(p − 1)i > e`. Layer 2: unramified extensions,
-the algebraic maximal unramified extension `K^ur` inside a fixed algebraic closure, and arithmetic
-Frobenius. The completion of `K^ur` is not built there.
-
-### From TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
-
-§4a.3 supplies the completion `K̂^ur` of the maximal unramified extension `K^ur` of `K`: a field
-complete for a discrete valuation with `e(K̂^ur/K) = 1` and residue field an algebraic closure of
-`k_K`, the equivalence between finite separable extensions of `K^ur` and of `K̂^ur`, and the
-identification `G_(K̂^ur) ≅ I_K` of its absolute Galois group with the inertia group of `K`. These
-are assumed with the hypotheses stated there. Sections 2.5–2.6 use `K̂^ur` as the base over which
-Lubin–Tate modules of different uniformizers become isomorphic, and §6.6 uses `F̂^ur` for Gross's
-formulation of the field of moduli.
-
 ## How to read the build
 
 Layer 0 adds the coefficient action to the existing formal-group carrier, the module structure on
@@ -541,6 +137,53 @@ content as follows; the former layer `LT.k` is Layer `k` for `k = 0, …, 9`.
 | LT.9/formal-trace | Finite formal traces | §9.1 |
 | LT.9/tame-descent | Tame descent on formal points | §9.2 |
 | LT.9/trace-compatible-exports | Trace-compatible tower comparisons | §9.3 |
+
+## Conventions
+
+- `K` is a nonarchimedean local field with integers `O = O_K`, uniformizer `π`, maximal ideal
+  `𝔪_K` and residue field `k_K` of cardinality `q`. In Layer 1, `O` may be any discrete valuation
+  ring with finite residue field of cardinality `q` and `π` any irreducible element; in §§4.1–4.2,
+  `O` is any discrete valuation ring of characteristic zero and residue characteristic `p`
+  satisfying Honda's condition (F) of §4.1, `q` is the power of `p` in (F) and need not be the
+  residue cardinality, the residue field may be infinite, and the fraction field `K` need be neither
+  complete nor finite over `ℚ_p`; Layers 2, 3, 5 and 6 and §§7.1–7.2 allow either characteristic
+  and assume `K/ℚ_p` or `F₀/ℚ_p` finite only in the clauses that say so (all of §5.5); in §§0.3–0.4,
+  4.3–4.4 and 7.3–7.6 and in Layers 8–9, `K` has characteristic zero, so `K/ℚ_p` is finite with
+  ramification index `e` and residue degree `f`.
+- A formal `A`-module over an `A`-algebra `R` (`FormalModule`, §0.1) is a commutative
+  one-dimensional Mathlib `FormalGroup R` together with an action `a ↦ [a]` of `A` by
+  endomorphisms `TauCeti.FormalGroupHom F F`, additive for the formal sum `[a + b] = F([a], [b])`,
+  multiplicative for composition, with `[1] = X` and linear coefficient of `[a]` the image of `a`
+  under the structure map `A → R`. Its `O_K`-height `h` is read off `[π]` over a field; for
+  `K/ℚ_p` finite the underlying `p`-height is `h[K:ℚ_p]`, and in characteristic `p` it is infinite,
+  since `[p] = [0] = 0`.
+- A coordinate change `X ↦ uX + ⋯` is strict when `u = 1`. A marked deformation carries an
+  isomorphism of its special fibre with a given residual module, and marked isomorphisms preserve
+  that whole isomorphism. Strictness and marking are different conditions.
+- Formal logarithms have zero constant term and linear coefficient one. They converge on maximal
+  ideals of finite extensions of `ℚ_p`; their exponentials are inverse only on a sufficiently deep
+  ideal, and torsion lies in the kernel of the logarithm.
+- Separable closures and embeddings are fixed before fields are formed. The local Artin map is
+  arithmetically normalized: a uniformizer maps to a lift of arithmetic Frobenius. Thus
+  `χ_π(Art_K(π^r u)) = u⁻¹` for `u ∈ O_K^×`, and replacing `π` by `uπ` multiplies `χ` by the
+  unramified character sending arithmetic Frobenius to `u`.
+- The deformation coefficient ring `B` is specified together with its residue field; no Cohen ring
+  of an imperfect field is chosen implicitly. For the CM problem with finite `k_F`, `B = O_(F_u)`
+  with `F_u` the maximal subextension of `F/F₀` that is unramified over `F₀`. The symbols `K^ur`
+  and `F^ur` always denote maximal unramified extensions inside a fixed algebraic closure, and
+  `K̂^ur`, `F̂^ur` their completions.
+- For a lattice `L ⊃ T` with `[L:T] = q₀^N` the lattice quotient is marked to the `q₀^N`-Frobenius
+  twist of the special fibre; multiplication by `π_F` compares markings when the exponent changes
+  by the residue degree.
+- For quadratic `F/F₀`, `O_s = O₀ + ϖ₀^s O_F` uses the uniformizer `ϖ₀` of the smaller field.
+  Fields of moduli are smallest fields containing `F` over which the marked deformation is
+  defined.
+- In the BKO layers `p ≥ 5`, `Φ/ℚ_p` is unramified quadratic with integers `O = O_Φ`, and
+  `π = −p`. The field `Φ_n` is generated by `π^(n+1)`-torsion; `Ψ′_s` is the level-`s`
+  quasi-canonical field. A `π`-adic Tate generator `(v_n)` satisfies `[−p]v_(n+1) = v_n`, and the
+  `p`-adic generator is `w_n = [(−1)^n]v_n`.
+- Polynomial iterates are written `f^{∘m}`, with `f^{∘0} = X`; in Lean this is
+  `(f.comp)^[m] Polynomial.X`.
 
 ## Layer 0: Formal modules, points and analytic logarithms
 
@@ -2597,6 +2240,363 @@ traces `Ψ′_2 → Ψ₁ → Φ` and `Ψ′_2 → Ψ′_1 → Φ`, of total deg
 - **NonordinaryCMSpecialValues** uses §§2.2–2.4 (Tate module, division fields, character) and
   §§4.3–4.4 (the unramified and elliptic comparisons); **ComplexMultiplicationAndExplicitReciprocityPartII**
   uses the character and its Artin comparison of §§2.4–2.5.
+
+## Scope and ownership
+
+**Owned here.** The coefficient-ring action on a commutative formal group law with its tangent
+condition, and the `O_K`-height (§0.1); the `O`-module structure, Galois action and elliptic
+comparisons on evaluated formal points (§0.2); the evaluated logarithm homomorphism and its deep
+analytic inverse over finite extensions of `ℚ_p` (§0.3); number-field models of finite extensions of
+`ℚ_p` carrying Tau Ceti's elliptic formal-point homomorphism (§0.4). Lubin–Tate series and
+polynomials, the interpolation lemma, the Lubin–Tate formal module and its coordinate independence
+(Layer 1). Finite-height torsion and the `π`-adic Tate module of a formal `O_K`-module, the
+primitive-root presentation of the supplied Lubin–Tate division fields, their coordinate and
+Tate-module comparisons, the arithmetic Artin comparison and the change-of-uniformizer twist (Layer
+2). Marked deformations of formal `O_K`-modules over a specified coefficient ring, their coefficient
+algebra, cocycles, lifting torsors, tangent space and the extension of universal deformations to
+arbitrary specified coefficient bases (Layer 3). Honda type operators, functional-equation
+integrality and the unramified and supersingular elliptic Lubin–Tate comparisons (Layer 4). Tate
+lattices, integral lattice quotients of formal modules with their Frobenius-twisted markings,
+homomorphisms and descent (Layer 5). Finite-residue descent and higher-degree lattice classification
+of canonical and quasi-canonical lifts, quadratic order algebra and fields of moduli (Layer 6).
+Finite-residue quadratic ring-class degrees, the uniformizer property of the quasi-canonical
+modulus, the BKO primed tower, the ramified Honda boundary example and neighbouring lattices (Layer
+7). The BKO character data, cyclotomic and anticyclotomic directions, fixed fields and generator
+comparisons (Layer 8). Formal traces with their logarithm comparison, tame descent, the sign
+correction of traces between differently indexed generators and the trace-compatible tower square
+(Layer 9).
+
+**Taken from other owners, not restated.**
+
+- The finite Lubin–Tate division fields and their compatible scalar-action Galois isomorphisms,
+  and the infinite unit-group comparison: RelativeFarguesFontaine §2.5, built on the Lubin–Tate
+  formal `O_E`-module `G_LT` of VectorBundlesAndIsocrystals Layer 5, "Lubin–Tate universal cover
+  and sections of O(1)". Section 2.3 proves that `G_LT` is Lubin–Tate for `π` in the sense of §1.1,
+  and §§2.3–2.4 identify these objects with the elementary series construction and its
+  primitive-root coordinates and Tate character; §2.5 adds the comparison with the pinned
+  arithmetic Artin map.
+- Quadratic canonical and quasi-canonical lifts over the completed strict base, with markings,
+  orders, orbit sizes and integral endomorphism lifting filtrations, in mixed characteristic:
+  GrossZagierAndArithmeticHeights §7.2. Layers 6–7 add finite-residue descent, higher-degree lattice
+  classification, explicit moduli coordinates, the equal-characteristic case, which that section
+  does not state, and the comparisons used by the BKO towers.
+- The marked strict formal `O`-module deformation rings at the finite-residue base `O_r`, and
+  the deformation spaces over an algebraically closed residue field framed by quasi-isogenies:
+  EndoscopicTransferAndUnitaryTraceComparison §§10.2, 12.3. Section 3.6 constructs the functor
+  over arbitrary specified `B` and residue field, for `K` of either characteristic, and for `K/ℚ_p`
+  finite identifies its restriction with the §10.2 functor of a connected residual module and with
+  the level-zero component of quasi-isogeny height zero of §12.3, retaining their markings.
+- The formal-group algebra on Mathlib's carrier: homomorphisms, isomorphisms and strict
+  isomorphisms of one-dimensional formal group laws with composition and base change, the formal
+  inverse series, the multiplication series `[n]`, evaluated points on complete Hausdorff linearly
+  topologized algebras, the normalized logarithm and exponential over `ℚ`-algebras (every additive
+  series along `F` is a multiple of the logarithm, and `ℓ_G ∘ φ = φ′(0)·ℓ_F` for every homomorphism
+  `φ`), integral logarithm coefficient bounds and convergence, exponential convergence on the
+  standard disc, the height over a field of characteristic `p` with its invariance under
+  isomorphism and base change, the Lazard ring with Lazard's polynomial theorem and the symmetric
+  two-cocycle lemma, and finite-height rigidity: already in Tau Ceti, the development planned by
+  BordismFormalGroups §F1, with the exact declarations below. The universal deformation ring
+  `W(k)[[u₁,…,u_(h−1)]]` of a height-`h` formal group over a perfect field `k`: BordismFormalGroups
+  §F5. Section 3.6 differs by the coefficient action of `O_K`, an arbitrary residue field and an
+  arbitrary specified coefficient ring.
+- Formal Lie groups `FormalLieGroup` of any dimension with `FormalLieGroup.Hom`,
+  `FormalLieGroup.End`, `FormalLieGroup.Points` and the dimension-one comparison
+  `FormalLieGroup.ofFormalGroup`; the equivalence `BarsottiTate.equivFormalLieGroup` between
+  `p`-divisible formal Lie groups and connected `p`-divisible groups; the `ℤ_p`-Tate module
+  `BarsottiTate.tateModule`; schematic closure `schematicClosure_flat`; quotients
+  `BarsottiTate.quotientFiniteFlatSubgroup` by finite flat subgroups over a complete discrete
+  valuation ring; relative Frobenius and Verschiebung `frobeniusHom`, `verschiebungHom` and finite
+  Dieudonné theory `dieudonneEquivalenceFinite`: FiniteFlatGroupsAndIntegralPadicHodgeTheory
+  §§R07.1.1, R07.1.8, R07.1.12–R07.1.13, R07.1.20–R07.1.20a, R07.2.6–R07.2.8. Sections 2.1–2.2
+  differ by working `π`-adically with the `O_K`-action; §5.2 differs by constructing the quotient
+  as a formal `O₀`-module with an explicit integral coordinate and a Frobenius-twisted marking.
+- The elliptic formal group law and its base change (`WeierstrassCurve.formalGroup`,
+  `WeierstrassCurve.map_formalGroup`), its adic point group `WeierstrassCurve.FormalGroupPoint`
+  and the formal-point homomorphisms `WeierstrassCurve.formalPointHom` and
+  `WeierstrassCurve.formalPointHomAdicCompletion` with its injectivity and range: already in Tau
+  Ceti. The elliptic formal logarithm, exponential and their convergence on maximal ideals:
+  EllipticCurves Layer 1. Frobenius on elliptic curves over finite fields and the Hasse bound:
+  EllipticCurves Layer 3.
+- Finite locally free commutative affine group schemes over an affine base, as spectra of finite
+  projective bicommutative Hopf algebras: already in Tau Ceti; §2.1 builds the torsion group
+  schemes of a formal module as such spectra. Exactness for short sequences of finite locally free
+  group schemes, finite quotients, elliptic isogenies and quotients, formal completion at the zero
+  section, universal elliptic deformations, elliptic `p`-divisible groups and Serre–Tate theory:
+  ModularCurves §§0B, 0C, 2B, 7C, 7D, 7E, 7F.
+- The arithmetic local Artin map `TauCeti.ClassFieldTheory.artinMap` with its finite restrictions
+  and norm subgroups: already in Tau Ceti; local existence and the local class-field
+  correspondence: ClassFieldTheory Layers 6–8. The cyclotomic case of the explicit reciprocity law
+  of §2.5 (`K = ℚ_p`, `f = (1 + X)^p − 1`: the Artin symbol of `p^k u` raises `p`-power roots of
+  unity to the power `u⁻¹`) is already in Tau Ceti as
+  `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic` and
+  `TauCeti.ClassFieldTheory.localArtinMap_cyclotomic_padic_primePow`; §2.5 proves the statement for
+  every Lubin–Tate polynomial over every nonarchimedean local field. No Lubin–Tate construction of
+  reciprocity is made here; Layer 2 compares the Lubin–Tate character with the existing map.
+- Finite extensions of local fields, the unit filtration `TauCeti.unitFiltration`, Teichmüller
+  lifts and the logarithm isomorphism `U(K,i) ≃ 𝓂[K]^i` for `(p−1)i > e`: LocalFieldsRamification
+  Layers 0–1 and Tau Ceti. The maximal unramified extension `K^ur` and arithmetic Frobenius:
+  LocalFieldsRamification Layer 2. Its completion `K̂^ur`, with `G_(K̂^ur) ≅ I_K`:
+  RamificationOfCompleteDiscretelyValuedFields §4a.3.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `FormalGroup` (one-dimensional formal group law: zero constant term, linear terms `X` and `Y`,
+  associativity; no commutativity and no inverse field), `FormalGroup.IsComm`, `FormalGroup.map`
+  and `FormalGroup.Point`, in `Mathlib/RingTheory/FormalGroup/Basic.lean`. `FormalGroup.Point`
+  consists of power series with nilpotent constant coefficient; it is not a group of
+  maximal-ideal-valued points of a valued field.
+- `PowerSeries.subst`, `MvPowerSeries.subst` and `PowerSeries.HasSubst`: substitution, agreeing
+  with polynomial evaluation even outside `PowerSeries.HasSubst`. For general power series the
+  substitution laws used here require `HasSubst`; every substitution here has zero constant term.
+- `PowerSeries.substInv`, `PowerSeries.substInvOfIsUnit`, `PowerSeries.subst_substInv_left` and
+  `PowerSeries.subst_substInv_right`: the two-sided substitution inverse of a series with zero
+  constant term and invertible linear coefficient.
+- `PowerSeries.eval₂Hom` and `PowerSeries.comp_eval₂`: evaluation at an element with
+  `PowerSeries.HasEval` in a complete separated linearly topologized ring, and its compatibility
+  with continuous ring maps.
+- `PowerSeries.exists_isWeierstrassFactorization` and
+  `PowerSeries.IsWeierstrassFactorizationAt.algEquivQuotient`: Weierstrass preparation over an
+  adically complete local ring for a series with nonzero reduction, and the identification of the
+  power-series quotient with the polynomial quotient.
+- `IsNonarchimedeanLocalField`, `Valuation.integer` (notation `𝒪[K]`), `IsLocalRing.ResidueField`
+  (notation `𝓀[K]`), `IsDiscreteValuationRing`, `IsLocalRing.residue`, `Polynomial.Monic`,
+  `PowerSeries.map`, `AlgebraicClosure`, `IntermediateField.adjoin`, `Field.absoluteGaloisGroup`,
+  `Field.absoluteGaloisGroupAbelianization` (`TopologicalAbelianization` of the absolute Galois
+  group), `IsKrasner` and `IsKrasner.krasner`, `spectralNorm`, `WittVector`, `GaloisField`,
+  `WeierstrassCurve.map`, `WeierstrassCurve.Δ`, `WeierstrassCurve.Affine.Point`,
+  `IsDedekindDomain.HeightOneSpectrum.adicCompletion` and
+  `IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`.
+
+**Checks.**
+
+- Over `ℤ`, substituting the constant `1` into the polynomial `X` gives `1`, although `1` is
+  not nilpotent and fails `HasSubst`; a rule forcing all inadmissible substitutions to zero
+  would give the wrong polynomial value.
+
+### From Tau Ceti
+
+- `TauCeti.FormalGroupHom` and `TauCeti.FormalGroupIso`
+  (`TauCeti/RingTheory/FormalGroup/Hom.lean`): origin-preserving homomorphism series and mutually
+  inverse homomorphisms on the native formal-group carrier, with `TauCeti.FormalGroupHom.id`,
+  `TauCeti.FormalGroupHom.comp` (composition is substitution, outer map first), base change
+  `TauCeti.FormalGroupHom.map` and `TauCeti.FormalGroupIso.map`, and strictness
+  `TauCeti.FormalGroupIso.IsStrict` (linear coefficient one). Sums of homomorphisms are not
+  bundled there; this roadmap writes them as the formal sum `F(φ, ψ)`.
+- `FormalGroup.addInvX` (`…/FormalGroup/AddInv.lean`), the formal inverse series;
+  `FormalGroup.nsmulSeries` and `FormalGroup.zsmulSeries` (`…/NSMul/Basic.lean`, `…/ZSMul.lean`),
+  the multiplication series `[n]_F` with linear coefficient `n`, and `FormalGroup.zsmulHom`, the
+  endomorphism `[n]` of a commutative law.
+- `FormalGroup.log`, `FormalGroup.exp`, `FormalGroup.logIso` and
+  `FormalGroup.subst_toPowerSeries_eq_add_iff` (`…/Logarithm/Basic.lean`): over a `ℚ`-algebra, the
+  normalized logarithm and exponential, the strict isomorphism to the additive law, and the fact
+  that the additive series along `F` are exactly the multiples of the logarithm;
+  `TauCeti.FormalGroupHom.subst_log` and `TauCeti.FormalGroupHom.coeff_one_injective`
+  (`…/Logarithm/Naturality.lean`): `ℓ_G ∘ φ = φ′(0)·ℓ_F` for a homomorphism `φ : F → G`, and a
+  homomorphism over a `ℚ`-algebra is determined by its linear coefficient.
+- `FormalGroup.height`, `FormalGroup.height_map` and `TauCeti.FormalGroupIso.height_eq`
+  (`…/Height/Basic.lean`): the height of a formal group law over a field at a prime `p` (`⊤` when
+  `[p] = 0`), its invariance under field extension and under isomorphism.
+- `TauCeti.LazardRing`, `TauCeti.LazardRing.lift` and `TauCeti.LazardRing.mvPolynomialEquiv`
+  (`…/LazardRing/Basic.lean`, `…/LazardRing/Polynomial.lean`): the Lazard ring, its universal
+  property for commutative laws and Lazard's polynomial theorem; and
+  `TauCeti.existsUnique_eq_smul_lazardCocycle` (`…/SymmetricCocycle/Classification.lean`): a
+  homogeneous symmetric additive two-cocycle of degree `n ≥ 2` over any commutative ring is a
+  unique multiple of the divided binomial cocycle.
+- `FormalGroup.exists_iso_lifting_coordinate` (`…/CoordinateChange/Lifting.lean`): over a
+  coefficient map surjective on elements and on units, a prescribed change of coordinates of the
+  reduction lifts to an isomorphism onto a lift with the prescribed special fibre.
+- `FormalGroup.TopNilpotentPoint` (`TauCeti/RingTheory/FormalGroup/TopNilpotentPoint/Basic.lean`)
+  has a coordinate and a `PowerSeries.HasEval` proof. Its group structure requires a complete
+  Hausdorff linearly topologized algebra, and commutativity requires `F.IsComm`.
+  `TauCeti.FormalGroupHom.toTopNilpotentPointHom` (`…/TopNilpotentPoint/Hom.lean`) evaluates a
+  homomorphism on those points. For a local field extension these are used on `O_L` with its
+  maximal-ideal adic topology, not on `L` with a field-linear topology.
+- `FormalGroup.norm_coeff_log_le_inv_norm_natCast`, `FormalGroup.onOpenDisc_log`,
+  `FormalGroup.summable_norm_coeff_log_mul_pow` and `FormalGroup.summable_coeff_log_mul_pow`
+  (`TauCeti/RingTheory/FormalGroup/Logarithm/Convergence.lean`): for a coefficient map to a
+  characteristic-zero normed field taking every coefficient into the closed unit ball, the
+  normalized logarithm has coefficient bound `‖n⁻¹‖` and converges for `‖x‖ < 1`; the last result
+  requires completeness. `FormalGroup.summable_coeff_exp_mul_pow`
+  (`…/Exponential/Padic.lean`) supplies exponential convergence in a complete normed `ℚ_p`-algebra
+  field for `‖x‖ < p^(−1/(p−1))`, including `p = 2`.
+- `TauCeti.FormalGroupHom.eq_of_map_residue_eq` and
+  `TauCeti.FormalGroupIso.eq_of_map_residue_eq` (`…/Rigidity.lean`): over a maximal-ideal-adically
+  Hausdorff local ring with residue characteristic `p`, homomorphisms and isomorphisms between
+  commutative formal groups agree if their reductions agree and the source has finite residual
+  `p`-height. Section 3.4 uses them for `K/ℚ_p` finite, with residual `p`-height `h[K:ℚ_p]`; in
+  characteristic `p` the residual `p`-height is infinite and §3.4 proves rigidity itself.
+- `WeierstrassCurve.formalGroup`, `WeierstrassCurve.isComm_formalGroup` and
+  `WeierstrassCurve.map_formalGroup` (`TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Basic.lean`):
+  the elliptic formal group law in the parameter `z = −x/y`, its commutativity and base change.
+- `WeierstrassCurve.FormalGroupPoint` (`…/FormalGroup/AdicPoint.lean`): parameters in an adic ideal
+  with evaluated elliptic addition, inverse and `AddCommGroup` structure.
+- `WeierstrassCurve.formalPointHom` (`…/FormalGroup/Point/Hom.lean`), an injective homomorphism into
+  affine points under an explicit auxiliary-point hypothesis; and
+  `WeierstrassCurve.formalPointHomAdicCompletion`,
+  `WeierstrassCurve.formalPointHomAdicCompletion_injective` (`…/Point/AdicCompletion.lean`) and
+  `WeierstrassCurve.range_formalPointHomAdicCompletion` (`…/Point/Range.lean`): for a curve over the
+  integers of the completion of a Dedekind domain at a height-one prime, elliptic over the
+  completed fraction field, the unconditional injective formal-point homomorphism and its range,
+  the kernel of reduction.
+- `TauCeti.ClassFieldTheory.artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`):
+  the arithmetic local Artin map `Kˣ →* Field.absoluteGaloisGroupAbelianization K` of a
+  nonarchimedean local field, with `TauCeti.ClassFieldTheory.artinMap_restrict` (finite
+  restrictions are the finite local Artin maps), `TauCeti.ClassFieldTheory.exists_artinMap_mem_iff`
+  (preimages of open subgroups are norm subgroups), `TauCeti.ClassFieldTheory.artinMap_norm` and
+  `TauCeti.ClassFieldTheory.artinMap_congr` (norm functoriality and naturality in the field); and
+  `TauCeti.ClassFieldTheory.localArtinMap_eq_zero_iff`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/Reciprocity.lean`): the finite local Artin symbol of
+  `a ∈ Kˣ` for a finite Galois `L/K` is trivial exactly when `a` is a norm from `L`. The map
+  `TauCeti.ClassFieldTheory.artinMap` is stated for `K : Type`.
+- `TauCeti.ClassFieldTheory.localCyclotomicCharacter_artinMap_padic` and
+  `TauCeti.ClassFieldTheory.localArtinMap_cyclotomic_padic_primePow`
+  (`TauCeti/NumberTheory/ClassFieldTheory/Local/ExplicitCyclotomicSymbol/ArtinMap.lean`): a lift of
+  the Artin symbol of `p^k u`, `u ∈ ℤ_p^×`, has cyclotomic character `u⁻¹` and raises every root of
+  unity of order dividing `p^n` to the power `u⁻¹ mod p^n`. This is the case `K = ℚ_p`,
+  `f = (1 + X)^p − 1` of §2.5, proved there without Lubin–Tate theory.
+- `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat` and
+  `TauCeti.finiteLocallyFreeBicommutativeHopfAlgCatOpEquivFiniteLocallyFreeCommAffineGroupSchemeCat`
+  (`TauCeti/AlgebraicGeometry/AffineGroupScheme/CartierDuality/FiniteLocallyFree.lean`): commutative
+  affine group schemes over `Spec R` that are finite, flat and locally of finite presentation, and
+  `Spec` as an anti-equivalence onto them from finite projective commutative and cocommutative
+  Hopf `R`-algebras, for any commutative ring `R`. These are ordinary spectra: the formal spectrum
+  of an adic ring has as points only the open primes, the zero locus of an ideal of definition
+  (`TauCeti.FormalScheme.Spf.carrier_eq_zeroLocus`,
+  `TauCeti/AlgebraicGeometry/FormalScheme/Spf/Carrier.lean`).
+- `TauCeti.unitFiltration` (`TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`):
+  `U(K,i) ⊂ Kˣ`, the image of `O_K^×` for `i = 0` and `1 + 𝔪_K^i` for `i ≥ 1`.
+- `TauCeti.teichmuller` (`TauCeti/RingTheory/Henselian/Teichmuller.lean`) and
+  `TauCeti.GlobalNumberFields.weakApproximation_denseRange`
+  (`TauCeti/NumberTheory/NumberField/Global/Approximation/Weak.lean`).
+
+### From TauCetiRoadmap.RelativeFarguesFontaine
+
+§2.5 supplies `E_m = E(LT[π^m])`, their compatible inclusions and scalar-action isomorphisms
+`Gal(E_m/E) ≅ (O_E/π^m)^×`, and the infinite unit-group comparison, for a nonarchimedean local
+field `E` of either characteristic. The module `LT` of that section is the Lubin–Tate formal
+`O_E`-module `G_LT` of VectorBundlesAndIsocrystals Layer 5. Section 2.3 proves that, for `E = K`,
+`[π]` of this module is a Lubin–Tate series for `π`, and then identifies this tower with
+`K(F_f[π^m])` for every Lubin–Tate series `f` for `π`, using the same-parameter coordinate
+comparison. Under that identification the scalar `a` acts by `[a]_f`; §2.5 determines its
+inverse-unit value on arithmetic Artin symbols.
+
+### From TauCetiRoadmap.VectorBundlesAndIsocrystals
+
+Layer 5, "Lubin–Tate universal cover and sections of O(1)", supplies, for a nonarchimedean local
+field `E` of either characteristic, the Lubin–Tate formal `O_E`-module `G_LT`, normalized by its
+Dieudonné module `W_(O_E)(k)` with `F = σ/π` and defined over `O_E`, and its universal cover
+`G̃ = lim_[π] G_LT`, with `G̃(A) = G̃(A/π)` identified with the topologically nilpotent elements of
+`A^♭` for `π`-adically complete `A` (in equal characteristic by sequences with
+`r_i = r_(i+1)^q`). It is used only in §§2.3–2.4, through the statement of §2.3 that this module is
+Lubin–Tate for `π`; its normalization and variance are those of the supplier.
+
+### From TauCetiRoadmap.GrossZagierAndArithmeticHeights
+
+§7.2 supplies, for `F₀` of mixed characteristic, quadratic canonical and level-`s`
+quasi-canonical lifts over the completed strict integer ring of `F`, their special-fibre markings
+and prescribed tangent CM embedding, orders `O_s`, degree-`q₀^s` quotient isogenies, and marked
+orbit `O_F^×/O_s^×`. For `s ≥ 1` its size is `q₀^(s−1)(q₀+1)` when unramified and `q₀^s` when
+ramified; level zero has one class. Its integral endomorphism filtrations and lifting lengths remain
+with that supplier. For `F₀/ℚ_p` finite, §§6.1–6.6 identify the quadratic base changes of the
+finite-residue lattice models with these lifts and markings, and §7.1 identifies their
+finite-residue fields with the fields whose strict completions occur there. For each comparison
+choose the supplier's residual module to be the designated Frobenius twist and transport the same
+residual CM embedding and marking.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+§10.2 supplies the marked strict `O`-module deformation functor for its residual strict
+`ϖ`-divisible `O`-modules `H_β` over `κ_r` and its ring `O_r[[T₁,…,T_(h−1)]]`; these residual
+modules include ones with a nonzero étale part. §12.3 supplies the deformation spaces of a
+one-dimensional formal `O_E`-module over an algebraically closed residue field, framed by an
+`O_E`-linear quasi-isogeny of the special fibre, as a union of components indexed by the height of
+the quasi-isogeny. The tangent action is the structural action, and markings preserve it.
+Section 3.6 extends to arbitrary specified complete noetherian local `B` with residue field `k`; it
+identifies its specialization at `B = O_r` with the §10.2 functor only for connected `H_β`, and
+over the algebraically closed residue base with the level-zero component of quasi-isogeny height
+zero of §12.3, by their marked universal properties. It does not construct a second
+finite-residue deformation space.
+
+### From TauCetiRoadmap.BordismFormalGroups
+
+§F5 supplies the universal deformation ring `W(k)[[u₁,…,u_(h−1)]]` of a specified height-`h`
+formal group over a perfect field `k`, with its universal property, coordinate changes and
+automorphism action, assumed with the hypotheses stated there; §3.6 here specializes to it when
+`O_K = ℤ_p`, `k` is perfect and `B = W(k)`. The formal-group algebra that §F1 plans is consumed
+from its Tau Ceti implementation, through the declarations listed under "From Tau Ceti".
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+§R07.1.12 supplies `FormalLieGroup`, `FormalLieGroup.Hom`, `FormalLieGroup.End`,
+`FormalLieGroup.Points F S J` (for an algebra `S` over the complete noetherian local base that is
+complete and separated for an ideal `J`, the tuples with coordinates in the radical of `J`, with
+convergent addition and functoriality along continuous algebra maps carrying the ideals into one
+another), `FormalLieGroup.evalPoints` and `FormalLieGroup.ofFormalGroup`. Section 0.2 uses
+`FormalLieGroup.Points` only through the comparison stated there: when the topology of `S` is
+the `J`-adic one, the native points with coordinate in `J` form the subgroup of
+`FormalLieGroup.Points` of points with coordinate in `J`, all of it exactly when `J` is
+radical. §R07.1.13 supplies
+`BarsottiTate.equivFormalLieGroup` over a complete noetherian local ring with residue
+characteristic `p`. §R07.1.8 supplies `BarsottiTate.tateModule`, free of rank the height over
+`ℤ_p` with continuous Galois action, over a henselian local domain with fraction field of
+characteristic zero. §R07.1.20 supplies `schematicClosure_flat` over a Dedekind base and
+§R07.1.20a supplies `BarsottiTate.quotientFiniteFlatSubgroup`, with the exact sequence
+`0 → T_p(G) → T_p(G/H) → H(K̄) → 0`, over a complete discrete valuation ring of mixed
+characteristic. §R07.1.1 supplies `frobeniusHom` and `verschiebungHom` with `V∘F = [p] = F∘V`;
+§§R07.2.6–R07.2.8 supply the contravariant finite Dieudonné module and
+`dieudonneEquivalenceFinite`. Variances are those of the supplier.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Layer 1 supplies isogenies, the dual isogeny, the invariant differential and the four elliptic
+formal-group milestones: the law, the logarithm and exponential over a `ℚ`-algebra, convergence on
+the maximal ideal of a complete valued field, and the identification with the kernel of reduction.
+Layer 3 supplies the Frobenius endomorphism of an elliptic curve over a finite field, its
+characteristic polynomial `T² − a_q T + q` with `#E(𝔽_q) = q + 1 − a_q`, and positivity and
+multiplicativity of the isogeny degree.
+
+### From TauCetiRoadmap.ModularCurves
+
+§0B (finite locally free commutative group schemes and Cartier duality), §0C (finite quotients and
+torsors), §2B (isogenies and quotients of elliptic curves by finite locally free subgroups), §7C
+(formal completion at the zero section, with coordinate changes `X ↦ uX + ⋯`), §7D (universal
+marked deformations of an elliptic curve over an algebraically closed field of characteristic `p`,
+over `W(k)[[T]]`), §7E (the elliptic `p`-divisible group, PD-1 to PD-5) and §7F (the Serre–Tate
+equivalence ST-1 and ST-2). The elliptic comparisons of §§3.7 and 5.5 are stated on the domains of
+these theorems.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layers 6–7: finite local reciprocity, the absolute local Artin map with its arithmetic
+normalization, unramified coordinate, norm functoriality and naturality (implemented in Tau Ceti as
+`TauCeti.ClassFieldTheory.artinMap`), with the Frobenius convention of its Conventions C.6 (a
+uniformizer maps to arithmetic Frobenius, and `χ_cyc(Art_K(u)) = N_(K/ℚ_p)(u)⁻¹` for units `u`
+of a finite extension `K/ℚ_p`). Layer 8: the local norm subgroups and the uniqueness of a finite
+abelian extension with a given norm subgroup, in every characteristic, used to identify fields of
+moduli and fixed fields by their norm groups; and the class-field correspondence, including
+`localAbelianExistence`, for finite extensions of `ℚ_p`. Fields of moduli in equal characteristic
+are identified without an existence theorem (§6.6).
+
+### From TauCetiRoadmap.LocalFieldsRamification
+
+Layer 0: finite extensions of local fields with their integers, residue fields, uniformizers and
+normalized valuations, and finite Galois fixed fields. Layer 1: the unit filtration, the
+Teichmüller section, the structure of `Kˣ` and of `O_K^×`, and the logarithm isomorphism
+`U(K,i) ≃ (𝔪_K^i, +)` with inverse `exp` when `(p − 1)i > e`. Layer 2: unramified extensions,
+the algebraic maximal unramified extension `K^ur` inside a fixed algebraic closure, and arithmetic
+Frobenius. The completion of `K^ur` is not built there.
+
+### From TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
+
+§4a.3 supplies the completion `K̂^ur` of the maximal unramified extension `K^ur` of `K`: a field
+complete for a discrete valuation with `e(K̂^ur/K) = 1` and residue field an algebraic closure of
+`k_K`, the equivalence between finite separable extensions of `K^ur` and of `K̂^ur`, and the
+identification `G_(K̂^ur) ≅ I_K` of its absolute Galois group with the inertia group of `K`. These
+are assumed with the hypotheses stated there. Sections 2.5–2.6 use `K̂^ur` as the base over which
+Lubin–Tate modules of different uniformizers become isomorphic, and §6.6 uses `F̂^ur` for Gross's
+formulation of the field of moduli.
 
 ## References
 
