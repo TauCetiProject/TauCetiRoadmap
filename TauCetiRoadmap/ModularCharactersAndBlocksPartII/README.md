@@ -37,129 +37,27 @@ Suggested homes: `TauCeti/RepresentationTheory/CharacterTable/Glauberman/` and
 `TauCeti/RepresentationTheory/Block/Height.lean`, beside the base's
 `TauCeti/RepresentationTheory/Block/`.
 
-## Scope and ownership
+## How to read the build
 
-ModularCharactersAndBlocks (the base) owns its Layers 0–8 and is consumed by section below. This
-Part II starts where the base stops and owns:
-
-- the action of a group acting by automorphisms on the irreducible characters of a finite group,
-  the invariant characters, the fixed-class lemma for coprime actions, and Brauer's permutation
-  lemma for automorphisms (Layer 1);
-- Gallagher's determinant-normalised extension theorem, the canonical extension of an invariant
-  character to `Γ ⋊ S` with its field of values and integral values on `S`, and Gallagher's
-  correspondence in character form for any normal subgroup and any extendible irreducible
-  character (Layer 2);
-- the cyclic case of the Glauberman correspondence with its sign, and Glauberman's restriction
-  formulas (Layer 3);
-- the composition-series construction for solvable `S`, the `p`-group characterisation, the
-  independence of the series, equivariance, bijectivity, the counting theorem, the uniqueness of
-  the family of bijections and its compatibility law, and the action of field automorphisms (Layer
-  4);
-- the degree relation `θ(1) ∣ |Γ : C| θ*(1)` and Glauberman degree-divisibility as a named
-  predicate with its proved instances (Layer 5);
-- the central characters of blocks over the splitting system of the base §1.1 at a place over `p`,
-  Osima's formula, the existence and `p`-regularity of the defect classes of the base §6.2,
-  Brauer's theorem on heights, heights, defects and height zero characters, and their transport
-  under a change of place, under a change of the cyclotomic level from `ℚ(ζ_{exp H})` to `ℚ(ζ_e)`
-  for `exp(H) ∣ e`, and under a change from the system at a place to an arbitrary splitting
-  `p`-modular system (Layer 6);
-- the Min–Max theorem, covering through central characters, domination of the blocks of `G/N` for
-  an arbitrary normal subgroup `N` (the base §8.1 states it for normal `p`-subgroups) and defect
-  groups under domination, the Fong–Reynolds correspondence, regular blocks, Fong's theorem and
-  the extended first main theorem (Layer 7);
-- vanishing off defect groups, the blocks of `P C_G(P)` with defect group `P`, heights of blocks
-  with a normal defect group, and Reynolds' theorem (Layer 8);
-- Brauer's height zero conjecture and the Alperin–McKay conjecture as predicates, with their
-  proved instances (Layer 9).
-
-Already in the libraries, and consumed rather than rebuilt:
-
-- **Characters, the pairing and the table.** `TauCeti.irreducibleCharacters` (a `Set (G → k)`),
-  `TauCeti.mem_irreducibleCharacters_iff`, `TauCeti.card_irreducibleCharacters`,
-  `TauCeti.ClassFunction.characterPairing`, `TauCeti.characterTable`,
-  `TauCeti.sum_characterTable_mul_conj`, `TauCeti.virtualCharacters`,
-  `Representation.nonempty_equiv_of_character_eq`; Mathlib's
-  `Representation.isIntegral_character`.
-- **Conjugation, inertia and Clifford theory.** `TauCeti.conjNormalFDRep`,
-  `TauCeti.conjNormalFDRep_ρ`, `TauCeti.char_conjFDRep`, `TauCeti.inertia`, `TauCeti.le_inertia`,
-  `TauCeti.mem_inertia_iff`, `FDRep.cliffordCorrespondence`,
-  `FDRep.clifford_restrict_dvd_finrank`, `FDRep.clifford_restrict_inertia_eq_top_of_coprime`,
-  `TauCeti.clifford_restrict_character`,
-  `TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`; Mathlib's
-  `Rep.indResAdjunction`.
-- **Tensor factorisation over an extension.** `TauCeti.IsProjectiveInertiaExtension`,
-  `TauCeti.IsProjectiveInertiaExtension.tensorRep`,
-  `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv`,
-  `TauCeti.IsProjectiveInertiaExtension.isIrreducible_tensorRep_iff`,
-  `TauCeti.IsProjectiveInertiaExtension.tmulIntertwining_bijective`,
-  `TauCeti.exists_isProjectiveInertiaExtension`.
-- **Galois action, fields of values, central characters and degrees.**
-  `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction`,
-  `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction_apply`, `FDRep.characterField`,
-  `TauCeti.Representation.centralCharacter`,
-  `TauCeti.Representation.centralCharacter_classSumCenter_mul_character_one`,
-  `TauCeti.Representation.isIntegral_centralCharacter_classSumCenter`,
-  `TauCeti.Representation.finrank_dvd_card`, `TauCeti.Representation.primitiveCentralIdempotent`,
-  `TauCeti.classSum`, `TauCeti.classSumCenter`.
-- **Group theory.** Mathlib's `SemidirectProduct` with `SemidirectProduct.inl`,
-  `SemidirectProduct.inr`, `SemidirectProduct.inl_aut`, `SemidirectProduct.rightHom`;
-  `MulDistribMulAction`, `MulDistribMulAction.toMulAut`, `arrowAction` (the action of a group on
-  functions out of a set it acts on), `FixedPoints.subgroup`, `FixedPoints.mem_subgroup`, the
-  quotient action `MulDistribMulAction (G ⧸ H) (FixedPoints.subgroup H α)` of
-  `Mathlib/GroupTheory/GroupAction/OfQuotient.lean`, the conjugation action of a normaliser
-  (`Subgroup.normalizerMonoidHom`), `Subgroup.exists_right_complement'_of_coprime`, `Sylow`,
-  `IsPGroup`, `Group.IsSolvable`, `IsMulCommutative`, `padicValNat`; Tau Ceti's
-  `SemidirectProduct.range_monoidHomSubgroup`.
-- **Blocks, idempotents and induced class functions.** Tau Ceti's `TauCeti.IsPrimitiveIdempotent`
-  (a nonzero idempotent that is not the sum of two nonzero orthogonal idempotents), applied in the
-  centre `Subalgebra.center O (MonoidAlgebra O G)`, and `Subgroup.indClassFun` (the induced class
-  function, a coset sum with no division); Mathlib's `MonoidAlgebra.mapRingHom`,
-  `MonoidAlgebra.mapDomain`, `MonoidAlgebra.of`, `MonoidAlgebra.coeff` and
-  `Representation.asAlgebraHom`.
-
-Planned by other roadmaps, and imported by name and section:
-
-- ModularCharactersAndBlocks, its Conventions and §§0.2, 1.1–1.3, 2.1–2.4, 3.1, 4.1–4.3, 5.1,
-  6.1–6.3, 7.1–7.2, 8.1–8.2: `p`-modular and splitting `p`-modular systems, the splitting
-  `p`-modular system at a place over `p`, the lifting of block idempotents, Brauer characters,
-  decomposition numbers, projective characters, the ordinary and modular block partitions,
-  generalized decomposition numbers, relative traces and the Brauer homomorphism, defect groups
-  and their characterisations, including the central characters of blocks and the defect classes,
-  Brauer pairs, block induction, the first main theorem in its Brauer-projection form and the
-  second main theorem, domination by normal `p`-subgroups, and covering for arbitrary normal
-  subgroups.
-- InverseGaloisAndArithmeticFundamentalGroups IG.3.4, target *Conjugacy of coprime complements*
-  (the conjugacy half of Schur–Zassenhaus, when the normal subgroup or the quotient is solvable).
-- RepresentationTheory/CharacterTheory §2.1 (the sum of the squares of the degrees), §3.5 (column
-  orthogonality and primitive central idempotents), §3.6 (irreducible characters of a direct
-  product), §4.3 (central characters and their integrality), §4.4 (the Galois action and the field
-  of values), §4.5 (Brauer's splitting field: a field of characteristic zero containing a
-  primitive `exp(G)`-th root of unity splits `G`).
-- RepresentationTheory/InductionRestriction Layer 1 (conjugate representations), Layer 2 (induced
-  characters and Frobenius reciprocity), Layer 5 (Clifford theory) and Layer 7 (the scalar
-  extension obstruction and the tensor factorisation over a compatible projective extension). Its
-  Layer 7 owns the module-level equivalence between representations of the inertia group over a
-  simple `V` and projective representations of the inertia quotient; §2.4 here owns only its
-  character form for an ordinary extension, Gallagher's bijection `β ↦ χ̂ β` on irreducible
-  characters.
-
-One supplier gap, which this roadmap consumes and does not plan (see *Exact supplier contracts*):
-the Clifford divisibility `χ(1)/θ(1) ∣ |G : N|` for `N ⊴ G` and `θ` under `χ`, a statement about
-projective representations that InductionRestriction Layer 7 is to provide
-(gap:clifford-multiplicity-dvd-index).
-
-Cited and not planned: Kessar and Malle's proof that abelian defect groups force height zero
-(kessar-malle line 25, Theorem 1.1); Malle, Navarro, Schaeffer Fry and Tiep's proof of the
-converse for odd `p` (mnst line 70, Theorem A); Ruhstorfer's proof of the Alperin–McKay conjecture
-and of the height zero conjecture for `p = 2` (ruhstorfer line 20, Theorem A, and line 33,
-Corollary B); and Glauberman degree-divisibility in general (geck line 29, completing
-hartley-turull line 84, Theorem A). These rest on the classification of finite simple groups and
-on Lusztig's theory; Layers 5 and 9 state the predicates they concern. Not owned: Brauer's
-permutation lemma for the Galois action on characters and classes, which FiniteGroupInvariants
-§6.2 states (§1.3 here is the version for a group automorphism, which Glauberman's argument
-needs); the Isaacs correspondence for `Γ` of odd order and arbitrary `S` (isaacs-1973), its
-agreement with Glauberman's, Turull's theory above the correspondence, inductive conditions and
-reduction theorems, blocks with cyclic defect groups, and Dade's conjectures.
+Layers 1–5 are the coprime-action strand and use no block theory. Layer 1 fixes the action on
+characters and proves the fixed-class lemma and Brauer's permutation lemma; Layer 2 constructs the
+canonical extension and Gallagher's correspondence; Layer 3 treats a cyclic acting group; Layer 4
+builds the correspondence for solvable `S`, proves its characterisations, and defines the
+Glauberman correspondence as the unique compatible family; Layer 5 proves the degree relation and
+states degree-divisibility. Layers 6–9 are the block strand, on the base. Layer 6 proves Brauer's
+theorem on heights and defines heights; Layer 7 develops blocks and normal subgroups up to the
+Fong–Reynolds correspondence and the extended first main theorem; Layer 8 proves the structure of
+blocks with a normal defect group and Reynolds' theorem; Layer 9 states the two conjectures as
+predicates. `Suggested.lean` states the headline theorems: the canonical extension, its values and
+Gallagher's correspondence (§§2.2–2.4), the count of invariant characters (§4.4), the `p`-group
+characterisation of the correspondent, the existence and uniqueness of the Glauberman family and
+its sign formula for a cyclic acting group (§4.5), its constituent and field-of-values laws (§4.6)
+and its degree law (§5.1), Brauer's theorem on heights (§6.2), the Fong–Reynolds correspondence
+(§7.4), Reynolds' height formula (§8.3) and Reynolds' theorem (§8.4). It adds the four definitions
+they need: the invariant characters (§1.1), the defining laws of the Glauberman family (§4.5), and
+the defect groups and ordinary characters of a block in their coefficient forms (Conventions). The
+two predicates of Layer 9 and degree-divisibility (§5.2) are definitions whose general validity is
+cited, not proved here, so they stay in this text.
 
 ## Conventions
 
@@ -301,245 +199,6 @@ reduction theorems, blocks with cyclic defect groups, and Dade's conjectures.
   `a_B(𝒞)` is the coefficient of `𝒞⁺` in `e_B ∈ Z(k[G])`. Witness: `S₃`, `p = 2`, `K = ℚ₂(ζ₃)`,
   `k = 𝔽₄`, the class of the transpositions: `ω = 3, −3, 0` for the trivial, sign and
   two-dimensional characters, with reductions `1, 1, 0`, and `λ_{B₀} = 1` there.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`SemidirectProduct`, `SemidirectProduct.inl`, `SemidirectProduct.inr`, `SemidirectProduct.inl_aut`
-(`inl (φ g n) = inr g * inl n * inr g⁻¹`), `SemidirectProduct.rightHom`,
-`SemidirectProduct.range_inl_eq_ker_rightHom`; `MulDistribMulAction`,
-`MulDistribMulAction.toMulAut`, `arrowAction` (`Mathlib/Algebra/Group/Action/Basic.lean`: for
-`[DivisionMonoid G] [MulAction G A]`, the action `(g • F)(a) = F(g⁻¹ • a)` on `A → B`, with its
-action laws; a definition, not an instance), `FixedPoints.subgroup` (the elements fixed by every
-`m`, with `FixedPoints.mem_subgroup`), the instance
-`MulDistribMulAction (G ⧸ H) (FixedPoints.subgroup H α)` for normal `H`
-(`Mathlib/GroupTheory/GroupAction/OfQuotient.lean`), the conjugation action
-`MulDistribMulAction (normalizer H) H` and `Subgroup.normalizerMonoidHom`
-(`Mathlib/GroupTheory/Subgroup/Centralizer.lean`); `Subgroup.exists_right_complement'_of_coprime`
-(for a normal subgroup `N` with `Nat.Coprime (Nat.card N) N.index`, a subgroup `H` with
-`Subgroup.IsComplement' N H` exists; existence only: the file
-`Mathlib/GroupTheory/SchurZassenhaus.lean` proves no conjugacy of complements beyond the abelian
-case), `Subgroup.IsComplement'`, `MulAction.stabilizer`; `Sylow`, `IsPGroup`,
-`Group.IsSolvable`, `IsCyclic`, `ConjClasses`, `MulAut.conj`, `Subgroup.index`, `QuotientGroup`;
-`Representation`, `Representation.character`, `Representation.IsIrreducible`,
-`Representation.isIntegral_character`
-(`Mathlib/RepresentationTheory/Character.lean`: for a finite group and a finite-dimensional
-representation over a field, the character values are integral over `ℤ`), `LinearMap.det`,
-`FDRep`, `Rep.indResAdjunction` (`Mathlib/RepresentationTheory/Induced.lean`: for a commutative
-ring `k` and a group homomorphism `φ : G →* H`, induction `Rep k G ⥤ Rep k H` along `φ` is left
-adjoint to restriction along `φ`, with no hypothesis on `k`; used with `φ` the inclusion of a
-normal subgroup and `k` the residue field); `IsCyclotomicExtension`, `IsPrimitiveRoot.autToPow`,
-`ZMod.chineseRemainder`, `IsGalois`, `IntermediateField.adjoin`, `IntermediateField.fixedField`,
-`IsIntegral`; `padicValNat`, `padicValRat`; `IsDiscreteValuationRing`, `IsAdicComplete`,
-`IsLocalRing.ResidueField`, `MonoidAlgebra`, `Subalgebra.center`;
-`Ideal.exists_smul_eq_of_isGaloisGroup` (`Mathlib/NumberTheory/RamificationInertia/Galois.lean`:
-for a finite group `G` acting on `B` as a Galois group over `A`, `IsGaloisGroup G A B`, two primes
-of `B` lying over the same ideal of `A` are exchanged by some element of `G`), used with `A = ℤ`,
-`B = 𝓞 F` and the instance `IsGaloisGroup G ℤ (𝓞 L)` of
-`Mathlib/FieldTheory/Galois/IsGaloisGroup.lean` for a Galois group of a number field `L` over `ℚ`;
-`IsDedekindDomain.HeightOneSpectrum.adicCompletion`
-(`Mathlib/RingTheory/DedekindDomain/AdicValuation/Completion.lean`: for a Dedekind domain `R` with
-fraction field `K` and a height-one prime `v`, the completion of `K` for the `v`-adic valuation, a
-structure wrapping the uniform-space completion `(v.valuation K).Completion`; with `R = 𝓞 F` it is
-the completion `F_w` of a number field at a finite place) and `UniformSpace.Completion.extension`
-(`Mathlib/Topology/UniformSpace/Completion.lean`: the extension of a map `f : α → β` to the
-completion of `α`, uniformly continuous when `β` is complete, and equal to `f` on `α` when `f` is
-uniformly continuous and `β` is `T0Space`, by `UniformSpace.Completion.extension_coe`; for a map
-that is not uniformly continuous it is a junk constant), used in the change of system of §6.1 to
-identify the closure of `ℚ(ζ_{exp H})` in a complete `K'` with the completion at the place `w`
-below `m'`. Assumed: their statements, nothing more.
-
-### From Tau Ceti
-
-The declarations listed under *Already in the libraries*, read at their files:
-`TauCeti/RepresentationTheory/CharacterTable/Table.lean` (`TauCeti.irreducibleCharacters`,
-`TauCeti.card_irreducibleCharacters`, the latter over an algebraically closed field in which `|G|`
-is invertible), `CharacterTable/Pairing.lean`, `CharacterTable/Degree.lean`
-(`TauCeti.Representation.finrank_dvd_card`, algebraically closed of characteristic zero),
-`CharacterTable/CentralCharacter.lean` (`TauCeti.Representation.centralCharacter` with its
-class-sum identity and the integrality of its values on class sums, for an irreducible
-finite-dimensional representation over an algebraically closed field; used over `ℂ` and
-transported to `K` through `F = ℚ(ζ_e)` as in Conventions),
-`CharacterTable/CentralIdempotent.lean`, `CharacterTable/FieldOfValues.lean`
-(`FDRep.characterField`, the intermediate field generated by the values),
-`CharacterTable/Cyclotomic/Action.lean` (`IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction`,
-with `K`, `L`, `G` in one universe and the value formula `χ(g^j)`), `Induction/Conjugate.lean`,
-`Induction/Inertia.lean`, `Induction/Clifford/Basic.lean`
-(`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`: over any field, the restriction
-of a finite-dimensional irreducible representation to a normal subgroup is semisimple, with no
-hypothesis on the characteristic or on algebraic closure), `Induction/Clifford/Decomposition.lean`
-(`TauCeti.clifford_restrict_character`: for finite `G` over an algebraically closed field in which
-`|G|` is a unit, the character of the restriction of a simple representation to `N` is a positive
-multiple of the sum of the distinct conjugates of a simple constituent; used over `ℂ` only),
-`Induction/Clifford/Classes.lean` (`FDRep.cliffordCorrespondence`, algebraically closed of
-characteristic zero, on classes of simple representations lying over a simple `V`, with the field
-and the group in one universe, so over `ℂ` for `G : Type`; a group in another universe is first
-replaced by its `ULift`, which has the same characters),
-`Induction/Clifford/Dimension.lean` (`FDRep.clifford_restrict_dvd_finrank`: over an algebraically
-closed field, for simple `W`, a constituent `V` of `Res_N W` with `dim V ∣ dim W` and
-`[G : inertia V] ∣ dim W`; used over `ℂ` only), `Induction/Clifford/Obstruction.lean`,
-`Induction/Clifford/TensorFactorization.lean` (`tensorRepEquiv`: an irreducible representation of
-the inertia group lying over a simple `A` over an algebraically closed field is
-`A ⊗ Hom_N(A, W)`), `Induction/Clifford/ProjectiveCorrespondence.lean`
-(`isIrreducible_tensorRep_iff`, `tmulIntertwining_bijective`), `Induction/ClassFunction.lean`
-(`Subgroup.indClassFun`: for a subgroup `H` of finite index and `f : H → k`, the function
-`g ↦ Σ_t f(t⁻¹ g t)` over fixed left coset representatives `t` with `t⁻¹ g t ∈ H`, with no
-division, which on a character is the character of the induced representation),
-`TauCeti/RingTheory/Idempotents/Primitive/Basic.lean` (`TauCeti.IsPrimitiveIdempotent`: an
-idempotent, nonzero, not the sum of two nonzero orthogonal idempotents; in a commutative ring such
-as a centre, primitive among central idempotents), and
-`TauCeti/GroupTheory/SemidirectProduct.lean`. Assumed of them: what their statements say. In
-particular the tensor factorisation is stated for a projective extension with factor set `β` and a
-projective multiplicity representation with factor set `β⁻¹`; this roadmap uses it with `β = 1`.
-
-### From TauCetiRoadmap.RepresentationTheory.ModularCharactersAndBlocks
-
-- Conventions: a `p`-modular system `(K, O, k)` is a complete discrete valuation ring `O`
-  (`IsAdicComplete` for its maximal ideal) with fraction field `K` of characteristic zero and
-  residue field `k` of characteristic `p`; it is splitting for `G` when `K` contains a primitive
-  `exp(G)`-th root of unity, and then `K` and `k` split `G` and all its subgroups. A block of
-  `R[G]` is a primitive idempotent of the centre `Z(R[G])`.
-- §0.2: block idempotents of `R[G]` as primitive idempotents of the centre, the decomposition
-  `k[G] ≅ ∏_B e_B k[G]`, and the blocks of modules.
-- §1.1: the splitting `p`-modular system `(F_v, O, k)` at a finite place `v` of `F = ℚ(ζ_e)` over
-  `p`, with finite residue field `k`, the canonical map `F → F_v` and the root bijection, for `G`
-  and all its subgroups, centralisers and quotients. The base's Layers 2–8 use this system; every
-  statement of Layers 6–9 here is proved for it, at an arbitrary place `v` over `p`, and carried
-  to an arbitrary splitting `p`-modular system by the change of system of §6.1.
-- §1.2: stable lattices, and the compatibility of reduction with restriction and induction.
-- §1.3: `existsUnique_blockIdempotent_map_residue`, the uniqueness of the central lift of a
-  central idempotent of `k[G]` to `Z(O[G])`, and surjectivity of `Z(O[G]) → Z(k[G])`.
-- §2.1–2.2: Brauer characters, their induction formula and linear independence of `IBr(G)`.
-- §2.3: a field of characteristic `p` containing a primitive root of unity of order the `p'`-part
-  of the exponent splits `G` and its subgroups, in particular the residue field of a splitting
-  system, so central characters of simple modules take values in `k`; and the radical base change
-  `rad(k'[G]) = k' ⊗_k rad(k[G])` for an extension `k ⊆ k'` of such a field, so that scalar
-  extension is a bijection on simple modules.
-- §2.4: decomposition numbers `χ|_{p-reg} = Σ_φ d_{χφ} φ`, surjectivity of the decomposition map,
-  so every Brauer character is a `ℤ`-combination of restricted ordinary characters, and the
-  compatibility of the decomposition map with a change of splitting modular system.
-- §3.1: projective characters `Φ_φ = Σ_χ d_{χφ} χ`, vanishing on `p`-singular elements, and
-  `|G|_p ∣ Φ_φ(1)`.
-- §4.1–4.3: the idempotents `e_χ`; `e_B = Σ_{χ ∈ Irr(B)} e_χ`; the partitions of `Irr(G)` and
-  `IBr(G)`; the central-character criterion; block-diagonality of the decomposition matrix; the
-  principal block.
-- §5.1: generalized decomposition numbers `χ(u v) = Σ_φ d^u_{χφ} φ(v)` for a `p`-element `u` and
-  `p`-regular `v ∈ C_G(u)`.
-- §6.1: relative traces, `k[G]^P_Q = Tr_Q^P(k[G]^Q)` an ideal of `k[G]^P`, the Brauer projection
-  and its factorisation for `Q ≤ P`.
-- §6.2: `IsDefectGroup`, `isDefectGroup_conj`, `isDefectGroup_iff_sylow_of_augmentation_ne_zero`,
-  the central character `λ_B : Z(k[G]) → k` of a block, the algebra homomorphism with
-  `λ_B(e_B) = 1`, over a field `k` of characteristic `p` that splits `G`, the agreement with the
-  minimality of `P` with `e ∈ Tr_P^G(k[G]^P)` and with defect classes (Martínez, Definition 3.2: a
-  defect class of `B` is a class `𝒞` with `a_B(𝒞) λ_B(𝒞⁺) ≠ 0`, and the defect groups of `B` are
-  the Sylow `p`-subgroups of `C_G(x)` for `x` in a defect class); the defect classes are the
-  base's, and this roadmap does not redefine them. Also `O_p(G)` in every defect group, `⟨x⟩` in
-  every defect group of every block of `C_G(x)` for a `p`-element `x`, the characterisation of
-  defect zero (`Irr(B) = {χ}`, `IBr(B) = {χ⁰}`, `|G|_p ∣ χ(1)`), and the first main theorem in its
-  Brauer-projection form: for a block `B` with defect group `D`, `Br_D(e_B)` is a block idempotent
-  of `k[N_G(D)]` with defect group `D`, and every such block arises from exactly one `B`. This
-  last statement is made over the residue field `k` of the system, without an algebraic-closure
-  hypothesis, and defines the Brauer correspondent (Conventions). With §3.1 and the
-  block-diagonality of §4.2 the characterisation of defect zero gives `Φ_{χ⁰} = χ`, so a character
-  of defect zero vanishes on `p`-singular elements. Finally the scalar extension: for fields
-  `k ⊆ k'` of characteristic `p` with `k` splitting a subgroup `H`, the blocks of `k[H]` are
-  exactly those of `k'[H]`, the central character over `k'` extends `λ_b`, and the defect classes,
-  `Br_P(e_b)`, the defect groups and the principal block are the same over `k` and over `k'`; §6.3
-  uses it for the change of level.
-- §6.3: Brauer pairs, the order relation, and the maximal `B`-Brauer pairs, whose first components
-  are the defect groups.
-- §7.1: block induction `b^G`, defined through the central characters of §6.2 when `C_G(D_b) ≤ H`,
-  its transitivity, and `Br_P(e_B) = Σ_{b^G = B} e_b` for `P C_G(P) ≤ H ≤ N_G(P)`. The base's
-  `brauer_first_main` is stated over an algebraically closed field; its form over a field
-  splitting `G` and all its subgroups (base §7.1) agrees with the Brauer correspondent of
-  Conventions, which is taken from §6.2: with `H = N_G(D)` the formula above makes
-  `Br_D(e_B) = e_{b'}` the sum of the `e_b` with `b^G = B`, so `b'` is the only such block and the
-  bijection of §7.1 sends `b'` to `B`.
-- §7.2: the second main theorem, stated for the system of §1.1, whose residue field is finite:
-  `d^u_{χφ} ≠ 0` for `φ ∈ IBr(b)` implies that `(⟨u⟩, b)` is a Brauer pair of the block of `χ`.
-- §8.1: for a normal `p`-subgroup `N`, `N` acts trivially on simple `k[G]`-modules, so the simple
-  modules and Brauer characters of `G/N` are those of `G` by inflation, and every block of `G/N`
-  lies in the image of exactly one block of `G`. Domination for an arbitrary normal subgroup is
-  §7.3 here.
-- §8.2: normal `p'`-subgroups; and block covering for an arbitrary normal subgroup `N ⊴ G`: the
-  sum of the block idempotents over the `G`-orbit of a block `b` of `k[N]` is the sum of the `e_B`
-  over the blocks `B` of `G` that cover `b` (Martínez, Definition 7.3), and `B` covers `b` exactly
-  when some `χ ∈ Irr(B) ∪ IBr(B)` has an irreducible constituent of `χ_N` in `b`, exactly when for
-  every `χ ∈ Irr(B) ∪ IBr(B)` every irreducible constituent of `χ_N` lies in a `G`-conjugate of
-  `b` (Martínez, Theorem 7.7). As `e_B` is `G`-invariant, `B` covers `b` exactly when
-  `e_B e_b ≠ 0`.
-
-### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
-
-- IG.3.4, target *Conjugacy of coprime complements*: for a finite group `G` and a normal subgroup
-  `N` with `Nat.Coprime (Nat.card N) N.index` and `N` or `G/N` solvable, any two complements of
-  `N` are conjugate by an element of `N`. §1.2 uses it in `Γ ⋊ S` and in a point stabiliser there,
-  with `S` or `Γ` solvable: the normal subgroups are `inl(Γ)` and subgroups of it, solvable when
-  `Γ` is, and the quotients are isomorphic to `S`. §3.1 uses it in `Γ ⋊ A` with `A` cyclic.
-
-### From TauCetiRoadmap.RepresentationTheory.CharacterTheory
-
-§2.1 (the sum of the squares of the degrees), §3.5 (column orthogonality, primitive central
-idempotents), §3.6 (the irreducible characters of `G × H` are the products `ψ × ξ`), §4.1 (over
-`ℂ`, `ρ(g)` is diagonalisable with root-of-unity eigenvalues, a diagonalisable endomorphism with a
-single eigenvalue is scalar, and the equality case of the triangle inequality for unit complex
-numbers; together, `|χ(g)| = χ(1)` makes `ρ(g)` scalar, which §3.4 uses), §4.3 (central
-characters, `ω_χ(𝒞⁺) = |𝒞| χ(x)/χ(1)`, integrality), §4.4 (the Galois action and
-`fieldOfValues_eq_map_fixedField_stabilizer`), §4.5 (Brauer's splitting field: for a field `K` of
-characteristic zero containing a primitive `exp(G)`-th root of unity, every irreducible
-representation of `G` over an algebraically closed extension of `K` is the scalar extension of an
-absolutely irreducible representation over `K`, so `K`, and with it every extension of `K`, splits
-`G`; §4.5 also transports the realisation along `ULift` and `Shrink` to a group in another universe
-than the fields). It is used in Conventions, for the values of the `K`-valued irreducible characters, and
-in the change of system of §6.1, where it applies to the closure `K_w` of `ℚ(ζ_{exp H})` in `K'`.
-
-### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
-
-Layer 1 (`conjRep` and the conjugate character), Layer 2 (the induced character and Frobenius
-reciprocity), Layer 5 (Clifford's theorem and the Clifford correspondence), Layer 7 (the scalar
-obstruction `cliffordObstruction` and the tensor factorisation over a compatible projective
-extension). Layers 2 and 5 state reciprocity and Clifford theory with `IsUnit (Nat.card G : k)`,
-so this roadmap consumes them for ordinary characters only, over `ℂ`; the characteristic-`p` step
-of §7.2 uses instead the field-general Mathlib `Rep.indResAdjunction` and Tau Ceti
-`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`.
-
-What InductionRestriction must provide (gap:clifford-multiplicity-dvd-index): for a finite group
-`G`, `N ⊴ G`, `χ ∈ Irr(G)` and an irreducible constituent `θ` of `χ|_N`, the quotient `χ(1)/θ(1)`
-is a natural number dividing `|G : N|` (isaacs Corollary 11.29; the step used in the proof of
-reynolds line 531, Theorem 8, at line 538). The supplying section is Layer 7, "projective
-representations, factor sets, and the Schur multiplier": it owns the tensor factorisation of an
-irreducible representation of the inertia group of `θ` as a compatible projective extension of `θ`
-tensored with a projective representation of the inertia quotient, and the lifting of projective
-representations to a central extension, but states no degree divisibility. The divisibility
-reduces, through the Clifford correspondence of Layer 5 and that factorisation, to Schur's theorem
-that the degree of an irreducible projective representation of a finite group divides the order of
-the group, which follows from the lifting to a finite central extension and the divisibility of
-the index of a central subgroup by the degree of an irreducible character, `χ(1) ∣ |H : Z|` for
-a finite group `H`, `χ ∈ Irr(H)` and `Z ≤ Z(H)` (isaacs Theorem 3.12). §8.3 uses it for
-Reynolds' height formula.
-
-## How to read the build
-
-Layers 1–5 are the coprime-action strand and use no block theory. Layer 1 fixes the action on
-characters and proves the fixed-class lemma and Brauer's permutation lemma; Layer 2 constructs the
-canonical extension and Gallagher's correspondence; Layer 3 treats a cyclic acting group; Layer 4
-builds the correspondence for solvable `S`, proves its characterisations, and defines the
-Glauberman correspondence as the unique compatible family; Layer 5 proves the degree relation and
-states degree-divisibility. Layers 6–9 are the block strand, on the base. Layer 6 proves Brauer's
-theorem on heights and defines heights; Layer 7 develops blocks and normal subgroups up to the
-Fong–Reynolds correspondence and the extended first main theorem; Layer 8 proves the structure of
-blocks with a normal defect group and Reynolds' theorem; Layer 9 states the two conjectures as
-predicates. `Suggested.lean` states the headline theorems: the canonical extension, its values and
-Gallagher's correspondence (§§2.2–2.4), the count of invariant characters (§4.4), the `p`-group
-characterisation of the correspondent, the existence and uniqueness of the Glauberman family and
-its sign formula for a cyclic acting group (§4.5), its constituent and field-of-values laws (§4.6)
-and its degree law (§5.1), Brauer's theorem on heights (§6.2), the Fong–Reynolds correspondence
-(§7.4), Reynolds' height formula (§8.3) and Reynolds' theorem (§8.4). It adds the four definitions
-they need: the invariant characters (§1.1), the defining laws of the Glauberman family (§4.5), and
-the defect groups and ordinary characters of a block in their coefficient forms (Conventions). The
-two predicates of Layer 9 and degree-divisibility (§5.2) are definitions whose general validity is
-cited, not proved here, so they stay in this text.
 
 ## Layer 1: coprime actions on characters
 
@@ -1811,6 +1470,347 @@ Isaacs–Navarro refinements), stated in the vocabulary of Layers 6 and 9 and us
 tool; a roadmap on blocks with cyclic defect groups; character-theoretic local analysis of finite
 groups; and a further part on the Isaacs correspondence for groups of odd order and Turull's
 theory above the Glauberman correspondence. GlaubermanZStar consumes the base only.
+
+## Scope and ownership
+
+ModularCharactersAndBlocks (the base) owns its Layers 0–8 and is consumed by section below. This
+Part II starts where the base stops and owns:
+
+- the action of a group acting by automorphisms on the irreducible characters of a finite group,
+  the invariant characters, the fixed-class lemma for coprime actions, and Brauer's permutation
+  lemma for automorphisms (Layer 1);
+- Gallagher's determinant-normalised extension theorem, the canonical extension of an invariant
+  character to `Γ ⋊ S` with its field of values and integral values on `S`, and Gallagher's
+  correspondence in character form for any normal subgroup and any extendible irreducible
+  character (Layer 2);
+- the cyclic case of the Glauberman correspondence with its sign, and Glauberman's restriction
+  formulas (Layer 3);
+- the composition-series construction for solvable `S`, the `p`-group characterisation, the
+  independence of the series, equivariance, bijectivity, the counting theorem, the uniqueness of
+  the family of bijections and its compatibility law, and the action of field automorphisms (Layer
+  4);
+- the degree relation `θ(1) ∣ |Γ : C| θ*(1)` and Glauberman degree-divisibility as a named
+  predicate with its proved instances (Layer 5);
+- the central characters of blocks over the splitting system of the base §1.1 at a place over `p`,
+  Osima's formula, the existence and `p`-regularity of the defect classes of the base §6.2,
+  Brauer's theorem on heights, heights, defects and height zero characters, and their transport
+  under a change of place, under a change of the cyclotomic level from `ℚ(ζ_{exp H})` to `ℚ(ζ_e)`
+  for `exp(H) ∣ e`, and under a change from the system at a place to an arbitrary splitting
+  `p`-modular system (Layer 6);
+- the Min–Max theorem, covering through central characters, domination of the blocks of `G/N` for
+  an arbitrary normal subgroup `N` (the base §8.1 states it for normal `p`-subgroups) and defect
+  groups under domination, the Fong–Reynolds correspondence, regular blocks, Fong's theorem and
+  the extended first main theorem (Layer 7);
+- vanishing off defect groups, the blocks of `P C_G(P)` with defect group `P`, heights of blocks
+  with a normal defect group, and Reynolds' theorem (Layer 8);
+- Brauer's height zero conjecture and the Alperin–McKay conjecture as predicates, with their
+  proved instances (Layer 9).
+
+Already in the libraries, and consumed rather than rebuilt:
+
+- **Characters, the pairing and the table.** `TauCeti.irreducibleCharacters` (a `Set (G → k)`),
+  `TauCeti.mem_irreducibleCharacters_iff`, `TauCeti.card_irreducibleCharacters`,
+  `TauCeti.ClassFunction.characterPairing`, `TauCeti.characterTable`,
+  `TauCeti.sum_characterTable_mul_conj`, `TauCeti.virtualCharacters`,
+  `Representation.nonempty_equiv_of_character_eq`; Mathlib's
+  `Representation.isIntegral_character`.
+- **Conjugation, inertia and Clifford theory.** `TauCeti.conjNormalFDRep`,
+  `TauCeti.conjNormalFDRep_ρ`, `TauCeti.char_conjFDRep`, `TauCeti.inertia`, `TauCeti.le_inertia`,
+  `TauCeti.mem_inertia_iff`, `FDRep.cliffordCorrespondence`,
+  `FDRep.clifford_restrict_dvd_finrank`, `FDRep.clifford_restrict_inertia_eq_top_of_coprime`,
+  `TauCeti.clifford_restrict_character`,
+  `TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`; Mathlib's
+  `Rep.indResAdjunction`.
+- **Tensor factorisation over an extension.** `TauCeti.IsProjectiveInertiaExtension`,
+  `TauCeti.IsProjectiveInertiaExtension.tensorRep`,
+  `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv`,
+  `TauCeti.IsProjectiveInertiaExtension.isIrreducible_tensorRep_iff`,
+  `TauCeti.IsProjectiveInertiaExtension.tmulIntertwining_bijective`,
+  `TauCeti.exists_isProjectiveInertiaExtension`.
+- **Galois action, fields of values, central characters and degrees.**
+  `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction`,
+  `IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction_apply`, `FDRep.characterField`,
+  `TauCeti.Representation.centralCharacter`,
+  `TauCeti.Representation.centralCharacter_classSumCenter_mul_character_one`,
+  `TauCeti.Representation.isIntegral_centralCharacter_classSumCenter`,
+  `TauCeti.Representation.finrank_dvd_card`, `TauCeti.Representation.primitiveCentralIdempotent`,
+  `TauCeti.classSum`, `TauCeti.classSumCenter`.
+- **Group theory.** Mathlib's `SemidirectProduct` with `SemidirectProduct.inl`,
+  `SemidirectProduct.inr`, `SemidirectProduct.inl_aut`, `SemidirectProduct.rightHom`;
+  `MulDistribMulAction`, `MulDistribMulAction.toMulAut`, `arrowAction` (the action of a group on
+  functions out of a set it acts on), `FixedPoints.subgroup`, `FixedPoints.mem_subgroup`, the
+  quotient action `MulDistribMulAction (G ⧸ H) (FixedPoints.subgroup H α)` of
+  `Mathlib/GroupTheory/GroupAction/OfQuotient.lean`, the conjugation action of a normaliser
+  (`Subgroup.normalizerMonoidHom`), `Subgroup.exists_right_complement'_of_coprime`, `Sylow`,
+  `IsPGroup`, `Group.IsSolvable`, `IsMulCommutative`, `padicValNat`; Tau Ceti's
+  `SemidirectProduct.range_monoidHomSubgroup`.
+- **Blocks, idempotents and induced class functions.** Tau Ceti's `TauCeti.IsPrimitiveIdempotent`
+  (a nonzero idempotent that is not the sum of two nonzero orthogonal idempotents), applied in the
+  centre `Subalgebra.center O (MonoidAlgebra O G)`, and `Subgroup.indClassFun` (the induced class
+  function, a coset sum with no division); Mathlib's `MonoidAlgebra.mapRingHom`,
+  `MonoidAlgebra.mapDomain`, `MonoidAlgebra.of`, `MonoidAlgebra.coeff` and
+  `Representation.asAlgebraHom`.
+
+Planned by other roadmaps, and imported by name and section:
+
+- ModularCharactersAndBlocks, its Conventions and §§0.2, 1.1–1.3, 2.1–2.4, 3.1, 4.1–4.3, 5.1,
+  6.1–6.3, 7.1–7.2, 8.1–8.2: `p`-modular and splitting `p`-modular systems, the splitting
+  `p`-modular system at a place over `p`, the lifting of block idempotents, Brauer characters,
+  decomposition numbers, projective characters, the ordinary and modular block partitions,
+  generalized decomposition numbers, relative traces and the Brauer homomorphism, defect groups
+  and their characterisations, including the central characters of blocks and the defect classes,
+  Brauer pairs, block induction, the first main theorem in its Brauer-projection form and the
+  second main theorem, domination by normal `p`-subgroups, and covering for arbitrary normal
+  subgroups.
+- InverseGaloisAndArithmeticFundamentalGroups IG.3.4, target *Conjugacy of coprime complements*
+  (the conjugacy half of Schur–Zassenhaus, when the normal subgroup or the quotient is solvable).
+- RepresentationTheory/CharacterTheory §2.1 (the sum of the squares of the degrees), §3.5 (column
+  orthogonality and primitive central idempotents), §3.6 (irreducible characters of a direct
+  product), §4.3 (central characters and their integrality), §4.4 (the Galois action and the field
+  of values), §4.5 (Brauer's splitting field: a field of characteristic zero containing a
+  primitive `exp(G)`-th root of unity splits `G`).
+- RepresentationTheory/InductionRestriction Layer 1 (conjugate representations), Layer 2 (induced
+  characters and Frobenius reciprocity), Layer 5 (Clifford theory) and Layer 7 (the scalar
+  extension obstruction and the tensor factorisation over a compatible projective extension). Its
+  Layer 7 owns the module-level equivalence between representations of the inertia group over a
+  simple `V` and projective representations of the inertia quotient; §2.4 here owns only its
+  character form for an ordinary extension, Gallagher's bijection `β ↦ χ̂ β` on irreducible
+  characters.
+
+One supplier gap, which this roadmap consumes and does not plan (see *Exact supplier contracts*):
+the Clifford divisibility `χ(1)/θ(1) ∣ |G : N|` for `N ⊴ G` and `θ` under `χ`, a statement about
+projective representations that InductionRestriction Layer 7 is to provide
+(gap:clifford-multiplicity-dvd-index).
+
+Cited and not planned: Kessar and Malle's proof that abelian defect groups force height zero
+(kessar-malle line 25, Theorem 1.1); Malle, Navarro, Schaeffer Fry and Tiep's proof of the
+converse for odd `p` (mnst line 70, Theorem A); Ruhstorfer's proof of the Alperin–McKay conjecture
+and of the height zero conjecture for `p = 2` (ruhstorfer line 20, Theorem A, and line 33,
+Corollary B); and Glauberman degree-divisibility in general (geck line 29, completing
+hartley-turull line 84, Theorem A). These rest on the classification of finite simple groups and
+on Lusztig's theory; Layers 5 and 9 state the predicates they concern. Not owned: Brauer's
+permutation lemma for the Galois action on characters and classes, which FiniteGroupInvariants
+§6.2 states (§1.3 here is the version for a group automorphism, which Glauberman's argument
+needs); the Isaacs correspondence for `Γ` of odd order and arbitrary `S` (isaacs-1973), its
+agreement with Glauberman's, Turull's theory above the correspondence, inductive conditions and
+reduction theorems, blocks with cyclic defect groups, and Dade's conjectures.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`SemidirectProduct`, `SemidirectProduct.inl`, `SemidirectProduct.inr`, `SemidirectProduct.inl_aut`
+(`inl (φ g n) = inr g * inl n * inr g⁻¹`), `SemidirectProduct.rightHom`,
+`SemidirectProduct.range_inl_eq_ker_rightHom`; `MulDistribMulAction`,
+`MulDistribMulAction.toMulAut`, `arrowAction` (`Mathlib/Algebra/Group/Action/Basic.lean`: for
+`[DivisionMonoid G] [MulAction G A]`, the action `(g • F)(a) = F(g⁻¹ • a)` on `A → B`, with its
+action laws; a definition, not an instance), `FixedPoints.subgroup` (the elements fixed by every
+`m`, with `FixedPoints.mem_subgroup`), the instance
+`MulDistribMulAction (G ⧸ H) (FixedPoints.subgroup H α)` for normal `H`
+(`Mathlib/GroupTheory/GroupAction/OfQuotient.lean`), the conjugation action
+`MulDistribMulAction (normalizer H) H` and `Subgroup.normalizerMonoidHom`
+(`Mathlib/GroupTheory/Subgroup/Centralizer.lean`); `Subgroup.exists_right_complement'_of_coprime`
+(for a normal subgroup `N` with `Nat.Coprime (Nat.card N) N.index`, a subgroup `H` with
+`Subgroup.IsComplement' N H` exists; existence only: the file
+`Mathlib/GroupTheory/SchurZassenhaus.lean` proves no conjugacy of complements beyond the abelian
+case), `Subgroup.IsComplement'`, `MulAction.stabilizer`; `Sylow`, `IsPGroup`,
+`Group.IsSolvable`, `IsCyclic`, `ConjClasses`, `MulAut.conj`, `Subgroup.index`, `QuotientGroup`;
+`Representation`, `Representation.character`, `Representation.IsIrreducible`,
+`Representation.isIntegral_character`
+(`Mathlib/RepresentationTheory/Character.lean`: for a finite group and a finite-dimensional
+representation over a field, the character values are integral over `ℤ`), `LinearMap.det`,
+`FDRep`, `Rep.indResAdjunction` (`Mathlib/RepresentationTheory/Induced.lean`: for a commutative
+ring `k` and a group homomorphism `φ : G →* H`, induction `Rep k G ⥤ Rep k H` along `φ` is left
+adjoint to restriction along `φ`, with no hypothesis on `k`; used with `φ` the inclusion of a
+normal subgroup and `k` the residue field); `IsCyclotomicExtension`, `IsPrimitiveRoot.autToPow`,
+`ZMod.chineseRemainder`, `IsGalois`, `IntermediateField.adjoin`, `IntermediateField.fixedField`,
+`IsIntegral`; `padicValNat`, `padicValRat`; `IsDiscreteValuationRing`, `IsAdicComplete`,
+`IsLocalRing.ResidueField`, `MonoidAlgebra`, `Subalgebra.center`;
+`Ideal.exists_smul_eq_of_isGaloisGroup` (`Mathlib/NumberTheory/RamificationInertia/Galois.lean`:
+for a finite group `G` acting on `B` as a Galois group over `A`, `IsGaloisGroup G A B`, two primes
+of `B` lying over the same ideal of `A` are exchanged by some element of `G`), used with `A = ℤ`,
+`B = 𝓞 F` and the instance `IsGaloisGroup G ℤ (𝓞 L)` of
+`Mathlib/FieldTheory/Galois/IsGaloisGroup.lean` for a Galois group of a number field `L` over `ℚ`;
+`IsDedekindDomain.HeightOneSpectrum.adicCompletion`
+(`Mathlib/RingTheory/DedekindDomain/AdicValuation/Completion.lean`: for a Dedekind domain `R` with
+fraction field `K` and a height-one prime `v`, the completion of `K` for the `v`-adic valuation, a
+structure wrapping the uniform-space completion `(v.valuation K).Completion`; with `R = 𝓞 F` it is
+the completion `F_w` of a number field at a finite place) and `UniformSpace.Completion.extension`
+(`Mathlib/Topology/UniformSpace/Completion.lean`: the extension of a map `f : α → β` to the
+completion of `α`, uniformly continuous when `β` is complete, and equal to `f` on `α` when `f` is
+uniformly continuous and `β` is `T0Space`, by `UniformSpace.Completion.extension_coe`; for a map
+that is not uniformly continuous it is a junk constant), used in the change of system of §6.1 to
+identify the closure of `ℚ(ζ_{exp H})` in a complete `K'` with the completion at the place `w`
+below `m'`. Assumed: their statements, nothing more.
+
+### From Tau Ceti
+
+The declarations listed under *Already in the libraries*, read at their files:
+`TauCeti/RepresentationTheory/CharacterTable/Table.lean` (`TauCeti.irreducibleCharacters`,
+`TauCeti.card_irreducibleCharacters`, the latter over an algebraically closed field in which `|G|`
+is invertible), `CharacterTable/Pairing.lean`, `CharacterTable/Degree.lean`
+(`TauCeti.Representation.finrank_dvd_card`, algebraically closed of characteristic zero),
+`CharacterTable/CentralCharacter.lean` (`TauCeti.Representation.centralCharacter` with its
+class-sum identity and the integrality of its values on class sums, for an irreducible
+finite-dimensional representation over an algebraically closed field; used over `ℂ` and
+transported to `K` through `F = ℚ(ζ_e)` as in Conventions),
+`CharacterTable/CentralIdempotent.lean`, `CharacterTable/FieldOfValues.lean`
+(`FDRep.characterField`, the intermediate field generated by the values),
+`CharacterTable/Cyclotomic/Action.lean` (`IsPrimitiveRoot.cyclotomicIrreducibleCharacterAction`,
+with `K`, `L`, `G` in one universe and the value formula `χ(g^j)`), `Induction/Conjugate.lean`,
+`Induction/Inertia.lean`, `Induction/Clifford/Basic.lean`
+(`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`: over any field, the restriction
+of a finite-dimensional irreducible representation to a normal subgroup is semisimple, with no
+hypothesis on the characteristic or on algebraic closure), `Induction/Clifford/Decomposition.lean`
+(`TauCeti.clifford_restrict_character`: for finite `G` over an algebraically closed field in which
+`|G|` is a unit, the character of the restriction of a simple representation to `N` is a positive
+multiple of the sum of the distinct conjugates of a simple constituent; used over `ℂ` only),
+`Induction/Clifford/Classes.lean` (`FDRep.cliffordCorrespondence`, algebraically closed of
+characteristic zero, on classes of simple representations lying over a simple `V`, with the field
+and the group in one universe, so over `ℂ` for `G : Type`; a group in another universe is first
+replaced by its `ULift`, which has the same characters),
+`Induction/Clifford/Dimension.lean` (`FDRep.clifford_restrict_dvd_finrank`: over an algebraically
+closed field, for simple `W`, a constituent `V` of `Res_N W` with `dim V ∣ dim W` and
+`[G : inertia V] ∣ dim W`; used over `ℂ` only), `Induction/Clifford/Obstruction.lean`,
+`Induction/Clifford/TensorFactorization.lean` (`tensorRepEquiv`: an irreducible representation of
+the inertia group lying over a simple `A` over an algebraically closed field is
+`A ⊗ Hom_N(A, W)`), `Induction/Clifford/ProjectiveCorrespondence.lean`
+(`isIrreducible_tensorRep_iff`, `tmulIntertwining_bijective`), `Induction/ClassFunction.lean`
+(`Subgroup.indClassFun`: for a subgroup `H` of finite index and `f : H → k`, the function
+`g ↦ Σ_t f(t⁻¹ g t)` over fixed left coset representatives `t` with `t⁻¹ g t ∈ H`, with no
+division, which on a character is the character of the induced representation),
+`TauCeti/RingTheory/Idempotents/Primitive/Basic.lean` (`TauCeti.IsPrimitiveIdempotent`: an
+idempotent, nonzero, not the sum of two nonzero orthogonal idempotents; in a commutative ring such
+as a centre, primitive among central idempotents), and
+`TauCeti/GroupTheory/SemidirectProduct.lean`. Assumed of them: what their statements say. In
+particular the tensor factorisation is stated for a projective extension with factor set `β` and a
+projective multiplicity representation with factor set `β⁻¹`; this roadmap uses it with `β = 1`.
+
+### From TauCetiRoadmap.RepresentationTheory.ModularCharactersAndBlocks
+
+- Conventions: a `p`-modular system `(K, O, k)` is a complete discrete valuation ring `O`
+  (`IsAdicComplete` for its maximal ideal) with fraction field `K` of characteristic zero and
+  residue field `k` of characteristic `p`; it is splitting for `G` when `K` contains a primitive
+  `exp(G)`-th root of unity, and then `K` and `k` split `G` and all its subgroups. A block of
+  `R[G]` is a primitive idempotent of the centre `Z(R[G])`.
+- §0.2: block idempotents of `R[G]` as primitive idempotents of the centre, the decomposition
+  `k[G] ≅ ∏_B e_B k[G]`, and the blocks of modules.
+- §1.1: the splitting `p`-modular system `(F_v, O, k)` at a finite place `v` of `F = ℚ(ζ_e)` over
+  `p`, with finite residue field `k`, the canonical map `F → F_v` and the root bijection, for `G`
+  and all its subgroups, centralisers and quotients. The base's Layers 2–8 use this system; every
+  statement of Layers 6–9 here is proved for it, at an arbitrary place `v` over `p`, and carried
+  to an arbitrary splitting `p`-modular system by the change of system of §6.1.
+- §1.2: stable lattices, and the compatibility of reduction with restriction and induction.
+- §1.3: `existsUnique_blockIdempotent_map_residue`, the uniqueness of the central lift of a
+  central idempotent of `k[G]` to `Z(O[G])`, and surjectivity of `Z(O[G]) → Z(k[G])`.
+- §2.1–2.2: Brauer characters, their induction formula and linear independence of `IBr(G)`.
+- §2.3: a field of characteristic `p` containing a primitive root of unity of order the `p'`-part
+  of the exponent splits `G` and its subgroups, in particular the residue field of a splitting
+  system, so central characters of simple modules take values in `k`; and the radical base change
+  `rad(k'[G]) = k' ⊗_k rad(k[G])` for an extension `k ⊆ k'` of such a field, so that scalar
+  extension is a bijection on simple modules.
+- §2.4: decomposition numbers `χ|_{p-reg} = Σ_φ d_{χφ} φ`, surjectivity of the decomposition map,
+  so every Brauer character is a `ℤ`-combination of restricted ordinary characters, and the
+  compatibility of the decomposition map with a change of splitting modular system.
+- §3.1: projective characters `Φ_φ = Σ_χ d_{χφ} χ`, vanishing on `p`-singular elements, and
+  `|G|_p ∣ Φ_φ(1)`.
+- §4.1–4.3: the idempotents `e_χ`; `e_B = Σ_{χ ∈ Irr(B)} e_χ`; the partitions of `Irr(G)` and
+  `IBr(G)`; the central-character criterion; block-diagonality of the decomposition matrix; the
+  principal block.
+- §5.1: generalized decomposition numbers `χ(u v) = Σ_φ d^u_{χφ} φ(v)` for a `p`-element `u` and
+  `p`-regular `v ∈ C_G(u)`.
+- §6.1: relative traces, `k[G]^P_Q = Tr_Q^P(k[G]^Q)` an ideal of `k[G]^P`, the Brauer projection
+  and its factorisation for `Q ≤ P`.
+- §6.2: `IsDefectGroup`, `isDefectGroup_conj`, `isDefectGroup_iff_sylow_of_augmentation_ne_zero`,
+  the central character `λ_B : Z(k[G]) → k` of a block, the algebra homomorphism with
+  `λ_B(e_B) = 1`, over a field `k` of characteristic `p` that splits `G`, the agreement with the
+  minimality of `P` with `e ∈ Tr_P^G(k[G]^P)` and with defect classes (Martínez, Definition 3.2: a
+  defect class of `B` is a class `𝒞` with `a_B(𝒞) λ_B(𝒞⁺) ≠ 0`, and the defect groups of `B` are
+  the Sylow `p`-subgroups of `C_G(x)` for `x` in a defect class); the defect classes are the
+  base's, and this roadmap does not redefine them. Also `O_p(G)` in every defect group, `⟨x⟩` in
+  every defect group of every block of `C_G(x)` for a `p`-element `x`, the characterisation of
+  defect zero (`Irr(B) = {χ}`, `IBr(B) = {χ⁰}`, `|G|_p ∣ χ(1)`), and the first main theorem in its
+  Brauer-projection form: for a block `B` with defect group `D`, `Br_D(e_B)` is a block idempotent
+  of `k[N_G(D)]` with defect group `D`, and every such block arises from exactly one `B`. This
+  last statement is made over the residue field `k` of the system, without an algebraic-closure
+  hypothesis, and defines the Brauer correspondent (Conventions). With §3.1 and the
+  block-diagonality of §4.2 the characterisation of defect zero gives `Φ_{χ⁰} = χ`, so a character
+  of defect zero vanishes on `p`-singular elements. Finally the scalar extension: for fields
+  `k ⊆ k'` of characteristic `p` with `k` splitting a subgroup `H`, the blocks of `k[H]` are
+  exactly those of `k'[H]`, the central character over `k'` extends `λ_b`, and the defect classes,
+  `Br_P(e_b)`, the defect groups and the principal block are the same over `k` and over `k'`; §6.3
+  uses it for the change of level.
+- §6.3: Brauer pairs, the order relation, and the maximal `B`-Brauer pairs, whose first components
+  are the defect groups.
+- §7.1: block induction `b^G`, defined through the central characters of §6.2 when `C_G(D_b) ≤ H`,
+  its transitivity, and `Br_P(e_B) = Σ_{b^G = B} e_b` for `P C_G(P) ≤ H ≤ N_G(P)`. The base's
+  `brauer_first_main` is stated over an algebraically closed field; its form over a field
+  splitting `G` and all its subgroups (base §7.1) agrees with the Brauer correspondent of
+  Conventions, which is taken from §6.2: with `H = N_G(D)` the formula above makes
+  `Br_D(e_B) = e_{b'}` the sum of the `e_b` with `b^G = B`, so `b'` is the only such block and the
+  bijection of §7.1 sends `b'` to `B`.
+- §7.2: the second main theorem, stated for the system of §1.1, whose residue field is finite:
+  `d^u_{χφ} ≠ 0` for `φ ∈ IBr(b)` implies that `(⟨u⟩, b)` is a Brauer pair of the block of `χ`.
+- §8.1: for a normal `p`-subgroup `N`, `N` acts trivially on simple `k[G]`-modules, so the simple
+  modules and Brauer characters of `G/N` are those of `G` by inflation, and every block of `G/N`
+  lies in the image of exactly one block of `G`. Domination for an arbitrary normal subgroup is
+  §7.3 here.
+- §8.2: normal `p'`-subgroups; and block covering for an arbitrary normal subgroup `N ⊴ G`: the
+  sum of the block idempotents over the `G`-orbit of a block `b` of `k[N]` is the sum of the `e_B`
+  over the blocks `B` of `G` that cover `b` (Martínez, Definition 7.3), and `B` covers `b` exactly
+  when some `χ ∈ Irr(B) ∪ IBr(B)` has an irreducible constituent of `χ_N` in `b`, exactly when for
+  every `χ ∈ Irr(B) ∪ IBr(B)` every irreducible constituent of `χ_N` lies in a `G`-conjugate of
+  `b` (Martínez, Theorem 7.7). As `e_B` is `G`-invariant, `B` covers `b` exactly when
+  `e_B e_b ≠ 0`.
+
+### From TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups
+
+- IG.3.4, target *Conjugacy of coprime complements*: for a finite group `G` and a normal subgroup
+  `N` with `Nat.Coprime (Nat.card N) N.index` and `N` or `G/N` solvable, any two complements of
+  `N` are conjugate by an element of `N`. §1.2 uses it in `Γ ⋊ S` and in a point stabiliser there,
+  with `S` or `Γ` solvable: the normal subgroups are `inl(Γ)` and subgroups of it, solvable when
+  `Γ` is, and the quotients are isomorphic to `S`. §3.1 uses it in `Γ ⋊ A` with `A` cyclic.
+
+### From TauCetiRoadmap.RepresentationTheory.CharacterTheory
+
+§2.1 (the sum of the squares of the degrees), §3.5 (column orthogonality, primitive central
+idempotents), §3.6 (the irreducible characters of `G × H` are the products `ψ × ξ`), §4.1 (over
+`ℂ`, `ρ(g)` is diagonalisable with root-of-unity eigenvalues, a diagonalisable endomorphism with a
+single eigenvalue is scalar, and the equality case of the triangle inequality for unit complex
+numbers; together, `|χ(g)| = χ(1)` makes `ρ(g)` scalar, which §3.4 uses), §4.3 (central
+characters, `ω_χ(𝒞⁺) = |𝒞| χ(x)/χ(1)`, integrality), §4.4 (the Galois action and
+`fieldOfValues_eq_map_fixedField_stabilizer`), §4.5 (Brauer's splitting field: for a field `K` of
+characteristic zero containing a primitive `exp(G)`-th root of unity, every irreducible
+representation of `G` over an algebraically closed extension of `K` is the scalar extension of an
+absolutely irreducible representation over `K`, so `K`, and with it every extension of `K`, splits
+`G`; §4.5 also transports the realisation along `ULift` and `Shrink` to a group in another universe
+than the fields). It is used in Conventions, for the values of the `K`-valued irreducible characters, and
+in the change of system of §6.1, where it applies to the closure `K_w` of `ℚ(ζ_{exp H})` in `K'`.
+
+### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
+
+Layer 1 (`conjRep` and the conjugate character), Layer 2 (the induced character and Frobenius
+reciprocity), Layer 5 (Clifford's theorem and the Clifford correspondence), Layer 7 (the scalar
+obstruction `cliffordObstruction` and the tensor factorisation over a compatible projective
+extension). Layers 2 and 5 state reciprocity and Clifford theory with `IsUnit (Nat.card G : k)`,
+so this roadmap consumes them for ordinary characters only, over `ℂ`; the characteristic-`p` step
+of §7.2 uses instead the field-general Mathlib `Rep.indResAdjunction` and Tau Ceti
+`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`.
+
+What InductionRestriction must provide (gap:clifford-multiplicity-dvd-index): for a finite group
+`G`, `N ⊴ G`, `χ ∈ Irr(G)` and an irreducible constituent `θ` of `χ|_N`, the quotient `χ(1)/θ(1)`
+is a natural number dividing `|G : N|` (isaacs Corollary 11.29; the step used in the proof of
+reynolds line 531, Theorem 8, at line 538). The supplying section is Layer 7, "projective
+representations, factor sets, and the Schur multiplier": it owns the tensor factorisation of an
+irreducible representation of the inertia group of `θ` as a compatible projective extension of `θ`
+tensored with a projective representation of the inertia quotient, and the lifting of projective
+representations to a central extension, but states no degree divisibility. The divisibility
+reduces, through the Clifford correspondence of Layer 5 and that factorisation, to Schur's theorem
+that the degree of an irreducible projective representation of a finite group divides the order of
+the group, which follows from the lifting to a finite central extension and the divisibility of
+the index of a central subgroup by the degree of an irreducible character, `χ(1) ∣ |H : Z|` for
+a finite group `H`, `χ ∈ Irr(H)` and `Z ≤ Z(H)` (isaacs Theorem 3.12). §8.3 uses it for
+Reynolds' height formula.
 
 ## References
 
