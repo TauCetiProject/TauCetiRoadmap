@@ -1949,7 +1949,8 @@ problem and `Γ = ∅` is the Neumann problem. Prove:
 - **Coercive case.** For a bounded form coercive on `H¹_Γ(Ω)`, every `g` and every
   `ℓ ∈ (H¹_Γ(Ω))*` there is exactly one weak solution, by Lax–Milgram on the closed subspace
   `H¹_Γ(Ω)` after the lifting of §4.2 (`existsUnique_weakSolution_mixed` in `Suggested.lean` for
-  `g = 0`, `b = 0`, `c = 0`). Coercivity holds for inverse-coercive `a`, `b = 0` and
+  `g = 0`, `b = 0`, `c = 0`; Brezis, Proposition 9.24, p. 297, for `Γ = ∅` and `−Δu + u = f`,
+  and §8.4, Example 5, p. 226, for a mixed condition in one dimension). Coercivity holds for inverse-coercive `a`, `b = 0` and
   `c ≥ 0` when `Ω` is connected and `μHE[n] Γ > 0`, with constant `λ/(1 + C²)` for `C` the
   `p = 2` Poincaré–Friedrichs constant of §1.8, and for every `Γ` when `c ≥ c₀ > 0` almost
   everywhere, with constant `min(λ, c₀)`.
@@ -1957,10 +1958,12 @@ problem and `Γ = ∅` is the Neumann problem. Prove:
   constants. For a bounded form satisfying it, `B(u, ·) = ℓ` on `H¹_Γ(Ω)` is solvable exactly
   when `ℓ` annihilates the weak adjoint kernel `{w ∈ H¹_Γ(Ω) | ∀ v ∈ H¹_Γ(Ω), B(v, w) = 0}`, and
   the solution set is an affine translate of the finite-dimensional kernel; route as in §4.3,
-  with §1.6's compact inclusion `H¹(Ω) → L²(Ω)` in place of the zero-boundary one.
+  with §1.6's compact inclusion `H¹(Ω) → L²(Ω)` in place of the zero-boundary one, as Brezis,
+  Theorem 9.23, p. 295, proves for the Dirichlet problem.
 - **Pure Neumann problem.** For `Γ = ∅`, inverse-coercive `a`, `b = 0`, `c = 0` and connected
   `Ω`, a weak solution exists if and only if `∫_Ω f + ∫_{frontier Ω} h dμHE[n] = 0`, and it is
-  unique up to an additive constant (`neumann_solvable_iff` in `Suggested.lean` for `h = 0`):
+  unique up to an additive constant (`neumann_solvable_iff` in `Suggested.lean` for `h = 0`;
+  Brezis, Problem 47, part B, pp. 512–513, in one dimension with `h = 0`):
   the adjoint kernel is the constants, since `B(w, w) ≥ λ‖∇w‖²`, and the solution of mean zero
   is the Lax–Milgram solution on the mean-zero subspace, coercive by §1.5's Poincaré–Wirtinger
   inequality.
@@ -1998,7 +2001,8 @@ Lax–Milgram solution operator of §4.5 for the form `∫ ∇u · ∇v + ∫ u 
 product and so coercive with constant `1`; it is compact by §1.6's Rellich compactness, and
 self-adjoint and positive. Its eigenvalues `μₖ ∈ (0, 1]` give the eigenvalues
 `λₖ = 1/μₖ − 1 ≥ 0` of `−Δ_Γ`, nondecreasing with `λₖ → ∞`, and an orthonormal eigenfunction
-basis of `L²(Ω)`. Prove:
+basis of `L²(Ω)`. The Dirichlet case is Brezis, Theorem 9.31, p. 311, and the proof carries over
+with `H¹_Γ(Ω)` and §1.6's Rellich compactness. Prove:
 
 - `λ₁` is the least Rayleigh quotient `∫ |∇u|² / ∫ u²` over nonzero `u ∈ H¹_Γ(Ω)`.
 - When `μHE[n] Γ > 0`, `λ₁ > 0`, `λ₁` is the reciprocal of the squared optimal `p = 2`
@@ -3359,6 +3363,10 @@ Mathlib Arzelà–Ascoli. Layer 8 is not used.
   Poisson-kernel constant.
 - P. Grisvard, *Elliptic Problems in Nonsmooth Domains*, Pitman, 1985: Lipschitz domains
   (Definition 1.2.1.1).
+- H. Brezis, *Functional Analysis, Sobolev Spaces and Partial Differential Equations*,
+  Universitext, Springer, 2011: boundary value problems in one dimension (§8.4), the variational
+  Neumann problem and the Fredholm alternative (§9.5), Dirichlet eigenfunctions (§9.8), and the
+  Problems.
 - S. Bauer, D. Pauly, M. Schomburg, *The Maxwell compactness property in bounded weak Lipschitz
   domains with mixed boundary conditions*, SIAM J. Math. Anal. 48 (2016), 2912–2943,
   arXiv:1511.06697 (page numbers refer to the arXiv version): strong and weak Lipschitz pairs,
