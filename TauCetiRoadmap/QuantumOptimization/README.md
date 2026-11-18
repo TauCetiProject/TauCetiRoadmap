@@ -175,7 +175,7 @@ and optimal solutions of a combinatorial problem, with the range of penalties fo
   its minimizers exactly the maximum independent sets (`isMinOn_qubo_independentSet_iff`); its
   minimal value is then `−B` times the independence number (Lucas 2014, Section 4.2, equations
   (30)–(32); the equivalence is proved here). An internal edge costs at least `A`, and deleting one
-  of its ends gains at most `B`.
+  of its ends removes that cost and raises the second term by exactly `B`.
 - **Minimum vertex cover.** For `0 < B < A`, the minimizers of
   `x ↦ A · #{edges with no end in x} + B · #x` are exactly the minimum vertex covers; this is the
   previous item for the complement of `x` (Lucas 2014, Section 4.3, equations (33)–(34)).
@@ -272,9 +272,10 @@ set where `⟪g, u⟫ < 0 ≤ ⟪g, v⟫` has measure `arccos ⟪u, v⟫ / (2π)
 
 The inner products depend only on the projection of `g` to the span of `u` and `v`, which is
 standard Gaussian there; in the plane the direction of a standard Gaussian vector is uniform on
-the circle, and the two events are arcs of angle `2θ` and `θ`, `θ = arccos ⟪u, v⟫`. If `u = ±v`
-the span is a line and the events are empty or a half-line. (Williamson and Shmoys 2011, Fact 6.4,
-Corollary 6.6 and Lemma 6.7.)
+the circle; with `θ = arccos ⟪u, v⟫`, the two-sided event is a pair of opposite arcs of angle `θ`
+and the one-sided event is one of them. If `u = v` both events are empty; if `u = −v` the span is
+a line, the two-sided event is the complement of the origin and the one-sided event is an open
+half-line. (Williamson and Shmoys 2011, Fact 6.4, Corollary 6.6 and Lemma 6.7.)
 
 **Checks.**
 
@@ -808,9 +809,12 @@ Boundaries with roadmaps on main:
 - TemperleyLiebOperatorAlgebras 1.7 uses Pauli matrices in Clifford-algebra models; the operators
   of 3.1 are indexed by configurations and are not taken from there.
 
-Not on main, and named only as a boundary: a roadmap on one-step methods for ordinary
-differential equations treats splitting schemes as integrators; the two-matrix bound 5.2 is owned
-here. Tau Ceti's Trotter product formula for Lie groups
+- BanachAlgebras 2.1 owns Riesz projections of a separated part of the spectrum in a Banach
+  algebra. The first bullet of 4.2 only compares the band projection of a Hermitian matrix with
+  that integral; it is not a second construction.
+
+No roadmap on main treats splitting or composition schemes as integrators of differential
+equations; the two-matrix bound 5.2 is owned here. Tau Ceti's Trotter product formula for Lie groups
 (`TauCeti/Geometry/Lie/Exponential/Trotter.lean`) is a limit statement without a rate; 5.2 is the
 quantitative bound for two Hermitian matrices and does not follow from it.
 
