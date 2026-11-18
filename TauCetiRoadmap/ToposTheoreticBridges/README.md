@@ -500,8 +500,38 @@ topologies (3.1) and on any classifying site as the poset of classes of quotient
 The readings of other invariants, atomic, two-valued or locally connected topoi, are further
 cases of the same method.
 
+## Provenance: existing formalizations outside Tau Ceti
+
+This section is secondary: it maps existing Lean code to targets and prescribes nothing. The
+Apache-2.0 repository AxiomMath, *The Stacks Project in Lean* (References), formalizes the Stacks
+Project on Mathlib. Its `StacksFrontier` tier is written by AI agents and builds without `sorry`;
+the repository keeps it apart from its human-reviewed `StacksCore` tier, and it is built on Lean and
+Mathlib v4.35.0, earlier than our pin. It is not a dependency: a statement read there is compared
+with the target here before it is used, adaptation is agreed with its maintainers first, and adapted
+code keeps its Apache-2.0 notices.
+
+`StacksFrontier/CategoryTheory/Sites/Topos/MorphismOfTopoi.lean` defines `MorphismOfTopoi`, and
+`Sites/Subtopos/` the notions of GrothendieckTopoi 4.1 that 3.1 and 4.1 here consume, for topoi of
+sites: `IsSubtopos J P` for `P : ObjectProperty (Sheaf J (Type w))`, the essential image of the
+pushforward of an embedding (Tag 08LV, `Defs.lean`), with `isSubtopos_essImage_pushforward`;
+`MorphismOfTopoi.IsEmbedding`, a fully faithful pushforward (Tag 08LU, `Embedding.lean`), with
+`isEmbedding_iff_isIso_counit_app`; and `IsOpenSubtopos` and `IsClosedSubtopos` (`IsOpen.lean`,
+`Closed.lean`). No file name or tag there treats the correspondence between subtopoi and
+topologies `J′ ≥ J` (GrothendieckTopoi 4.2), on which 3.1 rests, Boolean or De Morgan topoi
+(Layer 2), or essential points of presheaf topoi (GrothendieckTopoi 6.5).
+
+For 1.2, `Karoubi`, `toKaroubi`, `karoubiUniversal` and `IsIdempotentComplete` are Mathlib's
+(`Mathlib/CategoryTheory/Idempotents`). `StacksFrontier/CategoryTheory/Idempotents/KaroubiLift.lean`
+extends a functor into an idempotent complete category to the Karoubi envelope, with
+`toKaroubiCompLiftIso`, and shows the extension braided monoidal or additive when the functor is;
+it does not compare presheaf topoi.
+
 ## References
 
+- AxiomMath, *The Stacks Project in Lean*. Lean 4 formalization at commit
+  c496df0d9beea9deaeabcea8492605f9a0a2313b, Apache-2.0, built on Lean and Mathlib v4.35.0;
+  directories `StacksFrontier/CategoryTheory/Sites` and `StacksFrontier/CategoryTheory/Idempotents`.
+  https://github.com/AxiomMath/Stacks/tree/c496df0d9beea9deaeabcea8492605f9a0a2313b/StacksFrontier
 - F. Borceux, D. Dejean, « Cauchy completion in category theory », *Cahiers Topologie Géom.
   Différentielle Catég.* 27 (1986), no. 2, 133–146. Numdam CTGDC_1986__27_2_133_0. Zbl 0587.18001.
 - O. Caramello, « De Morgan classifying toposes », *Adv. Math.* 222 (2009), no. 6, 2117–2144.
