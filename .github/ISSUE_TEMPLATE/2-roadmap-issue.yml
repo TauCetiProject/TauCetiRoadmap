@@ -73,6 +73,7 @@ body:
         - CStarAlgebras
         - CStarClassification
         - CalibratedGeometry
+        - CanonicalModelsAndGonality
         - CategoricalOperatorAlgebras
         - CharacterSumsOverFiniteFields
         - CharacteristicClasses
@@ -197,6 +198,7 @@ body:
         - HomotopySpheres
         - HopfologicalAlgebra
         - Hyperfunctions
+        - HypergeometricMotives
         - ImaginaryQuadraticClassNumber
         - ImplicitAtlases
         - IndexTheory
@@ -239,6 +241,7 @@ body:
         - MarkovChainsAndRenewal
         - MarkovDecisionProcesses
         - MassFormula
+        - MatesDoubleCategories
         - MathematicalBilliards
         - MathematicalStatisticsAsymptotic
         - MathematicalStatisticsFoundations
@@ -268,6 +271,7 @@ body:
         - NoncongruenceModularForms
         - NumberFieldEnumeration
         - OcneanuRigidity
+        - OddOrderTheorem
         - OperatorAlgebraDynamics
         - OperatorKTheory
         - OperatorTheory
