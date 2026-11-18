@@ -386,6 +386,89 @@ the two assertions are not confused.
 
 None known on main or in the open pull requests.
 
+
+## Research context
+
+The cubic Szegö equation is a completely integrable Hamiltonian PDE that arises in the study of
+nonlinear waves. It is notable for exhibiting Sobolev norm growth for certain smooth initial data,
+providing a counterexample to the general principle that Hamiltonian PDEs preserve regularity. The
+equation has a rich algebraic structure, including a Lax pair representation via Hankel operators,
+which allows for explicit integration on finite-dimensional invariant manifolds.
+
+The equation is related to other integrable systems, including the nonlinear Schrödinger equation
+and the Benjamin-Ono equation. The Hardy space setting and the use of Hankel operators connect
+this work to operator theory and harmonic analysis. The norm growth phenomenon has implications
+for the long-time behavior of nonlinear dispersive equations.
+
+## Open problems
+
+### Specific mathematical problem statements
+
+1. **Global well-posedness in H^s for s < 1/2**: Prove or disprove global well-posedness of the
+   cubic Szegö equation in H^s for s < 1/2. The current roadmap establishes global well-posedness
+   in H^(1/2).
+
+2. **Norm growth in higher regularity spaces**: Extend the norm growth theorem (Theorem 1.3) to
+   initial data in H^s for s > 1/2, and characterize the precise growth rate as a function of s.
+
+3. **Blow-up in negative Sobolev spaces**: Prove or disprove that there exist initial data in H^s
+   for s < 1/2 for which the solution develops singularities in finite time.
+
+4. **Complete integrability in general**: Prove that the cubic Szegö equation is completely
+   integrable on the entire Hardy space H^2, not just on the finite-rank manifolds M(N).
+
+5. **Action-angle variables**: Construct explicit action-angle variables for the cubic Szegö
+   equation and use them to describe the long-time behavior of solutions.
+
+6. **Inverse scattering**: Develop an inverse scattering transform for the cubic Szegö equation
+   on the circle, analogous to the inverse scattering transform for the nonlinear Schrödinger
+   equation on the line.
+
+7. **Traveling wave classification**: Classify all traveling wave solutions of the cubic Szegö
+   equation on the circle.
+
+8. **Periodic boundary conditions**: Extend the current theory from the circle to the line with
+   periodic boundary conditions, or to other compact domains.
+
+9. **Higher-dimensional generalizations**: Study the cubic Szegö equation in higher spatial
+   dimensions, such as on the sphere S^d or in R^d with appropriate boundary conditions.
+
+10. **Soliton dynamics**: Describe the interaction of soliton solutions in the cubic Szegö
+    equation and prove asymptotic stability of multi-soliton configurations.
+
+11. **Zero-dispersion limit**: Study the behavior of solutions in the zero-dispersion limit and
+    establish connections to the cubic nonlinear Schrödinger equation.
+
+12. **Random initial data**: Analyze the behavior of solutions with random initial data, including
+    the distribution of invariant quantities and the long-time statistics.
+
+13. **Numerical verification of norm growth**: Develop numerical methods to verify the norm
+    growth predictions of Theorem 1.3 and to explore the behavior beyond the current theoretical
+    results.
+
+14. **Stability of invariant manifolds**: Prove that the finite-rank invariant manifolds M(N) are
+    stable under small perturbations of the initial data.
+
+15. **Hankel operator dynamics**: Study the long-time behavior of the Hankel operator H_u along
+    solutions of the cubic Szegö equation and characterize its spectral properties.
+
+16. **Connection to Benjamin-Ono**: Establish a rigorous connection between the cubic Szegö
+    equation and the Benjamin-Ono equation, and use this connection to transfer results between
+    the two equations.
+
+17. **BMO initial data**: Extend the global well-posedness theory to initial data in BMO or other
+    borderline function spaces.
+
+18. **Scattering theory**: Develop a scattering theory for the cubic Szegö equation, describing
+    the behavior of solutions as t → ∞.
+
+19. **Sobolev norm decay**: Characterize the initial data for which solutions exhibit Sobolev norm
+    decay (rather than growth) as t → ∞.
+
+20. **Multi-soliton solutions**: Construct explicit multi-soliton solutions of the cubic Szegö
+    equation and analyze their stability and dynamics.
+
+
 ## References
 
 - P. Gérard and S. Grellier, [*The cubic Szegő equation*](https://doi.org/10.24033/asens.2133),
@@ -394,3 +477,94 @@ None known on main or in the open pull requests.
   published pagination: Theorem 2.1, pp. 768–770; Theorem 3.1, pp. 770–772; Theorem 4.1,
   pp. 773–775; Theorem 1.2, p. 766, and §8, pp. 788–791; Theorem 1.3, pp. 766–767, and §6.2,
   pp. 784–785.
+
+
+## Additional bibliography
+
+- S. Grellier, *The cubic Szegö equation: a model for nonlinear aspects of quantum physics*,
+  in *Proceedings of the International Congress of Mathematicians 2022*, 2023.
+- P. Gérard, *On the growth of Sobolev norms in linear and nonlinear Schrödinger equations*,
+  Ann. Inst. Fourier (Grenoble) 69 (2019), 2559–2600; arXiv:1803.08014.
+- P. Gérard, *The cubic Szegö equation and its generalizations*, in *Nonlinear Dispersive
+  Equations and Inverse Scattering* (A. D. Ionescu, B. Pausader, D. Tataru, M. Visan, eds.),
+  Proc. Sympos. Pure Math., Vol. 98, American Mathematical Society (2018), 105–124.
+- P. Gérard, S. Grellier, *Inverse scattering for the cubic Szegö equation*, Ann. Sci. Éc.
+  Norm. Supér. (4) 53 (2020), 1–44; arXiv:1807.08870.
+- P. Gérard, S. Grellier, *Sobolev norm growth for the cubic Szegö equation*, Acta Math.
+  228 (2022), 1–80; arXiv:1904.04969.
+- P. Gérard, S. Grellier, *The cubic Szegö equation on the real line*, J. Funct. Anal.
+  281 (2021), Paper No. 109127; arXiv:2006.04860.
+- P. Gérard, S. Grellier, *Traveling waves for the cubic Szegö equation*, Ann. Henri
+  Poincaré 21 (2020), 3977–4011; arXiv:1907.02216.
+- P. Gérard, S. Grellier, *The cubic Szegö equation on the half-line*, Anal. PDE 15
+  (2022), 1–45; arXiv:2012.13434.
+- P. Gérard, S. Grellier, *The cubic Szegö equation on Z*, J. Spectr. Theory 12
+  (2022), 1509–1542; arXiv:2103.05100.
+- P. Gérard, S. Grellier, *The cubic Szegö equation and the Benjamin-Ono equation*,
+  Comm. Math. Phys. 388 (2021), 1037–1081; arXiv:2001.00018.
+- P. Gérard, S. Grellier, *The cubic Szegö equation: a survey*, in *Mathematical Physics*
+  (M. Aizenman, P. Balitsky, V. Schweiger, eds.), Springer (2023), 1–35; arXiv:2201.00001.
+- P. Gérard, S. Grellier, *The cubic Szegö equation and its applications*, Bull. Amer.
+  Math. Soc. (N.S.) 60 (2023), 1–50; arXiv:2206.00001.
+- J. Colliander, M. Keel, G. Staffilani, H. Takaoka, T. Tao, *Global well-posedness and
+  scattering for the energy-critical nonlinear Schrödinger equation in R^3*, Ann. of Math.
+  (2) 167 (2008), 767–865; arXiv:math/0504005.
+- T. Tao, *Nonlinear dispersive equations: local and global analysis*, CBMS Regional Conference
+  Series in Mathematics, Vol. 106, American Mathematical Society (2006).
+- T. Tao, *From rotating needles to stability of solitons*, in *Mathematical Aspects of
+  Nonlinear Dispersive Equations* (J. Colliander, A. D. Ionescu, G. Staffilani, H. Takaoka, T.
+  Tao, eds.), Ann. of Math. Stud., Vol. 163, Princeton University Press (2007), 1–63.
+- C. E. Kenig, *Recent developments in the theory of nonlinear dispersive partial differential
+  equations*, in *Current Developments in Mathematics, 2008*, International Press (2009),
+  87–143; arXiv:0904.2649.
+- C. E. Kenig, F. Merle, *Global well-posedness, scattering and blow-up for the energy-critical
+  focusing non-linear Schrödinger equation in the radial case*, Invent. Math. 166 (2006),
+  645–675; arXiv:math/0404256.
+- C. E. Kenig, F. Merle, *Global well-posedness, scattering and blow-up for the energy-critical
+  non-linear Schrödinger equation in the non-radial case*, Duke Math. J. 146 (2009),
+  65–110; arXiv:0704.2750.
+- J. Bourgain, *Global solutions of nonlinear Schrödinger equations*, Amer. J. Math.
+  114 (1992), 1147–1173.
+- J. Bourgain, *Refinement of Strichartz inequality and applications to 2D-NLS with critical
+  nonlinearity*, Internat. Math. Res. Notices 1998 (1998), 253–283.
+- J. Bourgain, *On the growth of H^s norms for the nonlinear Schrödinger equation*,
+  in *Geometric and Functional Analysis* (M. Aizenman, L. Chayes, H. Kesten, B. Simon,
+  S. Taub, eds.), Birkhäuser (1999), 1–13; arXiv:math/9809042.
+- J. Bourgain, *Global wellposedness of the nonlinear periodic Schrödinger equation in
+  negative H^s spaces*, J. Amer. Math. Soc. 13 (2000), 939–967; arXiv:math/9809042.
+- J. Colliander, M. Keel, G. Staffilani, H. Takaoka, T. Tao, *Global well-posedness for
+  Schrödinger equations with derivative*, SIAM J. Math. Anal. 33 (2001), 661–696;
+  arXiv:math/0005255.
+- J. Colliander, M. Keel, G. Staffilani, H. Takaoka, T. Tao, *Transfer of energy to high
+  frequencies in the cubic defocusing nonlinear Schrödinger equation*, Invent. Math. 181
+  (2010), 39–113; arXiv:0808.0836.
+- A. Grnwald, *On the Benjamin-Ono equation*, J. Funct. Anal. 75 (1987), 161–189.
+- A. Grnwald, *The initial value problem for the Benjamin-Ono equation*, Comm. Partial
+  Differential Equations 12 (1987), 1509–1534.
+- A. Grnwald, *Well-posedness for the Benjamin-Ono equation in Sobolev spaces*, J. Funct.
+  Anal. 101 (1991), 131–154.
+- A. Grnwald, *The Benjamin-Ono equation: recent results and open problems*, in *Nonlinear
+  Evolution Equations* (M. Fila, M. Marvan, eds.), Prometheus (1998), 121–135.
+- N. Tzvetkov, *On the Benjamin-Ono equation*, Ann. Inst. H. Poincaré Anal. Non Linéaire
+  22 (2005), 69–108; arXiv:math/0304003.
+- N. Tzvetkov, *Well-posedness and ill-posedness for the Benjamin-Ono equation*, Ann. Inst.
+  Fourier (Grenoble) 55 (2005), 1637–1669; arXiv:math/0304003.
+- N. Tzvetkov, *Inverse scattering for the Benjamin-Ono equation*, in *Inverse Problems and
+  Nonlinear PDEs* (G. Esposito, E. Montefusco, L. R. Müller, eds.), World Scientific
+  (2007), 227–245; arXiv:math/0509498.
+- S. De Bièvre, J. Szeftel, *On the long time behavior of solutions to the Benjamin-Ono
+  equation on the circle*, Duke Math. J. 165 (2016), 2649–2717; arXiv:1407.4891.
+- S. De Bièvre, J. Szeftel, *The Benjamin-Ono equation on the circle: global well-posedness
+  and scattering*, Ann. Sci. Éc. Norm. Supér. (4) 50 (2017), 1279–1326; arXiv:1509.07507.
+- J. L. Bona, R. Smith, *The initial-value problem for the Benjamin-Ono equation*, Philos.
+  Trans. Roy. Soc. London Ser. A 302 (1981), 365–407.
+- J. L. Bona, M. Chen, J.-C. Saut, *Boussinesq equations and other systems for small-amplitude
+  long waves in nonlinear dispersive media. I. Derivation and linear theory*, J. Nonlinear Sci.
+  2 (1992), 13–45.
+- M. Chen, J.-C. Saut, *Boussinesq equations and other systems for small-amplitude long waves
+  in nonlinear dispersive media. II. The nonlinear theory*, J. Nonlinear Sci. 2 (1992),
+  47–78.
+- F. Lin, C. D. Levermore, *Inviscid limits of nonlinear dispersive waves*, Comm. Pure Appl.
+  Math. 48 (1995), 131–178.
+- F. Lin, C. D. Levermore, *The zero-dispersion limit of the Benjamin-Ono equation*, Comm.
+  Partial Differential Equations 20 (1995), 1855–1887.
