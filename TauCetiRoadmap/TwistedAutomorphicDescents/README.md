@@ -2,19 +2,9 @@
 
 **Summary.** Construct rational Bessel Fourier images of leading Eisenstein residues for special orthogonal and unitary groups over number fields. Starting with a specified relevant inclusion of classical spaces and generic global parameter data, the library unfolds Bessel–Eisenstein integrals, compares their all-place factors, proves reciprocal period nonvanishing, and recovers a prescribed cuspidal module up to its permitted even-orthogonal outer orbit. The endpoints include the period-to-central-value implication, its weak-Fourier-support converse, and regular and subregular recovery. Generic Summand, weak Fourier support and the exact local assertion on distinguished members retain their stated logical status; no conjecture is installed as an axiom (JZ2020, Theorems 5.3, 5.7, 6.10 and 7.1, pp.786–808; JZ2020 line 2067, line 2296, line 2991, line 3118).
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the coordinate comparisons for prescribed rational embeddings, the particular Fourier images and tower identities, the Bessel–Eisenstein unfolding and local integrals, the residue-to-period comparison and the critical-module recovery. It treats every rational inner form and all characteristic-zero local places, including residue characteristics 2 and 3. Spherical computations are intermediate targets within an all-place theory.
-
-The classical-group carriers, reflections and quadratic Witt theorems are already in the library in the Tau Ceti modules specified below. ReductiveGroups Layers 0, 3 and 7 and OrthogonalSpinGroups, Layers 0–2, own algebraic groups, orthogonal isometries and their local structure; Completed RestrictedProducts, Layers 0–3, owns restricted-product maps and rational diagonals. RepresentationTheory/ClassicalGroups Layer 6 concerns finite-dimensional branching, not admissible Bessel models. ClassicalGroupsPartII, Layers CG.0–CG.3, concerns rational GSp representations and their characters; it does not duplicate this descent.
-
-GanGrossPrasadUnitaryGroups §§1.1–1.3, 2.1–2.6 and 4.1–4.4 owns unitary relevant pairs, Bessel data, local uniqueness and global period definitions. Its §§3.7 and 3.9 supply the nonarchimedean and the real tempered theorems on distinguished members and §3.11 its specified split range; §3.10 is a proposition outside the proved range. Import these without assuming a generic global period theorem. This roadmap owns the orthogonal relevant pairs and Bessel data in §§0.1–0.3 and the orthogonal local Bessel-uniqueness theorem in §1.4 because no earlier roadmap owns those relative constructions. The assertion on distinguished orthogonal members remains the explicit hypothesis of §7.2.
-
-AutomorphicFormsOnReductiveGroups §§2.3, 2.6–2.7, 3.4–3.5 and 4.1–4.3 owns real induction, globalization, restricted tensors, constant terms and cuspidal-realization comparisons. SmoothRepresentationsOfLocalGroups SR.0–SR.4 owns the smooth category, normalized induction, Jacquet theory and Satake. AutomorphicLFunctionsAndLocalFactors AL.3–AL.4 owns general tensor factors, functional equations and factor operations: §3.5 below is their shifted-integral application, not another construction of these theories. Generic rational Fourier-support theory is a supplier continuation, whereas the special tower calculations stay here.
-
-AutomorphicSpectralTheory §§0.15, 2.4–2.14 and 4.1–4.4 owns meromorphic operators, Eisenstein continuation, normalized intertwiners, Laurent calculus and the residual-spectrum criterion. In particular its §2.13 owns Jiang–Zhang intertwiner holomorphy; there is no second proof target here. EndoscopicTransferAndUnitaryTraceComparison §§11.2–11.4 owns the shared carriers for unitary local and global packets and pairings. ModularityAndLanglandsExtensions §§3.8, 3.12, 3.15–3.18 and 3.23–3.25 supplies parameter/classification comparisons and generic standard modules on these carriers. Its §5.4 states classical GRS descent, including split odd-orthogonal irreducibility; §§6.3 and 7.3 below retain the comparison with the specified rational coefficient and induction, not a duplicate generic descent theorem. The rank, sign and determinant verification of §5.1 specializes the shared parameter constructor to this residual family.
-
-LieHighestWeightPartII N0 and N2, respectively nilpotent-orbit and classical-partitions, own geometric nilpotent orbits and the orthogonal partition/very-even classification. Rational descent and dominance supplements are exact supplier contracts, not repetitions of that classification. Generic Hermitian complement and Witt geometry is requested of ReductiveGroupsPartII through gap:hermitian-witt-complements; GeometryOfNumbersAndQuadraticArithmetic §2.9 supplies field-form data and adjoints, while GanGrossPrasadUnitaryGroups §1.1 supplies the field/split slot comparisons.
+Layer 0 identifies the rational form, flag, orbit and prescribed embedding. Layer 1 constructs the actual Fourier images and proves their first-occurrence and multiplicity properties. Layer 2 unfolds both index regimes; Layer 3 constructs all-place local integrals and establishes their Euler and spherical formulas. Layer 4 applies the exact dual dictionary and single-variable Laurent theory to reciprocal periods and central values. Layer 5 constructs the critical descent and proves its conditional cuspidal structure; Layer 6 supplies support witnesses and period existence; Layer 7 recovers the specified cuspidal module under Generic Summand and the exact local hypothesis on distinguished members. Suggested.lean records only headline theorems statable on the pinned carriers, with missing carriers identified in its module docstring. Arithmetic dimension identities and the Checks below belong to this roadmap's specification, not to that acceptance file.
 
 ## Conventions
 
@@ -45,105 +35,6 @@ For even SO use the determinant-one group and the rational orthogonal normalizer
 - The data d=5,m=2,j=1,a=4 give k₀=2 and 2a+m−2k₀−1=5. Data a=1,j=2 give truncated k₀=0 but 2a+m−1=m+1, differing from m+5; the hypothesis j<a excludes them.
 - SO₁ has N=0 and an index-zero geometric coefficient, but cannot satisfy a=N>j≥0 for the residual construction. Split SO₂ has no proper parabolics, yet the constant function has ∫_(R_+)1 dt/t=∞; vacuous constant-term vanishing does not give its Hilbert carrier.
 - For d=3, ℓ=1 and the trivial character ψ_F=1, the Bessel character of the flag is trivial on N_1, so its coefficient is the constant term along N_1, of geometric partition [1,1,1] rather than the regular [3]; the nontriviality of ψ_F excludes this datum. With ψ_F nontrivial and a split place E_v=F_v×F_v, δ=(t,−t) gives the factor coefficients 1/(2t) and −1/(2t), both nonzero.
-
-## Exact supplier contracts
-
-A contract marked gap: specifies mathematics required of its named owner before dependent theorems are proved. These contracts do not become arbitrary hypotheses containing the desired descent conclusion. The generic analytic/classification inputs precede applications to residual packets; no normalization proof uses the residual conclusion it is intended to establish.
-
-### From Mathlib
-
-Use `Nat.Partition` in `Mathlib/Combinatorics/Enumerative/Partition/Basic.lean`: its multiset has positive parts and prescribed sum; it carries no form, flag or rational orbit. Use `Representation.IntertwiningMap` in `Mathlib/RepresentationTheory/Intertwining.lean` only as an algebraic intertwiner carrier, with no built-in continuity, admissibility or analytic Bessel theory. Use `MeromorphicOn` in `Mathlib/Analysis/Meromorphic/Basic.lean` for normed-target meromorphic germs; it does not construct locally convex Eisenstein families. Their automorphic and locally convex comparisons are supplied below.
-
-### From Tau Ceti
-
-Use `TauCeti.RegularFormClass.wittDecomposition` in `TauCeti/LinearAlgebra/QuadraticForm/Witt/Decomposition.lean`, for regular finite-dimensional quadratic forms over a field with 2 invertible. It is a form-class decomposition; an isometry of a prescribed embedded complement is additional data. Use `TauCeti.QuadraticMap.specialOrthogonalGroup` and `TauCeti.QuadraticMap.det_reflection` in `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean`: the first is the subgroup of linear equivalences preserving Q with determinant 1 (on the finite-dimensional field spaces used here, the native determinant is the usual determinant); the second requires a finite free module and a vector of invertible quadratic value and gives determinant −1. On modules that are not finite free the native determinant is 1 by convention, so this use retains finite dimension over a field. These declarations do not construct a Hermitian group or an automorphic realization.
-
-Use `QuadraticMap.IsometryEquiv.exists_extension` in `TauCeti/LinearAlgebra/QuadraticForm/Witt/Extension.lean`, for an isometry of subspaces with nondegenerate restricted form in a finite-dimensional ambient quadratic space over a field with 2 invertible. Use `TauCeti.equivalent_of_equivalent_prod` in `TauCeti/LinearAlgebra/QuadraticForm/Witt/Cancellation.lean`: the cancelled quadratic summand is finite-dimensional and nondegenerate. The extension theorem does not require the ambient quadratic form to be nondegenerate, although this roadmap applies it to nondegenerate classical spaces. Both uses preserve the specified forms; neither replaces rational coordinates by abstract group isomorphisms.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Consume Layer 7 for split rational parabolic double cosets and Layer 7b for parabolics, Levi factors and their intersections. The relative nonsplit isotropic-flag classification and its residual rational orbits are the content of §2.3.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-Consume RG2.4 for the local adjoint-modulus formula, only with its actual local-field and reductivity hypotheses. The Hermitian supplement excludes another form-carrier or adjoint construction.
-
-What ReductiveGroupsPartII must provide (gap:hermitian-witt-complements): Supply Witt decomposition, extension and cancellation for nondegenerate finite-dimensional Hermitian spaces over every characteristic-zero field with quadratic étale coefficients, with prescribed complement isometries, arbitrary-form unitary groups and scalar-extension compatibility. The section contract is RG2.4.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-Consume §2.9 field Hermitian forms and adjoints on finite-dimensional modules. The carrier and adjoint apply over any commutative field with involution; its odd-residue classification results are not used. GanGrossPrasadUnitaryGroups §1.1 performs the linear-first slot comparison and the split quadratic-étale comparison.
-
-### From TauCetiRoadmap.LieHighestWeightPartII
-
-Consume N0, nilpotent-orbit, and N2, classical-partitions, over their algebraically closed characteristic-zero fields. Base change to a closure does not recover rational conjugacy. Very-even O-orbits retain both SO labels.
-
-What LieHighestWeightPartII must provide (gap:rational-nilpotent-orbits): Extend the geometric orbit carrier to rational classical nilpotent orbits and localization, distinguishing geometric, Galois-stable and rational conjugacy and retaining the two very-even SO labels. The section contract is N0, nilpotent-orbit.
-
-What LieHighestWeightPartII must provide (gap:classical-dominance): Supply dominance and special-expansion comparisons for the regular and subregular partitions in the ranks of Section 7.4, without inferring rational or automorphic nonvanishing from geometric admissibility. The section contract is N2, classical-partitions.
-
-### From TauCetiRoadmap.GanGrossPrasadUnitaryGroups
-
-Consume §§1.1–1.3 for framed relevant Hermitian pairs, relative subgroups, characters and transport; §§2.1–2.6 for model spaces, continuous dual comparison and all-odd-codimension uniqueness; §§4.1–4.4 for periods, convergence and coherent parameter comparisons. The local theorem on distinguished members is nonsplit tempered: nonarchimedean in §3.7 and real in §3.9; the split theorem is §3.11 in its exact stated range. An application outside those ranges retains the §7.2 local proposition as a mathematical hypothesis. The identity Q(f,g)=P(f,conj g) uses the supplier's right action and dual convention; the U₁ witness in Conventions applies on both sides. No global GGP endpoint is a premise of recovery.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-Consume SR.0.1–SR.0.4 for smooth categories and contragredients, SR.2.1–SR.2.3 for normalized induction, Jacquet filtrations and character coinvariants, SR.3.1–SR.3.3 for support/temperedness, SR.4.1–SR.4.4 for Satake and unramified unitary groups. Restriction to a Bessel subgroup and the character quotient use these actual actions. The ordinary Jacquet filtration does not by itself compute the twisted quotient needed in §§5.4 and 5.7.
-
-What SmoothRepresentationsOfLocalGroups must provide (gap:twisted-jacquet-filtration): Compare the geometric lemma and induction in stages with character-twisted Jacquet quotients for determinant-one orthogonal and split or nonsplit unitary groups over every finite extension of Q_p. The section contract is SR.2.2, geometric-lemma.
-
-
-What SmoothRepresentationsOfLocalGroups must provide (gap:orthogonal-auxiliary-induction): For every finite extension k of Q_p, every nondegenerate quadratic space W over k, every t≥1, every irreducible admissible σ_W of SO(W)(k) and every irreducible supercuspidal τ of GL_t(k), prove that the normalized induction of τ|det|^s⊗σ_W from the parabolic of SO(W⊥H^t) stabilizing a chosen t-dimensional totally isotropic subspace of H^t, with Levi GL_t×SO(W) (the whole group when W=0 and t=1, and a non-maximal parabolic when W is a hyperbolic plane) is irreducible for s outside a finite subset of C/(2πi/log q)Z, and that for each irreducible π_V of SO(V)(k), V⊂W⊥H^t of codimension one, τ can be chosen so that no Bernstein component of SO(V)(k) containing π_V has τ, up to unramified twist, in its GL_t cuspidal support. The section contract is SR.3.1, generic-irreducibility.
-
-What SmoothRepresentationsOfLocalGroups must provide (gap:spherical-whittaker-normalization): Supply hyperspecial Satake, spherical Whittaker and Cartan-volume formulas with normalized induction and specified Haar measures for every residue characteristic, including split unitary GL groups and unramified nonsplit forms. The section contract is SR.4.1–SR.4.4.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-Consume §§2.3, 2.6 and 2.7 for real normalized induction, the archimedean generic unitary-dual theorem, Casselman–Wallach globalization and Dixmier–Malliavin; §§3.4–3.5 for restricted tensors and spherical lines; §§4.1–4.3 for constant-term transitivity, cuspidal realizations, Petersson pairings and GL Whittaker models. Its §4.2 adapters retain the supplied fixed-central-character or split-center-quotient spectrum. This roadmap must show its own images lie there; split SO₂ is the negative control in §1.1.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:rational-fourier-support): Supply generalized rational-nilpotent Fourier maps, root exchange, support and maximal-support carriers on actual automorphic realizations, with continuous constant-term comparisons and the topology for a verified cuspidal Hilbert closure. The section contract is 4.1–4.2, rational Fourier continuation.
-
-What AutomorphicFormsOnReductiveGroups must provide (gap:bessel-restriction-growth): Supply absolute convergence and continuity of Bessel periods when the form on the ambient group is cuspidal and the form on the stabilizer has moderate growth, and when the stabilizer form is cuspidal and the stabilizer has trivial F-split centre, and restriction estimates into fixed-central-character or split-center-quotient Hilbert carriers, with all archimedean cases. The section contract is 4.1–4.2, restriction and cuspidal realization.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Consume AL.3.1.2, The Whittaker realization; AL.3.6.1, Continuation and the Rankin–Selberg pole criterion; AL.3.6.2, The global Rankin–Selberg functional equation; AL.3.6.3, Rankin–Selberg nonvanishing on the boundary; and AL.3.7.2, Strong multiplicity one for isobaric sums; in particular distinct required-type blocks have regular nonzero cross factors at 1 by the pole criterion and boundary nonvanishing, with the finite-place and archimedean factors restored using §3.5; AL.4.1.1, The unramified L-group Euler factor; AL.4.2.1, Transport of supplied local parameter comparisons; and AL.4.2.2, Functorial operations on unramified factors. GL tensor and supplied parameter equalities retain the source hypotheses. A general Satake determinant is not ramified LLC. For ρ=∧², the pair (x,y) gives xy; for ρ=Sym² it gives x²,xy,y². The local signed-Asai and completed-type supplements below supply exactly the additional all-place assertions. No arbitrary functorial transfer is inferred from a factor identity.
-
-What AutomorphicLFunctionsAndLocalFactors must provide (gap:all-place-signed-factors): Supply all-place tensor and signed Asai factors, tempered positive-half-plane regularity and standard-module multiplicativity with archimedean Gamma shifts and the actual unipotent-radical L-representation for the induction used here. The section contract is AL.4.2.1, Transport of supplied local parameter comparisons.
-
-What AutomorphicLFunctionsAndLocalFactors must provide (gap:type-poles-and-cross-factor): Supply the conjugate-self-dual signed-Asai type-pole dichotomy and the completed signed-factor identity comparing the actual unipotent-radical normalizer with the bilinear dictionary of Section 4.1. The section contract is AL.3–AL.4, poles and factor operations.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Consume §0.15 continuous Laurent coefficient operators after common-denominator regularization; §§1.1–1.5 for induced Hilbert data; §§2.4–2.7 for continued Eisenstein families and constant terms, with §2.4a supplying holomorphic smooth sections; §2.8 Shahidi normalization; §§2.9–2.13 generic standard-module and normalized-intertwiner results, including holomorphic nonzero operators on Re(s)≥1/2 for every characteristic-zero local field and nongeneric members of pure inner forms in §2.13's stated generic-global-parameter scope; §2.14 isobaric realization; §§4.1–4.4 residual-spectrum and square-integrability criteria. In §2.8 the convention is N_v=β_v M_v with β_v=L_v(1+s,τ×σ)L_v(1+2s,τ,ρ)ε_v(s,τ×σ)ε_v(2s,τ,ρ)/(L_v(s,τ×σ)L_v(2s,τ,ρ)). Both epsilon factors multiply in the numerator. The unitary convention of §2.8 includes quadratic étale coefficients; at a split place its group is GL, so no additional split-place holomorphy theorem is requested. At unramified SO₃ with q=2, trivial GL₁ data and s=1/2, M's spherical scalar is 3/2 and β=2/3, hence N has scalar 1. In the unitary case the symbolic τ×σ of §2.8 is evaluated on the actual cross representation of the dual Levi, which §4.1 identifies with τ×φ_σ∨ in the normalization of Conventions. Nonzero individual factors of an operator composition are insufficient: diag(1,0) and diag(0,1) have zero product.
-
-What AutomorphicSpectralTheory must provide (gap:isobaric-eisenstein-continuation): Extend Eisenstein continuation and constant-term formulas to the moderate-growth noncuspidal smaller datum sigma permitted by Section 2.1, with holomorphic smooth sections and specified central character. The section contract is 2.4, 2.4a and 2.14.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-Consume §§11.2–11.4 for tempered and positive-exponent local unitary packets with inner-twist pairings and the interface for generic global packets. Keep every classification-input and Whittaker-normalization premise. The generic global theorem there is for CM extensions and pure inner twists; it does not prove an all-number-field or nongeneric statement. The extended local construction retains the actual induced module, possibly reducible, until a separate irreducibility theorem applies. At split places the ordinary pure-inner forms used here are split GL groups; no division-algebra form is inserted into a Hermitian pair. GanGrossPrasadUnitaryGroups makes the relative normalization comparison; ModularityAndLanglandsExtensions supplies its stated classification theorems and the additional residual/general-field contract below. No second carrier for these packets is constructed here.
-
-### From TauCetiRoadmap.ModularityAndLanglandsExtensions
-
-Consume §§3.3–3.4, self-dual-cuspidal-type, for the self-dual type dichotomy, §3.8 actual global Arthur parameters, §§3.12 and 3.16 unitary classification, §3.15 local packets, §3.17 quasi-split multiplicity, §3.18 orthogonal Vogan packets, §3.23 generic inner-form multiplicity and §3.25 generic standard modules. Every classification premise, local intertwining condition and coherent inner form is retained. Consume §5.4 classical GRS descent with its exact group and genericity scope. Comparing that module with this normalized residual coefficient is a new comparison, not an invocation of almost-everywhere transfer as a concrete-module proof.
-
-What ModularityAndLanglandsExtensions must provide (gap:quasisplit-residual-packets-membership): For quasi-split special orthogonal and unitary groups, identify the Arthur packets of the discrete constituents with the prescribed residual Langlands-quotient data for the parameter formed from the distinct two-dimensional SL2 blocks and the smaller generic parameter. The section contract is 3.8, 3.12, 3.15–3.17.
-
-What ModularityAndLanglandsExtensions must provide (gap:residual-irreducibility): Prove irreducibility of the residual representation for distinct required-type blocks and a cuspidal generic-parameter smaller datum, within the applicable classification scope and, on non-quasi-split forms, under the inner-form classification hypothesis of Section 5.2. The section contract is 3.8, 3.12, 3.15–3.18, 3.23–3.25.
-
-What ModularityAndLanglandsExtensions must provide (gap:all-member-residual-support): Classify the cuspidal supports of every discrete member of the residual Arthur packets formed from distinct two-dimensional SL2 blocks and the smaller generic parameter, retaining the Levi, inducing blocks and exponents, within the classification scope of Section 5.2. The section contract is 3.8, 3.12, 3.15–3.18, 3.23–3.25.
-
-What ModularityAndLanglandsExtensions must provide (gap:coherent-packets-comparison): Compare the coherent generic global packets on the shared carriers with the quasi-split classification and, under the inner-form classification hypothesis of Section 5.2, with the specified rational inner forms, preserving relevance, duals and even-orthogonal outer labels. The section contract is 3.8, 3.12, 3.15–3.18, 3.23.
-
-What ModularityAndLanglandsExtensions must provide (gap:generic-discrete-member-cuspidality): Prove that discrete automorphic members of relevant generic global Arthur packets are cuspidal within the quasi-split classification scope and, under the inner-form classification hypothesis of Section 5.2, on the specified rational inner forms. The section contract is 3.8, 3.12, 3.16–3.18, 3.23.
-
-What ModularityAndLanglandsExtensions must provide (gap:standard-base-change-uniqueness): Identify the standard isobaric base change of each generic-parameter discrete automorphic member, with uniqueness of the GL isobaric target from its almost-everywhere standard Satake parameters, retaining even-orthogonal outer labels on the source and the classification scope of Section 5.2. The section contract is 3.8, 3.12, 3.15–3.18, 3.23.
-
-What ModularityAndLanglandsExtensions must provide (gap:oriented-even-orthogonal-packets): For special orthogonal groups of even-dimensional quadratic spaces, within the classification scope of Section 5.2, refine the outer-orbit packets to oriented local packets of SO-conjugacy classes of parameters, with every member of the oriented local fibre of an outer-stable parameter isomorphic to its outer conjugate, and prove that every discrete automorphic member with a given outer orbit of generic global parameters lies in the restricted tensor product of the localized oriented packets of one of its at most two coherent global orientations, which the rational outer action exchanges. The section contract is 3.13, 3.15 and 3.17.
-
-## How to read the build
-
-Layer 0 identifies the rational form, flag, orbit and prescribed embedding. Layer 1 constructs the actual Fourier images and proves their first-occurrence and multiplicity properties. Layer 2 unfolds both index regimes; Layer 3 constructs all-place local integrals and establishes their Euler and spherical formulas. Layer 4 applies the exact dual dictionary and single-variable Laurent theory to reciprocal periods and central values. Layer 5 constructs the critical descent and proves its conditional cuspidal structure; Layer 6 supplies support witnesses and period existence; Layer 7 recovers the specified cuspidal module under Generic Summand and the exact local hypothesis on distinguished members. Suggested.lean records only headline theorems statable on the pinned carriers, with missing carriers identified in its module docstring. Arithmetic dimension identities and the Checks below belong to this roadmap's specification, not to that acceptance file.
 
 ## Layer 0: Rational Bessel coordinates
 
@@ -1147,6 +1038,115 @@ This layer uses §5.9; §5.6; §4.1; ModularityAndLanglandsExtensions §§3.8, 3
 ## Downstream consumers
 
 The resulting library supplies concrete cuspidal models to applications requiring an actual rational inner form and a specified automorphic realization, together with their bilinear/Hermitian period transport. It supplies period-to-central-value nonvanishing without local GGP, period existence under weak Fourier support, and concrete recovery under Generic Summand and the exact local premise on distinguished members. Further GGP period formulas consume these outputs after their own analytic inputs; none of those formulas is used to construct this module.
+
+## Scope and ownership
+
+This roadmap owns the coordinate comparisons for prescribed rational embeddings, the particular Fourier images and tower identities, the Bessel–Eisenstein unfolding and local integrals, the residue-to-period comparison and the critical-module recovery. It treats every rational inner form and all characteristic-zero local places, including residue characteristics 2 and 3. Spherical computations are intermediate targets within an all-place theory.
+
+The classical-group carriers, reflections and quadratic Witt theorems are already in the library in the Tau Ceti modules specified below. ReductiveGroups Layers 0, 3 and 7 and OrthogonalSpinGroups, Layers 0–2, own algebraic groups, orthogonal isometries and their local structure; Completed RestrictedProducts, Layers 0–3, owns restricted-product maps and rational diagonals. RepresentationTheory/ClassicalGroups Layer 6 concerns finite-dimensional branching, not admissible Bessel models. ClassicalGroupsPartII, Layers CG.0–CG.3, concerns rational GSp representations and their characters; it does not duplicate this descent.
+
+GanGrossPrasadUnitaryGroups §§1.1–1.3, 2.1–2.6 and 4.1–4.4 owns unitary relevant pairs, Bessel data, local uniqueness and global period definitions. Its §§3.7 and 3.9 supply the nonarchimedean and the real tempered theorems on distinguished members and §3.11 its specified split range; §3.10 is a proposition outside the proved range. Import these without assuming a generic global period theorem. This roadmap owns the orthogonal relevant pairs and Bessel data in §§0.1–0.3 and the orthogonal local Bessel-uniqueness theorem in §1.4 because no earlier roadmap owns those relative constructions. The assertion on distinguished orthogonal members remains the explicit hypothesis of §7.2.
+
+AutomorphicFormsOnReductiveGroups §§2.3, 2.6–2.7, 3.4–3.5 and 4.1–4.3 owns real induction, globalization, restricted tensors, constant terms and cuspidal-realization comparisons. SmoothRepresentationsOfLocalGroups SR.0–SR.4 owns the smooth category, normalized induction, Jacquet theory and Satake. AutomorphicLFunctionsAndLocalFactors AL.3–AL.4 owns general tensor factors, functional equations and factor operations: §3.5 below is their shifted-integral application, not another construction of these theories. Generic rational Fourier-support theory is a supplier continuation, whereas the special tower calculations stay here.
+
+AutomorphicSpectralTheory §§0.15, 2.4–2.14 and 4.1–4.4 owns meromorphic operators, Eisenstein continuation, normalized intertwiners, Laurent calculus and the residual-spectrum criterion. In particular its §2.13 owns Jiang–Zhang intertwiner holomorphy; there is no second proof target here. EndoscopicTransferAndUnitaryTraceComparison §§11.2–11.4 owns the shared carriers for unitary local and global packets and pairings. ModularityAndLanglandsExtensions §§3.8, 3.12, 3.15–3.18 and 3.23–3.25 supplies parameter/classification comparisons and generic standard modules on these carriers. Its §5.4 states classical GRS descent, including split odd-orthogonal irreducibility; §§6.3 and 7.3 below retain the comparison with the specified rational coefficient and induction, not a duplicate generic descent theorem. The rank, sign and determinant verification of §5.1 specializes the shared parameter constructor to this residual family.
+
+LieHighestWeightPartII N0 and N2, respectively nilpotent-orbit and classical-partitions, own geometric nilpotent orbits and the orthogonal partition/very-even classification. Rational descent and dominance supplements are exact supplier contracts, not repetitions of that classification. Generic Hermitian complement and Witt geometry is requested of ReductiveGroupsPartII through gap:hermitian-witt-complements; GeometryOfNumbersAndQuadraticArithmetic §2.9 supplies field-form data and adjoints, while GanGrossPrasadUnitaryGroups §1.1 supplies the field/split slot comparisons.
+
+## Exact supplier contracts
+
+A contract marked gap: specifies mathematics required of its named owner before dependent theorems are proved. These contracts do not become arbitrary hypotheses containing the desired descent conclusion. The generic analytic/classification inputs precede applications to residual packets; no normalization proof uses the residual conclusion it is intended to establish.
+
+### From Mathlib
+
+Use `Nat.Partition` in `Mathlib/Combinatorics/Enumerative/Partition/Basic.lean`: its multiset has positive parts and prescribed sum; it carries no form, flag or rational orbit. Use `Representation.IntertwiningMap` in `Mathlib/RepresentationTheory/Intertwining.lean` only as an algebraic intertwiner carrier, with no built-in continuity, admissibility or analytic Bessel theory. Use `MeromorphicOn` in `Mathlib/Analysis/Meromorphic/Basic.lean` for normed-target meromorphic germs; it does not construct locally convex Eisenstein families. Their automorphic and locally convex comparisons are supplied below.
+
+### From Tau Ceti
+
+Use `TauCeti.RegularFormClass.wittDecomposition` in `TauCeti/LinearAlgebra/QuadraticForm/Witt/Decomposition.lean`, for regular finite-dimensional quadratic forms over a field with 2 invertible. It is a form-class decomposition; an isometry of a prescribed embedded complement is additional data. Use `TauCeti.QuadraticMap.specialOrthogonalGroup` and `TauCeti.QuadraticMap.det_reflection` in `TauCeti/LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean`: the first is the subgroup of linear equivalences preserving Q with determinant 1 (on the finite-dimensional field spaces used here, the native determinant is the usual determinant); the second requires a finite free module and a vector of invertible quadratic value and gives determinant −1. On modules that are not finite free the native determinant is 1 by convention, so this use retains finite dimension over a field. These declarations do not construct a Hermitian group or an automorphic realization.
+
+Use `QuadraticMap.IsometryEquiv.exists_extension` in `TauCeti/LinearAlgebra/QuadraticForm/Witt/Extension.lean`, for an isometry of subspaces with nondegenerate restricted form in a finite-dimensional ambient quadratic space over a field with 2 invertible. Use `TauCeti.equivalent_of_equivalent_prod` in `TauCeti/LinearAlgebra/QuadraticForm/Witt/Cancellation.lean`: the cancelled quadratic summand is finite-dimensional and nondegenerate. The extension theorem does not require the ambient quadratic form to be nondegenerate, although this roadmap applies it to nondegenerate classical spaces. Both uses preserve the specified forms; neither replaces rational coordinates by abstract group isomorphisms.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Consume Layer 7 for split rational parabolic double cosets and Layer 7b for parabolics, Levi factors and their intersections. The relative nonsplit isotropic-flag classification and its residual rational orbits are the content of §2.3.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+Consume RG2.4 for the local adjoint-modulus formula, only with its actual local-field and reductivity hypotheses. The Hermitian supplement excludes another form-carrier or adjoint construction.
+
+What ReductiveGroupsPartII must provide (gap:hermitian-witt-complements): Supply Witt decomposition, extension and cancellation for nondegenerate finite-dimensional Hermitian spaces over every characteristic-zero field with quadratic étale coefficients, with prescribed complement isometries, arbitrary-form unitary groups and scalar-extension compatibility. The section contract is RG2.4.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+Consume §2.9 field Hermitian forms and adjoints on finite-dimensional modules. The carrier and adjoint apply over any commutative field with involution; its odd-residue classification results are not used. GanGrossPrasadUnitaryGroups §1.1 performs the linear-first slot comparison and the split quadratic-étale comparison.
+
+### From TauCetiRoadmap.LieHighestWeightPartII
+
+Consume N0, nilpotent-orbit, and N2, classical-partitions, over their algebraically closed characteristic-zero fields. Base change to a closure does not recover rational conjugacy. Very-even O-orbits retain both SO labels.
+
+What LieHighestWeightPartII must provide (gap:rational-nilpotent-orbits): Extend the geometric orbit carrier to rational classical nilpotent orbits and localization, distinguishing geometric, Galois-stable and rational conjugacy and retaining the two very-even SO labels. The section contract is N0, nilpotent-orbit.
+
+What LieHighestWeightPartII must provide (gap:classical-dominance): Supply dominance and special-expansion comparisons for the regular and subregular partitions in the ranks of Section 7.4, without inferring rational or automorphic nonvanishing from geometric admissibility. The section contract is N2, classical-partitions.
+
+### From TauCetiRoadmap.GanGrossPrasadUnitaryGroups
+
+Consume §§1.1–1.3 for framed relevant Hermitian pairs, relative subgroups, characters and transport; §§2.1–2.6 for model spaces, continuous dual comparison and all-odd-codimension uniqueness; §§4.1–4.4 for periods, convergence and coherent parameter comparisons. The local theorem on distinguished members is nonsplit tempered: nonarchimedean in §3.7 and real in §3.9; the split theorem is §3.11 in its exact stated range. An application outside those ranges retains the §7.2 local proposition as a mathematical hypothesis. The identity Q(f,g)=P(f,conj g) uses the supplier's right action and dual convention; the U₁ witness in Conventions applies on both sides. No global GGP endpoint is a premise of recovery.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+Consume SR.0.1–SR.0.4 for smooth categories and contragredients, SR.2.1–SR.2.3 for normalized induction, Jacquet filtrations and character coinvariants, SR.3.1–SR.3.3 for support/temperedness, SR.4.1–SR.4.4 for Satake and unramified unitary groups. Restriction to a Bessel subgroup and the character quotient use these actual actions. The ordinary Jacquet filtration does not by itself compute the twisted quotient needed in §§5.4 and 5.7.
+
+What SmoothRepresentationsOfLocalGroups must provide (gap:twisted-jacquet-filtration): Compare the geometric lemma and induction in stages with character-twisted Jacquet quotients for determinant-one orthogonal and split or nonsplit unitary groups over every finite extension of Q_p. The section contract is SR.2.2, geometric-lemma.
+
+
+What SmoothRepresentationsOfLocalGroups must provide (gap:orthogonal-auxiliary-induction): For every finite extension k of Q_p, every nondegenerate quadratic space W over k, every t≥1, every irreducible admissible σ_W of SO(W)(k) and every irreducible supercuspidal τ of GL_t(k), prove that the normalized induction of τ|det|^s⊗σ_W from the parabolic of SO(W⊥H^t) stabilizing a chosen t-dimensional totally isotropic subspace of H^t, with Levi GL_t×SO(W) (the whole group when W=0 and t=1, and a non-maximal parabolic when W is a hyperbolic plane) is irreducible for s outside a finite subset of C/(2πi/log q)Z, and that for each irreducible π_V of SO(V)(k), V⊂W⊥H^t of codimension one, τ can be chosen so that no Bernstein component of SO(V)(k) containing π_V has τ, up to unramified twist, in its GL_t cuspidal support. The section contract is SR.3.1, generic-irreducibility.
+
+What SmoothRepresentationsOfLocalGroups must provide (gap:spherical-whittaker-normalization): Supply hyperspecial Satake, spherical Whittaker and Cartan-volume formulas with normalized induction and specified Haar measures for every residue characteristic, including split unitary GL groups and unramified nonsplit forms. The section contract is SR.4.1–SR.4.4.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+Consume §§2.3, 2.6 and 2.7 for real normalized induction, the archimedean generic unitary-dual theorem, Casselman–Wallach globalization and Dixmier–Malliavin; §§3.4–3.5 for restricted tensors and spherical lines; §§4.1–4.3 for constant-term transitivity, cuspidal realizations, Petersson pairings and GL Whittaker models. Its §4.2 adapters retain the supplied fixed-central-character or split-center-quotient spectrum. This roadmap must show its own images lie there; split SO₂ is the negative control in §1.1.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:rational-fourier-support): Supply generalized rational-nilpotent Fourier maps, root exchange, support and maximal-support carriers on actual automorphic realizations, with continuous constant-term comparisons and the topology for a verified cuspidal Hilbert closure. The section contract is 4.1–4.2, rational Fourier continuation.
+
+What AutomorphicFormsOnReductiveGroups must provide (gap:bessel-restriction-growth): Supply absolute convergence and continuity of Bessel periods when the form on the ambient group is cuspidal and the form on the stabilizer has moderate growth, and when the stabilizer form is cuspidal and the stabilizer has trivial F-split centre, and restriction estimates into fixed-central-character or split-center-quotient Hilbert carriers, with all archimedean cases. The section contract is 4.1–4.2, restriction and cuspidal realization.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+Consume AL.3.1.2, The Whittaker realization; AL.3.6.1, Continuation and the Rankin–Selberg pole criterion; AL.3.6.2, The global Rankin–Selberg functional equation; AL.3.6.3, Rankin–Selberg nonvanishing on the boundary; and AL.3.7.2, Strong multiplicity one for isobaric sums; in particular distinct required-type blocks have regular nonzero cross factors at 1 by the pole criterion and boundary nonvanishing, with the finite-place and archimedean factors restored using §3.5; AL.4.1.1, The unramified L-group Euler factor; AL.4.2.1, Transport of supplied local parameter comparisons; and AL.4.2.2, Functorial operations on unramified factors. GL tensor and supplied parameter equalities retain the source hypotheses. A general Satake determinant is not ramified LLC. For ρ=∧², the pair (x,y) gives xy; for ρ=Sym² it gives x²,xy,y². The local signed-Asai and completed-type supplements below supply exactly the additional all-place assertions. No arbitrary functorial transfer is inferred from a factor identity.
+
+What AutomorphicLFunctionsAndLocalFactors must provide (gap:all-place-signed-factors): Supply all-place tensor and signed Asai factors, tempered positive-half-plane regularity and standard-module multiplicativity with archimedean Gamma shifts and the actual unipotent-radical L-representation for the induction used here. The section contract is AL.4.2.1, Transport of supplied local parameter comparisons.
+
+What AutomorphicLFunctionsAndLocalFactors must provide (gap:type-poles-and-cross-factor): Supply the conjugate-self-dual signed-Asai type-pole dichotomy and the completed signed-factor identity comparing the actual unipotent-radical normalizer with the bilinear dictionary of Section 4.1. The section contract is AL.3–AL.4, poles and factor operations.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+Consume §0.15 continuous Laurent coefficient operators after common-denominator regularization; §§1.1–1.5 for induced Hilbert data; §§2.4–2.7 for continued Eisenstein families and constant terms, with §2.4a supplying holomorphic smooth sections; §2.8 Shahidi normalization; §§2.9–2.13 generic standard-module and normalized-intertwiner results, including holomorphic nonzero operators on Re(s)≥1/2 for every characteristic-zero local field and nongeneric members of pure inner forms in §2.13's stated generic-global-parameter scope; §2.14 isobaric realization; §§4.1–4.4 residual-spectrum and square-integrability criteria. In §2.8 the convention is N_v=β_v M_v with β_v=L_v(1+s,τ×σ)L_v(1+2s,τ,ρ)ε_v(s,τ×σ)ε_v(2s,τ,ρ)/(L_v(s,τ×σ)L_v(2s,τ,ρ)). Both epsilon factors multiply in the numerator. The unitary convention of §2.8 includes quadratic étale coefficients; at a split place its group is GL, so no additional split-place holomorphy theorem is requested. At unramified SO₃ with q=2, trivial GL₁ data and s=1/2, M's spherical scalar is 3/2 and β=2/3, hence N has scalar 1. In the unitary case the symbolic τ×σ of §2.8 is evaluated on the actual cross representation of the dual Levi, which §4.1 identifies with τ×φ_σ∨ in the normalization of Conventions. Nonzero individual factors of an operator composition are insufficient: diag(1,0) and diag(0,1) have zero product.
+
+What AutomorphicSpectralTheory must provide (gap:isobaric-eisenstein-continuation): Extend Eisenstein continuation and constant-term formulas to the moderate-growth noncuspidal smaller datum sigma permitted by Section 2.1, with holomorphic smooth sections and specified central character. The section contract is 2.4, 2.4a and 2.14.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+Consume §§11.2–11.4 for tempered and positive-exponent local unitary packets with inner-twist pairings and the interface for generic global packets. Keep every classification-input and Whittaker-normalization premise. The generic global theorem there is for CM extensions and pure inner twists; it does not prove an all-number-field or nongeneric statement. The extended local construction retains the actual induced module, possibly reducible, until a separate irreducibility theorem applies. At split places the ordinary pure-inner forms used here are split GL groups; no division-algebra form is inserted into a Hermitian pair. GanGrossPrasadUnitaryGroups makes the relative normalization comparison; ModularityAndLanglandsExtensions supplies its stated classification theorems and the additional residual/general-field contract below. No second carrier for these packets is constructed here.
+
+### From TauCetiRoadmap.ModularityAndLanglandsExtensions
+
+Consume §§3.3–3.4, self-dual-cuspidal-type, for the self-dual type dichotomy, §3.8 actual global Arthur parameters, §§3.12 and 3.16 unitary classification, §3.15 local packets, §3.17 quasi-split multiplicity, §3.18 orthogonal Vogan packets, §3.23 generic inner-form multiplicity and §3.25 generic standard modules. Every classification premise, local intertwining condition and coherent inner form is retained. Consume §5.4 classical GRS descent with its exact group and genericity scope. Comparing that module with this normalized residual coefficient is a new comparison, not an invocation of almost-everywhere transfer as a concrete-module proof.
+
+What ModularityAndLanglandsExtensions must provide (gap:quasisplit-residual-packets-membership): For quasi-split special orthogonal and unitary groups, identify the Arthur packets of the discrete constituents with the prescribed residual Langlands-quotient data for the parameter formed from the distinct two-dimensional SL2 blocks and the smaller generic parameter. The section contract is 3.8, 3.12, 3.15–3.17.
+
+What ModularityAndLanglandsExtensions must provide (gap:residual-irreducibility): Prove irreducibility of the residual representation for distinct required-type blocks and a cuspidal generic-parameter smaller datum, within the applicable classification scope and, on non-quasi-split forms, under the inner-form classification hypothesis of Section 5.2. The section contract is 3.8, 3.12, 3.15–3.18, 3.23–3.25.
+
+What ModularityAndLanglandsExtensions must provide (gap:all-member-residual-support): Classify the cuspidal supports of every discrete member of the residual Arthur packets formed from distinct two-dimensional SL2 blocks and the smaller generic parameter, retaining the Levi, inducing blocks and exponents, within the classification scope of Section 5.2. The section contract is 3.8, 3.12, 3.15–3.18, 3.23–3.25.
+
+What ModularityAndLanglandsExtensions must provide (gap:coherent-packets-comparison): Compare the coherent generic global packets on the shared carriers with the quasi-split classification and, under the inner-form classification hypothesis of Section 5.2, with the specified rational inner forms, preserving relevance, duals and even-orthogonal outer labels. The section contract is 3.8, 3.12, 3.15–3.18, 3.23.
+
+What ModularityAndLanglandsExtensions must provide (gap:generic-discrete-member-cuspidality): Prove that discrete automorphic members of relevant generic global Arthur packets are cuspidal within the quasi-split classification scope and, under the inner-form classification hypothesis of Section 5.2, on the specified rational inner forms. The section contract is 3.8, 3.12, 3.16–3.18, 3.23.
+
+What ModularityAndLanglandsExtensions must provide (gap:standard-base-change-uniqueness): Identify the standard isobaric base change of each generic-parameter discrete automorphic member, with uniqueness of the GL isobaric target from its almost-everywhere standard Satake parameters, retaining even-orthogonal outer labels on the source and the classification scope of Section 5.2. The section contract is 3.8, 3.12, 3.15–3.18, 3.23.
+
+What ModularityAndLanglandsExtensions must provide (gap:oriented-even-orthogonal-packets): For special orthogonal groups of even-dimensional quadratic spaces, within the classification scope of Section 5.2, refine the outer-orbit packets to oriented local packets of SO-conjugacy classes of parameters, with every member of the oriented local fibre of an outer-stable parameter isomorphic to its outer conjugate, and prove that every discrete automorphic member with a given outer orbit of generic global parameters lies in the restricted tensor product of the localized oriented packets of one of its at most two coherent global orientations, which the rational outer action exchanges. The section contract is 3.13, 3.15 and 3.17.
 
 ## References
 
