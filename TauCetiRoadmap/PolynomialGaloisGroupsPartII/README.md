@@ -1,26 +1,67 @@
 # Roadmap: Galois groups of polynomials, Part II — ramified merging and random partitions
 
-**Summary.** A monic integral polynomial can have repeated factors modulo a prime even
-when its characteristic-zero roots are distinct. This roadmap expresses that reduction
-as a bounded merging of equal factor degrees, proves a criterion for arbitrary laws on
-integer partitions that excludes transitive groups other than the alternating and
-symmetric groups, and joins the two results by a deterministic Galois certificate.
-A second interface identifies higher irreducibility with transitivity on ordered
-root tuples. The probability theorem takes three explicit partition estimates; its
-conclusion has constants uniform in both the law and the permitted merging exponent.
-It continues PolynomialGaloisGroups, whose Layer 5 uses factorization/cycle-type
-equality at primes not dividing the polynomial discriminant; bounded merging
-extends that comparison to every prime.
+**Summary.** For a monic integral polynomial and a prime p not dividing its
+discriminant, some Galois element permutes the roots with cycle lengths
+equal to the degrees of the irreducible factors modulo p. Yet the
+reduction can have repeated factors even when the roots are distinct. This
+roadmap extends the comparison to every prime. It also shows that, under any
+partition law satisfying three explicit estimates, a random partition rarely
+fits a transitive group other than the alternating and symmetric groups.
 
-## How to read the build
+The comparison rests on bounded equal-part merging. A multiset b is a
+y-merging of a multiset a when a splits into blocks of equal entries, each of
+at most y entries, and b lists the block sums. For instance, {1,1,2,2,2,3}
+merges at bound 2 into {1,1,2,3,4}. Cycle types are taken in full, with fixed
+points as parts 1.
 
-Layer 0 establishes occurrence-sensitive merging and assembles the global
-cycle-type witness over a cyclic quotient. Layer 1 applies it to ramified reduction.
-Layer 2 builds the independent ordered-root interface. Layer 3 obtains five
-anatomy estimates from the partition law. Layer 4 supplies the primitive
-minimum-support obstruction, and Layer 5 combines it with block arithmetic
-to exclude both kinds of proper transitive groups. Layer 6 takes a finite
-union of exceptional events and attaches the arithmetic certificate.
+The first main theorem drops the discriminant condition. Let A be a monic
+integral polynomial of positive degree, separable over ℚ, let p be any prime, and let M
+be the largest exponent of an irreducible factor of A modulo p. Some element of
+the Galois group then acts on the roots with full cycle type an M-merging of
+the factor degrees of A modulo p, counted with multiplicity. For X²−2 at
+p = 2 the reduction is X², so M = 2, and both the identity and the swap
+qualify.
+
+The second is a uniform generalized Łuczak–Pyber criterion. Call a permutation
+of n points bad if it lies in a transitive subgroup other than A_n and S_n.
+Suppose a probability law on partitions of n satisfies three explicit
+estimates, bounding the chance that two given parts occur, that some parts sum
+to a given size, and that unusually few parts have sizes in a given set. Then,
+for θ in an explicit range and n large, the probability that some n^θ-merging
+of the partition is the full cycle type of a bad permutation is at most
+B (log n)² times a negative power of n fixed by θ and the estimates. The
+constant B and the threshold on n are chosen before n, the law and θ.
+
+The third result joins the two. Let A be monic integral and irreducible over
+ℚ, let p be prime, and let y ≥ M. If the Galois group acts on the roots as neither the
+alternating nor the symmetric group, its image contains a bad permutation whose
+full cycle type is a y-merging of the factor degrees of A modulo p. A Galois
+group other than A_n and S_n therefore forces either a factor repeated more
+than y times modulo p, or such a y-merging.
+
+Separately, a separable polynomial f of degree n over any field is k-fold
+irreducible, for 1 ≤ k ≤ n, if for every j < k and every ordered choice of j
+distinct roots, the quotient of f by those linear factors is irreducible over
+the field the roots generate. This holds exactly when the Galois group is
+transitive on ordered k-tuples of distinct roots. For n ≥ 3, (n−2)-fold
+irreducibility holds exactly when the image contains the alternating group.
+
+The roadmap continues PolynomialGaloisGroups, which supplies faithful root
+actions and the equal blocks of a transitive imprimitive action. The
+unramified equality it extends is proved in NumberFieldArithmetic.
+AnalyticNumberTheoryPartI supplies Mertens's product theorem with its exact
+constant e^γ, and ErdosProgressionPowers the divisor bound τ(n) ≤ n^η for
+large n. A future extension of ArithmeticStatistics to random polynomials
+would use the criterion and the certificate.
+
+Layer 0 defines merging and produces it from cycles lying over a single cycle
+of a quotient, and Layer 1 applies this to reduction modulo p. Layer 2,
+independent of the rest, treats higher irreducibility. Layer 3 derives five
+properties of a partition, each failing with small probability. Layer 4 bounds
+from below how many points a nonidentity element of a primitive group other
+than A_n and S_n moves. Layer 5 adds block arithmetic: for large n, a partition
+with all five properties has no n^θ-merging equal to a bad cycle type. Layer 6
+sums the failure probabilities and attaches the certificate.
 
 ## Conventions
 
