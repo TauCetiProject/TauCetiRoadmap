@@ -2,7 +2,7 @@
 
 **Summary.** A modularity lifting theorem says that a two-dimensional `p`-adic Galois representation of a totally real field is modular, that is, attached to a Hilbert eigenform (over `ℚ`, to a classical newform), provided its reduction modulo `p` is modular and its restrictions to the decomposition groups above `p` satisfy suitable `p`-adic Hodge-theoretic conditions. This roadmap builds the modularity lifting theorems for `GL₂` that the proofs of Serre's modularity conjecture use. Residual modularity is a hypothesis throughout, except in Pan's residually reducible theorem. Every conclusion says which kind of statement it is: an integral isomorphism `R ≅ 𝕋`, an isomorphism after inverting `p` of the reduced, `𝒪`-flat quotients, or modularity of the points on specified components. These are not interchangeable, since a patched module supported on one component says nothing about another.
 
-The first strand is the Taylor–Wiles–Kisin method over a totally real field `F`. From a modular residual representation it builds the deformation-to-Hecke map for definite quaternion algebras at minimal level, the auxiliary Taylor–Wiles levels, the patched ring and module, and the comparison of local components that turns support into modularity, including Taylor's avoidance of Ihara's lemma. Its main results are the lifting theorems of Khare and Wintenberger at odd primes and at `2`, for lifts that are crystalline of small weight or of weight two of a prescribed semistable shape above `p`; Kisin's theorems for potentially Barsotti–Tate representations; the Fontaine–Laffaille-range theorem; the lifting theorems of Breuil, Conrad, Diamond and Taylor for types; and Khare–Wintenberger's Theorem 4.1 over `ℚ` with their Hypothesis (H).
+The first strand is the Taylor–Wiles–Kisin method over a totally real field `F`. From a modular residual representation it builds the deformation-to-Hecke map for definite quaternion algebras at minimal level, the auxiliary Taylor–Wiles levels, the patched ring and module, and the comparison of local components that turns support into modularity, including Taylor's avoidance of Ihara's lemma. Its main results are the lifting theorems of Khare and Wintenberger at odd primes and at `2`, for lifts that are crystalline of small weight or of weight two of a prescribed semistable shape above `p`; Kisin's theorems for potentially Barsotti–Tate representations; the Fontaine–Laffaille-range theorem; and Khare–Wintenberger's Theorem 4.1 over `ℚ` with their Hypothesis (H).
 
 The second strand states the de Rham lifting theorems used by Dieulefait and Pacetti's simplified proof of Serre's conjecture. Let `p` be odd and `F` totally real with `p` split completely. If the residual representation is modular and absolutely irreducible over `F(ζ_p)`, a representation that is potentially semistable with distinct Hodge–Tate weights at every place above `p` is modular up to twist; `p = 3` is included. This is Kisin's multiplicity method with the Breuil–Mézard identities of Paškūnas, Hu–Tan and Tung. At `p = 2`, with `2` split completely, the same holds when the residual image is not solvable (Tung). Pan's theorem proves the residually reducible case over `ℚ`, where no residual modularity is assumed, and an ordinary argument at `3` covers the residual pair that Pan's theorem excludes. The cases over `ℚ` are stated as corollaries, and the roadmap ends with modularity transfer along congruences between families of representations.
 
@@ -1004,7 +1004,7 @@ Layer 3 of this roadmap; DeformationAndDerivedPatchingAlgebra (Layer 3; Layer 6)
 
 ## Layer 5: Lifting theorems at odd primes
 
-Combine the previous layers into the lifting theorems at odd p: Khare–Wintenberger II Theorem 9.7 after reduction to a solvable totally real extension (§5.3, §5.4), the passage from `"ρ̄` modular" over `ℚ` to the `α/β` hypotheses (§5.5), Kisin's patching on a chosen component and his potentially Barsotti–Tate theorems in the ordinary and nonordinary cases (§5.6, §5.7, §5.10, §5.11), Gee's Fontaine–Laffaille theorem (§5.8), the BCDT theorems for types and extended types with the corrected coefficient cohomology (§5.2, §5.12–§5.15), the imported Kisin crystalline theorem over `ℚ` and its nonordinary weight-`p+1` endpoint application (§5.16, §5.17), and Khare–Wintenberger I Theorem 4.1(2) (§5.18). The exact overlap with ordinary lifting is stated, not assumed (§5.9).
+Combine the previous layers into the lifting theorems at odd p: Khare–Wintenberger II Theorem 9.7 after reduction to a solvable totally real extension (§5.3, §5.4), the passage from `"ρ̄` modular" over `ℚ` to the `α/β` hypotheses (§5.5), Kisin's patching on a chosen component and his potentially Barsotti–Tate theorems in the ordinary and nonordinary cases (§5.6, §5.7, §5.10, §5.11), Gee's Fontaine–Laffaille theorem (§5.8), the imported Kisin crystalline theorem over `ℚ` and its nonordinary weight-`p+1` endpoint application (§5.16, §5.17), and Khare–Wintenberger I Theorem 4.1(2) (§5.18). The exact overlap with ordinary lifting is stated, not assumed (§5.9).
 
 ### 5.1 Strong residual modularity
 
@@ -1031,34 +1031,6 @@ Provide the following operations and compatibility statements.
 ([Kisin, finite flat](<https://people.math.harvard.edu/~kisin/dvifiles/bt.dvi>) (3.5.4)–Theorem (3.5.5), pp. 72–73.)
 
 *Needs:* §1.1; LocalGaloisDeformationRings §4.14.
-
-### 5.2 Corrected type-sensitive Hecke module
-
-For the BCDT/CDT global deformation problem over ℚ, let `U_S,V_S` and `I′_S` be the type level, its type kernel and the chosen Hecke ideal; r is the auxiliary prime of CDT §5.3. With the integral type lattice `M_S` and `G_S=U_S/V_S`, define `L_S=Hom_{O[G_S]}(M_S,H¹(X_{V_S},O))[I′_S]` (insert r if necessary). For residual support use the modified levels `U′_{S,q}=V′_{S,q}=U_1(q^{c_q})` at `q∈T(ρ̄)`, unchanged elsewhere, and `L′_S=Hom_{O[U′_S/V′_S]}(M_ℓ,H¹(X_{V′_S},O))[I′_S]`. The coefficient local system is the dual of the type lattice. The Serre coefficient comparison uses `L_n⊗k` at the spherical level `K′=U′_S GL₂(ℤ_ℓ)`, replacing the ℓ-factor by `GL₂(ℤ_ℓ)`. For irreducible type, comparison with `U′_{S,ℓ}=U₀(ℓ)` uses the coefficient representation `Ind_{U₀(ℓ)}^{GL₂(ℤ_ℓ)} σ∨`. For an extended type enlarge `U_S` by `w_ℓ` and extend the type representation to that group, choose its invariant lattice, and form the analogous Hom-module for the finite quotient after dividing by `ℓ^{sZ}`. Its localized cohomological description is the `w_ℓ=1` direct summand of H¹, with the matching compactly supported summand.
-
-ℓ>2; O is large enough to define every local type, lattice and pairing. The residual representation is modular and absolutely irreducible on `G_{Q(√ℓ*)}`; its local centralizer is k. Use the exact BCDT type and admission predicates of LocalGaloisDeformationRings Layer 3, with the admission data specified in the arithmetic refinements here.
-
-The extended-type `w_ℓ` satisfies `w_ℓ²=1` on the relevant localized coefficient cohomology. Because 2 is a unit, the invariant summand is cut out by `(1+w_ℓ)/2`. The type extension and central power `ℓ^s` are part of the input.
-
-Import the modular-curve local systems and compact-type lattice constructions from ModularCurvesPartII §§14.1–14.15. Form the displayed Hom action image and its Hecke-ideal submodule. Use the corrected away-ℓ auxiliary levels and the spherical ℓ-factor in the residual comparison. Construct the Hecke-equivariant coefficient-induction isomorphism between cohomology at `U′_S` with coefficient `σ∨` and at `K′` with its induced coefficient. Localized exactness transfers support along its admitting constituents. Descent of invariants along `V′⊂V` requires V′ normal in V; all coefficient actions are continuous for the ℓ-adic topology. For extended types use the extended compact group in every Hom and level comparison, and restrict duality, level-control and auxiliary-module maps to the `+` summand.
-
-Provide the following operations and compatibility statements.
-
-- The type Hom-module with its Hecke action, corrected auxiliary level and residual-support comparison module.
-- The coefficient local system uses `Hom_O(M_ℓ,O)`, and the group-cohomology Serre coefficient is `L_n⊗k`.
-- For extended types the module is identified with the localized `w_ℓ=1` direct summand; its dual pairing is restricted to that same summand.
-
-**Checks.**
-
-- For trivial rank-one type lattice the Hom construction gives the corresponding invariant cohomology with the specified Hecke ideal.
-- For an involution on an O-module with ℓ odd, the projectors (1±w)/2 are complementary and the `+` projector gives the extended-type summand.
-- At a prime of `T(ρ̄)`, keeping the old `U_S` instead of `U_1(q^{c_q})` does not supply the congruence-subgroup hypotheses needed by the residual-support theorem.
-- With `U′_{S,q}=V′_{S,q}=U_1(q^{c_q})` at `q∈T(ρ̄)`, the group `Γ=SL₂(ℤ)∩(U′_S GL₂(ℤ_ℓ))` satisfies CDT Theorem 6.1.1. Keeping `U₀(ℓ)` instead allows an integral determinant-one matrix congruent to `−I` modulo ℓ and to `I` at the away-ℓ level factors. Congruence reduction and CRT give such a matrix; its d-entry has order two modulo ℓ, violating the ℓ-power-order condition if ℓ divides the level integer N.
-- For an extended type the `w_ℓ = 1` summand is a direct summand because `w_ℓ² = 1` on the localised H¹ and ℓ is odd.
-
-([BCDT](<https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf>) Theorems 1.4.1–1.4.2 and their proofs, author pp. 12–15; §10, pp. 77–78.)
-
-*Needs:* LocalGaloisDeformationRings §3.12; ModularCurvesPartII §§14.1–14.15; ModularCurvesPartII §§15.7–15.8, 17.8–17.10; AutomorphicGaloisRepresentations §§1.2–1.4; AlgebraicModularFormsAndSerreWeights Layer R15.2, “Integral q-expansion and coherent Hecke theory”; LocalGaloisDeformationRings Layer 3.
 
 ### 5.3 Reduction to a solvable totally real extension
 
@@ -1248,75 +1220,6 @@ If `ρ|G_{ℚ_p}` is irreducible use §5.10; otherwise `ρ` is potentially ordin
 
 *Needs:* §5.7; §5.10; SerreWeightAndLevelOptimisation §§6.6–6.11.
 
-### 5.12 Residual support for an admitted type
-
-Under the BCDT global hypotheses, if `τ` (or `τ′`) admits `ρ̄|G_{Qℓ}`, then the corrected localized Hecke module for that type is nonzero and the relevant characteristic-zero automorphic set `N_S` is nonempty. This conclusion uses admission via an integral type lattice and a Jordan–Hölder constituent, not merely nonvanishing of a local type ring. In the extended case the nonzero class lies in the `w_ℓ=1` summand; retain separately the distinct-character, irreducible/peu-ramified and très-ramified alternatives in the admission predicate.
-
-ℓ is odd, `ρ̄` is modular and absolutely irreducible on `G_{ℚ(√ℓ*)}, ρ̄|G_ℓ` has centraliser k, and `τ` (resp. `τ′`) admits `ρ̄|G_ℓ` in BCDT's sense: it admits an irreducible representation `σ` of `GL₂(ℤ_ℓ), U₀(ℓ)` or `Ũ₀(ℓ)` over `𝔽̄_ℓ` which admits `ρ̄|G_ℓ`.
-
-Use `Γ=SL₂(ℤ)∩K′` with `K′=U′_S GL₂(ℤ_ℓ)` and Serre’s coefficient module `L_n⊗k` to obtain nonzero residual localized cohomology at the spherical comparison level. Twisting gives support for every admitting irreducible `GL₂(ℤ_ℓ)` coefficient. In the irreducible-type branch, admission and localized exactness give nonzero cohomology at `K′` with coefficient `Ind_{U₀(ℓ)}^{GL₂(ℤ_ℓ)} σ∨`; the coefficient-induction isomorphism identifies it with cohomology at `U′_S` with coefficient `σ∨`. Transfer support from that admitting constituent to the dual integral type lattice using exactness after non-Eisenstein localization and the corrected normal-subgroup descent. The extended-type proof additionally projects by `w_ℓ` and uses the appropriate local admission alternative. Lift the nonzero residual support to `L′_S`, use the type-sensitive automorphic decomposition and the comparison with `L_S`, and deduce `N_S` nonempty. No conjectural equivalence between admission and existence of a local lift is used.
-
-**Checks.**
-
-- The conclusion is nonvanishing of the localised corrected module and nonemptiness of `N_S`; it is not an `R = T` statement.
-- For irreducible type the ℓ-factor is `U₀(ℓ)`, so the order-two d-entry in §5.2 prevents applying CDT directly there. The spherical comparison and induced coefficient supply the support before returning to that level.
-- In the extended case with `ρ̄|G_ℓ` reducible and très ramifié, BCDT use `ρ̄_{I_ℓ}(Frob_ℓ) = −a` in the `w_ℓ-eigenvalue` comparison; the peu ramifié/irreducible case uses ã `+ w_ℓ`.
-
-([BCDT](<https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf>) Theorems 1.4.1–1.4.2 proofs, author pp. 12–15, and §10, pp. 77–78.)
-
-*Needs:* §5.2; LocalGaloisDeformationRings §3.12; SerreWeightAndLevelOptimisation §3.7; SerreWeightAndLevelOptimisation §4.2; ModularCurvesPartII §§14.1–14.15.
-
-### 5.13 Type-sensitive global comparison
-
-In the BCDT global deformation problem, residual modularity, absolute irreducibility on `G_{Q(√ℓ*)}`, local scalar centralizer, and an admitted weakly acceptable (extended) type give the CDT type-sensitive comparison `R_S≅T_S, T_S a` complete intersection and `L_S` finite free over `T_S`, using the corrected module. A given potentially Barsotti–Tate lift supplies a nonzero type prime, so the zero branch of weak acceptability cannot occur. For extended types every pairing, auxiliary-level module and numerical comparison is taken on the `w_ℓ=1` summand.
-
-The CDT global setup of §§1.3–5.3 with the BCDT changes on p. 12 (resp. pp. 13–14 for extended types): `U_{S,ℓ} = U_τ, V_{S,ℓ} = ker σ_τ, σ_{S,ℓ} = σ_τ` (resp. `U₀(ℓ), Ũ_S` generated with `w_ℓ`, and the finite quotient `G̃_S = Ũ_S/V_Sℓ^{sℤ}`).
-
-Use the local weak-acceptability quotient and the actual lift to enter the nonzero acceptable branch, and use admission to obtain a nonempty automorphic set. Apply the classical Taylor–Wiles numerical/module criterion proved here using DeformationAndDerivedPatchingAlgebra Layer 5 to the corrected type module. Its hypotheses include the perfect pairing, residual injectivity of level change, congruence ideal factors and auxiliary diamond freeness, as in CDT Propositions 5.5.1/5.6.1. For an extended type use the enlarged groups in all Hom and level-change maps, take `w_ℓ=1` in compact and ordinary cohomology, identify invariants with coinvariants using ℓ odd, and retain the resulting direct summand in the freeness argument. Use the remaining BCDT §10 label/hypothesis corrections in the local-type and numerical setup: the real group, `η-character` labels and patched algebra `A∞`. The discarded `σ_n` semisimplicity assertion is not an input. Elliptic-curve j-invariant consequences are outside this target.
-
-**Checks.**
-
-- The existence of the potentially Barsotti–Tate lift `ρ` of type `τ` makes `τ` acceptable for `ρ̄`, so the `R^D = 0` branch of weak acceptability is excluded.
-- For an extended type the self-duality `L_S ≅ Hom_O(L_S, O)` is taken on the `w_ℓ = 1` parts; using all of H¹ would compare the wrong modules.
-
-([BCDT](<https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf>) Theorems 1.4.1–1.4.2 and their proofs, author pp. 12–15; §10, author pp. 77–78; [CDT](<https://math.stanford.edu/~conrad/papers/cdtmaster.pdf>) Theorem 5.4.2, author p. 22; §§5.5–6.4, author pp. 22–31.)
-
-*Needs:* §5.12; §5.2; GlobalGaloisDeformations §3.7; DeformationAndDerivedPatchingAlgebra Layer 5; DeformationAndDerivedPatchingAlgebra §§3.4–3.5; ModularCurvesPartII §§15.7–15.8, 17.8–17.10.
-
-### 5.14 BCDT modularity lifting for a type
-
-Let ℓ be odd, `E/Q_ℓ` finite with residue k, and `ρ:G_Q→GL₂(E)` continuous, odd and unramified outside finitely many primes. Assume `ρ̄` is modular and `ρ̄|G_{Q(√((-1)^((ℓ−1)/2)ℓ))}` absolutely irreducible. Require `End_{k[G_{Qℓ}]}(ρ̄)=k`. If `ρ|G_{Qℓ}` is potentially Barsotti–Tate of ℓ-type `τ, τ` admits `ρ̄|G_{Qℓ}` and `τ` is weakly acceptable for that residual representation, then `ρ` is modular. Type includes the BCDT finite-order prime-to-ℓ determinant factor; these hypotheses do not assert lifting for every arbitrary type.
-
-`K/ℚ_ℓ` finite with residue field k, ℓ odd; `ρ : G_ℚ → GL₂(K)` odd, continuous, ramified at finitely many primes; `ρ̄` modular and absolutely irreducible on `G_{ℚ(√((−1)^{(ℓ−1)/2}ℓ))}; ρ̄|G_ℓ` has centraliser k; `ρ|G_ℓ` potentially Barsotti–Tate of ℓ-type `τ`, which admits `ρ̄|G_ℓ` and is weakly acceptable for it.
-
-Choose a stable integral lattice and apply the admitted-type residual support theorem to obtain a nonzero localized corrected coefficient module. Use weak acceptability to compare the prescribed local type ring with the weak ring in the numerical argument. The corrected coefficient module and CDT criterion identify the relevant deformation ring with its Hecke action image. The point defined by `ρ` therefore gives a characteristic-zero Hecke eigensystem. The automorphic Galois representation attached to it is `ρ` by its trace identities.
-
-**Checks.**
-
-- Admission is a hypothesis: BCDT Conjecture 1.3.1(1) predicts that `τ` admits `ρ̄|G_ℓ` whenever a lift of type `τ` exists, but the paper verifies it only in special cases (§2.1), and the theorem does not use it.
-- Absolute irreducibility is required over `ℚ(√((−1)^{(ℓ−1)/2}ℓ))`, not merely over `ℚ`; for ℓ `= 3` this field is `ℚ(√−3)`.
-
-([BCDT](<https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf>) Theorem 1.4.1 and proof, author pp. 12–13; §10, pp. 77–78.)
-
-*Needs:* §5.13; LocalGaloisDeformationRings §3.12.
-
-### 5.15 BCDT modularity lifting for an extended type
-
-Let ℓ be odd, `E/Q_ℓ` finite with residue k, and `ρ:G_Q→GL₂(E)` continuous, odd and unramified outside finitely many primes. Assume `ρ̄` is modular and `ρ̄|G_{Q(√((-1)^((ℓ−1)/2)ℓ))}` absolutely irreducible. Require `End_{k[G_{Qℓ}]}(ρ̄)=k`. If `ρ|G_{Qℓ}` is potentially Barsotti–Tate of extended ℓ-type `τ′, τ′` admits `ρ̄|G_{Qℓ}` and `τ′` is weakly acceptable for that residual representation, then `ρ` is modular. Type includes the BCDT finite-order prime-to-ℓ determinant factor; these hypotheses do not assert lifting for every arbitrary type.
-
-As for §5.14 with an extended ℓ-type `τ′` whose restriction to inertia is irreducible: `τ′` admits `ρ̄|G_ℓ` through an irreducible representation of `Ũ₀(ℓ)` and is weakly acceptable for it.
-
-Use extended-type admission to select the appropriate normalizer action and corrected `w_ℓ-positive` coefficient module, with the distinct/peu/très residual cases retained. Apply weak acceptability and the extended-type version of the numerical module argument to that summand. Read the resulting point of the Hecke algebra as an eigenform and identify its representation using Frobenius traces.
-
-**Checks.**
-
-- Because `τ′` is acceptable, `det τ′` of a Frobenius lift is `ℓζ` for a root of unity `ζ`, so `σ_{τ′}(ℓ^s) = 1` for some `s > 0` and `σ̃_S` factors through a finite group.
-- The `w_ℓ = 1` restriction is needed in CDT Lemma 6.1.3 and in the duality on p. 547; without it the self-duality of `L_S` fails.
-
-([BCDT](<https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf>) Theorem 1.4.2 and proof, author pp. 13–15; §10, pp. 77–78.)
-
-*Needs:* §5.13; LocalGaloisDeformationRings §3.12.
-
 ### 5.16 Kisin crystalline lifting over ℚ in the medium-weight range
 
 Import ClassicalSerreModularity §I.2, `I.2/same-weight-crystalline-lifting`: let `p>2`, let `𝒪` be the integers of a finite extension of `ℚ_p` with residue field `𝔽`, and let `ρ:G_{ℚ,S}→GL₂(𝒪)` be continuous, finitely ramified and crystalline at p with Hodge–Tate weights `{0,k−1}`, `2≤k≤2p−1`. Suppose `ρ̄|G_{ℚ(ζ_p)}` is absolutely irreducible, `End_{𝔽[G_{ℚ_p}]}ρ̄=𝔽`, and a cuspidal modular eigenform of weight k has residual representation `ρ̄`. Then `ρ` is modular. Oddness of the lift follows from the odd modular residual witness and `p>2` by §7.10.
@@ -1387,7 +1290,7 @@ The p-adic Tate module of an elliptic curve over `ℚ` with good ordinary reduct
 
 ### Dependencies
 
-Layers 1, 2, 3, 4 of this roadmap; AlgebraicModularFormsAndSerreWeights (Layer R15.2; Layer R15.5; Layer R15.6); AutomorphicGaloisRepresentations (Layers 1–2; §§6.10–6.12); DeformationAndDerivedPatchingAlgebra (Layer 3; Layer 4; Layer 5); GL2AutomorphicRepresentationsAndTransfer (§§R17.4.1–R17.4.11, R17.6.19); GlobalGaloisDeformations (§§3.3–3.8; Layer R04.5; Layer R04.6); LocalGaloisDeformationRings (Layer 2; Layer 3; Layer 4; Layer 5; Layer 8); ModularCurvesPartII (§§14.1–14.15; §§15.7–15.8, 17.8–17.10); ClassicalSerreModularity (`I.0/soluble-totally-real-base-change`; `I.1/residually-irreducible-ordinary-lifting`; `I.2/same-weight-crystalline-lifting`); OrdinaryAutomorphicFormsAndModularityLifting (§5.8); PadicHodgeTheory (§6.4); SerreWeightAndLevelOptimisation (Layer 3; Layer 4; §§6.6–6.11).
+Layers 1, 2, 3, 4 of this roadmap; AlgebraicModularFormsAndSerreWeights (Layer R15.2; Layer R15.5; Layer R15.6); AutomorphicGaloisRepresentations (Layers 1–2; §§6.10–6.12); DeformationAndDerivedPatchingAlgebra (Layer 3; Layer 4; Layer 5); GL2AutomorphicRepresentationsAndTransfer (§§R17.4.1–R17.4.11, R17.6.19); GlobalGaloisDeformations (§§3.3–3.8; Layer R04.5; Layer R04.6); LocalGaloisDeformationRings (Layer 2; Layer 3; Layer 4; Layer 5; Layer 8); ClassicalSerreModularity (`I.0/soluble-totally-real-base-change`; `I.1/residually-irreducible-ordinary-lifting`; `I.2/same-weight-crystalline-lifting`); OrdinaryAutomorphicFormsAndModularityLifting (§5.8); PadicHodgeTheory (§6.4); SerreWeightAndLevelOptimisation (Layer 3; Layer 4; §§6.6–6.11).
 
 ## Layer 6: Dyadic lifting and Hypothesis (H)
 
@@ -2857,7 +2760,7 @@ Layers 7, 8, 9, 10, 11 of this roadmap; ArithmeticGaloisRepresentations (Layer 1
 
 ## Downstream consumers
 
-PotentialModularityAndCompatibleSystems uses the `α/β` predicates (§1.2, §1.3), the minimal-level and patching layers (Layers 1–4), Khare–Wintenberger I Theorem 4.1 (§5.18, §6.16), Hypothesis (H) (§6.10) and the transfer statements (Layer 12). It imports `cht_soluble_prescribed_completions` from §1.7 for its §2.16 and retains its application adapters. Its uses of §12.3, including the Pan alternatives of its §§13.2–13.3, assume LC in addition to the applicable LL1–LL3 and CC1–CC5; its Khare–Wintenberger alternatives do not acquire LC. The rational-field application contracts of ClassicalSerreModularity §I.2 are compared with §§5.18 and 6.16. Its modern applications require the branch’s LL/CC hypotheses and LC for Pan, in addition to the checks of §8.9; the dyadic family alternative requires a cuspidal residual modularity witness. These conditional exports supply a conditional version of an application unless those hypotheses are separately proved. ClassicalSerreModularity §I.1 is also the upstream standalone ordinary supplier. ModularityAndLanglandsExtensions uses the lifting theorems of Layers 5 and 6.
+PotentialModularityAndCompatibleSystems uses the `α/β` predicates (§1.2, §1.3), the minimal-level and patching layers (Layers 1–4), Khare–Wintenberger I Theorem 4.1 (§5.18, §6.16), Hypothesis (H) (§6.10) and the transfer statements (Layer 12). It imports `cht_soluble_prescribed_completions` from §1.7 for its §2.16 and retains its application adapters. Its uses of §12.3, including the Pan alternatives of its §§13.2–13.3, assume LC in addition to the applicable LL1–LL3 and CC1–CC5; its Khare–Wintenberger alternatives do not acquire LC. The rational-field application contracts of ClassicalSerreModularity §I.2 are compared with §§5.18 and 6.16. Its modern applications require the branch’s LL/CC hypotheses and LC for Pan, in addition to the checks of §8.9; the dyadic family alternative requires a cuspidal residual modularity witness. These conditional exports supply a conditional version of an application unless those hypotheses are separately proved. ClassicalSerreModularity §I.1 is also the upstream standalone ordinary supplier. ModularityAndLanglandsExtensions uses the lifting theorems of Layers 5 and 6. SerreModularityByCompatibleSystems uses §§7.7, 8.8–8.9, 9.3, 10.15 and 12.1–12.5, with the hypotheses LL1–LL3, CC1–CC5 and LC discharged there, in its proof of Serre's conjecture.
 
 ## Corrections to the sources
 
@@ -2874,8 +2777,6 @@ These corrections are used in the statements above; each is stated in our own wo
 - **E9** (Dieulefait–Pacetti, Lemma 1.13, torus-normaliser case, p. 8). The group-theoretic step is false as printed (`H =` ⟨−I, W⟩ is normal in ⟨diag(1, −1), W⟩ but not diagonal); diagonalise H itself instead. The lemma is used through ArithmeticGaloisRepresentations Layer 4, whose proof avoids this step.
 - **E10** (Dieulefait–Pacetti, Theorem 1.7, published p. 5). `ψ` must have finite order in `det ρ = ψε^{k−1}`, as in Skinner–Wiles (§7.4, Layer 11).
 - **E11** (Tung, dyadic, arXiv v3, Theorem 8.0.3(3) p. 38). Total oddness is a condition on the characteristic-zero lift, `det ρ(c_v) = −1` (§9.2).
-- **E12–E17** (Conrad–Diamond–Taylor, §§2 and 5–6, corrected in BCDT §10, author pp. 77–78). Use the levels `U′_{S,q} = V′_{S,q} = U₁(q^{c_q})` at `q ∈ T(ρ̄)` (and `U_{S,q}, V_{S,q}` elsewhere), the module `L′_S` with `M_ℓ` and the dual local system, Serre's coefficient `L_n ⊗ k`; require V′ normal in V in Lemma 6.1.2(4); use the ℓ-adic topology on `M_p`; use the level `U_r` at p and the quotient `V₀/V₁` in §6.4; delete the unused semisimplicity claim of §2; and correct the labels at pp. 537–541 (§5.2, §5.12–§5.13).
-- **E18** (CDT pp. 552–554). The elliptic-curve consequences need j(E) ≢ 1728 mod ℓ for ℓ `≥ 5` and hold up to isogeny; they are not used here.
 
 ## Scope and ownership
 
@@ -2951,9 +2852,9 @@ Grunwald–Wang (Layer R02.4) and finite-order determinant twists, global Euler 
 
 The commutative algebra of patching: flat completion and finite modules (Layer 1), Cohen–Macaulay, depth and regularity comparisons (Layer 3), finiteness from faithful finite modules (Layer 4), Kisin's domain-case patching datum and its limits and finite stabilization (Layer 5), and faithfulness, support and component conclusions (Layer 6). The single free-module consumer theorem §5.6, `patching_surjection_iso`, with §5.5’s depth comparison, supplies integral `R ≅ T`, module freeness and a complete-intersection presentation when the arithmetic data have equal scalar and presentation variable counts. Its finite-level inputs are independent; transition maps between the original Taylor–Wiles levels are not hypotheses. The supplier interface follows the Imperial College London FLT project.
 
-*Uses.* §§5.5–5.6, `patching_surjection_iso` (§4.2, formally smooth case); §§1.1–1.5, 5.2–5.4 (§3.4a); §§5.3–5.4 (§8.1); §1.13 (§1.11, §1.12, §1.14); §3.9 (§4.2); §§3.1–3.3, 6.1 (§3.5); §6.1 (§3.5); §§3.1–3.3 (§3.7, §4.2, §5.6, §6.11, §6.14); §§3.4–3.5 (§4.2, §5.13); §3.3 (§3.5, §3.7, §6.11); §3.3 (§4.2); §3.1 (§4.2); §3.9 (§4.2); §§3.11–3.13 (§8.3, §8.5); §3.2 (§3.7, §6.12); §4.6 (§5.6); §§3.3, 4.1 (§3.6); Layer 5 (§5.13); §§5.6–5.7 (§3.1, §3.3, §3.4, §6.4); §5.2 (§3.3); §5.7 (§3.7, §5.6); §5.6 (§3.1, §3.2); §§5.5–5.7 (§3.5); §5.6 (§3.4); §5.3 (§3.3); Layer 6 (§10.11, §10.13); §6.7 (§4.4, §6.13); §§6.7–6.8 (§8.3, §8.5); §6.1 (§6.13); §§6.4–6.5 (§3.7, §4.2, §4.5, §6.13, §6.14); §6.1 (§4.4); §6.3 (§3.7, §6.14); §§6.1–6.5 (§3.5, §4.4); §6.1 (§4.5, §9.1); §6.7 (§4.4); §6.2 (§9.1); §6.4 (§4.2); §6.4 (§4.4); §§6.4–6.5 (§4.2); §§6.4–6.5 (§4.2); §6.5 (§6.14); §6.5 (§4.5); §6.5 (§4.5); §6.5 (§3.7, §6.14).
+*Uses.* §§5.5–5.6, `patching_surjection_iso` (§4.2, formally smooth case); §§1.1–1.5, 5.2–5.4 (§3.4a); §§5.3–5.4 (§8.1); §1.13 (§1.11, §1.12, §1.14); §3.9 (§4.2); §§3.1–3.3, 6.1 (§3.5); §6.1 (§3.5); §§3.1–3.3 (§3.7, §4.2, §5.6, §6.11, §6.14); §§3.4–3.5 (§4.2); §3.3 (§3.5, §3.7, §6.11); §3.3 (§4.2); §3.1 (§4.2); §3.9 (§4.2); §§3.11–3.13 (§8.3, §8.5); §3.2 (§3.7, §6.12); §4.6 (§5.6); §§3.3, 4.1 (§3.6); §§5.6–5.7 (§3.1, §3.3, §3.4, §6.4); §5.2 (§3.3); §5.7 (§3.7, §5.6); §5.6 (§3.1, §3.2); §§5.5–5.7 (§3.5); §5.6 (§3.4); §5.3 (§3.3); Layer 6 (§10.11, §10.13); §6.7 (§4.4, §6.13); §§6.7–6.8 (§8.3, §8.5); §6.1 (§6.13); §§6.4–6.5 (§3.7, §4.2, §4.5, §6.13, §6.14); §6.1 (§4.4); §6.3 (§3.7, §6.14); §§6.1–6.5 (§3.5, §4.4); §6.1 (§4.5, §9.1); §6.7 (§4.4); §6.2 (§9.1); §6.4 (§4.2); §6.4 (§4.4); §§6.4–6.5 (§4.2); §§6.4–6.5 (§4.2); §6.5 (§6.14); §6.5 (§4.5); §6.5 (§4.5); §6.5 (§3.7, §6.14).
 
-*Arithmetic refinements.* Simultaneous arithmetic module patching over the fixed ambient avoidance rings, with common special fibre, scalar actions and augmentations (§3.4a), uses finite stabilization without a domain assumption. The ambient dyadic construction of §6.7a likewise uses §§5.2–5.4 for finite decorated limits and §§6.1–6.2 for support on components and specialization; its arithmetic modules and determinant-twist comparisons are constructed here. The classical numerical criterion of Wiles–Lenstra and Taylor–Wiles in the form of CDT Theorem 5.4.2 and §§5.5–5.6: an `𝒪`-flat deformation-to-Hecke surjection with controlled cotangent and congruence lengths, a self-dual finite free coefficient module with perfect pairing, residually injective level-change maps, explicit local congruence factors and free auxiliary diamond actions give the isomorphism, the complete-intersection property and freeness (§5.13); neither the characteristic-zero patching criterion nor Kawasaki's blow-up algebra of the roadmap's Part II states it. Pan Proposition 5.4.7's connectedness-dimension bound for completed local rings with g variables and r relations, with the localisation–completion comparison and the bound `c ≥ 2[F : ℚ] − 1` of Pan §7.4, at extension points and at the irreducible ordinary prime of Pan Lemma 7.4.8 (§10.11, §10.13).
+*Arithmetic refinements.* Simultaneous arithmetic module patching over the fixed ambient avoidance rings, with common special fibre, scalar actions and augmentations (§3.4a), uses finite stabilization without a domain assumption. The ambient dyadic construction of §6.7a likewise uses §§5.2–5.4 for finite decorated limits and §§6.1–6.2 for support on components and specialization; its arithmetic modules and determinant-twist comparisons are constructed here. Pan Proposition 5.4.7's connectedness-dimension bound for completed local rings with g variables and r relations, with the localisation–completion comparison and the bound `c ≥ 2[F : ℚ] − 1` of Pan §7.4, at extension points and at the irreducible ordinary prime of Pan Lemma 7.4.8 (§10.11, §10.13).
 
 ### From FiniteFlatGroupsAndIntegralPadicHodgeTheory
 
@@ -2961,19 +2862,11 @@ Crystalline representations with Hodge–Tate weights {0, 1} arise from p-divisi
 
 *Uses.* §R07.4.20 (§6.10).
 
-### From ModularCurvesPartII
-
-Coefficient cohomology of modular curves (§§14.1–14.15) and its Hecke and level-change package (§§15.7–15.8, 17.8–17.10).
-
-*Uses.* §§14.1–14.15 (§5.2, §5.12); §§15.7–15.8, 17.8–17.10 (§5.2, §5.13).
-
-*Arithmetic refinements.* The finite compact type-lattice coefficient systems of corrected CDT §6.2 and BCDT §10: the local system uses the `𝒪`-dual of `M_ℓ`, Serre's group-cohomology coefficient is `L_n ⊗ k`, descent requires V′ normal in V with ℓ-adic continuous coefficient action, exactness after non-Eisenstein localisation, and the corrected levels `U′_{S,q} = V′_{S,q} = U_1(q^{c_q})` at `q ∈ T(ρ̄)`, unchanged at the other primes, followed by the spherical comparison level `U′_S GL₂(ℤ_ℓ)` and induction back to `U₀(ℓ)` in the irreducible-type branch (§5.2, §5.12). The type-sensitive finite free localised H¹ with its perfect integral pairing, residually injective level changes, local congruence factors and free auxiliary diamonds of corrected CDT §§5.5–6.4, including the `w_ℓ = 1` summand for an extended type in ordinary and compactly supported cohomology (§5.2, §5.13).
-
 ### From AlgebraicModularFormsAndSerreWeights
 
 Integral lattices and reduction of eigenforms (Layer R15.2), reduction to weight at least two (Layer R15.5), and the residual predicates `ArisesFrom` and `IsModular` of §7.5, “S-type and modularity predicates” (Layer 7, named R15.6 there), with their integral-model, coefficient-place and maximal-Hecke-ideal comparisons. Over `ℚ` these are the attachment and residual-modularity predicates throughout this roadmap, including Layers 7–12; no second attachment predicate is introduced.
 
-*Uses.* §7.5 (Layer R15.6), “S-type and modularity predicates” (Conventions, §§1.2–1.3 over `ℚ`, §5.5, Layers 7–12); Layer R15.2, “Integral q-expansion and coherent Hecke theory” (§5.2, §5.5); Layer R15.5, “Deligne–Serre eigenvalue lifting” (§5.5).
+*Uses.* §7.5 (Layer R15.6), “S-type and modularity predicates” (Conventions, §§1.2–1.3 over `ℚ`, §5.5, Layers 7–12); Layer R15.2, “Integral q-expansion and coherent Hecke theory” (§5.5); Layer R15.5, “Deligne–Serre eigenvalue lifting” (§5.5).
 
 ### From PadicHodgeTheory
 
@@ -3003,23 +2896,23 @@ Global Jacquet–Langlands (§§R17.3.1–R17.3.9) and solvable base change and 
 
 Global deformation data and presentations (§§3.3–3.8), twisting, free-action quotients and the determinant torsor (Layer R04.4), Taylor–Wiles primes and inertia actions (Layer R04.5), and Khare–Wintenberger lifting data with their dyadic patching data (Layer R04.6). The common deformation-to-Hecke interface is §6.7, `HeckeGaloisDatum`, with `classifying_surjective` and `classifying_unique`; §6.8 supplies `ofPoints` and `mem_of_points`. This roadmap constructs the arithmetic inputs and uses those maps and comparison theorems.
 
-*Uses.* §§6.7–6.8 (§§1.1, 1.4–1.5, 1.9–1.10; §§2.4, 2.10–2.11 after the trace-algebra comparison); §§3.3–3.8 (§10.7, §10.10, §10.11, §10.12, §10.13); §3.8 (§4.2); §3.7 (§4.2, §5.13); Layer R04.4 (§9.2, §10.10, §10.14); §4.11 (§6.7); §4.6 (§6.6, §6.7, §6.11); §4.7 (§6.1, §6.4, §6.6); §4.10 (§6.3, §6.4); §4.9 (§2.9); §5.2 (§5.4, §5.7, §5.8); §5.1 (§2.1); §5.5 (§2.6, §2.7, §2.9); §6.6 (§2.9, §6.1, §6.3, §6.4); §6.3 (§1.5, §2.4); §6.1 (§1.1, §1.2, §1.3, §5.4, §6.2); §6.5 (§3.1, §3.5); §6.4 (§2.8, §3.1, §3.2); §6.2 (§1.5, §1.9, §2.10).
+*Uses.* §§6.7–6.8 (§§1.1, 1.4–1.5, 1.9–1.10; §§2.4, 2.10–2.11 after the trace-algebra comparison); §§3.3–3.8 (§10.7, §10.10, §10.11, §10.12, §10.13); §3.8 (§4.2); §3.7 (§4.2); Layer R04.4 (§9.2, §10.10, §10.14); §4.11 (§6.7); §4.6 (§6.6, §6.7, §6.11); §4.7 (§6.1, §6.4, §6.6); §4.10 (§6.3, §6.4); §4.9 (§2.9); §5.2 (§5.4, §5.7, §5.8); §5.1 (§2.1); §5.5 (§2.6, §2.7, §2.9); §6.6 (§2.9, §6.1, §6.3, §6.4); §6.3 (§1.5, §2.4); §6.1 (§1.1, §1.2, §1.3, §5.4, §6.2); §6.5 (§3.1, §3.5); §6.4 (§2.8, §3.1, §3.2); §6.2 (§1.5, §1.9, §2.10).
 
 *Arithmetic refinements.* Pan's determinant-fixed pseudodeformation functor lifting `1 + χ̄` with the tame inertia condition `ξ_v + ξ_v^{−1}`, its representability, the comparisons at irreducible characteristic-zero points and at one-dimensional nonsplit-lattice primes (Pan Corollaries 2.2.3 and 2.3.7), the characteristic-zero extension deformation ring `R_B` with its trace map and the height-at-most-one comparison (§10.1–§10.4, §10.7, §10.11, §10.13). Pan §2’s completion and height-at-most-one comparisons for the pseudodeformation ring, built on the generalized matrix algebras and reducibility ideals of §0.2 (§10.1, §10.2, §10.4, §10.13). Euler-characteristic presentations at nonsplit extension points, the bound `dim R_B^{red} ≤ 1 + δ_F + dim H¹` for the reducible locus (a closed subscheme, not the nilradical quotient), and the trace-cut prime selection of Pan §7.2.4 and Corollary 7.4.22 (§10.10–§10.12). Solvable field selection and restriction for Tung Theorem 8.0.3 and Pan §§7.1.2, 7.2.5 and 7.4.2, and preservation of nonsolvable residual image under finite solvable Galois extensions of an arbitrary totally real field (§9.2, §9.3, §10.10, §10.14).
 
 ### From LocalGaloisDeformationRings
 
-Local framed deformation rings with fixed determinant, Ihara-avoidance rings and components (Layer 2), BCDT type rings (Layer 3), Barsotti–Tate components (Layers 4–5), and the Fontaine–Laffaille, ordinary, endpoint, archimedean and away-from-p rings with their completed tensor product (Layer 8).
+Local framed deformation rings with fixed determinant, Ihara-avoidance rings and components (Layer 2), type rings (Layer 3), Barsotti–Tate components (Layers 4–5), and the Fontaine–Laffaille, ordinary, endpoint, archimedean and away-from-p rings with their completed tensor product (Layer 8).
 
-*Uses.* §§F.1.1–F.2.11 (generic deformation functors for §10.1); §§F.2.5–F.2.11 (§10.1, §10.2, §10.4, §10.7, §10.11, §10.13); §F.2.7 (§2.11); §F.2.6 (§1.11); §F.2.5 (§1.5); §2.15 (§3.4a, §4.1, §4.3–§4.4, §5.7); §2.29 (§4.3); Layer 3 (§5.2, §8.2); §3.12 (§5.2, §5.12, §5.14, §5.15); §3.1 (§7.1, §7.2, §7.3, §7.4, §7.6); §3.10 (§1.4, §4.2, §5.8); §3.4 (§8.3, §8.6); §3.9 (§8.2, §8.3); Layer 4 (§5.6, §5.7, §6.8); §4.14 (§5.1, §5.6, §5.7, §6.8); §5.3 (§6.8, §6.15); §5.2 (§6.8, §6.15); §5.13 (§6.8, §6.15); Layer 8 (§1.4, §4.2, §5.8, §10.8, §10.9, §10.13); §8.7 (§6.2); §8.8 (§6.8); §8.17 (§5.4, §6.11, §6.12); §8.15 (§5.9); §8.3 (§5.8); §8.13 (§5.9, §6.15); §8.2 (§5.4).
+*Uses.* §§F.1.1–F.2.11 (generic deformation functors for §10.1); §§F.2.5–F.2.11 (§10.1, §10.2, §10.4, §10.7, §10.11, §10.13); §F.2.7 (§2.11); §F.2.6 (§1.11); §F.2.5 (§1.5); §2.15 (§3.4a, §4.1, §4.3–§4.4, §5.7); §2.29 (§4.3); Layer 3 (§8.2); §3.1 (§7.1, §7.2, §7.3, §7.4, §7.6); §3.10 (§1.4, §4.2, §5.8); §3.4 (§8.3, §8.6); §3.9 (§8.2, §8.3); Layer 4 (§5.6, §5.7, §6.8); §4.14 (§5.1, §5.6, §5.7, §6.8); §5.3 (§6.8, §6.15); §5.2 (§6.8, §6.15); §5.13 (§6.8, §6.15); Layer 8 (§1.4, §4.2, §5.8, §10.8, §10.9, §10.13); §8.7 (§6.2); §8.8 (§6.8); §8.17 (§5.4, §6.11, §6.12); §8.15 (§5.9); §8.3 (§5.8); §8.13 (§5.9, §6.15); §8.2 (§5.4).
 
-*Arithmetic refinements.* The Fontaine–Laffaille application uses the general unramified theorem of §3.10: trivial inertial type, regular labelled weights of width at most `p−2`, Fontaine–Laffaille residual data and a nonempty compatible fixed determinant give relative dimension `d²−1+[F_v:ℚ_p]d(d−1)/2`, hence `3+[F_v:ℚ_p]` in rank two (§1.4, §4.2, §5.8). The local smoothness theorem remains with that supplier. The transport of the Barsotti–Tate component criteria to fixed determinant and fixed type after Kisin's base changes, keeping the residual quotient character on ordinary components and the residue-field or trivial-action hypotheses on nonordinary ones (§5.6, §5.7, §6.8). The full BCDT admission predicate (integral type lattice, admitting constituent, inertia alternatives, peu and très ramifié cases, extended types) and the corrected generic-reducedness and smoothness criteria of Gee–Kisin B.4 (§5.2, §5.12, §5.13, §8.2, §8.5). Pan's local pseudo-ring case table: the generic ordinary ideal is principal; the scalar ring `𝒪⟦t₁, t₂, t₃⟧` with its chosen-character ordinary cover `𝒪⟦x₁, x₂⟧`; and the cyclotomic node `𝒪⟦x₀, x₁, y₀, y₁⟧/(x₀y₁ − x₁y₀)` for `p ≥ 5` with ordinary ideal `(x₀, x₁)`, principal away from the singular point (§10.8, §10.9, §10.13).
+*Arithmetic refinements.* The Fontaine–Laffaille application uses the general unramified theorem of §3.10: trivial inertial type, regular labelled weights of width at most `p−2`, Fontaine–Laffaille residual data and a nonempty compatible fixed determinant give relative dimension `d²−1+[F_v:ℚ_p]d(d−1)/2`, hence `3+[F_v:ℚ_p]` in rank two (§1.4, §4.2, §5.8). The local smoothness theorem remains with that supplier. The transport of the Barsotti–Tate component criteria to fixed determinant and fixed type after Kisin's base changes, keeping the residual quotient character on ordinary components and the residue-field or trivial-action hypotheses on nonordinary ones (§5.6, §5.7, §6.8). The corrected generic-reducedness and smoothness criteria of Gee–Kisin B.4 (§8.2, §8.5). Pan's local pseudo-ring case table: the generic ordinary ideal is principal; the scalar ring `𝒪⟦t₁, t₂, t₃⟧` with its chosen-character ordinary cover `𝒪⟦x₁, x₂⟧`; and the cyclotomic node `𝒪⟦x₀, x₁, y₀, y₁⟧/(x₀y₁ − x₁y₀)` for `p ≥ 5` with ordinary ideal `(x₀, x₁)`, principal away from the singular point (§10.8, §10.9, §10.13).
 
 ### From AutomorphicGaloisRepresentations
 
 Representations attached to classical and Hilbert eigenforms, including weight one (Layers 1–3), absolute irreducibility for classical newforms (§4.8), local behaviour at `Σ` and above p (§§4.4–4.9), the Hecke-algebra representation for quaternionic forms (§§6.10–6.12), and the fixed-eigenform family over a common coefficient field with common good Frobenius polynomials (§7.3).
 
-*Uses.* §7.3 (§12.6, §12.7, §12.8); §1.5 (§12.8); §§1.2–1.4 (§5.2); §2.10 (§7.11); §§3.10–3.14 (§1.2, §1.3, §1.6, §7.9); §4.8 (§12.6, §12.7, §12.8); §§4.5–4.9 (§8.2); §§4.5–4.7, 4.9 (§7.1, §7.2, §7.3, §7.4, §7.9, §7.11, §8.2); §§6.10–6.12 (§1.4, §1.5, §2.5, §2.7, §5.7, §5.9, §5.10); §6.10 (§1.4, §1.5, §2.4, §2.6).
+*Uses.* §7.3 (§12.6, §12.7, §12.8); §1.5 (§12.8); §2.10 (§7.11); §§3.10–3.14 (§1.2, §1.3, §1.6, §7.9); §4.8 (§12.6, §12.7, §12.8); §§4.5–4.9 (§8.2); §§4.5–4.7, 4.9 (§7.1, §7.2, §7.3, §7.4, §7.9, §7.11, §8.2); §§6.10–6.12 (§1.4, §1.5, §2.5, §2.7, §5.7, §5.9, §5.10); §6.10 (§1.4, §1.5, §2.4, §2.6).
 
 *Arithmetic refinements.* The tame-inertia identity at a Taylor–Wiles place (§1.4, §2.5, §2.7). Cuspidal Hilbert automorphic representations with their weight and conductor invariants and residual representations, for the `α/β` predicates, with exact transport of weight, determinant and residual representation under finite-order twists (§1.2, §1.3, §1.6, §7.9). KW II Lemma 7.7 and Corollary 7.8 above p, purity at the potentially semistable automorphic points used in Gee–Kisin B.5.1, and the finite-order global twist that takes a potentially semistable noncrystalline case over `ℚ` to type (C) (§5.18, §8.2). The newform system with common coefficient field, good Frobenius polynomials, oddness and the weight convention (Layer 12).
 
@@ -3027,7 +2920,7 @@ Representations attached to classical and Hilbert eigenforms, including weight o
 
 The weight part of Serre's conjecture over `ℚ` (Layers 3–4), Buzzard's dyadic results (Layer 5) and the totally real optimisation of KW II §8 (§§6.6–6.11).
 
-*Uses.* §3.7 (§5.5, §5.12, §5.17); §3.14 (§5.17); Layer 4 (§5.17); §4.2 (§5.5, §5.12); §4.7 (§5.5); §§6.6–6.11 (§5.5, §5.7, §5.10, §5.11, §6.9, §8.1, §8.4, §8.5, §8.6, §12.4); §6.6 (§1.6, §1.8); §6.11 (§1.1, §5.4, §6.15).
+*Uses.* §3.7 (§5.5, §5.17); §3.14 (§5.17); Layer 4 (§5.17); §4.2 (§5.5); §4.7 (§5.5); §§6.6–6.11 (§5.5, §5.7, §5.10, §5.11, §6.9, §8.1, §8.4, §8.5, §8.6, §12.4); §6.6 (§1.6, §1.8); §6.11 (§1.1, §5.4, §6.15).
 
 *Arithmetic refinements.* The type and level changes of definite quaternionic eigenforms used by Kisin (his 2-adic Lemmas (3.3.1)–(3.3.4), his Annals (3.1.6), (3.5.2), (3.5.3)) and Diamond's potentially ordinary modular lift; Gee's auxiliary smooth type `σ̃_i` with `σ_i` in its reduction and the localised comparison `S_{σ̃_i,ψ}(U, 𝒪)_𝔪 ⊗ k ≅ S_{σ_i,ψ}(U, k)_𝔪` (§5.7, §5.10, §5.11, §6.9, §8.4, §8.6). For §5.5 at small primes: at `p = 2 a` modular `ρ̄` of nonsolvable image comes from `S₂(Γ₁(N))` with N odd when `k(ρ̄) = 2`, and from weight two with 2-adic level valuation at most one when `k(ρ̄) = 4`; at `p = 3` removal of the 3-part of the level and weight two at level 3N when `N ≤ 3`. Over `ℚ`, for `k = p + 1` with residual weight two, the weight-two realisation at level prime to p combined with Hasse multiplication and Deligne–Serre lifting supplies the matching-weight seed for the imported crystalline theorem (§5.17). The weight-part theorem for an already modular representation that Kisin's proof uses (Gee, Automorphic lifts of prescribed types, Theorem 4.4.12 as Kisin cites it; Theorem 4.6.9 in the author PDF), and the restricted weight-part theorem for Emerton's CM-induced residual representation, both kept distinct from Serre's conjecture (§8.6, §12.4).
 
@@ -3080,8 +2973,6 @@ where cohomology is continuous, the coefficient module is discrete and ∨ is Po
 - **Gee, MLT** — T. Gee, [Modularity lifting theorems](https://arxiv.org/pdf/2202.05818v2), Essent. Number Theory 1 (2022), 73–126.
 - **Gee, types** — T. Gee, [Automorphic lifts of prescribed types](https://www.ma.imperial.ac.uk/~tsg/Index_files/prescribedlifts.pdf), Math. Ann. 350 (2011), 107–144. Author PDF; its weight theorem is numbered 4.6.9.
 - **CHT** — L. Clozel, M. Harris and R. Taylor, [Automorphy for some ℓ-adic lifts of automorphic mod ℓ Galois representations](https://www.numdam.org/item/10.1007/s10240-008-0016-1.pdf), Publ. Math. IHÉS 108 (2008), 1–181.
-- **CDT** — B. Conrad, F. Diamond and R. Taylor, [Modularity of certain potentially Barsotti–Tate Galois representations](https://math.stanford.edu/~conrad/papers/cdtmaster.pdf), J. Amer. Math. Soc. 12 (1999), 521–567. Author copy.
-- **BCDT** — C. Breuil, B. Conrad, F. Diamond and R. Taylor, [On the modularity of elliptic curves over Q: wild 3-adic exercises](https://virtualmath1.stanford.edu/~conrad/papers/tswfinal.pdf), J. Amer. Math. Soc. 14 (2001), 843–939. Author copy and pagination.
 - **DP** — L. V. Dieulefait and A. M. Pacetti, [A simplified proof of Serre's conjecture](https://arxiv.org/pdf/2108.07577v2), arXiv:2108.07577v2; published as Rev. R. Acad. Cienc. Exactas Fís. Nat. Ser. A Mat. 117 (2023), article 153 ([publisher PDF](https://link.springer.com/content/pdf/10.1007/s13398-023-01478-8.pdf)).
 - **Emerton, LGC** — M. Emerton, [Local-global compatibility in the p-adic Langlands programme for GL₂/ℚ](http://www.math.uchicago.edu/~emerton/pdffiles/lg.pdf), preprint, draft of 23 March 2011.
 - **Paškūnas, BM** — V. Paškūnas, [On the Breuil–Mézard conjecture](https://arxiv.org/pdf/1209.5205v3), Duke Math. J. 164 (2015), 297–359.

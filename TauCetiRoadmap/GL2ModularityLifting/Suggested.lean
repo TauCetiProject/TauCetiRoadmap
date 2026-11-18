@@ -21,7 +21,7 @@ The other headline results require arithmetic objects absent from the pins:
 * Layers 1–4's arithmetic patching, support, finiteness and integral or generic-fibre `R = T`
   use global and local deformation rings, definite quaternionic Hecke modules and their
   Hecke–Galois datum.
-* Layers 5–6's Khare–Wintenberger, Kisin, Fontaine–Laffaille and BCDT lifting theorems,
+* Layers 5–6's Khare–Wintenberger, Kisin and Fontaine–Laffaille lifting theorems,
   including KW I Theorem 4.1 and Hypothesis (H), need p-adic Hodge conditions and the Galois
   representations attached to classical and Hilbert eigenforms.
 * Layers 7–11's regular de Rham, dyadic, residually reducible and ordinary-three lifting
