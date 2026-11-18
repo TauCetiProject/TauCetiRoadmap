@@ -1,12 +1,76 @@
 # Topological K-theory of vector bundles
 
-Build real and complex topological K-theory as usable functors of spaces and pairs,
-with bundle operations, compact supports, complex Bott periodicity, complex Thom
-isomorphisms and compact-Lie-group equivariance. The basic objects are actual
-finite-rank Mathlib vector bundles and their isomorphisms. Virtual classes must
-retain their rank information and relative classes must retain their gluing map.
-The endpoint includes the support and associated-bundle products needed to turn
-an elliptic symbol into topological data.
+**Summary.** Topological K-theory studies a space through its vector bundles.
+Bundles over a space X add by direct sum and multiply by tensor product.
+Adjoining formal negatives gives a commutative ring K(X) from complex bundles,
+and a ring KO(X) from real ones. Both are homotopy invariants of X and extend to
+ℤ-graded cohomology theories. This roadmap builds complex and real K-theory from
+Mathlib's vector bundles of finite rank, with relative, compactly supported and
+equivariant versions.
+
+The basic rings K⁰(X) and KO⁰(X) are defined over every paracompact Hausdorff
+space, and the rank of a bundle need only be locally constant. Otherwise a
+statement with no broader hypothesis on its base concerns a compact Hausdorff
+space, and relative groups are taken for a compact space and a closed subspace.
+Compactly supported groups, defined for locally compact Hausdorff spaces, are
+kept apart from the ordinary ones: K⁰(ℝ) is ℤ, while the compactly supported
+group of ℝ is 0.
+
+The first main theorem is complex Bott periodicity. Let L be the tautological
+line bundle on S² = CP¹ and β = [L] − 1. For every compact Hausdorff X, the map
+(a,b) ↦ a⊠1 + b⊠β, built from external products, is an isomorphism from
+K(X) ⊕ K(X) onto K(X × S²). In particular K(S²) = ℤ[β]/(β²). Atiyah and Bott's
+elementary proof approximates clutching functions by Laurent polynomials,
+linearizes them and splits them by a spectral projection, with no index
+theorem. The result is a ℤ-graded theory of period two with coefficients
+ℤ[u,u⁻¹], u in degree −2.
+
+The second is the Thom isomorphism. A complex vector bundle E of finite rank
+over X carries a Koszul class on its total space, given by a complex of
+exterior powers of the dual bundle E* that is exact away from the zero section.
+On the zero section it restricts to λ₋₁(E*), the alternating sum of the
+exterior powers of E*. Multiplication by this class is an isomorphism from the
+compactly supported K-theory of X onto that of E.
+
+The third makes the Thom isomorphism equivariant for a compact Lie group G. In
+particular, for a complex representation V of G, the compactly supported
+equivariant K-theory of V is isomorphic to the representation ring R(G), also
+when G acts nontrivially on V. Segal stated this but proved it only for abelian
+G. Here the general case is reduced to line bundles by a transfer built from a
+family of Dolbeault operators on CP^(r−1).
+
+The fourth is real Bott periodicity. There is a class b in KO^(−8) of a point
+such that, for every compact pair (X,Y) and every integer n, multiplication by
+b is an isomorphism KO^n(X,Y) ≅ KO^(n−8)(X,Y). The coefficient ring is
+ℤ[η,a,b,b⁻¹]/(2η,η³,ηa,a²−4b), with η, a and b in degrees −1, −4 and −8, so
+KO^(−n) of a point is ℤ, ℤ/2, ℤ/2, 0, ℤ, 0, 0, 0 for n = 0,…,7. The proof
+uses Atiyah's Real K-theory of spaces with an involution. Read on the
+orthogonal groups, it says that for i ≥ 1 and n ≥ i + 2, π_i(O(n)) is ℤ/2
+when i ≡ 0 or 1 mod 8, ℤ when i ≡ 3 or 7, and 0 otherwise. The companion
+Lean file states this last theorem as a target.
+
+Within Tau Ceti the roadmap builds on the library's finite Grassmannians,
+constant-rank bundles and group completion.
+[AlgebraicTopology](../AlgebraicTopology/README.md) supplies CW pairs and the
+long exact sequence of homotopy groups.
+[SpinRepresentations](../RepresentationTheory/SpinRepresentations/README.md)
+supplies the Clifford algebras behind real periodicity, and
+[CompactGroups](../RepresentationTheory/CompactGroups/README.md) supplies Haar
+averaging for the equivariant theory.
+[CharacteristicClasses](../CharacteristicClasses/README.md) and
+[GeneralizedCohomology](../GeneralizedCohomology/README.md) use the
+Grassmannians and classifying spaces built here. The index theorem for closed
+manifolds, not proved here, uses the relative, equivariant and Thom
+constructions.
+
+The first of the seven layers builds the category of bundles and proves its
+homotopy invariance. It also classifies bundles of fixed rank over paracompact
+Hausdorff bases by maps into infinite Grassmannians. The second defines the
+K-rings, with exterior powers and Adams operations, and the third adds relative
+and compactly supported groups. The fourth and fifth prove complex Bott
+periodicity and the Thom isomorphism. The sixth develops equivariant K-theory,
+ending with the products that turn an elliptic symbol into topological data.
+The seventh treats real K-theory and closes with explicit calculations.
 
 ## Scope, carriers and suppliers
 

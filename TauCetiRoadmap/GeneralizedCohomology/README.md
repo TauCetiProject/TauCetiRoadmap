@@ -1,25 +1,61 @@
 # Roadmap: generalized cohomology, spectra and orientations
 
-**Summary.** This roadmap builds the stable algebraic topology needed to use cohomology
-theories rather than only singular cohomology: integer-graded reduced and relative theories and
-their products (G1); a concrete spectral model, symmetric spectra of pointed simplicial sets
-with the stable model structure of Hovey, Shipley and Smith, its comparison with spaces and
-sequential spectra, Eilenberg–Mac Lane spectra, the multiplicative infinite-loop machine,
-general classifying spaces, mapping-path replacements and the quasicategorical and monoidal
-foundations these models need (G2); Brown representability, the comparison theorem on
-arbitrary CW complexes, telescopes, the Milnor sequence, phantom maps, Postnikov covers,
-localization and completion (G3); generalized Leray–Hirsch, Thom and Euler theory with real,
-complex and quaternionic orientations (G4); and finite Spanier–Whitehead duality, Thom spectra,
-the canonical ring spectra and orientations, and rational Hurewicz theorems (G5). The pointed
-simplicial sets, symmetric sequences and symmetric spectra are Tau Ceti's; the CW, homotopy-group
-and ordinary-homology substrate is AlgebraicTopology's. The headline theorems are the stable
-model structure and its comparisons, homotopy excision and Freudenthal suspension, Brown
-representability, the comparison theorem, the Milnor sequence, the Thom isomorphism,
-Spanier–Whitehead duality, the Hurewicz–Dold theorem for numerable bundles, and the stable and
-unstable rational Hurewicz theorems. [Suggested.lean](Suggested.lean) is the acceptance test:
-it states the headline theorems that are statable against the pinned Mathlib and Tau Ceti and
-names the others with the carrier each lacks. Implementation homes are
-`TauCeti/AlgebraicTopology/Spectra/` and `TauCeti/AlgebraicTopology/GeneralizedCohomology/`.
+**Summary.** Singular cohomology is one cohomology theory among many. Complex K-theory satisfies
+the same axioms except the dimension axiom: its group on a point is ℤ in degree 0 and again in
+degree −2. Such theories are studied through spectra and their stable homotopy category, which
+this roadmap builds for Tau Ceti. Its theories are integer-graded; its CW complexes may have
+any set of cells and unbounded dimension.
+
+The spectra are symmetric spectra of pointed simplicial sets, which Tau Ceti already has as
+objects; this roadmap supplies their homotopy theory. It first proves the Kan–Quillen model
+structure on simplicial sets, whose weak equivalences are detected by geometric realization. It
+then constructs the stable model structure of Hovey, Shipley and Smith. Its homotopy category is
+triangulated, and the derived smash product makes it closed symmetric monoidal with the sphere
+spectrum S as unit. Naive homotopy groups do not detect stable equivalences: the map
+λ : F₁S¹ → F₀S⁰ is a stable equivalence but not an isomorphism on naive π₀.
+
+Spaces enter through the Freudenthal suspension theorem, derived here from homotopy excision for
+CW complexes. If X is a (k−1)-connected pointed CW complex with k ≥ 1, suspension
+`π_i X → π_(i+1) ΣX` is an isomorphism for 1 ≤ i ≤ 2k−2 and onto for i = 2k−1. For X = S², the
+map π₃S² = ℤ → π₄S³ = ℤ/2 is onto but not injective.
+
+Two theorems relate the theories to spectra and to one another. Brown representability
+says that every integer-graded additive cohomology theory on pointed CW complexes is represented
+by an Ω-spectrum, a sequence of spaces E_n with weak equivalences E_n → ΩE_(n+1); for integral
+cohomology these are the Eilenberg–Mac Lane spaces K(ℤ,n). The comparison theorem says that a map
+of theories, compatible with suspensions and boundaries, that is an isomorphism on a point in
+every degree is an isomorphism on every CW pair. The CW hypothesis matters: the map from singular
+to Steenrod homology is an isomorphism on a point but not on the Warsaw circle.
+
+On vector bundles the main result is the Thom isomorphism. Let E be a multiplicative theory and ξ
+a numerable real vector bundle of rank r and of CW type over B. An E-orientation is a class U in
+E^r(Dξ, Sξ), for the disc bundle relative to the sphere bundle, restricting on each fibre to a
+unit of E⁰(*). Then a ↦ π*a ∪ U is an isomorphism E^q(B) ≅ E^(q+r)(Dξ, Sξ) for every integer q.
+
+Rationally, the roadmap proves Serre's theorem that the positive stable stems are torsion: for
+k ≥ n+3, every element of π_(k+n+1)(Sᵏ) has finite order. It then shows that the Hurewicz map
+`π_n E ⊗ ℚ → H_n(E; ℚ)` is an isomorphism for every spectrum E. Unstably, if π_j X vanishes for
+j < k, with k ≥ 2, the Hurewicz map `π_i X ⊗ ℚ → H_i(X; ℚ)` is an isomorphism for 1 ≤ i ≤ 2k−2
+and onto for i = 2k−1.
+
+The first layer states the axioms for reduced, relative and multiplicative theories, without
+spectra. The second builds the spectral model and the quasicategorical and monoidal foundations
+other roadmaps use. The third proves Brown representability and the comparison theorem, together
+with the Milnor sequence: for a pointed CW complex X that is an increasing union of subcomplexes
+X_i, restriction maps E^q(X) onto lim E^q(X_i) with kernel lim¹ E^(q−1)(X_i). The fourth holds
+the Leray–Hirsch, Thom and Euler theory. The fifth constructs Spanier–Whitehead duality for finite
+spectra and Thom and K-theory spectra such as MU and KU, and ends with the rational theorems.
+
+The roadmap builds on AlgebraicTopology, which supplies CW complexes, homotopy groups and ordinary
+homology. TopologicalKTheory supplies vector bundles and their Bott periodicity; the theories of
+the spectra KU and KO built here agree with its bundle K-theory on finite CW pairs.
+BordismFormalGroups uses the second to fifth layers for formal group laws, and
+EllipticCohomology for tmf and its orientations.
+
+[Suggested.lean](Suggested.lean) states in Lean, with proofs left open, the headline theorems that
+can already be stated over Mathlib and Tau Ceti. It names the others, such as the Thom
+isomorphism, with what each still lacks. The code goes in `TauCeti/AlgebraicTopology/Spectra/`
+and `TauCeti/AlgebraicTopology/GeneralizedCohomology/`.
 
 ## How to read the build
 

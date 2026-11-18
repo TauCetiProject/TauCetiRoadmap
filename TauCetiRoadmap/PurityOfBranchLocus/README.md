@@ -1,41 +1,54 @@
 # Roadmap: purity of the branch locus
 
-**Summary.** This roadmap proves Zariski–Nagata purity of the branch locus (Stacks, Lemma 58.21.4
-(0BMB); SGA 1, Exposé X, Théorème 3.1): a morphism of locally Noetherian schemes that is
-quasi-finite at a point `x` with normal source stalk and regular target stalk of the same dimension
-`≥ 1`, and unramified at every codimension-one point specializing to `x`, is étale at `x`. It proves
-this in a stalkwise form, in the form of the Stacks tag and in an affine form, and derives two
-global consequences: a finite dominant, generically étale morphism from a normal integral scheme to
-a regular integral scheme is étale as soon as it is unramified in codimension one; and, for a
-dominant locally quasi-finite morphism, locally of finite type, from a normal integral scheme to a
-regular integral scheme whose ramification locus is not all of the source, the ramification locus
-and the branch locus are empty or of pure codimension one. The local input is purity for regular local
-rings, from [LocalPurity](../LocalPurity/README.md) §2.1. Everything else the proofs use is at the
-pins: Mathlib has schemes, étale, unramified and quasi-finite morphisms with their stalkwise and
-affine pointwise forms, regular local rings, going down and the dimension formula; Tau Ceti has
-the equivalence of the stalkwise and Stacks forms of "unramified at `x`" for a morphism locally of
-finite type and of "étale at `x`" for a morphism locally of finite presentation, the ramification,
-non-étale and branch loci of a morphism of schemes with their closedness and affine comparisons,
-the permanence of normality, regularity and dimension along étale maps, elementary étale
-localization of a morphism locally of finite type at a point where it is quasi-finite, the
-equality of local dimensions for a dominant locally quasi-finite morphism of integral schemes,
-locally of finite type, onto a normal scheme, the equality of the ramification and non-étale loci
-for a dominant morphism of integral schemes, locally of finite type, onto a locally Noetherian
-normal scheme, normal and regular schemes, the homological theory of regular local rings, and 0BMB
-for finite algebras over regular local rings of dimension one or two.
+**Summary.** The points of X at which a morphism of schemes f : X → Y is not unramified form its
+ramification locus, and their image is its branch locus. Purity of the branch locus, due to Zariski
+and Nagata, says that for X normal and Y regular, under further hypotheses, the ramification locus
+has codimension one at each of its points unless it is all of X. This roadmap proves the local
+theorem behind it, Lemma 58.21.4 of the Stacks Project (tag 0BMB). It then derives the classical
+statement of SGA 1 (Exposé X, Théorème 3.1) and a criterion for a finite cover to be étale. All
+rings are commutative.
 
-| Layer | Title | What it delivers |
-|---|---|---|
-| [2](#layer-2-purity-of-the-branch-locus) | Purity of the branch locus | 0BMB in stalkwise, Stacks and affine forms, the global corollary, purity of the ramification and branch loci in codimension-one form |
+Here f is unramified at a point x when its map of local rings at x is formally unramified, and étale
+at x when it is étale on an open neighbourhood of x. A scheme is normal when its local rings are
+integrally closed domains, and regular when it is locally Noetherian with regular local rings. A
+point has codimension one when its local ring has dimension one.
 
-```text
-Mathlib + Tau Ceti ─────→ Layer 2
-LocalPurity §2.1 (0BMA) → Layer 2 §2.1
-```
+The first main theorem is local. Let f : X → Y be a morphism of locally Noetherian schemes, locally
+of finite type, and let x be a point of X with image y. Suppose that the local ring at x is a normal
+domain, that the local ring at y is regular, and that f is quasi-finite at x. Suppose that both
+local rings have the same dimension, at least one. Suppose finally that f is unramified at every
+point of codimension one specializing to x, including x itself when its local ring has dimension
+one. Then f is étale at x. This is also proved in the Stacks form and in an affine form. Regularity
+is needed: in characteristic other than 2, the quotient map 𝔸² → Spec k[x², xy, y²] is finite, its
+target is normal but not regular, and it is étale exactly away from the origin.
 
-The end theorems are `Scheme.Hom.exists_etale_of_formallyUnramified_stalk_codimOne` (0BMB, §2.1),
-`Scheme.Hom.etale_of_etaleAt_codimOne` (§2.2) and
-`Scheme.Hom.ringKrullDim_stalk_eq_one_of_maximal_branchLocus` (§2.3).
+The second theorem is a criterion for a finite cover to be étale. Let X and Y be integral schemes, X
+normal and Y regular, and let f : X → Y be finite and dominant. Assume that f is generically étale:
+it is étale on an open neighbourhood of the generic point of X, or equivalently the extension of
+function fields is separable. Then f is étale if and only if it is unramified at every point of
+codimension one. Generic étaleness is needed: for the purely inseparable extension 𝔽ₚ(t) ⊂
+𝔽ₚ(t)[u]/(uᵖ − t), both spectra are points of dimension zero, so the condition holds vacuously, and
+the map is not étale.
+
+The third theorem is the classical statement. Let f : X → Y be dominant, locally of finite type and
+locally quasi-finite, from a normal integral scheme to a regular integral one, and assume that its
+ramification locus is not all of X. Then the generic point of each irreducible component of the
+ramification locus has a local ring of dimension one. So does every point of the branch locus with
+no proper generization in it. When f is finite the branch locus is closed, hence empty or of pure
+codimension one. Under these hypotheses, though not in general, the ramification locus is the set
+where f is not étale. For Spec ℤ[i] → Spec ℤ, the ramification locus is the prime (1 + i) and the
+branch locus is the prime (2), each of local dimension one.
+
+The one input from another roadmap is purity for regular local rings, from
+[LocalPurity](../LocalPurity/README.md): a finite, torsion-free, normal algebra over a regular local
+ring of dimension at least two, étale at every prime not lying over the maximal ideal, is étale.
+Everything else is in Mathlib or the Tau Ceti library, which has these loci and the theorem for
+finite algebras over regular local rings of dimension one or two. The roadmaps
+LefschetzPencilsAndVanishingCycles and FiniteFlatGroupsAndIntegralPadicHodgeTheory use the first two
+theorems. Abhyankar's lemma belongs to [AbhyankarLemma](../AbhyankarLemma/README.md).
+
+The roadmap has a single layer, numbered 2. Its first section proves the local theorem by induction
+on the dimension. The second and third apply it point by point.
 
 ## How to read the build
 

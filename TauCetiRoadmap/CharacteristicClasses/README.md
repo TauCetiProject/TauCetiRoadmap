@@ -1,13 +1,67 @@
 # Roadmap: characteristic classes and Chern–Weil theory
 
-**Summary.** Build integral Chern, Pontryagin and Euler classes, mod2 Stiefel–Whitney classes,
-cohomological Thom and Gysin maps, universal cohomology calculations, and the
-comparison with curvature. Construct the compact connected Lie-group CE/de Rham,
-primitive/exterior and universal-transgression comparisons on these same
-cohomology and universal-bundle carriers. Construct the rational Chern character and the
-Todd, L and Â multiplicative classes, including their relative and supported
-interfaces. Classes carry their coefficient ring, degree, orientation and
-bundle; formal roots are a proved splitting device.
+**Summary.** A vector bundle can be twisted in ways that no local computation detects: the
+tangent bundle of the two-sphere is a product near every point, yet it has no nowhere-zero
+section. Characteristic classes measure such twisting. Each assigns to a bundle a cohomology
+class of its base, compatibly with pullback. They can be built topologically, from the Thom
+class and the cohomology of projective bundles, or geometrically, from the curvature of a
+connection (Chern–Weil theory).
+
+This roadmap builds both and proves they agree in real cohomology. On the topological
+side it constructs the Stiefel–Whitney classes mod 2 and the integral Chern, Pontryagin and
+Euler classes, with their Thom and Gysin maps and the cohomology of the classifying spaces. On
+the geometric side it constructs the curvature forms of a connection. It also constructs the
+rational Chern character and the Todd, L and Â classes. The classes live in
+singular cohomology and are natural for continuous pullback; smooth manifolds are
+finite-dimensional, Hausdorff and second countable.
+
+Four of the main results are also stated in Lean. The first concerns Thom
+and Euler classes. Over an arbitrary base, an orientation of a real vector
+bundle E of rank n determines exactly one class in H^n(E, E∖0; ℤ) restricting on each fibre
+to the generator the orientation selects. An oriented bundle also has a Thom class with
+coefficients in any commutative ring. Its pullback along the zero section is the
+Euler class. Suppose that n ≥ 2, that the bundle has an integral Thom class, and that the base
+is a Hausdorff CW complex with no cells of dimension above n. Then the Euler class vanishes
+exactly when the bundle has a nowhere-zero continuous section. The dimension bound is needed:
+a rank-three bundle over the four-sphere has zero Euler class and no such section.
+
+The second says that on a closed (compact, boundaryless) oriented smooth manifold M of
+positive dimension, the Euler class of the tangent bundle evaluates on the fundamental class
+to the Euler characteristic: ⟨e(TM), [M]⟩ = χ(M). On the two-sphere both sides are 2.
+
+The third is Thom's theorem on embedded representatives. On a closed oriented smooth
+manifold M, every integral homology class of codimension one or two is the image i_*[N] of
+the fundamental class of a closed oriented smooth manifold N under a smooth embedding
+i : N → M. Torsion classes are included, and N may be empty or disconnected. In codimension
+one the same holds mod 2 without orientations.
+
+The fourth is Whitney's theorem: for m = 2^k with k ≥ 1, real projective space RP^m admits
+no smooth immersion into ℝ^(2m−2), so RP⁴ does not immerse in ℝ⁶. If a generates
+H¹(RP^m; 𝔽₂), the tangent bundle has total Stiefel–Whitney class (1 + a)^(m+1). Its inverse,
+which an immersion would make the class of a normal bundle of rank m − 2, is nonzero in
+degree m − 1.
+
+On the curvature side, the Chern–Weil forms of a connection represent exactly the real
+images of the integral Chern and Pontryagin classes. For a compact connected Lie group G
+with maximal torus T and Weyl group W, Borel's theorem identifies H*(BG; ℚ) with the
+W-invariants of H*(BT; ℚ). On finite CW pairs the Chern character is a rational isomorphism
+from K-theory to even and odd rational cohomology. For the K-theory Thom class of a complex
+bundle E built from the dual Koszul complex, it matches the two Thom maps only up to the
+inverse Todd class: ch(Thom_K(a)) = Thom_H(ch(a) · Td(E)⁻¹).
+
+The roadmap builds on [AlgebraicTopology](../AlgebraicTopology/README.md) for singular
+cohomology with local coefficients and the Serre spectral sequences.
+[TopologicalKTheory](../TopologicalKTheory/README.md) provides continuous vector bundles,
+their classifying Grassmannians and K-theory, and
+[SmoothBundlesConnections](../SmoothBundlesConnections/README.md) provides connections and
+curvature. GeneralizedCohomology uses the Thom classes and Gysin maps built here,
+and SpinGeometry uses the identification of w₂ with the obstruction to a spin structure.
+
+Three topological layers come first: universal bundles and cohomological tools, then Thom,
+Euler and Gysin theory, then the classes defined by projective splitting with their
+universal rings. Curvature, compact Lie groups and the multiplicative classes with the Chern
+character follow. A final layer fixes the characteristic-number formulas and checks them on
+examples. The next section describes each layer.
 
 ## How to read the build
 
@@ -3218,7 +3272,7 @@ of principal bundles, and their comparison with curvature:
   instance of AlgebraicTopology's essential map T³→S² (C7.6).
 
 The labels C1–C7 and C5a, and the item labels C1.0, …, C7.AdjointHopfObstruction, are the ones
-other roadmaps cite; every heading below carries its label.
+other roadmaps cite; every heading above carries its label.
 
 Left to other roadmaps:
 

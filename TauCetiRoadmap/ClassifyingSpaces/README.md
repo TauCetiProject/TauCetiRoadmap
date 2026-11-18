@@ -1,36 +1,59 @@
 # Roadmap: classifying spaces of discrete groups
 
-**Summary.** A group has a topological shadow. For a discrete group `G`, a `K(G, 1)` is a
-path-connected space with fundamental group `G` and no higher homotopy, and among spaces of CW
-type it is determined by `G` up to homotopy equivalence. Its singular homology is the group
-homology of `G`, so the algebraic invariants Mathlib defines are invariants of a space, and the
-covering-space theory of the [universal-covers roadmap](../../Completed/UniversalCovers/README.md)
-becomes a tool for computing them.
+**Summary.** A group has a topological shadow. For a discrete group G, a K(G, 1) is a
+path-connected space with fundamental group G and no higher homotopy; the circle and a wedge of
+circles are examples, for ℤ and a free group. Among spaces of CW type a K(G, 1) is determined by
+G up to homotopy equivalence, and its singular homology is the group homology of G.
 
-The pinned Tau Ceti already builds this theory for its two models. The directory
-`TauCeti/AlgebraicTopology/ClassifyingSpace/` constructs Milnor's model `TauCeti.classifyingSpace G`
-(the orbit space of the countable join of copies of `G`) and the cellular model
-`TauCeti.cellularClassifyingSpace R` (the presentation complex of `⟨S | R⟩` with cells of dimension
-at least three attached to kill the higher homotopy groups), proves that both are Hausdorff CW
-`K(G, 1)` spaces for every group, compares them, proves the uniqueness of `K(G, 1)` spaces of CW
-type up to a change of base point, makes the classifying space a functor to the pointed homotopy
-category, builds the cellular resolutions of the trivial module and compares them with Mathlib's
-standard resolution, and identifies the singular (co)homology of Milnor's model, with trivial and
-with local coefficients, with Mathlib's `groupHomology` and `groupCohomology`. All of that is
-consumed here by exact name; none of it is planned again.
+Tau Ceti already builds two such spaces for every group: Milnor's model, the orbit space of the
+countable join of copies of G, and a cellular model built from a presentation. For Milnor's model
+it identifies singular homology and cohomology, with trivial and with local coefficients, with
+Mathlib's `groupHomology` and `groupCohomology`. This roadmap carries these results to every
+Hausdorff CW K(G, 1), and to maps from path-connected Hausdorff CW complexes into aspherical
+spaces: path-connected spaces whose homotopy groups vanish from degree two on. The group G is
+arbitrary, with no finiteness, countability, presentation or torsion hypothesis.
 
-What remains, and what this roadmap owns, is the passage from the models to an *arbitrary*
-Hausdorff CW `K(G, 1)` and, more generally, to an arbitrary path-connected Hausdorff CW complex
-mapping into an aspherical space: Hatcher's Proposition 1B.9 for an arbitrary base point and an
-arbitrary aspherical target (every homomorphism of fundamental groups is induced by a pointed
-map, unique up to homotopy relative to the base point; Hatcher's proof takes the base point to be
-a `0`-cell and the target to have a contractible universal cover), the pointed form of the
-uniqueness theorem, and the comparison of the (co)homology of any Hausdorff CW `K(G, 1)` with
-group (co)homology, fixed by the chosen identification of the fundamental group, natural in the
-space and the group, and with local coefficients. The acceptance test `Suggested.lean` states
-these four headlines: `exists_continuousMap_mapOfEq_eq_of_isAspherical`,
-`exists_homotopyEquiv_of_isAspherical`, `nonempty_twistedHomology_iso_groupHomology` and
-`nonempty_twistedCohomology_iso_groupCohomology`.
+The first main theorem is Hatcher's Proposition 1B.9. Let X be a path-connected Hausdorff CW complex
+with an arbitrary base point x, and Y an aspherical space with base point y, not necessarily a CW
+complex. Every homomorphism π₁(X, x) → π₁(Y, y) is induced by a map sending x to y, and two such
+maps inducing the same homomorphism are homotopic relative to the base point. Hatcher's proof takes
+the base point to be a 0-cell and the target to have a contractible universal cover.
+
+The second is the pointed form of uniqueness (Hatcher, Theorem 1B.8). Two aspherical Hausdorff CW
+complexes with arbitrary base points are homotopy equivalent by an equivalence whose forward map
+preserves the base points and induces any prescribed isomorphism of fundamental groups. The library
+has this only up to a change of base point. Both CW hypotheses are needed: a point and the Warsaw
+circle both have trivial homotopy groups, and the Warsaw circle is not contractible.
+
+The third concerns local coefficients. Let X be a Hausdorff CW K(G, 1) with base point x and an
+isomorphism Ψ from π₁(X, x) to G, and let A be a representation of G over a commutative ring k.
+Take the local system on X whose fibres are the module of A and whose monodromy at x is the
+action of G composed with Ψ. Its homology is isomorphic to the group homology Hₙ(G, A) in every
+degree n. With values in a k-module N, its cohomology is isomorphic to Hⁿ(G, Homₖ(A, N)), G acting
+trivially on N. Asphericity is needed: S² ∨ S¹ has fundamental group ℤ and second
+homology ℤ, while H₂(ℤ, ℤ) = 0.
+
+With trivial coefficients, some isomorphism already follows from the library, by transport along
+a homotopy equivalence with Milnor's model. The roadmap constructs a definite one, a function of
+(X, x, Ψ) and not of X alone. It agrees with the library's isomorphism on Milnor's model and is
+natural along pointed maps compatible with a homomorphism of groups. In cohomology it also
+commutes with the Bockstein maps of short exact sequences of coefficients. In degree one, with
+integer coefficients, it identifies H₁(X; ℤ) with the abelianization of G, sending the class of a
+loop γ to the class of Ψ(γ)⁻¹.
+
+The roadmap builds on the classifying-space development already in Tau Ceti, which supplies the
+two models. Covering-space theory comes from the completed
+[universal-covers roadmap](../../Completed/UniversalCovers/README.md), whose convention that the
+deck group is the opposite of the fundamental group is inherited. The
+[algebraic-topology roadmap](../AlgebraicTopology/README.md) uses the first theorem to classify
+pointed maps into its nerve model of a classifying space; this roadmap uses nothing from it.
+
+Layer 1 proves the first two theorems by reduction to results the library already has. Its new
+tool is the homotopy extension property of a point of a Hausdorff CW complex, which moves an
+arbitrary base point to a vertex; Whitehead's theorem then gives pointed uniqueness. Layer 2
+pulls the library's comparison for Milnor's model back along the pointed equivalence of Layer 1,
+first with trivial and then with local coefficients. `Suggested.lean` states the first two
+theorems and the two local-coefficient isomorphisms in Lean.
 
 Suggested home: `TauCeti/AlgebraicTopology/ClassifyingSpace/`, next to the pinned development.
 
@@ -1088,7 +1111,7 @@ file:
   `TauCeti.isEilenbergMacLaneSpaceOne_killHomotopyGroups`, for a source that is a Hausdorff CW
   complex with no cells above dimension `n` the CW structure `TauCeti.killHomotopyGroupsCWComplex`
   and `TauCeti.cwType_killHomotopyGroups` (both take that dimension hypothesis, so neither applies
-  to the killing tower of a source with higher cells, and no route below uses them), the
+  to the killing tower of a source with higher cells, and no route above uses them), the
   extension theorems
   `TopCat.Hom.exists_killHomotopyGroupsIncl_comp_eq` and
   `TauCeti.exists_mapOfEq_comp_killHomotopyGroupsFundamentalGroupMulEquiv`; the cellular model
@@ -1185,7 +1208,7 @@ file:
   (zero in positive even degrees, in particular `H₂ = 0`); and for a finite group
   `TauCeti.natCard_nsmul_classifyingSpace_singularHomology_eq_zero`.
 
-Other pinned Tau Ceti declarations the routes below use, each named at the target that uses it:
+Other pinned Tau Ceti declarations the routes above use, each named at the target that uses it:
 `TauCeti.IsAspherical`, `TauCeti.IsAspherical.of_basepoint`, `TauCeti.IsEilenbergMacLaneSpaceOne`
 (`TauCeti/AlgebraicTopology/EilenbergMacLane/Basic.lean`);
 `TauCeti.homotopicRel_singleton_of_mapOfEq_eq_of_cwComplex` and

@@ -1,20 +1,63 @@
 # Roadmap: algebraic topology of spaces and manifolds
 
-**Summary.** This roadmap develops the map-level algebraic topology needed to calculate spaces from open
-covers, CW structures, fibrations, and manifold decompositions.  It starts at Mathlib's singular
-chains, fundamental groupoid, topological pairs, cubical homotopy groups, and classical CW
-complexes.  It ends with reusable van Kampen, relative homology, excision, cellular comparison,
-duality, Euler-characteristic, Hurewicz, Whitehead, ordinary Eilenberg–MacLane (EM)
-representability, and relative obstruction theorems.
+**Summary.** Algebraic topology studies a space through its homology, cohomology and homotopy
+groups. It computes them by cutting the space into simpler pieces: the sets of an open cover,
+the cells of a CW structure, or the fibres of a fibration. This roadmap builds that machinery,
+starting from Mathlib's singular chains, fundamental groupoid and CW complexes. Its objects are
+relative singular homology, with coefficients that may vary over the space (local systems), and
+the cellular homology of CW complexes. It then turns to singular cohomology, with its cup and
+cap products, and to the homotopy groups of spaces and pairs. Every calculation is induced by
+maps, chain maps or natural transformations. A space of CW type is one homotopy equivalent to a
+CW complex lying in a Hausdorff space; for finite CW type the complex has finitely many cells.
 
-The point is a coherent library, not a collection of answers for particular spaces.  Every
-calculation is induced by maps, chain maps, or natural transformations.  Homology groups are not
-stored as fields asserting the desired answer, and a list of cell counts is not accepted in place
-of an actual CW structure.
+The first main theorem is CW approximation: every topological space, path connected or not, is
+the target of a weak homotopy equivalence from a space of CW type. Such a map induces
+isomorphisms on singular homology and cohomology, even with local coefficients. The Warsaw
+circle, path connected with trivial homotopy groups but not contractible, is approximated by a
+point.
 
-Suggested homes are `TauCeti/AlgebraicTopology/FundamentalGroupoid/`,
-`TauCeti/AlgebraicTopology/Singular/`, `TauCeti/AlgebraicTopology/Cellular/`,
-`TauCeti/AlgebraicTopology/Cohomology/`, and `TauCeti/AlgebraicTopology/Homotopy/`.
+The second is Poincaré duality. Let M be a compact Hausdorff topological n-manifold without
+boundary and R a commutative ring. A fundamental class is a class μ in H_n(M;R) whose image in
+the local homology H_n(M, M∖{x}; R) generates that R-module at every point x. Cap product with
+such a μ is an isomorphism H^p(M;R) → H_q(M;R) whenever p + q = n; M need not be connected.
+When 2 = 0 in R and M is connected, a fundamental class always exists. Duality is then extended
+to compact smooth manifolds with boundary and to coefficients in any local system of modules:
+these are the Poincaré–Lefschetz isomorphisms.
+
+The third is the homological Whitehead theorem: a map between simply connected spaces of CW
+type which induces isomorphisms on integral homology in every degree is a homotopy equivalence.
+With the Hurewicz theorem it recognizes spheres. A simply connected space of CW type whose
+integral homology vanishes outside degrees 0 and n, and is ℤ in degree n ≥ 2, is homotopy
+equivalent to Sⁿ.
+
+The fourth is the representability of ordinary cohomology. Let A be an abelian group, m ≥ 1,
+and K a path-connected space whose homotopy groups vanish except in degree m, with a fixed
+isomorphism π_m(K) ≅ A; no CW structure is assumed on K. Let ι in H^m(K;A) be the class whose
+value on the Hurewicz image of each element of π_m(K) is the corresponding element of A. Then
+for every space X of CW type, each class in H^m(X;A) is the pullback f*ι along some map f : X →
+K, and two maps with the same pullback are homotopic.
+
+Two applications are quick to state. For a fibre bundle whose base B and fibre F have finite CW
+type, the alternating sum of the dimensions of the homology of the total space over any field
+is χ(B)·χ(F), whatever the monodromy. For every prime p and every n ≥ 0, no continuous action
+of C_p × C_p on the sphere Sⁿ is free.
+
+The roadmap builds on what Tau Ceti already proves, such as Brouwer's fixed-point theorem and
+the Euler characteristic of spaces of finite CW type. From
+[GeometricTopology](../GeometricTopology/README.md) it takes the smooth triangulation of smooth
+manifolds, which gives compact Hausdorff second-countable smooth manifolds finite CW type.
+[DifferentialGeometry](../DifferentialGeometry/README.md) supplies orientation conventions and
+uses the fundamental classes built here. Generalized cohomology theories, spectra and bordism
+are outside the scope; the roadmaps that treat them, such as
+[GeneralizedCohomology](../GeneralizedCohomology/README.md), build on this one.
+
+Layer 1, independent of the rest, treats van Kampen's theorem through the fundamental groupoid.
+Layers 2 and 3 treat relative homology, excision and the Mayer–Vietoris sequence, also with
+local coefficients. Layer 4 compares singular with cellular homology and proves CW
+approximation. Layer 5 treats products, finite covers and fibrations, with the Künneth theorems
+and Serre spectral sequences. Layer 6 is cohomology and manifold duality, and Layer 7 the Euler
+characteristic. Layer 8 proves the Hurewicz and Whitehead theorems, representability and
+obstruction theory, and closes with applications.
 
 ## How to read the build
 
@@ -4737,7 +4780,7 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   finite CW structure of complex projective space on its sphere-quotient carrier and the
   comparison of the circle with Milnor's classifying space of ℤ.
   Mathlib has the compact-generation coreflection and the quotient topology of
-  projective space. The supplier contracts name each declaration and file; the layers below
+  projective space. The supplier contracts name each declaration and file; the layers above
   build only what those files lack.
 - The [universal-covers roadmap](../../Completed/UniversalCovers/README.md) owns universal-cover
   construction, deck transformations, quotient covers, basepoint change, and induced maps on
@@ -4966,12 +5009,12 @@ named in this section is cited as it is at those revisions.
   apply Hom to L-twisted chains, so they compute dual-system cochains.
   Consume those constructions with their dual-system convention, and build
   direct L-valued cochains without assuming fibrewise reflexivity.
-  Consume these carriers and extend their APIs for the comparisons below.
+  Consume these carriers and extend their APIs for the comparisons above.
 - Native relative quotient colimits and short exact sequences in `Singular.Relative`,
   pair/triple sequences in `Singular.Triple`, `singularHomologyPretheory` in
   `Singular.HomologyPretheory`, and the `DiskSphere`, `DiscretePair` and
   `Additivity` modules. Consume their constant-coefficient objects and proofs,
-  extending the comparisons and local-coefficient theory below. The long exact
+  extending the comparisons and local-coefficient theory above. The long exact
   sequence of a pair (Hatcher, §2.1, pp.117 and 127) is the short exact sequence
   `TopPair.shortExact_singularChainComplexShortComplex`, the connecting morphism
   `TopPair.singularHomologyδ`, exactness at the three terms
@@ -5167,7 +5210,7 @@ named in this section is cited as it is at those revisions.
   `isColimitCechCocone` in `FundamentalGroupoid.Cech.Diagram`/`Colimit`, using
   the `Grpd` category and native nonempty finite-intersection `CechIndex`.
   Its map/refinement modules supply functoriality; consume the colimit and
-  extend the group-presentation and example consequences below.
+  extend the group-presentation and example consequences above.
 - Native `TopPair.excisionMap` and its singular-homology isomorphism theorems
   in `Singular.Excision`, and `TopCat.mayerVietorisδ`/`mayerVietoris_exact₁`–`₃`
   in `Singular.MayerVietoris.Basic`. Consume these maps and extend them to local
@@ -5559,7 +5602,7 @@ relative to {x}. Consumed by 8.8 with target the nerve model Bπ, aspherical by 
 the case n=1 of 8.14. Nothing else of that roadmap is consumed, and it consumes nothing of
 this one.
 
-Each use below retains the supplier's hypotheses and names the needed portion. The
+Each use above retains the supplier's hypotheses and names the needed portion. The
 roadmaps that build on this one are not suppliers of it; the Downstream consumers section
 lists what each of them takes.
 

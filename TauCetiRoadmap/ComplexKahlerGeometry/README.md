@@ -1,36 +1,62 @@
 # Roadmap: complex manifolds, Dolbeault theory and Kähler geometry
 
-**Summary.** This roadmap develops the local analytic and differential geometry of complex
-manifolds on Mathlib's complex `IsManifold` carrier and Tau Ceti's pinned almost complex,
-type-form and Dolbeault calculus, and the compact Hermitian and Kähler theory built on it: the
-Newlander–Nirenberg theorem; the Dolbeault–Grothendieck lemma with its parameter-dependent
-one-variable solver and the Dolbeault theorem; the convergent local algebra of holomorphic germs
-(Weierstrass preparation and division, regularity and factoriality, Rückert's Nullstellensatz, Oka
-and Cartan coherence, singular loci, Riemann and Hartogs extension); holomorphic and Hermitian
-bundles, Chern connections, Koszul–Malgrange, holomorphic connections and holomorphic Picard
-groups; the real and complex-coefficient elliptic analysis of compact manifolds (bundle
-distributions, the all-real-order Sobolev scale, Laplace-type regularity, the real Hodge theorem)
-with Dolbeault Hodge theory and Serre duality; the Kähler identities, Hodge decomposition, Hard
-Lefschetz, the Hodge–Riemann relations and the classes of analytic cycles; projective spaces,
-complex tori, compact Riemann surfaces, flat lines on elliptic curves and the Hopf surface; and the
-Frölicher spectral sequence with the Iwasawa manifold. Its end theorems, stated in `Suggested.lean`
-where the pins allow, are `newlander_nirenberg`, `dolbeault_grothendieck_polydisc`,
-`exists_mixed_parameter_dbar_solution`, `weierstrass_preparation`,
-`weierstrass_preparation_unique`, `weierstrass_division`, `isRegularLocalRing_holomorphicStalk`,
-`uniqueFactorizationMonoid_holomorphicStalk`, `ruckert_nullstellensatz`, `oka_coherence`,
-`cartan_coherence_reducedIdeal`, `riemann_extension`, `hartogs_extension_across_point`,
-`hodge_theorem_deRham`, `finiteDimensional_dolbeaultCohomology`,
-`finrank_dolbeaultCohomology_serre`, `del_delBar_lemma`,
-`finrank_deRhamCohomology_eq_sum_dolbeault`, `finrank_dolbeaultCohomology_symm`,
-`even_finrank_deRhamCohomology_odd`, `hard_lefschetz`,
-`finrank_dolbeaultCohomology_complexProjectiveSpace`,
-`finrank_deRhamCohomology_complexProjectiveSpace`, `integralCohomology_complexProjectiveSpace`,
-`finrank_dolbeaultCohomology_complexTorus`, `finrank_dolbeaultCohomology_riemannSurface` and
-`finrank_deRhamCohomology_le_sum_dolbeault`; the definitions `polydisc`, `dolbeaultCocycles`,
-`dolbeaultCoboundaries`, `DolbeaultCohomology`, `IsKahler`, `lefschetzMap` and `integralCupPow`
-of the same file make them statable. Every construction is a reusable theory with restriction,
-gluing, functoriality and transport laws, not only a statement of Hodge decomposition or of the
-Kähler identities.
+**Summary.** A complex manifold is a manifold whose charts take values in ℂⁿ and whose changes
+of coordinates are holomorphic. Multiplication by i on each tangent space is then an almost
+complex structure J, complex-valued forms split into types (p, q), and the exterior derivative
+splits as d = ∂ + ∂̄. Dolbeault cohomology `H^(p,q)` is the space of ∂̄-closed forms of type
+(p, q) modulo the ∂̄-exact ones; its dimensions `h^(p,q)` are the Hodge numbers. On a compact
+Kähler manifold, Hodge theory ties them to the real Betti numbers. On other compact complex
+manifolds only an inequality holds in general.
+
+This roadmap develops the local analytic and differential geometry of complex manifolds, and the
+Hodge theory of compact Hermitian and Kähler manifolds built on it. Throughout, manifolds are
+finite-dimensional, Hausdorff and second countable, without boundary; compactness and
+connectedness are stated where used.
+
+The local theory begins with the Newlander–Nirenberg theorem. Let J be a smooth almost complex
+structure on a real manifold of dimension 2n whose Nijenhuis tensor vanishes; equivalently, the
++i and −i eigenbundles of J are closed under the bracket of complex vector fields. Then every
+point has a map to ℂⁿ that is a local diffeomorphism there and whose differential carries J to
+multiplication by i on a neighbourhood. These coordinates form a complex atlas inducing J. Next
+comes the Dolbeault–Grothendieck lemma on a whole open polydisc: a smooth ∂̄-closed form of type
+(p, q+1) there is ∂̄ of a smooth form of type (p, q) on the same polydisc. Finally, the ring of
+holomorphic germs at a point of an n-dimensional complex manifold is a regular local ring of Krull
+dimension n and a unique factorization domain; the Weierstrass preparation and division theorems
+are the main tools.
+
+On a compact complex manifold of complex dimension n, every `H^(p,q)` is finite-dimensional, and
+Serre duality gives `h^(p,q) = h^(n−p,n−q)` for p, q ≤ n, with no Kähler hypothesis. A Kähler form
+is a closed real two-form compatible with the complex structure: invariant under J and positive on
+complex lines. On a compact Kähler manifold, complex de Rham cohomology in degree k is the direct
+sum of the groups `H^(p,q)` with p + q = k. The Betti number b_k is the sum of the `h^(p,k−p)` for
+0 ≤ p ≤ k, and `h^(p,q) = h^(q,p)`, so the odd Betti numbers are even. The Hopf surface
+(ℂ² ∖ {0})/(z ↦ 2z), diffeomorphic to S¹ × S³, has b₁ = 1 and `h^(1,0) = 0 ≠ 1 = h^(0,1)`:
+neither the parity of b₁ nor Hodge symmetry survives without the Kähler hypothesis. The Hard
+Lefschetz theorem holds too: if M has real dimension 2n and Kähler form ω, then for k ≤ n the
+wedge product with [ω]^(n−k) is an isomorphism from `H^k_dR(M)` onto `H^(2n−k)_dR(M)`, with real
+coefficients.
+
+The Frölicher spectral sequence runs from Dolbeault to complex de Rham cohomology. On every
+compact complex manifold, Kähler or not, it gives b_k ≤ Σ_(p+q=k) `h^(p,q)`; equality in every
+degree means that the sequence degenerates at its first page. The Iwasawa manifold, the quotient
+of the complex Heisenberg group by its Gaussian-integer lattice, has b₁ = 4 < 5 =
+`h^(1,0) + h^(0,1)`.
+
+The roadmap builds on Mathlib's complex manifolds and on Tau Ceti's almost complex structures,
+type decomposition of forms and ∂̄ operator. [ComplexManifolds](../ComplexManifolds/README.md)
+supplies the complex orientation, holomorphic quotients and operations on holomorphic vector
+bundles. DifferentialGeometry supplies differential forms, their integration and real de Rham
+cohomology. PseudodifferentialOperators supplies Layer 5's differential operators and builds its
+calculus on that layer's analysis. [RealAnalyticGeometry](../RealAnalyticGeometry/README.md) uses
+the first four layers and the local Kähler identities.
+
+Layer 1 treats complex structures, Layer 2 the ∂̄-equation and Layer 3 holomorphic germs and
+analytic sets. Layer 4 builds holomorphic and Hermitian bundles and their connections. Layer 5 is
+the elliptic theory of compact manifolds, ending with Dolbeault Hodge theory and Serre duality.
+Layer 6 proves the Kähler identities and the compact Kähler theorems. Layer 7 computes the
+examples, among them projective spaces, complex tori and the Hopf surface; Layer 8 treats the
+Frölicher spectral sequence and the Iwasawa manifold. `Suggested.lean` states in Lean the headline
+theorems that Mathlib and Tau Ceti can express.
 
 ## How to read the build
 

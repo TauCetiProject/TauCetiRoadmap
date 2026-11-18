@@ -1,37 +1,62 @@
 # Roadmap: foundations of adic spaces, part III — formal geometry, formal models and coherent sheaves
 
-**Summary.** Part III supplies the formal and coherent side of the adic-space programme. Layer F0
-builds noetherian formal geometry (EGA I §10, EGA III §§4–5) over Tau Ceti's adic rings of
-finite ideal type and their completed localisations and completed tensor products: formal schemes
-on Tau Ceti's formal spectrum, completion of schemes and coherent sheaves along closed subsets,
-coherent formal modules, formal higher direct images, the proper-support form of Grothendieck's
-existence theorem and formal GAGA. Layer R2 develops formal models over a complete rank-one valuation ring `O_K`, not
-assumed discretely valued: algebras topologically of finite presentation, admissible formal
-schemes and their generic fibres, specialisation and tubes, admissible blow-ups and Raynaud's
-theorem, flattening by admissible blow-up (BL II; RG), formal completions and good
-reduction, smooth formal schemes and Frobenius lifts, and fractional valuation bounds, section
-domains and Hasse domains. Layer R3 develops coherent sheaves on adic spaces: Huber's and Tate's
-acyclicity for finite modules, the affinoid section comparison for analytified modules,
-Kiehl's glueing theorem, vector bundles and uniform rings, the sheaf
-of continuous differentials, relative compactness and Kiehl-properness, the GAGA comparison maps,
-traces of finite locally free morphisms with the pull–identify–trace operators used for Hecke
-correspondences, and the Gel'fand spectrum of a Banach ring; it proves Kiehl's Theorems A and B on
-quasi-Stein spaces (R3.4), his proper mapping theorem and formal functions for proper coherent
-cohomology (R3.6) and proper GAGA (R3.7). These
-are the inputs for families and dagger geometry, étale and `p`-adic Hodge theory, and the integral
-models and Hasse domains of modular curves and Shimura varieties.
+**Summary.** A rigid-analytic space over a complete nonarchimedean field `K` can be studied
+through its rings of analytic functions, and often through a formal model over the valuation
+ring `O_K`: a formal scheme whose generic fibre is the given space. This roadmap, the third part
+of the foundations of adic spaces in Tau Ceti, builds both sides and the bridge between them. It
+develops noetherian formal geometry in the sense of EGA, formal models over `O_K` with their generic fibres,
+and coherent sheaves on adic spaces. Throughout, `K` is complete for a
+nontrivial rank-one nonarchimedean absolute value and `ϖ` is a pseudouniformiser. `O_K` is
+noetherian exactly when `K` is discretely valued, and no statement assumes this unless it says so.
+Complete always includes Hausdorff.
 
-This roadmap develops noetherian formal geometry, formal schemes over `O_K`, generic fibres
-and Hasse domains, coherent sheaves, vector bundles, proper direct images, GAGA and traces.
-Part III uses the morphisms and module pullback of [part II](../AdicSpacesPartII/README.md)
-and identifies sections of analytified modules on affinoid charts in R3.1a.
-[Part IV](../AdicSpacesPartIV/README.md) consumes its formal models and coherent sheaves.
+The central result on the formal side is Raynaud's theorem. An admissible formal `O_K`-scheme is
+topologically finitely presented over `O_K` and has no `ϖ`-torsion; an admissible blow-up is the
+blow-up of such a scheme along a coherent open ideal, one containing a power of `ϖ`. Passing to
+the generic fibre turns admissible blow-ups into isomorphisms, and Raynaud's theorem says that it
+induces an equivalence between quasi-compact admissible formal `O_K`-schemes, localised at
+admissible blow-ups, and quasi-compact quasi-separated rigid `K`-spaces. For instance, the closed
+unit disc has the formal models `Spf O_K⟨T⟩` and its blow-up at `(T, ϖ)`, and they become
+isomorphic in the localised category.
 
-| Layer | Title | What it builds |
-|---|---|---|
-| F0 | Formal geometry | `Spf` and formal schemes, completion, coherent formal modules, formal functions, existence and algebraisation |
-| R2 | Formal schemes, generic fibres and Hasse domains | admissible formal schemes, blow-ups, Raynaud's theorem, generic fibres, good reduction, Hasse domains |
-| R3 | Coherent sheaves and finite traces | `M̃`, affinoid sections of analytified modules, Tate and Kiehl, vector bundles, Kiehl-properness, GAGA, analytic elliptic classification and Hasse loci, traces |
+On the analytic side the first theorem is Kiehl's. Let `X = Spa(A, A⁺)` with `A` a
+complete strongly noetherian Tate ring, for example an affinoid `K`-algebra. Then attaching to a
+finite `A`-module `M` its sheaf `M̃ = M ⊗ 𝒪_X` is an exact tensor equivalence onto coherent
+sheaves on `X`, with inverse the global sections. Without the noetherian hypothesis, for a complete
+Tate pair whose structure presheaf is a sheaf, vector bundles correspond in the same way to finite projective modules.
+
+Kiehl's proper mapping theorem is a finiteness theorem. Let `f : X → Y` be a
+proper morphism of adic spaces locally of finite type over `Spa(K, K°)`, Kiehl-proper over every
+affinoid open of `Y` (a condition on relatively compact affinoid coverings, automatic when `K` is
+discretely valued). Then for every coherent sheaf `F` on `X`, every higher direct image `Rⁱf_*F`
+is coherent.
+
+Proper GAGA compares algebraic and analytic coherent sheaves. Let `A` be an affinoid `K`-algebra
+(`A = K` allowed) and `X` a scheme proper over `Spec A`, with analytification `X^an`. For every
+coherent sheaf `F` on `X` the maps `Hⁱ(X, F) → Hⁱ(X^an, F^an)` are isomorphisms of finite
+`A`-modules, and `F ↦ F^an` is an exact equivalence of abelian tensor categories from coherent
+sheaves on `X` to coherent sheaves on `X^an`. On the projective line both sides give
+`H¹(𝒪(−2)) ≅ K`.
+
+The roadmap builds on [part II](../AdicSpacesPartII/README.md), which provides the morphisms of
+adic spaces, rigid spaces and the analytification of schemes and modules. SchemeAndStackFoundations
+proves the theorem on formal functions for proper morphisms and Grothendieck's existence theorem
+for proper schemes, which the formal layer transfers to formal schemes.
+[Part IV](../AdicSpacesPartIV/README.md) uses the formal models and coherent sheaves for families
+and dagger geometry, and AdicEtaleGeometry uses the formal schemes and generic fibres.
+
+The first layer, F0, builds formal schemes, their coherent modules and
+completion along a closed subset. It proves Grothendieck's existence theorem for coherent sheaves
+with proper support, and formal GAGA: over an adic noetherian ring `A`, a formal scheme proper
+over `Spf A` with an invertible sheaf whose reduction modulo the ideal of definition is ample is
+the completion of a scheme projective over `Spec A`. The second, R2, develops admissible formal
+schemes and their generic fibres, and proves Raynaud's theorem and flattening by admissible
+blow-up. It ends with good reduction, Frobenius lifts and the Hasse domains, where the Hasse
+invariant satisfies `|Ha| ≥ |p|^ε`. The third, R3, develops coherent sheaves
+and proves the last three theorems above. It also proves Kiehl's Theorems A and B: on a
+quasi-Stein space such as the open unit disc, coherent sheaves have no higher cohomology and their
+global sections generate every stalk. It closes with traces of finite locally free morphisms, the
+pull–identify–trace operators behind Hecke operators, and the Gel'fand spectrum of a Banach ring.
 
 ## How to read the build
 

@@ -1,37 +1,79 @@
 # Roadmap: p-adic functional analysis
 
-**Summary.** This roadmap builds the functional analysis of nonarchimedean
-Banach modules and the analysis of continuous and locally analytic functions on
-`ℤ_p`: Banach–Tate operator theory, orthonormalisable modules, Mahler and Amice
-coordinates, quantitative distribution estimates, and continuous characters of
-`ℤ_pˣ` with their specialisation maps. It starts from the pinned Tate norms,
-operator norms, model spaces, analytic stages and weight space, and ends with
-Amice's theorem, the Amice bijection between locally analytic distributions on
-`ℤ_p` and series on the open unit disc, the adic universal character of `ℤ_pˣ`,
-separation of measures by weights and the analytic levels of weights. These
-interfaces serve Fredholm theory, Iwasawa theory, adic geometry and families of
-automorphic forms.
+**Summary.** Mahler's theorem expands every continuous function f on `ℤ_p` with
+values in a Banach `ℚ_p`-space as a series in the binomial polynomials
+`binom(x,n)`. The coefficients tend to zero, and their largest norm is the
+supremum norm of f. Their rate of decay tells whether f is locally analytic, and
+on which discs. This roadmap develops the nonarchimedean functional analysis
+behind such statements, for functions, distributions and characters on `ℤ_p` and
+`ℤ_pˣ`.
 
-The pinned Tau Ceti proves most of Layers 0–3 and large parts of Layers 4–5:
-Tate norms and gauges, ring-scalar operator norms and the mapping theorems,
-orthonormal bases, Serre's theorem, countable-type splitting, matrices and
-triangular perturbations, Mahler and van der Put coordinates, bounded Mahler
-duality, `φ` and `ψ`, analytic stages with their direct limit, the quantitative
-Amice inequalities, the weight space of `ℤ_pˣ` with its normed parametrisation,
-and bounded integral-measure functions. Each section below cites those results
-by their pinned names and states only what remains. The central remaining
-targets are Amice's theorem for analytic stages; the algebraic distributions on
-`ℤ_p` and their unbounded Amice transform; the completed group algebra
-`ℤ_p[[ℤ_pˣ]] ≃ ℤ_p[Δ]⟦T⟧` with `T=[exp(q)]−1`, where `q=p` for odd `p` and
-`q=4` for `p=2`, and the adic universal character; analytic levels of weights;
-scalar analytic factors; and an annular Banach–Tate coefficient ring. The
-coefficient ring may be a Banach–Tate ring rather than a field. Field,
-discrete-valuation and characteristic-zero assumptions are imposed locally.
+Its Banach modules are complete ultrametric normed modules on which scalars act
+contractively, `‖a•x‖≤‖a‖‖x‖`. The coefficient ring may be a Banach–Tate ring
+rather than a field. Field, discrete-valuation and characteristic-zero
+assumptions are imposed locally.
 
-Every milestone and check below is required. This README is definitive;
-[Suggested.lean](Suggested.lean) states, on the pinned carriers, the headline
-theorems of §§4.4, 4.6, 4.7, 5.3, 5.4, 5.5 and 5.6 that the pinned libraries do
-not prove.
+On `ℤ_p` the central object is the analytic stage of level h with coefficients
+in E, a space of coefficients rather than of functions: for each residue class a
+modulo `p^h`, one power series in `w=(x−a)/p^h` with coefficients in E tending
+to zero. Evaluating these series gives a continuous function on `ℤ_p`,
+injectively when E has no p-torsion. The stages of all levels form an algebraic
+direct limit, which models the locally analytic functions.
+
+The first main theorem is Amice's. Put `m_h(n)=⌊n/p^h⌋!` and let E be a complete
+ultrametric normed module with contractive `ℤ_p`-action. Sending a null sequence
+c in E to the stage expansion of `Σ_n m_h(n)binom(x,n)•c(n)` is a
+norm-preserving bijection onto the stage of level h. For `E=ℤ_p`, the
+polynomials `m_h(n)binom(x,n)` form an orthonormal basis of the stage. In Mahler
+coefficients, a function f as above comes from the stage of level h exactly when
+its n-th coefficient has norm `o(‖m_h(n)‖)`.
+
+The second theorem places the characters `x↦(1+t)^x`. Let K be a complete
+ultrametric normed `ℚ_p`-algebra with multiplicative norm, such as a complete
+normed field over `ℚ_p`, and let t in K be topologically nilpotent. Then
+`(1+t)^x` is the evaluation of a vector of the stage of level h with
+coefficients in K exactly when `‖t‖<p^(−1/((p−1)p^h))`. Over `ℚ_p`, `(1+p)^x` is
+analytic at level zero for odd p, while at `p=2` the character `3^x` needs level
+one.
+
+Weights are continuous homomorphisms κ from `ℤ_pˣ` to the units of a coefficient
+ring. Put `q=p` for odd p, `q=4` for `p=2`, `Δ=(ℤ/qℤ)ˣ` and `γ=exp(q)`. Then
+`ℤ_pˣ≅Δ×ℤ_p`, so a weight has a finite part on Δ and a coordinate `κ(γ)−1`. For
+K as above, a K-valued weight κ is analytic on the cosets of `1+p^(h')ℤ_p`,
+where `h'=h+1` for odd p and `h'=h+2` for `p=2`, exactly when
+`‖κ(γ)−1‖<p^(−1/((p−1)p^h))`. The larger shift at `p=2` is needed: the sign
+weight has coordinate zero but is not analytic on `1+2ℤ_2`.
+
+The third theorem concerns distributions. For a complete normed extension K of
+`ℚ_p`, a locally analytic distribution is a K-linear form μ on the direct limit
+with coefficients in K that is continuous on every stage. Its Amice transform
+`Σ_n μ(binom(x,n))T^n` is a series on the open unit disc, and every such series
+is the transform of exactly one distribution. The restrictions of bounded
+measures are exactly the distributions with bounded moments `μ(binom(x,n))`. The
+derivative at zero, with transform `log(1+T)`, is a distribution but not a
+bounded measure.
+
+Finally, the roadmap identifies the completed group algebra `ℤ_p[[ℤ_pˣ]]` with
+`ℤ_p[Δ]⟦T⟧`, where `T=[γ]−1`. Over a complete separated linearly topologised
+`ℤ_p`-algebra S, a homomorphism `η:Δ→Sˣ` and a topologically nilpotent z in S
+determine a unique weight with finite part η and coordinate z.
+
+Tau Ceti already proves most of Layers 0–3 and much of Layers 4–5. The roadmap
+builds on RestrictedPowerSeries, whose restricted series underlie the analytic
+stages, and on ProfiniteProPGroups, which provides the completed group algebra.
+LocallyAnalyticDistributions uses the distributions and the Amice bijection, and
+adds the locally convex topology on locally analytic functions.
+PadicMeasuresIwasawaAlgebras uses the measures of Layer 3 and the weights of
+Layer 5. CompactOperators uses the matrix convention of Layer 2.
+
+Layers 0–2 are general: Banach modules and Tate norms, operators over rings, and
+the spaces `C₀(I,E)` of null families with their orthonormal bases. Layer 3
+treats continuous functions and bounded measures on `ℤ_p`, Layer 4 the stages
+and distributions. Layer 5 treats weights, expansions of `κ(cz+d)` for
+automorphic applications, and an annular coefficient ring.
+
+[Suggested.lean](Suggested.lean) states in Lean headline theorems of Layers 4
+and 5 that the library does not already prove.
 
 ## How to read the build
 
