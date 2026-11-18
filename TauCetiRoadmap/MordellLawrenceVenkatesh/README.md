@@ -334,7 +334,7 @@ Unlike Tau Ceti’s `FiniteBilinearModule`, this target does not assume a symmet
 
 ### 0.14 Symplectic transvections
 
-**Definition.** Let `(V, ω)` be a finite-dimensional symplectic space over any field `k` (`ω` nondegenerate alternating, written `⟨·,·⟩`). For `v ∈ V` and `r ∈ k, T_v^r : V → V` is `x ↦ x + r⟨v, x⟩v`, and `T_v := T_v^1`. It is the Mathlib transvection with linear form `r⟨v, ·⟩` and vector `v` (the form vanishes on `v`).
+**Definition.** Let `(V, ω)` be a finite-dimensional symplectic space over any field `k` (`ω` nondegenerate alternating, written `⟨·,·⟩`). For `v ∈ V` and `r ∈ k, T_v^r : V → V` is `x ↦ x + r⟨v, x⟩v`, and `T_v := T_v^1`. It is the Mathlib transvection with linear form `r⟨v, ·⟩` and vector `v` (the form vanishes on `v`). It is the coordinate-free form, valued in `TauCeti.BilinForm.isometryGroup ω`, of the pinned `TauCeti.GLSymplecticFin.symplecticTransvection`: if `dim V = 2m` and `ω` has Gram matrix `JFin m k` in a basis, the coordinate isomorphism `V ≅ (Fin (m + m) → k)` carries `T_v^r` to `symplecticTransvection v r` with the same parameter, and the second to fifth facts below are that declaration's formula and laws in coordinates.
 
 - `T_v^r ∈ Sp(V, ω)` (as an element of `TauCeti.BilinForm.isometryGroup ω`).
 - `T_v^r x = x + r⟨v, x⟩ v`.
@@ -1054,7 +1054,7 @@ MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`, supplies tran
 
 **Lemma.** For complementary Lagrangians `L,L′`, the Lagrangians transverse to `L′` are uniquely the graphs of maps `S:L→L′` such that `ω(x,Sy)=ω(y,Sx)`. In an adapted symplectic basis these are symmetric matrices.
 
-*Proof sketch.* `(d)` A complement of `L'` is the graph of a unique linear `S : L → L'`. Since `ω` vanishes on `L × L` and on `L' × L', ω(x + Sx, y + Sy) = ω(x, Sy) + ω(Sx, y)`, which vanishes for all `x, y` exactly when `ω(x, Sy) = ω(y, Sx)`; a `d`-dimensional isotropic graph is Lagrangian by `(a)`. (LV20, §6, Lemma 6.4, p. 33.) *Needs:* 3.1; 3.2; MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`.
+*Proof sketch.* `(d)` A complement of `L'` is the graph of a unique linear `S : L → L'`. Since `ω` vanishes on `L × L` and on `L' × L', ω(x + Sx, y + Sy) = ω(x, Sy) + ω(Sx, y)`, which vanishes for all `x, y` exactly when `ω(x, Sy) = ω(y, Sx)`; a `d`-dimensional isotropic graph is Lagrangian by `(a)`. (Own linear-algebra derivation; used for the charts of 3.6.) *Needs:* 3.1; 3.2; MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`.
 
 **Checks.**
 
@@ -1066,7 +1066,7 @@ MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`, supplies tran
 
 **Lemma.** In a symplectic basis `(e_i,f_i)`, put `Λ_I=span(e_i:i∈I;f_j:j∉I)`. Every Lagrangian is transverse to some `Λ_I`.
 
-*Proof sketch.* `(e)` Let `K = L ∩ span(e_1, …, e_d)`. Choose `I` such that `(e_i)_{i∈I}` is a basis of a complement of `K` in `span(e)` (exchange lemma). If `u = Σ_{i∈I} a_i e_i + Σ_{j∉I} b_j f_j` lies in `L`, pairing with `κ ∈ K ⊆ L` gives `Σ_{j∉I} b_j κ_j = 0`, where `κ_j` is the `e_j`-coordinate of `κ`; the projection of `K` onto `span(e_j : j ∉ I)` is bijective, so `b = 0`; then `u ∈ K ∩ span(e_I) = 0`. (LV20, §6, Lemma 6.4, p. 33.) *Needs:* 3.1; 3.2; MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`.
+*Proof sketch.* `(e)` Let `K = L ∩ span(e_1, …, e_d)`. Choose `I` such that `(e_i)_{i∈I}` is a basis of a complement of `K` in `span(e)` (exchange lemma). If `u = Σ_{i∈I} a_i e_i + Σ_{j∉I} b_j f_j` lies in `L`, pairing with `κ ∈ K ⊆ L` gives `Σ_{j∉I} b_j κ_j = 0`, where `κ_j` is the `e_j`-coordinate of `κ`; the projection of `K` onto `span(e_j : j ∉ I)` is bijective, so `b = 0`; then `u ∈ K ∩ span(e_I) = 0`. (Own linear-algebra derivation; used for the chart cover in 3.6 and 3.7.) *Needs:* 3.1; 3.2; MetaplecticAutomorphicForms §0.9a, `exists_lagrangianComplement`.
 
 **Checks.**
 
@@ -1986,13 +1986,13 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 **Checks.**
 
 - If `Y(K) = {y₀}, (2)` still holds: the `G_K`-action on `S(y₀)` is defined through the outer action.
-- For `G = Aff(q)` and `y₀ ∈ Y(K)`, the fibre map (5.5) of this layer is a `G_K`-equivariant map from `S(y₀)` to `H¹(Y_{K̄}, ℤ/(q − 1))`.
+- For `G = Aff(q)` and `y₀ ∈ Y(K)`, the map `ψ` of 8.14 (LV20 (5.5)) is a `G_K`-equivariant map from `S(y₀)` to `H¹(Y_{K̄}, ℤ/(q − 1))`.
 
 ### 8.7 Hurwitz spaces of `G`-covers branched at one point (LV20 Proposition 7.1)
 
 **Theorem.** `Y` is a smooth projective geometrically connected curve of genus `g ≥ 2` over a number field `K ⊂ ℂ`, and `G` is a finite group with trivial centre. There are a finite étale morphism `π : Y' → Y` of `K`-curves and a smooth projective relative curve `Z → Y'` with a finite morphism `Z → Y' × Y` of relative curves over `Y'` and a `G`-action on `Z` over `Y' × Y` such that: `(i)` for `y ∈ Y(K̄)` there is a bijection between `π⁻¹(y)` and the set of `G`-conjugacy classes of surjections `π₁^geom(Y ∖ {y}) → G` nontrivial on a loop around `y, G_K`-equivariant when `y ∈ Y(K)`; (ii) `Z → Y' × Y` is a `G`-torsor away from the graph of `π`, and for `y' ∈ Y'(K̄)` the fibre `Z_{y'} → Y` is the connected `G`-covering classified by `y'`, ramified exactly at `π(y')`. The finite étale parameter scheme `Y′` may be disconnected (or empty for some `G`); it is not required to be a geometrically connected curve. Its individual relative curve fibres are connected.
 
-*Proof sketch.* Take `Y' := Y'_K` from 8.6 and `Z :=` the normalization of `Y' × Y` in `Z°_K`. This normalization is finite over `Y' × Y` by the Nagata finiteness supplied in Layer 0, so `Z → Y'` is projective because `Y` is projective. Normalization commutes with the base change `K → ℂ` in characteristic zero (normality is preserved by separable field extensions), so `Z_ℂ` is the complex `Z` of the analytic construction; smoothness and properness of `Z → Y'` and the fibre description descend from `ℂ`. `(i)` is 8.6 (2) together with the analytic identification of fibres; (ii) holds over `ℂ` and hence over `K`. (LV20, §7.1, Proposition 7.1, p. 34; §7.1, Proposition 7.1, p. 35; §7.3, p. 37.) *Needs:* 8.4; 8.5; 8.6; SchemeAndStackFoundations Layer 0; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
+*Proof sketch.* Take `Y' := Y'_K` from 8.6 and `Z :=` the normalization of `Y' × Y` in `Z°_K`. This normalization is finite over `Y' × Y` by the Nagata finiteness supplied in SchemeAndStackFoundations Layer 0, so `Z → Y'` is projective because `Y` is projective. Normalization commutes with the base change `K → ℂ` in characteristic zero (normality is preserved by separable field extensions), so `Z_ℂ` is the complex `Z` of the analytic construction; smoothness and properness of `Z → Y'` and the fibre description descend from `ℂ`. `(i)` is 8.6 (2) together with the analytic identification of fibres; (ii) holds over `ℂ` and hence over `K`. (LV20, §7.1, Proposition 7.1, p. 34; §7.1, Proposition 7.1, p. 35; §7.3, p. 37.) *Needs:* 8.4; 8.5; 8.6; SchemeAndStackFoundations Layer 0; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
 
 **Checks.**
 
@@ -2405,12 +2405,12 @@ and §8.5, proof of Lemma 8.10, p. 48.
 
 **Lemma.** In setting `C`, for a singly ramified `Aff(q)`-cover `Z` there are liftable curves `A_1, …, A_M` on `Y ∖ {y}` such that `(a)` the classes `Ã_s` span `H₁^Pr(Z, Y)`, and `(b)` the graph with an edge between `A_s` and `A_t` whenever `Ã_s·Ã_t ≠ 0` is connected.
 
-*Proof sketch.* Put `Z` in normal form with base point `p ∈ ∂D ≅ ∂D'` and take the curves `γ_j` of LV20 Lemma 8.11; label the sheets of the trivial cover over `S°_{g−1}` by `𝔽_q` using the labelling at p. Let `W` be a set of simple loops at `p` in `S°_{g−1}`, one for each primitive class. For `w ∈ W`, one of `γ_j·w^{±1}` is represented by a simple closed curve `A(w, j)` (smooth the concatenation at `p`; the branches of `γ_j` and `w` lie on opposite sides of `∂`, and by (iv) the admissible sign depends only on `w`). Its monodromy has linear part `c`, so `A(w, j)` is liftable, with `[A(w, j)⁺] = [γ_j⁺] ± [w_j]` (`w_j` the lift of `w` to the `j`-th sheet). For each sheet `j`, differences of `[A(w,j)⁺]` as `w` varies are the differences of signed primitive representatives. Apply 10.3, rather than assuming arbitrary signed basis differences span. Combine this with 9.12 (LV20 Lemma 8.11) and Mayer–Vietoris to span `H₁(Z;ℚ)`, then project to primitive homology. The projected intersection equals a constant plus `±(δⱼₖ−1/q)` times the intersection of the sheet classes. The coefficient is nonzero. Apply 10.4 to the two nonzero integral linear forms given by pairing against `w₁` and `w₂`, making both products dominate their fixed constants. Either chosen sign works. Thus every two vertices have a common adjacent vertex. Finally choose finitely many vertices spanning the finite-dimensional primitive homology and finitely many paths in the connected graph joining them. Their union is the finite connected spanning system required by the statement. (LV20, §8.5, Lemma 8.10, p. 48; §8.6, p. 50; §8.6, p. 51.) *Needs:* 5.13; 9.2; 9.3; 9.7; 9.8; 9.11; 9.12; 10.3; 10.4; TauCetiRoadmap AlgebraicTopology Stage 3.
+*Proof sketch.* Put `Z` in normal form with base point `p ∈ ∂T° = ∂S°_{g−1}` and take the curves `γ_j` of LV20 Lemma 8.11; label the sheets of the trivial cover over `S°_{g−1}` by `𝔽_q` using the labelling at p. Let `W` be a set of simple loops at `p` in `S°_{g−1}`, one for each primitive class. For `w ∈ W`, one of `γ_j·w^{±1}` is represented by a simple closed curve `A(w, j)` (smooth the concatenation at `p`; the branches of `γ_j` and `w` lie on opposite sides of `∂`, and by (iv) the admissible sign depends only on `w`). Its monodromy has linear part `c`, so `A(w, j)` is liftable, with `[A(w, j)⁺] = [γ_j⁺] ± [w_j]` (`w_j` the lift of `w` to the `j`-th sheet). For each sheet `j`, differences of `[A(w,j)⁺]` as `w` varies are the differences of signed primitive representatives. Apply 10.3, rather than assuming arbitrary signed basis differences span. Combine this with 9.12 (LV20 Lemma 8.11) and Mayer–Vietoris to span `H₁(Z;ℚ)`, then project to primitive homology. The projected intersection equals a constant plus `±(δⱼₖ−1/q)` times the intersection of the sheet classes. The coefficient is nonzero. Apply 10.4 to the two nonzero integral linear forms given by pairing against `w₁` and `w₂`, making both products dominate their fixed constants. Either chosen sign works. Thus every two vertices have a common adjacent vertex. Finally choose finitely many vertices spanning the finite-dimensional primitive homology and finitely many paths in the connected graph joining them. Their union is the finite connected spanning system required by the statement. (LV20, §8.5, Lemma 8.10, p. 48; §8.6, p. 50; §8.6, p. 51.) *Needs:* 5.13; 9.2; 9.3; 9.7; 9.8; 9.11; 9.12; 10.3; 10.4; TauCetiRoadmap AlgebraicTopology Stage 3.
 
 **Checks.**
 
 - `g = 2, q = 3: W` can be taken to be the primitive classes of the genus-1 part, and finitely many `A(w, j)` already span the 6-dimensional primitive homology.
-- The constant term `[γ_j⁺]·[γ_k⁺] − q⁻¹[γ_j]·[γ_k]` is bounded independently of `w₃`, which is what makes 'large enough' possible.
+- The constant term `[γ_j⁺]·[γ_k⁺] − q⁻¹[γ_j]·[γ_k]` is bounded independently of the third loop `w₃ ∈ W` chosen by 10.4, which is what makes 'large enough' possible.
 
 ### 10.6 Zariski density on one factor (LV20 Lemma 8.9)
 
@@ -2632,7 +2632,7 @@ It leaves to other roadmaps:
   `AlgebraicGeometry.IsProper.eq_valuativeCriterion`, `AlgebraicGeometry.Smooth`, `AlgebraicGeometry.IsIntegral`,
   `IrreducibleSpace`, `AlgebraicGeometry.spread_out_of_isGermInjective` (a morphism of stalks spreads out; the spreading
   of whole families is SchemeAndStackFoundations'), `AlgebraicGeometry.Scheme.Hom.normalization` (a scheme only: its
-  finiteness and smoothness are theorems, 8.7 and Layer 0), and `CommAlgCat.FiniteEtale`.
+  finiteness and smoothness are theorems, 8.7 and SchemeAndStackFoundations Layer 0), and `CommAlgCat.FiniteEtale`.
 - Topology: `FundamentalGroup.mul_def` (`p * q = q.trans p`), `IsCoveringMap.monodromyPerm`, `IsCoveringMap.liftHomotopy`,
   `IsCoveringMap.existsUnique_continuousMap_lifts` (lifting from a simply connected, locally path-connected domain),
   `AlgebraicTopology.singularHomologyFunctor`, `CategoryTheory.PreGaloisCategory.IsFundamentalGroup`, and
@@ -2645,6 +2645,12 @@ It leaves to other roadmaps:
   ArithmeticGaloisRepresentations §1.3), `TauCeti.nonempty_linearEquiv_of_finrank_linearMap_eq` (multiplicity criterion
   over a semisimple algebra), `TauCeti.BilinForm.isometryGroup` (the group `Sp(V, ω)` of a nondegenerate alternating
   form) and `LinearMap.GeneralLinearGroup.IsUnipotent`.
+- Symplectic transvections in coordinates, for 0.14: `TauCeti.GLSymplecticFin.symplecticTransvection v c`, the element
+  `x ↦ x + c·ω(v, x)·v` of the standard symplectic group of `ω(x, y) = xᵀ·JFin·y` on `Fin (m + m) → R` over a
+  commutative ring `R`, with `coe_symplecticTransvection_mulVec`, `symplecticTransvection_add`,
+  `symplecticTransvection_inv`, `symplecticTransvection_smul`, `mul_symplecticTransvection_mul_inv` and
+  `toLin'_symplecticTransvection` (it is `LinearMap.transvection`), in
+  `TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Symplectic/Transvection.lean`.
 - Algebraic groups: `TauCeti.Symplectic.geometricallyConnectedCommHopfAlgProperty_coordinateHopfAlgebra` (the coordinate
   group `Sp_{2m}` is geometrically connected), the Lie algebra of a product `Derivation.tensorProductLieEquiv`, and the
   equality criterion `TauCeti.HopfIdeal.eq_of_le_of_finrank_quotientLie_le` for nested smooth connected closed subgroups.
@@ -2739,7 +2745,7 @@ It leaves to other roadmaps:
   value, and a finite Frobenius test set for semisimple continuous representations. The local
   test-set target §1.1 also identifies traces of representations without semisimplicity, by applying
   the supplied semisimple criterion to their semisimplifications (ArithmeticGaloisRepresentations
-  §1.7). Its proof below retains the direct image-algebra argument.
+  §1.7). Its proof above retains the direct image-algebra argument.
   For degree `d ≥ 0`, residue cardinality `q ≥ 2` and integral weight `w ≥ 0`, specialize the
   root absolute value to `q^(w/2)`. Monicity bounds each coefficient by the corresponding elementary
   symmetric-polynomial bound; Mathlib `Polynomial.finite_mahlerMeasure_le` gives the general
