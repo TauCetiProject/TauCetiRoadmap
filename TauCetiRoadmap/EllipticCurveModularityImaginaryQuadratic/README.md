@@ -1,26 +1,65 @@
 # Roadmap: modularity of elliptic curves over imaginary quadratic fields
 
-**Summary.** Every elliptic curve over every imaginary quadratic field has an automorphic
-realization. This roadmap builds the geometric prime switch that makes the
-modularity lifting theorems apply without a restriction on the original curve's
-small residual images. A family of cyclic covers connects its quadratic twist
-to a second elliptic curve through three integral congruences. Two degenerations
-supply, respectively, the required local reduction types and enough monodromy
-to choose one specialization satisfying all the residual conditions.
+**Summary.** Is the first étale cohomology of an elliptic curve E over a number field K
+the Galois representation of an automorphic representation of GL₂ over K?
+This roadmap builds a proof that it is whenever K is imaginary quadratic, following
+Theorem 1.1 of the OpenAI preprint. Its main objects are cyclic covers of quadratic
+twists of E and the character pieces of their cohomology.
 
-The endpoint is **`imaginary_quadratic_modularity`**: for an imaginary quadratic
-number field K and an elliptic curve E/K, there is an isobaric automorphic
-representation π_E of GL₂(𝔸_K), of weight zero and trivial central character,
-whose realizations are H¹_ét(E_K̄, Q̄_ℓ) for every ℓ and coefficient isomorphism.
-Its finite local parameters agree with the full Frobenius-semisimple
-Weil–Deligne parameters, including monodromy, at v∤ℓ. The coefficient-prime
-local factors also agree. Its complex parameter is
-`z ↦ diag(z/|z|, conjugate(z)/|z|)`, and
-`L(E/K,s) = L(π_E,s−1/2)` in unitary normalization. The representation is
-cuspidal if E is geometrically non-CM. For CM curves it is quadratic automorphic
-induction, or an isobaric sum when the CM field is K. These are the conclusions
-of [OpenAI, Theorem 1.1, p.1](#references), with the local assertions separated
-in §8.5 below.
+For every imaginary quadratic field K and every elliptic curve E over K, the main
+theorem gives an isobaric automorphic representation π_E of GL₂(𝔸_K), of weight zero
+and trivial central character, realizing H¹_ét(E_K̄, Q̄_ℓ) for every prime ℓ and every
+coefficient isomorphism. At each finite place v not above ℓ, the Frobenius-semisimple
+Weil–Deligne parameter of E, monodromy included, corresponds to π_E,v ⊗ |det|_v^(−1/2).
+Every finite local factor agrees, including those above ℓ, and L(E/K,s) = L(π_E,s−1/2)
+in unitary normalization. If E is geometrically non-CM (every endomorphism over K̄ is
+multiplication by an integer), π_E is cuspidal. If E has complex multiplication by M,
+π_E is induced from a Hecke character of KM when M ≠ K, and is an isobaric sum of two
+Hecke characters when M = K. Over ℚ(i), y² = x³ + 1 and y² = x³ − x show the two cases.
+
+The starting point is Caraiani and Newton's residual criterion, assembled here.
+An elliptic curve over a CM field L with ζ₅ ∉ L is modular once, for ℓ = 3 or 5, its
+mod-ℓ representation is absolutely irreducible on G_L(ζ_ℓ) and decomposed generic, a
+condition on Frobenius eigenvalues at a rational prime split completely in L. E itself
+may fail this at both primes.
+
+The roadmap therefore switches primes geometrically. Serre's theorem, proved here,
+says that for a geometrically non-CM elliptic curve over a number field the mod-p
+image contains SL₂(F_p) for all but finitely many primes p. For non-CM E choose such
+a p > 100, and put n = 3p and F = K(μ_n). Quadratic twists B_t of E carry cyclic
+covers of degree n. Over F the deck group splits their H¹ into two-dimensional systems V_θ, one for each
+character θ of μ_n. The trivial character gives H¹(B_t). A cubic character η gives
+H¹(A_t), for A_t the Jacobian of a genus-one quotient of the cubic cover.
+
+The central geometric theorem is a chain of three congruences. With ψ of order p and
+χ = ηψ, V_η and V_χ agree modulo p, V_χ and V_ψ modulo 3, and V_ψ and V₁ modulo p:
+their reductions have isomorphic semisimplifications. It holds for curves E over any
+number field, at every parameter t, with no local, residual-image or automorphy hypothesis.
+Its source is integral: the integral H¹ of each cover is free of rank two over
+the group ring of its deck group, even at primes dividing its degree.
+
+Hilbert specialization with local conditions chooses one parameter t. Above 3 and p
+the cover's Jacobian has the potential reduction type of E, the residual conditions of
+the lifts hold, and A_t is non-CM. The criterion at five realizes H¹(A_t) over F.
+Three lifts, at p, 3 and p, carry automorphy along the chain to H¹(B_t). Cyclic
+descent to K and a quadratic twist reach E. Imaginary quadraticity enters only to show
+ζ₅ ∉ F and in this descent.
+
+Discriminant coupling is a further arithmetic headline: if elliptic curves A and E
+over a number field K have ΔA/ΔE a sixth power and E[3] irreducible, some elliptic C over K
+has ΔC/ΔA a sixth power, with C[2] ≅ A[2] and C[3] ≅ E[3] as Galois modules with their
+Weil pairings.
+
+Within Tau Ceti, CrystallineLocalGlobalCompatibilityCM gives Caraiani–Newton's lifting
+theorem in a qualified form, which a cyclotomic argument here completes. EllipticCurves
+gives the twists and the Weil pairing, and GL2AutomorphicRepresentationsAndTransfer
+cyclic descent and quadratic induction. ModularityAndLanglandsExtensions uses Serre's
+theorem and the auxiliary curves of the criterion.
+
+Layer 0 assembles the lifting inputs and the seed. Layers 1 and 2 build the covers and
+two degenerations. Layer 3 computes their integral homology and two monodromies, and
+Layer 4 proves the congruences. Layers 5 to 7 choose p, prescribe local reduction and
+specialize. Layer 8 lifts, descends and treats CM curves.
 
 ## How to read the build
 
