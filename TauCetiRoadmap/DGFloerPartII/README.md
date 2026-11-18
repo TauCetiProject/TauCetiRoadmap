@@ -1561,7 +1561,7 @@ them by name and section (see the supplier contracts) and does not restate them.
 - The source's Lemma 6.35, that `π_(n−1)(SO(n))` is torsion for odd `n ≥ 3`, with its low-rank
   values and its stable term from real Bott periodicity: 4.3 proves Proposition 6.34 through the
   rotation family of 1.4, which does not use it. Real Bott periodicity and the stable homotopy
-  groups of `O` are HomotopySpheres' (Layer 4); nothing here uses them.
+  groups of `O` belong to HomotopySpheres (Layer 4).
 
 ## Exact supplier contracts
 
