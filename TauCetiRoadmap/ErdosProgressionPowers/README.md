@@ -34,79 +34,33 @@ analytic endgames. The README specifies the mathematics. `Suggested.lean` states
 theorems against the pinned APIs, with only the simple definitions their
 statements require; the supporting theory and Checks are specified here.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns the progression arithmetic, the two Frey specializations, their
-local and modular adapters, the Legendre case analysis, simultaneous character
-selection, both analytic endgames and the signed diagonal-curve finiteness application.
-It owns the progression-specific residual-conductor wrapper and local-hypothesis
-verification, signed diagonal curves and quantitative specializations stated in
-Layers 1–6. NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h own elliptic
-conductor values, wild bounds and the multiplicative residual-discriminant formula.
-SerreWeightAndLevelOptimisation §§6.1–6.3 own the deletion level, weight-two
-lowering with a modularity witness, and good-prime and removed-prime trace
-congruences. EllipticCurveModularity R29.3, R29.4 and R29.6 supply that
-modularity witness at the conductor; AutomorphicGaloisRepresentations §1.5
-supplies the continuous arithmetic newform representation.
-ArithmeticGaloisRepresentations §1.9 owns
-residual reduction and lattice independence; its §§3.1–3.3 own Swan, Artin and
-prime-to-coefficient residual conductors. General modularity, newform representations,
-rational-isogeny classification and uniformity, character PNT, zero-density and
-Mordell finiteness are supplier contracts, including the explicit gaps below.
-
-EllipticCurves Layers 2–4 own torsion, finite-field Hasse theory, and local
-minimality and reduction. The Frey–Hellegouarch curve Y²=X(X−A)(X+B) of
-EllipticCurves §Worked examples is formalised at the pin as Tau Ceti
-`TauCeti.freyCurve`, with the same coefficients over any commutative ring, and
-the geometric torsion subgroup is Mathlib's `AddSubgroup.torsionBy`; this
-roadmap consumes both from the pins.
-EllipticCurveModularityPartII §5.1 owns the geometric-torsion module on that
-subgroup, its Galois representation and the full-two-torsion predicate.
-EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
-and Layer 8 owns the semistable algorithmic–Artin conductor comparison. The first family here differs by its progression normalization;
-the second differs by its equal-sum quadratic identity. ModularForms Layers 2–4, 8
-and 10 own Hecke operators, newforms, coefficient fields and dimension formulas.
-ModularCurves §4C owns the universal Legendre family and its field fibres.
-EllipticCurves Layer 5 owns general quadratic twists.
-EllipticLegendreCharacterInterfaces owns the Legendre coefficient models over
-every commutative ring with their invariants (§§0.1–0.5), the labelled
-parameters, ordering scalars and normalization over every field of
-characteristic different from two (§§0.3, 0.8–0.9), good-prime units and
-character conductors (Layer 1), split-cubic descent readings and halving
-(Layer 2), two-primary torsion over odd finite fields (Layer 3), the
-scale-two order-four point (Layer 4) and the symmetric-cubic and
-quadratic-twist trace identities (Layer 5). This roadmap owns their
-progression applications.
-Martin's bound, the removed-prime inequality, the Kraus thresholds and
-realization, uniform irreducibility and rational-isogeny surjectivity are
-owned by EllipticCurveModularityPartII Layers 1–6; the contract EC.0–EC.6
-below records the sections consumed, and the progression applications remain here.
-ExplicitZetaBounds §§0.2–0.4 own the bounded-height Riemann hypotheses RH(H)
-and GRH(q, H), Platt's finite-conductor theorem in that form and the recorded
-verifications for the Riemann zeta function.
-HeightsRationalPointsAndObstructions §§5.12 and 6.4 own the shared native Mordell
-finiteness theorem; WeightsInEtaleCohomology R34.5–R34.6 own eigenform purity and
-the bound at every complex embedding. Section 7.1 owns the consecutive-product
-arithmetic and counting argument, reusing §4.3 for factorial deletion.
-ClassicalArithmeticCompletion §§1.51 and 4.41 own squareclass characters and the
-quartic descent. ImaginaryQuadraticClassNumber H3.1 owns CM integrality and the
-complex uniformization comparison. AlgebraicCurves Layers 7 and 12E own Hurwitz and the function-field/scheme genus
-comparison. Those general constructions are supplied by name, not specified again.
-
-Mathlib owns integer gcd, factorization, valuations, finite products, the native
-Weierstrass invariants, Dirichlet characters and continued L-functions, qualitative
-Roth, and the Stirling sequence. Tau Ceti owns the projective point-count trace and
-the ramification theory of nonarchimedean local fields that the conductors rest on:
-the lower and upper ramification filtrations of a finite Galois extension, the
-Herbrand functions with Herbrand's quotient theorem, and inertia and wild inertia
-in the absolute Galois group with their restrictions to finite Galois subextensions.
-The specialized invariant identities here retain the progression hypotheses; there
-is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.8, 0.16, 0.18–0.20, 0.25, 0.34, 1.4, 1.7 and
-3.1 own the generic prime estimates, the uniform exclusion of Landau–Siegel
-zeros with its exception-free bounded-height and character-PNT corollaries,
-explicit formula, zero density and divisor estimates.
-Their numerical input hypotheses are retained in the supplier contracts below.
-SieveMethodsAndPrimePatterns §0.4 owns the finite Gram inequalities that Layer 3 applies.
+Layer 0 constructs signed factors, finite index sets and the factorial adapter
+to the supplied prime estimates. Layer 1 specializes the supplied residual and
+conductor invariants before building the modular comparisons for both Frey families.
+Layer 2 applies the supplied Legendre interfaces and builds the simultaneous character family.
+Layer 3 supplies effective analytic inputs and the two original-route criteria;
+Layer 4 supplies quantitative Roth, sieve densities and that route's assembly.
+Layer 5 builds the bounded-height zero estimates and a single Granville witness.
+Layer 6 combines either route with the signed geometric adapter for fixed-length
+finiteness. Layer 7 proves the independent consecutive-product theorem and records
+explicit conjectural predicates; it supplies no
+premise to Layers 0–6. Each simultaneous choice satisfies all its properties
+at once. Backticked local declaration names belong to
+`TauCetiRoadmap.ErdosProgressionPowers` and occur in `Suggested.lean`.
+Its headline tests are the half-interval prime-divisibility theorem (§1.9),
+the comparison-curve theorem (§1.12), the simultaneous character-family
+theorem (§2.7), the prime-exponent bound (§6.2), signed hyperbolic and
+positive fixed-exponent finiteness (§6.3), all-exponent fixed-length
+finiteness (§6.5), and the consecutive-product theorem (§7.1). The
+comparison-curve and character-family statements render the conductor by the
+norm of the pinned algorithmic conductor, the deletion level by that norm and
+the norm of the pinned minimal discriminant ideal, and the residual comparison
+by a Galois-equivariant isomorphism of the geometric ell-torsion subgroups of
+the pinned points over an algebraic closure. The identification of the deletion
+level with the residual Artin conductor (§1.10) has no pinned carrier and is a
+target here only; the module docstring says so.
 
 ## Conventions
 
@@ -181,556 +135,6 @@ sequence. Tau Ceti supplies `WeierstrassCurve.frobeniusTrace`; it is the full
 projective point-count defect, and its elliptic specialization is used for good
 reductions. The declaration references at each target below identify the
 existing inputs; none of these carriers is reconstructed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Int.gcd_def`, `Int.gcd_greatest` and
-`Int.dvd_of_dvd_mul_left_of_gcd_one` in `Mathlib/Data/Int/GCD.lean` for
-nonnegative gcds and cancellation. Use `Nat.factorization` in
-`Mathlib/Data/Nat/Factorization/Defs.lean`. For nonzero integer term valuations,
-use `padicValInt.mul` in `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`,
-retaining `[Fact p.Prime]` and nonzero factors.
-The valuation at a zero argument is never used to deduce exponent divisibility.
-
-Use `WeierstrassCurve`, `WeierstrassCurve.Δ`, `WeierstrassCurve.c₄`,
-`WeierstrassCurve.j` and the base change `WeierstrassCurve.baseChange` in
-`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`,
-`WeierstrassCurve.Affine.Equation` in
-`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.lean`, and the group
-`WeierstrassCurve.Affine.Point` of affine points with the point at infinity in
-`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`. Ellipticity is
-`IsElliptic`, with nonzero discriminant, rather than a separate curve carrier.
-Use `WeierstrassCurve.Affine.Point.map` from the same file: an algebra map
-between two field extensions of the base ring induces a group homomorphism from
-the points over the first field to the points over the second. Applied to the
-automorphisms of an algebraic closure Ω of ℚ over ℚ it is the Galois action on
-the points over Ω; being a homomorphism, it preserves the subgroup of points
-killed by ell, which is how the residual comparison in §1.12 is stated.
-Use `AddSubgroup.torsionBy` in `Mathlib/Algebra/Module/Torsion/Basic.lean`, the
-subgroup of an additive group killed by an integer: the geometric ell-torsion
-of §1.12 is this subgroup of the points over Ω at ell, and the rational
-two-torsion of `HasFullRationalTwoTorsion` is this subgroup of the rational
-points at 2. No torsion subgroup is defined in this roadmap.
-
-Use `DirichletCharacter.conductor`, `DirichletCharacter.IsPrimitive` and
-`MulChar.IsQuadratic` from
-`Mathlib/NumberTheory/MulChar/Basic.lean`; the first two are in
-`Mathlib/NumberTheory/DirichletCharacter/Basic.lean`; use
-`DirichletCharacter.LFunction` from
-`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean` with positive modulus.
-Use `ZMod.LFunction_apply_zero_of_even` in
-`Mathlib/NumberTheory/LSeries/ZMod.lean`: for an even function Φ,
-L(0,Φ)=−Φ(0)/2. For a Dirichlet character of modulus greater than one,
-its value at zero vanishes. Use `DirichletCharacter.LFunction_ne_zero_of_one_le_re`
-in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean` away from the principal pole.
-Use `ArithmeticFunction.vonMangoldt` from
-`Mathlib/NumberTheory/ArithmeticFunction/VonMangoldt.lean` and
-`Nat.maxPrimeFac` from `Mathlib/Data/Nat/MaxPrimeFac.lean`.
-
-Use `Chebyshev.theta` and `Chebyshev.psi` from
-`Mathlib/NumberTheory/Chebyshev.lean` for the prime and prime-power sums.
-
-Use `roth_3ap_theorem_nat` from
-`Mathlib/Combinatorics/Additive/Corner/Roth.lean` for the qualitative finite-set
-conclusion. Layer 4 proves the stronger numerical cutoff. Use
-`Stirling.stirlingSeq`, `Stirling.log_stirlingSeq_sdiff_le` and
-`Stirling.tendsto_stirlingSeq_sqrt_pi` and `Stirling.le_factorial_stirling` from
-`Mathlib/Analysis/SpecialFunctions/Stirling.lean` for the factorial adapter.
-
-Use `Nat.exists_prime_lt_and_le_two_mul` in
-`Mathlib/NumberTheory/Bertrand.lean`: for natural n≠0 there is a prime p
-with n<p≤2n. Use `SimpleGraph` and `completeBipartiteGraph` from
-`Mathlib/Combinatorics/SimpleGraph/Basic.lean` and `SimpleGraph.Free` from
-`Mathlib/Combinatorics/SimpleGraph/Copy.lean` for the bipartite
-graph and forbidden four-cycle; the
-finite neighbour-pair count in §7.1 is stated on these native carriers.
-
-### From Tau Ceti
-
-Use `TauCeti.freyCurve` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/FreyCurve/Basic.lean`: for A and B in
-any commutative ring, the Weierstrass curve Y²=X(X−A)(X+B) with coefficients
-(0,B−A,0,−AB,0), with its coefficient lemmas. Layer 1's `progressionFreyCurve`
-is this curve at the normalized coefficients (a,c), not a second Frey carrier.
-Use `WeierstrassCurve.torsionGaloisAction` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`: the
-action of the automorphisms of a field extension on the subgroup
-`AddSubgroup.torsionBy` of the points killed by an integer, whose value at an
-automorphism and a point is `WeierstrassCurve.Affine.Point.map` of that point
-along the automorphism; §1.12 states its equivariance in that point-map form.
-
-Use `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`,
-`WeierstrassCurve.frobeniusTrace` and
-`WeierstrassCurve.frobeniusTrace_eq_card_point` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`: on an elliptic model
-over a finite field of size q, the trace is q+1 minus the number of all projective
-points. The identity point is included.
-
-Use `WeierstrassCurve.Affine.μ`, `WeierstrassCurve.Affine.exists_eq_two_smul_iff`
-and `WeierstrassCurve.Affine.ker_μ_eq` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/MordellWeil/XSubT.lean` for descent and
-halving over a field, with the normal-form, ellipticity and decidable-equality
-hypotheses of that API. Layer 2 specializes these to split cubic coordinates.
-Use `CongruenceSubgroup.Gamma0_prime_index` and
-`CongruenceSubgroup.Gamma0_prime_power_index` in
-`TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/Basic.lean` for the
-actual subgroup index at prime and positive prime-power levels. The rational
-prime-product expression in §1.1 is compared to that index.
-
-Use `TauCeti.Multiquadratic.fundamentalDiscriminantChar`,
-`TauCeti.Multiquadratic.fundamentalDiscriminantChar_isQuadratic`,
-`TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar` and
-`TauCeti.Multiquadratic.fundamentalDiscriminantChar_natCast_eq_legendreSym` in
-`TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/Character.lean`.
-For a fundamental discriminant D the carrier has level |D| and integer values;
-ClassicalArithmeticCompletion §1.51 supplies the integer-valued rational-squareclass
-character. Form its real and complex versions by Mathlib `MulChar.ringHomComp`;
-`MulChar.ringHomComp_apply` and `MulChar.IsQuadratic.comp` give values and quadraticity.
-Use `DirichletCharacter.conductor_ringHomComp` and
-`DirichletCharacter.isPrimitive_ringHomComp_iff` in
-`TauCeti/NumberTheory/DirichletCharacter/Conductor.lean`, with injective integer
-casts and positive level, for conductor and primitivity.
-
-Use `WeierstrassCurve.quadraticTwistOf` and
-`WeierstrassCurve.Δ_quadraticTwistOf` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist/Basic.lean`.
-Its parameters are trace t and norm n, with discriminant t²−4n, over any
-commutative ring; a unit discriminant is required for ellipticity preservation.
-For characteristic different from two, specializing an ordinary Legendre
-curve at (t,n)=(0,−D/4) gives the coefficients of G_(D,λ)
-(EllipticLegendreCharacterInterfaces §0.2).
-Use `WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`
-from the same file for the Galois-equivariance sign over a separable quadratic
-extension; the split class uses the identity comparison.
-
-Use `WeierstrassCurve.algorithmicConductor` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/TateAlgorithm/Reduction/Conductor.lean`:
-for an elliptic curve over the fraction field of a Dedekind domain O whose
-localizations at height-one primes have perfect residue fields, the ideal of O
-whose exponent at each height-one prime is the Ogg exponent v(Δ_min)−m+1 read
-off Tate's algorithm on a local minimal equation, with
-`WeierstrassCurve.algorithmicConductor_ne_bot` and, over ℚ with O=ℤ,
-`WeierstrassCurve.pow_dvd_absNorm_algorithmicConductor_iff` (p^n divides the
-norm exactly when n is at most the Ogg exponent at p) and
-`WeierstrassCurve.one_lt_absNorm_algorithmicConductor_iff` (the norm exceeds 1
-exactly at some bad reduction). Over ℚ the norm of this ideal is the conductor
-M of the Conventions: the Ogg exponent equals the conductor exponent f(E) by
-Ogg's formula in every residue characteristic, which is
-NeronModelsAndSemistableAbelianVarieties §5.3e; the pinned declaration makes
-no such identification, and EllipticCurves Layer 8 compares the two only at
-semistable primes. Use `WeierstrassCurve.minimalDiscriminantIdeal` in
-`TauCeti/AlgebraicGeometry/EllipticCurve/MinimalModel/DiscriminantIdeal.lean`,
-the ideal whose exponent at each height-one prime is the local minimal
-discriminant valuation, invariant under change of variables
-(`WeierstrassCurve.minimalDiscriminantIdeal_smul`); over ℚ the valuation of
-its norm at a prime q is v_q(Δ_min).
-
-For the local ramification theory under the conductors, K and L are
-nonarchimedean local fields (`IsNonarchimedeanLocalField`, with `ValuativeRel`,
-compatible topology and `ValuativeExtension K L`) and L/K is finite.
-Use `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, the lower
-filtration of `L ≃ₐ[K] L` indexed by ℤ, with `lowerRamificationGroup_zero`
-(G_0 is the inertia group of the maximal ideal of 𝒪[L]),
-`lowerRamificationGroup_antitone` and
-`lowerRamificationGroup_eq_bot_of_largestLowerJump_lt` (G_i is trivial above the
-largest lower jump), in `TauCeti/NumberTheory/LocalField/RamificationGroup.lean`.
-For L/K Galois use `TauCeti.LocalFieldsRamification.herbrand`,
-`TauCeti.LocalFieldsRamification.inverseHerbrand` and
-`TauCeti.LocalFieldsRamification.upperRamificationGroup`, with `G^v = G_{ψ(v)}` on
-`[−1, ∞)`, in `TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`, and Herbrand's
-quotient theorem `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`
-in `TauCeti/NumberTheory/LocalField/Herbrand/UpperQuotient.lean`: for a finite tower
-M/L/K with L/K and M/K Galois, restriction maps G^v(M/K) onto G^v(L/K).
-Use `TauCeti.inertiaSubgroup` in
-`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean` and
-`TauCeti.wildInertiaSubgroup` in `TauCeti/NumberTheory/LocalField/WildInertia.lean`,
-the subgroups I_K ⊇ P_K of the absolute Galois group fixing the maximal unramified
-and the maximal tamely ramified extension. For a finite Galois subextension L of
-the algebraic closure with a compatible local-field structure,
-`TauCeti.map_inertiaSubgroup_restrictNormalHom` (in
-`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Finite.lean`) and
-`TauCeti.map_wildInertiaSubgroup_restrictNormalHom` (in the wild-inertia file)
-identify the images of I_K and P_K in Gal(L/K) with G_0(L/K) and G_1(L/K).
-These hypotheses and the normalized integer valuation are retained in the
-supplied conductor setting of ArithmeticGaloisRepresentations §§3.1–3.3.
-
-### From TauCetiRoadmap.EllipticCurves
-
-Consume Layer 2's actual torsion Galois action and its functoriality, Layer 3's
-Hasse bound and supersingular criteria (with p≥5 for the trace-zero criterion),
-and Layer 4's integral-model minimality and good/multiplicative reduction.
-Consume Layer 6’s `x − θ` Kummer map and kernel 2E(K), and Layer 8’s
-semistable algorithmic–Artin conductor comparison (the Szpiro block). At an odd prime,
-a unit discriminant gives good reduction; a unit c₄ and positive discriminant
-valuation give minimal multiplicative reduction. The Frey–Hellegouarch curve
-of §Worked examples is formalised at the pin as `TauCeti.freyCurve`
-(From Tau Ceti), with the same coefficients (0,B−A,0,−AB,0); this roadmap
-consumes the pinned declaration, and Layer 1 specializes it at (a,c).
-
-### From TauCetiRoadmap.ModularForms
-
-Consume Layers 2–4's Hecke operators and normalized weight-two newforms,
-and Layer 8's coefficient number field, Hecke eigenvalues and coefficient-field embeddings. Consume Layer 10's
-trivial-nebentypus dimension formulas. The newspace dimension used in the Kraus
-threshold is not the full Γ₁ dimension.
-
-### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
-
-Consume §5.3g's elliptic conductor values over nonarchimedean local fields:
-good reduction has exponent 0 and split or nonsplit multiplicative reduction
-has exponent 1; over ℚ₂ and ℚ₃ the wild bounds are f₂≤8 and f₃≤5.
-Consume §5.3e's Ogg formula in every residue characteristic: the conductor
-exponent f(E) equals v(Δ_min)−m+1, so that over ℚ the conductor M is the norm
-of the pinned algorithmic conductor (supplier contract From Tau Ceti).
-Consume §5.3h's conductor of the actual torsion representation E[ell],
-before semisimplification. At residue characteristic p≠ell, good reduction
-gives exponent 0 and multiplicative reduction gives exponent 0 if
-ell divides v_p(Δ_min), and 1 otherwise. For E/ℚ and prime ell≥5,
-the prime-to-ell residual conductor is the prime-to-ell part of M with
-each prime p≠ell, p∥M and ell dividing v_p(Δ_min) deleted once.
-The formula includes the additive places in this ell≥5 range; no such
-general additive comparison at ell=3 is assumed.
-(BS20, §2, equation (3), p. 358.)
-
-### From TauCetiRoadmap.EllipticCurveModularity
-
-Consume R29.3's “The newform of an elliptic curve,” R29.4's “The level is
-the conductor” and R29.6's modularity theorem. Every elliptic E/ℚ has an
-attached normalized weight-two trivial-character newform at its positive
-arithmetic conductor M, with integer coefficients and the same traces at
-every good prime. This actual modularity witness is supplied to
-SerreWeightAndLevelOptimisation §6.2.
-(BS20, §2, Theorem 3 and its modularity input, pp. 358–359.)
-
-### From TauCetiRoadmap.SerreWeightAndLevelOptimisation
-
-Consume §6.1's deletion level M₀ for E/ℚ, conductor M>0, nonzero minimal
-discriminant Δ_min and prime ell≥3: divide M by the product of primes
-p∥M with ell dividing v_p(Δ_min), including p=ell when it qualifies.
-Consume §6.2 with an actual weight-two trivial-character modularity witness
-at M and irreducible E[ell]. It gives a normalized cuspidal weight-two
-trivial-character newform f at M₀, a coefficient prime λ above ell, and
-the residual isomorphism after scalar extension. The coefficient field is
-totally real. Retain its good or finite-flat multiplicative coefficient-prime
-input when removing ell; M₀ need not be prime to ell in general.
-
-Consume §6.3 for that same f and λ: at p∤ell M M₀ the good traces are
-congruent modulo λ; at p∤ell M₀ with p∥M, c_p is congruent to
-ε_p(p+1), where ε_p=1 for split and −1 for nonsplit multiplicative
-reduction. Neither removed-prime congruence nor unramified Frobenius is
-asserted at p=ell. The comparison of M₀ with the prime-to-ell residual
-conductor uses §5.3h of NeronModelsAndSemistableAbelianVarieties at ell≥5;
-§1.10 verifies the coefficient-prime conditions for the progression family.
-(BS20, equation (3), p. 358; Theorem 3 and Lemma 2.1, p. 359.)
-
-### From TauCetiRoadmap.AutomorphicGaloisRepresentations
-
-Consume §1.5's arithmetic dual of the cohomological newform realization,
-specialized to a normalized cuspidal weight-two newform of positive level N
-and trivial nebentypus. At a coefficient place λ above ell it is a jointly
-continuous two-dimensional representation over K_λ, unramified outside
-N*ell, with cyclotomic determinant and arithmetic-Frobenius polynomial
-`T^2-c_p*T+p` at p∤N*ell. Residual reduction uses
-ArithmeticGaloisRepresentations §1.9 and its continuous residue-map hypotheses.
-(BS20, §2, pp. 358–359.)
-
-### From TauCetiRoadmap.WeightsInEtaleCohomology
-
-Consume R34.6's `newform_ramanujan`, using R34.5's realization and purity:
-for every normalized cuspidal weight-two newform f of positive level N and
-trivial nebentypus, every complex embedding σ of its coefficient number field,
-and every prime p∤N, |σ(c_p)|≤2√p. At a coefficient place above ell, the
-Frobenius comparison additionally requires p≠ell; the coefficient bound itself
-does not. No separate eigenform-purity adapter is constructed here.
-(BS20, Lemma 2.2 and proof, p. 359.)
-
-### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
-
-Consume §§5.12 and 6.4's `mordell_finite` on its native signature: K is a
-number field and C is a smooth proper geometrically connected one-dimensional
-scheme over Spec K with genus at least two, using `C.genus K` and its
-finite-dimensional H¹(C, 𝒪_C) instance. Rational points are morphisms over
-Spec K. AlgebraicCurves Layer 12E identifies this genus with the function-field
-genus computed for the diagonal curve. MordellLawrenceVenkatesh §11.6 supplies
-an alternative proof of that same declaration. No effective height bound or
-point enumeration is part of the contract.
-(Faltings1983, §6, Satz 7, p. 365.)
-
-### From TauCetiRoadmap.ModularCurves
-
-Consume §4C's universal Legendre family over ℤ[1/2] and its field fibres.
-
-### From TauCetiRoadmap.EllipticLegendreCharacterInterfaces
-
-Its L(λ), L(d,λ) and L(2,λ) are F_λ, G_(D,λ) and F′_λ here, with ordered
-roots (0,D,Dλ). Consume §0.1's coefficient model (0,−(1+λ),0,λ,0) of F_λ
-over every commutative ring, including characteristic two and the singular
-parameters; its smooth specialization is the ModularCurves §4C family.
-Section 0.4 gives the discriminant 16λ²(1−λ)² and, over a field with 2≠0,
-ellipticity iff λ≠0,1, with j=256(λ²−λ+1)³/(λ²(1−λ)²) for those parameters.
-Consume §0.2's scaled model G_(D,λ) with coefficients (0,−D(1+λ),0,D²λ,0)
-over every commutative ring, equal over a field with 2≠0 to the native
-quadratic twist of F_λ at (0,−D/4), and its square-scaling change: for a
-unit u, the admissible change of scaling u⁻¹ carries G_(D,λ) to G_(u²D,λ)
-and sends a point (x,y) to (u²x,u³y). Section 0.5
-gives Δ(G_(D,λ))=16D⁶λ²(1−λ)² and, over a field with 2≠0 and D≠0,
-ellipticity iff λ≠0,1. Consume §0.3's labelled parameters λ, 1/λ, 1−λ,
-1/(1−λ), λ/(λ−1), (λ−1)/λ, with repetitions retained; §0.8's normalization
-of a split normal-form cubic, with scalars D, Dλ, −D, D(λ−1), D(1−λ), −Dλ
-for the root orders (012), (021), (102), (120), (210), (201); §0.9's
-normalization over every field K with 2≠0, by which an elliptic E/K with
-four K-points killed by 2 is K-isomorphic to some G_(D,λ) with D≠0 and
-λ≠0,1; and §0.10's three labelled two-torsion points.
-
-For an elliptic F/ℚ identified with G_(D,λ) by a rational admissible change,
-§1.2 gives v_p(λ)=v_p(1−λ)=0 at every odd prime of good reduction, for every
-associated parameter and without a semistability hypothesis. For
-ω∈{±1,±2}, §1.4 places every odd prime of the primitive conductor of the
-character of ωλ among the bad primes of F, and §1.5 gives, for F semistable
-away from 2, that the odd part of that conductor divides the elliptic
-conductor. Nontriviality of the odd part is not part of this contract; this
-roadmap's §§2.3 and 2.6 prove it in the progression setting. Consume the
-ordered split readings of the native descent map in §§2.1, 2.3 and 2.5–2.7,
-and §2.8's halving criterion: over a field K with 2≠0, D≠0 and λ≠0,1, an
-affine K-point (x,y) of G_(D,λ) is twice a K-point iff x, x−D and x−Dλ are
-squares in K, zero included.
-
-Consume §3.1: over every finite field of odd characteristic, F_λ contains a
-subgroup isomorphic to ℤ/2ℤ×ℤ/4ℤ whenever λ is a square different from 0
-and 1. Consume §3.7, which rests on §§3.2 and 3.6: v₂(#F₋₁(𝔽))=3 over every
-finite field 𝔽 with q≡5 mod 8 elements. Consume §4.1: over a field with
-2≠0, for nonzero t,v with 2t²+2v²=1 and i²=−1, the point
-(2λ+4itv,8itv(t+iv)) of F′_λ, λ=2t², has double (2λ,0) and third descent
-class [4itv]. Consume §5.1: over every finite field with q≡3 mod 4
-elements, y²=x³+ax has trace 0 for every a, the singular a=0 included; and
-§5.2: over every finite field of odd characteristic and every d, the native
-twist at (0,−d/4) of a normal-form equation has trace quadraticChar(d) times
-the original trace, so a_q(G_(D,λ))=quadraticChar(D)·a_q(F_λ). The
-progression hypotheses, the Case partition, the progression obstructions and
-the nontriviality of the odd character conductor are targets of this
-roadmap's Layer 2.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-Consume §1.51 `squareclassCharacter` of a nonzero rational number: its primitive
-conductor, squarefree odd support, 2-part in {1,4,8}, support at odd valuations,
-and characterization of odd part 1 by the four classes ±1, ±2. Consume §4.41's
-quartic descent: positive primitive T,V,U satisfying T⁴+V⁴=2U² have T=V=U=1.
-The primitive, positive and nonzero hypotheses are kept in the Case-II application.
-
-### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
-
-Consume H3.1's complex elliptic uniformization/endomorphism comparison and
-algebraic integrality of CM j-values. For a rational j-value, algebraic
-integrality implies j∈ℤ. This is used only after proving CM of that same curve.
-
-### From TauCetiRoadmap.AlgebraicCurves
-
-Consume AlgebraicCurves Layer 7's Riemann–Hurwitz formula with the degree,
-separability, tame different and constant-field hypotheses, and
-AlgebraicCurves Layer 12E's comparison of the smooth projective curve,
-its function field, H¹ and genus. The diagonal cover, its smoothness,
-geometric connectedness, branch data and rational-point lifting are Layer 6
-constructions here.
-
-### From TauCetiRoadmap.EtaleCohomologyFoundations
-
-Consume §F.4.0 `ContinuousRep`, `ContinuousRep.exists_stable_lattice_iff` and
-`GaloisLattice.IntegralModel`: a jointly continuous representation of a compact
-group on a finite-dimensional vector space over a nonarchimedean local field,
-with its module topology, has an invariant lattice over the valuation ring.
-Apply this to the compact absolute Galois group and K_λ²; use the following
-residual-representation contract for reductions of these integral models.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Consume §1.9's `IntegralModel.reduction`, `IntegralModel.residualSS` and
-`ContinuousRep.residual`: reduction of an integral model, its residual semisimplification,
-and independence up to isomorphism of the stable lattice, coefficient-field
-descent and coefficient extension to an algebraic residue field. Retain the
-topological-ring and continuous residue-map hypotheses, with discrete residue
-field, for continuity of the reduction. Raw reduction and its semisimplification
-are distinct; the torsion representation E[ell] is not replaced by its
-semisimplification before the elliptic conductor calculation.
-
-Consume §§3.1–3.2's Swan conductor and Artin exponent
-codim(V^I)+Sw(V), with `Conductor.artinConductor` and its natural-number
-form `Conductor.artinConductorNat`, their integrality and invariance under isomorphism and
-coefficient extension. Locally the base field is complete for an integer-normalized
-discrete valuation with perfect residue field of characteristic p. The representations
-are finite-dimensional and continuous over Hausdorff coefficient fields, the
-coefficient characteristic is different from p, and wild inertia has finite image. For ell-adic or residual coefficients, also require ell≠p; characteristic
-zero of the coefficient field alone does not impose this restriction.
-Consume §3.3's global conductor with excluded coefficient places,
-`Conductor.primeToPConductor` and the positive-generator convention over
-ℚ. The global representations are continuous and unramified outside a finite
-set. In particular, the conductor is computed on the actual representation,
-not on a characteristic-zero lift of a residual representation.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-Consume §0.34's uniform exclusion of Landau–Siegel zeros,
-`landau_siegel_exclusion`: there is an effective absolute c_LS>0 with
-(1−β)log q≥c_LS for every real zero β∈(0,1) of every primitive nonprincipal
-real Dirichlet L-function of conductor q≥3, with no finite range of conductors
-set aside. The exclusion with an absolute constant is OpenAI2026, Theorem 1,
-whose proof argues by contradiction along a sequence of conductors and so fixes
-no value of the constant; Green2026, Theorem 1.1 is the inert-prime estimate
-that §0.34c of that roadmap uses. The effectivity of c_LS is the supplier's own
-claim: its §0.34 derives it from the explicit lower bound of its §§0.34b–0.34c
-above an effective conductor threshold and from the effective gap of its §0.12
-below that threshold. It enters through two of the corollaries stated there, so
-no exceptional zero, exceptional conductor or conductor repulsion occurs in this
-roadmap.
-Consume §0.18's effective character PNT for primitive nonprincipal characters
-of conductor N>1 and X≥X₀, with effective absolute c,C>0 and X₀ chosen before
-the character: |∑_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴.
-It has no term −X^β/β, since by §0.34 such a term is absorbed by this error.
-Consume §0.6's exception-free bounded-height Landau–Page theorem: there is an
-effective absolute c₀>0 such that, for T≥2, no primitive Dirichlet character
-of modulus q≤T has a zero ρ with |Im ρ|≤T and Re ρ>1−c₀/log T. Its strict
-boundary is used at twice the width to obtain the closed-boundary application
-in §5.1. Consume §1.4 and §§1.4a–1.4d's common-height half-interval explicit
-formula, including the bounded kernel at zero, and §1.7's effective log-free
-density bound, counting analytic multiplicities; it has no additive term. All
-constants are effective and chosen before the conductor.
-
-Consume §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25 for the following estimates,
-with their exact domains: θ(x)<1.000081x for x>0;
-|θ(x;8,a)−x/4|≤0.002811x/4 for a=3,5 and x≥10¹⁰;
-the prime-count pair x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x))
-for x≥59; |∑_(p≤x)1/p−log log x−B₁|<1/(2(log x)²) for x≥286;
-log x+E−1/(2 log x)<∑_(p≤x)(log p)/p<log x+E+1/(2 log x)
-for x≥319 with the same constant E at both endpoints;
-the strict half-interval prime-power margin 0.000045875k for k≥2·10¹⁰;
-and ∏_(p≤x)(1+1/p)≤2 log x for x≥10⁸. Here B₁ is the prime Mertens
-constant and E=−γ−∑_p log p/(p(p−1)); E cancels in interval subtraction.
-Consume §3.1 and §§3.1a–3.1c's effective divisor bound on positive integers.
-The constant c_LS of §0.34 is effective but has no numerical value, so these
-literal estimates and their finite-range inputs are unaffected by it.
-
-The exclusion of Landau–Siegel zeros is unconditional; the literal numerical
-estimates have the following hypotheses, which remain hypotheses in every
-application until the indicated supplier gaps are discharged.
-
-| Supplier section | Required input | Exact content relevant here |
-| --- | --- | --- |
-| §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.18 in Layer 3 and through §0.6 in Layer 5; no gap is declared. |
-| §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Declared as gap:schoenfeld-theta-finite-range. |
-| §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Declared as gap:rosser-schoenfeld-prime-count-finite-range. |
-| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ExplicitZetaBounds §0.3's GRH(8, 10000) and GRH(4, 10000) with §0.4's RH(10⁹) and §0.2's passage to imprimitive characters. |
-| §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). Declared as gap:prime-product-finite-range. |
-
-`ModEightFiniteInput` is the conjunction of its theta clause and its zero-line
-clause; the zero-line clause is ExplicitZetaBounds §§0.2–0.4 at the
-divisors 1, 2, 4 and 8 of the modulus (consumed below) and only the theta
-clause is a gap. No GRH assumption or omitted numerical hypothesis is substituted for
-these inputs. The real-zero separation of §0.7, with its inputs
-`BMORFiniteInput` and `BMORClassNumberInput`, and the conductor–largest-prime
-bound of §3.2, with `QuadraticConductorFiniteInput`, are not consumed: §0.6
-leaves Layer 5 no small modulus to separate, and this roadmap's §3.1 proves
-the conductor comparison that the exception-free harmonic criterion needs.
-
-The clauses no supplier proves are declared as the following gaps, one per
-input, and are cited by slug from every target that uses the corresponding
-literal constant. A gap supplies no theorem; a target citing one is conditional
-on that input until the gap is discharged.
-
-What AnalyticNumberTheoryPartI must provide (gap:schoenfeld-theta-finite-range): a proof of `SchoenfeldFiniteRangeInput`, that is θ(x)<1.000081x for every real 0<x<exp(10000) (Schoenfeld1976, Note Added in Proof, p. 360).
-
-What AnalyticNumberTheoryPartI must provide (gap:rosser-schoenfeld-prime-count-finite-range): a proof of `RosserSchoenfeldFiniteRangeInput`, that is x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x)) for every real 59≤x<exp(10000) (RosserSchoenfeld1962, Theorem 1).
-
-What AnalyticNumberTheoryPartI must provide (gap:mod-eight-theta-finite-range): a proof of the theta clause of `ModEightFiniteInput`, that is |θ(x;8,a)−x/4|≤0.002811x/4 for a=3 and a=5 and every real 10¹⁰≤x<exp(10000) (RamareRumely1996, Theorem 1 and Table 1).
-
-What AnalyticNumberTheoryPartI must provide (gap:prime-product-finite-range): a proof of `PrimeProductFiniteInput`, that is ∑_(p≤x)1/p≤log log x+0.27+5/log x for every real 10⁸≤x<exp(10000) (RosserSchoenfeld1962, Theorems 5 and 8).
-
-### From TauCetiRoadmap.EllipticCurveModularityPartII
-
-Consume the following effective comparisons and carriers, labelled EC.0–EC.6 in
-Layers 1–2, with the hypotheses of the cited sections.
-
-| Label | Supplier section | Content consumed here |
-| --- | --- | --- |
-| EC.0 | §1.4 | 12g₀⁺(N)≤N+1 for every positive level N, for the trivial-character weight-two newspace. |
-| EC.1 | §2.2 | For E/ℚ and prime ell≥3 with E[ell] irreducible, ell≤(√p+1)^((M₀+1)/6) for every prime p≠ell with p∥M and ell dividing the minimal discriminant valuation. |
-| EC.2 | §§1.5–1.8 | The sharp thresholds F♯, G♯, H♯ and, by §1.8, F♯(N)≤F_K(N), G♯(N)≤G_K(N), H♯(N)≤H_K(N) for N>0. |
-| EC.3 | §4.7 | For E/ℚ with full rational two-torsion, prime ell≥5, E[ell] irreducible of Serre weight two and prime-to-ell conductor N, and ell>H♯(N): an F/ℚ of conductor exactly N with full rational two-torsion and F[ell]≅E[ell]. |
-| EC.4 | §§5.4–5.5 | Irreducibility of E[ell] for primes ell≥5 under full rational two-torsion, and for primes ell≥11 under a rational point of order two. |
-| EC.5 | §6.18 | Surjectivity onto GL₂(𝔽_ell) for every prime ell>37, for a non-CM E/ℚ with a rational cyclic isogeny of degree greater than one. |
-| EC.6 | §5.1 | The geometric n-torsion `GeometricTorsion` of an elliptic E/ℚ, which is `AddSubgroup.torsionBy` of the points over an algebraic closure of ℚ at n, its ZMod n module and Galois representation `torsionRepresentation`, and the full-two-torsion predicate `FullRationalTwo`: exactly four rational points killed by 2. §1.12 states the residual comparison on the torsion subgroup directly and restates the predicate locally as `HasFullRationalTwoTorsion`, since a roadmap's Lean file imports only the pinned libraries. |
-
-Here μ(N)=N∏_(q|N)(1+1/q) is the Γ₀ index for N>0, and the numerical majorants are
-F_K(N)=(μ(N)/6+1)^(2g₀⁺(N)), G_K(N)=(μ(lcm(N,4))/6+1)², H_K(N)=max(F_K(N),G_K(N)).
-The progression levels are bounded against these majorants; by EC.2 the
-hypothesis ell>H_K(N) implies ell>H♯(N), so EC.3 applies unchanged. The
-deletion-level and coefficient-prime comparison in §1.10 is needed before
-applying EC.3 to the progression curve; the progression local calculations and
-level bounds remain here (BS20, §2, Lemma 2.2 and Theorem 4, pp. 359–360;
-Lemmas 3.3, 3.5, pp. 362–363; Kraus1997, §3.1, Théorème 4, p. 1144;
-Lemos2017v2, Theorem 1.1, p. 2).
-
-### From TauCetiRoadmap.ExplicitZetaBounds
-
-Consume §0.2's bounded-height Riemann hypotheses RH(H) (`RiemannHypothesisUpTo`)
-and GRH(q, H) (`DirichletGRHUpTo`): RH(H) says that every zero of `riemannZeta`
-with 0<Re s<1 and |Im s|≤H has Re s=1/2, and GRH(q, H) says the same for the
-native `DirichletCharacter.LFunction` of every primitive character modulo q.
-Consume with them their antitonicity in H, the identity of RH(H) with
-GRH(1, H), and §0.2's passage to imprimitive characters: every character
-modulo q, primitive or not, has all its zeros with 0<Re s<1 and |Im s|≤H on
-Re s=1/2 as soon as GRH(f, H) holds for every divisor f of q, because its
-L-function is that of its primitive character times Euler factors at the
-primes dividing q whose zeros lie on Re s=0. Consume §0.3's corollaries
-GRH(8, 10000) and GRH(4, 10000) of the record `PlattRecord`, which is
-GRH(q, H(q)) for 2≤q≤400000 with H(q)≥10⁸/q (Platt2013v1, Theorem 7.1,
-p. 14); GRH(2, H) holds for every H because no character modulo 2 is
-primitive. The modulus 1 is not part of that record: consume §0.4's record
-RH(10⁹), hence RH(10000) by antitonicity. At the divisors 1, 2, 4 and 8 of
-the modulus 8 with H=10000 these give the zero-line clause of
-AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`, used in §0.9.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-Consume §0.4's finite Gram inequalities over a real or complex inner-product
-space, for a vector x and a finite, possibly empty family y_a with Gram row sums
-r_a=∑_b|⟨y_a,y_b⟩|: the uniform form `SieveGram.sum_norm_inner_sq_le_of_row_le`,
-∑_a|⟨x,y_a⟩|²≤C‖x‖² for every C≥0 with r_a≤C for all a; the maximum-row form
-`SieveGram.sum_norm_inner_sq_le_max_row` for a nonempty family; and the
-diagonal/off-diagonal form `SieveGram.sum_norm_inner_sq_le_of_diag_offdiag`,
-∑_a|⟨x,y_a⟩|²≤(D+O)‖x‖² when D+O≥0, ‖y_a‖²≤D and ∑_(b≠a)|⟨y_a,y_b⟩|≤O for
-every a. The names lie in the namespace
-`TauCetiRoadmap.SieveMethodsAndPrimePatterns`. §3.3 applies the
-diagonal/off-diagonal form (BS20, Theorem 7, p. 379).
-
-## How to read the build
-
-Layer 0 constructs signed factors, finite index sets and the factorial adapter
-to the supplied prime estimates. Layer 1 specializes the supplied residual and
-conductor invariants before building the modular comparisons for both Frey families.
-Layer 2 applies the supplied Legendre interfaces and builds the simultaneous character family.
-Layer 3 supplies effective analytic inputs and the two original-route criteria;
-Layer 4 supplies quantitative Roth, sieve densities and that route's assembly.
-Layer 5 builds the bounded-height zero estimates and a single Granville witness.
-Layer 6 combines either route with the signed geometric adapter for fixed-length
-finiteness. Layer 7 proves the independent consecutive-product theorem and records
-explicit conjectural predicates; it supplies no
-premise to Layers 0–6. Each simultaneous choice satisfies all its properties
-at once. Backticked local declaration names belong to
-`TauCetiRoadmap.ErdosProgressionPowers` and occur in `Suggested.lean`.
-Its headline tests are the half-interval prime-divisibility theorem (§1.9),
-the comparison-curve theorem (§1.12), the simultaneous character-family
-theorem (§2.7), the prime-exponent bound (§6.2), signed hyperbolic and
-positive fixed-exponent finiteness (§6.3), all-exponent fixed-length
-finiteness (§6.5), and the consecutive-product theorem (§7.1). The
-comparison-curve and character-family statements render the conductor by the
-norm of the pinned algorithmic conductor, the deletion level by that norm and
-the norm of the pinned minimal discriminant ideal, and the residual comparison
-by a Galois-equivariant isomorphism of the geometric ell-torsion subgroups of
-the pinned points over an algebraic closure. The identification of the deletion
-level with the residual Artin conductor (§1.10) has no pinned carrier and is a
-target here only; the module docstring says so.
 
 ## Layer 0: Primitive solutions and signed factors
 
@@ -2361,6 +1765,602 @@ AnalyticNumberTheoryPartI §0.34 is effective, and no ineffective constant or
 rational-point height bound can enter the prime-exponent threshold.
 The existential Lean statement of `k_0` expresses its logical conclusion;
 computability is an additional mathematical obligation in the theorem above.
+
+## Scope and ownership
+
+This roadmap owns the progression arithmetic, the two Frey specializations, their
+local and modular adapters, the Legendre case analysis, simultaneous character
+selection, both analytic endgames and the signed diagonal-curve finiteness application.
+It owns the progression-specific residual-conductor wrapper and local-hypothesis
+verification, signed diagonal curves and quantitative specializations stated in
+Layers 1–6. NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3h own elliptic
+conductor values, wild bounds and the multiplicative residual-discriminant formula.
+SerreWeightAndLevelOptimisation §§6.1–6.3 own the deletion level, weight-two
+lowering with a modularity witness, and good-prime and removed-prime trace
+congruences. EllipticCurveModularity R29.3, R29.4 and R29.6 supply that
+modularity witness at the conductor; AutomorphicGaloisRepresentations §1.5
+supplies the continuous arithmetic newform representation.
+ArithmeticGaloisRepresentations §1.9 owns
+residual reduction and lattice independence; its §§3.1–3.3 own Swan, Artin and
+prime-to-coefficient residual conductors. General modularity, newform representations,
+rational-isogeny classification and uniformity, character PNT, zero-density and
+Mordell finiteness are supplier contracts, including the explicit gaps below.
+
+EllipticCurves Layers 2–4 own torsion, finite-field Hasse theory, and local
+minimality and reduction. The Frey–Hellegouarch curve Y²=X(X−A)(X+B) of
+EllipticCurves §Worked examples is formalised at the pin as Tau Ceti
+`TauCeti.freyCurve`, with the same coefficients over any commutative ring, and
+the geometric torsion subgroup is Mathlib's `AddSubgroup.torsionBy`; this
+roadmap consumes both from the pins.
+EllipticCurveModularityPartII §5.1 owns the geometric-torsion module on that
+subgroup, its Galois representation and the full-two-torsion predicate.
+EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
+and Layer 8 owns the semistable algorithmic–Artin conductor comparison. The first family here differs by its progression normalization;
+the second differs by its equal-sum quadratic identity. ModularForms Layers 2–4, 8
+and 10 own Hecke operators, newforms, coefficient fields and dimension formulas.
+ModularCurves §4C owns the universal Legendre family and its field fibres.
+EllipticCurves Layer 5 owns general quadratic twists.
+EllipticLegendreCharacterInterfaces owns the Legendre coefficient models over
+every commutative ring with their invariants (§§0.1–0.5), the labelled
+parameters, ordering scalars and normalization over every field of
+characteristic different from two (§§0.3, 0.8–0.9), good-prime units and
+character conductors (Layer 1), split-cubic descent readings and halving
+(Layer 2), two-primary torsion over odd finite fields (Layer 3), the
+scale-two order-four point (Layer 4) and the symmetric-cubic and
+quadratic-twist trace identities (Layer 5). This roadmap owns their
+progression applications.
+Martin's bound, the removed-prime inequality, the Kraus thresholds and
+realization, uniform irreducibility and rational-isogeny surjectivity are
+owned by EllipticCurveModularityPartII Layers 1–6; the contract EC.0–EC.6
+below records the sections consumed, and the progression applications remain here.
+ExplicitZetaBounds §§0.2–0.4 own the bounded-height Riemann hypotheses RH(H)
+and GRH(q, H), Platt's finite-conductor theorem in that form and the recorded
+verifications for the Riemann zeta function.
+HeightsRationalPointsAndObstructions §§5.12 and 6.4 own the shared native Mordell
+finiteness theorem; WeightsInEtaleCohomology R34.5–R34.6 own eigenform purity and
+the bound at every complex embedding. Section 7.1 owns the consecutive-product
+arithmetic and counting argument, reusing §4.3 for factorial deletion.
+ClassicalArithmeticCompletion §§1.51 and 4.41 own squareclass characters and the
+quartic descent. ImaginaryQuadraticClassNumber H3.1 owns CM integrality and the
+complex uniformization comparison. AlgebraicCurves Layers 7 and 12E own Hurwitz and the function-field/scheme genus
+comparison. Those general constructions are supplied by name, not specified again.
+
+Mathlib owns integer gcd, factorization, valuations, finite products, the native
+Weierstrass invariants, Dirichlet characters and continued L-functions, qualitative
+Roth, and the Stirling sequence. Tau Ceti owns the projective point-count trace and
+the ramification theory of nonarchimedean local fields that the conductors rest on:
+the lower and upper ramification filtrations of a finite Galois extension, the
+Herbrand functions with Herbrand's quotient theorem, and inertia and wild inertia
+in the absolute Galois group with their restrictions to finite Galois subextensions.
+The specialized invariant identities here retain the progression hypotheses; there
+is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.8, 0.16, 0.18–0.20, 0.25, 0.34, 1.4, 1.7 and
+3.1 own the generic prime estimates, the uniform exclusion of Landau–Siegel
+zeros with its exception-free bounded-height and character-PNT corollaries,
+explicit formula, zero density and divisor estimates.
+Their numerical input hypotheses are retained in the supplier contracts below.
+SieveMethodsAndPrimePatterns §0.4 owns the finite Gram inequalities that Layer 3 applies.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Int.gcd_def`, `Int.gcd_greatest` and
+`Int.dvd_of_dvd_mul_left_of_gcd_one` in `Mathlib/Data/Int/GCD.lean` for
+nonnegative gcds and cancellation. Use `Nat.factorization` in
+`Mathlib/Data/Nat/Factorization/Defs.lean`. For nonzero integer term valuations,
+use `padicValInt.mul` in `Mathlib/NumberTheory/Padics/PadicVal/Basic.lean`,
+retaining `[Fact p.Prime]` and nonzero factors.
+The valuation at a zero argument is never used to deduce exponent divisibility.
+
+Use `WeierstrassCurve`, `WeierstrassCurve.Δ`, `WeierstrassCurve.c₄`,
+`WeierstrassCurve.j` and the base change `WeierstrassCurve.baseChange` in
+`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`,
+`WeierstrassCurve.Affine.Equation` in
+`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.lean`, and the group
+`WeierstrassCurve.Affine.Point` of affine points with the point at infinity in
+`Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.lean`. Ellipticity is
+`IsElliptic`, with nonzero discriminant, rather than a separate curve carrier.
+Use `WeierstrassCurve.Affine.Point.map` from the same file: an algebra map
+between two field extensions of the base ring induces a group homomorphism from
+the points over the first field to the points over the second. Applied to the
+automorphisms of an algebraic closure Ω of ℚ over ℚ it is the Galois action on
+the points over Ω; being a homomorphism, it preserves the subgroup of points
+killed by ell, which is how the residual comparison in §1.12 is stated.
+Use `AddSubgroup.torsionBy` in `Mathlib/Algebra/Module/Torsion/Basic.lean`, the
+subgroup of an additive group killed by an integer: the geometric ell-torsion
+of §1.12 is this subgroup of the points over Ω at ell, and the rational
+two-torsion of `HasFullRationalTwoTorsion` is this subgroup of the rational
+points at 2. No torsion subgroup is defined in this roadmap.
+
+Use `DirichletCharacter.conductor`, `DirichletCharacter.IsPrimitive` and
+`MulChar.IsQuadratic` from
+`Mathlib/NumberTheory/MulChar/Basic.lean`; the first two are in
+`Mathlib/NumberTheory/DirichletCharacter/Basic.lean`; use
+`DirichletCharacter.LFunction` from
+`Mathlib/NumberTheory/LSeries/DirichletContinuation.lean` with positive modulus.
+Use `ZMod.LFunction_apply_zero_of_even` in
+`Mathlib/NumberTheory/LSeries/ZMod.lean`: for an even function Φ,
+L(0,Φ)=−Φ(0)/2. For a Dirichlet character of modulus greater than one,
+its value at zero vanishes. Use `DirichletCharacter.LFunction_ne_zero_of_one_le_re`
+in `Mathlib/NumberTheory/LSeries/Nonvanishing.lean` away from the principal pole.
+Use `ArithmeticFunction.vonMangoldt` from
+`Mathlib/NumberTheory/ArithmeticFunction/VonMangoldt.lean` and
+`Nat.maxPrimeFac` from `Mathlib/Data/Nat/MaxPrimeFac.lean`.
+
+Use `Chebyshev.theta` and `Chebyshev.psi` from
+`Mathlib/NumberTheory/Chebyshev.lean` for the prime and prime-power sums.
+
+Use `roth_3ap_theorem_nat` from
+`Mathlib/Combinatorics/Additive/Corner/Roth.lean` for the qualitative finite-set
+conclusion. Layer 4 proves the stronger numerical cutoff. Use
+`Stirling.stirlingSeq`, `Stirling.log_stirlingSeq_sdiff_le` and
+`Stirling.tendsto_stirlingSeq_sqrt_pi` and `Stirling.le_factorial_stirling` from
+`Mathlib/Analysis/SpecialFunctions/Stirling.lean` for the factorial adapter.
+
+Use `Nat.exists_prime_lt_and_le_two_mul` in
+`Mathlib/NumberTheory/Bertrand.lean`: for natural n≠0 there is a prime p
+with n<p≤2n. Use `SimpleGraph` and `completeBipartiteGraph` from
+`Mathlib/Combinatorics/SimpleGraph/Basic.lean` and `SimpleGraph.Free` from
+`Mathlib/Combinatorics/SimpleGraph/Copy.lean` for the bipartite
+graph and forbidden four-cycle; the
+finite neighbour-pair count in §7.1 is stated on these native carriers.
+
+### From Tau Ceti
+
+Use `TauCeti.freyCurve` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/FreyCurve/Basic.lean`: for A and B in
+any commutative ring, the Weierstrass curve Y²=X(X−A)(X+B) with coefficients
+(0,B−A,0,−AB,0), with its coefficient lemmas. Layer 1's `progressionFreyCurve`
+is this curve at the normalized coefficients (a,c), not a second Frey carrier.
+Use `WeierstrassCurve.torsionGaloisAction` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/Galois.lean`: the
+action of the automorphisms of a field extension on the subgroup
+`AddSubgroup.torsionBy` of the points killed by an integer, whose value at an
+automorphism and a point is `WeierstrassCurve.Affine.Point.map` of that point
+along the automorphism; §1.12 states its equivariance in that point-map form.
+
+Use `WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_def`,
+`WeierstrassCurve.frobeniusTrace` and
+`WeierstrassCurve.frobeniusTrace_eq_card_point` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`: on an elliptic model
+over a finite field of size q, the trace is q+1 minus the number of all projective
+points. The identity point is included.
+
+Use `WeierstrassCurve.Affine.μ`, `WeierstrassCurve.Affine.exists_eq_two_smul_iff`
+and `WeierstrassCurve.Affine.ker_μ_eq` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/MordellWeil/XSubT.lean` for descent and
+halving over a field, with the normal-form, ellipticity and decidable-equality
+hypotheses of that API. Layer 2 specializes these to split cubic coordinates.
+Use `CongruenceSubgroup.Gamma0_prime_index` and
+`CongruenceSubgroup.Gamma0_prime_power_index` in
+`TauCeti/NumberTheory/ModularForms/CongruenceSubgroups/Basic.lean` for the
+actual subgroup index at prime and positive prime-power levels. The rational
+prime-product expression in §1.1 is compared to that index.
+
+Use `TauCeti.Multiquadratic.fundamentalDiscriminantChar`,
+`TauCeti.Multiquadratic.fundamentalDiscriminantChar_isQuadratic`,
+`TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar` and
+`TauCeti.Multiquadratic.fundamentalDiscriminantChar_natCast_eq_legendreSym` in
+`TauCeti/NumberTheory/Multiquadratic/FundamentalDiscriminant/Character.lean`.
+For a fundamental discriminant D the carrier has level |D| and integer values;
+ClassicalArithmeticCompletion §1.51 supplies the integer-valued rational-squareclass
+character. Form its real and complex versions by Mathlib `MulChar.ringHomComp`;
+`MulChar.ringHomComp_apply` and `MulChar.IsQuadratic.comp` give values and quadraticity.
+Use `DirichletCharacter.conductor_ringHomComp` and
+`DirichletCharacter.isPrimitive_ringHomComp_iff` in
+`TauCeti/NumberTheory/DirichletCharacter/Conductor.lean`, with injective integer
+casts and positive level, for conductor and primitivity.
+
+Use `WeierstrassCurve.quadraticTwistOf` and
+`WeierstrassCurve.Δ_quadraticTwistOf` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/QuadraticTwist/Basic.lean`.
+Its parameters are trace t and norm n, with discriminant t²−4n, over any
+commutative ring; a unit discriminant is required for ellipticity preservation.
+For characteristic different from two, specializing an ordinary Legendre
+curve at (t,n)=(0,−D/4) gives the coefficients of G_(D,λ)
+(EllipticLegendreCharacterInterfaces §0.2).
+Use `WeierstrassCurve.quadraticTwistPointEquiv_map_eq_quadraticCharacter_smul_map`
+from the same file for the Galois-equivariance sign over a separable quadratic
+extension; the split class uses the identity comparison.
+
+Use `WeierstrassCurve.algorithmicConductor` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/TateAlgorithm/Reduction/Conductor.lean`:
+for an elliptic curve over the fraction field of a Dedekind domain O whose
+localizations at height-one primes have perfect residue fields, the ideal of O
+whose exponent at each height-one prime is the Ogg exponent v(Δ_min)−m+1 read
+off Tate's algorithm on a local minimal equation, with
+`WeierstrassCurve.algorithmicConductor_ne_bot` and, over ℚ with O=ℤ,
+`WeierstrassCurve.pow_dvd_absNorm_algorithmicConductor_iff` (p^n divides the
+norm exactly when n is at most the Ogg exponent at p) and
+`WeierstrassCurve.one_lt_absNorm_algorithmicConductor_iff` (the norm exceeds 1
+exactly at some bad reduction). Over ℚ the norm of this ideal is the conductor
+M of the Conventions: the Ogg exponent equals the conductor exponent f(E) by
+Ogg's formula in every residue characteristic, which is
+NeronModelsAndSemistableAbelianVarieties §5.3e; the pinned declaration makes
+no such identification, and EllipticCurves Layer 8 compares the two only at
+semistable primes. Use `WeierstrassCurve.minimalDiscriminantIdeal` in
+`TauCeti/AlgebraicGeometry/EllipticCurve/MinimalModel/DiscriminantIdeal.lean`,
+the ideal whose exponent at each height-one prime is the local minimal
+discriminant valuation, invariant under change of variables
+(`WeierstrassCurve.minimalDiscriminantIdeal_smul`); over ℚ the valuation of
+its norm at a prime q is v_q(Δ_min).
+
+For the local ramification theory under the conductors, K and L are
+nonarchimedean local fields (`IsNonarchimedeanLocalField`, with `ValuativeRel`,
+compatible topology and `ValuativeExtension K L`) and L/K is finite.
+Use `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, the lower
+filtration of `L ≃ₐ[K] L` indexed by ℤ, with `lowerRamificationGroup_zero`
+(G_0 is the inertia group of the maximal ideal of 𝒪[L]),
+`lowerRamificationGroup_antitone` and
+`lowerRamificationGroup_eq_bot_of_largestLowerJump_lt` (G_i is trivial above the
+largest lower jump), in `TauCeti/NumberTheory/LocalField/RamificationGroup.lean`.
+For L/K Galois use `TauCeti.LocalFieldsRamification.herbrand`,
+`TauCeti.LocalFieldsRamification.inverseHerbrand` and
+`TauCeti.LocalFieldsRamification.upperRamificationGroup`, with `G^v = G_{ψ(v)}` on
+`[−1, ∞)`, in `TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`, and Herbrand's
+quotient theorem `TauCeti.LocalFieldsRamification.map_restrictNormalHom_upperRamificationGroup`
+in `TauCeti/NumberTheory/LocalField/Herbrand/UpperQuotient.lean`: for a finite tower
+M/L/K with L/K and M/K Galois, restriction maps G^v(M/K) onto G^v(L/K).
+Use `TauCeti.inertiaSubgroup` in
+`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Basic.lean` and
+`TauCeti.wildInertiaSubgroup` in `TauCeti/NumberTheory/LocalField/WildInertia.lean`,
+the subgroups I_K ⊇ P_K of the absolute Galois group fixing the maximal unramified
+and the maximal tamely ramified extension. For a finite Galois subextension L of
+the algebraic closure with a compatible local-field structure,
+`TauCeti.map_inertiaSubgroup_restrictNormalHom` (in
+`TauCeti/NumberTheory/LocalField/Unramified/Inertia/Finite.lean`) and
+`TauCeti.map_wildInertiaSubgroup_restrictNormalHom` (in the wild-inertia file)
+identify the images of I_K and P_K in Gal(L/K) with G_0(L/K) and G_1(L/K).
+These hypotheses and the normalized integer valuation are retained in the
+supplied conductor setting of ArithmeticGaloisRepresentations §§3.1–3.3.
+
+### From TauCetiRoadmap.EllipticCurves
+
+Consume Layer 2's actual torsion Galois action and its functoriality, Layer 3's
+Hasse bound and supersingular criteria (with p≥5 for the trace-zero criterion),
+and Layer 4's integral-model minimality and good/multiplicative reduction.
+Consume Layer 6’s `x − θ` Kummer map and kernel 2E(K), and Layer 8’s
+semistable algorithmic–Artin conductor comparison (the Szpiro block). At an odd prime,
+a unit discriminant gives good reduction; a unit c₄ and positive discriminant
+valuation give minimal multiplicative reduction. The Frey–Hellegouarch curve
+of §Worked examples is formalised at the pin as `TauCeti.freyCurve`
+(From Tau Ceti), with the same coefficients (0,B−A,0,−AB,0); this roadmap
+consumes the pinned declaration, and Layer 1 specializes it at (a,c).
+
+### From TauCetiRoadmap.ModularForms
+
+Consume Layers 2–4's Hecke operators and normalized weight-two newforms,
+and Layer 8's coefficient number field, Hecke eigenvalues and coefficient-field embeddings. Consume Layer 10's
+trivial-nebentypus dimension formulas. The newspace dimension used in the Kraus
+threshold is not the full Γ₁ dimension.
+
+### From TauCetiRoadmap.NeronModelsAndSemistableAbelianVarieties
+
+Consume §5.3g's elliptic conductor values over nonarchimedean local fields:
+good reduction has exponent 0 and split or nonsplit multiplicative reduction
+has exponent 1; over ℚ₂ and ℚ₃ the wild bounds are f₂≤8 and f₃≤5.
+Consume §5.3e's Ogg formula in every residue characteristic: the conductor
+exponent f(E) equals v(Δ_min)−m+1, so that over ℚ the conductor M is the norm
+of the pinned algorithmic conductor (supplier contract From Tau Ceti).
+Consume §5.3h's conductor of the actual torsion representation E[ell],
+before semisimplification. At residue characteristic p≠ell, good reduction
+gives exponent 0 and multiplicative reduction gives exponent 0 if
+ell divides v_p(Δ_min), and 1 otherwise. For E/ℚ and prime ell≥5,
+the prime-to-ell residual conductor is the prime-to-ell part of M with
+each prime p≠ell, p∥M and ell dividing v_p(Δ_min) deleted once.
+The formula includes the additive places in this ell≥5 range; no such
+general additive comparison at ell=3 is assumed.
+(BS20, §2, equation (3), p. 358.)
+
+### From TauCetiRoadmap.EllipticCurveModularity
+
+Consume R29.3's “The newform of an elliptic curve,” R29.4's “The level is
+the conductor” and R29.6's modularity theorem. Every elliptic E/ℚ has an
+attached normalized weight-two trivial-character newform at its positive
+arithmetic conductor M, with integer coefficients and the same traces at
+every good prime. This actual modularity witness is supplied to
+SerreWeightAndLevelOptimisation §6.2.
+(BS20, §2, Theorem 3 and its modularity input, pp. 358–359.)
+
+### From TauCetiRoadmap.SerreWeightAndLevelOptimisation
+
+Consume §6.1's deletion level M₀ for E/ℚ, conductor M>0, nonzero minimal
+discriminant Δ_min and prime ell≥3: divide M by the product of primes
+p∥M with ell dividing v_p(Δ_min), including p=ell when it qualifies.
+Consume §6.2 with an actual weight-two trivial-character modularity witness
+at M and irreducible E[ell]. It gives a normalized cuspidal weight-two
+trivial-character newform f at M₀, a coefficient prime λ above ell, and
+the residual isomorphism after scalar extension. The coefficient field is
+totally real. Retain its good or finite-flat multiplicative coefficient-prime
+input when removing ell; M₀ need not be prime to ell in general.
+
+Consume §6.3 for that same f and λ: at p∤ell M M₀ the good traces are
+congruent modulo λ; at p∤ell M₀ with p∥M, c_p is congruent to
+ε_p(p+1), where ε_p=1 for split and −1 for nonsplit multiplicative
+reduction. Neither removed-prime congruence nor unramified Frobenius is
+asserted at p=ell. The comparison of M₀ with the prime-to-ell residual
+conductor uses §5.3h of NeronModelsAndSemistableAbelianVarieties at ell≥5;
+§1.10 verifies the coefficient-prime conditions for the progression family.
+(BS20, equation (3), p. 358; Theorem 3 and Lemma 2.1, p. 359.)
+
+### From TauCetiRoadmap.AutomorphicGaloisRepresentations
+
+Consume §1.5's arithmetic dual of the cohomological newform realization,
+specialized to a normalized cuspidal weight-two newform of positive level N
+and trivial nebentypus. At a coefficient place λ above ell it is a jointly
+continuous two-dimensional representation over K_λ, unramified outside
+N*ell, with cyclotomic determinant and arithmetic-Frobenius polynomial
+`T^2-c_p*T+p` at p∤N*ell. Residual reduction uses
+ArithmeticGaloisRepresentations §1.9 and its continuous residue-map hypotheses.
+(BS20, §2, pp. 358–359.)
+
+### From TauCetiRoadmap.WeightsInEtaleCohomology
+
+Consume R34.6's `newform_ramanujan`, using R34.5's realization and purity:
+for every normalized cuspidal weight-two newform f of positive level N and
+trivial nebentypus, every complex embedding σ of its coefficient number field,
+and every prime p∤N, |σ(c_p)|≤2√p. At a coefficient place above ell, the
+Frobenius comparison additionally requires p≠ell; the coefficient bound itself
+does not. No separate eigenform-purity adapter is constructed here.
+(BS20, Lemma 2.2 and proof, p. 359.)
+
+### From TauCetiRoadmap.HeightsRationalPointsAndObstructions
+
+Consume §§5.12 and 6.4's `mordell_finite` on its native signature: K is a
+number field and C is a smooth proper geometrically connected one-dimensional
+scheme over Spec K with genus at least two, using `C.genus K` and its
+finite-dimensional H¹(C, 𝒪_C) instance. Rational points are morphisms over
+Spec K. AlgebraicCurves Layer 12E identifies this genus with the function-field
+genus computed for the diagonal curve. MordellLawrenceVenkatesh §11.6 supplies
+an alternative proof of that same declaration. No effective height bound or
+point enumeration is part of the contract.
+(Faltings1983, §6, Satz 7, p. 365.)
+
+### From TauCetiRoadmap.ModularCurves
+
+Consume §4C's universal Legendre family over ℤ[1/2] and its field fibres.
+
+### From TauCetiRoadmap.EllipticLegendreCharacterInterfaces
+
+Its L(λ), L(d,λ) and L(2,λ) are F_λ, G_(D,λ) and F′_λ here, with ordered
+roots (0,D,Dλ). Consume §0.1's coefficient model (0,−(1+λ),0,λ,0) of F_λ
+over every commutative ring, including characteristic two and the singular
+parameters; its smooth specialization is the ModularCurves §4C family.
+Section 0.4 gives the discriminant 16λ²(1−λ)² and, over a field with 2≠0,
+ellipticity iff λ≠0,1, with j=256(λ²−λ+1)³/(λ²(1−λ)²) for those parameters.
+Consume §0.2's scaled model G_(D,λ) with coefficients (0,−D(1+λ),0,D²λ,0)
+over every commutative ring, equal over a field with 2≠0 to the native
+quadratic twist of F_λ at (0,−D/4), and its square-scaling change: for a
+unit u, the admissible change of scaling u⁻¹ carries G_(D,λ) to G_(u²D,λ)
+and sends a point (x,y) to (u²x,u³y). Section 0.5
+gives Δ(G_(D,λ))=16D⁶λ²(1−λ)² and, over a field with 2≠0 and D≠0,
+ellipticity iff λ≠0,1. Consume §0.3's labelled parameters λ, 1/λ, 1−λ,
+1/(1−λ), λ/(λ−1), (λ−1)/λ, with repetitions retained; §0.8's normalization
+of a split normal-form cubic, with scalars D, Dλ, −D, D(λ−1), D(1−λ), −Dλ
+for the root orders (012), (021), (102), (120), (210), (201); §0.9's
+normalization over every field K with 2≠0, by which an elliptic E/K with
+four K-points killed by 2 is K-isomorphic to some G_(D,λ) with D≠0 and
+λ≠0,1; and §0.10's three labelled two-torsion points.
+
+For an elliptic F/ℚ identified with G_(D,λ) by a rational admissible change,
+§1.2 gives v_p(λ)=v_p(1−λ)=0 at every odd prime of good reduction, for every
+associated parameter and without a semistability hypothesis. For
+ω∈{±1,±2}, §1.4 places every odd prime of the primitive conductor of the
+character of ωλ among the bad primes of F, and §1.5 gives, for F semistable
+away from 2, that the odd part of that conductor divides the elliptic
+conductor. Nontriviality of the odd part is not part of this contract; this
+roadmap's §§2.3 and 2.6 prove it in the progression setting. Consume the
+ordered split readings of the native descent map in §§2.1, 2.3 and 2.5–2.7,
+and §2.8's halving criterion: over a field K with 2≠0, D≠0 and λ≠0,1, an
+affine K-point (x,y) of G_(D,λ) is twice a K-point iff x, x−D and x−Dλ are
+squares in K, zero included.
+
+Consume §3.1: over every finite field of odd characteristic, F_λ contains a
+subgroup isomorphic to ℤ/2ℤ×ℤ/4ℤ whenever λ is a square different from 0
+and 1. Consume §3.7, which rests on §§3.2 and 3.6: v₂(#F₋₁(𝔽))=3 over every
+finite field 𝔽 with q≡5 mod 8 elements. Consume §4.1: over a field with
+2≠0, for nonzero t,v with 2t²+2v²=1 and i²=−1, the point
+(2λ+4itv,8itv(t+iv)) of F′_λ, λ=2t², has double (2λ,0) and third descent
+class [4itv]. Consume §5.1: over every finite field with q≡3 mod 4
+elements, y²=x³+ax has trace 0 for every a, the singular a=0 included; and
+§5.2: over every finite field of odd characteristic and every d, the native
+twist at (0,−d/4) of a normal-form equation has trace quadraticChar(d) times
+the original trace, so a_q(G_(D,λ))=quadraticChar(D)·a_q(F_λ). The
+progression hypotheses, the Case partition, the progression obstructions and
+the nontriviality of the odd character conductor are targets of this
+roadmap's Layer 2.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+Consume §1.51 `squareclassCharacter` of a nonzero rational number: its primitive
+conductor, squarefree odd support, 2-part in {1,4,8}, support at odd valuations,
+and characterization of odd part 1 by the four classes ±1, ±2. Consume §4.41's
+quartic descent: positive primitive T,V,U satisfying T⁴+V⁴=2U² have T=V=U=1.
+The primitive, positive and nonzero hypotheses are kept in the Case-II application.
+
+### From TauCetiRoadmap.ImaginaryQuadraticClassNumber
+
+Consume H3.1's complex elliptic uniformization/endomorphism comparison and
+algebraic integrality of CM j-values. For a rational j-value, algebraic
+integrality implies j∈ℤ. This is used only after proving CM of that same curve.
+
+### From TauCetiRoadmap.AlgebraicCurves
+
+Consume AlgebraicCurves Layer 7's Riemann–Hurwitz formula with the degree,
+separability, tame different and constant-field hypotheses, and
+AlgebraicCurves Layer 12E's comparison of the smooth projective curve,
+its function field, H¹ and genus. The diagonal cover, its smoothness,
+geometric connectedness, branch data and rational-point lifting are Layer 6
+constructions here.
+
+### From TauCetiRoadmap.EtaleCohomologyFoundations
+
+Consume §F.4.0 `ContinuousRep`, `ContinuousRep.exists_stable_lattice_iff` and
+`GaloisLattice.IntegralModel`: a jointly continuous representation of a compact
+group on a finite-dimensional vector space over a nonarchimedean local field,
+with its module topology, has an invariant lattice over the valuation ring.
+Apply this to the compact absolute Galois group and K_λ²; use the following
+residual-representation contract for reductions of these integral models.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Consume §1.9's `IntegralModel.reduction`, `IntegralModel.residualSS` and
+`ContinuousRep.residual`: reduction of an integral model, its residual semisimplification,
+and independence up to isomorphism of the stable lattice, coefficient-field
+descent and coefficient extension to an algebraic residue field. Retain the
+topological-ring and continuous residue-map hypotheses, with discrete residue
+field, for continuity of the reduction. Raw reduction and its semisimplification
+are distinct; the torsion representation E[ell] is not replaced by its
+semisimplification before the elliptic conductor calculation.
+
+Consume §§3.1–3.2's Swan conductor and Artin exponent
+codim(V^I)+Sw(V), with `Conductor.artinConductor` and its natural-number
+form `Conductor.artinConductorNat`, their integrality and invariance under isomorphism and
+coefficient extension. Locally the base field is complete for an integer-normalized
+discrete valuation with perfect residue field of characteristic p. The representations
+are finite-dimensional and continuous over Hausdorff coefficient fields, the
+coefficient characteristic is different from p, and wild inertia has finite image. For ell-adic or residual coefficients, also require ell≠p; characteristic
+zero of the coefficient field alone does not impose this restriction.
+Consume §3.3's global conductor with excluded coefficient places,
+`Conductor.primeToPConductor` and the positive-generator convention over
+ℚ. The global representations are continuous and unramified outside a finite
+set. In particular, the conductor is computed on the actual representation,
+not on a characteristic-zero lift of a residual representation.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+Consume §0.34's uniform exclusion of Landau–Siegel zeros,
+`landau_siegel_exclusion`: there is an effective absolute c_LS>0 with
+(1−β)log q≥c_LS for every real zero β∈(0,1) of every primitive nonprincipal
+real Dirichlet L-function of conductor q≥3, with no finite range of conductors
+set aside. The exclusion with an absolute constant is OpenAI2026, Theorem 1,
+whose proof argues by contradiction along a sequence of conductors and so fixes
+no value of the constant; Green2026, Theorem 1.1 is the inert-prime estimate
+that §0.34c of that roadmap uses. The effectivity of c_LS is the supplier's own
+claim: its §0.34 derives it from the explicit lower bound of its §§0.34b–0.34c
+above an effective conductor threshold and from the effective gap of its §0.12
+below that threshold. It enters through two of the corollaries stated there, so
+no exceptional zero, exceptional conductor or conductor repulsion occurs in this
+roadmap.
+Consume §0.18's effective character PNT for primitive nonprincipal characters
+of conductor N>1 and X≥X₀, with effective absolute c,C>0 and X₀ chosen before
+the character: |∑_(m≤X)χ(m)Λ(m)|≤C X exp(−c log X/(√(log X)+log N))(log N)⁴.
+It has no term −X^β/β, since by §0.34 such a term is absorbed by this error.
+Consume §0.6's exception-free bounded-height Landau–Page theorem: there is an
+effective absolute c₀>0 such that, for T≥2, no primitive Dirichlet character
+of modulus q≤T has a zero ρ with |Im ρ|≤T and Re ρ>1−c₀/log T. Its strict
+boundary is used at twice the width to obtain the closed-boundary application
+in §5.1. Consume §1.4 and §§1.4a–1.4d's common-height half-interval explicit
+formula, including the bounded kernel at zero, and §1.7's effective log-free
+density bound, counting analytic multiplicities; it has no additive term. All
+constants are effective and chosen before the conductor.
+
+Consume §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25 for the following estimates,
+with their exact domains: θ(x)<1.000081x for x>0;
+|θ(x;8,a)−x/4|≤0.002811x/4 for a=3,5 and x≥10¹⁰;
+the prime-count pair x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x))
+for x≥59; |∑_(p≤x)1/p−log log x−B₁|<1/(2(log x)²) for x≥286;
+log x+E−1/(2 log x)<∑_(p≤x)(log p)/p<log x+E+1/(2 log x)
+for x≥319 with the same constant E at both endpoints;
+the strict half-interval prime-power margin 0.000045875k for k≥2·10¹⁰;
+and ∏_(p≤x)(1+1/p)≤2 log x for x≥10⁸. Here B₁ is the prime Mertens
+constant and E=−γ−∑_p log p/(p(p−1)); E cancels in interval subtraction.
+Consume §3.1 and §§3.1a–3.1c's effective divisor bound on positive integers.
+The constant c_LS of §0.34 is effective but has no numerical value, so these
+literal estimates and their finite-range inputs are unaffected by it.
+
+The exclusion of Landau–Siegel zeros is unconditional; the literal numerical
+estimates have the following hypotheses, which remain hypotheses in every
+application until the indicated supplier gaps are discharged.
+
+| Supplier section | Required input | Exact content relevant here |
+| --- | --- | --- |
+| §0.34 | none | The effective absolute c_LS>0 above, for every conductor q≥3. Consumed through §0.18 in Layer 3 and through §0.6 in Layer 5; no gap is declared. |
+| §0.3 | `SchoenfeldFiniteRangeInput` | θ(x)<1.000081x for 0<x<exp(10000). Declared as gap:schoenfeld-theta-finite-range. |
+| §0.5 | `RosserSchoenfeldFiniteRangeInput` | The stated prime-count pair for 59≤x<exp(10000). Declared as gap:rosser-schoenfeld-prime-count-finite-range. |
+| §0.16 | `ModEightFiniteInput` | The two theta error bounds for 10¹⁰≤x<exp(10000), and every nontrivial zero for characters modulo 8 at height at most 10000 lies on Re s=1/2. The analytic tail still uses this bounded-zero input. The theta clause is declared as gap:mod-eight-theta-finite-range; the zero-line clause is ExplicitZetaBounds §0.3's GRH(8, 10000) and GRH(4, 10000) with §0.4's RH(10⁹) and §0.2's passage to imprimitive characters. |
+| §0.25 | `PrimeProductFiniteInput` | ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000). Declared as gap:prime-product-finite-range. |
+
+`ModEightFiniteInput` is the conjunction of its theta clause and its zero-line
+clause; the zero-line clause is ExplicitZetaBounds §§0.2–0.4 at the
+divisors 1, 2, 4 and 8 of the modulus (consumed below) and only the theta
+clause is a gap. No GRH assumption or omitted numerical hypothesis is substituted for
+these inputs. The real-zero separation of §0.7, with its inputs
+`BMORFiniteInput` and `BMORClassNumberInput`, and the conductor–largest-prime
+bound of §3.2, with `QuadraticConductorFiniteInput`, are not consumed: §0.6
+leaves Layer 5 no small modulus to separate, and this roadmap's §3.1 proves
+the conductor comparison that the exception-free harmonic criterion needs.
+
+The clauses no supplier proves are declared as the following gaps, one per
+input, and are cited by slug from every target that uses the corresponding
+literal constant. A gap supplies no theorem; a target citing one is conditional
+on that input until the gap is discharged.
+
+What AnalyticNumberTheoryPartI must provide (gap:schoenfeld-theta-finite-range): a proof of `SchoenfeldFiniteRangeInput`, that is θ(x)<1.000081x for every real 0<x<exp(10000) (Schoenfeld1976, Note Added in Proof, p. 360).
+
+What AnalyticNumberTheoryPartI must provide (gap:rosser-schoenfeld-prime-count-finite-range): a proof of `RosserSchoenfeldFiniteRangeInput`, that is x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x)) for every real 59≤x<exp(10000) (RosserSchoenfeld1962, Theorem 1).
+
+What AnalyticNumberTheoryPartI must provide (gap:mod-eight-theta-finite-range): a proof of the theta clause of `ModEightFiniteInput`, that is |θ(x;8,a)−x/4|≤0.002811x/4 for a=3 and a=5 and every real 10¹⁰≤x<exp(10000) (RamareRumely1996, Theorem 1 and Table 1).
+
+What AnalyticNumberTheoryPartI must provide (gap:prime-product-finite-range): a proof of `PrimeProductFiniteInput`, that is ∑_(p≤x)1/p≤log log x+0.27+5/log x for every real 10⁸≤x<exp(10000) (RosserSchoenfeld1962, Theorems 5 and 8).
+
+### From TauCetiRoadmap.EllipticCurveModularityPartII
+
+Consume the following effective comparisons and carriers, labelled EC.0–EC.6 in
+Layers 1–2, with the hypotheses of the cited sections.
+
+| Label | Supplier section | Content consumed here |
+| --- | --- | --- |
+| EC.0 | §1.4 | 12g₀⁺(N)≤N+1 for every positive level N, for the trivial-character weight-two newspace. |
+| EC.1 | §2.2 | For E/ℚ and prime ell≥3 with E[ell] irreducible, ell≤(√p+1)^((M₀+1)/6) for every prime p≠ell with p∥M and ell dividing the minimal discriminant valuation. |
+| EC.2 | §§1.5–1.8 | The sharp thresholds F♯, G♯, H♯ and, by §1.8, F♯(N)≤F_K(N), G♯(N)≤G_K(N), H♯(N)≤H_K(N) for N>0. |
+| EC.3 | §4.7 | For E/ℚ with full rational two-torsion, prime ell≥5, E[ell] irreducible of Serre weight two and prime-to-ell conductor N, and ell>H♯(N): an F/ℚ of conductor exactly N with full rational two-torsion and F[ell]≅E[ell]. |
+| EC.4 | §§5.4–5.5 | Irreducibility of E[ell] for primes ell≥5 under full rational two-torsion, and for primes ell≥11 under a rational point of order two. |
+| EC.5 | §6.18 | Surjectivity onto GL₂(𝔽_ell) for every prime ell>37, for a non-CM E/ℚ with a rational cyclic isogeny of degree greater than one. |
+| EC.6 | §5.1 | The geometric n-torsion `GeometricTorsion` of an elliptic E/ℚ, which is `AddSubgroup.torsionBy` of the points over an algebraic closure of ℚ at n, its ZMod n module and Galois representation `torsionRepresentation`, and the full-two-torsion predicate `FullRationalTwo`: exactly four rational points killed by 2. §1.12 states the residual comparison on the torsion subgroup directly and restates the predicate locally as `HasFullRationalTwoTorsion`, since a roadmap's Lean file imports only the pinned libraries. |
+
+Here μ(N)=N∏_(q|N)(1+1/q) is the Γ₀ index for N>0, and the numerical majorants are
+F_K(N)=(μ(N)/6+1)^(2g₀⁺(N)), G_K(N)=(μ(lcm(N,4))/6+1)², H_K(N)=max(F_K(N),G_K(N)).
+The progression levels are bounded against these majorants; by EC.2 the
+hypothesis ell>H_K(N) implies ell>H♯(N), so EC.3 applies unchanged. The
+deletion-level and coefficient-prime comparison in §1.10 is needed before
+applying EC.3 to the progression curve; the progression local calculations and
+level bounds remain here (BS20, §2, Lemma 2.2 and Theorem 4, pp. 359–360;
+Lemmas 3.3, 3.5, pp. 362–363; Kraus1997, §3.1, Théorème 4, p. 1144;
+Lemos2017v2, Theorem 1.1, p. 2).
+
+### From TauCetiRoadmap.ExplicitZetaBounds
+
+Consume §0.2's bounded-height Riemann hypotheses RH(H) (`RiemannHypothesisUpTo`)
+and GRH(q, H) (`DirichletGRHUpTo`): RH(H) says that every zero of `riemannZeta`
+with 0<Re s<1 and |Im s|≤H has Re s=1/2, and GRH(q, H) says the same for the
+native `DirichletCharacter.LFunction` of every primitive character modulo q.
+Consume with them their antitonicity in H, the identity of RH(H) with
+GRH(1, H), and §0.2's passage to imprimitive characters: every character
+modulo q, primitive or not, has all its zeros with 0<Re s<1 and |Im s|≤H on
+Re s=1/2 as soon as GRH(f, H) holds for every divisor f of q, because its
+L-function is that of its primitive character times Euler factors at the
+primes dividing q whose zeros lie on Re s=0. Consume §0.3's corollaries
+GRH(8, 10000) and GRH(4, 10000) of the record `PlattRecord`, which is
+GRH(q, H(q)) for 2≤q≤400000 with H(q)≥10⁸/q (Platt2013v1, Theorem 7.1,
+p. 14); GRH(2, H) holds for every H because no character modulo 2 is
+primitive. The modulus 1 is not part of that record: consume §0.4's record
+RH(10⁹), hence RH(10000) by antitonicity. At the divisors 1, 2, 4 and 8 of
+the modulus 8 with H=10000 these give the zero-line clause of
+AnalyticNumberTheoryPartI §0.16's `ModEightFiniteInput`, used in §0.9.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+Consume §0.4's finite Gram inequalities over a real or complex inner-product
+space, for a vector x and a finite, possibly empty family y_a with Gram row sums
+r_a=∑_b|⟨y_a,y_b⟩|: the uniform form `SieveGram.sum_norm_inner_sq_le_of_row_le`,
+∑_a|⟨x,y_a⟩|²≤C‖x‖² for every C≥0 with r_a≤C for all a; the maximum-row form
+`SieveGram.sum_norm_inner_sq_le_max_row` for a nonempty family; and the
+diagonal/off-diagonal form `SieveGram.sum_norm_inner_sq_le_of_diag_offdiag`,
+∑_a|⟨x,y_a⟩|²≤(D+O)‖x‖² when D+O≥0, ‖y_a‖²≤D and ∑_(b≠a)|⟨y_a,y_b⟩|≤O for
+every a. The names lie in the namespace
+`TauCetiRoadmap.SieveMethodsAndPrimePatterns`. §3.3 applies the
+diagonal/off-diagonal form (BS20, Theorem 7, p. 379).
 
 ## References
 
