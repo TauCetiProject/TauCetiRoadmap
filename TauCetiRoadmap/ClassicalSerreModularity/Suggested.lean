@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.NumberTheory.NumberField.Global.Places.Completion
 
 /-!
 # Rank-two lifting inputs for Serre's conjecture: target signatures
@@ -7,9 +8,11 @@ import Mathlib
 `README.md`. This file states the roadmap's headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statement is Khare–Wintenberger's Lemma 8.2 (R27.1), the positive Dirichlet density of the
-auxiliary primes, over Mathlib's absolute Galois group, algebraic integers, arithmetic Frobenius
-elements, inertia groups, complex conjugations and Dirichlet density.
+The statements are Clozel–Harris–Taylor's Lemma 4.1.2 (I.0), soluble extensions of a number
+field with prescribed completions at finitely many finite and infinite places, over Tau Ceti's
+places and completions; and Khare–Wintenberger's Lemma 8.2 (R27.1), the positive Dirichlet
+density of the auxiliary primes, over Mathlib's absolute Galois group, algebraic integers,
+arithmetic Frobenius elements, inertia groups, complex conjugations and Dirichlet density.
 
 Headline theorems that are not statable at the pins, with the carrier each lacks:
 
@@ -17,6 +20,10 @@ Headline theorems that are not statable at the pins, with the carrier each lacks
   number field, in which the local conditions are open sets.
 * Controlled residual potential modularity (I.0): cuspidal automorphic representations of `GL₂`
   over a totally real field, and Serre's weight `k(ρ̄)`.
+* The two Skinner–Wiles ordinary lifting theorems over `ℚ` (I.1): the attachment of a `p`-adic
+  representation of `G_ℚ` to a newform (Tau Ceti's newforms carry no Galois representation),
+  and, for the residually reducible theorem, the semisimplified reduction of a `p`-adic
+  representation, which needs a stable lattice.
 * Khare–Wintenberger's lifting theorem, crystalline lifting with a matching-weight seed and
   Kisin's potentially Barsotti–Tate theorem with Hypothesis `(H)` (I.2), and the prescribed lifts
   (I.3): crystalline, semistable and potentially Barsotti–Tate local conditions, and Serre's
@@ -38,7 +45,8 @@ noncomputable section
 
 namespace TauCetiRoadmap.ClassicalSerreModularity
 
-open NumberField
+open NumberField TauCeti
+open scoped TensorProduct
 
 /-! ## Arithmetic carriers -/
 
@@ -60,6 +68,29 @@ def IsFrobAt (σ : GQ) (r : ℕ) : Prop :=
 /-- `ρ` is unramified at `r`: trivial on the inertia group of every prime of `ℤ̄` containing `r`. -/
 def IsUnramifiedAt {H : Type*} [Group H] (ρ : GQ →* H) (r : ℕ) : Prop :=
   ∀ Q : Ideal IntBar, Q.IsPrime → (r : IntBar) ∈ Q → Q.inertia GQ ≤ ρ.ker
+
+/-! ## Layer I: Lifting and compatible-system inputs -/
+
+/-- `I.0/soluble-totally-real-base-change` (Clozel–Harris–Taylor, Lemma 4.1.2): let `K` be a
+number field, `D/K` a finite Galois extension inside `K̄`, and `S` a finite set of places of `K`,
+finite or infinite, with a finite Galois extension `L v` of the completion `K_v` for each
+`v ∈ S`. Then some finite soluble Galois extension `E/K` inside `K̄`, linearly disjoint from `D`,
+has completion `L v` at every place above each `v ∈ S`: `K_v ⊗_K E` is a product of `n ≥ 1`
+copies of `L v` as a `K_v`-algebra. Prescribing `ℝ` at every real place makes `E` totally real,
+and prescribing `K_v` makes `v` split completely. -/
+theorem soluble_prescribed_completions (K : Type*) [Field K] [NumberField K]
+    (D : IntermediateField K (AlgebraicClosure K)) [FiniteDimensional K D] [IsGalois K D]
+    (S : Finset (GlobalNumberFields.Place K)) (L : S → Type*) [∀ v, Field (L v)]
+    [∀ v : S, Algebra (GlobalNumberFields.Place.Completion v.1) (L v)]
+    [∀ v : S, FiniteDimensional (GlobalNumberFields.Place.Completion v.1) (L v)]
+    [∀ v : S, IsGalois (GlobalNumberFields.Place.Completion v.1) (L v)] :
+    ∃ E : IntermediateField K (AlgebraicClosure K),
+      FiniteDimensional K E ∧ IsGalois K E ∧ Group.IsSolvable (E ≃ₐ[K] E) ∧
+        E.LinearDisjoint D ∧
+        ∀ v : S, ∃ n : ℕ, 0 < n ∧
+          Nonempty (AlgEquiv (GlobalNumberFields.Place.Completion v.1)
+            (GlobalNumberFields.Place.Completion v.1 ⊗[K] E) (Fin n → L v)) := by
+  sorry
 
 /-! ## Layer R27.1: The auxiliary-prime theorem -/
 
