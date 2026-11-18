@@ -2,19 +2,9 @@
 
 **Summary.** This continuation develops integral genus-two Siegel forms with arbitrary module coefficients, including finite torsion and K/O, from the modular-curve theory of AlgebraicModularFormsAndSerreWeights Layers 1–7. It builds the primary and secondary rank geometry, all-component Fourier coordinates, integral coefficient and geometric Hecke actions, characteristic-p theta operators with low-weight injectivity, and the comparison with full-frame ordinary p-adic functions. Its end theorems retain ramified coefficient rings, boundary terms, central transports and tame-level orientation. README.md is the roadmap; Suggested.lean states the headline result expressible on the pinned native carriers: the arbitrary-level determinant-p coset degree.
 
-## Scope and ownership
+## How to read the build
 
-The base roadmap AlgebraicModularFormsAndSerreWeights Layers 1–7 supplies the modular-curve direction, elliptic Hasse and theta theory, Serre weights and classical residual witnesses. This Part II owns the genus-two specializations and comparisons in Layers 1–9. It does not duplicate the elliptic theory or the independent generic GL₃ weight-and-lattice direction.
-
-Generic tensor, symmetric-power, determinant and dual bundle constructions are stated by AlgebraicVectorBundles §§L0A–L0C and AutomorphicBundles Layers 3 and 5. Canonical and subcanonical extensions and their generic vector expansion principle are stated by AutomorphicBundles §§5.2–5.4, 12.15–12.16; §§1.1–1.4 below specialize them to binary Fourier indices and all geometric components. The generic componentwise coefficient-recognition proof is imported. The double-coset Hecke ring, its finite left-coset decompositions, the degree map and the elementary-divisor parametrization are stated by ModularForms Layer 2; §5.2 owns the binary-index integrality comparison at arbitrary tame level: the literal rational double coset has a tame multiplicity, whereas the local unramified p-correspondence has p+1 branches with transported tame markings. The general adelic correspondence and degree belong to AdelicAlgebraicGroups §4.5; this roadmap specializes them at the genus-two cusp. Binary quadratic forms with their discriminant and SL₂-action are Tau Ceti's; §1.2 adds the determinant-normalized GL₂(ℚ) action used for Fourier indices. The projective-zero theorem is stated by ClassicalArithmeticCompletion §1.17; §6.2 applies it to labeled neighbor occurrences.
-
-The primary semiabelian Hasse section and its ordinary and minimal-model comparisons are stated by HodgeTateAndCanonicalSubgroups §§0.12–0.16. General BT₁ filtration, Hasse–Witt complexes and Fargues determinant duality are stated by FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.2, R07.2.21–R07.2.23. Layers 2–3 own the genus-two reducedness, secondary invariant, rank-one flags and its global extension and root. The split subgroup recipes use these imported carriers; they introduce no second BT₁ or primary-Hasse theory. The general finite-field Lang theorem belongs to ReductiveGroupsPartII §RG2.3.7; §8.4 uses its SL₂ specialization for normalized frames. Absolute irreducibility of the small symmetric powers Sym^d(F̄_p²) of SL₂(F_p), 0≤d≤p−1, is stated by ArithmeticGaloisRepresentations §7.8, and the invariance of absolute irreducibility under extension of the coefficient field by ArithmeticGaloisRepresentations §1.7; §8.3 imports both and owns only their application to the normalized superspecial frames of §8.4.
-
-Spherical integral toroidal and minimal models belong to ShimuraCompactifications §§7.3 and 7.16; the Klingen and paramodular models, their universal isogeny chain and the integral compactified correspondence are requested from that roadmap by the extension recorded below. General coherent duality, Hartogs, ample vanishing and formal functions belong to SchemeAndStackFoundations §§0.6, 2.6, 2.7, 2.19–2.20 and 4.9. Krull intersection is already in the library as Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. Layer 7 owns the genus-two integral factorizations and corrected Q₂ correspondence, which differ from the generic rational Hecke action of AutomorphicBundles §§12.11–12.12.
-
-This roadmap owns the genus-two secondary Hasse section with its normal-base extension, duality and polarized root (Layer 3), the formal coefficient operators U, V, Z, Z₂, X₂ with the corrected integral operator Q₂ (Layer 5), the binary neighbor multisets with their oriented reciprocity (Layer 6), and the scalar and vector theta operators with their superspecial nonvanishing and low-weight injectivity theorems (Layer 8). GSp4NonregularModularityLifting §§3.2, 4.1–4.2, 4.4 and 4.7 import these by section and keep only their specializations to its weights (j,2) and its tame levels.
-
-The ordinary Igusa tower belongs to HodgeTateAndCanonicalSubgroups §§5.1–5.2, which treat Hilbert modular varieties with torsor group (𝒪_F/p^m)^×; its genus-two full-frame extension is requested from that roadmap below. Layer 9 owns its function weight spaces, saturated expansions and marked Klingen coefficient comparison. Analytic coefficient sheaves and their comparisons belong to OverconvergentAutomorphicForms Layers 5 and 8, and compact overconvergent Hecke operators to its Layer 6; the integral ordinary interface here is the algebraic comparison target for those constructions.
+Layers 1–2 construct the binary expansion interface and its rank geometry. Layer 3 constructs the secondary determinant section, its extension and the spherical root with its descent data. Layer 4 gives integral lifts and torsion shifts. Layers 5–6 build coefficient actions and oriented neighbor relations; the residual finite-coset expression is part of the integral theorem. Layer 7 constructs geometric normalized correspondences before reducing coefficients and uses finite and formal Hartogs. Layer 8 gives the contraction, characteristic-p theta maps, local nonvanishing and global injectivity. Layer 9 completes the ordinary full-frame comparison. Each Needs sentence distinguishes statement inputs and proof inputs; an alternative proof uses the same statement hypotheses without acquiring unrelated geometric dependencies.
 
 ## Conventions
 
@@ -29,108 +19,6 @@ At a marked split cusp, Q=(m,r,n) denotes mx²+rxy+ny² and, when 2 is invertibl
 The rational Hecke normalization is the similitude character to power −3. Write T for β₁=diag(1,1,p,p), T₂ for β₂=diag(1,p,p,p²), and S_c for the central pI₄ operator when confusion with the divisor S is possible. These are Pilloni’s T_(p,2), T_(p,1), T_(p,0), respectively. C_r denotes Pilloni’s composite T of §7. A displayed central scalar assumes the trivial central/diamond sector with specified component identifications; otherwise retain the actual central map. No negative power of p acts on torsion coefficients. The finite sum Z₂=UZ is distinct from the diagonal U₂=−1+pX₂. Throughout the spherical coefficient formulas, Z and Z₂ use the local p-correspondence with identity component away from p, on the all-component marked cusp family. Literal rational double-coset sums are denoted Z_Δ and UZ_Δ; their tame branches are retained separately as in §5.2.
 
 For the ordinary tower, the right frame change ψ↦ψg induces the left action (g·f)(ψ)=f(ψg), and the differential frame changes by g⁻ᵗ. Use the upper unipotent U⁺ and the diagonal character χ(diag(t₁,t₂))=κ(t₁)(t₁t₂)ʳ for κ:ℤ_pˣ→Oˣ. For κ(t)=tᵈ the weight is (d+r,r). Coefficients of a U⁺-invariant function are functions on the right quotient GL₂(ℤ_p)/U⁺. The limit order is lim_m colim_n, with m the coefficient depth and n the Igusa level.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `Matrix.det` and `Matrix.det_mul` in Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean, lines 63 and 141, over commutative rings and finite square matrices; the half-integral binary matrix interpretation additionally requires 2 invertible. Use `legendreSym` in Mathlib/NumberTheory/LegendreSymbol/Basic.lean, line 109, with its prime parameter, integer argument and values 0,±1. For p-integral rational discriminants use their residue, independent of a prime-to-p denominator presentation.
-
-Use `Matrix.SpecialLinearGroup.map` in Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean, line 225, for entrywise reduction of special linear matrices along a ring map; §5.2 applies it to reduction of SL₂(ℤ) modulo N, and §8.3 describes the standard representation of SL₂(𝔽_p) through it.
-
-For the degree identity of §5.2 use `CongruenceSubgroup.Gamma` in Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean, line 41, the kernel of reduction of SL₂(ℤ) modulo N; `Matrix.SpecialLinearGroup.toGL` and `Matrix.SpecialLinearGroup.mapGL` in Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean, lines 273 and 317, the inclusion of SL_n(R) in GL_n(R) and its composite with the entrywise algebra map; `ZMod.unitOfCoprime` in Mathlib/Data/ZMod/Basic.lean, line 794, the unit of ℤ/N given by an integer prime to N; the conjugation action of ConjAct on subgroups, through `Subgroup.pointwiseMulAction` in Mathlib/Algebra/Group/Subgroup/Pointwise.lean, line 425, so that g acts by K↦gKg⁻¹; and `Subgroup.relIndex` in Mathlib/GroupTheory/Index.lean, line 62, where relIndex A B is the index of A∩B in B, with junk value 0 at infinite index.
-
-For a finite module over a Noetherian local ring and a proper ideal, use `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing` in Mathlib/RingTheory/Filtration.lean, line 425. This imports the intersection of all ideal powers applied to the module as zero; the unit ideal is excluded.
-
-Use `dvd_sub_pow_of_dvd_sub` in Mathlib/NumberTheory/Basic.lean, line 32: in a commutative ring, if p divides a−b then p^(k+1) divides a^(p^k)−b^(p^k). §4.2 applies it to local lifts of Hasse powers with p the residue characteristic; the ramified variant with ϖ in place of p is proved there.
-
-### From Tau Ceti
-
-Use `Representation.symmetricPower` in TauCeti/RepresentationTheory/SymmetricPower.lean, line 47, for the diagonal induced action on the native symmetric tensor power over a commutative semiring and a monoid. Use `Module.Basis.symmetricPower` in TauCeti/LinearAlgebra/SymmetricPower/Basis.lean, line 162, for the rank-two monomial description indexed by multisets. The native symmetric power is a quotient of the tensor power, not an unverified polynomial lattice; polynomial notation below is its basis description.
-
-Use `TauCeti.stdSLRep` in TauCeti/RepresentationTheory/ClassicalGroups/Restriction.lean, line 44, the standard representation of SL_n(k) over a commutative ring k, acting on column vectors by matrix multiplication; §8.3 describes the standard representation of SL₂(𝔽_p) on k² as its composite with the entrywise reduction SL₂(𝔽_p)→SL₂(k), as a convention only.
-
-Use `TauCeti.BinaryQuadraticForm` in TauCeti/NumberTheory/BinaryQuadraticForm/Basic.lean, line 94, the form ax²+bxy+cy² recorded by its coefficients over a ring, with `TauCeti.BinaryQuadraticForm.discrim` (line 146), the discriminant b²−4ac over a commutative ring, the left SL₂-action γ•f=f∘γ⁻¹ (line 194) and `TauCeti.BinaryQuadraticForm.discrim_smul` (line 203), invariance of the discriminant under that action. The determinant-normalized GL₂(ℚ) action of §1.2 is this roadmap's own: it admits rational matrices of any nonzero determinant, divides by the determinant, and acts through the transpose, so that on SL₂(ℤ) it is M·Q=(Mᵗ)⁻¹•Q.
-
-Use `HeckeRing.GL2.degree_diagCoset_prime_pow` in TauCeti/NumberTheory/HeckeRing/GL2/Degree.lean, line 54, for the full-level prime-power degree. Use `HeckeRing.GL2.doubleCoset_natDiagGL_eq_iUnion_rightCosets_of_prime` in TauCeti/NumberTheory/HeckeRing/GL2/Gamma1/CoprimeCosets.lean, line 325, and `HeckeRing.GL2.doubleCoset_natDiagGL_Gamma0_eq_iUnion_rightCosets_of_prime` in TauCeti/NumberTheory/HeckeRing/GL2/Gamma0/Diagonal/PrimeCosets.lean, line 124, for the Γ₁(N) and Γ₀(N) decompositions with their twist matrix and prime hypotheses. These use the cosets written ΓM; translate their orientation before applying the MΓ convention below. They do not give an arbitrary-subgroup covering theorem.
-
-Use `TauCeti.diagGL` in TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Diagonal/Basic.lean, line 100, the diagonal invertible matrix with prescribed unit entries over a semiring; §5.2 applies it to diag(p,1) over ℚ and over ℤ/N with p prime to N.
-
-The Tau Ceti module imported by Suggested.lean is TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Basic.
-
-### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
-
-Layers 1–3 fix the sheaf-first integral form, the integral q-expansion principle and the Hasse and theta conventions in genus one; Layers 4–7 supply the local Serre weight, Deligne–Serre lifting, classical Galois attachments and residual modularity. Their genus-one constructions specify the parent boundary; no genus-two carrier is inferred from them.
-
-### From TauCetiRoadmap.AlgebraicVectorBundles
-
-§§L0A–L0C supply finite locally free sheaf tensor, dual, symmetric and determinant constructions and their scalar and pullback functoriality. Use the induced operations on E and λ through the automorphic-bundle interfaces.
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-§3.1 supplies the automorphic vector bundle (its automorphic coefficient functor); §§5.2–5.4 its canonical and subcanonical extensions; §5.10 the integral Levi coefficient on good-prime PEL models; §§11.19–11.20 sheaf-first module coefficients and qcqs section colimits. §§12.15–12.16 supply vector Fourier–Jacobi expansion, joint injectivity and coefficient-submodule recognition under fibrewise component detection at every prime, flat charts and the actual relative boundary tensor sequence. §§12.11–12.12 and 12.20 supply rational pullback–trace Hecke actions and Fourier–Jacobi compatibility for the actual coefficient realization and multiplicative unit-valued normalization after p is inverted. Layer 5 computes the GSp₄ specializations with similitude power −3.
-
-### From TauCetiRoadmap.ModularForms
-
-Layer 2 supplies the double-coset Hecke ring with its finite left-coset decompositions, representative independence, the degree map and the elementary-divisor parametrization of double cosets, at level SL₂(ℤ) and at the congruence pairs Γ₀(N) and Γ₁(N). This roadmap's §5.2 owns the binary integrality map, its tame fibers at arbitrary congruence level, and its comparison with the local p-branches; the full-level and Γ₀/Γ₁ decompositions are imported through the pinned declarations above.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-§4.5 supplies Hecke correspondences for compact open U and finite-adelic g, with intermediate level U∩gUg⁻¹ and degree [U:U∩gUg⁻¹]. Use its finite-coset and rational adelic maps for the correspondence whose p-component is diag(p,1) and whose other components are identity, retaining all source and target components; Layer 7 supplies the integral geometric extension at p. Its general construction is imported; §5.2 proves the marked binary-lattice specialization and the comparison with a literal rational double coset.
-
-### From TauCetiRoadmap.ClassicalArithmeticCompletion
-
-§1.17 supplies the projective-zero count for a nonzero binary quadratic form over 𝔽_p, p odd, with discriminant r²−4mn, and the separate p+1 count for the zero form. This roadmap's §6.2 applies it to local labeled branches and, with the tame fiber multiplicity, to literal rational cosets.
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-§R07.2.2 supplies the multiplicative–connected–étale filtration, compatible with its stated base changes and splitting over perfect fields. §R07.2.21 supplies the BT₁ Hasse determinant and Fargues map LF on determinant powers. §§R07.2.22–R07.2.23 supply the exact crystalline Hasse–Witt complexes, equal coranks for dual groups, and odd-prime quasi-polarization compatibility; §3.2 uses the latter only at odd p and proves the polarized identity on the Siegel family at every prime, and §3.7 uses it at odd p. In height four and dimension two the equal dimensions give equal ranks; height three at the boundary is treated only by the connected recipe.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-§§4.9–4.10 supply boundary-ideal pushforward and coherent-cohomology comparison under same-level refinements of the spherical models, with arbitrary coefficient modules. §§7.3–7.4, 7.10 and 7.12 supply spherical integral toroidal models, formal cusp charts, fibrewise component detection and logarithmic Kodaira–Spencer. §7.16 supplies the spherical integral minimal model π:X→X* with O_X*=π_*O_X; 7.17 supplies ample Hodge powers on it; 7.23 supplies Siegel Koecher with arbitrary coefficients. The Hodge line is not assumed ample on the toroidal model. These spherical inputs carry no parahoric hypothesis.
-
-What ShimuraCompactifications must provide (gap:siegel-parahoric-models): Provide the Klingen and paramodular genus-two toroidal models of Pilloni Theorem 6.1.5.1 (normal, flat and lci over ℤ_p, with the maps from Klingen level to spherical and paramodular level), the universal isogeny chain G→G′→G of degrees p³ and p over the Klingen model, the integral compactified correspondence C_(p,2) of Pilloni §14.9.2 over the spherical model, with source fan equal to the fan of the trace projection p₁ so that p₁ is finite over the rank-at-least-one locus and p₂ is proper, and the refinement and boundary-ideal comparisons for these models.
-
-The extension uses P20 Theorem 6.1.5.1(3)–(4), pp. 29–30, the isogeny chain of §7.1, p. 38, and the compactified correspondence of §14.9.2, p. 104.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-§A4.3 supplies the abelian de Rham Hodge filtration, connection and polarized pairing on its specified domain. §§A4.7 and A4.9 supply polarized Grothendieck–Messing and Serre–Tate deformation equivalences with their PD and nilpotence hypotheses. §§A4.10–A4.11 supply ordinary bilinear Serre–Tate coordinates, the integral weighted polarization equations and canonical Frobenius action. The rank-one chart and trace ideals below are additional specified interfaces.
-
-What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-rank-one-deformations): Provide the polarized genus-two rank-one deformation chart with Frobenius basis and tangent constraints X=Z at principal level and Z=0 or X=0 at paramodular level, compatible with the chosen moduli-to-crystal comparison.
-
-What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-isogeny-trace-ideals): Provide the integral trace ideals for the ordinary genus-two Lagrangian and degree-p³/degree-p isogeny charts, including the trace divisibilities 1,p,p³ and p²,p with their semiabelian boundary compatibility.
-
-What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-logarithmic-de-rham): Provide the genus-two semiabelian logarithmic de Rham connection and polarized pairing, ordinary unit-root splitting and first-order superspecial Hasse–Witt matrix, compatible with the logarithmic Kodaira–Spencer isomorphism of ShimuraCompactifications 7.12.
-
-### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
-
-§0.12 supplies normalized multiplicative determinant pullback on the character ℤ_p-lattice before tensoring. §§0.14–0.16 supply the semiabelian primary Hasse section, ordinary-locus criterion, and toroidal/minimal descent. §§5.1–5.2 supply the ordinary Igusa torsors, transitions and towers for Hilbert modular varieties, with torsor group (𝒪_F/p^m)^×; the genus-two full-frame GL₂ tower and its component detection are requested below.
-
-What HodgeTateAndCanonicalSubgroups must provide (gap:siegel-igusa-full-frames): Provide the finite étale full ordinary genus-two Igusa GL₂(ℤ/pⁿ)-torsors over all coefficient thickenings and toroidal boundary charts, with transitions, frame actions and the component-detection or monodromy theorem required for saturated all-frame expansions.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§0.6 supplies coherent Hartogs for depth at least two along the omitted locus. §2.6 supplies ample Serre vanishing on proper Noetherian models. §2.7 supplies local-cohomology vanishing below depth. §§2.19–2.20 supply proper coherent duality, relative dualizing complexes and the Cohen–Macaulay dualizing module and Gorenstein invertibility criterion, with the stated Noetherian and boundedness conditions. §2.5 supplies qcqs filtered-colimit cohomology with its finite-cover and Čech-product hypotheses; apply it to quasi-compact opens of the Noetherian models here. §4.9 supplies proper coherent formal functions. The open Milnor and lci boundary interfaces below are separate requirements.
-
-What SchemeAndStackFoundations must provide (gap:open-formal-milnor): Provide the functorial Milnor short exact sequence for coherent cohomology on qcqs open formal schemes and the comparison with derived inverse limits of their nilpotent thickenings needed for H⁰ isomorphisms and H¹ injections.
-
-What SchemeAndStackFoundations must provide (gap:lci-fundamental-class): Provide the determinant-of-cotangent-complex identification and fundamental class for projectively embeddable proper maps between flat lci schemes of equal relative dimension, with perfect-coefficient projection formula, finite-flat trace comparison, logarithmic boundary ideal compatibility and integral derived reduction even for nonflat correspondence maps.
-
-What SchemeAndStackFoundations must provide (gap:reduced-section-propagation): Provide injectivity of restriction of a locally free sheaf on a reduced scheme to an open dense in every irreducible component, with componentwise propagation from neighborhoods meeting those components.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-§RG2.3.7 supplies the ordinary Frobenius Lang theorem `Lang.lang_surjective`: for a smooth geometrically connected finite-type group H over 𝔽_q, the map g↦g⁻¹F(g) is surjective on H(𝔽̄_q). Use it in §8.4 for SL₂ over 𝔽_p, which is smooth, geometrically connected and of finite type; only the ordinary finite-type theorem is needed.
-
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-§7.8 (irreducibility and one-dimensional constituents) supplies the absolute irreducibility of Sym^a(F̄_p²) under SL₂(F), for a finite field F of characteristic p and 0≤a≤p−1, with a=p excluded. §1.7 supplies absolute irreducibility in Burnside's form, its equivalence with irreducibility after extension to an algebraic closure, its invariance under every extension of the coefficient field, and that an absolutely irreducible representation is irreducible. §8.3 uses them with F=F_p and an arbitrary field k of characteristic p, in particular the algebraically closed residue fields of §8.4; no further structure of these representations is assumed.
-
-## How to read the build
-
-Layers 1–2 construct the binary expansion interface and its rank geometry. Layer 3 constructs the secondary determinant section, its extension and the spherical root with its descent data. Layer 4 gives integral lifts and torsion shifts. Layers 5–6 build coefficient actions and oriented neighbor relations; the residual finite-coset expression is part of the integral theorem. Layer 7 constructs geometric normalized correspondences before reducing coefficients and uses finite and formal Hartogs. Layer 8 gives the contraction, characteristic-p theta maps, local nonvanishing and global injectivity. Layer 9 completes the ordinary full-frame comparison. Each Needs sentence distinguishes statement inputs and proof inputs; an alternative proof uses the same statement hypotheses without acquiring unrelated geometric dependencies.
 
 ## Layer 1: Integral forms and Fourier expansions
 
@@ -1378,6 +1266,118 @@ A formal H¹ comparison requires the Milnor sequence. The finite-level H⁰ rest
 
 
 These computations use CG20 Lemmas 8.3–8.6,8.12 and Definition 8.19, internal pp. 58–59,64,72; P20 §§7,14.9, pp. 38–40,103–104; and Y16 Propositions 3.11–3.12, pp. 22–24.
+
+## Scope and ownership
+
+The base roadmap AlgebraicModularFormsAndSerreWeights Layers 1–7 supplies the modular-curve direction, elliptic Hasse and theta theory, Serre weights and classical residual witnesses. This Part II owns the genus-two specializations and comparisons in Layers 1–9. It does not duplicate the elliptic theory or the independent generic GL₃ weight-and-lattice direction.
+
+Generic tensor, symmetric-power, determinant and dual bundle constructions are stated by AlgebraicVectorBundles §§L0A–L0C and AutomorphicBundles Layers 3 and 5. Canonical and subcanonical extensions and their generic vector expansion principle are stated by AutomorphicBundles §§5.2–5.4, 12.15–12.16; §§1.1–1.4 below specialize them to binary Fourier indices and all geometric components. The generic componentwise coefficient-recognition proof is imported. The double-coset Hecke ring, its finite left-coset decompositions, the degree map and the elementary-divisor parametrization are stated by ModularForms Layer 2; §5.2 owns the binary-index integrality comparison at arbitrary tame level: the literal rational double coset has a tame multiplicity, whereas the local unramified p-correspondence has p+1 branches with transported tame markings. The general adelic correspondence and degree belong to AdelicAlgebraicGroups §4.5; this roadmap specializes them at the genus-two cusp. Binary quadratic forms with their discriminant and SL₂-action are Tau Ceti's; §1.2 adds the determinant-normalized GL₂(ℚ) action used for Fourier indices. The projective-zero theorem is stated by ClassicalArithmeticCompletion §1.17; §6.2 applies it to labeled neighbor occurrences.
+
+The primary semiabelian Hasse section and its ordinary and minimal-model comparisons are stated by HodgeTateAndCanonicalSubgroups §§0.12–0.16. General BT₁ filtration, Hasse–Witt complexes and Fargues determinant duality are stated by FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.2, R07.2.21–R07.2.23. Layers 2–3 own the genus-two reducedness, secondary invariant, rank-one flags and its global extension and root. The split subgroup recipes use these imported carriers; they introduce no second BT₁ or primary-Hasse theory. The general finite-field Lang theorem belongs to ReductiveGroupsPartII §RG2.3.7; §8.4 uses its SL₂ specialization for normalized frames. Absolute irreducibility of the small symmetric powers Sym^d(F̄_p²) of SL₂(F_p), 0≤d≤p−1, is stated by ArithmeticGaloisRepresentations §7.8, and the invariance of absolute irreducibility under extension of the coefficient field by ArithmeticGaloisRepresentations §1.7; §8.3 imports both and owns only their application to the normalized superspecial frames of §8.4.
+
+Spherical integral toroidal and minimal models belong to ShimuraCompactifications §§7.3 and 7.16; the Klingen and paramodular models, their universal isogeny chain and the integral compactified correspondence are requested from that roadmap by the extension recorded below. General coherent duality, Hartogs, ample vanishing and formal functions belong to SchemeAndStackFoundations §§0.6, 2.6, 2.7, 2.19–2.20 and 4.9. Krull intersection is already in the library as Mathlib `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing`. Layer 7 owns the genus-two integral factorizations and corrected Q₂ correspondence, which differ from the generic rational Hecke action of AutomorphicBundles §§12.11–12.12.
+
+This roadmap owns the genus-two secondary Hasse section with its normal-base extension, duality and polarized root (Layer 3), the formal coefficient operators U, V, Z, Z₂, X₂ with the corrected integral operator Q₂ (Layer 5), the binary neighbor multisets with their oriented reciprocity (Layer 6), and the scalar and vector theta operators with their superspecial nonvanishing and low-weight injectivity theorems (Layer 8). GSp4NonregularModularityLifting §§3.2, 4.1–4.2, 4.4 and 4.7 import these by section and keep only their specializations to its weights (j,2) and its tame levels.
+
+The ordinary Igusa tower belongs to HodgeTateAndCanonicalSubgroups §§5.1–5.2, which treat Hilbert modular varieties with torsor group (𝒪_F/p^m)^×; its genus-two full-frame extension is requested from that roadmap below. Layer 9 owns its function weight spaces, saturated expansions and marked Klingen coefficient comparison. Analytic coefficient sheaves and their comparisons belong to OverconvergentAutomorphicForms Layers 5 and 8, and compact overconvergent Hecke operators to its Layer 6; the integral ordinary interface here is the algebraic comparison target for those constructions.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `Matrix.det` and `Matrix.det_mul` in Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean, lines 63 and 141, over commutative rings and finite square matrices; the half-integral binary matrix interpretation additionally requires 2 invertible. Use `legendreSym` in Mathlib/NumberTheory/LegendreSymbol/Basic.lean, line 109, with its prime parameter, integer argument and values 0,±1. For p-integral rational discriminants use their residue, independent of a prime-to-p denominator presentation.
+
+Use `Matrix.SpecialLinearGroup.map` in Mathlib/LinearAlgebra/Matrix/SpecialLinearGroup.lean, line 225, for entrywise reduction of special linear matrices along a ring map; §5.2 applies it to reduction of SL₂(ℤ) modulo N, and §8.3 describes the standard representation of SL₂(𝔽_p) through it.
+
+For the degree identity of §5.2 use `CongruenceSubgroup.Gamma` in Mathlib/NumberTheory/ModularForms/CongruenceSubgroups.lean, line 41, the kernel of reduction of SL₂(ℤ) modulo N; `Matrix.SpecialLinearGroup.toGL` and `Matrix.SpecialLinearGroup.mapGL` in Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.lean, lines 273 and 317, the inclusion of SL_n(R) in GL_n(R) and its composite with the entrywise algebra map; `ZMod.unitOfCoprime` in Mathlib/Data/ZMod/Basic.lean, line 794, the unit of ℤ/N given by an integer prime to N; the conjugation action of ConjAct on subgroups, through `Subgroup.pointwiseMulAction` in Mathlib/Algebra/Group/Subgroup/Pointwise.lean, line 425, so that g acts by K↦gKg⁻¹; and `Subgroup.relIndex` in Mathlib/GroupTheory/Index.lean, line 62, where relIndex A B is the index of A∩B in B, with junk value 0 at infinite index.
+
+For a finite module over a Noetherian local ring and a proper ideal, use `Ideal.iInf_pow_smul_eq_bot_of_isLocalRing` in Mathlib/RingTheory/Filtration.lean, line 425. This imports the intersection of all ideal powers applied to the module as zero; the unit ideal is excluded.
+
+Use `dvd_sub_pow_of_dvd_sub` in Mathlib/NumberTheory/Basic.lean, line 32: in a commutative ring, if p divides a−b then p^(k+1) divides a^(p^k)−b^(p^k). §4.2 applies it to local lifts of Hasse powers with p the residue characteristic; the ramified variant with ϖ in place of p is proved there.
+
+### From Tau Ceti
+
+Use `Representation.symmetricPower` in TauCeti/RepresentationTheory/SymmetricPower.lean, line 47, for the diagonal induced action on the native symmetric tensor power over a commutative semiring and a monoid. Use `Module.Basis.symmetricPower` in TauCeti/LinearAlgebra/SymmetricPower/Basis.lean, line 162, for the rank-two monomial description indexed by multisets. The native symmetric power is a quotient of the tensor power, not an unverified polynomial lattice; polynomial notation below is its basis description.
+
+Use `TauCeti.stdSLRep` in TauCeti/RepresentationTheory/ClassicalGroups/Restriction.lean, line 44, the standard representation of SL_n(k) over a commutative ring k, acting on column vectors by matrix multiplication; §8.3 describes the standard representation of SL₂(𝔽_p) on k² as its composite with the entrywise reduction SL₂(𝔽_p)→SL₂(k), as a convention only.
+
+Use `TauCeti.BinaryQuadraticForm` in TauCeti/NumberTheory/BinaryQuadraticForm/Basic.lean, line 94, the form ax²+bxy+cy² recorded by its coefficients over a ring, with `TauCeti.BinaryQuadraticForm.discrim` (line 146), the discriminant b²−4ac over a commutative ring, the left SL₂-action γ•f=f∘γ⁻¹ (line 194) and `TauCeti.BinaryQuadraticForm.discrim_smul` (line 203), invariance of the discriminant under that action. The determinant-normalized GL₂(ℚ) action of §1.2 is this roadmap's own: it admits rational matrices of any nonzero determinant, divides by the determinant, and acts through the transpose, so that on SL₂(ℤ) it is M·Q=(Mᵗ)⁻¹•Q.
+
+Use `HeckeRing.GL2.degree_diagCoset_prime_pow` in TauCeti/NumberTheory/HeckeRing/GL2/Degree.lean, line 54, for the full-level prime-power degree. Use `HeckeRing.GL2.doubleCoset_natDiagGL_eq_iUnion_rightCosets_of_prime` in TauCeti/NumberTheory/HeckeRing/GL2/Gamma1/CoprimeCosets.lean, line 325, and `HeckeRing.GL2.doubleCoset_natDiagGL_Gamma0_eq_iUnion_rightCosets_of_prime` in TauCeti/NumberTheory/HeckeRing/GL2/Gamma0/Diagonal/PrimeCosets.lean, line 124, for the Γ₁(N) and Γ₀(N) decompositions with their twist matrix and prime hypotheses. These use the cosets written ΓM; translate their orientation before applying the MΓ convention below. They do not give an arbitrary-subgroup covering theorem.
+
+Use `TauCeti.diagGL` in TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/Diagonal/Basic.lean, line 100, the diagonal invertible matrix with prescribed unit entries over a semiring; §5.2 applies it to diag(p,1) over ℚ and over ℤ/N with p prime to N.
+
+The Tau Ceti module imported by Suggested.lean is TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Diagonal.Basic.
+
+### From TauCetiRoadmap.AlgebraicModularFormsAndSerreWeights
+
+Layers 1–3 fix the sheaf-first integral form, the integral q-expansion principle and the Hasse and theta conventions in genus one; Layers 4–7 supply the local Serre weight, Deligne–Serre lifting, classical Galois attachments and residual modularity. Their genus-one constructions specify the parent boundary; no genus-two carrier is inferred from them.
+
+### From TauCetiRoadmap.AlgebraicVectorBundles
+
+§§L0A–L0C supply finite locally free sheaf tensor, dual, symmetric and determinant constructions and their scalar and pullback functoriality. Use the induced operations on E and λ through the automorphic-bundle interfaces.
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+§3.1 supplies the automorphic vector bundle (its automorphic coefficient functor); §§5.2–5.4 its canonical and subcanonical extensions; §5.10 the integral Levi coefficient on good-prime PEL models; §§11.19–11.20 sheaf-first module coefficients and qcqs section colimits. §§12.15–12.16 supply vector Fourier–Jacobi expansion, joint injectivity and coefficient-submodule recognition under fibrewise component detection at every prime, flat charts and the actual relative boundary tensor sequence. §§12.11–12.12 and 12.20 supply rational pullback–trace Hecke actions and Fourier–Jacobi compatibility for the actual coefficient realization and multiplicative unit-valued normalization after p is inverted. Layer 5 computes the GSp₄ specializations with similitude power −3.
+
+### From TauCetiRoadmap.ModularForms
+
+Layer 2 supplies the double-coset Hecke ring with its finite left-coset decompositions, representative independence, the degree map and the elementary-divisor parametrization of double cosets, at level SL₂(ℤ) and at the congruence pairs Γ₀(N) and Γ₁(N). This roadmap's §5.2 owns the binary integrality map, its tame fibers at arbitrary congruence level, and its comparison with the local p-branches; the full-level and Γ₀/Γ₁ decompositions are imported through the pinned declarations above.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+§4.5 supplies Hecke correspondences for compact open U and finite-adelic g, with intermediate level U∩gUg⁻¹ and degree [U:U∩gUg⁻¹]. Use its finite-coset and rational adelic maps for the correspondence whose p-component is diag(p,1) and whose other components are identity, retaining all source and target components; Layer 7 supplies the integral geometric extension at p. Its general construction is imported; §5.2 proves the marked binary-lattice specialization and the comparison with a literal rational double coset.
+
+### From TauCetiRoadmap.ClassicalArithmeticCompletion
+
+§1.17 supplies the projective-zero count for a nonzero binary quadratic form over 𝔽_p, p odd, with discriminant r²−4mn, and the separate p+1 count for the zero form. This roadmap's §6.2 applies it to local labeled branches and, with the tame fiber multiplicity, to literal rational cosets.
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+§R07.2.2 supplies the multiplicative–connected–étale filtration, compatible with its stated base changes and splitting over perfect fields. §R07.2.21 supplies the BT₁ Hasse determinant and Fargues map LF on determinant powers. §§R07.2.22–R07.2.23 supply the exact crystalline Hasse–Witt complexes, equal coranks for dual groups, and odd-prime quasi-polarization compatibility; §3.2 uses the latter only at odd p and proves the polarized identity on the Siegel family at every prime, and §3.7 uses it at odd p. In height four and dimension two the equal dimensions give equal ranks; height three at the boundary is treated only by the connected recipe.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+§§4.9–4.10 supply boundary-ideal pushforward and coherent-cohomology comparison under same-level refinements of the spherical models, with arbitrary coefficient modules. §§7.3–7.4, 7.10 and 7.12 supply spherical integral toroidal models, formal cusp charts, fibrewise component detection and logarithmic Kodaira–Spencer. §7.16 supplies the spherical integral minimal model π:X→X* with O_X*=π_*O_X; 7.17 supplies ample Hodge powers on it; 7.23 supplies Siegel Koecher with arbitrary coefficients. The Hodge line is not assumed ample on the toroidal model. These spherical inputs carry no parahoric hypothesis.
+
+What ShimuraCompactifications must provide (gap:siegel-parahoric-models): Provide the Klingen and paramodular genus-two toroidal models of Pilloni Theorem 6.1.5.1 (normal, flat and lci over ℤ_p, with the maps from Klingen level to spherical and paramodular level), the universal isogeny chain G→G′→G of degrees p³ and p over the Klingen model, the integral compactified correspondence C_(p,2) of Pilloni §14.9.2 over the spherical model, with source fan equal to the fan of the trace projection p₁ so that p₁ is finite over the rank-at-least-one locus and p₂ is proper, and the refinement and boundary-ideal comparisons for these models.
+
+The extension uses P20 Theorem 6.1.5.1(3)–(4), pp. 29–30, the isogeny chain of §7.1, p. 38, and the compactified correspondence of §14.9.2, p. 104.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+§A4.3 supplies the abelian de Rham Hodge filtration, connection and polarized pairing on its specified domain. §§A4.7 and A4.9 supply polarized Grothendieck–Messing and Serre–Tate deformation equivalences with their PD and nilpotence hypotheses. §§A4.10–A4.11 supply ordinary bilinear Serre–Tate coordinates, the integral weighted polarization equations and canonical Frobenius action. The rank-one chart and trace ideals below are additional specified interfaces.
+
+What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-rank-one-deformations): Provide the polarized genus-two rank-one deformation chart with Frobenius basis and tangent constraints X=Z at principal level and Z=0 or X=0 at paramodular level, compatible with the chosen moduli-to-crystal comparison.
+
+What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-isogeny-trace-ideals): Provide the integral trace ideals for the ordinary genus-two Lagrangian and degree-p³/degree-p isogeny charts, including the trace divisibilities 1,p,p³ and p²,p with their semiabelian boundary compatibility.
+
+What AbelianSchemesAndArithmeticModuli must provide (gap:siegel-logarithmic-de-rham): Provide the genus-two semiabelian logarithmic de Rham connection and polarized pairing, ordinary unit-root splitting and first-order superspecial Hasse–Witt matrix, compatible with the logarithmic Kodaira–Spencer isomorphism of ShimuraCompactifications 7.12.
+
+### From TauCetiRoadmap.HodgeTateAndCanonicalSubgroups
+
+§0.12 supplies normalized multiplicative determinant pullback on the character ℤ_p-lattice before tensoring. §§0.14–0.16 supply the semiabelian primary Hasse section, ordinary-locus criterion, and toroidal/minimal descent. §§5.1–5.2 supply the ordinary Igusa torsors, transitions and towers for Hilbert modular varieties, with torsor group (𝒪_F/p^m)^×; the genus-two full-frame GL₂ tower and its component detection are requested below.
+
+What HodgeTateAndCanonicalSubgroups must provide (gap:siegel-igusa-full-frames): Provide the finite étale full ordinary genus-two Igusa GL₂(ℤ/pⁿ)-torsors over all coefficient thickenings and toroidal boundary charts, with transitions, frame actions and the component-detection or monodromy theorem required for saturated all-frame expansions.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§0.6 supplies coherent Hartogs for depth at least two along the omitted locus. §2.6 supplies ample Serre vanishing on proper Noetherian models. §2.7 supplies local-cohomology vanishing below depth. §§2.19–2.20 supply proper coherent duality, relative dualizing complexes and the Cohen–Macaulay dualizing module and Gorenstein invertibility criterion, with the stated Noetherian and boundedness conditions. §2.5 supplies qcqs filtered-colimit cohomology with its finite-cover and Čech-product hypotheses; apply it to quasi-compact opens of the Noetherian models here. §4.9 supplies proper coherent formal functions. The open Milnor and lci boundary interfaces below are separate requirements.
+
+What SchemeAndStackFoundations must provide (gap:open-formal-milnor): Provide the functorial Milnor short exact sequence for coherent cohomology on qcqs open formal schemes and the comparison with derived inverse limits of their nilpotent thickenings needed for H⁰ isomorphisms and H¹ injections.
+
+What SchemeAndStackFoundations must provide (gap:lci-fundamental-class): Provide the determinant-of-cotangent-complex identification and fundamental class for projectively embeddable proper maps between flat lci schemes of equal relative dimension, with perfect-coefficient projection formula, finite-flat trace comparison, logarithmic boundary ideal compatibility and integral derived reduction even for nonflat correspondence maps.
+
+What SchemeAndStackFoundations must provide (gap:reduced-section-propagation): Provide injectivity of restriction of a locally free sheaf on a reduced scheme to an open dense in every irreducible component, with componentwise propagation from neighborhoods meeting those components.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+§RG2.3.7 supplies the ordinary Frobenius Lang theorem `Lang.lang_surjective`: for a smooth geometrically connected finite-type group H over 𝔽_q, the map g↦g⁻¹F(g) is surjective on H(𝔽̄_q). Use it in §8.4 for SL₂ over 𝔽_p, which is smooth, geometrically connected and of finite type; only the ordinary finite-type theorem is needed.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+§7.8 (irreducibility and one-dimensional constituents) supplies the absolute irreducibility of Sym^a(F̄_p²) under SL₂(F), for a finite field F of characteristic p and 0≤a≤p−1, with a=p excluded. §1.7 supplies absolute irreducibility in Burnside's form, its equivalence with irreducibility after extension to an algebraic closure, its invariance under every extension of the coefficient field, and that an absolutely irreducible representation is irreducible. §8.3 uses them with F=F_p and an arbitrary field k of characteristic p, in particular the algebraically closed residue fields of §8.4; no further structure of these representations is assumed.
 
 ## References
 
