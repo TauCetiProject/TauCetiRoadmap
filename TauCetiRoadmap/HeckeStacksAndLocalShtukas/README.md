@@ -1,14 +1,64 @@
 # Roadmap: Hecke stacks and local shtuka cohomology
 
-**Summary.** This roadmap extends the global Hecke stacks, the lisse Hecke functor and the
-minuscule local Shimura towers of AutomorphicGaloisRepresentationsPartII AG2.6 to solid
-coefficients, arbitrary legs and bounds, and every nonarchimedean local field, and identifies
-the restrictions of the solid action with cohomology of general local shtuka towers. Its
-reusable objects are the inversion, bounded strata and chains on the imported global Hecke
-stack, twisted period spaces, general level towers, global solid Satake kernels, and compact-support
-complexes with commuting group and Weil actions. The final layer states the coherent
-operations and comparison diagrams of the action; the geometric spectral action, excursion
-operators and spectral centre built from the same Hecke functor are AG2.6's.
+**Summary.** Let `G` be a reductive group over a nonarchimedean local field `E`, with residue
+field `𝔽_q` and completed maximal unramified extension `Ĕ`. In Fargues and Scholze's
+geometrization of the local Langlands correspondence, Hecke operators act on sheaves on the
+stack of `G`-bundles on the relative Fargues–Fontaine curve, by modifying bundles along
+degree-one divisors called legs. On the stratum of the bundle `𝓔_b` attached to `b∈G(Ĕ)`, lisse
+sheaves are complexes of smooth representations of `J_b(E)`, the `E`-points of the
+`σ`-centralizer of `b`. This roadmap builds the action and identifies its restrictions to strata
+with the cohomology of local shtuka spaces.
+
+A representation `V` of `Ĝ^I`, with `Ĝ` the dual group and `I` indexing the legs, gives a Satake
+kernel on the global Hecke stack. The Hecke operator of `V` pulls a sheaf back along the source,
+tensors it with this kernel, and takes relative homology along the target. Local shtukas are
+modifications from the trivial bundle to `𝓔_b`, bounded by a cocharacter class `μ`. Their moduli
+spaces form towers over the compact open subgroups `K` of `G(E)`, with commuting actions of
+`G(E)` and `J_b(E)`.
+
+Unless a statement specifies `E=ℚ_p`, `E` may have either characteristic. Coefficients form a
+discrete `ℤ_ℓ[√q]`-algebra `Λ`, for any prime `ℓ≠p`. AutomorphicGaloisRepresentationsPartII
+already provides the global Hecke stacks, the lisse Hecke functor and the minuscule local
+Shimura towers over finite extensions of `ℚ_p`. This roadmap extends them to solid coefficients,
+arbitrary legs and bounds, and every nonarchimedean local field.
+
+The first main result is a duality. For an algebraic representation `W` of `Ĝ^I` on a finite
+projective `Λ`-module, the operator of the dual `W∨` is both left and right adjoint to the
+operator of `W` on lisse sheaves. The operator of `W` therefore preserves all limits, all
+colimits and compact objects. If `V` is a representation of `(Ĝ⋊Q)^I`, with `Q` a finite
+quotient of the Weil group, its operator takes a lisse sheaf to a lisse sheaf with an action of
+`I` copies of the Weil group, continuous on compact objects.
+
+The second concerns towers over `ℚ_p` with one leg, whose period map is étale onto the
+admissible locus of the bounded affine Grassmannian: the points where the modified bundle is
+trivial at every geometric point. For any bound `μ`, the admissible part of the open Schubert
+cell, and of its closure, is nonempty exactly when `[b]∈B(G,μ⁻¹)`, that is, `κ(b)=−μ♯` and the
+Newton point of `b` is at most the Galois average of `μ⁻¹`. After base change to any complete
+algebraically closed field over `F̆=FĔ`, with `F` the reflex field, the admissible cell is
+connected and the admissible locus is connected and dense in the Grassmannian.
+
+The third is cohomological. The level-`K` complex of a tower is its completed compactly
+supported cohomology with coefficients in the Satake kernel of `W`. Applying the operator of `W`
+to the compact induction of `Λ` from `K` to `G(E)`, extended by zero from the stratum of the
+trivial bundle, and restricting to the stratum of `b` gives the level-`K` complex, after
+pullback to the reflex bases. Hence, for every `E`, `b` and finite tuple of bounds, this complex
+is compact among complexes of smooth `J_b(E)`-representations when `K` is pro-`p`, once the Weil
+action is forgotten. Without pro-`p` this fails, already for the multiplicative group with zero
+bound and `b=1` at the level `K=𝓞_E^×`, when `Λ=𝔽_ℓ` and `ℓ∣q−1`. Dually, at pro-`p` levels,
+derived maps from the level-`K` complex to a complex `ρ` of smooth `J_b(E)`-representations are
+the `K`-invariants of a `G(E)`-complex `X(ρ)` built with the operator of `W∨`. If `ρ` is
+admissible, with perfect invariants at every open pro-`p` level, these complexes are perfect and
+`X(ρ)` is admissible.
+
+The Lubin–Tate tower, for the multiplicative group with `μ` the identity and `b=π⁻¹`, carries a
+reciprocity map: the Weil group acts on its geometric components through a map to `E^×`, which
+induces a topological isomorphism onto `E^×` from the Weil group modulo the closure of its
+commutator subgroup. On inertia it is the Lubin–Tate character.
+
+The roadmap also builds on GeometricSatakeAndFusion for the integral Satake equivalence, on
+VStackSheavesAndLisseCategories for the stack of bundles and solid and lisse sheaves, and on
+SmoothRepresentationsOfLocalGroups for smooth representations.
+AdmissiblePairsAndPadicHodgeStructures uses the nonemptiness and connectedness results.
 
 ## How to read the build
 
@@ -2464,7 +2514,7 @@ tensor generation, nonemptiness and connectedness of admissible loci, the recipr
 map of the one-leg tower, finite generation, compactness, admissibility and duality of
 the tower complexes, and the compatibility of the imported finite-set family with
 condensed enrichment) with the carrier each lacks, and the file declares nothing.
-The APIs and Checks below specify mathematical targets in prose; this README is
+The APIs and Checks above specify mathematical targets in prose; this README is
 the definitive specification.
 
 ## Exact supplier contracts
@@ -2506,7 +2556,7 @@ names above are in `Mathlib.CategoryTheory.Adjunction.Basic`,
 `Mathlib.CategoryTheory.Monoidal.Rigid.Basic`, `Mathlib.Condensed.Basic` and
 `Mathlib.Condensed.Module`.
 
-Every target below names its prerequisite layers. The following contracts
+Every target above names its prerequisite layers. The following contracts
 specify the extensions used at their boundaries; the consuming target depends
 on the complete contract.
 
@@ -2529,7 +2579,7 @@ on the complete contract.
 | **ClassicalAdicEtaleCohomology**, §§8.1–8.6 and 9.4–9.7, **DiamondSixOperations**, S0–**DiamondSixOperations**, S5, **AdicCoefficientsAndComparisons**, L0 | Compactifications, proper-support direct image, finite étale traces, and compatible adic limits. The cross-theory contract identifies classical and diamond compact support on every quasicompact open of a separated taut rigid space, naturally in the torsion coefficients and traces. For a smooth map of pure dimension `d`, require the canonical dualizing isomorphism `Rf^!Λ=Λ(d)[2d]`. Equivalence of étale sites alone supplies neither comparison. |
 | **EndoscopicTransferAndUnitaryTraceComparison**, §§12.3–12.8 and §12.17; **IgusaVarietiesAndTorsionConcentration**, §§IG.0.11 and IG.0.27; **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2; **AInfCohomology**, AI.2 | Independent Lubin–Tate and Drinfeld spaces, level towers and period maps, and their classical diamond/modification comparison at all levels with both periods, actions, Tate local system and Weil descent; the specified unramified PEL deformation space; covariant Dieudonné and Grothendieck–Messing theory; Breuil–Kisin–Fargues lattice/modification comparison. General `GL_n`, ramified EL/PEL and non-hyperspecial parahoric representability, the `A_cris` comparison over `O_C/p`, and punctured-`A_inf` parahoric torsor extension are explicit hypotheses in HS3.9. The further comparison between the `E′`-linear Weil-restriction tower and `E′`-shtukas is also stated there with its coefficient-field compatibility hypotheses. |
 
-Additional geometric and finiteness hypotheses are needed where they occur below.
+Additional geometric and finiteness hypotheses are needed where they occur above.
 For connectedness and density, use a theorem about removing a closed subset
 of smaller dimension from a connected, cohomologically smooth, partially
 proper diamond, together with the separate assertion that a locally closed
@@ -2550,7 +2600,7 @@ For the compactness of the level colimit for compact `ρ`, require compact
 stalks of `Ri^b_*[ρ]` on the finitely many relevant strata. [HHS],
 Theorems 1.3.1 and 7.1.4, provide this for torsion coefficients; their formalism
 does not establish the assertion for arbitrary `Λ`. The
-`ℚ̄_ℓ` finite-length case has its own argument below.
+`ℚ̄_ℓ` finite-length case has its own argument above.
 For a nonbasic source stratum, the categorical operator is defined using its
 chart adjoint. Identifying that operator with cohomology of framed
 modifications requires a comparison through the chart and the positive
