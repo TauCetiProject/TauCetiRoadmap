@@ -749,7 +749,7 @@ the mutable image and give the presentation `I≃K⊔J`, with row as the mutable
 inclusion. Prove transport along equivalences commuting with row. In the
 formulas below a mutable index in I means its image under row. Prove `μ_kμ_k=id`, that
 symmetrizers of `B` symmetrize `μ_kB`, zero diagonal, and commutation of `μ_k` with the
-principal block, reindexing along `K≃K'`, `J≃J'`, and `fromBlocks B₁ 0 0 B₂`.
+principal block and reindexing along `K≃K'` and `J≃J'`.
 
 For `b_kk=0` and `ε∈{1,-1}`, prove `μ_k(B̃)=E_ε B̃ F_ε`, where `E_ε : Matrix I I ℤ` is
 the identity except in column `k`, with `(E_ε)_kk=-1`, `(E_ε)_ik=[-ε b_ik]_+` for `i≠k`,
