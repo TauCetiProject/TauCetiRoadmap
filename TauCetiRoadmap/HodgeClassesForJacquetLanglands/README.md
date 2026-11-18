@@ -1,20 +1,61 @@
 # Roadmap: Hodge classes for the Jacquet–Langlands correspondence
 
-**Summary.** This roadmap constructs a rational Hodge class that realises the Jacquet–Langlands
-correspondence between the cohomology of two quaternionic Shimura varieties attached to one cuspidal
-representation of `GL₂(𝔸_F)`. From a four-dimensional Hermitian space it builds the exterior-square
-construction, a conjugate-linear Hodge-star operator `L` on `⋀²U` with `L∘L = vol`, which turns `⋀²U`
-into a rank-three skew-Hermitian space over a quaternion algebra and yields the exceptional
-isomorphism `PGU_E(U) ≃ PGU_B(⋀²U)°`. It then restricts explicit harmonic Kudla–Millson Schwartz forms
-along the block decomposition `U = B₁ ⊥ B₂`, proves that one global theta class pairs nontrivially
-with every archimedean sign vector, identifies the Hecke eigenspace containing that class as purely of
-Hodge type `(d,d)`, and descends a complex invertible correspondence to a rational one by a
-determinant argument. The end theorems are: the existence of an `L`-rational Hodge class
-`ξ₀ ∈ V₁ ⊗_L V₂(d)` inducing an isomorphism of `L`-Hodge structures `V₁ ≃ V₂` between the quaternionic
-multiplicity realizations (IP23, Theorem 3.2(i) and Theorem 12.4(i)); the same class chosen fixed in
-every `ℓ`-adic realization under the degree-`2d` Kottwitz hypothesis, giving `G_{F_Σ}`-equivariant
-isomorphisms for all `ℓ` at once (Theorem 3.2(ii), Theorem 12.4(ii)); and, in parallel weight two
-with `ℚ(π) = ℚ`, the rational correspondence on `H^{2d}(X₁ × X₂, ℚ)(d)` (Theorem 1).
+**Summary.** Under the Jacquet–Langlands correspondence, a cuspidal automorphic representation of
+`GL₂` over a totally real field may transfer to the unit group of a quaternion algebra. If it
+transfers to two quaternion algebras split at the same real places, it cuts out pieces of equal
+dimension and weight in the cohomology of their Shimura varieties. Following Ichino and Prasanna,
+this roadmap constructs a rational Hodge class mapping one piece isomorphically onto the other.
+
+Throughout, `F` is totally real of degree `n`, and `B₁, B₂` are quaternion algebras over `F` split
+at exactly the same set `Σ` of real places, with `d = |Σ| < n`. The representation `π` of `GL₂(𝔸_F)`
+is cuspidal, with trivial central character and even weights `k_v ≥ 2`, and has Jacquet–Langlands
+transfers `π₁, π₂` to `B₁^×, B₂^×`. Put `L = ℚ(π)`. Let `V₁` be the space of Hecke-equivariant maps
+from a model over `L` of the finite part of `π₁` into the cohomology of the Shimura variety `X₁` of
+`B₁^×`, with coefficients given by the weights; define `V₂` likewise. Each lies in degree `d`, has
+dimension `2^d` over `L`, and is an `L`-Hodge structure of weight `d`: a rational Hodge structure
+with `L` acting by Hodge endomorphisms.
+
+The main theorem is unconditional: there is a class `ξ₀ ∈ V₁ ⊗_L V₂(d)` of Hodge type `(0,0)` whose
+correspondence operator is an isomorphism of `L`-Hodge structures `V₁ ≃ V₂`. Here `(d)` is a Tate
+twist; through Poincaré duality the class acts by pullback, cup product and pushforward. The roadmap
+does not assert that `ξ₀` is algebraic or absolutely Hodge.
+
+The second theorem assumes the degree-`2d` case of Kottwitz's conjecture for the theta lifts of the
+construction: for every prime `ℓ`, the Galois action on their Hecke eigenspace in the degree-`2d`
+`ℓ`-adic cohomology of a unitary similitude Shimura variety has trivial semisimplification after the
+twist `(d)`. Then `ξ₀` can be chosen fixed by `G_{F_Σ}`, the absolute Galois group of the common
+reflex field, in every `ℓ`-adic realization, so the isomorphisms `V₁ ⊗ ℚ_ℓ ≃ V₂ ⊗ ℚ_ℓ` are
+equivariant for all `ℓ` at once.
+
+The third theorem is the case where every `k_v = 2` and `ℚ(π) = ℚ`. There the coefficients are
+constant, and the class is a Hodge class in `H^{2d}(X₁ × X₂, ℚ)`. It induces an isomorphism of
+`ℚ`-Hodge structures between the multiplicity spaces of `π₁` and `π₂`; the full isotypic summands
+can have different dimensions. For `F` real quadratic and `d = 1`, `X₁` and `X₂` are Shimura curves
+and the class lies in `H²(X₁ × X₂, ℚ)(1)`.
+
+When `B₁ ≄ B₂`, `[B₁] + [B₂]` is the class of a quaternion division algebra `B`. For a CM field `E`
+embedded in both algebras, `U = B₁ ⊥ B₂` is a four-dimensional Hermitian space over `E`, and a
+conjugate-linear analogue of the Hodge star makes `⋀²U` a skew-Hermitian space of rank three over
+`B`. Two facts about this operator are stated in Lean, for a sesquilinear form `H` on a
+four-dimensional space with trivialized top exterior power. It is the unique semilinear operator on
+`⋀²U` whose wedge pairing reproduces the determinant pairing of `H`. If `H` is Hermitian, its square
+is multiplication by the volume of `H`. The operator also yields the exceptional isomorphism
+`PGU_E(U) ≃ PGU_B(⋀²U)°`.
+
+A theta lift to the similitude group of `⋀²U` gives a cohomology class of degree `2d`. For `d ≥ 1`,
+one choice of auxiliary data makes its restriction to a subgroup built from `B₁^×` and `B₂^×` pair
+nontrivially with test vectors for every choice of signs at the real places. The rational Hecke
+space containing the class is purely of Hodge type `(d,d)`. A determinant argument then descends the
+complex invertible correspondence to a rational one.
+
+The roadmap builds on GL2AutomorphicRepresentationsAndTransfer for the transfer and the models over
+`L`, on MetaplecticAutomorphicForms for theta lifts, and on ShimuraVarieties for canonical models.
+Hodge structures come from Tau Ceti's Hodge library, and Hodge classes fixed by Galois for every `ℓ`
+from MotivesAndAlgebraicCycles.
+
+Layer 0 sets up `V₁`, `V₂` and the correspondence operator. Layers 1–5 build the exterior
+construction, the Schwartz forms and the Shimura data. Layers 6–9 study the theta class, and Layer
+10 descends to a rational class.
 
 ## How to read the build
 
