@@ -17,8 +17,8 @@ polarized varieties with prescribed Tate modules (Korollare 1–3). Hermite–Mi
 Chebotarev test-set argument and Weil's bound then give finitely many isogeny classes with good
 reduction outside a finite set `S` (Satz 5); Raynaud's determinant theorem pins the height inside an
 isogeny class, which gives the Shafarevich conjecture for polarized abelian varieties (Satz 6), its
-unpolarized form through Zarhin's trick, the finiteness of curves of genus at least two with good
-reduction outside `S`, and its application to Parshin's implication for rational points. The last
+unpolarized form through Zarhin's trick, and the finiteness of curves of genus at least two with good
+reduction outside `S`. The last
 layer exports the results to elliptic curves over number fields: semisimplicity, the Tate Hom
 comparison, the isogeny criterion by traces of Frobenius and the finiteness of isogeny classes.
 
@@ -46,7 +46,7 @@ identity `Σ m_i d_i = mh/2`. R28.3 repairs Satz 2 with the erratum, proves that
 `l`-divisible tower become stationary, and builds the principally polarized towers. R28.4 proves Satz 3
 and Satz 4 by Zarhin's argument and the quaternion construction, with Korollare 1–3. R28.5 proves Satz 5
 and Satz 6, removes the polarization, and deduces the finiteness of curves with good reduction outside
-`S`, the input to Parshin's implication. R28.6 exports the results to elliptic curves and proves the
+`S`. R28.6 exports the results to elliptic curves and proves the
 integral commutant statement at almost all primes. Subsections are in dependency order within each layer; some Checks and applications point forward.
 
 ## Conventions
@@ -618,8 +618,8 @@ library theorem's proof.
 - Unramified `e = 1` gives different exponent `0`, so the wild lower bound `e ≤ v_𝔓(𝔇)`
   cannot be used without its wild hypothesis.
 - The uses in this roadmap: the descent of R28.1.10 (`K'` containing the 3-division points of all
-  members of a geometric class), the uniform extension of R28.1.13 (`K'` containing `K(B[12d])`), the test
-  set of R28.5.2, and the Parshin application below.
+  members of a geometric class), the uniform extension of R28.1.13 (`K'` containing `K(B[12d])`) and the test
+  set of R28.5.2.
 - Mathlib's `NumberField.hermiteTheorem.finite_of_discr_bdd_of_isReal` counts only fields with a real
   place and is not enough.
 
@@ -1660,8 +1660,7 @@ needs a bound on the height inside an isogeny class: for primes `l` above an aux
 determinant theorem and the Weil bound force isogenies of `l`-power degree to preserve the height, and for
 the finitely many `l ≤ N` the finiteness of stable lattices in the semisimple `V_l(A)` bounds the `l`-part of the
 height quotient. The layer then removes the polarization by Zarhin's trick and deduces the finiteness of
-curves with good reduction outside `S` (through the rational Torelli theorem), the hypothesis needed
-for the worked Parshin application.
+curves with good reduction outside `S` (through the rational Torelli theorem).
 
 Throughout, `K` is a number field of degree `m`, `S` a finite set of places of `K`, `π = Gal(K̄/K) ⊆ π̃ = Gal(ℚ̄/ℚ)`.
 
@@ -2547,35 +2546,6 @@ curves; AbelianSchemesAndArithmeticModuli A0, A1, A6; ArithmeticGaloisRepresenta
 NeronModelsAndSemistableAbelianVarieties Layers 5, 6; Mathlib Weierstrass
 curves and semisimple modules.
 
-## Worked example: the Parshin application
-
-Let `X/K` be smooth projective and geometrically connected of genus at least two.
-The application of R28.5.15 assumes the following geometric inputs: one finite extension `K_1/K`,
-a finite bad set `S_1`, and a genus bound `b`, all independent of `x ∈ X(K)`, with smooth projective
-geometrically connected `Y(x)/K_1` of genus between `2` and `b`, good outside `S_1`, and finite maps
-`Y(x) → X_{K_1}` whose branch locus is exactly `{x}`; and finiteness of nonconstant maps
-`Y → X_{K_1}` for each fixed smooth projective `Y/K_1`. These are the Kodaira–Parshin covering
-input and de Franchis input (Milne, IV Theorems 5.1–5.2, pp. 145–146). Under these hypotheses
-R28.5.15 makes `X(K)` finite. This is the application in Faltings 1983, §6, Satz 7, p. 365,
-rather than an additional unconditional rational-point target.
-
-Parshin's construction attaches to each `x ∈ X(K)`, over a finite extension `K_1` independent of `x`, a
-curve `Y(x)` with good reduction outside a finite set independent of `x` and a finite map `Y(x) → X_{K_1}` ramified
-exactly over `x`; by R28.5.15 the `Y(x)` lie in finitely many isomorphism classes, and by de Franchis' theorem each
-admits finitely many non-constant maps to `X`, so finitely many `x` occur. Faltings 1983 obtains `Y(x)` from an
-auxiliary unramified cover `φ : X_1 → X` of degree `k > 2`, which exists once the field is enlarged. By Lemma 4 all
-fibres `φ^{−1}(x)` are split over one fixed `K_1`. Choosing `y ∈ φ^{−1}(x)` and putting `D = φ^{−1}(x) − {y}`, one takes
-for `Y(x) → X_1` the cover ramified exactly over `D` that multiplication by `2` on the generalized Jacobian of
-`(X_1, D)` produces; its reduction is good except above `2`, at the bad places of `X_1`, and at the places `v` modulo
-which `φ` ramifies. The details are left to Parshin, and three inputs are used without comment: the genus of `Y(x)`
-being at least `2`, de Franchis' theorem, and a field of definition of `Y(x)` independent of `x`;
-these are precisely the geometric inputs specified above.
-
-**Checks.** The covering has degree `k > 2`, so deleting one point of a split fibre leaves at least
-two branch points. Degree `2` would leave an unramified cover in this construction. The bad set
-and field of definition are independent of the rational point; the stated de Franchis hypothesis
-then bounds the fibres of the map to curve isomorphism classes.
-
 ## Downstream consumers
 
 - *EllipticCurveModularity* (R29.1) uses the elliptic exports of Layer R28.6 — semisimplicity, the Tate Hom
@@ -2585,8 +2555,6 @@ then bounds the fibres of the map to curve isomorphism classes.
 - *EllipticCurveModularityPartIIGL2TypeAbelianVarieties* uses Satz 3 and Satz 4 (R28.4.5), the isogeny criterion
   (R28.4.7), the description of `l`-adic characters of `Gal(ℚ̄/ℚ)` (R28.2.6), the elliptic exports and the
   integral commutant at almost all primes (R28.6.7).
-- *HeightsRationalPointsAndObstructions* (RP.4) takes the finiteness of curves with good reduction outside `S`
-  (R28.5.15) as the hypothesis of its Parshin implication.
 - *SmallRamificationAndAbelianVarietyBaseCases*, *HeegnerPointEulerSystems*, *MotivesAndAlgebraicCycles* and
   *AbelianVarietiesIsogenousToNoJacobian* use the Tate conjecture and its corollaries (Layer R28.4).
 - *MordellLawrenceVenkatesh* uses Hermite–Minkowski with prescribed ramification (R28.1.9), and the
@@ -2615,9 +2583,7 @@ says the same of the places of degree one of a function field of one variable ov
 applies Vojta's inequality to the points of large Néron–Tate norm on the Jacobian and Northcott's
 theorem to the rest.
 
-That theorem is the conclusion of the worked Parshin example, which reaches it from R28.5.15 only
-under the covering and de Franchis hypotheses stated there; the Vojta–Bombieri route is outside the
-scope of this roadmap. The curves there are those of R28.5.15 (a smooth proper geometrically
+That theorem is not a target of this roadmap. The curves there are those of R28.5.15 (a smooth proper geometrically
 connected curve over a field is projective and geometrically integral), with the genus taken in
 AxiomMath's own cohomology rather than Tau Ceti's. No target of Layers R28.1–R28.6 has a counterpart
 in this directory: it has no modular height, isogeny estimate, Tate module, good reduction of curves
@@ -2691,9 +2657,7 @@ Its arbitrary base-change comparison and, for proper geometrically connected fib
 AbelianSchemesAndArithmeticModuli §A1.3; they are not additional definitions here.
 
 The rational-point and integral-point applications of Faltings 1983, §6, Satz 7 and
-Bemerkung 1, p. 365, are illustrated in the worked Parshin example. Its covering and
-de Franchis hypotheses are stated there explicitly. They are not new unconditional
-Mordell or Siegel declarations in this roadmap.
+Bemerkung 1, p. 365, are not part of this roadmap.
 
 This roadmap does not own, and cites:
 
@@ -2735,7 +2699,7 @@ This roadmap does not own, and cites:
 
 This roadmap gives no effective global height bound in Satz 6: that bound comes from a finiteness
 argument. Auxiliary constants such as the auxiliary bound have explicit values in worked Checks. It does not prove the
-Mordell conjecture by the Vojta–Bombieri or Lawrence–Venkatesh methods, nor Siegel's theorem by
+Mordell conjecture, nor Siegel's theorem by
 Diophantine approximation; it does not develop Arakelov intersection theory beyond the degree of a
 metrized line bundle on `Spec(O_K)`; and it does not treat abelian varieties over function fields.
 
