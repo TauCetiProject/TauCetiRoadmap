@@ -8,15 +8,17 @@ import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 `README.md`. This file states the roadmap's headline theorems against the pinned APIs;
 discharging them finishes neither a layer nor the roadmap.
 
-The statements are qualitative Serre modularity, the level-one case and the finiteness of
-level-one representations, and odd Artin weight-one modularity. The definitions repeat, unchanged,
-the arithmetic interfaces of ClassicalSerreModularity: attachment is expressed on Tau Ceti's
+The statements are qualitative Serre modularity, the level-one case in some weight at least two,
+the finiteness of level-one representations, and odd Artin weight-one modularity. The definitions
+repeat, unchanged, the arithmetic interfaces of ClassicalSerreModularity: attachment is expressed
+on Tau Ceti's
 `HeckeRing.GL2.Newform` by its Fourier coefficients, nebentypus and arithmetic Frobenius, over
 Mathlib's actual absolute Galois group, algebraic integers, inertia, complex conjugations and
 matrix representations.
 
-The exact Serre-weight, conductor and character refinements of the strong form in S6 require the
-residual Artin conductor and Serre's local weight recipe, neither supplied at the pins. The
+The exact Serre-weight, conductor and character refinements of the strong form in S6, among them
+the weight `k(ρ̄)` of the level-one case, require the residual Artin conductor and Serre's local
+weight recipe, neither supplied at the pins. The
 finite-flat weight-two case additionally requires the coefficient-independent finite-flat residual
 predicate and its group-scheme model. The lifting theorems, the compatible systems and the steps
 of the chain require compatible-system carriers, local period conditions and deformation problems.
