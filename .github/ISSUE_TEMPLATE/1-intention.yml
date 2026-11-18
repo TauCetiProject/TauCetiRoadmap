@@ -87,6 +87,7 @@ body:
         - CombinatorialHeegaardFloer
         - CompactOperators
         - CompactQuantumMetricSpaces
+        - CompletedCohomologyPartII
         - ComplexComparisonPartII
         - ComplexCurveModuli
         - ComplexHessianEquations
@@ -257,6 +258,7 @@ body:
         - NoncommutativeAndEquivariantIwasawa
         - NoncommutativeGeometry
         - NoncommutativeIntegration
+        - NoncompactQuantumSymmetry
         - NoncongruenceModularForms
         - NumberFieldEnumeration
         - OcneanuRigidity
