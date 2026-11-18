@@ -1,40 +1,59 @@
 # Roadmap: Faltings finiteness, semisimplicity and isogeny theorems
 
-**Summary.** This roadmap proves the finiteness theorems of Faltings' 1983 paper on abelian
-varieties over number fields, with the corrections of his 1984 erratum. Starting from semiabelian
-schemes over rings of integers, it defines the modular height `h(A)` of an abelian variety with
-semistable reduction as the normalised Arakelov degree of its Hodge line, and proves that only
-finitely many principally polarized abelian varieties of a given dimension over a number field `K`
-have semiabelian models of bounded height (Satz 1). The proof compares `h` with a projective height
-on the Baily–Borel compactification through a proper stack of stable curves over `ℤ`, using that the
-Hodge metric has only logarithmic singularities along the boundary. It computes how `h` changes along
-an isogeny (Lemma 5), and uses Tate's and Raynaud's local computations with Hodge–Tate weights and
-the Weil bound to show that the heights along an `l`-divisible tower become stationary (Satz 2 as the
-erratum corrects it). With Zarhin's quaternion construction this gives the Tate conjecture for
-abelian varieties over number fields: `V_l(A)` is semisimple and `End_K(A) ⊗ ℤ_l ≅ End_π(T_l(A))`
-(Satz 3, Satz 4), with the Hom form, the isogeny criterion by local L-factors and the finiteness of
-polarized varieties with prescribed Tate modules (Korollare 1–3). Hermite–Minkowski, the
-Chebotarev test-set argument and Weil's bound then give finitely many isogeny classes with good
-reduction outside a finite set `S` (Satz 5); Raynaud's determinant theorem pins the height inside an
-isogeny class, which gives the Shafarevich conjecture for polarized abelian varieties (Satz 6), its
-unpolarized form through Zarhin's trick, and the finiteness of curves of genus at least two with good
-reduction outside `S`. The last
-layer exports the results to elliptic curves over number fields: semisimplicity, the Tate Hom
-comparison, the isogeny criterion by traces of Frobenius and the finiteness of isogeny classes.
+**Summary.** Let `A` be an abelian variety over a number field `K`. For each prime `l`, the absolute
+Galois group π = Gal(K̄/K) acts on the Tate module `T_l(A)`, the inverse limit of the `l`-power
+torsion of `A` over K̄, and on the rational Tate module `V_l(A) = T_l(A) ⊗ ℚ_l`. This roadmap proves
+the finiteness theorems of Faltings' 1983 paper, with the corrections of his 1984 erratum, and
+transfers them to elliptic curves. "Finitely many" always counts isomorphism classes over `K`, not
+over K̄, together with the polarization when one is fixed.
 
-The end theorems are Satz 1 (R28.1.11), the corrected Satz 2 (R28.3.4), Satz 3 and Satz 4
-(R28.4.5), the isogeny criterion (R28.4.7), Satz 5 (R28.5.3), Satz 6 and its unpolarized form
-(R28.5.11, R28.5.13), the finiteness of curves with good reduction outside `S`
-(R28.5.15), and the finiteness of elliptic isogeny classes (R28.6.5).
+The central result is the Tate conjecture (Satz 3 and Satz 4). For every prime `l`, `l = 2`
+included, the action of π on `V_l(A)` is semisimple: every Galois-stable subspace has a
+Galois-stable complement. Moreover, the natural map `End_K(A) ⊗ ℤ_l → End_π(T_l(A))`, into the
+endomorphisms commuting with π, is an isomorphism. The same holds for homomorphisms between two
+abelian varieties over `K`. Two abelian varieties over `K` are therefore isogenous over `K` exactly
+when their rational Tate modules at a prime `l` are isomorphic as Galois modules, and exactly when
+their local L-factors agree at almost all places. For elliptic curves, the last condition says that the
+traces of Frobenius agree at almost all places of good reduction of both. Finitely many places do not
+suffice: over ℚ the curves 37a1 and 37b1 have the same trace at 7 but not at 2, so they are not
+isogenous.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| R28.1 | Semiabelian models, modular heights and finiteness of bounded height | the stable-Picard Hodge comparison, uniqueness of semiabelian models, the correspondence stack, uniform commensurability of modular and Hodge lines, the modular height, `HermitianMetric.HasLogSingularities`, Northcott finiteness for logarithmically singular metrics, the fixed-degree Hermite–Minkowski statement, bounded-height finiteness, polarization descent, uniform principal reduction |
-| R28.2 | Heights under isogeny and the determinant identity | the isogeny height formula, the isogeny valuation bounds, trivial inertia on the Tate quotient, the differential count at a divisible-group level, cyclotomic decomposition of the character, the local-dimension identity |
-| R28.3 | The erratum and the stationarity of heights | the shifted closure tower, divisibility of the shifted toric intersection, stationarity of heights, a polarization reduction, existence of infinitely many isomorphic quotients |
-| R28.4 | Semisimplicity and the Tate conjecture | the quaternion matrix, the two-graph subspace, realization of stable subspaces by idempotents, Tate semisimplicity, the integral Tate endomorphism comparison, the integral Tate Hom comparison, the isogeny criterion by local factors, finiteness with prescribed Tate modules |
-| R28.5 | Finiteness of isogeny classes and the Shafarevich conjecture | finiteness of Weil polynomials, the finite Frobenius test set, `finite_isogenyClasses`, Raynaud’s determinant identity, `finite_stableLattices`, the polarized Shafarevich theorem, Zarhin’s trick, `shafarevich_unpolarized`, rational Torelli, `finite_curves_goodReduction` |
-| R28.6 | Elliptic curves and the integral commutant | the elliptic-to-abelian comparison, `elliptic_semisimple`, `elliptic_tate_hom_iso`, `elliptic_isogenous_iff_ap`, `finite_ellipticIsogenyClass`, the cyclic Hom theorem, integral commutant generation at almost all primes |
+The other main theorems concern good reduction. Fix `K`, a finite set `S` of places and a
+dimension `g`. Satz 5 says that only finitely many isogeny classes of abelian varieties of dimension
+`g` over `K` have good reduction outside `S`. Satz 6, the Shafarevich conjecture, says the same of
+isomorphism classes of polarized abelian varieties of dimension `g` and fixed polarization degree;
+following Faltings, that degree is the order of the kernel. Zarhin's trick removes the polarization:
+only finitely many abelian varieties of dimension `g` over `K` have good reduction outside `S`.
+Through the rational Torelli theorem, the same holds for smooth projective geometrically connected
+curves over `K` of a fixed genus at least two. For an elliptic curve over `K`, only finitely many
+elliptic curves over `K` are isogenous to it; the class of 11a1 over ℚ is 11a1, 11a2 and 11a3.
+Faltings' applications to rational and integral points are not part of this roadmap, and it does
+not prove the Mordell conjecture.
+
+The proofs run through Faltings' modular height. If `A` has semistable reduction at every finite
+place, it has a semiabelian model over the ring of integers of `K`, whose fibres are extensions of
+abelian varieties by tori. Its height `h(A)` is the Arakelov degree of the line of invariant
+top-degree differentials of the model, suitably metrized, divided by [K : ℚ]. Satz 1 says that for
+fixed `g`, `K` and `c`, only finitely many principally polarized abelian varieties of dimension `g`
+over `K` with semiabelian models have `h(A) ≤ c`. Satz 2, as the erratum corrects it, says that for
+an `A` with a semiabelian model, the heights of its quotients by the levels of an `l`-divisible
+subgroup eventually become constant; Faltings printed that they all equal `h(A)`, which is false.
+Satz 6 needs a bound on the height within an isogeny class, which comes from Raynaud's
+determinant theorem and the Weil bound for large `l`, and from the finiteness of stable lattices in
+`V_l(A)` for the small ones.
+
+The roadmap builds on ArakelovGeometryAndAbelianHeights for the arithmetic degree, the semistable
+height and its change along an isogeny. NeronModelsAndSemistableAbelianVarieties supplies
+semistable reduction and the Néron–Ogg–Shafarevich criterion. FiniteFlatGroupsAndIntegralPadicHodgeTheory
+supplies Tate's and Raynaud's local theorems on `p`-divisible groups. Downstream,
+EllipticCurveModularity uses the results on elliptic curves to show that an elliptic curve over ℚ
+has rational cyclic isogenies of only finitely many prime degrees, and several other roadmaps use
+the Tate conjecture.
+
+The first three of the six layers develop the height: Satz 1, the change of height along
+isogenies, and the corrected Satz 2. The fourth proves the Tate conjecture, the fifth the finiteness
+theorems, and the sixth transfers the results to elliptic curves. The next section describes each
+layer.
 
 ## How to read the build
 
