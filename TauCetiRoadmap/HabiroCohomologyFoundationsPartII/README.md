@@ -1,6 +1,20 @@
 # Roadmap: Habiro cohomology foundations, Part II — trace q-Hodge pairs and their Habiro descent
 
-**Summary.** Topological Hochschild homology over connective complex K-theory produces q-Hodge filtrations: under the spherical hypotheses of §1.1, the even filtration on TC⁻ relative to ku is a q-deformation of the Hodge filtration. HabiroCohomologyFoundations stops at algebraic q-Hodge pairs and their Habiro descent; RefinedTraceMethods supplies the local and global trace comparisons. This Part II joins those theories: it constructs completed relative spherical lifts (Layer 0), assembles trace pairs functorially on structured spherical inputs and applies Habiro descent (Layer 1). It proves the spherical-lift criterion for the naive filtration after perfection, constructs higher-power quotient applications and identifies identity-cover trace pairs with the canonical quasi-regular pairs (Layer 2). It compares the canonical smooth pair with the supplied framed trace pair on their common domain (Layer 3). Finally it transports the cyclotomic and Taylor maps of the relative Habiro ring to the supplied number-field trace realisation (Layer 4). The end theorems are traceHabiro (§1.3), perfectedLiftNaive (§2.2), tracePair_quasiRegular (§2.3), canonicalFramedTrace (§3.1) and numberFieldTraceExports (§4.2).
+**Summary.** The q-de Rham complex `qdR_{R/A}` of an A-algebra R deforms its derived de Rham complex in a parameter q. A q-Hodge pair is a filtration on it whose filtered quotient by h = q − 1, with h in filtration degree one, is the Hodge filtration, together with rational and p-adic rational comparisons. The first part, HabiroCohomologyFoundations, builds such pairs algebraically and attaches to every pair its Habiro descent, a Habiro-complete object over A[q].
+
+Topology gives a second source of pairs. Its input is a ring with spherical lifts at every prime. From these, the even filtration on TC⁻ relative to ku yields a q-Hodge pair, where TC⁻ denotes circle homotopy fixed points of topological Hochschild homology and ku is connective complex K-theory. RefinedTraceMethods provides this construction one ring at a time. This roadmap makes it functorial, applies Habiro descent, and in two cases identifies the result with an algebraic pair.
+
+Rings are commutative, and tensor products and completions are derived unless stated otherwise. For trace pairs the base A is a perfectly covered Λ-ring, such as ℤ. Its p-completions come with spherical lifts, p-complete connective E∞-rings reducing to them, whose Tate-valued Frobenius is S¹-equivariant and agrees with that of A on π₀.
+
+A trace input is an A-algebra R whose cotangent complex has Tor-amplitude in homological degrees [0,1] and whose p-power torsion is bounded for every p. At each prime it carries either an E₂-lift of R̂_p over the spherical base or an E₁-lift of the Čech nerve of a semiperfect cover, with rational and arithmetic gluing data. At p = 2 only the second kind is allowed unless R̂₂ = 0. The first main result is that the trace pair is a functor on these inputs and their structured morphisms. For A = R = ℤ it is the h-adic filtration on ℤ[[h]], whose Habiro descent is Habiro's ring `lim_m ℤ[q]^∧_{q^m−1}`.
+
+The second result is a criterion, valid at every prime p including 2. Let A be a p-complete, p-completely perfectly covered δ-ring, whose perfection A → A_∞ is p-completely faithfully flat. Let R be a p-complete, p-torsion-free A-algebra whose p-completed cotangent complex has Tor-amplitude [0,1], with R/p relatively semiperfect over A. If `(R⊗_A A_∞)^∧_p` lifts to a p-complete connective E₁-ring spectrum, then the naive filtration of the first part, defined without spectra, is a q-deformation of the Hodge filtration. Thus `ℤ_p{x}_∞/x` has no such lift, though it lifts to an E₁-algebra over ku, because the naive filtration of `ℤ_p{x}^∧_p/x` is not a q-deformation.
+
+The third result concerns quasi-regular rings. Let R be an A-algebra whose cotangent complex has Tor-amplitude [0,1]. Suppose that at every prime p, R is p-torsion free, R/p is relatively semiperfect over Â_p, and R̂_p has a p-complete connective E₁-lift over the spherical base. For any input on R whose cover is the identity at every prime, the trace pair is naturally equivalent to the canonical quasi-regular pair of the first part. In particular it is independent of the lifts and gluing data.
+
+The fourth result concerns smooth algebras. Let A also be torsion free and S smooth over A with an étale map A[x₁,…,x_d] → S, and assume every prime at most max(d,1) is invertible in S. Then the framed trace pair is equivalent to the canonical smooth pair of the first part, and their Habiro descents agree. For ℤ[x,y] the trace pair exists over ℤ, but the canonical pair needs 2 inverted.
+
+Layer 0 extends spherical lifting to p-complete algebras whose completed cotangent complex vanishes, without finite presentation, and maps the lift of a non-perfect base to that of its perfection. Layer 1 builds the functor and its descent. Layer 2 constructs spherical lifts of quotients by powers y^α under explicit conditions on α, then proves the second and third results; Layer 3 proves the fourth. Layer 4 takes R = 𝒪_F[1/Δ] for a number field F, with Δ > 0 divisible by 6 and by the discriminant of F. It transports the cyclotomic reductions and Taylor maps of the Habiro ring of R, from HabiroRings, to its realisation by fixed points of THH over periodic K-theory. Downstream, HabiroNahmSeries may use these number-field specialisations.
 
 ## How to read the build
 
@@ -465,7 +479,7 @@ Within the Habiro family the supplier order is HabiroCyclotomicCompletions, QWit
 
 The degree-zero arithmetic dependency chain is HabiroNumberFields §§2.1–2.4 → HabiroRings §§5.2, 5.9 → §4.2 here. HabiroNumberFields supplies the compatible primitive roots, full arithmetic coefficient algebras, re-expansion and Frobenius-glued arithmetic ring. HabiroRings owns their comparison with the relative Habiro presentation; this Part II transports that comparison through the trace realisation of RefinedTraceMethods §6.14. HabiroNumberFields therefore precedes HabiroRings even when only degree-zero trace exports are used.
 
-The arithmetic statements here concern a ring in degree zero. The K₃-indexed line bundles, regulators and Nahm-series classes of HabiroNumberFields and HabiroNahmSeries remain with those roadmaps; no comparison of higher modules or higher cohomology follows from the ring isomorphisms below.
+The arithmetic statements here concern a ring in degree zero. The K₃-indexed line bundles, regulators and Nahm-series classes of HabiroNumberFields and HabiroNahmSeries remain with those roadmaps; no comparison of higher modules or higher cohomology follows from the ring isomorphisms above.
 
 ## Exact supplier contracts
 
@@ -483,7 +497,7 @@ No Tau Ceti declaration is used. Tau Ceti at the pin contains no Habiro, q-Hodge
 
 ### From TauCetiRoadmap.QWittVectors
 
-QWittVectors §§2.1–2.5 provides arithmetic Λ-rings, arithmetic perfection (§2.3), perfect coverage (§2.4) and relative perfection (§2.5), including the toric examples and integer torsion-freeness. These are the objects used whenever a Λ-base or a relatively perfect Λ-algebra occurs below. The p-complete δ-ring specialization and relative semiperfectness used by the naive filtration remain HabiroCohomologyFoundations §5.15.
+QWittVectors §§2.1–2.5 provides arithmetic Λ-rings, arithmetic perfection (§2.3), perfect coverage (§2.4) and relative perfection (§2.5), including the toric examples and integer torsion-freeness. These are the objects used whenever a Λ-base or a relatively perfect Λ-algebra occurs above. The p-complete δ-ring specialization and relative semiperfectness used by the naive filtration remain HabiroCohomologyFoundations §5.15.
 
 ### From TauCetiRoadmap.HabiroCohomologyFoundations
 
