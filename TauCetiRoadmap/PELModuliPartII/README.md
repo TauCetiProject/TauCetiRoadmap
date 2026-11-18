@@ -17,73 +17,22 @@ the local spaces (§§9.5–9.10). A polarization kernel, a signature convention
 annihilation equation and a coefficient field are part of every statement: none of them can be
 recovered from the generic Shimura variety.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns: the Witt O-frame over an arbitrary O-algebra, O-displays of strict formal
-O-modules, the relative isocrystal of a strict formal O-module, relative duality, the Lubin–Tate frame
-comparison and the f-O-display comparison for an unramified extension (§0.1); representability of EL
-framed functors and of polarized PEL framed functors for an arbitrary self-dual periodic multichain, and
-the representability criterion that Layers 1–5 apply to their relative unitary framed functors (§0.2); principal hermitian
-modules, Mihatsch's relative comparison and the conjugation of signature conventions (§§0.3–0.7);
-the unitary Rapoport–Zink spaces of principal, almost self-dual, exotic and Krämer type, their
-special homomorphism spaces, the rank-raising embedding and the diagonal graph (Layers 1–5), with
-the two connected components of the exotic space over every finite K/ℚ_p (§3.7); the
-absolute-to-relative exotic comparison (Layer 4); the global CM and lattice data of the
-Rapoport–Smithling–Zhang (RSZ) setting, including the integral CM moduli at every prime, which extends
-PELModuli §M4.7 beyond primes unramified in the CM field (Layer 6); the RSZ, Li–Liu, He–Li–Shi–Yang and
-Liu–Tian–Xiao–Zhang–Zhu integral models, in particular the models of LTXZZ22 §§4.2 and 5.2 (Layers 7
-and 8); and the Tate–Dieudonné comparison for basic CM pairs, quotients of formal schemes by discrete
-groups and the basic-locus uniformizations (Layer 9).
-
-It leaves to other roadmaps, by section:
-
-- Zink displays over rings of characteristic p and the functor BT to formal p-divisible groups are
-  PELModuli §M2.15; their definition over every ring in which p is nilpotent, with base change and
-  duals, and the equivalence there are the contract gap:zink-display-equivalence.
-- The strict O_K-action on a p-divisible group (O_K acting on Lie through the structure map), its
-  O_K-relative height h, characterized by rank X[π]=q^h, the relative height of an O_K-linear
-  quasi-isogeny, and the formula height_p=[K:ℚ_p]·h are HilbertModularVarietiesAndShimuraCurves
-  §R18.5.4; §0.1 applies them over every O-algebra in which π is nilpotent and adds formality,
-  O-displays, the relative isocrystal and relative duality.
-- Relative (ramified) Witt vectors of an arbitrary O-algebra and isocrystals with a ramified
-  coefficient field are VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and
-  coefficient changes”, and Layer 1, “Finite isocrystals over the completed maximal unramified
-  coefficient field”, with its slope classification; §0.1 adds the Witt O-frame (F, V and `I_O(R)`
-  over an arbitrary O-algebra), its windows and their duality, and the relative isocrystal of a
-  strict formal O-module.
-- The PEL Rapoport–Zink space of an unramified local PEL datum with a single self-dual lattice, and
-  the unstructured framed deformation functor of a p-divisible group, are IgusaVarietiesAndTorsionConcentration
-  §0.27. §0.2 differs in two clauses: it treats an arbitrary self-dual periodic multichain over a
-  ramified or unramified datum, and EL data without polarization, which the almost self-dual, exotic and
-  Krämer spaces need since their polarizations are relative, not Cartier.
-- Strict dimension-one Dieudonné classification and strict O-module deformations with Drinfeld
-  levels are EndoscopicTransferAndUnitaryTraceComparison §§7.6 and 10.2; Tate full faithfulness over
-  finite fields, Honda theory and the B-linear isogeny classification are its §§8.3 and 8.10.
-- The split Drinfeld-level integral models at a split distinguished place are
-  IgusaVarietiesAndTorsionConcentration §0.31.
-- Locally noetherian formal schemes and the Berthelot generic fibre are AdicSpacesPartIII Layer F0
-  and §R2.9; descent, algebraic spaces and stacks are SchemeAndStackFoundations Layer 1, formal
-  deformation theory its Layer 4; the Grassmannian scheme of a module over an affine base is already
-  in Tau Ceti (`Module.Grassmannian.scheme`), and Grassmannians of locally free sheaves over an
-  arbitrary base, their smoothness and their tangent spaces are AlgebraicModuliForArithmeticGeometry
-  §1.3.
-- p-divisible groups and their Dieudonné theory are FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer
-  R07.1 and §§R07.2.10, R07.2.17, R07.2.20, R07.2.26; Grothendieck–Messing, effectivity of polarized
-  formal lifts and Serre–Tate with structures are AbelianSchemesAndArithmeticModuli §§A4.7–A4.9.
-- Hermitian lattices and local hermitian forms are GeometryOfNumbersAndQuadraticArithmetic §§2.7 and
-  2.9, the forms of a unitary datum and the Hasse principle are PELModuli §§M3.1–M3.2; the existence of
-  a global hermitian space with prescribed local invariants is the contract gap:hermitian-local-global.
-- Smoothness of the automorphism group scheme of a polarized unitary lattice multichain is the
-  contract gap:unitary-multichain-stabilizer.
-- Quasi-projectivity and properness of PEL moduli at good primes are ShimuraCompactifications §§7.3,
-  7.5 and 7.18; at the remaining primes and parahoric levels they are the contract
-  gap:bad-prime-projectivity.
-
-The special-fibre geometry built on the models of Layers 7 and 8 — the basic isogeny correspondence
-of LTXZZ22 Theorem 4.3.5, the balloon, ground and link strata, link cohomology, the semistable
-product resolution and the first geometric reciprocity law — is SelmerIwasawaCohomologyPartII Layer 2
-and §5.2, a consumer of this roadmap (see Downstream consumers). Zhang21 Lemmas 7.10(b) and 7.11 on
-F-linear characteristic polynomials are not used here.
+Layer 0 sets up the local objects every later layer uses: strict formal O-modules, their displays and
+duals, representability of framed functors, principal hermitian modules, Mihatsch's relative
+comparison and the conjugation of signature conventions. Layers 1–5 build the four local families on Layer 0:
+the unramified principal space and its special homomorphisms (Layer 1), the almost self-dual and mixed
+spaces (Layer 2, which also uses the rank-one source and special-Hom space of Layer 1), the relative
+exotic space (Layer 3), its comparison with the absolute exotic space over an unramified K (Layer 4,
+which uses Layer 3), and the Krämer space (Layer 5); the principal, exotic and Krämer families do not
+use one another. Layer 6 fixes the
+global data: the RSZ group, admissible CM types and their coefficient fields, the integral Eisenstein
+and sign conditions, the integral CM moduli at every prime and the lattice levels. Layer 7 builds the
+RSZ, exotic and Krämer integral models and transfers the local geometry of Layers 1–5 to them through
+the local-model diagram; Layer 8 builds the neat models of LTXZZ22 and the mixed isogeny model. Layer 9
+uniformizes the basic loci of the models of Layers 7–8 by the local spaces of Layers 1–5. Each target's
+*Needs:* line lists what its statement and its route use, item by item.
 
 ## Conventions
 
@@ -171,217 +120,6 @@ discrete valuation ring.
    (u,1); the latter is the transposed form H, with H(u,1)=h(1,u)=−u. On the diagonal both give the
    norm xx̄, so norms, Gram determinants and dual lattices do not detect the convention; since H is
    the conjugate of h, a value outside K, such as h(u,1)=u, does.
-
-## Exact supplier contracts
-
-Each supplier is consumed at the sections named. What a supplier must add is stated as a gap contract
-in that supplier's subsection, and every target that needs it lists it in its *Needs:* line.
-
-### From Mathlib
-
-The pinned Mathlib has no formal schemes, no p-divisible groups or strict modules over a base and no
-abelian schemes with PEL structure; these are the carriers the targets below construct or import.
-The declarations consumed, with what is assumed of them:
-
-- `LinearMap.charpoly` (`Mathlib/LinearAlgebra/Charpoly/Basic.lean`): the characteristic polynomial of
-  an endomorphism of a finite free module over a commutative ring, with `LinearMap.charpoly_monic` and
-  `LinearMap.charpoly_natDegree` (the latter under `StrongRankCondition`). It carries the Lie
-  characteristic polynomials of §§0.3, 0.4 and 6.5; it does not express the annihilation equations,
-  which are separate.
-- `Matrix.charpoly` (`Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`): the characteristic polynomial
-  of a square matrix, used in item 3 of the Conventions.
-- `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`): submodules of a module whose
-  quotient is finite projective of constant rank k. It is the set of R-points of the Grassmannians of
-  quotients used in §§0.6, 1.2, 5.1 and 7.5. Over an affine base the representing scheme is Tau
-  Ceti's (below); the Grassmannian of rank-k quotients of a locally free sheaf of rank m over an
-  arbitrary base, its smoothness of relative dimension k(m−k) and its tangent Hom formula are
-  imported from AlgebraicModuliForArithmeticGeometry §1.3.
-- `WittVector` (`Mathlib/RingTheory/WittVector/Defs.lean`), with `WittVector.ghostComponent`,
-  `WittVector.frobenius` and `WittVector.verschiebung` (`Mathlib/RingTheory/WittVector/Basic.lean`,
-  `.../Frobenius.lean`, `.../Verschiebung.lean`), and `WittVector.Isocrystal`
-  (`Mathlib/RingTheory/WittVector/Isocrystal.lean`): p-typical Witt vectors of an arbitrary
-  commutative ring with their ghost components, Frobenius and Verschiebung, and isocrystals over the
-  fraction field of W(k) for a perfect field k; they are the case O=ℤ_p, π=p of §0.1. The ring
-  `W_O(R)` of relative O-Witt vectors of an O-algebra R with respect to π, with its ghost map and its
-  functoriality in R, is VectorBundlesAndIsocrystals Layer 0; the isocrystals over K̆ with
-  coefficient field K, their morphisms and their slope classification are its Layer 1 (see the
-  subsection of that supplier). §0.1 adds what that roadmap states on perfect algebras only: the
-  Frobenius F, the Verschiebung V with respect to π and the augmentation ideal `I_O(R)` over an
-  arbitrary O-algebra R, and the relative isocrystal of a strict formal O-module.
-- `IsRegularLocalRing` (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`): regularity of a noetherian
-  local ring, the notion meant by "regular" in §§2.2, 5.6, 5.7, 7.8, 7.9 and 8.4.
-- `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Flat`, `AlgebraicGeometry.Smooth` and
-  `AlgebraicGeometry.SmoothOfRelativeDimension` (`Mathlib/AlgebraicGeometry/Scheme.lean`,
-  `Mathlib/AlgebraicGeometry/Morphisms/Flat.lean`, `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`):
-  schemes and flat and smooth morphisms; formal smoothness of a formal moduli space is a different
-  notion, built over AdicSpacesPartIII Layer F0.
-
-### From Tau Ceti
-
-- `TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`):
-  abelian varieties over a field, with smooth structure morphism. It is the carrier of the abelian
-  varieties over F̄_p in §9.1; abelian schemes over a discrete valuation ring or a nilpotent thickening
-  are not supplied and are imported from AbelianSchemesAndArithmeticModuli.
-- `Module.Grassmannian.scheme` and `Module.Grassmannian.toSpec`
-  (`TauCeti/AlgebraicGeometry/Grassmannian/Basic.lean`), `Module.Grassmannian.schemeHomEquiv`
-  (`.../Grassmannian/Points.lean`) and `Module.Grassmannian.isSeparated_toSpec` and
-  `Module.Grassmannian.isProper_toSpec` (`.../Grassmannian/Proper.lean`): for a module M over a
-  commutative ring R, in the universe of R, and k≥0, the scheme over Spec R glued from the standard
-  affine charts; its morphisms from Spec A over Spec R, for an R-algebra A, are the points of
-  Mathlib's `Module.Grassmannian` of rank-k quotients of A⊗_R M; it is separated over Spec R, and
-  proper when M is finite. It is the carrier of the Grassmannian of rank-r quotients of a free
-  rank-n module in §0.6, over Spec O_L̆. Smoothness and the tangent space are not at the pin; they
-  are AlgebraicModuliForArithmeticGeometry §1.3.
-- `TauCeti.FormalScheme.Spf.carrier` and `TauCeti.FormalScheme.Spf.structureSheaf`
-  (`TauCeti/AlgebraicGeometry/FormalScheme/Spf/Carrier.lean`, `.../Spf/StructureSheaf.lean`): the
-  underlying space of the formal spectrum of a topological ring and its structure sheaf for an adic
-  ideal. This is the only formal-scheme carrier at the pin: there is no category of formal schemes,
-  no morphism of formal schemes and no formal smoothness, so the framed moduli of Layers 1–5 and
-  the completions and quotients of Layer 9 are README targets whose carriers Tau Ceti does not yet
-  have, and no target consumes these two declarations.
-
-### From TauCetiRoadmap.PELModuli
-
-§§M0.4, M0.6, M0.7, M0.10, M0.16–M0.18, M0.22–M0.25 (symplectic lattices, PEL data, the similitude group, bad primes and the good-prime base,
-reflex fields, the Kottwitz determinant condition, hermitian and skew-hermitian spaces, generalized CM
-types); §§M1.1, M1.3, M1.6, M1.7, M1.9, M1.13 (quasi-isogenies, unitary O_F-abelian schemes and their signature type, level structures, the moduli problem M_H
-over a base of good primes, the adelic problem, level change and Hecke action); §§M2.8, M2.11, M2.12,
-M2.14, M2.15 (representability and smoothness at good primes, properness when End_B(V) is a division
-algebra, deformations of unitary abelian schemes, kernel ranks of isogenies, displays); §§M3.1–M3.2,
-M3.8 (forms of the skew-hermitian module, the Hasse principle, the hermitian space of homomorphisms
-from a CM object); §§M4.3, M4.5–M4.8 (canonical models, normalized models at higher p-level, CM moduli
-at primes unramified in F); §M5.5 (unitary PEL data with prescribed signatures). These are assumed
-as stated there, in particular only over a base of good primes where PELModuli says so.
-
-What PELModuli must provide (gap:zink-display-equivalence): For every ring R in which p is nilpotent, define displays over R with their base change and duals and the functor BT to formal p-divisible groups over R (§M2.15 defines them over rings of characteristic p), and prove that BT is an equivalence from nilpotent displays over R to formal p-divisible groups over R, compatible with base change and with duality of biformal objects.
-
-### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
-
-§R18.5.4 (the strict O_K-action on a p-divisible group, O_K acting on Lie through the structure map;
-the O_K-relative height h of a p-divisible group with O_K-action, characterized by rank X[π]=q^h, and
-of an O_K-linear quasi-isogeny, the q-logarithm of its degree after clearing a power of π; and the
-formula height_p(X)=[K:ℚ_p]·h). These are assumed as stated there; they use nothing of the base
-beyond the structure map from O_K, and §0.1 applies them over every O_K-algebra in which π is
-nilpotent.
-
-### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
-
-§§A4.1, A4.3, A4.7, A4.8, A4.9 (integral Tate modules, first de Rham cohomology, Grothendieck–Messing,
-effectivity of polarized formal lifts, Serre–Tate with structures); §§A6.10, A6.11, A6.13
-(characteristic polynomials, their Tate-module form, degrees of polarized isogenies).
-
-### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
-
-Layer R07.1 (finite flat group schemes and p-divisible groups); §§R07.2.10, R07.2.17, R07.2.20,
-R07.2.26 (Dieudonné classification over perfect fields, isogeny classification, the covariant
-Dieudonné module and the comparison of conventions, rigidity along nilpotent thickenings).
-
-### From TauCetiRoadmap.VectorBundlesAndIsocrystals
-
-Layer 0, “Ramified coefficient rings and coefficient changes” (the ring `W_O(R)` of an arbitrary
-O-algebra R for a finite extension K of ℚ_p with residue field 𝔽_q and uniformizer π, with ghost
-components `w_n(x)=Σ_{i≤n} π^i x_i^(q^(n−i))`, its ring operations given by universal integral
-polynomials, its functoriality in R, and the strict π-adic lift over a perfect 𝔽_q-algebra with its
-Frobenius and Verschiebung); Layer 1, “Finite isocrystals over the completed maximal unramified
-coefficient field” (K-isocrystals: finite-dimensional K̆-vector spaces with a bijective σ-semilinear
-operator, σ the lift of the q-power Frobenius fixing K, and their morphisms), “Mixed-characteristic
-supplier comparison” (`W_O(k)[1/π]≅K̆` for k=𝔽̄_q, intertwining the Frobenius of `W_O(k)` with σ)
-and “Dieudonné–Manin classification of finite isocrystals” (slopes normalized by v(π)=1,
-decomposition into simple blocks, vanishing of Hom between distinct slopes). These are assumed as
-stated there; F, V and `I_O(R)` over an arbitrary O-algebra R (agreeing with that layer's on
-perfect 𝔽_q-algebras), and the relative isocrystal of a strict formal O-module, are §0.1.
-
-### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
-
-§7.6 (PEL Dieudonné comparison and quasi-isogeny groups, used for strict O-linear modules of dimension
-one); §10.2 (strict O-module deformations with Drinfeld levels, used at height one for the canonical
-rank-one lifts); §§8.3, 8.10 (Tate full faithfulness over finite fields and Honda classification; the
-B-linear isogeny classification).
-
-### From TauCetiRoadmap.IgusaVarietiesAndTorsionConcentration
-
-§0.27 (PEL Rapoport–Zink spaces of an unramified local PEL datum, and the unstructured framed
-deformation functor, whose formal representability is the first step of §0.2); §0.31 (Drinfeld-level
-integral models at a split distinguished place for the signature-(1,n−1) datum, with the CM-type
-matching of RSZ20 §4.3).
-
-### From TauCetiRoadmap.AdicSpacesPartIII
-
-Layer F0 (locally noetherian formal schemes, adic and finite-type morphisms, completions); §R2.9 (the
-Berthelot generic fibre on Conrad's category FS_C and étaleness of generic fibres).
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-Layer 1 (descent, algebraic spaces and stacks) for the algebraic integral models; Layer 4
-(deformations, formal schemes and models) for the local-model charts.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-§1.3 (coherent quotients, Plücker embeddings and the tangent Hom formula of Grassmannians).
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
-
-§§2.7, 2.9 (hermitian lattices, duals and invariant factors; signed hermitian forms over local fields of
-odd residue characteristic). Their forms are conjugate-linear in the first argument; they are applied
-here to the transposed form H(x,y)=h(y,x) of the Conventions, which has the same isometries, adjoints,
-dual lattices, invariant factors and determinant class as h (Conventions, item 9).
-
-### From TauCetiRoadmap.PadicHodgeTheory
-
-§§3.3–3.5 (Fontaine's functors, filtered Frobenius modules, crystalline classification); §8.3 (abelian
-varieties and good reduction).
-
-### From TauCetiRoadmap.ShimuraVarieties
-
-§1.7 (compact-open level category); §§2.5–2.7 (Baily–Borel quotients and their algebraization); §4.5
-(torus canonical models); §5.10 (main theorem of complex multiplication); §6.7 (canonical models of
-abelian type).
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-§4.1 (weak approximation and torsors) is the section that receives the following contract.
-
-What AdelicAlgebraicGroups must provide (gap:hermitian-local-global): For a CM extension F/F⁺, prove that a global F/F⁺-hermitian space with prescribed real signatures and finite local invariants exists exactly when the invariants satisfy the product formula, and is unique up to isometry.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-§RG2.3.5 (integral models of stabilizers for classical and Hodge-type groups), which treats lattice
-chains for GL and GSp.
-
-What ReductiveGroupsPartII must provide (gap:unitary-multichain-stabilizer): For a quadratic extension of p-adic fields, with p>2 or the extension unramified (for p=2 this is RSZ21 Theorem A.1, p. 37), and a polarized periodic lattice multichain, prove its automorphism group scheme smooth, including the Weil-restricted factors when the ground field is ramified over ℚ_p, and identify it with the corresponding stabilizer group scheme.
-
-### From TauCetiRoadmap.ShimuraCompactifications
-
-§7.3 (the integral toroidal model, the open immersion of the PEL moduli of PELModuli §M2.8 into it
-and its stratification by cusp and cone labels; when the datum has no nonzero cusp label the open
-stratum is the only one, so the open immersion is surjective and hence an isomorphism), §7.5
-(properness of the integral toroidal model for a complete cone system) and §7.18
-(quasi-projectivity of the neat PEL moduli of PELModuli §M2.8), all over a base of good primes in the
-sense of PELModuli §M0.10. Together, §§7.3 and 7.5 make the PEL moduli proper when its datum has no
-nonzero cusp label. §8.7, and §7.6 on a base all of whose
-primes are good for the product datum, consume them through finite comparison morphisms from CM-pair
-moduli to the PEL moduli of the product A₀×A; §7.6 on a base with a bad prime, §7.7 and §8.4 consume
-gap:bad-prime-projectivity through the same kind of finite comparison morphism, into the multichain
-moduli that contract names.
-
-What ShimuraCompactifications must provide (gap:bad-prime-projectivity): Pose the PEL moduli problem of PELModuli §M1.7 over an integral base, a localization of the ring of integers of the reflex field or the ring of integers of one of its completions, that contains primes at which ShimuraCompactifications Layer 7 does not apply (primes dividing the discriminant of the PEL order, or primes whose local level is not the stabilizer of a single self-dual lattice), replacing the abelian scheme at each such prime by a multichain of abelian schemes indexed by a polarized lattice multichain of the PEL order and taking the level there to be the stabilizer of that multichain, as in RZ96 Definition 6.9, p. 279; prove that this moduli problem is represented by a separated Deligne–Mumford stack of finite type over the base, at neat level by a quasi-projective scheme through an ample Hodge line, and that it is proper over the base when its generic fibre is proper.
-
-## How to read the build
-
-Layer 0 sets up the local objects every later layer uses: strict formal O-modules, their displays and
-duals, representability of framed functors, principal hermitian modules, Mihatsch's relative
-comparison and the conjugation of signature conventions. Layers 1–5 build the four local families on Layer 0:
-the unramified principal space and its special homomorphisms (Layer 1), the almost self-dual and mixed
-spaces (Layer 2, which also uses the rank-one source and special-Hom space of Layer 1), the relative
-exotic space (Layer 3), its comparison with the absolute exotic space over an unramified K (Layer 4,
-which uses Layer 3), and the Krämer space (Layer 5); the principal, exotic and Krämer families do not
-use one another. Layer 6 fixes the
-global data: the RSZ group, admissible CM types and their coefficient fields, the integral Eisenstein
-and sign conditions, the integral CM moduli at every prime and the lattice levels. Layer 7 builds the
-RSZ, exotic and Krämer integral models and transfers the local geometry of Layers 1–5 to them through
-the local-model diagram; Layer 8 builds the neat models of LTXZZ22 and the mixed isogeny model. Layer 9
-uniformizes the basic loci of the models of Layers 7–8 by the local spaces of Layers 1–5. Each target's
-*Needs:* line lists what its statement and its route use, item by item.
 
 ## Layer 0: Strict modules, representability and relative unitary conventions
 
@@ -1998,7 +1736,6 @@ Suppliers: EndoscopicTransferAndUnitaryTraceComparison §§8.3, 8.10; FiniteFlat
 
 Supplier contracts: gap:hermitian-local-global (see Exact supplier contracts).
 
-
 ## Downstream consumers
 
 SelmerIwasawaCohomologyPartII uses the models of Layers 7 and 8 in its Layers 2 and 5. The native
@@ -2023,6 +1760,269 @@ are the inputs of arithmetic intersection problems on unitary Shimura varieties 
 conjecture in the principal, almost self-dual and Krämer cases, and the arithmetic fundamental lemma);
 apart from the single divisor Z(x₀) of §2.4, through which π₂ factors, the special cycles and
 intersection numbers themselves are not constructed here.
+
+## Scope and ownership
+
+This roadmap owns: the Witt O-frame over an arbitrary O-algebra, O-displays of strict formal
+O-modules, the relative isocrystal of a strict formal O-module, relative duality, the Lubin–Tate frame
+comparison and the f-O-display comparison for an unramified extension (§0.1); representability of EL
+framed functors and of polarized PEL framed functors for an arbitrary self-dual periodic multichain, and
+the representability criterion that Layers 1–5 apply to their relative unitary framed functors (§0.2); principal hermitian
+modules, Mihatsch's relative comparison and the conjugation of signature conventions (§§0.3–0.7);
+the unitary Rapoport–Zink spaces of principal, almost self-dual, exotic and Krämer type, their
+special homomorphism spaces, the rank-raising embedding and the diagonal graph (Layers 1–5), with
+the two connected components of the exotic space over every finite K/ℚ_p (§3.7); the
+absolute-to-relative exotic comparison (Layer 4); the global CM and lattice data of the
+Rapoport–Smithling–Zhang (RSZ) setting, including the integral CM moduli at every prime, which extends
+PELModuli §M4.7 beyond primes unramified in the CM field (Layer 6); the RSZ, Li–Liu, He–Li–Shi–Yang and
+Liu–Tian–Xiao–Zhang–Zhu integral models, in particular the models of LTXZZ22 §§4.2 and 5.2 (Layers 7
+and 8); and the Tate–Dieudonné comparison for basic CM pairs, quotients of formal schemes by discrete
+groups and the basic-locus uniformizations (Layer 9).
+
+It leaves to other roadmaps, by section:
+
+- Zink displays over rings of characteristic p and the functor BT to formal p-divisible groups are
+  PELModuli §M2.15; their definition over every ring in which p is nilpotent, with base change and
+  duals, and the equivalence there are the contract gap:zink-display-equivalence.
+- The strict O_K-action on a p-divisible group (O_K acting on Lie through the structure map), its
+  O_K-relative height h, characterized by rank X[π]=q^h, the relative height of an O_K-linear
+  quasi-isogeny, and the formula height_p=[K:ℚ_p]·h are HilbertModularVarietiesAndShimuraCurves
+  §R18.5.4; §0.1 applies them over every O-algebra in which π is nilpotent and adds formality,
+  O-displays, the relative isocrystal and relative duality.
+- Relative (ramified) Witt vectors of an arbitrary O-algebra and isocrystals with a ramified
+  coefficient field are VectorBundlesAndIsocrystals Layer 0, “Ramified coefficient rings and
+  coefficient changes”, and Layer 1, “Finite isocrystals over the completed maximal unramified
+  coefficient field”, with its slope classification; §0.1 adds the Witt O-frame (F, V and `I_O(R)`
+  over an arbitrary O-algebra), its windows and their duality, and the relative isocrystal of a
+  strict formal O-module.
+- The PEL Rapoport–Zink space of an unramified local PEL datum with a single self-dual lattice, and
+  the unstructured framed deformation functor of a p-divisible group, are IgusaVarietiesAndTorsionConcentration
+  §0.27. §0.2 differs in two clauses: it treats an arbitrary self-dual periodic multichain over a
+  ramified or unramified datum, and EL data without polarization, which the almost self-dual, exotic and
+  Krämer spaces need since their polarizations are relative, not Cartier.
+- Strict dimension-one Dieudonné classification and strict O-module deformations with Drinfeld
+  levels are EndoscopicTransferAndUnitaryTraceComparison §§7.6 and 10.2; Tate full faithfulness over
+  finite fields, Honda theory and the B-linear isogeny classification are its §§8.3 and 8.10.
+- The split Drinfeld-level integral models at a split distinguished place are
+  IgusaVarietiesAndTorsionConcentration §0.31.
+- Locally noetherian formal schemes and the Berthelot generic fibre are AdicSpacesPartIII Layer F0
+  and §R2.9; descent, algebraic spaces and stacks are SchemeAndStackFoundations Layer 1, formal
+  deformation theory its Layer 4; the Grassmannian scheme of a module over an affine base is already
+  in Tau Ceti (`Module.Grassmannian.scheme`), and Grassmannians of locally free sheaves over an
+  arbitrary base, their smoothness and their tangent spaces are AlgebraicModuliForArithmeticGeometry
+  §1.3.
+- p-divisible groups and their Dieudonné theory are FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer
+  R07.1 and §§R07.2.10, R07.2.17, R07.2.20, R07.2.26; Grothendieck–Messing, effectivity of polarized
+  formal lifts and Serre–Tate with structures are AbelianSchemesAndArithmeticModuli §§A4.7–A4.9.
+- Hermitian lattices and local hermitian forms are GeometryOfNumbersAndQuadraticArithmetic §§2.7 and
+  2.9, the forms of a unitary datum and the Hasse principle are PELModuli §§M3.1–M3.2; the existence of
+  a global hermitian space with prescribed local invariants is the contract gap:hermitian-local-global.
+- Smoothness of the automorphism group scheme of a polarized unitary lattice multichain is the
+  contract gap:unitary-multichain-stabilizer.
+- Quasi-projectivity and properness of PEL moduli at good primes are ShimuraCompactifications §§7.3,
+  7.5 and 7.18; at the remaining primes and parahoric levels they are the contract
+  gap:bad-prime-projectivity.
+
+The special-fibre geometry built on the models of Layers 7 and 8 — the basic isogeny correspondence
+of LTXZZ22 Theorem 4.3.5, the balloon, ground and link strata, link cohomology, the semistable
+product resolution and the first geometric reciprocity law — is SelmerIwasawaCohomologyPartII Layer 2
+and §5.2, a consumer of this roadmap (see Downstream consumers). Zhang21 Lemmas 7.10(b) and 7.11 on
+F-linear characteristic polynomials are not used here.
+
+
+## Exact supplier contracts
+
+Each supplier is consumed at the sections named. What a supplier must add is stated as a gap contract
+in that supplier's subsection, and every target that needs it lists it in its *Needs:* line.
+
+### From Mathlib
+
+The pinned Mathlib has no formal schemes, no p-divisible groups or strict modules over a base and no
+abelian schemes with PEL structure; these are the carriers the targets below construct or import.
+The declarations consumed, with what is assumed of them:
+
+- `LinearMap.charpoly` (`Mathlib/LinearAlgebra/Charpoly/Basic.lean`): the characteristic polynomial of
+  an endomorphism of a finite free module over a commutative ring, with `LinearMap.charpoly_monic` and
+  `LinearMap.charpoly_natDegree` (the latter under `StrongRankCondition`). It carries the Lie
+  characteristic polynomials of §§0.3, 0.4 and 6.5; it does not express the annihilation equations,
+  which are separate.
+- `Matrix.charpoly` (`Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean`): the characteristic polynomial
+  of a square matrix, used in item 3 of the Conventions.
+- `Module.Grassmannian` (`Mathlib/RingTheory/Grassmannian.lean`): submodules of a module whose
+  quotient is finite projective of constant rank k. It is the set of R-points of the Grassmannians of
+  quotients used in §§0.6, 1.2, 5.1 and 7.5. Over an affine base the representing scheme is Tau
+  Ceti's (below); the Grassmannian of rank-k quotients of a locally free sheaf of rank m over an
+  arbitrary base, its smoothness of relative dimension k(m−k) and its tangent Hom formula are
+  imported from AlgebraicModuliForArithmeticGeometry §1.3.
+- `WittVector` (`Mathlib/RingTheory/WittVector/Defs.lean`), with `WittVector.ghostComponent`,
+  `WittVector.frobenius` and `WittVector.verschiebung` (`Mathlib/RingTheory/WittVector/Basic.lean`,
+  `.../Frobenius.lean`, `.../Verschiebung.lean`), and `WittVector.Isocrystal`
+  (`Mathlib/RingTheory/WittVector/Isocrystal.lean`): p-typical Witt vectors of an arbitrary
+  commutative ring with their ghost components, Frobenius and Verschiebung, and isocrystals over the
+  fraction field of W(k) for a perfect field k; they are the case O=ℤ_p, π=p of §0.1. The ring
+  `W_O(R)` of relative O-Witt vectors of an O-algebra R with respect to π, with its ghost map and its
+  functoriality in R, is VectorBundlesAndIsocrystals Layer 0; the isocrystals over K̆ with
+  coefficient field K, their morphisms and their slope classification are its Layer 1 (see the
+  subsection of that supplier). §0.1 adds what that roadmap states on perfect algebras only: the
+  Frobenius F, the Verschiebung V with respect to π and the augmentation ideal `I_O(R)` over an
+  arbitrary O-algebra R, and the relative isocrystal of a strict formal O-module.
+- `IsRegularLocalRing` (`Mathlib/RingTheory/RegularLocalRing/Defs.lean`): regularity of a noetherian
+  local ring, the notion meant by "regular" in §§2.2, 5.6, 5.7, 7.8, 7.9 and 8.4.
+- `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.Flat`, `AlgebraicGeometry.Smooth` and
+  `AlgebraicGeometry.SmoothOfRelativeDimension` (`Mathlib/AlgebraicGeometry/Scheme.lean`,
+  `Mathlib/AlgebraicGeometry/Morphisms/Flat.lean`, `Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`):
+  schemes and flat and smooth morphisms; formal smoothness of a formal moduli space is a different
+  notion, built over AdicSpacesPartIII Layer F0.
+
+### From Tau Ceti
+
+- `TauCeti.AlgebraicGeometry.AbelianVariety` (`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`):
+  abelian varieties over a field, with smooth structure morphism. It is the carrier of the abelian
+  varieties over F̄_p in §9.1; abelian schemes over a discrete valuation ring or a nilpotent thickening
+  are not supplied and are imported from AbelianSchemesAndArithmeticModuli.
+- `Module.Grassmannian.scheme` and `Module.Grassmannian.toSpec`
+  (`TauCeti/AlgebraicGeometry/Grassmannian/Basic.lean`), `Module.Grassmannian.schemeHomEquiv`
+  (`.../Grassmannian/Points.lean`) and `Module.Grassmannian.isSeparated_toSpec` and
+  `Module.Grassmannian.isProper_toSpec` (`.../Grassmannian/Proper.lean`): for a module M over a
+  commutative ring R, in the universe of R, and k≥0, the scheme over Spec R glued from the standard
+  affine charts; its morphisms from Spec A over Spec R, for an R-algebra A, are the points of
+  Mathlib's `Module.Grassmannian` of rank-k quotients of A⊗_R M; it is separated over Spec R, and
+  proper when M is finite. It is the carrier of the Grassmannian of rank-r quotients of a free
+  rank-n module in §0.6, over Spec O_L̆. Smoothness and the tangent space are not at the pin; they
+  are AlgebraicModuliForArithmeticGeometry §1.3.
+- `TauCeti.FormalScheme.Spf.carrier` and `TauCeti.FormalScheme.Spf.structureSheaf`
+  (`TauCeti/AlgebraicGeometry/FormalScheme/Spf/Carrier.lean`, `.../Spf/StructureSheaf.lean`): the
+  underlying space of the formal spectrum of a topological ring and its structure sheaf for an adic
+  ideal. This is the only formal-scheme carrier at the pin: there is no category of formal schemes,
+  no morphism of formal schemes and no formal smoothness, so the framed moduli of Layers 1–5 and
+  the completions and quotients of Layer 9 are README targets whose carriers Tau Ceti does not yet
+  have, and no target consumes these two declarations.
+
+### From TauCetiRoadmap.PELModuli
+
+§§M0.4, M0.6, M0.7, M0.10, M0.16–M0.18, M0.22–M0.25 (symplectic lattices, PEL data, the similitude group, bad primes and the good-prime base,
+reflex fields, the Kottwitz determinant condition, hermitian and skew-hermitian spaces, generalized CM
+types); §§M1.1, M1.3, M1.6, M1.7, M1.9, M1.13 (quasi-isogenies, unitary O_F-abelian schemes and their signature type, level structures, the moduli problem M_H
+over a base of good primes, the adelic problem, level change and Hecke action); §§M2.8, M2.11, M2.12,
+M2.14, M2.15 (representability and smoothness at good primes, properness when End_B(V) is a division
+algebra, deformations of unitary abelian schemes, kernel ranks of isogenies, displays); §§M3.1–M3.2,
+M3.8 (forms of the skew-hermitian module, the Hasse principle, the hermitian space of homomorphisms
+from a CM object); §§M4.3, M4.5–M4.8 (canonical models, normalized models at higher p-level, CM moduli
+at primes unramified in F); §M5.5 (unitary PEL data with prescribed signatures). These are assumed
+as stated there, in particular only over a base of good primes where PELModuli says so.
+
+What PELModuli must provide (gap:zink-display-equivalence): For every ring R in which p is nilpotent, define displays over R with their base change and duals and the functor BT to formal p-divisible groups over R (§M2.15 defines them over rings of characteristic p), and prove that BT is an equivalence from nilpotent displays over R to formal p-divisible groups over R, compatible with base change and with duality of biformal objects.
+
+### From TauCetiRoadmap.HilbertModularVarietiesAndShimuraCurves
+
+§R18.5.4 (the strict O_K-action on a p-divisible group, O_K acting on Lie through the structure map;
+the O_K-relative height h of a p-divisible group with O_K-action, characterized by rank X[π]=q^h, and
+of an O_K-linear quasi-isogeny, the q-logarithm of its degree after clearing a power of π; and the
+formula height_p(X)=[K:ℚ_p]·h). These are assumed as stated there; they use nothing of the base
+beyond the structure map from O_K, and §0.1 applies them over every O_K-algebra in which π is
+nilpotent.
+
+### From TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
+
+§§A4.1, A4.3, A4.7, A4.8, A4.9 (integral Tate modules, first de Rham cohomology, Grothendieck–Messing,
+effectivity of polarized formal lifts, Serre–Tate with structures); §§A6.10, A6.11, A6.13
+(characteristic polynomials, their Tate-module form, degrees of polarized isogenies).
+
+### From TauCetiRoadmap.FiniteFlatGroupsAndIntegralPadicHodgeTheory
+
+Layer R07.1 (finite flat group schemes and p-divisible groups); §§R07.2.10, R07.2.17, R07.2.20,
+R07.2.26 (Dieudonné classification over perfect fields, isogeny classification, the covariant
+Dieudonné module and the comparison of conventions, rigidity along nilpotent thickenings).
+
+### From TauCetiRoadmap.VectorBundlesAndIsocrystals
+
+Layer 0, “Ramified coefficient rings and coefficient changes” (the ring `W_O(R)` of an arbitrary
+O-algebra R for a finite extension K of ℚ_p with residue field 𝔽_q and uniformizer π, with ghost
+components `w_n(x)=Σ_{i≤n} π^i x_i^(q^(n−i))`, its ring operations given by universal integral
+polynomials, its functoriality in R, and the strict π-adic lift over a perfect 𝔽_q-algebra with its
+Frobenius and Verschiebung); Layer 1, “Finite isocrystals over the completed maximal unramified
+coefficient field” (K-isocrystals: finite-dimensional K̆-vector spaces with a bijective σ-semilinear
+operator, σ the lift of the q-power Frobenius fixing K, and their morphisms), “Mixed-characteristic
+supplier comparison” (`W_O(k)[1/π]≅K̆` for k=𝔽̄_q, intertwining the Frobenius of `W_O(k)` with σ)
+and “Dieudonné–Manin classification of finite isocrystals” (slopes normalized by v(π)=1,
+decomposition into simple blocks, vanishing of Hom between distinct slopes). These are assumed as
+stated there; F, V and `I_O(R)` over an arbitrary O-algebra R (agreeing with that layer's on
+perfect 𝔽_q-algebras), and the relative isocrystal of a strict formal O-module, are §0.1.
+
+### From TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
+
+§7.6 (PEL Dieudonné comparison and quasi-isogeny groups, used for strict O-linear modules of dimension
+one); §10.2 (strict O-module deformations with Drinfeld levels, used at height one for the canonical
+rank-one lifts); §§8.3, 8.10 (Tate full faithfulness over finite fields and Honda classification; the
+B-linear isogeny classification).
+
+### From TauCetiRoadmap.IgusaVarietiesAndTorsionConcentration
+
+§0.27 (PEL Rapoport–Zink spaces of an unramified local PEL datum, and the unstructured framed
+deformation functor, whose formal representability is the first step of §0.2); §0.31 (Drinfeld-level
+integral models at a split distinguished place for the signature-(1,n−1) datum, with the CM-type
+matching of RSZ20 §4.3).
+
+### From TauCetiRoadmap.AdicSpacesPartIII
+
+Layer F0 (locally noetherian formal schemes, adic and finite-type morphisms, completions); §R2.9 (the
+Berthelot generic fibre on Conrad's category FS_C and étaleness of generic fibres).
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+Layer 1 (descent, algebraic spaces and stacks) for the algebraic integral models; Layer 4
+(deformations, formal schemes and models) for the local-model charts.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+§1.3 (coherent quotients, Plücker embeddings and the tangent Hom formula of Grassmannians).
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic
+
+§§2.7, 2.9 (hermitian lattices, duals and invariant factors; signed hermitian forms over local fields of
+odd residue characteristic). Their forms are conjugate-linear in the first argument; they are applied
+here to the transposed form H(x,y)=h(y,x) of the Conventions, which has the same isometries, adjoints,
+dual lattices, invariant factors and determinant class as h (Conventions, item 9).
+
+### From TauCetiRoadmap.PadicHodgeTheory
+
+§§3.3–3.5 (Fontaine's functors, filtered Frobenius modules, crystalline classification); §8.3 (abelian
+varieties and good reduction).
+
+### From TauCetiRoadmap.ShimuraVarieties
+
+§1.7 (compact-open level category); §§2.5–2.7 (Baily–Borel quotients and their algebraization); §4.5
+(torus canonical models); §5.10 (main theorem of complex multiplication); §6.7 (canonical models of
+abelian type).
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+§4.1 (weak approximation and torsors) is the section that receives the following contract.
+
+What AdelicAlgebraicGroups must provide (gap:hermitian-local-global): For a CM extension F/F⁺, prove that a global F/F⁺-hermitian space with prescribed real signatures and finite local invariants exists exactly when the invariants satisfy the product formula, and is unique up to isometry.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+§RG2.3.5 (integral models of stabilizers for classical and Hodge-type groups), which treats lattice
+chains for GL and GSp.
+
+What ReductiveGroupsPartII must provide (gap:unitary-multichain-stabilizer): For a quadratic extension of p-adic fields, with p>2 or the extension unramified (for p=2 this is RSZ21 Theorem A.1, p. 37), and a polarized periodic lattice multichain, prove its automorphism group scheme smooth, including the Weil-restricted factors when the ground field is ramified over ℚ_p, and identify it with the corresponding stabilizer group scheme.
+
+### From TauCetiRoadmap.ShimuraCompactifications
+
+§7.3 (the integral toroidal model, the open immersion of the PEL moduli of PELModuli §M2.8 into it
+and its stratification by cusp and cone labels; when the datum has no nonzero cusp label the open
+stratum is the only one, so the open immersion is surjective and hence an isomorphism), §7.5
+(properness of the integral toroidal model for a complete cone system) and §7.18
+(quasi-projectivity of the neat PEL moduli of PELModuli §M2.8), all over a base of good primes in the
+sense of PELModuli §M0.10. Together, §§7.3 and 7.5 make the PEL moduli proper when its datum has no
+nonzero cusp label. §8.7, and §7.6 on a base all of whose
+primes are good for the product datum, consume them through finite comparison morphisms from CM-pair
+moduli to the PEL moduli of the product A₀×A; §7.6 on a base with a bad prime, §7.7 and §8.4 consume
+gap:bad-prime-projectivity through the same kind of finite comparison morphism, into the multichain
+moduli that contract names.
+
+What ShimuraCompactifications must provide (gap:bad-prime-projectivity): Pose the PEL moduli problem of PELModuli §M1.7 over an integral base, a localization of the ring of integers of the reflex field or the ring of integers of one of its completions, that contains primes at which ShimuraCompactifications Layer 7 does not apply (primes dividing the discriminant of the PEL order, or primes whose local level is not the stabilizer of a single self-dual lattice), replacing the abelian scheme at each such prime by a multichain of abelian schemes indexed by a polarized lattice multichain of the PEL order and taking the level there to be the stabilizer of that multichain, as in RZ96 Definition 6.9, p. 279; prove that this moduli problem is represented by a separated Deligne–Mumford stack of finite type over the base, at neat level by a quasi-projective scheme through an ample Hodge line, and that it is proper over the base when its generic fibre is proper.
 
 ## References
 
