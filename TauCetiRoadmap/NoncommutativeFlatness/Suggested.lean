@@ -36,67 +36,22 @@ The file follows the five layers of `README.md`:
 - **Layer 4:** semilocal, semiperfect, and perfect categories and rings, projective covers, and
   Bass's Theorem P.
 
-**Single module convention** (`README.md`, "Conventions"). Let `C : Type u` be preadditive with
-`Category.{v} C`. A `C`-module is a contravariant additive functor: `ModCat C` (`Mod C`) is the
-full subcategory of additive functors `Cᵒᵖ ⥤ AddCommGrpCat.{w}`. Covariant additive functors are
-the modules on the opposite side, `ModCat Cᵒᵖ`, and the covariant representable `Hom(X, -)` is
-`(ModCat.yoneda Cᵒᵖ).obj (op X)`. Following Mathlib's `Mat R ≌ Mat_ (SingleObj Rᵐᵒᵖ)`, a ring `A`
-enters as `SingleObj Aᵐᵒᵖ`, whose `Mod` is equivalent to `ModuleCat A` (left modules) while `Mod`
-of `(SingleObj Aᵐᵒᵖ)ᵒᵖ` is equivalent to `ModuleCat Aᵐᵒᵖ` (right modules). Right `A`-modules are
-written as left `Aᵐᵒᵖ`-modules and right ideals as `Submodule Aᵐᵒᵖ A`.
+**Conventions** (`README.md`, "Conventions"). For preadditive `C : Type u` with `Category.{v} C`,
+`ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}` (covariant functors are `ModCat Cᵒᵖ`, with `Hom(X, -) =
+(ModCat.yoneda Cᵒᵖ).obj (op X)`). A ring `A` enters as `SingleObj Aᵐᵒᵖ`, matching left `A`-modules
+(`ModuleCat A`), while right `A`-modules are `ModuleCat Aᵐᵒᵖ`. Finitely generated and finitely
+presented functors use finite coproducts of representables (0.1, bridged to `proj C` and
+`IsFinitelyPresentable` in 0.9); one-sided ideals and lattice `IsSuperfluous` live in 0.3; `G ⊗_C F`
+and `Tor^C_n(G, F)` take values in `AddCommGrpCat` and upgrade to `ModuleCat R` via
+`ModCat.linearTensor` and `ModCat.linearTor` when `[Linear R C]` (paired with native
+`TauCeti.BalancedTensorProduct` and `BalancedTor` for rings).
 
-**Finite presentation and finitely generated projectives** (0.1, 0.9). A functor is finitely
-generated if it is a quotient of a finite coproduct of representables, and finitely presented if
-it is the cokernel of a map between two such coproducts, refactoring Tau Ceti's single-representable
-`TauCeti.IsFinitelyGeneratedFunctor` and `TauCeti.IsFinitelyPresentedFunctor`. Section 0.9
-introduces the finitely generated projective modules `proj C` with duality
-`Hom(-, C) : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`, and proves equivalence of finite presentation with cokernels in
-`proj C`, Mathlib's `IsFinitelyPresentable`, and (for rings) `Module.FinitePresentation`.
-
-**One-sided ideals and superfluousness** (0.3). A left ideal of `C` (`LeftMorphismIdeal C`) is
-closed under precomposition and a right ideal (`RightMorphismIdeal C`) under postcomposition;
-two-sided ideals (`TauCeti.MorphismIdeal`) coerce to both, and at `SingleObj Aᵐᵒᵖ` they match left
-and right ideals of `A`. For a left ideal `I`, `I · M` is a subobject of `M`, and superfluousness
-uses the lattice predicate `IsSuperfluous` (refactoring `TauCeti.IsSuperfluous` from submodules).
-
-**Base ring, tensor products, and `Tor`** (0.4, 0.7, 1.1). Both `G ⊗_C F` and `Tor^C_n(G, F)` take
-values in `AddCommGrpCat` and acquire `Module R` instances when `C` is `R`-linear (with `r` acting
-via `r • 𝟙` in either argument, modeled on `Abelian.Ext` and `Abelian.Ext.smul_eq_comp_mk₀`), and
-are packaged as bifunctors into `ModuleCat R` (`ModCat.linearTensor`, `ModCat.linearTor`); `R`
-appears as a parameter only when the underlying object depends on it, namely in `Hom_R(G(-), X)`,
-the duals of 0.8 and these bifunctors. For `G : Mod Cᵒᵖ` and `F : Mod C`, `G ⊗_C F` is a coend
-(constructed under `EssentiallySmall.{w} C`) placing the covariant factor first to match `M ⊗_A N`,
-and `Tor^C_n(G, F)` is the left derived functor of `F ↦ G ⊗_C F` (`Functor.leftDerived`). Ring-level
-definitions remain native—`TauCeti.BalancedTensorProduct R A M N` and `BalancedTor R A n`—and are
-compared with the categorical constructions over `SingleObj Aᵐᵒᵖ` at `R = ℤ`.
-
-**Layers 2–4.** In Layer 2, categorical flatness (`ModCat.Flat`) is defined by the equational
-criterion (every relation `∑_j F(β_j)(y_j) = 0` is trivial), requiring no coend, smallness, or
-fixed universe; the tensorial, ideal, `Tor`, and Lambek characterizations appear in 2.2 under
-`EssentiallySmall.{v} C`, while ring flatness is the native class `Module.BalancedFlat`. In
-Layer 3, flat dimension tests `Tor` vanishing on finitely presented cyclic covariant functors
-`Hom(X, -) ⧸ I`, abelian global dimension is `Abelian.globalDimension` (recovering
-`TauCeti.globalDimension` on `ModuleCat A`), weak global dimension is
-`ModCat.weakGlobalDimension C`, and Auslander's theorem assumes that every `Hom(-, X)` is a
-Noetherian object. In Layer 4,
-T-nilpotence of a left ideal of `C` is defined on composable sequences `c₀ → c₁ → ⋯` (matching
-Nakayama's lemma via `I · M`, and specializing at `idealOrderIsoLeftMorphismIdeal A J` to ring
-Nakayama); semilocal, semiperfect, and perfect categories are defined via endomorphism rings and
-`TauCeti.jacobsonRadicalIdeal C` (paired with native ring classes `IsSemilocalRing` and
-`IsLeftPerfectRing`); projective covers are essential epimorphisms (`TauCeti.IsEssentialEpi`) from
-projectives; and Bass's Theorem P is `isPerfectCategory_tfae`, specializing to
-`isLeftPerfectRing_tfae` via `SingleObj Aᵐᵒᵖ`.
-
-**Universes and neighboring roadmaps** (`README.md`, Convention 3). Flatness, finite presentation,
-T-nilpotence, and the characterization theorems of 2.4 require no smallness (finite accessibility
-of `Flat(C)` in 2.4 uses 2.3 under `EssentiallySmall.{v} C`), and Bass's sequence module (2.5)
-requires only countable colimits. Tensor products and `Tor` assume `EssentiallySmall.{w} C` for
-modules in `ModCat.{w} C`, setting `w = v` whenever representables also enter (Yoneda isomorphisms,
-Lazard's theorem, flat dimension, and Theorem P). From the ArtinAlgebras roadmap (§0.2),
-`IsKrullSchmidt` is restated here with the identical definition for use in 4.2. The transfer lemmas
-of 0.2, naturality in suppressed variables (omitted here except for `Tor`–`Ext` duality,
-`ModCat.torExtDualityNatIso`), and prose-only checks outside the final section are omitted here and
-specified in prose in `README.md`.
+**Scope and universes.** Flatness (2.1), finite presentation (0.1), T-nilpotence (4.1), and the
+characterization theorems of 2.4 require no smallness (`Flat(C)` accessibility in 2.4 uses 2.3
+under `EssentiallySmall.{v} C`), and Bass's module (2.5) needs only countable colimits; coends and
+`Tor` assume `EssentiallySmall.{w} C` (with `w = v` when representables enter). `IsKrullSchmidt` is
+restated identically from ArtinAlgebras §0.2 for 4.2; 0.2 transfer lemmas, suppressed naturality
+(outside `ModCat.torExtDualityNatIso`), and prose checks are specified in `README.md`.
 -/
 
 @[expose] public section
@@ -1523,15 +1478,10 @@ noncomputable def ModCat.homAddEquivTensorObjProjDual [EssentiallySmall.{v} C]
     (P.obj ⟶ F) ≃+ ModCat.tensorObj ((ModCat.projDual C).functor.obj (op P)).obj F :=
   sorry
 
-/-- **0.9, equivalence of finite-presentation notions**. Under `EssentiallySmall.{v} C`, the
-following on `F : ModCat.{v} C` are equivalent: (1) `F` is the cokernel of a map in `proj C`;
-(2) `F` is finitely presented in the sense of 0.1 (via finite sums of representables); (3) `F`
-satisfies Mathlib's `IsFinitelyPresentable` (`Hom(F, -)` commutes with filtered colimits). For
-(2) ⇔ (3), representables are finitely presentable and form a strong generator (as every
-epimorphism in `Mod C` is extremal), so
-`IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable` identifies
-`IsFinitelyPresentable` with finite colimits of representables, which coincide with (2) by 0.1. For
-rings, `isFinitelyPresentedFunctor_iff_finitePresentation` adds `Module.FinitePresentation`. -/
+/-- **0.9, equivalence of finite-presentation notions**: (1) cokernel in `proj C`, (2) 0.1 finite
+presentation, and (3) `IsFinitelyPresentable` coincide (via
+`IsStrongGenerator.colimitsCardinalClosure_eq_isCardinalPresentable` on representables; matching
+`Module.FinitePresentation` for rings). -/
 theorem ModCat.isFinitelyPresentedFunctor_tfae [EssentiallySmall.{v} C] (F : ModCat.{v} C) :
     List.TFAE
       [∃ (P₁ P₀ : (ModCat.proj C).FullSubcategory) (f : P₁ ⟶ P₀), Nonempty (cokernel f.hom ≅ F),
@@ -1546,13 +1496,8 @@ theorem ModCat.isFinitelyGeneratedFunctor_iff_exists_epi_proj (F : ModCat.{v} C)
       ∃ (P : (ModCat.proj C).FullSubcategory) (p : P.obj ⟶ F), Epi p :=
   sorry
 
-/-- **0.9** Finitely presented modules form an `ℵ₀`-filtered generator of `Mod C`: every module is
-a filtered colimit of finitely presented (and hence finitely presentable) modules ([CB, §1.2,
-Theorem, p. 1645] for additive `C`). Indeed, representables are finitely presentable (by Yoneda and
-objectwise colimits) and form a strong generator since every epimorphism in `Mod C` is extremal
-(`isStrongGenerator_iff_exists_extremalEpi`); by
-`IsStrongGenerator.isDense_colimitsCardinalClosure_ι`, every module is therefore a filtered colimit
-of finite colimits of representables, which are finitely presented by 0.1. -/
+/-- **0.9** Finitely presented modules form an `ℵ₀`-filtered generator of `Mod C` ([CB, §1.2,
+p. 1645]), via `IsStrongGenerator.isDense_colimitsCardinalClosure_ι` on representables. -/
 theorem ModCat.isCardinalFilteredGenerator_isFinitelyPresentedFunctor [EssentiallySmall.{v} C] :
     ((isFinitelyPresentedFunctor C).inverseImage (AdditiveFunctor.forget Cᵒᵖ AddCommGrpCat.{v})
       ).IsCardinalFilteredGenerator Cardinal.aleph0.{v} :=
@@ -2332,16 +2277,9 @@ def ModCat.IsTrivialRelation (F : ModCat.{w} C) {X : C} {n : ℕ} {Y : Fin n →
   ∃ (m : ℕ) (Z : Fin m → C) (z : ∀ i, F.obj.obj (op (Z i))) (α : ∀ i j, Y j ⟶ Z i),
     (∀ j, y j = ∑ i, (F.obj.map (α i j).op).hom (z i)) ∧ ∀ i, ∑ j, β j ≫ α i j = 0
 
-/-- **2.1** A module `F` of `Mod C` is **flat** if it satisfies the **equational criterion**: every
-relation `∑_j F(β_j)(y_j) = 0` is trivial ([OR, Thm. 3.2 (4), pp. 96–97, proof to p. 99];
-Mathlib's commutative `Module.Flat.iff_forall_isTrivialRelation`; [Lazard, Lemme 1.1, p. 84] has
-the equivalent factorization form, derived there from flatness). The definition quantifies over
-objects, finite families of morphisms and elements, so it needs no smallness and no universe
-condition. Under `EssentiallySmall.{v} C` it is equivalent to the ideal test and the other forms
-of 2.2. A covariant functor is flat when it is flat as a module over `Cᵒᵖ`.
-
-This is flatness as a module (ambient flatness). It is not flatness as an object of the full
-subcategory of flat modules, which asks every epimorphism there to be pure ([CI]). -/
+/-- **2.1** A module `F : Mod C` is **flat** if every relation `∑_j F(β_j)(y_j) = 0` is trivial
+([OR, Thm. 3.2 (4), pp. 96–97]); requires no smallness or fixed universe (ambient flatness in
+`Mod C`, as opposed to intrinsic flatness inside `Flat(C)`, [CI]). -/
 class ModCat.Flat (F : ModCat.{w} C) : Prop where
   isTrivialRelation ⦃X : C⦄ ⦃n : ℕ⦄ ⦃Y : Fin n → C⦄ (β : ∀ j, X ⟶ Y j)
     (y : ∀ j, F.obj.obj (op (Y j))) :
@@ -3474,16 +3412,9 @@ theorem ModCat.hasProjectiveDimensionLE_one_colimit (D : ℕ ⥤ ModCat.{v} C)
     [∀ i, Projective (D.obj i)] : HasProjectiveDimensionLE (colimit D) 1 :=
   sorry
 
-/-- **3.5, Jensen's lemma**: every countably presented (`ℵ₁`-presentable) flat module `F` has
-projective dimension at most `1` ([Jensen, Lemma 2, pp. 98–100] over rings with countably generated
-left ideals; [Osofsky-Nagoya, Lemma 1.2, p. 316]; [Mitchell, p. 49]). Express `F` as a filtered
-colimit of finite sums of representables (2.3) and, given a countable presentation (0.9), build a
-sequence `D_0 → D_1 → ⋯` of stages recursively: at step `n`, lift the `n`-th generator and any
-not-yet-lifted generators in the `n`-th relation to a common stage receiving all earlier lifts
-(fixing each lift once chosen and pushing it forward along transition maps), and advance to a stage
-where the `n`-th relation vanishes on those lifts. Then `F` is a retract of `colim_n D_n` (with no
-isomorphism claim needed), which has projective dimension at most `1` by
-`hasProjectiveDimensionLE_one_colimit`. -/
+/-- **3.5, Jensen's lemma**: every `ℵ₁`-presentable flat module `F` is a retract of a sequential
+colimit of finite sums of representables (2.3, 0.9), hence has projective dimension at most `1`
+([Jensen, Lemma 2, pp. 98–100]; [Osofsky-Nagoya, Lemma 1.2, p. 316]). -/
 theorem ModCat.Flat.hasProjectiveDimensionLE_one (F : ModCat.{v} C) [F.Flat]
     [IsCardinalPresentable F (Cardinal.aleph.{v} 1)] :
     HasProjectiveDimensionLE F 1 :=
@@ -3566,18 +3497,11 @@ theorem LeftMorphismIdeal.isTNilpotent_tfae (I : LeftMorphismIdeal C) :
         ∀ M : ModCat.{v} C, IsSuperfluous (I.smul M)] :=
   sorry
 
-/-- **4.1, Nakayama's lemma for finitely generated modules**, for any `C`: `J(C) · M` is superfluous
-in every finitely generated module `M`. Indeed, if `J(C) · M ⊔ N = ⊤` with `N ≠ ⊤`, the nonzero
-finitely generated quotient `M ⧸ N` admits a maximal proper subobject
-(`ModCat.exists_isCoatom_of_isFinitelyGeneratedFunctor`, 0.1) with simple quotient `S`. Then
-`J(C) · S = 0`: if `S(f)(x) ≠ 0` for `f ∈ J(C)(c, d)` and `x ∈ S(d)`, simplicity of `S` generates
-`x` from `S(f)(x)`, so `x = S(g ≫ f)(x)` for some `g : d ⟶ c`, and `x = 0` because `𝟙 d - g ≫ f` is
-invertible. But the hypothesis `J(C) · M ⊔ N = ⊤` forces `J(C) · S = S`, contradicting `S ≠ 0`.
-Consequently (**rigidity on finite sums of representables**, used in 4.2), any endomorphism `u` of
-a finite sum `Q` of representables equal to `𝟙` modulo `J(C) · Q` satisfies `u ≫ q = q` for the
-essential epimorphism `q : Q ⟶ Q ⧸ J(C) · Q` (`isEssentialEpi_iff_isSuperfluous_kernelSubobject`)
-and is therefore an isomorphism by `TauCeti.IsEssentialEpi.isIso_of_comp_eq`, which applies since
-`Q` is projective. -/
+/-- **4.1, Nakayama's lemma for finitely generated modules**: `J(C) · M` is superfluous in every
+finitely generated `M` (pass to a simple quotient `S` via 0.1; `S(f)(x) ≠ 0` gives `x = S(g ≫ f)(x)`
+for some `g : d ⟶ c`, forcing `x = 0` since `𝟙 d - g ≫ f` is invertible). Consequently, any
+endomorphism of a finite sum `Q` of representables equal to `𝟙` modulo `J(C) · Q` is invertible by
+`TauCeti.IsEssentialEpi.isIso_of_comp_eq` (4.2). -/
 theorem ModCat.isSuperfluous_jacobson_smul_of_isFinitelyGeneratedFunctor (M : ModCat.{v} C)
     (hM : IsFinitelyGeneratedFunctor M.obj) :
     IsSuperfluous ((TauCeti.jacobsonRadicalIdeal C : LeftMorphismIdeal C).smul M) :=
@@ -4216,20 +4140,11 @@ section TheoremP
 
 variable {C : Type u} [Category.{v} C] [Preadditive C] [EssentiallySmall.{v} C]
 
-/-- **4.5, pure superfluous subobjects of projectives** ([Wisbauer, 36.3, p. 306], for projectives
-in `σ[M]` generated by finitely presented modules; here under `EssentiallySmall.{v} C` with no
-radical hypothesis): if `K` is a superfluous subobject of a projective `P` such that `P ⟶ P ⧸ K` is
-a pure epimorphism, then `K = ⊥`. Given `x ∈ K(c)`, choose `s : P ⟶ F` and `r : F ⟶ P` with
-`s ≫ r = 𝟙` for a coproduct `F` of representables, a finite sub-coproduct `j : L ⟶ F` containing
-`s(x)` as `x_L`, and projection `π_L : F ⟶ L` (`j ≫ π_L = 𝟙`). Because `L ⟶ P ⧸ K` factors through
-the finitely presented quotient `L ⧸ (x_L)`, purity lifts it to `g : L ⟶ P`; then
-`δ = j - g ≫ s : L ⟶ F` sends `x_L` to `s(x)` while `δ ≫ r` vanishes in `P ⧸ K`, so
-`θ = s ≫ π_L ≫ δ ≫ r : P ⟶ P` has image in `K` and satisfies `θ(x) = x`. So the quotient map
-`q : P ⟶ P ⧸ K` satisfies `θ ≫ q = 0`, hence `(𝟙 - θ) ≫ q = q`. As `K` is superfluous, `q` is an
-essential epimorphism (`isEssentialEpi_iff_isSuperfluous_kernelSubobject`, 0.3), and since `P` is
-projective, `TauCeti.IsEssentialEpi.isIso_of_comp_eq` makes `𝟙 - θ` an isomorphism. ([Mares,
-Thm. 2.4, proof step (i), p. 349] shows instead that `𝟙 - θ` is a split epimorphism whose kernel, a
-summand inside `K`, is zero.) Hence `(𝟙 - θ)(x) = 0` implies `x = 0`. -/
+/-- **4.5, pure superfluous subobjects of projectives** ([Wisbauer, 36.3, p. 306]): if `K` is
+superfluous in a projective `P` and `q : P ⟶ P ⧸ K` is pure epic, then `K = ⊥`. Writing `s ≫ r = 𝟙`
+into a coproduct `F` of representables and lifting `L ⧸ (x_L) ⟶ P ⧸ K` on a finite subsum `j : L ⟶
+F` (`j ≫ π_L = 𝟙`) to `g : L ⟶ P`, `θ = s ≫ π_L ≫ (j - g ≫ s) ≫ r` satisfies `θ(x) = x` and
+`θ ≫ q = 0`, so `(𝟙 - θ) ≫ q = q` makes `𝟙 - θ` invertible by `IsEssentialEpi.isIso_of_comp_eq`. -/
 theorem ModCat.eq_bot_of_isSuperfluous_of_isPureEpi {P : ModCat.{v} C} [Projective P]
     {K : Subobject P} (hK : IsSuperfluous K) (hpure : ModCat.IsPureEpi (cokernel.π K.arrow)) :
     K = ⊥ :=
@@ -4244,19 +4159,12 @@ theorem ModCat.Flat.projective_of_isEssentialEpi {P M : ModCat.{v} C} [Projectiv
   sorry
 
 variable (C) in
-/-- **4.5, Bass's Theorem P for categories** ([Simson, Thm. 5.4, p. 108] and [Harada, Thm. 5,
-p. 339], covariant and applied to `Cᵒᵖ`) states the equivalence of (1) `C` is perfect; (2) every
-module in `Mod C` has a projective cover; (2′) every semisimple module has a cover ([Sandomierski,
-Thm. 5, p. 206] for rings); (3) every flat module is projective; (3′) every countably presented flat
-module is projective; (4) for each `c`, principal right ideals `g C = {g ≫ h}` with source `c`
-(`RightMorphismIdeal.principal`, i.e., cyclic subfunctors of `Hom(c, -)`, matching `aA` over rings
-via `submoduleOrderIsoRightMorphismIdeal`) satisfy the descending chain condition; (4′) in every
-sequence `c₀ → c₁ → ⋯`, some `q_n = f 0 ≫ ⋯ ≫ f (n - 1)` factors as `q_m ≫ t` through every later
-`q_m`; (5) flat and projective dimensions agree; and (6) filtered colimits of projectives are
-projective. This is proved via the cycle 1 ⇒ 2 (4.4) ⇒ 3 (`projective_of_isEssentialEpi`) ⇒ 3′ ⇒ 4′
-(Bass's module, 2.5) ⇒ 1 (T-nilpotence from `q_n ≫ (1 - f n ≫ t) = 0`, and DCC on principal left
-ideals of `End X` and `End X ⧸ J` under `f * g = g ≫ f` with [Lam-FC, (4.14)]), together with
-4 ⇔ 4′, 3 ⇔ 5 (3.1), 3 ⇔ 6 (2.6, 2.3), and 2 ⇒ 2′ ⇒ 1. -/
+/-- **4.5, Bass's Theorem P for categories** ([Simson, Thm. 5.4, p. 108]; [Harada, Thm. 5, p. 339];
+[Bass, Theorem P]; [Sandomierski, Thm. 5, p. 206]): equivalence of (1) `C` perfect, (2) projective
+covers of all modules, (2′) covers of semisimple modules, (3) flat modules projective, (3′)
+`ℵ₁`-presentable flat modules projective, (4) DCC on principal right ideals `g C = {g ≫ h}` at each
+`c`, (4′) stabilization of every sequence `c₀ → c₁ → ⋯` at `c₀`, (5) `flatDimension =
+projectiveDimension`, and (6) filtered colimits of projectives projective (see `README.md`, 4.5). -/
 theorem isPerfectCategory_tfae :
     List.TFAE
       [IsPerfectCategory C,
