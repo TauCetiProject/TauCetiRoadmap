@@ -1,6 +1,20 @@
 # Roadmap: arithmetic dynamics
 
-**Summary.** This roadmap builds the arithmetic of iterated self-maps: deciding when an orbit is finite, measuring its growth by canonical heights, relating global small points to local invariant measures, and studying the Galois action on iterated preimages. Its endpoints include dynamical equidistribution on the projective line, explicit rational-cycle and preperiodic-point problems, selected arboreal image theorems, canonical-height specialization, uniform common torsion images in the Legendre family, and étale dynamical Mordell–Lang. The concrete maps z↦z^d, z↦z²+c, and the Lattès maps provide checks across these theories.
+**Summary.** A point x is preperiodic for a self-map f when its forward orbit x, f(x), f(f(x)), … is finite. Arithmetic dynamics studies such orbits when f is a polynomial or rational function with algebraic coefficients. It asks which points are periodic, how fast heights grow along an orbit, and how the Galois group acts on iterated preimages. The model case is z ↦ z², whose preperiodic points in ℙ¹(ℚ̄) are 0, ∞ and the roots of unity.
+
+This roadmap builds that theory, mostly for rational maps of the projective line ℙ¹. Its basic tool is the canonical height. For a rational map f of degree d ≥ 2 over a field algebraic over ℚ, the normalized heights d^(−n)·h(fⁿ(P)) converge to a limit ĥ_f(P), which differs from the Weil height h by a bounded amount and satisfies ĥ_f(f(P)) = d·ĥ_f(P). It vanishes exactly at the preperiodic points, and with Northcott's theorem it follows that a map over a number field K has only finitely many preperiodic points in ℙ¹(K). At each place the roadmap also constructs the canonical measure of f, on the Riemann sphere or on the Berkovich projective line. Over a number field, small points are equidistributed for these measures: if distinct algebraic points have canonical heights tending to zero, the uniform measures on their Galois orbits converge weakly to the canonical measure at every place.
+
+For the quadratic maps z² + c with c rational, no rational point has exact period four (Morton) or exact period five (Flynn, Poonen and Schaefer). There is also at most one cycle of three rational points (Morton); for c = −29/16 it is 5/4, −1/4, −7/4. Each proof reduces to the rational points of an explicit curve of genus one or two.
+
+The preimages of a point under the iterates of a polynomial form a rooted tree, and the Galois group acts on it. Stoll's theorem gives quadratic polynomials with the largest possible action. Let a be an integer with a > 0 and a ≡ 1 or 2 mod 4, or with a < 0, a ≡ 0 mod 4 and −a not a square. Then for every n the Galois group over ℚ of the n-th iterate of x² + a has order 2^(2^n − 1), the order of the automorphism group of the binary tree of depth n.
+
+Ghioca, Tucker and Zieve proved the following over fields of characteristic zero. Let F and G be polynomials of the same degree greater than one, and let v = a·u + b be a line with a ≠ 0. If infinitely many pairs (u, v), with u in the orbit of x under F and v in the orbit of y under G, lie on this line, then G^n(a·z + b) = a·F^n(z) + b for some n > 0 and all z. With a = 1 and b = 0, two such orbits that meet infinitely often force F and G to have a common iterate.
+
+For t ∈ ℂ other than 0 and 1, let E_t be the Legendre curve y² = x(x − 1)(x − t). The x-coordinates of its torsion points, with ∞ for the origin, are exactly the preperiodic points of the Lattès map (x² − t)²/(4x(x − 1)(x − t)). DeMarco, Krieger and Ye proved that one bound B works for all pairs: for distinct t₁ and t₂, at most B points of ℙ¹(ℂ) are x-coordinates of torsion points on both curves.
+
+The roadmap builds on Mathlib for iteration, polynomials and the Weil height. HeightsRationalPointsAndObstructions supplies the abstract Tate limit from which the canonical height is built, and the arithmetic intersection theory used in Layer 4. TropicalAndBerkovichArithmetic supplies the geometry of the Berkovich line, with its Laplacian and potential theory. EffectiveDiophantineMethods supplies the rational points of the curves to which the cycle problems reduce. Tau Ceti's EllipticCurves supplies the elliptic canonical height, which is compared here with the dynamical one through Lattès maps.
+
+Layers 0 to 2 set up rational maps, canonical heights and the local theory at one place. Layer 3 treats periodic points, Layer 4 equidistribution and Layer 5 the preimage tree. Layer 6 treats families and orbit intersections.
 
 ## How to read the build
 
@@ -10175,7 +10189,7 @@ potential theory and Galois theory are consumed through the contracts in the ind
   Tau Ceti supplies the sphere atlas used by ComplexManifolds, Milestone 3;
   Layer 2 constructs the meromorphic comparison on that atlas;
   FuchsianOrbifolds supplies compact-surface finite-degree theory. Spherical
-  omitted-value normality is the value-distribution extension specified below.
+  omitted-value normality is the value-distribution extension specified above.
   Dynamical rays, kneading and parabolic transversality belong here.
 - PolynomialGaloisGroups and LocalGaloisGroups supply finite Galois and local
   infrastructure; InverseGaloisAndArithmeticFundamentalGroups, IG.2, supplies
@@ -10322,7 +10336,7 @@ Consume EffectiveDiophantineMethods §3.26 with its explicit arithmetic-data hyp
 
 ### From TauCetiRoadmap.EffectiveDiophantineMethods — declared gaps (genus-2 modular point lists)
 
-EffectiveDiophantineMethods Layer 3 states complete rational-point lists for the elliptic curves of §3.26 and the genus-2 curves C₀(5) and C₁(3₂) of §§3.27–3.28, but not for the three genus-2 modular curves that the quadratic cycle and type reductions below require. Each is a single complete point list on an explicit model; the descent and torsion computation that certify it belong to the supplier.
+EffectiveDiophantineMethods Layer 3 states complete rational-point lists for the elliptic curves of §3.26 and the genus-2 curves C₀(5) and C₁(3₂) of §§3.27–3.28, but not for the three genus-2 modular curves that the quadratic cycle and type reductions above require. Each is a single complete point list on an explicit model; the descent and torsion computation that certify it belong to the supplier.
 
 What EffectiveDiophantineMethods must provide (gap:x1-16-rational-points): the rational points of the genus-2 curve v² = u(u² + 1)(1 + 2u − u²) over ℚ, a model of X₁(16), are exactly (0, 0), (±1, ±2) and the single point at infinity of its smooth projective model (Washington's determination, as used in Morton 1998, Proposition 3 and the proof of Theorem 4, printed p. 93). Consumed by §3.57.
 
@@ -10485,7 +10499,7 @@ Unique regular projective models, finite maps from inclusions of function fields
 
 ### From TauCetiRoadmap.ConformalMapping — Layers, L4 (analytic continuation and the reflection principle)
 
-Normalized conformal coordinates, analytic continuation, and general monodromy/lifting theorems, specialized to the explicitly specified dynamical domains. Periodic ray landing and parabolic basin theory require the dynamical constructions below.
+Normalized conformal coordinates, analytic continuation, and general monodromy/lifting theorems, specialized to the explicitly specified dynamical domains. Periodic ray landing and parabolic basin theory require the dynamical constructions above.
 
 ### From TauCetiRoadmap.HeightsRationalPointsAndObstructions — §§0.9–0.11, 0.16
 
@@ -10533,7 +10547,7 @@ Analytic-presentation transport uses `Homeomorph` from `Mathlib/Topology/Homeomo
 Consume `Polynomial.dickson 1 a n` over a commutative ring, together with `Polynomial.map_dickson`, `Polynomial.dickson_add_two`, `Polynomial.dickson_one_one_eval_add_inv` and `Polynomial.dickson_one_one_mul`, from `Mathlib/RingTheory/Polynomial/Dickson.lean`. These supply the carrier, coefficient transport, recurrence, parameter-one evaluation and composition identities used in §6.25. Consume also `Polynomial.dickson_sq_mul_eval_mul` from `TauCeti/RingTheory/Polynomial/Dickson.lean`: over a commutative ring, `(dickson k (b^2*a) n).eval (b*t) = b^n*(dickson k a n).eval t`, for every k,n and a,b,t. Applying it over R[X] at X gives D_n(bX,b²a)=bⁿD_n(X,a), the parameter scaling used in §6.25.
 
 The following existing declarations supply the algebraic, topological and height
-interfaces used below. Their statements and ambient hypotheses govern every use.
+interfaces used above. Their statements and ambient hypotheses govern every use.
 
 - **`AbsoluteValue`** — Absolute values R → S; the places of the admissible family on k(t) are AbsoluteValue (RatFunc k) ℝ. Module: `Mathlib/Algebra/Order/AbsoluteValue/Basic.lean`.
 - **`AbsoluteValue.eval_mvPolynomial_le`** — Local (archimedean) bound v(p(x)) ≤ (Σ v(coefficients))·(⨆ i, v(x i))^N for p homogeneous of degree N. Module: `Mathlib/NumberTheory/Height/MvPolynomial.lean`.
