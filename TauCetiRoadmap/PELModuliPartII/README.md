@@ -1,21 +1,60 @@
 # Roadmap: Siegel and PEL moduli problems, part II: unitary integral and formal moduli
 
-**Summary.** This roadmap builds the integral and formal moduli of unitary type that the arithmetic of
-unitary Shimura varieties uses: the O-displays of strict formal O-modules; the unitary
-Rapoport–Zink spaces of principal, almost self-dual, exotic and Krämer type, with their special
-homomorphism spaces; the integral CM moduli at every prime; the integral models of
-Rapoport–Smithling–Zhang, Li–Liu, He–Li–Shi–Yang and Liu–Tian–Xiao–Zhang–Zhu built from pairs of a
-CM abelian scheme and a unitary abelian scheme; and the formal uniformization of their basic loci.
-It starts from the generic PEL data, determinant condition, levels, canonical models, displays and CM
-moduli of PELModuli, where that roadmap stops at good primes, at the principal unramified case and at
-primes unramified in the CM field. Its end theorems are the formal smoothness or regular semistable
-reduction of the four families of local spaces (§§1.2, 2.2, 3.4, 5.7) and the two connected
-components of the exotic space over every p-adic field (§3.7); the finite étaleness of the CM moduli
-at every prime (§6.6); the smoothness, regular semistable reduction and quasi-projectivity of the
-global integral models (§§7.6, 7.7, 7.8, 7.9, 8.4, 8.7); and the uniformization of their basic loci by
-the local spaces (§§9.5–9.10). A polarization kernel, a signature convention, an integral Lie
-annihilation equation and a coefficient field are part of every statement: none of them can be
-recovered from the generic Shimura variety.
+**Summary.** Arithmetic intersection problems on unitary Shimura varieties, such as the
+Kudla–Rapoport conjecture and the arithmetic fundamental lemma, take as input integral models of
+these varieties and formal moduli spaces of p-divisible groups that uniformize parts of them. The
+first part, PELModuli, stops at good primes, at the principal unramified case and at primes
+unramified in the CM field. This second part builds the integral and formal moduli of unitary type
+beyond those limits, but, apart from a single divisor, not the special cycles themselves.
+
+Every statement fixes data that the generic Shimura variety does not determine: the polarization
+kernel and signature convention, an equation that the action must satisfy on the Lie algebra, and
+the coefficient ring of the model.
+
+Locally, K is a finite extension of ℚ_p with p odd, L/K is quadratic, and O_L̆ is the ring of
+integers of the completed maximal unramified extension of L. A unitary Rapoport–Zink space
+classifies strict formal O_K-modules of dimension n with an action of O_L and a polarization,
+together with a quasi-isogeny of height zero to a fixed supersingular object, the framing. Four
+families are built, each of relative dimension n−1 over O_L̆; in each, one entry of the signature is
+1 and the other n−1. When L/K is unramified and the polarization is principal, the space is formally
+smooth. When L/K is unramified, n ≥ 2 and the kernel of the polarization is killed by a uniformizer
+of K and has order q², q being the size of the residue field of K, the space is flat and regular
+with semistable reduction. When L/K is ramified and n ≥ 2 is even, the exotic space, whose
+polarization has kernel exactly the u-torsion for a uniformizer u of L, is formally smooth for every
+finite extension K of ℚ_p. It has exactly two connected components, on which a parity invariant of
+the framing takes the values 0 and 1. When L/K is ramified, n ≥ 2 and the polarization is principal,
+adding a rank-(n−1) filtration of the Lie algebra gives the Krämer space. It is flat and regular
+with semistable reduction.
+
+Globally, F/F⁺ is a CM extension, Φ a CM type with reflex field E_Φ, and a a nonzero ideal of
+O_{F⁺}. Consider abelian schemes with an action of O_F whose characteristic polynomial on the Lie
+algebra is the one Φ prescribes, and a polarization with kernel the a-torsion whose Rosati
+involution induces conjugation; arrows preserve the polarization exactly. Their moduli is a
+Deligne–Mumford stack, possibly empty, finite and étale over O_{E_Φ}. This holds at every prime,
+including those ramified in F.
+
+The integral models classify pairs (A₀, A) of a point of this CM moduli and an abelian scheme with
+an action of O_F and a polarization of prescribed local type. Away from finitely many primes,
+including 2 and those where F/F⁺ ramifies, the model of Rapoport–Smithling–Zhang is a smooth
+Deligne–Mumford stack of relative dimension n−1. For small enough levels on both factors it is a
+quasi-projective scheme. At an inert place where the lattice is almost self-dual, or at a ramified
+place where the Krämer filtration is imposed, the model is instead regular with semistable
+reduction, under stated hypotheses.
+
+The last main theorems uniformize the basic locus, where A₀ and A are isoclinic of a common slope at
+every place of F above p. In the inert, exotic and Krämer cases, each under its own hypotheses, a
+stated piece of the completion along the basic locus is a quotient of a local space times an adelic
+coset space by the rational points of an inner form of the group. Such a quotient covers an open and
+closed part of the basic locus; reaching all of it needs a disjoint union over framing classes or a
+Hasse hypothesis.
+
+Besides the generic and CM moduli of PELModuli, the roadmap uses Grothendieck–Messing and Serre–Tate
+theory from AbelianSchemesAndArithmeticModuli, and the quasi-projectivity and properness of PEL
+moduli from ShimuraCompactifications. SelmerIwasawaCohomologyPartII studies the special fibres of
+these models.
+
+The layers run from the local theory (Layers 0–5) through the global data (Layer 6) and the integral
+models (Layers 7–8) to the uniformization (Layer 9); the next section says what each layer uses.
 
 ## How to read the build
 
@@ -1838,7 +1877,7 @@ in that supplier's subsection, and every target that needs it lists it in its *N
 ### From Mathlib
 
 The pinned Mathlib has no formal schemes, no p-divisible groups or strict modules over a base and no
-abelian schemes with PEL structure; these are the carriers the targets below construct or import.
+abelian schemes with PEL structure; these are the carriers the targets above construct or import.
 The declarations consumed, with what is assumed of them:
 
 - `LinearMap.charpoly` (`Mathlib/LinearAlgebra/Charpoly/Basic.lean`): the characteristic polynomial of
