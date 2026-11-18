@@ -78,6 +78,7 @@ body:
         - CharacterSumsOverFiniteFields
         - CharacteristicClasses
         - ChevalleyGroups
+        - CircleMethodThreePrimes
         - ClassFieldTheory
         - ClassicalAdicEtaleCohomology
         - ClassicalArithmeticCompletion
@@ -362,6 +363,7 @@ body:
         - SmallRamificationAndAbelianVarietyBaseCasesPartII
         - SmoothBundlesConnections
         - SmoothRepresentationsOfLocalGroups
+        - SobolevDifferentialForms
         - SobolevMapsBetweenManifolds
         - SobolevPolynomialApproximation
         - SpecialFunctionsAiry
