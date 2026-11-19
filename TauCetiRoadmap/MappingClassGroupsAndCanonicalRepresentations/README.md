@@ -45,9 +45,9 @@ The proofs pass through *punctured étale-versal families*: smooth proper famili
 genus-`g` curves over a connected smooth complex variety whose classifying map to `M_{g,n}` is
 dominant and étale. Layer 0 sets up the presented surface group and the pure mapping class groups
 acting on it. Layer 1 collects group cohomology, Artinian deformations and representation schemes.
-Layer 2 defines MCG-finiteness and versal families and identifies their fundamental groups with
-mapping class groups. Layers 3 and 4 realize an irreducible MCG-finite representation on a versal
-family, first projectively and then linearly. Layer 5, the Hodge theory, ends in a rank bound: for a
+Layer 2 defines MCG-finiteness and versal families and identifies the orbifold fundamental
+groups of the moduli stacks with pure mapping class groups. Layers 3 and 4 realize an irreducible MCG-finite representation on a versal
+family, first projectively and then linearly. Layer 5, the Hodge theory, contains a rank bound: for a
 unitary local system `V` on the punctured total space, every nonzero sub-local system of the first
 cohomology of the punctured fibres with coefficients in `V` has rank at least `2g − 2 rk V`. Layers
 2–4 do not use Layer 5, which uses Layer 4 only in its Artinian vanishing theorem. Layer 6 deduces
