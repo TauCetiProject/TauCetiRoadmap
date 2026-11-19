@@ -27,13 +27,14 @@ Tau Ceti's quadratic-field and binary-form libraries, with the orders and Picard
 decomposition, the correspondence between forms and ideal classes and the class number of `O_f`;
 the first layer below adds their comparisons with complex embeddings and lattices. Tau Ceti's
 class-number formula `h = w√|D| L(1, χ_D)/(2π)` and Mathlib's Dirichlet `L`-functions are the input
-of the second layer; [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) uses the
-same formula for its effective form of Siegel's bound. [ClassFieldTheory](../ClassFieldTheory/README.md)
+of the second layer; [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) takes the
+same formula from the second layer. [ClassFieldTheory](../ClassFieldTheory/README.md)
 supplies the Hilbert and ring class fields with their Artin isomorphisms, which the third layer
 compares with values of modular functions at CM points. [ModularForms](../ModularForms/README.md),
 [ModularCurves](../ModularCurves/README.md) and [EllipticCurves](../EllipticCurves/README.md) supply
-the level-one modular curve, `j` and algebraic elliptic curves; the complex uniformization of
-elliptic curves is built here.
+the level-one modular curve, `j` and algebraic elliptic curves; ModularForms and
+[ModularCurvesPartII](../ModularCurvesPartII/README.md) supply the complex uniformization
+`ℂ/Λ ≅ E_Λ(ℂ)` of elliptic curves.
 
 Layer 1 fixes the models, the distinguished complex embedding, maximal orders and units, the
 correspondence between forms and ideal classes, and the orders of conductor `f`. Layer 2 takes the
@@ -95,6 +96,10 @@ analytic or CM prerequisites.
    `TauCetiRoadmap.ImaginaryQuadraticClassNumber`. Every other target is stated in prose. A Lean
    name in code font is a declaration of Mathlib, of Tau Ceti or of `Suggested.lean`; code font also
    carries formulas.
+9. **Former numbering.** Citations by the former labels resolve as follows: H1.1, H1.2, H1.3 and
+   H1.4 are now §§1.1, 1.2, 1.3 and 1.4; H2.1, H2.2, H2.3 and H2.4 are now §§2.1, 2.2, 2.3 and 2.4;
+   H3.1, H3.2, H3.3, H3.4, H3.5 and H3.6 are now §§3.1, 3.2, 3.3, 3.4, 3.5 and 3.6; and H1, H2 and
+   H3 are now Layers 1, 2 and 3.
 
 ## Layer 1: arithmetic, forms and class-number APIs
 
@@ -391,7 +396,7 @@ generators, integral bases, discriminants, norms, prime splitting and the class-
 ### 2.1 The quadratic character
 
 For every fundamental discriminant `D ≠ 1`, `χ_D` is the primitive quadratic Dirichlet character of
-conductor `|D|`, Tau Ceti's `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, a
+conductor `|D|` (Davenport, Chapter 6), Tau Ceti's `TauCeti.Multiquadratic.fundamentalDiscriminantChar`, a
 `DirichletCharacter ℤ q` with `q = D.natAbs`; Mathlib's `Int.IsFundamentalDiscr.ne_zero` gives
 `D ≠ 0` and the `NeZero q` instance. Tau Ceti gives primitivity
 (`TauCeti.Multiquadratic.isPrimitive_fundamentalDiscriminantChar`), `χ_D² = 1`
@@ -409,8 +414,7 @@ discriminant `D`, `2` included (`TauCeti.Multiquadratic.fundamentalDiscriminantC
 complex realization `χ_D.ringHomComp (Int.castRingHom ℂ)`
 (`TauCeti.Multiquadratic.ringHomComp_fundamentalDiscriminantChar_discr_ne_one`), and, from Mathlib,
 the value of that realization at every argument as the cast of the integer value
-(`MulChar.ringHomComp_apply`). No second fundamental-discriminant predicate is introduced (Davenport,
-Chapter 6).
+(`MulChar.ringHomComp_apply`). No second fundamental-discriminant predicate is introduced.
 
 The targets of this section are the comparison of the splitting dictionary with the explicit prime
 factorizations in the models of §1.2: for squarefree `d ≠ 1` and every prime `p`,
@@ -644,7 +648,8 @@ Fourier coefficients in `ℚ(ζ_N)` as the instance of `coeffSubfield` at the im
 `PSL₂(ℝ)`, its cusp `∞` in the identity scaling, of width `N`, and `ℚ(ζ_N)`, and construct its
 pullback and level maps. No conditional scheme–analytic connectedness hypothesis of ModularCurves is
 treated as an unconditional supplier. Construct the action of `GL₂(ℤ/N)/{±1}` on `F_N`: `SL₂(ℤ/N)`
-acts by fractional linear maps and `diag(1, d)` acts on Fourier coefficients by `ζ_N ↦ ζ_N^d`. Prove:
+acts by fractional linear maps and `diag(1, d)` acts on Fourier coefficients by `ζ_N ↦ ζ_N^d` (Shin,
+§2, pp. 2–3). Prove:
 
 - the action is well defined and is a right action, with its multiplication order fixed by
   Convention 6;
@@ -656,7 +661,7 @@ acts by fractional linear maps and `diag(1, d)` acts on Fourier coefficients by 
 Only these function-field and CM comparisons are owned here; Hecke and newform theory are not
 rebuilt.
 
-**Complex uniformization.** It is built from Mathlib's period lattices `PeriodPair` and their
+**Complex uniformization.** It rests on Mathlib's period lattices `PeriodPair` and their
 Weierstrass function `PeriodPair.weierstrassP`, with its locally uniform sum
 (`PeriodPair.hasSumLocallyUniformly_weierstrassP`), differentiability away from the lattice
 (`PeriodPair.differentiableOn_weierstrassP`), periodicity (`PeriodPair.periodic_weierstrassP`),
@@ -677,25 +682,13 @@ and the point map `z ↦ (℘(z), ℘′(z)/2)` off `Λ`, sending `Λ` to the po
 point (`PeriodPair.exists_analyticAt_toAffine_eq_weierstrassPoint`), is injective near every lattice
 point (`PeriodPair.exists_mem_nhds_injOn_weierstrassPoint`) and is surjective
 (`PeriodPair.weierstrassPoint_surjective`). Mathlib's `℘` has the junk value `0` on the lattice; it
-does not itself send that point to infinity. Prove the injectivity of the point map modulo `Λ` and its
-additivity; deduce the holomorphic group isomorphism `ℂ/Λ → E(ℂ)` with its inverse; prove period-lattice
-recovery for every complex elliptic curve; and prove the naturality of this isomorphism under change
-of basis and rescaling of the lattice, which on the curve itself are `weierstrassCurve_eq_of_lattice_eq`
-and `weierstrassCurve_smul`.
-
-**The converse construction**, an earlier proof target than the CM dictionary. Construct the
-complex-manifold and compactness interfaces of the projective Weierstrass curve from its nonsingular
-affine and infinity charts, with the chart transition maps and their holomorphy proved, and make
-`E(ℂ)` a compact connected complex Lie group. Compare its algebraic invariant differential with a
-holomorphic nowhere-zero one-form; local primitives give translation charts. In those charts the two
-real translation vector fields corresponding to `1` and `i` commute; prove that they are complete on
-the compact manifold by a finite-chart continuation bound, compose their flows into an entire group
-homomorphism `exp_E : ℂ → E(ℂ)`, and prove that its derivative is complex-linear and invertible, so
-that it is an open covering onto the connected group. Its kernel is discrete, and compactness of the
-quotient makes it a full rank-two lattice; an oriented real basis gives `PeriodPair` data. Compare the
-coordinate functions with `℘` and `℘′/2` by their poles, principal parts and the compact maximum
-principle, and prove both inverse identities. These chart, flow, covering and differential
-comparisons are owned here, not assumed from an elliptic-curve type name or a general GAGA theorem.
+does not itself send that point to infinity. The uniformization itself is ModularForms §10D, consumed
+here: for a lattice `Λ` with Weierstrass curve `E_Λ`, the point map induces a bijective group
+isomorphism `ℂ/Λ → E_Λ(ℂ)`; every elliptic curve over `ℂ` is isomorphic to `E_Λ` for a lattice
+`Λ = ℤ + ℤz`; `℘_(αΛ)(αu) = α⁻²℘_Λ(u)`; and every isomorphism `E_Λ → E_(Λ′)` is induced by `u ↦ αu`
+for a unique `α` with `αΛ = Λ′`. ModularCurvesPartII §1.1, also consumed here, makes the same map a
+pointed biholomorphism `ℂ/Λ ≅ E_Λ^an` onto the analytification of the curve, compatible with the
+group laws. No part of the uniformization is a target of this roadmap.
 
 **The CM dictionary.** Prove that lattices with endomorphism ring `O_f`, up to homothety, correspond
 to `Pic(O_f)`; that `j(τ)` determines the homothety class of `ℤ + ℤτ`; and that the lattice
@@ -705,7 +698,7 @@ through ClassFieldTheory Layer 13's Hilbert class field `TauCeti.ClassFieldTheor
 and its Artin isomorphism `TauCeti.ClassFieldTheory.hilbertClassArtinEquiv`, with the convention
 comparison of Convention 6.
 
-**Finite-level reciprocity** (Shin, §4: the finite-level CM actions, Lemma 4.1 and Theorem 4.8).
+**Finite-level reciprocity** (Shin, §2: the group `W_(N,τ_K)`, p. 4, and Proposition 2.5, p. 5).
 With `τ_D` of Convention 5, of minimal polynomial `X² + BX + C`, prove that `s τ_D + t` with
 `s, t ∈ ℤ` acts on the values of level-`N` functions at `τ_D` through the multiplication matrix
 
@@ -719,7 +712,8 @@ exceptional kernels for `D = −3, −4` instead of quotienting by `{±1}` there
 ray-degree formula `[K_(N) : H_K]` and the comparison of a norm from `K_(N)` to `H_K` with the product
 of the conjugates, for the levels `2, 3, 6, 8` used below.
 
-*Needs:* Layer 1 (§§1.1, 1.3–1.4); ClassFieldTheory Layers 10–13; Mathlib `PeriodPair`,
+*Needs:* Layer 1 (§§1.1, 1.3–1.4); ClassFieldTheory Layers 10–13; ModularForms §10D;
+ModularCurvesPartII §1.1; Mathlib `PeriodPair`,
 `WeierstrassCurve`, `UpperHalfPlane`, `CongruenceSubgroup.Gamma`; Tau Ceti
 `Subgroup.CompactifiedQuotient.coeffSubfield`, `Subgroup.CompactifiedQuotient.laurentQExpansion_injective`,
 `TauCeti.ModularGroup.coeffSubfield_cuspDatumInfty_bot`, `TauCeti.ModularGroup.jBiholomorph`,
@@ -771,20 +765,24 @@ cubic `(X + 16)³ − jX`, whose roots are the `g_i¹²`
 
 The targets, for general `r`, are:
 
-- the `q`-order of `g_r` at the cusps, `B₂(⟨r₁⟩)/2` at `∞`, with `⟨r₁⟩` the fractional part;
+- the `q`-order of `g_r` at the cusps, `B₂(⟨r₁⟩)/2` at `∞`, with `⟨r₁⟩` the fractional part (Shin,
+  Proposition 2.3(i), p. 3);
 - the `SL₂(ℤ)` transformation law `g_r ∘ γ = ε(r, γ) g_(rγ)` with its explicit root-of-unity factor
-  `ε(r, γ)`, and the diagonal cyclotomic action on Fourier coefficients;
+  `ε(r, γ)` (Shin, Proposition 2.3(ii), p. 4, for `c > 0`), and the diagonal cyclotomic action on
+  Fourier coefficients;
 - the inverse, product and level APIs and the finite-support exponent families `∏ g_r^(m(r))`;
-- the congruence criterion making such a product a modular function of level `N`, and the power
-  `12N/gcd(6, N)`: for `r ∈ (1/N)ℤ² ∖ ℤ²`, `g_r^(12N/gcd(6, N))` is a modular function of level `N`;
-- integrality of the `g_r` over `ℤ[j]`, and at CM points, through §3.1, algebraic integrality of their
-  values.
+- the congruence criterion making such a product a modular function of level `N` (Shin,
+  Proposition 2.1, p. 3), and the power `12N/gcd(6, N)`: for `r ∈ (1/N)ℤ² ∖ ℤ²`, `g_r^(12N/gcd(6, N))`
+  is a modular function of level `N` (Shin, Remark 2.2, p. 3);
+- integrality of the `g_r` over `ℤ[j]` (Shin, Proposition 2.3(vi), p. 4), and at CM points, through
+  §3.1, algebraic integrality of their values.
 
 **The cube root `γ₂`.** Construct the holomorphic cube root `γ₂` of `j` with leading Fourier term
-`q^(−1/3)`, and prove `γ₂ = (g_i¹² + 16)/g_i⁴` for each `i`: Weber's cubic gives that the right-hand
-side cubes to `j`, and the identification with the normalized cube root is a modular-function
-comparison by `q`-expansion uniqueness with the precise leading coefficient, not an arbitrary choice
-of cube root. Mathlib's eta normalization is the only one used; ratios eliminate any common constant.
+`q^(−1/3)`, and prove `γ₂ = (g_i¹² + 16)/g_i⁴` for each `i` (Shin, Lemma 4.1(ii), p. 12): Weber's
+cubic gives that the right-hand side cubes to `j`, and the identification with the normalized cube
+root is a modular-function comparison by `q`-expansion uniqueness with the precise leading
+coefficient, not an arbitrary choice of cube root. Mathlib's eta normalization is the only one used;
+ratios eliminate any common constant.
 
 *Needs:* §3.1; Mathlib `ModularForm.eta`, `UpperHalfPlane`; Tau Ceti `TauCeti.ModularForm.siegelFunction`,
 `TauCeti.ModularForm.prod_X_sub_C_siegelFunction_pow_twelve`,
@@ -813,9 +811,9 @@ j(τ_D) = (x + 16)³ / x     if D ≡ 1 mod 8.
 ```
 
 For `2` inert and `3` unramified, prove **the small-power field inclusion**, not merely a high-power
-statement (Stark 1969; Shin, §§2, 4, 5). Write `ξ = ζ₈α` in this branch. Prove that `ξ` lies in `K_(2)`, is
-real and integral, and generates `K_(2)` over `H_K`, and that `γ₂(τ_D)` lies in `H_K` and is real and
-integral. First `α⁴ ∈ K_(2)`, using its membership at level six and the fact that the possible cubic
+statement (Stark 1969; Shin, Theorem 4.8, p. 15). Write `ξ = ζ₈α` in this branch. Prove that `ξ`
+lies in `K_(2)`, is real and integral, and generates `K_(2)` over `H_K`, and that `γ₂(τ_D)` lies in
+`H_K` and is real and integral. First `α⁴ ∈ K_(2)`, using its membership at level six and the fact that the possible cubic
 degree divides the degree `2` or `4` of `K_(6)/K_(2)`. Then `ζ₈⁻¹α³` is fixed by the full group of the
 level-eight field over the level-two field, by explicit generating matrices and all root-of-unity
 phases, so its quotient with `α⁴` gives `ξ`. Exclude `ζ₃` from `K_(2)` by ramification at `3` before
@@ -1033,8 +1031,10 @@ conductors of one field give no additional field isomorphism classes.
 
 Layer 1 (all sections); Layer 2 is not used. ClassFieldTheory Layers 10–13 (global reciprocity,
 existence, the Hilbert, ray and ring class fields with their Artin isomorphisms and ray degrees).
-Mathlib: modular forms and the eta function, the upper half-plane and congruence subgroups, period
-lattices and the Weierstrass `℘`-function, Weierstrass curves, minimal polynomials. Tau Ceti: the
+ModularForms §10D and ModularCurvesPartII §1.1 (the complex uniformization of elliptic curves).
+Mathlib: modular forms and the
+eta function, the upper half-plane and congruence subgroups, period lattices and the Weierstrass
+`℘`-function, Weierstrass curves, minimal polynomials. Tau Ceti: the
 compactified modular curves with their `q`-expansion fields and `F₁ = ℚ(j)`, `j` and its biholomorphism
 with the sphere, the Weierstrass curve and point map of a lattice, the Siegel functions with their
 level-two identities and bounds, the Heegner quartic and the fourth-power cubic, the nine-field
@@ -1045,8 +1045,7 @@ imaginary quadratic field and the class fields.
 
 - AbelianSchemesAndArithmeticModuliPartII: §3.6 (the nine maximal-order class-number-one fields).
 - AdelicImagesAndModularCurves: §3.6 (the thirteen orders of Picard number one).
-- AnalyticNumberTheoryPartI: §2.2 only (`ζ_K = ζ · L(s, χ_D)` and the class-number formula); its §0.9
-  states the effective form of §2.4.
+- AnalyticNumberTheoryPartI: §2.2 only (`ζ_K = ζ · L(s, χ_D)` and the class-number formula).
 - AnticyclotomicLocalUnits: §1.3, §§2.1–2.2 and the class-number upper bound of §2.3
   (`h(D) ≤ √|D|(1 + log|D|)/π` for negative fundamental `D ≡ 1 mod 8`, which gives its
   `h(D) ≤ √|D|(2 + log|D|)/π`).
@@ -1054,8 +1053,8 @@ imaginary quadratic field and the class fields.
 - BianchiModularForms: §1.4, §3.1 and §3.6.
 - CMRankZeroConverse: §3.1.
 - ComplexMultiplicationAndExplicitReciprocity: §3.1.
-- EffectiveClassNumbers: §§1.1–1.3, §§2.1–2.2, the statements of §2.4 and §3.1; it states the
-  effective forms of §2.4.
+- EffectiveClassNumbers: §§1.1–1.3, §§2.1–2.2, the statements of §2.4 and §3.1; it states lower
+  bounds for `h(K)` of Goldfeld's type with effective constants.
 - EllipticCurveModularityPartII: §3.6.
 - EllipticCurvePeriodsAndModularParametrizations: §1.4 and §3.1.
 - ErdosProgressionPowers: §3.1.
@@ -1076,11 +1075,10 @@ generators (§1.2); the complex-lattice form of the form–ideal correspondence 
 the real form of the class-number formula (§2.2); the real-character estimates, the `log` bound and
 the zero-free alternative (§2.3); Siegel's theorem in its classical ineffective form and its
 class-number consequences (§2.4); the level-`N` function fields and their `GL₂(ℤ/N)/{±1}` action,
-complex uniformization of elliptic curves in both directions, the CM dictionary and finite-level CM
-reciprocity (§3.1); the Siegel-function theory beyond the level-two identities, and `γ₂` (§3.2); the
-level-two norms and the small-power comparison (§3.3); the branch exclusions (§3.4); the application
-of the quartic (§3.5); and the class-number-one theorem, its equivalent forms and the thirteen orders
-(§3.6).
+the CM dictionary and finite-level CM reciprocity (§3.1); the Siegel-function theory beyond the level-two identities, and
+`γ₂` (§3.2); the level-two norms and the small-power comparison (§3.3); the branch exclusions
+(§3.4); the application of the quartic (§3.5); and the class-number-one theorem, its equivalent forms
+and the thirteen orders (§3.6).
 
 **Already in the library and consumed by name.** The quadratic models and their isomorphism
 classification, the distinguished complex embedding of the model, the rings of integers, prime
@@ -1111,6 +1109,11 @@ of the quartic and the fourth-power cubic of §3.5; and the nine-field converse,
   ray-degree statements are consumed, not just a generic class-formation structure.
 - The combinatorial weighted Hurwitz class number, which is not `NumberField.classNumber` and separates
   exceptional automorphisms and imprimitive forms: [ModularForms](../ModularForms/README.md) Layer 11.
+- Complex uniformization of elliptic curves: ModularForms §10D, namely the bijective group
+  isomorphism `ℂ/Λ → E_Λ(ℂ)` given by the point map, a lattice for every elliptic curve over `ℂ`, the
+  homogeneity of `℘` and the isomorphisms `E_Λ → E_(Λ′)` as homotheties; and
+  [ModularCurvesPartII](../ModularCurvesPartII/README.md) §1.1, the same isomorphism as a pointed
+  biholomorphism onto the analytification of `E_Λ`.
 - Analytic modular curves, arithmetic moduli and algebraic torsion and isogeny APIs, within their
   stated scopes: ModularForms, [ModularCurves](../ModularCurves/README.md) and
   [EllipticCurves](../EllipticCurves/README.md). EllipticCurves excludes complex uniformization in its
@@ -1121,12 +1124,11 @@ of the quartic and the fourth-power cubic of §3.5; and the nine-field converse,
 - Generic ideal-series regrouping and Euler products:
   [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md); §§2.1–2.4 own the
   quadratic specializations and the additional real-character estimates.
-- The effective forms of §2.4 are not stated here.
-  [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) §0.9 states
-  `L(1, χ) ≥ c/log q` with an effective absolute `c`, derived there from the uniform exclusion of
-  Landau–Siegel zeros (its §0.34), and consumes only the class-number formula of §2.2 from this roadmap;
-  the effective class-number bound with computable discriminant cutoffs belongs to EffectiveClassNumbers,
-  which consumes §2.2 and the statements of §2.4.
+- No effective form of the bounds of §2.4 is stated here, and no statement here rests on one.
+  [AnalyticNumberTheoryPartI](../AnalyticNumberTheoryPartI/README.md) consumes only the class-number
+  formula of §2.2 from this roadmap; the effective class-number bounds of Goldfeld's type, with
+  computable discriminant cutoffs, belong to EffectiveClassNumbers, which consumes §2.2 and the
+  statements of §2.4.
 
 ## Exact supplier contracts
 
@@ -1292,12 +1294,31 @@ Layers 10–13: global reciprocity and existence with the arithmetic-Frobenius c
 ray and ring class fields with their Artin isomorphisms, and the ray-degree statements, as stated there
 and through the Tau Ceti declarations above. Assumed as stated there.
 
+### From TauCetiRoadmap.ModularForms
+
+§10D, for a lattice `Λ ⊂ ℂ` and its Weierstrass curve `E_Λ : y² = x³ − (g₂/4)x − g₃/4`, the curve of
+Tau Ceti's `PeriodPair.weierstrassCurve`: the map `u ↦ (℘_Λ(u), ℘′_Λ(u)/2)` off `Λ`, sending `Λ` to the
+point at infinity, induces a bijective group isomorphism `ℂ/Λ → E_Λ(ℂ)`; every elliptic curve over `ℂ`
+is isomorphic to `E_Λ` for some `Λ = ℤ + ℤz` with `z ∈ ℍ`; `℘_(αΛ)(αu) = α⁻²℘_Λ(u)`; and every
+isomorphism `E_Λ → E_(Λ′)` is induced by `u ↦ αu` for a unique `α` with `αΛ = Λ′`. Assumed as stated
+there.
+
+### From TauCetiRoadmap.ModularCurvesPartII
+
+§1.1, for a period pair with lattice `Λ` and the same Weierstrass curve `E_Λ`: the map
+`z ↦ [℘_Λ(z) : ℘′_Λ(z)/2 : 1]` off `Λ`, sending `Λ` to the point at infinity, descends to a pointed
+biholomorphism `ℂ/Λ ≅ E_Λ^an` onto the analytification of `E_Λ` that carries addition to the group
+law. Assumed as stated there.
+
 ## References
 
 - D. H. Shin, [Generation of class fields by Siegel-Ramachandra invariants](https://arxiv.org/abs/1009.2253v6),
-  §§2, 4, 5: finite-level CM actions (Lemma 4.1; Theorem 4.6, pp. 13–14, the level-two norm `x` for `2`
-  not inert, with its equations (19)–(20); Theorem 4.8), small-power comparison, product estimates
-  (Lemma 5.1) and the class-number-one branches (Theorem 5.2, Table 1). The cubic coefficient
+  §§2, 4, 5: the fields `F_N` and their Galois action (§2, pp. 2–3), the Siegel-function properties
+  (Proposition 2.1, Remark 2.2 and Proposition 2.3, pp. 3–4), finite-level CM reciprocity (the group
+  `W_(N,τ_K)`, p. 4, and Proposition 2.5, p. 5), the level-two identities and `γ₂` (Lemma 4.1, p. 12),
+  the level-two norm `x` for `2` not inert (Theorem 4.6, pp. 13–14, with its equations (19)–(20)),
+  the small-power comparison (Theorem 4.8, p. 15), product estimates (Lemma 5.1) and the
+  class-number-one branches (Theorem 5.2, Table 1). The cubic coefficient
   computation is `TauCeti.tschirnhausPolynomial_X_pow_four_eq_iff`; every cited CM comparison is a
   target above, including proofs the article leaves to other sources.
 - H. M. Stark, [On the “gap” in a theorem of Heegner](https://doi.org/10.1016/0022-314X(69)90023-7),
