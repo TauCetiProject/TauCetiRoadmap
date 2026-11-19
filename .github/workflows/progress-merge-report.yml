@@ -98,11 +98,11 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@70e8970f917cd5e1e06473ffef21385c2e94db91
+    uses: TauCetiProject/TauCetiProgress/.github/workflows/merge.yml@ddaaed27a70d9f376d300edf32d521843c27cc16
     with:
       runs_on: '"ubuntu-latest"'
       pr: ${{ inputs.pr }}
-      progress_ref: 70e8970f917cd5e1e06473ffef21385c2e94db91
+      progress_ref: ddaaed27a70d9f376d300edf32d521843c27cc16
       app_id: ${{ inputs.app_id }}
       # The gate's own look at the queue, at the moment it moves `main`. Off for a dispatch by hand
       # that did not ask to wait, as `hold` above is. 7200 is the gate's default, written out so
