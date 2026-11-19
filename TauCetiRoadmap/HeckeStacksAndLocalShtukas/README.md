@@ -1,7 +1,7 @@
 # Roadmap: Hecke stacks and local shtuka cohomology
 
-**Summary.** Let `G` be a reductive group over a nonarchimedean local field `E`, with residue
-field `𝔽_q` and completed maximal unramified extension `Ĕ`. In Fargues and Scholze's
+**Summary.** Let `G` be a reductive group over a nonarchimedean local field `E`, with uniformizer `π`,
+residue field `𝔽_q` of characteristic `p` and completed maximal unramified extension `Ĕ`. In Fargues and Scholze's
 geometrization of the local Langlands correspondence, Hecke operators act on sheaves on the
 stack of `G`-bundles on the relative Fargues–Fontaine curve, by modifying bundles along
 degree-one divisors called legs. On the stratum of the bundle `𝓔_b` attached to `b∈G(Ĕ)`, lisse
@@ -10,7 +10,7 @@ sheaves are complexes of smooth representations of `J_b(E)`, the `E`-points of t
 with the cohomology of local shtuka spaces.
 
 A representation `V` of `Ĝ^I`, with `Ĝ` the dual group and `I` indexing the legs, gives a Satake
-kernel on the global Hecke stack. The Hecke operator of `V` pulls a sheaf back along the source,
+kernel on the global Hecke stack over a geometric point. The Hecke operator of `V` pulls a sheaf back along the source,
 tensors it with this kernel, and takes relative homology along the target. Local shtukas are
 modifications from the trivial bundle to `𝓔_b`, bounded by a cocharacter class `μ`. Their moduli
 spaces form towers over the compact open subgroups `K` of `G(E)`, with commuting actions of
@@ -33,7 +33,7 @@ The second concerns towers over `ℚ_p` with one leg, whose period map is étale
 admissible locus of the bounded affine Grassmannian: the points where the modified bundle is
 trivial at every geometric point. For any bound `μ`, the admissible part of the open Schubert
 cell, and of its closure, is nonempty exactly when `[b]∈B(G,μ⁻¹)`, that is, `κ(b)=−μ♯` and the
-Newton point of `b` is at most the Galois average of `μ⁻¹`. After base change to any complete
+Newton point of `b` is at most the Galois average of `μ⁻¹`. When `[b]∈B(G,μ⁻¹)`, after base change to any complete
 algebraically closed field over `F̆=FĔ`, with `F` the reflex field, the admissible cell is
 connected and the admissible locus is connected and dense in the Grassmannian.
 
