@@ -313,8 +313,11 @@ restriction of g.
 *Boundary.* For a smooth Riemannian metric g on a surface M with boundary, modelled on the closed
 half-plane (Mathlib's `𝓡∂ 2`), define `HasGeodesicBoundary g`: every C² curve ℝ → M that lies in
 the boundary and has unit g-speed is a geodesic of g (Tau Ceti `TauCeti.Manifold.IsGeodesicCurve`).
-On a compact surface these curves are the unit-speed parametrizations of the boundary circles, so
-the condition says that the boundary has geodesic curvature zero. Prove
+On a compact surface these curves are the unit-speed parametrizations of the boundary circles. Along
+such a curve γ the covariant acceleration is orthogonal to γ′, by unit speed, and its component
+along the inward unit normal is `II(γ′, γ′)`, for the second fundamental form II of the boundary
+(RiemannianManifoldsWithConvexBoundary §1.4); so on a compact surface `HasGeodesicBoundary g` holds
+exactly when II vanishes, that is, when the boundary has geodesic curvature zero. Prove
 `exists_hyperbolicMetric_metric_eq_rescale_hasGeodesicBoundary_of_eulerChar_neg`: if M is a compact
 connected surface with boundary and `χ(M) < 0`, every smooth Riemannian metric g on M is conformal
 to a hyperbolic metric with geodesic boundary. Prove
@@ -338,7 +341,8 @@ uniformization in every genus.
 `TauCeti.HyperbolicMetric.eq_of_metric_eq_rescale`, `Bundle.ContMDiffRiemannianMetric.rescale`,
 `TauCeti.Manifold.IsGeodesicCurve`, `TauCeti.eulerChar`; Mathlib `ModelWithCorners.boundary`,
 `modelWithCornersEuclideanHalfSpace`; PDE §§1.1, 1.4, 1.7; ComplexKahlerGeometry §5.10 (compact
-elliptic theory).
+elliptic theory); RiemannianManifoldsWithConvexBoundary §1.4 (the second fundamental form of the
+boundary).
 
 **Checks.**
 - With `t = −log|z|`, `|dz|/|z| = (dt² + dθ²)^(1/2)`, so the cusp metric is
@@ -1797,7 +1801,8 @@ Layer 8 then supplies its comparison, which is not implicit in compactness alone
   (ConformalMapping Layers 0, 1, 2 and 4), complex orientation, holomorphic implicit functions,
   Dolbeault
   theory, local analytic algebra, holomorphic bundles and compact Hodge theory (ComplexKahlerGeometry
-  Layers 1–5), flows (DifferentialGeometry Layer 3), and the Euler characteristic of finite CW types
+  Layers 1–5), flows (DifferentialGeometry Layer 3), the second fundamental form of a boundary
+  (RiemannianManifoldsWithConvexBoundary §1.4), and the Euler characteristic of finite CW types
   (AlgebraicTopology §§7.1–7.3).
 
 **Already in the Tau Ceti library.** The following results are proved at the Tau Ceti pin and are
@@ -2019,6 +2024,15 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   `TauCeti.timeDependentFlowDiffeomorph`): the flows on which Tau Ceti's diffeotopies of §0.1c and
   the collar extensions of §0.1d rest. The
   finite-dimensional branch is used, not the extension to Banach models.
+
+### From TauCetiRoadmap.RiemannianManifoldsWithConvexBoundary
+
+- §1.4: the second fundamental form II of the boundary of a smooth Riemannian manifold with
+  boundary modelled on `𝓡∂ (n+1)`, here with n = 1, a symmetric bilinear form on the tangent space
+  of the boundary at each boundary point q, with `II_q(u, w) = ⟨∇_(dι u) W, ν_in(q)⟩` for every
+  vector field W, C¹ near q and tangent to the boundary along it, with `W(q) = dι w`, where ι is the
+  inclusion of the boundary, ∇ Mathlib's Levi-Civita connection and ν_in the inward unit normal.
+  Consumed in §0.4, where geodesic boundary is the vanishing of II.
 
 ### From TauCetiRoadmap.PDE
 
