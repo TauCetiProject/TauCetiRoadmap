@@ -9,8 +9,8 @@ import Mathlib
 headline theorems that can be stated against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
 The roadmap's end theorems are those of Caraiani–Scholze, *On the generic part of the cohomology
-of compact unitary Shimura varieties* (Ann. of Math. 186 (2017)). Most of them are not statable at
-the pins:
+of compact unitary Shimura varieties* (Ann. of Math. 186 (2017)), with a form of them for the
+unitary groups `U(V)` due to Liu–Tian–Xiao–Zhang–Zhu. Most of them are not statable at the pins:
 
 * Galois representations attached to torsion Hecke eigensystems (CS17 Theorem 6.3.1(1)), middle
   degree concentration of the generic part (Theorem 6.3.1(2)), the main theorem (Theorem 1.1), and
@@ -23,6 +23,12 @@ the pins:
   Corollary 5.6.2) (README Layers 9–10). They need Mantovan's Igusa varieties, the Kottwitz
   set `B(G, μ⁻¹)` of a reductive group over `ℚ_p`, Grothendieck groups of admissible
   representations of `J_b(ℚ_p)` and of adelic groups, and base change to `GL_n`. These are absent.
+* Vanishing off the middle degree for the Shimura varieties `Sh(V, K)` of the unitary groups
+  `Res_{F⁺/ℚ}U(V)` at an eigensystem decomposed generic at one split place, and the criterion
+  for cohomological genericity that follows from it (Liu–Tian–Xiao–Zhang–Zhu, Invent. Math. 228
+  (2022), Proposition D.1.3 and Corollary D.1.4; README §11.9). They need the Shimura varieties
+  `Sh(V, K)`, their étale cohomology with torsion coefficients, and the abstract unitary Hecke
+  algebra `𝕋^{Σ⁺}_N` acting on it. None of these exists at the pins.
 * The auxiliary-pair condition (README §8.7), which needs the signature of a compact unitary
   PEL datum and the sets `S_i` of complex embeddings attached to `ι_p : ℚ̄_p ≅ ℂ` and to a place
   `u` of the imaginary quadratic subfield above `p`. The PEL datum is absent, and this file does
