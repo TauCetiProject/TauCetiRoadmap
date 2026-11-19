@@ -2642,8 +2642,9 @@ Let `K′/K` be finite, `Π = π₁^ét(C°_{K′})` and `ρ̄_Π : Π → GL_r(
 representation whose restriction to `π₁^ét(C°_K̄)` is a surjection onto `GL_r(𝔽_p)` as in §11.3. Prove:
 for every continuous quotient `Π → Π′` satisfying Mazur's condition `Φ_p` through which `ρ̄_Π`
 factors, the universal deformation ring `R` of `ρ̄_Π` on `Π′` satisfies `R[1/p] = 0`; hence `R` is
-not flat and not formally smooth over `W(F)` (Landesman–Litt, Remarks 9.2.5–9.2.6, p. 49, in the
-form left by the authors' erratum). A nonzero `R[1/p]` has a point over a finite extension of
+not flat and not formally smooth over `W(F)` (the non-flatness asserted in Landesman–Litt, Remark
+9.2.5, p. 49, made precise here; the authors' erratum withdraws that remark together with its
+complete-intersection inference). A nonzero `R[1/p]` has a point over a finite extension of
 `W(F)[1/p]`, which gives a lift of `ρ̄_Π` whose restriction to the geometric group is arithmetic,
 contradicting §11.3. No failure of the complete-intersection property follows: `ℤ_p[[x]]/(p)` is a
 non-flat complete intersection. *Needs:* §11.3; LocalGaloisDeformationRings §§F.1.1–F.1.7, F.2.1,
@@ -2872,6 +2873,9 @@ Layers 0–3, 5 and 9; Mathlib `FreeGroup`.
   this roadmap.
 - NonabelianLevelStructures and MotivicStructuresInModuliOfCurves use the Teichmüller uniformization
   of the pointed moduli stack and its orbifold fundamental group `PMod(g, n)` (§§2.3–2.4).
+- SurfaceGroupCharacterVarieties uses the presented surface group, the pure mapping class groups
+  and the pure Birman sequence of §§0.1–0.3, and identifies its representation schemes and affine
+  quotients with §1.4's and finiteness of its mapping class orbits with §2.1's MCG-finiteness.
 - Roadmaps on mapping class groups and finite covers of moduli spaces use Layer 6's higher Prym
   rank bound and the Putman–Wieland theorem for small groups.
 - Roadmaps on rigid local systems and variations of Hodge structure use Layer 5's rank bound,
@@ -3533,7 +3537,8 @@ The following statements of the sources are corrected in the targets cited.
 - Landesman–Litt, Example 9.2.3, pp. 48–49: surjections exist for every `p`, non-liftability only for
   `p ∤ m(r)` (§11.4; the authors' erratum restricts it).
 - Landesman–Litt, Remarks 9.2.5–9.2.6, p. 49: non-flatness does not imply failure of the
-  complete-intersection property (§11.6; the authors' erratum deletes the inference).
+  complete-intersection property (§11.6; the authors' erratum deletes Remark 9.2.5 and the last
+  sentence of Remark 9.2.6).
 - Landesman–Litt, Example 10.1.6(2), p. 51: the augmentation sequence splits for `(g, n) = (1, 1)`;
   it is non-split exactly in the range `2g − 3 + n > 0` proved in §12.3.
 - Landesman–Litt, Proposition 8.2.1 and Lemma 8.3.3, pp. 39–40: Proposition 8.2.1 gives strong
