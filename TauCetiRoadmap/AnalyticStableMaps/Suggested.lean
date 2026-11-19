@@ -29,9 +29,10 @@ The headline theorems are:
 4. **Compactness** (§3.7): for fixed `(g, n, β)` and a compact family of tame structures the
    coarse space of stable maps is compact Hausdorff with proper projection to the parameter
    space.
-5. **Topological regularity** (§7.3): the regular locus of a thickened moduli space is open,
-   a topological manifold of dimension `v + dim E`, and a topological submersion to the
-   obstruction quotient (Pardon, Theorem B.1.1).
+5. **Topological regularity** (§7.3): the regular locus `X_I^reg` of a thickened moduli space
+   is open and a topological manifold of dimension `v + dim E_I`, and for `I ⊆ J` the section
+   `s_(J∖I) : X_J → E_(J∖I)` is locally a product projection near `ψ_IJ⁻¹(X_I^reg) ⊆ X_J`
+   (Pardon, Theorem B.1.1 and Proposition 9.2.6).
 6. **The implicit atlas** (§9.1–§9.2): the thickening data form an oriented implicit atlas on
    the compact coarse space, giving the rational dual-Čech functional.
 
