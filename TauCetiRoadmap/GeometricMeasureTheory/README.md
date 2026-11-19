@@ -113,11 +113,8 @@ curves.
     stated below is a target in its own right, alongside the named theorems.
 11. **The acceptance file.** `Suggested.lean` states, in the namespace
     `TauCetiRoadmap.GeometricMeasureTheory`, the headline theorems of the layers below that are not
-    Tau Ceti declarations, together with the predicate `IsApproxTangentPlane` that one of them needs.
-12. **Mathlib design.** The Mathlib proposals listed under References (arclength continuity,
-    variation of finite-dimensional vector measures, connected sets of finite Hausdorff length,
-    uniformly distributed measures and polar integration) fix the API direction of the matching
-    targets here; the targets are built in Tau Ceti on their own terms.
+    Tau Ceti declarations, together with the predicates `IsApproxTangentPlane` and
+    `IsTangentialDifferential` that two of them need.
 
 ## Layer 1: rectifiable curves and arclength
 
@@ -131,8 +128,7 @@ supplier contracts (Layer 1 group), on Mathlib's `eVariationOn`, `variationOnFro
 
 Prove that for a finite-dimensional real normed space `V` and `γ : ℝ → V` with
 `BoundedVariationOn γ (Icc a b)`, the metric derivative `TauCeti.metricDerivative γ t` equals
-`‖deriv γ t‖ₑ` for almost every `t ∈ [a, b]`. The API follows the direction of the Mathlib arclength
-proposal listed under References.
+`‖deriv γ t‖ₑ` for almost every `t ∈ [a, b]`.
 
 Prove the fundamental theorem of calculus for the arclength factorization. Let `γ` be absolutely
 continuous on `[a, b]` with values in `V`, `a ≤ b`, let `s(t) = variationOnFromTo γ (Icc a b) a t` be
@@ -217,10 +213,12 @@ presuming nonlinear area or coarea.
 
 Define `IsApproxTangentPlane k M x P`: the subspace `P` is the approximate tangent plane of `M ⊆ E`
 at `x` in dimension `k` with multiplicity one when, for every continuous compactly supported
-`φ : E → ℝ`, `r⁻ᵏ ∫_M φ((y − x)/r) dHᵏ(y) → ∫_P φ dHᵏ` as `r → 0⁺` (Simon). Prove
+`φ : E → ℝ`, `r⁻ᵏ ∫_M φ((y − x)/r) dHᵏ(y) → ∫_P φ dHᵏ` as `r → 0⁺` (Simon 1983, Definition 11.2,
+p. 60). Prove
 `ae_existsUnique_isApproxTangentPlane`: if `M` is countably `k`-rectifiable, `Hᵏ`-measurable and
 `Hᵏ(M ∩ K) < ∞` for every compact `K`, then at `Hᵏ`-almost every `x ∈ M` exactly one `k`-dimensional
-subspace is the approximate tangent plane of `M` at `x` (Simon).
+subspace is the approximate tangent plane of `M` at `x` (Simon 1983, Theorem 11.6 with Remark 11.5,
+p. 61).
 
 - *Uniqueness.* For every `M` and `x`, at most one `k`-dimensional subspace satisfies the predicate.
 - *Density theorem.* Under the same hypotheses, `Hᵏ(M ∩ closedBall x r) / (ω_k rᵏ) → 1` as `r → 0⁺`
@@ -270,7 +268,8 @@ point when `φ` is `C¹`, the graph of `Dφ(x)` is the approximate tangent plane
 For `F = ℝ`, after the isometry exchanging the two factors, the integrand is `√(1 + ‖∇φ‖²)`
 (`ContinuousLinearMap.normDet_normalGraphL`), and on a measurable set of points of differentiability
 the formula is `TauCeti.euclideanHausdorffMeasure_normalGraphEmbedding_image_eq_lintegral_sqrt_one_add_norm_fderiv_sq`;
-the target covers Lipschitz `φ` into every `F` (Simon). *Needs:* §2.1; Tau Ceti
+the target covers Lipschitz `φ` into every `F`; the `C¹` case with `F = ℝ` is Simon 1983, 8.6(3),
+p. 48. *Needs:* §2.1; Tau Ceti
 `LipschitzWith.lintegral_normDet_fderiv_eq_euclideanHausdorffMeasure_image`, `LinearMap.normDet_coprod_of_orthogonal`,
 `LinearMap.det_one_add_comp_comm`; Mathlib `LinearMap.normDet`, `LinearMap.normDet_sq_eq_det_gram`,
 `LipschitzWith.ae_differentiableAt`.
@@ -283,22 +282,26 @@ the target covers Lipschitz `φ` into every `F` (Simon). *Needs:* §2.1; Tau Cet
 ### 2.3 Tangential differentiation and the tangential area formula
 
 Let `M` satisfy the hypotheses of §2.1, `F` be a finite-dimensional real inner product space and
-`f : E → F` be Lipschitz. At a point `x ∈ M` where `M` has
-an approximate tangent plane `T_xM` (§2.1), with `P_x` the orthogonal projection onto it, a linear map
-`L : T_xM → F` is the tangential differential of `f` along `M` at `x` when, for every `ε > 0`, the set
-of `y ∈ M` with `‖f(y) − f(x) − L(P_x(y − x))‖ > ε ‖y − x‖` has `Hᵏ`-density zero at `x`, that is
-`Hᵏ` of its intersection with `closedBall x r` is `o(rᵏ)`. Prove that
-for `Hᵏ`-almost every `x ∈ M` the tangential differential exists and is unique; that it is
+`f : E → F` be Lipschitz. Define `IsTangentialDifferential k M f x P L`, for a subspace `P` of `E`
+with orthogonal projection `π_P` and a linear map `L : P → F`: for every `ε > 0`, the set of `y ∈ M`
+with `‖f(y) − f(x) − L(π_P(y − x))‖ > ε ‖y − x‖` has `Hᵏ`-density zero at `x`, that is `Hᵏ` of its
+intersection with `closedBall x r` is `o(rᵏ)` as `r → 0⁺`. When `P` is the approximate tangent plane
+`T_xM` of `M` at `x` (§2.1), such an `L` is the tangential differential of `f` along `M` at `x`.
+Prove that for `Hᵏ`-almost every `x ∈ M` the tangential differential exists and is unique; that it is
 unchanged by null modifications of `M`; that it is compatible with charts: for a Lipschitz
 `h : ℝᵏ → E` and a Borel `A ⊆ ℝᵏ` on which `h` is injective with `h(A) ⊆ M`, at almost every `a ∈ A`
 at which `h` and `f ∘ h` are differentiable and `Dh(a)` is injective, `Dh(a)` maps `ℝᵏ` onto
 `T_{h(a)}M` and the tangential differential at `h(a)` composed with `Dh(a)` is `D(f ∘ h)(a)`, so it
 does not depend on the chart used to compute it; and that it is the restriction of `Df(x)` to `T_xM`
-wherever `f` is differentiable at `x`. With the tangential
-Jacobian `J^M f(x)`, the norm determinant of the tangential differential on `T_xM`, prove the
-tangential area formula: for measurable `g : M → [0, ∞]`,
-`∫_M g J^M f dHᵏ = ∫_F Σ_{x ∈ M ∩ f⁻¹(y)} g(x) dHᵏ(y)`, with extended multiplicity, a fibre sum being
-`∞` when infinitely many terms are positive (Simon). On a `C¹` graph (§2.2) the tangential
+wherever `f` is differentiable at `x`. With the tangential Jacobian `J^M f(x)`, the norm
+determinant of the tangential differential on `T_xM`, prove the tangential area formula
+`lintegral_normDet_mul_eq_lintegral_tsum_of_isTangentialDifferential`: if, for `Hᵏ`-almost every
+`x ∈ M`, `P x` is a `k`-dimensional subspace that is the approximate tangent plane of `M` at `x` and
+`L x : P x → F` satisfies `IsTangentialDifferential k M f x (P x) (L x)`, then for measurable
+`g : E → [0, ∞]`, `∫_M g J dHᵏ = ∫_F Σ_{x ∈ M ∩ f⁻¹(y)} g(x) dHᵏ(y)`, where `J(x)` is the norm
+determinant of `L x` and the fibre sum is taken in `[0, ∞]`, the integral of `g` against counting
+measure on the fibre (Simon 1983, 12.1–12.5, pp. 67–69). By the uniqueness statements of §2.1 and of
+this section, `J = J^M f` almost everywhere on `M`. On a `C¹` graph (§2.2) the tangential
 differential and Jacobian are the classical ones. *Needs:* §2.1, §2.2; Tau Ceti
 `LipschitzWith.lintegral_normDet_fderiv_mul_eq_lintegral_tsum`, `TauCeti.CountablyRectifiable.exists_bilipschitz_cover`;
 Mathlib `LipschitzWith.ae_differentiableAt`.
@@ -311,6 +314,9 @@ Mathlib `LipschitzWith.ae_differentiableAt`.
 - For `M` a `k`-dimensional subspace and `f` linear, the tangential differential is the restriction
   of `f` to `M` and the formula is `LinearMap.euclideanHausdorffMeasure_image_eq_normDet_mul_volume`
   for that restriction when it is injective.
+- `M = ℝ × ℤ` in `ℝ²`, `k = 1`, `f(t, m) = t` and `g(t, m) = 2^{−|m|}` for `t ∈ [0, 1]`, `0` otherwise:
+  `J = 1`, the left side is `Σ_{m ∈ ℤ} 2^{−|m|} = 3`, and every fibre over `[0, 1]` has sum `3`, so the
+  right side is `3`. A fibre sum set to `∞` whenever infinitely many terms are positive would give `∞`.
 
 ### 2.4 The coarea formula for Lipschitz maps
 
@@ -318,11 +324,13 @@ Prove `lintegral_setLIntegral_inter_preimage_eq_setLIntegral_mul_normDet_adjoint
 finite-dimensional real inner product spaces `E`, `F` with `dim F ≤ dim E`, a Lipschitz `f : E → F`,
 a Lebesgue-measurable `s ⊆ E` and a measurable `g : E → [0, ∞]`,
 `∫_F ∫_{s ∩ f⁻¹(y)} g dH^{dim E − dim F} dy = ∫_s g(x) J f(x) dx`, with the coarea Jacobian
-`J f(x) = (fderiv ℝ f x).adjoint.normDet` and no surjectivity of the derivative assumed (Simon).
+`J f(x) = (fderiv ℝ f x).adjoint.normDet` and no surjectivity of the derivative assumed (Simon 1983,
+12.6–12.7, pp. 69–70, for `dim F < dim E`; for `dim F = dim E` it is the area formula, as the second
+Check below says).
 
 - *Fibre measurability.* The function `y ↦ ∫_{s ∩ f⁻¹(y)} g dH^{dim E − dim F}` is a.e.-measurable.
-- *Fibres.* For almost every `y`, `s ∩ f⁻¹(y)` is countably `(dim E − dim F)`-rectifiable and meets
-  every compact set in finite `H^{dim E − dim F}` measure.
+- *Fibres.* For almost every `y`, `s ∩ f⁻¹(y)` is countably `(dim E − dim F)`-rectifiable (Simon
+  1983, 12.8(2), p. 70) and meets every compact set in finite `H^{dim E − dim F}` measure.
 - *Exceptional set.* The set where `J f = 0`, the points where `f` is not differentiable included,
   meets almost every fibre in an `H^{dim E − dim F}`-null set. For the non-differentiability points,
   a Lebesgue-null set by Rademacher's theorem, this is Eilenberg's
@@ -393,7 +401,8 @@ compatibility: for `U ≤ U'` the derivative of `u` on `U` is the restriction of
 localization of the polar density: for open `U ≤ Ω`, `σ_u` on `U` agrees `|Du|`-almost everywhere on
 `U` with `σ_u` on `Ω`, through the identification `TauCeti.variationMeasure_eq_comap_inclusion` of
 the variation measures. *Route.* Existence and the variation identity follow from
-`MeasureTheory.Measure.variation_withDensityᵥ` and `‖σ_u‖ = 1` almost everywhere; uniqueness is the
+`MeasureTheory.Measure.variation_withDensityᵥ` and `‖σ_u‖ = 1` almost everywhere (the representation
+by a Radon measure and a density of norm one is Simon 1983, 6.1, p. 35); uniqueness is the
 content, through the uniqueness of regular vector measures with the same integrals against
 compactly supported continuous functions and the density of test functions among them. *Needs:*
 Tau Ceti `TauCeti.variationMeasure`, `TauCeti.polarDensity`,
@@ -536,8 +545,9 @@ does not use the sharp isoperimetric theorem.
 
 Prove `exists_contDiffOn_tendsto_totalVariationOn`: every `u` integrable on an open `Ω` is the
 `L¹(Ω)` limit of functions smooth on `Ω` whose variations on `Ω` converge to `|Du|(Ω)`, finite or
-infinite (Maggi). Prove the local version: for `u` locally integrable on `Ω`, smooth `u_j` converge
-to `u` in `L¹` on every compact subset of `Ω` with `|Du_j|(Ω) → |Du|(Ω)`.
+infinite (Anzellotti–Giaquinta 1978, Theorem 1, p. 2, when `|Du|(Ω) < ∞`). Prove the local version:
+for `u` locally integrable on `Ω`, smooth `u_j` converge to `u` in `L¹` on every compact subset of `Ω`
+with `|Du_j|(Ω) → |Du|(Ω)`.
 
 *Route.* Take a locally finite partition of unity `(χᵢ)` subordinate to an exhaustion of `Ω` by
 relatively compact open sets and mollify each `χᵢ u` at a scale `εᵢ` small enough that its support
@@ -561,10 +571,11 @@ since `Σᵢ u ∇χᵢ = u ∇(Σᵢ χᵢ) = 0`, testing the sum against a fie
 Prove that for a bounded Lipschitz domain `Ω` (Convention 1), every sequence `u_j` with
 `sup_j (‖u_j‖_{L¹(Ω)} + |Du_j|(Ω)) < ∞` has a subsequence converging in `L¹(Ω)` to some `u` in `BV(Ω)`,
 with `|Du|(Ω) ≤ liminf |Du_j|(Ω)`; equivalently, bounded sets of `BV(Ω)` are relatively compact in
-`L¹(Ω)`. *Route.* Compactness on compact subsets of `Ω` (`TauCeti.isCompact_closure_of_setLIntegral_le_of_totalVariationOn_le`) and a uniform bound, in each
-boundary chart, of `∫ |u|` over the boundary layer of width `δ` by `δ` times the BV norm, proved for
-smooth `u` by integrating along the chart's vertical lines and extended by §4.1. *Needs:* §4.1; Tau
-Ceti `TauCeti.isCompact_closure_of_setLIntegral_le_of_totalVariationOn_le`,
+`L¹(Ω)`. *Route.* Compactness on compact subsets of `Ω`
+(`TauCeti.isCompact_closure_of_setLIntegral_le_of_totalVariationOn_le`; Simon 1983, Theorem 6.3,
+p. 37) and a uniform bound, in each boundary chart, of `∫ |u|` over the boundary layer of width `δ`
+by `δ` times the BV norm, proved for smooth `u` by integrating along the chart's vertical lines and
+extended by §4.1. *Needs:* §4.1; Tau Ceti `TauCeti.isCompact_closure_of_setLIntegral_le_of_totalVariationOn_le`,
 `TauCeti.totalVariationOn_le_liminf`, `Set.IsLipschitzDomainWith`; PDE §1.6.
 
 **Checks.**
@@ -577,7 +588,8 @@ Ceti `TauCeti.isCompact_closure_of_setLIntegral_le_of_totalVariationOn_le`,
 
 Prove that for `u` of class `C¹` on `Ω` and a level `t` at which `∇u(x) ≠ 0` for every `x ∈ Ω` with
 `u(x) = t`, `P({u > t}; Ω) = Hⁿ⁻¹({u = t} ∩ Ω)`, the reduced boundary of `{u > t}` in `Ω` is
-`{u = t} ∩ Ω`, and the outer normal there is `−∇u/‖∇u‖` (Maggi). By Sard's theorem on a set,
+`{u = t} ∩ Ω`, and the outer normal there is `−∇u/‖∇u‖` (Simon 1983, §14, p. 72, for an open set
+whose boundary in `Ω` is a `C¹` hypersurface, with the inner normal). By Sard's theorem on a set,
 `TauCeti.addHaar_image_criticalPoints_eq_zero` applied on `Ω`, almost every level of a `u` smooth on
 `Ω` is regular on `Ω`, so the scalar coarea formula reads `|Du|(Ω) = ∫ Hⁿ⁻¹({u = t} ∩ Ω) dt` for such
 `u`. This identifies with `Hⁿ⁻¹` of the level sets the
@@ -630,9 +642,10 @@ representation theorem does not discharge it.
 Prove that for every Lebesgue-measurable `s` and open `Ω` there are functions `u_j` smooth on `Ω` and
 levels `t_j ∈ (0, 1)` regular for `u_j` on `Ω` such that `{u_j > t_j}` converges to `s` in measure on
 every compact subset of `Ω` and `P({u_j > t_j}; Ω) → P(s; Ω)`, finite or infinite, with no
-finite-volume assumption (Maggi). Prove the truncation inequality with Hausdorff measure: for a
+finite-volume assumption (Maggi 2012, §13.2, p. 150, for sets of finite perimeter in the whole
+space). Prove the truncation inequality with Hausdorff measure: for a
 Lebesgue-measurable `s` and a point `x₀`, for almost every `r > 0`,
-`P(s ∩ ball x₀ r) ≤ P(s; ball x₀ r) + Hⁿ⁻¹(s ∩ sphere x₀ r)` in `[0, ∞]` (Maggi); it combines
+`P(s ∩ ball x₀ r) ≤ P(s; ball x₀ r) + Hⁿ⁻¹(s ∩ sphere x₀ r)` in `[0, ∞]`; it combines
 `TauCeti.ae_perimeter_inter_ball_le`, whose boundary term is the derivative of `ρ ↦ |s ∩ ball x₀ ρ|`,
 with `TauCeti.ae_hasDerivAt_measureReal_inter_ball`, which identifies that derivative.
 
@@ -661,7 +674,8 @@ Lower semicontinuity gives the reverse inequality. The whole-space case for sets
 
 Prove `tendsto_measure_preimage_add_smul_symmDiff_setOf_inner_lt_inter`: at every point `x` of the
 reduced boundary of `s` in `Ω`, the rescaled sets `(s − x)/r` converge in measure on every compact set,
-as `r → 0⁺`, to the half-space `{y | ⟪y, ν_s(x)⟫ < 0}` (Maggi). Prove that `s` has density `1/2` at every
+as `r → 0⁺`, to the half-space `{y | ⟪y, ν_s(x)⟫ < 0}` (Simon 1983, Theorem 14.3, p. 73, stated with
+the inner normal). Prove that `s` has density `1/2` at every
 point of its reduced boundary (`TauCeti.HasDensityAt volume s x (1/2)`), so that the reduced boundary
 lies in the essential boundary in every dimension (for `2 ≤ n` the inclusion alone is
 `TauCeti.reducedBoundary_subset_essentialBoundary`); that the rescaled perimeter measures converge
@@ -692,7 +706,8 @@ boundary is empty.
 
 Prove `countablyRectifiable_reducedBoundary`: the reduced boundary of a set of locally finite perimeter
 in `Ω` is countably `(n − 1)`-rectifiable; and `variationMeasure_indicator_eq_comap_restrict_reducedBoundary`:
-its perimeter measure `|Dχ_s|` on `Ω` is `Hⁿ⁻¹` restricted to the reduced boundary (Maggi).
+its perimeter measure `|Dχ_s|` on `Ω` is `Hⁿ⁻¹` restricted to the reduced boundary (Simon 1983,
+Theorem 14.3, p. 72, for a set of locally finite perimeter in an open set).
 
 - `Dχ_s = −ν_s Hⁿ⁻¹⌊∂*s`: the polar density of `χ_s` is `−ν_s` at `Hⁿ⁻¹`-almost every point of `∂*s`
   (from the identity and the `|Dχ_s|`-almost everywhere statement `TauCeti.ae_outerNormal_eq`).
@@ -731,7 +746,11 @@ lives on the subtype `Ω`, and the comparison transports `Hⁿ⁻¹⌊∂*s` alo
 
 Prove `euclideanHausdorffMeasure_essentialBoundary_inter_diff_reducedBoundary`: for `s` of locally
 finite perimeter in `Ω`, the points of `Ω` in the essential boundary and outside the reduced boundary
-form an `Hⁿ⁻¹`-null set (Maggi). Prove `perimeter_le_euclideanHausdorffMeasure_essentialBoundary_inter`:
+form an `Hⁿ⁻¹`-null set (Maggi 2012, Chapter 16, pp. 183–184, for sets of locally finite perimeter in
+the whole space; the form in `Ω` follows by applying it to `s ∩ B` for balls `B` with closure in `Ω`,
+whose radii are chosen, by the truncation inequality of §5.1, so that `s ∩ B` has finite perimeter).
+Prove
+`perimeter_le_euclideanHausdorffMeasure_essentialBoundary_inter`:
 for every Lebesgue-measurable `s` and open `Ω`, `P(s; Ω) ≤ Hⁿ⁻¹(∂ᴹs ∩ Ω)` in `[0, ∞]`, where `∂ᴹs` is the
 essential boundary.
 
@@ -744,7 +763,7 @@ essential boundary.
   `TauCeti.essentialBoundary_subset_frontier`.
 
 The proof of the bound includes the criterion: finite `Hⁿ⁻¹` measure of the boundary is a conclusion
-about the perimeter, never a smoothness hypothesis. *Needs:* §5.3; Tau Ceti `TauCeti.essentialBoundary`,
+about the perimeter, never a smoothness hypothesis. *Needs:* §5.1, §5.3; Tau Ceti `TauCeti.essentialBoundary`,
 `TauCeti.measure_essentialBoundary`, `TauCeti.reducedBoundary_subset_essentialBoundary`,
 `TauCeti.essentialBoundary_subset_frontier`, `TauCeti.min_measure_inter_measure_sdiff_rpow_le_perimeter`,
 `TauCeti.perimeter_le_liminf`.
@@ -794,7 +813,8 @@ the supplier contracts (Layer 6 group).
 
 Prove `integral_trace_fderiv_mul_indicator_eq_setIntegral_reducedBoundary`: for `s` of locally finite
 perimeter in `Ω` and a `C¹` vector field `φ` with compact support in `Ω`,
-`∫_s div φ = ∫_{∂*s} ⟪φ, ν_s⟫ dHⁿ⁻¹` (Maggi). Prove the extension to fields without compact support:
+`∫_s div φ = ∫_{∂*s} ⟪φ, ν_s⟫ dHⁿ⁻¹` (Simon 1983, 14.1 and Theorem 14.3, p. 72, with the inner normal).
+Prove the extension to fields without compact support:
 if `P(s; ⊤) < ∞`, `φ` is `C¹` and bounded, `div φ` is integrable on `s`, and either `|s| < ∞` or
 `∫_s ‖φ‖ < ∞`, the same identity holds with `Ω = ⊤`. The BV form, `∫ u div φ = −∫ ⟪φ, σ_u⟫ d|Du|`, is
 `TauCeti.integral_trace_fderiv_mul_eq_neg_integral_inner_polarDensity`. *Needs:* §5.3; Tau Ceti
@@ -811,7 +831,8 @@ if `P(s; ⊤) < ∞`, `φ` is `C¹` and bounded, `div φ` is integrable on `s`, 
 
 Prove that a bounded Lipschitz domain `Ω` has finite perimeter, that `Hⁿ⁻¹`-almost every point of
 `∂Ω` lies in its reduced boundary, and that `|Dχ_Ω| = Hⁿ⁻¹⌊∂Ω`, so `P(Ω; U) = Hⁿ⁻¹(∂Ω ∩ U)` for open
-`U` (Maggi). In a boundary chart in which `Ω` is `{(t, y) | t > γ(y)}` with `γ` Lipschitz, the outer normal at
+`U`; finiteness holds because `Hⁿ⁻¹(∂Ω) < ∞` (Anzellotti–Giaquinta 1978, Proposition 3, p. 6). In a
+boundary chart in which `Ω` is `{(t, y) | t > γ(y)}` with `γ` Lipschitz, the outer normal at
 `(γ(y), y)` is `(−1, ∇γ(y))/√(1 + ‖∇γ(y)‖²)` for almost every `y`, transported by the chart's
 isometry. Consequently the divergence theorem `∫_Ω div φ = ∫_{∂Ω} ⟪φ, ν_Ω⟫ dHⁿ⁻¹` holds for every
 compactly supported `C¹` field, with the classical graph formulas for normal and surface measure.
@@ -837,7 +858,9 @@ such that every `u` in `BV(Ω)` has a trace `g` on `∂Ω`, integrable for `Hⁿ
 limit of `u` from inside, `|ball x r|⁻¹ ∫_{Ω ∩ ball x r} |u − g(x)| → 0`; and for every compactly
 supported `C¹` vector field `φ` on the whole space,
 `∫_Ω u div φ = −∫_Ω ⟪φ, σ_u⟫ d|Du| + ∫_{∂Ω} ⟪φ, ν_Ω⟫ g dHⁿ⁻¹`, the integration by parts formula with
-trace term.
+trace term (Anzellotti–Giaquinta 1978, Theorems 4, 7 and 8, pp. 12–16, for bounded open sets with
+`P(Ω) = Hⁿ⁻¹(∂Ω) < ∞` and a boundary condition that Lipschitz boundaries satisfy, p. 12; §6.2 gives
+the first for bounded Lipschitz domains).
 
 - *The operator.* The trace is unique (by the approximate limit) and is a bounded linear operator
   `BV(Ω) → L¹(∂Ω, Hⁿ⁻¹)` on `TauCeti.BV volume Ω`.
@@ -878,7 +901,9 @@ Prove `exists_windingNumber_eq_of_injOn_Ico`: for `γ : ℝ → ℂ` absolutely 
 the winding number `TauCeti.Contour.windingNumber γ a b` is `σ` on the inside
 `filledHull C \ C` and `0` outside `filledHull C` (the last part, on the unbounded complementary
 component, is `AbsolutelyContinuousOnInterval.windingNumber_eq_zero_of_unbounded_component`). Prove `perimeter_filledHull_sdiff`: a Jordan curve
-`C` with `H¹(C) < ∞` bounds an inside `Ω = filledHull C \ C` of finite perimeter `P(Ω) = H¹(C)`. Prove
+`C` with `H¹(C) < ∞` bounds an inside `Ω = filledHull C \ C` of finite perimeter `P(Ω) = H¹(C)`; that
+a planar region bounded by a simple closed curve has finite perimeter exactly when the curve has
+finite length is Federer 1958, p. 450. Prove
 `exists_ae_outerNormal_filledHull_sdiff_eq`: for a unit-speed parametrization `γ` of `C` on `[a, b]`,
 closed and injective on `[a, b)`, with Jordan index `σ`, at almost every `t` the point `γ(t)` lies in the
 reduced boundary of `Ω` and the outer normal there is `−σ J γ'(t)` with `J v = I * v`.
@@ -980,6 +1005,17 @@ scalar coarea formula, the perimeter API, De Giorgi's and Federer's structure th
 the Gauss–Green formula, and the perimeter and normal of rectifiable Jordan domains. The scope is
 finite-dimensional real inner product spaces, with metric curve results in the generality their
 statements permit.
+
+Other roadmaps cite the layers by their former labels G1–G6; each label names the same layer:
+
+| Former numbering | Now |
+|---|---|
+| G1 — Rectifiable curves and arclength | Layer 1: rectifiable curves and arclength |
+| G2 — Rectifiability, area, and coarea | Layer 2: rectifiability, area and coarea |
+| G3 — Distributional BV and variation measures | Layer 3: distributional BV and variation measures |
+| G4 — Approximation, compactness, and scalar coarea | Layer 4: approximation, compactness and scalar coarea |
+| G5 — Finite perimeter and boundary structure | Layer 5: finite perimeter and boundary structure |
+| G6 — Traces, Gauss–Green, and classical domains | Layer 6: traces, Gauss–Green and classical domains |
 
 Parts of this plan are Tau Ceti declarations, consumed by name and not planned again; they are listed
 with their hypotheses under the supplier contracts, grouped by layer:
@@ -1185,7 +1221,8 @@ Paths are under `TauCeti/`. All the declarations below are proved.
   (the same with `c ω_k rᵏ` and `μHE[k]`).
 - Area formula (`MeasureTheory/Function/AreaFormula/`): `LipschitzWith.lintegral_normDet_fderiv_mul_eq_lintegral_tsum`
   (Lipschitz `f` between finite-dimensional inner product spaces, Lebesgue-measurable `s`, measurable
-  weight; infinite fibres count `∞`), `LipschitzWith.lintegral_normDet_fderiv_eq_lintegral_encard`,
+  weight; the fibre sums are taken in `[0, ∞]`), `LipschitzWith.lintegral_normDet_fderiv_eq_lintegral_encard`
+  (the unweighted form, an infinite fibre counting `∞`),
   `LipschitzWith.lintegral_image_eq_lintegral_normDet_fderiv_mul` and
   `LipschitzWith.lintegral_normDet_fderiv_eq_euclideanHausdorffMeasure_image` (injective on a
   measurable `s`),
@@ -1407,18 +1444,20 @@ for §6.4; 12.5, the divergence theorem on a manifold with boundary, for the smo
 
 ## References
 
-- Francesco Maggi, [*Sets of Finite Perimeter and Geometric Variational Problems*](https://cvgmt.sns.it/paper/1880/):
-  the perimeter, approximation, structure and boundary framework (Layers 3–6).
-- Leon Simon, [*Lectures on Geometric Measure Theory*](https://web.stanford.edu/class/math285/ts-gmt.pdf):
-  rectifiability, tangential differentiation, and area and coarea (Layer 2).
-- Mathlib design references: [arclength continuity](https://github.com/leanprover-community/mathlib4/pull/31766)
-  (cumulative variation and continuity for continuous rectifiable curves, Layer 1);
-  [finite variation of finite-dimensional vector measures](https://github.com/leanprover-community/mathlib4/pull/42103)
-  (vector-measure variation, Layers 2–3); [connected sets of finite Hausdorff length](https://github.com/leanprover-community/mathlib4/pull/41839)
-  (diameter and length comparisons, Layer 1); [uniformly distributed measures](https://github.com/leanprover-community/mathlib4/pull/37310)
-  and the [Hausdorff measure and coarea discussion](https://leanprover.zulipchat.com/#narrow/stream/217875-Is%20there%20code%20for%20X%3F/topic/Finding%20n-dimensional%20polar%20coordinate%20formula%20for%20sobolev.)
-  (normalized Hausdorff measure, sphere measures and polar integration, Layer 2; the actual sphere-measure
-  comparison is required, not merely a uniqueness theorem that could prove it).
+- Francesco Maggi, *Sets of Finite Perimeter and Geometric Variational Problems*, Cambridge University
+  Press, 2012, DOI 10.1017/CBO9781139108133, with its contents, synopses and index on
+  [CVGMT](https://cvgmt.sns.it/paper/1880/): the approximation of sets of finite perimeter by smooth
+  sets (§13.2) and Federer's theorem (Chapter 16), Layer 5.
+- Leon Simon, [*Lectures on Geometric Measure Theory*](https://maths.anu.edu.au/files/CMAProcVol3-Complete_1.pdf),
+  Proceedings of the Centre for Mathematical Analysis 3, Australian National University, 1983:
+  approximate tangent planes and the area and coarea formulas on rectifiable sets (§§8 and 10–12,
+  Layer 2), BV functions (§6, Layers 3–4) and sets of locally finite perimeter (§14, Layers 4–6).
+- Gabriele Anzellotti and Mariano Giaquinta, [*Funzioni BV e tracce*](http://www.numdam.org/item/RSMUP_1978__60__1_0/),
+  Rend. Sem. Mat. Univ. Padova 60 (1978), 1–21: strict approximation on open sets (§4.1), the
+  perimeter of open sets whose boundary has finite `Hⁿ⁻¹` measure (§6.2) and BV traces (§6.3).
+- Herbert Federer, [*A note on the Gauss–Green theorem*](https://doi.org/10.1090/S0002-9939-1958-0095245-2),
+  Proc. Amer. Math. Soc. 9 (1958), 447–451: the perimeter of planar regions bounded by simple closed
+  curves (§6.4).
 - Prior formalizations, sources of mathematical and API evidence rather than dependencies or prescribed
   proofs: [MovingSofa](https://github.com/deancureton/MovingSofa) (Jordan-curve area and Hausdorff-length
   developments, Layers 1 and 6); the [Humanfia public source archive](https://huggingface.co/datasets/humanfia-lab/lean-eval-source/tree/main/problems/isoperimetric_inequality),

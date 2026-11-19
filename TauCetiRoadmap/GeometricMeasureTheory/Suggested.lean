@@ -29,12 +29,7 @@ outer normal of the inside of a rectifiable Jordan curve (Layer 6).
 
 Those of Layers 1 and 3, the area formula, and the scalar coarea formula, compactness and relative
 isoperimetric inequality of Layer 4 are Tau Ceti declarations named in the supplier contracts of
-the README; they are not restated here. Every other headline is stated below, except one:
-
-* the tangential area formula on countably rectifiable sets (Layer 2, §2.3) is not statable at the
-  pins: its integrand is the Jacobian of the tangential differential of a Lipschitz map along a
-  rectifiable set, a carrier that neither library has; the tangential differential and its
-  existence almost everywhere are themselves targets of §2.3.
+the README; they are not restated here. Every other headline is stated below.
 -/
 
 noncomputable section
@@ -54,7 +49,7 @@ variable {E F : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteD
   [MeasurableSpace E] [BorelSpace E] [NormedAddCommGroup F] [InnerProductSpace ℝ F]
   [FiniteDimensional ℝ F] [MeasurableSpace F] [BorelSpace F]
 
-/-- **The coarea formula for Lipschitz maps** (Simon). Let `E` and `F` be
+/-- **The coarea formula for Lipschitz maps** (Simon 1983, 12.6–12.7, pp. 69–70). Let `E` and `F` be
 finite-dimensional real inner product spaces with `dim F ≤ dim E`, let `f : E → F` be Lipschitz,
 `s ⊆ E` Lebesgue measurable and `g : E → [0, ∞]` measurable. Integrating over `F` the integrals of
 `g` over the fibres `s ∩ f⁻¹{y}`, against the `(dim E − dim F)`-dimensional normalized Hausdorff
@@ -75,15 +70,16 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDim
   [MeasurableSpace E] [BorelSpace E]
 
 /-- The subspace `P` is the **approximate tangent plane** of `M` at `x` in dimension `k`, with
-multiplicity one (Simon): the blow-ups of `μHE[k]` restricted to `M` at `x` converge weakly
-to `μHE[k]` restricted to `P`. That is, for every continuous compactly supported `φ : E → ℝ`,
-`r⁻ᵏ ∫_M φ((y − x)/r) dHᵏ(y) → ∫_P φ dHᵏ` as `r → 0⁺`. -/
+multiplicity one (Simon 1983, Definition 11.2, p. 60): the blow-ups of `μHE[k]` restricted to `M`
+at `x` converge weakly to `μHE[k]` restricted to `P`. That is, for every continuous compactly
+supported `φ : E → ℝ`, `r⁻ᵏ ∫_M φ((y − x)/r) dHᵏ(y) → ∫_P φ dHᵏ` as `r → 0⁺`. -/
 def IsApproxTangentPlane (k : ℕ) (M : Set E) (x : E) (P : Submodule ℝ E) : Prop :=
   ∀ φ : E → ℝ, Continuous φ → HasCompactSupport φ →
     Tendsto (fun r : ℝ => (r ^ k)⁻¹ * ∫ y in M, φ (r⁻¹ • (y - x)) ∂μHE[k]) (𝓝[>] 0)
       (𝓝 (∫ y in (P : Set E), φ y ∂μHE[k]))
 
-/-- **Approximate tangent planes of rectifiable sets** (Simon). Let `M` be a
+/-- **Approximate tangent planes of rectifiable sets** (Simon 1983, Theorem 11.6 and Remark 11.5,
+p. 61). Let `M` be a
 countably `k`-rectifiable, `μHE[k]`-measurable subset of a finite-dimensional real inner product
 space, with `μHE[k] (M ∩ K)` finite for every compact `K`. At `μHE[k]`-almost every point of `M`
 there is exactly one `k`-dimensional subspace that is the approximate tangent plane of `M`. -/
@@ -92,6 +88,38 @@ theorem ae_existsUnique_isApproxTangentPlane {k : ℕ} {M : Set E}
     (hfin : ∀ K, IsCompact K → μHE[k] (M ∩ K) ≠ ⊤) :
     ∀ᵐ x ∂(μHE[k] : Measure E).restrict M,
       ∃! P : Submodule ℝ E, finrank ℝ P = k ∧ IsApproxTangentPlane k M x P :=
+  sorry
+
+variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F] [FiniteDimensional ℝ F]
+  [MeasurableSpace F] [BorelSpace F]
+
+/-- The continuous linear map `L : P → F` is a **tangential differential** of `f` along `M` at `x`
+on the subspace `P`, in dimension `k`: for every `ε > 0`, the points `y ∈ M` with
+`‖f(y) − f(x) − L(π_P(y − x))‖ > ε ‖y − x‖`, where `π_P` is the orthogonal projection onto `P`,
+meet `closedBall x r` in a set of `μHE[k]` measure `o(rᵏ)` as `r → 0⁺`. When `P` is the
+approximate tangent plane of `M` at `x`, `L` is the tangential differential of `f` along `M`. -/
+def IsTangentialDifferential (k : ℕ) (M : Set E) (f : E → F) (x : E) (P : Submodule ℝ E)
+    (L : P →L[ℝ] F) : Prop :=
+  ∀ ε : ℝ, 0 < ε → Tendsto (fun r : ℝ => μHE[k] ({y ∈ M | ε * ‖y - x‖ <
+      ‖f y - f x - L (P.orthogonalProjectionOnto (y - x))‖} ∩ Metric.closedBall x r) /
+      ENNReal.ofReal (r ^ k)) (𝓝[>] 0) (𝓝 0)
+
+/-- **The tangential area formula** (Simon 1983, 12.1–12.5, pp. 67–69). Let `M` be a countably
+`k`-rectifiable, `μHE[k]`-measurable subset of `E` with `μHE[k] (M ∩ K)` finite for every compact
+`K`, and let `f : E → F` be Lipschitz. Suppose that at `μHE[k]`-almost every `x ∈ M` the
+`k`-dimensional subspace `P x` is the approximate tangent plane of `M` and `L x` is a tangential
+differential of `f` along `M` on it. Then for every measurable `g : E → [0, ∞]`, the integral over
+`M` of the tangential Jacobian `‖det (L x)‖` times `g` against `μHE[k]` is the integral over `F`,
+against `μHE[k]`, of the sums of `g` over the fibres `M ∩ f⁻¹{y}`, taken in `[0, ∞]`. -/
+theorem lintegral_normDet_mul_eq_lintegral_tsum_of_isTangentialDifferential {k : ℕ} {M : Set E}
+    (hM : CountablyRectifiable k M) (hMm : NullMeasurableSet M μHE[k])
+    (hfin : ∀ K, IsCompact K → μHE[k] (M ∩ K) ≠ ⊤) {f : E → F} {C : ℝ≥0}
+    (hf : LipschitzWith C f) (P : E → Submodule ℝ E) (L : ∀ x, P x →L[ℝ] F)
+    (hPL : ∀ᵐ x ∂(μHE[k] : Measure E).restrict M, finrank ℝ (P x) = k ∧
+      IsApproxTangentPlane k M x (P x) ∧ IsTangentialDifferential k M f x (P x) (L x))
+    {g : E → ℝ≥0∞} (hg : Measurable g) :
+    ∫⁻ x in M, ENNReal.ofReal (L x : P x →ₗ[ℝ] F).normDet * g x ∂μHE[k] =
+      ∫⁻ y, ∑' x : ↥(M ∩ f ⁻¹' {y}), g x ∂μHE[k] :=
   sorry
 
 end Tangent
@@ -103,9 +131,9 @@ section Approximation
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasurableSpace E] [BorelSpace E]
 
-/-- **Strict approximation on open sets** (Maggi). Every
-`u` integrable on an open set `Ω` is the `L¹(Ω)` limit of functions smooth on `Ω` whose total
-variations on `Ω` converge to that of `u`, finite or infinite. -/
+/-- **Strict approximation on open sets** (Anzellotti–Giaquinta 1978, Theorem 1, p. 2, for finite
+variation). Every `u` integrable on an open set `Ω` is the `L¹(Ω)` limit of functions smooth on
+`Ω` whose total variations on `Ω` converge to that of `u`, finite or infinite. -/
 theorem exists_contDiffOn_tendsto_totalVariationOn {Ω : Opens E} {u : E → ℝ}
     (hu : IntegrableOn u Ω) :
     ∃ w : ℕ → E → ℝ, (∀ n, ContDiffOn ℝ ∞ (w n) Ω) ∧
@@ -123,17 +151,18 @@ section Structure
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasurableSpace E] [BorelSpace E]
 
-/-- **The blow-up theorem** (Maggi). At every point `x` of the reduced boundary of
-`s` in `Ω`, the rescaled sets `(s − x)/r` converge locally in measure, as `r → 0⁺`, to the
-half-space `{y | ⟪y, ν_s(x)⟫ < 0}` bounded by the outer normal. A point of the reduced boundary
-forces `s` to have locally finite perimeter in `Ω`, so no further hypothesis is needed. -/
+/-- **The blow-up theorem** (Simon 1983, Theorem 14.3, p. 73, with the inner normal). At every
+point `x` of the reduced boundary of `s` in `Ω`, the rescaled sets `(s − x)/r` converge locally
+in measure, as `r → 0⁺`, to the half-space `{y | ⟪y, ν_s(x)⟫ < 0}` bounded by the outer normal.
+A point of the reduced boundary forces `s` to have locally finite perimeter in `Ω`, so no further
+hypothesis is needed. -/
 theorem tendsto_measure_preimage_add_smul_symmDiff_setOf_inner_lt_inter {Ω : Opens E}
     {s : Set E} {x : E} (hx : x ∈ reducedBoundary volume Ω s) {K : Set E} (hK : IsCompact K) :
     Tendsto (fun r : ℝ => volume ((((fun y => x + r • y) ⁻¹' s) ∆
         {y | ⟪y, outerNormal volume Ω s x⟫ < 0}) ∩ K)) (𝓝[>] 0) (𝓝 0) :=
   sorry
 
-/-- **De Giorgi's structure theorem, rectifiability** (Maggi). The
+/-- **De Giorgi's structure theorem, rectifiability** (Simon 1983, Theorem 14.3, p. 72). The
 reduced boundary of a set of locally finite perimeter in an open subset of an `n`-dimensional
 real inner product space is countably `(n − 1)`-rectifiable. -/
 theorem countablyRectifiable_reducedBoundary {Ω : Opens E} {s : Set E}
@@ -143,8 +172,8 @@ theorem countablyRectifiable_reducedBoundary {Ω : Opens E} {s : Set E}
     CountablyRectifiable (finrank ℝ E - 1) (reducedBoundary volume Ω s) :=
   sorry
 
-/-- **De Giorgi's structure theorem, the perimeter measure** (Maggi). For a set `s`
-of locally finite perimeter in `Ω`, the perimeter measure `|Dχ_s|` on `Ω` is the
+/-- **De Giorgi's structure theorem, the perimeter measure** (Simon 1983, Theorem 14.3, p. 72).
+For a set `s` of locally finite perimeter in `Ω`, the perimeter measure `|Dχ_s|` on `Ω` is the
 `(n − 1)`-dimensional normalized Hausdorff measure restricted to the reduced boundary. -/
 theorem variationMeasure_indicator_eq_comap_restrict_reducedBoundary {Ω : Opens E} {s : Set E}
     (hu : LocallyIntegrableOn (s.indicator (1 : E → ℝ)) Ω volume)
@@ -155,9 +184,9 @@ theorem variationMeasure_indicator_eq_comap_restrict_reducedBoundary {Ω : Opens
         ((↑) : Ω → E) :=
   sorry
 
-/-- **Federer's theorem** (Maggi). For a set `s` of locally finite
-perimeter in `Ω`, the points of `Ω` in the essential boundary of `s` and outside its reduced
-boundary form a `μHE[n − 1]`-null set. -/
+/-- **Federer's theorem** (Maggi 2012, Chapter 16, p. 183, in the whole space). For a set `s` of
+locally finite perimeter in `Ω`, the points of `Ω` in the essential boundary of `s` and outside
+its reduced boundary form a `μHE[n − 1]`-null set. -/
 theorem euclideanHausdorffMeasure_essentialBoundary_inter_diff_reducedBoundary {Ω : Opens E}
     {s : Set E} (hu : LocallyIntegrableOn (s.indicator (1 : E → ℝ)) Ω volume)
     (hfin : ∀ K, IsCompact K → K ⊆ Ω →
@@ -183,9 +212,9 @@ section GaussGreen
 variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
   [MeasurableSpace E] [BorelSpace E]
 
-/-- **The Gauss–Green formula of De Giorgi and Federer** (Maggi). For a set `s` of
-locally finite perimeter in `Ω` and a compactly supported `C¹` vector field `φ` with support in
-`Ω`, `∫_s div φ = ∫_{∂*s} ⟪φ, ν_s⟫ dHⁿ⁻¹`. -/
+/-- **The Gauss–Green formula of De Giorgi and Federer** (Simon 1983, 14.1 and Theorem 14.3,
+p. 72, with the inner normal). For a set `s` of locally finite perimeter in `Ω` and a compactly
+supported `C¹` vector field `φ` with support in `Ω`, `∫_s div φ = ∫_{∂*s} ⟪φ, ν_s⟫ dHⁿ⁻¹`. -/
 theorem integral_trace_fderiv_mul_indicator_eq_setIntegral_reducedBoundary {Ω : Opens E}
     {s : Set E} (hu : LocallyIntegrableOn (s.indicator (1 : E → ℝ)) Ω volume)
     (hfin : ∀ K, IsCompact K → K ⊆ Ω →
@@ -196,9 +225,10 @@ theorem integral_trace_fderiv_mul_indicator_eq_setIntegral_reducedBoundary {Ω :
         ∂μHE[finrank ℝ E - 1] :=
   sorry
 
-/-- **The BV trace theorem on bounded Lipschitz domains.** Let `Ω` be a bounded Lipschitz domain
-in `ℝ × E`. There is a constant `C` such that every `u ∈ BV(Ω)` has a trace `g` on `∂Ω`,
-integrable for the `dim E`-dimensional normalized Hausdorff measure, with
+/-- **The BV trace theorem on bounded Lipschitz domains** (Anzellotti–Giaquinta 1978, Theorems 4,
+7 and 8, pp. 12–16). Let `Ω` be a bounded Lipschitz domain in `ℝ × E`. There is a constant `C`
+such that every `u ∈ BV(Ω)` has a trace `g` on `∂Ω`, integrable for the `dim E`-dimensional
+normalized Hausdorff measure, with
 `‖g‖_{L¹(∂Ω)} ≤ C (‖u‖_{L¹(Ω)} + |Du|(Ω))`; at almost every boundary point `x`, `g x` is the
 approximate limit of `u` from inside `Ω`; and for every compactly supported `C¹` vector field `φ`
 on the whole space,
