@@ -20,7 +20,9 @@ order properties (1.1–1.4) with the inputs of Agol's proof stated in 1.3 and 1
 handle structure of the exterior of a ribbon concordance and the Gerstenhaber–Rothaus theorems),
 Zemke's injectivity theorem (1.5), and Lisca's theorem with his set `R`, his theorem on lens
 spaces bounding rational homology balls and the plumbing and branched-cover steps of its proof
-(2.1).
+(2.1), including the disc-and-Möbius-band ribbon surfaces for two-component two-bridge links.
+The knot-group residual finiteness and peripheral-injection inputs of 1.3–1.4 are built in 1.2.1.
+The `b₁ = 0` extension of Donaldson's diagonalization theorem needed by 2.1 is built in 2.0.
 
 Not owned here:
 
@@ -34,18 +36,16 @@ Not owned here:
   theorem is GeometricTopology 8.3.1's; the knot-group theorem and the extension of a homeomorphism
   of exteriors over the meridional fillings are GeometricTopology 8.1's; the Haken hypotheses of the
   exterior of a nontrivial knot are GeometricTopology 8.5.2's; smooth realization in dimension three
-  and Cerf's theorem are GeometricTopology 11.2's and 3.4's. The residual finiteness of knot groups
-  and the rigidity of peripheral injections of knot groups are asked of GeometricTopology below
-  (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection).
+  and Cerf's theorem are GeometricTopology 11.2's and 3.4's. GeometricTopology 8.6 supplies
+  geometrization for the residual-finiteness construction in 1.2.1.
 - Knot Floer homology is HeegaardFloer's (Layer 7.6); Zemke's injectivity theorem (Zemke 2019,
   Theorem 1.1) is a target of 1.5. The link Floer cobordism maps, their grading shifts, the map
   of a 2-knot in `S⁴` and the detection of the Seifert genus are asked of HeegaardFloer below
   (gap:link-floer-cobordism-maps, gap:link-floer-grading-shift, gap:link-floer-two-knot,
   gap:hfk-genus-detection).
-- Donaldson's diagonalization theorem is FourManifolds' (§5.3); the form without a hypothesis on
-  the fundamental group, which 2.1 uses, is asked of FourManifolds below
-  (gap:donaldson-definite-any-pi1). Lens spaces and plumbing graphs are Tau Ceti's
-  (`TauCeti.LensSpace`, `TauCeti.PlumbingGraph`).
+- FourManifolds §5.3 owns Donaldson's theorem for simply connected manifolds and its gauge-theory
+  construction. The `b₁ = 0` extension for the closed manifolds in Lisca's proof is 2.0's.
+  Lens spaces and plumbing graphs are Tau Ceti's (`TauCeti.LensSpace`, `TauCeti.PlumbingGraph`).
 
 ## Conventions
 
@@ -111,15 +111,7 @@ Not owned here:
   knot; sections 11.2 and 3.4, the smooth realization of homeomorphisms in dimension three and
   Cerf's theorem. These are consumed by the proof of 1.4.
 
-What GeometricTopology must provide (gap:knot-group-residually-finite): for every smooth knot `K`
-in `S³` and base point `x` of its complement, `Group.ResiduallyFinite (K.KnotGroup x)` (Hempel
-1987; used in Agol 2022, proof of Theorem 1.2).
-
-What GeometricTopology must provide (gap:knot-group-peripheral-injection): for knots `K`, `J` in
-`S³`, an injective homomorphism from the group of `K` to the group of `J` that carries the
-peripheral subgroup of `K` onto a conjugate of that of `J`, meridian to meridian and longitude to
-longitude, is an isomorphism (Waldhausen's covering theorem, as used in Agol 2022, proof of
-Theorem 1.2).
+- Section 8.6, geometrization of closed orientable irreducible 3-manifolds, consumed by 1.2.1.
 
 ### From TauCetiRoadmap.HeegaardFloer
 
@@ -142,11 +134,7 @@ What HeegaardFloer must provide (gap:hfk-genus-detection): `g₃(K) = max{j : HF
 
 ### From TauCetiRoadmap.FourManifolds
 
-- §5.3, Donaldson's diagonalization theorem, consumed by the proof of 2.1.
-
-What FourManifolds must provide (gap:donaldson-definite-any-pi1): the intersection lattice of a
-closed oriented smooth negative-definite four-manifold, with no hypothesis on its fundamental
-group, is diagonal (the theorem Lisca 2007, §1, cites as [4]).
+- §5.3, the simply connected Donaldson theorem and the gauge-theory construction used by 2.0.
 
 ## How to read the build
 
@@ -156,11 +144,12 @@ on Tau Ceti's concordances, compares it with Layer 0's ribbon discs, proves that
 transitive, proves the handle structure of the exterior of a ribbon concordance, the
 Gerstenhaber–Rothaus theorems and, from them, Gordon's lemma on fundamental groups, then the
 extension of representations, a lemma of real algebraic geometry and Agol's antisymmetry, which also
-uses GeometricTopology's knot exteriors, Waldhausen's theorem and the residual finiteness of knot
-groups; its last target, the monotonicity of genus and Alexander degree, needs GeometricTopology and
-HeegaardFloer. Layer 2 states Lisca's theorem on GeometricTopology's two-bridge knots, with his
-theorem on lens spaces bounding rational homology balls; its proof uses Tau Ceti's lens spaces and
-plumbing graphs and FourManifolds' Donaldson theorem.
+uses GeometricTopology's knot exteriors and Waldhausen's theorem and the knot-group results built in
+1.2.1; its last target, the monotonicity of genus and Alexander degree, needs GeometricTopology and
+HeegaardFloer. Layer 2 extends FourManifolds' gauge-theory construction to the `b₁ = 0`
+diagonalization theorem, then proves Lisca's theorem on GeometricTopology's two-bridge knots and
+his theorem on lens spaces bounding rational homology balls, using Tau Ceti's lens spaces and
+plumbing graphs.
 
 ## Layer 0: ribbon discs
 
@@ -286,6 +275,38 @@ stacking two ribbon concordances with `Concordance.trans` (Agol 2022, §1).
   `1/3 ≤ t ≤ 2/3` both tracks are in their product collars and there is no critical point.
 - The stack of `refl K` with itself is again a product track, with no critical point.
 
+### 1.2.1 Knot-group inputs
+
+For every smooth knot `K` in `S³` and base point `x` in its complement, prove
+`Group.ResiduallyFinite (K.KnotGroup x)` (Hempel 1987, Theorem 1). For a nontrivial knot use
+GeometricTopology 8.5.2's incompressible-boundary Haken exterior and double it along the boundary;
+its group embeds in the double's group. For the closed double, use GeometricTopology 8.6's
+geometric torus decomposition and build Hempel's finite-cover construction: separate elements in
+the Seifert and hyperbolic pieces, construct compatible characteristic finite covers of the
+boundary tori, and glue them to finite covers of the graph of spaces. Prove that the resulting
+finite quotients separate every nontrivial element and that residual finiteness passes to
+subgroups. The unknot group is `ℤ`, handled separately.
+
+For knots `K`, `J` in `S³`, prove that an injective homomorphism of their knot groups taking the
+peripheral subgroup of `K` onto a conjugate of that of `J`, meridian to meridian and longitude to
+longitude, is an isomorphism. For nontrivial knots build the covering-space realization of such
+an injection from Waldhausen's covering theorem (Corollary 6.4, as used in Agol 2022, proof of
+Theorem 1.1), using the Haken exteriors and their peripheral markings. The source exterior has
+one boundary torus; the peripheral isomorphism makes its restriction to the target boundary
+one-sheeted. Since it is the entire preimage of that boundary, the connected cover has degree
+one. Treat the unknot using its group `ℤ` and meridian separately. This covering result is
+distinct from GeometricTopology 8.3.1, which starts with an isomorphism of groups.
+
+*Needs:* GeometricTopology 5.1, 8.3.1, 8.5.2 and 8.6; covering spaces and finite group actions;
+`Group.ResiduallyFinite`.
+
+**Checks.**
+
+- `ℤ` is residually finite: reduce a nonzero integer modulo a positive integer larger than its
+  absolute value.
+- A covering of knot exteriors of degree greater than one cannot induce an isomorphism of the
+  peripheral subgroups; injectivity alone does not force the covering to have degree one.
+
 ### 1.3 Gordon's lemma
 
 Prove that the exterior of a ribbon concordance from `K₀` to `K₁` is obtained from the exterior of
@@ -309,7 +330,7 @@ time-1 end; the injection from residual finiteness and the second Gerstenhaber�
 
 *Needs:* 1.1, `FundamentalGroup.map`, `TauCeti.SmoothEmbedding.Concordance`,
 `TauCeti.SmoothCircleEmbedding.KnotGroup`, `Matrix.specialOrthogonalGroup`;
-gap:knot-group-residually-finite.
+1.2.1.
 
 **Checks.**
 
@@ -329,10 +350,10 @@ Prove `RibbonLE.antisymm`: if `RibbonLE K₀ K₁` and `RibbonLE K₁ K₀`, the
 smoothly ambient isotopic. Stacking gives a ribbon self-concordance of `K₀`. Its time-1 end
 induces an isomorphism on fundamental groups. It is onto by Gordon's lemma, and one-to-one
 because restriction is a polynomial surjection of `SO(N)`-representation varieties onto the larger
-one, while by residual finiteness (gap:knot-group-residually-finite) every nontrivial element of
+one, while by residual finiteness (1.2.1) every nontrivial element of
 the knot group survives in some `SO(N)`-representation (Agol 2022, Theorem 1.2 and its proof).
 The time-0 end of the concordance from `K₁` to `K₀` then injects the group of `K₁` into that of
-`K₀`, meridian to meridian and longitude to longitude. By gap:knot-group-peripheral-injection this
+`K₀`, meridian to meridian and longitude to longitude. By 1.2.1 this
 injection is an isomorphism. If `K₀` or `K₁` is the unknot, both groups are then `ℤ`, so both knots
 are smoothly ambient isotopic to the unknot (GeometricTopology 8.1: a knot in `S³` with knot group
 `ℤ` is the unknot), hence to each other; the parametrizations agree up to isotopy because every
@@ -359,8 +380,7 @@ The proof uses two further results, each a target here:
 GeometricTopology 5.1 (knot exteriors, peripheral markings), 8.3.1 (relative Waldhausen
 realization), 8.1 (a knot with group `ℤ` is the unknot; extension over the meridional filling),
 8.5.2 (irreducibility, boundary incompressibility and the Haken hypotheses for the exterior of a
-nontrivial knot), 11.2 and 3.4 (smooth realization, Cerf's theorem);
-gap:knot-group-residually-finite, gap:knot-group-peripheral-injection.
+nontrivial knot), 11.2 and 3.4 (smooth realization, Cerf's theorem); 1.2.1.
 
 **Checks.**
 
@@ -411,12 +431,30 @@ gap:hfk-genus-detection.
 
 ### Dependencies
 
-Layer 0, Tau Ceti; 1.3 also gap:knot-group-residually-finite; 1.4 also GeometricTopology 3.4, 5.1,
-8.1, 8.3.1, 8.5.2 and 11.2 (gap:knot-group-residually-finite, gap:knot-group-peripheral-injection);
+Layer 0, Tau Ceti; 1.3 also 1.2.1; 1.4 also 1.2.1 and GeometricTopology 3.4, 5.1,
+8.1, 8.3.1, 8.5.2 and 11.2;
 1.5 also GeometricTopology 4.3, 4.4 and HeegaardFloer 7.6 (gap:link-floer-cobordism-maps,
 gap:link-floer-grading-shift, gap:link-floer-two-knot, gap:hfk-genus-detection).
 
 ## Layer 2: two-bridge knots
+
+### 2.0 Definite forms with `b₁ = 0`
+
+For a closed connected oriented smooth negative-definite four-manifold `X` with
+`H₁(X; ℝ) = 0`, prove that its intersection form on `H₂(X; ℤ)` modulo torsion is diagonal over
+`ℤ`, without assuming `X` simply connected (Donaldson 1987, §§2–4). Extend the charge-one
+construction of FourManifolds §5.3: construct the gauge-invariant holonomy perturbations for
+finitely many loops and self-dual forms; prove the transversality and compactness results for the
+perturbed moduli spaces, including the treatment of nontrivial flat connections and reducibles
+when the fundamental group is nontrivial. Establish the determinant-line orientations, the
+charge-one ideal boundary and the reducible links, and carry out the oriented bordism and lattice
+argument to obtain the diagonal form. In particular, do not use the simply connected proof's
+assertion that the trivial connection is the only flat connection.
+
+*Needs:* FourManifolds §5.3 and its gauge-theory prerequisites.
+
+**Check.** The hypothesis `H₁(X; ℝ) = 0` does not imply simple connectivity: a finite nontrivial
+fundamental group also has zero real first homology.
 
 ### 2.1 Lisca's theorem
 
@@ -433,21 +471,33 @@ Let `R` be the smallest set of fractions `p/q`, `p > q > 0` coprime, that is clo
 `d > 1` odd dividing `m ± 1` (Lisca 2007, Definition 1.1). Prove that for coprime `p > q > 0` the
 lens space `L(p, q)` smoothly bounds a rational homology ball if and only if `p/q ∈ R` (Lisca
 2007, Theorem 1.2): gluing the ball to `P(p, q)` and to `P(p, p − q)` gives closed
-negative-definite four-manifolds, whose diagonal lattices contain the two plumbing lattices, and
-the pairs of such embeddings are classified (Lisca 2007, §§2–7 and §9).
+negative-definite four-manifolds with `H₁(−; ℝ) = 0` by Mayer–Vietoris, whose lattices are
+diagonal by 2.0 and contain the two plumbing lattices. The pairs of such embeddings are
+classified (Lisca 2007, §§2–7 and §9).
 
 State as targets: for `p/q = [a₁, …, a_n]⁻` with every `a_i ≥ 2`, the linear plumbing `P(p, q)` of
 disc bundles over `S²` with Euler numbers `−a₁, …, −a_n` is a smooth compact negative-definite
 four-manifold bounded by `L(p, q)`, whose intersection lattice is that of `TauCeti.PlumbingGraph` on
 the weighted chain (Lisca 2007, §9); and, for `p/q ∈ R` with `p` odd, `K(p, q)` bounds a
-ribbon-immersed disc (Lisca 2007, §8), hence is ribbon by 0.1. Not statable at the pins: Tau Ceti
-has no two-bridge knot as a smooth circle embedding, no branched cover and no plumbing of disc
-bundles as a four-manifold, and Mathlib has no manifold structure on the boundary of a manifold with
-boundary, in which `L(p, q)` would be identified with the boundary of the ball.
+ribbon-immersed disc (Lisca 2007, §8), hence is ribbon by 0.1.
+
+For `p/q ∈ R` with `p` even, use GeometricTopology 4.10's numerator closure as the two-bridge
+**link** `K(p, q)` and construct a ribbon immersion in `S³` of the disjoint union of a disc and a
+Möbius band, with boundary that link (Lisca 2007, §8). Extend 0.1's push-in to this disconnected
+nonorientable surface, resolving its ribbon singularities to obtain a properly embedded surface of
+the same topological type in `B⁴`. Construct its double branched cover `W → B⁴`, prove that its
+boundary is `L(p, q)`, and prove that `W` is a rational homology ball (Lisca 2007, proof of
+Theorem 1.2). This supplies the even-`p` sufficiency direction of the lens-space equivalence;
+the odd-`p` direction uses the ribbon disc and its branched cover above.
+
+Not statable at the pins: Tau Ceti has no two-bridge knot as a smooth circle embedding, no branched
+cover and no plumbing of disc bundles as a four-manifold, and Mathlib has no manifold structure on
+the boundary of a manifold with boundary, in which `L(p, q)` would be identified with the boundary
+of the ball.
 
 *Needs:* 0.1; GeometricTopology 4.10 and 4.4 (the determinant); the lens spaces of
 `TauCeti/Geometry/Manifold/Instances/LensSpace.lean`; `TauCeti.PlumbingGraph`,
-`TauCeti.PlumbingGraph.intersectionForm`; FourManifolds §5.3, gap:donaldson-definite-any-pi1.
+`TauCeti.PlumbingGraph.intersectionForm`; 2.0.
 
 **Checks.**
 
@@ -455,6 +505,9 @@ boundary, in which `L(p, q)` would be identified with the boundary of the ball.
   as recalled in Lisca 2007, §1), and `L(3, 1)` bounds no rational homology ball.
 - `9/2` belongs to Lisca's set `R` (`p = 9 = 3²`, `q = 2 = 3·1 − 1`, type (1) of Lisca 2007,
   Definition 1.1), so `K(9, 2)` is ribbon and `L(9, 2)` bounds a rational homology ball.
+- `4/1 ∈ R` (`p = 2²`, `q = 2·1 − 1`): `K(4, 1)` is a two-component link, not a knot.
+  Its disc-and-Möbius-band surface has Euler characteristic `1`, and its double branched cover
+  is a rational homology ball bounded by `L(4, 1)`.
 - `K(5, 2)` is the figure-eight knot: its determinant `|Δ(−1)| = 5` is not a perfect square, so
   it is neither slice nor ribbon (Lisca 2007, §1) and `L(5, 2)` bounds no rational homology ball;
   its signature `0` does not detect this.
@@ -471,8 +524,7 @@ boundary, in which `L(p, q)` would be identified with the boundary of the ball.
 
 ### Dependencies
 
-Layer 0, GeometricTopology 4.4 and 4.10, FourManifolds §5.3 (gap:donaldson-definite-any-pi1),
-Tau Ceti's lens spaces and plumbing graphs.
+Layer 0, GeometricTopology 4.4 and 4.10, 2.0 and Tau Ceti's lens spaces and plumbing graphs.
 
 ## Downstream consumers
 
@@ -505,6 +557,8 @@ geometric properties.
   374–379; doi:10.1090/cams/15; arXiv:2201.03626.
 - A. Daemi, T. Lidman, D. S. Vela-Vick, C.-M. M. Wong, *Ribbon homology cobordisms*, Adv. Math.
   408 (2022), Paper No. 108580; doi:10.1016/j.aim.2022.108580; arXiv:1904.09721.
+- S. K. Donaldson, *The orientation of Yang–Mills moduli spaces and 4-manifold topology*,
+  J. Differential Geom. 26 (1987), 397–428; doi:10.4310/jdg/1214441485.
 - N. M. Dunfield, S. Gong, *Ribbon concordances and slice obstructions: experiments and
   examples*, arXiv:2512.21825 (2025).
 - R. H. Fox, *Some problems in knot theory*, in *Topology of 3-manifolds and related topics*,
@@ -527,60 +581,7 @@ geometric properties.
   doi:10.2140/gt.2004.8.311; arXiv:math/0311496.
 - C. Livingston, *A survey of classical knot concordance*, in *Handbook of Knot Theory*,
   Elsevier (2005), 319–347; doi:10.1016/B978-044451452-3/50008-3; arXiv:math/0307077.
+- F. Waldhausen, *On irreducible 3-manifolds which are sufficiently large*, Ann. of Math. (2)
+  87 (1968), 56–88; doi:10.2307/1970590.
 - I. Zemke, *Knot Floer homology obstructs ribbon concordance*, Ann. of Math. (2) 190 (2019),
   931–947; doi:10.4007/annals.2019.190.3.5; arXiv:1902.04050.
-
-## Additional bibliography
-
-- R. E. Gompf, *Knots, links, and 4-manifolds*, in *Proceedings of the Georgia International
-  Topology Conference (Athens, GA, 1993)*, de Gruyter (1997), 115–131.
-- R. E. Gompf, A. I. Stipsicz, *4-Manifolds and Kirby Calculus*, Graduate Studies in
-  Mathematics, Vol. 20, American Mathematical Society (1999).
-- C. Gordon, *Some aspects of classical knot theory*, in *Proceedings of the Casson Fest*
-  (2004), 105–120; arXiv:math/0407399.
-- C. Gordon, *Knots and links in S¹ × S²*, Trans. Amer. Math. Soc. 358 (2006), 4099–4127;
-  doi:10.1090/S0002-9947-06-04015-6.
-- M. Freedman, *The topology of four-dimensional manifolds*, J. Differential Geom. 17
-  (1982), 357–453.
-- M. Freedman, F. Quinn, *Topological quantum field theories*, in *Proceedings of the
-  1990 AMS Summer Research Institute on Geometry of the Laplace Operator*
-  (M. E. Taylor, ed.), Proc. Sympos. Pure Math., Vol. 54, American Mathematical Society
-  (1994), 269–303.
-- S. K. Donaldson, *An application of gauge theory to four-dimensional topology*, J. Differential
-  Geom. 18 (1983), 279–315.
-- S. K. Donaldson, P. B. Kronheimer, *The geometry of four-manifolds*, Oxford Mathematical
-  Monographs, Oxford University Press (1990).
-- P. Ozsváth, Z. Szabó, *On the Floer homology of plumbed three-manifolds*, Geom. Topol.
-  7 (2003), 185–224; doi:10.2140/gt.2003.7.185; arXiv:math/0305452.
-- P. Ozsváth, Z. Szabó, *Knot Floer homology and integer surgeries*, Algebr. Geom. Topol.
-  8 (2008), 101–153; doi:10.2140/agt.2008.8.101; arXiv:math/0609702.
-- D. Rasdeaconu, *On the slice-ribbon conjecture for knots*, arXiv:2001.07949 (2020).
-- A. Juhász, *Floer homology and surface decompositions*, Geom. Topol. 12 (2008),
-  299–350; doi:10.2140/gt.2008.12.299; arXiv:0707.0020.
-- A. Juhász, *Knot Floer homology and Seiberg-Witten invariants*, in *Proceedings of the
-  Casson Fest* (2004), 143–159; arXiv:math/0407404.
-- Z. Szabó, *Knot Floer homology, Seiberg-Witten theory, and triangulations*, in *Flowering
-  of Geometry in China* (L. Ji, S. T. Yau, eds.), International Press (2007), 503–520.
-- J. Greene, *Knot Floer homology and the unknotting number*, J. Amer. Math. Soc. 25
-  (2012), 1105–1138; doi:10.1090/S0894-0347-2012-00743-4; arXiv:0912.2410.
-- J. Hom, *Knot Floer homology and the four-ball genus*, Geom. Topol. 19 (2015),
-  2243–2286; doi:10.2140/gt.2015.19.2243; arXiv:1304.4841.
-- J. Hom, *Tight contact structures and knot Floer homology*, arXiv:1406.4593 (2014).
-- M. Hedden, *Floer homology from knots*, in *Open Problems in Low-Dimensional Topology*
-  (J. E. Greene, M. T. Kallor, eds.), American Mathematical Society (2020), 1–22;
-  arXiv:1908.05108.
-- M. Hedden, J. Hom, *Knot Floer homology and the smooth concordance order*, arXiv:2101.08010
-  (2021).
-- C. Livingston, *Infinite order invariants of knot concordance*, in *Topology and Geometry of
-  Manifolds* (T. Lawson, C. McA. Gordon, eds.), Cambridge University Press (2001), 115–126.
-- C. Livingston, *Knot theory*, in *Mathematical Surveys and Monographs*, Vol. 208,
-  American Mathematical Society (2014).
-- P. Ghiggini, *Knot Floer homology detects genus*, Invent. Math. 171 (2008), 201–222;
-  doi:10.1007/s00222-007-0097-0; arXiv:math/0512487.
-- P. Ghiggini, *Knot Floer homology and Seiberg-Witten invariants*, J. Topol. 1 (2008),
-  223–247; doi:10.1112/jtopol/jtn004.
-- K. Honda, W. Kazez, G. Matić, *The contact invariant in sutured Floer homology*, Invent.
-  Math. 185 (2011), 609–642; doi:10.1007/s00222-010-0306-1; arXiv:0907.0068.
-- A. Levine, *Knots, concordances, and covering spaces*, J. Topol. 13 (2020), 1061–1131;
-  doi:10.1112/jtopol.jt0002; arXiv:1807.01044.
-- A. Levine, *Slice-ribbon conjecture for knots*, arXiv:2007.14751 (2020).
