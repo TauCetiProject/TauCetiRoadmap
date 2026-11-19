@@ -1056,9 +1056,10 @@ the homotopy category of semi-free (homotopically projective) modules. For an `A
 category with a strict unit, define strictly unital `A∞` modules and the derived category
 `D_∞(A)` as the localization of strictly unital `A∞` modules at quasi-isomorphisms; prove that
 over a field every quasi-isomorphism of `A∞` modules is a homotopy equivalence, so that `D_∞(A)`
-is the homotopy category of `A∞` modules (Keller, Introduction, Section 4.2), and identify
-`D_∞(A)` with `D(U(A))` through the enveloping algebra of §4.2, for `A` strictly unital and
-augmented under the hypotheses of §4.2. Construct restriction along DG functors and `A∞`
+is the homotopy category of strictly unital `A∞` modules (Keller, Introduction, Section 4.2),
+and identify `D_∞(A)` with `D(U(A))` through the enveloping algebra of §4.2, for `A` strictly
+unital and augmented under the hypotheses of §4.2 (Keller, 2006, Proposition 4.6(b) and
+Theorem 4.5). Construct restriction along DG functors and `A∞`
 functors, derived extension, the derived tensor product of bimodules (through semi-free
 resolutions) and derived Hom, with their units, counits and projection formulas, and connect each
 construction to Mathlib's localization and derived-category API.
