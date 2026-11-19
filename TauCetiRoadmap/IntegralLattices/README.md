@@ -29,8 +29,8 @@ only if l₊ − l₋ ≡ 0 (mod 8), t₊ ≤ l₊, t₋ ≤ l₋ and 2(t₊ + t
 
 The second main theorem classifies indefinite unimodular lattices, those with t₊ and t₋ both
 positive: two of them with the same signature and parity are isometric. An even one is
-U^{min(t₊,t₋)} ⊕ E₈(±1)^{|t₊−t₋|/8}, with U the hyperbolic plane, E₈(−1) the lattice E₈ with negated
-form, and the sign that of t₊ − t₋. An odd one is ⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}. U and ⟨1⟩ ⊕ ⟨−1⟩ show that
+`U^{min(t₊,t₋)} ⊕ E₈(±1)^{|t₊−t₋|/8}`, with U the hyperbolic plane, E₈(−1) the lattice E₈ with negated
+form, and the sign that of t₊ − t₋. An odd one is `⟨1⟩^{t₊} ⊕ ⟨−1⟩^{t₋}`. U and ⟨1⟩ ⊕ ⟨−1⟩ show that
 parity matters, and E₈ ⊕ E₈ and D₁₆⁺ that indefiniteness does.
 
 The third is adelic. For nondegenerate L on V, the classes in its genus are in bijection with the
