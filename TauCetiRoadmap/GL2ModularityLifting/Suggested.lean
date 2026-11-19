@@ -1,7 +1,6 @@
 module
 
 public import Mathlib
-public import TauCeti.NumberTheory.NumberField.Global.Places.Basic
 
 /-!
 # GL₂ modularity lifting: target signatures
@@ -9,11 +8,11 @@ public import TauCeti.NumberTheory.NumberField.Global.Places.Basic
 `README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti.
 
-Two headline results are stated: odd-involution field descent (§0.1) and the soluble
-prescribed-completion theorem (§1.7, CHT Lemma 4.1.2). Field descent expands the rank-two
+One headline result is stated: odd-involution field descent (§0.1). It expands the rank-two
 trace identities directly on a continuous function and concludes existence and uniqueness up
-to isomorphism of a semisimple representation over the original field. The
-prescribed-completion theorem covers arbitrary number fields and all places.
+to isomorphism of a semisimple representation over the original field. The soluble
+prescribed-completion lemma of §1.7 (Clozel–Harris–Taylor, Lemma 4.1.2) is imported from
+ClassicalSerreModularity, which states it, and is not restated here.
 
 The other headline results require arithmetic objects absent from the pins:
 * Layer 0's completion and trace/deformation comparisons use the supplied Cayley–Hamilton
@@ -29,8 +28,8 @@ The other headline results require arithmetic objects absent from the pins:
   results additionally use the Breuil–Mézard cycles, completed cohomology and Pan's
   pseudodeformation spaces needed to express their LL/CC hypotheses.
 * Layer 12's congruence and family transfer results need those lifting predicates, the
-  automorphic Galois attachment and the shared raw compatible-system and `RankTwoFamily`
-  carriers with their good Frobenius polynomials.
+  automorphic Galois attachment and the shared raw compatible-system carrier with its
+  rank-two family view and good Frobenius polynomials.
 * The Galois-rank and reducible-locus consequences of §10.7a need the pro-p
   class-field and pseudodeformation objects.
 These results have no signatures here.
@@ -39,8 +38,6 @@ These results have no signatures here.
 @[expose] public section
 
 namespace TauCetiRoadmap.GL2ModularityLifting
-
-open scoped TensorProduct
 
 /-- Odd-involution field descent (§0.1; Pan §§2.1.1–2.1.6): a continuous rank-two trace
 with an odd involution comes from a semisimple representation over the original field,
@@ -62,42 +59,6 @@ theorem odd_involution_descent
       ∀ ρ' : Representation K G (Fin 2 → K),
         Representation.IsSemisimpleRepresentation ρ' → ρ'.character = T →
           Nonempty (ρ.Equiv ρ') := by
-  sorry
-
-/-- The native completion at a finite or infinite place of a number field (§1.7). -/
-abbrev completionAt (F : Type*) [Field F] [NumberField F]
-    (v : TauCeti.GlobalNumberFields.Place F) : Type _ :=
-  match v with
-  | .inl v => v.adicCompletion F
-  | .inr v => v.Completion
-
-/-- The field structure of the selected native completion. -/
-noncomputable instance completionAtField (F : Type*) [Field F] [NumberField F]
-    (v : TauCeti.GlobalNumberFields.Place F) : Field (completionAt F v) := by
-  cases v <;> dsimp [completionAt] <;> infer_instance
-
-/-- The canonical algebra structure over the number field on its selected completion. -/
-noncomputable instance completionAtAlgebra (F : Type*) [Field F] [NumberField F]
-    (v : TauCeti.GlobalNumberFields.Place F) : Algebra F (completionAt F v) := by
-  cases v <;> dsimp [completionAt] <;> infer_instance
-
-/-- CHT Lemma 4.1.2 (§1.7): prescribe finite Galois extensions at finitely many places
-while avoiding a given finite Galois extension. The tensor decomposition says that every
-completion of `E` above `v` is the prescribed field `L v`; its positive multiplicity counts
-all places above `v`. This includes real and complex places. -/
-theorem cht_soluble_prescribed_completions
-    (F : Type*) [Field F] [NumberField F]
-    (D : IntermediateField F (AlgebraicClosure F)) [FiniteDimensional F D] [IsGalois F D]
-    (S : Finset (TauCeti.GlobalNumberFields.Place F))
-    (L : (v : S) → Type*) [∀ v, Field (L v)]
-    [∀ v, Algebra (completionAt F v.1) (L v)]
-    [∀ v, FiniteDimensional (completionAt F v.1) (L v)]
-    [∀ v, IsGalois (completionAt F v.1) (L v)] :
-    ∃ E : IntermediateField F (AlgebraicClosure F),
-      FiniteDimensional F E ∧ IsGalois F E ∧ Group.IsSolvable (E ≃ₐ[F] E) ∧
-      E.LinearDisjoint D ∧
-      ∀ v : S, ∃ n : ℕ, 0 < n ∧
-        Nonempty ((completionAt F v.1 ⊗[F] E) ≃ₐ[completionAt F v.1] (Fin n → L v)) := by
   sorry
 
 end TauCetiRoadmap.GL2ModularityLifting
