@@ -43,9 +43,10 @@ stated on it are:
   subgroups (`README.md`, §4.5);
 * the exceptional isogenies on its points over an algebraically closed field (`README.md`, §5.4).
 
-Chevalley's comparison theorem is stated for the pair of carriers: over every field, a
-homomorphism from the points of `G_sc(t)` to those of the Geck carrier that is the identity on the
-numbered root subgroups and whose kernel is the centre (`README.md`, §6.3).
+Chevalley's comparison theorem is stated for the pair of carriers (`README.md`, §6.3): over `ℤ`, a
+morphism of group schemes from `G_sc(t)` to the Geck carrier that is the identity on the numbered
+root subgroups; and over every field, a homomorphism from the points of `G_sc(t)` to those of the
+Geck carrier that is the identity on the numbered root subgroups and whose kernel is the centre.
 
 Lang's equation on the torus (`README.md`, §5.7) is not restated. On the Geck carrier the pinned
 Tau Ceti proves it as `TauCeti.DynkinType.exists_geckWeightTorusPoints_eq_mul_inv`, over every
@@ -68,14 +69,11 @@ Not statable at the pins, so not stated here:
 * generation of the points of the adjoint form, and of a general Chevalley datum, by the root
   subgroups and `T_D(k)` over a field that is not algebraically closed (`README.md`, §4.4): the
   torus `T_D(k) = Hom(Λ(D), kˣ)` with `Λ(D)` the span of the weights has no pinned point map; the
-  pinned `geckWeightTorusPoints` is the full-weight parametrization, whose image is smaller in
-  general;
+  pinned `geckWeightTorusPoints` is the full-weight parametrization, whose image can be smaller;
 * Chevalley's comparison theorem for general Chevalley data `D`, `D′` (`README.md`, Layer 6):
   `README.md`, §2.2, defines a Chevalley datum as a faithful representation with a Kostant-stable
   lattice and a weight basis, with a torus whose character lattice is `Λ(D)`, and neither is at the
-  pins; only its case from `G_sc(t)` to the Geck carrier is stated here, on points over a field,
-  the map of group schemes over `ℤ` being ReductiveGroups §9B.2's central isogeny, which
-  `README.md`, §6.3, consumes;
+  pins; only its case from `G_sc(t)` to the Geck carrier is stated here;
 * the exceptional isogenies as morphisms of `𝔽_p`-group schemes (`README.md`, Layer 7): the
   statement there is that ReductiveGroups §9B's endomorphism of `G_sc(t)` over `𝔽_p` agrees on
   points with the endomorphism of §5.4, and the pins define neither map on this carrier; §5.4 is
@@ -84,7 +82,7 @@ Not statable at the pins, so not stated here:
 
 namespace TauCetiRoadmap.ChevalleyGroups
 
-open TauCeti TauCeti.UniversalEnvelopingAlgebra
+open CategoryTheory TauCeti TauCeti.UniversalEnvelopingAlgebra
 
 /-! ## Layer 4: flatness, the big cell, and points -/
 
@@ -253,6 +251,28 @@ theorem exists_specialIsogeny (t : DynkinType) (ht : t.Valid) (p : ℕ) [Fact p.
   sorry
 
 /-! ## Layer 6: Chevalley's comparison theorem -/
+
+/-- **Chevalley's comparison theorem from `G_sc(t)` to the adjoint form over `ℤ` (`README.md`,
+§6.3).** For a valid Dynkin type `t` there is a morphism of group schemes over `ℤ` from `G_sc(t)`,
+the toral closure of the full-weight module `V_sc(t)` with its lattice, weight basis and weights,
+to the Geck carrier, the adjoint form (`README.md`, §2.3), whose composite with each numbered root
+subgroup `x_{±α_i}` of `G_sc(t)` is the numbered root subgroup of the Geck carrier with the same
+index. It is ReductiveGroups §9B.2's central isogeny for the inclusion of the root lattice in the
+weight lattice (Conrad, *Reductive group schemes*, Theorem 6.1.16(1)), transported along
+`README.md`, §2.9. For `A₁` it is `SL₂ → PGL₂`, with scheme kernel `μ₂`. The hypothesis `hnil` is
+`README.md`, §1.1. -/
+theorem exists_scGroupScheme_hom_geckGroupScheme (t : DynkinType) (ht : t.Valid)
+    (hnil : ∀ i, IsNilpotent (representation ℚ (t.lieAlgebra ht) (t.scModule ht)
+      (_root_.UniversalEnvelopingAlgebra.ι ℚ ((t.lieBasis ht).rootGenerator i)))) :
+    ∃ f : kostantToralGroupScheme (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) ⟶
+        t.geckGroupScheme ht,
+      ∀ i, kostantRootSubgroupToToral (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) i ≫ f =
+        t.geckRootSubgroup ht i :=
+  sorry
 
 /-- **Chevalley's comparison theorem from `G_sc(t)` to the adjoint form (`README.md`, §6.3).**
 For a valid Dynkin type `t` and every field `k`, there is a homomorphism from the points of
