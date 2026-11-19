@@ -33,7 +33,8 @@ subgroups of `G_D` and the torus `T_D(k) = Hom(Λ(D), kˣ)`.
 
 [ReductiveGroups](../ReductiveGroups/README.md) Layer 9 owns the canonical Chevalley–Demazure
 construction; `G_D` and `G_sc(t)` are its specializations, made explicit so that root subgroups,
-torus and points can be computed with. The Tau Ceti library supplies Geck's split Lie algebras with
+torus and points can be computed with, and its integral open cell, central isogenies and special
+isogenies are transported to them. The Tau Ceti library supplies Geck's split Lie algebras with
 a named Chevalley system, the fundamental modules and their lattices, the generic Kostant root
 subgroups and toral closures, and character maps.
 [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) Layer 7 supplies Serre's
@@ -54,7 +55,8 @@ endomorphisms constructed here.
 - Layer 5: character maps, Frobenius, graph automorphisms, the exceptional isogenies on points,
   rigidity and Lang's equation on the torus, and Steinberg endomorphisms.
 - Layer 6: Chevalley's comparison theorem.
-- Layer 7: the exceptional isogenies as morphisms of `𝔽_p`-group schemes.
+- Layer 7: the exceptional isogenies as morphisms of `𝔽_p`-group schemes, compared with the point
+  maps of Layer 5.
 
 Layers 0 to 2 are one lane, and Layers 3 to 7 build on it. Layer 4 needs Layer 3 (the big cell is
 proved from the Bruhat decomposition); Layers 5 and 6 both need Layer 4; Layer 7 needs Layers 4
@@ -121,13 +123,28 @@ behind an unrelated section.
    the single-type notation here denotes its semisimple specialization and does not narrow it. The
    acceptance statements in `Suggested.lean` take their fields in `Type`; nothing depends on the
    universe.
-9. **Layers and names.** Layer `k` is the milestone that other roadmaps cite as `Ck`, and its
-   sections keep the titles they cite ("Points", "Exceptional isogenies"). The acceptance
-   statements are declared in `Suggested.lean` in the namespace `TauCetiRoadmap.ChevalleyGroups`;
-   a target without a declaration there is named in italics by the Lean name it is to carry,
-   such as *DynkinType.chevalleyGroupScheme*. The group schemes and their points are to live under
+9. **Layers and names.** Layer `k` is the milestone that other roadmaps cite as `Ck` (table
+   below), and its sections keep the item titles they cite, such as "The big cell", "Points" and
+   "Exceptional isogenies". The acceptance statements are declared in `Suggested.lean` in the
+   namespace `TauCetiRoadmap.ChevalleyGroups`; a target without a declaration there is named in
+   italics by the Lean name it is to carry, such as *DynkinType.chevalleyGroupScheme*. The group schemes and their points are to live under
    `TauCeti/Algebra/AlgebraicGroup/Chevalley/`, the representation-theoretic inputs beside
    `TauCeti/Algebra/Lie/HighestWeight/` and `TauCeti/Algebra/Lie/UniversalEnveloping/Kostant/`.
+
+Citations of this roadmap by a former milestone resolve to the layers in the right column; a cited
+item title, such as "§C4 / The big cell", is the title of a section of that layer, and a cited
+"Generality" is Convention 8.
+
+| Former milestone | Layer |
+| --- | --- |
+| C0, the Chevalley basis | Layer 0 |
+| C1, the simply connected module | Layer 1 |
+| C2, Chevalley data, their group schemes, and root data | Layer 2 |
+| C3, the group over a field | Layer 3 |
+| C4, flatness, the big cell, and points over an algebraically closed field | Layer 4 |
+| C5, endomorphisms and their character maps | Layer 5 |
+| C6, Chevalley's comparison theorem | Layer 6 |
+| C7, exceptional isogenies of group schemes | Layer 7 |
 
 ## Layer 0: the Chevalley basis
 
@@ -337,14 +354,20 @@ over `ℤ`, the group scheme of the Chevalley datum `V_sc(t)`, written `G_sc(t)`
 points over a commutative ring `A`, as a subgroup of `GLₙ(A)` through
 `TauCeti.UniversalEnvelopingAlgebra.kostantToralPointsSubgroup`. Name the adjoint form
 *DynkinType.adjointGroupScheme* `t ht := TauCeti.DynkinType.geckGroupScheme t ht`, whose points are
-`TauCeti.DynkinType.geckPoints`; its comparison with `G_sc(t)` is §6.3. For `E₈`, `F₄` and `G₂`
-the Geck weights span the full weight lattice (`TauCeti.DynkinType.span_range_geckWeight_E8_eq_top`
-and its `F₄` and `G₂` forms), so there the Geck carrier is `G_sc(t)` as well. These name the group
-scheme and its points; no independent carrier is introduced beside them. *Needs:* §1.1, §2.2;
-Tau Ceti `TauCeti.DynkinType.scModule`, `TauCeti.DynkinType.scLattice`,
-`TauCeti.DynkinType.scWeightBasis`, `TauCeti.DynkinType.scWeight`,
+`TauCeti.DynkinType.geckPoints`; its comparison with `G_sc(t)` is §6.3. Prove that
+`geckGroupScheme` is the group scheme of the Geck datum of §2.2: a toral closure is cut out by the
+largest Hopf ideal killed by the root-subgroup coordinate maps and the weight-torus coordinate map
+(`TauCeti.UniversalEnvelopingAlgebra.kostantToralDefiningIdeal`), and `geckGroupScheme` reads the
+Geck weights in `P` where §2.2 reads them in simple-root coordinates, which composes the torus
+coordinate map with the injective ring map `ℤ[Q] → ℤ[P]` and leaves its kernel unchanged. For
+`E₈`, `F₄` and `G₂` the Geck weights span the full weight lattice
+(`TauCeti.DynkinType.span_range_geckWeight_E8_eq_top` and its `F₄` and `G₂` forms), so there the
+Geck carrier is `G_sc(t)` as well. These name the group scheme and its points; no independent
+carrier is introduced beside them. *Needs:* §1.1, §2.2; Tau Ceti `TauCeti.DynkinType.scModule`,
+`TauCeti.DynkinType.scLattice`, `TauCeti.DynkinType.scWeightBasis`, `TauCeti.DynkinType.scWeight`,
 `TauCeti.DynkinType.kostantForm_apply_mem_scLattice`,
 `TauCeti.UniversalEnvelopingAlgebra.kostantToralGroupScheme`,
+`TauCeti.UniversalEnvelopingAlgebra.kostantToralDefiningIdeal`,
 `TauCeti.UniversalEnvelopingAlgebra.kostantToralPointsSubgroup`,
 `TauCeti.DynkinType.geckGroupScheme`, `TauCeti.DynkinType.geckPoints`.
 
@@ -505,12 +528,14 @@ Mathlib `commutatorElement`.
   confirm `c_{23} = (1/3) M_{α+β,β,2}`. Negating any one coefficient makes the two sides differ,
   since the root vector it multiplies acts nontrivially on this module.
 
-### 3.2 The unipotent radical and the Borel subgroup
+### 3.2 The unipotent radical and Borel subgroup
 
 `U(k)` is the subgroup generated by the positive root subgroups. Prove that every element of
-`U(k)` has a unique expression `∏_{α > 0} x_α(u_α)` in any fixed order of the positive roots; that
-`B(k) = U(k) T(k)` with `U(k)` normal in `B(k)`; and, for the opposite group `U⁻(k)` generated by the
-negative root subgroups and `B⁻(k) = U⁻(k) T(k)`, that `U(k) ∩ B⁻(k) = 1`. *Needs:* §3.1, §2.6.
+`U(k)` has a unique expression `∏_{α > 0} x_α(u_α)` in any fixed order of the positive roots (for
+a split reductive group over any nonempty base, Conrad, *Reductive group schemes*, Theorem 5.1.13,
+p. 143); that `B(k) = U(k) T(k)` with `U(k)` normal in `B(k)`; and, for the opposite group `U⁻(k)`
+generated by the negative root subgroups and `B⁻(k) = U⁻(k) T(k)`, that `U(k) ∩ B⁻(k) = 1`.
+*Needs:* §3.1, §2.6.
 
 ### 3.3 The Weyl group
 
@@ -576,8 +601,10 @@ relations, Tits systems. Mathlib: `commutatorElement`, `PresentedGroup`.
 
 The toral closure is defined over `ℤ`, and without further proof its base change to a field `k`
 only contains the closed subgroup scheme that the root subgroups and the torus generate over `k`.
-This layer proves equality and identifies the points. Statements are for a Chevalley datum `D`
-with group scheme `G_D` and torus `T_D` of Layer 2; `G_sc(t)` is the case `D = (scModule, scLattice)`.
+This layer obtains equality and identifies the points: the integral open cell, smoothness, the
+fibres and that equality are ReductiveGroups §9B.1's, transported along §2.9, and the big cell and
+the points over fields are identified here. Statements are for a Chevalley datum `D` with group
+scheme `G_D` and torus `T_D` of Layer 2; `G_sc(t)` is the case `D = (scModule, scLattice)`.
 
 ### 4.1 Flatness
 
@@ -609,21 +636,23 @@ of weights is invertible only if `wS = S`. If that holds for every initial segme
 weight; the weights of a faithful representation span `Λ(D) ⊗ ℚ`, so `w = 1`. Over an
 algebraically closed field this is Steinberg, *Lectures*, Chapter 5, Theorem 7.
 
-Over `ℤ`, prove that the multiplication morphism is an isomorphism by writing its inverse on
-coordinate rings: the block `LDU` factors are polynomials in the matrix entries and the inverses
-of the leading block minors. The inverse identities, their compatibility with base change, and the
-covering of `G_D` by the Weyl translates of `Ω_D` with their overlaps are part of this target. A
-fibrewise isomorphism criterion may replace that proof only once its full finite-presentation,
-flatness and fibre hypotheses are proved for the actual morphism; flatness of the source alone is
-not such a criterion (Jantzen, *Representations of Algebraic Groups*, Part II, Chapter 1, and SGA 3
-guide this proof). `U` and `U⁻` are the closed subgroup schemes whose points are the unique
-products of §3.2, so they are isomorphic to affine space of dimension the number of positive roots.
+Over `ℤ`, the isomorphism is ReductiveGroups §9B.1's integral open cell, transported along the
+isomorphism of §2.9, which matches root subgroups and tori: §9B.1 constructs, for the pinned group,
+the open immersion `U⁻ × T × U → G` with its inverse from the leading block minors in the weight
+basis, and the cover of the group by the Weyl translates of its image (for a split reductive group
+over any nonempty base, Conrad, *Reductive group schemes*, Theorem 5.1.13, p. 143). The transported
+image is `Ω_D`. It lies in `GLₙ^LDU`, because the leading block minors of `l t u`, for `l` block
+lower and `u` block upper unitriangular and `t` diagonal, are those of `t`. An open subscheme of
+`G_D` is determined by its points over fields; every point of `G_D` over a field `k` lies in `E(k)`
+by the transported cover, and there the two open subschemes have the same points by the equality
+above. `U` and `U⁻` are the closed subgroup schemes whose points are the unique products of §3.2,
+so they are isomorphic to affine space of dimension the number of positive roots.
 
 For `G_sc(t)` the same open set is cut out by the product of the highest-weight matrix coefficients
 `g ↦ ⟨v⁺ᵢ*, g v⁺ᵢ⟩` of the fundamental summands. That formula is specific to `G_sc(t)` and is not
 used for a general datum. The block minors above are polynomials in the matrix entries of `GLₙ` for
-every datum, so no descent is needed. *Needs:* §§3.2–3.4, §4.1; Mathlib
-`AlgebraicGeometry.IsOpenImmersion`.
+every datum, so no descent is needed. *Needs:* §§3.2–3.4, §2.9; ReductiveGroups §9B.1 (the
+integral open cell and the cover by its Weyl translates); Mathlib `AlgebraicGeometry.IsOpenImmersion`.
 
 **Checks.**
 - `SL₂`: the big cell is `{a ≠ 0}`, and `[[1, 0], [c, 1]] diag(t, t⁻¹) [[1, b], [0, 1]]` has top left
@@ -633,9 +662,17 @@ every datum, so no descent is needed. *Needs:* §§3.2–3.4, §4.1; Mathlib
 
 ### 4.3 Fibres
 
-Prove that `G_D` is covered by the translates of the big cell by the Weyl representatives, and that
-it is smooth over `ℤ` with geometrically connected fibres of dimension `t.rank + t.numRoots`.
-*Needs:* §4.2; Mathlib `AlgebraicGeometry.Smooth`.
+`G_D` is covered by the translates of the big cell by the Weyl representatives (§4.2), and it is
+smooth over `ℤ` with geometrically connected fibres of dimension `t.rank + t.numRoots`: transport
+along §2.9 ReductiveGroups §9B.1's smoothness, relative dimension `rank X + |Φ|` and geometrically
+connected fibres (the open cell `U⁻ × T × U` of Conrad, *Reductive group schemes*, Theorem 5.1.13,
+p. 143, has relative dimension `t.rank + t.numRoots`). On the Geck carrier, the adjoint form by
+§2.3, this is
+`TauCetiRoadmap.ChevalleyGroups.smoothOfRelativeDimension_and_geometricallyConnected_geckGroupScheme`:
+for every valid `t`, the structure morphism of `geckGroupScheme t ht` to `Spec ℤ` is smooth of
+relative dimension `t.rank + t.numRoots` and geometrically connected. *Needs:* §2.3, §2.9, §4.2;
+ReductiveGroups §9B.1 (smoothness, relative dimension and fibres); Mathlib
+`AlgebraicGeometry.SmoothOfRelativeDimension`, `AlgebraicGeometry.GeometricallyConnected`.
 
 **Checks.**
 - `SL₂`: `1 + 2 = 3`; `G₂`: `2 + 12 = 14`. Counting only the positive roots, `rank + #Φ⁺`, would give
@@ -648,8 +685,12 @@ the big cell and that `Ω_D(k) = U⁻(k) T_D(k) U(k)`; hence the points over `k`
 by the root subgroups and `T_D(k) = Hom(Λ(D), kˣ)`. For adjoint `A₁` over `ℚ` this is `PGL₂(ℚ)`. For
 `G_sc(t)` the points are generated by the root subgroups alone: `ChevalleyGroup t ht k = E(k)` for
 every field `k`. Prove that the base change of the group scheme to a field `k` equals the closed
-subgroup scheme of `GLₙ` over `k` generated by the reduced root subgroups and the torus. *Needs:*
-§§4.2–4.3, §2.7.
+subgroup scheme of `GLₙ` over `k` generated by the reduced root subgroups and the torus, by
+transporting along §2.9 the comparison over fields of ReductiveGroups §9B.1. With §3.5, the centre
+of the points over every field `k` is `Hom(Λ(D)/Q, kˣ)`. For the adjoint form `Λ(D) = Q`, and on the
+Geck carrier (§2.3) this is `TauCetiRoadmap.ChevalleyGroups.center_geckPoints_eq_bot`: for every
+valid `t` and every field `k`, `geckPoints t ht k` has trivial centre. *Needs:* §§4.2–4.3, §2.3,
+§2.7, §2.9, §3.5; ReductiveGroups §9B.1 (the comparison over fields); Mathlib `Subgroup.center`.
 
 ### 4.5 Points of the adjoint form over an algebraically closed field
 
@@ -662,7 +703,7 @@ surjective because `kˣ` is divisible, so the full-weight parametrization
 `TauCeti.DynkinType.geckWeightTorusPoints` reaches every torus point; the torus is generated by the
 `h_{α_i}(s)`, the other root subgroups are conjugates of the simple ones by the Weyl representatives
 `n_{α_i}(1)`, and §4.4 finishes. For `E₈`, `F₄` and `G₂` the Geck weights span the full weight
-lattice, so this is also the statement for `G_sc(t)`. *Needs:* §4.4, §2.4; Tau Ceti
+lattice, so this is also the statement for `G_sc(t)`. *Needs:* §4.4, §2.3, §2.4; Tau Ceti
 `TauCeti.DynkinType.geckPoints`, `TauCeti.DynkinType.geckRootSubgroupPoints`,
 `TauCeti.DynkinType.geckWeightTorusPoints`, `TauCeti.DynkinType.geckWeylRootSubgroupPoints`,
 `TauCeti.DynkinType.range_geckTorusPoints_le_geckElementarySubgroup`,
@@ -686,10 +727,13 @@ lattice, so this is also the statement for `G_sc(t)`. *Needs:* §4.4, §2.4; Tau
 
 ### Dependencies
 
-Layer 2 (data, torus, root subgroups, the comparison of §2.9), Layer 3 (unique products, Bruhat
-decomposition). Tau Ceti: flatness of toral closures, the Geck carrier with its root subgroups,
-weight torus, Weyl conjugates and coroot generation, divisibility of `kˣ` over an algebraically
-closed field. Mathlib: open immersions, smooth morphisms.
+Layer 2 (data, the adjoint form, torus, root subgroups, the comparison of §2.9), Layer 3 (unique
+products, Bruhat decomposition, centre). ReductiveGroups §9B.1 (the integral open cell and its
+Weyl-translated cover, smoothness, relative dimension and fibres, and the comparison over fields,
+transported along §2.9). Tau Ceti: flatness of toral closures, the Geck carrier with its root
+subgroups, weight torus, Weyl conjugates and coroot generation, divisibility of `kˣ` over an
+algebraically closed field. Mathlib: open immersions, smooth and geometrically connected
+morphisms, centres of groups.
 
 ## Layer 5: endomorphisms and their character maps
 
@@ -810,7 +854,7 @@ map needs nothing from Layer 6: the presentation of §3.6 gives the homomorphism
 decomposition (§3.4) its kernel lies in the torus, where it is `Hom(P/Q, kˣ) = μ₂(k) = 1`. None of
 this uses Layer 7.
 
-*Needs:* §3.6, §5.1, §5.2, §2.6; RootSystems §6.2 (long and short roots); Tau Ceti
+*Needs:* §3.6, §5.1, §5.2, §2.3, §2.6; RootSystems §6.2 (long and short roots); Tau Ceti
 `TauCeti.DynkinType.IsLongSimpleRoot`, `TauCeti.DynkinType.IsSpecialNodePerm`,
 `TauCeti.DynkinType.b2SpecialIsogeny`, `TauCeti.DynkinType.f4SpecialIsogeny`,
 `TauCeti.DynkinType.g2SpecialIsogeny`, `TauCeti.DynkinType.geckPoints`,
@@ -943,10 +987,11 @@ datum, the Geck carrier with its Frobenius, divisibility of `kˣ`, the datum Ste
 ## Layer 6: Chevalley's comparison theorem
 
 For Chevalley data `D` and `D′` of the same type `t` whose weight lattices satisfy
-`Λ(D′) ⊆ Λ(D)`, construct a homomorphism of group schemes `G_D → G_D′` over `ℤ` with
-`x_α(u) ↦ x_α(u)` for every root, whose kernel on points over a field is central and finite. When
-the lattices are equal it is an isomorphism. The group-level statement on `E(k)` is proved over
-every field first, in two steps (§§6.1–6.2), and then extended to the schemes (§6.3).
+`Λ(D′) ⊆ Λ(D)`, the comparison theorem is a homomorphism of group schemes `G_D → G_D′` over `ℤ`
+with `x_α(u) ↦ x_α(u)` for every root, whose kernel on points over a field is central and finite.
+When the lattices are equal it is an isomorphism. The group-level map on `E(k)` is constructed over
+every field in two steps (§§6.1–6.2); the scheme map is the central isogeny of ReductiveGroups
+§9B.2, which §6.3 identifies with it on points.
 
 ### 6.1 On the elementary subgroup
 
@@ -973,13 +1018,18 @@ homomorphism `E′_D(k) ⋊ T_D(k) → E_D′(k)` given by the two maps, which k
 
 ### 6.3 Extension to the group schemes and consequences
 
-Extend the map to the schemes using the big cell of §4.2. Prove the consequences: every Chevalley
-datum of type `t` with full weight lattice has group scheme isomorphic to `G_sc(t)` by an
-isomorphism matching root subgroups, tori and Frobenius, and intertwining the graph automorphisms and
-exceptional isogenies where the datum carries them; and there is a homomorphism
-`G_sc(t) → DynkinType.adjointGroupScheme t` matching root subgroups, whose kernel on points over
-every field is the centre of §3.5. That it is a central isogeny in the scheme-theoretic sense
-belongs to ReductiveGroups Layer 9. *Needs:* §6.2, §§4.2–4.4, §§5.2–5.4 (for the intertwining).
+The homomorphism of group schemes `G_D → G_D′` over `ℤ` is ReductiveGroups §9B.2's central
+isogeny for the inclusion `Λ(D′) ⊆ Λ(D)` of weight spans, with scheme kernel `D(Λ(D)/Λ(D′))` and an
+isomorphism when the lattices are equal (for split reductive groups over any nonempty base, Conrad,
+*Reductive group schemes*, Theorem 6.1.16(1), p. 196). Prove that on points over every field `k`,
+which are `E_D(k)` and `E_D′(k)` by §4.4, it is the map of §6.2: both are the identity on every root
+subgroup and restriction of characters on `T_D(k)`, which generate `E_D(k)`. Prove the
+consequences: every Chevalley datum of type `t` with full weight lattice has group scheme isomorphic
+to `G_sc(t)` by an isomorphism matching root subgroups, tori and Frobenius, and intertwining the
+graph automorphisms and exceptional isogenies where the datum carries them; and the homomorphism
+from `G_sc(t)` to the adjoint form *DynkinType.adjointGroupScheme* `t` matches root subgroups and
+has kernel on points over every field the centre of §3.5. *Needs:* §6.2, §4.4, §§5.2–5.4 (for the intertwining);
+ReductiveGroups §9B.2 (the central isogeny for an inclusion of weight spans).
 
 **Checks.**
 - `SL₂ → PGL₂` over `𝔽₂`: the kernel on points is `μ₂(𝔽₂) = 1`, the centre of `SL₂(𝔽₂)`, and both
@@ -994,23 +1044,26 @@ belongs to ReductiveGroups Layer 9. *Needs:* §6.2, §§4.2–4.4, §§5.2–5.4
 ### Dependencies
 
 Layer 2 (torus, pinning, adjoint form), Layer 3 (commutator formula, Bruhat decomposition, centre),
-Layer 4 (big cell, points), Layer 5 (graph automorphisms and exceptional isogenies, for the
-intertwining in §6.3). ReductiveGroups Layer 9 is cited for the scheme-theoretic notion of a central
-isogeny only.
+Layer 4 (points), Layer 5 (graph automorphisms and exceptional isogenies, for the intertwining in
+§6.3). ReductiveGroups §9B.2 (the central isogeny of group schemes for an inclusion of weight
+spans).
 
 ## Layer 7: exceptional isogenies of group schemes
 
 ### 7.1 The exceptional isogenies over 𝔽_p
 
-For the three pairs of §5.4, construct the endomorphism `τ` of the `𝔽_p`-group scheme `G_sc(t)_𝔽p`
-whose map on points over every perfect field of characteristic `p` is the endomorphism of §5.4, and
-prove `τ ∘ τ = Frob_p` as morphisms of schemes. By §4.3 the fibre is smooth, so a morphism out of it is
-determined by its points over `𝔽̄_p`. On the big cell `τ` is given by polynomials over `𝔽_p` in the
-coordinates of `U⁻ × T × U`; glue over the translates of the big cell, as the abstract homomorphism of
-Steinberg, *Lectures*, Chapter 10, Theorem 28, is given on the big cell of Chapter 5, Theorem 7. Compare
-the result with the morphism of ReductiveGroups §9B ("Special isogenies in characteristics two and
-three") on all roots, the torus and points. That `τ` is an isogeny with infinitesimal kernel belongs to
-ReductiveGroups Layer 9. *Needs:* §§4.2–4.3, §5.4; ReductiveGroups §9B (special isogenies).
+For the three pairs of §5.4, the endomorphism `τ` of the `𝔽_p`-group scheme `G_sc(t)_𝔽p` with
+`τ ∘ τ = Frob_p` as morphisms of schemes is the special isogeny of ReductiveGroups §9B ("Special
+isogenies in characteristics two and three"), transported along the base change to `𝔽_p` of the
+isomorphism of §2.9. Prove that on points over every field `k` of characteristic `p` it is the
+endomorphism of §5.4 when the two have the same signs on the simple root subgroups, and in general
+up to conjugation by a point of the torus. Both send `x_{±α_i}(u)` to `x_{±α_σi}(±u ^ e_i)`, with
+the same sign at `α_i` and at `−α_i` by the rank-one computation of §5.7. The signs are trivial in
+characteristic two, and in type `G₂` the simple roots are a basis of `P`, so a torus point removes
+their difference; two homomorphisms out of `E(k) = G_sc(t)(k)` (§4.4) that agree on the simple root
+subgroups are equal (§5.5). That `τ` is an isogeny with infinitesimal kernel belongs to
+ReductiveGroups Layer 9. *Needs:* §2.9, §4.4, §§5.4–5.5, §5.7; ReductiveGroups §9B (special
+isogenies).
 
 **Checks.**
 - Over `𝔽̄_p` the map of points of `τ` is bijective, the field being perfect, but `τ` is not an
@@ -1025,8 +1078,9 @@ ReductiveGroups Layer 9. *Needs:* §§4.2–4.3, §5.4; ReductiveGroups §9B (sp
 
 ### Dependencies
 
-Layer 4 (big cell, smooth fibres), Layer 5 (the point map of §5.4). ReductiveGroups §9B (the special
-isogenies as morphisms of group schemes, for the comparison).
+Layer 2 (the comparison of §2.9), Layer 4 (points), Layer 5 (the point map of §5.4, determination by
+simple root subgroups, the rank-one computation of §5.7). ReductiveGroups §9B (the special isogenies
+as morphisms of group schemes).
 
 ## Worked examples
 
@@ -1045,8 +1099,9 @@ isogenies as morphisms of group schemes, for the comparison).
 
 - [CFSGStatement](../CFSGStatement/README.md) uses Layers 2 to 7: the canonical point interface, the
   endomorphisms and their character maps, the points over a field, the comparison theorem and the
-  scheme-level exceptional isogenies. It owns the classification list, the choice of Steinberg map for
-  each index and the transport of its family-specific realizations to the common carrier.
+  agreement of the scheme-level exceptional isogenies with the point maps. It owns the classification
+  list, the choice of Steinberg map for each index and the transport of its family-specific
+  realizations to the common carrier.
 - [CFSGBasicProperties](../CFSGBasicProperties/README.md) uses Layers 2 to 5, the theory of the
   ambient group, and owns the finite fixed-point groups: Steinberg descent, twisted root groups and
   simplicity.
@@ -1062,10 +1117,13 @@ enumeration (Layer 0); the nilpotency of the generators on `V_sc(t)` and the num
 `V_sc(t)` as Kostant data with their elementary-group and scheme automorphisms (Layer 1); Serre's
 theorem for the pinned algebra, Chevalley data, `G_sc(t)`, the adjoint form, root subgroups for every
 root, the torus, the pinning equation, torus generation, Frobenius, and the comparison with
-ReductiveGroups §9B (Layer 2); the group over a field (Layer 3); flatness of the data, the big cell,
-fibres and points (Layer 4); the endomorphisms and their character maps on `G_sc(t)`, the exceptional
-isogenies on the adjoint form, and Lang's equation on the torus of `G_sc(t)` (Layer 5); Chevalley's
-comparison theorem (Layer 6); the exceptional isogenies of the group schemes over `𝔽_p` (Layer 7).
+ReductiveGroups §9B (Layer 2); the group over a field (Layer 3); flatness of the data, the big cell
+over fields and points, with the integral open cell, smoothness and fibres transported from
+ReductiveGroups §9B.1 (Layer 4); the endomorphisms and their character maps on `G_sc(t)`, the
+exceptional isogenies on the adjoint form, and Lang's equation on the torus of `G_sc(t)` (Layer 5);
+Chevalley's comparison theorem on points over fields and its identification with the central
+isogenies of ReductiveGroups §9B.2 (Layer 6); the comparison of the special isogenies of
+ReductiveGroups §9B with the point maps of Layer 5 (Layer 7).
 
 **Already in the Tau Ceti library, and consumed** (exact declarations under the supplier
 contracts):
@@ -1074,8 +1132,8 @@ contracts):
   involution, the existence of a Chevalley system and the named Chevalley system
   `TauCeti.DynkinType.chevalleySystem` with its root enumeration, its extension at the zero weight, its
   Chevalley-system property and its Weyl symmetry; the integer structure constants of a Chevalley
-  system with their value `±(r + 1)` and their two symmetries. Of milestone C0, only the integer
-  function on the root enumeration (§0.1) is a target here.
+  system with their value `±(r + 1)` and their two symmetries. The target of Layer 0 is the integer
+  function on the root enumeration (§0.1).
 - Finite dimensionality of `L(λ)` for dominant integral `λ` over every field of characteristic zero
   with a triangularizable Cartan subalgebra, with no algebraically closed hypothesis; the fundamental
   modules `L(ϖᵢ)` over `ℚ`, their nonvanishing, finite dimensionality and highest weight lines; their
@@ -1083,8 +1141,8 @@ contracts):
   `ϖᵢ`-weight space `ℤ · v⁺ᵢ`; `V_sc(t)`, its lattice, weight basis, the spanning of `P` by its weights
   and its faithfulness; the diagram automorphisms `θ_σ` with `θ_σ θ_τ = θ_στ` and lattice
   preservation; and the descent of a numbered symmetry to the toral closure for a lattice automorphism
-  carrying weight components to weight components, not only for a monomial one. Of milestone C1, only
-  §§1.1–1.2 are targets here.
+  carrying weight components to weight components, not only for a monomial one. The targets of
+  Layer 1 are §§1.1–1.2.
 - `TauCeti.IsCharacterMap` with its composition law, uniqueness over an infinite field and surjectivity
   on the torus, and Lang's equation on a parametrized torus; its form on the adjoint Geck carrier,
   `TauCeti.DynkinType.exists_geckWeightTorusPoints_eq_mul_inv`; the character maps of the Frobenius and
@@ -1097,11 +1155,9 @@ contracts):
   root-datum isogenies `TauCeti.RootPairingIsogeny`, the special node permutations and special
   isogenies, and the datum Steinberg maps.
 - The classical carriers in `TauCeti.SlStd`, `TauCeti.SpStd`, `TauCeti.TypeBSpinCarrier` and
-  `TauCeti.TypeDSpinCarrier`, and the minuscule, doubled, tripled and short-root carriers, remain
+  `TauCeti.TypeDSpinCarrier`, and the minuscule, doubled, tripled and short-root carriers, are
   represented models, with their own representation and Spin consumers. Their full lattices, weight
-  tables and polynomial maps feed Layers 1 and 6 and ReductiveGroups §9B. Of these, only the CFSG
-  dispatch aliases are redundant, and an alias is retired only once its transport to the common carrier
-  is proved.
+  tables and polynomial maps feed Layers 1 and 6 and ReductiveGroups §9B.
 
 **Owned elsewhere.**
 
@@ -1116,8 +1172,9 @@ contracts):
   which §2.9 transports to the point interface here. §9B also owns the exceptional isogenies as
   morphisms of group schemes (§7.1 compares with them), and §§9B.1–9B.3 and *Elementary generators
   and all ring points* state the general-datum forms of §§4.2–4.4 and of Layer 6, for every root datum,
-  central tori and root-free data included, and with ring points; Layers 4 and 6 here are the semisimple
-  Chevalley-datum cases over fields. Thus "construct" in Layers 0 to 2 means these actual adapters and
+  central tori and root-free data included, and with ring points; Layers 4 and 6 here prove the
+  semisimple Chevalley-datum cases over fields and take the integral open cell, smoothness, fibres and
+  the scheme maps from there. Thus "construct" in Layers 0 to 2 means these actual adapters and
   their inverse and value equations, not a second canonical group: `G_sc(t)` here is the specialization
   of ReductiveGroups Layer 9 at `TauCeti.DynkinType.simplyConnectedRootDatum t`.
 - `TauCeti.DynkinType`, the Bourbaki numbering, `TauCeti.DynkinType.simplyConnectedRootDatum`, the
@@ -1137,24 +1194,26 @@ contracts):
 model of Layer 2. §4.1 instantiates the generic flatness theorem and does not repeat a flatness
 construction. The exceptional point map of §5.4 and its character compatibility come from the field
 presentation, independently of algebraicity; ReductiveGroups §9B owns the exceptional isogenies as
-morphisms of group schemes and §7.1 compares that morphism with §5.4 on all roots, the torus and
-points. Layer 6 owns the comparisons of Chevalley data and their extension from the big cell to the
-whole scheme. There is no cycle between §5.4 and Layer 7, nor between Layer 3 and ReductiveGroups §9B.
+morphisms of group schemes and §7.1 compares that morphism with §5.4 on points over fields. Layer 6
+owns the comparisons of Chevalley data on points over fields and their identification with the
+central isogenies of ReductiveGroups §9B.2. There is no cycle between §5.4 and Layer 7, nor between
+Layer 3 and ReductiveGroups §9B.
 
 ## Exact supplier contracts
 
 ### From Mathlib
 
 - `commutatorElement`, `⁅g, h⁆ = g h g⁻¹ h⁻¹` (Convention 4); `PresentedGroup` (§3.6);
-  `Subgroup.closure`, `MulAut.conj`, `Matrix.GeneralLinearGroup`.
+  `Subgroup.closure`, `Subgroup.center` (§4.4), `MulAut.conj`, `Matrix.GeneralLinearGroup`.
 - `LieModule.Weight`, `LieModule.chainBotCoeff` (the length `r` of the root string below a root,
   §0.1), `LieModule.IsTriangularizable`, `LieAlgebra.IsKilling`, `UniversalEnvelopingAlgebra`,
   `Matrix.ToLieAlgebra` (the Serre algebra), and `LieModule.isNilpotent_toEnd_of_mem_rootSpace`: an
   element of the root space of a nonzero root acts nilpotently on a finite-dimensional triangularizable
   module (§1.1, §2.2).
 - `RootPairing.Base` and the root systems of Mathlib underlying the pinned datum.
-- `AlgebraicGeometry.IsClosedImmersion`, `AlgebraicGeometry.IsOpenImmersion`,
-  `AlgebraicGeometry.Smooth` (§§2.4–2.5, 4.2–4.3); `Module.IsTorsionFree` (§4.1).
+- `AlgebraicGeometry.IsClosedImmersion`, `AlgebraicGeometry.IsOpenImmersion` (§§2.4–2.5, 4.2);
+  `AlgebraicGeometry.SmoothOfRelativeDimension` and `AlgebraicGeometry.GeometricallyConnected`
+  (§4.3); `Module.IsTorsionFree` (§4.1).
 - `IsAlgClosed`, `CharP`, `PerfectField`, `frobenius`, `RootableBy`, and `Module.Baer.of_divisible`
   (a divisible abelian group is an injective `ℤ`-module, §5.1).
 
@@ -1219,7 +1278,8 @@ Paths are under `TauCeti/`. All the declarations below are at the pin.
   `kostantWeylPoints`; `commutatorElement_kostantRootSubgroupMatrix_of_lie_eq` and
   `commutatorElement_kostantRootSubgroupMatrix_of_lie_lie_eq` with the `G₂` relations under
   `RootSubgroup/Commutator/G2/`; `kostantGeneratedGroupScheme`, `kostantToralGroupScheme`,
-  `kostantToralPointsSubgroup`, `kostantToralRootSubgroupPoints`, `kostantToralWeightTorusPoints`,
+  `kostantToralDefiningIdeal` (the largest Hopf ideal killed by the root-subgroup and weight-torus
+  coordinate maps, §2.3), `kostantToralPointsSubgroup`, `kostantToralRootSubgroupPoints`, `kostantToralWeightTorusPoints`,
   `kostantToralBaseChangeIso`, `locallyOfFiniteType_kostantToralBaseChangeGroupScheme`,
   `kostantGeneratedGroupScheme_hom_ext` and `kostantToralGroupScheme_hom_ext` (rigidity),
   `isTorsionFree_kostantToralCoordinateHopfAlgebra` (the coordinate Hopf algebra of a toral closure is
@@ -1260,9 +1320,20 @@ Paths are under `TauCeti/`. All the declarations below are at the pin.
   scheme over `ℤ` built as the Kostant toral closure of an admissible lattice, with its base change, its
   root subgroup maps, its change-of-data isomorphisms (§§9B.2–9B.3) and its certification as split
   reductive with the specified root datum. Consumed by §2.9.
-- §9B, "Special isogenies in characteristics two and three": the exceptional isogenies of `B₂`, `F₄` and
-  `G₂` as morphisms of group schemes. Consumed by §7.1 for the comparison.
-- Layer 9, the scheme-theoretic notion of a central isogeny, cited in §6.3 and §7.1.
+- §9B.1, integral open cells: the open immersion `U⁻ × T × U⁺ → G` over `ℤ` with its inverse from the
+  leading block minors in the weight basis, the cover of `G` by its Weyl translates, smoothness,
+  relative dimension `rank X + |Φ|`, geometrically connected fibres, and over every field the equality
+  of the base change with the subgroup scheme generated by the reduced root maps and the torus.
+  Consumed, transported along §2.9, by §§4.2–4.4.
+- §9B.2, central quotients and realizations: for an inclusion of weight spans of two realizations, the
+  central isogeny between their group schemes, with scheme kernel the diagonalizable group of the
+  quotient lattice, identifying root subgroup parameters and restricting characters on the torus, and
+  an isomorphism when the lattices are equal. Consumed by §6.3.
+- §9B, "Special isogenies in characteristics two and three": the exceptional isogenies `τ` of `B₂`,
+  `F₄` and `G₂` as endomorphisms of the pinned simply connected group scheme over `𝔽_p`, with
+  `τ² = Frob_p` and the pinning equations on the simple root subgroups. Consumed by §7.1.
+- Layer 9, the scheme-theoretic notion of a central isogeny and of an isogeny with infinitesimal
+  kernel, cited in §6.3 and §7.1.
 
 ### From TauCetiRoadmap.LieHighestWeight
 
@@ -1290,7 +1361,8 @@ Paths are under `TauCeti/`. All the declarations below are at the pin.
 - M. Demazure and A. Grothendieck, *Schémas en groupes III* (SGA 3): split reductive group schemes over
   a base, the big cell, and the existence theorem.
 - B. Conrad, *Reductive group schemes*, in *Autour des schémas en groupes I*, Panoramas et Synthèses
-  42/43 (2014): the modern account of the same material over a general base.
+  42/43 (2014): the modern account of the same material over a general base. Theorem and page
+  numbers are cited from the author's version on his web page.
 - M. Geck, *On the construction of semisimple Lie algebras and Chevalley groups*, Proc. Amer. Math.
   Soc. **145** (2017), 3233–3247: the explicit Lie algebra and Chevalley basis of Layer 0.
 - R. Steinberg, *Endomorphisms of linear algebraic groups*, Memoirs AMS **80** (1968): 7.2 and 10.10
