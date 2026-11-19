@@ -9,13 +9,12 @@ import TauCeti.RingTheory.LaurentSeries.Puiseux.AbsoluteGalois
 /-!
 # Formal Laurent fields, Puiseux expansions and continuous differential calculus: target signatures
 
-These are suggested forms, not an exhaustive checklist. The roadmap is `README.md`; this file is
-not the roadmap. It states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti.
+The roadmap is `README.md`; this file is not the roadmap. It records the roadmap's headline theorems
+against the pinned Mathlib and Tau Ceti by pinning the declarations that prove them.
 
-Every headline theorem of the roadmap is proved in the pinned Tau Ceti, so this file states none of
-them again. Each `#check` below pins the declaration that carries one of them, so that the file
-stops building if that declaration is renamed or removed. Throughout, `K` is a field and
-`F = K⸨X⸩`.
+Every headline theorem of the roadmap is proved in the pinned Tau Ceti, so this file restates none
+of them. Each `#check` below pins the declaration that carries one of them, so that the file stops
+building if that declaration is renamed or removed. Throughout, `K` is a field and `F = K⸨X⸩`.
 
 * Layer 2. A continuous `K`-derivation of `F` into a Hausdorff `F`-module with continuous scalar
   multiplication factors uniquely through the universal derivation `d` of the continuous one-forms
@@ -25,8 +24,8 @@ stops building if that declaration is renamed or removed. Throughout, `K` is a f
 * Layer 5. If `K` is algebraically closed of characteristic zero, the Puiseux field is an algebraic
   closure of `F`.
 * Layer 6. For such `K`, a finite extension of `F` is isomorphic over `F` to the ramified level
-  `K⸨u⸩`, `u ^ e = X`, exactly when its degree is `e`; and when `e` is nonzero in `K` the trace of
-  one-forms from that level to `F` preserves residues.
+  `K⸨u⸩`, `u ^ e = X`, exactly when its degree is `e`. Over every field `K`, when `e` is nonzero in
+  `K`, the trace of one-forms from that level to `F` preserves residues.
 * Layer 7. For such `K` and a compatible family `ζ` of primitive roots of unity, the absolute
   Galois group of `F` is isomorphic to `ℤ̂` as a topological group, and an automorphism has
   coordinate the generator of `ℤ̂` exactly when it multiplies every `n`-th root of a uniformizer

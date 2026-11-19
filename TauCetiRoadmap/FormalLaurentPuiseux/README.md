@@ -16,13 +16,13 @@ it needs.
 
 The headline theorems are these. Every continuous `K`-derivation of `F` is `a · d/dt` for a
 unique `a ∈ F`, and the continuous one-forms `Ω¹_cont(F/K)` are free of rank one on `dt` and
-universal for continuous derivations into Hausdorff `F`-modules. If `φ ∈ t K[[t]]` is nonzero of
-order `e`, then `Res(f(φ) dφ) = e · Res(f dt)` for every `f ∈ F`, in every characteristic. If `K`
-is algebraically closed of characteristic zero, the Puiseux field `⋃ₙ K((t^(1/n)))` is an
-algebraic closure of `F`, and every finite extension of `F` of degree `e` is `F`-isomorphic to
-`K((t^(1/e)))`. For such `K`, a compatible choice of primitive roots of unity `ζₙ` identifies the
-absolute Galois group of `F` with the profinite integers `ℤ̂` as topological groups, the generator
-acting by `t^(1/n) ↦ ζₙ t^(1/n)` on every `n`-th root of `t`.
+universal for continuous derivations into Hausdorff `F`-modules with continuous scalar
+multiplication. If `φ ∈ t K[[t]]` is nonzero of order `e`, then `Res(f(φ) dφ) = e · Res(f dt)` for
+every `f ∈ F`, in every characteristic. If `K` is algebraically closed of characteristic zero, the
+Puiseux field `⋃ₙ K((t^(1/n)))` is an algebraic closure of `F`, and every finite extension of `F`
+of degree `e` is `F`-isomorphic to `K((t^(1/e)))`. For such `K`, a compatible choice of primitive
+roots of unity `ζₙ` identifies the absolute Galois group of `F` with the profinite integers `ℤ̂` as
+topological groups, the generator acting by `t^(1/n) ↦ ζₙ t^(1/n)` on every `n`-th root of `t`.
 
 The roadmap rests on Mathlib's Laurent and Hahn series, power-series substitution, Kähler
 differentials, Kummer theory and infinite Galois theory, and on Tau Ceti's profinite integers,
@@ -41,7 +41,8 @@ Lie-algebra-valued. Layers 1 to 3 use no Newton–Puiseux theory. Layer 4 builds
 and the Puiseux field with its valuation and calculus; its embeddings and bases rest on Layer 1,
 its calculus on Layers 2 and 3. Layer 5 proves the Newton–Puiseux theorem, Layer 6 classifies the
 finite extensions of `F` and computes their Kummer theory, traces and residues, and Layer 7
-identifies the absolute Galois group.
+identifies the absolute Galois group. Other roadmaps cite these layers by the labels L1, L2, L3, L4,
+L5, L6 and L7, which resolve to Layers 1 to 7 below.
 
 ## Conventions
 
@@ -108,10 +109,9 @@ identifies the absolute Galois group.
 The constant, polynomial, power-series and Laurent-series maps `K → K[t] → K[[t]] → F` form a
 compatible tower of `K`-algebras: Mathlib supplies `K → K[t] → K[[t]]`, and Tau Ceti's
 `TauCeti.hahnSeries_isScalarTower_powerSeries` makes `S → K[[t]] → F` a scalar tower for every `S`
-over which `K[[t]]` is an algebra, in particular `S = K` and `S = K[t]` (Frenkel, §1.2, for the
-setting). The Laurent polynomials embed by the finite sum of their monomials,
-`LaurentPolynomial.toLaurentSeries`, compatibly with these maps
-(`LaurentPolynomial.toLaurentSeries_toLaurent`, `LaurentPolynomial.isScalarTower_laurentSeries`).
+over which `K[[t]]` is an algebra, in particular `S = K` and `S = K[t]`. The Laurent polynomials
+embed by the finite sum of their monomials, `LaurentPolynomial.toLaurentSeries`, compatibly with
+these maps (`LaurentPolynomial.toLaurentSeries_toLaurent`, `LaurentPolynomial.isScalarTower_laurentSeries`).
 This embedding preserves coefficients (`LaurentPolynomial.coeff_toLaurentSeries`), so it is
 injective (`LaurentPolynomial.toLaurentSeries_injective`); its image is the set of series with
 finite support (`LaurentPolynomial.mem_range_toLaurentSeries_iff`); and the order of a nonzero
@@ -169,7 +169,7 @@ For a nonzero `φ ∈ t K[[t]]`, Mathlib's `PowerSeries.subst φ` substitutes `�
 Mathlib's `PowerSeries.heval` is the corresponding evaluation of power series at a Hahn series of
 positive order. Substitution of `φ` is injective (`PowerSeries.subst_eq_zero_iff`), so it extends
 uniquely to a `K`-algebra map
-`f ↦ f(φ)` of `F` (Frenkel, §1.2, for change of local parameter), Tau Ceti's
+`f ↦ f(φ)` of `F` (Frenkel, §3.5.3, pp. 90–91, for changes of coordinate over `ℂ`), Tau Ceti's
 `TauCeti.LaurentSeries.substAlgHom`, which on power series is
 `PowerSeries.subst` (`TauCeti.LaurentSeries.substAlgHom_coe`). Writing `f = t^(−N) f₊` with
 `f₊ ∈ K[[t]]`, it is `f(φ) = φ^(−N) f₊(φ)` for every such representation, so the extension does not
@@ -217,9 +217,10 @@ solved for the `n`-th coefficient of the inverse because the linear coefficient 
 `σ_(φ·ψ) = σ_ψ ∘ σ_φ` (`TauCeti.FormalCoordinate.substAlgEquiv_mul`), which is
 `σ_φ ∘ σ_ψ = σ_(ψ(φ))` of Convention 7. Over a field the dictionary is complete: every
 `K`-algebra automorphism `σ` of `K[[t]]` is the substitution of the coordinate `σ(t)`
-(`TauCeti.FormalCoordinate.ofAlgEquiv`, `TauCeti.FormalCoordinate.substAlgEquiv_ofAlgEquiv`), and
-`φ ↦ σ_φ` is an isomorphism from the formal coordinates over `K` onto the opposite of the
-automorphism group `K[[t]] ≃ₐ[K] K[[t]]` (`TauCeti.FormalCoordinate.substAlgEquivMulEquiv`), whose
+(`TauCeti.FormalCoordinate.ofAlgEquiv`, `TauCeti.FormalCoordinate.substAlgEquiv_ofAlgEquiv`;
+over `ℂ`, Frenkel, §3.5.3, pp. 90–91), and `φ ↦ σ_φ` is an isomorphism from the formal coordinates
+over `K` onto the opposite of the automorphism group `K[[t]] ≃ₐ[K] K[[t]]`
+(`TauCeti.FormalCoordinate.substAlgEquivMulEquiv`), whose
 multiplication is composition (Mathlib `AlgEquiv.aut`). Such automorphisms preserve the maximal
 ideal `(t)`, since they preserve constant coefficients
 (`TauCeti.FormalCoordinate.constantCoeff_substAlgEquiv`). With the topology of Convention 4, under
@@ -228,7 +229,7 @@ and convergence is eventual agreement of each coefficient
 (`TauCeti.PowerSeries.WithValuationTopology.tendsto_iff_coeff`), every `K`-algebra endomorphism of
 `K[[t]]` is continuous (`TauCeti.PowerSeries.WithValuationTopology.continuous_algHom`) and every
 coordinate substitution is a homeomorphism (`TauCeti.FormalCoordinate.substHomeomorph`). On `F`,
-a coordinate gives the automorphism `TauCeti.LaurentSeries.substAlgEquiv` (Frenkel, §1.2).
+a coordinate gives the automorphism `TauCeti.LaurentSeries.substAlgEquiv`.
 *Needs:* §1.3; Mathlib `PowerSeries.substInvOfIsUnit`, `PowerSeries.substInvFun`, `AlgEquiv.aut`;
 Tau Ceti `TauCeti.FormalCoordinate` and the results named above, the scope
 `TauCeti.PowerSeries.WithValuationTopology`.
@@ -259,9 +260,11 @@ isomorphic to the coordinate group as a topological group
 *Needs:* §1.4; Tau Ceti `TauCeti.FormalCoordinate.Jet` and the results named above.
 
 **Checks.**
-- The `1`-jet group is `Rˣ`, through the linear coefficient. The `2`-jet group is not commutative:
-  `(t + t²)(2t) = 2t + 4t²` while `2(t + t²) = 2t + 2t²`; in jet coordinates
-  `(a₁, a₂)(b₁, b₂) = (a₁b₁, a₁b₂ + a₂b₁²)`.
+- The `1`-jet group is `Rˣ`, through the linear coefficient. In jet coordinates
+  `(a₁, a₂)(b₁, b₂) = (a₁b₁, a₁b₂ + a₂b₁²)`, so the `2`-jet group is commutative exactly when `1` is
+  the only unit of `R`: a unit `a ≠ 1` gives `(a, 0)(1, 1) = (a, a)` and `(1, 1)(a, 0) = (a, a²)`.
+  Over `ℚ`, `(t + t²)(2t) = 2t + 4t²` while `2(t + t²) = 2t + 2t²`; over `𝔽₂` the group is
+  commutative.
 
 ### 1.6 Infinitesimal substitutions and derivations of `K[[t]]`
 
@@ -273,7 +276,8 @@ modulo `ε` and preserve `(t)` (`TauCeti.infinitesimalSubstitutions`); they are 
 `1 + ε a D` with `a ∈ t R[[t]]`, and `a ↦ 1 + ε a D` is an isomorphism from the additive group
 `t R[[t]]` (`TauCeti.infinitesimalSubstitutionsEquiv`), whose `ε`-coefficient on `R[[t]]` is the
 derivation `a D` (`TauCeti.infinitesimalSubstitutionsEquiv_apply_map`). This identifies them with
-the vector fields `t K[[t]] D`. For two square-zero elements `e₁, e₂`, for instance `ε₁, ε₂` in
+the vector fields `t K[[t]] D` (over `ℂ`, Frenkel, §3.5.4, p. 92). For two square-zero elements
+`e₁, e₂`, for instance `ε₁, ε₂` in
 `DualNumber (DualNumber K) = K[ε₁, ε₂]/(ε₁², ε₂²)`, the group commutator of `σ₁ = 1 + e₁ a D` and
 `σ₂ = 1 + e₂ b D` is `σ₁σ₂σ₁⁻¹σ₂⁻¹ = 1 + e₁e₂ (a Db − b Da) D`
 (`TauCeti.infinitesimalSubstAlgEquiv_commutator_apply`), which pins the sign relating composition
@@ -395,7 +399,7 @@ Kähler differentials, Mathlib's `Derivation.liftKaehlerDifferential` applied to
 (`TauCeti.laurentSeriesDerivation_liftKaehlerDifferential_surjective`). The continuous one-forms
 `Ω¹_cont(F/K)` are the quotient `Ω[F⁄K] / ker λ`, Tau Ceti's `TauCeti.ContinuousKaehlerDifferential K`,
 with derivation `d`, the image of the Kähler derivation (`TauCeti.ContinuousKaehlerDifferential.D`).
-Then (Frenkel, §1.2, for the setting):
+Then:
 
 - `λ` induces an `F`-linear equivalence `Ω¹_cont(F/K) ≃ F` sending `dt` to `1`
   (`TauCeti.ContinuousKaehlerDifferential.equivLaurentSeries`), so every continuous one-form is
@@ -462,13 +466,13 @@ the derivative and the residue pairing are those of `K[t, t⁻¹]`
 (`LaurentPolynomial.toLaurentSeries_derivative`, `LaurentSeries.residuePairing_toLaurentSeries`).
 
 The finite-map formula holds in every characteristic: for every nonzero `φ ∈ t K[[t]]` of order
-`e` and every `f ∈ F`, `Res(f(φ) Dφ dt) = e · Res(f dt)` (Frenkel, §1.2, for the local-parameter
-setting)
+`e` and every `f ∈ F`, `Res(f(φ) Dφ dt) = e · Res(f dt)`
 (`TauCeti.LaurentSeries.coeff_neg_one_substAlgHom_mul_derivative_eq_nsmul`), and on forms the
 substitution of §2.3 multiplies residues by `e`
 (`TauCeti.ContinuousKaehlerDifferential.coeff_neg_one_equivLaurentSeries_subst`). In particular a
 coordinate change, `e = 1`, preserves residues
-(`TauCeti.LaurentSeries.coeff_neg_one_substAlgHom_mul_derivative`), and the pairing `Res(f dg)` is
+(`TauCeti.LaurentSeries.coeff_neg_one_substAlgHom_mul_derivative`; over `ℂ`, Frenkel, §3.5.2,
+p. 90), and the pairing `Res(f dg)` is
 multiplied by `e` under substitution of both arguments (`LaurentSeries.residuePairing_substAlgHom`).
 The route writes `φ = t^e u` with `u` a unit of `K[[t]]`: the monomial `t⁻¹` gives `φ⁻¹ dφ`, of
 residue `e`; the monomials `tⁿ`, `n ≥ 0`, give power series, of residue `0`; and the monomials
@@ -536,8 +540,8 @@ by `TauCeti.LaurentSeries.residueFormQuotientPairing.instIsPerfPair`), matching 
 `tⁿ` with that of `t^(−1−n)`. Over the field `K` with its discrete topology, a `K`-linear functional
 on `F` is continuous exactly when it vanishes on some `U_a`
 (`LinearMap.continuous_iff_exists_lattice_le_ker`), and every continuous functional is
-`f ↦ Res(g f dt)` for a unique `g ∈ F` (`TauCeti.LaurentSeries.residueDualEquiv`) (Frenkel, §1.2,
-for the setting).
+`f ↦ Res(g f dt)` for a unique `g ∈ F` (`TauCeti.LaurentSeries.residueDualEquiv`; over `ℂ`, the
+residue pairing of `F/K[[t]]` with `K[[t]] dt` in Frenkel, §3.5.5, pp. 94–95).
 *Needs:* §1.2; Tau Ceti the results named above, `TauCeti.LaurentSeries.lattice`.
 
 **Checks.**
@@ -549,7 +553,8 @@ for the setting).
 
 For a `K`-vector space `V`, `V((t)) = HahnModule ℤ K V` (Convention 11) carries the lattice
 topology in which the `U_a(V)` (`TauCeti.HahnModule.lattice`) form a basis of open neighbourhoods
-of zero; it is Hausdorff and linear, finite sums of monomials are dense, and a linear map to a
+of zero (for a Lie algebra over `ℂ`, the topology of Frenkel, §1.3.5, footnote 3, p. 27); it is
+Hausdorff and linear, finite sums of monomials are dense, and a linear map to a
 discrete module is continuous exactly when it vanishes on some lattice
 (`TauCeti.HahnModule.hasBasis_nhds_zero_lattice`, `LinearMap.continuous_iff_exists_hahnModule_lattice_le_ker`).
 The finite jets `U_a(V)/U_b(V)` are the coefficients on `[a, b)`, of dimension
@@ -576,7 +581,8 @@ the dual whose neighbourhoods of zero are the annihilators of the `U_(−a)(V)` 
 their transposes (`LinearMap.residueDual_hahnModuleMap`, `LinearMap.hahnModuleDualMap`). The `dt`
 records how the pairing transforms under a change of parameter: for `V` finite-dimensional,
 substituting both series and multiplying the dual one by `Dφ` multiplies the pairing by `ord φ`
-(`HahnModule.residueDual_derivative_smul_subst_eq_nsmul`) (Frenkel, §1.2, for the setting).
+(`HahnModule.residueDual_derivative_smul_subst_eq_nsmul`; for scalar series over `ℂ` and coordinate
+changes, where `ord φ = 1`, Frenkel, §3.5.5, pp. 94–95).
 *Needs:* §§1.2, 1.3, 3.1, 3.4; Mathlib `HahnModule`, `HahnModule.of`; Tau Ceti the results named
 above.
 
@@ -612,7 +618,9 @@ For a `K`-bilinear form `Φ` on `L`, extended coefficientwise, the residue pairi
 embedding to Mathlib's `LieAlgebra.LoopAlgebra.residuePairing Φ`
 (`LieAlgebra.LoopAlgebra.residuePairing_toHahnModule`); on monomials it pairs `v tᵐ` with `w tⁿ` to
 `n Φ(v, w)` when `m + n = 0` and to `0` otherwise (`HahnModule.residuePairing_single_single`).
-These are the supplier identities for formal loop cocycles (Frenkel, §1.2, for the setting).
+These are the supplier identities for formal loop cocycles (for `ℂ((t))` and an invariant form on a
+simple Lie algebra, the cocycle `Res(Φ(x, dy))` of Frenkel, §1.3.5, Lemma 1.3.2, equation (1.3-3),
+p. 28).
 *Needs:* §§2.1, 3.5; Mathlib `LieAlgebra.loopAlgebra`, `LieAlgebra.LoopAlgebra.residuePairing`;
 Tau Ceti the results named above.
 
@@ -683,8 +691,8 @@ the Puiseux field.
 ### 4.3 The Puiseux field
 
 The Puiseux field is the subfield of `HahnSeries ℚ K` of series with one common denominator: for
-some `n > 0`, every exponent of the support is `k/n` with `k ∈ ℤ` (Frenkel, §1.2, for the Puiseux
-setting). It is Tau Ceti's
+some `n > 0`, every exponent of the support is `k/n` with `k ∈ ℤ` (over `ℂ`, the inductive limit
+of the `ℂ((t^(1/n)))` in Frenkel, §1.2.1, p. 9). It is Tau Ceti's
 `TauCeti.puiseuxField K`, an intermediate field of `HahnSeries ℚ K` over `K`, so closed under
 addition, multiplication and inverse
 (`TauCeti.mem_puiseuxField_iff_exists_den_dvd`). It is the union of the images of the `ιₙ`
@@ -769,7 +777,8 @@ module with continuous scalar multiplication is `x ↦ D_t x · δ(t)`
 
 The continuous one-forms of the Puiseux field are defined by the same quotient of Kähler
 differentials as in §2.3, `TauCeti.puiseuxField.ContinuousKaehlerDifferential K`, free of rank one
-on `dt` and universal for continuous derivations
+on `dt` and universal for continuous derivations into Hausdorff modules with continuous scalar
+multiplication
 (`TauCeti.puiseuxField.ContinuousKaehlerDifferential.equivPuiseuxField`,
 `TauCeti.puiseuxField.ContinuousKaehlerDifferential.existsUnique_compDer_eq`). Each level has its
 one-forms `Ω¹_cont(K((u))/K)` of §2.3 read in `u`; they map to those of the Puiseux field compatibly
@@ -866,9 +875,9 @@ factors are built one power of `t` at a time: the correction in degree `k` solve
 `g Hₖ + h Gₖ = Pₖ − ∑_(0 < i < k) Gᵢ H_(k−i)` with `deg Gₖ < deg g` and `deg Hₖ < deg h`, uniquely by
 Bézout and polynomial division (`IsCoprime.exists_mem_degreeLT_mul_add_mul_eq`,
 `IsCoprime.eq_zero_of_mul_add_mul_eq_zero`), and the solutions are compatible and converge
-(Mannaa–Coquand, §1). The degree-one case is the simple-root form of Hensel's lemma: over a field,
-`K[[t]]` is a henselian local ring (`PowerSeries.henselianLocalRing`), as Mathlib's
-`IsAdicComplete.henselianRing` also gives. Over a field `K`, a monic polynomial over `K[[t]]` whose
+(Mannaa–Coquand, Lemma 1.7, pp. 4–5). The degree-one case is the simple-root form of Hensel's
+lemma: over a field, `K[[t]]` is a henselian local ring (`PowerSeries.henselianLocalRing`), as
+Mathlib's `IsAdicComplete.henselianRing` also gives. Over a field `K`, a monic polynomial over `K[[t]]` whose
 reduction splits, has degree invertible in `K`, has zero coefficient in degree one below the top and
 is not a power of `Y` factors into two monic factors of positive degree
 (`Polynomial.Monic.exists_monic_mul_eq_of_nextCoeff_map_eq_zero`); this is the splitting step of
@@ -889,7 +898,9 @@ degree has a root after a finite ramification: there are `n > 0` and `y ∈ F` w
 `P(tⁿ)(y) = 0`, where `P(tⁿ)` applies `LaurentSeries.expand K n` to the coefficients
 (`TauCeti.LaurentSeries.exists_isRoot_map_expand`). Equivalently `P`, embedded at any level, has a
 root lying in one level of the Puiseux field (`TauCeti.puiseuxField.exists_isRoot_map_levelEmbedding`).
-The route is the Newton–Puiseux algorithm, by induction on the degree `m` (Mannaa–Coquand, §1).
+The route is the Newton–Puiseux algorithm, by induction on the degree `m` (Mannaa–Coquand,
+Lemma 1.8 and Theorem 1.9, pp. 5–7, for `P` monic over `K[[t]]` and separable over `F`; the descent
+below needs no separability).
 Normalize `P` to be monic. A Tschirnhaus shift `Y ↦ Y − a/m`, `a` the coefficient of `Y^(m−1)`,
 removes that coefficient (`Polynomial.nextCoeff_taylor_neg_div_eq_zero`). Write the result as
 `Y^m + ∑_(i=2)^m aᵢ Y^(m−i)`. If every `aᵢ` is zero, `0` is a root. Otherwise choose `i` minimizing
@@ -918,12 +929,12 @@ substitutions. Repeated roots and nonmonic polynomials are covered by the same s
 ### 5.4 The Puiseux field is an algebraic closure of `F`
 
 Let `K` be algebraically closed of characteristic zero. A polynomial of positive degree over the
-Puiseux field has its coefficients in one level `n` (§4.3; Mannaa–Coquand, §1), so it is the image of a polynomial over
+Puiseux field has its coefficients in one level `n` (§4.3), so it is the image of a polynomial over
 `K((u))`; the root theorem of §5.3 over `K((u))`, after a further ramification `u ↦ u^m`, gives a root
 at level `n m` (`TauCeti.puiseuxField.exists_isRoot_levelEmbedding`). Hence the Puiseux field is
-algebraically closed (`TauCeti.puiseuxField.instIsAlgClosed`), every polynomial over it splits
-(Mathlib's `IsAlgClosed.splits`), and, being algebraic over `F` by §4.4, it is an algebraic closure
-of `F` (`TauCeti.puiseuxField.instIsAlgClosure`).
+algebraically closed (`TauCeti.puiseuxField.instIsAlgClosed`; Mannaa–Coquand, Corollary 1.10 and
+Lemma 1.13, pp. 7–8), every polynomial over it splits (Mathlib's `IsAlgClosed.splits`), and, being
+algebraic over `F` by §4.4, it is an algebraic closure of `F` (`TauCeti.puiseuxField.instIsAlgClosure`).
 *Needs:* §§4.3, 4.4, 5.3; Mathlib `IsAlgClosed`, `IsAlgClosure`; Tau Ceti the results named above.
 
 ### Examples
@@ -953,7 +964,7 @@ Over every field `K`, each `n`-th root of unity `η ∈ K` gives the `F`-algebra
 `u ↦ η u` of level `n`, multiplying the coefficient of `t^(k/n)` by `ηᵏ`
 (`TauCeti.puiseuxField.levelKummer`, `TauCeti.puiseuxField.coeff_levelKummer`;
 `TauCeti.LaurentSeries.Level.kummer` on the wrapped level), and these are all the automorphisms of
-the level over `F`, since `σ(u)/u` is a root of unity of `F`, hence a constant
+the level over `F`, since `σ(u)/u` is a root of unity of `K((u))`, hence a constant
 (`TauCeti.LaurentSeries.Level.kummer_surjective`). For `n ∣ m`, the automorphism of level `m`
 attached to `η` restricts on level `n` to the one attached to `η^(m/n)`
 (`TauCeti.puiseuxField.levelKummer_inclusion`), and every embedding of level `n` into level `m` over
@@ -1154,7 +1165,8 @@ conjugation is trivial in the commutative group `lim μₙ(K)`
 This gives `Field.absoluteGaloisGroup F ≃ lim μₙ(K)` (`TauCeti.puiseuxField.absoluteGaloisGroupEquivTateModule`;
 Mathlib's profinite Galois comparison, `FieldTheory/Galois/Profinite.lean`)
 and, for a primitive family `ζ`, the isomorphism of topological groups
-`Field.absoluteGaloisGroup F ≃ ℤ̂` (`TauCeti.puiseuxField.absoluteGaloisGroupEquivZHat`). Its inverse
+`Field.absoluteGaloisGroup F ≃ ℤ̂` (`TauCeti.puiseuxField.absoluteGaloisGroupEquivZHat`; over `ℂ`, with
+`ζₙ = exp(2πi/n)`, Frenkel, §1.2.1, pp. 9–10). Its inverse
 sends `a ∈ ℤ̂` to the automorphism multiplying every `n`-th root of every uniformizer of `F` by
 `ζₙ^(a mod n)` (`TauCeti.puiseuxField.apply_eq_algebraMap_pow_toZMod_absoluteGaloisGroupEquivZHat_mul`),
 so an automorphism has coordinate the generator of `ℤ̂` exactly when it multiplies every `n`-th root of
@@ -1672,11 +1684,15 @@ hypotheses recorded where the layers use it.
 ## References
 
 - [Frenkel, *Langlands Correspondence for Loop Groups*](https://math.berkeley.edu/~frenkel/loop.pdf),
-  §1.2, for the formal Laurent/Puiseux and local-parameter setting.
+  §1.2.1 (pp. 9–10) for the Galois group of `ℂ((t))`, §1.3.5 (footnote 3, p. 27, and Lemma 1.3.2,
+  p. 28) for the topology of the loop algebra and its cocycle, and §§3.5.2–3.5.5 (pp. 89–95) for
+  coordinate changes, their Lie algebra and the residue pairing; page numbers are those of the copy
+  at this address.
 - [Mannaa–Coquand, *Dynamic Newton–Puiseux Theorem*](https://arxiv.org/abs/1304.6770),
-  §1, for the centered-polynomial, ramification and factor-Hensel proof route.
-- [Mathlib Kummer theory](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/KummerExtension.lean)
-  and [profinite Galois comparison](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/FieldTheory/Galois/Profinite.lean).
+  arXiv version 2: Lemma 1.7 (pp. 4–5) for factor Hensel lifting, Lemma 1.8 and Theorem 1.9 (pp. 5–7)
+  for the Newton–Puiseux route, Corollary 1.10 and Lemma 1.13 (pp. 7–8) for algebraic closedness.
+- [Mathlib Kummer theory](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/KummerExtension.lean)
+  and [profinite Galois comparison](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/Galois/Profinite.lean).
 - [Formal versus convergent Puiseux discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Remaining.20100.20theorems/near/484400866)
   for the distinction from analytic branch convergence.
 - [Dean Cureton's formal Puiseux development](https://github.com/deancureton/Puiseux), an
