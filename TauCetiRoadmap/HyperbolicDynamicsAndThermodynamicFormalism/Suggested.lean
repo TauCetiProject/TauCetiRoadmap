@@ -362,7 +362,9 @@ def flowGenerator (ϕ : Flow ℝ M) (x : M) : TangentSpace I x :=
 /-- A hyperbolic set of a flow for the norms of a Riemannian metric (README §7.2): a compact
 invariant set on which the generator does not vanish, constants `C > 0` and `κ > 0`, and at each
 `x ∈ Λ` subspaces with `T_xM = E^s_x ⊕ ℝX(x) ⊕ E^u_x`, invariant under every `Dg^t`, with
-`|Dg^t v| ≤ C e^(-κt) |v|` on `E^s_x` and `|Dg^(-t) v| ≤ C e^(-κt) |v|` on `E^u_x` for `t ≥ 0`. -/
+`|Dg^t v| ≤ C e^(-κt) |v|` on `E^s_x` and `|Dg^(-t) v| ≤ C e^(-κt) |v|` on `E^u_x` for `t ≥ 0`.
+The notion is meant for `C¹` flows: every theorem below that uses it assumes the flow `C¹`, and
+`IsAnosovFlow` includes that assumption. -/
 def IsFlowHyperbolicSet
     [FiniteDimensional ℝ E] [IsManifold I ∞ M] [I.Boundaryless]
     [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
@@ -375,6 +377,14 @@ def IsFlowHyperbolicSet
           (Eu x).map (mfderiv I I (ϕ t) x).toLinearMap = Eu (ϕ t x) ∧
           (0 ≤ t → (∀ v ∈ Es x, ‖mfderiv I I (ϕ t) x v‖ ≤ C * Real.exp (-(κ * t)) * ‖v‖) ∧
             ∀ v ∈ Eu x, ‖mfderiv I I (ϕ (-t)) x v‖ ≤ C * Real.exp (-(κ * t)) * ‖v‖)
+
+/-- An Anosov flow (README §7.2): a `C¹` flow, `(t, x) ↦ g^t x` being `C¹` on `ℝ × M`, for which
+the whole manifold is a hyperbolic set; in particular `M` is compact. -/
+def IsAnosovFlow
+    [FiniteDimensional ℝ E] [IsManifold I ∞ M] [I.Boundaryless]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)]
+    (ϕ : Flow ℝ M) : Prop :=
+  ContMDiff (𝓘(ℝ, ℝ).prod I) I 1 (fun p : ℝ × M => ϕ p.1 p.2) ∧ IsFlowHyperbolicSet I ϕ univ
 
 end HyperbolicSets
 
@@ -589,6 +599,25 @@ theorem existsUnique_isFlowEquilibriumState_of_isFlowBasicSet
           (IsEquilibriumState (ϕ.restrict hinv t) Ft ν' ↔ ν' = ν)) ∧
       ∀ a > (0 : ℝ), ∀ ψ : Flow ℝ Λ, (∀ t x, ψ t x = ϕ.restrict hinv (a * t) x) →
         IsFlowEquilibriumState ψ (a • F) ν := by
+  sorry
+
+/-- The Bowen–Ruelle theorem for Anosov flows (README §10.3): for a `C¹` Anosov flow with a dense
+orbit on a compact manifold with the truncated Riemannian distance, a Hölder potential `F` on `M`
+has exactly one equilibrium state `ν` among the probability measures on `M`; it is flow-ergodic,
+positive on nonempty open sets and lower Gibbs at every scale, and it is the equilibrium state of
+`F + c + L_gψ` for every `ψ` differentiable along the flow with continuous derivative `L_gψ`. -/
+theorem existsUnique_isFlowEquilibriumState_of_isAnosovFlow
+    (hd : ∀ x y : M, edist x y = min 1 (riemannianEDist I x y))
+    (ϕ : Flow ℝ M) (hϕ : IsAnosovFlow I ϕ) (hdense : ∃ x : M, Dense (range fun t : ℝ => ϕ t x))
+    (F : C(M, ℝ)) {C r : ℝ≥0} (hr : 0 < r) (hF : HolderWith C r F) :
+    ∃ ν : ProbabilityMeasure M,
+      (∀ ν', IsFlowEquilibriumState ϕ F ν' ↔ ν' = ν) ∧
+      @ErgodicVAdd ℝ M ϕ.toAddAction.toVAdd _ (ν : Measure M) ∧
+      (∀ U : Set M, IsOpen U → U.Nonempty → 0 < ν U) ∧
+      (∀ ε > 0, HasLowerGibbsProperty ϕ F ν ε) ∧
+      ∀ (c : ℝ) (ψ Lψ F' : C(M, ℝ)),
+        (∀ x, HasDerivAt (fun t => ψ (ϕ t x)) (Lψ x) 0) →
+        (∀ x, F' x = F x + c + Lψ x) → IsFlowEquilibriumState ϕ F' ν := by
   sorry
 
 end BowenRuelle
