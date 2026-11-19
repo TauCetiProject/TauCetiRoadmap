@@ -26,8 +26,8 @@ The headline theorems are these.
   update of a symmetric `B` is the unique symmetric `X` with `Xs = y` minimizing
   `trace(W⁻¹(X − B)W⁻¹(X − B))`. With exact line searches on a strictly convex quadratic in
   dimension `n`, from a positive definite matrix, Broyden's class with nonnegative parameters
-  reaches the minimizer in at most `n` steps, and after exactly `n` steps the matrix is the inverse
-  Hessian.
+  reaches the minimizer in at most `n` steps, and if the minimizer is not reached before step `n`,
+  the matrix after `n` steps is the inverse Hessian.
 - *The Dennis–Moré characterization.* Let `f` map a finite-dimensional real normed space to
   itself, with a Gâteaux derivative `f'` on an open convex `D`, continuous at `x⋆ ∈ D`, `f'(x⋆)`
   invertible. If `x_(k+1) = x_k − B_k⁻¹ f(x_k)` with invertible `B_k` stays in `D`, tends to `x⋆`
@@ -189,8 +189,11 @@ and the integral has norm at most `K‖e‖²/2 < ‖e‖` unless `e = 0`.
 ### Examples
 
 Newton's method for minimization is the case `f = ∇φ` of a twice differentiable `φ` on a real
-Hilbert space, with `f'` the Hessian: at a critical point `x⋆` with positive definite, hence
-invertible, Hessian, 1.3 applies with `A` the Hessian at `x⋆`. The two scalar examples of 1.3 and
+Hilbert space, with `f'` the Hessian: at a critical point `x⋆` whose Hessian `H` is coercive
+(`⟪H v, v⟫ ≥ c‖v‖²` for some `c > 0`), hence invertible, 1.3 applies with `A = H` when the
+Hessian satisfies the radial condition of 1.3. Positivity of `⟪H v, v⟫` for `v ≠ 0` is not
+enough in infinite dimension: for `φ(x) = ½ ∑ xₙ²/n` on `ℓ²` the Hessian `diag(1/n)` is positive
+and not surjective. The two scalar examples of 1.3 and
 the double root `x²` of 1.1 show the radius, the rate and the role of invertibility.
 
 ### Dependencies
@@ -604,8 +607,8 @@ implementations, stopping rules and operation counts.
 
 ### From Mathlib
 
-- `Mathlib/Analysis/Calculus/FDeriv/Basic.lean`: `fderiv`, `HasFDerivAt`, `HasFDerivWithinAt`;
-  `HasFDerivAt.fderiv` (`HasFDerivAt f f' x` implies `fderiv 𝕜 f x = f'`).
+- `Mathlib/Analysis/Calculus/FDeriv/Defs.lean`: `fderiv`, `HasFDerivAt`, `HasFDerivWithinAt`.
+  `Mathlib/Analysis/Calculus/FDeriv/Basic.lean`: `HasFDerivAt.fderiv` (`HasFDerivAt f f' x` implies `fderiv 𝕜 f x = f'`).
 - `Mathlib/Analysis/Calculus/Deriv/Comp.lean`: `HasFDerivWithinAt.comp_hasDerivWithinAt` (the
   chain rule for a map with a derivative within a set composed with a curve into that set) and
   `HasFDerivAt.comp_hasDerivAt` (the same at an interior point).
