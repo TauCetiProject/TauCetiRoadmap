@@ -346,10 +346,11 @@ Ceti `Matrix.minorsIdeal_range_eq_span_det_submatrix`), which does not depend on
 (`TauCeti.fittingIdeal_eq_minorsIdeal_ker`), so `Δ_L` is determined up to a unit
 `±t₁^a₁ ⋯ t_ℓ^aℓ`. Prove Torres's symmetry: `Δ_L(t₁⁻¹, …, t_ℓ⁻¹)` is `Δ_L(t₁, …, t_ℓ)` up to such a
 unit (Torres, *On the Alexander polynomial*, 1953). The book states it as Theorem 11.5.3 without
-proof and obtains it from grid homology, from the symmetry of multi-graded `GĤ` (Corollary 11.4.3)
-and the Euler characteristic of Theorem 11.6.1 (§3.9); that route waits for §3.9. Fix the
-symmetrized polynomial as the product of `Δ_L` with the monomial in the `tᵢ^½` that makes it
-invariant under every `tᵢ^½ ↦ tᵢ^−½`; it is determined up to sign (Definition 11.5.4).
+proof; the grid-homology derivation it points to (Corollary 11.4.3 with Theorem 11.6.1) is circular
+as written, since its proof of Theorem 11.6.1 uses Proposition 11.5.8, whose proof ends by invoking
+Theorem 11.5.3. Fix the symmetrized polynomial as the product of `Δ_L` with the monomial in the
+`tᵢ^½` that makes it invariant under every `tᵢ^½ ↦ tᵢ^−½`; it is determined up to sign
+(Definition 11.5.4).
 
 - For `ℓ = 1` it is `Δ_K` up to a unit; for `ℓ > 1`, `(t − 1)·Δ_L(t, …, t)` is the one-variable
   Alexander polynomial of `L` (GeometricTopology §4.4) up to a unit (Proposition 11.5.2).
@@ -361,8 +362,7 @@ invariant under every `tᵢ^½ ↦ tᵢ^−½`; it is determined up to sign (Def
 GeometricTopology §4.2 (diagrams and braid closures), §4.4 (the Alexander polynomial of a knot and
 the one-variable polynomial of links), Layer 5.1 (the exterior); Mathlib `IsCoveringMap`,
 `FundamentalGroup`, `MvPolynomial.uniqueFactorizationMonoid`,
-`UniqueFactorizationMonoid.of_isLocalization`; Torres (1953), or §3.9 on the grid-homology route
-to Torres's symmetry.
+`UniqueFactorizationMonoid.of_isLocalization`; Torres (1953) for Torres's symmetry.
 
 **Checks.**
 - For the trefoil, the Seifert matrix computation of Tau Ceti
@@ -607,8 +607,10 @@ bigraded decomposition (§1.3) is the home of `τ`.
 - For a knot grid, `GH⁻ ⊗ 𝔽[U, U⁻¹]` is `𝔽[U, U⁻¹]` (Ozsváth–Stipsicz–Szabó, Proposition 6.1.4): by
   §1.3, `GH⁻` is one tower plus finitely many torsion summands, and `τ` is minus the Alexander
   degree of the tower generator.
-- The link form specializes to Tau Ceti's `GH⁻` of a knot when `ℓ = 1`, and setting every `Vⱼ`
-  equal gives the collapsed `𝔽[U]`-module of a link.
+- The link form specializes to Tau Ceti's `GH⁻` of a knot when `ℓ = 1`. Identifying, in the
+  unblocked complex, the variables of one `O`-marking on each component gives the collapsed
+  complex, whose homology is the collapsed `𝔽[U]`-module of the link (Ozsváth–Stipsicz–Szabó,
+  Definition 8.2.4).
 
 *Needs:* §1.3, §3.2, §3.3, §3.5; Tau Ceti
 `TauCeti.GridDiagram.unblockedDifferential_comp_XHomotopy_add_XHomotopy_comp`,
@@ -674,7 +676,17 @@ the mirror image and the reverse of the link in `S³` (§2.1). For a knot `K` pr
 of `GĤ`: `GĤ_M(m(K), A) ≅ GĤ_(−M)(K, −A)` for the mirror `m(K)`, the composite of
 Ozsváth–Stipsicz–Szabó's Propositions 7.1.2 and 7.1.1; `GĤ_M(K, A) ≅ GĤ_(M−2A)(K, −A)`
 (Proposition 7.1.1); and `GĤ(−K) ≅ GĤ(K)` for the reverse (Proposition 5.3.2); and
-`τ(m(K)) = −τ(K)` (Corollary 7.4.5). Prove the genus bound
+`τ(m(K)) = −τ(K)` (Corollary 7.4.5). Prove that a grid can be adapted to a surface: if `F ⊂ S³`
+is a compact oriented surface with no sphere components whose oriented boundary is an
+`ℓ`-component link `L`, then `L` is presented by a grid diagram on which every grid state has
+collapsed Alexander grading (§3.2) at most `(ℓ − χ(F))/2` (Ozsváth–Stipsicz–Szabó, Propositions
+3.4.9, 3.4.11 and 7.2.1 for knots, the proof of Proposition 11.7.1 for links). Route: discard the
+closed components of `F`, which only lower `χ(F)`; a grid diagram carries surfaces bounded by its
+link, built from the winding numbers of its projection around the lattice points made non-negative
+and of least complexity by adding and subtracting rows and columns (Definition 3.4.1), and the
+Euler characteristic `χ` of such a surface, computed from that matrix, makes `(ℓ − χ)/2` the
+largest Alexander grading of a grid state; and `F`, isotoped to discs with thin bands immersed in
+the plane, yields a grid carrying such a surface with `χ ≥ χ(F)`. Prove the genus bound
 `g(K) ≥ max{A : GĤ(K, A) ≠ 0}`, where `g(K)` is the Seifert genus of the knot in `S³` that the
 grid presents (GeometricTopology §4.3; Ozsváth–Stipsicz–Szabó, Proposition 7.2.2). That the bound
 is an equality for every knot is known only through the holomorphic theory, which belongs to
@@ -682,9 +694,11 @@ HeegaardFloer, so the bound, not detection, is the target.
 
 *Needs:* §3.5 (invariance, for the statements about `K`), §3.6 (for `τ`); Tau Ceti
 `TauCeti.GridDiagram.transpose`, `TauCeti.GridDiagram.rotate`, `TauCeti.GridDiagram.swapMarkings`,
-`TauCeti.GridDiagram.IsKnot.unblockedHomologyIsomorphic_transpose`; §2.1 (the mirror and reverse
-in `S³`), §2.2 (to pass to a grid realizing the genus); GeometricTopology §4.1 (mirror, reverse),
-§4.3 (Seifert genus).
+`TauCeti.GridDiagram.IsKnot.unblockedHomologyIsomorphic_transpose`,
+`TauCeti.GridDiagram.alexanderTwoℤ_eq_sum_southwestCount` (the Alexander grading through winding
+numbers); §2.1 (the mirror and reverse in `S³`, the link a grid presents), §3.2 (the collapsed
+Alexander grading), §2.2 (to compare a grid of `K` with the grid adapted to a Seifert surface of
+least genus); GeometricTopology §4.1 (mirror, reverse), §4.3 (Seifert surfaces and genus).
 
 **Checks.**
 - `GĤ` of the left-handed trefoil grid `torusLink 1 2` has one class in each of the bidegrees
@@ -714,9 +728,9 @@ boundary the link `L` that the grid presents, then every multi-Alexander grading
 Seifert surface of least genus this reads `h₁ + ⋯ + h_ℓ ≤ g(L) + ℓ − 1` (Proposition 11.7.1, by
 the route of Proposition 7.2.2).
 
-*Needs:* §3.2 (the multi-Alexander grading), §3.4, §3.5, §3.6; §2.2 (to pass to a grid adapted to
-`F`), §2.3 (the multivariable Alexander polynomial of the presented link); GeometricTopology §4.3
-(Seifert surfaces and the genus of links), §6.2 (the signature).
+*Needs:* §3.2 (the multi-Alexander grading), §3.4, §3.5, §3.6; §3.8 (a grid adapted to `F`), §2.2
+(to compare it with the given grid), §2.3 (the multivariable Alexander polynomial of the presented
+link); GeometricTopology §4.3 (Seifert surfaces and the genus of links), §6.2 (the signature).
 
 **Checks.**
 - The two branches on the unknot and the two-component unlink: the knot branch gives
@@ -1235,14 +1249,20 @@ diagrams and is defined in §5.5.
 
 Build integer coefficients through sign assignments (Ozsváth–Stipsicz–Szabó, arXiv:1301.0480).
 Build the twisted refinement: the hat complex of a nice diagram of `Y` with `b` basepoints, free
-over the group ring `𝔽₂[H₂(Y # (b − 1)(S¹ × S²); ℤ)]` with each counted domain contributing its
-class, which squares to zero (Ozsváth–Stipsicz–Szabó, arXiv:0912.0830, Proposition 9.1), and its
-homology `HF̂T(Y)` on a convenient diagram of `Y₁` for `Y = Y₁ # n(S¹ × S²)` (Definition 9.2), an
-invariant of `Y` (Theorem 9.4). That `HF̂T(Y)` is `HF̂(Y)` when `b₁(Y) = 0` is HeegaardFloer
-§8.1's twisted comparison, not a target here.
+over the group ring `𝔽₂[H₂(Y # (b − 1)(S¹ × S²); ℤ)]`. Fix a generator `x` in each class of
+generators joined by domains and, for each `y` in its class, a domain `D_y` from `x` to `y` with
+multiplicity zero at every basepoint; a counted domain `D` from `y` to `z` contributes the class of
+the periodic domain `D_y + D − D_z` in `H₂(Y # (b − 1)(S¹ × S²); ℤ)`, capped off in the
+once-pointed diagram of that manifold obtained by joining the basepoint regions by tubes
+(Ozsváth–Stipsicz–Szabó, arXiv:0912.0830, §9). The twisted differential squares to zero
+(Proposition 9.1), and its homology `HF̂T(Y)` on a convenient diagram of `Y₁` for
+`Y = Y₁ # n(S¹ × S²)` (Definition 9.2) is, up to isomorphism, independent of the choices of `x` and
+`D_y` and an invariant of `Y` (Theorem 9.4). That `HF̂T(Y)` is `HF̂(Y)` when `b₁(Y) = 0` is
+HeegaardFloer §8.1's twisted comparison, not a target here.
 
-*Needs:* §5.3, §5.5 (convenient diagrams, prime decompositions); Ozsváth–Stipsicz–Szabó,
-arXiv:1301.0480 and arXiv:0912.0830, §9.
+*Needs:* §5.3, §5.5 (convenient diagrams, prime decompositions); Tau Ceti
+`TauCeti.HeegaardRegionSystem.IsDomainBetween`, `TauCeti.HeegaardRegionSystem.periodicDomains`;
+Ozsváth–Stipsicz–Szabó, arXiv:1301.0480 and arXiv:0912.0830, §9.
 
 ### 5.5 Heegaard diagrams of smooth three-manifolds
 
@@ -1296,8 +1316,9 @@ Ozsváth–Stipsicz–Szabó (sources).
   diagrams on the combinatorics of §5.1, and its §§7.0 and 7.6 reuse the bigraded and filtered
   carriers of Layers 1 and 3. The first seam crossed end to end is `HF̂(L(p, q))` computed
   holomorphically from the genus-one diagram, against §5.3's combinatorial answer.
-- [GeometricTopology](../GeometricTopology/README.md) owns the connected-sum and descent adapter
-  for the grid invariant and the `τ` formulas for Mazur satellites, which use Layer 3.
+- GeometricTopology, Part II, which [GeometricTopology](../GeometricTopology/README.md) names in
+  its scope, owns the connected-sum and descent adapter for the grid invariant and the `τ` formulas
+  for Mazur satellites, which use Layer 3.
 
 ## Scope and ownership
 
@@ -1410,6 +1431,7 @@ Paths are under `TauCeti/`. Each item is assumed as stated in the layers.
   `TauCeti.GridDiagram.alexander_change_rectangle`, `TauCeti.GridDiagram.maslovO_change_rectangle`,
   `TauCeti.GridDiagram.maslovX_change_rectangle`,
   `TauCeti.GridDiagram.alexander_sub_alexander_eq_card_sub_card`,
+  `TauCeti.GridDiagram.alexanderTwoℤ_eq_sum_southwestCount` (the winding-number form),
   `TauCeti.OddComponentGridDiagram`, `TauCeti.GridDiagram.IsKnot.toOddComponentGridDiagram`.
 - **Grid complexes and homology** (`KnotTheory/Grid/Chain/`, `Unblocked.lean`, `SimplyBlocked.lean`,
   `Differential/`, `Homology/`): `TauCeti.GridDiagram.fullyBlockedComplex`,
