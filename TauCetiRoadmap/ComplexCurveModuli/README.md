@@ -414,7 +414,8 @@ specializations, `TauCeti.eulerChar`.
 
 GeometricTopology §§1.1, 1.7; AlgebraicTopology §§7.1–7.3; FuchsianOrbifolds Layer 5; ModularForms
 §10B; ComplexKahlerGeometry §§4.1, 5.10; PseudoholomorphicCurveAnalysis §7.2; HeegaardFloer F2.6a;
-ComplexTori Milestone 1; PDE §§1.1, 1.4, 1.7; DifferentialGeometry Layer 3 (flows, on which
+ComplexTori Milestone 1; PDE §§1.1, 1.4, 1.7; RiemannianManifoldsWithConvexBoundary §1.4 (the
+second fundamental form of the boundary, for §0.4); DifferentialGeometry Layer 3 (flows, on which
 Tau Ceti's diffeotopies of §0.1c rest); Tau Ceti's diffeotopies, compact Riemann surfaces,
 hyperbolic metrics and
 Euler characteristic. §0.5 also uses Tau Ceti's nodal gluing of Layer 1.
