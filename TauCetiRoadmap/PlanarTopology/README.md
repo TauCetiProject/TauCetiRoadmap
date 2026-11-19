@@ -188,7 +188,7 @@ L1 polygonal engine
  |\
  | \__ Track I  (approximation and separation)
  |    L2 separation, polygonal crosscuts, Brouwer, invariance of domain
- |    L7 topological Schoenflies and tameness  (graph tameness also uses L3 and L5)
+ |    L7 topological Schoenflies and tameness  (graph tameness uses L3/L5; side transport uses L6)
  |
  \____ Track II (piecewise-linear)
       L3 simplicial and PL toolkit in dimension two
@@ -1053,6 +1053,39 @@ Schoenflies gives local flatness for embedded circles and arc interiors lying in
 
 **From layers 0 and 2.** Alexander's trick, `IsotopicRel`, polygonal-crosscut splitting, dense polygonal accessibility and its joining lemma, and `isJordanDomain_inside`.
 **From layers 3 and 5.** `IsCombinatorialSurface`, `Subdivides`, and Radó: the tameness of finite graphs concludes with a triangulation of the surface, so it is downstream of both.
+**From layer 6.** Local orientation transport and its comparison with the finite orientation double cover.
+**From Tau Ceti.** `IsBicollar`, `IsBicollared`, and `IsLocallyFlat.isLocallyBicollared`
+(`Geometry/Manifold/LocallyFlat/Bicollar.lean`); consistent local sides and Brown's
+`IsLocallyBicollaredWithSides.exists_isBicollar` (`LocallyFlat/TwoSided.lean`);
+the topological `MappingTorus`, `MappingTorus.mk` and its quotient laws
+(`Topology/MappingTorus.lean`).
+
+**Side transport and marked neighbourhoods.** For an interior Jordan curve `J`,
+restrict layer 6's local orientation transport to `J`. Construct its two-sheeted
+cover by gluing the two local orientation choices in disc charts along the
+curve. A finite chart cover of `J` suffices, including when the ambient surface
+is noncompact. Choosing a direction on the circle identifies these choices with
+local sides. Define `IsTwoSided J` by existence of a continuous section of this
+cover; set it false when `J` is not an interior Jordan curve. Prove equivalence
+with the return test: transporting either choice once around the circle returns
+to itself. A one-sided curve exchanges the choices. Prove independence of charts,
+starting point and circle direction, and compare with the pullback of layer 6's
+simplicial orientation cover whenever a triangulation is supplied.
+
+An annular neighbourhood is the native `TauCeti.IsBicollared ((↑) : J → M)`:
+an open embedding of `J × ℝ` whose zero section is the inclusion. The open Möbius
+model is the native mapping torus of `s ↦ -s` on `ℝ`, identifying `(s,t)` with
+`(-s,t+1)`. Construct its quotient charts, prove that `[0,t]` embeds the circle,
+and use the native projection to `UnitAddCircle`. A marked Möbius neighbourhood
+is an open embedding of this model, with a circle parametrization carrying
+`[0,t]` exactly to the given curve, as `HasMobiusNeighborhood` spells out below.
+Include compatibility with reparametrizing the marked core. Neighbourhood images lie in the surface
+interior; for the native bicollar this follows from boundary invariance. Restrict
+the normal coordinate to `|s| ≤ ε`, `ε > 0`, to obtain closed annular or Möbius
+subbands for cutting. Prove homeomorphism and ambient-isotopy invariance of the
+predicates, `IsTwoSided J ↔ TauCeti.IsBicollared ((↑) : J → M)` and
+`¬ IsTwoSided J ↔ HasMobiusNeighborhood J` under the interior-Jordan hypotheses.
+The return test is defined before these neighbourhood equivalences.
 
 **Representative formal statements.**
 
@@ -1073,6 +1106,15 @@ theorem schoenflies_extend {J K : Set ℂ}
     ∃ h : ℂ ≃ₜ ℂ, ∀ z : J, h z = (e z : ℂ)
 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
+
+/-- An interior Jordan curve whose local-orientation cover has a continuous section. -/
+def IsTwoSided (J : Set M) : Prop
+/-- The open band with sign-reversing return map; its core is `[0,t]`. -/
+abbrev OpenMobiusBand := TauCeti.MappingTorus (Homeomorph.neg ℝ)
+def HasMobiusNeighborhood (J : Set M) : Prop :=
+  ∃ (c : UnitAddCircle ≃ₜ J) (b : OpenMobiusBand → M),
+    IsOpenEmbedding b ∧ Set.range b ⊆ (𝓡∂ 2).interior M ∧
+      ∀ t : ℝ, b (TauCeti.MappingTorus.mk (Homeomorph.neg ℝ) 0 t) = (c (t : UnitAddCircle) : M)
 
 /-- Tameness. The discharge of `GeometricTopology` layer 2's hypothesis, stated on the embedding with
     its model slice: ambient charts of `M` carry the image onto the slice. For a simple closed curve
@@ -1100,7 +1142,8 @@ theorem exists_collar_of_twoSided_isJordanCurve {J : Set M} (hJ : IsJordanCurve 
     according as it is two-sided or one-sided. -/
 theorem jordanCurve_neighborhood_dichotomy {J : Set M} (hJ : IsJordanCurve J)
     (hint : J ⊆ (𝓡∂ 2).interior M) :
-    (IsTwoSided J ∧ HasAnnularNeighborhood J) ∨ (¬ IsTwoSided J ∧ HasMobiusNeighborhood J)
+    (IsTwoSided J ∧ TauCeti.IsBicollared ((↑) : J → M)) ∨
+      (¬ IsTwoSided J ∧ HasMobiusNeighborhood J)
 
 /-- Tameness of finite graphs, in the vocabulary of arcs: finitely many arcs in the interior of a
     surface, meeting pairwise only in common endpoints, are carried by an ambient isotopy onto
@@ -1140,12 +1183,32 @@ end IsJordanCurve
 - No homeomorphism is built directly.  Instead this approach builds two matched finite cell decompositions, one of the closed interior and one of the closed square, isomorphic as cellulations and agreeing with a chosen boundary correspondence.  It refines them alternately so that cells become small on both sides and constructs the homeomorphism off the nested closed stars. Every finite stage adds polygonal arcs and uses layer 2's polygonal-crosscut theorem and dense polygonal accessibility. No polygonal approximation of the curve appears anywhere.
 - The matched cellulations here are finite approximating devices internal to this proof. They are not the generalized maps of `SurfaceTopology` and carry no realization theory of their own.
 - Tameness of a finite family of arcs is proved arc by arc and then at the joints: each arc extends to a simple closed curve away from the others, by layer 2's accessibility, and Schoenflies straightens it; at a common endpoint the finitely many arcs are straightened together by a second application of Schoenflies inside a small disc around the point. The second step is where a finite star needs more than the tameness of each of its arcs. This gives a finite-star model at a graph vertex and a line model along an edge interior. An arc endpoint has one branch, an edge interior has two, and a Y vertex has three; straightening preserves this distinction.
+- **The side-return calculation.** After local flatness, thicken a cyclic finite
+  cover of the circle by straightened arcs into rectangular strips and track their
+  two transverse directions. Normalize the transition maps on intervals, preserving
+  their central arcs, to reduce the final gluing to the identity or reflection.
+  The product of the transition signs is exactly the local-orientation return sign.
+  Coherent sides give disjoint open sides in the native
+  `IsLocallyBicollaredWithSides` vocabulary, so Brown's existing theorem supplies a
+  bicollar. A reversing return glues to the explicit Möbius quotient. Prove that
+  every comparison carries the central circle pointwise through its parametrization;
+  this establishes the dichotomy and its incompatibility with a product collar in
+  the reversing case. The argument uses finite strips and local orientation transport,
+  before surface classification or homology, and does not require a global
+  triangulation of a noncompact ambient surface.
 - **Arbitrary crosscuts after straightening.** Include the version of finite-arc tameness that fixes the boundary of a containing polygonal disc. Applied in a large triangulated square containing `J ∪ P` in its interior, this straightens `P` to a finite polygonal arc. Extend the resulting square homeomorphism by the identity outside to obtain `exists_polygonal_image_of_crosscut`. A plane homeomorphism carries the bounded and unbounded complementary sides to the corresponding sides: compactness of the closed bounded side and the same fact for the inverse distinguish them. Thus it transports `IsCrosscut` and the inside sets. Apply layer 2's `polygonal_crosscut` to the image and pull both Jordan boundaries and both inside regions back. The straightening construction uses Schoenflies and polygonal joining; the arbitrary-crosscut theorem is a consequence of it.
 - Carathéodory applies to the Jordan-domain output of layer 2 and gives an analytic route to the closed-inside disc identification. The proof developed here is the elementary matched-cellulation construction, followed by the geometric straightening arguments for arcs and finite stars. Its prerequisites are the earlier polygonal separation, polygonal accessibility, joining, and polygonal-crosscut results.
 
 **Examples and mathematical checks.** The parabola arc `y = (1-x²)/2`, `-1 ≤ x ≤ 1`, is a nonpolygonal crosscut of the unit disc; the full `crosscut` theorem gives the regions above and below it inside the disc. A straight chord satisfies both crosscut predicates and recovers the layer 2 result. `schoenflies_closure` is instantiated on a curve that is not rectifiable. Circle and arc statements use Tau Ceti's `IsSliceEmbedding`, with local flatness the coordinate-line case. Exhibit an ambient straightening of a Y-shaped union of three arcs into a triangulation: it is a positive graph-tameness check. It is a negative local-flatness check at the common vertex, since removing that vertex from a small graph neighbourhood leaves three components, whereas a punctured line neighbourhood has two. A simple circle gives the positive line-model check; an arc endpoint gives the distinct half-line model. The core circle of a Möbius band is the counterexample to an unconditional product collar: it is tame and locally flat but one-sided. Automatic tameness fails in dimension three, where wild embeddings occur.
 
-**Natural intermediate results.** (i) finite cellulations of a Jordan domain using layer 2's polygonal crosscuts and polygonal joining; (ii) matching and refinement transfer; (iii) alternation and the small-cell estimate; (iv) the nested-star limit and `schoenflies_closure`; (v) the ambient and spherical forms; (vi) tameness of arcs; (vii) tameness of simple closed curves; (viii) the annulus/Möbius regular-neighbourhood dichotomy and the two-sided collar corollary; (ix) tameness of finite families of arcs, including the form fixed on the boundary of a containing polygonal disc; (x) plane crosscut straightening, transport of inside sets, and the arbitrary-crosscut theorem.
+For side transport, the standard annulus core has return sign `+1` and its
+identity marked bicollar. The open Möbius core `[0,t]` has sign `-1`, its identity
+marked Möbius neighbourhood, and no bicollar. A torus meridian has sign `+1`
+although its complement is connected; two-sidedness is not global separation.
+Check the core equations, reversal of the circle parametrization, and the
+projection/deck comparison with the finite orientation cover in each model.
+
+**Natural intermediate results.** (i) finite cellulations of a Jordan domain using layer 2's polygonal crosscuts and polygonal joining; (ii) matching and refinement transfer; (iii) alternation and the small-cell estimate; (iv) the nested-star limit and `schoenflies_closure`; (v) the ambient and spherical forms; (vi) tameness of arcs; (vii) tameness of simple closed curves; (viii) the local side cover, the return test and its invariance, the marked annulus/Möbius models and neighbourhood equivalences, and the two-sided collar corollary; (ix) tameness of finite families of arcs, including the form fixed on the boundary of a containing polygonal disc; (x) plane crosscut straightening, transport of inside sets, and the arbitrary-crosscut theorem.
 
 **Consequences.** `GeometricTopology` layer 2. `SurfaceTopology` layers 5 and 9.
 

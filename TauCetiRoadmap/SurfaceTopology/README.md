@@ -1487,7 +1487,8 @@ def Arc (M : Type*) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M]
 def IsEssential (c : SimpleClosedCurve M) : Prop
 /-- The complement of the carrier in the connected surface is disconnected. -/
 def IsSeparating (c : SimpleClosedCurve M) : Prop
-def IsTwoSided (c : SimpleClosedCurve M) : Prop
+/-- PlanarTopology layer 7's local side-return condition on the carrier. -/
+def IsTwoSided (c : SimpleClosedCurve M) : Prop := PlanarTopology.IsTwoSided c.carrier
 
 /-- Cutting along a curve: a compact surface with two new boundary circles, or one if the curve is
     one-sided. -/

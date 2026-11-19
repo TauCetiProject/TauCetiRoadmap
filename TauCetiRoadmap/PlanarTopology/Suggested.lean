@@ -4,8 +4,10 @@ public import Mathlib
 public import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
 public import TauCeti.Geometry.Manifold.Instances.ClosedBall
 public import TauCeti.Geometry.Manifold.LocallyFlat.Basic
+public import TauCeti.Geometry.Manifold.LocallyFlat.Bicollar
 public import TauCeti.Topology.FilledHull
 public import TauCeti.Topology.JordanCurve.Basic
+public import TauCeti.Topology.MappingTorus
 public import TauCeti.Topology.Homotopy.Isotopy.Basic
 public import TauCeti.Topology.PL.Map
 public import TauCeti.Topology.Triangulable
@@ -49,7 +51,8 @@ The README also requires the following headlines whose input carriers are absent
 the library pin: polygonal ears need the ear API; Radó's combinatorial form, the
 Hauptvermutung and Pachner need IsCombinatorialSurface and support-aware heterogeneous
 Subdivides; orientation transport needs the simplicial orientation double cover and
-its realization comparisons; Euler characteristic needs those finite invariance
+its realization comparisons, including the local side-return test of layer 7;
+Euler characteristic needs those finite invariance
 results; the PL and smooth category comparisons need PL structures, compatible
 smoothings, and the corresponding relative isotopy regularity. They remain full README
 targets. The closed and boundary-relative topological Epstein headlines use native
@@ -466,6 +469,20 @@ The conformal application and its simple-connectivity consequence are supplied i
 section Tameness
 
 variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M]
+
+/-- The open Möbius band, using the native topological mapping-torus quotient. -/
+abbrev OpenMobiusBand := TauCeti.MappingTorus (Homeomorph.neg ℝ)
+
+/-- An open Möbius neighbourhood with its central circle marked pointwise. -/
+def HasMobiusNeighborhood (J : Set M) : Prop :=
+  ∃ (c : UnitAddCircle ≃ₜ J) (b : OpenMobiusBand → M),
+    IsOpenEmbedding b ∧ Set.range b ⊆ (𝓡∂ 2).interior M ∧
+      ∀ t : ℝ, b (TauCeti.MappingTorus.mk (Homeomorph.neg ℝ) 0 t) = (c (t : UnitAddCircle) : M)
+
+/-- A reversing side-return model cannot also have a product bicollar. -/
+theorem HasMobiusNeighborhood.not_isBicollared {J : Set M} (hJ : HasMobiusNeighborhood J) :
+    ¬ TauCeti.IsBicollared ((↑) : J → M) := by
+  sorry
 
 /-- Tameness of simple closed curves in the interior of a surface, stated on the embedding with
 its model factors: charts of `M` valued in `F × F'` carry the image onto `F × {0}`. -/
