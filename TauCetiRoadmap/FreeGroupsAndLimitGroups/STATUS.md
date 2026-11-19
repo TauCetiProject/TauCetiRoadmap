@@ -1,45 +1,48 @@
-<!--tauceti-status:v1 {"roadmap":"FreeGroupsAndLimitGroups","to_sha":"bfcff79b60964ba7bdb78b952828313686c327ba","ts":"2026-10-23T04:01:01Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"primitive elements (1.3), malnormality of maximal cyclic subgroups and free groups are CSA (1.8), primitive-recursive word coding (1.1)","state":"partial"},{"id":"Layer 2","state":"untouched"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","state":"untouched"},{"id":"Layer 5","remaining":"5.3 counterexamples, domains, Zariski topology, equational Noetherianity and irreducibility (5.4-5.12)","state":"partial"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"},{"id":"Layer 9","state":"untouched"},{"id":"Layer 10","state":"untouched"},{"id":"Layer 11","state":"untouched"}],"readme_sha":"5d425c7eae0b434c9d5baf969ad3d05e96e69e77be25f77d950cb9b578b95c16","roadmap":"FreeGroupsAndLimitGroups","to_sha":"bfcff79b60964ba7bdb78b952828313686c327ba"}-->
+<!--tauceti-status:v1 {"roadmap":"FreeGroupsAndLimitGroups","to_sha":"aa6e43e14b2556add36c8149e543f059a45926d3","ts":"2026-11-13T23:20:12Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","state":"done"},{"id":"Layer 2","remaining":"finite subgroup graph iff finitely generated (2.7(2)); primitive-recursive coding of Stallings graphs (2.9)","state":"partial"},{"id":"Layer 3","remaining":"primitive-recursive coding of formulas, substitution and prenex forms (3.1)","state":"partial"},{"id":"Layer 4","remaining":"Bass-Serre tree (4.7), structure theorem (4.8), 4.10-4.12 incl. Kurosh and Grushko; parts of 4.3, 4.4, 4.9, 4.10a","state":"partial"},{"id":"Layer 5","remaining":"the F x F separated-but-not-discriminated check stated in G-group form (5.3)","state":"partial"},{"id":"Layer 6","remaining":"6.0c-6.0d, 6.1a, 6.3, 6.4, 6.10; standard forms (6.6) and most radicals (6.8)","state":"partial"},{"id":"Layer 7","remaining":"length bound for minimal solutions (7.6), ET1-ET5 besides ET3, 7.9(3), Merzljakov (7.10)","state":"partial"},{"id":"Layer 8","remaining":"finite-rank abelian subgroups (8.2), G[X] discriminated by G, Lyndon completion (8.6a), 8.6b, 8.7-8.9","state":"partial"},{"id":"Layer 9","remaining":"Chiswell's theorem (9.3), infinite-word group structure (9.4), 9.5-9.7","state":"partial"},{"id":"Layer 10","remaining":"everything after the JSJ definitions: accessibility (10.1a), existence of JSJ decompositions (10.2) onward","state":"partial"},{"id":"Layer 11","remaining":"11.2, discriminating twist families (11.4), 11.4a-11.7","state":"partial"}],"readme_sha":"5d425c7eae0b434c9d5baf969ad3d05e96e69e77be25f77d950cb9b578b95c16","roadmap":"FreeGroupsAndLimitGroups","to_sha":"aa6e43e14b2556add36c8149e543f059a45926d3"}-->
 # Status: FreeGroupsAndLimitGroups
 
-This file documents the status of the FreeGroupsAndLimitGroups roadmap up until `bfcff79` (2026-10-23T04:01:01Z). There may have been subsequent updates.
+This file documents the status of the FreeGroupsAndLimitGroups roadmap up until `aa6e43e` (2026-11-13T23:20:12Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Two layers have begun. Most of Layer 1 is proved: conjugacy, maximal roots, cyclic centralizers and the CSA definitions. Layer 5 has its foundations through radicals and coordinate groups. The other nine layers have not begun, and none of the headline targets (Layers 7, 8, 10, 11) has been reached.
+**At a glance.** Layer 1 is done, and Layer 2 is done apart from one statement and some computability coding. Layer 5 lacks only one check in its own language. Layer 8 is complete through §8.6, except finite rank of abelian subgroups. Layers 3, 4, 6, 7 and 9 are partial. Layers 10 and 11 have definitions but no theorems, and no headline target of Layers 7, 10 or 11 is proved.
 
 ### Named results
 
-- **The conjugacy criterion in free groups**: two elements are conjugate exactly when the cyclic reductions of their reduced words are cyclic rotations of each other ([`FreeGroup.isConj_iff_isRotated_reduceCyclically`](https://taucetiproject.org/docs/TauCeti/GroupTheory/FreeGroup/Conjugacy.html#FreeGroup.isConj_iff_isRotated_reduceCyclically)).
-- **Existence and uniqueness of maximal roots**: every nontrivial element of a free group is `r ^ k` for a unique pair with `k ≠ 0` and `r` not a proper power ([`IsFreeGroup.exists_maximalRoot`](https://taucetiproject.org/docs/TauCeti/GroupTheory/FreeGroup/MaximalRoot.html#IsFreeGroup.exists_maximalRoot)). Every other root is a power of `r` ([`IsFreeGroup.pow_eq_iff_dvd_and_eq_pow_div`](https://taucetiproject.org/docs/TauCeti/GroupTheory/FreeGroup/MaximalRoot.html#IsFreeGroup.pow_eq_iff_dvd_and_eq_pow_div)).
-- **Centralizers in free groups are cyclic**: the centralizer of `r ^ k` is the cyclic group generated by its maximal root `r` ([`IsFreeGroup.centralizer_singleton_eq_zpowers`](https://taucetiproject.org/docs/TauCeti/GroupTheory/FreeGroup/MaximalRoot.html#IsFreeGroup.centralizer_singleton_eq_zpowers)). As a consequence, commutation is transitive on nontrivial elements ([`IsFreeGroup.commute_of_commute`](https://taucetiproject.org/docs/TauCeti/GroupTheory/FreeGroup/Centralizer.html#IsFreeGroup.commute_of_commute)).
-- **Commuting elements share a root**: two elements of a free group commute exactly when both are integer powers of one element ([`IsFreeGroup.commute_iff_exists_common_zpow`](https://taucetiproject.org/docs/TauCeti/GroupTheory/FreeGroup/Commuting.html#IsFreeGroup.commute_iff_exists_common_zpow)).
-- **The radical is not the normal closure**: over `F(a, b)` the radical of `x²` is the normal closure of `x`, not of `x²` ([`TauCeti.GroupAlgGeom.rad_sq`](https://taucetiproject.org/docs/TauCeti/GroupTheory/GroupAlgGeom/AlgebraicSet.html#TauCeti.GroupAlgGeom.rad_sq)). The radical also depends on the group in which solutions are taken ([`TauCeti.GroupAlgGeom.rad_sq_prod_zmod_two`](https://taucetiproject.org/docs/TauCeti/GroupTheory/GroupAlgGeom/AlgebraicSet.html#TauCeti.GroupAlgGeom.rad_sq_prod_zmod_two)).
+- **The Champetier–Guirardel theorem**: a group is a limit group exactly when it is finitely generated and fully residually free ([`TauCeti.LimitGroup.isLimitGroup_iff_isFullyResiduallyFree`](https://taucetiproject.org/docs/TauCeti/GroupTheory/LimitGroup/Characterization.html#TauCeti.LimitGroup.isLimitGroup_iff_isFullyResiduallyFree)).
+- **Extensions of centralizers are discriminated**: in a CSA group with big powers, `G(u, ℤⁿ)` is discriminated by `G` ([`TauCeti.LimitGroup.CentralizerExt.isDiscriminatedBy`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/LimitGroup/CentralizerExtension/Discrimination.html#TauCeti.LimitGroup.CentralizerExt.isDiscriminatedBy)). Iterating, every ICE group over a free group is fully residually free.
+- **Howson's theorem**: in a free group, the intersection of two finitely generated subgroups is finitely generated ([`Subgroup.FG.inf_of_isFreeGroup`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/FreeGroup/Howson.html#Subgroup.FG.inf_of_isFreeGroup)).
+- **Schreier's index formula**: a subgroup of index `i` in a free group of rank `n` has rank `i(n − 1) + 1` ([`Subgroup.rank_sub_one_eq_index_mul_rank_sub_one`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/FreeGroup/Schreier.html#Subgroup.rank_sub_one_eq_index_mul_rank_sub_one)).
+- **Free groups are equationally Noetherian**: every system of equations over a free group of countable rank has a finite subsystem with the same solutions ([`TauCeti.GroupAlgGeom.isEquationallyNoetherian_of_freeGroupBasis`](https://taucetiproject.org/docs/TauCeti/GroupTheory/GroupAlgGeom/Linear.html#TauCeti.GroupAlgGeom.isEquationallyNoetherian_of_freeGroupBasis)). In finite rank this is Guba's theorem.
 
 ### Notable definitions and infrastructure
 
-- **CSA groups** ([`Group.IsCSA`](https://taucetiproject.org/docs/TauCeti/GroupTheory/CSA.html#Group.IsCSA)) are stated with Tau Ceti's existing malnormality predicate. Commutation transitivity, maximal abelian centralizers and stability under subgroups are already proved for them. This is the hypothesis that the domain results of Layer 5 and the limit-group theory of Layer 8 consume.
-- **The free `G`-group** `G[X] = G ∗ F(X)` ([`TauCeti.GroupAlgGeom.GX`](https://taucetiproject.org/docs/TauCeti/GroupTheory/GroupAlgGeom/Basic.html#TauCeti.GroupAlgGeom.GX)) comes with evaluation and its universal property. Equations over a group are elements of this group, and solutions are its homomorphisms.
-- **Coordinate groups** ([`TauCeti.GroupAlgGeom.CoordGroup`](https://taucetiproject.org/docs/TauCeti/GroupTheory/GroupAlgGeom/AlgebraicSet.html#TauCeti.GroupAlgGeom.CoordGroup)) are the quotients `G[X] ⧸ Rad(S)`. Their universal property identifies homomorphisms out of them with solutions of `S`, and algebraic sets and ideals form a Galois connection. This is the object that Layers 7, 8 and 11 study.
+- **The Stallings graph** ([`TauCeti.StallingsGraph.stallingsGraph`](https://taucetiproject.org/docs/TauCeti/Combinatorics/Graph/Stallings/Construction.html#TauCeti.StallingsGraph.stallingsGraph)) is the folded core accepting a finitely generated subgroup. Spanning trees, product graphs, coset graphs and type graphs turn bases, intersections, index and conjugacy of subgroups into statements about finite graphs.
+- **`G`-trees** ([`TauCeti.GTree`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/GTree/Basic.html#TauCeti.GTree)) carry the elliptic–hyperbolic dichotomy, axes, domination and deformation spaces. JSJ trees are already defined on top of them, so they are what the Bass–Serre tree must produce.
+- **Iterated extensions of centralizers** ([`TauCeti.LimitGroup.ICE`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/GroupTheory/LimitGroup/CentralizerExtension/Iterated.html#TauCeti.LimitGroup.ICE)) are chains of admissible centralizer extensions with retractions to the base. They are the model groups into which limit groups should embed (§8.7).
 
 ### Roadmap coverage
 
-Layer 1 is partial. §1.1, §1.2 and §§1.4–1.7 are proved, but four pieces are missing:
-
-- the primitive-recursive word coding asked for in §1.1;
-- primitive elements (§1.3);
-- the amalgam counterexample in §1.7;
-- §1.8, the malnormality of maximal cyclic subgroups and hence that free groups are CSA.
-
-Layer 5 is partial. §5.1 and §5.2 are done, and §5.3 has its definitions and basic API but not its product-group counterexample. §§5.4–5.12 have not begun: domains, the Zariski topology, equational Noetherianity and irreducibility. Layers 2, 3, 4 and 6–11 are untouched.
+- **Layer 1** is done.
+- **Layer 2** is done except two pieces: the statement that the subgroup graph is finite exactly when the subgroup is finitely generated (§2.7(2)), and the primitive-recursive coding of Stallings-graph data in §2.9.
+- **Layer 5** is done except the `F × F` check of §5.3. Its content, that `F₂ × F₂` is residually free but not fully residually free, is proved in Layer 8's terms but not restated in `G`-group form.
+- **Layer 8** is partial. §§8.1, 8.3–8.5a and 8.6 are done; §8.6 lacks only that `G[X]` is discriminated by `G`. §8.2 lacks finite rank of abelian subgroups. §8.7 has only embedding into products of limit groups, and §8.8 has only NTQ systems and levels. §§8.6a, 8.6b and 8.9 are missing.
+- **Layer 3** is done except the primitive-recursive coding of formulas in §3.1.
+- **Layer 4** has §§4.1, 4.2, 4.5, 4.6 and 4.13. §§4.3, 4.4, 4.9 and 4.10a are partial. The Bass–Serre tree and everything after it (§§4.7, 4.8, 4.10–4.12) are missing.
+- **Layer 6** has surface groups, with boundary ones free and closed ones not (§6.2), and standard quadratic equations (§6.5). §§6.0a–6.0b, 6.1 and 6.6–6.9 are partial, and the rest is missing.
+- **Layer 7** has §7.2, and §7.9(1)–(2) for free groups. §§7.1, 7.3–7.5 and 7.11 are partial. §7.6 is missing, so §§7.7–7.8 hold only conditionally. §7.10 is missing.
+- **Layer 9** has §9.1. §§9.2–9.4 are partial and §§9.5–9.7 are missing.
+- **Layer 10** has only the JSJ definitions of §10.1.
+- **Layer 11** has §11.1 and the basic sequences of §11.3, but no lifting theorem.
 
 ## The frontier
 
-- **Free groups are CSA (§1.8).** All the inputs are in place: cyclic centralizers, maximal roots and the CSA API. What remains is the malnormality argument for maximal cyclic subgroups. This closes most of Layer 1 and unblocks §5.5.
-- **Primitive elements (§1.3).** Define them through Mathlib's free bases and prove that primitive elements are not proper powers. The commutator `[a, b]` should then separate "primitive" from "not a proper power".
-- **Domains (§§5.4–5.5).** Define `G`-zero divisors and prove that CSA groups with nonabelian coefficients are domains. This waits on §1.8.
-- **Finish §5.3.** Prove that `F × F` is separated but not discriminated by `F`. The other checks in that section are also still to do.
-- **Layers 2 and 3.** Both depend only on Layer 1, but Layer 2's Stallings graphs also need the multigraph walks of GraphConnectivityAndFlows Target 1.1. Layer 3's first-order group syntax is the other prerequisite of Layer 5 and of Layer 7.
+- **Close out Layer 2.** State that the subgroup graph is finite exactly for finitely generated subgroups, which follows from existing lemmas. Then code finite Stallings graphs primitive-recursively.
+- **Finite-rank abelian subgroups (§8.2).** In a finitely generated fully residually free group, abelian subgroups should be free abelian of finite rank. This is the one gap in Layer 8 below §8.6.
+- **The Bass–Serre tree (§4.7).** The path model, the normal form and Serre's lemma are in place. The tree, its stabilizers and the structure theorem (§4.8) are needed before the Kurosh and Grushko theorems (§4.11) and the existence of JSJ decompositions (§10.2).
+- **A length bound for minimal solutions (§7.6).** Solvability is already decidable given such a bound. Proving the bound, together with the remaining elementary transformations ET1, ET2, ET4 and ET5, would make the existential theory decidable (§§7.7–7.8).
+- **Merzljakov's theorem (§7.10).** Merzljakov tuples exist and formal solutions are defined, with the easy direction proved. The theorem that a positive sentence true in `F` has a formal solution is not.

@@ -1,36 +1,52 @@
-<!--tauceti-status:v1 {"roadmap":"Hyperfunctions","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1","ts":"2026-10-21T07:26:02Z"}-->
+<!--tauceti-status:v1 {"roadmap":"Hyperfunctions","to_sha":"aa6e43e14b2556add36c8149e543f059a45926d3","ts":"2026-11-13T23:20:12Z"}-->
 # Status: Hyperfunctions
 
-This file documents the status of the Hyperfunctions roadmap up until `273ea28` (2026-10-21T07:26:02Z). There may have been subsequent updates.
+This file documents the status of the Hyperfunctions roadmap up until `aa6e43e` (2026-11-13T23:20:12Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Only the foundations exist. HF0 has a working theory of closed-support cohomology for sheaves of abelian groups. HF1 has the one-dimensional hyperfunction quotient as a separated presheaf with surjective restrictions, but no gluing yet. Purity, flabbiness, compact duality, analytic operations, microfunctions, the distribution embedding and extension (HF2 through HF5) have not begun.
+**At a glance.** HF0's supported cohomology now works for module coefficients, with support truncation and the lowest edge comparison, but no orientation sheaf or Dolbeault cone. HF1 has only the separated one-dimensional quotient presheaf. HF2's analytic preparation has many inputs but none of its main theorems. HF4 has the one-dimensional Cauchy transform and Plemelj formula, without the embedding. Purity, flabbiness, duality, HF3, HF3a and HF5 have not begun.
 
 ### Named results
 
-- **Excision for cohomology with supports**: if W' ⊆ W and S ∩ W ⊆ W', restriction is an isomorphism H_Sⁿ(W, F) ≃ H_Sⁿ(W', F) in every degree. It is proved by showing that the map of relative free sheaves is already an isomorphism ([`supportedHExcisionEquiv`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/SupportedCohomology.html#CategoryTheory.Sheaf.supportedHExcisionEquiv)).
-- **The long exact sequence of a pair**: for an inclusion U ⊆ V, relative cohomology sits in the exact sequence ⋯ → Hⁿ(V, U; F) → Hⁿ(V, F) → Hⁿ(U, F) → Hⁿ⁺¹(V, U; F) → ⋯. With U = W ∖ S this is the support sequence (`exact_toH'_cohomologyPresheaf_map`, `exact_δ_toH'`).
-- **Flasque sheaves have no relative cohomology**: a flasque sheaf has vanishing relative cohomology in positive degrees for every inclusion of opens, so supported cohomology can be computed by flasque resolutions (`subsingleton_succ_of_isFlasque`).
-- **One-dimensional hyperfunctions form a separated presheaf**: a class in O(ℂ ∖ ℝ)/O(W(U)) that vanishes on each member of an open cover vanishes ([`oneDimBoundaryPresheaf_isSeparated`](https://taucetiproject.org/docs/TauCeti/Analysis/Hyperfunction/OneDimensional.html#TauCeti.Hyperfunction.oneDimBoundaryPresheaf_isSeparated)). The input is that a function on ℂ ∖ ℝ extends holomorphically across a union of real opens exactly when it extends across each one ([`throughReal_iSup`](https://taucetiproject.org/docs/TauCeti/Analysis/Hyperfunction/OneDimensional.html#TauCeti.Hyperfunction.throughReal_iSup)).
+- **The Sokhotski–Plemelj formula**: for a compactly supported distribution u on ℝ, the jump C_u(x + iγ) − C_u(x − iγ) of its Cauchy transform tends to u as γ → 0. This is HF4's identity bv₊C_u − bv₋C_u = u ([`tendsto_integral_smul_cauchyTransform_sub`](https://taucetiproject.org/docs/TauCeti/Analysis/Hyperfunction/Plemelj.html#Distribution.tendsto_integral_smul_cauchyTransform_sub)).
+- **The degenerate edge comparison, lowest case**: if 𝓗_S^q(F) = 0 for q < n, then H_Zⁿ(W, F) ≃ Γ_Z(W, 𝓗_Sⁿ(F)) for closed Z ⊆ S ([`supportedModuleHEdgeEquiv`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/LocalCohomology/Edge.html#CategoryTheory.Sheaf.supportedModuleHEdgeEquiv)). The case n = 0 is also proved in every degree j ([`bijective_postcomp_mk₀_supportedSectionsι`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/LocalCohomology/Basic.html#CategoryTheory.Sheaf.bijective_postcomp_mk₀_supportedSectionsι)).
+- **Support truncation**: if 𝓗_S^q(F) vanishes for every q < n, then so does H_S^q(W, F) on every open W. This turns local purity into global vanishing ([`subsingleton_supportedModuleH_of_isZero_supportedModuleHSheaf`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/LocalCohomology/Edge.html#CategoryTheory.Sheaf.subsingleton_supportedModuleH_of_isZero_supportedModuleHSheaf)).
+- **Derived supported sections are Ext**: the right derived functors of F ↦ Γ_S(W, F) agree with Ext out of Q_S(W), and flasque resolutions compute them ([`rightDerivedSupportedSubmoduleSectionsIso`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/SupportedCohomology/Derived.html#CategoryTheory.Sheaf.rightDerivedSupportedSubmoduleSectionsIso)).
+- **Schauder's theorem**: a bounded operator between real or complex Banach spaces is compact exactly when its adjoint is. FunctionalDuality needs it ([`isCompactOperator_precomp_iff`](https://taucetiproject.org/docs/TauCeti/Analysis/Normed/Operator/Compact/Adjoint.html#ContinuousLinearMap.isCompactOperator_precomp_iff)).
 
 ### Notable definitions and infrastructure
 
-- **Cohomology with closed supports** [`supportedH`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/SupportedCohomology.html#CategoryTheory.Sheaf.supportedH) is defined as Ext out of the relative free sheaf ℤ_{W, W ∖ S}, following the roadmap's Q_S recipe. In degree zero it is the supported sections, and it is functorial in W through [`supportedHPresheaf`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/SupportedCohomology.html#CategoryTheory.Sheaf.supportedHPresheaf). Sheafifying that presheaf gives the local cohomology sheaves 𝓗_Sⁿ.
-- **Sheaf cohomology as Ext from free sheaves** (`H'AddEquivExt`) identifies Mathlib's Hⁿ(U, F) with Ext from the free abelian sheaf on U. This is what lets relative and supported cohomology be compared with the ordinary groups.
-- **The one-dimensional boundary quotient** [`OneDimBoundaryQuotient`](https://taucetiproject.org/docs/TauCeti/Analysis/Hyperfunction/OneDimensional.html#TauCeti.Hyperfunction.OneDimBoundaryQuotient) is O(ℂ ∖ ℝ)/O(W(U)) with W(U) = ℂ ∖ (ℝ ∖ U), the explicit dimension-one model the roadmap asks for. Holomorphic functions are encoded by extension by zero.
+- **Supported cohomology with module coefficients** [`supportedModuleH`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/SupportedCohomology/Module.html#CategoryTheory.Sheaf.supportedModuleH) is Ext out of the relative free sheaf Q_S(W), following the roadmap's recipe. It is sheafified into the local cohomology sheaves [`supportedModuleHSheaf`](https://taucetiproject.org/docs/TauCeti/Topology/Sheaves/LocalCohomology/Module.html#CategoryTheory.Sheaf.supportedModuleHSheaf). Both have long exact coefficient sequences.
+- **The Cauchy transform of a distribution** [`cauchyTransform`](https://taucetiproject.org/docs/TauCeti/Analysis/Hyperfunction/CauchyTransform.html#Distribution.cauchyTransform) is holomorphic off ℝ and independent of the cutoff. It is HF4's representative once one-dimensional hyperfunctions form a sheaf.
+- **The strong dual of a compact inductive limit** [`strongDualEquiv`](https://taucetiproject.org/docs/TauCeti/Analysis/LocallyConvex/CompactInductiveLimit.html#TauCeti.dualProjectiveLimit.strongDualEquiv) identifies it with the projective limit of the stage duals, and bounded sets lie in a single stage. With bounded holomorphic Banach stages and Montel compactness of restriction, this is the apparatus for making A[K] DFS.
 
 ### Roadmap coverage
 
-HF0 is partial. It has the supported-section functor, supported cohomology as Ext from the relative free sheaf, the support sequence, excision and flasque acyclicity, all for abelian-group coefficients. Still missing from HF0 are the `ModuleCat ℂ` version, the sheaves 𝓗_S^q, the comparison with derived functors, the edge and support-truncation comparisons, the sequences for open triples, the Dolbeault relative cone, the orientation sheaf and FlasqueLocality. HF1 is partial only in its dimension-one part: the quotient presheaf is separated, but gluing, the comparison with the native holomorphic structure sheaf and every higher-dimensional and bundle construction are absent. HF2 (including its analytic preparation, HF2.1, HF2.2 and HF2.3), HF3, HF3a, HF4 and HF5 are untouched.
+**HF0 is partial.** Already proved:
+- the supported theory, excision, flasque acyclicity and local cohomology sheaves for module coefficients
+- comparisons of supported sections with restriction of scalars and with underlying abelian groups
+- enough injectives in larger universes
+- the derived-functor and flasque-resolution comparisons
+- support truncation and the edge comparison for j = 0
+- FlasqueLocality with its finite-product and locally finite-power corollaries
+- relative coordinates (a, b) ↦ (da, fa − db) on the shifted mapping cone
+
+Still missing from HF0:
+- the edge comparison for j > 0
+- the Dolbeault relative cone itself
+- the orientation sheaf and its square pairing
+- relative integration and cup-product signs
+
+**HF1 is partial only in dimension one**: the quotient presheaf is separated, but has no gluing. **HF2's analytic preparation is partial.** It has the filled exhaustion, analyticity of harmonic functions, the Dirichlet problem on balls, the multipole expansion and harmonic polynomial approximation of the Newtonian kernel, Schauder's theorem and the compact inductive-limit duality. Neither Malgrange top vanishing nor Stein duality is proved. HF2.1a has polynomial convexity, polyhedron interiors and their strictly plurisubharmonic exhaustion, but no Stein conclusion. **HF4 is partial in dimension one** as described above. **HF2.1b to HF2.3, HF3, HF3a and HF5 are untouched.**
 
 ## The frontier
 
-- **Gluing for one-dimensional hyperfunctions**: prove the existence half of the sheaf condition for `oneDimBoundaryPresheaf`. This needs H¹(U, O) = 0 for open U ⊆ ℂ (a Cousin problem), which the roadmap assigns to GlobalHolomorphicFunctions GH0.
-- **Local cohomology sheaves**: sheafify the supported-cohomology presheaf to get 𝓗_S^q(F), then prove the support-truncation implication and the degenerate edge comparison that purity will use.
-- **Complex-module coefficients**: build the same supported theory for `TopCat.Sheaf (ModuleCat ℂ)` and compare it with the underlying abelian groups, as the roadmap requires for both coefficient categories.
-- **FlasqueLocality**: show that local surjectivity of restrictions implies global surjectivity, by a Zorn argument on extensions of a section. This is self-contained and HF2.2 needs it.
-- **Orientation sheaf and relative Dolbeault cone**: define or_(M/X) = 𝓗_Mⁿ(ℤ_X) and the signed cone of Dolbeault resolutions. Both depend on the sheaves above, and the cone also needs K2's Dolbeault resolution.
+- **Higher edge comparison**: extend H_Zⁿ ≃ Γ_Z(W, 𝓗_Sⁿ) to H_Z^(n+j)(W, F) ≃ H_Z^j(S, 𝓗_Sⁿ(F)) for j > 0, through the local hypercohomology filtration. Flabbiness needs j = 1.
+- **One-dimensional gluing and embedding**: prove the existence half of the sheaf condition for O(ℂ ∖ ℝ)/O(W(U)), which needs GH0's vanishing of H¹ on open subsets of ℂ. Then send u to the class of its Cauchy transform and prove naturality under restriction.
+- **Orientation sheaf**: define or_(M/X) = 𝓗_Mⁿ(ℤ_X), compute its stalks by Euclidean relative cohomology and prove or ⊗ or ≃ ℤ_M. HF1's definition of B_M depends on it.
+- **Harmonic Runge and Malgrange top vanishing**: the multipole expansion and kernel approximation are done. Remaining: the Newton potential of a compact distribution, Hahn–Banach separation, the weak Poisson solution and the exhaustion limit. The separation needs K5a's compact-distribution dual.
+- **The germ space A[K] as a DFS space**: apply the compact inductive-limit duality to cofinal H^∞ stages near a real compact, prove Hausdorffness by jet evaluations, and conclude Stein-ness of polyhedron interiors from the exhaustion via R3.1's criterion.

@@ -1,0 +1,26 @@
+'TauCeti.mem_wildInertiaSubgroup_iff_forall_restrictNormal_mem_finiteGaloisLowerRamificationGroup' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.map_wildInertiaSubgroup_restrictNormalHom' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.le_maximalTameExtension_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.topologicalClosure_zpowers_toTameQuotient_eq_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.exists_marked_tameQuotient_padic_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Padic.mk0_five_mem_unitFiltration_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'Padic.not_isSquare_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicSqrtFive.frobeniusAlgEquiv_sqrtFive' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicSqrtFive.exists_sq_sub_five_mul_sq_eq_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicSqrtFive.not_exists_sq_sub_five_mul_sq_eq_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicSqrtTwo.differentExponent_eq_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicCyclotomicEight.differentExponent_eq_eight' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicCyclotomicEight.herbrand_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.DyadicCyclotomicEight.map_restrictSqrtTwo_lowerRamificationGroup_three_ne' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'TauCeti.LocalFieldsRamification.hasseArf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.normGradedMap_tame_break_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.normGradedMap_zero_before_break' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.normGradedMap_positive_before_break' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.normGradedMap_at_break' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.tameQuotientEquiv_toTameQuotient_frobenius' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.tameQuotientEquiv_toTameQuotient_tameGenerator' depends on axioms: [propext, Classical.choice, Quot.sound]
+'TauCeti.iwasawaCoordinate_tameQuotientEquiv' depends on axioms: [propext, Classical.choice, Quot.sound]

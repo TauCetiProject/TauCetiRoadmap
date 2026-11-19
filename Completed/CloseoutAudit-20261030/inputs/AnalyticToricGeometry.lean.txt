@@ -1,0 +1,34 @@
+import TauCeti.Geometry.Toric.Analytic.Fan.Comparison.TorusAction
+import TauCeti.Geometry.Toric.Algebraic.Fan.TorusAction.Action
+
+open Multiplicative
+open TauCeti.Toric
+
+namespace TauCetiRoadmap.AnalyticToricGeometry.NativeCompletion
+
+/-- The dual semigroup of a full linear cone yields exactly one affine complex point.
+This includes the full-line acceptance example. -/
+noncomputable instance fullConePointUnique
+    {N V : Type*} [AddCommGroup N] [AddCommGroup V] [Module ℝ V]
+    {i : N →+ V} (hi : IsIntegralLattice i) :
+    Unique (AffineSemigroupComplexPoint (dualSemigroup hi (⊤ : PointedCone ℝ V))) where
+  default := default
+  uniq x := by
+    apply AffineSemigroupComplexPoint.ext
+    intro s
+    rw [Subsingleton.elim s 0, ofAdd_zero]
+    simp only [← MonoidAlgebra.one_def, map_one]
+
+/-- The internal action has exactly the underlying scheme morphism used by the comparison. -/
+example {N : Type} {V : Type*} [AddCommGroup N] [AddCommGroup V] [Module ℝ V]
+    {i : N →+ V} (Φ : Fan i) :
+    (Fan.algebraicRealizationModObj Φ).smul.left = Φ.algebraicRealizationAction := by
+  rw [Fan.algebraicRealizationModObj_smul, Fan.algebraicRealizationActionOver_left]
+
+#print axioms fullConePointUnique
+#print axioms specMap_smul_eq_lift_comp_affineToricSchemeAction
+#print axioms Fan.AlgebraicComplexPoint.coe_smul
+#check Fan.algebraicRealizationModObj_smul
+#check Fan.algebraicRealizationActionOver_left
+
+end TauCetiRoadmap.AnalyticToricGeometry.NativeCompletion

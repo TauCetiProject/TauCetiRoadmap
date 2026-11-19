@@ -47,7 +47,7 @@ targets with that roadmap. No import of another roadmap prototype is required.
 | RestrictedPowerSeries §7 | Open-disc and entire-series algebras and their topology; entire division by a polynomial |
 | Mathlib valuation and spectral-norm theory | Multiplicative valuations, rank-one/discrete vocabulary, additive valuations, and the norm on algebraic extensions of a complete field |
 | Mathlib ideal-adic preparation | `PowerSeries.exists_isWeierstrassFactorization` and `Polynomial.IsDistinguishedAt`; Layer 6 removes the common uniformiser power and identifies the invariants |
-| [LocalFieldsRamification, Layer 0](../LocalFieldsRamification/README.md) | The canonical local-field normalised valuation and ramification index, and their compatibility with the more general discrete-valued statements here |
+| [LocalFieldsRamification, Layer 0](../../Completed/LocalFieldsRamification/README.md) | The canonical local-field normalised valuation and ramification index, and their compatibility with the more general discrete-valued statements here |
 
 Restricted-series carriers, Banach-ring Weierstrass proofs, general Gauss-norm
 multiplicativity and Strassmann's bound remain with RestrictedPowerSeries.

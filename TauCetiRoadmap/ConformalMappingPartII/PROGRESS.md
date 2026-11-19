@@ -1,0 +1,14 @@
+# Progress log: ConformalMappingPartII
+
+An append-only record of what landed on the ConformalMappingPartII roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"00e90f49ff897cc1e799a4d9f79a34963451fe6f","prs":[36015,36166,38582],"roadmap":"ConformalMappingPartII","to_sha":"aa6e43e14b2556add36c8149e543f059a45926d3"}-->
+## ConformalMappingPartII: 2026-11-11 to 2026-11-13 (`00e90f4` to `aa6e43e`)
+
+The first work on this roadmap starts three of its lower layers. The [Schwarzian derivative](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Schwarzian.html#TauCeti.schwarzian) arrived with its classical toolkit: the [chain rule](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Schwarzian.html#TauCeti.schwarzian_comp) S(f∘g) = (S(f)∘g)·g′² + S(g), [Möbius invariance](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/Schwarzian.html#TauCeti.schwarzian_moebius) under postcomposition, the expression through the pre-Schwarzian, and explicit values for affine maps and integer powers (TauCeti#36166). This is exactly what Layer 2 asks for first. The roadmap's real use of it is the Schwarzian equation of the roots-of-unity cover, which still waits on the covering theory of Layer 1.
+
+[Finite Blaschke products](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/BlaschkeProduct.html#TauCeti.blaschkeProduct) also landed, in the roadmap's boundary-compatible convention, where a factor with a parameter on the unit circle is the constant −a. The library proves they have modulus one on the circle, vanish exactly at their interior zeros, and send the open disc strictly inside itself [exactly when](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Complex/Conformal/BlaschkeProduct.html#TauCeti.norm_blaschkeProduct_lt_one_iff) some interior zero has positive multiplicity. They are tied to the existing disc automorphisms and to Mathlib's canonical factors. The Herglotz and quotient-representation parts of Layer 3 have not started.
+
+Layer 0 now has its basic objects: [monic complex linear equations](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/ODE/Complex/LinearEquation.html#TauCeti.LinearEquation) with holomorphic coefficients, their solution space and unscaled initial jets, and the [equivalence](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/ODE/Complex/LinearEquation.html#TauCeti.LinearEquation.isSolution_iff_isCompanionSolution) between scalar solutions and solutions of the companion first-order system. No existence theorem is proved yet: neither the local initial-value theorem nor global solutions on simply connected domains.

@@ -284,13 +284,13 @@ finite-dim `OrthonormalBasis.tensorProduct` only). -/
 noncomputable def prodHilbertBasis {ι₁ ι₂ : Type*}
     (b₁ : HilbertBasis ι₁ 𝕜 (Lp 𝕜 2 μ)) (b₂ : HilbertBasis ι₂ 𝕜 (Lp 𝕜 2 ν)) :
     HilbertBasis (ι₁ × ι₂) 𝕜 (Lp 𝕜 2 (μ.prod ν)) :=
-  TauCeti.prodHilbertBasis b₁ b₂
+  HilbertBasis.prod b₁ b₂
 
 /-- **Characterization** (anti-vacuity): the `(i,j)` vector is a.e. the product `b₁ i ⊗ b₂ j`. -/
 theorem prodHilbertBasis_apply {ι₁ ι₂ : Type*}
     (b₁ : HilbertBasis ι₁ 𝕜 (Lp 𝕜 2 μ)) (b₂ : HilbertBasis ι₂ 𝕜 (Lp 𝕜 2 ν)) (i : ι₁) (j : ι₂) :
     ⇑(prodHilbertBasis b₁ b₂ (i, j)) =ᵐ[μ.prod ν] fun q => (b₁ i) q.1 * (b₂ j) q.2 :=
-  TauCeti.coeFn_prodHilbertBasis b₁ b₂ i j
+  HilbertBasis.coeFn_prod b₁ b₂ (i, j)
 
 end Product
 
