@@ -3,8 +3,10 @@
 **Summary.** This roadmap proves purity for flat cohomology after Česnavičius and Scholze: for a
 Noetherian local ring `(R, 𝔪)` that is a complete intersection and a commutative finite flat
 `R`-group `G`, the fppf cohomology with supports `H^i_𝔪(R, G)` vanishes for `i < dim R`, and for
-`i ≤ dim R` when `R` is regular and not a field ([CS24], Theorems 6.2.3 and 6.2.7). It builds fppf
-cohomology with supports on the big fppf site, the virtual dimension of a Noetherian local ring
+`i ≤ dim R` when `R` is regular and not a field ([CS24], Theorems 6.2.3 and 6.2.7). On the fppf
+cohomology with supports that SchemeAndStackFoundations constructs on the big fppf site it builds
+étale excision, the local-to-global spectral sequence and finite flat descent, and it builds the
+virtual dimension of a Noetherian local ring
 with Gabber's bound on the étale depth and Zariski–Nagata purity in virtual dimension `≥ 3`, the
 supported form of the crystalline key formula over perfect schemes, the supports, nilpotent
 invariance, excision along finitely generated ideals and fpqc hyperdescent of the flat cohomology of
@@ -20,7 +22,7 @@ integral schemes.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-punctured-spectra-flat-cohomology-with-supports-and-hartogs-extension) | Punctured spectra, flat cohomology with supports and Hartogs extension | the punctured spectrum `U_R` of a semilocal ring, `RΓ_Z(X, F)` on the big fppf site, continuity, regular-sequence vanishing, Hartogs |
+| [0](#layer-0-punctured-spectra-flat-cohomology-with-supports-and-hartogs-extension) | Punctured spectra, flat cohomology with supports and Hartogs extension | the punctured spectrum `U_R` of a semilocal ring, `RΓ_Z(X, F)` on the big fppf site with its étale excision, local-to-global spectral sequence and finite flat descent, continuity, regular-sequence vanishing, Hartogs |
 | [1](#layer-1-virtual-dimension-étale-depth-and-zariskinagata-purity) | Virtual dimension, étale depth and Zariski–Nagata purity | `virtualDimension`, local Lefschetz, Gabber's étale-depth bound for coefficients of invertible order, Zariski–Nagata purity for `vdim ≥ 3` |
 | [2](#layer-2-the-crystalline-key-formula-over-perfect-schemes) | The crystalline key formula over perfect schemes | `RΓ_Z(S, G) ≅ RΓ_Z(W_n(S), 𝕄(G))^{V=1}` with supports, from the perfect-base Dieudonné triangle |
 | [3](#layer-3-flat-cohomology-of-animated-rings) | Flat cohomology of animated rings | supports, nilpotent invariance, consequences of `p`-adic continuity, excision along finitely generated ideals, descent modulo `p` |
@@ -75,9 +77,11 @@ The flat-cohomological headline theorems are specified in this README; the modul
 
 ## Scope and ownership
 
-**This roadmap owns** the punctured spectrum of a semilocal ring; fppf cohomology with supports on
-the big fppf site of a scheme with its local-to-global spectral sequence, excision, finite flat
-descent and continuity; the non-Noetherian regular-sequence vanishing lemma (from [CS24] proofs of
+**This roadmap owns** the punctured spectrum of a semilocal ring; for fppf cohomology with supports
+on the big fppf site of a scheme, the local-to-global spectral sequence, étale excision, Mayer–Vietoris,
+finite flat descent, the comparisons with étale and Zariski supports and continuity (the construction,
+its long exact sequence, excision for an open containing the support and the sequence of a triple are
+SchemeAndStackFoundations §2.9a's); the non-Noetherian regular-sequence vanishing lemma (from [CS24] proofs of
 Proposition 4.1.13 and Theorem 6.1.2) and the Hartogs lemma for schemes ([CS24] Lemma 7.2.7); Cohen
 presentations, the Lean restatement `IsCompleteIntersection` of DeformationAndDerivedPatchingAlgebra
 §3.4's absolute local complete intersection (used only for Noetherian local rings), and the virtual
@@ -117,7 +121,9 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   schemes, Picard groups, `Proj` and the relative `Proj`, excellent rings and schemes, formal spectra and
   formal completion*: SchemeAndStackFoundations §§0.3, 0.6, 0.9, 0.14, 0.17, 0.21, 0.24,
   1.15, 1.18, 1.21, 2.1–2.3, 2.7, 2.9–2.11, 2.15, 2.22, 3.4, 4.7, 4.8.
-  The supported cohomology of §2.7 there is that of abelian sheaves on a ringed space; §0.2 here is its big-fppf-site counterpart and agrees with it
+  The supported cohomology of §2.7 there is that of abelian sheaves on a ringed space; its §2.9a is the
+  big-fppf-site counterpart, with supports in a closed subset, the long exact sequence, excision for an
+  open containing the support and the sequence of a triple, and §0.2 here proves that the two agree
   for quasi-coherent coefficients. Its §2.22 `brauer_regular_injectivity` is the affine Azumaya case of §7.9
   here, which treats `H²(X, 𝔾_m)` of every Noetherian integral regular scheme and the torsion of all
   higher `H^i(X, 𝔾_m)`.
@@ -239,8 +245,8 @@ section named instead of planning it.
 3. **Cohomology** is fppf cohomology on the big fppf site (Mathlib `Scheme.fppfTopology`), identified
    with étale cohomology for smooth coefficients and with Zariski cohomology for quasi-coherent
    coefficients (SchemeAndStackFoundations §2.10). `H^i_Z(X, F)` is cohomology with supports in a
-   closed `Z ⊂ X`; for a local ring `(R, 𝔪)`, `H^i_𝔪(R, F)` has supports in the closed point and
-   `U_R` is the punctured spectrum.
+   closed `Z ⊂ X` (SchemeAndStackFoundations §2.9a); for a local ring `(R, 𝔪)`, `H^i_𝔪(R, F)` has
+   supports in the closed point and `U_R` is the punctured spectrum.
 4. `G` denotes a commutative finite locally free group scheme (over a local base: finite flat),
    Tau Ceti's `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat` over affine bases; `G^*` is its
    Cartier dual. A class in `H^i(X, T)` is **torsion** if it is killed by a locally constant positive
@@ -542,7 +548,10 @@ classes; §2.7 `cohomologyWithSupport`,
 `depth_localCohomology_vanishing`; §2.9 `bigSheaf`, `bigSheaf_isSheaf`
 (the big-site sheaf of a quasi-coherent module is a sheaf for the fpqc topology) and `GmEtale` (the
 restriction of `𝔾_m` to the small étale site, a sheaf there), the sheaves `𝔾_a`, `𝔾_m`, `μ_n` themselves
-being Tau Ceti's; §2.10
+being Tau Ceti's; §2.9a `Scheme.fppfCohomology` and `Scheme.fppfCohomologyWithSupport` (fppf cohomology on
+the big fppf site and its form with supports in a closed subset, with `H⁰_Z` the kernel of restriction
+to the open complement, the long exact sequence, the sequence of a triple, the empty and the whole
+support, and excision for an open containing the support; §0.2); §2.10
 `quasiCoherent_topology_comparison`, `smoothGroup_fppf_etale_comparison`; §2.11 `hilbert90`, `fppf_kummer_sequence`,
 `artinSchreier_sequence`, `finite_pushforward_exact`; §2.15 `gabber_affine_proper_base_change`,
 `etale_galois_comparison`, `etale_cohomology_limits`; §2.22 `SchemeBrauerGroup`,
@@ -764,8 +773,9 @@ only; the sign of the residue is fixed here by Convention 8.
 
 ## How to read the build
 
-Layer 0 constructs fppf cohomology with supports and the two commutative-algebra lemmas on regular
-sequences that every later vanishing reduces to. Layer 1 is classical: the virtual dimension, the
+Layer 0 develops fppf cohomology with supports, on the construction of SchemeAndStackFoundations
+§2.9a, and proves the two commutative-algebra lemmas on regular sequences that every later vanishing
+reduces to. Layer 1 is classical: the virtual dimension, the
 étale-depth bound for coefficients of order invertible in `R` through absolute purity and local
 duality, and Zariski–Nagata purity through algebraization over punctured spectra; the bound for
 every commutative finite étale group is Layer 6's (§6.3), through purity for complete intersections.
@@ -833,26 +843,33 @@ API (each a target):
 
 ### 0.2 Flat cohomology with supports
 
-Construct `RΓ_Z(X, F)`, for a scheme `X`, a closed `Z ⊂ X` with open complement
-`j : U = X ∖ Z → X` and an abelian sheaf `F` on the big fppf site of `X` (a commutative group scheme
-over `X`, or the sheaf `𝒢^a` attached to a quasi-coherent module), as the fibre of restriction
-`RΓ_fppf(X, F) → RΓ_fppf(U, F)`, and `H^i_Z(X, F)` as its cohomology; equivalently the right derived
-functors of `Γ_Z(X, F) = ker(F(X) → F(U))` on fppf abelian sheaves ([CS24] §1.4 and Lemma 7.1.1,
-p. 86). Write `ℋ^j_Z(−, F)` for the étale sheafification on `X_ét` of
-`X′ ↦ H^j_{Z ×_X X′}(X′, F)`.
-*Needs:* Mathlib `Scheme.fppfTopology`, `GrothendieckTopology.over`, `CategoryTheory.Sheaf.H`;
-SchemeAndStackFoundations §§2.1–2.3 (pullback and cohomology on sites, Leray and Čech spectral
+Fppf cohomology with supports is SchemeAndStackFoundations §2.9a's. For a scheme `X`, a closed
+`Z ⊂ X` with open complement `j : U = X ∖ Z → X` and an abelian sheaf `F` on the big fppf site of `X`
+(a commutative group scheme over `X`, or the sheaf `𝒢^a` attached to a quasi-coherent module), that
+section defines the groups `H^i_Z(X, F)` and proves `H^0_Z(X, F) = ker(F(X) → F(U))`, the long exact
+sequence `… → H^i_Z(X, F) → H^i(X, F) → H^i(U, F) → H^{i+1}_Z(X, F) → …`, natural in `(X, Z, F)`,
+excision `H^i_Z(X, F) ≅ H^i_Z(V, F)` for an open `V ⊃ Z`, and, for closed `Z′ ⊂ Z ⊂ X`, the triple
+sequence `H^i_{Z′}(X, F) → H^i_Z(X, F) → H^i_{Z∖Z′}(X ∖ Z′, F) → H^{i+1}_{Z′}(X, F)`. Write
+`RΓ_Z(X, F)` for the fibre of restriction `RΓ_fppf(X, F) → RΓ_fppf(U, F)`, and `ℋ^j_Z(−, F)` for the
+étale sheafification on `X_ét` of `X′ ↦ H^j_{Z ×_X X′}(X′, F)`. This section proves the properties
+below, which later layers use together with those of §2.9a.
+*Needs:* SchemeAndStackFoundations §2.9a (fppf cohomology on the big fppf site and with supports:
+the construction, `H^0_Z`, the long exact sequence, excision for an open containing the support and
+the triple sequence), §§2.1–2.3 (pullback and cohomology on sites, Leray and Čech spectral
 sequences), §2.7 (the Zariski support formalism), §2.9 (`bigSheaf`, `bigSheaf_isSheaf`: the sheaf
 `𝒢^a` of a quasi-coherent module), §2.10 (topology comparisons), §2.15
-(`etale_cohomology_limits`); §0.1.
+(`etale_cohomology_limits`); Mathlib `Scheme.fppfTopology`, `GrothendieckTopology.over`,
+`CategoryTheory.Sheaf.H`; §0.1.
 
 API (each a target):
-- The long exact sequence `… → H^i_Z(X, F) → H^i(X, F) → H^i(X ∖ Z, F) → H^{i+1}_Z(X, F) → …`,
-  natural in `(X, Z, F)`; and `H^0_Z(X, F) = ker(F(X) → F(X ∖ Z))`.
-- Excision: for an open `V ⊃ Z`, `H^i_Z(X, F) ≅ H^i_Z(V, F)`; for an étale `X′ → X` with
-  `Z ×_X X′ → Z` an isomorphism of reduced closed subschemes, `H^i_Z(X, F) ≅ H^i_{Z′}(X′, F)`.
-- For closed `Z′ ⊂ Z ⊂ X`, the triple sequence
-  `H^i_{Z′}(X, F) → H^i_Z(X, F) → H^i_{Z∖Z′}(X ∖ Z′, F) → H^{i+1}_{Z′}(X, F)`.
+- The complex: the cohomology groups of `RΓ_Z(X, F)` are the groups `H^i_Z(X, F)` of §2.9a, with the
+  long exact sequence of the fibre the one stated there; equivalently, they are the right derived
+  functors of `Γ_Z(X, F) = ker(F(X) → F(U))` on fppf abelian sheaves ([CS24] §1.4 and Lemma 7.1.1,
+  p. 86). Route: `U → X` is a monomorphism, so the free abelian sheaf on `U` is a subsheaf of the
+  free abelian sheaf on `X`; §2.9a's groups are the `Ext` groups out of the quotient, and
+  homomorphisms out of the quotient are `Γ_Z`.
+- Étale excision: for an étale `X′ → X` with `Z ×_X X′ → Z` an isomorphism of reduced closed
+  subschemes, `H^i_Z(X, F) ≅ H^i_{Z′}(X′, F)`, where `Z′ = Z ×_X X′`.
 - The local-to-global spectral sequence `E_2^{ij} = H^i_ét(X, ℋ^j_Z(−, F)) ⇒ H^{i+j}_Z(X, F)`
   ([CS24] Lemma 7.1.1; [BC22] Lemma 2.3.2). The identification of the stalks of `ℋ^j_Z(−, F)` with
   supported cohomology of strict henselizations is the stalk formula of §0.3, which is proved after
@@ -863,7 +880,7 @@ API (each a target):
 - Finite flat descent: for a finite faithfully flat local homomorphism `R → R′` and `G` over `R`,
   `E_1^{s,t} = H^t_{Z_s}(Spec(R′^{⊗_R(s+1)}), G) ⇒ H^{s+t}_𝔪(R, G)`, with `Z_s` the preimage of the
   closed point; the tensor powers are semilocal and `H^t_{Z_s}` splits as a sum over their maximal
-  ideals by excision ([CS24] proof of Lemma 4.1.12, p. 40).
+  ideals by excision for opens (§2.9a) ([CS24] proof of Lemma 4.1.12, p. 40).
 - For `F` a smooth commutative group scheme, `H^i_Z(X, F)` agrees with étale cohomology with
   supports; for `𝒢` quasi-coherent it agrees with SchemeAndStackFoundations §2.7's
   `cohomologyWithSupport`, and for `X = Spec A` Noetherian, `Z = V(I)` and `𝒢 = M~` with Mathlib's
@@ -872,12 +889,10 @@ API (each a target):
   `ℋ^j_W(F) = 0` for `j < d` then `ℋ^j_Z(F) = 0` for `j < d`.
 
 **Checks.**
-- `H^i_∅(X, F) = 0` for every `i`, and `H^i_X(X, F) = H^i(X, F)`.
 - For a discrete valuation ring `R` with fraction field `K` and the closed point: `H^0_𝔪(R, 𝔾_m) = 0`
   and `H^1_𝔪(R, 𝔾_m) ≅ K^×/R^× ≅ ℤ` through the valuation, since `Pic R = 0`.
 - For `A = k[t]` and `I = (t)`: `H^1_{V(I)}(Spec A, 𝔾_a) ≅ k[t, t^{-1}]/k[t]`, the native
   `localCohomology`.
-- `H^0_Z(X, F)` is not `F(Z)`: for `X = 𝔸^1_k`, `Z = {0}` and `F = 𝔾_a`, `H^0_Z = 0` while `𝔾_a(Z) = k`.
 
 ### 0.3 Continuity of flat cohomology in cofiltered limits
 
@@ -985,7 +1000,7 @@ the valuation modulo `p`, so the bound `i ≤ dim R` of §6.5 is sharp in dimens
 ### Dependencies
 
 Mathlib sites, sheaf cohomology, local cohomology and regular sequences; SchemeAndStackFoundations
-§§0.9, 2.1–2.3, 2.7, 2.9, 2.10, 2.15; DerivedModuleAlgebra §0.K.1; Tau Ceti
+§§0.9, 2.1–2.3, 2.7, 2.9, 2.9a, 2.10, 2.15; DerivedModuleAlgebra §0.K.1; Tau Ceti
 `TauCeti.IsLocalRing.puncturedSpectrum`, `TauCeti.AlgebraicGeometry.Spec.presheaf_map_leTop_bijective_of_flat`,
 `TauCeti.AlgebraicGeometry.StructureSheaf.toOpenₗ_injective_of_isSMulRegular`,
 `TauCeti.AlgebraicGeometry.StructureSheaf.toOpenₗ_bijective_of_isWeaklyRegular`.
