@@ -779,6 +779,15 @@ This externally validates the finite model.  It says the maps are not merely an 
 **From GraphConnectivityAndFlows.** `Graph.Connected` (Target 1.1), the hypothesis of the three correspondence theorems.
 **From PlanarTopology.** Tameness of finite families of arcs (layer 7), `Surface.Orientation` (layer 6), Radó (layer 5).
 
+**Dependencies by target.**
+
+| Target | Inputs |
+|---|---|
+| Drawing/rotation-system correspondences | Layers 1–3 and PlanarTopology layer 7's tameness; its layer 6 supplies orientations. |
+| Cellular Euler formula | Boundary invariance and the finite triangulation/cell-count comparisons from PlanarTopology. |
+| Riemann–Hurwitz | The preceding Euler formula, covering-map lifting, and the local power-model and degree lemmas here. |
+| Graph genera | The drawing definitions here and layer 8's classified surface models. |
+
 **Representative formal statements.**
 
 ```lean
@@ -1039,7 +1048,7 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
 
 **Examples and mathematical checks.** The empty graph, `K₁`, and `C₃` have both graph-genus invariants zero. `K₅` and `K₃,₃` have both invariants 1: supply cellular drawings in the torus and the projective plane, and exclude sphere drawings. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge, and the crossed `C₄` in the sphere, with five vertices, six edges, and three faces once the crossing is a vertex, the check that `toGMap2` needs noncrossing.
 
-For the cellularity and Euler checks, draw `C₃` around the entire boundary of a
+**Cellularity and Euler.** For the cellularity and Euler checks, draw `C₃` around the entire boundary of a
 closed disc: `(V,E,F) = (3,3,1)` and `3-3+1=1`. Its equatorial drawing in the sphere
 has `(V,E,F) = (3,3,2)` and `3-3+2=2`. Both are cellular. A triangle with only one
 side along the disc boundary also has two complementary components, but the outer
@@ -1048,7 +1057,7 @@ It fails `IsCellular`; its raw count `3-3+2=2` therefore does not instantiate th
 Euler theorem for the disc. The first two examples continue to distinguish the
 closed-surface rotation-system correspondence from the general Euler formula.
 
-For branched covers, check the identity with all exponents one, giving degree one
+**Branched covers.** For branched covers, check the identity with all exponents one, giving degree one
 and zero correction; assigning exponent two at a marked point fails the local model
 because the identity is locally injective. For `z ↦ zⁿ` on the sphere, `n ≥ 1`, the
 exponents at `0` and `∞` are `n`, with all others one: the formula is
@@ -1153,6 +1162,15 @@ This layer develops classical homology from finite cellular and simplicial bound
 **From FreeGroupsAndLimitGroups.** The Serre-dart adapter, signed path groups and tree
 presentations (§§2.1–2.2), cycle lattices (§2.2a), and face presentations with their
 subdivision and marked-boundary comparisons (§6.0c).
+
+**Dependencies by target.**
+
+| Target | Inputs |
+|---|---|
+| Finite boundary matrices and orientation changes | Layers 1–3 and the shared ordered-simplex algebra described below. |
+| Subdivision and contiguity comparisons | PlanarTopology layer 3's common subdivisions and the signed-sum/prism chain homotopies constructed here. |
+| Homeomorphism action | PlanarTopology layer 5's isotopy-to-PL theorem, the finite chain comparisons, and the isotopy-to-contiguity construction here. |
+| Separate cellular bridge | The finite flag-complex comparison first; GeometricTopology layer 11's CW structure and AlgebraicTopology stage 4, items 1–3. |
 
 **Shared simplex-chain interface.** Consume the ordered-simplex complex and the
 simplicial chain maps through `GeometricTopology` layer 11. For a commutative ring `R`,
@@ -1308,7 +1326,7 @@ so the induced maps agree with `GMap2.homologyMap`. This compares the actual
 complexes and their maps, not merely their abstract homology groups. The generic
 cellular theory's comparison with singular homology stays with `AlgebraicTopology`.
 
-**Examples and mathematical checks.** Over a field, the empty map, a disc, and two
+**Examples and mathematical checks.** **Finite chain calculations.** Over a field, the empty map, a disc, and two
 disjoint discs have degree-zero homology ranks `0`, `1`, and `2` respectively,
 matching their component counts. On an ordered triangle both the shared chain
 boundary and the separate cellular comparison give

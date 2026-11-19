@@ -411,6 +411,14 @@ Schoenflies and arc straightening.
 **From layer 1.** The polygonal crosscut theorem, nonplanarity of `K₃,₃` for polygonal drawings, the integer winding number.
 **From Tau Ceti.** `IsJordanCurve` and the arc theory in `TauCeti/Topology/JordanCurve/`; `filledHull`; `IsJordanDomain` (`Analysis/Complex/Conformal/Jordan/Domain.lean`); `TauCeti/Topology/{Continuum,LocallyConnected}.lean`; the contour winding number in `TauCeti/Analysis/Contour/Winding/`.
 
+**Dependencies by target.**
+
+| Target | Inputs |
+|---|---|
+| Jordan-domain and accessibility results | Layer 1's polygonal engine and the native Jordan-curve and arc vocabulary. |
+| Polygonal-crosscut splitting | The preceding separation and polygonal accessibility results, and layer 1's polygonal cuts. |
+| Brouwer and invariance of domain | Layer 1's winding number and this layer's winding-number and finite-grid arguments. |
+
 The crosscut and accessibility definitions belong here, before their theorems. A crosscut
 includes both endpoints: it is an embedded closed arc with two distinct endpoints on `J`,
 with every other point in `filledHull J \ J`. A point is accessible **from the inside** if
@@ -572,7 +580,7 @@ targets (Kulpa, pp. 127–129, 132–133).
 
 **Examples and mathematical checks.** `subset_closure_inside` is stated in the same form as `TauCeti/Topology/FilledHull.lean`. `isJordanDomain_inside` is checked against the constructors of `IsJordanDomain` from a ball and from a convex set, which it subsumes. `polygonal_crosscut` is checked on a worked example where the two pieces are visibly different (an off-centre chord of a disc). Brouwer is exercised on a rotation of the disc, whose only fixed point is the centre, and `boundaryComponentCount` is computed for the closed disc, one, and the transported sphere, zero.
 
-Crosscut checks in the unit disc: the real diameter is a crosscut, and so is the off-centre
+**Crosscuts and accessibility.** Crosscut checks in the unit disc: the real diameter is a crosscut, and so is the off-centre
 chord joining `1` to `I`. A boundary semicircle fails interior containment; the segment from
 `0` to `1` fails the two-boundary-endpoint condition; a singleton fails to be an embedded
 arc with distinct endpoints. Check the exact identity `P ∩ J = {a, b}` in the positive cases.
@@ -1060,6 +1068,15 @@ Schoenflies gives local flatness for embedded circles and arc interiors lying in
 the topological `MappingTorus`, `MappingTorus.mk` and its quotient laws
 (`Topology/MappingTorus.lean`).
 
+**Dependencies by target.**
+
+| Target | Inputs |
+|---|---|
+| Schoenflies | Layers 0 and 2: Alexander's trick, polygonal crosscuts, accessibility and joining. |
+| Circle/arc tameness and marked neighbourhoods | Schoenflies; layer 6's local orientation transport for the side-return test. |
+| Finite graphs in a prescribed triangulation | The local straightening results, with layers 3 and 5 for the triangulation and subdivision comparisons. |
+| Arbitrary-crosscut splitting | Layer 2's polygonal-crosscut theorem and the relative arc straightening proved here. |
+
 **Side transport and marked neighbourhoods.** For an interior Jordan curve `J`,
 restrict layer 6's local orientation transport to `J`. Construct its two-sheeted
 cover by gluing the two local orientation choices in disc charts along the
@@ -1201,7 +1218,7 @@ end IsJordanCurve
 
 **Examples and mathematical checks.** The parabola arc `y = (1-x²)/2`, `-1 ≤ x ≤ 1`, is a nonpolygonal crosscut of the unit disc; the full `crosscut` theorem gives the regions above and below it inside the disc. A straight chord satisfies both crosscut predicates and recovers the layer 2 result. `schoenflies_closure` is instantiated on a curve that is not rectifiable. Circle and arc statements use Tau Ceti's `IsSliceEmbedding`, with local flatness the coordinate-line case. Exhibit an ambient straightening of a Y-shaped union of three arcs into a triangulation: it is a positive graph-tameness check. It is a negative local-flatness check at the common vertex, since removing that vertex from a small graph neighbourhood leaves three components, whereas a punctured line neighbourhood has two. A simple circle gives the positive line-model check; an arc endpoint gives the distinct half-line model. The core circle of a Möbius band is the counterexample to an unconditional product collar: it is tame and locally flat but one-sided. Automatic tameness fails in dimension three, where wild embeddings occur.
 
-For side transport, the standard annulus core has return sign `+1` and its
+**Side transport.** For side transport, the standard annulus core has return sign `+1` and its
 identity marked bicollar. The open Möbius core `[0,t]` has sign `-1`, its identity
 marked Möbius neighbourhood, and no bicollar. A torus meridian has sign `+1`
 although its complement is connected; two-sidedness is not global separation.
