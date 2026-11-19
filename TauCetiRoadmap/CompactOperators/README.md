@@ -114,8 +114,11 @@ route described, so a target proved by another route is not held behind an unrel
    finite spectral projector. Over rings a finite projective module need not be free, and its rank
    may vary between connected components of the spectrum. Constant rank is asserted only when a
    specified factor with unit leading coefficient forces it.
-8. **Valuations and slopes.** Layer 4 uses the normalisation `‖x‖ = b^(−e v(x))`, `b > 1`, `e > 0`,
-   of NewtonPolygons, with slopes measured in `v`. A cutoff `h` corresponds to the radius
+8. **Valuations and slopes.** Layer 4 uses the normalisation `‖x‖ = b^(−e(v(x)))`, `b > 1`, of
+   NewtonPolygons (its Convention 2), where `e` is a strictly monotone additive embedding of the
+   value group of `v` into `ℝ`. Layer 4 takes the value group inside `ℝ`, which loses nothing for a
+   normed field; `e` is then multiplication by a real number `e > 0`, and slopes are measured in
+   `v`. A cutoff `h` corresponds to the radius
    `b^(e h)`. Slopes count nonzero eigenvalues with algebraic multiplicity. Their total collection
    can be infinite, so the multiplicities are locally finite and are recorded by finite cutoff
    lists, not by a Lean `Multiset` of all slopes. Slopes lie in the divisible hull of the value
@@ -125,14 +128,13 @@ route described, so a target proved by another route is not held behind an unrel
    modules, order zero) and the negative examples recorded in its Checks. Every target and Check
    below is part of the roadmap.
 10. **Names.** Names in code font that are not Mathlib's or Tau Ceti's are declared in
-    `Suggested.lean`, in the namespace `TauCetiRoadmap.CompactOperators`. There `IsTate`,
-    `PseudoUniformizer` and `IsMultiplicative` (Banach–Tate data), `opNorm` (the ring-scalar
-    operator norm, definitionally Mathlib's over a field, `opNorm_eq`), `single` (coordinate
-    vectors) and `matrixCoeff` (the output-first matrix) write the notions of
-    PadicFunctionalAnalysis on native carriers, and `IsEntire`, `evalAt` and `hasseEval` those of
-    RestrictedPowerSeries; the bounded action of `R` on `C₀(I, R)`, which holds for the pointwise
-    action, is an explicit hypothesis there where it is used. Targets without a declaration there
-    are described in words.
+    `Suggested.lean`, in the namespace `TauCetiRoadmap.CompactOperators`. Its statements use the
+    supplier declarations at the pins: `TauCeti.NormedRing.IsTate`,
+    `ContinuousLinearMap.ringOpNorm` and `ContinuousLinearMap.matrixCoeff` of
+    PadicFunctionalAnalysis, `PowerSeries.IsEntire`, `PowerSeries.evalAt` and
+    `PowerSeries.hasseDeriv` of RestrictedPowerSeries, and the contractive pointwise action of `R`
+    on `C₀(I, R)` (`ZeroAtInftyContinuousMap.instIsBoundedSMul`). Targets without a declaration
+    there are described in words.
 
 ## Layer 0: approximation and compactness
 
@@ -339,9 +341,10 @@ would need Hahn–Banach hypotheses that fail (Schikhof §2.7), whereas Serre §
 finite-dimensional splitting inside `c₀` without that obstruction.
 
 Deduce `isCompletelyContinuous_of_isCompactOperator`: a compact operator in Mathlib's sense is
-completely continuous, for every such `K`. Over a locally compact `K` the converse holds, which is
-`isCompletelyContinuous_iff_isCompactOperator`. The set API here is the Banach-space theory needed
-for this comparison; the locally convex theory of compactoid sets is outside the scope.
+completely continuous, for every such `K`. Over a locally compact `K` the converse holds (Serre §3,
+Proposition 5, p. 73), which is `isCompletelyContinuous_iff_isCompactOperator`. The set API here is
+the Banach-space theory needed for this comparison; the locally convex theory of compactoid sets is
+outside the scope.
 *Needs:* Tau Ceti `TauCeti.exists_isTOrthogonalBasis_of_dense_span` and PadicFunctionalAnalysis
 §2.4 (countable type); Mathlib `IsCompactOperator`; §§0.1–0.2 and §0.4.
 
@@ -408,10 +411,10 @@ empty-minor formula and agreement with §1.1 for an operator that vanishes outsi
 of coordinates. The coefficients do not
 depend on an enumeration of `I`.
 
-Bound each minor by `∏_{i∈S} rᵢ(u)`, and each coefficient by the supremum of these products.
-Provide a decreasing rearrangement of the nonzero null row bounds, padded by zeros when there are
-only finitely many; empty and finite index sets are handled without assuming an infinite list of
-positive row norms.
+Bound each minor by `∏_{i∈S} rᵢ(u)`, and each coefficient by the supremum of these products (over a
+field, Serre §5, Proposition 7(a) and the proof of 7(b), pp. 75–76). Provide a decreasing
+rearrangement of the nonzero null row bounds, padded by zeros when there are only finitely many;
+empty and finite index sets are handled without assuming an infinite list of positive row norms.
 
 **Uniform tails under a common majorant.** If every member of a family satisfies
 `rᵢ(u_α) ≤ rᵢ`, with `rᵢ ≥ 0` and `rᵢ → 0`, fix `ρ > 0`, `0 ≤ q < 1`, `B ≥ 1` and a finite `T`
@@ -435,15 +438,16 @@ with natural truncated subtraction in the exponent, including `q = 0` and `n = 0
 
 ### 1.3 Entirety and continuity
 
-Define `charPowerSeries u` from these coefficients. Prove `charPowerSeries_isEntire`, using §1.2 at
-every positive radius, and that the determinants of the finite output compressions of `u`
-converge to it in every Gauss norm. Prove that each coefficient is continuous in the operator
-norm, with explicit bounds on bounded sets, for instance
-`‖cₙ(u) − cₙ(v)‖ ≤ ‖u − v‖ max(‖u‖, ‖v‖)^(n−1)` for `n ≥ 1`, by changing one row at a time.
-Upgrade coefficientwise convergence of a family to Gauss convergence when a common null row
+Define `charPowerSeries u` from these coefficients. Prove `charPowerSeries_isEntire` (over a field,
+Serre §5, Proposition 7(b), pp. 75–76), using §1.2 at every positive radius, and that the
+determinants of the finite output compressions of `u` converge to it in every Gauss norm. Prove
+that each coefficient is continuous in the operator norm, with explicit bounds on bounded sets, for
+instance `‖cₙ(u) − cₙ(v)‖ ≤ ‖u − v‖ max(‖u‖, ‖v‖)^(n−1)` for `n ≥ 1`, by changing one row at a
+time. Upgrade coefficientwise convergence of a family to Gauss convergence when a common null row
 majorant is supplied. For a sequence of row-compact operators converging in operator norm, prove
-convergence of the determinants in every Gauss norm by controlling the row tails; coefficientwise
-convergence of unrelated entire series does not suffice. *Needs:* §1.2; Tau Ceti
+convergence of the determinants in every Gauss norm by controlling the row tails (over a field,
+Serre §5, Proposition 8, p. 77); coefficientwise convergence of unrelated entire series does not
+suffice. *Needs:* §1.2; Tau Ceti
 `PowerSeries.IsEntire` and RestrictedPowerSeries §§1.1 and 7.2 (Gauss norms and completeness for
 all of them); Mathlib `PowerSeries.gaussNorm`.
 
@@ -454,8 +458,8 @@ all of them); Mathlib `PowerSeries.gaussNorm`.
 ### 1.4 Cyclicity and invariance
 
 Prove `H_{AB} = H_{BA}` for composable bounded maps between model spaces when one factor is row
-compact, then invariance under bounded conjugation, reindexing and extension by zero. Scalar
-multiplication gives `H_{au}(T) = H_u(aT)`.
+compact (over a field, Serre §5, Proposition 7, Corollary 2, p. 76), then invariance under bounded
+conjugation, reindexing and extension by zero. Scalar multiplication gives `H_{au}(T) = H_u(aT)`.
 
 Principal minors are unchanged by transposition of the matrix. If the matrix of a row-compact `u`
 and its transpose both define operators on the stated `c₀` spaces, the transposed operator is row
@@ -516,7 +520,9 @@ not use, determinants on abstract tensor products. *Needs:* Tau Ceti
 
 `S`-linear and continuous with continuous inverse. This general ring-scalar statement is a target
 here; LocallyAnalyticDistributions §4.2's comparison for Noetherian `K`-Banach algebras is a
-special case of it. Reuse the tensor topology, product seminorm, Hausdorff completion and scalar
+special case of it. When `R` is a field and `φ` is contractive, `Θ_φ` is AdicSpacesPartII §R0.5(f)
+for `V = c₀(I, R)` and `E = S`, in the orientation `S ⊗̂_R c₀(I, R)`; the statement here is its
+ring-scalar variant. Reuse the tensor topology, product seminorm, Hausdorff completion and scalar
 action of AdicSpacesPartII; no second completed tensor product is constructed. For the product
 seminorm `‖z‖_π = inf { max_j ‖x_j‖ ‖s_j‖ : z = Σ_j x_j ⊗ s_j }` (an empty maximum is zero), prove
 
@@ -591,8 +597,8 @@ generally noncommutative algebra of bounded endomorphisms. The Hasse derivative 
 `coeff n (hasseDeriv k F) = (n+k choose k) • coeff (n+k) F`; it has the identity, additivity, left
 scalar compatibility and ordered Leibniz laws, and agrees with Mathlib's `Polynomial.hasseDeriv` on
 polynomials. No factorial is inverted. Translation `PowerSeries.taylor` and the Taylor identity are
-imported. `Suggested.lean` writes these as `IsEntire`, `evalAt a F` and `hasseEval a F h`, the
-value at `a` of the `h`-th Hasse derivative. *Needs:* Tau Ceti `PowerSeries.IsEntire`,
+imported. The value at `a` of the `h`-th Hasse derivative is
+`(PowerSeries.hasseDeriv h F).evalAt a`. *Needs:* Tau Ceti `PowerSeries.IsEntire`,
 `PowerSeries.evalAt` and its convergence for entire series in complete normed algebras,
 `PowerSeries.hasseDeriv`, `PowerSeries.taylor`; RestrictedPowerSeries §§2.1, 2.3 and 7.2.
 
@@ -617,15 +623,9 @@ modulo `Q`, multiplicativity in `F`, bounded base change, `Res(T − a, F) = F(a
 identity `C(Res(Q, F)) = QG + HF` with `G` entire and `deg H < deg Q` are supplied; it is a unit if
 and only if `Q` and `F` are coprime among entire series. The degree-zero case is kept:
 `Res(1, F) = 1`, even for `F = 0`. These are prerequisites here for spectral transforms and
-projectors. *Needs:* RestrictedPowerSeries §7.2; Tau Ceti `PowerSeries.divByMonic`,
-`PowerSeries.modByMonic` with the division identity for entire series,
-`Polynomial.entireResultant`.
-
-**Checks.**
-- Division of `T³` by `T² + aT + b` has quotient `T − a` and remainder `(a² − b)T + ab`.
-- For monic `Q` of positive degree, `Res(Q, 0) = Res(Q, Q) = 0`, while `Res(1, 0) = 1`.
-- `Res(T², a + bT) = a²`, the determinant of `[[a, 0], [b, a]]`, also over rings with nilpotents;
-  a resultant computed from roots in a field would not apply there.
+projectors. Their Checks are those of RestrictedPowerSeries §7.2. *Needs:* RestrictedPowerSeries
+§7.2; Tau Ceti `PowerSeries.divByMonic`, `PowerSeries.modByMonic` with the division identity for
+entire series, `Polynomial.entireResultant`.
 
 ### 2.3 Good zeros
 
@@ -661,14 +661,16 @@ For row-compact `u`, put `V_m = Σ_{k≤m} c_k u^(m−k)` (`resolventCoeff u m`)
 (1 − Tu) V(T) = V(T) (1 − Tu) = H_u(T) · 1.
 ```
 
-Derive operator-norm bounds sufficient for evaluation and Hasse differentiation at any scalar, and
-show that the resulting operators lie in the operator-norm closure of `R[u]` (`IsOpLimitAeval`).
+Over a field, entirety of `V` is Serre §6, Proposition 10, p. 78. Derive operator-norm bounds
+sufficient for evaluation and Hasse differentiation at any scalar, and show that the resulting
+operators lie in the operator-norm closure of `R[u]` (`IsOpLimitAeval`).
 
 The Fredholm determinant at one is `H_u(1)`. For row-compact `u` and `v`, prove that the
 determinant at one of `u + v − uv` is the product of those of `u` and `v`, corresponding to
-`(1 − u)(1 − v)`; no commutativity of `u` and `v` is needed. Include the comparison with finite
-matrices and bounded base change. *Needs:* §§1.2–1.4, §1.7; §2.1; Tau Ceti
-`ContinuousLinearMap.ringOpNorm` (complete operator algebra, PadicFunctionalAnalysis §1.1).
+`(1 − u)(1 − v)`; no commutativity of `u` and `v` is needed (over a field, Serre §5, Proposition 7,
+Corollary 1, p. 76). Include the comparison with finite matrices and bounded base change.
+*Needs:* §§1.2–1.4, §1.7; §2.1; Tau Ceti `ContinuousLinearMap.ringOpNorm` (complete operator
+algebra, PadicFunctionalAnalysis §1.1).
 
 **Checks.**
 - For the identity of a line, `H = 1 − T` and `V = 1`, since `V₁ = u − 1 = 0`. The resolvent is
@@ -677,9 +679,10 @@ matrices and bounded base change. *Needs:* §§1.2–1.4, §1.7; §2.1; Tau Ceti
 ### 2.5 Invertibility and nonzero spectrum
 
 Prove `isUnit_one_sub_smul_iff`: for row-compact `u` and `a ∈ R`, `1 − au` is invertible among
-bounded operators if and only if `H_u(a)` is a unit. For the forward direction use the
-multiplicativity of §2.4 and the fact that the inverse differs from the identity by a row-compact
-operator; for the reverse direction the evaluated resolvent supplies the inverse.
+bounded operators if and only if `H_u(a)` is a unit (over a field, where the units are the nonzero
+values, Serre §7, Proposition 11, p. 80). For the forward direction use the multiplicativity of
+§2.4 and the fact that the inverse differs from the identity by a row-compact operator; for the
+reverse direction the evaluated resolvent supplies the inverse.
 
 Over `K`, for `λ ≠ 0`, `λ` lies in Mathlib's `spectrum` of `u` if and only if `H_u(λ⁻¹) = 0`. A good
 zero supplies a nonzero eigenvector and, in Layer 3, the whole generalised eigenspace. No claim
@@ -709,10 +712,11 @@ statements keep every displayed unit hypothesis.
 
 Let `H_u` have a good zero `a` of order `h`. For `h > 0` put `c = Δʰ H_u(a)`, `C = 1 − au`,
 `b = c⁻¹ ΔʰV(a)`, and construct `p = (Cb)ʰ`, `E = 1 − p`, `w = bp`, where `Δʰ` is the `h`-th Hasse
-derivative and `V` the resolvent. Prove `p² = p`, `Cw = wC = p`, `pw = wp = w` and `CʰE = 0`; all
-these operators commute with `u`. The identity `Cʰ(Cb − 1) = 0`, from the differentiated
-resolvent, explains the formula and is part of the target. For `h = 0` put `p = 1`, `E = 0` and use
-the inverse of §2.5.
+derivative and `V` the resolvent; over a field `p` is the projector `eʰ` of the proof of Serre §7,
+Proposition 12, pp. 80–81. Prove `p² = p`, `Cw = wC = p`, `pw = wp = w` and `CʰE = 0`; all these
+operators commute with `u`. The identity `Cʰ(Cb − 1) = 0`, from the differentiated resolvent,
+explains the formula and is part of the target. For `h = 0` put `p = 1`, `E = 0` and use the
+inverse of §2.5.
 
 Prove that `range E = ker Cʰ`, that `range p` is a closed `u`-stable complement, and that `C` is
 invertible on it. Both projectors and the inverse on the complement lie in the operator-norm closure
@@ -723,9 +727,9 @@ and invertibility properties.
 Show that `E` is compact and its range finite projective of constant rank `h`, the rank at every
 prime of `R` (Mathlib `Module.rankAtStalk`), proved algebraically: checking only field-valued points
 would lose nilpotent information. The determinant of `u` on the range of `E` is `(1 − a⁻¹T)ʰ` when
-`h > 0`, and the complementary factor is obtained by division. At order zero the projector is zero
-(`IsRieszProjection.eq_zero_of_order_zero`). *Needs:* §§2.3–2.5; §0.4 (row-compact idempotents
-have finite projective range); §1.6; Mathlib `Module.rankAtStalk`.
+`h > 0`, and the complementary factor is obtained by division. At order zero the projector is zero,
+directly from the definition of `IsRieszProjection`. *Needs:* §§2.3–2.5; §0.4 (row-compact
+idempotents have finite projective range); §1.6; Mathlib `Module.rankAtStalk`.
 
 **Checks.**
 - For `u = 1 + N` on a two-dimensional space with `N² = 0 ≠ N`, `H_u = (1 − T)²`; the root `a = 1`
@@ -762,15 +766,17 @@ needed.
 
 Recover uniqueness, functoriality and bounded extension of scalars. Use this splitting and §2.5 to
 prove `isFredholm_one_sub_smul`: every `1 − au` is Fredholm in Mathlib's
-`ContinuousLinearMap.IsFredholm` sense. Prove each of its conditions: strictness (the quotient by
-the kernel is homeomorphic to the image), closed range, finite-dimensional kernel and cokernel, and
-a topologically complemented kernel. Split the kernel inside the finite block and combine that
-finite-dimensional complement with the bounded Riesz complement; no projection of an arbitrary
-finite-dimensional subspace of the ambient space is used. The finite block has equal kernel and
-cokernel dimensions and the complement is invertible, so the index is zero. Each nonzero eigenvalue
-is isolated, and only finitely many, counted with multiplicity, have norm bounded below by a fixed
-positive number in a complete splitting field; zero may be an accumulation point. *Needs:* §3.1,
-§2.5, §0.4; Mathlib `ContinuousLinearMap.IsFredholm`, `spectrum`.
+`ContinuousLinearMap.IsFredholm` sense, of index zero in the sense of Mathlib's `LinearMap.index`
+(the Fredholm alternative, Serre §7, corollary to Proposition 12, p. 82). Prove each of its
+conditions: strictness (the quotient by the kernel is homeomorphic to the image), closed range,
+finite-dimensional kernel and cokernel, and a topologically complemented kernel. Split the kernel
+inside the finite block and combine that finite-dimensional complement with the bounded Riesz
+complement; no projection of an arbitrary finite-dimensional subspace of the ambient space is used.
+The finite block has equal kernel and cokernel dimensions and the complement is invertible, so the
+index is zero. Each nonzero eigenvalue is isolated, and only finitely many, counted with
+multiplicity, have norm bounded below by a fixed positive number in a complete splitting field;
+zero may be an accumulation point. *Needs:* §3.1, §2.5, §0.4; Mathlib
+`ContinuousLinearMap.IsFredholm`, `LinearMap.index`, `spectrum`.
 
 **Checks.**
 - For nilpotent `u` in finite dimension, `H_u = 1` has no zeros, so there is no finite summand,
@@ -860,7 +866,14 @@ determinant is `Q`; the determinant on the complement is `S`. The operator `Q*(u
 first summand and invertible on the second. The projectors and the inverse on the complement lie in
 the operator-norm closure of `R[u]`. State the corresponding projector predicate, the Riesz–Coleman
 projection, and its existence, including transport along retracts and bounded base change. For
-`Q = 1` the finite summand is zero.
+`Q = 1` the finite summand is zero. For Noetherian `R` this is Johansson–Newton, Theorem 2.2.2,
+p. 10.
+
+`exists_rieszColemanProjection` states the existence, with a (Pr) module given by a retract
+`r ∘ i = 1` of `c₀(I, R)`, `u` compact when `iur` is row compact (§0.4) and `H_u` the determinant of
+`iur` (§1.5). The determinants of `u` on the two summands are read on `M`, as those of `uE` and
+`u(1 − E)` for the projector `E` onto the first summand, which §1.6 identifies with the
+determinants on the summands.
 
 Use §3.3 with `B(X) = 1 − lc(Q)⁻¹ Q*(X)`, whose constant coefficient is zero because `Q*(0)` is the
 leading coefficient of `Q`, together with the projector of §3.1 at the root one; then prove the
@@ -872,7 +885,8 @@ and `H_u` are coprime among entire series if and only if `Q*(u)` is invertible. 
 with a monic polynomial in LocallyAnalyticDistributions §4.14, require the constant coefficient of
 the polynomial to be a unit and rescale by it. Coprimality of the two factors `Q` and `S` instead
 gives invertibility only on the complementary summand, not on all of `M`. *Needs:* §§3.1 and 3.3,
-§§1.5–1.6; RestrictedPowerSeries §7.2 (entire coprimality and the resultant criterion).
+§§1.5–1.6, §0.4; RestrictedPowerSeries §7.2 (entire coprimality and the resultant criterion);
+Mathlib `Polynomial.reverse`, `Module.rankAtStalk`.
 
 **Checks.**
 - For `u = diag(λ, μ)` with `λ − μ` and `λ` units and `Q = 1 − λT`, `S = 1 − μT`: `Q* = T − λ`,
@@ -1011,6 +1025,13 @@ prove equality of its determinant, for example by diagonal intertwining (§1.4);
 alone does not supply such a realisation. These estimates are motivated by slope calculations at
 the boundary of weight space. *Needs:* §§1.2 and 1.4.
 
+**Checks.**
+- The matrix `aᵢⱼ = p^max(2i − j, 0)` defines a bounded operator on unweighted `c₀(ℕ, ℚ_p)` (its
+  columns are null and its entries bounded) and has convergent minor series by the two-sided
+  estimate with `wᵢ = 2i`, `w'ⱼ = j`, but it is not row compact, every row containing entries of
+  norm one; its transpose has columns that are not null and does not define a bounded map on that
+  `c₀`.
+
 **Exact case.** Suppose `u` is row compact on `c₀(ℕ, K)`, `dᵢ ≠ 0`, `‖dᵢ‖` is strictly
 decreasing, `‖aᵢⱼ‖ ≤ ‖dᵢ‖`, and every leading principal minor of `(dᵢ⁻¹aᵢⱼ)` has norm one. Prove
 `‖cₙ‖ = ∏_{i<n} ‖dᵢ‖` and `v(cₙ) = Σ_{i<n} v(dᵢ)`, the leading principal minor being the unique
@@ -1042,11 +1063,6 @@ series, at the pins for `PowerSeries.newtonPolygon`).
 - A finite nilpotent summand adds no finite slopes.
 - `diag(p^(−1), 1, p, p², …)` has a negative slope `−1`, and `M_(≤0)` is spanned by `e₀` and `e₁`
   while `M_(=0)` is spanned by `e₁`, so the two differ without the bound `‖u‖ ≤ 1`.
-- The matrix `aᵢⱼ = p^max(2i − j, 0)` defines a bounded operator on unweighted `c₀(ℕ, ℚ_p)` (its
-  columns are null and its entries bounded) and has convergent minor series by the two-sided
-  estimate with `wᵢ = 2i`, `w'ⱼ = j`, but it is not row compact, every row containing entries of
-  norm one; its transpose has columns that are not null and does not define a bounded map on that
-  `c₀`.
 
 ### Examples
 
@@ -1070,7 +1086,7 @@ forms through the same operator and determinant interfaces.
 
   | Notation there | Interface here |
   | --- | --- |
-  | `operatorEntry u i j`, output-column norms | `matrixCoeff u j i`, output-row norms; this is PadicFunctionalAnalysis's transpose adapter (§2.6) |
+  | `operatorEntry u i j`, output-column norms | `ContinuousLinearMap.matrixCoeff u j i`, output-row norms; this is PadicFunctionalAnalysis's transpose adapter (§2.6) |
   | `IsCompactoid` for row decay over a coefficient algebra | `IsRowCompact` (§0.2), distinct from the field-facing `HasCompactoidImage` (§0.5) |
   | Finite rank, meaning finitely generated range | `IsFiniteRank`, by `isFiniteRank_iff_range_fg` under Noetherianity (§0.1) |
   | `fredholmSeries`, `entireEval f a`, `hasseSeries` | `charPowerSeries`, the supplier's `PowerSeries.evalAt f a`, the supplier's Hasse derivative (§§1.2, 2.1) |
@@ -1106,9 +1122,8 @@ forms through the same operator and determinant interfaces.
 
 The `TateFredholm` sources of [W. Coram's PhD repository][PhDSources], at commit
 `eefb3d91f34b27d0bc7822140fa85fecae029884`, are secondary implementation references, neither the
-specification nor a build dependency. Their integration is coordinated with the author, declaration
-by declaration together with its proof dependencies; the table does not claim completed proofs, and
-the import chains stay independent.
+specification nor a build dependency. The table claims no proofs, and the import chains stay
+independent.
 
 | Source files in `PhD/Main/TateFredholm/` | Comparison with this roadmap |
 | --- | --- |
@@ -1145,8 +1160,9 @@ The following are left to named roadmaps.
   comparisons (§2.5), products and root dictionaries (Layer 3), disc factors and slope
   factorisation (Layer 4) and entire products (Layer 5).
 - [AdicSpacesPartII](../AdicSpacesPartII/README.md) §R0.5 owns completed tensor products of Banach
-  modules, their product seminorm, functoriality and split exactness; the general ring-scalar `c₀`
-  comparison on that carrier is §1.7 here.
+  modules, their product seminorm, functoriality and split exactness, and in (f) the comparison
+  with `c₀(I, E)` over a field; the general ring-scalar `c₀` comparison on that carrier is §1.7
+  here.
 - [AdicSpacesPartIII](../AdicSpacesPartIII/README.md) §R3.6 owns affinoid rings of definition, the
   affinoid predicate `Huber.IsCompletelyContinuous`, strictly completely continuous maps,
   restriction to submodules and the cohomological applications; the comparison of §0.1 applies to
@@ -1175,7 +1191,9 @@ the pins and remain those roadmaps' targets.
 - Operators and spectra: `ContinuousLinearMap`, `ZeroAtInftyContinuousMap`, `IsCompactOperator`
   (`Analysis/Normed/Operator/Compact/Basic`), `ContinuousLinearMap.IsFredholm`
   (`Analysis/Normed/Operator/Fredholm/Basic`; strict, closed range, finite-dimensional kernel and
-  cokernel, topologically complemented kernel; distinct from the Fredholm determinant), `spectrum`.
+  cokernel, topologically complemented kernel; distinct from the Fredholm determinant),
+  `LinearMap.index` (`Algebra/Module/LinearMap/Index`; kernel dimension minus cokernel dimension),
+  `spectrum`.
 - Linear algebra: `Matrix.det`, `Matrix.charpoly`, `Matrix.charpolyRev` (`det(1 − X • M)`) and
   `Matrix.reverse_charpoly` (it is the reverse of the characteristic polynomial),
   `Submodule.smithNormalForm` (`LinearAlgebra/FreeModule/PID`), `Module.Finite`,
@@ -1193,7 +1211,8 @@ the pins and remain those roadmaps' targets.
   `ContinuousLinearMap.ringOpNorm` (the infimum of uniform bounds) with
   `ContinuousLinearMap.ringOpNorm_eq_opNorm` and Neumann inversion `ContinuousLinearMap.oneSub`;
   `ContinuousLinearMap.isOpenMap_of_isTate` (open mapping over Tate rings);
-  `ZeroAtInftyContinuousMap.single`, `ZeroAtInftyContinuousMap.indicatorCLM` and
+  `ZeroAtInftyContinuousMap.instIsBoundedSMul` (the pointwise action of `R` on `C₀(I, R)` is
+  contractive), `ZeroAtInftyContinuousMap.single`, `ZeroAtInftyContinuousMap.indicatorCLM` and
   `ZeroAtInftyContinuousMap.tendsto_indicatorCLM` (coordinate vectors and truncations),
   `ZeroAtInftyContinuousMap.diagonalCLM`, `ZeroAtInftyContinuousMap.congrLeft`;
   `ContinuousLinearMap.matrixCoeff` (output-first matrix), `ContinuousLinearMap.hasSum_matrixCoeff_mul`,
@@ -1271,7 +1290,8 @@ Banach modules over an affinoid algebra, used only in the comparison of §0.1.
   [full text](https://www.numdam.org/item/GAU_1981-1982__9_3_A5_0.pdf), §§1.1, 2.1–2.3: compactoid
   subsets and compactoid maps over a complete nontrivially valued field.
 - R. Coleman, *p-adic Banach spaces and families of modular forms*, Invent. Math. **127** (1997),
-  417–479, [full text](https://kundudeb.github.io/1997_Coleman.pdf), Appendix A, especially A3
+  417–479, [doi:10.1007/s002220050127](https://doi.org/10.1007/s002220050127), Appendix A,
+  especially A3
   (entire series and spectral transforms) and A4 (spectral theory).
 - C. Johansson and J. Newton, *Extended eigenvarieties for overconvergent cohomology*,
   [corrected arXiv v4](https://arxiv.org/pdf/1604.07739v4), §§2.1–2.2. Their Noetherian hypotheses
