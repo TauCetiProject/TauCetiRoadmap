@@ -1,6 +1,6 @@
 # Roadmap: hard-sphere dynamics and kinetic limits
 
-**Summary.** Kinetic theory describes a gas by the density of its particles in position and velocity, which evolves by the Boltzmann equation. The microscopic model behind it is a gas of hard spheres: finitely many balls of diameter ε that move freely and collide elastically. This roadmap builds that model and takes the first steps towards the kinetic description. The spheres move in Euclidean space ℝᵈ or in a flat torus ℝᵈ/L; ρ denotes the injectivity radius, infinite for ℝᵈ. Most dynamical statements assume 0 < ε < ρ; a few, such as the group law of the flow, hold for every real ε.
+**Summary.** Kinetic theory describes a gas by the density of its particles in position and velocity, which evolves by the Boltzmann equation. The microscopic model behind it is a gas of hard spheres: finitely many balls of diameter ε that move freely and collide elastically. This roadmap builds that model and takes the first steps towards the kinetic description. The spheres move in Euclidean space ℝᵈ or in a flat torus ℝᵈ/L; ρ denotes the injectivity radius, infinite for ℝᵈ. Throughout this overview 0 < ε < ρ, except for the group law and the reversibility of the flow, which hold for every real ε.
 
 The first main theorem is Alexander's theorem for finitely many particles. A configuration is admissible when its centres are pairwise at distance at least ε. Along a trajectory the spheres move freely, and at each contact two spheres exchange the components of their velocities along the line of centres. The admissible configurations through which no trajectory defined for all times passes form a Lebesgue-null set. Outside it the motion has only binary, non-grazing collisions, finitely many in bounded time.
 
@@ -377,7 +377,7 @@ Define `HardSphere.IsTrajectory ε J Z` for a set of times `J ⊆ ℝ` (an inter
 API:
 
 - Restriction to subintervals, translation in time, and positions continuous with velocities piecewise constant; the left limit `V(t−)` within `J` exists at every `t ∈ J` other than a least element of `J`.
-- Conservation: `P(V(t))` and `H(V(t))` are constant on `J`.
+- Conservation: for an interval `J`, `P(V(t))` and `H(V(t))` are constant on `J`.
 - Free motion between contacts: on an interval free of contact times, `Z(t) = S_{t−s} Z(s)`.
 
 **Checks.**
