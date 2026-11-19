@@ -23,9 +23,7 @@ compactly supported étale cohomology and its Frobenius action. Hyperelliptic mo
 §5.17, including genus-one 3-adic monodromy and its Legendre inertia input, needs the
 relative Jacobian, its torsion local systems and monodromy representations.
 The rational-component and Cohen–Lenstra theorems of §§5.18–5.19 also need these Hurwitz
-carriers and their rational étale cohomology, and the homological stability theorem and uniform
-Betti bounds of §5.16 need the Hurwitz braid action on tuples, the topological Hurwitz spaces and
-their homology, of which the pins have only the braid group `TauCeti.BraidGroup`. Wood's moments,
+carriers and their rational étale cohomology. Wood's moments,
 bad-type bounds and whole-component profiles in §§5.20–5.21 need marked Hurwitz schemes, reduced
 Schur multipliers and the arithmetic extension counts. The Liu–Wood–Zureick-Brown and
 Cohen–Lenstra–Martinet moments of §5.22 need the radical-discriminant extension families
@@ -122,7 +120,7 @@ def similitudeFixedSurjections (ℓ : ℕ) [Fact ℓ.Prime]
 
 /-- §5.18, EVW Lemma 8.9: the surjections fixed by some multiplier-`q` similitude
 form one nonempty symplectic orbit for every finite free perfectly alternating module. -/
-theorem unique_similitude_stable_orbit (ℓ g : ℕ) [Fact ℓ.Prime] (hℓ : 2 < ℓ)
+theorem unique_similitude_stable_orbit (ℓ g : ℕ) [Fact ℓ.Prime]
     (V A : Type*) [AddCommGroup V] [Module (PadicInt ℓ) V]
     [Module.Free (PadicInt ℓ) V] [Module.Finite (PadicInt ℓ) V]
     [AddCommGroup A] [Module (PadicInt ℓ) A] [Finite A]
