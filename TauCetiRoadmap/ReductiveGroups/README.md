@@ -14,18 +14,19 @@ and spectral constructions in Layers 0–11. The integral construction is made f
 datum: Layer 9 builds the pinned split reductive group scheme over `ℤ` of every finite reduced
 root datum, arbitrary central tori and isogeny types included. The SL polynomial presentation of
 9B.4 concerns the existing determinant-kernel coordinate algebra; it introduces no second SL group.
-Layer 9B also owns the classical group schemes over every commutative ring: the comparisons of
-§9B.5 for the symplectic and symplectic-similitude groups, the orthogonal, special orthogonal and
-similitude group schemes of a nondegenerate quadratic module with its Dickson invariant (§9B.6),
-and the Clifford, general spin and spin group schemes of §9B.7, each with its comparison to the
-pinned model of its based root datum. `Sp₂ₘ` is the pinned Tau Ceti carrier and `GSp₂ₘ` is
-the group ArithmeticGaloisRepresentations §7.3 proposes as *SimilitudeGroup.GSp*; §9B.5
-introduces no second carrier for either. The groups of points over a field of characteristic not
-two, the spinor norm and the Clifford comparison on points are Completed/OrthogonalSpinGroups';
+Layer 9B also owns the classical group schemes over every commutative ring: the
+symplectic-similitude group scheme of §9B.5 and the comparisons there for it and the symplectic
+group, the orthogonal, special orthogonal and similitude group schemes of a nondegenerate
+quadratic module with its Dickson invariant (§9B.6), and the Clifford, general spin and spin
+group schemes of §9B.7, each with its comparison to the pinned model of its based root datum.
+`Sp₂ₘ` is the pinned Tau Ceti carrier, and §9B.5 introduces no second symplectic group.
+ArithmeticGaloisRepresentations §7.3, whose *SimilitudeGroup.GSp* is this group, is a consumer of
+§9B.5, not a second supplier. The groups of points over a field of characteristic not two, the
+spinor norm and the Clifford comparison on points are Completed/OrthogonalSpinGroups';
 §§9B.6–9B.7 own the group schemes and their structure, and identify their field points with
-those groups in positive rank. Ordinarity of a quadratic form, with its fibre criterion, and the
-finite étale centre of the even Clifford algebra in positive even rank are
-LefschetzPencilsAndVanishingCycles §§2.1–2.2's; §9B.6 consumes them. The roadmaps that plan the
+those groups in positive rank. Ordinarity of a quadratic form, with its fibre criterion and
+étale-local normal form, and the finite étale centre of the even Clifford algebra in positive even
+rank are LefschetzPencilsAndVanishingCycles §§2.1–2.2's; §9B.6 consumes them. The roadmaps that plan the
 objects of §§9B.5–9B.7 or special cases of them, listed under Downstream consumers below, consume
 these sections and are not second suppliers. §9B.7's `Spin(q₀)` is `μ₂`, the kernel of `ν` on
 `GSpin(q₀) = 𝔾_m`, not the trivial group.
@@ -1202,22 +1203,16 @@ and Proposition C.53, pp. 612, 624). §5.2 identifies that based subgroup, for a
 spanning system, with the Cartan-preserving permutations of the simple roots. §9A.1a-L consumes
 both on the ADE root lattice and does not rederive them.
 
-### From TauCetiRoadmap.ArithmeticGaloisRepresentations
-
-Section 7.3 supplies the group it proposes as *SimilitudeGroup.groupScheme* `J` over every
-commutative ring, the closed subgroup scheme of `GL × 𝔾_m` of pairs `(h, r)` with
-`hᵀ J h = r J`, its multiplier, and *SimilitudeGroup.GSp* (`J = −Matrix.J`); these names are that
-roadmap's proposals, not declarations at the pins. §9B.5 consumes the group and proves only the
-comparison with the pinned model.
-
 ### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
 Section 2.1 supplies ordinarity of a quadratic form on a locally free module of positive rank over
 any base, including characteristic two, with its fibre criterion and, over a field, its agreement
-with Mathlib's `QuadraticMap.Nondegenerate`. Section 2.2 supplies, for an ordinary form of positive
-even rank, the equivalence of ordinarity with bijectivity of the polar map and the finite étale
-rank-two centre of `CliffordAlgebra.even`. Both exclude rank zero. §9B.6 uses them for its
-nondegeneracy convention and for the centre `Z(q)` on which the Dickson invariant is defined.
+with Mathlib's `QuadraticMap.Nondegenerate`, and its étale-local normal form in rank `2m` or
+`2m + 1`, `Σ_{i ≤ m} x_i x_{i+m}`, plus `λx²` with `λ` a unit in odd rank. Section 2.2 supplies,
+for an ordinary form of positive even rank, the equivalence of ordinarity with bijectivity of the
+polar map and the finite étale rank-two centre of `CliffordAlgebra.even`. Both exclude rank zero.
+§9B.6 uses them for its nondegeneracy convention, for the fppf-local splitting in its smoothness
+route and for the centre `Z(q)` on which the Dickson invariant is defined.
 
 ### From TauCetiRoadmap.DeformationAndDerivedPatchingAlgebra
 
@@ -4869,9 +4864,10 @@ counit is the identity point and composition with the antipode is matrix inversi
 The carrier of `Sp₂ₘ` is the pinned `TauCeti.Symplectic.groupScheme`, the constant-form subgroup
 scheme of `TauCeti.JFin m R`; no second symplectic group is introduced. Its smoothness,
 reductivity, torus, root datum `TauCeti.Symplectic.diagonalRootDatum m`, root subgroups and
-standard pinning are consumed. The carrier of `GSp₂ₘ` is the group ArithmeticGaloisRepresentations
-§7.3 proposes as *SimilitudeGroup.GSp*, the pairs `(h, r)` with `hᵀ J h = r J` for
-`J = −Matrix.J = [[0, I_m], [−I_m, 0]]`.
+standard pinning are consumed. Define `GSp₂ₘ` as the closed subgroup scheme of `GL₂ₘ × 𝔾_m` of
+pairs `(h, r)` with `hᵀ J h = r J` for `J = −Matrix.J = [[0, I_m], [−I_m, 0]]`, cut out by the
+Hopf ideal generated by the entries of `hᵀ J h − r J`, proving the three Hopf-ideal closure
+conditions as `TauCeti.ConstantForm` does for `M C Mᵀ − C`; its multiplier is `ν(h, r) = r`.
 
 - **Polynomial presentation.** Construct the `ℤ`-algebra isomorphism
   `O(Sp₂ₘ) ≃ ℤ[x_ij]/(entries of X J Xᵀ − J)` with `J = JFin m ℤ`, removing the determinant
@@ -4900,8 +4896,8 @@ standard pinning are consumed. The carrier of `GSp₂ₘ` is the group Arithmeti
   `±(ε_i + ε_j − ε₀)` (`i < j`), `±(2ε_i − ε₀)`, coroots `ε_i∨ − ε_j∨`, `±(ε_i∨ + ε_j∨)`, `±ε_i∨`.
 
 *Needs:* §§8.1–8.2, §9B, §§9B.2–9B.3; the pinned symplectic carriers and pinning; §9B.4's
-localization-removal argument; ArithmeticGaloisRepresentations §7.3; Mathlib's `Matrix.det`,
-`Matrix.J`.
+localization-removal argument; the pinned `TauCeti.ConstantForm` carrier and its closure argument;
+Mathlib's `Matrix.det`, `Matrix.J`.
 
 **Checks.**
 - At `m = 1`, `Sp₂ = SL₂` as subgroup schemes of `GL₂`: `X J Xᵀ = det(X) J` for `2 × 2` matrices.
@@ -4944,13 +4940,15 @@ C.2.2, p. 309); in rank `0` it is `R`. `O(q)` acts on `C(q)` by functoriality
 homomorphism of group schemes onto the constant group `ℤ/2ℤ`; `det = (−1)^{D_q}` on `O(q)`; and on
 `R[1/2]`-algebras `D_q` is determined by `det` (Conrad, *Reductive Group Schemes*, Proposition
 C.2.8, p. 316, and Corollary C.3.2, p. 320). Define `SO(q) = ker D_q` for `l ≥ 2` even,
-`SO(q) = ker(det)` for `l` odd, and `SO(q) = O(q)`, the trivial group, for `l = 0`; define `GSO(q)`
-as the kernel of the similitude Dickson invariant on `GO(q)` (`l ≥ 2` even), equal to
+`SO(q) = ker(det)` for `l` odd, and `SO(q) = O(q)`, the trivial group, for `l = 0`. For `l ≥ 2`
+even, a similitude `(g, c)` induces the automorphism `vw ↦ c⁻¹ g(v) g(w)` of `C₀(q)` (Mathlib's
+`CliffordAlgebra.even.lift`), hence an automorphism of `Z(q)`; this is the similitude Dickson
+invariant `GO(q) → ℤ/2ℤ`, extending `D_q`. Define `GSO(q)` as its kernel, equal to
 `{det g = c^n}` over `R[1/2]`.
 
 *Structure.* For `(V, q)` nondegenerate of rank `l`, prove: `SO(q)` is smooth and affine over `R`
 with connected reductive fibres, semisimple for `l ≥ 3` and a torus for `l = 2`; for `l` odd,
-multiplication `μ₂ × SO(q) → O(q)` is an isomorphism; for `l` even, `O(q)/SO(q) ≅ ℤ/2ℤ`
+multiplication `μ₂ × SO(q) → O(q)` is an isomorphism; for even `l ≥ 2`, `O(q)/SO(q) ≅ ℤ/2ℤ`
 (Conrad, *Reductive Group Schemes*, Theorem C.1.5, p. 305, Theorem C.2.11 with Propositions C.3.1
 and C.3.5, pp. 318–321, and Remark C.2.12, pp. 318–319). The route to smoothness is Conrad's (proof
 of Theorem C.1.5, pp. 306–308). Over `ℤ`, the orbit map `g ↦ q_l ∘ g` from `GL_l` (`l` even),
@@ -4961,9 +4959,11 @@ dimension `l(l − 1)/2`, computed on dual numbers from `q((1 + εX)v) = q(v)`. 
 flatness criterion of DeformationAndDerivedPatchingAlgebra §3.3 it is flat, hence smooth
 (`AlgebraicGeometry.Smooth.of_smooth_fiberToSpecResidueField`), so its fibre `O(q_l)`, resp.
 `SO(q_l)`, at `q_l` is smooth over `ℤ`; for `l` even, `SO(q_l)` is open and closed in `O(q_l)`.
-Every nondegenerate `(V, q)` of rank `l ≥ 1` is fppf-locally isomorphic to `(Rˡ, q_l)` (Conrad,
-Lemma C.2.1, p. 309), so `SO(q)` is smooth. Connectedness and reductivity of the fibres come from
-the split case below by base change to an algebraic closure, where every nondegenerate form is
+Every nondegenerate `(V, q)` of rank `l ≥ 1` is fppf-locally isomorphic to `(Rˡ, q_l)`: étale
+locally it is `Σ_{i ≤ n} x_i x_{i+n}`, plus `λx²` with `λ` a unit for `l` odd (the normal form of
+LefschetzPencilsAndVanishingCycles §2.1), and adjoining `√λ` and reordering the basis gives `q_l`
+(Conrad, Lemma C.2.1, p. 309); so `SO(q)` is smooth. Connectedness and reductivity of the fibres
+come from the split case below by base change to an algebraic closure, where every nondegenerate form is
 split.
 
 *Split forms and the pinned models.* For the standard split form `q_l`:
@@ -4993,13 +4993,14 @@ split.
   form is anisotropic over `ℝ`, so its `SO` has no split torus of positive rank over `ℝ`).
 
 *Needs:* §§8.1–8.2, §9B, §§9B.2–9B.3; Layer 0's dictionary and point groups; Layer 6's reductivity
-predicate; LefschetzPencilsAndVanishingCycles §2.1 (ordinarity and its fibre criterion) and §2.2
+predicate; LefschetzPencilsAndVanishingCycles §2.1 (ordinarity, its fibre criterion and its
+étale-local normal form) and §2.2
 (the étale centre of `C₀(q)` in positive even rank); for the smoothness route,
 DeformationAndDerivedPatchingAlgebra §3.3 (the local fibral flatness criterion) and Mathlib's
 `AlgebraicGeometry.Smooth.of_smooth_fiberToSpecResidueField`; the pinned `TauCeti.ConstantForm`
 carrier and its closure argument; Tau Ceti `TauCeti.QuadraticMap.orthogonalGroup`, `specialOrthogonalGroup`,
-`splitEvenForm`, `splitOddForm`; Mathlib `CliffordAlgebra.even`, `CliffordAlgebra.map`,
-`QuadraticMap.Nondegenerate`.
+`splitEvenForm`, `splitOddForm`; Mathlib `CliffordAlgebra.even`, `CliffordAlgebra.even.lift`,
+`CliffordAlgebra.map`, `QuadraticMap.Nondegenerate`.
 
 **Checks.**
 - Over `𝔽₂` with `q = x²` (`l = 1`, nondegenerate: `disc' = 1`), `b_q = 0`, so the isometry group of
@@ -5057,12 +5058,14 @@ Let `(V, q)` be a nondegenerate quadratic module of rank `l` over `R`, `C(q) = C
   `(𝔾_m × Spin(q))/μ₂ → GSpin(q)`, `(c, s) ↦ c s`, with `μ₂` embedded antidiagonally, is an
   isomorphism of group schemes; and that `GSpin(q)(F) → SO(q)(F)` is surjective for a field `F`
   (Hilbert 90, SchemeAndStackFoundations §2.11), whereas `Spin(q)(F) → SO(q)(F)` has image the
-  kernel of the spinor norm (Completed/OrthogonalSpinGroups).
+  kernel of the spinor norm `SO(q)(F) → F^×/F^{×2}`, `g ↦ ν(h)` for any lift `h ∈ GSpin(q)(F)`,
+  well defined since `ν(ch) = c² ν(h)`; for `F` of characteristic not two and `l ≥ 1` it is the
+  spinor norm of Completed/OrthogonalSpinGroups.
 - **Structure.** `GSpin(q)` is a smooth affine group scheme with connected reductive fibres, and so
   is `Spin(q)` for `l ≥ 2`; for `l ≤ 1`, `GSpin(q) = 𝔾_m` and `Spin(q) = μ₂`, which is not smooth
-  over `ℤ` and has two points over `ℚ`. `Spin(q)` is the derived group of `GSpin(q)`, semisimple and
-  simply connected for `l ≥ 3`; the maximal central torus of `GSpin(q)` is the central `𝔾_m` for
-  `l ≥ 3`. Base change and functoriality along isometries.
+  over `ℤ` and has two points over `ℚ`. For `l ≥ 3`, `Spin(q)` is the derived group of `GSpin(q)`
+  and is semisimple and simply connected; the maximal central torus of `GSpin(q)` is the central
+  `𝔾_m` for `l ≥ 3`. Base change and functoriality along isometries.
 - **The split case and the pinned root datum.** For `q = q_l`, `l = 2n` or `2n + 1`, with
   hyperbolic pairs `(e_i, f_i)` (`b_q(e_i, f_i) = 1`), the elements `e_i f_i` and `f_i e_i` of
   `C₀(q_l)` are orthogonal idempotents with sum `1`. Put `u_i(a) = a e_i f_i + f_i e_i`. The map
@@ -5130,8 +5133,7 @@ Completed/OrthogonalSpinGroups (the spinor norm on points).
   dual to the multiplier `ε₀`. ReductiveGroupsPartII RG2.5 turns these into the dual groups and the
   standard embeddings `r_G` of Cai–Friedberg–Kaplan §1.
 
-*Needs:* §§9B.5–9B.7; §9B.3; Tau Ceti's low-rank Clifford isomorphisms; ArithmeticGaloisRepresentations
-§7.3.
+*Needs:* §§9B.5–9B.7; §9B.3; Tau Ceti's low-rank Clifford isomorphisms.
 
 **Checks.**
 - `GSpin₃ ≅ GL₂` sends `ν` to `det` and `ρ` to the adjoint action on trace-zero matrices, which is
@@ -5386,7 +5388,7 @@ and Geck constructions, its signed ADE shell Lie algebras and explicit `G₂`, `
 formulas and diagonal root datum (supplier contracts); for §9B.4, Mathlib's `MvPolynomial`, ideal
 quotients, `IsLocalization.Away` and transvection reduction; for §§9B.5–9B.8, Layer 6's
 reductivity predicate, Tau Ceti's constant-form, symplectic, orthogonal, Clifford, Lipschitz,
-Pin and Spin API, ArithmeticGaloisRepresentations §7.3, SchemeAndStackFoundations §2.11,
+Pin and Spin API, SchemeAndStackFoundations §2.11,
 LefschetzPencilsAndVanishingCycles §§2.1–2.2, DeformationAndDerivedPatchingAlgebra §3.3 and
 Completed/OrthogonalSpinGroups (supplier contracts). Within the layer, §§9A.1–9A.5
 precede §9B, §§9B.5–9B.8 follow §§9B.1–9B.4 in order, and §9B precedes the distributions of §9C.
@@ -5486,10 +5488,10 @@ precede §9B, §§9B.5–9B.8 follow §§9B.1–9B.4 in order, and §9B precedes
   irreducible (Corollary B.3.6, p. 293). So for irreducible normal `S` and a geometric point `s`, `H ↦ Hom_(S-gp)(H, 𝔾_m)_s` is
   an anti-equivalence to discrete `π₁(S, s)`-modules that are finitely generated as abelian
   groups. Here `π₁` is EtaleCohomologyFoundations F.0.2's étale fundamental group, and the
-  comparison extends its `VanishingCycles.lisseMonodromyEquiv` from finite to finitely generated
-  fibres for sheaves trivialized by a finite étale cover. This theory supplies the centre of
-  multiplicative type, the scheme of maximal tori, the étale-local splitting and the descended
-  character and cocharacter sheaves above.
+  comparison extends the equivalence that roadmap proposes as *VanishingCycles.lisseMonodromyEquiv*
+  from finite to finitely generated fibres for sheaves trivialized by a finite étale cover. This
+  theory supplies the centre of multiplicative type, the scheme of maximal tori, the étale-local
+  splitting and the descended character and cocharacter sheaves above.
 
   Prove the finite-presentation comparison for relative groups, with no Noetherian hypothesis
   on `R`. If `R` is a filtered colimit of rings `Rᵢ`, a reductive group over `Spec R` and any
