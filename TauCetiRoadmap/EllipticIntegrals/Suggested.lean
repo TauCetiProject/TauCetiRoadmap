@@ -109,7 +109,7 @@ theorem pendulum_solution {ω θ₀ : ℝ} (hω : 0 < ω) (hθ₀ : 0 < θ₀) (
 
 /-! ## Layer 5: geometry and the real period -/
 
-/-- **The real period with three real roots** (Cremona §3.7). If
+/-- **The real period with three real roots**. If
 `Ψ₂Sq(x) = 4 (x - e₁)(x - e₂)(x - e₃)` with `e₃ < e₂ < e₁`, the real period is
 `4 K(k) / √(e₁ - e₃)` with `k² = (e₂ - e₃) / (e₁ - e₃)`. -/
 theorem realPeriod_eq_of_three_real_roots (W : WeierstrassCurve ℝ) {e₁ e₂ e₃ : ℝ}
@@ -125,7 +125,7 @@ theorem realPeriod_eq_two_mul_pi_div_agm_of_three_real_roots (W : WeierstrassCur
     (hW : ∀ x, W.Ψ₂Sq.eval x = 4 * (x - e₁) * (x - e₂) * (x - e₃)) :
     W.realPeriod = 2 * π / NNReal.agm (√(e₁ - e₃)).toNNReal (√(e₁ - e₂)).toNNReal := sorry
 
-/-- **The real period with one real root** (Cremona §3.7; Byrd–Friedman 239.00). If
+/-- **The real period with one real root** (Byrd–Friedman 239.00). If
 `Ψ₂Sq(x) = 4 (x - e₁)((x - a)² + b²)` with `b ≠ 0`, and `A = √((e₁ - a)² + b²)`, the real period
 is `2 K(k) / √A` with `k² = (A + a - e₁) / (2A)`. -/
 theorem realPeriod_eq_of_one_real_root (W : WeierstrassCurve ℝ) {e₁ a b : ℝ} (hb : b ≠ 0)

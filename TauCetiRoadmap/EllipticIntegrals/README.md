@@ -70,7 +70,7 @@ another only through the library.
 3. **Third kind.** The characteristic `α2` is a real number, written α² in prose and allowed to be
    negative. Only `α2 < 1` is in scope: for `α2 > 1` the integral is a Cauchy principal value,
    which this roadmap does not treat.
-4. **Carlson integrals** (DLMF 19.16.1, 19.16.2, 19.16.3, 19.16.5, 19.2.17) are Tau Ceti's, in the
+4. **Carlson integrals** (DLMF 19.16.1, 19.16.2, 19.16.2_5, 19.16.5, 19.2.17) are Tau Ceti's, in the
    namespace `Complex`, defined by these integrals with the principal power
    `(t + x) ^ (-(1/2) : ℂ)` of each factor:
 
@@ -173,13 +173,13 @@ descending Landen transformations K(kₙ) = (1 + kₙ₊₁) K(kₙ₊₁) and
 E(kₙ) = (1 + kₙ′) E(kₙ₊₁) − kₙ′ K(kₙ) (DLMF 19.8.12), with 1 + kₙ′ = 2aₙ₊₁/aₙ and
 1 + kₙ₊₁ = aₙ/aₙ₊₁, give aₙ² tₙ = 2aₙ₊₁² tₙ₊₁ − aₙgₙ for tₙ = E(kₙ)/K(kₙ). Since
 2aₙ₊₁² − aₙ² − aₙgₙ = −cₙ²/2, the quantities uₙ = 2ⁿaₙ²(tₙ − 1) satisfy uₙ₊₁ − uₙ = 2ⁿ⁻¹cₙ², and
-uₙ → 0 because 1 − tₙ is at most a constant times kₙ², which tends to 0 quadratically (Tau Ceti's
-quadratic bound on aₙ − gₙ). Summing from u₀ = E(k)/K(k) − 1 gives the series; the same bound gives
-its convergence.
+uₙ → 0 because 1 − tₙ is at most a constant times kₙ², and 2ⁿaₙ²kₙ² = 2ⁿcₙ² ≤ 2⁻ⁿ by Mathlib's
+halving bound aₙ − gₙ ≤ 2⁻ⁿ(1 − k′). Summing from u₀ = E(k)/K(k) − 1 gives the series; the same
+bound gives its convergence.
 *Needs:* Tau Ceti `TauCeti.Real.legendreK_eq_one_add_mul_legendreK`,
 `TauCeti.Real.legendreEc_eq_one_add_mul_legendreEc`, `TauCeti.Real.legendreK_pos`,
-`TauCeti.Real.pi_div_two_le_legendreK`, `TauCeti.Real.legendreEc_le_pi_div_two`,
-`NNReal.agmSequences_snd_sub_fst_le`; Mathlib `NNReal.agmSequences`, `NNReal.agmSequences_succ'`,
+`TauCeti.Real.pi_div_two_le_legendreK`, `TauCeti.Real.legendreEc_le_pi_div_two`; Mathlib
+`NNReal.agmSequences`, `NNReal.agmSequences_succ'`, `NNReal.dist_agmSequences_fst_snd`,
 `NNReal.tendsto_agmSequences_snd_agm`.
 
 **Checks.**
@@ -220,9 +220,9 @@ formula.
 
 ### Dependencies
 
-Tau Ceti: Landen's descending transformations of K and E, Gauss's AGM evaluation of K, Legendre's
-relation at k = 1/√2, and the quadratic bound for the AGM. Mathlib: `NNReal.agm` and
-`NNReal.agmSequences`.
+Tau Ceti: Landen's descending transformations of K and E, Gauss's AGM evaluation of K and
+Legendre's relation at k = 1/√2. Mathlib: `NNReal.agm`, `NNReal.agmSequences` and the halving bound
+for the AGM.
 
 ## Layer 3: Carlson's symmetric integrals
 
@@ -240,8 +240,10 @@ the library the first argument suffices for `carlsonRF` and `carlsonRG`; holomor
 Prove also that R_F is holomorphic in its three variables jointly on the product of three slit
 planes:
 `DifferentiableOn ℂ (fun w : ℂ × ℂ × ℂ ↦ carlsonRF w.1 w.2.1 w.2.2) (slitPlane ×ˢ slitPlane ×ˢ slitPlane)`.
-§3.2 composes R_F with a map that moves all three arguments at once, and holomorphy in each
-variable separately gives no chain rule for such a composite.
+§3.2 composes R_F with a map that moves all three arguments at once, and the chain rule for such a
+composite needs differentiability in the three variables jointly. Holomorphy in each variable
+separately implies it by Hartogs' theorem on separately holomorphic functions; the route below
+proves it directly.
 
 *Route.* Differentiate under the integral sign, as Tau Ceti does in `p`: on a compact
 neighbourhood of a point of the slit plane, the derivative −(t + x)^(−3/2)/2 of the moving factor
@@ -619,7 +621,7 @@ are in the supplier contracts below.
   ϖ = π/M(1, √2).
 - *Carlson's integrals*: their definitions, absolute convergence on the domain, positivity at
   positive real arguments, holomorphy of R_J in its fourth argument, symmetry, homogeneity, the
-  diagonal values, the elementary R_C (DLMF 19.2.19, 19.2.20) and the Legendre dictionary
+  diagonal values, the elementary R_C (DLMF 19.2.18, 19.2.19) and the Legendre dictionary
   (DLMF 19.25.5, 19.25.7, 19.25.14) except the R_G form of E(k), which is §3.3.
 - *The real Jacobi functions*: the amplitude as the inverse of F, its oddness,
   am(u + 2K) = am(u) + π, am(K) = π/2, am′ = dn and am(·, 0) = id; sn² + cn² = 1,
@@ -686,7 +688,7 @@ supplier contracts below.
 | Milestone 2 (the complete integrals in the modulus) | Tau Ceti: *The modulus*, *Hypergeometric series* |
 | Milestone 3 (k = 1 and Legendre's relation) | 3.1: §1.1 and Tau Ceti's `TauCeti.Real.tendsto_one_sub_sq_mul_legendreK_nhdsLT_one`; 3.2: Tau Ceti's `TauCeti.Real.legendre_relation` |
 | Milestone 4 (the AGM) | 4.1–4.5: Tau Ceti: *Quadratic convergence*, *The AGM integral*, *Gauss and Landen*; 4.6: §2.1; 4.7: §2.2 |
-| Milestone 5 (special values) | Tau Ceti: *Special values* |
+| Milestone 5 (special values) | 5.1, 5.3: Tau Ceti: *Special values*; 5.2: Tau Ceti's `TauCeti.Real.legendreEc_one_div_sqrt_two` |
 | Milestone 6 (Carlson's integrals) | 6.1: §3.1 and Tau Ceti; 6.2–6.4: Tau Ceti; 6.5: §3.2; 6.6: Tau Ceti's *Legendre dictionary* and §3.3 |
 | Milestone 7 (the Jacobi functions) | 7.1–7.3: Tau Ceti; 7.4: Tau Ceti and §4.1; 7.5: §4.2; 7.6: Tau Ceti (k = 0) and §4.3; 7.7: §4.4 |
 | Milestone 8 (geometry and the real period) | 8.1: Tau Ceti (b² ≤ a²) and §5.1; 8.2–8.3: §5.2; 8.4: §5.3 |
@@ -700,7 +702,7 @@ supplier contracts below.
   after n + 1 steps; `agmSequences_zero`, `agmSequences_succ'`), `agm_comm`, `agm_self`,
   `agm_mul_distrib`, `agm_eq_agm_gm_am`, `agm_pos`, `min_le_agm`, `agm_le_max`,
   `agmSequences_fst_monotone`, `agmSequences_snd_antitone`, `agmSequences_fst_le_snd`,
-  `tendsto_agmSequences_fst_agm`, `tendsto_agmSequences_snd_agm` and
+  `tendsto_agmSequences_fst_agm`, `tendsto_agmSequences_snd_agm`, `dist_agmSequences_fst_snd` and
   `tendsto_dist_agmSequences_atTop_zero`. Mathlib proves only the halving bound on `dist`; the
   quadratic bound is Tau Ceti's.
 - *Hypergeometric series*: `ordinaryHypergeometric` (notation `₂F₁`),
