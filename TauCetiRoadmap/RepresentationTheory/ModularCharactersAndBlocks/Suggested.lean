@@ -13,12 +13,15 @@ import TauCeti.RingTheory.Idempotents.Primitive.Basic
 # Modular characters and blocks: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the five
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the
 definitions they need: block idempotents (primitive idempotents of the centre of the group
-algebra), the Brauer coefficient projection, defect groups as maximal `p`-subgroups on which
-the Brauer projection of a block idempotent is nonzero, the central-character relation that
-sorts the complex irreducible characters into `p`-blocks modulo a maximal ideal of the algebraic
-integers containing `p`, and the `p'`-core `O_{p'}(G)`. A block is principal when its idempotent
+algebra), Brauer characters for an identification of prime-to-`p` roots of unity, the
+central-character relation that sorts the complex irreducible characters into `p`-blocks modulo
+a maximal ideal of the algebraic integers containing `p`, the ordinary characters of a block at
+any `p`-modular system, the Brauer coefficient projection, defect groups as maximal `p`-subgroups
+on which the Brauer projection of a block idempotent is nonzero, the defect of a block, the
+Brauer correspondent, and a stand-in for the `p'`-core of OddOrderTheorem §1.1 in the shape of
+mathlib4#39771. A block is principal when its idempotent
 has nonzero augmentation, written with the native `MonoidAlgebra.lift`. The decomposition
 numbers in the statements of Layers 2 and 3 are the Jordan–Hölder multiplicities
 `TauCeti.jordanHolderMultiplicity` of the simple `k[G]`-modules in the reduction `k ⊗_O L` of a
@@ -26,14 +29,15 @@ numbers in the statements of Layers 2 and 3 are the Jordan–Hölder multiplicit
 representation of `G` over the fraction field `K` of `O` lies in a block of `O[G]` when the block
 idempotent, mapped to `K[G]`, acts on it as the identity.
 
-Headline theorems of the roadmap that are not statable at the pins:
+Headline theorems of the roadmap that are not stated here:
 
-* The Brauer-character basis of the complex class functions on the `p`-regular classes
-  (Layer 2). It needs the Brauer character of a `k[G]`-module, the complex class function that
-  lifts the eigenvalues of `p`-regular elements through an identification of prime-to-`p` roots
-  of unity; neither pinned library defines it.
+* The spanning half of the Brauer-character basis theorem (Layer 2), not stated separately:
+  Brauer characters are class functions on the `p`-regular elements, so it follows from
+  `card_simpleModules_eq_card_pRegularClasses` and `linearIndependent_brauerCharacter` by
+  counting dimensions.
 * Generalized decomposition numbers, their orthogonality relations and Brauer's second main
-  theorem (Layers 5 and 7). They need Brauer characters of centralizers.
+  theorem (Layers 5 and 7). They need the irreducible Brauer characters of every centralizer of a
+  `p`-element as indexed families.
 -/
 
 namespace TauCetiRoadmap.ModularCharactersAndBlocks
@@ -56,12 +60,12 @@ theorem complete_blockIdempotents_unique {G : Type*} [Group G] [Finite G] {k : T
     (hbp : ∀ i, IsBlockIdempotent (b i)) (hcp : ∀ j, IsBlockIdempotent (c j)) :
     ∃ e : ι ≃ κ, ∀ i, b i = c (e i) := sorry
 
-/-- The **`p'`-core** `O_{p'}(G)`: the supremum of the normal subgroups of `G` whose order is
-prime to `p`. For a prime `p` it is the `π`-core of `G` for `π` the set of primes other than `p`.
-For a finite group it is a characteristic subgroup of order prime to `p`, and it contains every
-normal subgroup of order prime to `p`. -/
-def pPrimeCore (p : ℕ) (G : Type*) [Group G] : Subgroup G :=
-  sSup {N : Subgroup G | N.Normal ∧ (Nat.card N).Coprime p}
+/-- The **`p'`-core** `O_{p'}(H)` of a subgroup `H` of `G`, as a subgroup of `G`: the supremum of
+the subgroups of `H` that are normal in `H` and of order prime to `p`. It stands in for the
+`π`-core of OddOrderTheorem §1.1 at `π = {p}'`, in the shape of mathlib4#39771's
+`Subgroup.pCore p H`; the `p'`-core of `G` is `pPrimeCore p ⊤`. -/
+def pPrimeCore {G : Type*} [Group G] (p : ℕ) (H : Subgroup G) : Subgroup G :=
+  sSup {N : Subgroup G | N ≤ H ∧ (N.subgroupOf H).Normal ∧ (Nat.card N).Coprime p}
 
 /-! ## Layer 1: modular systems, lattices and lifting -/
 
@@ -80,6 +84,38 @@ theorem existsUnique_blockIdempotent_map_residue {G O : Type*} [Group G] [Finite
   sorry
 
 /-! ## Layer 2: Brauer characters and decomposition -/
+
+/-- The **Brauer character** of a representation `ρ` of `G` on a finite-dimensional `k`-vector
+space, for an identification `τ` of the `m`-th roots of unity of `k` with those of `ℂ`: at a
+`p`-regular `g`, the sum over the `m`-th roots of unity `ζ` of `k` of the multiplicity of `ζ` as a
+root of the characteristic polynomial of `ρ g`, times `τ ζ`, and `0` at a `p`-singular `g`. When
+`k` contains a primitive `m`-th root of unity and the order of every `p`-regular element divides
+`m`, it is the sum of the `τ`-lifts of the eigenvalues of `ρ g` (Webb, §10.1, p. 170). -/
+noncomputable def brauerCharacter {G k V : Type*} [Group G] [Field k] [AddCommGroup V]
+    [Module k V] [FiniteDimensional k V] (p : ℕ) {m : ℕ} [NeZero m]
+    (τ : rootsOfUnity m k ≃* rootsOfUnity m ℂ) (ρ : Representation k G V) (g : G) : ℂ := by
+  classical
+  letI := Fintype.ofFinite (rootsOfUnity m k)
+  exact if (orderOf g).Coprime p then
+    ∑ ζ : rootsOfUnity m k,
+      ((LinearMap.charpoly (ρ g)).rootMultiplicity ((ζ : kˣ) : k) : ℂ) * ((τ ζ : ℂˣ) : ℂ)
+  else 0
+
+/-- **The irreducible Brauer characters are linearly independent.** Let `k` be a field of
+characteristic `p` and `m` prime to `p` divisible by the order of every `p`-regular element, and
+let `τ` identify the `m`-th roots of unity of `k` with those of `ℂ`, so that `k` contains a
+primitive `m`-th root of unity; `k` need not be algebraically closed, and it splits `G`. Then the
+Brauer characters of pairwise non-isomorphic irreducible representations are linearly
+independent over `ℂ` as functions on the `p`-regular elements (Webb, Theorem 10.2.2, p. 176). -/
+theorem linearIndependent_brauerCharacter {G k : Type u} [Group G] [Finite G] [Field k]
+    {p : ℕ} [Fact p.Prime] [CharP k p] {m : ℕ} [NeZero m] (hm : m.Coprime p)
+    (hdvd : ∀ g : G, (orderOf g).Coprime p → orderOf g ∣ m)
+    (τ : rootsOfUnity m k ≃* rootsOfUnity m ℂ) {ι : Type*} (V : ι → Type u)
+    [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)] [∀ i, FiniteDimensional k (V i)]
+    (ρ : ∀ i, Representation k G (V i)) (hirr : ∀ i, (ρ i).IsIrreducible)
+    (hnoniso : Pairwise fun i j ↦ IsEmpty ((ρ i).Equiv (ρ j))) :
+    LinearIndependent ℂ fun i (g : {g : G // (orderOf g).Coprime p}) ↦
+      brauerCharacter p τ (ρ i) (g : G) := sorry
 
 /-- **Brauer's count of simple modules.** Over an algebraically closed field of characteristic
 `p`, the number of isomorphism classes of simple `k[G]`-modules equals the number of conjugacy
@@ -224,6 +260,32 @@ def SameBlock {G : Type*} [Group G] (M : Ideal (integralClosure ℤ ℂ)) (χ ψ
   ∀ g : G, ∃ m ∈ M, (m : ℂ) =
     (Nat.card (ConjClasses.mk g).carrier : ℂ) * (χ g / χ 1 - ψ g / ψ 1)
 
+/-- The **ordinary characters of a block**: for `b ∈ O[G]`, the characters of the irreducible
+representations of `G` over the fraction field `K` of `O`, on coordinate spaces `Fin n → K`, on
+which the image of `b` in `K[G]` acts as the identity. For a block idempotent `e_B` of `O[G]` over
+a splitting `p`-modular system this is `Irr(B)` (Martínez, Definition 2.1, p. 9). -/
+def blockCharacters {G O : Type*} [Group G] [CommRing O] [IsDomain O] (b : MonoidAlgebra O G) :
+    Set (G → FractionRing O) :=
+  {χ | ∃ (n : ℕ) (ρ : Representation (FractionRing O) G (Fin n → FractionRing O)),
+    ρ.IsIrreducible ∧ ρ.character = χ ∧
+      ρ.asAlgebraHom (MonoidAlgebra.mapRingHom G (algebraMap O (FractionRing O)) b) = 1}
+
+/-- **The ordinary characters of the blocks partition `Irr(G)`.** Let `O` be a complete discrete
+valuation ring whose fraction field `K` has characteristic zero and contains a primitive `e`-th
+root of unity, `e` the exponent of `G`. For every block idempotent `e_B` of `O[G]` the set
+`blockCharacters e_B` is nonempty, and the character of every irreducible representation of `G`
+on a coordinate space `Fin n → K` lies in `blockCharacters e_B` for exactly one block idempotent
+`e_B` (Martínez, Definition 2.1, p. 9, and Theorems 2.11–2.12, p. 15). -/
+theorem blockCharacters_partition {G O : Type*} [Group G] [Finite G] [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
+    {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G)) :
+    (∀ b : Subalgebra.center O (MonoidAlgebra O G), IsBlockIdempotent b →
+        (blockCharacters (b : MonoidAlgebra O G)).Nonempty) ∧
+      ∀ (n : ℕ) (ρ : Representation (FractionRing O) G (Fin n → FractionRing O)),
+        ρ.IsIrreducible → ∃! b : Subalgebra.center O (MonoidAlgebra O G),
+          IsBlockIdempotent b ∧ ρ.character ∈ blockCharacters (b : MonoidAlgebra O G) :=
+  sorry
+
 /-! ## Layer 6: Brauer maps and defect groups -/
 
 /-- The **Brauer coefficient projection** `k[G] → k[C_G(P)]`, which keeps the coefficients on the
@@ -274,21 +336,42 @@ theorem isDefectGroup_iff_sylow_of_augmentation_ne_zero {G : Type*} [Group G] [F
     (haug : MonoidAlgebra.lift k k G 1 (e : MonoidAlgebra k G) ≠ 0) (P : Subgroup G) :
     IsDefectGroup p e P ↔ ∃ S : Sylow p G, P = S := sorry
 
+/-- The **defect** of a central element `e` of `k[G]`: the exponent `d` with `|D| = p ^ d` for a
+defect group `D` of `e`. For a block idempotent all defect groups are conjugate
+(`isDefectGroup_conj`), so this is the defect of the block (Sambale, Proposition 1.5, p. 14). -/
+noncomputable def blockDefect {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] (p : ℕ)
+    (e : Subalgebra.center k (MonoidAlgebra k G)) : ℕ :=
+  sSup {d | ∃ D : Subgroup G, IsDefectGroup p e D ∧ Nat.card D = p ^ d}
+
+/-- Every defect group of a block has order `p ^ blockDefect p e`. -/
+theorem card_eq_pow_blockDefect {G : Type*} [Group G] [Finite G] {k : Type*} [Field k]
+    {p : ℕ} [Fact p.Prime] [CharP k p] (e : Subalgebra.center k (MonoidAlgebra k G))
+    (he : IsBlockIdempotent e) {D : Subgroup G} (hD : IsDefectGroup p e D) :
+    Nat.card D = p ^ blockDefect p e := sorry
+
+/-- The **Brauer correspondent** of `e ∈ k[G]` at a subgroup `D`: the Brauer projection
+`Br_D(e)`, read in `k[N_G(D)]` through `C_G(D) ≤ N_G(D)`. For a block with defect group `D` it is
+a block idempotent of `k[N_G(D)]` with defect group `D` (`brauer_first_main`). -/
+noncomputable def brauerCorrespondent {G : Type*} [Group G] [Finite G] {k : Type*} [Field k]
+    (D : Subgroup G) (e : MonoidAlgebra k G) :
+    MonoidAlgebra k (Subgroup.normalizer (D : Set G)) :=
+  MonoidAlgebra.mapDomain (Subgroup.inclusion (Subgroup.centralizer_le_normalizer (D : Set G)))
+    (brauerProjection D e)
+
 /-! ## Layer 7: Brauer's main theorems -/
 
-/-- **Brauer's first main theorem.** For a `p`-subgroup `D` with normalizer `N`, there is a
-bijection from the blocks of `k[N]` with defect group `D` to the blocks of `k[G]` with defect
-group `D`, sending `b` to the block `B` with `Br_D(e_B) e_b ≠ 0` in `k[G]` (Webb,
-Theorem 12.6.4, p. 250; Martínez, Theorem 4.10, p. 27, and Corollary 4.6, p. 26). -/
+/-- **Brauer's first main theorem.** For a `p`-subgroup `D` with normalizer `N`, the Brauer
+correspondent `B ↦ Br_D(e_B)` is a bijection from the blocks of `k[G]` with defect group `D` onto
+the blocks of `k[N]` with defect group `D` (Webb, Theorem 12.6.4, p. 250; Martínez,
+Theorem 4.10, p. 27, and Corollary 4.6, p. 26). -/
 theorem brauer_first_main {G : Type*} [Group G] [Finite G] {k : Type*} [Field k] [IsAlgClosed k]
     {p : ℕ} [Fact p.Prime] [CharP k p] (D : Subgroup G) (hD : IsPGroup p D) :
-    ∃ f : {b : Subalgebra.center k (MonoidAlgebra k (Subgroup.normalizer (D : Set G))) //
-          IsBlockIdempotent b ∧ IsDefectGroup p b (D.subgroupOf (Subgroup.normalizer (D : Set G)))} ≃
-        {B : Subalgebra.center k (MonoidAlgebra k G) // IsBlockIdempotent B ∧ IsDefectGroup p B D},
-      ∀ b, MonoidAlgebra.mapDomain ((↑) : Subgroup.centralizer (D : Set G) → G)
-          (brauerProjection D ((f b).1 : MonoidAlgebra k G)) *
-        MonoidAlgebra.mapDomain ((↑) : Subgroup.normalizer (D : Set G) → G)
-          (b.1 : MonoidAlgebra k (Subgroup.normalizer (D : Set G))) ≠ 0 := sorry
+    ∃ f : {B : Subalgebra.center k (MonoidAlgebra k G) //
+          IsBlockIdempotent B ∧ IsDefectGroup p B D} ≃
+        {b : Subalgebra.center k (MonoidAlgebra k (Subgroup.normalizer (D : Set G))) //
+          IsBlockIdempotent b ∧ IsDefectGroup p b (D.subgroupOf (Subgroup.normalizer (D : Set G)))},
+      ∀ B, ((f B).1 : MonoidAlgebra k (Subgroup.normalizer (D : Set G))) =
+        brauerCorrespondent D (B.1 : MonoidAlgebra k G) := sorry
 
 open scoped Classical in
 /-- **Block-section orthogonality.** Let `M` be a maximal ideal of the algebraic integers with
@@ -329,7 +412,7 @@ for every irreducible complex character `χ` in the block of the trivial charact
 theorem mem_pPrimeCore_iff_forall_principalBlock {G : Type*} [Group G] [Finite G] {p : ℕ}
     [Fact p.Prime] (M : Ideal (integralClosure ℤ ℂ)) [M.IsMaximal]
     (hpM : (p : integralClosure ℤ ℂ) ∈ M) (g : G) :
-    g ∈ pPrimeCore p G ↔
+    g ∈ pPrimeCore p (⊤ : Subgroup G) ↔
       ∀ χ ∈ TauCeti.irreducibleCharacters ℂ G, SameBlock M χ (fun _ ↦ 1) → χ g = χ 1 := sorry
 
 end TauCetiRoadmap.ModularCharactersAndBlocks
