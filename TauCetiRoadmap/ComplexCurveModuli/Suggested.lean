@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.Curves.NodalGluing.AuxiliaryMarks
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 import TauCeti.Analysis.Complex.RiemannSurface.ComplexTorus
+import TauCeti.Geometry.Manifold.Riemannian.Geodesic.Basic
 import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic
 import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.FiniteVolume
 import TauCeti.Geometry.Manifold.Riemannian.Restriction
@@ -20,7 +21,11 @@ Stated here:
   closed surface of negative Euler characteristic (README §0.4);
 * the existence of a complete hyperbolic metric of finite volume in the conformal class of every
   Riemannian metric on a closed surface punctured at finitely many points, when the punctured
-  surface has negative Euler characteristic (README §0.4);
+  surface has negative Euler characteristic, and the uniqueness of a complete hyperbolic metric in
+  that conformal class (README §0.4);
+* the existence and uniqueness of a hyperbolic metric with geodesic boundary in the conformal class
+  of every Riemannian metric on a compact connected surface with boundary of negative Euler
+  characteristic (README §0.4);
 * the classification of compact Riemann surfaces of genus one as complex tori (README §0.3);
 * pointed stability as finiteness of the automorphism group of a marked nodal curve
   (README §§0.5 and 1.2).
@@ -44,9 +49,6 @@ Not statable at the pins, each for want of the carrier named:
 * compactness, Hausdorffness and second countability of the coarse moduli space of stable curves,
   properness of the chart groupoid and the finite action charts (README §§6.3–6.4): there is no
   groupoid of stable curves and their isomorphisms with a topology;
-* uniformization of compact bordered components with geodesic boundary (README §0.4): there is no
-  second fundamental form, or geodesic curvature, of the boundary of a Riemannian manifold with
-  boundary (the pinned second fundamental form is that of a map into an inner product space);
 * Riemann–Roch for Cauchy–Riemann operators on line bundles and the index of the Robbin–Salamon
   operator (README §§0.2, 3.4): there are no holomorphic line bundles on a compact Riemann surface
   and no Cauchy–Riemann operators on their sections;
@@ -107,6 +109,71 @@ theorem exists_hyperbolicMetric_hasFiniteVolume_metric_eq_rescale_of_eulerChar_l
     ∃ (G : HyperbolicMetric (I := I) (M := U)) (f : U → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
       (hf_pos : ∀ x, 0 < f x), G.HasFiniteVolume ∧
         G.metric = (g.restrictOpenTangentSpace U).rescale f hf hf_pos := by
+  sorry
+
+/-- **Uniqueness of the hyperbolic metric on a punctured surface** (README §0.4). Let `M` be a
+closed connected surface, `P ⊂ M` a finite set and `U = M ∖ P`. Two complete hyperbolic metrics on
+`U` conformal to the restriction to `U` of a smooth Riemannian metric `g` on `M` are equal. No bound
+on `#P` is needed: when `χ(M) ≥ #P` no complete hyperbolic metric is conformal to `g|_U`. -/
+theorem eq_of_metric_eq_rescale_restrictOpenTangentSpace
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {M : Type*} [TopologicalSpace M] [T3Space M] [PreconnectedSpace M] [CompactSpace M]
+    [ChartedSpace H M] [IsManifold I ∞ M]
+    (hE : finrank ℝ E = 2) (P : Finset M)
+    (U : TopologicalSpace.Opens M) (hU : (U : Set M) = (↑P : Set M)ᶜ) [PreconnectedSpace U]
+    {g : Bundle.ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x)}
+    (G₁ G₂ : HyperbolicMetric (I := I) (M := U)) {f₁ f₂ : U → ℝ}
+    {hf₁ : ContMDiff I 𝓘(ℝ) ∞ f₁} {hf₁_pos : ∀ x, 0 < f₁ x}
+    {hf₂ : ContMDiff I 𝓘(ℝ) ∞ f₂} {hf₂_pos : ∀ x, 0 < f₂ x}
+    (h₁ : G₁.metric = (g.restrictOpenTangentSpace U).rescale f₁ hf₁ hf₁_pos)
+    (h₂ : G₂.metric = (g.restrictOpenTangentSpace U).rescale f₂ hf₂ hf₂_pos) :
+    G₁ = G₂ := by
+  sorry
+
+/-- **Geodesic boundary** (README §0.4). A smooth Riemannian metric `g` on a surface with boundary,
+modelled on the closed half-plane `𝓡∂ 2`, has geodesic boundary when every `C²` curve `γ : ℝ → M`
+that lies in the boundary and has unit `g`-speed is a geodesic of `g`. On a compact surface these
+curves are the unit-speed parametrizations of the boundary circles, so the condition says that the
+boundary has geodesic curvature zero; without boundary it is empty. -/
+def HasGeodesicBoundary {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M]
+    [IsManifold (𝓡∂ 2) ∞ M]
+    (g : Bundle.ContMDiffRiemannianMetric (𝓡∂ 2) ∞ (EuclideanSpace ℝ (Fin 2))
+      (fun x : M ↦ TangentSpace (𝓡∂ 2) x)) : Prop :=
+  letI : Bundle.RiemannianBundle (fun x : M ↦ TangentSpace (𝓡∂ 2) x) := ⟨g.toRiemannianMetric⟩
+  ∀ γ : ℝ → M, (∀ t, γ t ∈ (𝓡∂ 2).boundary M) → ContMDiff 𝓘(ℝ) (𝓡∂ 2) 2 γ →
+    (∀ t, g.inner (γ t) (mfderiv 𝓘(ℝ) (𝓡∂ 2) γ t 1) (mfderiv 𝓘(ℝ) (𝓡∂ 2) γ t 1) = 1) →
+    TauCeti.Manifold.IsGeodesicCurve (𝓡∂ 2) γ
+
+/-- **Hyperbolic metrics with geodesic boundary** (README §0.4). On a compact connected surface
+`M` with boundary and negative Euler characteristic, every smooth Riemannian metric `g` is
+conformal to a hyperbolic metric with geodesic boundary: there is a smooth positive function `f`
+such that `f g` has constant curvature `−1` and geodesic boundary. -/
+theorem exists_hyperbolicMetric_metric_eq_rescale_hasGeodesicBoundary_of_eulerChar_neg
+    {M : Type*} [TopologicalSpace M] [T3Space M] [PreconnectedSpace M] [CompactSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [IsManifold (𝓡∂ 2) ∞ M] [FiniteCWType M]
+    (hχ : eulerChar M < 0)
+    (g : Bundle.ContMDiffRiemannianMetric (𝓡∂ 2) ∞ (EuclideanSpace ℝ (Fin 2))
+      (fun x : M ↦ TangentSpace (𝓡∂ 2) x)) :
+    ∃ (G : HyperbolicMetric (I := 𝓡∂ 2) (M := M)) (f : M → ℝ)
+      (hf : ContMDiff (𝓡∂ 2) 𝓘(ℝ) ∞ f) (hf_pos : ∀ x, 0 < f x),
+      G.metric = g.rescale f hf hf_pos ∧ HasGeodesicBoundary G.metric := by
+  sorry
+
+/-- **Uniqueness of the hyperbolic metric with geodesic boundary** (README §0.4). On a compact
+connected surface with boundary, two hyperbolic metrics with geodesic boundary conformal to the
+same smooth Riemannian metric `g` are equal. -/
+theorem eq_of_metric_eq_rescale_of_hasGeodesicBoundary
+    {M : Type*} [TopologicalSpace M] [T3Space M] [PreconnectedSpace M] [CompactSpace M]
+    [ChartedSpace (EuclideanHalfSpace 2) M] [IsManifold (𝓡∂ 2) ∞ M]
+    {g : Bundle.ContMDiffRiemannianMetric (𝓡∂ 2) ∞ (EuclideanSpace ℝ (Fin 2))
+      (fun x : M ↦ TangentSpace (𝓡∂ 2) x)}
+    (G₁ G₂ : HyperbolicMetric (I := 𝓡∂ 2) (M := M)) {f₁ f₂ : M → ℝ}
+    {hf₁ : ContMDiff (𝓡∂ 2) 𝓘(ℝ) ∞ f₁} {hf₁_pos : ∀ x, 0 < f₁ x}
+    {hf₂ : ContMDiff (𝓡∂ 2) 𝓘(ℝ) ∞ f₂} {hf₂_pos : ∀ x, 0 < f₂ x}
+    (h₁ : G₁.metric = g.rescale f₁ hf₁ hf₁_pos) (h₂ : G₂.metric = g.rescale f₂ hf₂ hf₂_pos)
+    (hG₁ : HasGeodesicBoundary G₁.metric) (hG₂ : HasGeodesicBoundary G₂.metric) :
+    G₁ = G₂ := by
   sorry
 
 /-! ## Layer 1: nodal curves, node rings and their isomorphisms -/

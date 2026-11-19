@@ -304,12 +304,28 @@ metric of finite area on `M ∖ P`. Near each puncture choose the explicit cusp 
 the cusp chart, scaled derivatives and the weight `t^δ`, for `0 < δ < 1`. Construct the uniform
 exhaustion estimates and the inverse of the linearization `Δ_g + 2` on this scale, including the
 barriers `t^(−δ)` and the excluded indicial roots, then the bounded nonlinear solution and its
-expansion at the end. Prove completeness, finite area, the Gauss–Bonnet area normalization, and
-uniqueness by the maximum principle or the Schwarz lemma.
+expansion at the end. Prove completeness, finite area and the Gauss–Bonnet area normalization.
+Prove `eq_of_metric_eq_rescale_restrictOpenTangentSpace`: two complete hyperbolic metrics on
+`M ∖ P` conformal to the restriction of g are equal, by the maximum principle or the Schwarz lemma.
+It needs no bound on |P|, since for `χ(M) ≥ |P|` no complete hyperbolic metric is conformal to the
+restriction of g.
 
-*Boundary.* Construct holomorphic half-disc and collar coordinates at the boundary, the
-holomorphic double and its reflection; uniqueness makes the metric on the double invariant under
-the reflection and the boundary geodesic.
+*Boundary.* For a smooth Riemannian metric g on a surface M with boundary, modelled on the closed
+half-plane (Mathlib's `𝓡∂ 2`), define `HasGeodesicBoundary g`: every C² curve ℝ → M that lies in
+the boundary and has unit g-speed is a geodesic of g (Tau Ceti `TauCeti.Manifold.IsGeodesicCurve`).
+On a compact surface these curves are the unit-speed parametrizations of the boundary circles, so
+the condition says that the boundary has geodesic curvature zero. Prove
+`exists_hyperbolicMetric_metric_eq_rescale_hasGeodesicBoundary_of_eulerChar_neg`: if M is a compact
+connected surface with boundary and `χ(M) < 0`, every smooth Riemannian metric g on M is conformal
+to a hyperbolic metric with geodesic boundary. Prove
+`eq_of_metric_eq_rescale_of_hasGeodesicBoundary`: on a compact connected surface with boundary, two
+hyperbolic metrics with geodesic boundary conformal to the same g are equal. Robbin–Salamon 2006,
+17.3, gives both for oriented surfaces; a non-orientable M reduces to its orientation double cover
+by uniqueness. Construct holomorphic half-disc and collar coordinates at the boundary, the
+holomorphic double and its reflection; uniqueness on the double makes its metric invariant under
+the reflection and the boundary geodesic. A hyperbolic metric with geodesic boundary doubles, by
+even reflection in Fermi coordinates, to a hyperbolic metric on the holomorphic double, so
+uniqueness follows from the closed case.
 
 Include C∞ dependence on compact subsets and uniform cusp and boundary templates for nearby smooth
 structures, with explicit estimates under the weighted and exhaustion hypotheses. No general
@@ -320,7 +336,9 @@ uniformization in every genus.
 `Bundle.ContMDiffRiemannianMetric.restrictOpenTangentSpace`,
 `Bundle.ContMDiffRiemannianMetric.exists_hyperbolicMetric_metric_eq_rescale_iff`,
 `TauCeti.HyperbolicMetric.eq_of_metric_eq_rescale`, `Bundle.ContMDiffRiemannianMetric.rescale`,
-`TauCeti.eulerChar`; PDE §§1.1, 1.4, 1.7; ComplexKahlerGeometry §5.10 (compact elliptic theory).
+`TauCeti.Manifold.IsGeodesicCurve`, `TauCeti.eulerChar`; Mathlib `ModelWithCorners.boundary`,
+`modelWithCornersEuclideanHalfSpace`; PDE §§1.1, 1.4, 1.7; ComplexKahlerGeometry §5.10 (compact
+elliptic theory).
 
 **Checks.**
 - With `t = −log|z|`, `|dz|/|z| = (dt² + dθ²)^(1/2)`, so the cusp metric is
@@ -333,7 +351,15 @@ uniformization in every genus.
   so the linearization is not invertible on the scale of weight one. Finiteness of the weighted
   norm of t^(−1) does not single out δ = 1: it holds for every δ ≤ 1.
 - The thrice-punctured sphere has area `2π(2·0 − 2 + 3) = 2π` by Gauss–Bonnet, and a closed
-  surface of genus two has area 4π.
+  surface of genus two has area 4π. With geodesic boundary, Gauss–Bonnet gives area `−2πχ`: 2π for
+  a pair of pants, and 0 for an annulus, which therefore carries no hyperbolic metric with geodesic
+  boundary, so `χ(M) < 0` cannot be weakened to `χ(M) ≤ 0`.
+- On the flat cylinder `[0, 1] × ℝ/2πℤ` the unit-speed boundary curves `t ↦ (0, ±t + c)` and
+  `t ↦ (1, ±t + c)` have zero acceleration, so its metric has geodesic boundary; on the flat closed
+  unit disc the boundary curve `t ↦ (cos t, sin t)` has unit speed and acceleration
+  `−(cos t, sin t) ≠ 0`, so its metric does not. Without the unit-speed condition the boundary
+  curve `t ↦ (0, t + t³)` of the cylinder, of acceleration `(0, 6t)`, would violate it, and no
+  metric with nonempty boundary would have geodesic boundary.
 
 ### 0.5 Properness of the diffeomorphism action and finite automorphism groups
 
@@ -1803,6 +1829,9 @@ used above by name (supplier contracts below); the rest of each section stays a 
 - `AlgebraicGeometry.LocallyRingedSpace` and `CategoryTheory.Groupoid` (with Tau Ceti's groupoids
   of Layer 1); `CategoryTheory.Subgroupoid.hom.faithful` (§1.4).
 - `Module.Flat`, `Module.Flat.iff_rTensor_injective`, adic completion of Noetherian rings (§2.2).
+- `modelWithCornersEuclideanHalfSpace` (`𝓡∂ 2`, the closed half-plane model of surfaces with
+  boundary) and `ModelWithCorners.boundary` (the points whose chart image lies on the frontier of the
+  model), for the bordered surfaces of §0.4.
 
 ### From Tau Ceti
 
@@ -1843,6 +1872,10 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   (`Geometry/Manifold/Riemannian/Hyperbolic/ClosedSurface.lean`;
   on a compact surface, a hyperbolic metric conformal to g exists iff the curvature equation has a
   smooth solution, and is unique when the model has no boundary).
+- *Geodesics*: `TauCeti.Manifold.IsGeodesicCurve`
+  (`Geometry/Manifold/Riemannian/Geodesic/Basic.lean`; a C² curve ℝ → M whose covariant
+  acceleration for the Levi-Civita connection vanishes, for any model with corners), for the
+  geodesic boundary of §0.4.
 - *Nodal gluing* (`AlgebraicGeometry/Curves/NodalGluing/`): `TauCeti.NodalGluing.FlagPairData`,
   `TauCeti.NodalGluing.Marking`, `TauCeti.NodalGluing.GluedCurve`,
   `TauCeti.NodalGluing.t2Space_gluedCurve` (T2 components, finitely many flags),
