@@ -205,7 +205,7 @@ that a target proved by another route is not blocked behind an unrelated section
     quasi-fully faithful on every Hom complex and essentially surjective on `H⁰`; it is a
     different predicate from a derived Morita equivalence (§6.3). Over a field a
     quasi-isomorphism of complexes is a chain-homotopy equivalence after choosing splittings;
-    over an arbitrary commutative ring the inverse-up-to-homotopy theorem of §2.2 assumes that
+    over an arbitrary commutative ring the inverse-up-to-homotopy theorem of §3.5 assumes that
     `f₁` itself is a chain-homotopy equivalence, and a bare quasi-isomorphism is not enough.
 13. **Suspended modules and bimodules.** A right `A∞` module is stored by its maps
     `b_n^M : sM ⊗ (sA)^{⊗(n−1)} → sM` of degree one, extended to a coderivation `b^M` over `b` on
@@ -216,9 +216,10 @@ that a target proved by another route is not blocked behind an unrelated section
     `b_{i,j} : (sA)^{⊗i} ⊗ sM ⊗ (sB)^{⊗j} → sM` of degree one, equivalently unsuspended operations
     of degree `1 − i − j`, extending to the square-zero bicomodule coderivation on
     `Tᶜ(sA) ⊗ sM ⊗ Tᶜ(sB)`. This is the primary definition of a bimodule.
-14. **Names.** Library declarations are written with their full names, Tau Ceti's beginning
-    `TauCeti.`. The headline theorems stated in [Suggested.lean](Suggested.lean) are in the
-    namespace `TauCetiRoadmap.DGAInfinity`; every other target is described in prose.
+14. **Names.** Library declarations are written with their full names, most of Tau Ceti's
+    beginning `TauCeti.`; those that do not are listed under the supplier contract From Tau Ceti.
+    The headline theorems stated in [Suggested.lean](Suggested.lean) are in the namespace
+    `TauCetiRoadmap.DGAInfinity`; every other target is described in prose.
 
 ## Layer 0: signed graded multilinear algebra and tensor coalgebras
 
@@ -232,7 +233,10 @@ A graded module is a `k`-module with an internal `ℤ`-grading, Tau Ceti's `TauC
 a family of submodules whose direct sum is the module. In [Suggested.lean](Suggested.lean) it is
 `TauCetiRoadmap.DGAInfinity.InternalGrading`, with membership in the degree-`p` summand
 `TauCetiRoadmap.DGAInfinity.InternalGrading.IsHomogeneous` and linear maps of degree `q`, sending
-degree `p` into degree `p + q`, `TauCetiRoadmap.DGAInfinity.LinearHasDegree`. Its shift is
+degree `p` into degree `p + q`, `TauCetiRoadmap.DGAInfinity.LinearHasDegree`. The latter is Tau
+Ceti's `TauCeti.LinearMap.IsHomogeneous` on the two families of summands with `p` and `x` taken
+explicitly, the form `TauCeti.LinearMap.isHomogeneous_def` unfolds it to; StablePeriodicCurved
+applies it in that form. The shift of a grading is
 `TauCeti.InternalGrading.shift`, with `(G.shift c)^p = G^{p+c}`, and the Koszul sign operator
 `TauCeti.InternalGrading.koszulTwist` multiplies degree `e` by `(−1)^{qe}`. Tau Ceti supplies the
 tensor product of gradings `TauCeti.InternalGrading.tensorProduct`, the graded dual
@@ -815,12 +819,15 @@ modules over `A` and over its minimal model, are §6.2.
 
 ### 3.5 Homotopy inverses and unit strictification
 
-Over a field, prove that an `A∞` morphism is a quasi-isomorphism exactly when it has an inverse
-up to homotopy, `TauCetiRoadmap.DGAInfinity.exists_homotopy_inverse_of_isQuasiIso` (Prouté;
-Keller, Introduction, Section 3.7, Theorem (b)). Over an arbitrary commutative ring, prove that a
-morphism `f : A → B` whose linear part `f₁` is a chain-homotopy equivalence of `(A, m₁)` and
-`(B, m₁)` has a morphism `g : B → A` with `g ∘ f` homotopic to the identity of `A` and `f ∘ g`
-homotopic to the identity of `B`; a bare quasi-isomorphism is not enough there. Over a field,
+Over a field, prove that an `A∞` quasi-isomorphism has an inverse up to homotopy,
+`TauCetiRoadmap.DGAInfinity.exists_homotopy_inverse_of_isQuasiIso` (Prouté; Keller,
+Introduction, Section 3.7, Theorem (b)); conversely, over any commutative ring, a morphism with an
+inverse up to homotopy is a quasi-isomorphism, because homotopic morphisms induce the same map on
+cohomology (`TauCeti.AInfinityHom.Homotopy.cohomologyMap_eq`). Over an arbitrary commutative
+ring, prove that a morphism `f : A → B` whose linear part `f₁` is a chain-homotopy equivalence of
+`(A, m₁)` and `(B, m₁)` has a morphism `g : B → A` with `g ∘ f` homotopic to the identity of `A`
+and `f ∘ g` homotopic to the identity of `B`; a bare quasi-isomorphism is not enough there. Over
+a field,
 prove that every cohomologically unital `A∞` algebra is `A∞` quasi-isomorphic to one with a
 strict unit, `TauCetiRoadmap.DGAInfinity.exists_strictUnit_isQuasiIso_of_cohomologicallyUnital`,
 and that a minimal one is `A∞` isomorphic to one with a strict unit,
@@ -835,8 +842,9 @@ keeps the quasi-isomorphic replacement distinct from the stronger isomorphism av
 minimal objects, and a strict-unit comparison for modules is not deduced from the algebra
 statement.
 *Needs:* §§2.2–2.3, 3.4; Tau Ceti `TauCeti.AInfinityHom.Homotopy`,
-`TauCeti.AInfinityHom.IsQuasiIso.isIso`, `TauCeti.AInfinityAlgebra.minimalModel`,
-`TauCeti.AInfinityAlgebra.CohomologicallyUnital`, `TauCeti.AInfinityAlgebra.StrictUnit`.
+`TauCeti.AInfinityHom.Homotopy.cohomologyMap_eq`, `TauCeti.AInfinityHom.IsQuasiIso.isIso`,
+`TauCeti.AInfinityAlgebra.minimalModel`, `TauCeti.AInfinityAlgebra.CohomologicallyUnital`,
+`TauCeti.AInfinityAlgebra.StrictUnit`.
 
 **Checks.**
 -  The DG algebra `A = k[ε]/(ε²)` with `|ε| = −1` and `dε = 1` is acyclic, so the zero morphism
@@ -1136,11 +1144,10 @@ Define `tria(C)` as the triangulated subcategory of `D(C)` generated by the repr
 `Hom(X, −)` commutes with coproducts) and prove that `Perf(C)` is exactly the compact objects of
 `D(C)`, and that the retracts of finite semi-free modules, the thick closure of the
 representables and the compact objects coincide (Keller, *Deriving DG categories*, Sections 4–5).
-Construct the DG and `A∞` Karoubi envelopes and identify their `H⁰` with the triangulated
-idempotent completion of `H⁰(pretr C)`.
+Construct the DG and `A∞` Karoubi envelopes and identify their `H⁰` with `Perf(C)`, triangulated
+as a thick subcategory of `D(C)`.
 *Needs:* §§5.1, 5.4; Mathlib `ObjectProperty.triangEnvelope`,
-`CategoryTheory.Idempotents.Karoubi`; GeneralAlgebraicKTheory §11.4a (the triangulated structure
-on the idempotent completion).
+`CategoryTheory.Idempotents.Karoubi`.
 
 **Checks.**
 - For `C` the one-object DG category of a field `k`, `D(C)` is the derived category of
@@ -1168,14 +1175,14 @@ the DG replacement is larger, and the derived module category is the same.
 ### Dependencies
 
 Layers 1, 2 and 4; Mathlib localization, triangulated categories and idempotent completions;
-GeneralAlgebraicKTheory §11.4a; Tau Ceti as named in the sections.
+Tau Ceti as named in the sections.
 
 ## Layer 6: quasi-equivalence, derived Morita theory, and compact generators
 
-Keller, *Deriving DG categories*, Theorem 8.0 and the preceding compact-generation results,
-supplies the generator form of derived Morita theory; Toën, Sections 4, 6 and 7, supplies
-mapping objects as quasi-representable bimodules, internal Homs and derived Morita theory for
-small DG categories.
+Keller, *Deriving DG categories*, the Theorems of Sections 8.1 and 8.2 with the
+compact-generation results of Sections 4.2 and 5.3, supplies the generator form of derived Morita
+theory; Toën, Sections 4, 6 and 7, supplies mapping objects as quasi-representable bimodules,
+internal Homs and derived Morita theory for small DG categories.
 
 ### 6.1 Invariance under quasi-equivalence
 
@@ -1225,7 +1232,8 @@ generators. Prove that a quasi-equivalence is a Morita equivalence; the converse
 For a localizing subcategory of `D(C)` generated by a set of compact objects, form the DG category
 of their endomorphisms and prove the derived Morita equivalence. If there is a single compact
 generator `G`, identify `D(C)` with the derived category of the DG algebra `RHom(G, G)` and the
-compact objects with `Perf(RHom(G, G))` (Keller, *Deriving DG categories*, Theorem 8.0). State
+compact objects with `Perf(RHom(G, G))` (Keller, *Deriving DG categories*, Section 8.1, Theorem,
+with Lemma 4.2(c) and Section 5.3, Theorem). State
 generation as the vanishing of the objects right orthogonal to all shifts of the generators, not
 as density on `K₀`.
 *Needs:* §§5.1, 5.5, 6.3.
@@ -1242,9 +1250,10 @@ as density on `K₀`.
 Build the Morita bicategory whose objects are small DG categories, whose 1-morphisms are the
 bimodules whose derived tensor product preserves perfect objects, and whose composition is the
 derived tensor product, with the associativity and unit isomorphisms of the derived tensor
-product. Prove that `Perf` is invariant under Morita equivalence. The invariance of Hochschild
-cohomology and homology, of smoothness and properness, and of the Euler pairing is proved in
-§§8.1, 9.1 and 10.1, under the hypotheses of those layers.
+product. Prove that `Perf` is invariant under Morita equivalence: an equivalence of derived
+categories preserves compact objects, and `Perf(C)` is the compact objects of `D(C)` (§5.5). The
+invariance of Hochschild cohomology and homology, of smoothness and properness, and of the Euler
+pairing is proved in §§8.1, 9.1 and 10.1, under the hypotheses of those layers.
 *Needs:* §§5.1, 5.5, 6.3.
 
 ### Examples
@@ -1259,7 +1268,7 @@ Layers 1–5; Tau Ceti as named in the sections.
 
 ## Layer 7: DG and `A∞` quotients, Verdier comparison, and `K₀` localization
 
-Drinfeld, Definition 1.2 and Main Theorem 1.6.2, supplies existence and the quasi-functor
+Drinfeld, Section 1.2 and Main Theorem 1.6.2, supplies existence and the quasi-functor
 universal property of DG quotients, and Theorem 3.4 the Verdier comparison with the precise
 homotopical-flatness alternatives; Lyubashenko–Ovsienko constructs `A∞` quotients, and
 Lyubashenko–Manzyuk the unital quotient; Thomason's dense-subcategory theorem and Schlichting's
@@ -1293,24 +1302,31 @@ Mathlib's localization at `ObjectProperty.trW`.
 ### 7.3 `A∞` quotients
 
 Construct quotients of strictly and of cohomologically unital `A∞` categories by full
-subcategories, prove their unital universal property, and compare them with the DG quotient
-after enveloping DG replacement. Prove that `H⁰` of the pretriangulated envelope of the quotient
+subcategories (Lyubashenko–Ovsienko, Section 2, Definition 2.1, Proposition 2.2 and Section 2.5;
+Lyubashenko–Manzyuk, Main Theorem 1.3), prove their unital universal property
+(Lyubashenko–Manzyuk, Main Theorem 1.3 and Corollary 1.6), and compare them with the DG quotient
+after enveloping DG replacement (for DG categories, Lyubashenko–Ovsienko, Section 2.6, identify
+their quotient with Drinfeld's). Prove that `H⁰` of the pretriangulated envelope of the quotient
 is the Verdier quotient.
 *Needs:* §§2.3, 3.5, 4.2, 7.1–7.2.
 
 ### 7.4 `K₀` of a DG quotient
 
-Apply the triangulated `K₀` of GrothendieckEulerForms §2.4 (`TauCeti.TriangulatedK0`). For the
-DG quotient `C/B`, let `B'` be the thick closure of `B` in `H⁰(C^tr)`, the triangulated
-subcategory of the direct summands of objects built from `B`; the Verdier quotient by `B'` is the
-same as by `B`. Prove that `K₀(B') → K₀(C^tr) → K₀((C/B)^tr) → 0` is exact, the image of the
-first map being the subgroup generated by the classes of the objects of `B'`. With `B` in place of
-`B'` the statement is false. The idempotent-completed quotient is treated separately: new
-retracts can enlarge `K₀`, so only the canonical map from `K₀` of the quotient to `K₀` of its
-idempotent completion is constructed, and no cokernel or short exact sequence is asserted after
-idempotent completion.
-*Needs:* §§7.2–7.3; GrothendieckEulerForms §2.4; HopfologicalAlgebra §6.1 (the exact sequence for
-a thick subcategory of a triangulated category).
+Apply the triangulated `K₀` of GrothendieckEulerForms §2.4 (`TauCeti.TriangulatedK0`). First let
+`T` be an essentially small triangulated category and `S` a thick subcategory (a triangulated
+subcategory closed under direct summands, `S.triangEnvelope = S`), and let `T/S` be the Verdier
+quotient, Mathlib's localization at `ObjectProperty.trW S`, without idempotent completion. Prove
+that `K₀(S) → K₀(T) → K₀(T/S) → 0` is exact (Chebolu, *Refining thick subcategory theorems*,
+sequence (3), p. 10). For the DG quotient `C/B`, let `B'` be the thick closure of `B` in
+`H⁰(C^tr)`, the triangulated subcategory of the direct summands of objects built from `B`; the
+Verdier quotient by `B'` is the same as by `B`. Taking `T = H⁰(C^tr)` and `S = B'`, prove that
+`K₀(B') → K₀(C^tr) → K₀((C/B)^tr) → 0` is exact, the image of the first map being the subgroup
+generated by the classes of the objects of `B'`. With `B` in place of `B'` the statement is false.
+The idempotent-completed quotient is treated separately: new retracts can enlarge `K₀`, so only
+the canonical map from `K₀` of the quotient to `K₀` of its idempotent completion is constructed,
+and no cokernel or short exact sequence is asserted after idempotent completion.
+*Needs:* §§7.2–7.3; GrothendieckEulerForms §2.4; Mathlib `ObjectProperty.trW`,
+`ObjectProperty.triangEnvelope`; Tau Ceti `TauCeti.TriangulatedK0`.
 
 **Checks.**
 - Let `C` be the DG category with objects `k` and `k ⊕ k` (complexes of `k`-vector spaces) and
@@ -1336,8 +1352,8 @@ example.
 
 ### Dependencies
 
-Layers 1–6; Mathlib localization of triangulated categories; GrothendieckEulerForms §2.4;
-HopfologicalAlgebra §6.1; Tau Ceti as named in the sections.
+Layers 1–6; Mathlib localization of triangulated categories; GrothendieckEulerForms §2.4; Tau
+Ceti as named in the sections.
 
 ## Layer 8: Hochschild cochains, deformations, Massey products, and formality
 
@@ -1468,7 +1484,11 @@ isomorphic to `H`
 `H` is then intrinsically formal
 (`TauCeti.AInfinityAlgebra.isIntrinsicallyFormal_of_forall_hochschildVanishesAt`), which is
 Kadeishvili's criterion `HH^{n, 2−n}(H, H) = 0` for every `n ≥ 3`. It is sufficient and not
-necessary. Over a `ℚ`-algebra, the obstruction class is invariant under `A∞` isomorphism
+necessary. Over a `ℚ`-algebra, for a minimal algebra with the grading and product of `H` and
+`m₃ = ⋯ = m_{n+1} = 0`, the first obstruction `m_{n+2}` is the Hochschild differential of a
+degree-zero cochain on words of length `n + 1` when the algebra is `A∞` isomorphic to `H`
+(`TauCeti.AInfinityAlgebra.IsMinimal.exists_hochschildDifferential_eq_obstruction_of_isIso`), so
+a first obstruction that is not such a coboundary prevents formality
 (`TauCeti.AInfinityAlgebra.IsMinimal.not_isFormal_of_not_exists_hochschildDifferential_eq_obstruction`).
 
 Prove that vanishing transferred operations give formality: if the operations `m_n^H`, `n ≥ 3`,
@@ -1494,7 +1514,7 @@ Layers 0–6; Tau Ceti as named in the sections.
 
 ## Layer 9: smoothness, properness, Serre functors, and Calabi–Yau structures and completions
 
-Keller's survey *On differential graded categories*, Section 5, supplies smooth and proper Morita
+Keller's survey *On differential graded categories*, Section 4.7, supplies smooth and proper Morita
 invariance; Keller, *Deformed Calabi–Yau completions*, Sections 4–5, supplies the tensor-algebra
 completion, its Calabi–Yau structure and the deformation by a Hochschild class; Bondal–Kapranov
 supply Serre functors; Shklyarov, Theorems 3.4–3.5 and 6.2, supplies the Hirzebruch–Riemann–Roch
@@ -1529,9 +1549,12 @@ Hochschild classes; neither is called "the" Calabi–Yau structure.
 *Needs:* §§5.1, 9.1.
 
 **Checks.**
-- For a finite-dimensional symmetric algebra `A` in degree zero (such as `k[ε]/(ε²)` with the
-  trace `a + bε ↦ b`), `A* ≅ A` as bimodules: `A` is right `0`-Calabi–Yau, but it is not smooth,
-  so it has no left Calabi–Yau structure at all.
+- For a finite-dimensional symmetric algebra `A` in degree zero, `A* ≅ A` as bimodules, so `A` is
+  right `0`-Calabi–Yau. The dual numbers `k[ε]/(ε²)`, symmetric with the trace `a + bε ↦ b`, are
+  not smooth (§9.1), so they have no left Calabi–Yau structure at all. A symmetric algebra is
+  smooth only when it is semisimple, being self-injective, while a smooth finite-dimensional
+  algebra has finite global dimension; `k` itself is both left and right `0`-Calabi–Yau, with
+  `k! = k`.
 
 ### 9.3 Derived tensor algebras and Calabi–Yau completions
 
@@ -1630,10 +1653,12 @@ with the handedness fixed: right `kQ`-modules are representations of the opposit
 
 ### 10.3 Serre duality and the Euler form
 
-From Serre duality prove `χ(X, Y) = χ(Y, SX)`. Only after a specified natural identification
-`S ≅ [d]` prove `χ(X, Y) = (−1)^d χ(Y, X)`, the shift acting by `(−1)^d` on `K₀`
-(`TauCeti.TriangulatedK0.of_shift`); the sign is derived from finite support, not asserted for a
-divergent sum.
+From Serre duality prove `χ(X, Y) = χ(Y, SX)`: the duality of §9.4 gives
+`Hom(X, Y[i])* ≅ Hom(Y[i], SX) = Hom(Y, SX[−i])`, so the degree-`i` term of `χ(X, Y)` has the
+dimension of the degree-`(−i)` term of `χ(Y, SX)`, with the same sign. Only after a specified
+natural identification `S ≅ [d]` prove `χ(X, Y) = (−1)^d χ(Y, X)`, the shift acting by `(−1)^d`
+on `K₀` (`TauCeti.TriangulatedK0.of_shift`); the sign is derived from finite support, not
+asserted for a divergent sum.
 *Needs:* §§9.4, 10.2.
 
 **Checks.**
@@ -1648,7 +1673,8 @@ Form the left and right numerical quotients of `K₀(Perf C)` by the radicals of
 (`TauCeti.leftRadical`, `TauCeti.rightRadical`, `TauCeti.LeftNumericalQuotient`,
 `TauCeti.RightNumericalQuotient`, with the nondegenerate induced pairing
 `TauCeti.numericalPairing_nondegenerate`; GrothendieckEulerForms §§7.1–7.2). Prove that Serre
-duality identifies the left radical with the inverse image of the right radical under `S`, and
+duality identifies the left radical with the inverse image of the right radical under `S`, since
+by §10.3 `χ(x, y) = 0` for every `y` exactly when `χ(y, Sx) = 0` for every `y`, and
 that under `S ≅ [d]` the two radicals agree; without such a duality they remain distinct.
 *Needs:* §§10.2–10.3; GrothendieckEulerForms §§7.1–7.2.
 
@@ -1807,7 +1833,8 @@ theorem for categories, modules and bimodules, homotopy inverses and unit strict
 3); bar and cobar constructions, the bar–cobar adjunction, the enveloping DG algebra and
 Maurer–Cartan twisting in the upper-triangular and complete regimes (Layer 4); derived categories
 of DG and `A∞` modules, `A∞` twisted objects, the pretriangulated envelope as a DG category,
-`tria`, `Perf` and compact objects (Layer 5); Layers 6, 7, 9, 10 and 11 entire; and in Layer 8 the
+`tria`, `Perf` and compact objects (Layer 5); Layers 6, 7 (with the `K₀` sequence of a Verdier
+quotient by a thick subcategory, §7.4), 9, 10 and 11 entire; and in Layer 8 the
 full Hochschild complex and Hochschild homology, normalization and invariance, filtered
 deformations and the Deligne–Getzler theory, higher Massey products and the vanishing criterion
 for transferred operations.
@@ -1829,7 +1856,7 @@ contracts below. Mathlib supplies cochain complexes, their monoidal structure an
 complex, enriched categories, localization, derived categories of abelian categories,
 triangulated categories and idempotent completions.
 
-**Owned elsewhere and consumed here.**
+**Owned elsewhere.**
 
 - *Grothendieck groups*: exact and triangulated `K₀`, the smallness policy, finite-support Euler
   sums and their descent, the Cartan and Ext-Euler constructions for finite-dimensional algebras,
@@ -1837,19 +1864,23 @@ triangulated categories and idempotent completions.
   the diagonal Ext criterion: GrothendieckEulerForms (Conventions, §§2.4, 3.7, 4.4, 5.1–5.6,
   7.1–7.2), consumed in Layers 7, 10 and 11.
 - *The triangulated structure on idempotent completions*, the `K₀` of dense triangulated
-  subcategories (Thomason) and negative `K`-theory, which explains why no exact sequence is
-  asserted after idempotent completion: GeneralAlgebraicKTheory §§11.3–11.4a and §§11.6–11.7.
-  §5.5 consumes §11.4a.
-- *The localization sequence `K₀(S) → K₀(T) → K₀(T/S) → 0` for a thick subcategory `S` of an
-  essentially small triangulated category*: HopfologicalAlgebra §6.1. §7.4 here is its statement
-  for a DG quotient, read on pretriangulated envelopes.
+  subcategories (Thomason) and negative `K`-theory, which explain why no exact sequence is
+  asserted after idempotent completion: GeneralAlgebraicKTheory §§11.3–11.4a and §§11.6–11.7. No
+  section here uses them: §5.5 triangulates `Perf(C)` as a thick subcategory of `D(C)`.
 - *Curved objects and periodic complexes*: StablePeriodicCurved. *Applications to particular
   presented algebras* and application-specific correspondence theorems (Ginzburg algebras, zigzag
   and preprojective algebras, McKay quivers): the downstream roadmaps listed above.
-- *Negative cyclic homology*, and with it the canonical lift of Calabi–Yau classes: not
-  constructed by this roadmap; theorems that need a lift carry it as a hypothesis (§9.3).
 
-**What the roadmap does not claim.** It treats uncurved, integer-graded DG and `A∞` objects and
+**Former layer placement.** Four groups of statements that other roadmaps may cite by a former
+layer now stand elsewhere: the homotopy-inverse and unit-strictification theorems, formerly in
+Layer 2, are §3.5; the module equivalence for a DG algebra and its cohomology, formerly in Layer
+3, is §6.2; the Deligne–Getzler comparison of twists, formerly in Layer 4, is §8.2; and the Morita
+invariance of Hochschild theory, of smoothness and properness and of the Euler pairing, formerly
+in Layer 6, is §§8.1, 9.1 and 10.1.
+
+**What the roadmap does not claim.** It does not construct negative cyclic homology, nor with it
+the canonical lift of Calabi–Yau classes; theorems that need a lift carry it as a hypothesis
+(§9.3). It treats uncurved, integer-graded DG and `A∞` objects and
 makes no claims about named root systems, lattices, categorical glue constructions or proposed
 homological finiteness mechanisms. It does not claim that DG categories are unable to model a
 derived theory: a strictly unital augmented `A∞` algebra over a field, or over a separable
@@ -1900,6 +1931,7 @@ Paths are under `TauCeti/`. Every declaration below is proved in Tau Ceti.
   `TauCeti.InternalGrading.opposite`, `TauCeti.InternalGrading.directSum`,
   `TauCeti.InternalGrading.toGradedObject`, `TauCeti.InternalGrading.ofGradedObject`,
   `TauCeti.InternalGrading.totalIso`, `TauCeti.InternalGrading.tensorProductGradedObjectIso`,
+  `TauCeti.LinearMap.IsHomogeneous` with `TauCeti.LinearMap.isHomogeneous_def`,
   `TauCeti.MultilinearMap.IsHomogeneous`, `TauCeti.InternalGrading.signedCompMultilinearMap` with
   its evaluation lemma giving the substitution sign; `TauCeti.GradedLinearQuiver` with
   `TauCeti.GradedLinearQuiver.pathOperationEquiv` and
@@ -1957,7 +1989,8 @@ Paths are under `TauCeti/`. Every declaration below is proved in Tau Ceti.
   `TauCeti.AInfinityHom.isIso_iff_linearPart_bijective`, `TauCeti.AInfinityHom.Homotopy`
   (Keller's homotopy, with `TauCeti.AInfinityHom.Homotopy.compLeft` and
   `TauCeti.AInfinityHom.Homotopy.compRight`; symmetry and transitivity are not assumed),
-  `TauCeti.AInfinityHom.IsQuasiIso.isIso` (between minimal algebras),
+  `TauCeti.AInfinityHom.Homotopy.cohomologyMap_eq` (homotopic morphisms induce the same map on
+  cohomology), `TauCeti.AInfinityHom.IsQuasiIso.isIso` (between minimal algebras),
   `TauCeti.AInfinityHom.reducedTransformationComplex`.
 - **`A∞` categories** (`CategoryTheory/AInfinity/`): `TauCeti.AInfinityCategory`,
   `TauCeti.AInfinityFunctor`, `TauCeti.AInfinityStrictFunctor`,
@@ -2092,8 +2125,10 @@ Paths are under `TauCeti/`. Every declaration below is proved in Tau Ceti.
   unnormalized), `TauCeti.AInfinityAlgebra.IsMinimal.exists_isIso_of_forall_hochschildVanishesAt`
   (over a commutative ring),
   `TauCeti.AInfinityAlgebra.isIntrinsicallyFormal_of_forall_hochschildVanishesAt` (over a field),
+  `TauCeti.AInfinityAlgebra.IsMinimal.exists_hochschildDifferential_eq_obstruction_of_isIso` and
   `TauCeti.AInfinityAlgebra.IsMinimal.not_isFormal_of_not_exists_hochschildDifferential_eq_obstruction`
-  (over a `ℚ`-algebra).
+  (over a `ℚ`-algebra, for a minimal algebra with the grading and product of `H` and vanishing
+  `m₃, …, m_{n+1}`).
 -  **Grothendieck groups, Euler forms and quivers**: `TauCeti.TriangulatedK0`,
   `TauCeti.TriangulatedK0.mapEquiv`, `TauCeti.TriangulatedK0.of_shift`,
   `TauCeti.TriangulatedK0.BiadditiveInvariant.bilift`
@@ -2125,18 +2160,6 @@ projective resolutions and both directions of the diagonal Ext criterion; §4.4:
 resolutions and the Cartan map for finite global dimension; §§5.1–5.6: finite-support Euler sums,
 Ext-Euler descent and its projective form; §§7.1–7.2: left and right radicals and numerical
 quotients.
-
-### From TauCetiRoadmap.GeneralAlgebraicKTheory
-
-§11.4a: the pretriangulated structure on Mathlib's `Karoubi T` of a pretriangulated `T`, unique
-making the embedding a triangle functor, with the extension property for triangle functors into
-idempotent-complete targets.
-
-### From TauCetiRoadmap.HopfologicalAlgebra
-
-§6.1: for a thick subcategory `S` of an essentially small triangulated category `T`,
-`K₀(S) → K₀(T) → K₀(T/S) → 0` is exact for `TauCeti.TriangulatedK0`, with `T/S` the Verdier
-quotient without idempotent completion.
 
 ## References
 
@@ -2184,7 +2207,8 @@ quotient without idempotent completion.
   A-infinity-categories,”](https://arxiv.org/abs/math/0211037) *Homology, Homotopy and
   Applications* 8 (2006), 157--203; Volodymyr Lyubashenko and Oleksandr Manzyuk,
   [“Quotients of unital A-infinity-categories,”](https://arxiv.org/abs/math/0306018) *Theory and
-  Applications of Categories* 20 (2008), 405--496: nonunital and unital `A∞` quotients.
+  Applications of Categories* 20 (2008), 405--496: nonunital and unital `A∞` quotients (numbered
+  as in arXiv v5 of each).
 - Volodymyr Lyubashenko and Oleksandr Manzyuk, [“A-infinity-bimodules and Serre
   A-infinity-functors,”](https://arxiv.org/abs/math/0701165), in *Geometry and Dynamics of Groups
   and Spaces*, Progress in Mathematics 265 (2008), 565--645: `A∞` bimodules, Yoneda, and Serre
@@ -2223,6 +2247,10 @@ quotient without idempotent completion.
   localization correction beyond `K₀`.
 - Robert W. Thomason, “The classification of triangulated subcategories,” *Compositio
   Mathematica* 105 (1997), 1--27: dense triangulated subcategories and the `K₀` boundary.
+- Sunil K. Chebolu, [“Refining thick subcategory
+  theorems,”](https://arxiv.org/abs/math/0508101) *Fundamenta Mathematicae* 189 (2006), 61--97:
+  the `K₀` sequence of a Verdier quotient by a thick subcategory (sequence (3), p. 10 of the arXiv
+  version, citing Grothendieck, SGA 5).
 - Alexander Beilinson, Victor Ginzburg, and Wolfgang Soergel, [“Koszul duality patterns in
   representation theory,”](https://www.ams.org/journals/jams/1996-9-02/S0894-0347-96-00192-0/)
   *Journal of the American Mathematical Society* 9 (1996), 473--527, Section 2: quadratic Koszul

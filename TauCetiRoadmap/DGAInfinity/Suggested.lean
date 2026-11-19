@@ -83,7 +83,9 @@ def InternalGrading.IsHomogeneous {k A : Type*} [CommRing k] [AddCommGroup A] [M
   x ∈ G.piece p
 
 /-- A linear map between internally graded modules has degree `q` when it sends every element
-homogeneous of degree `p` to an element homogeneous of degree `p + q`. -/
+homogeneous of degree `p` to an element homogeneous of degree `p + q`. This is Tau Ceti's
+`TauCeti.LinearMap.IsHomogeneous f GA.piece GB.piece q` with `p` and `x` taken explicitly, the
+form `TauCeti.LinearMap.isHomogeneous_def` unfolds it to. -/
 def LinearHasDegree {k A B : Type*} [CommRing k] [AddCommGroup A] [Module k A]
     [AddCommGroup B] [Module k B] (GA : InternalGrading k A) (GB : InternalGrading k B) (q : ℤ)
     (f : A →ₗ[k] B) : Prop :=
