@@ -3,28 +3,34 @@ module
 public import Mathlib
 
 /-!
-# Completed cohomology, homology and arithmetic towers: headline targets
+# Completed cohomology, homology and arithmetic towers, Part II: target signatures
 
-**This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These statements suggest Lean forms for headline results; discharging them
-finishes neither a layer nor the roadmap.
+This file is not the roadmap: the roadmap is `README.md`. This file states the roadmap's
+headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, and is not an
+exhaustive list of its targets.
 
-The stated result is the semilocal topological product decomposition of the finite
-Hecke-image inverse limit (§8.11). It uses native compatible sections, maximal spectra
-and localizations.
-The only additional topology is the quotient topology on each algebraic local factor.
+The headline theorems are the finite projective completed chain model with its derived
+coinvariant recovery of every finite level (README §§4.2–4.4); finite generation, bounded
+torsion and admissibility of completed homology and cohomology, with the Iwasawa-torsion
+theorem for semisimple congruence towers (README §§5.1, 5.2, 5.4 and 5.7); the completed
+Hochschild–Serre spectral sequence (README §6.1); and the semilocal topological product
+decomposition of the completed Hecke algebra (README §8.11).
 
-The arithmetic endpoints require types absent at the pinned Mathlib and Tau Ceti revisions:
-the coherent arithmetic local-system/support tower (§§0–1), its derived completed object
-and integral admissible category (§2), continuous integral duality and completed homology
-(§3), and the lifted finite-cell model and completed coefficient tensors (§4). Thus the
-arithmetic finite-generation, admissibility, rank and growth theorems (§5), completed
-descent and derived locally analytic recovery (§6), completed support and Iwasawa–Poincaré
-duality (§7), and Shimura/étale comparison and residual localization of the arithmetic
-tower (§8) have no signatures here. Generic derived categories and continuous cohomology
-do not supply these arithmetic objects. In particular, §8.15 also needs the compatible
-finite equivariant derived Hecke-image diagram and its action on all homology groups;
-no abstract nilpotent quotient is substituted for that diagram.
+Only the last is statable at the pins, and it is stated below on native carriers: compatible
+sections, maximal spectra and localizations. The only additional topology is the quotient
+topology on each algebraic local factor.
+
+The others are not statable: they need the coherent arithmetic local-system and support tower
+(README Layers 0–1), its derived completed object and integral admissible category (Layer 2),
+continuous integral duality and completed homology (Layer 3), and the lifted finite-cell model
+and completed coefficient tensors (Layer 4), none of which exists at the pinned revisions. For
+the same reason the completed descent and derived locally analytic recovery (Layer 6), the
+completed support and Iwasawa–Poincaré duality statements (Layer 7), and the Shimura and étale
+comparisons and residual localization of the arithmetic tower (Layer 8) have no signatures
+here. Generic derived categories and continuous cohomology do not supply these arithmetic
+objects. README §8.15 also needs the compatible finite equivariant derived Hecke-image diagram
+and its action on all homology groups; no abstract nilpotent quotient is substituted for that
+diagram.
 -/
 
 @[expose] public section
@@ -36,6 +42,8 @@ namespace TauCetiRoadmap.CompletedCohomologyPartII
 universe u v
 
 variable {J : Type u} [SmallCategory J]
+
+/-! ## Layer 8: Shimura, Galois and Hecke adapters -/
 
 /-- The native ring of compatible finite Hecke-image coordinates (README §8.10).
 Its topology is inherited from the product of the discrete coordinate rings. -/
