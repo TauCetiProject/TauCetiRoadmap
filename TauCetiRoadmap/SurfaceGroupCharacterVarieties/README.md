@@ -396,7 +396,11 @@ starts at the identity.
 
 - `Σ = S²`, `P = {N, S}`: `Σ ∖ P` is the cylinder `S¹ × ℝ`, and the end-swapping map
   `(θ, s) ↦ (−θ, −s)` extends to the rotation by `π` about an equatorial axis, which exchanges `N`
-  and `S`; so `Mod_{0,2}` has two elements and `PMod_{0,2}` is trivial.
+  and `S`; so its class in `Mod_{0,2}` is nontrivial and exchanges the punctures. `PMod_{0,2}` is
+  trivial: its classes are the homeomorphisms of the plane `S² ∖ {S}` fixing `N` up to isotopy fixing
+  `N`, forgetting `N` maps them to the trivial group `Mod_{0,1}` (FarbMargalit2012, Ch. 2, §2.2), and
+  this map is injective by the homotopy sequence of MordellLawrenceVenkatesh §5.17's evaluation
+  fibration at `N`, the plane being simply connected. Hence `Mod_{0,2}` has two elements.
 - The hypothesis is needed: for `Σ = S¹` and `P` two points, `Σ ∖ P` is two open arcs, and the map
   that is the identity on one arc and reverses the other sends the two ends at `p` to ends at `p` and
   at `q`, so it has no continuous extension; the punctured neighbourhoods of `p` are disconnected.
@@ -433,8 +437,8 @@ extension.
   `Mod_{0,3}` with `PMod_{0,3}` would contradict the index.
 - `(g, n) = (0, 2)`: the end-swapping map `(θ, s) ↦ (−θ, −s)` of §2.2's Check extends to the
   rotation by `π` exchanging `N` and `S`, so `σ` sends its class to the transposition of
-  `P = {N, S}`; `Mod_{0,2}` has order two, so `σ` is an isomorphism, `PMod_{0,2}` is trivial and the
-  index is `2 = 2!`.
+  `P = {N, S}`; the kernel `PMod_{0,2}` of `σ` is trivial by §2.2's Check, so `σ` is an isomorphism,
+  `Mod_{0,2}` has order two and the index is `2 = 2!`.
 
 *Needs:* §2.2; MordellLawrenceVenkatesh §5.9; MappingClassGroupsAndCanonicalRepresentations §0.2.
 
