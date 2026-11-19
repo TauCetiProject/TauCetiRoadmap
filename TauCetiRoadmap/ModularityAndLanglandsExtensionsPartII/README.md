@@ -68,6 +68,11 @@ With the reductions of that roadmap it then gives the all-place lift for every n
 modular form and for conjugate self-dual representations over CM fields, and the holomorphy of the
 symmetric power `L`-functions of Hilbert modular forms.
 Layer 14 specialises `SP_n` to `ℚ` and deduces the holomorphy of symmetric power `L`-functions.
+Its two definitions, `symPowerEulerFactor` (§14.4) and `HasQuadraticSelfTwist` (§14.5), with their
+elementary API (symmetry, modulus enlargement, the comparison with Tau Ceti's primitive twist of
+newforms and the Checks on them), need only Mathlib and Tau Ceti and can be built first; the
+comparison of `HasQuadraticSelfTwist` with the non-CM condition needs only the automorphic suppliers
+named in §14.5, and the analytic theorems of §§14.4–14.5 need §§14.2–14.3.
 Each target's `*Needs:*` line lists what its statement and its route use, so an implementer who
 proves it another way is not blocked behind an unrelated layer. Layer and section numbers are
 identifiers, not a count: the layers are 6, 9 and 11–14, Layer 6 has the single section §6.9, and
@@ -86,6 +91,18 @@ Layer 13 has no §13.9; nothing is missing at these gaps.
   real `F` and every non-CM RAESDC `π` of `GL_2(𝔸_F)`, `Sym^{n−1}π` exists. `TP_r` is tensor
   functoriality `GL_2 × GL_r → GL_{2r}` for RAECSDC representations over CM fields whose tensor is
   irreducible and Hodge–Tate regular (Clozel–Thorne's conjecture, as used in th24 §7, p. 42).
+- Non-CM, for a cuspidal `π` of `GL_2(𝔸_F)`, is the self-twist condition of
+  GL2AutomorphicRepresentationsAndTransfer §R16.4.6: `π ⊗ (χ ∘ det) ≅ π` only for `χ = 1`. It is the
+  sense of ModularityAndLanglandsExtensions §§1.12 and 4.15; §14.5 gives its coefficient form on
+  newforms. The large-image theorems AutomorphicGaloisRepresentations §§7.4–7.5 assume instead that
+  `π` is not CM in the sense of its §3.15, automorphic induction from a totally imaginary quadratic
+  extension. For `F` totally real and `π` regular algebraic the two agree (both are invariant under
+  twisting by a power of `|det|`, so take `π` unitary): `AI_{L/F}(α) ⊗ η_{L/F} ≅ AI_{L/F}(α)` for the
+  quadratic character `η_{L/F}` of `L/F` (GL2AutomorphicRepresentationsAndTransfer §R17.4.16, twist);
+  conversely a self-twist by `χ ≠ 1` makes `π = AI_{E/F}(θ)` for a quadratic `E/F` (§R17.4.13), and `E`
+  is totally imaginary because `π_v` is discrete series at every real place `v`, whereas an induction
+  from an extension split at `v` has the reducible parameter `θ_w ⊕ θ_{w′}` there (§R17.4.16, local
+  parameters).
 - `𝒢_n = (GL_n × GL_1) ⋊ {1, j}` is the group of Clozel–Harris–Taylor with multiplier `ν`;
   polarized representations take values in `𝒢_n` (GlobalGaloisDeformations §8.1).
   Pseudocharacters are Chenevier determinants (IntegralHeckeAndGaloisDeterminants §0.2); when `n!`
@@ -1583,7 +1600,8 @@ AG2.6).
 *Needs:* §§11.2, 11.10; ModularityAndLanglandsExtensions §§2.1, 2.16, 2.25;
 GL2AutomorphicRepresentationsAndTransfer §R16.3.7; PotentialAutomorphyInfrastructurePartII Layer 0
 ("Soluble base change and descent of polarized automorphy"); AutomorphicGaloisRepresentations
-§7.4; AutomorphicGaloisRepresentationsPartII AG2.6 ("Complex and local
+§7.4, with GL2AutomorphicRepresentationsAndTransfer §§R17.4.13, R17.4.16 for its CM predicate
+(Conventions); AutomorphicGaloisRepresentationsPartII AG2.6 ("Complex and local
 coefficient conjugation"); ArithmeticGaloisRepresentations §§4.4, 7.6, 7.8;
 FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.5.11; Chebotarev Layer 10.
 
@@ -1733,7 +1751,8 @@ conditions, hence `S5-local`, and §13.6 gives the witness.
   dihedral level raising at `t`.
 
 *Needs:* §13.6; ModularityAndLanglandsExtensions §2.1 (potential diagonalizability of ordinary and
-Fontaine–Laffaille representations), §4.22; AutomorphicGaloisRepresentations §7.4;
+Fontaine–Laffaille representations), §4.22; AutomorphicGaloisRepresentations §7.4, with
+GL2AutomorphicRepresentationsAndTransfer §§R17.4.13, R17.4.16 for its CM predicate (Conventions);
 PotentialModularityAndCompatibleSystems §9.2; SerreWeightAndLevelOptimisation §6.11;
 PotentialAutomorphyInfrastructurePartII Layer 0 ("Soluble base change and descent of polarized
 automorphy").
@@ -1904,7 +1923,7 @@ AL.2.4.1) to `Π`, which is cuspidal on `GL_{n+1}` with `n + 1 ≥ 2`.
 ### Dependencies
 
 Layers 6, 11, 12; ArithmeticGaloisRepresentations §§4.4, 7.6, 7.8, 7.9; ArithmeticGaloisDuality
-§R02.3.5; GL2AutomorphicRepresentationsAndTransfer §§R16.3.7, R16.3.8; FiniteFlatGroupsAndIntegralPadicHodgeTheory
+§R02.3.5; GL2AutomorphicRepresentationsAndTransfer §§R16.3.7, R16.3.8, R17.4.13, R17.4.16; FiniteFlatGroupsAndIntegralPadicHodgeTheory
 §R07.5.11; AutomorphicGaloisRepresentations §§3.10–3.14, 4.3–4.7, 7.4; AutomorphicGaloisRepresentationsPartII AG2.6;
 PotentialModularityAndCompatibleSystems §§9.2, 10.10; SerreWeightAndLevelOptimisation §6.11;
 PotentialAutomorphyInfrastructurePartII Layers 0, 1, 5–8 (gap:auxiliary-place-reducible-lifting); LocalGaloisDeformationRings §2.15; ModularityAndLanglandsExtensions §§1.12, 1.15, 2.1, 2.16, 2.25,
@@ -1958,7 +1977,8 @@ irreducible and `Sym^{n−1} π` is not an isobaric sum of smaller blocks.
   ModularityAndLanglandsExtensions §4.13.
 - A semistable elliptic curve over `ℚ` has no supercuspidal component, so (2) applies to it.
 
-*Needs:* §13.10; AutomorphicGaloisRepresentations §7.5; ModularityAndLanglandsExtensions §§4.13,
+*Needs:* §13.10; AutomorphicGaloisRepresentations §7.5, with GL2AutomorphicRepresentationsAndTransfer
+§§R17.4.13, R17.4.16 for its CM predicate (Conventions); ModularityAndLanglandsExtensions §§4.13,
 4.15.
 
 ### 14.3 Symmetric power functoriality for every non-CM newform (Newton–Thorne II Theorem A)
@@ -2007,7 +2027,11 @@ does not depend on the ordering of the Satake parameters.
 - `symPowerEulerProduct_levelOne_entire`: for level one and `n ≥ 1` the product over all primes
   converges for `Re s > n(k − 1)/2 + 1` and extends to an entire function.
 
-*Proof sketch.* By §14.2(1) applied with `n + 1`, `Π = Sym^n π_f` is a cuspidal automorphic
+*Proof sketch.* Let `π_f` be the unitary cuspidal automorphic representation of `GL_2(𝔸_ℚ)` attached
+to `f` (GL2AutomorphicRepresentationsAndTransfer §R16.6.1), with Satake parameters
+`α_p p^{−(k−1)/2}`, `β_p p^{−(k−1)/2}` at `p`. Level one forces `k` to be even, so `π_f` differs
+from the regular algebraic `π_f ⊗ |det|^{−(k−2)/2}` (§R16.4.5) by an integral power of `|det|` and is
+itself regular algebraic. By §14.2(1) applied with `n + 1`, `Π = Sym^n π_f` is a cuspidal automorphic
 representation of `GL_{n+1}(𝔸_ℚ)`, unramified at every prime, with Satake parameters
 `α_p^j β_p^{n−j} p^{−n(k−1)/2}` at `p`. Its finite standard `L`-function is entire, because the
 completed function is entire for cuspidal `Π` of `GL_m`, `m ≥ 2`, and the archimedean factor has no
@@ -2028,7 +2052,8 @@ at `s` is `L(s − n(k − 1)/2, Π)`.
   `(1 − α²x)(1 − αβx)(1 − β²x)` with `α + β = −24`, `αβ = 2^{11}`, that is
   `1 − (α² + αβ + β²)x + αβ(α² + αβ + β²)x² − (αβ)³x³` with `α² + αβ + β² = 576 − 2048 = −1472`.
 
-*Needs:* §14.2; AutomorphicLFunctionsAndLocalFactors AL.2.4.1, AL.3.3.8, AL.3.6.1; Tau Ceti `HeckeRing.GL2.Newform`,
+*Needs:* §14.2; GL2AutomorphicRepresentationsAndTransfer §§R16.4.5, R16.6.1;
+AutomorphicLFunctionsAndLocalFactors AL.2.4.1, AL.3.3.8, AL.3.6.1; Tau Ceti `HeckeRing.GL2.Newform`,
 `HeckeRing.GL2.Newform.satakeParameters`, `HeckeRing.GL2.Newform.exists_satakeParameters_eq_pair`;
 Mathlib `HasProd`, `Differentiable`.
 
@@ -2040,9 +2065,11 @@ period `1`), and `{α_p, β_p}` its Satake parameters at the primes `p ∤ N`, t
 `X² − a_p X + χ_f(p) p^{k−1}`. Define `HasQuadraticSelfTwist f` to mean that for some modulus `M > 0`
 there is a Dirichlet character `ψ` modulo `M` (Mathlib `DirichletCharacter ℂ M`) with `ψ ≠ 1`,
 `ψ² = 1` and `a_p ψ(p) = a_p` at every prime `p ∤ NM`. The non-CM condition itself is owned by
-GL2AutomorphicRepresentationsAndTransfer §R16.4.6 on cuspidal classes of `GL_2`; this predicate is
-its coefficient form on newforms, the carrier that Tau Ceti provides: for `k ≥ 2`, `π_f` is CM in that
-sense exactly when `HasQuadraticSelfTwist f` holds (nt21 p. 2, footnote 1). Prove
+GL2AutomorphicRepresentationsAndTransfer §R16.4.6 on cuspidal classes of `GL_2` (the self-twist
+condition of nt21 p. 2, footnote 1); this predicate is its coefficient form on newforms, the carrier
+that Tau Ceti provides: the unitary cuspidal automorphic representation `π_f` of `GL_2(𝔸_ℚ)` attached
+to `f` (GL2AutomorphicRepresentationsAndTransfer §R16.6.1) is CM in that sense exactly when
+`HasQuadraticSelfTwist f` holds (API below). Prove
 (`symPowerEulerProduct_entire_of_not_hasQuadraticSelfTwist`) that if `f` has no quadratic self-twist
 and `n ≥ 1`, the Euler product over the primes `p ∤ N` of
 `symPowerEulerFactor n α_p β_p (p^{−s})^{−1}` converges for `Re s > n(k − 1)/2 + 1` to a function
@@ -2052,9 +2079,13 @@ Satake parameters at `p ∤ N` enter; the factors at `p | N` are omitted.
 *Proof sketch.* If `π_f ≅ π_f ⊗ χ` for a quadratic Hecke character `χ ≠ 1` of `ℚ`, let `ψ` be the
 primitive Dirichlet character of `χ`, of conductor `M > 1`; comparing the Hecke eigenvalues of
 `π_f ⊗ χ` and `π_f` at the primes `p ∤ NM` (GL2AutomorphicRepresentationsAndTransfer §R16.4.4,
-newform adapter) gives `a_p ψ(p) = a_p`, so `HasQuadraticSelfTwist f`. Hence `π_f` is non-CM, and it is
-regular algebraic since `k ≥ 2`. By §14.3, `Π = Sym^n π_f` is a cuspidal automorphic representation
-of `GL_{n+1}(𝔸_ℚ)`, unramified at `p ∤ N` with Satake parameters `α_p^j β_p^{n−j} p^{−n(k−1)/2}`. Its
+newform adapter) gives `a_p ψ(p) = a_p`, so `HasQuadraticSelfTwist f`. Hence `π_f` is non-CM, and so
+is `π_alg = π_f ⊗ |det|^{−(k−2)/2}` (§R16.4.6, twist invariance), which is regular algebraic since
+`k ≥ 2` (§R16.4.5); for odd `k` the unitary `π_f` itself is not. By §14.3, `Sym^n π_alg` exists, hence
+so does `Π = Sym^n π_f = Sym^n π_alg ⊗ |det|^{n(k−2)/2}`, since `Sym^n(r ⊗ μ) = Sym^n r ⊗ μ^n` for a
+character `μ` at every place. `Π` is a unitary cuspidal automorphic representation of
+`GL_{n+1}(𝔸_ℚ)`, unramified at `p ∤ N` with Satake parameters `α_p^j β_p^{n−j} p^{−n(k−1)/2}`, since
+those of `π_f` are `α_p p^{−(k−1)/2}` and `β_p p^{−(k−1)/2}` (§R16.6.1). Its
 finite `L`-function is entire (AutomorphicLFunctionsAndLocalFactors AL.2.4.1) and its Euler product
 converges absolutely for `Re s > 1` with non-zero factors (AL.3.6.1, AL.3.3.8). The product of the
 statement at `s` is
@@ -2074,10 +2105,24 @@ polynomial in `p^{−s}`, so the product extends to an entire function.
   modulus `MM′` (`DirichletCharacter.changeLevel_eq_one_iff`), `ψ′² = 1` because `changeLevel` is a
   monoid homomorphism, `ψ′(p) = ψ(p)` at every prime `p` prime to `MM′`
   (`DirichletCharacter.changeLevel_eq_cast_of_dvd'`), and fewer primes are tested.
-- For `k ≥ 2`, `π_f` is CM in the sense of GL2AutomorphicRepresentationsAndTransfer §R16.4.6 exactly
-  when `HasQuadraticSelfTwist f` holds; the direction "CM implies a quadratic self-twist" is the
-  eigenvalue comparison above, and the converse is strong multiplicity one (§R16.4.4, via
-  AutomorphicLFunctionsAndLocalFactors AL.3.7.1).
+- `HasQuadraticSelfTwist f` holds exactly when, for some `M > 0`, a Dirichlet character `ψ` modulo
+  `M` with `ψ ≠ 1` and `ψ² = 1` has primitive twist equal to `f`: Tau Ceti's
+  `HeckeRing.GL2.Newform.primitiveTwist f ψ`, a newform of level
+  `HeckeRing.GL2.Newform.primitiveTwistLevel f ψ`, is the same function on the upper half-plane as
+  `f`. Forward, `f` satisfies the hypotheses of the uniqueness theorem
+  `HeckeRing.GL2.Newform.level_eq_primitiveTwistLevel_and_coe_eq_primitiveTwist` at level `NM`, its
+  nebentypus being `χ_f ψ²` there because `ψ² = 1`; backward,
+  `HeckeRing.GL2.Newform.qExpansion_coeff_primitiveTwist` gives `a_p ψ(p) = a_p` at every prime
+  `p ∤ NM`. So the predicate is the self-twist `f ⊗ ψ = f` of Tau Ceti's twisting of newforms.
+- For every newform `f` of weight `k ≥ 1`, with `π_f` its cuspidal class
+  (GL2AutomorphicRepresentationsAndTransfer §R16.6.1 for `k ≥ 2`, §R16.6.6 for `k = 1`), `π_f` is CM in the sense of §R16.4.6 exactly when
+  `HasQuadraticSelfTwist f` holds. "CM implies a quadratic self-twist" is the eigenvalue comparison
+  of the proof sketch. Conversely, if `HasQuadraticSelfTwist f` holds with `(M, ψ)`, let `χ ≠ 1` be
+  the quadratic Hecke character of the primitive character of `ψ`; at every prime `p ∤ NM` the
+  eigensystems of `π_f ⊗ χ` and `π_f` (§R16.4.4) agree in both coordinates, the trace because
+  `a_p ψ(p) = a_p` and the determinant because `ψ(p)² = 1`, so strong multiplicity one (§R16.4.4, via
+  AutomorphicLFunctionsAndLocalFactors AL.3.7.1) gives `π_f ⊗ χ ≅ π_f`. The determinant coordinate
+  is needed: §R16.4.4 notes that traces alone do not determine the eigensystem.
 - `symPowerEulerProduct_entire_of_not_hasQuadraticSelfTwist`: the analytic conclusion above, for
   every level `N`, weight `k ≥ 2` and `n ≥ 1`.
 
@@ -2116,8 +2161,11 @@ polynomial in `p^{−s}`, so the product extends to an entire function.
 
 *Needs:* §14.3; §14.4 (`symPowerEulerFactor`); AutomorphicLFunctionsAndLocalFactors AL.2.4.1, AL.3.3.8,
 AL.3.6.1, AL.3.7.1;
-GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.6; Tau Ceti `HeckeRing.GL2.Newform`,
-`HeckeRing.GL2.Newform.satakeParameters`; Mathlib `DirichletCharacter`,
+GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.5, R16.4.6, R16.6.1, R16.6.6; Tau Ceti
+`HeckeRing.GL2.Newform`, `HeckeRing.GL2.Newform.satakeParameters`,
+`HeckeRing.GL2.Newform.primitiveTwist`,
+`HeckeRing.GL2.Newform.level_eq_primitiveTwistLevel_and_coe_eq_primitiveTwist`,
+`HeckeRing.GL2.Newform.qExpansion_coeff_primitiveTwist`; Mathlib `DirichletCharacter`,
 `DirichletCharacter.changeLevel`, `UpperHalfPlane.qExpansion`, `HasProd`, `Differentiable`.
 
 ### 14.6 Entireness of the completed `Λ(Sym^n E, s)` for non-CM elliptic curves (Newton–Thorne II Corollary B)
@@ -2157,8 +2205,10 @@ cuspidal `π_E`).
 
 Layer 13; AutomorphicGaloisRepresentations §7.5;
 AutomorphicLFunctionsAndLocalFactors AL.2.4.1, AL.3.3.8, AL.3.6.1, AL.3.7.1;
-GL2AutomorphicRepresentationsAndTransfer §§R16.4.4, R16.4.6; EllipticCurveModularity Layer R29.6;
-ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15, 4.17; Tau Ceti `HeckeRing.GL2.Newform`; Mathlib
+GL2AutomorphicRepresentationsAndTransfer §§R16.4.4–R16.4.6, R16.6.1, R16.6.6, R17.4.13, R17.4.16;
+EllipticCurveModularity Layer R29.6;
+ModularityAndLanglandsExtensions §§1.10, 1.15, 4.13, 4.15, 4.17; Tau Ceti `HeckeRing.GL2.Newform`,
+`HeckeRing.GL2.Newform.primitiveTwist`; Mathlib
 `DirichletCharacter`, `UpperHalfPlane.qExpansion`.
 
 ## Downstream consumers
@@ -2221,7 +2271,13 @@ It imports, by section and never re-plans:
   2026 Lemma 5.3, which is therefore not restated here); quaternionic patching for `GL_2` from GL2ModularityLifting; tamely dihedral local
   representations and the non-CM self-twist condition on cuspidal classes of `GL_2` from
   GL2AutomorphicRepresentationsAndTransfer (§14.5 keeps only the coefficient form of that condition on
-  Tau Ceti newforms, the carrier its Lean statement needs); the remaining suppliers are listed with
+  Tau Ceti newforms, the carrier its Lean statement needs); from the same roadmap the cuspidal class
+  `π_f` of a newform (§§R16.6.1, R16.6.6) and the quadratic automorphic inductions (§§R17.4.13,
+  R17.4.16) through which the self-twist condition agrees with the induced-form CM predicate of
+  AutomorphicGaloisRepresentations §3.15, the hypothesis of that roadmap's large-image theorems
+  §§7.4–7.5 (Conventions). Twists and self-twists of newforms are planned in ModularForms §9.2 and
+  realised in Tau Ceti as `HeckeRing.GL2.Newform.primitiveTwist`, which §14.5 uses; it builds no
+  second theory of twists. The remaining suppliers are listed with
   their sections below.
 
 The level-one cuspidal cohomology of `GL_n(ℤ)` and the local theory of `GSp_4`, which use symmetric
@@ -2276,6 +2332,13 @@ here is a specialisation of §13.10.
 - `CuspForm.hasEntireExtension_qExpansion_coeff`
   (`TauCeti/NumberTheory/ModularForms/LFunction/Basic.lean`): the `L`-series of a cusp form of positive
   weight has an entire extension; it is the case `n = 1` of §14.4.
+- `HeckeRing.GL2.Newform.primitiveTwist`, `HeckeRing.GL2.Newform.primitiveTwistLevel`,
+  `HeckeRing.GL2.Newform.qExpansion_coeff_primitiveTwist`,
+  `HeckeRing.GL2.Newform.level_eq_primitiveTwistLevel_and_coe_eq_primitiveTwist`
+  (`TauCeti/NumberTheory/ModularForms/Newforms/Twist.lean`): for a Dirichlet character `ψ` modulo
+  `M > 0`, the newform `f ⊗ ψ` with `a_p(f ⊗ ψ) = ψ(p) a_p(f)` at the primes `p ∤ NM` and nebentypus
+  inducing `χψ²`, unique with these properties as a function on the upper half-plane, by strong
+  multiplicity one across levels. §14.5 reads `HasQuadraticSelfTwist` as `f ⊗ ψ = f`.
 
 ### From TauCetiRoadmap.ModularityAndLanglandsExtensions
 
@@ -2487,8 +2550,14 @@ image). AutomorphicGaloisRepresentationsPartII AG2.6 ("Complex and local coeffic
 
 §R16.3.7 (tamely dihedral representations of prime order), §R16.3.8 (their supercuspidality),
 §R16.4.4 (the comparison of Hecke data of newforms and automorphic representations, with strong
-multiplicity one), §R16.4.6 (the non-CM self-twist condition on cuspidal classes of `GL_2`, whose
-coefficient form on newforms is the predicate of §14.5).
+multiplicity one), §R16.4.5 (the regular algebraic twist `π_f ⊗ |det|^{−(k−2)/2}` of the unitary
+`π_f`), §R16.4.6 (the non-CM self-twist condition on cuspidal classes of `GL_2`, whose
+coefficient form on newforms is the predicate of §14.5), §R16.6.1 (the unitary cuspidal class
+`π_f` of a newform of weight `k ≥ 2`, with its Satake parameters at the primes not dividing the
+level), §R16.6.6 (the same for weight one, used only in the comparison of §14.5), §R17.4.13 (a
+cuspidal `π` with a non-trivial self-twist is a quadratic automorphic induction) and §R17.4.16
+(quadratic automorphic induction, its local parameters and its twists), the last two for the
+comparison of CM predicates in the Conventions.
 
 ### From TauCetiRoadmap.EllipticCurveModularity
 
@@ -2541,7 +2610,8 @@ reciprocity).
 - [nt21b] James Newton and Jack A. Thorne, *Symmetric power functoriality for holomorphic modular
   forms, II*, Publ. Math. IHÉS 134 (2021), 117–152; arXiv:2009.07180v2, cited by PDF page.
 - [nt26] James Newton and Jack A. Thorne, *Symmetric power functoriality for Hilbert modular forms*,
-  Ann. of Math. 203 (2026); arXiv:2212.03595v2, cited by PDF page.
+  Ann. of Math. 203(1) (2026), 283–347, doi:10.4007/annals.2026.203.1.4; arXiv:2212.03595v2, cited by
+  PDF page.
 - [th24] Jack A. Thorne, *A p-adic approach to the existence of level-raising congruences*, Proc. Lond.
   Math. Soc. 128 (2024), e12584; arXiv:2212.03591v2, cited by PDF page.
 - [bbm82] Pierre Berthelot, Lawrence Breen and William Messing, *Théorie de Dieudonné cristalline II*,

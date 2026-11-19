@@ -78,11 +78,13 @@ example (n : ℕ) (α β x : ℂ) : symPowerEulerFactor n α β x = symPowerEule
 
 /-- A newform `f` of level `N` **has a quadratic self-twist** when, for some modulus `M > 0`, a
 non-trivial Dirichlet character `ψ` modulo `M` with `ψ² = 1` satisfies `a_p(f) ψ(p) = a_p(f)` at
-every prime `p ∤ N M`. For weight `k ≥ 2` this is the condition that `f` has complex
-multiplication in the sense of Newton–Thorne (nt21 p. 2, footnote 1): the automorphic
-representation `π_f` satisfies `π_f ≅ π_f ⊗ χ` for a quadratic Hecke character `χ` of `ℚ`. One
-direction compares the Hecke eigenvalues of `π_f ⊗ χ` at the primes where both are unramified;
-the other is strong multiplicity one for `GL_2`. -/
+every prime `p ∤ N M`. For every weight `k ≥ 1` this is the condition that `f` has complex
+multiplication in the sense of Newton–Thorne (nt21 p. 2, footnote 1): the cuspidal automorphic
+representation `π_f` attached to `f` satisfies `π_f ≅ π_f ⊗ χ` for a quadratic Hecke character `χ`
+of `ℚ` (README §14.5). One direction compares the traces of the Hecke eigenvalues of `π_f ⊗ χ` and
+`π_f` at the primes where both are unramified; the other compares both the trace and the
+determinant there and applies strong multiplicity one for `GL_2`. Equivalently, `f` is its own
+primitive twist `HeckeRing.GL2.Newform.primitiveTwist f ψ` by such a `ψ`. -/
 def HasQuadraticSelfTwist {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) : Prop :=
   ∃ M : ℕ, 0 < M ∧ ∃ ψ : DirichletCharacter ℂ M, ψ ≠ 1 ∧ ψ ^ 2 = 1 ∧
     ∀ p : ℕ, p.Prime → p.Coprime (N * M) →
@@ -112,8 +114,9 @@ without a quadratic self-twist, with Satake parameters `{α_p, β_p}` at every p
 `n ≥ 1`. Then the Euler product over the primes `p ∤ N` of
 `symPowerEulerFactor n α_p β_p (p^{−s})⁻¹` converges for `Re s > n(k − 1)/2 + 1` to a function
 which extends to an entire function on `ℂ`. The route: `Sym^n π_f` is a cuspidal automorphic
-representation of `GL_{n+1}(𝔸_ℚ)` (§14.3), unramified at every `p ∤ N` with Satake parameters
-`α_p^j β_p^{n−j} p^{−n(k−1)/2}`; its finite `L`-function is entire by Godement–Jacquet, and the
+representation of `GL_{n+1}(𝔸_ℚ)` (§14.3, applied to the regular algebraic twist
+`π_f ⊗ |det|^{−(k−2)/2}` of the unitary `π_f`, then twisted back), unramified at every `p ∤ N` with
+Satake parameters `α_p^j β_p^{n−j} p^{−n(k−1)/2}`; its finite `L`-function is entire by Godement–Jacquet, and the
 omitted factors at the primes `p ∣ N` are reciprocals of polynomials in `p^{−s}`, so removing them
 keeps the function entire. The weight bound excludes weight-one forms, whose symmetric powers
 need not be cuspidal, and `1 ≤ n` excludes `ζ(s)`. -/
