@@ -1,478 +1,1180 @@
-# Euclidean isoperimetry, sharp inequalities, and rigidity
+# Roadmap: Euclidean isoperimetry, sharp inequalities and rigidity
 
-Build Euclidean isoperimetric theory on Mathlib and Tau Ceti, including the sharp inequality
-for all finite-volume finite-perimeter sets in every dimension `n ≥ 2`, equality exactly
-for balls up to null sets, and the classical theorem for every rectifiable planar Jordan
-curve, with equality exactly for circles. Develop the supporting convex and functional
-inequalities as reusable mathematics: Prékopa–Leindler, Brunn–Minkowski, symmetrization,
-sharp BV Sobolev, and the periodic curve inequality with its equality analysis.
+**Summary.** For a Lebesgue-measurable set `E` in `n`-dimensional Euclidean space let `|E|` be
+its volume, `P(E)` its perimeter (the total variation of its indicator function, which is the
+area of its boundary when the boundary is smooth), and `ω_n` the volume of the unit ball. The
+isoperimetric inequality `P(E)ⁿ ≥ nⁿ ω_n |E|ⁿ⁻¹`, for `|E| < ∞`, says that among sets of a given
+volume balls have the least perimeter. This roadmap builds the theory around it in every
+dimension `n ≥ 2`: its equality cases, its classical form for plane curves, and the sharp
+Sobolev inequality equivalent to it, with the symmetrization and convex geometry they need. Sets
+matter up to null sets, quantities lie in `[0, ∞]`, and no boundedness, connectedness or boundary
+regularity is assumed unless a statement says so.
 
-Develop the theory independently on canonical Mathlib and Tau Ceti APIs. Every milestone
-is required. Quantitative stability, anisotropic perimeter, and
-isoperimetric inequalities on curved ambient manifolds are outside this roadmap.
-[Suggested.lean](Suggested.lean) illustrates interfaces; this README is definitive.
+The first main theorem is rigidity. If `n ≥ 2` and `E` is Lebesgue measurable with
+`0 < |E| < ∞`, then `P(E)ⁿ = nⁿ ω_n |E|ⁿ⁻¹` if and only if `E` agrees with a ball of positive
+radius up to a null set. The null set is essential: a ball without its centre has the volume and
+the perimeter of the ball. As a corollary, every set `E` of finite volume, measurable or not,
+satisfies `nⁿ ω_n |E|ⁿ⁻¹ ≤ Hⁿ⁻¹(∂E)ⁿ`, where `∂E` is its frontier and `Hⁿ⁻¹` the
+`(n − 1)`-dimensional Hausdorff measure.
 
-## Constants, statements, and scope
+The second is the classical planar theorem. If `C` is a Jordan curve in the plane of finite
+length `L = H¹(C)` and `A` is the area of the bounded component of its complement, then
+`4πA ≤ L²`, with equality if and only if `C` is a circle. The same holds for a closed curve given
+by a continuous parametrization of an interval, injective except at the endpoints and of bounded
+variation, with `L` its total variation; the parametrization need not be absolutely continuous,
+Lipschitz or piecewise smooth.
 
-Work in `EuclideanSpace ℝ (Fin n)` and transport to arbitrary finite-dimensional real
-inner-product spaces by linear isometries. Let `ω_n = volume (ball 0 1)`. Use normalized
-Euclidean Hausdorff measure `μHE[k]`, written `Hᵏ`, and the perimeter measure defined by
-[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G3–G5. In dimension two,
-`ω_2 = π` and the oriented real plane is `ℂ`.
-Set measurability in the general statements is Lebesgue measurability
-(`NullMeasurableSet E volume`), with Borel-representative versions and a.e. transport;
-`MeasurableSet` is used where the result explicitly concerns Borel sets.
+The third is the sharp Sobolev inequality at the endpoint `p = 1`. If `n ≥ 2` and `u` is
+integrable on `ℝⁿ` with total variation `|Du|(ℝⁿ)`, then
+`‖u‖_{n/(n−1)} ≤ (n ω_n^{1/n})⁻¹ |Du|(ℝⁿ)`; if moreover `|Du|(ℝⁿ) < ∞` and `u` is not a.e. zero,
+equality holds exactly when `u` is a nonzero multiple of the indicator of a ball. On the way the
+roadmap proves the Pólya–Szegő principle at `p = 1`: the Schwarz rearrangement of a nonnegative
+function in `W¹,¹(ℝⁿ)` lies in `W¹,¹(ℝⁿ)`, and its gradient has no larger `L¹` norm.
 
-For a measurable set `E` with finite volume and finite perimeter, establish
+The Tau Ceti library supplies the inequality itself, the Prékopa–Leindler and Brunn–Minkowski
+inequalities, Steiner symmetrization and Schwarz rearrangement, isoperimetry for convex bodies,
+Wirtinger's inequality and the area–energy inequality for closed curves.
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) supplies sets of finite perimeter,
+the bound `P(E) ≤ Hⁿ⁻¹(∂E)`, and, for a rectifiable Jordan curve, the identity between the
+perimeter of its inside and its length, with the Jordan index theorem.
+[ConformalMapping](../../Completed/ConformalMapping/README.md) supplies the inside of a Jordan
+curve, [DifferentialGeometry](../DifferentialGeometry/README.md) 5.6 winding numbers and Green's
+area identity, and [PDE](../PDE/README.md) Layer 1 weak derivatives and `W¹,ᵖ`; PDE's nonsharp
+embeddings do not depend on this roadmap.
 
-```
-P(E)^n ≥ n^n ω_n |E|^(n−1),                         n ≥ 2.
-```
+## How to read the build
 
-For `0 < |E| < ∞`, equality holds **if and only if** there are `c` and `r > 0` such that
-`χ_E = χ_(ball c r)` a.e. with respect to `volume`. No boundedness, connectedness, convexity,
-or boundary regularity is imposed on `E`. For zero volume, prove perimeter zero and the
-corresponding degenerate inequality separately. Provide extended nonnegative statements,
-and real-valued versions carrying the required finiteness hypotheses. Never turn an
-infinite perimeter into zero by using `ENNReal.toReal` without those hypotheses.
+The layers below follow the build, and each opens by recalling what Tau Ceti proves in its area,
+which is not planned again. Layer 1 adds the real-valued Prékopa–Leindler inequality. Layer 2
+proves that Steiner symmetrization does not increase perimeter, that suitably iterated Steiner
+symmetrizations converge to a ball, and that the perimeter of a convex body is the Hausdorff
+measure of its boundary. Layer 3 identifies the signed area of a simple closed curve with plus or
+minus the area it encloses. Layer 4 proves rigidity, through the slicing theorem and the interval
+structure of the sections of a set that Steiner symmetrization does not shorten, and its forms for
+the topological frontier, regular open sets and Lipschitz domains. Layer 5 proves Pólya–Szegő in
+`BV` and `W¹,¹` and the sharp `BV` Sobolev inequality with its equality cases. Layer 6 proves the
+planar theorem for rectifiable Jordan curves and reconciles it with the finite-perimeter and
+curve-energy routes. Layers 1–3 do not depend on the sharp inequality; Layers 4–6 use it. Each
+*Needs:* line lists what its statement and its route use, item by item, so that a target proved
+another way is not blocked behind an unrelated section.
 
-For a rectifiable Jordan curve `C` let `Ω = TauCeti.filledHull C \ C`, let
-`A = volume Ω`, and let `L = H¹(C)`. Establish
+## Conventions
 
-```
-4π A ≤ L²,       4π A = L² ↔ ∃ c r, 0 < r ∧ C = sphere c r.
-```
+1. **Ambient space.** `E` is a finite-dimensional real inner product space of dimension
+   `n = Module.finrank ℝ E`, with its Borel σ-algebra and Lebesgue measure `volume`.
+   `EuclideanSpace ℝ (Fin n)` is the model; a statement for one such space transfers to the
+   others along linear isometric equivalences, which preserve volume, perimeter and Hausdorff
+   measure. In dimension two the oriented real plane is `ℂ`. Write `|s|` for `volume s`, the
+   outer volume when `s` is not measurable, and `ω_n = volume (Metric.ball 0 1)`, so `ω_2 = π`.
+2. **Hausdorff measure** is Mathlib's normalized Euclidean Hausdorff measure
+   `MeasureTheory.Measure.euclideanHausdorffMeasure`, written `μHE[k]` in Lean and `Hᵏ` here; it
+   agrees with `volume` on a `k`-dimensional Euclidean space. Any comparison with Mathlib's raw
+   Hausdorff measure `μH[k]` is stated explicitly, never made silently.
+3. **Variation and perimeter.** For `u : E → ℝ` locally integrable, `|Du|(E)` is Tau Ceti's
+   `TauCeti.totalVariationOn volume ⊤ u`, the supremum of `∫ u div φ` over test vector fields
+   with `‖φ‖ ≤ 1`, finite or infinite; the perimeter `P(s)` of `s ⊆ E` is Tau Ceti's
+   `TauCeti.perimeter volume ⊤ s`, the variation of the indicator of `s`. These are the carriers
+   of GeometricMeasureTheory G3–G5. The relative perimeter in an open set `Ω` is
+   `TauCeti.perimeter volume Ω s`; a statement uses it only where it says so and proves the
+   hypotheses on `Ω` it needs. The headline statements are about whole-space perimeter.
+4. **Measurability.** *Lebesgue measurable* means `NullMeasurableSet s volume`; `MeasurableSet`
+   is used for Borel sets, and results pass between the two along a.e. equality. Every statement
+   about a set is invariant under changing it by a null set unless it says otherwise. The
+   Minkowski sum of two measurable sets need not be measurable: statements about it use its
+   outer volume.
+5. **Values.** Volumes, perimeters, variations and lower integrals take values in `[0, ∞]`, and
+   the extended statement is the primary one. A real-valued form carries the finiteness
+   hypotheses that make it meaningful; `ENNReal.toReal` is never applied to a quantity not known
+   to be finite, so an infinite perimeter is never read as zero, and a Bochner integral is used
+   only once integrability is established.
+6. **Two kinds of equality.** Equality of sets up to a null set (`s =ᵐ[volume] t`) and literal
+   equality are different assertions. Ball rigidity (§4.3) is equality up to a null set; the
+   planar equality case (Layer 6) is literal equality of a curve with a circle, and §6.4 proves
+   the bridge between them.
+7. **Curves.** A curve is `γ : ℝ → ℂ` on an interval `[a, b]` with `a < b`; its trace is
+   `γ '' Icc a b` and its length is `eVariationOn γ (Icc a b)`. *Rectifiable* is
+   `BoundedVariationOn γ (Icc a b)`; *absolutely continuous* is Mathlib's
+   `AbsolutelyContinuousOnInterval γ a b`. A *simple closed curve* is continuous on `[a, b]`,
+   has `γ a = γ b`, and is injective on `[a, b)`. A *Jordan curve* is a set `C ⊆ ℂ` with Tau
+   Ceti's `TauCeti.IsJordanCurve C` (homeomorphic to the circle), and its *inside* is
+   `TauCeti.filledHull C \ C`, the bounded component of its complement; no other predicate for a
+   Jordan curve and no other model of its inside is used. The *signed area* of an absolutely
+   continuous closed curve is Tau Ceti's `TauCeti.signedArea γ a b = ½ ∫ₐᵇ (x y′ − y x′)`; the
+   *geometric signed area* of a continuous curve is Tau Ceti's `TauCeti.rectifiableSignedArea`,
+   computed along its arclength parametrization. No statement integrates the derivative of a
+   parameter that is not absolutely continuous, and a length inequality uses the total variation
+   of the curve, never the energy of an arbitrarily chosen parametrization.
+8. **Symmetrization.** For a unit vector `e`, `S_e s` is Tau Ceti's
+   `TauCeti.steinerSymmetrization e he s`: on each line parallel to `e` it replaces the section of
+   `s` by the open interval of the same length centred on the hyperplane `e⊥ = (ℝ ∙ e)ᗮ` (empty
+   for length zero, the whole line for infinite length). Lines are parametrized by Tau Ceti's
+   `TauCeti.orthogonalLineEquiv e he : (ℝ ∙ e)ᗮ × ℝ ≃L[ℝ] E`, `(y, t) ↦ y + t • e`, and the
+   transverse coordinate `y` carries the volume of the subspace `(ℝ ∙ e)ᗮ`. The Schwarz
+   rearrangement of `f : E → [0, ∞]` is Tau Ceti's `TauCeti.schwarzRearrangement volume f`, whose
+   superlevel set `{f* > t}` is the centred open ball of volume `|{f > t}|` (the whole space when
+   that volume is infinite). For real `u ≥ 0` write `u*` for the real function
+   `x ↦ (TauCeti.schwarzRearrangement volume (fun y ↦ ENNReal.ofReal (u y)) x).toReal`.
+9. **Convex sets.** Minkowski addition is pointwise addition and scalar multiplication of sets;
+   it is not an additive group. Mathlib's `ConvexBody` (nonempty compact convex sets) is used
+   where its hypotheses match; positive volume and nonempty interior are separate hypotheses,
+   never folded into a definition. For a convex set they are equivalent (Tau Ceti
+   `Convex.addHaar_pos_iff_interior_nonempty`).
+10. **What a target asks for.** Each target is its full statement. An outer-neighbourhood volume
+    inequality without the perimeter comparison, a smooth-only theorem, an area–perimeter
+    identity taken as a hypothesis, or an equality hypothesis taken as input does not discharge
+    it, and no optimal-transport theorem is an input. Any analytic, geometric or equality lemma
+    a route needs and its *Needs:* line does not supply is a target of the same section, and
+    every object introduced in a proof receives its basic restriction, invariance and comparison
+    API. A *Route* names a route and its inputs; it does not make that route mandatory.
+11. **Names.** `Suggested.lean` states the headline theorems in the namespace
+    `TauCetiRoadmap.Isoperimetry`; a backticked name of this roadmap's own is declared there, and
+    other targets are described in prose.
 
-Include the raw-curve formulation for every continuous `γ : ℝ → ℂ` on `[a,b]`, `a < b`,
-with `γ(a)=γ(b)`, injective on `[a,b)`, and `BoundedVariationOn γ [a,b]`. In that formulation
-`C = γ '' [a,b]` and `L = eVariationOn γ [a,b]`; show agreement with the geometric formulation.
-Do not require the supplied parametrization to be AC, Lipschitz, differentiable, or
-piecewise smooth. The curve equality is literal equality of traces with a circle; the
-set equality above is equality a.e. These are different assertions with a required bridge.
+## Layer 1: Prékopa–Leindler and Brunn–Minkowski
 
-## Dependencies and ownership
+The inequalities of this layer are Tau Ceti's (the supplier contracts below name the
+declarations). Lebesgue measure on every finite-dimensional real inner product space has the
+Prékopa–Leindler property at every weight `0 ≤ θ ≤ 1`: for measurable `f, g, h : E → [0, ∞]`
+with `h((1 − θ)x + θy) ≥ f(x)^(1−θ) g(y)^θ` for all `x, y`, the lower integrals satisfy
+`∫ h ≥ (∫ f)^(1−θ) (∫ g)^θ`; the pointwise hypothesis is imposed on the given measurable
+representatives, and zero and infinite integrals follow the conventions of `[0, ∞]`. The
+property tensorizes over products and is transported by measure-preserving linear maps. The
+Brunn–Minkowski inequality `|A + B|^(1/n) ≥ |A|^(1/n) + |B|^(1/n)` holds for nonempty
+Lebesgue-measurable `A, B` in positive dimension, with outer volume on the sum, together with its
+weighted form for nonnegative coefficients, its multiplicative form and its real-valued forms;
+the one-dimensional case holds for compact, Borel and Lebesgue-measurable sets; and for compact
+convex `A, B` of positive volume and `c, d > 0`, equality in
+`|c • A + d • B|^(1/n) ≥ c |A|^(1/n) + d |B|^(1/n)` holds exactly when `B = v + r • A` for some
+vector `v` and some `r > 0`, which with `c = 1 − θ`, `d = θ` is the equality case of the weighted
+inequality and with `c = d = 1` that of the unweighted one. Equality in the Prékopa–Leindler
+inequality for arbitrary functions is not a target. This layer adds the real-valued form.
 
-- [GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2, supplies arclength,
-  normalized Hausdorff length and surface measure, area/coarea, and sphere normalization.
-  G3–G5 supplies BV, finite perimeter, strict approximation, reduced boundary, and
-  `P(E) ≤ Hⁿ⁻¹(frontier E)`. G6 supplies Gauss–Green and
-  `P(filledHull C \ C) = H¹(C)` for rectifiable Jordan curves.
-- [DifferentialGeometry](../DifferentialGeometry/README.md), 5.6.1–5.6.3, supplies AC
-  winding-number calculus and Green's genuine planar area identity. It retains ownership
-  of curve integration and Green's theorem. I3 below owns the sharp periodic inequalities
-  and their equality cases. The area and length bridge uses the existing curve APIs.
-  The [Green layer 5.6 specification](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
-  supplies these flat planar targets.
-- [ConformalMapping](../../Completed/ConformalMapping/README.md), L5, owns the Jordan-separation and
-  filled-hull targets: exactly two complementary components, one bounded and one unbounded,
-  with inside `filledHull C \ C` and frontier `C`. Use the implemented
-  `TauCeti.IsJordanCurve` and `TauCeti.filledHull`;
-  no private predicate for a Jordan curve or surrogate for its inside.
-- [PDE](../PDE/README.md), Lane A, owns weak Sobolev spaces, density, domain Poincaré and
-  trace theory. This roadmap owns sharp Euclidean BV Sobolev and the periodic sharp
-  Wirtinger equality theorem, with comparisons to that canonical weak derivative.
-  PDE's nonsharp estimates do not depend on this roadmap.
+### 1.1 Prékopa–Leindler for integrable real functions
 
-The geometric foundation has no dependency on the sharp inequality. I1–I2 can be developed
-alongside it. I3's analytic inequalities use the existing AC calculus and the Green/length
-inputs; their identification with actual Jordan area also consumes GMT G6's Jordan index
-theorem. I4 consumes GMT G2–G5, I1, and I2's set symmetrization and convex geometry.
-I5 consumes I1, I2, I4, GMT G2–G5, and PDE's weak-derivative API; I6 consumes I3–I4,
-GMT G6, and Jordan topology.
-No optimal-transport theorem is an assumed input. Any analytic, geometric, or equality
-lemma needed to complete these milestones and absent from their stated inputs is a target
-here, including the proof machinery enumerated in I2 and I4.
+Let `0 ≤ θ ≤ 1` and let `f, g, h : E → ℝ` be measurable, nonnegative and integrable, with
+`h((1 − θ)x + θy) ≥ f(x)^(1−θ) g(y)^θ` for all `x, y ∈ E`. Prove
+`(∫ f)^(1−θ) (∫ g)^θ ≤ ∫ h` for the Bochner integrals and real powers (the Euclidean
+Prékopa–Leindler argument of Tao's exposition). The endpoints `θ ∈ {0, 1}` are monotonicity of
+the integral, with `x⁰ = 1`. *Route.* Apply Tau Ceti's inequality to `ENNReal.ofReal ∘ f`,
+`ENNReal.ofReal ∘ g`, `ENNReal.ofReal ∘ h`, whose pointwise hypothesis follows from that of
+`f, g, h` because `ENNReal.ofReal` is monotone and multiplicative on `[0, ∞)` and commutes with
+real powers there, and identify the lower integrals with the Bochner integrals by integrability.
+*Needs:* Tau Ceti `TauCeti.hasPrekopaLeindler_volume`, `MeasureTheory.Measure.HasPrekopaLeindler`;
+Mathlib `MeasureTheory.ofReal_integral_eq_lintegral_ofReal`, `ENNReal.ofReal_rpow_of_nonneg`.
 
-## Existing floor and design evidence
+**Checks.**
+- On `ℝ` with `θ = ½`, `f = 1_[0,1]` and `g = 1_[2,3]`: imposing the hypothesis only at `x = y`
+  would allow `h = 0`, since the supports are disjoint, and the conclusion `1 ≤ 0` would fail;
+  over all pairs the hypothesis forces `h ≥ 1` on `½[0,1] + ½[2,3] = [1, 2]`, so `∫ h ≥ 1`.
+- With `f = g = h = exp(−‖x‖²)` the hypothesis holds by convexity of `‖·‖²` and the conclusion
+  is an equality, so no constant can be gained.
+- Integrability of `h` is needed in the real form: `f = g = 1_[0,1]` and `h = 1` on `ℝ` satisfy
+  the hypothesis, and the Bochner integral of the non-integrable `h` is `0` by convention, below
+  the left side `1`. The extended form of Tau Ceti has no such hypothesis.
 
-Consume Mathlib's `Convex`, `ConvexBody`, pointwise set addition and scalar multiplication,
-`volume`, Brunn–Minkowski-compatible set operations, Fourier series and Hilbert bases,
-and the interval AC FTC. Keep a.e. function arguments on the existing measure-theory API.
-For compact convex sets use [`ConvexBody`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Convex/Body.html)
-where its hypotheses match; positive volume and nonempty interior are separate hypotheses,
-not silently added to its definition. Do not model Minkowski addition as an additive group.
+### Examples
 
-Follow the [Brunn–Minkowski/Prékopa–Leindler discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Brunn-Minkowski%20Inequality%20%2B%20Theory)
-and [convex-body API discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Convex%20bodies).
-[Mathlib4#44802](https://github.com/leanprover-community/mathlib4/pull/44802) develops
-one-dimensional Brunn–Minkowski, including `Real.volume_add_volume_le` and the compact-set
-version. Adopt Mathlib's resulting signatures and naming; build missing versions in Tau
-Ceti in that shape without waiting for upstream. Consume imported results whenever they
-express a target. These design references do not discharge the higher-dimensional,
-measurability, or equality targets below.
+- For `A = closedBall 0 r` and `B = closedBall 0 s`, `A + B = closedBall 0 (r + s)` and
+  Brunn–Minkowski is an equality, as the equality theorem predicts for homothetic bodies.
+- Nonemptiness cannot be dropped even when the other volume is zero or positive: for `A = ∅` and
+  `B = ball 0 1`, `A + B = ∅`, and the unweighted inequality would read `0 ≥ ω_n^(1/n)`.
+- For `A = {0}` and `B` a ball, `|A + B| = |B|` and the unweighted inequality is an equality
+  although `A` is not homothetic to `B`: the equality theorem needs positive volumes.
+- On `ℝ`, `A = [0, 1] ∪ [2, 3]` and `B = [0, 1]` give `A + B = [0, 4]`, and `4 > 2 + 1`.
 
-## I1 — Prékopa–Leindler and Brunn–Minkowski
+### Dependencies
 
-Prove Prékopa–Leindler in every finite dimension for nonnegative measurable functions,
-in its weighted extended-integral form: for `0 < θ < 1`,
+Tau Ceti's Prékopa–Leindler property; Mathlib's Bochner and lower integrals. No other layer, and
+no other roadmap.
 
-```
-h((1−θ)x + θy) ≥ f(x)^(1−θ) g(y)^θ
-⇒ ∫ h ≥ (∫ f)^(1−θ) (∫ g)^θ.
-```
+## Layer 2: Symmetrization, rearrangements and convex geometry
 
-State the pointwise hypothesis on measurable representatives. Include integrable real
-versions, zero-integral and infinite-integral cases with explicit conventions, linear
-isometric transport, product/tensorization, approximation, and the one-dimensional
-monotone-transport or equivalent integral argument. The induction, parameter measurability,
-and Tonelli steps are part of the target. Do not assume equality characterization for
-arbitrary Prékopa–Leindler functions.
+Tau Ceti's Steiner symmetrization has the measure-theoretic theory of the symmetral: it depends
+only on the a.e. class of the set, preserves Borel and Lebesgue measurability, volume, inclusion
+and convexity, transforms correctly under translations, dilations and linear isometries,
+contracts the volume of symmetric differences (so the `L¹` distance of indicators), is continuous
+in its direction, does not increase the second moment `∫_s ‖x‖²` (with equality exactly for sets
+a.e. fixed by it), and fixes, in every direction, exactly the sets a.e. equal to centred balls.
+For bounded convex sets it does not increase perimeter. Tau Ceti's Schwarz rearrangement is
+equimeasurable, satisfies the layer-cake formula, preserves every `Lᵖ` norm and the classes `Lᵖ`,
+preserves order, contracts `Lᵖ` distances for `1 ≤ p ≤ ∞`, satisfies the Hardy–Littlewood
+inequality and preserves Lipschitz bounds; Layer 5 adds its comparisons for `BV` and `W¹,¹`.
+Tau Ceti also proves isoperimetry for convex bodies of positive volume with equality exactly for
+closed balls; the identification of the perimeter of a compact convex set with nonempty interior
+as the right derivative at `0` of its outer parallel volume `t ↦ |K + t • closedBall 0 1|`; the
+right derivative `2 Hⁿ⁻¹(K)` of that function for a compact set in an affine hyperplane and `0` in
+codimension at least two; and the isodiametric inequality `|s| ≤ ω_n (diam s / 2)ⁿ` for bounded
+`s`, with equality for Lebesgue-measurable `s` exactly when `s` agrees a.e. with a closed ball of
+radius `diam s / 2`, and literally for nonempty closed `s`. This layer adds the following.
 
-Derive Brunn–Minkowski for nonempty compact sets, then nonempty bounded Borel sets and
-nonempty arbitrary measurable finite-volume sets, with outer-measure formulations when
-their sum is not measurable:
+### 2.1 Steiner symmetrization does not increase perimeter
 
-```
-|A + B|^(1/n) ≥ |A|^(1/n) + |B|^(1/n),              n ≥ 1.
-```
+Prove that for every unit vector `e` and every Lebesgue-measurable `s ⊆ E` of finite volume,
+`P(S_e s) ≤ P(s)` (Maggi, for finite-perimeter isoperimetry and symmetrization). The inequality
+is trivial when `P(s) = ∞`. *Route.* By GeometricMeasureTheory G4, approximate `s` by bounded sets
+`s_j` with smooth boundary, `|s_j ∆ s| → 0` and `P(s_j) → P(s)`. For such a set the perimeter is
+the lower outer Minkowski content `liminf_{ε→0⁺} |thickening ε s_j \ s_j| / ε` (the smooth-domain
+comparison of GeometricMeasureTheory G6), so Tau Ceti's comparison of the perimeter of a Steiner
+symmetral with that content, applied to the closure of `s_j`, which differs from `s_j` by a null
+set, gives `P(S_e s_j) ≤ P(s_j)`. The contraction of symmetric differences
+gives `|S_e s_j ∆ S_e s| → 0`, and lower semicontinuity of perimeter under `L¹` convergence gives
+`P(S_e s) ≤ liminf P(S_e s_j) ≤ P(s)`. The nonsmooth approximation and the limit argument are part
+of the target. Perimeter nonincrease obtained by approximation does not give the slice-by-slice
+comparison that rigidity needs; that is §4.1–§4.2.
+*Needs:* GeometricMeasureTheory G4 (smooth approximation in volume and perimeter) and G6 (perimeter
+of smooth domains); Tau Ceti `TauCeti.perimeter_steinerSymmetrization_le_liminf`,
+`TauCeti.volume_steinerSymmetrization_symmDiff_le`, `TauCeti.nullMeasurableSet_steinerSymmetrization`,
+`TauCeti.perimeter_le_liminf`.
 
-Retain nonemptiness even in zero-volume cases; the unweighted inequality is false when
-one summand is empty and the other has positive volume. Supply the weighted Minkowski
-version for `0 ≤ θ ≤ 1`,
-`|(1−θ) • A + θ • B|^(1/n) ≥ (1−θ)|A|^(1/n) + θ|B|^(1/n)`
-and the elementary translation/dilation laws,
-monotonicity, continuity for decreasing compact sets and the neighborhood approximation
-needed for passing to measurable sets. Address measurability explicitly: the sum of two
-Lebesgue measurable sets is not an automatically measurable input. Include positive-volume
-**compact convex** equality: for `0 < θ < 1`, equality in the weighted inequality holds
-exactly when `B = c + λ • A` for some translation `c` and `λ > 0`. Prove the convex equality argument and the
-bridge between positive volume and nonempty interior. A measure inequality alone does
-not provide this rigidity theorem. Derive the same homothety characterization for equality
-in the unweighted inequality by applying the weighted form at `θ = 1/2` to `2 • A`
-and `2 • B` and using dilation laws.
+**Checks.**
+- Two unit discs in `ℂ` centred at `±3e`: every line parallel to `e` at distance `|y| < 1` meets
+  them in two intervals of total length `4 √(1 − y²)`, so `S_e s` is the open ellipse with
+  semi-axes `1` across and `2` along `e`. Its area is `2π`, that of `s`, and its perimeter is
+  about `9.69`, below `P(s) = 4π ≈ 12.57`.
+- A variant that replaced each section by a centred interval of length its diameter, rather than
+  its measure, would send the same two discs to a set of area `12 + π ≈ 15.14`: it would not even
+  preserve volume.
+- For a ball, `S_e (ball c r) = ball (c − ⟪e, c⟫ • e) r` (Tau Ceti `TauCeti.steinerSymmetrization_vadd`
+  and `TauCeti.steinerSymmetrization_ball_zero`), a translate, so the inequality is an equality in
+  every direction.
 
-## I2 — Symmetrization, rearrangements, and convex geometry
+### 2.2 Iterated Steiner symmetrization converges to the ball
 
-Build Steiner symmetrization along a unit direction for measurable finite-volume sets:
-replace a.e. line section by the centered interval of the same one-dimensional volume.
-Provide representative independence, measurability, preservation of volume, monotonicity,
-translation conventions, dilation, orthogonal transport, and preservation of convexity.
-Prove perimeter nonincrease for finite-perimeter sets using GMT's slicing/coarea theory,
-including the nonsmooth approximation and limit argument. Prove `L¹` contraction for
-indicators under Steiner symmetrization. For every measurable positive finite-volume set,
-construct a sequence of unit directions whose
-successive Steiner symmetrizations converge in `L¹` of their indicators to the centered
-volume-matched ball. Prove convergence first for bounded finite-perimeter sets using
-compactness and limit identification, then extend to arbitrary finite-volume sets by
-approximation and contraction, including the control at infinity. Single-step equality is not
-assumed to imply that arbitrary sets are balls.
+Prove that for every Lebesgue-measurable `s ⊆ E` with `0 < |s| < ∞` there is a sequence of unit
+vectors `e₁, e₂, …` such that the successive symmetrals `s₀ = s`, `s_k = S_{e_k} s_{k−1}` satisfy
+`|s_k ∆ B| → 0`, where `B = ball 0 r` with `ω_n rⁿ = |s|` (Maggi). *Route.* First for bounded `s` of
+finite perimeter: the `s_k` lie in a fixed ball, keep their volume and have `P(s_k) ≤ P(s)` by
+§2.1, so they are precompact in `L¹` (GeometricMeasureTheory G4). Writing `m(t) = ∫_t ‖x‖²`,
+choose `e_k` with `m(s_k) ≤ inf_e m(S_e s_{k−1}) + 1/k`; then `m(s_k)` decreases to a limit, and
+every `L¹` limit point `L` of the `s_k` is fixed a.e. by every `S_e`, since otherwise
+`m(S_e L) < m(L)`, and by continuity of `S_e` in the set and of `m` on sets in a fixed ball some
+later step would decrease `m` by a fixed amount. By the fixed-point theorem `L` is a centred ball,
+of volume `|s|`, so `L = B`. Then for
+arbitrary `s` of finite volume: approximate `s` in volume by bounded sets of finite perimeter, run
+the bounded case on the approximants with a diagonal choice of directions, and pass to `s` with
+the contraction of symmetric differences, controlling the volume outside large balls. Equality in
+a single step is not assumed to imply that a set is a ball.
+*Needs:* §2.1; GeometricMeasureTheory G4 (compactness); Tau Ceti
+`TauCeti.lintegral_norm_sq_steinerSymmetrization_le`,
+`TauCeti.lintegral_norm_sq_steinerSymmetrization_eq_iff`,
+`TauCeti.tendsto_volume_steinerSymmetrization_symmDiff`,
+`TauCeti.forall_steinerSymmetrization_ae_eq_iff_exists_ae_eq_ball`,
+`TauCeti.volume_steinerSymmetrization`, `TauCeti.volume_steinerSymmetrization_symmDiff_le`.
 
-Define Schwarz rearrangement from the distribution function for nonnegative measurable
-functions with `|{f > t}| < ∞` for every `t > 0`. Include the `Lᵖ` classes, `1 ≤ p < ∞`,
-as specializations and make the a.e. representative conventions explicit. Establish
-equimeasurability, layer cake, all `Lᵖ` norm comparisons that reduce
-to equimeasurability, order preservation, `Lᵖ` contraction for `1 ≤ p < ∞`, and the
-Hardy–Littlewood inequality. I5 adds the BV and `W¹,¹` gradient comparisons after I4.
+**Checks.**
+- For `s = ball c r` with `c ≠ 0`, symmetrizing along an orthonormal basis `e₁, …, e_n` removes
+  one coordinate of the centre at each step, and `s_n = ball 0 r` exactly.
+- A centred box `∏ (−a_i, a_i)` is fixed by symmetrization along every coordinate direction, so
+  a sequence of coordinate directions does not converge to the ball: the directions have to be
+  chosen.
+- For `s` the union of two disjoint unit balls the limit is the ball of radius `2^(1/n)`, since
+  every step preserves volume.
 
-For positive-volume convex bodies construct surface area from GMT's perimeter and show
-agreement with Hausdorff boundary area. Relate outer parallel volume
-`(K + r • closedBall 0 1)` to that surface area by the right derivative at zero. Prove the
-needed boundary charts and volume limit. For a lower-dimensional nonempty compact convex
-set, ambient volume and perimeter are zero. Prove separately that the outer-parallel right
-derivative is `2 Hⁿ⁻¹(K)` when its affine dimension is `n−1`, and zero when its affine
-dimension is smaller. In particular it need not equal perimeter or topological boundary
-area for a degenerate body. Derive the isoperimetric inequality for positive-volume convex
-bodies from Brunn–Minkowski. Prove the sharp
-isodiametric inequality `|E| ≤ ω_n (diam E / 2)^n` for measurable bounded sets using their
-closed convex hull and the difference-body argument. The volume-maximizing convex-body
-case has ball rigidity; supply the equality proof. For measurable sets, equality implies
-agreement a.e. with a ball of radius `diam E / 2`. A converse also requires the diameter
-bound: arbitrary null modifications can increase diameter.
+### 2.3 The surface area of a convex body
 
-## I3 — Sharp periodic inequalities and curve energy
+Prove that a compact convex `K ⊆ E` with nonempty interior has `P(K) = Hⁿ⁻¹(frontier K) < ∞`, so
+that the right derivative at `0` of `t ↦ |K + t • closedBall 0 1|`, which Tau Ceti identifies with
+`P(K)`, is the Hausdorff measure of the boundary (Tropp, Lecture 8, for the parallel-volume
+normalization). *Route.* The inequality `P(K) ≤ Hⁿ⁻¹(frontier K)` is GeometricMeasureTheory G5's
+bound for measurable sets. For the reverse, cover the frontier by finitely many boundary charts
+in which `K` is the region above the graph of a convex, hence Lipschitz, function over a
+hyperplane, and apply GeometricMeasureTheory G6's identification of perimeter with boundary
+measure on Lipschitz domains (or G2's area formula on each graph). For a nonempty compact convex
+`K` with empty interior, `|K| = 0` and `P(K) = 0`, while the right derivative of its outer
+parallel volume is `2 Hⁿ⁻¹(K)` when its affine span has dimension `n − 1` and `0` when it is
+smaller; for such `K` the derivative is neither the perimeter nor, in general, the boundary area.
+*Needs:* GeometricMeasureTheory G2, G5 and G6; Tau Ceti
+`Convex.hasDerivWithinAt_measureReal_add_smul_closedBall`,
+`TauCeti.hasDerivWithinAt_volume_real_add_smul_closedBall_of_finrank_add_one_eq`,
+`TauCeti.hasDerivWithinAt_volume_real_add_smul_closedBall_of_finrank_add_two_le`,
+`Convex.addHaar_pos_iff_interior_nonempty`, `TauCeti.perimeter_congr_ae`, `TauCeti.perimeter_empty`;
+Mathlib `Convex.addHaar_frontier`.
 
-Prove the sharp periodic Wirtinger inequality for real- and finite-dimensional
-inner-product-valued AC functions on `[0,T]`, `T > 0`, with equal endpoint values,
-mean zero, and square-integrable derivative:
+**Checks.**
+- For `K = closedBall c r`, `P(K) = n ω_n rⁿ⁻¹` (Tau Ceti `TauCeti.perimeter_closedBall`) and
+  `Hⁿ⁻¹(sphere c r) = n ω_n rⁿ⁻¹` (GeometricMeasureTheory G2).
+- For the unit square in `ℂ`, `|K + t • closedBall 0 1| = 1 + 4t + πt²`, with right derivative
+  `4 = P(K) = H¹(frontier K)`.
+- For a segment `K` of length `ℓ` in `ℂ`, `P(K) = 0`, `H¹(frontier K) = ℓ` and
+  `|K + t • closedBall 0 1| = 2ℓt + πt²` has right derivative `2ℓ`: three different numbers, so
+  the identity of this section needs the nonempty interior.
 
-```
-∫₀ᵀ ‖f‖² ≤ (T / (2π))² ∫₀ᵀ ‖f'‖².
-```
+### Examples
 
-Equality holds exactly for `f(t) = a cos(2πt/T) + b sin(2πt/T)` on the interval. Include
-the canonical periodic `W¹,²` formulation and its AC representative, translation of
-the mean, rescaling to any parameter interval, and complex-valued specialization.
-Build the Fourier/weak-derivative integration-by-parts and Parseval comparison or the
-equivalent variational argument, rather than assuming the smooth inequality extends
-automatically to AC functions or that its equality cases survive density.
+- The Schwarz rearrangement of the indicator of `ball c r` is the indicator of `ball 0 r` (Tau Ceti
+  `TauCeti.schwarzRearrangement_indicator`).
+- The equilateral triangle of side `1` has diameter `1` and area `√3/4 ≈ 0.433`, below
+  `π (1/2)² ≈ 0.785`: the isodiametric inequality is strict, as its equality case predicts.
+- The unit cube in `ℝ³` has `P = 6` and `6³ = 216 > 27 · (4π/3) ≈ 113.1`, a strict case of convex
+  isoperimetry.
 
-For any closed AC plane curve with square-integrable derivative, define signed area by
-the real boundary integral `½∫ (x y' − y x')`. Prove
+### Dependencies
 
-```
-4π |signedArea γ| ≤ T ∫₀ᵀ ‖γ'‖².
-```
+GeometricMeasureTheory G2 and G4–G6; Tau Ceti's symmetrization, rearrangement, parallel-volume,
+convex-isoperimetry and isodiametric theory. Layer 1 is not used. Nothing in this layer depends
+on the sharp isoperimetric inequality.
 
-Give the complete equality analysis: equality means a constant curve, or a translated
-circle traversed once at constant angular speed with one of the two orientations.
-Prove the derivative relation a.e. and solve it using the AC FTC. The mean-zero
-Wirtinger equality alone also permits ellipses, so the area/energy equality needs its
-own argument. Compare this signed integral with DifferentialGeometry 5.6's winding-weighted
-area. Use GMT G6's Jordan index theorem to prove that for a simple curve it is `σ` times
-the actual volume of the inside, where `σ ∈ {−1,1}` is its orientation sign.
+## Layer 3: Sharp periodic inequalities and curve energy
 
-For a rectifiable curve use GMT G1's arclength parametrization. Prove the constant-speed
-energy identity. Prove invariance of trace, length, and inside under increasing continuous
-onto reparametrizations. Define geometric signed area for a continuous BV parameter via
-DifferentialGeometry's rectifiable line integral and the AC arclength factorization;
-prove independence of the factorization, agreement with the derivative integral for AC
-parameters, and sign reversal under decreasing continuous onto reparametrizations.
-Do not use a derivative integral of the original non-AC parameter. The resulting length inequality uses actual total variation;
-it is not an inequality involving the energy of an arbitrarily supplied parametrization.
+Tau Ceti proves the sharp periodic Wirtinger inequality
+`∫ₐᵇ ‖f − ⨍f‖² ≤ ((b − a)/(2π))² ∫ₐᵇ ‖f′‖²` for absolutely continuous `f` with `f a = f b`
+valued in any finite-dimensional real inner product space (so real- and complex-valued), with
+square-integrable derivative and no mean-zero hypothesis, with equality exactly when
+`f − ⨍f = cos(2πt/(b − a)) • u + sin(2πt/(b − a)) • v` on `[a, b]`; the same for weakly
+differentiable functions and on the canonical `W¹,²` space, equality holding a.e. It proves the
+area–energy inequality `4π |signedArea γ a b| ≤ (b − a) ∫ₐᵇ ‖γ′‖²` for absolutely continuous
+closed curves with square-integrable derivative, with equality exactly for constant curves and
+circles traversed once at constant angular speed in either orientation, and the equivalent a.e.
+equation `γ′ = (± 2πi/(b − a)) (γ − c)`. It identifies the signed area with the integral of the
+winding-number weight of DifferentialGeometry 5.6, and with `k` times the area of the inside when
+the winding number is the constant `k` there. For curves of bounded variation it has the
+arclength parametrization, the constant-speed energy identity `(b − a) ∫ₐᵇ ‖γ′‖² = L²`, the
+bound `L² ≤ (b − a) ∫ₐᵇ ‖γ′‖²` for absolutely continuous curves, the geometric signed area with
+independence of the factorization, agreement with the derivative integral for absolutely
+continuous parameters, invariance under increasing and sign change under decreasing continuous
+reparametrizations, and the sharp inequality `4π |rectifiableSignedArea γ a b| ≤ L²` with
+equality exactly for a circle traversed once at constant speed relative to arclength. This layer
+adds the identification of the signed area of a simple closed curve with the area it encloses.
 
-## I4 — Sharp Euclidean perimeter inequality and ball rigidity
+### 3.1 Signed area of a simple closed curve
 
-Establish the full finite-volume finite-perimeter inequality stated above, including
-unbounded sets. Supply the smooth/bounded case, the volume-and-perimeter approximation
-passage using GMT G4, and the exact constants from ball volume and surface measure. Give
-equivalent normalized forms, scaling laws, and explicit formulas for balls. State versions
-with relative perimeter only when their domain terms and hypotheses are separately proved;
-the headline is whole-space Euclidean perimeter.
+Let `γ` be a rectifiable simple closed curve on `[a, b]` with trace `C`. Prove that `C` is a
+Jordan curve: `γ` induces a continuous bijection from the circle, the quotient of `[a, b]`
+identifying its endpoints, onto the Hausdorff space `C`, hence a homeomorphism. Prove that there
+is `σ ∈ {1, −1}` with
+`rectifiableSignedArea γ a b = σ · |filledHull C \ C|`, that `σ = 1` exactly when the winding
+number of the arclength parametrization of `γ` is `1` on the inside, and that reversing the
+orientation of `γ` changes `σ`; for absolutely continuous `γ` the same holds for `signedArea γ a b`.
+With it prove that the trace, the length and the inside of `γ ∘ φ` on `[c, d]` are those of `γ` on
+`[a, b]` for every continuous nondecreasing `φ` from `[c, d]` onto `[a, b]`. *Route.* By
+GeometricMeasureTheory G1 the arclength parametrization of `γ` is again a simple closed curve,
+with the same trace; GeometricMeasureTheory G6's Jordan index theorem for it gives the winding
+number `σ` on the inside and `0` on the unbounded component; Tau Ceti's identification of the
+signed area with `σ` times the area under a constant winding number, and of the geometric signed
+area with the signed area of the arclength parametrization, conclude. The length statement is
+Mathlib's invariance of variation under monotone reparametrization, and the trace and the inside
+are equal sets.
+*Needs:* GeometricMeasureTheory G1 and G6; Tau Ceti `TauCeti.IsJordanCurve`,
+`TauCeti.signedArea_eq_intCast_mul_volume_real_of_windingNumber_eq`,
+`TauCeti.rectifiableSignedArea_eq_signedArea_naturalParameterization`,
+`BoundedVariationOn.image_naturalParameterization_Icc`,
+`AbsolutelyContinuousOnInterval.rectifiableSignedArea_eq_signedArea`,
+`TauCeti.rectifiableSignedArea_comp_of_antitoneOn`; Mathlib `eVariationOn.comp_eq_of_monotoneOn`.
 
-Prove **rigidity at finite-perimeter regularity**. For every positive finite-volume set
-of finite perimeter, equality holds iff it agrees a.e. with a ball. This includes
-nonsmooth, disconnected, and unbounded measurable representatives. Supply the following
-structural targets and their deduction of rigidity:
+**Checks.**
+- `circleMap c r` on `[θ, θ + 2π]` has signed area `πr²` (Tau Ceti `TauCeti.signedArea_circleMap`),
+  `σ = 1` times the area of the disc; the reversed circle gives `−πr²`.
+- The circle traversed twice, on `[0, 4π]`, has signed area `2πr²`, twice the area of the disc:
+  it is not injective on `[0, 4π)`, and without that hypothesis `σ ∈ {1, −1}` would be false.
+- The figure eight `x = cos t`, `y = sin t cos t` on `[0, 2π]` has `x y′ − y x′ = cos³ t`, so its
+  signed area is `0`, while its two lobes have positive area; it passes through the origin at
+  `t = π/2` and `t = 3π/2`, so it is not simple.
 
-- For a Lebesgue-measurable `E` with `0 < |E| < ∞` and `P(E) < ∞`, and every unit
-  direction `e`, write `S_e E` for I2's Steiner symmetral. If `P(S_e E) = P(E)`,
-  prove that for almost every `y ∈ e⊥` the section
-  `{t : ℝ | y + t • e ∈ E}` agrees a.e. in one-dimensional Lebesgue measure with a
-  possibly empty interval (an `OrdConnected` subset of `ℝ`). Use `volume` on the
-  orthogonal subspace `e⊥ = (ℝ ∙ e)ᗮ` and prove that `(y,t) ↦ y + t • e` is a
-  measure-preserving linear equivalence from `e⊥ × ℝ`, with its product volume, to the
-  ambient Euclidean space, with `‖y + t • e‖² = ‖y‖² + t²`.
-  Prove the section measurability and Fubini transport from Borel representatives:
-  replacing `E` by a volume-a.e. equal set preserves this conclusion for each fixed
-  direction. The exceptional set of `y` may depend on `e`. Build the finite-perimeter
-  slicing theorem and its reduced-boundary/normal comparison on almost every line from
-  GMT G2–G5. Prove the localized perimeter comparison with Steiner symmetrization,
-  including the equality implication that the set of slices with more than two essential
-  boundary points has zero transverse measure. These are I4 targets; perimeter
-  nonincrease obtained solely by approximation does not supply them.
-- Prove the essential-convexity theorem: if a Lebesgue-measurable set of positive finite
-  volume has the preceding interval-section property in every unit direction, it agrees
-  a.e. with a convex set. Take the set of volume-density-one points as the representative.
-  For any two distinct such points, use the direction of the segment joining them:
-  density at the endpoints makes almost all nearby parallel sections meet `E` near both
-  ends, and the interval property then gives density one along the segment. Prove the
-  quantitative tube estimates needed for this argument; it uses only the exceptional set
-  for that direction. Obtain a compact convex representative `K` with
-  nonempty interior, proving boundedness from convexity and positive finite volume and
-  proving that closure changes it only on a null boundary. Transport volume and perimeter
-  along this a.e. equality using GMT G5.
-- Isoperimetric equality for `E` forces `P(S_e E) = P(E)` for every `e`: combine I2's
-  volume preservation and perimeter nonincrease with the already established inequality
-  for `S_e E`. Thus the structural targets reduce the equality case to `K`. For
-  `B = closedBall 0 1`, prove concavity of `f(t) = |K + t • B|^(1/n)` on `t ≥ 0`
-  from I1, proving the Minkowski-sum identity
-  `(1−θ) • (K + s • B) + θ • (K + t • B) = K + ((1−θ)s + θt) • B`
-  for `0 ≤ θ ≤ 1` and `s,t ≥ 0` using convexity. I2's outer-parallel derivative gives
-  `f'(0+) = P(K) / (n |K|^((n−1)/n))`. Isoperimetric equality makes this derivative
-  `ω_n^(1/n)`. The concave tangent bound and the Brunn–Minkowski lower bound then force
-  `f(t) = f(0) + t ω_n^(1/n)` for every `t ≥ 0`. Apply I1's compact convex equality
-  theorem at `t > 0` to deduce that `K` is a translate and positive dilation of `B`.
-  Use the nullity of the sphere to obtain the stated a.e. equality with an open ball;
-  prove the converse from ball formulas and a.e. invariance.
+### Examples
 
-Smooth equality plus approximation, or convergence of successive symmetrizations to a
-ball without perimeter loss, does not supply these structural conclusions. The necessary
-interval-section equality condition is stated in Cagnetti–Colombo–De Philippis–Maggi,
-§1.2 and Theorem A, cited below. Equality in a single Steiner step does not in general
-imply that `E` is a translate of `S_e E`. Every further object introduced in the rigidity
-proof must receive its basic restriction, invariance, and comparison API.
+- The ellipse `t ↦ a cos t + i b sin t` on `[0, 2π]` has signed area `πab` and energy
+  `∫ ‖γ′‖² = π(a² + b²)`, so the area–energy inequality reads `4π² ab ≤ 2π² (a² + b²)`, strict
+  for `a ≠ b`. Its Wirtinger inequality is an equality, since `γ − ⨍γ` is a first harmonic: the
+  mean-zero Wirtinger equality alone does not force a circle, and the area–energy equality needs
+  its own argument.
+- For `f = sin(4πt/T)` on `[0, T]`, `∫ f² = T/2` and `∫ f′² = (4π/T)² T/2`, a quarter of the
+  sharp constant `(T/(2π))²`; `f = sin(2πt/T)` attains it.
 
-Give the topological-frontier corollary for every bounded set, and the more
-general finite-volume version, with `Hⁿ⁻¹(frontier E)` on the right. An infinite frontier
-measure makes the extended inequality immediate; the finite case uses GMT G5's boundary
-criterion and `P(E) ≤ Hⁿ⁻¹(frontier E)`. In the finite case prove that the frontier is
-Lebesgue-null and hence `E` is `NullMeasurableSet` by comparison with its open interior;
-the corollary therefore requires no separate measurability hypothesis. Supply its sharp-constant equality consequences:
-for positive finite volume and finite frontier measure, equality implies agreement a.e.
-with a ball. Do not assert literal ball equality for arbitrary representatives or a
-converse for every null modification: topological frontier is sensitive to null sets.
-Give exact ball rigidity for bounded regular open sets when equality holds, proving the
-passage from a.e. equality to point-set equality under that hypothesis.
+### Dependencies
 
-Specialize to bounded Lipschitz and `C¹` domains with actual Hausdorff surface area and
-their classical outward normals. The surface-area/perimeter identification is GMT G6's
-comparison, not a new definition chosen to make this inequality immediate.
+GeometricMeasureTheory G1 and G6; Tau Ceti's Wirtinger, area–energy and planar Green libraries,
+which carry DifferentialGeometry 5.6 and ConformalMapping §5.3. Nothing in this layer depends on
+Layers 1, 2 or 4.
 
-## I5 — Sharp BV Sobolev and its equality cases
+## Layer 4: Sharp Euclidean perimeter inequality and ball rigidity
 
-Prove BV Pólya–Szegő from GMT's scalar coarea and I4's set inequality: Schwarz rearrangement
-does not increase total variation. For every nonnegative `u ∈ W¹,¹(ℝⁿ)`, `n ≥ 2`, prove
-that its Schwarz rearrangement `u*` has an `L¹` weak gradient `g`, with
+Tau Ceti proves the sharp inequality `P(s)ⁿ ≥ nⁿ ω_n |s|ⁿ⁻¹` for every Lebesgue-measurable `s`
+of finite positive volume in dimension `n ≥ 1`, in the extended form, in the root form
+`n ω_n^(1/n) |s|^(1 − 1/n) ≤ P(s)` and in a real-valued form for finite perimeter; its proof
+contains the case of regular superlevel sets of smooth functions and the approximation of
+arbitrary sets of finite volume. A set of volume zero has perimeter zero (perimeter depends only
+on the a.e. class), so for `n ≥ 2` the degenerate case reads `0 ≥ 0`. Balls attain equality, with
+`P(ball c r) = n ω_n rⁿ⁻¹`, and perimeter scales by `rⁿ⁻¹` under dilation by `r > 0`. The convex
+case of rigidity is Tau Ceti's: concavity of `t ↦ |K + t • closedBall 0 1|^(1/n)` for a convex
+body `K`, its right derivative `P(K) / (n |K|^((n−1)/n))` at `0`, and the conclusion that a convex
+body of positive volume attaining equality is a closed ball. So are essential convexity and
+compact convex representatives, used in §4.3. This layer proves rigidity for every
+finite-perimeter set and its corollaries.
 
-```
-D(u*) = g · volume,       ∫ ‖g‖ ≤ ∫ ‖∇u‖.
-```
+### 4.1 The slicing theorem for sets of finite perimeter
 
-Supply an approximation argument that excludes singular concentration, with the following
-targets owned by I5:
+Let `n ≥ 2`, let `s ⊆ E` be Lebesgue measurable with `0 < |s| < ∞` and `P(s) < ∞`, and let `e` be a
+unit vector. Prove that for almost every `y ∈ e⊥` the section `s_y = {t : ℝ | y + t • e ∈ s}` has
+finite perimeter in `ℝ`, that its reduced boundary is `{t : y + t • e ∈ ∂*s}`, and that
+`⟪ν_s(y + t • e), e⟫ ≠ 0` at each such point, where `∂*s` is the reduced boundary and `ν_s` the
+measure-theoretic outer normal of GeometricMeasureTheory G5 (Maggi, for finite-perimeter
+isoperimetry; Cagnetti–Colombo–De Philippis–Maggi, §1.2). Include the transport along a.e.
+equality: replacing `s` by a set agreeing with it a.e. changes these sections only for a null set
+of `y`, the exceptional set depending on `e`. The coordinates `(y, t) ↦ y + t • e` form a
+measure-preserving linear equivalence from `e⊥ × ℝ`, with the product of the volumes, onto `E`,
+with `‖y + t • e‖² = ‖y‖² + t²`, and almost every section of a Lebesgue-measurable set is
+Lebesgue measurable; these are Tau Ceti's and Mathlib's. *Route.* Build the comparison from
+GeometricMeasureTheory G2–G5: the coarea formula for the projection onto `e⊥` restricted to the
+rectifiable set `∂*s`, De Giorgi's structure theorem `|D1_s| = Hⁿ⁻¹ ⌊ ∂*s`, and Tau Ceti's slicing
+inequality `∫_{e⊥} P(s_y) dy ≤ P(s)`.
+*Needs:* GeometricMeasureTheory G2 (coarea on rectifiable sets) and G5 (reduced boundary, outer
+normal, structure theorem); Tau Ceti `TauCeti.orthogonalLineEquiv`,
+`TauCeti.measurePreserving_orthogonalLineEquiv`, `TauCeti.ae_nullMeasurableSet_lineSection`,
+`TauCeti.volume_eq_lintegral_volume_lineSection`, `TauCeti.lintegral_perimeter_lineSection_le`,
+`TauCeti.ae_perimeter_lineSection_lt_top`, `TauCeti.ae_lineSection_ordConnected_iff`; Mathlib
+`norm_add_sq_eq_norm_sq_add_norm_sq_of_inner_eq_zero`.
 
-- For nonnegative integrable Lipschitz functions `h`, prove that `h*` has a Lipschitz
-  representative, using I1's Brunn–Minkowski inequality and the inclusions between
-  neighborhoods of superlevel sets. Identify the a.e. Rademacher gradients with the
-  canonical weak gradients, supplying the required integration-by-parts comparison.
-  Prove the convex-integrand Pólya–Szegő estimate
-  `∫ Φ(‖∇h*‖) ≤ ∫ Φ(‖∇h‖)` for finite-valued convex nondecreasing
-  `Φ : [0,∞) → [0,∞)` with `Φ(0) = 0`, whenever the right side is finite. Supply the
-  distribution-function and critical-level comparisons needed to derive this estimate
-  from GMT G2's Lipschitz coarea, GMT G5's comparison of superlevel perimeter with level
-  surface measure, Jensen's inequality, and I4.
-  Explicitly, for `μ_h(t) = |{h > t}|` and
-  `m_h(t) = ∫_{{h=t} ∩ {∇h≠0}} ‖∇h‖⁻¹ dHⁿ⁻¹`, prove
-  `m_h(t) ≤ −μ_h'(t)` for a.e. `t > 0`, and prove that the critical part of the level
-  surface has zero `Hⁿ⁻¹` measure for a.e. `t`. For `h*`, prove equality
-  `m_h*(t) = −μ_h'(t)` using the nullity of critical values for its one-dimensional
-  Lipschitz radial profile. Prove that `s ↦ s Φ(P/s)` is nonincreasing for `s > 0`
-  and `P ≥ 0`, so Jensen and the level-perimeter inequality combine in the required
-  direction. Treat empty levels and zero denominators separately.
-- For nonnegative `u ∈ W¹,¹`, construct nonnegative smooth Lipschitz approximants
-  `u_j = u * ρ_j` using nonnegative compactly supported smooth probability kernels.
-  Prove convergence in `W¹,¹`, the convolution identity for weak gradients, and Jensen's
-  bound `∫ Φ(‖∇u_j‖) ≤ ∫ Φ(‖∇u‖)`. Use a de la Vallée Poussin integrability lemma
-  to choose such a `Φ` with `Φ(t)/t → ∞` and `∫ Φ(‖∇u‖) < ∞`.
-- Apply the Lipschitz convex-integrand estimate both to this superlinear `Φ` and to
-  `Φ(t) = t`. Prove the resulting uniform-integrability estimate: for every `ε > 0`
-  there is a finite `T > 0` such that
-  `∫_A ‖∇u_j*‖ ≤ T |A| + ε` for every measurable `A` and every `j`.
-  I2's `L¹` contraction gives `u_j* → u*` in `L¹`. GMT G4's local lower semicontinuity
-  therefore gives `|D(u*)|(U) ≤ T |U| + ε` for every open `U`. Use outer regularity of
-  volume to cover volume-null sets by open sets of arbitrarily small volume and deduce
-  `|D(u*)| ≪ volume`. GMT G3's measure-valued derivative and Radon–Nikodym comparison
-  then supply `D(u*) = g · volume`. The identity `|D(u*)| = ‖g‖ · volume` and the
-  global BV comparison prove `∫ ‖g‖ ≤ ∫ ‖∇u‖`. This explicitly excludes singular
-  concentration in the limit.
+**Checks.**
+- For `s = ball 0 1` in `ℂ` and `e = 1`, the section at height `y`, `|y| < 1`, is the interval
+  `(−√(1 − y²), √(1 − y²))`, of perimeter `2`, whose two boundary points lie on the circle, where
+  the outer normal has horizontal component `±√(1 − y²) ≠ 0`; at `y = ±1` the normal is vertical,
+  and these two heights form a null set.
+- For the square `(0, 1)²` and `e = 1`, the horizontal sides are parallel to `e` and their normal
+  is orthogonal to `e`, but they lie over the null set of heights `{0, 1}`, as the theorem allows.
 
-The convex-integrand estimates and uniform-integrability lemmas are supporting theory
-for the `p = 1` result; a general Orlicz-space development is outside this roadmap. I2's
-equimeasurability supplies `u* ∈ L¹`; GMT G3's BV-to-Sobolev comparison then gives a
-canonical `TauCeti.W1p` element with weak gradient `g`.
+### 4.2 Steiner equality forces interval sections
 
-Also establish the radial-profile comparison. Pin the representative for `r > 0` by
-`v(r) = sup {t > 0 | ω_n r^n < |{u > t}|}`, with value zero for an empty set and the
-extended nonnegative supremum until finiteness is proved. Superlevel volumes are finite
-for `t > 0` by the `L¹` bound. Prove agreement with I2's Schwarz rearrangement, finiteness
-of `v(r)` for `r > 0`, and absolute continuity of `v` on every compact subinterval of
-`(0,∞)`. Derive this from the established radial `W¹,¹` representative by the weak
-derivative comparison on annuli, including vanishing of tangential gradient components;
-build the radial restriction and composition lemmas against PDE's canonical
-weak-derivative API here. Use monotonicity to transport a.e. agreement with the continuous
-profile to pointwise agreement with the pinned `v`. Establish
+Let `n ≥ 2`, let `s` be Lebesgue measurable with `0 < |s| < ∞` and `P(s) < ∞`, and let `e` be a unit
+vector with `P(S_e s) = P(s)`. Prove that for almost every `y ∈ e⊥` the section `s_y` agrees a.e.
+in `ℝ` with an interval, possibly empty or unbounded (an `OrdConnected` subset of `ℝ`)
+(Cagnetti–Colombo–De Philippis–Maggi, §1.2 and Theorem A, for this necessary condition). The
+statement passes to every set a.e. equal to `s`, for this fixed `e`. Prove with it the localized
+comparison: for every Borel `G ⊆ e⊥`, the perimeter of `S_e s` in the cylinder `G × ℝ` is at most
+that of `s`, and equality for `G = e⊥` forces the set of `y` whose section has more than two
+essential boundary points to have zero transverse measure. *Route.* §4.1 and the coarea
+formula for the projection onto `e⊥` give
+`P(s; G × ℝ) ≥ ∫_G Σ_{t ∈ ∂*s_y} |⟪ν_s(y + t • e), e⟫|⁻¹ dy`, where the part of `∂*s` on which
+`ν_s` is orthogonal to `e` only adds to the left side; each term is the length of a vector
+`(1, a_i(y))` built from the slope of the boundary in `y`, and for `S_e s` the sum has two terms
+built from half the derivative in `y` of the length of the section. The triangle inequality
+`Σ_{i ≤ m} ‖(1, a_i)‖ ≥ ‖(m, Σ ± a_i)‖`, strict against `‖(2, Σ ± a_i)‖` when `m ≥ 4`, gives the
+comparison and shows that a section with four or more essential boundary points contributes
+strictly more than its symmetral, while a section of finite perimeter that is not a.e. an
+interval has at least four. These are targets of this section: perimeter nonincrease obtained by
+approximation, as in §2.1, does not supply them.
+*Needs:* §2.1, §4.1; Tau Ceti `TauCeti.Real.two_le_perimeter`, `TauCeti.Real.four_le_perimeter`,
+`TauCeti.Real.perimeter_eq_two_iff`, `TauCeti.ordConnected_lineSection_steinerSymmetrization`,
+`TauCeti.ae_lineSection_ordConnected_iff`.
 
-```
-n ω_n ∫₀^∞ |v'(r)| r^(n−1) dr ≤ ∫ ‖∇u‖.
-```
+**Checks.**
+- Equality in one Steiner step does not make `s` a translate of `S_e s`: in `ℂ` with `e = i`, let
+  `s` be the union of the unit squares `(0, 1) × (0, 1)` and `(2, 3) × (5, 6)`. Every section is an
+  interval, `S_e s = ((0, 1) ∪ (2, 3)) × (−½, ½)`, and both sets have perimeter `8`, but no
+  translation carries `s` to `S_e s`.
+- For the two unit discs of §2.1, the sections over `|y| < 1` are pairs of intervals, a set of
+  `y` of positive measure, and indeed `P(S_e s) < P(s)`.
 
-Use GMT G2's polar integration to identify
-`g(x) = v'(‖x‖) • (x / ‖x‖)` a.e. away from zero. Prove
-`r^(n−1) v(r) → 0` as `r ↓ 0` from the weighted derivative bound and `n ≥ 2`.
-As corollaries of the established identity `D(u*) = g · volume`, deduce that the
-derivative has no jump part across spheres, no Cantor part over a null set of radii,
-and no contribution at the origin. Extend the norm comparison to real-valued inputs
-by rearranging `|u|` and proving its weak-gradient bound using the canonical
-positive-part/truncation calculus and
-`|u| = u⁺ + (−u)⁺`. A BV bound or strict smooth approximation alone does not exclude
-a singular derivative in the rearranged limit. These comparisons use I4 and are not
-inputs to its proof.
+### 4.3 Ball rigidity
 
-For `n ≥ 2`, `p = n/(n−1)`, prove on the whole space
+Prove `perimeter_pow_eq_iff_exists_ae_eq_ball`: let `n ≥ 2` and let `s ⊆ E` be Lebesgue measurable
+with `0 < |s| < ∞`. Then `P(s)ⁿ = nⁿ ω_n |s|ⁿ⁻¹` if and only if there are `c ∈ E` and `r > 0`
+with `s =ᵐ[volume] ball c r`. No boundedness, connectedness, convexity or boundary regularity is
+assumed, so nonsmooth, disconnected and unbounded representatives are included; finiteness of
+`P(s)` follows from either side (Maggi; Cagnetti–Colombo–De Philippis–Maggi, §1.2 and Theorem A).
+*Route.* For "if", `P` and `|·|` depend only on the a.e. class and balls attain equality. For "only
+if": `S_e s` has the volume of `s`, so the sharp inequality for `S_e s` and §2.1 give
+`nⁿ ω_n |s|ⁿ⁻¹ ≤ P(S_e s)ⁿ ≤ P(s)ⁿ`, hence `P(S_e s) = P(s)` for every unit `e`. By §4.2 almost every
+section of `s` in every direction is a.e. an interval, so by Tau Ceti's essential convexity `s`
+agrees a.e. with a convex set, its set of points of density one, and then with a compact convex
+`K` with nonempty interior. Perimeter and volume pass to `K`, which attains equality, and Tau
+Ceti's convex rigidity makes `K` a closed ball `closedBall c r` with `r > 0`; it agrees a.e. with
+`ball c r` because the sphere is null. Equality for smooth sets and approximation, or convergence
+of successive symmetrizations to a ball without loss of perimeter, does not give this conclusion.
+*Needs:* §2.1, §4.2; Tau Ceti
+`MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`,
+`TauCeti.volume_steinerSymmetrization`, `TauCeti.nullMeasurableSet_steinerSymmetrization`,
+`TauCeti.exists_convex_ae_eq_of_ae_lineSection_ordConnected`,
+`MeasureTheory.Measure.exists_isCompact_convex_ae_eq`,
+`ConvexBody.perimeter_pow_eq_iff_exists_eq_closedBall`, `TauCeti.perimeter_congr_ae`,
+`TauCeti.perimeter_ball_pow`, `MeasureTheory.Measure.addHaar_closedBall_ae_eq_ball`.
 
-```
-‖u‖_p ≤ (n ω_n^(1/n))⁻¹ |Du|(ℝⁿ),                u ∈ BV(ℝⁿ).
-```
+**Checks.**
+- The punctured ball `ball c r \ {c}` has the volume and the perimeter of the ball, so it attains
+  equality; it agrees a.e. with `ball c r` but is not a ball, so a statement with literal equality
+  would be false.
+- A set of volume zero has `P = 0` and both sides vanish, but it is a.e. equal to no ball of
+  positive radius: the hypothesis `|s| > 0` is needed.
+- Two disjoint balls of radius `r` have `P(s)ⁿ` equal to twice `nⁿ ω_n |s|ⁿ⁻¹`, in every
+  dimension: strict.
+- In dimension one the same statement is Tau Ceti's `TauCeti.Real.perimeter_eq_two_iff`: there
+  `ω_1 = 2` and `|s|⁰ = 1`, so equality is `P(s) = 2`, which holds exactly for sets a.e. equal to a
+  bounded open interval.
 
-Derive it from coarea, layer cake, and I4, with the integral Minkowski inequality and
-its equality analysis made explicit. Prove membership in `Lᵖ`; the norm expression alone
-is not sufficient. Equality for a nonzero real-valued `u` holds exactly when
-`u = c χ_(ball a r)` a.e., with `c ≠ 0`, `r > 0`. Establish the nesting and proportionality
-of superlevel sets and the absence of sign cancellation required for this classification;
-do not merely classify each level set separately as a ball. Treat the zero function
-separately. Give the `W¹,¹` corollary and nonattainment by nonzero `W¹,¹` functions, as well
-as normalized smooth near-extremizers approximating a ball indicator. This is the sharp
-endpoint complement to PDE's general Sobolev embedding theory.
+### 4.4 The topological-frontier form
 
-## I6 — Full planar Jordan theorem and compatibility
+Prove `isoperimetric_frontier`: for `n ≥ 2` and every `s ⊆ EuclideanSpace ℝ (Fin n)` with
+`|s| < ∞`, `nⁿ ω_n |s|ⁿ⁻¹ ≤ Hⁿ⁻¹(frontier s)ⁿ`. No measurability is assumed. Prove with it that
+if `Hⁿ⁻¹(frontier s) < ∞`, then `frontier s` is Lebesgue-null and `s` is Lebesgue measurable,
+since `s` differs from its open interior by a subset of its frontier; and that if
+`0 < |s| < ∞`, `Hⁿ⁻¹(frontier s) < ∞` and equality holds, then `s` agrees a.e. with a ball of
+positive radius. In particular the inequality holds for every bounded set (Maggi). *Route.* If
+`Hⁿ⁻¹(frontier s) = ∞` the right side is infinite. Otherwise `s` is Lebesgue measurable as above,
+GeometricMeasureTheory G5 gives `P(s) ≤ Hⁿ⁻¹(frontier s)` through its boundary criterion, and the
+sharp inequality concludes (for `|s| = 0` the left side is `0`). In the equality case `P(s)` lies
+between the two sides of the sharp inequality, so §4.3 applies. Literal equality with a ball is
+not asserted for arbitrary representatives, and the converse is not asserted for every null
+modification: the frontier is sensitive to null sets.
+*Needs:* §4.3; GeometricMeasureTheory G5; Tau Ceti
+`MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`;
+Mathlib `MeasureTheory.Measure.euclideanHausdorffMeasure`.
 
-Prove the geometric and parameterized statements in the scope section, using actual
-Lebesgue area, Hausdorff length, and total variation. Supply the equivalence of the
-parameterized hypotheses with the existing `IsJordanCurve` trace plus rectifiability.
-Derive area positivity and finiteness, length positivity and finiteness, and the
-orientation-independent inequality.
+**Checks.**
+- The punctured ball attains equality here too: its frontier is the sphere together with the
+  centre, and `Hⁿ⁻¹` of a point is `0` for `n ≥ 2`.
+- The ball minus its points with rational coordinates agrees a.e. with the ball, but its
+  frontier is the closed ball, of infinite `Hⁿ⁻¹` measure for `n ≥ 2`: the inequality is strict,
+  so there is no converse for null modifications.
+- The complement of a ball has frontier a sphere, of finite measure, and infinite volume: the
+  inequality fails for it, so the finite-volume hypothesis is needed.
 
-Give both compatibility results: the planar finite-perimeter specialization via GMT G6,
-and the AC/arclength area–energy specialization via I3 and Green's theorem. They must
-use the same inside and the same length. For the finite-perimeter equality argument,
-prove that the Jordan inside is regular open, that equality a.e. with a ball implies
-actual equality of the inside with the ball, and hence that its frontier is the circle.
-For the curve argument, transport equality of the arclength trace back to the original
-curve, without imposing constant speed on that original parametrization. Prove the
-converse for every continuous rectifiable simple parametrization of a circle.
+### 4.5 Exact rigidity for regular open sets
 
-## Acceptance examples and completion
+Prove that a bounded open `U ⊆ E` that is regular, `interior (closure U) = U`, and attains
+equality in §4.3 or in §4.4, with `|U| > 0`, is literally a ball `ball c r` with `r > 0` (Maggi).
+Prove with it the passage it uses: a regular open set that agrees a.e. with an open ball `B` is
+`B`. *Route.* §4.3, or §4.4 through §4.3, gives `U =ᵐ ball c r`. The open sets `U \ closedBall c r`
+and `ball c r \ closure U` are null, hence empty, so `closure U = closedBall c r`, and regularity
+gives `U = interior (closedBall c r) = ball c r`. Conversely a ball attains equality in both
+forms, since `Hⁿ⁻¹(sphere c r) = n ω_n rⁿ⁻¹` (GeometricMeasureTheory G2).
+*Needs:* §4.3, §4.4; GeometricMeasureTheory G2.
 
-Prove the disk/circle and `n`-ball formulas with the exact constants; an ellipse and a
-rectangle have strict planar inequality unless the domain is a disk (in particular every
-nondegenerate ellipse with unequal axes and every rectangle are strict). Compute annulus
-area and perimeter and prove strictness. Give separated unions of two positive-radius
-balls as strict examples. Check a punctured ball: it has equality for perimeter and a.e.
-ball rigidity, while literal ball equality fails. Check a circle traversed twice: its
-trace is a circle, but its parameterized length and winding-weighted area reflect
-multiplicity and it is not a simple-curve equality case. Include a circle parametrized
-by `φ(t) = (t + C(t))/2` on `[0,1]`, where `C` is the Cantor–Lebesgue function constructed
-in GMT's acceptance examples. Prove that `φ` is an increasing homeomorphism which is not
-AC, and that the resulting circle parameter is continuous, simple, rectifiable and not
-AC. This tests the full geometric statement beyond AC parameters. Verify the BV
-extremizers and smooth near-extremizers.
+**Checks.**
+- The punctured ball is open and attains equality but is not regular: the interior of its
+  closure is the ball. Without regularity the conclusion would be false.
+- A regular open set a.e. equal to `ball c r` is `ball c r`; for the closed ball, a.e. equal to the
+  open one, the passage does not apply because it is not open.
 
-Completion requires the full inequality **and** equality statements, the geometric bridges,
-and the reusable APIs of I1–I5. An outer-neighborhood-volume inequality without the
-perimeter comparison, a smooth-only theorem, a supplied area/perimeter identity, or an
-equality hypothesis assumed as input does not discharge the target. Proofs must use the
-ordinary kernel-checked Mathlib/Tau Ceti foundation, with no additional mathematical axioms,
-and the final declarations must have explicit integrability and finiteness hypotheses.
+### 4.6 Lipschitz and `C¹` domains
 
-## References and existing formalizations
+Prove that a bounded open `Ω ⊆ E` that is a Lipschitz domain in the sense of PDE §1.6 (Tau Ceti
+`Set.IsLipschitzDomain`) satisfies `nⁿ ω_n |Ω|ⁿ⁻¹ ≤ Hⁿ⁻¹(frontier Ω)ⁿ` with `Hⁿ⁻¹(frontier Ω)` its
+actual Hausdorff surface area, equal to `P(Ω)`, and that equality holds exactly when `Ω` is a
+ball; for a `C¹` domain the measure-theoretic outer normal agrees `Hⁿ⁻¹`-a.e. with the classical
+outward normal (Maggi). The identification of surface area with perimeter is GeometricMeasureTheory
+G6's comparison for Lipschitz domains, not a definition chosen to make the inequality immediate.
+*Route.* §4.4 gives the inequality; a Lipschitz domain is a regular open set, being locally the
+region strictly above the graph of a continuous function, so §4.5 gives the equality case.
+*Needs:* §4.4, §4.5; GeometricMeasureTheory G6; PDE §1.6; Tau Ceti `Set.IsLipschitzDomain`.
+
+**Checks.**
+- The unit square `(0, 1)²` is a Lipschitz domain that is not `C¹`; it has `H¹(frontier) = 4 = P`,
+  and `4π · 1 < 16`: strict.
+
+### Examples
+
+- For a ball in `ℝ³`, `P = 4πr²` and `|B| = 4πr³/3`, and `(4πr²)³ = 64π³r⁶ = 27 (4π/3) (4πr³/3)²`:
+  equality (Tau Ceti `TauCeti.perimeter_ball_pow`).
+- The planar annulus `r < |z| < R` has `P = 2π(R + r)` and area `π(R² − r²)`, and
+  `P² − 4π · area = 8π² r (R + r) > 0`: strict.
+- Two separated balls of radius `r`: `P(s)ⁿ` is twice the right side in every dimension.
+
+### Dependencies
+
+§2.1 for §4.2–§4.3; Tau Ceti's sharp inequality, ball formulas, convex rigidity, essential
+convexity and line-section API; GeometricMeasureTheory G2–G6; PDE §1.6 for §4.6. Layer 1 is used
+only through Tau Ceti's convex rigidity, and Layer 3 not at all.
+
+## Layer 5: Sharp BV Sobolev and its equality cases
+
+Throughout this layer `n ≥ 2`. Tau Ceti supplies the Schwarz rearrangement with its `Lᵖ` theory
+and its preservation of Lipschitz bounds, the coarea formula `|Du|(E) = ∫ P({u > t}) dt` for
+locally integrable `u` and its Lipschitz form `∫ P({u > t}) dt = ∫ ‖∇u‖`, the identification of
+the a.e. derivative of a Lipschitz function with its weak derivative, the weak derivative of a
+convolution, Jensen's inequality for convolution with a probability kernel, and de la Vallée
+Poussin's lemma. Its nonsharp `BV` Sobolev inequality, with a non-explicit constant, is not used.
+
+### 5.1 Pólya–Szegő for the total variation
+
+Prove that for integrable `u : E → ℝ` with `u ≥ 0` a.e., `|Du*|(E) ≤ |Du|(E)`, both sides finite or
+infinite. *Route.* By the coarea formula both sides are integrals over `t` of the perimeters of
+the superlevel sets. For `t > 0`, `{u* > t}` is the centred open ball of volume `|{u > t}| < ∞`, so
+its perimeter is at most `P({u > t})` by the sharp inequality and the equality for balls; for
+`t < 0` both superlevel sets are a.e. the whole space, of perimeter `0`.
+*Needs:* Tau Ceti `TauCeti.totalVariationOn_eq_lintegral_perimeter`,
+`TauCeti.lt_schwarzRearrangement_iff`, `TauCeti.addHaar_setOf_lt_schwarzRearrangement`,
+`MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`,
+`TauCeti.perimeter_ball_pow`, `TauCeti.perimeter_congr_ae`.
+
+**Checks.**
+- For `u` the indicator of `ball c r`, `u*` is the indicator of `ball 0 r` and both variations are
+  `n ω_n rⁿ⁻¹`.
+- For `u` the indicator of two disjoint unit balls, `u*` is the indicator of the ball of radius
+  `2^(1/n)`, of variation `n ω_n 2^((n−1)/n)`, below `2 n ω_n` (in the plane, `8.89 < 12.57`).
+
+### 5.2 The convex-integrand estimate for Lipschitz functions
+
+Let `h : E → ℝ` be nonnegative, integrable and Lipschitz, so that `h*` is Lipschitz (Tau Ceti).
+Prove that for every finite-valued convex nondecreasing `Φ : [0, ∞) → [0, ∞)` with `Φ(0) = 0`,
+`∫ Φ(‖∇h*‖) ≤ ∫ Φ(‖∇h‖)` whenever the right side is finite, the gradients being the a.e.
+derivatives, which are the weak derivatives (Bianchi–Gardner–Gronchi–Kiderlen, Theorem 5.8).
+Prove with it, for `μ_h(t) = |{h > t}|` and `m_h(t) = ∫_{{h = t} ∩ {∇h ≠ 0}} ‖∇h‖⁻¹ dHⁿ⁻¹`: that
+`m_h(t) ≤ −μ_h′(t)` for a.e. `t > 0`; that `Hⁿ⁻¹({h = t} ∩ {∇h = 0}) = 0` for a.e. `t`; that
+`m_{h*}(t) = −μ_h′(t)` for a.e. `t > 0`, by the nullity of the critical values of the
+one-dimensional Lipschitz radial profile of `h*`; and that `s ↦ s Φ(P/s)` is nonincreasing on
+`s > 0` for every `P ≥ 0`, so that Jensen's inequality and the level-perimeter inequality combine
+in the right direction. Empty levels and zero denominators are treated separately. *Route.* The
+Lipschitz coarea formula (GeometricMeasureTheory G2) on each side, GeometricMeasureTheory G5's
+comparison of the perimeter of `{h > t}` with `Hⁿ⁻¹({h = t})`, Jensen's inequality on each level
+with the weight `‖∇h‖⁻¹ dHⁿ⁻¹`, and the sharp inequality for the levels.
+*Needs:* GeometricMeasureTheory G2 and G5; Tau Ceti
+`TauCeti.lipschitzWith_toReal_schwarzRearrangement`, `LocallyLipschitzOn.hasWeakFDerivOn_fderiv`,
+`LocallyLipschitzOn.lintegral_perimeter_eq_setLIntegral_enorm_fderiv`,
+`MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`.
+
+**Checks.**
+- With `Φ(t) = t` the estimate is §5.1 for Lipschitz `h`.
+- For `h = (1 − ‖x − c‖)⁺`, `h* = (1 − ‖x‖)⁺` and the estimate is an equality for every `Φ`.
+- For `Φ(t) = t²`, `s Φ(P/s) = P²/s` is decreasing in `s`, as the monotonicity lemma says.
+
+### 5.3 Pólya–Szegő in `W¹,¹`
+
+Prove `exists_hasWeakFDerivOn_schwarzRearrangement`: if `u : E → ℝ` is nonnegative a.e. and
+integrable, with an integrable weak derivative `U` on `E`, then `u*` has an integrable weak
+derivative `G` on `E` with `∫ ‖G‖ ≤ ∫ ‖U‖`; equivalently `D(u*) = G · volume` has no singular part
+(Bianchi–Gardner–Gronchi–Kiderlen, Theorem 6.3 and Corollary 6.5, for the Sobolev membership and
+the gradient comparison with the uniform-integrability argument at `p = 1`; only Schwarz
+rearrangement is needed here). Prove with it the real-valued form: for integrable `u` with
+integrable weak derivative `U`, the rearrangement of `|u|` has an integrable weak derivative of
+`L¹` norm at most `∫ ‖U‖`, by `|u| = u⁺ + (−u)⁺` and the positive-part and truncation calculus,
+which gives `‖∇|u|‖ = ‖U‖` a.e. *Route.*
+- Mollify: `u_j = ρ_j ⋆ u` with nonnegative compactly supported smooth probability kernels
+  `ρ_j`; `u_j` is smooth, nonnegative, Lipschitz and integrable, `∇u_j = ρ_j ⋆ U`, `u_j → u` in
+  `W¹,¹`, and Jensen gives `∫ Φ(‖∇u_j‖) ≤ ∫ Φ(‖U‖)` for convex nondecreasing `Φ`. Choose by de la
+  Vallée Poussin's lemma a superlinear such `Φ`, `Φ(t)/t → ∞`, with `∫ Φ(‖U‖) < ∞`.
+- Apply §5.2 to this `Φ` and to `Φ(t) = t`, and derive uniform integrability: for every `ε > 0`
+  there is a finite `T > 0` with `∫_A ‖∇u_j*‖ ≤ T |A| + ε` for every measurable `A` and every `j`.
+- `u_j* → u*` in `L¹` by the contraction of Schwarz rearrangement, so lower semicontinuity of
+  variation (GeometricMeasureTheory G4) gives `|D(u*)|(V) ≤ T |V| + ε` for every open `V`; outer
+  regularity of `volume` covers a null set by open sets of arbitrarily small volume, so
+  `|D(u*)| ≪ volume`. GeometricMeasureTheory G3's measure-valued derivative and the
+  Radon–Nikodym theorem give `D(u*) = G · volume`, `|D(u*)| = ‖G‖ · volume`, and §5.1 gives
+  `∫ ‖G‖ ≤ ∫ ‖U‖`. Since `u* ∈ L¹` by equimeasurability, GeometricMeasureTheory G3's comparison of
+  `BV` with `W¹,¹` makes `u*` a `TauCeti.W1p` class with weak derivative `G`.
+A `BV` bound or strict smooth approximation alone does not exclude a singular part in the limit;
+the uniform integrability does.
+*Needs:* §5.1, §5.2; GeometricMeasureTheory G3 and G4; PDE Layer 1 (the weak-derivative API); Tau
+Ceti `TauCeti.HasWeakFDerivOn`, `TauCeti.W1p`, `TauCeti.HasWeakFDerivOn.hasFDerivAt_convolution_right`,
+`ConvexOn.lintegral_ofReal_map_norm_convolution_le`,
+`MeasureTheory.Integrable.exists_convexOn_superlinear_integrable`,
+`TauCeti.lintegral_edist_rpow_schwarzRearrangement_le`, `TauCeti.lintegral_schwarzRearrangement`.
+
+**Checks.**
+- For `u = (1 − ‖x − c‖)⁺`, `u* = (1 − ‖x‖)⁺` and `∫ ‖G‖ = ∫ ‖U‖ = ω_n`.
+- The indicator of a ball has finite variation but no integrable weak derivative: its derivative
+  is carried by the sphere. It is excluded by the hypothesis, and its rearrangement, an indicator
+  of a ball, is not in `W¹,¹` either: the theorem says nothing about `BV` functions.
+
+### 5.4 The radial profile
+
+For `u` as in §5.3 define, for `r > 0`, `v(r) = sup {t > 0 | ω_n rⁿ < |{u > t}|}`, with value `0`
+for an empty set and taken in `[0, ∞]` until finiteness is proved; superlevel volumes are finite
+for `t > 0` by the `L¹` bound. Prove that `u*(x) = v(‖x‖)` for `x ≠ 0`, that `v(r) < ∞` for `r > 0`,
+that `v` is absolutely continuous on every compact subinterval of `(0, ∞)`, that
+`n ω_n ∫₀^∞ |v′(r)| rⁿ⁻¹ dr ≤ ∫ ‖U‖`, that `G(x) = v′(‖x‖) x/‖x‖` (as a linear form, through the
+inner product) for a.e. `x ≠ 0`, and that `rⁿ⁻¹ v(r) → 0` as `r → 0⁺`. As corollaries of
+`D(u*) = G · volume`, the derivative of `u*` has no jump part across spheres, no Cantor part over a
+null set of radii and no mass at the origin (Bianchi–Gardner–Gronchi–Kiderlen). *Route.* Absolute
+continuity comes from the radial `W¹,¹` representative of §5.3 by comparing weak derivatives on
+annuli, where the tangential components vanish; the radial restriction and composition lemmas
+are built here against PDE's weak-derivative API. Monotonicity of `v` turns a.e. agreement with
+the continuous profile into agreement everywhere on `(0, ∞)` with the `v` fixed above. The
+weighted bound and the formula for `G` follow by polar integration (GeometricMeasureTheory G2),
+and the limit at `0` from the weighted bound and `n ≥ 2`. These comparisons use the sharp
+inequality and are not inputs to its proof.
+*Needs:* §5.3; GeometricMeasureTheory G2; PDE Layer 1; Tau Ceti `TauCeti.lt_schwarzRearrangement_iff`,
+`TauCeti.W1p`.
+
+**Checks.**
+- For `u = (1 − ‖x‖)⁺`, `v(r) = (1 − r)⁺` and `n ω_n ∫₀¹ rⁿ⁻¹ dr = ω_n = ∫ ‖U‖`: equality.
+- For `0 < α < n − 1`, `u = (‖x‖^(−α) − 1)⁺` is in `W¹,¹` and radial nonincreasing, so
+  `v(r) = r^(−α) − 1` on `(0, 1)` is unbounded at `0`, while `rⁿ⁻¹ v(r) ~ r^(n−1−α) → 0`; such `α`
+  exists because `n ≥ 2`.
+
+### 5.5 The sharp `BV` Sobolev inequality
+
+Prove `eLpNorm_le_inv_mul_totalVariationOn`: for integrable `u : E → ℝ` and `p = n/(n − 1)`,
+`‖u‖_p ≤ (n ω_n^(1/n))⁻¹ |Du|(E)`, on the whole space, both sides in `[0, ∞]`, and prove
+`u ∈ Lᵖ` when `|Du|(E) < ∞`: the bound on the norm alone does not record membership. Prove
+`eLpNorm_eq_inv_mul_totalVariationOn_iff`: if moreover `|Du|(E) < ∞` and `u` is not a.e. zero,
+equality holds exactly when `u =ᵐ[volume] c · 1_{ball a r}` for some `c ≠ 0`, `a ∈ E` and `r > 0`;
+the zero function attains equality trivially and is treated separately. Prove the `W¹,¹`
+corollary `‖u‖_p ≤ (n ω_n^(1/n))⁻¹ ∫ ‖∇u‖`, that no nonzero `W¹,¹` function attains it, and that
+smooth compactly supported functions approximating the indicator of a ball make the ratio of the
+two sides tend to `1`. *Route.* The coarea formula writes `|Du|(E)` as `∫ P({u > t}) dt`, the
+layer-cake formula writes `u⁺` and `u⁻` as integrals of indicators of superlevel sets, the
+integral Minkowski inequality bounds `‖u⁺‖_p` by `∫₀^∞ |{u > t}|^(1/p) dt`, and the sharp
+inequality bounds each `|{u > t}|^(1/p)` by `(n ω_n^(1/n))⁻¹ P({u > t})`; `u⁻` is treated alike,
+and `‖u‖_p ≤ ‖u⁺‖_p + ‖u⁻‖_p` with equality only if one vanishes, since their supports are
+disjoint and `p > 1`. In the equality case a.e. superlevel set is a ball by §4.3, the equality
+case of the integral Minkowski inequality makes the superlevel sets nested and their indicators
+proportional, hence all equal to one ball, and the sign does not change: it does not suffice to
+classify each superlevel set as a ball. Nonattainment in `W¹,¹` follows because a nonzero multiple
+of a ball indicator has a singular derivative. This is the sharp endpoint complement to PDE's
+Sobolev embeddings.
+*Needs:* §4.3; Tau Ceti `TauCeti.totalVariationOn`, `TauCeti.totalVariationOn_eq_lintegral_perimeter`,
+`MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`,
+`TauCeti.perimeter_ball`; Mathlib `MeasureTheory.eLpNorm`, `MeasureTheory.MemLp`.
+
+**Checks.**
+- For `u = 1_{ball 0 r}`, `‖u‖_p = ω_n^((n−1)/n) rⁿ⁻¹` and `(n ω_n^(1/n))⁻¹ |Du|(E) =
+  (n ω_n^(1/n))⁻¹ n ω_n rⁿ⁻¹`, the same number: equality.
+- For `u = 1_{B₁} − 1_{B₂}` with disjoint balls of equal volume, the ratio of the left side to the
+  right side is `2^(−1/n)`: strict, so cancellation of signs is excluded.
+- For `u = 2 · 1_{ball 0 1} + 1_{ball 0 2}` in the plane every superlevel set of positive
+  volume is a ball, yet `‖u‖₂ = √(12π) ≈ 6.14` while `(2√π)⁻¹ |Du|(ℂ) = 8π/(2√π) ≈ 7.09`: the
+  balls are not all the same, and the classification of each level as a ball is not enough.
+- In the plane, `p = 2` and the constant is `(2√π)⁻¹`; for `u = 1_s` the inequality reads
+  `|s|^(1/2) ≤ P(s)/(2√π)`, which is `4π |s| ≤ P(s)²`.
+
+### Examples
+
+- Indicators of balls, and their nonzero multiples, are the extremizers of §5.5.
+- In the plane, the Lipschitz functions equal to `1` on `ball 0 1`, to `0` outside `ball 0 (1 + ε)`
+  and linear in `‖x‖` in between give ratios `0.984`, `0.998` and `0.9998` of the two sides of
+  §5.5 for `ε = 0.1`, `0.01` and `0.001`, approaching the constant without attaining it.
+
+### Dependencies
+
+Layer 4 (§4.3, and Tau Ceti's sharp inequality); Tau Ceti's Schwarz rearrangement and coarea
+formula; GeometricMeasureTheory G2–G5; PDE Layer 1's weak derivatives, through Tau Ceti's
+carriers.
+
+## Layer 6: Full planar Jordan theorem and compatibility
+
+Tau Ceti proves the Jordan curve theorem of ConformalMapping §5.3: the complement of a Jordan
+curve `C ⊆ ℂ` has exactly two components, the inside `filledHull C \ C`, bounded, open and
+connected, and the complement of `filledHull C`; the frontier of the inside is `C`, the interior
+of `filledHull C` is the inside and its closure is `filledHull C`. It proves that a continuous
+curve on `[a, b]` injective on `(a, b)` whose trace is a circle satisfies `L² = 4π A` for the area
+`A` of the inside of its trace, and that a nonconstant rectifiable closed curve with
+`L² = 4π |rectifiableSignedArea γ a b|` traces a circle and has a disc as inside.
+
+### 6.1 Simple closed curves and Jordan curves
+
+Prove that the trace `C` of a simple closed curve `γ` on `[a, b]` is a Jordan curve (as in §3.1,
+without rectifiability), that every Jordan curve is such a trace, and that `γ` is rectifiable exactly when `H¹(C) < ∞`, in which case
+`eVariationOn γ (Icc a b) = H¹(C)`. Prove that for a rectifiable Jordan curve the area of the
+inside is finite and positive and the length `H¹(C)` is finite and positive (Wiedijk's entry,
+for the classical planar statement). *Route.* `γ` induces a continuous bijection from the circle,
+the quotient of `[a, b]` identifying its endpoints, onto the Hausdorff space `C`, hence a
+homeomorphism; conversely a homeomorphism from the circle composed with `t ↦ exp(2πit)` is such a
+`γ`. The length identity is GeometricMeasureTheory G1. The inside is a nonempty bounded open set,
+and `H¹(C) ≥ diam C > 0`.
+*Needs:* GeometricMeasureTheory G1; Tau Ceti `TauCeti.IsJordanCurve`, `TauCeti.filledHull`,
+`TauCeti.IsJordanCurve.natCard_connectedComponents_compl_eq_two`,
+`TauCeti.IsJordanCurve.isConnected_filledHull_sdiff`, `TauCeti.isBounded_filledHull`.
+
+**Checks.**
+- `circleMap c r` on `[0, 2π]` traces `sphere c r`, a Jordan curve (Tau Ceti
+  `TauCeti.isJordanCurve_sphere`), of length `2πr = H¹(sphere c r)`.
+- The circle traversed twice traces the same circle but has variation `4πr`, twice `H¹`; it is not
+  injective on `[0, 4π)`, as the length identity requires.
+
+### 6.2 The parametrized theorem
+
+Prove `simple_closed_rectifiable_isoperimetric`: for a rectifiable simple closed curve `γ` on
+`[a, b]` with trace `C`, `4π |filledHull C \ C| ≤ L²` with `L = eVariationOn γ (Icc a b)`, whatever
+its orientation, and prove that equality holds exactly when `C = sphere c r` for some `c` and
+some `r > 0` (Wiedijk's entry). The parametrization is not assumed absolutely continuous,
+Lipschitz, differentiable or piecewise smooth, and need not have constant speed. *Route.* §3.1
+gives `|rectifiableSignedArea γ a b| = |filledHull C \ C|`, and Tau Ceti's sharp inequality for the
+geometric signed area and its equality case for simple closed curves conclude.
+*Needs:* §3.1, §6.1; Tau Ceti `TauCeti.four_pi_mul_abs_rectifiableSignedArea_le`,
+`BoundedVariationOn.eVariationOn_toReal_sq_eq_four_pi_mul_abs_rectifiableSignedArea_iff_exists_image_eq_sphere`.
+
+**Checks.**
+- The unit square traversed once has `L = 4` and area `1`, and `4π < 16`: strict.
+- The circle traversed twice satisfies `4π · πr² ≤ (4πr)²` but traces a circle without equality:
+  the injectivity hypothesis is what makes the equality case true.
+
+### 6.3 The geometric theorem
+
+Prove `jordan_isoperimetric` and `jordan_isoperimetric_eq_iff`: for a Jordan curve `C ⊆ ℂ` with
+`H¹(C) < ∞`, `4π |filledHull C \ C| ≤ H¹(C)²`, with equality exactly when `C = sphere c r` for some
+`c` and some `r > 0`. Area is Lebesgue measure of the inside and length is Hausdorff measure of
+the curve; no parametrization enters the statement (Wiedijk's entry). *Route.* Parametrize `C` by
+§6.1 and apply §6.2, with `eVariationOn γ (Icc a b) = H¹(C)`.
+*Needs:* §6.1, §6.2.
+
+**Checks.**
+- For `C = sphere c r`, `4π · πr² = (2πr)²`: equality.
+- For the boundary of the rectangle `[0, a] × [0, b]`, `4πab < 4(a + b)²` since `(a + b)² ≥ 4ab`:
+  strict even for the square.
+
+### 6.4 Compatibility with the finite-perimeter and curve-energy routes
+
+Prove that the two other routes give the same theorem, with the same inside `filledHull C \ C` and
+the same length `H¹(C)`. For the finite-perimeter route: GeometricMeasureTheory G6 gives
+`P(filledHull C \ C) = H¹(C)` for a rectifiable Jordan curve, and the planar case of the sharp
+inequality gives `4π |filledHull C \ C| ≤ H¹(C)²`; in the equality case §4.3 makes the inside a.e.
+a disc, the inside is regular open (its closure is `filledHull C` and the interior of that is the
+inside), so §4.5 makes it a disc `ball c r` exactly, and then `C`, its frontier, is the circle
+`sphere c r`. For the curve-energy route: for the arclength parametrization the constant-speed
+energy identity, the area–energy inequality, Green's theorem of DifferentialGeometry 5.6 and §3.1
+give the inequality, and its equality case, a circle traversed once at constant speed, is
+carried back to the original curve through the trace, without imposing constant speed on the
+original parametrization. The converse holds for every continuous simple parametrization of a
+circle, rectifiable or not a priori (Tau Ceti).
+*Needs:* §3.1, §4.3, §4.5, §6.1; GeometricMeasureTheory G1 and G6; Tau Ceti
+`MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`,
+`TauCeti.IsJordanCurve.interior_filledHull`, `TauCeti.IsJordanCurve.closure_filledHull_sdiff`,
+`TauCeti.IsJordanCurve.frontier_filledHull_sdiff`, `HasConstantSpeedOnWith.mul_integral_norm_deriv_sq`,
+`TauCeti.mul_integral_norm_sq_eq_four_pi_mul_abs_signedArea_iff`,
+`ContinuousOn.eVariationOn_toReal_sq_eq_four_pi_mul_volume_real_filledHull_sdiff_of_image_eq_sphere`.
+
+**Checks.**
+- For `C = sphere 0 1`, `P(ball 0 1) = 2π = H¹(C)` (Tau Ceti `TauCeti.perimeter_ball`), and both
+  routes give equality.
+
+### Examples
+
+- An ellipse with semi-axes `a ≠ b` encloses area `πab` and is not a circle, so §6.3 makes its
+  inequality strict.
+- The L-shaped hexagon obtained by removing a unit square from a `2 × 2` square has area `3` and
+  length `8`, and `12π ≈ 37.7 < 64`.
+- The Koch snowflake is a Jordan curve with `H¹ = ∞`; it is excluded by the finiteness hypothesis,
+  though its inside has finite positive area.
+- Let `κ` be the Cantor–Lebesgue function of GeometricMeasureTheory's acceptance examples and
+  `φ(t) = (t + κ(t))/2` on `[0, 1]`. Then `φ` is an increasing homeomorphism of `[0, 1]` that is not
+  absolutely continuous (`φ′ = ½` a.e., while `φ(1) − φ(0) = 1`), and `γ(t) = exp(2πi φ(t))` is a
+  continuous simple closed rectifiable curve, of length `2π`, that is not absolutely continuous
+  (`‖γ′‖ = π` a.e., integrating to `π < 2π`). Its derivative integral `½ ∫₀¹ (x y′ − y x′)` is
+  `π/2`, while its geometric signed area and the area of its inside are `π`: §6.2 applies to it with
+  equality, and an argument through the derivative of the original parameter would fail.
+
+### Dependencies
+
+§3.1, §4.3 and §4.5; GeometricMeasureTheory G1 and G6 and its Cantor–Lebesgue example; Tau
+Ceti's Jordan curve theorem (ConformalMapping §5.3) and planar Green library
+(DifferentialGeometry 5.6).
+
+## Downstream consumers
+
+- [GaussianIsoperimetryAndClusters](../GaussianIsoperimetryAndClusters/README.md) consumes
+  Layer 4: essential convexity, which is Tau Ceti's
+  `TauCeti.exists_convex_ae_eq_of_ae_lineSection_ordConnected`, and the slicing theorem of §4.1.
+- [Yamabe](../Yamabe/README.md) consumes Layer 2's Schwarz rearrangement, which is Tau Ceti's, and
+  the convex-integrand estimate of §5.2.
+- [SieveMethodsAndPrimePatterns](../SieveMethodsAndPrimePatterns/README.md) consumes Layer 2's
+  isoperimetry for convex bodies, which is Tau Ceti's
+  `ConvexBody.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`.
+- [PDE](../PDE/README.md) names Layers 3 and 5 for the sharp periodic Wirtinger inequality,
+  which is Tau Ceti's, and the sharp `BV` Sobolev inequality with its extremizers (§5.5).
+- [RiemannianGeometry](../RiemannianGeometry/README.md) cites Layers 3 and 6, and
+  [DifferentialGeometry](../DifferentialGeometry/README.md) names them as the owners of the sharp
+  curve inequality and its circle equality.
+- [ConformalMapping](../../Completed/ConformalMapping/README.md) names Layer 6 as the owner of the
+  rectifiable isoperimetric inequality and as a consumer of its §5.3.
+
+## Scope and ownership
+
+**This roadmap owns** the Euclidean isoperimetric theory built on the inequality: the
+real-valued Prékopa–Leindler inequality (§1.1); perimeter nonincrease under Steiner
+symmetrization, convergence of iterated symmetrizations and the surface area of convex bodies
+(§2.1–§2.3); the signed area of a simple closed curve (§3.1); the slicing theorem, the interval
+structure of Steiner equality sets, ball rigidity and its frontier, regular-open and
+Lipschitz-domain forms (§4.1–§4.6); Pólya–Szegő in `BV` and `W¹,¹`, the radial profile and the
+sharp `BV` Sobolev inequality with its equality cases (§5.1–§5.5); and the planar theorem for
+rectifiable Jordan curves with its compatibility results (§6.1–§6.4). Other roadmaps cite these
+layers as `I1`–`I6`: `Ik` is Layer `k`.
+
+**In the Tau Ceti library at the pin**, and so not planned here (exact declarations in the
+supplier contracts):
+
+- *Layer 1*: the Prékopa–Leindler property of Lebesgue measure on finite-dimensional real inner
+  product spaces with its one-dimensional case, tensorization and linear transport;
+  Brunn–Minkowski for nonempty Lebesgue-measurable sets with outer volume on the sum, weighted,
+  multiplicative and real-valued; one-dimensional Brunn–Minkowski for compact, Borel and
+  Lebesgue-measurable sets; the equality case for compact convex sets of positive volume, in the
+  weighted, unweighted and multiplicative forms; positive volume against nonempty interior for
+  convex sets. Translation, dilation and monotonicity laws for volume, continuity along
+  decreasing compact sets and neighbourhood approximation are Mathlib's.
+- *Layer 2*: Steiner symmetrization with its measure-theoretic theory, `L¹` contraction,
+  continuity, second-moment monotonicity and fixed points, and perimeter nonincrease for bounded
+  convex sets; Schwarz rearrangement with equimeasurability, layer cake, `Lᵖ` norms and classes,
+  order preservation, `Lᵖ` contraction and the Hardy–Littlewood inequality; the perimeter of a
+  convex body as the first variation of its parallel volume, and the lower-dimensional derivative
+  formulas; isoperimetry for convex bodies with equality for closed balls; the isodiametric
+  inequality with its equality case.
+- *Layer 3*: the sharp periodic Wirtinger inequality with its equality case for absolutely
+  continuous functions valued in finite-dimensional real inner product spaces, for weakly
+  differentiable functions and on `W¹,²`; the signed area, the area–energy inequality with its
+  complete equality analysis and the a.e. equation of the equality case; the comparison with the
+  winding-weighted area of DifferentialGeometry 5.6; the arclength parametrization and the
+  constant-speed energy identity; the geometric signed area of a rectifiable curve with its
+  parametrization laws, and the sharp inequality for it with its equality case.
+- *Layer 4*: the sharp inequality for every Lebesgue-measurable set of finite volume, in extended,
+  root and real-valued forms, with its smooth and approximation steps; perimeter and volume of
+  balls; scaling; the convex-body steps of rigidity; essential convexity and compact convex
+  representatives; orthogonal line coordinates, measurability of sections and their a.e.
+  invariance; the slicing inequality.
+- *Layer 5*: preservation of Lipschitz bounds under Schwarz rearrangement, the weak derivative of
+  a Lipschitz function, the weak derivative of a convolution, Jensen's inequality for
+  convolution, de la Vallée Poussin's lemma and the coarea formulas.
+- *Layer 6*: the converse of the equality case for every continuous simple parametrization of a
+  circle.
+
+**Owned elsewhere and consumed here.**
+
+- [GeometricMeasureTheory](../GeometricMeasureTheory/README.md): rectifiable curves, arclength and
+  `H¹` length (G1); rectifiability, area and coarea, surface measure of spheres and polar
+  integration (G2); the measure-valued derivative, `BV`, and its comparison with `W¹,¹` (G3);
+  approximation, compactness and lower semicontinuity (G4); finite perimeter, reduced boundary and
+  De Giorgi's structure theorem, and `P(E) ≤ Hⁿ⁻¹(frontier E)` (G5); Gauss–Green, the comparison of
+  perimeter with surface measure on Lipschitz and `C¹` domains, and, for a rectifiable Jordan curve,
+  `P(filledHull C \ C) = H¹(C)` with the Jordan index theorem for its arclength parametrization
+  (G6); the Cantor–Lebesgue function (acceptance examples).
+- [DifferentialGeometry](../DifferentialGeometry/README.md) 5.6: winding numbers of absolutely
+  continuous curves, curve integration and Green's theorem, which it retains; the planar area
+  identity is used through Tau Ceti.
+- [ConformalMapping](../../Completed/ConformalMapping/README.md) §5.3: the Jordan curve theorem and
+  the inside of a Jordan curve, used through Tau Ceti.
+- [PDE](../PDE/README.md) Layer 1: weak derivatives, `W¹,ᵖ`, density, Poincaré and trace theory,
+  and the Lipschitz domains of §1.6. Its nonsharp estimates do not depend on this roadmap.
+
+**Outside this roadmap**: quantitative stability, anisotropic perimeter, isoperimetric
+inequalities on curved ambient manifolds, a general Orlicz-space theory (the convex-integrand
+estimates of §5.2–§5.3 are supporting results for `p = 1`), and the characterization of equality
+in the Prékopa–Leindler inequality for arbitrary functions.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `EuclideanSpace`, `Module.finrank`, `InnerProductSpace.volume_ball` (the volume of a ball in a
+  finite-dimensional real inner product space), `MeasureTheory.Measure.addHaar_smul`,
+  `MeasureTheory.Measure.addHaar_sphere` (spheres are null), `Convex.addHaar_frontier` (the
+  frontier of a convex set is null), `tendsto_measure_cthickening_of_isCompact` and
+  `MeasureTheory.tendsto_measure_iInter_atTop` (continuity of volume along decreasing sets).
+- `MeasureTheory.Measure.euclideanHausdorffMeasure`, notation `μHE[k]`, the normalized Euclidean
+  Hausdorff measure, agreeing with `volume` in dimension `k`.
+- `ConvexBody`, `Convex`, pointwise Minkowski operations, `Convex.add_smul`
+  (`(p + q) • s = p • s + q • s` for convex `s` and `p, q ≥ 0`).
+- `MeasureTheory.NullMeasurableSet`, `MeasureTheory.eLpNorm`, `MeasureTheory.MemLp`,
+  `MeasureTheory.Integrable`, `MeasureTheory.ofReal_integral_eq_lintegral_ofReal`,
+  `ENNReal.ofReal_rpow_of_nonneg`, `norm_add_sq_eq_norm_sq_add_norm_sq_of_inner_eq_zero`.
+- `BoundedVariationOn`, `eVariationOn` with `eVariationOn.comp_eq_of_monotoneOn` and
+  `eVariationOn.comp_eq_of_antitoneOn`, `HasConstantSpeedOnWith`, `naturalParameterization`,
+  `AbsolutelyContinuousOnInterval`, `circleMap`.
+
+### From Tau Ceti
+
+Every declaration below exists at the pin, each theorem with a proof; paths are under `TauCeti/`.
+
+- *Prékopa–Leindler and Brunn–Minkowski* (`MeasureTheory/Integral/PrekopaLeindler.lean`,
+  `MeasureTheory/Measure/Lebesgue/BrunnMinkowski/`): `MeasureTheory.Measure.HasPrekopaLeindler`
+  (the extended-integral inequality at weight `θ` for measurable functions, pointwise on the
+  given representatives) with `MeasureTheory.Measure.HasPrekopaLeindler.prod`,
+  `MeasureTheory.Measure.HasPrekopaLeindler.pi`, `MeasureTheory.Measure.HasPrekopaLeindler.map` and
+  `MeasureTheory.Measure.HasPrekopaLeindler.of_measurePreserving`;
+  `TauCeti.Real.hasPrekopaLeindler_volume` and `TauCeti.hasPrekopaLeindler_volume` (every
+  `0 ≤ θ ≤ 1`, on `ℝ` and on a finite-dimensional real inner product space);
+  `TauCeti.volume_rpow_add_volume_rpow_le` (nonempty Lebesgue-measurable `A, B`, positive
+  dimension, outer volume on `A + B`), `TauCeti.mul_volume_rpow_add_mul_volume_rpow_le` (weighted,
+  `c, d ≥ 0`), `TauCeti.volume_rpow_mul_volume_rpow_le` (multiplicative, `0 < θ < 1`),
+  `TauCeti.volume_real_rpow_add_volume_real_rpow_le` and
+  `TauCeti.mul_volume_real_rpow_add_mul_volume_real_rpow_le` (real-valued, finite outer volume of
+  the sum); `TauCeti.Real.volume_add_volume_le_of_isCompact`, `TauCeti.Real.volume_add_volume_le`
+  and `TauCeti.Real.volume_add_volume_le_of_nullMeasurableSet` (one-dimensional);
+  `Convex.volume_smul_add_smul_eq_iff` (multiplicative equality for compact convex sets of positive
+  volume: a translate), `Convex.volume_real_smul_add_smul_rpow_eq_iff` and
+  `Convex.exists_eq_vadd_smul_of_volume_real_rpow_le` (additive equality for `c, d > 0`: `B = v + r • A`
+  with `r > 0`); `Convex.addHaar_pos_iff_interior_nonempty` and
+  `Convex.addHaar_pos_iff_affineSpan_eq_top` (`Analysis/Convex/Measure.lean`).
+- *Steiner symmetrization* (`MeasureTheory/Measure/Lebesgue/Steiner/`): `TauCeti.steinerSymmetrization`
+  (Convention 8), `TauCeti.steinerSymmetrization_ae_eq`, `TauCeti.nullMeasurableSet_steinerSymmetrization`,
+  `TauCeti.volume_steinerSymmetrization`, `TauCeti.steinerSymmetrization_mono`,
+  `TauCeti.steinerSymmetrization_vadd`, `TauCeti.steinerSymmetrization_smul`,
+  `TauCeti.steinerSymmetrization_image_linearIsometryEquiv`, `TauCeti.convex_steinerSymmetrization`,
+  `TauCeti.steinerSymmetrization_ball_zero`, `TauCeti.ordConnected_lineSection_steinerSymmetrization`,
+  `TauCeti.volume_steinerSymmetrization_symmDiff_le` and
+  `TauCeti.eLpNorm_indicator_steinerSymmetrization_sub_le` (contraction, infinite volumes
+  allowed), `TauCeti.tendsto_volume_steinerSymmetrization_symmDiff` (joint continuity in the
+  direction and the set, the limit of finite volume), `TauCeti.lintegral_norm_sq_steinerSymmetrization_le`
+  and `TauCeti.lintegral_norm_sq_steinerSymmetrization_eq_iff` (second moment, equality exactly for
+  a.e. fixed sets), `TauCeti.forall_steinerSymmetrization_ae_eq_iff_exists_ae_eq_ball` and
+  `TauCeti.exists_ae_eq_ball_of_forall_steinerSymmetrization_ae_eq` (fixed points, finite volume),
+  `TauCeti.perimeter_steinerSymmetrization_le_of_convex` (bounded convex sets) and
+  `TauCeti.perimeter_steinerSymmetrization_le_liminf` (closed sets of finite volume: perimeter of
+  the symmetral at most the lower outer Minkowski content).
+- *Schwarz rearrangement* (`MeasureTheory/Function/SchwarzRearrangement.lean` and
+  `…/SchwarzRearrangement/Lipschitz.lean`): `TauCeti.schwarzRearrangement` (Convention 8),
+  `TauCeti.lt_schwarzRearrangement_iff`, `TauCeti.addHaar_setOf_lt_schwarzRearrangement`,
+  `TauCeti.schwarzRearrangement_congr_ae`, `TauCeti.schwarzRearrangement_mono_ae`,
+  `TauCeti.schwarzRearrangement_indicator`, `TauCeti.lintegral_schwarzRearrangement`,
+  `TauCeti.lintegral_rpow_schwarzRearrangement`, `TauCeti.eLpNorm_schwarzRearrangement`,
+  `TauCeti.memLp_schwarzRearrangement_iff`, `TauCeti.lintegral_mul_le_lintegral_schwarzRearrangement_mul`
+  (Hardy–Littlewood), `TauCeti.lintegral_edist_rpow_schwarzRearrangement_le` and
+  `TauCeti.eLpNorm_edist_schwarzRearrangement_le` (contraction for `1 ≤ p`),
+  `TauCeti.lipschitzWith_toReal_schwarzRearrangement` (a real `K`-Lipschitz function has a
+  `K`-Lipschitz rearrangement of its positive part).
+- *Convex geometry*: `Convex.hasDerivWithinAt_measureReal_add_smul_closedBall` (compact convex `K`
+  with nonempty interior: right derivative `P(K)` of the parallel volume) and
+  `IsCompact.perimeter_le_of_hasDerivWithinAt` (`Analysis/BoundedVariation/ParallelVolume.lean`,
+  `…/MinkowskiContent.lean`); `TauCeti.hasDerivWithinAt_volume_real_add_smul_closedBall_of_finrank_add_one_eq`
+  and `TauCeti.hasDerivWithinAt_volume_real_add_smul_closedBall_of_finrank_add_two_le` (compact `K`
+  in an affine subspace of codimension one, resp. at least two: right derivative `2 Hⁿ⁻¹(K)`, resp.
+  `0`; `Geometry/Euclidean/Volume/Parallel.lean`); `ConvexBody.concaveOn_volume_real_add_smul_rpow`,
+  `ConvexBody.hasDerivWithinAt_volume_real_add_smul_closedBall_rpow`,
+  `ConvexBody.hasDerivWithinAt_volume_real_add_smul_closedBall_rpow_iff_exists_eq_closedBall`,
+  `ConvexBody.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow` and
+  `ConvexBody.perimeter_pow_eq_iff_exists_eq_closedBall` (convex bodies of positive volume,
+  positive dimension); `TauCeti.volume_le_volume_closedBall_diam_div_two`,
+  `TauCeti.volume_le_ofReal_diam_div_two_pow_mul_volume_ball`,
+  `TauCeti.volume_eq_volume_closedBall_diam_div_two_iff_exists_ae_eq` (bounded Lebesgue-measurable
+  sets) and `TauCeti.volume_eq_volume_closedBall_diam_div_two_iff_exists_eq` (nonempty closed bounded
+  sets) (`MeasureTheory/Measure/Lebesgue/Isodiametric.lean`).
+- *Perimeter and variation* (`Analysis/BoundedVariation/`): `TauCeti.totalVariationOn`,
+  `TauCeti.perimeter` (Convention 3), `TauCeti.perimeter_congr_ae`, `TauCeti.perimeter_empty`,
+  `TauCeti.perimeter_le_liminf` (lower semicontinuity under local `L¹` convergence),
+  `TauCeti.perimeter_smul`, `LinearIsometryEquiv.perimeter_image`, `TauCeti.perimeter_ball`,
+  `TauCeti.perimeter_closedBall`, `TauCeti.perimeter_ball_pow`;
+  `MeasureTheory.NullMeasurableSet.finrank_pow_mul_volume_ball_mul_volume_pow_le_perimeter_pow`,
+  `MeasureTheory.NullMeasurableSet.ofReal_mul_volume_real_rpow_mul_le_perimeter` and
+  `MeasureTheory.NullMeasurableSet.mul_volume_real_rpow_mul_le_perimeter_toReal` (the sharp
+  inequality for Lebesgue-measurable sets of finite positive volume in positive dimension;
+  `…/Isoperimetric.lean`); `TauCeti.totalVariationOn_eq_lintegral_perimeter` (coarea, locally
+  integrable `u`) and `LocallyLipschitzOn.lintegral_perimeter_eq_setLIntegral_enorm_fderiv`
+  (`…/Coarea.lean`); `TauCeti.eLpNorm_le_totalVariationOn` (nonsharp, not used);
+  `TauCeti.Real.two_le_perimeter`, `TauCeti.Real.four_le_perimeter` and
+  `TauCeti.Real.perimeter_eq_two_iff` (sets of finite measure in `ℝ`; `…/Real.lean`);
+  `TauCeti.lintegral_perimeter_lineSection_le` and `TauCeti.ae_perimeter_lineSection_lt_top`
+  (`…/Slicing.lean`).
+- *Line sections and convexity* (`MeasureTheory/Measure/Lebesgue/`): `TauCeti.orthogonalLineEquiv`
+  (`Analysis/InnerProductSpace/LinearIsometry.lean`), `TauCeti.measurePreserving_orthogonalLineEquiv`,
+  `TauCeti.ae_nullMeasurableSet_lineSection`, `TauCeti.volume_eq_lintegral_volume_lineSection`,
+  `TauCeti.ae_lineSection_ordConnected_iff` (`OrthogonalSlices.lean`);
+  `TauCeti.exists_convex_ae_eq_of_ae_lineSection_ordConnected` (`EssentialConvexity.lean`: a
+  Lebesgue-measurable set whose a.e. section in every unit direction is a.e. an interval agrees
+  a.e. with a convex set); `MeasureTheory.Measure.exists_isCompact_convex_ae_eq`
+  (`Analysis/Convex/Measure.lean`: a set of finite positive measure a.e. equal to a convex set has
+  a compact convex representative with nonempty interior);
+  `MeasureTheory.Measure.addHaar_closedBall_ae_eq_ball` (`MeasureTheory/Measure/Haar/NormedSpace.lean`).
+- *Weak derivatives and convolution*: `TauCeti.HasWeakFDerivOn` (`Analysis/Sobolev/WeakDeriv/Basic.lean`),
+  `TauCeti.W1p`, `LocallyLipschitzOn.hasWeakFDerivOn_fderiv` (`…/WeakDeriv/Lipschitz.lean`),
+  `TauCeti.HasWeakFDerivOn.hasFDerivAt_convolution_right` (`Analysis/Sobolev/Mollification/Basic.lean`),
+  `ConvexOn.lintegral_ofReal_map_norm_convolution_le` (`Analysis/Convolution/Jensen.lean`; `Φ`
+  convex and monotone on `[0, ∞)`, `ρ` a probability kernel),
+  `MeasureTheory.Integrable.exists_convexOn_superlinear_integrable`
+  (`MeasureTheory/Function/DeLaValleePoussin.lean`); `Set.IsLipschitzDomain`
+  (`Analysis/Sobolev/LipschitzDomain/Basic.lean`).
+- *Curves* (`Analysis/Fourier/`, `Analysis/Green/Examples/CurveArea/`,
+  `MeasureTheory/Function/MetricDerivative/ConstantSpeed.lean`, `Topology/MetricSpace/Arclength/Basic.lean`):
+  `TauCeti.integral_norm_sub_average_sq_le` and `TauCeti.integral_norm_sub_average_sq_eq_iff`
+  (absolutely continuous, values in a finite-dimensional real inner product space),
+  `TauCeti.HasWeakLineDerivOn.integral_norm_sub_average_sq_le`,
+  `TauCeti.HasWeakLineDerivOn.integral_norm_sub_average_sq_eq_iff`,
+  `TauCeti.W1p.integral_norm_sub_average_sq_le`, `TauCeti.W1p.integral_norm_sub_average_sq_eq_iff`;
+  `TauCeti.signedArea`, `TauCeti.signedArea_circleMap`, `TauCeti.four_pi_mul_abs_signedArea_le`,
+  `TauCeti.mul_integral_norm_sq_eq_four_pi_mul_abs_signedArea_iff`,
+  `TauCeti.mul_integral_norm_sq_eq_four_pi_mul_abs_signedArea_iff_ae_hasDerivAt`,
+  `TauCeti.signedArea_eq_integral_windingWeight`,
+  `TauCeti.signedArea_eq_intCast_mul_volume_real_of_windingNumber_eq` (constant integer winding
+  number `k` on the inside: signed area `k` times its area);
+  `HasConstantSpeedOnWith.mul_integral_norm_deriv_sq`,
+  `AbsolutelyContinuousOnInterval.eVariationOn_toReal_sq_le_mul_integral_norm_deriv_sq`,
+  `BoundedVariationOn.image_naturalParameterization_Icc`,
+  `BoundedVariationOn.naturalParameterization_toReal_eVariationOn`;
+  `TauCeti.rectifiableSignedArea`, `AbsolutelyContinuousOnInterval.rectifiableSignedArea_eq_signedArea`,
+  `TauCeti.rectifiableSignedArea_eq_signedArea_of_eqOn_comp`,
+  `TauCeti.rectifiableSignedArea_eq_signedArea_naturalParameterization`,
+  `TauCeti.rectifiableSignedArea_comp_of_monotoneOn`, `TauCeti.rectifiableSignedArea_comp_of_antitoneOn`,
+  `TauCeti.four_pi_mul_abs_rectifiableSignedArea_le`,
+  `TauCeti.eVariationOn_toReal_sq_eq_four_pi_mul_abs_rectifiableSignedArea_iff`;
+  `ContinuousOn.rectifiableSignedArea_eq_or_eq_neg_of_image_eq_sphere`,
+  `ContinuousOn.eVariationOn_toReal_sq_eq_four_pi_mul_volume_real_filledHull_sdiff_of_image_eq_sphere`
+  (continuous, injective on `(a, b)`, trace a circle: `L² = 4πA`),
+  `BoundedVariationOn.exists_image_eq_sphere_of_isoperimetric_eq`,
+  `BoundedVariationOn.exists_filledHull_sdiff_eq_ball_of_isoperimetric_eq`,
+  `BoundedVariationOn.eVariationOn_toReal_sq_eq_four_pi_mul_abs_rectifiableSignedArea_iff_exists_image_eq_sphere`
+  (`IsoperimetricTrace.lean`).
+- *Jordan curves* (`Topology/JordanCurve/Basic.lean`, `Topology/FilledHull.lean`,
+  `Analysis/Normed/Module/FilledHull.lean`, `Analysis/Complex/PlaneSeparation/Inside.lean`):
+  `TauCeti.IsJordanCurve`, `TauCeti.isJordanCurve_sphere`, `TauCeti.filledHull`,
+  `TauCeti.isBounded_filledHull`, `TauCeti.IsJordanCurve.natCard_connectedComponents_compl_eq_two`,
+  `TauCeti.IsJordanCurve.isConnected_filledHull_sdiff`, `TauCeti.IsJordanCurve.frontier_filledHull_sdiff`,
+  `TauCeti.IsJordanCurve.interior_filledHull`, `TauCeti.IsJordanCurve.closure_filledHull_sdiff`.
+
+### From TauCetiRoadmap.GeometricMeasureTheory
+
+- G1: arclength parametrization of a rectifiable curve, simple when the curve is simple;
+  `eVariationOn γ (Icc a b) = H¹(trace)` for simple closed curves, and finiteness of `H¹` of the
+  trace exactly for rectifiable ones.
+- G2: the coarea formula for Lipschitz maps and on rectifiable sets, `Hⁿ⁻¹(sphere c r) = n ω_n rⁿ⁻¹`,
+  polar integration, the area formula on graphs.
+- G3: the measure-valued derivative of a `BV` function and its Radon–Nikodym decomposition; an
+  integrable `BV` function with derivative absolutely continuous with respect to `volume` is in
+  `W¹,¹`, with that density as weak derivative.
+- G4: approximation of finite-volume finite-perimeter sets by bounded smooth sets with
+  convergence of volume and perimeter; compactness in `L¹_loc` under bounds on variation; lower
+  semicontinuity of variation on open sets.
+- G5: reduced boundary, outer normal, De Giorgi's structure theorem `|D1_s| = Hⁿ⁻¹ ⌊ ∂*s`, the
+  comparison of the perimeter of superlevel sets with the measure of level sets, and
+  `P(E) ≤ Hⁿ⁻¹(frontier E)` for measurable `E`, through the boundary criterion.
+- G6: perimeter equals boundary measure on Lipschitz and `C¹` domains, with the classical outward
+  normal; `P(filledHull C \ C) = H¹(C)` for a rectifiable Jordan curve and the Jordan index theorem
+  for its absolutely continuous arclength parametrization, with the sign a conclusion.
+- Acceptance examples: the Cantor–Lebesgue function, continuous, nondecreasing, from `0` to `1`,
+  with derivative `0` a.e.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+5.6: winding numbers of absolutely continuous curves and Green's theorem for absolutely
+continuous cycles, with the winding-weighted area; DifferentialGeometry records 5.6.1–5.6.3 as Tau
+Ceti's, and this roadmap uses them through the Tau Ceti declarations above.
+
+### From TauCetiRoadmap.ConformalMapping
+
+§5.3: the Jordan curve theorem, with the inside `filledHull C \ C` open, connected and bounded, of
+frontier `C`; used through Tau Ceti's `TauCeti.IsJordanCurve.natCard_connectedComponents_compl_eq_two`
+and the declarations above.
+
+### From TauCetiRoadmap.PDE
+
+Layer 1: weak derivatives and the Sobolev classes, whose carriers are Tau Ceti's
+`TauCeti.HasWeakFDerivOn` and `TauCeti.W1p`; §1.6: Lipschitz domains, whose predicate is Tau Ceti's
+`Set.IsLipschitzDomain`.
+
+## References
 
 - Francesco Maggi, [*Sets of Finite Perimeter and Geometric Variational Problems*](https://cvgmt.sns.it/paper/1880/),
-  for finite-perimeter isoperimetry and symmetrization. GMT's roadmap owns the underlying
+  for finite-perimeter isoperimetry and symmetrization; GeometricMeasureTheory owns the underlying
   measure and boundary theory.
-- Cagnetti–Colombo–De Philippis–Maggi,
+- F. Cagnetti, M. Colombo, G. De Philippis, F. Maggi,
   [*Rigidity of equality cases in Steiner's perimeter inequality*](https://arxiv.org/abs/1309.1639),
-  §1.2 and Theorem A, for the necessary interval-section condition used in I4. Translation
+  §1.2 and Theorem A, for the necessary interval-section condition used in §4.2. Translation
   rigidity for a single symmetrization needs additional hypotheses.
-- Bianchi–Gardner–Gronchi–Kiderlen,
+- G. Bianchi, R. J. Gardner, P. Gronchi, M. Kiderlen,
   [*The Pólya–Szegő inequality for smoothing rearrangements*](https://arxiv.org/abs/2206.09833),
-  Theorem 5.8, Theorem 6.3 and Corollary 6.5, for the Lipschitz convex-integrand estimate,
-  Sobolev membership, and the gradient comparison, including the uniform-integrability
-  argument at the `p = 1` endpoint. I5 requires only Schwarz rearrangement at that endpoint.
-- [The Brunn–Minkowski exposition by Terence Tao](https://terrytao.wordpress.com/2011/09/16/the-brunn-minkowski-inequality-for-nilpotent-groups/)
-  includes the Euclidean Prékopa–Leindler argument.
-- Joel Tropp's [*Lectures on Convex Geometry*](https://tropp.caltech.edu/notes/Tro18-Lectures-Convex-LN.pdf),
-  Lecture 8, supplies the parallel-volume and intrinsic-volume normalization, including
+  Theorem 5.8, Theorem 6.3 and Corollary 6.5, for the Lipschitz convex-integrand estimate, Sobolev
+  membership and the gradient comparison, including the uniform-integrability argument at the
+  endpoint `p = 1`; Layer 5 uses only Schwarz rearrangement.
+- Terence Tao, [*The Brunn–Minkowski inequality for nilpotent groups*](https://terrytao.wordpress.com/2011/09/16/the-brunn-minkowski-inequality-for-nilpotent-groups/),
+  which includes the Euclidean Prékopa–Leindler argument.
+- Joel Tropp, [*Lectures on Convex Geometry*](https://tropp.caltech.edu/notes/Tro18-Lectures-Convex-LN.pdf),
+  Lecture 8, for the parallel-volume and intrinsic-volume normalization, including
   lower-dimensional convex bodies.
-- [Freek Wiedijk's isoperimetric entry and HOL Light proof](https://www.cs.ru.nl/~freek/100/hol.html#43)
-  provide a classical planar comparison: arbitrary rectifiable simple closed curves and
-  geometric circle equality.
-- **Humanfia's [public Lean source archive](https://huggingface.co/datasets/humanfia-lab/lean-eval-source/tree/main/problems/isoperimetric_inequality)**
-  contains a higher-dimensional bounded-set inequality using volume and Hausdorff measure
-  of the topological frontier. It is relevant prior work for I1 and I4; the canonical
-  finite-perimeter theory and equality cases remain intrinsic requirements here.
-- **Jonathan Ho's [isoperimetric repository](https://github.com/hojonathanho/isoperimetric)**,
-  also distributed [in LeanPool](https://github.com/LeanPool/lean-pool/tree/main/LeanPool/Isoperimetric),
-  develops Prékopa–Leindler, Brunn–Minkowski, and outer-neighborhood volume inequalities.
-  These are relevant to I1–I2. A neighborhood inequality still requires its bridge to
-  geometric perimeter and rigidity.
-- **[kim-em/isoperimetric](https://github.com/kim-em/isoperimetric)** is a parallel development
-  directed at the classical isoperimetric theorem. Cite and examine its mathematical
-  results as existing work; neither its implementation nor any chosen dependencies
-  prescribe this roadmap's design or discharge a milestone without its full requirements.
+- Freek Wiedijk, [isoperimetric entry and HOL Light proof](https://www.cs.ru.nl/~freek/100/hol.html#43),
+  a classical planar comparison: arbitrary rectifiable simple closed curves and geometric circle
+  equality.
+- Lean Zulip discussions of [Brunn–Minkowski and Prékopa–Leindler](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Brunn-Minkowski%20Inequality%20%2B%20Theory)
+  and of [convex bodies](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Convex%20bodies),
+  and the Mathlib pull request [mathlib4 44802](https://github.com/leanprover-community/mathlib4/pull/44802)
+  on one-dimensional Brunn–Minkowski, including `Real.volume_add_volume_le` and the compact-set
+  version, as design references; Tau Ceti's one-dimensional Brunn–Minkowski follows that shape.
 
-Humanfia, Jonathan Ho/LeanPool, and kim-em/isoperimetric are prior work rather than required
-imports or prescribed proof strategies. Contributors develop the mathematics on the canonical
-Mathlib/Tau Ceti APIs and assess every result against the statements above. Reuse of code
-follows the repository's coordination and attribution rules. New definitions must receive
-their full usable basic theory, and all comparisons must agree with the geometric
-normalizations and a.e. conventions fixed here.
+Prior formalizations, cited as prior work; none of them is an import or a prescribed proof
+strategy, every result is assessed against the statements above, and reuse of code follows the
+repository's coordination and attribution rules:
+
+- Humanfia's [public Lean source archive](https://huggingface.co/datasets/humanfia-lab/lean-eval-source/tree/main/problems/isoperimetric_inequality)
+  contains a higher-dimensional inequality for bounded sets with volume and the Hausdorff measure
+  of the topological frontier, relevant to Layers 1 and 4; the finite-perimeter theory and the
+  equality cases are requirements here.
+- Jonathan Ho's [isoperimetric repository](https://github.com/hojonathanho/isoperimetric), also
+  [in LeanPool](https://github.com/LeanPool/lean-pool/tree/main/LeanPool/Isoperimetric), develops
+  Prékopa–Leindler, Brunn–Minkowski and outer-neighbourhood volume inequalities, relevant to
+  Layers 1–2; a neighbourhood inequality still needs its bridge to perimeter and rigidity.
+- [kim-em/isoperimetric](https://github.com/kim-em/isoperimetric) is a parallel development
+  directed at the classical isoperimetric theorem; neither its implementation nor its
+  dependencies prescribe this roadmap's design or discharge a target without its full statement.
