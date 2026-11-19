@@ -95,9 +95,12 @@ Additional elementary infrastructure constructed here is listed in the next subs
 | `Geometry.SimplicialComplex.isPLOn_of_locallyFinite` | `TauCeti/Topology/PL/Simplicial.lean` |
 | `dimension` | `TauCeti/AlgebraicTopology/SimplicialComplex/Dimension.lean` |
 | the collapse API | `TauCeti/AlgebraicTopology/SimplicialComplex/Collapse/`, `ElementaryCollapse.lean` |
+| Native purity, `PreAbstractSimplicialComplex.IsPure` | `TauCeti/AlgebraicTopology/SimplicialComplex/Pure.lean` |
+| Finite-realization compactness, `AbstractSimplicialComplex.compactSpace_realization_of_finite_faces` | `TauCeti/AlgebraicTopology/SimplicialComplex/Realization/Finite.lean` |
+| Stellar realization homeomorphism, `PreAbstractSimplicialComplex.exists_homeomorph_stellarSubdivision` | `TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/Stellar/Homeomorph.lean` |
 | `IsTriangulable` | `TauCeti/Topology/Triangulable.lean` |
 | `IsLocallyFlat`, `IsSliceChart`, `IsSliceEmbedding` | `TauCeti/Geometry/Manifold/LocallyFlat/{Basic,Smooth}.lean` |
-| half-space boundary model, boundary charts, collar charts, and the topological collar `IsCollar` | `TauCeti/Geometry/Manifold/Boundary/{Basic,Charts,Model}.lean`, `Boundary/Collar/{Basic,Chart,Local,Global}.lean` |
+| half-space boundary model, collar charts, `IsCollar`, and Brown's topological assembly theorem `IsLocallyCollared.isCollared` | `TauCeti/Geometry/Manifold/Boundary/{Basic,Charts,Model}.lean`, `Boundary/Collar/{Basic,Chart,Local,Global,Brown}.lean` |
 | `IsPiecewiseAffineOn`, `IsPLOn` | `TauCeti/Topology/PL/Map.lean` |
 | `PLPregroupoid`, `PLGroupoid` | `TauCeti/Geometry/Manifold/PLGroupoid.lean` |
 | `IsJordanCurve` and the arc theory | `TauCeti/Topology/JordanCurve/{Basic,Path,Separation,SmallArc,Subcontinuum,Monotone,OnePoint}.lean` |
@@ -111,8 +114,8 @@ Additional elementary infrastructure constructed here is listed in the next subs
 ### Shared formal infrastructure needed
 
 - **Relative and supported isotopy** (`IsotopicRel`, ambient isotopy with prescribed support) into `TauCeti/Topology/Homotopy/`.
-- **General subdivision** (a complex refining another with the same realization), stellar subdivision, and the common-subdivision theorem, into  `TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/`.
-- **Purity, facets, and skeleta** into `TauCeti/AlgebraicTopology/SimplicialComplex/`.
+- **General subdivision** with recorded placement, support-reindexing and placement adapters for native stellar subdivision, and the common-subdivision theorem, into `TauCeti/AlgebraicTopology/SimplicialComplex/Subdivision/`.
+- **Facet and skeleton API extensions**, using the native purity predicate above, into `TauCeti/AlgebraicTopology/SimplicialComplex/`.
 - **`IsPLMap`** in the same directory, defined by quantification over subdivisions.
 
 
@@ -703,6 +706,7 @@ def IsClosedCombinatorialSurface (K : AbstractSimplicialComplex ι) : Prop :=
     existence statement, with its boundary the carrier of the boundary subcomplex. -/
 def IsCombinatorialSurface.realizationChartedSpace (h : IsCombinatorialSurface K) :
     ChartedSpace (EuclideanHalfSpace 2) (Realization K)
+/-- Specialize the native finite-face compactness theorem to the surface data. -/
 theorem IsCombinatorialSurface.compactSpace_realization (h : IsCombinatorialSurface K) :
     CompactSpace (Realization K)
 theorem IsCombinatorialSurface.boundary_realization (h : IsCombinatorialSurface K) :
@@ -722,12 +726,12 @@ theorem isPLMap_iff_isPLOn (e : Realization K ≃ₜ P) (e' : Realization L ≃�
 **Mathematical route and formalization notes.**
 
 - A subdivision may introduce vertices, so its vertex type cannot be fixed in advance. The shared API must therefore be heterogeneous or bundle the subdividing complex.  A similar issue affects combinatorial surface move relations, and is solved by bundling index types.
-- Stellar subdivision is defined for every nonempty face, including a singleton. Its result is an `AbstractSimplicialComplex` on the support of the resulting pre-complex, rather than on all of `Option ι`. Starring `{v}` removes `some v` and replaces it by `none`, including in every incident face; starring an edge or triangle retains its old vertices and introduces `none`. The support-reindexing API includes the face correspondence above and preservation of finite faces. The stellar realization homeomorphism is a target of this layer, with the specified affine placement.
+- Stellar subdivision is defined for every nonempty face, including a singleton. Its result is an `AbstractSimplicialComplex` on the support of the resulting pre-complex, rather than on all of `Option ι`. Starring `{v}` removes `some v` and replaces it by `none`, including in every incident face; starring an edge or triangle retains its old vertices and introduces `none`. The support-reindexing API includes the face correspondence above and preservation of finite faces. Use `PreAbstractSimplicialComplex.exists_homeomorph_stellarSubdivision` for the native barycentric identification. The new comparison reindexes its support and records the specified affine placement in `Subdivision`.
 - The common-subdivision theorem in this layer starts with a **PL** homeomorphism (or, equivalently, two PL triangulations of one polyhedron). Its conclusion is best stated as subdivisions of the two complexes together with a simplicial isomorphism. The two-dimensional Hauptvermutung in layer 5 is the deeper theorem that starts with an arbitrary topological homeomorphism and produces such a PL comparison. Keeping these two statements separate exposes a genuine mathematical distinction which could be hidden by a convenient choice of vertex types.
 - The compatibility theorem with Tau Ceti's `IsCombinatorialManifold K 2` is proved here: a finite complex whose vertex links are circles or arcs is one whose vertex links are stellar equivalent to the boundary of a triangle or to an edge (the standard 1-simplex), and conversely. No dimension-two result depends on it.
 - Tau Ceti already has stellar subdivision with `StellarEquivalent`, and the homeomorphism between the realizations of a complex and its barycentric subdivision. `Subdivision` is the general notion both instantiate, and it is data: the realization homeomorphism is a field, fixed by the vertex placement, not something extracted from a proof, because layer 4's relative approximation, layer 8's smoothing, and `SimplicialRealizes` all depend on which placement was chosen. Simplicial maps use the native `realizationMap`, whose coordinates add the weights of vertices with the same image; its identity, composition, and vertex laws are imported from `Realization/Map.lean`.
 - `GeometricTopology` layer 11 owns the dimension-general reconciliation of combinatorial manifolds with PL chart structures. The additional comparison here, `isPLMap_iff_isPLOn`, concerns a specified map between finite polyhedra affinely realized in the plane: it identifies the subdivision-based map predicate with the native local polyhedral predicate. Its forward implication uses `Geometry.SimplicialComplex.isPLOn_of_locallyFinite` (`Topology/PL/Simplicial.lean`); the reverse refines a finite polyhedral cover into triangles. The circle/arc link construction of surface charts is the direct dimension-two proof.
-- The realization of a finite complex is metrized by its barycentric coordinates. This metric is what layer 4's `ε` and layer 7's small-cell estimates measure with; no metric on realizations exists in Tau Ceti.
+- Construct the barycentric-coordinate metric on the finite support and prove that it induces the existing weak realization topology. This is the metric used by layer 4's `ε` and layer 7's small-cell estimates; compactness is the native finite-face theorem above.
 - Combinatorial circles and arcs in dimension one are concrete: a combinatorial circle is a finite connected 1-complex in which every vertex has exactly two neighbours; a combinatorial arc is a finite connected 1-complex in which exactly two vertices have one neighbour and the rest have two. These should not be based on a general sphere-recognition recursion.
 
 **Examples and mathematical checks.** `IsCombinatorialSurface` is **false** for each of: two triangles sharing exactly one vertex; three triangles sharing an edge; the dunce hat; the cone on a theta graph. It is **true** for: the boundary of the tetrahedron; a triangulated disc; a triangulated Möbius band; and the empty complex, the empty surface. Every one of these is a concrete finite complex checked by `decide`. ⚠ This is the layer where vacuity is a risk, because pinch points are possible for abstract complexes.
@@ -925,7 +929,7 @@ theorem pachner₂ {K L} (hK : IsCombinatorialSurface K) (hL : IsCombinatorialSu
 **Mathematical route and formalization notes.**
 
 - Radó's construction grows an already triangulated region across a countable chart cover. On each overlap, the **local** form of the approximation theorem replaces a topological coordinate change by a controlled PL homeomorphism; this is the point at which the approximation theorem enters the triangulation proof.
-- The boundary case runs the same construction in half-plane charts, carrying the boundary along as a subcomplex at every stage: layer 4's local theorem is applied in its half-plane form, the polygonal replacement of chart boundaries preserves the boundary line, and the exposed boundary faces survive subdivision, relabelling, and gluing. No collar is used. The topological collar is then a corollary: a triangulated surface with boundary has a combinatorial collar, and `IsCollared` in Tau Ceti's sense follows by realization. Tau Ceti's `Boundary/Collar/` files supply the chart vocabulary and smooth collars only.
+- The boundary case runs the same construction in half-plane charts, carrying the boundary along as a subcomplex at every stage: layer 4's local theorem is applied in its half-plane form, the polygonal replacement of chart boundaries preserves the boundary line, and the exposed boundary faces survive subdivision, relabelling, and gluing. No collar is used. Construct the surface boundary's local collars from the boundary subcomplex, then apply the native `TauCeti.IsLocallyCollared.isCollared` to its injective inclusion. The boundary is compact, so Brown's topological assembly theorem supplies the global collar without a smoothness hypothesis.
 - Every boundary component is a circle because the boundary subcomplex is a combinatorial 1-manifold, hence a disjoint union of combinatorial circles.
 - Pachner's theorem is what turns "invariant under the elementary moves" into "topological invariant": with the Hauptvermutung it says that triangulations of homeomorphic compact surfaces are related by bistellar moves. Its proof runs through the common subdivision: its vertices are inserted by `1 → 3` moves and flips, and two triangulations of a disc on the same vertex set are flip-connected.
 - Isotopy to a PL homeomorphism is the relative approximation theorem followed by Alexander's trick: a fine enough PL approximation of `f` differs from `f` by a map that is small on each triangle, and coning fills each triangle with an isotopy. The rel form keeps a subcomplex fixed throughout, which is what surfaces with boundary and `SurfaceTopology` layer 9 need.

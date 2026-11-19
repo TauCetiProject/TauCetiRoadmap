@@ -70,7 +70,7 @@ From [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md), which 
 | Item | Which layer here |
 |---|---|
 | `Graph.Connected`, in the shape of [Mathlib multigraph walks](https://github.com/leanprover-community/mathlib4/pull/37861), and its agreement with `SimpleGraph.Connected` across `Graph.ofSimpleGraph` (Target 1.1) | 5, 7, 10 |
-| the number of connected components of a finite multigraph, written `Γ.componentCount` here (Milestone 2) | 10 |
+| the number of connected components of a finite multigraph, written `Γ.componentCount` here (Target 1.1) | 10 |
 | `SimpleGraph.IsVertexConnected k`, in the shape of [Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355) (conventions and Target 1.5) | 10 |
 | the additional cut API and its incidence comparisons (Target 1.2), extending native `Graph.edgeCut` and `Graph.IsEdgeCut` | 10 |
 
@@ -395,9 +395,11 @@ def GMap2.nonorientableGenus (G : GMap2 D)
 | projective plane, `aa` | 4 | 1 | 1 | 1 | 1 | no |
 | torus, `aba⁻¹b⁻¹` | 8 | 1 | 2 | 1 | 0 | yes |
 | Klein bottle, `abab⁻¹` | 8 | 1 | 2 | 1 | 0 | no |
-| disc, `n`-gon | 2n | n | n | 1 | 1 | yes |
+| disc, `n`-gon, `n ≥ 1` | 2n | n | n | 1 | 1 | yes |
 | annulus | 8 | 2 | 3 | 1 | 0 | yes |
 | Möbius band | 8 | 2 | 3 | 1 | 0 | no |
+
+For `n = 0` the dart type is empty and `(V,E,F,χ) = (0,0,0,0)`; this is the empty surface.
 
 Counter-witnesses: `IsSurfaceGMap` is **false** for the map on `Bool` with all three involutions the swap, whose realization is a sphere while its orbit count is 1, **false** for a map with a fixed point of `α₀`, and **false** for a map with a fixed point of `α₁`. A dangling-edge map is a positive witness with multi-incidence. `IsOrientable` is **false** for the Klein bottle map and **true** for the torus map, decided by the same procedure.
 
@@ -501,7 +503,7 @@ them gives the shared incidence relabellings, cyclic shifts and face reversals.
 5. `(G.toSchema h).toGMap2 ≅ G` for a surface map, and `S.toGMap2.toSchema ≅ S` up to component permutation and shared incidence relabellings, cyclic shifts and face reversals. The comparison preserves corner occurrences, boundary circuits, orientability and Euler characteristic. The empty family round-trips to the empty map; a disconnected family round-trips component by component.
 6. The BelyiMaps comparisons: a permutation triple and its generalized map have the same Euler characteristic and connectedness, and oriented maps and bipartite ribbon graphs with white degrees two correspond with the same Euler characteristic.
 
-**Examples and mathematical checks.** ⚠ **Exhibit two non-isomorphic surface maps with the same incidence poset of cells.** This answers the question "why darts and not a poset?": the poset forgets which of a face's several incidences to an edge is which. Source: Damiand–Lienhardt, Fig. 2.29. Each conversion is worked out on the layer 1 example table, and the BelyiMaps conversions on the dessins of degree at most four in that roadmap's layer 2.7. Degenerate examples show why the hypotheses of the comparison theorems are necessary. The smallest useful test of the triple conversion is the identity triple of degree one, the one-edge bipartite sphere: one dart of the Walsh map on each side, four generalized-map darts, Euler characteristic two.
+**Examples and mathematical checks.** The monogon disc (`α₀ = α₁ = swap`, `α₂ = id` on two darts) and the projective-plane `aa` map both have one vertex, one edge and one face. Their incidence posets are the same three-element chain, but the maps have two and four darts and are not isomorphic. The disc face traverses its edge once, while the projective-plane face traverses it twice. This makes explicit the incidence-multiplicity issue illustrated by Damiand–Lienhardt, Fig. 2.29. Each conversion is worked out on the layer 1 example table, and the BelyiMaps conversions on the dessins of degree at most four in that roadmap's layer 2.7. Degenerate examples show why the hypotheses of the comparison theorems are necessary. The smallest useful test of the triple conversion is the identity triple of degree one, the one-edge bipartite sphere: one dart of the Walsh map on each side, four generalized-map darts, Euler characteristic two.
 
 **Natural intermediate results.** (i) oriented maps and the conversion both ways; (ii) permutation triples and the Walsh conversion; (iii) adapters to the shared polygonal models, componentwise `toSchema`, and the round trips; (iv) the BelyiMaps conversions and their comparison theorems; (v) comparison theorems 3 and 4; (vi) the poset counter-example.
 
@@ -1021,6 +1023,8 @@ versus a Möbius band; and that the total twist around a cycle is switching-inva
   the boundary case, and derive the closed formula as a corollary. The proof uses the
   finite triangulation and cellulation comparisons, independently of capping,
   classification and homology.
+- The finite marked preimage uses Mathlib's `Set.Finite.preimage'`
+  (`Data/Set/Finite/Lattice.lean`), applied to the finite marking and the finite-fibre field.
 - **Local degrees and global degree.** The charts in `HasPowerMapModelAt` are
   topological charts, with no analytic compatibility condition. Their sources lie in
   the interiors, their targets are unit discs, and the map takes the source chart into
@@ -1573,7 +1577,7 @@ theorem change_of_coordinates (o : Surface.Orientation M)
     ∃ f : M ≃ₜ M, Set.EqOn f id ((𝓡∂ 2).boundary M) ∧ Surface.Orientation.map f o = o ∧
       f '' c.carrier = d.carrier
 
-/-- Lickorish's Lemma 2, for curves and for proper arcs: twists reduce intersections. A word in
+/-- Intersection reduction: Lickorish's closed-curve Lemma 2 and the local proper-arc extension. A word in
     twists and inverse twists about two-sided curves, each meeting `q` fewer times than `p` does,
     carries `p` to a curve or arc meeting `q` at most once, or twice with zero algebraic
     intersection; arcs are counted at interior points, their ends being fixed. The word is signed,
@@ -1601,7 +1605,8 @@ theorem mcg_torus_plus (o : Surface.Orientation Torus) :
     MappingClassGroupPlus Torus o ≃* Matrix.SpecialLinearGroup (Fin 2) ℤ
 theorem mcg_torus_full : MappingClassGroupFull Torus ≃* Matrix.GeneralLinearGroup (Fin 2) ℤ
 
-/-- Lickorish 1962, with boundary: every orientation-preserving mapping class rel boundary of a
+/-- Dehn–Lickorish, including the boundary-relative extension proved here: every
+    orientation-preserving mapping class rel boundary of a
     compact connected orientable surface is a product of Dehn twists about two-sided curves in the
     interior. The closed case is `b = 0`; cutting along closed curves alone cannot reach it, since
     repeated handle cuts end at a sphere with `2g` holes. -/
@@ -1619,7 +1624,14 @@ theorem exists_dehnTwist_generatingSet_card (o : Surface.Orientation M) (hb : (�
 
 - A **Dehn twist** about a two-sided simple closed curve is supported in the annular collar that `PlanarTopology` layer 7 provides for a curve in the interior, rotates once across the annulus, and is the identity outside. The class is independent of the collar, isotopic curves have conjugate twists by isotopy extension for tame curves, and a twist about a curve bounding a disc is trivial.
 - The distinction between `MappingClassGroupPlus`, `MappingClassGroupRel`, and `MappingClassGroupFull` is essential. Dehn twists generate the orientation-preserving group: for the torus this is `SL(2,ℤ)`, whereas the full group is `GL(2,ℤ)`. The disc and annulus base cases require the boundary to be fixed pointwise.
-- **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist or an inverse twist, the sign decided by that case, about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism rel boundary is a product of twists, by a double induction. On genus: twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` gives a surface of lower genus with two more boundary circles, where the statement rel boundary applies and whose twists are twists of `M`. On the number of holes, once the genus is zero: a proper arc `a` joining two distinct boundary circles is carried by the homeomorphism to an arc with the same ends, the arc form of Lemma 2 brings that arc back to `a` by twists, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` leaves a sphere with one hole fewer. The disc is the base case by Alexander's trick, and the annulus is the first instance, its group generated by the twist about the core. Repeated handle cuts alone end at a sphere with `2g` holes, where neither base case applies, which is why the second induction is needed. And the `3g − 1` set, by Lickorish's Lemmas 3 to 5 of the 1964 paper as corrected in the 1966 corrigendum, which replaces the case analysis in the first half of its §3: explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
+- **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist or an inverse twist, the sign decided by that case, about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism rel boundary is a product of twists, by a double induction. On genus: twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` gives a surface of lower genus with two more boundary circles, where the statement rel boundary applies and whose twists are twists of `M`. On the number of holes, once the genus is zero: a proper arc `a` joining two distinct boundary circles is carried by the homeomorphism to an arc with the same ends, the local proper-arc reduction brings that arc back to `a` by twists, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` leaves a sphere with one hole fewer. The disc is the base case by Alexander's trick, and the annulus is the first instance, its group generated by the twist about the core. Repeated handle cuts alone end at a sphere with `2g` holes, where neither base case applies, which is why the second induction is needed. And the `3g − 1` set, by Lickorish's Lemmas 3 to 5 of the 1964 paper as corrected in the 1966 corrigendum, which replaces the case analysis in the first half of its §3: explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
+- **The proper-arc extension is local work.** Extend the signed intersection-reduction
+  argument to proper arcs with their endpoints fixed, counting only interior crossings.
+  Choose each band and supporting twist collar in the surface interior. Use the
+  relative arc-isotopy theorem of PlanarTopology layer 8 to straighten the resulting
+  arc while fixing the boundary and the pieces already fixed in the induction.
+  Lickorish's §2, Lemma 2 fixes the closed-curve input; the arc construction and the
+  boundary-relative double induction are targets here.
 - The action uses a chosen finite presentation `e : G.realization ≃ₜ M` and its
   actual finite homology module, as the signature states. A mapping class acts by
   conjugating a representative through `e` and applying layer 7's `homologyMap`.
@@ -1654,7 +1666,7 @@ powers fail to reduce the initial count. This tests the need for signed words wi
 asserting a unique reducing power.
 
 
-**Natural intermediate results.** (i) simple closed curves, disc-bounding and boundary-parallel curves, essentiality and its invariance and finite-model comparison, separation, and two-sidedness; (ii) cutting along curves and along proper arcs, and the invariants; (iii) the full, rel-boundary, and orientation-preserving mapping class groups, and the forgetful isomorphisms; (iv) the base cases; (v) Dehn twists, conjugation, and isotopy invariance; (vi) Lickorish's Lemma 2, for curves and arcs; (vii) the change-of-coordinates principle; (viii) the action on `H₁` and the torus; (ix) Lickorish's generation theorem rel boundary, by the double induction; (x) the `3g − 1` set.
+**Natural intermediate results.** (i) simple closed curves, disc-bounding and boundary-parallel curves, essentiality and its invariance and finite-model comparison, separation, and two-sidedness; (ii) cutting along curves and along proper arcs, and the invariants; (iii) the full, rel-boundary, and orientation-preserving mapping class groups, and the forgetful isomorphisms; (iv) the base cases; (v) Dehn twists, conjugation, and isotopy invariance; (vi) Lickorish's closed-curve reduction and the local proper-arc extension; (vii) the change-of-coordinates principle; (viii) the action on `H₁` and the torus; (ix) Lickorish's generation theorem rel boundary, by the double induction; (x) the `3g − 1` set.
 
 **Consequences.** `GeometricTopology` layer 9.
 
@@ -1668,7 +1680,7 @@ The intended scope is **Mohar and Thomassen, *Graphs on Surfaces*, chapter 2**, 
 
 **Out of scope:** planarity-testing algorithms such as Hopcroft–Tarjan and LR-planarity (the theorems are the target, not the algorithms); Steinitz's theorem (a convexity theorem needing polytope machinery not built here); embeddings in general surfaces, face-width, edge-width, embedding extension, and Robertson–Seymour (a separate subject and a separate roadmap); Grötzsch's theorem (named as a known gap rather than silently omitted); the four colour theorem and the Heawood/Ringel–Youngs map colour theorem (see the roadmap-for-a-roadmap below).
 
-**From GraphConnectivityAndFlows.** `Graph.Connected` and the component count (Target 1.1, Milestone 2), `SimpleGraph.IsVertexConnected` (conventions and Target 1.5), and cuts (Target 1.2).
+**From GraphConnectivityAndFlows.** `Graph.Connected` and the component count (Target 1.1), `SimpleGraph.IsVertexConnected` (conventions and Target 1.5), and cuts (Target 1.2).
 
 **Vocabulary.** Planarity is a property of a finite multigraph: `Γ.IsPlanar` says `Γ` has a rotation system that is spherical on each component, a *plane map*, so it is decidable, and by layer 5 it says equally that `Γ` has a noncrossing drawing in the sphere. Sphericity is read off the Euler characteristic componentwise, not globally: a toroidal `K₅` beside a spherical triangle has Euler characteristic two and is not planar. Theorems whose hypotheses say *simple graph* are stated for `G : SimpleGraph V` with `V` finite, with planarity applied to `Graph.ofSimpleGraph G`, so that `completeGraph`, `completeBipartiteGraph (Fin 3) (Fin 3)`, and `Colorable` are Mathlib's. Minors, topological minors, and contraction are targets here, shaped after the linked Mathlib design for `SimpleGraph` ([Mathlib graph contractions and minors](https://github.com/leanprover-community/mathlib4/pull/36210)). Connectivity is not: 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3`, in the shape of [Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355), which asks for at least four vertices and that every pair stay reachable after deleting any two other vertices, and the component count in `PlaneMap` is that roadmap's. The wheel theorem and contractible edges, which it leaves out of its scope, are targets here. Every theorem carries finiteness, and the two Whitney theorems carry the hypotheses their proofs need: 3-connectivity for uniqueness of embeddings, and no isolated vertices for 2-isomorphism, since the cycle matroid cannot see them.
 
@@ -1713,7 +1725,7 @@ variable {α β V : Type*} {Γ : Graph α β} [Finite V(Γ)] [Finite E(Γ)]
   {G : SimpleGraph V} [Fintype V] [DecidableEq V]
 
 -- `Γ.componentCount`, the number of connected components, is GraphConnectivityAndFlows'
--- (Milestone 2): an isolated vertex is a component, and the empty graph has none.
+-- (Target 1.1): an isolated vertex is a component, and the empty graph has none.
 /-- The faces of a rotation system: the orbits of its face permutation, together with one face for
     each isolated vertex, which has no darts and would otherwise have no face. The Euler
     characteristic is vertices minus edges plus faces, so `K₁` has `1 - 0 + 1 = 2`;
