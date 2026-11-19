@@ -79,14 +79,15 @@ dictionary between degrees and the root data of Weyl groups; Layer 5 classical e
    `P.weylGroup`, acting on `M` by `P.weylGroupRootRep`; its simple reflections are
    `RootPairing.weylGroup.ofIdx P i` for `i ∈ b.support`, and its Coxeter system is
    `TauCeti.weylCoxeterSystem P b`. The degrees of `P` are those of `W` acting on `M`. "Irreducible"
-   is `P.IsIrreducible`; the Coxeter number, Coxeter eigenvalues, the height of the highest root
-   and the coprime statement are stated for irreducible `P` only.
+   means `P.IsIrreducible` with `ι` nonempty: Mathlib's class alone also holds for the pairing on a
+   line with no roots, for which `|Φ|/r` is `0/0`. The Coxeter number, Coxeter eigenvalues, the
+   height of the highest root and the coprime statement are stated for irreducible `P` only.
 8. **Coefficients.** Degrees do not change under extension of scalars between fields of
    characteristic zero (§3.3); statements over `ℚ`, `ℝ` and `ℂ` are moved between these fields
    only through that theorem. In characteristic dividing `|G|`, this roadmap asserts the invariant
-   ring, its grading, integrality and finite generation (Layer 1) and the completed local
-   comparison of §2.5, and nothing else: no Reynolds operator, Molien formula, polynomiality,
-   freeness or coinvariant theorem.
+   ring, its grading, integrality and finite generation (Layer 1), the definition and API of
+   systems of basic invariants (§2.1) and the completed local comparison of §2.5, and nothing else:
+   no Reynolds operator, Molien formula, polynomiality, freeness or coinvariant theorem.
 9. **The roadmap and its acceptance test.** This README is the roadmap; every target and Check is
    required. `Suggested.lean` is its acceptance test: it states, each admitted, the headline
    theorems statable at the pins, in `TauCetiRoadmap.ReflectionInvariantTheory`, and its module
@@ -748,6 +749,10 @@ residues modulo `h` give the eigenvalues of `c`, none is `0` since `c` fixes no 
 **Checks.**
 - `E₈`: `|Φ| = 240`, `r = 8`, `h = 30`, and `240 = 8 · 30`.
 - `A_r`: `|Φ| = r(r + 1)`, `h = r + 1`.
+- The pairing on a line with no roots (`ι` empty, `M = N = K`) satisfies Mathlib's
+  `P.IsIrreducible`. Its only Coxeter element is the empty product `1`, of order `1`, while
+  `|Φ| = r = 0`; its one basic invariant has degree `1`, so its one exponent `0` lies outside
+  `[1, ord(c) − 1]`, which is empty. Convention 7 excludes it.
 
 ### 4.5 Heights of roots
 
@@ -757,16 +762,26 @@ every reduced root system, crediting Kostant 1959 with the first uniform explana
 directions contribute exponents `0`, which no `j ≥ 1` counts. For irreducible `P`, prove that the
 highest root has height `h − 1` (`height_highestRoot_add_one_eq_orderOf`; Steinberg 1959,
 Theorem 1.4, p. 494, proved from Theorems 4.2 and 8.4, pp. 497 and 503). Route for the partition:
-compare §4.1 with Macdonald's product formula
-`Σ_w t^ℓ(w) = ∏_(α ∈ Φ⁺) (1 − t^(ht(α)+1))/(1 − t^ht(α))` (Macdonald 1972, Corollary (2.5),
-p. 164), a form of the Weyl denominator identity, or verify it type by type from the tables in
-Examples, component by component. Equality of the total number of roots alone does not determine the
-distribution. For the highest root: the largest height is the largest `j` with `#{i : eᵢ ≥ j} > 0`,
-the largest exponent, which is `h − 1` by §4.4's symmetry since `1` is an exponent (the invariant
-quadratic form is a basic invariant of degree `2`, there being no invariant linear form); it is the
-height of `b.highestRoot`, the root of greatest height, whose coefficients RootSystems Layer 4
-computes.
-*Needs:* §4.1, §4.4; Mathlib `RootPairing.Base.height`; Tau Ceti `RootPairing.Base.highestRoot`.
+prove Macdonald's product formula
+`Σ_w t^ℓ(w) = ∏_(α ∈ Φ⁺) (1 − t^(ht(α)+1))/(1 − t^ht(α))` (Macdonald 1972, Theorem (2.4) with all
+its variables equal, Corollary (2.5), p. 164) and compare it with §4.1: both sides are products of
+integer powers of the polynomials `1 − t^k`, and such an expression of a polynomial is unique
+(Macdonald 1972, p. 164), so the number of positive roots of height `j`, minus the number of height
+`j + 1`, is the number of exponents equal to `j`. Equality of the total number of roots alone does
+not determine the distribution. Macdonald derives the product formula from the Weyl denominator
+identity, the count of `ℓ(w)` as the number of inversions, and the fact that for each `w` the set of
+positive roots that `w` makes negative is the only set of positive roots with its sum, which rests
+on moving a vector into the dominant chamber by `W` (Theorem (2.8) and Lemmas (2.13)–(2.14),
+pp. 165–167). The pinned denominator identity and chamber theorem are stated over a linearly
+ordered ring, so the formula is proved for the rational form `P.restrictScalarsRat` of §4.1, which
+has the Weyl group, lengths and heights of `P`. For the highest root: the largest height is the
+largest `j` with `#{i : eᵢ ≥ j} > 0`, the largest exponent, which is `h − 1` by §4.4's symmetry
+since `1` is an exponent (the invariant quadratic form is a basic invariant of degree `2`, there
+being no invariant linear form); it is the height of `b.highestRoot`, the root of greatest height,
+whose coefficients RootSystems Layer 4 computes.
+*Needs:* §4.1, §4.4; Mathlib `RootPairing.Base.height`, `RootPairing.restrictScalarsRat`; Tau Ceti
+`RootPairing.Base.highestRoot`, `TauCeti.weylDenominator_eq_weylNumerator_zero`,
+`TauCeti.length_weylCoxeterSystem_eq`, `RootPairing.exists_mem_dominantChamber`.
 
 **Checks.**
 - `G₂`: positive roots of heights `1, 1, 2, 3, 4, 5`, exponents `1, 5`: two roots of height `1` and
@@ -991,10 +1006,11 @@ of the Hilbert ideal, the freeness of `S` over `A` with `dim C = |G|`, regular s
 invariants, the relative invariance and nonvanishing of the Jacobian, the inertia, Galois and
 codimension-one unramifiedness statements of the converse, fixed directions, the invariants of the
 permutation and reflection representations of `Sₙ`, the Coxeter presentation and inversion length of
-Weyl groups, their chambers, the highest root, the length-generating polynomial, bipartite Coxeter
-elements and the affine Cartan matrix. These are consumed through the supplier contracts and are not
-targets here. The separation of finite orbits by invariants, which LieHighestWeight Layer 7 cites
-from §2, is `Representation.forall_mem_symmetricAlgebraInvariants_lift_eval_eq_iff`. The Chevalley
+Weyl groups, their chambers, the highest root, the length-generating polynomial, the Weyl
+denominator identity, bipartite Coxeter elements and the affine Cartan matrix. These are consumed
+through the supplier contracts and are not targets here. The separation of finite orbits by
+invariants, which LieHighestWeight Layer 7 cites from §2, is
+`Representation.forall_mem_symmetricAlgebraInvariants_lift_eval_eq_iff`. The Chevalley
 restriction isomorphism for Lie algebras is `LieSubalgebra.lieChevalleyRestrictionIso`. Tau Ceti's
 `TauCeti.HopfIdeal.coinvariants` and `TauCeti.CommHopfAlgCat.coinvariantsBaseChangeEquiv` concern
 the coinvariants of a Hopf ideal, the functions `h` with `(id ⊗ π) Δ(h) = h ⊗ 1`, and their flat
@@ -1019,7 +1035,8 @@ forms, the exterior algebra on generators of degrees `2dᵢ − 1` and universal
 These are not inputs to Layers 1–4.
 
 **Not in this roadmap.** No integral or modular analogue of the nonmodular statements is asserted
-(the completed local comparison of §2.5 holds in every characteristic and is stated so); no
+(systems of basic invariants, §2.1, and the completed local comparison of §2.5 hold in every
+characteristic and are stated so); no
 finite group is claimed to have a polynomial invariant ring unless its image `ρ(G)` is generated by
 pseudoreflections. No Coxeter number, Coxeter eigenvalue, root-height or coprime statement is made
 for complex pseudoreflection groups that are not real, or for the noncrystallographic types `H₃`,
@@ -1064,7 +1081,7 @@ refinement by character periods and global forms of compact groups are outside t
   automorphisms generated by the reflections), `RootPairing.weylGroup.ofIdx`,
   `RootPairing.weylGroupToPerm`, `RootPairing.weylGroupRootRep` (the representation of the Weyl
   group on `M`), `RootPairing.restrictScalarsRat` (a crystallographic root pairing over a field of
-  characteristic zero restricted to the `ℚ`-spans of its roots and coroots; §§4.1, 4.4).
+  characteristic zero restricted to the `ℚ`-spans of its roots and coroots; §§4.1, 4.4, 4.5).
 
 ### From Tau Ceti
 
@@ -1155,6 +1172,13 @@ All declarations below are proved at the pin.
   (connected Coxeter graph); `TauCeti.weylCoxeterSystem` (finite reduced crystallographic root
   pairing over a characteristic-zero domain), `TauCeti.weylCoxeterSystem_simple`,
   `TauCeti.length_weylCoxeterSystem_eq` (length is the number of inversions),
+  `TauCeti.weylDenominator_eq_weylNumerator_zero`
+  (`LinearAlgebra/RootSystem/Weyl/Denominator/Identity.lean`; the Weyl denominator identity
+  `∏_(α>0) (1 − e^(−α)) = Σ_w sgn(w) e^(w(ρ) − ρ)` in `ℤ[M]`, for a reduced crystallographic root
+  system with finite Weyl group over a linearly ordered commutative ring in which `2` is invertible;
+  §4.5), `RootPairing.exists_mem_dominantChamber` (`LinearAlgebra/RootSystem/Chamber.lean`; every
+  vector of a finite reduced crystallographic root system over a linearly ordered domain of
+  characteristic zero is Weyl-conjugate into the closed dominant chamber; §4.5),
   `TauCeti.openWeylChambers`, `TauCeti.weylGroupEquivOpenWeylChambers` (simple transitivity on
   chambers), `RootPairing.finite_weylGroup_of_span_eq_top` and `RootPairing.finite_weylGroup`
   (the Weyl group is finite when the roots span or `P` is a root system; §4.1),
