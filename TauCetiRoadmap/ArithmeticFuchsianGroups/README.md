@@ -54,8 +54,8 @@ and assembles the covers.
 
 Suggested home: `TauCeti/NumberTheory/Quaternion/Fuchsian/` for Layers 1 and 2 and
 `TauCeti/Geometry/Hyperbolic/Isospectral/` for Layer 3.
-[`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries; it is
-not the roadmap.
+[`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries, except
+the isospectral covers, since those libraries have no Laplace spectrum; it is not the roadmap.
 
 ## How to read the build
 
