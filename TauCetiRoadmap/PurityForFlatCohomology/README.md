@@ -917,7 +917,7 @@ API (each a target):
   so that `RΓ_Z(X, F)` is the fibre of restriction; the cohomology groups of `RΓ_fppf(X, F)` and of
   `RΓ_Z(X, F)` are §2.9a's `H^i_fppf(X, F)` and `H^i_Z(X, F)`, and the long exact sequence of the
   triangle is the one stated there. In particular `H^i_Z(X, −)` is the `i`-th right derived functor
-  of `Γ_Z(X, −)` on fppf abelian sheaves ([CS24] §1.4 and Lemma 7.1.1, p. 86). Route: `U → X` is a
+  of `Γ_Z(X, −)` on fppf abelian sheaves. Route: `U → X` is a
   monomorphism, so the free abelian sheaf `ℤ_U` is a subsheaf of `ℤ_X`; §2.9a's groups are the `Ext`
   groups out of `ℤ_X` and out of `ℤ_X/ℤ_U`, and `Γ_Z(X, −) = Hom(ℤ_X/ℤ_U, −)`. For an injective `I`,
   `I(X) → I(U)` is therefore surjective, so `0 → Γ_Z(X, I) → I(X) → I(U) → 0` is exact termwise on an
