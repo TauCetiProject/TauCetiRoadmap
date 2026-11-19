@@ -1,5 +1,8 @@
 import Mathlib
+import TauCeti.Algebra.Lie.UniversalEnveloping.Kostant.RootSubgroup.Scheme.ToralClosure.Frobenius
+import TauCeti.Algebra.Lie.UniversalEnveloping.Kostant.RootSubgroup.Scheme.ToralClosure.Points
 import TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.GeckLattice.Frobenius
+import TauCeti.LinearAlgebra.RootSystem.SimplyConnectedRootDatum.LieAlgebra.SimplyConnectedModule.Lattice
 import TauCeti.LinearAlgebra.RootSystem.SpecialNodePermutations
 
 /-!
@@ -8,10 +11,29 @@ import TauCeti.LinearAlgebra.RootSystem.SpecialNodePermutations
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`.
 
-The carrier stated on is the pinned Geck carrier `TauCeti.DynkinType.geckPoints`, the points of the
-toral closure of the Geck (adjoint) module with its coordinate lattice. Its weights span the root
-lattice, so it is the adjoint form of `README.md`, §2.3, and for `E₈`, `F₄` and `G₂` it is also the
-simply connected form. The headlines stated on it are:
+Two carriers are stated on, both Kostant toral closures over `ℤ`.
+
+The simply connected group scheme `G_sc(t)` of `README.md`, §2.3, is the toral closure of the
+full-weight module `V_sc(t)` with its lattice `scLattice`, its weight basis `scWeightBasis` and the
+weights `scWeight`; its points over a ring are `kostantToralPointsSubgroup` of these data. The
+toral closure takes as an argument the nilpotency of the numbered generators on `V_sc(t)`, which
+`README.md`, §1.1, proves and the pins do not have, so the statements about `G_sc(t)` carry it as
+the hypothesis `hnil`. They are:
+
+* smoothness over `ℤ` of relative dimension the rank plus the number of roots, with geometrically
+  connected fibres (`README.md`, §4.3);
+* generation of its points over every field by the numbered root subgroups, those of the simple
+  roots and of their negatives (`README.md`, §4.4);
+* the centre of its points over every field: the torus points on which every root is `1`
+  (`README.md`, §4.4, with §3.5);
+* the exceptional isogenies of `B₂`, `F₄` (characteristic two) and `G₂` (characteristic three) on
+  its points over every field of characteristic `p`, with `τ ∘ τ = Frob_p` and the pinned
+  equations on the simple root subgroups (`README.md`, §5.4).
+
+The pinned Geck carrier `TauCeti.DynkinType.geckPoints` is the toral closure of the Geck (adjoint)
+module with its coordinate lattice. Its weights span the root lattice, so it is the adjoint form of
+`README.md`, §2.3, and for `E₈`, `F₄` and `G₂` it is also the simply connected form. The headlines
+stated on it are:
 
 * smoothness over `ℤ` of relative dimension the rank plus the number of roots, with geometrically
   connected fibres (`README.md`, §4.3);
@@ -19,55 +41,118 @@ simply connected form. The headlines stated on it are:
   lattice (`README.md`, §4.4, with §3.5);
 * generation of its points over an algebraically closed field by the numbered simple root
   subgroups (`README.md`, §4.5);
-* the exceptional isogenies of `B₂`, `F₄` (characteristic two) and `G₂` (characteristic three) on
-  its points over an algebraically closed field, with `τ ∘ τ = Frob_p` and the pinned equations on
-  the simple root subgroups (`README.md`, §5.4).
+* the exceptional isogenies on its points over an algebraically closed field (`README.md`, §5.4).
 
-Lang's equation on the torus of the Geck carrier (`README.md`, §5.7) is not restated: the pinned
+Lang's equation on the torus (`README.md`, §5.7) is not restated. On the Geck carrier the pinned
 Tau Ceti proves it as `TauCeti.DynkinType.exists_geckWeightTorusPoints_eq_mul_inv`, over every
 nontrivial commutative ring of characteristic `p` with divisible units, for the pinned predicate
-`TauCeti.IsCharacterMap`.
+`TauCeti.IsCharacterMap`. On `G_sc(t)` it is the pinned `TauCeti.IsCharacterMap.exists_eq_mul_inv`
+for the weight-torus parametrization `kostantToralWeightTorusPoints`, with
+`TauCeti.injective_one_sub_of_pow_eq_smul_one` supplying the injectivity of `1 − φ`.
 
 Not statable at the pins, so not stated here:
 
-* every headline about the simply connected group scheme `G_sc(t)` (`README.md`, §2.3) for a type
-  other than `E₈`, `F₄`, `G₂`: the pins have the full-weight module `V_sc(t)`, its admissible
-  lattice and its weight basis, but not the group scheme they generate, nor the nilpotency of the
-  numbered generators on `V_sc(t)` that its construction consumes (`README.md`, §1.1);
 * the Chevalley commutator formula for all pairs of roots, the Bruhat decomposition and Tits
-  system, and Steinberg's presentation (`README.md`, Layer 3): they are stated with root
-  subgroups for every root normalized by the named Chevalley system and with the integer structure
-  constants on the root enumeration (`README.md`, §0.1, §2.4), and neither is at the pins; the Geck
-  carrier has root subgroups for the simple roots and their negatives, and Weyl conjugates of them
-  whose signs against the named Chevalley system are not pinned (the group generated by the torus
-  and the simple positive root subgroups is not the Borel subgroup over `𝔽₂` in type `B₂`, so it
-  cannot be used in place of `B(k)`);
-* points over a field that is not algebraically closed (`README.md`, §4.4): the torus
-  `T_D(k) = Hom(Λ(D), kˣ)` with `Λ(D)` the span of the weights has no pinned point map; the pinned
-  `geckWeightTorusPoints` is the full-weight parametrization, whose image is smaller in general;
-* Chevalley's comparison theorem (`README.md`, Layer 6): it is stated for Chevalley data, a
-  structure of `README.md`, §2.2, bundling a faithful representation, a Kostant-stable lattice and
-  a weight basis, with a torus whose character lattice is `Λ(D)`; neither is at the pins;
-* the exceptional isogenies as morphisms of `𝔽_p`-group schemes (`README.md`, Layer 7): they are
-  endomorphisms of `G_sc(t)` over `𝔽_p`, which is not at the pins for `B₂`, and their comparison
-  with the point maps of §5.4 needs those point maps, which the pins do not define.
+  system, and Steinberg's presentation (`README.md`, Layer 3), and the big cell `U⁻ × T × U`
+  (`README.md`, §4.2): they are stated with root subgroups for every root normalized by the named
+  Chevalley system and with the integer structure constants on the root enumeration (`README.md`,
+  §0.1, §2.4), and neither is at the pins; both toral closures have root subgroups for the simple
+  roots and their negatives only, and the Geck carrier's Weyl conjugates of them have signs against
+  the named Chevalley system that are not pinned (the group generated by the torus and the simple
+  positive root subgroups is not the Borel subgroup over `𝔽₂` in type `B₂`, so it cannot be used
+  in place of `B(k)`);
+* generation of the points of the adjoint form, and of a general Chevalley datum, by the root
+  subgroups and `T_D(k)` over a field that is not algebraically closed (`README.md`, §4.4): the
+  torus `T_D(k) = Hom(Λ(D), kˣ)` with `Λ(D)` the span of the weights has no pinned point map; the
+  pinned `geckWeightTorusPoints` is the full-weight parametrization, whose image is smaller in
+  general;
+* Chevalley's comparison theorem (`README.md`, Layer 6): it is stated for Chevalley data, which
+  `README.md`, §2.2, defines as a faithful representation with a Kostant-stable lattice and a weight
+  basis, with a torus whose character lattice is `Λ(D)`; neither is at the pins;
+* the exceptional isogenies as morphisms of `𝔽_p`-group schemes (`README.md`, Layer 7): the
+  statement there is that ReductiveGroups §9B's endomorphism of `G_sc(t)` over `𝔽_p` agrees on
+  points with the endomorphism of §5.4, and the pins define neither map on this carrier; §5.4 is
+  stated here only as the existence of such an endomorphism.
 -/
 
 namespace TauCetiRoadmap.ChevalleyGroups
 
-open TauCeti
+open TauCeti TauCeti.UniversalEnvelopingAlgebra
 
 /-! ## Layer 4: flatness, the big cell, and points -/
 
-/-- **Smoothness and fibres (`README.md`, §4.3).** The Geck carrier of a valid Dynkin type, the
-adjoint form (`README.md`, §2.3), is smooth over `ℤ` of relative dimension the rank plus the number
-of roots, and its fibres are geometrically connected. Its open cell `U⁻ × T × U` has that relative
-dimension (Conrad, *Reductive group schemes*, Theorem 5.1.13, p. 143). -/
+/-- **Smoothness and fibres of `G_sc(t)` (`README.md`, §4.3).** For a valid Dynkin type `t`, the
+toral closure of the full-weight module `V_sc(t)` with its lattice, weight basis and weights, which
+is the simply connected group scheme `G_sc(t)` (`README.md`, §2.3), is smooth over `ℤ` of relative
+dimension the rank plus the number of roots, and its fibres are geometrically connected. The
+hypothesis `hnil`, the nilpotency of the numbered generators on `V_sc(t)`, is `README.md`, §1.1;
+the toral closure takes it as an argument. For `A₁` the group scheme is `SL₂`, of relative
+dimension `1 + 2 = 3`. -/
+theorem smoothOfRelativeDimension_and_geometricallyConnected_scGroupScheme (t : DynkinType)
+    (ht : t.Valid)
+    (hnil : ∀ i, IsNilpotent (representation ℚ (t.lieAlgebra ht) (t.scModule ht)
+      (_root_.UniversalEnvelopingAlgebra.ι ℚ ((t.lieBasis ht).rootGenerator i)))) :
+    AlgebraicGeometry.SmoothOfRelativeDimension (t.rank + t.numRoots)
+        (kostantToralGroupScheme (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)).X.hom ∧
+      AlgebraicGeometry.GeometricallyConnected
+        (kostantToralGroupScheme (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)).X.hom :=
+  sorry
+
+/-- **Smoothness and fibres of the adjoint form (`README.md`, §4.3).** The Geck carrier of a valid
+Dynkin type, the adjoint form (`README.md`, §2.3), is smooth over `ℤ` of relative dimension the rank
+plus the number of roots, and its fibres are geometrically connected. Its open cell `U⁻ × T × U`
+has that relative dimension (Conrad, *Reductive group schemes*, Theorem 5.1.13, p. 143). -/
 theorem smoothOfRelativeDimension_and_geometricallyConnected_geckGroupScheme (t : DynkinType)
     (ht : t.Valid) :
     AlgebraicGeometry.SmoothOfRelativeDimension (t.rank + t.numRoots)
         (t.geckGroupScheme ht).X.hom ∧
       AlgebraicGeometry.GeometricallyConnected (t.geckGroupScheme ht).X.hom :=
+  sorry
+
+/-- **Generation of the points of `G_sc(t)` (`README.md`, §4.4).** Over every field `k` the points
+of `G_sc(t)` are generated by its numbered root subgroups, those of the simple roots and of their
+negatives. The points over `k` are generated by the root subgroups of all roots, the torus being
+generated by the `h_{α_i}(s)`; each `n_{α_i}(1)` lies in the group generated by `x_{±α_i}`, and the
+root subgroup of every other root is a conjugate of a simple one by a product of them
+(`README.md`, §2.4). Over `𝔽₂` in type `A₁`, `SL₂(𝔽₂) ≅ S₃` is generated by the two numbered
+root elements, two transpositions. The hypothesis `hnil` is `README.md`, §1.1. -/
+theorem closure_scRootSubgroupPoints_eq_top (t : DynkinType) (ht : t.Valid)
+    (hnil : ∀ i, IsNilpotent (representation ℚ (t.lieAlgebra ht) (t.scModule ht)
+      (_root_.UniversalEnvelopingAlgebra.ι ℚ ((t.lieBasis ht).rootGenerator i))))
+    (k : Type) [Field k] :
+    Subgroup.closure (⋃ i, Set.range (kostantToralRootSubgroupPoints (t.lieBasis ht).rootGenerator
+      (t.lieBasis ht).h (representation ℚ (t.lieAlgebra ht) (t.scModule ht))
+      (t.scLattice ht).toAddSubgroup (t.kostantForm_apply_mem_scLattice ht) hnil
+      (t.scWeightBasis ht) (t.scWeight ht) i k)) = ⊤ :=
+  sorry
+
+/-- **The centre of the points of `G_sc(t)` (`README.md`, §4.4, with §3.5).** Over every field `k`
+a point of `G_sc(t)` is central exactly when it is the weight-torus point of some
+`s : Fin t.rank → kˣ` on which every root is `1`; the weight-torus point acts on a weight vector of
+weight `μ`, read in fundamental-weight coordinates, by `∏ⱼ sⱼ ^ μⱼ`, and the roots of the pinned
+datum are read in the same coordinates. The centre is therefore `Hom(P/Q, kˣ)`: for `SL₂` it is
+`{±1}` over `ℚ` and trivial over `𝔽₂`. The hypothesis `hnil` is `README.md`, §1.1. -/
+theorem mem_center_scPoints_iff (t : DynkinType) (ht : t.Valid)
+    (hnil : ∀ i, IsNilpotent (representation ℚ (t.lieAlgebra ht) (t.scModule ht)
+      (_root_.UniversalEnvelopingAlgebra.ι ℚ ((t.lieBasis ht).rootGenerator i))))
+    (k : Type) [Field k]
+    (g : kostantToralPointsSubgroup (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+      (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+      (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) k) :
+    g ∈ Subgroup.center (kostantToralPointsSubgroup (t.lieBasis ht).rootGenerator
+      (t.lieBasis ht).h (representation ℚ (t.lieAlgebra ht) (t.scModule ht))
+      (t.scLattice ht).toAddSubgroup (t.kostantForm_apply_mem_scLattice ht) hnil
+      (t.scWeightBasis ht) (t.scWeight ht) k) ↔
+      ∃ s : Fin t.rank → kˣ,
+        (∀ α, torusCharacter s ((t.simplyConnectedRootDatum ht).root α) = 1) ∧
+          kostantToralWeightTorusPoints (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+            (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+            (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) k s =
+            g :=
   sorry
 
 /-- **The centre of the adjoint points (`README.md`, §4.4).** Over every field the points of the
@@ -92,13 +177,59 @@ theorem closure_geckRootSubgroupPoints_eq_top (t : DynkinType) (ht : t.Valid) (k
 
 /-! ## Layer 5: endomorphisms and their character maps -/
 
-/-- **The exceptional isogenies (`README.md`, §5.4).** For `(t, p)` one of `(B₂, 2)`, `(F₄, 2)`,
-`(G₂, 3)`, `σ` the length-exchanging permutation of the simple roots, and `k` algebraically closed
-of characteristic `p`, there is an endomorphism `τ` of the points of the Geck carrier with
-`τ ∘ τ = Frob_p` that sends `x_{±α_i}(u)` to `x_{±α_{σ i}}(± u ^ e_i)`, where `e_i` is `1` on a
-long simple root and `p` on a short one (Steinberg, *Lectures on Chevalley Groups*, Chapter 10,
-Theorem 28). The exponents are forced by the torus relations, not a convention: the reversed
-assignment fails the relation `h_β(s) x_α(u) h_β(s)⁻¹ = x_α(s ^ ⟨α, β^∨⟩ u)` (`README.md`, §5.4). -/
+/-- **The exceptional isogenies of `G_sc(t)` (`README.md`, §5.4).** For `(t, p)` one of `(B₂, 2)`,
+`(F₄, 2)`, `(G₂, 3)`, `σ` the length-exchanging permutation of the simple roots, and `k` any field
+of characteristic `p`, there is an endomorphism `τ` of the points of `G_sc(t)` over `k` whose
+square is the `p`-power Frobenius and that sends `x_{±α_i}(u)` to `x_{±α_{σ i}}(± u ^ e_i)`, where
+`e_i` is `1` on a long simple root and `p` on a short one (Steinberg, *Lectures on Chevalley
+Groups*, Chapter 10, Theorem 28). On a simple root subgroup the exponents of `τ ∘ τ` multiply to
+`e_i e_{σ i} = p`, because `σ` exchanges long and short simple roots. The hypothesis `hnil` is
+`README.md`, §1.1. -/
+theorem exists_scSpecialIsogeny (t : DynkinType) (ht : t.Valid)
+    (hnil : ∀ i, IsNilpotent (representation ℚ (t.lieAlgebra ht) (t.scModule ht)
+      (_root_.UniversalEnvelopingAlgebra.ι ℚ ((t.lieBasis ht).rootGenerator i))))
+    (p : ℕ) [Fact p.Prime] (htp : (t = .B 2 ∨ t = .F4) ∧ p = 2 ∨ t = .G2 ∧ p = 3)
+    {σ : Equiv.Perm (Fin t.rank)} (hσ : t.IsSpecialNodePerm σ)
+    (k : Type) [Field k] [CharP k p] :
+    ∃ τ : kostantToralPointsSubgroup (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) k →*
+        kostantToralPointsSubgroup (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) k,
+      τ.comp τ = kostantToralFrobenius (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)
+          p 1 k ∧
+      ∀ i : Fin t.rank, ∃ εp εn : ℤˣ, ∀ u : k,
+        τ (kostantToralRootSubgroupPoints (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+            (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+            (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)
+            (.inl i) k (.ofAdd u)) =
+            kostantToralRootSubgroupPoints (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+              (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+              (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)
+              (.inl (σ i)) k
+              (.ofAdd (((εp : ℤ) : k) * u ^ (if t.IsLongSimpleRoot i then 1 else p))) ∧
+          τ (kostantToralRootSubgroupPoints (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+            (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+            (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)
+            (.inr i) k (.ofAdd u)) =
+            kostantToralRootSubgroupPoints (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+              (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+              (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht)
+              (.inr (σ i)) k
+              (.ofAdd (((εn : ℤ) : k) * u ^ (if t.IsLongSimpleRoot i then 1 else p))) :=
+  sorry
+
+/-- **The exceptional isogenies on the adjoint form (`README.md`, §5.4).** For `(t, p)` one of
+`(B₂, 2)`, `(F₄, 2)`, `(G₂, 3)`, `σ` the length-exchanging permutation of the simple roots, and `k`
+algebraically closed of characteristic `p`, there is an endomorphism `τ` of the points of the Geck
+carrier with `τ ∘ τ = Frob_p` that sends `x_{±α_i}(u)` to `x_{±α_{σ i}}(± u ^ e_i)`, where `e_i` is
+`1` on a long simple root and `p` on a short one (Steinberg, *Lectures on Chevalley Groups*,
+Chapter 10, Theorem 28). The exponents are forced by the torus relations, not a convention: the
+reversed assignment fails the relation `h_β(s) x_α(u) h_β(s)⁻¹ = x_α(s ^ ⟨α, β^∨⟩ u)`
+(`README.md`, §5.4). -/
 theorem exists_specialIsogeny (t : DynkinType) (ht : t.Valid) (p : ℕ) [Fact p.Prime]
     (htp : (t = .B 2 ∨ t = .F4) ∧ p = 2 ∨ t = .G2 ∧ p = 3)
     {σ : Equiv.Perm (Fin t.rank)} (hσ : t.IsSpecialNodePerm σ)
