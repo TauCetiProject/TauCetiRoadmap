@@ -1,125 +1,91 @@
-/-
-Suggested forms, not an exhaustive checklist. The README is the definitive
-specification for the reusable FinancialMathematics M0 market/replication floor.
-The Gaussian payoff identity marked `sorry` is a theorem target, not an implementation claim.
-The deterministic drift lemma does not assert stochastic replication.
+import Mathlib
+import TauCeti.Probability.Finance.BlackScholes.Extension
+
+/-!
+# One-factor markets and replication: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs.
+
+The headline theorems are:
+
+* completeness and pricing (§2.2, §2.4): in the one-factor Brownian market, every claim whose
+  discounted value is square integrable under the risk-neutral measure is the terminal wealth of an
+  admissible self-financing strategy, whose wealth is the discounted conditional expectation of the
+  claim, for constant coefficients and for bounded progressive coefficients;
+* absence of arbitrage among admissible strategies (§2.3);
+* the pricing equation (§3.1, §3.2): a replicating price of class `C^{2,1}` solves the
+  Black–Scholes equation where the volatility does not vanish, and a solution with polynomial
+  growth and finite maximal moments is the replication price of its terminal claim;
+* existence and uniqueness of prices for general coefficients in a weighted parabolic Hölder class
+  (§3.3);
+* replication of the Black–Scholes call and put by their delta hedges (§4.1);
+* uniqueness of the Black–Scholes call and put prices among classical solutions of linear growth
+  (§4.2), stated below.
+
+Only the last is statable at the pins. The first four and the fifth need the stochastic integral
+against Brownian motion and the continuous-time self-financing strategies built on it
+(StochasticCalculus Layer 3); neither Mathlib nor Tau Ceti has a stochastic integral at the pins,
+and Tau Ceti's trading and arbitrage API covers simple strategies only. The pricing equation
+needs in addition strong solutions of stochastic differential equations with Markov coefficients
+(StochasticCalculus §9.1). The existence theorem of §3.3 needs the parabolic Hölder spaces of
+PDE §6.4, which are not at the pins either.
 -/
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Analysis.Calculus.ContDiff.Basic
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
-import Mathlib.MeasureTheory.Integral.Bochner.Basic
-import Mathlib.Probability.Distributions.Gaussian.Real
-import Mathlib.Probability.CDF
 
 noncomputable section
-namespace FinancialMathematics
 
-abbrev Price := ℝ → ℝ → ℝ
+open Set
 
-def timeDeriv (C : Price) (s t : ℝ) : ℝ := deriv (fun u => C s u) t
-def priceDeriv (C : Price) (s t : ℝ) : ℝ := deriv (fun u => C u t) s
-def gamma (C : Price) (s t : ℝ) : ℝ := deriv (fun u => priceDeriv C u t) s
+namespace TauCetiRoadmap.FinancialMathematics
 
-def blackScholesResidual (r σ : ℝ) (C : Price) (s t : ℝ) : ℝ :=
-  timeDeriv C s t + (σ ^ 2 * s ^ 2 / 2) * gamma C s t +
-    r * (s * priceDeriv C s t - C s t)
+/-! ## Layer 4: Black–Scholes calls and puts -/
 
-def itoDrift (μ σ : ℝ) (C : Price) (s t : ℝ) : ℝ :=
-  timeDeriv C s t + μ * s * priceDeriv C s t +
-    (σ ^ 2 * s ^ 2 / 2) * gamma C s t
-
-def selfFinancingDeltaDrift (r μ : ℝ) (C : Price) (s t : ℝ) : ℝ :=
-  μ * s * priceDeriv C s t + r * (C s t - s * priceDeriv C s t)
-
-def geometricAsset (s₀ μ σ : ℝ) (W : ℝ → ℝ) (t : ℝ) : ℝ :=
-  s₀ * Real.exp ((μ - σ ^ 2 / 2) * t + σ * W t)
-
-def risklessAccount (r β₀ t : ℝ) : ℝ := β₀ * Real.exp (r * t)
-
-theorem geometricAsset_positive (s₀ μ σ : ℝ) (W : ℝ → ℝ) (t : ℝ)
-    (hs : 0 < s₀) : 0 < geometricAsset s₀ μ σ W t := by
-  unfold geometricAsset
-  positivity
-
-theorem risklessAccount_positive (r β₀ t : ℝ) (hβ : 0 < β₀) :
-    0 < risklessAccount r β₀ t := by
-  unfold risklessAccount
-  positivity
-
-theorem algebraic_drift_match_implies_black_scholes
-    (r μ σ s t : ℝ) (C : Price)
-    (hmatch : itoDrift μ σ C s t = selfFinancingDeltaDrift r μ C s t) :
-    blackScholesResidual r σ C s t = 0 := by
-  unfold itoDrift selfFinancingDeltaDrift blackScholesResidual at *
-  linarith
-
-/-- Native standard-Gaussian CDF, with no second Gaussian measure construction. -/
-def standardGaussianCDF (z : ℝ) : ℝ :=
-  ProbabilityTheory.cdf (ProbabilityTheory.gaussianReal 0 1) z
-
-/-- Constant-coefficient risk-neutral terminal spot from a standard normal coordinate.
-The financial interpretation uses τ ≥ 0; the underlying real expression is total. -/
-def riskNeutralTerminalSpot (s r σ τ z : ℝ) : ℝ :=
-  s * Real.exp ((r - σ ^ 2 / 2) * τ + σ * Real.sqrt τ * z)
-
-def callPayoff (K s : ℝ) : ℝ := max (s - K) 0
-
-/-- The integral carrier for an arbitrary real payoff. Pricing theorems must prove its
-integrability; the Bochner integral alone does not make a payoff admissible. -/
-def discountedGaussianPrice (h : ℝ → ℝ) (s r σ τ : ℝ) : ℝ :=
-  Real.exp (-r * τ) * ∫ z, h (riskNeutralTerminalSpot s r σ τ z)
-    ∂ProbabilityTheory.gaussianReal 0 1
-
-def blackScholesDplus (s r σ K τ : ℝ) : ℝ :=
-  (Real.log (s / K) + (r + σ ^ 2 / 2) * τ) / (σ * Real.sqrt τ)
-
-def blackScholesDminus (s r σ K τ : ℝ) : ℝ :=
-  blackScholesDplus s r σ K τ - σ * Real.sqrt τ
-
-/-- Remaining-maturity call formula; Price uses calendar time, so τ=T-t there. -/
-def blackScholesCall (s r σ K τ : ℝ) : ℝ :=
-  s * standardGaussianCDF (blackScholesDplus s r σ K τ) -
-    K * Real.exp (-r * τ) * standardGaussianCDF (blackScholesDminus s r σ K τ)
-
-theorem standardGaussianCDF_mem_unitInterval (z : ℝ) :
-    0 ≤ standardGaussianCDF z ∧ standardGaussianCDF z ≤ 1 := by
-  exact ⟨ProbabilityTheory.cdf_nonneg _ _, ProbabilityTheory.cdf_le_one _ _⟩
-
-theorem riskNeutralTerminalSpot_positive (s r σ τ z : ℝ) (hs : 0 < s) :
-    0 < riskNeutralTerminalSpot s r σ τ z := by
-  unfold riskNeutralTerminalSpot
-  positivity
-
-@[simp] theorem riskNeutralTerminalSpot_zero (s r σ z : ℝ) :
-    riskNeutralTerminalSpot s r σ 0 z = s := by
-  simp [riskNeutralTerminalSpot]
-
-@[simp] theorem discountedGaussianPrice_zero (h : ℝ → ℝ) (s r σ : ℝ) :
-    discountedGaussianPrice h s r σ 0 = h s := by
-  simp [discountedGaussianPrice]
-
-/-- Exponential Gaussian integrability uses the existing native MGF theorem. -/
-theorem integrable_riskNeutralTerminalSpot (s r σ τ : ℝ) :
-    MeasureTheory.Integrable (riskNeutralTerminalSpot s r σ τ)
-      (ProbabilityTheory.gaussianReal 0 1) := by
-  have h := ProbabilityTheory.integrable_exp_mul_gaussianReal
-    (μ := (0 : ℝ)) (v := (1 : NNReal)) (σ * Real.sqrt τ)
-  convert h.const_mul (s * Real.exp ((r - σ ^ 2 / 2) * τ)) using 1
-  ext z
-  simp only [riskNeutralTerminalSpot, Real.exp_add]
-  ring
-
-theorem integrable_callPayoff (s r σ K τ : ℝ) :
-    MeasureTheory.Integrable (fun z => callPayoff K (riskNeutralTerminalSpot s r σ τ z))
-      (ProbabilityTheory.gaussianReal 0 1) := by
-  exact ((integrable_riskNeutralTerminalSpot s r σ τ).sub
-    (MeasureTheory.integrable_const K)).sup (MeasureTheory.integrable_const 0)
-
-/-- M0.4's Gaussian payoff identity. This is an analytic construction target;
-it does not state the market measure, predictable representation, PDE or replication theorem. -/
-theorem discountedGaussianPrice_call (s r σ K τ : ℝ)
-    (hs : 0 < s) (hσ : 0 < σ) (hK : 0 < K) (hτ : 0 < τ) :
-    discountedGaussianPrice (callPayoff K) s r σ τ = blackScholesCall s r σ K τ := by
+/-- **Uniqueness of the Black–Scholes call price** (§4.2). Let `σ > 0`, `K > 0`, `T > 0` and
+`r ∈ ℝ`. Let `V(s, t)` be continuous on the closed domain `s ≥ 0`, `0 ≤ t ≤ T`, of class `C^{2,1}`
+on the open domain `s > 0`, `0 < t < T` (twice continuously differentiable in the spot,
+differentiable in time, with `∂V/∂t`, `∂V/∂s` and `∂²V/∂s²` jointly continuous there), a solution
+of the Black–Scholes equation `V_t + σ² s² / 2 V_ss + r (s V_s - V) = 0` on the open domain, with
+`|V(s, t)| ≤ A (1 + s)` on the closed domain and terminal value `V(s, T) = (s - K)⁺`. Then `V` is
+the Black–Scholes call price `C(s, t) = callValue s r σ K (T - t)` on the closed domain. -/
+theorem eq_callValue_of_pde {r σ K T A : ℝ} (hσ : 0 < σ) (hK : 0 < K) (hT : 0 < T)
+    (V : ℝ → ℝ → ℝ)
+    (hcont : ContinuousOn (fun p : ℝ × ℝ => V p.1 p.2) (Ici 0 ×ˢ Icc 0 T))
+    (hspot : ∀ t ∈ Ioo 0 T, ContDiffOn ℝ 2 (fun x => V x t) (Ioi 0))
+    (htime : ∀ s ∈ Ioi (0 : ℝ), DifferentiableOn ℝ (fun u => V s u) (Ioo 0 T))
+    (hcont_t : ContinuousOn (fun p : ℝ × ℝ => deriv (fun u => V p.1 u) p.2)
+      (Ioi 0 ×ˢ Ioo 0 T))
+    (hcont_s : ContinuousOn (fun p : ℝ × ℝ => deriv (fun x => V x p.2) p.1)
+      (Ioi 0 ×ˢ Ioo 0 T))
+    (hcont_ss : ContinuousOn (fun p : ℝ × ℝ => deriv (deriv fun x => V x p.2) p.1)
+      (Ioi 0 ×ˢ Ioo 0 T))
+    (hpde : ∀ s ∈ Ioi (0 : ℝ), ∀ t ∈ Ioo 0 T,
+      deriv (fun u => V s u) t + σ ^ 2 * s ^ 2 / 2 * deriv (deriv fun x => V x t) s +
+        r * (s * deriv (fun x => V x t) s - V s t) = 0)
+    (hgrowth : ∀ s ∈ Ici (0 : ℝ), ∀ t ∈ Icc 0 T, |V s t| ≤ A * (1 + s))
+    (hterm : ∀ s ∈ Ici (0 : ℝ), V s T = (s - K)⁺) :
+    ∀ s ∈ Ici (0 : ℝ), ∀ t ∈ Icc 0 T, V s t = TauCeti.BlackScholes.callValue s r σ K (T - t) := by
   sorry
 
-end FinancialMathematics
+/-- **Uniqueness of the Black–Scholes put price** (§4.2). Under the hypotheses of
+`eq_callValue_of_pde`, with terminal value `V(s, T) = (K - s)⁺`, `V` is the Black–Scholes put
+price `P(s, t) = putValue s r σ K (T - t)` on the closed domain `s ≥ 0`, `0 ≤ t ≤ T`. -/
+theorem eq_putValue_of_pde {r σ K T A : ℝ} (hσ : 0 < σ) (hK : 0 < K) (hT : 0 < T)
+    (V : ℝ → ℝ → ℝ)
+    (hcont : ContinuousOn (fun p : ℝ × ℝ => V p.1 p.2) (Ici 0 ×ˢ Icc 0 T))
+    (hspot : ∀ t ∈ Ioo 0 T, ContDiffOn ℝ 2 (fun x => V x t) (Ioi 0))
+    (htime : ∀ s ∈ Ioi (0 : ℝ), DifferentiableOn ℝ (fun u => V s u) (Ioo 0 T))
+    (hcont_t : ContinuousOn (fun p : ℝ × ℝ => deriv (fun u => V p.1 u) p.2)
+      (Ioi 0 ×ˢ Ioo 0 T))
+    (hcont_s : ContinuousOn (fun p : ℝ × ℝ => deriv (fun x => V x p.2) p.1)
+      (Ioi 0 ×ˢ Ioo 0 T))
+    (hcont_ss : ContinuousOn (fun p : ℝ × ℝ => deriv (deriv fun x => V x p.2) p.1)
+      (Ioi 0 ×ˢ Ioo 0 T))
+    (hpde : ∀ s ∈ Ioi (0 : ℝ), ∀ t ∈ Ioo 0 T,
+      deriv (fun u => V s u) t + σ ^ 2 * s ^ 2 / 2 * deriv (deriv fun x => V x t) s +
+        r * (s * deriv (fun x => V x t) s - V s t) = 0)
+    (hgrowth : ∀ s ∈ Ici (0 : ℝ), ∀ t ∈ Icc 0 T, |V s t| ≤ A * (1 + s))
+    (hterm : ∀ s ∈ Ici (0 : ℝ), V s T = (K - s)⁺) :
+    ∀ s ∈ Ici (0 : ℝ), ∀ t ∈ Icc 0 T, V s t = TauCeti.BlackScholes.putValue s r σ K (T - t) := by
+  sorry
+
+end TauCetiRoadmap.FinancialMathematics
