@@ -76,10 +76,11 @@ unrelated section.
    other statements allow any `σ`. Division with remainder is stated over a commutative ring for
    divisors whose nonzero members have unit leading coefficients, keeping Mathlib's more general
    coefficient hypotheses; over a field this is every nonzero divisor
-   (`MonomialOrder.isUnit_leadingCoeff`). Normal forms, reduced bases, Buchberger completion and
-   SAGBI theory are over a field `k`. Statements about geometric points and orbits assume `k`
-   algebraically closed; the ring and scheme constructions precede that specialization and are made
-   over an arbitrary field, or over `ℤ`.
+   (`MonomialOrder.isUnit_leadingCoeff`). Normal forms need only a Gröbner basis whose nonzero
+   members have unit leading coefficients; reduced bases, Buchberger completion and SAGBI theory are
+   over a field `k`. Statements about geometric points and orbits assume `k` algebraically closed;
+   the ring and scheme constructions precede that specialization and are made over an arbitrary
+   field, or over `ℤ`.
 2. **Leading terms.** A monomial order is Mathlib's `m : MonomialOrder σ`, and the initial term of
    a polynomial is its **largest** term: `m.degree`, `m.leadingCoeff` and `m.leadingTerm`, compared
    through the well-ordered synonym `m.toSyn`, written `a ≺[m] b`. Mathlib's `m.degree 0` is `0`;
@@ -891,14 +892,15 @@ functions. Here `κ` denotes the field `k`, in SchemeAndStackFoundations' fixed-
 
 ### 4.10 Graded sheafification and saturated presentations on projective space
 
-Construct the graded-module sheafification API on `ℙᴺ_A`: restriction and localization charts,
-exactness of `M ↦ M~`, `S(−d)~ = O(−d)`, `(S/I)~ = i_* O_X` for the closed subscheme `X` of a
-homogeneous ideal `I`, and the comparison of `(S/I)_m` with `Γ(X, O_X(m))` for all sufficiently
-large `m`. Prove that every coherent sheaf on `ℙᴺ_κ` is the sheafification of a finitely generated
-graded module (Stacks Project, Tag 0BXF), and sheafify the graded free resolutions of §4.9 to
-locally free resolutions. For every closed subscheme `X` of `ℙᴺ_A` over a Noetherian ring `A`,
-construct its saturated homogeneous ideal presentation, and prove the comparison between closed
-subschemes and saturated presentations, its compatibility with restriction, and base change of Proj.
+Construct the graded-module sheafification API on `ℙᴺ_A` for any ring `A`: restriction and
+localization charts, exactness of `M ↦ M~`, `S(−d)~ = O(−d)`, `(S/I)~ = i_* O_X` for the closed
+subscheme `X` of a homogeneous ideal `I`, and, when `A` is Noetherian, the comparison of `(S/I)_m`
+with `Γ(X, O_X(m))` for all sufficiently large `m`. Prove that every coherent sheaf on `ℙᴺ_κ` is
+the sheafification of a finitely generated graded module (Stacks Project, Tag 0BXF), and sheafify
+the graded free resolutions of §4.9 to locally free resolutions. For every closed subscheme `X`
+of `ℙᴺ_A` over a Noetherian ring `A`, construct its saturated homogeneous ideal presentation, and
+prove the comparison between closed subschemes and saturated presentations, its compatibility with
+restriction, and base change of Proj.
 For `X` flat over `A = κ[t]`, prove that the saturated graded quotient is torsion free over `κ[t]`,
 using the projective affine charts and saturation, so that each graded piece is finite free;
 identify the fibre schemes with Proj of the base-changed quotient, and deduce that the fibres have
@@ -1064,8 +1066,10 @@ and with the rational-weight branching of ClassicalGroups Layer 6 (§6.1). *Need
 For generic `n × 2` matrices over a field `k`, with the right action `Z ↦ Z g`, prove
 `equalizer_sl2Coaction_eq_adjoin_minors`: the `2 × 2` minors generate the invariant algebra of the
 group scheme `SL₂`, the polynomials `f` whose coaction is `f ⊗ 1` (Hashimoto, Theorem 17, over every
-commutative ring, for the symplectic group of a plane, which is `SL₂`, whose pairings are the
-`2 × 2` minors). The coaction is that of Tau Ceti's
+commutative ring and for `n ≥ 4`, for the symplectic group of a plane, which is `SL₂`, whose
+pairings are the `2 × 2` minors). For `n ≤ 3` the coaction preserves the degree in each row, so an
+invariant of `n` rows is an invariant of `4` rows of degree `0` in the added rows, hence a
+polynomial in the minors on the first `n` rows. The coaction is that of Tau Ceti's
 `TauCeti.SpecialLinear.coordinateHopfAlgebra k 2` on `MvPolynomial (Fin n × Fin 2) k`, with its
 native base-change isomorphisms. Use `TauCeti.Comodule`, `TauCeti.SpecialLinear.standardComodule`
 and `TauCeti.Comodule.fixedSubcomodule`. Fix the right coaction `sl2Coaction k n` by
@@ -1177,9 +1181,9 @@ symmetric algebra of the dual. Consume its tautological `O_P(1)`, identify `F₁
 compare the cubic polarization `O_P(1) ⊗ π^* O(1)` with `2H − E`. Prove
 `π_* O_P(m) = Sym^m (O ⊕ O(1))` for `m ≥ 0` and the twist rule
 `π_*(O_P(m) ⊗ π^* L) = Sym^m (O ⊕ O(1)) ⊗ L` for a line bundle `L`, so the cubic polarization has five
-independent sections, using §2.6's computation of `H⁰(ℙ¹, O(d))`. Verify the degree `3` in the
-generated difference lattice. *Needs:* Layer 2 §§2.1–2.7; SchemeAndStackFoundations §§0.3, 2.6, 5.4;
-Tau Ceti blowups and graded quasi-coherent algebras.
+independent sections, using SchemeAndStackFoundations §2.6's computation of `H⁰(ℙ¹, O(d))`. Verify
+the degree `3` in the generated difference lattice. *Needs:* Layer 2 §§2.1–2.7;
+SchemeAndStackFoundations §§0.3, 2.6, 5.4; Tau Ceti blowups and graded quasi-coherent algebras.
 
 **Checks.**
 - `a d = b² = (2, 2, 0)`, `a e = b c = (2, 1, 1)`, `b e = c d = (1, 2, 1)`.
@@ -1295,9 +1299,13 @@ quasi-coherent algebras; ClassicalGroups Layer 6.
 - DeformationAndDerivedPatchingAlgebra Layer 1 and ResolutionOfSingularitiesCharacteristicZero §1.10
   consume the ordinary associated graded ring `gr_I R` of §4.2 with its classes, products, induced
   maps and generator and coefficient-change maps.
-- CanonicalModelsAndGonality and AlgebraicModuliForArithmeticGeometry consume the eventual Hilbert
-  polynomials of graded modules (§4.9), the graded sheafification and large-degree section comparison
-  (§4.10), and Layer 2's semigroup counts.
+- CanonicalModelsAndGonality consumes the eventual Hilbert polynomials of graded modules (§4.9) and
+  the graded sheafification and large-degree section comparison (§4.10).
+- AlgebraicModuliForArithmeticGeometry §1.5 consumes the Hilbert functions, Hilbert series and
+  eventual Hilbert polynomials of graded modules (§4.9) and Layer 2's semigroup counts.
+- DeformationAndDerivedPatchingAlgebraPartII takes from §§4.9–4.11 the graded sheafification on
+  projective space, the graded syzygy theorem and the Hilbert and `K₀` comparisons; its Layer K3
+  specializes to the chart and exactness statements of §4.10.
 - FourManifolds consumes Layer 1's elimination and saturation (§1.7).
 - McKaySkewGroup §7.2 consumes Layer 1's standard monomials and normal forms (§1.2).
 - TensorProductCombinatorics §1.5 consumes Layer 2's exponent monoid, generated lattice and
