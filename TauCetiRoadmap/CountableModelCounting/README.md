@@ -422,10 +422,11 @@ Let `L` have countably many relation symbols, let `ρ` be an isolating rank, `φ
 
 *Route.* Isomorphism on `modelsOf φ` equals `bfEquivSetoidOn ℕ φ β`
 (`TauCeti.IsIsolatingRank.comap_isoSetoid_eq_bfEquivSetoid`: forward because isomorphism refines
-every level, backward by monotonicity down to `ρ c` and isolation), hence has Borel graph. For the
-tier `ℕ`, apply the relative form of Silver's theorem on the Borel set of models on `ℕ` with `R`
-and `F` both isomorphism; its second alternative, a continuous Cantor family of pairwise
-non-isomorphic models, becomes a perfect set. For each `Fin n` use §0.2, then combine the tiers with
+every level, backward by monotonicity down to `ρ c` and isolation), hence has Borel graph (for the
+Scott rank in place of `ρ`, Montalbán, Part 2, Theorem XI.3, (2)⇒(1), p. 207). For the tier `ℕ`,
+apply the relative form of Silver's theorem on the Borel set of models on `ℕ` with `R` and `F`
+both isomorphism; its second alternative, a continuous Cantor family of pairwise non-isomorphic
+models, becomes a perfect set. For each `Fin n` use §0.2, then combine the tiers with
 `TauCeti.countableModelCount_le_add_aleph0_mul`. A perfect set may appear at a finite tier only
 (Layer 0, Examples). The cardinal form follows from the witnessed one by
 `TauCeti.HasPerfectlyManyCountableModels.countableModelCount_eq`; a second proof applies the
@@ -513,9 +514,11 @@ on the conclusion of §3.1, not on a cardinal.
 ### 3.3 Morley's theorem
 
 Prove `morley_countableModelCount_le_aleph_one_or_hasPerfectlyMany`: for `φ : L.Sentenceω`,
-`countableModelCount φ ≤ ℵ₁` or `TauCeti.HasPerfectlyManyCountableModels φ`. Combine §3.2 with §0.2
-on each finite tier and `TauCeti.countableModelCount_le_add_aleph0_mul`; each perfect alternative
-comes from Silver's Cantor family at whichever tier it occurs. Prove the cardinal form
+`countableModelCount φ ≤ ℵ₁` or `TauCeti.HasPerfectlyManyCountableModels φ` (Morley 1970;
+Montalbán, Part 2, §XII.1, p. 216, proves the cardinal form for models on `ℕ` by the route of
+§3.1–§3.2). Combine §3.2 with §0.2 on each finite tier and
+`TauCeti.countableModelCount_le_add_aleph0_mul`; each perfect alternative comes from Silver's
+Cantor family at whichever tier it occurs. Prove the cardinal form
 `morley_countableModelCount`: `countableModelCount φ ≤ ℵ₁` or `countableModelCount φ = 𝔠`, from the
 witnessed form with `TauCeti.countableModelCount_le_continuum` and
 `TauCeti.HasPerfectlyManyCountableModels.countableModelCount_eq`, without the cardinality form of
@@ -882,19 +885,27 @@ Prove, for `L` with countably many relation symbols and with exactly the further
 - the perfect-set form implies the cardinal form, `VaughtConjecture → CardinalVaughtConjecture`
   (by `TauCeti.HasPerfectlyManyCountableModels.countableModelCount_eq`);
 - `cardinalVaughtConjecture_of_aleph_one_eq_continuum`: `ℵ₁ = 𝔠` implies `CardinalVaughtConjecture`
-  (a count at most `ℵ₁` is at most `ℵ₀` or equal to `ℵ₁ = 𝔠`);
+  (a count at most `ℵ₁` is at most `ℵ₀` or equal to `ℵ₁ = 𝔠`; for one sentence, Andrews,
+  Goldbring, Hachtman, Keisler and Marker, §1, p. 1);
 - `cardinalVaughtConjecture_iff_vaughtConjecture`: if `ℵ₁ < 𝔠`, then `CardinalVaughtConjecture` iff
   `VaughtConjecture` (a count of `𝔠 > ℵ₁` forces the perfect alternative of the witnessed Morley
-  theorem).
+  theorem; Andrews, Goldbring, Hachtman, Keisler and Marker, §1, p. 1, state it for one sentence
+  with the absolute form of §5.2 in place of the perfect-set form).
 
 The infinite-model reduction needs no countability: prove `hasVaughtDichotomy_and_infiniteSentence_iff`,
 for every relational `L`: `HasVaughtDichotomy (φ ⊓ L.infiniteSentence)` iff the models of `φ` on `ℕ`
-fall into countably many isomorphism classes or `HasPerfectSetOfNonisoModelsOn ℕ φ` (§0.3). With
-§0.2, which settles every finite tier in a countable language, `VaughtConjecture` is equivalent,
-with no hypothesis, to its statement for models on `ℕ`: every `φ` over every such `L` has countably
-many models on `ℕ` or `HasPerfectSetOfNonisoModelsOn ℕ φ`.
-*Needs:* §0.2, §0.3, §3.3, §5.1, §5.2; Mathlib `Cardinal.aleph_one_le_continuum`,
-`Cardinal.aleph_one_le_iff`.
+fall into countably many isomorphism classes or `HasPerfectSetOfNonisoModelsOn ℕ φ` (§0.3). Prove
+`vaughtConjecture_iff_nat`: `VaughtConjecture` is equivalent, with no hypothesis, to its statement
+for models on `ℕ`, that every `φ` over every relational `L : Language.{0, 0}` with countably many
+relation symbols has countably many models on `ℕ` up to isomorphism or
+`HasPerfectSetOfNonisoModelsOn ℕ φ`. Forward, apply `VaughtConjecture` to `φ ⊓ L.infiniteSentence`
+and the infinite-model reduction. Backward, a perfect set on `ℕ` is a perfect set at a tier;
+otherwise §0.2 settles every finite tier in the countable language, giving a perfect set at some
+`Fin n` or countably many models on every tier, and then `countableModelCount φ ≤ ℵ₀` by
+`TauCeti.countableModelCount_le_aleph0_iff`.
+*Needs:* §0.2, §0.3, §3.3, §5.1, §5.2; Tau Ceti `TauCeti.countableModelCount_le_aleph0_iff`,
+`TauCeti.HasPerfectlyManyCountableModels.of_nat`, `TauCeti.HasPerfectlyManyCountableModels.of_fin`;
+Mathlib `Cardinal.aleph_one_le_continuum`, `Cardinal.aleph_one_le_iff`.
 
 ### 5.4 The scattered and rank forms, and the counterexample profile
 
@@ -1040,8 +1051,8 @@ Prove:
 
 ### 5.8 Saturation and the limit model
 
-Following Montalbán, Part 2, Ch. XII §2 (Lemmas XII.5–XII.6), restated in the back-and-forth
-convention of the parent roadmap:
+The three inputs of §5.9, in the back-and-forth convention of the parent roadmap (cf. Montalbán,
+Part 2, Lemmas XII.5–XII.6, pp. 218–219):
 
 1. **Level classes are sentences.** With countably many relation symbols, §1.1's
    `TauCeti.RelationalConfiguration.modelsOf_scottSentenceAtLevel` (Montalbán's Lemma XII.5, with
@@ -1065,8 +1076,8 @@ convention of the parent roadmap:
 
 ### 5.9 Minimal counterexamples
 
-Following Montalbán, Part 2, Ch. XII §2 (Theorem XII.7), the reduction of Harnik and Makkai, as
-used by Steel:
+The reduction of Harnik and Makkai, as used by Steel (cf. Montalbán, Part 2, Theorem XII.7,
+pp. 219–220):
 
 1. **The splitting tree.** Let `L` have countably many relation symbols, let `modelsOf Θ` be
    back-and-forth scattered and meet uncountably many isomorphism classes, and suppose no `Θ ⊓ θ` has
@@ -1572,7 +1583,8 @@ that roadmap is consumed.
 - A. S. Kechris, *Classical Descriptive Set Theory*, Graduate Texts in Mathematics 156, Springer,
   1995, §31, "Analytic well-founded relations" (the boundedness theorem behind uniform separation).
 - A. Montalbán, *Computable Structure Theory: Beyond the Arithmetic*, Part 2,
-  [draft](https://math.berkeley.edu/~antonio/CSTpart2.pdf), Chapter XII: §XII.1 (Morley's theorem via
+  [draft](https://math.berkeley.edu/~antonio/CSTpart2.pdf), Theorem XI.3 (p. 207: a bound on the Scott
+  rank makes isomorphism Borel, §2.1) and Chapter XII: §XII.1 (Morley's theorem via
   Silver; scattered and unbounded sentences, Definition XII.1) and §XII.2 (Definition XII.4,
   minimally unbounded sentences; Lemma XII.5, level classes are sentences; Lemma XII.6, the limit
   model, with hypothesis `≡_{α_i + 3}` in its block-move convention; Theorem XII.7, pp. 219–220, the

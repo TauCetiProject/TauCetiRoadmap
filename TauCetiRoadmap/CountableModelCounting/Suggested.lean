@@ -317,6 +317,18 @@ theorem hasVaughtDichotomy_and_infiniteSentence_iff [L.IsRelational] (φ : L.Sen
       Countable (Quotient (isoSetoidOn ℕ φ)) ∨ HasPerfectSetOfNonisoModelsOn ℕ φ := by
   sorry
 
+/-- **Layer 5 milestone, the restriction to countably infinite models.** Vaught's conjecture holds
+exactly when every sentence of every countable relational language has countably many models on
+`ℕ` up to isomorphism or a perfect set of pairwise non-isomorphic ones there. Forward, apply the
+conjecture to `φ ⊓ L.infiniteSentence`; backward, the finite tiers are settled by
+`countable_or_hasPerfectSetOfNonisoModelsOn_fin`. -/
+theorem vaughtConjecture_iff_nat :
+    VaughtConjecture ↔
+      ∀ (L : FirstOrder.Language.{0, 0}) [L.IsRelational] [Countable (Σ l, L.Relations l)]
+        (φ : L.Sentenceω),
+          Countable (Quotient (isoSetoidOn ℕ φ)) ∨ HasPerfectSetOfNonisoModelsOn ℕ φ := by
+  sorry
+
 /-- **Layer 5 milestone.** Vaught's conjecture holds exactly when every sentence whose models on
 `ℕ` are back-and-forth scattered has countably many models on `ℕ`. -/
 theorem vaughtConjecture_iff_bfScattered :
