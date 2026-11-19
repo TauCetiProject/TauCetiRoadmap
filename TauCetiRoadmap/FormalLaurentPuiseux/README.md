@@ -932,9 +932,10 @@ Let `K` be algebraically closed of characteristic zero. A polynomial of positive
 Puiseux field has its coefficients in one level `n` (§4.3), so it is the image of a polynomial over
 `K((u))`; the root theorem of §5.3 over `K((u))`, after a further ramification `u ↦ u^m`, gives a root
 at level `n m` (`TauCeti.puiseuxField.exists_isRoot_levelEmbedding`). Hence the Puiseux field is
-algebraically closed (`TauCeti.puiseuxField.instIsAlgClosed`; Mannaa–Coquand, Corollary 1.10 and
-Lemma 1.13, pp. 7–8), every polynomial over it splits (Mathlib's `IsAlgClosed.splits`), and, being
-algebraic over `F` by §4.4, it is an algebraic closure of `F` (`TauCeti.puiseuxField.instIsAlgClosure`).
+algebraically closed (`TauCeti.puiseuxField.instIsAlgClosed`; Mannaa–Coquand, Corollary 1.10, p. 7,
+separably closed, hence algebraically closed in characteristic zero), every polynomial over it
+splits (Mathlib's `IsAlgClosed.splits`), and, being algebraic over `F` by §4.4, it is an algebraic
+closure of `F` (`TauCeti.puiseuxField.instIsAlgClosure`).
 *Needs:* §§4.3, 4.4, 5.3; Mathlib `IsAlgClosed`, `IsAlgClosure`; Tau Ceti the results named above.
 
 ### Examples
@@ -1690,7 +1691,7 @@ hypotheses recorded where the layers use it.
   at this address.
 - [Mannaa–Coquand, *Dynamic Newton–Puiseux Theorem*](https://arxiv.org/abs/1304.6770),
   arXiv version 2: Lemma 1.7 (pp. 4–5) for factor Hensel lifting, Lemma 1.8 and Theorem 1.9 (pp. 5–7)
-  for the Newton–Puiseux route, Corollary 1.10 and Lemma 1.13 (pp. 7–8) for algebraic closedness.
+  for the Newton–Puiseux route, Corollary 1.10 (p. 7) for algebraic closedness.
 - [Mathlib Kummer theory](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/KummerExtension.lean)
   and [profinite Galois comparison](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/Galois/Profinite.lean).
 - [Formal versus convergent Puiseux discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Remaining.20100.20theorems/near/484400866)
