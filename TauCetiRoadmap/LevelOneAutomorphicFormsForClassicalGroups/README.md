@@ -53,7 +53,7 @@ representations, and Layer 5 combines it with the masses of Layer 4 into the cla
 Layer 4 also proves the spinor obstruction. Let `q` be a regular quadratic form on `ℤⁿ` (its polar
 form has determinant `±1` in even rank, `±2` in odd rank), and `P = (X − 1)^a (X + 1)^{2b} Q`
 with `Q(1)Q(−1) ≠ 0`. If for every prime `p` some element of `SO(q)(ℤ_p)` has characteristic
-polynomial `P`, then `|Q(−1)|` is an integer square when `b = 0`, and `|Q(1)|` is one when `a = 0`.
+polynomial `P`, then `|Q(−1)|` is an integer square when `b = 0`, and `|Q(1)|` is an integer square when `a = 0`.
 Layers 6 to 8 treat Siegel modular forms.
 
 ## How to read the build
