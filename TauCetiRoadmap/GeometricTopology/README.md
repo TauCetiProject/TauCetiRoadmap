@@ -48,9 +48,9 @@ belong to RicciFlow and Poincare3D. `Suggested.lean` states the headline theorem
 
 Much of the basic vocabulary, such as the diffeomorphism group with its weak Whitney topology and
 locally flat embeddings, is already in the Tau Ceti library, and this roadmap uses it instead of
-defining its own. AlgebraicTopology provides van Kampen's theorem, homology and cohomology, and in
-turn uses the smooth triangulations built here. Many roadmaps build on this one, MorseTheory among
-them, using the collars, gluing and tubular neighbourhoods of the first layer.
+defining its own; so are van Kampen's theorem and the Mayer–Vietoris sequence. Many roadmaps
+build on this one: AlgebraicTopology uses the smooth triangulations built here, and MorseTheory,
+among others, the collars, gluing and tubular neighbourhoods of the first layer.
 
 Layer 1 is the foundation for cutting and regluing: manifolds with boundary, handles and compact
 surfaces. Layer 2 treats locally flat embeddings, which exclude wild examples such as the
@@ -85,15 +85,13 @@ the reduction of Levine's theorem in Layer 6.4 also Layer 5.2, and its PL form L
 needs Layer 1 and the Riemannian suppliers, for Löh's comparison the smooth triangulations of
 Layer 11.3, and for its finite-volume part the Dehn filling of
 Layer 5.2 and the irreducibility of Layer 8.2; Layer 9 (Heegaard splittings) needs Layers 1, 7, 8
-and 11; and Layer 10 (foliations) needs Layers 1, 2, 5, 7, 8 and 9. Each layer ends with its
+and 11; and Layer 10 (foliations) needs Layers 1, 5, 7, 8 and 9. Each layer ends with its
 examples and its dependencies on the others.
 The following edges keep the graph acyclic. Moise's theorem of Layer 11.2 also precedes the smooth
 structure of a filling in Layer 5.2, and the concordance relation of Layer 6.1 precedes the
-Akbulut–Kirby statement of Layer 5.3. Layer 9 also needs the bicollars of Layer 2. Layers
-10.3–10.5 need in addition the pinned Thom classes, Euler classes and Euler class inequalities,
-AlgebraicTopology's cohomology and fundamental classes, the locally flat surfaces of Layer 2.1,
-the hyperbolic manifolds of Layer 7.2, the irreducibility of Layer 8.2 and the incompressible
-surfaces of Layer 8.3.
+Akbulut–Kirby statement of Layer 5.3. Layer 9 also needs the bicollars of Layer 2. Layer 10.3
+needs in addition the pinned Euler classes of foliations and Euler class inequalities, and the
+irreducibility of closed hyperbolic `3`-manifolds of Layer 7.3.
 
 Section anchors that other roadmaps link to resolve as follows:
 
@@ -199,7 +197,8 @@ Section anchors that other roadmaps link to resolve as follows:
   at least three `TauCeti.hypVolume` (the Weeks manifold has volume `0.9427…`).
 - **Cohomology.** Cohomology is singular cohomology with integer coefficients unless stated;
   `⟨c, [S]⟩` is the evaluation of a degree-two class on the fundamental class of a closed oriented
-  surface. The Thurston norm uses `χ₋(S) = Σ max(0, −χ(S_i))` over the components `S_i` of `S`.
+  surface. The integral surface minimum of 5.4.1 uses `χ₋(S) = Σ max(0, −χ(S_i))` over the
+  components `S_i` of `S`.
 - **Simplicial complexes.** Simplicial complexes are Mathlib's `AbstractSimplicialComplex ι` and
   `PreAbstractSimplicialComplex ι`, which need not contain every singleton; the polyhedron `|K|`
   is `AbstractSimplicialComplex.Realization K` with the weak topology. Collapse removes free
@@ -503,8 +502,10 @@ balls (`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_connectedSum`) and the
 `M # N ≃ N # M` (`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_comm`),
 `M # N ≃ (−M) # (−N)` (`TauCeti.OrientedConnectedSum.nonempty_diffeomorph_neg`) and
 `M # Sⁿ ≃ M` (`TauCeti.connectedSumSphereDiffeomorph`). *Needs:* Tau Ceti
-`TauCeti.SmoothEmbedding`, `TauCeti.Diffeotopy`; AlgebraicTopology Stage 1 (van Kampen) and
-Stage 7 (the Euler characteristic of a finite decomposition).
+`TauCeti.SmoothEmbedding`, `TauCeti.Diffeotopy`, the van Kampen theorem
+`TauCeti.isPushout_fundamentalGroup` and the rank form of the Mayer–Vietoris sequence
+`TauCeti.finsum_finrank_singularHomology_mayerVietoris` (the Euler characteristic of an open cover
+by two sets).
 
 **Checks.**
 - *Orientations matter.* The cup-product forms on `H²` of `ℂP² # ℂP²` and `ℂP² # (−ℂP²)` are
@@ -1095,8 +1096,8 @@ composition with open embeddings and products, prove:
 - *Trefoil group.* Near the apex, the complement of the cone on the trefoil `K` in the open cone
   on `S³` deformation retracts onto `S³ ∖ K`, so its fundamental group is the trefoil group
   `⟨x, y | x² = y³⟩`, which is non-abelian (it surjects onto `S₃`); a slice chart would give the
-  complement of `ℝ² × {0}` in `ℝ⁴`, with fundamental group `ℤ` (AlgebraicTopology Stage 1, van
-  Kampen).
+  complement of `ℝ² × {0}` in `ℝ⁴`, with fundamental group `ℤ` (van Kampen,
+  `TauCeti.isPushout_fundamentalGroup`).
 - *The image, not the parametrization.* The smooth embedding `t ↦ (t, t³)` of `ℝ` in `ℝ²` is
   locally flat; the homeomorphism `t ↦ t − sin t` of `ℝ/2πℤ` composed with a smooth knot is a
   topological embedding whose derivative vanishes at one point, and it is locally flat, its
@@ -1211,7 +1212,7 @@ Layer 11.2 for the three-dimensional case of the annulus theorem; Tau Ceti's Sch
 theorem on `S²` for comparison in dimension two.
 Also Layer 1.1 for the boundary manifold and Layer 1.6 for PL maps; Tau Ceti's smooth, neat and
 polygonal local flatness, two-sided bicollaring, collar theorem and `TauCeti.filledHull`;
-Mathlib's `Topology.IsEmbedding` API; AlgebraicTopology Stage 1 for the trefoil group. The
+Mathlib's `Topology.IsEmbedding` API; Tau Ceti's van Kampen theorem for the trefoil group. The
 high-dimensional route of the annulus theorem, Kirby's stable homeomorphism theorem and
 Kirby–Siebenmann normal bundles, is GeometricTopology, Part II's.
 
@@ -1252,11 +1253,12 @@ oriented manifold `M` (`TauCeti.Orientable`, with a chosen oriented atlas) as th
 diffeomorphisms preserving that orientation (positive Jacobian determinant in every pair of
 oriented charts), and prove that it is open and closed. For a closed oriented *connected* `M`
 prove that `Diff⁺(M)` is the kernel of the degree homomorphism `Diff(M) → {±1}`, so that it has
-index at most two. The degree of a map `f : M → N` of closed oriented connected `n`-manifolds is
-read homologically, as the integer `d` with `f_*[M] = d · [N]` in `H_n(N; ℤ) ≅ ℤ` for the
-fundamental classes of AlgebraicTopology Stage 6; this is AlgebraicTopology 6.5's homological
-characterization of the manifold degree, and it needs no smoothness. The degree is not defined for
-disconnected `M`, where the atlas description is the only one.
+index at most two. The degree of a diffeomorphism `f` of `M` is the pinned signed count
+`TauCeti.degreeAtRegularValue o o f y` at a point `y`, for the orientation `o` of the chosen atlas:
+every point is a regular value of `f` with one preimage, where the orientation sign is `±1`. Prove
+that on connected `M` this sign does not depend on `y`, the sign of the Jacobian determinant of `f`
+in oriented charts being locally constant, and that it is multiplicative by the chain rule. On a
+disconnected `M` the count may depend on `y`, and the atlas description is the only one.
 
 - The pinned topological-group theorems carry `[CompactSpace M]` because the weak and strong
   topologies agree only for compact sources, and isotopy classes are open in the strong one.
@@ -1294,9 +1296,10 @@ disconnected `M`, where the atlas description is the only one.
 - *Finite sets and disconnected sources.* For `M = {pt}`, `Diff(M)` is trivial; for `M` a finite
   set of `k` points, `Diff(M)` is the symmetric group `S_k` with the discrete topology. The
   degree description does not apply to the finite set with `k ≥ 2`, nor to `M = S¹ ⊔ S¹`: the
-  degree is defined for connected closed oriented manifolds only, and the swap of the two
-  circles has no degree, while the atlas description makes the swap orientation-preserving. For
-  connected `M` the two descriptions agree, which is the theorem stated.
+  diffeomorphism that is the identity on one circle and a reflection on the other has signed count
+  `+1` at the points of the first circle and `−1` at those of the second, so it has no single
+  degree, while the atlas description says that it does not preserve orientation. For connected
+  `M` the two descriptions agree, which is the theorem stated.
 - *Interval.* `Diff(D¹, ∂D¹)` is the group of diffeomorphisms of `[−1, 1]` fixing the endpoints;
   it is contractible (the straight-line homotopy `(1 − s) f + s · id` stays among increasing
   diffeomorphisms fixing the endpoints), and `Diff(D¹)` has two components.
@@ -1306,9 +1309,8 @@ disconnected `M`, where the atlas description is the only one.
 `TauCeti.DiscDiff`, `TauCeti.Orientable`, `Diffeomorph.applyMulAction`,
 `TauCeti.circleRotationHom`, `TauCeti.circleReflection`,
 `Diffeomorph.isTopologicalGroup`, `TauCeti.Diffeotopy`; Mathlib `IsTopologicalGroup`,
-compact-open topology, `Diffeomorph`; AlgebraicTopology Stage 6 (fundamental classes,
-`H_n(M; ℤ) ≅ ℤ` for closed oriented connected `M`, and the homological characterization of the
-degree in 6.5); Layer 1.1 (manifolds with boundary).
+compact-open topology, `Diffeomorph`; Tau Ceti `TauCeti.degreeAtRegularValue` (the degree);
+Layer 1.1 (manifolds with boundary).
 
 ### 3.2 Smooth families and the reference inclusion
 
@@ -1357,7 +1359,7 @@ with its endpoints fixed is TeichmullerGeometry §0.2's, as in 3.1.
 `LinearIsometryEquiv.unitSphereDiffHom`,
 `TauCeti.continuousOrthogonalToDiffSphere`; Mathlib `Matrix.orthogonalGroup`,
 `Continuous.isClosedEmbedding`, `Topology.IsClosedEmbedding`, `ContinuousMap.Homotopy`; Layer 3.1
-(the topology, `Diff⁺` and the homological degree).
+(the topology, `Diff⁺` and the degree).
 
 ### 3.3 Isotopy extension
 
@@ -1517,8 +1519,8 @@ Tau Ceti's diffeomorphism group, weak Whitney topology, diffeotopies, fixing sub
 action, isotopy extension on compact sets, homogeneity, the disc theorem and Cerf's theorem as a
 proposition; Layer 1.5 (tubes) for the restriction fibration; DifferentialGeometry Layer 3
 (flows).
-Mathlib's `Diffeomorph`, `ContMDiffMap` and `HomotopyGroup`; AlgebraicTopology Stage 6's
-fundamental classes, for the homological degree of 3.1; Layer 1.1 for manifolds with boundary
+Mathlib's `Diffeomorph`, `ContMDiffMap` and `HomotopyGroup`; Tau Ceti's signed count
+`TauCeti.degreeAtRegularValue`, for the degree of 3.1; Layer 1.1 for manifolds with boundary
 and collars.
 
 ## Layer 4: knots and links
@@ -1616,9 +1618,9 @@ and Chapter 5 for the linking number).
 `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`, `TauCeti.Diffeotopy`, `TauCeti.unknot`;
 `rotate`, `reverse`, `TauCeti.SmoothCircleEmbedding.greatCircle`,
 `TauCeti.UnorientedSmoothCircleEmbedding`, `relabel`, `TauCeti.SmoothLinkEmbedding.singletonEquiv`,
-`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv` with Tau Ceti's singular homology and
-Mayer–Vietoris sequence (AlgebraicTopology Stage 2, singular homology, and Stage 3,
-Mayer–Vietoris), for `H₁(S³ ∖ K) ≅ ℤ`; Mathlib `Manifold.IsImmersion`, `Circle`;
+`TauCeti.IsSolidTorusNeighborhood.complementHomologyEquiv` with Tau Ceti's Mayer–Vietoris
+sequence of singular homology (`TopCat.mayerVietorisδ`, `TopCat.mayerVietoris_exact₁`–`₃`), for
+`H₁(S³ ∖ K) ≅ ℤ`; Mathlib `Manifold.IsImmersion`, `Circle`;
 Layer 1.5 (the normal bundle and closed tube of a knot);
 Layer 3.3 (isotopy extension for the independence of the band).
 
@@ -6400,10 +6402,13 @@ on a knot in `S³` is surgery along the framed circle of a neighbourhood with fr
   native sign is invisible, since `−1 = 1` in `ℤ/2`. `S³_1(unknot) = S³` by the identity for
   `1/n`, consistent with `H₁ = ℤ/1 = 0` and with `LensSpace 1 ![1, 1]` being the quotient of `S³`
   by the trivial group.
-- *Sign witness.* The witness is `p = 5`: the slope-`5/2` filling of the unknot is the native
-  `LensSpace 5 ![1, −2] = LensSpace 5 ![1, 3]`, homeomorphic to `TauCeti.LensSpace 5 ![1, 2]` by
-  the reflection; a convention giving `LensSpace 5 ![1, 2]` directly would differ from the native
-  one by the orientation of `S³` and agree with it as unoriented spaces.
+- *Sign witness.* The witness is `p = 7`, `q = 2`: the slope-`7/2` filling of the unknot is the
+  native `LensSpace 7 ![1, −2] = LensSpace 7 ![1, 5]`, homeomorphic to `TauCeti.LensSpace 7 ![1, 2]`
+  by the reflection but by no orientation-preserving homeomorphism, since `5` is neither `2` nor
+  `2⁻¹ = 4` in `ℤ/7` (the orientation-preserving comparison of 5.4.2); a convention giving
+  `LensSpace 7 ![1, 2]` directly would differ from the native one by the orientation of `S³` and
+  agree with it as unoriented spaces. At `p = 5`, `q = 2` the two conventions agree even as
+  oriented manifolds, since `−2 = 3 = 2⁻¹` in `ℤ/5`.
 - *Exchanged parameters.* The surgery description with the two parameters exchanged,
   `S³_{p/q}(unknot) ≃ₜ TauCeti.LensSpace q ![1, p]`, is excluded by `π₁`: `S³_{5/2}(unknot)` has
   `H₁ = ℤ/5` while `LensSpace 2 ![1, 5] = ℝP³` has `π₁` of order `2`.
@@ -6453,8 +6458,9 @@ theorem) and Layer 11.2.1 (isotopy of surface homeomorphisms to diffeomorphisms)
 `TauCeti.SphereSurgery.toDehnFilling`, `TauCeti.LensSpace.fundamentalGroupMulEquiv`,
 `TauCeti.LensSpace.card_fundamentalGroup`, `TauCeti.LensSpace.eq_of_homeomorph` and the manifold
 instances of `Geometry/Manifold/Instances/LensSpace.lean`; Mathlib `OnePoint ℚ`, `Diffeomorph`,
-`Homeomorph`, `FundamentalGroup`, `ZMod`, `Matrix.GeneralLinearGroup`; AlgebraicTopology Stage 1
-(van Kampen) and Stage 3 (Mayer–Vietoris), for the `H₁` and `π₁` computations.
+`Homeomorph`, `FundamentalGroup`, `ZMod`, `Matrix.GeneralLinearGroup`; Tau Ceti's van Kampen
+theorem `TauCeti.isPushout_fundamentalGroup` and Mayer–Vietoris sequence `TopCat.mayerVietorisδ`,
+for the `H₁` and `π₁` computations.
 
 ### 5.3 Property P, Property R and cosmetic surgery
 
@@ -6657,8 +6663,7 @@ nonempty subcollection of its boundary circles in R(γ) zero in H₁(R(γ),∂R(
 integral surface minimum: for compact oriented N, the minimum of χ₋ over embedded oriented
 representatives of each class of H₂(N,∂N;ℤ) (built by duality, circle-valued maps and relative
 regular values), its existence in ℕ and its naturality under orientation-compatible
-homeomorphisms; the Thurston seminorm on it is GeometricTopology, Part II's, except on a closed
-oriented `3`-manifold, where it is the Thurston norm of Layer 10.4. Define sutured
+homeomorphisms; the Thurston seminorm on it is GeometricTopology, Part II's. Define sutured
 irreducibility and tautness from these classes, with the arc version and the arc-to-suture
 conversion, and construct, combinatorially and without taut foliations, taut conditioned
 representatives, the finite hierarchy with decreasing complexity and product terminals, and
@@ -6826,7 +6831,7 @@ the smooth structure of a filling); Tau Ceti's framings, the surgery statements
 (`TauCeti.CosmeticSurgeryConjecture`, `TauCeti.NiWuCosmeticSurgeryTheorem`,
 `TauCeti.HanselmanCosmeticSurgeryTheorem`, `TauCeti.MathieuChirallyCosmeticTheorem`,
 `TauCeti.AkbulutKirbyConjecture`, `TauCeti.YasuiTheorem`) of the supplier contracts;
-AlgebraicTopology Stage 1 (van Kampen) and Stage 3 (Mayer–Vietoris). The Poincaré conjecture
+Tau Ceti's van Kampen theorem and Mayer–Vietoris sequence. The Poincaré conjecture
 (Layer 8.6) is one of the two routes named for Property P and not a dependency of this layer.
 
 ## Layer 6: knot concordance
@@ -7362,8 +7367,8 @@ the link pairs of a subcomplex) and the smoothing input as stated, for the PL st
 For the hypothesis of Freedman's theorem: Tau Ceti `TauCeti.SmoothCircleEmbedding.KnotGroup`,
 `TauCeti.hasPerfectCommutatorSubgroup_unknot`, `TauCeti.OrientedPDCode.AlexanderModule`;
 Mathlib `commutator`, `Group.IsPerfect`, `FundamentalGroup`; Layer 4.4 (the Alexander
-polynomial of a diagram and its module); AlgebraicTopology Stage 5 (covering spaces, for the
-infinite cyclic cover).
+polynomial of a diagram and its module); Tau Ceti's covering space of a subgroup of `π₁`,
+`TauCeti.UniversalCover.SubgroupQuotient` (for the infinite cyclic cover).
 
 ### 6.5 Link cobordisms and the slice genus inequalities
 
@@ -7434,7 +7439,7 @@ matrices, polynomials, 4.3.1's knot Arf invariant), Layer 1.3 (gluing concordanc
 for its PL form Layer 11.3 (PL structures).
 Layer 1.7 (genus-zero slice surfaces and the genus of cobordisms) and Layer 2.1 (locally flat
 annuli and slice surfaces); the native slice, knot-group and signature declarations of the
-supplier contracts; AlgebraicTopology Stage 5 (the infinite cyclic cover, for the hypothesis of
+supplier contracts; Tau Ceti's covering spaces (the infinite cyclic cover, for the hypothesis of
 Freedman's theorem). Nothing of CombinatorialHeegaardFloer is consumed: its `τ` consumes this
 layer.
 ## Layer 7: hyperbolic structures, volume and rigidity
@@ -8062,8 +8067,8 @@ For the Weeks manifold and the fibering targets also Tau Ceti `TauCeti.whitehead
 `TauCeti.IsPossiblyNonorientableClosedHakenThreeManifold`, `TauCeti.IsIncompressible` (for the
 fibre); Mathlib `Homeomorph`, `FundamentalGroup`, `HomotopyGroup`, `IsCoveringMap`; Layer 1.5
 (uniqueness of tubular neighbourhoods); Layer 5.2 (framings, link Dehn fillings and their
-dependence on the slopes); Layer 7.2 (Mostow rigidity); AlgebraicTopology Stage 3
-(Mayer–Vietoris, for `H₁(W)`).
+dependence on the slopes); Layer 7.2 (Mostow rigidity); Tau Ceti's Mayer–Vietoris sequence
+`TopCat.mayerVietorisδ` (for `H₁(W)`).
 
 ### Examples
 
@@ -8089,8 +8094,8 @@ For Layers 7.1 and 7.4 also Mathlib's Riemannian bundles and measure theory, Hop
 (the connection and its curvature tensor) and Layer 4 (isometries), Tau Ceti's total volume,
 constant-curvature, mapping-torus, finite-cover, incompressibility, Whitehead link and Weeks
 manifold declarations, Layer 5.2 for the link fillings and framings behind the Weeks manifold,
-Layer 1.5 for the uniqueness of tubular neighbourhoods, and AlgebraicTopology Stage 3
-(Mayer–Vietoris).
+Layer 1.5 for the uniqueness of tubular neighbourhoods, and Tau Ceti's Mayer–Vietoris
+sequence.
 
 ## Layer 8: decompositions of 3-manifolds and geometrization
 
@@ -8257,7 +8262,8 @@ For the carriers, the counting and the free-product decomposition also Tau Ceti
 `TauCeti.not_isPrimeManifold_sphere`, `TauCeti.isIteratedConnectedSum_zero_iff`,
 `TauCeti.MilnorPrimeDecompositionTheorem.card_eq`, `TauCeti.IsClosedConnectedManifold`; Mathlib
 `FundamentalGroup`; Layer 1.4 (the connected sum, its orientation and `π₁(M # N)`); Layer 11.2 (a
-triangulation of `M`, for Kneser's finiteness); AlgebraicTopology Stage 1 (van Kampen).
+triangulation of `M`, for Kneser's finiteness); Tau Ceti's van Kampen theorem
+`TauCeti.isPushout_fundamentalGroup`.
 
 ### 8.3 Incompressible surfaces and Haken manifolds
 
@@ -8736,7 +8742,7 @@ For the Poincaré route and the eight geometries also Tau Ceti
 `IsCoveringMap`, `ProperlyDiscontinuousSMul`; Layer 7.2 (the hyperbolic carriers); Layer 11.2
 (smoothing and the uniqueness of smooth structures in dimension three) and Layer 11.3 (the unique
 PL structure of a smooth manifold); HopfRinow Layer 1 (completeness and the exponential map, for
-the developing map); AlgebraicTopology Stage 1 (van Kampen).
+the developing map); Tau Ceti's van Kampen theorem `TauCeti.isPushout_fundamentalGroup`.
 
 ### Examples
 
@@ -8757,7 +8763,7 @@ Also Layer 2.1 (locally flat tori), Layer 11.2 (Moise's theorem, for Kneser's fi
 and the uniqueness of smooth structures, for the Poincaré route and the eight geometries) and
 Layer 11.3;
 Tau Ceti's model geometries, geometric structures and prime-manifold declarations; HopfRinow
-Layer 1 (the developing map, for the eight geometries); AlgebraicTopology Stage 1 (van Kampen).
+Layer 1 (the developing map, for the eight geometries); Tau Ceti's van Kampen theorem.
 
 ## Layer 9: Heegaard splittings
 
@@ -8866,7 +8872,8 @@ character, and so is non-orientable).
 `TauCeti.nonempty_fundamentalGroup_handlebody_mulEquiv_freeGroup`,
 `TauCeti.fundamentalGroup_map_frontier_handlebody_surjective`; Layer 1.1 (corners and the
 boundary manifold), Layer 2.1 (bicollars), Layer 5.2 (the `0`-surgery on the unknot); Mathlib
-`Homeomorph`, `FundamentalGroup`; AlgebraicTopology Stage 1 (van Kampen, for `π₁(H_g^−)`).
+`Homeomorph`, `FundamentalGroup`; Tau Ceti's van Kampen theorem `TauCeti.isPushout_fundamentalGroup`
+(for `π₁(H_g^−)`).
 
 ### 9.2 Heegaard genus, rank and Li's theorem
 
@@ -8954,7 +8961,8 @@ prove the rank inequality for it by the same argument.
 `heegaardGenus_sphere`, `HeegaardSplitting.fg_fundamentalGroup`, `TauCeti.RankGenusConjecture`,
 `LiRankGenusTheorem.not_rankGenusConjecture`, `LensSpace.heegaardGenus_eq_one`,
 `TauCeti.heegaardGenus_circle_prod_sphere`, `TauCeti.IsHyperbolic`; Layer 7.2 (closed hyperbolic
-`3`-manifolds, for Li's theorem); AlgebraicTopology Stage 1 (van Kampen).
+`3`-manifolds, for Li's theorem); Tau Ceti's van Kampen theorem
+`TauCeti.isPushout_fundamentalGroup`.
 
 ### Examples
 
@@ -8971,7 +8979,7 @@ decomposition), Layer 7.3 (hyperbolic manifolds for Li's examples); Layer 1.7.2 
 Mathlib's group rank.
 Also Layer 1.1 (corners), Layer 2.1 (bicollars), Layer 5.2 (the `0`-surgery on the unknot behind
 the native splitting of `S¹ × S²`), Layer 7.2 (hyperbolic manifolds for Li's theorem) and
-AlgebraicTopology Stage 1 (van Kampen); the native handlebodies, splittings, genus, rank inequality
+Tau Ceti's van Kampen theorem; the native handlebodies, splittings, genus, rank inequality
 and rank-versus-genus declarations of the supplier contracts.
 ## Layer 10: foliations of 3-manifolds
 
@@ -8979,13 +8987,11 @@ Foliations are Tau Ceti's at the pin (*From Tau Ceti*): `TauCeti.Foliation I n M
 foliation of leaf dimension `k` given by an involutive distribution with flat charts, with its
 leaves, closed transversals, tautness and the linear foliations of a vector space. This layer
 develops codimension-one foliations of closed `3`-manifolds up to Novikov's theorem.
-The Thom pair and the Euler class of a real vector bundle, the Euler class of the tangent field of
-a foliation, the Euler class inequality on embedded surfaces, and the statements of Thurston's
-inequality, the Euler class one conjecture and Yazdi's theorem in their closed hyperbolic forms are
-Tau Ceti's as well. On them the layer builds the Euler class of an oriented plane bundle and of a
-transversely oriented foliation (10.3) and the Thurston norm of a closed oriented `3`-manifold with
-its dual norm (10.4), and states Thurston's Euler class inequality, Gabai's realization theorem
-and Yazdi's theorem against them (10.5).
+The Euler classes of the tangent field of a foliation, the Euler class inequality on embedded
+surfaces, and the statements of Thurston's inequality, the Euler class one conjecture and Yazdi's
+theorem in their closed hyperbolic forms are Tau Ceti's as well. On them the layer states
+Thurston's Euler class inequality on irreducible manifolds and Yazdi's infinite family, and
+derives the closed hyperbolic form of the inequality (10.3).
 
 ### 10.1 Codimension-one foliations, Reeb components and Reeb stability
 
@@ -9020,7 +9026,7 @@ nowhere vanishing transverse vector field orients it, and an orientation of it l
 partition of unity, to such a field; the foliation is transversely oriented when one is chosen.
 Prove that the tangent plane field `TF` of a transversely oriented foliation of an oriented
 `3`-manifold is an oriented plane bundle, an oriented rank-two subbundle of `TM`, the input of
-10.3.
+the Euler class of a transversely oriented foliation in GeometricTopology, Part II.
 
 - A foliation with a Reeb component is not taut: a transversal cannot leave the solid torus.
 - The leaves of a codimension-one foliation of a compact manifold are either compact or
@@ -9080,8 +9086,8 @@ transverse orientation.
   covered by `ℝ³` by Palmeira (*Open manifolds foliated by planes*, Ann. of Math. 108 (1978),
   109–131; Calegari, Theorem 4.38).
 - The leaves of a taut foliation realize the Thurston norm of their homology class (Thurston;
-  the norm is that of 10.4, and the statement is proved in 10.5 as the equality case of
-  Thurston's inequality);
+  the equality case of Thurston's inequality, which GeometricTopology, Part II proves with the
+  norm);
   5.4.1 exports the shared integral surface-minimum prefix independently of foliations.
 
 **Checks.**
@@ -9100,297 +9106,94 @@ transverse orientation.
 *Needs:* Layer 10.1, Layer 8.1, Layer 8.2, Layer 7.4 (fibrations), Layer 9.1; Tau Ceti
 `TauCeti.FibersOverCircle`; Mathlib `FundamentalGroup`; Hirsch, Chapter 2 (smoothing).
 
-### 10.3 The Euler class of an oriented plane bundle
+### 10.3 Thurston's inequality and Yazdi's theorem
 
-Consume the native **Euler class** of a real vector bundle `E → B` with finite-dimensional fibre
-`F`: the Thom pair `(E, E₀)`, `E₀` the complement of the zero section (`TauCeti.thomPair`); a
-**Thom class** `u ∈ Hʳ(E, E₀)`, `r = dim F`, a relative class restricting to a generator on every
-fibre pair `(E_b, E_b ∖ 0)` (`TauCeti.IsThomClass`); and the Euler class
-`TauCeti.eulerClass n : Hⁿ(E, E₀) ⟶ Hⁿ(B)`, the restriction to `E` followed by the pullback along
-the zero section, natural under maps of Thom pairs and under pullback (`eulerClass_naturality`,
-`eulerClass_pullback`), carried to Thom classes by fibrewise isomorphisms
-(`IsThomClass.singularCohomologyMap`), vanishing on a bundle with a nowhere-vanishing section
-(`eulerClass_eq_zero_of_forall_ne_zero`) and on a trivial bundle of positive rank
-(`eulerClass_trivial_eq_zero`) (Milnor–Stasheff, *Characteristic Classes*, Sections 9 and 10; in
-the singular cohomology of AlgebraicTopology with general coefficients, integral cohomology being
-the case `ModuleCat ℤ`). Prove the **rank-two Thom isomorphism**: an oriented real plane bundle
-over a CW complex has exactly one integral Thom class compatible with the orientation, and `−u` is
-the Thom class of the opposite orientation (Milnor–Stasheff, Theorem 10.4, in rank two); define
-the **Euler class of an oriented plane bundle** `e(E) := eulerClass u` for that Thom class, so
-that `e(Ē) = −e(E)`. Prove the **comparison with the obstruction-theoretic description**: `e(E)`
-is the primary obstruction to a nowhere-vanishing section, the class of the cocycle that assigns
-to a `2`-cell the degree on its boundary of a section over the `1`-skeleton (Milnor–Stasheff,
-Chapter 12; Hatcher, *Vector Bundles and K-Theory*, Section 3). The Thom isomorphism in every
-rank is CharacteristicClasses C2's; the rank-two case and this comparison are this roadmap's,
-CharacteristicClasses C2 compares its rank-two Euler class with them, and this subsection consumes
-nothing of CharacteristicClasses. Prove `e(E ⊕ F) = e(E) ∪ e(F)` for oriented plane bundles over
-a space where both are defined, the Euler class of the rank-four sum being taken for the Thom class
-`u_E × u_F`, the relative cross product restricted along the diagonal, and, for a closed oriented
-surface `S`, `⟨e(TS), [S]⟩ = χ(S)` (Milnor–Stasheff, Corollary 11.12, for the tangent bundle).
-Consume the **Euler class of a foliation**: the tangent field of a foliation `F` of rank `k` is a
-rank-`k` vector bundle with Thom pair `Foliation.thomPair`, Thom classes `Foliation.IsThomClass`
-and Euler class `Foliation.eulerClass`, and a class `e ∈ Hᵏ(M; ℤ)` is **an Euler class of `F`**
-(`Foliation.IsEulerClass e`) when it is the Euler class of some Thom class of the tangent field;
-negation (`IsEulerClass.neg`) and vanishing for a nowhere-zero tangent vector field
-(`Foliation.eulerClass_eq_zero_of_forall_ne_zero`) are native. Prove that for a transversely
-oriented codimension-one foliation `F` of a closed connected oriented `3`-manifold the transverse
-orientation and the orientation of `M` orient `TF` (10.1), whose Thom class gives
-`e(F) := e(TF)`, and that `F.IsEulerClass e` holds exactly for `e = ±e(F)`; a codimension-one
-foliation of an oriented `M` with some Euler class in this sense is transversely orientable,
-since a Thom class orients `TF` and hence `TM/TF`. Define the **pairing** `⟨e(F), [S]⟩ ∈ ℤ` with
-the fundamental class of an embedded closed oriented surface `S` through the native
-`HomologicalOrientation.evalFundamentalClass` (AlgebraicTopology's fundamental classes).
+The Euler classes of a foliation are Tau Ceti's: a class `e ∈ Hᵏ(M; ℤ)` is an Euler class of a
+foliation `F` of rank `k` (`Foliation.IsEulerClass e`) when it is the Euler class of some Thom
+class of the tangent field (`Foliation.thomPair`, `Foliation.IsThomClass`,
+`Foliation.eulerClass`), and the Euler classes of `F` are closed under negation
+(`IsEulerClass.neg`). So are the two inequality predicates on a class `e ∈ H²(M; ℤ)`:
+`TauCeti.EulerClassBounded e`, that `|⟨e, f_*[S]⟩| ≤ −χ(S)` for every closed connected oriented
+surface `S` with `χ(S) ≤ 0` and every topological embedding `f : S → M`, the pairing being
+`TauCeti.HomologicalOrientation.evalFundamentalClass`; and `TauCeti.EulerClassNormOne e`, which
+adds equality on some embedded `S` with `χ(S) < 0`.
 
-- `e` is a natural characteristic class of oriented plane bundles, with `e(trivial) = 0` and
-  `e(TS²) ≠ 0`.
-- `⟨e(TS), [S]⟩ = χ(S)` for every closed oriented surface; `⟨e(F), [S]⟩` depends only on the
-  homology class of `S`.
-- Reversing the orientation of `M` or the transverse orientation of `F` negates `e(F)`, and the
-  native Euler classes of `F` are exactly `±e(F)`.
-
-**Checks.**
-- *Spheres and tori.* `e(TS²)` evaluates to `χ(S²) = 2` and `e(TT²) = 0 = χ(T²)`; the trivial
-  plane bundle over `S²` has `e = 0 ≠ e(TS²)` (`eulerClass_trivial_eq_zero`), so `TS²` is not
-  trivial (the hairy ball theorem as a corollary).
-- *Leaves.* For the product foliation of `S² × S¹`, `TF` restricted to a sphere leaf is `TS²`, so
-  `⟨e(F), [S² × pt]⟩ = 2`; for the foliation of `T³` by tori `T² × pt`, the pairing with a torus
-  leaf is `0`.
-- *The Hopf bundle.* The Hopf plane bundle over `S²` (the tautological bundle of `ℂP¹`, as a real
-  plane bundle) has `e = ±1` times the generator, half of `e(TS²)` in absolute value, so the Euler
-  class of `TS²` is twice a generator; this is the parity phenomenon of 10.5.
-- *Orientability.* The non-orientable plane bundle over `S¹` that is the sum of the Möbius line
-  bundle and a trivial line has no integral Thom class: the restriction to the fibre pair would
-  change sign around the circle; so orientability is the hypothesis of the Thom isomorphism, and
-  `IsThomClass` is empty there while `eulerClass` is still defined on every relative class.
-- *Connectedness.* On a disconnected `M` the Thom classes of `TF` may change sign from one
-  component to another, so the native Euler classes of `F` are more than `±e(F)`; the
-  description of `F.IsEulerClass` needs `M` connected.
-
-*Needs:* Mathlib `Topology.CWComplex`, `Bundle.TotalSpace` and vector bundles, `TangentBundle`;
-the native `TauCeti.thomPair`, `TauCeti.IsThomClass`, `TauCeti.eulerClass` with its naturality
-and vanishing, `Foliation.thomPair`, `Foliation.IsThomClass`, `Foliation.eulerClass`,
-`Foliation.IsEulerClass`, `TauCeti.HomologicalOrientation.evalFundamentalClass`;
-AlgebraicTopology Stage 4 (cellular cochains) and Stage 6 (cohomology, cup products, fundamental
-classes, and the homological degree of 6.5, for the degree on the boundary circle of a `2`-cell of
-a section over the `1`-skeleton); Layer 1.7 (closed surfaces); 10.1 (the tangent plane bundle of a
-foliation).
-
-### 10.4 The Thurston norm
-
-The Thurston norm of a closed oriented `3`-manifold and its dual norm are owned here; the
-seminorm on `H₂(M, ∂M; ℝ)` of a compact `3`-manifold with nonempty boundary, beyond the integral
-surface minimum of 5.4.1, is GeometricTopology, Part II's. For a closed oriented `3`-manifold `M`
-and a class `a ∈ H₂(M; ℤ)`, the **Thurston norm** `x(a) := min χ₋(S)`, over closed embedded
-oriented surfaces `S ⊆ M` with `[S] = a`, where `χ₋(S) = Σ_i max(0, −χ(S_i))` over the components,
-is the integral surface minimum of 5.4.1 for `∂M = ∅`: there every class is represented by an
-embedded oriented surface (Poincaré duality and transversality to a map to `S¹`), so the minimum
-exists. Prove that `x` extends to a seminorm on `H₂(M; ℝ)`, linear on rays and convex (Thurston,
-*A norm for the homology of 3-manifolds*, Mem. AMS 59 (1986), Theorem 1; Yazdi, *On Thurston's
-Euler class one conjecture*, Section 1). Define the **dual norm**
-`x*(e) := sup {⟨e, a⟩ : x(a) ≤ 1}` on `H²(M; ℝ)`, possibly `+∞` when `x` is only a seminorm.
-State that the unit ball of `x` is a finite-sided polyhedron whose dual ball has integral vertices
-(Thurston, Theorem 2), and that the norm is also the least `χ₋` of a singular surface representing
-the class (Gabai, *Foliations and the topology of 3-manifolds*, J. Differential Geom. 18 (1983),
-Corollary 6.18); both are stated here and proved in GeometricTopology, Part II, and the
-comparison below consumes them as stated. Prove the **comparison with the native Euler class
-inequality**: for a closed orientable hyperbolic `3`-manifold `M`, on which `x` is a norm, and
-`e ∈ H²(M; ℤ)`, `x*(e) ≤ 1` holds exactly when `TauCeti.EulerClassBounded e`, that is
-`|⟨e, f_*[S]⟩| ≤ −χ(S)` for every closed connected oriented surface `S` with `χ(S) ≤ 0` and every
-topological embedding `f : S → M`, and `x*(e) = 1` exactly when `TauCeti.EulerClassNormOne e`,
-which adds equality on some embedded `S` with `χ(S) < 0`. From `x*(e) ≤ 1` to the bound:
-`|⟨e, f_*[S]⟩| ≤ x(f_*[S]) ≤ −χ(S)`, the last step by Gabai's singular form of the norm, so that
-a merely topological embedding is allowed. From the bound to `x*(e) ≤ 1`: a class `a` is
-represented by an incompressible surface without sphere components (below), each component of
-which is an embedded `S_i` with `χ(S_i) ≤ 0`, so `|⟨e, a⟩| ≤ Σ |⟨e, [S_i]⟩| ≤ Σ −χ(S_i) = x(a)`.
-For the sharp forms: `x*(e) = 1` is attained on an integral class `a` with `|⟨e, a⟩| = x(a) > 0`
-(the dual ball is a polyhedron), and the componentwise inequalities on a norm-minimizing
-representative then are equalities, one of them with `χ(S_i) < 0`; conversely an embedded `S`
-with `|⟨e, [S]⟩| = −χ(S) > 0` gives `x*(e) ≥ |⟨e, [S]⟩| / x([S]) ≥ 1`.
-
-- `x(ka) = |k| x(a)`, `x(a + b) ≤ x(a) + x(b)`, `x(0) = 0`; `x` is a norm exactly when no nonzero
-  class is represented by a union of spheres and tori.
-- `x*` is finite exactly on the annihilator in `H²(M; ℝ)` of the kernel of `x`, and is a norm
-  there; its unit ball is the convex hull of finitely many integral points (Thurston, Theorem 2,
-  as stated above).
-- For irreducible `M`, `x(a)` is attained by an incompressible surface with no sphere components;
-  in general it is attained by an incompressible surface none of whose sphere components bounds
-  a ball (Thurston, Section 2: compressions do not increase `χ₋`, and a sphere bounding a ball is
-  discarded).
-- On a closed hyperbolic `M`: `x*(e) ≤ 1 ↔ EulerClassBounded e` and
-  `x*(e) = 1 ↔ EulerClassNormOne e`.
-
-**Checks.**
-- *Spheres are free.* `x([S²]) = 0` for a sphere class, since `χ₋(S²) = max(0, −2) = 0`; on
-  `S² × S¹` the class `[S² × pt]` is nonzero with norm `0`, so `x` is a seminorm and not a norm
-  there, and `x*` is infinite on classes pairing nontrivially with it.
-- *Fibres and tori.* On `Σ₂ × S¹`, `x([Σ₂ × pt]) = 2 = −χ(Σ₂)`, and the class of `γ × S¹` for a
-  simple closed curve `γ` on `Σ₂` is a torus class of norm `0`; on `S³`, `H₂ = 0` and `x` is the
-  zero norm on the zero space.
-- *Why `χ₋`.* A disconnected representative `S₁ ⊔ S₂` with `χ(S₁) = −2` and `χ(S₂) = +2` (a
-  sphere) has `χ₋ = 2`, not `|χ(S)| = 0`; the definition with `χ₋` is what makes spheres free and
-  what makes `x` a seminorm, while a minimum of `|χ(S)|` over all representatives would vanish on
-  every class, since adding a sphere bounding a ball raises `χ` by `2` and adding a genus-two
-  surface bounding a handlebody in a ball lowers it by `2`, without changing the class.
-- *Incompressibility is needed.* On `S² × S¹` the class `[S² × pt]` has norm `0`, and no
-  incompressible representative without a sphere component attains it: a representative with
-  `χ₋ = 0` and no sphere component is a union of tori, and no torus in `S² × S¹` is
-  incompressible, since `ℤ² → π₁(S² × S¹) = ℤ` is never injective. Compressible tori do attain it:
-  tubing `S² × pt` to itself along an arc in `S² × (0, ε)` with both ends on the same side of the
-  sphere gives a torus `T` with `[T] = [S² × pt]` and `χ₋(T) = 0`, compressible along the
-  meridian disc of the tube, so incompressibility is what the statement needs. The sphere
-  `S² × pt` bounds no ball, so the general form of the attainment statement holds; the
-  irreducible form does not apply, and a version of it without the irreducibility hypothesis
-  would be false here.
-- *Outside the hyperbolic case.* On `S² × S¹` the class `e` pairing to `2` with `[S² × pt]` has
-  `x*(e) = +∞`, and it is not bounded, although every closed connected surface with `χ ≤ 0` in
-  `S² × S¹` is compressible: the torus `T` of the previous Check is embedded with `χ(T) = 0` and
-  `|⟨e, [T]⟩| = 2`. Both sides of the comparison fail there together; the hyperbolic hypothesis
-  is the setting of the native predicates, on which `x` is a norm and `x*` is finite everywhere.
-- *The zero class.* The zero class is bounded and never sharp (`not_eulerClassNormOne_zero`), as
-  `x*(0) = 0 ≠ 1`.
-
-*Needs:* 5.4.1 (the integral surface minimum); AlgebraicTopology Stage 6 (Poincaré duality and
-`H₂(M; ℤ)`) and Stage 8 (representability of `H¹` by maps to the circle); the native Morse–Sard
-theorem `TauCeti.addHaar_image_criticalPoints_eq_zero` and
-`ContDiff.dense_compl_image_criticalPoints`, applied in charts, for a regular value of a smooth
-map to `S¹` whose preimage is the representing surface; Mathlib `Seminorm`; the native
-`TauCeti.EulerClassBounded`, `TauCeti.EulerClassNormOne`,
-`TauCeti.HomologicalOrientation.evalFundamentalClass`, `TauCeti.FiniteCWType`,
-`TauCeti.eulerChar`; 2.1 (embedded surfaces); 7.2 (hyperbolic manifolds); 8.1 (the loop theorem,
-for compressing discs); 8.3 (incompressible surfaces); 10.3 (the pairing).
-
-### 10.5 Thurston's inequality and Yazdi's theorem
-
-Thurston's Euler class inequality in its general form, Gabai's realization theorem and Yazdi's
-infinite family are stated here and proved in GeometricTopology, Part II; the parity condition,
-the deduction of the native closed hyperbolic forms from the general ones and the equality case
-for leaves are proved here.
-
-State **Thurston's inequality**: for a taut transversely oriented foliation `F` of a closed
-oriented irreducible `3`-manifold `M`, `|⟨e(F), [S]⟩| ≤ |χ(S)|` for every closed connected
-embedded oriented surface `S`, and in terms of the norms, `|⟨e(F), a⟩| ≤ x(a)` for every
-`a ∈ H₂(M; ℤ)`, that is `x*(e(F)) ≤ 1` (Thurston, Mem. AMS 59 (1986), Section 3; Yazdi,
-Section 1, inequalities (1) and (2), and Section 3.3 for the proof through the
-Roussarie–Thurston general position of an incompressible surface with respect to `F`, which
-gives `|χ(S)|` saddle tangencies). The irreducibility hypothesis is where sphere leaves are
-excluded: the norm form fails on `S² × S¹` (10.4). State its **surface form on irreducible
-manifolds** against the native carriers: on a closed connected orientable smooth `3`-manifold `M`
-with `TauCeti.IsSphereBoundsBall M`, every Euler class `e` of a smooth taut codimension-one
-foliation (`Foliation.Taut`, `Foliation.IsEulerClass`) satisfies `TauCeti.EulerClassBounded e`,
-the inequality `|⟨e, f_*[S]⟩| ≤ −χ(S)` for every embedding `f` of a closed connected oriented
-surface `S` with `χ(S) ≤ 0`. `Suggested.lean` states it as
-`thurston_euler_class_inequality_of_isSphereBoundsBall`. It needs no Thurston norm in its
-statement; its route from the norm form is the singular-surface form of the norm of 10.4 (Gabai),
-which bounds `x(f_*[S]) ≤ −χ(S)` for every continuous `f`, so that merely topological embeddings
-are covered, with a native Euler class of `F` being `±e(F)` for a transverse orientation (10.3)
-and tautness compared with the native one by 10.2. State its **hyperbolic form** as the native
+State **Thurston's inequality** in its surface form on irreducible manifolds: on a closed
+connected orientable smooth `3`-manifold `M` with `TauCeti.IsSphereBoundsBall M`, every Euler class
+`e` of a smooth taut codimension-one foliation (`Foliation.Taut`, `Foliation.IsEulerClass`)
+satisfies `TauCeti.EulerClassBounded e` (Thurston, *A norm for the homology of 3-manifolds*, Mem.
+AMS 59 (1986), Section 3; Yazdi, *On Thurston's Euler class one conjecture*, Section 1, inequality
+(1), and Section 3.3 for the proof through the Roussarie–Thurston general position of an
+incompressible surface with respect to `F`, which gives `|χ(S)|` saddle tangencies).
+`Suggested.lean` states it as `thurston_euler_class_inequality_of_isSphereBoundsBall`; its proof
+is GeometricTopology, Part II's. State its **hyperbolic form** as the native
 `TauCeti.ThurstonEulerClassInequality`: on a closed orientable hyperbolic `3`-manifold, every
-Euler class of a smooth taut codimension-one foliation satisfies `EulerClassBounded` (10.4).
-`Suggested.lean` states it as `thurston_euler_class_inequality`. Prove that the surface form on
-irreducible manifolds implies it, a closed hyperbolic `3`-manifold being irreducible (7.3). Prove the **equality case for leaves** recorded in 10.2:
-every compact leaf `L` of a taut transversely oriented foliation `F` of a closed oriented
-`3`-manifold `M` realizes the norm of its class. A sphere leaf does so with `χ₋(S²) = 0`.
-Otherwise `L` is incompressible (10.2) and its fundamental group, which is not virtually cyclic,
-embeds in `π₁(M)`, so `M` is not finitely covered by `S² × S¹` and hence is irreducible
-(Novikov–Rosenberg, 10.2); `⟨e(F), [L]⟩ = χ(L)`, since `TF` restricts to `TL` on `L` (10.3), and
-the general form gives `−χ(L) ≤ x([L]) ≤ χ₋(L) = −χ(L)` (Yazdi, Section 1, the equality case).
-Define the **parity condition**: an integral class `a ∈ H²(M; ℤ)` satisfies it when
-`a ∈ 2H²(M; ℤ)`, the native `Even a`; prove that the Euler class of every oriented plane field
-on a closed oriented `3`-manifold satisfies it (Yazdi, Definition 1.1 and Proposition 3.12).
-State **Gabai's
-realization theorem**: for a closed oriented irreducible `3`-manifold, every vertex `a` of the
-dual unit ball of 10.4 is the Euler class of a taut foliation (Yazdi, Theorem 1.2, attributed to
-Gabai; Gabai–Yazdi, *The fully marked surface theorem*, for the proof). Gabai's theorem also
-covers compact `3`-manifolds with toral boundary; that form, on the seminorm of `H₂(M, ∂M; ℝ)`, is
-GeometricTopology, Part II's together with that seminorm. State the **Euler class one
-conjecture** of Thurston as the statement it is: for a closed orientable irreducible atoroidal
-`M`, every integral class with `x*(a) = 1` satisfying the parity condition is the Euler class of
-a taut foliation (Yazdi, the Euler Class One Conjecture of Section 1); its native hyperbolic form
-`TauCeti.EulerClassOneConjecture` (every even class with `EulerClassNormOne` on a closed
-orientable hyperbolic `3`-manifold is an Euler class of a smooth taut codimension-one foliation)
-is the restriction to hyperbolic manifolds through the comparison of 10.4, and nothing is claimed
-about either, since both are false. State **Yazdi's theorem**, the negation: there are infinitely
-many closed hyperbolic `3`-manifolds `M` with an integral class `a ∈ H²(M; ℤ)`, `x*(a) = 1`,
-satisfying the parity condition, which is the Euler class of no taut foliation of `M` (Yazdi,
-Main Theorem; the examples are Dehn surgeries on fibered hyperbolic manifolds with `b₁ = 2`, and
-the fully marked surface theorem of Gabai–Yazdi removes the conditional hypothesis of the first
-paper), and its **weakest form** as the native `TauCeti.YazdiEulerClassOneTheorem`: one closed
-orientable hyperbolic `3`-manifold with an even class `e`, `EulerClassNormOne e`, that is an
-Euler class of no smooth taut codimension-one foliation. `Suggested.lean` states the infinite
-family against the native carriers as `yazdi_infinite_family`: for every finite family of
-topological spaces `N₁, …, N_k` there is a closed connected orientable hyperbolic `3`-manifold
-`M`, homeomorphic to no `Nᵢ`, with an even class `e`, `EulerClassNormOne e`, that is an Euler
-class of no smooth taut codimension-one foliation; its case `k = 0` is the weakest form. Prove that
-the norm form of the family implies this form, through the comparison of 10.4 (`x*(a) = 1` with
-`EulerClassNormOne`, the parity condition with `Even`) and the description of the native Euler
-classes in 10.3, a smooth taut foliation being in particular one of the `C^{∞,0}` taut foliations
-of Yazdi's statement; and consume the native refutation
-`YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`.
+Euler class of a smooth taut codimension-one foliation satisfies `EulerClassBounded`.
+`Suggested.lean` states it as `thurston_euler_class_inequality`. Prove that the irreducible form
+implies it, a closed hyperbolic `3`-manifold being irreducible (7.3).
 
-- Thurston: `|⟨e(F), [S]⟩| ≤ |χ(S)|` for every closed connected embedded oriented `S`;
-  `x*(e(F)) ≤ 1`; on a closed `M` with `IsSphereBoundsBall M`, and so on a closed hyperbolic `M`,
-  `EulerClassBounded e` for every native Euler class `e` of a smooth taut `F`.
-- Yazdi: `∃` infinitely many closed hyperbolic `M` and `a` with `x*(a) = 1`, `a ∈ 2H²`, and
-  `∀ F` taut transversely oriented, `e(F) ≠ a`; in particular one `M` with an even `e`,
-  `EulerClassNormOne e`, and `¬ F.IsEulerClass e` for every smooth taut `F`.
-- Gabai: every vertex of the dual unit ball is realized.
+State **Yazdi's theorem** against the native carriers: there are infinitely many closed connected
+orientable hyperbolic `3`-manifolds `M`, each with an even class `e ∈ H²(M; ℤ)` such that
+`EulerClassNormOne e` and `e` is an Euler class of no smooth taut codimension-one foliation of `M`
+(Yazdi, Main Theorem; the examples are Dehn surgeries on fibered hyperbolic manifolds with
+`b₁ = 2`, and the fully marked surface theorem of Gabai–Yazdi removes the conditional hypothesis of
+the first paper). `Suggested.lean` states it as `yazdi_infinite_family`, reading "infinitely
+many" as: for every finite family of topological spaces `N₁, …, N_k` there is such an `M`
+homeomorphic to no `Nᵢ`. Its case `k = 0` is the native `TauCeti.YazdiEulerClassOneTheorem`, and
+its proof is GeometricTopology, Part II's. Consume the native refutation
+`YazdiEulerClassOneTheorem.not_eulerClassOneConjecture` of Thurston's Euler class one conjecture in
+its native hyperbolic form `TauCeti.EulerClassOneConjecture`, which this roadmap does not assert.
+
+- Thurston: on a closed `M` with `IsSphereBoundsBall M`, and so on a closed hyperbolic `M`,
+  `EulerClassBounded e` for every Euler class `e` of a smooth taut codimension-one foliation.
+- Yazdi: infinitely many closed hyperbolic `M`, each with an even `e`, `EulerClassNormOne e`, and
+  `¬ F.IsEulerClass e` for every smooth taut `F`.
 
 **Checks.**
-- *A sphere bounding a ball.* For such `S` in `M`: `[S] = 0`, `⟨e(F), [S]⟩ = 0`, `|χ(S)| = 2` and
-  `x([S]) = 0`, so both forms hold as `0 ≤ 2` and `0 ≤ 0`; a bound of the form
-  `|⟨e(F), [S]⟩| ≤ −χ(S)` would read `0 ≤ −2` and fail, so the absolute value is part of the
-  general statement, while the native `EulerClassBounded` avoids the sphere by asking `χ(S) ≤ 0`.
-- *Connectedness.* On `Σ₂ × S¹` with the foliation by the surfaces `Σ₂ × pt`, the disjoint union
-  `S` of a fibre and a sphere bounding a ball has `χ(S) = 0` while `|⟨e(F), [S]⟩| = 2`; the first
-  form is a statement about connected surfaces, and the norm form covers disconnected ones.
-- *A torus leaf.* A torus leaf `T` of a taut foliation has `|χ(T)| = 0`, so `⟨e(F), [T]⟩ = 0`; for
-  the foliation of `T³` by tori this agrees with 10.3.
-- *Sphere leaves.* For the product foliation of `S² × S¹`, `⟨e(F), [S² × pt]⟩ = 2 = |χ(S²)|`, so
-  the first form holds with equality, while `x([S² × pt]) = 0 < 2`, so the norm form fails;
-  `S² × S¹` is reducible, and the irreducibility hypothesis of the norm form is used.
-- *A torus homologous to a sphere leaf.* In `S² × S¹` with that foliation, tube `S² × pt` to
-  itself by an annulus running from one disc to another on the same side: the result is an
-  embedded torus `T` with `[T] = [S² × pt]`, so `|⟨e(F), [T]⟩| = 2 > 0 = −χ(T)`. The native surface
-  form, which asks `χ(S) ≤ 0`, fails on `S² × S¹`, and its hypothesis `IsSphereBoundsBall` is not
-  removable; `S² × pt` bounds no ball.
-- *A fibre leaf.* On `Σ₂ × S¹` with the foliation by surfaces `Σ₂ × pt`,
-  `⟨e(F), [Σ₂ × pt]⟩ = χ(Σ₂) = −2` and `x([Σ₂ × pt]) = 2`, so the norm form holds with equality,
-  as it must when a leaf is a norm-minimizing surface (Yazdi, Section 1, the equality case).
-- *Both orientations.* The native inequality quantifies over every Euler class of `F`, that is
-  over both `±e(F)`; `EulerClassBounded` is invariant under negation (`eulerClassBounded_neg_iff`),
-  so this is no stronger than the statement for one transverse orientation. The zero class is
-  bounded and never sharp (`not_eulerClassNormOne_zero`), so the hypothesis `EulerClassNormOne`
-  of the conjecture excludes it, as `x*(0) = 0 ≠ 1` does in the general form.
+- *A sphere bounding a ball.* For such a sphere `S` in `M`, `[S] = 0`, so `⟨e, [S]⟩ = 0` while
+  `−χ(S) = −2`: a bound `|⟨e, f_*[S]⟩| ≤ −χ(S)` over all closed surfaces would read `0 ≤ −2` and
+  fail, which is why `EulerClassBounded` asks `χ(S) ≤ 0`.
+- *Connectedness.* On `Σ₂ × S¹` with the taut foliation by the surfaces `Σ₂ × pt`, an Euler class
+  `e` pairs with a leaf to `±χ(Σ₂) = ∓2`, since the tangent field restricts to `TΣ₂` there. The
+  disjoint union `S` of a leaf and a sphere bounding a ball has `χ(S) = 0` while `|⟨e, [S]⟩| = 2`:
+  the inequality fails for disconnected surfaces, and `EulerClassBounded` quantifies over
+  connected ones.
+- *A leaf attains the bound.* In the same example `|⟨e, [Σ₂ × pt]⟩| = 2 = −χ(Σ₂)`, so the inequality
+  holds with equality on a leaf, and with Thurston's inequality on the irreducible `Σ₂ × S¹`,
+  `EulerClassNormOne e` holds.
+- *A torus homologous to a sphere leaf.* On `S² × S¹` with the taut product foliation by spheres,
+  an Euler class pairs with `S² × pt` to `±χ(S²) = ±2`. Tube `S² × pt` to itself by an annulus
+  running from one disc to another on the same side: the result is an embedded torus `T` with
+  `[T] = [S² × pt]`, so `|⟨e, [T]⟩| = 2 > 0 = −χ(T)`. The surface form fails on `S² × S¹`, and its
+  hypothesis `IsSphereBoundsBall` is not removable; `S² × pt` bounds no ball.
+- *Both orientations.* The native inequality quantifies over every Euler class of `F`, a set closed
+  under negation (`IsEulerClass.neg`), and `EulerClassBounded` is invariant under negation
+  (`eulerClassBounded_neg_iff`), so the choice of a transverse orientation does not matter. The
+  zero class is bounded and never sharp (`not_eulerClassNormOne_zero`), so the hypothesis
+  `EulerClassNormOne` in Yazdi's theorem excludes it.
 
-*Needs:* 10.1 (taut foliations); 10.2 (Novikov–Rosenberg and the native tautness); 10.3 (the
-Euler class and its pairing); 10.4 (the Thurston norm, its dual and the comparison with the native
-inequality); 8.2 (irreducibility); 7.2 (hyperbolic manifolds); 7.3 (a hyperbolic `3`-manifold is
-irreducible); 7.4 (fibering); 5.2 (Dehn surgery, for Yazdi's examples); the native
-`TauCeti.ThurstonEulerClassInequality`, `TauCeti.EulerClassOneConjecture`,
-`TauCeti.YazdiEulerClassOneTheorem`, `YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`,
-`Foliation.Taut`, `Foliation.IsEulerClass`, `TauCeti.EulerClassBounded`,
+*Needs:* 10.1 (taut foliations); 10.2 (the native tautness); 7.3 (a closed hyperbolic `3`-manifold
+is irreducible); the native `TauCeti.ThurstonEulerClassInequality`,
+`TauCeti.EulerClassOneConjecture`, `TauCeti.YazdiEulerClassOneTheorem`,
+`YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`, `Foliation.Taut`,
+`Foliation.IsEulerClass`, `IsEulerClass.neg`, `TauCeti.EulerClassBounded`,
 `TauCeti.EulerClassNormOne`, `TauCeti.eulerClassBounded_neg_iff`,
-`TauCeti.not_eulerClassNormOne_zero`.
+`TauCeti.not_eulerClassNormOne_zero`, `TauCeti.IsSphereBoundsBall`, `TauCeti.IsHyperbolic`.
 
 ### Examples
 
 The product foliation of `S² × S¹`; the Reeb foliation of `S³`; the linear foliations of `T³`; the
 fibration of a mapping torus.
-The product foliations of `T³` by tori and of `Σ₂ × S¹` by the surfaces `Σ₂ × pt`, and the
-tangent bundles of surfaces and the Hopf plane bundle for the Euler class.
+The product foliation of `Σ₂ × S¹` by the surfaces `Σ₂ × pt` for the Euler class inequality.
 
 ### Dependencies
 
 Tau Ceti's foliations, leaves and tautness; DifferentialGeometry Layers 3 and 4; Layer 1.3 (gluing
 Reeb components), Layer 5.2 (surgery descriptions), Layers 8.1–8.2 (irreducibility), Layer 9.1
 (splittings).
-The Euler class, the Thurston norm and Thurston's inequality (10.3–10.5) need in addition the native
-Thom classes, Euler classes and Euler class inequalities of the supplier contracts; Layer 2
-(embedded surfaces as locally flat submanifolds); AlgebraicTopology (singular cohomology,
-fundamental classes, cup products); Layer 5.4.1 (the integral surface minimum); Layer 8
-(incompressible surfaces, for the attainment statement of 10.4; irreducibility, for the norm form
-of Thurston's inequality in 10.5); Layer 7 (hyperbolic manifolds, for the comparison of 10.4 and
-for Yazdi's examples) and Layer 5 (the Dehn surgeries that produce them).
+Thurston's inequality and Yazdi's theorem (10.3) need in addition the native Euler classes of
+foliations, Euler class inequalities and their propositions of the supplier contracts, and Layer
+7.3 (the irreducibility of closed hyperbolic `3`-manifolds).
 
 ## Layer 11: triangulations, PL structures and collapse
 
@@ -9530,8 +9333,7 @@ restriction, cone and glued-homotopy facts of `Realization/`,
 `AbstractSimplicialComplex.realizationCWComplex`, `TauCeti.cellularChainComplexRealizationIso`,
 `TauCeti.FiniteCWType`, `TauCeti.IsTriangulable.finiteCWType`; Mathlib
 `PreAbstractSimplicialComplex`, `Topology.IsClosedEmbedding`, `CompactSpace`,
-`CompactlyGeneratedSpace`, `Topology.CWComplex`, `Topology.RelCWComplex`, `LinearOrder`;
-AlgebraicTopology Stage 4 (cellular chains and the cellular boundary formula).
+`CompactlyGeneratedSpace`, `Topology.CWComplex`, `Topology.RelCWComplex`, `LinearOrder`.
 
 ### 11.2 Triangulations and PL structures in dimension three
 
@@ -9950,7 +9752,7 @@ manifolds); Layer 1.1 (collars) and Layers 3.3 and 3.4 (the disc theorem and Sma
 for Layer 11.2.1; Mathlib CW complexes.
 Also Mathlib's simplicial-set realization and compactly generated spaces; the native realization,
 product, cellular-chain, finite-CW-type and connected-manifold declarations of the supplier
-contracts, with AlgebraicTopology's cellular chains; Layer 1.6 (the PL groupoid and its forgetful
+contracts; Layer 1.6 (the PL groupoid and its forgetful
 map) for the PL form of Moise's theorem. The
 Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no input of this layer.
 
@@ -9961,7 +9763,7 @@ Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no 
   constructions; the CW structure of a realization and its transport along homeomorphisms, which
   it also uses, are Tau Ceti's at the pin.
   It also uses Layer 11.1's polyhedra and, through the smooth triangulations of Layer 11.3, that
-  compact smooth manifolds have finite CW type.
+  compact smooth manifolds have finite CW type. Nothing of AlgebraicTopology is consumed here.
 - **ClassifyingSpaces** consumes Layer 11.1's polyhedra, their weak topology and the cellular
   chains of countable joins.
 - **CharacteristicClasses**, **GeneralizedCohomology**, **TopologicalKTheory**,
@@ -9971,10 +9773,9 @@ Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no 
   AffineMorseLefschetz also consumes Layer 11 and the smooth triangulations of Layer 11.3.
 - **MorseTheory** also consumes Layer 2.2's generalized Schoenflies theorem for a bicollared
   sphere, which is proved here and is the topological input of its target M4.1.
-- **CharacteristicClasses** also consumes Layer 3's mapping topology and Layer 10.3's Euler class
-  of an oriented plane bundle: its C2 compares its rank-two Euler class with that plane
-  construction on the pinned `TauCeti.eulerClass`. Nothing of CharacteristicClasses is consumed
-  here.
+- **CharacteristicClasses** also consumes Layer 11.3's smooth triangulations, for its worked
+  example C2.3a; its Layer 1 input is the uniqueness of tubular neighbourhoods of Layer 1.5.
+  Nothing of CharacteristicClasses is consumed here.
 - **PositiveScalarCurvature**, **RealAnalyticGeometry**, **TaubesGromov** and the
   SymplecticGeometry roadmaps (**ContactGeometry**, **CotangentLagrangian**, **ConvexityToric**)
   consume Layer 1's tubular neighbourhoods, collars, gluing and handle attachment.
@@ -10155,15 +9956,10 @@ This roadmap owns the following, by layer.
 - **Layer 10.** Codimension-one transversely oriented foliations of 3-manifolds, Reeb
   components, Reeb stability, the Novikov–Rosenberg theorem and the existence of foliations
   on closed orientable 3-manifolds.
-  It also owns the smooth closed transversals of taut foliations (Layer 10.1); the rank-two Thom
-  class and the Euler class of an oriented plane bundle with the obstruction-theoretic description
-  of the pinned Euler class, and the Euler class of a transversely oriented foliation with its
-  pairing on embedded surfaces (Layer 10.3); the Thurston norm of a closed oriented `3`-manifold,
-  its dual norm and the comparison of the pinned Euler class inequality with the dual norm (Layer
-  10.4); and the parity of the Euler classes of plane fields and the deduction of the pinned
-  closed hyperbolic forms from the general ones, with the statements of the general (irreducible)
-  form of Thurston's inequality, Gabai's realization theorem, the Euler class one conjecture and
-  Yazdi's infinite family (Layer 10.5).
+  It also owns the smooth closed transversals of taut foliations (Layer 10.2), and the statements
+  of Thurston's Euler class inequality on irreducible manifolds and of Yazdi's infinite family,
+  with the deduction of the pinned closed hyperbolic form of the inequality from the irreducible
+  one (Layer 10.3).
 - **Layer 11.** Geometric realization of simplicial complexes beyond the pinned API (stellar
   subdivision of infinite complexes and the geometric join laws of faces), the triangulation
   theorem and Hauptvermutung in dimension three; in dimension two, the existence and uniqueness up
@@ -10231,10 +10027,12 @@ This roadmap leaves the following to other roadmaps.
   owns the Levi-Civita connection, geodesics, the exponential map, normal neighbourhoods and the
   Hopf–Rinow theorem.
 - **CharacteristicClasses** C2 owns the Thom isomorphism and the Euler classes of oriented bundles
-  of every rank beyond the pinned `TauCeti.eulerClass`. Layer 10.3 consumes the pinned Euler class
-  in rank two and owns the rank-two Thom class of an oriented plane bundle and the
-  obstruction-theoretic description of its Euler class; C2 compares its rank-two restriction with
-  that plane construction, so Layer 10.3 consumes nothing of C2.
+  of every rank beyond the pinned `TauCeti.eulerClass`: the Thom class of an orientation and its
+  sign under reversal (C2.1), Euler classes of direct sums and the Euler class as the primary
+  obstruction to a nowhere-zero section (C2.2), and `⟨e(TM), [M]⟩ = χ(M)` on closed oriented
+  manifolds (C2.3). CharacteristicClasses consumes this roadmap, so Layer 10.3 uses only the
+  pinned Euler classes of foliations, and the Euler class of a transversely oriented foliation
+  built on C2 is GeometricTopology, Part II's.
 - The handle calculus of compact cobordisms (the ordered handle decomposition of a Morse
   function as a structure, reordering, creation and cancellation of handle pairs, handle
   slides and the same-index basis change, the local Whitney move, and Whitney discs in
@@ -10299,13 +10097,13 @@ This roadmap leaves the following to other roadmaps.
   and the `τ` and `ε` formulas for Mazur satellites on the knot Floer complexes of
   HeegaardFloer and CombinatorialHeegaardFloer (`τ` and the bound `|τ(K)| ≤ g_s(K)` are
   CombinatorialHeegaardFloer Lane G, items 7 and 10); the Thurston seminorm beyond the integral
-  surface minimum of Layer 5.4.1 and beyond the Thurston norm of a closed oriented `3`-manifold
-  and its dual norm, which are Layer 10.4's, and the proofs of
-  Thurston's Euler class inequality and of Yazdi's Euler-class-one counterexamples, whose
-  closed hyperbolic statements and the Euler class of a foliation are Tau Ceti's and whose general
-  statements are Layer 10.5's, with the proofs of the polyhedrality of the Thurston unit ball, of
-  the singular-surface form of the norm (Gabai) and of Gabai's realization theorem, which Layers
-  10.4 and 10.5 state;
+  surface minimum of Layer 5.4.1, with the Thurston norm of a closed oriented `3`-manifold, its
+  dual norm, the polyhedrality of its unit ball and its singular-surface form (Gabai); the Euler
+  class of a transversely oriented foliation, on the Thom classes of CharacteristicClasses C2;
+  the norm form of Thurston's Euler class inequality with its equality case for leaves, the parity
+  of the Euler classes of plane fields and Gabai's realization theorem; and the proofs of
+  Thurston's inequality on irreducible manifolds and of Yazdi's infinite family, which Layer 10.3
+  states on the pinned Euler classes of foliations;
   the constructive hyperbolization of closed Haken manifolds; disc bundles, clutching, plumbing and
   intersection forms; and sphere-target transversality with the Pontryagin–Thom
   construction. It also owns the proofs of two theorems that Layers 4.8.3 and 5.4.2 state and
@@ -10518,7 +10316,7 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   boundaryless manifold, of any dimensions, form a meagre set. Sources with boundary are
   Layer 1.7.1's.
   The `TauCeti`-namespace form `TauCeti.addHaar_image_criticalPoints_eq_zero` and the density of
-  regular values are consumed in charts by Layers 4.2 and 10.4.
+  regular values are consumed in charts by Layer 4.2.
 - **The PL groupoid** (`Geometry/Manifold/PLGroupoid/Basic.lean`, `Topology/PL/`):
   `TauCeti.IsPiecewiseAffineOn`, `TauCeti.IsPLOn`, `TauCeti.PLPregroupoid`,
   `TauCeti.PLGroupoid I`, `TauCeti.PLGroupoid_le_continuousGroupoid`, closure under restriction
@@ -10820,6 +10618,18 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   groups induced by a homeomorphism carrying one base point to the other;
   `AlgebraicTopology/FundamentalGroup/Homeomorph.lean`,
   `Topology/Homotopy/HomotopyGroup/Homeomorph.lean`).
+- **Mayer–Vietoris, covering spaces and the degree** (`AlgebraicTopology/Singular/MayerVietoris/`,
+  `AlgebraicTopology/UniversalCover/Classification/`,
+  `Geometry/Manifold/Degree/Basic.lean`): the Mayer–Vietoris sequence of singular homology for an
+  open cover by two sets, `TopCat.mayerVietorisδ` with `TopCat.mayerVietoris_exact₁`,
+  `TopCat.mayerVietoris_exact₂` and `TopCat.mayerVietoris_exact₃`, and its rank form
+  `TauCeti.finsum_finrank_singularHomology_mayerVietoris`, for finite-dimensional homology over a
+  division ring; the quotient `TauCeti.UniversalCover.SubgroupQuotient` of the universal cover by a
+  subgroup of the fundamental group of a locally path-connected, semilocally simply connected
+  space, whose endpoint projection is a covering map
+  (`TauCeti.UniversalCover.isCoveringMap_subgroupQuotientProj`); and the signed count
+  `TauCeti.degreeAtRegularValue o o' f y` of the preimages of `y` under a map of oriented manifolds
+  of the same finite dimension, the degree when `y` is a regular value with finite fibre.
 - **Irreducibility, incompressibility, Haken manifolds** (`Geometry/Manifold/`,
   `AlgebraicTopology/FundamentalGroup/Incompressible.lean`): `TauCeti.IsSphereBoundsBall`,
   `TauCeti.IsIncompressible` (embedding and injective on `π₁` at every base point),
@@ -10920,10 +10730,9 @@ Layer 5.1 adds the smooth structure of the pinned link exterior.
   `YazdiEulerClassOneTheorem.not_eulerClassOneConjecture`.
 - **Euler classes of vector bundles and fundamental classes**
   (`Topology/VectorBundle/EulerClass.lean`, `AlgebraicTopology/`): the Thom pair
-  `TauCeti.thomPair` of a real vector bundle, the Thom classes `TauCeti.IsThomClass` with
-  `IsThomClass.singularCohomologyMap`, and the Euler class `TauCeti.eulerClass` with
-  `eulerClass_naturality`, `eulerClass_pullback`, `eulerClass_eq_zero_of_forall_ne_zero` and
-  `eulerClass_trivial_eq_zero`; `TauCeti.HomologicalOrientation.evalFundamentalClass`
+  `TauCeti.thomPair` of a real vector bundle, the Thom classes `TauCeti.IsThomClass` and the Euler
+  class `TauCeti.eulerClass`, on which the Euler classes of a foliation are defined;
+  `TauCeti.HomologicalOrientation.evalFundamentalClass`
   (`AlgebraicTopology/Cohomology/FundamentalClass.lean`); `TauCeti.FiniteCWType`
   (`Topology/CWComplex/Classical/FiniteCWType.lean`) and the Euler characteristic
   `TauCeti.eulerChar` (`AlgebraicTopology/Cellular/EulerCharacteristic/FiniteCWType.lean`).
@@ -11009,29 +10818,6 @@ domain (Layer 1); normal neighbourhoods and the Gauss lemma (Layer 2); the Hopf�
 
 Layer 4: smooth Riemannian isometries and the transport of the Levi-Civita connection, geodesics
 and exponential maps along them, consumed by Layer 7.2.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 1: van Kampen through the fundamental groupoid, with the two-open-set pushout and its
-group-presentation corollaries, consumed by Layer 1.4 (the fundamental group of a connected sum),
-Layer 2.1 (the trefoil group in the Check on the cone on a polygonal trefoil), Layer 5.2 (the
-fundamental groups of fillings), Layers 8.2 and 8.6 (the free-product decomposition of `π₁` along
-a prime decomposition, Kneser's finiteness and the simple connectivity of the summands of a simply
-connected sum) and Layers 9.1 and 9.2 (the fundamental groups of the non-orientable handlebodies
-and of splittings). Stages 2 and 3: singular homology and the Mayer–Vietoris sequence, consumed by
-Layers 4.1, 5.1, 5.2 and 7.4 (the first homology of exteriors, of fillings and of the Weeks
-manifold). Stage 4: CW pairs, the cellular chain complex and its comparison with singular
-homology, consumed by Layer 11.1 (the cellular chain complex of a polyhedron and its boundary
-formula) and Layer 10.3 (cellular cochains, for the obstruction-theoretic Euler class). Stage 5:
-covering spaces, consumed by Layer 6.4 for the infinite cyclic cover. Stage 6: singular cohomology
-of CW complexes, cup products, fundamental classes and Poincaré duality, consumed by Layers 10.3
-and 10.4 (the Euler class and its pairing, and `H₂(M; ℤ)` for the Thurston norm); and its item
-6.5, the homological characterization of the degree of a map of closed oriented connected
-manifolds (`f_*[M] = deg f · [N]` on the fundamental classes), consumed by Layers 3.1 and 3.2 and
-by Layer 10.3 (the degree on the boundary circle of a `2`-cell of a section over the
-`1`-skeleton). Stage 7: the Euler characteristic of a finite decomposition, consumed by Layer 1.4.
-Stage 8: ordinary representability, consumed by Layer 10.4 for the representation of a class of
-`H¹` by a map to the circle. Nothing is assumed of them beyond their statements.
 
 ### From TauCetiRoadmap.TypeAHeckeAlgebras
 
@@ -11320,14 +11106,10 @@ unit disc, where the gauge is the norm.
   S. Novikov, *The topology of foliations*, Trudy Moskov. Mat. Obšč. 14 (1965), 248–278.
   W. B. R. Lickorish, *A foliation for 3-manifolds*, Ann. of Math. 82 (1965), 414–420.
   Calegari also: Chapter 4. A. Candel, L. Conlon, *Foliations I*, AMS GSM 23. W. Thurston, *A norm
-  for the homology of 3-manifolds*, Mem. Amer. Math. Soc. 59 (1986), Theorems 1 and 2 and Section
-  3. M. Yazdi, *On Thurston's Euler class one conjecture*, Acta Math. 225 (2020), arXiv
-  1603.03822, Section 1 (inequalities (1) and (2), Definition 1.1, Theorem 1.2 and the Main
-  Theorem), Section 3.3 and Proposition 3.12. D. Gabai, M. Yazdi, *The fully marked surface
-  theorem*, Acta Math. 225 (2020). D. Gabai, *Foliations and the topology of 3-manifolds*, J.
-  Differential Geom. 18 (1983), 445–503, Corollary 6.18. J. Milnor, J. Stasheff, *Characteristic
-  Classes*, Ann. of Math. Stud. 76 (1974), Sections 9 and 10, Theorem 10.4, Corollary 11.12 and
-  Chapter 12. A. Hatcher, *Vector Bundles and K-Theory*, author's page, Section 3.
+  for the homology of 3-manifolds*, Mem. Amer. Math. Soc. 59 (1986), Section 3. M. Yazdi, *On
+  Thurston's Euler class one conjecture*, Acta Math. 225 (2020), arXiv 1603.03822, Section 1
+  (inequality (1) and the Main Theorem) and Section 3.3. D. Gabai, M. Yazdi, *The fully marked
+  surface theorem*, Acta Math. 225 (2020).
 - C. Manolescu, *Pin(2)-equivariant Seiberg–Witten Floer homology and the triangulation
   conjecture*, J. Amer. Math. Soc. 29 (2016), 147–176, arXiv 1303.2354, Corollary 1.3;
   *Lectures on the triangulation conjecture*, arXiv 1607.08163, Theorem 1.1, Example 2.2 and

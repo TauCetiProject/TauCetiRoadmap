@@ -48,9 +48,9 @@ theorem (Layer 6.4) is reduced here to Levine's satellite theorem, whose proof i
 GeometricTopology, Part II's. The proofs of the Smale conjecture and of Cerf's theorem
 (Layer 3.4), the cyclic surgery theorem (Layer 5.4), the Gordon–Luecke theorem in its filling
 form (Layer 5.3) and on complements (Layer 8.1), the JSJ theorem (Layer 8.5), and of Thurston's
-Euler class inequality on irreducible manifolds and Yazdi's theorem (Layer 10.5) are
+Euler class inequality on irreducible manifolds and Yazdi's theorem (Layer 10.3) are
 GeometricTopology, Part II's, which starts from these statements; the closed hyperbolic form of
-Thurston's inequality is deduced here from the irreducible one (Layers 7.3 and 10.5). The annulus
+Thurston's inequality is deduced here from the irreducible one (Layers 7.3 and 10.3). The annulus
 theorem is proved here in dimension at most three; its higher-dimensional proof is
 GeometricTopology, Part II's, and its four-dimensional proof is FourManifolds'. Geometrization,
 the Poincaré conjecture in its topological form, Freedman's theorem, Watanabe's
@@ -90,11 +90,6 @@ Not statable at the pins:
 * the Novikov–Rosenberg theorem (Layer 10.2): the pinned foliations are smooth of a fixed
   leaf dimension but carry no transverse orientation, and incompressibility of a leaf is not
   expressed;
-* the norm form `x*(e(F)) ≤ 1` of Thurston's Euler class inequality and Gabai's realization of
-  the vertices of the dual unit ball by taut foliations (Layer 10.5): the pins have no Thurston
-  norm and no dual norm, so Thurston's inequality is stated in its surface form, on embedded
-  closed connected oriented surfaces of Euler characteristic at most zero, and Yazdi's theorem
-  with the sharpness of the surface inequality in place of `x*(e) = 1`;
 * Zeeman's conjecture (Layer 11.5) is statable, `TauCeti.ZeemanConjecture`, but open, so it is
   not asserted here; likewise the cosmetic surgery conjecture (Layer 5.3,
   `TauCeti.CosmeticSurgeryConjecture`), and the Akbulut–Kirby conjecture (Layer 5.3,
@@ -419,7 +414,7 @@ homology of 3-manifolds*, Mem. Amer. Math. Soc. 59 (1986), Section 3; Yazdi, ine
 closed connected orientable smooth `3`-manifold in which every locally flat `2`-sphere bounds a
 `3`-ball, every Euler class `e` of a smooth taut codimension-one foliation satisfies
 `|⟨e, f_*[S]⟩| ≤ −χ(S)` for every embedding `f` of a closed connected oriented surface `S` with
-`χ(S) ≤ 0` (Layer 10.5). Irreducibility is needed: on `S² × S¹` with the product foliation a torus
+`χ(S) ≤ 0` (Layer 10.3). Irreducibility is needed: on `S² × S¹` with the product foliation a torus
 homologous to `S² × pt` has `|⟨e, [T]⟩| = 2 > 0 = −χ(T)`. The smoothness binder is stated at
 the level `∞ + 1`, which equals `∞`, as the pinned foliations of class `∞` ask. -/
 theorem thurston_euler_class_inequality_of_isSphereBoundsBall (M : Type) [TopologicalSpace M]
@@ -436,7 +431,7 @@ connected orientable hyperbolic `3`-manifold, every Euler class of a smooth taut
 foliation satisfies `|⟨e, f_*[S]⟩| ≤ −χ(S)` for every embedded closed connected oriented surface
 `S` with `χ(S) ≤ 0`. It follows from
 `thurston_euler_class_inequality_of_isSphereBoundsBall`, a closed hyperbolic `3`-manifold being
-irreducible (Layers 7.3 and 10.5). -/
+irreducible (Layers 7.3 and 10.3). -/
 theorem thurston_euler_class_inequality : TauCeti.ThurstonEulerClassInequality := by
   sorry
 
@@ -447,7 +442,7 @@ which the Euler class inequality is sharp and which is the Euler class of no smo
 codimension-one foliation. Infinitely many is stated as: given finitely many spaces `N i`, there
 is such a manifold homeomorphic to none of them. The case `k = 0` is the pinned
 `TauCeti.YazdiEulerClassOneTheorem`, which refutes Thurston's Euler class one conjecture
-(Layer 10.5). The smoothness of `M` is recorded at the level `∞`, which the hyperbolic metric
+(Layer 10.3). The smoothness of `M` is recorded at the level `∞`, which the hyperbolic metric
 asks, and at the equal level `∞ + 1`, which the pinned foliations of class `∞` ask. -/
 theorem yazdi_infinite_family (k : ℕ) (N : Fin k → Type) [∀ i, TopologicalSpace (N i)] :
     ∃ (M : Type) (_ : MetricSpace M) (_ : ChartedSpace (EuclideanSpace ℝ (Fin 3)) M)
