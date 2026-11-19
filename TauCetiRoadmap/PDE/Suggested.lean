@@ -21,20 +21,21 @@ inverse-coercive ellipticity predicate of the Conventions, and the Calderón–Z
 structure of Layer 2. Everything else the roadmap plans, including
 every API bullet and every Check, lives in the README.
 
-Headline theorems stated here: Meyers–Serrin density in every order on an arbitrary open set
-(§1.2); the Poincaré–Wirtinger inequality on connected bounded Lipschitz domains (§1.5); the
-trace theorem with its kernel, the extension operator and Rellich compactness on bounded
-Lipschitz domains (§1.6); `W^{1,p}_Γ(Ω)` at `Γ = frontier Ω` and Poincaré–Friedrichs (§1.8);
+Headline theorems stated here: the Poincaré–Wirtinger inequality on connected bounded Lipschitz
+domains (§1.5); the trace theorem with its kernel, the extension operator and Rellich compactness on
+bounded Lipschitz domains (§1.6); `W^{1,p}_Γ(Ω)` at `Γ = frontier Ω` and Poincaré–Friedrichs (§1.8);
 Calderón–Zygmund `Lᵖ` and weak-`(1,1)` bounds (§2.3); the classical Hopf boundary-point lemma
 (§3.2); the Dirichlet problem with an `H¹` lifting and `H⁻¹` forcing (§4.2); the Fredholm
-compatibility condition for Gårding forms (§4.3); the coercive mixed problem and the
-compatibility condition of the pure Neumann problem (§4.5); the mixed and Neumann eigenbasis,
-min–max, Neumann kernel, second Neumann eigenvalue and self-adjoint realization (§4.6); interior
-`H²` regularity for Lipschitz coefficients (§5.1); De Giorgi–Nash–Moser Hölder continuity and the Harnack
-inequality in every dimension for non-symmetric inverse-coercive coefficients (§5.4); the
-Krylov–Safonov Hölder estimate and Harnack inequality for strong solutions (§5.5); and the
-interior Schauder estimate (§5.6). The strong-type maximal inequality of §2.1 is a theorem at
-the pin (`TauCeti.lintegral_rpow_maximalFunction_le`) and is not restated.
+compatibility condition for Gårding forms (§4.3); the coercive mixed problem and the compatibility
+condition of the pure Neumann problem (§4.5); the mixed and Neumann eigenbasis, min–max, Neumann
+kernel, second Neumann eigenvalue and self-adjoint realization (§4.6); De Giorgi–Nash–Moser Hölder
+continuity and the Harnack inequality in every dimension for non-symmetric inverse-coercive
+coefficients (§5.4); the Krylov–Safonov Hölder estimate and Harnack inequality for strong solutions
+(§5.5); and the interior Schauder estimate (§5.6). The strong-type maximal inequality of §2.1 is a
+theorem at the pin (`TauCeti.lintegral_rpow_maximalFunction_le`) and is not restated, nor are
+Meyers–Serrin density in every order (§1.2, `TauCeti.Wkp.dense_contDiffOn_representatives`) and
+interior `H²` regularity for locally Lipschitz coefficients (§5.1,
+`TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq_restrictL_of_locallyLipschitzOn`).
 
 Headline theorems not statable at the pins, and what each lacks:
 
@@ -84,25 +85,6 @@ def IsUniformlyEllipticAE {ι : Type*} [Fintype ι] [DecidableEq ι]
   0 < lam ∧ lam ≤ Lam ∧ ∀ᵐ x ∂(mu.restrict Ω),
     (∀ ξ : EuclideanSpace ℝ ι, lam * ‖ξ‖ ^ 2 ≤ ξ ⬝ᵥ (a x *ᵥ ξ)) ∧
       ∀ ξ : EuclideanSpace ℝ ι, Lam⁻¹ * ‖ξ‖ ^ 2 ≤ ξ ⬝ᵥ ((a x)⁻¹ *ᵥ ξ)
-
-/-! ## Layer 1: function spaces on a domain -/
-
-section Layer1
-
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ E]
-  [MeasurableSpace E] [BorelSpace E] {mu : Measure E} [mu.IsAddHaarMeasure]
-
-/-- **Meyers–Serrin in every order** (§1.2). On an arbitrary open set `Ω` and for finite `p`,
-the elements of `W^{k,p}(Ω)` with a smooth representative on `Ω` are dense
-(Evans, *Partial Differential Equations*, §5.3.2, Theorem 2). The order-one case is the pinned
-`TauCeti.W1p.dense_contDiffOn_representatives`. -/
-theorem dense_contDiffOn_representatives_wkp {p : ℝ≥0∞} [Fact (1 ≤ p)] (hp : p ≠ ⊤)
-    (Ω : Opens E) (k : ℕ) :
-    Dense {u : Wkp mu Ω p k | ∃ f : E → ℝ,
-      ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) f Ω ∧ (Wkp.value k u : E → ℝ) =ᵐ[mu.restrict Ω] f} := by
-  sorry
-
-end Layer1
 
 section LipschitzDomains
 
@@ -497,13 +479,12 @@ theorem isLeast_mixedEigenvalue (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
           C * ‖W1p.value (v : W1p mu Ω 2)‖ ^ 2} (mixedEigenvalue mu Ω Γ k) := by
   sorry
 
-/-- **The Neumann kernel** (§4.6). On a bounded Lipschitz domain, `u ∈ H¹(Ω)` satisfies
+/-- **The Neumann kernel** (§4.6). On every open set, `u ∈ H¹(Ω)` satisfies
 `∫ ∇u · ∇v = 0` for every `v ∈ H¹(Ω)` exactly when it is locally constant on `Ω`; together with
 `finite_connectedComponents_of_isLipschitzDomain`, the eigenspace of `0` has dimension the number
-of connected components. -/
+of connected components. No regularity of `Ω` is needed. -/
 theorem neumann_kernel_iff_isLocallyConstant (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
-    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
-    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) (u : W1p mu Ω 2) :
+    (u : W1p mu Ω 2) :
     (∀ v : W1p mu Ω 2, energyFormH1 (fun _ ↦ 1) 0 0 u v = 0) ↔
       ∃ g : EuclideanSpace ℝ (Fin (n + 1)) → ℝ,
         IsLocallyConstant ((Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))).domRestrict g) ∧
@@ -561,27 +542,6 @@ section Layer5
 variable {ι : Type*} [Fintype ι] [DecidableEq ι] {mu : Measure (EuclideanSpace ℝ ι)}
   [mu.IsAddHaarMeasure]
 
-/-- **Interior `H²` regularity for Lipschitz coefficients** (§5.1). Let `a` be uniformly elliptic
-with entries Lipschitz on `Ω`, `b, c ∈ L^∞(Ω)`, `f ∈ L²(Ω)`, and `u ∈ H¹(Ω)` a weak solution of
-`−∂ⱼ(aⁱʲ∂ᵢu) + b·∇u + cu = f` with no boundary condition. Then on every open `V` with compact
-closure inside `Ω` the restriction of `u` is the first-order part of an element of `W^{2,2}(V)`
-(Evans, §6.3.1, Theorem 1; Gilbarg–Trudinger, Theorem 8.8). The constant-coefficient case is the
-pinned `TauCeti.PDE.UniformlyEllipticOn.exists_lowerOrder_eq_restrictL`. -/
-theorem exists_wkp_two_of_lipschitz_coefficients {Ω : Opens (EuclideanSpace ℝ ι)}
-    {a : EuclideanSpace ℝ ι → Matrix ι ι ℝ} {lam Lam : ℝ}
-    (ha : UniformlyEllipticOn (Ω : Set (EuclideanSpace ℝ ι)) a lam Lam)
-    {K : ℝ≥0} (haLip : ∀ i j, LipschitzOnWith K (fun x => a x i j) Ω)
-    {b : EuclideanSpace ℝ ι → EuclideanSpace ℝ ι} {c : EuclideanSpace ℝ ι → ℝ}
-    (hb : MemLp b ⊤ (mu.restrict Ω)) (hc : MemLp c ⊤ (mu.restrict Ω))
-    {f : Lp ℝ 2 (mu.restrict Ω)} {u : W1p mu Ω 2}
-    (hu : ∀ v : W1p0 mu Ω 2, energyFormH1 a b c u (v : W1p mu Ω 2) =
-      ∫ x in Ω, f x * W1p.value (v : W1p mu Ω 2) x ∂mu)
-    {V : Opens (EuclideanSpace ℝ ι)} (hV : IsCompact (closure (V : Set (EuclideanSpace ℝ ι))))
-    (hVΩ : closure (V : Set (EuclideanSpace ℝ ι)) ⊆ Ω) :
-    ∃ U : Wkp mu V 2 2, Wkp.lowerOrder 1 U =
-      W1p.restrictL (SetLike.coe_subset_coe.mp (subset_closure.trans hVΩ)) u := by
-  sorry
-
 /-- **De Giorgi–Nash–Moser in every dimension** (§5.4). Fix the ellipticity ratio `ratio`. There
 are `α ∈ (0, 1]` and `C > 0`, depending only on `ratio` and the dimension, such that for every
 inverse-coercive coefficient field `a` with constants `0 < λ ≤ Λ ≤ ratio·λ`, measurable and not
@@ -589,8 +549,8 @@ necessarily symmetric, every weak solution `u ∈ H¹(B(x₀, 2r))` of the homog
 `−∂ⱼ(aⁱʲ∂ᵢu) = 0` has a representative that is `α`-Hölder on `B(x₀, r)` with constant
 `C r^(−α) · r^(−n/2) ‖u‖_{L²(B(x₀,2r))}` (Gilbarg–Trudinger, Theorem 8.22 and Theorem 8.24;
 Armstrong–Kempe, arXiv:2604.05984, `holder_Moser`, for the unit-ball statement with
-`λ = 1` and `n ≥ 3`). The `n ≥ 3`, operator-bound-ellipticity, thickening form is the pinned
-`TauCeti.PDE.exists_holderOnWith_preciseRepresentative`. -/
+`λ = 1` and `n ≥ 3`). The operator-bound-ellipticity, thickening form, in every dimension, is the
+pinned `TauCeti.PDE.exists_holderOnWith_preciseRepresentative`. -/
 theorem exists_holderOnWith_of_isWeakSolution_ball (ratio : ℝ) :
     ∃ (α : ℝ≥0) (C : ℝ), 0 < α ∧ α ≤ 1 ∧ 0 < C ∧
       ∀ (lam Lam : ℝ) (x₀ : EuclideanSpace ℝ ι) (r : ℝ)
