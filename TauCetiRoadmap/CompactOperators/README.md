@@ -83,14 +83,18 @@ route described, so a target proved by another route is not held behind an unrel
    index type (written `c₀(I, R)` or `C₀(I, R)`), `PowerSeries`, `Polynomial`, `Matrix`,
    `Module.Finite` and `Module.Projective`, and Mathlib's `PowerSeries.IsRestricted` and
    `PowerSeries.gaussNorm`. The ring-scalar operator norm is Tau Ceti's
-   `ContinuousLinearMap.ringOpNorm`, which agrees with Mathlib's operator norm over a field
-   (`ContinuousLinearMap.ringOpNorm_eq_opNorm`); it has the shape of
-   [Mathlib's proposed generalisation of the infimum formula to modules over semirings](https://github.com/leanprover-community/mathlib4/pull/42865),
-   and the [Zulip discussion of compact operators and Fredholm determinants](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/compact.20operators.20and.20Fredholm.20determinant/with/572850121)
-   explains its use over Banach–Tate rings. Operator limits are taken in this norm topology; the
-   topology on entire series is convergence in every positive-radius Gauss norm. Generic finite
-   matrix, polynomial and operator results needed here are built in Tau Ceti in the shape of the
-   native API. The suggested library home is `TauCeti/Analysis/Normed/Operator/Nonarchimedean/`.
+   `ContinuousLinearMap.ringOpNorm`, the infimum of the `c ≥ 0` with `‖f x‖ ≤ c‖x‖` for every
+   `x`: Mathlib's infimum formula for the operator norm, taken over semirings. It agrees with
+   Mathlib's operator norm over a field (`ContinuousLinearMap.ringOpNorm_eq_opNorm`), and the
+   [Zulip discussion of compact operators and Fredholm determinants](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/compact.20operators.20and.20Fredholm.20determinant/with/572850121)
+   explains its use over Banach–Tate rings. Over Banach–Tate scalars every continuous map has a
+   uniform bound, and operator limits are taken in this norm topology. Over a general normed ring a
+   continuous map can have none; the infimum is then over the empty set and equals `0`, so
+   definitions at that generality approximate by uniform bounds `‖w x‖ ≤ ε‖x‖` instead
+   (Convention 5, `IsOpLimitAeval`). The topology on entire series is convergence in every
+   positive-radius Gauss norm. Generic finite matrix, polynomial and operator results needed here
+   are built in Tau Ceti in the shape of the native API. The suggested library home is
+   `TauCeti/Analysis/Normed/Operator/Nonarchimedean/`.
 4. **Matrices and row compactness.** Write `aᵢⱼ = (u(eⱼ))ᵢ`: rows are output coordinates, the
    convention of `ContinuousLinearMap.matrixCoeff`. The matrix of a bounded operator has bounded
    entries and null columns; an arbitrary bounded operator need not have null row norms.
@@ -101,9 +105,11 @@ route described, so a target proved by another route is not held behind an unrel
    to an underlying valued field need not preserve the property (§0.5).
 5. **Finite image and complete continuity.** A map *has finite image* when its range is contained
    in a finitely generated submodule of the target; it is *completely continuous* when it is a
-   limit in operator norm of maps with finite image. Row compactness implies complete continuity;
-   the converse uses the finite lifting hypothesis of §0.2. Mathlib's `IsCompactOperator` is a
-   separate topological predicate, compared in §0.5.
+   uniform limit of maps with finite image: for every `ε > 0` some continuous `v` with finite image
+   has `‖u x − v x‖ ≤ ε‖x‖` for every `x`. Over Banach–Tate scalars this is approximation in the
+   operator norm of Convention 3. Row compactness implies complete continuity; the converse uses
+   the finite lifting hypothesis of §0.2. Mathlib's `IsCompactOperator` is a separate topological
+   predicate, compared in §0.5.
 6. **Determinants and reversal.** `H_u = Σ cₙTⁿ` has `c₀ = 1` and `cₙ = (−1)ⁿ` times the sum of
    the principal minors of size `n`. A real supremum, `tsum` or `limUnder` used in a raw definition
    carries no boundedness or convergence theorem: these are proved before its value is used.
@@ -143,19 +149,22 @@ route described, so a target proved by another route is not held behind an unrel
 **Finite image and approximation.** Define `IsFiniteRank u` (finite image) and
 `IsCompletelyContinuous u` as in Convention 5, for continuous linear maps between normed modules
 over a normed commutative ring. Prove that both are closed under addition, scalar multiplication
-and composition on either side with bounded maps, and that complete continuity is closed in
-operator norm. Prove `IsFiniteRank.isCompletelyContinuous`. Over a Noetherian ring prove
-`isFiniteRank_iff_range_fg`; without the Noetherian hypothesis keep only the implication from
-finitely generated range to finite image, and do not identify the two definitions.
+and composition on either side with bounded maps, and that complete continuity is closed under
+uniform approximation; over Banach–Tate scalars it is approximation in the ring-scalar operator
+norm, and closed in that norm. Prove `IsFiniteRank.isCompletelyContinuous`. Over a Noetherian
+ring prove `isFiniteRank_iff_range_fg`; without the Noetherian hypothesis keep only the
+implication from finitely generated range to finite image, and do not identify the two
+definitions.
 *Needs:* Tau Ceti `ContinuousLinearMap.ringOpNorm`; Mathlib `Submodule.FG`, `IsNoetherianRing`.
 
 **The identity criterion.** On a Banach module, the identity is completely continuous if and only
-if the module is finitely generated. For the forward direction choose a map
-with finite image within operator norm `< 1` of the identity and invert it by the Neumann series;
-its range is then the whole module. No Noetherian hypothesis is needed. Hence the identity of
-`c₀(ℕ, R)` is not completely continuous. If `u` is completely continuous and `(1 − u)ⁿ = 0`, the
-module is finitely generated, because `1 = u Σ_{k<n} (1 − u)^k` exhibits the identity as a
-composite with a completely continuous map. The zero module and the exponent `n = 0` are included.
+if the module is finitely generated. For the forward direction choose a map `v` with finite image
+and `‖x − v x‖ ≤ ε‖x‖` for some `ε < 1`, and invert it by the Neumann series; its range is then the
+whole module. No Noetherian hypothesis is needed. Hence the identity of `c₀(ℕ, R)` is not
+completely continuous. If `u` is completely continuous and bounded (automatic over Banach–Tate
+scalars) and `(1 − u)ⁿ = 0`, the module is finitely generated, because `1 = u Σ_{k<n} (1 − u)^k`
+exhibits the identity as a composite of a completely continuous map with a bounded one. The zero
+module and the exponent `n = 0` are included.
 *Needs:* the ideal properties above; Tau Ceti `ContinuousLinearMap.oneSub` (Neumann inversion).
 
 **Banach modules normed by a lattice.** Let `K` be complete and nontrivially valued, `A` a nonzero
@@ -204,6 +213,13 @@ affinoid predicate; `isFiniteRank_iff_range_fg`.
 **Checks.**
 - The zero map, and every map into a finitely generated module, has finite image and so is
   completely continuous.
+- Over `ℤ` with the trivial norm, on the finitely supported integer sequences with
+  `‖x‖ = max { 2^(−n) : xₙ ≠ 0 }`, the map `u(eₙ) = e_⌊n/2⌋` is continuous
+  (`‖ux‖ ≤ √2 ‖x‖^(1/2)`) with no uniform bound, and so is `1 − u`; both have ring-scalar
+  operator norm `0`. Approximation in that norm would make both completely continuous, as limits of
+  `0`, but not their sum, the identity: a continuous `v` with finite image vanishes on `eₙ` for
+  large `n`, so `‖eₙ − v eₙ‖ = ‖eₙ‖`. The uniform approximation of Convention 5 makes neither `u`
+  nor `1 − u` completely continuous, for the same reason.
 - On `c₀(ℕ, R)` the diagonal operator `diag(ϖⁱ)` is completely continuous (its row norms `‖ϖ‖ⁱ`
   tend to zero) but does not have finite image: its range contains every `eᵢ` up to the unit
   `ϖⁱ`, and a submodule generated by `m` elements cannot contain `e₀, …, e_m`, by the rank condition for nonzero commutative rings. A definition of complete
@@ -463,7 +479,7 @@ conjugation, reindexing and extension by zero. Scalar multiplication gives `H_{a
 
 Principal minors are unchanged by transposition of the matrix. If the matrix of a row-compact `u`
 and its transpose both define operators on the stated `c₀` spaces, the transposed operator is row
-compact (`IsRowCompact.transpose`), and when the index sets agree the two determinants are equal.
+compact, and when the index sets agree the two determinants are equal.
 Separately, state equality of the minor series of a matrix and its transpose whenever those sums
 converge, without asserting that either matrix is an operator.
 
@@ -663,7 +679,10 @@ For row-compact `u`, put `V_m = Σ_{k≤m} c_k u^(m−k)` (`resolventCoeff u m`)
 
 Over a field, entirety of `V` is Serre §6, Proposition 10, p. 78. Derive operator-norm bounds
 sufficient for evaluation and Hasse differentiation at any scalar, and show that the resulting
-operators lie in the operator-norm closure of `R[u]` (`IsOpLimitAeval`).
+operators lie in the operator-norm closure of `R[u]`. For operators `u`, `v` on a seminormed
+module over a normed commutative ring, `IsOpLimitAeval u v` says that for every `ε > 0` some
+polynomial `P` has `‖v x − P(u) x‖ ≤ ε‖x‖` for every `x`; over Banach–Tate scalars this is
+membership of `v` in that closure.
 
 The Fredholm determinant at one is `H_u(1)`. For row-compact `u` and `v`, prove that the
 determinant at one of `u + v − uv` is the product of those of `u` and `v`, corresponding to
@@ -796,7 +815,8 @@ D_(n,m)(B, P)(T) = Res_X( reflect n P (X), 1 − T B(X) )
 
 with Mathlib's resultant at the degree bounds `n` and `m`; this is `colemanDBounded n m B P`. Prove
 independence of `m` once it bounds `deg B`, and the padding identity
-`D_(n+1,m) = (1 − B(0)T) D_(n,m)` when `deg P ≤ n` (`colemanDBounded_succ`), hence
+`D_(n+1,m) = (1 − B(0)T) D_(n,m)` whenever `deg P ≤ n` and `deg B ≤ m`, with no condition on
+`P(0)` (`colemanDBounded_succ`), hence
 `D_(n+k,m) = (1 − B(0)T)^k D_(n,m)`. When `B(0) = 0` the transform therefore does not depend on the
 rank `n ≥ deg P`, and agrees with the transform at the minimal rank `n = deg P`; in general it does
 depend on the rank, and finite matrices use their dimension, so that zero eigenvalues are counted.
@@ -989,18 +1009,21 @@ the same right endpoint as the Newton polygon, and it is not the intrinsic Hodge
 lattice. *Needs:* §1.2; NewtonPolygons §§0.6–0.7, 2.5 and Tau Ceti
 `PowerSeries.heights_le_newtonPolygon_iff`.
 
-**Finite lattice comparison.** For a full-rank endomorphism of a finite free lattice over a discrete
-valuation ring, prove that the minimum valuation of all `n × n` minors is the sum of the first `n`
-valuations of the invariant factors; this uses all choices of rows and columns, not only principal
-minors. Bound each principal minor's valuation below by that minimum, apply the ultrametric
-inequality to the coefficient sum, and conclude with the comparison of NewtonPolygons: the
-Hodge–Newton inequality, with equality at the full-rank endpoint. Use Mathlib's
-`Submodule.smithNormalForm` and its invariant factors, and prove the needed lemmas on determinantal
-ideals and valuations of minors in the linear-algebra library. The lattice and the minor
-calculation belong here; the ordered-weight polygon and the coefficient comparison belong to
-NewtonPolygons. See [Kedlaya, §3, Theorem 16](https://kskedlaya.org/18.787/numerical.pdf#page=5),
-with its origin translated to `(0, 0)` for the convention `det(1 − Tu)`. *Needs:* Mathlib
-`Submodule.smithNormalForm`; §1.1; NewtonPolygons §2.5.
+**Finite lattice comparison.** For a full-rank endomorphism of a finite free lattice over the
+valuation ring `K°` of `K`, prove that the minimum valuation of all `n × n` minors is the sum of the
+first `n` valuations of the invariant factors; this uses all choices of rows and columns, not only
+principal minors. Bound each principal minor's valuation below by that minimum, apply the
+ultrametric inequality to the coefficient sum, and conclude with the comparison of NewtonPolygons:
+the Hodge–Newton inequality, with equality at the full-rank endpoint. The invariant factors come
+from a diagonalisation by invertible row and column operations over `K°`: an entry of least
+valuation divides every other entry, so it can be moved to the corner and its row and column
+cleared, and induction gives a diagonal with nondecreasing valuations. Discreteness of the valuation
+is not used; over a discrete valuation ring this is Mathlib's `Submodule.smithNormalForm`. Prove the
+needed lemmas on determinantal ideals and valuations of minors in the linear-algebra library. The
+lattice and the minor calculation belong here; the ordered-weight polygon and the coefficient
+comparison belong to NewtonPolygons. See
+[Kedlaya, §3, Theorem 16](https://kskedlaya.org/18.787/numerical.pdf#page=5), with its origin
+translated to `(0, 0)` for the convention `det(1 − Tu)`. *Needs:* §1.1; NewtonPolygons §2.5.
 
 **Checks.**
 - With `v(p) = 1`, `A = [[p, 1], [0, p]]` has row lower slopes `(0, 1)`, lattice Hodge slopes
@@ -1032,10 +1055,10 @@ the boundary of weight space. *Needs:* §§1.2 and 1.4.
   norm one; its transpose has columns that are not null and does not define a bounded map on that
   `c₀`.
 
-**Exact case.** Suppose `u` is row compact on `c₀(ℕ, K)`, `dᵢ ≠ 0`, `‖dᵢ‖` is strictly
-decreasing, `‖aᵢⱼ‖ ≤ ‖dᵢ‖`, and every leading principal minor of `(dᵢ⁻¹aᵢⱼ)` has norm one. Prove
-`‖cₙ‖ = ∏_{i<n} ‖dᵢ‖` and `v(cₙ) = Σ_{i<n} v(dᵢ)`, the leading principal minor being the unique
-dominant one (`norm_charCoeff_of_unit_minors`). Row compactness, or an explicit hypothesis
+**Exact case.** Suppose `u` is row compact on `c₀(ℕ, K)`, `‖dᵢ‖` is strictly decreasing (so every
+`dᵢ` is nonzero), `‖aᵢⱼ‖ ≤ ‖dᵢ‖`, and every leading principal minor of `(dᵢ⁻¹aᵢⱼ)` has norm one.
+Prove `‖cₙ‖ = ∏_{i<n} ‖dᵢ‖` and `v(cₙ) = Σ_{i<n} v(dᵢ)`, the leading principal minor being the
+unique dominant one (`norm_charCoeff_of_unit_minors`). Row compactness, or an explicit hypothesis
 `‖dᵢ‖ → 0`, is essential: over a dense value group strict decrease alone does not give convergence
 of the minor sums. *Needs:* §1.2.
 

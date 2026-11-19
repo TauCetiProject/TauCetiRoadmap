@@ -18,9 +18,10 @@ The headline theorems stated here are:
 
 * Serre's criterion over a complete ultrametric field: on model spaces row compactness is complete
   continuity (`isRowCompact_iff_isCompletelyContinuous`, README §0.5); on ultrametric Banach
-  spaces compactoid image is complete continuity (`hasCompactoidImage_iff_isCompletelyContinuous`),
-  and over a locally compact field complete continuity is Mathlib's compactness
-  (`isCompletelyContinuous_iff_isCompactOperator`);
+  spaces compactoid image is complete continuity (`hasCompactoidImage_iff_isCompletelyContinuous`);
+  Mathlib's compact operators are completely continuous over every such field
+  (`isCompletelyContinuous_of_isCompactOperator`), and over a locally compact field complete
+  continuity is Mathlib's compactness (`isCompletelyContinuous_iff_isCompactOperator`);
 * row compactness implies complete continuity over a Banach–Tate ring
   (`IsRowCompact.isCompletelyContinuous`, README §0.2);
 * the completed scalar extension of `c₀` (`c0_completedBaseChange`, README §1.7);
@@ -42,9 +43,10 @@ The headline theorems stated here are:
 
 Every headline theorem of the README's summary is stated. The slope theorems of README §§4.2–4.3,
 which apply the decomposition of §3.4 to Newton polygon factorisations, are README targets and are
-not stated here. `isFiniteRank_iff_range_fg`, `IsFiniteRank.isCompletelyContinuous` and
+not stated here. `isFiniteRank_iff_range_fg`, `IsFiniteRank.isCompletelyContinuous`,
+`colemanDBounded_succ`, `exists_newtonMajorant`, `colemanDEntire_isEntire` and
 `exists_tendsto_opNorm_sum_pow` are not headline theorems; AdicSpacesPartIII §R3.6 and
-LocallyAnalyticDistributions §§4.1 and 4.13 use them by name.
+LocallyAnalyticDistributions §§4.1, 4.9 and 4.13 use them by name.
 
 The Banach–Tate data, the ring-scalar operator norm and the output-first matrix are those of
 PadicFunctionalAnalysis at the pins (`TauCeti.NormedRing.IsTate`,
@@ -73,10 +75,13 @@ submodule of the target. -/
 def IsFiniteRank (u : M →L[R] N) : Prop :=
   ∃ Q : Submodule R N, Q.FG ∧ LinearMap.range (u : M →ₗ[R] N) ≤ Q
 
-/-- A continuous linear map is completely continuous when it is a limit in operator norm of maps
-with finite image. -/
+/-- A continuous linear map is completely continuous when it is a uniform limit of maps with
+finite image: for every `ε > 0` some continuous `v` with finite image has `‖u x - v x‖ ≤ ε ‖x‖`
+for every `x`. Over Banach–Tate scalars, where continuous maps are bounded, this is approximation
+in the ring-scalar operator norm; over a general normed ring that norm is `0` on a map with no
+uniform bound, and the uniform form does not count such a map as approximated. -/
 def IsCompletelyContinuous (u : M →L[R] N) : Prop :=
-  ∀ ε : ℝ, 0 < ε → ∃ v : M →L[R] N, IsFiniteRank v ∧ (u - v).ringOpNorm < ε
+  ∀ ε : ℝ, 0 < ε → ∃ v : M →L[R] N, IsFiniteRank v ∧ ∀ x, ‖u x - v x‖ ≤ ε * ‖x‖
 
 /-- Over a Noetherian ring, finite image is finite generation of the range. -/
 theorem isFiniteRank_iff_range_fg [IsNoetherianRing R] (u : M →L[R] N) :
@@ -113,15 +118,6 @@ theorem IsRowCompact.isCompletelyContinuous [TauCeti.NormedRing.IsTate R] [Compl
     [IsUltrametricDist R] [NormOneClass R]
     {u : C₀(J, R) →L[R] C₀(I, R)} (hu : IsRowCompact u) :
     IsCompletelyContinuous u := by
-  sorry
-
-/-- If `u` is row compact and `v` is an operator in the opposite direction whose matrix is the
-transpose of that of `u`, then `v` is row compact. The existence of `v` as an operator is a
-hypothesis; a transposed matrix need not define one (README §1.4). -/
-theorem IsRowCompact.transpose [TauCeti.NormedRing.IsTate R] [NormOneClass R]
-    {u : C₀(J, R) →L[R] C₀(I, R)} {v : C₀(I, R) →L[R] C₀(J, R)}
-    (hu : IsRowCompact u) (hv : ∀ i j, v.matrixCoeff j i = u.matrixCoeff i j) :
-    IsRowCompact v := by
   sorry
 
 end ModelSpaces
@@ -270,12 +266,13 @@ def resolventCoeff (u : C₀(I, R) →L[R] C₀(I, R)) (m : ℕ) :
     C₀(I, R) →L[R] C₀(I, R) :=
   ∑ k ∈ Finset.range (m + 1), charCoeff u k • u ^ (m - k)
 
-/-- For operators `u` and `v` on a seminormed `R`-module, `v` lies in the operator-norm closure of
-the polynomials in `u`, with the ring-scalar operator norm, avoiding any implicit choice of
-topology on operators. -/
+/-- For operators `u` and `v` on a seminormed `R`-module, `v` is a uniform limit of polynomials
+in `u`: for every `ε > 0` some `P` has `‖v x - P(u) x‖ ≤ ε ‖x‖` for every `x`. Over Banach–Tate
+scalars this is the closure of `R[u]` in the ring-scalar operator norm. No topology on operators
+is chosen implicitly. -/
 def IsOpLimitAeval {M : Type*} [SeminormedAddCommGroup M] [Module R M] [IsBoundedSMul R M]
     (u v : M →L[R] M) : Prop :=
-  ∀ ε : ℝ, 0 < ε → ∃ P : R[X], (v - Polynomial.aeval u P).ringOpNorm < ε
+  ∀ ε : ℝ, 0 < ε → ∃ P : R[X], ∀ x, ‖v x - (Polynomial.aeval u P) x‖ ≤ ε * ‖x‖
 
 /-- For a row-compact `u`, the operator `1 - a • u` is invertible exactly when the Fredholm
 determinant takes a unit value at `a`. -/
@@ -335,9 +332,13 @@ def colemanDBounded {R : Type*} [CommRing R] (n m : ℕ) (B P : R[X]) : R[X] :=
   Polynomial.resultant ((Polynomial.reflect n P).map Polynomial.C)
     (1 - Polynomial.C Polynomial.X * B.map Polynomial.C) n m
 
-/-- Rank padding: raising the prescribed rank by one multiplies the transform by `1 - B(0) T`. -/
+/-- Rank padding: if `deg P ≤ n` and `deg B ≤ m`, raising the prescribed rank by one multiplies
+the transform by `1 - B(0) T`, the factor of one more zero eigenvalue; no condition on `P(0)` is
+needed. It is the named interface that LocallyAnalyticDistributions §4.9 cites; Tau Ceti's
+`Polynomial.colemanDBounded_succ` states it for its transform, with the arguments in the order
+`B P n m`. -/
 theorem colemanDBounded_succ {R : Type*} [CommRing R] (n m : ℕ) (B P : R[X])
-    (hP : P.natDegree ≤ n) (hB : B.natDegree ≤ m) (hP0 : P.coeff 0 = 1) :
+    (hP : P.natDegree ≤ n) (hB : B.natDegree ≤ m) :
     colemanDBounded (n + 1) m B P =
       (1 - Polynomial.C (B.coeff 0) * Polynomial.X) * colemanDBounded n m B P := by
   sorry
@@ -451,12 +452,12 @@ section ExactCase
 
 variable {K : Type*} [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
 
-/-- **Exact case.** Let `u` be row compact on `C₀(ℕ, K)`, with nonzero `dᵢ` of strictly
-decreasing norm bounding the `i`-th row, and every leading principal minor of `(dᵢ⁻¹ aᵢⱼ)` of
-norm one. Then `‖cₙ‖ = ∏_{i < n} ‖dᵢ‖`. -/
+/-- **Exact case.** Let `u` be row compact on `C₀(ℕ, K)`, with `dᵢ` of strictly decreasing
+norm, hence nonzero, bounding the `i`-th row, and every leading principal minor of
+`(dᵢ⁻¹ aᵢⱼ)` of norm one. Then `‖cₙ‖ = ∏_{i < n} ‖dᵢ‖`. -/
 theorem norm_charCoeff_of_unit_minors
     (u : C₀(ℕ, K) →L[K] C₀(ℕ, K)) (hu : IsRowCompact u) (d : ℕ → K)
-    (hd : ∀ i, d i ≠ 0) (hdec : StrictAnti fun i ↦ ‖d i‖)
+    (hdec : StrictAnti fun i ↦ ‖d i‖)
     (hb : ∀ i j, ‖u.matrixCoeff i j‖ ≤ ‖d i‖)
     (hminor : ∀ n : ℕ, ‖Matrix.det (Matrix.of fun i j : Fin n ↦
       (d i.val)⁻¹ * u.matrixCoeff i.val j.val)‖ = 1) (n : ℕ) :
