@@ -46,15 +46,15 @@ the triangular truncation on `L²(ℝ)`.
 
 The roadmap takes the Schatten classes with `p < ∞` from the OperatorIdeals part of
 OperatorTheory. There the class at `p = ∞` is all of `B(H)`; the compact endpoint is defined
-here. NoncommutativeIntegration supplies complex interpolation, and AutomorphicSpectralTheory
-the integral operator of a square-integrable kernel. VonNeumannAlgebras supplies the trace and
-ultraproducts of Hilbert spaces. The Sobolev form of the Hörmander–Mikhlin–Schur theorem is
-left to SchattenClassesAndSchurMultipliers, Part II.
+here. NoncommutativeIntegration supplies complex interpolation and the finite-tracial martingale
+theory. VonNeumannAlgebras supplies the trace, the tensor identifications from which the kernel
+of a Hilbert–Schmidt operator is built, and ultraproducts of Hilbert spaces. The Sobolev form of
+the Hörmander–Mikhlin–Schur theorem is left to SchattenClassesAndSchurMultipliers, Part II.
 
 Layers 1 to 5 build the Schatten scale with its compact endpoint, the kernels of Hilbert–Schmidt
 operators and the general theory of Schur multipliers. Layers 6, 7, 9 and 11 prove the four main
 theorems. Layer 8 treats continuous symbols, which transference uses, and Layer 10 builds the
-matrix BMO space behind the last theorem.
+martingale and matrix BMO spaces behind the last theorem.
 
 [Suggested.lean](Suggested.lean) states the main theorems in Lean, except that `M ↦ S_M` is
 multiplicative and `*`-preserving, which needs the kernels of Layer 2.
@@ -62,27 +62,32 @@ multiplicative and `*`-preserving, which needs the kernels of Layer 2.
 ## How to read the build
 
 Layer 1 completes the Schatten scale with its compact endpoint, proves norming by finite-rank
-operators and interpolation with the compact endpoint, and defines completely bounded maps by
-amplification. Layer 2 gives every Hilbert–Schmidt operator between `L²` spaces its kernel,
+operators and interpolation with the compact endpoint, defines completely bounded maps by
+amplification (§1.4) and proves their duality, interpolation and stabilisation (§1.5). Layer 2
+gives every Hilbert–Schmidt operator between `L²` spaces its kernel,
 computes kernels of adjoints, products, transposes, multiplication operators, changes of measure
 and compressions to sub-σ-algebras, and proves the properties of the `L^∞` conditional expectation
 of BochnerSpaces §7.4 that the later layers use, among them the `𝒜`-measurability of its values,
 its positivity and tower law, and its module property against the `L²` projection. Layer 3
 defines Schur multipliers, their norms, extensions and completely bounded norms, with the finite
-case and the invariances. Layer 4 proves
+case, the invariances, the pairing formula and lower semicontinuity. Layer 4 proves
 duality and interpolation. Layer 5 studies conditional expectations of symbols and martingale
 limits. Layer 6 proves the Schur product theorem and the Grothendieck–Haagerup characterisation,
 first for finite index sets and then for σ-finite spaces. Layer 7 proves that norm and completely
 bounded norm agree on atomless spaces; Layer 8 treats continuous symbols on Radon measure spaces.
 Layer 9 proves Fourier–Schur transference on `ℝⁿ`. Layer 10 builds the operator-valued and matrix
-BMO seminorms and the interpolation inequality between matrix BMO and `S₂`; Layer 11 proves the
+BMO seminorms, the martingale BMO of operator-valued filtrations with its interpolation against
+`L²`, and the interpolation inequality between matrix BMO and `S₂`; Layer 11 proves the
 Hörmander–Mikhlin–Schur theorem.
 
 Layers 1 and 2 can be built at once, except that §2.3 and §2.4 use §1.1 and §1.4. Layer 3 needs
-Layers 1 and 2; Layer 4 needs Layers 1–3; Layer 5 needs Layers 2 and 3. Layer 6 needs Layers 1–5
-(§6.1–6.3 need only Layers 1, 3 and 4). Layer 7 needs Layers 2, 3 and 5. Layer 8 needs
-Layers 1, 3 and 5. Layer 9 needs Layers 1, 2 (§2.1, §2.2), 3, 4 and 8. Layer 10 needs Layers 1,
-2 (§2.1) and 3. Layer 11 needs Layers 2, 3, 4, 7 and 10.
+Layer 1 and §2.1–§2.4, not §2.5: the definitions of the multiplier, of its norm and bounded
+extension and of its completely bounded norm (§3.1, §3.3, §3.5) need only §1.1, §1.4, §2.1 and
+§2.2, and the norming of §1.2 enters only through §3.8 and the stabilisation of §1.5 only through
+§3.6. Layer 4 needs Layers 1–3; Layer 5 needs Layers 2 and 3. Layer 6 needs Layers 1–5 (§6.1–6.3
+need only Layers 1, 3 and 4). Layer 7 needs Layers 2, 3 and 5. Layer 8 needs Layers 1, 3 and 5.
+Layer 9 needs Layers 1, 2 (§2.1, §2.2), 3, 4 and 8. Layer 10 needs Layers 1, 2 (§2.1) and 3, except
+§10.4, which needs only NoncommutativeIntegration. Layer 11 needs Layers 2, 3, 4, 7 and 10.
 
 ## Conventions
 
@@ -161,28 +166,38 @@ Throughout this layer `H`, `K` are complex Hilbert spaces.
 
 ### 1.1 The Schatten scale and the extended gauge
 
-Define, for `1 ≤ p < ∞`, the Schatten class `S_p(H)` as the finite-gauge submodule of Tau Ceti's
-`TauCeti.OperatorIdealFamily.schatten ℂ p hp` (with `hp : 1 ≤ p`) on `H →L[ℂ] H` with its gauge
-norm `‖A‖_p = (Σ' aₙ(A)^p)^{1/p}`, and define `S_∞(H)` as Mathlib's `compactOperator` submodule
-with the operator norm (lafforgue-delasalle-2011 lines 174–179; cgpt-2023 lines 209–214;
-simon-trace-ideals-2005 Ch. 2; gohberg-krein-1969 Ch. III). Define the extended gauge
-`‖X‖_p ∈ [0, ∞]` of a bounded `X` (Lean `schattenGauge`, for `p : ℝ≥0∞` with `Fact (1 ≤ p)`): the
-Schatten gauge at the real exponent `p.toReal` for `p < ∞`, and for `p = ∞` the operator norm when
-`X` is compact and `∞` otherwise. The same definitions apply to bounded maps `H → K`.
+Define the extended gauge `‖X‖_p ∈ [0, ∞]` of a bounded `X : H → K` (Lean `schattenGauge`, for
+`p : ℝ≥0∞` with `Fact (1 ≤ p)`): for `p < ∞` the gauge `‖X‖_p = (Σ' aₙ(X)^p)^{1/p}` of Tau Ceti's
+`TauCeti.OperatorIdealFamily.schatten ℂ p.toReal hp` (with `hp : 1 ≤ p.toReal`), and for `p = ∞`
+the operator norm when `X` is compact and `∞` otherwise. Package it as a
+`TauCeti.OperatorGauge ℂ H K`: for `p < ∞` it is the gauge of
+`TauCeti.OperatorIdealFamily.operatorGauge` for that family, and at `p = ∞` it is subadditive and
+absolutely homogeneous because the compact operators form a submodule (a sum with a non-compact
+summand has the right side `∞`), and it dominates the operator norm. Define the Schatten class
+`S_p(H, K)`, for every `1 ≤ p ≤ ∞`, as the carrier `TauCeti.OperatorGauge.Carrier` of this gauge,
+the normed space of the operators of finite gauge with the norm `‖·‖_p`, and `S_p(H) = S_p(H, H)`
+(lafforgue-delasalle-2011 lines 174–179; cgpt-2023 lines 209–214; simon-trace-ideals-2005 Ch. 2;
+gohberg-krein-1969 Ch. III). For `p < ∞` it is the carrier of the Schatten family; at `p = ∞` its
+operators are those of Mathlib's `compactOperator` submodule, with the operator norm.
 
 - For `1 ≤ p ≤ q ≤ ∞` and every bounded `X`, `‖X‖_q ≤ ‖X‖_p`; hence `S_p ⊆ S_q` contractively. For
   `p < ∞` this is `TauCeti.OperatorIdealFamily.gauge_schatten_le_of_le` and, at `q = ∞`,
   compactness of operators whose approximation numbers tend to `0` (OI-A25–OI-A27) with
   `a₀(X) = ‖X‖` (OI-A12).
-- Finite-rank operators lie in every `S_p` (OI-A23) and are dense in `S_p` for `p < ∞`
-  (NoncommutativeIntegration §1.3 through §1.5) and in `S_∞` (OI-A28–OI-A29).
+- Finite-rank operators lie in every `S_p` (OI-A23) and are dense in every `S_p`: for finite-rank
+  orthogonal projections `P_α` on `H` and `Q_α` on `K` increasing strongly to the identities and
+  `X ∈ S_p`, `‖X − Q_α X P_α‖_p → 0`. Route: `X` is compact (OI-A27 when `p < ∞`), so
+  `‖(1 − Q_α) X‖ → 0` and `‖X (1 − P_α)‖ = ‖(1 − P_α) X*‖ → 0`, which is the claim at `p = ∞`; for
+  `p < ∞` the `n`-th approximation numbers of `(1 − Q_α) X` and of `Q_α X (1 − P_α)` are at most
+  `aₙ(X)` and at most those operator norms (OI-A20 and OI-A14), so the tails of the sums
+  `Σ aₙ^p` are uniformly small, the sums tend to `0`, and the triangle inequality concludes.
 - `‖X*‖_p = ‖X‖_p` (OI-A30), `‖V X W‖_p ≤ ‖V‖ ‖X‖_p ‖W‖` for bounded `V`, `W`, and
   `‖U X U*‖_p = ‖X‖_p` for an isometry `U`.
 - `X ↦ ‖X‖_p` is lower semicontinuous for the operator norm
   (`TauCeti.OperatorIdealFamily.lowerSemicontinuous_gauge_schatten`; at `p = ∞` because the compact
-  operators are norm closed), and `S_p(H)` is complete
-  (`TauCeti.OperatorIdealFamily.schatten_isComplete`; at `p = ∞` closedness of the compact
-  operators).
+  operators are norm closed, `isClosed_setOfPred_isCompactOperator`), so every `S_p(H, K)` is a
+  Banach space (`TauCeti.OperatorGauge.completeSpace_carrier_of_lowerSemicontinuous`; for `p < ∞`
+  also `TauCeti.OperatorIdealFamily.schatten_isComplete`).
 - Compression bound: if finite-rank orthogonal projections `P_α` increase strongly to the
   identity, then for `1 ≤ p < ∞` and every bounded `X`, `‖X‖_p ≤ liminf_α ‖P_α X P_α‖_p`: on a
   finite-dimensional subspace where `‖Xx‖ ≥ r‖x‖`, the compressions eventually satisfy the same
@@ -208,11 +223,14 @@ Schatten gauge at the real exponent `p.toReal` for `p < ∞`, and for `p = ∞` 
   `‖P_α‖_p = α^{1/p} → ∞ = ‖1‖_p`, as the bound requires.
 - On the zero space every gauge is `0`.
 
-*Needs:* Tau Ceti `TauCeti.OperatorIdealFamily.schatten`, `TauCeti.OperatorIdealFamily.gauge_schatten`,
-`TauCeti.OperatorIdealFamily.gauge_schatten_le_of_le`,
+*Needs:* Tau Ceti `TauCeti.OperatorIdealFamily.schatten`,
+`TauCeti.OperatorIdealFamily.gauge_schatten`, `TauCeti.OperatorIdealFamily.gauge_schatten_le_of_le`,
 `TauCeti.OperatorIdealFamily.lowerSemicontinuous_gauge_schatten`,
-`TauCeti.OperatorIdealFamily.schatten_isComplete`; Mathlib `compactOperator`, `IsCompactOperator`;
-OperatorIdeals OI-A12, OI-A23, OI-A25–OI-A30, OI-A38–OI-A40; NoncommutativeIntegration §1.3, §1.5.
+`TauCeti.OperatorIdealFamily.schatten_isComplete`, `TauCeti.OperatorIdealFamily.operatorGauge`,
+`TauCeti.OperatorGauge`, `TauCeti.OperatorGauge.Carrier`,
+`TauCeti.OperatorGauge.completeSpace_carrier_of_lowerSemicontinuous`; Mathlib `compactOperator`,
+`IsCompactOperator`, `isClosed_setOfPred_isCompactOperator`; OperatorIdeals OI-A12, OI-A14,
+OI-A20, OI-A23, OI-A25–OI-A30, OI-A38–OI-A40.
 
 ### 1.2 Norming by finite-rank operators
 
@@ -225,7 +243,7 @@ NoncommutativeIntegration §2.1 (with the finite exponent `p'`), read through it
 restricted to the finite-rank operators, which are dense in `S_{p'}` (§1.1); the bilinear trace
 duality between `S_p` and `S_{p'}` is recalled in caspers-delasalle-2015 lines 638–642. At
 `p = 1`, and for a bounded `X ∉ S_p`, where both sides are `∞`, the formula is this roadmap's. The
-finite-rank pairing bound in the form used by §3.3 and §5.2 is lafforgue-delasalle-2011 line 400,
+finite-rank pairing bound in the form used by §3.8 and §5.2 is lafforgue-delasalle-2011 line 400,
 the estimate (9) in the proof of Lemma 1.11. In particular a bounded operator whose pairings with
 finite-rank operators are bounded in this way lies in `S_p`.
 
@@ -283,8 +301,11 @@ Hilbert sum of `m` copies of `H` (`WithLp 2 (Fin m → H)`), so that `S₂(H^m)`
 `m × m` matrices with entries in `S₂(H)`. For `1 ≤ p ≤ ∞` define
 `‖T‖_p = sup { ‖T A‖_p : A ∈ S₂(H), ‖A‖_p ≤ 1 } ∈ [0, ∞]` and
 `‖T‖_{cb,p} = sup_{m ≥ 1} ‖T^{(m)}‖_p` (lafforgue-delasalle-2011 lines 183–190 and equation (2);
-cgpt-2023 lines 217–219). When `‖T‖_p < ∞`, `T` extends uniquely to a bounded map `S_p → S_p`
-(`S_∞ → S_∞` at `p = ∞`), by the density of §1.1.
+cgpt-2023 lines 217–219). When `‖T‖_p < ∞`, define the bounded extension of `T` as the continuous
+linear map `S_p(H) → S_p(K)` between the carriers of §1.1 (`S_∞(H) → S_∞(K)` at `p = ∞`) that
+agrees with `T` on `S₂ ∩ S_p`, which `T` maps into `S₂ ∩ S_p` with `‖T A‖_p ≤ ‖T‖_p ‖A‖_p`; it
+exists and is unique because `S₂ ∩ S_p` contains the finite-rank operators, dense by §1.1, and its
+norm is `‖T‖_p`.
 
 - `‖T^{(1)}‖_p = ‖T‖_p`, and `m ↦ ‖T^{(m)}‖_p` is nondecreasing (compress to a corner); so
   `‖T‖_p ≤ ‖T‖_{cb,p}`.
@@ -299,6 +320,34 @@ cgpt-2023 lines 217–219). When `‖T‖_p < ∞`, `T` extends uniquely to a bo
   diagonal operators `V_m = V ⊕ ⋯ ⊕ V`, `W_m = W ⊕ ⋯ ⊕ W` of norms `‖V‖`, `‖W‖`; for an isometry
   `U : H → K` the map `A ↦ U A U* : S₂(H) → S₂(K)` is a complete isometry, and
   `B ↦ U* B U : S₂(K) → S₂(H)` a complete contraction left inverse to it.
+
+**Checks.**
+
+- The transpose map `t(A) = Aᵀ` on `M_n = S₂(ℂⁿ)`, `n ≥ 2`: `‖t‖_∞ = 1` (singular values are
+  preserved), while at level `n` it sends the flip unitary `[E_{ji}]_{ij}` of norm `1` to
+  `[E_{ij}]_{ij}`, which is `n` times a rank-one projection, so `‖t‖_{cb,∞} = n`; a definition of
+  the completely bounded norm by the first amplification returns `1`. At `p = 2` every
+  amplification of `t` permutes Hilbert–Schmidt coordinates, so `‖t‖_{cb,2} = 1`.
+- Composition needs its exclusion: on `S₂(ℓ²(ℕ))` let `w₀ = diag(1/(j+1))`, which lies in `S₂` and
+  not in `S₁`, and let `T` be the linear map that fixes `w₀` and is `0` on `S₁` and on an algebraic
+  complement of `S₁ ⊕ ℂw₀` in `S₂`; then `‖T‖_{cb,1} = 0`, since every block of an element of
+  `S₁(H^m)` lies in `S₁`. The rank-one map `R(A) = ⟨e₀, A e₀⟩ w₀` is bounded on `S₂` with
+  `‖R E₀₀‖₁ = ‖w₀‖₁ = Σ_j 1/(j+1) = ∞`, so `‖R‖_{cb,1} = ∞`, and `T R E₀₀ = T w₀ = w₀`, so
+  `‖T ∘ R‖₁ = ∞` while `‖T‖_{cb,1} ‖R‖_{cb,1} = 0 · ∞ = 0`. In the other order `R ∘ T` vanishes on
+  `S₁`, and `‖R ∘ T‖_{cb,1} = 0 ≤ ∞ · 0`.
+- Conjugation `A ↦ U A U*` by a unitary of `H ≠ 0` has `‖·‖_{cb,p} = 1` for every `p`; on
+  `H = 0` it is the zero map, with every norm `0`.
+- The map `A ↦ E₁₁ A E₁₁` on `M₂` has `‖·‖_{cb,p} = 1` for every `p` (a compression), and the
+  diagonal projection `A ↦ E₁₁AE₁₁ + E₂₂AE₂₂` has `‖·‖_{cb,p} = 1` (average of two unitary
+  conjugations, by `diag(1, 1)` and `diag(1, −1)`).
+- On the zero space every norm is `0`.
+
+*Needs:* §1.1; Mathlib `WithLp`.
+
+### 1.5 Duality, interpolation and stabilisation of completely bounded maps
+
+Prove, for linear maps `T : S₂(H) → S₂(K)` and the norms of §1.4:
+
 - Duality: if `T, T^♯ : S₂ → S₂` satisfy `Tr(T(A) B) = Tr(A T^♯(B))` for all `A, B ∈ S₂`, then
   `‖T‖_p = ‖T^♯‖_{p'}` and `‖T‖_{cb,p} = ‖T^♯‖_{cb,p'}`, by §1.2 at every level, since
   `(T^{(m)})^♯ = (T^♯)^{(m)}` for the block trace.
@@ -335,39 +384,23 @@ cgpt-2023 lines 217–219). When `‖T‖_p < ∞`, `T` extends uniquely to a bo
 
 **Checks.**
 
-- The transpose map `t(A) = Aᵀ` on `M_n = S₂(ℂⁿ)`, `n ≥ 2`: `‖t‖_∞ = 1` (singular values are
-  preserved), while at level `n` it sends the flip unitary `[E_{ji}]_{ij}` of norm `1` to
-  `[E_{ij}]_{ij}`, which is `n` times a rank-one projection, so `‖t‖_{cb,∞} = n`; a definition of
-  the completely bounded norm by the first amplification returns `1`. At `p = 2` every
-  amplification of `t` permutes Hilbert–Schmidt coordinates, so `‖t‖_{cb,2} = 1`, and
-  `‖t‖_{cb,1} = n` by duality (`t^♯ = t`). On `ℓ²(ℕ)` the transpose `A ↦ J A* J` has
-  `‖t‖_∞ = 1` and `‖t‖_{cb,∞} ≥ n` for every `n` (the `n × n` corners), so its extension to
-  `K(ℓ²(ℕ))` is bounded and not completely bounded in the sense of C3.2.
+- The transpose map `t` of §1.4 on `M_n`, `n ≥ 2`, has `t^♯ = t`, so duality gives
+  `‖t‖_{cb,1} = ‖t‖_{cb,∞} = n`. On `ℓ²(ℕ)` the transpose `A ↦ J A* J` has `‖t‖_∞ = 1` and
+  `‖t‖_{cb,∞} ≥ n` for every `n` (the `n × n` corners), so its extension to `K(ℓ²(ℕ))` is bounded
+  and not completely bounded in the sense of C3.2.
 - Stabilisation needs `‖T‖₂ < ∞` for infinite `d`: if `‖T‖₂ = ∞`, choose `B_k ∈ S₂(H)` with
   `‖B_k‖₂ ≤ 2^{−k}` and `‖T B_k‖₂ ≥ 1`; the block-diagonal `A` with blocks `B_k` lies in
   `S₂(H ⊗̂ ℓ²(ℕ)) = S₂(ℓ²(ℕ; H))`, while `[T(A_{βγ})]` has `Σ ‖T B_k‖₂² = ∞` and is not
   Hilbert–Schmidt.
-- Interpolation needs finite endpoint norms: on `S₂(ℓ²(ℕ))` let `w₀ = diag(1/(j+1))`, which lies
-  in `S_{4/3}` (`Σ (j+1)^{−4/3} < ∞`) and not in `S₁`, and let `T` be the linear map that fixes `w₀`
-  and is `0` on `S₁` and on an algebraic complement of `S₁ ⊕ ℂw₀` in `S₂`. Then `‖T‖₁ = 0`;
-  `‖T‖₂ = ∞`, since `T ≠ 0` vanishes on the dense subspace `S₁` of `S₂` and so is not bounded; and
+- Interpolation needs finite endpoint norms: for the map `T` of the composition Check of §1.4,
+  `w₀ = diag(1/(j+1))` lies in `S_{4/3}` (`Σ (j+1)^{−4/3} < ∞`), `‖T‖₁ = 0`, `‖T‖₂ = ∞` (`T ≠ 0`
+  vanishes on the dense subspace `S₁` of `S₂` and so is not bounded), and
   `‖T‖_{4/3} ≥ ‖T w₀‖_{4/3}/‖w₀‖_{4/3} = 1`. With `p₀ = 1`, `p₁ = 2`, `θ = 1/2` (so `p_θ = 4/3`)
   the bound read in `[0, ∞]` would give `1 ≤ 0^{1/2} ∞^{1/2} = 0`; the interpolation law asserts
   nothing here because `‖T‖₂ = ∞`.
-- Composition needs its exclusion: at `p = 1`, with `T` the map of the previous Check
-  (`‖T‖_{cb,1} = 0`, since every block of an element of `S₁(H^m)` lies in `S₁`) and the rank-one
-  map `R(A) = ⟨e₀, A e₀⟩ w₀`, bounded on `S₂` with `‖R E₀₀‖₁ = ‖w₀‖₁ = Σ_j 1/(j+1) = ∞`, so
-  `‖R‖_{cb,1} = ∞`: `T R E₀₀ = T w₀ = w₀`, so `‖T ∘ R‖₁ = ∞` while `‖T‖_{cb,1} ‖R‖_{cb,1} = 0 · ∞ = 0`.
-  In the other order `R ∘ T` vanishes on `S₁`, and `‖R ∘ T‖_{cb,1} = 0 ≤ ∞ · 0`.
-- Conjugation `A ↦ U A U*` by a unitary of `H ≠ 0` has `‖·‖_{cb,p} = 1` for every `p`; on
-  `H = 0` it is the zero map, with every norm `0`.
-- The map `A ↦ E₁₁ A E₁₁` on `M₂` has `‖·‖_{cb,p} = 1` for every `p` (a compression), and the
-  diagonal projection `A ↦ E₁₁AE₁₁ + E₂₂AE₂₂` has `‖·‖_{cb,p} = 1` (average of two unitary
-  conjugations, by `diag(1, 1)` and `diag(1, −1)`).
-- On the zero space every norm is `0`.
 
-*Needs:* §1.1–§1.3; Mathlib `WithLp`, `lp`, `CStarMatrix`; VonNeumannAlgebras V2 (completed
-Hilbert tensor products); CStarAlgebras C1.6, C3.2; NoncommutativeIntegration §2.6.
+*Needs:* §1.1–§1.4; Mathlib `lp`, `CStarMatrix`; VonNeumannAlgebras V2 (completed Hilbert tensor
+products); CStarAlgebras C1.6, C3.2; NoncommutativeIntegration §2.6.
 
 ### Examples
 
@@ -378,10 +411,10 @@ Hilbert tensor products); CStarAlgebras C1.6, C3.2; NoncommutativeIntegration §
 
 ### Dependencies
 
-Mathlib (`compactOperator`, `WithLp`, `lp`, `CStarMatrix`); Tau Ceti Schatten families;
-OperatorTheory/OperatorIdeals Parts A–C; VonNeumannAlgebras V2 (completed Hilbert tensor
-products), V4.Core; NoncommutativeIntegration §1.3–§1.5,
-§2.1, §2.3, §2.5, §2.6; CStarAlgebras C1.6, C3.2.
+Mathlib (`compactOperator`, `WithLp`, `lp`, `CStarMatrix`); Tau Ceti Schatten families, operator
+gauges and their carriers; OperatorTheory/OperatorIdeals Parts A–B; VonNeumannAlgebras V2
+(completed Hilbert tensor products), V4.Core; NoncommutativeIntegration §1.4, §1.5, §2.1, §2.3,
+§2.5, §2.6; CStarAlgebras C1.6, C3.2.
 
 ## Layer 2: Hilbert–Schmidt kernels on σ-finite measure spaces
 
@@ -389,17 +422,25 @@ Throughout this layer `(Ω, μ)`, `(Ω', ν)`, `(Ω'', λ)` are σ-finite measur
 
 ### 2.1 The kernel of a Hilbert–Schmidt operator
 
-The kernel operator `k ↦ T_k`, `T_k g(x) = ∫ k(x, y) g(y) dν(y)`, from `L²(μ ⊗ ν)` to the bounded
-operators `L²(ν) → L²(μ)` is AutomorphicSpectralTheory §0.8, with `kernel_apply`, `kernel_unique`
-and `kernel_norm`, at the generality of arbitrary σ-finite measure spaces
-(gap `sigma-finite-hilbert-schmidt-kernels`). Prove that its range is the whole Hilbert–Schmidt
-class `S₂(L²(ν), L²(μ))`: the range is closed (an isometry from a complete space) and contains
-the rank-one operators `u ⊗ v*`, whose kernel is `u(x) conj v(y)` by `kernel_apply` and Fubini,
-and finite-rank operators are dense in `S₂` (OperatorIdeals OI-C01–OI-C13, truncation of the
-column model). Hence `k ↦ T_k` is a unitary `L²(μ ⊗ ν) ≅ S₂(L²(ν), L²(μ))`; define the kernel
+Define the kernel unitary `k ↦ T_k : L²(μ ⊗ ν) ≅ S₂(L²(ν), L²(μ))` as the composite of three
+unitaries: the inverse of `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)`, `f ⊗ g ↦ f(x) g(y)` (VonNeumannAlgebras
+V2.RectangularL2, whose product measure is `μ.prod ν` for σ-finite `μ`, `ν`); `id ⊗ J` onto
+`L²(μ) ⊗̂ conj(L²(ν))`, with `J g = ḡ` the complex-linear identification of `L²(ν)` with its
+conjugate space through pointwise conjugation; and the inverse of the identification of
+`S₂(L²(ν), L²(μ))` with `L²(μ) ⊗̂ conj(L²(ν))` of VonNeumannAlgebras V4.Core, under which the
+rank-one operator `u ⊗ v*` corresponds to `u ⊗ v̄`. Thus `T_k = u ⊗ v*` for
+`k(x, y) = u(x) conj v(y)`. No countable basis, standard Borel structure or separability is used.
+Define the kernel
 `k_A ∈ L²(μ ⊗ ν)` of `A ∈ S₂` as the inverse image of `A` (lafforgue-delasalle-2011 lines 226–232;
-reed-simon-1-1980 §VI.6).
+reed-simon-1-1980 §VI.6). Prove:
 
+- **Integral formula.** For `k ∈ L²(μ ⊗ ν)` and `g ∈ L²(ν)`, for `μ`-almost every `x` the function
+  `y ↦ k(x, y) g(y)` is `ν`-integrable, with
+  `∫ (∫ |k(x, y)| |g(y)| dν(y))² dμ(x) ≤ ‖k‖₂² ‖g‖₂²`, and
+  `(T_k g)(x) = ∫ k(x, y) g(y) dν(y)` for `μ`-almost every `x`. Route: the bound is Tonelli
+  (`MeasureTheory.lintegral_prod`) with Cauchy–Schwarz in `y`; so both sides are bounded linear maps
+  of `k` into `L²(μ)`, and they agree on the products `u(x) conj v(y)`, where the right side is
+  `⟨v, g⟩ u(x)`, whose span is dense (V2.RectangularL2).
 - `T_{k_A} = A` and `k_{T_k} = k`; `A ↦ k_A` is linear with `‖k_A‖_{L²} = ‖A‖₂` and, for
   `A, B ∈ S₂(L²(ν), L²(μ))`, `⟨k_A, k_B⟩_{L²(μ ⊗ ν)} = Tr(A* B)`: polarise `‖k_A‖₂² = ‖A‖₂²`, whose
   right side is `Σ_j ‖A e_j‖²` for a Hilbert basis `(e_j)` (OperatorIdeals OI-B32–OI-B35), and use
@@ -409,9 +450,13 @@ reed-simon-1-1980 §VI.6).
   coincide.
 - Call a bounded `T` the integral operator of a function `k` (Lean `IsKernelOperator`, stated on one
   space `Ω = Ω'`) when `(T g)(x) = ∫ k(x, y) g(y) dν(y)` for `μ`-almost every `x` and every
-  `g ∈ L²(ν)`. For `k ∈ L²(μ ⊗ ν)` this holds exactly for `T = T_k`, by `kernel_apply` and the
+  `g ∈ L²(ν)`. For `k ∈ L²(μ ⊗ ν)` this holds exactly for `T = T_k`, by the integral formula and the
   uniqueness of the operator with given values; so the integral operators of square-integrable
-  kernels are exactly the Hilbert–Schmidt operators, each for one class `k`.
+  kernels are exactly the Hilbert–Schmidt operators, each for one class `k`. `IsKernelOperator`
+  writes the integral as a Bochner integral, which is `0` wherever the integrand is not integrable;
+  it is used only for square-integrable `k`, where the integral formula makes the integrand
+  integrable for almost every `x`. For `k(x, y) = |x − y|^{−1}` on `[0, 1]` and `g = 1` the
+  integrand is integrable for no `x`, and the Bochner reading would assert `T g = 0`.
 
 **Checks.**
 
@@ -426,8 +471,9 @@ reed-simon-1-1980 §VI.6).
   is null.
 - For the zero measure all spaces are zero.
 
-*Needs:* AutomorphicSpectralTheory §0.8 (gap `sigma-finite-hilbert-schmidt-kernels`), §0.9;
-OperatorIdeals OI-B32–OI-B41, OI-C01–OI-C13; Mathlib `MeasureTheory.Measure.prod`,
+*Needs:* VonNeumannAlgebras V2.RectangularL2, V4.Core (the identification of Hilbert–Schmidt
+operators with a completed tensor product); AutomorphicSpectralTheory §0.9; OperatorIdeals
+OI-B32–OI-B41; Mathlib `MeasureTheory.Measure.prod`, `MeasureTheory.lintegral_prod`,
 `MeasureTheory.integral_prod`.
 
 ### 2.2 Kernel calculus and the trace formula
@@ -456,8 +502,7 @@ an adjoint kernel without the conjugation would give `−i`. With `Ω = {1}` and
 different spaces, `A = E₁₂ : L²({2}) → L²({1})` and `C = E₂₁ : L²({1}) → L²({2})`, the same
 computation is the two-space formula: `Tr(AC) = 1 = k_A(1, 2) k_C(2, 1)`.
 
-*Needs:* §2.1; AutomorphicSpectralTheory §0.8 (`kernel_apply`, gap
-`sigma-finite-hilbert-schmidt-kernels`), §0.9; VonNeumannAlgebras V4.Core (Hölder at `p = q = 2`,
+*Needs:* §2.1; AutomorphicSpectralTheory §0.9; VonNeumannAlgebras V4.Core (Hölder at `p = q = 2`,
 cyclicity); Mathlib `MeasureTheory.integral_prod`.
 
 ### 2.3 Transposition
@@ -475,8 +520,9 @@ with its dual in lafforgue-delasalle-2011 Remark 1.3, line 244 (used in §4.1).
   `‖A^T‖_p = ‖A‖_p` for every `p`, and `A^T` is compact exactly when `A` is. On `M_n` the
   transposition is an isometry for the operator norm whose completely bounded norm is `n`
   (pisier-grothendieck-2012 Remark 13.4, line 2086; the first Check of §1.4).
-- For `A ∈ S₂`, `k_{A^T}(x, y) = k_A(y, x)` (lafforgue-delasalle-2011 lines 228–230): by
-  `kernel_apply`, `J B J` has kernel `conj k_B(x, y)`, and §2.2 gives `k_{A*}(x, y) = conj k_A(y, x)`.
+- For `A ∈ S₂`, `k_{A^T}(x, y) = k_A(y, x)` (lafforgue-delasalle-2011 lines 228–230): by the
+  integral formula of §2.1, `J B J` has kernel `conj k_B(x, y)`, and §2.2 gives
+  `k_{A*}(x, y) = conj k_A(y, x)`.
 - For `A ∈ S₁`, `Tr(A^T) = Tr(A)`, hence `Tr(A^T B^T) = Tr(A B)`: `J (u ⊗ v*) J = (J u) ⊗ (J v)*`,
   so `Tr(J X J) = conj Tr(X)` for trace-class `X` by the rank-one formula of VonNeumannAlgebras
   V4.Core, and `Tr(A*) = conj Tr(A)`.
@@ -655,7 +701,7 @@ and `𝒜 ⊗ 𝒜`, on which `μ ⊗ μ` is σ-finite (§2.4). Prove:
 
 ### Dependencies
 
-Layer 1 (§1.1, §1.4); AutomorphicSpectralTheory §0.8, §0.9; OperatorIdeals Parts A–C;
+Layer 1 (§1.1, §1.4); AutomorphicSpectralTheory §0.9; OperatorIdeals Parts A–B;
 VonNeumannAlgebras V2.RectangularL2, V4.Core; BochnerSpaces §7.4; Mathlib measure theory,
 measures with density and conditional expectations.
 
@@ -707,17 +753,18 @@ On `{1, 2}` with `M = 1_{(1,2)}`: `S_M(E₁₂) = E₁₂` and the Hilbert-space
 For `1 ≤ p ≤ ∞` the norm `‖S_M‖_p ∈ [0, ∞]` is the norm of §1.4 for `T = S_M`: the supremum of
 `‖S_M(A)‖_p` over `A ∈ S₂` with `‖A‖_p ≤ 1`. By §2.1 it is the supremum of `‖B‖_p` over pairs of
 integral operators `A`, `B` of kernels `k ∈ L²(μ ⊗ μ)` and `M · k` with `‖A‖_p ≤ 1`, which is the
-definition `schurNorm` of `Suggested.lean`. Prove (lafforgue-delasalle-2011 lines 233–238,
-397–413 and 433–438; cgpt-2023 lines 226–229):
+definition `schurNorm` of `Suggested.lean`. When `‖S_M‖_p < ∞`, the bounded extension of §1.4,
+written `S_M` again, is the continuous linear map `S_M : S_p(H) → S_p(H)` of the carriers of §1.1
+(`S_∞(H) → S_∞(H)` at `p = ∞`) that agrees with `S_M` on `S₂ ∩ S_p`, of norm `‖S_M‖_p`. Prove
+(lafforgue-delasalle-2011 lines 233–238; cgpt-2023 lines 226–229):
 
-- `‖S_M‖_p = sup { ‖S_M(A)‖_p : A of finite rank, ‖A‖_p ≤ 1 }`, and this equals
-  `sup { |Tr(S_M(A) B)| : A, B of finite rank, ‖A‖_p ≤ 1, ‖B‖_{p'} ≤ 1 }` (§1.2, §1.1);
-- `S₂ ∩ S_p` is dense in `S_p` (in `S_∞` at `p = ∞`), so when `‖S_M‖_p < ∞` the bounded extension
-  `S_M : S_p → S_p` (`S_∞ → S_∞`) is unique; for `p ≤ 2` it maps `S_p` into `S_2 ∩ S_p`;
+- `‖S_M‖_p = sup { ‖S_M(A)‖_p : A of finite rank, ‖A‖_p ≤ 1 }`: the compressions `P_α A P_α` of
+  §1.1 have finite rank and `p`-norm at most `‖A‖_p`, and tend to `A` in `S₂`, so
+  `S_M(P_α A P_α) → S_M(A)` in `S₂`, hence in operator norm, and the lower semicontinuity of the
+  gauge (§1.1) concludes;
+- `S₂ ∩ S_p` is dense in `S_p` (in `S_∞` at `p = ∞`), so the bounded extension is unique; for
+  `p ≤ 2` it is the restriction of `S_M` to `S_p ⊆ S₂`;
 - for an elementary symbol `f(x) g(y)`, `‖S_M‖_p ≤ ‖f‖_∞ ‖g‖_∞` for every `p`;
-- lower semicontinuity: if `M_k → M` almost everywhere with `sup_k ‖M_k‖_∞ < ∞`, then
-  `‖S_M‖_p ≤ liminf_k ‖S_{M_k}‖_p`, by the pairing formula, the trace formula of §2.2 and dominated
-  convergence;
 - `‖S_M‖_p` is unchanged when `M` is changed on a null set.
 
 **Checks.**
@@ -729,12 +776,8 @@ definition `schurNorm` of `Suggested.lean`. Prove (lafforgue-delasalle-2011 line
   `A = I/√2` (`‖A‖₂ = 1`, `‖A‖₁ = 2/√2`).
 - The norm is not the essential supremum of the symbol when `p ≠ 2`: the triangular truncation
   `M = [[1, 1], [0, 1]]` on `M₂` has `‖M‖_∞ = ‖S_M‖₂ = 1` (§3.1) and `‖S_M‖_∞ = 2/√3` (§3.4).
-- Lower semicontinuity can be strict: on `ℕ` with counting measure, `M_k = 1_{(k,k)}` tends to `0`
-  everywhere with `‖M_k‖_∞ = 1`, and `S_{M_k}(A) = A_{kk} E_{kk}` has `‖S_{M_k}‖_p = 1` for every
-  `p` (`|A_{kk}| ≤ ‖A‖ ≤ ‖A‖_p`, with equality at `A = E_{kk}`), while the limit symbol `0` has
-  norm `0 < 1 = liminf_k ‖S_{M_k}‖_p`.
 
-*Needs:* §1.1, §1.2, §1.4, §2.2, §3.1.
+*Needs:* §1.1, §1.4, §3.1.
 
 ### 3.4 Finite index sets
 
@@ -808,11 +851,11 @@ Prove (lafforgue-delasalle-2011 Lemma 1.5, line 254, and Remark 1.6, line 262):
   `L²(μ ⊗ ν)` is `0` and every norm of `S_{M'}` is `0`;
 - at `p = ∞`, when `‖S_M‖_∞ < ∞`, the extension `S_M : K(H) → K(H)` is completely bounded in the
   sense of CStarAlgebras C3.2 exactly when `‖S_M‖_{cb,∞} < ∞`, and then its C3.2 completely
-  bounded norm is `‖S_M‖_{cb,∞}` (§1.4).
+  bounded norm is `‖S_M‖_{cb,∞}` (§1.5).
 
 Route: `L²(Ω × Ω') ≅ L²(Ω) ⊗̂ L²(Ω')` (VonNeumannAlgebras V2.RectangularL2) carries `S_{M'}` to
 `S_M ⊗ id`, defined on all of `S₂` because `‖S_M‖₂ = ‖M‖_∞ < ∞` (§3.5), and the stabilisation of
-§1.4 applies; for finite `d ≥ 1` the completely bounded norm of `(S_M)^{(d)}` is
+§1.5 applies; for finite `d ≥ 1` the completely bounded norm of `(S_M)^{(d)}` is
 `sup_m ‖(S_M)^{(dm)}‖_p = ‖S_M‖_{cb,p}`, by monotonicity in the level. Remark 1.6 of
 lafforgue-delasalle-2011 (line 262) quantifies over every σ-finite `(Ω', ν)`; the zero measure is
 excluded here.
@@ -821,7 +864,7 @@ On a one-point `Ω` of mass `1` with `M = 1`, `‖S_M‖_{cb,2} = 1`; the stabil
 norm `1` for a one-point probability space `Ω'`, and every norm `0` for `ν = 0`, where `S_{M'}` is
 the zero map of the zero space.
 
-*Needs:* §1.4, §3.5; VonNeumannAlgebras V2.RectangularL2; CStarAlgebras C3.2.
+*Needs:* §1.5, §3.5; VonNeumannAlgebras V2.RectangularL2; CStarAlgebras C3.2.
 
 ### 3.7 Invariances
 
@@ -856,6 +899,26 @@ Prove, for `1 ≤ p ≤ ∞` and for the norms `‖·‖_p` and `‖·‖_{cb,p}
 
 *Needs:* §2.3, §2.4, §3.2, §3.4, §3.5.
 
+### 3.8 The pairing formula and lower semicontinuity
+
+Prove, for `1 ≤ p ≤ ∞` (lafforgue-delasalle-2011 lines 397–413 and 433–438):
+
+- the pairing formula
+  `‖S_M‖_p = sup { |Tr(S_M(A) B)| : A, B of finite rank, ‖A‖_p ≤ 1, ‖B‖_{p'} ≤ 1 }`, from the
+  finite-rank formula of §3.3 and the norming of §1.2;
+- lower semicontinuity: if `M_k → M` almost everywhere with `sup_k ‖M_k‖_∞ < ∞`, then
+  `‖S_M‖_p ≤ liminf_k ‖S_{M_k}‖_p`, by the pairing formula, the trace formula of §2.2 and dominated
+  convergence.
+
+**Checks.**
+
+- Lower semicontinuity can be strict: on `ℕ` with counting measure, `M_k = 1_{(k,k)}` tends to `0`
+  everywhere with `‖M_k‖_∞ = 1`, and `S_{M_k}(A) = A_{kk} E_{kk}` has `‖S_{M_k}‖_p = 1` for every
+  `p` (`|A_{kk}| ≤ ‖A‖ ≤ ‖A‖_p`, with equality at `A = E_{kk}`), while the limit symbol `0` has
+  norm `0 < 1 = liminf_k ‖S_{M_k}‖_p`.
+
+*Needs:* §1.2, §2.2, §3.3.
+
 ### Examples
 
 - Finite matrices: Hadamard multipliers; the triangular truncation on `M₂` with norm `2/√3`.
@@ -866,8 +929,8 @@ Prove, for `1 ≤ p ≤ ∞` and for the norms `‖·‖_p` and `‖·‖_{cb,p}
 
 ### Dependencies
 
-Layers 1–2; VonNeumannAlgebras V2.RectangularL2, V4.Core; CStarAlgebras C3.2; Mathlib
-`Matrix.hadamard`; Tau Ceti `TauCeti.UnitarilyInvariantSeminorm.schatten`.
+Layer 1; Layer 2 (§2.1–§2.4); VonNeumannAlgebras V2.RectangularL2, V4.Core; CStarAlgebras C3.2;
+Mathlib `Matrix.hadamard`; Tau Ceti `TauCeti.UnitarilyInvariantSeminorm.schatten`.
 
 ## Layer 4: duality and interpolation
 
@@ -876,7 +939,7 @@ Throughout this layer `(Ω, μ)` is σ-finite and `M ∈ L^∞(Ω × Ω, μ ⊗ 
 ### 4.1 Trace duality
 
 Prove that `Tr(S_M(A) B) = Tr(A S_{M^t}(B))` for all `A, B ∈ S₂(H)`, by the trace formula of §2.2:
-both sides equal `∫∫ M(x, y) k_A(x, y) k_B(y, x)`. Deduce from the duality of §1.4 that
+both sides equal `∫∫ M(x, y) k_A(x, y) k_B(y, x)`. Deduce from the duality of §1.5 that
 `‖S_M‖_p = ‖S_{M^t}‖_{p'}` and `‖S_M‖_{cb,p} = ‖S_{M^t}‖_{cb,p'}`, and from §3.7 that
 `‖S_M‖_p = ‖S_M‖_{p'}` and `‖S_M‖_{cb,p} = ‖S_M‖_{cb,p'}` for every `1 ≤ p ≤ ∞`
 (lafforgue-delasalle-2011 Remark 1.3, line 244, and Remark 1.2, line 239). The norm statements
@@ -887,14 +950,14 @@ On `{1, 2}` with `M = 1_{(1,2)}`: `Tr(S_M(A) B) = A₁₂ B₂₁ = Tr(A S_{M^t}
 `Tr(A S_M(B)) = A₂₁ B₁₂`; so the dual of `S_M` is `S_{M^t}`, not `S_M`. The triangular truncation of
 §3.4 has `‖·‖₁ = ‖·‖_∞ = 2/√3`.
 
-*Needs:* §1.4, §2.2, §3.2, §3.7.
+*Needs:* §1.5, §2.2, §3.2, §3.7.
 
 ### 4.2 Interpolation and monotonicity in the exponent
 
 Prove that for `1 ≤ p₀, p₁ ≤ ∞`, `0 < θ < 1` and `1/p_θ = (1 − θ)/p₀ + θ/p₁`, in `[0, ∞]`,
 `‖S_M‖_{p_θ} ≤ ‖S_M‖_{p₀}^{1−θ} ‖S_M‖_{p₁}^θ`, and the same for the completely bounded norms. When
-both endpoint norms are finite this is the interpolation law of §1.4 for `T = S_M` and its
-amplifications `S_{M_m}` (§3.5). Unlike a general map (§1.4), a Schur multiplier needs no
+both endpoint norms are finite this is the interpolation law of §1.5 for `T = S_M` and its
+amplifications `S_{M_m}` (§3.5). Unlike a general map (§1.5), a Schur multiplier needs no
 finiteness hypothesis: a zero endpoint norm (for the completely bounded norms, through
 `‖S_M‖_p ≤ ‖S_M‖_{cb,p}`) makes `S_M` vanish on the finite-rank operators, which are dense in `S₂`
 (§1.1), so `S_M = 0` and `M = 0` (§3.1) and every norm is `0`; hence when one endpoint norm is `∞`
@@ -912,7 +975,7 @@ On `M₂` the triangular truncation has norms `1` at `p = 2` and `2/√3` at `p 
 the interpolation bound is `(2/√3)^{1/2} ≈ 1.0746`, between the two. For `M = [[1, 2], [2, 1]]` all
 norms equal `2 = ‖M‖_∞`, so the chain can be an equality throughout.
 
-*Needs:* §1.1, §1.3, §1.4, §3.1, §3.5, §4.1.
+*Needs:* §1.1, §1.3, §1.5, §3.1, §3.5, §4.1.
 
 ### 4.3 The weak-* extension to `B(H)`
 
@@ -928,7 +991,7 @@ For `M = 1` the extension is the identity of `B(H)`, and for `M = 1_{x=y}` on `�
 measure it is the diagonal projection of `B(ℓ²)` onto `ℓ^∞`; a map extending `S_M` by `0` off the
 compact operators would send the identity of `ℓ²(ℕ)` to `0` in both cases.
 
-*Needs:* §1.4, §3.2, §3.5, §4.1; VonNeumannAlgebras V4.Core; CStarAlgebras C3.2.
+*Needs:* §1.5, §3.2, §3.5, §4.1; VonNeumannAlgebras V4.Core; CStarAlgebras C3.2.
 
 ### Examples
 
@@ -976,7 +1039,7 @@ generating `𝓑`. For `f ∈ L^∞(𝓑 ⊗ 𝓑)` let `f_α = E[f | 𝓑_α �
 `‖f‖_{S_p(L²(𝓑))} = sup_α ‖f_α‖_{S_p(L²(𝓑_α))}`, the net being nondecreasing, and the same for the
 completely bounded norms (lafforgue-delasalle-2011 Lemma 1.11, line 383, and Remark 1.12, line 393).
 Route: monotonicity and `≤` by §5.1 and the tower property of §2.5; `≥` by the pairing formula of
-§3.3 tested on finite-rank operators with `𝓑_α ⊗ 𝓑_α`-measurable kernels, which are dense in
+§3.8 tested on finite-rank operators with `𝓑_α ⊗ 𝓑_α`-measurable kernels, which are dense in
 `S_p(L²(𝓑))` and `S_{p'}(L²(𝓑))` because `⋃_α L²(𝓑_α)` is dense in `L²(𝓑)` (the closure is `L²` of
 the generated σ-algebra), together with the pairing identity of §5.1; the completely bounded case by
 §3.6.
@@ -990,7 +1053,7 @@ family must be nonempty (Mathlib's `Directed` does not require it): the empty fa
 trivial σ-algebra, and for `𝓑 = {∅, Ω}`, `μ(Ω) = 1` and `f = 1` the left side is `1` while the
 supremum over the empty family is `0`; the one-member family `𝓑₀ = 𝓑` gives `1 = 1`.
 
-*Needs:* §2.5, §3.3, §3.6, §5.1; Mathlib `MeasureTheory.lpMeas`, `MeasureTheory.condExpL2`.
+*Needs:* §2.5, §3.6, §3.8, §5.1; Mathlib `MeasureTheory.lpMeas`, `MeasureTheory.condExpL2`.
 
 ### 5.3 Independence of the ambient σ-algebra for completely bounded norms
 
@@ -1004,7 +1067,7 @@ is `𝒜₀ ⊗ 𝒜₀`-measurable and finite σ-algebras `𝓑_n` increasing t
 expectations of §2.5 are `MeasureTheory.condExp`, and `φ_n = E[φ | 𝓑_n ⊗ 𝓑_n] → φ` almost
 everywhere (`MeasureTheory.Integrable.tendsto_ae_condExp` on the finite measure `μ ⊗ μ`, applied
 to `Re φ` and `Im φ` through `ContinuousLinearMap.comp_condExp_comm`), and the completely bounded
-norms of `φ_n` converge to those of `φ` on both spaces by §5.1 and the lower semicontinuity of §3.3
+norms of `φ_n` converge to those of `φ` on both spaces by §5.1 and the lower semicontinuity of §3.8
 applied on `Ω × ℕ` (§3.6). The statement is for completely bounded norms only; for the norms it
 is lafforgue-delasalle-2011 Question 1.14 (line 442).
 
@@ -1013,7 +1076,7 @@ with block values `[[1, 2], [2, 1]]` acts on `L²(𝒜) ≅ ℂ²` (equivalent t
 `2 × 2` matrix and on `L²(𝓑) = ℂ⁴` as its Kronecker product with the all-ones `2 × 2` matrix, and
 both completely bounded norms are `2`.
 
-*Needs:* §2.5, §3.3, §3.6, §3.7, §5.1; Mathlib `MeasureTheory.Integrable.tendsto_ae_condExp`,
+*Needs:* §2.5, §3.6, §3.7, §3.8, §5.1; Mathlib `MeasureTheory.Integrable.tendsto_ae_condExp`,
 `ContinuousLinearMap.comp_condExp_comm`.
 
 ### Examples
@@ -1387,7 +1450,7 @@ the support), §5.1 for the σ-algebra they generate and §3.7 bound the matrix 
 over `V_i × V_j` by `C`, and the averages tend to `M(s_i, s_j)` by continuity. Second to first:
 `|M(s, t)| ≤ C` on `supp μ × supp μ` (the two-point matrices, tested on matrix units), which is
 conull, so `M` is essentially bounded; then the pairing formula
-of §3.3 over operators whose kernels are finite sums of products of continuous compactly
+of §3.8 over operators whose kernels are finite sums of products of continuous compactly
 supported functions. These are dense in every `S_q`, `1 ≤ q ≤ ∞`: finite-rank operators are dense
 (§1.1), each is a limit in `S₁`, hence in `S_q`, of such operators because `‖u ⊗ v*‖₁ = ‖u‖ ‖v‖`,
 and continuous compactly supported functions are dense in `L²(μ)`. That density needs no
@@ -1425,7 +1488,7 @@ support.
   `M` off a `μ ⊗ μ`-null set; since `μ ⊗ μ = δ_{(x₀, x₀)}` the class is the constant `1`, and
   `‖S_M‖_p = 1`, the norm of the `1 × 1` restriction to `supp μ = {x₀}`.
 
-*Needs:* §1.1, §3.3, §3.6, §3.7, §5.1, §8.1; Mathlib `MeasureTheory.Measure.support`,
+*Needs:* §1.1, §3.6, §3.7, §3.8, §5.1, §8.1; Mathlib `MeasureTheory.Measure.support`,
 `MeasurableSet.exists_isCompact_lt_add`, `IsCompact.exists_isOpen_lt_add`,
 `exists_continuousMap_one_of_isCompact_subset_isOpen`,
 `ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints`,
@@ -1553,7 +1616,7 @@ and 250–251; caspers-delasalle-2015 lines 26–41; lafforgue-delasalle-2011 (3
 ### 9.3 Følner compressions of convolution operators
 
 For `g ∈ L²(ℝⁿ; F_k)` and a bounded measurable `F ⊆ ℝⁿ` of positive measure, define `Λ_F(g)` as the
-Hilbert–Schmidt operator on `L²(F)^k = L²(F) ⊗̂ ℂ^k` (§1.4) with matrix-valued kernel
+Hilbert–Schmidt operator on `L²(F)^k = L²(F) ⊗̂ ℂ^k` (§1.5) with matrix-valued kernel
 `1_F(s) (𝓕⁻¹ g)(s − t) 1_F(t)`;
 when `g` is bounded, `Λ_F(g) = P_F T_g P_F`, the compression of the Fourier multiplier with symbol
 `g` (a convolution operator) to `L²(F)`. Prove, with `Q_R = [−R, R]ⁿ` (caspers-delasalle-2015
@@ -1599,7 +1662,7 @@ conjugate exponent.
   `e_a(s) [1_F(s) ǧ(s − t) 1_F(t)] conj e_a(t)` and `Λ_F(g(· − a)) = D_{e_a} Λ_F(g) D_{e_a}*`: every
   bound is invariant under translation of the symbol, as `‖g(· − a)‖_p = ‖g‖_p` requires.
 
-*Needs:* §1.1, §1.4, §2.1 (`Λ_F(g)` is defined by its kernel; kernel uniqueness for the
+*Needs:* §1.1, §1.5, §2.1 (`Λ_F(g)` is defined by its kernel; kernel uniqueness for the
 intertwining), §2.2 (the trace formula for `Tr(Λ_F(g) Λ_F(h))`), §3.1, §3.5, §4.1, §9.1, §9.2;
 NoncommutativeIntegration §1.4, §1.5, §2.6; Mathlib `MeasureTheory.Lp.fourierTransformₗᵢ`.
 
@@ -1640,7 +1703,7 @@ Theorem 5.2 for `1 < p < ∞` (line 543); cgpt-2023 states (FS) with no hypothes
 statement here, for every `m ∈ L^∞(ℝⁿ)`, with values in `[0, ∞]` and including `p ∈ {1, ∞}`, is
 reached by the route below: the Fourier side holds for every `m` and every `p` by §9.3, and the
 Schur side passes from continuous to arbitrary symbols by mollification and the lower
-semicontinuity of §3.3.
+semicontinuity of §3.8.
 
 Route. Fourier side: the transferred operator `g ↦ 𝓕(m · 𝓕⁻¹ g)` is
 `R T_m R`, with the norms of `T_m`; for `g ∈ L² ∩ Lᵖ`, §9.3 gives
@@ -1652,7 +1715,7 @@ every level `k`; the second inequality bounds the multiplier of the restriction 
 `ℝⁿ`, amplified or not, has norm at most `‖T_m‖_{cb,p}`; by §8.2 (Lebesgue measure has support `ℝⁿ`)
 `‖S_{M_{m*ρ_ε}}‖_{(cb),p} ≤ ‖T_m‖_{cb,p}`; and `m * ρ_ε → m` almost everywhere
 (`ContDiffBump.ae_convolution_tendsto_right_of_locallyIntegrable`) with the lower semicontinuity of
-§3.3 gives the bound for `m`.
+§3.8 gives the bound for `m`.
 
 The equality `‖S_{M_m}‖_{cb,p} = ‖T_m‖_{cb,p}` also holds for `n = 0`, by computation: `ℝ⁰` is a
 point of mass `1` (Mathlib `volume_euclideanSpace_eq_dirac`: the volume of `EuclideanSpace ℝ ι`
@@ -1676,7 +1739,7 @@ contributes `0`, so both sides are `|m(0)|`.
   theorems, as the mollification step of the route provides; a statement restricted to
   continuous `m` would not cover this symbol.
 
-*Needs:* §3.3, §3.7, §4.2, §8.2, §9.1–§9.4; Mathlib
+*Needs:* §3.7, §3.8, §4.2, §8.2, §9.1–§9.4; Mathlib
 `ContDiffBump.ae_convolution_tendsto_right_of_locallyIntegrable`, `volume_euclideanSpace_eq_dirac`.
 
 ### Examples
@@ -1688,14 +1751,15 @@ contributes `0`, so both sides are `|m(0)|`.
 
 ### Dependencies
 
-Layers 1 (§1.1, §1.4), 2 (§2.1, §2.2), 3, 4 and 8; Tau Ceti `L²` Fourier multipliers;
+Layers 1 (§1.1, §1.5), 2 (§2.1, §2.2), 3, 4 and 8; Tau Ceti `L²` Fourier multipliers;
 NoncommutativeIntegration §1.3, §1.4, §1.5, §2.6; Mathlib Plancherel, the Fourier transform of
 Gaussians, mollifiers and the volume of `ℝ⁰`.
 
 ## Layer 10: operator-valued and matrix BMO
 
-Throughout this layer `n ≥ 1`, `H` is a complex Hilbert space and `𝕋ⁿ = UnitAddTorus (Fin n)`
-with its Haar probability measure. A cube of `ℝⁿ` is an axis-parallel cube of positive side. A cube
+Throughout this layer, except in §10.4, which holds for every filtered probability space, `n ≥ 1`,
+`H` is a complex Hilbert space and `𝕋ⁿ = UnitAddTorus (Fin n)` with its Haar probability measure.
+A cube of `ℝⁿ` is an axis-parallel cube of positive side. A cube
 of `𝕋ⁿ` is the image under the quotient map `ℝⁿ → 𝕋ⁿ` of a cube of `ℝⁿ` of side at most `1`, so it
 may wrap around, and the average over it of a function on `𝕋ⁿ` is the average of the `ℤⁿ`-periodic
 lift of the function over that cube of `ℝⁿ`; the family of cubes of `𝕋ⁿ` is invariant under
@@ -1840,7 +1904,68 @@ unchanged.
 
 *Needs:* §1.1, §3.1, §10.1, §10.2; NoncommutativeIntegration §1.5, §3.5, §4.4.
 
-### 10.4 Interpolation between matrix BMO and `S₂`
+### 10.4 Martingale BMO of operator-valued filtrations
+
+Let `(N, τ_N)` be a semifinite von Neumann algebra, `(Ω, 𝓕, P)` a probability space with a
+filtration `(𝓕_k)_{k ≥ 0}`, `𝓕₀` trivial, generating `𝓕`, and `𝓜 = L^∞(Ω) ⊗̄ N` with the trace
+`∫ ⊗ τ_N`, whose tracial `Lᵖ(𝓜)` carries the norm `(∫ ‖f(ω)‖_{Lᵖ(N)}^p dP(ω))^{1/p}`
+(NoncommutativeIntegration §4.4, read tracially through its §3.5 and §1.5). Put
+`E_k = E[· | 𝓕_k] ⊗ id_N` and `E_{−1} = 0`, and for `f ∈ L²(𝓜) ∩ 𝓜` define
+`‖f‖_{BMO_c} = sup_{k ≥ 0} ‖E_k |f − E_{k−1} f|²‖^{1/2}`, `‖f‖_{BMO_r} = ‖f*‖_{BMO_c}` and
+`‖f‖_{BMO} = max(‖f‖_{BMO_c}, ‖f‖_{BMO_r})`, the norms of NoncommutativeIntegration §8.4 when `τ_N`
+is finite (cgpt-2023 lines 457–470). Prove that there is an absolute constant `C` such that for
+every `2 ≤ p < ∞` and every `Ψ(z) = Σ_j e^{δ z² + λ_j z} f_j` on the closed strip `0 ≤ Re z ≤ 1`,
+with finitely many `f_j ∈ L²(𝓜) ∩ 𝓜`, `E₀ f_j = 0`, `δ ≥ 0` and `λ_j ∈ ℝ`,
+`‖Ψ(2/p)‖_{Lᵖ(𝓜)} ≤ C p · max(sup_t ‖Ψ(it)‖_{BMO}, sup_t ‖Ψ(1 + it)‖_{L²(𝓜)})`.
+This is the inclusion `[BMO(𝓜), L²_0(𝓜)]_{2/p} ⊆ Lᵖ_0(𝓜)` with constant `O(p)` (cgpt-2023
+Lemma 1.4, lines 471–484, for the dyadic filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`, the case §10.5
+uses; mei-2007 Lemma 6.1, line 3218, for semifinite operator-valued dyadic filtrations with
+equivalent norms; musat-2003 Theorem 3.1, as cited in mei-2007 lines 3229–3230).
+
+Prove also the two estimates the route uses, for a finite trace and with one constant `K`
+independent of the exponent, the algebra and the filtration:
+
+- **Hardy-space interpolation.** For `0 < θ < 1` and `1/q = 1 − θ/2`,
+  `‖y‖_{[H_C^1, H_C^2]_θ} ≤ K ‖y‖_{H_C^q}`, and the same for the row spaces (cgpt-2023
+  lines 479–481).
+- **The order of the Burkholder–Gundy constant.** The constant `α_q` of NoncommutativeIntegration
+  §7.3 in `‖y‖_{H^q} ≤ α_q ‖y‖_q` satisfies `α_q ≤ K/(q − 1)` for `1 < q ≤ 2` (jrwz-2020, as cited
+  in cgpt-2023 lines 483–484).
+
+Route.
+
+- **Finite corners.** For a projection `e ∈ N` of finite trace, `f ↦ (1 ⊗ e) f (1 ⊗ e)` commutes
+  with every `E_k`, a bimodule map over `1 ⊗ N`, and does not increase `‖·‖_{BMO_c}`,
+  `‖·‖_{BMO_r}` or `‖·‖_{L²}`: for `g = f − E_{k−1} f`,
+  `E_k |(1 ⊗ e) g (1 ⊗ e)|² = (1 ⊗ e) E_k(g* (1 ⊗ e) g) (1 ⊗ e) ≤ (1 ⊗ e) E_k |g|² (1 ⊗ e)`. Along
+  projections of finite trace increasing to `1`, which exist because `τ_N` is semifinite,
+  `‖(1 ⊗ e) f (1 ⊗ e)‖_p → ‖f‖_p` (NoncommutativeIntegration §1.3); mei-2007 lines 3227–3245
+  reduce to such corners in the same way. The corner `L^∞(Ω) ⊗̄ eNe`, filtered by the
+  `L^∞(Ω, 𝓕_k) ⊗̄ eNe`, is the setting of NoncommutativeIntegration Layer 7 once its trace is
+  normalised to a state, and the inequality is unchanged when the trace is multiplied by `c > 0`
+  and `Ψ(z)` by `c^{−z/2}`.
+- **Duality** (cgpt-2023 lines 473–484). On a finite trace `|τ(xy)| ≤ √2 ‖x‖_{BMO} ‖y‖_{H¹}`
+  (NoncommutativeIntegration §8.4) and `|τ(xy)| ≤ ‖x‖₂ ‖y‖₂`, so the three-lines theorem applied to
+  `z ↦ τ(Ψ(z) Φ(z))` bounds `|τ(Ψ(2/p) y)|` by `√2` times the maximum in the statement times
+  `‖y‖_{[H¹, L²]_{2/p}}`, and `‖Ψ(2/p)‖_p` is the supremum of `|τ(Ψ(2/p) y)|` over `‖y‖_q ≤ 1`,
+  `q = p'` (NoncommutativeIntegration §2.1, §2.3). With `H^q = H_C^q + H_R^q`,
+  `H_C^2 = H_R^2 = L²` (NoncommutativeIntegration §7.2) and `1/q = 1 − θ/2` at `θ = 2/p`, the two
+  estimates above give `‖y‖_{[H¹, L²]_{2/p}} ≤ 2K α_q ‖y‖_q ≤ 2K² (p − 1) ‖y‖_q`, since
+  `1/(q − 1) = p − 1`; so `C = 2√2 K²` will do.
+
+**Checks.**
+
+- `p = 2`: `Ψ(1)` lies on the line `Re z = 1`, so `‖Ψ(1)‖₂ ≤ sup_t ‖Ψ(1 + it)‖₂` holds with
+  constant `1`, and the statement asks only `2C ≥ 1`.
+- Scaling: for the trace `c (∫ ⊗ τ_N)` the `Lᵖ` and `L²` norms are multiplied by `c^{1/p}` and
+  `c^{1/2}` and the `BMO` norms are unchanged, while `|c^{−it/2}| = 1`, `|c^{−(1+it)/2}| = c^{−1/2}`
+  and `c^{−1/p}` at `z = 2/p`; so the two sides for `c^{−z/2} Ψ(z)` and the new trace are those for
+  `Ψ(z)` and the old one. Rescaling `Ψ` by `c^{−z}` instead would leave `c^{−1/2}` on the line
+  `Re z = 1`.
+
+*Needs:* NoncommutativeIntegration §1.3, §1.5, §2.1, §2.3, §3.5, §4.4, §7.1–§7.3, §8.4.
+
+### 10.5 Interpolation between matrix BMO and `S₂`
 
 Prove that there is `C_n` such that for every `2 ≤ p < ∞` and every
 `Ψ(z) = Σ_j e^{δ z² + λ_j z} A_j` with finitely many `A_j ∈ S₂(L²(ℝⁿ))`, `δ ≥ 0`, `λ_j ∈ ℝ`,
@@ -1859,7 +1984,7 @@ constant.
 
 Route: for `k` large let `Ψ_k = π_k J_k Ψ`, an exponential sum of mean-zero elements of
 `L² ∩ L^∞(L^∞(𝕋ⁿ) ⊗̄ B(L²(ℝⁿ)))` (§10.3). The martingale interpolation of
-NoncommutativeIntegration, Part II (gap `semifinite-martingale-bmo-interpolation`) bounds
+§10.4, for the dyadic filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`, bounds
 `‖Ψ_k(2/p)‖_{Lᵖ}` by `C p` times the maximum of the dyadic martingale BMO norms on the line
 `Re z = 0` and the `L²` norms on `Re z = 1`. The latter are `‖J_k Ψ(1 + it)‖₂ ≤ ‖Ψ(1 + it)‖₂`. The
 former are at most `2^{n/2}` times the cube seminorms (§10.1), hence by §10.3 at most
@@ -1885,8 +2010,7 @@ of `S₂` on which `‖·‖_{BMO}` is a norm (§10.2), `‖J_k Ψ(it)‖₂ ≤
   `Ψ(z) = e^{−Rz}·1` on `S₂(ℂ) = ℂ` the inequality would read `‖Ψ(1/2)‖₄ = e^{−R/2} ≤ 4 C_n e^{−R}`,
   since `sup_t ‖Ψ(1 + it)‖₂ = e^{−R}`; this fails for every `R > 2 ln(4 C_n)`.
 
-*Needs:* §10.1–§10.3; NoncommutativeIntegration §1.5, §3.5, §4.4 and Part II (gap
-`semifinite-martingale-bmo-interpolation`).
+*Needs:* §10.1–§10.4; NoncommutativeIntegration §1.5, §3.5, §4.4.
 
 ### Examples
 
@@ -1898,7 +2022,7 @@ of `S₂` on which `‖·‖_{BMO}` is a norm (§10.2), `‖J_k Ψ(it)‖₂ ≤
 ### Dependencies
 
 Layers 1, 2 (§2.1) and 3; Mathlib Bochner integration, the torus and null sets of product measures;
-NoncommutativeIntegration §1.5, §3.5, §4.4 and the Part II contract.
+NoncommutativeIntegration §1.3, §1.5, §2.1, §2.3, §3.5, §4.4, §7.1–§7.3 and §8.4.
 
 ## Layer 11: Hörmander–Mikhlin–Schur multipliers
 
@@ -2058,7 +2182,7 @@ Prove that there is `C_n` such that for every `1 < p < ∞` and every `M` of cla
 (cgpt-2023 Theorem A, lines 149–154; step 1, lines 565–571; Remark 2.1, line 1042, for the
 completely bounded form; grafakos-classical-2014 Theorem 6.2.7 for the Toeplitz case); this is
 `schurNorm_le_hmsNorm`, with `n ≥ 1` as throughout this layer. Route:
-for `p > 2` apply the operator form of §10.4 to `T = S_M` with `C₂ = ‖M‖_∞ ≤ |||M|||/2` (§3.1) and
+for `p > 2` apply the operator form of §10.5 to `T = S_M` with `C₂ = ‖M‖_∞ ≤ |||M|||/2` (§3.1) and
 `C_∞ = C_n |||M|||` (§11.4), giving `‖S_M‖_p ≤ C_n p |||M|||` on finite-rank operators, hence on
 `S_p` (§3.3); for `p < 2` use `‖S_M‖_p = ‖S_{M^t}‖_{p'}` (§4.1) and `|||M^t||| = |||M|||`; then
 `max(p, p') ≤ p²/(p − 1)`. Lebesgue measure on `ℝⁿ` is atomless, so `‖S_M‖_p = ‖S_M‖_{cb,p}`
@@ -2077,7 +2201,7 @@ for `p > 2` apply the operator form of §10.4 to `T = S_M` with `C₂ = ‖M‖_
 - `n = 1`, `M = sign(x − y)`: `|||M||| = 2`, so the triangular truncation `(M + 1)/2` is bounded on
   `S_p` for `1 < p < ∞` with norm `O(p²/(p − 1))`; nothing is asserted at `p ∈ {1, ∞}`.
 
-*Needs:* §3.1, §3.3, §4.1, §7.3, §10.4, §11.1, §11.4.
+*Needs:* §3.1, §3.3, §4.1, §7.3, §10.5, §11.1, §11.4.
 
 ### Examples
 
@@ -2136,8 +2260,9 @@ This roadmap owns:
   the completely bounded maps of CStarAlgebras C3.2 (Layer 1), and completely bounded norms of
   Fourier multipliers on `Lᵖ(ℝⁿ)` through `Lᵖ(ℝⁿ; S_p^k)`, with the identification of
   `Lᵖ(ℝⁿ; S_p^k)` as the tracial `Lᵖ` of `L^∞(ℝⁿ) ⊗̄ M_k` for Lebesgue measure (Layer 9);
-- the kernel `k_A ∈ L²(μ ⊗ ν)` of a Hilbert–Schmidt operator `A : L²(ν) → L²(μ)` (surjectivity of
-  the kernel map onto `S₂`), the kernel calculus (adjoint, composition, multiplication operators,
+- the kernel unitary `L²(μ ⊗ ν) ≅ S₂(L²(ν), L²(μ))` on arbitrary σ-finite measure spaces with its
+  integral formula, the kernel `k_A ∈ L²(μ ⊗ ν)` of a Hilbert–Schmidt operator
+  `A : L²(ν) → L²(μ)`, the kernel calculus (adjoint, composition, multiplication operators,
   transposition) and the transformation of kernels under change of measure, measure-preserving
   isomorphisms and passage to a sub-σ-algebra, and, for the `L^∞` conditional expectation of
   BochnerSpaces §7.4, the `𝒜`-measurability of its values, its positivity and its tower law
@@ -2155,16 +2280,18 @@ This roadmap owns:
   transference on `ℝⁿ` (Layer 9);
 - operator-valued column and row BMO seminorms of functions on `ℝⁿ` and on the torus `𝕋ⁿ`, the
   matrix BMO seminorm on `S₂(L²(ℝⁿ))`, its periodisation and its interpolation inequality with
-  `S₂` (Layer 10); twisted Fourier multipliers, the Hörmander–Mikhlin–Schur norm and theorem
+  `S₂`, and the martingale BMO norms of operator-valued filtrations of semifinite algebras with
+  their interpolation against `L²` with a constant of order `p`, together with the interpolation of
+  martingale Hardy spaces and the order `1/(q − 1)` of the Burkholder–Gundy constant that it uses
+  (Layer 10); twisted Fourier multipliers, the Hörmander–Mikhlin–Schur norm and theorem
   (Layer 11).
 
 It leaves to named roadmaps, and consumes from them by section:
 
 - **OperatorTheory/OperatorIdeals** owns approximation numbers (Part A), the Schatten families
   `S_p` for `1 ≤ p < ∞` with their gauges, inclusions and completeness, the trace-class and
-  Hilbert–Schmidt families (Part B) and the Hilbert–Schmidt column model (Part C). Its `p = ∞`
-  family (OI-B80) is all of `B(H)`; the compact endpoint used by the sources is a different
-  object and is defined here.
+  Hilbert–Schmidt families (Part B). Its `p = ∞` family (OI-B80) is all of `B(H)`; the compact
+  endpoint used by the sources is a different object and is defined here.
 - **VonNeumannAlgebras** owns the canonical trace on the trace class with cyclicity and the
   Hilbert–Schmidt pairing (V4.Core), the completed Hilbert tensor product `H ⊗̂ L` of two Hilbert
   spaces (V2), the tensor identification `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)` (V2.RectangularL2) and the
@@ -2176,18 +2303,20 @@ It leaves to named roadmaps, and consumes from them by section:
   (its §2.6), the isometric identification of the tracial `Lᵖ` of a semifinite trace with the
   Haagerup `Lᵖ` (its §3.5) and the Bochner identification `Lᵖ(Ω; Lᵖ(N)) = Lᵖ(L^∞(Ω) ⊗̄ N)` for a
   probability space (its §4.4); the case of Lebesgue measure on `ℝⁿ` with a matrix fibre `M_k`,
-  which Layer 9 uses, is §9.2 here. The semifinite martingale BMO space and its interpolation
-  inequality with the sharp order `O(p)` are requested of NoncommutativeIntegration, Part II (gap
-  `semifinite-martingale-bmo-interpolation`).
+  which Layer 9 uses, is §9.2 here. Its martingale theory (its §7.1–§7.3 and §8.4) is for a
+  finite trace, with Burkholder–Gundy constants depending only on the exponent; the semifinite
+  operator-valued martingale BMO space, its interpolation with `L²` with constant `O(p)` and the
+  two uniform estimates behind it are §10.4 here.
 - **AutomorphicSpectralTheory** owns the kernel operator `T_k` of an `L²` kernel with
-  `kernel_apply`, `kernel_unique` and `kernel_norm` (its §0.8), and states for the trace of
-  VonNeumannAlgebras V4.Core the basis formula `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for
-  Hilbert–Schmidt `B`, `C` (AutomorphicSpectralTheory §0.9); every trace in this roadmap, whether
-  reached through V4.Core or through AutomorphicSpectralTheory §0.9, is therefore the one
-  functional of V4.Core. Its §0.8 is stated for standard Borel spaces; the arbitrary σ-finite
-  version that Layers 2, 5 and 7 need (sub-σ-algebras of a standard Borel space are not standard
-  Borel) is requested of AutomorphicSpectralTheory §0.8
-  (gap `sigma-finite-hilbert-schmidt-kernels`). Its trace formula
+  `kernel_apply`, `kernel_unique` and `kernel_norm` on σ-finite standard Borel spaces with
+  separable `L²` (its §0.8), and states for the trace of VonNeumannAlgebras V4.Core the basis
+  formula `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for Hilbert–Schmidt `B`, `C` (AutomorphicSpectralTheory
+  §0.9); every trace in this roadmap, whether reached through V4.Core or through
+  AutomorphicSpectralTheory §0.9, is therefore the one functional of V4.Core. The kernel unitary
+  of §2.1 here differs from its §0.8 only in holding on arbitrary σ-finite measure spaces, which
+  Layers 2, 5 and 7 need (sub-σ-algebras of a standard Borel space are not standard Borel); on
+  standard Borel spaces the two operators agree, both being given by the integral formula. Its
+  trace formula
   `Tr(T₁T₂) = ∫∫ K₁(x, y)K₂(y, x)` (its §0.10) is stated on one space at the generality of its
   §0.8; §2.2 here proves it for two arbitrary σ-finite spaces from the kernel isometry and the
   adjoint kernel.
@@ -2280,8 +2409,10 @@ differences, which belong to SchattenClassesAndSchurMultipliers, Part II (Downst
   `ContinuousLinearMap.comp_condExp_comm`
   (`Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean`) with `Complex.reCLM` and
   `Complex.imCLM` makes the conditional expectation commute with taking those parts.
-- `IsCompactOperator` and `compactOperator` (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`):
-  compactness and the submodule of compact operators; `ContinuousLinearMap.adjoint`.
+- `IsCompactOperator`, `compactOperator` and `isClosed_setOfPred_isCompactOperator`
+  (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`): compactness, the submodule of compact
+  operators, and its closedness for the operator norm when the target is complete (§1.1);
+  `ContinuousLinearMap.adjoint`.
 - `Matrix.hadamard` (`Mathlib/LinearAlgebra/Matrix/Hadamard.lean`), `Matrix.PosSemidef.hadamard`
   and `Matrix.PosSemidef.kronecker` (`Mathlib/Analysis/Matrix/Order.lean`): the Hadamard product,
   positivity of Hadamard and Kronecker products of positive semidefinite matrices.
@@ -2321,7 +2452,10 @@ differences, which belong to SchattenClassesAndSchurMultipliers, Part II (Downst
   (§1.4).
 - `MeasureTheory.integral_prod` (`Mathlib/MeasureTheory/Integral/Prod.lean`): Fubini's theorem, the
   integral of a `μ.prod ν`-integrable function equals the iterated integral, for s-finite `μ` and
-  `ν` (`MeasureTheory.SFinite`, implied by σ-finiteness) (§2.1, §2.2, §6.4).
+  `ν` (`MeasureTheory.SFinite`, implied by σ-finiteness) (§2.1, §2.2, §6.4);
+  `MeasureTheory.lintegral_prod` (`Mathlib/MeasureTheory/Measure/Prod.lean`): Tonelli's theorem for
+  an a.e.-measurable `[0, ∞]`-valued function on `μ.prod ν` with `ν` s-finite (the integral formula
+  of §2.1).
   `MeasureTheory.Measure.measure_prod_null` (`Mathlib/MeasureTheory/Measure/Prod.lean`): for
   s-finite `ν`, a measurable set is `μ.prod ν`-null exactly when `μ`-almost all of its sections are
   `ν`-null; so the diagonal of `ℝⁿ × ℝⁿ`, whose sections are points, is null for Lebesgue measure
@@ -2346,7 +2480,7 @@ differences, which belong to SchattenClassesAndSchurMultipliers, Part II (Downst
   matrix gets its Schatten norm `‖·‖_{S_p^k}` (§9.2).
 - `lp` (`Mathlib/Analysis/Normed/Lp/lpSpace.lean`) with its inner product at exponent `2`
   (`Mathlib/Analysis/InnerProductSpace/l2Space.lean`): the Hilbert space `ℓ²(ℕ)` (§6.2) and the
-  Hilbert sum `ℓ²(β; H)` of copies of a Hilbert space `H` (§1.4).
+  Hilbert sum `ℓ²(β; H)` of copies of a Hilbert space `H` (§1.5).
 - `geometric_hahn_banach_point_closed` (`Mathlib/Analysis/LocallyConvex/Separation.lean`): in a real
   locally convex topological vector space, a point outside a closed convex set is strictly
   separated from it by a continuous real-linear functional (§6.3, applied to a finite-dimensional
@@ -2402,6 +2536,15 @@ distributions and assume a symbol of temperate growth.
   The gauge is defined for every bounded map between complete Hilbert spaces; it is not
   restricted to compact operators. The family takes a real exponent `p` together with a proof of
   `1 ≤ p`, so the extended gauge of §1.1 uses it at `p.toReal` for `p ∈ [1, ∞)`.
+- `TauCeti.OperatorGauge`, `TauCeti.OperatorGauge.Carrier` and
+  `TauCeti.OperatorGauge.completeSpace_carrier_of_lowerSemicontinuous`
+  (`TauCeti/Analysis/OperatorIdeal/Carrier.lean`), with
+  `TauCeti.OperatorIdealFamily.operatorGauge` (`…/Family/Carrier.lean`): an extended gauge on the
+  bounded operators `E →L[𝕜] F` that is subadditive, absolutely homogeneous and dominates the
+  operator norm; the normed space of the operators of finite gauge, normed by the gauge; its
+  completeness when `F` is complete and the gauge is lower semicontinuous for the operator norm;
+  and the gauge of an operator-ideal family on a pair of Hilbert spaces. §1.1 defines every `S_p`,
+  `p ≤ ∞`, as such a carrier.
 - `TauCeti.OperatorIdealFamily.traceClass` and `TauCeti.OperatorIdealFamily.schatten_one`
   (`…/Family/TraceClass.lean`); `TauCeti.OperatorIdealFamily.hilbertSchmidt` and
   `TauCeti.OperatorIdealFamily.schatten_two` (`…/Family/HilbertSchmidt.lean`): the endpoints
@@ -2440,34 +2583,39 @@ distributions and assume a symbol of temperate growth.
 
 Tau Ceti has no compact endpoint of the Schatten scale, no operator trace on infinite-dimensional
 spaces, no kernel theorem, no Schur multiplier and no operator-valued BMO. Its bounded mean
-oscillation estimates (`TauCeti/MeasureTheory/Integral/CalderonZygmund/BoundedMeanOscillation.lean`)
-average the norm `⨍_Q ‖f − f_Q‖` of a Banach-valued function; the column seminorm of §10.1 takes
-the operator norm of the average `⨍_Q |f − f_Q|²` of operator squares, a different seminorm.
+oscillation estimates, for Calderón–Zygmund operators
+(`TauCeti/MeasureTheory/Integral/CalderonZygmund/BoundedMeanOscillation.lean`) and for the
+embedding of `W^{1,n}` (`TauCeti/Analysis/Sobolev/W1p/BoundedMeanOscillation.lean`), average the
+norm `⨍_Q ‖f − f_Q‖` of a Banach-valued or scalar function; the column seminorm of §10.1 takes the
+operator norm of the average `⨍_Q |f − f_Q|²` of operator squares, a different seminorm.
 
 ### From TauCetiRoadmap.OperatorTheory
 
-OperatorIdeals: OI-A23 (finite rank implies vanishing approximation numbers), OI-A25–OI-A29
+OperatorIdeals: OI-A12 (`a₀(T) = ‖T‖`), OI-A14 (`aₙ(T) ≤ ‖T‖`), OI-A20 (the two-sided ideal
+inequality), OI-A23 (finite rank implies vanishing approximation numbers), OI-A25–OI-A29
 (finite-rank approximability and compactness on Hilbert targets), OI-A30 (adjoint invariance),
 OI-A38–OI-A40 (localisation of approximation numbers on finite-dimensional subspaces, used for
 lower semicontinuity under strongly convergent compressions), OI-B29–OI-B41 (trace class,
-Hilbert–Schmidt energy, norm and family), OI-B76–OI-B88 (Schatten gauges and inclusions) and
-OI-C01–OI-C14 (column model, finite-rank truncations, Hilbert–Schmidt implies compact). Each is
-assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
+Hilbert–Schmidt energy, norm and family) and OI-B76–OI-B88 (Schatten gauges and inclusions). Each
+is assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
 
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
 - V4.Core: the canonical trace `Tr` on the trace class with `|Tr(X)| ≤ ‖X‖₁`, cyclicity
   `Tr(XY) = Tr(YX)` for trace-class products and Hilbert–Schmidt pairs, the rank-one formulas
-  `Tr(u ⊗ v*) = ⟨v, u⟩` and `‖u ⊗ v*‖₁ = ‖u‖‖v‖`.
+  `Tr(u ⊗ v*) = ⟨v, u⟩` and `‖u ⊗ v*‖₁ = ‖u‖‖v‖`, and the unitary identification of the
+  Hilbert–Schmidt operators `H → K` with `K ⊗̂ conj(H)`, under which `u ⊗ v*` corresponds to
+  `u ⊗ v̄` (the kernel unitary of §2.1).
 - V2 (completed Hilbert tensor products): for complex Hilbert spaces `H` and `L`, the completed
   tensor product `H ⊗̂ L`, the completion of `H ⊗[ℂ] L` for the inner product with
   `⟨h ⊗ l, h' ⊗ l'⟩ = ⟨h, h'⟩ ⟨l, l'⟩`, in which the elementary tensors span a dense subspace;
-  used for the stabilisation of §1.4, which identifies `H ⊗̂ L` with the Hilbert sum `ℓ²(β; H)`
+  used for the stabilisation of §1.5, which identifies `H ⊗̂ L` with the Hilbert sum `ℓ²(β; H)`
   along a Hilbert basis `(e_β)` of `L`, and `H ⊗̂ ℂ^m` with `H^m`.
 - V2.RectangularL2: the unitary `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)` sending `f ⊗ g` to `f(x)g(y)`, which
-  for σ-finite measures uses `μ.prod ν`; used for `L²(Ω × Ω, 𝒜 ⊗ 𝒜, μ ⊗ μ) = L²(𝒜) ⊗̂ L²(𝒜)` in
-  §2.4, for the amplified spaces `L²(Ω × Fin m)` of §3.5 and for
-  `L²(Ω × Ω') ≅ L²(Ω) ⊗̂ L²(Ω')` in §3.6.
+  for σ-finite measures uses `μ.prod ν`, with no separability hypothesis, the products `f(x)g(y)`
+  spanning a dense subspace; used for the kernel unitary and the integral formula of §2.1, for
+  `L²(Ω × Ω, 𝒜 ⊗ 𝒜, μ ⊗ μ) = L²(𝒜) ⊗̂ L²(𝒜)` in §2.4, for the amplified spaces `L²(Ω × Fin m)`
+  of §3.5 and for `L²(Ω × Ω') ≅ L²(Ω) ⊗̂ L²(Ω')` in §3.6.
 - V13b (§13.2): the Hilbert-space ultraproduct `∏_𝒰 H_n` of a sequence of Hilbert spaces along an
   ultrafilter `𝒰` on `ℕ`, the quotient of the bounded sequences by those with `lim_𝒰 ‖x_n‖ = 0`,
   built there in the route of the uniqueness of the injective factor of type III₁ with separable
@@ -2479,7 +2627,8 @@ assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
 - §1.3: the tracial `Lᵖ(M, τ)` of a semifinite trace for finite `p`, complete, and the density in it
   of the bounded elements of finite-trace support; on `B(H)` these are the finite-rank operators,
   and on the algebra `L^∞(ℝⁿ; F_k)` of §9.2 the bounded functions vanishing off a set of finite
-  measure.
+  measure; the bounded-multiplier law `‖bxc‖_p ≤ ‖b‖ ‖c‖ ‖x‖_p`, used in §10.4 with compressions
+  by projections of finite trace increasing to `1`.
 - §1.4 with §1.5: Hölder's inequality `‖XY‖_r ≤ ‖X‖_p ‖Y‖_q` on `B(H)` with the trace.
 - §1.5: `Lᵖ(B(H), Tr) = S_p(H)` isometrically for `1 ≤ p < ∞`; the commutative identification
   `Lᵖ(L^∞(Ω), ∫) = Lᵖ(Ω)`.
@@ -2490,8 +2639,9 @@ assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
   `Tr(|X|^p u*u)/‖X‖_p^{p−1} = ‖X‖_p`. The product in the other order does not norm: for
   `X = E₁₂` in `M₂`, `u = E₁₂` and `|X| = E₂₂`, so `u*|X| = E₂₁E₂₂ = 0`, while
   `|X|u* = E₂₂E₂₁ = E₂₁` and `Tr(X E₂₁) = 1 = ‖X‖₂`.
-- §2.3: the complex method, the operator estimate `‖T‖_θ ≤ ‖T‖₀^{1−θ}‖T‖₁^θ`, and regularisation
-  (each endpoint may be replaced by the closure of the intersection in it).
+- §2.3: the complex method with its formulation by Gaussian multipliers `exp(δz²)`, the operator
+  estimate `‖T‖_θ ≤ ‖T‖₀^{1−θ}‖T‖₁^θ`, and regularisation (each endpoint may be replaced by the
+  closure of the intersection in it).
 - §2.5: `[L^{p₀}(M, τ), L^{p₁}(M, τ)]_θ = L^{p_θ}(M, τ)` isometrically, with `L^∞ = M`.
 - §2.6: noncommutative Riesz–Thorin for a linear map between the sums of two semifinite `Lᵖ`
   couples, the source and target algebras possibly different (used with `L^∞(ℝⁿ)` on one side and
@@ -2503,59 +2653,29 @@ assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
   `(∫ ‖f(ω)‖_p^p dP)^{1/p}`, stated for the Haagerup spaces and the product weight. Read through
   NoncommutativeIntegration §3.5 and §1.5, it gives for `N = B(L²(ℝⁿ))` with `Tr` and the Haar
   probability measure of `𝕋ⁿ` the norm `(∫_{𝕋ⁿ} ‖f(s)‖_p^p ds)^{1/p}` on the tracial `Lᵖ` of
-  `L^∞(𝕋ⁿ) ⊗̄ B(L²(ℝⁿ))` for the trace `∫ ⊗ Tr`, the space in which the martingale contract below
-  is stated (§10.3, §10.4).
-
-What NoncommutativeIntegration must provide (gap:semifinite-martingale-bmo-interpolation): in a
-Part II extending its §7.3 and §8.4 to semifinite operator-valued filtrations, the column, row
-and two-sided martingale BMO norms on `L²(𝓜) ∩ 𝓜` for `𝓜 = L^∞(Ω) ⊗̄ N` and the interpolation
-inequality between them and `L²(𝓜)` with an absolute constant of order `p`, as follows.
-
-- **Semifinite martingale BMO interpolation.** Let `(N, τ_N)` be a semifinite von Neumann algebra,
-  `(Ω, 𝓕, P)` a probability space with a filtration `(𝓕_k)_{k ≥ 0}`, `𝓕₀` trivial, generating `𝓕`,
-  `𝓜 = L^∞(Ω) ⊗̄ N` with the trace `∫ ⊗ τ_N`, `E_k = E[· | 𝓕_k] ⊗ id_N` and `E_{−1} = 0`. For `f`
-  in `L²(𝓜) ∩ 𝓜` put `‖f‖_{BMO_c} = sup_{k ≥ 0} ‖E_k |f − E_{k−1} f|²‖^{1/2}`,
-  `‖f‖_{BMO_r} = ‖f*‖_{BMO_c}` and `‖f‖_{BMO} = max(‖f‖_{BMO_c}, ‖f‖_{BMO_r})`. There is an
-  absolute constant `C` such that for every `2 ≤ p < ∞` and every function
-  `Ψ(z) = Σ_j e^{δ z² + λ_j z} f_j` on the closed strip `0 ≤ Re z ≤ 1` (finitely many
-  `f_j ∈ L²(𝓜) ∩ 𝓜` with `E₀ f_j = 0`, `δ ≥ 0`, `λ_j ∈ ℝ`),
-  `‖Ψ(2/p)‖_{Lᵖ(𝓜)} ≤ C p · max(sup_t ‖Ψ(it)‖_{BMO}, sup_t ‖Ψ(1 + it)‖_{L²(𝓜)})`.
-  This is the inclusion `[BMO(𝓜), L²_0(𝓜)]_{2/p} ⊆ Lᵖ_0(𝓜)` with constant `O(p)`
-  (Conde-Alonso–González-Pérez–Parcet–Tablate, Lemma 1.4, cgpt-2023 lines 471–484, for the dyadic
-  filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`; Mei, Lemma 6.1, mei-2007 line 3218, for semifinite
-  operator-valued dyadic filtrations with equivalent norms; Musat, musat-2003 Theorem 3.1, as cited
-  in mei-2007 lines 3229–3230; the growth `O(p)` comes from the order `O(1/(q − 1))` of the
-  noncommutative Burkholder–Gundy constant as `q → 1`, Jiao–Randrianantoanina–Wu–Zhou, jrwz-2020,
-  as cited in cgpt-2023 lines 483–484). §10.4 uses the case of the
-  dyadic filtration of `𝕋ⁿ` and `N = B(L²(ℝⁿ))`.
+  `L^∞(𝕋ⁿ) ⊗̄ B(L²(ℝⁿ))` for the trace `∫ ⊗ Tr`, the space of §10.3, and in general the norm of
+  `Lᵖ(L^∞(Ω) ⊗̄ N)` for a semifinite `N` used in §10.4.
+- §7.1–§7.3: for a faithful normal tracial state and an increasing sequence of unital subalgebras
+  with ultraweakly dense union, the trace-preserving conditional expectations `E_n` with their
+  tower law and `E_{−1} = 0`; the column and row martingale Hardy spaces `H_C^p`, `H_R^p`, with
+  `H^p = H_C^p + H_R^p` for `1 ≤ p < 2` and `‖x‖_{H_C^2} = ‖x‖_{H_R^2} = ‖x‖₂` (§7.2); and
+  Burkholder–Gundy `α_p^{−1} ‖x‖_{H^p} ≤ ‖x‖_p ≤ β_p ‖x‖_{H^p}` for `1 < p < ∞` with constants
+  depending only on `p` (§7.3). §10.4 proves `α_q ≤ C/(q − 1)` for `1 < q ≤ 2`.
+- §8.4: in the same setting, the norms `‖a‖_{BMO_C} = sup_n ‖E_n |a − E_{n−1} a|²‖^{1/2}`, `BMO_R`
+  and `BMO` with the `n = 0` term, and the H¹–BMO duality with
+  `|τ(a* x)| ≤ √2 ‖a‖_{BMO_C} ‖x‖_{H_C^1}` and its row form (§10.4).
 
 ### From TauCetiRoadmap.AutomorphicSpectralTheory
 
-- §0.8: for square-integrable `K ∈ L²(X × Y)`, the integral operator `T_K : L²(Y) → L²(X)`,
-  `kernel_apply` (`T_K f(x) = ∫ K(x, y) f(y) dν(y)` almost everywhere), `kernel_unique` (a
-  linear embedding of `L²(X × Y)` into the bounded operators, isometric for the Hilbert–Schmidt
-  norm) and `kernel_norm`
-  (`‖T_K‖_{HS} = ‖K‖₂`).
 - §0.9: for the trace `Tr` of VonNeumannAlgebras V4.Core (AutomorphicSpectralTheory §0.9
   defines no second trace), the absolutely convergent basis formula
   `Tr(BC) = Σ_j ⟨B* e_j, C e_j⟩` for every Hilbert basis `(e_j)` and `‖BC‖₁ ≤ ‖B‖_HS ‖C‖_HS` for
   Hilbert–Schmidt `B, C`, on arbitrary complex Hilbert spaces.
 
-What AutomorphicSpectralTheory must provide (gap:sigma-finite-hilbert-schmidt-kernels): its §0.8
-for arbitrary σ-finite measure spaces `(X, μ)` and `(Y, ν)`, with no standard Borel or
-separability hypothesis on the measurable spaces or on `L²`: the integral operator
-`T_K : L²(Y, ν) → L²(X, μ)` of every `K ∈ L²(μ ⊗ ν)` with `kernel_apply`, and `K ↦ T_K` a linear
-embedding into the bounded operators with `‖T_K‖_HS = ‖K‖₂` (`kernel_unique`, `kernel_norm`).
-The trace formula is not part of the request: §2.2 here derives it from AutomorphicSpectralTheory
-§0.8, §0.9 and the adjoint kernel. A route that needs no countable orthonormal basis is the
-composite of VonNeumannAlgebras V2.RectangularL2 with the unitary
-`S₂(L²(ν), L²(μ)) ≅ L²(μ) ⊗̂ conj(L²(ν))` of V4.Core, identified with the integral formula on
-rank-one kernels and extended by continuity.
-
 ### From TauCetiRoadmap.CStarAlgebras
 
 - C1.6: the compact operators `K(H)` as a C*-algebra. The matrix levels `M_m(K(H)) = K(H^m)`
-  are identified in §1.4: an operator on `H^m` is compact exactly when each of its `m²` blocks is.
+  are identified in §1.5: an operator on `H^m` is compact exactly when each of its `m²` blocks is.
 - C3.2: the completely bounded norm `‖u‖_cb = sup_n ‖u_n‖` of a linear map between operator
   spaces, with matrix levels `CStarMatrix`.
 
@@ -2594,6 +2714,14 @@ rank-one kernels and extended by continuity.
 
 ## References
 
+A locator `<key> line N` or `<key> lines N–M` counts the lines of the text that
+`pdftotext -layout` extracts from the open version named below, after three header lines and with
+one marker line before each page: the arXiv version given for cgpt-2023, lafforgue-delasalle-2011,
+pisier-grothendieck-2012, caspers-delasalle-2015, mei-2007 and potapov-sukochev-2011, and HAL
+hal-00451399v2 for neuwirth-ricard-2011. The theorem, lemma, remark, equation and section numbers
+given beside them are those of the same version. Works listed without a line locator are cited by
+chapter, section or theorem only.
+
 - cgpt-2023 — J. M. Conde-Alonso, A. M. González-Pérez, J. Parcet, E. Tablate, *Schur multipliers in
   Schatten–von Neumann classes*, Ann. of Math. 198 (2023); arXiv 2201.05511v4.
 - lafforgue-delasalle-2011 — V. Lafforgue, M. de la Salle, *Non commutative Lp spaces without the
@@ -2603,7 +2731,7 @@ rank-one kernels and extended by continuity.
 - caspers-delasalle-2015 — M. Caspers, M. de la Salle, *Schur and Fourier multipliers of an amenable
   group acting on non-commutative Lp-spaces*, Trans. Amer. Math. Soc. 367 (2015); arXiv 1303.0135v2.
 - neuwirth-ricard-2011 — S. Neuwirth, É. Ricard, *Transfer of Fourier multipliers into Schur
-  multipliers and sumsets in a discrete group*, Canad. J. Math. 63 (2011).
+  multipliers and sumsets in a discrete group*, Canad. J. Math. 63 (2011); HAL hal-00451399v2.
 - mei-2007 — T. Mei, *Operator valued Hardy spaces*, Mem. Amer. Math. Soc. 188 (2007); arXiv
   math/0311160v3.
 - potapov-sukochev-2011 — D. Potapov, F. Sukochev, *Operator-Lipschitz functions in Schatten–von

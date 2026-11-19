@@ -70,7 +70,9 @@ variable {Ω : Type*} [MeasurableSpace Ω]
 
 /-- `T` is the integral operator on `L²(Ω, μ)` with kernel `k : Ω × Ω → ℂ`, first variable the
 row (README §2.1, Conventions): `(T g)(x) = ∫ k(x, y) g(y) dμ(y)` for `μ`-almost every `x`, for
-every `g ∈ L²(μ)`. -/
+every `g ∈ L²(μ)`. The integral is a Bochner integral, `0` wherever the integrand is not
+integrable; it is used only for square-integrable `k`, for which the integrand is integrable for
+almost every `x` (README §2.1). -/
 def IsKernelOperator (μ : Measure Ω) (k : Ω × Ω → ℂ) (T : Lp ℂ 2 μ →L[ℂ] Lp ℂ 2 μ) : Prop :=
   ∀ g : Lp ℂ 2 μ, (T g : Ω → ℂ) =ᵐ[μ] fun x => ∫ y, k (x, y) * g y ∂μ
 
