@@ -228,13 +228,15 @@ as a chain map with `f(F_s C) ⊆ F_s D` for every `s`; a filtered chain homotop
 with `H(F_s C) ⊆ F_s D`; a filtered homotopy equivalence as a pair of filtered chain maps whose
 composites are filtered chain homotopic to the identities; and a filtered quasi-isomorphism as a
 filtered chain map inducing quasi-isomorphisms on every associated graded piece
-`F_s C / F_{s−1} C`. This is needed only from §3.13 on, and is reusable far beyond this roadmap.
+`F_s C / F_{s−1} C` (Ozsváth–Stipsicz–Szabó, Definitions 13.1.1, 13.1.3–13.1.6 and 13.1.9, which
+add a `ℤ`-grading and a filtration bounded below in each degree). This is needed only from §3.13
+on, and is reusable far beyond this roadmap.
 
 - Filtered homotopy equivalence is an equivalence relation, and filtered chain homotopy is
   compatible with composition.
 - A filtered homotopy equivalence restricts to homotopy equivalences `F_s C ≃ F_s D` for every
-  `s` and induces homotopy equivalences of the associated graded pieces; in particular it is a
-  filtered quasi-isomorphism.
+  `s` and induces homotopy equivalences of the associated graded pieces (the remark after
+  Definition 13.1.6); in particular it is a filtered quasi-isomorphism.
 
 *Needs:* Mathlib `HomologicalComplex`, `Homotopy`, `HomotopyEquiv`, `QuasiIso`.
 
@@ -338,22 +340,29 @@ meridians identify `H₁(X; ℤ)` with `ℤ^ℓ`, and let `X∞ → X` be the ma
 `H₁(X∞; ℤ)` is a finitely generated module over `Λ = ℤ[t₁^±1, …, t_ℓ^±1]`, the localization of
 `MvPolynomial (Fin ℓ) ℤ` at the monomials and hence a unique factorization domain. Define
 `Δ_L(t₁, …, t_ℓ)` as the greatest common divisor of the maximal minors of a finite presentation
-matrix of this module, and as `0` when the presentation has fewer relations than generators, and
-prove that it does not depend on the presentation up to a unit `±t₁^a₁ ⋯ t_ℓ^aℓ`
-(Ozsváth–Stipsicz–Szabó, §11.5). Prove Torres's symmetry: `Δ_L(t₁⁻¹, …, t_ℓ⁻¹)` is
-`Δ_L(t₁, …, t_ℓ)` up to such a unit (Theorem 11.5.3). Fix the symmetrized polynomial as the product
-of `Δ_L` with the monomial in the `tᵢ^½` that makes it invariant under every `tᵢ^½ ↦ tᵢ^−½`; it is
-determined up to sign (Definition 11.5.4).
+matrix of this module, and as `0` when the presentation has fewer relations than generators
+(Ozsváth–Stipsicz–Szabó, §11.5). Those minors generate the zeroth Fitting ideal of the module (Tau
+Ceti `Matrix.minorsIdeal_range_eq_span_det_submatrix`), which does not depend on the presentation
+(`TauCeti.fittingIdeal_eq_minorsIdeal_ker`), so `Δ_L` is determined up to a unit
+`±t₁^a₁ ⋯ t_ℓ^aℓ`. Prove Torres's symmetry: `Δ_L(t₁⁻¹, …, t_ℓ⁻¹)` is `Δ_L(t₁, …, t_ℓ)` up to such a
+unit (Torres, *On the Alexander polynomial*, 1953). The book states it as Theorem 11.5.3 without
+proof and obtains it from grid homology, from the symmetry of multi-graded `GĤ` (Corollary 11.4.3)
+and the Euler characteristic of Theorem 11.6.1 (§3.9); that route waits for §3.9. Fix the
+symmetrized polynomial as the product of `Δ_L` with the monomial in the `tᵢ^½` that makes it
+invariant under every `tᵢ^½ ↦ tᵢ^−½`; it is determined up to sign (Definition 11.5.4).
 
 - For `ℓ = 1` it is `Δ_K` up to a unit; for `ℓ > 1`, `(t − 1)·Δ_L(t, …, t)` is the one-variable
   Alexander polynomial of `L` (GeometricTopology §4.4) up to a unit (Proposition 11.5.2).
 
 *Needs:* §2.1; Tau Ceti `TauCeti.GridDiagram.weightMatrix`, `TauCeti.GridDiagram.stateSum`,
 `TauCeti.GridDiagram.stateSum_eq_smul_T_mul_det_weightMatrix`, `TauCeti.PDCode`,
-`TauCeti.BraidWord.closure`, `TauCeti.KnotTheory.alexander`; GeometricTopology §4.2 (diagrams and
-braid closures), §4.4 (the Alexander polynomial of a knot and the one-variable polynomial of
-links), Layer 5.1 (the exterior); Mathlib `IsCoveringMap`, `FundamentalGroup`,
-`MvPolynomial.uniqueFactorizationMonoid`, `UniqueFactorizationMonoid.of_isLocalization`.
+`TauCeti.BraidWord.closure`, `TauCeti.KnotTheory.alexander`, `TauCeti.fittingIdeal`,
+`TauCeti.fittingIdeal_eq_minorsIdeal_ker`, `Matrix.minorsIdeal_range_eq_span_det_submatrix`;
+GeometricTopology §4.2 (diagrams and braid closures), §4.4 (the Alexander polynomial of a knot and
+the one-variable polynomial of links), Layer 5.1 (the exterior); Mathlib `IsCoveringMap`,
+`FundamentalGroup`, `MvPolynomial.uniqueFactorizationMonoid`,
+`UniqueFactorizationMonoid.of_isLocalization`; Torres (1953), or §3.9 on the grid-homology route
+to Torres's symmetry.
 
 **Checks.**
 - For the trefoil, the Seifert matrix computation of Tau Ceti
@@ -378,11 +387,12 @@ links), Layer 5.1 (the exterior); Mathlib `IsCoveringMap`, `FundamentalGroup`,
 ### Dependencies
 
 Tau Ceti: grid diagrams, grid moves and grid links, the component count, cross-commutations and
-the unknotting number of grid links, the grid determinant, planar diagram codes, braid closures and
-the Seifert-matrix Alexander polynomial. GeometricTopology §§4.1–4.4, §4.7.1 and Layer 5.1: link
-types, diagrams with Reidemeister's theorem, braid closures, Seifert surfaces, the Alexander
-polynomial, the unknotting number and link exteriors. Mathlib: covering maps, fundamental groups
-and unique factorization in multivariate polynomial rings and their localizations.
+the unknotting number of grid links, the grid determinant, planar diagram codes, braid closures,
+the Seifert-matrix Alexander polynomial and Fitting ideals. GeometricTopology §§4.1–4.4, §4.7.1
+and Layer 5.1: link types, diagrams with Reidemeister's theorem, braid closures, Seifert surfaces,
+the Alexander polynomial, the unknotting number and link exteriors. Mathlib: covering maps,
+fundamental groups and unique factorization in multivariate polynomial rings and their
+localizations.
 
 ## Layer 3: grid homology (Lane G)
 
@@ -391,7 +401,8 @@ reduces to Cromwell's theorem (Appendix B), spectral sequences are avoided, and 
 identification (Chapter 16) is needed for nothing here, neither for invariance, nor `τ`, nor the
 combinatorial proof of the Milnor conjecture, nor the slice-genus bound, nor the Legendrian and
 transverse invariants, nor integer coefficients. What is lost without holomorphic input is sharpness
-and detection: detection of the genus, of fiberedness and of the unknot.
+and detection: detection of the genus, of fiberedness and of the unknot, and of the Thurston norm
+of a link complement (Theorem 11.9.9, which the book states without proof).
 
 ### 3.1 Grid diagrams, states and rectangles (G.1)
 
@@ -660,8 +671,10 @@ the diagonal reflection `TauCeti.GridDiagram.transpose`
 Define the mirror image and the orientation reverse of a grid link, presented by reflecting the
 grid in a vertical axis and by exchanging the `O`- and `X`-markings, and prove that they present
 the mirror image and the reverse of the link in `S³` (§2.1). For a knot `K` prove the symmetries
-of `GĤ`: `GĤ_M(m(K), A) ≅ GĤ_(−M)(K, −A)` for the mirror `m(K)`, `GĤ_M(K, A) ≅ GĤ_(M−2A)(K, −A)`,
-and `GĤ(−K) ≅ GĤ(K)` for the reverse; and `τ(m(K)) = −τ(K)`. Prove the genus bound
+of `GĤ`: `GĤ_M(m(K), A) ≅ GĤ_(−M)(K, −A)` for the mirror `m(K)`, the composite of
+Ozsváth–Stipsicz–Szabó's Propositions 7.1.2 and 7.1.1; `GĤ_M(K, A) ≅ GĤ_(M−2A)(K, −A)`
+(Proposition 7.1.1); and `GĤ(−K) ≅ GĤ(K)` for the reverse (Proposition 5.3.2); and
+`τ(m(K)) = −τ(K)` (Corollary 7.4.5). Prove the genus bound
 `g(K) ≥ max{A : GĤ(K, A) ≠ 0}`, where `g(K)` is the Seifert genus of the knot in `S³` that the
 grid presents (GeometricTopology §4.3; Ozsváth–Stipsicz–Szabó, Proposition 7.2.2). That the bound
 is an equality for every knot is known only through the holomorphic theory, which belongs to
@@ -670,7 +683,8 @@ HeegaardFloer, so the bound, not detection, is the target.
 *Needs:* §3.5 (invariance, for the statements about `K`), §3.6 (for `τ`); Tau Ceti
 `TauCeti.GridDiagram.transpose`, `TauCeti.GridDiagram.rotate`, `TauCeti.GridDiagram.swapMarkings`,
 `TauCeti.GridDiagram.IsKnot.unblockedHomologyIsomorphic_transpose`; §2.1 (the mirror and reverse
-in `S³`); GeometricTopology §4.1 (mirror, reverse), §4.3 (Seifert genus).
+in `S³`), §2.2 (to pass to a grid realizing the genus); GeometricTopology §4.1 (mirror, reverse),
+§4.3 (Seifert genus).
 
 **Checks.**
 - `GĤ` of the left-handed trefoil grid `torusLink 1 2` has one class in each of the bidegrees
@@ -682,9 +696,10 @@ in `S³`); GeometricTopology §4.1 (mirror, reverse), §4.3 (Seifert genus).
 ### 3.9 The skein exact sequence, thin knots and links (G.9)
 
 Prove the oriented skein exact sequence relating the grid homologies of a skein triple
-`(K₊, K₋, K₀)` presented by grids that differ in one crossing. Prove that alternating knots are
-thin: `GĤ(K)` is supported on one line `M − A = c` with `c` determined by the signature, so its
-total rank is the determinant `|Δ_K(−1)|`. For links, fix the symmetric Alexander lattice and the
+`(K₊, K₋, K₀)` presented by grids that differ in one crossing (Ozsváth–Stipsicz–Szabó, Theorems
+9.1.1 and 9.1.2). Prove that alternating knots are thin: `GĤ(K)` is supported on one line
+`M − A = c` with `c` determined by the signature, so its total rank is the determinant
+`|Δ_K(−1)|` (Theorem 10.3.1). For links, fix the symmetric Alexander lattice and the
 flavor conventions and prove the Euler characteristic formulas, which have two branches. For a
 knot (`ℓ = 1`) it is §3.4: `χ(GĤ) = Δ_K(t)`, normalized and symmetrized. For a link with `ℓ > 1`,
 `χ(GĤ(L))` is `∏ᵢ (tᵢ^½ − tᵢ^−½) Δ_L(t₁, …, t_ℓ)` with the source's unit and sign normalization;
@@ -692,11 +707,16 @@ for `ℓ > 1`, with `nᵢ` the number of `O`-markings on the `i`-th component, t
 has `±Δ_L ∏ᵢ (1 − tᵢ⁻¹)^nᵢ tᵢ^½` and the unblocked theory `±Δ_L ∏ᵢ tᵢ^½`
 (Ozsváth–Stipsicz–Szabó, Theorem 11.6.1; Manolescu–Ozsváth–Szabó–Thurston, v2 §6, Theorem 6.1);
 the fully blocked factor carries the grid-size dependence. The knot formula is not obtained by
-substituting `ℓ = 1` into the link factor. Prove that the grid polytope bounds the Thurston norm of
-the link complement, as a bound and not as detection.
+substituting `ℓ = 1` into the link factor. Prove the genus bound for links: if `F ⊂ S³` is a
+compact oriented surface, not necessarily connected, with no sphere components and with oriented
+boundary the link `L` that the grid presents, then every multi-Alexander grading
+`h = (h₁, …, h_ℓ)` with `GĤ(L, h) ≠ 0` has `h₁ + ⋯ + h_ℓ ≤ (ℓ − χ(F))/2`; for a connected
+Seifert surface of least genus this reads `h₁ + ⋯ + h_ℓ ≤ g(L) + ℓ − 1` (Proposition 11.7.1, by
+the route of Proposition 7.2.2).
 
-*Needs:* §3.4, §3.5, §3.6; §2.3 (the multivariable Alexander polynomial of the presented link);
-GeometricTopology §6.2 (the signature).
+*Needs:* §3.2 (the multi-Alexander grading), §3.4, §3.5, §3.6; §2.2 (to pass to a grid adapted to
+`F`), §2.3 (the multivariable Alexander polynomial of the presented link); GeometricTopology §4.3
+(Seifert surfaces and the genus of links), §6.2 (the signature).
 
 **Checks.**
 - The two branches on the unknot and the two-component unlink: the knot branch gives
@@ -735,12 +755,14 @@ presentation of a link cobordism); GeometricTopology §4.3 (Seifert surfaces).
 
 Define the Legendrian grid invariants `λ⁺` and `λ⁻` as the classes in `GH⁻` of the grid states at
 the upper-right and the lower-left corners of the `X`-markings; `λ⁻` is Tau Ceti's
-`TauCeti.GridDiagram.XMarkingClass` (Ozsváth–Szabó–Thurston). Prove that they are carried to each
-other by the move isomorphisms of §3.5 for commutations and for the stabilizations that preserve
-the Legendrian type, and that `λ⁺` is in addition preserved by those that preserve the transverse
-type; record their bidegrees in terms of the Thurston–Bennequin and rotation numbers of the grid.
-Reprove Chekanov's Legendrian non-simplicity of `m(5₂)` combinatorially: two grid presentations
-of `m(5₂)` with equal classical invariants are distinguished by these classes.
+`TauCeti.GridDiagram.XMarkingClass` (Ozsváth–Szabó–Thurston; Ozsváth–Stipsicz–Szabó, Definition
+12.3.1). Prove that they are carried to each other by the move isomorphisms of §3.5 for
+commutations and for the stabilizations that preserve the Legendrian type, and that `λ⁺` is in
+addition preserved by those that preserve the transverse type (Theorems 12.3.3, 12.3.4 and
+12.5.13); record their bidegrees in terms of the Thurston–Bennequin and rotation numbers of the
+grid (Theorem 12.3.2). Reprove Chekanov's Legendrian non-simplicity of `m(5₂)` combinatorially:
+two grid presentations of `m(5₂)` with equal classical invariants are distinguished by these
+classes (Proposition 12.4.1).
 
 *Needs:* §3.5; Tau Ceti `TauCeti.GridDiagram.XMarkingClass`,
 `TauCeti.GridDiagram.unblockedHomologyCommutationMap_XMarkingClass`,
@@ -823,8 +845,11 @@ cube complex `S_n = ⋃{c : w(c) ≤ n}` (Némethi §3.1.11), with `U` induced b
 negative-definite `P` and every odd value `ε` on the exceptional class:
 `nonempty_latticeChainHomology_blowUpVertex` (blow-up at a vertex, the new vertex of valence one)
 and `nonempty_latticeChainHomology_blowUpEdge` (blow-up along an edge, valence two), each an
-isomorphism of `𝔽₂[U]`-modules in every cubical degree. Route: Némethi's proof of Proposition
-3.4.2 gives homotopy equivalences `S_n(Γ′, k′) ≃ S_n(Γ, k)` compatible with the inclusions.
+isomorphism of `𝔽₂[U]`-modules in every cubical degree. Route: for the blow-up at a vertex,
+Némethi's proof of Proposition 3.4.2 gives homotopy equivalences `S_n(Γ′, k′) ≃ S_n(Γ, k)`
+compatible with the inclusions, by projection in the direction of the exceptional class; for the
+blow-up along an edge `ij` the proof gives only the pullback `x ↦ x + (x_i + x_j)E_new` and leaves
+the verification to the reader, so that case is carried out here.
 
 Némethi's value is `ε = −1`, for which the blown-up weight is `χ_k(x) + s(s + 1)/2` on the total
 transform `φ(x, s)` of `x` with exceptional multiplicity `s`; for a general odd `ε` it is
@@ -1116,7 +1141,7 @@ twisted refinement. The serious topological input is the Reidemeister–Singer t
 basepoints, that any two pointed Heegaard diagrams of `Y` are connected by moves, which rests on
 Morse and Cerf theory. It is treated the way Layer 3 treats Cromwell: diagrams up to moves are the
 input equivalence class, the invariance theorem is stated against it, and the identification with
-smooth three-manifolds is the separate target §5.5. This package has no absolute gradings and no
+smooth three-manifolds is the separate target §5.5. This layer has no absolute gradings and no
 `U`-flavors, and none is promised.
 
 ### 5.1 Multi-pointed Heegaard diagrams (H.1)
@@ -1208,10 +1233,16 @@ diagrams and is defined in §5.5.
 
 ### 5.4 Integer coefficients and the twisted refinement (H.4)
 
-Build integer coefficients through sign assignments (Ozsváth–Stipsicz–Szabó, arXiv:1301.0480), and
-the twisted refinement that recovers `HF̂(Y)` on the nose when `b₁(Y) = 0`.
+Build integer coefficients through sign assignments (Ozsváth–Stipsicz–Szabó, arXiv:1301.0480).
+Build the twisted refinement: the hat complex of a nice diagram of `Y` with `b` basepoints, free
+over the group ring `𝔽₂[H₂(Y # (b − 1)(S¹ × S²); ℤ)]` with each counted domain contributing its
+class, which squares to zero (Ozsváth–Stipsicz–Szabó, arXiv:0912.0830, Proposition 9.1), and its
+homology `HF̂T(Y)` on a convenient diagram of `Y₁` for `Y = Y₁ # n(S¹ × S²)` (Definition 9.2), an
+invariant of `Y` (Theorem 9.4). That `HF̂T(Y)` is `HF̂(Y)` when `b₁(Y) = 0` is HeegaardFloer
+§8.1's twisted comparison, not a target here.
 
-*Needs:* §5.3; Ozsváth–Stipsicz–Szabó, arXiv:1301.0480.
+*Needs:* §5.3, §5.5 (convenient diagrams, prime decompositions); Ozsváth–Stipsicz–Szabó,
+arXiv:1301.0480 and arXiv:0912.0830, §9.
 
 ### 5.5 Heegaard diagrams of smooth three-manifolds
 
@@ -1292,9 +1323,10 @@ moves; commutation invariance of `GĤ` and `GH̃` and the cone description of st
 basepoint homotopies; the singly graded structure theorem; the value of `τ` on torus grids;
 crossing changes and the unknotting number of grid links with upper bounds on torus knots; the
 transpose and half-turn symmetries; sign assignments and the signed differential; the filtered
-differential and Alexander filtration; the bigraded series `W`. The plumbing graphs, the weight
-function, the native lattice complex, its sublevel subcomplexes, the `U`-tower, the two blow-ups at
-lattice and weight level, the signed lattice differential, the one-vertex and `E₈` computations.
+differential and Alexander filtration; the bigraded series `W`; Fitting ideals. The plumbing
+graphs, the weight function, the native lattice complex, its sublevel subcomplexes, the `U`-tower,
+the two blow-ups at lattice and weight level, the signed lattice differential, the one-vertex and
+`E₈` computations.
 The Heegaard region systems, admissibility, index, niceness, the hat differential and the lens
 space and `S¹ × S²` diagrams. The exact declarations are listed under the supplier contracts.
 
@@ -1454,6 +1486,10 @@ Paths are under `TauCeti/`. Each item is assumed as stated in the layers.
   `TauCeti.KnotTheory.alexander_figureEightSeifertMatrix`; `TauCeti.PDCode`, `TauCeti.OrientedPDCode`,
   `TauCeti.BraidWord.closure`; `TauCeti.sliceGenus` (on smooth circle embeddings),
   `TauCeti.KnotCobordism` and its genus `TauCeti.KnotCobordism.genus`.
+- **Fitting ideals** (`RingTheory/FittingIdeal/`): `TauCeti.fittingIdeal` (the Fitting ideals of a
+  finite module over a commutative ring), `TauCeti.fittingIdeal_eq_minorsIdeal_ker` (computed from
+  any surjection from a free module of finite rank), `Matrix.minorsIdeal_range_eq_span_det_submatrix`
+  (the minors ideal of a matrix's range is spanned by its square submatrix determinants).
 - **Plumbings** (`LowDimTopology/Plumbing/`): `TauCeti.PlumbingGraph` (a simple graph with integer
   framings, no genus decoration), `TauCeti.PlumbingGraph.IsNegativeDefinite`,
   `TauCeti.PlumbingGraph.characteristicVectors`, `TauCeti.PlumbingGraph.characteristicOrbits`,
@@ -1513,8 +1549,9 @@ handle foundation that §5.5 uses. Assumed as stated there.
 - P. Ozsváth, A. Stipsicz, Z. Szabó, *Grid Homology for Knots and Links*, AMS Mathematical Surveys
   and Monographs 208, 2015, numbered as in the authors' version: cited with exact locators for grid
   homology throughout Layer 3, for the existence half of the structure theorem of §1.3
-  (Proposition A.4.3), for Cromwell's theorem (Appendix B.4) and the normal form of knot
-  cobordisms (Proposition B.5.1), and for the multivariable Alexander polynomial (§11.5).
+  (Proposition A.4.3), for the filtered notions of §1.4 (§13.1), for Cromwell's theorem (Appendix
+  B.4) and the normal form of knot cobordisms (Proposition B.5.1), and for the multivariable
+  Alexander polynomial (§11.5).
   Equation (8.2), Definition 11.1.5 and Theorem 11.6.1 give the collapsed link grading, the
   multi-grading and the multivariable Euler characteristic, whose normalization is stated
   explicitly here.
@@ -1524,8 +1561,12 @@ handle foundation that §5.5 uses. Assumed as stated there.
   self-contained; v2 §6, Theorem 6.1 of the second gives the separate `ℓ = 1` knot and `ℓ > 1` link
   Euler characteristic branches. The first is also the grid homology equals `HFK̂` reconciliation,
   which HeegaardFloer owns.
-- P. Ozsváth, A. Stipsicz, Z. Szabó, [arXiv:0912.0830](https://arxiv.org/abs/0912.0830) (v3) and
-  [arXiv:1301.0480](https://arxiv.org/abs/1301.0480): Layer 5.
+- P. Ozsváth, A. Stipsicz, Z. Szabó, [arXiv:0912.0830](https://arxiv.org/abs/0912.0830) (v3):
+  Layer 5, including the twisted refinement of §5.4 (its §9); and *Combinatorial Heegaard Floer
+  homology and sign assignments*, [arXiv:1301.0480](https://arxiv.org/abs/1301.0480): the integer
+  coefficients of §5.4.
+- G. Torres, *On the Alexander polynomial*, Ann. of Math. (2) 57 (1953), 57–89: the symmetry of the
+  multivariable Alexander polynomial (§2.3).
 - A. Némethi, [arXiv:0709.0841](https://arxiv.org/abs/0709.0841), especially §§3.2.1–3.2.2,
   Example 4.2.4 and §3.4: Layer 4's cohomological weights and restricted graph moves.
 - P. Ozsváth, A. Stipsicz, Z. Szabó, *A spectral sequence on lattice homology*,

@@ -136,7 +136,7 @@ theorem nonempty_latticeChainHomology_blowUpVertex {V : Type*} [DecidableEq V] [
 graph `P`, adjacent vertices `u` and `v`, a characteristic covector `k` and an odd value `ε` on
 the exceptional class, the characteristic-two lattice homology of the blow-up of `P` along the
 edge `uv` is isomorphic in every cubical degree to that of `P` (Némethi, arXiv:0709.0841,
-Proposition 3.4.2, the intersection-point case of its proof). -/
+Proposition 3.4.2, whose proof leaves this intersection-point case to the reader). -/
 theorem nonempty_latticeChainHomology_blowUpEdge {V : Type*} [DecidableEq V] [Fintype V]
     (P : TauCeti.PlumbingGraph V) (hP : P.IsNegativeDefinite) (u v : V)
     (h : P.toSimpleGraph.Adj u v) (k : P.characteristicVectors) (ε : ℤ) (hε : Odd ε) (q : ℕ) :
