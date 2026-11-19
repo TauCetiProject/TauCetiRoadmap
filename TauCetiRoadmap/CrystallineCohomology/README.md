@@ -189,9 +189,9 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   Breuil–Kisin modules and their Galois representations; the K-theory of local fields and higher
   local class field theory; Habiro cohomology and q-de Rham–Witt complexes. These build on this
   roadmap. Witt cohomology under h-covers and rational Witt cohomology of singular schemes are the
-  subject of CrystallineCohomologyPartII, which starts where this roadmap stops; convergent
-  coefficient descent and Cartier transforms of periodic connections also build on this roadmap,
-  as later work that no roadmap plans.
+  subject of CrystallineCohomologyPartII, which starts where this roadmap stops; descent of
+  convergent F-isocrystals along étale and proper surjective morphisms, and Cartier transforms of
+  periodic connections, also build on this roadmap and are outside both Parts.
 
 ## Conventions
 
@@ -2266,7 +2266,7 @@ Prove the following laws.
   model the map is a map of strict dg algebras. In each simplicial degree the identification of the
   envelope de Rham complex with crystalline cohomology (*Crystalline cohomology from an embedding*)
   carries its wedge product to the cup product, as in the proof of *Crystalline cup products* and in
-  the multiplicative de Rham comparison of CR.3.4 for smooth lifts. The shuffle product on the realization is then
+  its de Rham comparison for smooth lifts (CR.3.3). The shuffle product on the realization is then
   compared with the cup product degreewise.
 
 **Checks.**
@@ -3013,8 +3013,8 @@ pr₁^*x∪pr₂^*y∈H^*(K_(X×Y)(pr₁^*E⊗pr₂^*F)), X×Y the fibre product
 *Hypotheses.* (A,I,γ) is a PD ring and A is a Z_(p)-algebra; X is a scheme over A/I on which p is
 locally nilpotent. E and F are O_crys-modules on the crystalline site of X/Spec A; E⊗F is their
 tensor product over O_crys. No flatness is assumed. In (4), Y is a second scheme over A/I on which p
-is locally nilpotent. The coefficient de Rham comparison the multiplicative de Rham comparison of CR.3.4 additionally
-requires E and F to be quasi-coherent crystals, p nilpotent in A and a smooth lift Y of X over A.
+is locally nilpotent. The coefficient de Rham comparison in the API below additionally
+requires E and F to be quasi-coherent crystals, p nilpotent in A and a smooth lift X̃ of X over A.
 
 The API:
 
@@ -3030,10 +3030,10 @@ The API:
   z∈H^*(K(G)); the same holds for the maps of complexes in D(A).
 - For a morphism g:X′→X of schemes over a homomorphism of PD rings
   and O_crys-modules E, F on X: g^*(x∪y)=g^*x∪g^*y and g^*1=1.
-- If p is nilpotent in A and Y is a smooth lift of X over A, then
-  under H^*_crys(X/S)≅H^*(Y,Ω^•_(Y/A)) of *Smooth-lift comparison and PD filtration* (Layer CR.2)
-  the cup product is induced by the wedge product of Ω^•_(Y/A). For quasi-coherent crystals E,F,
-  use the same comparisons for E,F and E⊗F, with their canonical integrable connections on Y;
+- If p is nilpotent in A and X̃ is a smooth lift of X over A, then
+  under H^*_crys(X/S)≅H^*(X̃,Ω^•_(X̃/A)) of *Smooth-lift comparison and PD filtration* (Layer CR.2)
+  the cup product is induced by the wedge product of Ω^•_(X̃/A). For quasi-coherent crystals E,F,
+  use the same comparisons for E,F and E⊗F, with their canonical integrable connections on X̃;
   the product is induced by `(e⊗ω)∧(f⊗η)=(e⊗f)⊗(ω∧η)` on their coefficient de Rham complexes.
 - For schemes X, Y over A/I and classes x∈H^*(K_X(E)),
   y∈H^*(K_Y(F)): x⊠y=pr₁^*x∪pr₂^*y∈H^*(K_(X×Y)(pr₁^*E⊗pr₂^*F)); on complexes, K_X(E)⊗^L_A
@@ -7917,9 +7917,9 @@ The API:
 
 *Proof sketch.* State injectivity and the power-surjectivity condition on characteristic stalks.
 Use injectivity and successive positive powers to prove composition; identities use power one.
-([Temkin, *Tame distillation and desingularization by
-p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n1-p03-p.pdf),
-§1.2.7 and proof, Step 10, pp.100,123–124.) *Needs:* *Saturated monoids*; *Exact morphisms*.
+([Illusie, *An overview of the work of K. Fujiwara, K. Kato, and C. Nakayama on logarithmic étale
+cohomology*](https://www.numdam.org/item/AST_2002__279__271_0/), §1.6, p.274.) *Needs:* *Saturated
+monoids*; *Exact morphisms*.
 
 **Checks.**
 
@@ -8025,9 +8025,10 @@ The API:
 cokernel. In characteristic p the p-root obstruction follows from the same lifting criterion.
 ([Kato, *Logarithmic structures of
 Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log-structures.pdf),
-Theorem 3.5 and Remark 3.6, p.202; [Temkin, *Tame distillation and desingularization by
-p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n1-p03-p.pdf),
-§1.2.7, pp.99–100.) *Needs:* *Kummer morphisms*; *Kato chart criterion*; *Log fiber products*.
+Theorem 3.5 and Remark 3.6, p.202; [Illusie, *An overview of the work of K. Fujiwara, K. Kato,
+and C. Nakayama on logarithmic étale
+cohomology*](https://www.numdam.org/item/AST_2002__279__271_0/), §1.6, pp.274–275.) *Needs:*
+*Kummer morphisms*; *Kato chart criterion*; *Log fiber products*.
 
 **Checks.**
 
@@ -8035,8 +8036,9 @@ p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186
 - The p-root chart in characteristic p is Kummer and fails log étaleness.
 - The n=1 root chart is the log identity, hence Kummer étale.
 
-**Base change of logarithmic morphisms.** Strict, log smooth and log étale morphisms are stable
-under log base change; integral morphisms are stable under integral base change, exact fine
+**Base change of logarithmic morphisms.** Strict morphisms are stable under log base change; log
+smooth and log étale morphisms of fine log schemes are stable under fine log base change; integral
+morphisms are stable under integral base change, exact fine
 morphisms under fine log base change, and Kummer étale fs morphisms under fs base change. In each
 category use its stated fiber product. The chart torsion-order invertibility remains a hypothesis,
 not a consequence of saturation.
@@ -8045,10 +8047,10 @@ not a consequence of saturation.
 Kummer maps use the characteristic pushout in the correct category and the chart criterion. ([Kato,
 *Logarithmic structures of
 Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log-structures.pdf),
-§2.8, p.199; §3.9–3.12, pp.203–204; §4.3–4.8, pp.208–210; [Temkin, *Tame distillation and
-desingularization by
-p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n1-p03-p.pdf),
-§1.2.7, Kummer étale maps, pp.99–100.) *Needs:* *Log fiber products*; *Strict morphisms*; *Exact
+§2.8, p.199; §3.9–3.12, pp.203–204; §4.3–4.8, pp.208–210; [Illusie, *An overview of the work of
+K. Fujiwara, K. Kato, and C. Nakayama on logarithmic étale
+cohomology*](https://www.numdam.org/item/AST_2002__279__271_0/), §2.1, Kummer étale maps under fs
+base change, p.276.) *Needs:* *Log fiber products*; *Strict morphisms*; *Exact
 morphisms*; *Integral morphisms*; *Kummer morphisms*; *Kato chart criterion*.
 
 **Checks.**
@@ -11346,13 +11348,16 @@ pp.262–263.) *Needs:* *Finite projective crystalline coefficients*; *Frobenius
 
 **Proper smooth crystalline base change.** In a cartesian base diagram `X′=X×_{S₀}S₀′`,
 let u:(S′,I′,γ′)→(S,I,γ) be a PD map of p-nilpotent bases, S quasi-compact,
-and S₀⊂S and S₀′⊂S′ be defined by sub-PD ideals of I and I′. Give these fibres
+and S₀=V(I₀) and S₀′=V(I₀′) for sub-PD ideals I₀⊂I and I₀′⊂I′ with I₀O_(S′)⊂I₀′, so that u
+maps S₀′ into S₀. Give these fibres
 the induced compatible base powers and use the base-compatible crystalline sites of Layer CR.1.
 Assume f₀:X→S₀ smooth quasi-compact quasi-separated and F flat quasi-coherent.
-For π:(X/S)_crys→S_Zar the structure map, the actual arrow
+For π:(X/S)_crys→S_Zar and π′:(X′/S′)_crys→S′_Zar the structure maps and g:X′→X the
+projection, the actual arrow
 Lu*Rπ_*F→Rπ′_*g_crys*F is an isomorphism. For I₀=I this is the ordinary crystalline
 base change of Layer CR.3. Relative proper smooth coefficient base change follows by applying this
-statement on (V,T). For p-adically complete bases, use the corresponding compatible finite
+statement on each object (V,T) of the crystalline site of Y over S used in *Relative crystalline
+direct images* below. For p-adically complete bases, use the corresponding compatible finite
 p-power quotients and derived inverse limits, with the perfectness hypotheses of Layer CR.3
 when asserting an uncompleted tensor comparison.
 
@@ -11614,6 +11619,8 @@ and printed page (or PDF page where stated).
   toric varieties*](https://arxiv.org/abs/2207.00369v2).
 - [Temkin, *Tame distillation and desingularization by
   p-alterations*](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n1-p03-p.pdf).
+- [Illusie, *An overview of the work of K. Fujiwara, K. Kato, and C. Nakayama on logarithmic étale
+  cohomology*](https://www.numdam.org/item/AST_2002__279__271_0/).
 - [Nizioł, *Toric singularities: log-blow-ups and global
   resolutions*](https://webusers.imj-prg.fr/~wieslawa.niziol/resol7.pdf).
 - [Qian, *Ordinarity of local Galois representation arising from Dwork
