@@ -67,6 +67,9 @@ for nonempty and empty diagrams; the integral torsion and reduced examples; the 
 coefficient, Künneth and mirror Hom/Ext comparisons; and a boundary-fixed projective cobordism
 functor respecting every movie relation.
 
+In the former numbering of this roadmap, sections K1, K2, K3, K4, K5, K6 and K7 are now Layers 1,
+2, 3, 4, 5, 6 and 7, and section G is now Layer 8.
+
 ## Conventions
 
 1. **Diagrams.** A diagram is a `TauCeti.OrientedPDCode n` whose underlying code satisfies
@@ -103,9 +106,12 @@ functor respecting every movie relation.
    explicit normalized state formula to those shifts keeps the degreewise sign correction
    `(-1)^(i·n₋)` of Tau Ceti's `TauCeti.OrientedPDCode.khovanovComplexShiftIso`. Khovanov's
    original braces lower quantum degrees (Khovanov, *A categorification of the Jones polynomial*,
-   §2.1), so his `{k}` is our `⟨−k⟩`; Bar-Natan's `{k}` and `[s]`
-   are our `⟨k⟩` and the cochain shift (Bar-Natan, *On Khovanov's categorification*, §3.1,
-   Definitions 3.2–3.3). The ordinary theory here is the specialization `c = 0` of Khovanov's
+   §2.1), so his `{k}` is our `⟨−k⟩`, and his `[n]`, with `N[n]ⁱ = Nⁱ⁺ⁿ` and differential sign
+   `(-1)^n` (*loc. cit.*, §3.1), is the native cochain shift by `n`. Bar-Natan's `{k}` is our
+   `⟨k⟩`, and his height shift `[s]`, with `C̄[s]ʳ = C̄ʳ⁻ˢ`, moves degrees as the native cochain
+   shift by `−s`; his normalizing `[−n₋]` is the shift by `n₋` of
+   `TauCeti.OrientedPDCode.khovanovComplexShiftIso` (Bar-Natan, *On Khovanov's categorification*,
+   §3.1, Definitions 3.2–3.3). The ordinary theory here is the specialization `c = 0` of Khovanov's
    coefficient ring `ℤ[c]` (Khovanov, *A categorification of the Jones polynomial*, §7).
 4. **Surfaces.** The surface slice convention is `(time, link)`; Jacobsson uses `(link, time)`.
    Every geometric orientation comparison translates this reversal explicitly.
@@ -599,12 +605,14 @@ totalization is Tau Ceti's `CategoryTheory.Functor.cubeComplex`, with the vertex
 squares to zero because the two routes around every face carry opposite signs. It is functorial
 and additive in the cube (`CategoryTheory.NatTrans.cubeComplexMap`,
 `CategoryTheory.cubeComplexFunctor`), its degree-zero term is the vertex `∅`
-(`CategoryTheory.Functor.cubeComplexXZeroIso`), it is the mapping cone of the map between the two
-faces in the direction of any index (`CategoryTheory.Functor.cubeComplexMappingConeIso`), and a
-reordering of the indices gives an isomorphism acting on the vertex `S` by the sign of the
-permutation of `S` (`CategoryTheory.Functor.cubeComplexReindexIso`), with its identity and
-composition laws (`CategoryTheory.Functor.cubeComplexReindexIso_refl`,
-`CategoryTheory.Functor.cubeComplexReindexIso_trans`). The dual of a cube of modules is
+(`CategoryTheory.Functor.cubeComplexXZeroIso`), and a reordering of the indices gives an
+isomorphism acting on the vertex `S` by the sign of the permutation of `S`
+(`CategoryTheory.Functor.cubeComplexReindexIso`), with its identity and composition laws
+(`CategoryTheory.Functor.cubeComplexReindexIso_refl`,
+`CategoryTheory.Functor.cubeComplexReindexIso_trans`). For a cube indexed by `WithBot ι`, the
+mapping cone of the map between the two faces in the direction of the least index `⊥` is the
+totalization shifted by `⟦1⟧` (`CategoryTheory.Functor.cubeComplexMappingConeIso`); another index
+is first moved to the front by the reordering isomorphism. The dual of a cube of modules is
 `CategoryTheory.Functor.dualCube`.
 
 Construct the restriction of a cube to an arbitrary face `{S : A ⊆ S ⊆ A ∪ B}`, a cube indexed by
@@ -730,8 +738,9 @@ comparison runs through the native state weights: the native loop exponent is th
 `q + q⁻¹`. The empty diagram has `χ = 1` (`TauCeti.OrientedPDCode.khovanovEulerChar_empty`), and a
 crossing-free unlink with `k` components has `(q + q⁻¹)ᵏ`
 (`TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`). This comparison uses the native Jones
-definition and weights only; GeometricTopology owns the other Jones algorithms and the geometric
-invariance of the polynomial, and §5.6 proves the value at `q = 1`.
+definition and weights only; GeometricTopology owns the other Jones algorithms, the geometric
+invariance of the polynomial and its value at `t = 1` (§4.5), from which §5.6 obtains the value at
+`q = 1`.
 
 *Needs:* §3.4; Tau Ceti `TauCeti.OrientedPDCode.khovanovEulerChar`,
 `TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial`,
@@ -1348,7 +1357,9 @@ crossing signs are kept; Tau Ceti's `TauCeti.OrientedPDCode.reverse`), and prove
 reversing a single component. Let `l` be half the signed count of the crossings between the
 selected component and all the other components; reversing that component increases `n₋` by `2l`
 and decreases `n₊` by `2l`, so the new bidegrees are the old ones minus `(2l, 6l)` (Khovanov, *A
-categorification of the Jones polynomial*, §7.2, Proposition 28, in that paper's grading).
+categorification of the Jones polynomial*, §7.2, Proposition 28, whose printed quantum shift `2l`
+should read `6l`: by his equation (134) the reversal changes the normalizing quantum shift of his
+equation (45) by `6l`).
 
 Construct this integer diagram linking count. Prove that the sum of the mixed crossing signs is
 even, by the finite mod-2 cycle and face-boundary calculus of a genus-zero native rotation system:
@@ -1383,17 +1394,28 @@ categorification of the Jones polynomial*, §7.2, Proposition 30).
 
 Prove the *value at `q = 1`*, `eval₂_one_enhancedStateSum`: for a planar oriented PD-code `D` with
 `c` components, the normalized enhanced-state Euler sum `E(D) = Σ_S (−1)^(|S|+n₋) 2^k(S)`, which is
-`TauCeti.OrientedPDCode.enhancedStateSum` at `q = 1`, equals `2^c`. Route: prove invariance under
-changing a crossing by the actual `A`/`B` state bijection; construct the oriented planar
-smoothings `D_A`, `D_B` and use the parity above to obtain the normalized recurrence
+`TauCeti.OrientedPDCode.enhancedStateSum` at `q = 1`, equals `2^c`. Route: from GeometricTopology
+§4.5's value `V_L(1) = (−2)^(μ−1)` of the Jones polynomial of a `μ`-component link, applied to the
+link that `D` realizes (GeometricTopology §4.2), with `μ = c ≥ 1`. At `q = −1` each enhanced state
+contributes `(−1)^i (−1)^j` with `j ≡ c` modulo two, by the parity above, so the enhanced state sum
+there is `(−1)^c E(D)`; by Tau Ceti's comparison
+`TauCeti.OrientedPDCode.enhancedStateSum_eq_mul_eval₂_jonesPolynomial` it is `q + q⁻¹ = −2` times
+the Jones polynomial at `T = −q = 1`, that is `−2·V(1) = (−2)^c`. Hence `E(D) = 2^c`; a diagram
+without components has `E = 1` (`TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`). A combinatorial
+route, which does not pass through the realization: prove invariance under changing a crossing by
+the actual `A`/`B` state bijection; construct the oriented planar smoothings `D_A`, `D_B` and use
+the parity above to obtain the normalized recurrence
 `E(D) = −(−1)^c [(−1)^(c_A) E(D_A) + (−1)^(c_B) E(D_B)]`; prove the component-count alternatives
 (for strands on different components both smoothings have `c − 1` components, otherwise their
 counts are `c` and `c + 1`); and induct on crossings from the unlink value, accounting explicitly
 for the reorientations of the smoothings. Deduce that `Kh(D; ℤ)` and `Kh(D; ℚ)` are nonzero, the
 empty diagram included, before the support-length arguments of §6.5.
 
-*Needs:* §§1.5, 1.7, 3.5; Tau Ceti `TauCeti.OrientedPDCode.seifertState`,
-`TauCeti.OrientedPDCode.enhancedQuantumDegree_mod_two`, `TauCeti.OrientedPDCode.enhancedStateSum`,
+*Needs:* §§1.5, 1.7, 3.5; GeometricTopology §§4.2 and 4.5 (for the first route); Tau Ceti
+`TauCeti.OrientedPDCode.seifertState`, `TauCeti.OrientedPDCode.enhancedQuantumDegree_mod_two`,
+`TauCeti.OrientedPDCode.enhancedStateSum`,
+`TauCeti.OrientedPDCode.enhancedStateSum_eq_mul_eval₂_jonesPolynomial`,
+`TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`,
 `TauCeti.OrientedPDCode.homologyEulerChar_khovanovComplex`; Mathlib `LaurentPolynomial.eval₂`.
 
 **Checks.**
@@ -1403,6 +1425,9 @@ empty diagram included, before the support-length arguments of §6.5.
   `(−1)^(|S|+n₋)` the sum would be `30`.
 - The recurrence at the positive kink: `D_A` is the two-component unlink (`c_A = 2`, `E = 4`),
   `D_B` the unknot (`c_B = 1`, `E = 2`), and `−(−1)¹[(−1)²·4 + (−1)¹·2] = 2`.
+- At `q = −1` the trefoil's `q + q³ + q⁵ − q⁹` of §3.5 is `−2 = (−1)¹·2`, and `−2·V(1)` is
+  `−2(1 + 1 − 1) = −2`; the Hopf link's `1 + q² + q⁴ + q⁶` is `4 = (−1)²·4`, and `−2·V(1)` is
+  `−2(−1 − 1) = 4`. Without the factor `(−1)^c` the first route would give `E = −2` for a knot.
 
 ### 5.7 Graded `W`-modules and the action at a mark
 
@@ -1538,23 +1563,19 @@ map and the quantum shift.
 After forgetting quantum degrees, construct the finite semi-free filtration of these bounded
 complexes of finite free `W`-modules by successive cones of shifted free modules, and prove
 K-flatness and K-projectivity from it, using Mathlib's K-projectivity of bounded-above complexes of
-projectives. In Mathlib's localization `HasDerivedCategory.standard (ModuleCat W)`, with the
-universe and smallness hypotheses of that declaration, define the derived tensor product of
-bounded-above module complexes by bounded-above projective (K-projective) resolutions. Construct
-its functorial maps and the canonical comparison isomorphisms between choices, unique when they
-commute with the specified augmentation comparisons, and prove the unit, composition and
-balanced-tensor laws. For the bounded free factors here prove directly, by the finite filtration,
-that `P₁ ⊗_W C₂ → C₁ ⊗_W C₂` induced by an augmentation is a quasi-isomorphism, and its
-second-variable version; this identifies their ordinary tensor product with the derived one. This
-ordinary-module comparison is made here over every commutative `R`, without an enveloping `A∞`
-algebra or a strictification theorem valid only over fields. Regard `W` as a degree-zero ordinary
-DG algebra through DGAInfinity Layer 1, construct its adapter `Wᵒᵖ ≅ W` between right and left
-modules, and compare the resulting finite semi-free module and tensor product with DGAInfinity
-Layer 5 under that layer's hypotheses. The graded chain isomorphism and its graded homology maps
+projectives. The derived tensor product over `W` is the bifunctor of DerivedModuleAlgebra §0.2,
+with its laws (`W` is commutative, so that section applies). For the bounded free factors here
+prove directly, by the finite filtration, that `P₁ ⊗_W C₂ → C₁ ⊗_W C₂` induced by an augmentation
+is a quasi-isomorphism, and its second-variable version; this identifies their ordinary tensor
+product with that derived tensor product. This ordinary-module comparison is made here over every
+commutative `R`, without an enveloping `A∞` algebra or a strictification theorem valid only over
+fields. Regard `W` as a degree-zero ordinary DG algebra through DGAInfinity Layer 1, construct its
+adapter `Wᵒᵖ ≅ W` between right and left modules, and compare the resulting finite semi-free module
+and tensor product with DGAInfinity Layer 5 under that layer's hypotheses. The graded chain isomorphism and its graded homology maps
 stay the separately constructed quantum comparison.
 
-*Needs:* §§5.7, 5.9–5.10; Mathlib `HasDerivedCategory.standard`, `CochainComplex.mappingCone`,
-`TensorProduct`; DGAInfinity Layers 1 and 5.
+*Needs:* §§5.7, 5.9–5.10; DerivedModuleAlgebra §0.2 (the derived tensor product); Mathlib
+`CochainComplex.mappingCone`, `TensorProduct`; DGAInfinity Layers 1 and 5.
 
 **Checks.**
 - For two crossing-free unknots, `V ⊗_W V = W⟨2⟩` since `V = W⟨1⟩`, and `(V ⊗_W V)⟨−1⟩ = V`, the
@@ -1575,7 +1596,8 @@ Seifert states and the parity of quantum degrees, the enhanced state sum, marks,
 braiding of cochain complexes, the post-composition action on Hom complexes, the Hom/Ext
 universal coefficient sequence for chain complexes, and the periodic projective resolution over
 the dual numbers. Mathlib: `Tor`, `Ext`, Hom complexes, mapping cones, homology sequences,
-projective resolutions and derived categories. DGAInfinity Layers 1 and 5.
+projective resolutions and K-projective complexes. GeometricTopology §§4.2 and 4.5;
+DerivedModuleAlgebra §0.2; DGAInfinity Layers 1 and 5.
 
 ## Layer 6: certified computations and applications
 
@@ -1760,6 +1782,15 @@ decorations and relative equivalences against that plain carrier. The boundary m
 the component-labelled boundary parametrizations; the based-link point of Layer 5 is separate
 data.
 
+The knot case is Tau Ceti's `TauCeti.KnotCobordism K₀ K₁` in collared form: a connected orientable
+surface embedded in `Sⁿ × ℝ`, compact over `Sⁿ × [0, 1]` and equal near the two ends to the
+cylinders over the images of `K₀` and `K₁`. The carrier here differs in allowing links with
+labelled components and disconnected surfaces, and in recording an orientation of `Σ` and the
+boundary parametrizations. Prove the comparison in `S³`: a Tau Ceti knot cobordism with an
+orientation of its surface inducing `−K₀ ⊔ K₁` restricts over `S³ × [0, 1]` to a link cobordism
+between the two one-component links, and a connected link cobordism between one-component links
+extends along its product collars to a Tau Ceti knot cobordism.
+
 The objects of the movie category of §7.4 are the realized plane diagrams of §8.1, carrying the
 corresponding native labelled smooth links and their orientation-compatible parametrizations, so
 their prescribed endpoint projections are generic; the generic representatives and comparison
@@ -1767,7 +1798,7 @@ isotopies of §8.6 compare them with arbitrary smooth links, keeping the chosen 
 
 *Needs:* §§8.1, 8.6; GeometricTopology Layer 1 (collars and gluing along the boundary);
 DifferentialGeometry Layer 2 (orientations) and Layer 5 (boundary orientation); Tau Ceti
-`TauCeti.SmoothEmbedding`, `TauCeti.SmoothLinkEmbedding`.
+`TauCeti.SmoothEmbedding`, `TauCeti.SmoothLinkEmbedding`, `TauCeti.KnotCobordism`.
 
 **Checks.**
 - The product cobordism `L × [0, 1]` with its product collars is the identity, and composing it
@@ -2011,9 +2042,9 @@ deformation.
 ### Dependencies
 
 Layers 2–5 and 8. GeometricTopology Layer 1; DifferentialGeometry Layer 2, §§3.2, 3.3, 3.5 and
-Layer 5; AlgebraicTopology §§4.3 and 7.1. Tau Ceti: smooth embeddings and links, diffeotopies, the
-cellular comparison and the Euler characteristic of finite CW complexes. Mathlib: the stereographic
-projection, homotopy categories, induced and quotient categories.
+Layer 5; AlgebraicTopology §§4.3 and 7.1. Tau Ceti: smooth embeddings and links, diffeotopies,
+knot cobordisms, the cellular comparison and the Euler characteristic of finite CW complexes.
+Mathlib: the stereographic projection, homotopy categories, induced and quotient categories.
 
 ## Downstream consumers
 
@@ -2027,8 +2058,6 @@ projection, homotopy categories, induced and quotient categories.
 - [SpectralSequencesAndConvergencePartII](../SpectralSequencesAndConvergencePartII/README.md) uses
   the universal coefficient and Künneth sequences for bounded finite free `ℤ`-complexes and the
   comparison of `CategoryTheory.Tor'` with `CategoryTheory.Tor` of §§5.2–5.3.
-- [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) compares its derived tensor product
-  with the bounded resolution model over the dual numbers of §5.11.
 
 ## Scope and ownership
 
@@ -2067,20 +2096,22 @@ Jones polynomial, and the homology of the empty diagram, the unknot and the cros
 Hom complexes, the Hom/Ext universal coefficient sequence for chain complexes and the periodic
 projective resolution over the dual numbers (§§3.3, 5.2, 5.9); smooth links and their ambient
 isotopy, diffeotopies, reparametrization of smooth embeddings, the Morse–Sard theorem, filled hulls
-and braid closures (Layer 8); and the cellular comparison and Euler–Poincaré theorem of finite CW
-complexes (§7.6). The exact declarations are listed under the supplier contracts.
+and braid closures (Layer 8); collared knot cobordisms (§7.1); and the cellular comparison and
+Euler–Poincaré theorem of finite CW complexes (§7.6). The exact declarations are listed under the
+supplier contracts.
 
 **Owned elsewhere.**
 
 - [GeometricTopology](../GeometricTopology/README.md) owns the geometric link and diagram carriers
   and presentation definitions, Reidemeister's theorem (§4.2), braid closures (§4.2.3), the other
-  Jones algorithms with their agreements and the geometric invariance of the Jones polynomial (Layer
-  4), and collars, tubes and gluing (Layer 1). Layer 8 here is the corresponding finite-labelled,
-  relative extension of its geometric-to-diagram comparison: its inputs from GeometricTopology are
-  the carrier and presentation definitions, and the additional labelled, relative and actual-plane
-  comparisons are built here. GeometricTopology §4.8.1 develops adequate diagrams on the Kauffman
-  bracket and proves crossing minimality of adequate knot diagrams through coloured Jones
-  polynomials; §6.5 here differs in proving it for adequate diagrams of links of any number of
+  Jones algorithms with their agreements, the geometric invariance of the Jones polynomial and its
+  value at `t = 1` (Layer 4, §4.5; §5.6 here deduces from it the value of the Euler characteristic
+  at `q = 1`), and collars, tubes and gluing (Layer 1). Layer 8 here is the corresponding
+  finite-labelled, relative extension of its geometric-to-diagram comparison: its inputs from
+  GeometricTopology are the carrier and presentation definitions, and the additional labelled,
+  relative and actual-plane comparisons are built here. GeometricTopology §4.8.1 develops adequate
+  diagrams on the Kauffman bracket and proves crossing minimality of adequate knot diagrams through
+  coloured Jones polynomials; §6.5 here differs in proving it for adequate diagrams of links of any number of
   components through the support of integral Khovanov homology, with adequacy stated through the
   extreme resolutions, which is GeometricTopology's state-graph condition (a crossing meeting a
   single circle of an extreme state is a loop of its state graph). GeometricTopology Layer 6 states
@@ -2095,6 +2126,9 @@ complexes (§7.6). The exact declarations are listed under the supplier contract
   §5.11 builds the ordinary bounded-free derived-tensor comparison over every commutative base and
   compares it with DGAInfinity's DG-module theory under the hypotheses supplied there, without a
   strictification of `A∞` structures valid only over fields.
+- [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) owns the derived tensor product of
+  module complexes over a commutative ring, with its laws (§0.2); §5.11 identifies the ordinary
+  tensor product of the bounded free complexes over the dual numbers with it.
 - [AlgebraicTopology](../AlgebraicTopology/README.md) develops the cellular comparison and the Euler
   characteristic of finite CW complexes (§§4.3, 7.1); the movie-handle cell model is §7.6's.
 - [ZigzagPreprojective](../ZigzagPreprojective/README.md) owns the Khovanov–Seidel braid actions
@@ -2117,8 +2151,7 @@ complexes (§7.6). The exact declarations are listed under the supplier contract
   (two chain maps with homotopies from their composites to the identities), `HomotopyEquiv.toHomologyIso`,
   `CochainComplex.mappingCone`, `HomotopyCategory`, `CochainComplex.linearHomComplex`,
   `CategoryTheory.Tor`, `CategoryTheory.Tor'`, `CategoryTheory.Abelian.Ext`,
-  `CategoryTheory.ProjectiveResolution`, `HasDerivedCategory.standard` (with its universe and
-  smallness hypotheses), `CategoryTheory.Mat_`, `CategoryTheory.Mat_.embedding`,
+  `CategoryTheory.ProjectiveResolution`, `CategoryTheory.Mat_`, `CategoryTheory.Mat_.embedding`,
   `CategoryTheory.Mat_.lift`, `CategoryTheory.InducedCategory`, `CategoryTheory.Quotient`.
 - *Analysis and topology.* `EuclideanSpace`, `Metric.sphere`, `stereographic'`, `ContDiffBump`,
   `dense_iInter_of_isOpen` (Baire: a countable intersection of dense open sets is dense).
@@ -2203,7 +2236,9 @@ complexes (§7.6). The exact declarations are listed under the supplier contract
   `TauCeti.OrientedPDCode.coeff_pow_eq_finrank_homology_khovanovComplex`,
   `TauCeti.OrientedPDCode.enhancedQuantumDegree_mod_two`.
 - *Euler characteristic and the Jones polynomial.* `TauCeti.OrientedPDCode.enhancedStateSum`,
-  `TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`, `TauCeti.enhancedStateSum_rightHandedTrefoilPDCode`,
+  `TauCeti.OrientedPDCode.enhancedStateSum_eq_pow`,
+  `TauCeti.OrientedPDCode.enhancedStateSum_eq_mul_eval₂_jonesPolynomial` (for a nonempty code),
+  `TauCeti.enhancedStateSum_rightHandedTrefoilPDCode`,
   `TauCeti.OrientedPDCode.khovanovEulerChar`, `TauCeti.OrientedPDCode.homologyEulerChar_khovanovComplex`,
   `TauCeti.OrientedPDCode.khovanovEulerChar_eq_enhancedStateSum`,
   `TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial` (for a nonempty planar
@@ -2219,6 +2254,8 @@ complexes (§7.6). The exact declarations are listed under the supplier contract
   `TauCeti.BraidWord.crossingSign_closure`, `TauCeti.BraidWord.writhe_closure`,
   `TauCeti.BraidWord.nextCrossing`, `TauCeti.BraidWord.closure_nil`, `TauCeti.SmoothLinkEmbedding`,
   `TauCeti.SmoothLinkEmbedding.SmoothAmbientIsotopic`, `TauCeti.SmoothEmbedding`, `TauCeti.SmoothEmbedding.compDiffeomorph`,
+  `TauCeti.KnotCobordism` (a connected orientable surface in `Sⁿ × ℝ`, compact over the slab, with
+  cylindrical ends over the images of two knots),
   `TauCeti.Diffeotopy`, `TauCeti.interior_image_criticalPoints_eq_empty` (Morse–Sard on
   finite-dimensional charts), `TauCeti.filledHull`, `TauCeti.cellularSingularHomologyIso`,
   `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
@@ -2226,8 +2263,9 @@ complexes (§7.6). The exact declarations are listed under the supplier contract
 ### From TauCetiRoadmap.GeometricTopology
 
 Layer 1 (§§1.1, 1.3 and 1.5: collars, gluing along the boundary, tubular neighbourhoods) and Layer 4
-(§4.2: diagrams, their realization as links and Reidemeister's theorem; §4.2.3: braid closures). They
-are consumed in §§7.1–7.2 and 7.6 (Layer 1) and in §§4.3, 6.4 and 8.1–8.6 (Layer 4).
+(§4.2: diagrams, their realization as links and Reidemeister's theorem; §4.2.3: braid closures;
+§4.5: the value `V_L(1) = (−2)^(μ−1)` of the Jones polynomial of a `μ`-component link). They are
+consumed in §§7.1–7.2 and 7.6 (Layer 1) and in §§4.3, 5.6, 6.4 and 8.1–8.6 (Layer 4).
 
 ### From TauCetiRoadmap.DifferentialGeometry
 
@@ -2243,6 +2281,13 @@ Layer 5 (Jordan separation and filled hulls of Jordan curves), consumed in §8.2
 
 Layer 1 (DG algebras and modules, and ordinary algebras as degree-zero DG algebras) and Layer 5
 (derived modules and semi-free modules), consumed in §5.11 under their stated hypotheses.
+
+### From TauCetiRoadmap.DerivedModuleAlgebra
+
+§0.2 (the derived tensor product of complexes of modules over a commutative ring, exact in each
+variable and symmetric monoidal with unit the ring in degree zero, computed for a bounded-above
+complex `P` of flat modules by the ordinary tensor product with `P`), consumed in §5.11 over
+`W = DualNumber R`.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 

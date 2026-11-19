@@ -110,17 +110,20 @@ other bidegree. For `m = 3`, the right-handed trefoil, this is `ℤ` in `(0, 1)`
 mirror comparison of README §5.4 (free summands at `(i, j)` go to `(-i, -j)`, torsion summands to
 `(1 - i, -j)`). -/
 theorem khovanovHomology_closure_replicate (m : ℕ) (hm : 2 ≤ m)
-    (hD : (BraidWord.closure (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).toPDCode.IsPlanar)
+    (hD : (BraidWord.closure
+      (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).toPDCode.IsPlanar)
     (i j : ℤ) :
     ((i, j) ∈ torusLinkFreeBidegrees m →
-      Nonempty ((BraidWord.closure (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).khovanovHomology
-        hD ℤ i j ≅ ModuleCat.of ℤ ℤ)) ∧
+      Nonempty ((BraidWord.closure
+        (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).khovanovHomology hD ℤ i j ≅
+          ModuleCat.of ℤ ℤ)) ∧
     ((i, j) ∈ torusLinkTorsionBidegrees m →
-      Nonempty ((BraidWord.closure (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).khovanovHomology
-        hD ℤ i j ≅ ModuleCat.of ℤ (ZMod 2))) ∧
+      Nonempty ((BraidWord.closure
+        (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).khovanovHomology hD ℤ i j ≅
+          ModuleCat.of ℤ (ZMod 2))) ∧
     ((i, j) ∉ torusLinkFreeBidegrees m → (i, j) ∉ torusLinkTorsionBidegrees m →
-      IsZero ((BraidWord.closure (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).khovanovHomology
-        hD ℤ i j)) := by
+      IsZero ((BraidWord.closure
+        (List.replicate m ((0, 1) : Fin 1 × ℤˣ) : BraidWord 2)).khovanovHomology hD ℤ i j)) := by
   sorry
 
 /-- A PD-code is **adequate** when, in each of its two extreme states, all `A`-smoothings
