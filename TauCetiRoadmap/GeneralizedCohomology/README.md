@@ -2419,9 +2419,11 @@ comparisons through the derived completed smash
 not be complete. Do not assign a commutative ring structure to every
 multiplication cofiber E/p^r. BordismFormalGroups F2.2 compares this
 completion with the HF_p-nilpotent completion of bounded-below spectra;
-the two are not identified on general unbounded spectra. Degreewise finite
-generation plus these comparisons supply the localized/completed
-arithmetic descent used by TangentialBordism, rather than undefined E_(p) notation.
+the two are not identified on general unbounded spectra. The formulas
+π_n E_(p)=π_n E⊗Z_(p) and, for degreewise finitely generated π_*E,
+π_n E^∧_p=π_n E⊗Z_p, with the completed monoidal/module/ring comparisons
+above, supply the localized/completed arithmetic descent used by
+TangentialBordism, rather than undefined E_(p) notation.
 
 **API.**
 

@@ -201,14 +201,14 @@ asserted, and for `k = 0` nothing, since `2 * 0 - 1 = 0` in `ℕ`. The route is 
 the stable rational Hurewicz isomorphism, after CW approximation (Hatcher, *Spectral Sequences in
 Algebraic Topology*, Proposition 1.22, p. 34, for the stable isomorphism, and Hatcher,
 *Algebraic Topology*, Corollary 4.24, p. 360, for the Freudenthal range). README G5.6. -/
-theorem rationalHurewicz {X : Type} [TopologicalSpace X] (x : X) (k : ℕ)
+theorem rationalHurewicz {X : Type u} [TopologicalSpace X] (x : X) (k : ℕ)
     (hconn : ∀ j < k, Subsingleton (HomotopyGroup (Fin j) X x)) (n : ℕ) :
     (n + 1 ≤ 2 * k - 2 → ∀ a,
-        HomotopyGroup.hurewiczHom (X := X) (x := x) (C := ModuleCat.{0} ℚ) (ModuleCat.of ℚ ℚ) n a
-          = 0 → IsOfFinAddOrder a) ∧
+        HomotopyGroup.hurewiczHom (X := X) (x := x) (C := ModuleCat.{u} ℚ)
+          (ModuleCat.of ℚ (ULift.{u} ℚ)) n a = 0 → IsOfFinAddOrder a) ∧
       (n + 1 ≤ 2 * k - 1 →
         Submodule.span ℚ (Set.range (HomotopyGroup.hurewiczHom (X := X) (x := x)
-          (C := ModuleCat.{0} ℚ) (ModuleCat.of ℚ ℚ) n)) = ⊤) := by
+          (C := ModuleCat.{u} ℚ) (ModuleCat.of ℚ (ULift.{u} ℚ)) n)) = ⊤) := by
   sorry
 
 end TauCetiRoadmap.GeneralizedCohomology
