@@ -1,7 +1,8 @@
 # Roadmap: computability theory and finite-injury constructions
 
 **Summary.** This roadmap develops classical computability theory on sets of natural numbers as far
-as the finite-injury priority method, following Soare's *Recursively Enumerable Sets and Degrees*.
+as the finite-injury priority method, with Soare's *Recursively Enumerable Sets and Degrees* as its
+main reference.
 Its objects are oracle computations with their finite uses, computably enumerable (c.e.) sets with
 their stage-by-stage enumerations, Turing reducibility, the Turing jump and the arithmetical
 hierarchy, limit approximations with their moduli, and the bookkeeping of priority constructions:
@@ -154,31 +155,17 @@ Ceti's low simple set live in a separate examples module.
     `x = u = r` is an injury although it cannot invalidate that computation. This conservative
     boundary injury is part of the definition; the use-prefix breaches, entries strictly below an
     active restraint, are a separate object (Tau Ceti's `TauCeti.Priority.usePrefixRestraint`).
-16. **The acceptance file.** `Suggested.lean` imports only Mathlib and states the headline theorems
-    and the targets of the layers on its own prototypes of the carriers, so that it reads on its
-    own. The prototypes and the Tau Ceti carriers they model are: `characteristic`, `totalOracle`
-    and `oracle` (`Set.oracle`); the program type `Oracle.Single.Code` with `Code.encode`,
-    `Code.decodeFuel` and `Code.ofNat` (the same programs and numbering as
-    `TauCeti.Oracle.Single.Code`); a fuelled evaluator `Code.run` with results `Code.Halt`, its
-    bounded minimization `Code.search`, the induced partial function `Code.eval`, Soare's stage
-    evaluation `Code.stage` against a finite string, `Code.initialSegment`, `Code.stageAt`,
-    `Code.stageUse`, and the query-free embedding `Code.embed` (Tau Ceti's `evalStage`, `evaln`,
-    `stageUse` and `toSingleOracleCode`); the numberings `PhiTotal`, `Phi`, `W` and the stages
-    `WStage` (Convention 5); the finite-set codes `finiteCode` and `finiteDecode` (Mathlib's
-    `Finset.equivBitIndices`); `stageLimit`, `fresh` and the bundled enumeration `CEApproximation`
-    (Tau Ceti's stages); `jump`, `K₀`, `iterateJump`, `Low` (`Set.jump`, `Set.pairedJump`, iterates,
-    `Set.Low`); `join` (`Set.join`); `Immune`, `Simple`, `ComputablyInseparable` (`Set.Immune`,
-    `Set.Simple`, `Set.ComputablyInseparable`); `EventuallyAgrees` and `IsModulus` (Tau Ceti's
-    `Converges` and `IsModulus` with the stage argument last); and the injury objects
-    `injuriesAt`, `useBreachesAt`, `boundaryInjuriesAt`, `useBreachSet`, `injurySet`,
-    `injuryEvents`, `injuryStages`, `attentionStages` (Tau Ceti's, the breaches being the injuries
-    for `usePrefixRestraint`). Each prototype is the same mathematical object as its Tau Ceti
-    counterpart, with one exception: the fuelled evaluator `Code.run`, and the stage evaluation, stage
-    use and stages `WStage` built from it, agree with Tau Ceti's `evaln` and `evalStage` in their
-    limit semantics and in the stage conventions, not stage by stage. An implementation states
-    the theorems on Tau Ceti's carriers. The statements of the acceptance file that restate results
-    Tau Ceti proves are listed under Scope and ownership. This README is the specification: proving
-    every statement of the acceptance file neither completes a layer nor completes the roadmap.
+16. **The acceptance file.** `Suggested.lean` imports Mathlib and the Tau Ceti modules it uses, and
+    states the headline theorems on Tau Ceti's carriers: `Set.oracle`, `Set.jump` and its iterates,
+    `Set.Low`, `Set.Simple`, `Set.join`, `TauCeti.Approximation.Converges` and
+    `TauCeti.Approximation.IsModulus`, the enumeration stages of `TauCeti.Enumeration` with the
+    canonical stages `Nat.Partrec.Code.domStage`, the stage evaluation
+    `TauCeti.Oracle.Single.Code.evalStage` against `TauCeti.Oracle.Single.Code.setAnswers`, and
+    `TauCeti.Priority.injurySet`. Its own definitions are those the statements need: the relative
+    notions of 1.1, the pointclasses of 3.2 and the stage machine of Sacks splitting (8.1, 8.3). The
+    other targets of the layers are stated in this README only. This README is the specification:
+    proving every statement of the acceptance file neither completes a layer nor completes the
+    roadmap.
 17. **Placement.** Implementations sit under `TauCeti/Computability/` by subject, not by source
     project: `SingleOracle/` (programs, bounded evaluation, use, adequacy), `Enumeration/` (c.e.
     stages, serialization, indices), `Jump/` (the concrete jump, iterates, relative forms),
@@ -223,7 +210,7 @@ and `evaln_mono`; Mathlib `Nat.RecursiveIn.subst`.
 
 ### 0.2 Pointwise adequacy is not uniformity
 
-Prove `no_uniform_program_for_emptiness`: no single index `e` has, for every set `Z`, `Φ^Z_e` equal
+Prove that no single index `e` has, for every set `Z`, `Φ^Z_e` equal
 to the constant function with value `1` when `Z = ∅` and `0` otherwise. For each `Z` that function
 is constant, so some index computes it; but a run that halts on `∅` with use `u` halts with the same
 output on `{u}`, which agrees with `∅` below `u`. Consequently adequacy, which gives for every
@@ -264,12 +251,11 @@ its value. Prove:
 ### Examples
 
 - The query-free programs `zero` and `succ` succeed with use `0` at every fuel above the input,
-  against any answers, including none at all. In the acceptance file the fuelled evaluator
-  `Code.run` gives `zero` the result with output and use `0` against empty answers, and fails on a
-  query against empty answers: a computation with use zero is not a missing answer.
+  against any answers, including none at all: against empty answers the raw run of `zero` returns
+  output and use `0`, while a query fails. A computation with use zero is not a missing answer.
 - A query at address `0` succeeds with use `1` against the strings `(1)` and `(0)`: a negative
-  answer is an answer and still has positive use (the acceptance file checks that `Code.run` returns
-  output `0` and use `1` for the answer `0`). Against the empty string it fails.
+  answer is an answer and still has positive use (for the answer `0` the run returns output `0` and
+  use `1`). Against the empty string it fails.
 - A query at address `1` against a string of length one fails at every fuel: the string answers
   nothing beyond its length.
 - A computation invalidated by a later c.e. entry: the query program on input `3` against a stage
@@ -301,13 +287,12 @@ For a set `Z` and a predicate `p` on ℕ, define *c.e. in `Z`* (`REPredIn`): the
 halts without information exactly where `p` holds is recursive in the oracle of `Z`; and *computable
 in `Z`* (`ComputablePredIn`): `p` has a decision procedure computable in the oracle of `Z`. Prove:
 
-- at the empty oracle they are Mathlib's notions: `rePredIn_empty_iff` (c.e. in `∅` iff `REPred`)
-  and `computablePredIn_empty_iff` (computable in `∅` iff `ComputablePred`);
-- `p` is c.e. in `Z` iff `{x : p x} = W^Z_e` for some `e` (`rePredIn_iff_W`), iff `p` is the domain
-  of some partial function recursive in the oracle of `Z`;
-- `W^Z_e` is the union of its stages `W^Z_{e,s} = {x < s : Φ^Z_{e,s}(x)↓}`, which increase with `s`
-  (`WStage_mono`, `mem_W_iff_mem_stage`), and `y` is a value of `Φ^Z_e` at `x` iff some stage
-  computation converges at `x` with output `y` (`mem_phi_iff_stage`);
+- at the empty oracle they are Mathlib's notions: c.e. in `∅` iff `REPred`, and computable in `∅`
+  iff `ComputablePred`;
+- `p` is c.e. in `Z` iff `{x : p x} = W^Z_e` for some `e`, iff `p` is the domain of some partial
+  function recursive in the oracle of `Z`;
+- `W^Z_e` is the union of its stages `W^Z_{e,s} = {x < s : Φ^Z_{e,s}(x)↓}`, which increase with `s`,
+  and `y` is a value of `Φ^Z_e` at `x` iff some stage computation converges at `x` with output `y`;
 - `p` is computable in `Z` iff `p` and its negation are both c.e. in `Z`;
 - c.e. in `Z` is closed under finite union and intersection, preimage under a computable function,
   and projection `x ↦ ∃ y, q ⟨x, y⟩`; computable in `Z` is closed under the Boolean operations and
@@ -421,8 +406,8 @@ Prove:
 - complement invariance: `A ≡_T Aᶜ` for every set `A`;
 - computable changes of presentation: for a computable bijection `π` of ℕ, `π(A)` and `A` are
   one-one equivalent, hence `π(A) ≡_T A`;
-- the columns `ω^[e]` (`column`) are infinite (`column_infinite`), pairwise disjoint and cover ℕ, and
-  membership of `x` in `ω^[e]` is computable in `(x, e)`;
+- the columns `ω^[e]` are infinite, pairwise disjoint and cover ℕ, and membership of `x` in `ω^[e]`
+  is computable in `(x, e)`;
 - ordinary subset inclusion is not a reducibility: there is a noncomputable subset of a computable
   set.
 
@@ -483,7 +468,7 @@ IV.1–4].
 ### 3.1 The jump as the complete set c.e. in Z
 
 Prove in the vocabulary of 1.1 that every set c.e. in `Z` is one-one, hence many-one, reducible to
-`Z′` (`relative_ce_reduces_jump` states the many-one form), and that `Z′` is c.e. in `Z`; and that a
+`Z′`, and that `Z′` is c.e. in `Z`; and that a
 predicate whose negation is c.e. in `Z` is computable in `Z′`. *Needs:* 1.1; Tau Ceti `Set.jump`,
 `Set.oneOneReducible_jump_of_recursiveIn`, `Set.turingReducible_jump_of_recursiveIn`.
 
@@ -540,7 +525,8 @@ With `W_e` the domain of Mathlib's ordinary program number `e`, define `TOT = {e
 many-one completeness: `K` is `Σ⁰₁` and every `Σ⁰₁` set many-one reduces to it; `TOT` is
 `Π⁰₂`-complete, `FIN` is `Σ⁰₂`-complete and `INF` is `Π⁰₂`-complete. By 3.3, none of `TOT`, `FIN`,
 `INF` is `Σ⁰₁` or `Π⁰₁`, and `TOT` is not `Σ⁰₂`. *Needs:* 3.2, 3.3; Mathlib
-`ComputablePred.halting_problem`, `ManyOneReducible`.
+`ComputablePred.halting_problem`, `ManyOneReducible`, and s-m-n for the reductions
+(`Nat.Partrec.Code.curry`, `Nat.Partrec.Code.smn`).
 
 **Checks.**
 - `TOT` is `Π⁰₂`: `e ∈ TOT` iff `∀ x ∃ s, Φ_{e,s}(x)↓`. A single query to `∅′` asks whether one
@@ -606,7 +592,10 @@ functions uniformly computable in `Z` (`limitLemma`). Prove the characteristic-f
 specialization: `A ≤_T Z′` iff the characteristic function of `A` is such a limit. Using 3.3, prove
 that `A ∈ Δ⁰₂(Z)` iff the characteristic function of `A` is such a limit. *Needs:* 3.3 for the `Δ⁰₂`
 form only; Tau Ceti `TauCeti.Approximation.Converges.computableIn_jump`,
-`TauCeti.Approximation.Converges.turingReducible_jump`, `Set.jump`.
+`TauCeti.Approximation.Converges.turingReducible_jump`, `Set.jump`, and for the converse direction,
+which approximates `Z′` by its stages, `TauCeti.Oracle.Single.Code.evalStage` with
+`primrec_evalStage_list` in the namespace `TauCeti.Oracle.Single.Code` (a stage computation reads
+only a finite initial segment of `Z`).
 
 **Checks.**
 - The approximation "`x` has entered `K` by stage `s`" converges to the characteristic function of
@@ -714,12 +703,11 @@ finiteness of attention (supplier contracts). This layer adds the rest.
 
 ### 6.1 Finite histories, extensionality and single-entry counting
 
-Define the injuries through stage `n`, `⋃_{s<n} J(e, s)` (`injuriesThrough`). Prove that they
-increase with `n` (`injuriesThrough_mono`) and that `x ∈ I_e` iff `x` lies in the injuries through
-some stage (`mem_injurySet_iff_through`); that the injury set depends only on the stages and on the
-restraint of `e` (`injurySet_congr`); and that for monotone stages, finite `I_e`, and at most one
-injuring entry at each stage, `|S_e| = |I_e|` (`injuryStages_ncard_eq_of_single_entry`). The general
-interface carries no single-entry hypothesis. Cardinal bounds are stated together with finiteness:
+Define the injuries through stage `n`, `⋃_{s<n} J(e, s)`. Prove that they increase with `n` and that
+`x ∈ I_e` iff `x` lies in the injuries through some stage; that the injury set depends only on the
+stages and on the restraint of `e`; and that for monotone stages, finite `I_e`, and at most one
+injuring entry at each stage, `|S_e| = |I_e|`. The general interface carries no single-entry
+hypothesis. Cardinal bounds are stated together with finiteness:
 `Set.ncard` is zero on an infinite set, and a bound on it alone would be vacuous.
 *Needs:* Tau Ceti `TauCeti.Priority.injuriesAt`, `TauCeti.Priority.injurySet`,
 `TauCeti.Priority.injuryStages`, `TauCeti.Priority.injOn_snd_injuryEvents`,
@@ -735,11 +723,10 @@ interface carries no single-entry hypothesis. Cardinal bounds are stated togethe
 ### 6.2 Several monitored oracles
 
 For several constructed sets, indexed by labels, parameterize the monitored oracle by a target map
-from requirements to labels, and define the labelled injury events (`monitoredInjuryEvents`): the
-events of requirement `e` in the stages of its target set, each carrying the label. Prove the
-membership equation (`monitoredInjuryEvents_mem`); that projecting the labelled events of `e` gives
-the unlabelled events of its target set; and that restricting to an initial segment of priorities
-`{e : e < n}` commutes with this projection. The label keeps an entry of a number in `A` distinct
+from requirements to labels, and define the labelled injury events: the events of requirement `e`
+in the stages of its target set, each carrying the label. Prove the membership equation; that
+projecting the labelled events of `e` gives the unlabelled events of its target set; and that
+restricting to an initial segment of priorities `{e : e < n}` commutes with this projection. The label keeps an entry of a number in `A` distinct
 from an entry of the same number in `B`. A switch of monitored oracle is a new proof obligation, not
 a reindexing of unlabelled numbers. In the original Friedberg–Muchnik construction the requirements
 enumerate into one set and protect the other: the target of `R_{2e}` is `B` and that of `R_{2e+1}`
@@ -747,11 +734,11 @@ is `A`. *Needs:* Tau Ceti `TauCeti.Priority.injuryEvents`.
 
 ### 6.3 Initialization, epochs and finite-injury induction
 
-Define the initialization stages of requirement `e` under the blanket-reset convention, the stages at
-which some requirement of strictly higher priority acts (`initializationStages`), and, for a strategy
-that uses them, its epochs, the intervals between consecutive initialization stages. Prove that if
-every requirement of higher priority than `e` acts finitely often, `e` is initialized finitely often
-(`initialization_finite_of_attention`), so its last epoch is infinite. Locality for records, that
+Define the initialization stages of requirement `e` under the blanket-reset convention, the stages
+at which some requirement of strictly higher priority acts, and, for a strategy that uses them, its
+epochs, the intervals between consecutive initialization stages. Prove that if every requirement of
+higher priority than `e` acts finitely often, `e` is initialized finitely often, so its last epoch
+is infinite. Locality for records, that
 an action at a lower priority does not modify higher-priority records, is Tau Ceti's; prove its form
 for injuries: an entry above every current higher-priority restraint injures no higher-priority
 requirement, so respecting those restraints prevents the relevant injuries. The construction's own
@@ -773,43 +760,36 @@ and stabilization of an idle strategy is not a satisfaction theorem.
 
 ### Examples
 
-These boundary cases are part of the specification; the acceptance file proves those marked with its
-example data from the definitions.
+These boundary cases are part of the specification.
 
-1. With an inactive restraint a fresh entry at `0` is not an injury; with `some 0` it is (stages
-   `Examples.zeroThenZero`, restraints `Examples.allInactive` and `Examples.allZero`).
+1. With an inactive restraint a fresh entry at `0` is not an injury; with `some 0` it is.
 2. A fresh entry exactly at an active restraint is an injury: under `some 1`, an entry `1` gives
-   `I_e = {1}` (`Examples.zeroThenBoundary`, `Examples.allOne`).
+   `I_e = {1}`.
 3. An entry at the exclusive use boundary leaves the computation intact although it is a
    conservative injury: with `1` entering under the restraint `some 1`, the strings of length one of
-   the stage and of the limit agree, so a computation of use `1` is preserved
-   (`Examples.zeroThenBoundary`).
+   the stage and of the limit agree, so a computation of use `1` is preserved.
 4. Two distinct injuring numbers at one stage contribute two numbers and one injury stage:
-   `I_e = {0, 1}` and `S_e = {1}` (`Examples.zeroThenPair`).
-5. Without monotonicity, repeated entry and removal of `0` gives `I_e = {0}` and infinitely many
-   injury stages (`Examples.oscillatingZero`).
+   `I_e = {0, 1}` and `S_e = {1}`.
+5. Without monotonicity, repeated entry and removal of `0` under the restraint `some 0` gives
+   `I_e = {0}` and infinitely many injury stages.
 6. A lower-priority reset can occur without any injury to the protected oracle: requirement `0` acts
-   once and initializes requirement `1` at stage `1`, while no number ever enters
-   (`Examples.resetOnce`).
+   once and initializes requirement `1` at stage `1`, while no number ever enters.
 7. Finite injury alone does not force an arbitrary restraint to stabilize: with no entries and the
-   growing restraint `r(e, s) = some s`, `I_e = ∅` and the restraint is never constant
-   (`Examples.growingRestraint`).
+   growing restraint `r(e, s) = some s`, `I_e = ∅` and the restraint is never constant.
 8. Absence of injury to a restraint that later drops does not preserve an earlier use it no longer
    covers: the restraint `some 1` at stage `0` and `none` afterwards, with `0` entering at stage `2`,
-   give `I_e = ∅` while the string of length one changes (`Examples.lateZero`,
-   `Examples.droppedRestraint`).
+   give `I_e = ∅` while the string of length one changes.
 9. A discovery against a fixed oracle is persistent; a discovery against a moving oracle can fail:
    the query program on input `0` outputs `0` against the stage `∅` and `1` once `0` has entered.
 10. An event in one oracle cannot discharge the matching event claim for another: if `5` enters `A`
     and not `B`, the labelled event of `5` in `A` is present and the one in `B` is not.
 11. Boundary-only injuries under a growing restraint can be infinite with no use-prefix breach:
     with `A_s = {0, …, s − 1}` and `r(e, s) = some s`, every number is an injury and no entry lies
-    strictly below the restraint (`Examples.initialSegments`). Finitely many use-prefix breaches do
-    not give finite injury without control of the restraint.
+    strictly below the restraint. Finitely many use-prefix breaches do not give finite injury
+    without control of the restraint.
 12. A uniformly c.e. family of finite injury-number sets need not be uniformly computable: for the
-    standard enumeration of `K` (`Examples.haltingStages`) and the restraint `r(e, s) = some e`
-    (`Examples.perIndexRestraint`), `I_e = K ∩ [0, e]`, and the diagonal query `e ∈ I_e` would
-    decide `K` (`Examples.finite_injurySet_haltingStages_and_not_computablePred`).
+    standard enumeration of `K`, stage `s` being `{e < s : Φ_{e,s}(e)↓}`, and the restraint
+    `r(e, s) = some e`, `I_e = K ∩ [0, e]`, and the diagonal query `e ∈ I_e` would decide `K`.
 
 ### Dependencies
 
@@ -906,39 +886,37 @@ index; the finite searches of 8.3 depend on that bound.
 ### 8.1 Length of agreement and its restraint
 
 For a c.e. target `C` and a constructed set `A` with stages `C_s` and `A_s`, define the stage
-agreement `agreesAt` (the stage computation `Φ^{A_s}_{e,s}(x)` converges with output `C_s(x)`), the
-length of agreement `ℓ(e, s)` (`agreementLength`), the first argument at which the stage computation
-is absent or differs from `C_s`, and the restraint
-`r(e, s) = max {u(A_s; e, x, s) : x ≤ ℓ(e, s)}` (`agreementRestraint`, with `sacksRestraint` its
-active form `some r(e, s)`), where the stage use of a divergent computation is `0`. The upper index
-is inclusive: the restraint protects any convergent computation at the first disagreement as well as
-the computations at smaller arguments. Prove:
+agreement `stageAgreesAt` (the stage computation `Φ^{A_s}_{e,s}(x)`, Tau Ceti's `evalStage` of
+program number `e` against the answers of `A_s`, converges with output `C_s(x)`), the length of
+agreement `ℓ(e, s)` (`stageAgreementLength`), the first argument at which the stage computation is
+absent or differs from `C_s`, and the restraint `r(e, s) = max {u(A_s; e, x, s) : x ≤ ℓ(e, s)}`
+(`stageAgreementRestraint`, with `sacksRestraint` its active form `some r(e, s)`), where the stage
+use of a divergent computation is `0`. The upper index is inclusive: the restraint protects any
+convergent computation at the first disagreement as well as the computations at smaller arguments.
+Prove:
 
-- `ℓ(e, s) ≤ s`, every argument below `ℓ(e, s)` agrees, and `ℓ(e, s)` does not
-  (`agreementLength_spec`): Soare's stage bound makes the search end at the latest at `s`;
-- every stage use at an argument up to and including `ℓ(e, s)` is at most `r(e, s)`
-  (`stageUse_le_agreementRestraint`, `first_disagreement_use_le`);
-- `ℓ` and `r` are computable uniformly in `(e, s)` from computable stages of `A` and `C`
-  (`agreementLength_computable`, `sacksRestraint_computable`);
+- `ℓ(e, s) ≤ s`, every argument below `ℓ(e, s)` agrees, and `ℓ(e, s)` does not: Soare's stage
+  bound makes the search end at the latest at `s`;
+- every stage use at an argument up to and including `ℓ(e, s)` is at most `r(e, s)`;
+- `ℓ` and `r` are computable uniformly in `(e, s)` from computable stages of `A` and `C`;
 - one-step preservation: if the stages of `A` increase, `x ≤ ℓ(e, s)`, the stage computation at `x`
   converges with output `y` and use `u`, and no element enters `A` at stage `s + 1` at or below the
   restraint `r(e, s)` read at stage `s`, then the stage-`(s + 1)` computation at `x` converges with
-  the same output and use (`sacks_computation_preserved`); this needs no hypothesis on `C`, and
-  agreement at `x` is preserved as well when in addition `C_{s+1}(x) = C_s(x)`
-  (`sacks_agreement_preserved`);
-- if `Φ^A_e = C` for the limits, the agreement length tends to infinity
-  (`agreement_cofinal_of_computes`);
+  the same output and use; this needs no hypothesis on `C`, and agreement at `x` is preserved as
+  well when in addition `C_{s+1}(x) = C_s(x)`;
+- if the stages of `A` and `C` increase and `Φ^A_e = C` for the limits, the agreement length tends
+  to infinity;
 - on an injury-free interval, the simultaneous preservation equations of the Remark in [S, VII.3,
   p. 122], and the stable-disagreement alternative;
-- [S, VII.3.1, Lemma 1] (`nonreduction_of_finite_sacks_injury`): if `A` and `C` are c.e. with
-  increasing stages, `C` is not computable, and the injury set of `e` for the restraint `r` is
-  finite, then `Φ^A_e ≠ C`. If `Φ^A_e = C`, arbitrarily long agreement after the last injury lets a
-  computable search decide `C`; the last injury stage is not computed from the data, it is a fixed
-  number in the existence proof of the decision procedure;
-- stabilization (`sacks_agreement_and_restraint_stabilize`): if the injury set of `e` is finite and
-  `Φ^A_e ≠ C`, then `ℓ(e, s)` and `r(e, s)` are eventually constant; with Lemma 1, finite injury
-  alone gives an eventually constant restraint when `C` is not computable
-  (`sacks_restraint_stabilizes`).
+- [S, VII.3.1, Lemma 1] (`nonreduction_of_finite_sacks_injury`): if `A` and `C` are enumerated by
+  computable increasing finite stages, `C` is not computable, and the injury set of `e` for the
+  restraint `r` is finite, then `Φ^A_e ≠ C`. If `Φ^A_e = C`, arbitrarily long agreement after the
+  last injury lets a computable search decide `C`; the last injury stage is not computed from the
+  data, it is a fixed number in the existence proof of the decision procedure;
+- stabilization (`sacks_agreement_and_restraint_stabilize`): if the stages of `A` and `C` increase,
+  the injury set of `e` is finite and `Φ^A_e ≠ C`, then `ℓ(e, s)` and `r(e, s)` are eventually
+  constant; with Lemma 1, finite injury alone gives an eventually constant restraint when `C` is not
+  computable.
 
 To iterate preservation across an interval, the live restraint must continue to cover the recorded
 use, as in Layer 6, or that coverage must be proved from the construction's invariants: absence of
@@ -1000,19 +978,17 @@ element is routed separately against the stage-`s` restraints, so the transition
 batched enumerations; empty and finite `B` need no separate case.
 
 The search for the highest-priority threatened pair is finite. At stage `s` no index `e ≥ s` has a
-convergent stage computation, so `ℓ^i(e, s) = 0` and `r^i(e, s) = 0` (`sacksRestraint_of_le`). A
-positive `x` is therefore threatened only by pairs with `e < s`, and `x = 0` is threatened by the
-pair `(s, 0)` at the latest. In both cases the least threatened pair, if any, has `e ≤ s`, and the
-search runs over `e ≤ s` and `i ≤ 1` (`pairsThrough`, the selection `leastThreat` of 2.3, and
-`leastThreat_sacks`: the search finds the highest-priority threatened pair among all pairs, and finds
-none only when no pair is threatened). The side is `routeSide`, and the stages of the halves are
-`sacksSplit`. Prove:
+convergent stage computation, so `ℓ^i(e, s) = 0` and `r^i(e, s) = 0`. A positive `x` is therefore
+threatened only by pairs with `e < s`, and `x = 0` is threatened by the pair `(s, 0)` at the latest.
+In both cases the least threatened pair, if any, has `e ≤ s`, and the search runs over `e ≤ s` and
+`i ≤ 1` (`pairsThrough` and the selection `leastThreat` of 2.3). Prove that this search finds the
+highest-priority threatened pair among all pairs, and finds none only when no pair is threatened.
+The side is `routeSide`, and the stages of the halves are `sacksSplit`. Prove:
 
-- the halves are disjoint with union `B_s` at every stage (`sacksSplit_union`,
-  `sacksSplit_disjoint`), and their stages are computable (`sacksSplit_computable`);
+- the halves are disjoint with union `B_s` at every stage, and their stages are computable;
 - by induction on the priority `2e + i`, the three statements of [S, p. 125]: `I^i_e` is finite,
   `C ≠ Φ^{A_i}_e`, and `r^i(e, s)` converges, together with the convergence of `ℓ^i(e, s)` that the
-  lowness proof uses (`sacksSplit_requirement`). For finite injury, the higher-priority restraints
+  lowness proof uses. For finite injury, the higher-priority restraints
   converge by the induction hypothesis, so from some stage on they are all at most a number `r`; an
   element entering `A_i` with `x ≤ r^i(e, s)` is threatened by `(e, i)`, so it was routed by a
   higher-priority pair of the other side, and hence `x ≤ r`; once `B` has settled at and below `r`,
@@ -1020,16 +996,15 @@ none only when no pair is threatened). The side is `routeSide`, and the stages o
   in general no computable bound on `|I^i_e|` [S, p. 126], and none is assumed.
 
 Prove lowness of both halves by the agreement-length test of [S, pp. 125–126]. Supply the probe
-compiler as a reusable index construction, uniform in a bit given as data
-(`lowness_probe_compiler`): a computable `g : {0, 1} × ℕ → ℕ` such that for every oracle `X` and all
-`b, e, x, y`, `y` is a value of `Φ^X_{g(b,e)}` at `x` iff `x = 0`, `Φ^X_e(e)` converges, and
-`y = b`. The program waits for the diagonal computation, returns `b` at input `0`, and diverges at
-every positive input. For the fixed target take `b = C(0)`. The probe's agreement length on `A_i`
-then settles at exactly `1` when `Φ^{A_i}_e(e)` converges, since the output at `0` agrees and the
-probe diverges at `1`, and at `0` when it diverges, by the divergent first-disagreement argument of
-8.1 (`sacksSplit_probe_length`). So `h_i(e, s) = 1` iff `ℓ^i(g(b, e), s) > 0` is computable, by the
-computability of the agreement length, and converges to the characteristic function of the jump of
-`A_i` (`sacksSplit_jump_approximation`); the Limit Lemma then gives `A_i′ ≤_T ∅′`. Conclude
+compiler as a reusable index construction, uniform in a bit given as data: a computable
+`g : {0, 1} × ℕ → ℕ` such that for every oracle `X` and all `b, e, x, y`, `y` is a value of
+`Φ^X_{g(b,e)}` at `x` iff `x = 0`, `Φ^X_e(e)` converges, and `y = b`. The program waits for the
+diagonal computation, returns `b` at input `0`, and diverges at every positive input. For the fixed
+target take `b = C(0)`. The probe's agreement length on `A_i` then settles at exactly `1` when
+`Φ^{A_i}_e(e)` converges, since the output at `0` agrees and the probe diverges at `1`, and at `0`
+when it diverges, by the divergent first-disagreement argument of 8.1. So `h_i(e, s) = 1` iff
+`ℓ^i(g(b, e), s) > 0` is computable, by the computability of the agreement length, and converges to
+the characteristic function of the jump of `A_i`; the Limit Lemma then gives `A_i′ ≤_T ∅′`. Conclude
 `sacksSplit_spec` for the constructed halves and `sacks_splitting` [S, VII.3.2]: for c.e. `B` and
 `C` with `C` not computable there are low c.e. sets `A_0`, `A_1` with `B = A_0 ∪ A_1`,
 `A_0 ∩ A_1 = ∅` and `C ≰_T A_i` for `i = 0, 1`; there is no infinitude hypothesis on `B`.
@@ -1041,15 +1016,16 @@ index, even under the promise that `C` is not computable: the uniformly c.e. set
 rules out only that operation, not every uniform form of the lowness reductions.
 
 Provide total computable output-index maps `f_0`, `f_1` on input enumeration indices `b`, `c`,
-identified with the construction above: run on the canonical stages `W_{b,s}` and `W_{c,s}`, the
-halves satisfy `W_{f_i(b,c)} = ⋃ₛ A_{i,s}` for all `b` and `c`, with no noncomputability premise, and
-the stage table is computable in `(b, c, s, i)` (`sacks_splitting_uniform_indices`). Computability of
-the stages for each fixed pair of approximations does not by itself give an operator on indices. The
+identified with the construction above: run on the canonical stages of `W_b` and `W_c`, the stages
+`Nat.Partrec.Code.domStage` of the ordinary programs numbered `b` and `c`, the halves satisfy
+`W_{f_i(b,c)} = ⋃ₛ A_{i,s}` for all `b` and `c`, with no noncomputability premise, and the stage
+table is computable in `(b, c, s, i)` (`sacks_splitting_uniform_indices`). Computability of the
+stages for each fixed pair of approximations does not by itself give an operator on indices. The
 unconditional facts are kept apart from the promised ones (`sacksSplit_W_spec`): for all `b` and `c`
 the halves are disjoint with union `W_b`; when `W_c` is not computable they are low and neither
 computes `W_c`. No uniform indices for the lowness reductions are promised. The canonical stages
-enumerate in batches, which the per-element routing handles.
-*Needs:* 8.1, 2.3; Tau Ceti `TauCeti.Enumeration.stageLimit`, `TauCeti.Enumeration.fresh`,
+enumerate in batches, which the per-element routing handles. *Needs:* 8.1, 2.3; Tau Ceti
+`TauCeti.Enumeration.stageLimit`, `TauCeti.Enumeration.fresh`, `Nat.Partrec.Code.domStage`,
 `TauCeti.Approximation.Converges.turingReducible_jump_empty`, `Set.Low`, `Set.jump`; Mathlib
 `ComputablePred.halting_problem`.
 
@@ -1129,9 +1105,9 @@ corollaries, explicit construction indices where uniformity is specified, and th
   program, s-m-n with injectivity and the fixed-point theorems, all independent of the oracle; and
   the passage to a moving oracle (a genuine computation is eventually visible, a protected stage
   computation is preserved);
-- the canonical binary coding of finite sets of naturals, `Finset.equivBitIndices`, the effective
-  finite-set indices of [S, II.2], with primitive recursive membership, union, intersection,
-  difference, bounded filtering and least element;
+- for Mathlib's binary coding `Finset.equivBitIndices` of finite sets of naturals, the effective
+  finite-set indices of [S, II.2], primitive recursive membership, union, intersection, difference,
+  bounded filtering and least element;
 - enumeration stages, their limits, fresh entries and entry stages, finite-prefix stabilization,
   shifts, cofinal clocks, the presentations of c.e. sets as domains and stage unions, and
   serialization of a stage sequence of sets;
@@ -1159,33 +1135,6 @@ corollaries, explicit construction indices where uniformity is specified, and th
   it; and the degree corollary `∅ <_T A <_T ∅′`;
 - the length of agreement and the agreement restraint of raw runs, with preservation and
   persistence, and one-step preservation without injury.
-
-The acceptance file restates, on its prototypes (Convention 16), these results that Tau Ceti proves:
-`oracle_eq_totalOracle`; `Code.ofNat_encode`, `Code.encode_ofNat`, `Code.eval_embed`,
-`Code.run_persistent`, `Code.run_use`, `Code.run_unique`, `Code.stage_bounds`,
-`Code.stage_computable`, `Code.stageAt_persistent`, `Code.stageAt_agreement`, `embed_computable`,
-`recursiveIn_iff_code_total`, `recursiveIn_iff_code`, `universal_oracle_program`, `smn_uniform`,
-`fixed_point_uniform_in_oracle` (Layer 0 foundations); `finiteDecode_finiteCode`,
-`finiteCode_finiteDecode`, `finiteDecode_membership_computable`, `finiteCode_list_computable`,
-`re_iff_finiteStages`, `serialized_ce_approximation`, `unique_entry_stage`,
-`finite_prefix_stabilizes` (Layer 1 foundations); `join_le_iff` and `ce_split_reductions` (the
-parity join and the split reductions); `jump_strict`, `jump_monotone`, `paired_halting_equiv`
-(the jump); `computable_of_computable_modulus` and `eventually_stage_of_limit_computation`
-(approximation); `exists_computablyInseparable_ce`, `simple_iff_requirements`, `exists_simple`,
-`simple_not_computable` (Layer 5 foundations); `exists_low_simple` and
-`exists_intermediate_ce_degree` (the low simple set and its degree); `injurySet_eq_image`,
-`injuryStages_eq_image`, `injuriesAt_eq_breach_union_boundary`, `breaches_disjoint_boundary`,
-`useBreachSet_subset_injurySet`, `finite_injurySet_of_eventually_bounded_restraint`,
-`finite_injurySet_of_restraint_stabilizes`, `finite_useBreachSet_iff_eventually_empty`,
-`mem_injuriesAt`, `injuriesAt_none`, `boundary_mem_injuriesAt`, `succ_mem_injuryStages`,
-`zero_not_mem_injuryStages`, `injury_number_projection_injective`,
-`finite_injurySet_iff_finite_injuryStages`, `finite_injurySet_iff_eventually_empty`,
-`injuryStages_ncard_le`, `injury_membership_computable`, `injurySet_uniformly_ce`,
-`injuryStages_uniformly_computable`, `injuryStages_uniformly_ce`, `injury_budget` with its
-attribution sets `contributions`, `limit_agrees_of_no_fresh_below`,
-`computation_preserved_by_live_restraint`, `computation_preserved_without_use_breaches` and
-`all_attention_finite_of_local` (the injury calculus). Its other statements are the targets of the
-layers, cited there by name.
 
 **Mathlib** owns partial recursive functions, their codes and bounded evaluation, the c.e. and
 computable predicates with the theorem that a predicate is computable iff it and its negation are
@@ -1273,7 +1222,8 @@ Paths are under `TauCeti/Computability/`. Every declaration below is proved at t
   `evalStage_index_lt`, `evalStage_output_lt`, `evalStage_use_le`, `evalStage_mono`,
   `evalStage_unique`, `evalStage_eq_some_of_eqOn` (the use principle between stages),
   `evalStage_sound`, `exists_eventually_evalStage_eq_some_of_mem_eval`,
-  `mem_eval_iff_exists_evalStage`, `primrec_evalStage`.
+  `mem_eval_iff_exists_evalStage`, `primrec_evalStage`, `primrec_evalStage_list` (stage
+  computations are primitive recursive in finite answers).
 - *Uniform index maps* (`SingleOracle/Universal.lean`, `SingleOracle/Recursion.lean`):
   `TauCeti.Oracle.Single.Code.universal` with its evaluation equation, one universal program for
   every total oracle; `TauCeti.Oracle.Single.Code.curry` (s-m-n), primitive recursive and injective
@@ -1430,10 +1380,10 @@ same mathematics cite the overlapping work.
 
 | Pinned source | Material to compare or adapt | Integration work |
 | --- | --- | --- |
-| C. Freer, [computable-model-theory at `a1fe761`](https://github.com/cameronfreer/computable-model-theory/tree/a1fe76155a98f03933f7de0811e03b2473dd2e21/ComputableModelTheory/Computability) | `Computability/OraclePred`, `RecursiveIn`, `Jump`, `StagedPartial`, `StagedRace`, `FiniteInjury` | Extract only the generic layers; construct the actual relative jump and staged representation; keep the distinction between injury sets and a record-reset kernel |
-| A. Aslyan, [friedberg-muchnik-lean at `d5b3463`](https://github.com/aaslyan/friedberg-muchnik-lean/tree/d5b34637724cdcb55c7fc20be4c89ac60fec4954) | `OracleComputability` code, use and bridge modules; the original Friedberg–Muchnik construction; splitting with nonreducibility | Harmonize codes and predicates, complete the positive and negative semantic bridges, and establish the low-half strengthening of [S, VII.3.2] |
-| [Single-oracle Mathlib proposal at `302800b`](https://github.com/hyeoniuwu/mathlib4/tree/302800b4882ddd8037580014ffa89a824639ce09/Mathlib/Computability/SingleOracle) | Single-oracle codes, evaluation, reducibility, the jump and `SingleReducibleIff`, taken from the core of CiL | Coordinate shape and remove duplicate ordinary interfaces; add the stage, use and finite-injury interfaces asked for here |
-| E. Park, [CiL at `3f44ae2`](https://github.com/hyeoniuwu/CiL/tree/3f44ae202755cd7185a53714eafa6c91e7ed871f/Computability) | The same single-oracle core, with set oracles and their jump (`Set_lt_SetJump`, `CEIn_deg`), the use principle (`Use/Principle.lean`), a simple set (`exists_simple_set`) and the Kleene–Post pair below `∅′` (`ex_incomparable_sets_below_j1` in `Constructions/KP54.lean`), all proved; at this commit `LowSimple.lean` begins a low simple construction with no lowness statement, and `Post.lean` is commented out | CiL has its own `Code`, `RecursiveIn`, reducibility and degrees, bridged to Mathlib only by `SingleReducibleIff`; its codes connect to `Nat.Partrec.Code` and its degrees to Mathlib's `TuringDegree`. Its use principle can serve Layer 0, its jump results Layer 3, and its simple set and Kleene–Post proofs Layer 5 |
+| C. Freer, [computable-model-theory at `a1fe761`](https://github.com/cameronfreer/computable-model-theory/tree/a1fe76155a98f03933f7de0811e03b2473dd2e21/ComputableModelTheory/Computability) | `Computability/OraclePred`, `RecursiveIn`, `Jump`, `StagedPartial`, `StagedRace`, `FiniteInjury` | Compare its relative predicates (`OraclePred`) with 1.1 and its two-sided race (`StagedRace`) with the racing of 0.3; the relative jump, the staged representation and the priority records of its `FiniteInjury` are covered by Tau Ceti's, and those records are not the injury sets of Layer 6 |
+| A. Aslyan, [friedberg-muchnik-lean at `d5b3463`](https://github.com/aaslyan/friedberg-muchnik-lean/tree/d5b34637724cdcb55c7fc20be4c89ac60fec4954) | `OracleComputability` code, use and bridge modules; the original Friedberg–Muchnik construction; splitting with nonreducibility | Compare its original Friedberg–Muchnik construction with Layer 7 and its splitting with nonreducibility with 8.3, which adds the low halves of [S, VII.3.2]; its codes and semantic bridges are covered by Tau Ceti's single-oracle programs and their adequacy |
+| [Single-oracle Mathlib proposal at `302800b`](https://github.com/hyeoniuwu/mathlib4/tree/302800b4882ddd8037580014ffa89a824639ce09/Mathlib/Computability/SingleOracle) | Single-oracle codes, evaluation, reducibility, the jump and `SingleReducibleIff`, taken from the core of CiL | None remains: Tau Ceti's single-oracle programs follow its shape, and the stage, use and finite-injury interfaces are Tau Ceti's |
+| E. Park, [CiL at `3f44ae2`](https://github.com/hyeoniuwu/CiL/tree/3f44ae202755cd7185a53714eafa6c91e7ed871f/Computability) | The same single-oracle core, with set oracles and their jump (`Set_lt_SetJump`, `CEIn_deg`), the use principle (`Use/Principle.lean`), a simple set (`exists_simple_set`) and the Kleene–Post pair below `∅′` (`ex_incomparable_sets_below_j1` in `Constructions/KP54.lean`), all proved; at this commit `LowSimple.lean` begins a low simple construction with no lowness statement, and `Post.lean` is commented out | CiL has its own `Code`, `RecursiveIn`, reducibility and degrees, bridged to Mathlib only by `SingleReducibleIff`; its codes connect to `Nat.Partrec.Code` and its degrees to Mathlib's `TuringDegree`. Its Kleene–Post pair can be compared with 5.1; its use principle, jump results and simple set are covered by Tau Ceti's |
 
 A successful port of a source is not a reason to relax the statement of a target or to omit its
 computability, degree or injury-interface consequences.
