@@ -523,6 +523,13 @@ Stated by roadmaps on main and not restated here:
 - The elementary matrix concentration of OperatorTheory/MatrixSpectralStatistics, Part C, and of
   Tau Ceti's `TauCeti/Probability/Moments/MatrixConcentration.lean` is not used.
 
+GaussianLinearModels (an open roadmap, not on main) states in its 2.2 the mean of a quadratic
+form `E ⟪Y, A Y⟫ = tr (A S) + ⟪μ, A μ⟫` for a centred vector with covariance `S` shifted by `μ`.
+The mean identity of 3.1 is its case `μ = 0`, `S = 1` for a vector with independent Rademacher
+coordinates; it is kept here in coordinates as the first half of Hutchinson's lemma, whose
+second half, the variance, is specific to Rademacher signs. This roadmap does not depend on that
+one.
+
 Not treated here: random subspace embeddings (a Gaussian matrix, a sparse embedding with
 `O(d²/ε²)` rows, or leverage-score sampling as a subspace embedding of a fixed `d`-dimensional
 subspace), the randomized range finder and low-rank approximation, fast Johnson–Lindenstrauss
