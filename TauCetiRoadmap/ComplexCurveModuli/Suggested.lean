@@ -3,6 +3,8 @@ import TauCeti.AlgebraicGeometry.Curves.NodalGluing.AuxiliaryMarks
 import TauCeti.AlgebraicTopology.Cellular.EulerCharacteristic.FiniteCWType
 import TauCeti.Analysis.Complex.RiemannSurface.ComplexTorus
 import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic
+import TauCeti.Geometry.Manifold.Riemannian.Hyperbolic.FiniteVolume
+import TauCeti.Geometry.Manifold.Riemannian.Restriction
 import TauCeti.Geometry.Manifold.VectorBundle.Riemannian.Conformal
 
 /-!
@@ -16,6 +18,9 @@ Stated here:
 
 * the existence of a hyperbolic metric in the conformal class of every Riemannian metric on a
   closed surface of negative Euler characteristic (README §0.4);
+* the existence of a complete hyperbolic metric of finite volume in the conformal class of every
+  Riemannian metric on a closed surface punctured at finitely many points, when the punctured
+  surface has negative Euler characteristic (README §0.4);
 * the classification of compact Riemann surfaces of genus one as complex tori (README §0.3);
 * pointed stability as finiteness of the automorphism group of a marked nodal curve
   (README §§0.5 and 1.2).
@@ -39,9 +44,9 @@ Not statable at the pins, each for want of the carrier named:
 * compactness, Hausdorffness and second countability of the coarse moduli space of stable curves,
   properness of the chart groupoid and the finite action charts (README §§6.3–6.4): there is no
   groupoid of stable curves and their isomorphisms with a topology;
-* uniformization of punctured and bordered components (README §0.4): there is no relation between
-  a complex structure and the conformal class of a Riemannian metric on a punctured or bordered
-  Riemann surface;
+* uniformization of compact bordered components with geodesic boundary (README §0.4): there is no
+  second fundamental form, or geodesic curvature, of the boundary of a Riemannian manifold with
+  boundary (the pinned second fundamental form is that of a map into an inner product space);
 * Riemann–Roch for Cauchy–Riemann operators on line bundles and the index of the Robbin–Salamon
   operator (README §§0.2, 3.4): there are no holomorphic line bundles on a compact Riemann surface
   and no Cauchy–Riemann operators on their sections;
@@ -80,6 +85,28 @@ theorem exists_hyperbolicMetric_metric_eq_rescale_of_eulerChar_neg
     (g : Bundle.ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x)) :
     ∃ (G : HyperbolicMetric (I := I) (M := M)) (f : M → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
       (hf_pos : ∀ x, 0 < f x), G.metric = g.rescale f hf hf_pos := by
+  sorry
+
+/-- **Hyperbolic metrics on punctured surfaces** (README §0.4). Let `M` be a closed connected
+surface and `P ⊂ M` a finite set with `χ(M) < #P`, so that the open surface `U = M ∖ P` has negative
+Euler characteristic `χ(M) − #P`. For every smooth Riemannian metric `g` on `M`, the restriction of
+`g` to `U` is conformal to a complete hyperbolic metric of finite volume: there is a smooth positive
+function `f` on `U` and a complete metric of constant curvature `−1` and finite volume on `U` equal
+to `f g|_U`. For `P = ∅` this is the closed case. The instance `PreconnectedSpace U`, which
+`TauCeti.HyperbolicMetric` requires, always holds, since a finite set does not disconnect a
+connected surface. -/
+theorem exists_hyperbolicMetric_hasFiniteVolume_metric_eq_rescale_of_eulerChar_lt_card
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [I.Boundaryless]
+    {M : Type*} [TopologicalSpace M] [T3Space M] [PreconnectedSpace M] [CompactSpace M]
+    [SecondCountableTopology M] [ChartedSpace H M] [IsManifold I ∞ M] [FiniteCWType M]
+    (hE : finrank ℝ E = 2) (P : Finset M) (hχ : eulerChar M < P.card)
+    (U : TopologicalSpace.Opens M) (hU : (U : Set M) = (↑P : Set M)ᶜ)
+    [PreconnectedSpace U] [MeasurableSpace U] [BorelSpace U]
+    (g : Bundle.ContMDiffRiemannianMetric I ∞ E (fun x : M ↦ TangentSpace I x)) :
+    ∃ (G : HyperbolicMetric (I := I) (M := U)) (f : U → ℝ) (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+      (hf_pos : ∀ x, 0 < f x), G.HasFiniteVolume ∧
+        G.metric = (g.restrictOpenTangentSpace U).rescale f hf hf_pos := by
   sorry
 
 /-! ## Layer 1: nodal curves, node rings and their isomorphisms -/
@@ -239,14 +266,5 @@ theorem nodePullbackLift_unique {B C P : Type*} [TopologicalSpace B] [Topologica
   funext p
   apply Subtype.ext
   exact Prod.ext (hfirst p) (hsecond p)
-
-/-! ## Layer 3: linear deformation theory, fractional Sobolev spaces and slices -/
-
-/-- The Fourier coefficient sequences of `H^s` on a boundary circle: `a : ℤ → ℂ` with
-`Σ_n (1 + |n|)^(2s) |a_n|² < ∞`. This is the coefficient condition of Tau Ceti's
-`TauCeti.CircleSobolev s ℂ`, which carries the Hilbert space structure. -/
-abbrev CircleSobolevCoefficients (s : ℝ) :=
-  {a : ℤ → ℂ // Summable (fun n : ℤ =>
-    Real.rpow (1 + |(n : ℝ)|) (2 * s) * Complex.normSq (a n))}
 
 end TauCetiRoadmap.ComplexCurveModuli

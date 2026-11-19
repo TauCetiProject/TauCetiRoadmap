@@ -1,18 +1,18 @@
 # Roadmap: analytic families and moduli of complex curves
 
-**Summary.** This roadmap builds the analytic theory of compact complex curves with nodes and
-marked points, their holomorphic families, and the Deligne–Mumford moduli of stable pointed
-curves, following Robbin and Salamon's construction of the Deligne–Mumford orbifold. A
-*prestable curve* of genus g with n marks is given by finitely many compact connected Riemann
-surfaces (the components of its normalization), finitely many pairs of distinct points on them,
-each pair glued to a node, and n ordered distinct marks away from the nodes, the glued space being
-connected. Its genus is the sum of the genera of the components plus the first Betti number of the
-dual graph. It is *stable* when every component of genus g_v with n_v special points (marks and
-node branches) has 2g_v − 2 + n_v > 0. The families are restricted analytic nodal families: proper
-holomorphic maps onto finite-dimensional complex manifolds, with compact connected nodal fibres and
-disjoint holomorphic sections for the marks, which near each node are the hypersurface xy = s(b)
-for a holomorphic function s on the base. The function s may vanish identically (a permanent node)
-or to higher order, as in xy = b², where the total space is singular.
+**Summary.** This roadmap builds the analytic theory of compact complex curves with nodes and marked
+points, their holomorphic families, and the Deligne–Mumford moduli of stable pointed curves, using
+Robbin and Salamon's Hardy-gluing method. A *prestable curve* of genus g with n marks is given by
+finitely many compact connected Riemann surfaces (the components of its normalization), finitely
+many pairs of distinct points on them, each pair glued to a node, and n ordered distinct marks away
+from the nodes, the glued space being connected. Its genus is the sum of the genera of the
+components plus the first Betti number of the dual graph. It is *stable* when every component of
+genus g_v with n_v special points (marks and node branches) has 2g_v − 2 + n_v > 0. The families are
+restricted analytic nodal families: proper holomorphic maps onto finite-dimensional complex
+manifolds, with compact connected nodal fibres and disjoint holomorphic sections for the marks,
+which near each node are the hypersurface xy = s(b) for a holomorphic function s on the base. The
+function s may vanish identically (a permanent node) or to higher order, as in xy = b², where the
+total space is singular.
 
 The first headline theorem is universality. Every stable curve C of genus g with n marks has a
 universal unfolding over a complex manifold of dimension 3g − 3 + n: every restricted family with a
@@ -121,13 +121,14 @@ unrelated section. Other roadmaps cite these sections as D0–D8: item n of Dk i
    other-roadmap declaration is one of those statements. Exports cited by other roadmaps under a
    proposed name carry it in italics ("cited as *finiteActionUniversalChart*"). Robbin–Salamon 2006
    is the paper on the Deligne–Mumford orbifold and "the corrigendum" its 2007 correction
-   (References); a numbered locator such as "Robbin–Salamon 2006, 8.9" refers to that paper.
+   (References); a numbered locator such as "Robbin–Salamon 2006, 11.4" refers to that paper, with
+   the numbering of its arXiv version.
 
 ## Layer 0: smooth surfaces, compact Riemann surfaces and uniformization
 
 This layer treats one component at a time: compact oriented surfaces with labelled boundary and
 marks, compact Riemann surfaces of genus zero and one, hyperbolic metrics, and the action of
-diffeomorphisms on complex structures. Sections 0.1a–0.1g together are §0.1.
+diffeomorphisms on complex structures. Sections 0.1a–0.1f together are §0.1.
 
 ### 0.1a Oriented normal forms with labelled boundary
 
@@ -211,36 +212,13 @@ list of all isotopy classes is asserted. This supplies the standard normalizatio
 finitely many cut-system types and the finitely many stable dual-graph types for fixed (g, n).
 *Needs:* §§0.1a–0.1d.
 
-### 0.1f Meromorphic functions as finite maps to the sphere
-
-On a compact connected Riemann surface Σ, use ModularForms §10B's analytic genus `g_an`, divisor
-Riemann–Roch and Serre duality, which do not presuppose the equality of the analytic and
-topological genera. Construct the adapter taking a meromorphic function to a holomorphic map to
-the sphere `OnePoint ℂ`: finite values use f, and poles use the holomorphic reciprocal in the
-chart at infinity; prove that the charts agree and that the map is `MDifferentiable`. For
-`D = (g_an + 1)p`, Riemann–Roch gives `ℓ(D) ≥ 2` while the constants have dimension one, so there
-is a nonconstant f; the identity theorem excludes local constancy, and compactness makes it a
-`TauCeti.RiemannSurface.FiniteHolomorphicMap` with finite fibres. Tau Ceti's
-`TauCeti.RiemannSurface.MeromorphicFunction` and `sphereMap` supply the sphere-valued carrier; this
-section owns the comparison with the Riemann–Roch spaces of ModularForms §10B on these components.
-Generic Riemann–Roch is not reproved.
-*Needs:* ModularForms §10B; Tau Ceti `TauCeti.RiemannSurface.FiniteHolomorphicMap`,
-`TauCeti.RiemannSurface.MeromorphicFunction`, `TauCeti.RiemannSurface.sphereMap`, the `OnePoint ℂ`
-manifold instance.
-
-### 0.1g The analytic genus and holomorphic one-forms
+### 0.1f The analytic genus and holomorphic one-forms
 
 Consume ModularForms §10B's theorem that the analytic genus equals the topological genus for every
-connected compact Riemann surface; its prerequisites, including the existence of a meromorphic
-function, belong to that roadmap and are not discharged by §0.1f. Transport ComplexKahlerGeometry's
-Serre duality (§5.10) and that equality to `dim_ℂ H⁰(K_Σ) = g_top` on the components used here.
+connected compact Riemann surface; its prerequisites, including the existence of a nonconstant
+meromorphic function, belong to that roadmap. Transport ComplexKahlerGeometry's Serre duality
+(§5.10) and that equality to `dim_ℂ H⁰(K_Σ) = g_top` on the components used here.
 *Needs:* ModularForms §10B; ComplexKahlerGeometry §5.10; FuchsianOrbifolds Layer 5.
-
-**Checks.**
-- On the sphere `ℓ((g_an + 1)p) = ℓ(p) = 2`, spanned by 1 and a function with a simple pole at p;
-  on a torus `ℓ(2p) = 2`, spanned by 1 and a Weierstrass function, while `ℓ(p) = 1`: the divisor
-  `(g_an + 1)p` is the smallest multiple of p guaranteed by Riemann–Roch to give a nonconstant
-  function.
 
 ### 0.2 Riemann–Roch for Cauchy–Riemann operators on line bundles
 
@@ -278,17 +256,19 @@ on the nonlinear sphere moduli of that roadmap.
 
 For genus one, prove `exists_zlattice_nonempty_diffeomorph_of_eulerChar_eq_zero`: a compact
 connected Riemann surface Σ of Euler characteristic zero is biholomorphic to `ℂ ⧸ Λ` for a lattice
-Λ, the fixed-lattice quotient carrier of Tau Ceti (ComplexTori Milestone 1). Route: take a nonzero
-holomorphic one-form ω (§0.1g), whose divisor has degree zero and is therefore zero. On an oriented
-polygonal homology basis (a, b) with periods A and B, prove the bilinear relation
-`∫_Σ i ω ∧ conj(ω) = 2 Im(conj(A) B) > 0`; every period is an integer combination of A and B, so
-`Λ = ℤA + ℤB` is a discrete lattice of rank two. Integration of ω modulo Λ defines a holomorphic
-map `Σ → ℂ ⧸ Λ`; comparing the area of Σ with that of the period parallelogram shows that it has
-degree one, and `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne` concludes. Choosing A first gives
-`τ = B/A` in the upper half-plane. No existence theorem for universal covers is assumed. Construct
-the local dependence of the periods on a family, and keep the translations and the full stabilizer
-of the lattice, including −1. A fixed lattice quotient alone does not prove the classification.
-*Needs:* HeegaardFloer F2.6a; §0.1g; ComplexTori Milestone 1; Tau Ceti
+Λ, the fixed-lattice quotient carrier of Tau Ceti (ComplexTori Milestone 1); Robbin–Salamon 2006,
+8.1 and the consequence drawn after it, obtain this from the flat metric of the uniformization
+theorem, which the route below does not use. Route: take a nonzero holomorphic one-form ω (§0.1f),
+whose divisor has degree zero and is therefore zero. On an oriented polygonal homology basis (a, b)
+with periods A and B, prove the bilinear relation `∫_Σ i ω ∧ conj(ω) = 2 Im(conj(A) B) > 0`; every
+period is an integer combination of A and B, so `Λ = ℤA + ℤB` is a discrete lattice of rank two.
+Integration of ω modulo Λ defines a holomorphic map `Σ → ℂ ⧸ Λ`; comparing the area of Σ with that
+of the period parallelogram shows that it has degree one, and
+`TauCeti.RiemannSurface.biholomorphOfDegreeEqOne` concludes. Choosing A first gives `τ = B/A` in the
+upper half-plane. No existence theorem for universal covers is assumed. Construct the local
+dependence of the periods on a family, and keep the translations and the full stabilizer of the
+lattice, including −1. A fixed lattice quotient alone does not prove the classification.
+*Needs:* HeegaardFloer F2.6a; §0.1f; ComplexTori Milestone 1; Tau Ceti
 `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne`, `TauCeti.eulerChar`,
 `Diffeomorph.finite_fixingSubgroup_iff_nonempty`.
 
@@ -301,11 +281,11 @@ of the lattice, including −1. A fixed lattice quotient alone does not prove th
 
 ### 0.4 Uniformization of finite-type and bordered components
 
-Own finite-type uniformization for every stable punctured component, including punctured spheres
-and punctured tori, and for compact bordered components with geodesic boundary. For negative Euler
-characteristic, construct a complete finite-area metric of curvature −1 in the given conformal
-class. Fix the nonnegative Laplacian `Δ = −div grad`, so that the equation for `g = e^(2u) g₀` is
-`Δ₀u + K₀ + e^(2u) = 0`.
+Own finite-type uniformization for every stable punctured component, including punctured spheres and
+punctured tori, and for compact bordered components with geodesic boundary. For negative Euler
+characteristic, construct a complete finite-area metric of curvature −1 in the given conformal class
+(Robbin–Salamon 2006, 17.3, which deduces it from the uniformization theorem). Fix the nonnegative
+Laplacian `Δ = −div grad`, so that the equation for `g = e^(2u) g₀` is `Δ₀u + K₀ + e^(2u) = 0`.
 
 *Closed surfaces.* Prove `exists_hyperbolicMetric_metric_eq_rescale_of_eulerChar_neg`: on a closed
 connected surface M of negative Euler characteristic, every smooth Riemannian metric g is
@@ -316,13 +296,16 @@ lower and upper barriers and the coercive normalized variational or continuity a
 two-dimensional exponential estimate, the inverse of the Poisson equation and the elliptic
 bootstrap, from the compact elliptic theory.
 
-*Cusps.* Near each puncture choose the explicit cusp metric `(dt² + dθ²)/t²`, `t = −log|z|`,
-outside a compact core. Define weighted Hölder norms `C^(k,α)_δ` by the cusp chart, scaled
-derivatives and the weight `t^δ`, for `0 < δ < 1`. Construct the uniform exhaustion estimates and
-the inverse of the linearization `Δ_g + 2` on this scale, including the barriers `t^(−δ)` and the
-excluded indicial roots, then the bounded nonlinear solution and its expansion at the end. Prove
-completeness, finite area, the Gauss–Bonnet area normalization, and uniqueness by the maximum
-principle or the Schwarz lemma.
+*Cusps.* Prove `exists_hyperbolicMetric_hasFiniteVolume_metric_eq_rescale_of_eulerChar_lt_card`: if
+M is a closed connected surface and P ⊂ M a finite set with `χ(M) < |P|`, then for every smooth
+Riemannian metric g on M the restriction of g to `M ∖ P` is conformal to a complete hyperbolic
+metric of finite area on `M ∖ P`. Near each puncture choose the explicit cusp metric
+`(dt² + dθ²)/t²`, `t = −log|z|`, outside a compact core. Define weighted Hölder norms `C^(k,α)_δ` by
+the cusp chart, scaled derivatives and the weight `t^δ`, for `0 < δ < 1`. Construct the uniform
+exhaustion estimates and the inverse of the linearization `Δ_g + 2` on this scale, including the
+barriers `t^(−δ)` and the excluded indicial roots, then the bounded nonlinear solution and its
+expansion at the end. Prove completeness, finite area, the Gauss–Bonnet area normalization, and
+uniqueness by the maximum principle or the Schwarz lemma.
 
 *Boundary.* Construct holomorphic half-disc and collar coordinates at the boundary, the
 holomorphic double and its reflection; uniqueness makes the metric on the double invariant under
@@ -333,7 +316,8 @@ structures, with explicit estimates under the weighted and exhaustion hypotheses
 uniformization theorem and no theorem of Hummel is assumed as a property or an external proof, and
 the fixed quotient examples of FuchsianOrbifolds and the complex tori of ComplexTori do not supply
 uniformization in every genus.
-*Needs:* Tau Ceti `TauCeti.HyperbolicMetric`,
+*Needs:* Tau Ceti `TauCeti.HyperbolicMetric`, `TauCeti.HyperbolicMetric.HasFiniteVolume`,
+`Bundle.ContMDiffRiemannianMetric.restrictOpenTangentSpace`,
 `Bundle.ContMDiffRiemannianMetric.exists_hyperbolicMetric_metric_eq_rescale_iff`,
 `TauCeti.HyperbolicMetric.eq_of_metric_eq_rescale`, `Bundle.ContMDiffRiemannianMetric.rescale`,
 `TauCeti.eulerChar`; PDE §§1.1, 1.4, 1.7; ComplexKahlerGeometry §5.10 (compact elliptic theory).
@@ -342,9 +326,12 @@ uniformization in every genus.
 - With `t = −log|z|`, `|dz|/|z| = (dt² + dθ²)^(1/2)`, so the cusp metric is
   `|dz|²/(|z|² log²|z|)`, the hyperbolic metric of the punctured disc, of curvature −1.
 - The linearization `Δ_g + 2` on functions of t alone in the cusp is `−t² ∂_t² + 2`, with indicial
-  roots t² and t^(−1), and for `0 < δ < 1` the decay `t^(−δ)` lies strictly between them. At δ = 1
-  the function t^(−1) has finite weighted norm and lies in the kernel of the model operator, so the
-  linearization is not invertible on that scale.
+  roots t² and t^(−1), and for `0 < δ < 1` the decay `t^(−δ)` lies strictly between them. The
+  barrier computation `(−t² ∂_t² + 2) t^(−δ) = (2 − δ − δ²) t^(−δ)` gives a positive multiple for
+  `0 < δ < 1` and, for δ > 0, vanishes only at δ = 1, the indicial weight; there
+  `(−t² ∂_t² + 2) u = t^(−1)` has the solution `u = (1/3) t^(−1) log t`, which is not `O(t^(−1))`,
+  so the linearization is not invertible on the scale of weight one. Finiteness of the weighted
+  norm of t^(−1) does not single out δ = 1: it holds for every δ ≤ 1.
 - The thrice-punctured sphere has area `2π(2·0 − 2 + 3) = 2π` by Gauss–Bonnet, and a closed
   surface of genus two has area 4π.
 
@@ -352,18 +339,20 @@ uniformization in every genus.
 
 For stable marked smooth curves, prove properness of the action of the diffeomorphism group: if
 complex structures `j_k`, `j′_k` and the marks converge smoothly and `φ_k` intertwines them and
-preserves the ordered marks, then a subsequence of `φ_k` converges in C∞, with its inverses. One
-route uses the canonical finite-area metrics of §0.4: isometries preserve the injectivity radius,
-so a chosen frame in the thick core is mapped into a uniformly compact thick core; compactness of
-frames and the local isometry equation give smooth convergence, and cusp coordinates extend it
-over the punctures. Prove this extension and the convergence of the inverses. For genus zero and
-one use the normalized models of §0.3 with their finite stabilizers. The statement is false for
-the full Möbius group of the unmarked sphere and is not asserted there.
+preserves the ordered marks, then a subsequence of `φ_k` converges in C∞, with its inverses
+(Robbin–Salamon 2006, 9.2, for closed surfaces of genus greater than one without marks). One route
+uses the canonical finite-area metrics of §0.4: isometries preserve the injectivity radius, so a
+chosen frame in the thick core is mapped into a uniformly compact thick core; compactness of frames
+and the local isometry equation give smooth convergence, and cusp coordinates extend it over the
+punctures. Prove this extension and the convergence of the inverses. For genus zero and one use the
+normalized models of §0.3 with their finite stabilizers. The statement is false for the full Möbius
+group of the unmarked sphere and is not asserted there.
 
 From the same properness and the vanishing of the space of infinitesimal automorphisms, construct
 the finite automorphism groups of stable marked curves, including genus at least two, and prove
 `finite_ordered_iff_forall_eulerChar_lt` (§1.2): the group of automorphisms of a marked nodal curve
-fixing every mark is finite exactly when every component is stable. Tau Ceti reduces this to the
+fixing every mark is finite exactly when every component is stable (Robbin–Salamon 2006, 3.7–3.8,
+which define stability as finiteness of the automorphism group). Tau Ceti reduces this to the
 components (`TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff`) and settles the components
 biholomorphic to the sphere and to complex tori
 (`TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff_forall_two_lt_encard`,
@@ -488,15 +477,17 @@ pairs (π, f), `π ∈ S_r` and f an isomorphism preserving the distinguished la
 auxiliary mark j to auxiliary mark π(j), compatibly with branches
 (`TauCeti.NodalGluing.AuxiliaryIso`), composed by `(ρ, h) ∘ (π, f) = (ρ ∘ π, h ∘ f)`. It extends the
 ordered groupoid by permutations of labels and is not a forgetting or contraction operation; the
-auxiliary marks stay distinct, so the permutation is determined by the map. Its Hom sets are finite
-when the ordered automorphism groups are (`TauCeti.NodalGluing.AuxiliaryIso.finite`). Prove that,
-for a stable total set of n + r special labels, each nonempty Hom set with fixed π is a torsor for
-the finite group of automorphisms preserving every label, so that the extended central Hom sets and
-automorphism groups are finite. Keep the full group even when its action on a deformation base has
-a kernel. These arrows are defined before the chart topology of Layer 5 and the action charts of
-§6.4, and use neither Layer 7 nor any moduli of maps.
+auxiliary marks stay distinct, so the permutation is determined by the map. Tau Ceti proves that
+each nonempty Hom set with fixed π is a torsor for the group of automorphisms preserving every label
+(`TauCeti.NodalGluing.AuxiliaryIso.permFiberEquiv`), and that the Hom sets are finite when the
+ordered automorphism groups are (`TauCeti.NodalGluing.AuxiliaryIso.finite`). Deduce from §1.2 that,
+for a stable total set of n + r special labels, the extended central Hom sets and automorphism
+groups are finite. Keep the full group even when its action on a deformation base has a kernel.
+These arrows are defined before the chart topology of Layer 5 and the action charts of §6.4, and use
+neither Layer 7 nor any moduli of maps.
 *Needs:* §1.2; Tau Ceti `TauCeti.NodalGluing.AuxiliaryIso`, `TauCeti.NodalGluing.AuxiliaryAut`,
-`TauCeti.NodalGluing.AuxiliaryMarkedCurve`.
+`TauCeti.NodalGluing.AuxiliaryMarkedCurve`, `TauCeti.NodalGluing.AuxiliaryIso.permFiberEquiv`,
+`TauCeti.NodalGluing.AuxiliaryIso.finite`.
 
 ### 1.4 Partitioned auxiliary arrows
 
@@ -507,11 +498,20 @@ distinguished unordered auxiliary sets use `S_(r₁) × S_(r₂)`, not `S_(r₁+
 interchange their roles; empty blocks are allowed. It is a wide subgroupoid with the same objects
 and only the colour-preserving arrows, not in general a full subgroupoid; one block recovers the
 groupoid of §1.3 and singleton blocks the ordered labels, and its automorphism groups are
-`TauCeti.NodalGluing.AuxiliaryAut.partitioned`. Construct the relabelling of blocks and the maps of
-transported subsets, and prove that forgetting the colours is faithful on arrows.
+`TauCeti.NodalGluing.AuxiliaryAut.partitioned`. Tau Ceti also proves that relabelling the blocks
+injectively leaves the groupoid unchanged and merging blocks enlarges it
+(`TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid_comp_of_injective`,
+`TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid_le_comp`), and
+that a colour-preserving arrow carries each union of blocks onto itself and the auxiliary marks of
+those colours onto the marks of the same colours
+(`TauCeti.NodalGluing.AuxiliaryIso.PreservesColors.perm_image_preimage`,
+`TauCeti.NodalGluing.AuxiliaryIso.PreservesColors.image_image_point_inr_preimage`); forgetting the
+colours is faithful on arrows, as for every subgroupoid (Mathlib
+`CategoryTheory.Subgroupoid.hom.faithful`).
 *Needs:* §1.3; Tau Ceti
 `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid`,
-`TauCeti.NodalGluing.AuxiliaryAut.partitioned`.
+`TauCeti.NodalGluing.AuxiliaryAut.partitioned` and the laws above; Mathlib
+`CategoryTheory.Subgroupoid.hom.faithful`.
 
 ### Examples
 
@@ -640,8 +640,8 @@ Mathlib's adic completion, flatness and the ideal criterion (`Module.Flat`,
 - `u² − v² = (x + y)² − (x − y)² = 4xy`, so `xy − s = (u² − v² − 4s)/4`: the Weierstrass polynomial
   is monic of degree two in u with coefficients in the maximal ideal when `s(0) = 0`.
 - Flatness holds for `s ≡ 0`, a permanent node. By contrast `ℂ{b, x}/(bx)` is not flat over `ℂ{b}`:
-  b kills the nonzero class of x, and the fibre jumps from empty (b ≠ 0) to a line (b = 0). The node
-  equation never behaves so, because after the change of variables it is monic in u.
+  b kills the nonzero class of x, and the fibre jumps from a point (b ≠ 0) to a line (b = 0). The
+  node equation never behaves so, because after the change of variables it is monic in u.
 
 ### 2.3 Proper families, base change and Cartesian morphisms
 
@@ -715,14 +715,13 @@ from the integer Sobolev carriers of PDE §1.1 and PseudoholomorphicCurveAnalysi
 explicitly equivalent Hilbert norm.
 
 On each boundary circle, `H^s` for real s is Tau Ceti's `TauCeti.CircleSobolev s E`, defined by
-Fourier coefficients with norm² `Σ_n (1 + |n|)^(2s) ‖a_n‖²`; its coefficient condition for scalar
-values is `CircleSobolevCoefficients s`. Tau Ceti proves completeness, density of trigonometric
-polynomials (`TauCeti.CircleSobolev.dense_finite_support_coeff`), the continuous inclusions for
-t ≤ s and their compactness for t < s with finite-dimensional values
+Fourier coefficients with norm² `Σ_n (1 + |n|)^(2s) ‖a_n‖²`. Tau Ceti proves completeness, density
+of trigonometric polynomials (`TauCeti.CircleSobolev.dense_finite_support_coeff`), the continuous
+inclusions for t ≤ s and their compactness for t < s with finite-dimensional values
 (`TauCeti.CircleSobolev.isCompactOperator_inclusion`), finite disjoint unions
 (`TauCeti.CircleSobolev.piLpEquiv`), and, for s > 1/2, continuous evaluation
-(`TauCeti.CircleSobolev.toContinuousMap`), the algebra estimate (`TauCeti.CircleSobolev.norm_mul_le`)
-and holomorphic Nemytskii maps of scalar functions
+(`TauCeti.CircleSobolev.toContinuousMap`), the algebra estimate
+(`TauCeti.CircleSobolev.norm_mul_le`) and holomorphic Nemytskii maps of scalar functions
 (`TauCeti.CircleSobolev.analyticOnNhd_nemytskii`). Multiplication by a nowhere-vanishing smooth
 function is an isomorphism for every real s (`TauCeti.CircleSobolev.mulFourierSeriesEquiv`), and a
 fixed smooth circle diffeomorphism induces a bounded isomorphism for s ≥ 0
@@ -829,16 +828,16 @@ intrinsic first-order complex of §3.3 and base change are used.
 
 ### 3.5 Holomorphic slices and the Sobolev chart of complex structures
 
-*Holomorphic marked slices.* On closed stable-pointed smooth components, choose a
-finite-dimensional complex complement to the image of the complex-linear ∂̄, with smooth
-representatives, by the Riemann–Roch of PseudoholomorphicCurveAnalysis §7.2 and the elliptic
-regularity of ComplexKahlerGeometry Layer 5. Prove the holomorphic slice formula
-`ι(η) = (1 + η)⁻¹ j₀ (1 + η)` on the anti-complex-linear complement, with its derivative and
-complex linearity (Robbin–Salamon 2006, 7.4). Build the marked coordinates jointly holomorphically
-in the resulting family, not only smoothly in the real parameter, including the normalization of
-three points in genus zero and the lattice and one-mark constructions in genus one
-(Robbin–Salamon 2006, 8.9). Prove that the slice together with the mark directions is a complex
-complement of the full marked infinitesimal action.
+*Holomorphic marked slices.* On closed stable-pointed smooth components, choose a finite-dimensional
+complex complement to the image of the complex-linear ∂̄, with smooth representatives, by the
+Riemann–Roch of PseudoholomorphicCurveAnalysis §7.2 and the elliptic regularity of
+ComplexKahlerGeometry Layer 5. Prove the holomorphic slice formula `ι(η) = (1 + η)⁻¹ j₀ (1 + η)` on
+the anti-complex-linear complement, with its derivative and complex linearity (Robbin–Salamon 2006,
+9.1). Build the marked coordinates jointly holomorphically in the resulting family, not only
+smoothly in the real parameter, including the normalization of three points in genus zero and the
+lattice and one-mark constructions in genus one (Robbin–Salamon 2006, 11.4, Step 1). Prove that the
+slice together with the mark directions is a complex complement of the full marked infinitesimal
+action.
 
 *The Sobolev chart.* For p > 2 and integer k ≥ 1 construct the Banach manifold `J^(k,p)(Σ)` of
 orientation-compatible complex structures of class `W^(k,p)`. Near j₀ use small anti-complex-linear
@@ -859,7 +858,7 @@ real Banach map near (id, 0), for every such T. Its derivative is `2j₀(∂̄ξ
 and source conventions for the Lie derivative compared explicitly; equivalently, include the
 point-evaluation terms in the formulation with jointly moving marks. Prove the theorem for stable
 marked spheres and tori as well as for genus greater than one, not only in the unmarked case of
-negative degree treated in Robbin–Salamon 2006, 7.4. Smooth complements supported in a core are
+negative degree treated in Robbin–Salamon 2006, 9.1. Smooth complements supported in a core are
 allowed whenever the application proves the complement hypothesis; localization of support and
 unique continuation for choosing T are not assumed by the theorem. Prove the closed complemented
 range and the Banach implicit function theorem, then bootstrap any C¹ intertwining diffeomorphism
@@ -901,15 +900,15 @@ general, in every genus.
 Prove the remaining statements. Name the two conditions `∂̄^H j = 0` and the (0,2)-curvature
 condition only under the Hamiltonian-connection representation `α(â) = j(v_â + j v_(iâ))` of the
 Remark of the Robbin–Salamon corrigendum, with its symplectic and Hamiltonian data and sign
-dictionary. Prove that the mixed condition alone implies integrability in genus greater than one
-on closed compact source surfaces, by vanishing of global holomorphic vector fields; it is not used
-on bordered Hardy cores, which need both local conditions on their open collar extensions. Prove
-that for α = 0 a holomorphic j suffices. The proofs of universality use the valid direction,
-necessity for a holomorphic family, together with the α = 0 construction and the
-marked-section equation of §4.1; they do not use sufficiency in genus zero and one, which is false
-without restriction. The corrected
-statement of the corrigendum, not the uncorrected statement 8.2 of Robbin–Salamon 2006, governs
-integrability of finite-dimensional families.
+dictionary. Prove that the mixed condition alone implies integrability in genus greater than one on
+closed compact source surfaces, by vanishing of global holomorphic vector fields; it is not used on
+bordered Hardy cores, which need both local conditions on their open collar extensions. Prove that
+for α = 0 a holomorphic j suffices. The proofs of universality use the valid direction, necessity
+for a holomorphic family, together with the α = 0 construction and the marked-section equation of
+§4.1; they do not use sufficiency in genus zero and one, which is false without restriction. The
+corrected statement of the corrigendum, not the uncorrected Lemma 10.2 of Robbin–Salamon 2006 (Lemma
+8.2 in the journal numbering the corrigendum uses), governs integrability of finite-dimensional
+families.
 *Needs:* Tau Ceti `TauCeti.ComplexStructureFamily.nijenhuis_eq_zero_iff` and the component
 formulas above; Robbin–Salamon corrigendum, Lemmas A–B; §0.2 (vanishing of holomorphic vector
 fields in genus at least two).
@@ -937,14 +936,13 @@ Layer 5; Tau Ceti's circle Sobolev spaces and the Nijenhuis criterion for produc
 ### 4.1 Universal unfoldings of smooth stable curves and independent plumbing
 
 Construct the marked holomorphic unfoldings of smooth stable components by §3.5. Prove their
-universal property following Robbin–Salamon 2006, 8.9, Step 3: after pulling back a candidate
-family to a slice trivialization, use the necessary mixed Nijenhuis equation of §3.6 with each
-marked-section equation `dσ_i(â) + j dσ_i(iâ) + α(iâ)(σ_i) = 0` (equation (15) of that source). The
-complex marked-slice complement separates these into holomorphic j and
-σ directions and an infinitesimal automorphism α vanishing at all marks; stability on the closed
-component forces α = 0. The classifying map and the total map are therefore holomorphic, unique
-for the specified central arrow. This establishes universality for smooth stable components before
-Hardy gluing at nodes.
+universal property by the argument of Robbin–Salamon 2006, 11.4, Step 3: after pulling back a
+candidate family to a slice trivialization, use the necessary mixed Nijenhuis equation of §3.6 with
+each marked-section equation `dσ_i(â) + j dσ_i(iâ) + α(iâ)(σ_i) = 0` (unnumbered in that step). The
+complex marked-slice complement separates these into holomorphic j and σ directions and an
+infinitesimal automorphism α vanishing at all marks; stability on the closed component forces α = 0.
+The classifying map and the total map are therefore holomorphic, unique for the specified central
+arrow. This establishes universality for smooth stable components before Hardy gluing at nodes.
 
 *Independent plumbing and dimensions.* Glue their branch discs with independent parameters a_i by
 §2.4. Prove that the total space is a complex manifold with regular nodal projection, with all
@@ -952,8 +950,9 @@ coordinate transitions of the total space and properness. The universal base has
 `3g − 3 + n`, its equisingular stratum with k nodes has dimension `3g − 3 + n − k` (real codimension
 2k in the base), and the total space of the universal curve has dimension `3g − 2 + n`. The strata
 are not boundary faces of an orbifold. Compute KS and D by Layer 3, and prove bijectivity and the
-independence of the smoothing derivative; the missing directions are not inferred from the
-vertical operator alone.
+independence of the smoothing derivative; the missing directions are not inferred from the vertical
+operator alone. This is the existence of an infinitesimally universal unfolding for every stable
+curve (Robbin–Salamon 2006, 5.6).
 *Needs:* §2.4, §3.4, §3.5, §3.6.
 
 **Checks.**
@@ -962,7 +961,7 @@ vertical operator alone.
 
 ### 4.2 The Hardy decomposition
 
-Build the complete Hardy proof of Robbin–Salamon 2006, §§9–12, on exact function spaces. Split
+Build the complete Hardy proof of Robbin–Salamon 2006, §§12–15, on exact function spaces. Split
 each fibre into a compact bordered core M and closed node discs and annuli N inside larger open
 node charts, with boundary Γ a finite union of circles. Every connected component of the core used
 in the boundary-trace argument has nonempty boundary. If the central curve is smooth and there are
@@ -1015,13 +1014,14 @@ tangent calculation, and the boundary α vanishes there.
 
 ### 4.4 Openness of universality and versality
 
-Prove that infinitesimal universality on regular nodal families is open, and so is versality. For
-stable universal targets, the Hardy tangent splitting is an open complemented splitting; apply the
-implicit function theorem to `U ∩ V → A`, then prove joint holomorphy of the total map on both
-pieces and agreement across Γ. Prove that the source and target maps on germs of arrows are local
-biholomorphisms, and uniqueness with the specified central isomorphism. Smooth trivializations of
-spaces of boundary maps need only give `C^r` transitions on `H^(s+r)` before bootstrapping; no
-smooth reparametrization on one completion is claimed.
+Prove that infinitesimal universality on regular nodal families is open (Robbin–Salamon 2006, 5.3),
+and so is versality. For stable universal targets, the Hardy tangent splitting is an open
+complemented splitting; apply the implicit function theorem to `U ∩ V → A`, then prove joint
+holomorphy of the total map on both pieces and agreement across Γ. Prove that the source and target
+maps on germs of arrows are local biholomorphisms, and uniqueness with the specified central
+isomorphism (Robbin–Salamon 2006, 5.4–5.5). Smooth trivializations of spaces of boundary maps need
+only give `C^r` transitions on `H^(s+r)` before bootstrapping; no smooth reparametrization on one
+completion is claimed.
 *Needs:* §4.1, §4.3.
 
 ### 4.5 Universality for every restricted family
@@ -1152,12 +1152,12 @@ chart and Deligne–Mumford topologies are compared in Layer 6, after the arrow 
 
 ### 5.4 The arrow space
 
-Form the arrow space Γ of all triples (a, f, b) with a, b ∈ B and f an isomorphism of marked
-fibres from the fibre over a to the fibre over b. Use the unique universal comparison germs of
-§4.4 and §4.5 to give Γ complex charts. Prove that source and target are local biholomorphisms,
-that identity, inverse and composition are holomorphic and satisfy the groupoid laws, and that
-the arrow topology is locally first countable. The comparison germs rely on the universal-locus
-restriction of §5.2 at every selected object point.
+Form the arrow space Γ of all triples (a, f, b) with a, b ∈ B and f an isomorphism of marked fibres
+from the fibre over a to the fibre over b. Use the unique universal comparison germs of §4.4 and
+§4.5 to give Γ complex charts. Prove that source and target are local biholomorphisms, that
+identity, inverse and composition are holomorphic and satisfy the groupoid laws (Robbin–Salamon
+2006, 6.5 (i)), and that the arrow topology is locally first countable. The comparison germs rely on
+the universal-locus restriction of §5.2 at every selected object point.
 *Needs:* §4.4, §4.5, §5.2, §5.3.
 
 ### 5.5 Auxiliary permutation and partitioned arrow topologies
@@ -1275,7 +1275,7 @@ families, Schwarz–Pick, reflection); PDE §4.2 (coercive Dirichlet problems) a
 ### 6.2 Hyperbolic collars and thick-core compactness
 
 *Collars and short geodesics.* Prove the hyperbolic compactness ingredients used by
-Robbin–Salamon 2006, §14, rather than citing Hummel's proofs: standard cusp and geodesic collar
+Robbin–Salamon 2006, §17, rather than citing Hummel's proofs: standard cusp and geodesic collar
 coordinates and the collar-width formula; reduction of sufficiently short nonperipheral closed
 geodesics to primitive simple core curves, with length multiplication for covers and a uniform
 positive lower bound for the length of self-intersecting geodesics from the local analysis of thin
@@ -1304,7 +1304,7 @@ lengths tending to zero, construct a compact thick core covered by a uniform fin
 embedded hyperbolic charts (fixed area by Gauss–Bonnet, injectivity radius and explicit
 transition bounds), normalize frames and extract C∞ limits by Arzelà–Ascoli. Glue the limit
 atlas, prove its completeness and its cusp models, and add the conformal punctures and marks.
-Construct the comparison diffeomorphisms and collapse maps of Robbin–Salamon 2006, 14.4. The
+Construct the comparison diffeomorphisms and collapse maps of Robbin–Salamon 2006, 17.4. The
 proof includes the exhaustion without loss and the convergence of boundary geodesics to cusps.
 *Needs:* §0.1e, §0.4.
 
@@ -1321,18 +1321,19 @@ proof includes the exhaustion without loss and the convergence of boundary geode
 
 *Selection of pinching curves.* Pass to a fixed connected stable dual-graph and normalization
 signature from the finite list, and work on the punctured normalization components. After
-subsequences, select all pinching curves by a maximal finite induction: while some cut piece has
-no uniform positive lower bound on the lengths of its interior nonperipheral geodesics, choose a
-sequence of such geodesics with lengths tending to zero, pass to a fixed labelled complement type
-by §0.1e, and cut along it. The collar lemma of §6.2 makes the chosen curves disjoint; exclude
-duplicates parallel to the boundary. At most the bound `3g − 3 + N` of §6.2 can be added, so the
-induction stops; after the final subsequence no piece has interior pinching, and every newly cut
-boundary has length tending to zero in the restricted metric of §6.2. This is a statement about
-a subsequence and maximality, not a fixed list of isotopy classes for every term.
+subsequences, select all pinching curves by a maximal finite induction, as in the proof of
+Robbin–Salamon 2006, 17.5: while some cut piece has no uniform positive lower bound on the lengths
+of its interior nonperipheral geodesics, choose a sequence of such geodesics with lengths tending to
+zero, pass to a fixed labelled complement type by §0.1e, and cut along it. The collar lemma of §6.2
+makes the chosen curves disjoint; exclude duplicates parallel to the boundary. At most the bound
+`3g − 3 + N` of §6.2 can be added, so the induction stops; after the final subsequence no piece has
+interior pinching, and every newly cut boundary has length tending to zero in the restricted metric
+of §6.2. This is a statement about a subsequence and maximality, not a fixed list of isotopy classes
+for every term.
 
 *Deligne–Mumford subsequences.* Applying §6.2 to each bordered piece gives a Deligne–Mumford
-convergent subsequence of every sequence of stable curves of genus g with n marks; §6.1 converts
-it into chart convergence.
+convergent subsequence of every sequence of stable curves of genus g with n marks (Robbin–Salamon
+2006, 17.5); §6.1 converts it into chart convergence.
 
 *Sequential arrow extraction.* For convergent chart endpoints and fibre isomorphisms between
 them, use the thick-core and collar maps and normal families of stable marked surfaces to
@@ -1365,14 +1366,13 @@ escaping sequence; the sequential extraction above and the arrow criterion of §
 subsequence converging to a central arrow, which lies in the open union, a contradiction. When
 the central Hom set is empty, the same argument gives a neighbourhood with no arrows.
 
-*Topological properness.* Shrink precompact source and target neighbourhoods so that their
-closures stay in the larger chart domains. Over a compact subset of the smaller endpoint product
-the preimage is a finite union of closed graphs of comparison maps on compact source subsets,
-hence compact. For a general compact subset of B × B take a finite refinement by such
-neighbourhoods, or use its closed preimage in the finite union of compact bisection closures.
-This proves that (s, t) : Γ → B × B is proper, without assuming second countability of Γ. The
-same proof applies to the finite permutation extension after fixing the permutation along a
-subsequence.
+*Topological properness.* Shrink precompact source and target neighbourhoods so that their closures
+stay in the larger chart domains. Over a compact subset of the smaller endpoint product the preimage
+is a finite union of closed graphs of comparison maps on compact source subsets, hence compact. For
+a general compact subset of B × B take a finite refinement by such neighbourhoods, or use its closed
+preimage in the finite union of compact bisection closures. This proves that (s, t) : Γ → B × B is
+proper (Robbin–Salamon 2006, 6.6), without assuming second countability of Γ. The same proof applies
+to the finite permutation extension after fixing the permutation along a subsequence.
 
 *Coarse separation.* A proper map into the locally compact Hausdorff space B × B is closed, so
 the isomorphism relation, its image, is closed. The quotient map is open because the groupoid is
@@ -1686,7 +1686,8 @@ Layers 4, 5 and 6; Orbifolds O1, O3, O4 and O5.
 ## Downstream consumers
 
 Other roadmaps cite this one with the labels D0–D8: item n of Dk is §k.n above (§0.1 being
-§§0.1a–0.1g, and D1, D5 and D8 the whole of Layers 1, 5 and 8).
+§§0.1a–0.1f, and D1, D5 and D8 the whole of Layers 1, 5 and 8). In particular D0.1 reads as §0.1,
+D0.3 as §0.3, D0.4 as §0.4, D0.5 as §0.5, D3.4 as §3.4 and D6.2 as §6.2.
 
 - AnalyticStableMaps consumes §§0.1, 0.2, 0.3 and 0.5 (smooth source models, the genus-zero and
   genus-one models, properness of the diffeomorphism action and finite automorphism groups), Layer
@@ -1706,8 +1707,8 @@ Other roadmaps cite this one with the labels D0–D8: item n of Dk is §k.n abov
 ## Scope and ownership
 
 **This roadmap owns** the analytic theory of prestable and stable complex curves over ℂ: the
-oriented, labelled and marked normal forms of compact surfaces, the comparison of meromorphic
-functions with finite maps and of the analytic with the topological genus on components, the
+oriented, labelled and marked normal forms of compact surfaces, the transport of the equality of
+the analytic and topological genus to holomorphic one-forms on components, the
 operator form of Riemann–Roch for line bundles on components, the genus-one classification,
 finite-type uniformization and properness of the diffeomorphism action (Layer 0); nodal curves
 with the genus formula, stability as finiteness and the auxiliary-label arrows (Layer 1); restricted
@@ -1746,6 +1747,17 @@ Layer 8 then supplies its comparison, which is not implicit in compactness alone
   convergent germs, Weierstrass division and Taylor completion, `ComplexAnalyticSpace` and its open
   and closed subspaces, gluing and fibre products, and `complexSchemeAnalytification`. Its
   GAGA (§C1.9) and quasi-coherator and Picard (§C3.2) are not inputs.
+- *Meromorphic functions as finite maps to the sphere*: Tau Ceti turns a function meromorphic at
+  every point of a compact connected Riemann surface into a holomorphic map to `OnePoint ℂ`
+  (`TauCeti.RiemannSurface.sphereMap`, `TauCeti.RiemannSurface.mdifferentiable_sphereMap`), and a
+  nonconstant one into a finite holomorphic map
+  (`TauCeti.RiemannSurface.FiniteHolomorphicMap.ofMeromorphic`); it identifies the global sections
+  of the divisor sheaf with the meromorphic functions satisfying the pole bound
+  (`TauCeti.RiemannSurface.divisorSections.mem_range_toMeromorphic_iff`) and makes a finite map from
+  a section space of dimension greater than one
+  (`TauCeti.RiemannSurface.exists_finiteHolomorphicMap_of_one_lt_finrank_divisorSections`). The
+  existence of a nonconstant meromorphic function by Riemann–Roch is ModularForms §10B's. This
+  roadmap uses none of them.
 - *Riemann–Roch*: the real Riemann–Roch formula for Cauchy–Riemann operators on an arbitrary closed
   or bordered source, PseudoholomorphicCurveAnalysis §7.2; the cohomological divisor Riemann–Roch,
   Serre duality and the equality of the analytic and topological genera, ModularForms §10B. The
@@ -1762,9 +1774,8 @@ Layer 8 then supplies its comparison, which is not implicit in compactness alone
   Layers 1–5), flows (DifferentialGeometry Layer 3), and the Euler characteristic of finite CW types
   (AlgebraicTopology §§7.1–7.3).
 
-**Already in the Tau Ceti library.** The following former targets of this roadmap are proved at the
-Tau Ceti pin and are used above by name (supplier contracts below); the rest of each section stays
-a target.
+**Already in the Tau Ceti library.** The following results are proved at the Tau Ceti pin and are
+used above by name (supplier contracts below); the rest of each section stays a target.
 
 | Section | At the Tau Ceti pin |
 | --- | --- |
@@ -1773,7 +1784,7 @@ a target.
 | §0.5, §1.2 | reduction of finiteness of automorphisms to components, and the sphere and torus cases: `TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff` and its two specializations |
 | §1.1 | the nodal quotient, its Hausdorffness, stalks, node ring, locally ringed space, intrinsic nodes, connectedness criterion and dual graph with the genus identity for given component genera: `TauCeti.NodalGluing` (`Basic`, `StructureSheaf`, `RingedSpace`, `IntrinsicNodes`, `Connected`, `DualGraph`), `TauCeti.holomorphicStructureSheaf.nodeLocalRing`, `TauCeti.DualGraph` |
 | §1.2 | isomorphisms and automorphisms, their descent and lifting: `TauCeti.NodalGluing.Iso`, `TauCeti.NodalGluing.Aut`, `TauCeti.NodalGluing.existsUnique_iso_gluedCurveHomeomorph_eq_iff`, `TauCeti.NodalGluing.existsUnique_iso_sheafedSpaceIso_eq_iff` |
-| §§1.3–1.4 | the unordered and partitioned auxiliary groupoids: `TauCeti.NodalGluing.AuxiliaryMarkedCurve.unorderedAuxiliaryIsomorphismGroupoid`, `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid` |
+| §§1.3–1.4 | the unordered and partitioned auxiliary groupoids, the torsor structure of the Hom sets with fixed permutation, relabelling and merging of blocks and the transport of colour classes: `TauCeti.NodalGluing.AuxiliaryMarkedCurve.unorderedAuxiliaryIsomorphismGroupoid`, `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid`, `TauCeti.NodalGluing.AuxiliaryIso.permFiberEquiv`, `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid_comp_of_injective`, `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid_le_comp`, `TauCeti.NodalGluing.AuxiliaryIso.PreservesColors.perm_image_preimage`, `TauCeti.NodalGluing.AuxiliaryIso.PreservesColors.image_image_point_inr_preimage` |
 | §2.0 | the holomorphic structure sheaf of a complex manifold and its comparison with Mathlib's: `TauCeti.holomorphicStructureSheaf`, `TauCeti.holomorphicStructureSheaf.smoothSheafIso` |
 | §2.1 | the node ring as `ℂ{x, y}/(xy)` and the off-node product charts at stalks: `TauCeti.holomorphicStructureSheaf.nodeLocalRing.planeNodeEquiv`, `TauCeti.holomorphicStructureSheaf.offNodeChartFstEquiv` |
 | §3.1 | `H^s` on the circle with completeness, density, compact inclusions, finite unions, evaluation, the algebra estimate, scalar holomorphic Nemytskii maps, nowhere-vanishing multipliers and fixed diffeomorphisms for s ≥ 0: `TauCeti.CircleSobolev` |
@@ -1790,7 +1801,7 @@ a target.
 - `AddCircle`, `lp`, `fourierCoeff`; `Submodule ℤ ℂ` with `IsZLattice` and
   `AddAction.orbitRel.Quotient` (the complex torus `ℂ ⧸ Λ`).
 - `AlgebraicGeometry.LocallyRingedSpace` and `CategoryTheory.Groupoid` (with Tau Ceti's groupoids
-  of Layer 1).
+  of Layer 1); `CategoryTheory.Subgroupoid.hom.faithful` (§1.4).
 - `Module.Flat`, `Module.Flat.iff_rTensor_injective`, adic completion of Noetherian rings (§2.2).
 
 ### From Tau Ceti
@@ -1802,8 +1813,6 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne` (a finite holomorphic map of degree one between
   compact connected Riemann surfaces is a biholomorphism),
   `TauCeti.RiemannSurface.ramificationDivisor`,
-  `TauCeti.RiemannSurface.MeromorphicFunction` and `TauCeti.RiemannSurface.sphereMap` (meromorphic
-  functions as holomorphic maps to `OnePoint ℂ`),
   `TauCeti.RiemannSurface.FiniteHolomorphicMap.eulerChar_eq_degree_mul_eulerChar_sub_ramificationDegree`
   (`χ(X) = deg f · χ(Y) − R(f)` when X, Y and the complement of the branch values have finite CW
   type), and `Diffeomorph.finite_fixingSubgroup_iff_nonempty` (`ComplexTorus.lean`; automorphisms of
@@ -1823,7 +1832,10 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   (`Extend.lean`); `AddCircle.diffeotopyOfLift`, `AddCircle.collarDiffeomorphOfLift`
   (`AddCircle.lean`).
 - *Hyperbolic metrics*: `TauCeti.HyperbolicMetric` (`Geometry/Manifold/Riemannian/Hyperbolic.lean`;
-  a complete smooth metric of constant curvature −1);
+  a complete smooth metric of constant curvature −1); `TauCeti.HyperbolicMetric.HasFiniteVolume`
+  (`Hyperbolic/FiniteVolume.lean`; finite Riemannian volume);
+  `Bundle.ContMDiffRiemannianMetric.restrictOpenTangentSpace`
+  (`Geometry/Manifold/Riemannian/Restriction.lean`; restriction to an open submanifold);
   `Bundle.ContMDiffRiemannianMetric.rescale`
   (`Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
   `Bundle.ContMDiffRiemannianMetric.exists_hyperbolicMetric_metric_eq_rescale_iff` and
@@ -1844,19 +1856,26 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   `TauCeti.NodalGluing.Aut.branchPerm`,
   `TauCeti.NodalGluing.existsUnique_iso_gluedCurveHomeomorph_eq_iff`,
   `TauCeti.NodalGluing.existsUnique_iso_sheafedSpaceIso_eq_iff`; `TauCeti.NodalGluing.AuxiliaryIso`,
-  `TauCeti.NodalGluing.AuxiliaryIso.finite`, `TauCeti.NodalGluing.AuxiliaryAut` with its subgroup of
-  ordered automorphisms, `TauCeti.NodalGluing.AuxiliaryAut.partitioned`,
-  `TauCeti.NodalGluing.AuxiliaryMarkedCurve`,
+  `TauCeti.NodalGluing.AuxiliaryIso.finite`, `TauCeti.NodalGluing.AuxiliaryIso.permFiberEquiv` (the
+  Hom set with a fixed permutation is a torsor for the ordered automorphisms),
+  `TauCeti.NodalGluing.AuxiliaryAut` with its subgroup of ordered automorphisms,
+  `TauCeti.NodalGluing.AuxiliaryAut.partitioned`, `TauCeti.NodalGluing.AuxiliaryMarkedCurve`,
   `TauCeti.NodalGluing.AuxiliaryMarkedCurve.unorderedAuxiliaryIsomorphismGroupoid`,
-  `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid`;
-  `TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff` (connected components, finitely many
-  components and flags: the ordered automorphisms are finite iff each component's automorphisms
-  fixing its special points are),
-  `TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff_forall_two_lt_encard`
-  (components biholomorphic to `OnePoint ℂ`: iff each has more than two special points) and
+  `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid` with
+  `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid_comp_of_injective`
+  and `TauCeti.NodalGluing.AuxiliaryMarkedCurve.partitionedAuxiliaryIsomorphismGroupoid_le_comp`
+  (relabelling and merging blocks),
+  `TauCeti.NodalGluing.AuxiliaryIso.PreservesColors.perm_image_preimage` and
+  `TauCeti.NodalGluing.AuxiliaryIso.PreservesColors.image_image_point_inr_preimage` (transport of
+  colour classes and their marks); `TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff` (connected
+  components, finitely many components and flags: the ordered automorphisms are finite iff each
+  component's automorphisms fixing its special points are),
+  `TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff_forall_two_lt_encard` (components
+  biholomorphic to `OnePoint ℂ`: iff each has more than two special points) and
   `TauCeti.NodalGluing.AuxiliaryAut.finite_ordered_iff_forall_specialPoints_nonempty_of_complexTorus`
   (components biholomorphic to complex tori: iff each has a special point). From
-  `Topology/Constructions/FiniteGluing.lean`: `Setoid.t2Space_quotient`, `Setoid.isClosed_setOf_rel`.
+  `Topology/Constructions/FiniteGluing.lean`: `Setoid.t2Space_quotient`,
+  `Setoid.isClosed_setOf_rel`.
 - *Dual graphs* (`AlgebraicGeometry/Curves/DualGraph/`): `TauCeti.DualGraph`,
   `TauCeti.DualGraph.arithmeticGenus_smoothing`,
   `TauCeti.DualGraph.sum_arithmeticGenus_cutComponent_add_card`.
@@ -1914,7 +1933,7 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   rings, the Rückert Nullstellensatz, local coherence), for §2.1–§2.2.
 - §4.1 (holomorphic bundles and their section sheaves), for §0.2 and §2.1.
 - Layer 5, §§5.1–5.10 (compact Hermitian elliptic theory, Dolbeault Hodge theory and Serre duality),
-  for §§0.1g, 0.2, 0.4, 3.3 and 3.5. It contains no Riemann–Roch theorem for line bundles.
+  for §§0.1f, 0.2, 0.4, 3.3 and 3.5. It contains no Riemann–Roch theorem for line bundles.
 
 ### From TauCetiRoadmap.PseudoholomorphicCurveAnalysis
 
@@ -1929,13 +1948,13 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
 - §10B: Čech cohomology of line bundles on a nonempty connected compact Riemann surface, divisor
   Riemann–Roch `χ(𝒪(D)) = deg D + 1 − g_an` with `g_an = dim H¹(𝒪)`, Riemann–Roch for line
   bundles, Serre duality with `h⁰(K) = g_an`, and the equality of the analytic and the topological
-  genus for every connected compact Riemann surface. Consumed in §§0.1f, 0.1g and 0.2.
+  genus for every connected compact Riemann surface. Consumed in §§0.1f and 0.2.
 
 ### From TauCetiRoadmap.FuchsianOrbifolds
 
 - Layer 5, items 1–3: the topological genus `(2 − χ)/2` of a compact Riemann surface, the degree
   theory of finite holomorphic maps (at the Tau Ceti pin), the branched-cover Euler characteristic
-  formula and Riemann–Hurwitz. Consumed in §§0.1b, 0.1g and 0.2.
+  formula and Riemann–Hurwitz. Consumed in §§0.1b, 0.1f and 0.2.
 
 ### From TauCetiRoadmap.HeegaardFloer
 
@@ -2003,11 +2022,15 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
 ## References
 
 - J. W. Robbin and D. A. Salamon, *A construction of the Deligne–Mumford orbifold*, J. Eur. Math.
-  Soc. 8 (2006), 611–699, DOI 10.4171/JEMS/69: Definition 5.2; smooth slices, §§7–8 (7.4, 8.2,
-  8.9); the complete nonlinear Hardy, node and decomposition proofs, §§9–12; topology, §§13–14
-  (14.4); Appendices A–B; common refinements, 6.5 (ii)–(iii). The family quantifiers and the joint
-  regularity of smoothing are stated in this roadmap explicitly, and the comparison for all
-  restricted families (§4.5) extends the paper.
+  Soc. 8 (2006), 611–699, DOI 10.4171/JEMS/69; arXiv:math/0407090v4. Locators are to the arXiv
+  version, whose numbering differs from the journal's (its Lemma 10.2 is the journal's Lemma 8.2,
+  the numbering the corrigendum uses): stability as finiteness of automorphisms, 3.7–3.8; Definition
+  5.2 and Theorems 5.3–5.6; the étale groupoid, its common refinements, properness and compact
+  quotient, 6.5–6.6; complex structures on the torus, 8.1; slices, properness of the diffeomorphism
+  action and integrability of families, §§9–11 (9.1, 9.2, 10.2, 11.4); the complete nonlinear Hardy,
+  node and decomposition proofs, §§12–15; topology and compactness, §§16–17 (17.3, 17.4, 17.5). The
+  family quantifiers and the joint regularity of smoothing are stated in this roadmap explicitly,
+  and the comparison for all restricted families (§4.5) extends the paper.
 - J. W. Robbin and D. A. Salamon, *Corrigendum: A construction of the Deligne–Mumford orbifold*,
   J. Eur. Math. Soc. 9 (2007), 901–905, DOI 10.4171/JEMS/101: Lemmas A–B with both equations, the
   dictionary of brackets, the exceptions in genus and for α, and the Remark on Hamiltonian
@@ -2015,7 +2038,7 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
 - C. Wendl, *Lectures on Holomorphic Curves*, version 3.3, §§4.2–4.3: slices with derivative offsets
   and the explicit qualifications in the unstable cases;
   no general compactness or gluing theorem is taken from this version.
-- The references to Hummel in Robbin–Salamon 2006, §14, identify the compactness ingredient; the
+- The references to Hummel in Robbin–Salamon 2006, §17, identify the compactness ingredient; the
   thick-core, collar and cusp theorems it needs are proved in §§6.2–6.3, and Hummel's proof is not
   used by citation.
 - J. W. Robbin, Y. Ruan and D. A. Salamon, arXiv:1205.1662: a comparison for regular maps to
