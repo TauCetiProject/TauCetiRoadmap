@@ -78,9 +78,9 @@ characterisation of the correspondent, the existence and uniqueness of the Glaub
 its sign formula for a cyclic acting group (§4.5), its constituent and field-of-values laws (§4.6)
 and its degree law (§5.1), Brauer's theorem on heights (§6.2), the Fong–Reynolds correspondence
 (§7.4), Reynolds' height formula (§8.3) and Reynolds' theorem (§8.4). It adds the four definitions
-they need: the invariant characters (§1.1), the defining laws of the Glauberman family (§4.5), and
-the ordinary characters of a block and the base's defect groups (§6.1). The
-two predicates of Layer 9 and degree-divisibility (§5.2) are definitions whose general validity is
+they need: the invariant characters (§1.1), the defining laws of the Glauberman family (§4.5), and,
+restated from the base, the ordinary characters of a block and its defect groups (§6.1). The two
+predicates of Layer 9 and degree-divisibility (§5.2) are definitions whose general validity is
 cited, not proved here, so they stay in this text.
 
 ## Conventions
@@ -231,8 +231,8 @@ Let `S` be coprime to `Γ`, with `S` or `Γ` solvable. Prove: two elements of `C
 in `Γ` are conjugate in `C`; an `S`-invariant conjugacy class of `Γ` meets `C`; and if `H ≤ Γ` is
 `S`-invariant and `s • (g H) = g H` for all `s`, the coset `g H` meets `C`. Hence `t ↦` (the
 `Γ`-class of `t`) is a bijection from the conjugacy classes of `C` to the `S`-invariant conjugacy
-classes of `Γ` (Glauberman 1968, Lemma 3 (a)–(c), p. 1471, stated there for every relatively prime
-operator group; the solvability hypothesis here is the one under which
+classes of `Γ` (Glauberman 1968, Lemma 3 (a)–(c), pp. 1471–1472, stated there for every relatively
+prime operator group; the solvability hypothesis here is the one under which
 InverseGaloisAndArithmeticFundamentalGroups IG.3.4 supplies the conjugacy of coprime complements).
 Route, through Glauberman's lemma (isaacs, Chapter 13), proved from complements: let a finite
 group `X`, on which `S` acts by automorphisms with `|X|` coprime to `|S|` and `S` or `X` solvable,
@@ -857,16 +857,20 @@ Layers 3–4; Tau Ceti central characters; CharacterTheory §4.3.
 
 ### 6.1 Block characters, central characters, Osima's formula and defect classes
 
-For a commutative domain `O` with fraction field `K` and `b ∈ O[G]`, define `blockCharacters b`,
-the set of characters of the irreducible representations of `G` on coordinate spaces `Fin n → K`
-on which the image of `b` in `K[G]` acts as the identity. For the central lift `e_B` of a block `B`
-of a splitting `p`-modular system, `blockCharacters e_B = Irr(B)`: as `K` splits `G`, `e_B` acts
-on an irreducible representation as `0` or `1`, and as `1` exactly when `e_B e_χ = e_χ` for its
-character `χ` (base §4.2). For a field `k` and `e` in the centre of `k[G]`, `IsDefectGroup p e P`
-is the definition of base §6.2 on the same domain, restated in `Suggested.lean` because that file
-imports only the libraries: `P` is a `p`-subgroup with `Br_P(e) ≠ 0`, written as a nonzero
-coefficient of `e` at some element of `C_G(P)`, and every `p`-subgroup `Q ≥ P` with this property
-equals `P`. The defect groups of a block of `O[G]` are those of its reduction modulo `m`. *Needs:*
+The ordinary characters of a block and its defect groups are the base's, and `Suggested.lean`
+restates them because that file imports only the libraries; neither is a second notion. At every
+splitting `p`-modular system an irreducible `K[G]`-module lies in exactly one block of `O[G]`, the
+one whose idempotent, mapped to `K[G]`, acts on it as the identity, and `Irr(B)` is the set of
+characters of those lying in `B` (base §4.2). For a commutative domain `O` with fraction field `K`
+and `b ∈ O[G]`, `blockCharacters b` writes this out: the set of characters of the irreducible
+representations of `G` on coordinate spaces `Fin n → K` on which the image of `b` in `K[G]` acts
+as the identity. For the central lift `e_B` of a block `B` of a splitting `p`-modular system,
+`blockCharacters e_B = Irr(B)`: as `K` splits `G`, `e_B` acts on an irreducible representation as
+`0` or `1`, and as `1` exactly when `e_B e_χ = e_χ` for its character `χ` (base §4.2). For a field
+`k` and `e` in the centre of `k[G]`, `IsDefectGroup p e P` is the definition of base §6.2 on the
+same domain: `P` is a `p`-subgroup with `Br_P(e) ≠ 0`, written as a nonzero coefficient of `e` at
+some element of `C_G(P)`, and every `p`-subgroup `Q ≥ P` with this property equals `P`. The defect
+groups of a block of `O[G]` are those of its reduction modulo `m`. *Needs:*
 Mathlib `Representation.IsIrreducible`, `Representation.character`,
 `Representation.asAlgebraHom`, `MonoidAlgebra.mapRingHom`, `MonoidAlgebra.coeff`,
 `Subgroup.centralizer`, `IsPGroup`; base §§1.3, 4.2, 6.2.
@@ -1012,10 +1016,10 @@ unit for some `χ ∈ Irr(B)` (every Brauer character of `B` is a `ℤ`-combinat
 
 ### 6.3 Heights, defects and height zero characters
 
-Define the defect `d(B)` of a block `B` by `|D| = p^{d(B)}` for a defect group `D`; it does not
-depend on `D`, as the defect groups of `B` are conjugate (base §6.2). Write
-`d = d(B)`. Define, for `χ ∈ Irr(B)`, the height `h(χ) = ν(χ(1)) − (a − d)` and the defect
-`d(χ) = a − ν(χ(1))`, both natural numbers (by §6.2 and `χ(1) ∣ |G|`), and the set
+Write `d(B)` for the defect of a block `B`, the exponent in the order `|D| = p^{d(B)}` of a defect
+group `D` of base §6.2; it does not depend on `D`, as the defect groups of `B` are conjugate (base
+§6.2). Write `d = d(B)`. Define, for `χ ∈ Irr(B)`, the height `h(χ) = ν(χ(1)) − (a − d)` and the
+defect `d(χ) = a − ν(χ(1))`, both natural numbers (by §6.2 and `χ(1) ∣ |G|`), and the set
 `Irr₀(B) = {χ ∈ Irr(B) : h(χ) = 0}` (Martínez, §3.2, p. 18; Reynolds 1963, Introduction, p. 16).
 Prove: `h` and `Irr₀(B)` do not depend on the choice of the defect group; `Irr₀(B) ≠ ∅`;
 `h(χ) = 0 ⟺ d(χ) = d ⟺ ν(χ(1)) = a − d`; `d = max_{χ ∈ Irr(B)} d(χ)`, the numerical defect of
@@ -1102,14 +1106,14 @@ below, base §§1.1, 4.2, 6.2, CharacterTheory §4.4 and Mathlib
 
 ### 6.4 The Brauer correspondent and heights in special blocks
 
-For a block `B` with defect group `D`, define its **Brauer correspondent** as the block `b'` of
-`k[N_G(D)]` with `e_{b'} = Br_D(e_B)`: base §6.2 states, over the residue field `k` of the system
-and with no algebraic-closure hypothesis, that `Br_D(e_B)` is a block idempotent of `k[N_G(D)]`
-with defect group `D` and that every such block arises from exactly one `B`, and base §7.1 gives
-`b'^G = B`. So `B ↦ b'` is a bijection from the blocks of `G` with defect group `D` onto the blocks
-of `N_G(D)` with defect group `D`, inverse to block induction. For the defect group `g D g⁻¹` the
-correspondent is `g b' g⁻¹`, a block of `N_G(g D g⁻¹) = g N_G(D) g⁻¹`, since `e_B` is invariant
-under conjugation.
+For a block `B` with defect group `D`, its **Brauer correspondent** is the base's block `b'` of
+`k[N_G(D)]` with `e_{b'} = Br_D(e_B)` (base §§6.2, 7.1): base §6.2 states, over the residue field
+`k` of the system and with no algebraic-closure hypothesis, that `Br_D(e_B)` is a block idempotent
+of `k[N_G(D)]` with defect group `D` and that every such block arises from exactly one `B`, and base
+§7.1 gives `b'^G = B`. So `B ↦ b'` is a bijection from the blocks of `G` with defect group `D`
+onto the blocks of `N_G(D)` with defect group `D`, inverse to block induction. For the defect group
+`g D g⁻¹` the correspondent is `g b' g⁻¹`, a block of `N_G(g D g⁻¹) = g N_G(D) g⁻¹`, since `e_B` is
+invariant under conjugation.
 
 Prove: `Irr₀(B₀(G))` is the set of characters of the principal block of degree prime to `p`, since
 its defect groups are the Sylow `p`-subgroups (base §6.2, the defect groups of the principal
@@ -1145,12 +1149,12 @@ the blocks of `N_G(D)`; base §§4.3, 6.2, 7.1.
 
 ### Dependencies
 
-Base Conventions and §§1.1, 1.3, 2.1–2.4, 3.1, 4.1–4.3, 6.1–6.2, 7.1, 8.2 (§§7.1 and 8.2 for the
-changes of system and of level only); CharacterTheory §§4.3, 4.4, 4.5 (§4.5 for the change of
-system); Tau Ceti central characters and degrees; Mathlib `padicValNat`; Mathlib
-`Ideal.exists_smul_eq_of_isGaloisGroup` for the change of place, and
-`IsDedekindDomain.HeightOneSpectrum.adicCompletion` with `UniformSpace.Completion.extension` for
-the change of system.
+Base Conventions and §§1.1, 1.3, 2.1–2.4, 3.1, 4.1–4.3, 6.1–6.2, 7.1, 8.2 (§7.1 for the changes of
+system and of level and for the Brauer correspondent of §6.4, §8.2 for the changes only);
+CharacterTheory §§4.3, 4.4, 4.5 (§4.5 for the change of system); Tau Ceti central characters and
+degrees; Mathlib `padicValNat`; Mathlib `Ideal.exists_smul_eq_of_isGaloisGroup` for the change of
+place, and `IsDedekindDomain.HeightOneSpectrum.adicCompletion` with
+`UniformSpace.Completion.extension` for the change of system.
 
 ## Layer 7: blocks and normal subgroups
 
@@ -1590,15 +1594,12 @@ Part II starts where the base stops and owns:
   4);
 - the degree relation `θ(1) ∣ |Γ : C| θ*(1)` and Glauberman degree-divisibility as a named
   predicate with its proved instances (Layer 5);
-- the ordinary characters of a block at any `p`-modular system (`blockCharacters`), the defect
-  of a block and the Brauer correspondent `B ↦ b'` as a map; `IsDefectGroup` in `Suggested.lean`
-  is the base §6.2 definition restated, not a second notion;
 - the central characters of blocks over the splitting system of the base §1.1 at a place over `p`,
   Osima's formula, the existence and `p`-regularity of the defect classes of the base §6.2,
-  Brauer's theorem on heights, heights, defects and height zero characters, and their transport
-  under a change of place, under a change of the cyclotomic level from `ℚ(ζ_{exp H})` to `ℚ(ζ_e)`
-  for `exp(H) ∣ e`, and under a change from the system at a place to an arbitrary splitting
-  `p`-modular system (Layer 6);
+  Brauer's theorem on heights, heights, the defects of characters and height zero characters, and
+  their transport under a change of place, under a change of the cyclotomic level from
+  `ℚ(ζ_{exp H})` to `ℚ(ζ_e)` for `exp(H) ∣ e`, and under a change from the system at a place to an
+  arbitrary splitting `p`-modular system (Layer 6);
 - the Min–Max theorem, covering through central characters, domination of the blocks of `G/N` for
   an arbitrary normal subgroup `N` (the base §8.1 states it for normal `p`-subgroups) and defect
   groups under domination, the Fong–Reynolds correspondence, regular blocks, Fong's theorem and
@@ -1667,7 +1668,11 @@ Planned by other roadmaps, and imported by name and section:
   and their characterisations, including the central characters of blocks and the defect classes,
   Brauer pairs, block induction, the first main theorem in its Brauer-projection form and the
   second main theorem, domination by normal `p`-subgroups, and covering for arbitrary normal
-  subgroups.
+  subgroups. The ordinary characters of a block at every splitting `p`-modular system (§4.2), its
+  defect groups (§6.2), whose order `p^{d(B)}` gives the defect `d(B)` of §6.3 above, and its
+  Brauer correspondent, the block of `k[N_G(D)]` with idempotent `Br_D(e_B)` (§§6.2, 7.1), are the
+  base's: `blockCharacters` and `IsDefectGroup` in `Suggested.lean` restate the first two because
+  that file imports only the libraries, and none of the three is a second notion.
 - InverseGaloisAndArithmeticFundamentalGroups IG.3.4, target *Conjugacy of coprime complements*
   (the conjugacy half of Schur–Zassenhaus, when the normal subgroup or the quotient is solvable).
 - RepresentationTheory/CharacterTheory §2.1 (the sum of the squares of the degrees), §3.5 (column
@@ -1826,8 +1831,10 @@ projective multiplicity representation with factor set `β⁻¹`; §2.4 uses it 
 - §3.1: projective characters `Φ_φ = Σ_χ d_{χφ} χ`, vanishing on `p`-singular elements, and
   `|G|_p ∣ Φ_φ(1)`.
 - §4.1–4.3: the idempotents `e_χ`; `e_B = Σ_{χ ∈ Irr(B)} e_χ`; the partitions of `Irr(G)` and
-  `IBr(G)`; the central-character criterion; block-diagonality of the decomposition matrix; the
-  principal block.
+  `IBr(G)`; the central-character criterion `exists_blockIdempotent_iff_centralCharacter_congr`, at
+  every splitting `p`-modular system, with each irreducible `K[G]`-module in exactly one block, the
+  one whose idempotent acts on it as the identity, so that `blockCharacters e_B = Irr(B)` (§6.1
+  above); block-diagonality of the decomposition matrix; the principal block.
 - §5.1: generalized decomposition numbers `χ(u v) = Σ_φ d^u_{χφ} φ(v)` for a `p`-element `u` and
   `p`-regular `v ∈ C_G(u)`.
 - §6.1: relative traces, `k[G]^P_Q = Tr_Q^P(k[G]^Q)` an ideal of `k[G]^P`, the Brauer projection
@@ -1922,10 +1929,10 @@ states no degree divisibility. §2.5 here derives from them the divisibility
 
 - G. Glauberman, *Correspondences of characters for relatively prime operator groups*, Canad. J.
   Math. 20 (1968), 1465–1488, doi:10.4153/CJM-1968-148-x: §1 (p. 1467), Theorem 1 (p. 1467),
-  Lemma 1 (p. 1469), Theorem 2 (pp. 1470–1471), Lemmas 2–3 (p. 1471), Theorem 3 (pp. 1472–1473),
-  Corollaries 4–6 (pp. 1473–1476), Lemma 4 (p. 1476), the Definition and Lemma 5 (p. 1477),
-  Theorem 4 and its proof (p. 1478), Corollaries 7–8 (p. 1479), Corollary 9 and Theorem 5
-  (p. 1480).
+  Lemma 1 (p. 1469), Theorem 2 (pp. 1470–1471), Lemma 2 (p. 1471), Lemma 3 (pp. 1471–1472),
+  Theorem 3 (pp. 1472–1473), Corollaries 4–6 (pp. 1473–1476), Lemma 4 (p. 1476), the Definition
+  and Lemma 5 (p. 1477), Theorem 4 and its proof (p. 1478), Corollaries 7–8 (p. 1479), Corollary 9
+  and Theorem 5 (p. 1480).
 - B. Hartley, A. Turull, *On characters of coprime operator groups and the Glauberman character
   correspondence*, J. reine angew. Math. 451 (1994), 175–219, read at
   https://gdz.sub.uni-goettingen.de/download/pdf/PPN243919689_0451/LOG_0013.pdf: Theorem A and the

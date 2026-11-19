@@ -24,13 +24,14 @@ the invariant irreducible characters `invariantIrreducibleCharacters` and the de
 The block strand (README Layers 6–8) is stated for an arbitrary splitting `p`-modular system: a
 complete discrete valuation ring `O` with fraction field `K = FractionRing O` of characteristic
 zero containing a primitive `exp(G)`-th root of unity and residue field of characteristic `p`. A
-block is a primitive idempotent of the centre of `O[G]`; its ordinary characters
-(`blockCharacters`) are the characters of the irreducible `K`-representations on which it acts as
-the identity, and its defect groups are those of its reduction modulo the maximal ideal, an element
-of the centre of `k[G]`, in the sense of `IsDefectGroup`, the definition of the base roadmap
-ModularCharactersAndBlocks restated on the same domain: the maximal `p`-subgroups `P` on whose
-centraliser the reduction has a nonzero coefficient. The headlines are Brauer's theorem on
-heights, the Fong–Reynolds correspondence, Reynolds' height formula and Reynolds' theorem.
+block is a primitive idempotent of the centre of `O[G]`. Its ordinary characters and its defect
+groups are those of the base roadmap ModularCharactersAndBlocks, restated here: the ordinary
+characters (`blockCharacters`) are the characters of the irreducible `K`-representations on which
+the block acts as the identity, and the defect groups are those of its reduction modulo the
+maximal ideal, an element of the centre of `k[G]`, in the sense of `IsDefectGroup`, the base's
+definition on the same domain: the maximal `p`-subgroups `P` on whose centraliser the reduction
+has a nonzero coefficient. The headlines are Brauer's theorem on heights, the Fong–Reynolds
+correspondence, Reynolds' height formula and Reynolds' theorem.
 
 Every headline theorem of the roadmap is statable at the pins. Three propositions of the README
 are definitions whose general validity the roadmap cites and does not prove, so they are not
@@ -235,8 +236,9 @@ def IsDefectGroup {G k : Type*} [Group G] [Field k] (p : ℕ)
 
 /-- The **ordinary characters of a block**: for `b ∈ O[G]`, the characters of the irreducible
 representations of `G` over the fraction field `K` of `O`, on coordinate spaces `Fin n → K`, on
-which the image of `b` in `K[G]` acts as the identity. For a block idempotent `b` this is
-`Irr(B)`. -/
+which the image of `b` in `K[G]` acts as the identity. For the block idempotent of a block `B` of a
+splitting `p`-modular system this is the set `Irr(B)` of ModularCharactersAndBlocks §4.2, written
+out for an arbitrary `b`. -/
 def blockCharacters {G O : Type*} [Group G] [CommRing O] [IsDomain O] (b : MonoidAlgebra O G) :
     Set (G → FractionRing O) :=
   {χ | ∃ (n : ℕ) (ρ : Representation (FractionRing O) G (Fin n → FractionRing O)),
