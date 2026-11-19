@@ -17,8 +17,9 @@ Hochschild–Serre spectral sequence (README §6.1); and the semilocal topologic
 decomposition of the completed Hecke algebra (README §8.11).
 
 Only the last is statable at the pins, and it is stated below on native carriers: compatible
-sections, maximal spectra and localizations. The only additional topology is the quotient
-topology on each algebraic local factor.
+sections, maximal spectra and localizations. Each algebraic local factor carries Mathlib's
+localization topology `Localization.ringTopology`, which here is the quotient topology from the
+compatible-sections ring.
 
 The others are not statable: they need the coherent arithmetic local-system and support tower
 (README Layers 0–1), its derived completed object and integral admissible category (Layer 2),
@@ -50,20 +51,12 @@ Its topology is inherited from the product of the discrete coordinate rings. -/
 abbrev completedHecke (F : J ⥤ CommRingCat.{v}) : Subring (∀ j, F.obj j) :=
   RingCat.sectionsSubring (F ⋙ forget₂ CommRingCat RingCat)
 
-/-- Each algebraic local factor carries the quotient topology from the compatible-sections
-ring (README §8.11). The decomposition theorem makes this a compact Hausdorff topological
-ring and identifies it with the corresponding factor of the inverse limit. -/
-instance completedHeckeLocalTopology (F : J ⥤ CommRingCat.{v})
-    [∀ j, TopologicalSpace (F.obj j)] (m : MaximalSpectrum (completedHecke F)) :
-    TopologicalSpace (Localization.AtPrime m.asIdeal) :=
-  TopologicalSpace.coinduced (algebraMap (completedHecke F) (Localization.AtPrime m.asIdeal))
-    inferInstance
-
 /-- Semilocal decomposition of the finite-image inverse limit (README §8.11).
 Radical kernels over one finite residual base identify all algebraic maximal ideals
 and residue fields. The canonical map to the product of algebraic localizations is a
-homeomorphism for the quotient topologies on the factors; these are compact Hausdorff
-local topological rings. The index may be any small cofiltered category. -/
+homeomorphism when each factor carries Mathlib's `Localization.ringTopology`; since each
+localization map is surjective here, that is the quotient topology. The factors are compact
+Hausdorff local topological rings. The index may be any small cofiltered category. -/
 theorem completedHecke_decomposition [IsCofiltered J]
     (F : J ⥤ CommRingCat.{v}) [∀ j, Finite (F.obj j)]
     [∀ j, TopologicalSpace (F.obj j)] [∀ j, DiscreteTopology (F.obj j)]
@@ -89,8 +82,7 @@ theorem completedHecke_decomposition [IsCofiltered J]
       (∀ x m, e x m = algebraMap (completedHecke F) (Localization.AtPrime m.asIdeal) x) ∧
       ∀ m : MaximalSpectrum (completedHecke F),
         CompactSpace (Localization.AtPrime m.asIdeal) ∧
-        T2Space (Localization.AtPrime m.asIdeal) ∧
-        IsTopologicalRing (Localization.AtPrime m.asIdeal) := by
+        T2Space (Localization.AtPrime m.asIdeal) := by
   sorry
 
 end TauCetiRoadmap.CompletedCohomologyPartII
