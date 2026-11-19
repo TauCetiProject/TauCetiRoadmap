@@ -49,7 +49,7 @@ The following mathematics is already in the pinned libraries and is consumed, no
   `ModuleCat.arTranslate` and the representation-level translate `TauCeti.arTranslate`,
   the injective stable category with its Hom spaces as Hom cokernels of injective inflations,
   categorical radicals and irreducible spaces, almost-split predicates, uniqueness extending any
-  specified isomorphism of the right endpoints under local-endomorphism hypotheses, and, over a
+  specified isomorphism of the right endpoints, in any preadditive balanced category, and, over a
   finite-dimensional algebra and an arbitrary field, Auslander–Reiten duality natural in both
   variables, existence of almost-split sequences with the translate as left end, the quiver of
   irreducible morphisms with its partial translation, and its mesh relation counted in
@@ -119,8 +119,9 @@ of the AR quiver are k-dimensions of irreducible spaces.
 ASS assumes an algebraically closed field throughout (ASS pp.1–2) and is cited for the statements
 and for the algebraically closed case. The arbitrary-field forms are theorems about Artin
 algebras; ARS is cited for them by locator: the reduced form (ARS II.2.6), injective envelopes
-(ARS II.4.1), the Auslander–Reiten formula as an equality of lengths (ARS IV.4.1, p.129, and
-IV.4.6, p.131) and almost-split existence with its D Tr endpoint (ARS V.1.14–1.15).
+(ARS II.3, p.37, with II.4.1(c), p.40, and II.4.6, p.42), the Auslander–Reiten formula as an
+equality of lengths (ARS IV.4.1, p.129, and IV.4.6, p.131) and almost-split existence with its
+D Tr endpoint (ARS V.1.14–1.15).
 Crawley-Boevey also fixes an algebraically closed field (§1, p.3); the standard
 resolution and its consequences (1) and (3), cited in §4.1, do not use it.
 Where Tau Ceti already proves an arbitrary-field statement, the pinned declaration is the
@@ -338,9 +339,10 @@ Paths below are relative to `TauCeti/`.
   `CategoryTheory.ShortComplex.IsAlmostSplit`, in `CategoryTheory/AlmostSplit/Sequence.lean`,
   combines short exactness with left and right almost-split conditions in the chosen category.
   `CategoryTheory.ShortComplex.IsAlmostSplit.exists_iso_τ₃_eq`, in `Uniqueness.lean`, extends
-  a specified endpoint isomorphism to an isomorphism of complexes when both left-end
-  endomorphism rings are local, and `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso_X₁`
-  there compares the left ends. Finite-length locality discharges that condition here.
+  a specified endpoint isomorphism to an isomorphism of complexes in any preadditive balanced
+  category, with no locality hypothesis (the left end of an almost-split sequence always has a
+  local endomorphism ring), and `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso_X₁`
+  there compares the left ends.
 - `ModuleCat.arTranslate`, in `Algebra/Category/ModuleCat/AuslanderReiten/Translate.lean`, is D Tr
   of a chosen finite minimal projective presentation of a finitely generated module over a
   finite-dimensional algebra, over any field. `ModuleCat.nonempty_iso_arTranslate` compares it with
@@ -512,10 +514,11 @@ consumed, not constructed: every finite-dimensional left A-module M has a finite
 injective envelope M → I, unique over M, and essentiality is equivalently tested on maps
 I → X whose restriction to M is monic (`TauCeti.exists_isInjectiveEnvelope_of_finite`,
 `TauCeti.IsInjectiveEnvelope.exists_linearEquiv`,
-`TauCeti.isInjectiveEnvelope_iff_forall_injective`; ASS I.5.12–5.14, pp.30–31; ARS II.4.1, over
-any field). The exchange of projective covers and injective envelopes under the k-dual
-D = Homₖ(−, k) is the case R = k of ArtinAlgebras §2.3 and is not planned here (Scope and
-ownership); nothing in this roadmap uses it.
+`TauCeti.isInjectiveEnvelope_iff_forall_injective`; ASS I.5.12–5.14, pp.30–31; over any field,
+ARS II.3, p.37, for existence and uniqueness up to isomorphism, and II.4.1(c), p.40, with II.4.6,
+p.42, for finite generation of the envelope). The exchange of projective covers and injective
+envelopes under the k-dual D = Homₖ(−, k) is the case R = k of ArtinAlgebras §2.3 and is not
+planned here (Scope and ownership); nothing in this roadmap uses it.
 
 **Checks.**
 
@@ -799,15 +802,16 @@ Prove `exists_rootPairing_titsForm`: for nonempty connected Q with positive-defi
 is a reduced crystallographic irreducible rational root system on the vertex space, a base
 and a vertex-to-base bijection sending i to the actual standard vector eᵢ. Its base Cartan
 matrix is 2I−(adjacency+adjacencyᵀ), and its roots are exactly the nonzero integral vectors
-of q-value 1 (BGP §2, pp.26–28; Etingof v5 Definition 5.20 and Remark 5.21, p.89).
+of q-value 1 (BGP Lemma 2.1(1), p.26, for the Cartan entries, and Lemma 2.2(1), p.27, with §3
+Note 1, p.30, for the roots; Etingof v5 Definitions 5.11 and 5.13, p.87).
 
 One route builds the pairing with `RootPairing.mk'` on the dot pairing of ℚ^Q. Positive
 definiteness gives q(eᵢ)=1, so Q has no loops and every eᵢ is a root. The roots are the integral
 vectors α with q(α)=1. The coroot of α is the vector representing B(α,−), so the root–coroot
-pairing is B(α,α)=2q(α)=2; the reflection v ↦ v−B(v,α)α preserves q and the lattice ℤ^Q, so it
-permutes the roots, and dually the coroots. Every root has all coordinates of one sign: write
-α=α⁺−α⁻ with disjoint supports; B(α⁺,α⁻) only pairs distinct vertices, where B is minus the
-number of arrows between them, so q(α)=q(α⁺)+q(α⁻)−B(α⁺,α⁻)≥2 when both parts are nonzero
+pairing is B(α,α)=2q(α)=2; the reflection v ↦ v−B(v,α)α preserves q and the lattice ℤ^Q
+(Etingof v5 Definition 5.20 and Remark 5.21, p.89), so it permutes the roots, and dually the
+coroots. Every root has all coordinates of one sign: write α=α⁺−α⁻ with disjoint supports;
+B(α⁺,α⁻) only pairs distinct vertices, where B is minus the number of arrows between them, so q(α)=q(α⁺)+q(α⁻)−B(α⁺,α⁻)≥2 when both parts are nonzero
 (Etingof v5 Lemma 5.16, pp.87–88, for Dynkin graphs; BGP Lemma 2.2(3), pp.27–28, for the Weyl
 orbits of the simple roots). Hence each root is ± a nonnegative one, the roots are finitely many
 by `TauCeti.finite_setOf_nonneg_titsForm_eq_one` (Etingof v5 Remark 5.14, p.87), and the vertex
@@ -946,10 +950,10 @@ finitely generated middle term (`ModuleCat.exists_isAlmostSplit_arTranslate`,
 `ModuleCat.exists_isAlmostSplit_X₃_eq_iff`). Dually, a finitely generated module begins one exactly
 when it is indecomposable and noninjective (`ModuleCat.exists_isAlmostSplit_of_not_injective`,
 `ModuleCat.exists_isAlmostSplit_X₁_eq_iff`) (ASS Theorem IV.3.1, pp.120–121; ARS V.1.14–1.15).
-Any almost-split sequence ending at M whose left end has local endomorphism ring, for instance a
-finitely generated one, has left end isomorphic to D Tr of each finite minimal projective
-presentation of M: compare it with the pinned sequence by
-`CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso_X₁` and use `ModuleCat.nonempty_iso_arTranslate`.
+Any almost-split sequence of A-modules ending at a finitely generated module M has left end
+isomorphic to D Tr of each finite minimal projective presentation of M: compare it with the
+pinned sequence by `CategoryTheory.ShortComplex.IsAlmostSplit.nonempty_iso_X₁`, which needs no
+locality hypothesis, and use `ModuleCat.nonempty_iso_arTranslate`.
 
 Use short exactness plus left and right factorization properties. A split sequence is excluded;
 no separate empty predicate specifies non-splitting. Given almost-split S,T and any endpoint
@@ -967,8 +971,7 @@ of the statement (ASS IV.1.11–1.13, pp.104–106, and native endpoint uniquene
 - The split sequence with the same end dimensions fails the almost-split condition: the
   projection is a split epimorphism. The zero module is not an indecomposable endpoint.
 
-*Needs:* the pinned existence and translate theorems, finite-length locality and native
-almost-split uniqueness.
+*Needs:* the pinned existence and translate theorems and native almost-split uniqueness.
 
 ### 6.4 Irreducible arrows and the AR quiver
 
@@ -1024,8 +1027,8 @@ and not a supplier here.
   [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Assem%2C%20Simson%2C%20Skowronski%20-%20Elements%20of%20the%20representation%20theory%20of%20associative%20algebras.pdf).
 - **ARS:** M. Auslander, I. Reiten, S. O. Smalø, *Representation Theory of Artin Algebras*,
   Cambridge Studies in Advanced Mathematics 36, Cambridge, 1995. Cited for the arbitrary-field
-  (Artin algebra) forms II.2.6, II.4.1 and V.1.14–1.15, and for the Auslander–Reiten formula as an
-  equality of lengths, IV.4.1 and IV.4.6.
+  (Artin algebra) forms II.2.6, II.3 with II.4.1(c) and II.4.6, and V.1.14–1.15, and for the
+  Auslander–Reiten formula as an equality of lengths, IV.4.1 and IV.4.6.
   [Institutional teaching copy](https://homepage.mi-ras.ru/~avfonarev/2023/fda/Auslander,%20Reiten,%20Smalo%20-%20Representation%20Theory%20of%20Artin%20Algebras.pdf).
 - **BGP:** I. N. Bernstein, I. M. Gelfand, V. A. Ponomarev, *Coxeter functors and Gabriel's
   theorem*, Russian Mathematical Surveys 28:2 (1973), 17–32. Theorem 1.1, Lemma 2.3 and
