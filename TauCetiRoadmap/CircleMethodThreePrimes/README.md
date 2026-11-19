@@ -39,11 +39,13 @@ and Vinogradov's theorem.
 
 ## How to read the build
 
-Each layer states its targets in numbered sections, each with its source and its own *Needs:*
-line, and ends with `### Examples` and `### Dependencies`. Key definitions carry **Checks.**
-Layers 0 and 1 need only Mathlib. Layer 2 adds Vaughan's identity. §3.2 and §§4.6–4.8 are stated
-and proved against the proposition `SiegelWalfiszBound` of §3.1 and need no L-function; §4.9
-proves the proposition from AnalyticNumberTheoryPartI §0.32 and concludes.
+Each layer states its targets in numbered sections, each with its own *Needs:* line and with its
+source where the result is not elementary (for 4.1–4.8, the line at the head of Layer 4), and ends
+with `### Examples` and `### Dependencies`. Key definitions carry **Checks.** Layers 0 and 1 need
+only Mathlib, apart from the identification with the Kloosterman sum in §0.2. Layer 2 adds
+Vaughan's identity. §3.2 and §§4.6–4.8 are stated and proved against the proposition
+`SiegelWalfiszBound` of §3.1 and need no L-function; §4.9 proves the proposition from
+AnalyticNumberTheoryPartI §0.32 and concludes.
 
 ```text
 Mathlib ─→ 0.1 ─→ 0.2
@@ -236,7 +238,7 @@ logarithm and its coefficient energies); 0.1, 1.1, 1.2; Mathlib `ArithmeticFunct
 Prove `integral_norm_sq_primeExpSum`: for every natural `N`,
 `∫₀¹ |primeExpSum N α|² dα = ∑_{n=1}^N Λ(n)²`. Prove that this sum is at most `(log 4 + 4) N log N`,
 from `Λ(n) ≤ log N` for `n ≤ N` and `ψ(N) ≤ (log 4 + 4) N`, and that `|primeExpSum N α| ≤ ψ(N)`
-for every real `α`. The constant `1` is not available in place of `log 4 + 4`:
+for every real `α`. This route cannot give the constant `1`, since `ψ(N) ≤ N` fails:
 `ψ(19) ≈ 19.27 > 19` and `ψ(113) ≈ 117.39 > 113`.
 
 *Needs:* 0.1, 2.1 for the definition; Mathlib `Chebyshev.psi_le_const_mul_self`,

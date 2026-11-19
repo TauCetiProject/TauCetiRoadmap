@@ -132,7 +132,8 @@ def psiAP (q : ℕ) (a : ZMod q) (x : ℝ) : ℝ :=
 
 /-- Siegel–Walfisz with a logarithmic saving, a hypothesis of Layers 3 and 4 until 4.9: for all
 `A, B > 0` there is `C` with `|ψ(x; q, a) - x/φ(q)| ≤ C x (log x)^{-A}` for all `x ≥ 2`,
-`1 ≤ q ≤ (log x)^B` and all units `a` modulo `q`. The constant is ineffective. -/
+`1 ≤ q ≤ (log x)^B` and all units `a` modulo `q`. The constant is existential; the classical proof,
+through Siegel's theorem, gives no way to compute it. -/
 def SiegelWalfiszBound : Prop :=
   ∀ A B : ℝ, 0 < A → 0 < B → ∃ C : ℝ, ∀ (x : ℝ) (q : ℕ) (a : ZMod q),
     2 ≤ x → 1 ≤ q → (q : ℝ) ≤ Real.log x ^ B → IsUnit a →
@@ -209,7 +210,8 @@ theorem threePrimeCount_asymptotic (hSW : SiegelWalfiszBound) :
   sorry
 
 /-- **4.8** **Vinogradov's three-primes theorem.** Every sufficiently large odd integer is a sum
-of three primes. The threshold is ineffective. -/
+of three primes. The threshold is existential; the classical route through Siegel–Walfisz gives no
+way to compute it. -/
 theorem vinogradov_threePrimes (hSW : SiegelWalfiszBound) :
     ∃ N₀ : ℕ, ∀ N : ℕ, N₀ ≤ N → Odd N →
       ∃ p₁ p₂ p₃ : ℕ, p₁.Prime ∧ p₂.Prime ∧ p₃.Prime ∧ p₁ + p₂ + p₃ = N := by
@@ -220,7 +222,8 @@ theorem siegelWalfiszBound : SiegelWalfiszBound := by
   sorry
 
 /-- **4.9** **Vinogradov's three-primes theorem.** Every sufficiently large odd integer is a sum
-of three primes. The threshold is ineffective. -/
+of three primes. The threshold is existential; the classical route through Siegel–Walfisz gives no
+way to compute it. -/
 theorem vinogradov_threePrimes_unconditional :
     ∃ N₀ : ℕ, ∀ N : ℕ, N₀ ≤ N → Odd N →
       ∃ p₁ p₂ p₃ : ℕ, p₁.Prime ∧ p₂.Prime ∧ p₃.Prime ∧ p₁ + p₂ + p₃ = N :=
