@@ -143,7 +143,7 @@ Provide the following operations and compatibility statements.
 
 - A modular elliptic curve with good reduction at p and `k(ρ̄)=2` supplies an `α-witness`.
 - An unramified weight `k(ρ̄)+p−1` eigenform is not itself an `α-witness`, since its weight differs from `k(ρ̄)`.
-- A Steinberg eigenform at p is not an `α-witness`, while its conductor-p component is allowed in `a β-witness`. This concerns that witness, not nonexistence of every `α-witness` for `ρ̄`.
+- A Steinberg eigenform at p is not an `α-witness`, while its conductor-p component is allowed in a `β-witness`. This concerns that witness, not nonexistence of every `α-witness` for `ρ̄`.
 - `ρ̄ = ρ̄_E` for an elliptic curve `E/ℚ` with good reduction at p: E's newform is unramified at p of weight 2, so `(α)` holds when `k(ρ̄) = 2`.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) §8.2, p. 70.)
@@ -167,10 +167,10 @@ Provide the following operations and compatibility statements.
 **Checks.**
 
 - A weight-two unramified local witness has conductor exponent zero and hence satisfies the `β` local bound.
-- A weight-two Steinberg component of conductor exponent one is allowed in `a β-witness`.
-- A weight-two eigenform with conductor exponent two at a place above p is not itself `a β-witness`; this does not preclude another witness.
+- A weight-two Steinberg component of conductor exponent one is allowed in a `β-witness`.
+- A weight-two eigenform with conductor exponent two at a place above p is not itself a `β-witness`; this does not preclude another witness.
 - At weight two an `α-witness` also witnesses `β`; for `ρ̄ = ρ̄_E` with `E/ℚ` of good reduction at p, E's newform witnesses `(β)`.
-- A residual witness of weight `k(ρ̄) + p − 1 ≥ 3`, unramified at p, is not `a β-witness`: the weight at infinity must be 2.
+- A residual witness of weight `k(ρ̄) + p − 1 ≥ 3`, unramified at p, is not a `β-witness`: the weight at infinity must be 2.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) §8.2, p. 70.)
 
@@ -180,11 +180,11 @@ Provide the following operations and compatibility statements.
 
 Under §1.1’s residual-sign, p-adic inertia and division-level coefficient hypotheses, for every `𝒪`-algebra map `x : 𝕋_ψ(U)_𝔪 → 𝒪′` (`𝒪′` the integers of a finite extension of E), the specialisation `ρ_x` of `ρ_𝔪` has determinant `ψχ_p`, is unramified outside S, and satisfies the local condition of the lifting data at each `v ∈ S`. At `v ∈ Σ` not above p it is semistable of the form `(χ_pγ_v ∗; 0 γ_v)` with a fixed unramified `γ_v` (KW II Lemma 7.2). At the infinite places it is odd. At `v | p` it is of type (A) (crystalline of low weight), (B) (weight two) or (C) (weight-two semistable), according to `U_v`. This identifies the local deformation problem represented at each place.
 
-The datum’s representation `ρ_𝔪` over `𝕋_ψ(U)_𝔪`, and the compatibility of `π` ↦ `ρ_π` with the local Langlands correspondence away from p (Carayol, Taylor) and at p (Kisin, Saito, Skinner; KW II Lemma 7.7 and Corollary 7.8), are the arithmetic refinements of this target using AutomorphicGaloisRepresentations §§4.4–4.9 and 6.10–6.12.
+The datum’s representation `ρ_𝔪` over `𝕋_ψ(U)_𝔪`, and the compatibility of `π ↦ ρ_π` with the local Langlands correspondence away from p (Carayol, Taylor) and at p (Kisin, Saito, Skinner; KW II Lemma 7.7 and Corollary 7.8), are the arithmetic refinements of this target using AutomorphicGaloisRepresentations §§4.4–4.9 and 6.10–6.12.
 
 Apply GlobalGaloisDeformations §6.8’s `HeckeGaloisDatum.mem_of_points` to these specializations. The point maps to the finite-extension DVRs have jointly zero kernel because the Hecke image is reduced and `𝒪`-flat. The local defining ideals and fixed determinant therefore vanish in T. This establishes membership in the global deformation problem. The local conditions and their rings are LocalGaloisDeformationRings Layer 8, with the arithmetic refinements listed in the supplier contract.
 
-`𝒪′-points` of `𝕋_ψ(U)_𝔪` correspond to the Hecke eigenforms in `S_{k,ψ}(U, 𝒪)_𝔪`, hence to cuspidal `π` with `ρ̄_π ≅ ρ̄` (Jacquet–Langlands, HilbertModularVarietiesAndShimuraCurves §§R18.3.1–R18.3.32). At `v ∈ Σ: π_v` is an unramified twist of Steinberg, and the Galois representation restricted to `D_v` has the form `(χ_pγ_v ∗; 0 γ_v)` with `γ_v` unramified and fixed independently of the eigenform under §1.1’s sign-identifiability hypotheses (HilbertModularVarietiesAndShimuraCurves §R18.3.32; at `p=2` through full division level and its fixed coefficient extension). At `v | p: U_v` maximal compact means `π_v` unramified, so `ρ_x|D_v` is crystalline of weight k; `U_1(v)` gives weight two with the tame inertial type; `v ∈ Σ` above p gives semistable weight two (Corollary 7.8). At `∞: ρ_π` is totally odd.
+`𝒪′-points` of `𝕋_ψ(U)_𝔪` correspond to the Hecke eigenforms in `S_{k,ψ}(U, 𝒪)_𝔪`, hence to cuspidal `π` with `ρ̄_π ≅ ρ̄` (Jacquet–Langlands, HilbertModularVarietiesAndShimuraCurves §§R18.3.1–R18.3.32). At `v ∈ Σ`: `π_v` is an unramified twist of Steinberg, and the Galois representation restricted to `D_v` has the form `(χ_pγ_v ∗; 0 γ_v)` with `γ_v` unramified and fixed independently of the eigenform under §1.1’s sign-identifiability hypotheses (HilbertModularVarietiesAndShimuraCurves §R18.3.32; at `p=2` through full division level and its fixed coefficient extension). At `v | p`: `U_v` maximal compact means `π_v` unramified, so `ρ_x|D_v` is crystalline of weight k; `U_1(v)` gives weight two with the tame inertial type; `v ∈ Σ` above p gives semistable weight two (Corollary 7.8). At `∞`: `ρ_π` is totally odd.
 
 **Checks.**
 
@@ -212,7 +212,7 @@ Use the fixed-determinant classifying map of GlobalGaloisDeformations §6.7 on t
 
 ### 1.6 The residual hypotheses (α) and (β) persist under allowable base change
 
-Let F and `ρ̄` be as in KW II §7.6.2 and F′/F an allowable base change. If `ρ̄|_{G_F}` satisfies `(α)` with witness `π`, then `ρ̄|_{G_{F′}}` satisfies `(α)` with witness the base change `π_{F′}`; likewise for `(β)`. More precisely `π_{F′}` is cuspidal, it is discrete series of the same parallel weight at every infinite place of F′, `ρ̄_{π_{F′}} ≅ ρ̄_π|_{G_{F′}}`, and for places `w | v | p: π_{F′,w}` is unramified if `π_v` is, and its conductor exponent is at most 1 if that of `π_v` is.
+Let F and `ρ̄` be as in KW II §7.6.2 and F′/F an allowable base change. If `ρ̄|_{G_F}` satisfies `(α)` with witness `π`, then `ρ̄|_{G_{F′}}` satisfies `(α)` with witness the base change `π_{F′}`; likewise for `(β)`. More precisely `π_{F′}` is cuspidal, it is discrete series of the same parallel weight at every infinite place of F′, `ρ̄_{π_{F′}} ≅ ρ̄_π|_{G_{F′}}`, and for places `w | v | p`: `π_{F′,w}` is unramified if `π_v` is, and its conductor exponent is at most 1 if that of `π_v` is.
 
 Allowable changes are those of SerreWeightAndLevelOptimisation §6.6 (KW II Definition 7.9). KW II do not define "solvable"; what their constructions give, and what is used here, is a tower `F = F₀ ⊂ … ⊂ F_n = F′` of Galois steps with soluble groups, so that base change can be applied along cyclic steps of prime degree. Image preservation is the relative condition `ρ̄(G_{F′}) = ρ̄(G_F)` with `ρ̄|G_{F′(μ_p)}` absolutely irreducible.
 
@@ -226,8 +226,8 @@ Refine the soluble tower of the allowable change to cyclic steps of prime degree
 
 **Checks.**
 
-- F′/F quadratic, `π` unramified at `v | p` inert in `F′: π_{F′,w}` is unramified, so an `(α)-witness` base-changes to an `(α)-witness`.
-- A Steinberg component at `v | p` (conductor exponent 1) base-changes along an unramified extension to a Steinberg component: `a (β)-witness` stays `a (β)-witness` and does not become an `(α)-witness`.
+- F′/F quadratic, `π` unramified at `v | p` inert in `F′`: `π_{F′,w}` is unramified, so an `(α)-witness` base-changes to an `(α)-witness`.
+- A Steinberg component at `v | p` (conductor exponent 1) base-changes along an unramified extension to a Steinberg component: a `(β)-witness` stays a `(β)-witness` and does not become an `(α)-witness`.
 - If the residual image shrank over F′ so that `ρ̄|_{G_{F′}}` were reducible, `π_{F′}` could fail to be cuspidal; this is excluded by the definition of allowable.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) §7.6.2, after Definition 7.9, p. 68.)
@@ -258,7 +258,7 @@ Add split conditions at a nonsplit prime for each simple Galois subextension of 
 
 ### 1.8 Existence of allowable base changes with prescribed completions
 
-Let F and `ρ̄` be as in KW II §7.6.2 (F totally real, unramified at p, split at p if `ρ̄|_{D_p}` is irreducible; `ρ̄|_{G_F}` of non-solvable image if `p = 2`, and `ρ̄|_{G_{F(μ_p)}}` absolutely irreducible if `p > 2`). Let `S₀` be a finite set of finite places of F containing the places above p, and for `v ∈ S₀` let `E_v/F_v` be a finite Galois extension, unramified if `v | p` and equal to `F_v` if `v | p` and `ρ̄|_{D_p}` is irreducible. Let L/F be a finite extension. Then there is a finite Galois extension F′/F with soluble Galois group such that: (1) F′ is totally real; (2) [F′ : F] is even; `(3) F′_w ≅ E_v` over `F_v` for every `v ∈ S₀` and every place `w | v` of F′, so that F′/F is unramified above p, split at each v with `E_v = F_v`, and split above p when `ρ̄|_{D_p}` is irreducible; (4) F′ is linearly disjoint over F from L, from the fixed field K of `ker ρ̄|_{G_F}` and from `K(μ_p)`, so that `ρ̄(G_{F′}) = ρ̄(G_F)` and `ρ̄(G_{F′(μ_p)}) = ρ̄(G_{F(μ_p)})`. (5) If every `E_v, v ∈ S₀`, has degree at most 2 over `F_v`, then F′ can be taken quadratic over F. In particular F′/F is an allowable change in the sense of SerreWeightAndLevelOptimisation §6.6 (KW II Definition 7.9), with the prescribed completions at `S₀`. The base F′ again satisfies the conditions of §7.6.2, so the statement can be applied repeatedly, and the resulting towers are allowable over F (SerreWeightAndLevelOptimisation §6.6, “KW optimisation data”: allowed solvable changes compose).
+Let F and `ρ̄` be as in KW II §7.6.2 (F totally real, unramified at p, split at p if `ρ̄|_{D_p}` is irreducible; `ρ̄|_{G_F}` of non-solvable image if `p = 2`, and `ρ̄|_{G_{F(μ_p)}}` absolutely irreducible if `p > 2`). Let `S₀` be a finite set of finite places of F containing the places above p, and for `v ∈ S₀` let `E_v/F_v` be a finite Galois extension, unramified if `v | p` and equal to `F_v` if `v | p` and `ρ̄|_{D_p}` is irreducible. Let L/F be a finite extension. Then there is a finite Galois extension F′/F with soluble Galois group such that: (1) F′ is totally real; (2) [F′ : F] is even; (3) `F′_w ≅ E_v` over `F_v` for every `v ∈ S₀` and every place `w | v` of F′, so that F′/F is unramified above p, split at each v with `E_v = F_v`, and split above p when `ρ̄|_{D_p}` is irreducible; (4) F′ is linearly disjoint over F from L, from the fixed field K of `ker ρ̄|_{G_F}` and from `K(μ_p)`, so that `ρ̄(G_{F′}) = ρ̄(G_F)` and `ρ̄(G_{F′(μ_p)}) = ρ̄(G_{F(μ_p)})`. (5) If every `E_v, v ∈ S₀`, has degree at most 2 over `F_v`, then F′ can be taken quadratic over F. In particular F′/F is an allowable change in the sense of SerreWeightAndLevelOptimisation §6.6 (KW II Definition 7.9), with the prescribed completions at `S₀`. The base F′ again satisfies the conditions of §7.6.2, so the statement can be applied repeatedly, and the resulting towers are allowable over F (SerreWeightAndLevelOptimisation §6.6, “KW optimisation data”: allowed solvable changes compose).
 
 At a place above p only an unramified `E_v` may be prescribed, and only the trivial one when `ρ̄|_{D_p}` is irreducible. A nontrivial unramified `E_v` above p occurs in Lemma 8.1 (to make `ρ̄` trivial above p when it is unramified there), in the dyadic branch with `k(ρ̄) = 4` and in type (C) with `k(ρ̄) = 2`, the two cases in which Theorem 8.4 does not promise splitting at p.
 
@@ -272,13 +272,13 @@ No automorphic input is used: this is existence of a field, not GL2AutomorphicRe
 
 `'ρ̄|_{D_p}` is irreducible' means absolutely irreducible, as everywhere in KW II §§7–8: an unramified `ρ̄|_{D_p}` has cyclic image and is reducible over `𝔽̄_p`.
 
-Clause (5) matters: Lemma 4.1.2 controls the completions but not the global degree, and the proof of Theorem 8.4 needs extensions of degree exactly 2 (KW II p. 77: each `F_i/F_{i−1}` is quadratic, with one place above `v_i's` neighbours and two above `v_i`). For exponent 2 no class field theory is needed, only weak approximation.
+Clause (5) matters: Lemma 4.1.2 controls the completions but not the global degree, and the proof of Theorem 8.4 needs extensions of degree exactly 2 (KW II p. 77: each `F_i/F_{i−1}` is quadratic, with one place above the neighbours of `v_i` and two above `v_i`). For exponent 2 no class field theory is needed, only weak approximation.
 
 Auxiliary place. Choose a finite place u of F outside `S₀`, not above p, and let `E_u` be the unramified quadratic extension of `F_u`. Apply Clozel–Harris–Taylor's Lemma 4.1.2 (§1.7) to F, to D the Galois closure over F of `L·K(μ_p)`, and to the set `S = S₀ ∪ {u} ∪` {real places of F}, with the given `E_v` at `S₀, E_u` at u and `E_v = F_v = ℝ` at the real places. It gives a finite soluble Galois F′/F, linearly disjoint from D, with `F′_w ≅ E_v` for all `w | v ∈ S`. Totally real: every real place of F splits completely in F′. Even degree: F′/F is Galois, so the local degree `[F′_w : F_u] = 2` divides [F′ : F]. The conditions at p are read off (3). Images. F′ is linearly disjoint from `K(μ_p)` over F, so restriction is an isomorphism `Gal(F′K(μ_p)/F′) ≅ Gal(K(μ_p)/F)` carrying the subgroup that fixes `μ_p` to the subgroup that fixes `μ_p`. Hence `ρ̄(G_{F′}) = ρ̄(G_F)` and `ρ̄(G_{F′(μ_p)}) = ρ̄(G_{F(μ_p)})`; absolute irreducibility over `F′(μ_p)`, and non-solvability at `p = 2`, are properties of these images (ArithmeticGaloisRepresentations Layer 4). Quadratic case (5). Write `E_v = F_v(√d_v)` with `d_v ∈ F_v^×` (`d_v = 1` if `E_v = F_v`). Choose a finite place z of F outside `S₀`, not above 2, that splits completely in D (Chebotarev for the trivial class; Tau Ceti Chebotarev, Layer 10), and a non-square unit `d_z` of `F_z`. The squares are open in each `F_v^×`, so by weak approximation there is `d ∈ F^×` that is totally positive, lies in `d_v·(F_v^×)²` for `v ∈ S₀` and in `d_z·(F_z^×)²`. Put `F′ = F(√d)`. It is totally real, quadratic (z is inert), with completions `E_v` at `S₀`; and F′ is not contained in D, because z is inert in F′ and splits completely in D, so `F′ ∩ D = F`. No auxiliary place u is needed, since the degree is 2. Iteration. F′ is totally real, unramified at p and split at p when required, with the same residual images, so §7.6.2 holds over F′; a tower of such steps is allowable over F by the composition of allowable changes (SerreWeightAndLevelOptimisation §6.6, “KW optimisation data”, composition of allowed solvable changes).
 
 **Checks.**
 
-- `F = ℚ, p = 5, S₀ = {5}` with `E₅ = ℚ₅, u = 3: ℚ(√11)` is real quadratic, 5 splits in it `(11 ≡ 1 mod 5)` and 3 is inert `(11 ≡ 2 mod 3)`. Disjointness from K is a further condition, which is why D enters the construction.
+- `F = ℚ, p = 5, S₀ = {5}` with `E₅ = ℚ₅`, `u = 3`: `ℚ(√11)` is real quadratic, 5 splits in it `(11 ≡ 1 mod 5)` and 3 is inert `(11 ≡ 2 mod 3)`. Disjointness from K is a further condition, which is why D enters the construction.
 - With `S₀ = {v | p}` and every `E_v = F_v` the lemma gives the allowable base changes 'split at p' of Theorem 8.2.
 - Prescribing the unramified extension of degree m at the places of a finite set makes the p-part of the residue-field unit groups there as large as required; this is the use in the proof of Theorem 8.2 (order divisible by the p-part of `2p(4N_w)`).
 - Over the field `F_{i−1}` of the proof of Theorem 8.4, clause (5) with the trivial extension at the places above `v_i` and the unramified quadratic extension at the places above the other `v_j` gives a quadratic `F_i`, with `v_j` inert for `j ≠ i` and split for `j = i`. Without clause (5) the degree of `F_i` could be a larger even number, and the count of places above `v_1, …, v_i` in the proof would be wrong.
@@ -421,7 +421,7 @@ Use the finite-presentation power-series identifications `T^□≅T[[y]]` and `M
 
 ### Examples
 
-For KW II at `p = 2` with `Σ` nonempty the level is not compact (`U_v = D_v^×` at `v ∈ Σ`) and `W_2` has `2^{|Σ|}` extensions (§1.1). The field `ℚ(√11)` at `p = 5` is an allowable quadratic change with `u = 3: 11` is a square modulo 5 and not modulo 3 (§1.8). A Hecke point of type (A) at `v | p` with `k = 2` and `π_v` unramified is crystalline with weights {0, 1} (§1.4).
+For KW II at `p = 2` with `Σ` nonempty the level is not compact (`U_v = D_v^×` at `v ∈ Σ`) and `W_2` has `2^{|Σ|}` extensions (§1.1). The field `ℚ(√11)` at `p = 5` is an allowable quadratic change with `u = 3`: 11 is a square modulo 5 and not modulo 3 (§1.8). A Hecke point of type (A) at `v | p` with `k = 2` and `π_v` unramified is crystalline with weights {0, 1} (§1.4).
 
 ### Dependencies
 
@@ -453,7 +453,7 @@ Provide the following operations and compatibility statements.
 - `Q = ∅` gives U.
 - `U^0_Q/U_Q ≅ Δ_Q`.
 - With `Δ′_v` in place of `Δ_v`, characters need not kill p-torsion isotropy. For `Δ′_v=ℤ/4` and N=2, `Δ′_v[N]` has order two and `Δ_v=ℤ/2`, rather than `ℤ/4`.
-- `Q = ∅: U_Q = U^0_Q = U` and `Δ_∅ = 1`.
+- `Q = ∅`: `U_Q = U^0_Q = U` and `Δ_∅ = 1`.
 - For `p ≥ 5` unramified (Gee), N is prime to p and `Δ_v` is the full p-part of `k(v)^×`.
 - Using `Δ′_v` when the isotropy groups have p-torsion (possible for `p = 2`, 3) breaks the freeness of Lemma 7.4: a character of `Δ′_v` need not kill the isotropy.
 
@@ -481,7 +481,7 @@ Provide the following operations and compatibility statements.
 - A scalar central operator acts by the fixed central character.
 - An element of `Δ′_Q[N]` acts trivially after passage to `Δ_Q`; retaining an independent nontrivial diamond for it gives the wrong algebra.
 - For `Q=∅`, the auxiliary Hecke action image is `𝕋_ψ(U)` before localization. After §2.3 selects `𝔪_∅=𝔪`, its localized ring is `𝕋_ψ(U)_𝔪`, and §2.4 recovers §1.5’s map. For an action image `𝒪×𝒪`, choosing one residual branch gives `𝒪`, not the entire action image.
-- `U_v` ↦ `A_v` under the map to level U (§2.5), not `U_v` ↦ `B_v`.
+- `U_v ↦ A_v` under the map to level U (§2.5), not `U_v ↦ B_v`.
 - With equal residual eigenvalues the simple-root Hensel argument and separation into two residual eigenlines fail; this does not assert that a maximal ideal cannot exist.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) §7.4 before Corollary 7.5, p. 65; §9.1.1, p. 80; [KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) Remark after Lemma 9.1, p. 81.)
@@ -490,7 +490,7 @@ Provide the following operations and compatibility statements.
 
 ### 2.3 Auxiliary residual branch ideal
 
-Let `m^away` be the ideal of the algebra generated by away-from-Q operators specifying the residual eigensystem. Choose `α_v` at every `v∈Q` and any coefficient representative `α̃_v`. Define `m_Q=`(`m^away,U_v−α̃_v` for `v∈Q`) in `T_{ψ,Q}(U_Q)`, and take its complete local factor. The ideal is independent of all representatives of the same `α_v`; choosing `β_v` selects the other branch.
+Let `m^away` be the ideal of the algebra generated by away-from-Q operators specifying the residual eigensystem. Choose `α_v` at every `v∈Q` and any coefficient representative `α̃_v`. Define `m_Q = (m^away, U_v − α̃_v for v ∈ Q)` in `T_{ψ,Q}(U_Q)`, and take its complete local factor. The ideal is independent of all representatives of the same `α_v`; choosing `β_v` selects the other branch.
 
 For each `v ∈ Q` the residual Frobenius eigenvalues `α_v ≠ β_v` are fixed and `N(v) ≡ 1 mod p`; the residual eigensystem away from Q is the non-Eisenstein `𝔪` of the minimal level.
 
@@ -570,7 +570,7 @@ At every characteristic-zero Hecke point, local–global compatibility identifie
 
 **Checks.**
 
-- The operator `U_v` depends on the uniformiser `π_v`; the identity `γ_{α_v}(π_v)` ↦ `U_v` is stated for that same `π_v`.
+- The operator `U_v` depends on the uniformiser `π_v`; the identity `γ_{α_v}(π_v) ↦ U_v` is stated for that same `π_v`.
 - An arbitrary lift `α̃_v` of `α_v` is not `U_v`; only its reduction is fixed.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) proof of Lemma 9.1, pp. 80–81.)
@@ -579,13 +579,13 @@ At every characteristic-zero Hecke point, local–global compatibility identifie
 
 ### 2.7 The diamond and Galois actions of Δ_Q agree
 
-On `S_Q := S_{k,ψ}(U_Q, 𝒪)_{𝔪_Q}` the two actions of `Δ_Q` agree: the diamond action h ↦ ⟨h⟩ `=` (h̃ 0; 0 1), and the action through `Δ_Q → (R̄^ψ_{S∪Q})^× → 𝕋_{ψ,Q}(U_Q)_𝔪` given by `∏_v γ_{α_v}` (the character `χ_α` ∘ Art). Equivalently, ⟨h⟩ acts on the `U_v-eigenline` whose actual characteristic-zero eigenvalue reduces to `α_v` through the character of `π_v` lifting `α_v`.
+On `S_Q := S_{k,ψ}(U_Q, 𝒪)_{𝔪_Q}` the two actions of `Δ_Q` agree: the diamond action `h ↦ ⟨h⟩ = (h̃ 0; 0 1)`, and the action through `Δ_Q → (R̄^ψ_{S∪Q})^× → 𝕋_{ψ,Q}(U_Q)_𝔪` given by `∏_v γ_{α_v}` (the character `χ_α` ∘ Art). Equivalently, ⟨h⟩ acts on the `U_v-eigenline` whose actual characteristic-zero eigenvalue reduces to `α_v` through the character of `π_v` lifting `α_v`.
 
 The needed local–global compatibility at `v ∈ Q` (`π_v ≅ χ₁ × χ₂` tamely ramified principal series, with eigenvalues of `ρ_π(Frob_v)` equal to `#k(v)^{1/2}χ_i(ϖ_v)`) is AutomorphicGaloisRepresentations §§6.10–6.12.
 
 The lift `α̃_v` defining `𝔪_Q` is arbitrary and is not asserted to equal the actual `U_v-eigenvalue` (KW II p. 65; Gee Proposition 5.8, p. 36).
 
-A point `θ` of `𝕋_Q` gives `π` with `π_v^{U_{Q,v}} ≠ 0`, so `π_v` is a subquotient of `χ₁ × χ₂` with `χ_i` tamely ramified. `(χ₁ × χ₂)^{U_{Q,v}} = ℂφ₁` ⊕ `ℂφ_w`, with `U_ϖ φ_w = #k(v)^{1/2}χ₂(ϖ)φ_w` and `U_ϖ φ₁ = #k(v)^{1/2}χ₁(ϖ)φ₁ + Xφ_w. αv ≠ βv` forces `χ₁/χ₂ ≠ |·|^{±1}`, so `π_v = χ₁ × χ₂` is irreducible and one may take `χ₂(ϖ)` ↔ `α_v`. The `U_v-eigenline` with eigenvalue `#k(v)^{1/2}χ₂(π_v)` reducing to `α_v` is `ℂφ_w`, on which `(δ 0; 0 1)` acts by `χ₂(δ) = χ_α` ∘ Art (Gee Proposition 5.8(1)).
+A point `θ` of `𝕋_Q` gives `π` with `π_v^{U_{Q,v}} ≠ 0`, so `π_v` is a subquotient of `χ₁ × χ₂` with `χ_i` tamely ramified. `(χ₁ × χ₂)^{U_{Q,v}} = ℂφ₁ ⊕ ℂφ_w`, with `U_ϖ φ_w = #k(v)^{1/2}χ₂(ϖ)φ_w` and `U_ϖ φ₁ = #k(v)^{1/2}χ₁(ϖ)φ₁ + Xφ_w. αv ≠ βv` forces `χ₁/χ₂ ≠ |·|^{±1}`, so `π_v = χ₁ × χ₂` is irreducible and one may take `χ₂(ϖ)` ↔ `α_v`. The `U_v-eigenline` with eigenvalue `#k(v)^{1/2}χ₂(π_v)` reducing to `α_v` is `ℂφ_w`, on which `(δ 0; 0 1)` acts by `χ₂(δ) = χ_α` ∘ Art (Gee Proposition 5.8(1)).
 
 **Checks.**
 
@@ -655,7 +655,7 @@ GlobalGaloisDeformations §6.7’s `HeckeGaloisDatum.classifying_surjective` giv
 **Checks.**
 
 - `Q = ∅`: this is §1.10.
-- Without the identity `γ_{α_v}(π_v)` ↦ `U_v` the operators `U_v` need not lie in the image of the trace map.
+- Without the identity `γ_{α_v}(π_v) ↦ U_v` the operators `U_v` need not lie in the image of the trace map.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) Lemma 9.1 and following remark, pp. 80–81.)
 
@@ -688,7 +688,7 @@ Base change the finite free `O[Δ_Q]-module` along the fixed framing presentatio
 
 **Checks.**
 
-- `Q_n = ∅: M_n = M^□` and killing the framing variables gives M.
+- `Q_n = ∅`: `M_n = M^□` and killing the framing variables gives M.
 - The rank s over `O[Δ_{Q_n}][[y_{h+1},…,y_{h+j}]]` does not depend on n, which the patching argument needs.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) Proposition 9.2, proof pp. 81–83.)
@@ -709,7 +709,7 @@ Feed the Taylor–Wiles systems into Kisin's patching datum of DeformationAndDer
 
 ### 3.1 Patching data of level m from the Taylor–Wiles systems
 
-The arithmetic level-m patching datum is the ring-module datum of DeformationAndDerivedPatchingAlgebra §5.6 at cutoff m, with Kisin's parameters specialised to `S∞ = O[[y_1,…,y_{h+j}]], J = (y_1,…,y_h), B = R̄^{loc,ψ}_S` of dimension `d + 1, A = B[[x_1,…,x_{h+j−d}]], R = R̄_S^{□,ψ}, M = M^□` and `s = rank_O M > 0`, with `c_m =` (`π_O^m, (1+y_i)^{p^m}−1` for `i ≤ h, y_{h+i}^{p^m}` for `i ≤ j`) and bound `r_m = s·m·p^{m(h+j)}; m_C^{(r)}` is generated by r-th powers of elements of `m_C`, not the ideal power `m_C^r`. To the patching datum of DeformationAndDerivedPatchingAlgebra §5.6, `S∞/c_m → D_m ↠ R/(c_mR + m_R^{(r_m)}), A ↠ D_m, m_{D_m}^{(r_m)} = 0, L_m` free of rank s over `S∞/c_m` with `L_m ↠ M^□/c_m`, this target adds the arithmetic structure: `D_m/JD_m ≅ R/(c_mR + m_R^{(r_m)})` as B-algebras, the framing action of `y_{h+1},…,y_{h+j}` on R, and the Hecke action on `M^□` through `𝕋^□`. Morphisms preserve these maps. The same datum underlies `(D_m, L_m)` in the dyadic construction, whose extra determinant data are §6.1.
+The arithmetic level-m patching datum is the ring-module datum of DeformationAndDerivedPatchingAlgebra §5.6 at cutoff m, with Kisin's parameters specialised to `S∞ = O[[y_1,…,y_{h+j}]], J = (y_1,…,y_h), B = R̄^{loc,ψ}_S` of dimension `d + 1, A = B[[x_1,…,x_{h+j−d}]], R = R̄_S^{□,ψ}, M = M^□` and `s = rank_O M > 0`, with `c_m = (π_O^m, (1+y_i)^{p^m}−1 for i ≤ h, y_{h+i}^{p^m} for i ≤ j)` and bound `r_m = s·m·p^{m(h+j)}; m_C^{(r)}` is generated by r-th powers of elements of `m_C`, not the ideal power `m_C^r`. To the patching datum of DeformationAndDerivedPatchingAlgebra §5.6, `S∞/c_m → D_m ↠ R/(c_mR + m_R^{(r_m)}), A ↠ D_m, m_{D_m}^{(r_m)} = 0, L_m` free of rank s over `S∞/c_m` with `L_m ↠ M^□/c_m`, this target adds the arithmetic structure: `D_m/JD_m ≅ R/(c_mR + m_R^{(r_m)})` as B-algebras, the framing action of `y_{h+1},…,y_{h+j}` on R, and the Hecke action on `M^□` through `𝕋^□`. Morphisms preserve these maps. The same datum underlies `(D_m, L_m)` in the dyadic construction, whose extra determinant data are §6.1.
 
 This ring-module construction is the domain case: O has finite residue field, B is complete Noetherian local, O-flat, a domain of dimension `d + 1` with B[1/p] formally smooth (KW II §9.1.1; LocalGaloisDeformationRings §8.17), and all maps are continuous local O-algebra maps. A fixed presentation and all framing choices are part of the datum. The avoidance pair, whose unprimed local ring can be reducible, uses the separate ambient-module construction of §3.4a. Kisin’s dyadic ambient system uses §6.7a; it retains the finite scalar, module and augmentation data without the domain hypothesis of this target.
 
@@ -731,7 +731,7 @@ Provide the following operations and compatibility statements.
 - The identity of the underlying finite module is not a datum isomorphism unless it intertwines the specified `S∞` and `D_m` actions.
 - For `h = 0`, choosing `Q_n` empty and fixed framings makes the chosen finite-level system constant.
 - The rank s of `L_m` over `𝒪⟦y⟧/c_m` does not depend on m or n.
-- Without the bound `𝔟_n ⊆ ((1 + y_i)^{p^n} − 1), L_m` would not be free over `𝒪⟦y⟧/c_m`.
+- Without the bound `𝔟_n ⊆ ((1 + y_i)^{p^n} − 1)`, `L_m` would not be free over `𝒪⟦y⟧/c_m`.
 
 ([Kisin, finite flat](<https://people.math.harvard.edu/~kisin/dvifiles/bt.dvi>) Proposition (3.3.1), proof pp. 62–64, equations (3.3.2)–(3.3.3); [KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) proof of Proposition 9.3, pp. 84–86.)
 
@@ -741,14 +741,14 @@ Provide the following operations and compatibility statements.
 
 Fix `a≥0` with `p^a>N` for the isotropy exponent; at `p=2` also require `a≥2`. For all sufficiently large `n≥m` (`m≥3` at `p=2`), put `D_{m,n}=R_{n+a}/(c_mR_{n+a}+m_{R_{n+a}}^{(r_m)})` and `L_{m,n}=M_{n+a}/c_mM_{n+a}`. These are level-m data. The annihilator `b_ℓ` of `M_ℓ` satisfies `b_ℓ⊂((1+y_i)^{p^{ℓ−a}}−1:i≤h)`, so `b_{n+a}⊂c_m`. If b is the number of generators of `m_A`, set `r′_m=b r_m; m_A^{r′_m}⊂m_A^{(r_m)}`, so every `D_{m,n}` is a quotient of the finite ring `A/m_A^{r′_m}`. The augmentation to `R/(c_m+m_R^{(r_m)})` is an isomorphism after J, and the corresponding module augmentation is equivariant.
 
-N is the isotropy exponent of KW II §7.4 and a is fixed with `p^a > N` (`a ≥ 2` at `p = 2`); `M_ℓ` is finite free over `O[[y]]/𝔟_ℓ` of rank s with `𝔟_ℓ ⊂ ((1+y_i)^{p^{ℓ−a}} − 1)_{i≤h}` for ℓ `> a` (Corollary 7.5).
+N is the isotropy exponent of KW II §7.4 and a is fixed with `p^a > N` (`a ≥ 2` at `p = 2`); `M_ℓ` is finite free over `O[[y]]/𝔟_ℓ` of rank s with `𝔟_ℓ ⊂ ((1+y_i)^{p^{ℓ−a}} − 1)_{i≤h}` for `ℓ > a` (Corollary 7.5).
 
 Use `Δ_Q=Δ′_Q/Δ′_Q[N]` and the fixed shift a, so that reduction of `M_{n+a}` modulo `c_m` is free of rank s. For DeformationAndDerivedPatchingAlgebra §5.7, reindex the whole system by `R̃_n=R_{n+a}`, `M̃_n=M_{n+a}`. Then `ann_{S∞} M̃_n⊆((1+y_i)^{p^n}−1:i≤h)`. Retain the exact augmentation kernels `ker(R̃_n→R)=JR̃_n` and `ker(M̃_n→M^□)=JM̃_n`, with the same `S₀=𝒪[[y_{h+1},…,y_{h+j}]]` action and framing at every n (§2.12 and GlobalGaloisDeformations §6.4). Freeness over the scalar quotient is §2.12. The unshifted level-n bound with `p^n` is not available for the isotropy quotient. A maximal-ideal element acts nilpotently on the s-dimensional residual augmentation of `M_n`. The nilpotence estimate in Kisin (3.3.1) gives its `r_m-th` power zero on `L_{m,n}`; thus the `D_{m,n}-action` is defined. Surjectivity of the global presentation gives `A↠D_{m,n}`. The pigeonhole bound on b maximal-ideal generators gives `m_A^{b r_m}⊂m_A^{(r_m)}`, yielding a finite ambient truncation. Quotient the known augmentation kernels and retain all scalar actions.
 
 **Checks.**
 
 - If the isotropy groups have order prime to p (Gee's case `p ≥ 5` unramified), `Δ_v = Δ′_v` and `𝔟_n ⊂ ((1+y_i)^{p^n} − 1)` without a shift, which is Kisin's unshifted `D_{m,n} = R_n/(c_mR_n + m^{(r_m)})`; the shift by a is needed only when the isotropy groups have p-torsion.
-- For `b = 2` generators and `r_m = 3, m_A^6 ⊂ m_A^{(3)}: a` monomial of degree 6 in two generators has an exponent at least 3.
+- For `b = 2` generators and `r_m = 3`, `m_A^6 ⊂ m_A^{(3)}`: a monomial of degree 6 in two generators has an exponent at least 3.
 - With `h=1`, `p=2`, `a=2`, the unshifted level 3 may have annihilator `((1+y₁)²−1)`, whose reduction `(y₁²)` is not contained in the desired `(y₁⁸)`. Shifting to level 5 supplies the exponent 8 required for cutoff level 3.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) Proposition 9.2 proof, pp. 81–83; Proposition 9.3 proof, pp. 84–86.)
@@ -774,11 +774,11 @@ Each level-m datum is a finite set of finite rings, modules and maps of bounded 
 
 ### 3.4 The patched ring and module in the domain case
 
-Under the domain hypotheses of §3.1 there are surjections of B-algebras `B⟦x_1, …, x_{h+j−d}⟧ ↠ R_∞ ↠ R̄^{□,ψ}_S`, with `R_∞` an `𝒪⟦y_1, …, y_{h+j}⟧-algebra` and `R_∞/(y_1, …, y_h) ≅ R̄^{□,ψ}_S`. There is an `R_∞-module M_∞`, finite free over `𝒪⟦y_1, …, y_{h+j}⟧`, with `M_∞/(y_1, …, y_h) ≅ M^□` (§1.12) as modules over the specialised deformation ring, with `M^□` faithful over `𝕋^□_𝔪`, and with `R_∞ → End(M_∞)` compatible with `𝒪⟦y⟧`. Moreover `R_∞/(y_1, …, y_{h+j}) ≅ R̄^ψ_S`.
+Under the domain hypotheses of §3.1 there are surjections of B-algebras `B⟦x_1, …, x_{h+j−d}⟧ ↠ R_∞ ↠ R̄^{□,ψ}_S`, with `R_∞` an `𝒪⟦y_1, …, y_{h+j}⟧-algebra` and `R_∞/(y_1, …, y_h) ≅ R̄^{□,ψ}_S`. There is an `R_∞`-module `M_∞`, finite free over `𝒪⟦y_1, …, y_{h+j}⟧`, with `M_∞/(y_1, …, y_h) ≅ M^□` (§1.12) as modules over the specialised deformation ring, with `M^□` faithful over `𝕋^□_𝔪`, and with `R_∞ → End(M_∞)` compatible with `𝒪⟦y⟧`. Moreover `R_∞/(y_1, …, y_{h+j}) ≅ R̄^ψ_S`.
 
 Use the fixed presentations, positive constant rank s, scalar-compatible module actions and the full structured stabilization. The limit construction is DeformationAndDerivedPatchingAlgebra §5.6 (Kisin Proposition (3.3.1)); this theorem applies it to the arithmetic data and carries the augmentation, framing and Hecke maps through the limit.
 
-Apply DeformationAndDerivedPatchingAlgebra §5.6 to the arithmetic data of §3.2, stabilised by §3.3: `R∞ =` lim `D_m` and `M∞ =` lim `L_m` along the transition maps, with `A ↠ R∞` from the A-presentations. Pass the augmentation identities and scalar action diagrams to the limit: `R∞/J≅R̄_S^{□,ψ}, M∞/J≅M^□`. Killing the framing variables recovers the unframed ring and module. Freeness over `S∞` follows from the compatible rank-s trivializations.
+Apply DeformationAndDerivedPatchingAlgebra §5.6 to the arithmetic data of §3.2, stabilised by §3.3: `R∞ = lim D_m` and `M∞ = lim L_m` along the transition maps, with `A ↠ R∞` from the A-presentations. Pass the augmentation identities and scalar action diagrams to the limit: `R∞/J≅R̄_S^{□,ψ}, M∞/J≅M^□`. Killing the framing variables recovers the unframed ring and module. Freeness over `S∞` follows from the compatible rank-s trivializations.
 
 **Checks.**
 
@@ -859,7 +859,7 @@ For the characteristic-zero criterion require the pointwise generic formal smoot
 
 Use the finite action image, localize at each prime and apply the finite-map depth comparison of DeformationAndDerivedPatchingAlgebra Layer 3 and Auslander–Buchsbaum. The dimension equality and regular scalar parameters are part of the patching numerology; regularity of the ring alone does not make every finite module projective.
 
-`R∞≅B[[x]]` by the domain dimension argument. LocalGaloisDeformationRings gives regularity of `R∞[1/p]. M∞[1/p]` is finite projective and faithful over `R∞[1/p]`: this is the conclusion of DeformationAndDerivedPatchingAlgebra §5.7 for the arithmetic data, whose proof uses the DeformationAndDerivedPatchingAlgebra §3.3 finite-map depth comparison and Auslander–Buchsbaum at each point; its local rank is positive by §3.5. The augmentation `R∞ → R̄_S^{□,ψ}` is the quotient by J, and base change preserves a finite projective module of positive rank, hence faithfulness after inverting p. Its action factors through the framed Hecke image, so the kernel of `R̄_S^{□,ψ} → 𝕋^□` is p-power torsion (DeformationAndDerivedPatchingAlgebra §6.5); finite generation gives a single power, and unframing gives the unframed comparison.
+`R∞≅B[[x]]` by the domain dimension argument. LocalGaloisDeformationRings gives regularity of `R∞[1/p]`. `M∞[1/p]` is finite projective and faithful over `R∞[1/p]`: this is the conclusion of DeformationAndDerivedPatchingAlgebra §5.7 for the arithmetic data, whose proof uses the DeformationAndDerivedPatchingAlgebra §3.3 finite-map depth comparison and Auslander–Buchsbaum at each point; its local rank is positive by §3.5. The augmentation `R∞ → R̄_S^{□,ψ}` is the quotient by J, and base change preserves a finite projective module of positive rank, hence faithfulness after inverting p. Its action factors through the framed Hecke image, so the kernel of `R̄_S^{□,ψ} → 𝕋^□` is p-power torsion (DeformationAndDerivedPatchingAlgebra §6.5); finite generation gives a single power, and unframing gives the unframed comparison.
 
 **Checks.**
 
@@ -873,7 +873,7 @@ Use the finite action image, localize at each prime and apply the finite-map dep
 
 ### Examples
 
-For `s = 1, p = 3, m = 2` and `h + j = 1` the patching rank is `r_m = s·m·p^{m(h+j)} =` 2·9 `= 18` (§3.1). When the local ring `R^loc[1/p]` is irreducible, support of the patched module on one component is support on all of `Spec R∞` (§3.5); with two components it is not.
+For `s = 1, p = 3, m = 2` and `h + j = 1` the patching rank is `r_m = s·m·p^{m(h+j)} = 2·9 = 18` (§3.1). When the local ring `R^loc[1/p]` is irreducible, support of the patched module on one component is support on all of `Spec R∞` (§3.5); with two components it is not.
 
 ### Dependencies
 
@@ -1046,7 +1046,7 @@ Existence: ClassicalSerreModularity `I.0/soluble-totally-real-base-change`, with
 
 **Checks.**
 
-- `F = ℚ, L_3 = ℚ_3(√−3): F′ = ℚ(√6)` works, since `6/(−3) = −2` is a square in `ℚ_3; ℚ(√−3)` itself is not allowed, as F′ must be totally real.
+- `F = ℚ`, `L_3 = ℚ_3(√−3)`: `F′ = ℚ(√6)` works, since `6/(−3) = −2` is a square in `ℚ_3; ℚ(√−3)` itself is not allowed, as F′ must be totally real.
 - Modularity of `ρ|G_{F′}` descends to `ρ` only because F′/F is solvable: for a non-solvable F′/F descent is not available.
 - Without linear disjointness the image hypothesis can fail over F′: if `ρ̄` is induced from a real quadratic K/F with `K ≠ F(√p*)`, then `ρ̄|G_{F(ζ_p)}` can be irreducible while `ρ̄|G_{F′}` is reducible for `F′ ⊇ K`.
 
@@ -1056,19 +1056,19 @@ Existence: ClassicalSerreModularity `I.0/soluble-totally-real-base-change`, with
 
 ### 5.4 The Khare–Wintenberger lifting theorem for odd p
 
-Let `p > 2`, F totally real and unramified at p, split at p if `ρ̄|_{D_p}` is irreducible or `k(ρ̄) = p + 1`, with `ρ̄_F = ρ̄|G_F` such that `ρ̄|G_{F(μ_p)}` is absolutely irreducible and `ρ̄_F` satisfies `(α)` and `(β)`. Let `ρ_F : G_F → GL_2(𝒪)` lift `ρ̄_F`, be ramified at finitely many places, totally odd, and at every place above p of one of the types (A) crystalline of weight k with `2 ≤ k ≤ p + 1` (when `k = p + 1`, with `k(ρ̄) = p + 1`), (B) of weight 2 and crystalline over `ℚ_p^{nr}(μ_p)`, or (C) semistable non-crystalline of weight 2 of the form `(γ_vχ_p ∗; 0 γ_v)` with `γ_v` unramified. Then `ρ_F` is modular. This formulation uses no finiteness of deformation rings from KW II §10 and no potential modularity.
+Let p be an odd prime and F a totally real field in which p is unramified; when `ρ̄|_{D_p}` is irreducible or `k(ρ̄) = p + 1`, require F to be split at p as well. Suppose that `ρ̄_F = ρ̄|G_F` satisfies `(α)` and `(β)` and stays absolutely irreducible on `G_{F(μ_p)}`. Then a totally odd lift `ρ_F : G_F → GL_2(𝒪)` of `ρ̄_F` with only finitely many ramified places is modular as soon as its restriction to each decomposition group above p has one of the three shapes of the Conventions: (A) crystalline of some weight k in `[2, p + 1]`, the endpoint `k = p + 1` being allowed only when `k(ρ̄) = p + 1`; (B) weight 2 and crystalline over `ℚ_p^{nr}(μ_p)`; (C) weight 2, semistable but not crystalline, and of the form `(γ_vχ_p ∗; 0 γ_v)` with `γ_v` unramified. This formulation uses no finiteness of deformation rings from KW II §10 and no potential modularity.
 
 F is totally real and `ρ̄ : G_F → GL_2(𝔽)` is as in KW II §8, with lifting data and determinant character `ψ` (GlobalGaloisDeformations §6.1; the local conditions are LocalGaloisDeformationRings §8.2).
 
-The residual input is `(α)` and `(β)` of §1.2, not `'ρ̄` is modular'. KW I Theorem 4.1(2), stated with `'ρ̄` modular', is §5.18, derived from this theorem, the weight part of Serre's conjecture and the cited cases as in KW II §10.2.
+The residual input is `(α)` and `(β)` of §1.2, not modularity of `ρ̄`. KW I Theorem 4.1(2), which assumes `ρ̄` modular, is §5.18, derived from this theorem, the weight part of Serre's conjecture and the cited cases as in KW II §10.2.
 
 Case (B) of weight two is only the part of the potentially Barsotti–Tate case that becomes semistable over `ℚ_p(μ_p)` (KW II §10.2, remark). The general potentially Barsotti–Tate case is §5.7.
 
-After a solvable base change (§5.3; Taylor's Lemma 2.2), `ρ_F` is totally odd, uniform above p of type (A), (B) or (C), of the form `(γ_vχ_p ∗; 0 γ_v)` at the ramified places away from p, and `ρ̄` is trivial above p when `ρ̄` is unramified at p. Then `ρ_F` and `det ρ_F` prescribe lifting data and `ψ`, so `ρ_F` is an `𝒪`-point of `R̄^{□,ψ}_S`. After a further base change, SerreWeightAndLevelOptimisation §6.11 (KW II Theorem 8.4) gives a cuspidal `π′` of parallel weight fitting the same lifting data and `ψ. R̄^{□,loc,ψ}_S` is a domain (semistable conditions away from p; LocalGaloisDeformationRings §8.17), so §3.7 gives `R̄^{□,ψ}_S[1/p] ≅ 𝕋^□_𝔪[1/p]`; the point `ρ_F` factors through `𝕋` and is modular. Solvable base change descends modularity to F.
+After a solvable base change (§5.3; Taylor's Lemma 2.2), `ρ_F` is totally odd, uniform above p of type (A), (B) or (C), of the form `(γ_vχ_p ∗; 0 γ_v)` at the ramified places away from p, and `ρ̄` is trivial above p when `ρ̄` is unramified at p. Then `ρ_F` and `det ρ_F` prescribe lifting data and `ψ`, so `ρ_F` is an `𝒪`-point of `R̄^{□,ψ}_S`. After a further base change, SerreWeightAndLevelOptimisation §6.11 (KW II Theorem 8.4) gives a cuspidal `π′` of parallel weight fitting the same lifting data and `ψ`. `R̄^{□,loc,ψ}_S` is a domain (semistable conditions away from p; LocalGaloisDeformationRings §8.17), so §3.7 gives `R̄^{□,ψ}_S[1/p] ≅ 𝕋^□_𝔪[1/p]`; the point `ρ_F` factors through `𝕋` and is modular. Solvable base change descends modularity to F.
 
 **Checks.**
 
-- `F = ℚ, p = 3, ρ =` the 3-adic Tate module of 11a1: crystalline of weight 2 (case (A)), the mod-3 image is `GL_2(𝔽_3)`, so `ρ̄|G_{ℚ(ζ_3)}` (image `SL_2(𝔽_3)`) is absolutely irreducible, and `(α), (β)` hold with 11a1's own form; the theorem recovers its modularity.
+- `F = ℚ`, `p = 3`, `ρ` the 3-adic Tate module of 11a1: crystalline of weight 2 (case (A)), the mod-3 image is `GL_2(𝔽_3)`, so `ρ̄|G_{ℚ(ζ_3)}` (image `SL_2(𝔽_3)`) is absolutely irreducible, and `(α), (β)` hold with 11a1's own form; the theorem recovers its modularity.
 - Weight `p + 2` is outside (A): the theorem says nothing about crystalline lifts of weight `> p + 1`.
 - If `ρ̄|G_{F(μ_p)}` is reducible (for example `ρ̄` induced from `ℚ(√−3)` at `p = 3`), Taylor–Wiles primes are unavailable (GlobalGaloisDeformations §5.2) and the theorem does not apply.
 
@@ -1078,7 +1078,7 @@ After a solvable base change (§5.3; Taylor's Lemma 2.2), `ρ_F` is totally odd,
 
 ### 5.5 From 'ρ̄ modular' over ℚ to the residual hypotheses (α) and (β)
 
-Let `ρ̄ : G_ℚ → GL₂(𝔽)` be of S-type and modular, normalised by a twist so that `2 ≤ k(ρ̄) ≤ p + 1` when `p > 2`. (1) For `p > 2, ρ̄` arises from `S_{k(ρ̄)}(Γ₁(N))` for some N prime to p, and from `S₂(Γ₁(Np))`. For `p = 2, ρ̄` arises from `S₂(Γ₁(N))` with N odd when `k(ρ̄) = 2`, and from a weight-two form whose level has 2-adic valuation at most 1 in both cases `k(ρ̄) = 2`, 4. (2) Let F be a totally real field with a soluble tower over `ℚ`, unramified at p, with `ρ̄|_{G_F}` absolutely irreducible. Then `ρ̄|_{G_F}` satisfies `(α)` and `(β)` of KW II §8.2 if `p > 2`; if `p = 2` it satisfies `(β)`, and `(α)` when `k(ρ̄) = 2`.
+Let `ρ̄ : G_ℚ → GL₂(𝔽)` be of S-type and modular, normalised by a twist so that `2 ≤ k(ρ̄) ≤ p + 1` when `p > 2`. (1) For `p > 2`, `ρ̄` arises from `S_{k(ρ̄)}(Γ₁(N))` for some N prime to p, and from `S₂(Γ₁(Np))`. For `p = 2`, `ρ̄` arises from `S₂(Γ₁(N))` with N odd when `k(ρ̄) = 2`, and from a weight-two form whose level has 2-adic valuation at most 1 in both cases `k(ρ̄) = 2`, 4. (2) Let F be a totally real field with a soluble tower over `ℚ`, unramified at p, with `ρ̄|_{G_F}` absolutely irreducible. Then `ρ̄|_{G_F}` satisfies `(α)` and `(β)` of KW II §8.2 if `p > 2`; if `p = 2` it satisfies `(β)`, and `(α)` when `k(ρ̄) = 2`.
 
 The residual modularity hypothesis is the supplied `IsModular` predicate of AlgebraicModularFormsAndSerreWeights §7.5. Use that section’s `ArisesFrom` comparison with integral models and its primitive-associate formulation, together with the weight-at-least-two reduction of Layer R15.5, to obtain the weight-`k≥2` newform witness of KW I §1. Absolute irreducibility, contained in S-type, identifies its residual representation with `ρ̄` after compatible coefficient extension. The optimized forms in (1) carry the same supplied `ArisesFrom` predicate at their actual weights and levels.
 
@@ -1090,7 +1090,7 @@ No potential modularity (KW II Theorem 6.1) and no finiteness of deformation rin
 
 Edixhoven's theorem produces a Katz form in characteristic p, while `(α)` and `(β)` ask for automorphic representations; the lift to characteristic zero in weight `≥ 2` is a step of the proof, not part of the weight theorem.
 
-Level prime to `p: ρ̄` arises from `Γ₁(Np^a)` for some `a ≥ 0`, hence from `Γ₁(N)` in some weight (SerreWeightAndLevelOptimisation §4.2, for `p ≥ 3`; SerreWeightAndLevelOptimisation §§6.6–6.11 for `p = 2`). Weight `k(ρ̄)` at level N: Edixhoven's theorem (SerreWeightAndLevelOptimisation §3.7), with the normalisation `2 ≤ k(ρ̄) ≤ p + 1`, gives a Katz eigenform over `𝔽̄_p` of type `(N, k(ρ̄), ε)`. Lift it to characteristic zero: after enlarging N to a multiple `N ≥ 5` prime to p, the reduction map on cusp forms of weight `k(ρ̄) ≥ 2` is onto (AlgebraicModularFormsAndSerreWeights Layer R15.2, “Integral q-expansion and coherent Hecke theory”; the cusp-sheaf H¹ has no torsion in weight `≥ 2`), and the Deligne–Serre lemma gives a characteristic-zero eigenform with the same eigenvalues modulo p, hence a newform of weight `k(ρ̄)` and level dividing N from which `ρ̄` arises (AlgebraicModularFormsAndSerreWeights §§5.10 and 5.14). This is where the hypothesis `N > 4` of KW II §10.2 enters. Weight 2 at level Np: SerreWeightAndLevelOptimisation §4.7 (`p > 3` or `N > 3`; enlarge N by an auxiliary prime if `N ≤ 3`). The p-component of the resulting newform has conductor exponent at most 1. Over F: take the cuspidal automorphic representations of `GL₂(𝔸_ℚ)` of these newforms and base-change them along the soluble tower (GL2AutomorphicRepresentationsAndTransfer §§R17.4.1–R17.4.11, R17.6.19); they stay cuspidal because `ρ̄|_{G_F}` is irreducible, their weights are parallel `k(ρ̄)`, resp. 2, and above p they are unramified, resp. of conductor exponent at most 1, because F is unramified at p. These are witnesses for `(α)` and `(β)`.
+Level prime to p: `ρ̄` arises from `Γ₁(Np^a)` for some `a ≥ 0`, hence from `Γ₁(N)` in some weight (SerreWeightAndLevelOptimisation §4.2, for `p ≥ 3`; SerreWeightAndLevelOptimisation §§6.6–6.11 for `p = 2`). Weight `k(ρ̄)` at level N: Edixhoven's theorem (SerreWeightAndLevelOptimisation §3.7), with the normalisation `2 ≤ k(ρ̄) ≤ p + 1`, gives a Katz eigenform over `𝔽̄_p` of type `(N, k(ρ̄), ε)`. Lift it to characteristic zero: after enlarging N to a multiple `N ≥ 5` prime to p, the reduction map on cusp forms of weight `k(ρ̄) ≥ 2` is onto (AlgebraicModularFormsAndSerreWeights Layer R15.2, “Integral q-expansion and coherent Hecke theory”; the cusp-sheaf H¹ has no torsion in weight `≥ 2`), and the Deligne–Serre lemma gives a characteristic-zero eigenform with the same eigenvalues modulo p, hence a newform of weight `k(ρ̄)` and level dividing N from which `ρ̄` arises (AlgebraicModularFormsAndSerreWeights §§5.10 and 5.14). This is where the hypothesis `N > 4` of KW II §10.2 enters. Weight 2 at level Np: SerreWeightAndLevelOptimisation §4.7 (`p > 3` or `N > 3`; enlarge N by an auxiliary prime if `N ≤ 3`). The p-component of the resulting newform has conductor exponent at most 1. Over F: take the cuspidal automorphic representations of `GL₂(𝔸_ℚ)` of these newforms and base-change them along the soluble tower (GL2AutomorphicRepresentationsAndTransfer §§R17.4.1–R17.4.11, R17.6.19); they stay cuspidal because `ρ̄|_{G_F}` is irreducible, their weights are parallel `k(ρ̄)`, resp. 2, and above p they are unramified, resp. of conductor exponent at most 1, because F is unramified at p. These are witnesses for `(α)` and `(β)`.
 
 **Checks.**
 
@@ -1141,7 +1141,7 @@ The supplier owns the theorem and its proof by patching on the component through
 
 ### 5.8 Modularity lifting in the Fontaine–Laffaille range
 
-Let `p > 3`, F a totally real number field with p unramified in F, and `ρ, ρ₀ : G_F → GL_2(𝒪)` with `ρ̄ = ρ̄₀, ρ₀` modular and `ρ` geometric. Suppose that for every `σ : F ↪ L, HT_σ(ρ) = HT_σ(ρ₀)` consists of two distinct integers differing by at most `p − 2`; that `ρ` and `ρ₀` are crystalline at every `v | p`; and that `ρ̄(G_F) ⊇ SL_2(𝔽_p)`. Then `ρ` is modular.
+Let `p > 3`, F a totally real number field with p unramified in F, and `ρ, ρ₀ : G_F → GL_2(𝒪)` with `ρ̄ = ρ̄₀`, `ρ₀` modular and `ρ` geometric. Suppose that for every `σ : F ↪ L`, `HT_σ(ρ) = HT_σ(ρ₀)` consists of two distinct integers differing by at most `p − 2`; that `ρ` and `ρ₀` are crystalline at every `v | p`; and that `ρ̄(G_F) ⊇ SL_2(𝔽_p)`. Then `ρ` is modular.
 
 The residual hypothesis is Gee's big image, GlobalGaloisDeformations §5.2 (2), which is different from KW II's cyclotomic irreducibility.
 
@@ -1161,7 +1161,7 @@ Base change as in Gee §5.5, preserving the residual image and remaining unramif
 
 ### 5.9 The exact overlap with ordinary modularity lifting
 
-Type (C) lifts and crystalline endpoint lifts with residual weight p+1 are ordinary, and the prescribed modular witness is ordinary with the matching quotient character. On the subfamily satisfying every hypothesis of ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` over the totally real field—odd p, determinant finite-order times a positive cyclotomic power, locally distinguished residual characters with the specified quotient, a compatible ordinary modular witness, and, outside the conditional export named below, no induction from a quadratic field with a complex place—the ordinary theorem and KW lifting give the same modularity conclusion. The local ordinary shape alone does not imply these additional hypotheses. The remaining ordinary cases use KW patching or the full rational ordinary export of ClassicalSerreModularity §I.1, with its compatible ordinary witness and imaginary-quadratic correction.
+Type (C) lifts and crystalline endpoint lifts with residual weight p+1 are ordinary, and the prescribed modular witness is ordinary with the matching quotient character. On the subfamily satisfying every hypothesis of the residually irreducible ordinary theorem—odd p, determinant finite-order times a positive cyclotomic power, locally distinguished residual characters with the specified quotient, a compatible ordinary modular witness, and, for `F ≠ ℚ` and outside the conditional export named below, no induction from a quadratic field with a complex place—the ordinary theorem and KW lifting give the same modularity conclusion. Over `ℚ` that theorem is ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` as stated there, the case induced from `ℚ(√−p)` included; over `F ≠ ℚ` it is the totally real form that ClassicalSerreModularity §I.1 proves on the way to that target, and whose hypotheses OrdinaryAutomorphicFormsAndModularityLifting §5.8 lists. The local ordinary shape alone does not imply these additional hypotheses. The remaining ordinary cases use KW patching or the full rational ordinary export of ClassicalSerreModularity §I.1, with its compatible ordinary witness and imaginary-quadratic correction.
 
 Preserve the stable ordinary line and its quotient character under base change; split distinct unramified residual characters can label different ordinary components.
 
@@ -1169,7 +1169,7 @@ Check residual distinguishedness and the non-CM-induction restriction individual
 
 The finite-order determinant factor and ordinary witness must match the normalization of the ordinary theorem used.
 
-Type (C) is by definition `(γ_vχ_p ∗; 0 γ_v)`: ordinary with sub-character `γ_vχ_p`. Weight `p + 1` crystalline lifts with `k(ρ̄) = p + 1` are ordinary (LocalGaloisDeformationRings §8.15), and Theorem `8.4's π` fitting these data is ordinary at `v | p. A π` Steinberg at `v | p` has `ρ_π|D_v` of type (C) by local–global compatibility at p (proved here using AutomorphicGaloisRepresentations §§6.10–6.12), hence ordinary. Apply the ordinary theorem only after the distinguishedness, labelled quotient and non-CM-induction conditions are verified. ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` supplies this overlap over totally real fields away from complex-place inducing fields; for a residual representation induced from a quadratic extension with a complex place, the totally real implication is OrdinaryAutomorphicFormsAndModularityLifting §5.8, which requires `CMComponentSupport`.
+Type (C) is by definition `(γ_vχ_p ∗; 0 γ_v)`: ordinary with sub-character `γ_vχ_p`. Weight `p + 1` crystalline lifts with `k(ρ̄) = p + 1` are ordinary (LocalGaloisDeformationRings §8.15), and Theorem 8.4's `π` fitting these data is ordinary at `v | p`. A `π` Steinberg at `v | p` has `ρ_π|D_v` of type (C) by local–global compatibility at p (proved here using AutomorphicGaloisRepresentations §§6.10–6.12), hence ordinary. Apply the ordinary theorem only after the distinguishedness, labelled quotient and non-CM-induction conditions are verified. Over `ℚ`, ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` supplies this overlap. Over `F ≠ ℚ`, away from complex-place inducing fields, it is supplied by the totally real Skinner–Wiles theorem proved in ClassicalSerreModularity §I.1 on the way to that target; for a residual representation induced from a quadratic extension with a complex place, the totally real implication is OrdinaryAutomorphicFormsAndModularityLifting §5.8, which requires `CMComponentSupport`.
 
 **Checks.**
 
@@ -1179,7 +1179,7 @@ Type (C) is by definition `(γ_vχ_p ∗; 0 γ_v)`: ordinary with sub-character 
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) §10.2, p. 92.)
 
-*Needs:* ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting`; §5.4; LocalGaloisDeformationRings §8.15; LocalGaloisDeformationRings §8.13; AutomorphicGaloisRepresentations §§6.10–6.12; OrdinaryAutomorphicFormsAndModularityLifting §5.8 (under `CMComponentSupport`).
+*Needs:* ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` (over `ℚ`) and §I.1 (its totally real form, for `F ≠ ℚ`); §5.4; LocalGaloisDeformationRings §8.15; LocalGaloisDeformationRings §8.13; AutomorphicGaloisRepresentations §§6.10–6.12; OrdinaryAutomorphicFormsAndModularityLifting §5.8 (under `CMComponentSupport`).
 
 ### 5.10 Kisin's nonordinary potentially Barsotti–Tate theorem
 
@@ -1248,7 +1248,7 @@ For types (B) and (C): `ρ̄` modular gives `(α)` and `(β)` over every soluble
 
 **Checks.**
 
-- `p = 3, ρ` the 3-adic Tate module of 11a1: crystalline with weights `{0, 1}`, residual image `GL₂(𝔽₃)`, absolutely irreducible over `ℚ(μ₃)`; branch (i) recovers its modularity.
+- `p = 3`, `ρ` the 3-adic Tate module of 11a1: crystalline with weights `{0, 1}`, residual image `GL₂(𝔽₃)`, absolutely irreducible over `ℚ(μ₃)`; branch (i) recovers its modularity.
 - Crystalline of weight `p + 2` is outside (i).
 - The Tate module of an elliptic curve with additive, potentially multiplicative reduction at `p ≥ 5`: potentially semistable with `N ≠ 0`, and its quadratic twist has multiplicative reduction, type (C).
 - Tensor a local Tate-curve representation by a nontrivial tame finite character θ killed by `G_{ℚ_p(μ_p)}`. It is semistable over that extension, but its nontrivial scalar inertial type and `N≠0` give neither type (B) nor type (C) over ℚ_p. Extending θ to a Dirichlet character and twisting back gives type (C).
@@ -1273,7 +1273,7 @@ At `p = 2`: enhanced dyadic patching data with their action chunks (§6.1, §6.3
 
 For `m≥3` enhance a level-m pair `(D_m,L_m)` by `A′=B[[x_1,…,x_{h+j+t−d}]]↠D′_m` with `m_{D′_m}^{r′_m}=0, r′_m=b r_m` and b the number of generators of `m_{A′}`; a determinant morphism `d_m:Sp D′_m→T=Hom(Z^t,Ĝ_m)`; a closed immersion `Sp D_m→Sp D′_m`; and a free `T_{2^m}` action chunk on `Sp D′_m` in the category of local algebras C with `m_C^{r′_m}=0`. Require `d_m(ℓx)=ℓ²d_m(x)`. Its determinant-one ring `D″_m` surjects onto `D_m` with kernel contained in `m_{D″_m}^m`. Include all these maps in morphisms and reductions.
 
-`p = 2, ρ̄` has non-solvable image, and the level-n inputs (`R′_n, d_n`, the free twisting action of `G*_n`) are GlobalGaloisDeformations §6.6; `m ≥ 3` and `r′_m = b r_m` with b the number of generators of `m_{A′}`.
+`p = 2`, `ρ̄` has non-solvable image, and the level-n inputs (`R′_n, d_n`, the free twisting action of `G*_n`) are GlobalGaloisDeformations §6.6; `m ≥ 3` and `r′_m = b r_m` with b the number of generators of `m_{A′}`.
 
 Record the ambient finite quotient, determinant map and the free truncated twist action from the global dyadic datum. Its square on determinants gives the displayed equivariance identity. Keep the determinant-one comparison quotient and its kernel bound as part of the datum. Its kernel is allowed to be nonzero at finite level. Morphisms preserve these maps, in addition to all the ordinary patching maps.
 
@@ -1297,7 +1297,7 @@ Provide the following operations and compatibility statements.
 
 ### 6.2 Oddness in residue characteristic two
 
-Let `p = 2`, c a complex conjugation and `ρ : G_F → GL_2(𝒪) a` lift of `ρ̄`. Residual oddness `det ρ̄(c) = −1 = 1` carries no information. The lift is odd at c, in the sense of KW II (`ρ(c)` has characteristic polynomial `X² − 1`), if and only if `det ρ(c) = −1`. If `ρ̄(c) ≠ 1` then every lift is odd at c, but an odd lift can have `ρ̄(c) = 1` (for example `ρ(c) =` diag(1, −1)). So oddness at `p = 2` is a condition on the lift, imposed by the archimedean local ring, and not a property of `ρ̄(c)`.
+Let `p = 2`, c a complex conjugation and `ρ : G_F → GL_2(𝒪)` a lift of `ρ̄`. Residual oddness `det ρ̄(c) = −1 = 1` carries no information. The lift is odd at c, in the sense of KW II (`ρ(c)` has characteristic polynomial `X² − 1`), if and only if `det ρ(c) = −1`. If `ρ̄(c) ≠ 1` then every lift is odd at c, but an odd lift can have `ρ̄(c) = 1` (for example `ρ(c) = diag(1, −1)`). So oddness at `p = 2` is a condition on the lift, imposed by the archimedean local ring, and not a property of `ρ̄(c)`.
 
 The archimedean ring of odd lifts is LocalGaloisDeformationRings §8.7: formally smooth when `ρ̄(c) ≠ 1`, and `𝒪⟦X₁, X₂, X₃⟧/(X₁² + X₂X₃ + 2X₁)` when `p = 2` and `ρ̄(c) = 1`.
 
@@ -1306,7 +1306,7 @@ The archimedean ring of odd lifts is LocalGaloisDeformationRings §8.7: formally
 **Checks.**
 
 - `ρ(c) = (1 1; 0 −1)`: odd, with `ρ̄(c) = (1 1; 0 1) ≠ 1`.
-- `ρ(c) =` diag(1, −1): odd, with `ρ̄(c) = 1`.
+- `ρ(c) = diag(1, −1)`: odd, with `ρ̄(c) = 1`.
 - `ρ(c) = −1`: even `(det = 1)`, with `ρ̄(c) = 1`; so `'ρ̄(c) = 1'` does not distinguish odd from even lifts.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) §3.1, Proposition 3.3 and the remark after its proof, pp. 19–21.)
@@ -1323,7 +1323,7 @@ The fixed shift a supplies enough cyclic 2-power quotients after both the isotro
 
 **Checks.**
 
-- The determinant map `d_{m,n}` is the reduction of `d_{R′_{n+a}} : ρ` ↦ `det ρ·(χ_pψ)^{−1}`, which lands in `G*_{n+a} ⊂ T`.
+- The determinant map `d_{m,n}` is the reduction of `d_{R′_{n+a}} : ρ ↦ det ρ·(χ_pψ)^{−1}`, which lands in `G*_{n+a} ⊂ T`.
 - Without `a ≥ 2` the `2^n-torsion` of T would not sit inside `(G′_{n+a})*`, and the `T_{2^m}` action chunk could not be restricted from the twisting action.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) Proposition 9.3 proof, pp. 85–87.)
@@ -1338,7 +1338,7 @@ The level-n inputs (`R′_n, R_n, d_n`, the free twisting action of `G*_n` and t
 
 The patching is the diagonal-subsequence argument of §3.1 (DeformationAndDerivedPatchingAlgebra Layer 5), carried out with the extra data `D′_m` and the determinant maps.
 
-Level-m data: `D′_m` with determinant morphism `d_m`, its determinant-one quotient `D″_m`, a surjection `D″_m ↠ D_m` with kernel contained in `𝔪_{D″_m}^m`, and the `D_m-module L_m`. The action chunks on `Sp D′_m` come from the finite twisting groups. Do not identify `D_m` with `D″_m` at finite level (KW II pp. 85–86). Finitely many isomorphism classes at each level; a compatible subsequence gives a projective system with limits `R′_∞, R_∞, M_∞`. The action chunks assemble to a free T-action (GlobalGaloisDeformations §4.7), and the `d_m` to d. The identification `X_∞ = d^{−1}(1)` holds because `D′′_m ↠ D_m` has kernel in `𝔪^m`.
+Level-m data: `D′_m` with determinant morphism `d_m`, its determinant-one quotient `D″_m`, a surjection `D″_m ↠ D_m` with kernel contained in `𝔪_{D″_m}^m`, and the `D_m`-module `L_m`. The action chunks on `Sp D′_m` come from the finite twisting groups. Do not identify `D_m` with `D″_m` at finite level (KW II pp. 85–86). Finitely many isomorphism classes at each level; a compatible subsequence gives a projective system with limits `R′_∞, R_∞, M_∞`. The action chunks assemble to a free T-action (GlobalGaloisDeformations §4.7), and the `d_m` to d. The identification `X_∞ = d^{−1}(1)` holds because `D′′_m ↠ D_m` has kernel in `𝔪^m`.
 
 Provide the following operations and compatibility statements.
 
@@ -1413,11 +1413,11 @@ Provide the following operations and compatibility statements.
 
 ### 6.7 The torsor structure of the dyadic patched ring
 
-In §6.4, let `R^inv_∞` represent the orbits of the free formal torus T-action on `X′_∞`. The natural map `R^inv_∞→R_∞` makes `Sp R_∞ a` T[2]-torsor over `Sp R^inv_∞`.
+In §6.4, let `R^inv_∞` represent the orbits of the free formal torus T-action on `X′_∞`. The natural map `R^inv_∞→R_∞` makes `Sp R_∞` a `T[2]`-torsor over `Sp R^inv_∞`.
 
 The free T-action and determinant-squaring map are the data of §6.4; `X∞` is its determinant-one fibre.
 
-Lemma 9.4: the fibre product `X′_∞ ×_T T` of pairs `(x, λ)` with `d(x) = λ²` is a T × T[2]-torsor over `Sp R^inv_∞; (x, λ)` ↦ `(λ^{−1}x, λ)` identifies it with `X_∞ × T`, and quotienting by T gives the free T[2]-action on `X_∞` with quotient `Sp R^inv_∞` (GlobalGaloisDeformations §4.11).
+Lemma 9.4: the fibre product `X′_∞ ×_T T` of pairs `(x, λ)` with `d(x) = λ²` is a T × T[2]-torsor over `Sp R^inv_∞`; `(x, λ) ↦ (λ^{−1}x, λ)` identifies it with `X_∞ × T`, and quotienting by T gives the free T[2]-action on `X_∞` with quotient `Sp R^inv_∞` (GlobalGaloisDeformations §4.11).
 
 **Checks.**
 
@@ -1476,7 +1476,7 @@ Use the ambient module-patching and union-of-components support theorem of §6.7
 
 ### 6.9 Kisin's 2-adic Barsotti–Tate lifting theorem
 
-Let F be totally real and `ρ : G_{F,S} → GL_2(𝒪), 𝒪` 2-adic, continuous with: `(1) ρ̄` modular with non-solvable image; `(2) ρ|G_{F_v}` potentially Barsotti–Tate for every `v | 2`, and `det ρ = χψ` with `ψ a` totally even character of finite order; `(3) F_v = ℚ_2` at every `v | 2` where `ρ` is potentially ordinary. Then `ρ ≅ ρ_g` for a Hilbert modular eigenform g of parallel weight 2 over F. For `F = ℚ`: if `ρ` is potentially Barsotti–Tate at 2, `det ρ` is the cyclotomic character times an even character of finite order, and `ρ̄` is modular with non-solvable image, then `ρ` arises from a holomorphic eigenform of weight 2.
+Let F be totally real and `ρ : G_{F,S} → GL_2(𝒪)`, `𝒪` 2-adic, continuous with: (1) `ρ̄` modular with non-solvable image; (2) `ρ|G_{F_v}` potentially Barsotti–Tate for every `v | 2`, and `det ρ = χψ` with `ψ` a totally even character of finite order; (3) `F_v = ℚ_2` at every `v | 2` where `ρ` is potentially ordinary. Then `ρ ≅ ρ_g` for a Hilbert modular eigenform g of parallel weight 2 over F. For `F = ℚ`: if `ρ` is potentially Barsotti–Tate at 2, `det ρ` is the cyclotomic character times an even character of finite order, and `ρ̄` is modular with non-solvable image, then `ρ` arises from a holomorphic eigenform of weight 2.
 
 The version read prints hypothesis (2) of Theorem (0.9) and Theorem (3.3.5) as 'Barsotti-Tate'; the proof treats potentially Barsotti–Tate `ρ`, and Theorem (0.1) over `ℚ` says 'potentially Barsotti–Tate' (Corrections to the sources, E1). The statement here is the potentially Barsotti–Tate one.
 
@@ -1496,7 +1496,7 @@ Admissible extension F′/F (§5.3) and a definite quaternion algebra D over F�
 
 ### 6.10 Hypothesis (H) of Khare–Wintenberger
 
-Import ClassicalSerreModularity §I.2, `I.2/potentially-barsotti-tate-lifting`, in its form at `p = 2`, which is Hypothesis (H): let `ρ : G_ℚ → GL_2(𝒪), 𝒪` 2-adic, be continuous, odd `(det ρ(c) = −1)`, irreducible, unramified outside a finite set, of weight 2 and potentially crystalline at 2, with `ρ̄` modular of non-solvable image. Then `ρ` is modular. This is the only prime at which KW I §9 invokes (H): in the proof of Theorem 9.1 it is applied to 2-adic members of compatible systems.
+Import ClassicalSerreModularity §I.2, `I.2/potentially-barsotti-tate-lifting`, in its form at `p = 2`, which is Hypothesis (H): let `ρ : G_ℚ → GL_2(𝒪)`, `𝒪` 2-adic, be continuous, odd `(det ρ(c) = −1)`, irreducible, unramified outside a finite set, of weight 2 and potentially crystalline at 2, with `ρ̄` modular of non-solvable image. Then `ρ` is modular. This is the only prime at which KW I §9 invokes (H): in the proof of Theorem 9.1 it is applied to 2-adic members of compatible systems.
 
 Potentially crystalline of weight 2 (Hodge–Tate weights {0, 1}) is the same as potentially Barsotti–Tate: a crystalline representation of `G_K` with Hodge–Tate weights {0, 1} arises from a p-divisible group (Breuil for `p > 2`, Kisin for all p). This is FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.4.20.
 
@@ -1538,11 +1538,11 @@ In the dyadic patching setup `R∞[1/2]` and `R^inv_∞[1/2]` are regular.
 
 B is a domain of dimension `d + 1` with regular generic fibre (semistable conditions away from 2; LocalGaloisDeformationRings §8.17).
 
-Lemma `9.6(a): R^inv_∞ → R′_∞ ≅` B⟦x⟧ is formally smooth, so `R^inv_∞[1/2]` is regular, and `R^inv_∞[1/2] → R_∞[1/2]` is étale.
+Lemma 9.6(a): `R^inv_∞ → R′_∞ ≅ B⟦x⟧` is formally smooth, so `R^inv_∞[1/2]` is regular, and `R^inv_∞[1/2] → R_∞[1/2]` is étale.
 
 **Checks.**
 
-- `t = 0: R^inv_∞ = R_∞ =` B⟦x⟧, and regularity after inverting 2 is that of B[1/2] (the semistable and odd archimedean factors), not formal smoothness of B.
+- `t = 0`: `R^inv_∞ = R_∞ = B⟦x⟧`, and regularity after inverting 2 is that of B[1/2] (the semistable and odd archimedean factors), not formal smoothness of B.
 - The archimedean factor `𝒪⟦X₁, X₂, X₃⟧/(X₁² + X₂X₃ + 2X₁)` of §6.2 is not formally smooth (modulo 2 it is `X₁² + X₂X₃`, singular at the origin) but is regular after inverting 2; so the conclusion is about generic fibres only.
 - Étaleness of `R^inv_∞[1/2] → R_∞[1/2]` uses that T[2] is étale once 2 is inverted; over `𝒪` itself `μ₂` is not étale.
 
@@ -1558,12 +1558,12 @@ B is a domain of dimension `d + 1` with regular generic fibre (semistable condit
 
 Faithfulness over `R_∞` uses the action of T[2](𝒪) `≅ (±1)^t` by twists on the modular forms at every level (§2.9), compatible with its action on `𝒪⟦y⟧` by `χ·y_i = χ(δ_i)(1 + y_i) − 1` (KW II Lemma 5.12).
 
-Lemma `9.6(b): Supp M_∞[1/2]` contains a component of `Spec R_∞[1/2]`; T[2](𝒪) acts transitively on these components (`R^inv_∞[1/2]` is a regular domain) and preserves the support (the twist compatibility at each level), so the support is everything (DeformationAndDerivedPatchingAlgebra §6.7). The algebra is DeformationAndDerivedPatchingAlgebra §6.1, applied to the reduced ring `R∞[1/2]` with the T[2](𝒪)-action. The T[2]-torsor is finite flat, and becomes étale after inverting 2 over the regular domain `R^inv∞[1/2]`. Its torsor group permutes components transitively: invariants of the nonempty stable union are a nonempty open-and-closed subset of the connected base. Twist-equivariance makes the support such a stable union. Reducedness gives generic faithfulness, then O-flatness of `R∞` makes the localization map injective and gives integral faithfulness.
+Lemma 9.6(b): `Supp M_∞[1/2]` contains a component of `Spec R_∞[1/2]`; T[2](𝒪) acts transitively on these components (`R^inv_∞[1/2]` is a regular domain) and preserves the support (the twist compatibility at each level), so the support is everything (DeformationAndDerivedPatchingAlgebra §6.7). The algebra is DeformationAndDerivedPatchingAlgebra §6.1, applied to the reduced ring `R∞[1/2]` with the T[2](𝒪)-action. The T[2]-torsor is finite flat, and becomes étale after inverting 2 over the regular domain `R^inv∞[1/2]`. Its torsor group permutes components transitively: invariants of the nonempty stable union are a nonempty open-and-closed subset of the connected base. Twist-equivariance makes the support such a stable union. Reducedness gives generic faithfulness, then O-flatness of `R∞` makes the localization map injective and gives integral faithfulness.
 
 **Checks.**
 
 - `t = 0`: the torsor is trivial and `R_∞ = R^inv_∞`.
-- `t = 1: R_∞` is finite flat of degree 2 over `R^inv_∞`, and `Spec R_∞[1/2]` has at most two components, exchanged by the nontrivial quadratic twist.
+- `t = 1`: `R_∞` is finite flat of degree 2 over `R^inv_∞`, and `Spec R_∞[1/2]` has at most two components, exchanged by the nontrivial quadratic twist.
 - Without the twist compatibility, full support on one component would not propagate to the others.
 
 ([KW II](<https://www.math.ucla.edu/~shekhar/papers/proofs.pdf>) Lemma 9.6, p. 88.)
@@ -1572,7 +1572,7 @@ Lemma `9.6(b): Supp M_∞[1/2]` contains a component of `Spec R_∞[1/2]`; T[2](
 
 ### 6.14 R = T after inverting 2
 
-In the situation of §6.4 (`p = 2, ρ̄` with non-solvable image), `R̄^{□,ψ}_S` is finite over `𝒪⟦y_{h+1}, …, y_{h+j}⟧, R̄^ψ_S` is finite over `𝒪`, and the surjection `π : R̄^{□,ψ}_S → 𝕋^□_ψ(U)_𝔪` has 2-power torsion kernel.
+In the situation of §6.4 (`p = 2`, `ρ̄` with non-solvable image), `R̄^{□,ψ}_S` is finite over `𝒪⟦y_{h+1}, …, y_{h+j}⟧, R̄^ψ_S` is finite over `𝒪`, and the surjection `π : R̄^{□,ψ}_S → 𝕋^□_ψ(U)_𝔪` has 2-power torsion kernel.
 
 The Auslander–Buchsbaum step (Kisin's Lemma (3.3.4)) is DeformationAndDerivedPatchingAlgebra §§3.1–3.3, as in §3.7.
 
@@ -1590,7 +1590,7 @@ The Auslander–Buchsbaum step (Kisin's Lemma (3.3.4)) is DeformationAndDerivedP
 
 ### 6.15 The Khare–Wintenberger 2-adic lifting theorem
 
-Let `p = 2` and F totally real, unramified at 2 and split at 2 if `ρ̄|D_2` is irreducible, with `ρ̄_F = ρ̄|G_F` of non-solvable image, satisfying `(α)` if `k(ρ̄) = 2`, and `(β)`. Let `ρ_F : G_F → GL_2(𝒪)` lift `ρ̄_F`, be ramified at finitely many places and totally odd, and at every place above 2 be either crystalline of weight 2, or semistable non-crystalline of weight 2 (the latter only when `ρ̄` is not finite at the places above 2). Then `ρ_F` is modular. This is the 2-adic lifting result KW I Theorem 4.1(1) needs, with residual input `(α), (β)` in place of `'ρ̄` modular'; Theorem 4.1(1) itself is §6.16.
+Take `p = 2` and a totally real field F in which 2 is unramified; when `ρ̄|D_2` is irreducible, require F to be split at 2 as well. Suppose that the image of `ρ̄_F = ρ̄|G_F` is not solvable, that `ρ̄_F` satisfies `(β)`, and that it satisfies `(α)` too when `k(ρ̄) = 2`. Then a totally odd lift `ρ_F : G_F → GL_2(𝒪)` of `ρ̄_F` with only finitely many ramified places is modular as soon as, at each place above 2, it has weight 2 and is crystalline or, provided `ρ̄` is not finite at the places above 2, has weight 2 and is semistable but not crystalline. This is the 2-adic lifting result KW I Theorem 4.1(1) needs, with residual input `(α)` and `(β)` in place of modularity of `ρ̄`; Theorem 4.1(1) itself is §6.16.
 
 F is totally real and `ρ̄ : G_F → GL_2(𝔽)` is as in KW II §8, with lifting data and determinant character `ψ` (GlobalGaloisDeformations §6.1; the local conditions are LocalGaloisDeformationRings §8.2).
 
@@ -1616,7 +1616,7 @@ Import ClassicalSerreModularity §I.2, `I.2/classical-modularity-lifting`, in it
 
 Oddness is a hypothesis on the lift: `det ρ(c) = −1`. It cannot be read off `ρ̄` in characteristic 2 (§6.2).
 
-`k(ρ̄) = 4` exactly when `ρ̄` is not finite at 2; this matches the condition of Theorem 9.7 that the semistable non-crystalline case is considered only when the residual representation is not finite at the places above 2.
+`k(ρ̄) = 4` exactly when `ρ̄` is not finite at 2; this is the proviso under which Theorem 9.7 (§6.15) admits semistable, non-crystalline lifts.
 
 KW II remark that some results towards this statement are due to Dickinson. §6.15 is the corresponding statement over a totally real field, with `(α)` and `(β)` (§5.5) in place of residual modularity.
 
@@ -1665,7 +1665,7 @@ Provide the following operations and compatibility statements.
 - The proposition at `p=3` uses `ℚ(√−3)=ℚ(ζ₃)` and has no `p≥5` restriction.
 - Residual oddness alone is not a witness for the residual modularity hypothesis.
 - At `k=2` the Hodge–Tate hypothesis is exactly the weight multiset {0,1}.
-- Statement (c) is stated only for `p ≥ 5`. At `p = 3` the case `ρ̄^{ss} ≅ 1` ⊕ `χ̄₃` is statement (d); Pan's Theorem 1.0.2 excludes it (Layer 11).
+- Statement (c) is stated only for `p ≥ 5`. At `p = 3` the case `ρ̄^{ss} ≅ 1 ⊕ χ̄₃` is statement (d); Pan's Theorem 1.0.2 excludes it (Layer 11).
 - A statement that assumes only that `ρ̄` is odd, and takes its modularity from Khare–Wintenberger, is not in the table.
 
 ([DP](<https://arxiv.org/pdf/2108.07577v2>) Theorem 1.4, p. 4 (arXiv v2).)
@@ -1696,7 +1696,7 @@ Provide the following operations and compatibility statements.
 
 ### 7.3 The residually reducible lifting proposition
 
-For a prime `p≥5, ResiduallyReducibleLifting`(p) asserts: every continuous irreducible odd `ρ:G_ℚ→GL₂(ℚ̄_p)`, ramified at finitely many primes, de Rham at p with weights {0,k−1}, k>1, and residual semisimplification `χ₁⊕χ₂`, is the representation of a weight-k cuspidal eigenform. No cuspidal residual modularity witness is assumed.
+For a prime `p ≥ 5`, the residually reducible lifting proposition at p asserts: every continuous irreducible odd `ρ:G_ℚ→GL₂(ℚ̄_p)`, ramified at finitely many primes, de Rham at p with weights {0,k−1}, k>1, and residual semisimplification `χ₁⊕χ₂`, is the representation of a weight-k cuspidal eigenform. No cuspidal residual modularity witness is assumed.
 
 Define this proposition; its proof is §10.15 (after passing from de Rham to potentially semistable by PadicHodgeTheory §§5.1–5.3 and descending to a finite coefficient field by ArithmeticGaloisRepresentations Layer 1), with the twist normalised by §7.11 and §7.9; §12.3 is its use along congruences.
 
@@ -1750,7 +1750,7 @@ The algebraic statements hold for any group G and field k, using Mathlib’s [Re
 
 **Checks.**
 
-- `p = 2: GL₂(𝔽₂) ≅ S₃` is solvable, so statement (b) excludes it, while `SL₂(𝔽₄) ≅ A₅` is not solvable.
+- `p = 2`: `GL₂(𝔽₂) ≅ S₃` is solvable, so statement (b) excludes it, while `SL₂(𝔽₄) ≅ A₅` is not solvable.
 - The converse fails: an absolutely irreducible dihedral `ρ̄` has solvable image.
 - For `N = G`, the quotient is trivial and restriction retains the original nonsolvable image; for `N = {1}`, a solvable quotient G would force every image of G to be solvable, contradicting the hypothesis.
 
@@ -1799,7 +1799,7 @@ For each paper, locate the theorem that assumes `ρ̄` modular, and the step tha
 
 ### 7.8 The local exclusions at p in the odd-prime sources, and how they are removed
 
-For odd p, write `ρ̄_p = ρ̄|G_{ℚ_p}`. The sources exclude, as printed: (i) Kisin, in the introduction theorem and in `(2.2.17)(3): ρ̄_p ≅ (ωχ ∗; 0 χ)` for some character `χ`, where ∗ may be zero; and, in the introduction theorem and (2.2.17)(1), any `ρ` that is not semistable over an abelian extension of `ℚ_p`. The latter is where his Hypothesis (1.2.6) is known (Theorem (1.2.8), from Colmez and Berger–Breuil). (ii) Kisin (1.2.7): the lattice `Π` of (1.2.6) is constructed for every V except, at `p = 3, ρ̄_p ≅ (ω ∗; 0 1) ⊗ χ` or Ind `ω₂² ⊗ χ`. (iii) Emerton, Theorem 1.2.1 and Corollary `1.2.2: ρ̄_p ≅ χ ⊗ (1 ∗; 0 ω)`, where ∗ may be zero. (iv) Paškūnas (Duke 2015): `p ≥ 5` and `End(ρ̄_p)` scalar; his result is new only for `ρ̄_p ≅ (ω ∗; 0 1) ⊗ χ`. (v) Hu–Tan: `p ≥ 5`; new only for `ρ̄_p ≅ χ ⊗` (`1` ⊕ `ω`). (vi) Tung: `p > 2` and every `ρ̄_p`; new for `p = 3` and `ρ̄_p a` twist of an extension of 1 by `ω`. Emerton's Theorem 3.3.22 gives the locally algebraic vectors of every de Rham V with distinct weights, which removes the abelian condition in (i). Tung's Theorem 1.2, the Breuil–Mézard conjecture for every `ρ̄_p` and every `p > 2`, removes the exclusions of (i) and (ii). Pan's `p = 3` exclusion, `χ̄₁χ̄₂^{−1}|G_{ℚ₃} = ω`, is of another kind: it is a residually reducible global case, covered by Layer 11.
+For odd p, write `ρ̄_p = ρ̄|G_{ℚ_p}`. The sources exclude, as printed: (i) Kisin, in the introduction theorem and in (2.2.17)(3): `ρ̄_p ≅ (ωχ ∗; 0 χ)` for some character `χ`, where ∗ may be zero; and, in the introduction theorem and (2.2.17)(1), any `ρ` that is not semistable over an abelian extension of `ℚ_p`. The latter is where his Hypothesis (1.2.6) is known (Theorem (1.2.8), from Colmez and Berger–Breuil). (ii) Kisin (1.2.7): the lattice `Π` of (1.2.6) is constructed for every V except, at `p = 3`, `ρ̄_p ≅ (ω ∗; 0 1) ⊗ χ` or Ind `ω₂² ⊗ χ`. (iii) Emerton, Theorem 1.2.1 and Corollary 1.2.2: `ρ̄_p ≅ χ ⊗ (1 ∗; 0 ω)`, where ∗ may be zero. (iv) Paškūnas (Duke 2015): `p ≥ 5` and `End(ρ̄_p)` scalar; his result is new only for `ρ̄_p ≅ (ω ∗; 0 1) ⊗ χ`. (v) Hu–Tan: `p ≥ 5`; new only for `ρ̄_p ≅ χ ⊗` (`1` ⊕ `ω`). (vi) Tung: `p > 2` and every `ρ̄_p`; new for `p = 3` and `ρ̄_p` a twist of an extension of 1 by `ω`. Emerton's Theorem 3.3.22 gives the locally algebraic vectors of every de Rham V with distinct weights, which removes the abelian condition in (i). Tung's Theorem 1.2, the Breuil–Mézard conjecture for every `ρ̄_p` and every `p > 2`, removes the exclusions of (i) and (ii). Pan's `p = 3` exclusion, `χ̄₁χ̄₂^{−1}|G_{ℚ₃} = ω`, is of another kind: it is a residually reducible global case, covered by Layer 11.
 
 The local theorems (Breuil–Mézard in cycle form, Colmez's functor, locally algebraic vectors) are inputs LL1–LL3, supplied by PadicLocalLanglandsForGL2Qp §6.10, rows (1)–(3) and (5), and conditional only as stated under Conditional arithmetic hypotheses.
 
@@ -1807,9 +1807,9 @@ Tabulate each source's exclusion with its locator. For each `ρ̄_p`, name a sou
 
 **Checks.**
 
-- `p = 3, ρ̄_p = 1` ⊕ `ω`: excluded by (i) and (iii), covered only by (vi).
-- `p ≥ 5, ρ̄_p = 1` ⊕ `ω`: excluded by (i) and (iii), covered by (v) and (vi).
-- `p ≥ 5, ρ̄_p` absolutely irreducible: covered by Kisin together with Emerton's Theorem 3.3.22.
+- `p = 3`, `ρ̄_p = 1 ⊕ ω`: excluded by (i) and (iii), covered only by (vi).
+- `p ≥ 5`, `ρ̄_p = 1 ⊕ ω`: excluded by (i) and (iii), covered by (v) and (vi).
+- `p ≥ 5`, `ρ̄_p` absolutely irreducible: covered by Kisin together with Emerton's Theorem 3.3.22.
 
 ([Kisin, FM](<https://people.math.harvard.edu/~kisin/dvifiles/fmc.dvi>) Introduction, the main theorem (2)–(4), p. 2 (DVI); [Kisin, FM](<https://people.math.harvard.edu/~kisin/dvifiles/fmc.dvi>) (1.2.7), p. 9 (DVI); [Paškūnas, BM](<https://arxiv.org/pdf/1209.5205v3>) Abstract, p. 1 (arXiv v3); [Hu–Tan](<https://arxiv.org/pdf/1309.1658v2>) Introduction, after Theorem 1.4, p. 5 (arXiv v2); [Tung, odd p](<https://arxiv.org/pdf/1803.07451v4>) Remark 4.8, p. 15 (arXiv v4); [Emerton, LGC](<http://www.math.uchicago.edu/~emerton/pdffiles/lg.pdf>) Theorem 3.3.22, p. 28.)
 
@@ -1849,9 +1849,9 @@ The determinant argument holds over any domain R with `φ : R → k` to a field 
 
 **Checks.**
 
-- `p = 3: −1 ≠ 1` in `𝔽₃`.
+- `p = 3`: `−1 ≠ 1` in `𝔽₃`.
 - `p = 2`: diag(1, −1) is odd and reduces to the identity (§6.2).
-- The domain hypothesis is needed: over `ℤ × ℤ` the involution `c =` diag((1, 1), (−1, 1)) has determinant (−1, 1), whose image under the first projection followed by reduction to `𝔽₃` is −1, although `det c ≠ −1`.
+- The domain hypothesis is needed: over `ℤ × ℤ` the involution `c = diag((1, 1), (−1, 1))` has determinant (−1, 1), whose image under the first projection followed by reduction to `𝔽₃` is −1, although `det c ≠ −1`.
 
 ([Tung, odd p](<https://arxiv.org/pdf/1803.07451v4>) Theorem 4.7 (1), p. 15 (arXiv v4).)
 
@@ -1859,7 +1859,7 @@ The determinant argument holds over any domain R with `φ : R → k` to a field 
 
 ### 7.11 Geometric twists of modular representations
 
-Let p be a prime, `ρ : G_ℚ → GL₂(ℚ̄_p)` continuous, finitely ramified and de Rham at p with distinct Hodge–Tate weights. Let h be a normalized cuspidal newform of weight `k_h ≥ 1` with p-adic representation `ρ_h` (for fixed embeddings of its coefficient field), and `χ : G_ℚ → ℚ̄_p^× a` continuous character with `ρ ≅ ρ_h ⊗ χ`. Then `k_h ≥ 2`, and `χ = ε^m μ` for an integer m and a character `μ` of finite order, which is the Galois character of a Dirichlet character under the fixed embeddings. After normalizing ρ by §7.6, §7.9 applies to the normalized representation and the adjusted twist `χε^{−a}`, where a is the smaller weight of ρ.
+Let p be a prime, `ρ : G_ℚ → GL₂(ℚ̄_p)` continuous, finitely ramified and de Rham at p with distinct Hodge–Tate weights. Let h be a normalized cuspidal newform of weight `k_h ≥ 1` with p-adic representation `ρ_h` (for fixed embeddings of its coefficient field), and `χ : G_ℚ → ℚ̄_p^×` a continuous character with `ρ ≅ ρ_h ⊗ χ`. Then `k_h ≥ 2`, and `χ = ε^m μ` for an integer m and a character `μ` of finite order, which is the Galois character of a Dirichlet character under the fixed embeddings. After normalizing ρ by §7.6, §7.9 applies to the normalized representation and the adjusted twist `χε^{−a}`, where a is the smaller weight of ρ.
 
 Hodge–Tate weights are normalized by `HT(ε) = 1`. Distinctness of the weights of `ρ` is used only to exclude weight one; for `k_h ≥ 2` the conclusion on `χ` needs only that `ρ` is de Rham.
 
@@ -1890,13 +1890,13 @@ Layers 1, 6 of this roadmap; ArithmeticGaloisRepresentations (Layer 1; §§1.2, 
 
 In this layer only, put `Σ_p=Σ∪{v|p}`. The local tensor product in `R̄∞` runs over this union. The extra Iwahori places defining R lie in `S∖Σ_p`, disjoint from the prescribed Steinberg set Σ.
 
-Prove regular de Rham lifting at every odd prime through Kisin's multiplicity method as Gee–Kisin's Appendix B corrects it: the patched Serre-weight filtration and the corrected generic `rank 2^{|R|}` (§8.1, §8.2), Kisin's multiplicity criterion (§8.3), support of the patched weight quotients and the multiplicity bound for graded pieces (§8.4, §8.5), Kisin's Fontaine–Mazur theorem over totally split fields (§8.6), and the de Rham lifting theorem with the Breuil–Mézard inputs of Paškūnas, Hu–Tan and Tung (§8.7). Over `ℚ` this gives Dieulefait–Pacetti's Theorem 1.4 at every odd prime, 3 included (§8.8), and the list of what an application must check (§8.9).
+Prove regular de Rham lifting at every odd prime through Kisin's multiplicity method as Gee–Kisin's Appendix B corrects it: the patched Serre-weight filtration and the corrected generic rank `2^{|R|}` (§8.1, §8.2), Kisin's multiplicity criterion (§8.3), support of the patched weight quotients and the multiplicity bound for graded pieces (§8.4, §8.5), Kisin's Fontaine–Mazur theorem over totally split fields (§8.6), and the de Rham lifting theorem with the Breuil–Mézard inputs of Paškūnas, Hu–Tan and Tung (§8.7). Over `ℚ` this gives Dieulefait–Pacetti's Theorem 1.4 at every odd prime, 3 included (§8.8), and the list of what an application must check (§8.9).
 
 ### 8.1 Patched Serre-weight filtration
 
 Fix a stable integral lattice `σ°` in the tensor product of local algebraic types and a Jordan–Hölder filtration `0=σ^0⊂⋯⊂σ^q=σ°/π` with factors `σ_i=⊗_{v|p}σ_{n_{i,v},m_{i,v}}`. At the corrected non-Eisenstein levels, exactness of the coefficient-form functor gives a filtration of every auxiliary module modulo `π`. Stabilize these filtrations and their inclusions with the patching data. The limit is `0=M∞^0⊂⋯⊂M∞^q=M∞/πM∞`; its graded terms `N_i` are patched modules for `σ_i` with their compatible maps from the corresponding weight deformation rings `R̄^i_∞`.
 
-`p > 2` is totally split in F, `ρ̄|G_{F(ζ_p)}` is absolutely irreducible, `𝔪` is non-Eisenstein and `S_{σ,ψ}(U,O)_𝔪 ≠ 0`; U satisfies Kisin's (2.1.2), under which `S_{σ,ψ}(U, A)` is finite projective and `W_σ` ↦ `S_{σ,ψ}(U, A)` is exact (p. 36).
+`p > 2` is totally split in F, `ρ̄|G_{F(ζ_p)}` is absolutely irreducible, `𝔪` is non-Eisenstein and `S_{σ,ψ}(U,O)_𝔪 ≠ 0`; U satisfies Kisin's (2.1.2), under which `S_{σ,ψ}(U, A)` is finite projective and `W_σ ↦ S_{σ,ψ}(U, A)` is exact (p. 36).
 
 Import exactness of the localized coefficient functor and the chosen integral type lattices. Apply it to the filtration at each finite auxiliary level. Include the finitely many filtration maps and their action compatibilities in structured stabilization. The finite module transition maps are surjective; use the exact inverse-limit criterion of the patching algebra to preserve each short exact sequence. Retain the factorization through the weight-specific deformation ring on each quotient; this is needed to state its support correctly.
 
@@ -1922,14 +1922,14 @@ Provide the following operations and compatibility statements.
 
 In the corrected Kisin §2.2 setup, with p>2 completely split in F, residual absolute irreducibility on `G_{F(ζ_p)}`, a nonzero modular localization and trivial isotropy, impose at `v∈S∖Σ_p` that 1−N(v) is a unit and the residual eigenvalue ratio is not `N(v)^{±1}`. Equal eigenvalues are allowed. Let `R ⊂ S∖Σ_p` be the set of places at which `ρ̄(Frob_v)` has equal eigenvalues, and `r=2^{|R|}`. For every prime q of `R̄∞` in `Supp M∞, dim_{κ(q)}(M∞⊗κ(q))≥r`, with equality when q is a minimal prime of `R̄∞` in that support. `M∞` is free of rank r on the smooth locus of each supported component. Smoothness is required only at the relevant automorphic points, not at every potentially semistable point.
 
-The places of S ∖ `Σ_p` are those where `U_v` is not maximal compact; `R ⊂ S` ∖ `Σ_p` is the set of those v at which the eigenvalues of `ρ̄(Frob_v)` are equal. Kisin's condition (2.1.2) on U is kept.
+The places of S ∖ `Σ_p` are those where `U_v` is not maximal compact; `R ⊂ S ∖ Σ_p` is the set of those v at which the eigenvalues of `ρ̄(Frob_v)` are equal. Kisin's condition (2.1.2) on U is kept.
 
 The patched module is free over the regular scalar power-series ring, so its support is a union of top-dimensional components, each surjecting to that scalar base. At augmentation points import local–global compatibility and the purity/monodromy–weight statement for principal-series and Steinberg local factors. The local deformation geometry then makes those points smooth. These precise arithmetic inputs are arithmetic refinements proved here using their suppliers (see the supplier contracts), not consequences of generic smoothness for potentially crystalline rings. On the smooth locus use the finite-level automorphic rank r and the patching specialization. Upper semicontinuity of fibre dimension gives the lower bound at all supported primes.
 
 **Checks.**
 
 - If `R = ∅` the rank is one, which is Kisin’s DVI Lemma (2.2.10), published Lemma (2.2.11).
-- Gee–Kisin's footnote 4: omitting the `U_{π_w}` for `w ∈ S` ∖ `Σ_p` from the Hecke algebra gives `rank 2^{|R|}` with `R = S` ∖ `Σ_p`.
+- Gee–Kisin's footnote 4: omitting the `U_{π_w}` for `w ∈ S ∖ Σ_p` from the Hecke algebra gives rank `2^{|R|}` with `R = S ∖ Σ_p`.
 - A prescribed Steinberg place `v∈Σ`, `v∤p`, belongs to `Σ_p` and contributes its fixed-character local deformation factor; it cannot also be counted among the extra equal-root Iwahori places in R.
 
 ([Gee–Kisin](<https://arxiv.org/pdf/1208.3179v5>) Appendix B, Lemma B.5.1 and proof, pp. 39–40.)
@@ -1938,9 +1938,9 @@ The patched module is free over the regular scalar power-series ring, so its sup
 
 ### 8.3 Kisin's multiplicity criterion for faithfulness of the patched module, as corrected by Gee–Kisin
 
-Let p be odd and F totally real with p split completely. Let D/F be a totally definite quaternion algebra ramified at a set `Σ` of finite places prime to p, with N(v) ≢ −1 (mod p) for `v ∈ Σ`. Let `M∞` be the patched module over `R̄∞ = R̄^{□,ψ}_{Σ_p}`[[`x₁, …, x_g`]], built from `S_{σ,ψ}(U, 𝒪)_𝔪` with `σ = ⊗_{v|p} σ(k_v, τ_v) ⊗ det^{w_v}`. Here `R̄_v` is the ring of extensions of `γ_v` by `γ_v(1)` for `v ∈ Σ`, and the potentially semistable ring of type `(k_v, τ_v, ψ)` for `v | p`. Let R be the set of `v ∈ S` ∖ `Σ_p` at which `ρ̄(Frob_v)` has equal eigenvalues. Then `M∞` is faithful over `R̄∞` ⟺ `e(R̄∞/π) = 2^{−|R|} e(M∞/π, R̄∞/π)` ⟺ `e(R̄∞/π) ≤ 2^{−|R|} e(M∞/π, R̄∞/π)`. When these hold, every deformation `ρ` of `ρ̄` of the given local types (`ρ|I_v` an extension of `γ_v` by `γ_v(1)` at `v ∈ Σ`, potentially semistable of type `(k_v, τ_v, ψ)` at `v | p`) is modular.
+Let p be odd and F totally real with p split completely. Let D/F be a totally definite quaternion algebra ramified at a set `Σ` of finite places prime to p, with N(v) ≢ −1 (mod p) for `v ∈ Σ`. Let `M∞` be the patched module over `R̄∞ = R̄^{□,ψ}_{Σ_p}`[[`x₁, …, x_g`]], built from `S_{σ,ψ}(U, 𝒪)_𝔪` with `σ = ⊗_{v|p} σ(k_v, τ_v) ⊗ det^{w_v}`. Here `R̄_v` is the ring of extensions of `γ_v` by `γ_v(1)` for `v ∈ Σ`, and the potentially semistable ring of type `(k_v, τ_v, ψ)` for `v | p`. Let R be the set of `v ∈ S ∖ Σ_p` at which `ρ̄(Frob_v)` has equal eigenvalues. Then `M∞` is faithful over `R̄∞` ⟺ `e(R̄∞/π) = 2^{−|R|} e(M∞/π, R̄∞/π)` ⟺ `e(R̄∞/π) ≤ 2^{−|R|} e(M∞/π, R̄∞/π)`. When these hold, every deformation `ρ` of `ρ̄` of the given local types (`ρ|I_v` an extension of `γ_v` by `γ_v(1)` at `v ∈ Σ`, potentially semistable of type `(k_v, τ_v, ψ)` at `v | p`) is modular.
 
-Kisin's statements are used as Gee–Kisin Appendix B corrects them: N(v) ≢ −1 (mod p) at `v ∈ Σ` (`B.3`; Corrections to the sources, E4); `R̄_v/π` irreducible and generically reduced at `v ∈ Σ (B.4, E5)`; and the `rank 2^{|R|}` in place of rank one, with Lemma (2.2.1) withdrawn (B.5, E6).
+Kisin's statements are used as Gee–Kisin Appendix B corrects them: N(v) ≢ −1 (mod p) at `v ∈ Σ` (`B.3`; Corrections to the sources, E4); `R̄_v/π` irreducible and generically reduced at `v ∈ Σ` (B.4, E5); and the rank `2^{|R|}` in place of rank one, with Lemma (2.2.1) withdrawn (B.5, E6).
 
 The Breuil–Mézard multiplicities, and the Hilbert–Samuel and cycle formalism, are inputs LL1–LL3 (Conditional arithmetic hypotheses).
 
@@ -1962,7 +1962,7 @@ Use the separately specified corrected generic-rank theorem, including purity an
 
 ### 8.4 Support of a patched weight quotient
 
-For the filtration `N_i=M∞^i/M∞^{i−1}, N_i≠0` exactly when `μ_{n_{i,v},m_{i,v}}(ρ̄_v)≠0` at every v|p. When nonzero its support is all of `Spec R̄^i_∞`, the corresponding weight deformation ring, viewed inside `Spec R̄∞/π`. At every prime of that support its fibre dimension is at least `r=2^{|R|}`. This does not assert support on all components of `R̄∞/π`.
+For the filtration `N_i=M∞^i/M∞^{i−1}`, `N_i≠0` exactly when `μ_{n_{i,v},m_{i,v}}(ρ̄_v)≠0` at every v|p. When nonzero its support is all of `Spec R̄^i_∞`, the corresponding weight deformation ring, viewed inside `Spec R̄∞/π`. At every prime of that support its fibre dimension is at least `r=2^{|R|}`. This does not assert support on all components of `R̄∞/π`.
 
 As for §8.1 and §8.2; `σ_i = ⊗_{v|p} σ_{n_{i,v},m_{i,v}}` are the graded pieces, and `R̄^i_∞` is the patched deformation ring of the corresponding weight (Kisin's Proposition (2.2.14), DVI; (2.2.15) in print).
 
@@ -1997,7 +1997,7 @@ Apply §8.4 to obtain exactly its weight-specific full-support conclusion and th
 
 ### 8.6 Kisin's Fontaine–Mazur theorem over totally split fields (Theorem (2.2.17))
 
-Assume LL1–LL3 and CC4–CC5. Let `p > 2`, F totally real with p totally split, and `ρ : G_{F,S} → GL₂(𝒪)` continuous with: (1) for every `v | p, ρ|G_{F_v}` becomes semistable over an abelian extension of `F_v` and has distinct Hodge–Tate weights; `(2) ρ̄` is modular and `ρ̄|G_{F(ζ_p)}` is absolutely irreducible; (3) for every `v | p, ρ̄|G_{F_v}` ≇ `(ωχ ∗; 0 χ)` for all characters `χ`. Then `ρ` is modular up to a global character twist, with the Hilbert weight and central-character convention above. Over `ℚ`, weights `{0,k−1}` give an actual weight-k newform by §§7.11 and 7.9. This is Theorem (2.2.17) of the preprint, (2.2.18) in print. The abelian condition in (1) is where Kisin's Hypothesis (1.2.6) is known (Theorem (1.2.8)). Emerton's Theorem 3.3.22 establishes (1.2.6) for every de Rham type, which removes the condition (Emerton, Remark 1.2.5).
+Assume LL1–LL3 and CC4–CC5. Let p be an odd prime that splits completely in the totally real field F, and let `ρ : G_{F,S} → GL₂(𝒪)` be continuous, with reduction `ρ̄` modular and absolutely irreducible on `G_{F(ζ_p)}`. Suppose that at each place v above p the two Hodge–Tate weights of `ρ|G_{F_v}` are different, that the restriction of `ρ` to `G_L` is semistable for some finite abelian extension `L` of `F_v`, and that no character `χ` of `G_{F_v}` makes `ρ̄|G_{F_v}` an extension of `χ` by `ωχ`, that is, of the shape `(ωχ ∗; 0 χ)` with `∗` zero or not. Then `ρ` is modular up to a global character twist, with the Hilbert weight and central-character convention above. Over `ℚ`, weights `{0,k−1}` give an actual weight-k newform by §§7.11 and 7.9. This is Theorem (2.2.17) of the preprint, (2.2.18) in print. The abelian semistability condition is where Kisin's Hypothesis (1.2.6) is known (Theorem (1.2.8)). Emerton's Theorem 3.3.22 establishes (1.2.6) for every de Rham type, which removes the condition (Emerton, Remark 1.2.5).
 
 Gee’s Theorem 4.6.9 (the older citation is numbered 4.4.12) of 'Automorphic lifts of prescribed types' makes `ρ̄` modular of weight `σ` once `μ_Aut ≠ 0`. It is an arithmetic refinement proved here using SerreWeightAndLevelOptimisation §§6.6–6.11.
 
@@ -2010,7 +2010,7 @@ Make a quadratic base change so that `[F : ℚ]` is even, and let D be the defin
 **Checks.**
 
 - At `F=ℚ`, `p=7`, take the conductor-32 curve `C:y²=x³−x` and `ρ=V₇(C)⊗ε₇⁶`. Counting gives `#C(𝔽₇)=8`, so C is supersingular; ρ is odd and crystalline with weights `{6,7}`. Since `ω₇⁶=1`, its modular residual witness is unchanged. Its inertia characters are `ω₂,ω₂⁷`; their ratio has order four on cyclotomic inertia and Frobenius exchanges the eigenlines, giving absolute irreducibility on `G_{ℚ₇(ζ₇)}`. Thus all residual hypotheses hold, but exact classical newform modularity fails until the twist is removed.
-- Excluded: `ρ̄|G_{ℚ_p} ≅ 1` ⊕ `ω (χ = 1, ∗ = 0)`. Hu–Tan `(p ≥ 5)` and Tung `(p = 3)` cover it.
+- Excluded: `ρ̄|G_{ℚ_p} ≅ 1 ⊕ ω` (`χ = 1`, `∗ = 0`). Hu–Tan (`p ≥ 5`) and Tung (`p = 3`) cover it.
 - Numbering: the published version is (2.2.18), the DVI's is (2.2.17).
 
 ([Kisin, FM](<https://people.math.harvard.edu/~kisin/dvifiles/fmc.dvi>) Theorem (2.2.17), p. 45 (DVI); [Kisin, FM](<https://people.math.harvard.edu/~kisin/dvifiles/fmc.dvi>) Proof of Theorem (2.2.17), p. 46 (DVI); [Kisin, FM](<https://people.math.harvard.edu/~kisin/dvifiles/fmc.dvi>) Hypothesis (1.2.6), p. 9 (DVI); [Emerton, LGC](<http://www.math.uchicago.edu/~emerton/pdffiles/lg.pdf>) Theorem 3.3.22, p. 28; [Gee, types](<https://www.ma.imperial.ac.uk/~tsg/Index_files/prescribedlifts.pdf>) Theorem 4.6.9 and Remark 3.1.6, author pp. 26 and 11.)
@@ -2019,7 +2019,7 @@ Make a quadratic base change so that `[F : ℚ]` is even, and let D be the defin
 
 ### 8.7 Modularity lifting for de Rham representations at odd p (Kisin, Emerton, Paškūnas, Hu–Tan, Tung)
 
-Let p be an odd prime, F a totally real field in which p splits completely, and `ρ : G_{F,S} → GL₂(𝒪)` continuous with: `(1) ρ̄` modular, so that `ρ` and `ρ̄` are odd; `(2) ρ̄|G_{F(ζ_p)}` absolutely irreducible; `(3) ρ|G_{F_v}` potentially semistable with distinct Hodge–Tate weights for every `v | p`. Then, up to twist, `ρ` comes from a Hilbert modular eigenform. This is Tung's Theorem 4.7, and for `p ≥ 5` Hu–Tan's Theorem 6.3. It has no local restriction at p, and it includes `p = 3`.
+Let p be an odd prime that splits completely in the totally real field F, and let `ρ : G_{F,S} → GL₂(𝒪)` be continuous. Suppose that `ρ̄` is modular and stays absolutely irreducible on `G_{F(ζ_p)}`, and that for each v above p the restriction `ρ|G_{F_v}` is potentially semistable with two different Hodge–Tate weights. Then `ρ` is modular up to twist. No oddness hypothesis is needed: `ρ̄` is totally odd because it is modular, and then so is `ρ`, by the determinant argument of §7.10 at each complex conjugation, since p is odd. This is Tung's Theorem 4.7, and for `p ≥ 5` Hu–Tan's Theorem 6.3. It has no local restriction at p, and it includes `p = 3`.
 
 The local input is the Breuil–Mézard conjecture in cycle form for every `ρ̄_v` and every p-adic Hodge type, for `p > 2`. This is Tung's Theorem 1.2; for `p ≥ 5` it also follows from Kisin, Paškūnas' Theorem 1.1 and Hu–Tan. This is input LL1, PadicLocalLanglandsForGL2Qp §§6.1–6.3 (Conditional arithmetic hypotheses).
 
@@ -2029,8 +2029,8 @@ Breuil–Mézard for every `ρ̄_v, v | p` (Tung Theorem 1.2). For exceptional `
 
 **Checks.**
 
-- `p = 3, ρ̄|G_{ℚ₃} ≅ (ω ∗; 0 1) ⊗ χ`: covered (Tung, Remark 4.8).
-- `p ≥ 5, ρ̄|G_{ℚ_p} ≅ χ ⊗` (`1` ⊕ `ω`): covered (Hu–Tan).
+- `p = 3`, `ρ̄|G_{ℚ₃} ≅ (ω ∗; 0 1) ⊗ χ`: covered (Tung, Remark 4.8).
+- `p ≥ 5`, `ρ̄|G_{ℚ_p} ≅ χ ⊗ (1 ⊕ ω)`: covered (Hu–Tan).
 - Non-example: `ρ̄|G_{F(ζ_p)}` reducible (bad dihedral) is not covered.
 
 ([Tung, odd p](<https://arxiv.org/pdf/1803.07451v4>) Theorem 4.7, p. 15 (arXiv v4); [Tung, odd p](<https://arxiv.org/pdf/1803.07451v4>) Theorem 1.2, p. 4 (arXiv v4); [Hu–Tan](<https://arxiv.org/pdf/1309.1658v2>) Theorem 6.3, p. 35 (arXiv v2); [Hu–Tan](<https://arxiv.org/pdf/1309.1658v2>) §6, p. 33 (arXiv v2).)
@@ -2043,7 +2043,7 @@ This is the case `F = ℚ` of §8.7. Assume LL1–LL3 and CC4–CC5. `OddPrimeLi
 
 De Rham representations are potentially semistable (PadicHodgeTheory §§5.1–5.3).
 
-Apply ArithmeticGaloisRepresentations §1.5 to the compact image (a statement about continuous representations of a profinite group, not a consequence of compactness for arbitrary subsets of `ℚ̄_p`), then ArithmeticGaloisRepresentations §1.6 and ArithmeticGaloisRepresentations §§1.5–1.9, to conjugate `ρ` into `GL₂(𝒪)` for a finite extension `E/ℚ_p` without changing the residual semisimplification after coefficient extension. The p-adic monodromy theorem of PadicHodgeTheory §§5.1–5.3 converts de Rham to potentially semistable. Apply §8.7 with `F = ℚ: ρ ≅ ρ_g ⊗ χ`. Normalise the twist by §7.11 and §7.9: `ρ ≅ ρ_{g′}` with g′ of weight k.
+Apply ArithmeticGaloisRepresentations §1.5 to the compact image (a statement about continuous representations of a profinite group, not a consequence of compactness for arbitrary subsets of `ℚ̄_p`), then ArithmeticGaloisRepresentations §1.6 and ArithmeticGaloisRepresentations §§1.5–1.9, to conjugate `ρ` into `GL₂(𝒪)` for a finite extension `E/ℚ_p` without changing the residual semisimplification after coefficient extension. The p-adic monodromy theorem of PadicHodgeTheory §§5.1–5.3 converts de Rham to potentially semistable. Apply §8.7 with `F = ℚ`: `ρ ≅ ρ_g ⊗ χ`. Normalise the twist by §7.11 and §7.9: `ρ ≅ ρ_{g′}` with g′ of weight k.
 
 **Checks.**
 
@@ -2066,7 +2066,7 @@ The list of uses is read from Dieulefait–Pacetti §§2–3 and serves as a tab
 
 **Checks.**
 
-- `k = 3, w = 7: 7 ∉ {3, 5}`, so `ρ̄₇` is not bad dihedral.
+- `k = 3`, `w = 7`: `7 ∉ {3, 5}`, so `ρ̄₇` is not bad dihedral.
 - `w > 2k ≥ 4` gives `w ≥ 5`, the range of Theorem 1.6.
 - Lemma 2.3 is an application of Theorem 1.4 at `p = 3`, so the `p ≥ 5` results alone would not suffice.
 - Paso 2 at weight two: `q ≡ 1 mod 4` and `q > 5` give `q ≥ 13`, while Lemma 1.14 allows a bad dihedral `ρ̄_q` only for `q ∈ {2·2 − 3, 2·2 − 1} = {1, 3}`; so (i) holds at q without the good-dihedral prime. Lemma 2.1 could not supply it there: q exceeds every prime of `S₁ ∪ {2, 3}`, and the system through `ρ^{(1)}_q` is not yet ramified at N.
@@ -2125,7 +2125,7 @@ Choose a totally real solvable extension F′/F, disjoint from the residual fixe
 
 ### 9.3 The 2-adic de Rham modularity lifting theorem (Kisin, Paškūnas, Tung)
 
-This is the case `F = ℚ` of §9.2, under the hypotheses CC1 and CC4–CC5 that §§9.1–9.2 carry. Let `p = 2, E/ℚ₂` finite with ring `𝒪` and residue field k, and `ρ : G_ℚ → GL₂(𝒪)` continuous, irreducible, odd, unramified outside finitely many primes, with `ρ|_{G_{ℚ₂}}` de Rham of distinct Hodge–Tate weights. If `ρ̄` is modular and has non-solvable image, then `ρ` is modular: up to a twist, `ρ ≅ ρ_f` for a cuspidal eigenform f (Tung, Theorem A). Before Tung, Paškūnas proved this over totally real F in which 2 splits completely, for `ρ|_{G_{F_v}}` potentially semistable with distinct Hodge–Tate weights and `det ρ` totally odd, under the extra local hypothesis (iv) `ρ̄|_{G_{F_v}}` ≇ `(χ ∗; 0 χ)` for every `v | 2` (Theorem 1.1). Tung removes (iv), which was the only remaining local restriction at `p = 2` (`ω = 1` there), by proving that every component of the patched deformation ring lies in the support of the patched module (his Theorem B).
+This is the case `F = ℚ` of §9.2, under the hypotheses CC1 and CC4–CC5 that §§9.1–9.2 carry. Let `p = 2`, `E/ℚ₂` finite with ring `𝒪` and residue field k, and `ρ : G_ℚ → GL₂(𝒪)` continuous, irreducible, odd, unramified outside finitely many primes, with `ρ|_{G_{ℚ₂}}` de Rham of distinct Hodge–Tate weights. If `ρ̄` is modular and has non-solvable image, then `ρ` is modular: up to a twist, `ρ ≅ ρ_f` for a cuspidal eigenform f (Tung, Theorem A). Before Tung, Paškūnas proved this over totally real F in which 2 splits completely, for `ρ|_{G_{F_v}}` potentially semistable with distinct Hodge–Tate weights and `det ρ` totally odd, under the extra local hypothesis (iv) `ρ̄|_{G_{F_v}}` ≇ `(χ ∗; 0 χ)` for every `v | 2` (Theorem 1.1). Tung removes (iv), which was the only remaining local restriction at `p = 2` (`ω = 1` there), by proving that every component of the patched deformation ring lies in the support of the patched module (his Theorem B).
 
 This is a de Rham theorem with arbitrary distinct Hodge–Tate weights; it is not the potentially Barsotti–Tate theorem of the classical proof (Kisin's (0.1), §6.9), and a regular de Rham representation is not Barsotti–Tate after renaming its weights.
 
@@ -2141,7 +2141,7 @@ Apply p-adic monodromy to the de Rham regular local representation, preserving t
 
 **Checks.**
 
-- `A ρ` with `ρ̄|_{G_{ℚ₂}} ≅ (χ ∗; 0 χ)` (for instance `ρ̄` unipotent at 2) is covered by Tung's Theorem A but not by Paškūnas' Theorem 1.1.
+- A `ρ` with `ρ̄|_{G_{ℚ₂}} ≅ (χ ∗; 0 χ)` (for instance `ρ̄` unipotent at 2) is covered by Tung's Theorem A but not by Paškūnas' Theorem 1.1.
 - A potentially Barsotti–Tate `ρ` is the case already covered by Kisin's (0.1), used in the classical proof through Hypothesis (H).
 
 ([Tung, dyadic](<https://arxiv.org/pdf/1908.06174v3>) Introduction, Theorem A, p. 2 (arXiv v3); [Tung, dyadic](<https://arxiv.org/pdf/1908.06174v3>) Introduction, p. 3 (arXiv v3); [Paškūnas, 2-adic](<https://arxiv.org/pdf/1509.00332v2>) §1, Theorem 1.1, pp.1–2 (arXiv v2; hypothesis (iv) and conclusion on p.2).)
@@ -2253,7 +2253,7 @@ Prove that P lies in the detected set exactly when P is a minimal prime point of
 
 ### 10.5 Pan’s residually irreducible lifting theorem with residual modularity
 
-The usable lifting form is Pan Theorem 8.0.1 at `F=ℚ: p` odd, `ρ` continuous irreducible odd finitely ramified, `ρ̄|G_ℚ(ζ_p)` absolutely irreducible and modular, and `ρ|G_ℚp` absolutely irreducible regular de Rham. At `p=3` exclude residual local extensions `η` by `ηω` in either orientation. Then `ρ` is modular up to a global character twist χ, with χ de Rham at p. If its weights are `{0,k−1}`, `k≥2`, §§7.11 and 7.9 give attachment to an actual weight-k classical newform. Pan Theorem 1.0.4 is a broader source consequence, combining earlier ordinary and residually dihedral cases and invoking full Serre modularity over `ℚ` through Remark 8.0.4; that unconditional consequence is not an input to an independent proof of Serre's conjecture.
+The usable lifting form is Pan Theorem 8.0.1 at `F=ℚ`: p odd, `ρ` continuous irreducible odd finitely ramified, `ρ̄|G_ℚ(ζ_p)` absolutely irreducible and modular, and `ρ|G_ℚp` absolutely irreducible regular de Rham. At `p=3` exclude residual local extensions `η` by `ηω` in either orientation. Then `ρ` is modular up to a global character twist χ, with χ de Rham at p. If its weights are `{0,k−1}`, `k≥2`, §§7.11 and 7.9 give attachment to an actual weight-k classical newform. Pan Theorem 1.0.4 is a broader source consequence, combining earlier ordinary and residually dihedral cases and invoking full Serre modularity over `ℚ` through Remark 8.0.4; that unconditional consequence is not an input to an independent proof of Serre's conjecture.
 
 Residual modularity is kept in the lifting statement.
 
@@ -2274,7 +2274,7 @@ Apply the exact completed-homology patching theorem of Pan §8 with its specifie
 
 ### 10.6 Modularity along a component through a nice prime
 
-In Pan §4.1’s setup, let x be a maximal ideal of `R^{ps,{ξ_v}}[1/p]` such that `ρ(x)|G_Fv` is irreducible and de Rham with distinct Hodge–Tate weights for every v|p. If an irreducible component contains x and a nice prime q, and if `p=3` the local residual ratio is not `ω^{±1}`, then `ρ(x)` is regular algebraic cuspidal automorphic over F (Corollary 4.1.8).
+Work in the setting of Pan §4.1, and let x be a maximal ideal of `R^{ps,{ξ_v}}[1/p]` whose representation `ρ(x)`, restricted to `G_{F_v}` for every v above p, is irreducible, de Rham, and has two different Hodge–Tate weights. Suppose that x and some nice prime q lie on a common irreducible component, and, when `p = 3`, that the local residual ratio is not `ω^{±1}`. Then `ρ(x)` is regular algebraic cuspidal automorphic over F (Corollary 4.1.8).
 
 Import Theorem 4.1.7’s surjection `(R^{ps,{ξ_v}})_q→T_q` with nilpotent kernel (input CC4). A minimal prime on a component through q contains the kernel, so the component is in the closed Hecke image. The point x is therefore pro-modular. Over `F_v=Q_p`, an irreducible two-dimensional de Rham representation with distinct Hodge–Tate weights is absolutely irreducible: otherwise its character constituents after finite coefficient extension are conjugate and have equal integer weights. Use the coefficient and weight comparison proved here using PadicHodgeTheory §§3.2–3.6, then Pan Corollary 3.5.12 (input CC3) with its absolutely irreducible local hypothesis and Jacquet–Langlands.
 
@@ -2297,7 +2297,7 @@ Use the characteristic-zero trace/deformation comparison of Pan Corollary 2.2.3,
 
 **Checks.**
 
-- Euler characteristic: for odd `ρ` with `h⁰(ad⁰ρ) = 0, h¹ − h² =` [F : ℚ](3 − 1) `= 2d`, which is the source of `dim (R^{ps})_x ≥ 2d`; for `F = ℚ` this reads `dim ≥ 2` and `dim C ≥ 3`.
+- Euler characteristic: for odd `ρ` with `h⁰(ad⁰ρ) = 0`, `h¹ − h² = [F : ℚ](3 − 1) = 2d`, which is the source of `dim (R^{ps})_x ≥ 2d`; for `F = ℚ` this reads `dim ≥ 2` and `dim C ≥ 3`.
 - The bounds are used only in the degree-enlarged setup `d > |S∖Σ_p| + 2`; nothing beyond the count is claimed for `d = 1`.
 
 ([Pan](<https://arxiv.org/pdf/1901.07166v2>) §7.1, Lemma 7.1.3 and §7.1.4, p.112.)
@@ -2440,13 +2440,13 @@ Use the local ring `R_v^{ps}≅𝒪[[x₀,x₁,y₀,y₁]]/(x₀y₁−x₁y₀)
 
 ### 10.14 Pan’s nonordinary Hilbert modularity theorem
 
-Assume CC1–CC5 (Conditional arithmetic hypotheses). Let p>2, `F/ℚ` abelian totally real with p completely split, and `ρ:G_F→GL₂(𝒪)` continuous irreducible and finitely ramified. Assume `ρ̄^{ss}=χ̄₁⊕χ̄₂, χ̄₁/χ̄₂` extends to `G_ℚ` and takes value −1 at every complex conjugation. At every v|p, require `ρ|G_Fv` irreducible de Rham with distinct Hodge–Tate weights, and when `p=3` require the local residual ratio not `ω^{±1}`. Then `ρ` is a twist of a Hilbert modular representation (Pan Theorem 7.1.1).
+Assume CC1–CC5 (Conditional arithmetic hypotheses). Let p>2, `F/ℚ` abelian totally real with p completely split, and `ρ:G_F→GL₂(𝒪)` continuous irreducible and finitely ramified. Assume `ρ̄^{ss}=χ̄₁⊕χ̄₂`, `χ̄₁/χ̄₂` extends to `G_ℚ` and takes value −1 at every complex conjugation. At every v|p, require `ρ|G_Fv` irreducible de Rham with distinct Hodge–Tate weights, and when `p=3` require the local residual ratio not `ω^{±1}`. Then `ρ` is a twist of a Hilbert modular representation (Pan Theorem 7.1.1).
 
 Normalize `χ̄₁=1` by its finite-order lift. Use the solvable field and coefficient enlargements of §7.1.2, keeping total reality, p splitting and characteristic-zero irreducibility, then find the large component at `ρ`. The residual representation remains reducible. In the generic ratio branch use §10.8; in the scalar branch use §10.9. Produce a nice prime after base change and apply §10.6. For the cyclotomic branch at `p≥5` use §10.13. Lemma 7.4.2 chooses one solvable extension simultaneously for the finite component chain, starts from the ordinary modular seed, and repeatedly applies the nilpotent-kernel bridge. Apply nonordinary classicality and Jacquet–Langlands over the auxiliary field, then descend by solvable base change and untwist. No global residual modularity assumption is introduced.
 
 **Checks.**
 
-- At `p = 3 a` local residual ratio `ω` or `ω^{−1}` at some `v | 3` is excluded.
+- At `p = 3` a local residual ratio `ω` or `ω^{−1}` at some `v | 3` is excluded.
 - An ordinary (locally reducible) `ρ|G_{F_v}` is outside this theorem; that case is the ordinary comparison of §10.8 and §10.9.
 
 ([Pan](<https://arxiv.org/pdf/1901.07166v2>) §7.1, Theorem 7.1.1; §7.4, Lemma 7.4.2, pp.111–116.)
@@ -2455,24 +2455,24 @@ Normalize `χ̄₁=1` by its finite-order lift. Use the solvable field and coeff
 
 ### 10.15 Pan's theorem: the Fontaine–Mazur conjecture in the residually reducible case
 
-Assume CC1–CC5 (Conditional arithmetic hypotheses), and let p be an odd prime. Take `ρ : G_ℚ → GL₂(E), E/ℚ_p` finite, a continuous odd irreducible representation that is ramified at only finitely many primes and potentially semistable at p, and whose restriction `ρ|_{G_{ℚ_p}}` has distinct Hodge–Tate weights. Its residual semisimplification is required to split into two characters, `ρ̄^{ss} ≅ χ̄₁` ⊕ `χ̄₂`, and when `p = 3` we also require `χ̄₁χ̄₂^{−1}|_{G_{ℚ₃}} ≠ ω`, with ω the mod-3 cyclotomic character. The conclusion (Pan, Theorem 1.0.2) is that some twist of `ρ` is attached to a cuspidal eigenform. Pan's own contribution is the non-ordinary case, his Theorem 7.1.1, together with his §6, which treats the ordinary case (`ρ|_{G_{ℚ_p}}` reducible) when `χ̄₁χ̄₂^{−1}|_{G_{ℚ_p}} = 1`; the other ordinary case, `χ̄₁χ̄₂^{−1}|_{G_{ℚ_p}} ≠ 1`, is a theorem of Skinner–Wiles.
+Assume CC1–CC5 (Conditional arithmetic hypotheses), and let p be an odd prime. Take `ρ : G_ℚ → GL₂(E)`, `E/ℚ_p` finite, a continuous odd irreducible representation that is ramified at only finitely many primes and potentially semistable at p, and whose restriction `ρ|_{G_{ℚ_p}}` has distinct Hodge–Tate weights. Its residual semisimplification is required to split into two characters, `ρ̄^{ss} ≅ χ̄₁` ⊕ `χ̄₂`, and when `p = 3` we also require `χ̄₁χ̄₂^{−1}|_{G_{ℚ₃}} ≠ ω`, with ω the mod-3 cyclotomic character. The conclusion (Pan, Theorem 1.0.2) is that some twist of `ρ` is attached to a cuspidal eigenform. Pan's own contribution is the non-ordinary case, his Theorem 7.1.1, together with his §6, which treats the ordinary case (`ρ|_{G_{ℚ_p}}` reducible) when `χ̄₁χ̄₂^{−1}|_{G_{ℚ_p}} = 1`; the other ordinary case, `χ̄₁χ̄₂^{−1}|_{G_{ℚ_p}} ≠ 1`, is a theorem of Skinner–Wiles.
 
 This is the case `F = ℚ` of §10.14 when `ρ|_{G_{ℚ_p}}` is irreducible, with the ordinary comparisons of §§10.8–10.9 when it is reducible. It carries CC1–CC5, and besides every `p ≥ 5` it covers `p = 3` outside Pan's exclusion.
 
-Irreducibility of `ρ` is kept: `ρ̄` being a sum of characters does not make `ρ a` sum of characters.
+Irreducibility of `ρ` is kept: `ρ̄` being a sum of characters does not make `ρ` a sum of characters.
 
 No residual modularity is assumed: residually reducible representations are handled with pseudo-representations.
 
 At `p = 3` the case `χ̄₁χ̄₂^{−1}|_{G_{ℚ₃}} = ω` is excluded throughout the paper, for lack of p-adic local Langlands input (Pan's Theorems 3.4.5–3.4.6); Dieulefait–Pacetti quote the theorem only for `p ≥ 5`.
 
-For `p ≥ 5`, with the twist normalised by §7.11 and §7.9, this proves `ResiduallyReducibleLifting`(p) of §7.3; §12.3 is its use along congruences.
+For `p ≥ 5`, with the twist normalised by §7.11 and §7.9, this proves the residually reducible lifting proposition of §7.3 at p; §12.3 is its use along congruences.
 
 Split by whether the local characteristic-zero representation at p is reducible. In the reducible local case apply the exact ordinary theorems of Pan 5.1.2 (distinguished) or 6.1.2 (scalar residual local ratio), proved in §§10.8–10.9 with their finite `Λ-algebra` comparisons. In the irreducible local case apply §10.14 with `F=ℚ`; the generic, scalar and cyclotomic components have separate proof paths. Untwist using the global geometric-character convention. At `p=3, ω=ω^{−1}`, so swapping residual characters leaves the excluded case unchanged.
 
 **Checks.**
 
-- `ρ̄^{ss} ≅ 1` ⊕ `χ̄₅` at `p = 5` with `ρ|_{G_{ℚ₅}}` irreducible and de Rham of distinct weights: covered (non-ordinary case).
-- `p = 3` with `ρ̄^{ss} ≅ 1` ⊕ `χ̄₃`: excluded `(χ̄₃|_{G_{ℚ₃}} = ω)`; this is Dieulefait–Pacetti's `p = 3` branch, ClassicalSerreModularity `I.1/residually-reducible-ordinary-lifting` at `p = 3` (§11.2).
+- `ρ̄^{ss} ≅ 1 ⊕ χ̄₅` at `p = 5` with `ρ|_{G_{ℚ₅}}` irreducible and de Rham of distinct weights: covered (non-ordinary case).
+- `p = 3` with `ρ̄^{ss} ≅ 1 ⊕ χ̄₃`: excluded `(χ̄₃|_{G_{ℚ₃}} = ω)`; this is Dieulefait–Pacetti's `p = 3` branch, ClassicalSerreModularity `I.1/residually-reducible-ordinary-lifting` at `p = 3` (§11.2).
 
 ([Pan](<https://arxiv.org/pdf/1901.07166v2>) Introduction, Theorem 1.0.2, p. 3 (arXiv v2); [Pan](<https://arxiv.org/pdf/1901.07166v2>) Introduction, after Theorem 1.0.2, p. 3 (arXiv v2).)
 
@@ -2507,7 +2507,7 @@ Import finite-order character lifts, twists, determinant and weight formulas fro
 
 ### 11.2 The crystalline p=3 completion in weights two and four
 
-Let `ρ:G_ℚ→GL₂(E), E/ℚ₃` finite, be irreducible, odd, continuous, finitely ramified and crystalline at 3 with Hodge–Tate weights {0,k−1}, `k∈{2,4}`. If its residual semisimplification is a sum of two global characters, then `ρ` is modular of weight k. In the level-one branch of DP, normalization has residual characters `1,ω₃`; without level one the general distinguished Skinner–Wiles theorem still applies after quotient-character normalization.
+Let `ρ:G_ℚ→GL₂(E)`, `E/ℚ₃` finite, be irreducible, odd, continuous, finitely ramified and crystalline at 3 with Hodge–Tate weights {0,k−1}, `k∈{2,4}`. If its residual semisimplification is a sum of two global characters, then `ρ` is modular of weight k. In the level-one branch of DP, normalization has residual characters `1,ω₃`; without level one the general distinguished Skinner–Wiles theorem still applies after quotient-character normalization.
 
 Use the rank-two ordinarity criterion PadicHodgeTheory §6.4 in the interval `2≤k≤p+1` over `ℚ_p` (part (c), including its endpoint `k=p+1`). A nonordinary crystalline representation of `G_{ℚ_3}` with weights {0,k−1}, `2≤k≤4`, has irreducible reduction (Fontaine–Laffaille for `k≤3`, Berger–Li–Zhu at `k=4`, as in the proof of that criterion), so a reducible reduction, whose inertial constituents are then `ω^{k−1}` and 1, is residually ordinary for a suitable stable lattice and the representation is ordinary. Its two local characters are unramified times `ε^{k−1}` and an unramified quotient. At `p=3` and `k=2` or 4, k−1 is odd, so the residual ratio on inertia is `ω₃≠1`. Thus this is the distinguished ordinary case. The determinant of a global geometric character is finite order times `ε^{k−1}`, supplied by ArithmeticGaloisRepresentations §§1.2, 1.10, 2.1–2.4, 4.1. Apply §11.1 and ClassicalSerreModularity `I.1/residually-reducible-ordinary-lifting` at `p = 3`. In DP’s level-one specialization the normalized residual global ratio is `ω₃`; that target requires only `χ|D_3 ≠ 1`, which `ω₃` satisfies.
 
@@ -2578,7 +2578,7 @@ Modularity is up to a global character twist, normalised by §7.11 and §7.9; wi
 
 ### 12.3 Modularity of residually reducible representations at a ramified coefficient prime
 
-Assume CC1–CC5 (Conditional arithmetic hypotheses). Let `p ≥ 5` (or `p = 3` outside Pan's exclusion) and `ρ : G_ℚ → GL₂(ℚ̄_p)` continuous, irreducible, odd and finitely ramified, de Rham at p with Hodge–Tate weights `{0,k−1}`, `k≥2`, with `ρ̄^{ss} a` sum of two characters. Then `ρ` is modular (Dieulefait–Pacetti Theorem 1.6, from Skinner–Wiles and §10.15). It is obtained from §10.15, the `F = ℚ` case of §10.14 with §§10.8–10.9, and it also covers `p = 3` outside Pan's exclusion. In a congruence argument this is used when a member of an almost strictly compatible system is residually reducible at its own prime p, possibly with p in the ramification set: no residual modularity and no ordinarity is needed.
+Assume CC1–CC5 (Conditional arithmetic hypotheses). Let `p ≥ 5` (or `p = 3` outside Pan's exclusion) and `ρ : G_ℚ → GL₂(ℚ̄_p)` continuous, irreducible, odd and finitely ramified, de Rham at p with Hodge–Tate weights `{0,k−1}`, `k≥2`, with `ρ̄^{ss}` a sum of two characters. Then `ρ` is modular (Dieulefait–Pacetti Theorem 1.6, from Skinner–Wiles and §10.15). It is obtained from §10.15, the `F = ℚ` case of §10.14 with §§10.8–10.9, and it also covers `p = 3` outside Pan's exclusion. In a congruence argument this is used when a member of an almost strictly compatible system is residually reducible at its own prime p, possibly with p in the ramification set: no residual modularity and no ordinarity is needed.
 
 Dieulefait–Pacetti state `p ≥ 5`; Pan's theorem also covers `p = 3` when `χ̄₁χ̄₂^{−1}|_{G_{ℚ₃}} ≠ ω`, and the `p = 3` case with `ω` is ClassicalSerreModularity `I.1/residually-reducible-ordinary-lifting` at `p = 3` under its ordinary hypotheses (§12.5).
 
@@ -2653,7 +2653,7 @@ Pass from de Rham to potentially semistable at p (PadicHodgeTheory §§5.1–5.3
 
 ### 12.7 De Rham lifting suffices along a family without coefficient-prime Weil–Deligne data
 
-Assume LL1–LL3 and CC4–CC5 in the odd irreducible branch, CC1 and CC4–CC5 in the dyadic branch, and CC1–CC5 in the Pan branch (Conditional arithmetic hypotheses). Let `𝓕 : RankTwoFamily` have retained data `(E,S,(ρ_λ),(P_q))` as in the Conventions whose members are odd, and suppose that every member is de Rham at its own coefficient prime with Hodge–Tate weights `{0, k − 1}` for one `k > 1` (clauses (4)–(5) of Dieulefait–Pacetti Definition 1.10). No comparison between the Weil–Deligne representation of `ρ_λ` at its coefficient prime and the family parameter is assumed there. Let `λ` be a place at which `ρ_λ` is irreducible over `ℚ̄_ℓ` and one of the following holds: ℓ `= 2`, the residual image is nonsolvable, and the selected residual representation has a cuspidal modularity witness (for example, a congruent modular lift); ℓ odd, the residual representation restricted to `G_{ℚ(ζ_ℓ)}` is absolutely irreducible and some congruent lift is known to be modular; ℓ `≥ 5` (or ℓ `= 3` outside Pan’s exclusion) and the residual semisimplification is a sum of two characters; ℓ `= 3` and the normalized ordinary hypotheses of Layer 11 hold. Then `ρ_λ` is modular, and every member of the family is attached to the same newform after common coefficient extension.
+Assume LL1–LL3 and CC4–CC5 in the odd irreducible branch, CC1 and CC4–CC5 in the dyadic branch, and CC1–CC5 in the Pan branch (Conditional arithmetic hypotheses). Let `𝓕 : RankTwoFamily` have retained data `(E,S,(ρ_λ),(P_q))` as in the Conventions whose members are odd, and suppose that every member is de Rham at its own coefficient prime with Hodge–Tate weights `{0, k − 1}` for one `k > 1` (clauses (4)–(5) of Dieulefait–Pacetti Definition 1.10). No comparison between the Weil–Deligne representation of `ρ_λ` at its coefficient prime and the family parameter is assumed there. Let `λ` be a place at which `ρ_λ` is irreducible over `ℚ̄_ℓ` and one of the following holds: `ℓ = 2`, the residual image is nonsolvable, and the selected residual representation has a cuspidal modularity witness (for example, a congruent modular lift); ℓ odd, the residual representation restricted to `G_{ℚ(ζ_ℓ)}` is absolutely irreducible and some congruent lift is known to be modular; `ℓ ≥ 5` (or `ℓ = 3` outside Pan’s exclusion) and the residual semisimplification is a sum of two characters; `ℓ = 3` and the normalized ordinary hypotheses of Layer 11 hold. Then `ρ_λ` is modular, and every member of the family is attached to the same newform after common coefficient extension.
 
 The de Rham and weight clauses are hypotheses on every member at its own coefficient prime. A family that is only almost strictly compatible in the sense of Khare–Wintenberger I §5 does not include them, and they are not consequences of the Khare–Wintenberger definition.
 
@@ -2661,7 +2661,7 @@ This consumes a given family; it does not assert that a family exists through ev
 
 Irreducibility and oddness of the selected member are checked hypotheses, not consequences of the congruence.
 
-Apply the branch-appropriate statement to the selected member: §9.3 at ℓ `= 2` with that residual modularity witness, §12.1 at odd ℓ with a modular congruent lift, §12.3 in the residually reducible case (with §12.6 when ℓ lies in S), and §12.5 for the normalized ordinary case at 3. The newform g so obtained has good Frobenius polynomials equal to the `P_q` outside S, the level of g and ℓ, after common coefficient extension. Since every member is semisimple and `ρ_g` is absolutely irreducible (AutomorphicGaloisRepresentations §4.8), Frobenius-polynomial recognition (ArithmeticGaloisRepresentations Layer 5) identifies every member with the corresponding realization of g, one residue characteristic at a time.
+Apply the branch-appropriate statement to the selected member: §9.3 at `ℓ = 2` with that residual modularity witness, §12.1 at odd ℓ with a modular congruent lift, §12.3 in the residually reducible case (with §12.6 when ℓ lies in S), and §12.5 for the normalized ordinary case at 3. The newform g so obtained has good Frobenius polynomials equal to the `P_q` outside S, the level of g and ℓ, after common coefficient extension. Since every member is semisimple and `ρ_g` is absolutely irreducible (AutomorphicGaloisRepresentations §4.8), Frobenius-polynomial recognition (ArithmeticGaloisRepresentations Layer 5) identifies every member with the corresponding realization of g, one residue characteristic at a time.
 
 **Checks.**
 
@@ -2695,7 +2695,7 @@ If a modular A-member is supplied, identify its good Frobenius polynomials with 
 **Checks.**
 
 - A bridge at `p=5` may have p in `S_B` and reducible residual B-member. Given characteristic-zero irreducibility, oddness and de Rham weights {0,3}, Pan produces a weight-four witness without coefficient-prime WD data or a modular A-family.
-- At `p=3 a` normalized residual sum `1⊕ω_3` has excluded Pan ratio `ω_3` in either ordering. The ordinary-three branch works only after the inertia-quotient and finite-order determinant hypotheses have been checked on B.
+- At `p=3` a normalized residual sum `1⊕ω_3` has excluded Pan ratio `ω_3` in either ordering. The ordinary-three branch works only after the inertia-quotient and finite-order determinant hypotheses have been checked on B.
 - At `p=2` an isomorphism of residual representations with solvable image does not enter the dyadic branch; nor does residual determinant 1 establish characteristic-zero oddness.
 - A modular A-family and a residual congruence alone do not enter any branch when B is missing the required local or residual-image conditions.
 - Within one family, modularity of a member propagates using only good polynomials and semisimplicity, without de Rham conditions at the other coefficient primes. A claimed equality of good polynomials must be checked after specified coefficient embeddings.
@@ -2710,7 +2710,7 @@ If a modular A-member is supplied, identify its good Frobenius polynomials with 
 
 ### Examples
 
-At `p = 5` with `p ∈ S` and reducible residual representation, characteristic-zero irreducibility, oddness and de Rham weights {0, 3} give a weight-four witness by Pan without coefficient-prime Weil–Deligne data (§12.8). At `p = 2 a` residual isomorphism with solvable image does not enter the dyadic branch (§12.8). A modular family and a residual congruence alone do not enter any branch when the second family misses the local or residual-image conditions (§12.8).
+At `p = 5` with `p ∈ S` and reducible residual representation, characteristic-zero irreducibility, oddness and de Rham weights {0, 3} give a weight-four witness by Pan without coefficient-prime Weil–Deligne data (§12.8). At `p = 2` a residual isomorphism with solvable image does not enter the dyadic branch (§12.8). A modular family and a residual congruence alone do not enter any branch when the second family misses the local or residual-image conditions (§12.8).
 
 ### Dependencies
 
@@ -2720,8 +2720,8 @@ Layers 7, 8, 9, 10, 11 of this roadmap; ArithmeticGaloisRepresentations (Layer 1
 
 - **A classical modular residual representation, ordinary and nonordinary points.** Let f be a weight-two newform with p ∤ level, `p ≥ 3`, and `ρ̄ = ρ̄_f` with cyclotomically irreducible restriction. A crystalline lift with weights {0, 1} is a type (A) point (§1.4) and is modular by §5.4 after the solvable base change of §5.3. If f is ordinary at p the lift lies on an ordinary Barsotti–Tate component and §5.6 applies with that component; if f is supersingular, the component is the nonordinary one and §5.10 is the relevant theorem. Both are within §5.11 over `ℚ`.
 - **An inadmissible different-component point.** Suppose the local deformation ring at p has two Barsotti–Tate components and the patched module of §3.4 is supported on the component containing the modular point only. A lift on the other component is not covered: §3.5 gives support on a union of components and §4.5 applies only to points of full-support components. Ihara avoidance (§4.1, §4.4) or Kisin's connectedness (§5.6) must first put the second component in the support.
-- **The real-place dimension count at `p = 2.**` At a real place with `ρ̄(c) = 1` the ring of odd framed lifts is `𝒪⟦X₁, X₂, X₃⟧/(X₁² + X₂X₃ + 2X₁)` (§6.2). It has relative dimension two, the dimension of the conjugacy class of diag(1, −1) in `GL₂`, as in the case `ρ̄(c) ≠ 1`, so the dimension d in §6.11 does not change; but it is not formally smooth, since modulo 2 the equation becomes `X₁² + X₂X₃`, singular at the origin. After inverting 2 it is `(X₁ + 1)² + X₂X₃ = 1`, which is regular. This is why §6.11 asks for B to be a domain with regular generic fibre rather than formally smooth. An even lift is excluded even though its reduction looks the same (§6.10).
-- **An irreducible lift with reducible residual semisimplification.** For `p ≥ 5` and `ρ` irreducible, odd, de Rham with weights `{0,k−1}`, `k≥2`, and `ρ̄^{ss} = χ̄₁` ⊕ `χ̄₂`, Pan's theorem gives modularity without a modular residual witness (§10.15, §12.3). The reduction being a sum of characters does not make `ρ a` sum of characters; a reducible `ρ` is outside every theorem of Layers 7–12.
+- **The real-place dimension count at `p = 2`.** At a real place with `ρ̄(c) = 1` the ring of odd framed lifts is `𝒪⟦X₁, X₂, X₃⟧/(X₁² + X₂X₃ + 2X₁)` (§6.2). It has relative dimension two, the dimension of the conjugacy class of diag(1, −1) in `GL₂`, as in the case `ρ̄(c) ≠ 1`, so the dimension d in §6.11 does not change; but it is not formally smooth, since modulo 2 the equation becomes `X₁² + X₂X₃`, singular at the origin. After inverting 2 it is `(X₁ + 1)² + X₂X₃ = 1`, which is regular. This is why §6.11 asks for B to be a domain with regular generic fibre rather than formally smooth. An even lift is excluded even though its reduction looks the same (§6.10).
+- **An irreducible lift with reducible residual semisimplification.** For `p ≥ 5` and `ρ` irreducible, odd, de Rham with weights `{0,k−1}`, `k≥2`, and `ρ̄^{ss} = χ̄₁ ⊕ χ̄₂`, Pan's theorem gives modularity without a modular residual witness (§10.15, §12.3). The reduction being a sum of characters does not make `ρ` a sum of characters; a reducible `ρ` is outside every theorem of Layers 7–12.
 - **A nonsolvable dyadic residual case.** A 2-adic member of a family whose residual image contains `SL₂(𝔽₄) ≅ A₅` satisfies the image hypothesis of §9.3 and §12.2; with `S₃` residual image it does not, and no other branch of Layer 12 covers it.
 - **The `p = 3` ordinary terminal case.** A 3-adic crystalline representation of weight two or four with residual semisimplification 1 ⊕ `ω₃` is excluded from Pan's theorem by the ratio `ω` on `G_{ℚ₃}`; it is ordinary and distinguished, and §11.2 proves it modular through Skinner–Wiles at `p = 3`.
 
@@ -2741,7 +2741,7 @@ These corrections are used in the statements above; each is stated in our own wo
 - **E6** (same, Lemma (2.2.1) pp. 38–39). The lemma fails for some small images; use Gee–Kisin B.5, with ranks `2^{|R|}` and Lemmas B.5.1–B.5.2 (§8.2, §8.6).
 - **E7** (Dieulefait–Pacetti, proof of Theorem 1.4 p. 4). The result of Emerton that removes Kisin's Hypothesis (1.2.6) is his Theorem 3.3.22, not Theorem 1.2.1.
 - **E8** (same place). The forms of Kisin, Hu–Tan and Tung that the proof needs are those assuming `ρ̄` modular: Kisin (2.2.17) of the DVI ((2.2.18) in print), Hu–Tan Theorem 6.3, Tung Theorem 4.7 (§7.7).
-- **E9** (Dieulefait–Pacetti, Lemma 1.13, torus-normaliser case, p. 8). The group-theoretic step is false as printed (`H =` ⟨−I, W⟩ is normal in ⟨diag(1, −1), W⟩ but not diagonal); diagonalise H itself instead. The lemma is used through ArithmeticGaloisRepresentations Layer 4, whose proof avoids this step.
+- **E9** (Dieulefait–Pacetti, Lemma 1.13, torus-normaliser case, p. 8). The group-theoretic step is false as printed (`H = ⟨−I, W⟩` is normal in `⟨diag(1, −1), W⟩` but not diagonal); diagonalise H itself instead. The lemma is used through ArithmeticGaloisRepresentations Layer 4, whose proof avoids this step.
 - **E10** (Dieulefait–Pacetti, Theorem 1.7, published p. 5). `ψ` must have finite order in `det ρ = ψε^{k−1}`, as in Skinner–Wiles (§7.4, Layer 11).
 - **E11** (Tung, dyadic, arXiv v3, Theorem 8.0.3(3) p. 38). Total oddness is a condition on the characteristic-zero lift, `det ρ(c_v) = −1` (§9.2).
 
@@ -2797,7 +2797,7 @@ Leopoldt's conjecture for every abelian number field at every prime, `abelianLeo
 
 Soluble totally real extensions with prescribed completions at finitely many finite places, linearly disjoint from a given finite Galois extension and completely split at a further finite set, `I.0/soluble-totally-real-base-change` (§I.0). Standalone ordinary lifting with the designated quotient character and finite determinant factor, proved over totally real fields and specialised to `ℚ`: the residually reducible theorem for every odd p, `I.1/residually-reducible-ordinary-lifting`, whose `p = 3` case is Dieulefait–Pacetti's Theorem 1.7, and the residually irreducible theorem including the imaginary-quadratic correction, `I.1/residually-irreducible-ordinary-lifting`, with the nearly ordinary Hecke algebras and the pseudo-deformation and pro-modularity method they rest on, `I.1/nearly-ordinary-hecke-algebras` and `I.1/pseudo-deformation-rings-and-pro-modularity` (§I.1), and `I.2/same-weight-crystalline-lifting` over `ℚ` for `p>2`, weights `{0,k−1}` with `2≤k≤2p−1`, cyclotomic residual absolute irreducibility, scalar local residual endomorphisms and a weight-k cuspidal modular residual witness (§I.2). The latter owns the Durham (3.13) local-domain comparison used in its proof. Kisin's potentially Barsotti–Tate theorem, `I.2/potentially-barsotti-tate-lifting` (§I.2): at odd p over a totally real field from a strongly residually modular seed, with residue field `𝔽_p` at the places above p where the representation is not potentially ordinary and the `p = 5` projective-image condition; at odd p over `ℚ` from residual modularity and absolute irreducibility over `ℚ(√p*)`; and Hypothesis (H) at `p = 2`. Khare–Wintenberger I Theorem 4.1, `I.2/classical-modularity-lifting` (§I.2): for odd p, odd irreducible lifts, `2 ≤ k(ρ̄) ≤ p + 1` and absolute irreducibility over `ℚ(μ_p)`, the crystalline branch with weights `{0,h−1}`, `2 ≤ h ≤ p + 1`, and the weight-two type of its I.3; for `p = 2` and nonsolvable residual image, crystalline weight two at residual weight two and semistable weight two at residual weight four. The twist-two vanishing `H²(G_{L,S},(E/𝒪)(2)) = 0`, `R33.1/twist-two-vanishing` (§R33.1), for every odd p, every number field L and every finite set S of places of L containing the places above p and the infinite places; this roadmap uses it in the form LC below.
 
-*Uses.* `I.0/soluble-totally-real-base-change` (§5.3, hence §§5.18, 9.2, 10.10 and 10.14; compared with §§1.7–1.8); `I.1/residually-reducible-ordinary-lifting` (§§7.4, 8.9, 10.15, 11.1–11.2, 12.3–12.5, 12.8); `I.1/residually-irreducible-ordinary-lifting` (§5.9); `I.1/nearly-ordinary-hecke-algebras` and `I.1/pseudo-deformation-rings-and-pro-modularity` (§§10.8–10.9, the method Pan's ordinary comparisons adapt); `I.2/same-weight-crystalline-lifting` (§5.16); `I.2/potentially-barsotti-tate-lifting` (§§5.7, 5.11 and 6.10, hence §§5.10 and 5.18); `I.2/classical-modularity-lifting` (§5.18, branch (i), and §6.16). `R33.1/twist-two-vanishing` (LC, in §10.11, hence §§7.3, 10.12–10.15, 12.3 and 12.6–12.8). Ordinary lifting retains its supplier’s scope; the conditional cases of LL1–LL3 and CC1–CC5 remain hypotheses of every modern application here that needs them.
+*Uses.* `I.0/soluble-totally-real-base-change` (§5.3, hence §§5.18, 9.2, 10.10 and 10.14; compared with §§1.7–1.8); `I.1/residually-reducible-ordinary-lifting` (§§7.4, 8.9, 10.15, 11.1–11.2, 12.3–12.5, 12.8); `I.1/residually-irreducible-ordinary-lifting` (§5.9, over `ℚ`) and the totally real form §I.1 proves on the way to it (§5.9, over `F ≠ ℚ`); `I.1/nearly-ordinary-hecke-algebras` and `I.1/pseudo-deformation-rings-and-pro-modularity` (§§10.8–10.9, the method Pan's ordinary comparisons adapt); `I.2/same-weight-crystalline-lifting` (§5.16); `I.2/potentially-barsotti-tate-lifting` (§§5.7, 5.11 and 6.10, hence §§5.10 and 5.18); `I.2/classical-modularity-lifting` (§5.18, branch (i), and §6.16). `R33.1/twist-two-vanishing` (LC, in §10.11, hence §§7.3, 10.12–10.15, 12.3 and 12.6–12.8). Ordinary lifting retains its supplier’s scope; the conditional cases of LL1–LL3 and CC1–CC5 remain hypotheses of every modern application here that needs them.
 
 **LC (twist-two vanishing).** For every totally real number field L, odd prime p, finite extension `E/ℚ_p` with integers `𝒪`, and finite set S of finite places of L containing every place above p,
 `H²(G_{L,S},(E/𝒪)(2))^∨ ⊗_𝒪 E = 0`,
@@ -2899,7 +2899,7 @@ The weight part of Serre's conjecture over `ℚ` (Layers 3–4), Buzzard's dyadi
 
 *Uses.* §3.7 (§5.5); §4.2 (§5.5); §4.7 (§5.5); §§6.6–6.11 (§5.5, §5.10, §6.9, §8.1, §8.4, §8.5, §8.6, §12.4); §6.6 (§1.6, §1.8); §6.11 (§1.1, §5.4, §6.15).
 
-*Arithmetic refinements.* The type and level changes of definite quaternionic eigenforms used by Kisin (his 2-adic Lemmas (3.3.1)–(3.3.4) and his Annals (3.1.6)); Gee's auxiliary smooth type `σ̃_i` with `σ_i` in its reduction and the localised comparison `S_{σ̃_i,ψ}(U, 𝒪)_𝔪 ⊗ k ≅ S_{σ_i,ψ}(U, k)_𝔪` (§5.10, §6.9, §8.4, §8.6). For §5.5 at small primes: at `p = 2 a` modular `ρ̄` of nonsolvable image comes from `S₂(Γ₁(N))` with N odd when `k(ρ̄) = 2`, and from weight two with 2-adic level valuation at most one when `k(ρ̄) = 4`; at `p = 3` removal of the 3-part of the level and weight two at level 3N when `N ≤ 3`. The weight-part theorem for an already modular representation that Kisin's proof uses (Gee, Automorphic lifts of prescribed types, Theorem 4.4.12 as Kisin cites it; Theorem 4.6.9 in the author PDF), and the restricted weight-part theorem for Emerton's CM-induced residual representation, both kept distinct from Serre's conjecture (§8.6, §12.4).
+*Arithmetic refinements.* The type and level changes of definite quaternionic eigenforms used by Kisin (his 2-adic Lemmas (3.3.1)–(3.3.4) and his Annals (3.1.6)); Gee's auxiliary smooth type `σ̃_i` with `σ_i` in its reduction and the localised comparison `S_{σ̃_i,ψ}(U, 𝒪)_𝔪 ⊗ k ≅ S_{σ_i,ψ}(U, k)_𝔪` (§5.10, §6.9, §8.4, §8.6). For §5.5 at small primes: at `p = 2` a modular `ρ̄` of nonsolvable image comes from `S₂(Γ₁(N))` with N odd when `k(ρ̄) = 2`, and from weight two with 2-adic level valuation at most one when `k(ρ̄) = 4`; at `p = 3` removal of the 3-part of the level and weight two at level 3N when `N ≤ 3`. The weight-part theorem for an already modular representation that Kisin's proof uses (Gee, Automorphic lifts of prescribed types, Theorem 4.4.12 as Kisin cites it; Theorem 4.6.9 in the author PDF), and the restricted weight-part theorem for Emerton's CM-induced residual representation, both kept distinct from Serre's conjecture (§8.6, §12.4).
 
 ### From OrdinaryAutomorphicFormsAndModularityLifting
 
@@ -2907,7 +2907,7 @@ Skinner–Wiles Theorem `B` over totally real fields, conditional on Hypothesis 
 
 *Uses.* §5.8, with `CMComponentSupport`, for the complex-place-induced part of the totally real overlap (§5.9); §§5.1a, 5.9 (§§10.8–10.9, hence §§10.13, 10.15). Theorem `B` of §5.3 is not used, so no target here carries Hypothesis `H`.
 
-*Arithmetic refinements.* The ordinary crystalline endpoint is an application of ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` with a compatible ordinary witness, distinguishedness and the designated quotient (§5.9); that totally real theorem retains its distinguishedness, labelled quotient and compatible seed, and away from §5.8 excludes quadratic induction from a field with a complex place. Every use of §5.8 assumes `CMComponentSupport`: for the prepared datum over L, a minimal prime q satisfies `ker(r_{𝒟_L}) ⊆ q ⊆ ker(x_L)`, retaining the selected local flags. Pan's reducible local pseudo quotient and `Λ_F-character` map, and the chosen-character ordinary cover for a scalar local residual ratio (Pan §§5.1.1, 6.1.1); finiteness over `Λ_F` of the ordinary pseudo-rings with dense arithmetic points (Pan Theorems 5.1.2(1), 6.1.2(1)); and modularity of the ordinary points over abelian totally real F with p unramified in both the distinguished and the scalar local cases (Pan Theorems 5.1.2(2), 6.1.2(2)) (§10.8, §10.9, §10.13, §10.15).
+*Arithmetic refinements.* The ordinary crystalline endpoint is an application, with a compatible ordinary witness, distinguishedness and the designated quotient (§5.9), of ClassicalSerreModularity `I.1/residually-irreducible-ordinary-lifting` over `ℚ`, and over `F ≠ ℚ` of the totally real form that ClassicalSerreModularity §I.1 proves on the way to that target; the totally real form retains its distinguishedness, labelled quotient and compatible seed, and away from §5.8 excludes quadratic induction from a field with a complex place. Every use of §5.8 assumes `CMComponentSupport`: for the prepared datum over L, a minimal prime q satisfies `ker(r_{𝒟_L}) ⊆ q ⊆ ker(x_L)`, retaining the selected local flags. Pan's reducible local pseudo quotient and `Λ_F-character` map, and the chosen-character ordinary cover for a scalar local residual ratio (Pan §§5.1.1, 6.1.1); finiteness over `Λ_F` of the ordinary pseudo-rings with dense arithmetic points (Pan Theorems 5.1.2(1), 6.1.2(1)); and modularity of the ordinary points over abelian totally real F with p unramified in both the distinguished and the scalar local cases (Pan Theorems 5.1.2(2), 6.1.2(2)) (§10.8, §10.9, §10.13, §10.15).
 
 ### From PadicLocalLanglandsForGL2Qp
 
@@ -2931,7 +2931,7 @@ The following are explicit mathematical hypotheses of the modern lifting and tra
 ## References
 
 - **KW I** — C. Khare and J.-P. Wintenberger, [Serre's modularity conjecture (I)](https://www.math.ucla.edu/~shekhar/papers/results.pdf), Invent. Math. 178 (2009), 485–504. Authors' version; printed page numbers.
-- **KW II** — C. Khare and J.-P. Wintenberger, [Serre's modularity conjecture (II)](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Invent. Math. 178 (2009), 505–586. Authors' final version of 30 May 2009; printed page `=` PDF page.
+- **KW II** — C. Khare and J.-P. Wintenberger, [Serre's modularity conjecture (II)](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf), Invent. Math. 178 (2009), 505–586. Authors' final version of 30 May 2009; printed page = PDF page.
 - **Kisin, finite flat** — M. Kisin, [Moduli of finite flat group schemes, and modularity](https://people.math.harvard.edu/~kisin/dvifiles/bt.dvi), Ann. of Math. 170 (2009), 1085–1180. Author DVI.
 - **Kisin, 2-adic BT** — M. Kisin, [Modularity of 2-adic Barsotti–Tate representations](https://people.math.harvard.edu/~kisin/dvifiles/serre2.dvi), Invent. Math. 178 (2009), 587–634. Author DVI of 21 October 2008.
 - **Kisin, FM** — M. Kisin, [The Fontaine–Mazur conjecture for GL₂](https://people.math.harvard.edu/~kisin/dvifiles/fmc.dvi), J. Amer. Math. Soc. 22 (2009), 641–690. Author DVI; its (2.2.17) is (2.2.18) in print.
@@ -2945,7 +2945,7 @@ The following are explicit mathematical hypotheses of the modern lifting and tra
 - **Paškūnas, BM** — V. Paškūnas, [On the Breuil–Mézard conjecture](https://arxiv.org/pdf/1209.5205v3), Duke Math. J. 164 (2015), 297–359.
 - **Paškūnas, 2-adic** — V. Paškūnas, [On 2-dimensional 2-adic Galois representations of local and global fields](https://arxiv.org/pdf/1509.00332v2), Algebra Number Theory 10 (2016), 1301–1358.
 - **Hu–Tan** — Y. Hu and F. Tan, [The Breuil–Mézard conjecture for non-scalar split residual representations](https://arxiv.org/pdf/1309.1658v2), Ann. Sci. Éc. Norm. Supér. 48 (2015), 1383–1421.
-- **Tung, odd `p**` — S.-N. Tung, [On the automorphy of 2-dimensional potentially semi-stable deformation rings of `G_{ℚ_p}`](https://arxiv.org/pdf/1803.07451v4), Algebra Number Theory 15 (2021), 2173–2194.
+- **Tung, odd `p`** — S.-N. Tung, [On the automorphy of 2-dimensional potentially semi-stable deformation rings of `G_{ℚ_p}`](https://arxiv.org/pdf/1803.07451v4), Algebra Number Theory 15 (2021), 2173–2194.
 - **Tung, dyadic** — S.-N. Tung, [On the modularity of 2-adic potentially semi-stable deformation rings](https://arxiv.org/pdf/1908.06174v3), Math. Z. 298 (2021), 107–159.
 - **Lichtenbaum** — S. Lichtenbaum, [On the values of zeta and L-functions I](https://annals.math.princeton.edu/1972/96-2/p06), Ann. of Math. 96 (1972), 338–360.
 - **Paškūnas, Montreal** — V. Paškūnas, [The image of Colmez’s Montreal functor](https://arxiv.org/abs/1005.2008), Publ. Math. IHÉS 118 (2013), 1–191.
