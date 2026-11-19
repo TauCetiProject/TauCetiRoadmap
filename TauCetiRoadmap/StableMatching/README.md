@@ -320,67 +320,6 @@ theory. The incentive properties (Roth, Dubins–Freedman) are foundational for 
 theory, a central area of economic theory with applications to auction design, voting systems,
 and resource allocation.
 
-## Open problems
-
-### Specific mathematical problem statements
-
-1. **Irving's conjecture on maximum stable matchings**: Prove or disprove that for any instance of the
-   stable marriage problem with `n` men and `n` women, the maximum size of a stable matching is at
-   least `n - 1`. Irving conjectured this in 1994; the best known bound is `n - O(log n)` (McDermid 2010).
-
-2. **Stable matching with ties existence**: Given a market where preferences may have ties,
-   does there always exist a stable matching that is Pareto optimal among all stable matchings?
-
-3. **Roth's conjecture on lattice structure**: Prove that the set of stable matchings in the
-   college admissions problem (many-to-one) forms a distributive lattice under the natural
-   dominance order. This is known for the marriage problem (Gusfield 1987).
-
-4. **Strategy-proofness characterization**: Characterize all mechanism that are strategy-proof
-   (truth-telling is dominant) and produce stable matchings. Dubins and Freedman (1981) proved
-   deferred acceptance is strategy-proof for men; the complete characterization remains open.
-
-5. **Pareto efficiency and stability**: Prove or disprove: Every Pareto efficient matching in a
-   marriage market with strict preferences is stable. (This is false without strict preferences.)
-
-6. **Unique stable matching characterization**: Given a market, provide a necessary and sufficient
-   condition on the preference lists for there to exist exactly one stable matching. For the
-   marriage problem, this is equivalent to the absence of a pair `(m, w)` such that `m` prefers `w`
-   to his match and `w` prefers `m` to her match in every stable matching.
-
-7. **McVitie-Wilson for college admissions**: Extend the McVitie-Wilson theorem (same agents are
-   single at every stable matching) to the college admissions problem with capacities.
-
-8. **Stable matching with couples**: Given a market where agents may form couples (pairs that
-   must be matched together or remain single), does there always exist a stable matching?
-   This is known as the "stable couples problem" and is NP-hard to decide.
-
-9. **Random stable matching size**: For a random instance of the stable marriage problem with
-   `n` men and `n` women (uniformly random preferences), what is the expected number of
-   stable matchings? What is the distribution of their sizes?
-
-10. **Stable matching with incomplete lists**: Given a market where each agent ranks only a
-    subset of the other side (incomplete preference lists), characterize when a stable matching
-    exists. The "rural hospitals theorem" (Roth 1986) provides partial results.
-
-11. **Stable matching and core**: Prove that the set of stable matchings coincides with the core
-    of the associated cooperative game. This is known for the marriage problem; extensions to
-    other matching models are open.
-
-12. **Minimal blocking pairs**: Given a market and a matching, define the minimal number of
-    blocking pairs. What is the complexity of finding a matching that minimizes this number?
-    For stable matchings, this number is zero.
-
-13. **Stable matching with constraints**: Given a market with additional constraints (e.g.,
-    "at most `k` men can be matched to women in set `S`"), does a stable matching always exist?
-    Provide an algorithm to find one if it does.
-
-14. **Stable matching dynamics**: Given an unstable matching, define a natural dynamics where
-    blocking pairs are resolved. Does this process always converge to a stable matching?
-    Under what conditions?
-
-15. **Stable matching and graph properties**: Characterize the preference graphs (bipartite
-    graphs where edges represent acceptable pairs) for which there exists a unique stable
-    matching. Relate this to graph-theoretic properties (matching covered, etc.).
 
 ## Provenance: existing formalizations outside Tau Ceti
 
@@ -467,5 +406,3 @@ deferred acceptance. It has nothing on 1.1, 1.3 or Layers 2–3.
   (M. Blaug, C. Pignol, eds.), Palgrave Macmillan, 2019.
 - B. Kominers, A. Pathak, *Matching in practice*, in The Oxford Handbook of Market Design
   (N. Lamp, A. E. Roth, I. Sönmez, M. Utku Ünkür, eds.), Oxford University Press, 2023.
-- A. E. Roth, *The contributions of Lloyd Shapley to game theory and economics*, Games
-  Econom. Behav. 100 (2016), 326–335; doi:10.1016/j geba.2016.09.008.
