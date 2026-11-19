@@ -246,24 +246,25 @@ count `|NC(n)| = catalan n` is Tau Ceti's `TauCeti.NoncrossingPartition.card_fin
 
 The permutation `p_π` of a partition cycles each block in increasing order
 (`Finpartition.formPerm`); the identity `p_(K(π)) = p_π⁻¹ γ` (Tau Ceti
-`TauCeti.NoncrossingPartition.formPerm_kreweras`), the count
-`#cycles(p_π) + #cycles(p_π⁻¹ γ) = n + 1` for `π ∈ NC(n)`, `n ≥ 1`
-(`TauCeti.NoncrossingPartition.orbitCount_formPerm_add_orbitCount_inv_mul_finRotate`), the bound
+`TauCeti.NoncrossingPartition.formPerm_kreweras`), the cycle count `#cycles(p_π) = #blocks(π)` for
+every partition (`Finpartition.orbitCount_formPerm`), hence `#cycles(p_π⁻¹ γ) = #blocks(K(π))` for
+`π ∈ NC(n)`, the count `#cycles(p_π) + #cycles(p_π⁻¹ γ) = n + 1` for `π ∈ NC(n)`, `n ≥ 1`
+(`TauCeti.NoncrossingPartition.orbitCount_formPerm_add_orbitCount_inv_mul_finRotate`, which these
+two formulas reduce to the block count
+`TauCeti.NoncrossingPartition.card_parts_add_card_parts_kreweras`), the bound
 `#cycles(γσ) + #cycles(σ) ≤ n + 1` for every `σ ∈ S_n` (`Equiv.Perm.orbitCount_finRotate_mul_add_orbitCount_le`)
 and the noncrossing-pairing criterion for involutions
 (`Function.Involutive.orbitCount_finRotate_mul_add_orbitCount_eq_iff`) are Tau Ceti's.
 
-- Prove the geodesic characterization (Biane): for `n ≥ 1` and `σ ∈ S_n`,
+- Prove the geodesic characterization (Biane; Speicher, Lecture Notes on Free Probability Theory,
+  p. 85, after Remark 7.6): for `n ≥ 1` and `σ ∈ S_n`,
   `#cycles(σ) + #cycles(σ⁻¹ γ) = n + 1` if and only if `σ = p_π` for some `π ∈ NC(n)`, and then `π` is
   the partition of `{1, …, n}` into the cycles of `σ`. Equivalently, with `|σ| = n − #cycles(σ)` the
   least number of transpositions whose product is `σ`, `|σ| + |σ⁻¹ γ| = |γ| = n − 1`.
-- Prove the cycle-count formulas `#cycles(p_π) = #blocks(π)` and
-  `#cycles(p_π⁻¹ γ) = #blocks(K(π))` for `π ∈ NC(n)`, so that the geodesic count is the block count
-  `#blocks(π) + #blocks(K(π)) = n + 1` of Tau Ceti's
-  `TauCeti.NoncrossingPartition.card_parts_add_card_parts_kreweras`.
 
 The noncrossing-pairing criterion is the case of involutions; Layer 8 uses both.
-*Needs:* Tau Ceti `Finpartition.formPerm`, `TauCeti.NoncrossingPartition.formPerm_kreweras`,
+*Needs:* Tau Ceti `Finpartition.formPerm`, `Finpartition.orbitCount_formPerm`,
+`TauCeti.NoncrossingPartition.formPerm_kreweras`,
 `TauCeti.NoncrossingPartition.orbitCount_formPerm_add_orbitCount_inv_mul_finRotate`,
 `Equiv.Perm.orbitCount_finRotate_mul_add_orbitCount_le`, `TauCeti.orbitCount`; Mathlib
 `Equiv.Perm`, `finRotate`.
@@ -705,9 +706,15 @@ all intermediate expectations specified (Abadie–Dykema, §4; Voiculescu–Dyke
 
 ### 4.5 Embeddings, free products of UCP maps and faithfulness
 
-- Prove that expectation-preserving embeddings of factors into other systems with the same `B`
-  induce an embedding of reduced amalgamated products, assuming that both the source and the target
-  expectations have faithful GNS representations (Blanchard–Dykema, Theorem 1.3).
+- Prove the embedding theorem with a change of base: let `B ⊆ B̃` be an inclusion of unital
+  C*-algebras, not necessarily unital, and for each `i` let `A_i ⊆ Ã_i` be C*-algebras containing
+  `B` and `B̃` respectively as unital C*-subalgebras, with a conditional expectation
+  `Ẽ_i : Ã_i → B̃` such that `Ẽ_i(A_i) ⊆ B`. If both the target expectation `Ẽ_i` and the source
+  expectation `Ẽ_i|A_i : A_i → B` have faithful GNS representations, there is a unique star
+  homomorphism from the reduced amalgamated free product of the `(A_i, Ẽ_i|A_i)` over `B` to that of
+  the `(Ã_i, Ẽ_i)` over `B̃` compatible with the factor maps and the inclusions `A_i ⊆ Ã_i`, and it is
+  injective (Blanchard–Dykema, Theorem 1.3). For `B̃ = B` this is the embedding of reduced products
+  induced by expectation-preserving embeddings of factors.
 - Prove that the free product of `B`-bimodule unital completely positive maps `θ_i : A_i → C_i` that
   fix `B` and intertwine the expectations exists, assuming that both the source and the target
   expectations have faithful GNS representations, with its word formula, complete positivity,
@@ -1110,11 +1117,13 @@ if its real cumulants are conditionally positive,
 `∑_(i,j=1)^r c̄_i c_j κ_(i+j) ≥ 0` for every `r` and `c ∈ ℂ^r`, if and only if
 `R_μ(z) = κ₁ + ∫ z/(1 − tz) dρ(t)` for a finite positive compactly supported measure `ρ`. For `μ` the
 law of a selfadjoint element `a` of a C*-probability space, and `μ_N^(⊞N)` the law of the sum of `N`
-free copies of a bounded selfadjoint realization of `μ_N` (§5.1), the first equivalence is the
-headline `forall_exists_isFreelyIndependentElements_law_sum_iff`: for every `N ≥ 1` the law of `a`
+free copies of a bounded selfadjoint realization of `μ_N` (§5.1), the theorem is the headline
+`tfae_forall_exists_isFreelyIndependentElements_law_sum`: for every `N ≥ 1` the law of `a`
 is the law of the sum of `N` free identically distributed selfadjoint elements of some
 C*-probability space if and only if `∑_(i,j=1)^r c̄_i c_j κ_(i+j)(a) ≥ 0` for every `r` and
-`c ∈ ℂ^r`. Prove the uniqueness of `κ₁` and `ρ`, the construction of `ρ` from the moment sequence
+`c ∈ ℂ^r`, if and only if `κ_(k+2)(a) = ∫ tᵏ dρ(t)` for every `k ≥ 0` and some finite measure `ρ`
+on `ℝ` vanishing off a bounded interval, which is the integral formula for `R_μ` read
+coefficientwise. Prove the uniqueness of `κ₁` and `ρ`, the construction of `ρ` from the moment sequence
 `κ_(k+2) = ∫ tᵏ dρ` by a GNS argument, and the bounds that make the realization bounded. Conversely, realize these cumulants
 on full Fock space by a scalar plus creation, annihilation and gauge operators, with the word-moment
 recursion and positivity. Construct the convolution semigroup `(μ_t)_(t ≥ 0)` with cumulants
@@ -1248,7 +1257,8 @@ and `a*a` together determine the star-distribution of `a`, and in the tracial ca
 
 Prove the free Haar multiplication characterization: `a` is R-diagonal if and only if it has the same
 star-distribution as `ua` for a Haar unitary `u` star-free from `a` (Nica–Speicher, Theorem 15.10).
-Prove that a tracial R-diagonal star-distribution is realized in a C*-probability space as `uh`, with
+For an R-diagonal element `a` of a C*-probability space whose star-distribution is tracial, prove that
+this star-distribution is realized in a C*-probability space as `uh`, with
 `u` a Haar unitary star-free from a positive `h` whose law is that of `|a| = (a*a)^(1/2)`; this is a
 distribution model, distinct from a polar decomposition inside the original algebra. In a finite von
 Neumann algebra with a faithful normal trace, for `a` with `ker a = 0`, prove that `a` is R-diagonal
@@ -1447,7 +1457,8 @@ deterministic family together with its adjoints). Prove the conjugation version,
 `tendsto_integral_trace_haar_conj_word`: for deterministic families `A_N` and `D_N` whose separate
 joint star-distributions under `tr_N` converge, and `U_N` Haar distributed on `U(N)`, the families
 `U_N A_N U_N*` and `D_N` have a free joint limiting star-distribution, the limits of the two families
-being free in the limit algebra (Nica–Speicher, Theorem 23.14; Speicher, Theorem 7.5). No joint
+being free in the limit algebra (Nica–Speicher, Theorem 23.14; Speicher, Theorem 7.5 for one matrix
+on each side, and its proof, pp. 83–84, applied to words in the families and their adjoints). No joint
 limit of the combined deterministic family and no uniform norm bound is required. *Route:* the
 Weingarten formula writes `E tr_N` of a word in the `U_N A_N U_N*` and the `D_N` as a sum over pairs
 of permutations of Weingarten values times products of normalized traces of words in the `A_N` alone
@@ -1724,7 +1735,9 @@ All the declarations below are proved at the pin; paths are under `TauCeti/`.
   `TauCeti.NoncrossingPartition.card_parts_eq_div`, `TauCeti.NoncrossingPartition.kreweras` (bars
   labelled by the position before them) with `TauCeti.NoncrossingPartition.isGreatest_kreweras`,
   `TauCeti.NoncrossingPartition.krewerasOrderIso`, `TauCeti.NoncrossingPartition.kreweras_kreweras`,
-  `TauCeti.NoncrossingPartition.card_parts_add_card_parts_kreweras`; `Finpartition.formPerm`,
+  `TauCeti.NoncrossingPartition.card_parts_add_card_parts_kreweras`; `Finpartition.formPerm` and
+  `Finpartition.orbitCount_formPerm` (`Order/Partition/FormPerm.lean`: `#cycles(p_π) = #blocks(π)`
+  for every partition, fixed points counted),
   `TauCeti.NoncrossingPartition.formPerm_kreweras` (`p_(K(π)) = p_π⁻¹ * finRotate n`),
   `TauCeti.NoncrossingPartition.orbitCount_formPerm_add_orbitCount_inv_mul_finRotate` (`n ≠ 0`);
   `TauCeti.NoncrossingPartition.iicOrderIso`, `TauCeti.NoncrossingPartition.mu_bot_eq_prod`,
@@ -1901,7 +1914,8 @@ element of each cycle; §8.4 uses them for `tr_N` on `M_N(ℂ)`.
   permutation model of noncrossing partitions.
 - R. Speicher, [*Lecture Notes on "Free Probability Theory"*](https://arxiv.org/abs/1908.08125):
   Theorem 7.5 and its proof, p. 81–84, for asymptotic freeness of Haar-conjugated matrices under
-  separate limits, and the example after it for the sum `A_N + U_N B_N U_N*`; Assignment 8,
+  separate limits, and the example after it for the sum `A_N + U_N B_N U_N*`; the passage after
+  Remark 7.6, p. 85, for the geodesic characterization of noncrossing partitions; Assignment 8,
   Exercise 3, and Assignment 9, Exercise 3, for compound free Poisson laws and their R-transform.
 - H. Kesten, [*Symmetric Random Walks on Groups*](https://www.ams.org/journals/tran/1959-092-02/S0002-9947-1959-0109367-6/),
   Trans. Amer. Math. Soc. 92 (1959), 336–354: Theorem 3 for the spectral radius on free groups.
