@@ -261,11 +261,6 @@ variable {R : Type*} [NormedCommRing R]
     {I : Type*} [TopologicalSpace I] [DiscreteTopology I]
     [IsUltrametricDist R] [NormOneClass R] [CompleteSpace R] [TauCeti.NormedRing.IsTate R]
 
-/-- The `m`-th coefficient `Σ_{k ≤ m} cₖ u^(m - k)` of the Fredholm resolvent. -/
-def resolventCoeff (u : C₀(I, R) →L[R] C₀(I, R)) (m : ℕ) :
-    C₀(I, R) →L[R] C₀(I, R) :=
-  ∑ k ∈ Finset.range (m + 1), charCoeff u k • u ^ (m - k)
-
 /-- For operators `u` and `v` on a seminormed `R`-module, `v` is a uniform limit of polynomials
 in `u`: for every `ε > 0` some `P` has `‖v x - P(u) x‖ ≤ ε ‖x‖` for every `x`. Over Banach–Tate
 scalars this is the closure of `R[u]` in the ring-scalar operator norm. No topology on operators
@@ -347,10 +342,6 @@ section EntireTransform
 
 variable {R : Type*} [NormedCommRing R] [IsUltrametricDist R]
     [NormOneClass R] [CompleteSpace R]
-
-/-- Coleman's majorant `β_B(r) = sup_{m ≥ 1} ‖b_m‖ r^m` of a power series `B`. -/
-def colemanMajorant (B : PowerSeries R) (r : ℝ) : ℝ :=
-  ⨆ m : ℕ, ‖PowerSeries.coeff (m + 1) B‖ * r ^ (m + 1)
 
 /-- An entire series with constant coefficient one has a Newton majorant: a positive antitone
 null sequence `ρ` with `‖aⱼ‖ ≤ ∏_{i < j} ρᵢ`. -/
