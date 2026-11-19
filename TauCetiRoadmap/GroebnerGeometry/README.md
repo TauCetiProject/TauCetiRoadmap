@@ -1370,7 +1370,8 @@ Left to other roadmaps:
   `Polynomial.eq_hilbertPoly_of_forall_coeff_eq_eval`; `Module.Basis.addHaar`, `convexHull`.
 - **Minors and invariants.** `Matrix.mvPolynomialX`, `Matrix.mvPolynomialMinor`,
   `MvPolynomial.determinantalIdeal`, `Matrix.det_vandermonde`, `MvPolynomial.esymm`,
-  `MvPolynomial.symmetricSubalgebra`, `MvPolynomial.esymmAlgEquiv`, `AlgHom.equalizer`, `catalan`.
+  `MvPolynomial.symmetricSubalgebra`, `MvPolynomial.esymmAlgEquiv`, `AlgHom.equalizer`,
+  `Algebra.TensorProduct.includeLeft`, `MvPolynomial.homogeneousSubmodule`, `catalan`.
 
 These are assumed with their pinned statements. Mathlib has no Gröbner-basis predicate at the pin; the
 Mathlib proposals listed under References are prior art for Tau Ceti's, and a Gröbner-basis predicate
@@ -1437,7 +1438,8 @@ in Mathlib would replace the corresponding Tau Ceti one.
   `AlgebraicGeometry.Scheme.IdealSheafData.blowupLift`.
 - **Patterns, tableaux and group schemes:** `TauCeti.GTPattern`, `TauCeti.GTPattern.shift`,
   `TauCeti.GTPattern.detShiftEquivBoundedSSYT`, `TauCeti.gtPatternEquivSSYT`, `TauCeti.BoundedSSYT`,
-  `TauCeti.alternant`, `TauCeti.SpecialLinear.coordinateHopfAlgebra`, `TauCeti.Comodule`,
+  `TauCeti.alternant`, `TauCeti.SpecialLinear.coordinateHopfAlgebra`,
+  `TauCeti.SpecialLinear.coordinateMap`, `TauCeti.GeneralLinear.genericMatrix`, `TauCeti.Comodule`,
   `TauCeti.SpecialLinear.standardComodule`, `TauCeti.Comodule.fixedSubcomodule`.
 
 These are assumed with their pinned statements; a new target is stated on these carriers, never on a
