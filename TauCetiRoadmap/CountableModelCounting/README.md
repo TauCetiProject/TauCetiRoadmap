@@ -332,9 +332,11 @@ included; for codes on `ℕ` it lies in `Ordinal.{0}`, as the contract requires.
 *Needs:* §1.1; Tau Ceti the declarations named above, `TauCeti.scottHeight`,
 `TauCeti.scottHeight_lt_omega_one`, `TauCeti.nonempty_equiv_of_bfEquiv_of_scottHeight_le`.
 
-**API warning.** Isolation is one-sided: `bfEquivSetoid (ρ c) c d` decides isomorphism with `c`,
-not with `d`. The injection of the rank-`α` classes into the level-`α` quotient (§1.3) uses the rank
-of both codes, which agree because both have rank `α`. Do not state isolation symmetrically.
+**API warning.** Isolation pins the class of `c` only: `bfEquivSetoid (ρ c)` decides isomorphism
+with `c`, not between two codes neither of which is isomorphic to `c`. The injection of the
+rank-`α` classes into the level-`α` quotient (§1.3) uses the rank of both codes, which agree because
+both have rank `α`. The field with `ρ d` in place of `ρ c` is the same contract, both relations
+being symmetric.
 
 ### 1.3 The stratification bound
 
@@ -582,8 +584,8 @@ countably many `bfEquivSetoid α`-classes (classes of the restricted relation, n
 `TauCeti.bfScattered_of_observation`: maps `obs α` on `K` with countably many realized values at
 each level `α < ω₁`, equal values implying `bfEquivSetoid α`, give `TauCeti.BFScattered K`.
 
-Prove `not_hasCantorAntichainOn_of_bfScattered`: with countably many relation symbols, a scattered
-`K` carries no Cantor antichain for isomorphism, and so is thin
+Prove `not_hasCantorAntichainOn_of_bfScattered`: for every relational `L`, a scattered `K` carries
+no Cantor antichain for isomorphism, and, with countably many relation symbols, is thin
 (`Setoid.isThinOn_iff_not_hasCantorAntichainOn` on the Polish code space).
 
 *Route.* For a Cantor antichain `f` in `K`, the set of pairs `(f x, f y)` with `x ≠ y` is analytic
@@ -1216,10 +1218,11 @@ empty tuples, none isomorphic to `M`, and pairwise non-isomorphic.
 - Every isolating rank `ρ` satisfies `ω < ρ` at the code of `M` (otherwise
   `TauCeti.IsIsolatingRank.isolates_of_le` at level `ω`).
 - The `bfEquivSetoid ω`-class of the code of `M` meets `𝔠` isomorphism classes, although it is a
-  single class at every level up to `ω`: the one-sidedness of isolation in §1.2 is necessary
-  (isolation holds at the rank of the code of `M`, which exceeds `ω`, not at that of the other
-  codes), and a single class at every level up to a limit does not bound the isomorphism classes of
-  an arbitrary set of codes (compare §1.4, Checks).
+  single class at every level up to `ω`: every isolating rank exceeds `ω` at every code of this
+  class, not only at the code of `M` (a code of rank at most `ω` would be isomorphic to every code
+  of its level-`ω` class, by `TauCeti.IsIsolatingRank.isolates_of_le`), and a single class at every
+  level up to a limit does not bound the isomorphism classes of an arbitrary set of codes (compare
+  §1.4, Checks).
 
 *Needs:* §6.1, §6.3; Tau Ceti `Equiv.encodeVia`, `Equiv.nonempty_equiv_encodeVia`,
 `TauCeti.IsIsolatingRank`, `TauCeti.IsIsolatingRank.isolates_of_le`,

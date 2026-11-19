@@ -160,10 +160,10 @@ section Layer4
 
 variable [L.IsRelational]
 
-/-- **Layer 4 milestone.** In a countable relational language, a back-and-forth scattered set
-carries no Cantor antichain for isomorphism: its range is analytic, so uniform back-and-forth
-separation finds one level separating it. -/
-theorem not_hasCantorAntichainOn_of_bfScattered [Countable (Σ l, L.Relations l)]
+/-- **Layer 4 milestone.** In every relational language, a back-and-forth scattered set carries
+no Cantor antichain for isomorphism: its range is analytic, so uniform back-and-forth separation
+finds one level separating it. -/
+theorem not_hasCantorAntichainOn_of_bfScattered
     {K : Set (RelationalConfiguration L ℕ)} (hK : BFScattered K) :
     ¬ (isoSetoid L ℕ).HasCantorAntichainOn K := by
   sorry
