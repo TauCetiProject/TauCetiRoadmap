@@ -39,8 +39,8 @@ and its pro-`p` Iwahori invariants, expressed through the Serre weights `W(ρ̄)
 built from them. Then `π` has Gelfand–Kirillov dimension at most `f`; only this upper bound is claimed.
 
 The roadmap also builds, for a 3-deep Serre weight `σ` and `𝒪_L = W(k)` with `L` unramified, a
-lattice whose reduction is `Proj_{K/Z₁} σ / 𝔪_{K₁}²`, a truncated projective cover of `σ`. Under
-stronger depth bounds this truncation has a commutative endomorphism ring, and each of its
+lattice whose reduction is `Proj_{K/Z₁} σ / 𝔪_{K₁}²`, a truncated projective cover of `σ`. This
+truncation has a commutative endomorphism ring, and under stronger depth bounds each of its
 quotients is projective relative to its own subquotients.
 
 The roadmap builds on SmoothRepresentationsOfLocalGroups for the smooth category and its
@@ -57,7 +57,7 @@ compute finite and first-order extensions and enlarge Diamond boxes preserving m
 Layer 7 proves multiplicity one and the local bound; Layers 8 and 9 build the lattice and compute
 its endomorphisms. The parts are independent except that Layer 4 uses torsion admissibility from
 Layer 0 and Layer 9 its Hom base change. Within the second part, the dimension chain (Layers 4, 6,
-7) and the lattice chain (Layers 8–9) share Layers 3 and 5.
+7) and the lattice chain (Layers 8–9) share Layers 3 and 5 and the envelopes of Layer 4.
 
 ## Conventions
 
