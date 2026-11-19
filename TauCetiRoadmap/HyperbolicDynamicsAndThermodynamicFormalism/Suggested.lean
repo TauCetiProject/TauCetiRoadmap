@@ -31,11 +31,10 @@ Headline theorems of the README that are not stated here, with what each lacks a
   (README §9.3), Anosov's theorem, proved there by an analysis of stable Jacobi fields: the
   geodesic flow of the unit tangent sphere bundle as a `Flow ℝ` on Tau Ceti's
   sphere-bundle manifold is not available (Tau Ceti has the maximal geodesic flow on its open
-  domain in the tangent bundle and the sphere bundle as an embedded manifold, into which Mathlib's
-  `ContMDiff.iff_comp_isImmersion` corestricts smooth maps; the restricted flow as a `Flow ℝ` is a
-  construction of README §9.3, assembled from Tau Ceti's completeness of geodesics on a compact
-  manifold and their constant speed, and packaging it needs the flow law and joint continuity on
-  the sphere bundle proved, so it is not a simple definition).
+  domain in the tangent bundle and the sphere bundle as an embedded manifold; the restricted flow
+  as a smooth global flow on the sphere bundle of a compact manifold is a construction of
+  RiemannianManifoldsWithConvexBoundary §5.1, and packaging it needs the flow law and joint
+  continuity on the sphere bundle proved, so it is not a simple definition).
 
 The other Anosov statements of README Layer 9, for hyperbolic toral automorphisms (§9.1) and for
 suspensions and time changes of Anosov diffeomorphisms (§9.2), are examples that check the
