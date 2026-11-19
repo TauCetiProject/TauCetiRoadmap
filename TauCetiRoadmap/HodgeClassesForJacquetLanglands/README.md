@@ -36,15 +36,16 @@ and the class lies in `H²(X₁ × X₂, ℚ)(1)`.
 When `B₁ ≄ B₂`, `[B₁] + [B₂]` is the class of a quaternion division algebra `B`. For a CM field `E`
 embedded in both algebras, `U = B₁ ⊥ B₂` is a four-dimensional Hermitian space over `E`, and a
 conjugate-linear analogue of the Hodge star makes `⋀²U` a skew-Hermitian space of rank three over
-`B`. Two facts about this operator are stated in Lean, for a sesquilinear form `H` on a
+`B`. Three facts about this operator are stated in Lean, for a sesquilinear form `H` on a
 four-dimensional space with trivialized top exterior power. It is the unique semilinear operator on
 `⋀²U` whose wedge pairing reproduces the determinant pairing of `H`. If `H` is Hermitian, its square
-is multiplication by the volume of `H`. The operator also yields the exceptional isomorphism
+is multiplication by the volume of `H`. For a similitude `g` with multiplier `ν`, it commutes
+with `⋀²g` up to `ν²/det g`. The operator also yields the exceptional isomorphism
 `PGU_E(U) ≃ PGU_B(⋀²U)°`.
 
 A theta lift to the similitude group of `⋀²U` gives a cohomology class of degree `2d`. For `d ≥ 1`,
-one choice of auxiliary data makes its restriction to a subgroup built from `B₁^×` and `B₂^×` pair
-nontrivially with test vectors for every choice of signs at the real places. The rational Hecke
+one choice of auxiliary data, including `E`, makes its restriction to a subgroup built from
+`B₁^×` and `B₂^×` pair nontrivially with test vectors for every choice of signs at the real places. The rational Hecke
 space containing the class is purely of Hodge type `(d,d)`. A determinant argument then descends the
 complex invertible correspondence to a rational one.
 
