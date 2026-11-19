@@ -34,9 +34,10 @@ function in `W¹,¹(ℝⁿ)` lies in `W¹,¹(ℝⁿ)`, and its gradient has no l
 The Tau Ceti library supplies the inequality itself, the Prékopa–Leindler and Brunn–Minkowski
 inequalities, Steiner symmetrization and Schwarz rearrangement, isoperimetry for convex bodies,
 Wirtinger's inequality and the area–energy inequality for closed curves.
-[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) supplies sets of finite perimeter,
-the bound `P(E) ≤ Hⁿ⁻¹(∂E)`, and, for a rectifiable Jordan curve, the identity between the
-perimeter of its inside and its length, with the Jordan index theorem.
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md) supplies De Giorgi's structure
+theorem for sets of finite perimeter, the bound `P(E) ≤ Hⁿ⁻¹(∂E)`, and, for a rectifiable Jordan
+curve, the identity between the perimeter of its inside and its length, with the Jordan index
+theorem.
 [ConformalMapping](../../Completed/ConformalMapping/README.md) supplies the inside of a Jordan
 curve, [DifferentialGeometry](../DifferentialGeometry/README.md) 5.6 winding numbers and Green's
 area identity, and [PDE](../PDE/README.md) Layer 1 weak derivatives and `W¹,ᵖ`; PDE's nonsharp
@@ -153,12 +154,13 @@ inequality for arbitrary functions is not a target. This layer adds the real-val
 
 Let `0 ≤ θ ≤ 1` and let `f, g, h : E → ℝ` be measurable, nonnegative and integrable, with
 `h((1 − θ)x + θy) ≥ f(x)^(1−θ) g(y)^θ` for all `x, y ∈ E`. Prove
-`(∫ f)^(1−θ) (∫ g)^θ ≤ ∫ h` for the Bochner integrals and real powers (the Euclidean
-Prékopa–Leindler argument of Tao's exposition). The endpoints `θ ∈ {0, 1}` are monotonicity of
-the integral, with `x⁰ = 1`. *Route.* Apply Tau Ceti's inequality to `ENNReal.ofReal ∘ f`,
-`ENNReal.ofReal ∘ g`, `ENNReal.ofReal ∘ h`, whose pointwise hypothesis follows from that of
-`f, g, h` because `ENNReal.ofReal` is monotone and multiplicative on `[0, ∞)` and commutes with
-real powers there, and identify the lower integrals with the Bochner integrals by integrability.
+`(∫ f)^(1−θ) (∫ g)^θ ≤ ∫ h` for the Bochner integrals and real powers (Tao's exposition,
+Theorem 2, stated there in an equivalent form that avoids dilations). The endpoints
+`θ ∈ {0, 1}` are monotonicity of the integral, with `x⁰ = 1`. *Route.* Apply Tau Ceti's
+inequality to `ENNReal.ofReal ∘ f`, `ENNReal.ofReal ∘ g`, `ENNReal.ofReal ∘ h`, whose pointwise
+hypothesis follows from that of `f, g, h` because `ENNReal.ofReal` is monotone and
+multiplicative on `[0, ∞)` and commutes with real powers there, and identify the lower integrals
+with the Bochner integrals by integrability.
 *Needs:* Tau Ceti `TauCeti.hasPrekopaLeindler_volume`, `MeasureTheory.Measure.HasPrekopaLeindler`;
 Mathlib `MeasureTheory.ofReal_integral_eq_lintegral_ofReal`, `ENNReal.ofReal_rpow_of_nonneg`.
 
@@ -176,7 +178,7 @@ Mathlib `MeasureTheory.ofReal_integral_eq_lintegral_ofReal`, `ENNReal.ofReal_rpo
 
 - For `A = closedBall 0 r` and `B = closedBall 0 s`, `A + B = closedBall 0 (r + s)` and
   Brunn–Minkowski is an equality, as the equality theorem predicts for homothetic bodies.
-- Nonemptiness cannot be dropped even when the other volume is zero or positive: for `A = ∅` and
+- Nonemptiness cannot be dropped when the other set has positive volume: for `A = ∅` and
   `B = ball 0 1`, `A + B = ∅`, and the unweighted inequality would read `0 ≥ ω_n^(1/n)`.
 - For `A = {0}` and `B` a ball, `|A + B| = |B|` and the unweighted inequality is an equality
   although `A` is not homothetic to `B`: the equality theorem needs positive volumes.
@@ -286,10 +288,11 @@ normalization). *Route.* The inequality `P(K) ≤ Hⁿ⁻¹(frontier K)` is Geom
 bound for measurable sets. For the reverse, cover the frontier by finitely many boundary charts
 in which `K` is the region above the graph of a convex, hence Lipschitz, function over a
 hyperplane, and apply GeometricMeasureTheory G6's identification of perimeter with boundary
-measure on Lipschitz domains (or G2's area formula on each graph). For a nonempty compact convex
-`K` with empty interior, `|K| = 0` and `P(K) = 0`, while the right derivative of its outer
-parallel volume is `2 Hⁿ⁻¹(K)` when its affine span has dimension `n − 1` and `0` when it is
-smaller; for such `K` the derivative is neither the perimeter nor, in general, the boundary area.
+measure on Lipschitz domains (or G2's area formula on each graph). A nonempty compact convex `K`
+with empty interior has `|K| = 0`, `P(K) = 0` and `frontier K = K`. When its affine span is a
+hyperplane, the right derivative of its outer parallel volume is `2 Hⁿ⁻¹(K)`, positive and
+finite, so it is neither the perimeter `0` nor the boundary area `Hⁿ⁻¹(K)`; when its affine span
+has dimension at most `n − 2`, the derivative, the perimeter and `Hⁿ⁻¹(K)` all vanish.
 *Needs:* GeometricMeasureTheory G2, G5 and G6; Tau Ceti
 `Convex.hasDerivWithinAt_measureReal_add_smul_closedBall`,
 `TauCeti.hasDerivWithinAt_volume_real_add_smul_closedBall_of_finrank_add_one_eq`,
@@ -351,8 +354,10 @@ Let `γ` be a rectifiable simple closed curve on `[a, b]` with trace `C`. Prove 
 Jordan curve: `γ` induces a continuous bijection from the circle, the quotient of `[a, b]`
 identifying its endpoints, onto the Hausdorff space `C`, hence a homeomorphism. Prove that there
 is `σ ∈ {1, −1}` with
-`rectifiableSignedArea γ a b = σ · |filledHull C \ C|`, that `σ = 1` exactly when the winding
-number of the arclength parametrization of `γ` is `1` on the inside, and that reversing the
+`rectifiableSignedArea γ a b = σ · |filledHull C \ C|` (Cufí–Verdera, the Theorem of §1 applied to
+`f(z) = z̄`, which writes the signed area of a closed rectifiable curve as the integral of its
+winding number over the plane), that `σ = 1` exactly when the winding number of the arclength
+parametrization of `γ` is `1` on the inside, and that reversing the
 orientation of `γ` changes `σ`; for absolutely continuous `γ` the same holds for `signedArea γ a b`.
 With it prove that the trace, the length and the inside of `γ ∘ φ` on `[c, d]` are those of `γ` on
 `[a, b]` for every continuous nondecreasing `φ` from `[c, d]` onto `[a, b]`. *Route.* By
@@ -416,7 +421,8 @@ Let `n ≥ 2`, let `s ⊆ E` be Lebesgue measurable with `0 < |s| < ∞` and `P(
 unit vector. Prove that for almost every `y ∈ e⊥` the section `s_y = {t : ℝ | y + t • e ∈ s}` has
 finite perimeter in `ℝ`, that its reduced boundary is `{t : y + t • e ∈ ∂*s}`, and that
 `⟪ν_s(y + t • e), e⟫ ≠ 0` at each such point, where `∂*s` is the reduced boundary and `ν_s` the
-measure-theoretic outer normal of GeometricMeasureTheory G5 (Maggi, §18.3;
+measure-theoretic outer normal, Tau Ceti's `TauCeti.reducedBoundary volume ⊤ s` and
+`TauCeti.outerNormal volume ⊤ s` (Maggi, §18.3;
 Cagnetti–Colombo–De Philippis–Maggi, Theorem C in §4.4, a form of Vol'pert's theorem, for the
 sections of positive length). Include the transport along a.e.
 equality: replacing `s` by a set agreeing with it a.e. changes these sections only for a null set
@@ -424,11 +430,11 @@ of `y`, the exceptional set depending on `e`. The coordinates `(y, t) ↦ y + t 
 measure-preserving linear equivalence from `e⊥ × ℝ`, with the product of the volumes, onto `E`,
 with `‖y + t • e‖² = ‖y‖² + t²`, and almost every section of a Lebesgue-measurable set is
 Lebesgue measurable; these are Tau Ceti's and Mathlib's. *Route.* Build the comparison from
-GeometricMeasureTheory G2 and G5: the coarea formula for the projection onto `e⊥` restricted to the
+GeometricMeasureTheory G2 and G5: the tangential area formula for the projection onto `e⊥` on the
 rectifiable set `∂*s`, De Giorgi's structure theorem `|D1_s| = Hⁿ⁻¹ ⌊ ∂*s`, and Tau Ceti's slicing
 inequality `∫_{e⊥} P(s_y) dy ≤ P(s)`.
-*Needs:* GeometricMeasureTheory G2 (coarea on rectifiable sets) and G5 (reduced boundary, outer
-normal, structure theorem); Tau Ceti `TauCeti.orthogonalLineEquiv`,
+*Needs:* GeometricMeasureTheory G2 (area formula on rectifiable sets) and G5 (structure theorem);
+Tau Ceti `TauCeti.reducedBoundary`, `TauCeti.outerNormal`, `TauCeti.orthogonalLineEquiv`,
 `TauCeti.measurePreserving_orthogonalLineEquiv`, `TauCeti.ae_nullMeasurableSet_lineSection`,
 `TauCeti.volume_eq_lintegral_volume_lineSection`, `TauCeti.lintegral_perimeter_lineSection_le`,
 `TauCeti.ae_perimeter_lineSection_lt_top`, `TauCeti.ae_lineSection_ordConnected_iff`; Mathlib
@@ -451,8 +457,8 @@ in `ℝ` with an interval, possibly empty or unbounded (an `OrdConnected` subset
 statement passes to every set a.e. equal to `s`, for this fixed `e`. Prove with it the localized
 comparison: for every Borel `G ⊆ e⊥`, the perimeter of `S_e s` in the cylinder `G × ℝ` is at most
 that of `s`, and equality for `G = e⊥` forces the set of `y` whose section has more than two
-essential boundary points to have zero transverse measure. *Route.* §4.1 and the coarea
-formula for the projection onto `e⊥` give
+essential boundary points to have zero transverse measure. *Route.* §4.1 and the tangential
+area formula for the projection onto `e⊥` on `∂*s` give
 `P(s; G × ℝ) ≥ ∫_G Σ_{t ∈ ∂*s_y} |⟪ν_s(y + t • e), e⟫|⁻¹ dy`, where the part of `∂*s` on which
 `ν_s` is orthogonal to `e` only adds to the left side; each term is the length of a vector
 `(1, a_i(y))` built from the slope of the boundary in `y`, and for `S_e s` the sum has two terms
@@ -633,8 +639,9 @@ one-dimensional Lipschitz radial profile of `h*`; and that `s ↦ s Φ(P/s)` is 
 `s > 0` for every `P ≥ 0`, so that Jensen's inequality and the level-perimeter inequality combine
 in the right direction. Empty levels and zero denominators are treated separately. *Route.* The
 Lipschitz coarea formula (GeometricMeasureTheory G2) on each side, GeometricMeasureTheory G5's
-comparison of the perimeter of `{h > t}` with `Hⁿ⁻¹({h = t})`, Jensen's inequality on each level
-with the weight `‖∇h‖⁻¹ dHⁿ⁻¹`, and the sharp inequality for the levels.
+bound `P(E) ≤ Hⁿ⁻¹(frontier E)` applied to the open set `{h > t}`, whose frontier lies in
+`{h = t}` because `h` is continuous, so that `P({h > t}) ≤ Hⁿ⁻¹({h = t})`, Jensen's inequality
+on each level with the weight `‖∇h‖⁻¹ dHⁿ⁻¹`, and the sharp inequality for the levels.
 *Needs:* GeometricMeasureTheory G2 and G5; Tau Ceti
 `TauCeti.lipschitzWith_toReal_schwarzRearrangement`, `LocallyLipschitzOn.hasWeakFDerivOn_fderiv`,
 `LocallyLipschitzOn.lintegral_perimeter_eq_setLIntegral_enorm_fderiv`,
@@ -696,7 +703,8 @@ that `v` is absolutely continuous on every compact subinterval of `(0, ∞)`, th
 `n ω_n ∫₀^∞ |v′(r)| rⁿ⁻¹ dr ≤ ∫ ‖U‖`, that `G(x) = v′(‖x‖) x/‖x‖` (as a linear form, through the
 inner product) for a.e. `x ≠ 0`, and that `rⁿ⁻¹ v(r) → 0` as `r → 0⁺`. As corollaries of
 `D(u*) = G · volume`, the derivative of `u*` has no jump part across spheres, no Cantor part over a
-null set of radii and no mass at the origin (Bianchi–Gardner–Gronchi–Kiderlen). *Route.* Absolute
+null set of radii and no mass at the origin; they follow from the Sobolev membership of the
+rearrangement (Bianchi–Gardner–Gronchi–Kiderlen, Theorem 6.3). *Route.* Absolute
 continuity comes from the radial `W¹,¹` representative of §5.3 by comparing weak derivatives on
 annuli, where the tangential components vanish; the radial restriction and composition lemmas
 are built here against PDE's weak-derivative API. Monotonicity of `v` turns a.e. agreement with
@@ -719,7 +727,8 @@ Prove `eLpNorm_le_inv_mul_totalVariationOn`: for integrable `u : E → ℝ` and 
 `‖u‖_p ≤ (n ω_n^(1/n))⁻¹ |Du|(E)`, on the whole space, both sides in `[0, ∞]`, and prove
 `u ∈ Lᵖ` when `|Du|(E) < ∞`: the bound on the norm alone does not record membership. Prove
 `eLpNorm_eq_inv_mul_totalVariationOn_iff`: if moreover `|Du|(E) < ∞` and `u` is not a.e. zero,
-equality holds exactly when `u =ᵐ[volume] c · 1_{ball a r}` for some `c ≠ 0`, `a ∈ E` and `r > 0`;
+equality holds exactly when `u =ᵐ[volume] c · 1_{ball a r}` for some `c ≠ 0`, `a ∈ E` and `r > 0`
+(Fusco–Maggi–Pratelli, §1, inequality (1.4) and its equality case, for `BV(ℝⁿ)`);
 the zero function attains equality trivially and is treated separately. Prove the `W¹,¹`
 corollary `‖u‖_p ≤ (n ω_n^(1/n))⁻¹ ∫ ‖∇u‖`, that no nonzero `W¹,¹` function attains it, and that
 smooth compactly supported functions approximating the indicator of a ball make the ratio of the
@@ -829,10 +838,11 @@ the curve; no parametrization enters the statement (Wiedijk's entry). *Route.* P
 ### 6.4 Compatibility with the finite-perimeter and curve-energy routes
 
 Prove that the two other routes give the same theorem, with the same inside `filledHull C \ C` and
-the same length `H¹(C)`. For the finite-perimeter route: GeometricMeasureTheory G6 gives
-`P(filledHull C \ C) = H¹(C)` for a rectifiable Jordan curve, and the planar case of the sharp
-inequality gives `4π |filledHull C \ C| ≤ H¹(C)²`; in the equality case §4.3 makes the inside a.e.
-a disc, the inside is regular open (its closure is `filledHull C` and the interior of that is the
+the same length `H¹(C)` (Wiedijk's entry, for the theorem both routes reach). For the
+finite-perimeter route: GeometricMeasureTheory G6 gives `P(filledHull C \ C) = H¹(C)` for a
+rectifiable Jordan curve, and the planar case of the sharp inequality gives
+`4π |filledHull C \ C| ≤ H¹(C)²`; in the equality case §4.3 makes the inside a.e. a disc, the
+inside is regular open (its closure is `filledHull C` and the interior of that is the
 inside), so §4.5 makes it a disc `ball c r` exactly, and then `C`, its frontier, is the circle
 `sphere c r`. For the curve-energy route: for the arclength parametrization the constant-speed
 energy identity, the area–energy inequality, Green's theorem of DifferentialGeometry 5.6 and §3.1
@@ -933,7 +943,7 @@ supplier contracts):
   root and real-valued forms, with its smooth and approximation steps; perimeter and volume of
   balls; scaling; the convex-body steps of rigidity; essential convexity and compact convex
   representatives; orthogonal line coordinates, measurability of sections and their a.e.
-  invariance; the slicing inequality.
+  invariance; the slicing inequality; the reduced boundary and the measure-theoretic outer normal.
 - *Layer 5*: preservation of Lipschitz bounds under Schwarz rearrangement, the weak derivative of
   a Lipschitz function, the weak derivative of a convolution, Jensen's inequality for
   convolution, de la Vallée Poussin's lemma and the coarea formulas.
@@ -944,8 +954,8 @@ supplier contracts):
 **Owned elsewhere and consumed here.**
 
 - [GeometricMeasureTheory](../GeometricMeasureTheory/README.md): the arclength parametrization of a
-  simple closed curve (G1); rectifiability, area and coarea (G2); finite perimeter, reduced boundary
-  and De Giorgi's structure theorem, and `P(E) ≤ Hⁿ⁻¹(frontier E)` (G5); Gauss–Green, the comparison
+  simple closed curve (G1); rectifiability, area and coarea (G2); De Giorgi's structure theorem
+  for the reduced boundary, and `P(E) ≤ Hⁿ⁻¹(frontier E)` (G5); Gauss–Green, the comparison
   of perimeter with surface measure on Lipschitz and `C¹` domains, and, for a rectifiable Jordan
   curve, `P(filledHull C \ C) = H¹(C)` with the Jordan index theorem for its arclength
   parametrization (G6); the Cantor–Lebesgue function (acceptance examples).
@@ -1078,7 +1088,11 @@ Every declaration below exists at the pin, each theorem with a proof; paths are 
   `volume` has an integrable weak gradient) and
   `TauCeti.HasWeakFDerivOn.variationMeasure_eq_withDensity` (the variation measure of a weakly
   differentiable function is the norm of its weak derivative times `volume`;
-  `…/WeakDerivative.lean`).
+  `…/WeakDerivative.lean`); `TauCeti.reducedBoundary` and `TauCeti.outerNormal`
+  (`…/ReducedBoundary.lean`: the reduced boundary of a set in an open set and its
+  measure-theoretic outer normal, a unit vector on the reduced boundary, with `|Dχ_s|`
+  concentrated on the reduced boundary and `Dχ_s = −ν_s |Dχ_s|` for `s` of locally finite
+  perimeter; the identification of `|Dχ_s|` with `Hⁿ⁻¹` there is G5's).
 - *Hausdorff measure on spheres* (`Geometry/Euclidean/Volume/`):
   `TauCeti.euclideanHausdorffMeasure_sphere` (`Hⁿ⁻¹(sphere c r) = n ω_n rⁿ⁻¹` for `r > 0`;
   `Sphere.lean`) and
@@ -1147,10 +1161,12 @@ Every declaration below exists at the pin, each theorem with a proof; paths are 
 ### From TauCetiRoadmap.GeometricMeasureTheory
 
 - G1: arclength parametrization of a rectifiable curve, simple when the curve is simple.
-- G2: the coarea formula for Lipschitz maps and on rectifiable sets, the area formula on graphs.
-- G5: reduced boundary, outer normal, De Giorgi's structure theorem `|D1_s| = Hⁿ⁻¹ ⌊ ∂*s`, the
-  comparison of the perimeter of superlevel sets with the measure of level sets, and
-  `P(E) ≤ Hⁿ⁻¹(frontier E)` for measurable `E`, through the boundary criterion.
+- G2: the coarea formula for Lipschitz maps, the tangential area formula on rectifiable sets, and
+  the area formula on graphs.
+- G5: De Giorgi's structure theorem `|D1_s| = Hⁿ⁻¹ ⌊ ∂*s` for Tau Ceti's reduced boundary and
+  outer normal, and `P(E) ≤ Hⁿ⁻¹(frontier E)` for measurable `E`, through the boundary criterion;
+  applied to `E = {h > t}` for continuous `h`, whose frontier lies in `{h = t}`, it gives
+  `P({h > t}) ≤ Hⁿ⁻¹({h = t})`.
 - G6: perimeter equals boundary measure on Lipschitz and `C¹` domains, with the classical outward
   normal; `P(filledHull C \ C) = H¹(C)` for a rectifiable Jordan curve and the Jordan index theorem
   for its absolutely continuous arclength parametrization, with the sign a conclusion.
@@ -1198,8 +1214,16 @@ Layer 1: weak derivatives and the Sobolev classes, whose carriers are Tau Ceti's
   [*A short course on rearrangement inequalities*](https://www.math.toronto.edu/almut/rearrange.pdf),
   2009, Theorem 4.7 and its proof from the isoperimetric inequality, for Pólya–Szegő at `p = 1`
   (§5.1).
+- N. Fusco, F. Maggi, A. Pratelli,
+  [*The sharp quantitative Sobolev inequality for functions of bounded variation*](https://cvgmt.sns.it/paper/1414/),
+  J. Funct. Anal. 244 (2007), §1, inequality (1.4) and its equality case, for the sharp `BV`
+  Sobolev inequality of §5.5; its Theorem 1.1 is a quantitative form.
+- J. Cufí, J. Verdera,
+  [*A general form of Green Formula and Cauchy Integral Theorem*](https://arxiv.org/abs/1306.6832),
+  arXiv v1, the Theorem of §1 (Green's formula weighted by the winding number for closed
+  rectifiable curves), used in §3.1 with `f(z) = z̄`.
 - Terence Tao, [*The Brunn–Minkowski inequality for nilpotent groups*](https://terrytao.wordpress.com/2011/09/16/the-brunn-minkowski-inequality-for-nilpotent-groups/),
-  which includes the Euclidean Prékopa–Leindler argument.
+  Theorem 2, the Euclidean Prékopa–Leindler inequality (§1.1).
 - Joel Tropp, [*Lectures on Convex Geometry*](https://tropp.caltech.edu/notes/Tro18-Lectures-Convex-LN.pdf),
   Lecture 8, for the parallel-volume and intrinsic-volume normalization, including
   lower-dimensional convex bodies.
