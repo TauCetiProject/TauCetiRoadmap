@@ -24,7 +24,7 @@ public import TauCeti.CategoryTheory.Projective.Cover
 public import TauCeti.RingTheory.Jacobson.MulOpposite
 
 /-!
-# Flatness and homological dimensions of noncommutative rings: target signatures
+# Modules over preadditive categories, flatness, and perfect rings: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`,
 which carries the full API, proof routes, refactor boundaries, and checks. This file records Lean

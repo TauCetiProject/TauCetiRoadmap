@@ -1,4 +1,4 @@
-# Roadmap: Flatness and homological dimensions of noncommutative rings
+# Roadmap: Modules over preadditive categories, flatness, and perfect rings
 
 **Summary.** Mathlib develops flat modules, `Tor`, and the character-module flatness test only over
 commutative rings. Tau Ceti provides the balanced tensor product `M ⊗_A N` over an arbitrary ring
