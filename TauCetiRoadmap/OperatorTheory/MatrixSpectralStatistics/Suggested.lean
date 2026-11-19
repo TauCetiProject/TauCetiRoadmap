@@ -3,224 +3,51 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
-import TauCetiRoadmap.OperatorTheory.PolarDecomposition.Suggested
+import TauCeti.Analysis.Matrix.GramFactorization
+import TauCeti.Analysis.Matrix.GramFactorization.Uniqueness
+import TauCeti.Analysis.Matrix.Eigenvalues.Basic
+import TauCeti.Analysis.Matrix.FunctionalCalculus
+import TauCeti.Probability.Moments.MatrixConcentration
 
 /-!
-# Matrix spectra, concentration, and the toolkit of spectral statistics: target signatures
+# Matrix spectral statistics: target signatures
 
-**`README.md` is the definitive and exhaustive roadmap specification.** This file gives
-suggested Lean forms for selected labeled obligations. The roadmap is complete when the
-obligations in `README.md` are complete. `sorry` records target signatures in this human-owned
-roadmap library.
+`README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs.
 
+The headline theorems are:
+
+* the Gram characterization: a square matrix over `ℝ` or `ℂ` is positive semidefinite of rank at
+  most `d` exactly when it is `Aᴴ * A` for a matrix `A` with `d` rows, and two such factors differ
+  by a unitary on the left (README §1.2 and §1.3);
+* entrywise eigenvalue perturbation: if Hermitian `n × n` matrices have entries within `ε`, their
+  sorted eigenvalues are within `n * ε` (README §2.1);
+* measurability of spectral functions: for continuous `h`, and for the indicator of `[c, ∞)`,
+  `A ↦ cfc h A` is Borel measurable on matrices, so spectral functions and fixed-threshold
+  spectral projectors of a measurable random matrix are measurable (README §2.2 and §2.3);
+* eigenvalue concentration from entrywise second moments, and its consequence for the empirical
+  second-moment matrix: every population eigenvalue at least `c` stays at least `c / 2` with
+  probability at least `1 - 4 d⁴ v / (r c²)` (README §3.4).
+
+Every one of them is statable at the pins, and every one is proved in the pinned Tau Ceti library,
+so this file restates none of them. The `#check` lines below pin the Tau Ceti declarations that
+state them, with the hypotheses the README records under its supplier contracts; the file fails to
+build if the library stops providing them in this form.
 -/
 
 namespace TauCetiRoadmap.MatrixSpectralStatistics
 
-open MeasureTheory InnerProductSpace
-open scoped ENNReal Matrix ComplexOrder
+-- Layer 1: positive-semidefinite Gram factorization and its uniqueness.
+#check @Matrix.posSemidef_and_rank_le_iff_eq_conjTranspose_mul_self
+#check @TauCeti.conjTranspose_mul_self_eq_iff_exists_unitary_mul
 
-/-! ## Part A -- rank factorization and positive-semidefinite Gram factorization -/
+-- Layer 2: entrywise eigenvalue perturbation and measurability of spectral functions.
+#check @Matrix.IsHermitian.abs_eigenvalues₀_sub_le_of_entry_le
+#check @TauCeti.measurable_matrix_cfc
+#check @TauCeti.measurable_matrix_cfc_indicator
 
-section RankFactorization
-
-variable {𝕜 : Type*} [Field 𝕜] {m n : Type*} [Fintype n]
-
-/-- Roadmap: MSS-A03.
-
-Rank at most `r` is equivalent to factorization through `Fin r`. -/
-theorem rank_le_iff_exists_eq_mul (M : Matrix m n 𝕜) (r : ℕ) :
-    M.rank ≤ r ↔ ∃ (L : Matrix m (Fin r) 𝕜) (R : Matrix (Fin r) n 𝕜), M = L * R := sorry
-
-/-- Roadmap: MSS-A07.
-
-A square matrix is positive semidefinite of rank at most `d` exactly when it is the Gram
-matrix of `n` points in `d` dimensions. -/
-theorem posSemidef_and_rank_le_iff_exists_conjTranspose_mul_self
-    {𝕜 : Type*} [RCLike 𝕜]
-    {n d : ℕ} (B : Matrix (Fin n) (Fin n) 𝕜) :
-    (B.PosSemidef ∧ B.rank ≤ d) ↔ ∃ A : Matrix (Fin d) (Fin n) 𝕜, B = Aᴴ * A := sorry
-
-/-- Roadmap: MSS-A08.
-
-Two factorizations through the exact rank differ by an invertible change of basis of the
-intermediate space. -/
-theorem exists_units_eq_mul_of_rank_factorization {r : ℕ} (M : Matrix m n 𝕜)
-    (hr : M.rank = r) {L L' : Matrix m (Fin r) 𝕜} {R R' : Matrix (Fin r) n 𝕜}
-    (h : M = L * R) (h' : M = L' * R') :
-    ∃ g : (Matrix (Fin r) (Fin r) 𝕜)ˣ,
-      L' = L * (g : Matrix (Fin r) (Fin r) 𝕜) ∧
-        R' = ((g⁻¹ : (Matrix (Fin r) (Fin r) 𝕜)ˣ) : Matrix (Fin r) (Fin r) 𝕜) * R := sorry
-
-end RankFactorization
-
-section GramUniqueness
-
-variable {𝕜 : Type*} [RCLike 𝕜]
-
-/-- Roadmap: MSS-A09.
-
-Two Gram factors of the same size differ by a left unitary. -/
-theorem exists_unitary_mul_of_conjTranspose_mul_self_eq {n d : ℕ}
-    {A A' : Matrix (Fin d) (Fin n) 𝕜} (h : Aᴴ * A = A'ᴴ * A') :
-    ∃ U ∈ Matrix.unitaryGroup (Fin d) 𝕜, A' = U * A := sorry
-
-end GramUniqueness
-
-/-! ## Part B -- matrix spectra and spectral measurability -/
-
-section MatrixSpectra
-
-variable {n : ℕ} {Ω : Type*} [MeasurableSpace Ω]
-
-/-- Roadmap: MSS-B01.
-
-Matrices carry the entrywise product measurable structure. -/
-instance instMeasurableSpaceMatrix {m n α : Type*} [MeasurableSpace α] :
-    MeasurableSpace (Matrix m n α) :=
-  inferInstanceAs (MeasurableSpace (m → n → α))
-
-/-- Roadmap: MSS-B02.
-
-For countable indices and a second-countable Borel entry space, the entrywise matrix
-measurable structure is Borel. -/
-instance instBorelSpaceMatrix {m n α : Type*} [Countable m] [Countable n]
-    [TopologicalSpace α] [MeasurableSpace α] [SecondCountableTopology α] [BorelSpace α] :
-    BorelSpace (Matrix m n α) :=
-  inferInstanceAs (BorelSpace (m → n → α))
-
-variable {𝕜 : Type*} [RCLike 𝕜]
-
-/-- Roadmap: MSS-B03.
-
-An entrywise `ε` bound on an `n × n` matrix gives the Euclidean operator bound `n ε`. -/
-theorem norm_toEuclideanLin_le_of_entry_le {A : Matrix (Fin n) (Fin n) 𝕜}
-    {ε : ℝ} (hentry : ∀ i j, ‖A i j‖ ≤ ε) (x : EuclideanSpace 𝕜 (Fin n)) :
-    ‖Matrix.toEuclideanLin A x‖ ≤ (n : ℝ) * ε * ‖x‖ := sorry
-
-/-- Roadmap: MSS-B04.
-
-Entrywise closeness of Hermitian matrices gives the corresponding sorted-eigenvalue perturbation bound. -/
-theorem abs_eigenvalues₀_sub_le_of_entry_le {A Ahat : Matrix (Fin n) (Fin n) 𝕜}
-    (hA : A.IsHermitian) (hAhat : Ahat.IsHermitian)
-    {ε : ℝ} (hentry : ∀ i j, ‖Ahat i j - A i j‖ ≤ ε) (k : Fin (Fintype.card (Fin n))) :
-    |hAhat.eigenvalues₀ k - hA.eigenvalues₀ k| ≤ (n : ℝ) * ε := sorry
-
-/-- Roadmap: MSS-B09.
-
-A fixed continuous real spectral function depends continuously on a finite Hermitian matrix. -/
-theorem continuous_cfc_on_hermitian (h : ℝ → ℝ) (hh : Continuous h) :
-    Continuous fun A : {A : Matrix (Fin n) (Fin n) 𝕜 // A.IsHermitian} => cfc h A.1 := sorry
-
-/-- Roadmap: MSS-B10.
-
-A fixed continuous real spectral function of a measurable Hermitian random matrix is measurable. -/
-theorem measurable_cfc_of_hermitian (h : ℝ → ℝ) (hh : Continuous h)
-    {Bm : Ω → Matrix (Fin n) (Fin n) 𝕜} (hBmeas : Measurable Bm)
-    (hherm : ∀ ω, (Bm ω).IsHermitian) :
-    Measurable fun ω => cfc h (Bm ω) := sorry
-
-/-- Roadmap: MSS-B11.
-
-The fixed-threshold spectral projector onto the Hermitian eigenspaces with eigenvalue in `[c, ∞)`. -/
-noncomputable def spectralProjectionIci (c : ℝ) (A : Matrix (Fin n) (Fin n) 𝕜)
-    (_hA : A.IsHermitian) : Matrix (Fin n) (Fin n) 𝕜 :=
-  cfc (Set.indicator (Set.Ici c) (1 : ℝ → ℝ)) A
-
-/-- Roadmap: MSS-B12.
-
-The fixed-threshold spectral projector is Borel measurable in the Hermitian matrix. -/
-theorem measurable_spectralProjectionIci (c : ℝ) :
-    Measurable fun A : {A : Matrix (Fin n) (Fin n) 𝕜 // A.IsHermitian} =>
-      spectralProjectionIci c A.1 A.2 := sorry
-
-/-- Roadmap: MSS-B13.
-
-A fixed-threshold spectral projector of a measurable Hermitian random matrix is measurable. -/
-theorem measurable_spectralProjectionIci_of_hermitian (c : ℝ)
-    {Bm : Ω → Matrix (Fin n) (Fin n) 𝕜} (hBmeas : Measurable Bm)
-    (hherm : ∀ ω, (Bm ω).IsHermitian) :
-    Measurable fun ω => spectralProjectionIci c (Bm ω) (hherm ω) := sorry
-
-end MatrixSpectra
-
-/-! ## Part C -- sample moments and matrix concentration
-
-Chebyshev plus a union bound over `n²` entries, converted to a spectral bound
-by Part B.  The elementary route is dimension-suboptimal by design: matrix
-Bernstein would give `log n` in place of `n`, at the cost of Laplace-transform
-machinery Mathlib does not have. -/
-
-section Concentration
-
-variable {n : ℕ} {Ω : Type*} [MeasurableSpace Ω]
-
-/-- Roadmap: MSS-C15.
-
-The uncentered empirical second-moment matrix `M̂ₖₗ = r⁻¹ ∑ᵢ Vᵢₖ Vᵢₗ`. -/
-noncomputable def sampleSecondMoment {r d : ℕ}
-    (V : Fin r → Ω → EuclideanSpace ℝ (Fin d)) (ω : Ω) : Matrix (Fin d) (Fin d) ℝ :=
-  fun k l => (r : ℝ)⁻¹ * ∑ i, V i ω k * V i ω l
-
-omit [MeasurableSpace Ω] in
-/-- Roadmap: MSS-C16.
-
-The empirical second-moment matrix is Hermitian. -/
-theorem isHermitian_sampleSecondMoment {r d : ℕ}
-    (V : Fin r → Ω → EuclideanSpace ℝ (Fin d)) (ω : Ω) :
-    (sampleSecondMoment V ω).IsHermitian := by
-  sorry
-
-/-- Roadmap: MSS-C20.
-
-Entrywise second-moment control gives simultaneous high-probability control of every sorted eigenvalue. -/
-theorem measure_forall_abs_eigenvalues₀_sub_le_ge
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (Shat : Ω → Matrix (Fin n) (Fin n) ℝ) (A : Matrix (Fin n) (Fin n) ℝ)
-    (hSherm : ∀ ω, (Shat ω).IsHermitian) (hAherm : A.IsHermitian)
-    (hmeas : ∀ k l, Measurable fun ω => Shat ω k l)
-    (hint : ∀ k l, Integrable (fun ω => (Shat ω k l - A k l) ^ 2) P)
-    {v η : ℝ} (hη : 0 < η) (hmoment : ∀ k l, ∫ ω, (Shat ω k l - A k l) ^ 2 ∂P ≤ v) :
-    P {ω | ∀ k, |(hSherm ω).eigenvalues₀ k - hAherm.eigenvalues₀ k|
-        ≤ (n : ℝ) * η} ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2) := sorry
-
-/-- Roadmap: MSS-C06.
-
-The arithmetic mean of a finite family, with the empty mean determined by total inversion. -/
-noncomputable def finiteMean (𝕜 : Type*) [RCLike 𝕜]
-    {E : Type*} [NormedAddCommGroup E] [NormedSpace 𝕜 E]
-    {n : ℕ} (z : Fin n → E) : E :=
-  ((n : 𝕜)⁻¹) • ∑ i, z i
-
-/-- Roadmap: MSS-C09.
-
-The unnormalized centered scatter operator `∑ᵢ (zᵢ-z̄) ⊗ (zᵢ-z̄)`. -/
-noncomputable def centeredScatter (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) : E →L[𝕜] E :=
-  ∑ i, rankOne 𝕜 (z i - finiteMean 𝕜 z) (z i - finiteMean 𝕜 z)
-
-/-- Roadmap: MSS-C10.
-
-Appending one point updates centered scatter by the exact rank-one correction. -/
-theorem centeredScatter_append (𝕜 : Type*) [RCLike 𝕜] {E : Type*} [NormedAddCommGroup E]
-    [InnerProductSpace 𝕜 E] {n : ℕ} (z : Fin n → E) (y : E) :
-    centeredScatter 𝕜 (Fin.snoc z y) = centeredScatter 𝕜 z +
-      ((n : 𝕜) / ((n : 𝕜) + 1)) •
-        rankOne 𝕜 (y - finiteMean 𝕜 z) (y - finiteMean 𝕜 z) := sorry
-
-/-- Roadmap: MSS-C22.
-
-Entrywise second-moment control gives the corresponding high-probability Euclidean operator bound. -/
-theorem measure_forall_norm_toEuclideanLin_sub_le_ge
-    (P : Measure Ω) [IsProbabilityMeasure P]
-    (Shat : Ω → Matrix (Fin n) (Fin n) ℝ) (A : Matrix (Fin n) (Fin n) ℝ)
-    (hmeas : ∀ k l, Measurable fun ω => Shat ω k l)
-    (hint : ∀ k l, Integrable (fun ω => (Shat ω k l - A k l) ^ 2) P)
-    {v η : ℝ} (hη : 0 < η) (hmoment : ∀ k l, ∫ ω, (Shat ω k l - A k l) ^ 2 ∂P ≤ v) :
-    P {ω | ∀ x : EuclideanSpace ℝ (Fin n),
-        ‖Matrix.toEuclideanLin (Shat ω - A) x‖ ≤ (n : ℝ) * η * ‖x‖}
-      ≥ 1 - ENNReal.ofReal ((n : ℝ) ^ 2 * v / η ^ 2) := sorry
-
-end Concentration
+-- Layer 3: eigenvalue concentration and the empirical second-moment eigenvalue floor.
+#check @TauCeti.one_sub_le_measure_forall_abs_eigenvalues₀_sub_le
+#check @TauCeti.one_sub_le_measure_forall_half_le_eigenvalues₀_sampleSecondMoment
 
 end TauCetiRoadmap.MatrixSpectralStatistics
