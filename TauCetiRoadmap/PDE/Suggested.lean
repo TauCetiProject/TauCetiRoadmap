@@ -6,6 +6,8 @@ public import TauCeti.Analysis.Sobolev.W1p.Restriction
 public import TauCeti.Analysis.Sobolev.Wkp.Basic
 public import TauCeti.Analysis.PDE.Ellipticity.Basic
 public import TauCeti.Analysis.PDE.EnergyForm.Sobolev
+public import TauCeti.Analysis.PDE.Spectrum.Basic
+public import TauCeti.Topology.Algebra.Module.LinearPMap.Resolvent.Compact
 
 /-!
 # Partial differential equations: target signatures
@@ -13,7 +15,8 @@ public import TauCeti.Analysis.PDE.EnergyForm.Sobolev
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
 definitions those statements need: the Lipschitz-domain predicate of Layer 1, the space
-`W^{1,p}_Γ(Ω)` of functions vanishing on a boundary part (§1.8), the almost-everywhere
+`W^{1,p}_Γ(Ω)` of functions vanishing on a boundary part (§1.8), the mixed eigenvalue predicate
+and the min–max mixed eigenvalues (§4.6), the almost-everywhere
 inverse-coercive ellipticity predicate of the Conventions, and the Calderón–Zygmund operator
 structure of Layer 2. Everything else the roadmap plans, including
 every API bullet and every Check, lives in the README.
@@ -25,7 +28,9 @@ Lipschitz domains (§1.6); `W^{1,p}_Γ(Ω)` at `Γ = frontier Ω` and Poincaré�
 Calderón–Zygmund `Lᵖ` and weak-`(1,1)` bounds (§2.3); the classical Hopf boundary-point lemma
 (§3.2); the Dirichlet problem with an `H¹` lifting and `H⁻¹` forcing (§4.2); the Fredholm
 compatibility condition for Gårding forms (§4.3); the coercive mixed problem and the
-compatibility condition of the pure Neumann problem (§4.5); interior `H²` regularity for Lipschitz coefficients (§5.1); De Giorgi–Nash–Moser Hölder continuity and the Harnack
+compatibility condition of the pure Neumann problem (§4.5); the mixed and Neumann eigenbasis,
+min–max, Neumann kernel, second Neumann eigenvalue and self-adjoint realization (§4.6); interior
+`H²` regularity for Lipschitz coefficients (§5.1); De Giorgi–Nash–Moser Hölder continuity and the Harnack
 inequality in every dimension for non-symmetric inverse-coercive coefficients (§5.4); the
 Krylov–Safonov Hölder estimate and Harnack inequality for strong solutions (§5.5); and the
 interior Schauder estimate (§5.6). The strong-type maximal inequality of §2.1 is a theorem at
@@ -47,7 +52,6 @@ Headline theorems not statable at the pins, and what each lacks:
 * §4.5 (the mixed problem with a Neumann datum `h`): the pinned trace `TauCeti.W1p.frontierTrace`
   lives on `Opens (WithLp 2 (ℝ × E))` with `volume`, the pinned energy form on
   `EuclideanSpace ℝ ι`, and no statement can name both.
-* §4.6: the realization `−Δ_Γ` is a target.
 * §6.2 (Galerkin existence for parabolic equations) and §6.3 (the heat semigroup and its
   generator on `Lᵖ` and `BUC`): the Bochner Sobolev space `H¹(0,T;V*)` with its embedding
   into `C([0,T];H)`, and a bounded convolution operator on `Lᵖ`, are themselves targets of
@@ -208,8 +212,9 @@ theorem w1pVanishingOnSubmodule_frontier (Ω : Opens (EuclideanSpace ℝ (Fin (n
 
 /-- **Poincaré–Friedrichs** (§1.8). On a connected bounded Lipschitz domain, for a boundary part
 `Γ ⊆ frontier Ω` of positive `μHE[n]` measure and finite `p`, `‖u‖_p ≤ C‖∇u‖_p` on
-`W^{1,p}_Γ(Ω)` (Bauer–Pauly–Schomburg, Theorem 4.8, for `p = 2` in dimension three). No
-admissibility is needed: every element of `W^{1,p}_Γ(Ω)` has vanishing trace on `Γ`. -/
+`W^{1,p}_Γ(Ω)` (Bauer–Pauly–Schomburg, Theorem 4.8, for `p = 2`, dimension three and weak
+Lipschitz pairs). No admissibility is needed: every element of `W^{1,p}_Γ(Ω)` has vanishing
+trace on `Γ`. -/
 theorem exists_poincare_friedrichs (hp : p ≠ ⊤) (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
     (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
     (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
@@ -389,6 +394,147 @@ theorem neumann_solvable_iff (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
     (∃ u : W1p mu Ω 2, ∀ v : W1p mu Ω 2,
         energyFormH1 a 0 0 u v = ∫ x in (Ω : Set _), f x * W1p.value v x ∂mu) ↔
       ∫ x in (Ω : Set _), f x ∂mu = 0 := by
+  sorry
+
+/-! ### Mixed and Neumann spectra (§4.6) -/
+
+/-- **A mixed eigenvalue** (§4.6): a real `κ` for which some nonzero `u ∈ H¹_Γ(Ω)` satisfies
+`B(u, v) = κ ∫_Ω u v` for every `v ∈ H¹_Γ(Ω)`, with `B` the energy form of §4.1. It parallels
+the pinned `TauCeti.PDE.IsDirichletEigenvalue`, which is the case `Γ = frontier Ω`
+(`isMixedEigenvalue_frontier_iff`). For `Γ = ∅` it is the weak Neumann eigenvalue problem: the
+test space is all of `H¹(Ω)`, which imposes the natural boundary condition. -/
+def IsMixedEigenvalue (mu : Measure (EuclideanSpace ℝ (Fin (n + 1)))) [mu.IsAddHaarMeasure]
+    (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1)))) (Γ : Set (EuclideanSpace ℝ (Fin (n + 1))))
+    (a : EuclideanSpace ℝ (Fin (n + 1)) → Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ)
+    (b : EuclideanSpace ℝ (Fin (n + 1)) → EuclideanSpace ℝ (Fin (n + 1)))
+    (c : EuclideanSpace ℝ (Fin (n + 1)) → ℝ) (kappa : ℝ) : Prop :=
+  ∃ u : w1pVanishingOnSubmodule mu Ω 2 Γ, u ≠ 0 ∧ ∀ v : w1pVanishingOnSubmodule mu Ω 2 Γ,
+    energyFormH1 a b c (u : W1p mu Ω 2) (v : W1p mu Ω 2) =
+      kappa * ⟪W1p.value (u : W1p mu Ω 2), W1p.value (v : W1p mu Ω 2)⟫_ℝ
+
+/-- At the whole frontier, the mixed eigenvalues are the Dirichlet eigenvalues (§4.6). -/
+theorem isMixedEigenvalue_frontier_iff (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (a : EuclideanSpace ℝ (Fin (n + 1)) → Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ)
+    (b : EuclideanSpace ℝ (Fin (n + 1)) → EuclideanSpace ℝ (Fin (n + 1)))
+    (c : EuclideanSpace ℝ (Fin (n + 1)) → ℝ) (kappa : ℝ) :
+    IsMixedEigenvalue mu Ω (frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) a b c kappa ↔
+      IsDirichletEigenvalue mu Ω a b c kappa := by
+  sorry
+
+/-- **The `k`-th mixed eigenvalue of `−Δ`** (§4.6), by min–max, indexed from `0`: the infimum
+of the `C` for which some subspace `W` of `H¹_Γ(Ω)`, whose values span a subspace of `L²(Ω)` of
+dimension at least `k + 1`, satisfies `∫_Ω |∇v|² ≤ C ∫_Ω v²` for every `v ∈ W`. The README's
+`λ₁` is `mixedEigenvalue mu Ω Γ 0`. -/
+noncomputable def mixedEigenvalue (mu : Measure (EuclideanSpace ℝ (Fin (n + 1))))
+    [mu.IsAddHaarMeasure] (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))) (k : ℕ) : ℝ :=
+  sInf {C : ℝ | ∃ W : Submodule ℝ (w1pVanishingOnSubmodule mu Ω 2 Γ),
+    k + 1 ≤ Module.finrank ℝ (W.map ((W1p.valueL (mu := mu) (Omega := Ω) (p := 2)).toLinearMap ∘ₗ
+      (w1pVanishingOnSubmodule mu Ω 2 Γ).toSubmodule.subtype)) ∧
+      ∀ v ∈ W, energyFormH1 (fun _ ↦ 1) 0 0 (v : W1p mu Ω 2) (v : W1p mu Ω 2) ≤
+        C * ‖W1p.value (v : W1p mu Ω 2)‖ ^ 2}
+
+/-- **The mixed eigenbasis** (§4.6). On a nonempty bounded Lipschitz domain and for any
+`Γ ⊆ frontier Ω`, there is an orthonormal basis `(eₖ)` of `L²(Ω)` such that `eₖ` is the value of
+some `uₖ ∈ H¹_Γ(Ω)` with `∫ ∇uₖ · ∇v = λₖ ∫ uₖ v` for every `v ∈ H¹_Γ(Ω)`, where `λₖ` is the
+min–max value `mixedEigenvalue mu Ω Γ k`. The Dirichlet counterpart is Brezis, Theorem 9.31. -/
+theorem exists_hilbertBasis_mixedEigenvalue (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hne : (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))).Nonempty)
+    {Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))}
+    (hΓ : Γ ⊆ frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) :
+    ∃ (basis : HilbertBasis ℕ ℝ (Lp ℝ 2 (mu.restrict Ω)))
+      (u : ℕ → w1pVanishingOnSubmodule mu Ω 2 Γ),
+      (∀ k, W1p.value (u k : W1p mu Ω 2) = basis k) ∧
+      ∀ (k : ℕ) (v : w1pVanishingOnSubmodule mu Ω 2 Γ),
+        energyFormH1 (fun _ ↦ 1) 0 0 (u k : W1p mu Ω 2) (v : W1p mu Ω 2) =
+          mixedEigenvalue mu Ω Γ k *
+            ⟪W1p.value (u k : W1p mu Ω 2), W1p.value (v : W1p mu Ω 2)⟫_ℝ := by
+  sorry
+
+/-- The mixed eigenvalues of `−Δ` are nonnegative, nondecreasing, tend to infinity, and exhaust
+the mixed eigenvalues with multiplicity (§4.6). -/
+theorem mixedEigenvalue_spectrum (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hne : (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))).Nonempty)
+    {Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))}
+    (hΓ : Γ ⊆ frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) :
+    0 ≤ mixedEigenvalue mu Ω Γ 0 ∧ Monotone (mixedEigenvalue mu Ω Γ) ∧
+      Tendsto (mixedEigenvalue mu Ω Γ) atTop atTop ∧
+      ∀ kappa : ℝ, IsMixedEigenvalue mu Ω Γ (fun _ ↦ 1) 0 0 kappa ↔
+        ∃ k, mixedEigenvalue mu Ω Γ k = kappa := by
+  sorry
+
+/-- **The min–max principle is attained** (§4.6): `λₖ` is the least `C` in the defining set of
+`mixedEigenvalue`. -/
+theorem isLeast_mixedEigenvalue (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hne : (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))).Nonempty)
+    {Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))}
+    (hΓ : Γ ⊆ frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) (k : ℕ) :
+    IsLeast {C : ℝ | ∃ W : Submodule ℝ (w1pVanishingOnSubmodule mu Ω 2 Γ),
+      k + 1 ≤ Module.finrank ℝ (W.map ((W1p.valueL (mu := mu) (Omega := Ω) (p := 2)).toLinearMap ∘ₗ
+        (w1pVanishingOnSubmodule mu Ω 2 Γ).toSubmodule.subtype)) ∧
+        ∀ v ∈ W, energyFormH1 (fun _ ↦ 1) 0 0 (v : W1p mu Ω 2) (v : W1p mu Ω 2) ≤
+          C * ‖W1p.value (v : W1p mu Ω 2)‖ ^ 2} (mixedEigenvalue mu Ω Γ k) := by
+  sorry
+
+/-- **The Neumann kernel** (§4.6). On a bounded Lipschitz domain, `u ∈ H¹(Ω)` satisfies
+`∫ ∇u · ∇v = 0` for every `v ∈ H¹(Ω)` exactly when it is locally constant on `Ω`; together with
+`finite_connectedComponents_of_isLipschitzDomain`, the eigenspace of `0` has dimension the number
+of connected components. -/
+theorem neumann_kernel_iff_isLocallyConstant (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) (u : W1p mu Ω 2) :
+    (∀ v : W1p mu Ω 2, energyFormH1 (fun _ ↦ 1) 0 0 u v = 0) ↔
+      ∃ g : EuclideanSpace ℝ (Fin (n + 1)) → ℝ,
+        IsLocallyConstant ((Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))).domRestrict g) ∧
+          (W1p.value u : EuclideanSpace ℝ (Fin (n + 1)) → ℝ) =ᵐ[mu.restrict Ω] g := by
+  sorry
+
+/-- A bounded Lipschitz domain has finitely many connected components (§4.6). -/
+theorem finite_connectedComponents_of_isLipschitzDomain
+    (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) :
+    Finite (ConnectedComponents (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) := by
+  sorry
+
+/-- **The second Neumann eigenvalue** (§4.6). On a connected bounded Lipschitz domain, `λ₂`
+(index `1`) is the least Rayleigh quotient `∫ |∇u|² / ∫ u²` over the nonzero `u ∈ H¹(Ω)` of
+mean zero. -/
+theorem isLeast_rayleigh_meanZero_mixedEigenvalue_one
+    (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hc : IsConnected (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) :
+    IsLeast {r : ℝ | ∃ u : W1p mu Ω 2, W1p.value u ≠ 0 ∧
+        ∫ x in (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))), W1p.value u x ∂mu = 0 ∧
+        r = energyFormH1 (fun _ ↦ 1) 0 0 u u / ‖W1p.value u‖ ^ 2}
+      (mixedEigenvalue mu Ω ∅ 1) := by
+  sorry
+
+/-- **The realization of `−Δ_Γ`** (§4.6). On a nonempty bounded Lipschitz domain and for any
+`Γ ⊆ frontier Ω`, there is a self-adjoint partial linear map `A` on `L²(Ω)` with compact
+resolvent and spectrum `{λₖ}`, whose graph is the set of pairs `(u, f)` with `u ∈ H¹_Γ(Ω)` and
+`∫ ∇u · ∇v = ∫ f v` for every `v ∈ H¹_Γ(Ω)`. -/
+theorem exists_isSelfAdjoint_mixedLaplacian (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1))))
+    (hΩ : IsLipschitzDomain (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hb : Bornology.IsBounded (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))))
+    (hne : (Ω : Set (EuclideanSpace ℝ (Fin (n + 1)))).Nonempty)
+    {Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))}
+    (hΓ : Γ ⊆ frontier (Ω : Set (EuclideanSpace ℝ (Fin (n + 1))))) :
+    ∃ A : Lp ℝ 2 (mu.restrict Ω) →ₗ.[ℝ] Lp ℝ 2 (mu.restrict Ω),
+      IsSelfAdjoint A ∧ A.HasCompactResolvent ∧
+        A.spectrum = Set.range (mixedEigenvalue mu Ω Γ) ∧
+        ∀ x f : Lp ℝ 2 (mu.restrict Ω), (x, f) ∈ A.graph ↔
+          ∃ u : w1pVanishingOnSubmodule mu Ω 2 Γ, W1p.value (u : W1p mu Ω 2) = x ∧
+            ∀ v : w1pVanishingOnSubmodule mu Ω 2 Γ,
+              energyFormH1 (fun _ ↦ 1) 0 0 (u : W1p mu Ω 2) (v : W1p mu Ω 2) =
+                ⟪f, W1p.value (v : W1p mu Ω 2)⟫_ℝ := by
   sorry
 
 end MixedAndNeumann

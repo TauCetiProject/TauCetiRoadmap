@@ -46,6 +46,12 @@ Schauder theory; the Euclidean dyadic partition, Bernstein and Littlewood–Pale
 Besov spaces and paraproducts; Strichartz estimates for the Schrödinger and wave equations;
 and quasilinear existence by the Schauder and Leray–Schauder fixed-point route.
 
+Regularity up to the boundary for the mixed and Neumann problems of §4.5–§4.6 (global `H²` and
+`C^∞` regularity on smooth domains, Grisvard, Chapter 2, and the corner behaviour on polygons,
+Grisvard, Chapters 4–5) is not owned here: Layer 5's global estimates are Dirichlet, and the
+mixed and Neumann case belongs to a later PDE part. Interior regularity of the eigenfunctions
+follows from §5.1 as for Dirichlet.
+
 - **Tau Ceti** already carries the weak-derivative carriers `W^{k,p}(Ω)` with completeness,
   `W^{1,p}_0` and `W^{k,p}_0`, restriction and zero extension, order-one Meyers–Serrin density on
   arbitrary open sets and every-order density on `ℝⁿ`, the `L²` difference-quotient criterion
@@ -92,11 +98,11 @@ and quasilinear existence by the Schauder and Leray–Schauder fixed-point route
   generators as densely defined `LinearPMap`s, growth bounds, resolvents, Hille–Yosida and
   Lumer–Phillips; Tau Ceti implements it. Section 6.3 constructs the heat semigroup as an
   instance and identifies its generator; it builds no second generation engine.
-- **VariationalMethods** owns the abstract direct method, the energy space of a coercive
-  form, semibounded shifts, the ordered construction of successive minima and the represented
-  operator of a compact form pair. Nothing here consumes it: the Dirichlet spectrum of §4.4 is
-  built on the pinned Tau Ceti solution operator, the mixed and Neumann spectra of §4.6 on
-  Lax–Milgram and Mathlib's compact spectral theorem, and VariationalMethods uses the Dirichlet
+- **VariationalMethods** owns the abstract direct method, the energy space of a coercive form,
+  semibounded shifts, the ordered construction of successive minima and the represented operator of
+  a compact form pair. Nothing here consumes it: the Dirichlet spectrum of §4.4 is built on the
+  pinned Tau Ceti solution operator, the mixed and Neumann spectra of §4.6 on the pinned Tau Ceti
+  eigenbasis of a coercive form along a compact map, and VariationalMethods uses the Dirichlet
   instance as an example.
 - **BanachAlgebras**, A8, owns Schauder's compact-map fixed-point theorem on a nonempty closed
   bounded convex subset of a real Banach space, consuming the finite-dimensional Brouwer theorem
@@ -199,7 +205,8 @@ for an `H¹` class is always about a representative. The parabolic distance is
 
 **Labels.** The identifiers A1–A8 (Layer 1), B8–B11 (Layer 2), C12–C15 (Layer 3), D16–D21
 (Layer 4), E20–E26 (Layer 5), F24–F27.6 (Layer 6) and X0–X2 (Layers 7–9) appear in the
-section headings; consumers cite either form. The stochastic programme X3 is PDE, Part II.
+section headings; consumers cite either form, and the letter is part of the label, so D20 and
+E20 are different sections. The stochastic programme X3 is PDE, Part II.
 
 ## Exact supplier contracts
 
@@ -272,7 +279,7 @@ section headings; consumers cite either form. The stochastic programme X3 is PDE
 ### From Tau Ceti
 
 All files are under `TauCeti/`; line numbers are those of the Tau Ceti revision pinned by the
-content repository's `lake-manifest.json` (`358314d`), the revision every roadmap on its main
+content repository's `lake-manifest.json` (`2fd255d`), the revision every roadmap on its main
 branch is built against.
 
 - `TauCeti.HasWeakFDerivOn` and `TauCeti.HasWeakLineDerivOn`
@@ -635,12 +642,12 @@ branch is built against.
   `u' = Au`, `u(0) = x`, whose classical solutions are the orbits of domain points and whose
   mild solutions are the orbits of all points, uniquely: the implementation of
   OneParameterSemigroups Part A that §6.3 instantiates.
-- Tau Ceti has no Riesz–Thorin theorem, no Calderón–Zygmund operator, no Lipschitz-domain
-  predicate, no domain trace, no Hölder space of order `k ≥ 3` or on a proper open subset, no
-  Hölder space of parabolic type, no local boundedness or oscillation decay for weak solutions
-  in dimensions `n = 1, 2`, no barrier under the exterior-cone condition, no heat convolution as
-  a bounded operator on `Lᵖ` or on a space of uniformly continuous functions, and no maximum
-  principle, Hopf lemma or Harnack inequality for variable principal coefficients.
+- Tau Ceti has no Riesz–Thorin theorem, no Calderón–Zygmund operator, no Lipschitz-domain predicate
+  or domain trace on `EuclideanSpace ℝ (Fin (n+1))`, no Hölder space of order `k ≥ 3` or on a proper
+  open subset, no Hölder space of parabolic type, no local boundedness or oscillation decay for weak
+  solutions in dimensions `n = 1, 2`, no barrier under the exterior-cone condition, no heat
+  convolution as a bounded operator on `Lᵖ` or on a space of uniformly continuous functions, and no
+  maximum principle, Hopf lemma or Harnack inequality for variable principal coefficients.
 
 ### From TauCetiRoadmap.OneParameterSemigroups
 
@@ -669,20 +676,20 @@ here.
 
 Layer 1 builds the function spaces on a domain that everything else uses, from the pinned carriers
 upward: interval classes, higher-order density, the Bessel comparison, embeddings, Poincaré, the
-Lipschitz-domain predicate with its graph measure, trace, extension and Rellich compactness,
-Hölder spaces, and the spaces vanishing on a boundary part with Poincaré–Friedrichs. Layer 2 is
-the harmonic-analysis engine: the uncentred and dyadic maximal functions with the Fefferman–Stein
-inequality, interpolation, Calderón–Zygmund operators and multipliers, Gehring, BMO and VMO.
-Layer 3 is the classical constant-coefficient theory plus the Aleksandrov–Bakelman–Pucci estimate: mean
-values, maximum principles and both Hopf lemmas, Harnack, fundamental solution, Green functions
-and Perron. Layer 4 is the energy method: the weak form and Gårding, coercive existence with
-liftings and `H⁻¹` data, the Fredholm compatibility condition, the spectrum, and the mixed and
-Neumann problems with their spectra. Layer 5 is elliptic regularity in its two tracks. Layer 6 is
-parabolic and evolution theory, ending with the complete classical whole-space Schauder programme
-F27. Layers 7–9 are the extension programmes: dyadic and Besov analysis, Strichartz estimates and
-quasilinear existence. Layers 2, 3 and 4 depend only on Layer 1 and can be built in parallel;
-Layer 5 needs Layers 2–4; Layer 6 needs Layers 1 and 4; Layer 7 needs Layer 2, §6.3 and §1.7;
-Layer 8 needs Layer 7; Layer 9 needs Layers 4 and 5.
+Lipschitz-domain predicate with its graph measure, trace, extension and Rellich compactness, Hölder
+spaces, and the spaces vanishing on a boundary part with Poincaré–Friedrichs. Layer 2 is the
+harmonic-analysis engine: the uncentred and dyadic maximal functions with the Fefferman–Stein
+inequality, interpolation, Calderón–Zygmund operators and multipliers, Gehring, BMO and VMO. Layer 3
+is the classical constant-coefficient theory plus the Aleksandrov–Bakelman–Pucci estimate: mean
+values, maximum principles and both Hopf lemmas, Harnack, fundamental solution, Green functions and
+Perron. Layer 4 is the energy method: the weak form and Gårding, coercive existence with liftings
+and `H⁻¹` data, the Fredholm compatibility condition, the spectrum, and the mixed and Neumann
+problems with their spectra. Layer 5 is elliptic regularity in its two tracks. Layer 6 is parabolic
+and evolution theory, ending with the complete classical whole-space Schauder programme F27. Layers
+7–9 are the extension programmes: dyadic and Besov analysis, Strichartz estimates and quasilinear
+existence. Layers 2, 3 and 4 depend only on Layer 1 and can be built in parallel; Layer 5 needs
+Layers 2–4; Layer 6 needs Layers 1 and 4; Layer 7 needs Layer 2, §6.3 and §1.7; Layer 8 needs Layer
+7; Layer 9 needs Layers 4 and 5.
 
 ## Layer 1: function spaces on a domain
 
@@ -1114,9 +1121,12 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
   its inverse are bi-Lipschitz with Jacobian determinant `1`. For finite `p` and open `U`,
   `V = Φ(U)`, prove that `u ↦ u ∘ Φ` is a bounded map `W^{1,p}(V) → W^{1,p}(U)` with
   `∇(u ∘ Φ) = DΦᵀ(∇u ∘ Φ)` almost everywhere. Route: the mollified shears `Φ_ε` built from
-  `γ * ρ_ε` are smooth, have determinant `1` and `‖DΦ_ε‖ ≤ 1 + Lip γ`, so the pinned
-  `TauCeti.W1p.compL` gives uniformly bounded operators; pass to `ε → 0` on smooth `u` and
-  conclude by density, with Rademacher's theorem for `DΦ`. The same holds for the shear of the
+  `γ * ρ_ε` are smooth, have determinant `1`, satisfy `‖DΦ_ε‖ ≤ 1 + Lip γ` and converge to `Φ`
+  uniformly, so for `U' ⋐ U` and small `ε` they map `U'` into `V`, and the pinned
+  `TauCeti.W1p.compL` (hypothesis `MapsTo Φ_ε U' V`) gives operators `W^{1,p}(V) → W^{1,p}(U')`
+  bounded uniformly in `ε` and `U'`; pass to `ε → 0` on the smooth `u` of the pinned
+  Meyers–Serrin density, with Rademacher's theorem for `DΦ`, conclude by density, and exhaust `U`
+  by such `U'`. The same holds for the shear of the
   base that moves one coordinate by a Lipschitz function of the other `n − 1`, extended
   trivially in `t`.
 - The **trace characterization**: for bounded Lipschitz `Ω`, admissible `Γ` and finite `p`,
@@ -1131,14 +1141,13 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
   through the `Γ = ∅` case; mollify in the original coordinates.
 - **Poincaré–Friedrichs**: for a connected bounded Lipschitz `Ω`, any `Γ ⊆ frontier Ω` with
   `μHE[n] Γ > 0` and finite `p`, there is `C(Ω, Γ, p)` with `‖u‖_p ≤ C‖∇u‖_p` on `W^{1,p}_Γ(Ω)`
-  (`exists_poincare_friedrichs`; Bauer–Pauly–Schomburg, Theorem 4.8, p. 16, for `p = 2` in
-  dimension three). Admissibility is not needed: every generator of `W^{1,p}_Γ(Ω)` vanishes near
-  `closure Γ`, so by continuity of `T` every `u ∈ W^{1,p}_Γ(Ω)` has `T u = 0` almost everywhere
-  on `Γ`. Route: as for Poincaré–Wirtinger in §1.5, a normalized contradiction sequence, §1.6's
-  Rellich compactness, closedness of `W^{1,p}_Γ(Ω)` and the constancy of functions with zero
+  (`exists_poincare_friedrichs`; Bauer–Pauly–Schomburg, Theorem 4.8, p. 16, for `p = 2`, dimension
+  three and weak Lipschitz pairs). Admissibility is not needed: every generator of `W^{1,p}_Γ(Ω)`
+  vanishes near `closure Γ`, so by continuity of `T` every `u ∈ W^{1,p}_Γ(Ω)` has `T u = 0` almost
+  everywhere on `Γ`. Route: as for Poincaré–Wirtinger in §1.5, a normalized contradiction sequence,
+  §1.6's Rellich compactness, closedness of `W^{1,p}_Γ(Ω)` and the constancy of functions with zero
   weak gradient on a connected open set; a constant `c` in `W^{1,p}_Γ(Ω)` has trace `c` and
-  vanishing trace on `Γ`, so `c · μHE[n] Γ = 0` forces `c = 0`. The constant is an existence
-  statement, not an explicit one.
+  vanishing trace on `Γ`, so `c · μHE[n] Γ = 0` forces `c = 0`.
 
 - For every `Γ`, `W^{1,p}_Γ(Ω)` is a closed submodule, `Γ ⊆ Γ'` gives
   `W^{1,p}_{Γ'}(Ω) ⊆ W^{1,p}_Γ(Ω)`, and it depends on `Γ` only through `closure Γ`. For `Γ`
@@ -1171,7 +1180,8 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
   lies in `W^{1,p}_0` but not in `W^{1,p}_Γ`; the containment of `W^{1,p}_0` needs `Γ` disjoint
   from `Ω`.
 - On `(0, 1)` with `Γ = {0}` (so `n = 0` and `μHE[0]` is counting measure):
-  `|u(x)| ≤ x^{1−1/p}‖u'‖_p`, so the Poincaré–Friedrichs constant is at most `1`; with `Γ = ∅`
+  `|u(x)| ≤ x^{1−1/p}‖u'‖_p`, so the Poincaré–Friedrichs constant is at most `1`; for `p = 2`
+  the sharp constant is `2/π`, matching `λ₁ = π²/4 = 1/C²` of §4.6; with `Γ = ∅`
   the constant `1` has zero gradient and nonzero norm, so the hypothesis `μHE[n] Γ > 0` is
   load-bearing.
 - The Lipschitz hypothesis is load-bearing: rooms `R_k` of side `2^{−k}` in a row, joined by
@@ -1183,12 +1193,12 @@ For an open `Ω`, a set `Γ ⊆ ℝ^{n+1}` and `1 ≤ p ≤ ∞`, define `W^{1,p
 *Needs:* for admissibility: §1.6's predicate; for `W^{1,p}_Γ`: Tau Ceti `TauCeti.W1p`,
 `W1p.restrictL`, Mathlib `ContDiff` and `HasCompactSupport`; for the frontier case: Tau Ceti
 `TauCeti.w1p0Submodule`; for the empty case: Tau Ceti
-`TauCeti.W1p.denseRange_restrictL_ofTestFunctionₗ_top` and §1.6's predicate; for Lipschitz
-shears: Tau Ceti `TauCeti.W1p.compL`, Mathlib convolution, `ContDiffBump` and
-`LipschitzWith.ae_differentiableAt`; for the trace characterization: §1.6's trace and kernel
-theorem, the empty case, the Lipschitz shears, and Tau Ceti `TauCeti.W1p.contDiffSMulL` for the
-cutoffs; for Poincaré–Friedrichs: §1.6's Rellich compactness and trace, and the constancy input
-of §1.5.
+`TauCeti.W1p.denseRange_restrictL_ofTestFunctionₗ_top` and §1.6's predicate; for Lipschitz shears:
+Tau Ceti `TauCeti.W1p.compL` and `TauCeti.W1p.dense_contDiffOn_representatives`, Mathlib
+convolution, `ContDiffBump` and `LipschitzWith.ae_differentiableAt`; for the trace characterization:
+§1.6's trace and kernel theorem, the empty case, the Lipschitz shears, and Tau Ceti
+`TauCeti.W1p.contDiffSMulL` for the cutoffs; for Poincaré–Friedrichs: §1.6's Rellich compactness and
+trace, and the constancy input of §1.5.
 
 ### Examples
 
@@ -1272,9 +1282,10 @@ The diagonal Marcinkiewicz theorem, in distribution-function form between two fi
 and between a weak-type bound and an `L^∞` bound, is the pinned
 `TauCeti.lintegral_rpow_le_of_meas_ofReal_lt_le` and `…_of_le_eLpNormEssSup`. Prove the
 off-diagonal Marcinkiewicz theorem: a sublinear operator of weak types `(p₀, q₀)` and
-`(p₁, q₁)` with `p_i ≤ q_i` is of strong type `(p, q)` along `1/p = (1−θ)/p₀ + θ/p₁`,
-`1/q = (1−θ)/q₀ + θ/q₁` (Grafakos, Theorem 1.3.2). Prove the Riesz–Thorin theorem: a linear
-operator defined on simple functions with `‖Tf‖_{q₀} ≤ M₀‖f‖_{p₀}` and `‖Tf‖_{q₁} ≤ M₁‖f‖_{p₁}`
+`(p₁, q₁)` with `p_i ≤ q_i`, `p₀ ≠ p₁` and `q₀ ≠ q₁` is of strong type `(p, q)` for
+`0 < θ < 1` along `1/p = (1−θ)/p₀ + θ/p₁`, `1/q = (1−θ)/q₀ + θ/q₁` (Grafakos, Theorem 1.4.19).
+Prove the Riesz–Thorin theorem: a linear operator defined on simple functions with
+`‖Tf‖_{q₀} ≤ M₀‖f‖_{p₀}` and `‖Tf‖_{q₁} ≤ M₁‖f‖_{p₁}`
 satisfies `‖Tf‖_q ≤ M₀^{1−θ}M₁^θ‖f‖_p` on the interpolated exponents, with complex scalars and
 Mathlib's three-lines theorem, including the endpoints `p_i, q_i = ∞` (Grafakos, Theorem 1.3.4).
 Both carriers are maps defined on `L^{p₀} ∩ L^{p₁}` (equivalently on simple functions) with
@@ -1298,6 +1309,9 @@ Riesz–Thorin theorem from here.
 - A sublinear operator that is of weak type `(1,1)` and *not* of strong type `(1,1)` is the
   maximal function of §2.1; Marcinkiewicz recovers its strong `(p,p)` bounds for `p > 1` and
   nothing at `p = 1`.
+- With `q₀ = q₁ = 2` the rank-one operator `f ↦ (∫_0^1 f)|x|^{−1/2}` on `ℝ` is of weak types
+  `(1, 2)` and `(2, 2)`, since `|x|^{−1/2} ∈ L^{2,∞}`, and not of strong type `(4/3, 2)`, since
+  `|x|^{−1/2} ∉ L²`; the hypothesis `q₀ ≠ q₁` of the off-diagonal theorem is load-bearing.
 
 *Needs:* for Riesz–Thorin: Mathlib's Hadamard three-lines theorem
 (`Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip`,
@@ -1946,12 +1960,12 @@ trace of §1.6; more generally the right side is any `ℓ ∈ (H¹_Γ(Ω))*`. Fo
 and no pointwise conormal derivative is constructed. `Γ = frontier Ω` is §4.2's Dirichlet
 problem and `Γ = ∅` is the Neumann problem. Prove:
 
-- **Coercive case.** For a bounded form coercive on `H¹_Γ(Ω)`, every `g` and every
-  `ℓ ∈ (H¹_Γ(Ω))*` there is exactly one weak solution, by Lax–Milgram on the closed subspace
-  `H¹_Γ(Ω)` after the lifting of §4.2 (`existsUnique_weakSolution_mixed` in `Suggested.lean` for
-  `g = 0`, `b = 0`, `c = 0`; Brezis, Proposition 9.24, p. 297, for `Γ = ∅` and `−Δu + u = f`,
-  and §8.4, Example 5, p. 226, for a mixed condition in one dimension). Coercivity holds for inverse-coercive `a`, `b = 0` and
-  `c ≥ 0` when `Ω` is connected and `μHE[n] Γ > 0`, with constant `λ/(1 + C²)` for `C` the
+- **Coercive case.** For a bounded form coercive on `H¹_Γ(Ω)`, every `g` and every `ℓ ∈ (H¹_Γ(Ω))*`
+  there is exactly one weak solution, by Lax–Milgram on the closed subspace `H¹_Γ(Ω)` after the
+  lifting of §4.2 (`existsUnique_weakSolution_mixed` in `Suggested.lean` for `g = 0`, `b = 0`,
+  `c = 0`; Brezis, Proposition 9.24, p. 297, for `Γ = ∅` and `−Δu + u = f`, and §8.4, Example 5, p.
+  226, for a mixed condition in one dimension). Coercivity holds for inverse-coercive `a`, `b = 0`
+  and `c ≥ 0` when `Ω` is connected and `μHE[n] Γ > 0`, with constant `λ/(1 + C²)` for `C` the
   `p = 2` Poincaré–Friedrichs constant of §1.8, and for every `Γ` when `c ≥ c₀ > 0` almost
   everywhere, with constant `min(λ, c₀)`.
 - **Fredholm alternative.** §4.1's Gårding inequality holds on all of `H¹(Ω)` with the same
@@ -1995,45 +2009,95 @@ input of §1.5.
 
 ### 4.6 Mixed and Neumann spectra (D21)
 
-For a connected bounded Lipschitz `Ω` and any `Γ ⊆ frontier Ω`, let `−Δ_Γ` be the Laplacian with
-the form `∫ ∇u · ∇v` on `H¹_Γ(Ω)`. The resolvent `(−Δ_Γ + 1)⁻¹ : L²(Ω) → L²(Ω)` is the
-Lax–Milgram solution operator of §4.5 for the form `∫ ∇u · ∇v + ∫ u v`, which is the `H¹` inner
-product and so coercive with constant `1`; it is compact by §1.6's Rellich compactness, and
-self-adjoint and positive. Its eigenvalues `μₖ ∈ (0, 1]` give the eigenvalues
-`λₖ = 1/μₖ − 1 ≥ 0` of `−Δ_Γ`, nondecreasing with `λₖ → ∞`, and an orthonormal eigenfunction
-basis of `L²(Ω)`. The Dirichlet case is Brezis, Theorem 9.31, p. 311, and the proof carries over
-with `H¹_Γ(Ω)` and §1.6's Rellich compactness. Prove:
+Let `Ω ⊆ ℝ^{n+1}` be a bounded Lipschitz domain and `Γ ⊆ frontier Ω` any boundary part. A
+**mixed eigenvalue** of `−Δ` is a `λ` for which some nonzero `u ∈ H¹_Γ(Ω)` satisfies
+`∫ ∇u · ∇v = λ ∫ u v` for every `v ∈ H¹_Γ(Ω)`; define it for the energy form `B` of §4.1 in
+place of `∫ ∇u · ∇v` (`IsMixedEigenvalue` in `Suggested.lean`), parallel to the pinned
+`TauCeti.PDE.IsDirichletEigenvalue`. For `Γ = frontier Ω` it is §4.4's Dirichlet eigenvalue
+(`isMixedEigenvalue_frontier_iff`); for `Γ = ∅` it is the weak Neumann eigenvalue, the test
+space `H¹(Ω)` imposing `∂_ν u = 0` as in §4.5. Connectedness of `Ω` is not assumed unless
+stated.
 
-- `λ₁` is the least Rayleigh quotient `∫ |∇u|² / ∫ u²` over nonzero `u ∈ H¹_Γ(Ω)`.
-- When `μHE[n] Γ > 0`, `λ₁ > 0`, `λ₁` is the reciprocal of the squared optimal `p = 2`
-  Poincaré–Friedrichs constant of §1.8, and `−Δ_Γ` has a compact self-adjoint inverse, as in
-  §4.4.
-- For `Γ = ∅`, `λ₁ = 0` and its eigenspace is exactly the constants, since `∫ |∇u|² = 0` forces
-  `u` to be constant on the connected `Ω`; `−Δ_∅` has no inverse.
-- For `Γ = frontier Ω` the eigenvalues are §4.4's Dirichlet eigenvalues.
-- Realize `−Δ_Γ` as a nonnegative self-adjoint `LinearPMap` on `L²(Ω)` in OperatorTheory's
-  vocabulary, with domain `{u ∈ H¹_Γ(Ω) | ∃ f ∈ L²(Ω), ∀ v ∈ H¹_Γ(Ω), ∫ ∇u · ∇v = ∫ f v}`, and
-  identify its spectrum with `{λₖ}`.
+The construction is the pinned abstract eigenbasis of a coercive form along a compact map,
+`TauCeti.IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner`
+(`Analysis/InnerProductSpace/Variational/Spectrum.lean:550`), with `V = H¹_Γ(Ω)`,
+`H = L²(Ω)`, `J` the value map and the form `∫ ∇u · ∇v + ∫ u v`, which is the `H¹` inner
+product and so coercive with constant `1`. `J` is compact by §1.6's Rellich compactness and has
+dense range because `C_c^∞(Ω) ⊆ H¹_Γ(Ω)` for `Γ ⊆ frontier Ω` (§1.8). The result is an
+orthonormal basis of `L²(Ω)` of values of eigenfunctions with eigenvalues `κ = λ + 1 > 0` of the
+shifted form, and the solution operator `(−Δ_Γ + 1)⁻¹` is compact, self-adjoint and positive.
+The Dirichlet case is Brezis, Theorem 9.31, p. 311, and the proof carries over with `H¹_Γ(Ω)`.
+Prove, on a nonempty bounded Lipschitz `Ω`:
 
-- `Γ ⊆ Γ'` gives `λ₁(Γ) ≤ λ₁(Γ')`, from the Rayleigh quotient over the smaller space.
-- Every eigenvalue has finite multiplicity.
+- **Eigenbasis and enumeration.** With multiplicity, the mixed eigenvalues form a nondecreasing
+  sequence `0 ≤ λ₁ ≤ λ₂ ≤ ⋯ → ∞` that exhausts them, each of finite multiplicity, with
+  eigenfunctions forming an orthonormal basis of `L²(Ω)` (`exists_hilbertBasis_mixedEigenvalue`
+  and `mixedEigenvalue_spectrum` in `Suggested.lean`, indexed from `0`, so the README's `λ₁` is
+  `mixedEigenvalue mu Ω Γ 0`).
+- **Min–max for every `k`.** `λ_k` is the least `C` for which some subspace of `H¹_Γ(Ω)`, whose
+  values span a subspace of `L²(Ω)` of dimension at least `k`, satisfies `∫ |∇v|² ≤ C ∫ v²` on
+  it (`mixedEigenvalue`, `isLeast_mixedEigenvalue`); in particular `λ₁` is the least Rayleigh
+  quotient `∫ |∇u|² / ∫ u²` over nonzero `u ∈ H¹_Γ(Ω)`. Route: from the eigenbasis, by the
+  expansion of `∫ |∇v|²` in it, as Tau Ceti `main` does for the Dirichlet eigenvalues in
+  `Analysis/PDE/Spectrum/MinMax.lean` (`isLeast_dirichletEigenvalue`; after the pin).
+- **Positive `Γ`.** When `Ω` is connected and `μHE[n] Γ > 0`, `λ₁ > 0`, `λ₁` is the reciprocal of
+  the squared optimal `p = 2` Poincaré–Friedrichs constant of §1.8, and `−Δ_Γ` has a compact
+  self-adjoint inverse, as in §4.4.
+- **The Neumann kernel.** For `Γ = ∅`, `0` is an eigenvalue and its eigenspace is the locally
+  constant functions on `Ω` (`neumann_kernel_iff_isLocallyConstant`): `∫ |∇u|² = 0` forces
+  `∇u = 0`, so `u` is constant on each component by the constancy input of §1.5. A bounded
+  Lipschitz domain has finitely many components (`finite_connectedComponents_of_isLipschitzDomain`:
+  every component has a frontier point, and the finitely many charts covering the compact
+  frontier each meet only one, since inside a chart cylinder `Ω` is the connected region below a
+  graph), so the multiplicity of `0` is the number of components;
+  for connected `Ω`, `λ₁ = 0` is simple and `−Δ_∅` has no inverse.
+- **The second Neumann eigenvalue.** For `Γ = ∅` and connected `Ω`, `λ₂` is the minimum of
+  `∫ |∇u|² / ∫ u²` over nonzero `u ∈ H¹(Ω)` with `∫_Ω u = 0`
+  (`isLeast_rayleigh_meanZero_mixedEigenvalue_one`), and the minimizers are exactly the
+  eigenfunctions of `λ₂`: mean zero is orthogonality to the eigenspace of `λ₁ = 0`, the
+  constants.
+- **The realization.** Realize `−Δ_Γ` as a nonnegative self-adjoint `LinearPMap` on `L²(Ω)`
+  whose graph is `{(u, f) | u ∈ H¹_Γ(Ω), ∀ v ∈ H¹_Γ(Ω), ∫ ∇u · ∇v = ∫ f v}`, with compact
+  resolvent and spectrum `{λₖ}` (`exists_isSelfAdjoint_mixedLaplacian`, in Tau Ceti's
+  `LinearPMap.HasCompactResolvent` and `LinearPMap.spectrum`). Tau Ceti `main` (`b2350004c`,
+  after the pin) builds this operator for every symmetric form coercive after a shift, as
+  `TauCeti.IsCoercive.formOperator` (`Analysis/InnerProductSpace/Variational/FormOperator.lean:82`,
+  with `isSelfAdjoint_formOperator`, `hasCompactResolvent_formOperator`,
+  `exists_formOperator_apply_eq_smul_iff` and `exists_hilbertBasis_formOperator`); once the pin
+  includes it, `−Δ_Γ` is its instance with `c = 1`, and the API mirrors Tau Ceti's Dirichlet
+  operator (`TauCeti.PDE.dirichletOperator`, `isSelfAdjoint_dirichletOperator`,
+  `hasCompactResolvent_dirichletOperator`, `spectrum_dirichletOperator` in
+  `Analysis/PDE/Spectrum/Operator.lean`), so that the two boundary conditions share one
+  interface. At the pin the realization is built from the solution operator, as §4.4 asks for
+  Dirichlet.
+
+- `Γ ⊆ Γ'` gives `λ_k(Γ) ≤ λ_k(Γ')` for every `k`, from min–max over the smaller space
+  `H¹_{Γ'}(Ω) ⊆ H¹_Γ(Ω)`.
+- Regularity of the eigenfunctions up to the boundary is not a target; see "Scope and
+  ownership".
 
 **Checks.**
 
-- On `(0, 1)` with `Γ = ∅`: `λ = m²π²` with eigenfunctions `cos(mπx)`, `m ≥ 0`; the resolvent has
-  eigenvalues `1/(1 + m²π²)`, the first being `1` on the constants.
+- On `(0, 1)` with `Γ = ∅`: `λ = m²π²` with eigenfunctions `cos(mπx)`, `m ≥ 0`; the shifted form
+  has eigenvalues `1 + m²π²`, so the resolvent `(−Δ_∅ + 1)⁻¹` has eigenvalues `1/(1 + m²π²)`,
+  the first being `1` on the constants.
+- On `(0, 1)` with `Γ = ∅`: `λ₂ = π²`, attained by `cos(πx)`, which has mean zero; the mean-zero
+  `x − ½` has quotient `1/(1/12) = 12 > π²`, as the second-eigenvalue statement requires.
 - On `(0, 1)` with `Γ = {0}`: `λ = (m + ½)²π²` with eigenfunctions `sin((m + ½)πx)`; `λ₁ = π²/4`
   lies between the Neumann value `0` and the Dirichlet value `π²`, as `Γ`-monotonicity requires.
 - On the open unit square with `Γ = {0} × (0, 1)`: the eigenfunctions are
   `sin((m + ½)πx) cos(lπy)` with `λ = (m + ½)²π² + l²π²`, so `λ₁ = π²/4`, attained by
   `sin(πx/2)`, and `λ₂ = 5π²/4`, not `9π²/4`.
-- On `(0, 1) ∪ (2, 3)` with `Γ = ∅`, which is not connected, `0` is an eigenvalue of
-  multiplicity `2`, so the description of the eigenspace of `0` needs connectedness.
+- On `(0, 1) ∪ (2, 3)` with `Γ = ∅`: `0` is an eigenvalue of multiplicity `2`, with eigenspace
+  spanned by the indicators of the two intervals, as the Neumann kernel statement predicts;
+  simplicity of `0` needs connectedness, and `λ₂ = 0` here, so the second-eigenvalue statement
+  needs it too (the mean-zero `1_{(0,1)} − 1_{(2,3)}` has quotient `0`).
 
-*Needs:* §4.5's Lax–Milgram solution on `H¹_Γ(Ω)`, §1.6 Rellich, §1.8's `W^{1,p}_Γ` and
-Poincaré–Friedrichs, the constancy input of §1.5, Mathlib's compact symmetric spectral theorem
-`LinearMap.IsSymmetric.orthogonalComplement_iSup_eigenspaces_eq_bot`, OperatorTheory's
-`LinearPMap` vocabulary, and §4.4 for the Dirichlet comparison.
+*Needs:* Tau Ceti `TauCeti.IsCoercive.exists_hilbertBasis_forall_apply_eq_smul_inner`,
+`TauCeti.PDE.IsDirichletEigenvalue` and `LinearPMap.HasCompactResolvent`; §1.6 Rellich, §1.8's
+`W^{1,p}_Γ` and Poincaré–Friedrichs, the constancy input of §1.5, Mathlib's `LinearPMap`
+adjoint, and §4.4 for the Dirichlet comparison; at the next pin bump, Tau Ceti
+`TauCeti.IsCoercive.formOperator`.
 
 ### Examples
 
@@ -2110,8 +2174,10 @@ Caccioppoli (pinned `TauCeti.PDE.UniformlyEllipticOn.setIntegral_sq_mul_norm_gra
 Sobolev–Poincaré inequality of §1.5 and Gehring's lemma of §2.4 (Meyers, *Ann. Scuola Norm.
 Sup. Pisa* 17 (1963), Theorem 2, p. 200; Giaquinta–Martinazzi, Theorem 6.38 route). State the
 lower range `2 − ε < p < 2` separately as `W^{1,p}` well-posedness of the Dirichlet problem with
-`‖∇u‖_p ≤ C‖F‖_p` on a bounded `C¹` domain (Meyers, Theorem 1, p. 198), not as self-improvement
-of an `H¹` solution. Expose how both ranges degenerate with the ellipticity ratio and include
+`‖∇u‖_p ≤ C‖F‖_p` on a bounded domain on which the Laplace Dirichlet problem is solvable in
+`W^{1,q}` (Meyers, Theorem 1, p. 198), in particular on a bounded `C¹` domain, not as
+self-improvement of an `H¹` solution. Expose how both ranges degenerate with the ellipticity
+ratio and include
 Meyers' planar example (Meyers, §5, p. 204) showing that for bounded measurable coefficients no
 estimate holds for all `p`. For `a ∈ VMO` and `F ∈ Lᵖ` obtain the full interior range
 `1 < p < ∞` by §2.4's commutator theorem (Di Fazio, *Boll. Un. Mat. Ital.* 10-A (1996),
@@ -2510,8 +2576,9 @@ general and is not a one-parameter semigroup without time independence.
 - `u₀ = Σ sin(kx)/k`, `f = 0`: `u(t) = Σ e^{−k²t} sin(kx)/k` is in `L²(0,T;H¹₀)` since
   `Σ ∫_0^T e^{−2k²t} dt < ∞`, although `u₀ ∉ H¹₀`; the gain of one derivative in the energy space
   is real.
-- Backward heat equation `∂ₜu − Δu = 0` with terminal data is ill-posed: `u = e^{k²t} sin(kx)`
-  grows without bound in `k`, so the uniform Gårding inequality's sign is load-bearing (the
+- The heat equation `∂ₜu − Δu = 0` backward in time is ill-posed: with terminal datum
+  `sin(kx)` at `t = T` the solution is `e^{k²(T−t)} sin(kx)`, whose value `e^{k²T} sin(kx)` at
+  `t = 0` grows without bound in `k`, so the uniform Gårding inequality's sign is load-bearing (the
   operator `−L` with the wrong sign has no Galerkin energy estimate).
 - Parabolic maximum principle: `u = e^{−t} sin x` has its maximum on the parabolic boundary
   (at `t = 0`); `u = t` satisfies `∂ₜu − Δu = 1 ≥ 0`, a supersolution of the homogeneous
