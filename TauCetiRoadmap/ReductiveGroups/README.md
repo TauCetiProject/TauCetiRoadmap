@@ -1067,8 +1067,8 @@ worked examples consume them.
     `CliffordAlgebra.lipschitzToOrthogonal`, `CliffordAlgebra.lipschitzNorm`,
     `CliffordAlgebra.scalarUnits`, `CliffordAlgebra.lipschitzGroupBaseChange`, the field
     characterization `CliffordAlgebra.mem_lipschitzGroup_iff_involute_act_ι_mem_range_ι`,
-    `CliffordAlgebra.spinToSpecialOrthogonal` with `CliffordAlgebra.ker_spinToSpecialOrthogonal`, and the low-rank comparisons on
-    points `TauCeti.hyperbolicFourEvenEquivMatrixProd`,
+    `CliffordAlgebra.spinToSpecialOrthogonal` with `CliffordAlgebra.ker_spinToSpecialOrthogonal`,
+    and the low-rank comparisons on points `TauCeti.hyperbolicFourEvenEquivMatrixProd`,
     `TauCeti.hyperbolicFourSpinEquivSpecialLinearProd`,
     `CliffordAlgebra.spinGroupEquivSymplecticGroup` (rank five),
     `TauCeti.hyperbolicSixEvenUnitaryEquivGeneralLinear` and
