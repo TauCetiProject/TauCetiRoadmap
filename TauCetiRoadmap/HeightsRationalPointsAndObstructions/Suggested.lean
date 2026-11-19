@@ -22,7 +22,7 @@ S-integer subalgebras spanning the affine coordinate algebra and counts boundary
 extension to the algebraic closure. The Hasse principle uses every native finite and infinite
 completion. The native genus requires finite-dimensional H¹(𝒪).
 
-The other headlines need objects absent from Mathlib `6b7abb3` and Tau Ceti `a91d3aa`.
+The other headlines need objects absent from Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
 The generalized Weil machine and general abelian canonical heights need generalized global
 fields, polarized function-field heights and the line-bundle height machine; the native
 canonical height is elliptic. Lang–Néron itself and the function-field height kernel need the
