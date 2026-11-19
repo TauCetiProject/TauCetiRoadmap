@@ -134,9 +134,9 @@ the remaining subjects in this family.
 - **Ordinary and modular representations have separate owners.** CharacterTheory owns ordinary
   characters in nonmodular characteristic. GrothendieckEulerForms owns exact K₀; ModularInduction owns its group-algebra specialization and
   modular Artin induction. [ModularCharactersAndBlocks](ModularCharactersAndBlocks/README.md)
-  consumes these foundations and owns Brauer characters, their projective pairing and basis
-  theorem, decomposition matrices, Brauer reciprocity and blocks with defect;
-  GL2AutomorphicRepresentationsAndTransfer §R17.5.11 imports its Brauer characters.
+  consumes these foundations, imports Brauer characters and their projective pairing from
+  GL2AutomorphicRepresentationsAndTransfer §R17.5.11, and owns the Brauer-character basis theorem,
+  decomposition matrices, Brauer reciprocity and blocks with defect.
   Family-specific modular representation theory of symmetric groups is outside this family.
 - **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
   compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary

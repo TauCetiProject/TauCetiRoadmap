@@ -101,13 +101,14 @@ noncomputable def brauerCharacter {G k V : Type*} [Group G] [Field k] [AddCommGr
       ((LinearMap.charpoly (ρ g)).rootMultiplicity ((ζ : kˣ) : k) : ℂ) * ((τ ζ : ℂˣ) : ℂ)
   else 0
 
-/-- **The irreducible Brauer characters are linearly independent.** Over an algebraically closed
-field `k` of characteristic `p`, with `m` prime to `p` divisible by the order of every `p`-regular
-element, the Brauer characters of pairwise non-isomorphic irreducible representations are
-linearly independent over `ℂ` as functions on the `p`-regular elements (Webb, Theorem 10.2.2,
-p. 176). -/
+/-- **The irreducible Brauer characters are linearly independent.** Let `k` be a field of
+characteristic `p` and `m` prime to `p` divisible by the order of every `p`-regular element, and
+let `τ` identify the `m`-th roots of unity of `k` with those of `ℂ`, so that `k` contains a
+primitive `m`-th root of unity; `k` need not be algebraically closed, and it splits `G`. Then the
+Brauer characters of pairwise non-isomorphic irreducible representations are linearly
+independent over `ℂ` as functions on the `p`-regular elements (Webb, Theorem 10.2.2, p. 176). -/
 theorem linearIndependent_brauerCharacter {G k : Type u} [Group G] [Finite G] [Field k]
-    [IsAlgClosed k] {p : ℕ} [Fact p.Prime] [CharP k p] {m : ℕ} [NeZero m] (hm : m.Coprime p)
+    {p : ℕ} [Fact p.Prime] [CharP k p] {m : ℕ} [NeZero m] (hm : m.Coprime p)
     (hdvd : ∀ g : G, (orderOf g).Coprime p → orderOf g ∣ m)
     (τ : rootsOfUnity m k ≃* rootsOfUnity m ℂ) {ι : Type*} (V : ι → Type u)
     [∀ i, AddCommGroup (V i)] [∀ i, Module k (V i)] [∀ i, FiniteDimensional k (V i)]
