@@ -222,8 +222,8 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   schemes of finite type over an infinite field; the Brauer residue sequence of a smooth integral
   variety over a field of characteristic `0`, with its invariance under removing a closed subset of
   codimension `≥ 2`; and the residue of a cyclic class over a henselian discrete valuation ring for
-  `n` invertible*: HeightsRationalPointsAndObstructions §§2.6c, 2.6d, 2.16b. The forms kept here
-  are wider: §7.10 treats every scheme with an ample invertible sheaf, §8.7 every locally Noetherian
+  `n` invertible*: HeightsRationalPointsAndObstructions §§2.6c, 2.6d, 2.16b. No statement or route
+  here uses them; they are named because the forms kept here are wider: §7.10 treats every scheme with an ample invertible sheaf, §8.7 every locally Noetherian
   scheme and closed subset along which its local rings are regular of dimension `≥ 2`, §8.16 every
   Noetherian integral regular scheme, and §8.14 every discrete valuation ring, including the
   `p`-primary part when the residue field is perfect of characteristic `p`, with the sign of
