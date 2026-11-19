@@ -184,11 +184,9 @@ section consumes that category and proves what 1.1 and 1.2 use beyond it.
   law (Strickland, §5, Propositions 5.1 and 5.7 and Corollary 5.8, stated there for weak
   Hausdorff spaces; the proofs use only the exponential law and Proposition 2.20, which hold for
   every compactly generated space).
-- **Cylinders and cones.** Write `I = [0, 1]`, `I₊` for `I` with a disjoint base point, and
-  `S¹ = I/∂I` based at the class of `∂I`. A based homotopy is a based map `X ∧ I₊ → Y`, and the
-  reduced cone is `CX = X ∧ I` with `I` based at `1`. For compact Hausdorff pointed `X` the
-  product `X × I` is compact Hausdorff, so `CX` is the raw quotient
-  `(X × I)/(X × {1} ∪ {x₀} × I)` through the identity on points.
+- **The interval and based homotopies.** Write `I = [0, 1]`, `I₊` for `I` with a disjoint base
+  point, and `S¹ = I/∂I` based at the class of `∂I`. A based homotopy is a based map
+  `X ∧ I₊ → Y`.
 - **Comparison with the raw mapping spaces.** For compact metrizable `Y` and metrizable `Z`,
   `Map_*(Y, Z)` is the raw based compact-open mapping space; in particular, for metrizable `Z`,
   `ΩZ` is the base roadmap's fixed-interval loop space `Ω^{[0,1]}Z`.
@@ -899,10 +897,10 @@ Riemannian metric (4.5).
 
 In `Suggested.lean` this is `contractibleHZCapacity_codiscBundle_lt_top_of_fiberedFamily`: the
 bundle is a map `p : S → Q` with a Mathlib `Bundle.Trivialization` of fibre `F` around every
-point, the orientations of `Q`, `S` and `F` are Tau Ceti `HomologicalOrientation`s, `σ` is a
-continuous map into the compact-open `C(S², Q)`, and the fibre class is `j_*[F]`
-(`HomologicalOrientation.mapFundamentalClass`) for the map `j` from `F` into the based mapping
-space `{f ∈ C(S², Q) | f(s₀) = q₀}` that reads `σ` on the fibre over `q₀` through a
+point, the orientations of `Q`, `S` and `F` are Tau Ceti `TauCeti.HomologicalOrientation`s,
+`σ` is a continuous map into the compact-open `C(S², Q)`, and the fibre class is `j_*[F]`
+(`TauCeti.HomologicalOrientation.mapFundamentalClass`) for the map `j` from `F` into the based
+mapping space `{f ∈ C(S², Q) | f(s₀) = q₀}` that reads `σ` on the fibre over `q₀` through a
 trivialization `e₀` at `q₀`. The orientation `oF` of `F` and the trivialization `e₀` are
 arbitrary. For connected `F` another choice changes `j_*[F]` by a sign. For disconnected `F` it
 can change which components cancel, and `oF` need not be the orientation that `oS` and `oQ`
@@ -1118,9 +1116,9 @@ bundle and the shriek naturality of DGFloer Layer 5 item 5.
   `Sⁿ` is `2`-covered. Apply Proposition 6.33
   with the non-`2`-torsion group `π_n(Sⁿ) = ℤ`.
 
-*Needs:* 1.4, DGFloer Layer 1 items 1–2 and 6, Layer 2, Layer 5
+*Needs:* 1.4, 4.1, DGFloer Layer 1 items 1–2 and 6, Layer 2, Layer 5
 item 5, Layer 11, GeometricTopology Layer 3, AlgebraicTopology Stage 8.1–8.7,
-Tau Ceti `IsAspherical`, `TauCeti.continuousOrthogonalToDiffSphere`,
+Tau Ceti `TauCeti.IsAspherical`, `TauCeti.continuousOrthogonalToDiffSphere`,
 `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`, Mathlib `HomotopyGroup.Pi`,
 `Matrix.specialOrthogonalGroup`.
 
@@ -1389,7 +1387,7 @@ Layers 1–3; DGFloer Layer 1 items 1–2, 5–6, Layers 2–3, Layer 5 items 2�
 Layer 10 items 2–5, Layer 11; GeometricTopology Layers 1 and 3; GeneralAlgebraicKTheoryPartII
 §4.30b (through 1.2);
 AlgebraicTopology Stages 2, 6 and 8.1–8.7;
-SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `IsAspherical`, `LocalCoefficientSystem`,
+SmoothBundlesConnections B1.4, B2.2 and B2.5; LieGroups Layer 2; Tau Ceti `TauCeti.IsAspherical`, `LocalCoefficientSystem`,
 `TauCeti.subsingleton_homotopyGroup_sphere_of_lt`,
 `TauCeti.homotopyGroupSphereAddEquiv`, `TauCeti.MooreLoopSpace.doubleFirstHomologySphereAddEquiv`
 (4.2), `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization` (4.2),
@@ -1482,9 +1480,9 @@ elsewhere. In particular it owns:
 - on AlgebraicTopology Stage 4 item 8's convenient category, the product criterion for a
   locally compact Hausdorff factor, the exponential law as a homeomorphism with cartesian
   closedness and the preservation of quotient maps by convenient products, the closed symmetric
-  monoidal structure of the smash product, reduced cones and cylinders, the agreement of `k`
-  with Mathlib's `CompactCoherentification` on Hausdorff spaces, and the comparison of convenient
-  with raw mapping spaces for compact metrizable sources and metrizable targets (1.0);
+  monoidal structure of the smash product, the agreement of `k` with Mathlib's
+  `CompactCoherentification` on Hausdorff spaces, and the comparison of convenient with raw
+  mapping spaces for compact metrizable sources and metrizable targets (1.0);
 - the comparison of the base roadmap's raw compact-open path, loop and mapping carriers with the
   convenient carriers (1.1), and on the based sphere the reference-generator diagram of
   AlgebraicTopology's suspension comparisons and the transport of the James ring to the base
