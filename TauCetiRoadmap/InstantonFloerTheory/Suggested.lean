@@ -26,8 +26,8 @@ The headline theorems and the carrier each one lacks:
   integral homology sphere. Missing: the homology-sphere Floer complex with its reducible counts
   `δ`, `δ'`, the framed group `I#` and the connected-sum comparison.
 * Floer's surgery exact triangle, Kronheimer–Mrowka excision and the Chen–Scaduto nilpotence
-  exponent `2⌈g/2⌉ − 1` on `I(Σ_g × S¹)` (Layer 8). Missing: the Floer groups and cobordism maps
-  above.
+  exponent `2⌈g/2⌉ − 1` on `I(Σ_g × S¹)_w` with `c₁(w)` dual to the circle factor (Layer 8).
+  Missing: the Floer groups and cobordism maps above.
 * The admissible Atiyah–Floer isomorphism of Daemi–Fukaya–Lipyanskiy and its filtered framed
   refinement (Layers 9 and 10). Missing: the odd-bundle surface moduli space as a symplectic
   manifold, its Lagrangian Floer complex with coherent orientations, and the mixed equation.
