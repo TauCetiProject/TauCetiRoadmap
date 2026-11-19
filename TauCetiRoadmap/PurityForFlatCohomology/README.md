@@ -23,7 +23,7 @@ integral schemes.
 | Layer | Title | What it delivers |
 |---|---|---|
 | [0](#layer-0-punctured-spectra-flat-cohomology-with-supports-and-hartogs-extension) | Punctured spectra, flat cohomology with supports and Hartogs extension | the punctured spectrum `U_R` of a semilocal ring, `RΓ_Z(X, F)` on the big fppf site with its étale excision, local-to-global spectral sequence and finite flat descent, continuity, regular-sequence vanishing, Hartogs |
-| [1](#layer-1-virtual-dimension-étale-depth-and-zariskinagata-purity) | Virtual dimension, étale depth and Zariski–Nagata purity | `virtualDimension`, local Lefschetz, Gabber's étale-depth bound for coefficients of invertible order, Zariski–Nagata purity for `vdim ≥ 3` |
+| [1](#layer-1-virtual-dimension-étale-depth-and-zariskinagata-purity) | Virtual dimension, étale depth and Zariski–Nagata purity | `virtualDimension`, Gabber's étale-depth bound for coefficients of invertible order, Zariski–Nagata purity for `vdim ≥ 3` |
 | [2](#layer-2-the-crystalline-key-formula-over-perfect-schemes) | The crystalline key formula over perfect schemes | `RΓ_Z(S, G) ≅ RΓ_Z(W_n(S), 𝕄(G))^{V=1}` with supports, from the perfect-base Dieudonné triangle |
 | [3](#layer-3-flat-cohomology-of-animated-rings) | Flat cohomology of animated rings | supports, nilpotent invariance, consequences of `p`-adic continuity, excision along finitely generated ideals, descent modulo `p` |
 | [4](#layer-4-purity-in-positive-characteristic) | Purity in positive characteristic | root extraction, finite flat covers, purity for complete intersections over `𝔽_p` |
@@ -40,6 +40,7 @@ DerivedDeRhamCohomology, DerivedModuleAlgebra, EnhancedDerivedSheaves ───�
 PerfectoidSpaces, PerfectoidQuotients, PerfectoidQuotientsPartII, PrismaticCohomology,
 PrismaticCohomologyPartII, FiniteFlatGroupsAndIntegralPadicHodgeTheory ────────────→ Layers 2, 5, 6
 LefschetzPencilsAndVanishingCycles ─────────────────────────────────────────────────→ Layers 1, 6
+EtaleDualityAndPerverseSheavesPartII ───────────────────────────────────────────────→ Layer 1
 PrismaticCohomologyPartIII, DeformationAndDerivedPatchingAlgebra ───────────────────→ Layers 1–7
 AlgebraicModuliForArithmeticGeometry, ReductiveGroups ──────────────────────────────→ Layer 7
 GroupSchemesOverABase ──────────────────────────────────────────────────────────────→ Layers 7, 8
@@ -85,8 +86,7 @@ SchemeAndStackFoundations §2.9a's); the non-Noetherian regular-sequence vanishi
 Proposition 4.1.13 and Theorem 6.1.2) and the Hartogs lemma for schemes ([CS24] Lemma 7.2.7); Cohen
 presentations, the Lean restatement `IsCompleteIntersection` of DeformationAndDerivedPatchingAlgebra
 §3.4's absolute local complete intersection (used only for Noetherian local rings), and the virtual
-dimension with its numerical independence of the presentation; the local étale duality statements
-on excellent regular local rings used for the local Lefschetz theorem; Gabber's bound on the étale
+dimension with its numerical independence of the presentation; Gabber's bound on the étale
 depth; algebraization over punctured spectra and Zariski–Nagata purity in virtual dimension `≥ 3`;
 the supported form of the crystalline key formula over perfect schemes ([CS24] (4.1.8.2) and
 Corollary 4.1.9); the supports, nilpotent invariance, consequences of `p`-adic continuity, excision
@@ -118,8 +118,8 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   groupoids and quotient stacks, the big-site sheaf of a quasi-coherent module and the restriction of
   `𝔾_m` to the small étale site, topology comparisons, Hilbert 90 and the Kummer and
   Artin–Schreier sequences, Gabber's affine proper base change, Azumaya algebras and Brauer groups of
-  schemes, Picard groups, `Proj` and the relative `Proj`, excellent rings and schemes, formal spectra and
-  formal completion*: SchemeAndStackFoundations §§0.3, 0.6, 0.9, 0.14, 0.17, 0.21, 0.24,
+  schemes, Picard groups, `Proj` and the relative `Proj`, formal spectra and
+  formal completion*: SchemeAndStackFoundations §§0.3, 0.6, 0.9, 0.14, 0.17, 0.24,
   1.15, 1.18, 1.21, 2.1–2.3, 2.7, 2.9–2.11, 2.15, 2.22, 3.4, 4.7, 4.8.
   The supported cohomology of §2.7 there is that of abelian sheaves on a ringed space; its §2.9a is the
   big-fppf-site counterpart, with supports in a closed subset, the long exact sequence, excision for an
@@ -133,11 +133,13 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   at the pin (supplier contracts).
 - *Gerbes on a site, their bandings by an abelian sheaf, neutralizations and the classification of banded
   gerbes by `H²`*: AlgebraicModuliForArithmeticGeometry §§4.1–4.3.
-- *The strict henselization of a local ring of a scheme at a geometric point, its completion, and the
-  preservation of regularity and dimension*: ModularCurves Layer 4D, on Tau Ceti's carrier
-  `TauCeti.StrictHenselization.algebra`. *Finite locally free commutative
+- *The strict henselization of a local ring of a scheme at a geometric point and its completion*:
+  ModularCurves Layer 0.9, on Tau Ceti's carrier `TauCeti.StrictHenselization.algebra`. *The
+  preservation and reflection of regularity and dimension under completion of a Noetherian local
+  ring*: already in Tau Ceti at the pin (`TauCeti.AdicCompletion.ringKrullDim_eq`,
+  `TauCeti.AdicCompletion.isRegularLocalRing_iff`; supplier contracts). *Finite locally free commutative
   groups over a base with Cartier duality, and effective faithfully flat descent of affine schemes and
-  of morphisms*: ModularCurves 0B, 0E.
+  of morphisms*: ModularCurves Layers 0.2, 0.5.
 - *Diagonalizable groups, groups of multiplicative type and tori over an arbitrary base scheme*: base
   change of groups, the diagonalizable group `D_S(M)` of a finitely generated `M` with its
   homomorphisms, smoothness, kernels, exact sequences and, for finite `M`, Cartier duality; the
@@ -155,9 +157,13 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
   automorphism groups of geometric fibre functors): already in Tau Ceti at the pin (the
   `GaloisCategory (TauCeti.FiniteEtaleScheme S)` instance and `TauCeti.FiniteEtaleScheme.fiber`;
   supplier contracts), which realises EtaleCohomologyFoundations §F.0.2. *The topological invariance
-  of the étale site, and étale duality on schemes of finite type over a field and on traits*:
-  EtaleCohomologyFoundations §§F.0.4, F.5.
+  of the étale site*: EtaleCohomologyFoundations §F.0.4.
 - *Absolute cohomological purity (Gabber)*: LefschetzPencilsAndVanishingCycles §0.10.
+- *Gabber's affine Lefschetz theorem for the principal punctured opens of a strictly henselian
+  excellent regular local ring, the normalised dualizing complex of such a ring with its exchange
+  along open immersions, local duality on strictly local excellent schemes, and the local Lefschetz
+  theorem for a regular local ring* ([CS24] Lemma 3.2.3 with the inputs of its proof):
+  EtaleDualityAndPerverseSheavesPartII §§7.1, 6.11, 6.12, 7.3. §1.6 here uses §7.3.
 - *The Auslander–Buchsbaum formula; the algebraic Hartogs principle for `M~` on an affine scheme
   (along a weakly `M`-regular pair, with no Noetherian hypothesis, and across a closed subset of
   depth `≥ 2` for finite modules over Noetherian rings); the recovery of a flat algebra over a
@@ -212,18 +218,26 @@ descriptions ([C19] §§2, 5, 6 and Appendix A).
 - *Raynaud's embedding into abelian schemes, descent of finite locally free groups along
   `p`-completely faithfully flat maps, Dieudonné theory over perfect fields*:
   FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.40, R07.1.41, R07.2.8.
+- *Gabber's comparison of `Br(X)` with `H²(X, 𝔾_m)_tors` for affine schemes and for quasi-projective
+  schemes of finite type over an infinite field; the Brauer residue sequence of a smooth integral
+  variety over a field of characteristic `0`, with its invariance under removing a closed subset of
+  codimension `≥ 2`; and the residue of a cyclic class over a henselian discrete valuation ring for
+  `n` invertible*: HeightsRationalPointsAndObstructions §§2.6c, 2.6d, 2.16b. The forms kept here
+  are wider: §7.10 treats every scheme with an ample invertible sheaf, §8.7 every locally Noetherian
+  scheme and closed subset along which its local rings are regular of dimension `≥ 2`, §8.16 every
+  Noetherian integral regular scheme, and §8.14 every discrete valuation ring, including the
+  `p`-primary part when the residue field is perfect of characteristic `p`, with the sign of
+  Convention 8.
 
-**Owned here and to be imported by later roadmaps.** Two roadmaps later in the merge order plan
-statements of this roadmap; each is owned here, and each of those roadmaps is to import it from the
-section named instead of planning it.
+**Owned here and to be imported by later roadmaps.** SchemeAndStackFoundationsPartII, later in the
+merge order, takes statements of this roadmap; each is owned here, and that roadmap is to import it
+from the section named instead of planning it.
 
 - Supports for the flat cohomology of animated rings, its Postnikov, étale and nilpotent
   consequences, excision along finitely generated ideals, the comparison of a Noetherian local ring
   with its completion, and fpqc hyperdescent with descent modulo `p` (Layer 3): to be imported by
   SchemeAndStackFoundationsPartII (its animated point and support interfaces, finite-ideal excision
   and fpqc hyperdescent).
-- The local étale duality statements and the local Lefschetz theorem (§§1.4–1.5): to be imported by
-  EtaleDualityAndPerverseSheavesPartII (its local Lefschetz hyperplane theorem).
 - The Brauer comparison of Gabber and de Jong for schemes with an ample line bundle (§7.10): to be
   imported by SchemeAndStackFoundationsPartII (its Layer 1 Brauer comparison).
 
@@ -469,7 +483,7 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
   `TauCeti.StrictHenselization.maximalIdeal_eq_map` (`…/MaximalIdeal.lean`): for a local ring `R` and a
   separable closure `Ω` of its residue field, the strict henselization `R^{sh}` as the colimit of the étale
   neighbourhoods pointed in `Ω`, a henselian local ring whose maximal ideal is generated by `𝔪_R`.
-  ModularCurves Layer 4D builds the rest of the strict-henselization theory used here on this carrier.
+  ModularCurves Layer 0.9 builds the rest of the strict-henselization theory used here on this carrier.
 - `TauCeti.AlgebraicGeometry.StructureSheaf.toOpenₗ_injective_of_isSMulRegular` and
   `TauCeti.AlgebraicGeometry.StructureSheaf.toOpenₗ_bijective_of_isWeaklyRegular`
   (`TauCeti/AlgebraicGeometry/Modules/Tilde/Hartogs.lean`): for any commutative ring `R`, `R`-module `M`
@@ -496,6 +510,10 @@ Pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
 - `TauCeti.IsRegularLocalRing.depth_eq_ringKrullDim`
   (`TauCeti/RingTheory/RegularLocalRing/CohenMacaulay.lean`, Stacks 00NQ): a regular local ring has depth
   equal to its Krull dimension (§§1.8, 7.6, 7.11).
+- `TauCeti.AdicCompletion.ringKrullDim_eq` and `TauCeti.AdicCompletion.isRegularLocalRing_iff`
+  (`TauCeti/RingTheory/AdicCompletion/LocalRing.lean`, Stacks 07NV, 07NY): for a Noetherian local ring
+  `R`, the completion along the maximal ideal has the same Krull dimension as `R`, and it is a regular
+  local ring iff `R` is (§1.1).
 - `CategoryTheory.Sheaf.Torsor` (`TauCeti/CategoryTheory/Sites/NonabelianCohomology/Torsor.lean`): torsors
   under a sheaf of groups on a site, with their category and `CategoryTheory.Sheaf.NonabelianH1`; the file
   has no functoriality along morphisms of sites, which §7.3 takes from SchemeAndStackFoundations §1.15.
@@ -537,8 +555,7 @@ coherent reflexive modules on `X` and on `U`; in particular `j_*F` is coherent f
 `henselian_finiteEtale_equivalence`, on Tau Ceti's henselization `TauCeti.Henselization.algebra`;
 §0.17 the theory of depth and of Cohen–Macaulay modules and rings (depth bounds, unmixedness,
 Serre's conditions), on the pinned carriers Mathlib `IsLocalRing.depth` and Tau Ceti
-`Module.IsCohenMacaulay`, `TauCeti.Ring.IsCohenMacaulay`; §0.21 regular ring maps, G-rings and
-excellent rings and schemes (§1.4); §0.24 perfect schemes and
+`Module.IsCohenMacaulay`, `TauCeti.Ring.IsCohenMacaulay`; §0.24 perfect schemes and
 perfection; §1.15 torsors; §1.18 stacks in
 groupoids, stackification and 2-fibre products; §1.21 quotient stacks, in particular `actionQuotient G X`,
 whose case of the trivial action is the classifying stack `BG` of a group `G` over `X` (§7.3); §§2.1–2.3
@@ -548,7 +565,7 @@ classes; §2.7 `cohomologyWithSupport`,
 `depth_localCohomology_vanishing`; §2.9 `bigSheaf`, `bigSheaf_isSheaf`
 (the big-site sheaf of a quasi-coherent module is a sheaf for the fpqc topology) and `GmEtale` (the
 restriction of `𝔾_m` to the small étale site, a sheaf there), the sheaves `𝔾_a`, `𝔾_m`, `μ_n` themselves
-being Tau Ceti's; §2.9a `Scheme.fppfCohomology` and `Scheme.fppfCohomologyWithSupport` (fppf cohomology on
+being Tau Ceti's; §2.9a *Scheme.fppfCohomology* and *Scheme.fppfCohomologyWithSupport* (fppf cohomology on
 the big fppf site and its form with supports in a closed subset, with `H⁰_Z` the kernel of restriction
 to the open complement, the long exact sequence, the sequence of a triple, the empty and the whole
 support, and excision for an open containing the support; §0.2); §2.10
@@ -568,12 +585,12 @@ scheme along a closed subscheme and coherent formal modules (§1.7). Assumed as 
 
 ### From TauCetiRoadmap.ModularCurves
 
-Layer 4D: strict henselization of a local ring of a scheme at a geometric point, on Tau Ceti's
-carrier `TauCeti.StrictHenselization.algebra` (above), its completion, and preservation of regularity and dimension under completion
-(`ringKrullDim_adicCompletion`, `isRegularLocalRing_adicCompletion_iff`). 0B: finite locally free
-commutative group schemes over a base with Cartier duality, its compatibility with base change, and the
-constant group `M_S` (used in §7.12c). 0E: effective faithfully flat descent of affine schemes, of
-sections and of morphisms (used in §7.12e).
+Layer 0.9: strict henselization of a local ring of a scheme at a geometric point, on Tau Ceti's
+carrier `TauCeti.StrictHenselization.algebra` (above), and its completion; the preservation of
+regularity and dimension under completion, which Layer 0.9 consumes, is Tau Ceti's (above). Layer 0.2:
+finite locally free commutative group schemes over a base with Cartier duality, its compatibility with
+base change, and the constant group `M_S` (used in §7.12c). Layer 0.5: effective faithfully flat
+descent of affine schemes, of sections and of morphisms (used in §7.12e).
 
 ### From TauCetiRoadmap.ReductiveGroups
 
@@ -592,7 +609,7 @@ and composition isomorphisms and their coherence (§§7.12a, 7.12c). §1.1 the d
 `D_S(M)`, the base change from `Spec ℤ` of `TauCeti.DiagonalizableGroup.groupScheme`, and
 `D_S(φ) : D_S(M) → D_S(N)` for `φ : N → M`; `D_S(M)` is commutative, affine, faithfully flat and of
 finite presentation over `S`, with fibre `D(M)` at every point, isomorphic over `Spec R` to the Tau
-Ceti group, and for finite `M` to the group `Spec_S 𝒪_S[M]` of ModularCurves 0B (§§7.12a, 7.12c).
+Ceti group, and for finite `M` to the group `Spec_S 𝒪_S[M]` of ModularCurves Layer 0.2 (§§7.12a, 7.12c).
 §1.2 for connected `S`, `φ ↦ D_S(φ)` is a bijection from the homomorphisms `N → M` onto the
 homomorphisms `D_S(M) → D_S(N)`; for every `S` these are the locally constant functions
 `S → Hom(N, M)`, and their sheaf is represented by the constant group `Hom(N, M)_S` (§§7.12a, 7.12d,
@@ -602,7 +619,7 @@ on `S`, and, for nonempty `S`, étale iff moreover `M` is finite (§7.13). §1.4
 injective `φ`, `D_S(φ)` is faithfully flat, and a short exact sequence of finitely generated groups
 gives a short exact sequence of sheaves on the big fppf site; `D_S(ℤ)` and `D_S(ℤ/n)` are the sheaves
 `𝔾_m` and `μ_n` of SchemeAndStackFoundations §2.9 (§§7.12a, 7.12e, 7.13). §1.5 for finite
-`M`, `D_S(M)` is the Cartier dual of the constant group `M_S` of ModularCurves 0B, with no
+`M`, `D_S(M)` is the Cartier dual of the constant group `M_S` of ModularCurves Layer 0.2, with no
 invertibility of `|M|` (§§7.12a, 7.12c). §2.1 the predicates diagonalizable (`G ≅ D_S(M)`), of
 multiplicative type (diagonalizable on the members of an fppf cover) and torus (the same with free
 groups), invariant under isomorphism and stable under base change and fibre products, the last two
@@ -634,7 +651,7 @@ free group and in §7.10 for the `𝔾_m`-gerbe of a torsion class of `H²(X, �
 ### From TauCetiRoadmap.EtaleCohomologyFoundations
 
 §F.0.4 étale topological invariance (the étale site of a scheme and of a nil-thickening of it
-coincide); §F.5 exceptional inverse image and duality on its stated domains.
+coincide).
 
 ### From TauCetiRoadmap.LefschetzPencilsAndVanishingCycles
 
@@ -642,6 +659,15 @@ coincide); §F.5 exceptional inverse image and duality on its stated domains.
 `i : Z → X` of pure codimension `c` and `n` invertible on `X`, `Ri^!(ℤ/n) ≅ ℤ/n(−c)[−2c]` through the
 fundamental class. Used locally: `H^i_𝔪(R, ℤ/ℓ) = 0` for `i < 2 dim R` when `R` is regular local and
 `ℓ` invertible ([CS24] Theorem 3.1.3).
+
+### From TauCetiRoadmap.EtaleDualityAndPerverseSheavesPartII
+
+§7.3 the Lefschetz hyperplane theorem in local étale cohomology: for a regular local ring `(R, 𝔪)`,
+not necessarily excellent, an `f ∈ 𝔪` and a prime `ℓ` invertible in `R`, restriction
+`H^i_𝔪(R, ℤ/ℓ) → H^i_𝔪(R/(f), ℤ/ℓ)` of étale cohomology with supports in the closed point is
+bijective for `i < dim R − 1` and injective for `i = dim R − 1` ([CS24] Lemma 3.2.3). Used in §1.6
+for a complete regular local ring and `f ≠ 0`, read on fppf cohomology with supports (§0.2) through
+SchemeAndStackFoundations §2.10. Assumed as stated there.
 
 ### From TauCetiRoadmap.DerivedDeRhamCohomology
 
@@ -775,10 +801,11 @@ only; the sign of the residue is fixed here by Convention 8.
 
 Layer 0 develops fppf cohomology with supports, on the construction of SchemeAndStackFoundations
 §2.9a, and proves the two commutative-algebra lemmas on regular sequences that every later vanishing
-reduces to. Layer 1 is classical: the virtual dimension, the
-étale-depth bound for coefficients of order invertible in `R` through absolute purity and local
-duality, and Zariski–Nagata purity through algebraization over punctured spectra; the bound for
-every commutative finite étale group is Layer 6's (§6.3), through purity for complete intersections.
+reduces to. Layer 1 is classical: the virtual dimension, the étale-depth bound for coefficients of
+order invertible in `R` through absolute purity and the local Lefschetz theorem of
+EtaleDualityAndPerverseSheavesPartII, and Zariski–Nagata purity through algebraization over
+punctured spectra; the bound for every commutative finite étale group is Layer 6's (§6.3), through
+purity for complete intersections.
 Layer 2 turns the perfect-base Dieudonné triangle of PrismaticCohomologyPartIII into the crystalline
 key formula with supports for perfect `𝔽_p`-schemes, and Layer 3 develops flat cohomology of animated rings, from the construction,
 deformation triangle, `p`-adic continuity and principal excision of PrismaticCohomologyPartIII, far
@@ -1033,7 +1060,8 @@ taken from there; what is new here is the integer `virtualDimension` and its beh
 `RingTheory.Sequence.IsWeaklyRegular`, `Ideal.ofList`; DeformationAndDerivedPatchingAlgebra §3.4
 (absolute local complete intersections); DerivedDeRhamCohomology §§0.19, 0.21 (Cohen
 factorizations and the absolute complete-intersection criterion); PerfectoidSpaces §P7.16a
-(*regular-cohen-presentations*); ModularCurves Layer 4D (completion and strict henselization).
+(*regular-cohen-presentations*); ModularCurves Layer 0.9 (completion and strict henselization);
+Tau Ceti `TauCeti.AdicCompletion.ringKrullDim_eq`.
 
 API (each a target):
 - Every Noetherian local ring has a Cohen presentation, which may be chosen with `B` complete and
@@ -1062,7 +1090,7 @@ API (each a target):
   DeformationAndDerivedPatchingAlgebra §3.4 makes the choice of presentation irrelevant.
 - Complete intersections are stable under completion, henselization and strict henselization:
   the flat-local criterion of DeformationAndDerivedPatchingAlgebra §3.4 applied to `R → R̂`, `R → R^h`
-  and `R → R^{sh}`, whose closed fibres are fields (ModularCurves Layer 4D), together with
+  and `R → R^{sh}`, whose closed fibres are fields (ModularCurves Layer 0.9), together with
   `virtualDimension` and `dim` being unchanged.
 
 **Checks.**
@@ -1124,82 +1152,6 @@ The three-generated ideals of maximal projective dimension are a target of this 
   class of `x` is killed by `𝔪`), hence `pd(R̃/I) = 2 = dim R̃` by the Auslander–Buchsbaum formula, and
   `vdim(R̃/I) = 2 − 3 = −1 = dim R̃ − 3` (§1.1); for a field `R̃`, `I = 0` gives `pd = 0 = dim R̃`.
 
-### 1.4 Local étale duality on excellent regular local rings
-
-Prove, for an excellent regular local ring `(R, 𝔪)` of dimension `d` and a prime `ℓ` invertible in
-`R`:
-(a) Gabber's affine Lefschetz theorem in the form used: if `R` is strictly henselian and `f ∈ 𝔪`,
-then `H^i_ét(Spec R[1/f], ℤ/ℓ) = 0` for `i > d` ([ILO14] XV, Corollaire 1.2.4, as used in [CS24]
-(3.2.3.2), p. 33);
-(b) the complex `Ω = (μ_ℓ^{⊗d})[2d]` on `(Spec R)_ét` is dualizing ([ILO14] XVII, Théorème 0.2 of the
-published version, Théorème 0.9 of arXiv v1, which makes the constant sheaf dualizing on a regular
-excellent scheme; `Ω` differs from it by an invertible object), normalised by the fundamental class of
-absolute purity ([ILO14] XVI, Théorème 3.1.1); for an open immersion `j : V → Spec R`, `j^!Ω` is the
-restriction `j^*Ω` ([SGA4] XVIII, Proposition 3.1.8(iii)) and is dualizing on `V`, and
-`Rj_* ∘ D_V ≅ D ∘ j_!` for `D = RHom(−, Ω)` and `D_V = RHom(−, j^*Ω)` ([SGA5] I, Proposition 1.12(a));
-these are the references of [CS24] proof of Lemma 3.2.3, p. 33;
-(c) local duality: if `R` is strictly henselian, then for a bounded constructible complex `K` of
-`ℤ/ℓ`-modules, `H^i_𝔪(R, K)` is Pontryagin dual to the stalk at the closed point of
-`H^{−i}(RHom(K, Ω))` (SGA 5 I, (4.2.2), as used in [CS24] proof of Lemma 3.2.3, p. 33,
-which first reduces to strictly henselian `R`).
-Route: once `Ω` is dualizing on `Spec R`, the other clauses of (b) and all of (c) are formal. For the
-closed point `i : x → Spec R`, absolute purity gives `i^!Ω ≅ ℤ/ℓ`. For an open immersion `j`,
-`j^! = j^*` (EtaleCohomologyFoundations §F.5), the exchange `Rj_* D_V ≅ D j_!` is the adjunction of
-`j_!` and `j^*` under `RHom`, and biduality on `V` for `F` follows from biduality on `Spec R` for
-`j_!F`, because `j^* D D j_! F ≅ D_V D_V F` by the exchange and `j^* RHom(A, B) ≅ RHom(j^*A, j^*B)`.
-For (c), `RΓ_𝔪(R, K) = RΓ(x, i^!K)` with `x` separably closed, and applying `i^!` to biduality
-`K ≅ D D K` gives `i^!K ≅ RHom(i^*DK, i^!Ω) ≅ RHom((DK)_x, ℤ/ℓ)`; since `ℤ/ℓ` is injective over
-itself, taking `H^i` gives the duality. The bound (a) and the dualizing property of `Ω` on `Spec R`
-are Gabber's theorems at the locators above and are the substance of this target.
-*Needs:* EtaleCohomologyFoundations §F.5 (exceptional inverse image, biduality and duality on
-traits); LefschetzPencilsAndVanishingCycles §0.10 (absolute purity, which normalises (b));
-SchemeAndStackFoundations §§0.21, 2.15 (excellence, Gabber's affine proper base change).
-
-**Checks.**
-- For `d = 1` (a strictly henselian excellent discrete valuation ring) and `f` a uniformizer,
-  `Spec R[1/f]` is the spectrum of a field of `ℓ`-cohomological dimension `1`, so (a) holds, and (b)
-  is EtaleCohomologyFoundations §F.5's trait dualizing complex `μ_ℓ[2]`.
-- For `d = 0` (a separably closed field) `(μ_ℓ^{⊗0})[0] = ℤ/ℓ` and (c) is linear duality of
-  `𝔽_ℓ`-vector spaces.
-- The twist and shift in (b) are forced by absolute purity: for `R` strictly henselian,
-  `H^{2d}_𝔪(R, μ_ℓ^{⊗d}) ≅ ℤ/ℓ` and `H^i_𝔪(R, ℤ/ℓ) = 0` for `i ≠ 2d`; a shift by `[d]` would put the
-  class in the wrong degree.
-- For `d = 1`, `R` a strictly henselian excellent discrete valuation ring with fraction field `L`, `f`
-  a uniformizer and `j : Spec L → Spec R`, (c) for `K = j_!ℤ/ℓ` and the exchange of (b) give
-  `H^i_𝔪(R, j_!ℤ/ℓ) ≅ Hom(H^{2−i}(L, μ_ℓ), ℤ/ℓ)`, which is `0`, `ℤ/ℓ`, `ℤ/ℓ(−1)` for `i = 0, 1, 2`
-  (`cd_ℓ L = 1`, `H^1(L, μ_ℓ) = L^×/L^{×ℓ} ≅ ℤ/ℓ`, `H^0(L, μ_ℓ) = μ_ℓ`). The sequence
-  `0 → j_!ℤ/ℓ → ℤ/ℓ → i_*ℤ/ℓ → 0` with absolute purity (`H^i_𝔪(R, ℤ/ℓ)` is `0` for `i < 2` and
-  `ℤ/ℓ(−1)` for `i = 2`) and `H^1(k, ℤ/ℓ) = 0` for the separably closed residue field `k` gives the
-  same three groups. With the shift `[1]` in place of `[2]` the formula would give
-  `H^0_𝔪(R, j_!ℤ/ℓ) ≅ Hom(H^1(L, μ_ℓ), ℤ/ℓ) ≅ ℤ/ℓ`, although that group lies in the stalk
-  `(j_!ℤ/ℓ)_x = 0`.
-- Strict henselianity is needed in (c): for the finite field `R = 𝔽_2` (`d = 0`), `ℓ = 3`, `K = ℤ/3` and
-  `i = 1`, `H^1_𝔪(R, K) = H^1(𝔽_2, ℤ/3) = Hom(Ẑ, ℤ/3) ≅ ℤ/3`, while `RHom(K, ℤ/3)` is `ℤ/3` in degree `0`,
-  so its stalk in degree `−1` is `0`; over the separable closure `𝔽̄_2` both sides are `0`.
-
-### 1.5 The local Lefschetz theorem
-
-Prove: for a regular local ring `(R, 𝔪)`, `f ∈ 𝔪` and a prime `ℓ` invertible in `R`, the map
-`H^i_𝔪(R, ℤ/ℓ) → H^i_𝔪(R/(f), ℤ/ℓ)` is bijective for `i < dim R − 1` and injective for
-`i = dim R − 1` ([CS24] Lemma 3.2.3, p. 33). Route: with `j : Spec R[1/f] → Spec R`, the claim is
-`H^i_𝔪(R, j_!(ℤ/ℓ)) = 0` for `i < dim R`; reduce to `R` strictly henselian by the local-to-global
-sequence (§0.2) and to `R` complete by the henselian completion comparison (PrismaticCohomology
-§2.0); then §1.4(a) gives `H^i(R[1/f], ℤ/ℓ) = 0` for `i > dim R`, which §1.4(b) turns into the
-vanishing of the stalk of `H^i(RHom(j_!ℤ/ℓ, (μ_ℓ^{⊗d})[2d]))` for `i > −d`, and §1.4(c) concludes.
-*Needs:* §§0.2, 1.4; PrismaticCohomology §2.0 (henselian completion comparison off `V(I)`);
-SchemeAndStackFoundations §2.15 (`gabber_affine_proper_base_change`); ModularCurves Layer 4D
-(strict henselization, completion, regularity of the completion).
-
-**Checks.**
-- For `R` a discrete valuation ring (`dim R = 1`) and `f` a uniformizer: only injectivity in degree
-  `0` is claimed, and `H^0_𝔪(R, ℤ/ℓ) = 0 → H^0(k, ℤ/ℓ) = ℤ/ℓ` is injective; bijectivity fails.
-- For `f = 0 ∈ 𝔪`, `R/(f) = R` and the map is the identity of `H^i_𝔪(R, ℤ/ℓ)`, bijective in every
-  degree; in the route `Spec R[1/0] = ∅`, so `j_!(ℤ/ℓ) = 0` and `H^i_𝔪(R, j_!ℤ/ℓ) = 0` for all `i`, in
-  agreement. A unit `f` lies outside the hypothesis `f ∈ 𝔪` (then `R/(f) = 0`).
-- The range stops below `dim R`: for `R = k⟦x, y⟧` with `k` separably closed of characteristic
-  `≠ ℓ` and `f = x`, both sides vanish in degrees `≤ 1`, while in degree `2 = dim R` the map is
-  `0 → H^2_𝔪(k⟦y⟧, ℤ/ℓ) ≅ ℤ/ℓ(−1)`, not surjective.
-
 ### 1.6 The étale-depth bound for coefficients of invertible order
 
 Prove: for a Noetherian local ring `(R, 𝔪)` and a commutative finite étale `R`-group `G` whose order
@@ -1212,15 +1164,17 @@ generators. For `n > 1` put `R_1 = R̃/(f_1, …, f_{n−1})`, `R_2 = R̃/(f_n)`
 of étale sheaves on `Spec R̃` (étale sites ignore nilpotents) and `vdim(R_*) ≥ vdim(R) + 1` reduce to
 `n ≤ 1`. For `n = 0`, `R` is regular and absolute purity gives `H^i_𝔪(R, ℤ/ℓ) = 0` for
 `i < 2 dim R`. For `n = 1`, `R = R̃/(f)` with `f ≠ 0` and `vdim(R) = dim R̃ − 1`; absolute purity gives
-`H^i_𝔪(R̃, ℤ/ℓ) = 0` for `i < 2 dim R̃`, and the local Lefschetz theorem (§1.5:
+`H^i_𝔪(R̃, ℤ/ℓ) = 0` for `i < 2 dim R̃`, and the local Lefschetz theorem
+(EtaleDualityAndPerverseSheavesPartII §7.3, [CS24] Lemma 3.2.3:
 `H^i_𝔪(R̃, ℤ/ℓ) → H^i_𝔪(R̃/(f), ℤ/ℓ)` is bijective for `i < dim R̃ − 1`) carries this to
 `H^i_𝔪(R, ℤ/ℓ) = 0` for `i < dim R̃ − 1 = vdim(R)`. The reduction to hypersurfaces works for every
 finite étale `G` and is reused in §6.3. This target is the case of `etaleDepth_ge_virtualDimension`
 (§6.3) in which the order of `G` is invertible in `R`, proved here without the perfectoid input of
 Layers 2–6.
-*Needs:* §§0.2, 1.1, 1.5; LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.0.4
+*Needs:* §§0.2, 1.1; EtaleDualityAndPerverseSheavesPartII §7.3 (local Lefschetz);
+LefschetzPencilsAndVanishingCycles §0.10; EtaleCohomologyFoundations §F.0.4
 (étale sites ignore nilpotents); SchemeAndStackFoundations §2.10 (fppf and étale cohomology of `ℤ/ℓ`
-agree); PrismaticCohomology §2.0; ModularCurves Layer 4D.
+agree); PrismaticCohomology §2.0; ModularCurves Layer 0.9.
 
 **Checks.**
 - For `R` regular this gives `H^i_𝔪(R, ℤ/ℓ) = 0` for `i < dim R`, weaker than absolute purity.
@@ -1338,9 +1292,10 @@ only `H^0_𝔪(R, ℤ/ℓ) = 0`.
 
 §§0.1–0.2; DeformationAndDerivedPatchingAlgebra §3.4; DerivedDeRhamCohomology §§0.19, 0.21 and the
 complete-intersection defect contract; PerfectoidSpaces §P7.16a;
-ModularCurves Layer 4D; LefschetzPencilsAndVanishingCycles §0.10;
-EtaleCohomologyFoundations §§F.0.4, F.5; PrismaticCohomology §2.0; SchemeAndStackFoundations
-§§0.14, 0.17, 0.21, 2.7, 2.10, 2.15, 4.7–4.8; LocalPurity §§1.3, 2.1, 2.2; Tau Ceti
+ModularCurves Layer 0.9; LefschetzPencilsAndVanishingCycles §0.10;
+EtaleDualityAndPerverseSheavesPartII §7.3; EtaleCohomologyFoundations §F.0.4; PrismaticCohomology §2.0;
+SchemeAndStackFoundations §§0.14, 0.17, 2.7, 2.10, 4.7–4.8; LocalPurity §§1.3, 2.1, 2.2; Tau Ceti
+`TauCeti.AdicCompletion.ringKrullDim_eq`,
 `TauCeti.IsLocalRing.restrictPunctured`, the instance `GaloisCategory (TauCeti.FiniteEtaleScheme S)`,
 `TauCeti.FiniteEtaleScheme.fullyFaithfulPullbackιOfTwoLeDepth`, `TauCeti.IsRegularLocalRing.depth_eq_ringKrullDim`,
 `TauCeti.isRegularRing_of_isRegularLocalRing`, `ModuleCat.projectiveDimension_add_depth_le_ringKrullDim`.
@@ -2231,11 +2186,11 @@ intersection of dimension `≥ d` or regular of dimension `≥ max(d − 1, 1)`;
 bound; see the Notes on the sources under References). Route: by the local-to-global spectral sequence and quasi-compactness
 (§§0.2–0.3) reduce to strictly henselian local `X` with `Z ≠ ∅`; strict henselizations of complete
 intersections (regular rings) are complete intersections (regular rings) of the same dimension
-(DeformationAndDerivedPatchingAlgebra §3.4; ModularCurves Layer 4D). Noetherian induction on `Z`: at a
+(DeformationAndDerivedPatchingAlgebra §3.4; ModularCurves Layer 0.9). Noetherian induction on `Z`: at a
 generic point `z` of `Z` the Mayer–Vietoris sequence for `U ∪ (X ∖ Z)` and the local theorems §§6.2, 6.5
 for `𝒪_{X,z}` shrink `Z`; at `Z = {𝔪}` it is §6.2 or §6.5.
 *Needs:* §§0.2, 0.3, 6.2, 6.5; DeformationAndDerivedPatchingAlgebra §3.4;
-ModularCurves Layer 4D.
+ModularCurves Layer 0.9.
 
 **Checks.**
 - For `X = Spec R`, `R` regular local of dimension `2`, `Z` the closed point and `d = 3`:
@@ -2322,7 +2277,7 @@ Tau Ceti `CategoryTheory.Sheaf.Torsor`; Mathlib `CategoryTheory.yonedaGrpObj`,
 Prove `isRegularLocalRing_uniqueFactorizationMonoid`: a regular local ring is a unique factorization
 domain (Mathlib `UniqueFactorizationMonoid`; it is a domain by Tau Ceti `TauCeti.IsRegularLocalRing.isDomain`),
 and so is its strict henselization (Auslander–Buchsbaum; [SGA2] XI, Théorème 3.13(i), p. 105). Route: the strict
-henselization of a regular local ring is regular (ModularCurves Layer 4D: it is Noetherian, flat with
+henselization of a regular local ring is regular (ModularCurves Layer 0.9: it is Noetherian, flat with
 closed fibre a field, so its dimension and embedding dimension are those of `R`); induct on the
 dimension, the cases `dim R ≤ 2` being Tau Ceti `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`:
 for `x ∈ 𝔪 ∖ 𝔪²`, `x` is prime, and a height-one prime `P ∌ x` of `R` gives a rank-one projective module
@@ -2332,7 +2287,7 @@ regular local rings of smaller dimension by the Tau Ceti instance
 (projective dimension `≤ dim R` by `TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE`, and finite
 projective modules over a local ring are free), so `P[1/x]` has one over `R[1/x]`, hence is stably free
 of rank one, hence free; Nagata's criterion concludes.
-*Needs:* ModularCurves Layer 4D; SchemeAndStackFoundations §3.4 (Weil divisors and Picard groups);
+*Needs:* ModularCurves Layer 0.9; SchemeAndStackFoundations §3.4 (Weil divisors and Picard groups);
 Mathlib `IsRegularLocalRing`, `UniqueFactorizationMonoid`, `IsRegularRing.isRegularLocalRing_localization`;
 Tau Ceti `TauCeti.IsRegularLocalRing.isDomain`, `TauCeti.IsRegularLocalRing.uniqueFactorizationMonoid`,
 `TauCeti.IsRegularLocalRing.hasProjectiveDimensionLE`, `TauCeti.isRegularRing_of_isRegularLocalRing`.
@@ -2370,7 +2325,7 @@ API (each a target):
   holds because complete intersections are Cohen–Macaulay (DeformationAndDerivedPatchingAlgebra §3.4),
   and the strict henselization `R^{sh}` is again a complete intersection of the same dimension
   (DeformationAndDerivedPatchingAlgebra §3.4, the flat-local criterion applied to `R → R^{sh}`, whose
-  closed fibre is a separable field extension; ModularCurves Layer 4D), so the same applies to it.
+  closed fibre is a separable field extension; ModularCurves Layer 0.9), so the same applies to it.
 
 **Checks.**
 - `k⟦x, y⟧` is parafactorial (factorial of dimension `2`).
@@ -2496,7 +2451,7 @@ under geometric local factoriality the divisor sequence
 `0 → 𝔾_m → g_*𝔾_{m,K} → ⊕_{x∈X^{(1)}} (i_x)_*ℤ → 0` on `X_ét` is exact; positive-degree cohomology of
 pushforwards from points is torsion; `H^1(X, (i_x)_*ℤ) = 0` and `R^1 g_*𝔾_m = 0` (Hilbert 90) give the
 injection in degree two.
-*Needs:* §7.4; SchemeAndStackFoundations §§2.11, 2.15, 2.22; ModularCurves Layer 4D; Mathlib
+*Needs:* §7.4; SchemeAndStackFoundations §§2.11, 2.15, 2.22; ModularCurves Layer 0.9; Mathlib
 `UniqueFactorizationMonoid`.
 
 **Checks.**
@@ -2601,7 +2556,7 @@ A group over a scheme `S` is an object of Mathlib's `Grp (Over S)`, and base cha
 `TauCeti.DiagonalizableGroup.groupScheme`, with coordinate ring `A[M]` over an affine open
 `Spec A ⊂ S` and contravariant in `M`, and proves it commutative, affine, faithfully flat and of
 finite presentation over `S`, with fibre `D(M)` at every point, isomorphic over `Spec R` to the Tau
-Ceti group and, for finite `M`, to the group `Spec_S 𝒪_S[M]` of ModularCurves 0B. Its
+Ceti group and, for finite `M`, to the group `Spec_S 𝒪_S[M]` of ModularCurves Layer 0.2. Its
 homomorphisms are GroupSchemesOverABase §1.2 (over a connected `S`, `φ ↦ D_S(φ)` is a bijection from
 `Hom(N, M)` onto the homomorphisms `D_S(M) → D_S(N)`; over any `S`, they are the locally constant
 functions `S → Hom(N, M)`), and for finite `M` it is Cartier dual to the constant group `M_S`
@@ -2652,14 +2607,14 @@ GroupSchemesOverABase §2.2 proves that a group of multiplicative type is diagon
 change to the members of some étale cover (SGA 3 X, 4.5). Stated here are the Cartier-dual criterion
 for finite groups and the Lean form of tori.
 
-Prove: a commutative finite locally free group `G` over `S` (ModularCurves 0B; over `Spec R`, an
+Prove: a commutative finite locally free group `G` over `S` (ModularCurves Layer 0.2; over `Spec R`, an
 object of `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`) is of multiplicative type iff its
 Cartier dual (over `Spec R`, `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual R G`) is
 étale over `S`. Route: for finite `M`, `D_S(M)` and the constant group `M_S` are Cartier dual
 (GroupSchemesOverABase §1.5), a commutative finite étale group is étale-locally constant, Cartier
-duality commutes with base change (ModularCurves 0B), and both conditions are local on `S` for the
+duality commutes with base change (ModularCurves Layer 0.2), and both conditions are local on `S` for the
 fppf topology.
-*Needs:* GroupSchemesOverABase §§1.5, 2.1; ModularCurves 0B; Tau Ceti
+*Needs:* GroupSchemesOverABase §§1.5, 2.1; ModularCurves Layer 0.2; Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`,
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDual`.
 
@@ -2752,8 +2707,8 @@ Route for (a): étale-locally on `S`, `G` and `G′` are diagonalizable (GroupSc
 Zariski-locally, `u` is some `D(φ)` (GroupSchemesOverABase §1.2), whose kernel is `D(M/φ(N))`
 (GroupSchemesOverABase §1.4); the subgroup of `G` with character sheaf the cokernel of `X^*(u)`
 (GroupSchemesOverABase §2.7) maps to `ker u` by a morphism that is étale-locally an isomorphism, hence
-an isomorphism by descent of morphisms (ModularCurves 0E).
-*Needs:* GroupSchemesOverABase §§1.2, 1.4, 2.1–2.3, 2.7; ModularCurves 0E; ReductiveGroups Layer 9D
+an isomorphism by descent of morphisms (ModularCurves Layer 0.5).
+*Needs:* GroupSchemesOverABase §§1.2, 1.4, 2.1–2.3, 2.7; ModularCurves Layer 0.5; ReductiveGroups Layer 9D
 (for (b) over affine bases); Mathlib `CategoryTheory.IsPullback`, `AlgebraicGeometry.IsClosedImmersion`.
 
 **Checks.**
@@ -2836,7 +2791,7 @@ need not be parafactorial (the three-dimensional node has `Pic(U_R) ≅ ℤ`); f
 in degree `2`.
 *Needs:* §§0.2, 0.5, 6.2, 6.5, 7.4, 7.5, 7.12, 7.13; GroupSchemesOverABase §§2.1, 2.3;
 DeformationAndDerivedPatchingAlgebra §§3.4, 6.9;
-ModularCurves Layer 4D; for the Lean form, Convention 7 (Tau Ceti `AlgebraicGeometry.Scheme.Gm`, Mathlib
+ModularCurves Layer 0.9; for the Lean form, Convention 7 (Tau Ceti `AlgebraicGeometry.Scheme.Gm`, Mathlib
 `CategoryTheory.Sheaf.cohomologyPresheaf`).
 
 **Checks.**
@@ -2885,7 +2840,7 @@ DeformationAndDerivedPatchingAlgebra §6.9) gives `Pic(U_R) = 0`, §7.12 gives `
 
 §§0.1–0.5, 1.1, 6.2, 6.5; DeformationAndDerivedPatchingAlgebra §§3.4, 6.9;
 GroupSchemesOverABase §§0.1, 1.1–1.5, 2.1–2.3, 2.7;
-ModularCurves 0B, 0E, Layer 4D; ReductiveGroups Layer 9D; AlgebraicModuliForArithmeticGeometry §§4.1–4.3;
+ModularCurves Layers 0.2, 0.5, 0.9; ReductiveGroups Layer 9D; AlgebraicModuliForArithmeticGeometry §§4.1–4.3;
 SchemeAndStackFoundations §§0.3, 0.6, 0.17, 1.15, 1.18, 1.21, 2.7, 2.9–2.11, 2.15, 2.22, 3.4;
 Tau Ceti `TauCeti.AlgebraicGeometry.LineBundleClass`, `TauCeti.IsLocalRing.puncturedSpectrum`,
 `AlgebraicGeometry.Scheme.Gm`, `AlgebraicGeometry.Scheme.mu`, `AlgebraicGeometry.Scheme.powHom`,
@@ -2957,7 +2912,7 @@ stated for commutative `G`; see the Notes on the sources under References. The d
 `ringChar k ≠ 0`, `H²` of `gmSmallEtale (Spec K)` (Convention 7) at `Spec K` vanishes for every finite
 separable extension `K/k` (Mathlib `FiniteDimensional`, `Algebra.IsSeparable`).
 *Needs:* §§0.1, 0.5, 7.6, 7.13; GroupSchemesOverABase §2.1; SchemeAndStackFoundations §§1.15, 2.3, 2.11,
-2.15; ModularCurves Layer 4D; for the Lean form of (d), §6.3 and Convention 7.
+2.15; ModularCurves Layer 0.9; for the Lean form of (d), §6.3 and Convention 7.
 
 **Checks.**
 - For `R′ = R` all maps in (b), (c), (e) are identities.
@@ -3305,23 +3260,23 @@ punctured spectrum, §8.10 describes `Br(ℤ_p⟦x⟧)` inside `Br(Frac ℤ_p⟦
 ### Dependencies
 
 §§0.1–0.5, 3.5, 6.3, 6.5, 7.6, 7.9–7.11, 7.12c, 7.13; GroupSchemesOverABase §§2.1–2.3;
-SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.10, 2.11, 2.15, 2.22; ModularCurves Layer 4D;
+SchemeAndStackFoundations §§1.15, 2.1–2.3, 2.10, 2.11, 2.15, 2.22; ModularCurves Layer 0.9;
 ArithmeticGaloisDuality §R02.2.4; Tau Ceti
 `AlgebraicGeometry.Scheme.Gm`, `TauCeti.IsLocalRing.puncturedSpectrum`, `TauCeti.SplitTorus.groupScheme`;
 Mathlib `AlgebraicGeometry.QuasiCompact`, `Algebra.IsSeparable`.
 
 ## Downstream consumers
 
-Each roadmap below is to import the sections named from here, which own them, instead of planning
+The roadmap below is to import the sections named from here, which own them, instead of planning
 them (see Scope and ownership).
 
-- SchemeAndStackFoundationsPartII is to import fppf cohomology with supports (§0.2), the supports,
-  nilpotent invariance, consequences of `p`-adic continuity, excision along finitely generated ideals,
-  the completion comparison for Noetherian local rings and fpqc hyperdescent with descent modulo `p`
-  of flat cohomology of animated rings (Layer 3), the torsion of `𝔾_m`-cohomology (§7.9) and the
-  Brauer comparison of §7.10.
-- EtaleDualityAndPerverseSheavesPartII is to import the local duality statements on excellent regular local
-  rings and the local Lefschetz theorem (§§1.4–1.5).
+- SchemeAndStackFoundationsPartII is to import étale excision, the comparison with étale supports
+  and continuity for fppf cohomology with supports (§§0.2–0.3), the vanishing in degrees `≥ 2` of
+  flat cohomology of a perfect `𝔽_p`-algebra with coefficients of `p`-power order (§2.1), the
+  supports, nilpotent invariance, consequences of `p`-adic continuity, excision along finitely
+  generated ideals, the completion comparison for Noetherian local rings and fpqc hyperdescent with
+  descent modulo `p` of flat cohomology of animated rings (Layer 3) and the Brauer comparison of
+  §7.10.
 
 ## Worked examples
 
@@ -3359,7 +3314,7 @@ them (see Scope and ownership).
   Ann. Sci. ÉNS 55 (2022); arXiv:1908.07480, Lemma 2.3.2.
 - **[ILO14]** L. Illusie, Y. Laszlo and F. Orgogozo (eds.), *Travaux de Gabber sur l'uniformisation locale et
   la cohomologie étale des schémas quasi-excellents*, Astérisque 363–364 (2014); arXiv:1207.3648,
-  Exposés XV, XVI, XVII, XVIII-A.
+  Exposé XVIII-A.
 - **[Gro66]** A. Grothendieck, *Le groupe de Brauer II: théorie cohomologique*, Séminaire Bourbaki, exposé
   297 (1966), §1.
 - **[Gro68]** A. Grothendieck, *Le groupe de Brauer I–III*, in *Dix exposés sur la cohomologie des schémas*,
@@ -3398,8 +3353,7 @@ them (see Scope and ownership).
 - **[BH]** W. Bruns and J. Herzog, *Cohen–Macaulay rings*, Cambridge 1993, Definition 2.3.1.
 - **[SGA3]** M. Demazure and A. Grothendieck (eds.), *Schémas en groupes (SGA 3)*, Exposés VIII–X.
 - **[SGA4]** M. Artin, A. Grothendieck and J.-L. Verdier, *Théorie des topos et cohomologie étale des schémas
-  (SGA 4)*, Exposés VII, X, XVIII.
-- **[SGA5]** A. Grothendieck, *Cohomologie ℓ-adique et fonctions L (SGA 5)*, Exposé I.
+  (SGA 4)*, Exposés VII, X.
 
 ### Notes on the sources
 
