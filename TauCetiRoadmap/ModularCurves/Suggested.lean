@@ -101,7 +101,7 @@ Headline theorems stated here: KM 2.5.1 (pointed morphisms are homomorphisms), K
 representable, affine and rigid implies representable) and its consequence KM 4.7.2 for the naive
 full-level problem (the affine fine curve `Y_full(N)` for `N ≥ 3`, smooth of relative dimension one
 over every base) with the relative dimension one of `Y₁(N)` for `N ≥ 4` (Layer 5.1), KM 5.2.1 (the
-Axiomatic Regularity Theorem) with the ring-theoretic core of KM 5.3.4, the First Main Theorem for
+Axiomatic Regularity Theorem), the First Main Theorem for
 `[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1 applied to the pinned problems, with the étaleness of
 `[Γ₁(N)]` where `N` is invertible), the existence of the
 universal formal deformation (Layer 7.4), KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite
@@ -131,8 +131,9 @@ Layers 3.2, 3.3 and 4.3), points of exact order, cyclic subgroups and Drinfeld b
 relative representability and finiteness of `[Γ(N)]` and `[Γ₁(N)]` over every base (KM 3.6.0 for
 these two; Layers 4.1, 4.2 and 4.4), `Y₁(N)` for `N ≥ 4` from the universal Tate normal form (Layer
 5.1), the level-three rigidifier (KM 2.2.11) and the simultaneous-problem, double-rigidifier and
-free-action steps of the proof of KM 4.7.0 (Layer 3.5), the high Frobenius twists of the proof of
-KM 5.3.6 (Layer 8.7), the invariant rings of the Legendre and level-three lines (Layer 6.5), and
+free-action steps of the proof of KM 4.7.0 (Layer 3.5), the ring-theoretic core of the rigidity
+engine KM 5.3.4 (`FormalGroup.natCast_eq_zero_of_pow_mem_span`) and the high Frobenius twists of the
+proof of KM 5.3.6 (Layer 8.7), the invariant rings of the Legendre and level-three lines (Layer 6.5), and
 the henselization of a local ring with its comparison map to the strict henselization, the
 dimension and the regularity of the completion of a Noetherian local ring (Layer 0.9), and the
 algebraic reduction of geometric irreducibility: a connected scheme smooth over a field is
@@ -162,7 +163,9 @@ Headline theorems not statable at the pins, and what each lacks:
   affine base, and `𝔾_m` and `μ_N` as fpqc sheaves over any base are at the pin;
 * the determinant map of `Y_full(N)` with its fixed-pairing fibres `Y(N, ζ)` (Layer 5.2) and the
   twisted curve `Y(ρ)` (Layer 5.3): the scheme-theoretic Weil pairing;
-* every statement of Layer 10: the quotient curves `Y_H` and the projective `j`-line.
+* every statement of Layer 10: the diamond action of `(ℤ/Nℤ)ˣ` on `Y₁(N)`, hence the quotient
+  curves `Y_H` with their `j`-maps to the projective `j`-line (the projective line itself is Tau
+  Ceti's `TauCeti.AlgebraicGeometry.projectiveLine`).
 -/
 
 @[expose] public section
@@ -1061,24 +1064,6 @@ theorem axiomaticRegularityOfQuotients {P P' : ModuliProblem (Spec intRing.{u})}
   sorry
 
 /-! ## Layers 8.6–8.8: the First Main Theorem for `[Γ(N)]` and `[Γ₁(N)]` -/
-
-/-- The ring-theoretic core of the rigidity engine KM 5.3.4 (Layer 8.7): for a one-parameter
-formal group law `G` over an arbitrary ring `R` (commutativity is not used: only the
-degree-`pⁿ` part of `G(X,Y) = X + Y + …` is read), if `X^{pⁿ} = 0` cuts out a
-subgroup scheme — stated universally, `G(X,Y)^{pⁿ}` lies in the ideal `(X^{pⁿ}, Y^{pⁿ})` of
-`R⟦X,Y⟧` — then `p = 0` in `R`. KM's proof isolates the binomial coefficients: comparing
-total-degree-`pⁿ` terms forces `(X+Y)^{pⁿ} = X^{pⁿ} + Y^{pⁿ}`, so `C(pⁿ, i) = 0` in `R` for
-`0 < i < pⁿ`; `i = 1` gives `pⁿ = 0` and `i = p^{n-1}`, whose binomial coefficient is `p`
-times an integer prime to `p`, gives `p = 0`. The full KM 5.3.4 additionally identifies the
-subgroup with `Ker(Fⁿ)`; the scheme-level engine KM 5.3.3 and the rigidity assertions
-Rigid I–III (KM 5.3.2.1–5.3.2.3) are specified in README Layer 8.7. -/
-theorem formalGroup_p_eq_zero_of_pow_mem_span {R : Type u} [CommRing R]
-    (F : FormalGroup R) (p : ℕ) [Fact p.Prime] {n : ℕ} (hn : 1 ≤ n)
-    (h : F.toPowerSeries ^ p ^ n ∈
-      Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) R) ^ p ^ n,
-        MvPowerSeries.X 1 ^ p ^ n}) :
-    (p : R) = 0 :=
-  sorry
 
 /-- The First Main Theorem for `[Γ(N)]` (KM 5.1.1 applied to it, Layers 8.7–8.8): the pinned
 Drinfeld problem `ModuliProblem.gamma`, relatively representable by the Drinfeld-basis scheme
