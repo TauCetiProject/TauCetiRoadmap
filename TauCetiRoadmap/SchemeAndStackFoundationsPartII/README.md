@@ -1,6 +1,6 @@
 # Roadmap: scheme and stack foundations, part II — flat cohomology
 
-**Summary.** Flat cohomology is cohomology for the fppf topology, and it can record torsors that étale cohomology misses. Over 𝔽_p[t], for example, the group α_p, whose points over A are the elements a with a^p=0, has H¹_fppf(𝔽_p[t],α_p)=𝔽_p[t]/𝔽_p[t]^p, with the torsor x^p=t nonzero; étale cohomology would give 0. This second part of the scheme and stack foundations builds the complete and henselian theory of flat cohomology with commutative finite locally free coefficients: how it changes when a ring is replaced by a quotient, a henselization or a completion. It follows Česnavičius–Scholze, *Purity for flat cohomology*, §§5.6–5.7, and Bouthier–Česnavičius, *Torsors on loop groups and the Hitchin fibration*, §2.1.
+**Summary.** Flat cohomology is cohomology for the fppf topology, and it can record torsors that étale cohomology misses. Over 𝔽_p[t], for example, the group α_p, whose points over A are the elements a with a^p=0, has H¹_fppf(𝔽_p[t],α_p)=𝔽_p[t]/𝔽_p[t]^p, with the torsor x^p=t nonzero; étale cohomology would give 0. This second part of the scheme and stack foundations builds the complete and henselian theory of flat cohomology with commutative finite locally free coefficients: how it changes when a ring is replaced by a quotient, a henselization or a completion. Its theorems are those of Česnavičius–Scholze, *Purity for flat cohomology*, §§5.6–5.7, with the henselian-pair and algebraization inputs of Bouthier–Česnavičius, *Torsors on loop groups and the Hitchin fibration*, §2.1.
 
 Rings are commutative and unital, the zero ring included. Unless a statement changes the base, R is an ordinary ring and G a commutative finite locally free group scheme over R, such as μ_n. Several results evaluate G on animated R-algebras, that is, simplicial commutative R-algebras up to weak equivalence.
 
@@ -65,7 +65,6 @@ Prove the following statement. For any henselian pair (R,I) and commutative fini
 **Checks.**
 
 - For ℤ_p and μ_p, H²=Br(ℤ_p)[p]=0=H²(𝔽_p,μ_p), while H¹(ℤ_p,μ_p)≃ℤ/p for p odd.
-- For (R,0) the comparison is the identity.
 - For R=ℂ[[t]] and μ_n, Pic=0 and Br=0 on both sides, so both H² groups are 0.
 
 **Proof route.** The supplier henselian torsor/gerbe lifting theorem gives injectivity for finite flat G, bijectivity on H¹ and injectivity on H² for smooth affine groups. The Bégueri resolution 0→G→Res_(R′/R)𝔾_m→Q→0, with R′ the coordinate ring of the Cartier dual G*, and the five lemma reduce surjectivity to surjectivity of H²(R,Res_(R′/R)𝔾_m)_tors→H²(R/I,Res_(R′/R)𝔾_m)_tors, since H²(R/I,G) is torsion; by finite pushforward and the smooth fppf–étale comparison this is H²_et(R′,𝔾_m)_tors→H²_et(R′/IR′,𝔾_m)_tors. The pair (R′,IR′) is henselian since R→R′ is finite. The torsion H² classes over R′/IR′ are Azumaya classes by affine Gabber, so lift them through the PGL_n torsor description and henselian smooth torsor lifting over (R′,IR′).
@@ -92,7 +91,6 @@ Prove the following statement. Fix an ordinary ring R, a commutative finite loca
 
 **Checks.**
 
-- For R=ℤ, A=ℤ[[t]] and a=t, the identity cosimplicial A-algebra satisfies the statement directly; t need not come from R.
 - For a=p coming from R=ℤ and A=ℤ_p, the split cover A→A×A has a contracting Čech object and recovers RΓ(A,G).
 - For a=1 derived completeness forces every ring to be 0, hence both cohomology complexes are 0.
 
@@ -219,8 +217,7 @@ Prove the following statement. For a Noetherian henselian pair (A,I) whose compl
 **Checks.**
 
 - For (A,I)=(ℤ_(p)^h,(p)) and F(C)=C, A→ℤ_p is injective; the residue 1∈𝔽_p lifts to 1 in both rings.
-- For I=0, Â=A and every comparison is the identity.
-- For F the constant two-element set, F(A)→F(Â) is the identity and exactly the same residue elements lift on either side.
+- The hypothesis that F commute with filtered colimits is needed. Take (A,I)=(ℤ_(p)^h,(p)), so Â=ℤ_p, and F(C)=Hom_A(ℤ_p,C), the A-algebra maps out of ℤ_p, which does not commute with filtered colimits. The reduction ℤ_p→𝔽_p in F(A/I) is the image of the identity of ℤ_p in F(Â). But F(A) is empty: a ring map ℤ_p→A followed by the inclusion A⊂ℤ_p is a ring endomorphism of ℤ_p, hence the identity (it fixes ℤ and maps p^kℤ_p into p^kℤ_p for every k), which would make the countable ring A surject onto the uncountable ℤ_p.
 
 **Proof route.** Write Â as a filtered colimit of smooth A-algebras by Popescu. Each stage has an A/I-point inherited from Â; henselian smooth lifting gives an A-retraction. Descend a proposed equality or lift to one smooth stage and apply its retraction.
 
@@ -234,7 +231,6 @@ Prove `flatCohomology_henselian_invariance`: for a henselian pair (R,I) in the `
 
 - For (ℤ_(p)^h,p) and μ_p with p odd, H¹≃ℤ/p maps onto 0 on 𝔽_p, so bijectivity cannot be demanded in degree one.
 - For the same pair, H²(μ_p)=0 on both sides.
-- For I=0 the comparison is the identity in every degree.
 - For the henselian pair (𝔽_p[[t]],(t)) and G=α_p, the additive Frobenius sequence gives H¹=𝔽_p[[t]]/𝔽_p[[t]]^p≠0, which maps onto H¹(𝔽_p,α_p)=𝔽_p/𝔽_p^p=0, and H²=0 on both sides; degree one fails injectivity for infinitesimal coefficients as well as for μ_p.
 
 **Proof route.** Use varying-base continuity to reduce to the henselization of a finite-type ℤ-algebra along a finite ideal; gap:henselized-formal-fibres gives the geometrically regular completion map. Apply the finitary-functor completion comparison of §2.1, proved from Popescu and henselian smooth lifting, to the cohomology functor. Use complete continuity and the independent H² lemma. Descend and lift the finite data, then pass through filtered colimits, where cohomology with commutative coefficients commutes with the colimit; retain surjectivity only in degree one.
@@ -248,7 +244,6 @@ Prove `flatCohomology_algebraization`: let B be a topological ring, with the uni
 **Checks.**
 
 - For B=𝔽_p{t} with its t-adic topology, B̂=𝔽_p[[t]] and both H²(μ_p)=0.
-- For a discrete topological ring B, B̂=B and every high-degree comparison is the identity.
 - The preceding noncomplete example has countable versus uncountable H¹(μ_p), so a degree-one extension would fail.
 - For a henselian pair (A,I), take B=A and B′=I with the topology whose neighbourhoods of zero are the subsets containing I; then B̂=A/I and the statement is the degree-≥2 part of §2.2 (CS24 Example 5.6.11, p.77). If B′ were only required to have quasi-inverses, the pair (ℤ_(3),3ℤ_(3)) with this topology would be admitted, with completion 𝔽_3; there the conclusion fails, since H²(ℤ_(3),μ_3) contains Br(ℤ_(3))[3], which contains the class unramified at 3 of a cubic algebra over ℚ with invariants 1/3 at 2 and −1/3 at 5, while H²(𝔽_3,μ_3)=0. The criterion of §2.0 excludes this example.
 - On a nonzero ring B with the indiscrete topology the only open subring is B, the completion is the zero ring, and B is not a henselian nonunital subring of itself, since −1 has no quasi-inverse. The hypothesis is needed: for B=ℚ, H²(ℚ,μ₂)=Br(ℚ)[2]≠0 (Kummer, with Pic(ℚ)=0) while H²(0,μ₂)=0.
@@ -292,7 +287,6 @@ Prove the following statement. Let R→R′ be Noetherian rings, I⊂R an ideal,
 **Checks.**
 
 - For ℤ_(p)^h→ℤ_p and U=D(p), the comparison is ℤ/p→ℤ/p on H²(μ_p).
-- For R→R the hypothesis on every quotient holds and the map is the identity for any allowed U.
 - For I=0 the equality of quotients already forces R≃R′; no flatness hypothesis has been inserted.
 
 **Proof route.** Use Noetherian formal comparison and excision to compare supports on the complement of U. Use henselian invariance for the affine ambient terms. Use the independent punctured H² injectivity input for the boundary of the long exact sequence; higher degrees then follow.
