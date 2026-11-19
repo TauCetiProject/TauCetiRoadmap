@@ -14,9 +14,10 @@ hyperforms and hyperdensities; the analytic operations on it; microfunctions and
 wavefront set; and the embedding of distributions.
 
 The first headline theorem is **purity**: if `M` is a real-analytic manifold of dimension `n` and
-`X` a complexification, then `𝓗^q_M(O_X) = 0` for every `q ≠ n`, so that `B_M` is the only
-nonzero local cohomology sheaf and its sections over an open `U` are the relative cohomology
-`Hⁿ_U(W, O)` of any complex neighbourhood `W` with `W ∩ M = U`. The second is **flabbiness**:
+`X` a complexification, then `𝓗^q_M(O_X) = 0` for every `q ≠ n`, so that `𝓗ⁿ_M(O_X)` is the only
+nonzero local cohomology sheaf; once the normal bundle of `M` over an open `U` is oriented, the
+sections of `B_M` over `U` are the relative cohomology `Hⁿ_U(W, O)` of any complex neighbourhood `W`
+with `W ∩ M = U`. The second is **flabbiness**:
 every hyperfunction on an open subset of `M` extends to every larger open subset, and the
 extensions form a coset of the hyperfunctions supported in the complement. The third is
 **compact analytic duality**: for a compact `K ⊆ ℝⁿ` and an open neighbourhood `V` of `K` in `ℂⁿ`,
@@ -207,7 +208,10 @@ the comparison with the orientation line of the normal bundle through the same l
 naturality in the coordinates, and the normal-first convention with its sign `(−1)^(n(n+1)/2)`
 against the interleaved complex orientation (Convention 6). Relative integration uses the boundary
 convention `R₀₁ = −∂R₁`. For `M ⊆ X` a real-analytic manifold in its complexification, Layer 1 uses
-this sheaf, restricted to `M`.
+this sheaf, restricted to `M`. The orientation sheaf `or_M` of an `n`-manifold `M` is `or_(M/TM)` for
+the zero section `M ⊆ TM`, whose normal bundle is `TM`; for `M ⊆ X` prove
+`or_X|_M ≃ or_(M/X) ⊗ or_M` from `0 → TM → TX|_M → T_M X → 0`, with the normal-first identification of
+Convention 6 (Honda–Izawa–Suwa, (2.13) and (6.7), pp. 7 and 21).
 *Needs:* §0.1; Tau Ceti `TauCeti.SmoothEmbedding.NormalSpace` for the normal bundle.
 
 **Checks.**
@@ -221,8 +225,10 @@ this sheaf, restricted to `M`.
 ### Examples
 
 For `M = ℝ ⊆ ℂ` and every open `W ⊆ ℂ`, the pair sequence and `H¹(W, O) = 0` give
-`H¹_ℝ(W, O) ≅ O(W ∖ ℝ)/O(W)`: the relative cocycle `(0, f)`, with `f` holomorphic on `W ∖ ℝ`,
-represents the class of `f`, and a cocycle `(∂̄a, β)` is cohomologous to `(0, β − a|_(W∖ℝ))`. The
+`H¹_ℝ(W, O) ≅ O(W ∖ ℝ)/O(W)`: the relative cocycle `(0, −f)`, with `f` holomorphic on `W ∖ ℝ`,
+represents the class of `f`, because the connecting map of the pair sequence sends `f` to `(0, −f)`
+in the relative coordinates of Convention 4 (Honda–Izawa–Suwa, (4.5) and (6.2), pp. 13 and 19).
+A cocycle `(∂̄a, β)` is cohomologous to `(0, β − a|_(W∖ℝ))`. The
 orientation sheaf `or_(ℝ/ℂ)` is the constant sheaf `ℤ` on `ℝ` with generator `or_y`.
 
 ### Dependencies
@@ -275,7 +281,7 @@ zero outside their open domain; its restrictions are surjective and it is separa
 gluing theorem: it is a sheaf (`oneDimBoundaryPresheaf_isSheaf`). Compare the holomorphic sections
 of the encoding with ComplexKahlerGeometry's holomorphic structure sheaf on opens of `ℂ`, and the
 quotient with the local definition `B_ℝ(U) = H¹_U(W(U), O) ⊗ or`, compatibly with restriction and
-with the normal orientation `or_y`.
+with the normal orientation `or_y` (Honda–Izawa–Suwa, (6.2), p. 19).
 *Needs:* Tau Ceti `TauCeti.Hyperfunction.oneDimBoundaryPresheaf`,
 `TauCeti.Hyperfunction.oneDimBoundaryPresheaf_isSeparated`; GlobalHolomorphicFunctions §7.4 (Cousin
 I on open subsets of `ℂ`) for gluing; §§0.2–0.3 and §1.1 for the comparison.
@@ -297,7 +303,7 @@ Define the sheaf `A_M` of real-analytic functions as the holomorphic germs along
 
 ### Examples
 
-For `M = ℝ`, `X = ℂ`, `B_ℝ(U) ≅ O(W ∖ ℝ)/O(W)` for every open `W ⊆ ℂ` with `W ∩ ℝ = U` (§0.2
+For `M = ℝ`, `X = ℂ`, `B_ℝ(U) ≅ O(W ∖ ℝ)/O(W)` for every open `W ⊆ ℂ` with `W ∩ ℝ = U` (Layer 0
 example and §2.1c); with `W = ℂ ∖ (ℝ ∖ U)` this is Tau Ceti's quotient of §1.3. `B_M^(0) = B_M`. For `M` a point,
 `B_M = ℂ`. For `M = ℝⁿ`, `B_M(U) = Hⁿ_U(W, O)` for any open `W ⊆ ℂⁿ` with `W ∩ ℝⁿ = U`, after §2.1c.
 
@@ -316,7 +322,8 @@ except where a *Needs:* line says otherwise, and none of them uses purity.
 ### 2.0a MalgrangeTopVanishing
 
 **MalgrangeTopVanishing.** For `n ≥ 1`, every open `Ω ⊆ ℂⁿ` and `0 ≤ p ≤ n`, `Hⁿ(Ω, Ω^p) = 0`;
-equivalently the top-degree smooth Dolbeault operator `A^(p,n−1)(Ω) → A^(p,n)(Ω)` is onto. For
+equivalently the top-degree smooth Dolbeault operator `A^(p,n−1)(Ω) → A^(p,n)(Ω)` is onto (Malgrange,
+Lemme 3, part a, pp. 235–236, for `p = 0`; `Ω^p` is free on `Ω`). For
 `p = 0` this is `exists_sum_dbar_eq`: every smooth `f` on `Ω` is `Σ_j ∂g_j/∂z̄_j` for smooth `g_j`.
 For `n = 1` it is also GlobalHolomorphicFunctions §7.1, the global `∂̄` solver on open subsets of
 `ℂ`. Dimension `0` is treated directly.
@@ -339,10 +346,12 @@ The route is the real Laplacian on `Ω ⊆ ℝ^(2n)` (Convention 9), through fou
   against the germ `h` gives `⟨T, h⟩ = 0`, proving density. This roadmap owns the Newton potential
   of a compactly supported distribution, the exterior multipole expansion and these support
   arguments, with the exact support hypotheses stated.
-- **Local Poisson problems.** For each bounded open `O` relatively compact in `Ω`, solve `Δv = f`
-  weakly with the gradient completion of `C_c^∞(O)`, its Poincaré inequality and Riesz
-  representation in that Hilbert space, with weak identity `∫ ∇v·∇η = −∫ fη` for all test `η`;
-  PseudodifferentialOperators §6.2's interior elliptic regularity makes `v` smooth on `O`.
+- **Local Poisson problems.** For each bounded open `O` relatively compact in `Ω`, `f` is bounded on
+  `O`, hence in `L²(O)`, and `O` lies in a ball of `ℝ^(2n)`; Tau Ceti's
+  `TauCeti.PDE.existsUnique_isWeakSolutionDirichlet_laplacian_of_subset_ball`, applied to the real
+  and imaginary parts of `−f`, gives `v ∈ H¹₀(O)` with weak identity `∫ ∇η·∇v = −∫ fη` for all
+  `η ∈ H¹₀(O)`, that is `Δv = f` weakly; PseudodifferentialOperators §6.2's interior elliptic
+  regularity makes `v` smooth on `O`.
 - **The exhaustion limit.** Along the exhaustion, subtract global harmonic Runge approximants from
   the successive differences, with summable errors in the successive `C^j(K_j)` seminorms; prove
   convergence to a smooth solution of `Δv = f` on all of `Ω`, componentwise for disconnected `Ω`.
@@ -354,7 +363,8 @@ The route is the real Laplacian on `Ω ⊆ ℝ^(2n)` (Convention 9), through fou
 These Euclidean inputs are an independent construction before purity and compact duality.
 *Needs:* Tau Ceti `IsOpen.exists_isFilledIn_compact_exhaustion`,
 `InnerProductSpace.HarmonicOnNhd.analyticOnNhd`, `TauCeti.newtonianKernel`,
-`TauCeti.planarNewtonianKernel` and their fundamental-solution theorems; Mathlib
+`TauCeti.planarNewtonianKernel` and their fundamental-solution theorems,
+`TauCeti.PDE.existsUnique_isWeakSolutionDirichlet_laplacian_of_subset_ball`; Mathlib
 `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`; ComplexKahlerGeometry §5.3;
 PseudodifferentialOperators §6.2.
 
@@ -368,11 +378,12 @@ PseudodifferentialOperators §6.2.
 
 ComplexKahlerGeometry §5.3 supplies the global compact-open `C^∞` Fréchet topology on smooth
 sections of every finite-rank bundle over a finite-dimensional, second-countable Hausdorff manifold.
-Prove that it is nuclear and Fréchet–Schwartz: embed it, by a countable chart and frame restriction
-family, as the closed overlap-compatible subspace of a countable product of local smooth-section
-spaces; prove the local nuclear seminorm estimates; and prove that the restriction map is a
-topological isomorphism from this topology onto that closed subspace. Construct the continuous
-differentials and their closed kernels on these carriers.
+Prove that it is Fréchet–Schwartz: embed it, by a countable chart and frame restriction family, as
+the closed overlap-compatible subspace of a countable product of local smooth-section spaces; prove
+the local Schwartz estimates (a set bounded for the `C^(m+1)` seminorm on a compact
+neighbourhood of a compact `K` is precompact for the `C^m` seminorm on `K`, by Arzelà–Ascoli); and
+prove that the restriction map is a topological isomorphism from this topology onto that closed
+subspace. Construct the continuous differentials and their closed kernels on these carriers.
 *Needs:* ComplexKahlerGeometry §5.3.
 
 ### 2.0c CurrentResolution: compact currents and Dolbeault regularization
@@ -492,8 +503,8 @@ of `F₀′_b` with an intersection of kernels of pairings with `F₀`, so stron
 subspaces agree. Prove the annihilator and strong-dual quotient identifications. For a finite FS
 complex, verify both adjacent closed ranges before deriving the identification of the strong duals
 of its cohomology with the cohomology of the reversed transpose DFS complex. This is the FS case of
-[Komatsu, Theorem 19 (1967)](https://doi.org/10.2969/jmsj/01930366). Every transpose sign is fixed by
-§0.3's integration convention.
+[Komatsu, Theorem 19, p. 381 (1967)](https://doi.org/10.2969/jmsj/01930366). Every transpose sign is
+fixed by §0.3's integration convention.
 
 **Inputs from Mathlib and Banach space theory.** A Fréchet space is barrelled
 (`BaireSpace.instBarrelledSpace`). For `WithSeminorms.banach_steinhaus` use the norm seminorm family on
@@ -518,11 +529,12 @@ duals assumed.
 of complex Banach spaces `B_j` with compact injective continuous linear bonding maps, with its locally
 convex final topology, and `F = lim_j B_j′` with its projective seminorms `p_j`. Then `F` is Fréchet,
 the final topology identifies `L′` with `F` as vector spaces, and a finite family of seminorms is
-dominated by a later `p_j`. BanachSpaceTheory B2's Gantmacher criterion and compact-implies-weakly-
-compact give `T′′(X_B′′) ⊆ J_(Y_B)(Y_B)` for a compact `T : X_B → Y_B`, with norm at most `‖T‖` times
-the bidual norm through B1's adjoint norm comparison. A continuous functional on `F` bounded by
-`C p_j` extends by Hahn–Banach to an element of `B_j′′` of norm `≤ C`; compatibility of the projective
-coordinates and factorization through the next compact bonding map make it evaluation at a vector of
+dominated by a later `p_j` (Komatsu, Theorems 6′ and 12, pp. 375 and 377). BanachSpaceTheory B2's
+Gantmacher criterion and compact-implies-weakly-compact give `T′′(X_B′′) ⊆ J_(Y_B)(Y_B)` for a
+compact `T : X_B → Y_B`, with norm at most `‖T‖` times the bidual norm through B1's adjoint norm
+comparison. A continuous functional on `F` bounded by `C p_j` extends by Hahn–Banach to an element
+of `B_j′′` of norm `≤ C`; compatibility of the projective coordinates and factorization through the
+next compact bonding map make it evaluation at a vector of
 `B_(j+1)`, with the corresponding bound. No reflexivity of the stages is assumed.
 
 Prove bounded regularity: each `x ∈ L` lies in a stage `B_k` with `|f(x)| ≤ p_k(f)‖x‖_k`, so `ev_x`
@@ -567,7 +579,7 @@ BanachSpaceTheory B1 and B2.
 on `V`: `H_c^q(V, Ω^p(E)) = 0` for `q < n`, and `H_c^n(V, Ω^p(E))` is Hausdorff and isomorphic to
 `O(V, Ω^(n−p)(E*))′_b` by the integration pairing, with its closed-range statements and
 functoriality. Use RealAnalyticGeometry R3.2's Cartan B on the global smooth Dolbeault resolution on
-the bundle Fréchet carrier, which is nuclear FS by §2.0b: each positive-degree kernel is the
+the bundle Fréchet carrier, which is FS by §2.0b: each positive-degree kernel is the
 preceding image, so that image is closed. Apply §2.0e, checking both adjacent closed ranges, to the
 global compact-current transpose complex and its integration pairing. The scalar case is its
 specialization. ComplexKahlerGeometry §5.10's Serre duality on compact manifolds is a different
@@ -579,11 +591,13 @@ theorem. Treat `n = 0` directly. This theorem does not use purity.
 **FlatCompactAnalyticDuality.** For every `n ≥ 1`, every compact `K ⊆ ℝⁿ ⊆ ℂⁿ` and every open complex
 neighbourhood `V` of `K`: `H^q_K(V, O) = 0` for `q ≠ n`, and there is a natural complex-linear
 isomorphism `Hⁿ_K(V, O) ≃ A[K]′`, where `A[K]` is the locally convex inductive limit of holomorphic
-functions on neighbourhoods of `K` (§2.1a) and the prime is the continuous dual. Fix `dz₁ ∧ ⋯ ∧ dz_n`
-and §0.3's relative integration and normal orientation to identify the dual analytic `n`-form
-germs. This isomorphism is algebraic on the supported cohomology group; its strong quotient topology
-comparison is a target of §2.3. For `K ⊆ L`, prove that `Hⁿ_K → Hⁿ_L` is exactly the continuous
-transpose of `A[L] → A[K]`, using the integration pairing and the natural support maps; an abstract
+functions on neighbourhoods of `K` (§2.1a) and the prime is the continuous dual (Martineau's theorem
+in Honda–Izawa–Suwa, Theorem 6.10, p. 22; its hypothesis holds for real `K`, p. 23). Fix
+`dz₁ ∧ ⋯ ∧ dz_n` and §0.3's relative integration and normal orientation to identify the dual
+analytic `n`-form germs. This isomorphism is algebraic on the supported cohomology group; its strong
+quotient topology comparison is a target of §2.3. For `K ⊆ L`, prove that `Hⁿ_K → Hⁿ_L` is exactly
+the continuous transpose of `A[L] → A[K]`, using the integration pairing and the natural support
+maps; an abstract
 identification of vector spaces without this compatibility does not serve the purity argument of
 §2.1c. Sections 2.1a–2.1b prove it.
 *Needs:* §§2.1a, 2.1b.
@@ -721,7 +735,8 @@ colimits of stalks. This proves `𝓗^q_M(O) = 0` for `q < n`.
 subsets of `ℂ`. Prove that `O` and `Ω^p` have no cohomology in positive degrees on a product of open
 subsets of `ℂ`, by the one-variable `∂̄` solver with holomorphic parameters, induction on the number of
 factors and exhaustion. The finite Čech length then gives support degree at most `n`, and local frames
-give `𝓗^q_M(Ω_X^p) = 0` for `q ≠ n` and `0 ≤ p ≤ n`. For `M = ℝⁿ ⊆ ℂⁿ` the scalar statement is
+give `𝓗^q_M(Ω_X^p) = 0` for `q ≠ n` and `0 ≤ p ≤ n` (Honda–Izawa–Suwa, Theorem 2.14(1) and the remark
+after Definition 2.15, p. 8, quoting the classical theorem). For `M = ℝⁿ ⊆ ℂⁿ` the scalar statement is
 `isZero_supportedModuleHSheaf_realLocus`, stated with the real locus `realLocus` and the sheaf of
 holomorphic functions `holomorphicSheaf` on `ℂⁿ`.
 
@@ -750,9 +765,10 @@ GlobalHolomorphicFunctions §7.1.
 **Flabbiness.** For opens `U ⊆ V ⊆ ℝⁿ` put `W = ℂⁿ ∖ (ℝⁿ ∖ V)` and `Z = V ∖ U`, closed in `W`. The long
 exact sequence, MalgrangeTopVanishing on `W ∖ Z` and the Dolbeault degree bound on `W` give
 `H^(n+1)_Z(W, O) = 0`. Purity's degenerate edge comparison identifies it with `H¹_Z(V, 𝓗ⁿ_V(O))`, and
-the support sequence then makes `B(V) → B(U)` onto. This works in every real chart. FlasqueLocality
-(Tau Ceti) gives global flabbiness of the untwisted cohomology sheaves, of their orientation twists,
-of hyperforms and of `B(E)`: each twist and each bundle is locally a finite trivial sum. For an
+the support sequence then makes `B(V) → B(U)` onto (Honda–Izawa–Suwa, Theorem 2.14(2), p. 8). This
+works in every real chart. FlasqueLocality (Tau Ceti) gives global flabbiness of the untwisted
+cohomology sheaves, of their orientation twists, of hyperforms and of `B(E)`: each twist and each
+bundle is locally a finite trivial sum. For an
 arbitrary closed `Z ⊆ M` in a Stein neighbourhood `W` in the complexification, derive
 `H^q_Z(W, Ω_W^p) = 0` for `q > n` from purity and flasque supported-section acyclicity. Noncompact `M` and
 all opens are included, not only compact supports. For `M = ℝⁿ` the scalar statement is
@@ -780,8 +796,9 @@ image, also for form coefficients in local trivializations. Upgrade the flat com
 to the Hausdorff strong-dual comparison and transport it through finite chart descent, using cup
 product and §0.3's relative integration signs; prove the restriction and support maps continuous for
 their quotient and strong-dual topologies, and every limit and quotient exactness used. This gives
-**Martineau duality**: hyper-`p`-forms supported in `K` are the strong continuous dual of germs along
-`K` of analytic `(n−p)`-forms twisted by `or_M`, and scalar hyperfunctions supported in `K` pair with
+**Martineau duality** (for `M` open in `ℝⁿ`: Honda–Izawa–Suwa, Corollary 6.12, p. 23):
+hyper-`p`-forms supported in `K` are the strong continuous dual of germs along `K` of analytic
+`(n−p)`-forms twisted by `or_M`, and scalar hyperfunctions supported in `K` pair with
 germs of analytic densities. Prove nondegeneracy, surjectivity, excision and naturality in
 coordinates and densities. This is the manifold and topological enhancement of the flat theorem and
 is not an input to purity.
@@ -807,8 +824,8 @@ order, so it is not a distribution. For `M = ℝⁿ`, flabbiness extends `bv₊ 
 
 Layers 0 and 1; RealAnalyticGeometry R3.0–R3.2; ComplexKahlerGeometry §§2.3–2.5, 3.1, 4.1, 5.1, 5.3;
 GlobalHolomorphicFunctions §§0.3, 7.1; PseudodifferentialOperators §6.2; BanachSpaceTheory B1, B2;
-Tau Ceti's exhaustion, harmonic analyticity, Newtonian kernels, Schauder's theorem, polynomial hulls
-and flasque locality.
+Tau Ceti's exhaustion, harmonic analyticity, Newtonian kernels, weak Poisson problem, Schauder's
+theorem, polynomial hulls and flasque locality.
 
 ## Layer 3: analytic operations and boundary values
 
@@ -828,9 +845,9 @@ representatives.
 
 Prove `B_M ⊗_(A_M) Ω_M^p ≃ B_M^(p)` with **right placement of the form**:
 `[(α, β)] ⊗ ω ↦ [(α ∧ ω, β ∧ ω)]`. In this convention the hyperform differential is
-`[(α, β)] ↦ (−1)^n [(∂α, −∂β)]`. Prove that it squares to zero, the comparison with the analytic de
-Rham complex, Leibniz and its coordinate laws. An equivalent left-placement convention has its
-degree-dependent signs transported explicitly through this map.
+`[(α, β)] ↦ (−1)^n [(∂α, −∂β)]` (Honda–Izawa–Suwa, (6.4), p. 20). Prove that it squares to zero,
+the comparison with the analytic de Rham complex, Leibniz and its coordinate laws. An equivalent
+left-placement convention has its degree-dependent signs transported explicitly through this map.
 *Needs:* §§0.2, 1.1, 1.4.
 
 ### 3.3 Conjugation and external products
@@ -866,11 +883,12 @@ its wedge `{x + iy ∈ W : y ∈ Γ}`. Choose an open inner cone `Γ₀` whose a
 with integral `1`, and pull it back by `y ↦ y/‖y‖`. For `n = 1` use the oriented `0`-sphere: `ψ = 1` on
 the upper direction for an upper cone, `ψ = −1` on the lower direction for a lower cone, and zero on
 the other. Then `(0, −ψ)` is the relative de Rham Thom representative normalized by the normal
-orientation `y` and `R₀₁ = −∂R₁`.
+orientation `y` and `R₀₁ = −∂R₁` (Honda–Izawa–Suwa, Corollary 3.12, p. 11).
 
 For a holomorphic function `f` on the wedge, with no growth condition, define
 `bv_Γ(f) = [(0, −f ψ^(0,n−1))] ⊗ or_y`, extending the second component by zero outside the inner
-wedge in `W ∖ U`. Prove that this extension is smooth there, that it is a relative Dolbeault cocycle,
+wedge in `W ∖ U` (Honda–Izawa–Suwa, Lemma 7.10 and the definition of `b_Ω` after Example 7.14,
+pp. 28–30). Prove that this extension is smooth there, that it is a relative Dolbeault cocycle,
 and that the projection of the Thom class has the analytic-function normalization. Two normalized
 angular forms differ by `d` of a compactly supported form on a common inner angular cone; construct
 that primitive and project its product with `f` to obtain the explicit relative coboundary. Prove
@@ -931,19 +949,38 @@ condition for distributions keeps its separate carrier and meaning.
 
 Use Mathlib's `DerivedCategory.Plus` for bounded-below complexes of sheaves of complex vector spaces
 and `Functor.rightDerivedFunctorPlus`, with §0.1's abelian, sheafification, enough-injectives and
-localization comparisons. Tensoring with the constant sheaf of a locally closed subset is exact;
-prove the flatness and restriction comparisons this uses. For the locally compact Hausdorff
-finite-dimensional spaces and maps used here, construct extension by zero for open inclusions, direct
-image for closed inclusions, inverse image, and direct image with proper supports `f_!` (a section
-over `V` whose support is proper over `V`). Prove exactness of inverse image, of open extension by zero
-and of closed direct image, and left exactness of `f_!`; derive `f_!` by c-soft resolutions, proving
-their acyclicity for these functors, independence of the resolution, restriction and the support
-localization triangle. Construct the natural transformations between these functors and prove
-composition, proper base change, the projection formula for tensor products and the proper-support
-Fubini comparison used by the transforms below. Prove the finite cohomological-dimension bounds on
-Euclidean fibres and transfer them through locally finite charts. These functors extend §0.1's
-ordinary direct image and supported sections.
-*Needs:* §0.1; Mathlib `DerivedCategory.Plus`, `Functor.rightDerivedFunctorPlus`.
+localization comparisons. Extension by zero `j_!` along an open inclusion `j : U → X` is Mathlib's
+`Functor.sheafPullback` along `Over.forget U`, which Tau Ceti proves exact
+(`TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` for abelian sheaves,
+`SheafOfModules.preservesFiniteLimits_pullback_over` for sheaves of modules); §0.1's coefficient
+comparison carries it to sheaves of complex vector spaces. ComplexComparisonPartII §C6.1, with
+coefficient ring `ℂ`, supplies the stalk and section formulas of `j_!`, c-soft resolutions, derived
+compact-support sections, the support localization triangle, and the derived direct image with proper
+supports `Rf_!` (built from sections over `V` whose support is proper over `V`) for locally proper
+separated continuous maps between paracompact, locally contractible, locally compact Hausdorff spaces,
+with composition, proper agreement and base change. The spaces used here are finite-dimensional
+manifolds, possibly with boundary, and every continuous map between them is separated and proper on a
+compact neighbourhood of each point of its source, so §C6.1 applies.
+
+Direct and inverse image are Mathlib's `TopCat.Sheaf.pushforward` and `TopCat.Sheaf.pullback`; for
+abelian sheaves inverse image is exact by Mathlib's
+`Functor.sheafPullbackConstruction.preservesFiniteLimits` (the preimage map on opens is
+representably flat) and direct image along a closed embedding by Tau Ceti's
+`TauCeti.Topology.preservesFiniteColimits_pushforward_of_isClosedEmbedding`; prove that both
+exactness statements pass to sheaves of complex vector spaces, whose exactness is detected on the
+underlying abelian sheaves. Tensoring with the constant sheaf of a locally closed subset is exact;
+prove the flatness and restriction comparisons this uses. Construct the natural transformations
+between these functors and `Rf_!`, and prove the projection formula for tensor products and the
+proper-support Fubini comparison used by the transforms below. Prove the finite
+cohomological-dimension bounds on Euclidean fibres and transfer them through locally finite charts.
+These functors extend §0.1's ordinary direct image and supported sections.
+*Needs:* §0.1; Mathlib `DerivedCategory.Plus`, `Functor.rightDerivedFunctorPlus`,
+`Functor.sheafPullback`, `TopCat.Sheaf.pushforward`, `TopCat.Sheaf.pullback`,
+`Functor.sheafPullbackConstruction.preservesFiniteLimits`; Tau Ceti
+`TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback`,
+`SheafOfModules.preservesFiniteLimits_pullback_over`,
+`TauCeti.Topology.preservesFiniteColimits_pushforward_of_isClosedEmbedding`; ComplexComparisonPartII
+§C6.1.
 
 ### 3a.2 The Fourier–Sato transform
 
@@ -1092,8 +1129,9 @@ directions `(0, ±1)`.
 
 ### Dependencies
 
-Layers 0–3; RealAnalyticGeometry R0 and R3.0; ComplexKahlerGeometry §2.3; Tau Ceti's normal bundle and
-tubular neighbourhoods; Mathlib's derived categories.
+Layers 0–3; RealAnalyticGeometry R0 and R3.0; ComplexKahlerGeometry §2.3; ComplexComparisonPartII
+§C6.1; Tau Ceti's extension by zero, closed direct image, normal bundle and tubular neighbourhoods;
+Mathlib's derived categories and sheaf direct and inverse images.
 
 ## Layer 4: canonical distribution and density embedding
 
@@ -1152,8 +1190,9 @@ In the model `U ⊆ ℝⁿ` fix `W = ℂⁿ ∖ (ℝⁿ ∖ U)`, so `W ∩ ℝ�
 to `1` near `{0} × U`, with closed support in `ℂⁿ × U` contained in an open tube `T` with
 `{0} × U ⊆ T ⊆ {(z, t) : ‖z‖ < min(1, dist(t, ℝⁿ ∖ U))/3}`, the distance to the empty set being
 infinite. For a relative delta-density representative `(τ₁, τ₀₁)` use
-`(θτ₁ + ∂̄_zθ ∧ τ₀₁, θτ₀₁)`, substitute `z − t`, and pair with the distribution in `t`. Prove a common
-compact `t`-support for every compact `L ⊆ W`, smooth dependence on parameters, commutation with `∂̄`,
+`(θτ₁ + ∂̄_zθ ∧ τ₀₁, θτ₀₁)`, substitute `z − t`, and pair with the distribution in `t`
+(Honda–Izawa–Suwa, Theorem 8.1, p. 46, with the tube condition (8.8), p. 49). Prove a common compact
+`t`-support for every compact `L ⊆ W`, smooth dependence on parameters, commutation with `∂̄`,
 the cocycle laws, and independence of cutoff, tube and representative. These smooth cutoffs act on
 distribution tests and representatives.
 
@@ -1184,13 +1223,15 @@ For `n > 0` keep the exact Bochner–Martinelli normalization
 δ₀    = [(0, −(−1)^(n(n+1)/2) β_n^0)] ⊗ or_y.
 ```
 
+This is Honda–Izawa–Suwa, Definition 6.13, p. 24, and Theorem 6.14 there evaluates it on germs of
+analytic densities.
 The density kernel wedges `β` with `dz₁ ∧ ⋯ ∧ dz_n` and uses the ambient orientation line; identify
 `or_X ⊗ or_M^(−1) ≃ or_(M/X)` by the normal-first convention. Prove evaluation on germs of analytic
 densities, all derivatives of `δ`, and `δ = (bv₋(1/z) − bv₊(1/z))/(2πi)` in dimension one. Use §2.3's
 coordinate and density naturality for coordinate independence, and prove injectivity of `ι` by analytic
-Gaussian approximation in every derivative seminorm required by the local order of the distribution,
-with exponential bounds on separated supports. Glue through analytic charts and all bundle and
-orientation transitions.
+Gaussian approximation (Honda–Izawa–Suwa, Proposition 8.22, p. 53) in every derivative seminorm
+required by the local order of the distribution, with exponential bounds on separated supports. Glue
+through analytic charts and all bundle and orientation transitions.
 *Needs:* §§0.3, 2.3, 3.6, 4.3.
 
 **Checks.**
@@ -1244,7 +1285,8 @@ Cauchy transform and one-dimensional quotient presheaf.
 For every pair of opens `U ⊆ V` of `M` and every `u ∈ Db(U)`, there is `b ∈ B(V)` with `b|_U = ι_U(u)`;
 more generally every section of `B(U)` extends to `V`. For a chosen extension `b₀` the set of all
 extensions is `b₀ + ker(B(V) → B(U))`, and this kernel is the space of sections supported in `V ∖ U`.
-Prove the exact restriction sequence `0 → Γ_(V∖U)(V, B) → B(V) → B(U) → 0` and this affine description.
+Prove the exact restriction sequence `0 → Γ_(V∖U)(V, B) → B(V) → B(U) → 0` and this affine description;
+its surjectivity is flabbiness (Honda–Izawa–Suwa, Theorem 2.14(2), p. 8; §2.2).
 This is an existence statement with the full supported ambiguity; growth, regularity, covariance and
 choices of continuous extension operators are different assertions with their own hypotheses.
 *Needs:* §§2.2, 4.1.
@@ -1297,25 +1339,53 @@ Layers 2–4; ComplexKahlerGeometry §5.2; Tau Ceti's delta-series theorem.
 
 ## Downstream consumers
 
-- [ComplexComparisonPartII](../ComplexComparisonPartII/README.md) cites Layer 3a's §3a.1 (conic sheaves
-  and geometric derived functors) for extension by zero, `f_!` and c-soft resolutions.
+- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) leaves to §5.2 the point-supported
+  analytic-functional reading and the factorial-square comparison of its delta-series example.
+- [GlobalHolomorphicFunctions](../GlobalHolomorphicFunctions/README.md) identifies its §7.1 with the
+  case `n = 1` of MalgrangeTopVanishing (§2.0a).
+
+Other roadmaps cite this one in its former numbering, which maps to the sections above as follows.
+
+| Former numbering | Section |
+| --- | --- |
+| HF0 | Layer 0 |
+| HF1 | Layer 1 |
+| HF2 | Layer 2 |
+| HF2.AnalyticPreparation (MalgrangeTopVanishing) | §2.0a |
+| HF2.AnalyticPreparation.FunctionalDuality | §2.0b (the Fréchet–Schwartz property) and §2.0e |
+| HF2.AnalyticPreparation.CurrentResolution | §2.0c, with CurrentTopologyBridge in §2.0d |
+| HF2.AnalyticPreparation.SteinBundleDuality | §2.0f |
+| HF2.1 | §2.1 |
+| HF2.1a | §2.1a |
+| HF2.1b | §2.1b |
+| HF2.1c | §2.1c |
+| HF2.2 | §2.2 |
+| HF2.3 | §2.3 |
+| HF3 | Layer 3 |
+| HF3a | Layer 3a |
+| HF4 | Layer 4 |
+| HF5 | Layer 5 |
 
 ## Scope and ownership
 
-**This roadmap owns** the derived-functor, coefficient and edge comparisons for complex coefficients of
-§0.1, the relative Dolbeault complex (§0.2) and the relative orientation sheaf (§0.3); the Sato sheaves,
-hyperforms, bundle-valued hyperfunctions and hyperdensities on real-analytic manifolds and the gluing
-theorem in dimension one (Layer 1); MalgrangeTopVanishing in every dimension `n ≥ 1` (§2.0a), the
-harmonic Runge theorem, the Newton potential of a compactly supported distribution and the exterior
-multipole expansion; the Fréchet–Schwartz property of smooth sections, compact currents, Dolbeault
-regularization, the finite-colour chart refinement, the current topology bridge, the FS/DFS duality
-theory and the compact Banach-limit theorem, and Stein bundle duality (§§2.0b–2.0f); compact analytic
-duality, compact tautness, the germ topology, real-support purity, flabbiness and Martineau duality
-(§§2.1–2.3); the analytic operations and boundary values (Layer 3); conic sheaves, the geometric
-derived functors and the Fourier–Sato transform as far as Layer 3a uses them, specialization,
+**This roadmap owns** the derived-functor, coefficient and edge comparisons for complex coefficients
+of §0.1, the relative Dolbeault complex (§0.2), the relative orientation sheaf and its zero-section
+instance, the orientation sheaf of a manifold, as a sheaf on opens (§0.3; ImplicitAtlases §0.10
+defines the orientation sheaf of a topological manifold through local homology on compact sets, and
+Tau Ceti the orientation local system of a vector bundle on the fundamental groupoid of its base);
+the Sato sheaves, hyperforms, bundle-valued hyperfunctions and hyperdensities on real-analytic
+manifolds and the gluing theorem in dimension one (Layer 1); MalgrangeTopVanishing in every
+dimension `n ≥ 1` (§2.0a), the harmonic Runge theorem, the Newton potential of a compactly supported
+distribution and the exterior multipole expansion; the Fréchet–Schwartz property of smooth sections,
+compact currents, Dolbeault regularization, the finite-colour chart refinement, the current topology
+bridge, the FS/DFS duality theory and the compact Banach-limit theorem, and Stein bundle duality
+(§§2.0b–2.0f); compact analytic duality, compact tautness, the germ topology, real-support purity,
+flabbiness and Martineau duality (§§2.1–2.3); the analytic operations and boundary values (Layer 3);
+conic sheaves, the projection formula, the proper-support Fubini comparison and the Euclidean
+dimension bounds of §3a.1, the Fourier–Sato transform as far as Layer 3a uses it, specialization,
 microfunctions, the analytic wavefront set and analytic noncharacteristic pullback and products
-(Layer 3a); the distribution embedding and its comparisons (Layer 4); arbitrary-open extension and the
-examples of Layer 5.
+(Layer 3a); the distribution embedding and its comparisons (Layer 4); arbitrary-open extension and
+the examples of Layer 5.
 
 **Already in the library and consumed here.** Each object has one owner; the exact declarations are
 listed under the supplier contracts.
@@ -1335,10 +1405,14 @@ listed under the supplier contracts.
   separatedness, and the Cauchy transform with holomorphy, cutoff independence, linearity and the value
   on `δ`; §§1.3 and 4.2 prove gluing, the jump formula and the embedding.
 - *Euclidean analysis*: Tau Ceti's filled compact exhaustions of open sets, real analyticity of harmonic
-  functions and the Newtonian kernels as fundamental solutions; Schauder's theorem.
+  functions, the Newtonian kernels as fundamental solutions and the weak Poisson problem on open sets
+  inside a ball; Schauder's theorem.
 - *Polynomial convexity*: Tau Ceti's polynomial hulls, polynomial convexity of compact real sets,
   polynomial polyhedron neighbourhoods and their strictly plurisubharmonic exhaustion; §2.1a proves the
   Stein conclusion.
+- *Sheaf functors*: Mathlib's direct and inverse image and extension by zero (`Functor.sheafPullback`
+  along an open inclusion), with Tau Ceti's exactness of extension by zero and of closed direct image
+  and Mathlib's exactness of inverse image; §3a.1 consumes them.
 - *Normal bundles and tubular neighbourhoods*: Tau Ceti; §3a.3 adds the analytic comparison.
 - *The literal delta series*: Tau Ceti proves that `Σ δ^(n)/n!` converges to no distribution.
 
@@ -1358,6 +1432,10 @@ listed under the supplier contracts.
 - [GlobalHolomorphicFunctions](../GlobalHolomorphicFunctions/README.md): the compact-support
   Cauchy–Green formula (§0.3), the global `∂̄` solver on open subsets of `ℂ` (§7.1), which is
   MalgrangeTopVanishing for `n = 1`, and Cousin I (§7.4).
+- [ComplexComparisonPartII](../ComplexComparisonPartII/README.md): §C6.1's compact-support theory for
+  sheaves of modules over a commutative ring on locally compact Hausdorff spaces (the stalk and section
+  formulas of extension by zero, c-soft resolutions, derived compact-support sections, the localization
+  triangle and `Rf_!`), used in §3a.1 with coefficients `ℂ`.
 - [PseudodifferentialOperators](../PseudodifferentialOperators/README.md): differential operators and
   their density transpose (§P1.0), interior elliptic regularity (§6.2), the Fourier convention, and the
   smooth wavefront set with distribution pullback and products (§§9.1–9.2).
@@ -1374,6 +1452,10 @@ the operations of Layers 3–5, are not targets here.
 - Sheaves and flasqueness: `TopCat.Sheaf`, `TopCat.Presheaf.IsFlasque` (every restriction map is an
   epimorphism) and `TopCat.Sheaf.IsFlasque`; `ModuleCat`, `AddCommGrpCat`; the stalk exactness and
   zero-detection theorems of `Mathlib/Topology/Sheaves/Abelian.lean`.
+- Sheaf functors: `TopCat.Sheaf.pushforward`, `TopCat.Sheaf.pullback`, `Functor.sheafPullback` (the
+  left adjoint of sheaf pushforward along a continuous functor of sites; along `Over.forget U` for an
+  open `U` it is extension by zero) and `Functor.sheafPullbackConstruction.preservesFiniteLimits` (it
+  is left exact along a representably flat functor).
 - Homological algebra: `CochainComplex.mappingCone` (differential `(a, b) ↦ (−d a, f a + d b)`),
   `CochainComplex.mappingCocone`, `CochainComplex.shiftFunctor_obj_d'` (the shift by `k` multiplies the
   differential by `(−1)^k`), `CategoryTheory.IsGrothendieckAbelian.enoughInjectives`,
@@ -1389,7 +1471,7 @@ the operations of Layers 3–5, are not targets here.
   the topology of compact convergence), `TestFunction.monoCLM` (the inclusion of test functions on a
   smaller open set, zero when the sets are not nested), `ContinuousLinearMap.precompCompactConvergenceCLM`,
   `TestFunction.continuous_iff_continuous_comp` (the universal property of the inductive limit),
-  `Distribution.delta`, `Distribution.mapCLM`, `dsupport`.
+  `Distribution.delta`, `Distribution.mapCLM`, `Distribution.dsupport`.
 - Analytic functions: `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` (the identity principle).
 
 ### From Tau Ceti
@@ -1464,6 +1546,17 @@ Paths are under `TauCeti/`.
   `TauCeti.polynomialPolyhedronExhaustion`, `TauCeti.contDiffOn_polynomialPolyhedronExhaustion`,
   `TauCeti.isStrictlyPlurisubharmonicAt_polynomialPolyhedronExhaustion`,
   `TauCeti.isCompact_inter_setOf_polynomialPolyhedronExhaustion_le`.
+- *Sheaf functors* (`CategoryTheory/Sites/ExtensionByZero.lean`,
+  `Algebra/Category/ModuleCat/Sheaf/ExtensionByZero.lean`, `Topology/Sheaves/ClosedEmbedding.lean`):
+  `TauCeti.CategoryTheory.SheafExtensionByZero.preservesFiniteLimits_sheafPullback` (extension by zero
+  from a lower interval of a preorder site, `Functor.sheafPullback` along `Over.forget U`, is exact for
+  abelian sheaves), `SheafOfModules.preservesFiniteLimits_pullback_over` (the same for sheaves of
+  modules) and `TauCeti.Topology.preservesFiniteColimits_pushforward_of_isClosedEmbedding` (direct
+  image of abelian sheaves along a closed embedding is exact).
+- *The weak Poisson problem* (`Analysis/PDE/DirichletProblem.lean`):
+  `TauCeti.PDE.existsUnique_isWeakSolutionDirichlet_laplacian_of_subset_ball` (for an open `O` inside
+  a ball of `ℝ^(m+1)` and `g ∈ L²(O)`, a unique `u ∈ H¹₀(O)` with `∫ ∇v·∇u = ∫ g v` for every
+  `v ∈ H¹₀(O)`).
 - *Normal bundles* (`Geometry/Manifold/TubularNeighborhood/`): `TauCeti.SmoothEmbedding.NormalSpace` and
   `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`.
 - *The delta series* (`Analysis/Distribution/DeltaSeries.lean`): `TauCeti.not_tendsto_sum_normalized_delta_derivative`.
@@ -1510,16 +1603,30 @@ B1 (the adjoint `ContinuousLinearMap.precomp 𝕜 T`, its norm and composition, 
 bidual embedding, norming by the dual ball), B2 (Gantmacher's criterion `T**(E**) ⊆ J_F(F)` for weakly
 compact `T`, and compact implies weakly compact).
 
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+§C6.1, for sheaves of modules over a commutative ring, here `ℂ`, on locally compact Hausdorff spaces:
+the stalks of extension by zero `j_!` along an open inclusion (`F_x` on the open, zero off it) and its
+section formula; c-soft resolutions and derived compact-support sections `RΓ_c`, with
+`RΓ_c(U, F|_U) ≅ RΓ_c(X, j_!F)` and the localization triangle
+`RΓ_c(U, F|_U) → RΓ_c(X, F) → RΓ_c(Z, F|_Z)` for the closed complement `Z`; and `Rf_!` for locally
+proper separated continuous maps between such spaces that are paracompact and locally contractible,
+with composition, agreement with the direct image for proper maps, and base change.
+
 ## References
 
 - N. Honda, T. Izawa and T. Suwa, *Sato hyperfunctions via relative Dolbeault cohomology*,
   [arXiv:1807.01831](https://arxiv.org/html/1807.01831): the relative representative, local duality and
-  embedding conventions; Theorem 2.14 quotes the classical fundamental theorem (purity).
+  embedding conventions; Theorem 2.14 quotes the classical purity and flabbiness theorems.
 - Y. Ito, *Theory of (vector valued) Sato hyperfunctions*, J. Math. Tokushima Univ. 20 (1986), §§1.5–1.6:
   the route from compact duality to purity by boundary supports.
-- H. Komatsu, J. Math. Soc. Japan 19 (1967),
-  [doi:10.2969/jmsj/01930366](https://doi.org/10.2969/jmsj/01930366), Theorem 19: closed range and
-  duality for FS and DFS complexes.
+- H. Komatsu, *Projective and injective limits of weakly compact sequences of locally convex
+  spaces*, J. Math. Soc. Japan 19 (1967), 366–383,
+  [doi:10.2969/jmsj/01930366](https://doi.org/10.2969/jmsj/01930366): Theorems 6′ and 12 (pp. 375 and
+  377), inductive limits of compact sequences of Banach spaces and their strong duals; Theorem 19
+  (p. 381), closed range and duality for FS and DFS complexes.
+- B. Malgrange, *Faisceaux sur des variétés analytiques réelles*, Bull. Soc. Math. France 85 (1957),
+  231–237, Lemme 3, part a (pp. 235–236): `H^p(Ω, O) = 0` for `p ≥ n` on every open `Ω ⊆ ℂⁿ`.
 - M. Sato, T. Kawai and M. Kashiwara, "Microfunctions and pseudo-differential equations", in
   *Hyperfunctions and Pseudo-Differential Equations*, Lecture Notes in Mathematics 287 (1973), 265–529:
   microfunctions, analytic wavefronts and noncharacteristic operations.

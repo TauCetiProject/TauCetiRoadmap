@@ -39,7 +39,9 @@ place:
 * microfunctions, the analytic wavefront set and analytic noncharacteristic pullback and products
   (README Layer 3a): the pins have no Fourier–Sato transform and no specialization functor;
 * the distribution embedding in dimension `n ≥ 2` and on manifolds (README Layer 4): the pins
-  have no Sato sheaf in these dimensions.
+  have `𝓗ⁿ_{ℝⁿ}(O)` but no map from analytic functions or distributions into it (no Thom class,
+  boundary-value map or relative Dolbeault representative) to pin the embedding down, and no Sato
+  sheaf on a real-analytic manifold.
 -/
 
 open CategoryTheory CategoryTheory.Limits TopologicalSpace Filter Complex
