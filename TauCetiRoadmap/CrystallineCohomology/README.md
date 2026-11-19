@@ -188,9 +188,10 @@ target says so, and are otherwise outside it. Comparisons with étale, prismatic
   classification of finite flat group schemes and p-divisible groups by Dieudonné modules,
   Breuil–Kisin modules and their Galois representations; the K-theory of local fields and higher
   local class field theory; Habiro cohomology and q-de Rham–Witt complexes. These build on this
-  roadmap. Witt cohomology under h-covers, convergent coefficient descent, rational Witt cohomology
-  of singular schemes and Cartier transforms of periodic connections are the subject of
-  CrystallineCohomologyPartII, which starts where this roadmap stops.
+  roadmap. Witt cohomology under h-covers and rational Witt cohomology of singular schemes are the
+  subject of CrystallineCohomologyPartII, which starts where this roadmap stops; convergent
+  coefficient descent and Cartier transforms of periodic connections also build on this roadmap,
+  as later work that no roadmap plans.
 
 ## Conventions
 
