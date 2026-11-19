@@ -59,6 +59,9 @@ smoothing existence and compatibility still need the README vocabulary. These
 remain full README targets. The closed and boundary-relative topological Epstein headlines use native
 homotopy and isotopy carriers and are stated below.
 
+The README specifies the full polygonal arithmetic, helper APIs and mathematical checks.
+The definitions below support the selected geometric headlines.
+
 Only declarations whose input vocabulary is already meaningful at the current Tau Ceti
 pin are compiled below. In particular, do **not** introduce a vacuous `Prop := sorry` for
 `Subdivides`, `IsCombinatorialSurface`, relative PL approximation, or `PLStructure`.
@@ -77,18 +80,6 @@ open Complex Set Topology
 open scoped Manifold ContDiff
 
 /-! ## Layer 0: conventions and plane transport -/
-
-/-- The fixed identification of the complex plane with Mathlib's two-dimensional
-Euclidean model. It is an isometry, so metric statements transport without a separate
-comparison theorem. -/
-noncomputable def planeEquiv : ℂ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 2) :=
-  Complex.orthonormalBasisOneI.repr
-
-/-- Rotation through a right angle in the complex-plane model. -/
-def perp (u : ℂ) : ℂ := Complex.I * u
-
-/-- The oriented area form used by the polygonal engine. -/
-def det (u v : ℂ) : ℝ := ((starRingEnd ℂ) u * v).im
 
 /-- Transport into the common half-space surface family, with empty boundary.
 The construction is a prerequisite target, not an admitted chart atlas. -/
@@ -173,43 +164,6 @@ theorem PolygonalLoop.exists_simple_presentation (P : PolygonalLoop) (h : TauCet
     ∃ Q : PolygonalLoop, Q.IsSimple ∧ Q.carrier = P.carrier := by
   sorry
 
-/-- Horizontal-ray parity, with the lower endpoint included and upper endpoint excluded.
-Horizontal sides contribute nothing; side occurrences are counted with multiplicity.
-The value on the carrier is zero, and separation statements concern its complement. -/
-noncomputable def crossingParity (P : PolygonalLoop) (q : ℂ) : ZMod 2 := by
-  classical
-  exact if q ∈ P.carrier then 0 else
-    ((Finset.univ.filter fun i : Fin P.vertices.length =>
-      let u := P.vertices.get i
-      let v := P.vertices.get (finRotate _ i)
-      let a := if u.im ≤ v.im then u else v
-      let b := if u.im ≤ v.im then v else u
-      a.im < b.im ∧ a.im ≤ q.im ∧ q.im < b.im ∧
-        q.re < a.re + (q.im - a.im) * (b.re - a.re) / (b.im - a.im)).card : ZMod 2)
-
-/-- The total parity function has the fixed value zero on the polygonal carrier. -/
-theorem crossingParity_eq_zero_of_mem (P : PolygonalLoop) {q : ℂ} (hq : q ∈ P.carrier) :
-    crossingParity P q = 0 := by
-  simp [crossingParity, hq]
-
-/-- Integer winding is derived from the same polygonal crossing machinery and compared
-with Tau Ceti's analytic winding-number API. -/
-noncomputable def polygonalWinding (P : PolygonalLoop) (q : ℂ) : ℤ := by
-  classical
-  exact if q ∈ P.carrier then 0 else
-    ∑ i : Fin P.vertices.length,
-      let u := P.vertices.get i
-      let v := P.vertices.get (finRotate _ i)
-      let a := if u.im ≤ v.im then u else v
-      let b := if u.im ≤ v.im then v else u
-      if a.im < b.im ∧ a.im ≤ q.im ∧ q.im < b.im ∧
-        q.re < a.re + (q.im - a.im) * (b.re - a.re) / (b.im - a.im)
-      then (if u.im < v.im then 1 else -1) else 0
-
-/-- A piecewise-linear homeomorphism of the plane, in Tau Ceti's vocabulary. -/
-def IsPLHomeomorph (h : ℂ ≃ₜ ℂ) : Prop :=
-  TauCeti.IsPLOn h Set.univ ∧ TauCeti.IsPLOn h.symm Set.univ
-
 /-- Polygonal Jordan separation. -/
 theorem polygonal_jordan_separation (P : PolygonalLoop) (hP : P.IsSimple) :
     Nat.card (ConnectedComponents ((P.carrier)ᶜ : Set ℂ)) = 2 := by
@@ -218,7 +172,7 @@ theorem polygonal_jordan_separation (P : PolygonalLoop) (hP : P.IsSimple) :
 /-- Polygonal Schoenflies, with an explicit reference triangle. Both the map and its
 inverse are PL, and the homeomorphism is defined on the whole plane. -/
 theorem polygonal_schoenflies (P : PolygonalLoop) (hP : P.IsSimple) :
-    ∃ h : ℂ ≃ₜ ℂ, IsPLHomeomorph h ∧
+    ∃ h : ℂ ≃ₜ ℂ, TauCeti.IsPLOn h Set.univ ∧ TauCeti.IsPLOn h.symm Set.univ ∧
       h '' P.carrier = segment ℝ (0 : ℂ) 1 ∪ segment ℝ (1 : ℂ) Complex.I ∪
         segment ℝ Complex.I 0 := by
   sorry
@@ -226,14 +180,6 @@ theorem polygonal_schoenflies (P : PolygonalLoop) (hP : P.IsSimple) :
 /-! ## Layer 2: Jordan separation, polygonal crosscuts, Brouwer, and invariance of domain -/
 
 namespace IsJordanCurve
-
-/-- The bounded complementary side, used in the crosscut and accessibility conditions. -/
-def inside {J : Set ℂ} (_hJ : TauCeti.IsJordanCurve J) : Set ℂ :=
-  TauCeti.filledHull J \ J
-
-/-- The unbounded complementary side. -/
-def outside {J : Set ℂ} (_hJ : TauCeti.IsJordanCurve J) : Set ℂ :=
-  (TauCeti.filledHull J)ᶜ
 
 /-- A closed embedded arc with distinct endpoints on `J` and all other points on its inside. -/
 def IsCrosscut (J P : Set ℂ) : Prop :=
@@ -257,47 +203,11 @@ def PolygonallyAccessible (J : Set ℂ) (p : ℂ) : Prop :=
     (∀ t : unitInterval, t ≠ 1 → γ t ∈ TauCeti.filledHull J \ J) ∧
     ∃ Q : PolygonalChain, Q.carrier = Set.range γ
 
-/-- Accessibility is a condition on points of the boundary itself. -/
-theorem Accessible.mem {J : Set ℂ} {p : ℂ} (hp : Accessible J p) : p ∈ J :=
-  hp.1
-
-/-- A crosscut meets the original boundary exactly at its two distinct endpoints. -/
-theorem IsCrosscut.exists_boundary_endpoints {J P : Set ℂ} (hP : IsCrosscut J P) :
-    ∃ a b : ℂ, a ∈ J ∧ b ∈ J ∧ a ≠ b ∧ P ∩ J = {a, b} := by
-  obtain ⟨γ, hγ, hrange, hzero, hone, hne, hinterior⟩ := hP
-  refine ⟨γ 0, γ 1, hzero, hone, hne, ?_⟩
-  ext z
-  constructor
-  · rintro ⟨hzP, hzJ⟩
-    rw [← hrange] at hzP
-    obtain ⟨t, rfl⟩ := hzP
-    by_cases htzero : t = 0
-    · simp [htzero]
-    by_cases htone : t = 1
-    · simp [htone]
-    exact False.elim ((hinterior t htzero htone).2 hzJ)
-  · intro hz
-    simp only [Set.mem_insert_iff, Set.mem_singleton_iff] at hz
-    rcases hz with rfl | rfl
-    · constructor
-      · rw [← hrange]
-        exact ⟨0, rfl⟩
-      · exact hzero
-    · constructor
-      · rw [← hrange]
-        exact ⟨1, rfl⟩
-      · exact hone
-
 /-- The inside of a Jordan curve is a Jordan domain, supplying the four hypotheses of
 Carathéodory's boundary-correspondence theorem. -/
 theorem isJordanDomain_inside {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
     TauCeti.IsJordanDomain (TauCeti.filledHull J \ J) := by
   sorry
-
-/-- Simple connectivity is a library consequence of the Layer 2 output. -/
-example {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
-    IsSimplyConnected (TauCeti.filledHull J \ J) :=
-  (isJordanDomain_inside hJ).isSimplyConnected
 
 /-- The dense polygonally accessible boundary points used by the matched-cellulation
 construction. The approach arcs are finite polygonal chains. -/
