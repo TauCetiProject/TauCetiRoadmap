@@ -31,10 +31,10 @@ idempotent, mapped to `K[G]`, acts on it as the identity.
 
 Headline theorems of the roadmap that are not stated here:
 
-* The spanning half of the Brauer-character basis theorem (Layer 2), which needs a complete
-  family of simple modules indexed together with the `p`-regular classes; its count is
-  `card_simpleModules_eq_card_pRegularClasses` and its independence
-  `linearIndependent_brauerCharacter`.
+* The spanning half of the Brauer-character basis theorem (Layer 2), not stated separately:
+  Brauer characters are class functions on the `p`-regular elements, so it follows from
+  `card_simpleModules_eq_card_pRegularClasses` and `linearIndependent_brauerCharacter` by
+  counting dimensions.
 * Generalized decomposition numbers, their orthogonality relations and Brauer's second main
   theorem (Layers 5 and 7). They need the irreducible Brauer characters of every centralizer of a
   `p`-element as indexed families.
@@ -269,6 +269,22 @@ def blockCharacters {G O : Type*} [Group G] [CommRing O] [IsDomain O] (b : Monoi
   {χ | ∃ (n : ℕ) (ρ : Representation (FractionRing O) G (Fin n → FractionRing O)),
     ρ.IsIrreducible ∧ ρ.character = χ ∧
       ρ.asAlgebraHom (MonoidAlgebra.mapRingHom G (algebraMap O (FractionRing O)) b) = 1}
+
+/-- **The ordinary characters of the blocks partition `Irr(G)`.** Let `O` be a complete discrete
+valuation ring whose fraction field `K` has characteristic zero and contains a primitive `e`-th
+root of unity, `e` the exponent of `G`. For every block idempotent `e_B` of `O[G]` the set
+`blockCharacters e_B` is nonempty, and the character of every irreducible representation of `G`
+on a coordinate space `Fin n → K` lies in `blockCharacters e_B` for exactly one block idempotent
+`e_B` (Martínez, Definition 2.1, p. 9, and Theorems 2.11–2.12, p. 15). -/
+theorem blockCharacters_partition {G O : Type*} [Group G] [Finite G] [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
+    {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G)) :
+    (∀ b : Subalgebra.center O (MonoidAlgebra O G), IsBlockIdempotent b →
+        (blockCharacters (b : MonoidAlgebra O G)).Nonempty) ∧
+      ∀ (n : ℕ) (ρ : Representation (FractionRing O) G (Fin n → FractionRing O)),
+        ρ.IsIrreducible → ∃! b : Subalgebra.center O (MonoidAlgebra O G),
+          IsBlockIdempotent b ∧ ρ.character ∈ blockCharacters (b : MonoidAlgebra O G) :=
+  sorry
 
 /-! ## Layer 6: Brauer maps and defect groups -/
 

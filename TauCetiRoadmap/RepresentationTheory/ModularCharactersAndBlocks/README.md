@@ -725,9 +725,11 @@ to `K[G]` and `e_χ = χ(1)|G|⁻¹ ∑_g χ(g⁻¹) g` (§4.1, over `K`):
   `e_B = ∑_{χ ∈ Irr(B)} e_χ` in `K[G]` (Martínez, Definition 2.1, p. 9, and Theorem 2.11, p. 15).
   Route: `K` splits `G`, so `e_B` acts on an irreducible representation affording `χ` by
   `ω_χ(e_B) ∈ {0, 1}`, and `χ(e_B) = χ(1) ω_χ(e_B)`.
-- The sets `Irr(B)`, over the blocks of `O[G]`, are nonempty and partition the irreducible
-  `K`-valued characters of `G`, and `exists_blockIdempotent_iff_centralCharacter_congr` describes
-  the partition.
+- `blockCharacters_partition`: the sets `Irr(B)`, over the blocks of `O[G]`, are nonempty and
+  partition the irreducible `K`-valued characters of `G`: the character of each irreducible
+  representation on a coordinate space `Fin n → K` lies in `blockCharacters e_B` for exactly one
+  block idempotent `e_B` (Martínez, Definition 2.1, p. 9, and Theorems 2.11–2.12, p. 15);
+  `exists_blockIdempotent_iff_centralCharacter_congr` describes the partition.
 - Independence of the maximal ideal: two irreducible characters lie in one block exactly when they
   are joined by a chain `χ = χ_1, …, χ_n = ψ` with `∑_{x p-regular} χ_i(x) χ_{i+1}(x⁻¹) ≠ 0`
   (Osima's linkage criterion), a condition that involves neither the maximal ideal of `O` nor a
