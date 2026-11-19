@@ -2,6 +2,7 @@ module
 
 public import Mathlib
 public import TauCeti.Analysis.Complex.Conformal.Jordan.Domain
+public import TauCeti.Geometry.Diffeomorphism.Diffeotopy.Basic
 public import TauCeti.Geometry.Manifold.Instances.ClosedBall
 public import TauCeti.Geometry.Manifold.LocallyFlat.Basic
 public import TauCeti.Geometry.Manifold.LocallyFlat.Bicollar
@@ -52,10 +53,10 @@ the library pin: polygonal ears need the ear API; Radó's combinatorial form, th
 Hauptvermutung and Pachner need IsCombinatorialSurface and support-aware heterogeneous
 Subdivides; orientation transport needs the simplicial orientation double cover and
 its realization comparisons, including the local side-return test of layer 7;
-Euler characteristic needs those finite invariance
-results; the PL and smooth category comparisons need PL structures, compatible
-smoothings, and the corresponding relative isotopy regularity. They remain full README
-targets. The closed and boundary-relative topological Epstein headlines use native
+Euler characteristic needs those finite invariance results; the PL category comparison needs PL structures and jointly PL time-prism
+maps. The smooth relations below use the native Diffeotopy total-map carrier;
+smoothing existence and compatibility still need the README vocabulary. These
+remain full README targets. The closed and boundary-relative topological Epstein headlines use native
 homotopy and isotopy carriers and are stated below.
 
 Only declarations whose input vocabulary is already meaningful at the current Tau Ceti
@@ -73,7 +74,7 @@ noncomputable section
 namespace TauCetiRoadmap.PlanarTopology
 
 open Complex Set Topology
-open scoped Manifold
+open scoped Manifold ContDiff
 
 /-! ## Layer 0: conventions and plane transport -/
 
@@ -522,7 +523,25 @@ theorem crosscut {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) (P : Set ℂ)
 
 end IsJordanCurve
 
-/-! ## Layer 8: isotopy of closed-surface homeomorphisms -/
+/-! ## Layer 8: smooth relations and isotopy of homeomorphisms -/
+
+section SmoothIsotopy
+
+variable {M N : Type*} [TopologicalSpace M] [TopologicalSpace N]
+  [ChartedSpace (EuclideanHalfSpace 2) M] [ChartedSpace (EuclideanHalfSpace 2) N]
+
+/-- Smooth isotopy between surface diffeomorphisms, using a jointly smooth native
+ambient motion of the target and its jointly smooth inverse. -/
+def SmoothIsotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N) : Prop :=
+  ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N, ∀ x, Φ.final (φ x) = ψ x
+
+/-- At every time, the isotopy agrees with its initial map on the prescribed set. -/
+def SmoothIsotopicRel (A : Set M) (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N) : Prop :=
+  ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N,
+    (∀ x, Φ.final (φ x) = ψ x) ∧ ∀ r a, a ∈ A → Φ (r, φ a) = φ a
+
+end SmoothIsotopy
+
 
 /-- Epstein's closed-surface headline. Compactness and empty manifold boundary give
 the closed case; the README separately requires the boundary-relative theorem. -/

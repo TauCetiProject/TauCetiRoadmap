@@ -1219,7 +1219,48 @@ projection/deck comparison with the finite orientation cover in each model.
 Where the two tracks rejoin. Radó and the Hauptvermutung say that a compact surface has a piecewise-linear structure and that it is unique up to PL isomorphism; this layer says the same for homeomorphisms, isotopies, and smooth structures. Every statement is in triangulation terms; the chart-based PL manifolds of `GeometricTopology` enter only through the bridge recorded below.
 
 **From layers 3, 4, 5, and 7.** `IsPLMap`, the relative approximation theorem, Radó, the Hauptvermutung, Schoenflies, Alexander's trick.
-**From Tau Ceti and Mathlib.** `PLGroupoid` (`Geometry/Manifold/PLGroupoid.lean`), `IsManifold`, `Diffeomorph`, `Isotopic`, `IsotopicRel`.
+**From Tau Ceti and Mathlib.** `PLGroupoid` (`Geometry/Manifold/PLGroupoid.lean`),
+`IsManifold`, `Diffeomorph`, `AmbientIsotopy` (`Topology/Homotopy/Isotopy/Basic.lean`),
+and `Diffeotopy` with its total diffeomorphism, time slices, final map and forgetful
+map (`Geometry/Diffeomorphism/Diffeotopy/Basic.lean`). The unit interval has Mathlib's
+manifold-with-boundary structure (`Geometry/Manifold/Instances/Icc.lean`). For
+homeomorphism isotopies follow `Homeomorph.Isotopy` and `Homeomorph.Isotopic` in
+[Mathlib's proposed interface](https://github.com/leanprover-community/mathlib4/pull/44028):
+a continuous homotopy through homeomorphisms. Build the relative form in Tau Ceti.
+On compact Hausdorff surfaces the level-preserving total map is automatically a
+homeomorphism. The generic embedding-isotopy API remains the input for curves and arcs.
+
+**Joint regularity and relative laws.** For homeomorphisms `f,g : M ≃ₜ N`, a
+PL isotopy is a level-preserving homeomorphism `H : I × M ≃ₜ I × N` with
+`H(0,x) = (0,f(x))` and `H(1,x) = (1,g(x))`, such that `H` and `H⁻¹` are PL
+in the product PL structures. Construct those structures from the interval and
+the chosen surface triangulations: triangulate each ordered triangle prism into
+three tetrahedra, prove agreement on shared faces, and compare changes of vertex
+order by finite refinements. These finite prism constructions belong to this
+layer. Use the native PL-map API on these models. `PLIsotopic s t f g` asserts
+existence of this data. `PLIsotopicRel s t A f g` additionally requires
+`H(r,a) = (r,f(a))` for every `r : I` and `a ∈ A`.
+
+For the smooth relations fix the source and target smooth structures as charted
+instances. Define `SmoothIsotopic φ ψ` using a native
+`Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N` with `Φ.final (φ x) = ψ x` for every `x`.
+Its family is `F(r,x) = Φ(r,φ(x))`; it starts at `φ`, ends at `ψ`, and its total
+map and inverse are jointly smooth for the product corner models
+`(𝓡∂ 1).prod (𝓡∂ 2)`. Define `SmoothIsotopicRel A φ ψ` by the additional law
+`Φ(r,φ(a)) = φ(a)` for all times and all `a ∈ A`. Smooth comparison theorems
+use the compatible structures specified below. Relative category comparisons
+include `A = ∂M`, so every intermediate map agrees with the initial map on the
+boundary. A boundary-fixed self-isotopy therefore fixes it pointwise throughout.
+Ambient PL isotopies of curves and arcs use `TauCeti.AmbientIsotopy` with the same
+joint PL requirement on its total map and inverse.
+
+Prove the endpoint and time-slice formulas, forgetting regularity to a topological
+homeomorphism isotopy, reflexivity, symmetry, transitivity, composition and inverse
+compatibility, and preservation of the relative law. Include time reparametrization
+with fixed endpoints when the reparametrization has the required PL or smooth
+regularity. These give the setoids and group operations consumed by
+`SurfaceTopology` layer 9. State and prove both the ordinary and boundary-relative
+Top/PL and Top/smooth isotopy comparisons with these definitions.
 
 **Curve and arc isotopy inputs.** The following are separate targets on finite triangulated
 surfaces, proved before the homeomorphism theorem. Closed curves are parametrized embeddings
@@ -1274,6 +1315,20 @@ structure PLStructure (M : Type*) [TopologicalSpace M] where
   hK : IsCombinatorialSurface K
   e : Realization K ≃ₜ M
 
+/-- Jointly PL level-preserving total homeomorphism between the two time prisms,
+    with the endpoints and relative law specified above. -/
+def PLIsotopicRel (s : PLStructure M) (t : PLStructure N)
+    (A : Set M) (f g : M ≃ₜ N) : Prop
+def PLIsotopic (s : PLStructure M) (t : PLStructure N) (f g : M ≃ₜ N) : Prop :=
+  PLIsotopicRel s t ∅ f g
+
+/-- The chosen smooth structures are the charted instances on M and N. -/
+def SmoothIsotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N) : Prop :=
+  ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N, ∀ x, Φ.final (φ x) = ψ x
+def SmoothIsotopicRel (A : Set M) (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N) : Prop :=
+  ∃ Φ : TauCeti.Diffeotopy (𝓡∂ 2) ∞ N,
+    (∀ x, Φ.final (φ x) = ψ x) ∧ ∀ r a, a ∈ A → Φ (r, φ a) = φ a
+
 /-- Layer 5's isotopy to a PL homeomorphism, read through two PL structures; the rel form is
     layer 5's `exists_isotopicRel_plHomeomorph`. -/
 theorem PLStructure.exists_isotopic_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N) :
@@ -1293,6 +1348,10 @@ theorem isotopicRel_of_homotopicRel (f g : M ≃ₜ N)
 theorem plIsotopic_of_isotopic (s : PLStructure M) (t : PLStructure N) (f g : M ≃ₜ N)
     (hf : IsPLMap (t.e.symm ∘ f ∘ s.e)) (hg : IsPLMap (t.e.symm ∘ g ∘ s.e)) (h : Isotopic f g) :
     PLIsotopic s t f g
+theorem plIsotopicRel_of_isotopicRel (s : PLStructure M) (t : PLStructure N) (f g : M ≃ₜ N)
+    (hf : IsPLMap (t.e.symm ∘ f ∘ s.e)) (hg : IsPLMap (t.e.symm ∘ g ∘ s.e))
+    (h : IsotopicRel ((𝓡∂ 2).boundary M) f g) :
+    PLIsotopicRel s t ((𝓡∂ 2).boundary M) f g
 
 /-- Topological and PL homeomorphism classes agree. -/
 theorem homeomorph_iff_plHomeomorph {K L} (hK : IsCombinatorialSurface K)
@@ -1343,6 +1402,9 @@ theorem exists_isotopicRel_diffeomorph (s : PLStructure M) (σ : ChartedSpace (E
 /-- Isotopic diffeomorphisms of compact surfaces are smoothly isotopic. -/
 theorem smoothIsotopic_of_isotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N)
     (h : Isotopic φ.toHomeomorph ψ.toHomeomorph) : SmoothIsotopic φ ψ
+theorem smoothIsotopicRel_of_isotopicRel (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N)
+    (h : IsotopicRel ((𝓡∂ 2).boundary M) φ.toHomeomorph ψ.toHomeomorph) :
+    SmoothIsotopicRel ((𝓡∂ 2).boundary M) φ ψ
 ```
 
 **Mathematical route and formalization notes.**
@@ -1366,7 +1428,16 @@ condition of the disc theorem; equally oriented parametrizations give the positi
 case. Check fixed endpoints and fixed boundary throughout the resulting ambient isotopies.
 
 
-**Natural intermediate results.** (i) PL structures and their equivalence; (ii) the PL-structure reading of layer 5's isotopy theorem; (iii) relative finite simplicial approximation, the disc and annulus lemmas, and bigon removal; (iv) the separate two-sided, one-sided, proper-arc, and oriented-disc isotopy inputs, with based and relative qualifications; (v) finite cutting systems, the relative annulus and Möbius-band base cases, and Epstein's homeomorphism theorem; (vi) the Top/PL classification agreement; (vii) the bridge to `PLGroupoid`; (viii) corner rounding and existence of a smoothing; (ix) smoothing of piecewise-differentiable homeomorphisms: uniqueness of the smoothing, isotopy to a diffeomorphism, and smooth isotopy.
+For joint regularity, rotate the first circle coordinate of a torus by `r²`.
+Every fixed-time map is PL, but the family is not jointly PL, as a local angle
+chart shows its quadratic time dependence. It is jointly smooth. Replacing the
+angle by `|r-1/2|-1/2` gives smooth fixed-time maps and a jointly PL family, but
+fails joint smoothness at `r=1/2`. These checks concern the specified families.
+The constant isotopy of the disc satisfies the boundary-relative law. A full-turn
+rotation of an annulus starts and ends at the identity but moves boundary points
+at intermediate times, so that family fails the relative law.
+
+**Natural intermediate results.** (i) PL structures and their equivalence, finite time-prism triangulations, the joint PL/smooth isotopy predicates and their endpoint, relative and composition API; (ii) the PL-structure reading of layer 5's isotopy theorem; (iii) relative finite simplicial approximation, the disc and annulus lemmas, and bigon removal; (iv) the separate two-sided, one-sided, proper-arc, and oriented-disc isotopy inputs, with based and relative qualifications; (v) finite cutting systems, the relative annulus and Möbius-band base cases, and Epstein's homeomorphism theorem; (vi) the Top/PL classification agreement; (vii) the bridge to `PLGroupoid`; (viii) corner rounding and existence of a smoothing; (ix) smoothing of piecewise-differentiable homeomorphisms: uniqueness of the smoothing, isotopy to a diffeomorphism, and smooth isotopy.
 
 **Consequences.** `SurfaceTopology` layer 9. `GeometricTopology` layers 1 and 11.
 

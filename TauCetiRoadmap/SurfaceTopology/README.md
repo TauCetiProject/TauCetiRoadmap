@@ -1469,6 +1469,11 @@ independence and these two orientation rules are part of the twist API.
 **From PlanarTopology.** `IsArc` and `endpoints` (layer 0); Schoenflies, tameness of arcs and simple closed curves, and the collar of a two-sided curve (layer 7); `Surface.Orientation` and the boundary convention (layer 6); isotopy to a PL homeomorphism (layer 5); Epstein's theorem, the smoothing theorems, and isotopy to a diffeomorphism (layer 8).
 **From layers 4, 7, and 8.** Cutting on maps, the action on `H₁`, the named models.
 
+The PL and smooth quotient relations are PlanarTopology layer 8's jointly regular
+isotopies, with the chosen PL or compatible smooth structures. Their rel-boundary
+forms fix every boundary point at every time; the forgetful maps use the same
+endpoint maps and relative laws.
+
 **Representative formal statements.**
 
 ```lean
