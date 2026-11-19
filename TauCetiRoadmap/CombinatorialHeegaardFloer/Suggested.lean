@@ -1,6 +1,11 @@
 import Mathlib
 import TauCeti.KnotTheory.Grid.Homology.Tau
+import TauCeti.KnotTheory.Grid.Homology.Invariance
+import TauCeti.KnotTheory.Grid.Homology.Bigraded
+import TauCeti.KnotTheory.Grid.Homology.HatBigrading
 import TauCeti.KnotTheory.Grid.Move.Components
+import TauCeti.KnotTheory.Grid.Move.Tau
+import TauCeti.KnotTheory.Grid.CrossingChange.UnknottingNumber
 import TauCeti.LowDimTopology.Plumbing.ChainComplex
 import TauCeti.LowDimTopology.Plumbing.BlowUp
 import TauCeti.LowDimTopology.Plumbing.EdgeBlowUp
@@ -10,74 +15,143 @@ import TauCeti.LowDimTopology.Plumbing.EdgeBlowUp
 
 The roadmap is `README.md`; this file is not the roadmap. It states, against the pinned Mathlib
 and Tau Ceti, the headline theorems of the roadmap that are statable on the native carriers:
-invariance of the unblocked grid homology `GH⁻` of a knot grid under grid moves, as an
-Alexander-graded `K[U]`-module, and of the grid invariant `τ` (Lane G.5–G.7), and invariance of
-the characteristic-two lattice homology of a negative-definite plumbing under the two genus-zero
-`(-1)`-blow-ups of valence at most two (Lane L, after Némethi, arXiv:0709.0841, Proposition
-3.4.2 and Remark 3.4.3(a)).
+invariance of the grid homologies `GH⁻` and `GĤ` of a knot grid under grid moves and of the grid
+invariant `τ` (Layer 3, §3.5), the bound `|τ(K)| ≤ u(K)` and the Milnor conjecture for grid knots
+(Layer 3, §3.7), and invariance of the characteristic-two lattice homology of a negative-definite
+plumbing under the two genus-zero `(-1)`-blow-ups of valence at most two (Layer 4, §4.1, after
+Némethi, arXiv:0709.0841, Proposition 3.4.2 and Remark 3.4.3(a)).
+
+The Alexander-graded invariance of `GH⁻` and the invariance of `τ` are proved at the Tau Ceti pin,
+as `TauCeti.GridDiagram.IsKnot.unblockedHomologyIsomorphic_of_movesTo` and
+`TauCeti.GridDiagram.IsKnot.tau_eq_of_movesTo`; the two statements below are discharged by them.
+The fully blocked homology `GH̃` is not an invariant of the knot; its relation
+`GH̃(G) ≅ GĤ(K) ⊗ W^⊗(n−1)` to `GĤ` is a target of README §3.5, not a headline.
 
 Headline theorems that are not statable at the pins, and the missing carrier of each:
 
-* the bigraded form of grid invariance, `GH⁻(G) ≅ GH⁻(G')` as Maslov- and Alexander-graded
-  `𝔽[U]`-modules, and the link form over `𝔽[V₁,…,V_ℓ]` (Lane G.5–G.6): no Maslov grading on
-  `TauCeti.GridDiagram.unblockedHomology` and no component-indexed coefficient ring at the pin,
-  so only the Alexander-graded knot form is stated;
-* the Milnor conjecture `u(T_{p,q}) = (p−1)(q−1)/2` and `|τ(K)| ≤ u(K)` (Lane G.7): no
-  unknotting number and no crossing-change relation on `TauCeti.GridLink`;
-* `|τ(K)| ≤ g_s(K)` (Lane G.10): no map from grid diagrams to smooth knots carrying a slice
-  genus;
-* `χ(GĤ(K)) = Δ_K(t)` (Lane G.4): Tau Ceti's Alexander polynomial is defined on Seifert
-  matrices, and no Seifert matrix of a grid diagram exists at the pin;
-* invariance of `HF̂_st` (Lane H.3): no multi-pointed Heegaard diagram with the nice-move
-  calculus and no stable chain complex;
-* Némethi's cohomology `Hom_ℤ(C_q, T⁺)` with genus-decorated weights (Lane L.1) and the signed
-  `ℤ[U]` graph/surface chain complex (Lane L.3): `TauCeti.PlumbingGraph` carries no genus
-  decoration and the native complex has `𝔽₂[U]` coefficients only;
+* the link form of grid invariance, over `𝔽[V₁,…,V_ℓ]` with one variable per component (§3.6):
+  no component-indexed coefficient ring for the unblocked complex of a link;
+* `χ(GĤ(K)) = Δ_K(t)` (§3.4): Tau Ceti's Alexander polynomial `TauCeti.KnotTheory.alexander` is
+  defined on Seifert matrices, and no Seifert matrix or Alexander polynomial of a grid knot
+  exists at the pin;
+* `|τ(K)| ≤ g_s(K)` (§3.10): no map from grid knots to smooth knots, on which Tau Ceti's slice
+  genus `TauCeti.sliceGenus` is defined;
+* the invariance of the filtered quasi-isomorphism type of the Alexander-filtered grid complex
+  (§3.13): no filtered chain homotopy equivalence at the pins;
+* Cromwell's theorem (§2.2): no map from grid diagrams to links in `S³`;
+* invariance of `HF̂_st` (§5.3): no nice-move calculus, no stable equivalence class and no
+  homology of Tau Ceti's hat differential `TauCeti.HeegaardRegionSystem.hatDifferential`;
+* Némethi's cohomology `Hom_ℤ(C_q, T⁺)` with genus-decorated weights and its invariance under the
+  genus-zero blow-ups (§4.2), and the genus-corrected integral complex (§4.4):
+  `TauCeti.PlumbingGraph` carries no genus decoration and there is no `T⁺`-valued cochain
+  carrier;
 * the correction-term formula and the completed comparison with `HF⁻`: no Heegaard Floer
-  homology or `d`-invariant at the pin.
+  homology or `d`-invariant at the pins.
 -/
 
 namespace TauCetiRoadmap.CombinatorialHeegaardFloer
 
-/-! ## Lane G: grid homology -/
+open Polynomial
 
-open Polynomial in
-/-- **Grid invariance of `GH⁻`.** If two grid diagrams are related by grid moves (cyclic
-permutations, commutations, stabilizations and destabilizations) and one presents a knot, then
-their unblocked grid homologies, with `U` acting through any one variable, are isomorphic as
-Alexander-graded `K[U]`-modules by an isomorphism of Alexander degree zero, over every
-commutative ring `K` of characteristic two (Ozsváth–Stipsicz–Szabó, *Grid Homology for Knots
-and Links*, Theorem 5.3.1, its Alexander-graded knot form). -/
+/-! ## Layer 3: grid homology -/
+
+/-- **Grid invariance of `GH⁻`, Alexander-graded.** If two grid diagrams are related by grid
+moves (cyclic permutations, commutations, stabilizations and destabilizations) and one presents a
+knot, then their unblocked grid homologies, with `U` acting through any one variable, are
+isomorphic as Alexander-graded `K[U]`-modules by an isomorphism of Alexander degree zero, over
+every commutative ring `K` of characteristic two. The relation
+`TauCeti.GridDiagram.IsKnot.UnblockedHomologyIsomorphic` unfolds
+(`TauCeti.GridDiagram.IsKnot.unblockedHomologyIsomorphic_def`) to the existence of such a
+`K[U]`-linear equivalence (Ozsváth–Stipsicz–Szabó, *Grid Homology for Knots and Links*,
+Theorem 5.3.1, its Alexander-graded knot form). -/
 theorem unblockedHomology_equiv_of_movesTo {n m : ℕ} {G : TauCeti.GridDiagram n}
     {G' : TauCeti.GridDiagram m} (hG : G.IsKnot) (h : G.MovesTo G')
     (K : Type*) [CommRing K] [CharP K 2] :
-    letI := hG.unblockedHomologyModule K
-    letI := (h.isKnot_iff.mpr hG).unblockedHomologyModule K
-    ∃ e : G.unblockedHomology K ≃ₗ[K[X]] G'.unblockedHomology K,
+    hG.UnblockedHomologyIsomorphic (h.isKnot_iff.mpr hG) K :=
+  hG.unblockedHomologyIsomorphic_of_movesTo K _ h
+
+/-- Two knot grids have **isomorphic unblocked grid homologies as bigraded `K[U]`-modules**: some
+`K[U]`-linear equivalence `GH⁻(G) ≃ GH⁻(G')`, with `U` acting through any one variable, maps the
+piece of each (Maslov, Alexander) bidegree into the piece of the same bidegree. The Maslov grading
+is `M_O`; the two grids may have different sizes. -/
+def BigradedUnblockedHomologyIsomorphic {n m : ℕ} {G : TauCeti.GridDiagram n}
+    {G' : TauCeti.GridDiagram m} (hG : G.IsKnot) (hG' : G'.IsKnot)
+    (K : Type*) [CommRing K] [CharP K 2] : Prop :=
+  letI := hG.unblockedHomologyModule K
+  letI := hG'.unblockedHomologyModule K
+  ∃ e : G.unblockedHomology K ≃ₗ[K[X]] G'.unblockedHomology K,
+    TauCeti.LinearMap.IsHomogeneous e.toLinearMap
+      (hG.toOddComponentGridDiagram.bigradedUnblockedHomologyGrading K).piece
+      (hG'.toOddComponentGridDiagram.bigradedUnblockedHomologyGrading K).piece 0
+
+/-- **Grid invariance of `GH⁻`, bigraded.** If two grid diagrams are related by grid moves and one
+presents a knot, then their unblocked grid homologies are isomorphic as bigraded `K[U]`-modules,
+by an isomorphism preserving the Maslov grading `M_O` and the Alexander grading, over every
+commutative ring `K` of characteristic two (Ozsváth–Stipsicz–Szabó, *Grid Homology for Knots and
+Links*, Theorem 5.3.1). -/
+theorem bigradedUnblockedHomologyIsomorphic_of_movesTo {n m : ℕ} {G : TauCeti.GridDiagram n}
+    {G' : TauCeti.GridDiagram m} (hG : G.IsKnot) (h : G.MovesTo G')
+    (K : Type*) [CommRing K] [CharP K 2] :
+    BigradedUnblockedHomologyIsomorphic hG (h.isKnot_iff.mpr hG) K := by
+  sorry
+
+/-- **Grid invariance of `GĤ`.** If two grid diagrams `G` and `G'` are related by grid moves and
+one presents a knot, then for any choice of the blocked `O`-markings `i` of `G` and `i'` of `G'`,
+their simply blocked grid homologies, as modules over `K`, are isomorphic by an isomorphism
+preserving the Maslov grading `M_O` and the Alexander grading, over every commutative ring `K` of
+characteristic two (Ozsváth–Stipsicz–Szabó, *Grid Homology for Knots and Links*, Chapter 5). -/
+theorem simplyBlockedHomology_equiv_of_movesTo {n m : ℕ} {G : TauCeti.GridDiagram n}
+    {G' : TauCeti.GridDiagram m} (hG : G.IsKnot) (h : G.MovesTo G') (i : Fin n) (i' : Fin m)
+    (K : Type*) [CommRing K] [CharP K 2] :
+    ∃ e : (ModuleCat.restrictScalars
+          (MvPolynomial.C : K →+* MvPolynomial {c : Fin n // c ≠ i} K)).obj
+          ((G.simplyBlockedComplex K i).homology ()) ≃ₗ[K]
+        (ModuleCat.restrictScalars
+          (MvPolynomial.C : K →+* MvPolynomial {c : Fin m // c ≠ i'} K)).obj
+          ((G'.simplyBlockedComplex K i').homology ()),
       TauCeti.LinearMap.IsHomogeneous e.toLinearMap
-        (hG.alexanderUnblockedHomologyGrading K).piece
-        ((h.isKnot_iff.mpr hG).alexanderUnblockedHomologyGrading K).piece 0 := by
+        (hG.toOddComponentGridDiagram.bigradedHatHomologyGrading K i).piece
+        ((h.isKnot_iff.mpr hG).toOddComponentGridDiagram.bigradedHatHomologyGrading K i').piece
+        0 := by
   sorry
 
 /-- **Grid invariance of `τ`.** If two grid diagrams are related by grid moves (cyclic
 permutations, commutations, stabilizations and destabilizations) and one presents a knot, then
 the invariants `τ` of the two diagrams agree over every commutative ring of characteristic two.
 This is the descent to `τ` of `unblockedHomology_equiv_of_movesTo` through
-`TauCeti.GridDiagram.IsKnot.tau_eq_of_linearEquiv` (Ozsváth–Stipsicz–Szabó, *Grid Homology for
-Knots and Links*, Theorem 5.3.1 and Definition 6.1.5). -/
+`TauCeti.GridDiagram.IsKnot.UnblockedHomologyIsomorphic.tau_eq` (Ozsváth–Stipsicz–Szabó, *Grid
+Homology for Knots and Links*, Theorem 5.3.1 and Definition 6.1.5). -/
 theorem tau_eq_of_movesTo {n m : ℕ} {G : TauCeti.GridDiagram n} {G' : TauCeti.GridDiagram m}
     (hG : G.IsKnot) (h : G.MovesTo G') (K : Type*) [CommRing K] [CharP K 2] :
-    (h.isKnot_iff.mpr hG).tau K = hG.tau K := by
+    (h.isKnot_iff.mpr hG).tau K = hG.tau K :=
+  (hG.tau_eq_of_movesTo K _ h).symm
+
+/-- **`τ` bounds the unknotting number.** For a grid knot `L` and a field `K` of characteristic
+two, `|τ(L)| ≤ u(L)`, where the unknotting number `u(L)` is the least number of crossing changes,
+each a cross-commutation of presenting grid diagrams, that turn `L` into the unknot
+(Ozsváth–Stipsicz–Szabó, *Grid Homology for Knots and Links*, Chapter 6). -/
+theorem natAbs_tau_le_unknottingNumber {L : TauCeti.GridLink} (hL : L.IsKnot)
+    (K : Type*) [Field K] [CharP K 2] :
+    ((hL.tau K).natAbs : ℕ∞) ≤ L.unknottingNumber := by
   sorry
 
-/-! ## Lane L: lattice homology -/
+/-- **The Milnor conjecture for grid knots.** If `p + 1` and `q + 1` are coprime, the knot
+presented by the standard grid `torusLink p q` of the `(p + 1, q + 1)` torus knot has unknotting
+number `p q / 2`, that is `(P - 1)(Q - 1) / 2` for `P = p + 1` and `Q = q + 1`
+(Ozsváth–Stipsicz–Szabó, *Grid Homology for Knots and Links*, Chapter 6, after Sarkar,
+arXiv:1011.5265). -/
+theorem unknottingNumber_toGridLink_torusLink {p q : ℕ} (h : (p + 1).Coprime (q + 1)) :
+    (TauCeti.GridDiagram.torusLink p q).toGridLink.unknottingNumber = ((p * q / 2 : ℕ) : ℕ∞) := by
+  sorry
+
+/-! ## Layer 4: lattice homology -/
 
 /-- **Blow-up invariance of lattice homology at a vertex.** For a negative-definite plumbing
 graph `P`, a characteristic covector `k` and an odd value `ε` on the exceptional class, the
 characteristic-two lattice homology of the blow-up of `P` at a vertex, in the characteristic
 covector extending `k` by `ε`, is isomorphic in every cubical degree to that of `P` in `k`
 (Némethi, arXiv:0709.0841, Proposition 3.4.2, homological form of Remark 3.4.3(a)). -/
-theorem latticeChainHomology_blowUpVertex {V : Type*} [DecidableEq V] [Fintype V]
+theorem nonempty_latticeChainHomology_blowUpVertex {V : Type*} [DecidableEq V] [Fintype V]
     (P : TauCeti.PlumbingGraph V) (hP : P.IsNegativeDefinite) (v : V)
     (k : P.characteristicVectors) (ε : ℤ) (hε : Odd ε) (q : ℕ) :
     Nonempty ((P.blowUpVertex v).latticeChainHomology (P.blowUpCharacteristic v k ε hε) q ≅
@@ -89,7 +163,7 @@ graph `P`, adjacent vertices `u` and `v`, a characteristic covector `k` and an o
 the exceptional class, the characteristic-two lattice homology of the blow-up of `P` along the
 edge `uv` is isomorphic in every cubical degree to that of `P` (Némethi, arXiv:0709.0841,
 Proposition 3.4.2, the intersection-point case of its proof). -/
-theorem latticeChainHomology_blowUpEdge {V : Type*} [DecidableEq V] [Fintype V]
+theorem nonempty_latticeChainHomology_blowUpEdge {V : Type*} [DecidableEq V] [Fintype V]
     (P : TauCeti.PlumbingGraph V) (hP : P.IsNegativeDefinite) (u v : V)
     (h : P.toSimpleGraph.Adj u v) (k : P.characteristicVectors) (ε : ℤ) (hε : Odd ε) (q : ℕ) :
     Nonempty ((P.blowUpEdge u v h).latticeChainHomology
