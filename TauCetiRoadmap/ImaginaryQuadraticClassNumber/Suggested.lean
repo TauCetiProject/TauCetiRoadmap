@@ -69,14 +69,14 @@ theorem classNumber_eq_one_iff_discr_mem (K : Type u) [Field K] [NumberField K]
       ∃ n ∈ TauCeti.heegnerDiscriminants, NumberField.discr K = -(n : ℤ) := by
   sorry
 
-/-- **The class-number-one theorem in radicand form** (§3.6): a field presented by an algebraic
-integer `θ` with `minpoly ℤ θ = X² - d`, `d` squarefree, has class number one exactly when `-d` is
-one of the nine `TauCeti.heegnerNumbers` `1, 2, 3, 7, 11, 19, 43, 67, 163`. Squarefreeness
+/-- **The class-number-one theorem in radicand form** (§3.6): an imaginary quadratic field containing
+an algebraic integer `θ` with `minpoly ℤ θ = X² - d`, `d` squarefree, has class number one exactly
+when `-d` is one of the nine `TauCeti.heegnerNumbers` `1, 2, 3, 7, 11, 19, 43, 67, 163`. Such a `θ`
+generates the field, its minimal polynomial over `ℚ` having degree two. Squarefreeness
 is needed: `θ = 2i` presents `ℚ(i)` with `d = -4`. -/
 theorem classNumber_eq_one_iff_negative_squarefree_mem (K : Type u) [Field K] [NumberField K]
     [NumberField.IsTotallyComplex K] (hdeg : Module.finrank ℚ K = 2) (d : ℤ) (θ : 𝓞 K)
-    (hd : Squarefree d) (hmin : minpoly ℤ θ = X ^ 2 - C d)
-    (hgen : Algebra.adjoin ℚ {(θ : K)} = ⊤) :
+    (hd : Squarefree d) (hmin : minpoly ℤ θ = X ^ 2 - C d) :
     NumberField.classNumber K = 1 ↔ ∃ n ∈ TauCeti.heegnerNumbers, d = -(n : ℤ) := by
   sorry
 
