@@ -24,8 +24,8 @@ an isomorphism of unital rings from the small quantum cohomology of `X`, with it
 carried to `Λ` by `q^A ↦ e^(−A)`, to `HF^*(H)`, proved through a geometric one-parameter family
 joining the pair-of-pants product to the three-point Gromov–Witten correspondence. Third, as
 computations over `ℚ`: on a symplectically aspherical `X` the product is the cup product, and on
-`ℂPⁿ` the `(n+1)`-st power of the hyperplane class is the Novikov monomial of minus the line class
-times the unit.
+`ℂPⁿ` with its Fubini–Study form the `(n+1)`-st power of the hyperplane class is the Novikov
+monomial of minus the line class times the unit.
 
 The roadmap sits on five neighbours. DGFloer §7.C supplies the capped Floer complexes, continuation
 maps, orientation conventions and the module PSS isomorphism on the classical branch;
@@ -367,8 +367,10 @@ and from `∇J`, its weighted end operator at each end, and its evaluation const
 coordinates it is Tau Ceti's `TauCeti.SymplecticForm.floerLinearization`
 (`TauCeti.SymplecticForm.fderiv_floerOperator_apply`). Prove that on the weighted Sobolev completion
 of HeegaardFloer §3.1 and §3.5 it is Fredholm of index `μ₁ + μ₂ − μ₀ − n + 2c₁(A)`, the expected
-index of §1.3. In every compact parameter, energy and index window fix the full differentiability
-list of HeegaardFloer Layer 2 (§2.2), including all moving-domain, neck, incidence and external
+index of §1.3; at `A = 0` this is FOOO, Proposition 11.6 (4) (p. 62), in that source's
+conventions, which put the two inputs at the negative ends and the output at the positive end. In
+every compact parameter, energy and index window fix the full differentiability list of
+HeegaardFloer Layer 2 (§2.2), including all moving-domain, neck, incidence and external
 parameters. Genericity on a face is never inferred from genericity of its pieces.
 
 **Checks.**
@@ -665,10 +667,15 @@ convolution. The completed tensor product is used through its proved universal p
 `TauCeti.NovikovModule.lift_unique`), never as an algebraic tensor product.
 
 **Checks.**
-- On `S² × S²` with areas `1` and `√2`, `Γ = ℤ²` and the classes `(−⌊b√2⌋, b)`, `b ∈ ℤ`, are
-  infinitely many with area in `[0, 1)` and Chern numbers `2(b − ⌊b√2⌋)` unbounded. Finiteness
-  below a valuation level therefore cannot come from discreteness of the periods; it comes from
-  §3.4.
+- On `S² × S² × S²` with areas `1`, `√2` and `√3`, `Γ = ℤ³` with `ω(a, b, c) = a + b√2 + c√3`
+  and `c₁(a, b, c) = 2(a + b + c)`. A rigid count for a fixed reference triple fixes `c₁(A)`
+  (§1.3), and on the level `a + b + c = k` the area is `k + b(√2 − 1) + c(√3 − 1)`, which takes
+  infinitely many values in `[0, 1)` because `(√3 − 1)/(√2 − 1) = √6 + √3 − √2 − 1` is
+  irrational. Finiteness below a valuation level therefore comes from §3.4, not from the degrees
+  and the periods. On `S² × S²` with areas `1` and `√2` the area is dense as well, but on the
+  level `a + b = k` the areas `k + b(√2 − 1)` are discrete, so the fixed Chern number and the lower
+  bound of §3.2 already leave finitely many classes below each valuation level, and that target
+  does not test §3.4.
 
 *Needs:* §1.2, §3.2, §3.4, §4.3 or §5.3; Tau Ceti `TauCeti.NovikovModule.kernelProduct`,
 `TauCeti.NovikovModule.novikovKernelProduct`, `TauCeti.NovikovModule.kernelMatrix`,
@@ -891,7 +898,9 @@ formula of DGFloer.
 
 Prove that on a symplectically aspherical `X` (`Γ = 0`) the Floer cohomology ring over `ℚ` is the
 ordinary cohomology ring with the cup product, equivalently the intersection product, by §7.4 and
-the `A = 0` normalisation of §4.5.
+the `A = 0` normalisation of §4.5. Over the universal Novikov field with complex coefficients this
+follows from the case `b = 0` of FOOO, Theorem 11.11 (p. 66), since the quantum product of an
+aspherical target has only its constant term.
 
 *Needs:* §4.5, §6.4, §7.4.
 
@@ -916,20 +925,23 @@ lines (in a chart, `TauCeti.SymplecticForm.Invariant.isComplexLinearMap_perturbe
 
 ### 8.4 Projective spaces
 
-Prove, at the enumerative normalisation of GromovWittenTheory §7.2 and transported to the counted
-product through §7.4: on `ℂP¹`, with `x` the image of the point class, of degree `2`,
-`m₂(x, x) = e^(−L) · 1` and the unit is the image of `1`; on `ℂPⁿ`, the `(n+1)`-fold product of the
-image of the hyperplane class is `e^(−L) · 1`, `L` the line class. For every `n ≥ 1` the quantum
-relation `x^(⋆(n+1)) = q^L · 1` is proved here from the product formula of GromovWittenTheory §7.2,
-which works out `ℂP¹` and `ℂP²` only in its Checks; in algebraic Gromov–Witten theory the relation is
-Fulton–Pandharipande, §10, pp. 47–48. With the basis `x^j` and left duals `x^(n−j)`, a three-point class
-`⟨x^a, x^b, x^c⟩_(dL)` vanishes unless `a + b + c = n + d(n + 1)` (GromovWittenTheory §4.3); for
-`0 ≤ a, b, c ≤ n` this leaves `d = 0`, and `d = 1` when `a + b + c = 2n + 1`. Hence `x^(⋆k) = x^k`
-for `k ≤ n`, the degree-one term of `x ⋆ x^(k−1)` needing an insertion `x^(2n+1−k)` of exponent
-above `n`, and `x ⋆ x^n = q^L ⟨x, x^n, x^n⟩_L · 1`.
+Prove, for `ℂPⁿ` with its Fubini–Study form, at the enumerative normalisation of GromovWittenTheory
+§7.2 and transported to the counted product through §7.4: on `ℂP¹`, with `x` the image of the point
+class, of degree `2`, `m₂(x, x) = e^(−L) · 1` and the unit is the image of `1`; on `ℂPⁿ`, the
+`(n+1)`-fold product of the image of the hyperplane class is `e^(−L) · 1`, `L` the line class. For
+every `n ≥ 1` the quantum relation `x^(⋆(n+1)) = q^L · 1` is proved here from the product formula of
+GromovWittenTheory §7.2, which works out `ℂP¹` and `ℂP²` only in its Checks and in the Examples of
+its Layer 7; in algebraic Gromov–Witten theory the relation is Fulton–Pandharipande, §10, pp. 47–48.
+With the basis `x^j` and left duals `x^(n−j)`, a three-point class `⟨x^a, x^b, x^c⟩_(dL)` vanishes
+unless `a + b + c = n + d(n + 1)` (GromovWittenTheory §4.3); for `0 ≤ a, b, c ≤ n` this leaves
+`d = 0`, and `d = 1` when `a + b + c = 2n + 1`. Hence `x^(⋆k) = x^k` for `k ≤ n`, the degree-one
+term of `x ⋆ x^(k−1)` needing an insertion `x^(2n+1−k)` of exponent above `n`, and
+`x ⋆ x^n = q^L ⟨x, x^n, x^n⟩_L · 1`.
 
-The line count `⟨x, x^n, x^n⟩_L = 1` is a target of its own. For the standard complex structure of
-`ℂPⁿ`, prove that every genus-zero stable map in the class `L` is regular and has no nontrivial
+The line count `⟨x, x^n, x^n⟩_L = 1` is a target of its own. The standard complex structure of
+`ℂPⁿ` is compatible with the Fubini–Study form, and the three-point classes do not depend on the
+tame structure (GromovWittenTheory §2.3), so they may be computed with it. For this structure,
+prove that every genus-zero stable map in the class `L` is regular and has no nontrivial
 automorphism: its one nonconstant component is a line, on which `u*TℂPⁿ ≅ O(2) ⊕ O(1)^(n−1)`, its
 contracted components carry trivial bundles, and so `H¹(C, u*TℂPⁿ) = 0` (Fulton–Pandharipande,
 Lemma 10, p. 28), which is the cokernel of the linearised operator of an integrable structure.
@@ -944,8 +956,8 @@ ImplicitAtlases §5.6 and the transverse base change of CharacteristicClasses §
 **Checks.**
 - On `ℂPⁿ`, `x^(n+1)` has degree `2n + 2` and `e^(−L)` has cochain degree `2c₁(L) = 2n + 2`.
 
-*Needs:* §1.4, §7.4; GromovWittenTheory §3.1, §4.3, §7.2; ImplicitAtlases §5.6; ComplexKahlerGeometry
-§5.10, §7.2; CharacteristicClasses §2.4.
+*Needs:* §1.4, §7.4; GromovWittenTheory §2.3, §3.1, §4.3, §7.2; ImplicitAtlases §5.6;
+ComplexKahlerGeometry §5.10, §7.2; CharacteristicClasses §2.4.
 
 ### 8.5 Odd classes on an aspherical torus
 
@@ -960,9 +972,9 @@ of degree one, the exchange sign `(−1)^(ab)` of §6.3.
 
 ### 8.6 A finite-energy dense-period support example
 
-On `S² × S²` with areas `1` and `√2`, where the period group is `ℤ²` with dense image of the area,
-prove that the product coefficients are supported, below each valuation level, on finitely many
-classes, by §6.1.
+On `S² × S² × S²` with areas `1`, `√2` and `√3`, where the period group is `ℤ³` and the area is
+dense on each level of the first Chern number (§6.1, Checks), prove that the product coefficients
+are supported, below each valuation level, on finitely many classes, by §6.1.
 
 *Needs:* §6.1.
 
@@ -973,7 +985,7 @@ classes, by §6.1.
 
 ### Dependencies
 
-Layers 1–7; GromovWittenTheory §3.1, §4.3, §7.2; HeegaardFloer §1.9a; ImplicitAtlases §5.6;
+Layers 1–7; GromovWittenTheory §2.3, §3.1, §4.3, §7.2; HeegaardFloer §1.9a; ImplicitAtlases §5.6;
 ComplexKahlerGeometry §5.10, §7.2; CharacteristicClasses §2.4.
 
 ## Scope and ownership
@@ -1023,10 +1035,10 @@ plans is in Tau Ceti as `TauCeti.NovikovSeries`.
   oriented Morse complex and its singular comparison, continuation, products and duality.
 - AnalyticStableMaps Layer 3: unforced marked genus-zero stable-map compactness, evaluation and class
   splitting.
-- GromovWittenTheory Layers 0 and 5–7, §3.1 and §4.3: the closed stable-map invariants, the class
-  group and Novikov ring, the orientation and grading of the invariants, the unit, the ordered
-  diagonal and left-dual conventions and the quantum ring. This roadmap does not rebuild that closed
-  theory.
+- GromovWittenTheory Layers 0 and 5–7, §2.3, §3.1 and §4.3: the closed stable-map invariants, the
+  class group and Novikov ring, their independence of the tame structure, the orientation and
+  grading of the invariants, the unit, the ordered diagonal and left-dual conventions and the
+  quantum ring. This roadmap does not rebuild that closed theory.
 - ImplicitAtlases Layers 0–7: the implicit atlas, relative virtual complex, homology-level trace,
   refinement and concordance, cell-like and product strata and transverse diagonal.
 - MorseTheory, AlgebraicTopology and DifferentialGeometry: the finite Morse core and gradient
@@ -1204,7 +1216,8 @@ Assumed exactly as stated at the pin; each is applied with its own hypotheses.
 - §0.1–§0.2: the class group `H₂(X; ℤ)` with area and Chern maps and the Novikov ring `Λ_ω` with
   `deg q^A = 2c₁(A)`; §5.2: the fundamental-class identity and the unit; §6.1: the Casimir and the
   ordered diagonal; §7.1–§7.2: the three-point classes and the quantum product with the left-dual
-  convention; §3.1: the orientation of the virtual classes; §4.3: the degree of the operations
+  convention; §2.3: the equality of the operations `I_(g,n,A)` for two tame structures joined by a
+  path; §3.1: the orientation of the virtual classes; §4.3: the degree of the operations
   `I_(g,n,A)`.
 
 ### From TauCetiRoadmap.ImplicitAtlases
@@ -1237,8 +1250,9 @@ Assumed exactly as stated at the pin; each is applied with its own hypotheses.
 
 - K. Fukaya, Y.-G. Oh, H. Ohta and K. Ono (FOOO), *Spectral invariants with bulk, quasi-morphisms
   and Lagrangian Floer theory*, arXiv:1105.5123v3 (2017), cited in that numbering: equation (3.9)
-  in the proof of Lemma 3.10, p. 27 (§3.1); Proposition 11.6, p. 62 (§3.4); Lemma 11.8 and Proposition 11.9,
-  p. 64 (§3.2, §6.2); Lemma 11.10, p. 65 (§3.1); Theorem 11.11, p. 66 (§7.4).
+  in the proof of Lemma 3.10, p. 27 (§3.1); Proposition 11.6, p. 62 (§2.4, §3.4); Lemma 11.8 and
+  Proposition 11.9, p. 64 (§3.2, §6.2); Lemma 11.10, p. 65 (§3.1); Theorem 11.11, p. 66 (§7.4,
+  §8.1).
 - W. Fulton and R. Pandharipande, *Notes on stable maps and quantum cohomology*,
   arXiv:alg-geom/9608011v2 (1996), cited in that numbering: Theorem 2, p. 12, Lemma 10, p. 28, and
   §10, pp. 47–48 (§8.4).
