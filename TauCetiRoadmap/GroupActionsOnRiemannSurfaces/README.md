@@ -94,7 +94,8 @@ geometric carriers specified below; the module docstring identifies these missin
 - **The small-group identifier** `n.d` (not a target); `group`, `group_order`, `full_auto` are the
   isomorphism class and order of an abstract finite group.
 - **Function-field predicates and quotient curves over a general field**
-  ([algebraic curves](../AlgebraicCurves/README.md) Layers 6–7, 11). Layer 6 here proves the generating-vector criteria over `ℂ` and the agreement with
+  ([algebraic curves](../AlgebraicCurves/README.md) Layers 6–7, 11), and the uniqueness of the
+  trigonal pencil in genus at least five (CanonicalModelsAndGonality 5.2(f), 6.6). Layer 6 here proves the generating-vector criteria over `ℂ` and the agreement with
   those predicates through the meromorphic function field.
 - **Weierstrass equations** (`eqn`): `HyperellipticCurves` for `y² = f(x)`; equations of
   non-hyperelliptic families are excluded below.
@@ -371,6 +372,10 @@ For rational semisimple blocks consume
 - HyperellipticCurves §1.4 supplies the genus-zero involution criterion, centrality and
   uniqueness, through the meromorphic-function-field dictionary. The order-three criterion
   needed here is derived from §1.4 below.
+- CanonicalModelsAndGonality 5.2(f) and 6.6 supply, for a function field of genus at least five
+  over a perfect field, the uniqueness of the degree-three pencil and hence of a cyclic trigonal
+  order-three automorphism subgroup, which is therefore normal; §6.4 applies them to `ℳ(X_v)`
+  over `ℂ`.
 
 
 ## How to read the build
@@ -1395,13 +1400,14 @@ An action contains a cyclic trigonal subgroup when an element τ has order three
 Riemann–Hurwitz reads `2g−2=3(−2)+2·FixCount(v,τ)`. Define the family predicate on the
 generic full group. Construct a witness in G only from a proof of this existential condition;
 its values form a subtype, with τ and τ⁻¹ both allowed. No canonical choice of generator is
-asserted. For g≥5 prove uniqueness of the cyclic trigonal subgroup, hence normality: two
-distinct degree-three rational subfields generate the curve field, and Castelnuovo–Severi
-would force g≤(3−1)(3−1)=4 (AlgebraicCurves Layer 8, Castelnuovo’s inequality).
+asserted. For g≥5 the cyclic trigonal subgroup is unique, hence normal in G: through the
+function-field agreement below it is an order-three group of automorphisms of `ℳ(X_v)` over `ℂ`
+with rational fixed field, and such a group is unique for g≥5 by CanonicalModelsAndGonality
+5.2(f) (uniqueness of the `g¹₃`) and 6.6.
 For g≤4 retain the existential predicate without claiming uniqueness. Prove invariance of the existential predicate under topological equivalence using
 §6.1's equivariance, and agreement with the corresponding cyclic degree-three subextension
 of the meromorphic function field (Swinarski, §2.1, p.5; Riemann–Hurwitz).
-*Needs:* §§1.4, 5.5, 6.1; ModularForms 10B; AlgebraicCurves Layers 6–8, 12.
+*Needs:* §§1.4, 5.5, 6.1; ModularForms 10B; AlgebraicCurves Layers 6–8, 12; CanonicalModelsAndGonality 5.2(f), 6.6.
 
 **Checks.**
 
@@ -1416,7 +1422,8 @@ The C₄ genus-two action contains the hyperelliptic involution while remaining 
 
 ### Dependencies
 
-Layers 1–3 and §5.5; HyperellipticCurves §1.4; ModularForms 10B; AlgebraicCurves Layers 6–8, 12.
+Layers 1–3 and §5.5; HyperellipticCurves §1.4; ModularForms 10B; AlgebraicCurves Layers 6–8, 12;
+CanonicalModelsAndGonality 5.2(f), 6.6.
 
 ## Layer 7: differentials, the Eichler trace formula, and the Jacobian decomposition
 
@@ -1705,9 +1712,8 @@ below shows the repeated-period case.
 
 ## Downstream consumers
 
-CanonicalModelsAndGonality consumes the complex action criteria and fixed-point formulas;
 FiniteGroupInvariants can compare finite-group data with the action invariants. The supply
-runs from this roadmap to those consumers. Belyi applications consume the triangle dictionary,
+runs from this roadmap to that consumer. Belyi applications consume the triangle dictionary,
 and Jacobian applications consume the character and isogeny conclusions of Layer 7.
 
 ## References
