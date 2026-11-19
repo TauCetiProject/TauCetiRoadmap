@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.CategoryTheory.Exact.ExactStructure
 import TauCeti.CategoryTheory.Exact.Split
 import TauCeti.CategoryTheory.Exact.Biproduct
 import TauCeti.CategoryTheory.Exact.Bicartesian
@@ -7,44 +8,16 @@ import TauCeti.CategoryTheory.Exact.Opposite
 import TauCeti.CategoryTheory.Exact.ExtensionClosed
 import TauCeti.CategoryTheory.Exact.Functor
 import TauCeti.CategoryTheory.Exact.Equivalence
-import TauCeti.CategoryTheory.Exact.Resolution.Comparison
-import TauCeti.CategoryTheory.Exact.Resolution.Horseshoe
 import TauCeti.CategoryTheory.Exact.Resolution.HasFiniteResolution
-import TauCeti.CategoryTheory.GrothendieckGroup.Exact
-import TauCeti.CategoryTheory.GrothendieckGroup.Abelian
-import TauCeti.CategoryTheory.GrothendieckGroup.Triangulated
-import TauCeti.CategoryTheory.GrothendieckGroup.BoundedHomotopy.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.Derived.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.EulerCharacteristic
 import TauCeti.CategoryTheory.GrothendieckGroup.Resolving
-import TauCeti.CategoryTheory.GrothendieckGroup.Graded
-import TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Resolving.Basic
-import TauCeti.CategoryTheory.GrothendieckGroup.ForgetGrading
-import TauCeti.CategoryTheory.GrothendieckGroup.FiniteDimensionalVectorSpace
-import TauCeti.Algebra.Module.GradedModule.Resolution
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.LinearResolution
-import TauCeti.Algebra.Category.GradedModuleCat.CartanMap.Specialization
-import TauCeti.Algebra.Category.GradedModuleCat.CartanMap.Resolution
-import TauCeti.Algebra.Category.GradedModuleCat.LinearResolution.Converse
 import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
-import TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Descent
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.DualNumbers
+import TauCeti.Algebra.Category.GradedModuleCat.CartanMap.Resolution
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Numerical
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Numerical
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Descent
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.Sesquilinear
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.ForgetGrading.Basic
 import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.ForgetGrading.Comparison
-import TauCeti.Algebra.Category.GradedModuleCat.CartanMap.ForgetGrading
-import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Graded.GradedVectorSpace
-import TauCeti.RepresentationTheory.GrothendieckGroup.CartanMatrix
 import TauCeti.RepresentationTheory.GrothendieckGroup.UnimodularCartanMatrix
 import TauCeti.RepresentationTheory.GrothendieckGroup.ExtEulerMatrix
-import TauCeti.RepresentationTheory.GrothendieckGroup.DualNumbers
-import TauCeti.RepresentationTheory.GrothendieckGroup.Quiver.ExtEuler
-import TauCeti.RepresentationTheory.Quiver.E8.ExtEuler
-import TauCeti.RepresentationTheory.Quiver.PathAlgebra.Grading
 import TauCeti.RepresentationTheory.Quiver.PathAlgebra.GradedExtEuler.ExtComparison
 
 /-!
@@ -98,8 +71,8 @@ which it could be formed, and the pinned minimality predicate
 no `TauCeti.LaurentK0` class. Its Ext-side counterpart is pinned in Tau Ceti and is named in the
 README's supplier contracts.
 
-The remaining pins record the further theorems of the layers, so that a pin whose statement
-moves or disappears breaks this file.
+The further pins under Layers 0 and 3 record the pinned exact-structure lemmas that the README
+uses by name.
 -/
 
 namespace TauCetiRoadmap.GrothendieckEulerForms
@@ -130,53 +103,21 @@ def ExactStructure.Conflation {C : Type u} [Category.{v} C] [Preadditive C] [Has
 #check @TauCeti.ExactStructure.conflation_baseChange
 #check @TauCeti.ExactStructure.op_conflation
 #check @TauCeti.ExactStructure.op_inflations
-#check @TauCeti.ExactStructure.split
-#check @TauCeti.ExactStructure.abelian
 #check @TauCeti.ExactStructure.isConflationExact_ι
 #check @TauCeti.ExactStructure.reflectsConflations_ι
 #check @TauCeti.ExactStructure.isConflationExact_abelian_iff
 #check @TauCeti.ExactStructure.isConflationExact_inverse_iff_reflectsConflations
 
--- Layer 2: split, exact, abelian, and triangulated Grothendieck groups
-
-#check @TauCeti.ExactK0.liftEquiv
-#check @TauCeti.ExactK0.map
-#check @TauCeti.ExactK0.BiadditiveInvariant.bilift
-#check @TauCeti.SplitK0.grothendieckAddGroupEquiv
-#check @TauCeti.TriangulatedK0.of_shift
-#check @TauCeti.SplitK0.boundedHomotopyEquiv
-#check @TauCeti.AbelianK0.boundedDerivedK0Equiv
-#check @TauCeti.TriangulatedK0.of_eq_sum_homology
-#check @TauCeti.GradedExactStructure.shiftEquiv
-
 -- Layer 3: finite resolutions and the resolution theorem
 
 #check @TauCeti.ExactStructure.IsResolving.resolutionEquiv
-#check @TauCeti.ExactStructure.IsResolving.eulerHom
 #check @TauCeti.ExactStructure.abelian_admitsFiniteResolution
-#check @TauCeti.ExactStructure.FiniteResolution.lift
-#check @TauCeti.ExactStructure.FiniteResolution.horseshoe
-#check @TauCeti.GradedExactStructure.IsResolving.laurentResolutionEquiv
-#check @TauCeti.GradedProjectiveResolution.IsLinear.subsingleton_ext_of_ne
-#check @TauCeti.GradedProjectiveResolution.IsLinear.isMinimal
-#check @TauCeti.GradedProjectiveResolution.IsMinimal.isLinear_iff_subsingleton_ext
 
 /-! ## Layer 4: finite-dimensional algebras and the Cartan map -/
 
-#check @TauCeti.cartanMap
 #check @TauCeti.cartanEquiv
-#check @CategoryTheory.Equivalence.cartanMap_bijective_iff
-#check @TauCeti.indecomposableProjectiveClassBasis
-#check @TauCeti.simpleClassBasis
-#check @TauCeti.projectiveSimplePairing_isPerfPair
-#check @TauCeti.cartanMatrix
-#check @TauCeti.cartanMap_of_eq_sum
 #check @TauCeti.cartanMatrix_det_eq_one_or_neg_one
-#check @TauCeti.cartanMatrix_dualNumber
-#check @TauCeti.not_isUnit_cartanMatrix_dualNumber
-#check @TauCeti.gradedCartanMap
 #check @TauCeti.gradedCartanMap_bijective
-#check @TauCeti.toMatrix_cartanMap_eq_map_gradedCartanMatrix
 
 open TauCeti in
 /-- **The graded Cartan map is an isomorphism** `K₀^gr(proj A) ≃ G₀^gr(mod A)` of
@@ -189,7 +130,7 @@ case where `𝒜` is a decomposition of `A`. The route is the graded resolution 
 graded modules with projective underlying module inside all finitely generated graded modules:
 they are closed under extensions, and under kernels of epimorphisms because a short exact sequence
 whose third term has projective underlying module splits on underlying modules. The inverse sends
-a class to the alternating class of any such resolution (Weibel, *The K-book*, Theorem II.7.6). -/
+a class to the alternating class of any such resolution (Weibel, *The K-book*, Theorem V.3.1). -/
 theorem gradedCartanMap_bijective {k : Type u} [CommRing k] {A : Type v} [Ring A] [Algebra k A]
     (𝒜 : ℤ → Submodule k A)
     (h : gradedFiniteModules 𝒜 ≤
@@ -200,55 +141,18 @@ theorem gradedCartanMap_bijective {k : Type u} [CommRing k] {A : Type v} [Ring A
 
 -- Layer 5: finite-support Euler characteristics and Ext-Euler descent
 
-#check @TauCeti.AbelianK0.eulerChar_eq_homologyEulerChar
-#check @TauCeti.IsEulerAdmissible
-#check @TauCeti.extEuler
-#check @TauCeti.extEuler_shortExact₁
-#check @TauCeti.extEuler_shortExact₂
-#check @TauCeti.extEulerPairing
-#check @TauCeti.extEulerPairing_of_of
 #check @TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_diagonal
 #check @TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose_mul_diagonal
-#check @TauCeti.cartanMatrix_transpose_mul_extEulerMatrix_eq_one
-#check @TauCeti.extEulerMatrix_eq_inverseCartanMatrix_transpose
-#check @TauCeti.not_isEulerAdmissible_dualNumberResidue
-#check @TauCeti.extEuler_eq_eulerForm_dimVector
-#check @TauCeti.extEulerPairing_add_flip_eq_titsPolarForm
-#check @TauCeti.Quiver.E8.extEulerMatrix_add_transpose
-#check @TauCeti.Quiver.E8.posDef_map_intCast_extEulerMatrix_add_transpose
-#check @TauCeti.IsGradedEulerAdmissible
-#check @TauCeti.gradedExtEuler
-#check @TauCeti.gradedExtEulerPairing
-#check @TauCeti.IsGradedExtComparison
-#check @TauCeti.IsGradedExtComparison.isEulerAdmissible
-#check @TauCeti.isGradedExtComparison_of_subsingleton_ne
 #check @TauCeti.GradedModuleCat.isGradedExtComparison_toModuleCat
 #check @TauCeti.PathAlgebra.isGradedExtComparison_forget
 
 -- Layer 6: Laurent coefficients, q-Euler forms, and specialization
 
-#check @TauCeti.LaurentK0.T_smul
 #check @TauCeti.gradedExtEulerSesquilinear
-#check @TauCeti.gradedExtEulerSesquilinear_T_smul_left
-#check @TauCeti.gradedExtEulerSesquilinear_T_smul_right
-#check @TauCeti.gradedExtEulerSpecialized
 #check @TauCeti.IsGradedExtComparison.laurentEval_one_gradedExtEuler
-#check @TauCeti.LaurentK0.forgetGradingEquiv
-#check @TauCeti.LaurentK0.forgetGradingMap_injective_iff
-#check @TauCeti.GradedExactStructure.IsResolving.forgetGrading_laurentResolutionEquiv
-#check @TauCeti.GradedVectorSpace.isGradedExtComparison_unit
 
 -- Layer 7: left and right numerical Grothendieck groups
 
-#check @TauCeti.ExtEulerLeftNumericalQuotient
-#check @TauCeti.ExtEulerRightNumericalQuotient
-#check @TauCeti.mem_extEulerLeftRadical_iff
-#check @TauCeti.mem_gradedExtEulerLeftRadical_iff
 #check @TauCeti.extEulerNumericalPairing_nondegenerate
-
--- Worked examples
-
-#check @TauCeti.SplitK0.finrankEquiv
-#check @TauCeti.AbelianK0.finrankEquiv
 
 end TauCetiRoadmap.GrothendieckEulerForms

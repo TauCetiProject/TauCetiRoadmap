@@ -177,9 +177,9 @@ blocked behind an unrelated section.
 
 Build exact-category data without assuming that the ambient additive category has arbitrary
 kernels or cokernels. Throughout, `C` is a preadditive category with a zero object and binary
-biproducts, the standing hypotheses of `TauCeti.ExactStructure C`. The layer follows Bühler,
-Definition 2.1, Remarks 2.2–2.8, Propositions 2.9 and 2.12, Section 5 and Sections 13.1–13.3,
-which also serve as tests of the precise axiom packaging.
+biproducts, the standing hypotheses of `TauCeti.ExactStructure C`. The sources are Bühler,
+Definition 2.1, Remarks 2.2–2.8, Propositions 2.9 and 2.12, Section 5, Definition 8.1 with Lemma
+8.4, and Sections 13.1–13.3, which also serve as tests of the precise axiom packaging.
 
 ### 0.1 Kernel-cokernel pairs
 
@@ -243,9 +243,9 @@ conflations of `E` (`TauCeti.ExactStructure.op_conflation`), and its inflations 
 of the deflations of `E` (`TauCeti.ExactStructure.op_inflations`) (Bühler, Remarks 2.2–2.8).
 
 Define *admissible morphisms*: a morphism is admissible when it factors as a deflation followed
-by an inflation. Prove that the factorization is unique up to unique isomorphism, that a morphism
-is admissible for `E` exactly when its opposite is admissible for `E.op`, and that inflations and
-deflations are admissible.
+by an inflation (Bühler, Definition 8.1). Prove that the factorization is unique up to unique
+isomorphism (Bühler, Lemma 8.4), that a morphism is admissible for `E` exactly when its opposite
+is admissible for `E.op`, and that inflations and deflations are admissible.
 
 Complete the transport of every theorem with an E/op partner: prove that `E.op.op` corresponds to
 `E` under the equivalence `Cᵒᵖᵒᵖ ≌ C`, that the opposite of the split structure on `C` is the
@@ -332,7 +332,7 @@ roadmap.
 
 Build the common engine for split, exact and triangulated `K₀`. The model is Weibel, *The K-book*,
 Chapter II, Section 1 for group completion, Section 5 for symmetric-monoidal and split `K₀`, and
-Sections 6.1–6.2 for presentations, set-theoretic care and the universal property.
+6.1.1–6.1.3 for presentations, the universal property and set-theoretic care.
 
 ### 1.1 Small generators
 
@@ -354,7 +354,7 @@ Ceti `TauCeti.ObjectCode`, `TauCeti.objectCode`, `TauCeti.freeOf`.
 
 For a family `rels` of elements of the free group, the presented group is
 `TauCeti.PresentedK0 rels`, the quotient by the additive subgroup that `rels` generates (Weibel,
-*The K-book*, Sections II.6.1–6.2).
+*The K-book*, II.6.1.1–6.1.3).
 
 - Universal property: a function on objects that is invariant under isomorphism and satisfies the
   relations factors through a unique additive homomorphism
@@ -519,20 +519,20 @@ functors; Tau Ceti `TauCeti.TriangulatedK0` and the declarations named above.
 
 ### 2.5 Bounded-complex comparisons
 
-For an additive category `C`, split `K₀` is triangulated `K₀` of the bounded homotopy category,
-the inverse sending a bounded complex to the alternating sum of its terms
+For an additive category `C`, split `K₀` is triangulated `K₀` of the bounded homotopy category, the
+inverse sending a bounded complex to the alternating sum of its terms
 (`TauCeti.SplitK0.boundedHomotopyEquiv`,
 `TauCeti.SplitK0.boundedHomotopyEquiv_symm_of_quotient_obj`). For an abelian category `A` with
-Mathlib's derived category, the class of a bounded object is the alternating sum of the classes
-of its homology (`TauCeti.TriangulatedK0.of_eq_sum_homology`), and abelian `K₀` is triangulated
-`K₀` of the bounded derived category (`TauCeti.AbelianK0.boundedDerivedK0Equiv`, assuming the
-bounded derived category essentially small). For a full subcategory `P` of an abelian category,
-extension-closed and containing zero and binary biproducts, the Euler-class comparison stays at
-the level of complexes and carries every closure hypothesis it needs: if the boundaries and the
-homology objects of a bounded complex lie in `P` (whence its cycles and terms do), the alternating
-sum of the classes of its terms in the exact `K₀` of `P` is the alternating sum of the classes of
-its homology (`TauCeti.ExactK0.sum_negOnePow_of_X_eq_sum_negOnePow_of_homology`) (Weibel, *The
-K-book*, Exercise II.9.15). A derived category of a general Quillen exact category would require
+Mathlib's derived category, the class of a bounded object is the alternating sum of the classes of
+its homology (`TauCeti.TriangulatedK0.of_eq_sum_homology`), and abelian `K₀` is triangulated `K₀` of
+the bounded derived category (`TauCeti.AbelianK0.boundedDerivedK0Equiv`, assuming the bounded
+derived category essentially small). For a full subcategory `P` of an abelian category,
+extension-closed and containing zero and binary biproducts, the Euler-class comparison stays at the
+level of complexes and carries every closure hypothesis it needs: if the boundaries and the homology
+objects of a bounded complex lie in `P` (whence its cycles and terms do), the alternating sum of the
+classes of its terms in the exact `K₀` of `P` is the alternating sum of the classes of its homology
+(`TauCeti.ExactK0.sum_negOnePow_of_X_eq_sum_negOnePow_of_homology`) (the argument of Weibel, *The
+K-book*, Proposition II.7.5). A derived category of a general Quillen exact category would require
 exact-acyclic localization and is outside this roadmap.
 
 *Needs:* §§2.1, 2.3–2.4; Mathlib `HomologicalComplex`, `HomotopyCategory`, `DerivedCategory`; Tau
@@ -592,9 +592,9 @@ Layers 0–1; Mathlib's triangulated, homotopy and derived categories with `dist
 ## Layer 3: finite resolutions and the resolution theorem
 
 Develop finite resolutions as reusable categorical data before applying them to projectives. The
-generic reference is Weibel, *The K-book*, Theorem II.7.6 and Lemma II.7.6.1: finite
-`P`-dimension for every object, closure of the ambient exact subcategory under kernels of
-surjections, and the common-refinement argument. Bühler, Sections 11–12 supplies the stronger
+resolution theorem in an exact category, under the hypotheses of §3.2, is the `K₀` case of Weibel,
+*The K-book*, Theorem V.3.1; the common-refinement argument is that of Theorem II.7.6 and Lemma
+II.7.6.1, stated there inside an abelian category. Bühler, Sections 11–12 supplies the stronger
 comparison and horseshoe results specifically for projective resolutions in exact categories. The
 statements record the extension-closed induced exact structures as well as the kernel and
 finite-resolution hypotheses, rather than hiding them in ambient notation.
@@ -635,7 +635,7 @@ declarations named above.
 `TauCeti.ExactStructure.IsResolving E P` packages: `P` contains zero and is closed under binary
 biproducts, is extension-closed, contains the kernel of every conflation whose middle and last
 terms satisfy `P`, and every object of the ambient category has a finite `P`-resolution
-(Weibel, *The K-book*, Theorem II.7.6). Repleteness follows from closure under extensions and
+(Weibel, *The K-book*, Theorem V.3.1). Repleteness follows from closure under extensions and
 zero. The induced exact structure on `P` is explicit:
 `TauCeti.ExactStructure.resolvingSubcategory E P`, whose inclusion is conflation-exact and
 reflects conflations.
@@ -646,13 +646,13 @@ reflects conflations.
 ### 3.3 Euler class of a resolution
 
 The alternating `K₀` class of a finite resolution, in the `K₀` of the ambient category and in the
-`K₀` of the resolving subcategory, is independent of its length, of zero padding and of the
-choice of resolution (`TauCeti.ExactStructure.eulerClassOf`,
+`K₀` of the resolving subcategory, is independent of its length, of zero padding and of the choice
+of resolution (`TauCeti.ExactStructure.eulerClassOf`,
 `TauCeti.ExactStructure.IsResolving.eulerClassOf_eq`), and it is additive on conflations
 (`TauCeti.ExactStructure.IsResolving.eulerClassOf_eq_add_of_conflation`), by Weibel's
-common-refinement and mapping-cone argument under the packaged resolving hypotheses rather than
-by the projective horseshoe lemma (Weibel, *The K-book*, Theorem II.7.6 and Lemma II.7.6.1). It
-descends to `TauCeti.ExactStructure.IsResolving.eulerHom`.
+common-refinement and mapping-cone argument under the packaged resolving hypotheses rather than by
+the projective horseshoe lemma (Weibel, *The K-book*, proof of Theorem II.7.6 and Lemma II.7.6.1).
+It descends to `TauCeti.ExactStructure.IsResolving.eulerHom`.
 
 *Needs:* §§2.2, 3.1–3.2; Tau Ceti `TauCeti.ExactStructure.eulerClassOf`,
 `TauCeti.ExactStructure.IsResolving.eulerHom`.
@@ -662,7 +662,7 @@ descends to `TauCeti.ExactStructure.IsResolving.eulerHom`.
 Under the resolving hypotheses, the inclusion induces an isomorphism on exact `K₀`,
 `TauCeti.ExactStructure.IsResolving.resolutionEquiv`, whose inverse sends `[X]` to the alternating
 sum of any finite `P`-resolution (`TauCeti.ExactStructure.IsResolving.resolutionEquiv_symm_of`)
-(Weibel, *The K-book*, Theorem II.7.6). Both inverse identities hold, and the isomorphism is
+(Weibel, *The K-book*, Theorem V.3.1). Both inverse identities hold, and the isomorphism is
 natural under additive conflation-exact functors carrying `P` into the resolving subcategory of
 the target (`TauCeti.ExactStructure.IsResolving.map_comp_resolutionEquiv`) and invariant under
 exact equivalences matching the two resolving subcategories
@@ -736,26 +736,27 @@ differential lands in `A₊` times its target.
   `d` exactly when each of its pieces of degree other than `d` lies in `A₊M`
   (`TauCeti.InternalGrading.isGeneratedInDegree_iff_piece_le_positive_smul_top`).
 
-Prove the converse tested against the degree-zero quotient alone: for `A` nonnegatively graded
-with semisimple degree-zero part `A₀ = A/A₊`, a minimal graded projective resolution `P` of `M`
-whose terms are bounded below (finitely generated terms suffice) is linear as soon as
-`Extⁱ(M, A₀{j}) = 0` for `i ≠ j`. Route: minimality makes both differentials of
-`Hom_gr(P, A₀{j})` vanish, so `Extⁱ(M, A₀{j}) = Hom_{A₀}((Pᵢ/A₊Pᵢ)_j, A₀)`; a semisimple `A₀`
-cogenerates its modules, so the vanishing says that `Pᵢ/A₊Pᵢ` is concentrated in degree `i`, and
-graded Nakayama then says that `Pᵢ` is generated in degree `i`. Equivalently, the vanishing
-against `A₀{j}` gives the vanishing against every target concentrated in degree `j`, and the
-converse above applies.
+Prove the converse tested against the degree-zero quotient alone: for `A` nonnegatively graded with
+semisimple degree-zero part `A₀ = A/A₊`, a minimal graded projective resolution `P` of `M` whose
+terms are bounded below (finitely generated terms suffice) is linear as soon as `Extⁱ(M, A₀{j}) = 0`
+for `i ≠ j` (Beilinson–Ginzburg–Soergel, Proposition 2.14.2). Route: minimality makes both
+differentials of `Hom_gr(P, A₀{j})` vanish, so `Extⁱ(M, A₀{j}) = Hom_{A₀}((Pᵢ/A₊Pᵢ)_j, A₀)`; a
+semisimple `A₀` cogenerates its modules, so the vanishing says that `Pᵢ/A₊Pᵢ` is concentrated in
+degree `i`, and graded Nakayama then says that `Pᵢ` is generated in degree `i`. Equivalently, the
+vanishing against `A₀{j}` gives the vanishing against every target concentrated in degree `j`, and
+the converse above applies.
 
 Define the matrix-valued **Betti Poincaré series** of a graded module `M` with a minimal graded
-projective resolution `P` by finitely generated terms. Writing
-`Pₙ ≅ ⊕_{i,d} P_i{d}^{β^n_{i,d}(M)}` over the indecomposable graded projectives `P_i`, the entry
-of `M` at `P_i` is `∑_{n,d} β^n_{i,d}(M) q^d tⁿ`, which retains both the homological degree `t`
-and the internal degree `q`; for the family of graded simple modules `S_j` the entries form the
-matrix `B(q, t)` with rows `P_i` and columns `S_j`. Prove that the series does not depend on the
-minimal resolution, that the resolution is linear exactly when every entry is supported on the
-diagonal `d = n`, and that the series of `M{1}` is `q` times the series of `M`. A route compares
-`β^n_{i,d}(M) · dim_k End(S_i)` with `dim_k Extⁿ(M, S_i{d})`, which minimality identifies with
-`Hom_gr(Pₙ, S_i{d})`, and so compares the Betti series with Tau Ceti's bigraded Ext Poincaré series
+projective resolution `P` by finitely generated terms. Writing `Pₙ ≅ ⊕_{i,d} P_i{d}^{β^n_{i,d}(M)}`
+over the indecomposable graded projectives `P_i`, the entry of `M` at `P_i` is
+`∑_{n,d} β^n_{i,d}(M) q^d tⁿ`, which retains both the homological degree `t` and the internal degree
+`q`; for the family of graded simple modules `S_j` the entries form the matrix `B(q, t)` with rows
+`P_i` and columns `S_j`. Prove that the series does not depend on the minimal resolution, that the
+resolution is linear exactly when every entry is supported on the diagonal `d = n` (linearity is
+Beilinson–Ginzburg–Soergel, Definition 2.14.1), and that the series of `M{1}` is `q` times the
+series of `M`. A route compares `β^n_{i,d}(M) · dim_k End(S_i)` with `dim_k Extⁿ(M, S_i{d})`, which
+minimality identifies with `Hom_gr(Pₙ, S_i{d})` as in the proof of Beilinson–Ginzburg–Soergel,
+Theorem 2.11.1, and so compares the Betti series with Tau Ceti's bigraded Ext Poincaré series
 (`TauCeti.bigradedExtPoincarePowerSeries`). Its Euler identity with the graded Cartan matrix is
 §4.5.
 
@@ -934,10 +935,10 @@ or `−qⁿ` in any two bases indexed by the same finite type
 Prove `gradedCartanMap_bijective`: under the same resolution hypothesis, in the canonical exact
 structure of all graded modules, the graded Cartan map is an isomorphism of `ℤ[q, q⁻¹]`-modules,
 with no finiteness hypothesis on `A` and no decomposition hypothesis on `𝒜`, by the graded
-resolution theorem of §3.6. The finitely generated graded modules with projective underlying
-module form a resolving subcategory of the finitely generated graded modules: they are closed
-under extensions, and under kernels of epimorphisms because a short exact sequence whose third
-term has projective underlying module splits on underlying modules.
+resolution theorem of §3.6 (Weibel, *The K-book*, Theorem V.3.1). The finitely generated graded
+modules with projective underlying module form a resolving subcategory of the finitely generated
+graded modules: they are closed under extensions, and under kernels of epimorphisms because a short
+exact sequence whose third term has projective underlying module splits on underlying modules.
 
 The instance this layer uses is a graded finite-dimensional algebra with graded simple modules
 and graded projective covers, where `𝒜` is a decomposition, the source is `K₀^gr(proj A)` with its
@@ -957,16 +958,20 @@ Prove that the `(i, j)` entry of the graded Cartan matrix is the graded multipli
 When the graded simple modules have minimal graded projective resolutions by finitely generated
 terms, prove the alternating Euler identity `C(q) · B(q, −1) = I` between the graded Cartan matrix
 `C(q)`, with rows `S_i` and columns `P_j`, and the Betti Poincaré matrix `B(q, t)` of §3.7, with
-rows `P_i` and columns `S_j`, evaluated at `t = −1`. It holds coefficientwise in `q` under local
-finiteness and the degreewise finiteness that makes each coefficient a finite sum. When the
+rows `P_i` and columns `S_j`, evaluated at `t = −1`. It holds coefficientwise in `q` when, for each
+`i` and `d`, only finitely many `n` have `β^n_{i,d} ≠ 0`, so that every internal-degree strand of
+the resolutions is a finite exact sequence and each coefficient is a finite sum. When the
 resolutions are finite it is an identity of Laurent-polynomial matrices, the matrix form of the
-inverse of the graded Cartan isomorphism, which writes `[S_j]` as the alternating sum of the
-classes of the terms of its resolution. When the resolutions are linear in the sense of §3.7, so
-that the support is diagonal, it is the one-variable identity `C(q) · P(−q) = I` for the Poincaré
-matrix `P(q) = B(q, 1)`. A converse stated using Betti series must retain that support data;
-Koszulity is not inferred merely from a numerical Hilbert-series identity for a separately named
-quadratic dual. The Ext-side forms of these identities, in the transposed convention, are Tau
-Ceti's `TauCeti.gradedCartanMatrix_transpose_mul_gradedExtEulerMatrix_map_invert_eq_diagonal` and
+inverse of the graded Cartan isomorphism, which writes `[S_j]` as the alternating sum of the classes
+of the terms of its resolution. When the resolutions are linear in the sense of §3.7, so that the
+support is diagonal, it is the one-variable identity `C(q) · P(−q) = I` for the Poincaré matrix
+`P(q) = B(q, 1)`; for a nonnegatively graded algebra whose degree-zero part is a product of copies
+of `k`, this is Beilinson–Ginzburg–Soergel, Lemma 2.11.1 and Theorem 2.11.1, and the general
+identity is the same Euler–Poincaré count made in each internal degree. A converse stated using
+Betti series must retain that support data; Koszulity is not inferred merely from a numerical
+Hilbert-series identity for a separately named quadratic dual. The Ext-side forms of these
+identities, in the transposed convention, are Tau Ceti's
+`TauCeti.gradedCartanMatrix_transpose_mul_gradedExtEulerMatrix_map_invert_eq_diagonal` and
 `TauCeti.gradedCartanMatrix_transpose_mul_diagonalExtPoincareMatrix_map_eq_diagonal`, with the
 converse keeping the support data `TauCeti.forall_isLinear_iff_cartan_poincare_maslovEuler`; they
 give a route.
@@ -1237,14 +1242,14 @@ resolution, and `Hom(U P, U Y) = ⊕ⱼ Hom_gr(P, Y{j})` termwise for finitely g
 specialization at `q = 1` to the ungraded form is the general theorem of §6.6 applied to this
 comparison.
 
-Prove that finite dimension of `kQ` is necessary. For one vertex with two loops `x`, `y`, the left
-ideal `Ω` generated by the words `x yⁿ` is free on them, no such word being a proper suffix of
-another, so `X = kQ/Ω` is cyclic with the resolution `0 → Ω → kQ → X → 0`. Against the simple
-module `S` the restriction `Hom(kQ, S) → Hom(Ω, S)` is zero, so `Ext¹(X, S) ≅ ∏_ℕ k`, of
+Prove that the comparison can fail when `kQ` is not Noetherian. For one vertex with two loops `x`,
+`y`, the left ideal `Ω` generated by the words `x yⁿ` is free on them, no such word being a proper
+suffix of another, so `X = kQ/Ω` is cyclic with the resolution `0 → Ω → kQ → X → 0`. Against the
+simple module `S` the restriction `Hom(kQ, S) → Hom(Ω, S)` is zero, so `Ext¹(X, S) ≅ ∏_ℕ k`, of
 uncountable dimension, while `Ext¹_gr(X, S{j})` is `k` for `j ≥ 1` and `0` otherwise, so
 `⊕ⱼ Ext¹_gr(X, S{j}) ≅ ⊕_ℕ k`, of countable dimension: no comparison isomorphism exists in degree
-one. The graded statement, not the ungraded one, is what the graded Cartan matrix
-`(1 + q²)I + qA` of ZigzagPreprojective is compared against.
+one. The graded statement, not the ungraded one, is what the graded Cartan matrix `(1 + q²)I + qA`
+of ZigzagPreprojective is compared against.
 
 *Needs:* §§3.6, 4.5, 5.4–5.7; QuiverRepresentations §0.1 (path algebras) and §4.1 (Ext and the
 Ringel form); Tau Ceti `TauCeti.eulerForm`, `TauCeti.titsPolarForm`, `TauCeti.PathAlgebra.gradeBy`,
@@ -1276,11 +1281,11 @@ are built in Layers 2–5. This layer adds only the coefficient ring and what de
 Dancso–Licata, Section 2.2, especially Definition 2.3 and Proposition 2.7, is the model for graded
 `K₀` and the `q`-Euler form; Sections 1.2 and 3.1–3.2 fix `q`-antilinearity, Gram matrices,
 left and right duals, and specialization warnings. This roadmap adopts its sesquilinearity
-convention but not its reversed ungraded `K`-group letters. The displayed exponent of `qdim` in
-Definition 2.3, where the coefficient of `qᵏ` is the dimension of `Hom(M, N{k})`, is reversed
-relative to the sesquilinearity stated in the same definition: with that `qdim`, `[N{1}] = q[N]`
-would force `⟨[M], [N{1}]⟩ = q⁻¹⟨[M], [N]⟩` against the stated `q`-linearity in the second slot.
-The roadmap follows the sesquilinearity, which is the `q⁻ʲ` convention of Convention 12.
+convention but not its reversed ungraded `K`-group letters. Definition 2.3 takes the coefficient
+of `qᵏ` to be the dimension of the degree-`k` piece of `Ext(M, N)`, the maps raising degree by
+`k`; with the shift `(M{j})_p = M_{p−j}` of their Proposition 2.4, this piece is `Ext(M, N{−k})`,
+so their form is the `q⁻ʲ` convention of Convention 12, as the Gram matrix of their Example 3.3
+confirms.
 
 ### 6.1 Shift-module structure
 
@@ -1289,7 +1294,7 @@ graded exact `K₀`, `TauCeti.GradedExactStructure.shiftEquiv`, whose inverse is
 inverse shift, using that the inverse is conflation-exact. With it, graded `K₀` is the
 `R`-module `TauCeti.LaurentK0 E`, and `[M{n}] = qⁿ[M]` for every `n : ℤ`
 (`TauCeti.LaurentK0.T_smul`), in particular `[M{1}] = q[M]`
-(Dancso–Licata, Definition 2.3). Universal property: `R`-linear maps out of `TauCeti.LaurentK0 E`
+(Dancso–Licata, Section 2.2). Universal property: `R`-linear maps out of `TauCeti.LaurentK0 E`
 are the additive invariants equipped with a compatible invertible shift action
 (`TauCeti.LaurentK0.liftEquiv`).
 
@@ -1326,13 +1331,13 @@ Mathlib's sesquilinear maps, it is `TauCeti.gradedExtEulerSesquilinear`, an
 `χ_q(rM, N) = bar(r) χ_q(M, N)` and `χ_q(M, rN) = r χ_q(M, N)`, with the generating identities
 for shifts `χ_q(qⁿM, N) = q⁻ⁿ χ_q(M, N)` and `χ_q(M, qⁿN) = qⁿ χ_q(M, N)`
 (`TauCeti.gradedExtEulerSesquilinear_T_smul_left`,
-`TauCeti.gradedExtEulerSesquilinear_T_smul_right`) (Dancso–Licata, Proposition 2.7 and Section
-3.1). It is additive and descends to graded `K₀` (§5.7).
+`TauCeti.gradedExtEulerSesquilinear_T_smul_right`) (Dancso–Licata, Definition 2.3 and the
+footnote to Definition 3.1). It is additive and descends to graded `K₀` (§5.7).
 
 **Checks.**
 - For a one-dimensional graded vector space `M` in degree `0`, `χ_q(M, M) = 1`,
-  `χ_q(M, M{1}) = q` and `χ_q(M{1}, M) = q⁻¹`. The exponent displayed in Dancso–Licata,
-  Definition 2.3, would give `χ_q(M, M{1}) = q⁻¹`, contradicting linearity in the second slot.
+  `χ_q(M, M{1}) = q` and `χ_q(M{1}, M) = q⁻¹`. Reading the coefficient of `qᵏ` as
+  `dim Hom(M, N{k})` would give `χ_q(M, M{1}) = q⁻¹`, contradicting linearity in the second slot.
 
 *Needs:* §§5.7, 6.1–6.2; Mathlib `LaurentPolynomial.invert`, `LaurentPolynomial.invert_T`,
 `LaurentPolynomial.involutive_invert` and the sesquilinear maps of
@@ -1342,19 +1347,19 @@ for shifts `χ_q(qⁿM, N) = q⁻ⁿ χ_q(M, N)` and `χ_q(M, qⁿN) = qⁿ χ_q
 
 The graded Gram matrix of the `q`-Euler form in two bases is `TauCeti.gradedExtEulerMatrix`, with
 the conjugate-transpose change of basis `M′ = P̄ᵀ M Q`, where `P̄` is the entrywise bar of the
-change-of-basis matrix in the first argument (`TauCeti.gradedExtEulerMatrix_basis_change`);
-the graded Cartan matrix is `TauCeti.gradedCartanMatrix`, with its change of basis
-(`TauCeti.gradedCartanMatrix_basis_change`) (Dancso–Licata, Section 3.2). Projective, simple and
-dual bases are related only under explicitly constructed graded dualities, and no Serre or
-DG-perfect duality is invoked. For a finite-dimensional graded algebra with degree-zero
-idempotents `e_i` such that `e_i S_j = 0` for `i ≠ j` and `e_i S_i` has graded dimension `1`, the
-graded analogue of absolute simplicity, the `q`-Euler pairing of the graded projectives `A e_i`
-against the graded simple modules is the identity matrix, so the graded projectives are the dual
-basis of the graded simple modules
-(`TauCeti.gradedExtEulerMatrix_gradedSimpleClassBasis_eq_one`,
-`TauCeti.gradedProjectiveExtEuler_basis_eq_dualBasis`); and, for the Euler matrix `E` of the
-graded simple modules and `C̄` the entrywise bar of the graded Cartan matrix, `C̄ᵀ E = I` and
-`E = (C̄ᵀ)⁻¹` (`TauCeti.gradedCartanMatrix_map_invert_transpose_mul_gradedExtEulerMatrix_eq_one`,
+change-of-basis matrix in the first argument (`TauCeti.gradedExtEulerMatrix_basis_change`)
+(Dancso–Licata, Section 3.1); the graded Cartan matrix is `TauCeti.gradedCartanMatrix`, with its
+change of basis (`TauCeti.gradedCartanMatrix_basis_change`). Projective, simple and dual bases are
+related only under explicitly constructed graded dualities, and no Serre or DG-perfect duality is
+invoked. For a finite-dimensional graded algebra with degree-zero idempotents `e_i` such that
+`e_i S_j = 0` for `i ≠ j` and `e_i S_i` has graded dimension `1`, the graded analogue of absolute
+simplicity, the `q`-Euler pairing of the graded projectives `A e_i` against the graded simple
+modules is the identity matrix, so the graded projectives are the dual basis of the graded simple
+modules (`TauCeti.gradedExtEulerMatrix_gradedSimpleClassBasis_eq_one`,
+`TauCeti.gradedProjectiveExtEuler_basis_eq_dualBasis`; Dancso–Licata, Section 3.2); and, for the
+Euler matrix `E` of the graded simple modules and `C̄` the entrywise bar of the graded Cartan
+matrix, `C̄ᵀ E = I` and `E = (C̄ᵀ)⁻¹`
+(`TauCeti.gradedCartanMatrix_map_invert_transpose_mul_gradedExtEulerMatrix_eq_one`,
 `TauCeti.gradedExtEulerMatrix_eq_inv_gradedCartanMatrix_map_invert_transpose`).
 
 *Needs:* §§4.5, 6.3; Tau Ceti `TauCeti.gradedCartanMatrix` and the declarations named above.
@@ -2011,12 +2016,14 @@ and proves that they agree with the general categorical `K₀` and Ext-Euler con
   (group completion), Section 5 (symmetric-monoidal and split `K₀`), Section 6 (abelian `K₀`,
   smallness and universal properties), Section 7 (exact `K₀` and the Resolution Theorem II.7.6),
   Proposition II.7.5 (Euler characteristic in an exact subcategory), and Exercise II.9.15
-  (triangulated `K₀` and bounded-complex comparisons).
-- Theo Bühler, [“Exact Categories,”](https://arxiv.org/abs/0811.1480) *Expositiones
-  Mathematicae* 28 (2010), 1–69: Definition 2.1 and Remarks 2.2–2.8 (axioms and duality),
-  Propositions 2.9 and 2.12 (direct sums and bicartesian squares), Section 5 (exact functors),
-  Sections 11–12 (projectives, resolutions, comparison and horseshoe), and Sections 13.1–13.3
-  (split, abelian and quasi-abelian, and fully exact subcategories).
+  (triangulated `K₀` and bounded-complex comparisons); Chapter V, Theorem V.3.1 (the Resolution
+  Theorem in an exact category).
+- Theo Bühler, [“Exact Categories,”](https://arxiv.org/abs/0811.1480) *Expositiones Mathematicae* 28
+  (2010), 1–69: Definition 2.1 and Remarks 2.2–2.8 (axioms and duality), Propositions 2.9 and 2.12
+  (direct sums and bicartesian squares), Section 5 (exact functors), Definition 8.1 and Lemma 8.4
+  (admissible morphisms and their factorization), Sections 11–12 (projectives, resolutions,
+  comparison and horseshoe), and Sections 13.1–13.3 (split, abelian and quasi-abelian, and fully
+  exact subcategories).
 - Zsuzsanna Dancso and Anthony Licata, [“Koszul algebras and flow
   lattices,”](https://doi.org/10.1016/j.jcta.2021.105534) *Journal of Combinatorial Theory,
   Series A* 185 (2022), 105534; [arXiv version](https://arxiv.org/abs/1905.03067): Sections 1.1
@@ -2024,6 +2031,12 @@ and proves that they agree with the general categorical `K₀` and Ext-Euler con
   Proposition 2.7 (graded `K₀` and Euler form), and Sections 3.1–3.2 (`q`-lattices, bar,
   sesquilinearity, Gram matrices, and left and right duals). Their `G₀`/`K₀` letters are
   translated as in Convention 5.
+- Alexander Beilinson, Victor Ginzburg, and Wolfgang Soergel, [“Koszul duality patterns in
+  representation theory,”](https://doi.org/10.1090/S0894-0347-96-00192-0) *Journal of the
+  American Mathematical Society* 9 (1996), 473–527: Definition 2.14.1 and Proposition 2.14.2
+  (linear resolutions of modules and the Ext criterion for them), and Lemma 2.11.1 and Theorem
+  2.11.1 (the Hilbert-series identity of a Koszul algebra; the proof of the theorem reads Ext off
+  the generators of a minimal resolution).
 - Ibrahim Assem, Daniel Simson, and Andrzej Skowroński, *Elements of the Representation Theory of
   Associative Algebras, Volume 1: Techniques of Representation Theory*, LMS Student Texts 65,
   Cambridge University Press (2006): Chapter I, Sections 4–5 (indecomposable projectives and
