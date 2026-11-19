@@ -292,7 +292,8 @@ vertex-deletion and arrow-deletion correspondences (`Digraph.arrowWalkEquiv`,
 is reachability in `D.toSimpleGraphInclusive` (`Digraph.weaklyConnectedComponent_mk_eq_mk_iff`); it
 keeps loops and has at most one arrow per ordered pair.
 
-The targets of this section (Diestel, *Graph Theory*, §1.9 and Chapter 3):
+The targets of this section (Diestel, *Graph Theory*, §1.4, p. 11, for components, and §1.10,
+pp. 27–28, for multigraphs and orientations):
 
 - **Isomorphisms on subgraphs.** A graph isomorphism transports subgraphs, induced subgraphs and
   closed subgraphs, compatibly with identity, inverse and composition.
@@ -359,7 +360,8 @@ extraction and reachability-after-deletion API (`TauCeti.ArrowWalk.exists_isPath
 `TauCeti.ReachableAvoiding`). The cut, separator, boundary and path-family statements assume no
 finiteness; the cardinality, capacity and aggregation formulas assume a finite graph.
 
-The targets of this section (Diestel, *Graph Theory*, §1.9):
+The targets of this section (Diestel, *Graph Theory*, §1.4, p. 11, for separators, and §1.9, p. 24,
+for cuts):
 
 - **Vertex deletion.** After deleting a vertex set `X`, the boundary of `S` consists of the boundary
   edges of `S` in `G` with no end in `X`.
@@ -429,8 +431,8 @@ and values in an additive subgroup are `TauCeti.residualUpdate_zero`,
 `TauCeti.residualUpdate_apply` and `TauCeti.residualUpdate_mem`. Path and cycle augmentation
 specialize it, for general signed bounds (`TauCeti.residualUpdate_walkAssignment_mem_Icc`).
 
-The targets of this section (Schrijver, *Combinatorial Optimization*, Vol. A; Bertsekas, *Linear
-Network Optimization*, §1.1.3):
+The targets of this section (Bang-Jensen–Gutin, *Digraphs*, §3.1.2, p. 98, for the residual network;
+Bertsekas, *Linear Network Optimization*, §1.1.3, p. 14):
 
 - **Network abbreviations.** The network exposes cut capacity, the cut bound `U` and the types of
   exact-excess and interval-excess assignments through abbreviations, as it does assignments and
@@ -499,7 +501,8 @@ assignments, flows, residual capacities and cuts (`TauCeti.Network.map`, `TauCet
 `TauCeti.BoundedFlow.map`, `TauCeti.Flow.map`, `TauCeti.Assignment.map_residualCapacity`,
 `TauCeti.map_cutBound`, `TauCeti.map_arrowSum`).
 
-The targets of this section (Schrijver, *Combinatorial Optimization*, Vol. A):
+The targets of this section (Bang-Jensen–Gutin, *Digraphs*, Lemma 3.2.2, p. 100, for auxiliary
+terminals, and §3.2.4, pp. 102–103, for vertex splitting):
 
 - **Paths through auxiliary terminals.** A simple `σ–τ` path consists of one arrow `σ → a`, an
   original path from `a ∈ A` to a vertex of `B`, and one arrow into `τ`; the original path may pass
@@ -560,7 +563,7 @@ simple-graph degree on `Graph.ofSimpleGraph` (`Graph.incidenceCount_ofSimpleGrap
 and on loopless graphs the two counts agree (`Graph.nonloopIncidenceCount_eq_incidenceCount`); §6.9
 uses the incidence count as degree, and §8.8 counts a loop once toward indegree.
 
-The targets of this section (Diestel, *Graph Theory*, Chapter 3):
+The targets of this section (Diestel, *Graph Theory*, §1.4, p. 12):
 
 - **Numerical monotonicity.** `Graph.edgeConnectivity` does not decrease when edges are added on
   the same actual vertex set.
@@ -629,7 +632,8 @@ an inclusion-minimal nonempty edge cut, independently of cardinality or capacity
 (`Graph.Connected.isBond_edgeCut_iff`); bonds restrict to components
 (`Graph.IsClosedSubgraph.isBond_iff`, Mathlib's `Graph.IsBond.of_isClosedSubgraph`).
 
-The targets of this section (Diestel, *Graph Theory*, §1.9):
+The targets of this section (Diestel, *Graph Theory*, §1.4, p. 11, for bridges, and §1.9, p. 24, for
+bonds):
 
 - **Splitting a component.** An actual edge is a bridge exactly when deleting it splits the
   component containing its ends into exactly two components, one containing each end.
@@ -652,8 +656,8 @@ vertex exactly when deleting it increases the number of components
 (`Graph.isCutVertex_iff_componentCount_lt_componentCount_deleteVerts`). **Why:** the reachability
 definition needs neither finiteness nor `Fintype` instances on deletion subtypes.
 
-The target of this section (Diestel, *Graph Theory*, Chapter 3): `v` is a cut vertex of `G` exactly
-when it is a cut vertex of `G.toSimpleGraph`.
+The target of this section (Diestel, *Graph Theory*, §1.4, p. 11): `v` is a cut vertex of `G`
+exactly when it is a cut vertex of `G.toSimpleGraph`.
 
 *Needs:* §1.1; Tau Ceti `Graph.IsCutVertex`, `SimpleGraph.IsCutVertex`.
 
@@ -668,7 +672,8 @@ exactly one block (`SimpleGraph.Adj.existsUnique_isBlock_superset_pair`) and a v
 exactly when it lies in two distinct blocks (`SimpleGraph.isCutVertex_iff_exists_isBlock_ne`, with
 `SimpleGraph.IsBlock.isCutVertex_of_ne` holding without finiteness).
 
-The targets of this section (Diestel, *Graph Theory*, Chapter 3):
+The targets of this section (Diestel, *Graph Theory*, §3.1, p. 64, and Exercise 6 of Chapter 3,
+p. 87):
 
 - **Bridges.** The ends of a bridge that is an edge form a two-vertex block.
 - **Without finiteness.** Every edge lies in exactly one block, and a vertex is a cut vertex exactly
@@ -688,7 +693,8 @@ The targets of this section (Diestel, *Graph Theory*, Chapter 3):
 Define `blockCutGraph`: for a simple graph `G`, the simple graph whose vertices are the blocks and
 the cut vertices of `G`, a block being adjacent to a cut vertex exactly when it contains it. Prove
 `isAcyclic_blockCutGraph`, that it is a forest, with no finiteness, and `isTree_blockCutGraph`, that
-it is a tree when `G` is connected (Diestel, *Graph Theory*, Chapter 3). Prove also:
+it is a tree when `G` is connected (Diestel, *Graph Theory*, Lemma 3.1.4, p. 66, and Exercise 7 of
+Chapter 3, p. 87, where the block–cut graph is the block graph of §3.1, p. 65). Prove also:
 
 - its components correspond to the components of `G`;
 - the path correspondence: for vertices `x, y` in the same component and a cut vertex `c` distinct
@@ -737,9 +743,9 @@ bridges is the number of bridges plus `G.componentCount`
 (`Graph.componentCount_deleteEdges_bridgeSet`), with no finiteness of `E(G)`. The construction is
 direct, without a general theory of contraction.
 
-The target of this section (Diestel, *Graph Theory*, §1.9): the empty graph has the empty bridge
-forest, and the statements above cover isolated vertices, loops, parallel edges and disconnected
-graphs, as the examples below verify.
+The target of this section (Diestel, *Graph Theory*, §1.4, p. 11, for bridges): the empty graph has
+the empty bridge forest, and the statements above cover isolated vertices, loops, parallel edges and
+disconnected graphs, as the examples below verify.
 
 *Needs:* §1.1, §2.1; Tau Ceti `Graph.bridgeForest`, `Graph.componentCount`.
 
@@ -828,7 +834,9 @@ the capacity of every cut, is Tau Ceti's `TauCeti.Flow.val_le_arrowSum`, with th
    capacities outside a cyclic subgroup, where augmentation can fail to terminate; there item 4
    relies on the shortest-path rule.
 
-The targets of this section (Schrijver, *Combinatorial Optimization*, Vol. A):
+The targets of this section (Bang-Jensen–Gutin, *Digraphs*, Theorem 3.3.1, p. 104, for decomposition
+and Theorem 3.5.5, p. 112, for integrality; Schrijver, *A Course in Combinatorial Optimization*,
+Theorem 4.3, p. 62, for termination):
 
 - **Terminal exchange and decomposition.** A pseudoflow conserved away from `s, t` with negative
   excess at `t` decomposes into paths from `t` to `s` and cycles, through
@@ -867,9 +875,9 @@ of a decomposition, a flow of the capped network with the same value and an arro
 assignment (`TauCeti.PathCycleDecomposition.cappedFlow`, `TauCeti.Flow.exists_flow_inf`). Arrows
 that must never be cut receive finite capacities above a known cut; §5.2 and §6.7 use this.
 
-The target of this section (Schrijver, *Combinatorial Optimization*, Vol. A): nonnegativity is
-needed. With arrows `s → a`, `a → t` and `s → t` of capacities `2`, `1` and `−1`, the minimum cut is
-`{s, a}` alone, of capacity `0`, below `B = 1`; capping at `1` makes `{s}` a minimum cut as well.
+The target of this section is a counterexample showing that nonnegativity is needed. With arrows
+`s → a`, `a → t` and `s → t` of capacities `2`, `1` and `−1`, the minimum cut is `{s, a}` alone, of
+capacity `0`, below `B = 1`; capping at `1` makes `{s}` a minimum cut as well.
 
 *Needs:* §3.1; Tau Ceti `TauCeti.isMinimum_arrowSum_inf_iff`, `TauCeti.PathCycleDecomposition`.
 
@@ -901,11 +909,11 @@ an additive subgroup (`Graph.exists_flow_val_eq_edgeCutCapacity`,
 `Graph.exists_flow_val_eq_edgeCutCapacity_mem`), and every flow value is at most every cut capacity
 (`TauCeti.Flow.val_le_edgeCutCapacity`).
 
-The target of this section (Schrijver, *Combinatorial Optimization*, Vol. A): the `SimpleGraph`
-statement for capacities indexed by `Sym2 V`, through `Graph.ofSimpleGraph` and the aggregation of
-§1.2, in the shape of the Mathlib proposal on weak max-flow/min-cut duality: for distinct `s, t`
-some flow of the bidirected network and some `S` with `s ∈ S`, `t ∉ S` have value equal to the pair
-cut capacity of `S`.
+The target of this section (Diestel, *Graph Theory*, Theorem 6.2.2, p. 159, whose networks are
+multigraphs): the `SimpleGraph` statement for capacities indexed by `Sym2 V`, through
+`Graph.ofSimpleGraph` and the aggregation of §1.2, in the shape of the Mathlib proposal on weak
+max-flow/min-cut duality: for distinct `s, t` some flow of the bidirected network and some `S` with
+`s ∈ S`, `t ∉ S` have value equal to the pair cut capacity of `S`.
 
 *Needs:* §1.2, §1.4, §3.1; Tau Ceti `TauCeti.SetFlow`, `Graph.bidirectedCapacity`,
 `Graph.exists_flow_val_eq_edgeCutCapacity`, `TauCeti.pairCutCapacity`.
@@ -947,7 +955,7 @@ any terminal split capacities (`TauCeti.SplitHom.isMixedSeparator_cutVertices_cu
 `TauCeti.SplitHom.arrowSum_assignment_compl_eq_weight`), and mixed separators giving cuts of no
 greater capacity (`TauCeti.IsMixedSeparator.exists_arrowSum_le`).
 
-The target of this section (Schrijver, *Combinatorial Optimization*, Vol. A): ordinary
+The target of this section (Bang-Jensen–Gutin, *Digraphs*, §3.2.4, pp. 102–103): ordinary
 max-flow/min-cut is recovered by taking every vertex capacity to be `∑ e, u(e)`, which every flow
 respects (`TauCeti.Flow.respectsVertexCapacity_arrowSum`).
 
@@ -1013,12 +1021,13 @@ empty, disjointness gives an admissible set, and finiteness gives an attained mi
 (`TauCeti.TerminalCut.isMinimum_singleton_iff`), and under symmetry exchanging the terminal sets
 exchanges the sides (`TauCeti.TerminalCut.isMinimum_compl_iff`,
 `TauCeti.IsSymmSubmodular.smallest_symm_eq_compl_largest`). Nonnegative directed outgoing cut
-capacity is submodular (`TauCeti.isSubmodular_outgoingArrowSum`); nonnegative undirected cut capacity
-is symmetric submodular (`Graph.isSymmSubmodular_edgeCutCapacity`,
-`TauCeti.isSymmSubmodular_pairCutCapacity`); and for finite signed bounds `ℓ ≤ u` the upper cut bound
-`U` is submodular (`TauCeti.isSubmodular_cutBound`), through the identity
-`U(S) = (u − ℓ)(δ⁺(S)) − ∑ v ∈ S, excess(ℓ)(v)` (`TauCeti.cutBound_eq_arrowSum_sub_sum_excessAt`), whose
-first term is submodular and whose vertex sum is modular, with no circulation feasibility. The
+capacity is submodular (`TauCeti.isSubmodular_outgoingArrowSum`; for arc counts, Bang-Jensen–Gutin,
+*Digraphs*, Corollary 7.1.2, p. 347); nonnegative undirected cut capacity is symmetric submodular
+(`Graph.isSymmSubmodular_edgeCutCapacity`, `TauCeti.isSymmSubmodular_pairCutCapacity`); and for
+finite signed bounds `ℓ ≤ u` the upper cut bound `U` is submodular
+(`TauCeti.isSubmodular_cutBound`), through the identity
+`U(S) = (u − ℓ)(δ⁺(S)) − ∑ v ∈ S, excess(ℓ)(v)` (`TauCeti.cutBound_eq_arrowSum_sub_sum_excessAt`),
+whose first term is submodular and whose vertex sum is modular, with no circulation feasibility. The
 minimum `A–B` cuts are closed under union and intersection (`TauCeti.TerminalCut.IsMinimum.union`,
 `TauCeti.TerminalCut.IsMinimum.inter`) and form a finite distributive lattice
 `TauCeti.TerminalCut.minimizers` with a smallest and a largest member
@@ -1031,8 +1040,7 @@ cut is unique exactly when the smallest and largest members coincide
 (`TauCeti.TerminalCut.existsUnique_minimum_iff`), a vertex of the smallest member lies on the source
 side of every minimum cut (`TauCeti.TerminalCut.mem_smallest_iff`), and a vertex outside the largest
 member lies on the source side of none (`TauCeti.TerminalCut.mem_largest_iff`). Submodularity is
-defined independently of symmetry, and none of these lattice results assumes symmetry (Schrijver,
-*Combinatorial Optimization*, Vol. A).
+defined independently of symmetry, and none of these lattice results assumes symmetry.
 
 The target of this section: constant functions are submodular for any reflexive relation `≤`, with
 no transitivity, under the definition's assumption `[Add K] [LE K]`. Its required example is Tau
@@ -1180,12 +1188,14 @@ and §4.3 use no flow theory.
 ### 5.1 Path–separator duality
 
 All versions assume finitely many actual vertices; edge-disjoint versions also assume finitely many
-edges or arrows, and vertex versions do not, except that the adjacent-terminal versions need finitely
-many direct terminal edges or arrows. Each version has attainment, some admissible family or packing
-whose size equals the cardinality or weight of a separator, and weak duality, every family or packing
-being at most every separator; witnesses keep actual edge and arrow identities. **Why:** numerical
-connectivity invariants alone give neither attaining witnesses nor their certificates (Diestel,
-*Graph Theory*, Chapter 3; Schrijver, *Combinatorial Optimization*, Vol. A).
+edges or arrows, and vertex versions do not, except that the adjacent-terminal versions need
+finitely many direct terminal edges or arrows. Each version has attainment, some admissible family
+or packing whose size equals the cardinality or weight of a separator, and weak duality, every
+family or packing being at most every separator; witnesses keep actual edge and arrow identities.
+**Why:** numerical connectivity invariants alone give neither attaining witnesses nor their
+certificates (Diestel, *Graph Theory*, Theorem 3.3.1, p. 71, Corollary 3.3.5, p. 75, and
+Theorem 3.3.6, p. 76; Schrijver, *A Course in Combinatorial Optimization*, Theorem 4.1 and
+Corollaries 4.1a and 4.1b, pp. 54–55).
 
 - **Local edge Menger**, for distinct terminals, with pairwise edge-disjoint paths and sets of edge or
   arrow identities whose deletion destroys reachability: `TauCeti.exists_paths_arrowSeparator_card_eq`
@@ -1244,7 +1254,8 @@ vertices is `k`-vertex-connected exactly when any two distinct vertices, adjacen
 joined by `k` internally disjoint paths (`SimpleGraph.isVertexConnected_iff_forall_exists_paths`), and
 the directed analogue is `TauCeti.isVertexStrong_iff_exists_paths`.
 
-The targets of this section (Diestel, *Graph Theory*, Chapter 3; Bang-Jensen–Gutin, *Digraphs*):
+The targets of this section (Diestel, *Graph Theory*, Theorem 3.3.1, p. 71, and Theorem 3.3.6,
+p. 76; Bang-Jensen–Gutin, *Digraphs*, Theorem 7.3.1, p. 353):
 
 - **Multigraph set-to-set Menger.** The vertex-disjoint and vertex-capacitated set-to-set versions for
   multigraphs, with native path witnesses, by the simplification of §1.1.
@@ -1275,10 +1286,10 @@ arrow per inhabited `Q v w`, with the path-lifting and separator correspondences
 Menger theorems use routes of their own: flows decompose into packings
 (`TauCeti.Flow.exists_paths_card_eq_val_card_filter_le`, `TauCeti.Flow.exists_paths_card_eq_val`),
 split cuts give mixed separators (`TauCeti.SplitHom.isMixedSeparator_cutVertices_cutArrows`),
-set-to-set flows give arrow-disjoint paths (`TauCeti.SetFlow.exists_paths_card_eq_val`) and cuts give
-arrow separators (`TauCeti.TerminalCut.IsAdmissible.not_reachableWithout_of_cut_subset`). The
-reductions below are reusable interfaces and are the targets of this section (Schrijver,
-*Combinatorial Optimization*, Vol. A).
+set-to-set flows give arrow-disjoint paths (`TauCeti.SetFlow.exists_paths_card_eq_val`) and cuts
+give arrow separators (`TauCeti.TerminalCut.IsAdmissible.not_reachableWithout_of_cut_subset`). The
+reductions below are reusable interfaces and are the targets of this section (Bang-Jensen–Gutin,
+*Digraphs*, §3.2.4, pp. 102–103, and the proof of Theorem 7.3.1, p. 353).
 
 - **Local and vertex-capacitated vertex Menger.** For distinct terminals, no arrow `s → t` and
   `c : V → ℕ`, put `M = (∑ v, c v) + 1`, capacity `M` on original arrows and on the split arrows of
@@ -1351,9 +1362,10 @@ numerical forms are `SimpleGraph.vertexConnectivity_le_edgeConnectivity` and
 `SimpleGraph.edgeConnectivity_le_minDegree`. For multigraphs, the native Whitney inequality
 `vertexConnectivity G ≤ edgeConnectivity G` is `Graph.vertexConnectivity_le_edgeConnectivity`, with
 predicate form `Graph.IsVertexConnected.isEdgeConnected`, and with at least two actual vertices edge
-connectivity is at most the number of nonloop edges at each vertex, parallel edges counted separately
-(`Graph.edgeConnectivity_le_nonloopIncidenceCount`, `Graph.vertexConnectivity_le_nonloopIncidenceCount`).
-The simple-graph specialization is the minimum-degree bound (Diestel, *Graph Theory*, Chapter 3).
+connectivity is at most the number of nonloop edges at each vertex, parallel edges counted
+separately (`Graph.edgeConnectivity_le_nonloopIncidenceCount`,
+`Graph.vertexConnectivity_le_nonloopIncidenceCount`). The simple-graph specialization is the
+minimum-degree bound (Diestel, *Graph Theory*, Proposition 1.4.2, p. 12).
 
 This section has no further target.
 
@@ -1380,7 +1392,7 @@ by definition the left side of `TauCeti.forall_reachableWithout_iff_exists_paths
 many vertices and arrows it holds exactly when there are `k` arrow-disjoint `s–t` paths, and
 `TauCeti.IsArcStrong` asks this for every ordered pair (`TauCeti.isArcStrong_def`).
 
-The targets of this section (Bang-Jensen–Gutin, *Digraphs*):
+The targets of this section (Bang-Jensen–Gutin, *Digraphs*, §1.5, pp. 16–17):
 
 - **API.** Monotonicity of the predicates and invariants in the arrow family, and their deletion
   lemmas.
@@ -1400,10 +1412,10 @@ The blocks with at least three vertices are exactly the vertex sets of the maxim
 induced subgraphs (`SimpleGraph.isBlock_and_three_le_encard_iff_maximal_isVertexConnected_two`, with no
 finiteness).
 
-The target of this section (Diestel, *Graph Theory*, Chapter 3): for a connected finite simple graph
-with at least three vertices, each of the following is equivalent to 2-vertex-connectivity: every two
-distinct vertices lie on a common cycle; every two distinct edges lie on a common cycle; every vertex
-and every edge lie on a common cycle.
+The target of this section (Diestel, *Graph Theory*, Lemma 3.1.3, p. 65, and Theorem 3.3.6, p. 76):
+for a connected finite simple graph with at least three vertices, each of the following is
+equivalent to 2-vertex-connectivity: every two distinct vertices lie on a common cycle; every two
+distinct edges lie on a common cycle; every vertex and every edge lie on a common cycle.
 
 *Needs:* §2.3, §5.1; Tau Ceti `SimpleGraph.IsVertexConnected`, `SimpleGraph.isVertexConnected_two_iff`.
 
@@ -1433,7 +1445,7 @@ vertices, through simplification, the cycle conditions of §6.3 being read in th
 In a `k`-vertex-connected finite graph, a vertex `x` outside a set `U` of at least `k` vertices has
 `k` paths to distinct vertices of `U`, with interiors outside `U` and pairwise meeting only in `x`
 (`SimpleGraph.IsVertexConnected.exists_fan`, with the fan form of Menger
-`SimpleGraph.exists_fan_separator_card_eq`) (Diestel, *Graph Theory*, Chapter 3).
+`SimpleGraph.exists_fan_separator_card_eq`) (Diestel, *Graph Theory*, Corollary 3.3.4, p. 75).
 
 This section has no target beyond its multigraph form in §6.4.
 
@@ -1441,9 +1453,10 @@ This section has no target beyond its multigraph form in §6.4.
 
 ### 6.6 Dirac's prescribed-vertex cycle theorem
 
-For `k ≥ 2`, every set of at most `k` vertices of a finite `k`-vertex-connected graph lies on a common
-cycle, in no prescribed order (`SimpleGraph.IsVertexConnected.exists_isCycle_forall_mem_support`)
-(Diestel, *Graph Theory*, Chapter 3).
+For `k ≥ 2`, every set of at most `k` vertices of a finite `k`-vertex-connected graph lies on a
+common cycle, in no prescribed order
+(`SimpleGraph.IsVertexConnected.exists_isCycle_forall_mem_support`) (Diestel, *Graph Theory*,
+Exercise 23 of Chapter 3, p. 89).
 
 This section has no target beyond its multigraph form in §6.4.
 
@@ -1455,13 +1468,15 @@ Define `IsBipartition`: `IsBipartition G L R` says that the finite sets `L, R` o
 a multigraph `G` are disjoint and cover `V(G)`, and that every edge joins them, so that there are no
 loops. Define `edgeUsage`: for multiplicities `x : E(G) → ℕ`, `edgeUsage G x v` is the sum of the
 multiplicities of the edges at `v`. Let `G` be a finite multigraph with `IsBipartition G L R`. For
-capacities `b : V(G) → ℕ`, a *multiset capacitated matching* assigns a multiplicity `x e : ℕ` to every
-actual edge with `edgeUsage G x v ≤ b v` at every vertex; its size is `∑ e, x e`. An edge may be used repeatedly, whether or not the graph
-has parallel edges. A vertex cover `C` meets every edge and has weight `b(C) = ∑ v ∈ C, b v`. Prove
-`exists_capacitatedMatching_cover_eq`: some multiset capacitated matching and some vertex cover have
-equal size and weight, and every multiset capacitated matching has size at most the weight of every
-cover; zero capacities, isolated vertices, empty sides and the empty graph are included (Schrijver,
-*Combinatorial Optimization*, Vol. A).
+capacities `b : V(G) → ℕ`, a *multiset capacitated matching* assigns a multiplicity `x e : ℕ` to
+every actual edge with `edgeUsage G x v ≤ b v` at every vertex; its size is `∑ e, x e`. An edge may
+be used repeatedly, whether or not the graph has parallel edges. A vertex cover `C` meets every edge
+and has weight `b(C) = ∑ v ∈ C, b v`. Prove `exists_capacitatedMatching_cover_eq`: some multiset
+capacitated matching and some vertex cover have equal size and weight, and every multiset
+capacitated matching has size at most the weight of every cover; zero capacities, isolated vertices,
+empty sides and the empty graph are included (Schrijver, *A Course in Combinatorial Optimization*,
+Theorem 8.3, p. 139, with Corollary 8.1b, p. 135, the min–max relation asked for in Exercise 8.11,
+p. 143; the case `b = 1` is Kőnig's theorem, Corollary 8.3a, p. 140).
 
 API and correspondences, all targets:
 
@@ -1498,7 +1513,9 @@ API and correspondences, all targets:
 ### 6.8 Capacitated Hall and deficiency
 
 For the same graph and capacities, let `N(S) ⊆ R` be the set of neighbours of `S ⊆ L`, multiplicity
-ignored. The targets of this section (Schrijver, *Combinatorial Optimization*, Vol. A):
+ignored. The targets of this section (Diestel, *Graph Theory*, Theorem 2.1.2, p. 40, and Exercise 9
+of Chapter 2, p. 57; Schrijver, *A Course in Combinatorial Optimization*, Exercises 3.6 and 3.12,
+pp. 43–44):
 
 - **Capacitated Kőnig–Ore formula**, in witness form: some multiset capacitated matching `x` and some
   `S ⊆ L` satisfy `size(x) = b(L ∖ S) + b(N(S))`, and every `x` and every `S ⊆ L` satisfy the
@@ -1536,8 +1553,9 @@ inequality of §6.7.
 ### 6.9 Regular bipartite multigraphs and edge-colouring
 
 For a finite bipartite multigraph the degree of a vertex is its incidence count (§1.5); there are no
-loops, and parallel edges count separately. The targets of this section (Schrijver, *Combinatorial
-Optimization*, Vol. A):
+loops, and parallel edges count separately. The targets of this section (Diestel, *Graph Theory*,
+Corollary 2.1.3, p. 41, and Proposition 5.3.1, p. 132; Schrijver, *A Course in Combinatorial
+Optimization*, Exercise 3.2, p. 42, and Theorem 7.4, p. 116):
 
 - **Regular bipartite multigraphs.** For `k ≥ 1`, a `k`-regular bipartite multigraph has a perfect
   matching and its two sides have equal size. For every `k : ℕ`, its edge set is the disjoint union of
@@ -1618,7 +1636,8 @@ order of construction (`Graph.EarDecomposition.prefix_induction`). A decompositi
 `G.EarDecomposition G`. An open ear decomposition starts from a cycle and has only open ears
 (`Graph.EarDecomposition.IsOpen`).
 
-The targets of this section (Diestel, *Graph Theory*, Chapter 3):
+The targets of this section (Diestel, *Graph Theory*, Proposition 3.1.1, p. 63, for open ears; the
+proof of Bang-Jensen–Gutin, *Digraphs*, Theorem 1.6.2, pp. 20–21, for closed ears):
 
 - **Coverage and connectivity.** A decomposition of `G` covers every actual vertex and edge,
   loops and all parallel edges included: every actual edge lies in the start or in exactly one ear,
@@ -1642,30 +1661,34 @@ agrees with Mathlib's `SimpleGraph.isEdgeConnected_two_iff_forall_not_isBridge` 
 `SimpleGraph.IsBridge` can hold for non-edges between components, while multigraph bridges are actual
 edges.
 
-The targets of this section (Diestel, *Graph Theory*, Chapter 3; Bang-Jensen–Gutin, *Digraphs*, for
-directed ears):
+The targets of this section:
 
 1. **Whitney's ear theorem**, `isVertexConnected_two_iff_exists_isOpen_earDecomposition`: a finite
-   simple graph `H` with at least three vertices is 2-vertex-connected if and only if
-   `Graph.ofSimpleGraph H` has an open ear decomposition. Existence starts from any prescribed cycle,
+   simple graph `H` is 2-vertex-connected if and only if `Graph.ofSimpleGraph H` has an open ear
+   decomposition (Diestel, *Graph Theory*, Proposition 3.1.1, p. 63). No size hypothesis is needed:
+   on fewer than three vertices both sides fail, since 2-vertex-connectivity asks for three vertices
+   and such a simple graph has no cycle. Existence starts from any prescribed cycle,
    `exists_isOpen_earDecomposition_initial_eq`: for each cycle `c` of a 2-vertex-connected finite
-   simple graph, some open ear decomposition has initial graph exactly the graph traced by `c`. The
-   prescribed-edge corollary chooses an initial cycle through a given edge. The characterization
-   applies to the simplification of a multigraph; it does not assert that open ears cover loops.
+   simple graph, some open ear decomposition has initial graph exactly the graph traced by `c` (the
+   proof of Proposition 3.1.1, run with the subgraphs built from `c`). The prescribed-edge corollary
+   chooses an initial cycle through a given edge. The characterization applies to the simplification
+   of a multigraph; it does not assert that open ears cover loops.
 2. **Ears and 2-edge-connectivity**, `isEdgeConnected_two_iff_exists_earDecomposition`: a finite
-   multigraph with an actual vertex is 2-edge-connected if and only if it is built from one vertex by
-   adding open and closed ears, that is, it has an ear decomposition whose start is not a cycle. The
+   multigraph with an actual vertex is 2-edge-connected if and only if it is built from one vertex
+   by adding open and closed ears, that is, it has an ear decomposition whose start is not a cycle
+   (the construction in the proof of Bang-Jensen–Gutin, *Digraphs*, Theorem 1.6.2, pp. 20–21). The
    simple-graph form follows through §7.1.
 3. **Directed ears.** A network `N` with nonempty finite vertex type and finite arrow types is
    strongly connected if and only if it is built from one vertex by adding directed open and closed
-   ears, covering every arrow. Directed ears are directed paths and cycles of `N` keeping arrow
-   identities, loops being one-arrow closed ears, and the directed decomposition has the prefix API of
-   §7.1 with the subnetworks of §1.3. The start from one vertex includes the isolated singleton with
-   no ears, and is related to the start from a cycle for strongly connected networks with at least
-   two vertices. The directed analogue of the bridge criterion: a network with nonempty vertex type
-   that is weakly connected, any two vertices being joined by a path of the symmetrized arrow family,
-   is strongly connected if and only if every arrow lies on a directed cycle. The `Digraph` forms
-   follow through `Digraph.AdjHom`.
+   ears, covering every arrow (Bang-Jensen–Gutin, *Digraphs*, Theorem 7.2.2, p. 350, with footnote 1
+   on p. 349 for the start from one vertex). Directed ears are directed paths and cycles of `N`
+   keeping arrow identities, loops being one-arrow closed ears, and the directed decomposition has
+   the prefix API of §7.1 with the subnetworks of §1.3. The start from one vertex includes the
+   isolated singleton with no ears, and is related to the start from a cycle for strongly connected
+   networks with at least two vertices. The directed analogue of the bridge criterion: a network
+   with nonempty vertex type that is weakly connected, any two vertices being joined by a path of
+   the symmetrized arrow family, is strongly connected if and only if every arrow lies on a directed
+   cycle. The `Digraph` forms follow through `Digraph.AdjHom`.
 
 *Needs:* §1.1, §1.3, §2.1, §5.1 or §6.3 for vertex paths, §7.1; Tau Ceti `Graph.EarDecomposition`,
 `SimpleGraph.IsVertexConnected`, `Graph.IsEdgeConnected`, `TauCeti.ArrowWalk.IsCycle`.
@@ -1678,7 +1701,8 @@ directed ears):
 
 ### 7.3 Robbins' theorem
 
-The targets of this section (Bang-Jensen–Gutin, *Digraphs*):
+The targets of this section (Bang-Jensen–Gutin, *Digraphs*, Theorem 1.6.2, p. 20, for connected
+graphs, and §8.6, p. 443, for multigraphs):
 
 - **Robbins' theorem**, `exists_isStronglyConnected_orientation_iff`: a finite multigraph has an
   orientation that is strongly connected on its actual vertices if and only if it is 2-edge-connected.
@@ -1705,7 +1729,8 @@ characterization.
 
 ### 7.4 `st`-numberings and acyclic orientations
 
-The targets of this section (Even–Tarjan, *Computing an st-numbering*):
+The targets of this section (a theorem of Lempel, Even and Cederbaum, stated in Papamanthou–Tollis,
+*Applications of parameterized st-orientations*, §1, p. 338, with the orientation it induces):
 
 - **Existence**, `exists_stNumbering`: for a finite 2-vertex-connected simple graph and an edge with
   ordered ends `s, t`, the vertices can be numbered bijectively by `Fin |V|` with `s` numbered zero
@@ -1760,32 +1785,34 @@ vertex set closed under arrows has total excess zero (`TauCeti.sum_excessAt_eq_z
 with the interval forms `TauCeti.ExcessIntervalFlow.sum_le_zero_of_forall_mem_iff` and
 `TauCeti.ExcessIntervalFlow.zero_le_sum_of_forall_mem_iff`).
 
-The targets common to the layer (Bertsekas, *Linear Network Optimization*, §1.1.3): for exact-excess
-and interval-excess assignments, extensionality (they are subtypes), restriction to components,
-disjoint unions of networks and of assignments, bound relaxation, arrow reversal, and transport
-under network isomorphisms and coefficient embeddings; for bounded terminal assignments, restriction
-to components, disjoint unions and arrow reversal; and, for componentwise feasibility, that the
-prescribed excess sums to zero on each component of the underlying undirected graph.
+The targets common to the layer (Bertsekas, *Linear Network Optimization*, §1.1.3, p. 14): for
+exact-excess and interval-excess assignments, extensionality (they are subtypes), restriction to
+components, disjoint unions of networks and of assignments, bound relaxation, arrow reversal, and
+transport under network isomorphisms and coefficient embeddings; for bounded terminal assignments,
+restriction to components, disjoint unions and arrow reversal; and, for componentwise feasibility,
+that the prescribed excess sums to zero on each component of the underlying undirected graph.
 
 ### 8.1 Signed circulation algebra and assignment shifts
 
-On a fixed finite quiver, the signed assignments of zero excess are the kernel of `TauCeti.excessHom`
-(`TauCeti.isCirculation_iff_mem_ker`); two assignments have the same excess exactly when their
-difference is a signed circulation (`TauCeti.excessAt_eq_iff_isCirculation_sub`), and adding a signed
-circulation preserves excess, while feasible circulations with bounds need not be closed under
-addition. For any reference assignment `h`, with no feasibility assumption, `f ↦ f − h` is an
-equivalence replacing the bounds by `ℓ − h, u − h` and the prescribed excess by `b − excess h`
-(`TauCeti.ExcessFlow.shiftEquiv`, with `TauCeti.ExcessFlow.shiftEquiv_apply_val` and
+On a fixed finite quiver, the signed assignments of zero excess are the kernel of
+`TauCeti.excessHom` (`TauCeti.isCirculation_iff_mem_ker`); two assignments have the same excess
+exactly when their difference is a signed circulation (`TauCeti.excessAt_eq_iff_isCirculation_sub`),
+and adding a signed circulation preserves excess, while feasible circulations with bounds need not
+be closed under addition. For any reference assignment `h`, with no feasibility assumption,
+`f ↦ f − h` is an equivalence replacing the bounds by `ℓ − h, u − h` and the prescribed excess by
+`b − excess h` (`TauCeti.ExcessFlow.shiftEquiv`, with `TauCeti.ExcessFlow.shiftEquiv_apply_val` and
 `TauCeti.ExcessFlow.shiftEquiv_symm_apply_val`); for interval excess both vertex endpoints shift by
 `−excess h` (`TauCeti.ExcessIntervalFlow.shiftEquiv`); values in an additive subgroup are preserved
-when `h` takes values in it (`TauCeti.ExcessFlow.shiftEquiv_apply_mem_iff`). Lower-bound subtraction is
-the case `h = ℓ`, onto the ordinary network with capacities `u − ℓ` and prescribed excess
-`b − excess ℓ` (`TauCeti.ExcessFlow.shiftLowerEquiv`), which for circulations is in general not zero;
-a feasible reference of the same excess gives prescribed excess zero
-(`TauCeti.ExcessFlow.circulationEquiv`).
+when `h` takes values in it (`TauCeti.ExcessFlow.shiftEquiv_apply_mem_iff`). Lower-bound subtraction
+is the case `h = ℓ`, onto the ordinary network with capacities `u − ℓ` and prescribed excess
+`b − excess ℓ` (`TauCeti.ExcessFlow.shiftLowerEquiv`), which for circulations is in general not
+zero; a feasible reference of the same excess gives prescribed excess zero
+(`TauCeti.ExcessFlow.circulationEquiv`). Citations of this section's `signedCirculations` and
+`sub_mem_signedCirculations_iff` refer to the kernel of `TauCeti.excessHom` and to
+`TauCeti.excessAt_eq_iff_isCirculation_sub`.
 
-The target of this section (Bertsekas, *Linear Network Optimization*, §1.1.3): the shift by zero is
-the identity, and shifting by `h` and then by `h'` is the shift by `h + h'`.
+The target of this section (Bertsekas, *Linear Network Optimization*, §1.1.3, p. 14): the shift by
+zero is the identity, and shifting by `h` and then by `h'` is the shift by `h + h'`.
 
 *Needs:* §1.3; Tau Ceti `TauCeti.excessHom`, `TauCeti.ExcessFlow.shiftEquiv`.
 
@@ -1800,15 +1827,15 @@ the identity, and shifting by `h` and then by `h'` is the shift by `h + h'`.
 
 ### 8.2 Feasibility and certificates
 
-*Hoffman's circulation theorem*: a feasible circulation exists if and only if
-`ℓ(δ⁻(S)) ≤ u(δ⁺(S))` for every vertex set `S` (`TauCeti.exists_isCirculation_iff`). More generally,
-an assignment within the bounds with `excess f = b` exists exactly when `∑ v, b v = 0` and
-`b(S) + ℓ(δ⁺(S)) ≤ u(δ⁻(S))` for every `S` (`TauCeti.ExcessFlow.nonempty_iff`), positive `b` being
-demand and negative `b` supply. The witness alternative, a feasible assignment or a nonzero total
-prescribed excess or a set violating the inequality strictly, is
-`TauCeti.ExcessFlow.nonempty_or_certificate`, and for circulations a feasible circulation or a
-violating Hoffman cut is `TauCeti.exists_isCirculation_or_cut`. When `b` and both bounds take values
-in an additive subgroup `H`, a feasible assignment with values in `H` exists whenever one exists
+*Hoffman's circulation theorem*: a feasible circulation exists if and only if `ℓ(δ⁻(S)) ≤ u(δ⁺(S))`
+for every vertex set `S` (`TauCeti.exists_isCirculation_iff`). More generally, an assignment within
+the bounds with `excess f = b` exists exactly when `∑ v, b v = 0` and `b(S) + ℓ(δ⁺(S)) ≤ u(δ⁻(S))`
+for every `S` (`TauCeti.ExcessFlow.nonempty_iff`), positive `b` being demand and negative `b`
+supply. The witness alternative, a feasible assignment or a nonzero total prescribed excess or a set
+violating the inequality strictly, is `TauCeti.ExcessFlow.nonempty_or_certificate`, and for
+circulations a feasible circulation or a violating Hoffman cut is
+`TauCeti.exists_isCirculation_or_cut`. When `b` and both bounds take values in an additive subgroup
+`H`, a feasible assignment with values in `H` exists whenever one exists
 (`TauCeti.ExcessFlow.exists_mem_iff`, `TauCeti.exists_isCirculation_mem_iff`). The reduction to
 max-flow adds auxiliary terminals after lower-bound subtraction, with `b' = b − excess ℓ`, an arrow
 from the auxiliary source to each vertex of capacity `max (−b' v) 0` and from each vertex to the
@@ -1816,8 +1843,10 @@ auxiliary sink of capacity `max (b' v) 0` (`TauCeti.excessCapacity`): saturating
 equivalent to feasibility, preserving values in `H` both ways (`TauCeti.ExcessFlow.auxFlowEquiv`,
 `TauCeti.ExcessFlow.auxFlowEquiv_mem_iff`), and for balanced `b'` the required value is
 `∑ v, max (b' v) 0`, attained exactly when all auxiliary arrows are saturated
-(`TauCeti.Flow.val_le_sum_max`, `TauCeti.Flow.val_eq_sum_max_iff`) (Schrijver, *Combinatorial
-Optimization*, Vol. A; Bertsekas, *Linear Network Optimization*, Exercises 2.4–2.6 of §1.2).
+(`TauCeti.Flow.val_le_sum_max`, `TauCeti.Flow.val_eq_sum_max_iff`) (Bang-Jensen–Gutin, *Digraphs*,
+Theorem 3.8.2, p. 126, and Theorem 3.8.4, p. 127; Schrijver, *A Course in Combinatorial
+Optimization*, Theorems 4.6 and 4.7, pp. 69–70; Bertsekas, *Linear Network Optimization*,
+Exercises 2.4–2.6 of §1.2, pp. 54–55).
 
 This section has no target beyond its examples.
 
@@ -1849,9 +1878,8 @@ substitutes for the cut inequalities (`TauCeti.ExcessIntervalFlow.sum_le_zero`,
 `TauCeti.ExcessIntervalFlow.exists_mem_iff`. These vertex bounds constrain net supply and demand;
 limits on the total traffic through a vertex use vertex splitting instead.
 
-The targets of this section (Schrijver, *Combinatorial Optimization*, Vol. A): vertex-bound
-relaxation, enlarging the intervals `[a v, b v]` keeping every feasible assignment feasible, and the
-common API of the layer for interval excess.
+The targets of this section: vertex-bound relaxation, enlarging the intervals `[a v, b v]` keeping
+every feasible assignment feasible, and the common API of the layer for interval excess.
 
 *Needs:* §8.1, §8.2; Tau Ceti `TauCeti.ExcessIntervalFlow`, `TauCeti.cutBound`.
 
@@ -1908,12 +1936,13 @@ witness with values in `H` (`TauCeti.BoundedFlow.exists_isMinimum_isMaximum_mem`
 `TauCeti.BoundedFlow.exists_val_eq_mem`); the ordinary maximum-flow theorem is the zero-lower-bound,
 nonnegative-value case.
 
-The target of this section (Schrijver, *Combinatorial Optimization*, Vol. A): the reductions from a
-feasible starting assignment `f` to the ordinary max-flow problems of its residual network in the two
-directions, through the shared update and value formulas (`TauCeti.BoundedFlow.update`,
-`TauCeti.BoundedFlow.val_update`): `M` is the value of `f` plus the maximum value of an ordinary flow
-from `s` to `t` in the residual network of `f`, and `m` is the value of `f` minus the maximum value
-of one from `t` to `s`; the cut lattice and canonical cuts of Layer 4 apply.
+The target of this section (Bang-Jensen–Gutin, *Digraphs*, Theorem 3.4.2, p. 106, and the proof of
+Theorem 3.9.1, p. 128): the reductions from a feasible starting assignment `f` to the ordinary
+max-flow problems of its residual network in the two directions, through the shared update and value
+formulas (`TauCeti.BoundedFlow.update`, `TauCeti.BoundedFlow.val_update`): `M` is the value of `f`
+plus the maximum value of an ordinary flow from `s` to `t` in the residual network of `f`, and `m`
+is the value of `f` minus the maximum value of one from `t` to `s`; the cut lattice and canonical
+cuts of Layer 4 apply.
 
 *Needs:* §4.1, §4.2, §8.5; Tau Ceti `TauCeti.BoundedFlow`, `TauCeti.BoundedFlow.update`.
 
@@ -1922,13 +1951,14 @@ of one from `t` to `s`; the cut lattice and canonical cuts of Layer 4 apply.
 For a linearly ordered ring `R` with Mathlib's `FloorRing` structure and an `R`-valued assignment
 whose excess at every vertex is the cast of an integer, some integer assignment has the same integer
 excess and every arrow value between the floor and the ceiling of the original one
-(`TauCeti.exists_integerRounding`, for a ring with a linear order compatible with addition and a floor); it
-keeps any integer lower and upper bounds the original respects
-(`TauCeti.exists_integerRounding_mem_Icc`), specializes to circulations and to flows of integer value
-(`TauCeti.exists_integerRounding_isCirculation`, `TauCeti.Flow.exists_integerRounding`), and to the
-rationals and reals (`TauCeti.exists_integerRounding_rat`, `TauCeti.exists_integerRounding_real`). The
-ring and floor structure are assumptions of this section only, and no rounding is asserted for
-non-integer prescribed excess (Bertsekas, *Linear Network Optimization*, Exercises 2.4–2.6 of §1.2).
+(`TauCeti.exists_integerRounding`, for a ring with a linear order compatible with addition and a
+floor); it keeps any integer lower and upper bounds the original respects
+(`TauCeti.exists_integerRounding_mem_Icc`), specializes to circulations and to flows of integer
+value (`TauCeti.exists_integerRounding_isCirculation`, `TauCeti.Flow.exists_integerRounding`), and
+to the rationals and reals (`TauCeti.exists_integerRounding_rat`,
+`TauCeti.exists_integerRounding_real`). The ring and floor structure are assumptions of this section
+only, and no rounding is asserted for non-integer prescribed excess (Bertsekas, *Linear Network
+Optimization*, Exercises 2.4–2.6 of §1.2, pp. 54–55).
 
 This section has no further target; its required examples are Tau Ceti's
 (`TauCeti/Combinatorics/Network/Rounding.lean`).
@@ -2039,7 +2069,7 @@ non-crossing minimum cuts and a tree on their cells, and uses only finiteness, s
 submodularity, so it holds at the stated generality (Gusfield, *Very simple methods for all pairs
 network flow analysis*; Korte–Vygen, *Combinatorial Optimization*, §8.6, for the witness repair).
 
-The targets of this section (Schrijver, *Combinatorial Optimization*, Vol. A):
+The targets of this section, consequences of the cut-tree theorem above:
 
 - **Instances.** The cut-tree theorem for weighted multigraphs and for pair-capacity networks, through
   the cut aggregation of §1.2; the tree is a `SimpleGraph` on `V(G)` and need not be a subgraph of the
@@ -2099,6 +2129,8 @@ named above.
 
 ## Scope and ownership
 
+Citations of this roadmap's "Scope boundaries" refer to this section.
+
 **This roadmap owns** graph connectivity, components, separators, cuts, flows and the representation
 bridges between `Graph`, `SimpleGraph`, orientations and networks. Roadmaps that need
 `k`-vertex-connectivity for a fixed `k`, such as 3-connectivity in topological graph theory, use
@@ -2150,10 +2182,11 @@ integrated only after coordinating with its authors, following the repository's 
   algorithms computing strongly connected components or enumerating cuts.
 - Separate developments of infinite graph theory: Menger's theorem and other extremal results on
   infinitely many actual vertices, infinite rays and ends, infinite matching and edge-colouring,
-  infinite ear decompositions, and edge-counting or flow theories with infinite edge sets. For context,
-  Mathlib's `Order.KonigLemma`, `Combinatorics.Hall.Basic` and `Combinatorics.SimpleGraph.Ends.Properties` and Tau
-  Ceti's `TauCeti.Topology.Compactness.InverseSystem` connect finite constructions to compactness,
-  infinite matchings and graph ends.
+  infinite ear decompositions, and edge-counting or flow theories with infinite edge sets. For
+  context, the Mathlib modules `Mathlib.Order.KonigLemma`, `Mathlib.Combinatorics.Hall.Basic` and
+  `Mathlib.Combinatorics.SimpleGraph.Ends.Properties` and the Tau Ceti module
+  `TauCeti.Topology.Compactness.InverseSystem` connect finite constructions to compactness, infinite
+  matchings and graph ends.
 - General graph contractions, contractible-edge and wheel theorems, treewidth, drawings, planar
   embeddings and surface topology.
 
@@ -2279,9 +2312,9 @@ stated in its file and as described in the section that uses it.
   `TauCeti.TerminalCut.exists_isCutTree` (the Gomory–Hu theorem for symmetric submodular functions over
   a linearly ordered cancellative monoid on a nonempty finite type), with the lemmas of §9.1.
 - Supporting modules for examples and constructions: `SimpleGraph/Acyclic.lean`,
-  `SimpleGraph/PathGraph.lean`, `SimpleGraph/Connected.lean`, `SimpleGraph/CycleGraph.lean`,
-  `SimpleGraph/Sum.lean`, `Quiver/BoundedPaths.lean` (finitely many paths of bounded length),
-  `Quiver/Prefunctor.lean` and `Quiver/Reorient.lean`, and
+  `SimpleGraph/PathGraph.lean`, `SimpleGraph/Connectivity/Connected.lean`,
+  `SimpleGraph/CycleGraph.lean`, `SimpleGraph/Sum.lean`, `Quiver/BoundedPaths.lean` (finitely many
+  paths of bounded length), `Quiver/Prefunctor.lean` and `Quiver/Reorient.lean`, and
   `TauCeti.IsTree.exists_equiv_pathGraph_components`.
 
 ### From TauCetiRoadmap.ZigzagPreprojective
@@ -2291,26 +2324,34 @@ stated in its file and as described in the section that uses it.
 
 ## References
 
-- Reinhard Diestel, *Graph Theory*, §1.9 and Chapter 3, for bonds, connectivity, Menger, blocks, fans
-  and ears; see the [author's book site](https://diestel-graph-theory.com/).
+- Reinhard Diestel, *Graph Theory*, 6th edition (2025), §§1.4, 1.9 and 1.10 and Chapters 2, 3, 5 and
+  6, for separators, bridges, bonds, multigraphs, bipartite matching, blocks, ears, Menger's
+  theorem, fans, edge-colouring and network flows. Page and result numbers refer to this edition,
+  whose main text the author's site shows as a
+  [free preview](https://diestel-graph-theory.com/basic.html).
 - Dimitri P. Bertsekas, [*Linear Network Optimization*](https://www.mit.edu/~dimitrib/LNets_Full_Book.pdf),
   §1.1.3 and Exercises 2.4–2.6 of §1.2, for bound transformations, feasibility and rounding.
-- Alexander Schrijver, *Combinatorial Optimization: Polyhedra and Efficiency*, Volume A, for flows,
-  cuts, disjoint paths, circulations and cut trees; see the
-  [author's book page](https://homepages.cwi.nl/~lex/co/).
+- Alexander Schrijver,
+  [*A Course in Combinatorial Optimization*](https://homepages.cwi.nl/~lex/files/dict.pdf), lecture
+  notes, version of March 23, 2017, Chapters 3, 4, 7 and 8, for bipartite matchings and covers,
+  Menger's theorem, flows, circulations, bipartite edge-colouring and totally unimodular matrices
+  from bipartite graphs.
 - Bernhard Korte and Jens Vygen, *Combinatorial Optimization: Theory and Algorithms*, Section 8.6, for
   the Gomory–Hu construction and the witness-repair step of its correctness proof.
-- Jørgen Bang-Jensen and Gregory Gutin, *Digraphs: Theory, Algorithms and Applications*, for directed
-  connectivity, directed ears and network flows; see the
-  [second edition](https://doi.org/10.1007/978-1-84800-998-1).
+- Jørgen Bang-Jensen and Gregory Gutin, *Digraphs: Theory, Algorithms and Applications*, 1st edition
+  (Springer, 2000), Chapters 1, 3, 7 and 8, for network flows, directed connectivity, directed ears
+  and Robbins' theorem. Page and result numbers refer to the corrected first edition that the
+  authors post on their [book page](https://www.cs.rhul.ac.uk/books/dbook/).
 - Dan Gusfield, [*Very Simple Methods for All Pairs Network Flow Analysis*](https://doi.org/10.1137/0219009),
   SIAM Journal on Computing 19 (1990), 143–155, for the contraction-free cut-tree construction.
 - Jean-Claude Picard and Maurice Queyranne,
   [*On the structure of all minimum cuts in a network and applications*](https://publications.polymtl.ca/5993/),
   for the residual reachability order and its description of every minimum cut.
-- Shimon Even and Robert Endre Tarjan, [*Computing an st-numbering*](https://doi.org/10.1016/0304-3975(76)90086-4),
-  for `st`-numberings and their relation to acyclic orientations; only the existence and structural
-  consequences are targets here.
+- Charalampos Papamanthou and Ioannis G. Tollis,
+  [*Applications of parameterized st-orientations*](https://doi.org/10.7155/jgaa.00210), Journal
+  of Graph Algorithms and Applications 14 (2010), 337–365, §1, for the existence of `st`-numberings,
+  due to Lempel, Even and Cederbaum, and the orientation they induce; only the existence and
+  structural consequences are targets here.
 - András Frank and András Gyárfás,
   [*How to orient the edges of a graph?*](https://www.renyi.hu/~gyarfas/Cikkek/09_FrankGyarfas_HowToOrientTheEdgesOfAGraph.pdf),
   for orientation degree bounds; loops in §8.8 contribute forced units at their vertices.
@@ -2329,22 +2370,23 @@ stated in its file and as described in the section that uses it.
   [`Quiver.StronglyConnectedComponent`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.StronglyConnectedComponent);
   [`Nonneg`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/Nonneg/Basic.html#Nonneg);
   [`FloorRing`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Algebra/Order/Floor/Defs.html#FloorRing);
-  [`Order.KonigLemma`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/KonigLemma.html),
-  [`Combinatorics.Hall.Basic`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Basic.html)
-  and [`Combinatorics.SimpleGraph.Ends.Properties`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Ends/Properties.html).
+  the modules [`Mathlib.Order.KonigLemma`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/KonigLemma.html),
+  [`Mathlib.Combinatorics.Hall.Basic`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Basic.html)
+  and [`Mathlib.Combinatorics.SimpleGraph.Ends.Properties`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Ends/Properties.html).
 - Mathlib's [`SimpleGraph.isEdgeConnected_two_iff_forall_not_isBridge`](https://github.com/leanprover-community/mathlib4/blob/bbeef91203015d10f6aaa3154121ef827e06eee8/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.lean#L161).
-- Tau Ceti modules: [`DoubledQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Basic.lean),
+- Tau Ceti: [`DoubledQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Basic.lean),
   [`DoubledQuiver.Orientation` and `OrientedQuiver`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/RepresentationTheory/Quiver/Zigzag/Orientation.lean),
-  [`Combinatorics.SimpleGraph.BranchComponents`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/BranchComponents.lean),
-  [`Combinatorics.SimpleGraph.Acyclic`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Acyclic.lean),
-  [`PathGraph`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/PathGraph.lean),
-  [`Connected`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Connected.lean),
-  [`CycleGraph`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/CycleGraph.lean),
-  [`Sum`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Sum.lean),
-  [`Combinatorics.Quiver.BoundedPaths`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/BoundedPaths.lean),
-  [`Combinatorics.Quiver.Prefunctor`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Prefunctor.lean),
-  [`Combinatorics.Quiver.Reorient`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Reorient.lean),
-  [`Topology.Compactness.InverseSystem`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Topology/Compactness/InverseSystem.lean).
+  and the modules
+  [`TauCeti.Combinatorics.SimpleGraph.BranchComponents`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/BranchComponents.lean),
+  [`TauCeti.Combinatorics.SimpleGraph.Acyclic`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Acyclic.lean),
+  [`TauCeti.Combinatorics.SimpleGraph.PathGraph`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/PathGraph.lean),
+  [`TauCeti.Combinatorics.SimpleGraph.Connectivity.Connected`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Connectivity/Connected.lean),
+  [`TauCeti.Combinatorics.SimpleGraph.CycleGraph`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/CycleGraph.lean),
+  [`TauCeti.Combinatorics.SimpleGraph.Sum`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/SimpleGraph/Sum.lean),
+  [`TauCeti.Combinatorics.Quiver.BoundedPaths`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/BoundedPaths.lean),
+  [`TauCeti.Combinatorics.Quiver.Prefunctor`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Prefunctor.lean),
+  [`TauCeti.Combinatorics.Quiver.Reorient`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Reorient.lean),
+  [`TauCeti.Topology.Compactness.InverseSystem`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Topology/Compactness/InverseSystem.lean).
 
 ### Interface design references
 
@@ -2380,11 +2422,11 @@ required interfaces and their scope.
   with no separate undirected flow type, so only the statement shapes are taken (§3.3).
 - [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as
   subgraphs, vertex covers, and the equality of the sizes of maximum matchings and minimum covers.
-- [#33313: edge colourings](https://github.com/leanprover-community/mathlib4/pull/33313):
-  `SimpleGraph.EdgeColoring`, `EdgeColorable` and `chromaticIndex`, using colourings of the line graph;
-  §6.9 supplies the bipartite theorem and the transport from multigraph edge identities. See also the
-  related [#43128](https://github.com/leanprover-community/mathlib4/pull/43128). The
-  [edge-colouring discussion](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/edge.20coloring.html)
+- [#33313: edge colourings](https://github.com/leanprover-community/mathlib4/pull/33313): the
+  proposal's `SimpleGraph.EdgeColoring`, `EdgeColorable` and `chromaticIndex`, using colourings of
+  the line graph; §6.9 supplies the bipartite theorem and the transport from multigraph edge
+  identities. See also the related [#43128](https://github.com/leanprover-community/mathlib4/pull/43128).
+  The [edge-colouring discussion](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/edge.20coloring.html)
   records earlier work; the porting policy applies before reusing it.
 - [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861):
   connectivity of Mathlib's multigraphs through connected components as subgraphs, defined without
