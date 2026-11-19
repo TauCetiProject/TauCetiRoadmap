@@ -29,19 +29,6 @@ open scoped NNReal ENNReal Nat
 
 namespace TauCetiRoadmap.PoissonApproximation
 
-/-! ## Layer 1: total variation and coupling -/
-
-/-- 1.1 The coupling characterization of total variation on a countable space. For probability
-measures `μ` and `ν`, half the total variation distance is the least probability of the event
-`x ≠ y` under a coupling of `μ` and `ν`: every coupling gives at least `tvDist μ ν / 2`, and some
-coupling attains it. -/
-theorem isLeast_coupling_tvDist {α : Type*} [MeasurableSpace α] [Countable α]
-    [MeasurableSingletonClass α] (μ ν : Measure α) [IsProbabilityMeasure μ]
-    [IsProbabilityMeasure ν] :
-    IsLeast {c : ℝ | ∃ γ : Measure (α × α), TauCeti.IsCoupling γ μ ν ∧
-        c = γ.real {z | z.1 ≠ z.2}} (tvDist μ ν / 2) := by
-  sorry
-
 /-! ## Layer 2: the Stein equation for the Poisson law -/
 
 /-- 2.1 The Stein characterization of the Poisson law. A probability measure `μ` on `ℕ` is the

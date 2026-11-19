@@ -75,21 +75,20 @@ section depends on no other layer. Within a layer the sections are in build orde
 
 ### 1.1 The coupling characterization
 
-Prove `isLeast_coupling_tvDist`: for probability measures `μ` and `ν` on a countable measurable
-space with measurable singletons, `tvDist μ ν / 2` is the least value of `γ{(x, y) | x ≠ y}` over
-the couplings `γ` of `μ` and `ν` (measures on the product with first marginal `μ` and second
-marginal `ν`, Tau Ceti's `TauCeti.IsCoupling`). Equivalently: every coupling satisfies
-`tvDist μ ν ≤ 2 γ{x ≠ y}`, and a coupling attains equality.
+For probability measures `μ` and `ν` on a countable measurable space with measurable singletons,
+`tvDist μ ν / 2` is the least value of `γ{(x, y) | x ≠ y}` over the couplings `γ` of `μ` and `ν`
+(measures on the product with first marginal `μ` and second marginal `ν`, Tau Ceti's
+`TauCeti.IsCoupling`): every coupling satisfies `tvDist μ ν ≤ 2 γ{x ≠ y}`, and a coupling attains
+equality. This is MarkovChainMixing 1.1 (Levin and Peres, Proposition 4.7, p. 50, in the half
+normalization for finite state spaces) and is not a target here.
 
-Route: for a measurable `A`, `μ A − ν A = γ(A × univ) − γ(univ × A) ≤ γ{x ∈ A, y ∉ A} ≤ γ{x ≠ y}`,
-and Tau Ceti's `MeasureTheory.etvDist_le_two_mul_iff` turns this eventwise bound into the bound on
-`tvDist`. For the converse put mass `min(μ{x}, ν{x})` at each diagonal point `(x, x)` and spread
-the remaining masses `(μ{x} − ν{x})⁺` and `(ν{y} − μ{y})⁺` over the off-diagonal points by their
-normalized product; the off-diagonal mass is `1 − ∑ min(μ{x}, ν{x})`, which is
-`tvDist μ ν / 2` by Scheffé's identity `1 − tvDist μ ν / 2 = ∫ min(dμ/dρ, dν/dρ) dρ` with
-`ρ = μ + ν` (MathematicalStatisticsNonparametric 1.4, `one_sub_tvDist_eq_integral_min`), whose
-right side on a countable space is `∑ min(μ{x}, ν{x})`. (Levin and Peres, Proposition 4.7, p. 50, prove both directions in the half
-normalization for finite state spaces; the countable case is proved here by the same argument.)
+Prove the instance that 3.3 uses: for `p ∈ [0, 1]`, the measure on `ℕ × ℕ` with masses `1 − p` at
+`(0, 0)`, `e^(−p) − (1 − p)` at `(1, 0)` and `e^(−p) pᵏ/k!` at `(1, k)` for `k ≥ 1` is a coupling
+of the Bernoulli law with mean `p` on `{0, 1} ⊆ ℕ` and `Po(p)`, with
+`γ{x ≠ y} = p (1 − e^(−p))`; hence, by the cited characterization, the distance between the two
+laws is at most `2p (1 − e^(−p))`. The masses are nonnegative because `1 − p ≤ e^(−p)`
+(`Real.add_one_le_exp`), and the marginals are read off the three families of masses. (Proved
+here.)
 
 **Checks.**
 - `μ` the unit mass at `0` and `ν = Po(r)`: the only coupling is the product, under which
@@ -97,15 +96,11 @@ normalization for finite state spaces; the countable case is proved here by the 
   `1 − e^(−r)` in total on `{1, 2, …}`, so `tvDist μ ν = 2(1 − e^(−r))`.
 - `μ = ν` the uniform law on `{0, 1}`: the independent coupling gives `γ{x ≠ y} = 1/2` while
   `tvDist μ ν = 0`, so a coupling need not attain the least value; the diagonal coupling does.
-- The Bernoulli law with mean `p ∈ [0, 1]` on `{0, 1} ⊆ ℕ` and `Po(p)`: the coupling with
-  masses `1 − p` at `(0, 0)`, `e^(−p) − (1 − p)` at `(1, 0)` and `e^(−p) pᵏ/k!` at `(1, k)` for
-  `k ≥ 1` has the right marginals (since `1 − p ≤ e^(−p)`) and `γ{x ≠ y} = p (1 − e^(−p))`; the
-  distance is `2p(1 − e^(−p))`, so this coupling is optimal. For `p = 1/2` the distance is
-  `1 − e^(−1/2) = 0.3935`.
+- The coupling above is optimal: the distance between the Bernoulli law with mean `p` and `Po(p)`
+  is exactly `2p(1 − e^(−p))`. For `p = 1/2` it is `1 − e^(−1/2) = 0.3935`.
 
-*Needs:* Mathlib `MeasureTheory.tvDist`, `MeasureTheory.etvDist`; Tau Ceti `TauCeti.IsCoupling`,
-`MeasureTheory.etvDist_le_two_mul_iff`, `MeasureTheory.etvDist_eq_two_mul_iSup_sub`;
-MathematicalStatisticsNonparametric 1.4 (Scheffé's identity).
+*Needs:* MarkovChainMixing 1.1; Mathlib `MeasureTheory.tvDist`, `Real.add_one_le_exp`,
+`ProbabilityTheory.poissonMeasure`; Tau Ceti `TauCeti.IsCoupling`.
 
 ### Examples
 
@@ -114,9 +109,8 @@ itself, and the optimal coupling of a Bernoulli law with the Poisson law of the 
 
 ### Dependencies
 
-Mathlib `MeasureTheory.tvDist`, `MeasureTheory.etvDist`; Tau Ceti `TauCeti.IsCoupling`,
-`MeasureTheory.etvDist_le_two_mul_iff`, `MeasureTheory.etvDist_eq_two_mul_iSup_sub`;
-MathematicalStatisticsNonparametric 1.4. No other layer.
+MarkovChainMixing 1.1; Mathlib `MeasureTheory.tvDist`, `Real.add_one_le_exp`,
+`ProbabilityTheory.poissonMeasure`; Tau Ceti `TauCeti.IsCoupling`. No other layer.
 
 ## Layer 2: the Stein equation for the Poisson law
 
@@ -287,12 +281,12 @@ probabilities `pᵢ` is within `2 ∑ pᵢ²` of `Po(∑ pᵢ)` (Le Cam, Theorem
 `Mⱼ` the unit mass at `1`, where `λ π = ∑ pⱼ²`; his norm is the total mass of the difference, as
 here).
 
-Route, by coupling: the third Check of 1.1 gives for each `i` a coupling `γᵢ` of the Bernoulli
+Route, by coupling: 1.1 gives for each `i` a coupling `γᵢ` of the Bernoulli
 law with mean `pᵢ` and `Po(pᵢ)` with `γᵢ{x ≠ y} = pᵢ(1 − e^(−pᵢ)) ≤ pᵢ²`. Under the product of the
 `γᵢ` the sum of the first coordinates has the Poisson-binomial law (Tau Ceti's
 `TauCeti.Probability.map_sum_pi_bernoulliMeasure`), the sum of the second coordinates has the
 law `Po(∑ pᵢ)` (Tau Ceti's `TauCeti.Probability.map_sum_pi_poissonMeasure`), and the two sums
-differ only where some pair differs, with probability at most `∑ pᵢ²`. The first half of 1.1
+differ only where some pair differs, with probability at most `∑ pᵢ²`. The first half of the characterization cited in 1.1
 gives the bound. It also follows from 3.2 in one step, since `(1 − e^(−λ))/λ ≤ 1` (and the
 factor is `0` at `λ = 0`); for that reason it is not stated separately in `Suggested.lean`.
 
@@ -462,8 +456,8 @@ Layer 3 (3.1 for 4.1, 3.4 for 4.3); 4.2 depends on no other layer. Mathlib
 
 ## Scope and ownership
 
-This roadmap owns: the coupling characterization of total variation on a countable space (1.1);
-the Stein characterization of the Poisson law, the solution of its Stein equation and the two
+This roadmap owns: the optimal coupling of a Bernoulli law with the Poisson law of the same mean
+(1.1); the Stein characterization of the Poisson law, the solution of its Stein equation and the two
 bounds on it (Layer 2); the local dependence theorem, the bound of Barbour and Hall, Le Cam's
 inequality and the theorem on monotone couplings, for counts of events (Layer 3); and the three
 applications of Layer 4.
@@ -493,7 +487,7 @@ Left to other roadmaps:
   here uses it.
 - MathematicalStatisticsFoundations owns, in its 9.2, the bound `|P A − Q A| ≤ tvDist P Q / 2`
   in real form, and MathematicalStatisticsNonparametric, in its 1.4, Scheffé's identity
-  `1 − tvDist P Q / 2 = ∫ min(dP/dρ, dQ/dρ) dρ` with `ρ = P + Q`, used in the route of 1.1, and the inequalities
+  `1 − tvDist P Q / 2 = ∫ min(dP/dρ, dQ/dρ) dρ` with `ρ = P + Q` and the inequalities
   of Le Cam between total variation and the Hellinger distance; none of these is Le Cam's
   Poisson inequality of 3.3.
 
@@ -563,11 +557,12 @@ couplings and exchangeable pairs; and bounds below on the distance.
   of coordinates lying in prescribed measurable sets has the Poisson-binomial law of their
   masses).
 
-### From TauCetiRoadmap.MathematicalStatisticsNonparametric
+### From TauCetiRoadmap.MarkovChainMixing
 
-- Section 1.4, `one_sub_tvDist_eq_integral_min`: for probability measures `P`, `Q`,
-  `1 − tvDist P Q / 2 = ∫ min(dP/dρ, dQ/dρ) dρ` with `ρ = P + Q` (Scheffé's identity); used in
-  the route of 1.1 on a countable space.
+- Section 1.1, `isLeast_measureReal_ne_of_isCoupling`: for probability measures `μ`, `ν` on a
+  countable type, `tvDist μ ν / 2` is the least value of `γ{z | z.1 ≠ z.2}` over the couplings
+  `γ` with `TauCeti.IsCoupling γ μ ν`. MarkovChainMixing is an open roadmap, not on main, on
+  which this roadmap depends for this one statement; it is used in 1.1 and 3.3.
 
 ## References
 
