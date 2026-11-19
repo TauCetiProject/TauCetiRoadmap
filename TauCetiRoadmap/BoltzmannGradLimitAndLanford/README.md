@@ -385,81 +385,34 @@ Layer 4.
 
 ## Research context
 
-Lanford proved the short-time validity of the Boltzmann equation in 1975.
+Lanford proved the short-time validity of the Boltzmann equation in 1975. The time `T₀` is a
+fraction of the mean free time, and the validity on long time intervals remains open in general;
+this roadmap establishes the short-time result, not a long-time extension. Laure Saint-Raymond's
+four-part IHÉS course, [*Hard Sphere Dynamics in the Low Density Limit*]
+([1/4](https://www.youtube.com/watch?v=kln66ot3UJU),
+[2/4](https://www.youtube.com/watch?v=cQBxO0CXTBI),
+[3/4](https://www.youtube.com/watch?v=G8XVbsvIDuk),
+[4/4](https://www.youtube.com/watch?v=6uocwNRM1cY)), motivates the progression from Newtonian
+particle dynamics through marginals and uniform short-time bounds to control of recollisions.
+Their subtitles also emphasize why the hierarchy is needed: collisions create dynamical
+correlations, so finite-`ε` correlation functions are not assumed to be tensor powers even though
+their limit is. These lectures are orientation; the theorem-level targets and estimates above
+follow the cited published sources. The related talk [*Space-time correlations at equilibrium*]
+(https://www.youtube.com/watch?v=W7PLunkP4Dw) motivates the boundary with downstream fluctuation
+and correlation roadmaps, rather than enlarging this short-time theorem's scope.
+The introductory video [*Boltzmann and the Bridge Between Two Worlds*]
+(https://www.youtube.com/watch?v=uJGyTcehW18) provides historical context, not a proof source.
 
-The Boltzmann-Grad limit is a cornerstone of kinetic theory.
+## References
 
-## Open problems
+- GST2013: I. Gallagher, L. Saint-Raymond, B. Texier, *From Newton to Boltzmann: hard spheres and
+  short-range potentials*, Zurich Lectures in Advanced Mathematics, EMS (2013); arXiv:1208.5753.
+- BGSS2023: T. Bodineau, I. Gallagher, L. Saint-Raymond, S. Simonella, *Statistical dynamics of a
+  hard sphere gas: fluctuating Boltzmann equation and large deviations*, Ann. of Math. 198 (2023);
+  arXiv:2008.10403.
+- Lanford1975: O. E. Lanford III, *Time evolution of large classical systems*, in *Dynamical
+  systems, theory and applications*, Lecture Notes in Physics 38, Springer (1975), 1–111.
 
-### Specific mathematical problem statements
-
-1. **Lanford's theorem extension**: Prove Lanford's theorem for all time t > 0, not just on a short
-   time interval [0, T₀]. Currently, T₀ is a fraction of the mean free time.
-
-2. **Global existence for Boltzmann equation**: Prove global existence and uniqueness of solutions
-   to the Boltzmann equation for arbitrary initial data with finite mass, energy, and entropy.
-
-3. **Boundary value problem**: Prove Lanford's theorem with boundary conditions, establishing the
-   Boltzmann-Grad limit for hard spheres in a bounded domain with physically meaningful
-   boundary conditions (e.g., specular reflection, diffuse reflection).
-
-4. **Long-range potentials**: Prove a version of Lanford's theorem for particles interacting via
-   Coulomb or other long-range potentials. This requires modifying the BBGKY hierarchy to
-   account for long-range interactions.
-
-5. **Quantum Boltzmann-Grad limit**: Prove an analogue of Lanford's theorem for quantum mechanical
-   systems, connecting the quantum N-body Schrödinger equation to the quantum Boltzmann
-   equation in the low-density limit.
-
-6. **Fluctuations theorem**: Prove that the fluctuations of the empirical measure around the
-   Boltzmann solution satisfy a central limit theorem, with the limiting process characterized
-   by a stochastic PDE (Bodineau-Gallagher-Saint-Raymond-Simonella 2023 provides partial results).
-
-7. **Large deviations principle**: Establish a large deviations principle for the empirical
-   measure in the Boltzmann-Grad limit, describing the rate of convergence to the Boltzmann
-   solution.
-
-8. **Hydrodynamic limit**: Prove that solutions of the Boltzmann equation converge to solutions
-   of the incompressible Navier-Stokes equations in the hydrodynamic limit (low Mach number,
-   small Knudsen number).
-
-9. **Euler limit**: Prove that solutions of the Boltzmann equation converge to solutions of the
-   compressible Euler equations in the zero-viscosity limit.
-
-10. **Gas mixtures**: Prove Lanford's theorem for a mixture of hard spheres of different sizes and
-    masses, establishing the Boltzmann-Grad limit for multi-species systems.
-
-11. **External forces**: Prove Lanford's theorem in the presence of external forces (e.g., gravity,
-    electromagnetic fields), establishing the Boltzmann-Grad limit for forced particle systems.
-
-12. **Non-equilibrium initial data**: Prove Lanford's theorem for initial data that are far from
-    equilibrium, including initial data with shocks or other discontinuities.
-
-13. **Relativistic Boltzmann-Grad limit**: Prove an analogue of Lanford's theorem for relativistic
-    particle systems, connecting relativistic particle dynamics to the relativistic Boltzmann
-    equation.
-
-14. **Granular gases**: Prove a version of Lanford's theorem for granular gases, where particle
-    collisions are inelastic (i.e., kinetic energy is not conserved in collisions).
-
-15. **Turbulence emergence**: Prove that solutions of the Boltzmann equation develop turbulent
-    behavior in the long-time limit, and characterize the statistical properties of this
-    turbulence.
-
-16. **Smoothness of solutions**: Prove that solutions of the Boltzmann equation with smooth initial
-    data remain smooth for all time, or characterize the formation of singularities.
-
-17. **Convergence rate**: Establish sharp rates of convergence in Lanford's theorem, describing
-    how quickly the correlation functions converge to the Boltzmann solution as ε → 0.
-
-18. **Uniform bounds**: Prove uniform bounds on the correlation functions that are independent
-    of the number of particles N, in the full time range [0, ∞).
-
-19. **Periodic boundary conditions**: Prove Lanford's theorem on the torus with periodic boundary
-    conditions, establishing the Boltzmann-Grad limit for spatially periodic systems.
-
-20. **Hard spheres in R³**: Prove Lanford's theorem for hard spheres in R³ (rather than on the
-    torus), establishing the Boltzmann-Grad limit in the full space.
 ## Additional bibliography
 
 - C. Cercignani, *The Boltzmann equation and its applications*, Springer (1988).
