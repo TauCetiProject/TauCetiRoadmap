@@ -6,9 +6,9 @@
 
 which asks when the product of `k` consecutive terms of a primitive arithmetic progression is a perfect power. The integers `n, d, y` may have either sign. Erdős conjectured that for positive progressions there are no solutions once the length is large; Layer 7 states that conjecture precisely but neither proves it nor uses it.
 
-The main theorem is that of Bennett and Siksek [BS20, Theorem 2]. There is an effectively computable absolute integer `k_0 >= 5` such that a solution with length `k >= k_0` and prime exponent `ell` has `yd = 0` or `ell <= exp(10^k)`. The character estimates in its proof come from the uniform exclusion of Landau–Siegel zeros in AnalyticNumberTheoryPartI, so no exceptional character needs separate treatment and no constant is ineffective. Several explicit prime estimates below `exp(10000)` are inputs that roadmap states as hypotheses. ExplicitPrimeCounting proves them from recorded numerical verifications: finite computations of the prime-counting functions, published tables, and checks of the Riemann hypothesis and its generalization up to a fixed height. The theorems that use these estimates are conditional on those recorded verifications.
+The main theorem is that of Bennett and Siksek [BS20, Theorem 2], proved here under four explicit prime estimates, each on a finite range of `x` below `exp(10000)`: Schoenfeld's bound `θ(x) < 1.000081x`, Rosser and Schoenfeld's two-sided bound for `π(x)`, an upper bound for the sum of `1/p` over primes `p <= x`, and a bound for the primes in the classes 3 and 5 modulo 8, the last together with the Riemann hypothesis up to height 10000 for the characters modulo 8. Under them there is an effectively computable absolute integer `k_0 >= 5` such that a solution with length `k >= k_0` and prime exponent `ell` has `yd = 0` or `ell <= exp(10^k)`. The character estimates in its proof come from the uniform exclusion of Landau–Siegel zeros in AnalyticNumberTheoryPartI, so no exceptional character needs separate treatment and no constant is ineffective. AnalyticNumberTheoryPartI states the four estimates as hypotheses, and every theorem here that uses one carries it as a hypothesis. ExplicitPrimeCounting, with ExplicitZetaBounds for the zero-line clause modulo 8, proves them from recorded numerical verifications: finite computations of the prime-counting functions, published tables, and checks of the Riemann hypothesis and its generalization up to a fixed height. The theorems that use these estimates are therefore conditional on those recorded verifications.
 
-With the theorem of Faltings, applied to Darmon and Granville's diagonal curves [DG95, Corollary 2.1], the exponent bound gives finiteness for each fixed length. For fixed `k >= 3` and `ell >= 2` with `2*ell + k < k*ell`, there are finitely many coprime `(n,d,y)` with `yd != 0`. For positive progressions the same holds whenever `k + ell >= 6`; the two boundary cases, a four-term square and a three-term cube, are excluded by Euler's descents. Hence, for each fixed `k >= k_0`, there are only finitely many nontrivial solutions with arbitrary exponent at least two. This is not finiteness as the length varies, and an effective threshold for the exponent does not give an effective enumeration of the solutions. The roadmap also proves the theorem of Erdős and Selfridge: a product of two or more consecutive positive integers is never a perfect power.
+With the theorem of Faltings, applied to Darmon and Granville's diagonal curves [DG95, Corollary 2.1], the exponent bound gives finiteness for each fixed length. For fixed `k >= 3` and `ell >= 2` with `2*ell + k < k*ell`, there are finitely many coprime `(n,d,y)` with `yd != 0`. For positive progressions the same holds whenever `k + ell >= 6`; the two boundary cases, a four-term square and a three-term cube, are excluded by Euler's descents. Hence, under the same four estimates, for each fixed `k >= k_0` there are only finitely many nontrivial solutions with arbitrary exponent at least two. This is not finiteness as the length varies, and an effective threshold for the exponent does not give an effective enumeration of the solutions. The roadmap also proves, under the bounds for `θ(x)` and `π(x)`, the theorem of Erdős and Selfridge: a product of two or more consecutive positive integers is never a perfect power.
 
 The exponent bound is proved as follows. If `ell > exp(10^k)` and `k >= 10^8`, every prime in the half interval `(k/2, k]` divides `d`. To each triple of terms in arithmetic progression one attaches a Frey elliptic curve. Level lowering and Kraus's realization theorem replace it by a curve with full rational two-torsion at a reduced level and the same residual representation modulo `ell`. At the half-interval primes this curve has good reduction, with trace zero at primes congruent to 3 modulo 4. A Legendre case analysis turns this into a primitive quadratic character for each triple whose von Mangoldt sum over `(k/2, k]` exceeds `0.1239k` in absolute value. The odd part of its conductor is squarefree and divides the small-prime parts of the three terms.
 
@@ -43,7 +43,9 @@ Its headline tests are the half-interval prime-divisibility theorem (§1.9),
 the comparison-curve theorem (§1.12), the simultaneous character-family
 theorem (§2.7), the prime-exponent bound (§6.2), signed hyperbolic and
 positive fixed-exponent finiteness (§6.3), all-exponent fixed-length
-finiteness (§6.5), and the consecutive-product theorem (§7.1). The
+finiteness (§6.5), and the consecutive-product theorem (§7.1). Every one of
+them except the two fixed-exponent statements carries as hypotheses the
+finite-range propositions of §0.9 that its route uses. The
 comparison-curve and character-family statements render the conductor by the
 norm of the pinned algorithmic conductor, the deletion level by that norm and
 the norm of the pinned minimal discriminant ideal, and the residual comparison
@@ -296,15 +298,26 @@ A common prime of r,d cannot divide n. In the coprime case invert d modulo r and
 
 Apply AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25
 on the domains in the supplier contracts. The theta constant retains
-SchoenfeldFiniteRangeInput; the prime-count pair retains
-RosserSchoenfeldFiniteRangeInput; the mod-eight errors retain the full
-ModEightFiniteInput, whose zero-line clause is ExplicitZetaBounds §§0.2–0.4;
-and the Euler-product bound retains PrimeProductFiniteInput.
-ExplicitPrimeCounting proves SchoenfeldFiniteRangeInput in §3.2,
-RosserSchoenfeldFiniteRangeInput in §3.5, PrimeProductFiniteInput in §4.3 and
-the theta clause of ModEightFiniteInput in §6.1, under the recorded numerical
+`SchoenfeldFiniteRangeInput`; the prime-count pair retains
+`RosserSchoenfeldFiniteRangeInput`; the mod-eight errors retain the full
+`ModEightFiniteInput`, whose zero-line clause is ExplicitZetaBounds §§0.2–0.4;
+and the Euler-product bound retains `PrimeProductFiniteInput`.
+ExplicitPrimeCounting proves `SchoenfeldFiniteRangeInput` in §3.2,
+`RosserSchoenfeldFiniteRangeInput` in §3.5, `PrimeProductFiniteInput` in §4.3 and
+the theta clause of `ModEightFiniteInput` in §6.1, under the recorded numerical
 verifications named in its supplier contract. These generic
 estimates are consumed; the local target is the divisor bound below.
+
+Define the four propositions `SchoenfeldFiniteRangeInput`,
+`RosserSchoenfeldFiniteRangeInput`, `ModEightFiniteInput` and
+`PrimeProductFiniteInput` with the statements of AnalyticNumberTheoryPartI
+§§0.3, 0.5, 0.16 and 0.25, given in the table of the supplier contracts, so
+that the headline theorems can carry them. They enter the layers at the theta
+bound of §§1.7–1.8 and of §7.1's square-exponent branch, the Euler-product
+bound of §1.11, the mod-eight bounds of §§2.3 and 2.6, and the prime-count
+pair of §5.7 and of §7.1's large-length range. Every target whose route passes
+through one of these places carries the corresponding proposition as a
+hypothesis, and each headline section names those it carries.
 
 For ε>0, use AnalyticNumberTheoryPartI §3.1 at ε/2 to obtain
 τ(n)≤C_ε n^(ε/2) for all n>0, with effective C_ε≥1. Then
@@ -542,13 +555,13 @@ Use the rational-two-torsion irreducibility cutoff. Apply level lowering with th
 
 ### 1.9 Half-interval primes divide the difference
 
-Prove `half_primes_divide_d` under the hypothesis H below.
+Prove `half_primes_divide_d` under `SchoenfeldFiniteRangeInput` and the hypothesis H below.
 
-Under H every prime p in (k/2,k] divides d.
+Assume `SchoenfeldFiniteRangeInput`, which enters through the Chebyshev bounds of §§1.7–1.8. Under H every prime p in (k/2,k] divides d.
 
 Suppose p does not divide d. One or two terms are divisible by p. Choose a first-family triple containing the unique term, or the source equal-sum quadruple for two terms. Prove minimal multiplicative reduction and deleted p; p differs from ell. Apply the exact removed-prime norm bound to M_a or M_q. The exponential level bounds contradict ell>exp(10^k), using the numerical range k≥10^8.
 
-*Needs:* Layer 1 — first-family reduced-level bounds; Layer 1 — second-family reduced-level bounds; Layer 1 — second-family invariants and local tests; EllipticCurveModularityPartII §2.2 (EC.1) for the removed-prime exponent bound.
+*Needs:* Layer 1 — first-family reduced-level bounds; Layer 1 — second-family reduced-level bounds; Layer 1 — second-family invariants and local tests; EllipticCurveModularityPartII §2.2 (EC.1) for the removed-prime exponent bound; §0.9's `SchoenfeldFiniteRangeInput`.
 
 ([BS20], Lemma 4.1, p. 364.)
 
@@ -580,7 +593,7 @@ Use the primorial divisibility and the explicit totient ratio bound. Combine the
 
 Prove the comparison-curve theorem `comparison_curve` with the hypotheses and conclusions below.
 
-Under H, for every a in A(k) there exists an actual elliptic curve F_a/Q with full rational two-torsion, conductor exactly M_a and residual representation at the same prime ell isomorphic to that of E_a. All subsequent choices use one such F_a for each triple.
+Assume `SchoenfeldFiniteRangeInput` and `PrimeProductFiniteInput`, which enter through the level bound of §1.7 and the Kraus threshold of §1.11. Under H, for every a in A(k) there exists an actual elliptic curve F_a/Q with full rational two-torsion, conductor exactly M_a and residual representation at the same prime ell isomorphic to that of E_a. All subsequent choices use one such F_a for each triple.
 
 The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ with `IsElliptic`; full rational two-torsion is `HasFullRationalTwoTorsion`, that is `AddSubgroup.torsionBy` of the rational points at 2 has exactly four elements, the full-two-torsion predicate of EllipticCurveModularityPartII §5.1 (EC.6) restated locally; the conductor of F_a is the norm of its algorithmic conductor and M_a is `deletionLevel` of `progressionFreyCurve` at ell (§1.7); and the residual comparison is an isomorphism of additive groups from `AddSubgroup.torsionBy` of the points of E_a over an algebraic closure Ω of ℚ at ell to the same subgroup for F_a (the geometric torsion of EC.6), commuting with the action of every automorphism of Ω over ℚ through `WeierstrassCurve.Affine.Point.map`. The ellipticity of E_a under H and membership in A(k) is §1.3; the statement carries it so that M_a is defined.
 
@@ -596,7 +609,7 @@ The statement is on the pinned carriers: F_a is a Weierstrass curve over ℚ wit
 
 Apply the Kraus realization theorem with the coefficient-prime bridge, irreducibility and the strict threshold just proved; the conductor of the realized curve is transported to the algorithmic conductor by Ogg's formula (NeronModelsAndSemistableAbelianVarieties §5.3e). Fix a choice only after proving existence. A free natural-number field called conductor is not an admissible substitute for the native invariant.
 
-*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem, §2.0 (EC.6) for the geometric-torsion carrier and §5.1 (EC.6) for the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
+*Needs:* Layer 1 — serre-weight and residual-conductor bridge; Layer 1 — kraus threshold for progression levels; §0.9's `SchoenfeldFiniteRangeInput` and `PrimeProductFiniteInput`; EllipticCurveModularityPartII §4.7 (EC.3) for the Kraus realization theorem, §2.0 (EC.6) for the geometric-torsion carrier and §5.1 (EC.6) for the full-two-torsion predicate; NeronModelsAndSemistableAbelianVarieties §5.3e; Tau Ceti `WeierstrassCurve.algorithmicConductor`, `WeierstrassCurve.minimalDiscriminantIdeal` and `WeierstrassCurve.torsionGaloisAction`; Mathlib `AddSubgroup.torsionBy` and `WeierstrassCurve.Affine.Point.map`.
 
 ([BS20], Lemma 5.1, p. 365.)
 
@@ -767,9 +780,9 @@ Prove the non-CM theorem for progression Frey curves with the hypotheses and con
 
 Under H, the native elliptic curve E_a is not CM, for every a in A(k). Its j-invariant is 2^8*(a^2-b*c)^3/(a*b*c)^2. Integral j and pairwise coprimality would force each of a,b,c to be a signed power of 2; the relation a+b+c=0 forces two to be equal. The resulting index equations imply d=0 or d divides3, contrary to H and the half-prime-divisibility theorem.
 
-Import algebraic integrality of CM j-values and deduce integer j for rational j. At an odd divisor of abc the numerator is a unit, contradicting integrality. Classify the elementary signed powers-of-two relation and use gcd(n,d)=1 and index bounds. The contradiction uses at least one prime in the half interval, supplied by the explicit prime estimate.
+Import algebraic integrality of CM j-values and deduce integer j for rational j. At an odd divisor of abc the numerator is a unit, contradicting integrality. Classify the elementary signed powers-of-two relation and use gcd(n,d)=1 and index bounds. The contradiction uses a prime p>3 in the half interval, which Bertrand's postulate at ⌊k/2⌋ supplies for k≥8.
 
-*Needs:* Layer 1 — first-family invariants and odd local properties; Layer 1 — half-interval primes divide the difference; ImaginaryQuadraticClassNumber H3.1; §0.9's prime estimates; Mathlib `WeierstrassCurve.j`.
+*Needs:* Layer 1 — first-family invariants and odd local properties; Layer 1 — half-interval primes divide the difference; ImaginaryQuadraticClassNumber H3.1; Mathlib `Nat.exists_prime_lt_and_le_two_mul`; Mathlib `WeierstrassCurve.j`.
 
 ([BS20], §6 final Case-II proof, p. 373.)
 
@@ -790,7 +803,7 @@ Project to primes 5 mod 8 using the previous square test and the explicit theta(
 Prove the simultaneous character-family theorem `character_family` with all the conclusions below,
 including divisibility by the deletion level M_a for the same chosen character.
 
-Under H⁺ choose for every a in A(k) one pair (N_a,chi_a), with N_a>1 and chi_a a native primitive real quadratic character modulo its conductor N_a. The same choice simultaneously has: |sum over integers k/2<m≤k of chi_a(m)*Lambda(m)|>0.1239*k; N_a^odd squarefree, N_a^odd dividing M_a and A_i*A_j*A_h, N_a^odd≠1; and N_a≤8*N_a^odd. N_a is the actual native character conductor, not a freely assigned modulus.
+Assume `SchoenfeldFiniteRangeInput` and `PrimeProductFiniteInput`, which enter through the comparison curve of §1.12, and `ModEightFiniteInput`, which enters through the mod-eight projections of §§2.3 and 2.6. Under H⁺ choose for every a in A(k) one pair (N_a,chi_a), with N_a>1 and chi_a a native primitive real quadratic character modulo its conductor N_a. The same choice simultaneously has: |sum over integers k/2<m≤k of chi_a(m)*Lambda(m)|>0.1239*k; N_a^odd squarefree, N_a^odd dividing M_a and A_i*A_j*A_h, N_a^odd≠1; and N_a≤8*N_a^odd. N_a is the actual native character conductor, not a freely assigned modulus.
 
 On the pinned carriers chi_a is a complex Dirichlet character of positive level N_a that is primitive (so its conductor is N_a) and quadratic (so its values are 0 and ±1, hence real); N_a^odd is `oddPart` of N_a, that is N_a divided by 2^(v₂(N_a)); M_a is `deletionLevel` of `progressionFreyCurve` at ell (§1.7), and A_i, A_j, A_h are `smallPart` at k of the three terms (§0.4). The ellipticity of E_a is carried as in §1.12.
 
@@ -809,7 +822,7 @@ On the pinned carriers chi_a is a complex Dirichlet character of positive level 
 
 Use the exhaustive partition and the respective four-character constructions. The primitive squareclass character gives the exact conductor and dyadic bound. Convert prime sums to von-Mangoldt sums by the effective prime-power tail; the strict numerical margin is0.000045875*k. Fix one finite family only after all its simultaneous conclusions hold.
 
-*Needs:* Layer 2 — case-i nonsquare and absolute projection; Layer 2 — case-ii conductor exclusion and projection; Layer 1 — first-family reduced-level bounds; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §1.51 — odd part of a quadratic conductor is squarefree; ClassicalArithmeticCompletion §1.51 — two adic conductor bound; §0.9's prime estimates; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Tau Ceti `DirichletCharacter.conductor_ringHomComp` and `DirichletCharacter.isPrimitive_ringHomComp_iff` for the injective ℤ→ℝ and ℤ→ℂ comparisons; Mathlib `ArithmeticFunction.vonMangoldt` and `MulChar.IsQuadratic`; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal` through §1.7's deletion level.
+*Needs:* Layer 2 — case-i nonsquare and absolute projection; Layer 2 — case-ii conductor exclusion and projection; Layer 1 — first-family reduced-level bounds; ClassicalArithmeticCompletion §1.51 — quadratic character of a squareclass; ClassicalArithmeticCompletion §1.51 — odd part of a quadratic conductor is squarefree; ClassicalArithmeticCompletion §1.51 — two adic conductor bound; §0.9's prime estimates, with `SchoenfeldFiniteRangeInput`, `PrimeProductFiniteInput` and `ModEightFiniteInput`; Mathlib `DirichletCharacter.conductor`; Mathlib `DirichletCharacter.IsPrimitive`; Tau Ceti `DirichletCharacter.conductor_ringHomComp` and `DirichletCharacter.isPrimitive_ringHomComp_iff` for the injective ℤ→ℝ and ℤ→ℂ comparisons; Mathlib `ArithmeticFunction.vonMangoldt` and `MulChar.IsQuadratic`; Tau Ceti `WeierstrassCurve.algorithmicConductor` and `WeierstrassCurve.minimalDiscriminantIdeal` through §1.7's deletion level.
 
 ([BS20], Proposition 6.1 and its two-case construction, pp. 366-373; Proposition 6.1, p. 367; Proposition 6.1, p. 367; Case II exclusion, pp. 372–373.)
 
@@ -1104,11 +1117,11 @@ to this invariant. No effective height bound is asserted.
 
 Prove `effective_prime_bound` with the quantified threshold, integer domain and prime exponent below.
 
-There exists an effectively computable absolute integer k0≥5 such that for every natural number k≥k0, integers n,d,y with gcd(n,d)=1, and prime ell satisfying product over i<k of(n+i*d)=y^ell, either y*d=0 or ell≤exp(10^k). Positivity of k follows from k≥k0≥5 and is not a separate hypothesis. The effective threshold comes from the Granville endgame; an unqualified classical existential by itself is not an effectivity proof.
+Assume the four propositions `SchoenfeldFiniteRangeInput`, `RosserSchoenfeldFiniteRangeInput`, `ModEightFiniteInput` and `PrimeProductFiniteInput` of §0.9: the prime-count pair enters through §5.7, the other three through §2.7. Then there exists an effectively computable absolute integer k0≥5 such that for every natural number k≥k0, integers n,d,y with gcd(n,d)=1, and prime ell satisfying product over i<k of(n+i*d)=y^ell, either y*d=0 or ell≤exp(10^k). Positivity of k follows from k≥k0≥5 and is not a separate hypothesis. The effective threshold comes from the Granville endgame; an unqualified classical existential by itself is not an effectivity proof.
 
 Suppose y*d≠0 and ell>exp(10^k). Taking k0 above10^8 and2*10^10 gives H⁺. The Granville endgame of §5.9 contradicts sufficiently large k. Fix the maximum of the explicit or effectively controlled input thresholds. Keep a ledger of effective dependencies, including the constant c_LS of AnalyticNumberTheoryPartI §0.34, which enters through §0.6 of that roadmap; no dependency is ineffective, and no rational-point height bound enters.
 
-*Needs:* Layer 5 — granville analytic endgame; Layer 0 — primitive progression solutions; AnalyticNumberTheoryPartI §0.34, through §0.6, for the effectivity ledger.
+*Needs:* Layer 5 — granville analytic endgame; Layer 0 — primitive progression solutions; §0.9's four finite-range propositions; AnalyticNumberTheoryPartI §0.34, through §0.6, for the effectivity ledger.
 
 ([BS20], Theorem 2, p. 357.)
 
@@ -1154,11 +1167,11 @@ Use exact division p*(ell/p)=ell and power associativity. If |y|=1 the absolute 
 
 Prove `fixed_length_finiteness` for all nontrivial signed tuples, with k fixed.
 
-For each fixed k≥k0, the nontrivial signed integer tuples (n,d,y,ell) with y*d≠0, ell≥2, gcd(n,d)=1 and product over i<k of(n+i*d)=y^ell form a finite set, by the signed fixed-exponent adapter. The positive tuples (n,d,y>0) with ell≥2, gcd(n,d)=1 and the same product equation are a subset, since positive n,d,y have y*d≠0, so their finiteness is a corollary and is not stated separately. This is not finiteness as k varies and not an effective point-enumeration theorem.
+Assume the four propositions of §0.9, which enter through §6.2. For each fixed k≥k0, the nontrivial signed integer tuples (n,d,y,ell) with y*d≠0, ell≥2, gcd(n,d)=1 and product over i<k of(n+i*d)=y^ell form a finite set, by the signed fixed-exponent adapter. The positive tuples (n,d,y>0) with ell≥2, gcd(n,d)=1 and the same product equation are a subset, since positive n,d,y have y*d≠0, so their finiteness is a corollary and is not stated separately. This is not finiteness as k varies and not an effective point-enumeration theorem.
 
 The effective prime theorem bounds the possible prime divisors p of ell for this fixed k. The fixed-exponent theorem yields finitely many triples(n,d,Y) for every such p. The composite reduction and |Y|>1 give finitely many roots/exponent multipliers above every triple; take the finite union.
 
-*Needs:* Layer 6 — effective prime-exponent bound; Layer 6 — fixed-exponent progression finiteness; Layer 6 — composite exponent reduction.
+*Needs:* Layer 6 — effective prime-exponent bound; Layer 6 — fixed-exponent progression finiteness; Layer 6 — composite exponent reduction; §0.9's four finite-range propositions.
 
 ([BS20], Abstract and §1 after Theorem 2, p. 357.)
 
@@ -1184,7 +1197,10 @@ Prove the positive consecutive-product theorem in this layer. State the stronger
 
 ### 7.1 Positive consecutive products
 
-Prove `consecutiveProduct_not_perfectPower`: for positive n, k≥2 and ell≥2,
+Prove `consecutiveProduct_not_perfectPower`: assume `SchoenfeldFiniteRangeInput`
+and `RosserSchoenfeldFiniteRangeInput`, which enter through the theta bound of the
+square-exponent branch and the prime-count pair of the large-length range below.
+Then for positive n, k≥2 and ell≥2,
 ∏_(0≤i<k)(n+i) is not an ell-th power of a natural number y. No positivity
 hypothesis on y is needed: the product is positive, so y=0 cannot occur.
 (ErdosSelfridge1975, Theorem 1, p. 292; BS20, §1, Theorem 1, p. 355.)
@@ -1487,9 +1503,12 @@ by `n-d`. Its distinct branch values, the covering degree
 Layers 1–6 also consume the effective comparisons EC.0–EC.5 of
 EllipticCurveModularityPartII Layers 1–6, with their stated hypotheses.
 All applications of the literal numerical constants retain the four supplier
-input hypotheses in the contracts table. The end theorems discharge them through
-ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 and remain conditional on the
-recorded numerical verifications those sections assume. The proof consumes no small-conductor
+input hypotheses in the contracts table, which §0.9 defines as propositions here,
+and the headline theorems that apply them carry them as hypotheses.
+ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1, with ExplicitZetaBounds
+§§0.2–0.4 for the zero-line clause of `ModEightFiniteInput`, prove them from the
+recorded numerical verifications those sections assume, so with the inputs
+discharged there the end theorems are conditional on those verifications. The proof consumes no small-conductor
 real-zero computation, real-zero separation constant or numerical
 conductor–largest-prime bound.
 
@@ -1574,6 +1593,8 @@ is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §�
 zeros with its exception-free bounded-height corollary,
 explicit formula, zero density and divisor estimates.
 Their numerical input hypotheses are retained in the supplier contracts below;
+§0.9 restates the four of them with the same statements, only so that the
+headline theorems can carry them in the Lean file;
 ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 own the proofs of the four
 finite-range inputs from the recorded verifications that roadmap assumes.
 
@@ -2015,7 +2036,9 @@ the recorded numerical verifications that the proving roadmap assumes.
 clause; the zero-line clause is ExplicitZetaBounds §§0.2–0.4 at the
 divisors 1, 2, 4 and 8 of the modulus (consumed below), and the theta
 clause is ExplicitPrimeCounting §6.1 (consumed below). No GRH assumption or omitted numerical hypothesis is substituted for
-these inputs. The real-zero separation of §0.7, with its inputs
+these inputs. §0.9 restates the four propositions of this table with the same
+statements, since a roadmap's Lean file imports only the pinned libraries, and
+the headline theorems carry them as hypotheses. The real-zero separation of §0.7, with its inputs
 `BMORFiniteInput` and `BMORClassNumberInput`, and the conductor–largest-prime
 bound of §3.2, with `QuadraticConductorFiniteInput`, are not consumed: §0.6
 leaves Layer 5 no small modulus to separate.
@@ -2075,8 +2098,10 @@ AnalyticNumberTheoryPartI table above:
 - §4.3: `PrimeProductFiniteInput`, ∑_(p≤x)1/p≤log log x+0.27+5/log x for 10⁸≤x<exp(10000) (RosserSchoenfeld1962, Theorems 5 and 8);
 - §6.1: the theta clause of `ModEightFiniteInput`, |θ(x;8,a)−x/4|≤0.002811x/4 for a=3,5 and 10¹⁰≤x<exp(10000) (RamareRumely1996, Theorem 1 and Table 1).
 
-Each holds there under the hypotheses its section states, and every application
-here carries them unchanged. They are that roadmap's named propositions holding
+Each holds there under the hypotheses its section states. The theorems here
+carry the four inputs themselves as hypotheses (§0.9); discharging them through
+these sections replaces them by the hypotheses of those sections. Those
+hypotheses are that roadmap's named propositions holding
 numbers that a paper obtained by computation (the finite-range propositions of
 its Layer 1 and the table propositions of its later sections), which it assumes
 and never establishes, together with the inputs it takes from its own suppliers.

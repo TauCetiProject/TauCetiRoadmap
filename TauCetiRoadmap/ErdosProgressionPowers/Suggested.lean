@@ -27,6 +27,15 @@ algebraic closure, with the Galois action given by Mathlib's
 conductor of the torsion representation, so the identification of the deletion
 level with that residual conductor (section 1.10) is a README target only.
 
+The four explicit finite-range prime estimates that AnalyticNumberTheoryPartI
+states as hypotheses (its sections 0.3, 0.5, 0.16 and 0.25) are restated here
+with the same statements, because a roadmap's Lean file imports only the pinned
+libraries. The headline theorems whose README routes apply one of these
+estimates carry it as a hypothesis, each only those its route uses; the two
+fixed-exponent finiteness theorems carry none. ExplicitPrimeCounting, with
+ExplicitZetaBounds for the zero-line clause of the mod-eight input, proves the
+estimates from recorded numerical verifications.
+
 The existential prime-exponent statement records the numerical bound; its
 README theorem additionally requires an effectively computable threshold.
 The Erdos eventual-nonexistence conjecture and the announced smooth-multiplier
@@ -60,6 +69,42 @@ below `k`. -/
 def smallPart (k : ℕ) (t : ℤ) : ℕ :=
   ∏ p ∈ t.natAbs.primeFactors.filter (· < k), p ^ padicValNat p t.natAbs
 
+/-- Schoenfeld's finite range, the input of AnalyticNumberTheoryPartI §0.3 with the same
+statement: `θ(x) < 1.000081 x` for every real `0 < x < exp 10000`, for Mathlib's
+`Chebyshev.theta`. ExplicitPrimeCounting §3.2 proves it from recorded numerical
+verifications. -/
+def SchoenfeldFiniteRangeInput : Prop :=
+  ∀ x : ℝ, 0 < x → x < Real.exp 10000 → Chebyshev.theta x < 1.000081 * x
+
+/-- Rosser–Schoenfeld's finite range, the input of AnalyticNumberTheoryPartI §0.5 with the same
+statement: `(x / log x)(1 + 1/(2 log x)) < π(x) < (x / log x)(1 + 3/(2 log x))` for every real
+`59 ≤ x < exp 10000`. ExplicitPrimeCounting §3.5 proves it from recorded numerical
+verifications. -/
+def RosserSchoenfeldFiniteRangeInput : Prop :=
+  ∀ x : ℝ, 59 ≤ x → x < Real.exp 10000 →
+    x / Real.log x * (1 + 1 / (2 * Real.log x)) < (Nat.primeCounting ⌊x⌋₊ : ℝ) ∧
+      (Nat.primeCounting ⌊x⌋₊ : ℝ) < x / Real.log x * (1 + 3 / (2 * Real.log x))
+
+/-- The mod-eight input of AnalyticNumberTheoryPartI §0.16 with the same statement: the
+Ramaré–Rumely bound `|θ(x; 8, a) − x/4| ≤ 0.002811 x/4` for `a = 3, 5` and every real
+`10¹⁰ ≤ x < exp 10000`, where `θ(x; 8, a)` sums `log p` over the primes `p ≤ x` with
+`p ≡ a mod 8`; and every zero `s` with `0 < Re s < 1` and `|Im s| ≤ 10000` of the L-function of a
+Dirichlet character modulo 8 has `Re s = 1/2`. ExplicitPrimeCounting §6.1 proves the first clause
+and ExplicitZetaBounds §§0.2–0.4 supply the second, from recorded numerical verifications. -/
+def ModEightFiniteInput : Prop :=
+  (∀ a : ZMod 8, (a = 3 ∨ a = 5) → ∀ x : ℝ, (10 : ℝ) ^ 10 ≤ x → x < Real.exp 10000 →
+      |(∑ p ∈ (Nat.primesLE ⌊x⌋₊).filter (fun p : ℕ => (p : ZMod 8) = a), Real.log p) - x / 4| ≤
+        0.002811 * x / 4) ∧
+    ∀ χ : DirichletCharacter ℂ 8, ∀ s : ℂ, 0 < s.re → s.re < 1 → |s.im| ≤ 10000 →
+      DirichletCharacter.LFunction χ s = 0 → s.re = 1 / 2
+
+/-- The reciprocal-prime range, the input of AnalyticNumberTheoryPartI §0.25 with the same
+statement: `∑_{p ≤ x} 1/p ≤ log log x + 0.27 + 5 / log x` for every real `10⁸ ≤ x < exp 10000`.
+ExplicitPrimeCounting §4.3 proves it from recorded numerical verifications. -/
+def PrimeProductFiniteInput : Prop :=
+  ∀ x : ℝ, (10 : ℝ) ^ 8 ≤ x → x < Real.exp 10000 →
+    ∑ p ∈ Nat.primesLE ⌊x⌋₊, (1 : ℝ) / p ≤ Real.log (Real.log x) + 0.27 + 5 / Real.log x
+
 /-! ## Layer 1: Frey families and residual comparisons -/
 
 /-- The first progression Frey curve `Y² = X(X − a)(X + c)` of a triple `(i, j, h)`: with
@@ -90,11 +135,16 @@ def HasFullRationalTwoTorsion (E : WeierstrassCurve ℚ) : Prop :=
 
 local notation "Ω" => AlgebraicClosure ℚ
 
-/-- Every prime in the upper half of the length divides the common difference under H. -/
-theorem half_primes_divide_d {n d : ℤ} {k : ℕ} {y : ℤ} {ell p : ℕ}
-    (hH : H n d k y ell) (hp : p.Prime) (hl : k < 2*p) (hu : p ≤ k) : (p : ℤ) ∣ d := by sorry
+/-- Under `SchoenfeldFiniteRangeInput`, which enters through the Chebyshev bounds of the reduced
+levels (README sections 1.7–1.8), every prime in the upper half of the length divides the common
+difference under H. (BS20, Lemma 4.1, p. 364.) -/
+theorem half_primes_divide_d (hS : SchoenfeldFiniteRangeInput) {n d : ℤ} {k : ℕ} {y : ℤ}
+    {ell p : ℕ} (hH : H n d k y ell) (hp : p.Prime) (hl : k < 2*p) (hu : p ≤ k) :
+    (p : ℤ) ∣ d := by sorry
 
-/-- The comparison-curve theorem (README section 1.12): under `H`, for every triple `(i, j, h)`
+/-- The comparison-curve theorem (README section 1.12): assume `SchoenfeldFiniteRangeInput` and
+`PrimeProductFiniteInput`, which enter through the level bound and the Kraus threshold (README
+sections 1.7 and 1.11). Under `H`, for every triple `(i, j, h)`
 of `A(k)` (that is `h < k`, `i < j` and `i + h = 2 j`) there is an elliptic curve `F/ℚ` with
 full rational two-torsion, conductor exactly the deletion level of the progression Frey curve
 `E` at `ell`, and an isomorphism `E[ell] ≃ F[ell]` of geometric `ell`-torsion groups (Mathlib's
@@ -102,7 +152,8 @@ full rational two-torsion, conductor exactly the deletion level of the progressi
 every automorphism of `Ω` over `ℚ`. The ellipticity of `E` follows
 from `H` and membership in `A(k)` (section 1.3); it is carried as an instance so that the
 deletion level is defined. (BS20, Lemma 5.1, p. 365.) -/
-theorem comparison_curve {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
+theorem comparison_curve (hS : SchoenfeldFiniteRangeInput) (hP : PrimeProductFiniteInput)
+    {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
     {i j h : ℕ} (hk : h < k) (hij : i < j) (hsum : i + h = 2 * j)
     [(progressionFreyCurve n d i j h).IsElliptic] :
     ∃ F : WeierstrassCurve ℚ, ∃ _ : F.IsElliptic, HasFullRationalTwoTorsion F ∧
@@ -120,14 +171,18 @@ theorem comparison_curve {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d
 /-- The odd part `N / 2^(v₂ N)` of a natural number. -/
 def oddPart (N : ℕ) : ℕ := N / 2 ^ padicValNat 2 N
 
-/-- The simultaneous character-family theorem (README section 2.7): under `H⁺`, that is `H`
-with `k ≥ 2·10¹⁰`, every triple `(i, j, h)` of `A(k)` has a primitive quadratic Dirichlet
+/-- The simultaneous character-family theorem (README section 2.7): assume
+`SchoenfeldFiniteRangeInput` and `PrimeProductFiniteInput`, which enter through the comparison
+curve, and `ModEightFiniteInput`, which enters through the mod-eight projections (README sections
+2.3 and 2.6). Under `H⁺`, that is `H` with `k ≥ 2·10¹⁰`, every triple `(i, j, h)` of `A(k)` has a
+primitive quadratic Dirichlet
 character `χ` of conductor `N > 1` whose half-interval von Mangoldt sum over `k/2 < m ≤ k`
 exceeds `0.1239 k` in absolute value, whose odd part `N^odd` is squarefree, different from `1`,
 divides the deletion level of the progression Frey curve at `ell` and divides the product of the
 small-prime parts of the three terms, and with `N ≤ 8 N^odd`. (BS20, Proposition 6.1,
 p. 367.) -/
-theorem character_family {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
+theorem character_family (hS : SchoenfeldFiniteRangeInput) (hP : PrimeProductFiniteInput)
+    (hM : ModEightFiniteInput) {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d k y ell)
     (hk : 2 * 10 ^ 10 ≤ k) {i j h : ℕ} (hk' : h < k) (hij : i < j) (hsum : i + h = 2 * j)
     [(progressionFreyCurve n d i j h).IsElliptic] :
     ∃ N : ℕ, ∃ _ : NeZero N, ∃ χ : DirichletCharacter ℂ N, χ.IsPrimitive ∧ χ.IsQuadratic ∧
@@ -139,8 +194,13 @@ theorem character_family {n d : ℤ} {k : ℕ} {y : ℤ} {ell : ℕ} (hH : H n d
 
 /-! ## Layer 6: Effective exponent bound and fixed-length finiteness -/
 
-/-- Above an absolute threshold, a nontrivial primitive progression has prime exponent at most exp(10^k). -/
-theorem effective_prime_bound : ∃ k0 : ℕ, 5 ≤ k0 ∧
+/-- Under the four finite-range inputs (`RosserSchoenfeldFiniteRangeInput` enters through the
+prime count of README section 5.7, the other three through the character family), above an
+absolute threshold a nontrivial primitive progression has prime exponent at most exp(10^k).
+(BS20, Theorem 2, p. 357.) -/
+theorem effective_prime_bound (hS : SchoenfeldFiniteRangeInput)
+    (hR : RosserSchoenfeldFiniteRangeInput) (hM : ModEightFiniteInput)
+    (hP : PrimeProductFiniteInput) : ∃ k0 : ℕ, 5 ≤ k0 ∧
     ∀ (k : ℕ) (n d y : ℤ) (ell : ℕ), k0 ≤ k → Int.gcd n d = 1 → ell.Prime →
       (∏ i ∈ Finset.range k, term n d i) = y^ell →
       y*d=0 ∨ (ell : ℝ) ≤ Real.exp (10^k : ℝ) := by sorry
@@ -158,18 +218,24 @@ theorem positive_fixed_exponent_finiteness (k ell : ℕ) (hk : 3 ≤ k) (he : 2 
       Int.gcd t.1 t.2.1 = 1 ∧
       (∏ i ∈ Finset.range k, term t.1 t.2.1 i) = t.2.2^ell}.Finite := by sorry
 
-/-- For each sufficiently large fixed length there are finitely many primitive nontrivial signed
-solutions (n, d, y, ell) with y*d ≠ 0 and arbitrary exponent ell ≥ 2; the positive tuples are a
-subset. -/
-theorem fixed_length_finiteness : ∃ k0 : ℕ, 5 ≤ k0 ∧ ∀ k ≥ k0,
+/-- Under the four finite-range inputs, which enter through the prime-exponent bound, for each
+sufficiently large fixed length there are finitely many primitive nontrivial signed solutions
+(n, d, y, ell) with y*d ≠ 0 and arbitrary exponent ell ≥ 2; the positive tuples are a subset. -/
+theorem fixed_length_finiteness (hS : SchoenfeldFiniteRangeInput)
+    (hR : RosserSchoenfeldFiniteRangeInput) (hM : ModEightFiniteInput)
+    (hP : PrimeProductFiniteInput) : ∃ k0 : ℕ, 5 ≤ k0 ∧ ∀ k ≥ k0,
     {t : ℤ × ℤ × ℤ × ℕ | t.2.2.1*t.2.1 ≠ 0 ∧ 2 ≤ t.2.2.2 ∧ Int.gcd t.1 t.2.1 = 1 ∧
       (∏ i ∈ Finset.range k, term t.1 t.2.1 i) = t.2.2.1^t.2.2.2}.Finite := by sorry
 
 /-! ## Layer 7: Conjectural and announced predicates -/
 
-/-- A product of at least two consecutive positive integers is not a nontrivial perfect power
-(the base y = 0 is excluded by positivity of the product, so no hypothesis on y is needed). -/
-theorem consecutiveProduct_not_perfectPower (n k y ell : ℕ)
+/-- Under `SchoenfeldFiniteRangeInput` and `RosserSchoenfeldFiniteRangeInput`, which enter through
+the theta bound of the square-exponent branch and the prime count of the large-length range
+(README section 7.1), a product of at least two consecutive positive integers is not a nontrivial
+perfect power (the base y = 0 is excluded by positivity of the product, so no hypothesis on y is
+needed). (ErdosSelfridge1975, Theorem 1, p. 292.) -/
+theorem consecutiveProduct_not_perfectPower (hS : SchoenfeldFiniteRangeInput)
+    (hR : RosserSchoenfeldFiniteRangeInput) (n k y ell : ℕ)
     (hn : 0 < n) (hk : 2 ≤ k) (he : 2 ≤ ell) :
     (∏ i ∈ Finset.range k, (n + i)) ≠ y^ell := by sorry
 
