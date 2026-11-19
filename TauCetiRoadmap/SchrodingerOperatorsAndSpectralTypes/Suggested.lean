@@ -44,8 +44,9 @@ essential spectrum (§1.6), Pearson's theorem and the Kato–Rosenblum theorem (
 and cores of the Kato–Rellich theorem (§2.3), the essential self-adjointness of the Laplacian of a
 complete Riemannian manifold and its `L²` kernel (§3.6, §3.7), the Schrödinger operators `Δ + V`
 with bounded real potentials on a complete Riemannian manifold (§3.9), the threshold
-`[1/4, ∞) ⊆ σ_ess` forced by a cusp end (§3.10), and the Schrödinger operators `−Δ + V` with bounded
-real potentials on `ℝ^d` (§4.4).
+`[1/4, ∞) ⊆ σ_ess` forced by a cusp end (§3.10) and the equality `σ_ess = [1/4, ∞)` when the
+manifold is a compact set together with finitely many cusp ends (§3.11), and the Schrödinger
+operators `−Δ + V` with bounded real potentials on `ℝ^d` (§4.4).
 
 Three clauses of the README Summary are not statable at the pins, and nothing is stated in their
 place. The form-domain clause of §3.6 (`H¹₀(X) = H¹(X)`, with `Δ_X` the operator of the energy
@@ -366,6 +367,33 @@ theorem Ici_quarter_subset_essentialSpectrum {E : Type*} [NormedAddCommGroup E]
       (T u : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] complexLaplacian I f)
     (w a : ℝ) (φ : cuspRegion a → M) (hφ : IsStandardCuspEnd I w a φ) :
     (fun t : ℝ => (t : ℂ)) '' Set.Ici (1 / 4) ⊆ essentialSpectrum T.closure := by
+  sorry
+
+/-- The essential spectrum of a surface with finitely many cusp ends (README §3.11): if a complete
+Riemannian manifold `M` is a compact set together with finitely many, at least one, pairwise
+disjoint standard cusp ends, then the essential spectrum of its self-adjoint Laplacian `Δ_M`, the
+closure of the initial operator `T`, is exactly `[1/4, ∞)`. The lower bound `inf σ_ess ≥ 1/4` is the
+decomposition principle with Hardy's inequality in each cusp; the inclusion of `[1/4, ∞)` is
+`Ici_quarter_subset_essentialSpectrum` (Hide–Magee, §1, after Lax–Phillips, for finite-area
+hyperbolic surfaces). -/
+theorem essentialSpectrum_eq_Ici_quarter {E : Type*} [NormedAddCommGroup E]
+    [NormedSpace ℝ E] [FiniteDimensional ℝ E] {HM : Type*} [TopologicalSpace HM]
+    {I : ModelWithCorners ℝ E HM} [I.Boundaryless] {M : Type*} [EMetricSpace M]
+    [ChartedSpace HM M] [IsManifold I ∞ M] [RiemannianBundle (fun x : M ↦ TangentSpace I x)]
+    [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
+    [IsContinuousRiemannianBundle E (fun x : M ↦ TangentSpace I x)] [IsRiemannianManifold I M]
+    [CompleteSpace M] [SecondCountableTopology M] [MeasurableSpace M] [BorelSpace M]
+    (T : Lp ℂ 2 (TauCeti.riemannianVolume I M) →ₗ.[ℂ] Lp ℂ 2 (TauCeti.riemannianVolume I M))
+    (hdom : ∀ u, u ∈ T.domain ↔ ∃ f : M → ℂ, ContMDiff I 𝓘(ℝ, ℂ) ∞ f ∧ HasCompactSupport f ∧
+      (u : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] f)
+    (hact : ∀ (u : T.domain) (f : M → ℂ), ContMDiff I 𝓘(ℝ, ℂ) ∞ f → HasCompactSupport f →
+      ((u : Lp ℂ 2 (TauCeti.riemannianVolume I M)) : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] f →
+      (T u : M → ℂ) =ᵐ[TauCeti.riemannianVolume I M] complexLaplacian I f)
+    {ι : Type*} [Finite ι] [Nonempty ι] (w a : ι → ℝ) (φ : ∀ i, cuspRegion (a i) → M)
+    (hφ : ∀ i, IsStandardCuspEnd I (w i) (a i) (φ i))
+    (hdisj : Pairwise fun i j => Disjoint (Set.range (φ i)) (Set.range (φ j)))
+    (hK : IsCompact (⋃ i, Set.range (φ i))ᶜ) :
+    essentialSpectrum T.closure = (fun t : ℝ => (t : ℂ)) '' Set.Ici (1 / 4) := by
   sorry
 
 /-! ## Layer 4: Schrödinger operators on `L²(ℝ^d)` -/
