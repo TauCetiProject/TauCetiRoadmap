@@ -14,6 +14,23 @@ and spectral constructions in Layers 0–11. The integral construction is made f
 datum: Layer 9 builds the pinned split reductive group scheme over `ℤ` of every finite reduced
 root datum, arbitrary central tori and isogeny types included. The SL polynomial presentation of
 9B.4 concerns the existing determinant-kernel coordinate algebra; it introduces no second SL group.
+Layer 9B also owns the classical group schemes over every commutative ring: the comparisons of
+§9B.5 for the symplectic and symplectic-similitude groups, the orthogonal, special orthogonal and
+similitude group schemes of a nondegenerate quadratic module with its Dickson invariant (§9B.6),
+and the Clifford, general spin and spin group schemes of §9B.7, each with its comparison to the
+pinned model of its based root datum. `Sp₂ₘ` is the pinned Tau Ceti carrier and `GSp₂ₘ` is
+ArithmeticGaloisRepresentations §7.3's `SimilitudeGroup.GSp`; §9B.5 introduces no second carrier
+for either. The groups of points over a field of characteristic not two, the spinor norm and the
+Clifford comparison on points are Completed/OrthogonalSpinGroups'; §§9B.6–9B.7 own the group
+schemes and their structure, and identify their field points with those groups.
+AutomorphicLFunctionsAndLocalFactorsPartII §0.0 constructs split `GSpin_c` over a
+characteristic-zero field on the Clifford carriers; it is a consumer of §9B.7, whose `GSpin_c`
+over `ℤ` specializes to it, not a second supplier. Dual and L-groups are ReductiveGroupsPartII
+RG2.5's; §9B.8 proves only the isomorphisms of based root data that RG2.5 turns into dual groups.
+Unitary and unitary-similitude groups, non-split quasi-split orthogonal groups and their
+Galois-twisted forms (Layer 9D's forms), integral models of `GSpin` for non-unimodular lattices
+(ReductiveGroupsPartII RG2.3's parahoric and stabilizer models), and the representation theory of
+these groups are not targets of §§9B.5–9B.8.
 Layer 7a owns Lang's theorem for the `q`-Frobenius of a smooth geometrically connected
 group over a finite field and the fixed-coset bijection `H^σ/J^σ ≃ (H/J)^σ`, built on the pinned
 fixed-lift lemma; Layer 9E owns their Steinberg-endomorphism extension. Layer 1.1 owns rational
@@ -211,6 +228,13 @@ prove them equivalent** rather than committing.
   holomorphic functions on a complex manifold and the evaluation of its germs at a point, and
   `smoothSheafCommRing.isUnit_stalk_iff` (`…/Sheaf/LocallyRingedSpace.lean`) makes a germ a unit
   exactly when its value is nonzero.
+- **Quadratic forms and Clifford algebras (§§9B.5–9B.8):** `CliffordAlgebra` with `ι`,
+  `involute`, `reverse` and `CliffordAlgebra.even`; `lipschitzGroup`, `pinGroup`, `spinGroup` and
+  `conjAct_smul_range_ι`; `QuadraticMap.polarBilin`, `QuadraticMap.Nondegenerate` (radical zero
+  and polar kernel of rank at most one, the characteristic-free notion over a field),
+  `QuadraticForm.dualProd` (the hyperbolic form on `M* × M`), `QuadraticMap.prod`,
+  `QuadraticMap.sq`, `QuadraticForm.baseChange`; `Matrix.J`, `Matrix.symplecticGroup`,
+  `Matrix.orthogonalGroup`, `Matrix.specialOrthogonalGroup`.
 - **Combinatorial prerequisites** (not ready-made algebraic-group infrastructure; they
   supply abstract root systems/Weyl groups; extracting a *root datum from a group* still
   needs substantial glue): `Mathlib/LinearAlgebra/RootSystem/*` (root pairings, bases,
@@ -1017,6 +1041,43 @@ worked examples consume them.
   on the lattices `Fin r →₀ ℤ` and `Fin r → ℤ`, with `Fin r` lifted by `ULift` to a chosen
   universe. No polynomial presentation of the coordinate algebra without the determinant
   localization, and no comparison with the pinned group of Layer 9, is in the library.
+- **Classical and Clifford groups (§§9B.5–9B.8).**
+  - The constant-form subgroup schemes `TauCeti.ConstantForm.groupScheme R n C` (points
+    `M C Mᵀ = C`), with `TauCeti.Symplectic.groupScheme` at `C = TauCeti.JFin m R` and
+    `TauCeti.Orthogonal.groupScheme` at `C = 1`, and the identity-form
+    `TauCeti.SpecialOrthogonal.groupScheme`
+    (`Algebra/AlgebraicGroup/{ConstantForm,Symplectic,Orthogonal,SpecialOrthogonal}/`).
+  - For `Sp₂ₘ`: smoothness, connectedness, reductivity
+    (`TauCeti.Symplectic.reductiveCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra`), the
+    diagonal torus, its root datum `TauCeti.Symplectic.diagonalRootDatum m` (the simply connected
+    `Cₘ` datum `typeCSimplyConnectedRootDatum m`), root subgroups and
+    `TauCeti.Symplectic.standardPinning`.
+  - For the identity form:
+    `TauCeti.SpecialOrthogonal.smoothCommHopfAlgProperty_finiteTypeCoordinateHopfAlgebra` (with
+    `2` invertible), semisimplicity and the centre.
+  - The orthogonal groups `TauCeti.QuadraticMap.orthogonalGroup Q` and
+    `TauCeti.QuadraticMap.specialOrthogonalGroup Q` of a quadratic map
+    (`LinearAlgebra/QuadraticForm/OrthogonalGroup/Basic.lean`), with
+    `TauCeti.QuadraticMap.specialOrthogonalGroupBaseChange`.
+  - The standard split quadratic spaces `TauCeti.SplitEvenSpace K n` with
+    `TauCeti.splitEvenForm K n = QuadraticForm.dualProd K (Fin n → K)`, and
+    `TauCeti.SplitOddSpace K n` with `TauCeti.splitOddForm K n`, `((f, x), z) ↦ f x + z²`, over
+    every commutative ring (`RepresentationTheory/Spin/Polarization/Split/{Even,Odd}.lean`).
+  - On the Clifford side: `CliffordAlgebra.lipschitzVectorAction`,
+    `CliffordAlgebra.lipschitzToOrthogonal`, `CliffordAlgebra.lipschitzNorm`,
+    `CliffordAlgebra.scalarUnits`, `CliffordAlgebra.lipschitzGroupBaseChange`, the field
+    characterization `CliffordAlgebra.mem_lipschitzGroup_iff_involute_act_ι_mem_range_ι`,
+    `CliffordAlgebra.spinToSpecialOrthogonal` with `CliffordAlgebra.ker_spinToSpecialOrthogonal`, and the low-rank comparisons on
+    points `TauCeti.hyperbolicFourEvenEquivMatrixProd`,
+    `TauCeti.hyperbolicFourSpinEquivSpecialLinearProd`,
+    `CliffordAlgebra.spinGroupEquivSymplecticGroup` (rank five),
+    `TauCeti.hyperbolicSixEvenUnitaryEquivGeneralLinear` and
+    `TauCeti.hyperbolicSixSpinEquivSpecialLinear` (`LinearAlgebra/CliffordAlgebra/`).
+  - `TauCeti.Pinning.comapOfIso` (`Algebra/AlgebraicGroup/Pinning/Isomorphism.lean`) transports a
+    pinning along an isomorphism of group schemes.
+
+  None of these is a group scheme of a general quadratic module, a Dickson invariant, or a
+  `GPin`, `GSpin` or `Spin` group scheme.
 
 ### Native complex-point topology
 
@@ -1105,6 +1166,8 @@ finite-presentation descent of schemes and morphisms along limits of quasi-compa
 quasi-separated schemes, with properties such as smoothness and being an isomorphism descending
 to a finite stage; Layer 9D uses it for the reduction to a Noetherian base and, affine-locally,
 to descend finite group-law diagrams.
+Section 2.11 supplies Hilbert 90, which §9B.7 uses for surjectivity of `GSpin(q)(F) → SO(q)(F)`
+over a field.
 
 ### From TauCetiRoadmap.ModularCurves
 
@@ -1126,6 +1189,19 @@ reflection-conjugation law `a s_α a⁻¹ = s_(aα)` and transport under change 
 and Proposition C.53, pp. 612, 624). §5.2 identifies that based subgroup, for a
 spanning system, with the Cartan-preserving permutations of the simple roots. §9A.1a-L consumes
 both on the ADE root lattice and does not rederive them.
+
+### From TauCetiRoadmap.ArithmeticGaloisRepresentations
+
+Section 7.3 supplies `SimilitudeGroup.groupScheme J` over every commutative ring, the closed
+subgroup scheme of `GL × 𝔾_m` of pairs `(h, r)` with `hᵀ J h = r J`, its multiplier, and
+`SimilitudeGroup.GSp` (`J = −Matrix.J`). §9B.5 consumes it and proves only the comparison with the
+pinned model.
+
+### From Completed/OrthogonalSpinGroups
+
+Layers 0–1 supply the groups of points `O(Q)`, `SO(Q)` over a field of characteristic not two, the
+spinor norm, and the image of `Spin → SO` on points as the kernel of the spinor norm. §9B.7 uses
+them for the field points of `Spin(q)` and its comparison with `SO(q)`.
 
 ### Native quotient and isometry interfaces
 
@@ -4727,6 +4803,267 @@ counit is the identity point and composition with the antipode is matrix inversi
   realizes `SL₂`; the adjoint representation, whose weights `0, ±(ε_1 − ε_2)` span only `ℤΦ`,
   realizes `PGL₂` in 9B.2, and is the wrong realization for this comparison.
 
+##### Conventions for §§9B.5–9B.8
+
+- **Forms over rings.** A *quadratic module* over a commutative ring `R` is a finite free `R`-module
+  `V` of rank `l` with `q : QuadraticForm R V`; `b_q = QuadraticMap.polarBilin q`, so
+  `b_q(v, v) = 2q(v)`. Everything is stated for finite free `V`; the finite projective case is the
+  Zariski-local form of the same statements and is part of each target.
+- **Half-discriminant.** For `l` odd and a basis of `V`, the Gram determinant of `b_q`, read as a
+  polynomial in the coefficients of `q` over `ℤ`, is divisible by `2`; the *half-discriminant*
+  `disc'(q) ∈ R` is the quotient, well defined up to `(R^×)²`. For `l` even, `disc(q)` is the Gram
+  determinant of `b_q`. Witness: `q = x²` has Gram matrix `(2)` and `disc'(q) = 1`;
+  `q = z² + xy` on `R³` has Gram determinant `−2` and `disc'(q) = −1`.
+- **Nondegenerate.** `(V, q)` is *nondegenerate* if `disc(q)` (`l` even) or `disc'(q)` (`l` odd) is a
+  unit. Over a field this is Mathlib's `QuadraticMap.Nondegenerate`, in every characteristic; over
+  `R` it is equivalent to nondegeneracy of every fibre `q ⊗ κ(𝔭)`.
+- **Standard split forms.** For `l = 2n` the standard split form is `TauCeti.splitEvenForm R n`,
+  and for `l = 2n + 1` it is `TauCeti.splitOddForm R n`. In the ordered basis
+  `e₁, …, e_n, (e₀), f_n, …, f₁` (the dual basis of the first summand, then the middle coordinate,
+  then the coordinate basis of the second summand in reverse order) it is
+  `q_l(x) = Σ_{i ≤ n} x_i x_{l+1−i}` plus `x_{n+1}²` when `l` is odd. Both are nondegenerate over
+  `ℤ`.
+- **Matrix conventions.** Points act on column vectors. `J_l` is the antidiagonal permutation
+  matrix and `J_{Sp₂ₙ} = [[0, J_n], [−J_n, 0]]`. Tau Ceti's carriers use
+  the row convention `M C Mᵀ = C`; for `C = J_l`, `C = J_{Sp₂ₙ}`, `C = TauCeti.JFin m R` and `C = 1`
+  the row and column conventions cut out the same subgroup, because `C² = ±1`.
+- **Pinned models.** "The pinned model of a based root datum `Ψ`" is §9B's Chevalley–Demazure group
+  `G_Ψ` over `ℤ`, and "a pinned isomorphism" is one in the sense of §8.2, compared through §9B.3.
+
+##### 9B.5 The symplectic and symplectic-similitude groups
+
+The carrier of `Sp₂ₘ` is the pinned `TauCeti.Symplectic.groupScheme`, the constant-form subgroup
+scheme of `TauCeti.JFin m R`; no second symplectic group is introduced. Its smoothness,
+reductivity, torus, root datum `TauCeti.Symplectic.diagonalRootDatum m`, root subgroups and
+standard pinning are consumed. The carrier of `GSp₂ₘ` is ArithmeticGaloisRepresentations §7.3's
+`SimilitudeGroup.GSp`.
+
+- **Polynomial presentation.** Construct the `ℤ`-algebra isomorphism
+  `O(Sp₂ₘ) ≃ ℤ[x_ij]/(entries of X J Xᵀ − J)` with `J = JFin m ℤ`, removing the determinant
+  localization of `O(GL₂ₘ)`: prove `det X = 1` in the polynomial quotient (the Pfaffian identity
+  `Pf(X J Xᵀ) = det X · Pf(J)` with `Pf(J)` a unit), so `det X` is a unit there, and conclude as in
+  §9B.4's polynomial presentation. The statement includes `m = 0`.
+- **Other Gram matrices.** For every invertible alternating `2m × 2m` matrix `C` over `R` that is
+  congruent to `JFin m R` by `P ∈ GL₂ₘ(R)` (`P C Pᵀ = JFin m R`), conjugation by `P` is an
+  isomorphism `ConstantForm.groupScheme R (2m) C ≅ Sp₂ₘ` natural in `R`; transport the pinning
+  along it by `TauCeti.Pinning.comapOfIso`. For the convention `C = J_{Sp₂ₘ}` of Cai–Friedberg–Kaplan §1† choose `P` a
+  signed permutation matrix, so that the transported torus is the diagonal torus
+  `diag(t₁, …, t_m, t_m⁻¹, …, t₁⁻¹)` and the transported Borel is the upper triangular one.
+- **Comparison with the pinned model.** Identify `Sp₂ₘ` with the pinned model of
+  `diagonalRootDatum m` (simply connected `Cₘ`): the standard representation `ℤ^{2m}` has weights
+  `±ε_i`, which span the whole character lattice, so it is a full admissible realization in §9B.2;
+  compare the two defining Hopf ideals inside `O(GL₂ₘ)` and construct the pinned isomorphism, with
+  `x_{ε_i − ε_j}(a) = I + a(E_ij − E_{2m+1−j, 2m+1−i})` and `x_{2ε_i}(a) = I + a E_{i, 2m+1−i}` in
+  the `J_{Sp₂ₘ}` model.
+- **Similitudes.** For `GSp₂ₘ = SimilitudeGroup.GSp` over `ℤ`: the multiplier `ν` is a character with
+  kernel `Sp₂ₘ`; the central `𝔾_m` of scalars meets `Sp₂ₘ` in `μ₂`; multiplication
+  `(𝔾_m × Sp₂ₘ)/μ₂ → GSp₂ₘ`, with `μ₂` embedded antidiagonally, is an isomorphism of group
+  schemes over `ℤ` (it is `c ↦ c²` on multipliers and an isomorphism on their kernels), and is not
+  surjective on `ℚ`-points. Identify `GSp₂ₘ` with the pinned model of the datum
+  `X = ℤe₀ ⊕ ℤe₁ ⊕ … ⊕ ℤe_m` (torus `diag(t₁, …, t_m, c t_m⁻¹, …, c t₁⁻¹)`, `e₀ ↦ c`,
+  `e_i ↦ t_i`), roots `e_i − e_j`, `±(e_i + e_j − e₀)` (`i < j`), `±(2e_i − e₀)`, coroots
+  `e_i∨ − e_j∨`, `±(e_i∨ + e_j∨)`, `±e_i∨`.
+
+*Needs:* §§8.1–8.2, §9B, §§9B.2–9B.3; the pinned symplectic carriers and pinning; §9B.4's
+localization-removal argument; ArithmeticGaloisRepresentations §7.3; Mathlib's `Matrix.det`,
+`Matrix.J`.
+
+**Checks.**
+- At `m = 1`, `Sp₂ = SL₂` as subgroup schemes of `GL₂`: `X J Xᵀ = det(X) J` for `2 × 2` matrices.
+  `GSp₂ = GL₂` with `ν = det`.
+- In `J_{Sp₄}` the long simple root group `x_{2ε₂}(a) = I + aE₂₃` preserves `J_{Sp₄}`, whereas
+  `I + aE₁₃` does not; with `JFin 2` the same root group is `I + aE₂₄`.
+- `diag(2, 1, 1, 1/2) ∈ Sp₄(ℚ)` in the `J_{Sp₄}` model, while `diag(2, 2, 1, 1)` lies in
+  `GSp₄(ℚ)` with `ν = 2` (torus coordinates `t₁ = t₂ = 2`, `c = 2`), not in `Sp₄(ℚ)` and not in
+  `𝔾_m(ℚ) · Sp₄(ℚ)`, since `2` is not a square; `diag(2, 1, 1, 2)` is not in `GSp₄` at all.
+- For `GSp₄` the coroot of the long root `2e₁ − e₀` is `e₁∨`; pairing it with `e₀` gives `0`, and
+  with `2e₁ − e₀` gives `2`.
+
+##### 9B.6 Orthogonal groups of a quadratic module and the Dickson invariant
+
+For a quadratic module `(V, q)` over `R`, define the *orthogonal group scheme* `O(q)`: the functor
+`A ↦ TauCeti.QuadraticMap.orthogonalGroup (q.baseChange A)` on commutative `R`-algebras, as a
+subgroup functor of `GL(V)`. Construct it as the closed subgroup scheme of `GL(V)` cut out by the
+Hopf ideal generated by the coefficients of the polynomial identity `q(g x) − q(x)` in the
+coordinates of `x`; prove the three Hopf-ideal closure conditions as `TauCeti.ConstantForm` does
+for `M C Mᵀ − C`, and identify its points with `orthogonalGroup`. Let `B` be the Gram matrix of
+`b_q`. Over a ring in which `2` is invertible, `O(q)` is the subgroup `{gᵀ B g = B}`, which in Tau
+Ceti's row convention is `ConstantForm.groupScheme R l B⁻¹` when `B` is invertible; in general
+`O(q)` is a closed subgroup scheme of `{gᵀ B g = B}`, and the inclusion is not an isomorphism.
+Prove base change along every `R → R'` and transport along isometries.
+
+*Similitudes.* Define `GO(q)`: pairs `(g, c)` of `GL(V) × 𝔾_m` with `q(g x) = c · q(x)`, the
+multiplier `c`, and `O(q)` as its kernel. When `(V, q)` is nondegenerate of rank `l ≥ 1`, `g`
+determines `c`.
+
+*The Dickson invariant.* Let `(V, q)` be nondegenerate of even rank `l = 2n`. The centre `Z(q)` of
+the even Clifford algebra `C₀(q) = CliffordAlgebra.even q` is a finite étale `R`-algebra of rank 2
+(Knus, *Quadratic and Hermitian Forms over Rings*, Ch. IV†). `O(q)` acts on `C(q)` by functoriality (`CliffordAlgebra.map`), preserving `C₀(q)`
+and hence `Z(q)`; this gives a homomorphism `D_q : O(q) → Aut_R(Z(q)) = ℤ/2ℤ`, the Dickson
+invariant. Prove: `D_q` is a surjective homomorphism of group schemes onto the constant group
+`ℤ/2ℤ` for `n ≥ 1`; `det = (−1)^{D_q}` on `O(q)`; and on `R[1/2]`-algebras `D_q` is determined by
+`det` (Conrad, *Reductive Group Schemes*, Appendix C.2†). Define `SO(q) = ker D_q` for `l` even and `SO(q) = ker(det)` for `l` odd,
+and `GSO(q)` as the kernel of the similitude Dickson invariant on `GO(q)` (`l` even), equal to
+`{det g = c^n}` over `R[1/2]`.
+
+*Structure.* For `(V, q)` nondegenerate of rank `l`, prove: `SO(q)` is smooth and affine over `R`
+with connected reductive fibres, semisimple for `l ≥ 3` and a torus for `l = 2`; for `l` odd,
+multiplication `μ₂ × SO(q) → O(q)` is an isomorphism; for `l` even, `O(q)/SO(q) ≅ ℤ/2ℤ`
+(Conrad, *Reductive Group Schemes*, Theorem C.1.5 and Appendix C.2†). The route is fibrewise: smoothness from the dimension
+`l(l − 1)/2` of the tangent space of `SO(q)` at the identity of each fibre, computed on dual numbers
+from `q((1 + εX)v) = q(v)`, and flatness from Layer 0's fibrewise criterion; connectedness and reductivity of the fibres
+from the split case below by base change to an algebraic closure, where every nondegenerate form is
+split.
+
+*Split forms and the pinned models.* For the standard split form `q_l`:
+
+- The diagonal torus `T_l`: `t = diag(t₁, …, t_n, (1), t_n⁻¹, …, t₁⁻¹)`, `e_i ↦ t_i`, is a split
+  maximal torus of `SO(q_l)` over `ℤ`, and the upper triangular matrices form a Borel subgroup
+  scheme.
+- **Comparison with the matrix group `{ᵗg J_l g = J_l}`.** Over `ℤ[1/2]`, let
+  `SO_l^J = {g ∈ SL_l : ᵗg J_l g = J_l}`, the special orthogonal group of
+  `q_J(x) = ½ ᵗx J_l x`. Prove: for `l` even, `q_J = q_l` and `SO(q_l) = SO_l^J` as closed subgroup
+  schemes of `GL_l` over `ℤ[1/2]` (in Tau Ceti's row convention, the `det = 1` subgroup of
+  `ConstantForm` for `J_l`); for `l = 2n + 1`, with `δ = diag(2·I_n, 1, I_n)`,
+  `q_l(δx) = 2 q_J(x)`, so `g ↦ δ g δ⁻¹` is an isomorphism `SO_l^J ≅ SO(q_l)` over `ℤ[1/2]`, and
+  `δ` normalizes the diagonal torus and the upper triangular Borel. Over a field of characteristic
+  not two, `SO_l^J` is the split `SO_l` of Cai–Friedberg–Kaplan §1†, so that group is the base
+  change of the smooth `ℤ`-group `SO(q_l)`.
+- Identify `SO(q_{2n+1})` with the pinned model of the adjoint `Bₙ` datum on `X = ⊕ ℤe_i`
+  (roots `±e_i ± e_j`, `±e_i`), and `SO(q_{2n})`, `n ≥ 2`, with the pinned model of the `Dₙ`
+  datum on `X = ⊕ ℤe_i` (roots `±e_i ± e_j`), through the standard representation (weights `±e_i`,
+  and `0` for `l` odd), which spans `X`; pin the root maps
+  `x_{e_i − e_j}(a) = I + a(E_ij − E_{l+1−j, l+1−i})` and, for `l` odd,
+  `x_{e_n}(a) = I + 2a E_{n, n+1} − a E_{n+1, n+2} − a² E_{n, n+2}` in the basis of the Conventions.
+  `SO(q₂) = 𝔾_m` (the torus `T₂`), and `SO(q₀)`, `SO(q₁)` are trivial.
+- Compare with Tau Ceti's identity-form `TauCeti.SpecialOrthogonal.groupScheme`: over a ring
+  containing `1/2` and `i = √−1`, the identity form `Σ x_k²` is isometric to `q_l`, giving an
+  isomorphism of group schemes; over `ℚ` the two are not isomorphic for `l ≥ 2` (the identity
+  form is anisotropic over `ℝ`, so its `SO` has no split torus of positive rank over `ℝ`).
+
+*Needs:* §§8.1–8.2, §9B, §§9B.2–9B.3; Layer 0's dictionary and point groups; Layer 6's reductivity
+predicate; Layer 0's fibrewise flatness; the pinned `TauCeti.ConstantForm` carrier and its closure
+argument; Tau Ceti `TauCeti.QuadraticMap.orthogonalGroup`, `specialOrthogonalGroup`,
+`splitEvenForm`, `splitOddForm`; Mathlib `CliffordAlgebra.even`, `CliffordAlgebra.map`,
+`QuadraticMap.Nondegenerate`.
+
+**Checks.**
+- Over `𝔽₂` with `q = x²` (`l = 1`, nondegenerate: `disc' = 1`), `b_q = 0`, so the isometry group of
+  `b_q` is all of `GL₁`, while `O(q)(A) = {a : a² = 1} = μ₂(A)`: the bilinear-form group is not
+  `O(q)` in characteristic two. `SO(q)` is trivial and `O(q) = μ₂ × SO(q)`.
+- Over `𝔽₂` with `q = xy` (`l = 2`): `O(q)(𝔽₂) = {1, s}` with `s` the swap; `det s = −1 = 1`,
+  so `ker(det)` is all of `O(q)`, whereas `D_q(s) = 1` (`s` exchanges the two idempotents
+  `e f`, `f e` of `Z(q) = C₀(q)`), so `SO(q)(𝔽₂) = {1} = 𝔾_m(𝔽₂)`. Over `ℤ` the scheme
+  `ker(det) ⊂ O(q_{2n})` has an extra component in characteristic two and is not flat; `SO(q)`
+  is.
+- `SO(q₄) ≅ (SL₂ × SL₂)/μ₂` (type `D₂ = A₁ × A₁`), and `SO(q₃) ≅ PGL₂`; the standard
+  representation of `SO(q₃)` is the adjoint representation of `PGL₂`.
+- In `SO(q₃)` over `ℤ`, the root map `x_{e₁}(a)` of the second bullet preserves
+  `q₃ = x₁x₃ + x₂²`: the image of `(x₁, x₂, x₃)` is `(x₁ + 2a x₂ − a² x₃, x₂ − a x₃, x₃)`, and
+  `(x₁ + 2a x₂ − a² x₃) x₃ + (x₂ − a x₃)² = x₁x₃ + x₂²`.
+- For `l` odd the matrices `{ᵗg J_l g = J_l}` are not the base change of a smooth `ℤ`-group
+  scheme preserving an integral form with polar form `J_l`: such a form would need middle
+  coefficient `½`. Over `ℤ[1/2]` conjugation by `δ` identifies the two.
+- For `l = 3` over `ℤ[1/2]`, `δ⁻¹ x_{e₁}(a) δ` is the matrix with rows `(1, a, −a²/2)`,
+  `(0, 1, −a)`, `(0, 0, 1)`; it preserves `q_J = x₁x₃ + ½x₂²`, since
+  `(x₁ + a x₂ − ½a² x₃) x₃ + ½(x₂ − a x₃)² = x₁x₃ + ½x₂²`, so it lies in `SO_3^J`, and its entry
+  `−a²/2` shows why the comparison needs `2` inverted.
+
+##### 9B.7 Clifford groups, general spin groups and spin groups
+
+Let `(V, q)` be a nondegenerate quadratic module of rank `l` over `R`, `C(q) = CliffordAlgebra q`,
+`C₀(q)` its even part, `τ = CliffordAlgebra.reverse` and `α = CliffordAlgebra.involute`.
+
+- **Definitions.** The *Clifford group* `GPin(q)` is the functor
+  `A ↦ {g ∈ C(q_A)^× Zariski-locally homogeneous : α(g) ι(V_A) g⁻¹ = ι(V_A)}`, and the *general spin group*
+  `GSpin(q)` the functor `A ↦ {g ∈ C₀(q_A)^× : g ι(V_A) g⁻¹ = ι(V_A)}`. Represent both as closed
+  subgroup schemes of `GL(C(q))` (the conditions are linear in the entries of `g` and `g⁻¹`
+  against a basis of `V`). The *vector action* `ρ(g)(v) = α(g) v g⁻¹` is a homomorphism
+  `GPin(q) → O(q)`; on points it is Tau Ceti's `lipschitzVectorAction`. The *Clifford norm*
+  `ν(g) = τ(g) g` on `GSpin(q)` takes values in the central scalars `𝔾_m` and is a character;
+  define `Spin(q) = ker ν`. On `GPin(q)` the norm is `N(g) = star(g) g` with Mathlib's
+  `star = τ ∘ α` (Tau Ceti's `lipschitzNorm`), which agrees with `ν` on `GSpin(q)` and gives
+  `N(v) = −q(v)` on vectors; define `Pin(q) = ker N`.
+- **Field points.** Over a field `K`, `GPin(q)(K)` is the subgroup of homogeneous elements of
+  Mathlib's `lipschitzGroup (q.baseChange K)`, and `GSpin(q)(K)` its even part, by Tau Ceti's
+  `mem_lipschitzGroup_iff_involute_act_ι_mem_range_ι`; `Spin(q)(K) = spinGroup` and
+  `ρ` is `lipschitzToOrthogonal`, with `N` matching `lipschitzNorm`. (Characteristic not two in
+  the Tau Ceti statements, which this target extends.)
+- **Exact sequences.** Prove, as sequences of fppf sheaves of groups: `1 → 𝔾_m → GSpin(q) → SO(q) → 1`
+  with `𝔾_m` the central scalars and the map `ρ`; `1 → μ₂ → Spin(q) → SO(q) → 1`; and, when
+  `2 ∈ R^×`, `1 → 𝔾_m → GPin(q) → O(q) → 1`. Surjectivity is fppf-local (Cartan–Dieudonné over a field is
+  `exists_reflectionOrthogonal_list_prod_eq` for points; the scheme statement is Conrad,
+  *Reductive Group Schemes*, Proposition C.4.4†). Prove `ν(c) = c²` for a scalar `c`, so
+  `(𝔾_m × Spin(q))/μ₂ → GSpin(q)`, `(c, s) ↦ c s`, with `μ₂` embedded antidiagonally, is an
+  isomorphism of group schemes; and that `GSpin(q)(F) → SO(q)(F)` is surjective for a field `F`
+  (Hilbert 90, SchemeAndStackFoundations §2.11), whereas `Spin(q)(F) → SO(q)(F)` has image the
+  kernel of the spinor norm (Completed/OrthogonalSpinGroups).
+- **Structure.** `GSpin(q)` and `Spin(q)` are smooth affine group schemes with connected reductive
+  fibres; `Spin(q)` is the derived group of `GSpin(q)`, semisimple and simply connected for `l ≥ 3`;
+  the identity component of the centre of `GSpin(q)` is the central `𝔾_m` for `l ≥ 3`. Base change
+  and functoriality along isometries.
+- **The split case and the pinned root datum.** For `q = q_l`, `l = 2n` or `2n + 1`, with
+  hyperbolic pairs `(e_i, f_i)` (`b_q(e_i, f_i) = 1`), the elements `e_i f_i` and `f_i e_i` of
+  `C₀(q_l)` are orthogonal idempotents with sum `1`. Put `u_i(a) = a e_i f_i + f_i e_i`. The map
+  `𝔾_m^{n+1} → GSpin(q_l)`, `(c, a₁, …, a_n) ↦ c u₁(a₁) ⋯ u_n(a_n)`, is a split maximal torus `T`;
+  `ρ` maps it onto `T_l` with `ρ(u_i(a))e_i = a e_i`, `ρ(u_i(a))f_i = a⁻¹ f_i`, and
+  `ν(c ∏ u_i(a_i)) = c² ∏ a_i`. With `e₀` the character `c` and `e_i` the character `a_i`, the root
+  datum of `(GSpin(q_l), T)` is the based datum of `GSpin_l` of Asgari §2† and Cai–Friedberg–Kaplan §1†: for `l = 2n + 1`,
+  simple roots `e₁ − e₂, …, e_{n−1} − e_n, e_n` with coroots `e_i∨ − e_{i+1}∨` and `2e_n∨ − e₀∨`;
+  for `l = 2n`, simple roots `e₁ − e₂, …, e_{n−1} − e_n, e_{n−1} + e_n` with coroots
+  `e_i∨ − e_{i+1}∨` and `e_{n−1}∨ + e_n∨ − e₀∨`; empty for `l ≤ 2`. The central cocharacter is
+  `e₀∨`, `ν` is `Υ = 2e₀ + e₁ + ⋯ + e_n`, and `GSpin(q_l)/e₀∨(𝔾_m) ≅ SO(q_l)`. Identify
+  `GSpin(q_l)` with the pinned model of this datum (§9B.2, through the representation of
+  `GSpin(q_l)` on `C(q_l)` by left multiplication, whose weights span `X`), compatibly with the
+  pinned isomorphism `SO(q_l) ≅ G_{Bₙ or Dₙ}` of §9B.6 along `ρ`. Define `GSpin_l` and `Spin_l`
+  as these group schemes over `ℤ`, with their pinnings.
+
+*Needs:* §9B.6; §§8.1–8.2, §9B, §§9B.2–9B.3; Layers 3 and 4 (fppf quotients by central
+diagonalizable subgroups); SchemeAndStackFoundations §2.11 (Hilbert 90); Mathlib's Clifford algebra,
+`lipschitzGroup`, `spinGroup`; Tau Ceti's Lipschitz, Pin and Spin API listed in A.2;
+Completed/OrthogonalSpinGroups (the spinor norm on points).
+
+**Checks.**
+- The torus: `(e_i f_i)(f_i e_i) = 0` because `f_i² = q(f_i) = 0`, and
+  `(e_i f_i)² = e_i (1 − e_i f_i) f_i = e_i f_i`. For `u = u_i(a)`, `u e_i u⁻¹ = a e_i`, and
+  `τ(u) u = (a f_i e_i + e_i f_i)(a e_i f_i + f_i e_i) = a`.
+- For `l = 2n + 1` the coroot of `e_n` is `s ↦ s⁻¹ u_n(s²)`, which lies in `Spin`:
+  `ν(s⁻¹u_n(s²)) = s⁻² s² = 1`. `Υ` pairs to zero with every simple coroot and to `2` with `e₀∨`.
+- `GSpin₀ = GSpin₁ = 𝔾_m` and `GSpin₂ = 𝔾_m × 𝔾_m` (`C₀(q₂) = R e₁f₁ × R f₁e₁`). For `l = 2n ≥ 4`
+  the centre of `GSpin_l` has two connected components; for `l = 2n + 1 ≥ 3` it is `e₀∨(𝔾_m)`.
+- In characteristic two the sequence `1 → μ₂ → Spin(q₃) → SO(q₃) → 1` has infinitesimal kernel: the
+  map on `𝔽̄₂`-points is bijective but is not an isomorphism of group schemes.
+- Over `ℚ` with `q = q₃`, `diag(2, 1, 1/2) ∈ SO(q₃)(ℚ)` lifts to `u₁(2) ∈ GSpin(q₃)(ℚ)` but not to
+  `Spin(q₃)(ℚ)`: its spinor norm is the class of `2` in `ℚ^×/ℚ^{×2}`.
+
+##### 9B.8 Low-rank identifications and duality of classical root data
+
+- **Low rank.** Construct pinned isomorphisms of group schemes over `ℤ`: `GSpin₃ ≅ GL₂` (the even
+  Clifford algebra `C₀(q₃)` is `M₂(ℤ)` and every unit normalizes `V`) with `Spin₃ ≅ SL₂`;
+  `GSpin₄ ≅ {(g₁, g₂) ∈ GL₂ × GL₂ : det g₁ = det g₂}` (`C₀(q₄) ≅ M₂ × M₂`, extending Tau Ceti's
+  `hyperbolicFourEvenEquivMatrixProd` and `hyperbolicFourSpinEquivSpecialLinearProd` from points
+  to schemes); `GSpin₅ ≅ GSp₄` with `Spin₅ ≅ Sp₄` (extending `spinGroupEquivSymplecticGroup`);
+  `GSpin₆ ≅ {(g, c) ∈ GL₄ × 𝔾_m : det g = c²}` with `Spin₆ ≅ SL₄` (extending
+  `hyperbolicSixSpinEquivSpecialLinear`) (Asgari–Shahidi, §2†). Each isomorphism carries `ν` to the stated
+  multiplier and the central `𝔾_m` to the scalars.
+- **Dual based root data.** Prove isomorphisms of based root data: the dual of the datum of
+  `Sp₂ₙ` is that of `SO(q_{2n+1})`, and conversely; the dual of `SO(q_{2n})` is itself; the dual of
+  `GSpin_{2n+1}` is the datum of `GSp₂ₙ` of §9B.5; the dual of `GSpin_{2n}` is the datum of
+  `GSO(q_{2n})` (`X = ℤe₀ ⊕ ⋯ ⊕ ℤe_n`, torus `diag(t₁, …, t_n, c t_n⁻¹, …, c t₁⁻¹)`), with `e₀∨`
+  dual to the multiplier `e₀`. ReductiveGroupsPartII RG2.5 turns these into the dual groups and the
+  standard embeddings `r_G` of Cai–Friedberg–Kaplan §1†.
+
+*Needs:* §§9B.5–9B.7; §9B.3; Tau Ceti's low-rank Clifford isomorphisms; ArithmeticGaloisRepresentations
+§7.3.
+
+**Checks.**
+- `GSpin₃ ≅ GL₂` sends `ν` to `det` and `ρ` to the adjoint action on trace-zero matrices, which is
+  `SO(q₃)` for `q₃(X) = −det X` on `{tr X = 0}`, a form isometric to `q₃`.
+- Under `GSpin₅ ≅ GSp₄`, `ν` is the multiplier, and the coroot `2e₂∨ − e₀∨` of `GSpin₅` is the
+  root `2e₂ − e₀` of `GSp₄` read in the dual lattice.
+- At `n = 1` the duality reads: the dual of the `GSpin₃ = GL₂` datum is the `GL₂ = GSp₂` datum,
+  and the dual of `Sp₂ = SL₂` is `SO(q₃) = PGL₂`.
+
 ##### Elementary subgroups and further pinned constructions
 
 - **Elementary generators and all ring points.** The elementary group `E(A)` generated by the
@@ -4970,8 +5307,11 @@ with that closure's flatness over `ℤ`, Serre presentation
 and Geck constructions, its signed ADE shell Lie algebras and explicit `G₂`, `F₄` and tripled
 `D₄` carriers, and its special linear coordinate Hopf algebra with its points, coordinate Hopf
 formulas and diagonal root datum (supplier contracts); for §9B.4, Mathlib's `MvPolynomial`, ideal
-quotients, `IsLocalization.Away` and transvection reduction. Within the layer, §§9A.1–9A.5
-precede §9B, and §9B precedes the distributions of §9C.
+quotients, `IsLocalization.Away` and transvection reduction; for §§9B.5–9B.8, Layer 6's
+reductivity predicate, Tau Ceti's constant-form, symplectic, orthogonal, Clifford, Lipschitz,
+Pin and Spin API, ArithmeticGaloisRepresentations §7.3, SchemeAndStackFoundations §2.11 and
+Completed/OrthogonalSpinGroups (supplier contracts). Within the layer, §§9A.1–9A.5
+precede §9B, §§9B.5–9B.8 follow §§9B.1–9B.4 in order, and §9B precedes the distributions of §9C.
 
 ## Layer 9D: classification, relative groups and forms
 - The **isomorphism** and **existence theorems**: split reductive groups ↔ root data
@@ -6243,6 +6583,16 @@ identification.
 The rational-cohomology and cotensor-induction interfaces of Layer 1.1 are outputs
 for IntegralHeckeAndGaloisDeterminants §0.7.
 
+The classical group schemes of §§9B.5–9B.8 are consumed by the automorphic roadmaps that need
+split `Sp`, `SO` and `GSpin` with explicit tori, Borels and root data:
+AutomorphicLFunctionsAndLocalFactorsPartII §0.0 (`GSpin_c` with its central cocharacter `e₀∨`,
+the map to `SO_c` and a pinned root datum, from §§9B.7–9B.8); EndoscopicTransferAndUnitaryTraceComparison
+(`Sp₄ ⊂ GSpin₅` and `GSpin₄`, from §§9B.5, 9B.7–9B.8); ComplexMultiplicationAndExplicitReciprocityPartII
+§4.2 (the `GSpin` group of a rational quadratic space of signature `(n, 2)`, from §9B.7);
+LevelOneAutomorphicFormsForClassicalGroups (`Sp₂ₙ` and the special orthogonal group schemes of
+regular quadratic lattices over `ℤ`, with their `ℤ_p`-points, from §§9B.5–9B.6); and
+TwistedAutomorphicDescents (`SO(V)` of a nondegenerate quadratic space, from §9B.6).
+
 
 ## References
 
@@ -6320,9 +6670,26 @@ for IntegralHeckeAndGaloisDeterminants §0.7.
   p. 136; Theorem 5.1.13, pp. 143–145; Definition 6.1.1 and Remark 6.1.2, pp. 186–187;
   Theorems 6.1.16–6.1.17, pp. 196–197; Appendix B: Definition B.1.1, p. 280, Lemma B.1.3,
   p. 281, Corollary B.3.3, p. 290, Proposition B.3.4, pp. 290–291, and Corollary B.3.6, p. 293;
-  **SGA3**, Exposé XIX.
+  Appendix C (quadratic spaces, nondegeneracy and the half-discriminant, orthogonal groups and the
+  Dickson invariant, Clifford algebras, `GPin` and `Spin`)†; **SGA3**, Exposé XIX.
 - B. Conrad, O. Gabber, G. Prasad, *Pseudo-reductive Groups*, 2nd ed., Definition 1.1.1 and
   Proposition 1.1.9 (the `k`-unipotent radical and separable extensions).
+- M.-A. Knus, A. Merkurjev, M. Rost and J.-P. Tignol, *The Book of Involutions*, AMS Colloq.
+  Publ. 44 (1998), §12 (similitudes and multipliers), §13 (Clifford groups, spin groups, the
+  spinor norm) and §23 (the classical groups as algebraic groups)†.
+- M.-A. Knus, *Quadratic and Hermitian Forms over Rings*, Springer (1991), Ch. IV (Clifford
+  algebras and the discriminant over rings)†.
+- M. Asgari, *Local L-functions for split spinor groups*, Canad. J. Math. 54 (2002), §2 (the
+  based root datum of `GSpin_l`)†.
+- M. Asgari and F. Shahidi, *Generic transfer for general spin groups*, Duke Math. J. 132 (2006),
+  §2 (low-rank general spin groups)†.
+- J. Hundley and E. Sayag, *Descent construction for GSpin groups*, Mem. Amer. Math. Soc. 243
+  (2016), §2 (the Clifford model and the root datum)†.
+- Y. Cai, S. Friedberg and E. Kaplan, *Doubling constructions: global functoriality for
+  non-generic cuspidal representations*, Ann. of Math. 200 (2024), §1 (the split classical and
+  general spin groups, their root data and the standard representations of their dual groups)†.
+
+Locators marked † have not been checked against the source.
 
 
 ## Design references
