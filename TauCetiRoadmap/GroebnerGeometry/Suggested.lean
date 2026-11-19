@@ -1,358 +1,246 @@
-/-
-These are suggested Lean forms, not an exhaustive checklist. The accompanying
-README.md is the definitive specification. Construction and proof targets use
-`sorry`; definitions with explicit formulas pin the intended mathematical object.
-The Gröbner predicate follows Mathlib PR29203 and should be replaced by an import
-when that declaration is available at the dependency pin.
+import Mathlib
+import TauCeti.Algebra.Group.Submonoid.NSMulSaturation
+import TauCeti.Data.Finsupp.MonomialOrder.DegRevLex
+import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Basic
+import TauCeti.RingTheory.MvPolynomial.SAGBI.Basic
+import TauCeti.RingTheory.MvPolynomial.ToricIdeal.Basic
+
+/-!
+# Gröbner bases, affine semigroups and algebraic degenerations: target signatures
+
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each admitted with `sorry`, together with the
+few definitions they need. Every other target, its API and its Checks are in the README.
+
+Several headline theorems are proved by the Tau Ceti pin and are not restated here: Buchberger's
+criterion `MonomialOrder.isGroebnerBasis_span_iff_isRemainder_sPolynomial_zero`, existence and
+uniqueness of reduced Gröbner bases `MonomialOrder.existsUnique_isReducedGroebnerBasis`, the
+standard-monomial basis `MonomialOrder.IsGroebnerBasis.basisQuotient`, the elimination theorem
+`MonomialOrder.IsGroebnerBasis.comap_rename` (Layer 1); the binomial presentation of a toric
+ideal `TauCeti.toricIdeal_eq_span` and the implication from normality to saturation
+`AddSubmonoid.nsmulSaturation_inf_closure_eq` (Layer 2); the SAGBI criterion for a monic family
+`MonomialOrder.isSAGBIBasis_range_iff_forall_exists_aeval_eq` (Layer 3).
+
+Headline theorems that are not statable at the pins:
+* the degree of the projective scheme `Proj k[S]` of a positively graded affine semigroup as a
+  normalized lattice volume (Layer 2): the pins have no degree of a projective scheme and no
+  lattice-normalized volume of a lattice polytope;
+* the equality of the classes of the two fibres of a flat projective initial family in
+  `K₀(ℙᴺ)` (Layer 4): the pins have no Grothendieck group of coherent sheaves on a scheme;
+* the description of the `SL₂`-invariants of the polynomial ring of `n × 2` matrices as the
+  algebra of `2 × 2` minors (Layer 5): the pins have no coaction of `SL₂` on that polynomial ring;
+* the degree `Catalan (n - 2)` of the Plücker algebra of `2`-planes (Layer 6): as for Layer 2,
+  the pins have no degree of a projective scheme.
 -/
-import Mathlib.RingTheory.MvPolynomial.Groebner
-import Mathlib.Algebra.MonoidAlgebra.Basic
-import Mathlib.LinearAlgebra.Finsupp.LinearCombination
-import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
-import Mathlib.Algebra.Polynomial.Eval.Defs
-import TauCeti.RepresentationTheory.ClassicalGroups.GelfandTsetlin.Shift
 
-noncomputable section
-
-namespace MonomialOrder
-
-/-- The exact predicate shape of Mathlib PR29203. -/
-def IsGroebnerBasis {σ : Type*} {m : MonomialOrder σ} {R : Type*}
-    [CommSemiring R] (G : Set (MvPolynomial σ R)) (I : Ideal (MvPolynomial σ R)) :=
-  G ⊆ I ∧ Ideal.span (m.leadingTerm '' ↑I) = Ideal.span (m.leadingTerm '' G)
-
-namespace IsGroebnerBasis
-
-variable {σ R : Type*} {m : MonomialOrder σ}
-
-theorem exists_isGroebnerBasis_finite [CommSemiring R]
-    [IsNoetherianRing (MvPolynomial σ R)] (I : Ideal (MvPolynomial σ R)) :
-    ∃ G : Set (MvPolynomial σ R), m.IsGroebnerBasis G I ∧ G.Finite := by sorry
-
-theorem ideal_eq_span [CommRing R] {G : Set (MvPolynomial σ R)}
-    {I : Ideal (MvPolynomial σ R)}
-    (hG : ∀ g ∈ G, IsUnit (m.leadingCoeff g)) (h : m.IsGroebnerBasis G I) :
-    I = Ideal.span G := by sorry
-
-end IsGroebnerBasis
-
-variable {σ k : Type*} [Field k]
-
-def initialAlgebra (m : MonomialOrder σ) (A : Subalgebra k (MvPolynomial σ k)) :
-    Subalgebra k (MvPolynomial σ k) :=
-  Algebra.adjoin k (m.leadingTerm '' (A : Set (MvPolynomial σ k)))
-
-def IsSAGBIBasis (m : MonomialOrder σ) (B : Set (MvPolynomial σ k))
-    (A : Subalgebra k (MvPolynomial σ k)) : Prop :=
-  B ⊆ A ∧ Algebra.adjoin k (m.leadingTerm '' B) = m.initialAlgebra A
-
-theorem sagbiBasis_adjoin (m : MonomialOrder σ) (B : Set (MvPolynomial σ k))
-    (A : Subalgebra k (MvPolynomial σ k)) (hB : m.IsSAGBIBasis B A) :
-    Algebra.adjoin k B = A := by sorry
-
-/-- Nonzero polynomials alone contribute leading exponents. -/
-def leadingExponentMonoid (m : MonomialOrder σ)
-    (A : Subalgebra k (MvPolynomial σ k)) : AddSubmonoid (σ →₀ ℕ) where
-  carrier := {u | ∃ f ∈ A, f ≠ 0 ∧ m.degree f = u}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-
-/-- Finite comparisons, rather than a global weight representation. -/
-theorem finite_weight_realization [Finite σ] (m : MonomialOrder σ)
-    (F : Finset (σ →₀ ℕ)) :
-    ∃ w : σ → ℕ, (∀ i, 0 < w i) ∧
-      ∀ a ∈ F, ∀ b ∈ F,
-        (m.toSyn a ≤ m.toSyn b ↔ Finsupp.weight w a ≤ Finsupp.weight w b) :=
-  by sorry
-
-end MonomialOrder
-
-namespace TauCeti.GroebnerGeometry
-
-variable {ι L R : Type*} [AddCommGroup L] [CommRing R]
-
-def generatedSemigroup (a : ι → L) : AddSubmonoid L :=
-  AddSubmonoid.closure (Set.range a)
-
-/-- The native finitely supported linear-combination map. -/
-abbrev exponentMap (a : ι → L) : (ι →₀ ℕ) →+ L :=
-  (Finsupp.linearCombination ℕ a).toAddMonoidHom
-
-def presentationMap (a : ι → L) :
-    MvPolynomial ι R →ₐ[R] AddMonoidAlgebra R (generatedSemigroup a) :=
-  MvPolynomial.aeval fun i ↦
-    AddMonoidAlgebra.single
-      (⟨a i, AddSubmonoid.subset_closure (Set.mem_range_self i)⟩ : generatedSemigroup a) 1
-
-theorem presentationMap_X (a : ι → L) (i : ι) :
-    presentationMap (R := R) a (MvPolynomial.X i) =
-      AddMonoidAlgebra.single
-        (⟨a i, AddSubmonoid.subset_closure (Set.mem_range_self i)⟩ : generatedSemigroup a) 1 := by
-  simp [presentationMap]
-
-def binomialRelations (a : ι → L) : Set (MvPolynomial ι R) :=
-  {f | ∃ u v : ι →₀ ℕ, exponentMap a u = exponentMap a v ∧
-    f = MvPolynomial.monomial u 1 - MvPolynomial.monomial v 1}
-
-theorem presentationMap_surjective (a : ι → L) :
-    Function.Surjective (presentationMap (R := R) a) := by sorry
-
-theorem presentationMap_ker (a : ι → L) :
-    RingHom.ker (presentationMap (R := R) a).toRingHom =
-      Ideal.span (binomialRelations (R := R) a) := by sorry
-
-/-- The subgroup generated by the exponents, rather than an arbitrary ambient lattice. -/
-def generatedLattice (a : ι → L) : AddSubgroup L :=
-  AddSubgroup.closure (Set.range a)
-
-/-- The exponent semigroup pulled back to its own generated group. -/
-def semigroupInGeneratedLattice (a : ι → L) : AddSubmonoid (generatedLattice a) :=
-  (generatedSemigroup a).comap (generatedLattice a).subtype
-
-/-- Saturation in the declared ambient group. Normalization applies this to
-`semigroupInGeneratedLattice`, so the fraction field is unchanged. -/
-def IsSaturated (S : AddSubmonoid L) : Prop :=
-  ∀ x : L, (∃ n : ℕ, 0 < n ∧ n • x ∈ S) → x ∈ S
-
-def saturation (S : AddSubmonoid L) : AddSubmonoid L where
-  carrier := {x | ∃ n : ℕ, 0 < n ∧ n • x ∈ S}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-
-theorem le_saturation (S : AddSubmonoid L) : S ≤ saturation S := by sorry
-
-theorem saturation_isSaturated (S : AddSubmonoid L) : IsSaturated (saturation S) := by
-  sorry
-
-theorem saturation_idempotent (S : AddSubmonoid L) :
-    saturation (saturation S) = saturation S := by sorry
-
-/-- The normalization exponent monoid in its own fraction-field lattice. -/
-def normalizationSemigroup (a : ι → L) : AddSubmonoid (generatedLattice a) :=
-  saturation (semigroupInGeneratedLattice a)
-
-/-- Addition on the native pattern carrier; full additive API is a target. -/
-def patternSum {n : ℕ} (P Q : TauCeti.GTPattern n) : TauCeti.GTPattern n where
-  entry i j := P.entry i j + Q.entry i j
-  zeros' h := by rw [P.zeros' h, Q.zeros' h]; simp
-  interlacing' h₁ h₂ :=
-    ⟨add_le_add (P.interlacing' h₁ h₂).1 (Q.interlacing' h₁ h₂).1,
-     add_le_add (P.interlacing' h₁ h₂).2 (Q.interlacing' h₁ h₂).2⟩
-
-@[simp] theorem patternSum_entry {n : ℕ} (P Q : TauCeti.GTPattern n) (i j : ℕ) :
-    (patternSum P Q).entry i j = P.entry i j + Q.entry i j := rfl
-
-/-- A native lexicographic variable index fixes the row-major order. -/
-def diagonalOrder (n : ℕ) : MonomialOrder (Lex (Fin n × Fin n)) :=
-  MonomialOrder.lex
-
-/-- First-d-column minor of the generic matrix; sorted rows are theorem hypotheses. -/
-def flagMinor {n d : ℕ} (rows : Fin d → Fin n) (hd : d ≤ n) :
-    MvPolynomial (Lex (Fin n × Fin n)) R :=
-  Matrix.det fun r c : Fin d ↦
-    MvPolynomial.X (toLex (rows r, ⟨c.val, Nat.lt_of_lt_of_le c.isLt hd⟩))
-
-def diagonalExponent {n d : ℕ} (rows : Fin d → Fin n) (hd : d ≤ n) :
-    Lex (Fin n × Fin n) →₀ ℕ :=
-  ∑ c : Fin d, Finsupp.single
-    (toLex (rows c, ⟨c.val, Nat.lt_of_lt_of_le c.isLt hd⟩)) 1
-
-theorem flagMinor_leadingTerm {n d : ℕ} (rows : Fin d → Fin n)
-    (hd : d ≤ n) (hrows : StrictMono rows) :
-    (diagonalOrder n).leadingTerm (flagMinor (R := R) rows hd) =
-      MvPolynomial.monomial (diagonalExponent rows hd) 1 := by sorry
-
-/-- Native GT entry formula on an exponent vector; its pattern constraints
-are proved for the flag-minor initial monoid in the definitive specification. -/
-def patternEntry {n : ℕ} (e : Lex (Fin n × Fin n) →₀ ℕ) (c j : ℕ) : ℤ :=
-  if n < j then 0 else
-    e.sum fun ij r ↦
-      if (ofLex ij).1.val < j ∧ (ofLex ij).2.val = c then (r : ℤ) else 0
-
-theorem patternEntry_diagonalExponent {n d : ℕ} (rows : Fin d → Fin n)
-    (hd : d ≤ n) (c j : ℕ) :
-    patternEntry (diagonalExponent rows hd) c j =
-      if n < j then 0 else
-        ∑ r : Fin d, if r.val = c ∧ (rows r).val < j then (1 : ℤ) else 0 := by sorry
-
-/-- Six sorted minors in order 12,13,14,23,24,34. -/
-def fourLeafPlucker : MvPolynomial (Fin 6) R :=
-  MvPolynomial.X 0 * MvPolynomial.X 5 -
-    MvPolynomial.X 1 * MvPolynomial.X 4 + MvPolynomial.X 2 * MvPolynomial.X 3
-
-/-- G4's parameter has the toric fibre at zero. The affine family is the primary target. Its
-projective Hilbert-polynomial/K₀ consequences use a standard degree-one presentation, or the
-README's explicit sufficiently-divisible Veronese with actual polarization comparisons. -/
-def split12Family : Polynomial (MvPolynomial (Fin 6) R) :=
-  Polynomial.C (MvPolynomial.X 1 * MvPolynomial.X 4 -
-    MvPolynomial.X 2 * MvPolynomial.X 3) -
-  Polynomial.C (MvPolynomial.X 0 * MvPolynomial.X 5) * Polynomial.X ^ 2
-
-@[simp] theorem split12Family_at_zero :
-    (split12Family (R := R)).eval 0 =
-      MvPolynomial.X 1 * MvPolynomial.X 4 - MvPolynomial.X 2 * MvPolynomial.X 3 := by
-  simp [split12Family]
-
-@[simp] theorem split12Family_at_one :
-    (split12Family (R := R)).eval 1 = -fourLeafPlucker (R := R) := by
-  simp [split12Family, fourLeafPlucker]
-  ring
-
-end TauCeti.GroebnerGeometry
-
-
-namespace TauCeti.GroebnerGeometry.SAGBICertificates
+namespace TauCetiRoadmap.GroebnerGeometry
 
 open MvPolynomial
 
-universe u v w
+/-! ## Layer 1: ideals, normal forms and elimination -/
 
-variable {k : Type u} [Field k] {σ : Type v} {ι : Type w}
+/-- The weight-initial form of `f` for a weight `w : σ → ℕ`: the sum of the terms of `f` of
+maximal weight. It is `0` for `f = 0` and may have several terms. -/
+noncomputable def weightInitialForm {σ k : Type*} [CommSemiring k] (w : σ → ℕ)
+    (f : MvPolynomial σ k) : MvPolynomial σ k :=
+  weightedHomogeneousComponent w (weightedTotalDegree w f) f
 
-/-- Explicit scalar normalization; the zero input remains zero. The monic
-statement below is only for a nonzero input. -/
-def monicNormalize (m : MonomialOrder σ) (f : MvPolynomial σ k) :
-    MvPolynomial σ k :=
-  C ((m.leadingCoeff f)⁻¹) * f
+/-- The weight-initial ideal of `I`: the ideal generated by the weight-initial forms of the
+elements of `I`. -/
+noncomputable def weightInitialIdeal {σ k : Type*} [CommSemiring k] (w : σ → ℕ)
+    (I : Ideal (MvPolynomial σ k)) : Ideal (MvPolynomial σ k) :=
+  Ideal.span (weightInitialForm w '' (I : Set (MvPolynomial σ k)))
 
-@[simp] theorem monicNormalize_zero (m : MonomialOrder σ) :
-    monicNormalize m (0 : MvPolynomial σ k) = 0 := by
-  simp [monicNormalize]
+/-! ## Layer 2: semigroup presentations, normalization and degree -/
 
-theorem monicNormalize_monic (m : MonomialOrder σ)
-    {f : MvPolynomial σ k} (hf : f ≠ 0) :
-    m.Monic (monicNormalize m f) := by
-  change m.leadingCoeff (C ((m.leadingCoeff f)⁻¹) * f) = 1
-  rw [m.leadingCoeff_mul, m.leadingCoeff_C,
-    inv_mul_cancel₀ (m.leadingCoeff_ne_zero_iff.mpr hf)]
+/-- **Saturated affine semigroups have normal semigroup rings** (Miller–Sturmfels,
+Proposition 7.25). Let `S` be a finitely generated submonoid of a finitely generated free abelian
+group `L` which is saturated in the subgroup it generates: every element of that subgroup with a
+positive multiple in `S` lies in `S`. Then the semigroup ring `k[S]` is integrally closed, for
+every field `k`. The converse is Tau Ceti's `AddSubmonoid.nsmulSaturation_inf_closure_eq`. -/
+theorem isIntegrallyClosed_addMonoidAlgebra_of_saturated {L : Type*} [AddCommGroup L]
+    [Module.Free ℤ L] [Module.Finite ℤ L] (k : Type*) [Field k] (S : AddSubmonoid L)
+    (hS : S.FG)
+    (hsat : S.nsmulSaturation ⊓ (AddSubgroup.closure (S : Set L)).toAddSubmonoid = S) :
+    IsIntegrallyClosed (AddMonoidAlgebra k S) := by
+  sorry
 
-theorem monicNormalize_reconstruct (m : MonomialOrder σ)
-    {f : MvPolynomial σ k} (hf : f ≠ 0) :
-    C (m.leadingCoeff f) * monicNormalize m f = f := by
-  unfold monicNormalize
-  rw [← mul_assoc, ← map_mul,
-    mul_inv_cancel₀ (m.leadingCoeff_ne_zero_iff.mpr hf), map_one, one_mul]
+/-! ## Layer 3: subalgebras, SAGBI bases and subduction -/
 
-/-- Preservation includes a family containing zero; the finite criterion
-uses the subtype of nonzero members. -/
-theorem adjoin_monicNormalize (m : MonomialOrder σ)
-    (b : ι → MvPolynomial σ k) :
-    Algebra.adjoin k (Set.range fun i => monicNormalize m (b i)) =
-      Algebra.adjoin k (Set.range b) := by sorry
+/-- **The lifted relations present a monic SAGBI family** (Bruns–Conca–Lembo, §2,
+Theorem 2.2 and Proposition 2.4). Let `c` be a family of monic polynomials over a field `k`, with
+leading exponents `a i = m.degree (c i)`, and let the binomials `Y^(u j) - Y^(v j)` generate the
+toric ideal of the `a i`. Suppose that every binomial has a bounded zero subduction `Q j`: the
+substitution of `c` sends `Q j` to the same polynomial as the binomial, and every exponent `w` in
+the support of `Q j` has `∑ᵢ w i • a i` strictly below `∑ᵢ u j i • a i` in the monomial order.
+Then the polynomials `Y^(u j) - Y^(v j) - Q j` generate the kernel of the substitution of `c`. -/
+theorem ker_aeval_eq_span_sub_of_lifts {σ ι J k : Type*} [Field k] {m : MonomialOrder σ}
+    {c : ι → MvPolynomial σ k} (hc : ∀ i, m.Monic (c i)) {u v : J → ι →₀ ℕ}
+    (hJ : TauCeti.toricIdeal k (fun i ↦ m.degree (c i)) =
+      Ideal.span (Set.range fun j ↦ monomial (u j) (1 : k) - monomial (v j) 1))
+    (Q : J → MvPolynomial ι k)
+    (hQ : ∀ j, aeval c (Q j) = aeval c (monomial (u j) (1 : k) - monomial (v j) 1))
+    (hQlt : ∀ j, ∀ w ∈ (Q j).support,
+      m.toSyn (Finsupp.linearCombination ℕ (fun i ↦ m.degree (c i)) w) <
+        m.toSyn (Finsupp.linearCombination ℕ (fun i ↦ m.degree (c i)) (u j))) :
+    RingHom.ker (aeval c : MvPolynomial ι k →ₐ[k] MvPolynomial σ k) =
+      Ideal.span (Set.range fun j ↦ monomial (u j) (1 : k) - monomial (v j) 1 - Q j) := by
+  sorry
 
-theorem sagbi_monicNormalize_iff (m : MonomialOrder σ)
-    (b : ι → MvPolynomial σ k) (A : Subalgebra k (MvPolynomial σ k)) :
-    m.IsSAGBIBasis (Set.range fun i => monicNormalize m (b i)) A ↔
-      m.IsSAGBIBasis (Set.range b) A := by sorry
+/-! ## Layer 4: Rees algebras and flat initial families -/
 
-/-- Diagonal change in the RELATION polynomial ring. This is an explicit
-algebra homomorphism, not a new polynomial carrier. It is invertible when
-all s i are nonzero. -/
-def coefficientScale (s : ι → k) :
-    MvPolynomial ι k →ₐ[k] MvPolynomial ι k :=
-  aeval fun i => C (s i) * X i
+/-- The weight homogenization of `f`, with coefficients in `k[t]`: a term `c • x^e` of `f`
+becomes `c • t^(D - w(e)) • x^e`, where `D` is the maximal weight of a term of `f`. Setting
+`t = 1` recovers `f` and setting `t = 0` gives `weightInitialForm w f`. -/
+noncomputable def weightHomogenization {σ k : Type*} [CommSemiring k] (w : σ → ℕ)
+    (f : MvPolynomial σ k) : MvPolynomial σ (Polynomial k) :=
+  ∑ e ∈ f.support, monomial e
+    (Polynomial.C (f.coeff e) * Polynomial.X ^ (weightedTotalDegree w f - Finsupp.weight w e))
 
-@[simp] theorem coefficientScale_X (s : ι → k) (i : ι) :
-    coefficientScale s (X i) = C (s i) * X i := by
-  simp [coefficientScale]
+/-- The ideal of `k[t][x]` of the weight degeneration of `I`: it is generated by the weight
+homogenizations of the elements of `I`. -/
+noncomputable def weightDegenerationIdeal {σ k : Type*} [CommSemiring k] (w : σ → ℕ)
+    (I : Ideal (MvPolynomial σ k)) : Ideal (MvPolynomial σ (Polynomial k)) :=
+  Ideal.span (weightHomogenization w '' (I : Set (MvPolynomial σ k)))
 
-/-- Generator-level evaluation comparison; the full map comparison is
-its unique polynomial algebra-homomorphism extension. -/
-theorem aeval_coefficientScale_X (s : ι → k)
-    (c : ι → MvPolynomial σ k) (i : ι) :
-    aeval c (coefficientScale s (X i)) = C (s i) * c i := by
-  rw [coefficientScale_X, map_mul, aeval_C, aeval_X]
-  rfl
+/-- **The weight degeneration of an ideal is flat** (the Gröbner degeneration). For finitely many
+variables over a field `k`, an ideal `I` and a weight `w : σ → ℕ`, the quotient of `k[t][x]` by
+the weight degeneration ideal is flat over `k[t]`; its fibre at `t = 0` is cut out by the
+weight-initial ideal of `I`, and its fibre at `t = 1` by `I`. -/
+theorem weightDegeneration_flat_and_fibres {σ k : Type*} [Finite σ] [Field k] (w : σ → ℕ)
+    (I : Ideal (MvPolynomial σ k)) :
+    Module.Flat (Polynomial k) (MvPolynomial σ (Polynomial k) ⧸ weightDegenerationIdeal w I) ∧
+      (weightDegenerationIdeal w I).map (MvPolynomial.map (Polynomial.evalRingHom 0)) =
+        weightInitialIdeal w I ∧
+      (weightDegenerationIdeal w I).map (MvPolynomial.map (Polynomial.evalRingHom 1)) = I := by
+  sorry
 
-/-- Full evaluation square, proved on the native polynomial maps. -/
-theorem aeval_comp_coefficientScale (s : ι → k)
-    (c : ι → MvPolynomial σ k) :
-    (aeval c).comp (coefficientScale s) =
-      aeval (fun i => C (s i) * c i) := by
-  rw [coefficientScale, MvPolynomial.comp_aeval]
-  congr 1
-  funext i
-  rw [map_mul, aeval_C, aeval_X]
-  rfl
+/-- The weight Rees family of a subalgebra `A` of `k[x]`: the `k[t]`-subalgebra of `k[t][x]`
+generated by the weight homogenizations of the elements of `A`. -/
+noncomputable def weightReesFamily {σ k : Type*} [CommSemiring k] (w : σ → ℕ)
+    (A : Subalgebra k (MvPolynomial σ k)) :
+    Subalgebra (Polynomial k) (MvPolynomial σ (Polynomial k)) :=
+  Algebra.adjoin (Polynomial k) (weightHomogenization w '' (A : Set (MvPolynomial σ k)))
 
-theorem coefficientScale_left_inverse (s : ι → k) (hs : ∀ i, s i ≠ 0) :
-    Function.LeftInverse (coefficientScale fun i => (s i)⁻¹)
-      (coefficientScale s) := by sorry
+/-- **The special fibre of the weight Rees family of a subalgebra** (the SAGBI degeneration of
+Miller–Sturmfels, §14.3). Over a field `k`, setting `t = 0`
+on the weight Rees family `B` of a subalgebra `A` has kernel the principal ideal `t B`, and its
+image is the algebra generated by the weight-initial forms of the elements of `A`. -/
+theorem weightReesFamily_specialFibre {σ k : Type*} [Field k] (w : σ → ℕ)
+    (A : Subalgebra k (MvPolynomial σ k)) :
+    RingHom.ker ((MvPolynomial.map (Polynomial.evalRingHom (0 : k))).comp
+        (weightReesFamily w A).val.toRingHom) =
+      Ideal.span {algebraMap (Polynomial k) (weightReesFamily w A) Polynomial.X} ∧
+    Set.range ((MvPolynomial.map (Polynomial.evalRingHom (0 : k))).comp
+        (weightReesFamily w A).val.toRingHom) =
+      (Algebra.adjoin k (weightInitialForm w '' (A : Set (MvPolynomial σ k))) :
+        Set (MvPolynomial σ k)) := by
+  sorry
 
-/-- Specialization of the existing native linear-combination map. -/
-abbrev imageExponent (m : MonomialOrder σ) (c : ι → MvPolynomial σ k) :
-    (ι →₀ ℕ) →ₗ[ℕ] (σ →₀ ℕ) :=
-  Finsupp.linearCombination ℕ fun i => m.degree (c i)
+/-! ## Layer 5: minor, flag-minor and invariant algebras -/
 
-/-- The coefficient-one map is for the normalized monic family. -/
-def coefficientOneMap (m : MonomialOrder σ) (c : ι → MvPolynomial σ k) :
-    MvPolynomial ι k →ₐ[k] MvPolynomial σ k :=
-  aeval fun i => monomial (m.degree (c i)) 1
+/-- The diagonal order on the entries of an `n × n` matrix: the lexicographic order on the
+row-major ordered index, so that `z_(0,0)` is the largest variable, then `z_(0,1)`, and so on. -/
+noncomputable def diagonalOrder (n : ℕ) : MonomialOrder (Lex (Fin n × Fin n)) :=
+  MonomialOrder.lex
 
-def exponentBinomial (u v : ι →₀ ℕ) : MvPolynomial ι k :=
-  monomial u 1 - monomial v 1
+/-- The minor of the generic `n × n` matrix on the rows `rows` and the first `d` columns: Mathlib's
+`Matrix.mvPolynomialMinor`, transported to the lexicographically ordered variables. Sorted rows are
+a hypothesis of the theorems about it. -/
+noncomputable def flagMinor {R : Type*} [CommRing R] {n d : ℕ} (rows : Fin d → Fin n)
+    (hd : d ≤ n) : MvPolynomial (Lex (Fin n × Fin n)) R :=
+  rename toLex (Matrix.mvPolynomialMinor R rows (Fin.castLE hd))
 
-/-- A concrete bounded zero-subduction expression, with no assertion about
-the totalized degree of zero. Exact zero has the empty expression. -/
-def HasStrictSubduction (m : MonomialOrder σ) (c : ι → MvPolynomial σ k)
-    (α : σ →₀ ℕ) (g : MvPolynomial σ k) : Prop :=
-  ∃ Q : MvPolynomial ι k, aeval c Q = g ∧
-    ∀ e ∈ Q.support, m.toSyn (imageExponent m c e) < m.toSyn α
+/-- The exponent of the main diagonal `∏_{c < d} z_(rows c, c)` of a flag minor. -/
+noncomputable def diagonalExponent {n d : ℕ} (rows : Fin d → Fin n) (hd : d ≤ n) :
+    Lex (Fin n × Fin n) →₀ ℕ :=
+  ∑ c : Fin d, Finsupp.single (toLex (rows c, Fin.castLE hd c)) 1
 
-theorem hasStrictSubduction_zero (m : MonomialOrder σ)
-    (c : ι → MvPolynomial σ k) (α : σ →₀ ℕ) :
-    HasStrictSubduction m c α 0 := by
-  exact ⟨0, by simp, by simp⟩
+/-- **The leading term of a flag minor is its main diagonal** (Miller–Sturmfels, proof of
+Theorem 14.6). For strictly increasing rows, the leading term of the flag minor for the diagonal
+order is the monomial of its main diagonal, with coefficient `1`. -/
+theorem flagMinor_leadingTerm {R : Type*} [CommRing R] {n d : ℕ} (rows : Fin d → Fin n)
+    (hd : d ≤ n) (hrows : StrictMono rows) :
+    (diagonalOrder n).leadingTerm (flagMinor (R := R) rows hd) =
+      monomial (diagonalExponent rows hd) 1 := by
+  sorry
 
-/-- The algebraic lift equation is separate from its exponent bound. -/
-theorem evaluated_lift_eq_zero (c : ι → MvPolynomial σ k)
-    (u v : ι →₀ ℕ) (Q : MvPolynomial ι k)
-    (hQ : aeval c Q = aeval c (exponentBinomial (k := k) u v)) :
-    aeval c (exponentBinomial u v - Q) = 0 := by
-  rw [map_sub, hQ, sub_self]
+/-- The `2ⁿ - 1` flag minors of the generic `n × n` matrix, indexed by their nonempty row
+sets: the row set `I` gives the minor on the rows of `I` and the first `#I` columns. -/
+noncomputable def flagMinorFamily (k : Type*) [Field k] (n : ℕ) :
+    {I : Finset (Fin n) // I.Nonempty} → MvPolynomial (Lex (Fin n × Fin n)) k :=
+  fun I ↦ flagMinor (R := k) (I.1.orderEmbOfFin rfl)
+    ((Finset.card_le_univ I.1).trans_eq (Fintype.card_fin n))
 
-/-- Representative finite criterion. The actual toric-kernel hypothesis is
-an ideal equality, and each requested certificate is strict at the common
-exponent. The README owns its construction and sufficiency induction. -/
-theorem monic_sagbi_criterion [Finite ι] {J : Type*} [Finite J]
-    (m : MonomialOrder σ) (c : ι → MvPolynomial σ k)
-    (hc : ∀ i, m.Monic (c i)) (u v : J → (ι →₀ ℕ))
-    (hcommon : ∀ j, imageExponent m c (u j) = imageExponent m c (v j))
-    (hker : RingHom.ker (coefficientOneMap m c).toRingHom =
-      Ideal.span (Set.range fun j => (exponentBinomial (u j) (v j) : MvPolynomial ι k))) :
-    m.IsSAGBIBasis (Set.range c) (Algebra.adjoin k (Set.range c)) ↔
-      ∀ j, HasStrictSubduction m c (imageExponent m c (u j))
-        (aeval c (exponentBinomial (k := k) (u j) (v j))) := by sorry
+/-- **The flag minors form a SAGBI basis** (Miller–Sturmfels, Theorem 14.11). Over a field, the
+flag minors of the generic `n × n` matrix form a SAGBI basis of the algebra they generate, for the
+diagonal order. -/
+theorem flagMinorFamily_isSAGBIBasis (k : Type*) [Field k] (n : ℕ) :
+    (diagonalOrder n).IsSAGBIBasis (Set.range (flagMinorFamily k n))
+      (Algebra.adjoin k (Set.range (flagMinorFamily k n))) := by
+  sorry
 
-section RationalRegression
+/-- The pattern of an exponent `e` on the entries of an `n × n` matrix: its entry in column `c`
+and row `j` of the pattern is the total exponent of the variables `z_(r,c)` with `r < j`, and it
+vanishes beyond row `n`. -/
+noncomputable def patternEntry {n : ℕ} (e : Lex (Fin n × Fin n) →₀ ℕ) (c j : ℕ) : ℤ :=
+  if n < j then 0 else
+    e.sum fun ij r ↦ if (ofLex ij).1.val < j ∧ (ofLex ij).2.val = c then (r : ℤ) else 0
 
-abbrev x : MvPolynomial (Fin 2) ℚ := X 0
-abbrev y : MvPolynomial (Fin 2) ℚ := X 1
+/-- **The initial monoid of the flag-minor algebra is the monoid of Gelfand–Tsetlin patterns**
+(Miller–Sturmfels, Lemma 14.13, Theorem 14.23 and Corollary 14.24, transposed). Over a field, the
+formula `patternEntry` is a bijection from the leading exponents of the flag-minor algebra, for
+the diagonal order, onto Tau Ceti's Gelfand–Tsetlin patterns with nonnegative entries. -/
+theorem exists_leadingExponents_equiv_gtPattern (k : Type*) [Field k] (n : ℕ) :
+    ∃ e : (diagonalOrder n).leadingExponents
+        (Algebra.adjoin k (Set.range (flagMinorFamily k n))) ≃
+        {P : TauCeti.GTPattern n // ∀ i j, 0 ≤ P i j},
+      ∀ x i j, (e x : TauCeti.GTPattern n) i j =
+        patternEntry (x : Lex (Fin n × Fin n) →₀ ℕ) i j := by
+  sorry
 
-def rawFirst : MvPolynomial (Fin 2) ℚ := x
-def rawSecond : MvPolynomial (Fin 2) ℚ := x + y
-def rawThird : MvPolynomial (Fin 2) ℚ := C 2 * x + y
+/-- The index of the Plücker variables of `d`-planes in `kⁿ`: strictly increasing `d`-tuples in
+`Fin n`, ordered as the dual of the lexicographic order. With Tau Ceti's antitone variable
+convention, `P_I < P_J` for `degRevLex` when `I` precedes `J` lexicographically. -/
+abbrev PluckerIndex (n d : ℕ) :=
+  OrderDual {I : Lex (Fin d → Fin n) // StrictMono (ofLex I)}
 
-theorem raw_first_relation : rawFirst - rawThird = -rawSecond := by
-  unfold rawFirst rawSecond rawThird
-  simp only [map_ofNat]
-  ring
+/-- The strictly increasing tuple of a Plücker index. -/
+def pluckerTuple {n d : ℕ} (I : PluckerIndex n d) : Fin d → Fin n :=
+  ofLex (OrderDual.ofDual I).1
 
-theorem raw_second_relation : rawSecond - rawThird = -rawFirst := by
-  unfold rawFirst rawSecond rawThird
-  simp only [map_ofNat]
-  ring
+/-- The Plücker map, sending the variable `P_I` to the maximal minor of the generic `n × d`
+matrix on the rows `I`. -/
+noncomputable def pluckerMap (k : Type*) [Field k] (n d : ℕ) :
+    MvPolynomial (PluckerIndex n d) k →ₐ[k] MvPolynomial (Fin n × Fin d) k :=
+  aeval fun I ↦ Matrix.mvPolynomialMinor k (pluckerTuple I) id
 
-theorem y_in_raw_span_expression : rawSecond - rawFirst = y := by
-  unfold rawFirst rawSecond
-  ring
+/-- **The initial ideal of the Plücker ideal** (Miller–Sturmfels, Theorem 14.6, for subsets of one
+size). For `0 < d`, the ideal of leading terms of the kernel of the Plücker map, for the graded
+reverse lexicographic order with `P_I < P_J` when `I` precedes `J` lexicographically, is generated
+by the products `P_I P_J` of the pairs `I`, `J` that are incomparable in the componentwise
+order. -/
+theorem span_leadingTerm_ker_pluckerMap (k : Type*) [Field k] {n d : ℕ} (hd : 0 < d) :
+    Ideal.span ((TauCeti.MonomialOrder.degRevLex : MonomialOrder (PluckerIndex n d)).leadingTerm ''
+        (RingHom.ker (pluckerMap k n d) : Set (MvPolynomial (PluckerIndex n d) k))) =
+      Ideal.span {f | ∃ I J : PluckerIndex n d, ¬ pluckerTuple I ≤ pluckerTuple J ∧
+        ¬ pluckerTuple J ≤ pluckerTuple I ∧ f = X I * X J} := by
+  sorry
 
-def normalizedThird : MvPolynomial (Fin 2) ℚ := x + C (1 / 2 : ℚ) * y
+/-- The invariant subalgebra of a group `G` of permutations of the variables. -/
+noncomputable def permInvariants (k : Type*) [CommRing k] {σ : Type*}
+    (G : Subgroup (Equiv.Perm σ)) : Subalgebra k (MvPolynomial σ k) :=
+  ⨅ g ∈ G, AlgHom.equalizer (rename (g : σ → σ)) (AlgHom.id k (MvPolynomial σ k))
 
-theorem normalized_first_relation :
-    rawFirst - normalizedThird = -(C (1 / 2 : ℚ) * y) := by
-  unfold rawFirst normalizedThird
-  ring
+/-- **Göbel's conjecture: finite SAGBI bases of permutation invariants** (Reichstein,
+Theorem 1.7; Thiéry–Thomassé). For a field `k`, a monomial order `m` on `k[x₁, …, xₙ]` and a group
+`G` of permutations of the variables, the invariant algebra has a finite SAGBI basis for `m` if
+and only if `G` is generated by the transpositions it contains, that is, `G` is the product of
+the full symmetric groups of its orbits. -/
+theorem exists_finite_isSAGBIBasis_permInvariants_iff (k : Type*) [Field k] {n : ℕ}
+    (m : MonomialOrder (Fin n)) (G : Subgroup (Equiv.Perm (Fin n))) :
+    (∃ B : Set (MvPolynomial (Fin n) k), B.Finite ∧ m.IsSAGBIBasis B (permInvariants k G)) ↔
+      G = Subgroup.closure {g | g ∈ G ∧ g.IsSwap} := by
+  sorry
 
-end RationalRegression
-end TauCeti.GroebnerGeometry.SAGBICertificates
+end TauCetiRoadmap.GroebnerGeometry
