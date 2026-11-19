@@ -164,7 +164,10 @@ theorem tendsto_measure_preimage_add_smul_symmDiff_setOf_inner_lt_inter {Ω : Op
 
 /-- **De Giorgi's structure theorem, rectifiability** (Simon 1983, Theorem 14.3, p. 72). The
 reduced boundary of a set of locally finite perimeter in an open subset of an `n`-dimensional
-real inner product space is countably `(n − 1)`-rectifiable. -/
+real inner product space is countably `(n − 1)`-rectifiable. The hypotheses `hu` and `hfin` are those
+of README §5.3, kept for agreement with it: the conclusion also holds without them, since the
+reduced boundary is empty when `s` does not have locally finite perimeter in `Ω`
+(`TauCeti.reducedBoundary_eq_empty_of_not`). -/
 theorem countablyRectifiable_reducedBoundary {Ω : Opens E} {s : Set E}
     (hu : LocallyIntegrableOn (s.indicator (1 : E → ℝ)) Ω volume)
     (hfin : ∀ K, IsCompact K → K ⊆ Ω →
@@ -174,7 +177,10 @@ theorem countablyRectifiable_reducedBoundary {Ω : Opens E} {s : Set E}
 
 /-- **De Giorgi's structure theorem, the perimeter measure** (Simon 1983, Theorem 14.3, p. 72).
 For a set `s` of locally finite perimeter in `Ω`, the perimeter measure `|Dχ_s|` on `Ω` is the
-`(n − 1)`-dimensional normalized Hausdorff measure restricted to the reduced boundary. -/
+`(n − 1)`-dimensional normalized Hausdorff measure restricted to the reduced boundary. The
+hypotheses `hu` and `hfin` are those of README §5.3, kept for agreement with it: when `s` does not
+have locally finite perimeter in `Ω`, both sides are zero, the variation measure by its definition
+and the reduced boundary being empty (`TauCeti.reducedBoundary_eq_empty_of_not`). -/
 theorem variationMeasure_indicator_eq_comap_restrict_reducedBoundary {Ω : Opens E} {s : Set E}
     (hu : LocallyIntegrableOn (s.indicator (1 : E → ℝ)) Ω volume)
     (hfin : ∀ K, IsCompact K → K ⊆ Ω →
@@ -197,7 +203,9 @@ theorem euclideanHausdorffMeasure_essentialBoundary_inter_diff_reducedBoundary {
 /-- **The perimeter is at most the Hausdorff measure of the essential boundary.** For every
 Lebesgue-measurable `s` and open `Ω`, in `[0, ∞]`, `P(s; Ω) ≤ Hⁿ⁻¹(∂ᴹs ∩ Ω)`. In particular a set
 whose essential boundary has finite `Hⁿ⁻¹` measure in `Ω` has finite perimeter in `Ω`; no
-smoothness of the set is assumed. -/
+smoothness of the set is assumed. The bound rests on Federer's criterion for locally finite
+perimeter (Federer 1969, 4.5.11, in the whole space): with it, De Giorgi's theorem and the
+inclusion of the reduced boundary in the essential boundary give the bound (README §5.4). -/
 theorem perimeter_le_euclideanHausdorffMeasure_essentialBoundary_inter (Ω : Opens E) {s : Set E}
     (hs : NullMeasurableSet s) :
     perimeter volume Ω s ≤ μHE[finrank ℝ E - 1] (essentialBoundary volume s ∩ Ω) :=
@@ -262,7 +270,9 @@ section Jordan
 /-- **The Jordan index theorem for absolutely continuous curves.** Let `γ : ℝ → ℂ` be absolutely
 continuous on `[a, b]`, `a < b`, closed and injective on `[a, b)`, with trace `C`. There is one
 sign `σ ∈ {1, −1}` such that the winding number of `γ` is `σ` at every point of the inside
-`filledHull C \ C` and `0` at every point outside `filledHull C`. -/
+`filledHull C \ C` and `0` at every point outside `filledHull C`. It is derived from the
+topological Jordan index theorem (ConformalMapping §5.6) by comparing `γ` with inscribed closed
+polygons (README §6.4). -/
 theorem exists_windingNumber_eq_of_injOn_Ico {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
     (hγ : AbsolutelyContinuousOnInterval γ a b) (hclosed : γ a = γ b)
     (hinj : InjOn γ (Ico a b)) :
@@ -272,7 +282,9 @@ theorem exists_windingNumber_eq_of_injOn_Ico {γ : ℝ → ℂ} {a b : ℝ} (hab
   sorry
 
 /-- **The perimeter of the inside of a rectifiable Jordan curve.** For a Jordan curve `C ⊆ ℂ` of
-finite length `H¹(C)`, the bounded complementary region `filledHull C \ C` has perimeter `H¹(C)`. -/
+finite length `H¹(C)`, the bounded complementary region `filledHull C \ C` has perimeter `H¹(C)`.
+That the perimeter is finite exactly when `C` has finite length is Federer 1958, p. 450; the
+equality is derived in README §6.4 from De Giorgi's and Federer's theorems and §6.1. -/
 theorem perimeter_filledHull_sdiff {C : Set ℂ} (hC : IsJordanCurve C) (hfin : μHE[1] C ≠ ⊤) :
     perimeter volume ⊤ (filledHull C \ C) = μHE[1] C :=
   sorry
@@ -281,7 +293,9 @@ theorem perimeter_filledHull_sdiff {C : Set ℂ} (hC : IsJordanCurve C) (hfin : 
 parametrization of a Jordan curve `C` on `[a, b]`, closed and injective on `[a, b)`, and let `σ` be
 its Jordan index. At almost every parameter `t`, the point `γ t` lies in the reduced boundary of
 `Ω = filledHull C \ C` and the outer normal there is `−σ i γ'(t)`: the unit tangent turned by a
-quarter turn clockwise for a counterclockwise curve. -/
+quarter turn clockwise for a counterclockwise curve. It is derived in README §6.4 from the Green
+identity for absolutely continuous curves, the arclength factorization of Layer 1 and De Giorgi's
+and Federer's theorems. -/
 theorem exists_ae_outerNormal_filledHull_sdiff_eq {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
     (hγ : HasUnitSpeedOn γ (Icc a b)) (hclosed : γ a = γ b) (hinj : InjOn γ (Ico a b)) :
     ∃ σ : ℂ, (σ = 1 ∨ σ = -1) ∧

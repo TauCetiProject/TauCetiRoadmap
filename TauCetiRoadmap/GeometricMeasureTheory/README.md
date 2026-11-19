@@ -690,7 +690,8 @@ The lower density estimates `TauCeti.eventually_ofReal_pow_le_mul_measure_inter_
 `TauCeti.eventually_ofReal_pow_le_mul_variationMeasure_closedBall` and the inequality
 `TauCeti.min_measure_inter_measure_sdiff_rpow_le_perimeter` assume `2 ≤ n`. In dimension one, if `s`
 has locally finite perimeter in an open `Ω ⊆ ℝ`, then `s ∩ Ω` agrees almost everywhere with `Ω ∩ W`
-for a union `W` of intervals whose endpoints in `Ω` form a locally finite subset of `Ω`, the reduced
+for a union `W` of nondegenerate intervals with pairwise disjoint closures whose endpoints in `Ω`
+form a locally finite subset of `Ω`, the reduced
 boundary of `s` in `Ω` is that set of endpoints, and the
 statements of this section and of §5.3–§5.4 are proved directly; in dimension zero the reduced
 boundary is empty.
@@ -752,13 +753,16 @@ whose radii are chosen, by the truncation inequality of §5.1, so that `s ∩ B`
 Prove
 `perimeter_le_euclideanHausdorffMeasure_essentialBoundary_inter`:
 for every Lebesgue-measurable `s` and open `Ω`, `P(s; Ω) ≤ Hⁿ⁻¹(∂ᴹs ∩ Ω)` in `[0, ∞]`, where `∂ᴹs` is the
-essential boundary.
+essential boundary. It is derived here from the criterion below: when `s` has locally finite perimeter
+in `Ω`, De Giorgi's theorem (§5.3) and the inclusion `∂*s ⊆ ∂ᴹs` give it, and otherwise the criterion
+makes the right side infinite.
 
 - *Inclusions.* `∂*s ⊆ s^{(1/2)} ⊆ ∂ᴹs`, with `s^{(1/2)}` the points of density `1/2`, in every dimension
   (from §5.2).
 - *Equality.* For `s` of locally finite perimeter in `Ω`, `P(s; Ω) = Hⁿ⁻¹(∂ᴹs ∩ Ω)`.
 - *Criterion.* If `Hⁿ⁻¹(∂ᴹs ∩ K) < ∞` for every compact `K ⊆ Ω`, then `s` has locally finite
-  perimeter in `Ω`.
+  perimeter in `Ω` (Federer 1969, 4.5.11, in the whole space; the form in `Ω` follows by applying it
+  to `s ∩ B` for open balls `B` with closure in `Ω`, as `∂ᴹ(s ∩ B) ⊆ (∂ᴹs ∩ B) ∪ frontier B`).
 - *Frontier.* `P(s; Ω) ≤ Hⁿ⁻¹(frontier s ∩ Ω)`, from the bound and
   `TauCeti.essentialBoundary_subset_frontier`.
 
@@ -803,9 +807,10 @@ This layer proves the Gauss–Green formula against `Hⁿ⁻¹` on the reduced b
 perimeter, normal and surface measure of Lipschitz and `C¹` domains, constructs the trace of a BV
 function on a bounded Lipschitz domain with integration by parts, extension and gluing, and computes
 the perimeter and outer normal of the inside of a rectifiable Jordan curve. Its inputs beyond Layers
-1–5 are the Lipschitz-domain model and Sobolev trace of PDE §1.6, Jordan separation from
-ConformalMapping §5.3, the winding number of ContourIntegration Layer 0 with the index calculus of
-absolutely continuous curves named in DifferentialGeometry 5.6.1, and the Green identity for
+1–5 are the Lipschitz-domain model and Sobolev trace of PDE §1.6, Jordan separation and the
+topological Jordan index theorem from ConformalMapping §5.3, §5.5 and §5.6, the winding number of
+ContourIntegration Layer 0 with the index calculus of absolutely continuous curves named in
+DifferentialGeometry 5.6.1, and the Green identity for
 absolutely continuous curves from DifferentialGeometry 5.6.3, used through the declarations named in
 the supplier contracts (Layer 6 group).
 
@@ -900,10 +905,17 @@ Prove `exists_windingNumber_eq_of_injOn_Ico`: for `γ : ℝ → ℂ` absolutely 
 `a < b`, closed and injective on `[a, b)`, with trace `C`, there is one sign `σ ∈ {1, −1}` such that
 the winding number `TauCeti.Contour.windingNumber γ a b` is `σ` on the inside
 `filledHull C \ C` and `0` outside `filledHull C` (the last part, on the unbounded complementary
-component, is `AbsolutelyContinuousOnInterval.windingNumber_eq_zero_of_unbounded_component`). Prove `perimeter_filledHull_sdiff`: a Jordan curve
+component, is `AbsolutelyContinuousOnInterval.windingNumber_eq_zero_of_unbounded_component`).
+The value `σ` on the inside is derived from the topological Jordan index theorem of ConformalMapping
+§5.6, whose hypotheses on `γ` are continuity, closedness and injectivity on `[a, b)`: at `z` inside,
+a closed polygon inscribed in `γ` and uniformly within `dist(z, C)` of it has the winding number of `γ`
+at `z` (`AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`) and, by the comparison and
+the proximity criterion of ConformalMapping §5.5, the topological index of `γ` at `z`. Prove
+`perimeter_filledHull_sdiff`: a Jordan curve
 `C` with `H¹(C) < ∞` bounds an inside `Ω = filledHull C \ C` of finite perimeter `P(Ω) = H¹(C)`; that
 a planar region bounded by a simple closed curve has finite perimeter exactly when the curve has
-finite length is Federer 1958, p. 450. Prove
+finite length is Federer 1958, p. 450, and the equality, like the normal below, is derived here by the
+route at the end of this section, from §1.1, §5.3, §5.4 and §6.1. Prove
 `exists_ae_outerNormal_filledHull_sdiff_eq`: for a unit-speed parametrization `γ` of `C` on `[a, b]`,
 closed and injective on `[a, b)`, with Jordan index `σ`, at almost every `t` the point `γ(t)` lies in the
 reduced boundary of `Ω` and the outer normal there is `−σ J γ'(t)` with `J v = I * v`.
@@ -932,8 +944,9 @@ develops Jordan-curve area and Hausdorff length). *Needs:* §1.1, §5.3, §5.4, 
 `TauCeti.Green.green_ac_winding`, `BoundedVariationOn.exists_simple_closed_arclength_parametrization`,
 `ContinuousOn.eVariationOn_eq_euclideanHausdorffMeasure_image`,
 `AbsolutelyContinuousOnInterval.windingNumber_comp_of_monotoneOn`,
-`AbsolutelyContinuousOnInterval.windingNumber_comp_of_antitoneOn`, `TauCeti.Green.green_ac_flux`;
-Mathlib `HasUnitSpeedOn`.
+`AbsolutelyContinuousOnInterval.windingNumber_comp_of_antitoneOn`, `TauCeti.Green.green_ac_flux`,
+`AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`; Mathlib `HasUnitSpeedOn`;
+ConformalMapping §5.5 and §5.6 for the index theorem.
 
 **Checks.**
 - The counterclockwise unit circle `γ(t) = exp(it)` on `[0, 2π]`: `σ = 1`, `−σ J γ'(t) = −i · i e^{it} = e^{it}`,
@@ -968,8 +981,8 @@ Mathlib `HasUnitSpeedOn`.
 ### Dependencies
 
 Layers 1, 4 and 5; PDE §1.6 for Lipschitz domains and the Sobolev trace; ConformalMapping §5.3,
-ContourIntegration Layer 0 and DifferentialGeometry 5.6.1 and 5.6.3 through their Tau Ceti
-declarations for §6.4; DifferentialGeometry 12.5 for the smooth-domain comparison of §6.2 only.
+§5.5 and §5.6, ContourIntegration Layer 0 and DifferentialGeometry 5.6.1 and 5.6.3 for §6.4;
+DifferentialGeometry 12.5 for the smooth-domain comparison of §6.2 only.
 
 ## Downstream consumers
 
@@ -1405,7 +1418,11 @@ Paths are under `TauCeti/`. All the declarations below are proved.
   (`Analysis/Contour/Winding/AbsolutelyContinuous/Reparam.lean`; for `γ` absolutely continuous on
   `[c, d]` and `θ` absolutely continuous and monotone on `[a, b]`, `a ≤ b`, mapping the endpoints to
   `c, d` in the monotone case and to `d, c` in the antitone case, the index of `γ ∘ θ` on `[a, b]` off
-  the trace is that of `γ` on `[c, d]`, respectively its negative).
+  the trace is that of `γ` on `[c, d]`, respectively its negative);
+  `AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`
+  (`Analysis/Contour/Winding/AbsolutelyContinuous/Proximity.lean`; closed curves `γ₀`, `γ₁` absolutely
+  continuous on `[a, b]` with `dist(γ₁ t, γ₀ t) < dist(γ₀ t, z)` for every `t ∈ [a, b]` have the same
+  index at `z`).
 - Green (DifferentialGeometry 5.6.3): `TauCeti.Green.green_ac_winding` (`Analysis/Green/Winding.lean`; for `γ` closed
   and absolutely continuous on `[a, b]`, `a < b`, an open `U` containing the trace, `C¹` real `P`, `Q`
   on `U` and the winding number vanishing outside `U`: the circulation of `P dx + Q dy` along `γ` is the
@@ -1430,6 +1447,10 @@ declarations above; only the conventions of those sections are assumed beyond th
 
 §5.3, the Jordan curve theorem: for every Jordan curve `C ⊆ ℂ`, `ℂ \ C` has two components, the bounded
 one `filledHull C \ C` with frontier `C`. Consumed through `TauCeti.IsJordanCurve.frontier_filledHull_sdiff`.
+§5.5, the agreement of the topological index of a closed piecewise-`C¹` loop with its winding number
+and the proximity criterion for the topological index, and §5.6, the topological Jordan index
+theorem: a closed loop continuous on `[a, b]`, `a < b`, and injective on `[a, b)` has topological
+index one sign `σ ∈ {1, −1}` on the inside of its trace; both for the index theorem of §6.4.
 
 ### From TauCetiRoadmap.ContourIntegration (Completed)
 
@@ -1455,6 +1476,9 @@ for §6.4; 12.5, the divergence theorem on a manifold with boundary, for the smo
 - Gabriele Anzellotti and Mariano Giaquinta, [*Funzioni BV e tracce*](http://www.numdam.org/item/RSMUP_1978__60__1_0/),
   Rend. Sem. Mat. Univ. Padova 60 (1978), 1–21: strict approximation on open sets (§4.1), the
   perimeter of open sets whose boundary has finite `Hⁿ⁻¹` measure (§6.2) and BV traces (§6.3).
+- Herbert Federer, *Geometric Measure Theory*, Grundlehren der mathematischen Wissenschaften 153,
+  Springer, 1969, reprinted in Classics in Mathematics, 1996, DOI 10.1007/978-3-642-62010-2: the
+  criterion for locally finite perimeter by the essential boundary (4.5.11, §5.4).
 - Herbert Federer, [*A note on the Gauss–Green theorem*](https://doi.org/10.1090/S0002-9939-1958-0095245-2),
   Proc. Amer. Math. Soc. 9 (1958), 447–451: the perimeter of planar regions bounded by simple closed
   curves (§6.4).
