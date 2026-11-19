@@ -26,10 +26,11 @@ complete discrete valuation ring `O` with fraction field `K = FractionRing O` of
 zero containing a primitive `exp(G)`-th root of unity and residue field of characteristic `p`. A
 block is a primitive idempotent of the centre of `O[G]`; its ordinary characters
 (`blockCharacters`) are the characters of the irreducible `K`-representations on which it acts as
-the identity, and its defect groups (`IsBlockDefectGroup`) are those of its reduction modulo the
-maximal ideal, the maximal `p`-subgroups `P` on whose centraliser the reduction has a nonzero
-coefficient. The headlines are Brauer's theorem on heights, the Fong–Reynolds correspondence,
-Reynolds' height formula and Reynolds' theorem.
+the identity, and its defect groups are those of its reduction modulo the maximal ideal, an element
+of the centre of `k[G]`, in the sense of `IsDefectGroup`, the definition of the base roadmap
+ModularCharactersAndBlocks restated on the same domain: the maximal `p`-subgroups `P` on whose
+centraliser the reduction has a nonzero coefficient. The headlines are Brauer's theorem on
+heights, the Fong–Reynolds correspondence, Reynolds' height formula and Reynolds' theorem.
 
 Every headline theorem of the roadmap is statable at the pins. Three propositions of the README
 are definitions whose general validity the roadmap cites and does not prove, so they are not
@@ -221,14 +222,16 @@ theorem IsGlaubermanFamily.index_mul_degree_eq
 
 /-! ## Layer 6: heights -/
 
-/-- `P` is a **defect group** of `e ∈ k[G]`: a `p`-subgroup on whose centraliser `e` has a
-nonzero coefficient (the Brauer projection `Br_P(e)` is nonzero), maximal with this property
-(Sambale 2014, Definition 1.4). For a block idempotent these are its defect groups. -/
-def IsBlockDefectGroup {G k : Type*} [Group G] [Field k] (p : ℕ) (e : MonoidAlgebra k G)
-    (P : Subgroup G) : Prop :=
-  IsPGroup p P ∧ (∃ g ∈ Subgroup.centralizer (P : Set G), e.coeff g ≠ 0) ∧
+/-- `P` is a **defect group** of the central element `e` of `k[G]`: a `p`-subgroup with
+`Br_P(e) ≠ 0`, that is, on whose centraliser `e` has a nonzero coefficient, such that no strictly
+larger `p`-subgroup has this property. This is the definition of ModularCharactersAndBlocks §6.2,
+on the same domain (Sambale 2014, Definitions 1.3–1.4). -/
+def IsDefectGroup {G k : Type*} [Group G] [Field k] (p : ℕ)
+    (e : Subalgebra.center k (MonoidAlgebra k G)) (P : Subgroup G) : Prop :=
+  IsPGroup p P ∧
+    (∃ g ∈ Subgroup.centralizer (P : Set G), (e : MonoidAlgebra k G).coeff g ≠ 0) ∧
     ∀ Q : Subgroup G, IsPGroup p Q → P ≤ Q →
-      (∃ g ∈ Subgroup.centralizer (Q : Set G), e.coeff g ≠ 0) → Q = P
+      (∃ g ∈ Subgroup.centralizer (Q : Set G), (e : MonoidAlgebra k G).coeff g ≠ 0) → Q = P
 
 /-- The **ordinary characters of a block**: for `b ∈ O[G]`, the characters of the irreducible
 representations of `G` over the fraction field `K` of `O`, on coordinate spaces `Fin n → K`, on
@@ -242,16 +245,19 @@ def blockCharacters {G O : Type*} [Group G] [CommRing O] [IsDomain O] (b : Monoi
 
 /-- **Brauer's theorem on heights.** Let `O` be a complete discrete valuation ring whose fraction
 field has characteristic zero and contains a primitive `exp(G)`-th root of unity, with residue
-field of characteristic `p`, and let `b` be a block idempotent of `O[G]` whose reduction has
-defect group `D`. With `|G|_p = p^a` and `|D| = p^d`, every ordinary character of the block has
-degree divisible by `p^{a−d}`, and some has degree of `p`-adic valuation exactly `a − d`
-(Martínez 2024, Theorem 3.4; Navarro 1998, Chapter 3). -/
+field `k` of characteristic `p`, and let `b` be a block idempotent of `O[G]` whose reduction
+`c ∈ Z(k[G])` has defect group `D`. With `|G|_p = p^a` and `|D| = p^d`, every ordinary character
+of the block has degree divisible by `p^{a−d}`, and some has degree of `p`-adic valuation exactly
+`a − d` (Martínez 2024, Theorem 3.4; Navarro 1998, Chapter 3). -/
 theorem brauer_height {G : Type u} {O : Type v} [Group G] [Finite G] [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
     {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G)) {p : ℕ} [Fact p.Prime]
     [CharP (IsLocalRing.ResidueField O) p] (b : Subalgebra.center O (MonoidAlgebra O G))
-    (hb : TauCeti.IsPrimitiveIdempotent b) {D : Subgroup G}
-    (hD : IsBlockDefectGroup p (MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) b) D) :
+    (hb : TauCeti.IsPrimitiveIdempotent b)
+    (c : Subalgebra.center (IsLocalRing.ResidueField O)
+      (MonoidAlgebra (IsLocalRing.ResidueField O) G))
+    (hc : MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) (b : MonoidAlgebra O G) = c)
+    {D : Subgroup G} (hD : IsDefectGroup p c D) :
     (∀ χ ∈ blockCharacters (b : MonoidAlgebra O G), ∃ n : ℕ, χ 1 = n ∧
       p ^ (padicValNat p (Nat.card G) - padicValNat p (Nat.card D)) ∣ n) ∧
     ∃ χ ∈ blockCharacters (b : MonoidAlgebra O G), ∃ n : ℕ, χ 1 = n ∧
@@ -263,8 +269,9 @@ theorem brauer_height {G : Type u} {O : Type v} [Group G] [Finite G] [CommRing O
 of `N ⊴ G`, `T` its stabiliser (the `g` commuting with `b` in `O[G]`) and `B` a block of `T`
 covering `b`. Then some block `B'` of `G` covers `b`, induction from `T` to `G` maps the ordinary
 characters of `B` bijectively onto those of `B'`, and every defect group of `B` is a defect group
-of `B'`; with `ψ^G(1) = |G : T| ψ(1)` this preserves heights (Martínez 2024, Theorem 7.12;
-Reynolds 1963, Theorem 1). -/
+of `B'`, defect groups being read on the reductions `cB` and `cB'` modulo the maximal ideal; with
+`ψ^G(1) = |G : T| ψ(1)` this preserves heights (Martínez 2024, Theorem 7.12; Reynolds 1963,
+Theorem 1). -/
 theorem fongReynolds {G : Type u} {O : Type v} [Group G] [Finite G] [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
     {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G)) {p : ℕ} [Fact p.Prime]
@@ -276,15 +283,19 @@ theorem fongReynolds {G : Type u} {O : Type v} [Group G] [Finite G] [CommRing O]
       MonoidAlgebra.mapDomain N.subtype (b : MonoidAlgebra O N) * MonoidAlgebra.of O G g)
     (B : Subalgebra.center O (MonoidAlgebra O T)) (hB : TauCeti.IsPrimitiveIdempotent B)
     (hBb : (B : MonoidAlgebra O T) *
-      MonoidAlgebra.mapDomain (Subgroup.inclusion hNT) (b : MonoidAlgebra O N) ≠ 0) :
-    ∃ B' : Subalgebra.center O (MonoidAlgebra O G), TauCeti.IsPrimitiveIdempotent B' ∧
+      MonoidAlgebra.mapDomain (Subgroup.inclusion hNT) (b : MonoidAlgebra O N) ≠ 0)
+    (cB : Subalgebra.center (IsLocalRing.ResidueField O)
+      (MonoidAlgebra (IsLocalRing.ResidueField O) T))
+    (hcB : MonoidAlgebra.mapRingHom T (IsLocalRing.residue O) (B : MonoidAlgebra O T) = cB) :
+    ∃ (B' : Subalgebra.center O (MonoidAlgebra O G))
+      (cB' : Subalgebra.center (IsLocalRing.ResidueField O)
+        (MonoidAlgebra (IsLocalRing.ResidueField O) G)),
+      TauCeti.IsPrimitiveIdempotent B' ∧
+      MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) (B' : MonoidAlgebra O G) = cB' ∧
       (B' : MonoidAlgebra O G) * MonoidAlgebra.mapDomain N.subtype (b : MonoidAlgebra O N) ≠ 0 ∧
       Set.BijOn (Subgroup.indClassFun T) (blockCharacters (B : MonoidAlgebra O T))
         (blockCharacters (B' : MonoidAlgebra O G)) ∧
-      ∀ D : Subgroup T,
-        IsBlockDefectGroup p (MonoidAlgebra.mapRingHom T (IsLocalRing.residue O) B) D →
-          IsBlockDefectGroup p (MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) B')
-            (D.map T.subtype) := sorry
+      ∀ D : Subgroup T, IsDefectGroup p cB D → IsDefectGroup p cB' (D.map T.subtype) := sorry
 
 /-- **The Fong–Reynolds correspondence is bijective on blocks.** In the situation of
 `fongReynolds`, every block `B'` of `G` covering `b` receives, under induction from `T`, the
@@ -320,8 +331,10 @@ theorem reynolds_heights {G : Type u} {O : Type v} [Group G] [Finite G] [CommRin
     [CharZero O] {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G)) {p : ℕ}
     [Fact p.Prime] [CharP (IsLocalRing.ResidueField O) p]
     (b : Subalgebra.center O (MonoidAlgebra O G)) (hb : TauCeti.IsPrimitiveIdempotent b)
-    {D : Subgroup G} [D.Normal]
-    (hD : IsBlockDefectGroup p (MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) b) D) :
+    (c : Subalgebra.center (IsLocalRing.ResidueField O)
+      (MonoidAlgebra (IsLocalRing.ResidueField O) G))
+    (hc : MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) (b : MonoidAlgebra O G) = c)
+    {D : Subgroup G} [D.Normal] (hD : IsDefectGroup p c D) :
     {h : ℕ | ∃ χ ∈ blockCharacters (b : MonoidAlgebra O G), ∃ n : ℕ, χ 1 = n ∧
         h = padicValNat p n - (padicValNat p (Nat.card G) - padicValNat p (Nat.card D))} =
       {h : ℕ | ∃ ξ ∈ TauCeti.irreducibleCharacters ℂ D, ∃ m : ℕ, ξ 1 = m ∧
@@ -335,8 +348,11 @@ theorem reynolds {G : Type u} {O : Type v} [Group G] [Finite G] [CommRing O] [Is
     [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [CharZero O]
     {ζ : FractionRing O} (hζ : IsPrimitiveRoot ζ (Monoid.exponent G)) {p : ℕ} [Fact p.Prime]
     [CharP (IsLocalRing.ResidueField O) p] (b : Subalgebra.center O (MonoidAlgebra O G))
-    (hb : TauCeti.IsPrimitiveIdempotent b) {D : Subgroup G} [D.Normal]
-    (hD : IsBlockDefectGroup p (MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) b) D) :
+    (hb : TauCeti.IsPrimitiveIdempotent b)
+    (c : Subalgebra.center (IsLocalRing.ResidueField O)
+      (MonoidAlgebra (IsLocalRing.ResidueField O) G))
+    (hc : MonoidAlgebra.mapRingHom G (IsLocalRing.residue O) (b : MonoidAlgebra O G) = c)
+    {D : Subgroup G} [D.Normal] (hD : IsDefectGroup p c D) :
     (∀ χ ∈ blockCharacters (b : MonoidAlgebra O G), ∃ n : ℕ, χ 1 = n ∧
       padicValNat p n = padicValNat p (Nat.card G) - padicValNat p (Nat.card D)) ↔
       IsMulCommutative D := sorry
