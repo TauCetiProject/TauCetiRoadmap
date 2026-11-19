@@ -14,7 +14,8 @@ The file states the roadmap's headline theorems against the pinned Mathlib and T
 with `sorry`: ball rigidity in the sharp isoperimetric inequality and its topological-frontier
 form (Layer 4), Pólya–Szegő in `W¹,¹` and the sharp `BV` Sobolev inequality with its equality
 cases (Layer 5), and the isoperimetric theorem for rectifiable Jordan curves in its geometric and
-parametrized forms (Layer 6). Every headline theorem of the roadmap is statable at the pins.
+parametrized forms, each with its circle equality case (Layer 6). Every headline theorem of the
+roadmap is statable at the pins.
 
 The sharp inequality `P(E)^n ≥ n^n ω_n |E|^(n-1)` itself, for every Lebesgue-measurable set of
 finite volume, is Tau Ceti's
@@ -48,15 +49,17 @@ theorem perimeter_pow_eq_iff_exists_ae_eq_ball {E : Type*} [NormedAddCommGroup E
       ∃ c : E, ∃ r : ℝ, 0 < r ∧ s =ᵐ[volume] Metric.ball c r :=
   sorry
 
-/-- **The topological-frontier form of the isoperimetric inequality.** In `ℝⁿ`, `n ≥ 2`, every set
-`E` of finite volume satisfies `n^n ω_n |E|^(n-1) ≤ Hⁿ⁻¹(frontier E)^n`, with the normalized
-Euclidean Hausdorff measure. No measurability or boundary regularity is assumed: when the frontier
-has finite measure it is Lebesgue-null and `E` is Lebesgue measurable. -/
-theorem isoperimetric_frontier {n : ℕ} (hn : 2 ≤ n)
-    (E : Set (EuclideanSpace ℝ (Fin n)))
-    (hvol : volume E < ⊤) :
-    (n : ℝ≥0∞) ^ n * volume (Metric.ball (0 : EuclideanSpace ℝ (Fin n)) 1) *
-        volume E ^ (n - 1) ≤ (μHE[n - 1] (frontier E)) ^ n :=
+/-- **The topological-frontier form of the isoperimetric inequality.** In a finite-dimensional
+real inner product space of dimension `n ≥ 2`, every set `s` of finite volume satisfies
+`n^n ω_n |s|^(n-1) ≤ Hⁿ⁻¹(frontier s)^n`, with the normalized Euclidean Hausdorff measure. No
+measurability or boundary regularity is assumed: when the frontier has finite measure it is
+Lebesgue-null and `s` is Lebesgue measurable. -/
+theorem isoperimetric_frontier {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
+    [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+    (hn : 2 ≤ Module.finrank ℝ E) (s : Set E) (hvol : volume s < ⊤) :
+    (Module.finrank ℝ E : ℝ≥0∞) ^ Module.finrank ℝ E * volume (Metric.ball (0 : E) 1) *
+        volume s ^ (Module.finrank ℝ E - 1) ≤
+      (μHE[Module.finrank ℝ E - 1] (frontier s)) ^ Module.finrank ℝ E :=
   sorry
 
 /-! ## Layer 5: sharp BV Sobolev and its equality cases -/
@@ -131,6 +134,18 @@ theorem simple_closed_rectifiable_isoperimetric {γ : ℝ → ℂ} {a b : ℝ} (
     (hinj : InjOn γ (Ico a b)) (hrect : BoundedVariationOn γ (Icc a b)) :
     4 * Real.pi * (volume (TauCeti.filledHull (γ '' Icc a b) \ γ '' Icc a b)).toReal ≤
       (eVariationOn γ (Icc a b)).toReal ^ 2 :=
+  sorry
+
+/-- **Equality in the parametrized form.** For a continuous closed curve `γ` on `[a, b]`, injective
+on `[a, b)` and of bounded variation, the equality `4π A = L²`, for the area `A` of the inside of
+its trace and its total variation `L`, holds exactly when the trace is, as a set, a circle of
+positive radius. The parameter need not have constant speed or be absolutely continuous. -/
+theorem simple_closed_rectifiable_isoperimetric_eq_iff {γ : ℝ → ℂ} {a b : ℝ} (hab : a < b)
+    (hγ : ContinuousOn γ (Icc a b)) (hclosed : γ a = γ b)
+    (hinj : InjOn γ (Ico a b)) (hrect : BoundedVariationOn γ (Icc a b)) :
+    4 * Real.pi * (volume (TauCeti.filledHull (γ '' Icc a b) \ γ '' Icc a b)).toReal =
+        (eVariationOn γ (Icc a b)).toReal ^ 2 ↔
+      ∃ c : ℂ, ∃ r : ℝ, 0 < r ∧ γ '' Icc a b = Metric.sphere c r :=
   sorry
 
 end TauCetiRoadmap.Isoperimetry
