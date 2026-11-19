@@ -12,8 +12,8 @@ theorems, confidence sets and sampling rates. The organisation is by proof depen
 come from Edelsbrunner–Harer (*Computational Topology*), Chazal–de Silva–Glisse–Oudot (*The
 Structure and Stability of Persistence Modules*), Oudot (*Persistence Theory*), Dey–Wang
 (*Computational Topology for Data Analysis*) and Carlsson–Vejdemo-Johansson (*Topological Data
-Analysis with Applications*); results whose only source is a paper not at hand carry a proof
-route of our own and are cited by author, title and year.
+Analysis with Applications*); results whose source is a paper are cited by author, title and year
+and carry a proof route of our own.
 
 ## Scope and ownership
 
@@ -69,8 +69,12 @@ Owned here:
   points under perturbation, not about persistent homology.
 - Glivenko–Cantelli and Donsker classes, bracketing numbers and the bracketing theorems are
   MathematicalStatisticsAsymptotic's (§§3.1, 3.2, 3.4); 8.3 consumes them.
-- The bootstrap and its consistency belong to a resampling roadmap in an open pull request; the
-  confidence sets of 3.3 use only a uniform band whose coverage is given.
+- The bootstrap and its consistency belong to the MathematicalStatisticsHigherOrderAndResampling
+  roadmap (Layer 6); the confidence sets of 3.3 use only a uniform band whose coverage is given.
+- Minimum spanning forests of weighted graphs, the cut property and the minimax property of their
+  paths belong to the SpanningTreesAndShortestPaths roadmap (§§2.1, 2.2, 2.4). 4.5 keeps only the
+  minimum spanning tree of a finite metric space, the case of the complete graph weighted by
+  distance, so as to state the single-linkage count.
 - Multiparameter persistence, zigzag persistence, Mapper, persistent cohomology algorithms and
   the other topics listed under Beyond are not owned by any roadmap.
 
@@ -91,7 +95,8 @@ Owned here:
   `TauCeti.orderedSimplicialChainComplex`; the two meet through Tau Ceti's comparison isomorphism
   and its naturality (4.1).
 - **Ranks and junk values.** `rankInv V s t` is the rank of `V_s → V_t` in `ℕ∞` (infinite ranks
-  are `⊤`, never a junk `0`), and is `0` for `t < s`.
+  are `⊤`, never a junk `0`), and is `0` for `t < s`. At infinite arguments the module is zero:
+  `rankE V s t = 0` when `s` or `t` is `⊥` or `⊤`.
 - **Diagrams.** A diagram is a multiplicity function `Diagram` on `OffDiag`, the points `(b, d)` of
   `EReal × EReal` with `b < d`. Essential classes have `d = ⊤`; classes born at `-∞` have `b = ⊥`.
   The diagonal is not part of a diagram; it is available to every matching at the cost
@@ -148,10 +153,14 @@ Owned here:
 - `TauCeti.quasiIso_cechTotalAugmentation` (`AlgebraicTopology/Singular/Cech/OrderedQuasiIso.lean`):
   the augmentation of the total complex of the Čech double complex of an open cover (ordered
   form) is a quasi-isomorphism onto the singular chains of the union.
-- `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace`
+- `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace` and
+  `ModuleCat.finrank_singularHomology_of_contractibleSpace`
   (`AlgebraicTopology/Singular/Contractible.lean`).
 - `ChainComplex.eulerChar_eq_homologyEulerChar`
   (`Algebra/Homology/EulerCharacteristic/ChainComplex.lean`).
+- `TauCeti.IsMorse` (`Geometry/Manifold/Morse/Basic.lean`), `TauCeti.criticalPoints`
+  (`Geometry/Manifold/Morse/CriticalPoints.lean`) and `TauCeti.manifoldMorseIndex`
+  (`Geometry/Manifold/Morse/Index.lean`).
 - `TauCeti.sublevelInclusion` (`Topology/Order/Sublevel.lean`),
   `TauCeti.exists_sublevelHomotopyEquiv`
   (`Geometry/Manifold/Morse/Deformation.lean`) and
@@ -231,8 +240,9 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 - `IsFiniteType V`: `V` is pointwise finite-dimensional and there is a finite set `A` of reals
   such that `V_s → V_t` is an isomorphism whenever `(s, t]` contains no point of `A`.
 - **Decomposition of modules of finite type** (`exists_intervalDecomposition_of_isFiniteType`):
-  such a module has an interval decomposition with finitely many summands, each of the form
-  `[a, a')`, `[a, ∞)`, `(-∞, a')` or `ℝ` with `a, a' ∈ A`
+  a pointwise finite-dimensional module with a finite set `A` as in `IsFiniteType` has an interval
+  decomposition with finitely many summands, each of the form `[a, a')`, `[a, ∞)`, `(-∞, a')` or
+  `ℝ` with `a, a' ∈ A`
   (Oudot, Thm 1.9, p. 20, via Gabriel's theorem, Thm 1.2, p. 17).
   *Route.* Let `a₁ < … < a_k` be the points of `A`; choose `t₀ < a₁` and evaluate `V` at
   `t₀, a₁, …, a_k`. This is a finite-dimensional representation of the equioriented quiver of type
@@ -274,19 +284,26 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 - `OffDiag`: the pairs `(b, d)` of `EReal × EReal` with `b < d`; `Diagram`: a function
   `OffDiag → ℕ∞`; `Diagram.Pt D`: the points with multiplicity, pairs `(x, k)` with `k < D x`.
 - `lowerEnd I` and `upperEnd I`: the infimum and supremum of `I` in `EReal`.
-- `rankE V s t`: the rank invariant at extended arguments, the infimum over real arguments equal to
-  `s` and `t`, or arbitrary when `s = ⊥` or `t = ⊤`.
+- `rankE V s t`: the rank invariant at extended arguments, with the module taken to be zero at
+  `-∞` and `+∞`: `rankE V s t = 0` when `s` or `t` is `⊥` or `⊤`, and `rankInv V s t` at real
+  arguments (Chazal–de Silva–Glisse–Oudot, Def 3.26, p. 47, where `V_{-∞} = V_{+∞} = 0`).
 - `rankDiagram V`: the multiplicity of `(p, q)` is the infimum, over rectangles `[a, b] × [c, d]`
   with `a < p < b < c < q < d` (with `a = p = ⊥` or `d = q = ⊤` allowed), of the rectangle measure
-  `r(b, c) - r(a, c) - r(b, d) + r(a, d)` (Chazal–de Silva–Glisse–Oudot, Def 3.3, p. 33; Oudot,
-  Thm 1.13, p. 25). For `q`-tame modules the four ranks are finite because `b < c`, and the
+  `r(b, c) - r(a, c) - r(b, d) + r(a, d)` with `r = rankE V` (Chazal–de Silva–Glisse–Oudot,
+  Def 3.3, p. 33, and Def 3.26, p. 47; Oudot, Thm 1.13, p. 25). A rectangle reaching `+∞` has
+  measure `r(b, c) - r(a, c)`, one reaching `-∞` has `r(b, c) - r(b, d)`, and one reaching both
+  has `r(b, c)`. For `q`-tame modules the four ranks are finite because `a ≤ b < c ≤ d`, and the
   rectangle measure is a nonnegative count, so the truncated subtraction of `ℕ∞` is exact.
 - **The diagram of a decomposition** (`rankDiagram_eq_encard_of_decomposition`): for a
   pointwise finite-dimensional module and any decomposition, the multiplicity of `(p, q)` is the
   number of intervals with `lowerEnd = p` and `upperEnd = q`.
   *Route.* By 1.2 the rectangle measure counts the intervals with lower endpoint in the closed
   window around `p` and upper endpoint in the window around `q`; shrinking the windows isolates
-  the endpoints, and decorations do not matter because the windows are open at `p` and `q`.
+  the endpoints, and decorations do not matter because the windows are open at `p` and `q`
+  (Chazal–de Silva–Glisse–Oudot, Cor 3.27, p. 47). Since `rankE` vanishes at `⊥` and `⊤`, a
+  rectangle with `d = ⊤` counts the intervals containing `b` and `c` but not `a`, that is with
+  lower endpoint in the window and upper endpoint beyond `c`; letting `c` grow isolates the
+  intervals with `upperEnd = ⊤`, and symmetrically at `⊥`.
 
 *Needs:* 1.2, 1.3.
 
@@ -314,8 +331,15 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 - `rankDiagram`: for `intervalModule 𝕜 (Set.Ico 0 1)` the multiplicity is `1` at `(0, 1)` and
   `0` elsewhere; for `intervalModule 𝕜 (Set.Icc 0 1)` it is also `1` at `(0, 1)`: the diagram
   forgets decorations.
-- `rankDiagram`: for `intervalModule 𝕜 (Set.Ici 0)` the multiplicity is `1` at `(0, ⊤)`; the
-  rectangle with `d = ⊤` uses `rankE V a ⊤`, the limit `0` of the ranks for `a < 0`.
+- `rankDiagram`: for `intervalModule 𝕜 (Set.Ici 0)` the multiplicity is `1` at `(0, ⊤)`: for
+  `a < 0 < b < c` and `d = ⊤`, `r(b, c) = 1`, `r(a, c) = 0` and `r(a, ⊤) = r(b, ⊤) = 0`, so the
+  measure is `(1 + 0) - (0 + 0) = 1`. With `rankE V b ⊤` the limit `1` of the ranks it would be
+  `(1 + 0) - (0 + 1) = 0`, and the essential class would be lost.
+- `rankDiagram`: for `intervalModule 𝕜 (Set.Iic 0)` the multiplicity is `1` at `(⊥, 0)`, and for
+  the constant module `intervalModule 𝕜 Set.univ` it is `1` at `(⊥, ⊤)`, the measure being
+  `r(b, c) = 1` there.
+- `rankDiagram`: for `intervalModule 𝕜 (Set.Ico 0 1)` the multiplicity is `0` at `(0, ⊤)` and at
+  `(⊥, ⊤)`: the rectangles with `c > 1` have `r(b, c) = 0`.
 - `rankDiagram`: a singleton interval `{0}` contributes nothing: the rectangles need `b < c`, and
   the module of `{0}` has `rankInv = 0` at every `s < t`.
 - `Diagram.Pt`: a diagram with multiplicity `⊤` at one point has countably many points there,
@@ -357,11 +381,13 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 - `Diagram`: a function with `D (0, 1) = 2` is the diagram of two copies of `[0, 1)`.
 - `Diagram.Pt`: the zero diagram has no points, and multiplicity `2` at `(0, 1)` gives the two
   points `((0, 1), 0)` and `((0, 1), 1)`.
-- `rankE`: for `intervalModule 𝕜 (Set.Ici 0)`, `rankE V 0 ⊤ = 1`; for the module of
-  `Set.Ico 0 1`, `rankE V 0 ⊤ = 0`.
-- `rankE`: for `intervalModule 𝕜 (Set.Iic 0)`, `rankE V ⊥ 0 = 1`; without the condition
-  `s' ≤ t'` the infimum would include `rankInv` at `s' > t'`, the value `0`.
-- `rankE`: at real arguments `s ≤ t` it equals `rankInv V s t`.
+- `rankE`: for every module, `rankE V s ⊤ = 0` and `rankE V ⊥ t = 0`; for
+  `intervalModule 𝕜 (Set.Ici 0)` in particular `rankE V 0 ⊤ = 0` although every `rankInv V 0 t`
+  with `t ≥ 0` is `1`.
+- `rankE`: at real arguments `s ≤ t` it equals `rankInv V s t`, and at real `s > t` it is `0`.
+- `rankE`: the limit convention (`rankE V s ⊤` the infimum of `rankInv V s t` over real `t`)
+  gives `1` at `(b, ⊤)` for `Set.Ici 0` and `b ≥ 0`, which makes the diagram of that module zero
+  (the first `rankDiagram` check above) and the isometry theorem fail against the zero module.
 
 ### Examples
 
@@ -395,7 +421,9 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 ### 2.2 Wasserstein distances between diagrams
 
 - `Matching.qCost M q`: `(Σ matched pointDist^q + Σ unmatched diagDist^q)^(1/q)`, sums in `ℝ≥0∞`;
-  `wassersteinDist q D E`: the infimum (Dey–Wang, Def 3.10, p. 75; Oudot, p. 63).
+  `wassersteinDist q D E`: the infimum (Dey–Wang, Def 3.10, p. 75; Oudot, p. 63). Points are
+  compared in `ℓ^∞` here, where Dey–Wang use the `ℓ^q` norm of the plane; the `ℓ^∞` distance is the
+  smaller, so their bounds on `W_q` imply the ones stated here.
 - **Comparison** (`bottleneckDist_le_wassersteinDist`): for `1 ≤ q`, `d_B ≤ W_q`, since each term
   is at most the `ℓ^q` norm.
 - **Triangle inequality** (`wassersteinDist_triangle`): for `1 ≤ q`, by composing matchings as in
@@ -447,7 +475,7 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 **Checks.**
 
 - `bottleneckDist`: for `D = {(0, 2)}` and `E = {(0, 3)}` the distance is `1`, by matching the two
-  points (computed in `checks.py`).
+  points.
 - `bottleneckDist`: for `D = {(0, 2)}` and `E = {(5, 7)}` it is `1`, by sending both to the
   diagonal; the matched cost would be `5`. A definition without the diagonal would give `5`.
 - `bottleneckDist`: `{(0, 2)}` against the empty diagram is `1 = (2 - 0)/2`; a convention measuring
@@ -514,10 +542,13 @@ Each section states targets, gives locators (printed pages) and a proof route, a
   `F : ℝ → Set X`, `setFunctor X` and degree-`p` singular homology with coefficients `𝕜`.
 - `sublevelModule 𝕜 X f p`: the module `t ↦ H_p({f ≤ t})`; `offsetModule 𝕜 A p`: the sublevel module
   of `x ↦ infDist x A`.
-- `IsHomCriticalValue X f a`: for every `ε > 0` some degree `p` has
-  `H_p({f ≤ a - ε}) → H_p({f ≤ a + ε})` not an isomorphism (Edelsbrunner–Harer, p. 192).
+- `IsHomCriticalValue X f a`: there is `ε₀ > 0` such that for every `ε ∈ (0, ε₀)` some degree `p`
+  has `H_p({f ≤ a - ε}) → H_p({f ≤ a + ε})` not an isomorphism (Edelsbrunner–Harer, §VIII.2,
+  pp. 218–219). The printed definition quantifies over every `ε > 0`; windows are taken small here,
+  since a large window can hide a change: for `f(x) = x³ - 3x` on `ℝ` the sublevel sets at `-3`
+  and `7` are both half-lines, yet the degree-zero module is `ℝ ⊕ [-2, 2)`.
 - `IsTameFunction 𝕜 X f`: finitely many homological critical values and pointwise
-  finite-dimensional sublevel modules in every degree (Edelsbrunner–Harer, p. 219).
+  finite-dimensional sublevel modules in every degree (Edelsbrunner–Harer, §VIII.2, p. 219).
 - Sublevel modules of continuous functions on compact polyhedra are `q`-tame
   (Chazal–de Silva–Glisse–Oudot, Thm 3.33, p. 52; Oudot, Prop 2.3, p. 32), by factoring
   `H(X_s) → H(X_t)` through the homology of a finite subcomplex of a fine subdivision.
@@ -554,15 +585,16 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 
 ### 3.4 Sublevel persistence of a Morse function
 
-Target, stated in prose (no Lean name): let `M` be a closed smooth manifold, `f` a Morse function
-with distinct critical values, `c_q` its number of critical points of index `q`, and use field
-coefficients.
+Let `M` be a closed smooth manifold (compact, Hausdorff, without boundary), `f` a Morse function
+with distinct critical values (`TauCeti.IsMorse`, `TauCeti.criticalPoints`), `c_q` its number of
+critical points of index `q` (`TauCeti.manifoldMorseIndex`), and use field coefficients.
 
 - Every finite endpoint of every bar of the sublevel diagrams of `f` is a critical value, and each
   critical point is an endpoint of exactly one bar: passing a critical value of index `q` either
   creates a degree-`q` bar or ends a degree-`(q - 1)` bar.
-- `c_q` is the number of degree-`q` bars plus the number of finite degree-`(q - 1)` bars, and
-  exactly `β_q(M)` degree-`q` bars are infinite.
+- **Critical points count bars** (`encard_criticalPoints_index_eq`): `c_q` is the number of
+  degree-`q` bars plus the number of finite degree-`(q - 1)` bars (no second term for `q = 0`),
+  and exactly `β_q(M)` degree-`q` bars are infinite, `β_q(M)` the dimension of `H_q(M)` in `ℕ∞`.
 - Hence `c_q - β_q(M)` is the number of finite bars of degree `q` plus those of degree `q - 1`,
   which recovers the polynomial form of the strong Morse inequalities with the coefficient of
   `t^q` in `Q` equal to the number of finite degree-`q` bars (compare the MorseTheory roadmap,
@@ -612,6 +644,13 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
 - `IsHomCriticalValue`: for `f(x) = x` on `[0, 1]`, `0` is critical and `1` is not, since the
   sublevel set at every level `t ≥ 0` is the contractible interval `[0, min(t, 1)]`.
 - `IsTameFunction`: `x ↦ x²` on `[-1, 1]` is tame, with single critical value `0`.
+- `IsHomCriticalValue`: for `f(x) = x³ - 3x` on `ℝ`, the critical values are `-2` and `2`; with
+  windows of every size neither would be, since `{f ≤ -3}` and `{f ≤ 7}` are both half-lines.
+- `encard_criticalPoints_index_eq`: for the height on a circle deformed to have minima at heights
+  `0`, `1` and maxima at `2`, `3`, degree `0` is `{(0, ⊤), (1, 2)}` and degree `1` is `{(3, ⊤)}`;
+  then `c_0 = 2` (two bars), `c_1 = 2` (one degree-`1` bar plus the finite degree-`0` bar), and
+  one infinite bar in each degree matches `β_0 = β_1 = 1`. Without the finite degree-`(q - 1)`
+  term the count would give `c_1 = 1`.
 
 ### Examples
 
@@ -661,7 +700,7 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
   `TauCeti.orderedSimplicialChainComplex K 𝕜`, whose degree-`p` term is free on the `p`-faces.
 - Individual Betti numbers depend on the field while `χ` does not: the six-vertex real projective
   plane has `β = (1, 0, 0)` over `ℚ` and over `𝔽₃`, and `β = (1, 1, 1)` over `𝔽₂`, both with
-  alternating sum `1 = 6 - 15 + 10` (computed in `checks.py`).
+  alternating sum `1 = 6 - 15 + 10`.
 - **Positive and negative simplices** (`betti_insert_face`): adding a `(p + 1)`-simplex whose
   faces are present either raises `β_{p+1}` by one or lowers `β_p` by one and changes no other Betti
   number (Edelsbrunner–Harer, §VII.1, p. 183, positive and negative simplices).
@@ -740,12 +779,14 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
 - **Single linkage** (`rankInv_ripsModule_zero_eq`): for a finite metric space `X` with a minimum
   spanning tree `T` and `r ≥ 0`, the number of connected components of the Rips complex at scale
   `r`, that is `rankInv` in degree `0` at `(r, r)`, is one more than the number of edges of `T` of
-  length greater than `2r` (Carlsson–Vejdemo-Johansson, §4.1, p. 94; Dey–Wang, Thm 3.18, p. 107).
+  length greater than `2r` (Carlsson–Vejdemo-Johansson, §4.1, p. 94; compare Dey–Wang, p. 107,
+  the remark on minimum spanning forests after Thm 3.18, for lower-star filtrations).
   *Route.* The components of `ripsComplex id r` are those of the graph of edges of length at most
-  `2r` (degree-zero homology of a complex is free on its components). Kruskal's cut property: two
-  points are joined by edges of length `≤ 2r` iff they are joined in `T` by such edges, since any
-  edge of `T` of length `> 2r` separates two sides with no shorter edge between them (otherwise
-  exchanging would shorten `T`). A tree minus `k` edges has `k + 1` components.
+  `2r` (degree-zero homology of a complex is free on its components). Two points are joined by
+  edges of length `≤ 2r` iff they are joined in `T` by such edges: by the minimax property of
+  minimum spanning forests (the SpanningTreesAndShortestPaths roadmap, §2.4), for the complete
+  graph on `X` weighted by distance, the path of `T` between two points has no edge longer than the
+  longest edge of any walk between them. A tree minus `k` edges has `k + 1` components.
 - Consequently the degree-zero barcode has `|X|` bars born at `0`, one infinite, and the finite
   death times are the halved edge lengths of any minimum spanning tree, the merge heights of
   single-linkage clustering computed by Kruskal's algorithm; in the maximum-edge parameter they are
@@ -756,10 +797,9 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
 **Checks.**
 
 - `eulerChar`: the hollow triangle has `χ = 3 - 3 = 0`, with `β = (1, 1)`; the filled triangle has
-  `χ = 1`, `β = (1, 0)` (computed in `checks.py`).
+  `χ = 1`, `β = (1, 0)`.
 - `eulerChar`: an exponent `σ.card` instead of `σ.card + 1` would give `-1` for a point.
-- `betti`: over `𝔽₂` the projective plane has `β₁ = 1`, over `ℚ` it has `β₁ = 0` (computed in
-  `checks.py`).
+- `betti`: over `𝔽₂` the projective plane has `β₁ = 1`, over `ℚ` it has `β₁ = 0`.
 - `sublevelComplex`: for `f` not monotone (an edge with a value below that of one of its vertices)
   the sublevel family is not a complex; the definition takes `IsMonotoneOn` as an argument.
 - `boundaryMatrix`: for the edge `{0, 1}`, deleting vertex `0` (`k = 0`) leaves `{1}` with entry
@@ -767,15 +807,18 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
   sign `(-1)^(k+1)` would give the opposite boundary, and over `𝔽₂` the two agree.
 - `low`: for the filtration of the triangle in the order `0, 1, 2, 01, 12, 02, 012` the reduced
   pairs are `(1, 3)`, `(2, 4)` and `(5, 6)` (0-indexed), and only vertex `0` is unpaired: one
-  essential component, no essential cycle (computed in `checks.py`).
+  essential component, no essential cycle.
 - `IsReduced`: the boundary matrix of the triangle in the order above is not reduced: the columns
   of `12` and `02` both have low `2`. Adding the column of `12` to that of `02` (over `𝔽₂`) gives
   low `1`, which collides with the column of `01`, and a second addition makes it zero, so `02` is
   positive (it creates the cycle).
-- `cornerRank`: the pairing lemma was tested on 300 random square matrices of size at most `7` over
-  `𝔽₂` and `𝔽₃` (`checks.py`); a version with columns `≤ j` and rows `> i` would be off by one.
+- `cornerRank`: for the triangle in the order above over `𝔽₂` and `(i, j) = (2, 4)`, the column of
+  `12` with low `2`, the four corner ranks `r(2, 5)`, `r(3, 5)`, `r(3, 4)`, `r(2, 4)` are
+  `1, 0, 0, 0`, so the alternating sum is `1`; at `(2, 5)` they are `1, 0, 0, 1`, sum `0`, and
+  column `5` (the positive edge `02`) has no low. A version with columns `≤ j` and rows `> i`
+  gives `0` at `(2, 4)` and misses the pair.
 - `IsMinSpanningTree`: for the points `0, 1, 3, 6` of `ℝ` the tree has edges of lengths `1, 2, 3`,
-  and at `r = 0.6` there are `3` components (`checks.py`).
+  and at `r = 0.6` there are `3` components.
 - `IsMinSpanningTree`: the path `0 — 6 — 3 — 1` is a spanning tree of length `11 > 6`, and with it
   the count at `r = 0.6` would be `4`, not `3`; minimality is needed.
 
@@ -877,7 +920,7 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
 ### 5.3 The sampling geometry of manifolds
 
 Target, stated in prose: let `M ⊂ ℝ^D` be a compact smooth `d`-dimensional submanifold with reach
-`τ > 0`. For `x ∈ M` and `0 < r < τ`, the volume of `M ∩ B(x, r)` is at least
+`τ > 0`. For `x ∈ M` and `0 < r < τ/2`, the volume of `M ∩ B(x, r)` is at least
 `(1 - r²/(4τ²))^{d/2} ω_d r^d`, with `ω_d` the volume of the unit ball of `ℝ^d` (Niyogi, Smale and
 Weinberger, *Finding the homology of submanifolds with high confidence from random samples*,
 2008). *Route.* The orthogonal projection of `M ∩ B(x, r)` to the tangent space at `x` contains a
@@ -892,7 +935,9 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 ### 5.4 Correspondences and the Gromov–Hausdorff distance
 
 - `IsCorrespondence C`: `C ⊆ X × Y` projects onto both factors; `distortion C`: the supremum of
-  `|d(x, x') - d(y, y')|` over pairs in `C`, in `ℝ≥0∞` (Dey–Wang, Def 6.3, p. 182).
+  `|d(x, x') - d(y, y')|` over pairs in `C`, in `ℝ≥0∞` (Dey–Wang, Def 6.3, p. 182, whose
+  distortion carries a factor `1/2`, so that their Gromov–Hausdorff distance is the infimum of
+  their distortion).
 - **Correspondences compute d_GH** (`ghDist_eq_iInf_distortion`): for compact nonempty metric
   spaces, Mathlib's `GromovHausdorff.ghDist X Y` is half the infimum of the distortions
   (Dey–Wang, Def 6.3, p. 182, where it is the definition).
@@ -920,8 +965,8 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
   `infDist x ∅ = 0` and no nearest points); theorems assume `K` nonempty.
 - `distortion`: for two two-point spaces with distances `2` and `2 + 2ε`, the obvious
   correspondence has distortion `2ε`, so `d_GH ≤ ε`; their Rips diagrams in degree `0` are
-  `{(0, ⊤), (0, 1)}` and `{(0, ⊤), (0, 1 + ε)}`, at bottleneck distance `ε` (computed in
-  `checks.py`), so 6.3 is attained.
+  `{(0, ⊤), (0, 1)}` and `{(0, ⊤), (0, 1 + ε)}`, at bottleneck distance `ε`, so the bound of 6.4
+  is attained.
 - `distortion`: the full product `X × Y` is a correspondence of distortion
   `max(diam X, diam Y)`, so `d_GH ≤ max(diam X, diam Y)/2`.
 - `IsCorrespondence`: the empty relation is not one, though its distortion is `0`; dropping the
@@ -938,7 +983,7 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 
 ### Examples
 
-- For `A = {0}` and `B = {0, 1}` in `ℝ`, `sup |d_A - d_B| = 1 = d_H(A, B)` (`checks.py`).
+- For `A = {0}` and `B = {0, 1}` in `ℝ`, `sup |d_A - d_B| = 1 = d_H(A, B)`.
 
 ### Dependencies
 
@@ -978,9 +1023,10 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
   degree (Dey–Wang, Thm 2.1, p. 31; Edelsbrunner–Harer, Nerve Theorem, §III.2, p. 71).
   *Route.* `TauCeti.quasiIso_cechTotalAugmentation` identifies the singular chains of the union
   with the total complex of the Čech double complex of the cover (ordered form). Filter by the
-  Čech degree: the `E¹` page in column `σ` is the homology of `⋂_{i∈σ} U i`, which by
-  `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace` is `𝕜` in degree `0` and `0`
-  otherwise (and `0` for empty intersections). Hence the column homology is concentrated in one
+  Čech degree: the `E¹` page in column `σ` is the homology of `⋂_{i∈σ} U i`, which is `0` in
+  positive degrees by `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace` and
+  one-dimensional in degree `0` by `ModuleCat.finrank_singularHomology_of_contractibleSpace`
+  (and `0` for empty intersections). Hence the column homology is concentrated in one
   row, which is the ordered simplicial chain complex of the nerve, and the double complex is
   quasi-isomorphic to it. The isomorphism is natural for maps of covers `U i ⊆ V i`
   (`TauCeti.cechSingularChainsMap`), which 6.3 uses.
@@ -992,9 +1038,11 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 
 ### 6.3 Čech persistence is offset persistence
 
-- **Čech equals offsets** (`nonempty_iso_cechModule_offsetModule`): for a finite family of points
-  in Euclidean space, `cechModule 𝕜 x p` and `offsetModule 𝕜 (range x) p` are isomorphic
-  persistence modules.
+- **Čech equals offsets** (`nonempty_iso_cechModule_offsetModule`): for a finite nonempty family
+  of points in Euclidean space, `cechModule 𝕜 x p` and `offsetModule 𝕜 (range x) p` are isomorphic
+  persistence modules. For the empty family the Čech module is `0` while Mathlib's
+  `infDist y ∅ = 0` makes every offset of radius `r ≥ 0` the whole space, so nonemptiness is
+  needed (Conventions, Offsets).
   *Route.* For `r < 0` both are `0`. For `r ≥ 0`, closed balls have intersections that are
   intersections of open balls of radius `r + δ` for small `δ > 0`: a finite family of closed balls
   of
@@ -1012,7 +1060,9 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 
 - **Rips stability** (`bottleneckDist_ripsModule_le_ghDist`): for compact nonempty metric spaces,
   the Rips modules are `q`-tame and their diagrams in every degree are within `d_GH(X, Y)`
-  (Chazal–de Silva–Glisse–Oudot, Thm 1.1, p. 6; Dey–Wang, Thm 6.3, p. 182, for finite spaces).
+  (Chazal–de Silva–Glisse–Oudot, Thm 1.1, p. 6, quoting Chazal, de Silva and Oudot,
+  *Persistence stability for geometric complexes*, 2014; Dey–Wang, Thm 6.3(b), p. 182, for finite
+  spaces).
   *Route.* `q`-tameness: for `s < t`, a finite `(t - s)/2`-net `N` of `X` and a nearest-net-point
   map give `Rips_s(X) → Rips_{(s+t)/2}(N) → Rips_t(X)`, whose composite is contiguous to the
   inclusion, so `H(Rips_s) → H(Rips_t)` factors through a finite complex. Stability: a
@@ -1034,14 +1084,14 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 **Checks.**
 
 - `ripsComplex`: an equilateral triangle of side `2` is a face of `Rips(1)` but not of `Čech(1)`
-  (circumradius `2/√3 ≈ 1.155 > 1`), and it is a face of `Čech(√2)` (`checks.py`).
+  (circumradius `2/√3 ≈ 1.155 > 1`), and it is a face of `Čech(√2)`.
 - `ripsComplex`: with the maximum-edge parameter (diameter `≤ r`) the same triangle enters at
   `r = 2`; a mixed convention would put it in `Rips(1)` and `Čech(1)` simultaneously, contradicting
   the previous check.
 - `ripsComplex`: for `r < 0` the complex is empty (distances are nonnegative), and so is
   `cechComplex`; in degree `0` both modules vanish below `0`.
 - `cechComplex`: in Jung's bound, `√(d/(2(d+1)))` is `1/√3` for `d = 2` and tends to `1/√2` as
-  `d → ∞` (`checks.py`), so `√2` cannot be lowered uniformly in dimension.
+  `d → ∞`, so `√2` cannot be lowered uniformly in dimension.
 - `cechComplex`: Čech complexes are ambient: for the two points `(±1, 0)` of `ℝ²` the edge is in
   `Čech(1)` (centre `(0, 0)`), but not in the intrinsic Čech complex of radius `1`, whose centres
   must be among the two points.
@@ -1082,11 +1132,13 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 
 - **Noiseless sampling of a submanifold** (`exists_deformationRetraction_offset`): let
   `M = j(N) ⊂ ℝ^D` be a compact smooth embedded submanifold with reach at least `τ > 0`, and
-  `P ⊆ M` finite and nonempty with `d_H(P, M) ≤ ε < √(3/20) τ`. For `r ∈ (2ε, √(3/5) τ)` the offset
+  `P ⊆ M` finite and nonempty with `d_H(P, M) ≤ ε`. For `r ∈ (2ε, √(3/5) τ)` the offset
   `P^r` contains `M` and strongly deformation retracts onto it (Oudot, Thm 4.1, p. 72; Niyogi,
-  Smale and Weinberger, 2008). By 6.3, the Čech complex of radius `r` then has the homology of `M`.
+  Smale and Weinberger, 2008). Such `r` exist exactly when `ε < √(3/20) τ`, a bound that
+  `2ε < r < √(3/5) τ` already implies. By 6.3, the Čech complex of radius `r` then has the
+  homology of `M`.
 - Oudot's printed statement does not require `P ⊆ M`; the noiseless hypothesis is the one of the
-  original paper, and noisy samples are treated by 7.2 and 7.4, whose conclusions concern images
+  original paper, and noisy samples are treated by 7.2 and 7.3, whose conclusions concern images
   of persistent homology rather than homotopy type.
   *Route.* The retraction is the nearest-point projection `π` onto `M`, continuous on the tube of
   radius `τ` (5.2). For `x ∈ P^r` the segment from `x` to `π(x)` lies in `P^r`: write
@@ -1094,8 +1146,8 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
   `p ∈ P` with `|x - p| ≤ r`; by the reach estimate `|⟨n, y - v⟩| ≤ |y - v|²/(2τ)` for `y ∈ M`, the
   squared distance from `v + s' n` to `q` is at most `ε² + s' ε²/τ + s'²`, which is `≤ r²` for small
   `s'`, and the squared distance to `p` is a convex function of `s'` that is `≤ r²` at `s' = s`.
-  The two ranges overlap when `2ε < r < √(3/5) τ` and `ε < √(3/20) τ`, which is where the constants
-  come from. `M ⊆ P^r` since `r > ε`.
+  The two ranges overlap when `2ε < r < √(3/5) τ`, which is where the constants come from.
+  `M ⊆ P^r` since `r > ε`.
 
 *Needs:* 5.2; Mathlib `Manifold.IsSmoothEmbedding`.
 
@@ -1131,7 +1183,7 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 - **Rips pairs** (`rankInv_ripsModule_eq_of_reach`): let `K ⊂ ℝ^D` be compact nonempty with reach
   at least `τ`, and `P` finite with `d_H(K, P) ≤ ε`. If `(2 + √2) ε ≤ α` and `2√2 α + ε < τ`, then
   `rank(H_p(Rips(α)) → H_p(Rips(2α))) = dim H_p(K)`. The window is nonempty exactly when
-  `ε < τ/(5 + 4√2) ≈ 0.0938 τ` (`checks.py`). No manifold structure is needed.
+  `ε < τ/(5 + 4√2) ≈ 0.0938 τ`. No manifold structure is needed.
   *Route.* `Čech(α) ⊆ Rips(α) ⊆ Čech(√2α) ⊆ Čech(2α) ⊆ Rips(2α) ⊆ Čech(2√2α)` by 6.1 (the
   Vietoris–Rips lemma). For offsets of `P`, `rank(H(P^s) → H(P^t)) = dim H(K)` whenever
   `ε ≤ s`, `s + 2ε ≤ t` and `t + ε < τ`: the route of 7.2 with `K^{s-ε} → K^{s+ε} → K^{t+ε}`
@@ -1150,13 +1202,13 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
   `i = 0.1`, `j = 0.5` the image is `H_0 ≅ 𝕜²`, the homology of `K^r` for `r < 1`; with
   `j = 1.2 > wfs` the image is `𝕜`, and the hypothesis `j + ε < wfs` excludes it.
 - The window of 7.2 for offsets, `ε < i` and `i + 2ε ≤ j < wfs - ε`, is nonempty iff
-  `ε < wfs/4`: `ε = 0.24 wfs` admits one, `ε = 0.26 wfs` does not (`checks.py`).
+  `ε < wfs/4`: `ε = 0.24 wfs` admits one, `ε = 0.26 wfs` does not.
 - The Rips window `2ε < α < (wfs - ε)/4` is nonempty iff `ε < wfs/9`: `0.11 wfs` admits one,
-  `0.112 wfs` does not (`checks.py`).
+  `0.112 wfs` does not.
 - The constants of 7.1: `√(3/20) ≈ 0.3873`, `√(3/5) ≈ 0.7746`, and `2 √(3/20) = √(3/5)`, so the
-  window `(2ε, √(3/5) τ)` is nonempty exactly when `ε < √(3/20) τ` (`checks.py`).
+  window `(2ε, √(3/5) τ)` is nonempty exactly when `ε < √(3/20) τ`.
 - The constant of 7.3: `α ≥ (2 + √2) ε` is exactly `√2 α + 2ε ≤ 2α`, and
-  `1/(5 + 4√2) ≈ 0.09383`; Dey–Wang's upper constant `(3/16) √(3/5) ≈ 0.14524` (`checks.py`).
+  `1/(5 + 4√2) ≈ 0.09383`; Dey–Wang's upper constant `(3/16) √(3/5) ≈ 0.14524`.
 
 ### Examples
 
@@ -1270,24 +1322,25 @@ under moment conditions (Bubenik 2015) are under Beyond.
   `x = 0` it is `0` for `u ≤ 1/2` and `2` for `u ∈ (1/2, 1]`.
 - `massRadius`: for a law with unbounded support, `massRadius μ x 1 = ⊤`; a real-valued infimum
   would give the junk value `0` and make the distance to a measure wrong at `m = 1`.
-- `dtm`: for `μ = (δ₀ + δ₂)/2`, `d_{μ,1/2}(1) = 1` and `d_{μ,1}(0) = √2` (`checks.py`).
+- `dtm`: for `μ = (δ₀ + δ₂)/2`, `d_{μ,1/2}(1) = 1` and `d_{μ,1}(0) = √2`.
 - `dtm`: the stability bound is attained: for `μ = δ₀`, `ν = (1 - m) δ₀ + m δ_L` and mass `m`,
   `d_{μ,m}(L) = L`, `d_{ν,m}(L) = 0` and `m^{-1/2} W₂ = m^{-1/2} L √m = L`; for `m = 1/4`,
-  `L = 3` both sides are `3` (`checks.py`). A bound `W₂` without the factor `m^{-1/2}` fails here.
+  `L = 3` both sides are `3`. A bound `W₂` without the factor `m^{-1/2}` fails here.
 - `kNNDist`: for the sample `{0, 1, 3}` and `x = 0`, `k = 2`, the empirical distance to a measure
-  squared is `(0 + 1)/2` (`checks.py`).
-- `landscape`: for `D = {(0, 4), (1, 3)}` at `t = 2`, `λ_0 = 2` and `λ_1 = 1` (`checks.py`); with
+  squared is `(0 + 1)/2`.
+- `landscape`: for `D = {(0, 4), (1, 3)}` at `t = 2`, `λ_0 = 2` and `λ_1 = 1`; with
   increasing sort order the two would be exchanged.
-- `landscape`: for `D = {(0, 2)}`, `D' = {(0, 3)}`, `sup_t |λ_0(D, t) - λ_0(D', t)| = 1 = d_B`
-  (`checks.py`), so the stability bound is attained.
+- `landscape`: for `D = {(0, 2)}`, `D' = {(0, 3)}`, `sup_t |λ_0(D, t) - λ_0(D', t)| = 1 = d_B`,
+  so the stability bound is attained.
 - `landscape`: `λ_k` beyond the number of bars is `0`, and a bar `(1, 1)` adds a zero tent, so the
   multiset `{(1, 1)}` and the empty multiset have equal landscapes and equal diagrams.
 - `Diagram.ofMultiset`: the multiset `{(0, 1), (0, 1)}` gives multiplicity `2` at `(0, 1)`.
 - The uniform law on `[0, 1]` is `(1, 1)`-standard and not `(2, 1)`-standard (at `x = 0`,
-  `r = 1/4` the mass is `1/4 < 1/2`) (`checks.py`).
-- For `n = 60` uniform points on `[0, 1]` and `ε = 0.1`, the simulated `P(d_H > ε) ≈ 0.003` is
-  below the sampling bound `≈ 1.99` (`checks.py`); the bound becomes informative near
-  `n ≥ 2 log(40)/0.1 ≈ 74`.
+  `r = 1/4` the mass is `1/4 < 1/2`).
+- For `n = 60` uniform points on `[0, 1]` and `ε = 0.1`, `P(d_H > ε) ≈ 0.0037` (inclusion–exclusion
+  over the `n + 1` spacings: the event is that an end spacing exceeds `ε` or an inner one exceeds
+  `2ε`), below the sampling bound `40 e^{-3} ≈ 1.99`; the bound drops below `1` for
+  `n > 20 log 40 ≈ 73.8`, and is `40 e^{-5} ≈ 0.27` at `n = 100`.
 
 - `massRadius`: `massRadius μ x 0 = 0`.
 - `dtm`: for a Dirac measure `δ_y`, `dtm δ_y m x` is `dist x y` for every `m ∈ (0, 1]`.
@@ -1313,7 +1366,7 @@ under moment conditions (Bubenik 2015) are under Beyond.
 
 ## Downstream consumers
 
-No other roadmap consumes the results of this one.
+The KernelsAndSpectralMethods roadmap (§5.4) uses the sampling bound and the rate of 8.4.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -1339,7 +1392,7 @@ under this roadmap.
   law in `L^p` (Bubenik 2015) need central limit theorems in Banach spaces of type 2, which no
   roadmap on main supplies; 8.3 states the `ℓ^∞([0, T])` versions.
 - **Bootstrap confidence sets** for diagrams and landscapes: they need bootstrap consistency for
-  empirical processes, owned by a resampling roadmap in an open pull request.
+  empirical processes, which belongs to the MathematicalStatisticsHigherOrderAndResampling roadmap.
 - **Minimax lower bounds for diagram estimation** (Chazal, Glisse, Labruère and Michel 2015, Le Cam
   two-point arguments): the upper bound is 8.4; the lower bound needs constructions of standard
   laws with distant diagrams.
@@ -1401,7 +1454,7 @@ The locators refer to these editions; page numbers are printed page numbers.
 Papers cited by author, title and year, without locators, with proof routes given here:
 U. Bauer and M. Lesnick (2015), P. Bubenik (2015), F. Chazal, D. Cohen-Steiner and Q. Mérigot
 (2011), F. Chazal, M. Glisse, C. Labruère and B. Michel (2015), F. Chazal and A. Lieutier (2007),
-F. Chazal and S. Oudot (2008), D. Cohen-Steiner, H. Edelsbrunner and D. Morozov (2006),
-D. Cohen-Steiner, H. Edelsbrunner, J. Harer and Y. Mileyko (2010), W. Crawley-Boevey (2015),
-H. Federer (1959), K. Grove (1993), P. Niyogi, S. Smale and S. Weinberger (2008), P. Skraba and
-K. Turner (2020).
+F. Chazal, V. de Silva and S. Oudot (2014), F. Chazal and S. Oudot (2008), D. Cohen-Steiner,
+H. Edelsbrunner and D. Morozov (2006), D. Cohen-Steiner, H. Edelsbrunner, J. Harer and Y. Mileyko
+(2010), W. Crawley-Boevey (2015), H. Federer (1959), K. Grove (1993), P. Niyogi, S. Smale and
+S. Weinberger (2008), P. Skraba and K. Turner (2020).

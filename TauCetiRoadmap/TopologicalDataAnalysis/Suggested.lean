@@ -12,6 +12,8 @@ public import TauCeti.Algebra.Homology.EulerCharacteristic.ChainComplex
 public import TauCeti.Topology.Order.Sublevel
 public import TauCeti.Geometry.Manifold.Morse.Deformation
 public import TauCeti.Geometry.Manifold.Morse.RelCWComplex
+public import TauCeti.Geometry.Manifold.Morse.Index
+public import TauCeti.Geometry.Manifold.Morse.CriticalPoints
 public import TauCeti.RepresentationTheory.Quiver.FiniteRepType.Correspondence
 public import TauCeti.RingTheory.KrullSchmidt.Uniqueness
 
@@ -23,7 +25,26 @@ checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sor
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
 to it, together with the definitions their statements need. The README's other headlines are
 targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+not stated here:
+
+* 4.1, naturality of the comparison: a compatibility of Tau Ceti's
+  `TauCeti.orderedSimplicialHomologyIsoSingularHomology` with the maps induced by a subcomplex,
+  whose Lean form is fixed by the Tau Ceti interface for maps of realizations;
+* 4.3, independence of the reduction: a restatement of `low_eq_iff_cornerRank`, which already
+  expresses every low through `D` alone;
+* 5.3, the volume bound for submanifolds: it needs the `d`-dimensional Hausdorff measure
+  normalised to agree with Lebesgue measure for the Euclidean metric; Mathlib's `μH[d]` agrees
+  with it only for the sup metric on `Fin d → ℝ`;
+* 6.4, intrinsic Čech stability: it needs the intrinsic Čech complex, with centres in the
+  space, which nothing else here uses;
+* 8.3, the uniform strong law and the central limit theorem for landscapes: weak convergence in
+  `ℓ^∞([0, T])` and Donsker classes are MathematicalStatisticsAsymptotic's (§§3.1, 3.4) and are
+  not in the pinned Mathlib or Tau Ceti;
+* 8.4, rates for Rips diagrams: a composition of `bottleneckDist_ripsModule_le_ghDist`,
+  `GromovHausdorff.ghDist_le_hausdorffDist` and `lintegral_hausdorffDist_le`.
+
+The first and third bullets of 3.4 (bar endpoints are critical values; the strong Morse
+inequalities) are consequences of `encard_criticalPoints_index_eq` and its route.
 
 The conventions of the README are used throughout. Coefficients are a field `𝕜 : Type`. A
 persistence module is a functor from `ℝ`, a preorder category, to `ModuleCat 𝕜`. The homology of
@@ -133,11 +154,10 @@ def Diagram : Type := OffDiag → ℕ∞
 /-- The points of a diagram, each repeated according to its multiplicity. -/
 def Diagram.Pt (D : Diagram) : Type := {x : OffDiag × ℕ // (x.2 : ℕ∞) < D x.1}
 
-/-- The rank invariant extended to `EReal` arguments: a `⊥` birth or a `⊤` death coordinate is
-the limit, that is the infimum, over real arguments. -/
+/-- The rank invariant extended to `EReal` arguments, with the module taken to be zero at `⊥`
+and at `⊤`: the value is `0` when an argument is infinite, and `rankInv` at real arguments. -/
 def rankE (V : PersistenceModule 𝕜) (s t : EReal) : ℕ∞ :=
-  ⨅ (s' : ℝ) (t' : ℝ) (_ : s' ≤ t') (_ : s = ⊥ ∨ (s' : EReal) = s) (_ : t = ⊤ ∨ (t' : EReal) = t),
-    rankInv V s' t'
+  if s = ⊥ ∨ s = ⊤ ∨ t = ⊥ ∨ t = ⊤ then 0 else rankInv V s.toReal t.toReal
 
 /-- The diagram of a persistence module: the multiplicity of `(p, q)` is the infimum of the
 rectangle measures `r(b, c) - r(a, c) - r(b, d) + r(a, d)` over rectangles `[a, b] × [c, d]`
@@ -155,9 +175,15 @@ theorem rankInv_eq_encard_of_decomposition (V : PersistenceModule 𝕜)
     rankInv V s t = {j | s ∈ D.I j ∧ t ∈ D.I j}.encard := by
   sorry
 
-/-- **Decomposition of modules of finite type** into finitely many intervals. -/
-theorem exists_intervalDecomposition_of_isFiniteType (V : PersistenceModule 𝕜)
-    (hV : IsFiniteType V) : ∃ D : IntervalDecomposition V, Finite D.ι := by
+/-- **Decomposition of modules of finite type** into finitely many intervals, each of the form
+`[a, a')`, `[a, ∞)`, `(-∞, a')` or `ℝ` with endpoints in a set `A` of critical values as in
+`IsFiniteType`. -/
+theorem exists_intervalDecomposition_of_isFiniteType (V : PersistenceModule 𝕜) (hV : IsPFD V)
+    (A : Finset ℝ) (hA : ∀ s t (h : s ≤ t), (∀ a ∈ A, a ∉ Set.Ioc s t) →
+      IsIso (V.map (homOfLE h))) :
+    ∃ D : IntervalDecomposition V, Finite D.ι ∧ ∀ j,
+      (∃ a ∈ A, ∃ a' ∈ A, a < a' ∧ D.I j = Set.Ico a a') ∨ (∃ a ∈ A, D.I j = Set.Ici a) ∨
+        (∃ a' ∈ A, D.I j = Set.Iio a') ∨ D.I j = Set.univ := by
   sorry
 
 /-- **Crawley-Boevey's theorem**: a pointwise finite-dimensional module is a direct sum of
@@ -243,14 +269,17 @@ def IsInterleaved (V W : PersistenceModule 𝕜) (ε : ℝ≥0) : Prop :=
 def interleavingDist (V W : PersistenceModule 𝕜) : ℝ≥0∞ :=
   ⨅ (ε : ℝ≥0) (_ : IsInterleaved V W ε), (ε : ℝ≥0∞)
 
+/-- **Triangle inequality** for the bottleneck distance. -/
 theorem bottleneckDist_triangle (D E F : Diagram) :
     bottleneckDist D F ≤ bottleneckDist D E + bottleneckDist E F := by
   sorry
 
+/-- The bottleneck distance is at most every `q`-Wasserstein distance with `1 ≤ q`. -/
 theorem bottleneckDist_le_wassersteinDist {q : ℝ} (hq : 1 ≤ q) (D E : Diagram) :
     bottleneckDist D E ≤ wassersteinDist q D E := by
   sorry
 
+/-- **Triangle inequality** for the `q`-Wasserstein distance, `1 ≤ q`. -/
 theorem wassersteinDist_triangle {q : ℝ} (hq : 1 ≤ q) (D E F : Diagram) :
     wassersteinDist q D F ≤ wassersteinDist q D E + wassersteinDist q E F := by
   sorry
@@ -296,10 +325,10 @@ def offsetModule {E : Type} [PseudoMetricSpace E] (A : Set E) (p : ℕ) : Persis
 
 variable {𝕜}
 
-/-- A homological critical value of `f`: across every window `[a - ε, a + ε]` the inclusion fails
-to be an isomorphism in some degree. -/
+/-- A homological critical value of `f`: across every sufficiently small window
+`[a - ε, a + ε]` the inclusion fails to be an isomorphism in some degree. -/
 def IsHomCriticalValue (X : TopCat.{0}) (f : X → ℝ) (a : ℝ) : Prop :=
-  ∀ ε : ℝ, ∀ hε : 0 < ε, ∃ p : ℕ, ¬ IsIso ((sublevelModule 𝕜 X f p).map
+  ∃ ε₀ > 0, ∀ ε : ℝ, ∀ hε : 0 < ε, ε < ε₀ → ∃ p : ℕ, ¬ IsIso ((sublevelModule 𝕜 X f p).map
     (homOfLE (by linarith : a - ε ≤ a + ε)))
 
 variable (𝕜) in
@@ -322,13 +351,37 @@ theorem bottleneckDist_sublevelModule_le (X : TopCat.{0}) (f g : X → ℝ)
       ≤ ENNReal.ofReal δ := by
   sorry
 
-/-- **Confidence sets for diagrams** from a uniform band. -/
+/-- **Confidence sets for diagrams** from a uniform band. This is 3.2 composed with monotonicity
+of the measure; it is stated as the form in which confidence sets are used. -/
 theorem measure_bottleneckDist_le {Ω : Type} [MeasurableSpace Ω] (P : Measure Ω)
     (X : TopCat.{0}) (f : X → ℝ) (fhat : Ω → X → ℝ) (hf : IsTameFunction 𝕜 X f)
     (hfhat : ∀ w, IsTameFunction 𝕜 X (fhat w)) (r : ℝ) (p : ℕ) :
     P {w | ∀ x, |fhat w x - f x| ≤ r} ≤
       P {w | bottleneckDist (rankDiagram (sublevelModule 𝕜 X (fhat w) p))
         (rankDiagram (sublevelModule 𝕜 X f p)) ≤ ENNReal.ofReal r} := by
+  sorry
+
+/-- **Critical points of a Morse function count bars**: on a closed manifold, for a Morse
+function with distinct critical values, the critical points of index `q` are as many as the
+degree-`q` bars plus the finite degree-`(q - 1)` bars, and the infinite degree-`q` bars are as
+many as the dimension of `H_q(M)`. -/
+theorem encard_criticalPoints_index_eq {n : ℕ} {M : Type} [TopologicalSpace M] [T2Space M]
+    [ChartedSpace (EuclideanSpace ℝ (Fin n)) M]
+    [IsManifold (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) ∞ M] [CompactSpace M]
+    {f : M → ℝ} (hf : TauCeti.IsMorse (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) f)
+    (hinj : Set.InjOn f
+      (TauCeti.criticalPoints (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) f))
+    (q : ℕ) :
+    {x | x ∈ TauCeti.criticalPoints (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) f ∧
+        TauCeti.manifoldMorseIndex (modelWithCornersSelf ℝ (EuclideanSpace ℝ (Fin n))) f x =
+          q}.encard =
+      (∑' x : OffDiag, rankDiagram (sublevelModule 𝕜 (TopCat.of M) f q) x) +
+        (if q = 0 then 0 else ∑' x : {x : OffDiag // x.1.2 ≠ ⊤},
+          rankDiagram (sublevelModule 𝕜 (TopCat.of M) f (q - 1)) x.1) ∧
+    ∑' x : {x : OffDiag // x.1.2 = ⊤}, rankDiagram (sublevelModule 𝕜 (TopCat.of M) f q) x.1 =
+      Cardinal.toENat (Module.rank 𝕜
+        (((singularHomologyFunctor (ModuleCat.{0} 𝕜) q).obj (ModuleCat.of 𝕜 𝕜)).obj
+          (TopCat.of M))) := by
   sorry
 
 end Sublevel
@@ -606,8 +659,9 @@ theorem nonempty_iso_homology_nerveComplex [LinearOrder ι] [Finite ι] (X : Top
         (TopCat.of (⋃ i, U i))) := by
   sorry
 
-/-- **Čech persistence is offset persistence** for finite point sets in Euclidean space. -/
-theorem nonempty_iso_cechModule_offsetModule [Finite ι] {D : ℕ}
+/-- **Čech persistence is offset persistence** for finite nonempty point sets in Euclidean
+space. -/
+theorem nonempty_iso_cechModule_offsetModule [Finite ι] [Nonempty ι] {D : ℕ}
     (x : ι → EuclideanSpace ℝ (Fin D)) (p : ℕ) :
     Nonempty (cechModule 𝕜 x p ≅ offsetModule 𝕜 (Set.range x) p) := by
   sorry
@@ -644,7 +698,8 @@ section Inference
 
 variable {𝕜 : Type} [Field 𝕜] {ι : Type}
 
-/-- **The Niyogi–Smale–Weinberger theorem** for a noiseless sample of a compact submanifold. -/
+/-- **The Niyogi–Smale–Weinberger theorem** for a noiseless sample of a compact submanifold. The
+condition `2 ε < r < √(3/5) τ` implies `ε < √(3/20) τ`. -/
 theorem exists_deformationRetraction_offset {D d : ℕ} {N : Type} [TopologicalSpace N]
     [ChartedSpace (EuclideanSpace ℝ (Fin d)) N] [IsManifold (modelWithCornersSelf ℝ
       (EuclideanSpace ℝ (Fin d))) ∞ N] [CompactSpace N] {j : N → EuclideanSpace ℝ (Fin D)}
@@ -654,7 +709,7 @@ theorem exists_deformationRetraction_offset {D d : ℕ} {N : Type} [TopologicalS
     (P : Finset (EuclideanSpace ℝ (Fin D))) (hP : P.Nonempty)
     (hPM : (P : Set (EuclideanSpace ℝ (Fin D))) ⊆ Set.range j) {ε : ℝ}
     (hε : hausdorffDist (P : Set (EuclideanSpace ℝ (Fin D))) (Set.range j) ≤ ε)
-    (hετ : ε < Real.sqrt (3 / 20) * τ) {r : ℝ} (hr : r ∈ Set.Ioo (2 * ε) (Real.sqrt (3 / 5) * τ)) :
+    {r : ℝ} (hr : r ∈ Set.Ioo (2 * ε) (Real.sqrt (3 / 5) * τ)) :
     ∃ hM : Set.range j ⊆ cthickening r (P : Set (EuclideanSpace ℝ (Fin D))),
       ∃ ρ : C(cthickening r (P : Set (EuclideanSpace ℝ (Fin D))), Set.range j),
         (∀ x, ρ (Set.inclusion hM x) = x) ∧
@@ -780,7 +835,7 @@ theorem lintegral_hausdorffDist_le {a b : ℝ} (ha : 0 < a) (hb : 0 < b) :
 
 end Statistics
 
-/-! ## Supplier and README vocabulary -/
+-- Supplier declarations and other names that the README cites.
 
 #check @Monotone.functor
 #check @AlgebraicTopology.singularHomologyFunctor
@@ -808,10 +863,14 @@ end Statistics
 #check @AbstractSimplicialComplex.Realization
 #check @TauCeti.quasiIso_cechTotalAugmentation
 #check @TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace
+#check @ModuleCat.finrank_singularHomology_of_contractibleSpace
 #check @ChainComplex.eulerChar_eq_homologyEulerChar
 #check @TauCeti.sublevelInclusion
 #check @TauCeti.exists_sublevelHomotopyEquiv
 #check @TauCeti.IsMorse.exists_relCWComplex_sublevel_deformation
+#check @TauCeti.IsMorse
+#check @TauCeti.criticalPoints
+#check @TauCeti.manifoldMorseIndex
 #check @TauCeti.gabrielIndecomposableEquivPositiveRoot
 #check @TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end
 #check @TopCat
@@ -819,6 +878,7 @@ end Statistics
 #check @TauCeti.orderedSimplicialHomologyIsoSingularHomology
 #check @TauCeti.cellularChainComplexRealizationIso
 #check @MeasureTheory.Measure.hausdorffMeasure
+#check @MeasureTheory.hausdorffMeasure_pi_real
 #check @TauCeti.cechSingularChainsMap
 #check @convexHull
 #check @EReal.toReal
