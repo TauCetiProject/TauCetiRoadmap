@@ -9,8 +9,10 @@ abelian group, with semigroup ring `k[S]`. The roadmap develops these as tools o
 geometry (normal forms and elimination, normalization, orbits and degrees of semigroup rings,
 subduction, and the flat families that degenerate an ideal or a subalgebra to its initial ideal or
 algebra) and applies them to minors, invariant algebras, explicit surfaces and tree degenerations.
-Division by polynomials with unit leading coefficients works over any commutative ring; the rest is
-over a field, algebraically closed for statements about points.
+Division and normal forms for polynomials with unit leading coefficients, toric ideals and the
+ideal-adic associated graded ring work over any commutative ring, and the identities among minors
+over `ℤ`; reduced bases, completion and SAGBI theory are over a field, algebraically closed for
+statements about points.
 
 The headline theorems are these.
 
@@ -122,8 +124,7 @@ unrelated section.
 
 ## Layer 1: ideals, normal forms and elimination
 
-Cox–Little–O'Shea, division, elimination and Buchberger chapters, and Sturmfels, *Gröbner Bases
-and Convex Polytopes*, for initial ideals and weights. Tau Ceti's
+Cox–Little–O'Shea, Chapters 2–4, and Bossinger, §2.2, for weight-initial ideals. Tau Ceti's
 `TauCeti/RingTheory/MvPolynomial/Groebner/` and `TauCeti/Data/Finsupp/MonomialOrder/` prove most of
 this layer; each section names the pinned declarations and states the targets that remain.
 
@@ -135,7 +136,7 @@ ideal of leading terms of `I`. A remainder is Tau Ceti's `MonomialOrder.IsRemain
 `f = ∑_b g_b · b + r` with `deg b + deg g_b ≤ deg f` for every `b ∈ B` (a bounded-degree division
 representation), and no monomial of `r` is divisible by the leading monomial of a nonzero member
 of `B`. The remainder condition concerns divisibility of monomials, not a comparison of total
-degrees (Cox–Little–O'Shea, division chapter). Remainders exist when every nonzero divisor has a
+degrees (Cox–Little–O'Shea, Chapter 2, §3). Remainders exist when every nonzero divisor has a
 unit leading coefficient (`MonomialOrder.exists_isRemainder`, from Mathlib's
 `MonomialOrder.div_set`). The pinned API includes `MonomialOrder.isGroebnerBasis_self`,
 extension by redundant generators `MonomialOrder.IsGroebnerBasis.mono`, zero removal
@@ -188,9 +189,9 @@ product reduction `NF(NF f · NF g) = NF(f g)`
 *Needs:* Tau Ceti `TauCeti/RingTheory/MvPolynomial/Groebner/NormalForm.lean`.
 
 **Checks.**
-- For `I = (x² − y)` in `ℚ[x, y]` with lex `x > y`, the leading-term ideal is `(x²)`, the standard
-  monomials are the `yᵇ` and `x yᵇ`, and the normal form of `x³` is `x y`. With the order
-  `y > x` instead, the leading term of `x² − y` is `y`, the standard monomials are the `xᵃ`, and the
+-  For `I = (x² − y)` in `ℚ[x, y]` with lex `x > y`, the leading-term ideal is `(x²)`, the standard
+  monomials are the `yᵇ` and `x yᵇ`, and the normal form of `x³` is `x y`. With the order `y > x`
+  instead, the leading monomial of `x² − y` is `y`, the standard monomials are the `xᵃ`, and the
   normal form of `x³` is `x³`: the basis depends on the order.
 
 ### 1.3 Homogeneous ideals
@@ -219,11 +220,12 @@ finitely many variables over a Noetherian ring (`MonomialOrder.wellFounded_remai
 finite Gröbner bases exist (`MonomialOrder.exists_finset_isGroebnerBasis`,
 `MonomialOrder.exists_finset_monic_isGroebnerBasis`).
 
-Prove the termination of S-polynomial completion (Cox–Little–O'Shea, Buchberger chapter): over a
+Prove the termination of S-polynomial completion (Cox–Little–O'Shea, Chapter 2, §§6–7): over a
 field and in finitely many variables, for every finite `G`, every sequence of finite sets
 `G = G₀ ⊂ G₁ ⊂ ⋯` in which `G_(i+1)` adjoins to `G_i` a nonzero remainder, on division by `G_i`, of
-an S-polynomial of two members of `G_i` is finite, and its last member is a Gröbner basis of
-`Ideal.span G` in which every S-polynomial has remainder `0`. No complexity bound is asserted.
+an S-polynomial of two members of `G_i` is finite; and a sequence that cannot be extended, every
+remainder of every S-polynomial of two members of its last set on division by that set being `0`,
+ends at a Gröbner basis of `Ideal.span G`. No complexity bound is asserted.
 *Needs:* Tau Ceti `MonomialOrder.RemainderStep`, `MonomialOrder.wellFounded_remainderStep`,
 `MonomialOrder.isGroebnerBasis_span_iff_isRemainder_sPolynomial_zero`; Mathlib
 `MonomialOrder.sPolynomial`.
@@ -278,7 +280,7 @@ contraction of `I + (f X_none − 1)`, with membership certificates
 saturation `MonomialOrder.IsGroebnerBasis.comap_map_algebraMap_away`, and the colon ideal by a
 regular element `MonomialOrder.IsGroebnerBasis.colon_singleton_eq_span`.
 
-Prove the remaining computations (Cox–Little–O'Shea, elimination chapter):
+Prove the remaining computations (Cox–Little–O'Shea, Chapter 3, §1, and Chapter 4, §§3–4):
 
 - *Intersection.* For an elimination order on `Option σ` eliminating the added variable, the
   members free of the added variable of a Gröbner basis of the auxiliary ideal of
@@ -320,7 +322,7 @@ weight represents every comparison of an arbitrary monomial order. *Needs:* Tau 
 Define `weightInitialForm w f`, the sum of the terms of `f` of maximal `w`-weight (Mathlib's
 `MvPolynomial.weightedHomogeneousComponent` at `MvPolynomial.weightedTotalDegree w f`), and the
 weight-initial ideal `weightInitialIdeal w I`, generated by the weight-initial forms of the elements
-of `I` (Sturmfels, *Gröbner Bases and Convex Polytopes*, initial ideals).
+of `I` (Bossinger, §2.2, with the same maximal-weight convention).
 
 - The weight-initial form of `0` is `0`, that of a weighted homogeneous polynomial is itself, and
   over a domain `in_w(f g) = in_w(f) · in_w(g)`.
@@ -377,9 +379,9 @@ order and weight libraries with the declarations named above. No other layer is 
 
 ## Layer 2: semigroup presentations, normalization and degree
 
-Sturmfels, *Gröbner Bases and Convex Polytopes*, toric ideals; Miller–Sturmfels, semigroup rings
-and their geometry. For finitely many exponents `a_i` in an additive commutative monoid, the
-exponent map is `Finsupp.linearCombination ℕ a : (ι →₀ ℕ) → M` and `S` is its image.
+Sturmfels, *Equations defining toric varieties*, §§1–2; Miller–Sturmfels, Chapter 7. For finitely
+many exponents `a_i` in an additive commutative monoid, the exponent map is
+`Finsupp.linearCombination ℕ a : (ι →₀ ℕ) → M` and `S` is its image.
 
 ### 2.1 The exponent map and the binomial presentation
 
@@ -471,16 +473,19 @@ for a chosen algebra structure `k → ℂ`. *Needs:* §2.3; Tau Ceti
 A *face* of `S` is a submonoid `F` such that `a + b ∈ F` with `a, b ∈ S` forces `a, b ∈ F`. For a
 face `F`, construct its prime monomial ideal, spanned by the monomials of `S ∖ F`, the closed face
 scheme it cuts out, and the orbit `Spec k[gp F]`, a localization of the face scheme. Over an
-algebraically closed field prove:
+algebraically closed field prove (Sturmfels, *Equations defining toric varieties*, Proposition
+1.3(a), over `ℂ`, for the first two statements):
 
 - the geometric points of `Spec k[S]` are the disjoint union of the orbits, one for each face, and
   the orbit of `F` has dimension `rank (gp F)`;
 - the closure of the orbit of `F` is the union of the orbits of the faces contained in `F`, so
   closure is the order of faces;
 - the stabilizer of the orbit of `F` in the torus `Spec k[L_S]` is the diagonalizable group with
-  character group `L_S ⧸ gp F`; the torsion of this group, of order the index of `gp F` in its
-  saturation in `L_S`, gives a finite factor `μ_m` of the stabilizer, which is nonreduced when the
-  characteristic divides `m`;
+  character group `L_S ⧸ gp F`, the kernel of the restriction map `Spec k[L_S] → Spec k[gp F]`
+  through which the torus acts on the orbit. The torsion subgroup `T` of `L_S ⧸ gp F`, of order the
+  index of `gp F` in its saturation in `L_S`, gives the finite diagonalizable factor `Spec k[T]` of
+  the stabilizer, isomorphic to `μ_(m₁) × ⋯ × μ_(m_r)` for `T ≅ ℤ/m₁ ⊕ ⋯ ⊕ ℤ/m_r`; it is nonreduced
+  exactly when the characteristic divides the order of `T`, and `T` need not be cyclic;
 - the normalization map restricts on the orbit of each face of `sat S` to a map of tori, which need
   not be injective on geometric points of boundary orbits.
 
@@ -488,6 +493,14 @@ Supply the dense torus action as a native coaction of `k[L_S]` on `k[S]`, compat
 torus coaction of `TauCeti/Geometry/Toric/Algebraic/TorusAction/`, and compare the faces of a toric
 cone with the faces of its dual semigroup. *Needs:* §§2.2–2.4; Tau Ceti
 `TauCeti/Geometry/Toric/Algebraic/{FaceLocalization,DenseTorus,TorusAction}`.
+
+**Checks.**
+- In `L = ℤ³` let `S` be generated by `(2, 0, 0)`, `(0, 2, 0)`, `(0, 0, 1)`, `(1, 0, 1)` and
+  `(0, 1, 1)`. Then `L_S = ℤ³`, since `(1, 0, 0) = (1, 0, 1) − (0, 0, 1)` and likewise for
+  `(0, 1, 0)`. The third coordinate is nonnegative on `S`, so the elements of `S` with third
+  coordinate `0` form a face `F`, generated by `(2, 0, 0)` and `(0, 2, 0)`. Then
+  `L_S ⧸ gp F ≅ ℤ ⊕ (ℤ/2)²` and the stabilizer is `𝔾_m × μ₂ × μ₂`, whose finite part is not a
+  single `μ_m`; the index of `gp F` in its saturation `ℤ² × 0` is `4`.
 
 ### 2.6 Proj, Hilbert functions and Hilbert series
 
@@ -512,18 +525,19 @@ Mathlib `AlgebraicGeometry.Proj`, `Polynomial.hilbertPoly`.
 
 In the setting of §2.6 let `P` be the convex hull of the degree-one generators `a_i`. For saturated
 `S`, prove the Ehrhart count: the number of elements of degree `n` is the number of lattice points
-of `n P` in the affine lattice of degree-`n` points of `L_S`, a polynomial in `n` of degree
-`dim P`. Construct the lattice-normalized measure on the affine span of `P`, for which a unimodular
-simplex of the **difference lattice** generated by the `a_i − a_j` has volume `1/(dim P)!`, and prove
-that the leading coefficient of the Hilbert polynomial is the normalized measure of `P`. For
-nonsaturated `S`, use the finite normalization `k[S] ⊆ k[sat S]` (§2.3) and its conductor to prove
-that the Hilbert functions differ by a function of lower order, so the leading term is the same.
-Hence the degree of `Proj k[S]`, `(dim P)!` times the leading coefficient, is the normalized volume
-of `P` in the difference lattice. Prove that `Proj k[S]` has dimension `rank L_S − 1`, including the
-case of dimension `0`, and the normalization of a primitive simplex, whose normalized volume is `1`.
-Treat the empty generator family separately: then `S = {0}`, `k[S] = k` in degree `0`,
-`Proj k[S]` is empty, and the formula `rank L_S − 1` does not apply. *Needs:* §§2.3, 2.6; Mathlib
-`Module.Basis.addHaar`, `convexHull`, `Polynomial.hilbertPoly`.
+of `n P` in the affine lattice of degree-`n` points of `L_S`, a polynomial in `n` of degree `dim P`.
+Construct the lattice-normalized measure on the affine span of `P`, for which a unimodular simplex
+of the **difference lattice** generated by the `a_i − a_j` has volume `1/(dim P)!`, and prove that
+the leading coefficient of the Hilbert polynomial is the normalized measure of `P`. For nonsaturated
+`S`, use the finite normalization `k[S] ⊆ k[sat S]` (§2.3) and its conductor to prove that the
+Hilbert functions differ by a function of lower order, so the leading term is the same. Hence the
+degree of `Proj k[S]`, `(dim P)!` times the leading coefficient, is the normalized volume of `P` in
+the difference lattice (Sturmfels, *Equations defining toric varieties*, Theorem 1.4, over `ℂ`, with
+the volume normalized in the lattice affinely generated by the `a_i`). Prove that `Proj k[S]` has
+dimension `rank L_S − 1`, including the case of dimension `0`, and the normalization of a primitive
+simplex, whose normalized volume is `1`. Treat the empty generator family separately: then
+`S = {0}`, `k[S] = k` in degree `0`, `Proj k[S]` is empty, and the formula `rank L_S − 1` does not
+apply. *Needs:* §§2.3, 2.6; Mathlib `Module.Basis.addHaar`, `convexHull`, `Polynomial.hilbertPoly`.
 
 **Checks.**
 - For generators `(1, 0), (1, 2)` (degree the first coordinate), `k[S] ≅ k[s, s t²]` is a
@@ -546,8 +560,7 @@ declarations named above; Mathlib `AddMonoidAlgebra`, `Proj`, `Polynomial.hilber
 
 ## Layer 3: subalgebras, SAGBI bases and subduction
 
-Bruns–Conca–Lembo, §2; Sturmfels, *Gröbner Bases and Convex Polytopes*, initial algebras. Fields
-throughout.
+Bruns–Conca–Lembo, §2. Fields throughout.
 
 ### 3.1 Initial algebras and SAGBI bases
 
@@ -636,7 +649,10 @@ of `0`, so that a relation of degree `0` such as `Y_i − 1` for a constant `c_i
 
 Set `F_j = β_j − Q_j`. Prove `φ_c(F_j) = 0` and that the top `A`-homogeneous part of `F_j`, the sum of
 its terms of maximal `A`-exponent, is exactly `β_j`. Prove `ker_aeval_eq_span_sub_of_lifts`: the
-`F_j` generate the kernel of `φ_c` (Bruns–Conca–Lembo, §2, Theorem 2.2). Route: decrease the
+`F_j` generate the kernel of `φ_c` (Bruns–Conca–Lembo, §2, Theorem 2.2). This holds for any family
+`c` of monic polynomials and any family of binomials generating the toric ideal, finite or not, a
+binomial with `u_j = v_j` included; Bruns–Conca–Lembo allow countable families, and the induction
+uses no finiteness. Route: decrease the
 maximal `A`-exponent of a polynomial expression in the kernel. Its cancelling top block lies in the
 kernel of `ψ₁`; by the `A`-grading of that kernel the block is a combination of monomial multiples of
 the `β_j`, all at that same exponent; replacing each `β_j` by `Q_j` lowers the maximal exponent. This
@@ -664,8 +680,10 @@ bounds. This comparison keeps the original subalgebra and its presentation, rath
 the binomial relations of §3.4, together with its expression in the previous generators, divides it
 by its nonzero leading coefficient and records that scalar in the presentation maps of §3.6. Prove
 that if the initial algebra of `A` is finitely generated, every fair completion, one that processes
-every relation of every stage, ends after finitely many steps at a finite SAGBI basis of `A`; without
-that hypothesis completion may run forever, even for a finitely generated `A`. *Needs:* §§3.3–3.6.
+every relation of every stage, started from a finite family generating `A`, ends after finitely many
+steps at a finite SAGBI basis of `A` (Bruns–Conca–Lembo, §2, p. 5, the completion following
+Proposition 2.4); without that hypothesis completion may run forever, even for a finitely generated
+`A`. *Needs:* §§3.3–3.6.
 
 ### Examples
 
@@ -725,15 +743,16 @@ contains `t⁻¹`. *Needs:* Mathlib `reesAlgebra`, `LaurentPolynomial`, `DirectS
 
 ### 4.3 Homogenization and t-saturation
 
-Define `weightHomogenization w f`, the polynomial of `k[t][x]` obtained from `f ∈ k[x]` by
-replacing each term `c xᵉ` by `c t^(D − w(e)) xᵉ`, where `D` is the maximal weight of a term of `f`;
-its value at `t = 1` is `f` and at `t = 0` is `weightInitialForm w f`. Define the ideal
-`weightDegenerationIdeal w I`, generated by the homogenizations of **all** elements of `I`. Build the
-homogenized polynomial presentation of the Rees algebra of `k[x]/I` for the weight filtration and
-prove that it is `t`-saturated: `t g ∈ weightDegenerationIdeal w I` forces
-`g ∈ weightDegenerationIdeal w I`. Homogenizing only chosen generators can fail to be saturated, and
-multiplying an equation by a power of `t` can create an unwanted component at `t = 0`. *Needs:* §4.1;
-Layer 1 §1.9.
+Define `weightHomogenization w f`, the polynomial of `k[t][x]` obtained from `f ∈ k[x]` by replacing
+each term `c xᵉ` by `c t^(D − w(e)) xᵉ`, where `D` is the maximal weight of a term of `f`; its value
+at `t = 1` is `f` and at `t = 0` is `weightInitialForm w f`. Define the ideal
+`weightDegenerationIdeal w I`, generated by the homogenizations of **all** elements of `I`. Build
+the homogenized polynomial presentation of the Rees algebra of `k[x]/I` for the weight filtration
+and prove that it is `t`-saturated: `t g ∈ weightDegenerationIdeal w I` forces
+`g ∈ weightDegenerationIdeal w I` (Eisenbud, *Commutative Algebra*, §15.8; Bossinger, §2.2, where
+the quotient is a free `k[t]`-module). Homogenizing only chosen generators can fail to be saturated,
+and multiplying an equation by a power of `t` can create an unwanted component at `t = 0`. *Needs:*
+§4.1; Layer 1 §1.9.
 
 **Checks.**
 - For `I = (x − y², y)` and `w = (1, 1)` (Layer 1 §1.9), the homogenized generators generate
@@ -746,12 +765,14 @@ Layer 1 §1.9.
 Prove `weightDegeneration_flat_and_fibres`: for an ideal `I` of `k[x₁, …, xₙ]` (finitely generated,
 since the variables are finite) and a weight `w`, the quotient of `k[t][x]` by
 `weightDegenerationIdeal w I` is flat over `k[t]`, its fibre at `t = 0` is cut out by
-`weightInitialIdeal w I`, and its fibre at `t = 1` by `I`. Route: by §4.3 the quotient is
-`t`-torsion free, it embeds in its localization at `t`, which is `(k[x]/I)[t, t⁻¹]` after the
-substitution `x_i ↦ t^(w_i) x_i`, so it is torsion free over the principal ideal domain `k[t]`, and
-torsion-free modules over a Dedekind domain are flat (Mathlib `IsDedekindDomain.flat_iff_torsion_eq_bot`).
-Identify every fibre over `k` and every base change along `k[t] → k[t]`. *Needs:* §4.3; Mathlib
-`IsDedekindDomain.flat_iff_torsion_eq_bot`, `Polynomial.evalRingHom`.
+`weightInitialIdeal w I`, and its fibre at `t = 1` by `I` (Eisenbud, *Commutative Algebra*, §15.8,
+Theorem 15.17; Bossinger, §2.2, over an algebraically closed field of characteristic `0`). Route: by
+§4.3 the quotient is `t`-torsion free, it embeds in its localization at `t`, which is
+`(k[x]/I)[t, t⁻¹]` after the substitution `x_i ↦ t^(w_i) x_i`, so it is torsion free over the
+principal ideal domain `k[t]`, and torsion-free modules over a Dedekind domain are flat (Mathlib
+`IsDedekindDomain.flat_iff_torsion_eq_bot`). Identify every fibre over `k` and every base change
+along `k[t] → k[t]`. *Needs:* §4.3; Mathlib `IsDedekindDomain.flat_iff_torsion_eq_bot`,
+`Polynomial.evalRingHom`.
 
 **Checks.**
 - For `I = (x² − y)` and `w = (1, 1)`, the family is `k[t][x, y]/(x² − t y)`: at `t = 1` it is
@@ -851,16 +872,18 @@ ranks from the existence of an eventual polynomial. *Needs:* §4.7; SchemeAndSta
 ### 4.9 Hilbert functions, Hilbert series and syzygies of graded modules
 
 For every finitely generated `ℤ`-graded module `M` over a standard graded polynomial ring
-`κ[x₀, …, x_N]` (bounded below, graded shifts allowed), define its Hilbert function
-`n ↦ dim_κ M_n`, its formal Laurent Hilbert series and its eventual Hilbert polynomial. Prove the
-graded Hilbert syzygy theorem: `M` has a finite graded free resolution
-`0 → ⊕ S(−d)^(b_(N+1,d)) → ⋯ → ⊕ S(−d)^(b_(0,d)) → M → 0` of length at most `N + 1`. Prove
-rationality: the Hilbert series is `(∑_d k_d T^d)/(1 − T)^(N+1)` with the alternating syzygy
-numerator `k_d = ∑_i (−1)^i b_(i,d)`, and compare the eventual polynomial with Mathlib's
-`Polynomial.hilbertPoly`. Compare with Layer 2's monoid-counting functions. Here `κ` denotes the
-field `k`, in SchemeAndStackFoundations' fixed-field notation. *Needs:* Layer 2 §2.6; Mathlib
-`Polynomial.hilbertPoly`, `Polynomial.eq_hilbertPoly_of_forall_coeff_eq_eval`; Tau Ceti graded free
-resolutions `TauCeti/Algebra/Category/GradedModuleCat/`.
+`κ[x₀, …, x_N]` (bounded below, graded shifts allowed), define its Hilbert function `n ↦ dim_κ M_n`,
+its formal Laurent Hilbert series and its eventual Hilbert polynomial. Prove the graded Hilbert
+syzygy theorem: `M` has a finite graded free resolution
+`0 → ⊕ S(−d)^(b_(N+1,d)) → ⋯ → ⊕ S(−d)^(b_(0,d)) → M → 0` of length at most `N + 1` (Eisenbud,
+*Lectures on the Geometry of Syzygies*, Theorem 1.3). Prove rationality: the Hilbert series is
+`(∑_d k_d T^d)/(1 − T)^(N+1)` with the alternating syzygy numerator `k_d = ∑_i (−1)^i b_(i,d)`
+(Eisenbud, *Lectures on the Geometry of Syzygies*, Theorem 1.1 and its proof), and compare the
+eventual polynomial with Mathlib's `Polynomial.hilbertPoly`. Compare with Layer 2's monoid-counting
+functions. Here `κ` denotes the field `k`, in SchemeAndStackFoundations' fixed-field notation.
+*Needs:* Layer 2 §2.6; Mathlib `Polynomial.hilbertPoly`,
+`Polynomial.eq_hilbertPoly_of_forall_coeff_eq_eval`; Tau Ceti graded free resolutions
+`TauCeti/Algebra/Category/GradedModuleCat/`.
 
 **Checks.**
 - For a conic `S/(q)` in `ℙ²`, the resolution is `0 → S(−2) → S`, the Hilbert series is
@@ -872,16 +895,18 @@ Construct the graded-module sheafification API on `ℙᴺ_A`: restriction and lo
 exactness of `M ↦ M~`, `S(−d)~ = O(−d)`, `(S/I)~ = i_* O_X` for the closed subscheme `X` of a
 homogeneous ideal `I`, and the comparison of `(S/I)_m` with `Γ(X, O_X(m))` for all sufficiently
 large `m`. Prove that every coherent sheaf on `ℙᴺ_κ` is the sheafification of a finitely generated
-graded module, and sheafify the graded free resolutions of §4.9 to locally free resolutions. For
-every closed subscheme `X` of `ℙᴺ_A` over a Noetherian ring `A`, construct its saturated homogeneous
-ideal presentation, and prove the comparison between closed subschemes and saturated presentations,
-its compatibility with restriction, and base change of Proj. For `X` flat over `A = κ[t]`, prove that
-the saturated graded quotient is torsion free over `κ[t]`, using the projective affine charts and
-saturation, so that each graded piece is finite free; identify the fibre schemes with Proj of the
-base-changed quotient, and deduce that the fibres have the same Hilbert polynomial by the comparison
-of sections in large degree. The Hilbert functions in small degrees of the separately saturated
-fibre presentations need not be constant. This supplies the general scheme-flat family used in
-§4.11. *Needs:* §4.9; SchemeAndStackFoundations §§0.3, 2.6; Mathlib `AlgebraicGeometry.Proj`.
+graded module (Stacks Project, Tag 0BXF), and sheafify the graded free resolutions of §4.9 to
+locally free resolutions. For every closed subscheme `X` of `ℙᴺ_A` over a Noetherian ring `A`,
+construct its saturated homogeneous ideal presentation, and prove the comparison between closed
+subschemes and saturated presentations, its compatibility with restriction, and base change of Proj.
+For `X` flat over `A = κ[t]`, prove that the saturated graded quotient is torsion free over `κ[t]`,
+using the projective affine charts and saturation, so that each graded piece is finite free;
+identify the fibre schemes with Proj of the base-changed quotient, and deduce that the fibres have
+the same Hilbert polynomial by the comparison of sections in large degree (Eisenbud, *Lectures on
+the Geometry of Syzygies*, Theorem 1.5). The Hilbert functions in small degrees of the separately
+saturated fibre presentations need not be constant. This supplies the general scheme-flat family
+used in §4.11. *Needs:* §4.9; SchemeAndStackFoundations §§0.3, 2.6; Mathlib
+`AlgebraicGeometry.Proj`.
 
 **Checks.**
 - For `X = V(x₀) ⊆ ℙ¹`, a point, `(S/(x₀))_m = κ` for every `m ≥ 0` and `Γ(X, O_X(m)) = κ`; the
@@ -895,22 +920,23 @@ vanishing and proper pushforward on `G₀` from SchemeAndStackFoundations §§0.
 `K₀` and `G₀` of a scheme are *Chow.K0* and *Chow.G0*. For `π : ℙᴺ_κ → Spec κ`, define the
 Hilbert-polynomial map `[F] ↦ (m ↦ rank π_!([F] · [O(m)]))` and prove its additivity, polynomiality
 and independence of representatives. Prove that `K₀(ℙᴺ_κ)` is free on the classes `[O(−i)]`,
-`0 ≤ i ≤ N`, and that the Hilbert-polynomial map is injective: for spanning, express the class of a
-coherent sheaf through the `O(d)` by the graded free resolutions of §§4.9–4.10, prove that the exact
-Koszul complex of the coordinates gives `(1 − [O(−1)])^(N+1) = 0`, and reduce all twists to the
-basis; for independence use the binomial Euler polynomials `m ↦ C(m − i + N, N)` of the `O(m − i)`.
-For the standard-graded flat family of §4.6 embedded in a fixed `ℙᴺ_(κ[t])`, prove
-`[i_(0*) O_(X₀)] = [i_(1*) O_(X₁)]` in `Chow.K0(ℙᴺ_κ)`: form the coherent pushforward classes in
-`Chow.G0`, transport them through SchemeAndStackFoundations' `K0.toG0_bijective` for the regular
-ambient projective space, identify the polynomial of each fibre class with its preserved Hilbert
-polynomial, and conclude by injectivity. For a nonstandard family, use the fixed projective embedding
-from the chosen Veronese algebra (§4.7) and state the equality in the `K₀` of that embedding's
-ambient `ℙᴹ_κ`. For the standard-graded flat initial families, including those regraded by a
-Veronese algebra, also prove the direct numerator formula `[i_* O_X] = ∑_d k_d [O(−d)]` with
-`∑_d k_d T^d = HS_(S/I)(T) (1 − T)^(N+1)`; their preserved full Hilbert function makes the numerators
-equal. The two classes lie in the one ambient group; no identification of the intrinsic `K₀` groups or
-cohomology rings of the fibres is asserted. *Needs:* §§4.6–4.10; SchemeAndStackFoundations §§0.3,
-2.6, 5.7.
+`0 ≤ i ≤ N` (Weibel, *The K-book*, Theorem II.8.6), and that the Hilbert-polynomial map is
+injective: for spanning, express the class of a coherent sheaf through the `O(d)` by the graded free
+resolutions of §§4.9–4.10, prove that the exact Koszul complex of the coordinates gives
+`(1 − [O(−1)])^(N+1) = 0`, and reduce all twists to the basis; for independence use the binomial
+Euler polynomials `m ↦ C(m − i + N, N)` of the `O(m − i)`. For the standard-graded flat family of
+§4.6 embedded in a fixed `ℙᴺ_(κ[t])`, prove `[i_(0*) O_(X₀)] = [i_(1*) O_(X₁)]` in *Chow.K0* of
+`ℙᴺ_κ`: form the coherent pushforward classes in *Chow.G0*, transport them through
+SchemeAndStackFoundations' *Chow.K0.toG0_bijective* for the regular ambient projective space
+(Weibel, *The K-book*, Theorem II.8.2), identify the polynomial of each fibre class with its
+preserved Hilbert polynomial, and conclude by injectivity. For a nonstandard family, use the fixed
+projective embedding from the chosen Veronese algebra (§4.7) and state the equality in the `K₀` of
+that embedding's ambient `ℙᴹ_κ`. For the standard-graded flat initial families, including those
+regraded by a Veronese algebra, also prove the direct numerator formula
+`[i_* O_X] = ∑_d k_d [O(−d)]` with `∑_d k_d T^d = HS_(S/I)(T) (1 − T)^(N+1)`; their preserved full
+Hilbert function makes the numerators equal. The two classes lie in the one ambient group; no
+identification of the intrinsic `K₀` groups or cohomology rings of the fibres is asserted. *Needs:*
+§§4.6–4.10; SchemeAndStackFoundations §§0.3, 2.6, 5.7.
 
 **Checks.**
 - On `ℙ¹`, the Koszul complex `0 → O(−2) → O(−1)² → O → 0` gives
@@ -932,8 +958,8 @@ coefficient subalgebras, Veronese generation, relative Proj and graded resolutio
 
 ## Layer 5: minor, flag-minor and invariant algebras
 
-Miller–Sturmfels, Chapter 14; Kogan–Miller, flag toric degeneration; Borovik–Hibi, §1; Reichstein,
-Theorem 1.7; Thiéry–Thomassé.
+Miller–Sturmfels, Chapter 14; Kogan–Miller, Theorem 5; Borovik–Hibi, §1; Hashimoto, Theorem 17;
+Reichstein, Theorem 1.7; Thiéry–Thomassé, Theorem 1.2.
 
 ### 5.1 Generic minors and their diagonal leading terms
 
@@ -992,23 +1018,24 @@ polynomial algebra; identifications with schemes and sections are consumers'. *N
 For an `n × n` generic matrix take the flag minors `flagMinorFamily k n`: for each nonempty row set
 `I = {i₀ < ⋯ < i_(d−1)}`, the minor on the rows `I` and the first `d = #I` columns; there are
 `2ⁿ − 1` of them, including the determinant, and the diagonal exponent of `I` is that of
-`∏_(c<d) z_(i_c, c)`. Prove `flagMinorFamily_isSAGBIBasis`: the flag minors form a SAGBI basis for the
-diagonal order (Miller–Sturmfels, Theorem 14.11), and their standard monomials, indexed by
-semistandard tableaux, form a basis of the flag-minor algebra, with its fundamental multigrading in
-which a minor of size `d` has degree the `d`-th fundamental weight. Identify the initial exponent
-monoid with the nonnegative part of Tau Ceti's `TauCeti.GTPattern n`: construct the pointwise
-`AddCommMonoid` API on patterns, its nonnegative `AddSubmonoid`, and `TauCeti.GTPattern.shift m` as
-addition of the constant pattern `m`. The map from a diagonal exponent `e` to a pattern is
-`patternEntry e`, whose entry in column `c` and row `j` is `∑_(r<j) e(r, c)` for `j ≤ n` and `0` for
-`n < j`. Prove `exists_leadingExponents_equiv_gtPattern`: this map is a bijection from the leading
-exponents of the flag-minor algebra onto the patterns with nonnegative entries, with inverse by
-successive differences `e(r, c) = P(c, r + 1) − P(c, r)`, and it is additive (Miller–Sturmfels, Lemma
-14.13, Proposition 14.22, Theorem 14.23 and Corollary 14.24, transposed). Prove its interlacing and
-nonnegativity, the finite generation and saturation of the monoid, the comparisons of patterns with
-tableaux and contents through `TauCeti.gtPatternEquivSSYT`, and the Rees degeneration of Layer 4
-§4.5 (Kogan–Miller). The **initial** algebra is the semigroup algebra of patterns; the flag algebra
-itself is not toric. *Needs:* §5.1; Layer 3 §§3.4–3.5; Layer 4 §4.5; Tau Ceti `TauCeti.GTPattern`,
-`TauCeti.gtPatternEquivSSYT`, `TauCeti.BoundedSSYT`.
+`∏_(c<d) z_(i_c, c)`. Prove `flagMinorFamily_isSAGBIBasis`: the flag minors form a SAGBI basis for
+the diagonal order (Miller–Sturmfels, Theorem 14.11; Kogan–Miller, Theorem 5, over `ℂ`), and their
+standard monomials, indexed by semistandard tableaux, form a basis of the flag-minor algebra, with
+its fundamental multigrading in which a minor of size `d` has degree the `d`-th fundamental weight.
+Identify the initial exponent monoid with the nonnegative part of Tau Ceti's `TauCeti.GTPattern n`:
+construct the pointwise `AddCommMonoid` API on patterns, its nonnegative `AddSubmonoid`, and
+`TauCeti.GTPattern.shift m` as addition of the constant pattern `m`. The map from a diagonal
+exponent `e` to a pattern is `patternEntry e`, whose entry in column `c` and row `j` is
+`∑_(r<j) e(r, c)` for `j ≤ n` and `0` for `n < j`. Prove `exists_leadingExponents_equiv_gtPattern`:
+this map is a bijection from the leading exponents of the flag-minor algebra onto the patterns with
+nonnegative entries, with inverse by successive differences `e(r, c) = P(c, r + 1) − P(c, r)`, and
+it is additive (Miller–Sturmfels, Lemma 14.13, Proposition 14.22, Theorem 14.23 and Corollary 14.24,
+transposed). Prove its interlacing and nonnegativity, the finite generation and saturation of the
+monoid, the comparisons of patterns with tableaux and contents through `TauCeti.gtPatternEquivSSYT`,
+and the Rees degeneration of Layer 4 §4.5 (Kogan–Miller, Theorem 5). The **initial** algebra is the
+semigroup algebra of patterns; the flag algebra itself is not toric. *Needs:* §5.1; Layer 3
+§§3.4–3.5; Layer 4 §4.5; Tau Ceti `TauCeti.GTPattern`, `TauCeti.gtPatternEquivSSYT`,
+`TauCeti.BoundedSSYT`.
 
 **Checks.**
 - The determinant of the `n × n` matrix has diagonal exponent `∑_c e_(c,c)`, and its pattern has
@@ -1034,18 +1061,23 @@ and with the rational-weight branching of ClassicalGroups Layer 6 (§6.1). *Need
 
 ### 5.5 SL₂-invariants of n × 2 matrices
 
-For generic `n × 2` matrices over a field `k`, with the right action `Z ↦ Z g`, prove that the
-`2 × 2` minors generate the invariant algebra of the group scheme `SL₂`, through the coaction of Tau
-Ceti's `TauCeti.SpecialLinear.coordinateHopfAlgebra k 2` on `MvPolynomial (Fin n × Fin 2) k`, with
-its native base-change isomorphisms. Use `TauCeti.Comodule`,
-`TauCeti.SpecialLinear.standardComodule` and `TauCeti.Comodule.fixedSubcomodule`. Fix the right
-coaction by `z_(i,r) ↦ ∑_s z_(i,s) ⊗ x_(s,r)`, each row being a copy of the standard comodule. Build
-the multiplicative map by `MvPolynomial.aeval`, prove coassociativity and the counit law on
-generators, and give its fixed submodule the resulting subalgebra structure. Prove the invariant
-theorem by straightening (§5.2), in every characteristic. Compare with the invariants of the
-`k`-points over an infinite field `k`; invariants of the points over a finite field need a separate
-comparison and are not substituted for group-scheme invariants. *Needs:* §5.2; Tau Ceti
-`TauCeti/Algebra/AlgebraicGroup/SpecialLinear/`, `TauCeti/Algebra/Coalgebra/Comodule/`.
+For generic `n × 2` matrices over a field `k`, with the right action `Z ↦ Z g`, prove
+`equalizer_sl2Coaction_eq_adjoin_minors`: the `2 × 2` minors generate the invariant algebra of the
+group scheme `SL₂`, the polynomials `f` whose coaction is `f ⊗ 1` (Hashimoto, Theorem 17, over every
+commutative ring, for the symplectic group of a plane, which is `SL₂`, whose pairings are the
+`2 × 2` minors). The coaction is that of Tau Ceti's
+`TauCeti.SpecialLinear.coordinateHopfAlgebra k 2` on `MvPolynomial (Fin n × Fin 2) k`, with its
+native base-change isomorphisms. Use `TauCeti.Comodule`, `TauCeti.SpecialLinear.standardComodule`
+and `TauCeti.Comodule.fixedSubcomodule`. Fix the right coaction `sl2Coaction k n` by
+`z_(i,r) ↦ ∑_s z_(i,s) ⊗ x_(s,r)`, where `x` is the image of
+`TauCeti.GeneralLinear.genericMatrix k 2` under `TauCeti.SpecialLinear.coordinateMap k 2`, each row
+being a copy of the standard comodule. Build the multiplicative map by `MvPolynomial.aeval`, prove
+coassociativity and the counit law on generators, and give its fixed submodule the resulting
+subalgebra structure. Prove the invariant theorem by straightening (§5.2), in every characteristic.
+Compare with the invariants of the `k`-points over an infinite field `k`; invariants of the points
+over a finite field need a separate comparison and are not substituted for group-scheme invariants.
+*Needs:* §5.2; Tau Ceti `TauCeti/Algebra/AlgebraicGroup/SpecialLinear/`,
+`TauCeti/Algebra/Coalgebra/Comodule/`.
 
 **Checks.**
 - For `n = 1` the invariants are the constants, and there is no minor; for `n = 2` they are
@@ -1057,20 +1089,20 @@ comparison and are not substituted for group-scheme invariants. *Needs:* §5.2; 
 
 For a group `G` of permutations of the variables, construct the invariant subalgebra
 `permInvariants k G` and its basis of orbit sums of monomials. Prove
-`exists_finite_isSAGBIBasis_permInvariants_iff`: for every monomial order, the invariant algebra has a
-finite SAGBI basis if and only if `G` is generated by the transpositions it contains, equivalently `G`
-is the product of the full symmetric groups of its orbits (Göbel's conjecture: Reichstein,
-Theorem 1.7; Thiéry–Thomassé). The elementary symmetric polynomials of each orbit (Mathlib
-`MvPolynomial.esymm`) supply the positive case; prove the other case through the monoid of leading
-exponents of invariants. The statement concerns the given permutation coordinates, not every linear
-change of variables. For the alternating group, in characteristic different from `2` and for `n ≥ 2`,
-give the presentation of the invariant algebra by `k[e₁, …, eₙ, Δ]` with `Δ = ∏_(i<j) (x_i − x_j)`
-and the relation `Δ² = disc(e₁, …, eₙ)`, the discriminant written in the elementary symmetric
-polynomials (Mathlib `Matrix.det_vandermonde`, Tau Ceti `TauCeti.alternant`). For `n ≥ 3` deduce from
-the permutation criterion that the invariants of the alternating group have no finite SAGBI basis, for
-every order and in every characteristic. Treat `n = 1` separately: the alternating group is trivial
-and its invariant algebra is `k[x]`. *Needs:* Layer 3 §§3.1, 3.3; Mathlib
-`MvPolynomial.symmetricSubalgebra`, `MvPolynomial.esymmAlgEquiv`.
+`exists_finite_isSAGBIBasis_permInvariants_iff`: for every monomial order, the invariant algebra has
+a finite SAGBI basis if and only if `G` is generated by the transpositions it contains, equivalently
+`G` is the product of the full symmetric groups of its orbits (Göbel's conjecture: Reichstein,
+Theorem 1.7; Thiéry–Thomassé, Theorem 1.2). The elementary symmetric polynomials of each orbit
+(Mathlib `MvPolynomial.esymm`) supply the positive case; prove the other case through the monoid of
+leading exponents of invariants. The statement concerns the given permutation coordinates, not every
+linear change of variables. For the alternating group, in characteristic different from `2` and for
+`n ≥ 2`, give the presentation of the invariant algebra by `k[e₁, …, eₙ, Δ]` with
+`Δ = ∏_(i<j) (x_i − x_j)` and the relation `Δ² = disc(e₁, …, eₙ)`, the discriminant written in the
+elementary symmetric polynomials (Mathlib `Matrix.det_vandermonde`, Tau Ceti `TauCeti.alternant`).
+For `n ≥ 3` deduce from the permutation criterion that the invariants of the alternating group have
+no finite SAGBI basis, for every order and in every characteristic. Treat `n = 1` separately: the
+alternating group is trivial and its invariant algebra is `k[x]`. *Needs:* Layer 3 §§3.1, 3.3;
+Mathlib `MvPolynomial.symmetricSubalgebra`, `MvPolynomial.esymmAlgEquiv`.
 
 **Checks.**
 - In three variables with lex `x > y > z` and characteristic different from `2`, with
@@ -1177,7 +1209,9 @@ for the existence and uniqueness of paths. Prove the description of the generate
 conditions, its full rank `2n − 3`, the nonnegative triangle inequalities at the internal vertices
 describing the cone, and normality, by decomposing integral points into paths. Build the quartet
 binomial ideal, one binomial for each four-leaf subtree, and prove that it is the whole presentation
-ideal of the path semigroup. *Needs:* Layer 2 §§2.1–2.3.
+ideal of the path semigroup (Speyer–Sturmfels, proof of Corollary 4.4). Normality also follows from
+the squarefree initial ideal of that ideal found there (Sturmfels, *Equations defining toric
+varieties*, Theorem 2.11). *Needs:* Layer 2 §§2.1–2.3.
 
 ### 6.5 Tree degenerations of the Plücker algebra of 2-planes
 
@@ -1190,7 +1224,8 @@ Lengths of leaf edges change the weights by a leaf grading and do not change the
 ideal. Fix the labels by a planar embedding of the tree and its linearized circular leaf order `ρ`:
 for `i < j` put `ε_ij = +1` if `ρ(i) < ρ(j)` and `−1` otherwise. Construct the involution of the
 `k`-algebra `k[P_ij : i < j]` with `P_ij ↦ ε_ij P_ij`, and prove that for the path-length weights it
-carries the toric ideal of §6.4 to the maximal-weight Plücker initial ideal; the pure-difference
+carries the toric ideal of §6.4 to the maximal-weight Plücker initial ideal (Speyer–Sturmfels, proof
+of Theorem 3.4, identity (10)); the pure-difference
 ideal itself appears when the circular order is `1, …, n`. Prove the whole equality of initial
 ideals, not only the initial forms of the relations, and compare Hilbert bases and counts with
 Layer 5. Construct the flat affine and projective families with this fibre (Layer 4 §§4.4, 4.6) and
@@ -1209,10 +1244,14 @@ and its additive inverse. *Needs:* §6.4; Layer 4 §§4.4, 4.6; Layer 5 §§5.1�
 
 ### 6.6 Dimension and degree of the Plücker algebra of 2-planes
 
-Compute the projective dimension `2n − 4` and the degree `catalan (n − 2)` (Mathlib `catalan`) of the
-Plücker algebra of `2`-planes in `kⁿ`, including its Hilbert function and the leading coefficient
-of its Hilbert polynomial, through the tree degeneration of §6.5 and Layer 2 §2.7. Treat `n = 2`
-separately, where the Grassmannian is a point. *Needs:* §6.5; Layer 2 §2.7; Layer 4 §4.6.
+Prove `exists_hilbertPolynomial_pluckerMap_two`: for a field `k` and `n ≥ 2`, the dimension of the
+degree-`m` piece of the image of `pluckerMap k n 2`, the Plücker algebra of `2`-planes in `kⁿ`, is
+for all large `m` the value at `m` of a polynomial of degree `2n − 4` with leading coefficient
+`catalan (n − 2)/(2n − 4)!` (Mathlib `catalan`). So the projective dimension is `2n − 4` and the
+degree is `catalan (n − 2)` (Speyer–Sturmfels, proof of Theorem 3.4). Compute the Hilbert function
+through the tree degeneration of §6.5 and Layer 2 §2.7. The case `n = 2`, where the Grassmannian is
+a point, is included, with the polynomial `1`. *Needs:* §6.5; Layer 2 §2.7; Layer 4 §4.6; Layer 5
+§5.2.
 
 **Checks.**
 - For `n = 4` the degree is `catalan 2 = 2` (a quadric in `ℙ⁵`), and the Hilbert function in degree
@@ -1233,8 +1272,10 @@ outside this polynomial scope. *Needs:* Layer 5 §5.3; ClassicalGroups Layer 6.
 - Expanding, `a f − b e + c d = 0` is the Laplace expansion of a `3 × 3` determinant with a repeated
   column; the diagonals of `a f` and `b e` are both `z₀₀ z₁₀ z₂₁`, while that of `c d` is
   `z₀₀ z₁₁ z₂₀`, which is smaller.
-- The coefficient of `u v` in the Hilbert series is `3 · 3 − 1 = 8`, the dimension of the
-  `GL₃`-representation of highest weight `(2, 1, 0)`.
+- The coefficient of `u v` in the Hilbert series is `3 · 3 − 1 = 8`, the number of semistandard
+  tableaux of shape `(2, 1)` with entries in `{0, 1, 2}` and the dimension of the Weyl module of
+  `GL₃` of highest weight `(2, 1, 0)` in every characteristic; the simple module of that highest
+  weight has dimension `7` in characteristic `3`.
 
 ### Examples
 
@@ -1258,6 +1299,11 @@ quasi-coherent algebras; ClassicalGroups Layer 6.
   polynomials of graded modules (§4.9), the graded sheafification and large-degree section comparison
   (§4.10), and Layer 2's semigroup counts.
 - FourManifolds consumes Layer 1's elimination and saturation (§1.7).
+- McKaySkewGroup §7.2 consumes Layer 1's standard monomials and normal forms (§1.2).
+- TensorProductCombinatorics §1.5 consumes Layer 2's exponent monoid, generated lattice and
+  cone, saturation and Gordan comparisons (§§2.1–2.3).
+- ReductiveGroups §10D consumes Layer 5's flag-minor algebra, its standard monomials and its
+  localization at the determinant (§§5.3–5.4).
 
 ## Scope and ownership
 
@@ -1401,11 +1447,11 @@ parallel copy.
 
 §0.3: relative Proj of a graded quasi-coherent algebra, its twisting sheaves `O(n)` with
 `O(n) ≅ O(1)^(⊗n)` when generated in degree one, base change, the Veronese comparison
-`relativeProj_veronese` and the comparison with StableReduction's relative Proj; §2.6: the cohomology
-of `O(d)` on projective space and Serre vanishing for an ample sheaf; §5.4: the projective bundle
-`projectiveBundle E = relativeProj (Sym E^∨)` in Fulton's lines convention; §5.7: *Chow.K0*,
-*Chow.G0*, proper pushforward on `G₀` and *K0.toG0_bijective* for regular schemes with the resolution
-property. Used by Layer 4 §§4.6–4.11 and Layer 6 §6.2, over a fixed field `κ`.
+`relativeProj_veronese` and the comparison with StableReduction's relative Proj; §2.6: the
+cohomology of `O(d)` on projective space and Serre vanishing for an ample sheaf; §5.4: the
+projective bundle `projectiveBundle E = relativeProj (Sym E^∨)` in Fulton's lines convention; §5.7:
+*Chow.K0*, *Chow.G0*, proper pushforward on `G₀` and *Chow.K0.toG0_bijective* for regular schemes
+with the resolution property. Used by Layer 4 §§4.6–4.11 and Layer 6 §6.2, over a fixed field `κ`.
 
 ### From TauCetiRoadmap.StableReduction
 
@@ -1428,15 +1474,30 @@ columns, and Schur polynomials are `TauCeti.schurPoly` and `TauCeti.diagramSchur
 
 ## References
 
-- D. Cox, J. Little, D. O'Shea, *Ideals, Varieties, and Algorithms*: the chapters on division,
-  elimination and Buchberger's algorithm.
-- B. Sturmfels, *Gröbner Bases and Convex Polytopes*, AMS University Lecture Series 8: initial
-  algebras, initial ideals and toric ideals.
+- D. Cox, J. Little, D. O'Shea, *Ideals, Varieties, and Algorithms*, 4th ed.: Chapter 2, §3
+  (division), §§6–7 (Buchberger's criterion and algorithm); Chapter 3, §1 (elimination); Chapter 4,
+  §§3–4 (intersections, ideal quotients and saturations).
+- B. Sturmfels, *Equations defining toric varieties*,
+  [arXiv:alg-geom/9610018](https://arxiv.org/abs/alg-geom/9610018): Proposition 1.3 (orbits and
+  faces), Theorem 1.4 (degree as normalized volume), Theorem 2.11 (squarefree initial ideals and
+  normality); Lemma 1.1 (binomial generation of toric ideals).
+- D. Eisenbud, *Commutative Algebra with a View Toward Algebraic Geometry*, GTM 150: §15.8 and
+  Theorem 15.17, the flat family of a weight-initial ideal.
+- L. Bossinger, *A survey on toric degenerations of projective varieties*,
+  [arXiv:2301.02545, §2.2](https://arxiv.org/abs/2301.02545): weight-initial ideals and their
+  homogenization.
+- D. Eisenbud, with J. Sidman, *Lectures on the Geometry of Syzygies*, MSRI Publications 51,
+  [Theorems 1.1, 1.3 and 1.5](https://library.slmath.org/books/Book51/files/04eisenbud.pdf): Hilbert
+  series, the graded syzygy theorem and Hilbert polynomials in flat families.
+- The Stacks Project, [Tag 0BXF](https://stacks.math.columbia.edu/tag/0BXF): coherent sheaves on
+  `Proj` of a Noetherian graded ring as sheafified finite graded modules.
+- C. Weibel, *The K-book*, [Chapter II](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.ii.pdf),
+  Theorem 8.2 (`K₀ = G₀` for regular schemes) and Theorem 8.6 (the projective bundle theorem).
 - W. Bruns, A. Conca, F. Lembo, *Sagbi bases, defining ideals and algebras of minors*,
   [arXiv:2504.10019, §2, Theorem 2.2 and Proposition 2.4](https://arxiv.org/html/2504.10019v1#S2):
   monic SAGBI lifting and bounded subduction.
 - E. Miller, B. Sturmfels, *Combinatorial Commutative Algebra*, GTM 227,
-  [Chapter 14](https://pages.uoregon.edu/njp/MS.pdf): minors and flag minors as SAGBI bases,
+  [Chapter 14](https://doi.org/10.1007/b138602): minors and flag minors as SAGBI bases,
   Theorem 14.6, Corollary 14.9, Theorem 14.11, Lemma 14.13, Proposition 14.22, Theorem 14.23,
   Corollary 14.24; and Chapter 7, Definition 7.24 and Proposition 7.25, saturation and normalization of
   semigroup rings.
@@ -1445,10 +1506,19 @@ columns, and Schur polynomials are `TauCeti.schurPoly` and `TauCeti.diagramSchur
 - Z. Reichstein, *SAGBI bases in rings of multiplicative invariants*,
   [Theorem 1.7](https://personal.math.ubc.ca/~reichst/sagbi.pdf): finite SAGBI bases of permutation
   invariants.
-- N. Thiéry, S. Thomassé, [arXiv:math/0607380](https://arxiv.org/abs/math/0607380): the permutation
-  SAGBI criterion.
-- M. Kogan, E. Miller, [arXiv:math/0303208](https://arxiv.org/abs/math/0303208): the toric degeneration
-  of flag varieties.
+- N. Thiéry, S. Thomassé, *Convex cones and SAGBI bases of permutation invariants*,
+  [arXiv:math/0607380, Theorem 1.2](https://arxiv.org/abs/math/0607380): the permutation SAGBI
+  criterion.
+- M. Kogan, E. Miller, *Toric degeneration of Schubert varieties and Gelfand–Cetlin polytopes*,
+  [arXiv:math/0303208, Theorem 5](https://arxiv.org/abs/math/0303208): flag minors as a SAGBI basis
+  for diagonal orders over `ℂ`, and the toric degeneration of flag varieties.
+- M. Hashimoto, *Another proof of theorems of De Concini and Procesi*,
+  [arXiv:math/0408429, Theorem 17](https://arxiv.org/abs/math/0408429): invariants of the symplectic
+  group over every commutative ring.
+- D. Speyer, B. Sturmfels, *The tropical Grassmannian*,
+  [arXiv:math/0304218](https://arxiv.org/abs/math/0304218): the proofs of Theorem 3.4 and Corollary
+  4.4, tree initial ideals of the Plücker ideal of `2`-planes, path semigroups and the Catalan
+  degree.
 - Mathlib proposals: the design of `MonomialOrder.IsRemainder`, `IsGroebnerBasis` and S-polynomials in
   [Mathlib, Gröbner bases and remainders](https://github.com/leanprover-community/mathlib4/pull/29203)
   and [Mathlib, S-polynomials and Buchberger's criterion](https://github.com/leanprover-community/mathlib4/pull/34873),
