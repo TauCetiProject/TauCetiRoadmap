@@ -926,8 +926,9 @@ identity neighbourhood), so countably many integrable functions vanish almost ev
 Integrals of such functions over `H` agree with integrals over `G`
 (`MeasureTheory.setIntegral_eq_integral_of_ae_compl_eq_zero`), so they do not depend on the
 subgroup chosen, and smoothing kernels can be chosen within one such subgroup. σ-compactness does
-not imply second countability. The convolutions of §7.3 and §7.4 are Bochner integrals of
-translates and need no σ-finiteness of `G`. *Needs:* Mathlib `IsSigmaCompact`.
+not imply second countability. The convolution of §7.3 is an `Lᵖ`-valued Bochner integral of left
+translates and that of §7.4 a scalar integral at each point; neither needs σ-finiteness of `G`.
+*Needs:* Mathlib `IsSigmaCompact`.
 
 *The modular character.* `c(g) > 0` (`MeasureTheory.Measure.modularCharacterFun_pos`) and `c` is
 a homomorphism to `ℝ≥0`, so `c(g⁻¹) = c(g)⁻¹`; it is continuous (`TauCeti.continuous_modularCharacter`):
@@ -998,10 +999,16 @@ Prove that `L¹(G, μ)` has an approximate identity of kernels supported near `1
 
 Route: by left invariance and the inversion formula of §7.2, `h ⋆ k = ∫ k(z) R_(z⁻¹) h dμ(z)`, an
 average of right translates of `h` with weights `k`, and continuity of `z ↦ R_z h` at `1` in `L¹`
-concludes; compactly supported continuous approximation
-(`MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`) is an alternative input.
+concludes. That identity equates two `L¹`-valued integrals, both continuous and bilinear in
+`(h, k)`, and is an interchange of integrals: for continuous compactly supported `h` and `k`,
+both sides are the class of `x ↦ ∫ h(y) k(y⁻¹x) dμ(y)` by Fubini on a product of compact sets, the
+integrands being measurable for the product σ-algebra
+(`HasCompactSupport.stronglyMeasurable_of_prod`), and such functions are dense in `L¹`
+(`MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`).
 *Needs:* `MeasureTheory.Lp.convolutionL`, `MeasureTheory.Lp.continuous_rightTranslation_apply`,
-`MeasureTheory.Measure.inv_eq_withDensity_modularCharacter_of_regular`.
+`MeasureTheory.Measure.inv_eq_withDensity_modularCharacter_of_regular`,
+`MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`,
+`HasCompactSupport.stronglyMeasurable_of_prod`.
 
 **Checks.**
 - On `ℝ` with Lebesgue measure, `h = 1_[0, 1]` and `k = (2δ)⁻¹ 1_[−δ, δ]` with `δ ≤ 1/2`, `h ⋆ k`
@@ -1294,6 +1301,7 @@ are related subjects, not inputs of this roadmap.
   and finite neighbour sets (§8.2).
 - `MeasureTheory.Measure.haar`, `MeasureTheory.Lp`, Bochner integration,
   `MeasureTheory.MemLp.exists_hasCompactSupport_eLpNorm_sub_le`,
+  `HasCompactSupport.stronglyMeasurable_of_prod`,
   `MeasureTheory.setIntegral_eq_integral_of_ae_compl_eq_zero`, `MeasureTheory.NullMeasurableSet`,
   `IsSigmaCompact` (Layer 7).
 - `MeasureTheory.Measure.modularCharacter`, the right-translation factor of Haar integrals, with
