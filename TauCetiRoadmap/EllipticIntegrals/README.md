@@ -38,10 +38,11 @@ the lattice form of Legendre's relation, ℂ/Λ ≅ E(ℂ)) belongs to
 function λ to [SpecialFunctionsTheta](../SpecialFunctionsTheta/README.md); nothing here uses them.
 
 Layer 1 finds K and E as k → 1⁻. Layer 2 proves the AGM series for E and the Gauss–Brent–Salamin
-formula. Layer 3 gives Carlson's integrals holomorphy in each variable, the duplication theorem and
-E(k) as an R_G value. Layer 4 gives the least period of sn, the addition theorem, the limits as
-k → 1⁻ and the pendulum. Layer 5 treats the ellipse with its axes exchanged, the real cubic
-integrals and the real period. The layers depend on one another only through the library.
+formula. Layer 3 gives Carlson's integrals holomorphy in each variable, R_F holomorphy in its three
+variables jointly, the duplication theorem and E(k) as an R_G value. Layer 4 gives the least period
+of sn, the addition theorem, the limits as k → 1⁻ and the pendulum. Layer 5 treats the ellipse
+with its axes exchanged, the real cubic integrals and the real period. The layers depend on one
+another only through the library.
 
 ## Conventions
 
@@ -183,14 +184,15 @@ its convergence.
 
 **Checks.**
 - At k = 0.6 the series gives E(0.6) = 1.4180833944…, the value of the defining integral. With
-  the weights 2ⁿ in place of 2ⁿ⁻¹, K(0.6)(1 − Σₙ 2ⁿcₙ²) ≈ 1.08499.
+  the weights 2ⁿ in place of 2ⁿ⁻¹, K(0.6)(1 − Σₙ 2ⁿcₙ²) = 1.0854130….
 - At k = 0 every cₙ vanishes and the identity reads E(0) = K(0) = π/2; with c₀ = 1 in place of
   c₀ = k it would read E(0) = π/4.
 
 ### 2.2 The Gauss–Brent–Salamin formula
 
-Prove `pi_eq_four_mul_agm_sq_div_one_sub_tsum` (Salamin 1976): run the AGM from a₀ = 1 and
-g₀ = 1/√2, with cₙ² = aₙ² − gₙ² for n ≥ 1. Then the sum over n ≥ 1 of 2ⁿ⁺¹cₙ² converges and
+Prove `pi_eq_four_mul_agm_sq_div_one_sub_tsum` (Salamin 1976, Theorem 1b, p. 567): run the AGM
+from a₀ = 1 and g₀ = 1/√2, with cₙ² = aₙ² − gₙ² for n ≥ 1. Then the sum over n ≥ 1 of 2ⁿ⁺¹cₙ²
+converges and
 `π = 4 M(1, 1/√2)² / (1 − Σ_{n ≥ 1} 2^(n+1) cₙ²)`. In Mathlib's indexing the n-th summand is
 2ⁿ⁺²cₙ₊₁², read off `NNReal.agmSequences 1 (√2)⁻¹ n`.
 
@@ -224,7 +226,7 @@ relation at k = 1/√2, and the quadratic bound for the AGM. Mathlib: `NNReal.ag
 
 ## Layer 3: Carlson's symmetric integrals
 
-### 3.1 Holomorphy in each variable
+### 3.1 Holomorphy
 
 Prove that each Carlson function is holomorphic in each of its variables separately on the slit
 plane, the other arguments being fixed in the domain of Convention 4 (Carlson 1977, Chapter 9):
@@ -235,18 +237,28 @@ included), and for `carlsonRC` in each argument (the second being repeated). By 
 the library the first argument suffices for `carlsonRF` and `carlsonRG`; holomorphy of
 `carlsonRJ` in `p` is Tau Ceti's `Complex.differentiableOn_carlsonRJ_fourth`.
 
+Prove also that R_F is holomorphic in its three variables jointly on the product of three slit
+planes:
+`DifferentiableOn ℂ (fun w : ℂ × ℂ × ℂ ↦ carlsonRF w.1 w.2.1 w.2.2) (slitPlane ×ˢ slitPlane ×ˢ slitPlane)`.
+§3.2 composes R_F with a map that moves all three arguments at once, and holomorphy in each
+variable separately gives no chain rule for such a composite.
+
 *Route.* Differentiate under the integral sign, as Tau Ceti does in `p`: on a compact
 neighbourhood of a point of the slit plane, the derivative −(t + x)^(−3/2)/2 of the moving factor
 is bounded by a constant times (1 + t)^(−3/2), and the other factors are bounded by the
 integrability estimates of the library. For `carlsonRD` and `carlsonRC` in their repeated argument
 use `Complex.carlsonRD_eq_integral` and `Complex.carlsonRC_eq_integral`, whose integrands contain
-that argument once.
+that argument once. For the joint statement, differentiate in the three variables at once: on a
+compact subset C of the slit plane there is c > 0 with |t + w| ≥ c(1 + t) for all w ∈ C and
+t ≥ 0, so on C × C × C the integrand of R_F is bounded by a constant times (1 + t)^(−3/2) and its
+derivative, a linear map on ℂ³, by a constant times (1 + t)^(−5/2).
 *Needs:* Tau Ceti `Complex.carlsonRF_def`, `Complex.carlsonRG_def`, `Complex.carlsonRJ_def`,
 `Complex.carlsonRD_eq_integral`, `Complex.carlsonRC_eq_integral`,
 `Complex.integrableOn_carlsonRF_integrand`, `Complex.integrableOn_carlsonRJ_integrand`,
 `Complex.integrableOn_carlsonRGIntegrand`, `Complex.carlsonRF_comm_left`,
 `Complex.carlsonRF_comm_right`, `Complex.carlsonRG_comm_left`, `Complex.carlsonRG_comm_right`;
-Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Complex.slitPlane`.
+Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`,
+`hasFDerivAt_integral_of_dominated_of_fderiv_le`, `Complex.slitPlane`.
 
 **Checks.**
 - The slit plane cannot be enlarged across the negative real axis: as x tends to −2 from the upper
@@ -259,19 +271,24 @@ Mathlib `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Complex.slitPlane`.
 Prove the duplication theorem (DLMF 19.26.18, which states it for nonnegative arguments) first
 for real x, y, z ≥ 0, at most one of them 0: with λ = √(xy) + √(yz) + √(zx),
 R_F(x, y, z) = R_F((x + λ)/4, (y + λ)/4, (z + λ)/4). Then prove `carlsonRF_duplication` on the
-whole domain: for `x ∈ slitPlane ∪ {0}` and `y, z ∈ slitPlane`, with
-λ = √x√y + √y√z + √z√x and principal square roots `w ^ (1/2 : ℂ)`, the same identity. By the
-symmetry of R_F and of λ this covers every triple of the domain.
+whole domain (Carlson 1995, §2, equations (8)–(11), with square roots of nonnegative real part):
+for `x ∈ slitPlane ∪ {0}` and `y, z ∈ slitPlane`, with λ = √x√y + √y√z + √z√x and principal
+square roots `w ^ (1/2 : ℂ)`, the same identity. By the symmetry of R_F and of λ this covers every
+triple of the domain.
 
 *Route.* The real case is DLMF's; Braams' `lean-codes` proves it for its R_F (Provenance). For the
 extension, x + λ = (√x + √y)(√x + √z) is a product of two numbers of positive real part, hence in
-the slit plane, and likewise for y + λ and z + λ; so both sides are holomorphic in each variable
-separately (§3.1, with the holomorphy of the principal square root on the slit plane), and the
-identity propagates from nonnegative reals one variable at a time by the identity theorem on the
-connected slit plane.
-*Needs:* §3.1; Tau Ceti `Complex.carlsonRF`, `Complex.carlsonRF_comm_left`,
-`Complex.carlsonRF_comm_right`, `Complex.carlsonRF_ofReal_mul`; Mathlib `Complex.slitPlane`,
-`Complex.cpow`, `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
+the slit plane (also when x = 0), and likewise for y + λ and z + λ. The left side is holomorphic
+in each variable separately by §3.1. On the right side one variable moves all three arguments at
+once: with the other two variables fixed it is the jointly holomorphic R_F of §3.1 composed with a
+map into the product of three slit planes, holomorphic by the holomorphy of the principal square
+root on the slit plane, so it is holomorphic by the chain rule. The identity then propagates from
+nonnegative reals one variable at a time by the identity theorem on the connected slit plane.
+*Needs:* §3.1 (holomorphy in each variable, and the joint holomorphy of R_F); Tau Ceti
+`Complex.carlsonRF`, `Complex.carlsonRF_comm_left`, `Complex.carlsonRF_comm_right`,
+`Complex.carlsonRF_ofReal_mul`; Mathlib `Complex.slitPlane`, `Complex.cpow`,
+`DifferentiableOn.comp`, `DifferentiableOn.analyticOnNhd`,
+`AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`.
 
 **Checks.**
 - x = 0, y = z = 1: λ = 1, and both R_F(0, 1, 1) = R_C(0, 1) and
@@ -390,12 +407,10 @@ Mathlib `Real.artanh`, `Real.tanh`, `intervalIntegral.tendsto_integral_filter_of
 
 Let ω > 0 and 0 < θ₀ < π, and set k = sin(θ₀/2) and θ(t) = 2 arcsin(k sn(ωt + K(k), k))
 (DLMF 22.19.1–22.19.2, with time rescaled by ω). Prove:
-- `pendulum_solution`: θ is C², θ″ = −ω² sin θ, θ(0) = θ₀, θ′(0) = 0, and θ is periodic with
-  period 4K(k)/ω;
-- uniqueness: every pair of C¹ functions (φ, ψ) with φ′ = ψ, ψ′ = −ω² sin φ, φ(0) = θ₀ and
-  ψ(0) = 0 has φ = θ, by Mathlib's `ODE_solution_unique_univ` for the globally Lipschitz field
-  (φ, ψ) ↦ (ψ, −ω² sin φ);
-- the least positive period of θ is 4K(sin(θ₀/2))/ω;
+- `pendulum_solution`: θ is C², θ″ = −ω² sin θ, θ(0) = θ₀ and θ′(0) = 0; θ is the only solution,
+  in that every pair of functions (φ, ψ) differentiable on ℝ with φ′ = ψ, ψ′ = −ω² sin φ,
+  φ(0) = θ₀ and ψ(0) = 0 has φ = θ (Mathlib's `ODE_solution_unique_univ` for the globally
+  Lipschitz field (φ, ψ) ↦ (ψ, −ω² sin φ)); and the least positive period of θ is 4K(k)/ω;
 - this period tends to 2π/ω as θ₀ → 0⁺ and to +∞ as θ₀ → π⁻.
 
 *Route.* θ′ = 2kω cn dn/√(1 − k² sn²) = 2kω cn(ωt + K) since dn > 0, and
@@ -647,13 +662,34 @@ under this roadmap: the Jacobi functions of a complex variable as elliptic funct
 4K and 2iK′; their identification with ℘ for the rectangular lattice,
 ℘(z) = e₃ + (e₁ − e₃)/sn²(√(e₁ − e₃) z); the analytic continuation of K and E in k² to
 ℂ ∖ [1, ∞); principal-value integrals of the third kind; and incomplete integrals of complex
-amplitude. All of these need the lattice roadmaps. A second, independent continuation is
-Carlson's general theory: the R-function R_t(b; z) as a Dirichlet average over the standard
-simplex, with the measure theory on the simplex and the multivariable holomorphy it needs, the
-identification of the integral definitions here as special cases (for example
+amplitude. The complex Jacobi functions are left by
+[SpecialFunctionsTheta](../SpecialFunctionsTheta/README.md) (Downstream consumers) to a roadmap
+built on its theta quotients (§6.6), and their identification with ℘ needs the lattice functions
+as well. The continuation of K and E is (π/2) F(½, ½; 1; k²) and (π/2) F(−½, ½; 1; k²) with the
+principal Gauss function of
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md), the complex K that
+SpecialFunctionsTheta §6.4 uses. Carlson's general theory is outside this roadmap too: the
+R-function R_t(b; z) as a Dirichlet average over the standard simplex, with the measure theory on
+the simplex and the multivariable holomorphy it needs, the identification of the integral
+definitions here as special cases (for example
 `R_F(x, y, z) = R_{−1/2}(1/2, 1/2, 1/2; x, y, z)`), and the transport of the reduction tables and
 contiguous relations to them. `lean-codes` contains a full formalization of this theory
 (Provenance), so it would be a port, a roadmap of its own.
+
+**Former milestone numbering.** A citation of this roadmap by Milestones 1–8 refers to its former
+numbering. The table gives where each item now is: a section above, or a group of the Tau Ceti
+supplier contracts below.
+
+| Former numbering | Now |
+|---|---|
+| Milestone 1 (the Legendre integrals) | Tau Ceti: *Legendre integrals*, *Algebraic forms*, *Elementary values*, *Monotonicity in the modulus*, *Imaginary modulus* |
+| Milestone 2 (the complete integrals in the modulus) | Tau Ceti: *The modulus*, *Hypergeometric series* |
+| Milestone 3 (k = 1 and Legendre's relation) | 3.1: §1.1 and Tau Ceti's `TauCeti.Real.tendsto_one_sub_sq_mul_legendreK_nhdsLT_one`; 3.2: Tau Ceti's `TauCeti.Real.legendre_relation` |
+| Milestone 4 (the AGM) | 4.1–4.5: Tau Ceti: *Quadratic convergence*, *The AGM integral*, *Gauss and Landen*; 4.6: §2.1; 4.7: §2.2 |
+| Milestone 5 (special values) | Tau Ceti: *Special values* |
+| Milestone 6 (Carlson's integrals) | 6.1: §3.1 and Tau Ceti; 6.2–6.4: Tau Ceti; 6.5: §3.2; 6.6: Tau Ceti's *Legendre dictionary* and §3.3 |
+| Milestone 7 (the Jacobi functions) | 7.1–7.3: Tau Ceti; 7.4: Tau Ceti and §4.1; 7.5: §4.2; 7.6: Tau Ceti (k = 0) and §4.3; 7.7: §4.4 |
+| Milestone 8 (geometry and the real period) | 8.1: Tau Ceti (b² ≤ a²) and §5.1; 8.2–8.3: §5.2; 8.4: §5.3 |
 
 ## Exact supplier contracts
 
@@ -675,12 +711,14 @@ contiguous relations to them. `lean-codes` contains a full formalization of this
   `intervalIntegral.integral_comp_mul_deriv`; improper integrals on `Set.Ioi`
   (`integrableOn_Ioi_rpow_of_lt`, `MeasureTheory.integral_Ioi_of_hasDerivAt_of_tendsto`,
   `MeasureTheory.integral_comp_mul_deriv_Ioi`); parametric differentiation
-  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`); dominated convergence
+  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`,
+  `hasFDerivAt_integral_of_dominated_of_fderiv_le`); dominated convergence
   (`intervalIntegral.tendsto_integral_filter_of_dominated_convergence`); `MeasureTheory.lintegral`.
 - *Elementary functions*: `Real.arcsin` with `Real.arcsin_sin`, `Real.arctan`, `Real.artanh`,
   `Real.arcosh`, `Real.arsinh`, `Real.tanh`, `Complex.slitPlane`, `Complex.cpow`.
-- *Analytic functions*: `AnalyticOnNhd`, `DifferentiableOn`,
-  `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`, `is_const_of_deriv_eq_zero`.
+- *Analytic functions*: `AnalyticOnNhd`, `DifferentiableOn`, `DifferentiableOn.comp`,
+  `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_frequently_eq`,
+  `is_const_of_deriv_eq_zero`.
 - *ODEs*: `ODE_solution_unique_univ` and `ODE_solution_unique_of_mem_Icc`.
 - *Arc length*: `eVariationOn`, the length of a curve, with `eVariationOn.Icc_add_Icc` and
   `eVariationOn.comp_eq_of_antitoneOn`.
@@ -843,12 +881,10 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
   (Jacobian elliptic functions), <https://dlmf.nist.gov/19>, <https://dlmf.nist.gov/22>.
 - B. C. Carlson, *Special Functions of Applied Mathematics*, Academic Press, 1977, Chapter 9.
 - B. C. Carlson, Numerical computation of real or complex elliptic integrals, *Numer. Algorithms*
-  10 (1995), 13–26.
-- J. M. Borwein and P. B. Borwein, *Pi and the AGM*, Wiley, 1987, Chapters 1–2.
+  10 (1995), 13–26, arXiv:math/9409227 (equation numbers as in the arXiv version).
 - P. F. Byrd and M. D. Friedman, *Handbook of Elliptic Integrals for Engineers and Scientists*,
   2nd ed., Springer, 1971, formulas 236.00 and 239.00.
 - E. Salamin, Computation of π using arithmetic-geometric mean, *Math. Comp.* 30 (1976), 565–570.
 - J. E. Cremona, *Algorithms for Modular Elliptic Curves*, 2nd ed., Cambridge, 1997, §3.7.
-- E. T. Whittaker and G. N. Watson, *A Course of Modern Analysis*, Chapter XXII.
 - B. Braams, `lean-codes`, <https://github.com/bjbraams/lean-codes>, directory `Carlson/Elliptic/`
   at commit `2b8cba1` (Apache-2.0).

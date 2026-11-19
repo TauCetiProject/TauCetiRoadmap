@@ -55,7 +55,7 @@ theorem legendreEc_eq_agm_tsum {k : ℝ} (hk : k ^ 2 < 1) :
         ((NNReal.agmSequences 1 (√(1 - k ^ 2)).toNNReal n).1 : ℝ) ^ 2)
     Summable s ∧ legendreEc k = legendreK k * (1 - k ^ 2 / 2 - ∑' n, s n) := sorry
 
-/-- **The Gauss–Brent–Salamin formula** (Salamin 1976). Run the arithmetic–geometric mean from
+/-- **The Gauss–Brent–Salamin formula** (Salamin 1976, Theorem 1b). Run the arithmetic–geometric mean from
 `a₀ = 1`, `g₀ = 1/√2`, with `cₙ² = aₙ² - gₙ²`. Then `∑_{n ≥ 1} 2^(n+1) cₙ²` converges and
 `π = 4 M(1, 1/√2)² / (1 - ∑_{n ≥ 1} 2^(n+1) cₙ²)`. The `n`-th term `s n` below is `2^(n+2) cₙ₊₁²`,
 read off Mathlib's `NNReal.agmSequences 1 (1/√2) n = (gₙ₊₁, aₙ₊₁)`. -/
@@ -67,8 +67,9 @@ theorem pi_eq_four_mul_agm_sq_div_one_sub_tsum :
 
 /-! ## Layer 3: Carlson's symmetric integrals -/
 
-/-- **The duplication theorem** (DLMF 19.26.18) on the whole domain: for `x` in the slit plane or
-`0` and `y`, `z` in the slit plane, with `λ = √x√y + √y√z + √z√x` (principal square roots),
+/-- **The duplication theorem** on the whole domain (DLMF 19.26.18 for nonnegative arguments;
+Carlson 1995, §2, equations (8)–(11)): for `x` in the slit plane or `0` and `y`, `z` in the slit
+plane, with `λ = √x√y + √y√z + √z√x` (principal square roots),
 `R_F(x, y, z) = R_F((x + λ)/4, (y + λ)/4, (z + λ)/4)`. By the symmetry of `R_F` and of `λ`, this
 covers every triple of the domain, at most one of whose entries is `0`. -/
 theorem carlsonRF_duplication {x y z : ℂ} (hx : x ∈ Complex.slitPlane ∪ {0})
@@ -93,14 +94,18 @@ theorem jacobiSn_add {k : ℝ} (hk : k ^ 2 < 1) (u v : ℝ) :
         (1 - k ^ 2 * jacobiSn k u ^ 2 * jacobiSn k v ^ 2) := sorry
 
 /-- **The nonlinear pendulum** (DLMF 22.19.1–22.19.2, time rescaled by `ω`). For `ω > 0` and
-`0 < θ₀ < π`, with `k = sin (θ₀/2)`, the function `θ t = 2 arcsin (k sn(ω t + K(k), k))` is `C²`,
-solves `θ″ = -ω² sin θ` with `θ 0 = θ₀` and `θ′ 0 = 0`, and is periodic with period
-`4 K(k) / ω`. -/
+`0 < θ₀ < π`, with `k = sin (θ₀/2)`, the function `θ t = 2 arcsin (k sn(ω t + K(k), k))` is `C²`
+and solves `θ″ = -ω² sin θ` with `θ 0 = θ₀` and `θ′ 0 = 0`. It is the only solution: every pair
+of functions `φ`, `ψ` differentiable on `ℝ` with `φ′ = ψ`, `ψ′ = -ω² sin φ`, `φ 0 = θ₀` and
+`ψ 0 = 0` has `φ = θ`. Its least positive period is `4 K(k) / ω`. -/
 theorem pendulum_solution {ω θ₀ : ℝ} (hω : 0 < ω) (hθ₀ : 0 < θ₀) (hθ₀π : θ₀ < π) :
     let k := sin (θ₀ / 2)
     let θ : ℝ → ℝ := fun t ↦ 2 * arcsin (k * jacobiSn k (ω * t + legendreK k))
     ContDiff ℝ 2 θ ∧ (∀ t, deriv (deriv θ) t = -ω ^ 2 * sin (θ t)) ∧
-      θ 0 = θ₀ ∧ deriv θ 0 = 0 ∧ Function.Periodic θ (4 * legendreK k / ω) := sorry
+      θ 0 = θ₀ ∧ deriv θ 0 = 0 ∧
+      (∀ φ ψ : ℝ → ℝ, (∀ t, HasDerivAt φ (ψ t) t) →
+        (∀ t, HasDerivAt ψ (-ω ^ 2 * sin (φ t)) t) → φ 0 = θ₀ → ψ 0 = 0 → φ = θ) ∧
+      IsLeast {p : ℝ | 0 < p ∧ Function.Periodic θ p} (4 * legendreK k / ω) := sorry
 
 /-! ## Layer 5: geometry and the real period -/
 
