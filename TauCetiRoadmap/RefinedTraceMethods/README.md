@@ -346,13 +346,13 @@ Also establish `HH_*(ℚ[x]/ℚ)` = `HH_*(ℤ[x]/ℤ)` ⊗ ℚ. HP(ℤ/ℤ) ⊗ 
 
 *Needs:* §1.1 (The cyclic enhancement of supplied derived Hochschild chains); §1.4 (Cyclic, negative cyclic and periodic cyclic homology); `CategoryTheory.Tor`; `Module.Flat`.
 
-**Étale base change (Weibel–Geller).** For commutative k-algebras and an étale map A→B, derived `HH(B/k)≃B⊗^L_A` HH(A/k). For k-flat A,B this gives `HH_*(B/k)≅B⊗_A` `HH_*(A/k)`; in particular HH(B/A)≃B. The statement changes algebras over the fixed ground ring k. It is not ground-ring base change. Connes B is not generally A-linear, so this HH tensor comparison does not yield cyclic tensor comparisons over A. Nor does étale flatness alone justify commuting CN or CP with infinite products. No unqualified HC⁻/HP étale tensor or sheaf assertion is included here.
+**Étale base change (Weibel–Geller).** For commutative k-algebras and an étale map A→B, derived `HH(B/k)≃B⊗^L_A` HH(A/k). For k-flat A,B this gives `HH_*(B/k)≅B⊗_A` `HH_*(A/k)`; in particular HH(B/A)≃B. Both comparisons are induced by φ:A→B. The derived equivalence is the B-linear extension `B⊗^L_A` HH(A/k)→HH(B/k) of the map HH(A/k)→HH(B/k) that φ induces. For k-flat A,B the isomorphism is inverse to the B-linear map `B⊗_A` `HH_n(A/k)`→`HH_n(B/k)`, `b⊗[c]↦b·[φ(c)]`, on the homology of the cyclic bar complexes of §1.1, where A and B act through the zeroth tensor factor and φ is applied to every factor of the cycle c. The statement changes algebras over the fixed ground ring k. It is not ground-ring base change. Connes B is not generally A-linear, so this HH tensor comparison does not yield cyclic tensor comparisons over A. Nor does étale flatness alone justify commuting CN or CP with infinite products. No unqualified HC⁻/HP étale tensor or sheaf assertion is included here.
 
 Throughout this statement, A → B étale (Mathlib Algebra.Etale); k-flatness of A and B, or derived HH.
 
-([WG](#references), Theorem 0.1, p. 368; Theorem 2.1, p. 374.)
+([WG](#references), Theorem 0.1, p. 368; §2, p. 374, first paragraph, for the comparison map; Theorem 2.1, p. 374.)
 
-One proof route is as follows. For an étale affine map the diagonal component of `B⊗_A` B splits off; the off-diagonal component contributes zero to Hochschild Tor with diagonal coefficients. Use Weibel–Geller Theorem 0.1, keeping k fixed; their Theorem 2.1 has `B⊗_A` B coefficients. Use derived flat replacements as required. Apply the HH comparison to smooth étale charts; keep the cyclic B/d comparison separate.
+One proof route is as follows. For an étale affine map the diagonal component of `B⊗_A` B splits off; the off-diagonal component contributes zero to Hochschild Tor with diagonal coefficients. Use Weibel–Geller Theorem 0.1, keeping k fixed: what they prove is that the natural map `HH_*(A)⊗_A` B→`HH_*(B)` of their §2 is bijective; their Theorem 2.1 has `B⊗_A` B coefficients. Use derived flat replacements as required. Apply the HH comparison to smooth étale charts; keep the cyclic B/d comparison separate.
 
 For B = A[1/f], `HH_*(A[1/f]/k)` = `HH_*(A/k)[1/f]`. For a finite separable field extension L/K of characteristic 0, `HH_*(L/ℚ)` = L `⊗_K` `HH_*(K/ℚ)`.
 
