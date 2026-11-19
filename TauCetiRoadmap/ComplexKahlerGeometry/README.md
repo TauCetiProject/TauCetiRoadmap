@@ -502,7 +502,9 @@ spaces are acyclic, and its module form). Prove the Dolbeault theorem
 `H^q(M;Ω^p)≃H^(p,q)_∂̄(M)` with naturality and products
 (Demailly, Chapter IV, (6.13)–(6.15), p. 216, for the isomorphism). Build
 the needed analytic-sheaf/Čech/derived comparison using Mathlib's Ext-based sheaf
-cohomology carrier. Prove the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209). Also prove
+cohomology carrier. Prove the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209),
+which extends Tau Ceti's Leray theorem for finite covers, `TauCeti.Topology.homologyCechComplexIsoH`,
+to arbitrary open covers. Also prove
 that for every abelian sheaf on a paracompact Hausdorff manifold, the colimit of Čech
 cohomology over locally finite open refinements agrees with native derived
 sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Consume Tau Ceti's refinement maps of
@@ -510,9 +512,15 @@ sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Consume Tau Ceti's refi
 (`TauCeti.CategoryTheory.cechComplexMap`, `TauCeti.CategoryTheory.cechComplexMapHomotopy`,
 `TauCeti.CategoryTheory.cechComplexHomologyMap_eq`) and its Čech cohomology over a system of
 covers (`TauCeti.CategoryTheory.cechCohomologyDiagram` and its colimit
-`TauCeti.CategoryTheory.cechCohomology`), for the locally finite open covers ordered by
-refinement; prove here the paracompact shrinking for exactness after refinement and the
-comparison with an injective/flabby resolution. No coherent Cartan B is an input.
+`TauCeti.CategoryTheory.cechCohomology`), with the long exact coefficient sequence of that colimit
+(`TauCeti.CategoryTheory.cechCohomologyδ`, `TauCeti.CategoryTheory.cechCohomology_exact₁`,
+`TauCeti.CategoryTheory.cechCohomology_exact₂`, `TauCeti.CategoryTheory.cechCohomology_exact₃`)
+and its vanishing once every class dies on a finer cover
+(`TauCeti.CategoryTheory.isZero_cechCohomology_obj_of_forall_exists_homologyMap_eq_zero`), for
+the locally finite open covers ordered by refinement; prove here the paracompact shrinking for
+exactness after refinement, which extends Tau Ceti's compact-normal case
+`TauCeti.Topology.exists_cechComplexMap_f_eq_zero_of_locally_eq_zero` to paracompact Hausdorff
+manifolds, and the comparison with an injective/flabby resolution. No coherent Cartan B is an input.
 RealAnalyticGeometry R3.2 consumes this colimit theorem after proving vanishing
 on an arbitrarily fine cofinal family of finite-order Stein covers; it does
 not assume F is already acyclic on their intersections.
@@ -531,7 +539,8 @@ connectedness hypothesis. Do not assert global constancy for disconnected manifo
 
 *Needs:* 2.4; Mathlib's Ext-based sheaf cohomology,
 `MDifferentiable.exists_eq_const_of_compactSpace` and `MDifferentiable.isLocallyConstant`;
-Tau Ceti's Čech refinement maps, their homotopies and the cover colimit named above;
+Tau Ceti's Čech refinement maps, their homotopies, the cover colimit, its long exact coefficient
+sequence and its vanishing by refinement named above;
 SmoothBundlesConnections B6's scalar good-cover comparison and B6.1's acyclicity of soft sheaves
 with its module form; 4.1's `𝒪(E)` and ∂̄_E for the bundle-valued comparison; K7.1's `Projectivization ℂ (Fin 2 → ℂ)` for the acceptance check.
 
@@ -545,7 +554,7 @@ nonpositive radius; no nonzero holomorphic one-form on ℂP¹.
 
 Layer 1; 3.1 (K3.0); the pinned Dolbeault calculus and Cauchy transform; GlobalHolomorphicFunctions
 Layer 2.5's finite-rank Runge operator; Mathlib's sheaf cohomology; Tau Ceti's Čech refinement
-maps and cover colimit; SmoothBundlesConnections B6.
+maps, cover colimit and its long exact coefficient sequence; SmoothBundlesConnections B6.
 Layer 2 precedes Layer 4's holomorphic bundles and connections; 2.5's
 bundle-valued comparison follows 4.1, and its Čech-colimit comparison is consumed by
 RealAnalyticGeometry R3.2.
@@ -3576,6 +3585,22 @@ them.
   preadditive category with products (with homology for the last three, and with colimits
   indexed by the preorder for the colimit), with no sheaf condition and no hypothesis on the
   space, and are consumed in 2.5 and K4.P.
+- Čech cohomology results (`Cech/LongExactSequence.lean` and `Cech/ModuleCat.lean` in the same
+  directory, `TauCeti/Topology/Sheaves/Leray.lean` and `TauCeti/Topology/Sheaves/Cech/LocallyZero.lean`):
+  the connecting map `TauCeti.CategoryTheory.cechCohomologyδ` of the cover colimit with
+  `TauCeti.CategoryTheory.cechCohomology_exact₁`, `TauCeti.CategoryTheory.cechCohomology_exact₂`
+  and `TauCeti.CategoryTheory.cechCohomology_exact₃`, the long exact sequence for an abelian target
+  with products, a coefficient sequence whose Čech complexes are short exact on every family of the system and
+  exact colimits of the preorder's shape; the vanishing of the colimit of a presheaf of modules once
+  every class of every family dies on a finer family,
+  `TauCeti.CategoryTheory.isZero_cechCohomology_obj_of_forall_exists_homologyMap_eq_zero`; Leray's
+  theorem `TauCeti.Topology.homologyCechComplexIsoH` for a finite open cover on whose nonempty
+  finite intersections the abelian sheaf has no cohomology in positive degrees; and
+  `TauCeti.Topology.exists_cechComplexMap_f_eq_zero_of_locally_eq_zero`, which kills every Čech
+  cochain of a locally zero presheaf of modules with zero sections on the empty set by a refinement,
+  on a compact normal space. The first two are consumed in 2.5, whose Leray comparison and
+  paracompact shrinking extend the last two to arbitrary open covers and to paracompact Hausdorff
+  manifolds.
 - Examples: the affine atlas and the Riemann-sphere diffeomorphism
   `OnePoint.diffeomorphProjectivization`
   (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
