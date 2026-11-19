@@ -3,100 +3,73 @@ Copyright (c) 2026 Kitware, Inc. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib
-import TauCetiRoadmap.OperatorTheory.OrthogonalGeometry.Suggested
-import TauCetiRoadmap.OperatorTheory.PolarDecomposition.Suggested
+import TauCeti.Analysis.Convex.Majorization
+import TauCeti.Analysis.InnerProductSpace.SchurHorn
 
 /-!
 # Majorization and unitarily invariant norms: target signatures
 
-**`README.md` is the definitive and exhaustive roadmap specification.** This file gives
-suggested Lean forms for selected labeled obligations. The roadmap is complete when the
-obligations in `README.md` are complete. `sorry` records target signatures in this human-owned
-roadmap library.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti APIs.
 
+The headline theorems are:
+
+* transfer descent, and the monotonicity of every symmetric gauge under weak majorization
+  (README §1.2);
+* the forward Schur–Horn inequality: convex functions of the diagonal of a symmetric operator in
+  any orthonormal basis are dominated by the same functions of its eigenvalues (§1.3);
+* Ky Fan's maximum principle and the Ky Fan triangle inequality (§1.4);
+* the orbit-hull characterization of Ky Fan domination, Fan dominance for every unitarily
+  invariant seminorm on rectangular maps, and determination by singular values (§2.2);
+* the representation of a unitarily invariant seminorm as a symmetric gauge of the singular
+  values, and its invariance under the modulus (§2.3);
+* the sharp comparison of unitarily invariant seminorms on orthogonal block sums (§2.4);
+* the rank-sharp bound of the nuclear seminorm by the Frobenius seminorm (§2.5).
+
+Every one of them is statable at the pins, and every one is a declaration of the pinned Tau Ceti
+library, so none is stated again here. The first two items are pinned below by `#check`. The others
+are `LinearMap.norm_sum_inner_le_kyFanSum`, `LinearMap.exists_orthonormal_sum_inner_eq_kyFanSum`,
+`LinearMap.kyFanSum_add_le`, `LinearMap.mem_twoSidedUnitaryOrbitHull_iff_kyFanSum_le`,
+`TauCeti.UnitarilyInvariantSeminorm.map_le_of_kyFanSum_le`,
+`TauCeti.UnitarilyInvariantSeminorm.map_eq_of_singularValues_eq`,
+`TauCeti.UnitarilyInvariantSeminorm.map_eq_gauge_singularValues`,
+`TauCeti.UnitarilyInvariantSeminorm.map_operatorAbs`,
+`TauCeti.UnitarilyInvariantSeminorm.map_prodMap_withLpMap_le` and
+`TauCeti.UnitarilyInvariantSeminorm.nuclear_apply_le_sqrt_finrank_range_mul_frobenius_apply`. Their
+modules import the Tau Ceti modulus `TauCeti.Analysis.InnerProductSpace.Positive.SquareRoot`, whose
+declarations (`LinearMap.IsPositive.sqrt` among them) are also declared by the acceptance file of
+PolarDecomposition, which the acceptance files importing this one import as well; this file
+therefore names them instead of importing them.
+
+The roadmap's two targets that the library does not state, the progress step of the transfer
+closure (§1.2) and the attainment of the Ky Fan bound by the singular pairs (§1.4), are steps rather
+than headline theorems and live in the README only.
+
+The acceptance files of PrincipalAngles, OperatorIdeals and SpectralSubspacePerturbation state
+their estimates against the two declarations at the end of this file: the structure
+`UnitarilyInvariantSeminorm`, the notion of `TauCeti.UnitarilyInvariantSeminorm` with Mathlib's
+`unitary` groups in place of linear isometric equivalences, and the Frobenius value `frobenius`.
+Both have real bodies on Mathlib carriers.
 -/
 
 namespace TauCetiRoadmap.Majorization
 
-open Module (finrank)
-open scoped InnerProductSpace
+/-! Transfer descent and gauge monotonicity (README §1.2). -/
 
-variable {𝕜 : Type*} [RCLike 𝕜]
-variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
-variable {F : Type*} [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
-variable {n d : ℕ}
+#check @TauCeti.IsSymmetricConvex.mem_of_prefixSum_le
+#check @TauCeti.IsWeaklyMajorizedBy.apply_le
 
-/-! ## Part A -- majorization, Schur-Horn, and Ky Fan sums
+/-! The forward Schur–Horn inequality (README §1.3). -/
 
-The vector layer lives in `Analysis/Convex` with no operator imports; the
-operator layer pulls it back through singular values. -/
+#check @LinearMap.IsSymmetric.sum_map_re_inner_apply_self_le_sum_map_eigenvalues
 
-/-- Prefix sum of the first `k` coordinates, the vocabulary of weak majorization.
+/-! The interface of README §2.1 and §2.5 used by the other OperatorTheory roadmaps. -/
 
-Roadmap: `MAJ-A01`. -/
-def prefixSum (k : ℕ) (x : Fin n → ℝ) : ℝ :=
-  ∑ i ∈ Finset.univ.filter (fun i : Fin n => (i : ℕ) < k), x i
-
-/-- A symmetric convex set of real tuples: convex, permutation-invariant, and invariant
-under changing the sign of one coordinate. Gauge sublevel sets are the motivating instances.
-The sign symmetry is essential for descent under *weak* majorization, which may reduce the
-total sum; Robin Hood transfers alone preserve it.
-
-Roadmap: `MAJ-A05`. -/
-structure IsSymmetricConvex (K : Set (Fin n → ℝ)) : Prop where
-  convex : Convex ℝ K
-  perm_mem : ∀ (σ : Equiv.Perm (Fin n)), ∀ x ∈ K, x ∘ σ ∈ K
-  signFlip_mem : ∀ x ∈ K, ∀ i : Fin n,
-    (fun j => if j = i then -x j else x j) ∈ K
-
-/-- **Weak-majorization descent.** A symmetric convex set containing a nonnegative tuple
-`y` contains every antitone nonnegative tuple whose prefix sums are bounded by those of `y`.
-The nonnegativity of both tuples and coordinate-sign symmetry supply the downward solidity
-that weak, rather than strong, majorization requires.
-
-Roadmap: `MAJ-A15`. -/
-theorem IsSymmetricConvex.mem_of_prefixSum_le {K : Set (Fin n → ℝ)}
-    (hK : IsSymmetricConvex K) {y z : Fin n → ℝ} (hy : y ∈ K)
-    (hy0 : ∀ i, 0 ≤ y i) (hz : Antitone z) (hz0 : ∀ i, 0 ≤ z i)
-    (h : ∀ k, prefixSum k z ≤ prefixSum k y) : z ∈ K := sorry
-
-/-- The Schur--Horn weight: squared moduli of the eigenbasis coefficients of an
-orthonormal basis, a doubly stochastic matrix.
-
-Roadmap: `MAJ-A18`. -/
-noncomputable def schurWeight {T : E →ₗ[𝕜] E} (hT : T.IsSymmetric)
-    (hn : finrank 𝕜 E = n) (e : OrthonormalBasis (Fin n) 𝕜 E) (i k : Fin n) : ℝ :=
-  ‖⟪hT.eigenvectorBasis hn i, e k⟫_𝕜‖ ^ 2
-
-/-- **Forward Schur--Horn, Karamata form**: convex functions of the diagonal are
-dominated by convex functions of the spectrum.
-
-Roadmap: `MAJ-A23`. -/
-theorem convexOn_sum_re_inner_orthonormalBasis_self_le {T : E →ₗ[𝕜] E}
-    (hT : T.IsSymmetric) (hn : finrank 𝕜 E = n) (e : OrthonormalBasis (Fin n) 𝕜 E)
-    {φ : ℝ → ℝ} {s : Set ℝ} (hφ : ConvexOn ℝ s φ) (hmem : ∀ i, hT.eigenvalues hn i ∈ s)
-    (hdiag : ∀ k, RCLike.re ⟪T (e k), e k⟫_𝕜 ∈ s) :
-    ∑ k, φ (RCLike.re ⟪T (e k), e k⟫_𝕜) ≤ ∑ i, φ (hT.eigenvalues hn i) := sorry
-
-/-- The Ky Fan `k`-sum of singular values.
-
-Roadmap: `MAJ-A26`. -/
-noncomputable def kyFanSum (k : ℕ) (A : E →ₗ[𝕜] F) : ℝ :=
-  ∑ i ∈ Finset.range k, A.singularValues i
-
-/-- The Ky Fan triangle inequality: `σ(A+B)` is weakly majorized by `σ(A)+σ(B)`,
-so every Ky Fan norm satisfies the triangle inequality at once.
-
-Roadmap: `MAJ-A31`. -/
-theorem kyFanSum_add_le (k : ℕ) (A B : E →ₗ[𝕜] E) :
-    kyFanSum k (A + B) ≤ kyFanSum k A + kyFanSum k B := sorry
-
-/-! ## Part B -- unitarily invariant seminorms -/
-
-/-- A seminorm on rectangular operators, invariant under independent unitary changes
-of source and target coordinates. Square operators use `E = F`.
-
-Roadmap: `MAJ-B01`. -/
+/-- A seminorm on the linear maps `E →ₗ[𝕜] F` between finite-dimensional inner product spaces,
+invariant under independent unitary changes of coordinates in the source and in the target:
+`N (U ∘ A ∘ V) = N A` for every unitary `U` of `F` and `V` of `E`. Square operators are the case
+`E = F`. This is the notion of `TauCeti.UnitarilyInvariantSeminorm`, with the unitaries taken in
+Mathlib's `unitary` submonoids of the endomorphism star monoids. -/
 structure UnitarilyInvariantSeminorm (𝕜 E F : Type*) [RCLike 𝕜]
     [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
     [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F]
@@ -104,97 +77,38 @@ structure UnitarilyInvariantSeminorm (𝕜 E F : Type*) [RCLike 𝕜]
   unitary_invariant' : ∀ (U : unitary (F →ₗ[𝕜] F)) (V : unitary (E →ₗ[𝕜] E)) (A),
     toFun ((U : F →ₗ[𝕜] F) ∘ₗ A ∘ₗ (V : E →ₗ[𝕜] E)) = toFun A
 
--- Roadmap: `MAJ-B01`.
-instance : FunLike (UnitarilyInvariantSeminorm 𝕜 E F) (E →ₗ[𝕜] F) ℝ where
+/-- A unitarily invariant seminorm is evaluated at a linear map through its underlying
+seminorm. -/
+instance {𝕜 E F : Type*} [RCLike 𝕜]
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F] :
+    FunLike (UnitarilyInvariantSeminorm 𝕜 E F) (E →ₗ[𝕜] F) ℝ where
   coe N := N.toFun
-  coe_injective := by sorry
+  coe_injective := by
+    rintro ⟨N, _⟩ ⟨M, _⟩ h
+    congr
+    exact Seminorm.ext (congrFun h)
 
--- Roadmap: `MAJ-B01`.
-instance : SeminormClass (UnitarilyInvariantSeminorm 𝕜 E F) 𝕜 (E →ₗ[𝕜] F) where
+/-- A unitarily invariant seminorm satisfies the seminorm axioms of its underlying seminorm. -/
+instance {𝕜 E F : Type*} [RCLike 𝕜]
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F] [FiniteDimensional 𝕜 F] :
+    SeminormClass (UnitarilyInvariantSeminorm 𝕜 E F) 𝕜 (E →ₗ[𝕜] F) where
   map_zero N := N.map_zero'
   map_add_le_add N := N.add_le'
   map_neg_eq_map N := N.neg'
   map_smul_eq_mul N := N.smul'
 
-/-- Equal singular-value sequences give equal values in every unitarily invariant seminorm.
-
-Roadmap: `MAJ-B19`. -/
-theorem UnitarilyInvariantSeminorm.eq_of_same_singularValues
-    (N : UnitarilyInvariantSeminorm 𝕜 E F) {A B : E →ₗ[𝕜] F}
-    (h : A.singularValues = B.singularValues) : N A = N B := sorry
-
-/-- The modulus preserves every unitarily invariant seminorm on endomorphisms.
-
-Roadmap: `MAJ-B46`. -/
-theorem UnitarilyInvariantSeminorm.apply_operatorAbs
-    (N : UnitarilyInvariantSeminorm 𝕜 E E) (A : E →ₗ[𝕜] E) :
-    N (LinearMap.operatorAbs A) = N A := sorry
-
-/-- **Rectangular Fan dominance**: Ky Fan domination of the singular values gives
-domination in every rectangular unitarily invariant norm — one estimate yields
-the operator, Frobenius, Ky Fan and nuclear norms at once.
-
-Roadmap: `MAJ-B21`. -/
-theorem UnitarilyInvariantSeminorm.apply_le_of_kyFanSum_le
-    (N : UnitarilyInvariantSeminorm 𝕜 E F) {A B : E →ₗ[𝕜] F}
-    (h : ∀ k, kyFanSum k A ≤ kyFanSum k B) :
-    N.toFun A ≤ N.toFun B := sorry
-
-/-- The Frobenius seminorm on rectangular operators. Its value is independent of the
-orthonormal basis used for the sum of squared image norms. Square operators use `E = F`.
-
-Roadmap: `MAJ-B31`. -/
-noncomputable def frobenius : UnitarilyInvariantSeminorm 𝕜 E F := sorry
-
-/-- The Frobenius seminorm through the standard orthonormal basis of the domain.
-
-Roadmap: `MAJ-B34`. -/
-theorem frobenius_apply (A : E →ₗ[𝕜] F) :
-    frobenius A = Real.sqrt (∑ i, ‖A (stdOrthonormalBasis 𝕜 E i)‖ ^ 2) := by
-  sorry
-
-/-! ### The orthogonal block sum
-
-The block-sum layer is **four** results, milestones in sequence rather than alternate
-names for one statement.  The last is the consumer-facing one. -/
-
-/-- The orthogonal block sum of two rectangular maps, on `WithLp 2` products.
-
-Roadmap: `MAJ-B22`. -/
-noncomputable def orthogonalBlockSum {E₁ E₂ F₁ F₂ : Type*}
-    [NormedAddCommGroup E₁] [InnerProductSpace 𝕜 E₁]
-    [NormedAddCommGroup E₂] [InnerProductSpace 𝕜 E₂]
-    [NormedAddCommGroup F₁] [InnerProductSpace 𝕜 F₁]
-    [NormedAddCommGroup F₂] [InnerProductSpace 𝕜 F₂]
-    (A : E₁ →ₗ[𝕜] F₁) (B : E₂ →ₗ[𝕜] F₂) :
-    WithLp 2 (E₁ × E₂) →ₗ[𝕜] WithLp 2 (F₁ × F₂) :=
-  LinearMap.withLpMap 2 (A.prodMap B)
-
-/-- Doubling repeats every singular value twice; the quotient `i / 2` is the interleaved
-sorted order of the two copies.
-
-Roadmap: `MAJ-B26`. -/
-theorem singularValues_orthogonalBlockSum_self (A : E →ₗ[𝕜] F) (i : ℕ) :
-    (orthogonalBlockSum A A).singularValues i = A.singularValues (i / 2) := sorry
-
-/-- **The principal endpoint.**  Two simultaneous rectangular Ky Fan majorizations combine
-sharply on the orthogonal block sum.  Not shortened to `blockSum_le`: the hypotheses are
-specifically Ky Fan majorization.
-
-Roadmap: `MAJ-B29`. -/
-theorem orthogonalBlockSum_apply_le_of_kyFanSum_le
-    {E₁ E₂ F₁ F₂ : Type*}
-    [NormedAddCommGroup E₁] [InnerProductSpace 𝕜 E₁] [FiniteDimensional 𝕜 E₁]
-    [NormedAddCommGroup E₂] [InnerProductSpace 𝕜 E₂] [FiniteDimensional 𝕜 E₂]
-    [NormedAddCommGroup F₁] [InnerProductSpace 𝕜 F₁] [FiniteDimensional 𝕜 F₁]
-    [NormedAddCommGroup F₂] [InnerProductSpace 𝕜 F₂] [FiniteDimensional 𝕜 F₂]
-    (NB : UnitarilyInvariantSeminorm 𝕜
-      (WithLp 2 (E₁ × E₂)) (WithLp 2 (F₁ × F₂)))
-    {A C : E₁ →ₗ[𝕜] F₁} {B D : E₂ →ₗ[𝕜] F₂}
-    (hA : ∀ k, ∑ i ∈ Finset.range k, A.singularValues i
-            ≤ ∑ i ∈ Finset.range k, C.singularValues i)
-    (hB : ∀ k, ∑ i ∈ Finset.range k, B.singularValues i
-            ≤ ∑ i ∈ Finset.range k, D.singularValues i) :
-    NB.toFun (orthogonalBlockSum A B) ≤ NB.toFun (orthogonalBlockSum C D) := sorry
+/-- The Frobenius (Hilbert–Schmidt) value `‖A‖_F = (∑ᵢ ‖A bᵢ‖²)^(1/2)` of a linear map
+`A : E →ₗ[𝕜] F`, computed in the standard orthonormal basis `(bᵢ)` of the source. It is the value
+at `A` of `TauCeti.UnitarilyInvariantSeminorm.frobenius 𝕜 E F` (by
+`TauCeti.UnitarilyInvariantSeminorm.frobenius_apply`); it does not depend on the orthonormal basis,
+and it equals `(∑ᵢ σᵢ(A)²)^(1/2)` for the singular values `σᵢ(A)` of `A`
+(`TauCeti.UnitarilyInvariantSeminorm.frobenius_apply_eq_sqrt_sum_sq_singularValues`, README §2.5). -/
+noncomputable def frobenius {𝕜 E F : Type*} [RCLike 𝕜]
+    [NormedAddCommGroup E] [InnerProductSpace 𝕜 E] [FiniteDimensional 𝕜 E]
+    [NormedAddCommGroup F] [InnerProductSpace 𝕜 F]
+    (A : E →ₗ[𝕜] F) : ℝ :=
+  √(∑ i, ‖A (stdOrthonormalBasis 𝕜 E i)‖ ^ 2)
 
 end TauCetiRoadmap.Majorization
