@@ -934,9 +934,12 @@ For `k` algebraically closed, an endomorphism `F` with an injective `φ` satisfy
 `IsCharacterMap torus F φ` is *standard* if it maps each root subgroup onto a root subgroup, and
 *based* if moreover it maps each positive root subgroup onto a positive root subgroup, that is, it
 preserves the Borel subgroup `B(k)` as well as the torus. Prove that the root permutation of a
-standard map, and the field endomorphisms on its root subgroups, are read from `φ`. *Route.* For
-standard `F` with `F(x_α(u)) = x_β(f(u))`, torus compatibility gives `f(α(t) u) = (φ β)(t) f(u)` for
-all `t`. Taking `t` in the kernel of `α` shows that `φ β` is trivial there, hence a rational multiple
+standard map, and the field endomorphisms on its root subgroups, are read from `φ`. For an
+isogeny of split reductive group schemes carrying the split torus into the split torus, each root
+group goes onto a root group by `u ↦ c u^q`, and the map on characters determines the bijection of
+roots and the exponents (Conrad, *Reductive group schemes*, p. 187, with Definition 6.1.8, p. 191).
+*Route.* For standard `F` with `F(x_α(u)) = x_β(f(u))`, torus compatibility gives
+`f(α(t) u) = (φ β)(t) f(u)` for all `t`. Taking `t` in the kernel of `α` shows that `φ β` is trivial there, hence a rational multiple
 of `α`. Since `α(T(k)) = kˣ`, `f = f(1) · g` for the field endomorphism `g` of `k` determined by
 `g(α(t)) = (φ β)(t)`. `φ` is injective and the root system is reduced, so `φ` determines `β` up to
 sign. It determines the sign too: if a second standard map with the same `φ` sent `x_α` into
@@ -957,8 +960,9 @@ values there, contradicting injectivity of `g` on the infinite field `k`. *Needs
 
 For `k` algebraically closed, prove that two standard endomorphisms `F`, `F′` with
 `IsCharacterMap torus F φ` and `IsCharacterMap torus F′ φ` for the same `φ` satisfy `F = Int(s) ∘ F′`
-for a torus point `s`. *Route.* By §5.6, they send `x_{±α_i}(u)` to `x_{±β_i}(c_{±i} g_{±i}(u))` and
-`x_{±β_i}(c′_{±i} g_{±i}(u))`, with `β_i` and the field endomorphisms `g_{±i}` read from `φ`. The `β_i`
+for a torus point `s`; for isogenies of reductive group schemes that agree on a maximal torus this
+is Conrad, *Reductive group schemes*, Corollary 6.1.15, p. 195. *Route.* By §5.6, they send
+`x_{±α_i}(u)` to `x_{±β_i}(c_{±i} g_{±i}(u))` and `x_{±β_i}(c′_{±i} g_{±i}(u))`, with `β_i` and the field endomorphisms `g_{±i}` read from `φ`. The `β_i`
 are linearly independent because `φ` is injective, and `kˣ` is divisible, so there is `s` with
 `β_i(s) = c_i / c′_i` for all `i`. `F` and `F′` map the torus onto itself (§5.1), so they send
 `n_{α_i}(1)` into the normalizer of the torus, and the rank-one computation
@@ -998,7 +1002,11 @@ with `IsCharacterMap geckWeightTorusPoints F φ` and `φ ^ n = p ^ r • 1`, `r 
 For `F` a composite `γ_σ ∘ Frob_q` with `q = p^m`, `m > 0`, or an odd power of `τ`, prove that some
 positive power of `F` is a Frobenius `Frob_{p^m}` with `m > 0`, that `F` is based, and that its
 character map is the composite of the root-datum maps above. This is the group-level form of
-`TauCeti.ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`. *Needs:* §§5.2–5.4, §5.6; Tau Ceti
+`TauCeti.ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`. *Route.* `γ_σ` commutes with
+`Frob_q` and `γ_σ γ_τ = γ_στ` (§5.3), so `F^n = Frob_{q^n}` for `n` the order of `σ`; for
+`F = τ^{2j+1}`, `F² = (τ ∘ τ)^{2j+1} = Frob_{p^{2j+1}}` (§5.4). `γ_σ`, `Frob_q` and `τ` carry positive
+root subgroups to positive ones, and the character map of a composite is the composite of the
+character maps (§5.1). *Needs:* §5.1, §§5.2–5.4, §5.6; Tau Ceti
 `TauCeti.ValidLieTypeIndex.exists_pow_datumSteinberg_eq_smulId`.
 
 **Checks.**
@@ -1062,8 +1070,15 @@ consequences: every Chevalley datum of type `t` with full weight lattice has gro
 to `G_sc(t)` by an isomorphism matching root subgroups, tori and Frobenius, and intertwining the
 graph automorphisms and exceptional isogenies where the datum carries them; and the homomorphism
 from `G_sc(t)` to the adjoint form *DynkinType.adjointGroupScheme* `t` matches root subgroups and
-has kernel on points over every field the centre of §3.5. *Needs:* §6.2, §4.4, §§5.2–5.4 (for the intertwining);
-ReductiveGroups §9B.2 (the central isogeny for an inclusion of weight spans).
+has kernel on points over every field the centre of §3.5. On points this last consequence is
+`TauCetiRoadmap.ChevalleyGroups.exists_scToGeckPoints`: for every valid `t`, given the nilpotency
+of §1.1, and every field `k`, there is a homomorphism from the points over `k` of the toral closure
+of `V_sc(t)` (§2.3) to `geckPoints t ht k` that sends each numbered root subgroup
+`kostantToralRootSubgroupPoints` to the Geck root subgroup `TauCeti.DynkinType.geckRootSubgroupPoints`
+of the same index, and whose kernel is the centre of the source. *Needs:* §6.2, §1.1, §2.3, §3.5,
+§4.4, §§5.2–5.4 (for the intertwining); ReductiveGroups §9B.2 (the central isogeny for an inclusion
+of weight spans); Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.kostantToralRootSubgroupPoints`,
+`TauCeti.DynkinType.geckRootSubgroupPoints`; Mathlib `MonoidHom.ker`, `Subgroup.center`.
 
 **Checks.**
 - `SL₂ → PGL₂` over `𝔽₂`: the kernel on points is `μ₂(𝔽₂) = 1`, the centre of `SL₂(𝔽₂)`, and both
@@ -1092,9 +1107,13 @@ isogenies in characteristics two and three"), transported along the base change 
 isomorphism of §2.9. Prove that on points over every field `k` of characteristic `p` it is the
 endomorphism of §5.4 when the two have the same signs on the simple root subgroups, and in general
 up to conjugation by a point of the torus. Both send `x_{±α_i}(u)` to `x_{±α_σi}(±u ^ e_i)`, with
-the same sign at `α_i` and at `−α_i` by the rank-one computation of §5.7. The signs are trivial in
-characteristic two, and in type `G₂` the simple roots are a basis of `P`, so a torus point removes
-their difference; two homomorphisms out of `E(k) = G_sc(t)(k)` (§4.4) that agree on the simple root
+the same sign at `α_i` and at `−α_i`. The signs are trivial in characteristic two. In
+characteristic three, write `β = α_σi` and `c`, `c₋` for the signs at `α_i` and `−α_i`; since `e_i`
+is odd, `n_{α_i}(1)` goes to `x_β(c) x_{−β}(−c₋) x_β(c)`, the rank-one matrix of §5.7, which for
+`c₋ = −c` is `[[−1, 0], [c, −1]]`, with square `x_{−β}(c)` of order three, whereas
+`n_{α_i}(1)² = h_{α_i}(−1)` has square `1`, so no homomorphism has `c₋ = −c`. In type `G₂` the
+simple roots are a basis of `P`, so a torus point removes the difference between the signs of the
+two maps; two homomorphisms out of `E(k) = G_sc(t)(k)` (§4.4) that agree on the simple root
 subgroups are equal (§5.5). That `τ` is an isogeny with infinitesimal kernel belongs to
 ReductiveGroups Layer 9. *Needs:* §2.9, §4.4, §§5.4–5.5, §5.7; ReductiveGroups §9B (special
 isogenies).
@@ -1238,7 +1257,8 @@ Layer 3 and ReductiveGroups §9B.
 ### From Mathlib
 
 - `commutatorElement`, `⁅g, h⁆ = g h g⁻¹ h⁻¹` (Convention 4); `PresentedGroup` (§3.6);
-  `Subgroup.closure`, `Subgroup.center` (§4.4), `MulAut.conj`, `Matrix.GeneralLinearGroup`.
+  `Subgroup.closure`, `Subgroup.center` (§4.4), `MonoidHom.ker` (§6.3), `MulAut.conj`,
+  `Matrix.GeneralLinearGroup`.
 - `LieModule.Weight`, `LieModule.chainBotCoeff` (the length `r` of the root string below a root,
   §0.1), `LieModule.IsTriangularizable`, `LieAlgebra.IsKilling`, `UniversalEnvelopingAlgebra`,
   `Matrix.ToLieAlgebra` (the Serre algebra), and `LieModule.isNilpotent_toEnd_of_mem_rootSpace`: an

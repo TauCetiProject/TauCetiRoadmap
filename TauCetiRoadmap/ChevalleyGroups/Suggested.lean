@@ -43,6 +43,10 @@ stated on it are:
   subgroups (`README.md`, §4.5);
 * the exceptional isogenies on its points over an algebraically closed field (`README.md`, §5.4).
 
+Chevalley's comparison theorem is stated for the pair of carriers: over every field, a
+homomorphism from the points of `G_sc(t)` to those of the Geck carrier that is the identity on the
+numbered root subgroups and whose kernel is the centre (`README.md`, §6.3).
+
 Lang's equation on the torus (`README.md`, §5.7) is not restated. On the Geck carrier the pinned
 Tau Ceti proves it as `TauCeti.DynkinType.exists_geckWeightTorusPoints_eq_mul_inv`, over every
 nontrivial commutative ring of characteristic `p` with divisible units, for the pinned predicate
@@ -66,9 +70,12 @@ Not statable at the pins, so not stated here:
   torus `T_D(k) = Hom(Λ(D), kˣ)` with `Λ(D)` the span of the weights has no pinned point map; the
   pinned `geckWeightTorusPoints` is the full-weight parametrization, whose image is smaller in
   general;
-* Chevalley's comparison theorem (`README.md`, Layer 6): it is stated for Chevalley data, which
-  `README.md`, §2.2, defines as a faithful representation with a Kostant-stable lattice and a weight
-  basis, with a torus whose character lattice is `Λ(D)`; neither is at the pins;
+* Chevalley's comparison theorem for general Chevalley data `D`, `D′` (`README.md`, Layer 6):
+  `README.md`, §2.2, defines a Chevalley datum as a faithful representation with a Kostant-stable
+  lattice and a weight basis, with a torus whose character lattice is `Λ(D)`, and neither is at the
+  pins; only its case from `G_sc(t)` to the Geck carrier is stated here, on points over a field,
+  the map of group schemes over `ℤ` being ReductiveGroups §9B.2's central isogeny, which
+  `README.md`, §6.3, consumes;
 * the exceptional isogenies as morphisms of `𝔽_p`-group schemes (`README.md`, Layer 7): the
   statement there is that ReductiveGroups §9B's endomorphism of `G_sc(t)` over `𝔽_p` agrees on
   points with the endomorphism of §5.4, and the pins define neither map on this carrier; §5.4 is
@@ -243,6 +250,35 @@ theorem exists_specialIsogeny (t : DynkinType) (ht : t.Valid) (p : ℕ) [Fact p.
           τ (t.geckRootSubgroupPoints ht (.inr i) k (.ofAdd u)) =
             t.geckRootSubgroupPoints ht (.inr (σ i)) k
               (.ofAdd (((εn : ℤ) : k) * u ^ (if t.IsLongSimpleRoot i then 1 else p))) :=
+  sorry
+
+/-! ## Layer 6: Chevalley's comparison theorem -/
+
+/-- **Chevalley's comparison theorem from `G_sc(t)` to the adjoint form (`README.md`, §6.3).**
+For a valid Dynkin type `t` and every field `k`, there is a homomorphism from the points of
+`G_sc(t)` over `k` to the points of the Geck carrier, the adjoint form (`README.md`, §2.3), that
+sends `x_{±α_i}(u)` to `x_{±α_i}(u)` on the numbered root subgroups and whose kernel is the centre
+of the points of `G_sc(t)`, the group `Hom(P/Q, kˣ)` of `README.md`, §3.5. The root-subgroup
+clause determines the homomorphism, since these root subgroups generate the points of `G_sc(t)`
+(`README.md`, §4.4); it is ReductiveGroups §9B.2's central isogeny on points over `k`. For `A₁` it
+is `SL₂(k) → PGL₂(k)`, with kernel `{±1}` over `ℚ` and trivial kernel over `𝔽₂`, where
+`SL₂(𝔽₂) ≅ S₃` has trivial centre. The hypothesis `hnil` is `README.md`, §1.1. -/
+theorem exists_scToGeckPoints (t : DynkinType) (ht : t.Valid)
+    (hnil : ∀ i, IsNilpotent (representation ℚ (t.lieAlgebra ht) (t.scModule ht)
+      (_root_.UniversalEnvelopingAlgebra.ι ℚ ((t.lieBasis ht).rootGenerator i))))
+    (k : Type) [Field k] :
+    ∃ φ : kostantToralPointsSubgroup (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) k →*
+        t.geckPoints ht k,
+      (∀ i u, φ (kostantToralRootSubgroupPoints (t.lieBasis ht).rootGenerator (t.lieBasis ht).h
+          (representation ℚ (t.lieAlgebra ht) (t.scModule ht)) (t.scLattice ht).toAddSubgroup
+          (t.kostantForm_apply_mem_scLattice ht) hnil (t.scWeightBasis ht) (t.scWeight ht) i k u) =
+          t.geckRootSubgroupPoints ht i k u) ∧
+        φ.ker = Subgroup.center (kostantToralPointsSubgroup (t.lieBasis ht).rootGenerator
+          (t.lieBasis ht).h (representation ℚ (t.lieAlgebra ht) (t.scModule ht))
+          (t.scLattice ht).toAddSubgroup (t.kostantForm_apply_mem_scLattice ht) hnil
+          (t.scWeightBasis ht) (t.scWeight ht) k) :=
   sorry
 
 end TauCetiRoadmap.ChevalleyGroups
