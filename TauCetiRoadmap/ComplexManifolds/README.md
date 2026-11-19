@@ -162,13 +162,17 @@ structomorphism (`Homeomorph.pullbackStructomorph`) and a `C^n` diffeomorphism w
 `Homeomorph.coe_pullbackDiffeomorph`). Transport along the identity is the original atlas, along a
 composite it is the iterated transport, and transporting back along `e.symm` recovers the original
 (`Homeomorph.pullbackChartedSpace_refl`, `Homeomorph.pullbackChartedSpace_trans`,
-`Homeomorph.pullbackChartedSpace_symm_pullbackChartedSpace`). Prove the corresponding laws for model
-transport: transport along the identity equivalence is the original model, and transport along
-`e` followed by `e'` is transport along their composite, so that the comparison diffeomorphisms
+`Homeomorph.pullbackChartedSpace_symm_pullbackChartedSpace`). The corresponding laws for model
+transport are Tau Ceti's: transport along the identity equivalence is the original model, transport
+along `e` followed by `e'` is transport along their composite
+(`ModelWithCorners.transContinuousLinearEquiv_refl`, `ModelWithCorners.transContinuousLinearEquiv_trans`),
+and transport leaves the maximal atlas unchanged (`ModelWithCorners.maximalAtlas_transContinuousLinearEquiv`);
+since every comparison diffeomorphism has underlying map the identity, the comparison diffeomorphisms
 compose. These atlases are named values, used through local or scoped instances (Conventions).
 *Needs:* Mathlib `ModelWithCorners.transContinuousLinearEquiv`,
 `ContinuousLinearEquiv.toTransContinuousLinearEquiv`; Tau Ceti `Homeomorph.pullbackChartedSpace`
-and its API above.
+and its API above, `ModelWithCorners.transContinuousLinearEquiv_refl`,
+`ModelWithCorners.transContinuousLinearEquiv_trans`.
 
 **Checks.**
 
@@ -215,7 +219,7 @@ transported atlases on one carrier (Check in §1.3). On `ℂⁿ` the realified m
 ### Dependencies
 
 Mathlib manifolds, models with corners, `contDiffGroupoid` and model transport; the Tau Ceti
-realification and pullback-atlas API named above. No other layer of this roadmap.
+realification, model-transport and pullback-atlas API named above. No other layer of this roadmap.
 
 ## Layer 2: the canonical real orientation
 
@@ -418,13 +422,14 @@ action map is exactly `ContMDiffConstSMul 𝓘(ℂ, E) ∞ G M`, so the orbit pr
 biholomorphism without rebuilding the quotient manifold. Every chart of the orbit space is a local
 section of the orbit projection followed by a chart of `M`
 (`TauCeti.exists_trans_eq_of_mem_atlas_quotient`). Prove that for any right inverse `g` of the orbit
-projection, for instance `Quotient.out`, the atlas `IsLocalHomeomorph.chartedSpaceOfRightInverse` built
-from `g` and Mathlib's installed atlas define the same `C^n` structure: the identity of the orbit space
-is a `C^n` diffeomorphism between them, and the atlas built from local inverses of the orbit projection
-in mathlib4#40727 is compared with the installed one in the same way. These are compatible atlases, not
-definitionally equal instances, and no competing global quotient atlas is installed.
-*Needs:* Mathlib `MulAction.instChartedSpaceQuotient`, `ContMDiffConstSMul`,
-`isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`; Tau Ceti
+projection, for instance `Quotient.out`, the atlas Mathlib's `IsLocalHomeomorph.chartedSpaceOfRightInverse`
+builds from `g`, whose charts are the local inverses of the orbit projection at the points `g q` followed
+by charts of `M`, and Mathlib's installed atlas, which is that construction for one chosen right inverse,
+define the same `C^n` structure: the identity of the orbit space is a `C^n` diffeomorphism between them.
+These are compatible atlases, not definitionally equal instances, and no competing global quotient atlas
+is installed.
+*Needs:* Mathlib `MulAction.instChartedSpaceQuotient`, `IsLocalHomeomorph.chartedSpaceOfRightInverse`,
+`ContMDiffConstSMul`, `isQuotientCoveringMap_quotientMk_of_properlyDiscontinuousSMul`; Tau Ceti
 `TauCeti.isLocalDiffeomorph_quotientMk`, `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceOfRightInverse`.
 
 **Checks.**
@@ -631,18 +636,17 @@ identification, including composites through other pieces. For `TopCat.GlueData`
 `TopCat.GlueData.Rel`, already an equivalence relation (`TopCat.GlueData.rel_equiv`), whose slice over
 `(i, j)` is Tau Ceti's `TopCat.GlueData.chartRel i j ⊆ D.U i × D.U j`, the pairs with the same image in
 the glued space (`TopCat.GlueData.mem_chartRel_iff`). The map `X → D.toGlueData.glued` is an open quotient
-map (`TopCat.GlueData.isOpenQuotientMap_sigma_ι`). State and prove that the glued space is Hausdorff when
-the pieces are Hausdorff and `R` is closed in `X × X`
-(`TauCetiRoadmap.ComplexManifolds.glued_t2Space_of_isClosed_rel`); Hausdorffness of the pieces is not used
-by the argument, and conversely the glued space is Hausdorff only if every slice is closed
-(`TopCat.GlueData.t2Space_iff_isClosed_chartRel`). Checkable hypotheses for closedness of the generated
-relation are Tau Ceti's: for Hausdorff pieces, `chartRel i j` is closed exactly when points outside the
-two overlaps have neighbourhoods meeting no identified pair (`TopCat.GlueData.isClosed_chartRel_iff`,
+map (`TopCat.GlueData.isOpenQuotientMap_sigma_ι`). So the glued space is Hausdorff exactly when `R` is
+closed in `X × X`, with no hypothesis on the pieces: this is Mathlib's `t2Space_iff_of_isOpenQuotientMap`
+for that map, with `TopCat.GlueData.ι_eq_iff_rel` identifying `R` with the pairs of equal image; and it is
+Hausdorff exactly when every slice is closed (`TopCat.GlueData.t2Space_iff_isClosed_chartRel`). Checkable
+hypotheses for closedness of the generated relation are Tau Ceti's: for Hausdorff pieces, `chartRel i j`
+is closed exactly when points outside the two overlaps have neighbourhoods meeting no identified pair (`TopCat.GlueData.isClosed_chartRel_iff`,
 `TopCat.GlueData.t2Space_iff_forall_nhds`), and closed overlaps in Hausdorff pieces suffice
 (`TopCat.GlueData.t2Space_of_isClosed_range`). Closedness of the graph of `D.t i j` inside
 `D.V (i, j) × D.V (j, i)` is not a substitute.
-*Needs:* Mathlib `TopCat.GlueData.Rel`, `TopCat.GlueData.ι_eq_iff_rel`; Tau Ceti
-`TopCat.GlueData.isOpenQuotientMap_sigma_ι`, `TopCat.GlueData.t2Space_iff_isClosed_chartRel`.
+*Needs:* Mathlib `TopCat.GlueData.Rel`, `TopCat.GlueData.ι_eq_iff_rel`, `t2Space_iff_of_isOpenQuotientMap`;
+Tau Ceti `TopCat.GlueData.isOpenQuotientMap_sigma_ι`, `TopCat.GlueData.t2Space_iff_isClosed_chartRel`.
 
 **Checks.**
 
@@ -685,7 +689,7 @@ compact fibres.
 ### 6.5 Invariance and agreement with Mathlib's typeclasses
 
 Prove that the four results above, second countability, the Hausdorff criterion, connectedness and the
-locality of properness for maps out of glued spaces, are preserved by isomorphisms of gluing data (a
+locality of properness for maps into glued spaces, are preserved by isomorphisms of gluing data (a
 family of homeomorphisms of the pieces and of the overlaps commuting with `f` and `t`), and that their
 conclusions are Mathlib's typeclasses `SecondCountableTopology`, `T2Space`, `ConnectedSpace` and the
 predicate `IsProperMap` on the glued carrier.
@@ -809,7 +813,13 @@ that its image is a complex vector subbundle of `i* TM`, and that the quotient `
 holomorphic line bundle. Construct its transition cocycle from transverse complex charts, in which `Z` is
 the zero set of the last coordinate and the cocycle is the derivative of the last coordinate change in the
 normal direction along `Z`, and prove that the quotient-bundle model and the transition-cocycle model are
-isomorphic holomorphic line bundles.
+isomorphic holomorphic line bundles. If the last coordinates `u_α`, `u_β` of two transverse charts are local
+equations of `Z`, then `u_α = (u_α/u_β) u_β` gives `∂u_α/∂u_β = u_α/u_β` along `Z`: the cocycle is the
+restriction to `Z` of the cocycle `u_α/u_β` of the line bundle of the divisor `Z` (Demailly, Chapter V,
+(13.5), p. 271), and the differential of the canonical section of that bundle identifies the normal bundle
+with its restriction to `Z` (Demailly, Chapter VII, proof of Proposition (12.4) a), p. 357, for an
+exceptional divisor; the argument uses only that the section vanishes to first order along a smooth
+hypersurface).
 *Needs:* §§7.1–7.3; Layer 2 (for the orientation convention of §7.5); Tau Ceti `TauCeti.SmoothEmbedding`,
 `TauCeti.SmoothEmbedding.normalSpaceContMDiffVectorBundle`; Mathlib `Manifold.IsSmoothEmbedding`.
 
@@ -824,7 +834,8 @@ isomorphic holomorphic line bundles.
 The holomorphic cotangent bundle is Tau Ceti's `TauCeti.CotangentBundle 𝓘(ℂ, E) M`, the bundle of
 complex-linear functionals on the tangent spaces, with Mathlib's Hom-bundle structure. Construct its
 determinant, of rank one, on the top-exterior-power carrier of §7.2, and the canonical line bundle
-`K_M` from it, with the dual and top-exterior-power conventions stated in the declarations; identify
+`K_M` from it, the top exterior power of the holomorphic cotangent bundle (Demailly, Chapter VII, (3.4),
+p. 334), with the dual and top-exterior-power conventions stated in the declarations; identify
 `K_M` with Mathlib's holomorphic bundle of complex alternating maps of degree `n = finrank ℂ E` on the
 tangent spaces (`ContMDiffVectorBundle.continuousAlternatingMap`).
 *Needs:* §7.2; Tau Ceti `TauCeti.CotangentBundle`; Mathlib `ContMDiffVectorBundle.continuousAlternatingMap`.
@@ -839,8 +850,11 @@ tangent spaces (`ContMDiffVectorBundle.continuousAlternatingMap`).
 
 Let a finite group `G` act freely by biholomorphisms on a complex manifold `M`, and for a character
 `χ : G → ℂˣ` let `L_χ` be the associated holomorphic line bundle on `M/G`, the quotient of `M × ℂ` by
-`g · (x, v) = (g x, χ(g) v)`, glued through §7.2 and §4.3; its holomorphic sections are the holomorphic
-`f : M → ℂ` with `f(g x) = χ(g) f(x)`. Prove that the order of `χ` bounds the tensor order of `L_χ`, since
+`g · (x, v) = (g x, χ(g) v)`, glued through §7.2 and §4.3 (Demailly, Chapter V, §6, p. 261, builds in
+the same way, with locally constant transition functions, the bundle of a representation of the
+fundamental group on the universal covering; here the covering is `M → M/G`); its holomorphic sections
+are the holomorphic `f : M → ℂ` with `f(g x) = χ(g) f(x)`. Prove that the order of `χ` bounds the tensor
+order of `L_χ`, since
 `L_χ^{⊗ k}` is `L_{χᵏ}`. Prove that the order is exact when the character-to-Picard homomorphism
 `χ ↦ [L_χ]` is injective. Prove the standard sufficient theorem: if `M` is compact and connected, every
 invertible holomorphic function on `M` is constant, so triviality of `L_χ`, a nowhere-vanishing section,
@@ -897,20 +911,19 @@ the shape of the API here, never whether a target proceeds, and overlapping impl
 work or from sibling roadmaps are integrated in coordination with their authors.
 
 **Already in the libraries at the pins.** Tau Ceti proves most of Layers 1–6 and the foundations of
-Layer 7: the realification API of §§1.1–1.2, §1.5, the pullback atlases of §1.3 and the recharting and
-product halves of §1.4; the canonical orientation with its open-subset, product and biholomorphism
-statements of §§2.1–2.4; the whole of Layer 3; §§4.1–4.2 (save the right-inverse atlas comparison), the
-section descent of §4.3 and §4.4; §§5.1–5.2, uniqueness, maps and subfamilies of §5.3, the two-chart
+Layer 7: the realification API of §§1.1–1.2, §1.5, the model-transport laws and pullback atlases of §1.3
+and the recharting and product halves of §1.4; the canonical orientation with its open-subset, product and
+biholomorphism statements of §§2.1–2.4; the whole of Layer 3; §§4.1–4.2 (save the right-inverse atlas
+comparison), the section descent of §4.3 and §4.4; §§5.1–5.2, uniqueness, maps and subfamilies of §5.3, the two-chart
 gluings of §5.4 and §5.5; §§6.1–6.4 and §6.6; the trivialization characterization of §7.1, the
 trivial-line criterion and cocycle isomorphisms of §7.3, and the holomorphic normal bundle of an embedding
 in §7.4. Mathlib supplies the holomorphic cores, direct sums, Hom and dual bundles, alternating-map
-bundles and pullbacks of §7.2. The layers name each declaration. The targets that remain are: model
-transport laws (§1.3) and open restriction (§1.4); recharting and factor interchange for the orientation
-(§2.3); the right-inverse atlas comparison (§4.1), bundle-map descent and its compatibility with bundle
-operations (§4.3), and §4.5; the overlap lemmas of §5.1, products and atlas transport (§5.3) and the
-finite-star gluing (§5.4); the Hausdorff criterion in generated-relation form (§6.2) and §6.5; the
-holomorphic tensor, exterior-power and determinant refinements of §7.2, the codimension-one statements and
-the cocycle comparison of §7.4, §7.5 beyond the cotangent bundle, and §7.6.
+bundles and pullbacks of §7.2. The layers name each declaration. The targets that remain are: open
+restriction (§1.4); recharting and factor interchange for the orientation (§2.3); the right-inverse
+atlas comparison (§4.1), bundle-map descent and its compatibility with bundle operations (§4.3), and
+§4.5; the overlap lemmas of §5.1, products and atlas transport (§5.3) and the finite-star gluing
+(§5.4); §6.5; the holomorphic tensor, exterior-power and determinant refinements of §7.2, the
+codimension-one statements and the cocycle comparison of §7.4, §7.5 beyond the cotangent bundle, and §7.6.
 
 **Left to other roadmaps.**
 
@@ -963,7 +976,10 @@ classification, coherent sheaf cohomology and Riemann–Roch.
   `t2Space_of_properlyDiscontinuousSMul_of_t2Space`, `ContinuousConstSMul.secondCountableTopology`,
   `Quotient.instConnectedSpace`, and the quotient atlas `MulAction.instChartedSpaceQuotient`
   (`AddAction.instChartedSpaceQuotient`), assumed for a free (`IsCancelSMul`), properly discontinuous
-  action by homeomorphisms of a Hausdorff, locally compact charted space.
+  action by homeomorphisms of a Hausdorff, locally compact charted space; that atlas is
+  `IsLocalHomeomorph.chartedSpaceOfRightInverse` (`Mathlib/Geometry/Manifold/ChartedSpace.lean`) for a
+  chosen right inverse of the orbit projection, its charts the local inverses
+  `IsLocalHomeomorph.localInverseAt` followed by charts of the space.
 - **Bundles** (`Mathlib/Topology/FiberBundle/`, `Mathlib/Topology/VectorBundle/`,
   `Mathlib/Geometry/Manifold/VectorBundle/`): `FiberBundle`, `VectorBundle`, `VectorBundleCore`,
   `VectorPrebundle`, `ContMDiffVectorBundle`, `VectorBundleCore.IsContMDiff` with
@@ -977,6 +993,7 @@ classification, coherent sheaf cohomology and Riemann–Roch.
   the action `OnePoint.instGLAction` with `OnePoint.smul_some_eq_ite` and `OnePoint.smul_infty_eq_ite`.
 - **Orientation and topology**: `Orientation`, `Complex.orientation`, `IsProperMap`,
   `isProperMap_iff_isClosedMap_and_compact_fibers`, `SecondCountableTopology`, `T2Space`,
+  `t2Space_iff_of_isOpenQuotientMap` (`Mathlib/Topology/Separation/Hausdorff.lean`),
   `ConnectedSpace`; the maximum principle `MDifferentiable.apply_eq_of_compactSpace` for §7.6.
 
 ### From Tau Ceti
@@ -1000,6 +1017,10 @@ All the declarations below are proved at the Tau Ceti pin; paths are under `TauC
   (`Analysis/InnerProductSpace/Euclidean/Complex.lean`), `TauCeti.complexEuclideanRealModel` and
   `TauCeti.complexEuclideanRealModel_def` (`Geometry/Manifold/Complex/Euclidean.lean`). The realified
   model has the same chart carrier and chart maps.
+- **Model transport** (`Geometry/Manifold/ModelWithCorners/LinearEquiv.lean`):
+  `ModelWithCorners.transContinuousLinearEquiv_refl`, `ModelWithCorners.transContinuousLinearEquiv_trans`
+  and `ModelWithCorners.maximalAtlas_transContinuousLinearEquiv`, for models with corners over any
+  nontrivially normed field and at every regularity.
 - **Pullback atlases** (`Geometry/Manifold/PullbackGroupoid.lean`): `Homeomorph.pullbackChartedSpace`,
   `Homeomorph.pullbackChartedSpace_chartAt`, `Homeomorph.pullbackChartedSpace_atlas`,
   `Homeomorph.transOpenPartialHomeomorph_mem_pullbackChartedSpace_atlas`,
@@ -1037,7 +1058,7 @@ All the declarations below are proved at the Tau Ceti pin; paths are under `TauC
   `Geometry/Manifold/VectorBundle/Pullback.lean`, `Geometry/Manifold/Complex/IntTranslationQuotient.lean`):
   `TauCeti.instIsManifoldQuotient`, `TauCeti.isLocalDiffeomorph_quotientMk`,
   `TauCeti.instIsManifoldAddQuotient`, `TauCeti.isLocalDiffeomorph_addQuotientMk`,
-  `TauCeti.exists_trans_eq_of_mem_atlas_quotient`, `IsLocalHomeomorph.chartedSpaceOfRightInverse`,
+  `TauCeti.exists_trans_eq_of_mem_atlas_quotient`,
   `IsLocalHomeomorph.isManifold_chartedSpaceOfRightInverse`,
   `IsLocalHomeomorph.isLocalDiffeomorph_chartedSpaceOfRightInverse`, `TauCeti.MulAction.orbitRelQuotientLift`,
   `TauCeti.MulAction.eq_orbitRelQuotientLift_iff`, `TauCeti.MulAction.comp_orbitRelQuotientLift`,
@@ -1118,6 +1139,11 @@ foundational carriers are consumed, not connections or projective examples.
   Sections 4–5 for analytic coverings and holomorphic descent.
 - Daniel Huybrechts, *Complex Geometry: An Introduction*, Chapters 1–2, for complex manifolds, their
   underlying real manifolds, holomorphic vector bundles and the canonical bundle.
+- Jean-Pierre Demailly, *Complex Analytic and Differential Geometry*, version of 21 June 2012, on the
+  [author's page](https://www-fourier.univ-grenoble-alpes.fr/~demailly/manuscripts/agbook.pdf): Chapter V,
+  §6 (p. 261) and (13.5) (p. 271), and Chapter VII, (3.4) (p. 334) and Proposition (12.4) (p. 357), for
+  flat bundles of representations, the line bundle of a divisor, the canonical line bundle and the normal
+  bundle of a hypersurface.
 - Raoul Bott and Loring W. Tu, *Differential Forms in Algebraic Topology*, Section 1, for the
   complex-orientation convention.
 - Norman Steenrod, *The Topology of Fibre Bundles*, for transition functions, changes of trivialization and
@@ -1129,7 +1155,9 @@ foundational carriers are consumed, not connections or projective examples.
   `orbitRel.Quotient.localInverseAt`, `localInverseAt_apply_mk_eq_smul`,
   `localInverseAt_symm_trans_eqOn_smul`, `exists_smul_mem_localInverseAt_target`, `transitionMap`,
   `transitionMap_eqOn_smul`, `mk_chartAt_symm_mem_localInverseAt_source` and
-  `MulAction.isManifold_quotient_of_contMDiffConstSMul`; §4.1 compares its atlas with the installed one.
+  `MulAction.isManifold_quotient_of_contMDiffConstSMul`; its quotient atlas is
+  `IsLocalHomeomorph.chartedSpaceOfRightInverse` for the right inverse `Quotient.out`, one of the atlases
+  that §4.1 compares with the installed one.
 - [mathlib4#42847](https://github.com/leanprover-community/mathlib4/pull/42847): transport of charted
   spaces and structure groupoids along homeomorphisms (module `Mathlib.Geometry.Manifold.PullbackGroupoid`,
   with `Homeomorph.pullbackChartedSpace`, `_chartAt`, `_atlas`,
