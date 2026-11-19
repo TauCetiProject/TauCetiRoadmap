@@ -27,10 +27,10 @@ adding a rank-(n−1) filtration of the Lie algebra gives the Krämer space. It 
 with semistable reduction.
 
 Globally, F/F⁺ is a CM extension, Φ a CM type with reflex field E_Φ, and a a nonzero ideal of
-O_{F⁺}. Consider abelian schemes with an action of O_F whose characteristic polynomial on the Lie
+`O_{F⁺}`. Consider abelian schemes with an action of O_F whose characteristic polynomial on the Lie
 algebra is the one Φ prescribes, and a polarization with kernel the a-torsion whose Rosati
 involution induces conjugation; arrows preserve the polarization exactly. Their moduli is a
-Deligne–Mumford stack, possibly empty, finite and étale over O_{E_Φ}. This holds at every prime,
+Deligne–Mumford stack, possibly empty, finite and étale over `O_{E_Φ}`. This holds at every prime,
 including those ramified in F.
 
 The integral models classify pairs (A₀, A) of a point of this CM moduli and an abelian scheme with
