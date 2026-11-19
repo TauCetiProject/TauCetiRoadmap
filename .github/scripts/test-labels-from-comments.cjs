@@ -78,7 +78,7 @@ test('prose, quoted labels, case differences, and code remain inert', async () =
 
 test('authority and generated labels cannot be changed by comments', async () => {
   assert.deepEqual(await commands([
-    'administrative-hold', '-administrative-hold', 'ai-approved', '-ai-approved',
+    'administrative-hold', '-administrative-hold', 'ai-found-no-errors', '-ai-found-no-errors',
     'ready-to-merge', '-bors-staging', 'on-hold', '-ci-failed',
     'roadmap/none', '-roadmap/Unknown',
   ].join('\n')), []);

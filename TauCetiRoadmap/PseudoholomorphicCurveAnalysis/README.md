@@ -187,8 +187,9 @@ PH3.2 in their own right, so no target waits for the library:
   extension, change of variables and local compactness on planar domains and half-discs are PH1
   targets.
 - [CharacteristicClasses](../CharacteristicClasses/README.md) C2.3 (the diagonal trace
-  comparison with the alternating Betti sum) and C3.2 (`c₁ = e` in rank one, the Whitney sum
-  formula and the determinant-line comparison).
+  comparison with the alternating Betti sum) and C3.0 (`c₁` of a line defined as the Euler class
+  `e`, `c₁(E) = c₁(det E)`, the signed zero count, and the tensor and Whitney formulas evaluated
+  on a closed surface).
 - [ModularForms](../ModularForms/README.md) Layer 10B (iv)–(v) (`dim H⁰(Ω¹) = g_an` and
   `analyticGenus_eq_topologicalGenus` on compact Riemann surfaces), and
   [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) Layer 5's `RiemannSurface.genus`.
@@ -1229,7 +1230,7 @@ to the conjugate bundle `Ē` over `τ(Σ)` along `∂Σ`. The gluing identifies 
 with that of `Ē` by the antilinear involution of `E|∂Σ` with fixed set `F`. Use collars to make
 the result a smooth complex bundle, prove that it is independent of the choices up to
 isomorphism, and lift `τ` to an antilinear involution of `E_F` fixing `F`. Define
-`μ(E, F) = c₁(E_F)[Σ_ℂ]`, using CharacteristicClasses C3.2's `c₁` and the complex fundamental
+`μ(E, F) = c₁(E_F)[Σ_ℂ]`, using CharacteristicClasses C3.0's `c₁` and the complex fundamental
 class.
 
 Prove the following. The last four are the axioms of McDuff–Salamon Theorem C.3.5 (p. 595),
@@ -1264,7 +1265,7 @@ Theorem C.3.6.
   computes from the factors, and the composition axiom on the annulus with matching data
   gives `0 + 0 = 0` for `(ℂ, ℝ)` on both circles, PH7.2's third example.
 
-*Needs:* PH2.4's Schottky double; CharacteristicClasses C3.2's `c₁`; Tau Ceti
+*Needs:* PH2.4's Schottky double; CharacteristicClasses C3.0's `c₁`; Tau Ceti
 `TotallyRealLoop.maslovIndex`, `maslovIndex_map`, `maslovIndex_prod` and
 `maslovIndex_rotation`; Mathlib `VectorBundle`.
 
@@ -1288,7 +1289,8 @@ The closed case follows these steps.
    rank `≥ 4 > 2 = dim Σ`. Prove this with Tau Ceti's Morse–Sard theorem
    `ContDiff.addHaar_image_criticalPoints_eq_zero` in charts. A nowhere-zero section and a
    Hermitian metric split `E ≅ ℂ ⊕ E'`. By induction, `E ≅ ℂ^{n−1} ⊕ L` with
-   `c₁(L) = c₁(E)`, using the Whitney sum formula of CharacteristicClasses C3.2.
+   `c₁(L) = c₁(E)`, using `det(ℂ^{n−1} ⊕ L) ≅ L` and CharacteristicClasses C3.0's
+   `c₁(E) = c₁(det E)`.
 3. *Holomorphic structures.* A complex-linear Cauchy–Riemann operator on a line bundle has
    local holomorphic frames by PH3.5's similarity principle. So it is a holomorphic structure,
    and its kernel is the space of holomorphic sections.
@@ -1306,7 +1308,7 @@ The closed case follows these steps.
    it is needed before any line bundle is known to be `𝒪(D)` for a divisor `D`.
 5. *Reduction to the trivial bundle.* A generic smooth section of `L` has finitely many
    transverse zeros `xᵢ` with signs `εᵢ`, whose signed count is `c₁(L)[Σ]` by
-   CharacteristicClasses C3.2's `c₁ = e`. Twisting the trivial holomorphic bundle at those
+   CharacteristicClasses C3.0's signed zero count. Twisting the trivial holomorphic bundle at those
    points, by `𝒪(xᵢ)` for `εᵢ = 1` and its dual for `εᵢ = −1`, gives a holomorphic bundle.
    Prove it is smoothly isomorphic to `L`, using the section to build the isomorphism. So
    `ind_ℝ ∂̄_L = ind_ℝ ∂̄_ℂ + 2c₁(L)[Σ]`.
@@ -1343,8 +1345,8 @@ Finally prove the line-bundle vanishing theorem, McDuff–Salamon Theorem C.1.10
 closed case, first prove the *zero count*: a section of a complex line bundle over a closed
 connected Riemann surface, in the kernel of a real Cauchy–Riemann operator and not identically
 zero, has isolated zeros of positive integer order (PH3.5), and the sum of the orders is
-`c₁(E)[Σ]`. Compare the orders with the transverse signed count of CharacteristicClasses C3.2's
-`c₁ = e`. So a nonzero kernel element forces `μ(E) = 2c₁(E)[Σ] ≥ 0`. Surjectivity follows by
+`c₁(E)[Σ]`. Compare the orders with the transverse signed count of CharacteristicClasses
+C3.0. So a nonzero kernel element forces `μ(E) = 2c₁(E)[Σ] ≥ 0`. Surjectivity follows by
 applying injectivity to `D_F*`, a real Cauchy–Riemann operator on a line bundle with
 `μ = −μ(E, F) − 2χ(Σ)`, through PH6.3's duality. In the bordered case, reduce to the closed
 case by doubling, as McDuff–Salamon do in their proof of (iii) (p. 603).
@@ -1373,7 +1375,7 @@ case by doubling, as McDuff–Salamon do in their proof of (iii) (p. 603).
   orders.
 
 *Needs:* PH6.3; PH7.1; PH3.5's zero orders; Tau Ceti's Morse–Sard theorem
-`ContDiff.addHaar_image_criticalPoints_eq_zero`; CharacteristicClasses C2.3 and C3.2;
+`ContDiff.addHaar_image_criticalPoints_eq_zero`; CharacteristicClasses C2.3 and C3.0;
 AlgebraicTopology Stage 6 item 5, Stage 7.1 and Stage 8.7; ModularForms Layer 10B (iv)–(v);
 FuchsianOrbifolds Layer 5's `RiemannSurface.genus`; PH2.4's comparison with analytic charted
 spaces; Mathlib's Fourier series on `AddCircle` for step 8.
@@ -1389,7 +1391,7 @@ spaces; Mathlib's Fourier series on `AddCircle` for step 8.
 
 PH2.4, PH3.5, PH6; Tau Ceti `TotallyRealLoop.maslovIndex`, `maslovIndex_map`,
 `maslovIndex_prod`, `maslovIndex_rotation` and `ContDiff.addHaar_image_criticalPoints_eq_zero`;
-CharacteristicClasses C2.3 and C3.2; AlgebraicTopology Stage 6 item 5, Stage 7.1 and Stage 8.7;
+CharacteristicClasses C2.3 and C3.0; AlgebraicTopology Stage 6 item 5, Stage 7.1 and Stage 8.7;
 ModularForms Layer 10B (iii)–(v); FuchsianOrbifolds Layer 5; Mathlib's Fourier series on
 `AddCircle`.
 
