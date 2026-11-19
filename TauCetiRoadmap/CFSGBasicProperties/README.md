@@ -39,12 +39,13 @@ the finiteness of every Lie-type group, Tits's simplicity criterion for split BN
 criterion for central quotients, and the simplicity of the type-`A` and Suzuki families.
 
 Layer 1 sets up split Tits systems; Layers 2 and 3 build the root calculus of the Steinberg fixed
-points and prove the ordinary and graph-twisted groups simple. Layer 4 proves the soundness
-theorems for bounding, recognizing and proving simple presented groups. Layer 5 treats the Ree and
-Tits groups. Layers 6 to 10 treat the sporadic groups: fourteen with existing permutation models,
-nine more by permutation or matrix models, the Conway groups through the Leech lattice, and the
-Monster and Baby Monster through the Griess algebra. Layer 11 classifies the conjugacy classes of
-the Monster, and Layer 12 assembles the list.
+points and prove the ordinary and graph-twisted groups simple. Layer 4 adds, to Tau Ceti's
+coset-table, covering and sifting theorems, the remaining soundness theorems for bounding,
+recognizing and proving simple presented groups. Layer 5 treats the Ree and Tits groups. Layers 6
+to 10 treat the sporadic groups: fourteen with existing permutation models, nine more by
+permutation or matrix models, the Conway groups through the Leech lattice, and the Monster and Baby
+Monster through the Griess algebra. Layer 11 classifies the conjugacy classes of the Monster, and
+Layer 12 assembles the list.
 
 ## Conventions
 
@@ -86,18 +87,20 @@ the Monster, and Layer 12 assembles the list.
    dictionary covering products, inverses and conjugation, never by reusing a source word
    silently.
 8. **Certificates.** A certificate is finite data (words, straight-line programs, coset tables,
-   stabilizer chains, conjugating words) consumed by a soundness theorem of Layer 4; every word
-   equality and relation it uses is checked in Lean. Running GAP, Magma or a script is a way to
-   produce a certificate, not a proof of its soundness or of its contents. No axiom, and no tactic
-   whose kernel-checked result omits the mathematical check, replaces a soundness theorem. No
-   randomized algorithm and no Jordan-type recognition theorem is part of any proof here.
+   stabilizer chains, conjugating words) consumed by a soundness theorem of Layer 4, proved there
+   or cited there from Tau Ceti; every word equality and relation it uses is checked in Lean.
+   Running GAP, Magma or a script is a way to produce a certificate, not a proof of its soundness
+   or of its contents. No axiom, and no tactic whose kernel-checked result omits the mathematical
+   check, replaces a soundness theorem. No randomized algorithm and no Jordan-type recognition
+   theorem is part of any proof here.
 9. **Bounds.** A homomorphism from a presented group onto a finite group bounds the presented group
    from below. Finiteness of a presented group needs an upper bound proved from its relators: a
    finite index of a subgroup of bounded order, or a finite spanning set of words.
 10. **Milestone labels.** Other roadmaps cite this one by the labels E0, F0, F1, T0–T3, P0–P2, P2M
     and A0. The layer headings below carry the labels T0 to A0; E0, F0 and F1 are the cyclic and
     alternating branches, the finite-coordinate fixed-point criterion and the finiteness of the
-    Lie-type groups, recorded under Scope and ownership.
+    Lie-type groups, recorded under Scope and ownership. P0 items 1–5 are §§4.1–4.5, and
+    *Starting points and ownership* is *Scope and ownership*.
 11. **Homes.** Family results live under `TauCeti/GroupTheory/SpecificGroups/CFSG/BasicProperties/`;
     reusable presentation, group-action, finite-field and Tits-system theorems live in their
     mathematical homes. The final assembly imports the family theorems and does not reprove them by
@@ -109,17 +112,16 @@ Tau Ceti carries Tits systems (`TauCeti.TitsSystem`), their Bruhat decomposition
 cells, the classification of the subgroups containing `B` by the standard parabolics, and Tits's
 simplicity criterion for the normal closure of a solvable subgroup `U` normalized by `B`. This
 layer adds the split structure that the fixed-point groups of Layers 2, 3 and 5 carry, so that the
-criterion can be applied to them. The
-[Mathlib BN-pair work](https://github.com/leanprover-community/mathlib4/pull/40363) informs names and
-structure; this layer builds what the roadmap needs regardless of its timing.
+criterion can be applied to them.
 
 ### 1.1 Split Tits systems
 
 Define a *split Tits system* on a group `G` as a Tits system `(B, N, S)` on `G` together with a
 subgroup `U` such that `U ≤ B`, `U` is normal in `B`, `U` is solvable, `B = U · (B ∩ N)` and
 `U ∩ (B ∩ N) = 1`. This is the split BN-pair of the literature, with `B ∩ N` the complement of the
-normal subgroup `U` in `B` (Carter, *Simple Groups of Lie Type*). Write `Z = ⋂_{g ∈ G} g B g⁻¹`
-and `H⁺` for the normal closure of `U` in `G`.
+normal subgroup `U` in `B` (Conrad's notes on Tits systems, the definition preceding Theorem 2.4),
+with `U` solvable as in that theorem. Write `Z = ⋂_{g ∈ G} g B g⁻¹` and `H⁺` for the normal
+closure of `U` in `G`.
 
 - A split Tits system satisfies the hypotheses of Tau Ceti's criterion: `B` normalizes `U`, and
   `B ≤ U ⊔ (B ∩ N)`.
@@ -155,8 +157,14 @@ the quotient comparison is `TauCeti.DerivedCentralQuotient.congr`. *Needs:* Tau 
 - `SL₂(𝔽₃)` with the same choices is split, with `|B| = 6`, `|U| = 3`, `B ∩ N = {±1}`,
   `Z = {±1}` and `Z ∩ U = 1`; the normal closure of `U` is all of `SL₂(𝔽₃)`, of order 24. That
   group is not perfect (its derived subgroup is the quaternion group of order 8), and its quotient
-  by `Z` is `PSL₂(3) ≅ A₄`, which is not simple. A form of the simplicity statement without the
-  perfectness hypothesis would be false here.
+  by `Z` is `PSL₂(3) ≅ A₄`, which is not simple: Conrad's form of the criterion, for
+  `H⁺ / (Z ∩ H⁺)`, would be false here without the perfectness hypothesis.
+- `GL₂(𝔽₃)`, with `B` the upper triangular matrices (order 12), `N` the monomial matrices and `U`
+  the upper unitriangular matrices, is split with `B ∩ N` the diagonal torus of order 4; `Z` is the
+  scalars `{±1}`, `Z ∩ U = 1`, and `H⁺ = [G, G] = SL₂(𝔽₃)`, whose centre `{±1}` is `Z ∩ [G, G]`.
+  Every hypothesis of the simplicity statement holds except perfectness, and
+  `DerivedCentralQuotient G = SL₂(𝔽₃)/{±1} ≅ A₄` is nontrivial and not simple, so that hypothesis
+  cannot be dropped.
 
 ### Examples
 
@@ -342,9 +350,10 @@ Layers 1–2; Tau Ceti's type-`A` theorem, Iwasawa criterion and finite-field co
 
 `TauCeti.SporadicName.Group` is the `PresentedGroup` on the exact relator set of
 `TauCeti.SporadicName.presentation`, and a finite list of relators does not make a group finite.
-This layer proves the reusable soundness theorems by which the sporadic layers bound, recognize and
-prove simple their presented groups. Group-specific certificates live in Layers 5 to 11; their
-soundness theorems and group-action criteria live here.
+This layer collects the reusable soundness theorems by which the sporadic layers bound, recognize
+and prove simple their presented groups: those Tau Ceti proves are cited by name, and the others
+are proved here. Group-specific certificates live in Layers 5 to 11; their soundness theorems and
+group-action criteria live here.
 
 ### 4.1 Maps and rewriting
 
@@ -378,45 +387,76 @@ hypotheses. *Needs:* Mathlib `PresentedGroup.toGroup`, `PresentedGroup.toGroup.u
 
 ### 4.2 Finite upper bounds
 
-Prove the soundness theorems for upper bounds on the presented group itself.
+Upper bounds are proved on the presented group itself. Tau Ceti proves three forms of them, for a
+group `G` generated by given elements, without assuming `G` finite:
 
-- **Coset covers.** Let `L` be the subgroup of `P.Group` generated by given words. If words
-  `w₁ = 1, w₂, …, w_n` are such that for every `i` and every generator or inverse generator `x` there
-  is `j` with `w_i x w_j⁻¹ ∈ L` in `P.Group`, each membership witnessed by an explicit word in the
-  generators of `L` equal to it in `P.Group`, then the cosets `L w_i` cover `P.Group`, so
-  `[P.Group : L] ≤ n`. A closed and consistent coset table whose entries are justified by such
-  deductions from the relators is an instance.
-- **Normal forms.** If a finite set of words containing `1` is closed, in `P.Group`, under right
-  multiplication by every generator and inverse generator, then `|P.Group|` is at most its size.
-- **Towers.** `|P.Group| ≤ [P.Group : L] · |L|`, and a surjection onto `L` from a group of order at
-  most `b` gives `|L| ≤ b`; iterating along a chain of word-defined subgroups bounds `|P.Group|`.
+- **Coset tables.** If the generators satisfy the relators and given words lie in a subgroup `L`, a
+  coset table on `k` points whose deduction certificate checks gives `[G : L] ≤ k`, with `L` of
+  finite index, and `[G : L] = k` when the named cosets are distinct
+  (`TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex`,
+  `TauCeti.CosetTable.index_eq_of_check`).
+- **The covering bound.** If left multiplication by every generator maps `R · K` into itself, for a
+  finite nonempty set `R` and a finite subgroup `K`, then `G` is finite of order at most `|R| · |K|`
+  (`Subgroup.finite_closure_of_forall_mul_mem`, `Subgroup.natCard_closure_le_ncard_mul`). With
+  `K = 1` this is the normal-form bound; with `K` a word-defined subgroup whose order is already
+  bounded it is one step of a tower, along which `Subgroup.card_mul_index` and
+  `Nat.card_le_card_of_surjective` (Mathlib) also apply.
+- **Double-coset covers.** If `1` lies in one of finitely many double cosets `H w_i H`, and `s h w_i`
+  lies in one of them for every generator or inverse generator `s`, every `h ∈ H` and every `i`,
+  then they cover `G` and `[G : H] ≤ ∑_i [H : w_i H w_i⁻¹ ∩ H]`
+  (`Subgroup.exists_mem_doubleCoset_of_generator_transitions`,
+  `Subgroup.index_le_sum_of_doubleCoset_cover`).
+
+Prove the coset cover with word witnesses: let `L` be the subgroup of `P.Group` generated by given
+words. If words `w₁ = 1, w₂, …, w_n` are such that for every `i` and every generator or inverse
+generator `x` there is `j` with `w_i x w_j⁻¹ ∈ L` in `P.Group`, each membership witnessed by an
+explicit word in the generators of `L` equal to it in `P.Group`, then the cosets `L w_i` cover
+`P.Group`, so `[P.Group : L] ≤ n`. A checked coset table is the instance in which every witness is a
+deduction from the relators.
 
 A permutation action on which the relators hold does not certify an index: its point stabilizer may
-contain an unaccounted kernel. *Needs:* §4.1; Mathlib `Subgroup.index`, `Nat.card`.
+contain an unaccounted kernel. *Needs:* §4.1; Mathlib `Subgroup.index`, `Nat.card`,
+`Subgroup.card_mul_index`, `Nat.card_le_card_of_surjective`; Tau Ceti `TauCeti.CosetTable`,
+`TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex`,
+`TauCeti.CosetTable.index_eq_of_check`, `Subgroup.finite_closure_of_forall_mul_mem`,
+`Subgroup.natCard_closure_le_ncard_mul`, `Subgroup.exists_mem_doubleCoset_of_generator_transitions`,
+`Subgroup.index_le_sum_of_doubleCoset_cover`.
 
 **Checks.**
 - `⟨a | ⟩` is infinite and surjects onto every cyclic group, so a surjection onto a finite group
   bounds nothing from above.
-- For `⟨a, b | a², b³, (ab)²⟩` the six words `1, b, b², a, ab, ab²` are closed under right
-  multiplication by `a` and `b` (using `ba = ab²`, `b²a = ab`, `aba = b²` and `ab²a = b`), so the
-  group has order at most 6; the assignment `a ↦ (1 2)`, `b ↦ (1 2 3)` satisfies the relators,
-  since `(1 2)(1 2 3) = (2 3)` in Mathlib's convention, and generates `S₃`, so the group is `S₃`.
+- For `⟨a, b | a², b³, (ab)²⟩` the six words `1, b, b², a, ab, ab²` are closed under left
+  multiplication by `a` and `b` (using `ba = ab²`, which follows from `(ab)² = a² = 1`, and
+  `b³ = 1`: for instance `b · ab = ab³ = a` and `b · ab² = ab⁴ = ab`), so by the covering bound with
+  `K = 1` the group has order at most 6; the assignment `a ↦ (1 2)`, `b ↦ (1 2 3)` satisfies the
+  relators, since `(1 2)(1 2 3) = (2 3)` in Mathlib's convention, and generates `S₃`, so the group
+  is `S₃`.
 
 ### 4.3 Lower bounds and recognition
 
-Prove: if generator images in a finite group `M` satisfy the relators of `P` and generate `M`, the
-induced homomorphism `P.Group → M` is surjective; if moreover `|P.Group| ≤ |M|` by §4.2, it is a
-`MulEquiv`. Prove the order and kernel lemmas used with word-defined subgroups: if `[P.Group : L] ≤
-n`, `|L| ≤ m` and `|M| = n m`, the surjection is injective. Package the resulting `MulEquiv` into
-`P.Group`, so that recognition never depends on a database label. *Needs:* §4.2.
+Generator images in a group that satisfy the relators of `P` induce a homomorphism
+`P.Group → M` whose range is the subgroup they generate (Tau Ceti's
+`TauCeti.GroupPresentation.homEquiv` and `TauCeti.GroupPresentation.range_homEquiv_symm`), so it
+is surjective when they generate `M`. Prove that if moreover `P.Group` is finite with
+`|P.Group| ≤ |M|` by §4.2, it is a `MulEquiv`. Prove the order and kernel lemmas used with
+word-defined subgroups: if `L` is finite and of finite index, `[P.Group : L] ≤ n`, `|L| ≤ m` and
+`|M| = n m`, the surjection is injective. Package the resulting `MulEquiv` into `P.Group`, so that
+recognition never depends on a database label. *Needs:* §4.2;
+Tau Ceti `TauCeti.GroupPresentation.homEquiv`, `TauCeti.GroupPresentation.range_homEquiv_symm`.
 
 ### 4.4 Permutation-group and simplicity certificates
 
-Prove the soundness of the stabilizer-chain certificates for finite permutation groups, as
-applications of SporadicOrders Layer 0: a stabilizer-chain certificate on a generating list yields
-the order of the generated group (the order formula of SporadicOrders §0.1, with basic orbits by
-§0.2), and a sifting certificate yields membership of a given permutation (the criterion along a
-base of §0.3). Prove the action lemmas that the simplicity criteria need for concrete groups:
+The soundness of stabilizer-chain and sifting certificates is Tau Ceti's, for a subgroup `H` of a
+group acting on a type with base points `b_0, b_1, …`: the order formula along the stabilizer chain
+(`Subgroup.prod_ncard_orbit_mul_card_stabilizerChain`) and the membership criterion along it
+(`Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`); a successful sift writes the sifted
+element as a product of entries of the lists (`TauCeti.inv_mul_mem_closure_of_sift`); and nonempty
+lists `T_0, …, T_{k−1}` of elements of the successive members of the chain, with distinct images of
+`b_i` under `T_i`, generating a subgroup that contains `H`, such that every product `s r` with
+`r ∈ T_i`, `s ∈ T_j` and `i ≤ j` sifts through `T_i, …, T_{k−1}`, give `|H| = ∏_i |T_i|` and show
+that `b_0, …, b_{k−1}` is a base (`Subgroup.natCard_eq_prod_length_of_sift`,
+`Subgroup.stabilizerChain_eq_bot_of_sift`). Prove the action lemmas that the simplicity criteria
+need for concrete groups:
 transitivity from orbit witnesses (a signed word carrying a base point to each point, with an
 adapter to Mathlib's `MulAction.orbit`), primitivity from maximality of a point stabilizer (Mathlib
 `MulAction.isCoatom_stabilizer_iff_preprimitive`) or from another proved block criterion, and
@@ -432,9 +472,13 @@ element that normally generates the group is simple
 contains an element of prime order), in its Sylow-local form
 `TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`, with normal generation
 certified by `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_check`. A group-specific
-certificate proves both the coverage and the normal generation. *Needs:* SporadicOrders §§0.1–0.3;
-Mathlib `MulAction.orbit`, `MulAction.stabilizer`, `MulAction.isCoatom_stabilizer_iff_preprimitive`,
-`MulAction.IwasawaStructure.isSimpleGroup`; Tau Ceti
+certificate proves both the coverage and the normal generation. *Needs:* Mathlib
+`MulAction.orbit`, `MulAction.stabilizer`, `MulAction.isCoatom_stabilizer_iff_preprimitive`,
+`MulAction.IwasawaStructure.isSimpleGroup`; Tau Ceti `Subgroup.stabilizerChain`,
+`Subgroup.prod_ncard_orbit_mul_card_stabilizerChain`,
+`Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`, `TauCeti.sift`,
+`TauCeti.inv_mul_mem_closure_of_sift`, `Subgroup.natCard_eq_prod_length_of_sift`,
+`Subgroup.stabilizerChain_eq_bot_of_sift`,
 `IsMulTorsion.isSimpleGroup_of_isConj_of_normalClosure_eq_top`,
 `TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`,
 `TauCeti.NormalClosureProgram`.
@@ -463,11 +507,14 @@ sizes, inverse classes and power classes compared by `TauCeti.ClassData.rep_map`
 soundness theorems: compressed proofs of centralizer orders (a word-generated subgroup of the
 centralizer of certified order, together with a certified lower bound on the size of the class) and
 of pairwise nonconjugacy (a class invariant, such as element order, a power map or a representation
-value, that separates the two elements). Certify the group order and each centralizer order
-separately before applying the mass criterion. A class-data structure whose coverage is assumed, or
-a coverage of the prime-order elements only, is not a complete conjugacy classification. *Needs:* §4.2; Tau Ceti `TauCeti.ClassData`,
-`TauCeti.ClassData.ofSumIndexCentralizer`, `TauCeti.ClassData.map`,
-`List.sum_index_centralizer_eq_card_iff`.
+value, that separates the two elements). Where a word-generated subgroup `H` of the centralizer of
+`x` has a certified coset table, Tau Ceti's `TauCeti.CosetTable.eq_centralizer_of_check` identifies
+`H` with the whole centralizer once every named coset representative commuting with `x` lies in
+`H`. Certify the group order and each centralizer order separately before applying the mass
+criterion. A class-data structure whose coverage is assumed, or a coverage of the prime-order
+elements only, is not a complete conjugacy classification. *Needs:* §4.2; Tau Ceti
+`TauCeti.ClassData`, `TauCeti.ClassData.ofSumIndexCentralizer`, `TauCeti.ClassData.map`,
+`List.sum_index_centralizer_eq_card_iff`, `TauCeti.CosetTable.eq_centralizer_of_check`.
 
 **Checks.**
 - In `S₃` the representatives `1, (1 2), (1 2 3)` have centralizer indices `1, 3, 2`, summing to
@@ -482,8 +529,9 @@ simplicity by the prime-order criterion.
 
 ### Dependencies
 
-SporadicOrders Layer 0; Mathlib's presented groups and group actions; Tau Ceti's presentation,
-normal-generation, simplicity-certificate and class-data libraries.
+Mathlib's presented groups and group actions; Tau Ceti's presentation, coset-table, covering,
+double-coset, stabilizer-chain, normal-generation, simplicity-certificate and class-data libraries.
+No other layer and no other roadmap.
 
 ## Layer 5: Suzuki, Ree and Tits groups, and the Lie-type endpoint (T3)
 
@@ -539,11 +587,11 @@ simplicity by a normal-closure or primitive-action certificate (§4.4). *Needs:*
 
 Prove `validLieTypeIndex_isSimpleGroup`: for every `d : TauCeti.ValidLieTypeIndex`,
 `IsSimpleGroup d.Group`, by cases on the constructor from §3.3 (ordinary and graph-twisted), Tau
-Ceti's Suzuki theorem, §5.1 (Ree) and §5.2 (Tits). Its finiteness companion
-`validLieTypeIndex_finite`, `Finite d.Group` for every valid index including the Tits group and
-every retained small parameter, is Tau Ceti's `TauCeti.ValidLieTypeIndex.finite`, through the
-finite-coordinate fixed-point criterion and the iterate formulas `F² = Frob_q` (half-Frobenius) and
-`F^t = Frob_q^t` with `t` the twist order (ordinary and graph-twisted). *Needs:* §§3.3, 5.1, 5.2;
+Ceti's Suzuki theorem, §5.1 (Ree) and §5.2 (Tits). Its finiteness companion, `Finite d.Group`
+for every valid index including the Tits group and every retained small parameter, is Tau Ceti's
+`TauCeti.ValidLieTypeIndex.finite`, proved through the finite-coordinate fixed-point criterion and
+the iterate formulas `F² = Frob_q` (half-Frobenius) and `F^t = Frob_q^t` with `t` the twist order
+(ordinary and graph-twisted). *Needs:* §§3.3, 5.1, 5.2;
 Tau Ceti `TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`, `TauCeti.ValidLieTypeIndex.finite`.
 
 ### Examples
@@ -577,10 +625,16 @@ its own module, and the uniform theorems are assembled by cases in §10.5. *Need
 ### 6.2 The ten names with SporadicOrders models
 
 For `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, consume the canonical ATLAS permutation carriers, their
-orders and the surjections from the presented groups of SporadicOrders Layers 1–2. Prove the upper
-bounds on the exact presented groups (§4.2) and turn those surjections into `MulEquiv`s (§4.3). The
-ten carriers are not redefined from a second set of generators. *Needs:* §§4.2–4.3; SporadicOrders
-§§1.1–1.2, 2.2.
+orders and the surjections from the presented groups of SporadicOrders Layers 1–2. Seven of these
+carriers are in Tau Ceti, built from the same ATLAS files, with their surjections:
+`TauCeti.Sporadic.exists_surjective_M11`, `TauCeti.Sporadic.exists_surjective_M12`,
+`TauCeti.Sporadic.exists_surjective_M24`, `TauCeti.Sporadic.exists_surjective_J1`,
+`TauCeti.Sporadic.exists_surjective_J2`, `TauCeti.Sporadic.exists_surjective_HS` and
+`TauCeti.Sporadic.exists_surjective_McL`; `TauCeti.Sporadic.card_M11` is the order 7920 of the
+`M11` carrier. Prove the upper bounds on the exact presented groups (§4.2) and turn those
+surjections into `MulEquiv`s (§4.3). The ten carriers are not redefined from a second set of
+generators. *Needs:* §§4.2–4.3; SporadicOrders §§1.1–1.2, 2.2; Tau Ceti the seven surjections above
+and `TauCeti.Sporadic.card_M11`.
 
 ### 6.3 The four further models
 
@@ -601,8 +655,9 @@ identify Golay automorphisms or Leech stabilizers; those comparisons are §§8.1
 
 ### Examples
 
-`M₁₁`: the presented group maps onto the 11-point model of order 7920 by SporadicOrders §2.2; an
-upper bound `|P| ≤ 7920` from §4.2 makes that map a `MulEquiv`, and the model's simplicity transfers.
+`M₁₁`: the presented group maps onto the 11-point model of order 7920 by SporadicOrders §2.2, which
+Tau Ceti's `TauCeti.Sporadic.exists_surjective_M11` and `TauCeti.Sporadic.card_M11` supply; an upper
+bound `|P| ≤ 7920` from §4.2 makes that map a `MulEquiv`, and the model's simplicity transfers.
 
 ### Dependencies
 
@@ -866,23 +921,23 @@ code construction nor the abstract order theorem of §6.2 supplies this identifi
 
 ### 8.2 Minimal vectors of the Leech lattice, Co0 and Co1
 
-Consume the Leech lattice `Λ` of Rank24LatticeConstructions Layer 6, on `Ω = Fin 24` with rational
-form `B(x, y) = (∑ i, x_i y_i)/2` and `Λ = K.ofIsotropicSubgroup(H_s)` from Construction B and its odd
-shift, with its rank, positive-definiteness, evenness, unimodularity, minimum and congruence model;
-the rootful Golay Construction-A lattice is not a substitute. For the Conway and Griess coordinates,
-construct the explicit coordinate equivalence and the form-preserving comparison, including the
-normalization factor; a different displayed norm needs its proved scaling dictionary.
+Consume the Leech lattice `Λ` of Rank24LatticeConstructions Layer 6, which is Tau Ceti's
+`TauCeti.leechLattice`: on `Ω = Fin 24` with rational form `B(x, y) = (∑ i, x_i y_i)/2` and
+`Λ = K.ofIsotropicSubgroup(H_s)` from Construction B and its odd shift, with its rank,
+positive-definiteness, evenness, unimodularity, minimum and congruence model; the rootful Golay
+Construction-A lattice is not a substitute. For the Conway and Griess coordinates, construct the
+explicit coordinate equivalence and the form-preserving comparison, including the normalization
+factor; a different displayed norm needs its proved scaling dictionary.
 
-Classify all minimal vectors in the congruence model. In the raw integer coordinates `x_i = a_i/2`,
-of norm `∑ a_i²/8`, construct the three exhaustive families: two coordinates `±4`; eight coordinates
-`±2` on an octad, with the sum congruence; and one coordinate `±3` with the others `±1`, parametrized
-by a Golay word and a distinguished coordinate. Prove their disjoint counts 1104, 97152 and 98304,
-hence 196560 minimal vectors. The count alone also follows from the theta identity
-`Θ_Λ = E₄³ − 720Δ` (ThetaSeries Layer 8, item 8D); the explicit families with their sign and
-congruence data are what the action of `Co0` needs, and they are owned here with the count they give.
-The weight and rank theorems of the code supply the octad and codeword counts; the classification
-of the vectors and its sign and congruence checks are not part of the minimum-norm theorem of
-Rank24LatticeConstructions.
+The minimal vectors are classified and counted in Tau Ceti. In the raw integer coordinates
+`x_i = a_i/2`, of norm `∑ a_i²/8`, they form three pairwise disjoint families: two coordinates `±4`
+(`TauCeti.leechPairVectors`, 1104 vectors); eight coordinates `±2` on an octad with an even number of
+minus signs (`TauCeti.leechOctadVectors`, 97152 vectors); and one coordinate `±3` with the others
+`±1`, parametrized by a Golay codeword and a distinguished coordinate (`TauCeti.leechOddVectors`,
+98304 vectors). A lattice vector has norm 4 exactly when it lies in one of them
+(`TauCeti.mem_vectorsOfNorm_four_leechLattice_iff`), so `Λ` has 196560 minimal vectors
+(`TauCeti.ncard_vectorsOfNorm_four_leechLattice`). These explicit families, with their sign and
+congruence data, are what the action of `Co0` below uses.
 
 Prove that the antipodal involution `v ↦ −v` has no fixed minimal vector and that the set of
 antipodal pairs has 98280 elements, before that degree or any orbit count is used. Prove that the
@@ -891,7 +946,10 @@ Construct `Co1 := Co0 / {±1}` and deduce its finiteness. The action on minimal 
 of `Co0`; `−1` negates them, so it does not descend to `Co1`. Construct the action of `Co1` on
 antipodal pairs and prove its kernel statement. Give the Conway generators of `Co0`, prove that they
 generate the full isometry group by the lattice and minimal-vector reduction, and compute its order
-through that action. *Needs:* Rank24LatticeConstructions Layer 6; AlgebraicCodingTheory Layer 5.
+through that action. *Needs:* Rank24LatticeConstructions Layer 6; AlgebraicCodingTheory Layer 5;
+Tau Ceti `TauCeti.leechLattice`, `TauCeti.leechPairVectors`, `TauCeti.leechOctadVectors`,
+`TauCeti.leechOddVectors`, `TauCeti.mem_vectorsOfNorm_four_leechLattice_iff`,
+`TauCeti.ncard_vectorsOfNorm_four_leechLattice`.
 
 **Checks.**
 - The three families have raw squared norms `16 + 16`, `8 · 4` and `9 + 23 · 1`, all `32`, that is
@@ -1235,10 +1293,10 @@ Layers 5 and 10; Tau Ceti's elementary branches.
 This roadmap owns the finiteness and simplicity of every group on the classification list, on the
 exact carriers of CFSGStatement, together with the structure theory of the finite Steinberg fixed
 points (split Tits systems, twisted root groups, fixed-point Bruhat decomposition), the soundness
-theorems for presented groups and permutation certificates, the sporadic models, recognitions and
-simplicity proofs, the Leech-lattice and Griess-algebra constructions of the Conway groups, the
-Monster and the Baby Monster, and the conjugacy classes of the Monster. Each layer above states what
-it owns.
+theorems for presented groups and permutation certificates that Tau Ceti lacks, the sporadic
+models, recognitions and simplicity proofs, the Leech-lattice and Griess-algebra constructions of
+the Conway groups, the Monster and the Baby Monster, and the conjugacy classes of the Monster. Each
+layer above states what it owns.
 
 **Already in the libraries at the pins and consumed by name above.**
 
@@ -1252,8 +1310,7 @@ it owns.
   `Representation.finite_fixedSubgroup_of_iterate_apply_eq_pow`, `TauCeti.fixedSubgroupCongr`,
   `TauCeti.finiteFixedPointCandidate`,
   `TauCeti.ValidLieTypeIndex.iterate_steinberg_twistOrder_of_not_usesHalfFrobenius`,
-  `TauCeti.ValidLieTypeIndex.finite_fixedPoints` and `TauCeti.ValidLieTypeIndex.finite`. The
-  acceptance file states the latter as `validLieTypeIndex_finite`.
+  `TauCeti.ValidLieTypeIndex.finite_fixedPoints` and `TauCeti.ValidLieTypeIndex.finite`.
 - Of T0: the Bruhat uniqueness theorems, the classification of overgroups of `B`
   (`TauCeti.TitsSystem.standardParabolicOrderIso`), Tits's normal-subgroup theorem and simplicity
   criterion for the normal closure of `U` with its bridge to the derived central quotient, and the
@@ -1262,11 +1319,18 @@ it owns.
   and of the Suzuki constructor (`TauCeti.ValidLieTypeIndex.isSimpleGroup_suzuki`), and the
   fixed-point comparisons with `SL_{r+1}(𝔽_q)`, `Sp_{2r}(𝔽_q)`, `Sp₄(𝔽_q)` and `SU_{r+1}(q)`.
 - Of P0: generator elimination, the Reidemeister–Schreier kernel identification given a free basis,
-  the index-two rewriting, normal-generation programs, the prime-order normal-generation criterion
-  and its Sylow-local form, class data, the mass criterion and the transport of class data.
-- The twenty-six sporadic presentations (CFSGStatement's S0–S1, carried by Tau Ceti), with the
+  the index-two rewriting, the homomorphism induced by a satisfying assignment and its range, the
+  coset-table, covering and double-coset upper bounds, the stabilizer-chain order formula and
+  membership criterion, the order of a permutation group from successful sifts, the recognition of
+  a centralizer from a coset table, normal-generation programs, the prime-order normal-generation
+  criterion and its Sylow-local form, class data, the mass criterion and the transport of class
+  data.
+- The twenty-six sporadic presentations (`TauCeti.SporadicName.presentation`), with the
   Coxeter-quotient identifications of the Monster and Baby Monster presentations and the
-  commutator identification of `Fi24′`.
+  commutator identification of `Fi24′`; the permutation models of `M11 M12 M24 J1 J2 HS McL` with
+  the surjections from their presented groups, and the order of the `M11` model (§6.2).
+- The Leech lattice of Rank24LatticeConstructions Layer 6 (`TauCeti.leechLattice`) and the
+  classification and count of its minimal vectors (§8.2).
 
 **Left to other roadmaps.**
 
@@ -1288,15 +1352,13 @@ it owns.
   roadmap owns its sporadic automorphism groups and their representation comparisons and builds no
   second Leech lattice. [AlgebraicCodingTheory](../../Completed/AlgebraicCodingTheory/README.md)
   Layer 5 owns the extended Golay code and its code theory and excludes the Mathieu identification,
-  which is §8.1 here. [ThetaSeries](../ThetaSeries/README.md) Layer 8 (item 8D) proves the theta
-  identity of the Leech lattice; the explicit minimal-vector families are §8.2 here.
-- [SporadicOrders](../SporadicOrders/README.md) Layers 0–2 owns the stabilizer-chain order formula,
-  orbits and membership along a base (its §§0.1–0.3), the ten canonical ATLAS permutation models with
-  their orders (Layer 1) and the surjections from the presented groups (Layer 2). It supplies
-  theorems, not a checker or a certificate format. This roadmap owns the upper bounds, recognition and
-  simplicity for those ten names, the four further models of §6.3, and the soundness of every
-  permutation certificate it uses (§4.4); a permutation certificate never bounds an abstract
-  presented group.
+  which is §8.1 here.
+- [SporadicOrders](../SporadicOrders/README.md) Layers 1–2 owns the ten canonical ATLAS permutation
+  models with their orders (Layer 1) and the surjections from the presented groups (Layer 2). It
+  supplies theorems, not a checker or a certificate format. This roadmap owns the upper bounds,
+  recognition and simplicity for those ten names, the four further models of §6.3, and the action
+  lemmas of §4.4; the soundness of stabilizer-chain and sifting certificates is Tau Ceti's (§4.4),
+  and a permutation certificate never bounds an abstract presented group.
 
 ## Exact supplier contracts
 
@@ -1383,7 +1445,10 @@ it owns.
   `MulAction.IwasawaStructure.isSimpleGroup_derivedCentralQuotient` (a nontrivial perfect group
   with an Iwasawa structure on a quasiprimitive action whose kernel is central has simple derived
   central quotient).
-- **Presentations** (`GroupTheory/Presentation/`): `PresentedGroup.eliminateGenerators` (Tietze
+- **Presentations** (`GroupTheory/Presentation/`): `TauCeti.GroupPresentation.homEquiv`
+  (homomorphisms out of a presented group are the generator assignments satisfying its relators)
+  and `TauCeti.GroupPresentation.range_homEquiv_symm` (the range of the induced homomorphism is the
+  subgroup generated by the assigned values), `PresentedGroup.eliminateGenerators` (Tietze
   elimination of defined generators), `PresentedGroup.subgroupPresentationEquiv`
   (Reidemeister–Schreier, given a free basis and coset representatives),
   `TauCeti.IsSchreierIndexTwoSource.mulEquivKerParityHom`,
@@ -1392,6 +1457,29 @@ it owns.
   `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_eval_eq` and
   `TauCeti.NormalClosureProgram.normalClosure_eq_top_of_check` (a checked program recovering a
   generating family proves normal generation).
+- **Upper bounds and permutation certificates** (`GroupTheory/Coset/Table.lean`,
+  `GroupTheory/Coset/Recognition.lean`, `Algebra/Group/Subgroup/Closure.lean`,
+  `GroupTheory/DoubleCoset/Cover.lean`, `GroupTheory/GroupAction/Stabilizer/Chain.lean`,
+  `GroupTheory/GroupAction/Stabilizer/Sift.lean`): `TauCeti.CosetTable` with
+  `TauCeti.CosetTable.index_le`, `TauCeti.CosetTable.finiteIndex` and
+  `TauCeti.CosetTable.index_eq_of_check` (for generators satisfying the relators and subgroup words
+  in `L`, a coset table on `k` points whose deduction certificate checks gives `[G : L] ≤ k`, finite
+  index, and equality when the named cosets are distinct),
+  `TauCeti.CosetTable.eq_centralizer_of_check` (such a table for a subgroup of the centralizer of
+  `x` identifies it with the centralizer when every named representative commuting with `x` lies
+  in it),
+  `Subgroup.finite_closure_of_forall_mul_mem` and `Subgroup.natCard_closure_le_ncard_mul` (if left
+  multiplication by each element of `S` maps `R · K` into itself, for `R` finite and nonempty and `K`
+  a finite subgroup, the subgroup generated by `S` is finite of order at most `|R| · |K|`),
+  `Subgroup.exists_mem_doubleCoset_of_generator_transitions` and
+  `Subgroup.index_le_sum_of_doubleCoset_cover` (double cosets containing `1` and closed under the
+  generator transitions cover the group, and bound the index by the sum of the intersection
+  indices), `Subgroup.stabilizerChain`, `Subgroup.prod_ncard_orbit_mul_card_stabilizerChain` (the
+  order is the product of the basic-orbit lengths times the order of the last member, with no
+  finiteness hypothesis), `Subgroup.mem_iff_exists_inv_mul_mem_stabilizerChain`, `TauCeti.sift`,
+  `TauCeti.inv_mul_mem_closure_of_sift`, `Subgroup.natCard_eq_prod_length_of_sift` and
+  `Subgroup.stabilizerChain_eq_bot_of_sift` (successful sifts give the order as a product of list
+  lengths, and a base). None of these assumes the ambient group finite.
 - **Simplicity certificates** (`GroupTheory/Subgroup/Simple.lean`, `GroupTheory/Sylow/Simple.lean`):
   `IsMulTorsion.isSimpleGroup_of_isConj_of_normalClosure_eq_top` and
   `TauCeti.isSimpleGroup_of_card_eq_of_normalClosure_eq_top_of_isConj`.
@@ -1425,6 +1513,25 @@ it owns.
   `TauCeti.Sporadic.BabyMonster.extraRelatorOne`, `TauCeti.Sporadic.BabyMonster.extraRelatorTwo`
   and `TauCeti.Sporadic.BabyMonster.mulEquivPresentedGroupCoxeterAppend`. These record presentation
   data and Coxeter-quotient identifications; none states an order, finiteness or simplicity.
+- **Sporadic permutation models** (`GroupTheory/SpecificGroups/Sporadic/`,
+  `CFSG/Sporadic/Mathieu/TwentyFour/`, `CFSG/Sporadic/Janko/One/`): the subgroups
+  `TauCeti.Sporadic.M11`, `TauCeti.Sporadic.M12`, `TauCeti.Sporadic.M24`, `TauCeti.Sporadic.J1`,
+  `TauCeti.Sporadic.J2`, `TauCeti.Sporadic.HS` and `TauCeti.Sporadic.McL` of `Equiv.Perm (Fin n)`
+  generated by the two permutations of their ATLAS files, with
+  `TauCeti.Sporadic.exists_surjective_M11`, `TauCeti.Sporadic.exists_surjective_M12`,
+  `TauCeti.Sporadic.exists_surjective_M24`, `TauCeti.Sporadic.exists_surjective_J1`,
+  `TauCeti.Sporadic.exists_surjective_J2`, `TauCeti.Sporadic.exists_surjective_HS` and
+  `TauCeti.Sporadic.exists_surjective_McL` (a surjection from the presented group onto the model),
+  and `TauCeti.Sporadic.card_M11` (the `M11` model has 7920 elements).
+- **The Leech lattice** (`LinearAlgebra/IntegralLattice/Rank24/Leech/`): `TauCeti.leechLattice`
+  (the even overlattice of the Construction-B lattice glued along its odd shift, on `Fin 24 → ℚ`
+  with the halved dot product; even, unimodular, positive definite, of rank 24 and minimum 4),
+  `TauCeti.leechPairVectors`, `TauCeti.leechOctadVectors` and `TauCeti.leechOddVectors` (the three
+  families of §8.2 in raw coordinates `x = a/2`),
+  `TauCeti.intCast_div_two_mem_leechLattice_carrier_and_sum_sq_eq_iff` and
+  `TauCeti.mem_vectorsOfNorm_four_leechLattice_iff` (a lattice vector has norm 4 exactly when it is
+  half a vector of one of the families), `TauCeti.ncard_vectorsOfNorm_four_leechLattice` and
+  `TauCeti.kissingNumber_leechLattice` (196560 minimal vectors).
 
 ### From TauCetiRoadmap.CFSGStatement
 
@@ -1442,16 +1549,16 @@ action on root subgroups and characters. Consumed on the transport route of §2.
 
 ### From TauCetiRoadmap.SporadicOrders
 
-Layer 0: the stabilizer-chain order formula (§0.1), the orbits of a generated permutation group
-(§0.2) and the membership criterion along a base (§0.3). Layers 1–2: the ten carriers
-`M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, their orders, and the surjections from the presented groups
-onto them. Consumed in §§4.4 and 6.2.
+Layers 1–2: the ten carriers `M11 M12 M22 M23 M24 J1 J2 HS McL Co3`, their orders, and the
+surjections from the presented groups onto them. Consumed in §6.2; seven of the carriers with their
+surjections, and the order of `M11`, are realized in Tau Ceti (above).
 
 ### From TauCetiRoadmap.Rank24LatticeConstructions
 
 Layer 6: the Leech lattice `Λ = K.ofIsotropicSubgroup(H_s)` on `Fin 24 → ℚ` with
 `B(x, y) = (∑ i, x_i y_i)/2`, its rank, positive-definiteness, evenness, unimodularity, minimum 4 and
-congruence model `x_i = a_i/2`. Consumed in §8.2.
+congruence model `x_i = a_i/2`, realized as Tau Ceti's `TauCeti.leechLattice` (above). Consumed in
+§8.2.
 
 ### From TauCetiRoadmap.AlgebraicCodingTheory
 
@@ -1460,13 +1567,12 @@ theorems (octads and codeword counts). Consumed in §§8.1–8.2.
 
 ## References
 
-- R. W. Carter, *Simple Groups of Lie Type*, particularly the root-group, BN-pair and simplicity
-  arguments; R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, for the Steinberg
-  fixed-point constructions; R. Steinberg, *Lectures on Chevalley Groups*, Chapter 11, Theorem 33,
-  for the Bruhat decomposition of the fixed points.
+- R. Steinberg, *Endomorphisms of Linear Algebraic Groups*, for the Steinberg fixed-point
+  constructions; R. Steinberg, *Lectures on Chevalley Groups*, Chapter 11, Theorem 33, for the
+  Bruhat decomposition of the fixed points.
 - J. Tits, the simplicity criterion for groups with a BN-pair; see
   [Conrad's notes on Tits systems](https://math.stanford.edu/~conrad/249BW16Page/handouts/titssystem.pdf),
-  Theorem 2.4, and
+  the definition of a split BN-pair preceding Theorem 2.4 and Theorem 2.4 itself, and
   [Conrad's notes on Tits systems and root groups](https://math.stanford.edu/~conrad/249BW16Page/handouts/roottits.pdf)
   for the group-theoretic interface.
 - [ATLAS of Finite Group Representations](https://brauer.maths.qmul.ac.uk/Atlas/v3/) for named

@@ -10,28 +10,24 @@ import TauCeti.RepresentationTheory.CharacterTable.Table
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, on the exact carriers of
-CFSGStatement: finiteness and simplicity of the group of every valid Lie-type index (Layer 5),
-finiteness, simplicity and the ATLAS order of every sporadic presentation (Layers 6 and 10), the
-Monster's conjugacy structure (Layer 11), and finiteness and simplicity of every group on the
-classification list (Layer 12). The only definition is the table of sporadic orders, which the
-uniform order theorem needs. The finiteness of the Lie-type groups is proved at the pinned Tau Ceti
-as `TauCeti.ValidLieTypeIndex.finite`, and the simplicity criterion for split Tits systems of
+CFSGStatement: simplicity of the group of every valid Lie-type index (Layer 5), finiteness,
+simplicity and the ATLAS order of every sporadic presentation (Layers 6 and 10), the Monster's
+conjugacy structure (Layer 11), and finiteness and simplicity of every group on the classification
+list (Layer 12). The only definition is the table of sporadic orders, which the uniform order
+theorem needs. The finiteness of the Lie-type groups is not stated here: it is the pinned Tau Ceti
+theorem `TauCeti.ValidLieTypeIndex.finite`. The simplicity criterion for split Tits systems of
 Layer 1 is Tau Ceti's `TauCeti.TitsSystem.isSimpleGroup_derivedCentralQuotient`.
 
 Not statable at the pins: the fixed-point Bruhat decomposition and the twisted root groups of
-Layer 2 (no finite root groups on `d.FixedPoints`); and the identification of the centralizers of
-the two Monster involution classes with the double cover `2·B` of the Baby Monster and with the
-local group `2^{1+24}_+.Co1` (no such groups at the pins), whose orders are stated instead.
+Layer 2 (no finite root groups on `d.FixedPoints`). The structural identification of the
+centralizers of the two Monster involution classes, with the double cover of the Baby Monster and
+with the local group `2^{1+24}_+.Co1`, is a README target of §11.1 built on the constructions of
+Layers 8 and 9; the headline below states the two classes and the orders of their centralizers.
 -/
 
 namespace TauCetiRoadmap.CFSGBasicProperties
 
 /-! ## Layer 5: Suzuki, Ree and Tits groups, and the Lie-type endpoint -/
-
-/-- **Every Lie-type carrier is finite**: the derived central quotient of the Steinberg fixed
-points of a valid Lie-type index, through the finite-coordinate fixed-point criterion applied to
-the iterate formulas of the Steinberg maps. -/
-theorem validLieTypeIndex_finite (d : TauCeti.ValidLieTypeIndex) : Finite d.Group := sorry
 
 /-- **Every Lie-type carrier is simple** (Layer 3 for the thirteen ordinary and graph-twisted
 constructors, Layer 5 for Suzuki, Ree and Tits), by Tits's simplicity criterion for a split Tits
@@ -118,8 +114,8 @@ theorem monster_card_irreducibleCharacters :
 /-! ## Layer 12: assembly of the list -/
 
 /-- **Every group on the classification list is finite.** Proved by cases on the index from the
-cyclic and alternating branches, the Lie-type theorem of Layer 5 and the sporadic theorem of
-Layer 10. -/
+cyclic and alternating branches, Tau Ceti's Lie-type finiteness `TauCeti.ValidLieTypeIndex.finite`
+(cited in Layer 5) and the sporadic theorem of Layer 10. -/
 theorem CFSGIndex_finite (i : TauCeti.CFSGIndex) : Finite i.Group := sorry
 
 /-- **Every group on the classification list is simple.** Proved by cases on the index from the
