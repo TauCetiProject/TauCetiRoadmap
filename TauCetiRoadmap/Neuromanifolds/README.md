@@ -488,9 +488,11 @@ linear, so its exponent is `1`. Prove
 `isHomogeneous_inputPolynomial_polynomialRealizeWeights_monomial`: substituting zero for every
 bias and reading each output coordinate `o` as a polynomial in the input variables with
 coefficients polynomial in the weights, `inputPolynomial (A.polynomialRealizeWeights q) o` with
-`q j = X ^ r j`, the polynomial is homogeneous of degree `∏ j, r j`. Homogeneity is in the input
-variables, not jointly in weights and inputs. The zero polynomial is homogeneous of every degree,
-so nothing is asserted about the total degree. Positivity of the exponents is not needed.
+`q j = X ^ r j`, the polynomial is homogeneous of degree `∏ j, r j` (Finkel–Rodriguez–Wu–Yahl,
+§1.1, the paragraph introducing display (3), for real weights and a common exponent; the general
+case follows by the route below). Homogeneity is in the input variables, not jointly in weights
+and inputs. The zero polynomial is homogeneous of every degree, so nothing is asserted about the
+total degree. Positivity of the exponents is not needed.
 
 Deduce:
 
@@ -734,6 +736,9 @@ jointly polynomial models with its independence of choices, homogeneity and hidd
 symmetries of monomial MLPs and change of field (Layer 3), and neurovarieties, algebraic images,
 semialgebraicity of real coefficient images and the scalar examples (Layer 4).
 
+In the former numbering, Milestone k is Layer k and its item n is §k.n; the two subsections of
+Milestone 2 are §2.1 and §2.2, and the symmetry subsection of Milestone 3 is §3.8.
+
 **Already in the library.** Much of the roadmap is proved at the Tau Ceti pin, in
 `TauCeti/Geometry/Neuromanifold/` and `TauCeti/RingTheory/MvPolynomial/`; the layers above use
 those declarations by name and plan them no further. The targets left to build are: in §1.1, the
@@ -950,6 +955,7 @@ declarations below are proved at the pin.
   expressiveness of polynomial neural networks*,
   [arXiv:2408.04569v4](https://arxiv.org/html/2408.04569v4). Definition 1, Remark 2, equations
   (3)–(6) and Lemma 4 supply the monomial specialisation (Definition 1; §2.1 here), the closure
-  convention (its §1.1, equations (3)–(4); Convention 7 and §4.1 here) and the elementary
+  convention (its §1.1, equations (3)–(4); Convention 7 and §4.1 here), the common-exponent case
+  of homogeneity (the paragraph introducing display (3); §3.6 here) and the elementary
   symmetries (Lemma 4 and equation (6); §3.8 here). Theorem 18 motivates the boundary between
   these foundations and generic-fibre classification.
