@@ -56,8 +56,9 @@ This roadmap owns:
   `Hom`, and swap (0.4–0.6); the ring API for `M ⊗_A N`, outer bimodule tensor functors, and
   `MatlisDual` (0.7); duals `F^E` (0.8); `proj C`, `proj C ≌ Karoubi (Mat_ C)`, bimodule projective
   duality `Hom(-, C)`, and finite-presentation bridges (0.9); and Morita equivalence of preadditive
-  categories and rings (`Mod C ≌ Mod D ↔ proj C ≌ proj D`, progenerators, full-idempotent matrix
-  corners, and invertible bimodules, 0.10).
+  categories (`Mod C ≌ Mod D ↔ proj C ≌ proj D` and invertible bimodules) together with the ring
+  `finiteProjectiveModules` and invertible-bimodule characterizations assembled with Tau Ceti
+  `main`'s progenerator and corner theorems (0.10).
 - **Layer 1 (`Tor` and category algebras):** scalar and bimodule `Tor` over categories and rings
   (with symmetric outer bimodule actions on `BalancedTor`), long exact sequences, balance,
   `underline{mod C}` with `(underline{mod C})ᵒᵖ ≌ underline{mod Cᵒᵖ}`, `stable Hom(X, N) ≅
@@ -110,11 +111,14 @@ Boundaries with Mathlib, Tau Ceti, and neighboring roadmaps:
   `IsSemiperfectCategory` in 4.2). Two-sided ideals and `J(C)` remain `TauCeti.MorphismIdeal` and
   `TauCeti.jacobsonRadicalIdeal`; minimal presentations use
   `TauCeti.IsMinimalProjectivePresentation`.
-- **Morita theory.** General categorical Morita equivalence (`Mod C ≌ Mod D ↔ proj C ≌ proj D`) and
-  general ring Morita characterizations (`IsMoritaEquivalent R A B` via `finiteProjectiveModules`,
-  progenerators, full-idempotent matrix corners, and invertible bimodules) live in 0.10;
-  [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md), §7.1, retains the Artin-algebra
-  equivalence `IsMoritaEquivalent R A B ↔ (mod A ≌ₗ[R] mod B)`.
+- **Morita theory.** Categorical Morita equivalence (`Mod C ≌ Mod D ↔ proj C ≌ proj D` and
+  invertible bimodules) and the ring `finiteProjectiveModules` and invertible-bimodule clauses of
+  `isMoritaEquivalent_tfae` live in 0.10, assembling with Tau Ceti `main`'s
+  `TauCeti.isMoritaEquivalent_iff_exists_progenerator`,
+  `TauCeti.exists_finiteModules_equivalence_iff_isMoritaEquivalent`,
+  `IsIdempotentElem.isMoritaEquivalent_corner`, and Mathlib's `IsMoritaEquivalent.matrix`;
+  [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md), §7.1, treats Artin-algebra
+  invariants under Morita equivalence.
 - **Out of scope:** intrinsic flatness inside `Flat(C)` ([CI]); `n`-fold multilinear functors for
   `n ≥ 3` ([Mitchell, §2]); non-unital category rings beyond `[Finite C]`; Mittag-Leffler,
   product-tensor, and coperfectness conditions ([Simson, Thm. 5.4 (2)–(4)]); Chase's theorem,
@@ -229,7 +233,8 @@ remains reserved for characteristic `p`.
   (`Mathlib/Algebra/Homology/DerivedCategory/Ext/Linear.lean`), `Limits.coend`
   (`Mathlib/CategoryTheory/Limits/Shapes/End.lean`), `SingleObj` and `Mat.equivalenceSingleObj`,
   `TensorProduct.Algebra.module` (`Mathlib/Algebra/Module/Bimodule.lean`), `IsMoritaEquivalent`
-  (`Mathlib/RingTheory/Morita/Basic.lean`), `OrthogonalIdempotents`
+  (`Mathlib/RingTheory/Morita/Basic.lean`), `IsMoritaEquivalent.matrix`
+  (`Mathlib/RingTheory/Morita/Matrix.lean`), `OrthogonalIdempotents`
   (`Mathlib/RingTheory/Idempotents.lean`), `RestrictScalars` with `RestrictScalars.addEquiv`, and
   exactness of `ModuleCat.restrictScalars`
   (`Mathlib/Algebra/Category/ModuleCat/ChangeOfRingsExact.lean`).
@@ -268,7 +273,10 @@ remains reserved for characteristic `p`.
   `CategoryTheory.ObjectProperty.factorIdeal`,
   `ModuleCat.tensorHomCokernelEquivProjectiveStableHom`, `TauCeti.quiverRepEquivalence`,
   `TauCeti.Quiver.Kronecker.upperTriangularAlgEquiv`, `IsIdempotentElem.isMoritaEquivalent_corner`,
-  `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence`, and
+  `TauCeti.isMoritaEquivalent_iff_exists_progenerator` and
+  `TauCeti.exists_finiteModules_equivalence_iff_isMoritaEquivalent`
+  (`TauCeti/RingTheory/Morita/Progenerator.lean`, landed on Tau Ceti `main` past the current
+  `lake-manifest.json` pin), `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence`, and
   `TauCeti.finiteProjectiveModules`.
 - **Ideals, radicals, socles, covers, and global dimension:** `TauCeti.MorphismIdeal` (`Quotient`,
   `quotientFunctor`, monoid structure, `op`), `TauCeti.jacobsonRadicalIdeal`
@@ -402,18 +410,20 @@ representables.
   (`Module (A ⊗[ℤ] Bᵐᵒᵖ) M`).
 - **One-sided and two-sided ideals via `${}_C C_C`** (`TauCeti.ModCat.Bimod.LeftSubmodule`,
   `TauCeti.ModCat.Bimod.RightSubmodule`, `TauCeti.MorphismIdeal.orderIsoSubmoduleRegularBimod`,
-  `TauCeti.LeftMorphismIdeal C`, `TauCeti.RightMorphismIdeal C`, `TauCeti.RightMorphismIdeal.op`,
-  `TauCeti.MorphismIdeal.op_toRightMorphismIdeal`). Extending the ring definition of left and
-  two-sided ideals of `${}_A A_A`, two-sided ideals `TauCeti.MorphismIdeal C` are order-isomorphic
-  to `(C, C)`-subbimodules `ModCat.Submodule (ModCat.regularBimod C)`, while left ideals of `C`
-  are left `C`-submodules of `${}_C C_C` forgetting the right `C`-action (`∀ Y, ModCat.Submodule
-  ((regularBimod C).sliceLeft Y)`, i.e., `I(-, Y) ≤ Hom(-, Y)`), and right ideals are right
-  `C`-submodules (`I(X, -) ≤ Hom(X, -)`), order-isomorphic to left ideals of `Cᵒᵖ` and receiving
-  coercions from `TauCeti.MorphismIdeal`. Single-object ideals of [Mitchell, §3, p. 18] and [OR,
-  pp. 93–96] embed via extension by `0` (`TauCeti.RightMorphismIdeal.ofSubobject`,
-  `TauCeti.RightMorphismIdeal.principal`), and over `SingleObj Aᵐᵒᵖ` order isomorphisms identify
-  left and right ideals of `A` with those of `SingleObj Aᵐᵒᵖ`, sending `aA` to the principal right
-  ideal of `op a`.
+  `TauCeti.LeftMorphismIdeal C`, `TauCeti.RightMorphismIdeal C`,
+  `TauCeti.LeftMorphismIdeal.comp_mem`, `TauCeti.RightMorphismIdeal.comp_mem`,
+  `TauCeti.RightMorphismIdeal.op`, `TauCeti.MorphismIdeal.op_toRightMorphismIdeal`). Extending the
+  ring definition of left and two-sided ideals of `${}_A A_A`, two-sided ideals
+  `TauCeti.MorphismIdeal C` are order-isomorphic to `(C, C)`-subbimodules
+  `ModCat.Submodule (ModCat.regularBimod C)`, while left ideals of `C` are left `C`-submodules of
+  `${}_C C_C` forgetting the right `C`-action (`∀ Y, ModCat.Submodule ((regularBimod C).sliceLeft
+  Y)`, i.e., `I(-, Y) ≤ Hom(-, Y)` with precomposition lemma `comp_mem`), and right ideals are right
+  `C`-submodules (`I(X, -) ≤ Hom(X, -)` with postcomposition lemma `comp_mem`), order-isomorphic to
+  left ideals of `Cᵒᵖ` and receiving coercions from `TauCeti.MorphismIdeal`. Single-object ideals of
+  [Mitchell, §3, p. 18] and [OR, pp. 93–96] embed via extension by `0`
+  (`TauCeti.RightMorphismIdeal.ofSubobject`, `TauCeti.RightMorphismIdeal.principal`), and over
+  `SingleObj Aᵐᵒᵖ` order isomorphisms identify left and right ideals of `A` with those of
+  `SingleObj Aᵐᵒᵖ`, sending `aA` to the principal right ideal of `op a`.
 - **Superfluous elements** (`TauCeti.IsSuperfluous`). Refactors `TauCeti.IsSuperfluous` from
   `Submodule R M` to any lattice with `⊤` (`a ⊔ b = ⊤ → b = ⊤`): `⊥` and binary `⊔` are `simp`
   lemmas, finite suprema preserve superfluousness, superfluous elements lie below coatoms and vanish
@@ -582,21 +592,26 @@ conditions.
   [Linear R D]`) equates: (1) `ModCat.{v} C ≌ ModCat.{v} D`; (2) `proj C ≌ proj D` (intrinsically
   the finitely presentable projectives in `Mod C`, 0.9); (3) `Karoubi (Mat_ C) ≌ Karoubi (Mat_ D)`;
   and (4) invertible bimodules `P : Bimod D C`, `Q : Bimod C D` with `Q ⊗_D P ≅ {}_C C_C` and
-  `P ⊗_C Q ≅ {}_D D_D` (`P(d, c) = E(Hom_C(-, c))(d)` by colimit preservation).
-- **Rings** (`TauCeti.isMoritaEquivalent_tfae`; [Lam-LMR, §18, pp. 475–490]): for `R`-algebras
-  `A, B : Type u`, `IsMoritaEquivalent R A B` holds iff `finiteProjectiveModules A` and
-  `finiteProjectiveModules B` are `R`-linearly equivalent (inverting Tau Ceti's
-  `finiteProjectiveModulesEquivalence`), iff `B ≃ₐ[R] (Module.End A P)ᵐᵒᵖ` for a finitely generated
-  projective generator (`IsSeparator`) `P` of `ModuleCat A`, iff `B ≃ₐ[R] he.Corner` for a full
-  idempotent `e` of `Matrix (Fin n) (Fin n) A`, and iff `A` and `B` are linked by `R`-central
-  invertible bimodules.
+  `P ⊗_C Q ≅ {}_D D_D` (by an Eilenberg–Watts comparison `E(-) ≅ P ⊗_C -` on
+  `P(d, c) = E(Hom_C(-, c))(d)`, using Yoneda, 0.4's colimit preservation on cokernels of sums of
+  representables, and bimodule tensor associativity `(Q ⊗_D P) ⊗_C - ≅ Q ⊗_D (P ⊗_C -)`).
+- **Rings** (`TauCeti.isMoritaEquivalent_tfae`; [Lam-LMR, §18, pp. 475–490]): assembles two new
+  equivalences for `R`-algebras `A, B : Type u`—`R`-linear equivalence of
+  `finiteProjectiveModules A` and `finiteProjectiveModules B` (inverting Tau Ceti's
+  `finiteProjectiveModulesEquivalence` via (1) ⇔ (2)) and existence of `R`-central `(B, A)`- and
+  `(A, B)`-bimodules `P`, `Q` with bimodule isomorphisms `Q ⊗_B P ≅ A` and `P ⊗_A Q ≅ B` (using
+  `BalancedTensorProduct.leftModule`, `rightModule`, and `assoc`)—with Tau Ceti `main`'s existing
+  progenerator equivalence `TauCeti.isMoritaEquivalent_iff_exists_progenerator` (`Suggested.lean`
+  writes `IsSeparator` against the current `lake-manifest.json` pin) and full-idempotent matrix
+  corners (`IsMoritaEquivalent.matrix` and `IsIdempotentElem.isMoritaEquivalent_corner`).
 
-**Checks.** `Mod C ≌ Mod (Mat_ C)` recovers matrix Morita equivalence `IsMoritaEquivalent R A
-(Matrix (Fin n) (Fin n) A)` at `SingleObj Aᵐᵒᵖ`; full idempotents give corner Morita equivalence
-(`IsIdempotentElem.isMoritaEquivalent_corner`).
+**Checks.** `Mod C ≌ Mod (Mat_ C)` recovers `IsMoritaEquivalent.matrix` at `SingleObj Aᵐᵒᵖ`; full
+idempotents give `IsIdempotentElem.isMoritaEquivalent_corner`; `fg`-module equivalence is
+`TauCeti.exists_finiteModules_equivalence_iff_isMoritaEquivalent`.
 
-*Needs:* 0.1–0.4, 0.7, 0.9; Mathlib `IsMoritaEquivalent`; Tau Ceti `isMoritaEquivalent_corner`,
-`finiteProjectiveModulesEquivalence`.
+*Needs:* 0.1–0.4, 0.7, 0.9; Mathlib `IsMoritaEquivalent`, `IsMoritaEquivalent.matrix`; Tau Ceti
+`isMoritaEquivalent_corner`, `isMoritaEquivalent_iff_exists_progenerator`,
+`exists_finiteModules_equivalence_iff_isMoritaEquivalent`, `finiteProjectiveModulesEquivalence`.
 
 ## Layer 1: `Tor`
 
@@ -1224,8 +1239,8 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
      condition;
   4′. every sequence `c₀ → c₁ → ⋯` stabilizes at `c₀` (`q_n = q_m ≫ t` for all `m ≥ n`);
   4″. no `End X` has an infinite `OrthogonalIdempotents` family of nonzero idempotents, and every
-      nonzero right module `N : Mod Cᵒᵖ` contains a simple subobject ([Bass, Thm. P (7)]; [AF,
-      28.4 (f)]);
+      nonzero right module `N : Mod Cᵒᵖ` contains a simple subobject (this roadmap's categorical
+      extension of [Bass, Thm. P (7)] and [AF, 28.4 (f)]);
   5. `flatDimension M = projectiveDimension M` for every `M : Mod C`;
   6. for every `n : ℕ`, filtered colimits in `Mod C` preserve `HasProjectiveDimensionLE _ n`
      ([Bass, Thm. P (4)]);
@@ -1233,15 +1248,23 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
 
   *Proof route:* **1 ⇒ 2** is 4.4; **1 ⇔ 2″** uses 4.1 (`J · M ≠ M` gives a simple quotient of
   semisimple `M ⧸ J · M`, and maximal subobjects contain `J · M`); **2 ⇒ 3 ⇒ 3′** uses
-  `projective_of_isEssentialEpi`; **3′ ⇒ 4′ ⇔ 4** applies 3′ to Bass's module (2.5); **4 ⇒ 4″ ⇒ 1**
-  gets finite orthogonal idempotents from `(1 - e₁) End X ⊃ (1 - e₁ - e₂) End X ⊃ ⋯` and right
-  simple subobjects by inductively refining non-simple `x C`, while conversely a `J(C)`-sequence
-  missing a maximal counterexample subobject `I < Hom(X₀, -)` yields `q_n ≫ (𝟙 - f_n ≫ r) ∈ I`
-  ([AF, pp. 316–317]), giving T-nilpotence, idempotent lifting, and semilocality; **3 ⇔ 5 ⇒ 6 ⇒ 6′
-  ⇒ 3** uses 3.1 on syzygies, filtered-colimit preservation of `Tor` (2.2), and Lazard (2.3, 2.6);
-  and **2′ ⇒ 1** gets semiperfectness from simple covers (4.2) and lifts a cover of `F ⧸ J · F` for
-  a coproduct `F` of representables (`jacobson_smul_ne_top_of_projective`, 4.2) to vanish Bass
-  modules of `J(C)`-sequences (4.1).
+  `projective_of_isEssentialEpi`; **3′ ⇒ 4′ ⇔ 4** applies 3′ to Bass's module (2.5); **4 ⇒ 4″**
+  gets finite orthogonal idempotents from `(𝟙 X - e₀) C ⊋ (𝟙 X - e₀ - e₁) C ⊋ ⋯` and right simple
+  subobjects by inductively choosing proper nonzero `L < im(φ_x ∘ (q_n)_*)` to build `q₀ C ⊋ q₁ C ⊋
+  ⋯`. For **4″ ⇒ 1**, a `J(C)`-sequence missing a maximal counterexample `I < Hom(c₀, -)` hits a
+  simple `K ⧸ I ≤ Hom(c₀, -) ⧸ I`, giving `q_n ≫ (𝟙 - f_n ≫ r) ∈ I` ([AF, pp. 316–317]) and hence
+  T-nilpotence of `J(C)`. Passing to `D = C ⧸ J(C)` (`J(D) = ⊥`), fullness of `C ⥤ D` preserves
+  right simple subobjects, and lifting orthogonal idempotents in complementary corners across nil
+  `J(End_C X)` rules out infinite nonzero `OrthogonalIdempotents` in `End_D X`. For any nonzero
+  idempotent `e ∈ End_D X`, a simple `S ≤ e D(X, -)` has `0 ≠ u ∈ S(Y)` hence `0 ≠ a = u ≫ v ∈
+  S(X)` (`J(D) = 0`); some `b ∈ S(X)` acts nonzeroly on `S` via `s ↦ b ≫ s` (else `(a ≫ h)² = 0` for
+  all `h ∈ End_D X`, forcing `a ∈ J(D)(X, X) = 0`), an isomorphism by Schur's lemma whose preimage
+  `f ∈ S(X)` of `b` gives a nonzero corner idempotent `f' = f ≫ e ∈ e (End_D X) e` generating a
+  simple left ideal `End_D X · f'`, and iterating on `𝟙 X - ∑_{i<n} f'_i` decomposes `End_D X` into
+  finitely many simple left ideals. Finally, **3 ⇔ 5 ⇒ 6 ⇒ 6′ ⇒ 3** uses 3.1, 2.2, 2.3, and 2.6;
+  and **2′ ⇒ 1** gets semiperfectness from simple covers (4.2) and lifts a cover of `F ⧸ J · F` on a
+  coproduct `F` of representables (`jacobson_smul_ne_top_of_projective`, 4.2) to vanish Bass modules
+  of `J(C)`-sequences (4.1).
 - **Rings** (`TauCeti.isLeftPerfectRing_tfae`): specializes `isPerfectCategory_tfae` at
   `SingleObj Aᵐᵒᵖ`, expressing 2 and 2′ with `TauCeti.IsProjectiveCover` (Convention 12 and
   `TauCeti.isProjectiveCover_iff_forall_surjective`), 2″ with `IsCoatom` in `Submodule A M`, 3 and

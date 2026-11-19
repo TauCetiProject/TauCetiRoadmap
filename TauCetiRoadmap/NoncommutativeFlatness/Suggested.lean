@@ -310,6 +310,12 @@ abbrev LeftMorphismIdeal.hom (I : LeftMorphismIdeal C) (X Y : C) : AddSubgroup (
 abbrev RightMorphismIdeal.hom (I : RightMorphismIdeal C) (X Y : C) : AddSubgroup (X ⟶ Y) :=
   (I X).carrier (Opposite.op (Opposite.op Y))
 
+theorem LeftMorphismIdeal.comp_mem (I : LeftMorphismIdeal C) {X Y Z : C} (f : X ⟶ Y) {g : Y ⟶ Z}
+    (hg : g ∈ I.hom Y Z) : f ≫ g ∈ I.hom X Z := sorry
+
+theorem RightMorphismIdeal.comp_mem (I : RightMorphismIdeal C) {X Y Z : C} {f : X ⟶ Y} (g : Y ⟶ Z)
+    (hf : f ∈ I.hom X Y) : f ≫ g ∈ I.hom X Z := sorry
+
 @[ext]
 theorem LeftMorphismIdeal.ext {I J : LeftMorphismIdeal C}
     (h : ∀ ⦃X Y : C⦄ (f : X ⟶ Y), f ∈ I.hom X Y ↔ f ∈ J.hom X Y) : I = J := by
@@ -659,8 +665,9 @@ theorem ModCat.morita_tfae (C : Type u₁) [Category.{v} C] [Preadditive C] [Ess
             Nonempty (((ModCat.Bimod.tensor.obj P).obj Q) ≅ ModCat.regularBimod D)] := sorry
 
 open scoped ModuleCat.Algebra in
-/-- **0.10, rings** Characterizations of `IsMoritaEquivalent R A B` via `finiteProjectiveModules`,
-progenerators, full-idempotent matrix corners, and invertible bimodules ([Lam-LMR, §18]). -/
+/-- **0.10, rings** Assembly of `IsMoritaEquivalent R A B`: `finiteProjectiveModules` and invertible
+`R`-central bimodules (new), assembled with progenerators and full-idempotent matrix corners from
+Tau Ceti `main` ([Lam-LMR, §18]). -/
 theorem isMoritaEquivalent_tfae (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
     (B : Type u) [Ring B] [Algebra R B] :
     List.TFAE
@@ -670,7 +677,22 @@ theorem isMoritaEquivalent_tfae (R : Type t) [CommRing R] (A : Type u) [Ring A] 
         ∃ P : ModuleCat.{u} A, Module.Finite A P ∧ Module.Projective A P ∧ IsSeparator P ∧
           Nonempty (B ≃ₐ[R] (Module.End A P)ᵐᵒᵖ),
         ∃ (n : ℕ) (e : Matrix (Fin n) (Fin n) A) (he : IsIdempotentElem e),
-          TwoSidedIdeal.span {e} = ⊤ ∧ Nonempty (B ≃ₐ[R] he.Corner)] := sorry
+          TwoSidedIdeal.span {e} = ⊤ ∧ Nonempty (B ≃ₐ[R] he.Corner),
+        ∃ (P Q : Type u) (_ : AddCommGroup P) (_ : Module R P) (_ : Module B P)
+            (_ : Module Aᵐᵒᵖ P) (_ : IsScalarTower R B P) (_ : IsScalarTower R Aᵐᵒᵖ P)
+            (_ : SMulCommClass B Aᵐᵒᵖ P) (_ : AddCommGroup Q) (_ : Module R Q) (_ : Module A Q)
+            (_ : Module Bᵐᵒᵖ Q) (_ : IsScalarTower R A Q) (_ : IsScalarTower R Bᵐᵒᵖ Q)
+            (_ : SMulCommClass A Bᵐᵒᵖ Q),
+          (letI := TauCeti.BalancedTensorProduct.leftModule (k := ℤ) (A := B) (M := Q) (N := P) A
+           letI := TauCeti.BalancedTensorProduct.rightModule
+             (k := ℤ) (A := B) (M := Q) (N := P) Aᵐᵒᵖ
+           ∃ e₁ : TauCeti.BalancedTensorProduct ℤ B Q P ≃ₗ[A] A,
+             ∀ (a : Aᵐᵒᵖ) z, e₁ (a • z) = a • e₁ z) ∧
+          (letI := TauCeti.BalancedTensorProduct.leftModule (k := ℤ) (A := A) (M := P) (N := Q) B
+           letI := TauCeti.BalancedTensorProduct.rightModule
+             (k := ℤ) (A := A) (M := P) (N := Q) Bᵐᵒᵖ
+           ∃ e₂ : TauCeti.BalancedTensorProduct ℤ A P Q ≃ₗ[B] B,
+             ∀ (b : Bᵐᵒᵖ) z, e₂ (b • z) = b • e₂ z)] := sorry
 
 end Morita
 
