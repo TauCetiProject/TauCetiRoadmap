@@ -1,26 +1,20 @@
 # Roadmap: noncompact quantum symmetry and particle representations
 
-**Summary.** Develop the measurable and unitary representation theory needed to pass from spacetime symmetry to particle models. The central theorem is the locally compact imprimitivity theorem with its correctly normalized induced Hilbert-space model; the semidirect-product theorem then classifies regular irreducibles through dual orbits, stabilizers, and their projective representations. Apply this machinery with fixed conventions to Euclidean, Galilei, Poincaré, and de Sitter examples, and prove the domain and differentiability results that connect group representations to observables.
+**Summary.** A quantum symmetry acts on rays, the unit vectors of a complex Hilbert space up to a phase, and preserves the transition probability `|⟨ξ,η⟩|²` between them. This roadmap develops the representation theory that leads from spacetime symmetry to particle models, irreducible unitary representations of noncompact groups induced from the stabilizer of a momentum. It treats the Euclidean, Galilei, Poincaré and de Sitter groups. Hilbert spaces are complex, locally compact groups Hausdorff, and representations strongly continuous and unitary unless expressly projective or antiunitary.
 
-## Scope and ownership
+The first main theorem is Wigner's, on every nonzero complex Hilbert space, separable or not: a bijection of the rays preserving transition probabilities is induced by a unitary or an antiunitary operator. In dimension at least two this operator is unique up to a phase, so the map of rays decides which kind it is.
 
-Consume, without duplicating their core constructions:
+The second is Glimm's theorem. For a separable C*-algebra, possibly without unit, three conditions are equivalent. Every factor representation generates a type I factor, one with a minimal projection. Every irreducible image contains all compact operators. Irreducible representations with the same kernel are unitarily equivalent.
 
-- CompactGroups (`gap:banach-gfinite-density`, the gap that AutomorphicFormsOnReductiveGroups records against CompactGroups in its supplier contracts and consumes in §2.1) for the topology-free finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; AutomorphicFormsOnReductiveGroups §2.1 for its abbreviation `IsKFinite` of that predicate on the restriction to K and its identification of the orbit span of the restricted native representation with the span of the actual orbit `π(k)v`. These two early interfaces have no automorphic, globalization or analytic prerequisite from this roadmap; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
+The third is Mackey's imprimitivity theorem. Let G be a second-countable locally compact group, H a closed subgroup and X a Polish G-space equivariantly identified with G/H. A system of imprimitivity on X is a unitary representation U of G with a projection-valued measure P on X such that `U_g P(B) U_g⁻¹ = P(gB)`. Inducing a unitary representation σ of H on a separable space K gives one on `L²(X, μ; K)`, for a quasi-invariant measure μ, with P acting by indicators. Mackey's theorem is the converse, and it needs separability: on a separable Hilbert space every system of imprimitivity is unitarily equivalent to an induced one, and σ is determined up to equivalence.
 
-- Tau Ceti's C*-dynamical carriers named under "From Tau Ceti" for continuous actions, covariant pairs, their integrated forms with the L¹ bound, the full crossed product, the full group C*-algebra (the full crossed product of the trivial action on ℂ) and its canonical multipliers; [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for the theory it builds on these carriers that Tau Ceti lacks (restriction to closed subgroups, invariant-ideal exactness, the regular covariant representation and the recovery of a covariant pair from a nondegenerate crossed-product representation), with D1.BorelPrefix and D1.TwistedBorel below; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
-- OperatorAlgebraDynamics D3 supplies the equivalence between module and Hilbert-space induction for closed subgroups. HilbertModules H3 supplies interior tensor products, correspondence induction and the Rieffel correspondence; H5 supplies C₀(X)-algebras, their fibres and continuous Hilbert fields. H5 also supplies the small unitary dual as pure states modulo equivalence of their cyclic GNS representations; M0a retains the separable GCR/factor-type-I comparison.
-- Tau Ceti already proves both Whitehead lemmas over every field of characteristic zero, for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module: `LieModule.Cohomology.exists_eq_lie_of_d₁₂_eq_zero`, `LieModule.Cohomology.exists_d₁₂_eq` and `LieModule.Cohomology.twoCocycle_eq_range_d₁₂` (`TauCeti/Algebra/Lie/Whitehead.lean`). P.4 consumes these for the real semisimple Lie algebras used here and does not restate them; AffineLieAlgebras A1 keeps its complex current-algebra application.
-- CStarAlgebras for full group C*-algebras and type-I hypotheses; OperatorAlgebraDynamics D5 for Haar-system groupoid convolution/disintegration; VonNeumannAlgebras V2 for completed Hilbert tensors. M3 consumes Layer P.5's free-particle position, momentum and Fourier core; the other Layer P interfaces are named below and at their uses.
-- [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups; Tau Ceti's unitarization, Schur orthogonality and Peter–Weyl basis named under "From Tau Ceti"; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
-- Mathlib's `LieAlgebra.IsSemisimple.instHasTrivialRadical` (`Mathlib/Algebra/Lie/Semisimple/Basic.lean`) and `LieAlgebra.HasTrivialRadical.instIsKilling` (`Mathlib/Algebra/Lie/CartanCriterion.lean`, Cartan's criterion over a characteristic-zero domain), which give a finite-dimensional semisimple Lie algebra over a field of characteristic zero the nondegenerate Killing form that the Tau Ceti Whitehead lemmas above assume; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
-- Layer P below owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); the graded and projective Polish groups `UA(H)`, `PU(H)` and `PUA(H)` with their coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and the corollary that a connected group mapping continuously to `PUA(H)` lands in `PU(H)` (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation and integration, with the Whitehead interface its consumers use (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
-- OperatorAlgebraDynamics D1.BorelPrefix for the Polish strong-operator unitary group `U(H)_s` of a separable H with its coefficient Borel structure and criterion for Borel maps, Pettis's theorem (automatic continuity of Borel homomorphisms from a Polish group into a separable metrizable group), the Polishness of second-countable locally compact groups, the Mackey–Weil lcsc topology on the circle extension `E_ω` of a normalized Borel multiplier, the correspondence of strong-Borel ω-representations with representations of `E_ω` on which the central circle acts by scalars, and the strong-Borel twisted left-regular family `λ^ω`; D1.TwistedBorel for the single-weight fibres `J_k(E_ω)≅C*(G,ω^k)`; D4.Harmonic for the Fourier isomorphism `C*(N)≅C₀(N̂)` of the full group C*-algebra of a locally compact abelian N in the positive-character convention. These are consumed at P.2, M1, M2 and Layer 0 and are not restated. This roadmap keeps what OperatorAlgebraDynamics leaves to it: the graded and projective groups `UA(H)`, `PU(H)`, `PUA(H)` with their Borel structures and local sections (P.2), the comparison of Borel multipliers with locally continuous extension cocycles (M1), and the all-central-weights decomposition `C*(E_ω)≅⊕_k J_k(E_ω)` with its type-I consequences (M2).
-- [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) for the Gårding space and smooth-vector calculus of strongly continuous Banach representations, which M0 specializes to unitary Hilbert representations. M0 owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, analytic vectors, and the elliptic and central closures.
-- Tau Ceti's pinned Lorentzian Clifford/Spin equivalence in `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean` and Hermitian-vector model in `TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` for the `Spin(3,1)≃SL(2,ℂ)` / Lorentz cover interface. The group-action and orbit proofs remain targets here.
+Imprimitivity drives Mackey's analysis of a semidirect product N⋊H with N abelian. When the H-orbits in the dual of N have a standard Borel orbit space with a Borel section, among further stated hypotheses, every irreducible representation is induced from a character χ of N, extended to `N⋊H_χ`, tensored with an irreducible representation of the stabilizer `H_χ`. Two are equivalent exactly when the orbits agree and the transported stabilizer representations are equivalent.
 
-The analytic operator domains and self-adjoint spectral calculus are supplied by OperatorTheory/SelfAdjointSpectralTheory and OperatorTheory/UnboundedOperators. RelativisticQuantumFieldTheory RQFT0–RQFT2 owns field-side Lorentzian coordinate/Fourier conventions, exact solution carriers, causal Green operators, Lorentz-spinor and classical-to-quantum field bridges; M4 of this roadmap owns the group/metric/cover and Lorentz-representation conventions; RQFT3–RQFT10 own operator-valued distributions, Wightman/Haag–Kastler axioms, spin-statistics, Shale implementability, perturbative renormalization and scattering. LocalVariationalFieldTheory LVF1–LVF6 owns finite-order Euler–Lagrange/Noether theory, stress-energy and classical momentum/current constructions. These field and variational roadmaps own the listed field applications; M0–M6 do not consume RQFT field constructions. Their common Lorentz/Spin and operator inputs are the pinned native and supplier APIs above. Layer P is consumed by M1 (P.1–P.3), M2 (P.2), M3 (P.3–P.5), M4 (P.1–P.4), M5.Coding (P.2) and M6 (P.6); it consumes no M-layer. M1/M2/M4/M5 also consume HilbertModules H3, and M5 consumes HilbertModules H5. RQFT2 and RQFT3 consume M2/M4 for the named noncompact representation data; RQFT11 consumes M4 for the helicity models it names. This fixes the milestone direction of the shared field applications. No field theorem follows merely from a unitary representation of spacetime symmetry.
+The fourth applies this to `ℝ⁴⋊SL(2,ℂ)`, the connected double cover of the Poincaré group. Every irreducible representation has its translation spectral measure concentrated on one orbit of momenta and is one of an explicit list of induced models, inequivalent for distinct labels. On a mass hyperboloid the labels are the mass m > 0, the sign of the energy and a spin in ½ℕ₀; on each half of the light cone, a helicity in ½ℤ or a continuous-spin label. Models on spacelike orbits and at zero momentum are labelled by the unitary duals of SL(2,ℝ) and SL(2,ℂ), which are classified too.
+
+The Tau Ceti library already provides full crossed products, hence full group C*-algebras, and projection-valued measures. [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) supplies Pettis's automatic continuity theorem and Green's C*-algebraic imprimitivity theorem. CStarAlgebras supplies the primitive-ideal theory behind Glimm's theorem. RelativisticQuantumFieldTheory uses the noncompact and helicity models; QuantumFoundations uses the first layer and the later models.
+
+Layer 0 treats weak containment through the full group C*-algebra and identifies `C*(N⋊H)` with `C₀(N̂)⋊H` for abelian N. Layer 1 proves Wigner's theorem, makes the projective unitary groups of a separable space Polish, and relates locally continuous multipliers to the circle extensions they classify. Layer 2 is Glimm's theorem. Layer 3 studies smooth and analytic vectors and proves Harish-Chandra's admissibility theorem for connected semisimple groups with finite centre. Layers 4 and 5 build induction and the measurable classification of irreducibles. Layer 4 also makes every jointly Borel action of a Polish group on a standard Borel space continuous for some Polish topology with the same Borel sets. Layers 6 to 8 apply them: Layer 6 to the Euclidean and Galilei groups, Layer 7 to the Poincaré and Lorentz groups. Layer 8 classifies the unitary dual of the double cover of SO₀(4,1), contracts this de Sitter group to the Poincaré group, and sorts the possible kinematics of Bacry and Lévy-Leblond into eleven cases. Layer 9 decomposes tensor products of particle models and recouples several factors along finite trees.
 
 ## Conventions
 
@@ -31,189 +25,6 @@ For right Hilbert A-modules use HilbertModules' native opposite-algebra conventi
 `MulOpposite.op a • x` and A-valued inner product obtained by `MulOpposite.unop`.
 No separability or countable-generation hypothesis is imposed on these module contracts
 unless the consuming theorem states it.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `ContRepresentation` for homomorphisms into continuous linear operators; it does not
-assert continuity of vector orbits. Use `Projectivization`, `LinearIsometryEquiv`,
-`LieModule.Cohomology.oneCochain`, `LieModule.Cohomology.d₁₂`,
-`LieModule.Cohomology.twoCocycle`, `MeasureTheory.Lp`, native RN derivatives and
-`PontryaginDual` for the carriers and conventions specified below.
-M6 consumes `ProbabilityTheory.Kernel.rnDeriv`,
-`ProbabilityTheory.Kernel.measurable_rnDeriv`,
-`ProbabilityTheory.Kernel.rnDeriv_eq_rnDeriv_measure` and
-`ProbabilityTheory.Kernel.withDensity_rnDeriv_eq`
-(Mathlib `Probability/Kernel/RadonNikodym.lean`) for jointly measurable
-RN densities of finite kernels on countably generated label spaces. It consumes
-`ProbabilityTheory.Kernel.condKernel` and `ProbabilityTheory.Kernel.disintegrate`
-(Mathlib `Probability/Kernel/Disintegration/StandardBorel.lean` and `Basic.lean`)
-for conditional probability kernels: the conditioned factor is countably generated,
-the other factor is nonempty standard Borel, and the input kernel is finite.
-These supply the scalar parameterized kernel theory; M6 constructs the
-representation-specific effective supports, normalized pair kernels and subtree fields.
-
-
-### From Tau Ceti
-
-Use `ContRepresentation.IsUnitary`
-(`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`) for inner-product
-preservation, keeping strong orbit continuity separate;
-`ContRepresentation.isUnitary_iff_isometry` identifies it with isometric action
-operators. `InducedModelData`, `InducedModelData.exists_inducedRepresentation` and
-`SystemOfImprimitivity` use it. P.3 consumes `TauCeti.FactorSet` and
-`TauCeti.isProjectiveRepEquivExtensionHom`. P.4 consumes Whitehead's lemmas from
-`TauCeti/Algebra/Lie/Whitehead.lean`, each for a field K of characteristic zero, a
-finite-dimensional Lie algebra L over K with `LieAlgebra.IsKilling K L` and a
-finite-dimensional L-module M: `LieModule.Cohomology.exists_eq_lie_of_d₁₂_eq_zero`
-(a 1-cochain f with `d₁₂ f = 0` is `x ↦ ⁅x, m⁆` for some m),
-`LieModule.Cohomology.exists_d₁₂_eq` (every element of
-`LieModule.Cohomology.twoCocycle K L M` is `d₁₂ f` for a 1-cochain f) and
-`LieModule.Cohomology.twoCocycle_eq_range_d₁₂` (the 2-cocycles are exactly the range
-of `d₁₂`). M4 uses the native real Clifford/Hermitian comparison named in Scope and
-ownership.
-
-M1 takes its projection-valued measures from
-`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/`: `TauCeti.ProjValMeasure X E`
-on an arbitrary measurable space X and complex Hilbert space E assigns a bounded
-operator `proj B hB` to each measurable B, with `proj Set.univ = 1`, multiplicativity
-`proj B₁ ∘ proj B₂ = proj (B₁ ∩ B₂)` and finite diagonal measures `B ↦ ⟨ξ, proj B ξ⟩`;
-`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint` is its strong countable
-additivity on pairwise disjoint measurable families. `TauCeti.ProjValMeasure.map`
-pushes it forward along a measurable map f by `B ↦ proj (f⁻¹' B)`, with
-`TauCeti.ProjValMeasure.map_proj` (that formula), `TauCeti.ProjValMeasure.map_id` and
-`TauCeti.ProjValMeasure.map_map` (identity and composition). The structure carries no
-regularity and no separability hypothesis.
-
-M1 takes measurable sections of quotient maps from the Kuratowski–Ryll-Nardzewski
-theorem `TauCeti.exists_measurable_forall_mem`
-(`TauCeti/MeasureTheory/MeasurableSpace/Selection.lean`): for a measurable space Z, a
-Polish space Y with its Borel σ-algebra and a map M from Z to the nonempty closed subsets
-of Y such that `{z : M z ∩ U ≠ ∅}` is measurable for every open U, there is a measurable
-f with `f z ∈ M z` for every z. The selection is measurable for the given σ-algebra, not
-only for the σ-algebra generated by analytic sets.
-
-M0a takes from `TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean` the
-nondegeneracy predicate `NonUnitalStarAlgHom.IsNondegenerate` of a representation
-`π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)` of a possibly nonunital C*-algebra (the span of the vectors
-`π a ξ` is dense) and its unique extension `NonUnitalStarAlgHom.multiplierExtension` to
-the multiplier algebra, and from `TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean` the von
-Neumann algebra `VonNeumannAlgebra.adjoin s` generated by a set s of operators: the double
-commutant of `s ∪ star s` (`VonNeumannAlgebra.coe_adjoin`), whose commutant is that of
-`s ∪ star s` (`VonNeumannAlgebra.coe_commutant_adjoin`). For the range of a representation
-it is `π(A)″`.
-
-Layer 0, M2 and M4.SpatialLocalization take their C*-dynamical carriers from
-`TauCeti/Analysis/CStarAlgebra/Action/`: a point-norm continuous action
-`TauCeti.CStarAction G A` and the trivial action `TauCeti.CStarAction.trivial`; covariant
-pairs `TauCeti.CStarAction.CovariantRepresentation`, a possibly degenerate coefficient
-representation with a strongly continuous representation satisfying
-`ContRepresentation.IsUnitary` and `U_g π(a) = π(α_g a) U_g`; the integrated form
-`TauCeti.CStarAction.CovariantRepresentation.integratedOperator` on `C_c(G, A)`, bounded by
-the L¹ norm (`TauCeti.CStarAction.CovariantRepresentation.norm_integratedOperator_le`) and
-nondegenerate exactly when the coefficient representation is
-(`TauCeti.CStarAction.CovariantRepresentation.dense_span_integratedOperator_iff`); the full
-crossed product `TauCeti.CStarAction.FullCrossedProduct α μ` for a left Haar measure μ, a
-nonunital C*-algebra, with the dense-range map `TauCeti.CStarAction.FullCrossedProduct.of`
-(`TauCeti.CStarAction.FullCrossedProduct.denseRange_of`), the norm characterization
-`TauCeti.CStarAction.FullCrossedProduct.norm_le_iff` and the extended integrated forms
-`TauCeti.CStarAction.CovariantRepresentation.integratedFull`; and its canonical multipliers
-`TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier` and the unitary group map
-`TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, covariant and strictly
-continuous. The full group C*-algebra `C*(G)` is the full crossed product of
-`TauCeti.CStarAction.trivial` on ℂ; no unit, separability or nondegeneracy is assumed by
-these carriers, and separability of `C*(G)` for second-countable G is proved where it is
-used (M2.MeasuredRefinement, M4.SpatialLocalization).
-
-The compact-group inputs are the following pinned declarations, each for a
-compact topological group G with Borel σ-algebra, its Haar probability
-measure and a continuous representation `π : ContRepresentation 𝕜 G V`
-(continuous into `V →L[𝕜] V`), 𝕜 being ℝ or ℂ:
-
-- `ContRepresentation.isUnitarizable`
-  (`TauCeti/RepresentationTheory/Compact/Unitarizable.lean`): for a complete
-  inner-product space V there is a self-adjoint S with `re⟨Sv,v⟩>0` for v≠0
-  and `(π g)†∘S∘(π g)=S` for every g.
-- `ContRepresentation.exists_isUnitary_congr`
-  (`TauCeti/RepresentationTheory/Compact/UnitaryModel.lean`): for
-  finite-dimensional V there is a continuous linear automorphism e of V
-  for which the conjugated representation satisfies `ContRepresentation.IsUnitary`.
-- `ContRepresentation.schur_orthogonality_self` and
-  `ContRepresentation.schur_orthogonality_basis`
-  (`TauCeti/RepresentationTheory/Compact/SchurOrthogonality.lean`): for 𝕜
-  algebraically closed and a unitary, algebraically irreducible π on V of
-  dimension d, the L² inner product of the matrix coefficients
-  `g↦⟨π(g)v₁,w₁⟩` and `g↦⟨π(g)v₂,w₂⟩` is `d⁻¹·conj⟨v₁,v₂⟩·⟨w₁,w₂⟩`, and in
-  an orthonormal basis `⟨π_ij,π_kl⟩=d⁻¹δ_jlδ_ik` with `π_ij(g)=⟨π(g)e_j,e_i⟩`;
-  `ContRepresentation.schur_orthogonality` (same file): matrix coefficients
-  of inequivalent finite-dimensional irreducibles, the second unitary, are
-  L²-orthogonal.
-- `TauCeti.stdPeterWeylBasis`
-  (`TauCeti/RepresentationTheory/Compact/PeterWeyl.lean`): for 𝕜
-  algebraically closed, the normalized matrix coefficients of chosen
-  representatives of the unitary irreducible classes form a Hilbert basis of
-  `L²(G)`, identified elementwise by `TauCeti.coe_stdPeterWeylBasis`.
-
-Inner products here are Mathlib's, conjugate-linear in the first variable,
-as in Conventions. For G=𝕋, π(z)=z on ℂ, v₁=w₁=w₂=1 and v₂=i, the
-coefficients are `z⁻¹` and `−iz⁻¹`, so the left side of the first identity
-is `∫conj(z⁻¹)·(−iz⁻¹)dz=−i` and the right side is `conj⟨1,i⟩=conj(i)=−i`;
-placing the conjugation on the w-factor instead would give `+i`. A finite
-group is the case of the discrete topology, where Haar probability is
-normalized counting measure.
-
-### From TauCetiRoadmap.HilbertModules
-
-H3 supplies the balanced Hausdorff-completed interior tensor, its associator,
-correspondence induction, ideal-kernel identity and Rieffel spectrum transport.
-H5 supplies the central nondegenerate C₀(X)-action, quotient fibres, upper
-semicontinuous norms, continuous Hilbert-field reconstruction from generating
-sections, and the small pure-state/GNS unitary dual with its kernel topology. These contracts use the right-module convention above and retain zero
-modules, non-full modules and degenerate left actions where specified in H3.
-
-### Hilbert-module contract checks
-
-- For the standard module B and a nondegenerate left action on F, the unitary B⊗_B F→F sends b⊗η to bη; for the zero left action the tensor is zero after quotienting the null space.
-- For the M₂(ℂ)–ℂ imprimitivity module ℂ², induction sends a one-dimensional representation to dimension two, and the Rieffel correspondence sends the two ideals to the two ideals. The non-full ℂ⊕0 module over ℂ⊕ℂ instead kills the second-coordinate character.
-- The right-module convention gives ⟨ξ,ηb⟩=⟨ξ,η⟩b and ⟨ξb,η⟩=b*⟨ξ,η⟩; in B=M₂(ℂ), ξ=E₁₁, η=E₁₂ and b=E₂₂ give E₁₂ in the first identity, whereas the reversed convention ⟨ξ,η⟩=ξη* gives zero on these inputs.
-- Over a point the fibre is A; over [0,1], A=C₀([0,1))⊕ℂ has the section (0,1) with norms 0 for t<1 and 1 at t=1, so upper semicontinuity alone does not imply continuity.
-- The small dual is empty for A=0, a singleton for A=ℂ and two points for
-  A=ℂ⊕ℂ with kernels 0⊕ℂ and ℂ⊕0. Equal Hilbert dimension does not identify
-  those two characters.
-- The trivial M₂(ℂ) field over ℝ has section exp(−x²)E₁₁ with norm exp(−x²). Constant scalar sections generate the usual continuous field, while adjoining the indicator of [0,∞) violates norm continuity at zero.
-
-### From the other named roadmaps
-
-The following additional supplier interfaces are consumed by their named targets.
-Their generic theories remain in the supplying roadmaps.
-
-| Supplier | Interface consumed here | First consumer |
-| --- | --- | --- |
-| [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) | Integrated operators `π(f)` of compactly supported smooth tests and the Gårding space they span, smooth vectors with their Fréchet topology and density, mixed-word domains, the derived Lie and enveloping actions, and the convolution, transport, conjugation and integration-by-parts laws, for strongly continuous Banach representations and hence unitary ones | M0 item 1 |
-| CompactGroups (`gap:banach-gfinite-density`); AutomorphicFormsOnReductiveGroups §2.1 | The field-general finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; from §2.1, the abbreviation `IsKFinite` on the restriction to K and its orbit-span identification for restricted native continuous representations | M0 item 3 |
-| OperatorAlgebraDynamics D1.BorelPrefix, D1.TwistedBorel, D4.Harmonic | The Polish group `U(H)_s` with its coefficient Borel structure, Pettis's theorem and the Polishness of lcsc groups; the Mackey–Weil topology on `E_ω`, the strong-Borel correspondence and `λ^ω`; the fibres `J_k(E_ω)≅C*(G,ω^k)`; the Fourier isomorphism `C*(N)≅C₀(N̂)` | Layer 0, P.2, M1, M2 |
-| PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
-| RiemannianGeometry R1/R2/R4, [Completed/HopfRinow](../../Completed/HopfRinow/README.md) Layer 3 | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard; from Hopf–Rinow, compactness of closed balls in a complete connected Riemannian manifold | M0’s Cartan/maximal-compact argument |
-| [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
-| InductionRestriction 2.1 | Almost-conjugacy and permutation representations | M1’s finite-quotient deck models |
-| LieGroupoidsPoisson §G0.0, [OperatorAlgebraDynamics D5](../OperatorAlgebraDynamics/README.md#d5-haar-groupoids-convolution-and-disintegration) | Topological groupoid, Haar convolution, full completion and disintegration | M5’s deformation groupoid |
-| CStarAlgebras C1/C2, C5.2, C6.2/C6.5 | C1 ideal/approximate-unit APIs; C2 separable prime⇒primitive, primitive ideals, hull-kernel topology and separable second countability, pure-state/GNS, nonzero irreducibility⇔scalar commutant, Kadison transitivity with its norm bound and quotient-norm lower semicontinuity; C2.2's nonzero irreducibility predicate, restated on the same carrier as `IsIrreducibleRep`; C2.3 representations containing a nonzero compact operator (`K(H)⊆π(A)`, and equal kernels force unitary equivalence, with no separability hypothesis); C2.AnnHull's support formula `hull(Ann I)=closure(U_I)`; C5.2 `C₀(X)⊗min A≅C₀(X,A)` and `C(X)⊗min C(Y)≅C(X×Y)` with elementary-tensor and pullback naturality; C6.5's nuclearity of `C₀(X)`, so that C6.2 makes `C₀(X)⊗max B→C₀(X)⊗min B` an isomorphism | M0a.TypeIComparison first; M2.TypeIDisintegration and M2.RectangularField; M5’s labelled dual topology, compact-isotype supports and radial tensor comparison |
-| UnboundedOperators UO-B04/B05, UO-E03 | Strongly commuting joint PVM and multiparameter Stone theorem; Nelson's criterion that a symmetric operator, or a pairwise commuting finite family, with a dense invariant domain of analytic vectors (factorial bounds on every mixed word) is essentially self-adjoint, strongly commuting in the family case | M0’s analytic-vector and central closures; M4’s joint translation spectrum |
-| [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; Tau Ceti's `ContRepresentation.exists_isUnitary_congr`, `ContRepresentation.schur_orthogonality_self` and `ContRepresentation.schur_orthogonality` supply unitarization and coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
-| MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
-| LaguerreJacobi Layers 1–2 | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
-
-## How to read the build
-
-Layer 0 constructs the group C*-algebra comparisons. Layer 1 (P) supplies
-projective-symmetry prerequisites, followed by the type-I comparison (Layer 2,
-M0a) and smooth/compact-type bridges (Layer 3, M0). Layers 4 and 5 (M1/M2)
-construct induction and measurable irreducible classification; Layers 6–8
-(M3–M5) apply them to particle groups and contractions. Layer 9 (M6) constructs
-pair decompositions and finite-tree recoupling, inducting from smaller child
-blocks to their parent. Each named target's inputs and proof-route dependencies
-are retained at its statement; changing the route does not change the target.
 
 ## Layer 0: shared group C*-algebra and weak-support comparisons
 
@@ -9471,6 +9282,198 @@ specified in Scope and ownership.
 
 QuantumFoundations consumes Layer P, including P.2's corollary that a connected
 group mapping continuously to `PUA(H)` lands in `PU(H)`, and the M-layer models.
+
+## Scope and ownership
+
+Consume, without duplicating their core constructions:
+
+- CompactGroups (`gap:banach-gfinite-density`, the gap that AutomorphicFormsOnReductiveGroups records against CompactGroups in its supplier contracts and consumes in §2.1) for the topology-free finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; AutomorphicFormsOnReductiveGroups §2.1 for its abbreviation `IsKFinite` of that predicate on the restriction to K and its identification of the orbit span of the restricted native representation with the span of the actual orbit `π(k)v`. These two early interfaces have no automorphic, globalization or analytic prerequisite from this roadmap; M0 owns the further Hilbert multiplicity, completed-tensor and smooth/analytic comparisons.
+
+- Tau Ceti's C*-dynamical carriers named under "From Tau Ceti" for continuous actions, covariant pairs, their integrated forms with the L¹ bound, the full crossed product, the full group C*-algebra (the full crossed product of the trivial action on ℂ) and its canonical multipliers; [OperatorAlgebraDynamics D1](../OperatorAlgebraDynamics/README.md#d1-covariant-representations-and-full-crossed-products) for the theory it builds on these carriers that Tau Ceti lacks (restriction to closed subgroups, invariant-ideal exactness, the regular covariant representation and the recovery of a covariant pair from a nondegenerate crossed-product representation), with D1.BorelPrefix and D1.TwistedBorel below; [D3](../OperatorAlgebraDynamics/README.md#d3-induction-and-imprimitivity) for Green imprimitivity, modular normalization, induction in stages and interior tensor induction.
+- OperatorAlgebraDynamics D3 supplies the equivalence between module and Hilbert-space induction for closed subgroups. HilbertModules H3 supplies interior tensor products, correspondence induction and the Rieffel correspondence; H5 supplies C₀(X)-algebras, their fibres and continuous Hilbert fields. H5 also supplies the small unitary dual as pure states modulo equivalence of their cyclic GNS representations; M0a retains the separable GCR/factor-type-I comparison.
+- Tau Ceti already proves both Whitehead lemmas over every field of characteristic zero, for a finite-dimensional Lie algebra with nondegenerate Killing form and a finite-dimensional module: `LieModule.Cohomology.exists_eq_lie_of_d₁₂_eq_zero`, `LieModule.Cohomology.exists_d₁₂_eq` and `LieModule.Cohomology.twoCocycle_eq_range_d₁₂` (`TauCeti/Algebra/Lie/Whitehead.lean`). P.4 consumes these for the real semisimple Lie algebras used here and does not restate them; AffineLieAlgebras A1 keeps its complex current-algebra application.
+- CStarAlgebras for full group C*-algebras and type-I hypotheses; OperatorAlgebraDynamics D5 for Haar-system groupoid convolution/disintegration; VonNeumannAlgebras V2 for completed Hilbert tensors. M3 consumes Layer P.5's free-particle position, momentum and Fourier core; the other Layer P interfaces are named below and at their uses.
+- [VonNeumannAlgebras V4.Normality](../VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for normal representations; V4.0.Fields for measurable Hilbert fields, rectangular decomposable-map transport and change of measure consumed by M1/M2/M4/M5/M6; V4.0.Decomposition, via SelfAdjointSpectralTheory SA-B85, for the separable `C₀(X)` spectral representation and central decomposition consumed by M2.TypeIDisintegration, M2.ParameterizedRefinement and M3’s mass-sector decomposition; V11 for Pontryagin duality, Haar normalization and Plancherel.
+- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md) for compact little groups; Tau Ceti's unitarization, Schur orthogonality and Peter–Weyl basis named under "From Tau Ceti"; LieGroups and [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md) for Lie groups, Lie algebras, highest weights and compact-fiber data. These are not noncompact unitary-dual classifications.
+- Mathlib's `LieAlgebra.IsSemisimple.instHasTrivialRadical` (`Mathlib/Algebra/Lie/Semisimple/Basic.lean`) and `LieAlgebra.HasTrivialRadical.instIsKilling` (`Mathlib/Algebra/Lie/CartanCriterion.lean`, Cartan's criterion over a characteristic-zero domain), which give a finite-dimensional semisimple Lie algebra over a field of characteristic zero the nondegenerate Killing form that the Tau Ceti Whitehead lemmas above assume; Tau Ceti's `TauCeti.FactorSet` (`TauCeti/GroupTheory/GroupExtension/Of/FactorSet.lean`) and `TauCeti.isProjectiveRepEquivExtensionHom` (`TauCeti/RepresentationTheory/ProjectiveRepresentation/Extension.lean`) for the algebra of factor sets, their extensions, rescaling and projective linearization, consumed by Layer P.3.
+- Layer P above owns the projective-symmetry prerequisites: rays, the unitary–antiunitary group and Wigner's theorem (P.1); the graded and projective Polish groups `UA(H)`, `PU(H)` and `PUA(H)` with their coefficient and quotient Borel structures, the local section of `U(H)→PU(H)` and the corollary that a connected group mapping continuously to `PUA(H)` lands in `PU(H)` (P.2); normalized locally continuous multipliers and their topological extensions (P.3); finite-dimensional Lie smoothing, differentiation and integration, with the Whitehead interface its consumers use (P.4); free-particle position and momentum (P.5); and the permutation projectors of completed tensor powers (P.6). This roadmap proves these and the noncompact measurable and induced-representation results named here.
+- OperatorAlgebraDynamics D1.BorelPrefix for the Polish strong-operator unitary group `U(H)_s` of a separable H with its coefficient Borel structure and criterion for Borel maps, Pettis's theorem (automatic continuity of Borel homomorphisms from a Polish group into a separable metrizable group), the Polishness of second-countable locally compact groups, the Mackey–Weil lcsc topology on the circle extension `E_ω` of a normalized Borel multiplier, the correspondence of strong-Borel ω-representations with representations of `E_ω` on which the central circle acts by scalars, and the strong-Borel twisted left-regular family `λ^ω`; D1.TwistedBorel for the single-weight fibres `J_k(E_ω)≅C*(G,ω^k)`; D4.Harmonic for the Fourier isomorphism `C*(N)≅C₀(N̂)` of the full group C*-algebra of a locally compact abelian N in the positive-character convention. These are consumed at P.2, M1, M2 and Layer 0 and are not restated. This roadmap keeps what OperatorAlgebraDynamics leaves to it: the graded and projective groups `UA(H)`, `PU(H)`, `PUA(H)` with their Borel structures and local sections (P.2), the comparison of Borel multipliers with locally continuous extension cocycles (M1), and the all-central-weights decomposition `C*(E_ω)≅⊕_k J_k(E_ω)` with its type-I consequences (M2).
+- [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) for the Gårding space and smooth-vector calculus of strongly continuous Banach representations, which M0 specializes to unitary Hilbert representations. M0 owns the Hilbert-adjoint statements on that domain: skew-symmetry of real generators, Nelson's operator, analytic vectors, and the elliptic and central closures.
+- Tau Ceti's pinned Lorentzian Clifford/Spin equivalence in `TauCeti/LinearAlgebra/CliffordAlgebra/Spin/Real/ThreeOne.lean` and Hermitian-vector model in `TauCeti/LinearAlgebra/CliffordAlgebra/RealForm/ThreeOne.lean` for the `Spin(3,1)≃SL(2,ℂ)` / Lorentz cover interface. The group-action and orbit proofs remain targets here.
+
+The analytic operator domains and self-adjoint spectral calculus are supplied by OperatorTheory/SelfAdjointSpectralTheory and OperatorTheory/UnboundedOperators. RelativisticQuantumFieldTheory RQFT0–RQFT2 owns field-side Lorentzian coordinate/Fourier conventions, exact solution carriers, causal Green operators, Lorentz-spinor and classical-to-quantum field bridges; M4 of this roadmap owns the group/metric/cover and Lorentz-representation conventions; RQFT3–RQFT10 own operator-valued distributions, Wightman/Haag–Kastler axioms, spin-statistics, Shale implementability, perturbative renormalization and scattering. LocalVariationalFieldTheory LVF1–LVF6 owns finite-order Euler–Lagrange/Noether theory, stress-energy and classical momentum/current constructions. These field and variational roadmaps own the listed field applications; M0–M6 do not consume RQFT field constructions. Their common Lorentz/Spin and operator inputs are the pinned native and supplier APIs above. Layer P is consumed by M1 (P.1–P.3), M2 (P.2), M3 (P.3–P.5), M4 (P.1–P.4), M5.Coding (P.2) and M6 (P.6); it consumes no M-layer. M1/M2/M4/M5 also consume HilbertModules H3, and M5 consumes HilbertModules H5. RQFT2 and RQFT3 consume M2/M4 for the named noncompact representation data; RQFT11 consumes M4 for the helicity models it names. This fixes the milestone direction of the shared field applications. No field theorem follows merely from a unitary representation of spacetime symmetry.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `ContRepresentation` for homomorphisms into continuous linear operators; it does not
+assert continuity of vector orbits. Use `Projectivization`, `LinearIsometryEquiv`,
+`LieModule.Cohomology.oneCochain`, `LieModule.Cohomology.d₁₂`,
+`LieModule.Cohomology.twoCocycle`, `MeasureTheory.Lp`, native RN derivatives and
+`PontryaginDual` for the carriers and conventions specified above.
+M6 consumes `ProbabilityTheory.Kernel.rnDeriv`,
+`ProbabilityTheory.Kernel.measurable_rnDeriv`,
+`ProbabilityTheory.Kernel.rnDeriv_eq_rnDeriv_measure` and
+`ProbabilityTheory.Kernel.withDensity_rnDeriv_eq`
+(Mathlib `Probability/Kernel/RadonNikodym.lean`) for jointly measurable
+RN densities of finite kernels on countably generated label spaces. It consumes
+`ProbabilityTheory.Kernel.condKernel` and `ProbabilityTheory.Kernel.disintegrate`
+(Mathlib `Probability/Kernel/Disintegration/StandardBorel.lean` and `Basic.lean`)
+for conditional probability kernels: the conditioned factor is countably generated,
+the other factor is nonempty standard Borel, and the input kernel is finite.
+These supply the scalar parameterized kernel theory; M6 constructs the
+representation-specific effective supports, normalized pair kernels and subtree fields.
+
+
+### From Tau Ceti
+
+Use `ContRepresentation.IsUnitary`
+(`TauCeti/RepresentationTheory/Continuous/Unitary/Basic.lean`) for inner-product
+preservation, keeping strong orbit continuity separate;
+`ContRepresentation.isUnitary_iff_isometry` identifies it with isometric action
+operators. `InducedModelData`, `InducedModelData.exists_inducedRepresentation` and
+`SystemOfImprimitivity` use it. P.3 consumes `TauCeti.FactorSet` and
+`TauCeti.isProjectiveRepEquivExtensionHom`. P.4 consumes Whitehead's lemmas from
+`TauCeti/Algebra/Lie/Whitehead.lean`, each for a field K of characteristic zero, a
+finite-dimensional Lie algebra L over K with `LieAlgebra.IsKilling K L` and a
+finite-dimensional L-module M: `LieModule.Cohomology.exists_eq_lie_of_d₁₂_eq_zero`
+(a 1-cochain f with `d₁₂ f = 0` is `x ↦ ⁅x, m⁆` for some m),
+`LieModule.Cohomology.exists_d₁₂_eq` (every element of
+`LieModule.Cohomology.twoCocycle K L M` is `d₁₂ f` for a 1-cochain f) and
+`LieModule.Cohomology.twoCocycle_eq_range_d₁₂` (the 2-cocycles are exactly the range
+of `d₁₂`). M4 uses the native real Clifford/Hermitian comparison named in Scope and
+ownership.
+
+M1 takes its projection-valued measures from
+`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/`: `TauCeti.ProjValMeasure X E`
+on an arbitrary measurable space X and complex Hilbert space E assigns a bounded
+operator `proj B hB` to each measurable B, with `proj Set.univ = 1`, multiplicativity
+`proj B₁ ∘ proj B₂ = proj (B₁ ∩ B₂)` and finite diagonal measures `B ↦ ⟨ξ, proj B ξ⟩`;
+`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint` is its strong countable
+additivity on pairwise disjoint measurable families. `TauCeti.ProjValMeasure.map`
+pushes it forward along a measurable map f by `B ↦ proj (f⁻¹' B)`, with
+`TauCeti.ProjValMeasure.map_proj` (that formula), `TauCeti.ProjValMeasure.map_id` and
+`TauCeti.ProjValMeasure.map_map` (identity and composition). The structure carries no
+regularity and no separability hypothesis.
+
+M1 takes measurable sections of quotient maps from the Kuratowski–Ryll-Nardzewski
+theorem `TauCeti.exists_measurable_forall_mem`
+(`TauCeti/MeasureTheory/MeasurableSpace/Selection.lean`): for a measurable space Z, a
+Polish space Y with its Borel σ-algebra and a map M from Z to the nonempty closed subsets
+of Y such that `{z : M z ∩ U ≠ ∅}` is measurable for every open U, there is a measurable
+f with `f z ∈ M z` for every z. The selection is measurable for the given σ-algebra, not
+only for the σ-algebra generated by analytic sets.
+
+M0a takes from `TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean` the
+nondegeneracy predicate `NonUnitalStarAlgHom.IsNondegenerate` of a representation
+`π : A →⋆ₙₐ[ℂ] (H →L[ℂ] H)` of a possibly nonunital C*-algebra (the span of the vectors
+`π a ξ` is dense) and its unique extension `NonUnitalStarAlgHom.multiplierExtension` to
+the multiplier algebra, and from `TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean` the von
+Neumann algebra `VonNeumannAlgebra.adjoin s` generated by a set s of operators: the double
+commutant of `s ∪ star s` (`VonNeumannAlgebra.coe_adjoin`), whose commutant is that of
+`s ∪ star s` (`VonNeumannAlgebra.coe_commutant_adjoin`). For the range of a representation
+it is `π(A)″`.
+
+Layer 0, M2 and M4.SpatialLocalization take their C*-dynamical carriers from
+`TauCeti/Analysis/CStarAlgebra/Action/`: a point-norm continuous action
+`TauCeti.CStarAction G A` and the trivial action `TauCeti.CStarAction.trivial`; covariant
+pairs `TauCeti.CStarAction.CovariantRepresentation`, a possibly degenerate coefficient
+representation with a strongly continuous representation satisfying
+`ContRepresentation.IsUnitary` and `U_g π(a) = π(α_g a) U_g`; the integrated form
+`TauCeti.CStarAction.CovariantRepresentation.integratedOperator` on `C_c(G, A)`, bounded by
+the L¹ norm (`TauCeti.CStarAction.CovariantRepresentation.norm_integratedOperator_le`) and
+nondegenerate exactly when the coefficient representation is
+(`TauCeti.CStarAction.CovariantRepresentation.dense_span_integratedOperator_iff`); the full
+crossed product `TauCeti.CStarAction.FullCrossedProduct α μ` for a left Haar measure μ, a
+nonunital C*-algebra, with the dense-range map `TauCeti.CStarAction.FullCrossedProduct.of`
+(`TauCeti.CStarAction.FullCrossedProduct.denseRange_of`), the norm characterization
+`TauCeti.CStarAction.FullCrossedProduct.norm_le_iff` and the extended integrated forms
+`TauCeti.CStarAction.CovariantRepresentation.integratedFull`; and its canonical multipliers
+`TauCeti.CStarAction.FullCrossedProduct.coefficientMultiplier` and the unitary group map
+`TauCeti.CStarAction.FullCrossedProduct.groupMultiplier`, covariant and strictly
+continuous. The full group C*-algebra `C*(G)` is the full crossed product of
+`TauCeti.CStarAction.trivial` on ℂ; no unit, separability or nondegeneracy is assumed by
+these carriers, and separability of `C*(G)` for second-countable G is proved where it is
+used (M2.MeasuredRefinement, M4.SpatialLocalization).
+
+The compact-group inputs are the following pinned declarations, each for a
+compact topological group G with Borel σ-algebra, its Haar probability
+measure and a continuous representation `π : ContRepresentation 𝕜 G V`
+(continuous into `V →L[𝕜] V`), 𝕜 being ℝ or ℂ:
+
+- `ContRepresentation.isUnitarizable`
+  (`TauCeti/RepresentationTheory/Compact/Unitarizable.lean`): for a complete
+  inner-product space V there is a self-adjoint S with `re⟨Sv,v⟩>0` for v≠0
+  and `(π g)†∘S∘(π g)=S` for every g.
+- `ContRepresentation.exists_isUnitary_congr`
+  (`TauCeti/RepresentationTheory/Compact/UnitaryModel.lean`): for
+  finite-dimensional V there is a continuous linear automorphism e of V
+  for which the conjugated representation satisfies `ContRepresentation.IsUnitary`.
+- `ContRepresentation.schur_orthogonality_self` and
+  `ContRepresentation.schur_orthogonality_basis`
+  (`TauCeti/RepresentationTheory/Compact/SchurOrthogonality.lean`): for 𝕜
+  algebraically closed and a unitary, algebraically irreducible π on V of
+  dimension d, the L² inner product of the matrix coefficients
+  `g↦⟨π(g)v₁,w₁⟩` and `g↦⟨π(g)v₂,w₂⟩` is `d⁻¹·conj⟨v₁,v₂⟩·⟨w₁,w₂⟩`, and in
+  an orthonormal basis `⟨π_ij,π_kl⟩=d⁻¹δ_jlδ_ik` with `π_ij(g)=⟨π(g)e_j,e_i⟩`;
+  `ContRepresentation.schur_orthogonality` (same file): matrix coefficients
+  of inequivalent finite-dimensional irreducibles, the second unitary, are
+  L²-orthogonal.
+- `TauCeti.stdPeterWeylBasis`
+  (`TauCeti/RepresentationTheory/Compact/PeterWeyl.lean`): for 𝕜
+  algebraically closed, the normalized matrix coefficients of chosen
+  representatives of the unitary irreducible classes form a Hilbert basis of
+  `L²(G)`, identified elementwise by `TauCeti.coe_stdPeterWeylBasis`.
+
+Inner products here are Mathlib's, conjugate-linear in the first variable,
+as in Conventions. For G=𝕋, π(z)=z on ℂ, v₁=w₁=w₂=1 and v₂=i, the
+coefficients are `z⁻¹` and `−iz⁻¹`, so the left side of the first identity
+is `∫conj(z⁻¹)·(−iz⁻¹)dz=−i` and the right side is `conj⟨1,i⟩=conj(i)=−i`;
+placing the conjugation on the w-factor instead would give `+i`. A finite
+group is the case of the discrete topology, where Haar probability is
+normalized counting measure.
+
+### From TauCetiRoadmap.HilbertModules
+
+H3 supplies the balanced Hausdorff-completed interior tensor, its associator,
+correspondence induction, ideal-kernel identity and Rieffel spectrum transport.
+H5 supplies the central nondegenerate C₀(X)-action, quotient fibres, upper
+semicontinuous norms, continuous Hilbert-field reconstruction from generating
+sections, and the small pure-state/GNS unitary dual with its kernel topology. These contracts use the right-module convention above and retain zero
+modules, non-full modules and degenerate left actions where specified in H3.
+
+### Hilbert-module contract checks
+
+- For the standard module B and a nondegenerate left action on F, the unitary B⊗_B F→F sends b⊗η to bη; for the zero left action the tensor is zero after quotienting the null space.
+- For the M₂(ℂ)–ℂ imprimitivity module ℂ², induction sends a one-dimensional representation to dimension two, and the Rieffel correspondence sends the two ideals to the two ideals. The non-full ℂ⊕0 module over ℂ⊕ℂ instead kills the second-coordinate character.
+- The right-module convention gives ⟨ξ,ηb⟩=⟨ξ,η⟩b and ⟨ξb,η⟩=b*⟨ξ,η⟩; in B=M₂(ℂ), ξ=E₁₁, η=E₁₂ and b=E₂₂ give E₁₂ in the first identity, whereas the reversed convention ⟨ξ,η⟩=ξη* gives zero on these inputs.
+- Over a point the fibre is A; over [0,1], A=C₀([0,1))⊕ℂ has the section (0,1) with norms 0 for t<1 and 1 at t=1, so upper semicontinuity alone does not imply continuity.
+- The small dual is empty for A=0, a singleton for A=ℂ and two points for
+  A=ℂ⊕ℂ with kernels 0⊕ℂ and ℂ⊕0. Equal Hilbert dimension does not identify
+  those two characters.
+- The trivial M₂(ℂ) field over ℝ has section exp(−x²)E₁₁ with norm exp(−x²). Constant scalar sections generate the usual continuous field, while adjoining the indicator of [0,∞) violates norm continuity at zero.
+
+### From the other named roadmaps
+
+The following additional supplier interfaces are consumed by their named targets.
+Their generic theories remain in the supplying roadmaps.
+
+| Supplier | Interface consumed here | First consumer |
+| --- | --- | --- |
+| [SmoothBanachRepresentations Layers 0–4](../RepresentationTheory/SmoothBanachRepresentations/README.md) | Integrated operators `π(f)` of compactly supported smooth tests and the Gårding space they span, smooth vectors with their Fréchet topology and density, mixed-word domains, the derived Lie and enveloping actions, and the convolution, transport, conjugation and integration-by-parts laws, for strongly continuous Banach representations and hence unitary ones | M0 item 1 |
+| CompactGroups (`gap:banach-gfinite-density`); AutomorphicFormsOnReductiveGroups §2.1 | The field-general finite-orbit-span predicate `IsGFinite`, the submodule `gFiniteSubmodule` with its addition, scalar, invariance and equivariant-map API, and the Banach density theorem `gFiniteSubmodule_dense` for strongly continuous complex Banach representations of compact Hausdorff groups; from §2.1, the abbreviation `IsKFinite` on the restriction to K and its orbit-span identification for restricted native continuous representations | M0 item 3 |
+| OperatorAlgebraDynamics D1.BorelPrefix, D1.TwistedBorel, D4.Harmonic | The Polish group `U(H)_s` with its coefficient Borel structure, Pettis's theorem and the Polishness of lcsc groups; the Mackey–Weil topology on `E_ω`, the strong-Borel correspondence and `λ^ω`; the fibres `J_k(E_ω)≅C*(G,ω^k)`; the Fourier isomorphism `C*(N)≅C₀(N̂)` | Layer 0, P.2, M1, M2 |
+| PseudodifferentialOperators P5/P6 | Local interior distributional elliptic regularity and Sobolev estimates | M0’s smooth/elliptic-vector bridge |
+| RiemannianGeometry R1/R2/R4, [Completed/HopfRinow](../../Completed/HopfRinow/README.md) Layer 3 | Symmetric-space curvature, Jacobi/Hessian comparison, Cartan–Hadamard; from Hopf–Rinow, compactness of closed balls in a complete connected Riemannian manifold | M0’s Cartan/maximal-compact argument |
+| [SpinRepresentations Layer7](../RepresentationTheory/SpinRepresentations/README.md) | Compact spin/Clifford fibers and spin-weight data | M0’s compact-type comparison |
+| InductionRestriction 2.1 | Almost-conjugacy and permutation representations | M1’s finite-quotient deck models |
+| LieGroupoidsPoisson §G0.0, [OperatorAlgebraDynamics D5](../OperatorAlgebraDynamics/README.md#d5-haar-groupoids-convolution-and-disintegration) | Topological groupoid, Haar convolution, full completion and disintegration | M5’s deformation groupoid |
+| CStarAlgebras C1/C2, C5.2, C6.2/C6.5 | C1 ideal/approximate-unit APIs; C2 separable prime⇒primitive, primitive ideals, hull-kernel topology and separable second countability, pure-state/GNS, nonzero irreducibility⇔scalar commutant, Kadison transitivity with its norm bound and quotient-norm lower semicontinuity; C2.2's nonzero irreducibility predicate, restated on the same carrier as `IsIrreducibleRep`; C2.3 representations containing a nonzero compact operator (`K(H)⊆π(A)`, and equal kernels force unitary equivalence, with no separability hypothesis); C2.AnnHull's support formula `hull(Ann I)=closure(U_I)`; C5.2 `C₀(X)⊗min A≅C₀(X,A)` and `C(X)⊗min C(Y)≅C(X×Y)` with elementary-tensor and pullback naturality; C6.5's nuclearity of `C₀(X)`, so that C6.2 makes `C₀(X)⊗max B→C₀(X)⊗min B` an isomorphism | M0a.TypeIComparison first; M2.TypeIDisintegration and M2.RectangularField; M5’s labelled dual topology, compact-isotype supports and radial tensor comparison |
+| UnboundedOperators UO-B04/B05, UO-E03 | Strongly commuting joint PVM and multiparameter Stone theorem; Nelson's criterion that a symmetric operator, or a pairwise commuting finite family, with a dense invariant domain of analytic vectors (factorial bounds on every mixed word) is essentially self-adjoint, strongly commuting in the family case | M0’s analytic-vector and central closures; M4’s joint translation spectrum |
+| [RepresentationTheory/SchurWeyl Layers 3–5](../RepresentationTheory/SchurWeyl/README.md) | Complete complex Specht models and dimensions; Tau Ceti's `ContRepresentation.exists_isUnitary_congr`, `ContRepresentation.schur_orthogonality_self` and `ContRepresentation.schur_orthogonality` supply unitarization and coefficient orthogonality; M6 owns the arbitrary-Hilbert tensor bridge | M6.FiniteTree Young fields |
+| MetaplecticAutomorphicForms Layer 0, 0.1–0.13 | Bilinear Heisenberg extension `E_B` of a scalar-valued bilinear form, its inverse, commutator and centre formulas, the half-alternating specialization, the isometry action on `E_B` and its joint continuity | M5.AffineG5’s scalar-centre η-Heisenberg group |
+| LaguerreJacobi Layers 1–2 | Weighted Laguerre polynomials and complete normalized radial basis, with M5’s explicit parameter/unitary adapter | M5’s conformal radial model |
 
 ## References
 

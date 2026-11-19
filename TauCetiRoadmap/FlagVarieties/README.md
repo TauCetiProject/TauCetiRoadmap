@@ -1,32 +1,24 @@
 # Roadmap: classification of parabolic subgroups and projective homogeneous spaces
 
-**Summary.** Fix an algebraically closed field k and a smooth connected affine reductive group G of finite type over k. Fix a Borel subgroup B and a maximal torus T contained in B. Write W=N_G(T)/T and S for the simple reflections determined by B.
+**Summary.** Grassmannians and varieties of flags are the basic examples of projective varieties on which a linear algebraic group acts transitively. This roadmap classifies the parabolic subgroups P of a fixed reductive group G, the quotients G/P, and the equivariant maps between them.
 
-Construct standard algebraic parabolic subgroups P_J, indexed by subsets J of S, and prove:
+Throughout, k is an algebraically closed field and G is a smooth connected affine reductive group of finite type over k. We fix a Borel subgroup B of G, maximal among connected solvable subgroups, and a maximal torus T contained in B. Write W = N_G(T)/T for the Weyl group and S for the simple reflections determined by B. Subgroups are closed subgroup schemes, not just subgroups of G(k). A parabolic subgroup is a smooth closed subgroup scheme that contains a Borel subgroup. For each subset J of S, the standard parabolic P_J is the smallest closed subgroup scheme containing B and the root subgroups `U_{−α}` for α in J. Thus P_∅ = B, P_S = G, and J ⊆ K gives P_J ⊆ P_K.
 
-1. J ↦ P_J is an order isomorphism from subsets of S to smooth closed subgroup schemes of G containing B; in characteristic zero, to all closed subgroup schemes containing B.
-2. Every parabolic subgroup of G is conjugate under G(k) to exactly one P_J.
-3. The represented homogeneous quotient G/H is projective if and only if H is parabolic, for every smooth closed subgroup scheme H of G; in characteristic zero, for every closed subgroup scheme H of G.
-4. Every nonempty projective homogeneous G-variety with smooth scheme-theoretic stabilizers is G-equivariantly isomorphic to exactly one G/P_J.
-5. For standard parabolics, a G-equivariant morphism G/P_J → G/P_K exists exactly when J ⊆ K; when it exists, it is the canonical projection and is unique.
+The roadmap has five main theorems, which the rest of this README calls headlines 1 to 5.
 
-The group G and its action are fixed throughout the classification. This does not classify flag varieties up to abstract variety isomorphism, or pairs (G,X) allowing G to vary. The action is not required to be faithful. Include G itself as a parabolic, so that G/P_S is a point; P_∅=B. A torus has S empty and only the point as a projective homogeneous space.
+1. The map J ↦ P_J is an order isomorphism from the subsets of S to the smooth closed subgroup schemes of G containing B. In characteristic zero, where Cartier's theorem makes every closed subgroup scheme smooth, it reaches all closed subgroup schemes containing B.
+2. Every parabolic subgroup of G is conjugate under G(k) to exactly one P_J, called its type. Each P_J is self-normalizing: an element of G(k) normalizing P_J lies in P_J(k).
+3. Let H be a smooth closed subgroup scheme of G, or any closed subgroup scheme in characteristic zero. Then G/H is projective over k if and only if H is parabolic, and both are equivalent to G/H being proper over k. Here G/H is the fppf quotient sheaf, represented by an orbit in the projective space of a representation of G. This holds for every smooth connected affine group over k, reductive or not. For SL₂, G/B is the projective line, while G/T is not proper.
+4. Let X be a nonempty projective homogeneous G-variety: a smooth separated k-scheme of finite type with a G-action transitive on geometric points. If the scheme-theoretic stabilizer of one (equivalently, every) k-point is smooth, then X is G-equivariantly isomorphic to G/P_J for exactly one J. This hypothesis matters: in characteristic p, SL₂ acting on ℙ¹ through Frobenius has the non-smooth stabilizer F⁻¹(B) and is not G-isomorphic to any G/P_J.
+5. A G-equivariant morphism G/P_J → G/P_K exists exactly when J ⊆ K, and it is then unique: the canonical projection. Hence every G-equivariant automorphism of G/P_J is the identity. In GL₃, the projective planes of lines and of planes in k³ are isomorphic varieties, but no GL₃-equivariant map exchanges them.
 
-## Scope and ownership
+The group G and its action are fixed throughout. The roadmap does not classify flag varieties up to abstract isomorphism, or pairs (G, X) in which G varies, and the action need not be faithful. G itself counts as a parabolic, so G/P_S is a point.
 
-This is a consumer roadmap for the classification and its geometric interpretation. It uses existing algebraic-group definitions, not a new matrix-group foundation.
+The general linear group is treated first. Every reduced closed subgroup scheme of `GL_{n+1}` containing the upper-triangular matrices is defined by an explicit integer weight attached to a subset J of the n simple reflections, and J is unique. For GL₃ the four standard parabolics give the full flag variety, the two Grassmannians and a point.
 
-ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns headlines 1, 2, 4 and 5 and the variant of headline 3 described below. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. ReductiveGroups 7C.5 owns type-A block maps.
+The roadmap builds on ReductiveGroups, which provides the Tits system, or BN-pair, on G(k), the standard parabolics P_J, and the completeness of G/B. From the Tau Ceti library it uses the classification of standard parabolics in an abstract Tits system and Borel's fixed point theorem. SchubertGeometry provides the incidence varieties used in the checks for GL_n, and SchemeAndStackFoundations provides descent for quotients. The proofs follow the classical route of Humphreys' *Linear Algebraic Groups*.
 
-The uniqueness half of the second headline holds for every smooth connected affine group over algebraically closed `k`; `conjugate_eq_of_borel_le` in `Suggested.lean` uses only geometric connectedness of the ambient finite-type group.
-
-Headline 3 and §§4.1–4.2 hold for every smooth connected affine group over algebraically closed `k` (Milne Theorem 17.16, p.356); `isProper_projectiveOrbitToSpec_iff_isParabolicOverAlgClosed` is stated at that generality.
-
-ReductiveGroups Layer 7 (Parabolic subgroup schemes and Levi decompositions) states the completeness characterization for a connected reductive group over a field. §§4.1–4.2 keep the variant without reductivity over algebraically closed `k`, for the orbit scheme representing `G/H`, with projectivity added.
-
-Realize `G/H` by `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`). This roadmap proves properness from Borel containment and then projectivity: the orbit scheme is locally closed in projective space, and properness makes that immersion closed.
-
-Levi decompositions, central isogeny classification, classification of reductive groups, non-algebraically-closed-field forms, relative schemes parametrizing parabolics, horospherical spaces and general spherical spaces are outside this scope. None is a prerequisite for the results above.
+Layer 0 compares subgroup schemes with their k-points and homogeneous varieties with quotients by stabilizers. Layer 1 treats the general linear group. Layers 2 and 3 prove the first two headlines, Layer 4 the third and fourth, and Layer 5 the fifth. Layer 6 checks the classifications against a torus, SL₂, GL_n and GL₃.
 
 ## Conventions
 
@@ -39,37 +31,6 @@ Levi decompositions, central isogeny classification, classification of reductive
 - Use the native fppf homogeneous quotient. The equality (G/P)(k)=G(k)/P(k) is a comparison theorem. Do not identify the quotient sheaf with the pointwise quotient on every k-algebra.
 - A homogeneous G-variety means a nonempty smooth separated finite-type k-scheme with a G-action transitive on geometric points. Over the fixed algebraically closed k, finite type and nonemptiness supply a k-point. Establish the quotient-by-stabilizer comparison; transitivity of an abstract action on a set is not a substitute.
 - For comparison with SchubertGeometry's B− convention, identify our chosen B with its B− and transport the simple-root labels through its explicit Borel/opposition dictionary. Do not silently reuse labels attached to B+.
-
-## Exact supplier contracts
-
-| Consumed result | Owner roadmap and layer | Exact pinned declaration and file, or gap slug below |
-| --- | --- | --- |
-| Borel predicate and conjugacy; a parabolic has a conjugate containing the chosen Borel | Tau Ceti | `HopfIdeal.IsBorelOverAlgClosed`, `Algebra/AlgebraicGroup/Borel/Basic.lean`; `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq`, `Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`; `HopfIdeal.IsParabolicOverAlgClosed.exists_conjugate_le`, `Algebra/AlgebraicGroup/Parabolic/Basic.lean` |
-| Smooth parabolic predicate | Tau Ceti | `HopfIdeal.IsParabolicOverAlgClosed`, `Algebra/AlgebraicGroup/Parabolic/Basic.lean` |
-| Reduced finite-type point separation | Tau Ceti | `HopfIdeal.eq_of_quotientPointsSubgroup_eq`, `Algebra/AlgebraicGroup/HopfIdeal/Points/Separation.lean` |
-| Hopf ideal conjugation, identity, inverse, composition, point comparison | Tau Ceti | `HopfIdeal.conjugate`, `HopfIdeal.conjugate_one`, `CommHopfAlgCat.pointConjugation_mem_conjugate_iff`, `Algebra/AlgebraicGroup/HopfIdeal/Conjugation.lean` |
-| Abstract Tits systems, parabolics and Borel pointwise normalizer | Tau Ceti | `TitsSystem`, `GroupTheory/TitsSystem/Basic.lean`; `TitsSystem.standardParabolicOrderIso`, `TitsSystem.standardParabolic_eq_of_subgroupB_le`, `GroupTheory/TitsSystem/Parabolic/Classification.lean`; `TitsSystem.normalizer_subgroupB`, `GroupTheory/TitsSystem/Parabolic/Normalizer.lean` |
-| Actual `G(k)` Tits system and standard algebraic parabolics | ReductiveGroups 7/7b | `gap:tits-system-of-points`, `gap:standard-parabolic-scheme` |
-| GL Tits system, weight ideal, block-triangular points, standard-parabolic comparison and parabolicity | Tau Ceti | `glTitsSystem`, `LinearAlgebra/Matrix/GeneralLinearGroup/Diagonal/TitsSystem.lean`; `GeneralLinear.weightParabolicDefiningHopfIdeal`, `GeneralLinear.mem_weightParabolicPoints_iff`, `GeneralLinear.mem_weightParabolicDefiningPointsSubgroup_iff_blockTriangular`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/Basic.lean`; `GeneralLinear.standardParabolic_weightParabolicSimple`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/TitsSystem.lean`; `GeneralLinear.isParabolicOverAlgClosed_weightParabolicDefiningHopfIdeal`, `GeneralLinear.weightParabolicDefiningHopfIdeal_le_upperTriangular_definingHopfIdeal`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/Borel.lean` |
-| Represented homogeneous quotient, torsor and projective orbit | Tau Ceti | `CommHopfAlgCat.fppfHomogeneousQuotient`, `CommHopfAlgCat.fppfHomogeneousQuotientHomEquiv`, `Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean`; `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`; `Comodule.projectiveOrbitι`, `Comodule.projectiveOrbitToSpec`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Scheme.lean` |
-| Orbit maps and scheme stabilizers | ReductiveGroups 3A.1 | Consume the orbit maps and stabilizers as scheme fibres; 0.3 proves the quotient-by-stabilizer isomorphism. |
-| Complete `G/B` | ReductiveGroups 7 | `gap:complete-borel-quotient` |
-| Projective Borel fixed point and comodule corestriction | Tau Ceti | `Comodule.exists_fixed_mem_of_isClosed_of_isSolvable`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/FixedPoint/Existence.lean`; `Comodule.Corestrict`, `Algebra/Coalgebra/Comodule/Corestrict.lean` |
-| Type-A block maps and incidence | ReductiveGroups 7C.5; SchubertGeometry S1–S2.3 | Consume the named block maps and incidence work of those roadmaps. |
-| Scheme descent and morphism properties | SchemeAndStackFoundations 0–1 | The quotient universal property and descent required in Layers 0, 4 and 5. |
-| Cartier smoothness in characteristic zero | Tau Ceti | `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `Algebra/AlgebraicGroup/Smooth/CharZero.lean:148` |
-
-### From TauCetiRoadmap.ReductiveGroups
-
-What ReductiveGroups must provide (gap:tits-system-of-points): the Tits system on `G(k)` with `subgroupB = B(k)`, `subgroupN = N_G(T)(k)` and simple set the simple reflections of the root system of `(G,T)`, for `G` smooth connected reductive and `T ⊆ B`.
-
-What ReductiveGroups must provide (gap:standard-parabolic-scheme): for `J` a set of simple reflections, the smallest closed subgroup scheme `P_J` containing `B` and the root subgroups `U_{−α}`, `α ∈ J`, with `P_J(k) = B(k) W_J B(k)`, smooth, connected, `P_∅ = B`, `P_S = G`.
-
-What ReductiveGroups must provide (gap:complete-borel-quotient): `G/B` is proper over `k` for a Borel `B` of a smooth connected affine `G` (Milne Theorem 17.9(a), p.354).
-
-## How to read the build
-
-Layers 0–1 establish the point, quotient and general-linear interfaces; Layer 2 constructs and classifies standard parabolics; Layer 3 classifies their conjugacy types and normalizers; Layers 4–5 classify projective homogeneous spaces and equivariant maps; Layer 6 checks the resulting classifications against concrete models.
 
 ## Layer 0: point/subgroup and quotient adapters
 
@@ -319,6 +280,49 @@ Layers 1–5, ReductiveGroups 7C.5 block maps, and SchubertGeometry S1 incidence
 ## Downstream consumers
 
 There are no downstream roadmap consumers. ReductiveGroups 7C.5 and SchubertGeometry S1 supply the type-A block and incidence comparisons used here.
+
+## Scope and ownership
+
+This is a consumer roadmap for the classification and its geometric interpretation. It uses existing algebraic-group definitions, not a new matrix-group foundation.
+
+ReductiveGroups 7/7b owns the Tits system on `G(k)`, Bruhat decomposition and the general bridge to abstract standard parabolics. FlagVarieties owns headlines 1, 2, 4 and 5 and the variant of headline 3 described below. The pointwise normalizer suffices; no scheme-theoretic normalizer is needed. ReductiveGroups 7C.5 owns type-A block maps.
+
+The uniqueness half of the second headline holds for every smooth connected affine group over algebraically closed `k`; `conjugate_eq_of_borel_le` in `Suggested.lean` uses only geometric connectedness of the ambient finite-type group.
+
+Headline 3 and §§4.1–4.2 hold for every smooth connected affine group over algebraically closed `k` (Milne Theorem 17.16, p.356); `isProper_projectiveOrbitToSpec_iff_isParabolicOverAlgClosed` is stated at that generality.
+
+ReductiveGroups Layer 7 (Parabolic subgroup schemes and Levi decompositions) states the completeness characterization for a connected reductive group over a field. §§4.1–4.2 keep the variant without reductivity over algebraically closed `k`, for the orbit scheme representing `G/H`, with projectivity added.
+
+Realize `G/H` by `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (`Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`). This roadmap proves properness from Borel containment and then projectivity: the orbit scheme is locally closed in projective space, and properness makes that immersion closed.
+
+Levi decompositions, central isogeny classification, classification of reductive groups, non-algebraically-closed-field forms, relative schemes parametrizing parabolics, horospherical spaces and general spherical spaces are outside this scope. None is a prerequisite for the results above.
+
+## Exact supplier contracts
+
+| Consumed result | Owner roadmap and layer | Exact pinned declaration and file, or gap slug below |
+| --- | --- | --- |
+| Borel predicate and conjugacy; a parabolic has a conjugate containing the chosen Borel | Tau Ceti | `HopfIdeal.IsBorelOverAlgClosed`, `Algebra/AlgebraicGroup/Borel/Basic.lean`; `HopfIdeal.IsBorelOverAlgClosed.exists_conjugate_eq`, `Algebra/AlgebraicGroup/Borel/Conjugacy/Existence.lean`; `HopfIdeal.IsParabolicOverAlgClosed.exists_conjugate_le`, `Algebra/AlgebraicGroup/Parabolic/Basic.lean` |
+| Smooth parabolic predicate | Tau Ceti | `HopfIdeal.IsParabolicOverAlgClosed`, `Algebra/AlgebraicGroup/Parabolic/Basic.lean` |
+| Reduced finite-type point separation | Tau Ceti | `HopfIdeal.eq_of_quotientPointsSubgroup_eq`, `Algebra/AlgebraicGroup/HopfIdeal/Points/Separation.lean` |
+| Hopf ideal conjugation, identity, inverse, composition, point comparison | Tau Ceti | `HopfIdeal.conjugate`, `HopfIdeal.conjugate_one`, `CommHopfAlgCat.pointConjugation_mem_conjugate_iff`, `Algebra/AlgebraicGroup/HopfIdeal/Conjugation.lean` |
+| Abstract Tits systems, parabolics and Borel pointwise normalizer | Tau Ceti | `TitsSystem`, `GroupTheory/TitsSystem/Basic.lean`; `TitsSystem.standardParabolicOrderIso`, `TitsSystem.standardParabolic_eq_of_subgroupB_le`, `GroupTheory/TitsSystem/Parabolic/Classification.lean`; `TitsSystem.normalizer_subgroupB`, `GroupTheory/TitsSystem/Parabolic/Normalizer.lean` |
+| Actual `G(k)` Tits system and standard algebraic parabolics | ReductiveGroups 7/7b | `gap:tits-system-of-points`, `gap:standard-parabolic-scheme` |
+| GL Tits system, weight ideal, block-triangular points, standard-parabolic comparison and parabolicity | Tau Ceti | `glTitsSystem`, `LinearAlgebra/Matrix/GeneralLinearGroup/Diagonal/TitsSystem.lean`; `GeneralLinear.weightParabolicDefiningHopfIdeal`, `GeneralLinear.mem_weightParabolicPoints_iff`, `GeneralLinear.mem_weightParabolicDefiningPointsSubgroup_iff_blockTriangular`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/Basic.lean`; `GeneralLinear.standardParabolic_weightParabolicSimple`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/TitsSystem.lean`; `GeneralLinear.isParabolicOverAlgClosed_weightParabolicDefiningHopfIdeal`, `GeneralLinear.weightParabolicDefiningHopfIdeal_le_upperTriangular_definingHopfIdeal`, `Algebra/AlgebraicGroup/GeneralLinear/Weight/Parabolic/Borel.lean` |
+| Represented homogeneous quotient, torsor and projective orbit | Tau Ceti | `CommHopfAlgCat.fppfHomogeneousQuotient`, `CommHopfAlgCat.fppfHomogeneousQuotientHomEquiv`, `Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean`; `HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Quotient.lean`; `Comodule.projectiveOrbitι`, `Comodule.projectiveOrbitToSpec`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/Scheme.lean` |
+| Orbit maps and scheme stabilizers | ReductiveGroups 3A.1 | Consume the orbit maps and stabilizers as scheme fibres; 0.3 proves the quotient-by-stabilizer isomorphism. |
+| Complete `G/B` | ReductiveGroups 7 | `gap:complete-borel-quotient` |
+| Projective Borel fixed point and comodule corestriction | Tau Ceti | `Comodule.exists_fixed_mem_of_isClosed_of_isSolvable`, `Algebra/AlgebraicGroup/Representation/ProjectiveOrbit/FixedPoint/Existence.lean`; `Comodule.Corestrict`, `Algebra/Coalgebra/Comodule/Corestrict.lean` |
+| Type-A block maps and incidence | ReductiveGroups 7C.5; SchubertGeometry S1–S2.3 | Consume the named block maps and incidence work of those roadmaps. |
+| Scheme descent and morphism properties | SchemeAndStackFoundations 0–1 | The quotient universal property and descent required in Layers 0, 4 and 5. |
+| Cartier smoothness in characteristic zero | Tau Ceti | `TauCeti.smoothCommHopfAlgProperty_of_charZero`, `Algebra/AlgebraicGroup/Smooth/CharZero.lean:148` |
+
+### From TauCetiRoadmap.ReductiveGroups
+
+What ReductiveGroups must provide (gap:tits-system-of-points): the Tits system on `G(k)` with `subgroupB = B(k)`, `subgroupN = N_G(T)(k)` and simple set the simple reflections of the root system of `(G,T)`, for `G` smooth connected reductive and `T ⊆ B`.
+
+What ReductiveGroups must provide (gap:standard-parabolic-scheme): for `J` a set of simple reflections, the smallest closed subgroup scheme `P_J` containing `B` and the root subgroups `U_{−α}`, `α ∈ J`, with `P_J(k) = B(k) W_J B(k)`, smooth, connected, `P_∅ = B`, `P_S = G`.
+
+What ReductiveGroups must provide (gap:complete-borel-quotient): `G/B` is proper over `k` for a Borel `B` of a smooth connected affine `G` (Milne Theorem 17.9(a), p.354).
 
 ## References
 

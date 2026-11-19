@@ -1,96 +1,71 @@
 # Roadmap: derived module algebra
 
-**Summary.** Construct the module algebra underlying cotangent complexes, integral derived powers,
-unbounded derived tensor and Hom in `D(R)`, inverse limits and completion. Polynomial laws and divided-power
-grading provide the integral power inputs; Koszul complexes control regular quotients and completion.
-The resulting theory includes square-zero deformation classes, effectivity of compatible perfect
-systems, Matlis duality and convergent first-quadrant double-complex spectral sequences.
+**Summary.** Tensor products, differentials and limits of modules lose information unless they are
+derived. For a prime `p`, `ℤ/p ⊗ ℤ/p` is `ℤ/p`, but the derived tensor product has a second copy of
+`ℤ/p` in degree `−1`. The quotient map `ℤ → ℤ/p` has no Kähler differentials, yet its cotangent
+complex is `ℤ/p` in degree `−1`. This roadmap builds the derived algebra these examples call for.
+Its main objects are the derived tensor product and derived Hom of unbounded complexes in the
+derived category `D(R)` of `R`-modules, the cotangent complex of a ring map, and derived completion
+along an ideal. Rings are commutative unless a section explicitly allows associative unital rings,
+and complexes are indexed cohomologically.
 
-## Scope and ownership
+The first main theorem is the universal property of the cotangent complex. For a ring map `A → B`,
+the cotangent complex `L_(B/A)` in `D(B)` applies Kähler differentials to a simplicial resolution of
+`B` by polynomial `A`-algebras. For every `B`-module `M`, morphisms `L_(B/A) → M[0]` correspond to
+the `A`-derivations `B → M`. Morphisms `L_(B/A) → M[1]` correspond to the isomorphism classes of
+square-zero extensions of `B` by `M` over `A`. The cotangent complex also controls deformations. Let
+`A′ → A` be a square-zero extension and `c` an `A`-linear map from its ideal to a `B`-module `N`.
+There is a canonical obstruction in `Ext²_B(L_(B/A), N)` to a square-zero extension of `B` by `N`
+over `A′` inducing `c`. When one exists, their isomorphism classes form a torsor under `Ext¹`.
 
-This roadmap owns homogeneous and multiplicative polynomial laws, the non-determinant Roby algebra
-and augmentation theory, linear-functional Koszul complexes, module K-injective and K-flat models,
-simplicial polynomial resolutions, the full cotangent complex and its integral powers, the exactness
-of module-derived limits and derived completion, ordinary-module perfectness and finite models, perfect inverse-system
-effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
-Mathlib's carriers and the pinned Tau Ceti APIs. The targets of §§0.DP.1–0.DP.3, the Koszul
-complex of §0.K.1 apart from its algebra-map and mapping-cone clauses, the K-injective replacement
-functor of §0.I.1, the K-flat replacement of §0.2 with flat terms and the K-flatness and tensor
-facts it cites other than [StacksMA] Lemma 15.60.12, Lazard's theorem in §0.2.1, the
-Alexander–Whitney maps of §0.2.2, the derived Hom with its cohomology in §1.1.1, the complete
-flatness of flat modules in §1.7, and the injective hulls, completion action, finite-length
-biduality and Artinian criterion of §1.M.2 are formalised at the pinned Tau Ceti; each such target
-names its declarations, and later sections consume them from Tau Ceti (Exact supplier contracts).
-Ordinary-module perfectness here (§1.E.0) asks for finite projective terms, unlike Tau Ceti's
-`TauCeti.DerivedCategory.Bounded.perfect`, the thick closure of all projective modules, finitely
-generated or not.
+The second concerns integral derived powers. For a functor `F` on projective modules, additive or
+not, the roadmap defines its derived functor `LF` on connective complexes (cohomology in degrees
+`≤ 0`) through the Dold–Kan correspondence. This gives derived exterior, symmetric and divided
+powers `L∧ⁿ`, `LSymⁿ` and `LΓⁿ`. Illusie's décalage relates them: for connective `M`,
+`LSymⁿ(M[1]) ≃ (L∧ⁿM)[n]` and `L∧ⁿ(M[1]) ≃ (LΓⁿM)[n]`. For a flat module `N` the second reads
+`L∧ⁿ(N[1]) ≃ Γⁿ(N)[n]`, where `Γⁿ(N)` is the degree-`n` part of the divided power algebra. Over
+`𝔽₂`, with `N = 𝔽₂` and `n = 2`, this is `Γ²(𝔽₂)`, which contains the nonzero element `γ₂(1)`,
+although `∧²𝔽₂ = 0`.
 
-The generic algebra of countable module towers `ℕᵒᵖ ⥤ ModuleCat R` over an associative unital ring
-is Tau Ceti's (Exact supplier contracts): the difference map, `lim` and `lim¹`, the six-term and
-Milnor sequences, Mittag–Leffler vanishing, cofinal reindexing, the homotopy limit as the shifted
-cone of the difference map, and the derived limit functor `TauCeti.ModuleTower.derivedLimit` with
-its localization comparison, shift isomorphisms and identification with the termwise limit. The
-maps of homotopy limits induced by tower maps whose squares commute up to specified homotopies
-belong to [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (*Countable
-inverse-system algebra*, its homotopy-commuting product squares). Section 1.1 here owns the
-exactness of the derived limit, its cone comparison for chain maps of towers, and its compatibility
-with the Milnor, cofinal and homotopy-square maps. Topological tower adapters remain with AlgebraicTopology Stages 2–3 and
-Stage 6. Citations of §1.T.1 (*Towers, `lim` and `lim¹`*, with its targets *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler
-towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for
-towers of complexes*) resolve to the Tau Ceti tower declarations listed in Exact supplier contracts.
+The third computes derived completion. For an ideal `I` of `A`, an object `M` of `D(A)` is derived
+`I`-complete when every morphism to it from a shifted localization `A[1/f][n]`, with `f ∈ I` and
+`n ∈ ℤ`, is zero. When `I` is finitely generated, every `M` has a universal map `M → Λ_I M` to a
+derived complete object. If `A` is Noetherian, `Λ_I M` is the derived limit of the tower
+`M ⊗^L_A A/I^n`. The same holds when `I` is generated by a weakly regular sequence, and when
+`I = (f)` and `A` has bounded `f`-power torsion.
 
-Other roadmaps cite objects of this roadmap by the Lean names in the left column; each resolves to
-the section, or the pinned declaration, in the right column.
+The fourth is the effectivity of compatible perfect systems. Perfect complexes are those represented
+by bounded complexes of finitely generated projective modules. Let `A = lim Aₙ` for an inverse
+sequence of rings with surjective transition maps whose kernels are locally nilpotent. For each
+`n ≥ 0`, let `Mₙ ∈ D(Aₙ)` be perfect, with maps `Mₙ₊₁ → Mₙ` inducing isomorphisms
+`Mₙ₊₁ ⊗^L Aₙ ≅ Mₙ`. Then the derived limit `M`, computed on compatible finite free models, is
+perfect over `A`, and each map `M ⊗^L_A Aₙ → Mₙ` is an isomorphism.
 
-| Cited names | Resolve to |
-| --- | --- |
-| `PD.augmentation`, `PD.augmentationIdeal` | §0.DP.3: Tau Ceti `DividedPowerAlgebra.augmentation` and `DividedPowerAlgebra.augmentationIdeal` |
-| `moduleKInjectiveReplacement` | §0.I.1: Tau Ceti `CochainComplex.exists_quasiIso_isKInjective` and `TauCeti.kInjectiveReplacement` |
-| `Algebra.CotangentComplex.PolynomialResolution`, `Algebra.CotangentComplex.PolynomialResolution.comparison`, `Algebra.CotangentComplex.PolynomialResolution.toQuasiIso` | §0.1 |
-| `DerivedDeRham.derivedTensor`, `derivedTensor_flatModel`, `derivedTensor_triangulated`, `derivedTensor_kFlatColimit`, `derivedTensor_kFlatRealization` | §0.2: the bifunctor, whose existence is the headline `DerivedDeRham.hasLeftDerivedFunctor₂_tensor`, its bounded-above flat model, its exactness, and K-flatness of filtered colimits and of totalizations |
-| `test_derived_tensor_unbounded_flat` | §0.2: the Check on the bi-infinite `ℤ/4` complex with every differential multiplication by `2`, acyclic and termwise free but not K-flat |
-| `DerivedDeRham.leftDerivedNonadditive` | §0.3 |
-| `Algebra.CotangentComplex.homologyZeroIso`, `Algebra.CotangentComplex.arrowFunctor`, `Algebra.CotangentComplex.map`, `Algebra.CotangentComplex.resolutionIso`, `arrowResolution`, `resolutionRings`, `resolutionRingMap`, `resolutionRingMap_identity`, `resolutionRingMap_composition`, `resolutionRingMap_zero_target`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`, `termIso`, `face_tmul`, `cotangent_model_test_two_faces` | §0.4: the full cotangent complex, the map `L_(B/A) ⊗^L_B B′ → L_(B′/A′)` induced by a commutative square with its identity and composition laws, the differential model given by any polynomial resolution, the arrow-category model and its Checks |
-| `Algebra.CotangentComplex.SquareZeroExtension`, `Algebra.CotangentComplex.extensionCategory`, `Algebra.CotangentComplex.extensionCategory_zero`, `Algebra.CotangentComplex.extensionCategory_polynomial`, `extensionSetoid`, `Algebra.CotangentComplex.extensionClass`, `Algebra.CotangentComplex.extensionClass_mk`, `Algebra.CotangentComplex.exal_add_representative`, `Algebra.CotangentComplex.morphismObstruction`, `Algebra.CotangentComplex.morphismObstruction_cocycle`, `derivationZero`, `derivationPostcompose` | §0.5 |
-| `Algebra.CotangentComplex.extZero`, `Algebra.CotangentComplex.extOne`, `Algebra.CotangentComplex.extensionClass_add`, `Algebra.CotangentComplex.conormalComparison`, `Algebra.CotangentComplex.conormalComparison_extensionClass`, `conormalComparison_zero`, `conormalComparison_identity`, `conormalComparison_zmodNine` | §0.6 |
-| `Algebra.CotangentComplex.homologyOneIso` | §0.7 |
-| `Algebra.CotangentComplex.transitivityTriangle`, `Algebra.CotangentComplex.transitivityFirst`, `Algebra.CotangentComplex.transitivityFirst_tmul`, `Algebra.CotangentComplex.transitivitySecond`, `Algebra.CotangentComplex.transitivitySecond_apply`, `transitivityFirst_identity`, `transitivityFirst_zero_source`, `transitivityFirst_polynomial`, `transitivitySecond_identity`, `transitivitySecond_zero_target`, `transitivitySecond_regular_quotient` | §0.8 |
-| `Algebra.CotangentComplex.diagonalComparison`, `diagonalModel` | §0.9 |
-| `Algebra.CotangentComplex.baseChange` | §0.10 |
-| `Algebra.CotangentComplex.filteredColimit` | §0.11 |
-| `Algebra.CotangentComplex.smooth` | §0.12 |
-| `Algebra.CotangentComplex.regularQuotient` | §0.13 |
-| `DerivedDeRham.derivedExteriorPower` | §0.14 |
-| `Algebra.CotangentComplex.flatDeformation`, `Algebra.CotangentComplex.liftMorphism`, `Algebra.CotangentComplex.kernelExtensionClass`, `Algebra.CotangentComplex.kernelExtensionClass_zero`, `Algebra.CotangentComplex.deformationObstruction`, `Algebra.CotangentComplex.deformationObstruction_zero`, `Algebra.CotangentComplex.derivationEvaluation`, `Algebra.CotangentComplex.derivationEvaluation_differential`, `Algebra.CotangentComplex.derivationEvaluation_zero`, `Algebra.CotangentComplex.transitivityConnecting`, `Algebra.CotangentComplex.transitivityConnecting_triangle`, `Algebra.CotangentComplex.transitivityConnecting_identity_source`, `Algebra.CotangentComplex.transitivityTriangle_cone_sign`, `Algebra.CotangentComplex.polynomialLift_sign`, `Algebra.CotangentComplex.polynomialLift_positive` | §0.25 |
-| `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | §S.1: the exact-rows comparison, the edge morphisms and naturality |
-| `CompactCoefficients.Tower`, `CompactCoefficients.Tower.toModuleFunctor`, `CompactCoefficients.Tower.limComparison`, `CompactCoefficients.Tower.limOneComparison` | Tau Ceti `TauCeti.ModuleTower` over `ℤ`, with `TauCeti.ModuleTower.lim` and `TauCeti.ModuleTower.limOne` |
-| `CompactCoefficients.Tower.lim`, `CompactCoefficients.Tower.limOne`, `CompactCoefficients.Tower.shift`, `ModuleTower.Product`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.shift`, `ModuleTower.productMap`, `ModuleTower.limMap`, `ModuleTower.limOneMap` | Tau Ceti `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`, the product `TauCeti.ModuleTower.Product` of the terms, the difference map `TauCeti.ModuleTower.shift` on it, and the maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap` induced by a map of towers; over `ℤ` for the `CompactCoefficients` names |
-| `CompactCoefficients.Tower.isMittagLeffler_of_finite` | Tau Ceti `TauCeti.ModuleTower.isMittagLeffler_of_isArtinian` (finite abelian groups are Artinian `ℤ`-modules) |
-| `CompactCoefficients.Tower.limOne_subsingleton_of_isMittagLeffler`, `CompactCoefficients.Tower.limOne_exact` | Tau Ceti `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; for a levelwise short exact sequence of towers, `TauCeti.ModuleTower.exact_limOneMap` (exactness at the middle `lim¹`) with `TauCeti.ModuleTower.limOneMap_surjective`; over `ℤ` |
-| `DerivedDeRham.derivedLimit` | Tau Ceti `TauCeti.ModuleTower.derivedLimit` |
-| `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p`, `mulTower` | §1.1: the degreewise-surjective model with its Milnor maps, and the Check on the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by a prime `p` (`lim = 0`, `lim¹ ≅ ℤ_p/ℤ ≠ 0`) |
-| `DerivedDeRham.moduleDerivedHom` | Tau Ceti `TauCeti.derivedHom` (§1.1.1) |
-| `DerivedDeRham.completionAdjunction` | §1.3, `DerivedDeRham.derivedCompleteness_isRightAdjoint` |
-| `DerivedDeRham.completeNakayama` | §1.3, derived Nakayama, stated on a K-flat model |
-| `DerivedDeRham.koszulCompletionTower` | §1.4 |
-| `DerivedDeRham.ordinaryQuotientCompletion` | §1.5: the headlines `DerivedDeRham.ordinaryQuotientCompletion` (Noetherian `A`), `DerivedDeRham.ordinaryQuotientCompletion_of_boundedTorsion` (`I = (f)` with bounded `f`-power torsion) and `DerivedDeRham.ordinaryQuotientCompletion_of_isWeaklyRegular` (`I` generated by a weakly regular sequence), with `DerivedDeRham.nonempty_ordinaryQuotientCompletionHomologyIso` for finite cohomology over a Noetherian ring, stated on a K-flat model |
-| `DerivedDeRham.simplicialRingCompletion`, `ringCompletionUnit` | §1.6 |
-| `DerivedDeRham.completeFlatness`, `DerivedDeRham.completeFlatBaseChange` | §1.7 |
-| `DerivedDeRham.boundedTorsionCriterion` | §1.8; for modules, `DerivedDeRham.isAdicComplete_of_isCompletelyFlatModule` and `DerivedDeRham.isCompletelyFlatModule_of_isAdicComplete` |
-| `DerivedDeRham.completeFlatDescent` | §1.9 |
-| `PerfectComplex.IsPerfect`, `isPerfect_baseChange` | §1.E.0: `DerivedDeRham.IsPerfect` and `DerivedDeRham.isPerfect_baseChange`, perfection under derived extension of scalars, stated on a bounded-above finite-free model |
-| `HasTorAmplitude`, `finiteFreeBaseChangeModel` | §1.E.0: Tor amplitude `[a, b]` over a commutative ring, and the finite-free base-change comparison, by which the termwise scalar extension `DerivedDeRham.complexBaseChange` of a bounded-above finite-free model computes derived base change |
-| `PerfectSystem`, `FiniteFreeSystemModel` | §1.E.0, *Compatible finite-free models*: a compatible perfect system over a ring tower with its specified derived reductions, and its compatible bounded-above finite-free models |
-| `DerivedDeRham.perfectInverseSystemEffectivity` | §1.E.1 |
+Much of the groundwork is already in Tau Ceti, including Roby's representability theorem for divided
+powers, K-injective and K-flat replacements of complexes, and the derived limit of a tower. Maps of
+homotopy limits induced by tower maps whose squares commute up to a specified homotopy come from
+[AlgebraicTopology](../AlgebraicTopology/README.md). Roadmaps built on this one include
+DerivedDeRhamCohomology, CrystallineCohomology and PerfectoidSpaces, the last through the explicit
+cotangent model and its deformation formulas.
 
-The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
-§§0.1–0.3 and E1.F3.H1/E1.8.DMA.1. The DG/module realization, dualizable comparison and traces
-belong to EtaleCohomologyFoundations F.10.3: its realization is an equivalence onto the full
-subcategory of ordinary perfect module complexes, natural in maps and coefficients and compatible
-with shifts, scalar extension, tensor, duals and finite filtrations; on finite-projective
-representatives its trace is the alternating termwise trace. KhovanovHomology K5 owns its bounded
-projective resolution model over the dual numbers, with quantum gradings, dot actions and the
-connected-sum comparison; §0.2 here supplies the comparison with general module-derived tensor.
+Layer 0 holds polynomial laws (maps of modules given compatibly after every base change), divided
+powers and Koszul complexes. Layer 1 builds derived tensor products and non-additive derived
+functors. Layer 2 is the cotangent complex, with derived powers and deformation theory. Layer 3
+covers exactness of derived limits, the tensor–Hom adjunction and completion. Layer 4 treats perfect
+complexes and effectivity, and Layer 5 proves Matlis duality. Over a complete Noetherian local ring,
+with `E` an injective hull of the residue field, `Hom(−, E)` is a duality between finitely generated
+and Artinian modules.
+
+## How to read the build
+
+Layers 0–5 follow construction order and retain the section locators used by consumers. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
+divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
+non-additive derived functors, with §S.1 supplying the double-complex spectral sequence before the diagonal comparison; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
+Sections 1.1–1.9 prove the exactness of the supplied derived limit and build the tensor–Hom
+adjunction, derived completeness and the completion reflector, simplicial-algebra completion and
+complete flatness; §§1.E.0–1.E.1 perfect
+complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality. Each target's *Needs* line names the earlier sections and library
+inputs that its statement and route use.
 
 ## Conventions
 
@@ -105,57 +80,6 @@ In Checks and examples, a coefficient ring written `k` is a field; in particular
 
 The section labels identify the mathematical contracts; §0.7 precedes §0.6 in construction order.
 
-
-## Exact supplier contracts
-
-The tower algebra and the derived limit are Tau Ceti's; the homotopy-square maps of towers are
-AlgebraicTopology Stage 6, item 0. Other targets use Mathlib, implemented Tau Ceti APIs and earlier
-sections here. Missing constructions specified below are targets in Tau Ceti; adopt Mathlib's design
-and declarations as they become available. The README is definitive; `Suggested.lean` states only
-the headline theorems that are statable against the pinned libraries, with the few definitions they need.
-
-| Supplier | Exact input |
-| --- | --- |
-| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 (*Countable inverse-system algebra*) | The maps of homotopy limits induced by maps of towers of complexes whose squares commute up to specified homotopies, with their composition law and the homotopies induced by compatible second homotopies; see the subsection below. Used in §1.1. |
-| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), the product `TauCeti.ModuleTower.Product` of its terms, its difference map `TauCeti.ModuleTower.shift` on that product, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap`, `TauCeti.ModuleTower.exact_limOneMap`, `TauCeti.ModuleTower.limOneMap_surjective` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`); in `Tower.Reduction`, the reduction functor `TauCeti.ModuleTower.reductionFunctor I` sending a module `M` to its tower `n ↦ M/I^(n+1)M` with the quotient maps as transitions. Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
-| From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs, on which the Tau Ceti divided-power declarations below are built. |
-| From Tau Ceti polynomial laws and divided powers | In `TauCeti.RingTheory.PolynomialLaw`: `PolynomialLaw.IsHomogeneousOfDegree`, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.algHomEquiv`. In `TauCeti.RingTheory.DividedPowerAlgebra`: `DividedPowerAlgebra.homogeneousSubmodule`, `DividedPowerAlgebra.mapHomogeneousSubmodule`, `DividedPowerAlgebra.isInternal_homogeneousSubmodule`, the universal law `DividedPowerAlgebra.gamma` with `DividedPowerAlgebra.gamma_toFun_sum_tmul`, `DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, `DividedPowerAlgebra.homogeneousTensorMap`, `DividedPowerAlgebra.RobyAlgebra` with `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`, `DividedPowerAlgebra.symmetricTensorEquiv`, and the augmentation theory `DividedPowerAlgebra.augmentation`, `DividedPowerAlgebra.augmentationIdeal`, `DividedPowerAlgebra.augmentationIdeal_eq_span`, `DividedPowerAlgebra.augmentationSplitting`, `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul` and `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`. These formalise §§0.DP.1–0.DP.3. |
-| From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` with `CochainComplex.quasiIso_id_tensorHom`, `CochainComplex.isKFlat_of_boundedAbove_flat`, `CochainComplex.isKFlat_shift`, `CochainComplex.isKFlat_mappingCone` and `CochainComplex.isKFlat_of_isColimit` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`), the Koszul symmetry `TauCeti.koszulSymmetricCategory` of `CochainComplex (ModuleCat R) ℤ` for commutative `R` (`TauCeti.Algebra.Homology.Monoidal.Braiding`), and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); the cell-attachment resolution `CochainComplex.kFlatResolution` built from epimorphisms `E X → X`, with its instances `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and `CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Resolution`), read through Mathlib's `Module.Flat.iff_preservesFiniteLimits_tensorLeft`; Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`); `ModuleCat.isZero_Tor_succ_of_flat` (`TauCeti.Algebra.Category.ModuleCat.Monoidal.Tor`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 with flat terms and the K-flatness and tensor facts §0.2 cites from [StacksMA] Lemmas 15.60.2, 15.60.5, 15.60.7 and 15.60.8, §0.2.1, and, with Mathlib's `Module.Flat.baseChange`, the complete flatness of flat modules in §1.7. `CochainComplex.IsKFlat` with `CochainComplex.exists_quasiIso_isKFlat_moduleCat` also carries the K-flat models on which §§1.3, 1.5 and 1.8 state derived Nakayama, the ordinary-quotient comparisons and the amplitude bound. |
-| From Tau Ceti spectral sequences | The spectral sequence `CochainComplex.spectralSequence` of a filtered cochain complex `CochainComplex.filtrationFunctor`, with its abutment `CochainComplex.filtrationAbutmentIso` and stabilization `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`TauCeti.Algebra.Homology.SpectralSequence.Filtered`); for a first-quadrant homological bicomplex in `HomologicalComplex₂ C (down ℕ) (down ℕ)`, `HomologicalComplex₂.rowFiltrationSpectralSequence` and `HomologicalComplex₂.columnFiltrationSpectralSequence`, their first pages `HomologicalComplex₂.rowFiltrationSpectralSequenceFirstPageXIso` and `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`, abutments `HomologicalComplex₂.rowFiltrationAbutmentIso` and `HomologicalComplex₂.columnFiltrationAbutmentIso`, and convergence `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`, `HomologicalComplex₂.isZero_rowFiltration_abutmentFiltration` and `HomologicalComplex₂.isIso_rowFiltration_abutmentFiltrationι` (`TauCeti.Algebra.Homology.SpectralSequence.Bicomplex`). Consumed in §S.1. |
-| From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`, `Fintype.linearCombination`; the Koszul complexes below are built on them. |
-| From Tau Ceti Koszul complexes | In `TauCeti.RingTheory.KoszulComplex`: the Koszul complex `TauCeti.koszulComplex φ` of a linear functional `φ : M → R`, an `ℕ`-indexed chain complex with terms `⋀ⁿ M` and differential the contraction by `φ`, with its first differential `TauCeti.zeroEquiv_koszulDifferential_zero`, the induced chain maps `TauCeti.koszulComplex.map` (with `TauCeti.koszulComplex.map_id` and `TauCeti.koszulComplex.map_comp`), the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of multiplication by `φ(m)`, the zeroth homology `TauCeti.koszulComplex.homologyZeroEquivSpan` of a finite sequence, the tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`, and acyclicity for weakly regular sequences `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`. These formalise §0.K.1 apart from its algebra-map and mapping-cone clauses; consumed in §§1.3–1.5. |
-| From Tau Ceti simplicial objects | The Alexander–Whitney map `CategoryTheory.SimplicialObject.alexanderWhitney` from the alternating face complex of `X ⊗ Y` to the tensor product of those of `X` and `Y`, natural by `CategoryTheory.SimplicialObject.alexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney`); the diagonal `CategoryTheory.SimplicialObject.diag` and the double complex `CategoryTheory.SimplicialObject.doubleComplex` of a bisimplicial object, and the Alexander–Whitney chain map `CategoryTheory.SimplicialObject.diagAlexanderWhitney` from the alternating face complex of the diagonal to the total complex, natural by `CategoryTheory.SimplicialObject.diagAlexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial`); the Eilenberg–Zilber theorem for free simplicial modules on simplicial sets, the shuffle map `SSet.shuffle` (`TauCeti.AlgebraicTopology.SimplicialSet.Shuffle`) and the homotopy equivalence `SSet.eilenbergZilberHomotopyEquiv` between the chains of a product and the tensor product of chains (`TauCeti.AlgebraicTopology.SimplicialSet.EilenbergZilber`), which §0.2.2 extends to arbitrary simplicial modules; the symmetric power functor `ModuleCat.symmetricPower.functor` (`TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic`). Consumed in §§0.2.2 and 0.17. |
-| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan with `AlgebraicTopology.DoldKan.Γ₀`, combinatorial simplicial homotopies `CategoryTheory.SimplicialObject.Homotopy` with `CategoryTheory.SimplicialObject.Homotopy.whiskerRight` (a functor applied levelwise carries homotopies) and `CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy` (the induced chain homotopy of alternating face complexes), used in §0.3, the exterior power functor `ModuleCat.exteriorPower.functor`, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`; the left derived functor API `CategoryTheory.Functor.HasLeftDerivedFunctor`, `CategoryTheory.Functor.IsLeftDerivedFunctor` and `CategoryTheory.Functor.totalLeftDerived` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerived`) with its two-variable form `CategoryTheory.Functor.HasLeftDerivedFunctor₂`, `CategoryTheory.Functor.IsLeftDerivedFunctor₂` and `CategoryTheory.Functor.leftDerived₂` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerivedTwo`), a right Kan extension along the localization, unique up to unique isomorphism; `CategoryTheory.Functor.mapDerivedCategory` of an exact functor (`Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor`), applied in §0.2 to `ModuleCat.restrictScalars`, which is exact (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact`), and `ModuleCat.extendScalars`; for the adjunction of §0.2, `ModuleCat.extendRestrictScalarsAdj` (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRings`), `CategoryTheory.Adjunction.derived` (`Mathlib.CategoryTheory.Functor.Derived.Adjunction`: an adjunction induces one between a left derived functor of the left adjoint and a right derived functor of the right adjoint when each stays derived after composition with the other), `CategoryTheory.Functor.isRightDerivedFunctor_of_inverts` (`Mathlib.CategoryTheory.Functor.Derived.PointwiseRightDerived`), and left derivability structures `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure` with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'` (`Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor`) and `CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso` (`Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives`). §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
-| From Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
-| From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and edge maps. |
-| From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
-| From Tau Ceti injective envelopes and Matlis duality | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; hull existence `TauCeti.exists_isInjectiveEnvelope` and its form inside a given injective module `TauCeti.exists_isInjectiveEnvelope_submodule` (`TauCeti.Algebra.Module.Injective.Envelope.Existence`); the action `TauCeti.AdicCompletion.torsionModule` of the `I`-adic completion on a module whose elements are killed by powers of `I` (`TauCeti.RingTheory.AdicCompletion.Torsion`); in `TauCeti.RingTheory.MatlisDuality.FiniteLength`, the residue-field duality `TauCeti.residueFieldLinearMapEquiv`, injectivity of evaluation into the double dual for every module `TauCeti.injective_applyₗ_of_injective`, preservation of length `TauCeti.IsInjectiveEnvelope.length_linearMap` and biduality for modules of finite length `TauCeti.IsInjectiveEnvelope.bijective_applyₗ`; and the Artinian criterion `TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap` (`TauCeti.RingTheory.MatlisDuality.Artinian`). Consumed in §§1.M.1–1.M.2. |
-| From Tau Ceti pseudo-coherent modules | `TauCeti.Huber.IsPseudoCoherentOver A M m`, existence of a finite free resolution of `M` exact up to length `m` (`TauCeti.Algebra.Module.PseudoCoherent.Basic`, any `[Ring A]`), with `TauCeti.Huber.IsPseudoCoherentOver.of_isNoetherianRing` (finite modules over Noetherian rings, `m = ⊤`) and the resolving chain complex `TauCeti.Huber.IsPseudoCoherentOver.exists_quasiIso_single₀` (`TauCeti.Algebra.Module.PseudoCoherent.ChainComplex`). Consumed in §1.E.0 for modules in degree zero. |
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-[AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (*Countable inverse-system
-algebra*) owns the maps of homotopy limits induced by a map of towers of complexes
-whose squares commute up to specified homotopies: these cone maps retain the specified square
-homotopies in their composition law, and compatible second homotopies induce homotopies between
-them. Its statements are consumed as written there and are not repeated here; §1.1 requires the
-localization comparison to intertwine them. Their pinned input is Tau Ceti's fibre map of a square
-commuting up to a specified homotopy, `CochainComplex.mappingCocone.mapOfHomotopy` with
-`CochainComplex.mappingCocone.mapOfHomotopy_comp` and
-`CochainComplex.mappingCocone.mapOfHomotopyHomotopy`
-(`TauCeti.Algebra.Homology.HomotopyCategory.MappingCocone.Homotopy`). The generic tower algebra,
-its Milnor sequences and the derived limit are consumed from Tau Ceti (table above).
-
-## How to read the build
-
-Layers 0–5 follow construction order and retain the section locators used by consumers. Sections 0.DP.1–0.DP.3 and 0.K.1 build the polynomial-law,
-divided-power and Koszul inputs; §§0.I.1–0.3 the unbounded module replacements, derived tensor and
-non-additive derived functors, with §S.1 supplying the double-complex spectral sequence before the diagonal comparison; §§0.4–0.25 the cotangent complex, its powers and deformation theory.
-Sections 1.1–1.9 prove the exactness of the supplied derived limit and build the tensor–Hom
-adjunction, derived completeness and the completion reflector, simplicial-algebra completion and
-complete flatness; §§1.E.0–1.E.1 perfect
-complexes, finite models and effectivity; §§1.M.1–1.M.2 Matlis duality. Each target's *Needs* line names the earlier sections and library
-inputs that its statement and route use.
 
 ## Layer 0: polynomial laws, divided powers and Koszul complexes
 
@@ -2822,6 +2746,132 @@ limits of §1.1 and, with AdicSpacesPartIV, the double-complex comparison of §S
 roadmap of RepresentationTheory uses the Matlis duality of §1.M.2. Sheaf enhancement,
 point-site identification and the affine/Spec comparison use the scope contracts above. Arithmetic
 cochains, determinants, crystalline sites and period rings use these general module constructions.
+
+## Scope and ownership
+
+This roadmap owns homogeneous and multiplicative polynomial laws, the non-determinant Roby algebra
+and augmentation theory, linear-functional Koszul complexes, module K-injective and K-flat models,
+simplicial polynomial resolutions, the full cotangent complex and its integral powers, the exactness
+of module-derived limits and derived completion, ordinary-module perfectness and finite models, perfect inverse-system
+effectivity, and the specified Matlis and spectral-sequence contracts. Objects and comparisons use
+Mathlib's carriers and the pinned Tau Ceti APIs. The targets of §§0.DP.1–0.DP.3, the Koszul
+complex of §0.K.1 apart from its algebra-map and mapping-cone clauses, the K-injective replacement
+functor of §0.I.1, the K-flat replacement of §0.2 with flat terms and the K-flatness and tensor
+facts it cites other than [StacksMA] Lemma 15.60.12, Lazard's theorem in §0.2.1, the
+Alexander–Whitney maps of §0.2.2, the derived Hom with its cohomology in §1.1.1, the complete
+flatness of flat modules in §1.7, and the injective hulls, completion action, finite-length
+biduality and Artinian criterion of §1.M.2 are formalised at the pinned Tau Ceti; each such target
+names its declarations, and later sections consume them from Tau Ceti (Exact supplier contracts).
+Ordinary-module perfectness here (§1.E.0) asks for finite projective terms, unlike Tau Ceti's
+`TauCeti.DerivedCategory.Bounded.perfect`, the thick closure of all projective modules, finitely
+generated or not.
+
+The generic algebra of countable module towers `ℕᵒᵖ ⥤ ModuleCat R` over an associative unital ring
+is Tau Ceti's (Exact supplier contracts): the difference map, `lim` and `lim¹`, the six-term and
+Milnor sequences, Mittag–Leffler vanishing, cofinal reindexing, the homotopy limit as the shifted
+cone of the difference map, and the derived limit functor `TauCeti.ModuleTower.derivedLimit` with
+its localization comparison, shift isomorphisms and identification with the termwise limit. The
+maps of homotopy limits induced by tower maps whose squares commute up to specified homotopies
+belong to [AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (*Countable
+inverse-system algebra*, its homotopy-commuting product squares). Section 1.1 here owns the
+exactness of the derived limit, its cone comparison for chain maps of towers, and its compatibility
+with the Milnor, cofinal and homotopy-square maps. Topological tower adapters remain with AlgebraicTopology Stages 2–3 and
+Stage 6. Citations of §1.T.1 (*Towers, `lim` and `lim¹`*, with its targets *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler
+towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for
+towers of complexes*) resolve to the Tau Ceti tower declarations listed in Exact supplier contracts.
+
+Other roadmaps cite objects of this roadmap by the Lean names in the left column; each resolves to
+the section, or the pinned declaration, in the right column.
+
+| Cited names | Resolve to |
+| --- | --- |
+| `PD.augmentation`, `PD.augmentationIdeal` | §0.DP.3: Tau Ceti `DividedPowerAlgebra.augmentation` and `DividedPowerAlgebra.augmentationIdeal` |
+| `moduleKInjectiveReplacement` | §0.I.1: Tau Ceti `CochainComplex.exists_quasiIso_isKInjective` and `TauCeti.kInjectiveReplacement` |
+| `Algebra.CotangentComplex.PolynomialResolution`, `Algebra.CotangentComplex.PolynomialResolution.comparison`, `Algebra.CotangentComplex.PolynomialResolution.toQuasiIso` | §0.1 |
+| `DerivedDeRham.derivedTensor`, `derivedTensor_flatModel`, `derivedTensor_triangulated`, `derivedTensor_kFlatColimit`, `derivedTensor_kFlatRealization` | §0.2: the bifunctor, whose existence is the headline `DerivedDeRham.hasLeftDerivedFunctor₂_tensor`, its bounded-above flat model, its exactness, and K-flatness of filtered colimits and of totalizations |
+| `test_derived_tensor_unbounded_flat` | §0.2: the Check on the bi-infinite `ℤ/4` complex with every differential multiplication by `2`, acyclic and termwise free but not K-flat |
+| `DerivedDeRham.leftDerivedNonadditive` | §0.3 |
+| `Algebra.CotangentComplex.homologyZeroIso`, `Algebra.CotangentComplex.arrowFunctor`, `Algebra.CotangentComplex.map`, `Algebra.CotangentComplex.resolutionIso`, `arrowResolution`, `resolutionRings`, `resolutionRingMap`, `resolutionRingMap_identity`, `resolutionRingMap_composition`, `resolutionRingMap_zero_target`, `arrowModel`, `arrowModelMap`, `arrowModelMap_tmul`, `termIso`, `face_tmul`, `cotangent_model_test_two_faces` | §0.4: the full cotangent complex, the map `L_(B/A) ⊗^L_B B′ → L_(B′/A′)` induced by a commutative square with its identity and composition laws, the differential model given by any polynomial resolution, the arrow-category model and its Checks |
+| `Algebra.CotangentComplex.SquareZeroExtension`, `Algebra.CotangentComplex.extensionCategory`, `Algebra.CotangentComplex.extensionCategory_zero`, `Algebra.CotangentComplex.extensionCategory_polynomial`, `extensionSetoid`, `Algebra.CotangentComplex.extensionClass`, `Algebra.CotangentComplex.extensionClass_mk`, `Algebra.CotangentComplex.exal_add_representative`, `Algebra.CotangentComplex.morphismObstruction`, `Algebra.CotangentComplex.morphismObstruction_cocycle`, `derivationZero`, `derivationPostcompose` | §0.5 |
+| `Algebra.CotangentComplex.extZero`, `Algebra.CotangentComplex.extOne`, `Algebra.CotangentComplex.extensionClass_add`, `Algebra.CotangentComplex.conormalComparison`, `Algebra.CotangentComplex.conormalComparison_extensionClass`, `conormalComparison_zero`, `conormalComparison_identity`, `conormalComparison_zmodNine` | §0.6 |
+| `Algebra.CotangentComplex.homologyOneIso` | §0.7 |
+| `Algebra.CotangentComplex.transitivityTriangle`, `Algebra.CotangentComplex.transitivityFirst`, `Algebra.CotangentComplex.transitivityFirst_tmul`, `Algebra.CotangentComplex.transitivitySecond`, `Algebra.CotangentComplex.transitivitySecond_apply`, `transitivityFirst_identity`, `transitivityFirst_zero_source`, `transitivityFirst_polynomial`, `transitivitySecond_identity`, `transitivitySecond_zero_target`, `transitivitySecond_regular_quotient` | §0.8 |
+| `Algebra.CotangentComplex.diagonalComparison`, `diagonalModel` | §0.9 |
+| `Algebra.CotangentComplex.baseChange` | §0.10 |
+| `Algebra.CotangentComplex.filteredColimit` | §0.11 |
+| `Algebra.CotangentComplex.smooth` | §0.12 |
+| `Algebra.CotangentComplex.regularQuotient` | §0.13 |
+| `DerivedDeRham.derivedExteriorPower` | §0.14 |
+| `Algebra.CotangentComplex.flatDeformation`, `Algebra.CotangentComplex.liftMorphism`, `Algebra.CotangentComplex.kernelExtensionClass`, `Algebra.CotangentComplex.kernelExtensionClass_zero`, `Algebra.CotangentComplex.deformationObstruction`, `Algebra.CotangentComplex.deformationObstruction_zero`, `Algebra.CotangentComplex.derivationEvaluation`, `Algebra.CotangentComplex.derivationEvaluation_differential`, `Algebra.CotangentComplex.derivationEvaluation_zero`, `Algebra.CotangentComplex.transitivityConnecting`, `Algebra.CotangentComplex.transitivityConnecting_triangle`, `Algebra.CotangentComplex.transitivityConnecting_identity_source`, `Algebra.CotangentComplex.transitivityTriangle_cone_sign`, `Algebra.CotangentComplex.polynomialLift_sign`, `Algebra.CotangentComplex.polynomialLift_positive` | §0.25 |
+| `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | §S.1: the exact-rows comparison, the edge morphisms and naturality |
+| `CompactCoefficients.Tower`, `CompactCoefficients.Tower.toModuleFunctor`, `CompactCoefficients.Tower.limComparison`, `CompactCoefficients.Tower.limOneComparison` | Tau Ceti `TauCeti.ModuleTower` over `ℤ`, with `TauCeti.ModuleTower.lim` and `TauCeti.ModuleTower.limOne` |
+| `CompactCoefficients.Tower.lim`, `CompactCoefficients.Tower.limOne`, `CompactCoefficients.Tower.shift`, `ModuleTower.Product`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.shift`, `ModuleTower.productMap`, `ModuleTower.limMap`, `ModuleTower.limOneMap` | Tau Ceti `TauCeti.ModuleTower.lim`, `TauCeti.ModuleTower.limOne`, the product `TauCeti.ModuleTower.Product` of the terms, the difference map `TauCeti.ModuleTower.shift` on it, and the maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap` induced by a map of towers; over `ℤ` for the `CompactCoefficients` names |
+| `CompactCoefficients.Tower.isMittagLeffler_of_finite` | Tau Ceti `TauCeti.ModuleTower.isMittagLeffler_of_isArtinian` (finite abelian groups are Artinian `ℤ`-modules) |
+| `CompactCoefficients.Tower.limOne_subsingleton_of_isMittagLeffler`, `CompactCoefficients.Tower.limOne_exact` | Tau Ceti `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; for a levelwise short exact sequence of towers, `TauCeti.ModuleTower.exact_limOneMap` (exactness at the middle `lim¹`) with `TauCeti.ModuleTower.limOneMap_surjective`; over `ℤ` |
+| `DerivedDeRham.derivedLimit` | Tau Ceti `TauCeti.ModuleTower.derivedLimit` |
+| `derivedLimit_surjective`, `derivedLimit_milnor`, `limOne_mul_p`, `mulTower` | §1.1: the degreewise-surjective model with its Milnor maps, and the Check on the tower `ℤ ← ℤ ← ⋯` with every transition multiplication by a prime `p` (`lim = 0`, `lim¹ ≅ ℤ_p/ℤ ≠ 0`) |
+| `DerivedDeRham.moduleDerivedHom` | Tau Ceti `TauCeti.derivedHom` (§1.1.1) |
+| `DerivedDeRham.completionAdjunction` | §1.3, `DerivedDeRham.derivedCompleteness_isRightAdjoint` |
+| `DerivedDeRham.completeNakayama` | §1.3, derived Nakayama, stated on a K-flat model |
+| `DerivedDeRham.koszulCompletionTower` | §1.4 |
+| `DerivedDeRham.ordinaryQuotientCompletion` | §1.5: the headlines `DerivedDeRham.ordinaryQuotientCompletion` (Noetherian `A`), `DerivedDeRham.ordinaryQuotientCompletion_of_boundedTorsion` (`I = (f)` with bounded `f`-power torsion) and `DerivedDeRham.ordinaryQuotientCompletion_of_isWeaklyRegular` (`I` generated by a weakly regular sequence), with `DerivedDeRham.nonempty_ordinaryQuotientCompletionHomologyIso` for finite cohomology over a Noetherian ring, stated on a K-flat model |
+| `DerivedDeRham.simplicialRingCompletion`, `ringCompletionUnit` | §1.6 |
+| `DerivedDeRham.completeFlatness`, `DerivedDeRham.completeFlatBaseChange` | §1.7 |
+| `DerivedDeRham.boundedTorsionCriterion` | §1.8; for modules, `DerivedDeRham.isAdicComplete_of_isCompletelyFlatModule` and `DerivedDeRham.isCompletelyFlatModule_of_isAdicComplete` |
+| `DerivedDeRham.completeFlatDescent` | §1.9 |
+| `PerfectComplex.IsPerfect`, `isPerfect_baseChange` | §1.E.0: `DerivedDeRham.IsPerfect` and `DerivedDeRham.isPerfect_baseChange`, perfection under derived extension of scalars, stated on a bounded-above finite-free model |
+| `HasTorAmplitude`, `finiteFreeBaseChangeModel` | §1.E.0: Tor amplitude `[a, b]` over a commutative ring, and the finite-free base-change comparison, by which the termwise scalar extension `DerivedDeRham.complexBaseChange` of a bounded-above finite-free model computes derived base change |
+| `PerfectSystem`, `FiniteFreeSystemModel` | §1.E.0, *Compatible finite-free models*: a compatible perfect system over a ring tower with its specified derived reductions, and its compatible bounded-above finite-free models |
+| `DerivedDeRham.perfectInverseSystemEffectivity` | §1.E.1 |
+
+The sheaf enhancement, point-site and affine comparisons belong to EnhancedDerivedSheaves
+§§0.1–0.3 and E1.F3.H1/E1.8.DMA.1. The DG/module realization, dualizable comparison and traces
+belong to EtaleCohomologyFoundations F.10.3: its realization is an equivalence onto the full
+subcategory of ordinary perfect module complexes, natural in maps and coefficients and compatible
+with shifts, scalar extension, tensor, duals and finite filtrations; on finite-projective
+representatives its trace is the alternating termwise trace. KhovanovHomology K5 owns its bounded
+projective resolution model over the dual numbers, with quantum gradings, dot actions and the
+connected-sum comparison; §0.2 here supplies the comparison with general module-derived tensor.
+
+## Exact supplier contracts
+
+The tower algebra and the derived limit are Tau Ceti's; the homotopy-square maps of towers are
+AlgebraicTopology Stage 6, item 0. Other targets use Mathlib, implemented Tau Ceti APIs and earlier
+sections here. Missing constructions specified above are targets in Tau Ceti; adopt Mathlib's design
+and declarations as they become available. The README is definitive; `Suggested.lean` states only
+the headline theorems that are statable against the pinned libraries, with the few definitions they need.
+
+| Supplier | Exact input |
+| --- | --- |
+| From TauCetiRoadmap.AlgebraicTopology, Stage 6, item 0 (*Countable inverse-system algebra*) | The maps of homotopy limits induced by maps of towers of complexes whose squares commute up to specified homotopies, with their composition law and the homotopies induced by compatible second homotopies; see the subsection below. Used in §1.1. |
+| From Tau Ceti module towers | In `TauCeti.Algebra.Category.ModuleCat.Tower`: `TauCeti.ModuleTower` (`ℕᵒᵖ ⥤ ModuleCat R` over any `[Ring R]`), the product `TauCeti.ModuleTower.Product` of its terms, its difference map `TauCeti.ModuleTower.shift` on that product, `δ(x)_n = x_n − φ_n(x_(n+1))`, with kernel `TauCeti.ModuleTower.lim` and cokernel `TauCeti.ModuleTower.limOne`, the induced maps `TauCeti.ModuleTower.productMap`, `TauCeti.ModuleTower.limMap` and `TauCeti.ModuleTower.limOneMap`; the six-term connecting map `TauCeti.ModuleTower.connecting` with `TauCeti.ModuleTower.exact_limMap_connecting`, `TauCeti.ModuleTower.exact_connecting_limOneMap`, `TauCeti.ModuleTower.exact_limOneMap`, `TauCeti.ModuleTower.limOneMap_surjective` and `TauCeti.ModuleTower.connecting_naturality`; `TauCeti.ModuleTower.IsMittagLeffler` with `TauCeti.ModuleTower.subsingleton_limOne_of_isMittagLeffler`; the Milnor sequences of towers of complexes `TauCeti.ComplexTower` under degreewise surjectivity of the difference map, `TauCeti.ComplexTower.limOneToHomology_injective`, `TauCeti.ComplexTower.exact_limOneToHomology_homologyToLim` and `TauCeti.ComplexTower.homologyToLim_surjective`, natural by `TauCeti.ComplexTower.homologyToLim_naturality` and `TauCeti.ComplexTower.limOneToHomology_naturality`; the cofinal comparisons `TauCeti.ModuleTower.limSubsequenceEquiv`, `TauCeti.ModuleTower.limOneSubsequenceEquiv` and `TauCeti.ComplexTower.limComplexSubsequenceIso`; and, in `Tower.DerivedLimit`, the homotopy limit `TauCeti.ModuleTower.homotopyLimitFunctor`, the derived limit `TauCeti.ModuleTower.derivedLimit` with `TauCeti.ModuleTower.derivedLimitFactors` (`Q ⋙ Rlim ≅ holim ⋙ Q`), its `Functor.CommShift ℤ` instance, the projections `TauCeti.ModuleTower.derivedLimitπ`, the comparison `TauCeti.ModuleTower.homotopyLimitLift` and `TauCeti.ModuleTower.derivedLimitIsoLimComplex` (`Rlim K ≅ lim K` when every term has vanishing `lim¹`); in `Tower.Reduction`, the reduction functor `TauCeti.ModuleTower.reductionFunctor I` sending a module `M` to its tower `n ↦ M/I^(n+1)M` with the quotient maps as transitions. Used in §§1.1–1.6 and 1.9, and through §1.1 in Layer 4. |
+| From Mathlib polynomial laws and divided powers | `PolynomialLaw`, its scalar-extension evaluation, identity and composition; `DividedPowerAlgebra`, generators, lift and map, the zero-ideal PD structure and kernel/span APIs, on which the Tau Ceti divided-power declarations below are built. |
+| From Tau Ceti polynomial laws and divided powers | In `TauCeti.RingTheory.PolynomialLaw`: `PolynomialLaw.IsHomogeneousOfDegree`, `PolynomialLaw.IsMultiplicative` and `PolynomialLaw.algHomEquiv`. In `TauCeti.RingTheory.DividedPowerAlgebra`: `DividedPowerAlgebra.homogeneousSubmodule`, `DividedPowerAlgebra.mapHomogeneousSubmodule`, `DividedPowerAlgebra.isInternal_homogeneousSubmodule`, the universal law `DividedPowerAlgebra.gamma` with `DividedPowerAlgebra.gamma_toFun_sum_tmul`, `DividedPowerAlgebra.homogeneousLawEquiv`, `DividedPowerAlgebra.baseChangeHomogeneousEquiv`, `DividedPowerAlgebra.homogeneousTensorMap`, `DividedPowerAlgebra.RobyAlgebra` with `DividedPowerAlgebra.RobyAlgebra.algHomEquiv`, `DividedPowerAlgebra.symmetricTensorEquiv`, and the augmentation theory `DividedPowerAlgebra.augmentation`, `DividedPowerAlgebra.augmentationIdeal`, `DividedPowerAlgebra.augmentationIdeal_eq_span`, `DividedPowerAlgebra.augmentationSplitting`, `DividedPowerAlgebra.map_algebraMap_inf_augmentationIdeal_eq_mul` and `DividedPowerAlgebra.dp_two_not_mem_span_dp_one`. These formalise §§0.DP.1–0.DP.3. |
+| From Tau Ceti replacements, derived Hom and flat modules | `CochainComplex.exists_quasiIso_isKInjective` (`TauCeti.Algebra.Homology.ModuleCat.KInjective`, any `[Ring R]`); the replacement functor `TauCeti.kInjectiveReplacement`, right adjoint to `DerivedCategory.Qh` by `TauCeti.kInjectiveReplacementAdjunction`, and `CochainComplex.IsKInjective.exists_homotopyEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.KInjective`); the derived Hom `TauCeti.derivedHom` with `TauCeti.derivedHomHomologyLinearEquiv` (`TauCeti.Algebra.Homology.DerivedCategory.DerivedHom`); `CochainComplex.IsKFlat` with `CochainComplex.quasiIso_id_tensorHom`, `CochainComplex.isKFlat_of_boundedAbove_flat`, `CochainComplex.isKFlat_shift`, `CochainComplex.isKFlat_mappingCone` and `CochainComplex.isKFlat_of_isColimit` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Basic`), the Koszul symmetry `TauCeti.koszulSymmetricCategory` of `CochainComplex (ModuleCat R) ℤ` for commutative `R` (`TauCeti.Algebra.Homology.Monoidal.Braiding`), and `CochainComplex.exists_quasiIso_isKFlat_moduleCat` (`TauCeti.Algebra.Homology.ModuleCat.KFlat`); the cell-attachment resolution `CochainComplex.kFlatResolution` built from epimorphisms `E X → X`, with its instances `CochainComplex.kFlatResolution.quasiIso_π`, `CochainComplex.isKFlat_kFlatResolution` and `CochainComplex.preservesFiniteLimits_tensorLeft_kFlatResolution_X` (`TauCeti.Algebra.Homology.Monoidal.KFlat.Resolution`), read through Mathlib's `Module.Flat.iff_preservesFiniteLimits_tensorLeft`; Lazard's theorem `TauCeti.flatModuleFilteredFree` on the filtered category `TauCeti.FiniteFreeOver` (`TauCeti.Algebra.Category.ModuleCat.Flat.FilteredFree`, any `[Ring R]`); `ModuleCat.isZero_Tor_succ_of_flat` (`TauCeti.Algebra.Category.ModuleCat.Monoidal.Tor`). These formalise the K-injective replacement of §0.I.1, the derived Hom of §1.1.1 without its tensor adjunction, the K-flat replacement of §0.2 with flat terms and the K-flatness and tensor facts §0.2 cites from [StacksMA] Lemmas 15.60.2, 15.60.5, 15.60.7 and 15.60.8, §0.2.1, and, with Mathlib's `Module.Flat.baseChange`, the complete flatness of flat modules in §1.7. `CochainComplex.IsKFlat` with `CochainComplex.exists_quasiIso_isKFlat_moduleCat` also carries the K-flat models on which §§1.3, 1.5 and 1.8 state derived Nakayama, the ordinary-quotient comparisons and the amplitude bound. |
+| From Tau Ceti spectral sequences | The spectral sequence `CochainComplex.spectralSequence` of a filtered cochain complex `CochainComplex.filtrationFunctor`, with its abutment `CochainComplex.filtrationAbutmentIso` and stabilization `CochainComplex.filtrationSpectralSequencePageXIsoEInfty` (`TauCeti.Algebra.Homology.SpectralSequence.Filtered`); for a first-quadrant homological bicomplex in `HomologicalComplex₂ C (down ℕ) (down ℕ)`, `HomologicalComplex₂.rowFiltrationSpectralSequence` and `HomologicalComplex₂.columnFiltrationSpectralSequence`, their first pages `HomologicalComplex₂.rowFiltrationSpectralSequenceFirstPageXIso` and `HomologicalComplex₂.columnFiltrationSpectralSequenceFirstPageXIso`, abutments `HomologicalComplex₂.rowFiltrationAbutmentIso` and `HomologicalComplex₂.columnFiltrationAbutmentIso`, and convergence `HomologicalComplex₂.rowFiltrationSpectralSequencePageXIsoEInfty`, `HomologicalComplex₂.isZero_rowFiltration_abutmentFiltration` and `HomologicalComplex₂.isIso_rowFiltration_abutmentFiltrationι` (`TauCeti.Algebra.Homology.SpectralSequence.Bicomplex`). Consumed in §S.1. |
+| From Mathlib exterior powers and regular sequences | `ExteriorAlgebra.exteriorPower`, multilinear generators and maps, `RingTheory.Sequence.IsWeaklyRegular`, `Fintype.linearCombination`; the Koszul complexes below are built on them. |
+| From Tau Ceti Koszul complexes | In `TauCeti.RingTheory.KoszulComplex`: the Koszul complex `TauCeti.koszulComplex φ` of a linear functional `φ : M → R`, an `ℕ`-indexed chain complex with terms `⋀ⁿ M` and differential the contraction by `φ`, with its first differential `TauCeti.zeroEquiv_koszulDifferential_zero`, the induced chain maps `TauCeti.koszulComplex.map` (with `TauCeti.koszulComplex.map_id` and `TauCeti.koszulComplex.map_comp`), the null-homotopy `TauCeti.koszulComplex.smulHomotopy` of multiplication by `φ(m)`, the zeroth homology `TauCeti.koszulComplex.homologyZeroEquivSpan` of a finite sequence, the tensor decompositions `TauCeti.koszulComplex.tensorIso` and `TauCeti.koszulComplex.tensorIsoAppend`, and acyclicity for weakly regular sequences `TauCeti.koszulComplex.exactAt_of_isWeaklyRegular`. These formalise §0.K.1 apart from its algebra-map and mapping-cone clauses; consumed in §§1.3–1.5. |
+| From Tau Ceti simplicial objects | The Alexander–Whitney map `CategoryTheory.SimplicialObject.alexanderWhitney` from the alternating face complex of `X ⊗ Y` to the tensor product of those of `X` and `Y`, natural by `CategoryTheory.SimplicialObject.alexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.AlexanderWhitney`); the diagonal `CategoryTheory.SimplicialObject.diag` and the double complex `CategoryTheory.SimplicialObject.doubleComplex` of a bisimplicial object, and the Alexander–Whitney chain map `CategoryTheory.SimplicialObject.diagAlexanderWhitney` from the alternating face complex of the diagonal to the total complex, natural by `CategoryTheory.SimplicialObject.diagAlexanderWhitney_naturality` (`TauCeti.AlgebraicTopology.SimplicialObject.Bisimplicial`); the Eilenberg–Zilber theorem for free simplicial modules on simplicial sets, the shuffle map `SSet.shuffle` (`TauCeti.AlgebraicTopology.SimplicialSet.Shuffle`) and the homotopy equivalence `SSet.eilenbergZilberHomotopyEquiv` between the chains of a product and the tensor product of chains (`TauCeti.AlgebraicTopology.SimplicialSet.EilenbergZilber`), which §0.2.2 extends to arbitrary simplicial modules; the symmetric power functor `ModuleCat.symmetricPower.functor` (`TauCeti.Algebra.Category.ModuleCat.SymmetricPower.Basic`). Consumed in §§0.2.2 and 0.17. |
+| From Mathlib homological and categorical algebra | Complexes, quasi-isomorphisms, K-injectivity, enough injectives in module categories, `DerivedCategory`, `DerivedCategory.Q`, single and homology functors, Dold–Kan with `AlgebraicTopology.DoldKan.Γ₀`, combinatorial simplicial homotopies `CategoryTheory.SimplicialObject.Homotopy` with `CategoryTheory.SimplicialObject.Homotopy.whiskerRight` (a functor applied levelwise carries homotopies) and `CategoryTheory.SimplicialObject.Homotopy.toChainHomotopy` (the induced chain homotopy of alternating face complexes), used in §0.3, the exterior power functor `ModuleCat.exteriorPower.functor`, augmented simplicial objects, filtered colimits, tensor, Hom and `CategoryTheory.Tor`; the left derived functor API `CategoryTheory.Functor.HasLeftDerivedFunctor`, `CategoryTheory.Functor.IsLeftDerivedFunctor` and `CategoryTheory.Functor.totalLeftDerived` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerived`) with its two-variable form `CategoryTheory.Functor.HasLeftDerivedFunctor₂`, `CategoryTheory.Functor.IsLeftDerivedFunctor₂` and `CategoryTheory.Functor.leftDerived₂` (`Mathlib.CategoryTheory.Functor.Derived.LeftDerivedTwo`), a right Kan extension along the localization, unique up to unique isomorphism; `CategoryTheory.Functor.mapDerivedCategory` of an exact functor (`Mathlib.Algebra.Homology.DerivedCategory.ExactFunctor`), applied in §0.2 to `ModuleCat.restrictScalars`, which is exact (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRingsExact`), and `ModuleCat.extendScalars`; for the adjunction of §0.2, `ModuleCat.extendRestrictScalarsAdj` (`Mathlib.Algebra.Category.ModuleCat.ChangeOfRings`), `CategoryTheory.Adjunction.derived` (`Mathlib.CategoryTheory.Functor.Derived.Adjunction`: an adjunction induces one between a left derived functor of the left adjoint and a right derived functor of the right adjoint when each stays derived after composition with the other), `CategoryTheory.Functor.isRightDerivedFunctor_of_inverts` (`Mathlib.CategoryTheory.Functor.Derived.PointwiseRightDerived`), and left derivability structures `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure` with `CategoryTheory.LocalizerMorphism.IsLeftDerivabilityStructure.mk'` (`Mathlib.CategoryTheory.Localization.DerivabilityStructure.Constructor`) and `CategoryTheory.LocalizerMorphism.Derives.isLeftDerivedFunctor_iff_isIso` (`Mathlib.CategoryTheory.Localization.DerivabilityStructure.Derives`). §§0.1–0.3 and 1.1.1 construct the derived operations from the Tau Ceti replacements. |
+| From Mathlib cotangent and flatness inputs | `Algebra.Extension`, `Algebra.H1Cotangent`, Kähler differentials, Jacobi–Zariski, `Derivation`, `derivationToSquareZeroEquivLift`, `Module.Flat.exists_factorization_of_finitePresentation`, finite free modules, localizations and smoothness. §§0.4–0.17 and 0.25 construct the full complex, powers and deformation theory. |
+| From Mathlib towers, completion and spectral objects | Abelian groups, `CategoryTheory.Functor.IsMittagLeffler`, exact products, snake lemma, `AdicCompletion`, spectral objects and `HomologicalComplex₂.total`; §§1.1–1.9, 1.E.0–1.E.1, 1.M.1–1.M.2 and S.1 construct the additional limits, completions, duality and edge maps. |
+| From Tau Ceti Artin–Rees | `TauCeti.ArtinRees.exists_controlled_lift` in `TauCeti.RingTheory.Ideal.ArtinRees`: controlled lifts in finite modules over Noetherian rings, used in §1.5 to make higher Koszul homology pro-zero. |
+| From Tau Ceti injective envelopes and Matlis duality | `TauCeti.IsInjectiveEnvelope`, `isEssential_range` and `exists_linearEquiv` in `TauCeti.Algebra.Module.Injective.Envelope.Basic`: essential injective embeddings and uniqueness; hull existence `TauCeti.exists_isInjectiveEnvelope` and its form inside a given injective module `TauCeti.exists_isInjectiveEnvelope_submodule` (`TauCeti.Algebra.Module.Injective.Envelope.Existence`); the action `TauCeti.AdicCompletion.torsionModule` of the `I`-adic completion on a module whose elements are killed by powers of `I` (`TauCeti.RingTheory.AdicCompletion.Torsion`); in `TauCeti.RingTheory.MatlisDuality.FiniteLength`, the residue-field duality `TauCeti.residueFieldLinearMapEquiv`, injectivity of evaluation into the double dual for every module `TauCeti.injective_applyₗ_of_injective`, preservation of length `TauCeti.IsInjectiveEnvelope.length_linearMap` and biduality for modules of finite length `TauCeti.IsInjectiveEnvelope.bijective_applyₗ`; and the Artinian criterion `TauCeti.IsInjectiveEnvelope.isArtinian_of_finite_adicCompletion_linearMap` (`TauCeti.RingTheory.MatlisDuality.Artinian`). Consumed in §§1.M.1–1.M.2. |
+| From Tau Ceti pseudo-coherent modules | `TauCeti.Huber.IsPseudoCoherentOver A M m`, existence of a finite free resolution of `M` exact up to length `m` (`TauCeti.Algebra.Module.PseudoCoherent.Basic`, any `[Ring A]`), with `TauCeti.Huber.IsPseudoCoherentOver.of_isNoetherianRing` (finite modules over Noetherian rings, `m = ⊤`) and the resolving chain complex `TauCeti.Huber.IsPseudoCoherentOver.exists_quasiIso_single₀` (`TauCeti.Algebra.Module.PseudoCoherent.ChainComplex`). Consumed in §1.E.0 for modules in degree zero. |
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology](../AlgebraicTopology/README.md) Stage 6, item 0 (*Countable inverse-system
+algebra*) owns the maps of homotopy limits induced by a map of towers of complexes
+whose squares commute up to specified homotopies: these cone maps retain the specified square
+homotopies in their composition law, and compatible second homotopies induce homotopies between
+them. Its statements are consumed as written there and are not repeated here; §1.1 requires the
+localization comparison to intertwine them. Their pinned input is Tau Ceti's fibre map of a square
+commuting up to a specified homotopy, `CochainComplex.mappingCocone.mapOfHomotopy` with
+`CochainComplex.mappingCocone.mapOfHomotopy_comp` and
+`CochainComplex.mappingCocone.mapOfHomotopyHomotopy`
+(`TauCeti.Algebra.Homology.HomotopyCategory.MappingCocone.Homotopy`). The generic tower algebra,
+its Milnor sequences and the derived limit are consumed from Tau Ceti (table above).
 
 ## References
 

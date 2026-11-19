@@ -1,49 +1,16 @@
 # Roadmap: quaternionic analysis
 
-**Summary.** Build quaternion-valued analysis on open subsets of the real quaternion algebra `ℍ`,
-on Mathlib's `Quaternion ℝ` with its normed-algebra and real Fréchet calculus, keeping two notions
-of regularity apart: one-sided quotient differentiability, which is rigid (the differentiable
-functions are the affine maps `q ↦ a + q*b` and `q ↦ a + b*q`, with no `C¹` assumption), and the
-left and right Cauchy–Riemann–Fueter equations, which carry a Cauchy theory. From the real
-coordinates of the multiplication maps, the quotient calculus, the rigidity theorems, the Fueter
-operators, the ordered 3-form `Dq`, an affine face adapter over Mathlib's divergence theorem and
-the kernel `(q−q₀)⁻¹/|q−q₀|²`, it reaches the left and right Cauchy theorems and Cauchy–Fueter
-formulas with normalization `1/(2π²)`, and from them real analyticity, harmonicity, the uniqueness
-principle and universal derivative estimates for Fueter-regular functions. Multiplication order is
-part of every statement.
+**Summary.** Quaternion multiplication is not commutative, so complex differentiability has more than one analogue for a function f of a quaternion variable, each in a left and a right version. One asks that a difference quotient converge: the left quotient derivative at q is the limit of `h⁻¹(f(q+h) − f(q))` as h → 0, and the right one uses `(f(q+h) − f(q))h⁻¹`. The other asks that f satisfy a Cauchy–Riemann–Fueter equation: for `q = t + i x + j y + k z`, the left one is `∂f/∂t + i ∂f/∂x + j ∂f/∂y + k ∂f/∂z = 0`, and the right one has the units on the right. This roadmap builds quaternion-valued analysis on open subsets of `ℍ`, on Mathlib's `Quaternion ℝ`, and keeps the two notions apart. "Regular" always means Fueter regular pointwise: f has a real derivative at the point that satisfies the equation, and its continuity is never assumed. Multiplication order is part of every statement.
 
-## Scope and ownership
+The first main result is the rigidity theorem of Sudbery (1979). On a connected open set Ω, a function has a left quotient derivative at every point exactly when it agrees on Ω with `q ↦ a + q b` for some quaternions a and b. Nothing beyond the pointwise derivative is assumed. For right quotient derivatives the maps are `q ↦ a + b q`, and a function with both at every point is `q ↦ a + r q` with r real. Products are as constrained. If f and g have left quotient derivatives b and c at q, their product has the left quotient derivative `b g(q) + f(q) c` there exactly when c = 0 or f(q) is real.
 
-This roadmap owns, by section:
+Fueter regularity is less restrictive: `t + i x` is regular on both sides, yet has no one-sided quotient derivative on any nonempty open set. The second main result is a Cauchy theory. Let C be the image of the cube `[0,1]⁴` under an affine map of positive determinant, and let f be continuous on C and left regular at every interior point. Cauchy's theorem says that the integral of `Dq f` over the boundary of C vanishes, for an explicit quaternion-valued 3-form `Dq`. The Cauchy–Fueter formula gives, for every interior point q₀, `f(q₀) = (1/(2π²)) ∫ G(q − q₀) Dq f(q)` over the boundary, with the kernel `G(r) = r⁻¹/‖r‖²`. For right regular f the integrand is `f(q) Dq G(q − q₀)`. Frenkel and Libine state Cauchy's theorem for C¹ functions regular on a neighbourhood of the closed region. Here pointwise hypotheses suffice, since the proofs use Mathlib's divergence theorem on boxes, which needs no continuous derivative.
 
-- §1 the real `4×4` matrices and component equations of the multiplication maps `Lₐ` and `Rₐ`;
-- §2 the left and right quotient derivatives, their limit characterisations, the exact product,
-  inverse and composition criteria, and the two-sided slope lemma;
-- §3 the connected-open classification of each one-sided class and of the two-sided class, with
-  pointwise differentiability as the only hypothesis;
-- §4 the left and right Fueter operators, the pointwise regularity predicates, their component
-  systems and closure properties, and the reflection `T`;
-- §5 the forms `dq` and `Dq`, the raw affine face functional with its reparametrization and
-  reflection laws, the axis-box boundary match with Mathlib's divergence theorem, the
-  Bochner/box-integral and smooth-form comparisons, the affine change of variables in `Fin n → ℝ`,
-  and the left and right Cauchy theorems and Cauchy–Fueter formulas;
-- §6 real analyticity, harmonicity, the uniqueness principle, the derivative representation and the
-  universal derivative estimates.
+By the formula, a left regular function on an open set is real analytic and harmonic there. Two left regular functions on a connected open set that agree on a nonempty open subset agree on the whole set. For every order m there is a constant C > 0, depending on m alone, with this property: if f is left regular on a set containing the closed ball of radius R > 0 about q₀, and `‖f‖ ≤ M` there, then its m-th iterated derivative at q₀ has norm at most `C R⁻ᵐ M`. All of this holds also for right regular functions.
 
-It leaves to named owners:
+Besides Mathlib, the roadmap builds on Tau Ceti's theorem that complex-differentiable functions of several variables are analytic, the only source of regularity in the rigidity proofs. The DifferentialGeometry roadmap provides smooth differential forms, used to read `Dq` as a smooth form; its Stokes theorem with corners is not used. Series expansions and the Liouville and Morera theorems are left to a Part II roadmap.
 
-- generic smooth differential forms, exterior derivative, orientations and the integral of a top
-  form to DifferentialGeometry Layers 0–2 and 5.2, consumed as stated in the supplier contracts;
-  Stokes' theorem with corners (DifferentialGeometry 5.5) is not used, since the Cauchy theorems here
-  hold under pointwise differentiability and are proved through Mathlib's divergence theorem;
-- the divergence theorem on axis-aligned boxes, the Lebesgue change of variables under linear maps,
-  pointwise naturality of the flat exterior derivative, Haar measure in polar form and the
-  volume of balls to Mathlib;
-- analyticity of complex-differentiable functions of several variables to Tau Ceti;
-- the one-variable complex theory, including the classification of conformal maps, to
-  ConformalMapping; no quaternionic conformal classification is stated here (ConformalMapping Layer L3);
-- Morera-type theorems, primitives, rectifiable-chain versions of the Cauchy theorems, Laurent and
-  power-series expansions of regular functions and the Liouville theorem to a Part II roadmap.
+Layer 1 computes the real matrices of left and right multiplication by a quaternion. Layer 2 defines the quotient derivatives and works out their exact calculus. Layer 3 proves rigidity by turning a one-sided derivative into a complex-linear one. Layer 4 introduces the Fueter operators and pointwise regularity. Layer 5 builds the forms, matches boundary integrals with the face sums of the divergence theorem, and proves the Cauchy theorems and formulas. Layer 6 draws the consequences. Each layer uses only earlier ones and the results listed at the end.
 
 ## Conventions
 
@@ -80,101 +47,6 @@ It leaves to named owners:
 - **Generality.** Every statement is for an arbitrary function `f : ℍ → ℍ` with hypotheses on a set;
   the affine change of variables of §5.2 is stated for every `n` and every complete real normed
   codomain.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-All at the pinned Mathlib; file paths under `Mathlib/`.
-
-- `Quaternion ℝ` with `NormedDivisionRing`, `NormedAlgebra ℝ`, `CompleteSpace` and
-  `InnerProductSpace ℝ ℍ` (`Analysis/Quaternion.lean`, lines 85, 89, 194, 60): the norm is
-  multiplicative and Euclidean, `Quaternion.normSq_eq_norm_mul_self`.
-- Coordinates: `QuaternionAlgebra.equivTuple`, `QuaternionAlgebra.linearEquivTuple`, the coordinate
-  linear maps `QuaternionAlgebra.reₗ`, `imIₗ`, `imJₗ`, `imKₗ`, and the component multiplication
-  formulas `Quaternion.re_mul`, `imI_mul`, `imJ_mul`, `imK_mul` (`Algebra/Quaternion.lean`, lines 96,
-  506, 479–500, 823–835); the constructor formulas `QuaternionAlgebra.mk_mul_mk` (line 306, for
-  every `ℍ[R,c₁,c₂,c₃]`) and `QuaternionAlgebra.star_mk` (line 598, giving `⟨a₁ + c₂*a₂, −a₂, −a₃, −a₄⟩`,
-  so for `ℍ`, where `c₂ = 0`, negation of the three imaginary coordinates). Build every matrix from
-  these; introduce no second quaternion carrier and no parallel coordinate API.
-- `Quaternion.linearIsometryEquivTuple : ℍ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 4)` (`Analysis/Quaternion.lean`
-  line 158) and `PiLp.volume_preserving_toLp` (`MeasureTheory/Measure/Haar/InnerProductSpace.lean`
-  line 139), used only for the radial mass of §5.6.
-- `ContinuousLinearMap.mul ℝ ℍ : ℍ →L[ℝ] ℍ →L[ℝ] ℍ` (`Analysis/Normed/Operator/Mul.lean` line 39):
-  `L_a = ContinuousLinearMap.mul ℝ ℍ a` and `R_b = (ContinuousLinearMap.mul ℝ ℍ).flip b`.
-- Real Fréchet calculus: `HasFDerivAt`, `HasFDerivAt.mul'` (`Analysis/Calculus/FDeriv/Mul.lean`
-  line 198, derivative `a x • b' + a' <• b x` of a product in a normed algebra), `hasFDerivAt_inv'`
-  (line 735, derivative `-mulLeftRight 𝕜 R x⁻¹ x⁻¹` of inversion at `x ≠ 0`), `HasFDerivAt.comp`
-  (`Analysis/Calculus/FDeriv/Comp.lean` line 107), `second_derivative_symmetric_of_eventually`
-  (`Analysis/Calculus/FDeriv/Symmetric.lean` line 463, with a derivative on a neighbourhood),
-  `hasFDerivAt_of_restrictScalars`
-  (`Analysis/Calculus/FDeriv/RestrictScalars.lean` line 89, hypothesis `f'.restrictScalars 𝕜 = g'`),
-  `iteratedFDeriv_succ_eq_comp_left` (`Analysis/Calculus/ContDiff/FTaylorSeries.lean` line 843),
-  `hasFDerivAt_integral_of_dominated_of_fderiv_le` (`Analysis/Calculus/ParametricIntegral.lean`
-  line 208).
-- Analytic functions: `AnalyticOnNhd` and `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`
-  (`Analysis/Analytic/Uniqueness.lean` line 223).
-- `extDeriv_pullback` (`Analysis/Calculus/DifferentialForm/Basic.lean` line 259): naturality at
-  a point where the coefficient form is differentiable and the map is `C²`; an affine map
-  meets the latter hypothesis. The coordinate cofactor identity of §5.4 specializes this.
-- The Laplacian: the instance `Laplacian (E → F) (E → F)` for a finite-dimensional real inner product
-  space `E` and real normed space `F` (`Analysis/InnerProductSpace/Laplacian.lean` line 138) with
-  `laplacian_eq_iteratedFDeriv_orthonormalBasis` (line 171), applied to `E = F = ℍ`.
-- The divergence theorem `MeasureTheory.integral_divergence_of_hasFDerivAt_off_countable`
-  (`MeasureTheory/Integral/DivergenceTheorem.lean` line 266): for `a ≤ b` in `Fin (n+1) → ℝ`, a
-  function continuous on `Icc a b`, Fréchet differentiable at every point of the open box
-  `pi univ (fun i => Ioo (a i) (b i))` off a countable set, with integrable divergence
-  `x ↦ ∑ i, f' x (e i) i`, the integral of the divergence over `Icc a b` equals
-  `∑ i, (∫ x in face i, f (frontFace i x) i − ∫ x in face i, f (backFace i x) i)` with
-  `face i = Icc (a ∘ Fin.succAbove i) (b ∘ Fin.succAbove i)`, `frontFace i = Fin.insertNth i (b i)`,
-  `backFace i = Fin.insertNth i (a i)`. No continuity of the derivative is required.
-- Measure theory: `Real.map_linearMap_volume_pi_eq_smul_volume_pi`
-  (`MeasureTheory/Measure/Lebesgue/Basic.lean` line 429), `MeasureTheory.integral_map_equiv`
-  (`MeasureTheory/Integral/Bochner/Basic.lean` line 1100), `MeasureTheory.setIntegral_map_equiv`
-  (`MeasureTheory/Integral/Bochner/Set.lean` line 581), both for arbitrary integrands under a
-  measurable equivalence, `MeasureTheory.ContinuousOn.hasBoxIntegral`
-  (`Analysis/BoxIntegral/Integrability.lean` line 305), `BoxIntegral.Box.coe_ae_eq_Icc`
-  (`Analysis/BoxIntegral/Partition/Measure.lean` line 70), `MeasureTheory.integral_fun_norm_addHaar`
-  (`MeasureTheory/Constructions/HaarToSphere.lean` line 296:
-  `∫ x, f ‖x‖ ∂μ = dim E • μ.real (ball 0 1) • ∫ y in Ioi 0, y^(dim E − 1) • f y`),
-  `InnerProductSpace.volume_ball_of_dim_even` (`MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean`
-  line 359: `volume (ball x r) = r^(2k) * π^k / k!` when `[Nontrivial E]`, `r ≥ 0` and `finrank ℝ E = 2k`).
-- The cutoff `Real.smoothTransition` (`Analysis/SpecialFunctions/SmoothTransition.lean`): zero
-  exactly on `x ≤ 0`, one for `1 ≤ x`, `contDiff`, monotone.
-- `ModelWithCorners.ofConvexRange` (`Geometry/Manifold/IsManifold/Basic.lean` line 318), for the
-  cube's own model with corners in §5.4.
-
-### From Tau Ceti
-
-- `DifferentiableOn.analyticOnNhd_of_finiteDimensional` in
-  `TauCeti/Analysis/Complex/CauchyIntegralPolydisc.lean` (line 275): for `[NormedAddCommGroup E]
-  [NormedSpace ℂ E] [CompleteSpace E]` and `[NormedAddCommGroup V] [NormedSpace ℂ V]
-  [FiniteDimensional ℂ V]`, `DifferentiableOn ℂ F s → IsOpen s → AnalyticOnNhd ℂ F s`. It is applied
-  with `E = V = ℂ × ℂ` in §3.2 and is the only regularity input of the rigidity theorems.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-- Layers 0–2: real differential forms on normed spaces and manifolds, the exterior derivative with
-  its naturality under pullback, and chart-sign orientations, all valid over any model with corners.
-  Consumed in §5.1 for the smooth-coefficient reading of `dq` and `Dq` and in §5.4.
-- Layer 5.2: `integralTopForm` and its chart characterisation `integralTopForm_of_tsupport_subset_chart`.
-  Consumed in §5.4 for the facetwise comparison of the smooth-coefficient face integrals. That
-  roadmap's "Boundary and corners" policy is respected: the cubical boundary is never treated as one
-  manifold, and Layer 5.5 (Stokes with corners) is not invoked.
-
-## How to read the build
-
-Layer 1 computes the real coordinates of `Lₐ` and `Rₐ` and the component equations that cut out the
-two multiplication subspaces. Layer 2 defines the two quotient derivatives as Fréchet derivatives
-of the prescribed shape, proves their limit characterisations and their exact calculus, and records
-the non-examples. Layer 3 proves the rigidity theorems by transporting a one-sided derivative to a
-complex-linear one and using the several-variable analyticity theorem from Tau Ceti. Layer 4
-defines the Fueter operators and the pointwise regularity predicates and relates them to Layers 2
-and 3. Layer 5 builds the forms, the affine change of variables and the affine face adapter over
-Mathlib's divergence theorem, and proves the Cauchy theorems and Cauchy–Fueter formulas under
-pointwise hypotheses. Layer 6 draws the regularity consequences: harmonicity, real analyticity, the
-uniqueness principle and the universal derivative estimates. Each layer uses only earlier layers
-and the suppliers listed above.
 
 ## Layer 1: real coordinates and multiplication maps
 
@@ -1146,6 +1018,120 @@ identity principle.
 No roadmap on the main branch consumes this one. The natural consumers are a Part II roadmap on
 power and Laurent series of regular functions, Liouville and Morera theorems and homogeneous
 regular functions, and a Clifford-analysis roadmap generalising the Fueter operator to `ℝⁿ`.
+
+## Scope and ownership
+
+This roadmap owns, by section:
+
+- §1 the real `4×4` matrices and component equations of the multiplication maps `Lₐ` and `Rₐ`;
+- §2 the left and right quotient derivatives, their limit characterisations, the exact product,
+  inverse and composition criteria, and the two-sided slope lemma;
+- §3 the connected-open classification of each one-sided class and of the two-sided class, with
+  pointwise differentiability as the only hypothesis;
+- §4 the left and right Fueter operators, the pointwise regularity predicates, their component
+  systems and closure properties, and the reflection `T`;
+- §5 the forms `dq` and `Dq`, the raw affine face functional with its reparametrization and
+  reflection laws, the axis-box boundary match with Mathlib's divergence theorem, the
+  Bochner/box-integral and smooth-form comparisons, the affine change of variables in `Fin n → ℝ`,
+  and the left and right Cauchy theorems and Cauchy–Fueter formulas;
+- §6 real analyticity, harmonicity, the uniqueness principle, the derivative representation and the
+  universal derivative estimates.
+
+It leaves to named owners:
+
+- generic smooth differential forms, exterior derivative, orientations and the integral of a top
+  form to DifferentialGeometry Layers 0–2 and 5.2, consumed as stated in the supplier contracts;
+  Stokes' theorem with corners (DifferentialGeometry 5.5) is not used, since the Cauchy theorems here
+  hold under pointwise differentiability and are proved through Mathlib's divergence theorem;
+- the divergence theorem on axis-aligned boxes, the Lebesgue change of variables under linear maps,
+  pointwise naturality of the flat exterior derivative, Haar measure in polar form and the
+  volume of balls to Mathlib;
+- analyticity of complex-differentiable functions of several variables to Tau Ceti;
+- the one-variable complex theory, including the classification of conformal maps, to
+  ConformalMapping; no quaternionic conformal classification is stated here (ConformalMapping Layer L3);
+- Morera-type theorems, primitives, rectifiable-chain versions of the Cauchy theorems, Laurent and
+  power-series expansions of regular functions and the Liouville theorem to a Part II roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+All at the pinned Mathlib; file paths under `Mathlib/`.
+
+- `Quaternion ℝ` with `NormedDivisionRing`, `NormedAlgebra ℝ`, `CompleteSpace` and
+  `InnerProductSpace ℝ ℍ` (`Analysis/Quaternion.lean`, lines 85, 89, 194, 60): the norm is
+  multiplicative and Euclidean, `Quaternion.normSq_eq_norm_mul_self`.
+- Coordinates: `QuaternionAlgebra.equivTuple`, `QuaternionAlgebra.linearEquivTuple`, the coordinate
+  linear maps `QuaternionAlgebra.reₗ`, `imIₗ`, `imJₗ`, `imKₗ`, and the component multiplication
+  formulas `Quaternion.re_mul`, `imI_mul`, `imJ_mul`, `imK_mul` (`Algebra/Quaternion.lean`, lines 96,
+  506, 479–500, 823–835); the constructor formulas `QuaternionAlgebra.mk_mul_mk` (line 306, for
+  every `ℍ[R,c₁,c₂,c₃]`) and `QuaternionAlgebra.star_mk` (line 598, giving `⟨a₁ + c₂*a₂, −a₂, −a₃, −a₄⟩`,
+  so for `ℍ`, where `c₂ = 0`, negation of the three imaginary coordinates). Build every matrix from
+  these; introduce no second quaternion carrier and no parallel coordinate API.
+- `Quaternion.linearIsometryEquivTuple : ℍ ≃ₗᵢ[ℝ] EuclideanSpace ℝ (Fin 4)` (`Analysis/Quaternion.lean`
+  line 158) and `PiLp.volume_preserving_toLp` (`MeasureTheory/Measure/Haar/InnerProductSpace.lean`
+  line 139), used only for the radial mass of §5.6.
+- `ContinuousLinearMap.mul ℝ ℍ : ℍ →L[ℝ] ℍ →L[ℝ] ℍ` (`Analysis/Normed/Operator/Mul.lean` line 39):
+  `L_a = ContinuousLinearMap.mul ℝ ℍ a` and `R_b = (ContinuousLinearMap.mul ℝ ℍ).flip b`.
+- Real Fréchet calculus: `HasFDerivAt`, `HasFDerivAt.mul'` (`Analysis/Calculus/FDeriv/Mul.lean`
+  line 198, derivative `a x • b' + a' <• b x` of a product in a normed algebra), `hasFDerivAt_inv'`
+  (line 735, derivative `-mulLeftRight 𝕜 R x⁻¹ x⁻¹` of inversion at `x ≠ 0`), `HasFDerivAt.comp`
+  (`Analysis/Calculus/FDeriv/Comp.lean` line 107), `second_derivative_symmetric_of_eventually`
+  (`Analysis/Calculus/FDeriv/Symmetric.lean` line 463, with a derivative on a neighbourhood),
+  `hasFDerivAt_of_restrictScalars`
+  (`Analysis/Calculus/FDeriv/RestrictScalars.lean` line 89, hypothesis `f'.restrictScalars 𝕜 = g'`),
+  `iteratedFDeriv_succ_eq_comp_left` (`Analysis/Calculus/ContDiff/FTaylorSeries.lean` line 843),
+  `hasFDerivAt_integral_of_dominated_of_fderiv_le` (`Analysis/Calculus/ParametricIntegral.lean`
+  line 208).
+- Analytic functions: `AnalyticOnNhd` and `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`
+  (`Analysis/Analytic/Uniqueness.lean` line 223).
+- `extDeriv_pullback` (`Analysis/Calculus/DifferentialForm/Basic.lean` line 259): naturality at
+  a point where the coefficient form is differentiable and the map is `C²`; an affine map
+  meets the latter hypothesis. The coordinate cofactor identity of §5.4 specializes this.
+- The Laplacian: the instance `Laplacian (E → F) (E → F)` for a finite-dimensional real inner product
+  space `E` and real normed space `F` (`Analysis/InnerProductSpace/Laplacian.lean` line 138) with
+  `laplacian_eq_iteratedFDeriv_orthonormalBasis` (line 171), applied to `E = F = ℍ`.
+- The divergence theorem `MeasureTheory.integral_divergence_of_hasFDerivAt_off_countable`
+  (`MeasureTheory/Integral/DivergenceTheorem.lean` line 266): for `a ≤ b` in `Fin (n+1) → ℝ`, a
+  function continuous on `Icc a b`, Fréchet differentiable at every point of the open box
+  `pi univ (fun i => Ioo (a i) (b i))` off a countable set, with integrable divergence
+  `x ↦ ∑ i, f' x (e i) i`, the integral of the divergence over `Icc a b` equals
+  `∑ i, (∫ x in face i, f (frontFace i x) i − ∫ x in face i, f (backFace i x) i)` with
+  `face i = Icc (a ∘ Fin.succAbove i) (b ∘ Fin.succAbove i)`, `frontFace i = Fin.insertNth i (b i)`,
+  `backFace i = Fin.insertNth i (a i)`. No continuity of the derivative is required.
+- Measure theory: `Real.map_linearMap_volume_pi_eq_smul_volume_pi`
+  (`MeasureTheory/Measure/Lebesgue/Basic.lean` line 429), `MeasureTheory.integral_map_equiv`
+  (`MeasureTheory/Integral/Bochner/Basic.lean` line 1100), `MeasureTheory.setIntegral_map_equiv`
+  (`MeasureTheory/Integral/Bochner/Set.lean` line 581), both for arbitrary integrands under a
+  measurable equivalence, `MeasureTheory.ContinuousOn.hasBoxIntegral`
+  (`Analysis/BoxIntegral/Integrability.lean` line 305), `BoxIntegral.Box.coe_ae_eq_Icc`
+  (`Analysis/BoxIntegral/Partition/Measure.lean` line 70), `MeasureTheory.integral_fun_norm_addHaar`
+  (`MeasureTheory/Constructions/HaarToSphere.lean` line 296:
+  `∫ x, f ‖x‖ ∂μ = dim E • μ.real (ball 0 1) • ∫ y in Ioi 0, y^(dim E − 1) • f y`),
+  `InnerProductSpace.volume_ball_of_dim_even` (`MeasureTheory/Measure/Lebesgue/VolumeOfBalls.lean`
+  line 359: `volume (ball x r) = r^(2k) * π^k / k!` when `[Nontrivial E]`, `r ≥ 0` and `finrank ℝ E = 2k`).
+- The cutoff `Real.smoothTransition` (`Analysis/SpecialFunctions/SmoothTransition.lean`): zero
+  exactly on `x ≤ 0`, one for `1 ≤ x`, `contDiff`, monotone.
+- `ModelWithCorners.ofConvexRange` (`Geometry/Manifold/IsManifold/Basic.lean` line 318), for the
+  cube's own model with corners in §5.4.
+
+### From Tau Ceti
+
+- `DifferentiableOn.analyticOnNhd_of_finiteDimensional` in
+  `TauCeti/Analysis/Complex/CauchyIntegralPolydisc.lean` (line 275): for `[NormedAddCommGroup E]
+  [NormedSpace ℂ E] [CompleteSpace E]` and `[NormedAddCommGroup V] [NormedSpace ℂ V]
+  [FiniteDimensional ℂ V]`, `DifferentiableOn ℂ F s → IsOpen s → AnalyticOnNhd ℂ F s`. It is applied
+  with `E = V = ℂ × ℂ` in §3.2 and is the only regularity input of the rigidity theorems.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+- Layers 0–2: real differential forms on normed spaces and manifolds, the exterior derivative with
+  its naturality under pullback, and chart-sign orientations, all valid over any model with corners.
+  Consumed in §5.1 for the smooth-coefficient reading of `dq` and `Dq` and in §5.4.
+- Layer 5.2: `integralTopForm` and its chart characterisation `integralTopForm_of_tsupport_subset_chart`.
+  Consumed in §5.4 for the facetwise comparison of the smooth-coefficient face integrals. That
+  roadmap's "Boundary and corners" policy is respected: the cubical boundary is never treated as one
+  manifold, and Layer 5.5 (Stokes with corners) is not invoked.
 
 ## References
 

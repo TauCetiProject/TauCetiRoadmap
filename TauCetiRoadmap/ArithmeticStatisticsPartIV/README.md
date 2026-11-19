@@ -1,20 +1,26 @@
 # Roadmap: arithmetic statistics, Part IV: finite groups, matrix laws and moment tools
 
-**Summary.** Construct finite-group and matrix probability laws, surjection moments `E#Sur(X,A)`, rank statistics and discrete moment separators. Prove uniqueness and convergence only with the stated growth, tightness and uniform-integrability assumptions; no arithmetic law follows from a model identity alone.
+**Summary.** Class groups of quadratic fields are conjectured to follow explicit random laws. For an odd prime p, the Cohen–Lenstra distribution gives a finite abelian p-group A probability proportional to 1/|Aut A| of being the p-part of the class group of an imaginary quadratic field. An extra factor 1/|A| gives the corresponding model for real quadratic fields. This fourth part of the arithmetic-statistics series builds such laws, the moments that detect them, and random matrix models over the p-adic integers and finite fields. These laws are abstract probability models, defined at every prime including 2, whose arithmetic interpretation is conjectural unless a later part proves it for its own family.
 
-## Scope and ownership
+Fix a prime p and an integer u ≥ 0, and put `c_{p,u} = ∏_{i≥u+1} (1 − p^{−i})`. The Cohen–Lenstra mass formula says that the weights `c_{p,u}/(|A|^u·|Aut A|)`, one for each isomorphism class of finite abelian p-groups A, add up to 1, so they define a probability measure `μ_{p,u}`. The A-moment of a random group is the expected number of its surjective homomorphisms onto A. For every finite abelian p-group A, the A-moment of `μ_{p,u}` is `|A|^{−u}`; in particular every moment of `μ_{p,0}` equals 1.
 
-This part owns the statistical adapters for number-field classes, partition-indexed finite abelian groups, Cohen–Lenstra measures, finite-field kernel laws, prime-power ranks, the Fouvry–Klüners directed phase, and Wood's discrete moment method. Layer 3 develops these finite-group laws before their arithmetic applications. Its inputs from an earlier part are ArithmeticStatisticsPartI §0.1, arithmetic family, and §0.7, discriminant-ordered fields; none of the counts or orbit dictionaries of Parts II–III is needed for the abstract probability results.
+Conversely, these moments determine the measure in the limit. If probability measures `ν_n` on the classes have A-moments tending to `|A|^{−u}` for every finite abelian p-group A, then `ν_n(A)` tends to `μ_{p,u}(A)` for every A. This holds at every prime, 2 included. For odd primes and u = 0 the roadmap also gives a direct argument following Ellenberg, Venkatesh and Westerland, which fails at 2. The converse is false: some sequences of laws converge to `μ_{p,0}` in total variation while their ℤ/p-moments tend to 2.
 
-### Prerequisites and boundaries
+The case of every prime follows from a theorem of Wood. Fix a ≥ 1 and let `X_n` be random finitely generated abelian groups. Suppose that for every finite abelian group G of exponent dividing a, the expected number of surjections from `X_n` onto G tends to a limit `M_G ≤ |∧²G|`, the order of the exterior square of G. Then for each such group H, the probability that `X_n/aX_n` is isomorphic to H converges. The limits form the only probability law on these groups with moments `M_G`. The theorem concerns the quotients `X_n/aX_n`, not the groups `X_n`.
 
-- ArithmeticStatisticsPartI §0.7 owns the family of number fields up to `ℚ`-isomorphism ordered by `|Disc|`, its Northcott property (Hermite's theorem, Mathlib's `NumberField.finite_of_discr_bdd`), the degree and automorphism weight of a class, and the comparison between embedded and isomorphism-class counts; Mathlib proves the finite abelian-group structure theorem (`AddCommGroup.equiv_directSum_zmod_of_finite`). The new objects here are the signed-interval counting function on that family, with its signature, Galois-group and local restrictions, and the partition-indexed probability carrier, with their statistical APIs. The completed EffectiveBounds Layer 2 supplies quantitative Hermite bounds; this part requests no replacement bound.
-- `TauCetiRoadmap.PolynomialGaloisGroups` Layers 0 and 2 own the permutation action on roots and its conjugacy invariance; Layer 6 supplies transitive-group labels for degrees `1≤n≤5`. The field-counting predicate specializes that action to embeddings of an extension, using conjugacy to a specified subgroup in every degree.
-- Wide class groups and number-field discriminants are Mathlib's `ClassGroup (𝓞 K)` and `NumberField.discr`. Narrow class groups and their finiteness are `NumberField.NarrowClassGroup` and `NumberField.NarrowClassGroup.instFinite` in Tau Ceti. The existing elementary-two quotient and its torsion-cardinality comparison are used as the `k=1` interface; higher power-image ranks are the new statistic.
-- Scalar finite-measure moment determinacy under an exponential-moment hypothesis is already `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp` in `TauCeti.Probability.Moments.Determinacy`. The group-valued surjection moments and discrete rank-grid moments below have different carriers and growth hypotheses.
-- Tau Ceti's symmetric-matrix rank measurability in `TauCeti.MeasureTheory.Measure.SymmetricMatrix.Rank` concerns real self-adjoint matrices. The laws here count matrices over finite fields. The FK good-plane condition uses a directed nonsymmetric pairing, so the generic finite quadratic-module isotropy and orthogonal-quotient constructions are not duplicated.
+Cokernels of random p-adic matrices have explicit moments. Let M be a Haar-random n × (n+u) matrix over the p-adic integers ℤ_p. Its cokernel `ℤ_p^n / M ℤ_p^{n+u}` is finite almost surely, and its expected number of surjections onto any finite abelian p-group A is exactly `|Sur(ℤ_p^n, A)|·|A|^{−(n+u)}`, which tends to `|A|^{−u}`. The convergence theorem then gives the Friedman–Washington law: the probability that the cokernel is isomorphic to A tends to `μ_{p,u}(A)` as n → ∞.
 
-The arithmetic conclusions of later parts consume these models only after proving their own family-specific moments.
+Over a finite field the roadmap counts matrices of each rank. Symmetric matrices are counted by MacWilliams's product in every characteristic; in characteristic 2 they may have nonzero diagonal. Over 𝔽₂, the probability that a uniformly random symmetric r × r matrix has kernel of dimension n tends, as r → ∞, to `∏_{j odd} (1 − 2^{−j}) / ∏_{i=1}^{n} (2^i − 1)`, within `2^{n+1−r}` for every r ≥ 1. These limits sum to 1. At n = 0 the limit is about 0.41942, the constant of Stevenhagen's conjecture.
+
+The roadmap builds on [ArithmeticStatisticsPartI](../ArithmeticStatisticsPartI/README.md), whose family of number fields up to isomorphism, ordered by absolute discriminant, carries the field counts defined here. PolynomialGaloisGroups supplies the permutation action on roots used to prescribe a Galois group. Tau Ceti's class-group library supplies narrow class groups, and the equality of the orders of the square quotient and the 2-torsion of a finite class group.
+
+The roadmap is one layer, Layer 3, in twelve sections. The first two sections define field counts, torsion counts of class groups and Gaussian binomial coefficients. The next four build the Cohen–Lenstra measure and its moments, the odd-prime convergence theorem and the p-adic cokernel moments. Three sections on matrices over finite fields lead to the symmetric kernel limit. The tenth treats p-power ranks, such as the 4-rank of a class group, and a subspace count of Fouvry and Klüners. The last two sections build Wood's moment theorem and deduce the limits at every prime.
+
+## How to read the build
+
+The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers. Its short definitions give partition representatives, Cohen–Lenstra weights, surjection moments, matrix laws, FK good planes and exponent-bounded group classes; the remaining definitions and basic properties below specify the library to build. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
+
+The p-adic signatures use the native quotient module `padicCokernel` and normalized `padicMatrixHaar` directly: `surjectionMoment_cokernelLaw` states the exact Haar moment, `tendsto_cokernelLaw` the rectangular Friedman–Washington limit, and `tendsto_translation_cokernelLaw` its square `1 − F` form. Their target is any finite additive abelian group `A` with `IsPGroup p (Multiplicative A)`, and their measurable structure on `ℤ_p` is Borel. The partition carrier `FinAbPGroupClass` and its native cyclic-product representatives support the Cohen–Lenstra mass, moment and all-prime convergence statements. Wood's bounded moment theorem uses `Distributions.BoundedAbGroupClass`, a subtype of Mathlib's categorical skeleton of integer modules, with the native exterior square in its growth hypothesis.
 
 ## Conventions
 
@@ -25,38 +31,6 @@ Cardinalities are natural numbers only after finiteness. Probability weights and
 Number fields are counted up to `ℚ`-isomorphism, with signed discriminant and strict open cutoffs. The Part I family interface also has inclusive cutoffs; its `countLT` gives the strict count here. Wide and narrow class groups are distinguished explicitly. At `p=2` a symmetric matrix may have nonzero diagonal; it is not required to be alternating. Linkage and good planes use the displayed directed FK pairing, including its diagonal values.
 
 The measures below are abstract probability models. Their interpretation as arithmetic class-group distributions is conjectural unless a later part proves it for its specified family. Distribution convergence alone does not imply convergence of unbounded surjection moments.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `NumberField.discr`, `NumberField.sign_discr`, `NumberField.InfinitePlace.nrComplexPlaces`, `ClassGroup` and class-group finiteness for number fields; Hermite finiteness (`NumberField.finite_of_discr_bdd` in `Mathlib.NumberTheory.NumberField.Discriminant.Basic`) enters only through the Northcott property of the Part I family. The strict signed interval and its restrictions are the adapters defined here.
-
-Use `Nat.Partition`, `ZMod.card` and `AddCommGroup.equiv_directSum_zmod_of_finite` in `Mathlib.GroupTheory.FiniteAbelian.Basic` for finite group representatives. The latter supplies a decomposition into prime-power cyclic groups; sorting their nonzero exponents and identifying the unique conjugate partition are the statistical adapter targets below. Use `card_linearIndependent` and `Matrix.card_GL_field` in `Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card` for finite-field cardinalities, with their finite-field and dimension-range hypotheses. Matrix kernels use `Matrix.mulVecLin`, `LinearMap.ker`, `Module.finrank` and rank–nullity; the p-adic finite-cokernel argument uses `Submodule.smithNormalForm` in `Mathlib.LinearAlgebra.FreeModule.PID` over the DVR `ℤ_p`; `PadicInt.compactSpace` is in `Mathlib.NumberTheory.Padics.ProperSpace`.
-
-Use `PMF`, `PMF.tsum_coe`, `ENNReal.tsum_add` and nonnegative infinite sums. Normalized additive Haar measure is `MeasureTheory.Measure.addHaarMeasure` in `Mathlib.MeasureTheory.Measure.Haar.Basic`, normalized on the whole compact group. Use filters, locally uniform analytic convergence and infinite products. Rearrangements of arbitrary nonnegative moments take place in `ℝ≥0∞`; real or complex rearrangements require the stated absolute convergence. The geometric-series bound supplies convergence of `∑ p^(−j)`. It does not by itself prove that a product with a zero factor is nonzero.
-
-### From Tau Ceti
-
-Use `TauCeti.ClassGroup.ElementaryTwoQuotient` and `TauCeti.ClassGroup.card_elementaryTwoQuotient_eq_card_twoTorsion` in `TauCeti.NumberTheory.ClassGroup.ElementaryTwoQuotient`: for a finite class group, the square quotient and the two-torsion have equal cardinality. This gives the class-group specialization of the `p=2,k=1` rank comparison. Use `NumberField.NarrowClassGroup` from `TauCeti.NumberTheory.NumberField.NarrowClassGroup.Basic` and its `instFinite` from `TauCeti.NumberTheory.NumberField.NarrowClassGroup.Finite` when the input is `Cl⁺(K)`. No `narrow/wide` identification is assumed.
-
-### From roadmaps on main
-
-PolynomialGaloisGroups Layers 0 and 2 supply the root action and its conjugacy invariance used in §3.1; Layer 6 supplies the label comparison only for `1≤n≤5`. Completed EffectiveBounds Layer 2 supplies quantitative Hermite–Minkowski bounds; the finiteness used here is Mathlib's `NumberField.finite_of_discr_bdd`.
-
-### From ArithmeticStatisticsPartI §§0.1 and 0.7
-
-Consume ArithmeticStatisticsPartI §0.1, arithmetic family: an isomorphism-class carrier with a Northcott height, weights and both `count` (inclusive) and `countLT` (strict). Consume ArithmeticStatisticsPartI §0.7, number fields ordered by discriminant: the embedded number fields of a fixed algebraic closure of `ℚ`, the family `isoFamily` of their `ℚ`-isomorphism classes with height `|Disc(K)|` (Northcott by Hermite's theorem), the degree `isoDegree` of a class and its automorphism weight `autWeight(K) = [K : ℚ]/#Aut(K/ℚ)`; and ArithmeticStatisticsPartI §0.7, embedded and isomorphism class counts of number fields: each class of degree `n` has exactly `n/#Aut(K/ℚ)` embedded representatives, so the embedded count of bounded discriminant is the `autWeight`-weighted class count. The signed open interval, the isomorphism-invariant predicates and the reciprocal-automorphism weight are the adapters of §3.1. No later arithmetic-statistics part supplies a definition or theorem here.
-
-### Analytic boundary
-
-AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4–6 are not inputs to this part: their prime estimates and cubic zeta functions enter arithmetic counting, rather than the finite-group laws. The convergent Euler products in this part are justified directly by the Mathlib geometric-series and infinite-product interfaces above; no unspecialized analytic supplier output is presumed. Later arithmetic applications can use the two analytic parts with their own exact hypotheses.
-
-## How to read the build
-
-The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers. Its short definitions give partition representatives, Cohen–Lenstra weights, surjection moments, matrix laws, FK good planes and exponent-bounded group classes; the remaining definitions and basic properties below specify the library to build. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
-
-The p-adic signatures use the native quotient module `padicCokernel` and normalized `padicMatrixHaar` directly: `surjectionMoment_cokernelLaw` states the exact Haar moment, `tendsto_cokernelLaw` the rectangular Friedman–Washington limit, and `tendsto_translation_cokernelLaw` its square `1 − F` form. Their target is any finite additive abelian group `A` with `IsPGroup p (Multiplicative A)`, and their measurable structure on `ℤ_p` is Borel. The partition carrier `FinAbPGroupClass` and its native cyclic-product representatives support the Cohen–Lenstra mass, moment and all-prime convergence statements. Wood's bounded moment theorem uses `Distributions.BoundedAbGroupClass`, a subtype of Mathlib's categorical skeleton of integer modules, with the native exterior square in its growth hypothesis.
 
 ## Layer 3: Finite groups, matrix laws and moment tools
 
@@ -1038,6 +1012,46 @@ ArithmeticStatisticsPartI §0.1, arithmetic family, and §0.7, discriminant-orde
 ## Downstream consumers
 
 The later arithmetic-statistics parts use the exact targets supplied here. Field and Selmer comparisons identify their family, height, equivalence relation and local weights before applying an arithmetic average. Probability convergence alone supplies no unbounded moment identity. The analytic inputs to arithmetic counting belong to AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4–6.
+
+## Scope and ownership
+
+This part owns the statistical adapters for number-field classes, partition-indexed finite abelian groups, Cohen–Lenstra measures, finite-field kernel laws, prime-power ranks, the Fouvry–Klüners directed phase, and Wood's discrete moment method. Layer 3 develops these finite-group laws before their arithmetic applications. Its inputs from an earlier part are ArithmeticStatisticsPartI §0.1, arithmetic family, and §0.7, discriminant-ordered fields; none of the counts or orbit dictionaries of Parts II–III is needed for the abstract probability results.
+
+### Prerequisites and boundaries
+
+- ArithmeticStatisticsPartI §0.7 owns the family of number fields up to `ℚ`-isomorphism ordered by `|Disc|`, its Northcott property (Hermite's theorem, Mathlib's `NumberField.finite_of_discr_bdd`), the degree and automorphism weight of a class, and the comparison between embedded and isomorphism-class counts; Mathlib proves the finite abelian-group structure theorem (`AddCommGroup.equiv_directSum_zmod_of_finite`). The new objects here are the signed-interval counting function on that family, with its signature, Galois-group and local restrictions, and the partition-indexed probability carrier, with their statistical APIs. The completed EffectiveBounds Layer 2 supplies quantitative Hermite bounds; this part requests no replacement bound.
+- `TauCetiRoadmap.PolynomialGaloisGroups` Layers 0 and 2 own the permutation action on roots and its conjugacy invariance; Layer 6 supplies transitive-group labels for degrees `1≤n≤5`. The field-counting predicate specializes that action to embeddings of an extension, using conjugacy to a specified subgroup in every degree.
+- Wide class groups and number-field discriminants are Mathlib's `ClassGroup (𝓞 K)` and `NumberField.discr`. Narrow class groups and their finiteness are `NumberField.NarrowClassGroup` and `NumberField.NarrowClassGroup.instFinite` in Tau Ceti. The existing elementary-two quotient and its torsion-cardinality comparison are used as the `k=1` interface; higher power-image ranks are the new statistic.
+- Scalar finite-measure moment determinacy under an exponential-moment hypothesis is already `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp` in `TauCeti.Probability.Moments.Determinacy`. The group-valued surjection moments and discrete rank-grid moments above have different carriers and growth hypotheses.
+- Tau Ceti's symmetric-matrix rank measurability in `TauCeti.MeasureTheory.Measure.SymmetricMatrix.Rank` concerns real self-adjoint matrices. The laws here count matrices over finite fields. The FK good-plane condition uses a directed nonsymmetric pairing, so the generic finite quadratic-module isotropy and orthogonal-quotient constructions are not duplicated.
+
+The arithmetic conclusions of later parts consume these models only after proving their own family-specific moments.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `NumberField.discr`, `NumberField.sign_discr`, `NumberField.InfinitePlace.nrComplexPlaces`, `ClassGroup` and class-group finiteness for number fields; Hermite finiteness (`NumberField.finite_of_discr_bdd` in `Mathlib.NumberTheory.NumberField.Discriminant.Basic`) enters only through the Northcott property of the Part I family. The strict signed interval and its restrictions are the adapters defined here.
+
+Use `Nat.Partition`, `ZMod.card` and `AddCommGroup.equiv_directSum_zmod_of_finite` in `Mathlib.GroupTheory.FiniteAbelian.Basic` for finite group representatives. The latter supplies a decomposition into prime-power cyclic groups; sorting their nonzero exponents and identifying the unique conjugate partition are the statistical adapter targets above. Use `card_linearIndependent` and `Matrix.card_GL_field` in `Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Card` for finite-field cardinalities, with their finite-field and dimension-range hypotheses. Matrix kernels use `Matrix.mulVecLin`, `LinearMap.ker`, `Module.finrank` and rank–nullity; the p-adic finite-cokernel argument uses `Submodule.smithNormalForm` in `Mathlib.LinearAlgebra.FreeModule.PID` over the DVR `ℤ_p`; `PadicInt.compactSpace` is in `Mathlib.NumberTheory.Padics.ProperSpace`.
+
+Use `PMF`, `PMF.tsum_coe`, `ENNReal.tsum_add` and nonnegative infinite sums. Normalized additive Haar measure is `MeasureTheory.Measure.addHaarMeasure` in `Mathlib.MeasureTheory.Measure.Haar.Basic`, normalized on the whole compact group. Use filters, locally uniform analytic convergence and infinite products. Rearrangements of arbitrary nonnegative moments take place in `ℝ≥0∞`; real or complex rearrangements require the stated absolute convergence. The geometric-series bound supplies convergence of `∑ p^(−j)`. It does not by itself prove that a product with a zero factor is nonzero.
+
+### From Tau Ceti
+
+Use `TauCeti.ClassGroup.ElementaryTwoQuotient` and `TauCeti.ClassGroup.card_elementaryTwoQuotient_eq_card_twoTorsion` in `TauCeti.NumberTheory.ClassGroup.ElementaryTwoQuotient`: for a finite class group, the square quotient and the two-torsion have equal cardinality. This gives the class-group specialization of the `p=2,k=1` rank comparison. Use `NumberField.NarrowClassGroup` from `TauCeti.NumberTheory.NumberField.NarrowClassGroup.Basic` and its `instFinite` from `TauCeti.NumberTheory.NumberField.NarrowClassGroup.Finite` when the input is `Cl⁺(K)`. No `narrow/wide` identification is assumed.
+
+### From roadmaps on main
+
+PolynomialGaloisGroups Layers 0 and 2 supply the root action and its conjugacy invariance used in §3.1; Layer 6 supplies the label comparison only for `1≤n≤5`. Completed EffectiveBounds Layer 2 supplies quantitative Hermite–Minkowski bounds; the finiteness used here is Mathlib's `NumberField.finite_of_discr_bdd`.
+
+### From ArithmeticStatisticsPartI §§0.1 and 0.7
+
+Consume ArithmeticStatisticsPartI §0.1, arithmetic family: an isomorphism-class carrier with a Northcott height, weights and both `count` (inclusive) and `countLT` (strict). Consume ArithmeticStatisticsPartI §0.7, number fields ordered by discriminant: the embedded number fields of a fixed algebraic closure of `ℚ`, the family `isoFamily` of their `ℚ`-isomorphism classes with height `|Disc(K)|` (Northcott by Hermite's theorem), the degree `isoDegree` of a class and its automorphism weight `autWeight(K) = [K : ℚ]/#Aut(K/ℚ)`; and ArithmeticStatisticsPartI §0.7, embedded and isomorphism class counts of number fields: each class of degree `n` has exactly `n/#Aut(K/ℚ)` embedded representatives, so the embedded count of bounded discriminant is the `autWeight`-weighted class count. The signed open interval, the isomorphism-invariant predicates and the reciprocal-automorphism weight are the adapters of §3.1. No later arithmetic-statistics part supplies a definition or theorem here.
+
+### Analytic boundary
+
+AnalyticNumberTheoryPartI Layers 0–3 and AnalyticNumberTheoryPartII Layers 4–6 are not inputs to this part: their prime estimates and cubic zeta functions enter arithmetic counting, rather than the finite-group laws. The convergent Euler products in this part are justified directly by the Mathlib geometric-series and infinite-product interfaces above; no unspecialized analytic supplier output is presumed. Later arithmetic applications can use the two analytic parts with their own exact hypotheses.
 
 ## References
 

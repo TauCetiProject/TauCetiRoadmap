@@ -1,19 +1,72 @@
 # Roadmap: equidistribution, three gaps and rhythm on the circle
 
-**Summary.** Build the elementary theory of the orbit `{nα}` of a rotation of the circle:
-the dichotomy between periodic and dense orbits, the equidistribution of the orbit of a point of
-infinite order on a circle of any period, the best-approximation and Hurwitz theory of
-continued-fraction convergents with the golden ratio as the extremal number, and the three-gap
-(Steinhaus) theorem with its gap lengths read off the continued fraction of `α`. The foundations
-are Mathlib's `AddCircle`, its continued-fraction computation `GenContFract.of`, and its Dirichlet,
-Legendre and Hurwitz theorems, with Tau Ceti's empirical measures of sequences.
+**Summary.** Turn a circle of length `1` by a fixed amount `α` again and again, starting from `0`:
+after `n` turns the point sits at the fractional part `{nα}`. Heard as music, these points are the
+beats of a pulse of period `α` against a cycle of length `1`. For rational `α` they repeat. For
+irrational `α` they never do, and how evenly the first `N` of them are spread is governed by how
+well `α` is approximated by rationals. This roadmap proves the classical theorems about this orbit,
+and the continued-fraction theory that measures this approximation.
 
-Suggested homes:
+The first results describe the orbit as a set. On a circle of positive length `p`, the orbit
+`0, a, 2a, …` of a point `a` is either dense or finite, and never both; it is dense exactly when
+`a` has infinite order. If `a` is the point `qp` for a rational `q`, the orbit has exactly as many
+points as the denominator of `q` in lowest terms: beats of period `3/2` against a cycle of length
+`1` fall only on `0` and `1/2`. Weyl's theorem is proved on a circle of any positive
+length: if `a` has infinite order, the average of the point masses at `0, a, …, na` converges
+weakly to the Haar probability measure.
 
-```text
-TauCeti/Dynamics/Rotation/            (Layers 1, 2 and 4: orbits, equidistribution, gaps)
-TauCeti/NumberTheory/ContinuedFractions/ (Layer 3: convergents, best approximation, golden ratio)
-```
+Write `pₙ/qₙ` for the `n`-th convergent of a real number `ξ`, in lowest terms with `q₀ = 1`. For
+irrational `ξ` the errors `qₙξ − pₙ` alternate in sign, being positive exactly for even `n`. They
+strictly decrease in absolute value, and `|qₙξ − pₙ| < 1/qₙ₊₁`. Call a positive integer `q` a best
+approximation of `ξ` (of the second kind) if every smaller positive integer `q'` puts `q'ξ`
+strictly farther from the nearest integer than `qξ`. Lagrange's theorem says that for irrational
+`ξ` the best approximations are exactly the denominators `qₙ`; for `√2` they are
+`1, 2, 5, 12, 29, …`. Hurwitz's theorem, which Mathlib has, gives every irrational `ξ` infinitely
+many rationals `p/q` with `|ξ − p/q| < 1/(√5 q²)`. The roadmap proves its convergent form: among
+any three consecutive convergents of an irrational `ξ`, one satisfies `qₖ |qₖξ − pₖ| < 1/√5`. At
+the golden ratio `φ = (1 + √5)/2` the constant cannot be improved: for every `c > √5`, only
+finitely many rationals `p/q` in lowest terms satisfy `|φ − p/q| < 1/(c q²)`. The convergent
+denominators of `φ` are the Fibonacci numbers.
+
+Mark the first `N` points `{nα}`, `0 ≤ n < N`, in `[0, 1)`, and measure the gaps between
+consecutive points, including the gap from the largest point round to `1`. The three-gap theorem
+says that, for every real `α` and every `N`, these gaps take at most three distinct lengths. In
+its sharp form, when there are at least two distinct points, every gap is the least positive point
+`η⁺`, the gap `η⁻` from the largest point to `1`, or their sum. For irrational `α` the lengths are
+read off the continued fraction: when `qₖ₊₁ < N ≤ qₖ₊₂`, they lie among `|qₖ₊₁α − pₖ₊₁|`,
+`|qₖα − pₖ| − m |qₖ₊₁α − pₖ₊₁|` and the sum of the two, for an explicit integer `m`. For the golden
+rotation, every gap is at most `φ²` times every other, for every `N ≥ 1`. At `N = 4` the gaps are
+`φ⁻³, φ⁻², φ⁻³, φ⁻⁴`, and the ratio `φ²` is attained. In this precise sense the golden
+rotation is the most even rhythm.
+
+The roadmap builds on Mathlib's circle groups and continued fractions, and on its theorems of
+Legendre and Hurwitz. From Tau Ceti it takes empirical measures of sequences and basic facts about
+convergents. [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
+defines equidistribution and proves Weyl's theorem on the unit circle and the torus; Layer 2
+transfers it to a circle of any length by rescaling.
+[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)
+proves the lower bound `|ξ − pₖ/qₖ| > 1/(qₖ(qₖ + qₖ₊₁))`, which Layer 3 cites rather than
+reproves. No roadmap builds on this one.
+
+The four layers follow the order of this summary. They are independent except where a *Needs:*
+line says otherwise; the continued-fraction description of the gaps and the golden rotation in
+Layer 4 use Layer 3.
+
+## How to read the build
+
+The layers are independent of one another except where a *Needs:* line says otherwise. Layer 1
+validates the `AddCircle` conventions and is small. Layer 2 transfers the equidistribution of the
+orbit from the unit circle to a circle of any period, on Tau Ceti's empirical measures. Layer 3
+builds the integer convergent data of a real number, then the alternation and decay of the
+errors, Lagrange's characterization of best approximations, the convergent form of Hurwitz's
+theorem with its sharpness at the golden ratio, and the continued fraction of the golden ratio.
+Layer 4 proves the three-gap theorem uniformly in `α`, then the multiplicities, then the gap
+lengths through the convergent denominators, then the golden rotation; its first two items use
+only Layer 1's conventions, and its continued-fraction identification uses Layer 3.
+
+A name in code font that is qualified by `Rotation` or `ContFrac` is a declaration of
+`Suggested.lean`, with the signature given there. The facts of each definition's API that the text
+states in prose are targets too; a contributor names them in the same namespace.
 
 ## Motivation: rhythm and polyrhythm
 
@@ -28,43 +81,6 @@ all rationals in the sense of the constant `√5`, and for `φ` the three-gap th
 lengths that are consecutive powers of `φ⁻¹`, so the largest gap is never more than `φ²` times the
 smallest. That is the sense, and the only sense this roadmap makes precise, in which the golden
 rotation is the most even rhythm.
-
-## Scope and ownership
-
-This roadmap owns: the `ℕ`-orbit of a rotation of `AddCircle p` (periodic for finite order, dense
-for infinite order) and its cardinality for rational `α`; the transfer of the equidistribution of `nα` to a
-circle of arbitrary period `T`; the integer numerator/denominator data of `GenContFract.of ξ` for real `ξ`,
-the alternation and decay of the convergent errors, the characterization of the convergent
-denominators as the best approximations of the second kind (Lagrange), the convergent form of
-Hurwitz's theorem, its sharpness at `φ`, and the continued fraction of `φ`; the three-gap theorem
-for `{nα}`, uniform in `α`, and the identification of the gap lengths through the convergent
-denominators when `α` is irrational.
-
-It cites ProbabilisticAndMetricNumberTheory, which owns on the unit circle and the torus
-`UnitAddTorus d`: the definition of an equidistributed sequence through the empirical measures
-(§2.1), Weyl's criterion (§2.4), the equidistribution of `n • α + β` and the frequencies of
-`Int.fract (n α)` in an interval (§2.5), discrepancy, Koksma's inequality and the Erdős–Turán
-inequality (§2.7), and the pointwise Birkhoff ergodic theorem (§4.1). Nothing here restates those
-targets. The mean ergodic theorem, Koopman operators and invariant σ-algebras are the content of
-the completed [Exchangeability](../../Completed/Exchangeability/README.md) roadmap; none of them
-is needed here, because every averaging statement below holds for every starting point and is
-proved from Weyl sums rather than almost everywhere. Circular discrepancy and its adapters are
-DiophantineApproximationAndTranscendencePartII §§3.1–3.4.
-
-It also cites the
-[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)
-roadmap, which owns: the lower bound `|ξ − pₖ/qₖ| > 1/(qₖ(qₖ + qₖ₊₁))` and the limsup formula for
-the irrationality exponent (its §0.5), the predicate `BadlyApproximable` and its stability lemmas
-(its §0.6), simultaneous and inhomogeneous (Kronecker) approximation in several dimensions
-(its §0.4), and everything about transcendence. Hurwitz's theorem and its sharpness at `φ` are
-stated directly in terms of `q · ‖q φ‖` and do not pass through `BadlyApproximable`.
-
-It does not own homogeneous dynamics on `G/Γ`, unipotent flows or Ratner-type equidistribution
-(GeometryOfNumbersAndQuadraticArithmetic §4.2), equidistribution of small points of bounded
-height (ArithmeticDynamics), or effective Diophantine methods and exact rational point counts
-(EffectiveDiophantineMethods). Kronecker–Weyl equidistribution in several dimensions is
-ProbabilisticAndMetricNumberTheory §2.5 (`linear_equidistribution_tfae`), and inhomogeneous
-Kronecker approximation is DiophantineApproximationAndTranscendence §0.4.
 
 ## Conventions
 
@@ -110,118 +126,6 @@ Kronecker approximation is DiophantineApproximationAndTranscendence §0.4.
   `p > 0`; equidistribution is over `AddCircle T`; continued fractions and the three-gap theorem
   are over `ℝ` with the circle of length `1`. Do not generalize the continued-fraction layer to
   an arbitrary `FloorRing`; the integer data and the inequalities are stated for `ℝ`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At Mathlib `1b1ccf4b`:
-
-- **Rotations, density and ergodicity.** `AddCircle.denseRange_zsmul_iff` and
-  `AddCircle.denseRange_zsmul_coe_iff` (Topology/Instances/AddCircle/DenseSubgroup.lean);
-  `denseRange_zsmul_iff_nsmul`, which says that in a compact additive group the `ℤ`-orbit of a
-  point is dense iff its `ℕ`-orbit is (Topology/Algebra/Group/SubmonoidClosure.lean);
-  `AddCircle.ergodic_add_left` (Dynamics/Ergodic/AddCircleAdd.lean).
-- **Torsion and order.** `AddCircle.addOrderOf_coe_rat`, `AddCircle.isOfFinAddOrder_iff_exists_rat_eq_div`,
-  `AddCircle.coe_fract` (Topology/Instances/AddCircle/Defs.lean); `AddCircle.compactSpace`
-  (Topology/Instances/AddCircle/Real.lean); `IsOfFinAddOrder.multiples_eq_zmultiples`,
-  `IsOfFinAddOrder.finite_multiples`, `nsmul_eq_nsmul_iff_modEq`
-  (GroupTheory/OrderOfElement.lean); `Nat.card_zmultiples` (Data/ZMod/QuotientGroup.lean).
-- **Norm.** `AddCircle.norm_eq`, `UnitAddCircle.norm_eq` (Analysis/Normed/Group/AddCircle.lean).
-- **Haar measure.** `AddCircle.haarAddCircle` with `AddCircle.volume_eq_smul_haarAddCircle`
-  (Analysis/Fourier/AddCircle.lean).
-- **Empirical measures.** `MeasureTheory.empiricalMeasure` and
-  `MeasureTheory.integral_empiricalMeasure_eq_birkhoffaverage`
-  (Dynamics/Ergodic/EmpiricalMeasure.lean); `MeasureTheory.ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`
-  (MeasureTheory/Measure/ProbabilityMeasure.lean).
-- **Diophantine approximation.** `Real.exists_int_int_abs_mul_sub_le` (Dirichlet),
-  `Real.exists_rat_eq_convergent` (Legendre), `Real.convergent`
-  (NumberTheory/DiophantineApproximation/Basic.lean); `Real.convs_eq_convergent`
-  (NumberTheory/DiophantineApproximation/ContinuedFractions.lean);
-  `Real.infinite_rat_abs_sub_lt_one_div_sqrt_five_mul_den_sq_of_irrational`, Hurwitz's theorem
-  `{t : ℚ | |ξ − t| < 1 / (√5 * t.den ^ 2)}.Infinite` for irrational `ξ`
-  (NumberTheory/DiophantineApproximation/Hurwitz.lean); `AddCircle.exists_norm_nsmul_le`
-  (NumberTheory/WellApproximable.lean).
-- **Continued fractions.** `GenContFract.of` (Algebra/ContinuedFractions/Computation/Basic.lean),
-  `GenContFract.nums`, `GenContFract.dens`, `GenContFract.convs`, `GenContFract.partDens`
-  (Algebra/ContinuedFractions/Basic.lean); `GenContFract.nums_recurrence`,
-  `GenContFract.dens_recurrence` (Algebra/ContinuedFractions/ContinuantsRecurrence.lean);
-  `GenContFract.determinant` (Algebra/ContinuedFractions/Determinant.lean);
-  `GenContFract.zeroth_den_eq_one`, `GenContFract.terminatedAt_iff_partDen_none`
-  (Algebra/ContinuedFractions/Translations.lean); `GenContFract.of_h_eq_floor`,
-  `GenContFract.of_s_succ` (Algebra/ContinuedFractions/Computation/Translations.lean);
-  `GenContFract.exists_int_eq_of_partDen`, `GenContFract.of_partNum_eq_one`,
-  `GenContFract.of_one_le_get?_partDen`, `GenContFract.abs_sub_convs_le`,
-  `GenContFract.sub_convs_eq` (Algebra/ContinuedFractions/Computation/Approximations.lean);
-  `GenContFract.of_convergence` (Algebra/ContinuedFractions/Computation/ApproximationCorollaries.lean).
-- **Golden ratio.** `Real.goldenRatio`, `Real.goldenConj`, `Real.goldenRatio_sq`,
-  `Real.goldenRatio_irrational`, `Real.coe_fib_eq`, `Real.fib_succ_sub_goldenRatio_mul_fib`,
-  `Real.inv_goldenRatio` (NumberTheory/Real/GoldenRatio.lean); `Nat.fib_add_two`
-  (Data/Nat/Fib/Basic.lean).
-- **Fractional parts and finite sets.** `Int.fract_add_intCast`, `Int.fract_fract_sub_fract`,
-  `Int.fract_eq_fract` (Algebra/Order/Floor/Ring.lean); `Irrational.ne_rat`
-  (NumberTheory/Real/Irrational.lean); `Finset.sort` (Data/Finset/Sort.lean);
-  `Finset.card_le_three`, `Finset.exists_ne_map_eq_of_card_lt_of_maps_to` (Data/Finset/Card.lean).
-
-### From Tau Ceti
-
-- `TauCeti.Probability.empiricalMeasure`, the empirical probability measure of the first `n + 1`
-  terms of a sequence, with `TauCeti.Probability.integral_empiricalMeasure` (its integral is the
-  average) and `TauCeti.Probability.empiricalMeasure_apply_toReal` (its mass of a measurable set
-  is the proportion of terms in the set) (TauCeti/Probability/Process/EmpiricalMeasure.lean).
-- `Real.num_convergent`, `Real.den_convergent`, `Real.fib_succ_le_den_convergent`,
-  `Real.monotone_den_convergent`, `Real.abs_sub_convergent_le`,
-  `Real.one_div_lt_abs_sub_convergent` and `Irrational.not_of_terminatedAt`
-  (TauCeti/NumberTheory/DiophantineApproximation/ContinuedFractions.lean): the casts of the
-  convergent numerator and denominator to the continuants, the Fibonacci lower bound and
-  monotonicity of the denominators, the two-sided bounds on the convergent error, and the
-  non-termination of the continued fraction of an irrational number.
-- `AddCircle.torsionBy_eq_zmultiples` and `AddCircle.eq_torsionBy_of_natCard_eq`
-  (TauCeti/Algebra/AddCircle.lean): the `n`-torsion `(AddCircle p)[n]` is generated by the class of
-  `p / n`, and a subgroup of `AddCircle p` of cardinality `n` is that `n`-torsion.
-- `TauCeti.Probability.birkhoffAverage_tendsto_metProjection`, the mean ergodic theorem for
-  Birkhoff averages (TauCeti/Probability/Ergodic/MeanErgodic.lean), the Tau Ceti realization of
-  the completed Exchangeability roadmap's ergodic layer; it is not needed by any target here and
-  is listed so that consumers know where it lives.
-
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory
-
-- §2.1 defines an equidistributed sequence `x : ℕ → X` for a Borel probability measure `μ` as
-  convergence of `TauCeti.Probability.empiricalMeasure x` to `μ` in `ProbabilityMeasure X`, and
-  proves the bounded-continuous-test, frequency and dense-range consequences. Its averaging
-  convention is `(n + 1)⁻¹ ∑_{i ≤ n}`, not `N⁻¹ ∑_{n < N}`; the two agree because equidistribution
-  ignores a finite shift of the index.
-- §2.4 proves Weyl's criterion: a sequence in `UnitAddTorus d` is equidistributed for the Haar
-  measure iff the averages of every nontrivial character tend to `0`.
-- §2.5 proves that `n ↦ n • α + β` is equidistributed on `UnitAddTorus d` iff `α` is irrational,
-  and on `UnitAddCircle` that the proportion of `n ≤ N` with `Int.fract` of the orbit point in
-  `[a, b)` tends to the length of the interval.
-- §2.7 owns star discrepancy, Koksma's inequality and the Erdős–Turán inequality.
-- §4.1 owns the pointwise Birkhoff ergodic theorem.
-
-### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
-
-§0.5: the lower bound `1/(qₖ(qₖ + qₖ₊₁)) < |ξ − pₖ/qₖ|` and the upper bound `|ξ − pₖ/qₖ| ≤ 1/(qₖ qₖ₊₁)`,
-which are Tau Ceti's `Real.one_div_lt_abs_sub_convergent` and `Real.abs_sub_convergent_le`, and the
-limsup formula for the irrationality exponent. §0.6: `BadlyApproximable` and its stability lemmas. §0.4: Kronecker
-approximation. Nothing of these is restated here; Layer 3 cites §0.5 for the lower bound on the
-convergent error and never reproves it.
-
-## How to read the build
-
-The layers are independent of one another except where a *Needs:* line says otherwise. Layer 1
-validates the `AddCircle` conventions and is small. Layer 2 transfers the equidistribution of the
-orbit from the unit circle to a circle of any period, on Tau Ceti's empirical measures. Layer 3
-builds the integer convergent data of a real number, then the alternation and decay of the
-errors, Lagrange's characterization of best approximations, the convergent form of Hurwitz's
-theorem with its sharpness at the golden ratio, and the continued fraction of the golden ratio.
-Layer 4 proves the three-gap theorem uniformly in `α`, then the multiplicities, then the gap
-lengths through the convergent denominators, then the golden rotation; its first two items use
-only Layer 1's conventions, and its continued-fraction identification uses Layer 3.
-
-A name in code font that is qualified by `Rotation` or `ContFrac` is a declaration of
-`Suggested.lean`, with the signature given there. The facts of each definition's API that the text
-states in prose are targets too; a contributor names them in the same namespace.
 
 ## Layer 1: the orbit of a rotation
 
@@ -648,6 +552,139 @@ golden rotation.
 No roadmap consumes this one. Layer 3 is stated on Mathlib's `Real.convergent`, the carrier of
 Tau Ceti's `Real.den_convergent`, so later roadmaps use it without conversion. Layer 4 is the
 finite-`N` structure of the point set whose limit is ProbabilisticAndMetricNumberTheory §2.5.
+
+## Scope and ownership
+
+This roadmap owns: the `ℕ`-orbit of a rotation of `AddCircle p` (periodic for finite order, dense
+for infinite order) and its cardinality for rational `α`; the transfer of the equidistribution of `nα` to a
+circle of arbitrary period `T`; the integer numerator/denominator data of `GenContFract.of ξ` for real `ξ`,
+the alternation and decay of the convergent errors, the characterization of the convergent
+denominators as the best approximations of the second kind (Lagrange), the convergent form of
+Hurwitz's theorem, its sharpness at `φ`, and the continued fraction of `φ`; the three-gap theorem
+for `{nα}`, uniform in `α`, and the identification of the gap lengths through the convergent
+denominators when `α` is irrational.
+
+It cites ProbabilisticAndMetricNumberTheory, which owns on the unit circle and the torus
+`UnitAddTorus d`: the definition of an equidistributed sequence through the empirical measures
+(§2.1), Weyl's criterion (§2.4), the equidistribution of `n • α + β` and the frequencies of
+`Int.fract (n α)` in an interval (§2.5), discrepancy, Koksma's inequality and the Erdős–Turán
+inequality (§2.7), and the pointwise Birkhoff ergodic theorem (§4.1). Nothing here restates those
+targets. The mean ergodic theorem, Koopman operators and invariant σ-algebras are the content of
+the completed [Exchangeability](../../Completed/Exchangeability/README.md) roadmap; none of them
+is needed here, because every averaging statement above holds for every starting point and is
+proved from Weyl sums rather than almost everywhere. Circular discrepancy and its adapters are
+DiophantineApproximationAndTranscendencePartII §§3.1–3.4.
+
+It also cites the
+[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)
+roadmap, which owns: the lower bound `|ξ − pₖ/qₖ| > 1/(qₖ(qₖ + qₖ₊₁))` and the limsup formula for
+the irrationality exponent (its §0.5), the predicate `BadlyApproximable` and its stability lemmas
+(its §0.6), simultaneous and inhomogeneous (Kronecker) approximation in several dimensions
+(its §0.4), and everything about transcendence. Hurwitz's theorem and its sharpness at `φ` are
+stated directly in terms of `q · ‖q φ‖` and do not pass through `BadlyApproximable`.
+
+It does not own homogeneous dynamics on `G/Γ`, unipotent flows or Ratner-type equidistribution
+(GeometryOfNumbersAndQuadraticArithmetic §4.2), equidistribution of small points of bounded
+height (ArithmeticDynamics), or effective Diophantine methods and exact rational point counts
+(EffectiveDiophantineMethods). Kronecker–Weyl equidistribution in several dimensions is
+ProbabilisticAndMetricNumberTheory §2.5 (`linear_equidistribution_tfae`), and inhomogeneous
+Kronecker approximation is DiophantineApproximationAndTranscendence §0.4.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At Mathlib `1b1ccf4b`:
+
+- **Rotations, density and ergodicity.** `AddCircle.denseRange_zsmul_iff` and
+  `AddCircle.denseRange_zsmul_coe_iff` (Topology/Instances/AddCircle/DenseSubgroup.lean);
+  `denseRange_zsmul_iff_nsmul`, which says that in a compact additive group the `ℤ`-orbit of a
+  point is dense iff its `ℕ`-orbit is (Topology/Algebra/Group/SubmonoidClosure.lean);
+  `AddCircle.ergodic_add_left` (Dynamics/Ergodic/AddCircleAdd.lean).
+- **Torsion and order.** `AddCircle.addOrderOf_coe_rat`, `AddCircle.isOfFinAddOrder_iff_exists_rat_eq_div`,
+  `AddCircle.coe_fract` (Topology/Instances/AddCircle/Defs.lean); `AddCircle.compactSpace`
+  (Topology/Instances/AddCircle/Real.lean); `IsOfFinAddOrder.multiples_eq_zmultiples`,
+  `IsOfFinAddOrder.finite_multiples`, `nsmul_eq_nsmul_iff_modEq`
+  (GroupTheory/OrderOfElement.lean); `Nat.card_zmultiples` (Data/ZMod/QuotientGroup.lean).
+- **Norm.** `AddCircle.norm_eq`, `UnitAddCircle.norm_eq` (Analysis/Normed/Group/AddCircle.lean).
+- **Haar measure.** `AddCircle.haarAddCircle` with `AddCircle.volume_eq_smul_haarAddCircle`
+  (Analysis/Fourier/AddCircle.lean).
+- **Empirical measures.** `MeasureTheory.empiricalMeasure` and
+  `MeasureTheory.integral_empiricalMeasure_eq_birkhoffaverage`
+  (Dynamics/Ergodic/EmpiricalMeasure.lean); `MeasureTheory.ProbabilityMeasure.tendsto_iff_forall_integral_tendsto`
+  (MeasureTheory/Measure/ProbabilityMeasure.lean).
+- **Diophantine approximation.** `Real.exists_int_int_abs_mul_sub_le` (Dirichlet),
+  `Real.exists_rat_eq_convergent` (Legendre), `Real.convergent`
+  (NumberTheory/DiophantineApproximation/Basic.lean); `Real.convs_eq_convergent`
+  (NumberTheory/DiophantineApproximation/ContinuedFractions.lean);
+  `Real.infinite_rat_abs_sub_lt_one_div_sqrt_five_mul_den_sq_of_irrational`, Hurwitz's theorem
+  `{t : ℚ | |ξ − t| < 1 / (√5 * t.den ^ 2)}.Infinite` for irrational `ξ`
+  (NumberTheory/DiophantineApproximation/Hurwitz.lean); `AddCircle.exists_norm_nsmul_le`
+  (NumberTheory/WellApproximable.lean).
+- **Continued fractions.** `GenContFract.of` (Algebra/ContinuedFractions/Computation/Basic.lean),
+  `GenContFract.nums`, `GenContFract.dens`, `GenContFract.convs`, `GenContFract.partDens`
+  (Algebra/ContinuedFractions/Basic.lean); `GenContFract.nums_recurrence`,
+  `GenContFract.dens_recurrence` (Algebra/ContinuedFractions/ContinuantsRecurrence.lean);
+  `GenContFract.determinant` (Algebra/ContinuedFractions/Determinant.lean);
+  `GenContFract.zeroth_den_eq_one`, `GenContFract.terminatedAt_iff_partDen_none`
+  (Algebra/ContinuedFractions/Translations.lean); `GenContFract.of_h_eq_floor`,
+  `GenContFract.of_s_succ` (Algebra/ContinuedFractions/Computation/Translations.lean);
+  `GenContFract.exists_int_eq_of_partDen`, `GenContFract.of_partNum_eq_one`,
+  `GenContFract.of_one_le_get?_partDen`, `GenContFract.abs_sub_convs_le`,
+  `GenContFract.sub_convs_eq` (Algebra/ContinuedFractions/Computation/Approximations.lean);
+  `GenContFract.of_convergence` (Algebra/ContinuedFractions/Computation/ApproximationCorollaries.lean).
+- **Golden ratio.** `Real.goldenRatio`, `Real.goldenConj`, `Real.goldenRatio_sq`,
+  `Real.goldenRatio_irrational`, `Real.coe_fib_eq`, `Real.fib_succ_sub_goldenRatio_mul_fib`,
+  `Real.inv_goldenRatio` (NumberTheory/Real/GoldenRatio.lean); `Nat.fib_add_two`
+  (Data/Nat/Fib/Basic.lean).
+- **Fractional parts and finite sets.** `Int.fract_add_intCast`, `Int.fract_fract_sub_fract`,
+  `Int.fract_eq_fract` (Algebra/Order/Floor/Ring.lean); `Irrational.ne_rat`
+  (NumberTheory/Real/Irrational.lean); `Finset.sort` (Data/Finset/Sort.lean);
+  `Finset.card_le_three`, `Finset.exists_ne_map_eq_of_card_lt_of_maps_to` (Data/Finset/Card.lean).
+
+### From Tau Ceti
+
+- `TauCeti.Probability.empiricalMeasure`, the empirical probability measure of the first `n + 1`
+  terms of a sequence, with `TauCeti.Probability.integral_empiricalMeasure` (its integral is the
+  average) and `TauCeti.Probability.empiricalMeasure_apply_toReal` (its mass of a measurable set
+  is the proportion of terms in the set) (TauCeti/Probability/Process/EmpiricalMeasure.lean).
+- `Real.num_convergent`, `Real.den_convergent`, `Real.fib_succ_le_den_convergent`,
+  `Real.monotone_den_convergent`, `Real.abs_sub_convergent_le`,
+  `Real.one_div_lt_abs_sub_convergent` and `Irrational.not_of_terminatedAt`
+  (TauCeti/NumberTheory/DiophantineApproximation/ContinuedFractions.lean): the casts of the
+  convergent numerator and denominator to the continuants, the Fibonacci lower bound and
+  monotonicity of the denominators, the two-sided bounds on the convergent error, and the
+  non-termination of the continued fraction of an irrational number.
+- `AddCircle.torsionBy_eq_zmultiples` and `AddCircle.eq_torsionBy_of_natCard_eq`
+  (TauCeti/Algebra/AddCircle.lean): the `n`-torsion `(AddCircle p)[n]` is generated by the class of
+  `p / n`, and a subgroup of `AddCircle p` of cardinality `n` is that `n`-torsion.
+- `TauCeti.Probability.birkhoffAverage_tendsto_metProjection`, the mean ergodic theorem for
+  Birkhoff averages (TauCeti/Probability/Ergodic/MeanErgodic.lean), the Tau Ceti realization of
+  the completed Exchangeability roadmap's ergodic layer; it is not needed by any target here and
+  is listed so that consumers know where it lives.
+
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory
+
+- §2.1 defines an equidistributed sequence `x : ℕ → X` for a Borel probability measure `μ` as
+  convergence of `TauCeti.Probability.empiricalMeasure x` to `μ` in `ProbabilityMeasure X`, and
+  proves the bounded-continuous-test, frequency and dense-range consequences. Its averaging
+  convention is `(n + 1)⁻¹ ∑_{i ≤ n}`, not `N⁻¹ ∑_{n < N}`; the two agree because equidistribution
+  ignores a finite shift of the index.
+- §2.4 proves Weyl's criterion: a sequence in `UnitAddTorus d` is equidistributed for the Haar
+  measure iff the averages of every nontrivial character tend to `0`.
+- §2.5 proves that `n ↦ n • α + β` is equidistributed on `UnitAddTorus d` iff `α` is irrational,
+  and on `UnitAddCircle` that the proportion of `n ≤ N` with `Int.fract` of the orbit point in
+  `[a, b)` tends to the length of the interval.
+- §2.7 owns star discrepancy, Koksma's inequality and the Erdős–Turán inequality.
+- §4.1 owns the pointwise Birkhoff ergodic theorem.
+
+### From TauCetiRoadmap.DiophantineApproximationAndTranscendence
+
+§0.5: the lower bound `1/(qₖ(qₖ + qₖ₊₁)) < |ξ − pₖ/qₖ|` and the upper bound `|ξ − pₖ/qₖ| ≤ 1/(qₖ qₖ₊₁)`,
+which are Tau Ceti's `Real.one_div_lt_abs_sub_convergent` and `Real.abs_sub_convergent_le`, and the
+limsup formula for the irrationality exponent. §0.6: `BadlyApproximable` and its stability lemmas. §0.4: Kronecker
+approximation. Nothing of these is restated here; Layer 3 cites §0.5 for the lower bound on the
+convergent error and never reproves it.
 
 ## References
 

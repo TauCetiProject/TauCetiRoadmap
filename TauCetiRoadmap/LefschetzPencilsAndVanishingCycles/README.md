@@ -1,98 +1,77 @@
 # Roadmap: Lefschetz pencils, nearby cycles and vanishing cycles
 
-**Summary.** This roadmap builds the geometric theory of degenerations in étale cohomology on which Deligne's proofs
-of the Weil conjectures, and many arithmetic applications, rest. It constructs nearby and vanishing cycles over a
-henselian trait, with their inertia action, the variation, the monodromy operator `N` and the monodromy
-filtration; computes them at ordinary quadratic singularities and proves the Picard–Lefschetz formula in both parities,
-with the signs fixed and the even-dimensional case in characteristic two given by the even Clifford algebra; constructs Lefschetz pencils and proves that they exist after a
-Veronese re-embedding; and proves the global monodromy theorems of a pencil: conjugacy of the vanishing cycles,
-generation of monodromy by local transvections, absolute irreducibility of the vanishing quotient, and the
-Kazhdan–Margulis theorem that the monodromy is open in the symplectic group. It then proves Gabber's theorems that
-nearby cycles commute with duality and preserve perversity, computes nearby cycles, the monodromy filtration and
-the weight spectral sequence of semistable curves and strictly semistable degenerations, and builds the geometric
-half of Deligne's local and global invariant-cycle theorems, stated in a form whose only remaining hypothesis is the
-weight bound that the theory of weights supplies. The end theorems are the Picard–Lefschetz formula (2.8), the
-existence of Lefschetz pencils (3.4), the Kazhdan–Margulis theorem (5.8), Gabber's perversity theorems (6.2), the
-weight spectral sequence of a strictly semistable degeneration (7a.8) and the invariant-cycle theorems (7b.5, 7b.11).
+**Summary.** For a smooth proper family over a henselian discrete valuation ring, inertia acts trivially on the
+étale cohomology of the geometric generic fibre, and specialization from the special fibre is an isomorphism.
+When the special fibre is singular, both can fail. This roadmap builds the theory that measures this failure and
+applies it to Lefschetz pencils. Its basic objects are the nearby-cycle complex `RΨ` on the special fibre, which
+computes the cohomology of the geometric generic fibre when the family is proper, and the vanishing-cycle
+complex `RΦ`, the cone of the specialization map into it. Throughout, `ℓ` is a prime different from the residue
+characteristic `p`.
 
-## Scope and ownership
+The local model is an ordinary quadratic point, where the completed local ring is a power series ring modulo a
+nonzero quadratic form with smooth quadric plus terms of order at least three. Let `X` be proper over a
+henselian discrete valuation ring with algebraically closed residue field, regular of pure dimension `n + 1`,
+and smooth except at one ordinary quadratic point of the special fibre; write `n = 2m` or `2m + 1`. There is a
+vanishing cycle `δ` in `H^n(X_η̄, ℚ_ℓ)(m)`, well defined up to sign, and inertia acts trivially outside degree
+`n`. The Picard–Lefschetz formula gives the action on `H^n`. For `n` odd, `σx = x + (−1)^{m+1} t_ℓ(σ)(x, δ)δ`,
+with `t_ℓ` the tame character and `(x, δ)` the cup-product pairing. For `n` even and `p ≠ 2`, inertia acts
+through its unique character of order two, the nontrivial value acting by the reflection
+`x ↦ x + (−1)^{m+1}(x, δ)δ`, and `(δ, δ) = (−1)^m · 2`. In residue characteristic two this character is replaced
+by the quadratic character, possibly wildly ramified, of the centre of an even Clifford algebra; over any base
+ring, this centre is finite étale of rank two for ordinary forms of positive even rank.
 
-This roadmap owns:
+A Lefschetz pencil on a smooth connected projective variety `X ⊂ P^N` of dimension `n + 1`, over an
+algebraically closed field, is the family of hyperplane sections through a codimension-two axis meeting `X`
+transversally, in which all but finitely many members are smooth and each singular member has only one singular
+point, an ordinary quadratic one. After a Veronese re-embedding of degree `r ≥ 2`, a sufficiently general pencil
+is Lefschetz. In positive characteristic, the original embedding may admit none.
 
-1. **Nearby and vanishing cycles over a henselian trait** (Layer LPV.0): the topos `X_s ×_s S` and its Galois
-   description, the functors `Ψ_η`, `Ψ`, `RΨ`, `RΦ`, the specialization triangle and the variation, functoriality under
-   proper, smooth, quasi-finite and trait base change, constructibility over a henselian trait, finite and adic
-   coefficients, the nearby–Betti comparison (0.8a),
-   and Gabber's absolute cohomological purity for regular pairs (0.10).
-2. **Inertia and monodromy** (Layer LPV.1): Grothendieck's monodromy theorem for residue fields with no finite
-   extension containing all ℓ-power roots of unity and the geometric local monodromy theorem, the twisted operator
-   `N`, the monodromy filtration of a nilpotent endomorphism of an object of an abelian category with its primitive
-   decomposition and `𝔰𝔩₂` realization, the relative monodromy filtration, `can` and `var`, tame restriction along a
-   normal crossings divisor, the two-component semistable complex and the semisimple trace of Frobenius.
-3. **Ordinary quadratic singularities and Picard–Lefschetz** (Layer LPV.2): ordinary quadratic forms over any base,
-   quadrics and their cohomology, ordinary quadratic points, their henselian normal forms and local equations, and
-   the local and global Picard–Lefschetz theory.
-4. **Lefschetz pencils and their monodromy** (Layers LPV.3–LPV.5).
-5. **Perverse nearby cycles** (Layer LPV.6), **semistable degenerations** (Layer LPV.7a) and **invariant cycles**
-   (Layer LPV.7b).
+Transported to a smooth member, the vanishing cycles span the vanishing subspace `E` of its middle cohomology.
+The cup product induces a nondegenerate form on `E/(E ∩ E^⊥)`, alternating for `n` odd and symmetric for `n`
+even. When `n` is odd or `p ≠ 2`, the vanishing cycles are conjugate up to sign, the local Picard–Lefschetz
+transformations topologically generate the monodromy, and `E/(E ∩ E^⊥)` is absolutely irreducible when nonzero.
+For `n` odd, by the Kazhdan–Margulis theorem, the monodromy image is open in the symplectic group of
+`E/(E ∩ E^⊥)` over `ℚ_ℓ`. For `n` even, assume `E` nondegenerate (in Weil II a consequence of hard Lefschetz)
+and, when `p = 2`, a condition on the axis. Then the monodromy image in the orthogonal group of `E` over `ℚ_ℓ`
+is open or finite; if finite and `E ≠ 0`, it is the Weyl group of a root system of type A, D or E formed by the
+vanishing cycles.
 
-It uses, and does not redevelop:
+EtaleCohomologyFoundations provides the finite-coefficient and adic étale theory.
+ArithmeticGaloisRepresentations provides Grothendieck's monodromy theorem for local fields and the monodromy
+filtration on a vector space, which Layer LPV.1 extends. DeligneWeightsAndPurity discharges the hypotheses of
+the invariant-cycle theorems with the weight bounds of Weil II and so obtains hard Lefschetz.
 
-- the site, pullback, derived direct image, supports and pro-étale foundations of
-  SchemeAndStackFoundations §§2.1–2.2, 2.5, 2.7, 2.9–2.11, 2.15 and 2.17. The additional étale,
-  duality and perverse prerequisites are supplied by EtaleCohomologyFoundations §§F.0–F.8
-  and §§0.7–0.11, using EnhancedDerivedSheaves §§0.1–0.4;
-- the shared fs log schemes, charts, characteristic monoids, morphism predicates and log
-  regularity of CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4, and the
-  logarithmic differential module of §CR.5.1; 0.10 builds purity-specific equivariant
-  modifications, actions and quotients on those objects;
-- the nilpotent exponential and the finite logarithm of a unipotent, inverse to each other, from Mathlib
-  (`IsNilpotent.exp`) and Tau Ceti (`IsNilpotent.log`), and the continuous `ℤ_ℓ` interpolation
-  `h(x) = exp(x log h(1))` of a unipotent one-parameter subgroup from SmoothRepresentationsOfLocalGroups
-  SR.5.2 (*nilpotent-exp-log*); Grothendieck's monodromy theorem for local fields and the monodromy
-  filtration of a nilpotent endomorphism of a finite-dimensional vector space with its tensor and dual rules from
-  ArithmeticGaloisRepresentations Layer 2 (§§2.4, 2.6); function-field Chebotarev from its Layer 5 (§5.13);
-- the inertia group and tame character of a nonarchimedean local field from TauCetiRoadmap LocalFieldsRamification
-  Layer 4 (the comparison of 0.1 is with it);
-- the dual-graph carrier `TauCeti.DualGraph` from Tau Ceti; the dual graph of a nodal curve, normalization,
-  Rees-algebra blow-ups and the test case `xy = π^n` from TauCetiRoadmap StableReduction
-  Layers 1 and 4; the Picard scheme of a semistable curve and Grothendieck's integral monodromy pairing from
-  NeronModelsAndSemistableAbelianVarieties Layers 3–4;
-- closed subgroups of `ℓ`-adic Lie groups and their Lie algebras from AdelicAlgebraicGroups Layer 4, §4.2;
-  orthogonal groups over `ℚ_ℓ` from TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2; the centre of the even Clifford
-  algebra over a field in which two is invertible, in every even positive dimension, from Tau Ceti
-  (`CliffordAlgebra.adjoinRootEquivCenterEven`; 2.2 states it for every even rank over any base, characteristic two
-  included, as the discriminant cover of a quadric needs); root systems, integral lattices, character values and
-  `𝔰𝔩₂`-modules from TauCetiRoadmap RepresentationTheory and Completed IntegralLattices; abelian Chebotarev from
-  TauCetiRoadmap Chebotarev Layer 9; mixed Hodge structures and strictness from Completed HodgeStructures (layer L2) and
-  Tau Ceti's `TauCeti.Hodge.MixedHodgeStructure`;
-- curve/Jacobian comparison, finite-coefficient and rational constructible trace formulas,
-  and constant-sheaf point counts from InverseGaloisAndArithmeticFundamentalGroups
-  §§IG.0.T1–IG.0.T4, on the domains specified in F.10;
-- local-field specialization of the general-trait tame character from
-  ArithmeticGaloisRepresentations §2.1a, as used in 0.1;
-- cover decomposition and inertia from EtaleCohomologyFoundations §F.0.A1,
-  and tame specialization of fundamental groups from
-  InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3.
+Layer LPV.0 constructs nearby and vanishing cycles and proves absolute cohomological purity for regular pairs.
+Layer LPV.1 proves that some open subgroup of inertia acts unipotently on each ℓ-adic cohomology group of a
+separated scheme of finite type over the fraction field. It also builds the monodromy filtration of a nilpotent
+endomorphism in any abelian category. Layers LPV.2 to LPV.5 are the local and global theory described above.
+Layer LPV.6 proves Gabber's theorems that nearby cycles commute with Verdier duality and preserve perversity.
+Layer LPV.7a treats semistable degenerations, and Layer LPV.7b Deligne's invariant-cycle theorems, assuming
+explicitly what the theory of weights supplies.
 
-It leaves to other roadmaps:
+## How to read the build
 
-- **Weights.** Weil numbers, punctual and mixed weights, the purity theorems of Weil I and Weil II, hard Lefschetz
-  and the decomposition theorem are weight-theory inputs, kept as explicit hypotheses here. The
-  invariant-cycle theorems of Layer LPV.7b are stated with the outputs of that theory as explicit hypotheses
-  (disjointness of two Frobenius spectra, or local surjectivity at the singular members of a pencil); the
-  unconditional theorems (Weil II 3.6.1, 6.2.9, 6.2.12) are obtained there by supplying them. Likewise, the even
-  orthogonal alternative (5.10) assumes the nondegeneracy that hard Lefschetz provides, and the gcd theorem of
-  Weil II 4.5.1 assumes the decomposition of Weil II 4.3.9.
-- **Limit mixed Hodge structures** (Steenbrink, Schmid, Clemens) are not built; the complex invariant-cycle theorem
-  (7b.6) assumes them in the form it needs.
-- **Hyodo–Kato monodromy** belongs to CrystallineCohomology Layer CR.6 and its `B_st` comparison to
-  CohomologyComparisons; no comparison of it with the ℓ-adic `N` is made here. The **weight–monodromy conjecture**
-  is not stated: 7a.8 constructs the weight spectral sequence without identifying its filtration with the monodromy
-  filtration in dimension above one.
-- **Nearby cycles over higher-dimensional bases** are not constructed. Generic local acyclicity over
-  hyperplane parameter spaces is the prerequisite of EtaleCohomologyFoundations §F.3 and the restriction target of 7b.7;
-  the nearby-cycle functor of 0.2–0.8 remains a trait construction.
+| Layer | Content | End results |
+| --- | --- | --- |
+| LPV.0 | Nearby and vanishing cycles over a henselian trait | `RΨ`, `RΦ`, variation, constructibility, absolute purity |
+| LPV.1 | Inertia and monodromy | local monodromy theorem, `N`, monodromy filtration, semisimple trace |
+| LPV.2 | Ordinary quadratic singularities | cohomology of quadrics, Picard–Lefschetz formula |
+| LPV.3 | Lefschetz pencils | existence after a Veronese embedding, arithmetic specialization of global monodromy |
+| LPV.4 | Global vanishing cycles | vanishing subspace, radical quotient and its pairing |
+| LPV.5 | Global monodromy | conjugacy, generation, irreducibility, middle-degree reduction, Kazhdan–Margulis |
+| LPV.6 | Perverse nearby cycles | Gabber's duality and perversity theorems |
+| LPV.7a | Semistable degenerations | monodromy of nodal curves, weight spectral sequence |
+| LPV.7b | Invariant cycles | local and global invariant-cycle theorems |
+
+EtaleCohomologyFoundations §§F.0–F.8 supplies the finite-coefficient and adic theory.
+Layer LPV.0 builds the functors; Layer LPV.1 extracts the linear algebra of inertia; Layer LPV.2 is the local theory at
+an ordinary quadratic point, and uses the semistable calculation of 1.9 for the odd-dimensional sign. Layers LPV.3–LPV.5
+are the global theory of a pencil: LPV.3 supplies geometry and arithmetic specialization,
+LPV.4 linear algebra of the vanishing cycles on one fibre, LPV.5
+the monodromy theorems, which need the conjugacy and generation results before the middle-degree reduction can be
+stated. Layer LPV.6 depends only on LPV.0–LPV.2. Layer LPV.7a uses LPV.0–LPV.2 and LPV.6; Layer LPV.7b uses LPV.0,
+LPV.3, LPV.5 and LPV.7a. Each target names its sources by section, statement and page, and its inputs, in a final
+*Needs:* clause; numbers such as 2.8 refer to the subsections of this roadmap.
 
 ## Conventions
 
@@ -129,188 +108,6 @@ It leaves to other roadmaps:
   statements, identified explicitly in their sections.
   The shared `PerfectComplex` trace algebra is supplied by
   EtaleCohomologyFoundations §F.10.3.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
-
-- Rings: `HenselianLocalRing`, `HenselianRing`, `IsDiscreteValuationRing`, `ValuationSubring.inertiaSubgroup`,
-  `ValuationSubring.decompositionSubgroup`; `MvPowerSeries` with its total-degree order `MvPowerSeries.order`
-  (`MvPowerSeries.le_order`, `MvPowerSeries.coeff_of_lt_order`): a series has order at least three, as in 2.4, exactly
-  when `3 ≤ MvPowerSeries.order R`; `AdicCompletion` (completed local rings and their jets `O/𝔪^{k+1}`);
-  `finite_of_finite_type_of_isJacobsonRing` (the residue field of a closed point of a scheme of finite type over a field
-  is finite over it); `PadicInt.denseRange_intCast` (`ℤ` is dense in `ℤ_ℓ`, used in 5.7).
-- Smoothness and the Jacobian criterion: `Algebra.Smooth`, `Algebra.IsSmoothAt`, `Algebra.IsStandardSmooth` (a
-  presentation whose Jacobian is invertible), which is smooth, and `Algebra.IsSmoothAt.exists_notMem_isStandardSmooth`
-  (smoothness at a prime is standard smoothness after inverting an element outside it). These are the Jacobian
-  criterion of 2.1, 3.2 and 3.4.
-- Linear algebra: `QuadraticMap`, `QuadraticMap.polarBilin`, `QuadraticMap.Nondegenerate` (radical zero and polar kernel
-  of rank at most one, agreeing with 2.1 ordinarity over nonzero finite-dimensional field spaces;
-  over rings use 2.1 fibrewise ordinarity), `CliffordAlgebra.even`, `Subalgebra.center` (the centre
-  `Z(Q)` of 2.2 is `Subalgebra.center A (CliffordAlgebra.even Q)`, with no separate name), `LinearMap.BilinForm`,
-  `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`, `LinearMap.transvection`, `LinearEquiv.transvection`,
-  `LinearEquiv.mem_fixedSubmodule_transvection_iff` (fixed space of a transvection with `f v = 0`), `IsNilpotent.exp`,
-  `Module.End.HasEigenvalue`, `Module.End.maxGenEigenspace`, `Submodule.mkQ`, `LinearMap.codRestrict`,
-  `Representation.invariants`, `Representation.trivial`.
-- Lie theory: `skewAdjointLieSubalgebra` (the symplectic Lie algebra `𝔰𝔭(V, ψ)`), `LieModule.IsIrreducible`, `IsSl2Triple`;
-  `NormedSpace.exp` (the exponential series, through which 5.7 defines the Lie algebra of a closed subgroup).
-- Geometry and homological algebra: `AlgebraicGeometry.Scheme`, the morphism classes `AlgebraicGeometry.IsProper`,
-  `AlgebraicGeometry.IsIntegral`, `AlgebraicGeometry.LocallyOfFiniteType`, `AlgebraicGeometry.QuasiCompact`,
-  `AlgebraicGeometry.IsOpenImmersion`, `AlgebraicGeometry.SmoothOfRelativeDimension`,
-  `AlgebraicGeometry.Scheme.Hom.isClosedMap` (a universally closed, in particular proper, morphism has closed image),
-  `IsGenericPoint`, `AlgebraicGeometry.Scheme.smallEtaleTopology`, `CategoryTheory.IsPullback`, `DerivedCategory`,
-  `HasDerivedCategory.standard`, `CategoryTheory.shiftFunctor`, `CategoryTheory.Abelian.SpectralObject` and its
-  `spectralSequence`, `CategoryTheory.CohomologicalSpectralSequence`, `ModuleCat`.
-
-### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
-
-- `TauCeti.genericFiber`, `TauCeti.specialFiber` (`TauCeti/AlgebraicGeometry/Fibers.lean`): the generic and special
-  fibres of a scheme over `Spec R` as over-schemes; the trait diagram of EtaleCohomologyFoundations §F.3a is built on them.
-- `LinearMap.GeneralLinearGroup.IsUnipotent` (`TauCeti/LinearAlgebra/GeneralLinearGroup/Unipotent.lean`),
-  `TauCeti.exp_smul_eq_sum_smul_dividedPower` and `TauCeti.expSMulHom` (`TauCeti/RingTheory/Nilpotent/Exp.lean`):
-  for nilpotent `N` in a `ℚ`-algebra, `exp(aN)` is a polynomial in the scalar `a` and `a ↦ exp(aN)` is a homomorphism
-  from the additive group of scalars to the units; used in 5.7.
-- `IsNilpotent.log`, `IsNilpotent.log_eq_sum`, `IsNilpotent.isNilpotent_log`, `IsNilpotent.exp_log` and
-  `IsNilpotent.log_exp` (`TauCeti/RingTheory/Nilpotent/Log.lean`): the finite logarithm
-  `log u = Σ_{1≤i<d} (−1)^{i+1}(u − 1)^i/i` of a unipotent `u` with `(u − 1)^d = 0`, independent of the bound `d`,
-  nilpotent, and inverse to `IsNilpotent.exp` in a `ℚ`-algebra. When `u − 1` is not nilpotent its value is `0`, a junk
-  value, so it is applied only to unipotents. `Module.End.ker_pow_log` and `Module.End.jordanPartition_log`
-  (`TauCeti/LinearAlgebra/End/Exponential.lean`): for a unipotent endomorphism `u`, `ker (log u)^k = ker (u − 1)^k`
-  for every `k`, and in finite dimension over a field `log u` and `u − 1` have the same Jordan partition. Used in 1.2,
-  1.6 and 5.7.
-- `IsNilpotent.normedSpace_exp_eq_exp` (`TauCeti/Analysis/Normed/Algebra/NilpotentExponential.lean`): at a nilpotent
-  element the exponential series `NormedSpace.exp` terminates and equals `IsNilpotent.exp`; used in 5.7, where the Lie
-  algebra `𝔏` is defined through the exponential series.
-- `TauCeti.inertiaTameCharacter` (`TauCeti/NumberTheory/LocalField/Tame/Character.lean`): the tame character
-  `I_K → ℤ̂^{(p')}(1)` of a nonarchimedean local field, the Kummer character of a uniformizer; 0.1 compares with it
-  (the tame-character comparison supplied by EtaleCohomologyFoundations §F.3a).
-- `CliffordAlgebra.center_even_eq_adjoin_volume`, `CliffordAlgebra.adjoinRootEquivCenterEven` and
-  `TauCeti.CliffordAlgebra.exists_mem_center_even_forall_ne_algebraMap`
-  (`TauCeti/LinearAlgebra/CliffordAlgebra/Even/Center.lean`): over a field with `2 ≠ 0` and in even positive dimension,
-  the centre of the even Clifford algebra is `K[X]/(X² − d)`, `d` the signed discriminant, generated by the volume
-  element. This is the field case of 2.2 when two is invertible; 2.2 adds characteristic two and a general base.
-- `TauCeti.Hodge.MixedHodgeStructure` (`TauCeti/Geometry/Hodge/Mixed/Basic.lean`) with strictness, used in 7b.6.
-- `TauCeti.DualGraph` and `TauCeti.DualGraph.firstBetti` (`TauCeti/AlgebraicGeometry/Curves/DualGraph/Basic.lean`): the
-  combinatorial dual graph of a proper nodal curve, with a finite nonempty connected vertex type, a finite edge type, an
-  ordered pair of endpoints `endpoint e : Fin 2 → Vertex` for each edge (loops allowed), component genera and markings;
-  `firstBetti` is `#edges + 1 − #vertices`. Used without markings in 7a.1; StableReduction Layer 1 attaches it to a curve.
-
-### From other roadmaps
-
-- **SchemeAndStackFoundations**: Layer 0 (§0.8 smoothness, étale coordinates and quasi-sections; §0.9 limits of
-  schemes and spreading out of finitely presented data; §§0.12–0.14 henselization of pairs and henselian pairs, with
-  Elkik's smooth lifting; §0.21 regular and excellent rings and schemes); Layer 1 (§1.1 descent of quasi-coherent
-  modules); Layer 2 (sites and scheme cohomology); Layer 3 (§3.2
-  `scheme_riemann_hurwitz`, which gives `π_1(P¹_k) = 1` over an algebraically closed field; §§3.4 and 3.7, Picard
-  groups and Picard functors).
-- **TauCetiRoadmap ModularCurves** Layer 4D (strict henselization and completion of strict henselizations, regular
-  schemes and completion of noetherian local rings).
-- **PurityOfBranchLocus** §§2.1–2.2 (Stacks 0BMB and its global corollary): pointwise
-  étaleness for a quasi-finite morphism between locally noetherian schemes with normal source
-  stalk, regular target stalk, equal positive local dimensions and unramifiedness at every
-  codimension-one generalization; globally, étaleness of a finite dominant morphism from a
-  normal integral locally noetherian scheme to a regular integral locally noetherian scheme
-  that is generically étale and unramified in codimension one. Generic étaleness here is
-  separability of the finite function-field extension. These supply branch purity in 1.8.
-- **AbhyankarLemma** §§3.3–3.4 (Stacks 0EYG/0EYH): for a regular effective Cartier divisor
-  on a locally noetherian scheme and a finite étale cover of its complement tame in
-  codimension one, the étale-local description by prime-to-residue-characteristic roots of
-  a divisor equation, and the finite locally free normalization with regular reduced boundary.
-  These supply the regular-divisor inputs to 1.8 and 5.1–5.2; the normal-crossings extension,
-  compatible Kummer tower and tame fundamental group used in 1.8 are supplied by
-  CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*.
-- **TauCetiRoadmap StableReduction** Layer 1 (nodes, local equations `uv = π^n`, normalization, oriented dual
-  multigraphs) and Layer 4 (Rees-algebra blow-ups, the test case `xy = π^n`). Layer 1 attaches to a proper geometric
-  nodal curve its oriented dual graph, a Tau Ceti `TauCeti.DualGraph` without markings, an edge `e` having tail
-  `endpoint e 0` and head `endpoint e 1`; the normalization differential of 7a.1 uses these endpoints.
-- **TauCetiRoadmap EllipticCurves** Layer 4 (Tate's algorithm, multiplicative reduction).
-- **TauCetiRoadmap LocalFieldsRamification** Layer 4 (inertia, wild inertia and the tame character of a local field).
-- **AdelicAlgebraicGroups** Layer 4, §4.2 (closed subgroups of `p`-adic Lie groups, their Lie algebras, openness).
-- **TauCetiRoadmap OrthogonalSpinGroups** Layers 0 and 2 (orthogonal groups over a general field and over `ℚ_p`, their
-  topology and closedness).
-- **TauCetiRoadmap Chebotarev** Layer 9 (abelian Chebotarev).
-- **TauCetiRoadmap RepresentationTheory**: CharacterTheory Layer 4, LieHighestWeight Layer 0 (`𝔰𝔩₂`-modules,
-  Clebsch–Gordan), RootSystems Layer 5 (the Cartan–Killing classification, whose simply laced types are A, D and E).
-- **Completed IntegralLattices** Layer 1 and **Completed HodgeStructures** layer L2 (mixed Hodge structures and
-  strictness).
-- **CrystallineCohomology** §§CR.5:log-algebra.1–CR.5:log-algebra.4: monoids,
-  étale log structures and fs charts, log fibre products, strict/exact/integral/Kummer
-  morphisms, log smooth/log étale predicates and Kato's chart criterion, divisorial log
-  structures and log regularity. Section CR.5:log-algebra.4, *The classical Abhyankar lemma*,
-  supplies the SNC Abhyankar theorem, the compatible Kummer tower with its transition maps,
-  the universal tame pro-cover and the full tame fundamental group used in 1.8.
-  From §CR.5.1 use only the logarithmic differential
-  module and its universal property. These log-algebra sections and that differential
-  construction are independent of crystalline cohomology, Cartier and Hyodo–Kato theory.
-  Section 0.10 extends this shared carrier with log blow-ups, finite-group actions,
-  quotients, equivariant alteration and purity descent.
-- **EnhancedDerivedSheaves** §§0.1–0.4 (`ClassicalDerived.enhancedCategory`,
-  `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`,
-  `ClassicalDerived.functorCoherence`, `ClassicalDerived.derivedCompletion`) on scheme étale sites.
-- **EtaleCohomologyFoundations** §§F.0–F.8 (finite-cover monodromy, constructible
-  cohomology, base change, local acyclicity, adic realization, duality, Gysin maps,
-  weak Lefschetz and field perversity), §F.3a (henselian traits, inertia and tame
-  characters), §F.0.A1 (cover decomposition and inertia), §§0.7–0.11
-  (algebraic localization, supports, traces, cycle classes
-  and smooth purity), §§G.1–G.3 (compactifications and common refinements),
-  and §§F.10.1–F.10.5 (finite-field Frobenius, perfect-complex trace algebra and
-  finite-torsor perfectness and coefficient descent).
-- **AlgebraicModuliForArithmeticGeometry** Layer 1 (§1.1 projective bundles, §1.3 Grassmannians, §1.4 relative very
-  ampleness and the classifying map `ProjectiveBundles.IsRelativelyVeryAmple.completeMap`, from which 3.4 builds
-  the Veronese embeddings), Layer 6 (Artin approximation), and §7.6.1
-  (`relativePicardSheaf`, relative Picard sheaves over arbitrary bases; base line-bundle classes are killed by
-  the fppf sheafification of the §7.6a presheaf `RelativePicard.relativePicardPresheaf`).
-- **InverseGaloisAndArithmeticFundamentalGroups** §§IG.0.T1–IG.0.T4 (curve/Jacobian
-  comparison, finite-coefficient and rational constructible trace formulas, and constant-sheaf
-  point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
-  §IG.1.3 tame specialization).
-- **SmoothRepresentationsOfLocalGroups** SR.5.2 (*nilpotent-exp-log*: the continuous `ℤ_ℓ` interpolation: for a
-  complete normed extension `E/ℚ_ℓ`, a finite-dimensional `E`-space `V` and a continuous homomorphism
-  `h : ℤ_ℓ → GL_E(V)` with `h(1)` unipotent, `h(x) = exp(x log h(1))` for every `x ∈ ℤ_ℓ`), in 1.2.
-- **ArithmeticGaloisRepresentations** Layer 2 (§2.1a local-field specialization of the general-trait
-  tame character, §2.3 tame characters of local fields, §2.4 Grothendieck's monodromy theorem for local
-  fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
-  Layer 5 (§5.13 Chebotarev for function fields of curves over finite fields).
-- **DerivedModuleAlgebra** §1.T.1 (towers, inverse limits, `lim¹` and Milnor sequences).
-- **ArithmeticGaloisDuality** Layers R02.1 (continuous cochains and lattices) and R02.2 (Hochschild–Serre).
-- **NeronModelsAndSemistableAbelianVarieties** Layer 3 (§§3.8–3.9 Picard schemes of
-  semistable curves) and Layer 4 (§§4.1–4.4 normalization sequence, characters as graph cycles, the integral monodromy
-  pairing and its graph formula).
-- **AbelianSchemesAndArithmeticModuli** §A4.1 (Tate modules and their duality pairing).
-- **ComplexComparisonPartII** Layers C1–C5 for Betti constructions and §C5.2
-  (`relativeBettiLocalSystem`) for the smooth punctured analytic family; §C−1.1
-  (`complexSchemeAnalytification`) for analytification; §§C6.0–C6.6 for finite-cover,
-  finite-ctf ordinary/compact/relative and normalized adic comparison, as specified in 0.8a.
-- **SchemeAndStackFoundations** §0.29 (`absoluteFrobenius`,
-  `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius`)
-  for characteristic-p scheme maps; EtaleCohomologyFoundations §§F.10.1–F.10.2b
-  supplies Galois/cohomology conversion.
-- **TauCetiRoadmap AlgebraicTopology** Stage 5 item 2 (mapping-torus Wang sequence) and Stage 6
-  item 4 (Poincaré–Lefschetz duality), adapted to cohomology and singular-fibre supports in 7b.6.
-
-## How to read the build
-
-| Layer | Content | End results |
-| --- | --- | --- |
-| LPV.0 | Nearby and vanishing cycles over a henselian trait | `RΨ`, `RΦ`, variation, constructibility, absolute purity |
-| LPV.1 | Inertia and monodromy | local monodromy theorem, `N`, monodromy filtration, semisimple trace |
-| LPV.2 | Ordinary quadratic singularities | cohomology of quadrics, Picard–Lefschetz formula |
-| LPV.3 | Lefschetz pencils | existence after a Veronese embedding, arithmetic specialization of global monodromy |
-| LPV.4 | Global vanishing cycles | vanishing subspace, radical quotient and its pairing |
-| LPV.5 | Global monodromy | conjugacy, generation, irreducibility, middle-degree reduction, Kazhdan–Margulis |
-| LPV.6 | Perverse nearby cycles | Gabber's duality and perversity theorems |
-| LPV.7a | Semistable degenerations | monodromy of nodal curves, weight spectral sequence |
-| LPV.7b | Invariant cycles | local and global invariant-cycle theorems |
-
-EtaleCohomologyFoundations §§F.0–F.8 supplies the finite-coefficient and adic theory.
-Layer LPV.0 builds the functors; Layer LPV.1 extracts the linear algebra of inertia; Layer LPV.2 is the local theory at
-an ordinary quadratic point, and uses the semistable calculation of 1.9 for the odd-dimensional sign. Layers LPV.3–LPV.5
-are the global theory of a pencil: LPV.3 supplies geometry and arithmetic specialization,
-LPV.4 linear algebra of the vanishing cycles on one fibre, LPV.5
-the monodromy theorems, which need the conjugacy and generation results before the middle-degree reduction can be
-stated. Layer LPV.6 depends only on LPV.0–LPV.2. Layer LPV.7a uses LPV.0–LPV.2 and LPV.6; Layer LPV.7b uses LPV.0,
-LPV.3, LPV.5 and LPV.7a. Each target names its sources by section, statement and page, and its inputs, in a final
-*Needs:* clause; numbers such as 2.8 refer to the subsections of this roadmap.
 
 ## F.10 Trace-formula imports and compatibility
 
@@ -4447,6 +4244,243 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
   the even-rank polar criterion that 2.2 proves (ordinarity as bijectivity of the polar map over a base) and, over a
   field, with the polar criterion that 2.1 proves. Its Layer 4 Examples read the étale rank-two even Clifford centre
   of 2.2 (`evenClifford_center_etale_azumaya`).
+
+## Scope and ownership
+
+This roadmap owns:
+
+1. **Nearby and vanishing cycles over a henselian trait** (Layer LPV.0): the topos `X_s ×_s S` and its Galois
+   description, the functors `Ψ_η`, `Ψ`, `RΨ`, `RΦ`, the specialization triangle and the variation, functoriality under
+   proper, smooth, quasi-finite and trait base change, constructibility over a henselian trait, finite and adic
+   coefficients, the nearby–Betti comparison (0.8a),
+   and Gabber's absolute cohomological purity for regular pairs (0.10).
+2. **Inertia and monodromy** (Layer LPV.1): Grothendieck's monodromy theorem for residue fields with no finite
+   extension containing all ℓ-power roots of unity and the geometric local monodromy theorem, the twisted operator
+   `N`, the monodromy filtration of a nilpotent endomorphism of an object of an abelian category with its primitive
+   decomposition and `𝔰𝔩₂` realization, the relative monodromy filtration, `can` and `var`, tame restriction along a
+   normal crossings divisor, the two-component semistable complex and the semisimple trace of Frobenius.
+3. **Ordinary quadratic singularities and Picard–Lefschetz** (Layer LPV.2): ordinary quadratic forms over any base,
+   quadrics and their cohomology, ordinary quadratic points, their henselian normal forms and local equations, and
+   the local and global Picard–Lefschetz theory.
+4. **Lefschetz pencils and their monodromy** (Layers LPV.3–LPV.5).
+5. **Perverse nearby cycles** (Layer LPV.6), **semistable degenerations** (Layer LPV.7a) and **invariant cycles**
+   (Layer LPV.7b).
+
+It uses, and does not redevelop:
+
+- the site, pullback, derived direct image, supports and pro-étale foundations of
+  SchemeAndStackFoundations §§2.1–2.2, 2.5, 2.7, 2.9–2.11, 2.15 and 2.17. The additional étale,
+  duality and perverse prerequisites are supplied by EtaleCohomologyFoundations §§F.0–F.8
+  and §§0.7–0.11, using EnhancedDerivedSheaves §§0.1–0.4;
+- the shared fs log schemes, charts, characteristic monoids, morphism predicates and log
+  regularity of CrystallineCohomology §§CR.5:log-algebra.1–CR.5:log-algebra.4, and the
+  logarithmic differential module of §CR.5.1; 0.10 builds purity-specific equivariant
+  modifications, actions and quotients on those objects;
+- the nilpotent exponential and the finite logarithm of a unipotent, inverse to each other, from Mathlib
+  (`IsNilpotent.exp`) and Tau Ceti (`IsNilpotent.log`), and the continuous `ℤ_ℓ` interpolation
+  `h(x) = exp(x log h(1))` of a unipotent one-parameter subgroup from SmoothRepresentationsOfLocalGroups
+  SR.5.2 (*nilpotent-exp-log*); Grothendieck's monodromy theorem for local fields and the monodromy
+  filtration of a nilpotent endomorphism of a finite-dimensional vector space with its tensor and dual rules from
+  ArithmeticGaloisRepresentations Layer 2 (§§2.4, 2.6); function-field Chebotarev from its Layer 5 (§5.13);
+- the inertia group and tame character of a nonarchimedean local field from TauCetiRoadmap LocalFieldsRamification
+  Layer 4 (the comparison of 0.1 is with it);
+- the dual-graph carrier `TauCeti.DualGraph` from Tau Ceti; the dual graph of a nodal curve, normalization,
+  Rees-algebra blow-ups and the test case `xy = π^n` from TauCetiRoadmap StableReduction
+  Layers 1 and 4; the Picard scheme of a semistable curve and Grothendieck's integral monodromy pairing from
+  NeronModelsAndSemistableAbelianVarieties Layers 3–4;
+- closed subgroups of `ℓ`-adic Lie groups and their Lie algebras from AdelicAlgebraicGroups Layer 4, §4.2;
+  orthogonal groups over `ℚ_ℓ` from TauCetiRoadmap OrthogonalSpinGroups Layers 0 and 2; the centre of the even Clifford
+  algebra over a field in which two is invertible, in every even positive dimension, from Tau Ceti
+  (`CliffordAlgebra.adjoinRootEquivCenterEven`; 2.2 states it for every even rank over any base, characteristic two
+  included, as the discriminant cover of a quadric needs); root systems, integral lattices, character values and
+  `𝔰𝔩₂`-modules from TauCetiRoadmap RepresentationTheory and Completed IntegralLattices; abelian Chebotarev from
+  TauCetiRoadmap Chebotarev Layer 9; mixed Hodge structures and strictness from Completed HodgeStructures (layer L2) and
+  Tau Ceti's `TauCeti.Hodge.MixedHodgeStructure`;
+- curve/Jacobian comparison, finite-coefficient and rational constructible trace formulas,
+  and constant-sheaf point counts from InverseGaloisAndArithmeticFundamentalGroups
+  §§IG.0.T1–IG.0.T4, on the domains specified in F.10;
+- local-field specialization of the general-trait tame character from
+  ArithmeticGaloisRepresentations §2.1a, as used in 0.1;
+- cover decomposition and inertia from EtaleCohomologyFoundations §F.0.A1,
+  and tame specialization of fundamental groups from
+  InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3.
+
+It leaves to other roadmaps:
+
+- **Weights.** Weil numbers, punctual and mixed weights, the purity theorems of Weil I and Weil II, hard Lefschetz
+  and the decomposition theorem are weight-theory inputs, kept as explicit hypotheses here. The
+  invariant-cycle theorems of Layer LPV.7b are stated with the outputs of that theory as explicit hypotheses
+  (disjointness of two Frobenius spectra, or local surjectivity at the singular members of a pencil); the
+  unconditional theorems (Weil II 3.6.1, 6.2.9, 6.2.12) are obtained there by supplying them. Likewise, the even
+  orthogonal alternative (5.10) assumes the nondegeneracy that hard Lefschetz provides, and the gcd theorem of
+  Weil II 4.5.1 assumes the decomposition of Weil II 4.3.9.
+- **Limit mixed Hodge structures** (Steenbrink, Schmid, Clemens) are not built; the complex invariant-cycle theorem
+  (7b.6) assumes them in the form it needs.
+- **Hyodo–Kato monodromy** belongs to CrystallineCohomology Layer CR.6 and its `B_st` comparison to
+  CohomologyComparisons; no comparison of it with the ℓ-adic `N` is made here. The **weight–monodromy conjecture**
+  is not stated: 7a.8 constructs the weight spectral sequence without identifying its filtration with the monodromy
+  filtration in dimension above one.
+- **Nearby cycles over higher-dimensional bases** are not constructed. Generic local acyclicity over
+  hyperplane parameter spaces is the prerequisite of EtaleCohomologyFoundations §F.3 and the restriction target of 7b.7;
+  the nearby-cycle functor of 0.2–0.8 remains a trait construction.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
+
+- Rings: `HenselianLocalRing`, `HenselianRing`, `IsDiscreteValuationRing`, `ValuationSubring.inertiaSubgroup`,
+  `ValuationSubring.decompositionSubgroup`; `MvPowerSeries` with its total-degree order `MvPowerSeries.order`
+  (`MvPowerSeries.le_order`, `MvPowerSeries.coeff_of_lt_order`): a series has order at least three, as in 2.4, exactly
+  when `3 ≤ MvPowerSeries.order R`; `AdicCompletion` (completed local rings and their jets `O/𝔪^{k+1}`);
+  `finite_of_finite_type_of_isJacobsonRing` (the residue field of a closed point of a scheme of finite type over a field
+  is finite over it); `PadicInt.denseRange_intCast` (`ℤ` is dense in `ℤ_ℓ`, used in 5.7).
+- Smoothness and the Jacobian criterion: `Algebra.Smooth`, `Algebra.IsSmoothAt`, `Algebra.IsStandardSmooth` (a
+  presentation whose Jacobian is invertible), which is smooth, and `Algebra.IsSmoothAt.exists_notMem_isStandardSmooth`
+  (smoothness at a prime is standard smoothness after inverting an element outside it). These are the Jacobian
+  criterion of 2.1, 3.2 and 3.4.
+- Linear algebra: `QuadraticMap`, `QuadraticMap.polarBilin`, `QuadraticMap.Nondegenerate` (radical zero and polar kernel
+  of rank at most one, agreeing with 2.1 ordinarity over nonzero finite-dimensional field spaces;
+  over rings use 2.1 fibrewise ordinarity), `CliffordAlgebra.even`, `Subalgebra.center` (the centre
+  `Z(Q)` of 2.2 is `Subalgebra.center A (CliffordAlgebra.even Q)`, with no separate name), `LinearMap.BilinForm`,
+  `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`, `LinearMap.transvection`, `LinearEquiv.transvection`,
+  `LinearEquiv.mem_fixedSubmodule_transvection_iff` (fixed space of a transvection with `f v = 0`), `IsNilpotent.exp`,
+  `Module.End.HasEigenvalue`, `Module.End.maxGenEigenspace`, `Submodule.mkQ`, `LinearMap.codRestrict`,
+  `Representation.invariants`, `Representation.trivial`.
+- Lie theory: `skewAdjointLieSubalgebra` (the symplectic Lie algebra `𝔰𝔭(V, ψ)`), `LieModule.IsIrreducible`, `IsSl2Triple`;
+  `NormedSpace.exp` (the exponential series, through which 5.7 defines the Lie algebra of a closed subgroup).
+- Geometry and homological algebra: `AlgebraicGeometry.Scheme`, the morphism classes `AlgebraicGeometry.IsProper`,
+  `AlgebraicGeometry.IsIntegral`, `AlgebraicGeometry.LocallyOfFiniteType`, `AlgebraicGeometry.QuasiCompact`,
+  `AlgebraicGeometry.IsOpenImmersion`, `AlgebraicGeometry.SmoothOfRelativeDimension`,
+  `AlgebraicGeometry.Scheme.Hom.isClosedMap` (a universally closed, in particular proper, morphism has closed image),
+  `IsGenericPoint`, `AlgebraicGeometry.Scheme.smallEtaleTopology`, `CategoryTheory.IsPullback`, `DerivedCategory`,
+  `HasDerivedCategory.standard`, `CategoryTheory.shiftFunctor`, `CategoryTheory.Abelian.SpectralObject` and its
+  `spectralSequence`, `CategoryTheory.CohomologicalSpectralSequence`, `ModuleCat`.
+
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
+
+- `TauCeti.genericFiber`, `TauCeti.specialFiber` (`TauCeti/AlgebraicGeometry/Fibers.lean`): the generic and special
+  fibres of a scheme over `Spec R` as over-schemes; the trait diagram of EtaleCohomologyFoundations §F.3a is built on them.
+- `LinearMap.GeneralLinearGroup.IsUnipotent` (`TauCeti/LinearAlgebra/GeneralLinearGroup/Unipotent.lean`),
+  `TauCeti.exp_smul_eq_sum_smul_dividedPower` and `TauCeti.expSMulHom` (`TauCeti/RingTheory/Nilpotent/Exp.lean`):
+  for nilpotent `N` in a `ℚ`-algebra, `exp(aN)` is a polynomial in the scalar `a` and `a ↦ exp(aN)` is a homomorphism
+  from the additive group of scalars to the units; used in 5.7.
+- `IsNilpotent.log`, `IsNilpotent.log_eq_sum`, `IsNilpotent.isNilpotent_log`, `IsNilpotent.exp_log` and
+  `IsNilpotent.log_exp` (`TauCeti/RingTheory/Nilpotent/Log.lean`): the finite logarithm
+  `log u = Σ_{1≤i<d} (−1)^{i+1}(u − 1)^i/i` of a unipotent `u` with `(u − 1)^d = 0`, independent of the bound `d`,
+  nilpotent, and inverse to `IsNilpotent.exp` in a `ℚ`-algebra. When `u − 1` is not nilpotent its value is `0`, a junk
+  value, so it is applied only to unipotents. `Module.End.ker_pow_log` and `Module.End.jordanPartition_log`
+  (`TauCeti/LinearAlgebra/End/Exponential.lean`): for a unipotent endomorphism `u`, `ker (log u)^k = ker (u − 1)^k`
+  for every `k`, and in finite dimension over a field `log u` and `u − 1` have the same Jordan partition. Used in 1.2,
+  1.6 and 5.7.
+- `IsNilpotent.normedSpace_exp_eq_exp` (`TauCeti/Analysis/Normed/Algebra/NilpotentExponential.lean`): at a nilpotent
+  element the exponential series `NormedSpace.exp` terminates and equals `IsNilpotent.exp`; used in 5.7, where the Lie
+  algebra `𝔏` is defined through the exponential series.
+- `TauCeti.inertiaTameCharacter` (`TauCeti/NumberTheory/LocalField/Tame/Character.lean`): the tame character
+  `I_K → ℤ̂^{(p')}(1)` of a nonarchimedean local field, the Kummer character of a uniformizer; 0.1 compares with it
+  (the tame-character comparison supplied by EtaleCohomologyFoundations §F.3a).
+- `CliffordAlgebra.center_even_eq_adjoin_volume`, `CliffordAlgebra.adjoinRootEquivCenterEven` and
+  `TauCeti.CliffordAlgebra.exists_mem_center_even_forall_ne_algebraMap`
+  (`TauCeti/LinearAlgebra/CliffordAlgebra/Even/Center.lean`): over a field with `2 ≠ 0` and in even positive dimension,
+  the centre of the even Clifford algebra is `K[X]/(X² − d)`, `d` the signed discriminant, generated by the volume
+  element. This is the field case of 2.2 when two is invertible; 2.2 adds characteristic two and a general base.
+- `TauCeti.Hodge.MixedHodgeStructure` (`TauCeti/Geometry/Hodge/Mixed/Basic.lean`) with strictness, used in 7b.6.
+- `TauCeti.DualGraph` and `TauCeti.DualGraph.firstBetti` (`TauCeti/AlgebraicGeometry/Curves/DualGraph/Basic.lean`): the
+  combinatorial dual graph of a proper nodal curve, with a finite nonempty connected vertex type, a finite edge type, an
+  ordered pair of endpoints `endpoint e : Fin 2 → Vertex` for each edge (loops allowed), component genera and markings;
+  `firstBetti` is `#edges + 1 − #vertices`. Used without markings in 7a.1; StableReduction Layer 1 attaches it to a curve.
+
+### From other roadmaps
+
+- **SchemeAndStackFoundations**: Layer 0 (§0.8 smoothness, étale coordinates and quasi-sections; §0.9 limits of
+  schemes and spreading out of finitely presented data; §§0.12–0.14 henselization of pairs and henselian pairs, with
+  Elkik's smooth lifting; §0.21 regular and excellent rings and schemes); Layer 1 (§1.1 descent of quasi-coherent
+  modules); Layer 2 (sites and scheme cohomology); Layer 3 (§3.2
+  `scheme_riemann_hurwitz`, which gives `π_1(P¹_k) = 1` over an algebraically closed field; §§3.4 and 3.7, Picard
+  groups and Picard functors).
+- **TauCetiRoadmap ModularCurves** Layer 4D (strict henselization and completion of strict henselizations, regular
+  schemes and completion of noetherian local rings).
+- **PurityOfBranchLocus** §§2.1–2.2 (Stacks 0BMB and its global corollary): pointwise
+  étaleness for a quasi-finite morphism between locally noetherian schemes with normal source
+  stalk, regular target stalk, equal positive local dimensions and unramifiedness at every
+  codimension-one generalization; globally, étaleness of a finite dominant morphism from a
+  normal integral locally noetherian scheme to a regular integral locally noetherian scheme
+  that is generically étale and unramified in codimension one. Generic étaleness here is
+  separability of the finite function-field extension. These supply branch purity in 1.8.
+- **AbhyankarLemma** §§3.3–3.4 (Stacks 0EYG/0EYH): for a regular effective Cartier divisor
+  on a locally noetherian scheme and a finite étale cover of its complement tame in
+  codimension one, the étale-local description by prime-to-residue-characteristic roots of
+  a divisor equation, and the finite locally free normalization with regular reduced boundary.
+  These supply the regular-divisor inputs to 1.8 and 5.1–5.2; the normal-crossings extension,
+  compatible Kummer tower and tame fundamental group used in 1.8 are supplied by
+  CrystallineCohomology §CR.5:log-algebra.4, *The classical Abhyankar lemma*.
+- **TauCetiRoadmap StableReduction** Layer 1 (nodes, local equations `uv = π^n`, normalization, oriented dual
+  multigraphs) and Layer 4 (Rees-algebra blow-ups, the test case `xy = π^n`). Layer 1 attaches to a proper geometric
+  nodal curve its oriented dual graph, a Tau Ceti `TauCeti.DualGraph` without markings, an edge `e` having tail
+  `endpoint e 0` and head `endpoint e 1`; the normalization differential of 7a.1 uses these endpoints.
+- **TauCetiRoadmap EllipticCurves** Layer 4 (Tate's algorithm, multiplicative reduction).
+- **TauCetiRoadmap LocalFieldsRamification** Layer 4 (inertia, wild inertia and the tame character of a local field).
+- **AdelicAlgebraicGroups** Layer 4, §4.2 (closed subgroups of `p`-adic Lie groups, their Lie algebras, openness).
+- **TauCetiRoadmap OrthogonalSpinGroups** Layers 0 and 2 (orthogonal groups over a general field and over `ℚ_p`, their
+  topology and closedness).
+- **TauCetiRoadmap Chebotarev** Layer 9 (abelian Chebotarev).
+- **TauCetiRoadmap RepresentationTheory**: CharacterTheory Layer 4, LieHighestWeight Layer 0 (`𝔰𝔩₂`-modules,
+  Clebsch–Gordan), RootSystems Layer 5 (the Cartan–Killing classification, whose simply laced types are A, D and E).
+- **Completed IntegralLattices** Layer 1 and **Completed HodgeStructures** layer L2 (mixed Hodge structures and
+  strictness).
+- **CrystallineCohomology** §§CR.5:log-algebra.1–CR.5:log-algebra.4: monoids,
+  étale log structures and fs charts, log fibre products, strict/exact/integral/Kummer
+  morphisms, log smooth/log étale predicates and Kato's chart criterion, divisorial log
+  structures and log regularity. Section CR.5:log-algebra.4, *The classical Abhyankar lemma*,
+  supplies the SNC Abhyankar theorem, the compatible Kummer tower with its transition maps,
+  the universal tame pro-cover and the full tame fundamental group used in 1.8.
+  From §CR.5.1 use only the logarithmic differential
+  module and its universal property. These log-algebra sections and that differential
+  construction are independent of crystalline cohomology, Cartier and Hyodo–Kato theory.
+  Section 0.10 extends this shared carrier with log blow-ups, finite-group actions,
+  quotients, equivariant alteration and purity descent.
+- **EnhancedDerivedSheaves** §§0.1–0.4 (`ClassicalDerived.enhancedCategory`,
+  `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom`, `ClassicalDerived.inverseLimits`,
+  `ClassicalDerived.functorCoherence`, `ClassicalDerived.derivedCompletion`) on scheme étale sites.
+- **EtaleCohomologyFoundations** §§F.0–F.8 (finite-cover monodromy, constructible
+  cohomology, base change, local acyclicity, adic realization, duality, Gysin maps,
+  weak Lefschetz and field perversity), §F.3a (henselian traits, inertia and tame
+  characters), §F.0.A1 (cover decomposition and inertia), §§0.7–0.11
+  (algebraic localization, supports, traces, cycle classes
+  and smooth purity), §§G.1–G.3 (compactifications and common refinements),
+  and §§F.10.1–F.10.5 (finite-field Frobenius, perfect-complex trace algebra and
+  finite-torsor perfectness and coefficient descent).
+- **AlgebraicModuliForArithmeticGeometry** Layer 1 (§1.1 projective bundles, §1.3 Grassmannians, §1.4 relative very
+  ampleness and the classifying map `ProjectiveBundles.IsRelativelyVeryAmple.completeMap`, from which 3.4 builds
+  the Veronese embeddings), Layer 6 (Artin approximation), and §7.6.1
+  (`relativePicardSheaf`, relative Picard sheaves over arbitrary bases; base line-bundle classes are killed by
+  the fppf sheafification of the §7.6a presheaf `RelativePicard.relativePicardPresheaf`).
+- **InverseGaloisAndArithmeticFundamentalGroups** §§IG.0.T1–IG.0.T4 (curve/Jacobian
+  comparison, finite-coefficient and rational constructible trace formulas, and constant-sheaf
+  point counts); Layer IG.1 (§IG.1.2 tame fundamental groups of curves;
+  §IG.1.3 tame specialization).
+- **SmoothRepresentationsOfLocalGroups** SR.5.2 (*nilpotent-exp-log*: the continuous `ℤ_ℓ` interpolation: for a
+  complete normed extension `E/ℚ_ℓ`, a finite-dimensional `E`-space `V` and a continuous homomorphism
+  `h : ℤ_ℓ → GL_E(V)` with `h(1)` unipotent, `h(x) = exp(x log h(1))` for every `x ∈ ℤ_ℓ`), in 1.2.
+- **ArithmeticGaloisRepresentations** Layer 2 (§2.1a local-field specialization of the general-trait
+  tame character, §2.3 tame characters of local fields, §2.4 Grothendieck's monodromy theorem for local
+  fields, §2.6 monodromy filtration of a nilpotent on a vector space) and
+  Layer 5 (§5.13 Chebotarev for function fields of curves over finite fields).
+- **DerivedModuleAlgebra** §1.T.1 (towers, inverse limits, `lim¹` and Milnor sequences).
+- **ArithmeticGaloisDuality** Layers R02.1 (continuous cochains and lattices) and R02.2 (Hochschild–Serre).
+- **NeronModelsAndSemistableAbelianVarieties** Layer 3 (§§3.8–3.9 Picard schemes of
+  semistable curves) and Layer 4 (§§4.1–4.4 normalization sequence, characters as graph cycles, the integral monodromy
+  pairing and its graph formula).
+- **AbelianSchemesAndArithmeticModuli** §A4.1 (Tate modules and their duality pairing).
+- **ComplexComparisonPartII** Layers C1–C5 for Betti constructions and §C5.2
+  (`relativeBettiLocalSystem`) for the smooth punctured analytic family; §C−1.1
+  (`complexSchemeAnalytification`) for analytification; §§C6.0–C6.6 for finite-cover,
+  finite-ctf ordinary/compact/relative and normalized adic comparison, as specified in 0.8a.
+- **SchemeAndStackFoundations** §0.29 (`absoluteFrobenius`,
+  `schemeFrobeniusTwist`, `relativeFrobenius`, `iteratedSchemeFrobenius`, `qPowerFrobenius`)
+  for characteristic-p scheme maps; EtaleCohomologyFoundations §§F.10.1–F.10.2b
+  supplies Galois/cohomology conversion.
+- **TauCetiRoadmap AlgebraicTopology** Stage 5 item 2 (mapping-torus Wang sequence) and Stage 6
+  item 4 (Poincaré–Lefschetz duality), adapted to cohomology and singular-fibre supports in 7b.6.
 
 ## References
 

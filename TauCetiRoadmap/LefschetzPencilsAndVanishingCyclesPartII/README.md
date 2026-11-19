@@ -1,123 +1,54 @@
 # Roadmap: Lefschetz pencils and vanishing cycles, Part II — curves over the same field through rational points
 
-**Summary.** This roadmap proves that a smooth rational point of a scheme over an arbitrary field
-`k` lies on a curve defined over `k` itself which meets a prescribed dense open set. Precisely
-(§2.4, `exists_same_field_curve`): if `Y` is a `k`-scheme, `y ∈ Y(k)` a rational point with an open
-neighbourhood `V` smooth over `k`, and `U ⊆ Y` an open set with `U ∩ V` dense in `V`, then there are
-an affine curve `C` over `k`, smooth of relative dimension one and geometrically integral, a point
-`c ∈ C(k)` and a `k`-morphism `g : C → Y` with `g(c) = y` and `g⁻¹(U)` nonempty and dense in `C`.
-The point `y` may lie outside `U`, the good open `g⁻¹(U)` need not contain any rational point, and
-nothing is assumed of `Y` away from `V`. Over `k = 𝔽_q` both marked residue fields are `𝔽_q`, so
-the pullback along `g` of a lisse sheaf on `Y` has at `c` the Frobenius that the sheaf has at `y`,
-with no passage to a power of Frobenius. The proof is elementary and local. Layer 1 specialises
-Tau Ceti's Kronecker substitution to the weights `X_i ↦ T^(B^i)` (`polynomialGraph`), deduces from Tau Ceti's
-coefficient theorem and the uniqueness of base-`B` digits that a base `B` exceeding every exponent
-preserves every coefficient (`polynomialGraph_coeff`), and concludes that over the field `k` the
-graph `a_B : 𝔸¹_k → 𝔸^m_k` through the origin meets the complement of any given hypersurface
-(`exists_avoiding_graph`). Layer 2 takes an étale chart `π : V → 𝔸^m_k` at `y`, encloses the
-boundary `V ∖ U` in a hypersurface `V(h)` of `𝔸^m_k`, pulls the graph `a_B` back along `π`, and keeps
-the connected component through the marked point (`exists_marked_etale_curve`). This supplies the
-curve step in the proofs of Kisin–Zhou, *Independence of ℓ for Frobenius conjugacy classes attached
-to abelian varieties*, Corollary 5.2.7 and Proposition 5.3.5 (arXiv:2103.09945v2, pp. 52–54), at
-the generality of a smooth chart of finite type over an arbitrary field.
+**Summary.** Some arguments about Frobenius at a rational point of a smooth variety over a finite
+field `𝔽_q` pass to a curve through that point. The curve is wanted over `𝔽_q` itself, through the
+point at an `𝔽_q`-rational point, so that no power of Frobenius arises; it should also meet a
+prescribed dense open set. This roadmap constructs them over any field `k`, locally and without
+projectivity. Throughout, `k` is a field unless a statement says "commutative ring".
 
-| Layer | Title | What it delivers |
-|---|---|---|
-| [1](#layer-1-kronecker-substitution-and-graphs-avoiding-a-hypersurface) | Kronecker substitution and graphs avoiding a hypersurface | `polynomialGraph`, coefficient preservation, surjectivity, the avoiding graph |
-| [2](#layer-2-marked-étale-curves-through-rational-points) | Marked étale curves through rational points | the boundary polynomial of an étale chart, the marked component of a graph pullback, the marked étale curve, the same-field curve |
+For the main theorem, let `y` be a `k`-rational point of a scheme `Y` over `k`, that is, a section
+of the structure morphism. Suppose `y` has an open neighbourhood `V` smooth over `k`, and let
+`U ⊆ Y` be open with `U ∩ V` dense in `V`. Then there are an affine curve `C` over `k`, smooth of
+relative dimension one and geometrically integral, a `k`-rational point `c` of `C`, and a
+`k`-morphism `g : C → Y` with `g(c) = y` and `g⁻¹(U)` nonempty and dense in `C`. The point `y` may
+lie outside `U`, `g⁻¹(U)` need not contain a rational point, and nothing is assumed of `Y` away
+from `V`. Over `𝔽_q` the residue fields at `c` and `y` are both `𝔽_q`, and the geometric Frobenius
+at `c` maps to the one at `y`. Smoothness at `y` cannot be dropped: the conclusion fails for the
+vertex of the cone `x² = a w²` over `𝔽_q`, with `q` odd, `a` a non-square and `U` the rest of the
+cone.
 
-```text
-Mathlib + Tau Ceti → Layer 1 → Layer 2
-SchemeAndStackFoundations §0.8 (rational_point_component, 04KV) ──→ Layer 2 §2.2
-```
+The algebraic ingredient is the Kronecker substitution `X_i ↦ T^(B^i)`, whose spectrum is the graph
+`a_B : 𝔸¹_k → 𝔸^m_k`, `T ↦ (T, T^B, …, T^(B^(m−1)))`. Over any commutative ring, if every exponent
+of `h` is smaller than `B`, coefficients survive: for each exponent vector `e` with entries smaller
+than `B`, the coefficient of `X^e` in `h` reappears as that of `T^(Σe_i·B^i)`. For `m > 0` and
+`h ≠ 0`, some `B ≥ 2` makes `a_B` a closed immersion along which `h` pulls back to a nonzero
+polynomial. Over a field the graph then meets the complement of `h = 0` in a nonempty dense open
+subset of the line. Over `𝔽_2`, `X_0²X_1 − X_0X_1²` vanishes on all three rational lines through
+the origin of `𝔸²`, while `T ↦ (T, T³)` pulls it back to the nonzero `T⁵+T⁷`.
 
-The end theorems are `exists_marked_etale_curve` (§2.3) and `exists_same_field_curve` (§2.4); the
-algebraic milestones are `polynomialGraph_coeff` (§1.2) and `exists_avoiding_graph` (§1.3).
+For the geometry, let `V` be an integral affine scheme with an étale morphism `π : V → 𝔸^m_k`, `y`
+a rational point with `π(y) = 0`, and `U ⊆ V` a dense open. Then `π` maps the complement of `U`
+into a hypersurface `h = 0` with `h ≠ 0`. Choose `B ≥ 2` larger than every exponent of `h`, pull
+`a_B` back along `π`, and keep the connected component through `(y, 0)`; the pullback itself can be
+disconnected. This is the marked étale curve: affine, smooth of relative dimension one and
+geometrically integral over `k`, with a rational point over `y` and with the preimage of `U`
+nonempty and dense.
 
-## Scope and ownership
+The base roadmap, LefschetzPencilsAndVanishingCycles, descends Lefschetz pencils to a finite field
+but produces its good axis over some extension `𝔽_{q^r}`, replacing Frobenius by its `r`-th power.
+This Part II gives the curve over `𝔽_q` itself, without using or providing pencils. It builds on
+Tau Ceti's Kronecker substitution for arbitrary weights and étale coordinates at a smooth point.
+From SchemeAndStackFoundations it takes geometric integrality for a connected scheme smooth over a
+field with a rational point. The construction gives the curve step in two proofs of Kisin and Zhou
+on independence of ℓ, whose citation of Poonen's Bertini theorem needs a smooth projective variety,
+which a smooth chart does not supply.
 
-**Where the base roadmap stops.** LefschetzPencilsAndVanishingCycles constructs Lefschetz pencils
-after a Veronese embedding of degree at least two (its §3.4, existence of Lefschetz pencils) and
-descends them to finite fields (its §3.5, descent of pencils to a finite field). That descent
-theorem produces a good axis over some finite extension `𝔽_{q^r}`, and replaces Frobenius by its
-`r`-th power: the open set of good axes need not have an `𝔽_q`-point. It does not produce a
-curve over `𝔽_q` through a prescribed `𝔽_q`-point. This Part II supplies that curve, locally and
-without any projectivity: it does not use pencils, and it does not supply a pencil, a projective
-curve, or a curve through several prescribed points. The base roadmap is not a supplier of any
-target here.
-
-**This roadmap owns**
-
-- the base-`B` Kronecker substitution `polynomialGraph` in `m` variables (Tau Ceti's substitution
-  for the weight `i ↦ B^i`, as the ring map whose spectrum is the graph `a_B`) with its
-  normalisation API; the bounded-base coefficient theorem `polynomialGraph_coeff`, whose own step
-  is the injectivity of the base-`B` weight on exponent vectors with entries `< B`; surjectivity
-  for `m > 0`; and the avoiding graph (Layer 1);
-- the boundary polynomial of an étale chart: a proper closed subset of an integral affine scheme
-  étale over `𝔸^m_k` maps into a hypersurface (§2.1);
-- the marked component of the pullback of a Kronecker graph along an étale chart, with its API and
-  its compatibility with extension of the base field (§2.2), and the marked étale curve (§2.3);
-- the same-field curve through a smooth rational point, including the zero-dimensional case and
-  the residue-field identity at the marks (§2.4).
-
-The Kronecker substitution for an arbitrary weight, with its coefficient and injectivity
-theorems, is Tau Ceti's (below); this roadmap does not restate it. Owned here is only its
-specialisation to the explicit weights `B^i` in `m` variables, which makes the graph `a_B`
-explicit (first coordinate `T`, so for `m > 0` a closed immersion, through the origin when
-`B ≥ 1`) and its base computable from the exponents of `h`, together with the injectivity of that
-weight on the box of exponent vectors with entries `< B`. Mathlib's Noether normalisation
-(`Mathlib/RingTheory/NoetherNormalization.lean`) uses the same digit argument only inside private
-lemmas about the different substitution `X_0 ↦ X_0`, `X_i ↦ X_i + c·X_0^(r_i)` for `i ≥ 1`. The
-two-variable power substitution `Z ↦ X, W ↦ X^B` is ArithmeticInterpolationDeterminants §0.3
-`powerSubstitution`; for `m = 2`, `polynomialGraph k 2 B` is its underlying ring map, and §1.2 here
-differs in bounding every exponent of `m` variables by `B`, where §0.3 there bounds only the
-`Z`-degree of two variables. The boundary polynomial (§2.1)
-is owned here because neither Tau Ceti's étale coordinates nor SchemeAndStackFoundations §0.8
-makes any statement about images of closed subsets; the route of §2.1 is algebraic and needs no
-dimension theory.
-
-**Owned elsewhere and consumed here.** Each object has one owner; this roadmap builds no second
-carrier.
-
-- *Étale coordinates at a smooth point*: Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace`
-  and `AlgebraicGeometry.SmoothOfRelativeDimension.exists_etale_affineSpace` (module
-  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.EtaleCoordinates`; Stacks, Lemma 29.37.21 (054L)).
-- *Connected smooth schemes with a rational point are geometrically integral*:
-  SchemeAndStackFoundations §0.8, `rational_point_component` (Stacks, Lemmas 33.7.14 (04KV),
-  33.25.4 (056T) and 33.25.10 (0CDW); Properties, Lemma 28.7.7 (033N)). The step "smooth and
-  geometrically connected implies geometrically integral" is already Tau Ceti's instance
-  `TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral`.
-- *The Kronecker substitution `X_s ↦ T^(e_s)` for an arbitrary weight `e`*: Tau Ceti
-  `MvPolynomial.coeff_aeval_X_pow_weight` (coefficients survive where the weight is injective),
-  `MvPolynomial.injOn_aeval_X_pow` (injectivity on polynomials supported there) and
-  `Finsupp.exists_injOn_weight` (module `TauCeti.RingTheory.MvPolynomial.Kronecker`), over any
-  commutative semiring and any type of variables.
-- *Polynomial evaluation, base-`B` digits, weights*: Mathlib `MvPolynomial.eval₂Hom`,
-  `MvPolynomial.aeval_def`, `Nat.ofDigits_inj_of_len_eq`, `Nat.ofDigits_eq_sum_mapIdx`,
-  `Nat.injOn_ofDigits`, `Finsupp.weight`.
-- *Scheme morphism properties*: Mathlib `Etale`, `Smooth`, `SmoothOfRelativeDimension`,
-  `GeometricallyIntegral`, `IsClosedImmersion`, and the facts listed in the supplier contracts.
-- *Residue fields at sections*: Tau Ceti `TauCeti.AlgebraicGeometry.residueDegree_eq_one_of_section`
-  and `TauCeti.AlgebraicGeometry.residueFieldMap_bijective_of_section` (module
-  `TauCeti.AlgebraicGeometry.RationalPoint.Basic`).
-
-**Not in this roadmap.** Lefschetz pencils, which are LefschetzPencilsAndVanishingCycles's
-(its Layer LPV.3, Lefschetz pencils), and Bertini theorems over finite fields. Poonen,
-*Bertini theorems over finite fields*, Corollary 3.4 (p. 10), gives inside a smooth projective
-geometrically integral variety `X` over `𝔽_q` with `dim X ≥ 1` a smooth projective geometrically
-integral curve containing any finite set of closed points; adding to that set a closed point of a
-dense open `U` makes the curve meet `U`, and densely, since the curve is integral. For
-`dim X = 0` there is no curve inside `X` (then `X = Spec 𝔽_q`); §2.4 covers that case with a
-constant morphism from `𝔸¹`. What Corollary 3.4 does not reach is a smooth chart of a stack, which
-need not be projective, and whose closure in a projective space need not be smooth. Poonen's
-Theorem 3.3 (p. 10) does apply to a smooth quasi-projective `X ⊆ ℙⁿ` with
-`dim X ≥ 1`, giving a hypersurface `H` with `H ∩ X` smooth of dimension `dim X − 1` and containing
-finitely many prescribed closed points, but for non-projective `X` it does not assert that `H ∩ X`
-is connected, so cutting down to a curve in this way need not put the marked point and the added
-point of `U` on one component. Also not here: curves through singular points of local models;
-lifting rational points to smooth atlases of algebraic stacks; lisse sheaves, their stalks and
-Frobenius conjugacy classes; monodromy of universal hypersurface families; semistable potential
-maps.
+Layer 1 works over an arbitrary commutative ring. It proves the coefficient theorem and that the
+substitution is onto for `m > 0`, and builds the avoiding graph. Over a ring with nilpotents the
+nonvanishing locus of the pulled-back polynomial can be empty, so the geometry needs a field.
+Layer 2, over a field, encloses the boundary in a hypersurface, builds the marked étale curve, then
+reduces a general smooth rational point to such a chart; in dimension zero the curve is a constant
+map from the affine line.
 
 ## Conventions
 
@@ -147,121 +78,6 @@ maps.
 6. **Density.** "`U ∩ V` is dense in `V`" is density of the preimage of `U` under the open
    immersion `V → Y`. Nothing is required of the other irreducible components of `Y`.
 7. Names: the suggested forms live in `TauCetiRoadmap.LefschetzPencilsAndVanishingCyclesPartII`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `MvPolynomial.eval₂Hom`, `MvPolynomial.eval₂Hom_C`, `MvPolynomial.eval₂Hom_X'`,
-  `MvPolynomial.eval₂Hom_monomial`, `MvPolynomial.comp_eval₂Hom`, `MvPolynomial.aeval_def`
-  (`aeval f p = eval₂ (algebraMap R S) f p`), `MvPolynomial.constantCoeff`,
-  `Polynomial.constantCoeff` (`Mathlib/Algebra/MvPolynomial/Eval.lean`,
-  `Mathlib/Algebra/MvPolynomial/Basic.lean`, `Mathlib/Algebra/Polynomial/Coeff.lean`).
-- `Nat.ofDigits_inj_of_len_eq` (two digit lists of equal length with all digits `< b`, `1 < b`, and
-  equal value are equal; `Mathlib/Data/Nat/Digits/Defs.lean`), `Nat.ofDigits_eq_sum_mapIdx` and
-  `Nat.injOn_ofDigits` (`Mathlib/Data/Nat/Digits/Lemmas.lean`); `Finsupp.weight`
-  (`Mathlib/Data/Finsupp/Weight.lean`).
-- `AlgebraicGeometry.IsClosedImmersion.spec_of_surjective`: the spectrum of a surjective ring map
-  is a closed immersion (`Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean`).
-- `AlgebraicGeometry.Etale.etale_isStableUnderBaseChange`,
-  `AlgebraicGeometry.Etale.iff_smoothOfRelativeDimension_zero`, and the instance
-  `HasRingHomProperty @Etale RingHom.Etale`, by which an étale morphism of affine schemes is the
-  spectrum of an étale ring map (`Mathlib/AlgebraicGeometry/Morphisms/Etale.lean`);
-  `Algebra.Etale.baseChange`, étaleness of algebras is stable under base change
-  (`Mathlib/RingTheory/Etale/Basic.lean`); `AlgebraicGeometry.SmoothOfRelativeDimension`
-  and the composition instance `AlgebraicGeometry.smoothOfRelativeDimension_comp`, which adds
-  relative dimensions (`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`); the instance
-  `AlgebraicGeometry.AffineSpace.smoothOfRelativeDimension_fin` (`𝔸(ULift.{u} (Fin n); S) → S` is
-  smooth of relative dimension `n`), `AlgebraicGeometry.AffineSpace.SpecIso`
-  (`𝔸(σ; Spec R) ≅ Spec (MvPolynomial σ R)`) and `AlgebraicGeometry.AffineSpace.SpecIso_inv_over`
-  (under it the structure morphism becomes the spectrum of `MvPolynomial.C`)
-  (`Mathlib/AlgebraicGeometry/AffineSpace.lean`).
-- `MvPolynomial.uniqueAlgEquiv` (for a variable type with one element, `MvPolynomial σ R ≅ R[X]` as
-  `R`-algebras; `Mathlib/Algebra/MvPolynomial/Equiv.lean`), `MvPolynomial.renameEquiv` (renaming
-  variables along an equivalence is an `R`-algebra isomorphism;
-  `Mathlib/Algebra/MvPolynomial/Rename.lean`) and `Equiv.ulift`. With these, `Spec k[T] → Spec k` is
-  the composite of an isomorphism over `Spec k` with `𝔸(ULift.{u} (Fin 1); Spec k) → Spec k`, so it
-  is smooth of relative dimension one.
-- `AlgebraicGeometry.Flat.generalizingMap`, `AlgebraicGeometry.isOpenMap_of_generalizingMap` and
-  `AlgebraicGeometry.Scheme.Hom.isOpenMap`: a flat morphism locally of finite presentation is
-  open (`Mathlib/AlgebraicGeometry/Morphisms/UniversallyOpen.lean`).
-- `AlgebraicGeometry.GeometricallyIntegral`: for every field-valued point of the base the fibre
-  product is integral (`Mathlib/AlgebraicGeometry/Geometrically/Integral.lean`). The definition
-  quantifies over all fields `K` with a map `Spec K → Y`; it does not include finite type, which
-  the targets here state separately; it does include nonemptiness of every fibre product
-  `X ×_Y Spec K`, since Mathlib's `IsIntegral` carries a `nonempty` field
-  (`Mathlib/AlgebraicGeometry/Properties.lean`). In particular a geometrically integral
-  `k`-scheme is nonempty, so the targets below do not state that separately; the nonemptiness
-  they do state is that of the good open `g⁻¹(U)`, which is a different claim.
-- `Algebra.Etale.iff_exists_algEquiv_prod`: an algebra over a field is étale if and only if it is
-  a finite product of finite separable field extensions (`Mathlib/RingTheory/Etale/Field.lean`).
-- `Ideal.under_ne_bot_of_algebraic_mem`: a nonzero element of an ideal of a domain that is
-  algebraic over a subring forces a nonzero element of the ideal in that subring
-  (`Mathlib/RingTheory/Ideal/GoingUp.lean`).
-- `IsFractionRing.isAlgebraic_iff`: for a domain `R` with fraction field `K` and a commutative
-  algebra `C` over both, compatibly, an element of `C` is algebraic over `R` if and only if it is
-  algebraic over `K` (`Mathlib/RingTheory/Localization/Integral.lean`);
-  `isAlgebraic_algebraMap_iff`: along an injective algebra map `S → C` of `R`-algebras, an element
-  of `S` is algebraic over `R` if and only if its image is (`Mathlib/RingTheory/Algebraic/Basic.lean`).
-- `IsOpen.dense`, `IsOpenMap.denseRange_of_isPreirreducibleSpace` (`Mathlib/Topology/Irreducible.lean`):
-  a nonempty open subset of an irreducible space is dense, and an open map from a nonempty space
-  into an irreducible space has dense range;
-  `TopologicalSpace.NoetherianSpace.finite_irreducibleComponents` (a Noetherian space has finitely
-  many irreducible components; `Mathlib/Topology/NoetherianSpace.lean`) and
-  `isClosed_connectedComponent` (`Mathlib/Topology/Connected/Basic.lean`).
-
-### From Tau Ceti
-
-- `MvPolynomial.coeff_aeval_X_pow_weight` (module `TauCeti.RingTheory.MvPolynomial.Kronecker`):
-  over a commutative semiring, if `Finsupp.weight e` is injective on a set `S` of exponent vectors
-  containing the support of `f` and the vector `μ`, then the coefficient of `T^(weight e μ)` in
-  `aeval (fun s ↦ T^(e s)) f` is the coefficient of `X^μ` in `f`. Used in §1.2 with
-  `e = (i ↦ B^i)` and `S` the box of vectors with entries `< B`.
-- `MvPolynomial.injOn_aeval_X_pow` (same module): with `e` and `S` as above, the substitution is
-  injective on the polynomials supported in `S`. Used in §1.2.
-- `AlgebraicGeometry.Smooth.exists_etale_affineSpace` (module
-  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.EtaleCoordinates`): for a smooth `f : X → S`, every
-  point of `X` has an affine open neighbourhood `V` with an étale `S`-morphism
-  `V → 𝔸(ULift.{u} (Fin n); S)` for some `n`, compatible with the structure morphisms to `S`
-  (Stacks, Lemma 29.37.21 (054L)). Used in §2.4 with `S = Spec k`; there the target is carried to
-  `Spec k[X_0, …, X_{n-1}]` by `AffineSpace.SpecIso` and the isomorphism induced by
-  `MvPolynomial.renameEquiv` along `Equiv.ulift`, both compatible with the structure morphisms to
-  `Spec k`.
-- `TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral` (module
-  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.GeometricallyIntegral`): a smooth, geometrically
-  connected morphism is geometrically integral.
-- `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (module
-  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.Regular`): a scheme smooth over a locally Noetherian
-  scheme with regular local rings has regular local rings; and
-  `TauCeti.AlgebraicGeometry.isIntegral_of_connected_of_isRegularLocalRing_stalk` (module
-  `TauCeti.AlgebraicGeometry.IrreducibleOfConnectedDomainStalk`): a connected locally Noetherian
-  scheme with regular local rings is integral. Used together in §2.4, with base `Spec k`, to
-  show that a connected scheme smooth over `k` is integral.
-- `TauCeti.AlgebraicGeometry.residueDegree_eq_one_of_section` and
-  `TauCeti.AlgebraicGeometry.residueFieldMap_bijective_of_section` (module
-  `TauCeti.AlgebraicGeometry.RationalPoint.Basic`): a point in the image of a section has residue
-  degree one and bijective residue-field map.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- §0.8 `rational_point_component`: a connected scheme smooth over a field with a rational point is
-  geometrically integral. Used in §2.2 for the marked component.
-
-## How to read the build
-
-Layer 1 is commutative algebra over an arbitrary commutative ring: it defines the base-`B`
-Kronecker substitution `polynomialGraph`, proves from Tau Ceti's coefficient theorem and the
-uniqueness of base-`B` digits that a large base separates monomials so that coefficients survive
-(`polynomialGraph_coeff`), proves surjectivity for `m > 0`, and assembles these into a graph
-`𝔸¹ → 𝔸^m` that is a closed immersion along which a given nonzero polynomial `h` stays nonzero
-(`exists_avoiding_graph`). Over a field, and not over an arbitrary ring, this makes the graph meet
-the complement of the hypersurface `V(h)` in a nonempty dense open: over a ring with nilpotents a
-nonzero substituted polynomial can have empty principal open (§1.3). Layer 2 is geometry over a
-field: it encloses the boundary of a dense open of an étale chart in a hypersurface (§2.1), forms
-the pullback of the avoiding graph along the chart and keeps the component through the marked
-point (§2.2), proves that this is a marked curve whose good open is nonempty and dense (§2.3), and
-reduces the general smooth rational point to a chart; in the zero-dimensional case the curve is a
-constant map from `𝔸¹_k` (§2.4).
 
 ## Layer 1: Kronecker substitution and graphs avoiding a hypersurface
 
@@ -708,6 +524,190 @@ instance, `Algebra.Etale.baseChange`, `Algebra.Etale.iff_exists_algEquiv_prod`,
    `x² − 2w² = x² + w² = 0` defines two lines conjugate over `𝔽_9` (`x = ±i w`, `i² = −1`). Every
    `𝔽_3`-morphism from a geometrically integral curve sending a rational point to the origin is
    constant, so smoothness at `y` cannot be dropped from `exists_same_field_curve`.
+
+## Scope and ownership
+
+**Where the base roadmap stops.** LefschetzPencilsAndVanishingCycles constructs Lefschetz pencils
+after a Veronese embedding of degree at least two (its §3.4, existence of Lefschetz pencils) and
+descends them to finite fields (its §3.5, descent of pencils to a finite field). That descent
+theorem produces a good axis over some finite extension `𝔽_{q^r}`, and replaces Frobenius by its
+`r`-th power: the open set of good axes need not have an `𝔽_q`-point. It does not produce a
+curve over `𝔽_q` through a prescribed `𝔽_q`-point. This Part II supplies that curve, locally and
+without any projectivity: it does not use pencils, and it does not supply a pencil, a projective
+curve, or a curve through several prescribed points. The base roadmap is not a supplier of any
+target here.
+
+**This roadmap owns**
+
+- the base-`B` Kronecker substitution `polynomialGraph` in `m` variables (Tau Ceti's substitution
+  for the weight `i ↦ B^i`, as the ring map whose spectrum is the graph `a_B`) with its
+  normalisation API; the bounded-base coefficient theorem `polynomialGraph_coeff`, whose own step
+  is the injectivity of the base-`B` weight on exponent vectors with entries `< B`; surjectivity
+  for `m > 0`; and the avoiding graph (Layer 1);
+- the boundary polynomial of an étale chart: a proper closed subset of an integral affine scheme
+  étale over `𝔸^m_k` maps into a hypersurface (§2.1);
+- the marked component of the pullback of a Kronecker graph along an étale chart, with its API and
+  its compatibility with extension of the base field (§2.2), and the marked étale curve (§2.3);
+- the same-field curve through a smooth rational point, including the zero-dimensional case and
+  the residue-field identity at the marks (§2.4).
+
+The Kronecker substitution for an arbitrary weight, with its coefficient and injectivity
+theorems, is Tau Ceti's (below); this roadmap does not restate it. Owned here is only its
+specialisation to the explicit weights `B^i` in `m` variables, which makes the graph `a_B`
+explicit (first coordinate `T`, so for `m > 0` a closed immersion, through the origin when
+`B ≥ 1`) and its base computable from the exponents of `h`, together with the injectivity of that
+weight on the box of exponent vectors with entries `< B`. Mathlib's Noether normalisation
+(`Mathlib/RingTheory/NoetherNormalization.lean`) uses the same digit argument only inside private
+lemmas about the different substitution `X_0 ↦ X_0`, `X_i ↦ X_i + c·X_0^(r_i)` for `i ≥ 1`. The
+two-variable power substitution `Z ↦ X, W ↦ X^B` is ArithmeticInterpolationDeterminants §0.3
+`powerSubstitution`; for `m = 2`, `polynomialGraph k 2 B` is its underlying ring map, and §1.2 here
+differs in bounding every exponent of `m` variables by `B`, where §0.3 there bounds only the
+`Z`-degree of two variables. The boundary polynomial (§2.1)
+is owned here because neither Tau Ceti's étale coordinates nor SchemeAndStackFoundations §0.8
+makes any statement about images of closed subsets; the route of §2.1 is algebraic and needs no
+dimension theory.
+
+**Owned elsewhere and consumed here.** Each object has one owner; this roadmap builds no second
+carrier.
+
+- *Étale coordinates at a smooth point*: Tau Ceti `AlgebraicGeometry.Smooth.exists_etale_affineSpace`
+  and `AlgebraicGeometry.SmoothOfRelativeDimension.exists_etale_affineSpace` (module
+  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.EtaleCoordinates`; Stacks, Lemma 29.37.21 (054L)).
+- *Connected smooth schemes with a rational point are geometrically integral*:
+  SchemeAndStackFoundations §0.8, `rational_point_component` (Stacks, Lemmas 33.7.14 (04KV),
+  33.25.4 (056T) and 33.25.10 (0CDW); Properties, Lemma 28.7.7 (033N)). The step "smooth and
+  geometrically connected implies geometrically integral" is already Tau Ceti's instance
+  `TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral`.
+- *The Kronecker substitution `X_s ↦ T^(e_s)` for an arbitrary weight `e`*: Tau Ceti
+  `MvPolynomial.coeff_aeval_X_pow_weight` (coefficients survive where the weight is injective),
+  `MvPolynomial.injOn_aeval_X_pow` (injectivity on polynomials supported there) and
+  `Finsupp.exists_injOn_weight` (module `TauCeti.RingTheory.MvPolynomial.Kronecker`), over any
+  commutative semiring and any type of variables.
+- *Polynomial evaluation, base-`B` digits, weights*: Mathlib `MvPolynomial.eval₂Hom`,
+  `MvPolynomial.aeval_def`, `Nat.ofDigits_inj_of_len_eq`, `Nat.ofDigits_eq_sum_mapIdx`,
+  `Nat.injOn_ofDigits`, `Finsupp.weight`.
+- *Scheme morphism properties*: Mathlib `Etale`, `Smooth`, `SmoothOfRelativeDimension`,
+  `GeometricallyIntegral`, `IsClosedImmersion`, and the facts listed in the supplier contracts.
+- *Residue fields at sections*: Tau Ceti `TauCeti.AlgebraicGeometry.residueDegree_eq_one_of_section`
+  and `TauCeti.AlgebraicGeometry.residueFieldMap_bijective_of_section` (module
+  `TauCeti.AlgebraicGeometry.RationalPoint.Basic`).
+
+**Not in this roadmap.** Lefschetz pencils, which are LefschetzPencilsAndVanishingCycles's
+(its Layer LPV.3, Lefschetz pencils), and Bertini theorems over finite fields. Poonen,
+*Bertini theorems over finite fields*, Corollary 3.4 (p. 10), gives inside a smooth projective
+geometrically integral variety `X` over `𝔽_q` with `dim X ≥ 1` a smooth projective geometrically
+integral curve containing any finite set of closed points; adding to that set a closed point of a
+dense open `U` makes the curve meet `U`, and densely, since the curve is integral. For
+`dim X = 0` there is no curve inside `X` (then `X = Spec 𝔽_q`); §2.4 covers that case with a
+constant morphism from `𝔸¹`. What Corollary 3.4 does not reach is a smooth chart of a stack, which
+need not be projective, and whose closure in a projective space need not be smooth. Poonen's
+Theorem 3.3 (p. 10) does apply to a smooth quasi-projective `X ⊆ ℙⁿ` with
+`dim X ≥ 1`, giving a hypersurface `H` with `H ∩ X` smooth of dimension `dim X − 1` and containing
+finitely many prescribed closed points, but for non-projective `X` it does not assert that `H ∩ X`
+is connected, so cutting down to a curve in this way need not put the marked point and the added
+point of `U` on one component. Also not here: curves through singular points of local models;
+lifting rational points to smooth atlases of algebraic stacks; lisse sheaves, their stalks and
+Frobenius conjugacy classes; monodromy of universal hypersurface families; semistable potential
+maps.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `MvPolynomial.eval₂Hom`, `MvPolynomial.eval₂Hom_C`, `MvPolynomial.eval₂Hom_X'`,
+  `MvPolynomial.eval₂Hom_monomial`, `MvPolynomial.comp_eval₂Hom`, `MvPolynomial.aeval_def`
+  (`aeval f p = eval₂ (algebraMap R S) f p`), `MvPolynomial.constantCoeff`,
+  `Polynomial.constantCoeff` (`Mathlib/Algebra/MvPolynomial/Eval.lean`,
+  `Mathlib/Algebra/MvPolynomial/Basic.lean`, `Mathlib/Algebra/Polynomial/Coeff.lean`).
+- `Nat.ofDigits_inj_of_len_eq` (two digit lists of equal length with all digits `< b`, `1 < b`, and
+  equal value are equal; `Mathlib/Data/Nat/Digits/Defs.lean`), `Nat.ofDigits_eq_sum_mapIdx` and
+  `Nat.injOn_ofDigits` (`Mathlib/Data/Nat/Digits/Lemmas.lean`); `Finsupp.weight`
+  (`Mathlib/Data/Finsupp/Weight.lean`).
+- `AlgebraicGeometry.IsClosedImmersion.spec_of_surjective`: the spectrum of a surjective ring map
+  is a closed immersion (`Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean`).
+- `AlgebraicGeometry.Etale.etale_isStableUnderBaseChange`,
+  `AlgebraicGeometry.Etale.iff_smoothOfRelativeDimension_zero`, and the instance
+  `HasRingHomProperty @Etale RingHom.Etale`, by which an étale morphism of affine schemes is the
+  spectrum of an étale ring map (`Mathlib/AlgebraicGeometry/Morphisms/Etale.lean`);
+  `Algebra.Etale.baseChange`, étaleness of algebras is stable under base change
+  (`Mathlib/RingTheory/Etale/Basic.lean`); `AlgebraicGeometry.SmoothOfRelativeDimension`
+  and the composition instance `AlgebraicGeometry.smoothOfRelativeDimension_comp`, which adds
+  relative dimensions (`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`); the instance
+  `AlgebraicGeometry.AffineSpace.smoothOfRelativeDimension_fin` (`𝔸(ULift.{u} (Fin n); S) → S` is
+  smooth of relative dimension `n`), `AlgebraicGeometry.AffineSpace.SpecIso`
+  (`𝔸(σ; Spec R) ≅ Spec (MvPolynomial σ R)`) and `AlgebraicGeometry.AffineSpace.SpecIso_inv_over`
+  (under it the structure morphism becomes the spectrum of `MvPolynomial.C`)
+  (`Mathlib/AlgebraicGeometry/AffineSpace.lean`).
+- `MvPolynomial.uniqueAlgEquiv` (for a variable type with one element, `MvPolynomial σ R ≅ R[X]` as
+  `R`-algebras; `Mathlib/Algebra/MvPolynomial/Equiv.lean`), `MvPolynomial.renameEquiv` (renaming
+  variables along an equivalence is an `R`-algebra isomorphism;
+  `Mathlib/Algebra/MvPolynomial/Rename.lean`) and `Equiv.ulift`. With these, `Spec k[T] → Spec k` is
+  the composite of an isomorphism over `Spec k` with `𝔸(ULift.{u} (Fin 1); Spec k) → Spec k`, so it
+  is smooth of relative dimension one.
+- `AlgebraicGeometry.Flat.generalizingMap`, `AlgebraicGeometry.isOpenMap_of_generalizingMap` and
+  `AlgebraicGeometry.Scheme.Hom.isOpenMap`: a flat morphism locally of finite presentation is
+  open (`Mathlib/AlgebraicGeometry/Morphisms/UniversallyOpen.lean`).
+- `AlgebraicGeometry.GeometricallyIntegral`: for every field-valued point of the base the fibre
+  product is integral (`Mathlib/AlgebraicGeometry/Geometrically/Integral.lean`). The definition
+  quantifies over all fields `K` with a map `Spec K → Y`; it does not include finite type, which
+  the targets here state separately; it does include nonemptiness of every fibre product
+  `X ×_Y Spec K`, since Mathlib's `IsIntegral` carries a `nonempty` field
+  (`Mathlib/AlgebraicGeometry/Properties.lean`). In particular a geometrically integral
+  `k`-scheme is nonempty, so the targets above do not state that separately; the nonemptiness
+  they do state is that of the good open `g⁻¹(U)`, which is a different claim.
+- `Algebra.Etale.iff_exists_algEquiv_prod`: an algebra over a field is étale if and only if it is
+  a finite product of finite separable field extensions (`Mathlib/RingTheory/Etale/Field.lean`).
+- `Ideal.under_ne_bot_of_algebraic_mem`: a nonzero element of an ideal of a domain that is
+  algebraic over a subring forces a nonzero element of the ideal in that subring
+  (`Mathlib/RingTheory/Ideal/GoingUp.lean`).
+- `IsFractionRing.isAlgebraic_iff`: for a domain `R` with fraction field `K` and a commutative
+  algebra `C` over both, compatibly, an element of `C` is algebraic over `R` if and only if it is
+  algebraic over `K` (`Mathlib/RingTheory/Localization/Integral.lean`);
+  `isAlgebraic_algebraMap_iff`: along an injective algebra map `S → C` of `R`-algebras, an element
+  of `S` is algebraic over `R` if and only if its image is (`Mathlib/RingTheory/Algebraic/Basic.lean`).
+- `IsOpen.dense`, `IsOpenMap.denseRange_of_isPreirreducibleSpace` (`Mathlib/Topology/Irreducible.lean`):
+  a nonempty open subset of an irreducible space is dense, and an open map from a nonempty space
+  into an irreducible space has dense range;
+  `TopologicalSpace.NoetherianSpace.finite_irreducibleComponents` (a Noetherian space has finitely
+  many irreducible components; `Mathlib/Topology/NoetherianSpace.lean`) and
+  `isClosed_connectedComponent` (`Mathlib/Topology/Connected/Basic.lean`).
+
+### From Tau Ceti
+
+- `MvPolynomial.coeff_aeval_X_pow_weight` (module `TauCeti.RingTheory.MvPolynomial.Kronecker`):
+  over a commutative semiring, if `Finsupp.weight e` is injective on a set `S` of exponent vectors
+  containing the support of `f` and the vector `μ`, then the coefficient of `T^(weight e μ)` in
+  `aeval (fun s ↦ T^(e s)) f` is the coefficient of `X^μ` in `f`. Used in §1.2 with
+  `e = (i ↦ B^i)` and `S` the box of vectors with entries `< B`.
+- `MvPolynomial.injOn_aeval_X_pow` (same module): with `e` and `S` as above, the substitution is
+  injective on the polynomials supported in `S`. Used in §1.2.
+- `AlgebraicGeometry.Smooth.exists_etale_affineSpace` (module
+  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.EtaleCoordinates`): for a smooth `f : X → S`, every
+  point of `X` has an affine open neighbourhood `V` with an étale `S`-morphism
+  `V → 𝔸(ULift.{u} (Fin n); S)` for some `n`, compatible with the structure morphisms to `S`
+  (Stacks, Lemma 29.37.21 (054L)). Used in §2.4 with `S = Spec k`; there the target is carried to
+  `Spec k[X_0, …, X_{n-1}]` by `AffineSpace.SpecIso` and the isomorphism induced by
+  `MvPolynomial.renameEquiv` along `Equiv.ulift`, both compatible with the structure morphisms to
+  `Spec k`.
+- `TauCeti.AlgebraicGeometry.Smooth.geometricallyIntegral` (module
+  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.GeometricallyIntegral`): a smooth, geometrically
+  connected morphism is geometrically integral.
+- `TauCeti.AlgebraicGeometry.isRegularLocalRing_stalk_of_smooth` (module
+  `TauCeti.AlgebraicGeometry.Morphisms.Smooth.Regular`): a scheme smooth over a locally Noetherian
+  scheme with regular local rings has regular local rings; and
+  `TauCeti.AlgebraicGeometry.isIntegral_of_connected_of_isRegularLocalRing_stalk` (module
+  `TauCeti.AlgebraicGeometry.IrreducibleOfConnectedDomainStalk`): a connected locally Noetherian
+  scheme with regular local rings is integral. Used together in §2.4, with base `Spec k`, to
+  show that a connected scheme smooth over `k` is integral.
+- `TauCeti.AlgebraicGeometry.residueDegree_eq_one_of_section` and
+  `TauCeti.AlgebraicGeometry.residueFieldMap_bijective_of_section` (module
+  `TauCeti.AlgebraicGeometry.RationalPoint.Basic`): a point in the image of a section has residue
+  degree one and bijective residue-field map.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- §0.8 `rational_point_component`: a connected scheme smooth over a field with a rational point is
+  geometrically integral. Used in §2.2 for the marked component.
 
 ## References
 

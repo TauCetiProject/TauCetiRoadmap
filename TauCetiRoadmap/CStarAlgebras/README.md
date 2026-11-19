@@ -1,93 +1,62 @@
 # Roadmap: C*-algebras, operator spaces and approximation
 
-**Summary.** Build the structure and representation theory of C*-algebras (ideals, hereditary
-subalgebras, multipliers, irreducible representations, primitive ideal spaces and the bidual),
-the theory of operator spaces and completely positive and completely bounded maps (Ruan,
-Stinespring, Choi, Wittstock, Paulsen), the C*-tensor products and operator-space tensor
-products, and finite-dimensional approximation (nuclearity with its tensorial, bidual and
-amenability characterizations, exactness, the Choi–Effros lifting theorem, Kirchberg's WEP and
-LLP characterizations, Voiculescu's theorems on quasidiagonality, local reflexivity and the
-permanence of exactness under quotients). The end theorems are Stinespring's dilation and
-Arveson's Radon–Nikodym theorem, Wittstock's extension theorem, the equivalence of nuclearity
-with the uniqueness of the C*-tensor norm, with semidiscreteness of the bidual and with Banach
-amenability, the Choi–Effros lifting theorem, Kirchberg's tensor characterizations of WEP and
-LLP, Voiculescu's noncommutative Weyl–von Neumann theorem and his homotopy invariance of
-quasidiagonality, and the theorem that exactness passes to quotients. Every object comes with
-the constructions and the elementary API that make it usable by the operator-algebra roadmaps
-downstream.
+**Summary.** A C*-algebra can be studied through its closed ideals, through its representations
+on Hilbert space, and through its approximation by finite-dimensional matrix algebras. This
+roadmap builds all three, together with operator spaces and completely positive and completely
+bounded maps. Algebras are complex and complete, and separability is assumed only where stated.
 
-## Scope and ownership
+A linear map between C*-algebras is completely positive when all its matrix amplifications are
+positive. Stinespring's theorem dilates every completely positive `φ : A → B(H)` to a
+representation: there are a Hilbert space `K`, a nondegenerate representation `π` of `A` on `K`
+and a bounded `V : H → K` with `φ(a) = V*π(a)V` and `‖V‖² = ‖φ‖`. For a state, the minimal such
+dilation is the GNS construction. In the minimal dilation, Arveson's Radon–Nikodym theorem
+describes the completely positive maps `ψ` for which `φ − ψ` is also completely positive: they are
+exactly the maps `a ↦ V*Tπ(a)V` for a unique positive contraction `T` commuting with `π(A)`.
 
-This roadmap owns, in nine layers: closed ideals, annihilators, hereditary subalgebras,
-approximate units, the Pedersen ideal, multiplier algebras and the strict topology (Layer 1,
-C1); state extension, irreducible representations, Kadison transitivity, primitive ideal spaces
-with their hull–kernel topology, Dauns–Hofmann, the universal representation and the bidual,
-open projections, and the explicit matrix-field examples (Layer 2, C2); abstract operator spaces,
-Ruan's theorem and completely bounded maps (Layer 3, C3); Stinespring dilations, Choi's
-criterion, multiplicative domains, Wittstock extension and Paulsen similarity (Layer 4, C4); the
-maximal C*-tensor norm and the comparison of C*-norms, the operator-space minimal, projective
-and Haagerup tensor products, and the direct sums, products, inductive limits, cones and mapping
-cones used later (Layer 5, C5); nuclearity and its characterizations, Haagerup's Grothendieck
-inequality and the Banach amenability bridge (Layer 6, C6); exactness, liftings, WEP and LLP
-(Layer 7, C7); quasidiagonality and Voiculescu's representation theorem (Layer 8, C8); local
-reflexivity, the AF-subquotient theorem and exactness under quotients (Layer 9, C9). The layer
-number is the lane: C`k` is Layer `k`, and the target `k.n` is cited as C`k`.`n`; the named
-targets `C1.CommutativeMultiplierMorphisms` and `C2.AnnHull` keep their names in the headings of
-§1.8 and §2.6.
+A C*-algebra `A` is nuclear when its identity map is a pointwise norm limit of composites
+`A → M_n → A` of completely positive contractions. The sixth layer proves several other
+characterizations. Nuclearity holds exactly when, for every C*-algebra `B`, the canonical map
+`A ⊗max B → A ⊗min B` from the maximal to the minimal C*-tensor product is an isomorphism. It
+holds exactly when the bidual `A**`, a W*-algebra, is semidiscrete, equivalently injective. And it
+holds exactly when `A` is amenable as a Banach algebra; this equivalence uses Haagerup's
+noncommutative Grothendieck inequality. For example `C₀(X)` and the compact operators are nuclear,
+while the full and reduced group C*-algebras of the free group `F₂` are not.
 
-Left to named roadmaps, and consumed from them where this roadmap needs them:
+The seventh layer proves the lifting theorem of Choi and Effros. If `J` is a closed two-sided
+ideal of `B`, every nuclear completely positive contraction from a separable C*-algebra into `B/J`
+lifts to a completely positive contraction into `B`. Separability cannot be dropped: `ℓ^∞/c₀` is
+nuclear, but its identity map has no such lifting to `ℓ^∞`.
 
-- **VonNeumannAlgebras** owns positive functionals, GNS, state separation and faithful
-  representations (V0, including the separable faithful representation V0.SeparableFaithful),
-  operator topologies, bicommutants and Kaplansky density (V1), support projections and the
-  Hilbert and spatial von Neumann tensor products with their slice maps (V2), preduals and normal
-  representations (V4), the center-valued trace, Dixmier averaging, halving and central
-  decomposition (V5), the standard form of an arbitrary von Neumann algebra (V10–V11), normal
-  Jordan and projection-logic maps on W*-algebras (V12.J), the shared completely positive and
-  operator-system order foundations, Tomiyama's theorem, Arveson's extension theorem and the
-  projection definition of injectivity (V13a), the spatial C*-norm on the algebraic tensor
-  product of two concrete C*-algebras with its representation independence, slice maps and
-  inclusion functoriality (V13b.SpatialNorm), and injectivity versus semidiscreteness with the
-  commuting-representation minimal-norm criterion (V13b). Layer 5 here consumes
-  V13b.SpatialNorm and adds the maximal norm, the comparison of C*-norms, units, associativity,
-  flip, direct sums and functoriality; Layer 6 consumes V13b's injectivity–semidiscreteness
-  equivalence for arbitrary W*-algebras, including biduals without separable predual or faithful
-  normal state, and never the factor classification of V13.
-- **BanachAlgebras** owns Banach-algebra ideals, the Jacobson radical, algebraic primitive ideals
-  and the hull–kernel topology (A1), the holomorphic functional calculus (A2), characters and the
-  extension/restriction comparison of character spaces (A3), Cohen factorization and the Arens
-  products (A4), and bounded Hochschild cohomology, Banach amenability, virtual diagonals and the
-  universal derivation (A6). Layer 1 specializes A1's annihilators to closed ideals of
-  C*-algebras; Layer 2 identifies A1's algebraic primitive ideals with kernels of irreducible
-  star representations; Layer 6 transfers A6's Banach amenability.
-- **BanachSpaceTheory** owns duality, weak topologies, weak compactness and separation (B1–B2),
-  completed Banach tensor products (B4) and Banach local reflexivity (B7); Layer 9's
-  operator-space local reflexivity is contrasted with B7, not derived from it.
-- **OperatorTheory/PolarDecomposition** owns the polar decomposition, the operator modulus,
-  partial isometries and singular values of Hilbert-space operators;
-  **OperatorTheory/SelfAdjointSpectralTheory** owns the Borel functional calculus and spectral
-  projections of self-adjoint operators. Adjoints, compact operators, the compact-operator ideal
-  and `IsCompactOperator` are Mathlib's. Nothing is taken from the OperatorTheory umbrella
-  itself or from its ToeplitzOperators roadmap, which consume this roadmap.
-- **HilbertModules** owns Hilbert C*-modules, Morita equivalence, C(X)-algebras and continuous
-  fields, including the commutative pullback example of its H5 and the point-separation theorem
-  of its H7; it consumes Layers 1, 2 and 7–9 and supplies nothing here. The matrix-field
-  computations of §2.10 are self-contained.
-- **OperatorAlgebraDynamics** owns group C*-algebras, crossed products and equilibrium states;
-  its D1 identifies the universal unitary-generator algebra of §5.4 with the full free-group
-  C*-algebra. **OperatorKTheory** and **CStarClassification** own K- and KK-theory, dimension
-  groups and classification; §9.2 owns only the norm-perturbation and intertwining lemmas they
-  consume. **FreeProbability** owns free products with prescribed states or expectations.
-  Finite-dimensional C*-algebras and their inductive limits appear here only as examples and
-  approximation tools.
+The eighth layer proves Voiculescu's noncommutative Weyl–von Neumann theorem. Let `A` be
+separable and unital, let `π` be a faithful unital representation on a separable `H` whose image
+meets the compact operators only in `0`, and `ρ` any unital representation on a separable `K`.
+Then there are unitaries `U_n : H → H ⊕ K` such that `U_n π(a) U_n* − (π(a) ⊕ ρ(a))` is compact
+and tends to zero in norm for every `a`. For `C(𝕋)` acting by multiplication on `L²(𝕋)`, with `ρ`
+evaluation at `1`, this is the classical Weyl–von Neumann statement for the normal operator `M_z`.
+The layer applies it to quasidiagonal algebras, which have a faithful representation in which
+each finite set of operators almost commutes with a finite-rank projection that almost fixes any
+given finite set of vectors.
 
-Supply runs in one direction. The suppliers of this roadmap are Mathlib, BanachSpaceTheory,
-BanachAlgebras, VonNeumannAlgebras, OperatorTheory/PolarDecomposition and
-OperatorTheory/SelfAdjointSpectralTheory, each cited by section where it is used. HilbertModules,
-OperatorAlgebraDynamics, OperatorKTheory, CStarClassification, FreeProbability,
-ToeplitzOperators, NoncommutativeIntegration, TemperleyLiebOperatorAlgebras, QuantumGroups and
-NoncompactQuantumSymmetry consume this roadmap and supply nothing to it; their comparisons are
-listed under Downstream consumers.
+Mathlib supplies C*-algebras, their continuous functional calculus and completely positive maps.
+VonNeumannAlgebras supplies states and the GNS construction, the spatial C*-norm on tensor
+products, and the equivalence of injectivity and semidiscreteness. BanachAlgebras supplies
+algebraic primitive ideals, Cohen factorization and Banach amenability. OperatorKTheory uses this
+roadmap's cones, mapping cones and Toeplitz extension, and CStarClassification its lifting theorem
+and inductive limits.
+
+The first of the nine layers builds closed ideals and quotients, hereditary subalgebras with
+approximate units, and multiplier algebras. The second builds representation theory, including
+the primitive ideal space, the bidual and Kadison's transitivity theorem with the exact bound: an
+irreducible representation reproduces any bounded operator on a finite-dimensional subspace by an
+element of no larger norm. The third introduces operator spaces, with Ruan's theorem that each is
+completely isometric to a space of Hilbert-space operators. The fourth proves Stinespring's
+theorem and Wittstock's extension theorem for completely bounded maps. The fifth adds the maximal
+C*-tensor product to the minimal one and constructs inductive limits and mapping cones. The
+seventh treats exactness (minimal tensor products with `A` preserve short exact sequences) and the
+weak expectation and local lifting properties, with Kirchberg's tensor characterizations. The
+ninth proves that every separable exact C*-algebra is isomorphic to a quotient of a C*-subalgebra
+of a separable AF algebra (an inductive limit of finite-dimensional C*-algebras), and deduces that
+exactness passes to quotients by closed ideals and to inductive limits.
 
 ## Conventions
 
@@ -121,113 +90,6 @@ listed under Downstream consumers.
 - **Timeless API.** Every new object has extensionality, coercion, equality and transport lemmas;
   every map has identity, composition, restriction, range and factorization APIs; a topological
   wrapper preserves the norm topology of the underlying algebra.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Algebra classes.** `NonUnitalCStarAlgebra`, `CStarAlgebra`, `NonUnitalCommCStarAlgebra`,
-  `CommCStarAlgebra`, `NonUnitalStarAlgHom` (`→⋆ₙₐ[ℂ]`), `StarAlgHom` (`→⋆ₐ[ℂ]`),
-  `NonUnitalStarSubalgebra`, `StarSubalgebra`, `TwoSidedIdeal` with `TwoSidedIdeal.comap`, and
-  the `PartialOrder`/`StarOrderedRing` instances on C*-algebras, on `H →L[ℂ] H`
-  (`Mathlib/Analysis/InnerProductSpace/StarOrder.lean`) and on square `CStarMatrix`.
-- **Functional calculus.** `cfc`, `cfcₙ`, `CFC.sqrt`, `CFC.sqrt_le_sqrt`, the positive part
-  `a⁺ = cfcₙ (·⁺) a`, `IsStarProjection`, `IsSelfAdjoint`.
-- **Unitization.** `Unitization ℂ A` with `Unitization.instCStarRing` and
-  `Unitization.instCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/Unitization.lean`), the
-  left-regular lemmas `ContinuousLinearMap.opNorm_mul_apply`,
-  `ContinuousLinearMap.opNorm_mul_flip_apply` and `CStarRing.instRegularNormedAlgebra` there,
-  `ContinuousLinearMap.mul`, `Unitization.starLift`, `Unitization.fstHom` and
-  `Unitization.inrNonUnitalAlgHom`.
-- **Gelfand duality.** `characterSpace`, `gelfandTransform_isometry`,
-  `gelfandTransform_bijective` and `gelfandStarTransform` for `CommCStarAlgebra`
-  (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`).
-- **Matrices and CP maps.** `CStarMatrix`, `CStarMatrix.ofMatrix`, `Matrix.PosSemidef`,
-  `CompletelyPositiveMap` with its notation `A →CP B`
-  (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`), which bundles a linear map with
-  positivity of every `Fin k` amplification.
-- **Approximate units and multipliers.** `CStarAlgebra.approximateUnit`,
-  `Filter.IsIncreasingApproximateUnit`, and the double-centralizer algebra `DoubleCentralizer ℂ A`
-  (`𝓜(ℂ, A)`, `Mathlib/Analysis/CStarAlgebra/Multiplier.lean`).
-- **Annihilators.** `Module.annihilator` with its `IsTwoSided` instance
-  (`Mathlib/RingTheory/Ideal/Maps.lean`).
-- **Hilbert-space material.** `ContinuousLinearMap.adjoint`, `IsCompactOperator`,
-  `Submodule.topologicalClosure`, `LinearIsometryEquiv` (`≃ₗᵢ[ℂ]`), the inner product on
-  `WithLp 2 (H × K)` (`Mathlib/Analysis/InnerProductSpace/ProdL2.lean`) with
-  `WithLp.prodContinuousLinearEquiv`, `ContinuousLinearMap.prodMap`,
-  `TopologicalSpace.SeparableSpace`, `lp (fun i ↦ A i) ∞` and `lp (fun _ : ℕ ↦ ℂ) 2`, and `Circle`.
-- **Positive functionals and function algebras.** `PositiveContinuousLinearMap` (`A →P[ℂ] ℂ`)
-  with the positive-functional lemmas of `Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`;
-  the `NonUnitalCStarAlgebra` instance on `C(X, A)` for compact `X`
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousMap.lean`) and the `CStarRing` instance on
-  `C₀(X, A)` (`Mathlib/Topology/ContinuousMap/ZeroAtInfty.lean`).
-
-### From Tau Ceti
-
-No Tau Ceti module is consumed: every carrier used here is Mathlib's or is built in this roadmap.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-B1 (duality, weak and weak-star topologies, the weak-star continuity criterion by evaluation),
-B2 (weak compactness, Krein–Milman, Hahn–Banach separation), B4 (completed Banach tensor
-products) and B7 (Banach local reflexivity, used only as the contrast in §9.5). Assumed of them:
-the stated theorems on arbitrary Banach spaces, without separability.
-
-### From TauCetiRoadmap.BanachAlgebras
-
-A1 (ideals, quotients, the Jacobson radical, algebraic primitive ideals, the hull–kernel
-topology with `hull(J) = {P : J ⊆ P}` and its closure operator, ideal annihilators), A2 (the
-holomorphic functional calculus and its uniqueness), A3 (characters, the extension/restriction
-comparison of character spaces under unitization), A4 (Cohen factorization for Banach modules,
-Arens products on the bidual) and A6 (bounded Hochschild cohomology, Banach amenability, virtual
-diagonals, the universal derivation and the bimodule constructions). Assumed of them: they are
-stated for arbitrary complex Banach algebras, unital or not.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-V0 (positive functionals, GNS, state separation, faithful representations and
-V0.SeparableFaithful with its unital, nonunital and zero-algebra branches), V1 (operator
-topologies, the bounded strong-star multiplication and star laws, bicommutant and Kaplansky
-density in bounded strong-star form), V2 (support projections, completed Hilbert tensors,
-bounded operator tensor maps, spatial von Neumann tensor products and vector-functional slice
-maps), V4 (preduals, normal representations, the countable vector-functional decomposition of a
-normal state after amplification by `ℓ²(ℕ)`, and the comparison of bounded strong-star
-convergence across faithful normal realizations), V5 (center-valued trace, Dixmier averaging,
-halving and central decomposition), V10–V11 (the standard form of an arbitrary von Neumann
-algebra with its conjugation between `M` and `M′`), V12.J (normal Jordan and projection-logic
-maps; used only in the W*-algebra application named in §2.2 and nowhere earlier), V13a (the
-matrix-order and operator-system foundations, Tomiyama's theorem, Arveson's extension theorem,
-the projection definition of injectivity), V13b.SpatialNorm (the spatial norm on `A ⊙ B` for
-concrete C*-algebras, its C*-property, representation independence, slice maps and isometric
-functoriality for inclusions) and V13b (injectivity iff semidiscreteness for arbitrary von
-Neumann algebras, the commuting-representation minimal-norm criterion, the normal CP and predual
-approximation equivalents, and the commutant-injectivity theorem). Assumed of them: no
-separability or faithful-normal-state hypothesis beyond what each section states.
-
-### From TauCetiRoadmap.OperatorTheory
-
-PolarDecomposition (polar decomposition `T = u|T|` with its uniqueness, partial isometries,
-singular values) and SelfAdjointSpectralTheory (the Borel functional calculus, spectral
-projections and spectral cutoffs of a bounded self-adjoint operator). Assumed of them: they are
-stated on arbitrary complex Hilbert spaces.
-
-## How to read the build
-
-Layer 1 builds the ideal theory, hereditary subalgebras, approximate units, the Pedersen ideal
-and multiplier algebras on Mathlib's carriers; everything later quotients, restricts to ideals or
-uses approximate units. Layer 2 builds representation theory on top of VonNeumannAlgebras V0:
-state extension, irreducible representations and Kadison transitivity, primitive ideal spaces,
-Dauns–Hofmann, the bidual with its open projections, and the matrix-field examples that
-exercise all of it. Layer 3 sets up operator spaces and completely bounded maps, consuming
-V13a's matrix-order foundations, and Layer 4 the dilation theory of completely positive and
-completely bounded maps. Layer 5 adds the maximal C*-tensor norm to V13b.SpatialNorm's spatial
-norm, the operator-space tensor products, and the direct sums, products, inductive limits, cones
-and mapping cones that the approximation layers use. Layer 6 proves the equivalent
-characterizations of nuclearity, consuming V13b's semidiscreteness theorems, BanachAlgebras A6
-and Haagerup's Grothendieck inequality. Layer 7 develops exactness, liftings, WEP and LLP; Layer
-8 quasidiagonality and Voiculescu's representation theorem; Layer 9 local reflexivity, the
-AF-subquotient theorem, and the quotient and inductive-limit permanence of exactness that Layer 7
-leaves open. Every layer ends with its examples and its dependency list.
 
 ## Layer 1: ideals, hereditary subalgebras and multipliers
 
@@ -1958,6 +1820,168 @@ Mathlib `C(unitInterval, A)`, `lp`, `cfc`. Within this roadmap: Layers 2, 3, 5, 
   **NoncompactQuantumSymmetry** consumes `C2.AnnHull`.
 - **BanachAlgebras** A1 and A6 record that §2.6 and §6.2 own the C*-algebraic comparisons of
   primitive ideals and of amenability; nothing flows from here to BanachAlgebras.
+
+## Scope and ownership
+
+This roadmap owns, in nine layers: closed ideals, annihilators, hereditary subalgebras,
+approximate units, the Pedersen ideal, multiplier algebras and the strict topology (Layer 1,
+C1); state extension, irreducible representations, Kadison transitivity, primitive ideal spaces
+with their hull–kernel topology, Dauns–Hofmann, the universal representation and the bidual,
+open projections, and the explicit matrix-field examples (Layer 2, C2); abstract operator spaces,
+Ruan's theorem and completely bounded maps (Layer 3, C3); Stinespring dilations, Choi's
+criterion, multiplicative domains, Wittstock extension and Paulsen similarity (Layer 4, C4); the
+maximal C*-tensor norm and the comparison of C*-norms, the operator-space minimal, projective
+and Haagerup tensor products, and the direct sums, products, inductive limits, cones and mapping
+cones used later (Layer 5, C5); nuclearity and its characterizations, Haagerup's Grothendieck
+inequality and the Banach amenability bridge (Layer 6, C6); exactness, liftings, WEP and LLP
+(Layer 7, C7); quasidiagonality and Voiculescu's representation theorem (Layer 8, C8); local
+reflexivity, the AF-subquotient theorem and exactness under quotients (Layer 9, C9). The layer
+number is the lane: C`k` is Layer `k`, and the target `k.n` is cited as C`k`.`n`; the named
+targets `C1.CommutativeMultiplierMorphisms` and `C2.AnnHull` keep their names in the headings of
+§1.8 and §2.6.
+
+Left to named roadmaps, and consumed from them where this roadmap needs them:
+
+- **VonNeumannAlgebras** owns positive functionals, GNS, state separation and faithful
+  representations (V0, including the separable faithful representation V0.SeparableFaithful),
+  operator topologies, bicommutants and Kaplansky density (V1), support projections and the
+  Hilbert and spatial von Neumann tensor products with their slice maps (V2), preduals and normal
+  representations (V4), the center-valued trace, Dixmier averaging, halving and central
+  decomposition (V5), the standard form of an arbitrary von Neumann algebra (V10–V11), normal
+  Jordan and projection-logic maps on W*-algebras (V12.J), the shared completely positive and
+  operator-system order foundations, Tomiyama's theorem, Arveson's extension theorem and the
+  projection definition of injectivity (V13a), the spatial C*-norm on the algebraic tensor
+  product of two concrete C*-algebras with its representation independence, slice maps and
+  inclusion functoriality (V13b.SpatialNorm), and injectivity versus semidiscreteness with the
+  commuting-representation minimal-norm criterion (V13b). Layer 5 here consumes
+  V13b.SpatialNorm and adds the maximal norm, the comparison of C*-norms, units, associativity,
+  flip, direct sums and functoriality; Layer 6 consumes V13b's injectivity–semidiscreteness
+  equivalence for arbitrary W*-algebras, including biduals without separable predual or faithful
+  normal state, and never the factor classification of V13.
+- **BanachAlgebras** owns Banach-algebra ideals, the Jacobson radical, algebraic primitive ideals
+  and the hull–kernel topology (A1), the holomorphic functional calculus (A2), characters and the
+  extension/restriction comparison of character spaces (A3), Cohen factorization and the Arens
+  products (A4), and bounded Hochschild cohomology, Banach amenability, virtual diagonals and the
+  universal derivation (A6). Layer 1 specializes A1's annihilators to closed ideals of
+  C*-algebras; Layer 2 identifies A1's algebraic primitive ideals with kernels of irreducible
+  star representations; Layer 6 transfers A6's Banach amenability.
+- **BanachSpaceTheory** owns duality, weak topologies, weak compactness and separation (B1–B2),
+  completed Banach tensor products (B4) and Banach local reflexivity (B7); Layer 9's
+  operator-space local reflexivity is contrasted with B7, not derived from it.
+- **OperatorTheory/PolarDecomposition** owns the polar decomposition, the operator modulus,
+  partial isometries and singular values of Hilbert-space operators;
+  **OperatorTheory/SelfAdjointSpectralTheory** owns the Borel functional calculus and spectral
+  projections of self-adjoint operators. Adjoints, compact operators, the compact-operator ideal
+  and `IsCompactOperator` are Mathlib's. Nothing is taken from the OperatorTheory umbrella
+  itself or from its ToeplitzOperators roadmap, which consume this roadmap.
+- **HilbertModules** owns Hilbert C*-modules, Morita equivalence, C(X)-algebras and continuous
+  fields, including the commutative pullback example of its H5 and the point-separation theorem
+  of its H7; it consumes Layers 1, 2 and 7–9 and supplies nothing here. The matrix-field
+  computations of §2.10 are self-contained.
+- **OperatorAlgebraDynamics** owns group C*-algebras, crossed products and equilibrium states;
+  its D1 identifies the universal unitary-generator algebra of §5.4 with the full free-group
+  C*-algebra. **OperatorKTheory** and **CStarClassification** own K- and KK-theory, dimension
+  groups and classification; §9.2 owns only the norm-perturbation and intertwining lemmas they
+  consume. **FreeProbability** owns free products with prescribed states or expectations.
+  Finite-dimensional C*-algebras and their inductive limits appear here only as examples and
+  approximation tools.
+
+Supply runs in one direction. The suppliers of this roadmap are Mathlib, BanachSpaceTheory,
+BanachAlgebras, VonNeumannAlgebras, OperatorTheory/PolarDecomposition and
+OperatorTheory/SelfAdjointSpectralTheory, each cited by section where it is used. HilbertModules,
+OperatorAlgebraDynamics, OperatorKTheory, CStarClassification, FreeProbability,
+ToeplitzOperators, NoncommutativeIntegration, TemperleyLiebOperatorAlgebras, QuantumGroups and
+NoncompactQuantumSymmetry consume this roadmap and supply nothing to it; their comparisons are
+listed under Downstream consumers.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Algebra classes.** `NonUnitalCStarAlgebra`, `CStarAlgebra`, `NonUnitalCommCStarAlgebra`,
+  `CommCStarAlgebra`, `NonUnitalStarAlgHom` (`→⋆ₙₐ[ℂ]`), `StarAlgHom` (`→⋆ₐ[ℂ]`),
+  `NonUnitalStarSubalgebra`, `StarSubalgebra`, `TwoSidedIdeal` with `TwoSidedIdeal.comap`, and
+  the `PartialOrder`/`StarOrderedRing` instances on C*-algebras, on `H →L[ℂ] H`
+  (`Mathlib/Analysis/InnerProductSpace/StarOrder.lean`) and on square `CStarMatrix`.
+- **Functional calculus.** `cfc`, `cfcₙ`, `CFC.sqrt`, `CFC.sqrt_le_sqrt`, the positive part
+  `a⁺ = cfcₙ (·⁺) a`, `IsStarProjection`, `IsSelfAdjoint`.
+- **Unitization.** `Unitization ℂ A` with `Unitization.instCStarRing` and
+  `Unitization.instCStarAlgebra` (`Mathlib/Analysis/CStarAlgebra/Unitization.lean`), the
+  left-regular lemmas `ContinuousLinearMap.opNorm_mul_apply`,
+  `ContinuousLinearMap.opNorm_mul_flip_apply` and `CStarRing.instRegularNormedAlgebra` there,
+  `ContinuousLinearMap.mul`, `Unitization.starLift`, `Unitization.fstHom` and
+  `Unitization.inrNonUnitalAlgHom`.
+- **Gelfand duality.** `characterSpace`, `gelfandTransform_isometry`,
+  `gelfandTransform_bijective` and `gelfandStarTransform` for `CommCStarAlgebra`
+  (`Mathlib/Analysis/CStarAlgebra/GelfandDuality.lean`).
+- **Matrices and CP maps.** `CStarMatrix`, `CStarMatrix.ofMatrix`, `Matrix.PosSemidef`,
+  `CompletelyPositiveMap` with its notation `A →CP B`
+  (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`), which bundles a linear map with
+  positivity of every `Fin k` amplification.
+- **Approximate units and multipliers.** `CStarAlgebra.approximateUnit`,
+  `Filter.IsIncreasingApproximateUnit`, and the double-centralizer algebra `DoubleCentralizer ℂ A`
+  (`𝓜(ℂ, A)`, `Mathlib/Analysis/CStarAlgebra/Multiplier.lean`).
+- **Annihilators.** `Module.annihilator` with its `IsTwoSided` instance
+  (`Mathlib/RingTheory/Ideal/Maps.lean`).
+- **Hilbert-space material.** `ContinuousLinearMap.adjoint`, `IsCompactOperator`,
+  `Submodule.topologicalClosure`, `LinearIsometryEquiv` (`≃ₗᵢ[ℂ]`), the inner product on
+  `WithLp 2 (H × K)` (`Mathlib/Analysis/InnerProductSpace/ProdL2.lean`) with
+  `WithLp.prodContinuousLinearEquiv`, `ContinuousLinearMap.prodMap`,
+  `TopologicalSpace.SeparableSpace`, `lp (fun i ↦ A i) ∞` and `lp (fun _ : ℕ ↦ ℂ) 2`, and `Circle`.
+- **Positive functionals and function algebras.** `PositiveContinuousLinearMap` (`A →P[ℂ] ℂ`)
+  with the positive-functional lemmas of `Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`;
+  the `NonUnitalCStarAlgebra` instance on `C(X, A)` for compact `X`
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousMap.lean`) and the `CStarRing` instance on
+  `C₀(X, A)` (`Mathlib/Topology/ContinuousMap/ZeroAtInfty.lean`).
+
+### From Tau Ceti
+
+No Tau Ceti module is consumed: every carrier used here is Mathlib's or is built in this roadmap.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+B1 (duality, weak and weak-star topologies, the weak-star continuity criterion by evaluation),
+B2 (weak compactness, Krein–Milman, Hahn–Banach separation), B4 (completed Banach tensor
+products) and B7 (Banach local reflexivity, used only as the contrast in §9.5). Assumed of them:
+the stated theorems on arbitrary Banach spaces, without separability.
+
+### From TauCetiRoadmap.BanachAlgebras
+
+A1 (ideals, quotients, the Jacobson radical, algebraic primitive ideals, the hull–kernel
+topology with `hull(J) = {P : J ⊆ P}` and its closure operator, ideal annihilators), A2 (the
+holomorphic functional calculus and its uniqueness), A3 (characters, the extension/restriction
+comparison of character spaces under unitization), A4 (Cohen factorization for Banach modules,
+Arens products on the bidual) and A6 (bounded Hochschild cohomology, Banach amenability, virtual
+diagonals, the universal derivation and the bimodule constructions). Assumed of them: they are
+stated for arbitrary complex Banach algebras, unital or not.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+V0 (positive functionals, GNS, state separation, faithful representations and
+V0.SeparableFaithful with its unital, nonunital and zero-algebra branches), V1 (operator
+topologies, the bounded strong-star multiplication and star laws, bicommutant and Kaplansky
+density in bounded strong-star form), V2 (support projections, completed Hilbert tensors,
+bounded operator tensor maps, spatial von Neumann tensor products and vector-functional slice
+maps), V4 (preduals, normal representations, the countable vector-functional decomposition of a
+normal state after amplification by `ℓ²(ℕ)`, and the comparison of bounded strong-star
+convergence across faithful normal realizations), V5 (center-valued trace, Dixmier averaging,
+halving and central decomposition), V10–V11 (the standard form of an arbitrary von Neumann
+algebra with its conjugation between `M` and `M′`), V12.J (normal Jordan and projection-logic
+maps; used only in the W*-algebra application named in §2.2 and nowhere earlier), V13a (the
+matrix-order and operator-system foundations, Tomiyama's theorem, Arveson's extension theorem,
+the projection definition of injectivity), V13b.SpatialNorm (the spatial norm on `A ⊙ B` for
+concrete C*-algebras, its C*-property, representation independence, slice maps and isometric
+functoriality for inclusions) and V13b (injectivity iff semidiscreteness for arbitrary von
+Neumann algebras, the commuting-representation minimal-norm criterion, the normal CP and predual
+approximation equivalents, and the commutant-injectivity theorem). Assumed of them: no
+separability or faithful-normal-state hypothesis beyond what each section states.
+
+### From TauCetiRoadmap.OperatorTheory
+
+PolarDecomposition (polar decomposition `T = u|T|` with its uniqueness, partial isometries,
+singular values) and SelfAdjointSpectralTheory (the Borel functional calculus, spectral
+projections and spectral cutoffs of a bounded self-adjoint operator). Assumed of them: they are
+stated on arbitrary complex Hilbert spaces.
 
 ## References
 

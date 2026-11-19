@@ -1,8 +1,20 @@
 # Roadmap: Painlevé equations
 
-**Summary.** Construct differential Painlevé equations as flat nonlinear connections on moduli spaces of decorated meromorphic connections, and Painlevé functions as their horizontal sections and admissible observations. Prove their properties from those constructions. The classical scalar equations, Hamiltonians and linear systems are coordinate comparison theorems.
+**Summary.** The six Painlevé equations are nonlinear second-order differential equations in a complex time t; the first, PI, is q″ = 6q² + t. Nonlinear equations can have movable singularities, whose position depends on the initial condition: the solution of q′ = q² with q(0) = 1 is 1/(1 − t), with a pole at 1. For the six Painlevé equations the only movable singularities are poles. This is the Painlevé property, derived here from geometry.
 
-The roadmap contains 55 construction and theorem targets in eight layers: 19 targets of reusable general theory and 36 targets for the classical Painlevé application.
+A Painlevé equation is constructed as a flat nonlinear connection, the isomonodromic connection, on a family of moduli spaces of meromorphic connections on a curve, parametrized by time. A nonlinear connection chooses horizontal directions at each point, mapping isomorphically onto the tangent space of the base; flatness means zero curvature. A Painlevé function is a horizontal section, and a scalar solution q(t) is the value along it of a chosen function with values in the projective line.
+
+The first main theorem constructs it in any genus and positive rank, for logarithmic and generic irregular poles of the allowed kinds. The curve, poles and irregular parts vary over a smooth time base with the logarithmic residues and formal residue exponents fixed. Stability weights lie in a chamber where stable equals semistable, and the determinant is left free. Over the open set of times where stable connections exist, the stable moduli spaces carry a holomorphic, flat, symplectic nonlinear connection. Each nonempty fiber has dimension 2r²(g − 1) + 2 + r(r − 1)·deg P, for rank r, genus g and polar divisor P.
+
+The Painlevé case is genus zero and rank two, with a polar divisor of degree four. The determinant is regular-singular with fixed residues, the stable fibers are nonempty, and time runs over the full reduced versal deformation of the formal data at the poles. Up to relabelling the poles there are ten formal types. Each has one essential time parameter, and its phase spaces are smooth symplectic surfaces. Four logarithmic poles give PVI; PIII arises from three types.
+
+For these families Layer 4 proves the geometric Painlevé property. For fixed allowed exponents, every compact piecewise C¹ path in the time base has a unique horizontal lift along its whole length, through every initial point above its start. The lift keeps the monodromy and Stokes data of the initial point fixed. A second proof uses the Riemann–Hilbert map, which sends a connection to these data and is proper. By a general theorem of Layer 0, such a proper map, compatible with all partial lifts, to a space in which every path can be followed forces lifts along whole paths, flat or not. The resulting section lives on the universal cover of the time base, descending exactly when its initial point is fixed by the monodromy action.
+
+In charts on the moduli spaces, with q and q′ as coordinates, Layer 7 turns horizontal sections, after explicit changes of parameters and time, into solutions of the six equations in the DLMF normalization. The scalar Painlevé property follows for the solutions these charts cover. Six scalar theorems are stated in Lean, each for a holomorphic solution q on a disk where no denominator vanishes. For PI, PII and PIV, q extends meromorphically to the whole plane. For PIII in its primitive coefficient cases and PV with γ or δ nonzero, s ↦ q(exp s), near a point above the initial time, extends meromorphically to the whole s-plane. For PVI, q composed with a given holomorphic universal covering of the plane punctured at 0 and 1 extends meromorphically to the whole cover.
+
+Of the roadmaps it builds on, SmoothBundlesConnections provides smooth Ehresmann connections and their horizontal lifts, which Layer 0 extends to the holomorphic setting. SchemeAndStackFoundations provides the stacks, Quot schemes and deformation theory behind the moduli spaces, and ComplexComparisonPartII analytification and relative Picard spaces. Properness of the Riemann–Hilbert map uses a relative reductive GIT quotient that AlgebraicModuliForArithmeticGeometry must provide.
+
+Layer 0 treats nonlinear connections in general; Layers 1 and 2 build the moduli and their isomonodromic connection, and Layers 3 and 4 the Painlevé case. Layer 5 treats initial-condition surfaces, symmetries and Riccati reductions. Layer 6 builds tau sections, and Layer 7 derives the classical forms.
 
 ## How to read the build
 
@@ -19,172 +31,9 @@ Each layer develops one mathematical construction or theorem package. General re
 | [6](#layer-6-determinant-lines-and-tau-sections) | Determinant lines and tau sections | 5 |
 | [7](#layer-7-classical-forms-of-painlevé-equations) | Classical forms of Painlevé equations | 5 |
 
-## Scope and ownership
-
-The scope consists of the 55 targets below. Each target includes its constructions, basic API, comparison maps and specified examples, under the stated hypotheses.
-
-| Reusable general theory | Targets |
-|---|---|
-| Nonlinear connections, solutions, transport, observations and jets | 0.1–0.8 |
-| Moduli of decorated meromorphic connections | 1.1–1.6 |
-| Isomonodromic connections | 2.1–2.4 |
-| Determinant lines of holomorphic Fredholm families | 6.1 |
-
-The 19 general targets form an independent theory. The 36 application targets construct Painlevé phase spaces, connections and forms from it and establish their properties. Their dependencies are the prerequisites listed at each target. In particular, the geometric constructions and properties in Layers 3–6 precede the classical coordinate comparisons in Layer 7.
-
-ComplexComparisonPartII supplies relative Picard representability and the identity-component criterion. Section 1.5 verifies the curve-family hypotheses and constructs the determinant moduli, and §5.1 verifies the hypotheses for the possibly nonreduced anticanonical boundary.
-
-The scope excludes difference and q-difference Painlevé dynamics, discrete Sakai classification, cluster realizations, arbitrary-rank wild nonabelian Hodge theory, exhaustive classification of algebraic special solutions, boundary-value asymptotics and connection constants, Hastings–McLeod identification, confluence, and Garnier systems.
-
-External roadmaps supply the results listed in the dependency contracts. Each construction made here has a specified target. Applications use the general objects, morphisms and pullbacks through the stated hypotheses and comparison maps.
-
 ## Conventions
 
 Layers are numbered 0–7, and targets are numbered consecutively within each layer, as in 0.1 and 0.2. Literature and supplier sections use their source numbering. The *Needs* lists specify proof prerequisites. Each target states its hypotheses, constructions and comparison laws. For a connection written ∇ = d + A, the logarithmic residue λ gives the monodromy eigenvalue exp(−2πiλ). Time transport fixes the additive exponents. The Hamiltonian convention is ω = dq ∧ dp with q′ = ∂H/∂p and p′ = −∂H/∂q.
-
-## Exact supplier contracts
-
-Roadmap references specify constructions and theorems with their hypotheses. Library references specify declarations and APIs. The table identifies the supplied results and the constructions assigned to this roadmap.
-
-### Supplier complex
-
-[ComplexKahlerGeometry](../../TauCetiRoadmap/ComplexKahlerGeometry/README.md) — K1; K3.0; K3.HolomorphicStalk; K3.MeromorphicGermField; K4; K7.1. Complex inverse/implicit-function and tangent calculus; holomorphic germs and one-variable meromorphic germs; holomorphic bundle/sheaf equivalence and nonsingular flat connections/local systems; projective charts. The nonlinear-connection theory owns nonlinear connections, holomorphic ODEs, transport and observations. 1.1–1.2 own the meromorphic/decorated applications of the shared connection and analytification interfaces; K4 supplies the nonsingular holomorphic comparison. 3.8 constructs the local logarithmic monodromy family and its holomorphic parameter and base-change comparisons.
-
-### Supplier smooth
-
-[SmoothBundlesConnections](../../TauCetiRoadmap/SmoothBundlesConnections/README.md) — B1.5; B5.0; B5.2. B1.5 supplies smooth real Ehresmann connections, pullbacks, restrictions and maximal horizontal lifts. §§0.1–0.3 supply the non-surjective, C¹/continuous-time and holomorphic extensions. B5.0 and B5.2 supply their stated bundle and principal transport.
-
-### Supplier differential
-
-[DifferentialGeometry](../../TauCetiRoadmap/DifferentialGeometry/README.md) — Layers 0–1; 3.1–3.5. Finite-dimensional manifolds, charts and smooth local/maximal/time-dependent flows. §0.2 compares their autonomous specializations, and §0.8 constructs intrinsic jets.
-
-### Supplier ode
-
-Mathlib, ODE Picard–Lindelöf. Use `IsPicardLindelof`, `exists_eq_forall_mem_Icc_hasDerivWithinAt`, `exists_forall_mem_closedBall_eq_hasDerivWithinAt_lipschitzOnWith` and `ODE_solution_unique_of_mem_Icc` for the time-dependent coordinate theorem. §0.2 proves manifold gluing and compact extension.
-
-### Supplier frobenius
-
-`TauCeti.Analysis.ODE.Frobenius` — TauCeti.exists_frobenius_flat_coordinate. For a finite-dimensional real integrable graph field, a local product OpenPartialHomeomorph with a smooth inverse and the prescribed horizontal derivatives, at the stated regularity. 0.5 constructs the submersion-chart graph field, proves curvature implies its integrability, and glues these local products for homotopy-invariant transport. 0.3 supplies the holomorphic counterpart.
-
-### Supplier covers
-
-[Completed/UniversalCovers](../../Completed/UniversalCovers/README.md) — Stage 0.2–0.4; Stage 1.5; Stage 2.6–2.8. Native covering, path and homotopy lifting, universal covers and their fundamental-group interfaces. 0.5 constructs the nonlinear action and horizontal descent; general-cover descent uses the actual fiber relation, not deck invariance without normality. 3.8 constructs local monodromy from marked loops and proves its homotopy and basepoint comparisons.
-
-### Supplier curves
-
-[ComplexCurveModuli](../../TauCetiRoadmap/ComplexCurveModuli/README.md); [SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — ComplexCurveModuli D0.3, D3–D5; SchemeAndStackFoundations 4.15. Genus-zero Möbius normalization and supported point-pushing; stable marked-curve deformation charts in the stable range. 1.2 constructs unstable one-/two-pointed quotient charts, finite jets, local markings and determinant transport. Analytic spaces and analytification are supplied by ComplexComparisonPartII, with the fixed-model scheme comparison from FormalConnectionsOpers F2.4.
-
-### Supplier stacks
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 1.18–1.23. Stackification, 2-fiber products, algebraic/DM presentations, inertia, QCoh descent, and finite-inertia Keel–Mori at its hypotheses. 1.3 proves bounded GIT, scalar Gm rigidification, gerbe and coarse comparisons. Finite-inertia criteria do not apply to an unrigidified Gm stable stack.
-
-### Supplier quotient-predicates
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 1.17. Categorical/geometric quotient definitions, Artin bootstrap and the stated finite-group projective quotients. Use the reductive GIT contract below. 4.2 constructs the classical representation and character quotients, wild framing groupoids and Stokes quotients.
-
-### Supplier reductive-git
-
-What AlgebraicModuliForArithmeticGeometry must provide (gap:reductive-connection-git): for a projective G-equivariant morphism X→X₀ over ℂ with X₀ affine of finite type, G affine linearly reductive and a relatively ample G-linearized line bundle, construct the relative invariant Proj projective over X₀//G and identify the quotient with the geometric quotient of the stable locus wherever stable equals semistable.
-
-What AlgebraicModuliForArithmeticGeometry must provide (gap:relative-hilbert-mumford): for a projective G-equivariant morphism X→X₀ of finite-type ℂ-schemes with X₀ affine, G affine linearly reductive and ℒ a G-linearized relatively ample invertible sheaf, a complex point is ℒ-semistable exactly when the weight on the limiting fiber of ℒ is ≥ 0 for every one-parameter subgroup with a limit in X, and ℒ-stable exactly when it is > 0 for every nontrivial such subgroup.
-
-The weight is the exponent w in the action v↦tʷv on the fiber of ℒ, equivalently minus the weight on its dual. Stability in this criterion uses finite stabilizers for the group being tested (GHH15, Proposition 2.7, Definition 3.1, Corollary 1.1 and Theorem 3.3). To test stability modulo a central subgroup, first verify that it acts trivially on the presentation and the linearized sheaf and apply the criterion to the descended action. The relative invariant Proj construction supplies finite generation and the affine reductive quotient. Sections 1.3 and 4.2–4.4 supply the spaces, actions, linearizations and numerical comparisons for the connection and Stokes frames.
-
-### Supplier quot
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 4.14. Noetherian projective Quot/Hilbert and Hom/Isom parameter spaces with their stated base-change laws. 1.3 proves boundedness, the equations and stability/GIT comparison. Analytic pullbacks use 1.2.
-
-### Supplier cohomology
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 2.2; 2.6; 2.20; 3.3. Čech and sheaf cohomology, coherent terms, relative/Serre duality, degrees and curve Riemann–Roch at the stated hypotheses. 1.4 constructs the constrained C-linear differential-operator deformation complex and ramified cone, its trace and duality comparisons, using C5.1 for the generic operator/principal-parts and GAGA theory. Coherent underlying terms do not make the differential O-linear.
-
-### Supplier deformation
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 4.2–4.6. Artinian coefficients, deformation functors, hulls and elementary small-extension obstruction calculations. 1.4 constructs actual connection cocycles, the needed arbitrary finite square-zero kernels and framed versality; 2.1 constructs strong horizontal extensions.
-
-### Supplier bundles
-
-[AlgebraicVectorBundles](../../TauCetiRoadmap/AlgebraicVectorBundles/README.md) — L0A–L0C; L1A–L1B; L2A–L2B. Finite locally free sheaves, duals/tensors/determinants, relative Spec and the geometric vector-bundle equivalence. 1.1 constructs decorated meromorphic connections using the shared ordinary/formal carriers; 1.2 applies the shared analytification to these objects.
-
-### Supplier ordinary-connections
-
-CrystallineCohomology §CR.1.3 supplies the ordinary connection carrier and operations. Ordinary form connections over arbitrary commutative base rings, extension, curvature, horizontal maps, base change and tensor/Hom/dual operations; no integrability condition in the carrier. 1.1 constructs the polar-bound and decoration conditions on the shared connection and proves determinant/End⁰ and localized comparisons, without a second ordinary connection carrier.
-
-### Supplier formal-connections
-
-FormalConnectionsOpers §F1.1–§F1.3, §F2.1 and §F3.3–§F3.4. Relative continuous differentials/completed tensors, formal-coordinate automorphisms and their pullback action, Tate coefficient descent, continuous/formal connection carrier and the left gauge groupoid; F3.4 stackification has its coefficient-cover essential-image criterion. 1.1 compares completions of the actual decorated bundles, verifies the extending-torsor criterion, and owns ramified decorated descent, Levelt–Turrittin and relative factorized models. Left gauge h corresponds to frame change g=h⁻¹.
-
-### Supplier analytic-spaces
-
-ComplexComparisonPartII — C−1.1–C−1.2; C0.3–C0.5; C0.7; C5.2: ordinary connection comparison prefix. One analytic-space category retaining nilpotents, locally finite-type scheme and locally separated finite-type algebraic-space analytification, coherent/tensor/pullback and étale descent comparisons, proper-morphism comparison and the ordinary holomorphic-connection dictionary. 1.2 verifies these constructions on the actual curve/time/moduli presentations, extends the comparison to polar and decorated data, and constructs smooth analytic pullback and manifold comparisons with their actual topological/dimension hypotheses.
-
-### Supplier regular-singular
-
-ComplexComparisonPartII C5.6. Use `RegularSingular` and `CanonicalLogExtension`, monodromy conjugacy in the chosen strip and the logarithmic-lattice criterion. §§3.8, 4.1 and 4.3 compare the actual decorated families, resonant lifts and determinants.
-
-### Supplier coherent-gaga
-
-ComplexComparisonPartII — C1.9. Projective and proper coherent GAGA, all-degree proper direct-image comparison on finite-type complex schemes and proper-space comparison, with nilpotents and the stated canonical exchange maps. 1.2 checks the proper-family/coherence hypotheses and identifies maps on the actual curve, bundle and determinant constructions; 1.4 uses these comparisons through the supplied operator-complex theorem, preserving base-change hypotheses.
-
-### Supplier differential-operators
-
-ComplexComparisonPartII — C5.1: shared algebraic operators/principal parts; C5.1: DifferentialOperatorAnalytification; C5.1: boundedOperatorHyperGaga. Characteristic-free all-order operator predicate/principal parts, universal jets, composition/localization/sheafification, analytification and absolute/relative proper bounded operator-complex GAGA at the stated hypotheses. 1.1 applies the first-order interface to meromorphic Leibniz operators; 1.2 compares decorated meromorphic data; 1.4 constructs the constrained deformation complex and ramified cone and verifies order, coherence, relative linearity, trace, duality and base-change comparisons.
-
-### Supplier algebraic-manifolds
-
-FormalConnectionsOpers §F2.4 supplies fixed-model analytification and sheaf/tangent comparisons. Fixed-model complex manifold realization for separated smooth finite-type complex schemes of constant differential dimension, second countability, dimension and sheaf/tangent/étale comparisons with the same analytification. 1.2 applies this on scheme charts and descends the actual moduli comparisons via the supplied algebraic-space analytification; arbitrary smooth analytic bases require their analytic-chart comparison and verified Hausdorff/second-countable/dimension hypotheses.
-
-### Supplier proper-cohomology
-
-[JacobianChallenge](../../TauCetiRoadmap/JacobianChallenge/README.md) — Layer C. Proper coherent pushforwards and separately stated flat-base-change and cohomology/base-change criteria; Grauert under its reduced-base and constant-rank assumptions. 1.5 uses the proper cohomology and base-change criteria for the curve families; 5.3 verifies boundary-coefficient flatness and the exact locally free/arbitrary-base-change criterion.
-
-### Supplier field-picard
-
-[JacobianChallenge](../../TauCetiRoadmap/JacobianChallenge/README.md) Layer D supplies Picard and Jacobian theory for fixed smooth projective curves. [SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) §§1.1, 2.6, 3.4, 4.6 and 4.14 supply line-bundle descent and deformation and the field-case Picard foundations.
-
-### Supplier relative-picard
-
-ComplexComparisonPartII §C3.2d.2–§C3.2d.3 supplies `relative_picard_algebraicSpace` for projective flat finitely presented families with universally O_T ≅ (p_T)_*O, together with quasi-separatedness, local finite presentation and its diagonal description. Use separatedness from that supplier under its geometrically integral fiber hypothesis. ComplexComparisonPartII §C3.2f.1–§C3.2f.2 supplies `picardZeroSheaf` and `picardZeroCriterion`, including the geometric smoothness and locally constant dimension hypotheses and the sufficient formal smoothness test over a nonreduced base. AlgebraicModuliForArithmeticGeometry §7.3 supplies the framed Artinian line-bundle lifting interface `picard_infinitesimal_lifting`. Section 1.5 verifies the relative affine lifting and cohomology hypotheses in dimension at most one and constructs the line-connection torsor. Section 5.1 verifies the boundary hypotheses and computes the additive group.
-
-### Supplier supports
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 2.7. Supported cohomology, localization/excision and the Noetherian colimit-of-Ext comparison with native local cohomology. 5.3 constructs the first boundary-layer line, its injection into supported cohomology and its identification with the time line.
-
-### Supplier surfaces
-
-[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 3.4; 4.11; 4.17; 5.9–5.10. Divisor/Picard groups, blowups and strict transforms, normal crossings, surface intersection/adjunction and lattice theory. 5.1–5.3 construct the nonreduced anticanonical boundary, relative logarithmic deformation and family comparisons; targets 5.4–5.6 construct the geometric transformations.
-
-### Supplier formal-series
-
-[FormalLaurentPuiseux](../../TauCetiRoadmap/FormalLaurentPuiseux/README.md) — L1–L4; L5–L6 for finite-extension steps in 1.1. Formal substitutions, continuous differentials, finite-dimensional HahnModule comparisons, residue/duality, ramified exponent embeddings and the stated finite-extension algebra. 1.1 proves differential-module Levelt–Turrittin decomposition and descent.
-
-### Supplier fredholm
-
-`Mathlib.Analysis.Normed.Operator.Fredholm.Basic`; `TauCeti.Analysis.Fredholm.Stabilization`; `TauCeti.Analysis.Normed.Operator.Splitting.Family`; `TauCeti.LinearAlgebra.Determinant.Line` — IsFredholm; nonempty_fredholmPackage; exists_stabilization_kernel_coordinates; kernelHomeomorph; contDiffAt_kerSection; detLine; detLineCongr. Scalar-generic finite-dimensional kernel/cokernel, stabilization coordinates and pointwise determinant-line comparisons; specialize over ℂ and dualize the convention. 6.1 constructs the holomorphic family, canonical section, transition cocycle and base-change laws.
-
-### Supplier inversion
-
-`Mathlib.Analysis.Analytic.Constructions` — analyticAt_inverse; analyticAt_inverse_one_sub. Analytic inversion on units of a complete normed algebra and the small-norm inverse. 6.1 proves the actual holomorphic family-to-operator maps used in stabilization.
-
-### Supplier trace-ideal
-
-[OperatorTheory/OperatorIdeals](../../TauCetiRoadmap/OperatorTheory/OperatorIdeals/README.md) — OI-B01–OI-B19; OI-B23; OI-B29–OI-B30. Normed complete trace-class ideal, nuclear gauge and two-sided ideal estimates. 6.3–6.4 verify actual trace-class realizations and their trace-norm holomorphic dependence where used.
-
-### Supplier trace-determinant
-
-[RandomMatrices](../../TauCetiRoadmap/RandomMatrices/README.md) — 8.3, generic operator-theory prefix. Trace, exterior powers, generic Fredholm determinant series and trace-norm continuity before the positive-kernel point-process specialization. 6.4 proves the logarithmic derivative, its holomorphic-family hypotheses and the integrable-kernel comparison.
-
-### Supplier toeplitz
-
-[OperatorTheory/ToeplitzOperators](../../TauCetiRoadmap/OperatorTheory/ToeplitzOperators/README.md) — T1–T3. Circle Hardy models and Fredholm index equal to minus determinant winding for continuous invertible matrix symbols. 6.3 constructs contour/Hardy, holomorphic-family, index-zero, resonant and ramified adapters. Index zero alone does not imply invertibility.
-
-### Supplier curve-functions
-
-`TauCeti.Analysis.Complex.RiemannSurface.FunctionField`; `TauCeti.Analysis.Complex.RiemannSurface.FunctionField.Comap` — TauCeti.RiemannSurface.MeromorphicFunction; Nonconstant curve pullback and order comparison. Holomorphic maps from a Riemann surface to OnePoint ℂ with a witness excluding the constant-infinity map; native pullback and orders. 0.7 proves phase-observation admissibility and scalar descent; its scalar output uses this same carrier.
-
-### Supplier proper
-
-`Mathlib.Topology.Maps.Proper.Basic` — IsProperMap. Topological proper maps and the compact-preimage and base-change properties under their actual topological hypotheses. 0.4 proves complete-lift transfer. 1.2 applies the supplied analytic/algebraic comparison to the actual families; 4.4 proves properness of the actual RH family.
 
 ## Layer 0: Nonlinear connections and their solutions
 
@@ -1675,6 +1524,169 @@ The scalar equation may have an apparent denominator at a regular geometric init
 ## Downstream consumers
 
 Within this roadmap, Layers 1–2 supply the moduli and strong-extension interfaces used in Layers 3–4. The geometric continuation in Layer 4 supplies the observer theorem used by Layer 7. Layer 5 supplies the PVI compactification, pair geometry and geometric symmetries on their proved domains. Layer 6 supplies the determinant and tau comparisons used for the Hamiltonians and sigma forms.
+
+## Scope and ownership
+
+The scope consists of the 55 targets above. Each target includes its constructions, basic API, comparison maps and specified examples, under the stated hypotheses.
+
+| Reusable general theory | Targets |
+|---|---|
+| Nonlinear connections, solutions, transport, observations and jets | 0.1–0.8 |
+| Moduli of decorated meromorphic connections | 1.1–1.6 |
+| Isomonodromic connections | 2.1–2.4 |
+| Determinant lines of holomorphic Fredholm families | 6.1 |
+
+The 19 general targets form an independent theory. The 36 application targets construct Painlevé phase spaces, connections and forms from it and establish their properties. Their dependencies are the prerequisites listed at each target. In particular, the geometric constructions and properties in Layers 3–6 precede the classical coordinate comparisons in Layer 7.
+
+ComplexComparisonPartII supplies relative Picard representability and the identity-component criterion. Section 1.5 verifies the curve-family hypotheses and constructs the determinant moduli, and §5.1 verifies the hypotheses for the possibly nonreduced anticanonical boundary.
+
+The scope excludes difference and q-difference Painlevé dynamics, discrete Sakai classification, cluster realizations, arbitrary-rank wild nonabelian Hodge theory, exhaustive classification of algebraic special solutions, boundary-value asymptotics and connection constants, Hastings–McLeod identification, confluence, and Garnier systems.
+
+External roadmaps supply the results listed in the dependency contracts. Each construction made here has a specified target. Applications use the general objects, morphisms and pullbacks through the stated hypotheses and comparison maps.
+
+## Exact supplier contracts
+
+Roadmap references specify constructions and theorems with their hypotheses. Library references specify declarations and APIs. The table identifies the supplied results and the constructions assigned to this roadmap.
+
+### Supplier complex
+
+[ComplexKahlerGeometry](../../TauCetiRoadmap/ComplexKahlerGeometry/README.md) — K1; K3.0; K3.HolomorphicStalk; K3.MeromorphicGermField; K4; K7.1. Complex inverse/implicit-function and tangent calculus; holomorphic germs and one-variable meromorphic germs; holomorphic bundle/sheaf equivalence and nonsingular flat connections/local systems; projective charts. The nonlinear-connection theory owns nonlinear connections, holomorphic ODEs, transport and observations. 1.1–1.2 own the meromorphic/decorated applications of the shared connection and analytification interfaces; K4 supplies the nonsingular holomorphic comparison. 3.8 constructs the local logarithmic monodromy family and its holomorphic parameter and base-change comparisons.
+
+### Supplier smooth
+
+[SmoothBundlesConnections](../../TauCetiRoadmap/SmoothBundlesConnections/README.md) — B1.5; B5.0; B5.2. B1.5 supplies smooth real Ehresmann connections, pullbacks, restrictions and maximal horizontal lifts. §§0.1–0.3 supply the non-surjective, C¹/continuous-time and holomorphic extensions. B5.0 and B5.2 supply their stated bundle and principal transport.
+
+### Supplier differential
+
+[DifferentialGeometry](../../TauCetiRoadmap/DifferentialGeometry/README.md) — Layers 0–1; 3.1–3.5. Finite-dimensional manifolds, charts and smooth local/maximal/time-dependent flows. §0.2 compares their autonomous specializations, and §0.8 constructs intrinsic jets.
+
+### Supplier ode
+
+Mathlib, ODE Picard–Lindelöf. Use `IsPicardLindelof`, `exists_eq_forall_mem_Icc_hasDerivWithinAt`, `exists_forall_mem_closedBall_eq_hasDerivWithinAt_lipschitzOnWith` and `ODE_solution_unique_of_mem_Icc` for the time-dependent coordinate theorem. §0.2 proves manifold gluing and compact extension.
+
+### Supplier frobenius
+
+`TauCeti.Analysis.ODE.Frobenius` — TauCeti.exists_frobenius_flat_coordinate. For a finite-dimensional real integrable graph field, a local product OpenPartialHomeomorph with a smooth inverse and the prescribed horizontal derivatives, at the stated regularity. 0.5 constructs the submersion-chart graph field, proves curvature implies its integrability, and glues these local products for homotopy-invariant transport. 0.3 supplies the holomorphic counterpart.
+
+### Supplier covers
+
+[Completed/UniversalCovers](../../Completed/UniversalCovers/README.md) — Stage 0.2–0.4; Stage 1.5; Stage 2.6–2.8. Native covering, path and homotopy lifting, universal covers and their fundamental-group interfaces. 0.5 constructs the nonlinear action and horizontal descent; general-cover descent uses the actual fiber relation, not deck invariance without normality. 3.8 constructs local monodromy from marked loops and proves its homotopy and basepoint comparisons.
+
+### Supplier curves
+
+[ComplexCurveModuli](../../TauCetiRoadmap/ComplexCurveModuli/README.md); [SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — ComplexCurveModuli D0.3, D3–D5; SchemeAndStackFoundations 4.15. Genus-zero Möbius normalization and supported point-pushing; stable marked-curve deformation charts in the stable range. 1.2 constructs unstable one-/two-pointed quotient charts, finite jets, local markings and determinant transport. Analytic spaces and analytification are supplied by ComplexComparisonPartII, with the fixed-model scheme comparison from FormalConnectionsOpers F2.4.
+
+### Supplier stacks
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 1.18–1.23. Stackification, 2-fiber products, algebraic/DM presentations, inertia, QCoh descent, and finite-inertia Keel–Mori at its hypotheses. 1.3 proves bounded GIT, scalar Gm rigidification, gerbe and coarse comparisons. Finite-inertia criteria do not apply to an unrigidified Gm stable stack.
+
+### Supplier quotient-predicates
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 1.17. Categorical/geometric quotient definitions, Artin bootstrap and the stated finite-group projective quotients. Use the reductive GIT contract below. 4.2 constructs the classical representation and character quotients, wild framing groupoids and Stokes quotients.
+
+### Supplier reductive-git
+
+What AlgebraicModuliForArithmeticGeometry must provide (gap:reductive-connection-git): for a projective G-equivariant morphism X→X₀ over ℂ with X₀ affine of finite type, G affine linearly reductive and a relatively ample G-linearized line bundle, construct the relative invariant Proj projective over X₀//G and identify the quotient with the geometric quotient of the stable locus wherever stable equals semistable.
+
+What AlgebraicModuliForArithmeticGeometry must provide (gap:relative-hilbert-mumford): for a projective G-equivariant morphism X→X₀ of finite-type ℂ-schemes with X₀ affine, G affine linearly reductive and ℒ a G-linearized relatively ample invertible sheaf, a complex point is ℒ-semistable exactly when the weight on the limiting fiber of ℒ is ≥ 0 for every one-parameter subgroup with a limit in X, and ℒ-stable exactly when it is > 0 for every nontrivial such subgroup.
+
+The weight is the exponent w in the action v↦tʷv on the fiber of ℒ, equivalently minus the weight on its dual. Stability in this criterion uses finite stabilizers for the group being tested (GHH15, Proposition 2.7, Definition 3.1, Corollary 1.1 and Theorem 3.3). To test stability modulo a central subgroup, first verify that it acts trivially on the presentation and the linearized sheaf and apply the criterion to the descended action. The relative invariant Proj construction supplies finite generation and the affine reductive quotient. Sections 1.3 and 4.2–4.4 supply the spaces, actions, linearizations and numerical comparisons for the connection and Stokes frames.
+
+### Supplier quot
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 4.14. Noetherian projective Quot/Hilbert and Hom/Isom parameter spaces with their stated base-change laws. 1.3 proves boundedness, the equations and stability/GIT comparison. Analytic pullbacks use 1.2.
+
+### Supplier cohomology
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 2.2; 2.6; 2.20; 3.3. Čech and sheaf cohomology, coherent terms, relative/Serre duality, degrees and curve Riemann–Roch at the stated hypotheses. 1.4 constructs the constrained C-linear differential-operator deformation complex and ramified cone, its trace and duality comparisons, using C5.1 for the generic operator/principal-parts and GAGA theory. Coherent underlying terms do not make the differential O-linear.
+
+### Supplier deformation
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 4.2–4.6. Artinian coefficients, deformation functors, hulls and elementary small-extension obstruction calculations. 1.4 constructs actual connection cocycles, the needed arbitrary finite square-zero kernels and framed versality; 2.1 constructs strong horizontal extensions.
+
+### Supplier bundles
+
+[AlgebraicVectorBundles](../../TauCetiRoadmap/AlgebraicVectorBundles/README.md) — L0A–L0C; L1A–L1B; L2A–L2B. Finite locally free sheaves, duals/tensors/determinants, relative Spec and the geometric vector-bundle equivalence. 1.1 constructs decorated meromorphic connections using the shared ordinary/formal carriers; 1.2 applies the shared analytification to these objects.
+
+### Supplier ordinary-connections
+
+CrystallineCohomology §CR.1.3 supplies the ordinary connection carrier and operations. Ordinary form connections over arbitrary commutative base rings, extension, curvature, horizontal maps, base change and tensor/Hom/dual operations; no integrability condition in the carrier. 1.1 constructs the polar-bound and decoration conditions on the shared connection and proves determinant/End⁰ and localized comparisons, without a second ordinary connection carrier.
+
+### Supplier formal-connections
+
+FormalConnectionsOpers §F1.1–§F1.3, §F2.1 and §F3.3–§F3.4. Relative continuous differentials/completed tensors, formal-coordinate automorphisms and their pullback action, Tate coefficient descent, continuous/formal connection carrier and the left gauge groupoid; F3.4 stackification has its coefficient-cover essential-image criterion. 1.1 compares completions of the actual decorated bundles, verifies the extending-torsor criterion, and owns ramified decorated descent, Levelt–Turrittin and relative factorized models. Left gauge h corresponds to frame change g=h⁻¹.
+
+### Supplier analytic-spaces
+
+ComplexComparisonPartII — C−1.1–C−1.2; C0.3–C0.5; C0.7; C5.2: ordinary connection comparison prefix. One analytic-space category retaining nilpotents, locally finite-type scheme and locally separated finite-type algebraic-space analytification, coherent/tensor/pullback and étale descent comparisons, proper-morphism comparison and the ordinary holomorphic-connection dictionary. 1.2 verifies these constructions on the actual curve/time/moduli presentations, extends the comparison to polar and decorated data, and constructs smooth analytic pullback and manifold comparisons with their actual topological/dimension hypotheses.
+
+### Supplier regular-singular
+
+ComplexComparisonPartII C5.6. Use `RegularSingular` and `CanonicalLogExtension`, monodromy conjugacy in the chosen strip and the logarithmic-lattice criterion. §§3.8, 4.1 and 4.3 compare the actual decorated families, resonant lifts and determinants.
+
+### Supplier coherent-gaga
+
+ComplexComparisonPartII — C1.9. Projective and proper coherent GAGA, all-degree proper direct-image comparison on finite-type complex schemes and proper-space comparison, with nilpotents and the stated canonical exchange maps. 1.2 checks the proper-family/coherence hypotheses and identifies maps on the actual curve, bundle and determinant constructions; 1.4 uses these comparisons through the supplied operator-complex theorem, preserving base-change hypotheses.
+
+### Supplier differential-operators
+
+ComplexComparisonPartII — C5.1: shared algebraic operators/principal parts; C5.1: DifferentialOperatorAnalytification; C5.1: boundedOperatorHyperGaga. Characteristic-free all-order operator predicate/principal parts, universal jets, composition/localization/sheafification, analytification and absolute/relative proper bounded operator-complex GAGA at the stated hypotheses. 1.1 applies the first-order interface to meromorphic Leibniz operators; 1.2 compares decorated meromorphic data; 1.4 constructs the constrained deformation complex and ramified cone and verifies order, coherence, relative linearity, trace, duality and base-change comparisons.
+
+### Supplier algebraic-manifolds
+
+FormalConnectionsOpers §F2.4 supplies fixed-model analytification and sheaf/tangent comparisons. Fixed-model complex manifold realization for separated smooth finite-type complex schemes of constant differential dimension, second countability, dimension and sheaf/tangent/étale comparisons with the same analytification. 1.2 applies this on scheme charts and descends the actual moduli comparisons via the supplied algebraic-space analytification; arbitrary smooth analytic bases require their analytic-chart comparison and verified Hausdorff/second-countable/dimension hypotheses.
+
+### Supplier proper-cohomology
+
+[JacobianChallenge](../../TauCetiRoadmap/JacobianChallenge/README.md) — Layer C. Proper coherent pushforwards and separately stated flat-base-change and cohomology/base-change criteria; Grauert under its reduced-base and constant-rank assumptions. 1.5 uses the proper cohomology and base-change criteria for the curve families; 5.3 verifies boundary-coefficient flatness and the exact locally free/arbitrary-base-change criterion.
+
+### Supplier field-picard
+
+[JacobianChallenge](../../TauCetiRoadmap/JacobianChallenge/README.md) Layer D supplies Picard and Jacobian theory for fixed smooth projective curves. [SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) §§1.1, 2.6, 3.4, 4.6 and 4.14 supply line-bundle descent and deformation and the field-case Picard foundations.
+
+### Supplier relative-picard
+
+ComplexComparisonPartII §C3.2d.2–§C3.2d.3 supplies `relative_picard_algebraicSpace` for projective flat finitely presented families with universally O_T ≅ (p_T)_*O, together with quasi-separatedness, local finite presentation and its diagonal description. Use separatedness from that supplier under its geometrically integral fiber hypothesis. ComplexComparisonPartII §C3.2f.1–§C3.2f.2 supplies `picardZeroSheaf` and `picardZeroCriterion`, including the geometric smoothness and locally constant dimension hypotheses and the sufficient formal smoothness test over a nonreduced base. AlgebraicModuliForArithmeticGeometry §7.3 supplies the framed Artinian line-bundle lifting interface `picard_infinitesimal_lifting`. Section 1.5 verifies the relative affine lifting and cohomology hypotheses in dimension at most one and constructs the line-connection torsor. Section 5.1 verifies the boundary hypotheses and computes the additive group.
+
+### Supplier supports
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 2.7. Supported cohomology, localization/excision and the Noetherian colimit-of-Ext comparison with native local cohomology. 5.3 constructs the first boundary-layer line, its injection into supported cohomology and its identification with the time line.
+
+### Supplier surfaces
+
+[SchemeAndStackFoundations](../../TauCetiRoadmap/SchemeAndStackFoundations/README.md) — 3.4; 4.11; 4.17; 5.9–5.10. Divisor/Picard groups, blowups and strict transforms, normal crossings, surface intersection/adjunction and lattice theory. 5.1–5.3 construct the nonreduced anticanonical boundary, relative logarithmic deformation and family comparisons; targets 5.4–5.6 construct the geometric transformations.
+
+### Supplier formal-series
+
+[FormalLaurentPuiseux](../../TauCetiRoadmap/FormalLaurentPuiseux/README.md) — L1–L4; L5–L6 for finite-extension steps in 1.1. Formal substitutions, continuous differentials, finite-dimensional HahnModule comparisons, residue/duality, ramified exponent embeddings and the stated finite-extension algebra. 1.1 proves differential-module Levelt–Turrittin decomposition and descent.
+
+### Supplier fredholm
+
+`Mathlib.Analysis.Normed.Operator.Fredholm.Basic`; `TauCeti.Analysis.Fredholm.Stabilization`; `TauCeti.Analysis.Normed.Operator.Splitting.Family`; `TauCeti.LinearAlgebra.Determinant.Line` — IsFredholm; nonempty_fredholmPackage; exists_stabilization_kernel_coordinates; kernelHomeomorph; contDiffAt_kerSection; detLine; detLineCongr. Scalar-generic finite-dimensional kernel/cokernel, stabilization coordinates and pointwise determinant-line comparisons; specialize over ℂ and dualize the convention. 6.1 constructs the holomorphic family, canonical section, transition cocycle and base-change laws.
+
+### Supplier inversion
+
+`Mathlib.Analysis.Analytic.Constructions` — analyticAt_inverse; analyticAt_inverse_one_sub. Analytic inversion on units of a complete normed algebra and the small-norm inverse. 6.1 proves the actual holomorphic family-to-operator maps used in stabilization.
+
+### Supplier trace-ideal
+
+[OperatorTheory/OperatorIdeals](../../TauCetiRoadmap/OperatorTheory/OperatorIdeals/README.md) — OI-B01–OI-B19; OI-B23; OI-B29–OI-B30. Normed complete trace-class ideal, nuclear gauge and two-sided ideal estimates. 6.3–6.4 verify actual trace-class realizations and their trace-norm holomorphic dependence where used.
+
+### Supplier trace-determinant
+
+[RandomMatrices](../../TauCetiRoadmap/RandomMatrices/README.md) — 8.3, generic operator-theory prefix. Trace, exterior powers, generic Fredholm determinant series and trace-norm continuity before the positive-kernel point-process specialization. 6.4 proves the logarithmic derivative, its holomorphic-family hypotheses and the integrable-kernel comparison.
+
+### Supplier toeplitz
+
+[OperatorTheory/ToeplitzOperators](../../TauCetiRoadmap/OperatorTheory/ToeplitzOperators/README.md) — T1–T3. Circle Hardy models and Fredholm index equal to minus determinant winding for continuous invertible matrix symbols. 6.3 constructs contour/Hardy, holomorphic-family, index-zero, resonant and ramified adapters. Index zero alone does not imply invertibility.
+
+### Supplier curve-functions
+
+`TauCeti.Analysis.Complex.RiemannSurface.FunctionField`; `TauCeti.Analysis.Complex.RiemannSurface.FunctionField.Comap` — TauCeti.RiemannSurface.MeromorphicFunction; Nonconstant curve pullback and order comparison. Holomorphic maps from a Riemann surface to OnePoint ℂ with a witness excluding the constant-infinity map; native pullback and orders. 0.7 proves phase-observation admissibility and scalar descent; its scalar output uses this same carrier.
+
+### Supplier proper
+
+`Mathlib.Topology.Maps.Proper.Basic` — IsProperMap. Topological proper maps and the compact-preimage and base-change properties under their actual topological hypotheses. 0.4 proves complete-lift transfer. 1.2 applies the supplied analytic/algebraic comparison to the actual families; 4.4 proves properness of the actual RH family.
 
 ## References
 

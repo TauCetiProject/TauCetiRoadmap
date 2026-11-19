@@ -1,45 +1,56 @@
 # Roadmap: inverse Galois theory and arithmetic fundamental groups
 
-**Summary.** This roadmap builds the arithmetic of finite covers that inverse Galois theory needs:
-Galois algebras, local systems and the pro-étale fundamental group; tame quotients, Frobenius and
-Grothendieck's specialization theorems using the arithmetic fundamental-group sequence and inertia; Hilbert
-irreducibility over number fields with full-group, disjoint and locally prescribed specializations;
-branch cycles, rational rigidity and the field-of-moduli obstruction; braid orbits of Nielsen
-classes and their lifting invariants in the universal marked central extension; Shafarevich's
-theorem that every finite solvable group is a Galois group over a number field, with proper
-embedding problems, Grunwald–Wang and finite Poitou–Tate; Hurwitz spaces in characteristic zero and
-over finite fields, their components, cohomology and point counts; and explicit realizations,
-including the open inverse Galois problem as a named statement. We want it because realizing groups
-as Galois groups, and counting how often they occur, is where the geometry of covers, the
-arithmetic of number fields and the combinatorics of braid groups meet, and because the anabelian,
-arithmetic-statistics and Galois-cohomological roadmaps all start from the objects built here.
+**Summary.** The inverse Galois problem asks whether every finite group is the Galois group of a
+finite Galois extension of `ℚ`. It is open; this roadmap states it and its regular version over `ℚ(T)`
+as named propositions that no realization theorem assumes. What it builds is the
+arithmetic of finite covers that inverse Galois theory needs. A finite étale cover of a curve is, after
+choosing a base point, a finite set with an action of the fundamental group. Over a field that is not
+separably closed, that group also records how the Galois group of the constants moves the cover.
 
-A finite cover of a curve is, after choosing a base point, a finite set with an action of the
-fundamental group; over a field that is not algebraically closed the fundamental group also records
-how the Galois group of the constants moves the cover. This roadmap develops that dictionary in the
-direction of the inverse Galois problem. Its first two layers fix the fundamental-group calculus:
-the étale fundamental group is supplied by EtaleCohomologyFoundations §F.0 /
-`VanishingCycles.finiteEtaleGaloisCategory`,
-for connected nonempty locally Noetherian schemes without coefficient invertibility.
-What is built here are Galois algebras, `ℤ_p`-local systems, the pro-étale
-fundamental group, tame quotients, tangential base points and specialization. Field and multiplicative-group
-identifications, the arithmetic exact sequence, decomposition and inertia are supplied by
-EtaleCohomologyFoundations §§F.0.A0–F.0.A2. Hilbert irreducibility then turns a regular Galois
-extension of `K(T)` into infinitely many Galois extensions of a number field `K` with the same
-group (Layer IG.2). Rigidity produces regular extensions from conjugacy classes, and the braid group
-organises the tuples that classify covers; the lifting invariant of Ellenberg, Venkatesh, Westerland
-and Wood separates their braid orbits (Layer IG.3). Independently, embedding problems over number
-fields give Shafarevich's theorem (Layer IG.4). Hurwitz spaces assemble covers into moduli spaces,
-whose components and points over finite fields are counted by the lifting invariant and by the
-Grothendieck–Lefschetz formula (Layer IG.5). The last layer packages realizations and
-states the inverse Galois problem over `ℚ` and its regular version as open propositions, together
-with the implication between them.
+Hilbert irreducibility leads from covers of the line to number fields. The roadmap proves
+that every number field `K` is Hilbertian. Take finitely many irreducible separable polynomials of
+positive degree in `K(T₁, …, T_r)[Y]`. The points `t ∈ K^r` at which every coefficient is regular,
+no leading coefficient vanishes and every specialization stays irreducible are Zariski dense. Call
+an extension of `K(T)` regular if it is finite Galois and `K` is algebraically closed in it. Over a
+Hilbertian field `K` of characteristic zero, a regular extension with group `G` specializes at
+infinitely many `t ∈ K` to Galois extensions of `K` with group `G`. Over a number field these can be
+chosen mutually linearly disjoint.
 
-The end theorems are Hilbert's irreducibility theorem over number fields with full-group and
-linearly disjoint specializations (Layer IG.2), rational rigidity and the stable classification of
-generating braid orbits by the lifting invariant (Layer IG.3), Shafarevich's solvable realization
-theorem (Layer IG.4), and the identification of components of Hurwitz spaces and their
-Frobenius-fixed points with lifting invariants (Layer IG.5).
+Rigidity produces regular extensions. Let `G` be a finite group with trivial centre, and let
+`C₁, …, C_r` be nontrivial conjugacy classes of `G` that are rational: `C_i^m = C_i` for every `m`
+prime to `|G|`. Suppose the generating tuples with entries in `C₁, …, C_r` in turn and with product
+one exist and form a single orbit under simultaneous conjugation. Then `G` is the Galois group of a
+regular extension of `K(T)` for every field `K` of characteristic zero. In `S₃` the classes of a
+transposition, a transposition and a `3`-cycle are rigid; with Hilbert's theorem they give infinitely
+many linearly disjoint `S₃`-extensions of `ℚ`.
+
+The roadmap also studies these tuples up to the braid group, which acts by Hurwitz moves
+`(a, b) ↦ (a b a⁻¹, a)`. Fix a conjugacy-invariant subset `c` generating a finite group `G`.
+The lifting invariant of a tuple lies in the universal marked central extension `U(G, c)`, the group
+on symbols `[x]` for `x ∈ c` with relations `[x][y][x]⁻¹ = [x y x⁻¹]`. Following Wood, the roadmap
+shows that once every class in `c` occurs often enough, the lifting invariant maps the braid orbits
+of generating tuples with given class multiplicities bijectively onto the elements of `U(G, c)` with
+the same multiplicities.
+
+Embedding problems give a second route over number fields. The roadmap proves Shafarevich's
+theorem: every finite solvable group is the Galois group of a finite Galois extension of every
+number field. Following Schmidt and Wingberg, the proof rests on the theorem that every finite split
+embedding problem over a number field with nilpotent kernel has a surjective solution.
+
+The roadmap builds on [BelyiMaps](../BelyiMaps/README.md) and starts where its three-point theory
+stops. EtaleCohomologyFoundations supplies the étale fundamental group, the arithmetic exact
+sequence, and decomposition and inertia groups. Global class field theory and Poitou–Tate duality come
+from ClassFieldTheory and ArithmeticGaloisDuality and are used only over number fields. Downstream,
+the anabelian and nonabelian Chabauty roadmap uses the tame tangential fibre functors, and arithmetic
+statistics uses the lifting invariants and the Hurwitz component counts.
+
+The seven layers come in build order. The first builds trace formulas and extends the étale
+fundamental group to Galois algebras, `ℤ_p`-local systems and the pro-étale group. The second builds
+tame quotients and Grothendieck's specialization theorems. The third to fifth contain the
+results above, in that order. The sixth builds Hurwitz spaces of `G`-covers of the line. It compares
+their cohomology over `ℂ` and over finite fields for a fixed number of branch points, and proves
+Abhyankar's conjecture for affine curves. The seventh packages realizations and proves that the
+regular inverse Galois problem implies the one over `ℚ`.
 
 The companion [Suggested.lean](Suggested.lean), in the namespace
 `TauCetiRoadmap.InverseGaloisAndArithmeticFundamentalGroups`, states headline results against the
@@ -47,162 +58,26 @@ pinned Mathlib and Tau Ceti, with the simple definitions needed to express them.
 line names its statements in that file; the other targets are specified here. Checks are
 mathematical examples stated in prose.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap builds on [BelyiMaps](../BelyiMaps/README.md) and starts where its three-point
-theory stops. BelyiMaps owns permutation triples, dessins, three-point covers, Belyi's
-theorem, fields of moduli of Belyi pairs, the branch-cycle theorem for the thrice-punctured line,
-the pro-`ℓ` peripheral-power theorem and faithfulness of the Galois action on dessins (its Layers
-0–13, the later ones through its named successors). This roadmap treats finite covers of general
-schemes, arbitrarily many branch points, Hilbert specialization, arithmetic embedding problems and
-Hurwitz families, and consumes the three-point theory at the points listed below.
-
-The roadmap owns:
-
-- Galois algebras over a field and the idempotent description of maps out of a finite étale
-  algebra; curve and constructible trace formulas (IG.0.T1–IG.0.T4); integral, isogeny and rational
-  `ℤ_p`-local systems with their lattice schemes and their
-  comparison with the lisse part of the `ℓ`-adic realization; Noohi groups, infinite Galois
-  categories and the pro-étale fundamental group (Layer IG.0);
-- tame and prime-to-`p` quotients of fundamental groups of curves, tame tangential
-  fibres, the Frobenius normalisation over finite fields, finite étale covers of proper schemes over
-  a henselian local ring, proper descent of finite étale covers,
-  invariance under algebraically closed base extension in characteristic zero, specialization for
-  proper smooth families and for smooth pairs with a relative normal crossings boundary, arithmetic
-  representations, exactness for the universal punctured curve, and
-  the fundamental groups of homogeneous spaces with finite stabilisers (Layer IG.1);
-- specialization of polynomials over `K(T)` at points of `K`, Hilbert subsets and thin sets,
-  Hilbertian fields, Hilbert's irreducibility theorem over number fields and its full-group,
-  linearly disjoint, local-condition, norm-pullback and quantitative forms, Hilbert specialization
-  detected by the Frattini quotient, and normal subgroups of absolute Galois groups of Hilbertian
-  fields (Layer IG.2);
-- Riemann existence for punctured curves in the form used for branch cycles, Artin neighbourhoods
-  as `K(π, 1)` spaces, branch tuples, Nielsen classes, the Hurwitz braid action and the braid-orbit
-  monoid, exterior epimorphisms and `T`-systems, realization of generating tuples, rational rigidity,
-  the field-of-moduli obstruction, reduced Schur multipliers and covers, marked central extensions
-  and the universal marked extension `U(G, c)` with its kernel, Schur–Zassenhaus conjugacy of
-  coprime complements, the action of units and the cyclotomic twist, lifting invariants and the
-  stable classification of braid orbits (Layer IG.3);
-- proper embedding problems with local prescriptions over number fields, the abelian lifting
-  obstruction, twisting of solutions, the restricted-ramification localization adapter
-  and auxiliary cokernel comparisons for Shafarevich shrinking, Shafarevich's theorem with the Fitting
-  subgroup, Fitting supplements and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg
-  density for supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable
-  and quaternion local prescriptions, unramified admissible `Γ`-groups, Property E, arithmetic
-  lifting invariants and the marked extension count (Layer IG.4);
-- configuration spaces, topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers,
-  the cohomological comparisons and point estimates for Hurwitz spaces, component invariants,
-  hyperelliptic quotient families, versal families, field patching over complete discrete
-  valuation rings with the patching of Galois algebras with prescribed local pieces and of covers
-  with a fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine
-  curves, and Abhyankar's conjecture for affine curves through Serre's solvable step, Raynaud's
-  theorem for the affine line and Harbater's theorem for the punctured line (Layer IG.5);
-- realizations, their specialization, worked realizations, the transport of the
-  BelyiMaps conventions, the inverse Galois problem and generic polynomials (Layer IG.6).
-
-It does not own, and consumes by name:
-
-- finite étale Galois categories, paths and finite lisse monodromy: Supplied by
-  EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
-  Based `π₁` requires connected nonempty locally Noetherian schemes; finite lisse coefficients
-  need no invertibility;
-- finite CW type, Riemann existence and finite/adic Artin comparison: Supplied by
-  ComplexComparisonPartII §§C6.0–C6.6 / `complexAlgebraicTopology`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`.
-  Riemann existence and ordinary comparison admit all finite-type complex schemes; global CW
-  type and compact support require separatedness, and adic comparisons use uniformly bounded
-  normalized ctf systems;
-- finite-coefficient base change, cohomology, finiteness and adic realization: Supplied by
-  EtaleCohomologyFoundations §§F.0–F.4 / `VanishingCycles.constructibleEtale`, `VanishingCycles.etaleTateTwists`, `VanishingCycles.constructibleDerivedCategory`, `VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange`, `VanishingCycles.etaleCompactSupports`, `VanishingCycles.etaleFiniteness`, `VanishingCycles.adicRealization`.
-  Invertibility is carried by the particular theorem, constructible does not imply finite Tor
-  amplitude, and fibre transport retains a chosen path or specialization datum;
-- derived proper supports and localization: Supplied by
-  EtaleCohomologyFoundations §§0.7–0.8 / `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`.
-  These use étale module coefficients, with lower shriek defined by compactification on `D⁺`
-  torsion complexes;
-- Frobenius and rational-point fixed points: Supplied by
-  EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`,
-  `VanishingCycles.frobeniusCohomology`,
-  and étale topological invariance: Supplied by
-  EtaleCohomologyFoundations §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence`.
-  Traces use compact support and geometric Frobenius, finite-level traces use perfect complexes,
-  and topological invariance applies to every universal homeomorphism;
-- the three-point theory of **BelyiMaps**: permutation triples and their enumeration (Layers 0 and
-  3), the thrice-punctured sphere (Layer 5), covers and triples (Layer 6), fields of moduli and of
-  definition of Belyi pairs (Layer 11), the branch-cycle theorem and peripheral inertia (Layer 12),
-  and the pro-`ℓ` peripheral theorem with faithfulness of the Galois action on dessins (Layer 13,
-  in particular 13.5, which this roadmap uses as stated there and does not reprove);
-- the profinite integers as a ring, profinite powers and continuous outer automorphisms
-  (**ProfiniteArithmetic**), peripheral power conventions (**PeripheralActions**), profinite and
-  pro-`p` groups, Frattini subgroups and weak finite embedding problems with their cohomological
-  obstruction (**ProfiniteProPGroups**, Layers 0, 3, 4 and 5; in Tau Ceti
-  `TauCeti.FiniteEmbeddingProblem` and, for any abelian kernel,
-  `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`), and continuous
-  cohomology (**ProfiniteCohomology**, Layers 1, 5, 7 and 10);
-- general profinite full-image detection and openness of the Frattini subgroup for compact
-  matrix groups (**ArithmeticGaloisRepresentations**, §6.4a). Detection requires a closed image;
-  the finite-cover specialization application here assumes an open Frattini subgroup, and the
-  compact-matrix openness theorem requires a compact subgroup of `GL_n(E)` with `E/ℚ_ℓ` finite;
-- the `Sₙ` polynomials over `ℚ` (**PolynomialGaloisGroups**, Layer 9, with its Layers 2 and 3 for the
-  Galois–permutation dictionary and the discriminant), and the Galois groups of the small cubics
-  and quartics computed in the Tau Ceti library (`X³ − 3X − 1`, `X⁴ − 2`, `Φ₅`); places,
-  completions and weak approximation of number fields (**GlobalNumberFields**, Layers 0 and 1);
-  local and global class field theory with local Tate duality and the Brauer sequence
-  (**ClassFieldTheory**, Layers 5, 7 and 10–12); finite Galois localization, absolute finite
-  Poitou–Tate and Grunwald–Wang
-  (**ArithmeticGaloisDuality**, §§R02.3.0d–R02.3.1, R02.4.2–R02.4.3, R02.4.5a–R02.4.6); Chebotarev density (**Chebotarev**); unramified extensions, Frobenius,
-  inertia, wild inertia and the tame quotient of the absolute Galois group of a nonarchimedean local
-  field, which are already in the pinned Tau Ceti (*Exact supplier contracts*, *From Tau Ceti*);
-  curves and their places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes
-  over a field and finite torsors (**ModularCurves**, Layers 0c–0d); affine group schemes, their
-  quotients and semisimple groups (**ReductiveGroups**, Layers 0, 3 and 6); representation groups of
-  finite groups (**RepresentationTheory/InductionRestriction**, Layer 7); fibrations and homotopy
-  groups (the fibration homotopy long exact sequence of **DGFloer**, Layer 1 item 2, and the
-  homotopy groups of **AlgebraicTopology**, Stage 8); semistable reduction of curves
-  (**StableReduction**, Layer 7);
-- schemes, descent, stacks, sites, étale and pro-étale cohomology, Brauer groups of schemes, curves,
-  stable pointed curves, Popescu desingularization, Grothendieck existence and algebraization
-  (**SchemeAndStackFoundations**, Layers 0–4); the Lang–Weil estimate for a fixed model
-  (**SieveMethodsAndPrimePatterns**, §5.4); the smooth trace and
-  Poincaré duality in étale cohomology (**EtaleCohomologyFoundations**, §§F.5–F.6 /
-  `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity`, with invertible coefficients
-  and finite Tor amplitude); Weil restriction
-  and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); the Hasse principle for torsors under
-  semisimple simply connected groups and their weak approximation (**AdelicAlgebraicGroups**, Layer
-  4, §4.1); Swan conductors of local Galois representations and their tame-base-change scaling
-  (**ArithmeticGaloisRepresentations**, §§3.1, 3.4, over complete discretely valued fields with
-  perfect residue field, including the completions of curves over an algebraically closed field);
-  lower ramification groups of places of function fields over an arbitrary residue field
-  (**AlgebraicCurves**, Layer 8); resolution and normal crossings
-  compactification (**ResolutionOfSingularitiesCharacteristicZero**, §§5.5, 6.2, consumed through
-  **AlgebraicModuliForArithmeticGeometry**, §§9.4–9.5); complex analytic spaces,
-  scheme and algebraic-space analytification and proper coherent GAGA
-  (**ComplexComparisonPartII**, §§C−1.1–C−1.3, C1.9); derived categories of
-  sheaves and derived limits (**EnhancedDerivedSheaves**, §§0.1–0.3 /
-  `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`),
-  and replete topoi (**SchemeAndStackFoundations**, §2.17 / `Proetale.isReplete_proetale`); complex
-  coherent analytic modules, derived GAGA for proper algebraic spaces and the affine-curve
-  completion and connectedness comparisons (**ComplexComparisonPartII**, §§C0, C3 and C4.5);
-  the Ehresmann trivialization of proper smooth families (**ComplexComparisonPartII**, §C5.2 /
-  `ehresmannFibration`) and flows of vector fields (**DifferentialGeometry**, Layer 3); line
-  bundles, divisors, coherent cohomology and the Jacobian of a curve (**JacobianChallenge**,
-  Layers A–D), prime-to-characteristic torsion, the integral Tate module and the characteristic
-  polynomial of an endomorphism of an abelian scheme (**AbelianSchemesAndArithmeticModuli**,
-  §§A3.2, A4.1, A6.10–A6.11), and rational equivalence and intersection products
-  (**SchemeAndStackFoundations**, §§5.1, 5.6, 5.9).
-
-This roadmap uses global class field theory and global duality only over number fields (ClassFieldTheory
-and the number-field Poitou–Tate theorem of ArithmeticGaloisDuality), so the theorems of
-Layer IG.4 that rest on class field theory are stated over number fields; the definitions of that layer
-cover all global fields, including the rational function fields `𝔽_q(t)` that Layer IG.5 uses. The
-Feit–Thompson theorem is not used: conjugacy of coprime complements is stated under a solvability
-hypothesis.
-
-The anabelian and nonabelian Chabauty extensions of the étale path groupoid, global duality for
-compact coefficients, sieve methods with infinitely many local conditions, and weights in étale
-cohomology are developed by other roadmaps that build on Layers IG.0–IG.5; nothing here depends on
-them. Deligne's weight bound for compactly supported cohomology enters at one place, the Hurwitz
-point estimate of Layer IG.5, where it is an explicit hypothesis of the statement
-(Weil II, Corollaire (3.3.4)); DeligneWeightsAndPurity develops the weight theorem.
+Layer IG.0 builds curve and constructible trace formulas and extends the supplied étale fundamental
+group in three directions (Galois algebras, `ℤ_p`-local systems, the pro-étale group).
+Layer IG.1 applies the supplied arithmetic sequence and inertia to tame quotients, Frobenius and specialization. Layer IG.2
+begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization) and
+ends with Hilbert's irreducibility theorem and its refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
+existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Of Layer IG.3, Layer
+IG.4 consumes directly only *Reduced Schur covers*, *Conjugacy classes lift bijectively* and *The
+kernel of the universal marked extension*, for tame central lifts and the global arithmetic lifting
+invariant, and *Conjugacy of coprime complements*, for coprime profinite complements. IG.4 is the
+arithmetic of embedding problems leading to Shafarevich's theorem and to the unramified groups of
+Liu–Wood–Zureick-Brown. The finite group theory beyond Mathlib that IG.3 and IG.4 need, conjugacy of
+coprime complements and the Fitting subgroup, is stated here as targets of IG.3 and IG.4. Layer IG.5
+needs IG.1 and IG.3 and builds Hurwitz spaces with their components and point counts. Layer IG.6
+collects realizations. The layers are given in build order;
+within a layer, definitions precede the theorems that use them. In IG.1 the order is tame quotients and tangential fibres, Frobenius, henselian proper
+covers, proper descent, proper smooth specialization, relative-boundary specialization,
+characteristic-zero base-extension invariance, then IG.1.4. In IG.2.4, finite-extension permanence
+of Hilbertianity precedes the number-field theorem; IG.2.8 consumes that permanence theorem.
 
 ## Conventions
 
@@ -236,252 +111,6 @@ point estimate of Layer IG.5, where it is an explicit hypothesis of the statemen
   distinct notions throughout, each with its own hypotheses.
 - The inverse Galois problem over `ℚ` and the Nielsen transitivity conjectures are named open
   propositions; no realization theorem uses them as assumptions.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-| Object | Declarations | Used in |
-| --- | --- | --- |
-| Rational functions, reduced fractions and evaluation | `RatFunc`, `RatFunc.num`, `RatFunc.denom`, `RatFunc.denom_ne_zero`, `RatFunc.denom_dvd`, `RatFunc.denom_add_dvd`, `RatFunc.denom_mul_dvd`, `RatFunc.num_div_denom`, `RatFunc.eval`, `RatFunc.eval_add`, `RatFunc.eval_mul`, `RatFunc.eval_algebraMap` | IG.2 |
-| Polynomials, coefficients, degrees and roots | `Polynomial.sum`, `Polynomial.coeff_sum`, `Polynomial.map`, `Polynomial.coeff_map`, `Polynomial.evalRingHom`, `Polynomial.toSubring`, `Polynomial.map_toSubring`, `Polynomial.eval_prod`, `Polynomial.leadingCoeff_ne_zero`, `Polynomial.natDegree_eq_of_le_of_coeff_ne_zero`, `Polynomial.finite_setOfPred_isRoot` | IG.2 |
-| Finite sets and avoidance | `Set.Finite.subset`, `Set.Finite.union`, `Set.Finite.exists_notMem` | IG.2 |
-| Field Galois theory and splitting fields | `IntermediateField`, `IsGalois`, `IsGalois.card_aut_eq_finrank`, `IsGalois.normalAutEquivQuotient`, `IsGalois.of_separable_splitting_field`, `Polynomial.SplittingField`, `Polynomial.Gal`, `AlgEquiv.autCongr` | IG.0, IG.6 |
-| Finite étale algebras and Galois categories | `CommAlgCat.FiniteEtale`, `Algebra.Etale`, `CategoryTheory.GaloisCategory`, `CategoryTheory.PreGaloisCategory.FiberFunctor`, `CategoryTheory.PreGaloisCategory.functorToContAction` | IG.0 |
-| Scheme morphisms | `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Scheme.Etale` | IG.0–IG.1 |
-| Groups | `Subgroup`, `Subgroup.closure`, `Subgroup.Normal`, `Subgroup.Characteristic`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Sylow`, `Subgroup.lowerCentralSeries`, `Subgroup.isNilpotent_iff_lowerCentralSeries`, `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
-| Group extensions and group homology | `GroupExtension`, `GroupExtension.Splitting`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `groupHomology.map`, `Rep.trivial`, `Abelianization`, `Finsupp`, `Submodule.basisOfPid`, `AddCommGroup.equiv_directSum_zmod_of_finite` | IG.3 |
-| Number fields | `NumberField`, `NumberField.finrank_eq_one_of_unramified` | IG.2, IG.4 |
-| Frobenius of finite fields | `FiniteField.frobeniusAlgEquivOfAlgebraic` (the automorphism `a ↦ a^q` of an algebraic extension of `𝔽_q`), `FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow` (every element of `Gal(𝔽_{q^n}/𝔽_q)` is one of its first `n` powers) | IG.1 |
-| Decomposition and inertia of primes in Galois extensions | `Ideal.inertia`, `Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.stabilizerQuotientInertiaEquiv`, `Ideal.card_inertia_eq_ramificationIdxIn` | IG.1 |
-| Topological groups and local fields | `IsTopologicalGroup`, `OpenSubgroup`, `IsKrasner` | IG.0, IG.2 |
-| Galois groups of polynomials acting on roots | `Polynomial.Gal.galActionHom`, `Polynomial.Gal.galActionHom_injective` | IG.6 |
-| Singular homology | `AlgebraicTopology.singularChainComplexFunctor`, `AlgebraicTopology.singularHomologyFunctor` | IG.3, IG.5 |
-| Monoid algebras | `MonoidAlgebra` | IG.4 |
-| Implicit function theorem over a complete nontrivially normed field | `HasStrictFDerivAt.implicitFunctionOfProdDomain` | IG.4 |
-
-The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G ℤ)`;
-its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
-
-`Subgroup.exists_right_complement'_of_coprime` gives existence of a complement to a normal subgroup
-of coprime order and index, but not their conjugacy. Conjugacy of such complements, under the
-solvability alternatives, is the Layer IG.3 target *Conjugacy of coprime complements*, and Layer
-IG.4 *Coprime profinite complements* extends existence and conjugacy to profinite groups. Mathlib
-has `frattini` but no Fitting subgroup; the Fitting subgroup and its basic theory are the Layer IG.4
-target *The Fitting subgroup*. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
-carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces the regular subring.
-
-### From Tau Ceti
-
-| Object | Declarations | Used in |
-| --- | --- | --- |
-| The Artin braid group with its presentation | `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.lift`, `TauCeti.BraidGroup.lift_sigma`, `TauCeti.BraidGroup.strand`, `TauCeti.BraidGroup.strandSucc`, `TauCeti.BraidGroup.orderOf_sigma` (every generator has infinite order), `TauCeti.BraidGroup.permHom` (the permutation representation `B_n → S_n`), `TauCeti.BraidGroup.pureSubgroup` (its kernel) (`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`) | IG.3, IG.5 |
-| Finite places of `K(T)` and their valuation rings | `TauCeti.Place.adicOfIrreducible`, `TauCeti.Place.integers`, `TauCeti.Place.valuation_ofIrreducible_le_one_iff`, `TauCeti.Place.adicOfIrreducibleResidueFieldEquiv` (`TauCeti/FieldTheory/FunctionField/Place/RatFunc/`) | IG.2 |
-| Decomposition and inertia of places in Galois extensions of function fields | `TauCeti.Place.stabilizer_eq_decompositionSubgroup`, `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup` (`TauCeti/FieldTheory/FunctionField/Place/Extension/`) | IG.1 |
-| Splitting of central extensions by factor sets, and transgression of characters of the kernel of a stem extension | `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero` (`TauCeti/GroupTheory/GroupExtension/Cohomology.lean`), `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator` (when the kernel lies in the commutator subgroup of the extension, distinct `G`-invariant characters of the kernel with values in a group on which `G` acts trivially have distinct transgression classes, with no finiteness or divisibility hypothesis; `TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`) | IG.3 |
-| Fundamental groups of products and of topological monoids | `TauCeti.FundamentalGroup.prodMulEquiv` (`π₁(X × Y, (x, y)) ≅ π₁(X, x) × π₁(Y, y)`; `TauCeti/AlgebraicTopology/FundamentalGroup/Product.lean`), `FundamentalGroup.cast_map_prod_mul` (the class of the pointwise product of two loops at the unit of a topological monoid is their product in `π₁`; declared in the root namespace `FundamentalGroup`, `TauCeti/AlgebraicTopology/FundamentalGroup/TopologicalMonoid.lean`) | IG.1 |
-| Simply connected semisimple affine group schemes | `TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty`, `TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty.isIso` (every central isogeny from a semisimple affine group scheme over a field onto a simply connected one is an isomorphism; `TauCeti/AlgebraicGeometry/AffineGroupScheme/SimplyConnected.lean`) | IG.1 |
-| Topological finite generation of open subgroups | `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` (an open subgroup of a topologically finitely generated compact group is topologically finitely generated; `TauCeti/Topology/Algebra/Group/Generation.lean`) | IG.2 |
-| Finite embedding problems and their solutions (ProfiniteProPGroups Layer 5) | `TauCeti.FiniteEmbeddingProblem`, `TauCeti.FiniteEmbeddingProblem.IsSolution` | IG.4 |
-| The cohomological obstruction of a finite embedding problem with abelian kernel | `TauCeti.FiniteEmbeddingProblem.obstruction`, `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` | IG.4 |
-| `Sₙ` as a Galois group over `ℚ` | `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv` | IG.6 |
-| Galois groups of small cubics and quartics over `ℚ` by transitive-group label | `TauCeti.HasGaloisLabel`, `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub_one`, `TauCeti.hasGaloisLabel_X_pow_four_sub_two`, `TauCeti.natCard_gal_X_pow_four_sub_two`, `TauCeti.hasGaloisLabel_X_pow_four_add_X_pow_three_add_X_sq_add_X_add_one` | IG.6 |
-| Aspherical spaces | `TauCeti.IsAspherical` | IG.3 |
-| Cohomology of an aspherical space of CW type with trivial coefficients | `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace` (an aspherical space of CW type with fundamental group identified with `G` is homotopy equivalent to `classifyingSpace G`, compatibly with `TauCeti.classifyingSpaceFundamentalGroupMulEquiv`; `TauCeti/AlgebraicTopology/ClassifyingSpace/Uniqueness.lean`), `TopCat.isIso_singularCohomologyMap` (homotopy invariance of singular cohomology; `TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`), `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` (`Hⁿ(BG; M) ≅ Hⁿ(G, M)` for a trivial module `M`; `TauCeti/AlgebraicTopology/ClassifyingSpace/Cohomology.lean`) | IG.3 |
-| The local Artin map and inertia lifts of unit symbols | `TauCeti.ClassFieldTheory.artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`), `TauCeti.ClassFieldTheory.mem_inertiaSubgroup_of_mk_eq_artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/Unramified.lean`) | IG.4 |
-| Unramified extensions, Frobenius, inertia, wild inertia and the tame quotient of a nonarchimedean local field (finite residue field of order `q`), in `TauCeti/NumberTheory/LocalField/` | `TauCeti.IsUnramified` (`Unramified/Basic.lean`); `TauCeti.frobeniusAlgEquiv`, `TauCeti.orderOf_frobeniusAlgEquiv` (`ResidueCorrespondence.lean`); `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius` (`Unramified/Maximal.lean`); `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, sending arithmetic Frobenius to `TauCeti.zHat.gen` (`Unramified/ZHat.lean`); `TauCeti.inertiaSubgroup`, `TauCeti.IsArithFrobeniusLift` (`Unramified/Inertia/Basic.lean`); `TauCeti.maximalTameExtension`, `TauCeti.wildInertiaSubgroup`, `TauCeti.isProPSylow_wildInertiaSubgroup` (`WildInertia.lean`); `TauCeti.tameQuotient`, `TauCeti.tameInertiaHom` and the relation `σ τ σ⁻¹ = τ^q` for an arithmetic Frobenius lift `σ`, `TauCeti.IsArithFrobeniusLift.toTameQuotient_mul_tameInertiaHom_mul_inv` (`Tame/Quotient.lean`); `TauCeti.inertiaTameCharacter` (`Tame/Character.lean`); `TauCeti.IwasawaGroup`, `TauCeti.tameQuotientEquiv` (`Tame/Presentation.lean`) | IG.1, IG.4 |
-
-### From TauCetiRoadmap.BelyiMaps
-
-Layers 0, 3, 5, 6 (triples, enumeration, the thrice-punctured sphere and its covers), 11 (fields of
-moduli of Belyi pairs), 12 (the `ℚ̄`/`ℂ` comparison, the geometric fundamental group of
-`ℙ¹ ∖ {0, 1, ∞}`, peripheral inertia and the branch-cycle theorem) and 13 (the peripheral-power
-theorem and faithfulness on dessins). This roadmap uses their statements as written there, with the
-convention transport of Layer IG.6.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Lang–Weil estimate for a fixed model | SieveMethodsAndPrimePatterns §5.4 / *Lang–Weil estimate for a fixed model* (a README target with no Lean name) | IG.2.5 *The integral thin-set count* and IG.2.7 *Hilbert points with weak approximation* use `#𝒱(κ(v)) = Nv^d + O(Nv^(d − 1/2))` over finite places `v ∤ m`, for a separated finite-type model over `O[1/m]` with geometrically irreducible generic fibre; the constant depends on the model. |
-
-### From AdicEtaleGeometry
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Algebraic Galois tensor map and finite étale torsors | Supplied by AdicEtaleGeometry §A4.2 / `Algebra.galoisTensorMap`, `Algebra.galoisTensorMap_restrictScalars`, `Algebra.IsFiniteEtaleTorsor`, `Algebra.IsFiniteEtaleTorsor.iff_field` | IG.0.2 restricts the tensor map to `K`-algebras and abbreviates the torsor class for finite groups over fields; disconnected algebras and arbitrary characteristic are included. |
-
-### From EtaleCohomologyFoundations
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Finite and constructible module sheaves | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.constructibleEtale` | Finite lissity needs no invertibility; global finite stratifications are Noetherian, and locally Noetherian constructibility is affine-local. |
-| Finite covers, paths and monodromy | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory` | Based `π₁` uses connected nonempty locally Noetherian schemes without coefficient invertibility, and transport uses a chosen path. |
-| Field and multiplicative-group identifications | EtaleCohomologyFoundations §F.0.A0 / *The fundamental groups of a field and of `𝔾_m`* | Retain the intrinsic Tate module and the primitive-root coordinate convention. |
-| Cover decomposition and inertia | EtaleCohomologyFoundations §F.0.A1 / *Decomposition and inertia groups of a cover* | The normalisation is finite; keep residue separability and defectless ramification hypotheses. |
-| Arithmetic sequence | EtaleCohomologyFoundations §F.0.A2 / *The arithmetic fundamental-group sequence* | Exactness supplies the outer action; rational-point sections retain their path choices. |
-| Henselian-trait inertia and tame character | EtaleCohomologyFoundations §F.3a / `VanishingCycles.HenselianTrait`, `VanishingCycles.tameCharacter_kummer`, `VanishingCycles.tameCharacter_surjective`, `VanishingCycles.tameCharacter_conj` | IG.1.2 applies it to the strictly henselian branches of curves over algebraically closed fields, whose residue field is infinite, and keeps the adapter to `TauCeti.PrimeToPTateModule`. |
-| Continuous representations, stable lattices and integral models | Supplied by EtaleCohomologyFoundations §F.4.0 / `ContinuousRep`, `ContinuousRep.exists_stable_lattice_iff`, `GaloisLattice.IntegralModel` | IG.0.3 uses them for representations of `π₁^ét` and keeps the bounded lattice schemes, incidence, joins and isogeny descent. |
-| Tate twists | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.etaleTateTwists` | The annihilator is invertible; chosen primitive-root coordinates and peripheral orientation are retained. |
-| Constructible and ctf complexes | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | Use the common module-valued derived carrier, with finite Tor amplitude required separately from constructibility. |
-| Finite cohomology and coherent symmetry | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.finiteCoefficientCohomology` | Preserve the coefficient-module and finite-group actions, without averaging when the group order is not invertible. |
-| Proper base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.properBaseChange` | Proper exchange applies to `D⁺` arbitrary torsion without an invertibility assumption. |
-| Smooth base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.smoothBaseChange` | Use the rotated smooth square with the other map qcqs and sectionwise invertible torsion, including separably closed field extensions. |
-| Local acyclicity and fibre transport | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.localAcyclicity`; Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.lisseDirectImageTransport` | Invertible finite coefficients and verified ULA/constructibility are required; §IG.5.5 proves the tame-boundary case and retains its specialization data. |
-| Dimension, affine vanishing and proper finiteness | Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.affineArtinVanishing`, `VanishingCycles.etaleFiniteness` | The dimension bounds are geometric over separably closed fields with invertible torsion, affine vanishing requires affineness, and proper finiteness retains its proper/Noetherian hypotheses. |
-| Constructible lower shriek and compact cohomology | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`; Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.compactSupportFiniteness` | Use separated finite-type Noetherian geometry and invertible finite ctf coefficients for constructible exchange and perfectness. |
-| Ordinary and compact Künneth | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`, `VanishingCycles.etaleKunnethCompactSupport` | The ordinary and compact-support maps are distinct; finite ctf coefficients have invertible annihilator, and the compact form requires separatedness. |
-| Normalized systems and integral realization | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`, `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`, `VanishingCycles.adicFunctoriality` | Use invertible `ℓ`, coherent derived reductions and uniform cohomological/Tor bounds, retaining derived limits and coefficient/descent actions. |
-| Compact-support rational finiteness | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization` | §IG.5.5 verifies separated finite type over the separably closed geometric field and invertible `ℓ`, using the chosen compact-support `ℚ_ℓ` realization. |
-| Smooth trace and duality | EtaleCohomologyFoundations §§F.5–F.6 / `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity` | Use bounded constructible finite-Tor complexes with invertible coefficients, then the normalized adic realization; smooth relative dimension fixes the shift and twist. |
-| Frobenius and rational points | Supplied by EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.frobeniusCohomology` | Arithmetic Frobenius acts by `x↦x^q` and geometric Frobenius is its inverse, acting on `ℚ_ℓ(1)` by `q⁻¹`; coefficient descent data are retained. |
-| Étale topological invariance | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence` | Every universal homeomorphism gives an étale equivalence, with no coefficient-invertibility restriction. |
-| Derived proper supports | Supplied by EtaleCohomologyFoundations §0.8 / `ClassicalAlgebraic.properSupports` | For separated finitely presented maps between qcqs schemes, including separated finite-type Noetherian maps, use `Rp_*j_!` on `D⁺` torsion module complexes, with compactification independence and coherent finite-group/coefficient maps. |
-| Localization | Supplied by EtaleCohomologyFoundations §0.7 / `ClassicalAlgebraic.supportLocalization` | Use étale module open–closed triangles and apply the canonical lower-shriek functor to obtain compact-support triangles. |
-
-Layer IG.0 owns integral local systems even when `p` is not invertible, their isogeny category
-and stackified rational local systems without a global lattice; the comparison with §F.4 uses
-integral lisse systems and the rational subcategory admitting a global lisse integral lattice.
-Layers IG.1 and IG.5 apply the arithmetic `π₁` sequence to tame quotients and own the tame
-relative-normal-crossings specialization argument; the generic smooth ULA theorem alone does
-not supply local acyclicity at that boundary.
-
-### Trace contracts in this roadmap
-
-The four geometric trace declarations are constructed in §§IG.0.T1–IG.0.T4 under their public
-`VanishingCycles` names. Applications consume these declarations with the hypotheses below.
-Their perfect-complex trace algebra, free-torsor equivariant perfectness and derived coefficient
-descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
-
-| Object | Construction target | Convention/consumer |
-| --- | --- | --- |
-| Curve endomorphism trace | §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace` | Use smooth proper geometrically connected curves and invertible `ℓ` with the supplied Tate coordinate and isolated fixed-point multiplicities. |
-| Finite-coefficient trace formula | §IG.0.T2 / `VanishingCycles.etaleTraceFormulaFinite` | For separated finite-type finite-field schemes use descended ctf prime-to-characteristic coefficients and perfect-complex traces. |
-| Rational constructible trace formula | §IG.0.T3 / `VanishingCycles.etaleTraceFormula` | Use the normalized rational realization of compatible finite-level systems, with descended coefficients, compact support and geometric Frobenius for every positive power. |
-| Constant-sheaf point-count trace | §IG.0.T4 / `VanishingCycles.pointCountTrace` | §IG.5.5 takes `r=1`, `ℓ≠char k`, geometric Frobenius and compact support; the weight bound in the point estimate is a separate hypothesis. |
-
-### From EnhancedDerivedSheaves
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Enhanced categories and replacements | EnhancedDerivedSheaves §§0.1–0.2 / `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements` | Use module sheaves on the common ringed site and K-injective/K-flat replacements. |
-| Derived inverse limits | EnhancedDerivedSheaves §0.3 / `ClassicalDerived.inverseLimits` | Retain derived products for sheaves, coherent towers and uniform bounds for tensor interchange. |
-
-### From ComplexComparisonPartII
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Complex topology | Supplied by ComplexComparisonPartII §C6.0 / `complexAlgebraicTopology` | Global finite CW type/Hausdorffness uses separated finite type, without a manifold assumption. |
-| Finite-cover comparison | Supplied by ComplexComparisonPartII §C6.2 / `riemannExistence` | All finite-type complex schemes are admitted; §IG.3.1 supplies the puncture-extension and cycle-length ramification adapter with the shared fibre/deck convention. |
-| Finite-coefficient Artin comparison | Supplied by ComplexComparisonPartII §C6.3 / `artinComparison` | §IG.3.1 uses the stated constant finite abelian corollary and composes the inverse étale-to-topological map with the separately supplied group/topological comparison. |
-| Compact-support Artin comparison | Supplied by ComplexComparisonPartII §C6.4 / `artinComparisonCompactSupport` | Use separated finite type and finite ctf/local coefficients with compact support. |
-| Relative comparison | Supplied by ComplexComparisonPartII §C6.5 / `relativeArtinComparison` | Use the proper direct-image or separated finite-type lower-shriek branch and retain the chosen fibre transport. |
-| Adic comparison | Supplied by ComplexComparisonPartII §C6.6 / `adicArtinComparison` | Use normalized finite ctf levels with uniform cohomological/Tor bounds, and separatedness for compact support; this supplies no canonical comparison of unrelated fibres. |
-| Proper-submersion trivialization | Supplied by ComplexComparisonPartII §C5.2 / `ehresmannFibration` | IG.5.4 applies it to the analytification of a proper smooth pointed family of curves on manifold charts: a proper surjective holomorphic submersion of finite-dimensional Hausdorff second-countable complex manifolds is locally trivial over each connected component of the base, and the trivializations after base change are the pullbacks of the chosen ones; the horizontal lifts are chosen tangent to the labelled sections. |
-
-### From ArithmeticGaloisDuality
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Localization and Sha kernels | ArithmeticGaloisDuality §R02.3.0d / *Finite Galois localization and Sha kernels* | Absolute Galois cohomology of finite modules over number fields; retain modified real-place groups. |
-| Absolute finite Poitou–Tate | ArithmeticGaloisDuality §R02.4.5a / *Finite-coefficient Poitou–Tate input* | IG.4 uses the all-place kernels and finite-set localization defects with the Cartier dual action. |
-| Grunwald–Wang | ArithmeticGaloisDuality §R02.4.5b / *Grunwald–Wang and its exceptional class* | Retain the order-two alternative and the dyadic exception in cyclic prescriptions. |
-
-### From SchemeAndStackFoundations
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Repleteness | SchemeAndStackFoundations §2.17 / `Proetale.isReplete_proetale` | IG.0 uses the pro-étale topos and its w-contractible covers. |
-| Algebraic Riemann–Hurwitz | SchemeAndStackFoundations §3.2 / `scheme_riemann_hurwitz` | IG.3.3 applies the tame formula to smooth proper connected complex curves and groups the `|G|/e` points over each branch point. |
-
-### From ResolutionOfSingularitiesCharacteristicZero
-
-| Object | Exact supplier | Convention/consumer |
-| --- | --- | --- |
-| Resolution preserving the smooth locus | ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` | IG.1 uses a proper surjective smooth-source resolution of a reduced finite-type characteristic-zero scheme, preserving its smooth locus; the comparison is consumed through AlgebraicModuliForArithmeticGeometry §9.4. |
-| SNC compactification | ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` | IG.1, IG.3 and IG.4 use a smooth projective compactification of a smooth quasi-projective finite-type characteristic-zero scheme, retaining the given open and reduced strict-SNC boundary; consumed through AlgebraicModuliForArithmeticGeometry §9.5. |
-
-### From the other TauCetiRoadmap roadmaps
-
-ProfiniteArithmetic Layer 0 (the ring `ẑ` and its units) and Layer 2 (continuous outer
-automorphisms); PeripheralActions (peripheral powers); ProfiniteProPGroups Layers 0, 3, 4 and 5;
-ProfiniteCohomology Layers 1, 5, 7 and 10 (corestriction); PolynomialGaloisGroups Layers 2, 3 and 9;
-GlobalNumberFields Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Chebotarev (Layer 10);
-AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
-ReductiveGroups Layers 0, 3 and 6; RepresentationTheory/InductionRestriction Layer 7, whose Schur
-multiplier is `H²(G, k^×)` over an algebraically closed field, so the comparison with `H₂(G, ℤ)` used
-in Layer IG.3 is part of the target *Reduced Schur covers* there; DGFloer Layer 1 item 2
-(fibration homotopy long exact sequence) and AlgebraicTopology Stage 8; StableReduction Layer 7 (semistable reduction of curves);
-DifferentialGeometry Layer 3 (flows of vector fields: the maximal flow, completeness of compactly
-supported fields and time-dependent flows), which IG.5.4 uses to integrate the horizontal lifts
-supplied by ComplexComparisonPartII §C5.2 into trivializations preserving the labelled sections;
-JacobianChallenge Layers A–D (line bundles and divisors, coherent cohomology and Riemann–Roch,
-relative cohomology and base change, the relative Picard functor and the Jacobian), used by
-IG.0.T1 *Weil's curve trace and graph–diagonal formula*. The BelyiMaps Layers 11–13 used
-here are the retained dependency specifications of that roadmap, whose ownership passes to its named
-successors.
-
-### From other roadmaps
-
-SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, quotients),
-2 (sites, étale and pro-étale cohomology, Brauer groups of schemes), 3 (curves) and 4
-(deformations, stable pointed curves, formal schemes, Grothendieck existence and algebraization,
-§4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
-(`popescu_desingularization`) and §0.21 (G-rings), and §§5.1, 5.6, 5.9 (rational equivalence
-and Chow groups, intersection products on smooth varieties and the intersection pairing on
-surfaces, used by IG.0.T1 and by the zero-cycle moving argument of Layer IG.4);
-AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11 (prime-to-characteristic torsion, the
-integral Tate module `AbelianTate`, the trace `End.trace` and the characteristic polynomial
-`charpolyTate` of an endomorphism, used by IG.0.T1); ArithmeticGaloisDuality §R02.3.1
-(*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*), §R02.4.2
-(*Unramified classes are exact annihilators*, *Restricted products of local cohomology and `Ш^r_S`*,
-with transport to the absolute localization kernel only when `S` is the set of all places,
-using the same modified archimedean groups, and *`P^r_S(K, M)` is dual to `P^{2−r}_S(K, M^D)`*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
-exact sequence*), together with §§R02.3.0d, R02.4.5a–R02.4.5b
-(localization, absolute finite duality and Grunwald–Wang), used by IG.4.2 twisting and cyclic
-prescriptions and IG.4.3 *Restricted-ramification localization adapter*;
-EtaleCohomologyFoundations §§F.5–F.6 /
-`VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity` (smooth trace, relative
-purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
-norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
-connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
-ArithmeticGaloisRepresentations §§3.1, 3.4 (Swan conductors with finite coefficients over a
-complete discretely valued field with perfect residue field, such as `k((z))` with `k`
-algebraically closed, and their tame-base-change scaling, with the ramification filtrations of its
-conductor setting); the finite-residue-field local-field declarations of Tau Ceti
-(`TauCeti.inertiaSubgroup`, `TauCeti.tameQuotient`) are not used at the completions of curves over
-an algebraically closed field;
-ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace` and
-`complexSchemeAnalytification`), §§C−1.2, C1.9 (`complexSpaceAnalytification`, proper coherent GAGA);
-ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` (resolution of
-reduced finite-type characteristic-zero schemes) and §6.2 / `sncCompactification` (smooth
-quasi-projective characteristic-zero schemes), consumed through AlgebraicModuliForArithmeticGeometry
-§§9.4–9.5; EnhancedDerivedSheaves §§0.1–0.3 /
-`ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`
-(derived categories, replacements and derived inverse limits), and SchemeAndStackFoundations §2.17 /
-`Proetale.isReplete_proetale` (replete topoi and w-contractible covers); ComplexComparisonPartII §C3.3 (`derivedGagaProperSpace`, for proper algebraic spaces) and §C4.5
-(`affineCurveCompletionInterface`, `puncturedRiemannSurfaceConnected`, `affineCurveConnectedness`).
-
-## How to read the build
-
-Layer IG.0 builds curve and constructible trace formulas and extends the supplied étale fundamental
-group in three directions (Galois algebras, `ℤ_p`-local systems, the pro-étale group).
-Layer IG.1 applies the supplied arithmetic sequence and inertia to tame quotients, Frobenius and specialization. Layer IG.2
-begins with elementary algebra over `K(T)` (the regular subring and polynomial specialization) and
-ends with Hilbert's irreducibility theorem and its refinements. Layer IG.3 is the geometry and combinatorics of branched covers of the line: Riemann
-existence, braid orbits, rigidity, descent, and the group theory of lifting invariants. Of Layer IG.3, Layer
-IG.4 consumes directly only *Reduced Schur covers*, *Conjugacy classes lift bijectively* and *The
-kernel of the universal marked extension*, for tame central lifts and the global arithmetic lifting
-invariant, and *Conjugacy of coprime complements*, for coprime profinite complements. IG.4 is the
-arithmetic of embedding problems leading to Shafarevich's theorem and to the unramified groups of
-Liu–Wood–Zureick-Brown. The finite group theory beyond Mathlib that IG.3 and IG.4 need, conjugacy of
-coprime complements and the Fitting subgroup, is stated here as targets of IG.3 and IG.4. Layer IG.5
-needs IG.1 and IG.3 and builds Hurwitz spaces with their components and point counts. Layer IG.6
-collects realizations. The layers are given in build order;
-within a layer, definitions precede the theorems that use them. In IG.1 the order is tame quotients and tangential fibres, Frobenius, henselian proper
-covers, proper descent, proper smooth specialization, relative-boundary specialization,
-characteristic-zero base-extension invariance, then IG.1.4. In IG.2.4, finite-extension permanence
-of Hilbertianity precedes the number-field theorem; IG.2.8 consumes that permanence theorem.
 
 ## Layer IG.0: Galois algebras, local systems and pro-étale fundamental groups
 
@@ -7655,6 +7284,388 @@ nine files at that commit, has the following overlap.
 - **No counterpart there.** Nothing else in this roadmap meets that directory: it has no Galois
   algebras, local systems, Noohi or pro-étale groups, tame quotients or tangential fibres,
   specialization maps, outer actions, or any material of Layers IG.2–IG.6.
+
+## Scope and ownership
+
+This roadmap builds on [BelyiMaps](../BelyiMaps/README.md) and starts where its three-point
+theory stops. BelyiMaps owns permutation triples, dessins, three-point covers, Belyi's
+theorem, fields of moduli of Belyi pairs, the branch-cycle theorem for the thrice-punctured line,
+the pro-`ℓ` peripheral-power theorem and faithfulness of the Galois action on dessins (its Layers
+0–13, the later ones through its named successors). This roadmap treats finite covers of general
+schemes, arbitrarily many branch points, Hilbert specialization, arithmetic embedding problems and
+Hurwitz families, and consumes the three-point theory at the points listed below.
+
+The roadmap owns:
+
+- Galois algebras over a field and the idempotent description of maps out of a finite étale
+  algebra; curve and constructible trace formulas (IG.0.T1–IG.0.T4); integral, isogeny and rational
+  `ℤ_p`-local systems with their lattice schemes and their
+  comparison with the lisse part of the `ℓ`-adic realization; Noohi groups, infinite Galois
+  categories and the pro-étale fundamental group (Layer IG.0);
+- tame and prime-to-`p` quotients of fundamental groups of curves, tame tangential
+  fibres, the Frobenius normalisation over finite fields, finite étale covers of proper schemes over
+  a henselian local ring, proper descent of finite étale covers,
+  invariance under algebraically closed base extension in characteristic zero, specialization for
+  proper smooth families and for smooth pairs with a relative normal crossings boundary, arithmetic
+  representations, exactness for the universal punctured curve, and
+  the fundamental groups of homogeneous spaces with finite stabilisers (Layer IG.1);
+- specialization of polynomials over `K(T)` at points of `K`, Hilbert subsets and thin sets,
+  Hilbertian fields, Hilbert's irreducibility theorem over number fields and its full-group,
+  linearly disjoint, local-condition, norm-pullback and quantitative forms, Hilbert specialization
+  detected by the Frattini quotient, and normal subgroups of absolute Galois groups of Hilbertian
+  fields (Layer IG.2);
+- Riemann existence for punctured curves in the form used for branch cycles, Artin neighbourhoods
+  as `K(π, 1)` spaces, branch tuples, Nielsen classes, the Hurwitz braid action and the braid-orbit
+  monoid, exterior epimorphisms and `T`-systems, realization of generating tuples, rational rigidity,
+  the field-of-moduli obstruction, reduced Schur multipliers and covers, marked central extensions
+  and the universal marked extension `U(G, c)` with its kernel, Schur–Zassenhaus conjugacy of
+  coprime complements, the action of units and the cyclotomic twist, lifting invariants and the
+  stable classification of braid orbits (Layer IG.3);
+- proper embedding problems with local prescriptions over number fields, the abelian lifting
+  obstruction, twisting of solutions, the restricted-ramification localization adapter
+  and auxiliary cokernel comparisons for Shafarevich shrinking, Shafarevich's theorem with the Fitting
+  subgroup, Fitting supplements and free operator groups, the Brauer–Manin set, Harpaz–Wittenberg
+  density for supersolvable stabilisers and the unramified Brauer classes it needs, supersolvable
+  and quaternion local prescriptions, unramified admissible `Γ`-groups, Property E, arithmetic
+  lifting invariants and the marked extension count (Layer IG.4);
+- configuration spaces, topological and arithmetic Hurwitz spaces, tame and admissible `G`-covers,
+  the cohomological comparisons and point estimates for Hurwitz spaces, component invariants,
+  hyperelliptic quotient families, versal families, field patching over complete discrete
+  valuation rings with the patching of Galois algebras with prescribed local pieces and of covers
+  with a fixed branch divisor, the Euler characteristic of `ℓ`-torsion local systems on affine
+  curves, and Abhyankar's conjecture for affine curves through Serre's solvable step, Raynaud's
+  theorem for the affine line and Harbater's theorem for the punctured line (Layer IG.5);
+- realizations, their specialization, worked realizations, the transport of the
+  BelyiMaps conventions, the inverse Galois problem and generic polynomials (Layer IG.6).
+
+It does not own, and consumes by name:
+
+- finite étale Galois categories, paths and finite lisse monodromy: Supplied by
+  EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory`.
+  Based `π₁` requires connected nonempty locally Noetherian schemes; finite lisse coefficients
+  need no invertibility;
+- finite CW type, Riemann existence and finite/adic Artin comparison: Supplied by
+  ComplexComparisonPartII §§C6.0–C6.6 / `complexAlgebraicTopology`, `riemannExistence`, `artinComparison`, `artinComparisonCompactSupport`, `relativeArtinComparison`, `adicArtinComparison`.
+  Riemann existence and ordinary comparison admit all finite-type complex schemes; global CW
+  type and compact support require separatedness, and adic comparisons use uniformly bounded
+  normalized ctf systems;
+- finite-coefficient base change, cohomology, finiteness and adic realization: Supplied by
+  EtaleCohomologyFoundations §§F.0–F.4 / `VanishingCycles.constructibleEtale`, `VanishingCycles.etaleTateTwists`, `VanishingCycles.constructibleDerivedCategory`, `VanishingCycles.finiteCoefficientCohomology`, `VanishingCycles.etaleBaseChange`, `VanishingCycles.etaleCompactSupports`, `VanishingCycles.etaleFiniteness`, `VanishingCycles.adicRealization`.
+  Invertibility is carried by the particular theorem, constructible does not imply finite Tor
+  amplitude, and fibre transport retains a chosen path or specialization datum;
+- derived proper supports and localization: Supplied by
+  EtaleCohomologyFoundations §§0.7–0.8 / `ClassicalAlgebraic.supportLocalization`, `ClassicalAlgebraic.properSupports`.
+  These use étale module coefficients, with lower shriek defined by compactification on `D⁺`
+  torsion complexes;
+- Frobenius and rational-point fixed points: Supplied by
+  EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`,
+  `VanishingCycles.frobeniusCohomology`,
+  and étale topological invariance: Supplied by
+  EtaleCohomologyFoundations §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence`.
+  Traces use compact support and geometric Frobenius, finite-level traces use perfect complexes,
+  and topological invariance applies to every universal homeomorphism;
+- the three-point theory of **BelyiMaps**: permutation triples and their enumeration (Layers 0 and
+  3), the thrice-punctured sphere (Layer 5), covers and triples (Layer 6), fields of moduli and of
+  definition of Belyi pairs (Layer 11), the branch-cycle theorem and peripheral inertia (Layer 12),
+  and the pro-`ℓ` peripheral theorem with faithfulness of the Galois action on dessins (Layer 13,
+  in particular 13.5, which this roadmap uses as stated there and does not reprove);
+- the profinite integers as a ring, profinite powers and continuous outer automorphisms
+  (**ProfiniteArithmetic**), peripheral power conventions (**PeripheralActions**), profinite and
+  pro-`p` groups, Frattini subgroups and weak finite embedding problems with their cohomological
+  obstruction (**ProfiniteProPGroups**, Layers 0, 3, 4 and 5; in Tau Ceti
+  `TauCeti.FiniteEmbeddingProblem` and, for any abelian kernel,
+  `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero`), and continuous
+  cohomology (**ProfiniteCohomology**, Layers 1, 5, 7 and 10);
+- general profinite full-image detection and openness of the Frattini subgroup for compact
+  matrix groups (**ArithmeticGaloisRepresentations**, §6.4a). Detection requires a closed image;
+  the finite-cover specialization application here assumes an open Frattini subgroup, and the
+  compact-matrix openness theorem requires a compact subgroup of `GL_n(E)` with `E/ℚ_ℓ` finite;
+- the `Sₙ` polynomials over `ℚ` (**PolynomialGaloisGroups**, Layer 9, with its Layers 2 and 3 for the
+  Galois–permutation dictionary and the discriminant), and the Galois groups of the small cubics
+  and quartics computed in the Tau Ceti library (`X³ − 3X − 1`, `X⁴ − 2`, `Φ₅`); places,
+  completions and weak approximation of number fields (**GlobalNumberFields**, Layers 0 and 1);
+  local and global class field theory with local Tate duality and the Brauer sequence
+  (**ClassFieldTheory**, Layers 5, 7 and 10–12); finite Galois localization, absolute finite
+  Poitou–Tate and Grunwald–Wang
+  (**ArithmeticGaloisDuality**, §§R02.3.0d–R02.3.1, R02.4.2–R02.4.3, R02.4.5a–R02.4.6); Chebotarev density (**Chebotarev**); unramified extensions, Frobenius,
+  inertia, wild inertia and the tame quotient of the absolute Galois group of a nonarchimedean local
+  field, which are already in the pinned Tau Ceti (*Exact supplier contracts*, *From Tau Ceti*);
+  curves and their places (**AlgebraicCurves**, Layers 3–5, 7, 8 and 12); finite étale schemes
+  over a field and finite torsors (**ModularCurves**, Layers 0c–0d); affine group schemes, their
+  quotients and semisimple groups (**ReductiveGroups**, Layers 0, 3 and 6); representation groups of
+  finite groups (**RepresentationTheory/InductionRestriction**, Layer 7); fibrations and homotopy
+  groups (the fibration homotopy long exact sequence of **DGFloer**, Layer 1 item 2, and the
+  homotopy groups of **AlgebraicTopology**, Stage 8); semistable reduction of curves
+  (**StableReduction**, Layer 7);
+- schemes, descent, stacks, sites, étale and pro-étale cohomology, Brauer groups of schemes, curves,
+  stable pointed curves, Popescu desingularization, Grothendieck existence and algebraization
+  (**SchemeAndStackFoundations**, Layers 0–4); the Lang–Weil estimate for a fixed model
+  (**SieveMethodsAndPrimePatterns**, §5.4); the smooth trace and
+  Poincaré duality in étale cohomology (**EtaleCohomologyFoundations**, §§F.5–F.6 /
+  `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity`, with invertible coefficients
+  and finite Tor amplitude); Weil restriction
+  and norm tori (**ReductiveGroupsPartII**, Layer RG2.0a); the Hasse principle for torsors under
+  semisimple simply connected groups and their weak approximation (**AdelicAlgebraicGroups**, Layer
+  4, §4.1); Swan conductors of local Galois representations and their tame-base-change scaling
+  (**ArithmeticGaloisRepresentations**, §§3.1, 3.4, over complete discretely valued fields with
+  perfect residue field, including the completions of curves over an algebraically closed field);
+  lower ramification groups of places of function fields over an arbitrary residue field
+  (**AlgebraicCurves**, Layer 8); resolution and normal crossings
+  compactification (**ResolutionOfSingularitiesCharacteristicZero**, §§5.5, 6.2, consumed through
+  **AlgebraicModuliForArithmeticGeometry**, §§9.4–9.5); complex analytic spaces,
+  scheme and algebraic-space analytification and proper coherent GAGA
+  (**ComplexComparisonPartII**, §§C−1.1–C−1.3, C1.9); derived categories of
+  sheaves and derived limits (**EnhancedDerivedSheaves**, §§0.1–0.3 /
+  `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`),
+  and replete topoi (**SchemeAndStackFoundations**, §2.17 / `Proetale.isReplete_proetale`); complex
+  coherent analytic modules, derived GAGA for proper algebraic spaces and the affine-curve
+  completion and connectedness comparisons (**ComplexComparisonPartII**, §§C0, C3 and C4.5);
+  the Ehresmann trivialization of proper smooth families (**ComplexComparisonPartII**, §C5.2 /
+  `ehresmannFibration`) and flows of vector fields (**DifferentialGeometry**, Layer 3); line
+  bundles, divisors, coherent cohomology and the Jacobian of a curve (**JacobianChallenge**,
+  Layers A–D), prime-to-characteristic torsion, the integral Tate module and the characteristic
+  polynomial of an endomorphism of an abelian scheme (**AbelianSchemesAndArithmeticModuli**,
+  §§A3.2, A4.1, A6.10–A6.11), and rational equivalence and intersection products
+  (**SchemeAndStackFoundations**, §§5.1, 5.6, 5.9).
+
+This roadmap uses global class field theory and global duality only over number fields (ClassFieldTheory
+and the number-field Poitou–Tate theorem of ArithmeticGaloisDuality), so the theorems of
+Layer IG.4 that rest on class field theory are stated over number fields; the definitions of that layer
+cover all global fields, including the rational function fields `𝔽_q(t)` that Layer IG.5 uses. The
+Feit–Thompson theorem is not used: conjugacy of coprime complements is stated under a solvability
+hypothesis.
+
+The anabelian and nonabelian Chabauty extensions of the étale path groupoid, global duality for
+compact coefficients, sieve methods with infinitely many local conditions, and weights in étale
+cohomology are developed by other roadmaps that build on Layers IG.0–IG.5; nothing here depends on
+them. Deligne's weight bound for compactly supported cohomology enters at one place, the Hurwitz
+point estimate of Layer IG.5, where it is an explicit hypothesis of the statement
+(Weil II, Corollaire (3.3.4)); DeligneWeightsAndPurity develops the weight theorem.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+| Object | Declarations | Used in |
+| --- | --- | --- |
+| Rational functions, reduced fractions and evaluation | `RatFunc`, `RatFunc.num`, `RatFunc.denom`, `RatFunc.denom_ne_zero`, `RatFunc.denom_dvd`, `RatFunc.denom_add_dvd`, `RatFunc.denom_mul_dvd`, `RatFunc.num_div_denom`, `RatFunc.eval`, `RatFunc.eval_add`, `RatFunc.eval_mul`, `RatFunc.eval_algebraMap` | IG.2 |
+| Polynomials, coefficients, degrees and roots | `Polynomial.sum`, `Polynomial.coeff_sum`, `Polynomial.map`, `Polynomial.coeff_map`, `Polynomial.evalRingHom`, `Polynomial.toSubring`, `Polynomial.map_toSubring`, `Polynomial.eval_prod`, `Polynomial.leadingCoeff_ne_zero`, `Polynomial.natDegree_eq_of_le_of_coeff_ne_zero`, `Polynomial.finite_setOfPred_isRoot` | IG.2 |
+| Finite sets and avoidance | `Set.Finite.subset`, `Set.Finite.union`, `Set.Finite.exists_notMem` | IG.2 |
+| Field Galois theory and splitting fields | `IntermediateField`, `IsGalois`, `IsGalois.card_aut_eq_finrank`, `IsGalois.normalAutEquivQuotient`, `IsGalois.of_separable_splitting_field`, `Polynomial.SplittingField`, `Polynomial.Gal`, `AlgEquiv.autCongr` | IG.0, IG.6 |
+| Finite étale algebras and Galois categories | `CommAlgCat.FiniteEtale`, `Algebra.Etale`, `CategoryTheory.GaloisCategory`, `CategoryTheory.PreGaloisCategory.FiberFunctor`, `CategoryTheory.PreGaloisCategory.functorToContAction` | IG.0 |
+| Scheme morphisms | `AlgebraicGeometry.Etale`, `AlgebraicGeometry.IsFinite`, `AlgebraicGeometry.Scheme.Etale` | IG.0–IG.1 |
+| Groups | `Subgroup`, `Subgroup.closure`, `Subgroup.Normal`, `Subgroup.Characteristic`, `FreeGroup`, `FreeGroup.lift`, `PresentedGroup`, `PresentedGroup.toGroup`, `MulAut.conj`, `frattini`, `frattini_nilpotent`, `Group.IsNilpotent`, `Group.IsSolvable`, `Subgroup.IsComplement'`, `Subgroup.exists_right_complement'_of_coprime` (existence of complements only), `Subgroup.QuotientDiff`, `Subgroup.exists_smul_eq`, `Sylow`, `Subgroup.lowerCentralSeries`, `Subgroup.isNilpotent_iff_lowerCentralSeries`, `SemidirectProduct`, `DihedralGroup`, `QuaternionGroup`, `QuaternionGroup.card` (`Mathlib/GroupTheory/SpecificGroups/Quaternion.lean`) | IG.3, IG.4 |
+| Group extensions and group homology | `GroupExtension`, `GroupExtension.Splitting`, `groupHomology.H2`, `groupHomology.H2π`, `groupHomology.cycles₂`, `groupHomology.map`, `Rep.trivial`, `Abelianization`, `Finsupp`, `Submodule.basisOfPid`, `AddCommGroup.equiv_directSum_zmod_of_finite` | IG.3 |
+| Number fields | `NumberField`, `NumberField.finrank_eq_one_of_unramified` | IG.2, IG.4 |
+| Frobenius of finite fields | `FiniteField.frobeniusAlgEquivOfAlgebraic` (the automorphism `a ↦ a^q` of an algebraic extension of `𝔽_q`), `FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow` (every element of `Gal(𝔽_{q^n}/𝔽_q)` is one of its first `n` powers) | IG.1 |
+| Decomposition and inertia of primes in Galois extensions | `Ideal.inertia`, `Ideal.Quotient.stabilizerHom_surjective`, `Ideal.Quotient.stabilizerQuotientInertiaEquiv`, `Ideal.card_inertia_eq_ramificationIdxIn` | IG.1 |
+| Topological groups and local fields | `IsTopologicalGroup`, `OpenSubgroup`, `IsKrasner` | IG.0, IG.2 |
+| Galois groups of polynomials acting on roots | `Polynomial.Gal.galActionHom`, `Polynomial.Gal.galActionHom_injective` | IG.6 |
+| Singular homology | `AlgebraicTopology.singularChainComplexFunctor`, `AlgebraicTopology.singularHomologyFunctor` | IG.3, IG.5 |
+| Monoid algebras | `MonoidAlgebra` | IG.4 |
+| Implicit function theorem over a complete nontrivially normed field | `HasStrictFDerivAt.implicitFunctionOfProdDomain` | IG.4 |
+
+The Schur multiplier `M(G)` is Mathlib's `groupHomology.H2 (Rep.trivial ℤ G ℤ)`;
+its carrier and additive-group API are used directly. No second multiplier carrier is introduced.
+
+`Subgroup.exists_right_complement'_of_coprime` gives existence of a complement to a normal subgroup
+of coprime order and index, but not their conjugacy. Conjugacy of such complements, under the
+solvability alternatives, is the Layer IG.3 target *Conjugacy of coprime complements*, and Layer
+IG.4 *Coprime profinite complements* extends existence and conjugacy to profinite groups. Mathlib
+has `frattini` but no Fitting subgroup; the Fitting subgroup and its basic theory are the Layer IG.4
+target *The Fitting subgroup*. `RatFunc.eval` is total and returns `0` at a pole; its additive and multiplicative laws
+carry nonvanishing-denominator hypotheses, which is why Layer IG.2 introduces the regular subring.
+
+### From Tau Ceti
+
+| Object | Declarations | Used in |
+| --- | --- | --- |
+| The Artin braid group with its presentation | `TauCeti.BraidGroup`, `TauCeti.BraidGroup.sigma`, `TauCeti.BraidGroup.lift`, `TauCeti.BraidGroup.lift_sigma`, `TauCeti.BraidGroup.strand`, `TauCeti.BraidGroup.strandSucc`, `TauCeti.BraidGroup.orderOf_sigma` (every generator has infinite order), `TauCeti.BraidGroup.permHom` (the permutation representation `B_n → S_n`), `TauCeti.BraidGroup.pureSubgroup` (its kernel) (`TauCeti/GroupTheory/SpecificGroups/Braid/Basic.lean`) | IG.3, IG.5 |
+| Finite places of `K(T)` and their valuation rings | `TauCeti.Place.adicOfIrreducible`, `TauCeti.Place.integers`, `TauCeti.Place.valuation_ofIrreducible_le_one_iff`, `TauCeti.Place.adicOfIrreducibleResidueFieldEquiv` (`TauCeti/FieldTheory/FunctionField/Place/RatFunc/`) | IG.2 |
+| Decomposition and inertia of places in Galois extensions of function fields | `TauCeti.Place.stabilizer_eq_decompositionSubgroup`, `TauCeti.Place.decompositionQuotientInertiaEquiv`, `TauCeti.Place.card_inertiaSubgroup` (`TauCeti/FieldTheory/FunctionField/Place/Extension/`) | IG.1 |
+| Splitting of central extensions by factor sets, and transgression of characters of the kernel of a stem extension | `TauCeti.FactorSet.nonempty_splitting_iff_cohomologyClass_eq_zero` (`TauCeti/GroupTheory/GroupExtension/Cohomology.lean`), `TauCeti.FactorSet.characterTransgression_injective_of_range_inl_le_commutator` (when the kernel lies in the commutator subgroup of the extension, distinct `G`-invariant characters of the kernel with values in a group on which `G` acts trivially have distinct transgression classes, with no finiteness or divisibility hypothesis; `TauCeti/GroupTheory/GroupExtension/Character/Basic.lean`) | IG.3 |
+| Fundamental groups of products and of topological monoids | `TauCeti.FundamentalGroup.prodMulEquiv` (`π₁(X × Y, (x, y)) ≅ π₁(X, x) × π₁(Y, y)`; `TauCeti/AlgebraicTopology/FundamentalGroup/Product.lean`), `FundamentalGroup.cast_map_prod_mul` (the class of the pointwise product of two loops at the unit of a topological monoid is their product in `π₁`; declared in the root namespace `FundamentalGroup`, `TauCeti/AlgebraicTopology/FundamentalGroup/TopologicalMonoid.lean`) | IG.1 |
+| Simply connected semisimple affine group schemes | `TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty`, `TauCeti.simplyConnectedSemisimpleAffineGroupSchemeProperty.isIso` (every central isogeny from a semisimple affine group scheme over a field onto a simply connected one is an isomorphism; `TauCeti/AlgebraicGeometry/AffineGroupScheme/SimplyConnected.lean`) | IG.1 |
+| Topological finite generation of open subgroups | `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup` (an open subgroup of a topologically finitely generated compact group is topologically finitely generated; `TauCeti/Topology/Algebra/Group/Generation.lean`) | IG.2 |
+| Finite embedding problems and their solutions (ProfiniteProPGroups Layer 5) | `TauCeti.FiniteEmbeddingProblem`, `TauCeti.FiniteEmbeddingProblem.IsSolution` | IG.4 |
+| The cohomological obstruction of a finite embedding problem with abelian kernel | `TauCeti.FiniteEmbeddingProblem.obstruction`, `TauCeti.FiniteEmbeddingProblem.exists_isSolution_iff_obstruction_eq_zero` | IG.4 |
+| `Sₙ` as a Galois group over `ℚ` | `TauCeti.exists_monic_int_polynomial_hasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup`, `Polynomial.HasFullSymmetricGaloisGroup.nonempty_mulEquiv` | IG.6 |
+| Galois groups of small cubics and quartics over `ℚ` by transitive-group label | `TauCeti.HasGaloisLabel`, `TauCeti.hasGaloisLabel_X_pow_three_sub_three_mul_X_sub_one`, `TauCeti.hasGaloisLabel_X_pow_four_sub_two`, `TauCeti.natCard_gal_X_pow_four_sub_two`, `TauCeti.hasGaloisLabel_X_pow_four_add_X_pow_three_add_X_sq_add_X_add_one` | IG.6 |
+| Aspherical spaces | `TauCeti.IsAspherical` | IG.3 |
+| Cohomology of an aspherical space of CW type with trivial coefficients | `TauCeti.IsAspherical.exists_homotopyEquiv_classifyingSpace` (an aspherical space of CW type with fundamental group identified with `G` is homotopy equivalent to `classifyingSpace G`, compatibly with `TauCeti.classifyingSpaceFundamentalGroupMulEquiv`; `TauCeti/AlgebraicTopology/ClassifyingSpace/Uniqueness.lean`), `TopCat.isIso_singularCohomologyMap` (homotopy invariance of singular cohomology; `TauCeti/AlgebraicTopology/Cohomology/HomotopyInvariance.lean`), `TauCeti.classifyingSpaceSingularCohomologyIsoGroupCohomology` (`Hⁿ(BG; M) ≅ Hⁿ(G, M)` for a trivial module `M`; `TauCeti/AlgebraicTopology/ClassifyingSpace/Cohomology.lean`) | IG.3 |
+| The local Artin map and inertia lifts of unit symbols | `TauCeti.ClassFieldTheory.artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/ArtinMap.lean`), `TauCeti.ClassFieldTheory.mem_inertiaSubgroup_of_mk_eq_artinMap` (`TauCeti/NumberTheory/ClassFieldTheory/Local/Unramified.lean`) | IG.4 |
+| Unramified extensions, Frobenius, inertia, wild inertia and the tame quotient of a nonarchimedean local field (finite residue field of order `q`), in `TauCeti/NumberTheory/LocalField/` | `TauCeti.IsUnramified` (`Unramified/Basic.lean`); `TauCeti.frobeniusAlgEquiv`, `TauCeti.orderOf_frobeniusAlgEquiv` (`ResidueCorrespondence.lean`); `TauCeti.maximalUnramifiedExtension`, `TauCeti.maximalUnramifiedFrobenius` (`Unramified/Maximal.lean`); `TauCeti.maximalUnramifiedGaloisGroupEquivZHat`, sending arithmetic Frobenius to `TauCeti.zHat.gen` (`Unramified/ZHat.lean`); `TauCeti.inertiaSubgroup`, `TauCeti.IsArithFrobeniusLift` (`Unramified/Inertia/Basic.lean`); `TauCeti.maximalTameExtension`, `TauCeti.wildInertiaSubgroup`, `TauCeti.isProPSylow_wildInertiaSubgroup` (`WildInertia.lean`); `TauCeti.tameQuotient`, `TauCeti.tameInertiaHom` and the relation `σ τ σ⁻¹ = τ^q` for an arithmetic Frobenius lift `σ`, `TauCeti.IsArithFrobeniusLift.toTameQuotient_mul_tameInertiaHom_mul_inv` (`Tame/Quotient.lean`); `TauCeti.inertiaTameCharacter` (`Tame/Character.lean`); `TauCeti.IwasawaGroup`, `TauCeti.tameQuotientEquiv` (`Tame/Presentation.lean`) | IG.1, IG.4 |
+
+### From TauCetiRoadmap.BelyiMaps
+
+Layers 0, 3, 5, 6 (triples, enumeration, the thrice-punctured sphere and its covers), 11 (fields of
+moduli of Belyi pairs), 12 (the `ℚ̄`/`ℂ` comparison, the geometric fundamental group of
+`ℙ¹ ∖ {0, 1, ∞}`, peripheral inertia and the branch-cycle theorem) and 13 (the peripheral-power
+theorem and faithfulness on dessins). This roadmap uses their statements as written there, with the
+convention transport of Layer IG.6.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Lang–Weil estimate for a fixed model | SieveMethodsAndPrimePatterns §5.4 / *Lang–Weil estimate for a fixed model* (a README target with no Lean name) | IG.2.5 *The integral thin-set count* and IG.2.7 *Hilbert points with weak approximation* use `#𝒱(κ(v)) = Nv^d + O(Nv^(d − 1/2))` over finite places `v ∤ m`, for a separated finite-type model over `O[1/m]` with geometrically irreducible generic fibre; the constant depends on the model. |
+
+### From AdicEtaleGeometry
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Algebraic Galois tensor map and finite étale torsors | Supplied by AdicEtaleGeometry §A4.2 / `Algebra.galoisTensorMap`, `Algebra.galoisTensorMap_restrictScalars`, `Algebra.IsFiniteEtaleTorsor`, `Algebra.IsFiniteEtaleTorsor.iff_field` | IG.0.2 restricts the tensor map to `K`-algebras and abbreviates the torsor class for finite groups over fields; disconnected algebras and arbitrary characteristic are included. |
+
+### From EtaleCohomologyFoundations
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Finite and constructible module sheaves | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.constructibleEtale` | Finite lissity needs no invertibility; global finite stratifications are Noetherian, and locally Noetherian constructibility is affine-local. |
+| Finite covers, paths and monodromy | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.finiteEtaleGaloisCategory` | Based `π₁` uses connected nonempty locally Noetherian schemes without coefficient invertibility, and transport uses a chosen path. |
+| Field and multiplicative-group identifications | EtaleCohomologyFoundations §F.0.A0 / *The fundamental groups of a field and of `𝔾_m`* | Retain the intrinsic Tate module and the primitive-root coordinate convention. |
+| Cover decomposition and inertia | EtaleCohomologyFoundations §F.0.A1 / *Decomposition and inertia groups of a cover* | The normalisation is finite; keep residue separability and defectless ramification hypotheses. |
+| Arithmetic sequence | EtaleCohomologyFoundations §F.0.A2 / *The arithmetic fundamental-group sequence* | Exactness supplies the outer action; rational-point sections retain their path choices. |
+| Henselian-trait inertia and tame character | EtaleCohomologyFoundations §F.3a / `VanishingCycles.HenselianTrait`, `VanishingCycles.tameCharacter_kummer`, `VanishingCycles.tameCharacter_surjective`, `VanishingCycles.tameCharacter_conj` | IG.1.2 applies it to the strictly henselian branches of curves over algebraically closed fields, whose residue field is infinite, and keeps the adapter to `TauCeti.PrimeToPTateModule`. |
+| Continuous representations, stable lattices and integral models | Supplied by EtaleCohomologyFoundations §F.4.0 / `ContinuousRep`, `ContinuousRep.exists_stable_lattice_iff`, `GaloisLattice.IntegralModel` | IG.0.3 uses them for representations of `π₁^ét` and keeps the bounded lattice schemes, incidence, joins and isogeny descent. |
+| Tate twists | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.etaleTateTwists` | The annihilator is invertible; chosen primitive-root coordinates and peripheral orientation are retained. |
+| Constructible and ctf complexes | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.constructibleDerivedCategory` | Use the common module-valued derived carrier, with finite Tor amplitude required separately from constructibility. |
+| Finite cohomology and coherent symmetry | Supplied by EtaleCohomologyFoundations §F.1 / `VanishingCycles.finiteCoefficientCohomology` | Preserve the coefficient-module and finite-group actions, without averaging when the group order is not invertible. |
+| Proper base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.properBaseChange` | Proper exchange applies to `D⁺` arbitrary torsion without an invertibility assumption. |
+| Smooth base change | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.smoothBaseChange` | Use the rotated smooth square with the other map qcqs and sectionwise invertible torsion, including separably closed field extensions. |
+| Local acyclicity and fibre transport | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.localAcyclicity`; Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.lisseDirectImageTransport` | Invertible finite coefficients and verified ULA/constructibility are required; §IG.5.5 proves the tame-boundary case and retains its specialization data. |
+| Dimension, affine vanishing and proper finiteness | Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.etaleCohomologicalDimension`, `VanishingCycles.affineArtinVanishing`, `VanishingCycles.etaleFiniteness` | The dimension bounds are geometric over separably closed fields with invertible torsion, affine vanishing requires affineness, and proper finiteness retains its proper/Noetherian hypotheses. |
+| Constructible lower shriek and compact cohomology | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleCompactSupports`, `VanishingCycles.compactSupportCohomology`; Supplied by EtaleCohomologyFoundations §F.3 / `VanishingCycles.compactSupportFiniteness` | Use separated finite-type Noetherian geometry and invertible finite ctf coefficients for constructible exchange and perfectness. |
+| Ordinary and compact Künneth | Supplied by EtaleCohomologyFoundations §F.2 / `VanishingCycles.etaleKunneth`, `VanishingCycles.etaleKunnethCompactSupport` | The ordinary and compact-support maps are distinct; finite ctf coefficients have invertible annihilator, and the compact form requires separatedness. |
+| Normalized systems and integral realization | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.normalizedAdicSystems`, `VanishingCycles.classicalAdicRealization`, `VanishingCycles.adicFiniteness`, `VanishingCycles.adicFunctoriality` | Use invertible `ℓ`, coherent derived reductions and uniform cohomological/Tor bounds, retaining derived limits and coefficient/descent actions. |
+| Compact-support rational finiteness | Supplied by EtaleCohomologyFoundations §F.4 / `VanishingCycles.rationalAdicRealization` | §IG.5.5 verifies separated finite type over the separably closed geometric field and invertible `ℓ`, using the chosen compact-support `ℚ_ℓ` realization. |
+| Smooth trace and duality | EtaleCohomologyFoundations §§F.5–F.6 / `VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity` | Use bounded constructible finite-Tor complexes with invertible coefficients, then the normalized adic realization; smooth relative dimension fixes the shift and twist. |
+| Frobenius and rational points | Supplied by EtaleCohomologyFoundations §§F.10.1–F.10.2b / `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.frobeniusCohomology` | Arithmetic Frobenius acts by `x↦x^q` and geometric Frobenius is its inverse, acting on `ℚ_ℓ(1)` by `q⁻¹`; coefficient descent data are retained. |
+| Étale topological invariance | Supplied by EtaleCohomologyFoundations §F.0 / `VanishingCycles.universalHomeomorphismEtaleEquivalence` | Every universal homeomorphism gives an étale equivalence, with no coefficient-invertibility restriction. |
+| Derived proper supports | Supplied by EtaleCohomologyFoundations §0.8 / `ClassicalAlgebraic.properSupports` | For separated finitely presented maps between qcqs schemes, including separated finite-type Noetherian maps, use `Rp_*j_!` on `D⁺` torsion module complexes, with compactification independence and coherent finite-group/coefficient maps. |
+| Localization | Supplied by EtaleCohomologyFoundations §0.7 / `ClassicalAlgebraic.supportLocalization` | Use étale module open–closed triangles and apply the canonical lower-shriek functor to obtain compact-support triangles. |
+
+Layer IG.0 owns integral local systems even when `p` is not invertible, their isogeny category
+and stackified rational local systems without a global lattice; the comparison with §F.4 uses
+integral lisse systems and the rational subcategory admitting a global lisse integral lattice.
+Layers IG.1 and IG.5 apply the arithmetic `π₁` sequence to tame quotients and own the tame
+relative-normal-crossings specialization argument; the generic smooth ULA theorem alone does
+not supply local acyclicity at that boundary.
+
+### Trace contracts in this roadmap
+
+The four geometric trace declarations are constructed in §§IG.0.T1–IG.0.T4 under their public
+`VanishingCycles` names. Applications consume these declarations with the hypotheses below.
+Their perfect-complex trace algebra, free-torsor equivariant perfectness and derived coefficient
+descent are supplied by EtaleCohomologyFoundations §§F.10.3–F.10.5.
+
+| Object | Construction target | Convention/consumer |
+| --- | --- | --- |
+| Curve endomorphism trace | §IG.0.T1 / `VanishingCycles.curveEndomorphismTrace` | Use smooth proper geometrically connected curves and invertible `ℓ` with the supplied Tate coordinate and isolated fixed-point multiplicities. |
+| Finite-coefficient trace formula | §IG.0.T2 / `VanishingCycles.etaleTraceFormulaFinite` | For separated finite-type finite-field schemes use descended ctf prime-to-characteristic coefficients and perfect-complex traces. |
+| Rational constructible trace formula | §IG.0.T3 / `VanishingCycles.etaleTraceFormula` | Use the normalized rational realization of compatible finite-level systems, with descended coefficients, compact support and geometric Frobenius for every positive power. |
+| Constant-sheaf point-count trace | §IG.0.T4 / `VanishingCycles.pointCountTrace` | §IG.5.5 takes `r=1`, `ℓ≠char k`, geometric Frobenius and compact support; the weight bound in the point estimate is a separate hypothesis. |
+
+### From EnhancedDerivedSheaves
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Enhanced categories and replacements | EnhancedDerivedSheaves §§0.1–0.2 / `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements` | Use module sheaves on the common ringed site and K-injective/K-flat replacements. |
+| Derived inverse limits | EnhancedDerivedSheaves §0.3 / `ClassicalDerived.inverseLimits` | Retain derived products for sheaves, coherent towers and uniform bounds for tensor interchange. |
+
+### From ComplexComparisonPartII
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Complex topology | Supplied by ComplexComparisonPartII §C6.0 / `complexAlgebraicTopology` | Global finite CW type/Hausdorffness uses separated finite type, without a manifold assumption. |
+| Finite-cover comparison | Supplied by ComplexComparisonPartII §C6.2 / `riemannExistence` | All finite-type complex schemes are admitted; §IG.3.1 supplies the puncture-extension and cycle-length ramification adapter with the shared fibre/deck convention. |
+| Finite-coefficient Artin comparison | Supplied by ComplexComparisonPartII §C6.3 / `artinComparison` | §IG.3.1 uses the stated constant finite abelian corollary and composes the inverse étale-to-topological map with the separately supplied group/topological comparison. |
+| Compact-support Artin comparison | Supplied by ComplexComparisonPartII §C6.4 / `artinComparisonCompactSupport` | Use separated finite type and finite ctf/local coefficients with compact support. |
+| Relative comparison | Supplied by ComplexComparisonPartII §C6.5 / `relativeArtinComparison` | Use the proper direct-image or separated finite-type lower-shriek branch and retain the chosen fibre transport. |
+| Adic comparison | Supplied by ComplexComparisonPartII §C6.6 / `adicArtinComparison` | Use normalized finite ctf levels with uniform cohomological/Tor bounds, and separatedness for compact support; this supplies no canonical comparison of unrelated fibres. |
+| Proper-submersion trivialization | Supplied by ComplexComparisonPartII §C5.2 / `ehresmannFibration` | IG.5.4 applies it to the analytification of a proper smooth pointed family of curves on manifold charts: a proper surjective holomorphic submersion of finite-dimensional Hausdorff second-countable complex manifolds is locally trivial over each connected component of the base, and the trivializations after base change are the pullbacks of the chosen ones; the horizontal lifts are chosen tangent to the labelled sections. |
+
+### From ArithmeticGaloisDuality
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Localization and Sha kernels | ArithmeticGaloisDuality §R02.3.0d / *Finite Galois localization and Sha kernels* | Absolute Galois cohomology of finite modules over number fields; retain modified real-place groups. |
+| Absolute finite Poitou–Tate | ArithmeticGaloisDuality §R02.4.5a / *Finite-coefficient Poitou–Tate input* | IG.4 uses the all-place kernels and finite-set localization defects with the Cartier dual action. |
+| Grunwald–Wang | ArithmeticGaloisDuality §R02.4.5b / *Grunwald–Wang and its exceptional class* | Retain the order-two alternative and the dyadic exception in cyclic prescriptions. |
+
+### From SchemeAndStackFoundations
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Repleteness | SchemeAndStackFoundations §2.17 / `Proetale.isReplete_proetale` | IG.0 uses the pro-étale topos and its w-contractible covers. |
+| Algebraic Riemann–Hurwitz | SchemeAndStackFoundations §3.2 / `scheme_riemann_hurwitz` | IG.3.3 applies the tame formula to smooth proper connected complex curves and groups the `|G|/e` points over each branch point. |
+
+### From ResolutionOfSingularitiesCharacteristicZero
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Resolution preserving the smooth locus | ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` | IG.1 uses a proper surjective smooth-source resolution of a reduced finite-type characteristic-zero scheme, preserving its smooth locus; the comparison is consumed through AlgebraicModuliForArithmeticGeometry §9.4. |
+| SNC compactification | ResolutionOfSingularitiesCharacteristicZero §6.2 / `sncCompactification` | IG.1, IG.3 and IG.4 use a smooth projective compactification of a smooth quasi-projective finite-type characteristic-zero scheme, retaining the given open and reduced strict-SNC boundary; consumed through AlgebraicModuliForArithmeticGeometry §9.5. |
+
+### From the other TauCetiRoadmap roadmaps
+
+ProfiniteArithmetic Layer 0 (the ring `ẑ` and its units) and Layer 2 (continuous outer
+automorphisms); PeripheralActions (peripheral powers); ProfiniteProPGroups Layers 0, 3, 4 and 5;
+ProfiniteCohomology Layers 1, 5, 7 and 10 (corestriction); PolynomialGaloisGroups Layers 2, 3 and 9;
+GlobalNumberFields Layers 0 and 1; ClassFieldTheory Layers 5, 7 and 10–12; Chebotarev (Layer 10);
+AlgebraicCurves Layers 3–5, 7, 8 and 12; ModularCurves Layers 0c and 0d;
+ReductiveGroups Layers 0, 3 and 6; RepresentationTheory/InductionRestriction Layer 7, whose Schur
+multiplier is `H²(G, k^×)` over an algebraically closed field, so the comparison with `H₂(G, ℤ)` used
+in Layer IG.3 is part of the target *Reduced Schur covers* there; DGFloer Layer 1 item 2
+(fibration homotopy long exact sequence) and AlgebraicTopology Stage 8; StableReduction Layer 7 (semistable reduction of curves);
+DifferentialGeometry Layer 3 (flows of vector fields: the maximal flow, completeness of compactly
+supported fields and time-dependent flows), which IG.5.4 uses to integrate the horizontal lifts
+supplied by ComplexComparisonPartII §C5.2 into trivializations preserving the labelled sections;
+JacobianChallenge Layers A–D (line bundles and divisors, coherent cohomology and Riemann–Roch,
+relative cohomology and base change, the relative Picard functor and the Jacobian), used by
+IG.0.T1 *Weil's curve trace and graph–diagonal formula*. The BelyiMaps Layers 11–13 used
+here are the retained dependency specifications of that roadmap, whose ownership passes to its named
+successors.
+
+### From other roadmaps
+
+SchemeAndStackFoundations Layers 0 (schemes and morphisms), 1 (descent, stacks, quotients),
+2 (sites, étale and pro-étale cohomology, Brauer groups of schemes), 3 (curves) and 4
+(deformations, stable pointed curves, formal schemes, Grothendieck existence and algebraization,
+§4.10), with §0.12 (henselization), §0.14 (`henselian_smooth_lifting`), §0.15
+(`popescu_desingularization`) and §0.21 (G-rings), and §§5.1, 5.6, 5.9 (rational equivalence
+and Chow groups, intersection products on smooth varieties and the intersection pairing on
+surfaces, used by IG.0.T1 and by the zero-cycle moving argument of Layer IG.4);
+AbelianSchemesAndArithmeticModuli §§A3.2, A4.1, A6.10–A6.11 (prime-to-characteristic torsion, the
+integral Tate module `AbelianTate`, the trace `End.trace` and the characteristic polynomial
+`charpolyTate` of an endomorphism, used by IG.0.T1); ArithmeticGaloisDuality §R02.3.1
+(*The Galois group `G_{K,S}` of the maximal extension unramified outside `S`*), §R02.4.2
+(*Unramified classes are exact annihilators*, *Restricted products of local cohomology and `Ш^r_S`*,
+with transport to the absolute localization kernel only when `S` is the set of all places,
+using the same modified archimedean groups, and *`P^r_S(K, M)` is dual to `P^{2−r}_S(K, M^D)`*) and §R02.4.3 (*Poitou–Tate duality and the nine-term
+exact sequence*), together with §§R02.3.0d, R02.4.5a–R02.4.5b
+(localization, absolute finite duality and Grunwald–Wang), used by IG.4.2 twisting and cyclic
+prescriptions and IG.4.3 *Restricted-ramification localization adapter*;
+EtaleCohomologyFoundations §§F.5–F.6 /
+`VanishingCycles.etaleVerdierDuality`, `VanishingCycles.smoothPurity` (smooth trace, relative
+purity and Poincaré duality); ReductiveGroupsPartII Layer RG2.0a (Weil restriction and
+norm tori); AdelicAlgebraicGroups Layer 4, §4.1 (*Hasse kernel and injectivity* for semisimple simply
+connected groups, and *Weak approximation*, `Approximation.hasWeakApproximation_of_simplyConnected`);
+ArithmeticGaloisRepresentations §§3.1, 3.4 (Swan conductors with finite coefficients over a
+complete discretely valued field with perfect residue field, such as `k((z))` with `k`
+algebraically closed, and their tame-base-change scaling, with the ramification filtrations of its
+conductor setting); the finite-residue-field local-field declarations of Tau Ceti
+(`TauCeti.inertiaSubgroup`, `TauCeti.tameQuotient`) are not used at the completions of curves over
+an algebraically closed field;
+ComplexComparisonPartII §C−1.1 (`ComplexAnalyticSpace` and
+`complexSchemeAnalytification`), §§C−1.2, C1.9 (`complexSpaceAnalytification`, proper coherent GAGA);
+ResolutionOfSingularitiesCharacteristicZero §5.5 / `localIsomorphismResolution` (resolution of
+reduced finite-type characteristic-zero schemes) and §6.2 / `sncCompactification` (smooth
+quasi-projective characteristic-zero schemes), consumed through AlgebraicModuliForArithmeticGeometry
+§§9.4–9.5; EnhancedDerivedSheaves §§0.1–0.3 /
+`ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements`, `ClassicalDerived.inverseLimits`
+(derived categories, replacements and derived inverse limits), and SchemeAndStackFoundations §2.17 /
+`Proetale.isReplete_proetale` (replete topoi and w-contractible covers); ComplexComparisonPartII §C3.3 (`derivedGagaProperSpace`, for proper algebraic spaces) and §C4.5
+(`affineCurveCompletionInterface`, `puncturedRiemannSurfaceConnected`, `affineCurveConnectedness`).
 
 ## References
 

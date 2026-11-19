@@ -1,54 +1,30 @@
 # Roadmap: prequantization and polarized geometric quantization
 
-**Summary.** Build prequantum circle and Hermitian line bundles, lifts of Hamiltonian
-symmetries, polarized sections and their Hilbert spaces. Develop the real and
-Kähler polarizations and compute the cotangent, torus and projective examples.
-Integrality, flat twists, polarization and the domain of a quantum operator
-are mathematical data; each must remain visible in the API.
+**Summary.** Geometric quantization tries to turn a classical phase space, a symplectic manifold (M, ω), into a Hilbert space of quantum states, and functions on M into operators. Its first step, prequantization, is a Hermitian line bundle with a connection of curvature −(i/ℏ)ω, which exists when the class of ω/(2πℏ) is integral. Its sections are too many, and a polarization cuts them down. A real polarization is an involutive Lagrangian subbundle of the tangent bundle; on a Kähler manifold the antiholomorphic directions play this role. The polarized sections are those covariantly constant along it.
 
-## Scope and ownership
+This roadmap builds prequantum circle and line bundles, the lifts of Hamiltonian symmetries to them, and polarized sections with their Hilbert spaces. It then computes the cotangent, torus and projective examples. Manifolds are finite-dimensional, Hausdorff, second countable and without boundary, and a real ℏ > 0 is fixed.
 
-This roadmap owns symplectic specializations of prequantum bundles, intrinsic
-Hamiltonian lifts and their quantum operators, homogeneous character and
-fixed-moment tests, polarized quantization, and the compact-torus distribution
-and regular orbifold chamber theorems. Layer 3 owns the coadjoint period
-application of the compact rank-one maps and the ordinary holomorphic Picard
-application needed by the character/period dictionary. LieGroups Layers 5A and 6
-own the averaged invariant metric, the centre splitting, the compact real root
-datum with coroots `α∨=2α♯/‖α‖²` and the normalized rank-one maps
-`φ_α:SU(2)→K` with `dφ_α(diag(i,−i))=α∨`; LieGroups Layer 7 owns the universal
-complexification of a torus and its polar decomposition; ConvexityToric T1 owns
-the period/weight dictionary `Λ_Z=(2π)⁻¹ker(exp)`, `χ↦(1/i)dχ`, its dual,
-restriction and quotient lattices and `2πα∨∈ker(exp)`. SchubertGeometry S9.1/S9.7 owns the partial-flag
-complex/Kähler geometry and root-oriented characteristic-map comparisons;
-Layer 3 uses those same curves and integral classes. The generic holomorphic
-exponential-sequence and
-Chern comparison belongs to ComplexComparisonPartII C5.4; the flag application
-here proves its vanishing hypotheses and identifies its degree basis. These
-ordinary Picard and fundamental-line degree comparisons have their single
-owner in §3.3, including the harmonic/root-weight vanishing argument. The
-SchubertGeometry, Part II application consumes them for its equivariant
-Picard and forgetful-map comparisons. Its input is the same root-curve and
-Chern-class dictionary, while SchubertGeometry S9.1/S9.7 remains the earlier
-supplier of the flag geometry.
+The prequantum operator of a function f is iℏ times covariant differentiation along the Hamiltonian vector field of f, plus multiplication by f. The commutator of the operators of f and g is −iℏ times the operator of their Poisson bracket. When f is real and its Hamiltonian flow is complete, the operator on compactly supported smooth sections is essentially self-adjoint. Completeness cannot be dropped: on the cotangent bundle of a half-line, the momentum operator iℏ ∂/∂q has deficiency indices 0 and ∞.
 
-SmoothBundlesConnections B1–B6 owns principal/associated bundles, connections,
-curvature, holonomy, integral existence and flat twists. Hamiltonian vector
-fields, the symplectic Poisson bracket, infinitesimal actions, moment maps and
-the moment cocycle are already in Tau Ceti; LieGroupoidsPoisson §G4.1 and
-§G4.2 own the Lie algebra of smooth functions under that bracket.
-SymplecticGeometry's CotangentLagrangian C1 and HamiltonianReduction R1–R3 own
-the cotangent, coadjoint and reduced manifolds and the group-level moment-map
-defect. DifferentialGeometry owns differential-form
-calculus, integration and flows. ComplexKahlerGeometry K1–K7 owns the type,
-Dolbeault, Hermitian and projective-section foundations. Orbifolds O1–O5 owns
-the full-isotropy bundle and integration theory. Their constructions are
-consumed with the contracts below. Generic character composition, kernels
-and quotient lifting are Mathlib operations, not new character wrappers.
+On a coadjoint orbit G/H through μ₀, the action of G lifts to a prequantization, with the inclusion as moment map, exactly when the whole stabilizer H, components included, has a smooth circle-valued character λ with λ(exp tξ) = exp(itμ₀(ξ)/ℏ) for every ξ in its Lie algebra. For the two-sphere of radius r as an SO(3) orbit, ordinary prequantization requires k = 2r/ℏ to be an integer. Every such k gives a lift of the SU(2) action, but SO(3) itself lifts exactly when k is even. On the flag manifold K/H, a coadjoint orbit of a compact connected Lie group K, the higher cohomology of the structure sheaf vanishes, and the holomorphic Picard group is isomorphic to H²(K/H; ℤ), with the fundamental lines of degree δᵢⱼ on the root curves.
 
-The acceptance file is Suggested.lean. Its module docstring lists the
-headline theorems and the geometric carriers needed to state them; coordinate
-calculations and API checks live in this README.
+Take the torus ℝ²/ℤ² with form 2πℏk dq∧dp, for an integer k > 0, and complex coordinate q + τp with Im τ > 0. The holomorphic sections of the theta line form a space of dimension exactly k, for all real characteristics. For the real polarization by the circles on which p is constant, exactly k leaves, the Bohr–Sommerfeld leaves, have trivial holonomy, and the sum of their parallel lines again has dimension k. Yet every smooth global polarized section vanishes. On ℂPⁿ with 2πℏk times the normalized Fubini–Study form, k ≥ 1, the holomorphic sections of O(k) have dimension binomial(n+k, n).
+
+The last part sets ℏ = 1 and takes a compact torus T acting holomorphically and Hamiltonianly on a compact connected Kähler manifold M of complex dimension d, with a positive T-linearized Hermitian holomorphic line bundle L. Let mₙ(λ) be the multiplicity of the weight λ in the holomorphic sections of Lⁿ. The measures with mass n⁻ᵈmₙ(λ) at each λ/n converge weakly to (2π)⁻ᵈ times the pushforward of the Liouville measure ωᵈ/d! by the moment map. If λ/n lies in a chamber of regular values with locally free levels, then for all sufficiently large n, mₙ(λ) is the index of an orbifold line bundle on the reduced space, which keeps its finite stabilizers. Uniformly for λ/n in a compact part of the chamber, the contribution of each component of the reduced space is jointly quasi-polynomial in n and λ. No general compact-group theorem that quantization commutes with reduction is asserted.
+
+The roadmap builds on [SmoothBundlesConnections](../SmoothBundlesConnections/README.md), which proves that integral classes have prequantum lines, unique up to flat twists. Hamiltonian vector fields, Poisson brackets and moment maps are already in Tau Ceti. SymplecticGeometry provides cotangent bundles, coadjoint orbits and reduced spaces, and ComplexKahlerGeometry Dolbeault theory and the lines O(k). [SchubertGeometry](../SchubertGeometry/README.md) provides the flags and root curves, and its second part uses the Picard group computed here.
+
+Layers 1 to 3 build the bundles, operators and homogeneous lines. Layers 4 and 5 treat polarizations and the examples, and Layer 6 the torus multiplicities.
+
+## How to read the build
+
+Layers 1 and 2 specialize bundles and build intrinsic lifts, operators and
+complete flows. Layer 3 builds homogeneous descent and ordinary flag degrees.
+Layer 4 defines polarizations and their observable algebra; Layer 5 constructs
+the cotangent, projective and torus quantizations. Layer 6 first builds the
+positive-line, character, semistable and reduced-index interfaces, then proves
+the distribution and uniform chamber conclusions. The labels Q1, Q2, Q2A,
+Q3, Q4 and Q5 identify these six layers, respectively.
 
 ## Conventions
 
@@ -98,203 +74,6 @@ everywhere-defined unbounded-operator assertion is intended.
   sign would require 2∂p=−2∂p.
 - On a point ω=0 and Q_c=c; the zero function gives Y₀=0 and Q₀=0.
   ℏ=0 is excluded, so none of the displayed divisions uses a totalized zero inverse.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Use `CovariantDerivative` in
-`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`,
-`LinearPMap` for partial operators, `LieSubalgebra` for observable Lie algebras,
-and `jacobiTheta₂` with `summable_jacobiTheta₂_term_iff`,
-`differentiableAt_jacobiTheta₂_fst`, `jacobiTheta₂_add_left` and
-`jacobiTheta₂_add_left'` in
-`Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean`. The theta
-section space of §5.3 is a `Submodule ℂ (ℂ → ℂ)` of `Differentiable ℂ`
-functions cut out by `Complex.exp` factors, measured by `Module.finrank`.
-The complex root system is `LieAlgebra.IsKilling.rootSystem` in
-`Mathlib/Algebra/Lie/Weights/RootSystem.lean`, for finite-dimensional
-characteristic-zero Lie algebras with nondegenerate Killing form and a splitting
-Cartan subalgebra; LieGroups Layer 6 verifies those hypotheses on the
-complexified semisimple summand of a compact Lie algebra and identifies its
-compact real roots and coroots with this root system, and §§3.3–3.4 use them
-through that comparison.
-`ContinuousMonoidHom.comp` in `Mathlib/Topology/Algebra/ContinuousMonoidHom.lean`,
-`MonoidHom.ker`, and `QuotientGroup.lift`, `QuotientGroup.lift_mk`,
-`QuotientGroup.lift_comp_mk'` in `Mathlib/GroupTheory/QuotientGroup/Defs.lean`
-supply character restriction and algebraic descent. `continuous_quot_lift`
-supplies continuity for the quotient topology; none of these operations
-asserts smoothness of a homogeneous bundle or constructs a stabilizer.
-
-### From Tau Ceti
-
-Use `TauCeti.SmoothTwoForm` in `TauCeti/Geometry/Manifold/TwoForm/Basic.lean`,
-the degree-two real case of `TauCeti.SmoothForm` in
-`TauCeti/Geometry/Manifold/DifferentialForm/Smooth.lean`, and
-`TauCeti.SmoothTwoForm.IsSymplectic` in
-`TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, which bundles
-closedness and fibrewise nondegeneracy, with manifold separation assumptions
-as fixed in Conventions.
-
-The Hamiltonian inputs are `TauCeti.SmoothTwoForm.IsHamiltonianVectorField`,
-`TauCeti.SmoothTwoForm.hamiltonianVectorField` (the field `(ω♭)⁻¹df`) and
-`TauCeti.SmoothTwoForm.poissonBracket` in
-`TauCeti/Geometry/Symplectic/Hamiltonian/Manifold.lean`; the bracket identity
-`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`
-in `TauCeti/Geometry/Symplectic/Hamiltonian/Bracket.lean`, for a closed
-nondegenerate form on a finite-dimensional model and C² functions;
-`TauCeti.InfinitesimalAction` in
-`TauCeti/Geometry/Manifold/VectorField/InfinitesimalAction.lean`, a linear map
-`ξ↦ξ_M` to smooth vector fields with `[ξ,η]_M=−[ξ_M,η_M]`; and
-`TauCeti.SmoothTwoForm.IsMomentMap`, `TauCeti.SmoothTwoForm.momentCocycle`,
-`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_eq` (the cocycle is constant on
-a preconnected manifold when ω is closed) and
-`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_mem_twoCocycle` (it is a
-Lie-algebra 2-cocycle with trivial real coefficients) in
-`TauCeti/Geometry/Symplectic/Hamiltonian/MomentMap.lean`.
-
-`ODE.exists_contDiffAt_picard_solution` in
-`TauCeti/Analysis/ODE/SmoothParameter.lean` gives, for finite-dimensional
-parameter and state spaces and a field that is `C^(n+1)` at the base point
-and vanishes near the base state at the base parameter, a `C^(n+1)` family of
-local solutions for each finite n; §2.3 uses it for parameter
-dependence. Layer 6 consumes `TauCeti.fourierChar` and `TauCeti.fourierRep`
-in `TauCeti/RepresentationTheory/Compact/Circle.lean`, and
-`TauCeti.formalCharacter` with
-`TauCeti.formalCharacter_coeff_eq_finrank_weightSpace` and
-`TauCeti.isIntegralWeight_of_formalCharacter_coeff_ne_zero` in
-`TauCeti/Algebra/Lie/Weights/FormalCharacter.lean`, under the hypotheses
-recorded in §6.3.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-Consume §0.4's generic smooth forms, whose carrier is Tau Ceti's
-`TauCeti.SmoothForm` (above), §1.4's Cartan calculus, Layer 3's flows
-(§3.1's joint smooth dependence on time and initial condition, applied with
-parameters adjoined as constant coordinates, §3.2's maximal flows, §3.3's
-completeness criteria and §3.4's commuting flows), Layer 4's Frobenius
-theorem, §5.4's homotopy operator, and Layers 5–8's integration, densities and
-de Rham comparison.
-
-### From TauCetiRoadmap.SmoothBundlesConnections
-
-B1.4 supplies the actual closed-subgroup quotient and its local sections;
-B2.1 the associated bundle and section dictionary; B2.2/B2.4 the Hermitian
-L² space, smooth density and density of compactly supported smooth sections.
-B3–B5 supply connections, curvature, constant connection-preserving gauge
-ambiguity and holonomy. B6.2–B6.5 supply the integral Chern class, integral
-existence and flat fixed-curvature torsor, retaining torsion and flat data.
-
-### From TauCetiRoadmap.LieGroupoidsPoisson
-
-§G4.1 installs the real Lie algebra structure on the smooth functions of a
-Poisson manifold, and §G4.2 identifies a symplectic form with a nondegenerate
-Poisson structure through `π♯=−(ω♭)⁻¹`. Its bracket `π(df,dg)=−dg(X_f)=df(X_g)`
-is then `TauCeti.SmoothTwoForm.poissonBracket`; on `ω=dq∧dp` both give
-`{q,p}=1`. §4.2 takes its observable Lie subalgebra inside this Lie algebra.
-
-### From TauCetiRoadmap.SymplecticGeometry
-
-[CotangentLagrangian C1](../SymplecticGeometry/CotangentLagrangian/README.md)
-supplies cotangent geometry. [HamiltonianReduction R1–R3](../SymplecticGeometry/HamiltonianReduction/README.md)
-supplies group-level Hamiltonian actions, actual coadjoint homogeneous spaces,
-R2a's finite even-cell model, and regular reduced symplectic orbifolds.
-[ConvexityToric T1/T3/T4](../SymplecticGeometry/ConvexityToric/README.md)
-supplies the period/weight dictionary, translated moment-square gradient
-convergence, and the raw Liouville Duistermaat–Heckman measure and free-chamber
-density, including its comparisons with full-isotropy reduced volumes. From T1
-this roadmap consumes, for a compact torus T, the cocharacter lattice
-`Λ_Z=(2π)⁻¹ker(exp)⊂𝔱`, its dual weight lattice with characters read as
-`(1/i)dχ`, the perfect character/cocharacter pairing, the dual, restriction,
-quotient and basis-change formulas for subtori and quotient tori, and
-`2πα∨∈ker(exp)` for each root through its compact rank-one subgroup.
-
-### From TauCetiRoadmap.OperatorTheory
-
-[SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
-Part A supplies the von Neumann criterion (SA-A21) and the comparison to the
-native Stone theorem (SA-A22), and Part C supplies graph cores (SA-C39–SA-C42),
-for Mathlib's `LinearPMap` and Tau Ceti's resolvent/group APIs.
-Layer 2 proves the complete-flow geometric core result for its section operators.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-K1/K2 supply type bundles and Dolbeault calculus, K3 locally bounded holomorphic
-extension, K4 holomorphic/Hermitian bundles and Koszul–Malgrange, K5a/K5b.1
-compact bundle elliptic and Dolbeault theory, K6.0/K6.1 curvature identities
-and Kähler Hodge theory, and K7.1–K7.2 projective/torus carriers, O(k), the
-section/polynomial dictionary and normalized Fubini–Study form.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-[C0.3](../ComplexComparisonPartII/README.md) supplies the holomorphic
-line/locally-free-sheaf dictionary; C1.7–C1.9 supply analytic twists, analytic
-Serre vanishing and projective/proper GAGA. C5.1 supplies the sheaf/singular
-comparison and C5.4 the frame-torsor bijection from isomorphism classes of
-holomorphic line bundles onto `H¹(M,𝒪_M^×)`, the exponential-sequence
-connecting map and integral Chern normalization. Layer 3 proves the flag-specific vanishing and root-degree
-identification. Layer 6 constructs the positive-line embedding and the finite
-list of residue twists needed for vanishing at every large tensor power.
-
-### From TauCetiRoadmap.IndexTheory and TauCetiRoadmap.PseudodifferentialOperators
-
-IndexTheory I6/I7.3 supplies the ordinary index and Dolbeault-symbol comparison,
-and I8.4 the group section-action convention. PseudodifferentialOperators P1–P2
-supplies the smooth differential/symbol floor. Layer 6 constructs the general
-fixed-component equivariant character formula, the reduced orbifold Dolbeault
-index and its inertia formula, extending the smooth floor to finite invariant charts.
-
-### From TauCetiRoadmap.Orbifolds
-
-[O1–O5](../Orbifolds/README.md), in particular O4-T/O4-W/O4-S/O5, supplies
-full-isotropy orbibundles, weighted integration, and the cohomological comparison
-maps on the actual reduced presentations. Keep these maps and all isotropy
-characters in the Layer 6 descent and index construction.
-
-### From TauCetiRoadmap.RepresentationTheory
-
-[CompactGroups](../RepresentationTheory/CompactGroups/README.md) supplies the
-circle Fourier characters and character projections. [LieGroups Layers 4–8](../RepresentationTheory/LieGroups/README.md)
-supplies Lie integration, simply connected covers and kernels, maximal tori
-and Weyl groups, universal complexification and the homogeneous full-flag
-comparison. In detail: Layer 5A supplies the Haar-averaged invariant metric
-B_G and the orthogonal splitting `𝔤=z(𝔤)⊕[𝔤,𝔤]`. Layer 6's compact real
-roots and Weyl comparison supply the root characters `χ_α` with `dχ_α=iα`,
-the coroots `α∨=2α♯/‖α‖²` (so `α(α∨)=2`), the reflections `X↦X−α(X)α∨` and
-the comparison with the complex root system; its rank-one representatives
-supply, for each root, `φ_α:SU(2)→K` with `dφ_α(diag(i,−i))=α∨`, compact
-connected image and a normalizer element `n_α` inducing that reflection.
-Layer 7 supplies the universal complexification `H/N` of a connected Lie group
-and the polar diffeomorphism of a compact one. Layer 8 supplies the associated
-lines E_χ on the full flag, the comparison of the two Borel conventions and
-the restriction of `L_μ` to the minimal-parabolic `P¹` fibres with degree
-`⟨μ,α∨⟩`. §6.6 identifies Layer 7's complexification of a torus with the
-period quotient `𝔱_C/(2πΛ_Z)`.
-
-### From TauCetiRoadmap.SchubertGeometry
-
-[S9.1/S9.7](../SchubertGeometry/README.md) supplies the complex partial flag on
-the actual coadjoint quotient, its positive KKS Kähler metric for real chamber
-parameters, root-coordinate orientations and the integral characteristic-map
-comparison with HamiltonianReduction R2a. Section 3.3 applies that comparison
-to periods and ordinary holomorphic Picard classes; it does not reconstruct
-the flag, its complex structure, Morse handles or cellular comparison.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stages 4–6 supply integral cellular/singular comparison and universal
-coefficients, applied to HamiltonianReduction R2a's even-cell model. Layer 3
-identifies its root-curve generators and their integral degree pairing.
-
-## How to read the build
-
-Layers 1 and 2 specialize bundles and build intrinsic lifts, operators and
-complete flows. Layer 3 builds homogeneous descent and ordinary flag degrees.
-Layer 4 defines polarizations and their observable algebra; Layer 5 constructs
-the cotangent, projective and torus quantizations. Layer 6 first builds the
-positive-line, character, semistable and reduced-index interfaces, then proves
-the distribution and uniform chamber conclusions. The labels Q1, Q2, Q2A,
-Q3, Q4 and Q5 identify these six layers, respectively.
 
 ## Layer 1: Prequantum objects (Q1)
 
@@ -1960,6 +1739,237 @@ not assert the existence of a square root
 of a complex canonical bundle. Poisson geometry and symplectic groupoids belong to LieGroupoidsPoisson;
 prequantization of Poisson/algebroid structures and quantization via symplectic
 groupoids have no target here. Analytic Floer theory remains HeegaardFloer’s subject.
+
+## Scope and ownership
+
+This roadmap owns symplectic specializations of prequantum bundles, intrinsic
+Hamiltonian lifts and their quantum operators, homogeneous character and
+fixed-moment tests, polarized quantization, and the compact-torus distribution
+and regular orbifold chamber theorems. Layer 3 owns the coadjoint period
+application of the compact rank-one maps and the ordinary holomorphic Picard
+application needed by the character/period dictionary. LieGroups Layers 5A and 6
+own the averaged invariant metric, the centre splitting, the compact real root
+datum with coroots `α∨=2α♯/‖α‖²` and the normalized rank-one maps
+`φ_α:SU(2)→K` with `dφ_α(diag(i,−i))=α∨`; LieGroups Layer 7 owns the universal
+complexification of a torus and its polar decomposition; ConvexityToric T1 owns
+the period/weight dictionary `Λ_Z=(2π)⁻¹ker(exp)`, `χ↦(1/i)dχ`, its dual,
+restriction and quotient lattices and `2πα∨∈ker(exp)`. SchubertGeometry S9.1/S9.7 owns the partial-flag
+complex/Kähler geometry and root-oriented characteristic-map comparisons;
+Layer 3 uses those same curves and integral classes. The generic holomorphic
+exponential-sequence and
+Chern comparison belongs to ComplexComparisonPartII C5.4; the flag application
+here proves its vanishing hypotheses and identifies its degree basis. These
+ordinary Picard and fundamental-line degree comparisons have their single
+owner in §3.3, including the harmonic/root-weight vanishing argument. The
+SchubertGeometry, Part II application consumes them for its equivariant
+Picard and forgetful-map comparisons. Its input is the same root-curve and
+Chern-class dictionary, while SchubertGeometry S9.1/S9.7 remains the earlier
+supplier of the flag geometry.
+
+SmoothBundlesConnections B1–B6 owns principal/associated bundles, connections,
+curvature, holonomy, integral existence and flat twists. Hamiltonian vector
+fields, the symplectic Poisson bracket, infinitesimal actions, moment maps and
+the moment cocycle are already in Tau Ceti; LieGroupoidsPoisson §G4.1 and
+§G4.2 own the Lie algebra of smooth functions under that bracket.
+SymplecticGeometry's CotangentLagrangian C1 and HamiltonianReduction R1–R3 own
+the cotangent, coadjoint and reduced manifolds and the group-level moment-map
+defect. DifferentialGeometry owns differential-form
+calculus, integration and flows. ComplexKahlerGeometry K1–K7 owns the type,
+Dolbeault, Hermitian and projective-section foundations. Orbifolds O1–O5 owns
+the full-isotropy bundle and integration theory. Their constructions are
+consumed with the contracts below. Generic character composition, kernels
+and quotient lifting are Mathlib operations, not new character wrappers.
+
+The acceptance file is Suggested.lean. Its module docstring lists the
+headline theorems and the geometric carriers needed to state them; coordinate
+calculations and API checks live in this README.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Use `CovariantDerivative` in
+`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`,
+`LinearPMap` for partial operators, `LieSubalgebra` for observable Lie algebras,
+and `jacobiTheta₂` with `summable_jacobiTheta₂_term_iff`,
+`differentiableAt_jacobiTheta₂_fst`, `jacobiTheta₂_add_left` and
+`jacobiTheta₂_add_left'` in
+`Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean`. The theta
+section space of §5.3 is a `Submodule ℂ (ℂ → ℂ)` of `Differentiable ℂ`
+functions cut out by `Complex.exp` factors, measured by `Module.finrank`.
+The complex root system is `LieAlgebra.IsKilling.rootSystem` in
+`Mathlib/Algebra/Lie/Weights/RootSystem.lean`, for finite-dimensional
+characteristic-zero Lie algebras with nondegenerate Killing form and a splitting
+Cartan subalgebra; LieGroups Layer 6 verifies those hypotheses on the
+complexified semisimple summand of a compact Lie algebra and identifies its
+compact real roots and coroots with this root system, and §§3.3–3.4 use them
+through that comparison.
+`ContinuousMonoidHom.comp` in `Mathlib/Topology/Algebra/ContinuousMonoidHom.lean`,
+`MonoidHom.ker`, and `QuotientGroup.lift`, `QuotientGroup.lift_mk`,
+`QuotientGroup.lift_comp_mk'` in `Mathlib/GroupTheory/QuotientGroup/Defs.lean`
+supply character restriction and algebraic descent. `continuous_quot_lift`
+supplies continuity for the quotient topology; none of these operations
+asserts smoothness of a homogeneous bundle or constructs a stabilizer.
+
+### From Tau Ceti
+
+Use `TauCeti.SmoothTwoForm` in `TauCeti/Geometry/Manifold/TwoForm/Basic.lean`,
+the degree-two real case of `TauCeti.SmoothForm` in
+`TauCeti/Geometry/Manifold/DifferentialForm/Smooth.lean`, and
+`TauCeti.SmoothTwoForm.IsSymplectic` in
+`TauCeti/Geometry/Symplectic/Manifold/TwoForm.lean`, which bundles
+closedness and fibrewise nondegeneracy, with manifold separation assumptions
+as fixed in Conventions.
+
+The Hamiltonian inputs are `TauCeti.SmoothTwoForm.IsHamiltonianVectorField`,
+`TauCeti.SmoothTwoForm.hamiltonianVectorField` (the field `(ω♭)⁻¹df`) and
+`TauCeti.SmoothTwoForm.poissonBracket` in
+`TauCeti/Geometry/Symplectic/Hamiltonian/Manifold.lean`; the bracket identity
+`TauCeti.SmoothTwoForm.IsNondegenerate.hamiltonianVectorField_poissonBracket`
+in `TauCeti/Geometry/Symplectic/Hamiltonian/Bracket.lean`, for a closed
+nondegenerate form on a finite-dimensional model and C² functions;
+`TauCeti.InfinitesimalAction` in
+`TauCeti/Geometry/Manifold/VectorField/InfinitesimalAction.lean`, a linear map
+`ξ↦ξ_M` to smooth vector fields with `[ξ,η]_M=−[ξ_M,η_M]`; and
+`TauCeti.SmoothTwoForm.IsMomentMap`, `TauCeti.SmoothTwoForm.momentCocycle`,
+`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_eq` (the cocycle is constant on
+a preconnected manifold when ω is closed) and
+`TauCeti.SmoothTwoForm.IsMomentMap.momentCocycle_mem_twoCocycle` (it is a
+Lie-algebra 2-cocycle with trivial real coefficients) in
+`TauCeti/Geometry/Symplectic/Hamiltonian/MomentMap.lean`.
+
+`ODE.exists_contDiffAt_picard_solution` in
+`TauCeti/Analysis/ODE/SmoothParameter.lean` gives, for finite-dimensional
+parameter and state spaces and a field that is `C^(n+1)` at the base point
+and vanishes near the base state at the base parameter, a `C^(n+1)` family of
+local solutions for each finite n; §2.3 uses it for parameter
+dependence. Layer 6 consumes `TauCeti.fourierChar` and `TauCeti.fourierRep`
+in `TauCeti/RepresentationTheory/Compact/Circle.lean`, and
+`TauCeti.formalCharacter` with
+`TauCeti.formalCharacter_coeff_eq_finrank_weightSpace` and
+`TauCeti.isIntegralWeight_of_formalCharacter_coeff_ne_zero` in
+`TauCeti/Algebra/Lie/Weights/FormalCharacter.lean`, under the hypotheses
+recorded in §6.3.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+Consume §0.4's generic smooth forms, whose carrier is Tau Ceti's
+`TauCeti.SmoothForm` (above), §1.4's Cartan calculus, Layer 3's flows
+(§3.1's joint smooth dependence on time and initial condition, applied with
+parameters adjoined as constant coordinates, §3.2's maximal flows, §3.3's
+completeness criteria and §3.4's commuting flows), Layer 4's Frobenius
+theorem, §5.4's homotopy operator, and Layers 5–8's integration, densities and
+de Rham comparison.
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+B1.4 supplies the actual closed-subgroup quotient and its local sections;
+B2.1 the associated bundle and section dictionary; B2.2/B2.4 the Hermitian
+L² space, smooth density and density of compactly supported smooth sections.
+B3–B5 supply connections, curvature, constant connection-preserving gauge
+ambiguity and holonomy. B6.2–B6.5 supply the integral Chern class, integral
+existence and flat fixed-curvature torsor, retaining torsion and flat data.
+
+### From TauCetiRoadmap.LieGroupoidsPoisson
+
+§G4.1 installs the real Lie algebra structure on the smooth functions of a
+Poisson manifold, and §G4.2 identifies a symplectic form with a nondegenerate
+Poisson structure through `π♯=−(ω♭)⁻¹`. Its bracket `π(df,dg)=−dg(X_f)=df(X_g)`
+is then `TauCeti.SmoothTwoForm.poissonBracket`; on `ω=dq∧dp` both give
+`{q,p}=1`. §4.2 takes its observable Lie subalgebra inside this Lie algebra.
+
+### From TauCetiRoadmap.SymplecticGeometry
+
+[CotangentLagrangian C1](../SymplecticGeometry/CotangentLagrangian/README.md)
+supplies cotangent geometry. [HamiltonianReduction R1–R3](../SymplecticGeometry/HamiltonianReduction/README.md)
+supplies group-level Hamiltonian actions, actual coadjoint homogeneous spaces,
+R2a's finite even-cell model, and regular reduced symplectic orbifolds.
+[ConvexityToric T1/T3/T4](../SymplecticGeometry/ConvexityToric/README.md)
+supplies the period/weight dictionary, translated moment-square gradient
+convergence, and the raw Liouville Duistermaat–Heckman measure and free-chamber
+density, including its comparisons with full-isotropy reduced volumes. From T1
+this roadmap consumes, for a compact torus T, the cocharacter lattice
+`Λ_Z=(2π)⁻¹ker(exp)⊂𝔱`, its dual weight lattice with characters read as
+`(1/i)dχ`, the perfect character/cocharacter pairing, the dual, restriction,
+quotient and basis-change formulas for subtori and quotient tori, and
+`2πα∨∈ker(exp)` for each root through its compact rank-one subgroup.
+
+### From TauCetiRoadmap.OperatorTheory
+
+[SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
+Part A supplies the von Neumann criterion (SA-A21) and the comparison to the
+native Stone theorem (SA-A22), and Part C supplies graph cores (SA-C39–SA-C42),
+for Mathlib's `LinearPMap` and Tau Ceti's resolvent/group APIs.
+Layer 2 proves the complete-flow geometric core result for its section operators.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+K1/K2 supply type bundles and Dolbeault calculus, K3 locally bounded holomorphic
+extension, K4 holomorphic/Hermitian bundles and Koszul–Malgrange, K5a/K5b.1
+compact bundle elliptic and Dolbeault theory, K6.0/K6.1 curvature identities
+and Kähler Hodge theory, and K7.1–K7.2 projective/torus carriers, O(k), the
+section/polynomial dictionary and normalized Fubini–Study form.
+
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+[C0.3](../ComplexComparisonPartII/README.md) supplies the holomorphic
+line/locally-free-sheaf dictionary; C1.7–C1.9 supply analytic twists, analytic
+Serre vanishing and projective/proper GAGA. C5.1 supplies the sheaf/singular
+comparison and C5.4 the frame-torsor bijection from isomorphism classes of
+holomorphic line bundles onto `H¹(M,𝒪_M^×)`, the exponential-sequence
+connecting map and integral Chern normalization. Layer 3 proves the flag-specific vanishing and root-degree
+identification. Layer 6 constructs the positive-line embedding and the finite
+list of residue twists needed for vanishing at every large tensor power.
+
+### From TauCetiRoadmap.IndexTheory and TauCetiRoadmap.PseudodifferentialOperators
+
+IndexTheory I6/I7.3 supplies the ordinary index and Dolbeault-symbol comparison,
+and I8.4 the group section-action convention. PseudodifferentialOperators P1–P2
+supplies the smooth differential/symbol floor. Layer 6 constructs the general
+fixed-component equivariant character formula, the reduced orbifold Dolbeault
+index and its inertia formula, extending the smooth floor to finite invariant charts.
+
+### From TauCetiRoadmap.Orbifolds
+
+[O1–O5](../Orbifolds/README.md), in particular O4-T/O4-W/O4-S/O5, supplies
+full-isotropy orbibundles, weighted integration, and the cohomological comparison
+maps on the actual reduced presentations. Keep these maps and all isotropy
+characters in the Layer 6 descent and index construction.
+
+### From TauCetiRoadmap.RepresentationTheory
+
+[CompactGroups](../RepresentationTheory/CompactGroups/README.md) supplies the
+circle Fourier characters and character projections. [LieGroups Layers 4–8](../RepresentationTheory/LieGroups/README.md)
+supplies Lie integration, simply connected covers and kernels, maximal tori
+and Weyl groups, universal complexification and the homogeneous full-flag
+comparison. In detail: Layer 5A supplies the Haar-averaged invariant metric
+B_G and the orthogonal splitting `𝔤=z(𝔤)⊕[𝔤,𝔤]`. Layer 6's compact real
+roots and Weyl comparison supply the root characters `χ_α` with `dχ_α=iα`,
+the coroots `α∨=2α♯/‖α‖²` (so `α(α∨)=2`), the reflections `X↦X−α(X)α∨` and
+the comparison with the complex root system; its rank-one representatives
+supply, for each root, `φ_α:SU(2)→K` with `dφ_α(diag(i,−i))=α∨`, compact
+connected image and a normalizer element `n_α` inducing that reflection.
+Layer 7 supplies the universal complexification `H/N` of a connected Lie group
+and the polar diffeomorphism of a compact one. Layer 8 supplies the associated
+lines E_χ on the full flag, the comparison of the two Borel conventions and
+the restriction of `L_μ` to the minimal-parabolic `P¹` fibres with degree
+`⟨μ,α∨⟩`. §6.6 identifies Layer 7's complexification of a torus with the
+period quotient `𝔱_C/(2πΛ_Z)`.
+
+### From TauCetiRoadmap.SchubertGeometry
+
+[S9.1/S9.7](../SchubertGeometry/README.md) supplies the complex partial flag on
+the actual coadjoint quotient, its positive KKS Kähler metric for real chamber
+parameters, root-coordinate orientations and the integral characteristic-map
+comparison with HamiltonianReduction R2a. Section 3.3 applies that comparison
+to periods and ordinary holomorphic Picard classes; it does not reconstruct
+the flag, its complex structure, Morse handles or cellular comparison.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stages 4–6 supply integral cellular/singular comparison and universal
+coefficients, applied to HamiltonianReduction R2a's even-cell model. Layer 3
+identifies its root-curve generators and their integral degree pairing.
 
 ## References
 

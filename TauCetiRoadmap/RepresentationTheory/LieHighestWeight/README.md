@@ -1,170 +1,73 @@
 # Roadmap: representations of semisimple Lie algebras, highest weight theory, and the Weyl formulas
 
-**Summary.** Develop normalized polynomial tensor comparisons, the invariant-form
-symmetry sign and PBW symmetrization, split Serre presentations, exceptional algebra
-models, reductive center comparisons and affine Weyl geometry. The inputs are native
-highest-weight modules, PBW, complete reducibility, the Weyl formulas, the minuscule and
-dual-standard Pieri rules, Chevalley restriction and the Harish-Chandra isomorphisms;
-the new comparisons retain the actual generators, products, actions and
-integral lattices. The split characteristic-zero and compact real forms are separate.
+**Summary.** Over an algebraically closed field of characteristic zero, every
+finite-dimensional representation of a semisimple Lie algebra is a direct sum of irreducible
+ones, and each irreducible one is determined by its highest weight, a dominant integral weight.
+In Tau Ceti these results are already in the library, as are the Weyl character, dimension and
+Kostant formulas. So is the Harish-Chandra isomorphism for the centre of the enveloping
+algebra. This roadmap builds on that theory: it makes parts of it explicit, builds models of the
+exceptional Lie algebras, and treats `gl_n` and the affine Weyl group. Unless a statement
+says otherwise, the field is algebraically closed of characteristic zero and the Lie algebra is
+finite-dimensional with nondegenerate Killing form, equivalently semisimple.
 
-## Scope and ownership
+The first part is a computation in rank one. Let `P_d` be the space of homogeneous polynomials
+of degree d in x, y over ℂ, with GL₂(ℂ) acting by linear substitution. For each r from 0 to
+min(m, n), the vector `(x₁y₂ − y₁x₂)^r x₁^(m−r) x₂^(n−r)` and its normalized lowerings span a
+copy of `P_(m+n−2r)` twisted by the r-th power of the determinant. These strings form a basis
+of `P_m ⊗ P_n`, orthogonal for the tensor product of the U(2)-invariant Hermitian forms in
+which the monomials `x^(d−i) y^i` are orthogonal with squared norms `1/binom(d,i)`; the
+strings' squared norms are explicit quotients of factorials. For m = n = 1 the strings are x⊗x,
+(y⊗x+x⊗y)/2, y⊗y and x⊗y−y⊗x, of squared norms 1, 1/2, 1 and 2.
 
-This roadmap owns the comparisons and extensions in Layers 0–10 below. The
-following are already in Mathlib or Tau Ceti and are consumed through the exact
-contracts below, so a consumer cites the declaration, not a layer of this roadmap:
-the rank-one integer spectrum, classification and weight strings
-(`TauCeti.exists_int_of_hasEigenvalue`, `TauCeti.finrank_eq_of_hasPrimitiveVectorWith`,
-`TauCeti.Sl2Std.isInternal_cgSummand`); Cartan subalgebras and the root-space
-decomposition (Mathlib `LieSubalgebra.IsCartanSubalgebra`,
-`LieAlgebra.IsKilling.rootSystem`); the weights of a module and their
-integrality (`TauCeti.integralWeightLattice`, `TauCeti.exists_int_apply_coroot`);
-the PBW basis and filtration (`Module.Basis.pbwBasis`,
-`TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`); Verma modules and their
-irreducible quotients (`TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`);
-the dominant-integral classification
-(`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`);
-complete reducibility and the Casimir (`TauCeti.exists_isCompl_of_isKilling`,
-`TauCeti.casimirElement`); the Weyl character, dimension and Kostant formulas
-and Freudenthal's formula (`TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
-`TauCeti.finrank_eq_prod_coweightPairing_div`,
-`TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`,
-`TauCeti.freudenthal_multiplicity_formula`); the general-linear
-highest-weight carrier (`TauCeti.glIrreducible`); the minuscule and dual-standard Pieri rules
-(`TauCeti.minuscule_pieri`, `TauCeti.gl_dual_standard_pieri`); the Lie invariants, Weyl
-invariants and Killing-orthogonal restriction with Chevalley's restriction theorem
-(`TauCeti.SymmetricAlgebra.lieInvariants`, `TauCeti.linearInvariants`,
-`TauCeti.lieCartanRestriction`, `LieSubalgebra.lieChevalleyRestrictionIso`); and the
-Harish-Chandra isomorphisms with the central-character orbit theorem
-(`TauCeti.harishChandraIso`, `TauCeti.harishChandraLinearIso`,
-`TauCeti.vermaCentralCharacter_eq_iff`). The native split octonion and Albert carriers,
-their dimensions and the dimension of split-octonion derivations are inputs, not
-new construction targets. The exceptional-model identifications remain targets. The weight
-theory of the algebra presented by Serre's relations with its simple-reflection automorphisms,
-Geck's split Lie algebras of the Dynkin types with their Serre surjections, the integral Serre
-representations of types F₄, E₆ and E₇, the diagonal Cartan subalgebra of `sl₂` and the
-polynomial/symmetric-power dictionary are inputs as well; Layer 7 adds height reduction and
-injectivity of the Serre lift.
-The native orbit sums, finite integral lower sets, character triangularity and dominant-weight
-density, inner-automorphism action, Cartan density/conjugacy, trace-power polynomials,
-degreewise center-symbol isomorphisms and split Albert determinant/Jordan identities
-are also inputs, with exact declarations below. The linear symmetrization equivalence
-`Sym_R(g) ≃ U_R(g)` with the permutation-average formula, for every Lie algebra over a
-commutative ℚ-algebra, is [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md)
-(`exists_pbwSymmetrizationEquiv`). Degreewise symmetrization with its adjoint equivariance on
-each homogeneous component, its PBW degree and its leading symbol is native
-(`TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization`,
-`TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration`,
-`TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization`). Layer 7 extends the equivariance to
-the whole symmetric algebra, proves the equality of the degree and PBW filtrations under the
-global map, and adds the multiplicative assembly of the degreewise center symbols.
-So are the PBW Rees algebra with its fibres at one and zero
-(`TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`, `reesOneFiberEquiv`, `reesZeroFiberEquiv`);
-the Cayley–Dickson double and the real division octonions (`TauCeti.CayleyDickson`,
-`TauCeti.DivisionOctonionReal`); the affine and extended affine Weyl groups with the fundamental
-alcove and the coweight lattice (`RootPairing.affineWeylGroup`,
-`RootPairing.extendedAffineWeylGroup`, `RootPairing.fundamentalAlcove`,
-`RootPairing.coweightLattice`); differentiation of rational representations of `GL_n(ℂ)`, the
-differentiated Weyl modules and the Littlewood–Richardson tableaux
-(`TauCeti.nonempty_lieModuleEquiv_rationalWeylRep_glIrreducible`, `TauCeti.LRTableau`); and
-complete reducibility for reductive Lie algebras with semisimple central action
-(`TauCeti.complementedLattice_lieSubmodule_of_isSemisimple_center`). Each layer states only
-what these do not.
+The irreducible module L(λ) of highest weight λ is isomorphic to its dual exactly when
+−w₀λ = λ, where w₀ is the longest element of the Weyl group. Self-duality does not say whether
+an invariant form is symmetric. The roadmap proves that a nonzero invariant bilinear form on L(λ)
+is symmetric exactly when λ(2ρ∨) is even, and skew-symmetric exactly when it is odd, where 2ρ∨
+is the sum of the positive coroots. For `sl₂`, the standard and the adjoint module are both
+self-dual, but their invariant forms are skew-symmetric and symmetric respectively.
 
-| Former layer numbering | Present owner and replacement |
-| --- | --- |
-| Layer 0: `sl₂` representation theory | Tau Ceti `TauCeti.exists_int_of_hasEigenvalue`, `TauCeti.finrank_eq_of_hasPrimitiveVectorWith` and `TauCeti.Sl2Std.isInternal_cgSummand` for the integer spectrum, the classification and the weight strings; the present Layer 0 holds the normalized tensor comparisons built on them. |
-| Layer 1: Cartan subalgebras and roots | Mathlib `LieSubalgebra.IsCartanSubalgebra`, `LieAlgebra.exists_isCartanSubalgebra`, `LieAlgebra.IsKilling.rootSystem`, `LieAlgebra.IsKilling.finrank_rootSpace_eq_one`; finite root geometry remains RootSystems Layers 1–6. |
-| Layer 2: weights and integrality | Mathlib `LieModule.genWeightSpace`, `LieModule.iSup_genWeightSpace_eq_top`; Tau Ceti `TauCeti.isSemisimple_toEnd_cartan`, `TauCeti.integralWeightLattice`, `TauCeti.exists_int_apply_coroot`. |
-| Layer 4: classification of finite-dimensional irreducibles | Tau Ceti `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`, `TauCeti.VermaModule` and `TauCeti.irreducibleQuotient`; complete reducibility is supplied separately by `TauCeti.exists_isCompl_of_isKilling`. |
-| Layer 5: complete reducibility (Weyl's theorem) | Tau Ceti `TauCeti.exists_isCompl_of_isKilling` and `TauCeti.casimirElement`; the present Layer 5 holds opposition and the symmetry of invariant forms. |
-| Layer 6F: Fourier boundary values of the Weyl formula | §6.2 for the finite rational Weyl and torus-character identities; the cone series, their Fourier boundary values and the endpoint reconstruction are TensorProductCombinatorics §§1.5–1.6 and 2.6, which this roadmap does not consume. |
+Serre's theorem recovers a semisimple Lie algebra from its Cartan matrix. Let L have
+nondegenerate Killing form over any field of characteristic zero, with a split Cartan
+subalgebra, one whose eigenvalues on L lie in the field. Take elements eᵢ, fᵢ, one pair for
+each simple root, that satisfy Serre's relations together with the simple coroots hᵢ and
+generate L. The roadmap proves that the resulting map onto L from the Lie algebra presented by
+these relations is injective, assuming neither algebraic closure nor simplicity. Consequently
+the algebras Mathlib defines by Serre's relations for E₆, E₇ and E₈ have dimensions 78, 133 and
+248 over every field of characteristic zero.
 
-These former layer identifiers refer to the supplier contracts, not to new
-construction targets. AdoIwasawa consumes native ordered PBW and the native finiteness of the
-enveloping algebra over central subalgebras directly; this
-roadmap's additional exports are the adjoint equivariance of global PBW symmetrization on the
-whole symmetric algebra with its filtration statement, and the first-order bracket on the native
-Rees zero fibre.
+The Lie algebra `gl_n` is reductive, not semisimple. Write L(λ) for the irreducible
+`gl_n(ℂ)`-module whose highest weight is given by the row lengths of a Young diagram λ with at
+most n rows. Then the multiplicity of L(ν) in L(λ) ⊗ L(μ) is the number of
+Littlewood–Richardson tableaux of shape ν/λ and content μ. For n = 2 and λ = μ = (1), the
+tensor square of the standard module is L(2,0) ⊕ L(1,1), and 2·2 = 3 + 1.
 
-| Former Lean statement of this roadmap | Present declaration |
-| --- | --- |
-| lieInvariantSymmetricAlgebra | `TauCeti.SymmetricAlgebra.lieInvariants` (with module `L` over `L`) |
-| lieCartanRestriction | `TauCeti.lieCartanRestriction` |
-| lieChevalleyRestrictionIso | `LieSubalgebra.lieChevalleyRestrictionIso` |
-| lieChevalleyRestrictionIso_coe | `LieSubalgebra.coe_lieChevalleyRestrictionIso_apply` |
-| lieChevalleyRestrictionIso_mem_homogeneous_iff | `LieSubalgebra.lieChevalleyRestrictionIso_mem_homogeneousSubmodule_iff` |
-| killingSymmetricEquiv_cartan_restriction | `TauCeti.map_dualMap_killingSymmetricEquiv` |
-| killingSymmetricEquiv_lie | `TauCeti.killingSymmetricEquiv_lieModuleDerivation` |
-| LieHighestWeight.ι_injective | `TauCeti.UniversalEnvelopingAlgebra.ι_injective` |
-| LieHighestWeight.pbwBasis | `Module.Basis.pbwBasis` |
-| LieHighestWeight.module_finite_of_central_monic_relations | `TauCeti.UniversalEnvelopingAlgebra.moduleFinite_of_isIntegral_of_span_eq_top`, over a central subalgebra made a ring of scalars by `Subalgebra.centralSubalgebraAlgebra` |
-| pbwSymmetrization | `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` in each degree; the equivalence of all degrees is ScatteringDiagrams §0.4 (`exists_pbwSymmetrizationEquiv`), with its global equivariance and filtration in `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` |
-| pbwSymmetrization_symbol | `TauCeti.UniversalEnvelopingAlgebra.mk_pbwHomogeneousSymmetrization` on a homogeneous element, `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization` on the symmetric power |
-| pbwSymmetrization_mem_center_iff | `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff` in each degree (with `L` free); for an arbitrary element it follows from the equivariance clause of `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` and the injectivity its filtration clause gives at n = 0 |
+Finite root systems and their Weyl groups come from [RootSystems](../RootSystems/README.md).
+The `gl_n` results rest on rational representations of `GL_n(ℂ)`, treated in
+[ClassicalGroups](../ClassicalGroups/README.md), and on their differentiation. Serre's
+presentation is used by LieGroups and ChevalleyGroups. Applications to compact Lie groups need
+the LieGroups roadmap and are not built here.
 
-The rows above are the former names cited by CharacteristicClasses C5, NoncompactQuantumSymmetry,
-QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups and in the AdoIwasawa target file; each
-present declaration is pinned, is ScatteringDiagrams §0.4's or is the Layer 7 headline, and is
-consumed under the supplier contracts below.
+Among the other layers, Layer 3 studies the PBW filtration through its Rees algebra, whose
+fibre at zero is the symmetric algebra; over ℝ the bracket that the commutator induces there is
+the linear Poisson bracket `{p, q}(ξ) = ξ([dp_ξ, dq_ξ])`, the formula LieGroupoidsPoisson uses.
+Layer 7 studies the centre of the enveloping algebra and proves Serre's presentation. Layer 8
+realizes split G₂ and F₄ as derivation algebras of the split octonions and the split Albert
+algebra, keeping the compact real forms apart until scalars are extended to ℂ. Layer 10 shows
+that, for a reduced irreducible crystallographic root system over an Archimedean ordered field,
+each orbit of the affine Weyl group meets the closed fundamental alcove in exactly one point.
 
-[RootSystems, Layers 1–6](../RootSystems/README.md) owns finite root geometry,
-chambers, Weyl groups and finite-type classification. This roadmap owns the
-representation-theoretic comparison of opposition and integral weight lattices with
-those root systems. [ClassicalGroups, Layers 2–4](../ClassicalGroups/README.md)
-owns Schur modules, the group classification, group characters and branching;
-its Layer 3 uses Lie highest-weight theory. [SchurWeyl, Layer 7](../SchurWeyl/README.md)
-owns Schur polynomials, Jacobi–Trudi and RSK. Differentiation of rational representations
-and the Littlewood–Richardson tableaux are native; the multiplicity statement for the
-`gl_n` Lie modules belongs here.
-[ReflectionInvariantTheory, §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
-owns separation of distinct finite linear-group orbits by invariant polynomials.
-Layer 7 specializes this theorem to the Cartan dual and transports it to the dot action.
+## How to read the build
 
-[CharacteristicClasses, C5](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings)
-owns compact infinitesimal invariance, geometric Cartan transport and real descent.
-[TangentialBordism §9.1 (B3.6)](../../TangentialBordism/README.md#91-idempotent-cayley-plane-b36)
-and [§9.2 (B3.7)](../../TangentialBordism/README.md#92-compact-automorphisms-and-spin-isotropy-b37)
-own the compact Albert idempotent geometry and automorphism transitivity.
-[LieGroupoidsPoisson, G4.6A](../../LieGroupoidsPoisson/README.md) owns the
-positive smooth Lie–Poisson bracket on the dual of a finite-dimensional real
-Lie algebra, including its smooth Poisson packaging; G4.6B owns the
-coadjoint-leaf theorem. Layer 3 supplies the polynomial evaluation and
-derivative identity directly from the PBW zero fibre.
-[PseudodifferentialOperators, §3.1](../../PseudodifferentialOperators/README.md)
-owns smooth periodic Fourier expansions and rapid decay in derivative seminorms.
-[TensorProductCombinatorics, §§1.5–1.6 and 2.6](../../TensorProductCombinatorics/README.md)
-owns lattice cone series, their Fourier boundary values, directional endpoint
-reconstruction and the type-A root-coordinate specialization. Its §1.6
-comparison for every rational expression equal to a Laurent polynomial
-already covers the normalized Weyl identity. Layer 6.2 supplies that finite
-identity and identifies the finite torus Fourier coefficients with weight
-multiplicities. The generic constructions have no character-theoretic premise;
-the finite identities here have no distributional premise.
-
-The compact-group applications of this theory are not targets of this roadmap: self-duality
-and the Frobenius–Schur type of representations of a compact connected group on its actual
-character lattice, the Haar-measure proof of the type-A character identity with its
-virtual-character, tensor and branching applications, the regular extension of continuous
-representations of U(n) to rational representations of `GL_n(ℂ)`, and the centre `P∨/Y` of a
-compact semisimple group with its period-lattice comparison. Each of them needs LieGroups
-Layers 4, 6 or 7 (Lie integration, maximal tori and Weyl integration, complexification), and
-LieGroups Layer 7 consumes the split Serre presentation of §7.1, so they follow LieGroups in
-the order of supply and are not targets of this roadmap. The type-A group character identity
-is ClassicalGroups Layer 4, and the density and irreducibility halves of the unitary comparison
-are native (`TauCeti/RepresentationTheory/ClassicalGroups/UnitaryTrick.lean`). This roadmap
-stops at the algebraic statements they use: opposition and the invariant-form sign (Layer 5),
-the finite character identities (§6.2) and the affine lattice quotients (Layer 10).
-
-The comparison of the centre and the invariant polynomials of `L` with the invariants of a
-connected reductive algebraic group (`U(L)^G = Z(U(L))`, `Sym(L)^G = Sym(L)^L`) is not a target
-of this roadmap either: ReductiveGroups consumes the split Serre presentation of Layer 7, so
-nothing of ReductiveGroups is consumed here. Layer 9 states the centre comparisons for the Lie
-invariants `Sym(L)^L` alone.
-
-The linkage principle of category `O` (composition factors of Verma modules, the integral Weyl
-group and the block decomposition) is strictly stronger than the native central-character orbit
-theorem `TauCeti.vermaCentralCharacter_eq_iff` and is not a target of this roadmap.
+Layer 0 fixes normalized rank-one comparisons and Layer 3 adds the presentation and
+first-order bracket of the native PBW Rees algebra. The native highest-weight inputs are
+listed in the supplier contracts; Layer 5 develops opposition and the symmetry of invariant forms. Layer 6 builds tensor and
+character comparisons on the native minuscule Pieri rule; Layer 7 consumes the native
+Chevalley restriction and filtered Harish-Chandra isomorphisms and proves the split Serre
+presentation. Layer 8 gives the exceptional models, Layer 9 the reductive comparisons,
+and Layer 10 the closed-alcove and lattice comparisons on the native affine Weyl groups. Each proof route names its inputs;
+other proofs can establish the same mathematical targets. `Suggested.lean` states
+only the headline theorems on available carriers, and its docstring identifies
+headlines whose carriers are unavailable at the pins.
 
 ## Conventions
 
@@ -257,668 +160,6 @@ theorem `TauCeti.vermaCentralCharacter_eq_iff` and is not a target of this roadm
   [../ClassicalGroups/README.md](../ClassicalGroups/README.md) (weakly decreasing **integer** tuples)
   does not see. The dictionary to the abstract semisimple theory is the restriction to
   `LieAlgebra.SpecialLinear.sl (Fin n) K`, pinned by the Layer 9 transfer targets, not left as prose.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`MulAction.orbit`, `MulAction.mem_orbit_iff` and `MulAction.orbit_smul`
-in `Mathlib/GroupTheory/GroupAction/Defs.lean` supply the orbit as the range
-of the action, its membership equation and invariance under changing the
-representative. `MulAction.card_orbit_mul_card_stabilizer_eq_card_group`
-in `Mathlib/GroupTheory/GroupAction/Quotient.lean` supplies the finite
-orbit-stabilizer count. Layer 6 carries these laws to the finite-set realization.
-
-Use the following native carriers and their stated hypotheses. In particular,
-generalized weight spaces alone do not assert diagonalizability, and a
-nondegenerate Killing form is not a hypothesis on the reductive matrix algebra.
-
-- **`sl₂` triples and the primitive-vector argument:** `Mathlib/Algebra/Lie/Sl2.lean`,
-  `IsSl2Triple h e f` (with `lie_e_f`, `lie_h_e_nsmul`, `lie_h_f_nsmul`), `IsSl2Triple.toLieSubalgebra`,
-  `IsSl2Triple.HasPrimitiveVectorWith t m μ` (fields `ne_zero`, `lie_h`, `lie_e`), the ladder lemmas
-  `lie_f_pow_toEnd_f`, `lie_h_pow_toEnd_f`, `lie_e_pow_succ_toEnd_f`, and the integrality theorem
-  `IsSl2Triple.HasPrimitiveVectorWith.exists_nat` (the highest weight of a primitive vector in a
-  finite-dimensional module is a natural number), plus `exists_hasPrimitiveVectorWith`.
-- **The `sl₂` Lie algebra concretely:** `Mathlib/Algebra/Lie/Classical.lean`,
-  `LieAlgebra.SpecialLinear.sl n R` (trace-zero matrices), `SpecialLinear.single`,
-  `SpecialLinear.singleSubSingle`, and `sl_non_abelian`; `sl (Fin 2) K` is our worked `sl₂`.
-- **Cartan subalgebras:** `Mathlib/Algebra/Lie/CartanSubalgebra.lean`
-  (`LieSubalgebra.IsCartanSubalgebra`, self-normalizing and nilpotent) and
-  `Mathlib/Algebra/Lie/CartanExists.lean` (`LieAlgebra.exists_isCartanSubalgebra`,
-  `exists_isCartanSubalgebra_engel`).
-- **Weights and the weight-space decomposition:** `Mathlib/Algebra/Lie/Weights/Basic.lean`,
-  `LieModule.genWeightSpace M χ`, `genWeightSpaceOf`, `LieModule.Weight R L M` (a bundled nonzero
-  weight, `FunLike` to `L → R`), `LieModule.IsTriangularizable`, `iSupIndep_genWeightSpace`,
-  `iSup_genWeightSpace_eq_top` (the decomposition when triangularizable); `Weights/Linear.lean`
-  (`LinearWeights`, `Weight.toLinear`, so a weight is a genuine linear functional in characteristic
-  zero); `Weights/Cartan.lean` (`LieAlgebra.rootSpace`, `rootSpaceWeightSpaceProduct` so root spaces
-  move weight spaces by `⁅rootSpace H α, Mχ⁆ ⊆ M(α+χ)`); `Weights/Chain.lean`
-  (`genWeightSpaceChain`, the root-string bounds).
-- **The root system of a semisimple Lie algebra:** `Mathlib/Algebra/Lie/Weights/Killing.lean` and
-  `Weights/RootSystem.lean`, `LieAlgebra.IsKilling` (non-degenerate Killing form),
-  `IsKilling.instSemisimple`, `finrank_rootSpace_eq_one` (root spaces are one-dimensional),
-  `IsKilling.coroot`, `cartanEquivDual`, `exists_isSl2Triple_of_weight_isNonZero` (the `sl₂` triple of
-  a root), `sl2SubmoduleOfRoot`, and `LieAlgebra.IsKilling.rootSystem H : RootPairing H.root K
-  (Module.Dual K H) H` with its instances `IsRootSystem`, `IsCrystallographic`, `IsReduced`, and
-  `rootSystem_pairing_apply`, `rootSystem_coroot_apply`.
-- **Abstract root systems, bases, Weyl groups:** `Mathlib/LinearAlgebra/RootSystem/*`,
-  `RootPairing`, `RootSystem`, `RootPairing.Base` with `RootPairing.nonempty_base` and `Base.IsPos`,
-  `Base.height`, `RootPairing.Base.cartanMatrix`, and `RootPairing.weylGroup`,
-  `RootPairing.Equiv.reflection`. The corresponding Lie integral lattice is
-  `TauCeti.integralWeightLattice`; the based-lattice comparisons retain these actual carriers.
-- **The universal enveloping algebra:** `Mathlib/Algebra/Lie/UniversalEnveloping.lean`,
-  `UniversalEnvelopingAlgebra K L`, `UniversalEnvelopingAlgebra.ι` (the Lie map `L →ₗ⁅K⁆ U(L)`),
-  `UniversalEnvelopingAlgebra.lift` (the universal property, an equiv `(L →ₗ⁅K⁆ A) ≃ (U(L) →ₐ[K] A)`),
-  `ι_comp_lift`, `lift_unique`, `hom_ext`.
-- **Semisimplicity and irreducibility infrastructure:** `Mathlib/Algebra/Lie/Semisimple/Defs.lean`
-  (`LieModule.IsIrreducible R L M := IsSimpleOrder (LieSubmodule R L M)`, `HasTrivialRadical`,
-  `LieAlgebra.IsSemisimple`, `LieAlgebra.IsSimple`), `Semisimple/Basic.lean` (under `[LieAlgebra.IsSimple R L]`, the adjoint module `L` is
-  irreducible; semisimple algebras are not generally irreducible as modules over themselves), `Weights/IsSimple.lean` (the ideal/root-set dictionary).
-- **Trace and invariant forms:** `Mathlib/Algebra/Lie/TraceForm.lean`, `InvariantForm.lean`,
-  `Killing.lean` (`killingForm`, `traceForm`, `traceForm_cartan_nondegenerate`), the raw material for
-  the Casimir element.
-- **The Serre presentation and the exceptional algebras, as defined objects:**
-  `Mathlib/Algebra/Lie/SerreConstruction.lean`, `Matrix.ToLieAlgebra R CM` (the quotient of
-  `FreeLieAlgebra R (CartanMatrix.Generators B)` by the Serre relations `CartanMatrix.Relations.toIdeal`,
-  built from `CartanMatrix.Relations.HH/EF/HE/HF/adE/adF`, carrying `LieRing` and `LieAlgebra R`
-  instances), and the named split algebras `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂`; the standard
-  integer Cartan matrices `CartanMatrix.E 6`, `E 7`, `E 8`, `F₄`, `G₂`, `A n`, `B n`, `C n`, `D n`
-  (`Mathlib/LinearAlgebra/Matrix/Cartan/Basic.lean`), and `RootPairing.Base.cartanMatrix` of the
-  [../RootSystems/README.md](../RootSystems/README.md) roadmap. Mathlib defines these algebras as
-  quotients and proves none of their structural theorems. The pinned Tau Ceti supplies the
-  weight theory of the presented algebras, concrete split Lie algebras of every Dynkin type
-  with surjections from the presented algebras, the split octonion derivations of type G₂,
-  and integral 26-, 27- and 56-dimensional representations of the presented algebras of
-  types F₄, E₆ and E₇ (From Tau Ceti). Injectivity of the Serre lift of a split Killing
-  algebra (Layer 7), the dimensions of the presented algebras and the identifications with the constructed models
-  (Layer 8) are built here.
-- **The symmetric algebra and the center of an algebra:** `Mathlib/LinearAlgebra/SymmetricAlgebra/`
-  (`SymmetricAlgebra R M`, `SymmetricAlgebra.equivMvPolynomial`, `Basis.symmetricAlgebra`), the target
-  of the Harish-Chandra isomorphism; `Subalgebra.center R A` (`Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`),
-  so `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`; and the Weyl group
-  `(rootSystem H).weylGroup` that acts on `S(H)` by the dot action.
-- **Non-associative algebras, derivations, and exterior powers (for the exceptional models):**
-  `Mathlib/Algebra/Jordan/Basic.lean` (`IsJordan`, `IsCommJordan`, the Jordan-identity classes);
-  `Mathlib/Algebra/Lie/Derivation/Basic.lean` (`LieDerivation`, and `LieDerivation.instLieAlgebra`,
-  the derivations of a Lie algebra as a Lie algebra) and `Mathlib/RingTheory/Derivation/Basic.lean`
-  (`Derivation R A M`, for the commutative case); `Mathlib/LinearAlgebra/ExteriorPower/Basic.lean`
-  (`exteriorPower`, `⋀[R]^n M`, `exteriorPower.map`, `exteriorPower.ιMulti`) for the magic-square
-  summands; and `LieAlgebra.SpecialLinear.sl n R` (`Algebra/Lie/Classical.lean`). Mathlib has **no
-  octonion / Cayley algebra** and **no exceptional Jordan (Albert) algebra**.
-- **Reductive vocabulary and matrix Lie algebras (for Layer 9):** `LieAlgebra.center`,
-  `LieAlgebra.radical`, `LieAlgebra.derivedSeries`, and `LieAlgebra.HasCentralRadical`
-  (`Mathlib/Algebra/Lie/Semisimple/Defs.lean`, `radical = center`, the characteristic-zero
-  reductivity criterion - the predicate exists, its structure theory does not); the matrix Lie
-  algebra `Matrix n n K` via `LieRing.ofAssociativeRing` with `lieEquivMatrix'`, the trace-zero
-  subalgebra `LieAlgebra.SpecialLinear.sl`, the standard-module instance
-  `LieRingModule (Matrix n n R) (n → R)` (`Mathlib/Algebra/Lie/Matrix.lean`), matrix units
-  `Matrix.single`, and the trace form `LieModule.traceForm`.
-- **Module constructions and the ring-level isotypic machinery (for the Layer 6 toolkit):** tensor
-  products of Lie modules (`Mathlib/Algebra/Lie/TensorProduct.lean`), Hom and dual Lie modules
-  (`Module.Dual.instLieRingModule`, `Mathlib/Algebra/Lie/Basic.lean`), direct sums
-  (`Mathlib/Algebra/Lie/DirectSum.lean`). The Lie-level isotypic theory is native Tau Ceti
-  (below), built on the ring-level `IsIsotypicOfType` and `isotypicComponent` of
-  `Mathlib/RingTheory/SimpleModule/Isotypic.lean`.
-
-The torus coefficient definition is Mathlib `mFourierCoeff`, in
-`Mathlib/Analysis/Fourier/AddCircleMulti.lean`: it integrates f against the
-negative-frequency character. `UnitAddTorus.mFourierBasis` supplies the L²
-basis, and `UnitAddTorus.hasSum_mFourier_series_of_summable` supplies the
-continuous-function Fourier expansion under summability. For §6.2 use
-`UnitAddTorus.orthonormal_mFourier` and the definition of `mFourierCoeff`
-to extract the coefficients of the finite character sum; no convergence
-estimate is needed for that finite sum.
-
-### From Tau Ceti
-
-- `RootPairing.weightOrbitSum`, in
-  `TauCeti/LinearAlgebra/RootSystem/Weyl/WeightOrbitSum.lean`, is the integral
-  sum over distinct weights in a finite Weyl orbit. `RootPairing.dominantWeightsBelow`,
-  in `TauCeti/LinearAlgebra/RootSystem/DominantCone.lean`, is the finite set of
-  dominant integral μ with λ−μ in the nonnegative integral simple-root cone.
-  Its root-system hypotheses include finite root indices, crystallographicity,
-  and a characteristic-zero domain; the orbit sum requires a finite Weyl group.
-  `TauCeti.formalCharacter_irreducibleQuotient_eq_orbitSum_add_lower`, in
-  `TauCeti/Algebra/Lie/HighestWeight/OrbitSum.lean`, gives the leading coefficient
-  1 and lower coefficients equal to actual weight multiplicities under the standing
-  algebraically closed characteristic-zero, finite-dimensional Killing, split-Cartan,
-  chosen-base and finite-dimensional irreducible-quotient hypotheses.
-  `TauCeti.polynomial_eq_zero_of_dominantIntegral`, in
-  `TauCeti/Algebra/Lie/HighestWeight/Weight/Density.lean`, gives polynomial
-  density in S(H) for a split Cartan in a finite-dimensional Killing algebra over
-  any characteristic-zero field, without algebraic closure.
-- `TauCeti.intLieAlgebra`, `TauCeti.intLieAlgebraLieEquiv` and its generator,
-  product and inverse equations, in
-  `TauCeti/Algebra/Lie/AdjointAction/InnerAutomorphismGroup.lean`, supply the
-  subgroup generated by nilpotent adjoint exponentials and its Lie action.
-  These contracts use a characteristic-zero field and the compatible rational Lie
-  structure. `TauCeti.SymmetricAlgebra.map_apply_of_mem_intLieAlgebra`, in
-  `AdjointAction/SymmetricInvariants.lean`, fixes Lie invariants under that action.
-  `TauCeti.killingDuality`, in `Algebra/Lie/Killing/Duality.lean`, and
-  `TauCeti.killingSymmetricEquiv` with
-  `TauCeti.killingSymmetricEquiv_lieModuleDerivation`, in
-  `Algebra/Lie/Killing/SymmetricAlgebra.lean`, supply the duality and equivariance
-  for finite-dimensional Killing algebras over a field. Their symmetric map sends
-  x to κ(x,−), with the coadjoint inverse-transpose action on the dual.
-- `LieSubalgebra.exists_rootExponentialPolynomialParametrization` and
-  `LieSubalgebra.polynomial_eq_zero_of_intCartan`, in
-  `TauCeti/Algebra/Lie/AdjointAction/RootExponential.lean`, supply polynomial
-  density of the inner conjugates of a split Cartan for finite-dimensional Killing
-  algebras over characteristic-zero fields, with the compatible rational Lie structure.
-  `LieSubalgebra.exists_map_intLieAlgebraLieEquiv_eq`, in
-  `AdjointAction/CartanConjugacy.lean`, supplies conjugacy of Cartans with algebraic
-  closure additionally assumed. The polynomial inputs are native
-  `TauCeti.jacobiMatrixAt`, in `RingTheory/MvPolynomial/Jacobian.lean`,
-  `TauCeti.algebraicIndependent_of_mulVec_surjective_jacobiMatrixAt`,
-  `TauCeti.eq_zero_of_forall_eval_eq_zero_of_mulVec_surjective_jacobiMatrixAt` and
-  `AlgebraicIndependent.exists_ne_zero_setOf_eval_ne_zero_subset_range`, in
-  `RingTheory/MvPolynomial/Dominant.lean`: respectively algebraic independence over
-  a commutative ring, vanishing over an infinite domain, and a nonempty principal
-  open in the image over an algebraically closed field, with finite coordinate sets.
-- `TauCeti.tracePowerPolynomial`, `TauCeti.lift_eval_tracePowerPolynomial`,
-  `TauCeti.tracePowerPolynomial_mem_homogeneousSubmodule` and
-  `TauCeti.tracePowerPolynomial_mem_lieInvariants`, in
-  `TauCeti/Algebra/Lie/TracePowerPolynomial.lean`, supply the trace-power polynomial
-  of a finite free Lie module over a commutative ring, its evaluation, degree and
-  invariance. `TauCeti.tracePowerRestriction`,
-  `TauCeti.map_dualMap_tracePowerPolynomial` and
-  `TauCeti.lieCartanRestriction_killingSymmetricEquiv_symm_tracePowerPolynomial`, in
-  `Algebra/Lie/HighestWeight/TracePower.lean`, supply its weight-power-sum restriction
-  under the standing algebraically closed characteristic-zero Killing/Cartan hypotheses
-  and finite-dimensional module hypothesis, including degree zero.
-- `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso` and
-  `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso_symbol`, in
-  `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Center.lean`, identify the actual
-  degree-n center quotient with homogeneous Lie invariants by the PBW symbol.
-  Their scope is a Lie algebra free over a commutative ring with n! invertible,
-  without Killing, algebraic closure or finite-dimensionality assumptions.
-  Layer 7 specializes to characteristic-zero fields for all degrees together.
-  `TauCeti.hcProjection_sub_lieCartanRestriction_mem_wordFiltrationPrevious`, in
-  `Algebra/Lie/HighestWeight/CentralCharacter/LeadingTerm.lean`, gives the lower-degree
-  discrepancy for a central homogeneous symmetrization, with a finite-dimensional
-  Killing algebra and split Cartan over a characteristic-zero field (`K : Type`).
-  `SymmetricAlgebra.translation_sub_self_mem_wordFiltrationPrevious`, in
-  `LinearAlgebra/SymmetricAlgebra/Translation.lean`, gives the translation discrepancy
-  over every commutative ring; `TauCeti.dotInvariantsEquivLinearInvariants` supplies
-  the translated invariant algebra comparison in `CentralCharacter/Linear.lean`.
-- `TauCeti.SplitK0`, `TauCeti.SplitK0.of` and `TauCeti.SplitK0.lift`, in
-  `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`, supply the split
-  Grothendieck group and its universal additive invariant for an essentially small
-  preadditive category with binary biproducts. `TauCeti.SplitK0.instCommRing`,
-  `TauCeti.SplitK0.of_mul_of` and `TauCeti.SplitK0.liftRingHom`, in
-  `CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean`, supply its tensor ring
-  for an essentially small braided monoidal preadditive category with binary
-  biproducts and tensor product additive in each variable, and the universal multiplicative,
-  unit-preserving additive invariant. Layer 6 supplies the Lie-module specialization,
-  not another group-completion or monoidal K₀ construction.
-  `TauCeti.ExactK0.fromSplitEquiv`, in
-  `TauCeti/CategoryTheory/GrothendieckGroup/Exact.lean`, supplies the comparison
-  with a specified exact structure when every conflation splits; Layer 6
-  supplies that splitting hypothesis by complete reducibility.
-
-- `TauCeti.isIrreducible_restrict_derivedSeries` and
-  `TauCeti.sup_center_derivedSeries_eq_top`, in `TauCeti/Algebra/Lie/Reductive.lean`,
-  supply restriction to the semisimple part and the spanning statement for reductive L.
-  `TauCeti.exists_centralWeight_of_isIrreducible`, in
-  `TauCeti/Algebra/Lie/Weights/Central.lean`, gives scalar central action over an
-  algebraically closed field on a finite-dimensional irreducible module.
-- `TauCeti.isGlHighestWeightVector_glIrreducibleGenerator`,
-  `TauCeti.nonempty_lieModuleEquiv_glIrreducible`, `TauCeti.finrank_glIrreducible_le`
-  and `TauCeti.isIrreducible_glIrreducible_restrict_sl`, in
-  `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`, supply the normalized carrier,
-  uniqueness, minimum cyclic dimension and restriction. These are not new targets.
-  `TauCeti.gl_dual_standard_pieri`, in `TauCeti/Algebra/Lie/GeneralLinear/Pieri.lean`,
-  supplies the dual-standard Pieri rule `V* ⊗ L(μ) ≅ ⨁_t L(μ - ε_t)` over an algebraically
-  closed characteristic-zero field; Layer 9 applies it and does not restate it.
-
-- `TauCeti.integralWeightLattice`, `TauCeti.mem_integralWeightLattice_iff` and
-  `TauCeti.root_mem_integralWeightLattice`, in
-  `TauCeti/Algebra/Lie/Weights/WeightLattice.lean`, supply the actual integral
-  weights as a ℤ-submodule and the inclusion of the roots; they do not identify
-  an arbitrary compact group's character lattice with the full weight lattice.
-
-- `TauCeti.exists_int_of_hasEigenvalue`, in `TauCeti/Algebra/Lie/Sl2/Spectrum.lean`,
-  gives integer eigenvalues for a finite-dimensional module over a characteristic-zero
-  field, without irreducibility or algebraic closure.
-- `TauCeti.finrank_eq_of_hasPrimitiveVectorWith`, in
-  `TauCeti/Algebra/Lie/Sl2/WeightString.lean`, gives dimension n+1 under irreducibility
-  over the triple's own subalgebra. `TauCeti.isSemisimple_toEnd_cartan` and
-  `TauCeti.exists_int_apply_coroot` supply the Cartan weight theory.
-- `TauCeti.SymmetricPower.equivHomogeneous` and `TauCeti.SymmetricPower.equivHomogeneous_tprod`,
-  in `TauCeti/LinearAlgebra/SymmetricPower/Algebra.lean`, identify the n-th symmetric power of
-  a module over a commutative semiring (in `Type`) with the degree-n component of its
-  symmetric algebra, a pure tensor going to the product of its generators.
-  `TauCeti.SymmetricAlgebra.homogeneousSubmoduleEquivMvPolynomial`,
-  `TauCeti.SymmetricAlgebra.coe_homogeneousSubmoduleEquivMvPolynomial_apply`,
-  `TauCeti.SymmetricAlgebra.map_homogeneousSubmodule_equivMvPolynomial` and
-  `Module.Basis.symmetricAlgebraHomogeneous`, in
-  `TauCeti/LinearAlgebra/SymmetricAlgebra/BasisComparison.lean`, restrict Mathlib's
-  `SymmetricAlgebra.equivMvPolynomial` of a basis to each degree, onto the homogeneous
-  polynomials of that degree, and give the monomial basis. Layer 0 composes them for the
-  standard basis of `Fin 2 → ℂ`; the dictionary is not a target.
-- `Module.Basis.pbwBasis` and its ordered-product equation, together with
-  `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`, its associated-graded comparison,
-  injectivity of the canonical map `TauCeti.UniversalEnvelopingAlgebra.ι_injective` (for `L`
-  free over R, `PBW/Embedding.lean`), and the finite-spanning and Noetherian theorems, are
-  consumed over their native coefficient rings. In particular the ordered PBW input to
-  Ado–Iwasawa has no characteristic-zero restriction.
-- `TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`, their generators and
-  universal properties, and
-  `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
-  supply the highest-weight classification. `TauCeti.IsMinuscule` and
-  `TauCeti.tensorMultiplicity` are the carriers of the native minuscule Pieri rule
-  `TauCeti.minuscule_pieri`, in `TauCeti/Algebra/Lie/HighestWeight/Pieri.lean`, with its
-  companions `TauCeti.tensorMultiplicity_eq_one_iff_of_isMinuscule` and
-  `TauCeti.tensorMultiplicity_eq_zero_iff_of_isMinuscule`; Layer 6 consumes the rule.
-- `TauCeti.invForm` and `TauCeti.invForm_coroot`, in
-  `TauCeti/Algebra/Lie/Weights/InvariantForm.lean`, with
-  `TauCeti.weylGroupCorootRep_cartanEquivDual_symm` there (for a split Cartan subalgebra of a
-  finite-dimensional Killing algebra over a characteristic-zero field, the opposite of a Weyl
-  group element w, acting on H through the coroot representation, sends the Killing dual `t_λ`
-  of a weight λ to `t_(w⁻¹λ)`), and `TauCeti.casimirElement`
-  and `TauCeti.casimir_smul_of_isHighestWeightVector_of_lieSpan_eq_top`, in
-  `TauCeti/Algebra/Lie/HighestWeight/Casimir.lean`, supply the Killing normalization.
-  `TauCeti.exists_isCompl_of_isKilling`, in
-  `TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, supplies invariant
-  complements over every characteristic-zero field; it has no algebraic-closure binder.
-- `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
-  `TauCeti.finrank_eq_prod_coweightPairing_div` and
-  `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity` supply the three Weyl/Kostant
-  formulas in `HighestWeight/Weyl/Character.lean`, `Weyl/Dimension.lean` and
-  `KostantMultiplicity.lean`. Freudenthal's formula is supplied by
-  `TauCeti.freudenthal_multiplicity_formula` in `HighestWeight/Freudenthal.lean`.
-- `TauCeti.hcProjection`, `TauCeti.vermaCentralCharacter`, `TauCeti.dotInvariants`
-  and `TauCeti.hcProjection_mem_dotInvariants` supply the raw projection and its
-  inclusion in dot invariants, in `HighestWeight/CentralCharacter/HarishChandra.lean`
-  and `DotOrbit.lean`. `TauCeti.hcProjectionLinear`, `TauCeti.linearInvariants`,
-  `TauCeti.mem_linearInvariants_iff`, `TauCeti.isHomogeneous_linearInvariants`,
-  `TauCeti.dotInvariantsEquivLinearInvariants`, `TauCeti.lift_hcProjectionLinear` and
-  `TauCeti.lift_add_weylVector_hcProjectionLinear`, in `CentralCharacter/Linear.lean`,
-  supply the `−ρ`-translated projection, the ordinary Weyl invariants and the
-  central-character equations. `TauCeti.hcProjection_mem_wordFiltration_iff`,
-  `TauCeti.hcProjectionLinear_mem_wordFiltration_iff` and `TauCeti.hcProjection_injective`,
-  in `CentralCharacter/Injective.lean`, and `TauCeti.range_hcProjection` and
-  `TauCeti.range_hcProjectionLinear`, in `CentralCharacter/Surjective.lean`, supply both
-  filtration directions, injectivity and the ranges.
-  `TauCeti.harishChandraIso`, `TauCeti.harishChandraLinearIso`,
-  `TauCeti.coe_harishChandraIso_apply`, `TauCeti.harishChandraIso_symm_mem_pbwFiltration`,
-  `TauCeti.harishChandraLinearIso_symm_mem_pbwFiltration` and
-  `TauCeti.vermaCentralCharacter_eq_iff`, in `CentralCharacter/Isomorphism.lean`, supply the
-  Harish-Chandra isomorphisms `Z(U(L)) ≃ₐ[K] S(H)^{W·}` and `Z(U(L)) ≃ₐ[K] S(H)^W`, the
-  identification of the forward map with the projection, the inverse filtration against
-  `TauCeti.Algebra.wordFiltration (SymmetricAlgebra.ι K H) n` and the central-character orbit
-  theorem `χ_λ = χ_μ ↔ ∃ w, w·λ = μ`. The pin states that file for `K : Type`; nothing of it
-  is a target here.
-- `TauCeti.isotypicComponent_irreducibleQuotient_le_centerEigenspace`,
-  `TauCeti.disjoint_isotypicComponent_irreducibleQuotient_of_vermaCentralCharacter_ne`,
-  `TauCeti.isInternal_centerEigenspace` and
-  `TauCeti.exists_isDominantIntegral_eq_vermaCentralCharacter`, in
-  `TauCeti/Algebra/Lie/HighestWeight/CentralCharacter/Isotypic.lean`, supply the action of the
-  center on the `L(λ)`-isotypic component of any module by `χ_λ`, disjointness of components
-  with distinct central characters and, for a finite-dimensional module over an algebraically
-  closed field, the internal direct sum of center eigenspaces indexed by central characters of
-  dominant integral weights. That file does not prove that distinct dominant integral weights
-  have distinct central characters; Layer 7 does, from
-  `TauCeti.sub_dotAction_mem_posRootCone_of_dominantIntegral`
-  (`TauCeti/LinearAlgebra/RootSystem/Weyl/DominantIntegral.lean`) and
-  `TauCeti.eq_zero_of_add_eq_zero_of_mem_posRootCone`
-  (`TauCeti/LinearAlgebra/RootSystem/Positive.lean`).
-- `TauCeti.SymmetricAlgebra.lieInvariants`,
-  `TauCeti.SymmetricAlgebra.mem_lieInvariants_iff_mem_maxTrivSubmodule` and
-  `TauCeti.SymmetricAlgebra.decompose_mem_lieInvariants_iff`, in
-  `TauCeti/LinearAlgebra/SymmetricAlgebra/LieModule.lean`, supply the Lie invariants
-  `S(M)^L` over any commutative ring, as the maximal trivial submodule and degreewise.
-  `TauCeti.killingCartanProjection`, `TauCeti.lieCartanRestriction`,
-  `TauCeti.lieCartanRestriction_ι_cartan`, `TauCeti.lieCartanRestriction_ι_root`,
-  `TauCeti.lieCartanRestriction_surjective`,
-  `TauCeti.lieCartanRestriction_mem_homogeneousSubmodule` and
-  `TauCeti.map_dualMap_killingSymmetricEquiv`, in
-  `TauCeti/Algebra/Lie/Killing/CartanRestriction.lean`, supply the Killing-orthogonal
-  projection, its symmetric-algebra map `S(L) →ₐ[K] S(H)`, its values on Cartan and root
-  generators, surjectivity, degree preservation and the restriction square, over any field.
-  `LieSubalgebra.lieCartanRestriction_injOn_lieInvariants`, in
-  `TauCeti/Algebra/Lie/Killing/ChevalleyRestriction.lean`, and
-  `LieSubalgebra.lieChevalleyRestrictionIso`,
-  `LieSubalgebra.coe_lieChevalleyRestrictionIso_apply` and
-  `LieSubalgebra.lieChevalleyRestrictionIso_mem_homogeneousSubmodule_iff`, in
-  `TauCeti/Algebra/Lie/HighestWeight/ChevalleyRestriction.lean`, supply Chevalley's
-  restriction theorem `S(L)^L ≃ₐ[K] S(H)^W` over an algebraically closed characteristic-zero
-  field, with the restriction as forward map and degrees preserved in both directions.
-- `TauCeti.opposition`, `TauCeti.root_opposition`, `TauCeti.coroot'_opposition`,
-  `TauCeti.opposition_involutive` and `TauCeti.oppositionPerm`, in
-  `TauCeti/LinearAlgebra/RootSystem/Opposition.lean`, supply the actual root involution
-  and base permutation. They do not identify a compact group's integral character lattice.
-- `TauCeti.IsSerreSystem`, the generators `TauCeti.serreH`, `TauCeti.serreE`, `TauCeti.serreF`
-  of `Matrix.ToLieAlgebra R CM`, `TauCeti.serreLift` and `TauCeti.serreLift_surjective`, in
-  `TauCeti/Algebra/Lie/Presentation/Serre.lean`, supply, for an integer matrix `CM` over a
-  commutative ring R, Serre systems with the convention `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`, the induced
-  map out of the presented algebra and its surjectivity when the `Eᵢ`, `Fᵢ` generate.
-  `TauCeti.exists_isSerreSystem_of_base` and `TauCeti.exists_surjective_serreLift_of_base`,
-  in `Presentation/Serre/Killing.lean`, supply the Serre system of simple coroots for
-  `base.cartanMatrix.transpose` in a finite-dimensional Killing algebra with a split Cartan
-  over a characteristic-zero field, and the surjection. The weight theory of
-  `Matrix.ToLieAlgebra K CM` over a characteristic-zero field K is
-  `TauCeti.lieSpan_serreF_sup_span_serreH_sup_lieSpan_serreE_eq_top` (triangular
-  decomposition, over any commutative ring), `TauCeti.iInf_eigenspace_ad_serreH_eq_bot`
-  (no weights but zero and the nonnegative and nonpositive integer combinations of columns)
-  and `TauCeti.iInf_eigenspace_ad_serreH_zero_eq_span` (zero weight space spanned by the `Hᵢ`
-  when no nonzero nonnegative combination of columns vanishes), in `Serre/Triangular.lean`;
-  `TauCeti.engel_serreE_eq_top` and `TauCeti.engel_serreF_eq_top` (local nilpotence, over any
-  commutative ring) and `TauCeti.isInternal_iInf_eigenspace_ad_serreH` (internal direct sum
-  of the integral weight spaces), in `Serre/Integrable.lean`;
-  `TauCeti.iInf_eigenspace_ad_serreH_eq_span_rightNormedBracket` (bracket words span the
-  weight spaces of nonzero weights that are not nonpositive combinations),
-  `TauCeti.iInf_eigenspace_ad_serreH_col_eq_span_singleton` and
-  `TauCeti.iInf_eigenspace_ad_serreH_nsmul_col_eq_bot` (for ℤ-independent columns, the weight
-  space of the i-th column is `K ∙ Eᵢ` and those of its multiples m ≥ 2 vanish), in
-  `Serre/Word.lean`; and `TauCeti.exists_lieEquiv_map_iInf_eigenspace_serreH` (for `CM i i = 2`,
-  an automorphism with `Hₖ ↦ Hₖ − CM k i • Hᵢ` carrying the weight space of χ onto that of
-  `χ − χᵢ • CM.col i`), in `Serre/Reflection.lean`. `TauCeti.serreChevalleyInvolution`, in
-  `Serre/Automorphism.lean`, is the automorphism `Hᵢ ↦ −Hᵢ`, `Eᵢ ↦ −Fᵢ`, `Fᵢ ↦ −Eᵢ`. The pin
-  proves no height reduction, no dimension of the presented algebra and the injectivity of
-  no Serre lift; `serreLift_injective_of_base` is the Layer 7 target.
-- `TauCeti.DynkinType.lieAlgebra`, its Cartan subalgebra `TauCeti.DynkinType.cartanSubalgebra`
-  and Chevalley generators `TauCeti.DynkinType.lieBasis` (Cartan matrix
-  `TauCeti.DynkinType.cartanMatrix`, Bourbaki numbering), in
-  `TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/LieAlgebra/Basic.lean`, are Geck's
-  split Lie algebra over ℚ of the pinned root datum of each valid Dynkin type; the
-  instances `TauCeti.DynkinType.instIsCartanSubalgebraCartanSubalgebra` (same file),
-  `TauCeti.DynkinType.instIsTriangularizableLieAlgebra` (`LieAlgebra/Chevalley.lean`) and
-  `TauCeti.DynkinType.instIsKillingLieAlgebra` (`LieAlgebra/Killing.lean`) make it a split
-  Killing algebra. `TauCeti.DynkinType.lieAlgebraBaseChange` (`LieAlgebra/BaseChange.lean`) is
-  Geck's algebra over a characteristic-zero domain K with an algebra structure over ℚ, Killing
-  by `TauCeti.DynkinType.instIsKillingLieAlgebraBaseChange`, for the scalar-extended base of
-  the same Dynkin type and numbering (`TauCeti.DynkinType.hasCartanType_baseChange`); the Cartan
-  action of any Lie basis is triangularizable by `LieAlgebra.Basis.isTriangularizable`
-  (`TauCeti/Algebra/Lie/Basis/Root.lean`). The roots are indexed by `Fin t.numRoots`, with `TauCeti.DynkinType.numRoots_E6`, `numRoots_E7`, `numRoots_E8` giving
-  72, 126 and 240 (`TauCeti/LinearAlgebra/RootSystem/NumberOfRoots.lean`).
-  `TauCeti.DynkinType.serreLift` and `TauCeti.DynkinType.serreLift_surjective`
-  (`SimplyConnectedRootDatum/SerrePresentation.lean`) map the presented algebra of
-  `t.cartanMatrixᵀ` onto `t.lieAlgebra` over ℚ; that file states no injectivity.
-  `TauCeti.DynkinType.cartanMatrix_E6`, `cartanMatrix_E7` and `cartanMatrix_E8`
-  (`TauCeti/LinearAlgebra/RootSystem/DynkinType.lean`) identify the pinned matrices with
-  Mathlib's `CartanMatrix.E 6`, `E 7` and `E 8` by definition. Mathlib's
-  `RootPairing.GeckConstruction.basis`, `LieAlgebra.Basis.cartanMatrix_base_eq` and
-  `RootPairing.Base.equivOfCartanMatrixEq` supply the Lie basis of Geck's algebra, the
-  Cartan matrix of its base and the equivalence of root systems with equal Cartan matrices;
-  `LieAlgebra.Basis.equivOfReindex` (`Mathlib/Algebra/Lie/Basis/Prod.lean`) identifies two
-  finite-dimensional simple Lie algebras over a characteristic-zero field whose Lie bases have
-  equal reindexed Cartan matrices.
-- `TauCeti.E6Minuscule.isSerreSystem` and `TauCeti.E6Minuscule.serreRepresentation`, in
-  `TauCeti/Algebra/Lie/E6/Minuscule/Basic.lean`, supply the integral 27-dimensional
-  minuscule matrices as a Serre system for `(CartanMatrix.E 6)ᵀ` and the representation
-  `Matrix.ToLieAlgebra ℤ (CartanMatrix.E 6)ᵀ →ₗ⁅ℤ⁆ Matrix (Fin 27) (Fin 27) ℤ`.
-  `TauCeti.F4ShortRoot.isSerreSystem` and `TauCeti.F4ShortRoot.serreRepresentation`, in
-  `TauCeti/Algebra/Lie/F4/ShortRoot/Basic.lean`, supply the integral 26-dimensional
-  representation of the presented algebra of `CartanMatrix.F₄ᵀ`, and
-  `TauCeti.F4ShortRoot.serreRepresentationBaseChange`, in `F4/ShortRoot/Represented/Serre.lean`,
-  its version over every commutative ring. The E₇ counterpart is `TauCeti.E7Minuscule`
-  (Layer 8). None of them identifies a constructed model.
-- `TauCeti.Octonion K`, its norm and trace, and
-  `TauCeti.Octonion.finrank_derivationLieAlgebra`, in
-  `TauCeti/Algebra/Octonion/Basic.lean` and `Derivation.lean`, supply the split
-  octonions and the dimension 14 of their derivations. The native nonassociative
-  derivation carrier is `TauCeti.derivationLieAlgebra`.
-  `TauCeti.Octonion.cartanSubalgebra` and `TauCeti.Octonion.lieBasis`, in
-  `TauCeti/Algebra/Octonion/Simple.lean`, supply the span of the two Cartan derivations
-  and, over a nontrivial commutative ring with 2 and 3 invertible, the Chevalley
-  generators of `Der(𝕆)` relative to it with Cartan matrix `CartanMatrix.G₂ᵀ`, the short
-  simple root first. Over a characteristic-zero field the same file supplies
-  `TauCeti.Octonion.instIsCartanSubalgebraCartanSubalgebra`,
-  `TauCeti.Octonion.instIsTriangularizableCartanSubalgebra`,
-  `TauCeti.Octonion.isSimple_derivationLieAlgebra` and
-  `TauCeti.Octonion.instIsKillingDerivationLieAlgebra`: that subalgebra is a split
-  Cartan subalgebra, and `Der(𝕆)` is simple with nondegenerate Killing form.
-  `TauCeti.Octonion.imaginaryLieSubmodule` (`Derivation.lean`),
-  `TauCeti.Octonion.finrank_imaginary` (`Basic.lean`) and
-  `TauCeti.Octonion.isIrreducible_imaginaryLieSubmodule`
-  (`TauCeti/Algebra/Octonion/Fundamental.lean`) supply the 7-dimensional imaginary
-  module and its irreducibility over a field in which 2 is nonzero. None of these is a
-  target here; the pin does not prove injectivity of
-  `TauCeti.Octonion.g₂ToDerivationLieAlgebra`.
-- `TauCeti.AlbertAlgebra K`, `TauCeti.AlbertAlgebra.finrank_eq_twentySeven` and
-  `TauCeti.AlbertAlgebra.finrank_traceZero`, in
-  `TauCeti/Algebra/AlbertAlgebra/Basic.lean`, supply the split product and dimensions
-  27 and 26. `TauCeti.AlbertAlgebra.det`, `TauCeti.AlbertAlgebra.spur`,
-  `TauCeti.AlbertAlgebra.mul_mul_self` and `TauCeti.AlbertAlgebra.six_mul_det`, in
-  `TauCeti/Algebra/AlbertAlgebra/Determinant.lean`, supply the cyclic determinant,
-  quadratic coefficient and cubic/undivided trace identities over a commutative
-  ring with 2 invertible; the determinant itself needs only a commutative ring.
-  `TauCeti.AlbertAlgebra.det_eq_invOf_two_mul_invOf_three_mul` additionally
-  assumes 3 invertible. `TauCeti/Algebra/AlbertAlgebra/Jordan.lean` supplies
-  `IsCommJordan` with 2 invertible.
-  `TauCeti.AlbertAlgebra.finrank_derivationLieAlgebra`, in
-  `TauCeti/Algebra/AlbertAlgebra/Derivation/Finrank.lean`, supplies the dimension 52 of
-  the derivation algebra over a field with 2 invertible.
-  `TauCeti.AlbertAlgebra.trace_derivation_apply_eq_zero`,
-  `TauCeti.AlbertAlgebra.traceZeroLieSubmodule`,
-  `TauCeti.AlbertAlgebra.finrank_traceZeroLieSubmodule` and
-  `TauCeti.AlbertAlgebra.isFaithful_traceZeroLieSubmodule`, in
-  `TauCeti/Algebra/AlbertAlgebra/Derivation/Basic.lean`, supply, over a commutative
-  ring with 2 invertible, that derivations take values of trace zero, the trace-zero
-  subspace as a Lie submodule over the derivation algebra, its dimension 26 (under
-  `StrongRankCondition`) and the faithfulness of the action on it. The pin proves
-  neither simplicity of this derivation algebra nor a Cartan subalgebra of it, nor
-  irreducibility of the trace-zero module: these, the split exceptional-type
-  identification and the compact real comparison remain targets.
-- `TauCeti.finrank_prod_sl_exteriorPower_dual`, in
-  `TauCeti/Algebra/Lie/E8/Vinberg.lean`, supplies the dimension 248 of the module
-  `𝔰𝔩₉ × ⋀³(K⁹) × (⋀³(K⁹))^*` over a nontrivial commutative ring, with the summand
-  counts 80 and 84 in the same file. It is a dimension count of a module; the pin has
-  no bracket on it.
-- `TauCeti.glIrreducible`, in `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`,
-  supplies the highest-weight carrier with its native module instances.
-  `TauCeti.glCasimir` and
-  `TauCeti.glCasimir_smul_of_isGlHighestWeightVector_of_lieSpan_eq_top`, in
-  `TauCeti/Algebra/Lie/GeneralLinear/Casimir.lean`, supply the trace-form Casimir
-  and its scalar on every cyclic highest-weight module.
-- `TauCeti.specialLinearDiagonalCartan r A`, `TauCeti.specialLinearDiagonalCartanBasis` and
-  `TauCeti.instIsCartanSubalgebraSpecialLinearDiagonalCartanOfNoZeroDivisors`, in
-  `TauCeti/Algebra/Lie/SpecialLinear/Diagonal.lean`, supply the trace-zero diagonal matrices
-  of `sl (Fin (r + 1)) A` over a commutative ring, their basis of simple coroots
-  `Eᵢᵢ − Eᵢ₊₁,ᵢ₊₁`, and the Cartan instance over a domain in which 2 ≠ 0 (in rank one 2 must be
-  regular; in other ranks the pin has the instance over every commutative ring).
-- `TauCeti.UniversalEnvelopingAlgebra.prodEquivTensor` and
-  `TauCeti.UniversalEnvelopingAlgebra.symmetricAlgebraEquiv`, in
-  `TauCeti/Algebra/Lie/UniversalEnveloping/Prod.lean` and `Abelian.lean`, supply
-  the maps composing `productEnveloping`; the center comparison is
-  `exists_productCenterEquiv`.
-- `LieModule.isotypicMultiplicity` (the finrank of `S →ₗ⁅R,L⁆ M`, in
-  `TauCeti/Algebra/Lie/Multiplicity.lean`), `LieModule.isotypicComponent` (the
-  supremum of the Lie submodules equivalent to S, in `TauCeti/Algebra/Lie/Isotypic.lean`),
-  `TauCeti.UniversalEnvelopingAlgebra.lieSubmoduleOrderIsoAsModule` (the order
-  isomorphism between Lie submodules and `U(L)`-submodules for the canonical
-  module structure, over any commutative ring, in
-  `TauCeti/Algebra/Lie/UniversalEnveloping/Module.lean`), and
-  `LieModule.nonempty_lieModuleEquiv_isotypicComponent` and
-  `LieModule.finrank_isotypicComponent` (in
-  `TauCeti/Algebra/Lie/UniversalEnveloping/Multiplicity.lean`) supply the Lie
-  isotypic theory. The last two assume a field K with `[IsAlgClosed K]`, a
-  finite-dimensional M with a `U(L)`-module structure in a scalar tower, and a
-  finite-dimensional irreducible S; they give `isotypicComponent ≃ S^(⊕m)` and
-  `dim = m · dim S` without complete reducibility of M. Uniqueness of the count
-  over finite irreducible decompositions is
-  `LieModule.isotypicMultiplicity_eq_ncard_of_isInternal`. Under the standing Killing, Cartan,
-  base and algebraically closed characteristic-zero hypotheses,
-  `TauCeti.nonempty_lieModuleEquiv_directSum_irreducibleQuotient` and
-  `TauCeti.formalCharacter_eq_finsum_isotypicMultiplicity_smul`, in
-  `TauCeti/Algebra/Lie/HighestWeight/Decomposition.lean`, supply
-  `M ≅ ⊕_λ L(λ)^(⊕ m_λ)` over dominant integral λ and `ch M = Σ_λ m_λ ch L(λ)`.
-
-- `TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`, `reesParameter`, `reesGenerator`,
-  `reesGenerator_mul_sub_mul`, `eval_reesGenerator` and
-  `adjoin_reesParameter_union_range_reesGenerator`, in
-  `TauCeti/Algebra/Lie/UniversalEnveloping/Rees/Basic.lean`, supply the PBW Rees subalgebra of
-  `U_R(L)[t]`, its central parameter, the generators `j(x)=ι(x)t`, their commutator relation,
-  evaluation at a scalar and generation, for a Lie algebra over a commutative ring.
-  `reesOneFiberEquiv` and `quotientReesParameterSubOneEquiv`, in `Rees/OneFiber.lean`, supply
-  the fibre at one; `TauCeti.coeffSubalgebra.baseChangeEvalEquiv`, in
-  `TauCeti/RingTheory/GradedAlgebra/CoeffSubalgebra/UnitFiber.lean`, is the same statement at
-  every unit of R. `reesSpecializationZero`, `reesSpecializationZero_reesGenerator`,
-  `reesSpecializationZero_surjective`, `reesSpecializationZero_eq_zero_iff`,
-  `ker_reesSpecializationZero` and `reesZeroFiberEquiv`, in `Rees/ZeroFiber.lean`, supply the
-  zero fibre for `L` free over R. The pin has no bracket on the zero fibre, no presentation by
-  generators and relations and no Laurent comparison; those are Layer 3 targets.
-- `TauCeti.CayleyDickson`, with its product, `NonAssocRing`, `Star` and `StarRing` structures,
-  module structure and `TauCeti.CayleyDickson.finrank_eq`, in
-  `TauCeti/Algebra/CayleyDickson/Basic.lean`, supplies the ordered-pair double of a
-  nonassociative ring with involution. `TauCeti.CayleyDickson.normSq`, `trace`,
-  `self_add_star`, `self_mul_star`, `mul_self`, `left_alternative`, `right_alternative`,
-  `flexible`, `normSq_eq_zero`, the inverse with `mul_inv_cancel₀` and its companions,
-  `TauCeti.DivisionOctonionReal`, `TauCeti.DivisionOctonionReal.finrank_eq_eight` and
-  `TauCeti.DivisionOctonionReal.exists_mul_mul_ne`, in
-  `TauCeti/Algebra/CayleyDickson/Quaternion.lean`, supply the double of the quaternions: norm
-  and trace over a commutative ring, positivity and inverses over a linearly ordered field,
-  and the real division octonions. The pin has no Moufang identity on this carrier (it has
-  them on the split `TauCeti.Octonion`, `TauCeti.Octonion.moufang_left`), no normed structure,
-  no imaginary part or cross product and no statement about its derivations; those are Layer 8
-  targets.
-- `RootPairing.coweightLattice`, `RootPairing.toDualRootSpan`,
-  `RootPairing.toDualRootSpan_injective` and `RootPairing.finite_quotient_corootSpan_map`, in
-  `TauCeti/LinearAlgebra/RootSystem/CoweightLattice.lean`; `RootPairing.fundamentalAlcove`,
-  `RootPairing.closedFundamentalAlcove`, `RootPairing.Base.affineSimpleRoot` and
-  `RootPairing.fundamentalAlcove_nonempty`, in `RootSystem/Alcove.lean`;
-  `RootPairing.affineCoreflection`, `RootPairing.affineWeylGroup` and
-  `RootPairing.mem_affineWeylGroup_iff`, in `RootSystem/Weyl/Affine/Basic.lean`;
-  `RootPairing.exists_mem_affineWeylGroup_apply_mem_closedFundamentalAlcove`,
-  `RootPairing.iUnion_image_closedFundamentalAlcove_eq_univ`,
-  `RootPairing.eq_one_of_mem_affineWeylGroup_of_apply_mem_fundamentalAlcove`,
-  `RootPairing.eq_one_of_mem_affineWeylGroup_of_mapsTo` and
-  `RootPairing.existsUnique_mem_affineWeylGroup_preimage_fundamentalAlcove_eq`, in
-  `Weyl/Affine/Alcove.lean`; `RootPairing.extendedAffineWeylGroup` and
-  `RootPairing.extendedAffineWeylGroupQuotientEquiv`, in `Weyl/ExtendedAffine/Basic.lean`;
-  `RootPairing.fundamentalAlcoveStabilizer`, `RootPairing.fundamentalAlcoveStabilizerToQuotient`,
-  `RootPairing.fundamentalAlcoveStabilizerToQuotient_surjective`,
-  `RootPairing.ker_fundamentalAlcoveStabilizerToQuotient` and
-  `RootPairing.affineWeylGroup_sup_fundamentalAlcoveStabilizer`, in
-  `Weyl/ExtendedAffine/Alcove.lean`; and
-  `RootPairing.fundamentalAlcoveStabilizerToPerm_mem_matrixSymmetryGroup`, in
-  `Weyl/ExtendedAffine/Wall.lean`, supply the affine engine of Layer 10. Their hypotheses are
-  a root pairing over a commutative ring, specialised as each statement needs to a linearly
-  ordered field, with a finite nonempty root index set, crystallographic, reduced and
-  irreducible, and a base; covering and transitivity assume the field Archimedean, freeness
-  does not. The closed alcove is defined by the weak inequalities and is not stated to be a
-  topological closure.
-- `RootPairing.Base.affineCartanMatrix`, `RootPairing.Base.affineMarks`,
-  `RootPairing.Base.specialNodes`, `RootPairing.Base.affineMarks_apply_of_mem_matrixSymmetryGroup`
-  and `RootPairing.Base.apply_mem_specialNodes_iff`, in
-  `TauCeti/LinearAlgebra/RootSystem/AffineCartanMatrix.lean`, with
-  `TauCeti.matrixSymmetryGroup` in `TauCeti/LinearAlgebra/Matrix/Submatrix.lean`, supply the
-  untwisted affine Cartan matrix of a base (the affine node is `none`, with `α₀ = −θ`), its
-  marks (1 at the affine node and the coefficients of θ in the simple roots), the special nodes
-  (the nodes of mark 1), the group of node permutations preserving a square matrix, and the
-  theorem that every permutation preserving the affine Cartan matrix, including one that moves
-  the affine node, preserves the marks and so permutes the special nodes. The hypotheses are a
-  root system over a characteristic-zero domain with finite nonempty index set; reducedness and
-  irreducibility are not assumed, and for a reducible system θ is a root of maximal height
-  and the affine node is attached to its component only.
-  `RootPairing.Base.coweightLatticeBasis` and
-  `RootPairing.Base.relIndex_corootSpan_coweightLattice`, in
-  `TauCeti/LinearAlgebra/RootSystem/CoweightLattice/Basis.lean`, supply the ℤ-basis of `P∨`
-  by the fundamental coweights, whose coordinates are the pairings with the simple roots, and
-  the index `[P∨ : Q∨] = |det C|` for the Cartan matrix C of a crystallographic root system
-  over a characteristic-zero ring.
-  The pin does not prove that `Ω → P∨/Q∨` is injective, that a closed-alcove representative
-  is unique, or anything about point stabilizers, quotient topology or intermediate lattices.
-  For diagram automorphisms it has the action of Ω on the nodes by symmetries of the affine
-  Cartan matrix and special-node preservation, but not the simply transitive action of Ω on
-  the special nodes or the isomorphism `Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`; those are
-  Layer 10 targets.
-- `TauCeti.IsRationalRep.differential`, `differential_tprod`,
-  `mem_invtSubmodule_iff_forall_mem_invtSubmodule_differential`, `isIrreducible_differential`,
-  `isIntertwiningMap_iff_forall_map_differential` and `tprodLieModuleEquiv`, in
-  `TauCeti/RepresentationTheory/ClassicalGroups/Differential.lean`, supply the differential of
-  a rational representation of `GL_n(ℂ)` as a `gl_n(ℂ)`-module, its tensor rule and the
-  equivalence of stable subspaces, irreducibility and intertwiners with their differentiated
-  counterparts. `isGlHighestWeightVector_differential` and
-  `nonempty_lieModuleEquiv_glIrreducible`, in `ClassicalGroups/Weight/Differential.lean`, pass
-  from group to Lie highest-weight vectors.
-  `TauCeti.nonempty_lieModuleEquiv_rationalWeylRep_glIrreducible` and
-  `TauCeti.nonempty_lieModuleEquiv_tprod_rationalWeylRep_glIrreducible`, in
-  `ClassicalGroups/WeylModule/Differential.lean`, identify the differentiated rational Weyl
-  module of a dominant integer weight, and tensor products of two, with the native
-  `glIrreducible` carriers. `TauCeti.nonempty_equiv_tprod_rationalWeylRep`, in
-  `ClassicalGroups/WeylModule/LittlewoodRichardson.lean`, decomposes a tensor product of
-  rational Weyl modules over Yamanouchi tableaux. `TauCeti.LRTableau`, in
-  `TauCeti/Combinatorics/Young/LittlewoodRichardson/Basic.lean`, with
-  `TauCeti.lrTableauEquivYamanouchi` (`Yamanouchi.lean`) and
-  `TauCeti.diagramSchurPoly_mul_diagramSchurPoly_eq_sum_natCard_lrTableau`
-  (`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/LittlewoodRichardson.lean`), supply the
-  finite tableau carrier and the product rule `s_λ s_μ = Σ_ν Nat.card (LRTableau λ ν μ) s_ν`.
-  The pin does not state the multiplicity of `glIrreducible n ν` in a tensor product of two
-  such modules; that is the Layer 9 target.
-- `TauCeti.exists_isCompl_of_forall_center_lie_eq_smul` and
-  `TauCeti.complementedLattice_lieSubmodule_of_isSemisimple_center`, in
-  `TauCeti/Algebra/Lie/Reductive/CompleteReducibility.lean`, supply complete reducibility for a
-  finite-dimensional module of a finite-dimensional reductive Lie algebra over a
-  characteristic-zero field when the centre acts by scalars, respectively triangularizably
-  with semisimple operators. `TauCeti.isCompl_center_derivedSeries` and
-  `TauCeti.lieModuleEquivOfCenterOfDerivedSeries`, in `Reductive/Basic.lean`, supply the
-  splitting and the equivalence criterion. For `gl_n`,
-  `TauCeti.complementedLattice_lieSubmodule_gl_of_forall_one_lie_eq_smul`
-  (`GeneralLinear/CompleteReducibility.lean`),
-  `TauCeti.isIsotypic_of_forall_isGlHighestWeightVector` and
-  `TauCeti.nonempty_lieModuleEquiv_directSum_glIrreducible_of_forall_isGlHighestWeightVector`
-  (`GeneralLinear/Isotypic.lean`) supply the single-weight criterion, and
-  `TauCeti.isotypicMultiplicity_glIrreducible_car` with
-  `TauCeti.nonempty_lieModuleEquiv_directSum_glIrreducible_car`
-  (`GeneralLinear/CAR/Decomposition.lean`) the CAR decomposition.
-- `TauCeti.coeff_formalCharacter_eq_freudenthalRHS_div`, in
-  `TauCeti/Algebra/Lie/HighestWeight/Freudenthal.lean`, is Freudenthal's recursion solved for
-  the multiplicity at `μ ≠ λ`. In
-  `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Symmetrization.lean`, over a commutative ring
-  `R : Type` with `n!` a unit and with no freeness hypothesis on `L`,
-  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` is degree-n symmetrization of the
-  symmetric power `Sym[R]^n L`, `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_tprod` its
-  permutation-average formula and `TauCeti.UniversalEnvelopingAlgebra.pbwHomogeneousSymmetrization`
-  the same map on the homogeneous component of `S(L)`;
-  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization` (with
-  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwSymmetrization_tprod` on words) is its adjoint
-  equivariance on each homogeneous component,
-  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration` puts it in PBW degree n
-  and `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization` gives its leading symbol. The
-  centre criterion `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`
-  assumes in addition `L` free over `R`. The scalar ring lies in `Type` because Mathlib's
-  `Sym[R]^n L` puts `R` in the universe of `Fin n`.
-
-### From other roadmaps
-
-Use RootSystems Layers 1–6 for the finite root data, ClassicalGroups Layers 2–4
-for rational group representations and SchurWeyl Layer 7 for finite Schur polynomials.
-
-Consume [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md) for PBW symmetrization:
-for a Lie algebra `g` over a commutative ℚ-algebra `R`, with no freeness or finiteness
-hypothesis, `exists_pbwSymmetrizationEquiv` gives an `R`-linear equivalence
-`Sym_R(g) ≃ U_R(g)` sending a product of `d` generators to `1/d!` times the sum of their
-products in all `d!` orders (the empty product to 1). The formula determines the map, since
-products of generators span `Sym_R(g)`. Layer 3 (§3.2, with `R` a commutative ℚ-algebra and
-`g = Rx ⊕ Ry`, `[x,y] = y`) and Layer 7 (with `R` a characteristic-zero field) use it and assume
-nothing else of it. In §3.2 the formula alone puts the image of a product of n generators among
-words of length n, hence in Rees degree n; the global adjoint equivariance and the two-sided
-filtration statement are §7.1's `pbwSymmetrization_lie_and_mem_pbwFiltration_iff`.
-
-### From ReflectionInvariantTheory
-
-Consume [ReflectionInvariantTheory §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
-for a finite faithful linear group acting on a finite-dimensional vector space V
-over an algebraically closed characteristic-zero field K: two points have equal
-evaluations on every invariant in Sym(V*) if and only if they lie in the same
-group orbit. Apply this to V=H* and the actual Weyl action; finite-dimensional
-double duality identifies Sym(V*) with Sym(H). Layer 7 owns this identification
-and the translation by ρ, not the interpolation-and-averaging construction.
-
-## How to read the build
-
-Layer 0 fixes normalized rank-one comparisons and Layer 3 adds the presentation and
-first-order bracket of the native PBW Rees algebra. The native highest-weight inputs are
-listed in the supplier contracts; Layer 5 develops opposition and the symmetry of invariant forms. Layer 6 builds tensor and
-character comparisons on the native minuscule Pieri rule; Layer 7 consumes the native
-Chevalley restriction and filtered Harish-Chandra isomorphisms and proves the split Serre
-presentation. Layer 8 gives the exceptional models, Layer 9 the reductive comparisons,
-and Layer 10 the closed-alcove and lattice comparisons on the native affine Weyl groups. Each proof route names its inputs;
-other proofs can establish the same mathematical targets. `Suggested.lean` states
-only the headline theorems on available carriers, and its docstring identifies
-headlines whose carriers are unavailable at the pins.
 
 ## Layer 0: normalized rank-one tensor comparisons
 
@@ -3287,6 +2528,813 @@ split Lie algebras of the Dynkin types; Layer 8's dimension route runs over ever
 characteristic-zero field directly and does not use that specialization.
 
 Layer 10 consumes the native affine and extended affine Weyl groups, the fundamental alcove and the coweight lattice, the native integral-weight predicates, and RootSystems Layers 1–6 for finite root geometry and the based classification. It uses no Lie group and no period lattice. LieGroups Layer 7 consumes the split Serre presentation of §7.1; the compact-group applications named in Scope and ownership follow LieGroups and are not targets of this roadmap.
+
+## Scope and ownership
+
+This roadmap owns the comparisons and extensions in Layers 0–10 above. The
+following are already in Mathlib or Tau Ceti and are consumed through the exact
+contracts below, so a consumer cites the declaration, not a layer of this roadmap:
+the rank-one integer spectrum, classification and weight strings
+(`TauCeti.exists_int_of_hasEigenvalue`, `TauCeti.finrank_eq_of_hasPrimitiveVectorWith`,
+`TauCeti.Sl2Std.isInternal_cgSummand`); Cartan subalgebras and the root-space
+decomposition (Mathlib `LieSubalgebra.IsCartanSubalgebra`,
+`LieAlgebra.IsKilling.rootSystem`); the weights of a module and their
+integrality (`TauCeti.integralWeightLattice`, `TauCeti.exists_int_apply_coroot`);
+the PBW basis and filtration (`Module.Basis.pbwBasis`,
+`TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`); Verma modules and their
+irreducible quotients (`TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`);
+the dominant-integral classification
+(`TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`);
+complete reducibility and the Casimir (`TauCeti.exists_isCompl_of_isKilling`,
+`TauCeti.casimirElement`); the Weyl character, dimension and Kostant formulas
+and Freudenthal's formula (`TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
+`TauCeti.finrank_eq_prod_coweightPairing_div`,
+`TauCeti.formalCharacter_coeff_eq_kostantMultiplicity`,
+`TauCeti.freudenthal_multiplicity_formula`); the general-linear
+highest-weight carrier (`TauCeti.glIrreducible`); the minuscule and dual-standard Pieri rules
+(`TauCeti.minuscule_pieri`, `TauCeti.gl_dual_standard_pieri`); the Lie invariants, Weyl
+invariants and Killing-orthogonal restriction with Chevalley's restriction theorem
+(`TauCeti.SymmetricAlgebra.lieInvariants`, `TauCeti.linearInvariants`,
+`TauCeti.lieCartanRestriction`, `LieSubalgebra.lieChevalleyRestrictionIso`); and the
+Harish-Chandra isomorphisms with the central-character orbit theorem
+(`TauCeti.harishChandraIso`, `TauCeti.harishChandraLinearIso`,
+`TauCeti.vermaCentralCharacter_eq_iff`). The native split octonion and Albert carriers,
+their dimensions and the dimension of split-octonion derivations are inputs, not
+new construction targets. The exceptional-model identifications remain targets. The weight
+theory of the algebra presented by Serre's relations with its simple-reflection automorphisms,
+Geck's split Lie algebras of the Dynkin types with their Serre surjections, the integral Serre
+representations of types F₄, E₆ and E₇, the diagonal Cartan subalgebra of `sl₂` and the
+polynomial/symmetric-power dictionary are inputs as well; Layer 7 adds height reduction and
+injectivity of the Serre lift.
+The native orbit sums, finite integral lower sets, character triangularity and dominant-weight
+density, inner-automorphism action, Cartan density/conjugacy, trace-power polynomials,
+degreewise center-symbol isomorphisms and split Albert determinant/Jordan identities
+are also inputs, with exact declarations below. The linear symmetrization equivalence
+`Sym_R(g) ≃ U_R(g)` with the permutation-average formula, for every Lie algebra over a
+commutative ℚ-algebra, is [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md)
+(`exists_pbwSymmetrizationEquiv`). Degreewise symmetrization with its adjoint equivariance on
+each homogeneous component, its PBW degree and its leading symbol is native
+(`TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization`,
+`TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration`,
+`TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization`). Layer 7 extends the equivariance to
+the whole symmetric algebra, proves the equality of the degree and PBW filtrations under the
+global map, and adds the multiplicative assembly of the degreewise center symbols.
+So are the PBW Rees algebra with its fibres at one and zero
+(`TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`, `reesOneFiberEquiv`, `reesZeroFiberEquiv`);
+the Cayley–Dickson double and the real division octonions (`TauCeti.CayleyDickson`,
+`TauCeti.DivisionOctonionReal`); the affine and extended affine Weyl groups with the fundamental
+alcove and the coweight lattice (`RootPairing.affineWeylGroup`,
+`RootPairing.extendedAffineWeylGroup`, `RootPairing.fundamentalAlcove`,
+`RootPairing.coweightLattice`); differentiation of rational representations of `GL_n(ℂ)`, the
+differentiated Weyl modules and the Littlewood–Richardson tableaux
+(`TauCeti.nonempty_lieModuleEquiv_rationalWeylRep_glIrreducible`, `TauCeti.LRTableau`); and
+complete reducibility for reductive Lie algebras with semisimple central action
+(`TauCeti.complementedLattice_lieSubmodule_of_isSemisimple_center`). Each layer states only
+what these do not.
+
+| Former layer numbering | Present owner and replacement |
+| --- | --- |
+| Layer 0: `sl₂` representation theory | Tau Ceti `TauCeti.exists_int_of_hasEigenvalue`, `TauCeti.finrank_eq_of_hasPrimitiveVectorWith` and `TauCeti.Sl2Std.isInternal_cgSummand` for the integer spectrum, the classification and the weight strings; the present Layer 0 holds the normalized tensor comparisons built on them. |
+| Layer 1: Cartan subalgebras and roots | Mathlib `LieSubalgebra.IsCartanSubalgebra`, `LieAlgebra.exists_isCartanSubalgebra`, `LieAlgebra.IsKilling.rootSystem`, `LieAlgebra.IsKilling.finrank_rootSpace_eq_one`; finite root geometry remains RootSystems Layers 1–6. |
+| Layer 2: weights and integrality | Mathlib `LieModule.genWeightSpace`, `LieModule.iSup_genWeightSpace_eq_top`; Tau Ceti `TauCeti.isSemisimple_toEnd_cartan`, `TauCeti.integralWeightLattice`, `TauCeti.exists_int_apply_coroot`. |
+| Layer 4: classification of finite-dimensional irreducibles | Tau Ceti `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`, `TauCeti.VermaModule` and `TauCeti.irreducibleQuotient`; complete reducibility is supplied separately by `TauCeti.exists_isCompl_of_isKilling`. |
+| Layer 5: complete reducibility (Weyl's theorem) | Tau Ceti `TauCeti.exists_isCompl_of_isKilling` and `TauCeti.casimirElement`; the present Layer 5 holds opposition and the symmetry of invariant forms. |
+| Layer 6F: Fourier boundary values of the Weyl formula | §6.2 for the finite rational Weyl and torus-character identities; the cone series, their Fourier boundary values and the endpoint reconstruction are TensorProductCombinatorics §§1.5–1.6 and 2.6, which this roadmap does not consume. |
+
+These former layer identifiers refer to the supplier contracts, not to new
+construction targets. AdoIwasawa consumes native ordered PBW and the native finiteness of the
+enveloping algebra over central subalgebras directly; this
+roadmap's additional exports are the adjoint equivariance of global PBW symmetrization on the
+whole symmetric algebra with its filtration statement, and the first-order bracket on the native
+Rees zero fibre.
+
+| Former Lean statement of this roadmap | Present declaration |
+| --- | --- |
+| lieInvariantSymmetricAlgebra | `TauCeti.SymmetricAlgebra.lieInvariants` (with module `L` over `L`) |
+| lieCartanRestriction | `TauCeti.lieCartanRestriction` |
+| lieChevalleyRestrictionIso | `LieSubalgebra.lieChevalleyRestrictionIso` |
+| lieChevalleyRestrictionIso_coe | `LieSubalgebra.coe_lieChevalleyRestrictionIso_apply` |
+| lieChevalleyRestrictionIso_mem_homogeneous_iff | `LieSubalgebra.lieChevalleyRestrictionIso_mem_homogeneousSubmodule_iff` |
+| killingSymmetricEquiv_cartan_restriction | `TauCeti.map_dualMap_killingSymmetricEquiv` |
+| killingSymmetricEquiv_lie | `TauCeti.killingSymmetricEquiv_lieModuleDerivation` |
+| LieHighestWeight.ι_injective | `TauCeti.UniversalEnvelopingAlgebra.ι_injective` |
+| LieHighestWeight.pbwBasis | `Module.Basis.pbwBasis` |
+| LieHighestWeight.module_finite_of_central_monic_relations | `TauCeti.UniversalEnvelopingAlgebra.moduleFinite_of_isIntegral_of_span_eq_top`, over a central subalgebra made a ring of scalars by `Subalgebra.centralSubalgebraAlgebra` |
+| pbwSymmetrization | `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` in each degree; the equivalence of all degrees is ScatteringDiagrams §0.4 (`exists_pbwSymmetrizationEquiv`), with its global equivariance and filtration in `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` |
+| pbwSymmetrization_symbol | `TauCeti.UniversalEnvelopingAlgebra.mk_pbwHomogeneousSymmetrization` on a homogeneous element, `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization` on the symmetric power |
+| pbwSymmetrization_mem_center_iff | `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff` in each degree (with `L` free); for an arbitrary element it follows from the equivariance clause of `pbwSymmetrization_lie_and_mem_pbwFiltration_iff` and the injectivity its filtration clause gives at n = 0 |
+
+The rows above are the former names cited by CharacteristicClasses C5, NoncompactQuantumSymmetry,
+QuantitativeOrbitMethodAndMicrolocalAnalysisOnLieGroups and in the AdoIwasawa target file; each
+present declaration is pinned, is ScatteringDiagrams §0.4's or is the Layer 7 headline, and is
+consumed under the supplier contracts below.
+
+[RootSystems, Layers 1–6](../RootSystems/README.md) owns finite root geometry,
+chambers, Weyl groups and finite-type classification. This roadmap owns the
+representation-theoretic comparison of opposition and integral weight lattices with
+those root systems. [ClassicalGroups, Layers 2–4](../ClassicalGroups/README.md)
+owns Schur modules, the group classification, group characters and branching;
+its Layer 3 uses Lie highest-weight theory. [SchurWeyl, Layer 7](../SchurWeyl/README.md)
+owns Schur polynomials, Jacobi–Trudi and RSK. Differentiation of rational representations
+and the Littlewood–Richardson tableaux are native; the multiplicity statement for the
+`gl_n` Lie modules belongs here.
+[ReflectionInvariantTheory, §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
+owns separation of distinct finite linear-group orbits by invariant polynomials.
+Layer 7 specializes this theorem to the Cartan dual and transports it to the dot action.
+
+[CharacteristicClasses, C5](../../CharacteristicClasses/README.md#c5-compact-lie-restriction-and-universal-rational-rings)
+owns compact infinitesimal invariance, geometric Cartan transport and real descent.
+[TangentialBordism §9.1 (B3.6)](../../TangentialBordism/README.md#91-idempotent-cayley-plane-b36)
+and [§9.2 (B3.7)](../../TangentialBordism/README.md#92-compact-automorphisms-and-spin-isotropy-b37)
+own the compact Albert idempotent geometry and automorphism transitivity.
+[LieGroupoidsPoisson, G4.6A](../../LieGroupoidsPoisson/README.md) owns the
+positive smooth Lie–Poisson bracket on the dual of a finite-dimensional real
+Lie algebra, including its smooth Poisson packaging; G4.6B owns the
+coadjoint-leaf theorem. Layer 3 supplies the polynomial evaluation and
+derivative identity directly from the PBW zero fibre.
+[PseudodifferentialOperators, §3.1](../../PseudodifferentialOperators/README.md)
+owns smooth periodic Fourier expansions and rapid decay in derivative seminorms.
+[TensorProductCombinatorics, §§1.5–1.6 and 2.6](../../TensorProductCombinatorics/README.md)
+owns lattice cone series, their Fourier boundary values, directional endpoint
+reconstruction and the type-A root-coordinate specialization. Its §1.6
+comparison for every rational expression equal to a Laurent polynomial
+already covers the normalized Weyl identity. Layer 6.2 supplies that finite
+identity and identifies the finite torus Fourier coefficients with weight
+multiplicities. The generic constructions have no character-theoretic premise;
+the finite identities here have no distributional premise.
+
+The compact-group applications of this theory are not targets of this roadmap: self-duality
+and the Frobenius–Schur type of representations of a compact connected group on its actual
+character lattice, the Haar-measure proof of the type-A character identity with its
+virtual-character, tensor and branching applications, the regular extension of continuous
+representations of U(n) to rational representations of `GL_n(ℂ)`, and the centre `P∨/Y` of a
+compact semisimple group with its period-lattice comparison. Each of them needs LieGroups
+Layers 4, 6 or 7 (Lie integration, maximal tori and Weyl integration, complexification), and
+LieGroups Layer 7 consumes the split Serre presentation of §7.1, so they follow LieGroups in
+the order of supply and are not targets of this roadmap. The type-A group character identity
+is ClassicalGroups Layer 4, and the density and irreducibility halves of the unitary comparison
+are native (`TauCeti/RepresentationTheory/ClassicalGroups/UnitaryTrick.lean`). This roadmap
+stops at the algebraic statements they use: opposition and the invariant-form sign (Layer 5),
+the finite character identities (§6.2) and the affine lattice quotients (Layer 10).
+
+The comparison of the centre and the invariant polynomials of `L` with the invariants of a
+connected reductive algebraic group (`U(L)^G = Z(U(L))`, `Sym(L)^G = Sym(L)^L`) is not a target
+of this roadmap either: ReductiveGroups consumes the split Serre presentation of Layer 7, so
+nothing of ReductiveGroups is consumed here. Layer 9 states the centre comparisons for the Lie
+invariants `Sym(L)^L` alone.
+
+The linkage principle of category `O` (composition factors of Verma modules, the integral Weyl
+group and the block decomposition) is strictly stronger than the native central-character orbit
+theorem `TauCeti.vermaCentralCharacter_eq_iff` and is not a target of this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`MulAction.orbit`, `MulAction.mem_orbit_iff` and `MulAction.orbit_smul`
+in `Mathlib/GroupTheory/GroupAction/Defs.lean` supply the orbit as the range
+of the action, its membership equation and invariance under changing the
+representative. `MulAction.card_orbit_mul_card_stabilizer_eq_card_group`
+in `Mathlib/GroupTheory/GroupAction/Quotient.lean` supplies the finite
+orbit-stabilizer count. Layer 6 carries these laws to the finite-set realization.
+
+Use the following native carriers and their stated hypotheses. In particular,
+generalized weight spaces alone do not assert diagonalizability, and a
+nondegenerate Killing form is not a hypothesis on the reductive matrix algebra.
+
+- **`sl₂` triples and the primitive-vector argument:** `Mathlib/Algebra/Lie/Sl2.lean`,
+  `IsSl2Triple h e f` (with `lie_e_f`, `lie_h_e_nsmul`, `lie_h_f_nsmul`), `IsSl2Triple.toLieSubalgebra`,
+  `IsSl2Triple.HasPrimitiveVectorWith t m μ` (fields `ne_zero`, `lie_h`, `lie_e`), the ladder lemmas
+  `lie_f_pow_toEnd_f`, `lie_h_pow_toEnd_f`, `lie_e_pow_succ_toEnd_f`, and the integrality theorem
+  `IsSl2Triple.HasPrimitiveVectorWith.exists_nat` (the highest weight of a primitive vector in a
+  finite-dimensional module is a natural number), plus `exists_hasPrimitiveVectorWith`.
+- **The `sl₂` Lie algebra concretely:** `Mathlib/Algebra/Lie/Classical.lean`,
+  `LieAlgebra.SpecialLinear.sl n R` (trace-zero matrices), `SpecialLinear.single`,
+  `SpecialLinear.singleSubSingle`, and `sl_non_abelian`; `sl (Fin 2) K` is our worked `sl₂`.
+- **Cartan subalgebras:** `Mathlib/Algebra/Lie/CartanSubalgebra.lean`
+  (`LieSubalgebra.IsCartanSubalgebra`, self-normalizing and nilpotent) and
+  `Mathlib/Algebra/Lie/CartanExists.lean` (`LieAlgebra.exists_isCartanSubalgebra`,
+  `exists_isCartanSubalgebra_engel`).
+- **Weights and the weight-space decomposition:** `Mathlib/Algebra/Lie/Weights/Basic.lean`,
+  `LieModule.genWeightSpace M χ`, `genWeightSpaceOf`, `LieModule.Weight R L M` (a bundled nonzero
+  weight, `FunLike` to `L → R`), `LieModule.IsTriangularizable`, `iSupIndep_genWeightSpace`,
+  `iSup_genWeightSpace_eq_top` (the decomposition when triangularizable); `Weights/Linear.lean`
+  (`LinearWeights`, `Weight.toLinear`, so a weight is a genuine linear functional in characteristic
+  zero); `Weights/Cartan.lean` (`LieAlgebra.rootSpace`, `rootSpaceWeightSpaceProduct` so root spaces
+  move weight spaces by `⁅rootSpace H α, Mχ⁆ ⊆ M(α+χ)`); `Weights/Chain.lean`
+  (`genWeightSpaceChain`, the root-string bounds).
+- **The root system of a semisimple Lie algebra:** `Mathlib/Algebra/Lie/Weights/Killing.lean` and
+  `Weights/RootSystem.lean`, `LieAlgebra.IsKilling` (non-degenerate Killing form),
+  `IsKilling.instSemisimple`, `finrank_rootSpace_eq_one` (root spaces are one-dimensional),
+  `IsKilling.coroot`, `cartanEquivDual`, `exists_isSl2Triple_of_weight_isNonZero` (the `sl₂` triple of
+  a root), `sl2SubmoduleOfRoot`, and `LieAlgebra.IsKilling.rootSystem H : RootPairing H.root K
+  (Module.Dual K H) H` with its instances `IsRootSystem`, `IsCrystallographic`, `IsReduced`, and
+  `rootSystem_pairing_apply`, `rootSystem_coroot_apply`.
+- **Abstract root systems, bases, Weyl groups:** `Mathlib/LinearAlgebra/RootSystem/*`,
+  `RootPairing`, `RootSystem`, `RootPairing.Base` with `RootPairing.nonempty_base` and `Base.IsPos`,
+  `Base.height`, `RootPairing.Base.cartanMatrix`, and `RootPairing.weylGroup`,
+  `RootPairing.Equiv.reflection`. The corresponding Lie integral lattice is
+  `TauCeti.integralWeightLattice`; the based-lattice comparisons retain these actual carriers.
+- **The universal enveloping algebra:** `Mathlib/Algebra/Lie/UniversalEnveloping.lean`,
+  `UniversalEnvelopingAlgebra K L`, `UniversalEnvelopingAlgebra.ι` (the Lie map `L →ₗ⁅K⁆ U(L)`),
+  `UniversalEnvelopingAlgebra.lift` (the universal property, an equiv `(L →ₗ⁅K⁆ A) ≃ (U(L) →ₐ[K] A)`),
+  `ι_comp_lift`, `lift_unique`, `hom_ext`.
+- **Semisimplicity and irreducibility infrastructure:** `Mathlib/Algebra/Lie/Semisimple/Defs.lean`
+  (`LieModule.IsIrreducible R L M := IsSimpleOrder (LieSubmodule R L M)`, `HasTrivialRadical`,
+  `LieAlgebra.IsSemisimple`, `LieAlgebra.IsSimple`), `Semisimple/Basic.lean` (under `[LieAlgebra.IsSimple R L]`, the adjoint module `L` is
+  irreducible; semisimple algebras are not generally irreducible as modules over themselves), `Weights/IsSimple.lean` (the ideal/root-set dictionary).
+- **Trace and invariant forms:** `Mathlib/Algebra/Lie/TraceForm.lean`, `InvariantForm.lean`,
+  `Killing.lean` (`killingForm`, `traceForm`, `traceForm_cartan_nondegenerate`), the raw material for
+  the Casimir element.
+- **The Serre presentation and the exceptional algebras, as defined objects:**
+  `Mathlib/Algebra/Lie/SerreConstruction.lean`, `Matrix.ToLieAlgebra R CM` (the quotient of
+  `FreeLieAlgebra R (CartanMatrix.Generators B)` by the Serre relations `CartanMatrix.Relations.toIdeal`,
+  built from `CartanMatrix.Relations.HH/EF/HE/HF/adE/adF`, carrying `LieRing` and `LieAlgebra R`
+  instances), and the named split algebras `LieAlgebra.e₆`, `e₇`, `e₈`, `f₄`, `g₂`; the standard
+  integer Cartan matrices `CartanMatrix.E 6`, `E 7`, `E 8`, `F₄`, `G₂`, `A n`, `B n`, `C n`, `D n`
+  (`Mathlib/LinearAlgebra/Matrix/Cartan/Basic.lean`), and `RootPairing.Base.cartanMatrix` of the
+  [../RootSystems/README.md](../RootSystems/README.md) roadmap. Mathlib defines these algebras as
+  quotients and proves none of their structural theorems. The pinned Tau Ceti supplies the
+  weight theory of the presented algebras, concrete split Lie algebras of every Dynkin type
+  with surjections from the presented algebras, the split octonion derivations of type G₂,
+  and integral 26-, 27- and 56-dimensional representations of the presented algebras of
+  types F₄, E₆ and E₇ (From Tau Ceti). Injectivity of the Serre lift of a split Killing
+  algebra (Layer 7), the dimensions of the presented algebras and the identifications with the constructed models
+  (Layer 8) are built here.
+- **The symmetric algebra and the center of an algebra:** `Mathlib/LinearAlgebra/SymmetricAlgebra/`
+  (`SymmetricAlgebra R M`, `SymmetricAlgebra.equivMvPolynomial`, `Basis.symmetricAlgebra`), the target
+  of the Harish-Chandra isomorphism; `Subalgebra.center R A` (`Mathlib/Algebra/Algebra/Subalgebra/Basic.lean`),
+  so `Z(U(L)) = Subalgebra.center K (UniversalEnvelopingAlgebra K L)`; and the Weyl group
+  `(rootSystem H).weylGroup` that acts on `S(H)` by the dot action.
+- **Non-associative algebras, derivations, and exterior powers (for the exceptional models):**
+  `Mathlib/Algebra/Jordan/Basic.lean` (`IsJordan`, `IsCommJordan`, the Jordan-identity classes);
+  `Mathlib/Algebra/Lie/Derivation/Basic.lean` (`LieDerivation`, and `LieDerivation.instLieAlgebra`,
+  the derivations of a Lie algebra as a Lie algebra) and `Mathlib/RingTheory/Derivation/Basic.lean`
+  (`Derivation R A M`, for the commutative case); `Mathlib/LinearAlgebra/ExteriorPower/Basic.lean`
+  (`exteriorPower`, `⋀[R]^n M`, `exteriorPower.map`, `exteriorPower.ιMulti`) for the magic-square
+  summands; and `LieAlgebra.SpecialLinear.sl n R` (`Algebra/Lie/Classical.lean`). Mathlib has **no
+  octonion / Cayley algebra** and **no exceptional Jordan (Albert) algebra**.
+- **Reductive vocabulary and matrix Lie algebras (for Layer 9):** `LieAlgebra.center`,
+  `LieAlgebra.radical`, `LieAlgebra.derivedSeries`, and `LieAlgebra.HasCentralRadical`
+  (`Mathlib/Algebra/Lie/Semisimple/Defs.lean`, `radical = center`, the characteristic-zero
+  reductivity criterion - the predicate exists, its structure theory does not); the matrix Lie
+  algebra `Matrix n n K` via `LieRing.ofAssociativeRing` with `lieEquivMatrix'`, the trace-zero
+  subalgebra `LieAlgebra.SpecialLinear.sl`, the standard-module instance
+  `LieRingModule (Matrix n n R) (n → R)` (`Mathlib/Algebra/Lie/Matrix.lean`), matrix units
+  `Matrix.single`, and the trace form `LieModule.traceForm`.
+- **Module constructions and the ring-level isotypic machinery (for the Layer 6 toolkit):** tensor
+  products of Lie modules (`Mathlib/Algebra/Lie/TensorProduct.lean`), Hom and dual Lie modules
+  (`Module.Dual.instLieRingModule`, `Mathlib/Algebra/Lie/Basic.lean`), direct sums
+  (`Mathlib/Algebra/Lie/DirectSum.lean`). The Lie-level isotypic theory is native Tau Ceti
+  (below), built on the ring-level `IsIsotypicOfType` and `isotypicComponent` of
+  `Mathlib/RingTheory/SimpleModule/Isotypic.lean`.
+
+The torus coefficient definition is Mathlib `mFourierCoeff`, in
+`Mathlib/Analysis/Fourier/AddCircleMulti.lean`: it integrates f against the
+negative-frequency character. `UnitAddTorus.mFourierBasis` supplies the L²
+basis, and `UnitAddTorus.hasSum_mFourier_series_of_summable` supplies the
+continuous-function Fourier expansion under summability. For §6.2 use
+`UnitAddTorus.orthonormal_mFourier` and the definition of `mFourierCoeff`
+to extract the coefficients of the finite character sum; no convergence
+estimate is needed for that finite sum.
+
+### From Tau Ceti
+
+- `RootPairing.weightOrbitSum`, in
+  `TauCeti/LinearAlgebra/RootSystem/Weyl/WeightOrbitSum.lean`, is the integral
+  sum over distinct weights in a finite Weyl orbit. `RootPairing.dominantWeightsBelow`,
+  in `TauCeti/LinearAlgebra/RootSystem/DominantCone.lean`, is the finite set of
+  dominant integral μ with λ−μ in the nonnegative integral simple-root cone.
+  Its root-system hypotheses include finite root indices, crystallographicity,
+  and a characteristic-zero domain; the orbit sum requires a finite Weyl group.
+  `TauCeti.formalCharacter_irreducibleQuotient_eq_orbitSum_add_lower`, in
+  `TauCeti/Algebra/Lie/HighestWeight/OrbitSum.lean`, gives the leading coefficient
+  1 and lower coefficients equal to actual weight multiplicities under the standing
+  algebraically closed characteristic-zero, finite-dimensional Killing, split-Cartan,
+  chosen-base and finite-dimensional irreducible-quotient hypotheses.
+  `TauCeti.polynomial_eq_zero_of_dominantIntegral`, in
+  `TauCeti/Algebra/Lie/HighestWeight/Weight/Density.lean`, gives polynomial
+  density in S(H) for a split Cartan in a finite-dimensional Killing algebra over
+  any characteristic-zero field, without algebraic closure.
+- `TauCeti.intLieAlgebra`, `TauCeti.intLieAlgebraLieEquiv` and its generator,
+  product and inverse equations, in
+  `TauCeti/Algebra/Lie/AdjointAction/InnerAutomorphismGroup.lean`, supply the
+  subgroup generated by nilpotent adjoint exponentials and its Lie action.
+  These contracts use a characteristic-zero field and the compatible rational Lie
+  structure. `TauCeti.SymmetricAlgebra.map_apply_of_mem_intLieAlgebra`, in
+  `AdjointAction/SymmetricInvariants.lean`, fixes Lie invariants under that action.
+  `TauCeti.killingDuality`, in `Algebra/Lie/Killing/Duality.lean`, and
+  `TauCeti.killingSymmetricEquiv` with
+  `TauCeti.killingSymmetricEquiv_lieModuleDerivation`, in
+  `Algebra/Lie/Killing/SymmetricAlgebra.lean`, supply the duality and equivariance
+  for finite-dimensional Killing algebras over a field. Their symmetric map sends
+  x to κ(x,−), with the coadjoint inverse-transpose action on the dual.
+- `LieSubalgebra.exists_rootExponentialPolynomialParametrization` and
+  `LieSubalgebra.polynomial_eq_zero_of_intCartan`, in
+  `TauCeti/Algebra/Lie/AdjointAction/RootExponential.lean`, supply polynomial
+  density of the inner conjugates of a split Cartan for finite-dimensional Killing
+  algebras over characteristic-zero fields, with the compatible rational Lie structure.
+  `LieSubalgebra.exists_map_intLieAlgebraLieEquiv_eq`, in
+  `AdjointAction/CartanConjugacy.lean`, supplies conjugacy of Cartans with algebraic
+  closure additionally assumed. The polynomial inputs are native
+  `TauCeti.jacobiMatrixAt`, in `RingTheory/MvPolynomial/Jacobian.lean`,
+  `TauCeti.algebraicIndependent_of_mulVec_surjective_jacobiMatrixAt`,
+  `TauCeti.eq_zero_of_forall_eval_eq_zero_of_mulVec_surjective_jacobiMatrixAt` and
+  `AlgebraicIndependent.exists_ne_zero_setOf_eval_ne_zero_subset_range`, in
+  `RingTheory/MvPolynomial/Dominant.lean`: respectively algebraic independence over
+  a commutative ring, vanishing over an infinite domain, and a nonempty principal
+  open in the image over an algebraically closed field, with finite coordinate sets.
+- `TauCeti.tracePowerPolynomial`, `TauCeti.lift_eval_tracePowerPolynomial`,
+  `TauCeti.tracePowerPolynomial_mem_homogeneousSubmodule` and
+  `TauCeti.tracePowerPolynomial_mem_lieInvariants`, in
+  `TauCeti/Algebra/Lie/TracePowerPolynomial.lean`, supply the trace-power polynomial
+  of a finite free Lie module over a commutative ring, its evaluation, degree and
+  invariance. `TauCeti.tracePowerRestriction`,
+  `TauCeti.map_dualMap_tracePowerPolynomial` and
+  `TauCeti.lieCartanRestriction_killingSymmetricEquiv_symm_tracePowerPolynomial`, in
+  `Algebra/Lie/HighestWeight/TracePower.lean`, supply its weight-power-sum restriction
+  under the standing algebraically closed characteristic-zero Killing/Cartan hypotheses
+  and finite-dimensional module hypothesis, including degree zero.
+- `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso` and
+  `TauCeti.UniversalEnvelopingAlgebra.centerPBWGradedInvariantIso_symbol`, in
+  `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Center.lean`, identify the actual
+  degree-n center quotient with homogeneous Lie invariants by the PBW symbol.
+  Their scope is a Lie algebra free over a commutative ring with n! invertible,
+  without Killing, algebraic closure or finite-dimensionality assumptions.
+  Layer 7 specializes to characteristic-zero fields for all degrees together.
+  `TauCeti.hcProjection_sub_lieCartanRestriction_mem_wordFiltrationPrevious`, in
+  `Algebra/Lie/HighestWeight/CentralCharacter/LeadingTerm.lean`, gives the lower-degree
+  discrepancy for a central homogeneous symmetrization, with a finite-dimensional
+  Killing algebra and split Cartan over a characteristic-zero field (`K : Type`).
+  `SymmetricAlgebra.translation_sub_self_mem_wordFiltrationPrevious`, in
+  `LinearAlgebra/SymmetricAlgebra/Translation.lean`, gives the translation discrepancy
+  over every commutative ring; `TauCeti.dotInvariantsEquivLinearInvariants` supplies
+  the translated invariant algebra comparison in `CentralCharacter/Linear.lean`.
+- `TauCeti.SplitK0`, `TauCeti.SplitK0.of` and `TauCeti.SplitK0.lift`, in
+  `TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`, supply the split
+  Grothendieck group and its universal additive invariant for an essentially small
+  preadditive category with binary biproducts. `TauCeti.SplitK0.instCommRing`,
+  `TauCeti.SplitK0.of_mul_of` and `TauCeti.SplitK0.liftRingHom`, in
+  `CategoryTheory/GrothendieckGroup/Monoidal/Basic.lean`, supply its tensor ring
+  for an essentially small braided monoidal preadditive category with binary
+  biproducts and tensor product additive in each variable, and the universal multiplicative,
+  unit-preserving additive invariant. Layer 6 supplies the Lie-module specialization,
+  not another group-completion or monoidal K₀ construction.
+  `TauCeti.ExactK0.fromSplitEquiv`, in
+  `TauCeti/CategoryTheory/GrothendieckGroup/Exact.lean`, supplies the comparison
+  with a specified exact structure when every conflation splits; Layer 6
+  supplies that splitting hypothesis by complete reducibility.
+
+- `TauCeti.isIrreducible_restrict_derivedSeries` and
+  `TauCeti.sup_center_derivedSeries_eq_top`, in `TauCeti/Algebra/Lie/Reductive.lean`,
+  supply restriction to the semisimple part and the spanning statement for reductive L.
+  `TauCeti.exists_centralWeight_of_isIrreducible`, in
+  `TauCeti/Algebra/Lie/Weights/Central.lean`, gives scalar central action over an
+  algebraically closed field on a finite-dimensional irreducible module.
+- `TauCeti.isGlHighestWeightVector_glIrreducibleGenerator`,
+  `TauCeti.nonempty_lieModuleEquiv_glIrreducible`, `TauCeti.finrank_glIrreducible_le`
+  and `TauCeti.isIrreducible_glIrreducible_restrict_sl`, in
+  `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`, supply the normalized carrier,
+  uniqueness, minimum cyclic dimension and restriction. These are not new targets.
+  `TauCeti.gl_dual_standard_pieri`, in `TauCeti/Algebra/Lie/GeneralLinear/Pieri.lean`,
+  supplies the dual-standard Pieri rule `V* ⊗ L(μ) ≅ ⨁_t L(μ - ε_t)` over an algebraically
+  closed characteristic-zero field; Layer 9 applies it and does not restate it.
+
+- `TauCeti.integralWeightLattice`, `TauCeti.mem_integralWeightLattice_iff` and
+  `TauCeti.root_mem_integralWeightLattice`, in
+  `TauCeti/Algebra/Lie/Weights/WeightLattice.lean`, supply the actual integral
+  weights as a ℤ-submodule and the inclusion of the roots; they do not identify
+  an arbitrary compact group's character lattice with the full weight lattice.
+
+- `TauCeti.exists_int_of_hasEigenvalue`, in `TauCeti/Algebra/Lie/Sl2/Spectrum.lean`,
+  gives integer eigenvalues for a finite-dimensional module over a characteristic-zero
+  field, without irreducibility or algebraic closure.
+- `TauCeti.finrank_eq_of_hasPrimitiveVectorWith`, in
+  `TauCeti/Algebra/Lie/Sl2/WeightString.lean`, gives dimension n+1 under irreducibility
+  over the triple's own subalgebra. `TauCeti.isSemisimple_toEnd_cartan` and
+  `TauCeti.exists_int_apply_coroot` supply the Cartan weight theory.
+- `TauCeti.SymmetricPower.equivHomogeneous` and `TauCeti.SymmetricPower.equivHomogeneous_tprod`,
+  in `TauCeti/LinearAlgebra/SymmetricPower/Algebra.lean`, identify the n-th symmetric power of
+  a module over a commutative semiring (in `Type`) with the degree-n component of its
+  symmetric algebra, a pure tensor going to the product of its generators.
+  `TauCeti.SymmetricAlgebra.homogeneousSubmoduleEquivMvPolynomial`,
+  `TauCeti.SymmetricAlgebra.coe_homogeneousSubmoduleEquivMvPolynomial_apply`,
+  `TauCeti.SymmetricAlgebra.map_homogeneousSubmodule_equivMvPolynomial` and
+  `Module.Basis.symmetricAlgebraHomogeneous`, in
+  `TauCeti/LinearAlgebra/SymmetricAlgebra/BasisComparison.lean`, restrict Mathlib's
+  `SymmetricAlgebra.equivMvPolynomial` of a basis to each degree, onto the homogeneous
+  polynomials of that degree, and give the monomial basis. Layer 0 composes them for the
+  standard basis of `Fin 2 → ℂ`; the dictionary is not a target.
+- `Module.Basis.pbwBasis` and its ordered-product equation, together with
+  `TauCeti.UniversalEnvelopingAlgebra.pbwFiltration`, its associated-graded comparison,
+  injectivity of the canonical map `TauCeti.UniversalEnvelopingAlgebra.ι_injective` (for `L`
+  free over R, `PBW/Embedding.lean`), and the finite-spanning and Noetherian theorems, are
+  consumed over their native coefficient rings. In particular the ordered PBW input to
+  Ado–Iwasawa has no characteristic-zero restriction.
+- `TauCeti.VermaModule`, `TauCeti.irreducibleQuotient`, their generators and
+  universal properties, and
+  `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`
+  supply the highest-weight classification. `TauCeti.IsMinuscule` and
+  `TauCeti.tensorMultiplicity` are the carriers of the native minuscule Pieri rule
+  `TauCeti.minuscule_pieri`, in `TauCeti/Algebra/Lie/HighestWeight/Pieri.lean`, with its
+  companions `TauCeti.tensorMultiplicity_eq_one_iff_of_isMinuscule` and
+  `TauCeti.tensorMultiplicity_eq_zero_iff_of_isMinuscule`; Layer 6 consumes the rule.
+- `TauCeti.invForm` and `TauCeti.invForm_coroot`, in
+  `TauCeti/Algebra/Lie/Weights/InvariantForm.lean`, with
+  `TauCeti.weylGroupCorootRep_cartanEquivDual_symm` there (for a split Cartan subalgebra of a
+  finite-dimensional Killing algebra over a characteristic-zero field, the opposite of a Weyl
+  group element w, acting on H through the coroot representation, sends the Killing dual `t_λ`
+  of a weight λ to `t_(w⁻¹λ)`), and `TauCeti.casimirElement`
+  and `TauCeti.casimir_smul_of_isHighestWeightVector_of_lieSpan_eq_top`, in
+  `TauCeti/Algebra/Lie/HighestWeight/Casimir.lean`, supply the Killing normalization.
+  `TauCeti.exists_isCompl_of_isKilling`, in
+  `TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`, supplies invariant
+  complements over every characteristic-zero field; it has no algebraic-closure binder.
+- `TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`,
+  `TauCeti.finrank_eq_prod_coweightPairing_div` and
+  `TauCeti.formalCharacter_coeff_eq_kostantMultiplicity` supply the three Weyl/Kostant
+  formulas in `HighestWeight/Weyl/Character.lean`, `Weyl/Dimension.lean` and
+  `KostantMultiplicity.lean`. Freudenthal's formula is supplied by
+  `TauCeti.freudenthal_multiplicity_formula` in `HighestWeight/Freudenthal.lean`.
+- `TauCeti.hcProjection`, `TauCeti.vermaCentralCharacter`, `TauCeti.dotInvariants`
+  and `TauCeti.hcProjection_mem_dotInvariants` supply the raw projection and its
+  inclusion in dot invariants, in `HighestWeight/CentralCharacter/HarishChandra.lean`
+  and `DotOrbit.lean`. `TauCeti.hcProjectionLinear`, `TauCeti.linearInvariants`,
+  `TauCeti.mem_linearInvariants_iff`, `TauCeti.isHomogeneous_linearInvariants`,
+  `TauCeti.dotInvariantsEquivLinearInvariants`, `TauCeti.lift_hcProjectionLinear` and
+  `TauCeti.lift_add_weylVector_hcProjectionLinear`, in `CentralCharacter/Linear.lean`,
+  supply the `−ρ`-translated projection, the ordinary Weyl invariants and the
+  central-character equations. `TauCeti.hcProjection_mem_wordFiltration_iff`,
+  `TauCeti.hcProjectionLinear_mem_wordFiltration_iff` and `TauCeti.hcProjection_injective`,
+  in `CentralCharacter/Injective.lean`, and `TauCeti.range_hcProjection` and
+  `TauCeti.range_hcProjectionLinear`, in `CentralCharacter/Surjective.lean`, supply both
+  filtration directions, injectivity and the ranges.
+  `TauCeti.harishChandraIso`, `TauCeti.harishChandraLinearIso`,
+  `TauCeti.coe_harishChandraIso_apply`, `TauCeti.harishChandraIso_symm_mem_pbwFiltration`,
+  `TauCeti.harishChandraLinearIso_symm_mem_pbwFiltration` and
+  `TauCeti.vermaCentralCharacter_eq_iff`, in `CentralCharacter/Isomorphism.lean`, supply the
+  Harish-Chandra isomorphisms `Z(U(L)) ≃ₐ[K] S(H)^{W·}` and `Z(U(L)) ≃ₐ[K] S(H)^W`, the
+  identification of the forward map with the projection, the inverse filtration against
+  `TauCeti.Algebra.wordFiltration (SymmetricAlgebra.ι K H) n` and the central-character orbit
+  theorem `χ_λ = χ_μ ↔ ∃ w, w·λ = μ`. The pin states that file for `K : Type`; nothing of it
+  is a target here.
+- `TauCeti.isotypicComponent_irreducibleQuotient_le_centerEigenspace`,
+  `TauCeti.disjoint_isotypicComponent_irreducibleQuotient_of_vermaCentralCharacter_ne`,
+  `TauCeti.isInternal_centerEigenspace` and
+  `TauCeti.exists_isDominantIntegral_eq_vermaCentralCharacter`, in
+  `TauCeti/Algebra/Lie/HighestWeight/CentralCharacter/Isotypic.lean`, supply the action of the
+  center on the `L(λ)`-isotypic component of any module by `χ_λ`, disjointness of components
+  with distinct central characters and, for a finite-dimensional module over an algebraically
+  closed field, the internal direct sum of center eigenspaces indexed by central characters of
+  dominant integral weights. That file does not prove that distinct dominant integral weights
+  have distinct central characters; Layer 7 does, from
+  `TauCeti.sub_dotAction_mem_posRootCone_of_dominantIntegral`
+  (`TauCeti/LinearAlgebra/RootSystem/Weyl/DominantIntegral.lean`) and
+  `TauCeti.eq_zero_of_add_eq_zero_of_mem_posRootCone`
+  (`TauCeti/LinearAlgebra/RootSystem/Positive.lean`).
+- `TauCeti.SymmetricAlgebra.lieInvariants`,
+  `TauCeti.SymmetricAlgebra.mem_lieInvariants_iff_mem_maxTrivSubmodule` and
+  `TauCeti.SymmetricAlgebra.decompose_mem_lieInvariants_iff`, in
+  `TauCeti/LinearAlgebra/SymmetricAlgebra/LieModule.lean`, supply the Lie invariants
+  `S(M)^L` over any commutative ring, as the maximal trivial submodule and degreewise.
+  `TauCeti.killingCartanProjection`, `TauCeti.lieCartanRestriction`,
+  `TauCeti.lieCartanRestriction_ι_cartan`, `TauCeti.lieCartanRestriction_ι_root`,
+  `TauCeti.lieCartanRestriction_surjective`,
+  `TauCeti.lieCartanRestriction_mem_homogeneousSubmodule` and
+  `TauCeti.map_dualMap_killingSymmetricEquiv`, in
+  `TauCeti/Algebra/Lie/Killing/CartanRestriction.lean`, supply the Killing-orthogonal
+  projection, its symmetric-algebra map `S(L) →ₐ[K] S(H)`, its values on Cartan and root
+  generators, surjectivity, degree preservation and the restriction square, over any field.
+  `LieSubalgebra.lieCartanRestriction_injOn_lieInvariants`, in
+  `TauCeti/Algebra/Lie/Killing/ChevalleyRestriction.lean`, and
+  `LieSubalgebra.lieChevalleyRestrictionIso`,
+  `LieSubalgebra.coe_lieChevalleyRestrictionIso_apply` and
+  `LieSubalgebra.lieChevalleyRestrictionIso_mem_homogeneousSubmodule_iff`, in
+  `TauCeti/Algebra/Lie/HighestWeight/ChevalleyRestriction.lean`, supply Chevalley's
+  restriction theorem `S(L)^L ≃ₐ[K] S(H)^W` over an algebraically closed characteristic-zero
+  field, with the restriction as forward map and degrees preserved in both directions.
+- `TauCeti.opposition`, `TauCeti.root_opposition`, `TauCeti.coroot'_opposition`,
+  `TauCeti.opposition_involutive` and `TauCeti.oppositionPerm`, in
+  `TauCeti/LinearAlgebra/RootSystem/Opposition.lean`, supply the actual root involution
+  and base permutation. They do not identify a compact group's integral character lattice.
+- `TauCeti.IsSerreSystem`, the generators `TauCeti.serreH`, `TauCeti.serreE`, `TauCeti.serreF`
+  of `Matrix.ToLieAlgebra R CM`, `TauCeti.serreLift` and `TauCeti.serreLift_surjective`, in
+  `TauCeti/Algebra/Lie/Presentation/Serre.lean`, supply, for an integer matrix `CM` over a
+  commutative ring R, Serre systems with the convention `⁅Hᵢ, Eⱼ⁆ = CM i j • Eⱼ`, the induced
+  map out of the presented algebra and its surjectivity when the `Eᵢ`, `Fᵢ` generate.
+  `TauCeti.exists_isSerreSystem_of_base` and `TauCeti.exists_surjective_serreLift_of_base`,
+  in `Presentation/Serre/Killing.lean`, supply the Serre system of simple coroots for
+  `base.cartanMatrix.transpose` in a finite-dimensional Killing algebra with a split Cartan
+  over a characteristic-zero field, and the surjection. The weight theory of
+  `Matrix.ToLieAlgebra K CM` over a characteristic-zero field K is
+  `TauCeti.lieSpan_serreF_sup_span_serreH_sup_lieSpan_serreE_eq_top` (triangular
+  decomposition, over any commutative ring), `TauCeti.iInf_eigenspace_ad_serreH_eq_bot`
+  (no weights but zero and the nonnegative and nonpositive integer combinations of columns)
+  and `TauCeti.iInf_eigenspace_ad_serreH_zero_eq_span` (zero weight space spanned by the `Hᵢ`
+  when no nonzero nonnegative combination of columns vanishes), in `Serre/Triangular.lean`;
+  `TauCeti.engel_serreE_eq_top` and `TauCeti.engel_serreF_eq_top` (local nilpotence, over any
+  commutative ring) and `TauCeti.isInternal_iInf_eigenspace_ad_serreH` (internal direct sum
+  of the integral weight spaces), in `Serre/Integrable.lean`;
+  `TauCeti.iInf_eigenspace_ad_serreH_eq_span_rightNormedBracket` (bracket words span the
+  weight spaces of nonzero weights that are not nonpositive combinations),
+  `TauCeti.iInf_eigenspace_ad_serreH_col_eq_span_singleton` and
+  `TauCeti.iInf_eigenspace_ad_serreH_nsmul_col_eq_bot` (for ℤ-independent columns, the weight
+  space of the i-th column is `K ∙ Eᵢ` and those of its multiples m ≥ 2 vanish), in
+  `Serre/Word.lean`; and `TauCeti.exists_lieEquiv_map_iInf_eigenspace_serreH` (for `CM i i = 2`,
+  an automorphism with `Hₖ ↦ Hₖ − CM k i • Hᵢ` carrying the weight space of χ onto that of
+  `χ − χᵢ • CM.col i`), in `Serre/Reflection.lean`. `TauCeti.serreChevalleyInvolution`, in
+  `Serre/Automorphism.lean`, is the automorphism `Hᵢ ↦ −Hᵢ`, `Eᵢ ↦ −Fᵢ`, `Fᵢ ↦ −Eᵢ`. The pin
+  proves no height reduction, no dimension of the presented algebra and the injectivity of
+  no Serre lift; `serreLift_injective_of_base` is the Layer 7 target.
+- `TauCeti.DynkinType.lieAlgebra`, its Cartan subalgebra `TauCeti.DynkinType.cartanSubalgebra`
+  and Chevalley generators `TauCeti.DynkinType.lieBasis` (Cartan matrix
+  `TauCeti.DynkinType.cartanMatrix`, Bourbaki numbering), in
+  `TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/LieAlgebra/Basic.lean`, are Geck's
+  split Lie algebra over ℚ of the pinned root datum of each valid Dynkin type; the
+  instances `TauCeti.DynkinType.instIsCartanSubalgebraCartanSubalgebra` (same file),
+  `TauCeti.DynkinType.instIsTriangularizableLieAlgebra` (`LieAlgebra/Chevalley.lean`) and
+  `TauCeti.DynkinType.instIsKillingLieAlgebra` (`LieAlgebra/Killing.lean`) make it a split
+  Killing algebra. `TauCeti.DynkinType.lieAlgebraBaseChange` (`LieAlgebra/BaseChange.lean`) is
+  Geck's algebra over a characteristic-zero domain K with an algebra structure over ℚ, Killing
+  by `TauCeti.DynkinType.instIsKillingLieAlgebraBaseChange`, for the scalar-extended base of
+  the same Dynkin type and numbering (`TauCeti.DynkinType.hasCartanType_baseChange`); the Cartan
+  action of any Lie basis is triangularizable by `LieAlgebra.Basis.isTriangularizable`
+  (`TauCeti/Algebra/Lie/Basis/Root.lean`). The roots are indexed by `Fin t.numRoots`, with `TauCeti.DynkinType.numRoots_E6`, `numRoots_E7`, `numRoots_E8` giving
+  72, 126 and 240 (`TauCeti/LinearAlgebra/RootSystem/NumberOfRoots.lean`).
+  `TauCeti.DynkinType.serreLift` and `TauCeti.DynkinType.serreLift_surjective`
+  (`SimplyConnectedRootDatum/SerrePresentation.lean`) map the presented algebra of
+  `t.cartanMatrixᵀ` onto `t.lieAlgebra` over ℚ; that file states no injectivity.
+  `TauCeti.DynkinType.cartanMatrix_E6`, `cartanMatrix_E7` and `cartanMatrix_E8`
+  (`TauCeti/LinearAlgebra/RootSystem/DynkinType.lean`) identify the pinned matrices with
+  Mathlib's `CartanMatrix.E 6`, `E 7` and `E 8` by definition. Mathlib's
+  `RootPairing.GeckConstruction.basis`, `LieAlgebra.Basis.cartanMatrix_base_eq` and
+  `RootPairing.Base.equivOfCartanMatrixEq` supply the Lie basis of Geck's algebra, the
+  Cartan matrix of its base and the equivalence of root systems with equal Cartan matrices;
+  `LieAlgebra.Basis.equivOfReindex` (`Mathlib/Algebra/Lie/Basis/Prod.lean`) identifies two
+  finite-dimensional simple Lie algebras over a characteristic-zero field whose Lie bases have
+  equal reindexed Cartan matrices.
+- `TauCeti.E6Minuscule.isSerreSystem` and `TauCeti.E6Minuscule.serreRepresentation`, in
+  `TauCeti/Algebra/Lie/E6/Minuscule/Basic.lean`, supply the integral 27-dimensional
+  minuscule matrices as a Serre system for `(CartanMatrix.E 6)ᵀ` and the representation
+  `Matrix.ToLieAlgebra ℤ (CartanMatrix.E 6)ᵀ →ₗ⁅ℤ⁆ Matrix (Fin 27) (Fin 27) ℤ`.
+  `TauCeti.F4ShortRoot.isSerreSystem` and `TauCeti.F4ShortRoot.serreRepresentation`, in
+  `TauCeti/Algebra/Lie/F4/ShortRoot/Basic.lean`, supply the integral 26-dimensional
+  representation of the presented algebra of `CartanMatrix.F₄ᵀ`, and
+  `TauCeti.F4ShortRoot.serreRepresentationBaseChange`, in `F4/ShortRoot/Represented/Serre.lean`,
+  its version over every commutative ring. The E₇ counterpart is `TauCeti.E7Minuscule`
+  (Layer 8). None of them identifies a constructed model.
+- `TauCeti.Octonion K`, its norm and trace, and
+  `TauCeti.Octonion.finrank_derivationLieAlgebra`, in
+  `TauCeti/Algebra/Octonion/Basic.lean` and `Derivation.lean`, supply the split
+  octonions and the dimension 14 of their derivations. The native nonassociative
+  derivation carrier is `TauCeti.derivationLieAlgebra`.
+  `TauCeti.Octonion.cartanSubalgebra` and `TauCeti.Octonion.lieBasis`, in
+  `TauCeti/Algebra/Octonion/Simple.lean`, supply the span of the two Cartan derivations
+  and, over a nontrivial commutative ring with 2 and 3 invertible, the Chevalley
+  generators of `Der(𝕆)` relative to it with Cartan matrix `CartanMatrix.G₂ᵀ`, the short
+  simple root first. Over a characteristic-zero field the same file supplies
+  `TauCeti.Octonion.instIsCartanSubalgebraCartanSubalgebra`,
+  `TauCeti.Octonion.instIsTriangularizableCartanSubalgebra`,
+  `TauCeti.Octonion.isSimple_derivationLieAlgebra` and
+  `TauCeti.Octonion.instIsKillingDerivationLieAlgebra`: that subalgebra is a split
+  Cartan subalgebra, and `Der(𝕆)` is simple with nondegenerate Killing form.
+  `TauCeti.Octonion.imaginaryLieSubmodule` (`Derivation.lean`),
+  `TauCeti.Octonion.finrank_imaginary` (`Basic.lean`) and
+  `TauCeti.Octonion.isIrreducible_imaginaryLieSubmodule`
+  (`TauCeti/Algebra/Octonion/Fundamental.lean`) supply the 7-dimensional imaginary
+  module and its irreducibility over a field in which 2 is nonzero. None of these is a
+  target here; the pin does not prove injectivity of
+  `TauCeti.Octonion.g₂ToDerivationLieAlgebra`.
+- `TauCeti.AlbertAlgebra K`, `TauCeti.AlbertAlgebra.finrank_eq_twentySeven` and
+  `TauCeti.AlbertAlgebra.finrank_traceZero`, in
+  `TauCeti/Algebra/AlbertAlgebra/Basic.lean`, supply the split product and dimensions
+  27 and 26. `TauCeti.AlbertAlgebra.det`, `TauCeti.AlbertAlgebra.spur`,
+  `TauCeti.AlbertAlgebra.mul_mul_self` and `TauCeti.AlbertAlgebra.six_mul_det`, in
+  `TauCeti/Algebra/AlbertAlgebra/Determinant.lean`, supply the cyclic determinant,
+  quadratic coefficient and cubic/undivided trace identities over a commutative
+  ring with 2 invertible; the determinant itself needs only a commutative ring.
+  `TauCeti.AlbertAlgebra.det_eq_invOf_two_mul_invOf_three_mul` additionally
+  assumes 3 invertible. `TauCeti/Algebra/AlbertAlgebra/Jordan.lean` supplies
+  `IsCommJordan` with 2 invertible.
+  `TauCeti.AlbertAlgebra.finrank_derivationLieAlgebra`, in
+  `TauCeti/Algebra/AlbertAlgebra/Derivation/Finrank.lean`, supplies the dimension 52 of
+  the derivation algebra over a field with 2 invertible.
+  `TauCeti.AlbertAlgebra.trace_derivation_apply_eq_zero`,
+  `TauCeti.AlbertAlgebra.traceZeroLieSubmodule`,
+  `TauCeti.AlbertAlgebra.finrank_traceZeroLieSubmodule` and
+  `TauCeti.AlbertAlgebra.isFaithful_traceZeroLieSubmodule`, in
+  `TauCeti/Algebra/AlbertAlgebra/Derivation/Basic.lean`, supply, over a commutative
+  ring with 2 invertible, that derivations take values of trace zero, the trace-zero
+  subspace as a Lie submodule over the derivation algebra, its dimension 26 (under
+  `StrongRankCondition`) and the faithfulness of the action on it. The pin proves
+  neither simplicity of this derivation algebra nor a Cartan subalgebra of it, nor
+  irreducibility of the trace-zero module: these, the split exceptional-type
+  identification and the compact real comparison remain targets.
+- `TauCeti.finrank_prod_sl_exteriorPower_dual`, in
+  `TauCeti/Algebra/Lie/E8/Vinberg.lean`, supplies the dimension 248 of the module
+  `𝔰𝔩₉ × ⋀³(K⁹) × (⋀³(K⁹))^*` over a nontrivial commutative ring, with the summand
+  counts 80 and 84 in the same file. It is a dimension count of a module; the pin has
+  no bracket on it.
+- `TauCeti.glIrreducible`, in `TauCeti/Algebra/Lie/GeneralLinear/Carrier.lean`,
+  supplies the highest-weight carrier with its native module instances.
+  `TauCeti.glCasimir` and
+  `TauCeti.glCasimir_smul_of_isGlHighestWeightVector_of_lieSpan_eq_top`, in
+  `TauCeti/Algebra/Lie/GeneralLinear/Casimir.lean`, supply the trace-form Casimir
+  and its scalar on every cyclic highest-weight module.
+- `TauCeti.specialLinearDiagonalCartan r A`, `TauCeti.specialLinearDiagonalCartanBasis` and
+  `TauCeti.instIsCartanSubalgebraSpecialLinearDiagonalCartanOfNoZeroDivisors`, in
+  `TauCeti/Algebra/Lie/SpecialLinear/Diagonal.lean`, supply the trace-zero diagonal matrices
+  of `sl (Fin (r + 1)) A` over a commutative ring, their basis of simple coroots
+  `Eᵢᵢ − Eᵢ₊₁,ᵢ₊₁`, and the Cartan instance over a domain in which 2 ≠ 0 (in rank one 2 must be
+  regular; in other ranks the pin has the instance over every commutative ring).
+- `TauCeti.UniversalEnvelopingAlgebra.prodEquivTensor` and
+  `TauCeti.UniversalEnvelopingAlgebra.symmetricAlgebraEquiv`, in
+  `TauCeti/Algebra/Lie/UniversalEnveloping/Prod.lean` and `Abelian.lean`, supply
+  the maps composing `productEnveloping`; the center comparison is
+  `exists_productCenterEquiv`.
+- `LieModule.isotypicMultiplicity` (the finrank of `S →ₗ⁅R,L⁆ M`, in
+  `TauCeti/Algebra/Lie/Multiplicity.lean`), `LieModule.isotypicComponent` (the
+  supremum of the Lie submodules equivalent to S, in `TauCeti/Algebra/Lie/Isotypic.lean`),
+  `TauCeti.UniversalEnvelopingAlgebra.lieSubmoduleOrderIsoAsModule` (the order
+  isomorphism between Lie submodules and `U(L)`-submodules for the canonical
+  module structure, over any commutative ring, in
+  `TauCeti/Algebra/Lie/UniversalEnveloping/Module.lean`), and
+  `LieModule.nonempty_lieModuleEquiv_isotypicComponent` and
+  `LieModule.finrank_isotypicComponent` (in
+  `TauCeti/Algebra/Lie/UniversalEnveloping/Multiplicity.lean`) supply the Lie
+  isotypic theory. The last two assume a field K with `[IsAlgClosed K]`, a
+  finite-dimensional M with a `U(L)`-module structure in a scalar tower, and a
+  finite-dimensional irreducible S; they give `isotypicComponent ≃ S^(⊕m)` and
+  `dim = m · dim S` without complete reducibility of M. Uniqueness of the count
+  over finite irreducible decompositions is
+  `LieModule.isotypicMultiplicity_eq_ncard_of_isInternal`. Under the standing Killing, Cartan,
+  base and algebraically closed characteristic-zero hypotheses,
+  `TauCeti.nonempty_lieModuleEquiv_directSum_irreducibleQuotient` and
+  `TauCeti.formalCharacter_eq_finsum_isotypicMultiplicity_smul`, in
+  `TauCeti/Algebra/Lie/HighestWeight/Decomposition.lean`, supply
+  `M ≅ ⊕_λ L(λ)^(⊕ m_λ)` over dominant integral λ and `ch M = Σ_λ m_λ ch L(λ)`.
+
+- `TauCeti.UniversalEnvelopingAlgebra.reesAlgebra`, `reesParameter`, `reesGenerator`,
+  `reesGenerator_mul_sub_mul`, `eval_reesGenerator` and
+  `adjoin_reesParameter_union_range_reesGenerator`, in
+  `TauCeti/Algebra/Lie/UniversalEnveloping/Rees/Basic.lean`, supply the PBW Rees subalgebra of
+  `U_R(L)[t]`, its central parameter, the generators `j(x)=ι(x)t`, their commutator relation,
+  evaluation at a scalar and generation, for a Lie algebra over a commutative ring.
+  `reesOneFiberEquiv` and `quotientReesParameterSubOneEquiv`, in `Rees/OneFiber.lean`, supply
+  the fibre at one; `TauCeti.coeffSubalgebra.baseChangeEvalEquiv`, in
+  `TauCeti/RingTheory/GradedAlgebra/CoeffSubalgebra/UnitFiber.lean`, is the same statement at
+  every unit of R. `reesSpecializationZero`, `reesSpecializationZero_reesGenerator`,
+  `reesSpecializationZero_surjective`, `reesSpecializationZero_eq_zero_iff`,
+  `ker_reesSpecializationZero` and `reesZeroFiberEquiv`, in `Rees/ZeroFiber.lean`, supply the
+  zero fibre for `L` free over R. The pin has no bracket on the zero fibre, no presentation by
+  generators and relations and no Laurent comparison; those are Layer 3 targets.
+- `TauCeti.CayleyDickson`, with its product, `NonAssocRing`, `Star` and `StarRing` structures,
+  module structure and `TauCeti.CayleyDickson.finrank_eq`, in
+  `TauCeti/Algebra/CayleyDickson/Basic.lean`, supplies the ordered-pair double of a
+  nonassociative ring with involution. `TauCeti.CayleyDickson.normSq`, `trace`,
+  `self_add_star`, `self_mul_star`, `mul_self`, `left_alternative`, `right_alternative`,
+  `flexible`, `normSq_eq_zero`, the inverse with `mul_inv_cancel₀` and its companions,
+  `TauCeti.DivisionOctonionReal`, `TauCeti.DivisionOctonionReal.finrank_eq_eight` and
+  `TauCeti.DivisionOctonionReal.exists_mul_mul_ne`, in
+  `TauCeti/Algebra/CayleyDickson/Quaternion.lean`, supply the double of the quaternions: norm
+  and trace over a commutative ring, positivity and inverses over a linearly ordered field,
+  and the real division octonions. The pin has no Moufang identity on this carrier (it has
+  them on the split `TauCeti.Octonion`, `TauCeti.Octonion.moufang_left`), no normed structure,
+  no imaginary part or cross product and no statement about its derivations; those are Layer 8
+  targets.
+- `RootPairing.coweightLattice`, `RootPairing.toDualRootSpan`,
+  `RootPairing.toDualRootSpan_injective` and `RootPairing.finite_quotient_corootSpan_map`, in
+  `TauCeti/LinearAlgebra/RootSystem/CoweightLattice.lean`; `RootPairing.fundamentalAlcove`,
+  `RootPairing.closedFundamentalAlcove`, `RootPairing.Base.affineSimpleRoot` and
+  `RootPairing.fundamentalAlcove_nonempty`, in `RootSystem/Alcove.lean`;
+  `RootPairing.affineCoreflection`, `RootPairing.affineWeylGroup` and
+  `RootPairing.mem_affineWeylGroup_iff`, in `RootSystem/Weyl/Affine/Basic.lean`;
+  `RootPairing.exists_mem_affineWeylGroup_apply_mem_closedFundamentalAlcove`,
+  `RootPairing.iUnion_image_closedFundamentalAlcove_eq_univ`,
+  `RootPairing.eq_one_of_mem_affineWeylGroup_of_apply_mem_fundamentalAlcove`,
+  `RootPairing.eq_one_of_mem_affineWeylGroup_of_mapsTo` and
+  `RootPairing.existsUnique_mem_affineWeylGroup_preimage_fundamentalAlcove_eq`, in
+  `Weyl/Affine/Alcove.lean`; `RootPairing.extendedAffineWeylGroup` and
+  `RootPairing.extendedAffineWeylGroupQuotientEquiv`, in `Weyl/ExtendedAffine/Basic.lean`;
+  `RootPairing.fundamentalAlcoveStabilizer`, `RootPairing.fundamentalAlcoveStabilizerToQuotient`,
+  `RootPairing.fundamentalAlcoveStabilizerToQuotient_surjective`,
+  `RootPairing.ker_fundamentalAlcoveStabilizerToQuotient` and
+  `RootPairing.affineWeylGroup_sup_fundamentalAlcoveStabilizer`, in
+  `Weyl/ExtendedAffine/Alcove.lean`; and
+  `RootPairing.fundamentalAlcoveStabilizerToPerm_mem_matrixSymmetryGroup`, in
+  `Weyl/ExtendedAffine/Wall.lean`, supply the affine engine of Layer 10. Their hypotheses are
+  a root pairing over a commutative ring, specialised as each statement needs to a linearly
+  ordered field, with a finite nonempty root index set, crystallographic, reduced and
+  irreducible, and a base; covering and transitivity assume the field Archimedean, freeness
+  does not. The closed alcove is defined by the weak inequalities and is not stated to be a
+  topological closure.
+- `RootPairing.Base.affineCartanMatrix`, `RootPairing.Base.affineMarks`,
+  `RootPairing.Base.specialNodes`, `RootPairing.Base.affineMarks_apply_of_mem_matrixSymmetryGroup`
+  and `RootPairing.Base.apply_mem_specialNodes_iff`, in
+  `TauCeti/LinearAlgebra/RootSystem/AffineCartanMatrix.lean`, with
+  `TauCeti.matrixSymmetryGroup` in `TauCeti/LinearAlgebra/Matrix/Submatrix.lean`, supply the
+  untwisted affine Cartan matrix of a base (the affine node is `none`, with `α₀ = −θ`), its
+  marks (1 at the affine node and the coefficients of θ in the simple roots), the special nodes
+  (the nodes of mark 1), the group of node permutations preserving a square matrix, and the
+  theorem that every permutation preserving the affine Cartan matrix, including one that moves
+  the affine node, preserves the marks and so permutes the special nodes. The hypotheses are a
+  root system over a characteristic-zero domain with finite nonempty index set; reducedness and
+  irreducibility are not assumed, and for a reducible system θ is a root of maximal height
+  and the affine node is attached to its component only.
+  `RootPairing.Base.coweightLatticeBasis` and
+  `RootPairing.Base.relIndex_corootSpan_coweightLattice`, in
+  `TauCeti/LinearAlgebra/RootSystem/CoweightLattice/Basis.lean`, supply the ℤ-basis of `P∨`
+  by the fundamental coweights, whose coordinates are the pairings with the simple roots, and
+  the index `[P∨ : Q∨] = |det C|` for the Cartan matrix C of a crystallographic root system
+  over a characteristic-zero ring.
+  The pin does not prove that `Ω → P∨/Q∨` is injective, that a closed-alcove representative
+  is unique, or anything about point stabilizers, quotient topology or intermediate lattices.
+  For diagram automorphisms it has the action of Ω on the nodes by symmetries of the affine
+  Cartan matrix and special-node preservation, but not the simply transitive action of Ω on
+  the special nodes or the isomorphism `Ω ⋊ Γ_root ≃ Aut(affine Cartan matrix)`; those are
+  Layer 10 targets.
+- `TauCeti.IsRationalRep.differential`, `differential_tprod`,
+  `mem_invtSubmodule_iff_forall_mem_invtSubmodule_differential`, `isIrreducible_differential`,
+  `isIntertwiningMap_iff_forall_map_differential` and `tprodLieModuleEquiv`, in
+  `TauCeti/RepresentationTheory/ClassicalGroups/Differential.lean`, supply the differential of
+  a rational representation of `GL_n(ℂ)` as a `gl_n(ℂ)`-module, its tensor rule and the
+  equivalence of stable subspaces, irreducibility and intertwiners with their differentiated
+  counterparts. `isGlHighestWeightVector_differential` and
+  `nonempty_lieModuleEquiv_glIrreducible`, in `ClassicalGroups/Weight/Differential.lean`, pass
+  from group to Lie highest-weight vectors.
+  `TauCeti.nonempty_lieModuleEquiv_rationalWeylRep_glIrreducible` and
+  `TauCeti.nonempty_lieModuleEquiv_tprod_rationalWeylRep_glIrreducible`, in
+  `ClassicalGroups/WeylModule/Differential.lean`, identify the differentiated rational Weyl
+  module of a dominant integer weight, and tensor products of two, with the native
+  `glIrreducible` carriers. `TauCeti.nonempty_equiv_tprod_rationalWeylRep`, in
+  `ClassicalGroups/WeylModule/LittlewoodRichardson.lean`, decomposes a tensor product of
+  rational Weyl modules over Yamanouchi tableaux. `TauCeti.LRTableau`, in
+  `TauCeti/Combinatorics/Young/LittlewoodRichardson/Basic.lean`, with
+  `TauCeti.lrTableauEquivYamanouchi` (`Yamanouchi.lean`) and
+  `TauCeti.diagramSchurPoly_mul_diagramSchurPoly_eq_sum_natCard_lrTableau`
+  (`TauCeti/RingTheory/MvPolynomial/Symmetric/Schur/LittlewoodRichardson.lean`), supply the
+  finite tableau carrier and the product rule `s_λ s_μ = Σ_ν Nat.card (LRTableau λ ν μ) s_ν`.
+  The pin does not state the multiplicity of `glIrreducible n ν` in a tensor product of two
+  such modules; that is the Layer 9 target.
+- `TauCeti.exists_isCompl_of_forall_center_lie_eq_smul` and
+  `TauCeti.complementedLattice_lieSubmodule_of_isSemisimple_center`, in
+  `TauCeti/Algebra/Lie/Reductive/CompleteReducibility.lean`, supply complete reducibility for a
+  finite-dimensional module of a finite-dimensional reductive Lie algebra over a
+  characteristic-zero field when the centre acts by scalars, respectively triangularizably
+  with semisimple operators. `TauCeti.isCompl_center_derivedSeries` and
+  `TauCeti.lieModuleEquivOfCenterOfDerivedSeries`, in `Reductive/Basic.lean`, supply the
+  splitting and the equivalence criterion. For `gl_n`,
+  `TauCeti.complementedLattice_lieSubmodule_gl_of_forall_one_lie_eq_smul`
+  (`GeneralLinear/CompleteReducibility.lean`),
+  `TauCeti.isIsotypic_of_forall_isGlHighestWeightVector` and
+  `TauCeti.nonempty_lieModuleEquiv_directSum_glIrreducible_of_forall_isGlHighestWeightVector`
+  (`GeneralLinear/Isotypic.lean`) supply the single-weight criterion, and
+  `TauCeti.isotypicMultiplicity_glIrreducible_car` with
+  `TauCeti.nonempty_lieModuleEquiv_directSum_glIrreducible_car`
+  (`GeneralLinear/CAR/Decomposition.lean`) the CAR decomposition.
+- `TauCeti.coeff_formalCharacter_eq_freudenthalRHS_div`, in
+  `TauCeti/Algebra/Lie/HighestWeight/Freudenthal.lean`, is Freudenthal's recursion solved for
+  the multiplicity at `μ ≠ λ`. In
+  `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Symmetrization.lean`, over a commutative ring
+  `R : Type` with `n!` a unit and with no freeness hypothesis on `L`,
+  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization` is degree-n symmetrization of the
+  symmetric power `Sym[R]^n L`, `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_tprod` its
+  permutation-average formula and `TauCeti.UniversalEnvelopingAlgebra.pbwHomogeneousSymmetrization`
+  the same map on the homogeneous component of `S(L)`;
+  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwHomogeneousSymmetrization` (with
+  `TauCeti.UniversalEnvelopingAlgebra.lie_ι_pbwSymmetrization_tprod` on words) is its adjoint
+  equivariance on each homogeneous component,
+  `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_pbwFiltration` puts it in PBW degree n
+  and `TauCeti.UniversalEnvelopingAlgebra.mk_pbwSymmetrization` gives its leading symbol. The
+  centre criterion `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization_mem_center_iff`
+  assumes in addition `L` free over `R`. The scalar ring lies in `Type` because Mathlib's
+  `Sym[R]^n L` puts `R` in the universe of `Fin n`.
+
+### From other roadmaps
+
+Use RootSystems Layers 1–6 for the finite root data, ClassicalGroups Layers 2–4
+for rational group representations and SchurWeyl Layer 7 for finite Schur polynomials.
+
+Consume [ScatteringDiagrams §0.4](../../ScatteringDiagrams/README.md) for PBW symmetrization:
+for a Lie algebra `g` over a commutative ℚ-algebra `R`, with no freeness or finiteness
+hypothesis, `exists_pbwSymmetrizationEquiv` gives an `R`-linear equivalence
+`Sym_R(g) ≃ U_R(g)` sending a product of `d` generators to `1/d!` times the sum of their
+products in all `d!` orders (the empty product to 1). The formula determines the map, since
+products of generators span `Sym_R(g)`. Layer 3 (§3.2, with `R` a commutative ℚ-algebra and
+`g = Rx ⊕ Ry`, `[x,y] = y`) and Layer 7 (with `R` a characteristic-zero field) use it and assume
+nothing else of it. In §3.2 the formula alone puts the image of a product of n generators among
+words of length n, hence in Rees degree n; the global adjoint equivariance and the two-sided
+filtration statement are §7.1's `pbwSymmetrization_lie_and_mem_pbwFiltration_iff`.
+
+### From ReflectionInvariantTheory
+
+Consume [ReflectionInvariantTheory §2](../../ReflectionInvariantTheory/README.md#2-complex-branch-shephardtodd-in-both-directions)
+for a finite faithful linear group acting on a finite-dimensional vector space V
+over an algebraically closed characteristic-zero field K: two points have equal
+evaluations on every invariant in Sym(V*) if and only if they lie in the same
+group orbit. Apply this to V=H* and the actual Weyl action; finite-dimensional
+double duality identifies Sym(V*) with Sym(H). Layer 7 owns this identification
+and the translation by ρ, not the interpolation-and-averaging construction.
 
 ## References
 

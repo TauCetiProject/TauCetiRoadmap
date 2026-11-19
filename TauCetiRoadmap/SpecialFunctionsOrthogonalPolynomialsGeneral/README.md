@@ -1,128 +1,96 @@
 # Roadmap: general orthogonal polynomials
 
-**Summary.** This roadmap builds the general theory of polynomials orthogonal with respect to a
-measure on the real line as a library: three-term recurrences and Jacobi matrices, orthogonality
-measures and their moments, the recurrence of an orthogonal system, reproducing kernels, zeros
-and Gauss quadrature, modifications of the measure, the moment problem, orthogonal expansions,
-continued fractions, and the difference and differential operators that act on orthogonal
-systems. Its organization follows the structure of the subject rather than any one text. The
-algebra of a three-term recurrence comes first, over any commutative ring, because Favard's
-theorem, the Jacobi matrix and the J-fraction all start from it; the measure enters next, and
-each later layer is one way of reading the recurrence back into the measure. The content is drawn
-from Andrews–Askey–Roy (*Special Functions*, Ch. 5), Chihara (*An Introduction to Orthogonal
-Polynomials*, Chs. I–III), Ismail (*Classical and Quantum Orthogonal Polynomials in One
-Variable*, Chs. 2, 3 and 10), Gautschi (*Orthogonal Polynomials: Computation and
-Approximation*, Chs. 1 and 3), Schmüdgen (*The Moment Problem*, Chs. 3 and 5),
-Koekoek–Lesky–Swarttouw (*Hypergeometric Orthogonal Polynomials and Their q-Analogues*, Ch. 1),
-Simon's survey of the classical moment problem, Magnus's paper on semi-classical orthogonal
-polynomials and the NIST *Digital Library of Mathematical Functions* (DLMF), and each headline
-cites its sources; see [References](#references).
+**Summary.** A positive measure μ on the real line is an *orthogonality measure* if every power
+xⁿ is μ-integrable and the support of μ is infinite; unless stated otherwise, every statement
+of this roadmap about a measure assumes this. Gram–Schmidt applied to the monomials 1, x, x², … in
+the inner product `⟨p, q⟩ = ∫ p q dμ` then gives, for each n, the unique monic polynomial p_n of
+degree n that is orthogonal to every polynomial of lower degree. The Jacobi, Laguerre and Hermite
+polynomials are examples, but this roadmap defines no named family: it builds the general
+theory.
 
-Mathlib has the classical families as algebraic objects (`Polynomial.hermite`,
-`Polynomial.Chebyshev.T` and `U`, `Polynomial.shiftedLegendre`), the orthogonality and Gauss
-quadrature of the Chebyshev polynomials, forward differences, continued fractions, Prokhorov's
-theorem and the resolvent (Stieltjes) transform of a measure. Tau Ceti has moment determinacy
-under one exponential moment and the completeness of an orthogonal polynomial system in `L²` that
-follows from it. Neither has orthogonal polynomials of a general measure.
+The central fact is a three-term recurrence. For an orthogonality measure there are real numbers
+α_n and positive numbers β_n (n ≥ 1) such that p₀ = 1, p₁ = x − α₀ and
+`p_{n+1} = (x − α_n) p_n − β_n p_{n−1}` for n ≥ 1. Favard's theorem is the converse: for any
+real α_n and any β_n > 0 (n ≥ 1) there is a probability measure, itself an orthogonality measure,
+whose monic orthogonal polynomials are those of the recurrence. If |α_n| ≤ A and β_n ≤ B² with
+B ≥ 0, this measure is concentrated on [−(A + 2B), A + 2B], and it is the only probability
+orthogonality measure with these polynomials. Among orthogonality measures, one concentrated on a
+bounded interval is determined by its monic orthogonal polynomials up to a constant factor.
 
-The roadmap covers:
-- the monic polynomials of a three-term recurrence, the associated and corecursive polynomials,
-  tridiagonal (Jacobi) matrices and their characteristic polynomials, and the continuants of the
-  J-fraction, over any commutative ring (Layer 1);
-- orthogonality measures, weights and point masses, the monic orthogonal polynomials of a measure
-  by Gram–Schmidt, standardizations and the constants `h_n`, `h̃_n`, `k_n`, `k̃_n`, `k̃̃_n`, the
-  Gram matrix of the moments and its Hankel determinants, and least-squares approximation
-  (Layer 2);
-- the three-term recurrence of an orthogonal system in its first, second, monic and orthonormal
-  forms, the Jacobi matrix of a measure, and the recurrence coefficients from the moments
-  (Layer 3);
-- the Christoffel–Darboux formula, the reproducing kernel and the extremal property of the
-  Christoffel function (Layer 4);
-- the zeros: reality, simplicity, location, the Jacobi-matrix eigenvalues, interlacing and the
-  discriminant; Gauss quadrature, the Christoffel numbers, the Markov–Stieltjes inequalities and
-  the convergence of Gauss quadrature; the moments as entries of powers of the Jacobi matrix; and
-  the bound for monotonic weights (Layer 5);
-- kernel polynomials as the orthogonal polynomials of a Christoffel modification, and the parity
-  and quadratic transformations of an even measure (Layer 6);
-- Favard's theorem, Hamburger's theorem, and uniqueness of the orthogonality measure for bounded
-  recurrence coefficients and on bounded intervals (Layer 7);
-- completeness with the `L²` expansion, and the Poisson kernel (Layer 8);
-- the associated polynomials as integrals, the J-fraction as a partial fraction over the Gauss
-  nodes, and Markov's theorem (Layer 9);
-- the forward, backward and imaginary central difference operators, Sheffer sequences, and
-  semi-classical weights with their structure relations (Layer 10).
+Hamburger's theorem answers the same question for moments. A real sequence m₀, m₁, m₂, … is the
+sequence of moments `∫ xᵏ dμ` of an orthogonality measure if and only if every Hankel
+determinant `det (m_{i+j})_{i,j<n}` is positive.
 
-The roadmap rests on Mathlib and Tau Ceti, and consumes one other roadmap item:
-[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) §6.21, the Hankel
-determinant of a sequence (2.4).
+For an orthogonality measure, p_n has n real and simple zeros. They are the eigenvalues of the
+n × n Jacobi matrix, the symmetric tridiagonal matrix with the α_k on the diagonal and the √β_k
+beside it. The zeros of p_n and `p_{n+1}` strictly interlace, and if μ is concentrated on
+[a, b] they lie in the open interval (a, b). Gauss quadrature gives positive weights w_i, the
+Christoffel numbers, such that `∫ q dμ = Σ_i w_i q(x_i)` for every polynomial q of degree at
+most 2n − 1, the x_i being the zeros of p_n. For Lebesgue measure on [−1, 1] and n = 2, the nodes
+are ±1/√3 and both weights are 1. When μ is concentrated on a bounded interval [a, b], the
+quadrature sums converge to ∫ f dμ for every f continuous on [a, b].
+
+The recurrence coefficients also define the J-fraction `1/(z − α₀ − β₁/(z − α₁ − ⋯))`. Markov's
+theorem states that, for an orthogonality measure concentrated on a bounded interval [a, b], its
+approximants converge to the normalized Stieltjes transform `μ(ℝ)⁻¹ ∫ dμ(x)/(z − x)`, uniformly
+on compact subsets of ℂ \ [a, b].
+
+Mathlib has some classical families as explicit polynomials, with Gauss
+quadrature for the Chebyshev polynomials, but neither Mathlib nor Tau Ceti has orthogonal
+polynomials of a general measure. Mathlib's Prokhorov theorem provides the limit measure in
+Favard's theorem. Tau Ceti proves that two finite measures with one finite exponential moment and
+the same moments are equal. It also proves that polynomials are complete in `L²` of such a
+measure, and Layer 8 deduces that its orthonormal polynomials form a Hilbert basis. The Hankel
+determinant of a sequence comes from
+[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md).
+[RandomMatrices](../RandomMatrices/README.md) treats the orthonormal polynomials of a weight with
+all moments finite; this roadmap proves that they agree with the general construction.
+LaguerreJacobi defines the Laguerre, Jacobi and Gegenbauer polynomials and proves them
+orthogonal; their recurrences, zeros and quadrature follow from this roadmap.
+
+The first layer is pure algebra over a commutative ring: the polynomials, tridiagonal matrices
+and continued fractions that a sequence of recurrence coefficients determines. The measure enters
+in the second layer, and the third proves the recurrence. Most later layers read
+the recurrence back into the measure, from the reproducing kernel and Gauss quadrature to
+Favard's and Markov's theorems. The last layer collects difference and differential operators
+that act on orthogonal systems.
 
 Suggested home: `TauCeti/Analysis/OrthogonalPolynomials/` for the measure-dependent theory, and
 `TauCeti/RingTheory/Polynomial/ThreeTermRecurrence.lean`,
 `TauCeti/RingTheory/Polynomial/Sheffer.lean` and `TauCeti/Algebra/Group/BackwardDiff.lean` for
 the algebraic parts.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 is pure algebra over a commutative ring: the polynomials, matrices and continued fractions
+that a sequence of recurrence coefficients determines, with no measure in sight. Layer 2
+introduces the measure, builds the monic orthogonal polynomials by Gram–Schmidt, and reads their
+norms off the Gram matrix of the moments. Layer 3 proves that an orthogonal system satisfies a
+recurrence of Layer 1, which identifies `monic μ` with `monicThreeTerm` and the Jacobi matrix of
+the measure with that of Layer 1. Layer 4 sums the recurrence into the Christoffel–Darboux formula.
+Layer 5 uses the kernel and the Jacobi matrix for the zeros and builds Gauss quadrature on them.
+Layer 6 changes the measure (by a linear factor, or by the substitution `x ↦ x²` for an even
+measure) and identifies the new orthogonal polynomials. Layer 7 runs Layer 3 backwards: from the
+recurrence coefficients alone it constructs the measure as a weak limit of the Gauss measures of
+Layer 5, and proves it unique under bounded data. Layer 8 is the `L²` theory. Layer 9 reads the
+Gauss measures of Layer 5 as the J-fraction of Layer 1 and passes to the limit. Layer 10 collects
+the operators that act on orthogonal systems: the difference operators of the discrete families,
+the delta operators of a Sheffer sequence, and the derivative in the structure relations.
 
-1. **Three-term recurrences and Jacobi matrices over a commutative ring** (1.1–1.4).
-2. **Orthogonality measures, moments and orthogonal polynomials** (2.1–2.5).
-3. **The recurrence of an orthogonal system** (3.1–3.5).
-4. **Reproducing kernels** (4.1–4.3).
-5. **Zeros and Gauss quadrature** (5.1–5.7).
-6. **Modifications of the measure** (6.1–6.3).
-7. **The moment problem** (7.1–7.4).
-8. **Orthogonal expansions** (8.1–8.2).
-9. **Continued fractions and the Stieltjes transform** (9.1–9.3).
-10. **Difference and differential operators** (10.1–10.4).
+```text
+Layer 1 ──┐
+          ├──► Layer 3 ──► Layer 4 ──► Layer 5 ──┬──► Layer 6
+Layer 2 ──┘                                      ├──► Layer 7
+   │                                             └──► Layer 9
+   └──► Layer 8
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose.
+Layer 10: 10.1–10.2 need Mathlib only; 10.3 and 10.4 need Layers 2–3.
+```
 
-**Inputs.** Cases of the targets that Mathlib already proves are inputs, not targets: the forward
-difference and its Newton formula (`fwdDiff`, `fwdDiff_iter_eq_sum_shift`,
-`Polynomial.fwdDiff_iter_degree_eq_factorial`), and the Chebyshev case of Gauss quadrature
-(`Polynomial.Chebyshev.integral_eq_sumZeroes`), which is a check on 5.3.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-provides:
-- the discriminant of a split polynomial,
-  `disc(c ∏ (X − x_i)) = c^{2n−2} ∏_{i<j} (x_i − x_j)²` (5.6);
-- moment convergence under weak convergence with uniformly bounded higher moments (7.2);
-- Hamburger's theorem: positive Hankel determinants characterize the moment sequences of measures
-  with infinite support (7.3);
-- a finite measure with `∫ x^{2k} dν ≤ C M^{2k}` for all `k`, `M ≥ 0`, is supported in
-  `[−M, M]` (7.4).
-
-**What it does not own:**
-- The orthogonal polynomial ensembles of random matrix theory: Andréief's identity, the
-  determinantal structure and the Hermite, Laguerre and Jacobi kernels
-  ([RandomMatrices](../RandomMatrices/README.md) §8.2). RandomMatrices §8.2 owns these statements
-  for the orthonormal polynomials of a weight with all moments finite: Gram–Schmidt of the
-  monomials, the three-term recurrence, Christoffel–Darboux and the reproducing and projection
-  identities. 3.3, 4.1 and 4.2 here are the statements for every orthogonality measure and every
-  standardization, and 3.3 identifies the two constructions.
-- The Hankel determinant of a sequence over a commutative ring and its invariance under a monic
-  change of basis ([ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
-  §6.21's `D_n(a) = det (a_(i+j+1))_{i,j<n}`). Here `hankelDet m n` is that determinant for
-  `a_(k+1) = m_k`; the shifted determinant `Δ′_n` is owned here.
-- The definitions and family-specific theory of the named families: the classical families
-  (Jacobi, Laguerre, Hermite and their special cases), the hypergeometric families of the Askey
-  scheme and their `q`-analogues, and the other named families.
-- The Szegő and Nevai classes, the indeterminate moment problem, M. Riesz's completeness theorem
-  for determinate measures, Meixner's classification of the orthogonal Sheffer polynomials, the
-  nonnegativity of Poisson kernels, the converse of the structure relation, the Euler polynomials
-  as a Sheffer system that is not orthogonal, and the `q`-Pochhammer symbols. See the last
-  section for these.
-
-**The boundary in one sentence:** this roadmap owns the general theory of polynomials orthogonal
-for a positive measure on `ℝ` with finite moments and infinite support (and its finite-support
-truncations), the algebra of three-term recurrences, Jacobi matrices and J-fractions, the moment
-problem for measures determined by bounded data, and the difference, Sheffer and structure
-operators listed in Layer 10; it consumes the Hankel determinant of ClassicalArithmeticCompletion
-and defines no named family.
+Layer 7 uses 1.1 and 1.3 for the functional of a recurrence, 5.3 for the Gauss measures, and 2.4
+and 3.5 for Hamburger's theorem and uniqueness; Layer 9 uses 1.2 and 1.4 with 5.3. The
+`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions
+on explicit values.
 
 ## Conventions
 
@@ -194,94 +162,6 @@ and defines no named family.
   OrthogonalPolynomials; `monicThreeTerm`, `corecursive`, `jacobiMatrix`, `imCentralDiff`,
   `derivativeAction` and `IsSheffer` live in `Polynomial`, and `bwdDiff` beside Mathlib's
   `fwdDiff`. Names in the layers are suggestions.
-
-## Exact supplier contracts
-
-### From Tau Ceti
-
-At the pinned Tau Ceti:
-- `TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean`:
-  `TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot` (a polynomial family of exact degrees is
-  complete in `L²(w·μ)` when `w·μ` has one finite exponential moment) and
-  `TauCeti.memLp_two_algebraMap_eval` (8.1).
-- `TauCeti/Analysis/InnerProductSpace/WeightedOrthogonalBasis.lean`:
-  `TauCeti.hilbertBasisOfOrthogonalSystem` and `TauCeti.coeFn_hilbertBasisOfOrthogonalSystem`
-  (8.1).
-- `TauCeti/Probability/Moments/Determinacy.lean`:
-  `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp` (two finite measures
-  with one exponential moment each and equal moments are equal) (7.4).
-- `TauCeti/Probability/Moments/WeakConvergence.lean`:
-  `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow` (probability measures whose
-  moments converge to those of a probability measure concentrated on a compact set converge weakly
-  to it) (5.5, 9.3).
-- `TauCeti/RingTheory/Polynomial/Hermite/GeneratingFunction.lean`:
-  `Polynomial.hasSum_hermite_generating_function` (10.3).
-- `TauCeti/MeasureTheory/Measure/ResolventTransform/Basic.lean`: the API of Mathlib's
-  `MeasureTheory.resolventTransform` on `ℝ` (9.3).
-- `TauCeti/Probability/Distributions/Gaussian/Hermite/Basis.lean`:
-  `TauCeti.gaussianHermiteHilbertBasis` (a check on 8.1).
-
-### From Mathlib
-
-- `fwdDiff`, `fwdDiff_iter_eq_sum_shift`, `shift_eq_sum_fwdDiff_iter`, `fwdDiff_choose`,
-  `Polynomial.fwdDiff_iter_degree_eq_factorial`, `ascPochhammer`, `descPochhammer`,
-  `ascPochhammer_succ_eval`, `descPochhammer_succ_eval`, `Finset.sum_range_by_parts` (10.1).
-- `MeasureTheory.Measure.support`, `MeasureTheory.Measure.withDensity`,
-  `MeasureTheory.Measure.dirac`, `MeasureTheory.Measure.sum`, `StieltjesFunction.measure`,
-  `MeasureTheory.Lp`, `HilbertBasis`, `ProbabilityTheory.moment`.
-- `Polynomial.Sequence`, `Polynomial.nextCoeff`, `Polynomial.divByMonic`, `Lagrange.basis`,
-  `Polynomial.discr`, `Polynomial.discr_of_degree_eq_two`, `Polynomial.resultant_eq_prod_roots_sub`,
-  `Polynomial.roots`, `Multiset.sort`.
-- `Matrix.charpoly`, `Matrix.IsHermitian.eigenvalues`, `Matrix.IsHermitian.charpoly_eq`,
-  `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues`, `Matrix.det_succ_row`, `eigenvalue_mem_ball`
-  (Gershgorin), `InnerProductSpace.gramSchmidtNormed`.
-- `isCompact_closure_of_isTightMeasureSet` (Prokhorov), `MeasureTheory.IsTightMeasureSet`,
-  `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.resolventTransform`.
-- `GenContFract`, `GenContFract.convs'`, `GenContFract.conts`.
-- `PowerSeries.subst`, `PowerSeries.exp`, `PowerSeries.substInvOfIsUnit`,
-  `PowerSeries.subst_substInvOfIsUnit_right`, `Polynomial.bernoulli`,
-  `Polynomial.bernoulli_generating_function`, `bernoulli`, `Polynomial.hermite`.
-- `Polynomial.Chebyshev.measureT`, `Polynomial.Chebyshev.integral_eq_sumZeroes`.
-
-### From ClassicalArithmeticCompletion
-
-[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) §6.21 (on main):
-`D_n(a) = det (a_(i+j+1))_{i,j<n}` over a commutative ring, `D₀ = 1`, and the invariance of
-`D_n` under a monic change of basis: the determinant of the moment matrix is unchanged when the
-powers `Xⁱ` in rows and columns are replaced by monic polynomials of degree `i` (2.4). §6.21
-states both in prose and names no declarations.
-
-## How to read the build
-
-Layer 1 is pure algebra over a commutative ring: the polynomials, matrices and continued fractions
-that a sequence of recurrence coefficients determines, with no measure in sight. Layer 2
-introduces the measure, builds the monic orthogonal polynomials by Gram–Schmidt, and reads their
-norms off the Gram matrix of the moments. Layer 3 proves that an orthogonal system satisfies a
-recurrence of Layer 1, which identifies `monic μ` with `monicThreeTerm` and the Jacobi matrix of
-the measure with that of Layer 1. Layer 4 sums the recurrence into the Christoffel–Darboux formula.
-Layer 5 uses the kernel and the Jacobi matrix for the zeros and builds Gauss quadrature on them.
-Layer 6 changes the measure (by a linear factor, or by the substitution `x ↦ x²` for an even
-measure) and identifies the new orthogonal polynomials. Layer 7 runs Layer 3 backwards: from the
-recurrence coefficients alone it constructs the measure as a weak limit of the Gauss measures of
-Layer 5, and proves it unique under bounded data. Layer 8 is the `L²` theory. Layer 9 reads the
-Gauss measures of Layer 5 as the J-fraction of Layer 1 and passes to the limit. Layer 10 collects
-the operators that act on orthogonal systems: the difference operators of the discrete families,
-the delta operators of a Sheffer sequence, and the derivative in the structure relations.
-
-```text
-Layer 1 ──┐
-          ├──► Layer 3 ──► Layer 4 ──► Layer 5 ──┬──► Layer 6
-Layer 2 ──┘                                      ├──► Layer 7
-   │                                             └──► Layer 9
-   └──► Layer 8
-
-Layer 10: 10.1–10.2 need Mathlib only; 10.3 and 10.4 need Layers 2–3.
-```
-
-Layer 7 uses 1.1 and 1.3 for the functional of a recurrence, 5.3 for the Gauss measures, and 2.4
-and 3.5 for Hamburger's theorem and uniqueness; Layer 9 uses 1.2 and 1.4 with 5.3. The
-`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions
-on explicit values.
 
 ## Layer 1: three-term recurrences and Jacobi matrices over a commutative ring
 
@@ -1400,6 +1280,125 @@ specified by the layers.
 | 7 | `OrthogonalPolynomials/General`, `OrthogonalPolynomials/MeasureConstruction` |
 | 8 | `OrthogonalPolynomials/GeneralIdentities` |
 | 9 | `OrthogonalPolynomials/Associated`, `OrthogonalPolynomials/ContinuedFractions`, `OrthogonalPolynomials/QuadratureAndKernels` |
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Three-term recurrences and Jacobi matrices over a commutative ring** (1.1–1.4).
+2. **Orthogonality measures, moments and orthogonal polynomials** (2.1–2.5).
+3. **The recurrence of an orthogonal system** (3.1–3.5).
+4. **Reproducing kernels** (4.1–4.3).
+5. **Zeros and Gauss quadrature** (5.1–5.7).
+6. **Modifications of the measure** (6.1–6.3).
+7. **The moment problem** (7.1–7.4).
+8. **Orthogonal expansions** (8.1–8.2).
+9. **Continued fractions and the Stieltjes transform** (9.1–9.3).
+10. **Difference and differential operators** (10.1–10.4).
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
+targets of the same standing, stated in prose.
+
+**Inputs.** Cases of the targets that Mathlib already proves are inputs, not targets: the forward
+difference and its Newton formula (`fwdDiff`, `fwdDiff_iter_eq_sum_shift`,
+`Polynomial.fwdDiff_iter_degree_eq_factorial`), and the Chebyshev case of Gauss quadrature
+(`Polynomial.Chebyshev.integral_eq_sumZeroes`), which is a check on 5.3.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+provides:
+- the discriminant of a split polynomial,
+  `disc(c ∏ (X − x_i)) = c^{2n−2} ∏_{i<j} (x_i − x_j)²` (5.6);
+- moment convergence under weak convergence with uniformly bounded higher moments (7.2);
+- Hamburger's theorem: positive Hankel determinants characterize the moment sequences of measures
+  with infinite support (7.3);
+- a finite measure with `∫ x^{2k} dν ≤ C M^{2k}` for all `k`, `M ≥ 0`, is supported in
+  `[−M, M]` (7.4).
+
+**What it does not own:**
+- The orthogonal polynomial ensembles of random matrix theory: Andréief's identity, the
+  determinantal structure and the Hermite, Laguerre and Jacobi kernels
+  ([RandomMatrices](../RandomMatrices/README.md) §8.2). RandomMatrices §8.2 owns these statements
+  for the orthonormal polynomials of a weight with all moments finite: Gram–Schmidt of the
+  monomials, the three-term recurrence, Christoffel–Darboux and the reproducing and projection
+  identities. 3.3, 4.1 and 4.2 here are the statements for every orthogonality measure and every
+  standardization, and 3.3 identifies the two constructions.
+- The Hankel determinant of a sequence over a commutative ring and its invariance under a monic
+  change of basis ([ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md)
+  §6.21's `D_n(a) = det (a_(i+j+1))_{i,j<n}`). Here `hankelDet m n` is that determinant for
+  `a_(k+1) = m_k`; the shifted determinant `Δ′_n` is owned here.
+- The definitions and family-specific theory of the named families: the classical families
+  (Jacobi, Laguerre, Hermite and their special cases), the hypergeometric families of the Askey
+  scheme and their `q`-analogues, and the other named families.
+- The Szegő and Nevai classes, the indeterminate moment problem, M. Riesz's completeness theorem
+  for determinate measures, Meixner's classification of the orthogonal Sheffer polynomials, the
+  nonnegativity of Poisson kernels, the converse of the structure relation, the Euler polynomials
+  as a Sheffer system that is not orthogonal, and the `q`-Pochhammer symbols. See the last
+  section for these.
+
+**The boundary in one sentence:** this roadmap owns the general theory of polynomials orthogonal
+for a positive measure on `ℝ` with finite moments and infinite support (and its finite-support
+truncations), the algebra of three-term recurrences, Jacobi matrices and J-fractions, the moment
+problem for measures determined by bounded data, and the difference, Sheffer and structure
+operators listed in Layer 10; it consumes the Hankel determinant of ClassicalArithmeticCompletion
+and defines no named family.
+
+## Exact supplier contracts
+
+### From Tau Ceti
+
+At the pinned Tau Ceti:
+- `TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean`:
+  `TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot` (a polynomial family of exact degrees is
+  complete in `L²(w·μ)` when `w·μ` has one finite exponential moment) and
+  `TauCeti.memLp_two_algebraMap_eval` (8.1).
+- `TauCeti/Analysis/InnerProductSpace/WeightedOrthogonalBasis.lean`:
+  `TauCeti.hilbertBasisOfOrthogonalSystem` and `TauCeti.coeFn_hilbertBasisOfOrthogonalSystem`
+  (8.1).
+- `TauCeti/Probability/Moments/Determinacy.lean`:
+  `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp` (two finite measures
+  with one exponential moment each and equal moments are equal) (7.4).
+- `TauCeti/Probability/Moments/WeakConvergence.lean`:
+  `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow` (probability measures whose
+  moments converge to those of a probability measure concentrated on a compact set converge weakly
+  to it) (5.5, 9.3).
+- `TauCeti/RingTheory/Polynomial/Hermite/GeneratingFunction.lean`:
+  `Polynomial.hasSum_hermite_generating_function` (10.3).
+- `TauCeti/MeasureTheory/Measure/ResolventTransform/Basic.lean`: the API of Mathlib's
+  `MeasureTheory.resolventTransform` on `ℝ` (9.3).
+- `TauCeti/Probability/Distributions/Gaussian/Hermite/Basis.lean`:
+  `TauCeti.gaussianHermiteHilbertBasis` (a check on 8.1).
+
+### From Mathlib
+
+- `fwdDiff`, `fwdDiff_iter_eq_sum_shift`, `shift_eq_sum_fwdDiff_iter`, `fwdDiff_choose`,
+  `Polynomial.fwdDiff_iter_degree_eq_factorial`, `ascPochhammer`, `descPochhammer`,
+  `ascPochhammer_succ_eval`, `descPochhammer_succ_eval`, `Finset.sum_range_by_parts` (10.1).
+- `MeasureTheory.Measure.support`, `MeasureTheory.Measure.withDensity`,
+  `MeasureTheory.Measure.dirac`, `MeasureTheory.Measure.sum`, `StieltjesFunction.measure`,
+  `MeasureTheory.Lp`, `HilbertBasis`, `ProbabilityTheory.moment`.
+- `Polynomial.Sequence`, `Polynomial.nextCoeff`, `Polynomial.divByMonic`, `Lagrange.basis`,
+  `Polynomial.discr`, `Polynomial.discr_of_degree_eq_two`, `Polynomial.resultant_eq_prod_roots_sub`,
+  `Polynomial.roots`, `Multiset.sort`.
+- `Matrix.charpoly`, `Matrix.IsHermitian.eigenvalues`, `Matrix.IsHermitian.charpoly_eq`,
+  `Matrix.IsHermitian.roots_charpoly_eq_eigenvalues`, `Matrix.det_succ_row`, `eigenvalue_mem_ball`
+  (Gershgorin), `InnerProductSpace.gramSchmidtNormed`.
+- `isCompact_closure_of_isTightMeasureSet` (Prokhorov), `MeasureTheory.IsTightMeasureSet`,
+  `MeasureTheory.ProbabilityMeasure`, `MeasureTheory.resolventTransform`.
+- `GenContFract`, `GenContFract.convs'`, `GenContFract.conts`.
+- `PowerSeries.subst`, `PowerSeries.exp`, `PowerSeries.substInvOfIsUnit`,
+  `PowerSeries.subst_substInvOfIsUnit_right`, `Polynomial.bernoulli`,
+  `Polynomial.bernoulli_generating_function`, `bernoulli`, `Polynomial.hermite`.
+- `Polynomial.Chebyshev.measureT`, `Polynomial.Chebyshev.integral_eq_sumZeroes`.
+
+### From ClassicalArithmeticCompletion
+
+[ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) §6.21 (on main):
+`D_n(a) = det (a_(i+j+1))_{i,j<n}` over a commutative ring, `D₀ = 1`, and the invariance of
+`D_n` under a monic change of basis: the determinant of the moment matrix is unchanged when the
+powers `Xⁱ` in rows and columns are replaced by monic polynomials of degree `i` (2.4). §6.21
+states both in prose and names no declarations.
 
 ## References
 

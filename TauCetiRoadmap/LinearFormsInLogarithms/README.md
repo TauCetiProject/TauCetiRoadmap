@@ -1,124 +1,124 @@
 # Roadmap: linear forms in logarithms, Baker's theorem over `ℂ` and `ℂ_p`
 
-**Summary.** This roadmap is about the transcendence of values of the exponential function. Its
-main results are Baker's theorem on linear forms in logarithms, over `ℂ` and over `ℂ_p`, and the
-classical theorems that come before it.
+**Summary.** This roadmap is about the transcendence of values of the exponential function. Its main
+results are Baker's theorem on linear forms in logarithms, over `ℂ` and over `ℂ_p`, and the
+classical theorems of Hermite–Lindemann and Gelfond–Schneider. Throughout, a logarithm of an
+algebraic number is any `x` with `exp x` algebraic: no branch is chosen.
 
-Over `ℂ`, **Baker's theorem** says: if `α₁, …, αₙ` are nonzero algebraic numbers whose logarithms
-are linearly independent over `ℚ`, then `1, log α₁, …, log αₙ` are linearly independent over the
-algebraic numbers. We prove it as Waldschmidt does in Chapter 4 of *Diophantine Approximation on
-Linear Algebraic Groups*, through the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (his
-Corollary 4.2, with the direct proof of Section 4.6). Hermite–Lindemann and Gelfond–Schneider come
-out of the same criterion on the way. The two analytic ingredients are a Schwarz lemma for Cartesian
-products (Proposition 4.7) and an auxiliary function built by the Thue–Siegel method
-(Proposition 4.10). Both need power series in several variables at the level of multi-indices,
-which Mathlib does not have, so we build that too. The book is cited so that it is clear which
-proof is meant; where a target below differs from it, the target says so.
+Over `ℂ` everything comes from one statement, the criterion of Schneider–Lang for
+`ℂ^{d₀} × (ℂˣ)^{d₁}`. Let `d₀ ≤ n < d₀ + d₁`. Let `x₁, …, x_{d₁}` be vectors in `ℂⁿ` with algebraic
+coordinates, linearly independent over `ℚ`, and let `y₁, …, yₙ` be a basis of `ℂⁿ` over `ℂ`. Then
+one of the first `d₀` coordinates of the `yⱼ`, or one of the numbers `exp (xᵢ · yⱼ)`, is
+transcendental, where `x · y = Σ_v x_v y_v`. The proof, which follows Chapter 4 of Waldschmidt's
+*Diophantine Approximation on Linear Algebraic Groups*, assumes all these numbers algebraic and
+builds an auxiliary function, an exponential polynomial with integer coefficients, not all zero,
+that is very small on a large polydisc. Its low-order Taylor coefficients at the points `Σ sⱼ yⱼ`
+with small natural `sⱼ` are algebraic and small, so they vanish by Liouville's inequality, a lower
+bound for a nonzero algebraic number in terms of its size. A Schwarz lemma for Cartesian products
+then bounds from above the first coefficient that does not vanish, and the bound contradicts
+Liouville's inequality.
 
-Over `ℂ_p` the corresponding statement is **Baker's theorem over `ℂ_p`** (Layer 8): if
-`ℓ₁, …, ℓₙ ∈ ℂ_[p]` lie in the disc `‖z‖ < p ^ (-1 / (p - 1))` where the exponential converges, have
+Two classical theorems follow. Hermite–Lindemann says that if `x ≠ 0` and `exp x` is algebraic, then
+`x` is transcendental; hence `e` and `π` are transcendental. Gelfond–Schneider adds that, for such
+an `x` and an algebraic `b` that is not rational, `exp (b x)` is transcendental. In Mathlib's
+principal branch, `a ^ b` is then transcendental for algebraic `a ≠ 0, 1` and algebraic irrational
+`b`, which covers `2 ^ √2` and `e ^ π = (−1) ^ (−i)`.
+
+**Baker's theorem** is the main result over `ℂ`. Let `l₁, …, lₙ` be logarithms of algebraic numbers
+that are linearly independent over `ℚ`. If `β₀ + β₁ l₁ + … + βₙ lₙ = 0` with algebraic coefficients,
+then every coefficient is zero: `1, l₁, …, lₙ` are linearly independent over the algebraic numbers.
+The independence over `ℚ` is needed, since `2 log 2 − log 4 = 0`. Baker's first corollary needs no
+independence: a nonzero homogeneous linear form in logarithms of algebraic numbers, with algebraic coefficients,
+is transcendental; `π + log 2` is an example.
+
+Over `ℂ_p`, normed with `‖p‖ = p⁻¹`, the analogue is **Baker's theorem over `ℂ_p`**: if
+`ℓ₁, …, ℓₙ ∈ ℂ_p` lie in the disc `‖z‖ < p ^ (−1/(p−1))` where the exponential converges, have
 algebraic exponentials, and are linearly independent over `ℚ`, then `1, ℓ₁, …, ℓₙ` are linearly
-independent over the algebraic numbers. Brumer carried Baker's method over to `ℂ_p` (1967), to study
-the `p`-adic rank of units. The criterion is of no use here, since it needs functions defined on all
-of `ℂⁿ` and the `p`-adic exponential only converges on that disc. We follow Baker's own argument
-instead, as in Chapter 2 of Baker's *Transcendental Number Theory*: it works with series in one
-variable along a diagonal and needs no multiplicity estimate. Layer 8 uses the arithmetic of Layer 3
-and nothing else from the complex part.
+independent over the algebraic numbers. For odd `p` it shows that `exp p` is transcendental in
+`ℂ_p`. The norm condition cannot be dropped: the exponential is the sum of its series, taken to be
+`0` where the series diverges, so that `exp 1 = 0` in `ℂ_p`. The roadmap has no `p`-adic criterion of
+Schneider–Lang. We follow Baker's method, which Brumer carried over to
+`ℂ_p`, as in Chapter 2 of Baker's *Transcendental Number Theory*: it works with series in one
+variable along a diagonal.
 
-## Scope and ownership
-
-This roadmap owns:
-- multi-index coefficients and Taylor coefficients of analytic functions on `ι → 𝕜`, over any
-  nontrivially normed field, with their basic API (Layer 0);
-- Cauchy, maximum-modulus and Schwarz estimates on polydiscs in `ι → ℂ` (Layer 1);
-- exponential polynomials in several variables: their Taylor coefficients, growth and linear
-  independence (Layer 2);
-- Liouville's inequality, bounds for the sizes of sums and products of algebraic numbers, the
-  number field generated by finitely many algebraic numbers, the Thue–Siegel lemma, and Siegel's
-  lemma over a number field with a constant depending only on the field (Layer 3);
-- the auxiliary function of Proposition 4.10 (Layer 4);
-- the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (Corollary 4.2), with the steps of one
-  proof as milestones (Layer 5); its consequences Corollaries 4.3 and 4.4, Hermite–Lindemann and
-  Gelfond–Schneider (Layer 6); and Baker's theorem with Baker's corollaries (Layer 7);
-- the exponential on its disc of convergence in every complete normed field over `ℚ_p`,
-  Liouville's inequality at an ultrametric place, bounds for power series with many zeros in the
-  closed unit disc, Hermite interpolation with ultrametric bounds, Baker's auxiliary function on
-  the diagonal over `ℂ_[p]`, and Baker's theorem over `ℂ_[p]` (Layer 8).
-
-Tau Ceti has the exponential and the logarithm on the deep units of a finite extension `K` of
-`ℚ_p`, from the [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md)
-roadmap: `TauCeti.deepUnitExpLogEquiv`, for a depth `i` with `e < (p − 1) i` where `e` is the
-absolute ramification index of `K` over `ℚ_p`, is the isomorphism of topological groups
-`U(K,i) ≃ₜ* Multiplicative (𝓂[K] ^ i)` given by the logarithm on the deep units
-`U(K,i) = 1 + 𝓂[K]^i`, with the exponential on `𝓂[K]^i` as its inverse. This roadmap owns only
-the facts of 8.1 about Mathlib's `NormedSpace.exp` in a normed field over `ℚ_p`, that is, with a
-norm making it a normed `ℚ_[p]`-algebra, which Layer 8 needs for `ℂ_[p]`; `ℂ_[p]` is not a finite
-extension of `ℚ_p`, so that declaration does not give 8.1. This roadmap does not depend on that
-one.
-
-The
+The roadmap depends on no other roadmap: it builds on Mathlib, and its `p`-adic part also uses
+Weierstrass division of power series from Tau Ceti. The
 [Diophantine approximation and transcendence](../DiophantineApproximationAndTranscendence/README.md)
-roadmap uses Layers 0–8. It owns generalisations of three statements here: `exp (π α)` is
-transcendental for every algebraic `α ∉ ℚ · I`, of which the worked example `transcendental_exp_pi`
-is the case `α = 1`; the homogeneous Schneider–Lang corollary under a rank hypothesis on the
-`ℚ`-span of the `xᵢ`, where 6.1 takes them linearly independent; and the auxiliary family with
-separate degree and frequency budgets `T₀` and `T₁`, where 5.1 takes `T₀ = T₁ = T`. This roadmap
-does not depend on that one.
+roadmap builds on all our layers and holds the effective lower bounds for linear forms in
+logarithms; Baker's theorem here is qualitative. The integral Iwasawa theory roadmap uses the
+theorem over `ℂ_p` for the algebraic-number form of Baker–Brumer and for abelian Leopoldt.
 
-Not in this roadmap, and not owned by any other roadmap unless stated:
-- the Schneider–Lang criterion for algebraically independent entire functions of finite order
-  whose partial derivatives are polynomials in them (Waldschmidt, Theorem 4.1), and its extension
-  to meromorphic functions; both need the growth theory of entire functions of finite order in
-  several variables;
-- effective lower bounds for linear forms in logarithms (Baker–Wüstholz, Matveev); Baker's
-  theorem here is qualitative. The Diophantine approximation and transcendence roadmap owns them,
-  at archimedean and `p`-adic places (its 3.6 and 3.7);
-- Siegel's theorem on integral points, whose proofs need Roth's theorem or effective lower bounds
-  for linear forms in logarithms; the [Elliptic curves](../EllipticCurves/README.md) roadmap
-  excludes it for the same reason. The Thue–Siegel lemma of 3.4 is Siegel's box-principle lemma,
-  not the Thue–Siegel–Roth theorem;
-- the Lindemann–Weierstrass theorem, which is proved by Hermite's method rather than by the
-  criterion. Mathlib has the analytic part of that method
-  (`Mathlib/NumberTheory/Transcendental/Lindemann/AnalyticalPart.lean`), and Yuyang Zhao's Mathlib
-  formalisation proves the theorem; see *Coordination with Mathlib*. The Diophantine approximation
-  and transcendence roadmap owns it (its 3.2);
-- algebraic independence (Schanuel's conjecture, Nesterenko's theorem) and the six exponentials
-  theorem; the Diophantine approximation and transcendence roadmap owns the consequences of
-  Schanuel's conjecture taken as a hypothesis (its 3.8) and Ax–Schanuel (its 5.6);
-- the `p`-adic Schneider–Lang criterion, and elliptic analogues;
-- a `p`-adic logarithm function on `ℂ_[p]`: Layer 8 is stated through the exponential;
-- Weierstrass division and preparation, and the theory of Tate algebras, which the
-  [Foundations of adic spaces](../../Completed/AdicSpaces/README.md) roadmap owns (its §0.5). Tau
-  Ceti already has Weierstrass division with Gauss-norm bounds, which 8.3 consumes.
+Layers 0 to 2 build the analysis in several variables: Taylor coefficients indexed by multi-indices,
+which Mathlib does not have, estimates on polydiscs, and exponential polynomials. Layer 3 is
+the arithmetic of algebraic numbers. Layer 4 constructs the auxiliary function, and Layer 5 proves
+the criterion with it. Layer 6 derives the two classical theorems, and Layer 7 Baker's theorem.
+Layer 8 proves the theorem over `ℂ_p` and uses only Layer 3 from the rest.
 
-### Coordination with Mathlib
+## How to read the build
 
-Mathlib has Liouville numbers, the house of an algebraic number, Siegel's lemma over number fields,
-and the analytic half of Hermite's method for Lindemann–Weierstrass. It does not prove that `e` or
-`π` is transcendental, and it has no Gelfond–Schneider theorem. Two Mathlib formalisations cover
-part of this: Yuyang Zhao's proves Lindemann–Weierstrass, and `e` and `π` with it, and another
-proves Gelfond–Schneider by the one-variable method. This subsection says how the roadmap treats
-them. The roadmap depends on no other roadmap; it consumes Mathlib and the Tau Ceti
-declarations of *Exact supplier contracts*. Other roadmaps consume it by name; see *Downstream
-consumers*.
+Layers 0–2 build the analysis in several variables: multi-index Taylor coefficients, estimates on
+polydiscs, and exponential polynomials. Layer 3 is the arithmetic of algebraic numbers. Layer 4
+constructs the auxiliary function, Layer 5 proves the Schneider–Lang criterion with it, Layer 6
+derives Hermite–Lindemann and Gelfond–Schneider, and Layer 7 Baker's theorem. Layer 8 proves Baker's
+theorem over `ℂ_[p]` by Baker's own argument and uses only Layer 3 from the rest.
 
-The Mathlib formalisation of Gelfond–Schneider proves it directly, by Gelfond's
-one-variable method (Hua, *Introduction to Number Theory*, §17.9), as
-`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
-statement; when Mathlib has this theorem under this name, the Tau Ceti theorem is deleted in favour
-of Mathlib's. Here it is derived from the criterion, which this roadmap builds regardless. The same
-formalisation makes Siegel's constant public, which 3.5 does not need, and generalises Mathlib's
-`house_prod_le` to
-`house_prod_le {ι} (s : Finset ι) (f : ι → K) : house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`;
-the product bound of 3.2 has that shape, and is taken from Mathlib when Mathlib has it. Its other
-house lemmas are not needed here.
+Every statement below is expressible against Mathlib alone once `FormalMultilinearSeries.mvCoeff`,
+`mvTaylorCoeff` and `Polynomial.expDerivFactor` are defined, together with the auxiliary functions
+of Layers 5 and 8 and the quantities their conditions are stated in. `Suggested.lean` gives the
+first three definitions, and a Lean form, under the name given here in parentheses, for every
+target that has one; the auxiliary functions and the steps of the proofs of 5.7 and 8.10 are
+specified here only.
 
-Yuyang Zhao's Mathlib formalisation of the Lindemann–Weierstrass theorem proves it by Hermite's
-method, and from it `transcendental_exp` (`exp a` is transcendental for algebraic `a ≠ 0`),
-`transcendental_e`, `transcendental_pi` and `transcendental_log`, stated with `IsAlgebraic ℤ` and
-`Transcendental ℤ`. Target 6.3 and the worked examples for `e` and `π` take those names and
-statements; when Mathlib has these theorems under these names, the Tau Ceti theorems are deleted in
-favour of Mathlib's. Here they are derived from the criterion.
+```
+Layer 0 ──┬── Layer 1 ──┬── Layer 4 ──┐
+          │             │             │
+          └── Layer 2 ──┼─────────────┼── Layer 5 ── Layer 6 ── Layer 7
+                        │             │
+Layer 3 ────────────────┴─────────────┘
+   │
+   └── Layer 8
+```
+
+Layer 0 first; within it 0.1–0.3 before 0.4, and 0.5 last. Layers 1 and 2 need only Layer 0 and
+can proceed in parallel; within Layer 1, 1.3 and 1.4 before 1.5, and 1.1–1.3 before 1.6. Layer 3 is
+independent of Layers 0–2. Layer 4 needs 1.4, 1.5 and 3.4. Within Layer 5, 5.1 comes first, then
+5.2, 5.4 and 5.6, then 5.3 (which needs 5.2); 5.5 needs 5.1–5.4 and 4.1, and 5.7 needs 5.5 and
+5.6.
+Layer 6 needs 5.7, and Layer 7 needs Layer 6. Layer 8 needs only 3.2, 3.3 and 3.5 and can proceed
+in parallel with Layers 0–7; within it, 8.1, 8.2, 8.3 and 8.5 are independent of one another, 8.4
+needs 8.1, then 8.6, 8.7, 8.8 and 8.9, and 8.10 last.
+
+### Suggested homes
+
+- `TauCeti/Analysis/Normed/Ring/InfiniteSum.lean`: products of absolutely summable families (0.1);
+- `TauCeti/Analysis/Analytic/`: sums of power series (0.2);
+- `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
+  (0.3–0.5);
+- `TauCeti/Analysis/Complex/Polydisc/`: estimates on polydiscs (1.1, 1.2, the multi-index half of
+  1.4, and 1.6), with the one-variable Schwarz lemma of 1.3, the homogeneous-term half of 1.4 and
+  1.5, which hold on any complex normed space, in `TauCeti/Analysis/Complex/`;
+- `TauCeti/Analysis/Complex/ExpPolynomial/`: exponential polynomials (Layer 2);
+- `TauCeti/NumberTheory/NumberField/House/`: Liouville's inequality, sizes of algebraic numbers
+  and Siegel's lemma with a constant (3.1, 3.2, 3.3, 3.5), and the ultrametric Liouville
+  inequality of 8.2;
+- `TauCeti/NumberTheory/GeometryOfNumbers/`: the Thue–Siegel lemma (3.4), next to the packing
+  bound it resembles;
+- `TauCeti/NumberTheory/Transcendental/`: the auxiliary function, the criterion, its consequences
+  and Baker's theorem (Layers 4–7);
+- `TauCeti/Analysis/Analytic/Order.lean`: the order lemma of 1.3; `TauCeti/Analysis/Analytic/`:
+  the ultrametric Schwarz lemma of 8.2; `TauCeti/Analysis/Normed/Field/`: integral elements in an
+  ultrametric field (8.2);
+- `TauCeti/NumberTheory/Padics/`: the integer bound of 8.2, the exponential on its disc in a
+  normed field over `ℚ_p` (8.1), and the coefficient bound and the value of an exponential
+  polynomial there (8.4);
+- `TauCeti/RingTheory/PowerSeries/`: power series with many zeros (8.3), next to `GaussNorm.lean`,
+  and the derivatives of an exponential polynomial (8.4), next to `Exp.lean`;
+  `TauCeti/Algebra/Polynomial/`: `expDerivFactor` (8.4);
+  `TauCeti/RingTheory/Polynomial/HermiteInterpolation.lean`: Hermite interpolation (8.5), apart
+  from the Hermite polynomials in `TauCeti/RingTheory/Polynomial/Hermite/`;
+- `TauCeti/NumberTheory/Transcendental/Padic/`: Baker's auxiliary function over `ℂ_[p]` and
+  Baker's theorem over `ℂ_[p]` (8.6–8.10);
+- `TauCeti/Examples/`: the worked examples, normalisation checks and rejection tests.
 
 ## Conventions
 
@@ -205,167 +205,6 @@ These are fixed for every target below.
   explicitly; there is no predicate bundling them. Mathlib's absolute heights (`Height.logHeight₁`,
   `Mathlib/NumberTheory/Height/`) are not used: Liouville's inequality in the form 3.1 needs only
   the house, and the size bounds of 3.2 combine houses directly.
-
-## Exact supplier contracts
-
-All references are to the Mathlib commit pinned by Tau Ceti.
-
-### From Mathlib
-
-- **Power series and analyticity:** `FormalMultilinearSeries`, `HasFPowerSeriesOnBall`,
-  `AnalyticAt`, `AnalyticOnNhd` (`Mathlib/Analysis/Analytic/`), uniqueness of the homogeneous terms
-  (`HasFPowerSeriesAt.apply_eq_zero`, `Analysis/Analytic/Uniqueness.lean`), composition with
-  continuous linear maps (`HasFPowerSeriesOnBall.compContinuousLinearMap`), change of origin, and
-  the iterated derivative of an analytic function, on the diagonal
-  (`HasFPowerSeriesOnBall.factorial_smul`, `Analysis/Calculus/FDeriv/Analytic.lean`) and in general
-  as a sum over permutations (`HasFPowerSeriesOnBall.iteratedFDeriv_eq_sum_of_completeSpace`,
-  `Analysis/Analytic/IteratedFDeriv.lean`, which takes a power series on a ball about the point).
-- **One complex variable:** Cauchy's estimate for derivatives
-  (`Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le`, `Analysis/Complex/Liouville.lean`),
-  the maximum modulus principle on an arbitrary complex normed domain
-  (`Complex.norm_le_of_forall_mem_frontier_norm_le`, `Analysis/Complex/AbsMax.lean`), removable
-  singularities of divided differences (`Complex.differentiableOn_dslope`,
-  `Analysis/Complex/RemovableSingularity.lean`), iterated divided differences
-  (`pow_sub_smul_iterate_dslope_of_zero`, `Analysis/Calculus/DSlope.lean`;
-  `HasFPowerSeriesAt.has_fpower_series_iterate_dslope_fslope`,
-  `Analysis/Analytic/IsolatedZeros.lean`), and Schwarz's lemma for a zero of any order between
-  complex normed spaces (`Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`,
-  `Analysis/Complex/Schwarz.lean`), which 1.3 consumes.
-- **Series:** Cauchy products of absolutely summable series
-  (`hasSum_sum_range_mul_of_summable_norm`, `summable_mul_of_summable_norm`), the exponential series
-  (`NormedSpace.expSeries_div_hasSum_exp`, `Complex.exp_eq_exp_ℂ`,
-  `NormedSpace.exp_add_of_mem_ball`).
-- **Polynomials:** `Polynomial.taylor`, root multiplicities (`Polynomial.le_rootMultiplicity_iff`,
-  `Polynomial.rootMultiplicity_eq_natTrailingDegree`), `MvPolynomial.funext`,
-  `Finsupp.equivFunOnFinite`, and `SeparatingDual.eq_zero_of_forall_dual_eq_zero` for passing from
-  scalar to vector coefficients.
-- **Algebraic numbers:** `IsAlgebraic`, `Transcendental`, common denominators
-  (`exists_integral_multiples`), `IntermediateField.finiteDimensional_adjoin`,
-  `NumberField.of_module_finite`, `NumberField.house` with (in the namespace `NumberField`)
-  `house_add_le`, `house_mul_le`,
-  `house_pow`, `house_sum_le_sum_house`, `house_prod_le`, `house_intCast`, `house_nat_mul`,
-  `norm_embedding_le_house`, `one_le_house_of_isIntegral`, and the bound of the field norm by one
-  embedding (`NumberField.norm_norm_le_norm_mul_house_pow`), in
-  `NumberTheory/NumberField/House.lean`.
-- **Discriminants:** the matrix of embeddings of a basis is invertible, from
-  `Algebra.discr_not_zero_of_basis` and `Algebra.discr_eq_det_embeddingsMatrixReindex_pow_two`
-  (`RingTheory/Discriminant.lean`); used in 7.1.
-- **Siegel's lemma:** `Int.Matrix.exists_ne_zero_int_vec_norm_le` (`NumberTheory/SiegelsLemma.lean`)
-  and its number-field form `NumberField.house.exists_ne_zero_int_vec_house_le`, whose constant is
-  private; 3.5 states a form with an existential constant. These solve linear *equations*; the
-  transcendence argument over `ℂ` needs small values of linear *forms* (3.4), which they do not
-  give.
-- **`p`-adic numbers and ultrametric fields:** `ℂ_[p]` (`PadicComplex`,
-  `NumberTheory/Padics/Complex.lean`) with `PadicComplex.isAlgClosed`;
-  `IsUltrametricDist.of_normedAlgebra`; norms in `ℚ_[p]` and in normed algebras over it
-  (`Padic.norm_eq_zpow_neg_valuation`, `Padic.valuation_natCast`, `norm_algebraMap'`); Legendre's
-  formula for the valuation of `n!` (`sub_one_mul_padicValNat_factorial`); ultrametric sums
-  (`IsUltrametricDist.norm_tsum_le_of_forall_le_of_nonneg`,
-  `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`); integral elements and the valuation
-  ring (`Valuation.Integers.mem_of_integral`, `NormedField.valuation`); the field norm as a product
-  over embeddings (`Algebra.norm_eq_prod_embeddings`, for 8.2).
-- **Power series in one variable:** `PowerSeries` with `PowerSeries.derivative`
-  (`PowerSeries.coeff_derivative`), `PowerSeries.exp`, `PowerSeries.rescale`, the Gauss norm
-  (`PowerSeries.gaussNorm`, `RingTheory/PowerSeries/GaussNorm.lean`; `Polynomial.gaussNorm_mul`,
-  `RingTheory/Polynomial/GaussNorm.lean`), and evaluation of a coefficient sequence
-  (`FormalMultilinearSeries.ofScalarsSum`, `Analysis/Analytic/OfScalars.lean`, with
-  `NormedSpace.exp_eq_ofScalarsSum`); Hasse derivatives and polynomials of bounded degree
-  (`Polynomial.factorial_smul_hasseDeriv`, `Polynomial.degreeLTEquiv`), for 8.5.
-- **Orders of zeros in one variable:** `analyticOrderAt`, with `natCast_le_analyticOrderAt` (a
-  zero of order at least `n` is a factor `(z - z₀) ^ n`) and
-  `natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero` (`Analysis/Analytic/Order.lean`).
-
-### From Tau Ceti
-
-- `TauCeti.GeometryOfNumbers.box` (`TauCeti/NumberTheory/GeometryOfNumbers/Doubling.lean`), the
-  closed polydisc of a given polyradius in `ι → ℂ`; see the conventions.
-- `TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_box_of_separated`, the same file: if
-  `r i > 0` for every `i`, `0 < ε ≤ c`, and `S ⊆ box r c` has any two distinct points `x, y`
-  satisfying `ε r i < ‖x i - y i‖` for some `i`, then `S` is finite with at most
-  `(4 c / ε) ^ (2 · card ι)` elements. ⚠ `ε ≤ c` is needed: for one coordinate, `r = c = 1`,
-  `ε = 5` and `S = {0}`, the bound would be `16 / 25 < 1`. It uses Waldschmidt's grid but counts
-  its cells loosely; applied to the values of the linear forms it gives 3.4 with `4` in place of
-  `√2`. 3.4 keeps Waldschmidt's `√2`, because the
-  numerical conditions of 4.1 are the ones his Lemma 4.12 yields; sharpening the count in that
-  lemma is the way to prove 3.4 from it.
-- `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`
-  (`TauCeti/RingTheory/PowerSeries/GaussNorm.lean`), multiplicativity of the Gauss norm on
-  restricted power series over a nonarchimedean field, and Weierstrass division
-  `TauCeti.PowerSeries.IsDistinguished.exists_mul_add_eq`
-  (`TauCeti/RingTheory/PowerSeries/Weierstrass/Division.lean`). 8.3 divides by the distinguished
-  polynomial `∏ (X - a) ^ S` with these.
-- `TauCeti/Analysis/Analytic/OfScalars.lean`, which extends Mathlib's `ofScalars` API, for the
-  values `ofScalarsSum` of 8.3 and 8.6.
-
-### From other roadmaps
-
-None. The roadmaps named under *Scope and ownership* are named there only to draw the boundary.
-
-## How to read the build
-
-Layers 0–2 build the analysis in several variables: multi-index Taylor coefficients, estimates on
-polydiscs, and exponential polynomials. Layer 3 is the arithmetic of algebraic numbers. Layer 4
-constructs the auxiliary function, Layer 5 proves the Schneider–Lang criterion with it, Layer 6
-derives Hermite–Lindemann and Gelfond–Schneider, and Layer 7 Baker's theorem. Layer 8 proves Baker's
-theorem over `ℂ_[p]` by Baker's own argument and uses only Layer 3 from the rest.
-
-Every statement below is expressible against Mathlib alone once `FormalMultilinearSeries.mvCoeff`,
-`mvTaylorCoeff` and `Polynomial.expDerivFactor` are defined, together with the auxiliary functions
-of Layers 5 and 8 and the quantities their conditions are stated in. `Suggested.lean` gives the
-first three definitions, and a Lean form, under the name given here in parentheses, for every
-target that has one; the auxiliary functions and the steps of the proofs of 5.7 and 8.10 are
-specified here only.
-
-```
-Layer 0 ──┬── Layer 1 ──┬── Layer 4 ──┐
-          │             │             │
-          └── Layer 2 ──┼─────────────┼── Layer 5 ── Layer 6 ── Layer 7
-                        │             │
-Layer 3 ────────────────┴─────────────┘
-   │
-   └── Layer 8
-```
-
-Layer 0 first; within it 0.1–0.3 before 0.4, and 0.5 last. Layers 1 and 2 need only Layer 0 and
-can proceed in parallel; within Layer 1, 1.3 and 1.4 before 1.5, and 1.1–1.3 before 1.6. Layer 3 is
-independent of Layers 0–2. Layer 4 needs 1.4, 1.5 and 3.4. Within Layer 5, 5.1 comes first, then
-5.2, 5.4 and 5.6, then 5.3 (which needs 5.2); 5.5 needs 5.1–5.4 and 4.1, and 5.7 needs 5.5 and
-5.6.
-Layer 6 needs 5.7, and Layer 7 needs Layer 6. Layer 8 needs only 3.2, 3.3 and 3.5 and can proceed
-in parallel with Layers 0–7; within it, 8.1, 8.2, 8.3 and 8.5 are independent of one another, 8.4
-needs 8.1, then 8.6, 8.7, 8.8 and 8.9, and 8.10 last.
-
-### Suggested homes
-
-- `TauCeti/Analysis/Normed/Ring/InfiniteSum.lean`: products of absolutely summable families (0.1);
-- `TauCeti/Analysis/Analytic/`: sums of power series (0.2);
-- `TauCeti/Analysis/Analytic/MultiIndex/`: multi-index power series and Taylor coefficients
-  (0.3–0.5);
-- `TauCeti/Analysis/Complex/Polydisc/`: estimates on polydiscs (1.1, 1.2, the multi-index half of
-  1.4, and 1.6), with the one-variable Schwarz lemma of 1.3, the homogeneous-term half of 1.4 and
-  1.5, which hold on any complex normed space, in `TauCeti/Analysis/Complex/`;
-- `TauCeti/Analysis/Complex/ExpPolynomial/`: exponential polynomials (Layer 2);
-- `TauCeti/NumberTheory/NumberField/House/`: Liouville's inequality, sizes of algebraic numbers
-  and Siegel's lemma with a constant (3.1, 3.2, 3.3, 3.5), and the ultrametric Liouville
-  inequality of 8.2;
-- `TauCeti/NumberTheory/GeometryOfNumbers/`: the Thue–Siegel lemma (3.4), next to the packing
-  bound it resembles;
-- `TauCeti/NumberTheory/Transcendental/`: the auxiliary function, the criterion, its consequences
-  and Baker's theorem (Layers 4–7);
-- `TauCeti/Analysis/Analytic/Order.lean`: the order lemma of 1.3; `TauCeti/Analysis/Analytic/`:
-  the ultrametric Schwarz lemma of 8.2; `TauCeti/Analysis/Normed/Field/`: integral elements in an
-  ultrametric field (8.2);
-- `TauCeti/NumberTheory/Padics/`: the integer bound of 8.2, the exponential on its disc in a
-  normed field over `ℚ_p` (8.1), and the coefficient bound and the value of an exponential
-  polynomial there (8.4);
-- `TauCeti/RingTheory/PowerSeries/`: power series with many zeros (8.3), next to `GaussNorm.lean`,
-  and the derivatives of an exponential polynomial (8.4), next to `Exp.lean`;
-  `TauCeti/Algebra/Polynomial/`: `expDerivFactor` (8.4);
-  `TauCeti/RingTheory/Polynomial/HermiteInterpolation.lean`: Hermite interpolation (8.5), apart
-  from the Hermite polynomials in `TauCeti/RingTheory/Polynomial/Hermite/`;
-- `TauCeti/NumberTheory/Transcendental/Padic/`: Baker's auxiliary function over `ℂ_[p]` and
-  Baker's theorem over `ℂ_[p]` (8.6–8.10);
-- `TauCeti/Examples/`: the worked examples, normalisation checks and rejection tests.
 
 ## Layer 0: multi-index power series
 
@@ -1374,6 +1213,196 @@ below are interfaces: they change only together with the consumers.
 - The integral Iwasawa theory roadmap, for the algebraic-number form of Baker–Brumer (its §4.2) and
   abelian Leopoldt (its §4.4): 8.10. The GL₂ modularity lifting roadmap and the Euler systems and
   cyclotomic main conjecture roadmap take those two forms from that roadmap, not from 8.10.
+
+## Scope and ownership
+
+This roadmap owns:
+- multi-index coefficients and Taylor coefficients of analytic functions on `ι → 𝕜`, over any
+  nontrivially normed field, with their basic API (Layer 0);
+- Cauchy, maximum-modulus and Schwarz estimates on polydiscs in `ι → ℂ` (Layer 1);
+- exponential polynomials in several variables: their Taylor coefficients, growth and linear
+  independence (Layer 2);
+- Liouville's inequality, bounds for the sizes of sums and products of algebraic numbers, the
+  number field generated by finitely many algebraic numbers, the Thue–Siegel lemma, and Siegel's
+  lemma over a number field with a constant depending only on the field (Layer 3);
+- the auxiliary function of Proposition 4.10 (Layer 4);
+- the Schneider–Lang criterion for `ℂ^{d₀} × (ℂˣ)^{d₁}` (Corollary 4.2), with the steps of one
+  proof as milestones (Layer 5); its consequences Corollaries 4.3 and 4.4, Hermite–Lindemann and
+  Gelfond–Schneider (Layer 6); and Baker's theorem with Baker's corollaries (Layer 7);
+- the exponential on its disc of convergence in every complete normed field over `ℚ_p`,
+  Liouville's inequality at an ultrametric place, bounds for power series with many zeros in the
+  closed unit disc, Hermite interpolation with ultrametric bounds, Baker's auxiliary function on
+  the diagonal over `ℂ_[p]`, and Baker's theorem over `ℂ_[p]` (Layer 8).
+
+Tau Ceti has the exponential and the logarithm on the deep units of a finite extension `K` of
+`ℚ_p`, from the [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md)
+roadmap: `TauCeti.deepUnitExpLogEquiv`, for a depth `i` with `e < (p − 1) i` where `e` is the
+absolute ramification index of `K` over `ℚ_p`, is the isomorphism of topological groups
+`U(K,i) ≃ₜ* Multiplicative (𝓂[K] ^ i)` given by the logarithm on the deep units
+`U(K,i) = 1 + 𝓂[K]^i`, with the exponential on `𝓂[K]^i` as its inverse. This roadmap owns only
+the facts of 8.1 about Mathlib's `NormedSpace.exp` in a normed field over `ℚ_p`, that is, with a
+norm making it a normed `ℚ_[p]`-algebra, which Layer 8 needs for `ℂ_[p]`; `ℂ_[p]` is not a finite
+extension of `ℚ_p`, so that declaration does not give 8.1. This roadmap does not depend on that
+one.
+
+The
+[Diophantine approximation and transcendence](../DiophantineApproximationAndTranscendence/README.md)
+roadmap uses Layers 0–8. It owns generalisations of three statements here: `exp (π α)` is
+transcendental for every algebraic `α ∉ ℚ · I`, of which the worked example `transcendental_exp_pi`
+is the case `α = 1`; the homogeneous Schneider–Lang corollary under a rank hypothesis on the
+`ℚ`-span of the `xᵢ`, where 6.1 takes them linearly independent; and the auxiliary family with
+separate degree and frequency budgets `T₀` and `T₁`, where 5.1 takes `T₀ = T₁ = T`. This roadmap
+does not depend on that one.
+
+Not in this roadmap, and not owned by any other roadmap unless stated:
+- the Schneider–Lang criterion for algebraically independent entire functions of finite order
+  whose partial derivatives are polynomials in them (Waldschmidt, Theorem 4.1), and its extension
+  to meromorphic functions; both need the growth theory of entire functions of finite order in
+  several variables;
+- effective lower bounds for linear forms in logarithms (Baker–Wüstholz, Matveev); Baker's
+  theorem here is qualitative. The Diophantine approximation and transcendence roadmap owns them,
+  at archimedean and `p`-adic places (its 3.6 and 3.7);
+- Siegel's theorem on integral points, whose proofs need Roth's theorem or effective lower bounds
+  for linear forms in logarithms; the [Elliptic curves](../EllipticCurves/README.md) roadmap
+  excludes it for the same reason. The Thue–Siegel lemma of 3.4 is Siegel's box-principle lemma,
+  not the Thue–Siegel–Roth theorem;
+- the Lindemann–Weierstrass theorem, which is proved by Hermite's method rather than by the
+  criterion. Mathlib has the analytic part of that method
+  (`Mathlib/NumberTheory/Transcendental/Lindemann/AnalyticalPart.lean`), and Yuyang Zhao's Mathlib
+  formalisation proves the theorem; see *Coordination with Mathlib*. The Diophantine approximation
+  and transcendence roadmap owns it (its 3.2);
+- algebraic independence (Schanuel's conjecture, Nesterenko's theorem) and the six exponentials
+  theorem; the Diophantine approximation and transcendence roadmap owns the consequences of
+  Schanuel's conjecture taken as a hypothesis (its 3.8) and Ax–Schanuel (its 5.6);
+- the `p`-adic Schneider–Lang criterion, and elliptic analogues;
+- a `p`-adic logarithm function on `ℂ_[p]`: Layer 8 is stated through the exponential;
+- Weierstrass division and preparation, and the theory of Tate algebras, which the
+  [Foundations of adic spaces](../../Completed/AdicSpaces/README.md) roadmap owns (its §0.5). Tau
+  Ceti already has Weierstrass division with Gauss-norm bounds, which 8.3 consumes.
+
+### Coordination with Mathlib
+
+Mathlib has Liouville numbers, the house of an algebraic number, Siegel's lemma over number fields,
+and the analytic half of Hermite's method for Lindemann–Weierstrass. It does not prove that `e` or
+`π` is transcendental, and it has no Gelfond–Schneider theorem. Two Mathlib formalisations cover
+part of this: Yuyang Zhao's proves Lindemann–Weierstrass, and `e` and `π` with it, and another
+proves Gelfond–Schneider by the one-variable method. This subsection says how the roadmap treats
+them. The roadmap depends on no other roadmap; it consumes Mathlib and the Tau Ceti
+declarations of *Exact supplier contracts*. Other roadmaps consume it by name; see *Downstream
+consumers*.
+
+The Mathlib formalisation of Gelfond–Schneider proves it directly, by Gelfond's
+one-variable method (Hua, *Introduction to Number Theory*, §17.9), as
+`GelfondSchneider.transcendental_cpow_of_isAlgebraic_of_irrational`. Target 6.4 takes that name and
+statement; when Mathlib has this theorem under this name, the Tau Ceti theorem is deleted in favour
+of Mathlib's. Here it is derived from the criterion, which this roadmap builds regardless. The same
+formalisation makes Siegel's constant public, which 3.5 does not need, and generalises Mathlib's
+`house_prod_le` to
+`house_prod_le {ι} (s : Finset ι) (f : ι → K) : house (∏ i ∈ s, f i) ≤ ∏ i ∈ s, house (f i)`;
+the product bound of 3.2 has that shape, and is taken from Mathlib when Mathlib has it. Its other
+house lemmas are not needed here.
+
+Yuyang Zhao's Mathlib formalisation of the Lindemann–Weierstrass theorem proves it by Hermite's
+method, and from it `transcendental_exp` (`exp a` is transcendental for algebraic `a ≠ 0`),
+`transcendental_e`, `transcendental_pi` and `transcendental_log`, stated with `IsAlgebraic ℤ` and
+`Transcendental ℤ`. Target 6.3 and the worked examples for `e` and `π` take those names and
+statements; when Mathlib has these theorems under these names, the Tau Ceti theorems are deleted in
+favour of Mathlib's. Here they are derived from the criterion.
+
+## Exact supplier contracts
+
+All references are to the Mathlib commit pinned by Tau Ceti.
+
+### From Mathlib
+
+- **Power series and analyticity:** `FormalMultilinearSeries`, `HasFPowerSeriesOnBall`,
+  `AnalyticAt`, `AnalyticOnNhd` (`Mathlib/Analysis/Analytic/`), uniqueness of the homogeneous terms
+  (`HasFPowerSeriesAt.apply_eq_zero`, `Analysis/Analytic/Uniqueness.lean`), composition with
+  continuous linear maps (`HasFPowerSeriesOnBall.compContinuousLinearMap`), change of origin, and
+  the iterated derivative of an analytic function, on the diagonal
+  (`HasFPowerSeriesOnBall.factorial_smul`, `Analysis/Calculus/FDeriv/Analytic.lean`) and in general
+  as a sum over permutations (`HasFPowerSeriesOnBall.iteratedFDeriv_eq_sum_of_completeSpace`,
+  `Analysis/Analytic/IteratedFDeriv.lean`, which takes a power series on a ball about the point).
+- **One complex variable:** Cauchy's estimate for derivatives
+  (`Complex.norm_iteratedDeriv_le_of_forall_mem_sphere_norm_le`, `Analysis/Complex/Liouville.lean`),
+  the maximum modulus principle on an arbitrary complex normed domain
+  (`Complex.norm_le_of_forall_mem_frontier_norm_le`, `Analysis/Complex/AbsMax.lean`), removable
+  singularities of divided differences (`Complex.differentiableOn_dslope`,
+  `Analysis/Complex/RemovableSingularity.lean`), iterated divided differences
+  (`pow_sub_smul_iterate_dslope_of_zero`, `Analysis/Calculus/DSlope.lean`;
+  `HasFPowerSeriesAt.has_fpower_series_iterate_dslope_fslope`,
+  `Analysis/Analytic/IsolatedZeros.lean`), and Schwarz's lemma for a zero of any order between
+  complex normed spaces (`Complex.dist_le_mul_div_pow_of_mapsTo_ball_of_isLittleO`,
+  `Analysis/Complex/Schwarz.lean`), which 1.3 consumes.
+- **Series:** Cauchy products of absolutely summable series
+  (`hasSum_sum_range_mul_of_summable_norm`, `summable_mul_of_summable_norm`), the exponential series
+  (`NormedSpace.expSeries_div_hasSum_exp`, `Complex.exp_eq_exp_ℂ`,
+  `NormedSpace.exp_add_of_mem_ball`).
+- **Polynomials:** `Polynomial.taylor`, root multiplicities (`Polynomial.le_rootMultiplicity_iff`,
+  `Polynomial.rootMultiplicity_eq_natTrailingDegree`), `MvPolynomial.funext`,
+  `Finsupp.equivFunOnFinite`, and `SeparatingDual.eq_zero_of_forall_dual_eq_zero` for passing from
+  scalar to vector coefficients.
+- **Algebraic numbers:** `IsAlgebraic`, `Transcendental`, common denominators
+  (`exists_integral_multiples`), `IntermediateField.finiteDimensional_adjoin`,
+  `NumberField.of_module_finite`, `NumberField.house` with (in the namespace `NumberField`)
+  `house_add_le`, `house_mul_le`,
+  `house_pow`, `house_sum_le_sum_house`, `house_prod_le`, `house_intCast`, `house_nat_mul`,
+  `norm_embedding_le_house`, `one_le_house_of_isIntegral`, and the bound of the field norm by one
+  embedding (`NumberField.norm_norm_le_norm_mul_house_pow`), in
+  `NumberTheory/NumberField/House.lean`.
+- **Discriminants:** the matrix of embeddings of a basis is invertible, from
+  `Algebra.discr_not_zero_of_basis` and `Algebra.discr_eq_det_embeddingsMatrixReindex_pow_two`
+  (`RingTheory/Discriminant.lean`); used in 7.1.
+- **Siegel's lemma:** `Int.Matrix.exists_ne_zero_int_vec_norm_le` (`NumberTheory/SiegelsLemma.lean`)
+  and its number-field form `NumberField.house.exists_ne_zero_int_vec_house_le`, whose constant is
+  private; 3.5 states a form with an existential constant. These solve linear *equations*; the
+  transcendence argument over `ℂ` needs small values of linear *forms* (3.4), which they do not
+  give.
+- **`p`-adic numbers and ultrametric fields:** `ℂ_[p]` (`PadicComplex`,
+  `NumberTheory/Padics/Complex.lean`) with `PadicComplex.isAlgClosed`;
+  `IsUltrametricDist.of_normedAlgebra`; norms in `ℚ_[p]` and in normed algebras over it
+  (`Padic.norm_eq_zpow_neg_valuation`, `Padic.valuation_natCast`, `norm_algebraMap'`); Legendre's
+  formula for the valuation of `n!` (`sub_one_mul_padicValNat_factorial`); ultrametric sums
+  (`IsUltrametricDist.norm_tsum_le_of_forall_le_of_nonneg`,
+  `NonarchimedeanAddGroup.summable_of_tendsto_cofinite_zero`); integral elements and the valuation
+  ring (`Valuation.Integers.mem_of_integral`, `NormedField.valuation`); the field norm as a product
+  over embeddings (`Algebra.norm_eq_prod_embeddings`, for 8.2).
+- **Power series in one variable:** `PowerSeries` with `PowerSeries.derivative`
+  (`PowerSeries.coeff_derivative`), `PowerSeries.exp`, `PowerSeries.rescale`, the Gauss norm
+  (`PowerSeries.gaussNorm`, `RingTheory/PowerSeries/GaussNorm.lean`; `Polynomial.gaussNorm_mul`,
+  `RingTheory/Polynomial/GaussNorm.lean`), and evaluation of a coefficient sequence
+  (`FormalMultilinearSeries.ofScalarsSum`, `Analysis/Analytic/OfScalars.lean`, with
+  `NormedSpace.exp_eq_ofScalarsSum`); Hasse derivatives and polynomials of bounded degree
+  (`Polynomial.factorial_smul_hasseDeriv`, `Polynomial.degreeLTEquiv`), for 8.5.
+- **Orders of zeros in one variable:** `analyticOrderAt`, with `natCast_le_analyticOrderAt` (a
+  zero of order at least `n` is a factor `(z - z₀) ^ n`) and
+  `natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero` (`Analysis/Analytic/Order.lean`).
+
+### From Tau Ceti
+
+- `TauCeti.GeometryOfNumbers.box` (`TauCeti/NumberTheory/GeometryOfNumbers/Doubling.lean`), the
+  closed polydisc of a given polyradius in `ι → ℂ`; see the conventions.
+- `TauCeti.GeometryOfNumbers.finite_and_ncard_le_of_subset_box_of_separated`, the same file: if
+  `r i > 0` for every `i`, `0 < ε ≤ c`, and `S ⊆ box r c` has any two distinct points `x, y`
+  satisfying `ε r i < ‖x i - y i‖` for some `i`, then `S` is finite with at most
+  `(4 c / ε) ^ (2 · card ι)` elements. ⚠ `ε ≤ c` is needed: for one coordinate, `r = c = 1`,
+  `ε = 5` and `S = {0}`, the bound would be `16 / 25 < 1`. It uses Waldschmidt's grid but counts
+  its cells loosely; applied to the values of the linear forms it gives 3.4 with `4` in place of
+  `√2`. 3.4 keeps Waldschmidt's `√2`, because the
+  numerical conditions of 4.1 are the ones his Lemma 4.12 yields; sharpening the count in that
+  lemma is the way to prove 3.4 from it.
+- `TauCeti.PowerSeries.gaussNorm_mul_of_isRestricted`
+  (`TauCeti/RingTheory/PowerSeries/GaussNorm.lean`), multiplicativity of the Gauss norm on
+  restricted power series over a nonarchimedean field, and Weierstrass division
+  `TauCeti.PowerSeries.IsDistinguished.exists_mul_add_eq`
+  (`TauCeti/RingTheory/PowerSeries/Weierstrass/Division.lean`). 8.3 divides by the distinguished
+  polynomial `∏ (X - a) ^ S` with these.
+- `TauCeti/Analysis/Analytic/OfScalars.lean`, which extends Mathlib's `ofScalars` API, for the
+  values `ofScalarsSum` of 8.3 and 8.6.
+
+### From other roadmaps
+
+None. The roadmaps named under *Scope and ownership* are named there only to draw the boundary.
 
 ## References
 

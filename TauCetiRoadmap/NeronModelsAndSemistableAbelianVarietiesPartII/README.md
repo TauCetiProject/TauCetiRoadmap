@@ -1,62 +1,84 @@
 # Roadmap: néron models and semistable abelian varieties, part II — genus-one fibrations and rational elliptic surfaces
 
-**Summary.** Build the geometry of genus-one fibrations needed to compare multiple fibers with their Jacobians
-and to classify a particular family of rational elliptic surfaces over F₂. The construction starts with finite
-pinching and full conductor ideals, passes through actual fiber schemes, canonical bundles and geometric
-Picard lattices, and ends with the classification of fourteen equation representatives. The fourteen equations
-and their resolved invariants are Checks of one classification-list target. The classification theorem follows
-from bounded Weierstrass normal forms, admissible equivalence and the geometric and arithmetic fibre conditions.
-The signatures in `Suggested.lean` use native Mathlib and Tau Ceti carriers.
+**Summary.** A genus-one fibration maps a surface onto a curve so that the generic fibre is a curve of
+arithmetic genus one. Its special fibres can be singular, reducible or a multiple mF of a smaller curve. This
+roadmap builds the geometry needed to compare multiple fibres with their Jacobians and to classify one
+explicit family of rational elliptic surfaces over F₂, following Schröer's paper *There is no Enriques surface
+over the integers*.
 
-## Scope and ownership
+All rings are commutative with identity. Precisely, a genus-one fibration is a proper flat map from a smooth
+proper geometrically integral surface onto a smooth proper geometrically integral curve, whose generic fibre
+is regular and geometrically integral, with H⁰ equal to its field of definition and H¹ of dimension one. It is
+elliptic when that fibre is smooth and quasielliptic otherwise, which happens only in characteristic two or
+three.
 
-This roadmap owns finite Ferrand pinching beyond smooth-section clutching; arbitrary-subring conductors and
-their global reconstruction maps; the explicit quadratic pinching chart and its proper curve; the genus-one
-specialization of multiple-fiber isogeny arguments; the extension from smooth generic curves to regular
-nonsmooth genus-one curves; and the geometric and arithmetic classification of the stated
-rational-elliptic-surface family. It also owns the surface realization of the Picard lattice and the local LLR
-comparison inputs not covered by semistable reduction alone. It owns the general genus-one surface theory
-that the classification rests on: the genus-one fibration carrier over a smooth proper curve base (§2.1), the
-geometric fibre classification (§§2.3, 2.5), the canonical bundle formula and the degree of the Hodge line
-(§§4.1–4.2), the general-base Picard restriction and Shioda–Tate generation (§§4.7–4.8) and the regular minimal
-Jacobian fibration (§4.17); later roadmaps import these by section and do not restate them.
+The first tool is pinching. Let Z→Y be a closed immersion and Z→Z′ a finite morphism of schemes, such that the
+points of Z over each point of Z′ lie in one affine open of Y. Ferrand's theorem gives a scheme P with maps
+from Y and Z′ whose square is both a pushout and a pullback, with Y→P finite and Z′→P a closed immersion. A
+finite surjective morphism of reduced noetherian schemes is recovered as such a pinch along its conductor, the
+largest ideal of the larger ring contained in the smaller. Pinching a separable degree-two closed point of the
+projective line to a rational point gives a nonsplit node, with q+2 points over F_q.
 
-Existing notions are used through their owners. StableReduction Layers 1–2 supply normalization, nodes, the
-conductor and normalization sequence, coherent genus and curve duality; Layer 3 supplies smooth-section
-clutching; Layers 4–5 supply intersection theory and smooth-generic regular/minimal models; Layer 6 supplies
-NumericalType and NumericalPicard. StableReduction names Kodaira fibre geometry as Layer 5 work but states no
-classification target, so the classification of fibre types is specified here in full (§2.5), together with
-its extension to primitive multiple divisors and to regular nonsmooth generic genus-one curves.
-NeronModelsAndSemistableAbelianVarieties is a prerequisite, and the dependency runs one way: that roadmap
-writes its one-node curve by an equation and only points here for general pinching, while this roadmap uses
-its Néron models (Layer 1), component groups and minimal-model smooth locus (Layer 2) and semistable Picard
-comparison (Layer 3, §§3.8–3.9, and Layer 4). The abstract integral lattices, their duals and ADE models
-belong to IntegralLattices and the pinned Tau Ceti library. Their identification with geometric component
-classes is the new work.
+For a relatively minimal genus-one fibration on a smooth proper surface over an algebraically closed field,
+each fibre divided by the gcd of its multiplicities is of type I₀, Iₙ (n≥1), II, III, IV, Iₙ* (n≥0), IV*, III*
+or II*. This covers multiple fibres and regular nonsmooth generic curves. The combinatorial core is that a
+nonempty connected symmetric integer matrix with diagonal −2, nonnegative off-diagonal entries and a positive
+null vector of gcd one is, after reindexing, the negative Cartan matrix of an affine ADE diagram, with the
+null vector as its marks.
 
-General Lang surjectivity and finite-field torsor triviality belong to ReductiveGroupsPartII §RG2.3.7, whose
-prose statement includes smooth geometrically connected finite-type groups; its Lean carrier is affine.
-General Tsen and Brauer vanishing belong to SchemeAndStackFoundations SF.2; the Picard obstruction sequence belongs to its SF.3 and
-ComplexComparisonPartII §C3.2d.4. This roadmap uses their genus-one and projective-line consequences. It
-does not construct another elliptic-curve, polynomial quotient, ring pullback, model, lattice or
-numerical-Picard carrier.
+Every smooth proper geometrically connected genus-one curve over a finite field has a rational point, by
+Lang's theorem applied to its Jacobian. Over F₂ every such curve is isomorphic over F₂ to exactly one of five
+Weierstrass curves E₁,…,E₅, where Eᵢ has i rational points; no rational point is assumed.
 
-Tau Ceti’s `RingTheory/Ideal/Conductor.lean` provides coprime ideal extension/contraction for a common ambient ideal,
-including `TauCeti.quotientComapEquivOfCoprime`; it does not define the arbitrary-subring conductor used here.
-Tau Ceti’s `AlgebraicGeometry/WeilDivisor/Scheme/GenusOne.lean` provides pointed degree-one Riemann–Roch and the point/Pic⁰
-comparison. Neither result supplies the regular surface, its fibers, or a scheme presentation of every pointed
-genus-one curve. Those comparisons have separate targets below.
+For multiple fibres, let R be an excellent discrete valuation ring with residue field k, E an elliptic scheme
+over R, and X the relatively minimal regular model of a torsor under its generic fibre whose reduced special
+fibre is elliptic. There is an isogeny over k from the special fibre of E to the reduced special fibre of X.
+When k is finite they have equal point counts over every finite extension, and when k=F₂ they are isomorphic.
 
-Point counts of Weierstrass equations are Tau Ceti's: `WeierstrassCurve.pointCount` and `frobeniusTrace` at
-the pinned library, and EllipticCurves Layer 3's values 1, −1 and 0 of q+1−pointCount at a split node, a
-nonsplit node and a cusp, supplied by `AlgebraicGeometry/EllipticCurve/SingularPointCount.lean` as `frobeniusTrace_eq_one_of_splits`,
-`frobeniusTrace_eq_neg_one_of_not_splits` and `frobeniusTrace_eq_zero_of_c₄_eq_zero`; split and nonsplit are
-measured there by the splitting of the pinned `WeierstrassCurve.nodePolynomial`. The single-component
-fibre counts of §§2.10–2.13 for I₁ and II are these equation-level counts; the multi-component fibre counts
-are new here. Weight reversal rev_i agrees with Mathlib's `Polynomial.reflect i` on polynomials of
-degree at most i; above that weight `reflect` keeps a coefficient that
-rev_i drops. The chart identities of §4.10 assume the degree bounds, and rev_i is kept
-because its output always satisfies the weight bound.
+The last part classifies smooth projective geometrically rational relatively minimal Jacobian elliptic
+surfaces over the projective line over F₂ with constant Picard scheme and at most one rational base point
+whose fibre is singular semistable or smooth supersingular. Two of them are equivalent when an automorphism of
+the base lifts to an isomorphism preserving the zero-sections. Every such surface is equivalent to exactly one
+of fourteen models given by Weierstrass equations over F₂(t), and each model lies in the family. Eleven have
+nonzero functional j-invariant and three have j=0. Schröer's printed lists omit three of the eleven. A key
+input is that a smooth projective geometrically rational surface over F_q of geometric Picard rank ten has
+constant Picard scheme exactly when it has 1+10q+q² rational points.
+
+This is the second part of NeronModelsAndSemistableAbelianVarieties, and uses its Néron models and semistable
+Picard comparison. StableReduction provides the theory of curves and the regular minimal models of smooth
+generic curves. EllipticCurves provides isogenies, point counts and Tate's algorithm, and
+ReductiveGroupsPartII supplies Lang's theorem. Applications to Enriques surfaces use the multiple-fibre
+isogeny and the point counts.
+
+Layers 1–3 treat pinching, fibres and curves over F₂, and multiple fibres. Layers 4–5 treat the surfaces:
+canonical bundles, Picard lattices and global equations, then Picard constancy. Layers 6–7 give the fourteen
+models and their classification.
+
+## How to read the build
+
+Layer 1 constructs finite pinching and its actual global conductor maps. Layer 2 applies it to genus-one
+fibers and the five binary elliptic classes. Layer 3 proves the local multiple-fiber comparison. Layer 4
+constructs canonical bundles, geometric lattices and the bounded global cubic; Layer 5 turns resolved-surface
+counts and marked graph arguments into Picard constancy. Layer 6 gives the fourteen-model list with equations
+and resolved invariants as Checks. Layer 7 proves admissible equivalence and classification by normal-form case
+analysis, with uniqueness from the fibre and j-invariants. The README specifies every geometric target;
+`Suggested.lean` states Ferrand's scheme existence theorem
+(`ferrand_scheme_pushout_exists`), the affine matrix classification
+(`canonicalFiber_affineMatrixClassification`), finite-field genus-one rational points
+(`genusOne_finiteField_hasPoint`), the five-class geometric classification
+(`genusOne_F2_classification`) and the characteristic restriction for regular nonsmooth
+genus-one curves (`regularGenusOne_char_two_or_three`). Its only supporting definition is
+`F2Model`. The remaining targets are stated in this README.
+
+| Layer | Mathematical content |
+| --- | --- |
+| 1 | Finite pinching and full conductor maps |
+| 2 | Genus-one fibres, Kodaira geometry and binary elliptic curves |
+| 3 | Multiple-fibre isogenies and local comparisons |
+| 4 | Canonical bundles, Picard lattices and global equations |
+| 5 | Resolved counts, graph rigidity and Picard constancy |
+| 6 | One fourteen-model list, its invariant Checks and nonrational-fibre theorems |
+| 7 | Admissible equivalence and classification by normal forms |
 
 ## Conventions
 
@@ -90,180 +112,6 @@ form is sign-reversed before comparison. The fiber/section plane in the ordered 
 [[0,1],[1,−1]], determinant −1. On H², geometric Frobenius has eigenvalue q times the corresponding
 Picard-action eigenvalue; twisting by (1) removes q. This fixes the sign and twist in the point-count
 criterion.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-Use `CommRingCat.pullbackCone` and `pullbackConeIsLimit` for the actual ring fiber product.
-`Ideal.Quotient.mk`, `Ideal.quotientMap`, ideal map/comap, `Subring`, `Subalgebra`, module quotients, tensor
-products, `IsLocalization` and `Localization.Away` supply the algebraic carriers. `Polynomial`, its
-coefficient and monic-division API, `AdjoinRoot.mkₐ`, multivariable-polynomial quotients and finite-field
-tensor splitting supply the polynomial calculations. Mathlib's `conductor R x` concerns the subalgebra R[x];
-the new conductor must agree with it when that subring is chosen, without reducing the general definition to a
-monogenic one.
-
-Use native `Scheme`, `Scheme.Hom.appLE`, `IsClosedImmersion`, `IsFinite`, scheme pullbacks, gluing,
-`IdealSheafData.subscheme`, `subschemeι`, `comap`, `comapIso`, `subschemeMap`, `ofIdealTop`, `ofIdeals` and
-`ofIdeals_ideal`. The section identifications must be those induced by the actual inclusions, restrictions and
-`ΓSpecIso`; existence of an abstract ring equivalence is insufficient. Native normalization, relative
-normalization and function-field comparisons are used with their integral/noetherian hypotheses. General
-projective geometry and genuine coherent cohomology are taken from the supplier layers below, rather than
-encoded by arbitrary proposition fields.
-
-`WeierstrassCurve`, its discriminant and invariant formulas, `VariableChange` and its coefficient action are
-native equation data. Tau Ceti’s `AlgebraicGeometry/EllipticCurve/Scheme/ProjModel.lean` supplies
-`WeierstrassCurve.projModel`, its base morphism `projModelOver`, its zero-section `projModelZero`,
-and `projModelVariableChangeIso`. The last isomorphism goes from (V • W).projModel to W.projModel
-and commutes with the base maps and the zero-sections. Use it for the projective realization of
-admissible coordinate changes; the pinching-chart comparisons of §2.43 and the global surface
-contraction of §4.13 are additional targets. Tau Ceti's `AlgebraicGeometry/EllipticCurve/PointCount.lean` supplies
-`WeierstrassCurve.pointCount`, `pointCount_eq_card_point` for smooth finite-field curves, and
-`frobeniusTrace=q+1−pointCount`. `TauCeti.Model`, from
-`AlgebraicGeometry/Curves/StableReduction/Model/Basic.lean`, is the native flat finite-presentation
-DVR model with specified generic-fiber comparison; regularity and minimality remain additional conditions. Native
-`TauCeti.IntegralLattice`, `IsEven`, `IsUnimodular`, the norm-one vector weight of type D
-(`checkerboardLattice_form_checkerboardVector_self`) and `discriminant_typeE₆RootLattice` are used only after
-constructing the geometric pairing comparison.
-
-`RingTheory/Ideal/Conductor.lean` supplies `TauCeti.quotientComapEquivOfCoprime`: for a subring
-S of B, a B-ideal C contained in S and a B-ideal J with J+C=B, the inclusion induces
-S/(J∩S) ≃ B/J. This coprime quotient comparison is used with its actual inclusion map.
-The arbitrary-subring conductor and the reconstruction without a coprimality hypothesis
-are the distinct targets of Layer 1.
-
-Tau Ceti’s `AlgebraicGeometry/Modules/RationalFunctions.lean` supplies, for an irreducible
-scheme X, `TauCeti.AlgebraicGeometry.Scheme.fromSpecFunctionField`, `genericPoint_mem`,
-`fromSpecFunctionField_preimage` and `instUniqueSpecFunctionField`. For nonempty opens it supplies
-`rationalFunctionsRingEquiv`, `rationalFunctionsEquiv` and `rationalFunctionsRingEquiv_map`;
-`rationalFunctionsSectionsEquiv` is defined on every open. All these names are in
-`TauCeti.AlgebraicGeometry.Scheme`. The comparisons in §§2.57–2.62 use these maps and their
-restriction laws on the actual curve and normalization schemes.
-
-### From existing Tau Ceti roadmaps
-
-StableReduction Layer 1 supplies finite normalization, local node/branch comparisons, the conductor and the
-normalization exact sequence, and the splitting of nodes and branches after a finite separable field
-extension; reducedness of the target alone is insufficient. Layer 2 supplies coherent cohomology of proper
-curves (finite dimensionality, vanishing above degree one, the full cohomology-and-base-change theorem),
-local constancy of the fibre Euler characteristic χ(X_b,O) in proper flat families, and curve duality. Local
-freeness of `R¹f_*O` is not part of this contract in general: Layer 2 derives it for proper flat nodal
-families, and otherwise it holds only under cohomological flatness, which §3.3 obtains from Raynaud's
-criterion; a wild multiple fibre keeps a nonzero torsion part T of `R¹f_*O` (§4.1). Together with
-`f_*O = O`, χ-constancy is the Euler-characteristic input used in §3.3; the values H⁰(P¹,O)=k and H¹(P¹,O)=0 are the
-genus-zero case. Layer 4 supplies blowup/intersection operations, including negative semidefiniteness of the
-component matrix of a fibre. The sharper form used here, that the form vanishes exactly on multiples of the
-multiplicity vector and hence every proper principal submatrix is negative definite, is the linear-algebra
-lemma of Stacks Lemma 55.2.3 (tag 0C5X), proved here as part of §2.5. Layer 5 supplies regular relatively
-minimal models of smooth positive-genus generic curves, their uniqueness, components, multiplicities,
-adjunction and the genus formula. Sections extend by Mathlib’s `IsProper.eq_valuativeCriterion`,
-listed in StableReduction’s existing-library dependencies under “Valuative criterion”. Layer 6 supplies the abstract
-numerical-Picard construction; the map from an actual fiber divisor to its weighted numerical type is
-constructed here.
-
-JacobianChallenge Layers A–D supply divisors and degrees, coherent genus, Riemann–Roch/duality, flat base
-change and the Picard functor; Layers E–F supply abelian varieties and the pointed Abel–Jacobi map. The
-genus-one bijection between points of residue degree one and Pic⁰ is the pinned Tau Ceti library's
-`TauCeti.AlgebraicGeometry.SchemeWeilDivisor.degreeOneEquivPicZero`
-(`AlgebraicGeometry/WeilDivisor/Scheme/GenusOne.lean`). AlgebraicCurves Layer 12 supplies
-the scheme/function-field dictionary and Layer 10 the Weierstrass normal forms of elliptic function fields
-(Stichtenoth, Prop. 6.1.2), including the two characteristic-two forms; together they give the Weierstrass
-presentation of a pointed smooth proper genus-one curve used in §2.22. That consumer compares the
-pointed curve with the supplied `WeierstrassCurve.projModel`, preserving its `projModelZero`.
-
-EllipticCurves Layer 1 supplies genuine finite isogenies, dual isogenies and degrees; Layer 3 supplies
-finite-field Frobenius, the count identity `#E(𝔽_{qⁿ}) = deg(1 − π_qⁿ)` and the bad-reduction values of
-q+1−pointCount, and the invariance of all extension counts under an isogeny is derived from these in §3.8;
-Layer 4 supplies the Kodaira reduction symbols and Tate's algorithm over perfect residue fields. The comparison from its local algorithm to
-resolved surface components is an explicit target here. IntegralLattices Layers 0–1 supply the
-abstract lattices, duals and discriminant forms; Layer 6, targets 6C and 6F, supplies the
-positive definite even unimodular rank-eight classification and the Gram/coordinate E₈ comparison.
-The surface-to-lattice realization is constructed here.
-
-### From foundational roadmaps
-
-SchemeAndStackFoundations Layer 0 (SF.0), §0.27, supplies flat exactness and finite-module
-annihilators under flat scalar extension (Stacks
-Lemma 10.40.4, tag 07T8); §0.28 supplies ideal restriction and quotient/localization comparisons,
-including the ideal-pullback and ideal-restriction formulas on affine opens. SF.1 supplies genuine algebraic spaces on the small étale site, étale descent, fibre products of
-spaces and the quotient of a scheme by an étale equivalence relation (Stacks Theorem 65.10.5, tag 02WW).
-The diagonal properties of Stacks Lemma 65.13.1 (tag 02X4) are supplied by SF.1 §1.3’s
-the diagonal of an algebraic space is locally quasi-finite; locally quasi-finite implies locally of finite type. Three
-Stacks inputs that SF.1 does not state are targets of §1.9 here: étale algebras lift along surjections of rings
-(Lemma 10.143.10, tag 04D1); a separated locally quasi-finite morphism to a
-scheme is representable (Proposition 67.50.2, Section 67.50, tag 0417); and quasi-separatedness and
-separatedness descend along a surjective universally closed morphism (Lemma 67.9.8, tag 05Z2). The
-flat-module patching equivalence over a ring fibre product (Ferrand, Théorème 2.2(iv), p. 560; Stacks Lemma
-15.6.8, tag 0D2I) is also a target here (§1.3). The finite-pinching specialization below constructs its
-presentation and proves its descent hypotheses using those carriers; preservation of an already constructed
-square is not a substitute for presentation effectivity.
-
-SchemeAndStackFoundations Layer 2 (SF.2), §2.16, supplies Tsen for a one-variable function field
-over algebraically closed constants (Theorems 59.67.10–12, tag 0A2M). Its Layer 3 (SF.3), §3.6,
-supplies Picard torsors without a rational point, using JacobianChallenge Layer D’s Picard/Brauer
-obstruction sequence over a field. Its Layer 5 (SF.5) supplies intersection, adjunction and Hodge
-index on smooth projective surfaces over algebraically closed fields. Flat base change of quasi-coherent cohomology is JacobianChallenge's (Layers A–D), as
-SchemeAndStackFoundations also records. The rational-surface blowup and cycle-class realizations
-needed beyond these contracts are explicit Layer 4 and Layer 5 targets here; no unnamed rational-surface
-classification or nonexistent étale-cohomology layer is assumed.
-
-AlgebraicModuliForArithmeticGeometry Layer 1 §1.1 supplies the quotient-convention projective bundle and
-relative Proj. Layer 3 §3.5 supplies effective polarized descent and projective finite quotients; apply it only
-with a chosen invariant polarization and the free finite constant-group action specified below. Layer 7 §7.3
-supplies Raynaud's condition (N)* and the degree-one cohomological-flatness criterion: a proper flat finite-presentation
-relative curve over a trait satisfying (N)* is cohomologically flat in degree zero when its strict-henselian
-generic fiber has a divisor of degree one; a section suffices. (N)* includes the stated
-normality/no-embedded-point condition and `f_*O=O`. ComplexComparisonPartII §§C3.2d.2–C3.2d.4
-supplies Picard representability, separatedness and the Brauer obstruction sequence. Raynaud's
-multiplicity/order argument is specialized and proved below with all these hypotheses.
-
-NeronModelsAndSemistableAbelianVarieties Layer 1 supplies Néron models; Layer 2 the identity component, the
-component group, the smooth locus of the minimal regular model (2.7) and the geometric component groups by
-Kodaira type (2.8); Layer 3, §§3.8–3.9, the degree-zero Picard scheme of a semistable curve and its
-identification with the Néron identity component; and Layer 4 the Picard schemes of semistable curves and the
-monodromy pairing. Additive torsors, LLR discriminant/Lie-lattice comparisons, local period equals
-fiber multiplicity and the corrected obstruction factors are developed in Layer 3 here. Thus the stronger
-comparison is not silently imported from a semistable theorem. ReductiveGroupsPartII §RG2.3.7’s prose
-target *lang-theorem* supplies Lang for every smooth geometrically connected finite-type group over a finite
-field, including an elliptic curve and PGL₂ (Lang (1956), Theorem 1 and corollary, pp. 556–557). Its Lean target
-its Lang surjectivity statement has the affine carrier `FiniteTypeCommHopfAlgCat`, and it has no compiled PGL₂ carrier.
-The Jacobian application of §2.15 and the PGL₂ application of §2.16 consume the prose target.
-
-EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b)
-supplies finite-coefficient cohomology, adic realization, finiteness, duality, purity/Gysin and cycle
-classes, projective bundles, blowups, geometric Frobenius, Tate twists and perfect-complex traces.
-EtaleCohomologyFoundations §§0.9–0.11 supplies the algebraic cycle-class, projective-bundle
-and smooth-trace normalizations.
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 supplies the curve, finite-coefficient
-and rational trace formulas and the constant-sheaf point-count trace. Layer 5 here
-specializes these constructions to P² and equivariant point blowups, preserving their canonical maps,
-then constructs the rational-surface cycle-class comparison and rank-ten point-count criterion.
-
-## How to read the build
-
-Layer 1 constructs finite pinching and its actual global conductor maps. Layer 2 applies it to genus-one
-fibers and the five binary elliptic classes. Layer 3 proves the local multiple-fiber comparison. Layer 4
-constructs canonical bundles, geometric lattices and the bounded global cubic; Layer 5 turns resolved-surface
-counts and marked graph arguments into Picard constancy. Layer 6 gives the fourteen-model list with equations
-and resolved invariants as Checks. Layer 7 proves admissible equivalence and classification by normal-form case
-analysis, with uniqueness from the fibre and j-invariants. The README specifies every geometric target;
-`Suggested.lean` states Ferrand's scheme existence theorem
-(`ferrand_scheme_pushout_exists`), the affine matrix classification
-(`canonicalFiber_affineMatrixClassification`), finite-field genus-one rational points
-(`genusOne_finiteField_hasPoint`), the five-class geometric classification
-(`genusOne_F2_classification`) and the characteristic restriction for regular nonsmooth
-genus-one curves (`regularGenusOne_char_two_or_three`). Its only supporting definition is
-`F2Model`. The remaining targets are stated in this README.
-
-| Layer | Mathematical content |
-| --- | --- |
-| 1 | Finite pinching and full conductor maps |
-| 2 | Genus-one fibres, Kodaira geometry and binary elliptic curves |
-| 3 | Multiple-fibre isogenies and local comparisons |
-| 4 | Canonical bundles, Picard lattices and global equations |
-| 5 | Resolved counts, graph rigidity and Picard constancy |
-| 6 | One fourteen-model list, its invariant Checks and nonrational-fibre theorems |
-| 7 | Admissible equivalence and classification by normal forms |
 
 ## Layer 1: finite pinching and full conductors
 
@@ -10244,6 +10092,204 @@ are prior art for the coefficient computations of §7.1 and the admissible chang
 stated here on Mathlib's `WeierstrassCurve.VariableChange`, not on that record. Layers 1 and 3–6, every
 target of Layer 2 (including the geometric realization of §2.3) and §§7.4–7.7 have no counterpart there, nor
 do the Néron models this roadmap takes from NeronModelsAndSemistableAbelianVarieties.
+
+## Scope and ownership
+
+This roadmap owns finite Ferrand pinching beyond smooth-section clutching; arbitrary-subring conductors and
+their global reconstruction maps; the explicit quadratic pinching chart and its proper curve; the genus-one
+specialization of multiple-fiber isogeny arguments; the extension from smooth generic curves to regular
+nonsmooth genus-one curves; and the geometric and arithmetic classification of the stated
+rational-elliptic-surface family. It also owns the surface realization of the Picard lattice and the local LLR
+comparison inputs not covered by semistable reduction alone. It owns the general genus-one surface theory
+that the classification rests on: the genus-one fibration carrier over a smooth proper curve base (§2.1), the
+geometric fibre classification (§§2.3, 2.5), the canonical bundle formula and the degree of the Hodge line
+(§§4.1–4.2), the general-base Picard restriction and Shioda–Tate generation (§§4.7–4.8) and the regular minimal
+Jacobian fibration (§4.17); later roadmaps import these by section and do not restate them.
+
+Existing notions are used through their owners. StableReduction Layers 1–2 supply normalization, nodes, the
+conductor and normalization sequence, coherent genus and curve duality; Layer 3 supplies smooth-section
+clutching; Layers 4–5 supply intersection theory and smooth-generic regular/minimal models; Layer 6 supplies
+NumericalType and NumericalPicard. StableReduction names Kodaira fibre geometry as Layer 5 work but states no
+classification target, so the classification of fibre types is specified here in full (§2.5), together with
+its extension to primitive multiple divisors and to regular nonsmooth generic genus-one curves.
+NeronModelsAndSemistableAbelianVarieties is a prerequisite, and the dependency runs one way: that roadmap
+writes its one-node curve by an equation and only points here for general pinching, while this roadmap uses
+its Néron models (Layer 1), component groups and minimal-model smooth locus (Layer 2) and semistable Picard
+comparison (Layer 3, §§3.8–3.9, and Layer 4). The abstract integral lattices, their duals and ADE models
+belong to IntegralLattices and the pinned Tau Ceti library. Their identification with geometric component
+classes is the new work.
+
+General Lang surjectivity and finite-field torsor triviality belong to ReductiveGroupsPartII §RG2.3.7, whose
+prose statement includes smooth geometrically connected finite-type groups; its Lean carrier is affine.
+General Tsen and Brauer vanishing belong to SchemeAndStackFoundations SF.2; the Picard obstruction sequence belongs to its SF.3 and
+ComplexComparisonPartII §C3.2d.4. This roadmap uses their genus-one and projective-line consequences. It
+does not construct another elliptic-curve, polynomial quotient, ring pullback, model, lattice or
+numerical-Picard carrier.
+
+Tau Ceti’s `RingTheory/Ideal/Conductor.lean` provides coprime ideal extension/contraction for a common ambient ideal,
+including `TauCeti.quotientComapEquivOfCoprime`; it does not define the arbitrary-subring conductor used here.
+Tau Ceti’s `AlgebraicGeometry/WeilDivisor/Scheme/GenusOne.lean` provides pointed degree-one Riemann–Roch and the point/Pic⁰
+comparison. Neither result supplies the regular surface, its fibers, or a scheme presentation of every pointed
+genus-one curve. Those comparisons have separate targets above.
+
+Point counts of Weierstrass equations are Tau Ceti's: `WeierstrassCurve.pointCount` and `frobeniusTrace` at
+the pinned library, and EllipticCurves Layer 3's values 1, −1 and 0 of q+1−pointCount at a split node, a
+nonsplit node and a cusp, supplied by `AlgebraicGeometry/EllipticCurve/SingularPointCount.lean` as `frobeniusTrace_eq_one_of_splits`,
+`frobeniusTrace_eq_neg_one_of_not_splits` and `frobeniusTrace_eq_zero_of_c₄_eq_zero`; split and nonsplit are
+measured there by the splitting of the pinned `WeierstrassCurve.nodePolynomial`. The single-component
+fibre counts of §§2.10–2.13 for I₁ and II are these equation-level counts; the multi-component fibre counts
+are new here. Weight reversal rev_i agrees with Mathlib's `Polynomial.reflect i` on polynomials of
+degree at most i; above that weight `reflect` keeps a coefficient that
+rev_i drops. The chart identities of §4.10 assume the degree bounds, and rev_i is kept
+because its output always satisfies the weight bound.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+Use `CommRingCat.pullbackCone` and `pullbackConeIsLimit` for the actual ring fiber product.
+`Ideal.Quotient.mk`, `Ideal.quotientMap`, ideal map/comap, `Subring`, `Subalgebra`, module quotients, tensor
+products, `IsLocalization` and `Localization.Away` supply the algebraic carriers. `Polynomial`, its
+coefficient and monic-division API, `AdjoinRoot.mkₐ`, multivariable-polynomial quotients and finite-field
+tensor splitting supply the polynomial calculations. Mathlib's `conductor R x` concerns the subalgebra R[x];
+the new conductor must agree with it when that subring is chosen, without reducing the general definition to a
+monogenic one.
+
+Use native `Scheme`, `Scheme.Hom.appLE`, `IsClosedImmersion`, `IsFinite`, scheme pullbacks, gluing,
+`IdealSheafData.subscheme`, `subschemeι`, `comap`, `comapIso`, `subschemeMap`, `ofIdealTop`, `ofIdeals` and
+`ofIdeals_ideal`. The section identifications must be those induced by the actual inclusions, restrictions and
+`ΓSpecIso`; existence of an abstract ring equivalence is insufficient. Native normalization, relative
+normalization and function-field comparisons are used with their integral/noetherian hypotheses. General
+projective geometry and genuine coherent cohomology are taken from the supplier layers below, rather than
+encoded by arbitrary proposition fields.
+
+`WeierstrassCurve`, its discriminant and invariant formulas, `VariableChange` and its coefficient action are
+native equation data. Tau Ceti’s `AlgebraicGeometry/EllipticCurve/Scheme/ProjModel.lean` supplies
+`WeierstrassCurve.projModel`, its base morphism `projModelOver`, its zero-section `projModelZero`,
+and `projModelVariableChangeIso`. The last isomorphism goes from (V • W).projModel to W.projModel
+and commutes with the base maps and the zero-sections. Use it for the projective realization of
+admissible coordinate changes; the pinching-chart comparisons of §2.43 and the global surface
+contraction of §4.13 are additional targets. Tau Ceti's `AlgebraicGeometry/EllipticCurve/PointCount.lean` supplies
+`WeierstrassCurve.pointCount`, `pointCount_eq_card_point` for smooth finite-field curves, and
+`frobeniusTrace=q+1−pointCount`. `TauCeti.Model`, from
+`AlgebraicGeometry/Curves/StableReduction/Model/Basic.lean`, is the native flat finite-presentation
+DVR model with specified generic-fiber comparison; regularity and minimality remain additional conditions. Native
+`TauCeti.IntegralLattice`, `IsEven`, `IsUnimodular`, the norm-one vector weight of type D
+(`checkerboardLattice_form_checkerboardVector_self`) and `discriminant_typeE₆RootLattice` are used only after
+constructing the geometric pairing comparison.
+
+`RingTheory/Ideal/Conductor.lean` supplies `TauCeti.quotientComapEquivOfCoprime`: for a subring
+S of B, a B-ideal C contained in S and a B-ideal J with J+C=B, the inclusion induces
+S/(J∩S) ≃ B/J. This coprime quotient comparison is used with its actual inclusion map.
+The arbitrary-subring conductor and the reconstruction without a coprimality hypothesis
+are the distinct targets of Layer 1.
+
+Tau Ceti’s `AlgebraicGeometry/Modules/RationalFunctions.lean` supplies, for an irreducible
+scheme X, `TauCeti.AlgebraicGeometry.Scheme.fromSpecFunctionField`, `genericPoint_mem`,
+`fromSpecFunctionField_preimage` and `instUniqueSpecFunctionField`. For nonempty opens it supplies
+`rationalFunctionsRingEquiv`, `rationalFunctionsEquiv` and `rationalFunctionsRingEquiv_map`;
+`rationalFunctionsSectionsEquiv` is defined on every open. All these names are in
+`TauCeti.AlgebraicGeometry.Scheme`. The comparisons in §§2.57–2.62 use these maps and their
+restriction laws on the actual curve and normalization schemes.
+
+### From existing Tau Ceti roadmaps
+
+StableReduction Layer 1 supplies finite normalization, local node/branch comparisons, the conductor and the
+normalization exact sequence, and the splitting of nodes and branches after a finite separable field
+extension; reducedness of the target alone is insufficient. Layer 2 supplies coherent cohomology of proper
+curves (finite dimensionality, vanishing above degree one, the full cohomology-and-base-change theorem),
+local constancy of the fibre Euler characteristic χ(X_b,O) in proper flat families, and curve duality. Local
+freeness of `R¹f_*O` is not part of this contract in general: Layer 2 derives it for proper flat nodal
+families, and otherwise it holds only under cohomological flatness, which §3.3 obtains from Raynaud's
+criterion; a wild multiple fibre keeps a nonzero torsion part T of `R¹f_*O` (§4.1). Together with
+`f_*O = O`, χ-constancy is the Euler-characteristic input used in §3.3; the values H⁰(P¹,O)=k and H¹(P¹,O)=0 are the
+genus-zero case. Layer 4 supplies blowup/intersection operations, including negative semidefiniteness of the
+component matrix of a fibre. The sharper form used here, that the form vanishes exactly on multiples of the
+multiplicity vector and hence every proper principal submatrix is negative definite, is the linear-algebra
+lemma of Stacks Lemma 55.2.3 (tag 0C5X), proved here as part of §2.5. Layer 5 supplies regular relatively
+minimal models of smooth positive-genus generic curves, their uniqueness, components, multiplicities,
+adjunction and the genus formula. Sections extend by Mathlib’s `IsProper.eq_valuativeCriterion`,
+listed in StableReduction’s existing-library dependencies under “Valuative criterion”. Layer 6 supplies the abstract
+numerical-Picard construction; the map from an actual fiber divisor to its weighted numerical type is
+constructed here.
+
+JacobianChallenge Layers A–D supply divisors and degrees, coherent genus, Riemann–Roch/duality, flat base
+change and the Picard functor; Layers E–F supply abelian varieties and the pointed Abel–Jacobi map. The
+genus-one bijection between points of residue degree one and Pic⁰ is the pinned Tau Ceti library's
+`TauCeti.AlgebraicGeometry.SchemeWeilDivisor.degreeOneEquivPicZero`
+(`AlgebraicGeometry/WeilDivisor/Scheme/GenusOne.lean`). AlgebraicCurves Layer 12 supplies
+the scheme/function-field dictionary and Layer 10 the Weierstrass normal forms of elliptic function fields
+(Stichtenoth, Prop. 6.1.2), including the two characteristic-two forms; together they give the Weierstrass
+presentation of a pointed smooth proper genus-one curve used in §2.22. That consumer compares the
+pointed curve with the supplied `WeierstrassCurve.projModel`, preserving its `projModelZero`.
+
+EllipticCurves Layer 1 supplies genuine finite isogenies, dual isogenies and degrees; Layer 3 supplies
+finite-field Frobenius, the count identity `#E(𝔽_{qⁿ}) = deg(1 − π_qⁿ)` and the bad-reduction values of
+q+1−pointCount, and the invariance of all extension counts under an isogeny is derived from these in §3.8;
+Layer 4 supplies the Kodaira reduction symbols and Tate's algorithm over perfect residue fields. The comparison from its local algorithm to
+resolved surface components is an explicit target here. IntegralLattices Layers 0–1 supply the
+abstract lattices, duals and discriminant forms; Layer 6, targets 6C and 6F, supplies the
+positive definite even unimodular rank-eight classification and the Gram/coordinate E₈ comparison.
+The surface-to-lattice realization is constructed here.
+
+### From foundational roadmaps
+
+SchemeAndStackFoundations Layer 0 (SF.0), §0.27, supplies flat exactness and finite-module
+annihilators under flat scalar extension (Stacks
+Lemma 10.40.4, tag 07T8); §0.28 supplies ideal restriction and quotient/localization comparisons,
+including the ideal-pullback and ideal-restriction formulas on affine opens. SF.1 supplies genuine algebraic spaces on the small étale site, étale descent, fibre products of
+spaces and the quotient of a scheme by an étale equivalence relation (Stacks Theorem 65.10.5, tag 02WW).
+The diagonal properties of Stacks Lemma 65.13.1 (tag 02X4) are supplied by SF.1 §1.3’s
+the diagonal of an algebraic space is locally quasi-finite; locally quasi-finite implies locally of finite type. Three
+Stacks inputs that SF.1 does not state are targets of §1.9 here: étale algebras lift along surjections of rings
+(Lemma 10.143.10, tag 04D1); a separated locally quasi-finite morphism to a
+scheme is representable (Proposition 67.50.2, Section 67.50, tag 0417); and quasi-separatedness and
+separatedness descend along a surjective universally closed morphism (Lemma 67.9.8, tag 05Z2). The
+flat-module patching equivalence over a ring fibre product (Ferrand, Théorème 2.2(iv), p. 560; Stacks Lemma
+15.6.8, tag 0D2I) is also a target here (§1.3). The finite-pinching specialization above constructs its
+presentation and proves its descent hypotheses using those carriers; preservation of an already constructed
+square is not a substitute for presentation effectivity.
+
+SchemeAndStackFoundations Layer 2 (SF.2), §2.16, supplies Tsen for a one-variable function field
+over algebraically closed constants (Theorems 59.67.10–12, tag 0A2M). Its Layer 3 (SF.3), §3.6,
+supplies Picard torsors without a rational point, using JacobianChallenge Layer D’s Picard/Brauer
+obstruction sequence over a field. Its Layer 5 (SF.5) supplies intersection, adjunction and Hodge
+index on smooth projective surfaces over algebraically closed fields. Flat base change of quasi-coherent cohomology is JacobianChallenge's (Layers A–D), as
+SchemeAndStackFoundations also records. The rational-surface blowup and cycle-class realizations
+needed beyond these contracts are explicit Layer 4 and Layer 5 targets here; no unnamed rational-surface
+classification or nonexistent étale-cohomology layer is assumed.
+
+AlgebraicModuliForArithmeticGeometry Layer 1 §1.1 supplies the quotient-convention projective bundle and
+relative Proj. Layer 3 §3.5 supplies effective polarized descent and projective finite quotients; apply it only
+with a chosen invariant polarization and the free finite constant-group action specified above. Layer 7 §7.3
+supplies Raynaud's condition (N)* and the degree-one cohomological-flatness criterion: a proper flat finite-presentation
+relative curve over a trait satisfying (N)* is cohomologically flat in degree zero when its strict-henselian
+generic fiber has a divisor of degree one; a section suffices. (N)* includes the stated
+normality/no-embedded-point condition and `f_*O=O`. ComplexComparisonPartII §§C3.2d.2–C3.2d.4
+supplies Picard representability, separatedness and the Brauer obstruction sequence. Raynaud's
+multiplicity/order argument is specialized and proved above with all these hypotheses.
+
+NeronModelsAndSemistableAbelianVarieties Layer 1 supplies Néron models; Layer 2 the identity component, the
+component group, the smooth locus of the minimal regular model (2.7) and the geometric component groups by
+Kodaira type (2.8); Layer 3, §§3.8–3.9, the degree-zero Picard scheme of a semistable curve and its
+identification with the Néron identity component; and Layer 4 the Picard schemes of semistable curves and the
+monodromy pairing. Additive torsors, LLR discriminant/Lie-lattice comparisons, local period equals
+fiber multiplicity and the corrected obstruction factors are developed in Layer 3 here. Thus the stronger
+comparison is not silently imported from a semistable theorem. ReductiveGroupsPartII §RG2.3.7’s prose
+target *lang-theorem* supplies Lang for every smooth geometrically connected finite-type group over a finite
+field, including an elliptic curve and PGL₂ (Lang (1956), Theorem 1 and corollary, pp. 556–557). Its Lean target
+its Lang surjectivity statement has the affine carrier `FiniteTypeCommHopfAlgCat`, and it has no compiled PGL₂ carrier.
+The Jacobian application of §2.15 and the PGL₂ application of §2.16 consume the prose target.
+
+EtaleCohomologyFoundations §§F.0.3, F.2.1–F.2.7, F.3–F.7 and F.10.1–F.10.5 (including F.10.2b)
+supplies finite-coefficient cohomology, adic realization, finiteness, duality, purity/Gysin and cycle
+classes, projective bundles, blowups, geometric Frobenius, Tate twists and perfect-complex traces.
+EtaleCohomologyFoundations §§0.9–0.11 supplies the algebraic cycle-class, projective-bundle
+and smooth-trace normalizations.
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 supplies the curve, finite-coefficient
+and rational trace formulas and the constant-sheaf point-count trace. Layer 5 here
+specializes these constructions to P² and equivariant point blowups, preserving their canonical maps,
+then constructs the rational-surface cycle-class comparison and rank-ten point-count criterion.
 
 ## References
 

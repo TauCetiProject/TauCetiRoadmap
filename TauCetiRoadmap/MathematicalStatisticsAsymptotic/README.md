@@ -1,166 +1,88 @@
 # Roadmap: asymptotic and robust statistics
 
-**Summary.** This roadmap builds first-order asymptotic statistics and robustness on Mathlib's
-convergence in law, its central limit theorem and its Gaussian measures, and on the finite-sample
-core of [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md):
-- the missing Euclidean limit theorems: the multivariate Lindeberg–Feller and i.i.d. central limit
-  theorems, Gaussian quadratic forms and the second-order delta method;
-- weak convergence of maps that need not be measurable, in the sense of Hoffmann-Jørgensen, and
-  the space `ℓ^∞(T)`;
-- empirical processes: Glivenko–Cantelli and Donsker theorems under bracketing and uniform
-  entropy, VC classes, the maximal inequalities, and the classical Donsker theorem with the
-  Brownian bridge limit;
-- Hadamard differentiability, the functional delta method and the argmax theorem;
-- M- and Z-estimators, maximum likelihood, one-step estimators, rates, misspecification, sample
-  quantiles and the Bahadur representation;
-- Hájek projections, U-statistics with the Hoeffding decomposition and the degenerate case, and
-  L-statistics;
-- Le Cam's first and third lemmas, local asymptotic normality of models differentiable in
-  quadratic mean, the asymptotic representation, convolution and local asymptotic minimax
-  theorems, and superefficiency;
-- likelihood ratio, Wald and score tests, power envelopes, Pitman efficiency, Pearson's tests and
-  the generalized method of moments;
-- robust statistics: influence functions, Hampel's and Huber's optimality, breakdown points and
-  regression M-estimators.
+**Summary.** Many estimators and test statistics are, in large samples, close to averages of
+independent terms, hence approximately Gaussian. Asymptotic statistics makes this precise and asks
+which limit laws are possible. Robust statistics asks how such procedures behave when the model is
+slightly wrong. This roadmap builds the first-order asymptotic theory and the robust theory,
+following van der Vaart (1998), van der Vaart–Wellner (2023) and Jurečková–Sen (1996).
 
-The material is the standard graduate content of van der Vaart (1998) and van der
-Vaart–Wellner (2023), with the robust theory of Jurečková–Sen and Lehmann (1999) (see
-[References](#references)). Headlines that restate a source result carry a theorem, definition,
-section or equation locator with its printed page in a text listed under References; corollaries
-and adaptations are derived in the proof routes.
+The first main result concerns empirical processes. Take a sample of size `n` from `P`, and
+functions `fₜ` indexed by a set `T` whose centred values are bounded at every point. The empirical
+process `t ↦ √n (ℙₙ fₜ - P fₜ)` lies in the space `ℓ^∞(T)` of bounded functions on `T`, but is in
+general not measurable. The class is Donsker when this process converges weakly to a tight law, in
+the outer-integral sense of Hoffmann-Jørgensen; for a class in `L²(P)` that law is a Brownian
+bridge. A class of square-integrable functions is Donsker when its bracketing entropy integral is
+finite; a companion theorem uses uniform entropy. For every law `P` on `ℝ` the half-line indicators
+form a Donsker class, with limit the law of `B ∘ F`, for the standard Brownian bridge `B` and the
+distribution function `F` of `P`.
 
-**This roadmap is a supplier.** It supplies its empirical-process toolkit and its limits of
-experiments to MathematicalStatisticsSemiparametric, MathematicalStatisticsHigherOrderAndResampling
-and MathematicalStatisticsNonparametric. The headlines they use are listed under
-[Supplied to later roadmaps](#supplied-to-later-roadmaps), and their names and statements are part
-of the contract of this roadmap.
+The second concerns estimators `θ̂ₙ` that approximately solve `Σᵢ ψ_θ(xᵢ) = 0`, for measurable
+`ℝ^k`-valued `ψ_θ`. Suppose that `P ψ_{θ₀} = 0` and `θ ↦ P ψ_θ` is differentiable at `θ₀` with
+nonsingular derivative `V`. Suppose also that the `ψ_θ` are square-integrable, tend to `ψ_{θ₀}` in
+`L²(P)` as `θ → θ₀`, and have coordinates forming Donsker classes for `θ` near `θ₀`. If `θ̂ₙ → θ₀`
+and `n^{-1/2} Σᵢ ψ_{θ̂ₙ}(xᵢ) → 0` in probability, then `√n (θ̂ₙ - θ₀)` converges in law to
+`N(0, V⁻¹ Cov(ψ_{θ₀}) V⁻ᵀ)`. For maximum likelihood, under explicit smoothness and domination
+conditions and with nonsingular Fisher information `I(θ)`, a consistent root `θ̂ₙ` of the likelihood
+equation satisfies `√n (θ̂ₙ - θ) → N(0, I(θ)⁻¹)`.
 
-`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
-a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. It is not an exhaustive acceptance test: the other headlines (bold or not) are
-targets of the same standing, stated in prose with their locators or proof routes.
+The third result says in what sense `I(θ)⁻¹` is optimal. A sequence of experiments with local
+parameter `h ∈ ℝ^k` is locally asymptotically normal, with positive definite information `I`, when
+statistics `Δₙ` converge in law to `N(0, I)` under `h = 0` and, for each fixed `h`, the likelihood
+ratio of `h` to `0` is `exp(⟪h, Δₙ⟫ - hᵀIh/2)` up to a factor tending to `1` in probability. Samples
+from a model differentiable in quadratic mean, at an interior point with nonsingular information,
+give such sequences. By the convolution theorem, if for a matrix `A` the error `Zₙ - A h` of an
+estimator sequence has the same limit law `L` under every `h`, then `L` is `N(0, A I⁻¹ Aᵀ)`
+convolved with a probability measure. The local asymptotic minimax theorem needs no such regularity.
+For every measurable estimator sequence and every lower semicontinuous loss whose sublevel sets are
+convex and symmetric about `0`, the worst risk for `A h` over finite sets of local parameters is
+asymptotically at least the risk under `N(0, A I⁻¹ Aᵀ)`. The fixed-`h` form of local asymptotic normality is weaker than van der
+Vaart's and covers semiparametric path families.
+
+The fourth result is Huber's minimax property. For `0 < ε < 1`, consider the laws
+`G = (1 - ε)Φ + εH` with `H` symmetric about `0`: the standard normal law contaminated by a fraction
+`ε` of symmetric noise. Let `ψₖ(u) = max(-k, min(k, u))` be the Huber score, with `k > 0` fixed by
+an explicit equation in `ε`. Then `∫ ψₖ² dG / G((-k, k))²` is at most its value at an explicit law
+`G₀` of the same form, and that value is `1/I(G₀)`.
+
+The roadmap builds on Mathlib's convergence in law, central limit theorem and Gaussian measures.
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) provides
+contiguity, U-statistics and the empirical distribution function, and
+[StochasticCalculus](../StochasticCalculus/README.md) the Brownian bridge on `[0, 1]`. The empirical
+processes and limits of experiments are supplied to the later statistics roadmaps.
+
+The first four of the nine layers develop the probability, up to empirical processes and the
+functional delta method. The last five are statistics, from estimators through Le Cam's theory to
+robustness.
+
+`Suggested.lean` states in Lean the results that carry a Lean name; it is not an exhaustive
+checklist.
 
 Suggested home: `TauCeti/Statistics/Asymptotic/`, with one subdirectory per layer.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 fills the Euclidean gaps: Mathlib proves the scalar central limit theorem, and this
+roadmap adds the Lindeberg condition and dimension `k` by the Cramér–Wold device. Layer 2 is the
+only place where non-measurable maps are handled. It fixes outer integrals and the
+Hoffmann-Jørgensen convergence, proves the portmanteau and continuous mapping theorems for it,
+and proves the bridge back to Mathlib. Layer 3 is the empirical-process toolkit: entropy numbers,
+maximal inequalities by chaining, and the four Glivenko–Cantelli and Donsker theorems. Layer 4
+adds the two transfer principles that turn process limits into limits of statistics, the
+functional delta method and the argmax theorem.
 
-1. **Limit theorems in Euclidean space.** Convergence in probability and boundedness in
-   probability on sample spaces that vary with `n`, with Slutsky's lemma there; the multivariate
-   Lindeberg–Feller theorem; the multivariate central limit theorem; the laws of Gaussian
-   quadratic forms; the second-order delta method.
-2. **Weak convergence of arbitrary maps.** Outer integrals, weak convergence in the sense of
-   Hoffmann-Jørgensen, asymptotic tightness and measurability, the portmanteau, continuous
-   mapping and Slutsky theorems for it, the bridge to Mathlib's convergence in law, the space
-   `ℓ^∞(T)`, convergence there from marginals and asymptotic equicontinuity, and Brownian bridge
-   laws.
-3. **Empirical processes.** Glivenko–Cantelli and Donsker classes, bracketing and covering
-   numbers, the finite sub-Gaussian maximal inequality, symmetrization, chaining and the
-   bracketing maximal inequality, the Glivenko–Cantelli and Donsker theorems under bracketing
-   and uniform entropy, VC classes, the classical theorems for the empirical distribution
-   function with the `F`-Brownian bridge, and the asymptotic equicontinuity lemma.
-4. **Differentiable functionals.** Hadamard differentiability, its chain rule, the quantile
-   functional, the functional delta method and the argmax continuous mapping theorem.
-5. **M- and Z-estimators.** Consistency under uniform convergence, Wald's consistency of maximum
-   likelihood, the Z-estimator theorem, asymptotic normality of maximum likelihood, parametric
-   one-step and discretized one-step estimators, M-estimators with Lipschitz criteria, the rate theorem,
-   misspecified maximum likelihood, sample quantiles and the Bahadur representation.
-6. **Projections and U- and L-statistics.** The Hájek projection and its limit theorem, the
-   nondegenerate U-statistic theorem, the Hoeffding decomposition with the optimality of
-   U-statistics over every family containing the finitely supported laws, degenerate quadratic
-   U-statistics, L-statistics and the trimmed mean.
-7. **Limits of experiments.** Le Cam's first and third lemmas, differentiability in quadratic
-   mean and local asymptotic normality, the expansion of the Kullback–Leibler divergence, the
-   asymptotic representation theorem, Anderson's lemma, the convolution and local asymptotic
-   minimax theorems, and superefficiency.
-8. **Tests and efficiency.** Likelihood ratio, Wald and score tests and their local limits, the
-   likelihood ratio on converging local parameter sets, the asymptotic power envelope, local
-   power and Pitman efficiency, the efficiencies of the sign, Wilcoxon and `t` tests with the
-   Hodges–Lehmann bound, Pearson's tests and the generalized method of moments.
-9. **Robust statistics.** Influence functions, the influence function and asymptotic variance
-   of location M-functionals, Hampel's optimality and Huber's minimax property, the median and
-   its contamination bound, breakdown points of the mean, median, least squares, least median of
-   squares and least absolute deviations, influence functions of Hadamard differentiable
-   functionals, and regression M-estimators.
+Layers 5–9 are statistics. Every estimator theorem of Layer 5 has the same shape: consistency
+gives localization, an empirical-process lemma (3.6) controls the remainder, and the derivative of
+the population criterion linearizes; the result is an asymptotically linear estimator, which
+converges in law by the multivariate central limit theorem. Layer 6 does the same for U- and
+L-statistics by projection. Layer 7 is Le Cam's theory: contiguity and the third lemma move
+limits from the null to local alternatives, local asymptotic normality reduces every local
+problem to a Gaussian shift, and Anderson's lemma solves the Gaussian shift. Layer 8 applies
+Layer 7 to tests, and Layer 9 applies Layers 4–5 to robust functionals.
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**Not owned here.** The following are used, not built:
-- the first-order delta method and the stochastic algebra of convergence in probability, Slutsky's
-  lemma on a fixed space, i.i.d. sequences and the weak law, and contiguity with its sufficient
-  uniform-integrability criterion:
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.1–8.6;
-- the definition of the U-statistic, the completeness of symmetric statistics (Foundations 2.4)
-  and the optimality of U-statistics among unbiased estimators over a family closed under binary
-  mixtures and complete for the identity statistic (Foundations 4.2). 6.3 transfers that
-  optimality to every family of laws that contains the finitely supported laws;
-- the empirical distribution function, the sample quantile and the Huber score (Foundations 9.1
-  and 9.2);
-- the scalar central limit theorem `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the Cramér–Wold
-  device `tendstoInDistribution_iff_tendstoInDistribution_inner`, multivariate Gaussian laws and
-  the theory of tight families of measures: Mathlib;
-- the chi-squared, noncentral chi-squared and multinomial laws and covariance matrices: Tau Ceti;
-- Wiener measure and the Brownian bridge on `[0, 1]`:
-  [StochasticCalculus](../StochasticCalculus/README.md) §1.2 and §1.4. 3.4 identifies the
-  `F`-Brownian bridge as an image of that law and builds nothing about Brownian motion;
-- Berry–Esseen bounds and Edgeworth expansions, the bootstrap, jackknife, empirical likelihood
-  and subsampling: MathematicalStatisticsHigherOrderAndResampling;
-- tangent sets, efficient influence functions, the semiparametric convolution bound and the
-  semiparametric one-step estimator with sample splitting: MathematicalStatisticsSemiparametric.
-  5.4 is the parametric Newton step only;
-- the exact laws of rank statistics, rank tests and their optimal scores, the Kolmogorov law, the
-  Kolmogorov–Smirnov and Cramér–von Mises tests, and the minimax lower-bound toolkit:
-  MathematicalStatisticsNonparametric. 8.3 defines the sign statistic and the Wilcoxon signed-rank
-  statistic only as far as their local power is computed, and Nonparametric consumes those
-  definitions.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
-
-### Supplied to later roadmaps
-
-These headlines are the contract with the later statistics roadmaps; their names are fixed.
-
-- Convergence on varying spaces: `TendstoInProbability` and `IsBoundedInProbabilityAlong` (1.1).
-- Multivariate central limit theorems: `tendstoInDistribution_sum_of_lindeberg` and
-  `tendstoInDistribution_inv_sqrt_smul_sum_sub_euclidean` (1.2).
-- Gaussian quadratic forms, including the singular case
-  `map_quadForm_pseudoInverse_multivariateGaussian` (1.3).
-- Weak convergence in `ℓ^∞(T)`: `outerIntegral`, `innerIntegral`, the extended outer expectation
-  `outerLIntegral` with its Markov inequality (2.1), `TendstoInOuterDistribution`,
-  asymptotic measurability and the bounded Lipschitz characterization (2.2), `Linfty`,
-  `liftLinfty`, `marginal`, the bridge `TendstoInOuterDistribution.tendstoInDistribution_comp`, the
-  continuous mapping theorem `TendstoInOuterDistribution.comp`,
-  `tendstoInOuterDistribution_of_marginal_of_equicontinuous`, `ext_of_marginal` and
-  `IsBrownianBridgeLaw` (Layer 2).
-- Glivenko–Cantelli and Donsker classes: `IsGlivenkoCantelli`, `IsDonsker`,
-  `isGlivenkoCantelli_of_bracketingNumber_lt_top`, `isDonsker_of_bracketingEntropyIntegral_lt_top`,
-  `isGlivenkoCantelli_of_uniformCoveringNumber`, `isDonsker_of_uniformEntropyIntegral_lt_top`,
-  `coveringNumberLp_indicator_le_of_vcDimSet` and `tendstoInProbability_empiricalProcess_sub`
-  (3.4–3.6).
-- The empirical distribution function: the classical Glivenko–Cantelli theorem
-  `isGlivenkoCantelli_indicator_Iic`, and `isDonsker_indicator_Iic` with the Brownian bridge
-  identification
-  `isBrownianBridgeLaw_map_comp_cdf` (3.4).
-- Hadamard differentiability and the functional delta method: `HasHadamardDerivWithinAt`,
-  `hasHadamardDerivWithinAt_quantileFunctional`,
-  `tendstoInOuterDistribution_functional_delta_method` (Layer 4).
-- The argmax theorem `tendstoInOuterDistribution_argmax` (4.3).
-- The Z-estimator theorem with Donsker conditions `zEstimator_asymptotically_linear` and
-  `zEstimator_tendstoInDistribution` (5.3).
-- Local asymptotic normality: `HasQMDWithinAt` with the sufficient condition for smooth and
-  location families, `IsLocallyAsymptoticallyNormal` (fixed-`h` form),
-  `tendstoInProbability_likelihoodRatio_of_hasQMDWithinAt` (7.3); Le Cam's lemmas
-  `isContiguous_iff_forall_mapClusterPt_integral_eq_one`, `tendstoInDistribution_leCam_third`
-  and `tendstoInDistribution_leCam_third_gaussian` (7.1–7.2).
-- The representation theorem `exists_kernel_of_isLocallyAsymptoticallyNormal` (7.4), in the
-  fixed-`h` form.
-- The Gaussian shift and the convolution and local asymptotic minimax theorems:
-  `exists_conv_of_equivariantInLaw`, `lintegral_multivariateGaussian_le_iSup_risk`,
-  `lintegral_multivariateGaussian_le_conv` (Anderson's lemma), `exists_conv_of_isRegular` and
-  `lintegral_multivariateGaussian_le_localMinimax` (7.5–7.6), all under fixed-`h` local asymptotic
-  normality.
+The layers are in build order: each layer needs only earlier layers and the suppliers. Within
+Layer 5 the order is 5.1 → 5.6 → 5.5 (see Layer 5). Apart from the maximum likelihood theorem of
+7.3, which uses 5.5, Layer 7 needs only Layers 1–2 and Foundations and may be built directly
+after Layer 2.
 
 ## Conventions
 
@@ -261,162 +183,6 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Locators** are `(Author, Theorem, printed page)` in the editions listed under
   [References](#references). A locator marked *by the same argument* names the theorem whose
   proof the target follows when the target's hypotheses differ from those printed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Convergence in law:** `TendstoInDistribution` (on varying spaces),
-  `TendstoInDistribution.continuous_comp`, `tendstoInDistribution_of_tendstoInMeasure_sub`,
-  `TendstoInDistribution.prodMk_of_tendstoInMeasure_const`,
-  `tendstoInDistribution_iff_forall_integral_rclike_tendsto`, the portmanteau theorem
-  `tendsto_iff_forall_lipschitz_integral_tendsto` (`Mathlib/MeasureTheory/Measure/Portmanteau.lean`),
-  Lévy's continuity theorem (`Mathlib/MeasureTheory/Measure/LevyConvergence.lean`) and
-  `TendstoInMeasure`.
-- **Central limit theorem and Cramér–Wold:** `ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub`
-  (`Mathlib/Probability/CentralLimitTheorem.lean`) and
-  `tendstoInDistribution_iff_tendstoInDistribution_inner` (`Mathlib/Probability/CramerWold.lean`).
-- **Gaussian measures:** `gaussianReal`, `multivariateGaussian` with `charFun_multivariateGaussian`
-  (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`), `stdGaussian`, `IsGaussian`,
-  `HasGaussianLaw`, `isGaussian_map_of_measurable`, `covarianceBilin` and `IsGaussianProcess`
-  (`Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean`).
-- **Tightness:** `IsTightMeasureSet`, Prokhorov's theorem `isCompact_closure_of_isTightMeasureSet`
-  and its converse `isTightMeasureSet_of_isCompact_closure`
-  (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`).
-- **Sub-Gaussian variables:** `HasSubgaussianMGF` with `HasSubgaussianMGF.measure_ge_le` and
-  `HasSubgaussianMGF.sum_of_iIndepFun` (`Mathlib/Probability/Moments/SubGaussian.lean`).
-- **Combinatorics and metric entropy:** `Finset.Shatters`, `Finset.vcDim` and the Sauer–Shelah
-  bound `Finset.card_shatterer_le_sum_vcDim` (`Mathlib/Combinatorics/SetFamily/Shatter.lean`);
-  `Metric.coveringNumber`, `Metric.externalCoveringNumber` and `Metric.packingNumber`
-  (`Mathlib/Topology/MetricSpace/CoveringNumbers.lean`); Radon's theorem `radon_partition`
-  (`Mathlib/Analysis/Convex/Radon.lean`).
-- **Spaces:** `lp` with `lp.evalCLM` and `lp.completeSpace`; `BoundedContinuousFunction`;
-  `ContinuousMap` on `unitInterval`.
-- **Spectral theory:** the spectral theorem for compact self-adjoint operators
-  `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot` with
-  `finite_dimensional_eigenspace` (`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`), and
-  `isCompactOperator_of_tendsto`.
-- **Likelihood:** `Measure.rnDeriv`, `llr`, `klDiv`, `tvDist`,
-  `Kernel`, `IsMarkovKernel`, composition `κ ∘ₘ μ`, and `Measure.infinitePi`. The convolution
-  `Measure.conv` is the additive form of `Measure.mconv` (`Mathlib/MeasureTheory/Group/Convolution.lean`).
-- **Analysis:** `HasFDerivAt`, `HasGradientAt`, `HasDerivWithinAt`, `ContDiffOn`, the little-o
-  relation `=o[𝓝 θ]`, `ConvexOn`, `UpperSemicontinuous`, `LowerSemicontinuous`, `MapClusterPt`,
-  and `Convexity.StdSimplex`.
-- **Sorting:** `Tuple.sort`.
-
-Mathlib has no Lindeberg–Feller theorem, multivariate central limit theorem, Glivenko–Cantelli
-or Donsker theorem, Hadamard derivative, Anderson's lemma or sub-Gaussian maximal inequality, and
-its Brownian motion files (`Mathlib/Probability/BrownianMotion/`) define `IsPreBrownianReal` and
-`IsBrownianReal` without constructing a Brownian motion.
-
-### From Tau Ceti
-
-- **Covariance:** `TauCeti.covMatrix` (`TauCeti/Probability/Moments/Covariance.lean`) and the
-  Moore–Penrose inverse of a covariance matrix `Matrix.covariancePseudoInverse`
-  (`TauCeti/Analysis/Matrix/CovariancePseudoInverse.lean`), whose Euclidean operator is Tau Ceti's
-  `LinearMap.moorePenroseInverse`. The general finite-dimensional Moore–Penrose theory is owned by
-  [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md), PD-C19–PD-C27;
-  1.3 uses only the covariance case already in the pinned Tau Ceti.
-- **Chi-squared laws:** `TauCeti.Probability.chiSquaredMeasure` with `chiSquaredMeasure_zero`
-  (`TauCeti/Probability/Distributions/ChiSquared/Basic.lean`);
-  `TauCeti.Probability.noncentralChiSquaredMeasure` with
-  `map_norm_sq_multivariateGaussian_noncentral` and `HasLaw.norm_sq_multivariateGaussian`
-  (`TauCeti/Probability/Distributions/NoncentralChiSquared/Gaussian.lean`).
-- **Gaussian projections:** `Submodule.map_norm_sq_starProjection_stdGaussian`
-  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`): the squared norm of the
-  orthogonal projection of a standard Gaussian vector onto a subspace `K` is `χ²` with
-  `finrank K` degrees of freedom, including rank `0`. The norm laws of Gaussian projections are
-  owned by [StandardDistributions](../StandardDistributions/README.md) §5.3; 1.3 and 8.4 use
-  this theorem and do not restate it.
-- **Multinomial laws:** `TauCeti.Probability.multinomialMeasure` with
-  `isProbabilityMeasure_multinomialMeasure`, `multinomialToEuclidean` and
-  `covMatrix_map_multinomialToEuclidean_multinomialMeasure`
-  (`TauCeti/Probability/Distributions/Multinomial/Moments.lean`).
-- **Quantiles and the normal law:** `MeasureTheory.Measure.quantile` with `quantile_le_iff`
-  (`TauCeti/Probability/Quantile.lean`), `quantile_gaussianReal`, `cdf_gaussianReal_eq` and
-  `hasDerivAt_cdf_gaussianReal` (`TauCeti/Probability/Distributions/Gaussian/`).
-- **Location families:** `laplaceMeasure` and `logisticMeasure`
-  (`TauCeti/Probability/Distributions/Laplace/Basic.lean`, `Logistic/Basic.lean`), used in the
-  Checks of 8.3.
-- **Empirical measures and order statistics:** `TauCeti.Probability.empiricalFiniteMeasure`
-  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`) and `TauCeti.orderStatistic`
-  (`TauCeti/Data/Fin/Tuple/OrderStatistic.lean`).
-- **Randomization:** `unitIntervalCoding` with `map_volume_unitIntervalCoding`
-  (`TauCeti/Probability/Kernel/Randomization.lean`), which turns a Markov kernel into a
-  randomized statistic `T(X, U)` with `U` uniform (7.4).
-- **Prékopa–Leindler and log-concave marginals**
-  (`TauCeti/MeasureTheory/Integral/PrekopaLeindler.lean`), used by Anderson's lemma (7.5): `TauCeti.hasPrekopaLeindler_volume`, the Prékopa–Leindler
-  property at every weight `0 ≤ θ ≤ 1` of the volume of a finite-dimensional real inner product
-  space with its Borel σ-algebra; `HasPrekopaLeindler.withDensity`, its preservation under a
-  measurable log-concave density; `TauCeti.LogConcave.lintegral_prod_right`, log-concavity of the
-  marginal `x ↦ ∫⁻ y, f (x, y) ∂ν` of a measurable log-concave `f` when `ν` has the property at
-  every weight; and `Convex.measure_preimage_prodMk_le_measure_preimage_prodMk_zero`, which bounds
-  the measure of every slice of a measurable convex set `s ⊆ E × F` with `-s = s` by that of the
-  central slice, for a negation-invariant such `ν`.
-
-### From MathematicalStatisticsFoundations
-
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) is the base.
-This roadmap consumes:
-- 2.4: the U-statistic `uStatistic`, the average of a kernel over injections `Fin m → Fin n`,
-  and the completeness of symmetric statistics over a family closed under binary mixtures and
-  complete for the identity statistic (6.3);
-- 4.2: the optimality of U-statistics among unbiased estimators (6.3);
-- 4.3: the information matrix `(∫ sᵢ sⱼ dP)ᵢⱼ` of a vector score, which this roadmap uses as
-  `fisherInformation` (7.3);
-- 8.1–8.3: the adapters to Mathlib's convergence, boundedness in probability on a fixed space
-  and the algebra of convergence in probability there;
-- 8.4: Slutsky's lemma without separability and the first-order delta method;
-- 8.5: the i.i.d. predicate and the weak law of large numbers;
-- 8.6: `IsContiguous`, its transfer of convergence in probability, and the sufficient condition
-  for contiguity by absolute continuity and uniform integrability;
-- 9.1: the empirical distribution function and the sample quantile, with the Galois inequality;
-- 9.2: the Huber score, its derivative identity and the Kolmogorov–Smirnov statistic.
-
-`Suggested.lean` carries local copies of `IsContiguous`, `uStatistic`, the empirical
-distribution function of a finite sample (`empiricalCdf`), `sampleQuantile`, `huberScore` and the
-information matrix `fisherInformation`, each with a docstring naming its owner. Foundations' own
-`fisherInformation` is the scalar information of a one-parameter family; the matrix version
-here is a different declaration and keeps this roadmap's name.
-
-### From StochasticCalculus
-
-[StochasticCalculus](../StochasticCalculus/README.md) owns the construction of Brownian motion.
-This roadmap consumes its §1.2 (the existence of Wiener measure on `C(ℝ≥0, ℝ)`) and its
-§1.4 (the Brownian bridge law on `[0, T]` with covariance `min(s, t) - st/T`), at `T = 1`, as a
-Borel probability measure on `C(unitInterval, ℝ)` with centred Gaussian marginals of covariance
-`min(s, t) - st`. 3.4 uses it only through these marginals. Its §1.5 (Donsker's invariance
-principle for random walks) is not used: the classical Donsker theorem of 3.4 is proved by
-bracketing.
-
-### From the other statistics roadmaps
-
-Nothing. This roadmap needs only Foundations among the statistics roadmaps.
-
-## How to read the build
-
-Layer 1 fills the Euclidean gaps: Mathlib proves the scalar central limit theorem, and this
-roadmap adds the Lindeberg condition and dimension `k` by the Cramér–Wold device. Layer 2 is the
-only place where non-measurable maps are handled. It fixes outer integrals and the
-Hoffmann-Jørgensen convergence, proves the portmanteau and continuous mapping theorems for it,
-and proves the bridge back to Mathlib. Layer 3 is the empirical-process toolkit: entropy numbers,
-maximal inequalities by chaining, and the four Glivenko–Cantelli and Donsker theorems. Layer 4
-adds the two transfer principles that turn process limits into limits of statistics, the
-functional delta method and the argmax theorem.
-
-Layers 5–9 are statistics. Every estimator theorem of Layer 5 has the same shape: consistency
-gives localization, an empirical-process lemma (3.6) controls the remainder, and the derivative of
-the population criterion linearizes; the result is an asymptotically linear estimator, which
-converges in law by the multivariate central limit theorem. Layer 6 does the same for U- and
-L-statistics by projection. Layer 7 is Le Cam's theory: contiguity and the third lemma move
-limits from the null to local alternatives, local asymptotic normality reduces every local
-problem to a Gaussian shift, and Anderson's lemma solves the Gaussian shift. Layer 8 applies
-Layer 7 to tests, and Layer 9 applies Layers 4–5 to robust functionals.
-
-The layers are in build order: each layer needs only earlier layers and the suppliers. Within
-Layer 5 the order is 5.1 → 5.6 → 5.5 (see Layer 5). Apart from the maximum likelihood theorem of
-7.3, which uses 5.5, Layer 7 needs only Layers 1–2 and Foundations and may be built directly
-after Layer 2.
 
 ## Layer 1: limit theorems in Euclidean space
 
@@ -2542,6 +2308,257 @@ Related libraries:
   varying along a filter, quadratic-mean differentiability, the squared Hellinger distance and a
   weak law of large numbers. `HasQMDWithinAt` in 7.3 follows the shape of its QMD definition in
   `Statlib/Inference/QMD.lean` at commit `af349698`; no Statlib code is copied.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Limit theorems in Euclidean space.** Convergence in probability and boundedness in
+   probability on sample spaces that vary with `n`, with Slutsky's lemma there; the multivariate
+   Lindeberg–Feller theorem; the multivariate central limit theorem; the laws of Gaussian
+   quadratic forms; the second-order delta method.
+2. **Weak convergence of arbitrary maps.** Outer integrals, weak convergence in the sense of
+   Hoffmann-Jørgensen, asymptotic tightness and measurability, the portmanteau, continuous
+   mapping and Slutsky theorems for it, the bridge to Mathlib's convergence in law, the space
+   `ℓ^∞(T)`, convergence there from marginals and asymptotic equicontinuity, and Brownian bridge
+   laws.
+3. **Empirical processes.** Glivenko–Cantelli and Donsker classes, bracketing and covering
+   numbers, the finite sub-Gaussian maximal inequality, symmetrization, chaining and the
+   bracketing maximal inequality, the Glivenko–Cantelli and Donsker theorems under bracketing
+   and uniform entropy, VC classes, the classical theorems for the empirical distribution
+   function with the `F`-Brownian bridge, and the asymptotic equicontinuity lemma.
+4. **Differentiable functionals.** Hadamard differentiability, its chain rule, the quantile
+   functional, the functional delta method and the argmax continuous mapping theorem.
+5. **M- and Z-estimators.** Consistency under uniform convergence, Wald's consistency of maximum
+   likelihood, the Z-estimator theorem, asymptotic normality of maximum likelihood, parametric
+   one-step and discretized one-step estimators, M-estimators with Lipschitz criteria, the rate theorem,
+   misspecified maximum likelihood, sample quantiles and the Bahadur representation.
+6. **Projections and U- and L-statistics.** The Hájek projection and its limit theorem, the
+   nondegenerate U-statistic theorem, the Hoeffding decomposition with the optimality of
+   U-statistics over every family containing the finitely supported laws, degenerate quadratic
+   U-statistics, L-statistics and the trimmed mean.
+7. **Limits of experiments.** Le Cam's first and third lemmas, differentiability in quadratic
+   mean and local asymptotic normality, the expansion of the Kullback–Leibler divergence, the
+   asymptotic representation theorem, Anderson's lemma, the convolution and local asymptotic
+   minimax theorems, and superefficiency.
+8. **Tests and efficiency.** Likelihood ratio, Wald and score tests and their local limits, the
+   likelihood ratio on converging local parameter sets, the asymptotic power envelope, local
+   power and Pitman efficiency, the efficiencies of the sign, Wilcoxon and `t` tests with the
+   Hodges–Lehmann bound, Pearson's tests and the generalized method of moments.
+9. **Robust statistics.** Influence functions, the influence function and asymptotic variance
+   of location M-functionals, Hampel's optimality and Huber's minimax property, the median and
+   its contamination bound, breakdown points of the mean, median, least squares, least median of
+   squares and least absolute deviations, influence functions of Hadamard differentiable
+   functionals, and regression M-estimators.
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- the first-order delta method and the stochastic algebra of convergence in probability, Slutsky's
+  lemma on a fixed space, i.i.d. sequences and the weak law, and contiguity with its sufficient
+  uniform-integrability criterion:
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.1–8.6;
+- the definition of the U-statistic, the completeness of symmetric statistics (Foundations 2.4)
+  and the optimality of U-statistics among unbiased estimators over a family closed under binary
+  mixtures and complete for the identity statistic (Foundations 4.2). 6.3 transfers that
+  optimality to every family of laws that contains the finitely supported laws;
+- the empirical distribution function, the sample quantile and the Huber score (Foundations 9.1
+  and 9.2);
+- the scalar central limit theorem `tendstoInDistribution_inv_sqrt_mul_sum_sub`, the Cramér–Wold
+  device `tendstoInDistribution_iff_tendstoInDistribution_inner`, multivariate Gaussian laws and
+  the theory of tight families of measures: Mathlib;
+- the chi-squared, noncentral chi-squared and multinomial laws and covariance matrices: Tau Ceti;
+- Wiener measure and the Brownian bridge on `[0, 1]`:
+  [StochasticCalculus](../StochasticCalculus/README.md) §1.2 and §1.4. 3.4 identifies the
+  `F`-Brownian bridge as an image of that law and builds nothing about Brownian motion;
+- Berry–Esseen bounds and Edgeworth expansions, the bootstrap, jackknife, empirical likelihood
+  and subsampling: MathematicalStatisticsHigherOrderAndResampling;
+- tangent sets, efficient influence functions, the semiparametric convolution bound and the
+  semiparametric one-step estimator with sample splitting: MathematicalStatisticsSemiparametric.
+  5.4 is the parametric Newton step only;
+- the exact laws of rank statistics, rank tests and their optimal scores, the Kolmogorov law, the
+  Kolmogorov–Smirnov and Cramér–von Mises tests, and the minimax lower-bound toolkit:
+  MathematicalStatisticsNonparametric. 8.3 defines the sign statistic and the Wilcoxon signed-rank
+  statistic only as far as their local power is computed, and Nonparametric consumes those
+  definitions.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+### Supplied to later roadmaps
+
+These headlines are the contract with the later statistics roadmaps; their names are fixed.
+
+- Convergence on varying spaces: `TendstoInProbability` and `IsBoundedInProbabilityAlong` (1.1).
+- Multivariate central limit theorems: `tendstoInDistribution_sum_of_lindeberg` and
+  `tendstoInDistribution_inv_sqrt_smul_sum_sub_euclidean` (1.2).
+- Gaussian quadratic forms, including the singular case
+  `map_quadForm_pseudoInverse_multivariateGaussian` (1.3).
+- Weak convergence in `ℓ^∞(T)`: `outerIntegral`, `innerIntegral`, the extended outer expectation
+  `outerLIntegral` with its Markov inequality (2.1), `TendstoInOuterDistribution`,
+  asymptotic measurability and the bounded Lipschitz characterization (2.2), `Linfty`,
+  `liftLinfty`, `marginal`, the bridge `TendstoInOuterDistribution.tendstoInDistribution_comp`, the
+  continuous mapping theorem `TendstoInOuterDistribution.comp`,
+  `tendstoInOuterDistribution_of_marginal_of_equicontinuous`, `ext_of_marginal` and
+  `IsBrownianBridgeLaw` (Layer 2).
+- Glivenko–Cantelli and Donsker classes: `IsGlivenkoCantelli`, `IsDonsker`,
+  `isGlivenkoCantelli_of_bracketingNumber_lt_top`, `isDonsker_of_bracketingEntropyIntegral_lt_top`,
+  `isGlivenkoCantelli_of_uniformCoveringNumber`, `isDonsker_of_uniformEntropyIntegral_lt_top`,
+  `coveringNumberLp_indicator_le_of_vcDimSet` and `tendstoInProbability_empiricalProcess_sub`
+  (3.4–3.6).
+- The empirical distribution function: the classical Glivenko–Cantelli theorem
+  `isGlivenkoCantelli_indicator_Iic`, and `isDonsker_indicator_Iic` with the Brownian bridge
+  identification
+  `isBrownianBridgeLaw_map_comp_cdf` (3.4).
+- Hadamard differentiability and the functional delta method: `HasHadamardDerivWithinAt`,
+  `hasHadamardDerivWithinAt_quantileFunctional`,
+  `tendstoInOuterDistribution_functional_delta_method` (Layer 4).
+- The argmax theorem `tendstoInOuterDistribution_argmax` (4.3).
+- The Z-estimator theorem with Donsker conditions `zEstimator_asymptotically_linear` and
+  `zEstimator_tendstoInDistribution` (5.3).
+- Local asymptotic normality: `HasQMDWithinAt` with the sufficient condition for smooth and
+  location families, `IsLocallyAsymptoticallyNormal` (fixed-`h` form),
+  `tendstoInProbability_likelihoodRatio_of_hasQMDWithinAt` (7.3); Le Cam's lemmas
+  `isContiguous_iff_forall_mapClusterPt_integral_eq_one`, `tendstoInDistribution_leCam_third`
+  and `tendstoInDistribution_leCam_third_gaussian` (7.1–7.2).
+- The representation theorem `exists_kernel_of_isLocallyAsymptoticallyNormal` (7.4), in the
+  fixed-`h` form.
+- The Gaussian shift and the convolution and local asymptotic minimax theorems:
+  `exists_conv_of_equivariantInLaw`, `lintegral_multivariateGaussian_le_iSup_risk`,
+  `lintegral_multivariateGaussian_le_conv` (Anderson's lemma), `exists_conv_of_isRegular` and
+  `lintegral_multivariateGaussian_le_localMinimax` (7.5–7.6), all under fixed-`h` local asymptotic
+  normality.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Convergence in law:** `TendstoInDistribution` (on varying spaces),
+  `TendstoInDistribution.continuous_comp`, `tendstoInDistribution_of_tendstoInMeasure_sub`,
+  `TendstoInDistribution.prodMk_of_tendstoInMeasure_const`,
+  `tendstoInDistribution_iff_forall_integral_rclike_tendsto`, the portmanteau theorem
+  `tendsto_iff_forall_lipschitz_integral_tendsto` (`Mathlib/MeasureTheory/Measure/Portmanteau.lean`),
+  Lévy's continuity theorem (`Mathlib/MeasureTheory/Measure/LevyConvergence.lean`) and
+  `TendstoInMeasure`.
+- **Central limit theorem and Cramér–Wold:** `ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub`
+  (`Mathlib/Probability/CentralLimitTheorem.lean`) and
+  `tendstoInDistribution_iff_tendstoInDistribution_inner` (`Mathlib/Probability/CramerWold.lean`).
+- **Gaussian measures:** `gaussianReal`, `multivariateGaussian` with `charFun_multivariateGaussian`
+  (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`), `stdGaussian`, `IsGaussian`,
+  `HasGaussianLaw`, `isGaussian_map_of_measurable`, `covarianceBilin` and `IsGaussianProcess`
+  (`Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean`).
+- **Tightness:** `IsTightMeasureSet`, Prokhorov's theorem `isCompact_closure_of_isTightMeasureSet`
+  and its converse `isTightMeasureSet_of_isCompact_closure`
+  (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`).
+- **Sub-Gaussian variables:** `HasSubgaussianMGF` with `HasSubgaussianMGF.measure_ge_le` and
+  `HasSubgaussianMGF.sum_of_iIndepFun` (`Mathlib/Probability/Moments/SubGaussian.lean`).
+- **Combinatorics and metric entropy:** `Finset.Shatters`, `Finset.vcDim` and the Sauer–Shelah
+  bound `Finset.card_shatterer_le_sum_vcDim` (`Mathlib/Combinatorics/SetFamily/Shatter.lean`);
+  `Metric.coveringNumber`, `Metric.externalCoveringNumber` and `Metric.packingNumber`
+  (`Mathlib/Topology/MetricSpace/CoveringNumbers.lean`); Radon's theorem `radon_partition`
+  (`Mathlib/Analysis/Convex/Radon.lean`).
+- **Spaces:** `lp` with `lp.evalCLM` and `lp.completeSpace`; `BoundedContinuousFunction`;
+  `ContinuousMap` on `unitInterval`.
+- **Spectral theory:** the spectral theorem for compact self-adjoint operators
+  `ContinuousLinearMap.orthogonalComplement_iSup_eigenspaces_eq_bot` with
+  `finite_dimensional_eigenspace` (`Mathlib/Analysis/InnerProductSpace/Spectrum.lean`), and
+  `isCompactOperator_of_tendsto`.
+- **Likelihood:** `Measure.rnDeriv`, `llr`, `klDiv`, `tvDist`,
+  `Kernel`, `IsMarkovKernel`, composition `κ ∘ₘ μ`, and `Measure.infinitePi`. The convolution
+  `Measure.conv` is the additive form of `Measure.mconv` (`Mathlib/MeasureTheory/Group/Convolution.lean`).
+- **Analysis:** `HasFDerivAt`, `HasGradientAt`, `HasDerivWithinAt`, `ContDiffOn`, the little-o
+  relation `=o[𝓝 θ]`, `ConvexOn`, `UpperSemicontinuous`, `LowerSemicontinuous`, `MapClusterPt`,
+  and `Convexity.StdSimplex`.
+- **Sorting:** `Tuple.sort`.
+
+Mathlib has no Lindeberg–Feller theorem, multivariate central limit theorem, Glivenko–Cantelli
+or Donsker theorem, Hadamard derivative, Anderson's lemma or sub-Gaussian maximal inequality, and
+its Brownian motion files (`Mathlib/Probability/BrownianMotion/`) define `IsPreBrownianReal` and
+`IsBrownianReal` without constructing a Brownian motion.
+
+### From Tau Ceti
+
+- **Covariance:** `TauCeti.covMatrix` (`TauCeti/Probability/Moments/Covariance.lean`) and the
+  Moore–Penrose inverse of a covariance matrix `Matrix.covariancePseudoInverse`
+  (`TauCeti/Analysis/Matrix/CovariancePseudoInverse.lean`), whose Euclidean operator is Tau Ceti's
+  `LinearMap.moorePenroseInverse`. The general finite-dimensional Moore–Penrose theory is owned by
+  [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md), PD-C19–PD-C27;
+  1.3 uses only the covariance case already in the pinned Tau Ceti.
+- **Chi-squared laws:** `TauCeti.Probability.chiSquaredMeasure` with `chiSquaredMeasure_zero`
+  (`TauCeti/Probability/Distributions/ChiSquared/Basic.lean`);
+  `TauCeti.Probability.noncentralChiSquaredMeasure` with
+  `map_norm_sq_multivariateGaussian_noncentral` and `HasLaw.norm_sq_multivariateGaussian`
+  (`TauCeti/Probability/Distributions/NoncentralChiSquared/Gaussian.lean`).
+- **Gaussian projections:** `Submodule.map_norm_sq_starProjection_stdGaussian`
+  (`TauCeti/Probability/Distributions/Gaussian/Projection.lean`): the squared norm of the
+  orthogonal projection of a standard Gaussian vector onto a subspace `K` is `χ²` with
+  `finrank K` degrees of freedom, including rank `0`. The norm laws of Gaussian projections are
+  owned by [StandardDistributions](../StandardDistributions/README.md) §5.3; 1.3 and 8.4 use
+  this theorem and do not restate it.
+- **Multinomial laws:** `TauCeti.Probability.multinomialMeasure` with
+  `isProbabilityMeasure_multinomialMeasure`, `multinomialToEuclidean` and
+  `covMatrix_map_multinomialToEuclidean_multinomialMeasure`
+  (`TauCeti/Probability/Distributions/Multinomial/Moments.lean`).
+- **Quantiles and the normal law:** `MeasureTheory.Measure.quantile` with `quantile_le_iff`
+  (`TauCeti/Probability/Quantile.lean`), `quantile_gaussianReal`, `cdf_gaussianReal_eq` and
+  `hasDerivAt_cdf_gaussianReal` (`TauCeti/Probability/Distributions/Gaussian/`).
+- **Location families:** `laplaceMeasure` and `logisticMeasure`
+  (`TauCeti/Probability/Distributions/Laplace/Basic.lean`, `Logistic/Basic.lean`), used in the
+  Checks of 8.3.
+- **Empirical measures and order statistics:** `TauCeti.Probability.empiricalFiniteMeasure`
+  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`) and `TauCeti.orderStatistic`
+  (`TauCeti/Data/Fin/Tuple/OrderStatistic.lean`).
+- **Randomization:** `unitIntervalCoding` with `map_volume_unitIntervalCoding`
+  (`TauCeti/Probability/Kernel/Randomization.lean`), which turns a Markov kernel into a
+  randomized statistic `T(X, U)` with `U` uniform (7.4).
+- **Prékopa–Leindler and log-concave marginals**
+  (`TauCeti/MeasureTheory/Integral/PrekopaLeindler.lean`), used by Anderson's lemma (7.5): `TauCeti.hasPrekopaLeindler_volume`, the Prékopa–Leindler
+  property at every weight `0 ≤ θ ≤ 1` of the volume of a finite-dimensional real inner product
+  space with its Borel σ-algebra; `HasPrekopaLeindler.withDensity`, its preservation under a
+  measurable log-concave density; `TauCeti.LogConcave.lintegral_prod_right`, log-concavity of the
+  marginal `x ↦ ∫⁻ y, f (x, y) ∂ν` of a measurable log-concave `f` when `ν` has the property at
+  every weight; and `Convex.measure_preimage_prodMk_le_measure_preimage_prodMk_zero`, which bounds
+  the measure of every slice of a measurable convex set `s ⊆ E × F` with `-s = s` by that of the
+  central slice, for a negation-invariant such `ν`.
+
+### From MathematicalStatisticsFoundations
+
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) is the base.
+This roadmap consumes:
+- 2.4: the U-statistic `uStatistic`, the average of a kernel over injections `Fin m → Fin n`,
+  and the completeness of symmetric statistics over a family closed under binary mixtures and
+  complete for the identity statistic (6.3);
+- 4.2: the optimality of U-statistics among unbiased estimators (6.3);
+- 4.3: the information matrix `(∫ sᵢ sⱼ dP)ᵢⱼ` of a vector score, which this roadmap uses as
+  `fisherInformation` (7.3);
+- 8.1–8.3: the adapters to Mathlib's convergence, boundedness in probability on a fixed space
+  and the algebra of convergence in probability there;
+- 8.4: Slutsky's lemma without separability and the first-order delta method;
+- 8.5: the i.i.d. predicate and the weak law of large numbers;
+- 8.6: `IsContiguous`, its transfer of convergence in probability, and the sufficient condition
+  for contiguity by absolute continuity and uniform integrability;
+- 9.1: the empirical distribution function and the sample quantile, with the Galois inequality;
+- 9.2: the Huber score, its derivative identity and the Kolmogorov–Smirnov statistic.
+
+`Suggested.lean` carries local copies of `IsContiguous`, `uStatistic`, the empirical
+distribution function of a finite sample (`empiricalCdf`), `sampleQuantile`, `huberScore` and the
+information matrix `fisherInformation`, each with a docstring naming its owner. Foundations' own
+`fisherInformation` is the scalar information of a one-parameter family; the matrix version
+here is a different declaration and keeps this roadmap's name.
+
+### From StochasticCalculus
+
+[StochasticCalculus](../StochasticCalculus/README.md) owns the construction of Brownian motion.
+This roadmap consumes its §1.2 (the existence of Wiener measure on `C(ℝ≥0, ℝ)`) and its
+§1.4 (the Brownian bridge law on `[0, T]` with covariance `min(s, t) - st/T`), at `T = 1`, as a
+Borel probability measure on `C(unitInterval, ℝ)` with centred Gaussian marginals of covariance
+`min(s, t) - st`. 3.4 uses it only through these marginals. Its §1.5 (Donsker's invariance
+principle for random walks) is not used: the classical Donsker theorem of 3.4 is proved by
+bracketing.
+
+### From the other statistics roadmaps
+
+Nothing. This roadmap needs only Foundations among the statistics roadmaps.
 
 ## References
 

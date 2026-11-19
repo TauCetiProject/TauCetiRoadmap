@@ -1,95 +1,108 @@
 # Roadmap: Three-dimensional Poincaré through Ricci flow with surgery
 
-**Summary.** Develop Ricci flow with surgery on closed orientable three-manifolds, its finite
-extinction for simply connected initial manifolds, and reconstruction of the
-initial manifold from the actual finite surgery history. The resulting library
-proves the smooth and topological three-dimensional Poincaré theorems. Its reusable
-outputs include reduced geometry, ancient-solution compactness, canonical
-neighborhoods, metric surgery, loop-family filling width, and finite-history
-topological reconstruction.
+**Summary.** The three-dimensional Poincaré conjecture asserts that a closed,
+simply connected three-manifold is homeomorphic to the three-sphere. Its proof
+runs Ricci flow, which deforms a Riemannian metric by `∂ₜg = −2 Ric`. In
+dimension three the flow can become singular in finite time. Under explicit
+pinching, noncollapsing and scale hypotheses, a point of large curvature has a
+neighbourhood close, after rescaling, to a long thin round cylinder `S²×I`, a
+cap closing off such a cylinder, or a compact positively curved component.
+Surgery cuts along these cylinders and glues in standard caps; components of
+elementary topology are discarded, and the flow restarts. The roadmap follows
+Morgan and Tian's account of Perelman's proof.
+
+It builds Ricci flow with surgery on closed orientable three-manifolds, proves
+its finite extinction when the manifold is simply connected, and reconstructs
+the manifold from its surgeries. Throughout, a closed manifold is compact and
+without boundary, with Hausdorff topology; connectedness and orientation are
+imposed where used, and empty manifolds are allowed. The three-sphere is the
+unit sphere in `ℝ⁴`.
+
+The main theorems are two forms of the Poincaré theorem. The smooth form says
+that every compact, simply connected, Hausdorff smooth three-manifold without
+boundary is diffeomorphic to the three-sphere; simple connectedness includes
+being nonempty. The topological form says the same for topological
+three-manifolds, with "homeomorphic" in place of "diffeomorphic". It follows
+from the smooth form by a smoothing theorem, also proved here: every compact
+Hausdorff topological three-manifold without boundary, possibly empty or
+disconnected, carries a smooth atlas inducing its original topology. Both
+Poincaré statements are exactly those Mathlib lists as wanted.
+
+A third form assumes less: a Hausdorff topological three-manifold without
+boundary that is homotopy equivalent to the three-sphere is homeomorphic to it.
+Compactness and simple connectedness are deduced, the first because a connected
+noncompact three-manifold has `H₃(M;ℤ) = 0` while the sphere has `H₃ ≅ ℤ`. The
+smooth version gives a diffeomorphism for every compatible smooth atlas.
+
+The proof passes through three theorems. Call a metric normalized if `|Rm| ≤ 1`,
+the curvature operator is at least `−1`, and every ball of radius `r ≤ 1` has at
+least half the Euclidean volume; on a closed three-manifold one is obtained by
+rescaling a metric by a constant. The first theorem is existence: from every
+normalized metric on a closed orientable three-manifold, Ricci flow with surgery
+exists for all time, with finitely many surgeries in each bounded time interval.
+
+The second is finite extinction: for a simply connected initial manifold and a
+suitably chosen schedule of surgery parameters, the flow is empty after a finite
+time. The argument follows a nonzero class in `π₃(M)`, viewed as a class of
+two-sphere families of nullhomotopic loops. Its width is the infimum, over
+families in the class, of the largest area needed to span a loop of the family
+by a disk. On every component surviving at time `T`,
+`(1+4T)^(−3/4) W(T) ≤ W₀ + E − 2π((1+4T)^(1/4) − 1)`, with `W₀` the initial
+width and `E` a bound on the weighted surgery errors. The right side is
+eventually negative while width is nonnegative, so nothing survives.
+
+The third is reconstruction. Running the finite history backwards identifies the
+initial manifold, up to diffeomorphism, with a connected sum of spherical space
+forms (quotients of the round three-sphere by finite groups of isometries acting
+freely) and `S²`-bundles over the circle. When the manifold is simply connected,
+no bundle factor occurs and every space form factor is the sphere itself.
+
+The roadmap builds on [RicciFlow](../RicciFlow/README.md), which provides the
+flow on closed manifolds. [GeometricTopology](../GeometricTopology/README.md)
+provides connected sums and the three-dimensional triangulation theorem, and its
+layer on geometrization uses the topological Poincaré theorem proved here.
+[AlgebraicTopology](../AlgebraicTopology/README.md) provides van Kampen's
+theorem, Poincaré duality and the Hurewicz theorem.
+
+Layers 1 to 8 build the flow with surgery and trace each component back to time
+zero. Layers 9 and 10 develop filling area and width independently of surgery,
+and Layer 11 joins the two branches to prove extinction. Layers 12 and 13
+reconstruct the manifold and prove the smooth theorem. Layer 14 proves smoothing
+without the flow, and Layer 15 deduces the other two forms. The next section
+tabulates the dependencies.
 
 This document specifies the mathematics; [Suggested.lean](Suggested.lean) gives
 selected target signatures.
 
-## Scope and ownership
+## How to read the build
 
-The endpoints concern compact Hausdorff manifolds without boundary, modeled on
-`EuclideanSpace ℝ (Fin 3)`. The smooth conclusion is a `Diffeomorph` to
-`Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1`; the topological conclusion is a
-`Homeomorph` to that same sphere. Use `SimplyConnectedSpace`, including its
-nonemptiness and path-connectedness consequences. Countability follows from
-compactness and charts.
-
-The flow and surgery development covers arbitrary closed orientable smooth
-three-manifolds with a chosen normalized smooth metric. The extinction and
-Poincaré conclusions specialize to simply connected initial manifolds. Local
-analytic results retain their stated arbitrary-dimensional generality. The
-global programme follows surgery flow through finite extinction and
-reconstruction of the initial manifold.
-
-The [GeometricTopology roadmap](../GeometricTopology/README.md), Layer 8, owns
-geometric decomposition vocabulary and faithful statements of geometrization.
-Its native statement is `TauCeti.GeometrizationConjecture`, in
-`TauCeti/LowDimTopology/Geometrization.lean`; GeometricTopology supplies its
-geometric-decomposition vocabulary and statement. This roadmap owns the Ricci-surgery and
-finite-extinction proof programme for Poincaré described here;
-Layer 15 supplies the topological endpoint named in GeometricTopology Layer 8.
-GeometricTopology Layer 11 owns the dimension-three triangulation and
-Hauptvermutung theorems. Target 14.1 here owns the absolute dimension-three
-smoothing result needed by the endpoint; target 14.2 records the separate
-comparison target for compatibility with a prescribed PL structure.
-Use the supplier's manifold, collar, gluing, connected-sum and PL carriers throughout.
-
-## Exact supplier contracts
-
-**From Mathlib.** Use `ChartedSpace`, `IsManifold`, `TangentBundle`,
-`Bundle.ContMDiffRiemannianMetric`, `Diffeomorph`, `Homeomorph`, `Path`,
-`ContinuousMap.HomotopyEquiv`, `HomotopyGroup.Pi`, singular homology, and the native
-covering-space and measure/integration APIs. Compact charted manifolds obtain
-second countability from `ChartedSpace.secondCountable_of_sigmaCompact`.
-The pinned smooth Poincaré contract is
-`ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` in
-`Mathlib/Geometry/Manifold/PoincareConjecture.lean`. The three-dimensional
-contracts implemented here are the corresponding `proof_wanted` statements
-`SimplyConnectedSpace.nonempty_homeomorph_sphere_three` and
-`SimplyConnectedSpace.nonempty_sdiffeomorph_sphere_three` in
-`Wanted/Geometry/Manifold/PoincareConjecture.lean`; `Wanted` records the desired
-statements and does not supply their proofs.
-
-| Supplier | Exact material consumed | Material owned here |
+| Layer | Local predecessors | Principal output |
 | --- | --- | --- |
-| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 | Smooth/PL manifolds, collars, gluing, connected sum with parameterized ball embeddings and the disc theorem, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, absolute smoothing and native atlas transport in Layer 14.1, and the separate prescribed-PL comparison target in Layer 14.2 |
-| [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 1–6 and 8 | van Kampen, finite CW comparison, homology/cohomology, integral manifold duality, Hurewicz, relative homotopy, higher-group comparison | Closed-three-manifold consequences, regular loop-family comparison, surgery ancestry and class transport |
-| [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–10, 12 | Tensor/form calculus, orientations, smooth flows, Sard, integration/Stokes, metric density and scalar operators | Ricci-flow and moving-curve specializations |
-| [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
-| [RiemannianGeometry](../RiemannianGeometry/README.md), R1–R5a and R7.0 | Tensor/curvature conventions, variations, Jacobi fields, comparison geometry, model metrics, immersion area calculus and scalar Bochner identity | Ricci-surgery estimates, branched sphere/filling analysis and curve shortening in a moving ambient three-manifold |
-| [PDE](../PDE/README.md), Lanes A, C–F; [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a | Sobolev/weak compactness, elliptic/parabolic regularity, scalar maximum principles and real compact-bundle Sobolev/elliptic theory | The noncompact cap construction and moving-curve nonlinear problems, with their extra localization/compactness estimates |
-| [RicciFlow](../RicciFlow/README.md), Layers 1–5 (R1–R5) | Metric variation, compact-bundle parabolic theory, DeTurck, compact-flow existence/uniqueness/continuation, global Shi estimates and curvature evolution/maximum principles on closed manifolds | Localized Shi estimates and their complete noncompact applications in Layer 2, Hamilton–Ivey and differential Harnack specializations, pointed compactness, reduced geometry, ancient solutions and all surgery/extinction targets below |
+| Layer 1 | none | Closed-three-manifold topology, models and metric normalization |
+| Layer 2 | Layer 1 | Flow adapters, localized derivative estimates, pinching, Harnack and pointed compactness |
+| Layer 3 | Layer 2 | Ordinary/spacetime reduced geometry and noncollapse |
+| Layer 4 | Layer 2, Layer 3 | Ancient κ-solutions and shrinking asymptotic models |
+| Layer 5 | Layer 4 | Canonical neighborhoods and singular-time geometry |
+| Layer 6 | Layer 1, Layer 2, Layer 5 | Standard cap, actual metric surgery and local comparison |
+| Layer 7 | Layer 3, Layer 5, Layer 6 | Global controlled surgery flow |
+| Layer 8 | Layer 1, Layer 6, Layer 7 | Finite component ancestry and homotopy transport |
+| Layer 9 | Layer 1 | Regular loop families, filling area and width |
+| Layer 10 | Layer 2, Layer 9 | Corrected moving-curve/ramp estimates and family deformation |
+| Layer 11 | Layer 7, Layer 8, Layer 9, Layer 10 | Width comparison and finite extinction |
+| Layer 12 | Layer 1, Layer 6, Layer 7, Layer 8, Layer 11 | Reconstruction from finite actual surgery history |
+| Layer 13 | Layer 1, Layer 6, Layer 12 | Classification of simply connected factors; smooth endpoint |
+| Layer 14 | none | Absolute smoothing in 14.1; prescribed-PL compatibility in 14.2 |
+| Layer 15 | Layer 13, target 14.1; Layer 1 for 15.2 | Topological endpoint and homotopy-equivalence formulations |
 
-**From Tau Ceti.** Use `TauCeti.IsTriangulable` in
-`TauCeti/Topology/Triangulable.lean` and the proposition
-`TauCeti.TriangulationConjecture` in
-`TauCeti/Topology/TriangulationConjecture.lean`. The dimension-three proof is
-GeometricTopology Layer 11's target, supported by its
-[Moise extract](../GeometricTopology/references/moise-triangulation-dim3.md).
-Only target 14.2 additionally consumes item 1 (smooth implies PL) of
-GeometricTopology's separate smoothing-and-triangulation comparison, built
-from its chart-based PL and combinatorial-manifold APIs in Layers 1 and 11.
-Its [Munkres extract](../GeometricTopology/references/munkres-smoothing-triangulations.md)
-states Theorems 10.5 and 10.6. Target 14.1 constructs the absolute smooth atlas
-from Moise 35.3 and Cairns III, independently of that comparison.
-Use `HomotopyGroup.pathLoopSpaceMulEquiv` from
-`TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean` for the based-loop shift.
-Import the native covariant-derivative, curvature, geodesic and covering APIs
-at their supplying layers.
-
-Generic curve shortening of embedded curves on a smooth two-sphere belongs to
-RiemannianGeometry R4.9. Layer 10 treats immersed loops and ramps in a
-time-dependent ambient manifold and the family estimates needed for filling
-width. Generic rectifiability and the area formula are consumed from
-[GeometricMeasureTheory G1–G2](../GeometricMeasureTheory/README.md).
-Layer 9 owns the harmonic-sphere, filling-area and regular-representative bridges
-needed here.
+Each row also consumes the exact external suppliers named below. The topology
+and smoothing branches start from their algebraic-topology and PL suppliers;
+Target 14.1 consumes GeometricTopology Layer 11's compatible triangulation theorem
+and builds the absolute smoothing theorem consumed by 15.1. Target 14.2
+separately builds prescribed-PL compatibility using the smooth-implies-PL
+comparison.
+The width branch can be built independently of surgery existence until Layer 11
+joins them. Layer 6 defines local operations before Layer 7 proves they can be iterated,
+and Layer 11 uses the flow constructed by Layer 7.
 
 ## Conventions
 
@@ -147,36 +160,6 @@ using different normalizations.
   pointwise-in-time curvature bounds from a single bound on an entire slab.
   Restriction, pullback, isometry, basepoint change, time translation and
   scaling laws belong to the API of every object for which they make sense.
-
-## How to read the build
-
-| Layer | Local predecessors | Principal output |
-| --- | --- | --- |
-| Layer 1 | none | Closed-three-manifold topology, models and metric normalization |
-| Layer 2 | Layer 1 | Flow adapters, localized derivative estimates, pinching, Harnack and pointed compactness |
-| Layer 3 | Layer 2 | Ordinary/spacetime reduced geometry and noncollapse |
-| Layer 4 | Layer 2, Layer 3 | Ancient κ-solutions and shrinking asymptotic models |
-| Layer 5 | Layer 4 | Canonical neighborhoods and singular-time geometry |
-| Layer 6 | Layer 1, Layer 2, Layer 5 | Standard cap, actual metric surgery and local comparison |
-| Layer 7 | Layer 3, Layer 5, Layer 6 | Global controlled surgery flow |
-| Layer 8 | Layer 1, Layer 6, Layer 7 | Finite component ancestry and homotopy transport |
-| Layer 9 | Layer 1 | Regular loop families, filling area and width |
-| Layer 10 | Layer 2, Layer 9 | Corrected moving-curve/ramp estimates and family deformation |
-| Layer 11 | Layer 7, Layer 8, Layer 9, Layer 10 | Width comparison and finite extinction |
-| Layer 12 | Layer 1, Layer 6, Layer 7, Layer 8, Layer 11 | Reconstruction from finite actual surgery history |
-| Layer 13 | Layer 1, Layer 6, Layer 12 | Classification of simply connected factors; smooth endpoint |
-| Layer 14 | none | Absolute smoothing in 14.1; prescribed-PL compatibility in 14.2 |
-| Layer 15 | Layer 13, target 14.1; Layer 1 for 15.2 | Topological endpoint and homotopy-equivalence formulations |
-
-Each row also consumes the exact external suppliers named above. The topology
-and smoothing branches start from their algebraic-topology and PL suppliers;
-Target 14.1 consumes GeometricTopology Layer 11's compatible triangulation theorem
-and builds the absolute smoothing theorem consumed by 15.1. Target 14.2
-separately builds prescribed-PL compatibility using the smooth-implies-PL
-comparison.
-The width branch can be built independently of surgery existence until Layer 11
-joins them. Layer 6 defines local operations before Layer 7 proves they can be iterated,
-and Layer 11 uses the flow constructed by Layer 7.
 
 ## Layer 1: Closed topology, models and normalization
 
@@ -1656,6 +1639,86 @@ their transport/restriction laws and their estimates:
    eventual negativity of the normalized extinction barrier.
 6. Compatible smoothing of a topological three-manifold with its original
    topology and the explicit atlas/endpoint transport.
+
+## Scope and ownership
+
+The endpoints concern compact Hausdorff manifolds without boundary, modeled on
+`EuclideanSpace ℝ (Fin 3)`. The smooth conclusion is a `Diffeomorph` to
+`Metric.sphere (0 : EuclideanSpace ℝ (Fin 4)) 1`; the topological conclusion is a
+`Homeomorph` to that same sphere. Use `SimplyConnectedSpace`, including its
+nonemptiness and path-connectedness consequences. Countability follows from
+compactness and charts.
+
+The flow and surgery development covers arbitrary closed orientable smooth
+three-manifolds with a chosen normalized smooth metric. The extinction and
+Poincaré conclusions specialize to simply connected initial manifolds. Local
+analytic results retain their stated arbitrary-dimensional generality. The
+global programme follows surgery flow through finite extinction and
+reconstruction of the initial manifold.
+
+The [GeometricTopology roadmap](../GeometricTopology/README.md), Layer 8, owns
+geometric decomposition vocabulary and faithful statements of geometrization.
+Its native statement is `TauCeti.GeometrizationConjecture`, in
+`TauCeti/LowDimTopology/Geometrization.lean`; GeometricTopology supplies its
+geometric-decomposition vocabulary and statement. This roadmap owns the Ricci-surgery and
+finite-extinction proof programme for Poincaré described here;
+Layer 15 supplies the topological endpoint named in GeometricTopology Layer 8.
+GeometricTopology Layer 11 owns the dimension-three triangulation and
+Hauptvermutung theorems. Target 14.1 here owns the absolute dimension-three
+smoothing result needed by the endpoint; target 14.2 records the separate
+comparison target for compatibility with a prescribed PL structure.
+Use the supplier's manifold, collar, gluing, connected-sum and PL carriers throughout.
+
+## Exact supplier contracts
+
+**From Mathlib.** Use `ChartedSpace`, `IsManifold`, `TangentBundle`,
+`Bundle.ContMDiffRiemannianMetric`, `Diffeomorph`, `Homeomorph`, `Path`,
+`ContinuousMap.HomotopyEquiv`, `HomotopyGroup.Pi`, singular homology, and the native
+covering-space and measure/integration APIs. Compact charted manifolds obtain
+second countability from `ChartedSpace.secondCountable_of_sigmaCompact`.
+The pinned smooth Poincaré contract is
+`ContinuousMap.HomotopyEquiv.NonemptyDiffeomorphSphere` in
+`Mathlib/Geometry/Manifold/PoincareConjecture.lean`. The three-dimensional
+contracts implemented here are the corresponding `proof_wanted` statements
+`SimplyConnectedSpace.nonempty_homeomorph_sphere_three` and
+`SimplyConnectedSpace.nonempty_sdiffeomorph_sphere_three` in
+`Wanted/Geometry/Manifold/PoincareConjecture.lean`; `Wanted` records the desired
+statements and does not supply their proofs.
+
+| Supplier | Exact material consumed | Material owned here |
+| --- | --- | --- |
+| [GeometricTopology](../GeometricTopology/README.md), Layers 1, 2, 7 and 11 | Smooth/PL manifolds, collars, gluing, connected sum with parameterized ball embeddings and the disc theorem, locally flat embeddings, geometric structures, realization, combinatorial/PL comparison and Moise's dimension-three triangulation/Hauptvermutung theorems | The three-dimensional neck/cap consequences, actual Ricci surgery and reconstruction, absolute smoothing and native atlas transport in Layer 14.1, and the separate prescribed-PL comparison target in Layer 14.2 |
+| [AlgebraicTopology](../AlgebraicTopology/README.md), Stages 1–6 and 8 | van Kampen, finite CW comparison, homology/cohomology, integral manifold duality, Hurewicz, relative homotopy, higher-group comparison | Closed-three-manifold consequences, regular loop-family comparison, surgery ancestry and class transport |
+| [DifferentialGeometry](../DifferentialGeometry/README.md), Layers 0–3, 5–10, 12 | Tensor/form calculus, orientations, smooth flows, Sard, integration/Stokes, metric density and scalar operators | Ricci-flow and moving-curve specializations |
+| [HopfRinow](../../Completed/HopfRinow/README.md), Layers 0–4 | Levi-Civita connection, geodesic flow, normal balls, length and metric completeness | Time-dependent comparisons, reduced paths, complete pointed flow limits |
+| [RiemannianGeometry](../RiemannianGeometry/README.md), R1–R5a and R7.0 | Tensor/curvature conventions, variations, Jacobi fields, comparison geometry, model metrics, immersion area calculus and scalar Bochner identity | Ricci-surgery estimates, branched sphere/filling analysis and curve shortening in a moving ambient three-manifold |
+| [PDE](../PDE/README.md), Lanes A, C–F; [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md), K5a | Sobolev/weak compactness, elliptic/parabolic regularity, scalar maximum principles and real compact-bundle Sobolev/elliptic theory | The noncompact cap construction and moving-curve nonlinear problems, with their extra localization/compactness estimates |
+| [RicciFlow](../RicciFlow/README.md), Layers 1–5 (R1–R5) | Metric variation, compact-bundle parabolic theory, DeTurck, compact-flow existence/uniqueness/continuation, global Shi estimates and curvature evolution/maximum principles on closed manifolds | Localized Shi estimates and their complete noncompact applications in Layer 2, Hamilton–Ivey and differential Harnack specializations, pointed compactness, reduced geometry, ancient solutions and all surgery/extinction targets above |
+
+**From Tau Ceti.** Use `TauCeti.IsTriangulable` in
+`TauCeti/Topology/Triangulable.lean` and the proposition
+`TauCeti.TriangulationConjecture` in
+`TauCeti/Topology/TriangulationConjecture.lean`. The dimension-three proof is
+GeometricTopology Layer 11's target, supported by its
+[Moise extract](../GeometricTopology/references/moise-triangulation-dim3.md).
+Only target 14.2 additionally consumes item 1 (smooth implies PL) of
+GeometricTopology's separate smoothing-and-triangulation comparison, built
+from its chart-based PL and combinatorial-manifold APIs in Layers 1 and 11.
+Its [Munkres extract](../GeometricTopology/references/munkres-smoothing-triangulations.md)
+states Theorems 10.5 and 10.6. Target 14.1 constructs the absolute smooth atlas
+from Moise 35.3 and Cairns III, independently of that comparison.
+Use `HomotopyGroup.pathLoopSpaceMulEquiv` from
+`TauCeti/Topology/Homotopy/HomotopyGroup/LoopSpace.lean` for the based-loop shift.
+Import the native covariant-derivative, curvature, geodesic and covering APIs
+at their supplying layers.
+
+Generic curve shortening of embedded curves on a smooth two-sphere belongs to
+RiemannianGeometry R4.9. Layer 10 treats immersed loops and ramps in a
+time-dependent ambient manifold and the family estimates needed for filling
+width. Generic rectifiability and the area formula are consumed from
+[GeometricMeasureTheory G1–G2](../GeometricMeasureTheory/README.md).
+Layer 9 owns the harmonic-sphere, filling-area and regular-representative bridges
+needed here.
 
 ## References
 

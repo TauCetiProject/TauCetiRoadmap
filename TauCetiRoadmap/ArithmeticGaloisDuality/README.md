@@ -1,273 +1,57 @@
 # Roadmap: continuous cohomology of profinite groups, part II — compact coefficients and arithmetic duality
 
-**Summary.** This roadmap continues Tau Ceti's ProfiniteCohomology roadmap in the two directions
-that roadmap leaves out — non-discrete coefficients and the Hochschild–Serre spectral sequence —
-and uses them to build global arithmetic duality. Starting from Mathlib's `continuousCohomology`
-and ProfiniteCohomology's exact sequences, Shapiro's lemma and cup products, it uses the tower `lim` and `lim¹` supplied by
-DerivedModuleAlgebra §1.T.1 and the continuous cochain comparisons supplied by
-PerfectoidTowers §P9.0 to prove Tate's inverse-limit theorem and the passage from finite to compact and rational
-coefficients; the supplied spectral sequence of a group extension on Mathlib's carrier, with its transgression; the Galois group
-`G_{K,S}` of the maximal extension of a number field unramified outside a set of places `S`, the
-`S`-idele class formation and the corresponding class-field inputs for global function fields;
-Tate's duality theorem for class formations, the Poitou–Tate nine-term sequence, global finiteness,
-the cohomological dimension of `G_{K,S}` and Tate's global Euler characteristic formula; all-place
-`Ш` duality, Grunwald–Wang with its exact dyadic obstruction, character roots and duality for tori;
-continuous cochains with compact and cofinite coefficients in the derived category, compact
-support and Nekovář's derived local and global duality; the Greenberg–Wiles formula; the
-first-order calculations for adjoint coefficients; and the numerical inputs of Taylor–Wiles and
-Khare–Wintenberger patching (local counts at auxiliary primes, dual-Selmer killing, the dyadic
-case). Every statement keeps its archimedean and `p = 2` terms and names the pairing, the sign and
-the topology it uses.
+**Summary.** A Galois cohomology class of a number field restricts to a class over each completion,
+and those that vanish at every completion form the Tate–Shafarevich groups `Ш`. Arithmetic duality
+relates the global and local cohomology of a finite Galois module to that of its dual, and this
+roadmap builds it. On the way it covers what ProfiniteCohomology leaves out: coefficients that are
+not discrete, such as `ℤ_p`-lattices, and the Hochschild–Serre spectral sequence. Every statement
+keeps its archimedean and `p = 2` terms and names the pairing, the sign and the topology it uses.
 
-The layers are:
+The main object, for a number field `K` and a set `S` of places containing the archimedean ones, is
+the Galois group `G_{K,S}` of the maximal extension of `K` unramified at every finite place outside
+`S`. Let `M` be a finite `G_{K,S}`-module whose order is invertible in the ring of `S`-integers, and
+`M^D = Hom(M, μ_m)` its dual, where `m` is its exponent; `S` may be infinite. Poitou–Tate duality
+says that the groups `Ш¹_S(K, M)` and `Ш²_S(K, M^D)` of global classes vanishing at every place of
+`S` are finite, and a canonical pairing into `ℚ/ℤ` makes each the dual of the other. The global and
+local groups fit into a nine-term exact sequence, with Tate's modified groups at the archimedean
+places. For `r ≥ 3`, restriction identifies `H^r(G_{K,S}, M)` with the sum of the Tate groups at the
+real places. They need not vanish: for `M = ℤ/2` over `ℚ` with `S = {2, ∞}`, `H³` has order two.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| R02.1 | Compact coefficients, limits and continuous extensions | Tower supplier contract, Tate's inverse-limit theorem, rationalisation, `HomPt`, the splitting torsor, continuous factor-set extensions, unbalanced cochain products |
-| R02.2 | The Hochschild–Serre spectral sequence, transgression and residue maps | the Hochschild–Serre spectral sequence on Mathlib's carrier, transgression as a cup product, descent along open subgroups, Laurent residue sequences, supplied procyclic `H¹` |
-| R02.3 | Restricted ramification and the `S`-idele class formation | Multiplicative completion, S-unit rank and fundamental-system adapters, finite Galois localization, `maxUnramifiedOutside`, `galoisGroupS`, finiteness of `H¹(G_S, M)`, localisation maps, `S`-idele classes, `PClassFormation`, function-field class-field inputs, `Шⁱ`, exponent-two fields |
-| R02.4 | Arithmetic duality and local–global obstruction groups | Tate's duality for class formations, Poitou–Tate duality, `cd_p G_S ≤ 2`, global Euler characteristic, function-field Poitou–Tate, finite compact support, all-place `Ш` duality, Grunwald–Wang, character roots, torus duality |
-| D7 | Derived continuous cohomology and compact arithmetic duality | derived tensor and limit comparisons, Grothendieck local duality, admissible coefficients, `RΓ_cont`, compact Hochschild–Serre, derived local duality, compact support, derived Poitou–Tate duality, lattice Poitou–Tate, abelian-variety local duality, dual local conditions and mapping-fibre duality |
-| R02.5 | Selmer duality and dimension formulas | Greenberg–Wiles formula, change of one finite local condition, rank-one numerics |
-| D8 | Adjoint coefficients and first-order lifts | trace-zero adjoint duality, first-order cocycle comparison, determinant derivative |
-| R02.6 | Auxiliary primes and patching numerics | Taylor–Wiles local count, dual-Selmer killing, the group theory of Taylor–Wiles primes, odd and dyadic auxiliary primes, archimedean adjoint dimensions, the Khare–Wintenberger obstruction pairing |
+Over a global function field the same sequence and duality hold for every nonempty `S` and every `M`
+of order prime to the characteristic. For the absolute Galois group of any global field, and finite
+`M` of exponent prime to the characteristic, the groups `Ш¹` of `M^D` and `Ш²` of `M` (classes
+vanishing at all places) are likewise finite and perfectly paired.
 
-The layer labels are the stage labels other roadmaps cite. They are built in the order
-R02.1, R02.2, R02.3, R02.4, D7, R02.5, D8, R02.6 (see *How to read the build*).
+For finite `S`, Tate's global Euler characteristic formula says that `#H⁰ · #H² / #H¹`, for
+`G_{K,S}` and `M`, is the product over archimedean places `v` of `#M^{G_v} / |#M|_v`, with the
+normalised absolute value. The invariants are ordinary, not Tate's modified group: for `M = ℤ/3`
+over `ℚ` with `S = {3, ∞}`, the quotient is `1 = 3/3`, while Tate's `Ĥ⁰(ℝ, ℤ/3)` is zero.
 
-`Suggested.lean` contains headline statements and the definitions they need. The other
-targets below are stated in prose; backticked Lean names are pinned Mathlib or Tau Ceti
-declarations, supplier names, or declarations of `Suggested.lean`.
+For `m ≥ 1` and a finite set `T` of places of `K`, the Grunwald–Wang theorem concerns the classes in
+`K×/K×^m` that are `m`-th powers in the completion at every place outside `T`. They form a group of
+order one or two. The order is one unless `8` divides `m` and `−1` is not a square in `K`. Over `ℚ`,
+`16` is an eighth power at every place except `2`, so for `m = 8` and `T = {2}` the order is two.
 
-## Scope and ownership
+From ProfiniteCohomology the roadmap uses exact sequences, Shapiro's lemma and cup products. From
+ClassFieldTheory it takes local Tate duality and the class field theory of number fields. What it
+needs of global class field theory of function fields and of Grunwald–Wang, which ClassFieldTheory
+leaves out, it proves itself. The Hochschild–Serre spectral sequence comes from
+NoncommutativeAndEquivariantIwasawa. The deformation and modularity-lifting roadmaps, such as
+GlobalGaloisDeformations, use its Poitou–Tate duality and Greenberg–Wiles formula.
 
-**Owned here.** The general coefficient and global-field extensions, and the comparison adapters,
-of the number-field constructions supplied below. Continuous cohomology with compact, lattice,
-rational and torsion coefficients using PerfectoidTowers §P9.0's comparison with Mathlib's carrier, Tate's inverse-limit
-theorem, the long exact sequences that need a continuous section, rationalisation and the discrete
-quotient `V/T`; the pointwise `Hom` with its
-splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
-with its evaluation cup product; topologies on factor-set extensions and the
-continuous Schreier classification; unbalanced cochain products. The identification of
-NoncommutativeAndEquivariantIwasawa §F.3's Hochschild–Serre package with Mathlib's carrier and
-ProfiniteCohomology's explicit maps, its degeneration, finite-index descent, the transgression as a
-cup product and the relative derived compact-coefficient extension; residue sequences of Laurent-series fields. The group `G_{K,S}`,
-Hermite's finiteness theorem with ramification outside `S`, finiteness of `H¹(G_S, M)`, localisation
-maps with the modified archimedean groups, `S`-ideles, S-unit cardinality and reindexing adapters, multiplicative completion and its unit injections,
-`S`-units and `S`-idele classes, finite Galois localization and Sha kernels, `P`-class
-formations, the `S`-class formation with its reciprocity and the `S`-unit Kummer sequence; the
-class-field inputs for global function fields (ideles and `S`-units, restricted ramification, the
-equal-characteristic specialization and comparisons for the supplied finite local duality,
-the Euler characteristic prime to the characteristic, the global class formation); absolute and
-relative `Шⁱ` and the cyclotomic power kernel; exponent-two ramification fields, quadratic fields with one new ramified prime, the
-antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`. Ext of discrete
-modules, Tate's duality for a `P`-class formation and for the `S`-idele classes, archimedean local
-duality, the restricted products `Pʳ_S` and their self-duality, Poitou–Tate duality, global
-finiteness, cohomological dimension, high-degree cohomology of units, the decomposition map, the
-rationalized modular Artin theorem (a corollary of RepresentationTheory/ModularInduction), the global Euler characteristic, the function-field
-Poitou–Tate and Euler theorems, finite compact support, all-place `Ш` duality with transfer
-adjunction, Grunwald–Wang with its dyadic obstruction (ClassFieldTheory expressly leaves it out),
-character roots and their local Brauer obstructions, totally real base change with prescribed
-local behaviour, Tate's vanishing of `H²(G_K, ℚ/ℤ)`, torus duality and function-field central
-obstructions. The derived coefficient algebra the duality theorems need (perfect amplitude,
-Tor and arithmetic coefficient comparisons for the imported module-derived tensor product,
-the restriction-of-scalars specialization of the supplied module-derived limit comparisons, Grothendieck
-local duality for complete local rings, the derived composite spectral sequence, flatness of adic continuous
-functions, and the Hilbert–Samuel Euler function as the maximal-ideal case of the multiplicity owned by
-PadicLocalLanglandsForGL2Qp §0.5); admissible coefficients, continuous cochains in the
-derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
-local duality, compactly supported cochains with their cup products and Euler characteristic,
-derived Poitou–Tate duality including the dyadic case with real places, lattice and rational
-Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field, local
-duality for abelian varieties and isogenies. The Greenberg–Wiles
-formula for finite discrete coefficients and the rank-one numerics of Layer R02.5;
-perfect pairings, dual local conditions and parametric mapping-fibre duality in D7.7;
-trace-zero adjoint duality and first-order cocycles; the Taylor–Wiles
-and Khare–Wintenberger numerics of Layer R02.6.
+The eight layers are built in order of appearance; within each, nothing is used before it is stated.
+The first adds compact, rational and torsion coefficients, and proves Tate's inverse-limit theorem:
+for a limit of finite modules with surjective transitions, it computes the cohomology up to a `lim¹`
+term. The second identifies the Hochschild–Serre spectral sequence with Mathlib's continuous
+cohomology and derives transgression and descent. The third sets up `G_{K,S}`, the class formation
+of `S`-idele classes and the class-field inputs for function fields. A class formation is the
+axiomatic setting of class field theory. The fourth proves the duality theorems above. The fifth,
+which needs them, lifts them to the derived category with compact and cofinite coefficients. The
+sixth gives the Greenberg–Wiles formula comparing a Selmer group with its dual. The seventh
+identifies first-order lifts of a representation with continuous cocycles in its adjoint module. The
+last derives the numerical inputs of Taylor–Wiles and Khare–Wintenberger patching.
 
-**Tau Ceti roadmaps this roadmap builds on.**
-
-- *ProfiniteCohomology* (Layers 1–12). The canonical carrier `TopRep`, `continuousCohomology` and
-  its compatible-pair functoriality (Layer 1); the explicit low-degree complex, with conjugation and
-  the triviality of inner conjugation in degrees `≤ 2` (Layer 2); the comparison isomorphisms
-  (Layer 3); the finite-quotient colimit description (Layers 4 and 10); the long exact sequence
-  through degree two, inflation–restriction and the five-term sequence with its explicit
-  transgression (Layer 5); the long exact sequence in every degree (`delta`, `longExact_exact`,
-  Layer 10); restriction, corestriction and conjugation (Layers 2, 6 and 10); coinduced modules and
-  Shapiro's lemma in all degrees (Layers 7 and 10); cup products (Layer 8 in degrees `p + q ≤ 2`,
-  Layer 12 in all degrees);
-  Hilbert 90 and Kummer theory (Layer 9); cohomological dimension (Layer 11). That roadmap excludes
-  the Hochschild–Serre spectral sequence and all theorems for non-discrete coefficients, profinite
-  Sylow theory and Schur multipliers. The spectral sequence is supplied by
-  NoncommutativeAndEquivariantIwasawa §F.3 and the arithmetic coefficient theory is owned here,
-  using PerfectoidTowers §P9.0's cochain comparisons; the last two are not used.
-- *HeightsAndUnits* §4.2 owns S-unit rank and fundamental systems on Mathlib's `Set.unit`
-  carrier. Section R02.3.0c supplies their arithmetic cardinality, reindexing and completion adapters.
-- *ClassFieldTheory*. Class formations and fundamental classes (Layer 2), Tate's theorem and the
-  Tate–Nakayama isomorphisms (Layer 3), the abstract Artin map (Layer 4); the local Brauer group,
-  the local invariant, local Tate duality and the local Euler characteristic for finite modules in
-  mixed characteristic (Layer 5); the local class formation and reciprocity for every
-  nonarchimedean local field (Layers 6–7); the global Brauer sequence and the archimedean
-  invariants (Layer 10), the global class formation and Artin reciprocity (Layer 11), global
-  existence and the norm index (Layer 12) and the class fields of Layer 13, all for number fields.
-  ClassFieldTheory leaves out global class field theory of function fields and the Grunwald–Wang
-  theorem; Layers R02.3 and R02.4 here supply exactly what this roadmap needs of them.
-- *GlobalNumberFields* (mixed finite/real weak approximation, Layer 1; ideles and idele class
-  groups, Layer 6; the connected component and ray
-  classes, Layer 7; norms of ideles, Layer 8), *NumberFieldArithmetic* (unramified sets of primes,
-  Layer 1; relative discriminants, Layer 4; different exponents, Layer 6), *Chebotarev* (Layer 10),
-  *RepresentationTheory/ModularInduction*
-  (the Grothendieck group `modRepK0 k G` of finitely generated `k[G]`-modules with its induction
-  and base change, Layers 0–1, and the modular Artin theorem, Layer 4), *ReductiveGroups* (Layers 4–7, tori and their character lattices `X*(T)`, used
-  for torus duality) and *AlgebraicCurves* (the regular projective model of a function field with
-  its closed points as places, Layer 12). Supernatural orders of profinite groups, the product
-  formula of a function field and the finiteness of `Cl⁰` over a finite field are in Tau Ceti at
-  the pin (`TauCeti.profiniteOrder`, `TauCeti.Divisor.degree_principal`,
-  `TauCeti.Divisor.finite_ker_degreeClass`).
-
-**Further roadmaps this roadmap builds on.**
-
-- *IntegralIwasawaTheory* §2.0 supplies `arithmeticPoitouTate`,
-  `arithmeticCompactSupport` and `arithmeticCompactDuality` for finite p-primary and
-  finite-free compact number-field coefficients, including the ordinary-to-Tate comparison.
-  Section 10.0 supplies `completedArithmeticCoefficients`, `derivedArithmeticTower`,
-  `compactArithmeticShapiro` and `arithmeticLocalMappingFiber`, with their finite-level,
-  restriction and trace maps. Section 10.1 supplies the bounded ordinary dyadic instance
-  `burnsFlachFiniteComplex` and `burnsFlachFinite_perfect`; its tower version is
-  `burnsFlachComplex`. The comparisons in R02.4 and D7 identify the common instances with
-  these maps. Profinite coefficients that are not modules over the integers of a `p`-adic field,
-  arbitrary complete Noetherian local coefficient rings, ind-admissible complexes, dualizing
-  complexes and function fields retain their stated generality here.
-- *NoncommutativeAndEquivariantIwasawa* §F.3 supplies, for every profinite group,
-  `arithmeticContinuousCochains` for finite, compact `O`-module, discrete torsion and rational
-  coefficients (`O` the integers of a finite extension `L/ℚ_p`), with its countable-tower Milnor
-  sequence, injection, projection and connecting maps; and `arithmeticHochschildSerre`, the derived
-  comparison `RΓ(G,A) ≃ RΓ(G/H,RΓ(H,A))` for a closed normal subgroup `H` and every discrete
-  `G`-module `A` with jointly continuous action, with its coherent quotient action, first-quadrant
-  filtration, spectral sequence, inflation and restriction edges, five-term sequence and
-  transgression, open finite-index restriction and corestriction, cup products and its passage to
-  compact `O`-coefficients. Layer R02.1 identifies Tate's inverse-limit sequence with that Milnor
-  sequence on the common domain, and Layer R02.2 consumes the Hochschild–Serre package, identifying
-  it with Mathlib's carrier and ProfiniteCohomology's explicit maps. Section F.3 also supplies
-  `arithmeticLocalDuality`, `arithmeticPoitouTate`,
-  `arithmeticCompactSupport` and `arithmeticGlobalDuality` on its number-field and
-  `O`-lattice/`L`-representation domains, and §F.4 supplies `arithmeticSelmerComplex`, the
-  `O`-coefficient Selmer fibre identified in §D7.7.4. D7 consumes their localization, trace, cup and real Tate maps. Its
-  `arithmeticCompactSupport` denotes Tate-modified support; the ordinary support of
-  IntegralIwasawaTheory is identified only with the corresponding ordinary instance.
-  The specialization equations below identify the shared objects and morphisms; the
-  remaining targets extend them to the broader coefficient and field categories here.
-  Comparison equations use the same embeddings and cochain conventions; comparisons
-  through resolutions are equations in the homotopy or derived category, with the
-  specified localization homotopy used to induce the map of fibres.
-- *PadicPeriodRings* §0.1 supplies `procyclic_H1_equiv_coinvariants`, natural in the
-  coefficient module, for discrete torsion, finitely generated `ℤ_p` and finite-dimensional
-  `ℚ_p` coefficients with the stated continuous actions, together with its Checks; §0.2 supplies
-  degree-one inflation–restriction for topological coefficients on Mathlib's carrier.
-- *PerfectoidTowers* §P9.0 supplies lifting continuous cochains along surjections of discrete
-spaces,
-  continuous cochains into inverse limits, and the comparison with Mathlib's homogeneous cochains
-  for jointly continuous actions in all degrees. Topological comparisons use the quotient topology
-  on cohomology; comparisons in derived categories use the underlying modules.
-- *AdelicAlgebraicGroups* §§1.1–1.2 supply integral models, the topology of affine adelic
-  points and their restricted-product realization; §1.5 supplies compact open local subgroups.
-  Its §3.4 **Finiteness of class numbers** supplies finiteness of
-  `T(F)\T(𝔸_{F,f})/U` for a number-field torus and a compact open subgroup `U`.
-  R02.4.6 here constructs the modified archimedean quotient, its compactness modulo the closure
-  of rational points, torus local duality, the completed sequence and realization of its image
-  by actual adelic points.
-- *EllipticCurves* Layer 7 *Selmer structures, the Selmer group, and Sha* supplies
-  local-condition subgroups and the Selmer subgroup for a general discrete Galois module.
-  Layers R02.5–R02.6 use this carrier for finite coefficients, with annihilators and
-  quotient pairings from §§D7.7.1–D7.7.2. The dual local conditions and parametric
-  derived fibre duality are constructed in §§D7.7.1–D7.7.6.
-- *SchemeAndStackFoundations* Layer 2: dualising complexes over Noetherian rings and the normalised
-  local dualising complex (§2.21 *Dualising complexes*, `DualizingComplex`, `NormalizedDualizing`),
-  local cohomology of modules (§2.7 *Cohomology with supports and local cohomology*,
-  `localCohomology_colimit_ext_comparison`), the derived tensor product and internal Hom (§2.18
-  *Derived categories of quasi-coherent complexes*, `derivedTensor`, `derivedHom`, of which the
-  affine case is used, through `DQCoh.affineEquiv`), and the comparison of étale cohomology of a
-  field with Galois cohomology (§2.15, `etale_galois_comparison`). The module-derived tensor product
-  uses DerivedModuleAlgebra §0.2 and EnhancedDerivedSheaves §E1.8.DMA.1's affine comparison
-  with §2.18.
-- *DerivedModuleAlgebra* §1.T.1 owns the tower shift, `lim`/`lim¹`, Mittag–Leffler,
-  six-term and Milnor APIs, the module towers `ModuleTower.lim` and `ModuleTower.limOne`, and the
-  integral-module adapter `Tower.toModuleFunctor`, `Tower.limComparison` and
-  `Tower.limOneComparison`, natural in tower maps and compatible with the shift, six-term boundary
-  and Milnor maps. Its §0.2 owns K-flat resolutions, the module-derived tensor product
-  `DerivedDeRham.derivedTensor`, derived extension of scalars, model independence and exactness.
-  D7.1 uses this functor for perfect amplitude, Tor and arithmetic coefficient change. Its §1.1 owns
-  the general module-derived limit `DerivedDeRham.derivedLimit`; its Milnor proof reuses DerivedModuleAlgebra §1.T.1's
-  shift calculation after a degreewise-surjective replacement, and the integral-module adapter
-  retains its injection, projection and connecting maps. D7.1 adds only the restriction of scalars
-  from `R`-module towers to integral-module towers and the resulting arithmetic specialization.
-  Its §1.3 also supplies the derived completion reflector `DerivedDeRham.derivedCompletion`
-  and the comparison of derived completion with ordinary completion for complexes with
-  finitely generated cohomology over a Noetherian ring (§1.5), used by *Grothendieck local duality
-  for a complete Noetherian local ring*. Section 1.M.1 supplies Matlis duality for arithmetic
-  coefficients (finite residue field); §1.M.2 supplies the injective hull, Matlis duality and
-  completion comparisons over a Noetherian local ring with arbitrary residue field, used by that
-  local-duality target; and §S.1 supplies the first-quadrant double-complex spectral sequence with its
-  convergence, edge maps and exact-row consequences.
-- *EnhancedDerivedSheaves* §E1.8.DMA.1 supplies the affine comparison `derivedTensor_affine`
-  with SchemeAndStackFoundations §2.18.
-- *AbelianSchemesAndArithmeticModuli* Layer A2: the dual abelian scheme with its Poincaré bundle
-  (`AbelianScheme.dual`, §A2.2) and the elliptic identification `a ↦ O([−a] − [0])` that
-  §A2.2 states in prose, and *AlgebraicModuliForArithmeticGeometry* Layer 4: banded gerbes
-  and their classification by `H²` of the band (`gerbeClass`, §4.20, derived classification on
-  arbitrary sites); both are used for local duality of abelian varieties.
-- *ArithmeticGaloisRepresentations*: decomposition, inertia and wild inertia groups at a place and
-  restriction to them with coherent change of embedding (Layer 2, §2.1); the Dickson classification
-  of finite projective images (Layer 4, §4.4) and the residual image in characteristic two with
-  `H¹(SL₂(F₀), M₂(F)) = 0` (Layer 4, §4.7); Chebotarev density for global function fields
-  (Layer 5, §5.13 / **Chebotarev for function fields**); the adjoint, the trace-zero adjoint and the
-  perfect trace pairing over any coefficient ring (Layer 7, §7.2); `H¹(SL₂(F), ad⁰) = 0` for `#F ≠ 5` in odd
-  characteristic (Layer 7, §7.7); Tate's vanishing `H²(G_F, ℚ/ℤ) = 0` for a number field
-  (Layer 7, §7.6 / **Projective lifting**).
-- *EtaleCohomologyFoundations* §§F.0.A0, F.0.A2 supplies field fundamental groups,
-  their arithmetic exact sequence and descent. Section R02.3.0d uses these with
-  ArithmeticGaloisRepresentations §2.1 to define finite localization and Sha kernels.
-  Sections R02.4.5a–R02.4.5b give the absolute finite-coefficient Poitou–Tate
-  consequences and the order-two Grunwald–Wang alternative. Section R02.4.6
-  gives all-place duality with transfer adjunction, the function-field case and
-  the exact exceptional triples and obstruction class.
-
-**Library declarations used, not restated.** Mathlib's `continuousCohomology`, `TopRep`,
-`CategoryTheory.Functor.IsMittagLeffler`, `RestrictedProduct`, `tateCohomology`, `groupCohomology`,
-`CategoryTheory.Abelian.Ext`, `DerivedCategory`, `CategoryTheory.Tor`,
-`CochainComplex.mappingCone`, `CochainComplex.mappingCocone`,
-`ContinuousCohomology.tateShafarevich` with `mem_tateShafarevich` and
-`tateShafarevich_eq_ker_pi`, `Representation.asAlgebraHom`, the spectral-object machinery,
-`AdicCompletion` and `Module.length`; Tau Ceti's
-`Representation.toSubmodule_range_asAlgebraHom`, `ContinuousMap.discreteTopology`,
-`TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.InternalHom` with `homAction` and
-`evalPairing`, `TauCeti.exists_continuous_section`, `TauCeti.FactorSet`, `TauCeti.KummerCoeff`,
-`TauCeti.kummerShortExact`, the periodicity of Tate cohomology of cyclic groups,
-`TauCeti.traceBilinForm` with `traceBilinForm_nondegenerate`, the trace-zero ideal `TauCeti.slIdeal`
-(which is `ad⁰`; no second trace-zero submodule is defined) and `TauCeti.Place` for function fields;
-Mathlib's `Algebra.IsUnramifiedIn` for unramifiedness at a finite place, quantified explicitly over
-the places outside `S` as NumberFieldArithmetic §1.2 prescribes. Tau Ceti also proves Sylow
-detection for group cohomology
-(`TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` and
-`TauCeti.groupCohomology.isZero_of_isZero_sylow`), which *Finite-group universal coefficients and
-Sylow detection* cites rather than restates; the triviality of inner conjugation on continuous
-cohomology in every degree (`TauCeti.ContinuousCohomology.map_eq_id_of_inner`), which *Localisation
-maps and the modified local groups* cites; the topology of factor-set extensions and their
-profinite-group structure (`TauCeti.FactorSet.Extension.homeomorphProd`,
-`TauCeti.FactorSet.Extension.isTopologicalGroup`,
-`TauCeti.FactorSet.continuous_canonicalSection`,
-`TauCeti.FactorSet.continuous_rescaleEquiv` and `TauCeti.ProfiniteGroupExtension.ofFactorSet`) and
-the classification of continuous profinite extensions by `TauCeti.ContCohomology.H2`
-(`TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv`), which *Continuous topology on
-factor-set extensions* and *Continuous Schreier classification and automorphisms* cite; and the
-class-formation structure of ClassFieldTheory Layer 2 (`TauCeti.ClassFieldTheory.ClassFormation`
-with its `fundamentalClass`), on which *P-class formations* builds.
-
-**Not in this roadmap.** `ℓ`-primary coefficients over a global function field of characteristic
-`ℓ` (flat and Artin–Schreier duality); the finiteness of Tate–Shafarevich groups of abelian
-varieties; Iwasawa cohomology and its control theorems (SelmerIwasawaCohomology); deformation rings,
-their presentations and patching, which use the numerical statements of Layers R02.5, R02.6 and D8
-as inputs; and Galois representations attached to automorphic forms.
+`Suggested.lean` contains headline statements and the definitions they need.
 
 ## Conventions
 
@@ -346,235 +130,6 @@ as inputs; and Galois representations attached to automorphic forms.
 - **Global function fields.** A global function field `F` has characteristic `ℓ`, and every
   function-field statement takes coefficients of order prime to `ℓ` and a nonempty set `S` of
   places; there are no archimedean places.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned)
-
-- `continuousCohomology n X : TopModuleCat k` for `X : TopRep k G`, the homology of the homogeneous
-  continuous cochains (`RepresentationTheory/Homological/ContCohomology/Basic.lean`); `TopRep`
-  (`RepresentationTheory/Continuous/TopRep.lean`), whose operators are continuous one at a time;
-  joint continuity is a separate hypothesis wherever a statement uses it.
-- `CategoryTheory.Functor.IsMittagLeffler` and `CategoryTheory.Functor.ofOpSequence`: towers are
-  functors `ℕᵒᵖ ⥤ AddCommGrpCat`, and the Mittag-Leffler condition is Mathlib's.
-- `ContinuousCohomology.tateShafarevich`, `ContinuousCohomology.mem_tateShafarevich` and
-  `ContinuousCohomology.tateShafarevich_eq_ker_pi`: all-place localization kernels for
-  `TopRep ℤ (Field.absoluteGaloisGroup K)`, with ordinary degree-zero local cohomology.
-- `RestrictedProduct` with its topology: the restricted products `Pʳ_S` and the ideles.
-- `tateCohomology` and `groupCohomology`: the modified archimedean groups and the cohomology of
-  finite quotients.
-- `CategoryTheory.Abelian.Ext` with `Ext.comp` and `covariantSequence_exact`, existence of `Ext`
-  from enough injectives (`hasExt_of_enoughInjectives`, `IsGrothendieckAbelian.enoughInjectives`),
-  `DerivedCategory`, `CochainComplex.mappingCone`, `CochainComplex.mappingCocone` with
-  `CochainComplex.mappingCocone.triangle`, `HomologicalComplex₂.total`, the spectral
-  objects `HomotopyCategory.spectralObjectMappingCone`,
-  `CategoryTheory.Abelian.SpectralObject.spectralSequence` with `IsFirstQuadrant` and
-  `coreE₂CohomologicalNat`, and `CategoryTheory.Tor`.
-- `Field.absoluteGaloisGroup`, `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, the Krull
-  topology, `IsDedekindDomain.HeightOneSpectrum`, `Set.integer` and `Set.unit` (`S`-integers and
-  `S`-units), `ClassGroup`, `Algebra.IsUnramifiedAt` and `Algebra.IsUnramifiedIn` (a finite place
-  `v` is unramified in `L` when `Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal`: every prime of `𝓞 L` over
-  `v` is unramified; "unramified outside `S`" is `∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal`,
-  with no wrapper predicate, as NumberFieldArithmetic §1.2 prescribes),
-  `NumberField.finite_of_discr_bdd`, `NumberField.IsTotallyComplex`, `FunctionField`.
-- `AdicCompletion.of`, `AdicCompletion.map`, `AdicCompletion.ofTensorProduct` and
-  `AdicCompletion.ofTensorProduct_bijective_of_finite_of_isNoetherian`;
-  `PadicInt.toZModPow` for the quotient-tower completion comparison.
-- `NumberField.Units.exist_unique_eq_mul_prod`, `NumberField.Units.rank`,
-  `NumberField.Units.finrank_eq`, `IsIntegral.of_pow`, `RingOfIntegers.instFintypeClassGroup`,
-  `Nat.card_coe_set_eq`, `CommGroup.torsion` and `AddCommGroup.equiv_free_prod_directSum_zmod`
-  for global units, S-unit rank and fundamental systems.
-- `Submodule.orthogonalBilin`, `Submodule.orthogonalBilin_map`, `LinearMap.IsPerfPair` and
-  `Submodule.map_le_iff_le_comap` for dual local conditions.
-- `PontryaginDual`, `AdicCompletion`, `Module.length`, `ringKrullDim`, `localCohomology`,
-  `Subrepresentation`,
-  `Matrix.det_one_add_smul`, `DualNumber`.
-
-### From Tau Ceti (pinned)
-
-- `ContinuousMap.discreteTopology` (`TauCeti/Topology/CompactOpen.lean`): compact-open
-  continuous maps from a compact space to a discrete space are discrete.
-- `TauCeti.addRestrictedProductOfFinite` with `TauCeti.addRestrictedProductOfFinite_apply`:
-  the additive restricted product over a finite index type is the full product.
-- `Representation.toSubmodule_range_asAlgebraHom`
-  (`TauCeti/RepresentationTheory/AsAlgebraHom.lean`):
-  `Subalgebra.toSubmodule ρ.asAlgebraHom.range = Submodule.span R (Set.range ρ)`.
-
-- `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg`,
-  `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker` and
-  `Set.unitEmptyEquivUnits`. Section R02.3.0c supplies the additive finite-generation,
-  cardinality, reindexing and completion adapters on Mathlib's `Set.unit` carrier; the additive
-  transport of the supplied multiplicative valuation has coordinates `−ord_v`.
-
-- `TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.IsSmoothDiscrete`: discrete modules
-  as topological representations.
-- `TauCeti.InternalHom`, `TauCeti.homAction`, `TauCeti.InternalHom.evalPairing`: the conjugation
-  action on `Hom(M, N)` and the evaluation pairing; the pointwise `Hom` of Layer R02.1 agrees with
-  it for finite sources (the continuity instance of `InternalHom` assumes a finite discrete source).
-- `TauCeti.exists_continuous_section`: normalized continuous sections of profinite quotients.
-- `TauCeti.FactorSet` and `TauCeti.FactorSet.Extension`: normalized factor sets and their group
-  extensions. Their topology (`TauCeti.FactorSet.Extension.homeomorphProd`,
-  `TauCeti.FactorSet.Extension.isTopologicalGroup`,
-  `TauCeti.FactorSet.continuous_canonicalSection`, and
-  `TauCeti.FactorSet.continuous_rescaleEquiv`, which assumes `ContinuousMul M`), the profinite
-  extension `TauCeti.ProfiniteGroupExtension.ofFactorSet` and the classification
-  `TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv` (continuous equivalence classes of
-  extensions of `G` by a compact abelian group `M` correspond to
-  `TauCeti.ContCohomology.H2 G (Additive M)`) are consumed as stated by Layer R02.1.
-- `TauCeti.ContCohomology.H1` and `TauCeti.ContCohomology.H2`: continuous crossed homomorphisms and
-  continuous `2`-cocycles modulo coboundaries, the low-degree descriptions the compact-coefficient
-  comparison supplied by PerfectoidTowers §P9.0 is checked against.
-- `TauCeti.ContinuousCohomology.map_eq_id_of_inner`: for smooth discrete coefficients and a locally
-  compact group, inner conjugation acts trivially on continuous cohomology in every degree; used for
-  the independence of the localisation maps of Layer R02.3.
-- `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` and
-  `TauCeti.groupCohomology.isZero_of_isZero_sylow`: for a finite group, restriction to a Sylow
-  `p`-subgroup is injective on the `p`-primary part of cohomology, and cohomology vanishing on Sylow
-  subgroups vanishes; cited by Layer D7.
-- `TauCeti.ClassFieldTheory.ClassFormation` with `fundamentalClass`: the class formations of
-  ClassFieldTheory Layer 2, from which the `P`-class formations of Layer R02.3 are built.
-- `TauCeti.KummerCoeff`, `TauCeti.kummerShortExact`: `μ_n` as a discrete Galois module and the
-  Kummer sequence.
-- `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`,
-  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and
-  `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective`, from
-  `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule`: finite local Tate duality
-  in degrees `0`, `1`, `2` for every `IsNonarchimedeanLocalField K`, finite discrete continuous
-  `G_K`-module killed by `n`, and `IsUnit (n : K)`, including equal characteristic. These use
-  explicit low-degree cohomology. Section R02.3.2 transports their coefficient dual, cup products
-  and invariant to the canonical cohomology and `ℚ/ℤ` pairing, using
-  `TauCeti.ClassFieldTheory.muNRepH2Equiv` and `TauCeti.ClassFieldTheory.h2MuEquivZMod`.
-- `Rep.FiniteCyclicGroup.tateCohomologyIsoEven`, `tateCohomologyIsoOdd` and
-  `TauCeti.TateCohomology.herbrandQuotient_eq_one_of_finite`: Tate cohomology of cyclic groups.
-- `TauCeti.traceBilinForm`, `TauCeti.traceBilinForm_nondegenerate`, `TauCeti.slIdeal`,
-  `TauCeti.mem_slIdeal_iff`: the trace form of `gl_n`, nondegenerate over every commutative
-  semiring, and the trace-zero ideal, which is `ad⁰` in Layers D8 and R02.6 (as a Lie ideal of the
-  commutator Lie ring on matrices, a local instance in Tau Ceti and Mathlib; as a Lie subalgebra it
-  is Mathlib's `LieAlgebra.SpecialLinear.sl`, `TauCeti.slIdeal_toLieSubalgebra_eq_sl`).
-- `TauCeti.Place`, `TauCeti.Place.degree`: places of a function field;
-  `TauCeti.Place.Completion` and `TauCeti.Place.completionEmbedding`, from
-  `TauCeti.FieldTheory.FunctionField.Place.Completion.Basic`: the completion `F_v` at a place `v`
-  and the embedding `F → F_v`, which give the local fields of the function-field Sha kernels.
-
-### From TauCetiRoadmap roadmaps
-
-- `HeightsAndUnits` §4.2: the rank identity and the fundamental system with a unique
-  torsion-factor/integer-exponent decomposition for number-field S-units on Mathlib's `Set.unit`
-  carrier, for finite sets of finite places. Section R02.3.0c consumes these statements.
-- `ProfiniteCohomology`: the exported declarations of its §2 table, in particular `TopRep`,
-  `continuousCohomology`, `res`, `infl`, `coeffMap`, `continuousFiniteQuotientColimit`,
-  `continuousCohomology_preservesFilteredColimits`, `delta`, `longExact_exact`, `transgression`,
-  `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `corestriction`, `corestriction_comp_res`,
-  `corestriction_mackey`, `shapiroIso`, `coindAcyclic`, `dimensionShiftIso`, `cup`, `cup_res`,
-  `cup_infl`, `cup_projection`, `evalPairing`, `kummerIso`, `hilbert90`, `cd_p`, `scd_p`. These are
-  consumed with their stated hypotheses (discrete coefficients). Compact and rational coefficients
-  use the cochain comparisons supplied by PerfectoidTowers §P9.0; their arithmetic theory is built
-  here.
-- `ClassFieldTheory`: `ClassFormation` and its fundamental classes, the Tate–Nakayama
-  isomorphisms, the abstract Artin map, the local invariant, `tateDualityPairing_perfect_mixed`,
-  `finite_H`, `eulerCharacteristic_mixed`, `cd_p_absoluteGaloisGroup_eq_two`, the local Artin map,
-  the global Brauer sequence and the global class formation for number fields.
-- `RepresentationTheory/ModularInduction`: `modRepK0 k G` (exact `K₀` of finitely generated
-  `k[G]`-modules, Serre's `R_k(G)`), `modRepK0.ind`, `modRepK0.res`, `modRepK0.baseChange` and
-  `modularArtin_natCard_nsmul_mem_indCyclicCoprime`: in characteristic `p`, `|G|` times every class
-  is induced from cyclic subgroups of order prime to `p`. Section R02.4.4 consumes these and keeps
-  the decomposition map, which that roadmap excludes.
-- `GlobalNumberFields` Layers 1 and 6–8, `NumberFieldArithmetic` Layers 1, 4 and 6, `Chebotarev`
-  Layer 10, `AlgebraicCurves` Layer 12, and the tori of `ReductiveGroups`, as listed under *Scope and
-  ownership*.
-
-### From further roadmaps
-
-| Supplier | Exact interface consumed |
-| --- | --- |
-| PadicPeriodRings | §0.1: `procyclic_H1_equiv_coinvariants` for discrete torsion, finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity hypotheses, naturality and Checks. §0.2: *Low-degree continuous descent*, the exact sequence `0 → H¹(G/H, M^H) → H¹(G, M) → H¹(H, M)` for topological coefficients and its transport to Mathlib's carrier for profinite `G`, consumed in R02.2 *Inflation–restriction for compact and rational coefficients*. |
-| PadicLocalLanglandsForGL2Qp | §0.5: the shared Hilbert–Samuel polynomial of `length(M/I^(n+1)M)` and the multiplicity `CycleSupport.multiplicity I d M`, with the eventual-value theorem `exists_hilbertSamuel_polynomial` and additivity under a common dimension bound, all at `I = m_A` and `d = ringKrullDim A`; consumed in D7.1 *Hilbert–Samuel Euler function*. |
-
-- `EllipticCurves` Layer 7 *Selmer structures, the Selmer group, and Sha*:
-  local conditions and the Selmer kernel for a general discrete Galois module.
-  Finite dual local conditions use §§D7.7.1–D7.7.2 here.
-- Supplied by EtaleCohomologyFoundations §§F.0.A0, F.0.A2: field fundamental groups,
-  the arithmetic fundamental-group sequence and descent, used in §R02.3.0d.
-- Supplied by PerfectoidTowers §P9.0: lifting continuous cochains along surjections of discrete
-  spaces, inverse-limit cochain comparisons, and the all-degree comparison with Mathlib's
-  homogeneous cochains for jointly continuous actions, with quotient topologies on cohomology
-  in topological statements and underlying modules in derived categories.
-- Supplied by DerivedModuleAlgebra §1.T.1: the tower, shift, `lim`/`lim¹`,
-  Mittag–Leffler, six-term and Milnor APIs used by compact continuous cochains, the module
-  towers `ModuleTower.lim` and `ModuleTower.limOne`, and the integral-module adapter
-  `Tower.toModuleFunctor`, `Tower.limComparison` and `Tower.limOneComparison` with its shift,
-  six-term and Milnor compatibilities.
-- Supplied by DerivedModuleAlgebra §S.1: the first-quadrant double-complex spectral sequence,
-  with its E₂ identification, abutment filtration, convergence, edge and five-term maps,
-  exact-row consequences and naturality.
-- Supplied by DerivedModuleAlgebra §1.M.1: Matlis duality for arithmetic coefficients over a
-  complete Noetherian local ring with finite residue field. Supplied by DerivedModuleAlgebra
-  §1.M.2: the injective hull, the `R̂`-actions, Matlis biduality and the completion adjunction
-  over a Noetherian local ring with arbitrary residue field.
-- Supplied by NoncommutativeAndEquivariantIwasawa §F.3: `arithmeticContinuousCochains` with its
-  countable-tower Milnor sequence, and `arithmeticHochschildSerre` for every profinite group,
-  closed normal subgroup and jointly continuous discrete coefficient module, with its coherent
-  quotient action, filtration, spectral sequence, edges, five-term sequence, transgression,
-  restriction, open finite-index corestriction, cup products and compact-coefficient limit.
-  Supplied by its §F.4: `arithmeticSelmerComplex`.
-- Supplied by EnhancedDerivedSheaves §E1.8.DMA.1: `derivedTensor_affine`, the affine comparison
-  of module-derived tensor with SchemeAndStackFoundations §2.18.
-- `SchemeAndStackFoundations` Layer 2: §2.21 *Dualising complexes* (`DualizingComplex A ω` for a
-  Noetherian ring, with `biduality`; `NormalizedDualizing A ω` for a Noetherian local ring,
-  `RHom_A(κ, ω) ≅ κ[0]`); §2.7 *Cohomology with supports and local cohomology*
-  (`localCohomology_colimit_ext_comparison`, `localCohomology_module_comparison`); §2.18 *Derived
-  categories of quasi-coherent complexes* (`derivedTensor`, `derivedHom`, `DQCoh.affineEquiv`);
-  §2.15 (`etale_galois_comparison`: étale cohomology of a field is Galois cohomology); §2.9
-  (`Gm`, the multiplicative group as a sheaf on the big site); the big étale site of a scheme is
-  Mathlib's `etaleTopology` on schemes over it, as in its conventions.
-- `DerivedModuleAlgebra` §0.2 *Derived tensor products on module derived categories*:
-  `DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
-  `derivedTensor_triangulated`. §1.1 *Derived limits of towers*
-  (`DerivedDeRham.derivedLimit`, `derivedLimit_surjective`, `derivedLimit_milnor`), using the
-  DerivedModuleAlgebra §1.T.1 shift/Milnor calculation with the same `CompactCoefficients.Tower.lim` and
-  `CompactCoefficients.Tower.limOne` after forgetting scalars; §1.3 *The derived completion reflector*
-  (`DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`); §1.5 *When ordinary quotient
-  towers compute completion* (for a Noetherian ring, the derived completion of a complex with finitely
-  generated cohomology has the adic completions of its cohomology modules as cohomology).
-- `AbelianSchemesAndArithmeticModuli` Layer A2, §A2.2: `AbelianScheme.dual`, the dual abelian
-  scheme with its Poincaré bundle (over a field, the dual abelian variety), and the
-  elliptic identification `a ↦ O([−a] − [0])` that §A2.2 states in prose.
-- `AlgebraicModuliForArithmeticGeometry` Layer 4: banded gerbes and band-preserving morphisms
-  (§4.2) and their classification by `H²` of the band, `gerbeClass` (§4.20).
-- Supplied by ArithmeticGaloisRepresentations §2.1 / **Decomposition and inertia groups**:
-  `GaloisRep.decompositionGroup`, `GaloisRep.inertiaGroup` and the wild inertia group;
-  §2.1 / **The local embedding**: `GaloisRep.localEmbeddingMap`;
-  §2.1 / **Local restriction**: `GaloisRep.localRestriction` and its change-of-embedding
-  isomorphisms. Supplied by ArithmeticGaloisRepresentations §4.4 / **Dickson's theorem**:
-  `GL2Subgroup.dickson_projectiveImage`; §4.7 / **Characteristic two** for the invariants and
-  submodules and the target's `H¹(SL₂(F₀), M₂(F)) = 0` (a target without an exported name);
-  §5.13 / **Restricted-ramification function-field groups and Frobenius** (the group `G_{K_C,U}`,
-  its decomposition and inertia groups and Frobenius classes) and **Chebotarev for function fields**.
-  Supplied by ArithmeticGaloisRepresentations §7.2 / **The adjoint**: `ContinuousRep.ad`,
-  `ContinuousRep.adZero`, `ContinuousRep.adQuot` and the perfect invariant trace pairing on
-  `ad ρ` asserted in that target; §7.2 / **The trace pairing on matrices** (perfectness of
-  `(X, Y) ↦ tr(XY)` on `M_n(A)`); §7.7 / **`SL₂` with adjoint coefficients**; §7.6 /
-  **Projective lifting** for Tate's vanishing. The three targets of §§4.7, 7.2 and 7.7 cited
-  without a Lean name are consumed as stated there, with their coefficient restrictions and
-  small-field exceptions.
-
-## How to read the build
-
-Layer R02.1 extends continuous cohomology to compact, rational and torsion coefficients and adds
-the continuous algebra (pointwise `Hom`, factor sets, unbalanced products) that the arithmetic
-layers use. Layer R02.2 identifies the supplied Hochschild–Serre spectral sequence with Mathlib's
-carrier and proves its transgression and descent consequences. Layer
-R02.3 sets up `G_{K,S}`, the localisation maps, the `S`-idele class formation and the
-function-field class-field inputs. Layer R02.4 proves the duality theorems for finite and finitely
-generated coefficients: Tate's theorem for class formations, Poitou–Tate, finiteness,
-cohomological dimension, the Euler characteristic, the function-field forms and the local–global
-obstruction groups. Layer D7 then lifts these to the derived category with compact and cofinite
-coefficients (it needs the global finite theorems of R02.4, which is why it comes after R02.4
-despite its label), and ends with the lattice Poitou–Tate sequences, abelian-variety duality and the dual-local-condition package of D7.7.
-Layer R02.5 turns duality into Selmer dimension formulas; Layer D8 does the first-order adjoint
-calculations; Layer R02.6 uses
-R02.5 and D8 for the patching numerics. Within each layer the targets are listed so that nothing is
-used before it is stated.
 
 ## Layer R02.1: Compact coefficients, limits and continuous extensions
 
@@ -7410,6 +6965,447 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   sequences of R02.2 and the derived duality of D7.
 - **AnabelianGeometryAndNonabelianChabauty**: local duality over coefficient fields, using the
   carrier comparison supplied by PerfectoidTowers §P9.0.
+
+## Scope and ownership
+
+**Owned here.** The general coefficient and global-field extensions, and the comparison adapters,
+of the number-field constructions supplied below. Continuous cohomology with compact, lattice,
+rational and torsion coefficients using PerfectoidTowers §P9.0's comparison with Mathlib's carrier, Tate's inverse-limit
+theorem, the long exact sequences that need a continuous section, rationalisation and the discrete
+quotient `V/T`; the pointwise `Hom` with its
+splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
+with its evaluation cup product; topologies on factor-set extensions and the
+continuous Schreier classification; unbalanced cochain products. The identification of
+NoncommutativeAndEquivariantIwasawa §F.3's Hochschild–Serre package with Mathlib's carrier and
+ProfiniteCohomology's explicit maps, its degeneration, finite-index descent, the transgression as a
+cup product and the relative derived compact-coefficient extension; residue sequences of Laurent-series fields. The group `G_{K,S}`,
+Hermite's finiteness theorem with ramification outside `S`, finiteness of `H¹(G_S, M)`, localisation
+maps with the modified archimedean groups, `S`-ideles, S-unit cardinality and reindexing adapters, multiplicative completion and its unit injections,
+`S`-units and `S`-idele classes, finite Galois localization and Sha kernels, `P`-class
+formations, the `S`-class formation with its reciprocity and the `S`-unit Kummer sequence; the
+class-field inputs for global function fields (ideles and `S`-units, restricted ramification, the
+equal-characteristic specialization and comparisons for the supplied finite local duality,
+the Euler characteristic prime to the characteristic, the global class formation); absolute and
+relative `Шⁱ` and the cyclotomic power kernel; exponent-two ramification fields, quadratic fields with one new ramified prime, the
+antiunit class-field rank and the absence of `ℤ_p`-extensions unramified at `p`. Ext of discrete
+modules, Tate's duality for a `P`-class formation and for the `S`-idele classes, archimedean local
+duality, the restricted products `Pʳ_S` and their self-duality, Poitou–Tate duality, global
+finiteness, cohomological dimension, high-degree cohomology of units, the decomposition map, the
+rationalized modular Artin theorem (a corollary of RepresentationTheory/ModularInduction), the global Euler characteristic, the function-field
+Poitou–Tate and Euler theorems, finite compact support, all-place `Ш` duality with transfer
+adjunction, Grunwald–Wang with its dyadic obstruction (ClassFieldTheory expressly leaves it out),
+character roots and their local Brauer obstructions, totally real base change with prescribed
+local behaviour, Tate's vanishing of `H²(G_K, ℚ/ℤ)`, torus duality and function-field central
+obstructions. The derived coefficient algebra the duality theorems need (perfect amplitude,
+Tor and arithmetic coefficient comparisons for the imported module-derived tensor product,
+the restriction-of-scalars specialization of the supplied module-derived limit comparisons, Grothendieck
+local duality for complete local rings, the derived composite spectral sequence, flatness of adic continuous
+functions, and the Hilbert–Samuel Euler function as the maximal-ideal case of the multiplicity owned by
+PadicLocalLanglandsForGL2Qp §0.5); admissible coefficients, continuous cochains in the
+derived category with finiteness and base change, compact Shapiro and Künneth statements, derived
+local duality, compactly supported cochains with their cup products and Euler characteristic,
+derived Poitou–Tate duality including the dyadic case with real places, lattice and rational
+Poitou–Tate sequences, `Ext` of abelian varieties by `G_m` on the big étale site of a field, local
+duality for abelian varieties and isogenies. The Greenberg–Wiles
+formula for finite discrete coefficients and the rank-one numerics of Layer R02.5;
+perfect pairings, dual local conditions and parametric mapping-fibre duality in D7.7;
+trace-zero adjoint duality and first-order cocycles; the Taylor–Wiles
+and Khare–Wintenberger numerics of Layer R02.6.
+
+**Tau Ceti roadmaps this roadmap builds on.**
+
+- *ProfiniteCohomology* (Layers 1–12). The canonical carrier `TopRep`, `continuousCohomology` and
+  its compatible-pair functoriality (Layer 1); the explicit low-degree complex, with conjugation and
+  the triviality of inner conjugation in degrees `≤ 2` (Layer 2); the comparison isomorphisms
+  (Layer 3); the finite-quotient colimit description (Layers 4 and 10); the long exact sequence
+  through degree two, inflation–restriction and the five-term sequence with its explicit
+  transgression (Layer 5); the long exact sequence in every degree (`delta`, `longExact_exact`,
+  Layer 10); restriction, corestriction and conjugation (Layers 2, 6 and 10); coinduced modules and
+  Shapiro's lemma in all degrees (Layers 7 and 10); cup products (Layer 8 in degrees `p + q ≤ 2`,
+  Layer 12 in all degrees);
+  Hilbert 90 and Kummer theory (Layer 9); cohomological dimension (Layer 11). That roadmap excludes
+  the Hochschild–Serre spectral sequence and all theorems for non-discrete coefficients, profinite
+  Sylow theory and Schur multipliers. The spectral sequence is supplied by
+  NoncommutativeAndEquivariantIwasawa §F.3 and the arithmetic coefficient theory is owned here,
+  using PerfectoidTowers §P9.0's cochain comparisons; the last two are not used.
+- *HeightsAndUnits* §4.2 owns S-unit rank and fundamental systems on Mathlib's `Set.unit`
+  carrier. Section R02.3.0c supplies their arithmetic cardinality, reindexing and completion adapters.
+- *ClassFieldTheory*. Class formations and fundamental classes (Layer 2), Tate's theorem and the
+  Tate–Nakayama isomorphisms (Layer 3), the abstract Artin map (Layer 4); the local Brauer group,
+  the local invariant, local Tate duality and the local Euler characteristic for finite modules in
+  mixed characteristic (Layer 5); the local class formation and reciprocity for every
+  nonarchimedean local field (Layers 6–7); the global Brauer sequence and the archimedean
+  invariants (Layer 10), the global class formation and Artin reciprocity (Layer 11), global
+  existence and the norm index (Layer 12) and the class fields of Layer 13, all for number fields.
+  ClassFieldTheory leaves out global class field theory of function fields and the Grunwald–Wang
+  theorem; Layers R02.3 and R02.4 here supply exactly what this roadmap needs of them.
+- *GlobalNumberFields* (mixed finite/real weak approximation, Layer 1; ideles and idele class
+  groups, Layer 6; the connected component and ray
+  classes, Layer 7; norms of ideles, Layer 8), *NumberFieldArithmetic* (unramified sets of primes,
+  Layer 1; relative discriminants, Layer 4; different exponents, Layer 6), *Chebotarev* (Layer 10),
+  *RepresentationTheory/ModularInduction*
+  (the Grothendieck group `modRepK0 k G` of finitely generated `k[G]`-modules with its induction
+  and base change, Layers 0–1, and the modular Artin theorem, Layer 4), *ReductiveGroups* (Layers 4–7, tori and their character lattices `X*(T)`, used
+  for torus duality) and *AlgebraicCurves* (the regular projective model of a function field with
+  its closed points as places, Layer 12). Supernatural orders of profinite groups, the product
+  formula of a function field and the finiteness of `Cl⁰` over a finite field are in Tau Ceti at
+  the pin (`TauCeti.profiniteOrder`, `TauCeti.Divisor.degree_principal`,
+  `TauCeti.Divisor.finite_ker_degreeClass`).
+
+**Further roadmaps this roadmap builds on.**
+
+- *IntegralIwasawaTheory* §2.0 supplies `arithmeticPoitouTate`,
+  `arithmeticCompactSupport` and `arithmeticCompactDuality` for finite p-primary and
+  finite-free compact number-field coefficients, including the ordinary-to-Tate comparison.
+  Section 10.0 supplies `completedArithmeticCoefficients`, `derivedArithmeticTower`,
+  `compactArithmeticShapiro` and `arithmeticLocalMappingFiber`, with their finite-level,
+  restriction and trace maps. Section 10.1 supplies the bounded ordinary dyadic instance
+  `burnsFlachFiniteComplex` and `burnsFlachFinite_perfect`; its tower version is
+  `burnsFlachComplex`. The comparisons in R02.4 and D7 identify the common instances with
+  these maps. Profinite coefficients that are not modules over the integers of a `p`-adic field,
+  arbitrary complete Noetherian local coefficient rings, ind-admissible complexes, dualizing
+  complexes and function fields retain their stated generality here.
+- *NoncommutativeAndEquivariantIwasawa* §F.3 supplies, for every profinite group,
+  `arithmeticContinuousCochains` for finite, compact `O`-module, discrete torsion and rational
+  coefficients (`O` the integers of a finite extension `L/ℚ_p`), with its countable-tower Milnor
+  sequence, injection, projection and connecting maps; and `arithmeticHochschildSerre`, the derived
+  comparison `RΓ(G,A) ≃ RΓ(G/H,RΓ(H,A))` for a closed normal subgroup `H` and every discrete
+  `G`-module `A` with jointly continuous action, with its coherent quotient action, first-quadrant
+  filtration, spectral sequence, inflation and restriction edges, five-term sequence and
+  transgression, open finite-index restriction and corestriction, cup products and its passage to
+  compact `O`-coefficients. Layer R02.1 identifies Tate's inverse-limit sequence with that Milnor
+  sequence on the common domain, and Layer R02.2 consumes the Hochschild–Serre package, identifying
+  it with Mathlib's carrier and ProfiniteCohomology's explicit maps. Section F.3 also supplies
+  `arithmeticLocalDuality`, `arithmeticPoitouTate`,
+  `arithmeticCompactSupport` and `arithmeticGlobalDuality` on its number-field and
+  `O`-lattice/`L`-representation domains, and §F.4 supplies `arithmeticSelmerComplex`, the
+  `O`-coefficient Selmer fibre identified in §D7.7.4. D7 consumes their localization, trace, cup and real Tate maps. Its
+  `arithmeticCompactSupport` denotes Tate-modified support; the ordinary support of
+  IntegralIwasawaTheory is identified only with the corresponding ordinary instance.
+  The specialization equations above identify the shared objects and morphisms; the
+  remaining targets extend them to the broader coefficient and field categories here.
+  Comparison equations use the same embeddings and cochain conventions; comparisons
+  through resolutions are equations in the homotopy or derived category, with the
+  specified localization homotopy used to induce the map of fibres.
+- *PadicPeriodRings* §0.1 supplies `procyclic_H1_equiv_coinvariants`, natural in the
+  coefficient module, for discrete torsion, finitely generated `ℤ_p` and finite-dimensional
+  `ℚ_p` coefficients with the stated continuous actions, together with its Checks; §0.2 supplies
+  degree-one inflation–restriction for topological coefficients on Mathlib's carrier.
+- *PerfectoidTowers* §P9.0 supplies lifting continuous cochains along surjections of discrete
+spaces,
+  continuous cochains into inverse limits, and the comparison with Mathlib's homogeneous cochains
+  for jointly continuous actions in all degrees. Topological comparisons use the quotient topology
+  on cohomology; comparisons in derived categories use the underlying modules.
+- *AdelicAlgebraicGroups* §§1.1–1.2 supply integral models, the topology of affine adelic
+  points and their restricted-product realization; §1.5 supplies compact open local subgroups.
+  Its §3.4 **Finiteness of class numbers** supplies finiteness of
+  `T(F)\T(𝔸_{F,f})/U` for a number-field torus and a compact open subgroup `U`.
+  R02.4.6 here constructs the modified archimedean quotient, its compactness modulo the closure
+  of rational points, torus local duality, the completed sequence and realization of its image
+  by actual adelic points.
+- *EllipticCurves* Layer 7 *Selmer structures, the Selmer group, and Sha* supplies
+  local-condition subgroups and the Selmer subgroup for a general discrete Galois module.
+  Layers R02.5–R02.6 use this carrier for finite coefficients, with annihilators and
+  quotient pairings from §§D7.7.1–D7.7.2. The dual local conditions and parametric
+  derived fibre duality are constructed in §§D7.7.1–D7.7.6.
+- *SchemeAndStackFoundations* Layer 2: dualising complexes over Noetherian rings and the normalised
+  local dualising complex (§2.21 *Dualising complexes*, `DualizingComplex`, `NormalizedDualizing`),
+  local cohomology of modules (§2.7 *Cohomology with supports and local cohomology*,
+  `localCohomology_colimit_ext_comparison`), the derived tensor product and internal Hom (§2.18
+  *Derived categories of quasi-coherent complexes*, `derivedTensor`, `derivedHom`, of which the
+  affine case is used, through `DQCoh.affineEquiv`), and the comparison of étale cohomology of a
+  field with Galois cohomology (§2.15, `etale_galois_comparison`). The module-derived tensor product
+  uses DerivedModuleAlgebra §0.2 and EnhancedDerivedSheaves §E1.8.DMA.1's affine comparison
+  with §2.18.
+- *DerivedModuleAlgebra* §1.T.1 owns the tower shift, `lim`/`lim¹`, Mittag–Leffler,
+  six-term and Milnor APIs, the module towers `ModuleTower.lim` and `ModuleTower.limOne`, and the
+  integral-module adapter `Tower.toModuleFunctor`, `Tower.limComparison` and
+  `Tower.limOneComparison`, natural in tower maps and compatible with the shift, six-term boundary
+  and Milnor maps. Its §0.2 owns K-flat resolutions, the module-derived tensor product
+  `DerivedDeRham.derivedTensor`, derived extension of scalars, model independence and exactness.
+  D7.1 uses this functor for perfect amplitude, Tor and arithmetic coefficient change. Its §1.1 owns
+  the general module-derived limit `DerivedDeRham.derivedLimit`; its Milnor proof reuses DerivedModuleAlgebra §1.T.1's
+  shift calculation after a degreewise-surjective replacement, and the integral-module adapter
+  retains its injection, projection and connecting maps. D7.1 adds only the restriction of scalars
+  from `R`-module towers to integral-module towers and the resulting arithmetic specialization.
+  Its §1.3 also supplies the derived completion reflector `DerivedDeRham.derivedCompletion`
+  and the comparison of derived completion with ordinary completion for complexes with
+  finitely generated cohomology over a Noetherian ring (§1.5), used by *Grothendieck local duality
+  for a complete Noetherian local ring*. Section 1.M.1 supplies Matlis duality for arithmetic
+  coefficients (finite residue field); §1.M.2 supplies the injective hull, Matlis duality and
+  completion comparisons over a Noetherian local ring with arbitrary residue field, used by that
+  local-duality target; and §S.1 supplies the first-quadrant double-complex spectral sequence with its
+  convergence, edge maps and exact-row consequences.
+- *EnhancedDerivedSheaves* §E1.8.DMA.1 supplies the affine comparison `derivedTensor_affine`
+  with SchemeAndStackFoundations §2.18.
+- *AbelianSchemesAndArithmeticModuli* Layer A2: the dual abelian scheme with its Poincaré bundle
+  (`AbelianScheme.dual`, §A2.2) and the elliptic identification `a ↦ O([−a] − [0])` that
+  §A2.2 states in prose, and *AlgebraicModuliForArithmeticGeometry* Layer 4: banded gerbes
+  and their classification by `H²` of the band (`gerbeClass`, §4.20, derived classification on
+  arbitrary sites); both are used for local duality of abelian varieties.
+- *ArithmeticGaloisRepresentations*: decomposition, inertia and wild inertia groups at a place and
+  restriction to them with coherent change of embedding (Layer 2, §2.1); the Dickson classification
+  of finite projective images (Layer 4, §4.4) and the residual image in characteristic two with
+  `H¹(SL₂(F₀), M₂(F)) = 0` (Layer 4, §4.7); Chebotarev density for global function fields
+  (Layer 5, §5.13 / **Chebotarev for function fields**); the adjoint, the trace-zero adjoint and the
+  perfect trace pairing over any coefficient ring (Layer 7, §7.2); `H¹(SL₂(F), ad⁰) = 0` for `#F ≠ 5` in odd
+  characteristic (Layer 7, §7.7); Tate's vanishing `H²(G_F, ℚ/ℤ) = 0` for a number field
+  (Layer 7, §7.6 / **Projective lifting**).
+- *EtaleCohomologyFoundations* §§F.0.A0, F.0.A2 supplies field fundamental groups,
+  their arithmetic exact sequence and descent. Section R02.3.0d uses these with
+  ArithmeticGaloisRepresentations §2.1 to define finite localization and Sha kernels.
+  Sections R02.4.5a–R02.4.5b give the absolute finite-coefficient Poitou–Tate
+  consequences and the order-two Grunwald–Wang alternative. Section R02.4.6
+  gives all-place duality with transfer adjunction, the function-field case and
+  the exact exceptional triples and obstruction class.
+
+**Library declarations used, not restated.** Mathlib's `continuousCohomology`, `TopRep`,
+`CategoryTheory.Functor.IsMittagLeffler`, `RestrictedProduct`, `tateCohomology`, `groupCohomology`,
+`CategoryTheory.Abelian.Ext`, `DerivedCategory`, `CategoryTheory.Tor`,
+`CochainComplex.mappingCone`, `CochainComplex.mappingCocone`,
+`ContinuousCohomology.tateShafarevich` with `mem_tateShafarevich` and
+`tateShafarevich_eq_ker_pi`, `Representation.asAlgebraHom`, the spectral-object machinery,
+`AdicCompletion` and `Module.length`; Tau Ceti's
+`Representation.toSubmodule_range_asAlgebraHom`, `ContinuousMap.discreteTopology`,
+`TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.InternalHom` with `homAction` and
+`evalPairing`, `TauCeti.exists_continuous_section`, `TauCeti.FactorSet`, `TauCeti.KummerCoeff`,
+`TauCeti.kummerShortExact`, the periodicity of Tate cohomology of cyclic groups,
+`TauCeti.traceBilinForm` with `traceBilinForm_nondegenerate`, the trace-zero ideal `TauCeti.slIdeal`
+(which is `ad⁰`; no second trace-zero submodule is defined) and `TauCeti.Place` for function fields;
+Mathlib's `Algebra.IsUnramifiedIn` for unramifiedness at a finite place, quantified explicitly over
+the places outside `S` as NumberFieldArithmetic §1.2 prescribes. Tau Ceti also proves Sylow
+detection for group cohomology
+(`TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` and
+`TauCeti.groupCohomology.isZero_of_isZero_sylow`), which *Finite-group universal coefficients and
+Sylow detection* cites rather than restates; the triviality of inner conjugation on continuous
+cohomology in every degree (`TauCeti.ContinuousCohomology.map_eq_id_of_inner`), which *Localisation
+maps and the modified local groups* cites; the topology of factor-set extensions and their
+profinite-group structure (`TauCeti.FactorSet.Extension.homeomorphProd`,
+`TauCeti.FactorSet.Extension.isTopologicalGroup`,
+`TauCeti.FactorSet.continuous_canonicalSection`,
+`TauCeti.FactorSet.continuous_rescaleEquiv` and `TauCeti.ProfiniteGroupExtension.ofFactorSet`) and
+the classification of continuous profinite extensions by `TauCeti.ContCohomology.H2`
+(`TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv`), which *Continuous topology on
+factor-set extensions* and *Continuous Schreier classification and automorphisms* cite; and the
+class-formation structure of ClassFieldTheory Layer 2 (`TauCeti.ClassFieldTheory.ClassFormation`
+with its `fundamentalClass`), on which *P-class formations* builds.
+
+**Not in this roadmap.** `ℓ`-primary coefficients over a global function field of characteristic
+`ℓ` (flat and Artin–Schreier duality); the finiteness of Tate–Shafarevich groups of abelian
+varieties; Iwasawa cohomology and its control theorems (SelmerIwasawaCohomology); deformation rings,
+their presentations and patching, which use the numerical statements of Layers R02.5, R02.6 and D8
+as inputs; and Galois representations attached to automorphic forms.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned)
+
+- `continuousCohomology n X : TopModuleCat k` for `X : TopRep k G`, the homology of the homogeneous
+  continuous cochains (`RepresentationTheory/Homological/ContCohomology/Basic.lean`); `TopRep`
+  (`RepresentationTheory/Continuous/TopRep.lean`), whose operators are continuous one at a time;
+  joint continuity is a separate hypothesis wherever a statement uses it.
+- `CategoryTheory.Functor.IsMittagLeffler` and `CategoryTheory.Functor.ofOpSequence`: towers are
+  functors `ℕᵒᵖ ⥤ AddCommGrpCat`, and the Mittag-Leffler condition is Mathlib's.
+- `ContinuousCohomology.tateShafarevich`, `ContinuousCohomology.mem_tateShafarevich` and
+  `ContinuousCohomology.tateShafarevich_eq_ker_pi`: all-place localization kernels for
+  `TopRep ℤ (Field.absoluteGaloisGroup K)`, with ordinary degree-zero local cohomology.
+- `RestrictedProduct` with its topology: the restricted products `Pʳ_S` and the ideles.
+- `tateCohomology` and `groupCohomology`: the modified archimedean groups and the cohomology of
+  finite quotients.
+- `CategoryTheory.Abelian.Ext` with `Ext.comp` and `covariantSequence_exact`, existence of `Ext`
+  from enough injectives (`hasExt_of_enoughInjectives`, `IsGrothendieckAbelian.enoughInjectives`),
+  `DerivedCategory`, `CochainComplex.mappingCone`, `CochainComplex.mappingCocone` with
+  `CochainComplex.mappingCocone.triangle`, `HomologicalComplex₂.total`, the spectral
+  objects `HomotopyCategory.spectralObjectMappingCone`,
+  `CategoryTheory.Abelian.SpectralObject.spectralSequence` with `IsFirstQuadrant` and
+  `coreE₂CohomologicalNat`, and `CategoryTheory.Tor`.
+- `Field.absoluteGaloisGroup`, `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, the Krull
+  topology, `IsDedekindDomain.HeightOneSpectrum`, `Set.integer` and `Set.unit` (`S`-integers and
+  `S`-units), `ClassGroup`, `Algebra.IsUnramifiedAt` and `Algebra.IsUnramifiedIn` (a finite place
+  `v` is unramified in `L` when `Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal`: every prime of `𝓞 L` over
+  `v` is unramified; "unramified outside `S`" is `∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal`,
+  with no wrapper predicate, as NumberFieldArithmetic §1.2 prescribes),
+  `NumberField.finite_of_discr_bdd`, `NumberField.IsTotallyComplex`, `FunctionField`.
+- `AdicCompletion.of`, `AdicCompletion.map`, `AdicCompletion.ofTensorProduct` and
+  `AdicCompletion.ofTensorProduct_bijective_of_finite_of_isNoetherian`;
+  `PadicInt.toZModPow` for the quotient-tower completion comparison.
+- `NumberField.Units.exist_unique_eq_mul_prod`, `NumberField.Units.rank`,
+  `NumberField.Units.finrank_eq`, `IsIntegral.of_pow`, `RingOfIntegers.instFintypeClassGroup`,
+  `Nat.card_coe_set_eq`, `CommGroup.torsion` and `AddCommGroup.equiv_free_prod_directSum_zmod`
+  for global units, S-unit rank and fundamental systems.
+- `Submodule.orthogonalBilin`, `Submodule.orthogonalBilin_map`, `LinearMap.IsPerfPair` and
+  `Submodule.map_le_iff_le_comap` for dual local conditions.
+- `PontryaginDual`, `AdicCompletion`, `Module.length`, `ringKrullDim`, `localCohomology`,
+  `Subrepresentation`,
+  `Matrix.det_one_add_smul`, `DualNumber`.
+
+### From Tau Ceti (pinned)
+
+- `ContinuousMap.discreteTopology` (`TauCeti/Topology/CompactOpen.lean`): compact-open
+  continuous maps from a compact space to a discrete space are discrete.
+- `TauCeti.addRestrictedProductOfFinite` with `TauCeti.addRestrictedProductOfFinite_apply`:
+  the additive restricted product over a finite index type is the full product.
+- `Representation.toSubmodule_range_asAlgebraHom`
+  (`TauCeti/RepresentationTheory/AsAlgebraHom.lean`):
+  `Subalgebra.toSubmodule ρ.asAlgebraHom.range = Submodule.span R (Set.range ρ)`.
+
+- `TauCeti.RingTheory.DedekindDomain.SInteger.Unit`: `Set.unit_fg`,
+  `Set.unit_fg_of_units`, `Set.unitValuation`, `Set.unitValuation_ker` and
+  `Set.unitEmptyEquivUnits`. Section R02.3.0c supplies the additive finite-generation,
+  cardinality, reindexing and completion adapters on Mathlib's `Set.unit` carrier; the additive
+  transport of the supplied multiplicative valuation has coordinates `−ord_v`.
+
+- `TauCeti.ofDiscreteModule`, `TauCeti.DiscreteRep`, `TauCeti.IsSmoothDiscrete`: discrete modules
+  as topological representations.
+- `TauCeti.InternalHom`, `TauCeti.homAction`, `TauCeti.InternalHom.evalPairing`: the conjugation
+  action on `Hom(M, N)` and the evaluation pairing; the pointwise `Hom` of Layer R02.1 agrees with
+  it for finite sources (the continuity instance of `InternalHom` assumes a finite discrete source).
+- `TauCeti.exists_continuous_section`: normalized continuous sections of profinite quotients.
+- `TauCeti.FactorSet` and `TauCeti.FactorSet.Extension`: normalized factor sets and their group
+  extensions. Their topology (`TauCeti.FactorSet.Extension.homeomorphProd`,
+  `TauCeti.FactorSet.Extension.isTopologicalGroup`,
+  `TauCeti.FactorSet.continuous_canonicalSection`, and
+  `TauCeti.FactorSet.continuous_rescaleEquiv`, which assumes `ContinuousMul M`), the profinite
+  extension `TauCeti.ProfiniteGroupExtension.ofFactorSet` and the classification
+  `TauCeti.ProfiniteGroupExtension.contCohomologyClassEquiv` (continuous equivalence classes of
+  extensions of `G` by a compact abelian group `M` correspond to
+  `TauCeti.ContCohomology.H2 G (Additive M)`) are consumed as stated by Layer R02.1.
+- `TauCeti.ContCohomology.H1` and `TauCeti.ContCohomology.H2`: continuous crossed homomorphisms and
+  continuous `2`-cocycles modulo coboundaries, the low-degree descriptions the compact-coefficient
+  comparison supplied by PerfectoidTowers §P9.0 is checked against.
+- `TauCeti.ContinuousCohomology.map_eq_id_of_inner`: for smooth discrete coefficients and a locally
+  compact group, inner conjugation acts trivially on continuous cohomology in every degree; used for
+  the independence of the localisation maps of Layer R02.3.
+- `TauCeti.groupCohomology.eq_zero_of_pow_nsmul_eq_zero_of_map_sylow_eq_zero` and
+  `TauCeti.groupCohomology.isZero_of_isZero_sylow`: for a finite group, restriction to a Sylow
+  `p`-subgroup is injective on the `p`-primary part of cohomology, and cohomology vanishing on Sylow
+  subgroups vanishes; cited by Layer D7.
+- `TauCeti.ClassFieldTheory.ClassFormation` with `fundamentalClass`: the class formations of
+  ClassFieldTheory Layer 2, from which the `P`-class formations of Layer R02.3 are built.
+- `TauCeti.KummerCoeff`, `TauCeti.kummerShortExact`: `μ_n` as a discrete Galois module and the
+  Kummer sequence.
+- `TauCeti.ClassFieldTheory.dualityMap0_kummerCoeff_bijective`,
+  `TauCeti.ClassFieldTheory.dualityMap1_kummerCoeff_bijective` and
+  `TauCeti.ClassFieldTheory.dualityMap2_kummerCoeff_bijective`, from
+  `TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule`: finite local Tate duality
+  in degrees `0`, `1`, `2` for every `IsNonarchimedeanLocalField K`, finite discrete continuous
+  `G_K`-module killed by `n`, and `IsUnit (n : K)`, including equal characteristic. These use
+  explicit low-degree cohomology. Section R02.3.2 transports their coefficient dual, cup products
+  and invariant to the canonical cohomology and `ℚ/ℤ` pairing, using
+  `TauCeti.ClassFieldTheory.muNRepH2Equiv` and `TauCeti.ClassFieldTheory.h2MuEquivZMod`.
+- `Rep.FiniteCyclicGroup.tateCohomologyIsoEven`, `tateCohomologyIsoOdd` and
+  `TauCeti.TateCohomology.herbrandQuotient_eq_one_of_finite`: Tate cohomology of cyclic groups.
+- `TauCeti.traceBilinForm`, `TauCeti.traceBilinForm_nondegenerate`, `TauCeti.slIdeal`,
+  `TauCeti.mem_slIdeal_iff`: the trace form of `gl_n`, nondegenerate over every commutative
+  semiring, and the trace-zero ideal, which is `ad⁰` in Layers D8 and R02.6 (as a Lie ideal of the
+  commutator Lie ring on matrices, a local instance in Tau Ceti and Mathlib; as a Lie subalgebra it
+  is Mathlib's `LieAlgebra.SpecialLinear.sl`, `TauCeti.slIdeal_toLieSubalgebra_eq_sl`).
+- `TauCeti.Place`, `TauCeti.Place.degree`: places of a function field;
+  `TauCeti.Place.Completion` and `TauCeti.Place.completionEmbedding`, from
+  `TauCeti.FieldTheory.FunctionField.Place.Completion.Basic`: the completion `F_v` at a place `v`
+  and the embedding `F → F_v`, which give the local fields of the function-field Sha kernels.
+
+### From TauCetiRoadmap roadmaps
+
+- `HeightsAndUnits` §4.2: the rank identity and the fundamental system with a unique
+  torsion-factor/integer-exponent decomposition for number-field S-units on Mathlib's `Set.unit`
+  carrier, for finite sets of finite places. Section R02.3.0c consumes these statements.
+- `ProfiniteCohomology`: the exported declarations of its §2 table, in particular `TopRep`,
+  `continuousCohomology`, `res`, `infl`, `coeffMap`, `continuousFiniteQuotientColimit`,
+  `continuousCohomology_preservesFilteredColimits`, `delta`, `longExact_exact`, `transgression`,
+  `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `corestriction`, `corestriction_comp_res`,
+  `corestriction_mackey`, `shapiroIso`, `coindAcyclic`, `dimensionShiftIso`, `cup`, `cup_res`,
+  `cup_infl`, `cup_projection`, `evalPairing`, `kummerIso`, `hilbert90`, `cd_p`, `scd_p`. These are
+  consumed with their stated hypotheses (discrete coefficients). Compact and rational coefficients
+  use the cochain comparisons supplied by PerfectoidTowers §P9.0; their arithmetic theory is built
+  here.
+- `ClassFieldTheory`: `ClassFormation` and its fundamental classes, the Tate–Nakayama
+  isomorphisms, the abstract Artin map, the local invariant, `tateDualityPairing_perfect_mixed`,
+  `finite_H`, `eulerCharacteristic_mixed`, `cd_p_absoluteGaloisGroup_eq_two`, the local Artin map,
+  the global Brauer sequence and the global class formation for number fields.
+- `RepresentationTheory/ModularInduction`: `modRepK0 k G` (exact `K₀` of finitely generated
+  `k[G]`-modules, Serre's `R_k(G)`), `modRepK0.ind`, `modRepK0.res`, `modRepK0.baseChange` and
+  `modularArtin_natCard_nsmul_mem_indCyclicCoprime`: in characteristic `p`, `|G|` times every class
+  is induced from cyclic subgroups of order prime to `p`. Section R02.4.4 consumes these and keeps
+  the decomposition map, which that roadmap excludes.
+- `GlobalNumberFields` Layers 1 and 6–8, `NumberFieldArithmetic` Layers 1, 4 and 6, `Chebotarev`
+  Layer 10, `AlgebraicCurves` Layer 12, and the tori of `ReductiveGroups`, as listed under *Scope and
+  ownership*.
+
+### From further roadmaps
+
+| Supplier | Exact interface consumed |
+| --- | --- |
+| PadicPeriodRings | §0.1: `procyclic_H1_equiv_coinvariants` for discrete torsion, finitely generated `ℤ_p` and finite-dimensional `ℚ_p` coefficients, with its continuity hypotheses, naturality and Checks. §0.2: *Low-degree continuous descent*, the exact sequence `0 → H¹(G/H, M^H) → H¹(G, M) → H¹(H, M)` for topological coefficients and its transport to Mathlib's carrier for profinite `G`, consumed in R02.2 *Inflation–restriction for compact and rational coefficients*. |
+| PadicLocalLanglandsForGL2Qp | §0.5: the shared Hilbert–Samuel polynomial of `length(M/I^(n+1)M)` and the multiplicity `CycleSupport.multiplicity I d M`, with the eventual-value theorem `exists_hilbertSamuel_polynomial` and additivity under a common dimension bound, all at `I = m_A` and `d = ringKrullDim A`; consumed in D7.1 *Hilbert–Samuel Euler function*. |
+
+- `EllipticCurves` Layer 7 *Selmer structures, the Selmer group, and Sha*:
+  local conditions and the Selmer kernel for a general discrete Galois module.
+  Finite dual local conditions use §§D7.7.1–D7.7.2 here.
+- Supplied by EtaleCohomologyFoundations §§F.0.A0, F.0.A2: field fundamental groups,
+  the arithmetic fundamental-group sequence and descent, used in §R02.3.0d.
+- Supplied by PerfectoidTowers §P9.0: lifting continuous cochains along surjections of discrete
+  spaces, inverse-limit cochain comparisons, and the all-degree comparison with Mathlib's
+  homogeneous cochains for jointly continuous actions, with quotient topologies on cohomology
+  in topological statements and underlying modules in derived categories.
+- Supplied by DerivedModuleAlgebra §1.T.1: the tower, shift, `lim`/`lim¹`,
+  Mittag–Leffler, six-term and Milnor APIs used by compact continuous cochains, the module
+  towers `ModuleTower.lim` and `ModuleTower.limOne`, and the integral-module adapter
+  `Tower.toModuleFunctor`, `Tower.limComparison` and `Tower.limOneComparison` with its shift,
+  six-term and Milnor compatibilities.
+- Supplied by DerivedModuleAlgebra §S.1: the first-quadrant double-complex spectral sequence,
+  with its E₂ identification, abutment filtration, convergence, edge and five-term maps,
+  exact-row consequences and naturality.
+- Supplied by DerivedModuleAlgebra §1.M.1: Matlis duality for arithmetic coefficients over a
+  complete Noetherian local ring with finite residue field. Supplied by DerivedModuleAlgebra
+  §1.M.2: the injective hull, the `R̂`-actions, Matlis biduality and the completion adjunction
+  over a Noetherian local ring with arbitrary residue field.
+- Supplied by NoncommutativeAndEquivariantIwasawa §F.3: `arithmeticContinuousCochains` with its
+  countable-tower Milnor sequence, and `arithmeticHochschildSerre` for every profinite group,
+  closed normal subgroup and jointly continuous discrete coefficient module, with its coherent
+  quotient action, filtration, spectral sequence, edges, five-term sequence, transgression,
+  restriction, open finite-index corestriction, cup products and compact-coefficient limit.
+  Supplied by its §F.4: `arithmeticSelmerComplex`.
+- Supplied by EnhancedDerivedSheaves §E1.8.DMA.1: `derivedTensor_affine`, the affine comparison
+  of module-derived tensor with SchemeAndStackFoundations §2.18.
+- `SchemeAndStackFoundations` Layer 2: §2.21 *Dualising complexes* (`DualizingComplex A ω` for a
+  Noetherian ring, with `biduality`; `NormalizedDualizing A ω` for a Noetherian local ring,
+  `RHom_A(κ, ω) ≅ κ[0]`); §2.7 *Cohomology with supports and local cohomology*
+  (`localCohomology_colimit_ext_comparison`, `localCohomology_module_comparison`); §2.18 *Derived
+  categories of quasi-coherent complexes* (`derivedTensor`, `derivedHom`, `DQCoh.affineEquiv`);
+  §2.15 (`etale_galois_comparison`: étale cohomology of a field is Galois cohomology); §2.9
+  (`Gm`, the multiplicative group as a sheaf on the big site); the big étale site of a scheme is
+  Mathlib's `etaleTopology` on schemes over it, as in its conventions.
+- `DerivedModuleAlgebra` §0.2 *Derived tensor products on module derived categories*:
+  `DerivedDeRham.derivedTensor`, derived extension of scalars, `derivedTensor_flatModel`,
+  `derivedTensor_triangulated`. §1.1 *Derived limits of towers*
+  (`DerivedDeRham.derivedLimit`, `derivedLimit_surjective`, `derivedLimit_milnor`), using the
+  DerivedModuleAlgebra §1.T.1 shift/Milnor calculation with the same `CompactCoefficients.Tower.lim` and
+  `CompactCoefficients.Tower.limOne` after forgetting scalars; §1.3 *The derived completion reflector*
+  (`DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`); §1.5 *When ordinary quotient
+  towers compute completion* (for a Noetherian ring, the derived completion of a complex with finitely
+  generated cohomology has the adic completions of its cohomology modules as cohomology).
+- `AbelianSchemesAndArithmeticModuli` Layer A2, §A2.2: `AbelianScheme.dual`, the dual abelian
+  scheme with its Poincaré bundle (over a field, the dual abelian variety), and the
+  elliptic identification `a ↦ O([−a] − [0])` that §A2.2 states in prose.
+- `AlgebraicModuliForArithmeticGeometry` Layer 4: banded gerbes and band-preserving morphisms
+  (§4.2) and their classification by `H²` of the band, `gerbeClass` (§4.20).
+- Supplied by ArithmeticGaloisRepresentations §2.1 / **Decomposition and inertia groups**:
+  `GaloisRep.decompositionGroup`, `GaloisRep.inertiaGroup` and the wild inertia group;
+  §2.1 / **The local embedding**: `GaloisRep.localEmbeddingMap`;
+  §2.1 / **Local restriction**: `GaloisRep.localRestriction` and its change-of-embedding
+  isomorphisms. Supplied by ArithmeticGaloisRepresentations §4.4 / **Dickson's theorem**:
+  `GL2Subgroup.dickson_projectiveImage`; §4.7 / **Characteristic two** for the invariants and
+  submodules and the target's `H¹(SL₂(F₀), M₂(F)) = 0` (a target without an exported name);
+  §5.13 / **Restricted-ramification function-field groups and Frobenius** (the group `G_{K_C,U}`,
+  its decomposition and inertia groups and Frobenius classes) and **Chebotarev for function fields**.
+  Supplied by ArithmeticGaloisRepresentations §7.2 / **The adjoint**: `ContinuousRep.ad`,
+  `ContinuousRep.adZero`, `ContinuousRep.adQuot` and the perfect invariant trace pairing on
+  `ad ρ` asserted in that target; §7.2 / **The trace pairing on matrices** (perfectness of
+  `(X, Y) ↦ tr(XY)` on `M_n(A)`); §7.7 / **`SL₂` with adjoint coefficients**; §7.6 /
+  **Projective lifting** for Tate's vanishing. The three targets of §§4.7, 7.2 and 7.7 cited
+  without a Lean name are consumed as stated there, with their coefficient restrictions and
+  small-field exceptions.
 
 ## References
 

@@ -1,106 +1,59 @@
 # Roadmap: Abhyankar's lemma for a regular divisor
 
-**Summary.** This roadmap proves Abhyankar's lemma for a regular divisor (Stacks, Lemmas 58.31.5
-(0EYG) and 58.31.6 (0EYH); SGA 1, Exposé XIII, §5): a finite étale cover of the complement of a
-regular effective Cartier divisor `D` that is tamely ramified along `D` is, étale locally on the
-base, a finite disjoint union of root extractions `x^e = f` of a local equation `f` of `D`, and its
-normalization over the base is finite locally free with regular reduced preimage of `D`. On the way
-it builds ramification of finite separable extensions with respect to a discrete valuation ring
-(More on Algebra, Sections 15.113 and 15.116), unramified and tamely ramified covers in codimension
-one (Section 58.31), and extension of covers unramified in codimension one across a regular divisor
-(Lemmas 58.31.2 (0H2W) and 58.31.3 (0EYE)). Mathlib has discrete valuation rings, ramification
-indices of ideals, `AdjoinRoot`, Eisenstein polynomials, scheme normalization, étale
-morphisms, and the finite-étale over-category
-`(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S`; Tau Ceti has
-codimension-one points with discrete valuation ring stalks, effective Cartier divisors, and tame
-ramification of local fields. Neither has ramification in codimension one of a cover or
-Abhyankar's lemma.
+**Summary.** Let V be a finite étale cover of the complement X ∖ D of a divisor D in a scheme X.
+The cover may ramify along D. Abhyankar's lemma says that when this ramification is tame, the cover
+has a simple local shape: étale locally on X, it is obtained by extracting roots of a local
+equation of D. This roadmap proves Abhyankar's lemma when D is a regular divisor, following the
+Stacks Project, together with the theory of tame ramification it needs. Throughout, rings are
+commutative.
 
-| Layer | Title | What it delivers |
-|---|---|---|
-| [0](#layer-0-extensions-of-a-discrete-valuation-ring) | Extensions of a discrete valuation ring | unramified, tamely and totally ramified extensions, Kummer extensions, Abhyankar's lemma for discrete valuation rings |
-| [1](#layer-1-ramification-in-codimension-one) | Ramification in codimension one | unramified and tamely ramified covers in codimension one, the affine form, base change |
-| [2](#layer-2-extension-across-a-regular-divisor) | Extension across a regular divisor | extension of covers unramified in codimension one across a regular complement and a regular divisor |
-| [3](#layer-3-abhyankars-lemma) | Abhyankar's lemma | standard tamely ramified covers, splitting of finite étale covers, Abhyankar's lemma, the normalization |
+A regular divisor is an effective Cartier divisor whose subscheme has every local ring regular.
+Tameness is tested at the codimension-one points of X outside the open set where the cover lives;
+the local ring A of X at each of them is assumed to be a discrete valuation ring. Over the
+fraction field of A the cover becomes a finite separable algebra L. The cover is tamely ramified
+there if, for the integral closure of A in each field factor of L, every residue field extension
+is separable and every ramification index is invertible in the residue field of A.
 
-```text
-Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2 → Layer 3
-LocalPurity §§2.1–2.2 (0BMA, 0BQ5/0EY3, 0EY7) ──→ Layer 2
-ModularCurves §4D (strict henselisation) ───────→ Layer 3
-SchemeAndStackFoundations §0.14 (henselian finite algebras) ──→ Layer 3
-PurityOfBranchLocus §0.3 (0AFS) ────────────────→ Layer 3 §3.3
-```
+The main theorem is Abhyankar's lemma for a regular divisor. Let X be locally Noetherian, D a
+regular divisor on X, and V a finite étale scheme over X ∖ D that is tamely ramified over X in
+codimension one. Then every point of X has an étale neighbourhood Spec A → X on which D becomes
+V(f), for a nonzerodivisor f with A/fA regular. Over Spec A_f, the pullback of V is isomorphic to
+the restriction of a finite disjoint union of standard tamely ramified covers Spec
+`A[x]/(x^e − f)`, each exponent e at least 1 and invertible in A. Tameness is needed: over 𝔽_p,
+the Artin–Schreier cover `y^p − y = 1/x` of the punctured affine line is not tamely ramified at
+x = 0, and it is not étale locally a disjoint union of standard covers.
 
-The end theorems are `finiteEtale_extend_of_regular_divisor` (0EYE, §2.2),
-`abhyankar_regularDivisor` (0EYG, §3.3) and `abhyankar_normalization` (0EYH, §3.4).
+The suggested Lean forms state the affine version, in which X is the spectrum of a Noetherian ring
+R, D is cut out by a nonzerodivisor a with R/aR regular, and the cover is replaced by its
+normalization, a finite R-algebra.
 
-## Scope and ownership
+The second main theorem describes, in the same situation, the normalization π : Y' → X of X in V.
+It is finite locally free, and its restriction to X ∖ D is V. The reduced preimage of D is a
+regular effective Cartier divisor on Y'. Étale locally on X, the map Y' → X is a finite disjoint
+union of maps Spec `A[x]/(x^e − f)` → Spec A, with A Noetherian and f and e as above.
 
-**This roadmap owns** the Stacks notions of an unramified, tamely ramified and totally ramified
-finite separable extension with respect to a discrete valuation ring, their characterization by
-Kummer extensions and their base change (More on Algebra, Sections 15.113 and 15.116); Kummer
-extensions of a discrete valuation ring and Abhyankar's lemma for discrete valuation rings;
-"unramified, resp. tamely ramified, over `X` in codimension one" for a finite étale cover of a dense
-open (Section 58.31) and its base change (Lemma 58.31.1 (0EYD)); the extension results 58.31.2
-(0H2W) and 58.31.3 (0EYE), with regularity of a local ring from a regular quotient by a
-nonzerodivisor (Algebra, Lemma 10.106.7 (00NU)); standard tamely ramified covers (Example 58.31.4
-(0EYF)); strict henselisation of a quotient and regularity of a strict henselisation (Algebra,
-Lemma 10.156.4 (05WS); More on Algebra, Lemma 15.46.10 (06LN)); splitting of finite étale covers
-étale locally (Étale Morphisms, Lemma 41.18.3 (04HN)); and Abhyankar's lemma for a regular divisor
-with the structure of the normalization (0EYG, 0EYH).
+A third theorem, used in the proof, extends unramified covers: if D is a regular divisor on a
+locally Noetherian scheme X, a finite étale scheme over X ∖ D that is unramified over X in
+codimension one is the restriction of a finite étale scheme over X.
 
-**Owned elsewhere and consumed here.** Each object has one owner; this roadmap uses it and builds
-no second carrier.
+Mathlib already has discrete valuation rings, ramification indices and normalization, and Tau Ceti
+has effective Cartier divisors; neither has ramification of a cover in codimension one.
+[LocalPurity](../LocalPurity/README.md) supplies the extension of finite étale covers across
+points whose local rings are regular of dimension at least two.
+[ModularCurves](../ModularCurves/README.md) supplies the strict henselisation of a local ring,
+used to reduce Abhyankar's lemma to a strictly henselian base. Purity of the branch locus is
+proved in [PurityOfBranchLocus](../PurityOfBranchLocus/README.md).
+[AlgebraicCurves](../AlgebraicCurves/README.md) has another Abhyankar lemma, about ramification
+indices of places in a compositum of function fields; neither result implies the other.
+Abhyankar's lemma for normal crossings divisors is not in this roadmap.
 
-- *Finite étale covers of punctured spectra and local purity*: [LocalPurity](../LocalPurity/README.md)
-  §2.1 (`IsLocalRing.purityHolds_of_isRegularLocalRing`, Stacks 0BMA (1)) and §2.2
-  (`spread_from_localScheme`, Stacks 0BQ5 and 0EY3; `finiteEtale_extend_of_purity`, Stacks 0EY7;
-  `finiteEtale_extend_of_regular_codimTwo`).
-- *Finite étale schemes over a base*: at this roadmap's pinned dependency revision, use Mathlib's
-  `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S` as Stacks' `FÉt_S`
-  (Section 58.5 (0BL6)), including its pullback
-  API. [ModularCurves](../ModularCurves/README.md) §0D supplies Tau Ceti's
-  `TauCeti.FiniteEtaleScheme S` implementation (module
-  `TauCeti.AlgebraicGeometry.FiniteEtale.Basic`), which is not in that pinned revision. Coordinate
-  transport to that implementation when advancing the dependency; do not construct a second
-  finite-étale carrier or duplicate its affine comparison.
-- *Codimension-one points and discrete valuation ring stalks*: Tau Ceti
-  `TauCeti.AlgebraicGeometry.CodimensionOnePoint` (module
-  `TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint`) and the instance
-  `TauCeti.AlgebraicGeometry.CodimensionOnePoint.isDiscreteValuationRing_stalk` for a regular stalk
-  (module `TauCeti.AlgebraicGeometry.Scheme.DiscreteValuationStalk`).
-- *Effective Cartier divisors*: Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`.
-  A *regular divisor* is an ideal sheaf `I` with `I.IsEffectiveCartier` whose subscheme
-  `I.subscheme` has every stalk a regular local ring.
-- *Regular local rings*: Mathlib `IsRegularLocalRing`, `IsRegularRing`; Tau Ceti
-  `TauCeti.IsRegularLocalRing.isDomain` (00NP) and
-  `TauCeti.IsRegularLocalRing.quotient_span_singleton` (00NQ for one element);
-  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13 `IsRegular.isNormal`
-  (Lemma 10.157.5 (0567)).
-- *Regularity of prime localizations*: [PurityOfBranchLocus](../PurityOfBranchLocus/README.md)
-  §0.3 (Stacks 0AFS), used for normality of the root algebra in §3.3.
-- *Henselization and strict henselisation of a local ring*: SchemeAndStackFoundations §0.12
-  (`Henselization.algebra`) and [ModularCurves](../ModularCurves/README.md) §4D, which owns the
-  strict henselisation `R → R^{sh}` with respect to a separable closure of the residue field
-  (Algebra, Definition 10.155.3 (04GQ)) with the properties of Lemma 10.155.2 (04GP): it is
-  strictly henselian, a filtered colimit of étale `R`-algebras, with maximal ideal `𝔪 R^{sh}`.
-- *Finite algebras over henselian local rings*: SchemeAndStackFoundations §0.14
-  (`henselian_local_finite_algebras`), used to show that the finite local root algebra in §3.3 is
-  henselian; its residue field is unchanged, so it is strictly henselian.
-- *Descent of morphisms of finitely presented algebras along filtered colimits*: Mathlib
-  `CommRingCat.isFinitelyPresentable_under` (parts (2)–(3) of Algebra, Lemma 10.127.8 (05N9)).
-- *Normalization and étale base change*: Mathlib `Scheme.Hom.normalization` and the
-  `@[stacks 03GV]` instance `IsIso (f.normalizationPullback g)` for smooth `g`.
-- *Tame ramification of extensions of nonarchimedean local fields*: Tau Ceti `TauCeti.IsTamelyRamified`
-  ([LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) Layer 3). §0.3 compares.
-- *Abhyankar's lemma for composita of function fields*: Tau Ceti
-  `TauCeti.Place.ramificationIdx_restrict_sup` ([AlgebraicCurves](../AlgebraicCurves/README.md)
-  Layer 8). It is a statement about ramification indices of places; §3.3 is the scheme-theoretic
-  local structure theorem, and neither implies the other.
-
-Purity of the branch locus is [PurityOfBranchLocus](../PurityOfBranchLocus/README.md). Abhyankar's
-lemma for normal crossings divisors, the tame fundamental group and logarithmic structures are not
-in this roadmap.
+There are four layers. Layer 0 works over one discrete valuation ring A. It defines unramified,
+tamely ramified and totally ramified extensions with respect to A, studies the extensions obtained
+by adjoining an n-th root of a uniformizer, and proves Abhyankar's lemma for discrete valuation
+rings. Layer 1 carries these notions to covers in codimension one, with their behaviour under
+base change. Layer 2 proves the extension theorem for unramified covers. Layer 3 introduces the
+standard covers, shows that a finite étale cover splits étale locally into copies of the base,
+and proves the two main theorems.
 
 ## Conventions
 
@@ -451,6 +404,74 @@ the "PCF all the way down" theorem. Paths are under `lean/Pcf/Stacks/`.
 | 3.3–3.4 | `abhyankarLemma_scheme` (0EYG), `abhyankarLemma_normalization` (0EYH) | `Abhyankar/Scheme/Tag0EYG.lean`, `Abhyankar/Scheme/Tag0EYH.lean` |
 
 Its strict henselisation is a colimit model of its own.
+
+## Scope and ownership
+
+**This roadmap owns** the Stacks notions of an unramified, tamely ramified and totally ramified
+finite separable extension with respect to a discrete valuation ring, their characterization by
+Kummer extensions and their base change (More on Algebra, Sections 15.113 and 15.116); Kummer
+extensions of a discrete valuation ring and Abhyankar's lemma for discrete valuation rings;
+"unramified, resp. tamely ramified, over `X` in codimension one" for a finite étale cover of a dense
+open (Section 58.31) and its base change (Lemma 58.31.1 (0EYD)); the extension results 58.31.2
+(0H2W) and 58.31.3 (0EYE), with regularity of a local ring from a regular quotient by a
+nonzerodivisor (Algebra, Lemma 10.106.7 (00NU)); standard tamely ramified covers (Example 58.31.4
+(0EYF)); strict henselisation of a quotient and regularity of a strict henselisation (Algebra,
+Lemma 10.156.4 (05WS); More on Algebra, Lemma 15.46.10 (06LN)); splitting of finite étale covers
+étale locally (Étale Morphisms, Lemma 41.18.3 (04HN)); and Abhyankar's lemma for a regular divisor
+with the structure of the normalization (0EYG, 0EYH).
+
+**Owned elsewhere and consumed here.** Each object has one owner; this roadmap uses it and builds
+no second carrier.
+
+- *Finite étale covers of punctured spectra and local purity*: [LocalPurity](../LocalPurity/README.md)
+  §2.1 (`IsLocalRing.purityHolds_of_isRegularLocalRing`, Stacks 0BMA (1)) and §2.2
+  (`spread_from_localScheme`, Stacks 0BQ5 and 0EY3; `finiteEtale_extend_of_purity`, Stacks 0EY7;
+  `finiteEtale_extend_of_regular_codimTwo`).
+- *Finite étale schemes over a base*: at this roadmap's pinned dependency revision, use Mathlib's
+  `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S` as Stacks' `FÉt_S`
+  (Section 58.5 (0BL6)), including its pullback
+  API. [ModularCurves](../ModularCurves/README.md) §0D supplies Tau Ceti's
+  `TauCeti.FiniteEtaleScheme S` implementation (module
+  `TauCeti.AlgebraicGeometry.FiniteEtale.Basic`), which is not in that pinned revision. Coordinate
+  transport to that implementation when advancing the dependency; do not construct a second
+  finite-étale carrier or duplicate its affine comparison.
+- *Codimension-one points and discrete valuation ring stalks*: Tau Ceti
+  `TauCeti.AlgebraicGeometry.CodimensionOnePoint` (module
+  `TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint`) and the instance
+  `TauCeti.AlgebraicGeometry.CodimensionOnePoint.isDiscreteValuationRing_stalk` for a regular stalk
+  (module `TauCeti.AlgebraicGeometry.Scheme.DiscreteValuationStalk`).
+- *Effective Cartier divisors*: Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`.
+  A *regular divisor* is an ideal sheaf `I` with `I.IsEffectiveCartier` whose subscheme
+  `I.subscheme` has every stalk a regular local ring.
+- *Regular local rings*: Mathlib `IsRegularLocalRing`, `IsRegularRing`; Tau Ceti
+  `TauCeti.IsRegularLocalRing.isDomain` (00NP) and
+  `TauCeti.IsRegularLocalRing.quotient_span_singleton` (00NQ for one element);
+  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13 `IsRegular.isNormal`
+  (Lemma 10.157.5 (0567)).
+- *Regularity of prime localizations*: [PurityOfBranchLocus](../PurityOfBranchLocus/README.md)
+  §0.3 (Stacks 0AFS), used for normality of the root algebra in §3.3.
+- *Henselization and strict henselisation of a local ring*: SchemeAndStackFoundations §0.12
+  (`Henselization.algebra`) and [ModularCurves](../ModularCurves/README.md) §4D, which owns the
+  strict henselisation `R → R^{sh}` with respect to a separable closure of the residue field
+  (Algebra, Definition 10.155.3 (04GQ)) with the properties of Lemma 10.155.2 (04GP): it is
+  strictly henselian, a filtered colimit of étale `R`-algebras, with maximal ideal `𝔪 R^{sh}`.
+- *Finite algebras over henselian local rings*: SchemeAndStackFoundations §0.14
+  (`henselian_local_finite_algebras`), used to show that the finite local root algebra in §3.3 is
+  henselian; its residue field is unchanged, so it is strictly henselian.
+- *Descent of morphisms of finitely presented algebras along filtered colimits*: Mathlib
+  `CommRingCat.isFinitelyPresentable_under` (parts (2)–(3) of Algebra, Lemma 10.127.8 (05N9)).
+- *Normalization and étale base change*: Mathlib `Scheme.Hom.normalization` and the
+  `@[stacks 03GV]` instance `IsIso (f.normalizationPullback g)` for smooth `g`.
+- *Tame ramification of extensions of nonarchimedean local fields*: Tau Ceti `TauCeti.IsTamelyRamified`
+  ([LocalFieldsRamification](../../Completed/LocalFieldsRamification/README.md) Layer 3). §0.3 compares.
+- *Abhyankar's lemma for composita of function fields*: Tau Ceti
+  `TauCeti.Place.ramificationIdx_restrict_sup` ([AlgebraicCurves](../AlgebraicCurves/README.md)
+  Layer 8). It is a statement about ramification indices of places; §3.3 is the scheme-theoretic
+  local structure theorem, and neither implies the other.
+
+Purity of the branch locus is [PurityOfBranchLocus](../PurityOfBranchLocus/README.md). Abhyankar's
+lemma for normal crossings divisors, the tame fundamental group and logarithmic structures are not
+in this roadmap.
 
 ## References
 

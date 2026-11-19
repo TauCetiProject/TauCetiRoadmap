@@ -1,16 +1,24 @@
 # Roadmap: finite simultaneous affine bound tightening
 
-**Summary.** Build the finite-real simultaneous affine bound-tightening operator on joint variable-and-row boxes. Prove graph-point preservation, correspondence with an independent scalar linear program, and, conditional on nonempty actual iterates, convergence to the greatest ordered fixed box and the unique maximizer of total variable-and-row width. Apply this theory to bounded original-coordinate models while retaining their objective and additional nonlinear and integer restrictions. [Suggested.lean](Suggested.lean) states the headline theorems; this README is the roadmap.
+**Summary.** Bound tightening is a preprocessing step for optimization over a box: from linear constraints and the current bounds on the variables, one computes smaller bounds that discard no feasible point. This roadmap formalizes its simultaneous form for a real m × n matrix A. Its joint boxes bound both the n variables and the m row values `Ax`. Throughout, coefficients and bounds are finite real numbers, and either n or m may be zero.
 
-The adopted mathematics is the qualified simultaneous `(X,B)` construction of Belotti, Cafieri, Lee and Liberti (2010), §4, pp. 71–73, (9)–(34). This is established mathematics. The thesis and coauthored review supply preprocessing context; they do not state the joint-width LP theorem.
+One tightening step first intersects the current box with the initial one. It then intersects each row interval with the range of that row on the current variable box. Finally it intersects each variable interval with the interval that each row forces on it, given the row interval and the other variable intervals. All rows read the same incoming box, so the update is simultaneous rather than row by row. A box with some lower bound above its upper bound is the single empty box, and the iteration never leaves it. The process need not stabilize: for a > 1, variables in `[0,1]` and the equations `a*x₁ - x₂ = 0`, `x₁ - a*x₂ = 0`, the k-th iterate has both upper variable bounds `1/a^k`, so the boxes shrink to the origin without reaching it.
 
-## Scope and ownership
+The first main theorem is that tightening loses no solutions: if `(x, Ax)` lies in the initial box, it lies in every iterate. The second describes the boxes fixed by the step through a linear program written down directly from A and the initial box. Its unknowns are the endpoints of a joint box and two product unknowns for each entry of A. Its constraints are affine, and its objective is the total width over variables and rows. An assignment is feasible exactly when its endpoints form an ordered box fixed by the step and its product unknowns are the endpoints of each coefficient times the corresponding variable interval. For an ordered initial box, every iterate is nonempty exactly when this program is feasible, and exactly when an ordered fixed box exists. A nonempty fixed box need not contain any point `(x, Ax)`; the third layer gives an example.
 
-Coefficients and endpoints are finite reals; variables have index type `Fin n`, rows `Fin m`, with either dimension allowed to be zero. This roadmap owns concrete affine endpoint arithmetic, the joint raw/public state bridge, simultaneous iteration, scalar LP correspondence, the conditional greatest limit and full-assignment uniqueness, and the bounded source application. Each object includes constructors, projections, membership, extensionality, inclusion, simplification and compatibility lemmas consumed downstream.
+The third theorem concerns the limit when the initial box is ordered and no iterate is empty. The endpoints of the iterates then converge to a box that is ordered, lies in the initial box, is fixed by the step, and contains every ordered fixed box. This limit, with its products, is the unique feasible assignment of largest total width. The row widths count: for the single row `x₁ + x₂` with variables in `[0,1]` and row bounds `[0,2]`, the box with row interval `[1/2,3/2]` is also feasible, with the same variable width as the limit, so variable width alone would not single the limit out.
 
-Excluded are sequential row visits and fairness, the 2012 variable-only objective theorem, infinite endpoints, general abstract-lattice iteration, nonlinear expression propagation, integer rounding, numerical tolerances, finite termination, rational complexity, solver implementation and performance claims, and unbounded-source equivalence. A nonempty fixed box need not contain a point of the affine graph.
+The fourth theorem treats a bounded problem: inequalities `Ax ≤ r`, bounds `l ≤ u`, a condition `x ∈ T` for an arbitrary set T, and integrality of chosen coordinates. Tightening starts from the joint box with variable part `[l,u]` and row intervals ending at r. If the program for this start is infeasible, the problem has no feasible point in `[l,u]`; this needs no hypothesis on the iterates. If no iterate is empty, the limiting variable box lies in `[l,u]` and contains the same feasible points, so for every objective the minimizers over the two feasible sets are the same points.
 
-[GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) (network flows), [OptimalTransport](../OptimalTransport/README.md) and [VariationalMethods](../VariationalMethods/README.md) own other feasibility and minimization problems; none supplies this roadmap. `TauCeti.IsConvexPolyhedron` in `TauCeti/Analysis/Convex/Polyhedron/Basic.lean` describes finite intersections of closed affine halfspaces. It is not consumed here: the explicit constraints in Layer 3 suffice without a second general polyhedron theory.
+This is established mathematics: the simultaneous construction of Belotti, Cafieri, Lee and Liberti (2010), read with four corrections to its printed linear program and with the nonemptiness hypothesis made explicit.
+
+Within Tau Ceti the roadmap stands alone: it builds only on Mathlib, whose intervals have a single empty interval and which supplies the convergence of bounded monotone real sequences. [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md), [OptimalTransport](../OptimalTransport/README.md) and [VariationalMethods](../VariationalMethods/README.md) treat other feasibility and minimization problems and supply nothing here. The results are meant for presolve of bounded finite-dimensional models, which uses the preservation and infeasibility theorems.
+
+The first layer sets up joint boxes and their interval arithmetic, and the second builds the step. The remaining three take the linear program, the limit and the bounded problem in turn. [Suggested.lean](Suggested.lean) states the headline theorems; this README is the roadmap.
+
+## How to read the build
+
+The layers are built in the order 1 → 2 → 3 → 4 → 5. Layer 1 defines joint endpoints, public intervals, containment, total width and signed row images. Layer 2 builds the simultaneous step and its raw/public iterates and proves retention of graph points and ordered fixed tuples. Layer 3 defines the scalar LP and identifies its feasible assignments with canonical ordered fixed tuples. Layer 4 constructs the actual endpoint limit under nonempty iterates, proves convergence and greatestness, and obtains the unique full-width optimum. Layer 5 applies these results to bounded inequality systems with unchanged extra and integer restrictions; its unconditional infeasibility result uses Layers 1–3 directly. Every numbered target, its basic API and its proved checks are required. The seven headline theorems in [Suggested.lean](Suggested.lean) are milestones within this fuller README specification; their suggested signatures are aids, never an exhaustive checklist. Intentional `sorry` proofs check expressibility and do not certify the targets.
 
 ## Conventions
 
@@ -36,27 +44,6 @@ F(q) = D(U(clip(q,q₀))),    q_k = F^[k](q₀).
 ```
 
 These raw formulas remain defined after invalid intersections. Public iteration applies the formula on nonempty states and makes global empty absorbing. Ordered intermediate states must be derived, not assumed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `NonemptyInterval`, `Interval`, `Interval.recBotCoe` (`Mathlib/Order/Interval/Basic.lean`) supply ordered endpoint pairs, one global bottom and elimination into the two cases. `Set.Icc` supplies Cartesian membership; Layer 1 supplies the conversion and inclusion lemmas.
-- `Finset.fold`, `Finset.le_fold_max`, `Finset.fold_min_le` (`Mathlib/Data/Finset/Fold.lean`) supply finite seeded extrema; `Finset.sum` supplies finite row and width sums. Layers 1–2 supply their concrete endpoint identities.
-- `Matrix.mulVec` (`Mathlib/Data/Matrix/Mul.lean`) supplies affine row evaluation; signed endpoint images and inverse candidates are built here.
-- `Continuous.max`, `Continuous.min` (`Mathlib/Topology/Order/OrderClosed.lean`) and ordinary continuous finite arithmetic supply the fixed-coefficient continuity ingredients. Layer 2 proves continuity of the concrete formulas, including the zero branches.
-- `tendsto_atTop_ciSup`, `tendsto_atTop_ciInf` (`Mathlib/Topology/Order/MonotoneConvergence.lean`) supply bounded monotone real convergence; `tendsto_pi_nhds` (`Mathlib/Topology/Constructions.lean`) supplies coordinatewise product convergence. Layer 4 establishes the required bounds and endpoint order for actual iterates.
-- `Function.IsFixedPt` (`Mathlib/Logic/Function/Defs.lean`), `IsGreatest` (`Mathlib/Order/Bounds/Defs.lean`), `IsMaxOn`, `IsMinOn` (`Mathlib/Order/Filter/Extr.lean`) supply fixed-point and extrema vocabulary, not FBBT results or LP oracles.
-
-`OrderHom.gfp` and `fixedPoints.gfp_eq_sInf_iterate` (`Mathlib/Order/FixedPoints.lean`) need a complete lattice, the latter also an order-continuity hypothesis, and give no `Tendsto`; Layer 4 proves the concrete limit directly. They are comparisons, not suppliers for the finite consistent-box type.
-
-### From Tau Ceti
-
-No existing Tau Ceti declaration or other roadmap target is consumed. Build the missing concrete lemmas here; no generic LP solver, LP duality or research axiom is a prerequisite.
-
-## How to read the build
-
-The layers are built in the order 1 → 2 → 3 → 4 → 5. Layer 1 defines joint endpoints, public intervals, containment, total width and signed row images. Layer 2 builds the simultaneous step and its raw/public iterates and proves retention of graph points and ordered fixed tuples. Layer 3 defines the scalar LP and identifies its feasible assignments with canonical ordered fixed tuples. Layer 4 constructs the actual endpoint limit under nonempty iterates, proves convergence and greatestness, and obtains the unique full-width optimum. Layer 5 applies these results to bounded inequality systems with unchanged extra and integer restrictions; its unconditional infeasibility result uses Layers 1–3 directly. Every numbered target, its basic API and its proved checks are required. The seven headline theorems in [Suggested.lean](Suggested.lean) are milestones within this fuller README specification; their suggested signatures are aids, never an exhaustive checklist. Intentional `sorry` proofs check expressibility and do not certify the targets.
 
 ## Layer 1: endpoints, interval operations and affine images
 
@@ -456,6 +443,31 @@ Layers 1–3 for infeasibility; Layer 4 for limit preservation. Original restric
 ## Downstream consumers
 
 Bounded finite-dimensional model presolve consumes graph preservation, unconditional infeasibility and exact original-feasible-set/minimizer preservation. Interval propagation clients consume the raw/public bridge and simultaneous operator lemmas. Scalar polyhedral descriptions consume the explicit affine feasible set and full-width optimum, without a generic optimization solver. These are supplied interfaces, not additional solver or nonlinear-expression roadmaps.
+
+## Scope and ownership
+
+Coefficients and endpoints are finite reals; variables have index type `Fin n`, rows `Fin m`, with either dimension allowed to be zero. This roadmap owns concrete affine endpoint arithmetic, the joint raw/public state bridge, simultaneous iteration, scalar LP correspondence, the conditional greatest limit and full-assignment uniqueness, and the bounded source application. Each object includes constructors, projections, membership, extensionality, inclusion, simplification and compatibility lemmas consumed downstream.
+
+Excluded are sequential row visits and fairness, the 2012 variable-only objective theorem, infinite endpoints, general abstract-lattice iteration, nonlinear expression propagation, integer rounding, numerical tolerances, finite termination, rational complexity, solver implementation and performance claims, and unbounded-source equivalence. A nonempty fixed box need not contain a point of the affine graph.
+
+[GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) (network flows), [OptimalTransport](../OptimalTransport/README.md) and [VariationalMethods](../VariationalMethods/README.md) own other feasibility and minimization problems; none supplies this roadmap. `TauCeti.IsConvexPolyhedron` in `TauCeti/Analysis/Convex/Polyhedron/Basic.lean` describes finite intersections of closed affine halfspaces. It is not consumed here: the explicit constraints in Layer 3 suffice without a second general polyhedron theory.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `NonemptyInterval`, `Interval`, `Interval.recBotCoe` (`Mathlib/Order/Interval/Basic.lean`) supply ordered endpoint pairs, one global bottom and elimination into the two cases. `Set.Icc` supplies Cartesian membership; Layer 1 supplies the conversion and inclusion lemmas.
+- `Finset.fold`, `Finset.le_fold_max`, `Finset.fold_min_le` (`Mathlib/Data/Finset/Fold.lean`) supply finite seeded extrema; `Finset.sum` supplies finite row and width sums. Layers 1–2 supply their concrete endpoint identities.
+- `Matrix.mulVec` (`Mathlib/Data/Matrix/Mul.lean`) supplies affine row evaluation; signed endpoint images and inverse candidates are built here.
+- `Continuous.max`, `Continuous.min` (`Mathlib/Topology/Order/OrderClosed.lean`) and ordinary continuous finite arithmetic supply the fixed-coefficient continuity ingredients. Layer 2 proves continuity of the concrete formulas, including the zero branches.
+- `tendsto_atTop_ciSup`, `tendsto_atTop_ciInf` (`Mathlib/Topology/Order/MonotoneConvergence.lean`) supply bounded monotone real convergence; `tendsto_pi_nhds` (`Mathlib/Topology/Constructions.lean`) supplies coordinatewise product convergence. Layer 4 establishes the required bounds and endpoint order for actual iterates.
+- `Function.IsFixedPt` (`Mathlib/Logic/Function/Defs.lean`), `IsGreatest` (`Mathlib/Order/Bounds/Defs.lean`), `IsMaxOn`, `IsMinOn` (`Mathlib/Order/Filter/Extr.lean`) supply fixed-point and extrema vocabulary, not FBBT results or LP oracles.
+
+`OrderHom.gfp` and `fixedPoints.gfp_eq_sInf_iterate` (`Mathlib/Order/FixedPoints.lean`) need a complete lattice, the latter also an order-continuity hypothesis, and give no `Tendsto`; Layer 4 proves the concrete limit directly. They are comparisons, not suppliers for the finite consistent-box type.
+
+### From Tau Ceti
+
+No existing Tau Ceti declaration or other roadmap target is consumed. Build the missing concrete lemmas here; no generic LP solver, LP duality or research axiom is a prerequisite.
 
 ## References
 

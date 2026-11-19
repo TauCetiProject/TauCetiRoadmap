@@ -1,16 +1,57 @@
 # Roadmap: the Laguerre and Jacobi orthogonal polynomials, and their L² bases
 
-**Summary.** Build the two classical orthogonal polynomial families that Mathlib lacks, the
-generalized Laguerre polynomials `Polynomial.laguerre` and the Jacobi polynomials
-`Polynomial.jacobi`, over any `ℚ`-algebra, with their complete algebraic theory (degree,
-recurrences, derivative identities, reflection symmetry, special values, analytic Rodrigues
-formulas); their orthogonality relations against the Laguerre and Jacobi measures with exact
-constants; the resulting Hilbert bases of `L²`, in both the weighted-measure and the `√w`
-normalization, and their tensor products; and the classical specializations: Legendre,
-Gegenbauer and Chebyshev, the last as a check of the Jacobi constants against what Mathlib
-already proves. The foundations are Mathlib's `Real.Gamma`, `ProbabilityTheory.beta`,
-`ascPochhammer`, `Polynomial.Chebyshev.measureT` and `Polynomial.shiftedLegendre`, and Tau Ceti's
-family-agnostic Hilbert-basis bridge `TauCeti.hilbertBasisOfWeightedMeasure`.
+**Summary.** A sequence of polynomials `pₙ`, with `pₙ` of degree `n`, is orthogonal for a weight
+`w` on an interval when `∫ pₘ pₙ w = 0` for `m ≠ n`. Mathlib has the Hermite, Chebyshev and shifted
+Legendre polynomials as algebraic objects, but no Laguerre, Jacobi or Gegenbauer polynomial. This
+roadmap builds the two general families that are missing. The generalized Laguerre polynomials
+`Lₙ^{(α)}` are orthogonal for the weight `x^α e^{-x}` on `(0, ∞)`, and the Jacobi polynomials
+`Pₙ^{(α,β)}` for the weight `(1-x)^α (1+x)^β` on `(-1, 1)`.
+
+Both families are defined by explicit sums with factorials in the denominators, so their
+definitions and algebraic identities are stated over any commutative ring that is an algebra over
+`ℚ`, with the parameters `α` and `β` in that ring. The analytic statements are over the reals.
+Hypotheses on the parameters are carried by the statements that need them: `α > -1` for Laguerre,
+and `α > -1` and `β > -1` for Jacobi. These are exactly the conditions for the weight to be
+integrable and the norms to be nondegenerate.
+
+The first main theorem is the Laguerre orthogonality relation: for real `α > -1`,
+`∫₀^∞ Lₘ^{(α)}(x) Lₙ^{(α)}(x) x^α e^{-x} dx = δₘₙ Γ(n+α+1)/n!`. From it the roadmap obtains two
+Hilbert bases, that is, orthonormal families whose finite linear combinations are dense. The
+polynomials `Lₙ^{(α)} / √(Γ(n+α+1)/n!)` form one of `L²` for the measure `x^α e^{-x} dx` on
+`(0, ∞)`. Multiplied by the square root of the weight, they become the Laguerre functions, a
+Hilbert basis of `L²((0, ∞))` for Lebesgue measure. At `α = 0` the first three are `e^{-x/2}`,
+`(1 - x) e^{-x/2}` and `(1 - 2x + x²/2) e^{-x/2}`.
+
+The second is the Jacobi orthogonality relation. For real `α > -1` and `β > -1`,
+`∫₋₁¹ Pₘ^{(α,β)}(x) Pₙ^{(α,β)}(x) (1-x)^α (1+x)^β dx = δₘₙ hₙ`, where for `n ≥ 1`
+`hₙ = 2^{α+β+1}/(2n+α+β+1) · Γ(n+α+1) Γ(n+β+1) / (Γ(n+α+β+1) n!)`. The value `h₀` is the total
+mass `2^{α+β+1} B(α+1, β+1)` of the weight, with `B` the Beta function. It is given on its own
+because at `n = 0` with `α + β = -1`, which includes the Chebyshev weight `α = β = -1/2`, the
+classical formula reads `0/0`. The sequence `hₙ` is positive, and the Jacobi polynomials again give
+two Hilbert bases.
+
+At `α = β = 0` the Jacobi relation is Legendre orthogonality, `∫₋₁¹ Pₘ Pₙ dx = δₘₙ 2/(2n+1)`.
+Mathlib's shifted Legendre polynomial `P̃ₙ` is `Pₙ(1 - 2x)`, and the roadmap proves the
+orthogonality on `[0, 1]` that Mathlib lacks. The Gegenbauer polynomials `Cₙ^{(λ)}` satisfy
+`(λ+1/2)ₙ Cₙ^{(λ)} = (2λ)ₙ Pₙ^{(λ-1/2,λ-1/2)}` over every `ℚ`-algebra. For real `λ > -1/2` with
+`λ ≠ 0` they are orthogonal for the weight `(1-x²)^{λ-1/2}` and, normalized, give a Hilbert basis.
+Finally, the constants are checked at `α = β = -1/2` against Mathlib's Chebyshev results. There
+`Pₙ^{(-1/2,-1/2)} = ((1/2)ₙ/n!) Tₙ`, the Jacobi measure is Mathlib's Chebyshev measure, and `hₙ`
+agrees with Mathlib's norm of `Tₙ` after this rescaling.
+
+The passage to bases comes from the completed roadmap OrthogonalL2Bases. Its bridge, valid for
+any family, turns a relation `∫ pₘ pₙ w = cₙ δₘₙ` into a complete orthonormal basis, and its
+completeness theorem asks for exact degrees, positive norms and a finite exponential moment of the
+measure. Both weights have one, the Jacobi weight because it is finite and supported in `[-1, 1]`.
+Mathlib supplies the Gamma and Beta functions. SpecialFunctionsConfluent uses the Laguerre
+polynomials and their orthogonality relation, and SpecialFunctionsBessel the Legendre and
+Gegenbauer results.
+
+Layer 1 builds the Laguerre polynomials. Layer 2 proves their orthogonality by a Rodrigues
+formula, repeated integration by parts and a Gamma constant, then builds the bases. Layers 3 and 4
+repeat this for Jacobi, with the Beta integral first. Layer 5 rests only on Layers 2 and 4 and
+takes products of the one-variable bases in finitely many variables. Layer 6 rests on Layers 3 and
+4 and treats Legendre, Gegenbauer and the Chebyshev check.
 
 Suggested homes:
 
@@ -20,6 +61,31 @@ TauCeti/RingTheory/Polynomial/Jacobi/      (Layer 3 and the Gegenbauer family of
 TauCeti/Analysis/SpecialFunctions/Laguerre/ (Layer 2: measure, orthogonality, bases)
 TauCeti/Analysis/SpecialFunctions/Jacobi/   (Layers 4, 5 and 6: measure, orthogonality, bases)
 ```
+
+## How to read the build
+
+Layers 1 and 2 are the Laguerre family and fix the proof shape: Rodrigues, repeated integration by
+parts, a Gamma constant, then the bridge. Layers 3 and 4 repeat it for Jacobi, which needs the
+Beta integral first and has the one genuine edge case (`n = 0`, `α + β = -1`). Layer 5 (tensor
+bases) depends only on Layers 2 and 4. Layer 6 depends on Layers 3 and 4; its Chebyshev check
+(§6.3) belongs with Layer 4 in practice, since it is how the Layer 4 constant is known to be right.
+The Legendre export (§6.1) is the highest-value single item for existing Mathlib users.
+
+A name in code font that is qualified by `Polynomial` and is not a Mathlib
+or Tau Ceti declaration is a declaration of `Suggested.lean`, with the signature given there. The
+API facts that the text states in prose are targets too; a contributor names them in the same
+namespace.
+
+Roadmaps that cite these targets by the ids A1–F3 read them as follows:
+
+| Former id | Section |
+|---|---|
+| A1–A4 | §1.1–§1.4 |
+| B1–B4 | §2.1–§2.4 |
+| C1–C4 | §3.1–§3.4 |
+| D1–D4 | §4.1–§4.4 |
+| E | Layer 5 |
+| F1–F3 | §6.1–§6.3 |
 
 ## Motivation: what the two families give
 
@@ -53,35 +119,6 @@ specializes to three further results the library wants:
 Laguerre repays differently: its weight is the Gamma density, so the whole development is stated
 against `Real.Gamma`, and it gives the library the orthogonal family attached to the exponential
 distribution, the counterpart on `(0, ∞)` of what Hermite is on `ℝ`.
-
-## Scope and ownership
-
-This roadmap owns two polynomial families and their `L²` structure. The split from
-`OrthogonalL2Bases` is by kind of statement: an integral identity `∫ pₘ pₙ w = cₙ δₘₙ` is a target
-here, because neither family exists in the library, and a Hilbert-space theorem ("the normalized
-functions are a complete orthonormal basis") is consumed from `OrthogonalL2Bases`, which owns that
-layer. `OrthogonalL2Bases` Part A owns the Hermite family. No Hilbert-space machinery is added
-here.
-
-It owns: the families `Polynomial.laguerre`, `Polynomial.jacobi` and `Polynomial.gegenbauer` over a
-`ℚ`-algebra; the measures `Polynomial.laguerreMeasure` and `Polynomial.jacobiMeasure`; the norm
-sequence `Polynomial.jacobiNormSq`; the Hilbert
-bases of the two measures and of the unweighted `L²`, and their tensor products; the Legendre
-transport and orthogonality; and the comparison with Chebyshev.
-
-It does not own:
-
-- the general orthogonal-polynomials-of-a-measure construction (Gram–Schmidt applied to monomials),
-  Favard's theorem, and abstract three-term-recurrence theory: `OrthogonalL2Bases` places these
-  outside its scope for the same reason, and Mathlib has `InnerProductSpace.gramSchmidt` and `Polynomial.Sequence`
-  for the ingredients;
-- the rest of the Askey scheme (Hahn, Meixner, Krawtchouk, Wilson, and every `q`-analogue);
-- Laguerre and Jacobi *functions* as eigenfunctions of their Sturm–Liouville operators, and the
-  associated spectral and PDE theory;
-- the classical `λ = 0` ultraspherical family, which is a renormalized limit of the family of
-  Layer 6 (`lim_{λ→0} (n/λ) Cₙ^{(λ)} = 2 Tₙ` for `n ≥ 1`) and is a different definition;
-- analytic continuation in the Gegenbauer parameter, and Gegenbauer functions of non-integer
-  degree.
 
 ## Conventions
 
@@ -129,109 +166,6 @@ It does not own:
 - **Truncated subtraction.** Derivative and recurrence identities that mention index `n - 1` are
   stated at successor indices (`n + 1`, `n + 2`), since `0 - 1 = 0` makes the `n`-form false at
   `n = 0`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Real.Gamma`, `Real.Gamma_eq_integral` (`0 < s → Gamma s = ∫ x in Ioi 0, exp (-x) * x ^ (s-1)`),
-  `Real.Gamma_add_one`, `Real.Gamma_nat_eq_factorial` and `Real.Gamma_pos_of_pos`.
-- `ProbabilityTheory.beta α β = Gamma α * Gamma β / Gamma (α + β)`, `ProbabilityTheory.beta_pos`
-  (`Mathlib/Probability/Distributions/Beta.lean`), with `ProbabilityTheory.lintegral_betaPDF`, `ProbabilityTheory.lintegral_betaPDF_eq_one`
-  (`0 < α`, `0 < β`), `ProbabilityTheory.betaMeasure` and
-  `ProbabilityTheory.isProbabilityMeasureBeta` in the same file. The real Beta constant, its
-  `Real.rpow` density on `Ioo 0 1`, and its normalization are therefore consumed, not built.
-- `integral_rpow_mul_exp_neg_mul_rpow`
-  (`0 < p → -1 < q → 0 < b → ∫ x in Ioi 0, x ^ q * exp (-b * x ^ p) = b ^ (-(q+1)/p) * (1/p) * Gamma ((q+1)/p)`)
-  and `integrableOn_rpow_mul_exp_neg_mul_rpow`
-  (`-1 < s → 0 < p → 0 < b → IntegrableOn (fun x => x ^ s * exp (-b * x ^ p)) (Ioi 0)`), in
-  `Mathlib/MeasureTheory/Integral/Gamma.lean` and
-  `Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean` respectively. At `p = 1` these are the
-  Laguerre weight moments, including the shifted exponent `b = 1 - a` that a finite exponential
-  moment needs.
-- `ascPochhammer`, `Polynomial.smeval`, `Polynomial.derivative`, the iterated-derivative
-  lemmas (including `Polynomial.iterate_derivative_mul` and
-  `Polynomial.iterate_derivative_eq_zero_of_degree_lt`), and `Polynomial.Sequence`.
-- `Polynomial.shiftedLegendre` and `Polynomial.factorial_mul_shiftedLegendre_eq`.
-- `Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.measureT`,
-  `Polynomial.Chebyshev.integral_measureT`,
-  `Polynomial.Chebyshev.integral_eval_T_real_mul_eval_T_real_measureT_of_ne`,
-  `Polynomial.Chebyshev.integral_eval_T_real_mul_self_measureT_zero` (value `π`) and
-  `Polynomial.Chebyshev.integral_T_real_mul_self_measureT_of_ne_zero` (value `π / 2`).
-- Integration by parts, two shapes with a shared base name and incompatible hypotheses, cited fully
-  qualified: `MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul` (the `Set.Ioi` form, for
-  Laguerre) and `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDeriv_right` (the
-  finite-interval form that asks only `ContinuousOn` on the closed interval and a derivative on
-  `Set.Ioo`, for Jacobi; the plain `intervalIntegral.integral_mul_deriv_eq_deriv_mul` wants
-  derivatives at the endpoints, which the Jacobi weight lacks for noninteger exponents).
-- `MeasureTheory.restrict_withDensity`: `(μ.withDensity f).restrict s = (μ.restrict s).withDensity f`
-  for measurable `s`, the bridge between Mathlib's `measureT` shape and ours.
-- `MeasureTheory.Measure.restrict_pi_pi` (`Mathlib/MeasureTheory/Constructions/Pi.lean`): for
-  σ-finite `μ i`, `(Measure.pi μ).restrict (Set.univ.pi s) = Measure.pi fun i => (μ i).restrict (s i)`;
-  with `MeasureTheory.volume_pi` it identifies the measures of the last two targets of Layer 5 with
-  Lebesgue measure restricted to the orthant and to the cube.
-
-### From Tau Ceti
-
-- `TauCeti.integral_rpow_mul_one_sub_rpow` and `ProbabilityTheory.beta_comm`
-  (`TauCeti/Analysis/SpecialFunctions/Beta.lean`): for `0 < a`, `0 < b`,
-  `∫ t in 0..1, t ^ (a - 1) * (1 - t) ^ (b - 1) = ProbabilityTheory.beta a b`, and
-  `beta a b = beta b a`. This is the interval form of the real Beta integral.
-- `TauCeti.hilbertBasisOfWeightedMeasure`, `TauCeti.coe_hilbertBasisOfWeightedMeasure`,
-  `TauCeti.hilbertBasisOfOrthogonalSystem` and `TauCeti.coe_hilbertBasisOfOrthogonalSystem`
-  (`TauCeti/Analysis/InnerProductSpace/WeightedOrthogonalBasis.lean`). The first takes `f`, `w`,
-  `c`, a measure `μ`, `0 ≤ w` a.e., `AEMeasurable w μ`, `∀ n, 0 < c n`, the orthogonality
-  relation `∫ f m * f n * w ∂μ = if m = n then c n else 0`, the `L²` membership of the normalized
-  functions, and `(Submodule.span 𝕜 (Set.range (TauCeti.bareNormalizedLp f w c hmem)))ᗮ = ⊥`, and returns
-  `HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (μ.withDensity fun x => ENNReal.ofReal (w x)))`.
-- `TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot`
-  (`TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean`): for `p : ℕ → Polynomial ℝ`
-  with `(p n).degree = n`, `c n > 0` and one finite exponential moment
-  `∃ a, 0 < a ∧ Integrable (fun x => exp (a * |x|)) (μ.withDensity …)`, the orthogonal complement
-  of the span of the normalized family is `⊥`. It is family-agnostic.
-- `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp`
-  (`TauCeti/Probability/Moments/Determinacy.lean`): moment determinacy from a finite exponential
-  moment, the mechanism behind the previous item.
-- `MeasureTheory.Integrable.exp_abs_smul_of_ae_abs_le`
-  (`TauCeti/MeasureTheory/Function/BoundedSupportExponential.lean`): for `Integrable g μ` and
-  `|x| ≤ R` a.e., `x ↦ exp (a * |x|) • g x` is integrable. With `g = 1` this is the Jacobi
-  exponential moment and needs `IsFiniteMeasure`.
-- `TauCeti.weightL2Isometry` and `TauCeti.weightL2Isometry_apply`
-  (`TauCeti/MeasureTheory/Function/WeightL2Isometry.lean`): multiplication by `√w`.
-- `TauCeti.piHilbertBasis` and `TauCeti.coeFn_piHilbertBasis`
-  (`TauCeti/Analysis/InnerProductSpace/L2/Pi.lean`): the product Hilbert basis of
-  `Lp 𝕜 2 (Measure.pi μ)` from coordinatewise Hilbert bases, indexed by the dependent function
-  type.
-- `TauCeti.chebyshevMeasureT_eq_withDensity`, `TauCeti.chebyshevMeasureT_univ`,
-  `TauCeti.integral_eval_T_real_mul_eval_T_real_measureT_eq_ite` and `TauCeti.chebyshevTNormSq`
-  (`TauCeti/Analysis/SpecialFunctions/Trigonometric/Chebyshev/Measure.lean`): `measureT` rewritten
-  as `(volume.restrict (Ioc (-1) 1)).withDensity fun x => ofReal (√(1 - x ^ 2))⁻¹`, its total mass,
-  the orthogonality integrals of `Tₙ` and their norm sequence.
-
-## How to read the build
-
-Layers 1 and 2 are the Laguerre family and fix the proof shape: Rodrigues, repeated integration by
-parts, a Gamma constant, then the bridge. Layers 3 and 4 repeat it for Jacobi, which needs the
-Beta integral first and has the one genuine edge case (`n = 0`, `α + β = -1`). Layer 5 (tensor
-bases) depends only on Layers 2 and 4. Layer 6 depends on Layers 3 and 4; its Chebyshev check
-(§6.3) belongs with Layer 4 in practice, since it is how the Layer 4 constant is known to be right.
-The Legendre export (§6.1) is the highest-value single item for existing Mathlib users.
-
-A name in code font that is qualified by `Polynomial` and is not a Mathlib
-or Tau Ceti declaration is a declaration of `Suggested.lean`, with the signature given there. The
-API facts that the text states in prose are targets too; a contributor names them in the same
-namespace.
-
-Roadmaps that cite these targets by the ids A1–F3 read them as follows:
-
-| Former id | Section |
-|---|---|
-| A1–A4 | §1.1–§1.4 |
-| B1–B4 | §2.1–§2.4 |
-| C1–C4 | §3.1–§3.4 |
-| D1–D4 | §4.1–§4.4 |
-| E | Layer 5 |
-| F1–F3 | §6.1–§6.3 |
 
 ## Layer 1: the Laguerre polynomials
 
@@ -858,6 +792,113 @@ SpecialFunctionsBessel consumes §§6.1–6.2; SpecialFunctionsConfluent consume
 NoncompactQuantumSymmetry and QuantumFoundations consume Layers 1 and 2. The order-0 Legendre
 orthogonality is owned here (§6.1); SpecialFunctionsLegendre's 14.17.6 for general `m` contains it
 as its case `m = 0`.
+
+## Scope and ownership
+
+This roadmap owns two polynomial families and their `L²` structure. The split from
+`OrthogonalL2Bases` is by kind of statement: an integral identity `∫ pₘ pₙ w = cₙ δₘₙ` is a target
+here, because neither family exists in the library, and a Hilbert-space theorem ("the normalized
+functions are a complete orthonormal basis") is consumed from `OrthogonalL2Bases`, which owns that
+layer. `OrthogonalL2Bases` Part A owns the Hermite family. No Hilbert-space machinery is added
+here.
+
+It owns: the families `Polynomial.laguerre`, `Polynomial.jacobi` and `Polynomial.gegenbauer` over a
+`ℚ`-algebra; the measures `Polynomial.laguerreMeasure` and `Polynomial.jacobiMeasure`; the norm
+sequence `Polynomial.jacobiNormSq`; the Hilbert
+bases of the two measures and of the unweighted `L²`, and their tensor products; the Legendre
+transport and orthogonality; and the comparison with Chebyshev.
+
+It does not own:
+
+- the general orthogonal-polynomials-of-a-measure construction (Gram–Schmidt applied to monomials),
+  Favard's theorem, and abstract three-term-recurrence theory: `OrthogonalL2Bases` places these
+  outside its scope for the same reason, and Mathlib has `InnerProductSpace.gramSchmidt` and `Polynomial.Sequence`
+  for the ingredients;
+- the rest of the Askey scheme (Hahn, Meixner, Krawtchouk, Wilson, and every `q`-analogue);
+- Laguerre and Jacobi *functions* as eigenfunctions of their Sturm–Liouville operators, and the
+  associated spectral and PDE theory;
+- the classical `λ = 0` ultraspherical family, which is a renormalized limit of the family of
+  Layer 6 (`lim_{λ→0} (n/λ) Cₙ^{(λ)} = 2 Tₙ` for `n ≥ 1`) and is a different definition;
+- analytic continuation in the Gegenbauer parameter, and Gegenbauer functions of non-integer
+  degree.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Real.Gamma`, `Real.Gamma_eq_integral` (`0 < s → Gamma s = ∫ x in Ioi 0, exp (-x) * x ^ (s-1)`),
+  `Real.Gamma_add_one`, `Real.Gamma_nat_eq_factorial` and `Real.Gamma_pos_of_pos`.
+- `ProbabilityTheory.beta α β = Gamma α * Gamma β / Gamma (α + β)`, `ProbabilityTheory.beta_pos`
+  (`Mathlib/Probability/Distributions/Beta.lean`), with `ProbabilityTheory.lintegral_betaPDF`, `ProbabilityTheory.lintegral_betaPDF_eq_one`
+  (`0 < α`, `0 < β`), `ProbabilityTheory.betaMeasure` and
+  `ProbabilityTheory.isProbabilityMeasureBeta` in the same file. The real Beta constant, its
+  `Real.rpow` density on `Ioo 0 1`, and its normalization are therefore consumed, not built.
+- `integral_rpow_mul_exp_neg_mul_rpow`
+  (`0 < p → -1 < q → 0 < b → ∫ x in Ioi 0, x ^ q * exp (-b * x ^ p) = b ^ (-(q+1)/p) * (1/p) * Gamma ((q+1)/p)`)
+  and `integrableOn_rpow_mul_exp_neg_mul_rpow`
+  (`-1 < s → 0 < p → 0 < b → IntegrableOn (fun x => x ^ s * exp (-b * x ^ p)) (Ioi 0)`), in
+  `Mathlib/MeasureTheory/Integral/Gamma.lean` and
+  `Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean` respectively. At `p = 1` these are the
+  Laguerre weight moments, including the shifted exponent `b = 1 - a` that a finite exponential
+  moment needs.
+- `ascPochhammer`, `Polynomial.smeval`, `Polynomial.derivative`, the iterated-derivative
+  lemmas (including `Polynomial.iterate_derivative_mul` and
+  `Polynomial.iterate_derivative_eq_zero_of_degree_lt`), and `Polynomial.Sequence`.
+- `Polynomial.shiftedLegendre` and `Polynomial.factorial_mul_shiftedLegendre_eq`.
+- `Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.measureT`,
+  `Polynomial.Chebyshev.integral_measureT`,
+  `Polynomial.Chebyshev.integral_eval_T_real_mul_eval_T_real_measureT_of_ne`,
+  `Polynomial.Chebyshev.integral_eval_T_real_mul_self_measureT_zero` (value `π`) and
+  `Polynomial.Chebyshev.integral_T_real_mul_self_measureT_of_ne_zero` (value `π / 2`).
+- Integration by parts, two shapes with a shared base name and incompatible hypotheses, cited fully
+  qualified: `MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul` (the `Set.Ioi` form, for
+  Laguerre) and `intervalIntegral.integral_mul_deriv_eq_deriv_mul_of_hasDeriv_right` (the
+  finite-interval form that asks only `ContinuousOn` on the closed interval and a derivative on
+  `Set.Ioo`, for Jacobi; the plain `intervalIntegral.integral_mul_deriv_eq_deriv_mul` wants
+  derivatives at the endpoints, which the Jacobi weight lacks for noninteger exponents).
+- `MeasureTheory.restrict_withDensity`: `(μ.withDensity f).restrict s = (μ.restrict s).withDensity f`
+  for measurable `s`, the bridge between Mathlib's `measureT` shape and ours.
+- `MeasureTheory.Measure.restrict_pi_pi` (`Mathlib/MeasureTheory/Constructions/Pi.lean`): for
+  σ-finite `μ i`, `(Measure.pi μ).restrict (Set.univ.pi s) = Measure.pi fun i => (μ i).restrict (s i)`;
+  with `MeasureTheory.volume_pi` it identifies the measures of the last two targets of Layer 5 with
+  Lebesgue measure restricted to the orthant and to the cube.
+
+### From Tau Ceti
+
+- `TauCeti.integral_rpow_mul_one_sub_rpow` and `ProbabilityTheory.beta_comm`
+  (`TauCeti/Analysis/SpecialFunctions/Beta.lean`): for `0 < a`, `0 < b`,
+  `∫ t in 0..1, t ^ (a - 1) * (1 - t) ^ (b - 1) = ProbabilityTheory.beta a b`, and
+  `beta a b = beta b a`. This is the interval form of the real Beta integral.
+- `TauCeti.hilbertBasisOfWeightedMeasure`, `TauCeti.coe_hilbertBasisOfWeightedMeasure`,
+  `TauCeti.hilbertBasisOfOrthogonalSystem` and `TauCeti.coe_hilbertBasisOfOrthogonalSystem`
+  (`TauCeti/Analysis/InnerProductSpace/WeightedOrthogonalBasis.lean`). The first takes `f`, `w`,
+  `c`, a measure `μ`, `0 ≤ w` a.e., `AEMeasurable w μ`, `∀ n, 0 < c n`, the orthogonality
+  relation `∫ f m * f n * w ∂μ = if m = n then c n else 0`, the `L²` membership of the normalized
+  functions, and `(Submodule.span 𝕜 (Set.range (TauCeti.bareNormalizedLp f w c hmem)))ᗮ = ⊥`, and returns
+  `HilbertBasis ℕ 𝕜 (Lp 𝕜 2 (μ.withDensity fun x => ENNReal.ofReal (w x)))`.
+- `TauCeti.orthogonal_span_range_bareNormalizedLp_eq_bot`
+  (`TauCeti/Analysis/InnerProductSpace/PolynomialCompleteness.lean`): for `p : ℕ → Polynomial ℝ`
+  with `(p n).degree = n`, `c n > 0` and one finite exponential moment
+  `∃ a, 0 < a ∧ Integrable (fun x => exp (a * |x|)) (μ.withDensity …)`, the orthogonal complement
+  of the span of the normalized family is `⊥`. It is family-agnostic.
+- `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_exists_integrable_exp`
+  (`TauCeti/Probability/Moments/Determinacy.lean`): moment determinacy from a finite exponential
+  moment, the mechanism behind the previous item.
+- `MeasureTheory.Integrable.exp_abs_smul_of_ae_abs_le`
+  (`TauCeti/MeasureTheory/Function/BoundedSupportExponential.lean`): for `Integrable g μ` and
+  `|x| ≤ R` a.e., `x ↦ exp (a * |x|) • g x` is integrable. With `g = 1` this is the Jacobi
+  exponential moment and needs `IsFiniteMeasure`.
+- `TauCeti.weightL2Isometry` and `TauCeti.weightL2Isometry_apply`
+  (`TauCeti/MeasureTheory/Function/WeightL2Isometry.lean`): multiplication by `√w`.
+- `TauCeti.piHilbertBasis` and `TauCeti.coeFn_piHilbertBasis`
+  (`TauCeti/Analysis/InnerProductSpace/L2/Pi.lean`): the product Hilbert basis of
+  `Lp 𝕜 2 (Measure.pi μ)` from coordinatewise Hilbert bases, indexed by the dependent function
+  type.
+- `TauCeti.chebyshevMeasureT_eq_withDensity`, `TauCeti.chebyshevMeasureT_univ`,
+  `TauCeti.integral_eval_T_real_mul_eval_T_real_measureT_eq_ite` and `TauCeti.chebyshevTNormSq`
+  (`TauCeti/Analysis/SpecialFunctions/Trigonometric/Chebyshev/Measure.lean`): `measureT` rewritten
+  as `(volume.restrict (Ioc (-1) 1)).withDensity fun x => ofReal (√(1 - x ^ 2))⁻¹`, its total mass,
+  the orthogonality integrals of `Tₙ` and their norm sequence.
 
 ## References
 

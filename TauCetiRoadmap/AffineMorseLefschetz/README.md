@@ -1,45 +1,89 @@
 # Roadmap: complex Morse theory, affine topology and weak Lefschetz
 
-**Summary.** Develop the topology controlled by the Levi form: real Morse index bounds,
-closed holomorphic embeddings, proper pseudoconvex exhaustions, affine CW
-dimension and projective hyperplane sections. Include integral homology and
-relative homotopy, as well as the compact-pair topology needed when the
-projective variety has singularities contained in the hyperplane.
+**Summary.** In holomorphic coordinates, the Levi form of a real function f at
+a vector v is a quarter of D²f(v,v)+D²f(iv,iv). Where the Levi form is
+positive, the real Hessian is negative definite only on subspaces of at most
+half the real dimension. Morse theory turns this pointwise fact into topology.
+This roadmap formalizes Milnor's route from it to the Lefschetz hyperplane
+theorem, with the duality and triangulation that route needs when the
+projective variety is singular. All manifolds are finite-dimensional,
+Hausdorff and second countable. Algebraic sets are given by finitely many
+polynomials, with the classical topology on their complex points.
 
-## Scope and ownership
+The first main result is linear algebra. Let V be a complex vector space of
+finite dimension n, and B a real bilinear form on V whose Levi value
+(B(v,v)+B(iv,iv))/4 is positive for every nonzero v. Then every real subspace
+on which B is negative definite has real dimension at most n. Applied to the
+real Hessian of a function at a point, this bounds the Morse index (the
+negative inertia of that Hessian) by n. If the Levi value is only positive on
+a complex subspace of dimension at least n−q, with q≤n, the index is at most
+n+q.
 
-This roadmap owns the polynomial-family projective carrier (A0), complex Levi
-index bounds (A1), closed-embedding and pseudoconvex CW bounds (A2–A3), generic
-locally finite duality (A4.0), finite semialgebraic triangulation and compact-pair
-comparison (A4.1), and weak Lefschetz with its Veronese transport (A5–A6).
-The layers below retain these A-labels as section identifiers.
+The second is Milnor's theorem on closed submanifolds of ℂᴺ. A complex
+n-manifold with a closed holomorphic embedding into ℂᴺ is homotopy equivalent
+to a CW complex with no cells of dimension greater than n. For almost every
+point a, the squared distance to a is a proper Morse function, and its indices
+are at most n by the first result. Closedness cannot be dropped: ℂ² minus the
+origin lies in ℂ² but has H₃=ℤ.
 
-ComplexKahlerGeometry K1, K3 and K7 own complex submanifolds, analytic germs,
-projective charts, orientation and the line bundles O(d); MorseTheory M1–M4 own Morse approximation,
-attachments and CW exhaustion. GeometricTopology Layer 1 owns collars and
-normal bundles, Layer 11 owns simplicial subdivisions, and its
-“Smoothing-and-triangulation comparison”, step 1, owns smooth triangulation.
-The Euclidean chart distance/normal-endpoint calculation, the exhaustion-adapted
-refinement and the rounding of the cut edge of a collared exhaustion piece needed
-here are the precise additional contracts in Layers 2 and 4.
-RiemannianGeometry R5a/R6 own intrinsic second fundamental forms and focal geometry;
-the chart calculation here is independent of that intrinsic comparison.
-AlgebraicTopology Stages 2–6 and 8 own ordinary relative topology, compact
-manifold duality and tower algebra; CharacteristicClasses C1.2a S0–S5 own
-supported cochains. Their definitions are used without replacement.
-RealAlgebraicGeometry Layers 3–6 own polynomial semialgebraic sets, CAD and
-projection closure. Its completed roadmap is the supplier, not a second CAD
-construction here. Mathlib owns projectivization, geometric simplicial complexes,
-CW complexes and homotopy equivalences; Tau Ceti owns the Morse index and
-semialgebraic predicate used in the acceptance signatures.
+The third replaces the embedding by a function. Let 0≤q≤n and let f be a
+smooth real function on a complex n-manifold M that is proper and bounded
+below, and whose Levi form is strictly positive on a complex subspace of
+dimension at least n−q of every tangent space. Then M has a CW model with no
+cells above dimension n+q. For q=0 the condition is strict
+plurisubharmonicity. The integral homology of M vanishes above degree n+q, and
+every compact complex submanifold of M has complex dimension at most q. No
+Stein embedding theorem is assumed.
 
-Layer 5 owns the continuous band-closure, endpoint/restriction and collapsed-band
-transfer used by its semialgebraic lift. RealAnalyticGeometry R2/R2.1 consumes
-these elementary maps and the completed lift for its analytic-simplex comparison;
-its analytic normal decomposition, property (A) and relative interior-point coning
-are outside this roadmap. No input to this lift comes from that consumer.
-FourManifolds owns its quartic and intersection-of-quadrics examples and the
-proper-family applications.
+The fourth is the Lefschetz hyperplane theorem. Let X⊂ℂPᴺ be a projective
+algebraic set of pure complex dimension n, H a hyperplane containing every
+nonsmooth point of X, and A=X∩H. Then `H_j(X,A;ℤ)=0` for j<n, so the inclusion
+induces isomorphisms `H_j(A;ℤ)→H_j(X;ℤ)` for j<n−1 and a surjection for j=n−1;
+this holds even when A is singular. The relative homotopy groups `π_j(X,A)`,
+with basepoints in A, vanish for 1≤j<n, and for connected X the inclusion
+gives the same pattern on homotopy groups.
+
+The proof passes through duality. The complement U=X∖A is a closed smooth
+submanifold of ℂᴺ=ℂPᴺ∖H, so its cohomology vanishes above degree n, and an
+isomorphism `H_j(X,A;ℤ)≅H^(2n−j)(U;ℤ)` finishes the argument. Compact manifold
+duality does not cover singular X, so the roadmap builds Borel–Moore homology,
+made of possibly infinite but locally finite singular chains, and proves
+Poincaré–Lefschetz duality with local coefficients on possibly noncompact
+smooth manifolds with collared boundary. It also shows that a compact
+semialgebraic set with finitely many semialgebraic subsets has a finite
+triangulation, by a homeomorphism with semialgebraic graph, in which each
+subset is a union of images of open simplices (Bochnak, Coste and Roy).
+
+The roadmap builds on [MorseTheory](../MorseTheory/README.md) for Morse
+approximation and the CW model of a proper exhaustion, and on
+[ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) for complex
+submanifolds, projective charts and the line bundles O(d).
+[AlgebraicTopology](../AlgebraicTopology/README.md) gives compact duality with
+local coefficients and the relative homotopy sequence;
+[RealAlgebraicGeometry](../../Completed/RealAlgebraicGeometry/README.md) gives
+the cylindrical algebraic decomposition behind the triangulation.
+FourManifolds uses the projective families of Layer 0 and the duality of Layer
+4.
+
+Layer 0 sets up projective zero loci of families of homogeneous polynomials
+and their parameter spaces. Layers 1–3 prove the index and CW bounds. Layer 4
+builds the noncompact duality and needs none of the complex geometry; Layer 5
+builds the triangulation and the compact-pair comparison. Layer 6 proves the
+hyperplane theorems. Layer 7 transports them through the Veronese embedding of
+each positive degree d, under which a hypersurface of degree d becomes a
+hyperplane section.
+
+## How to read the build
+
+Layers 0–3 develop projective families, Levi index bounds and affine CW models.
+Layer 4 is an independent real-topological branch: it needs none of Layers 0–3.
+Layer 5 constructs the semialgebraic lift and combines compact pairs with Layer 4;
+Layer 6 combines that comparison with the affine bounds to prove weak Lefschetz,
+and Layer 7 transports it through Veronese embeddings. Each subsection lists the
+inputs for its statement and its displayed proof route; another proof may use
+fewer inputs. Suggested.lean states the index, closed-embedding and pseudoconvex CW bounds, and finite
+marked-family triangulation headlines, and identifies the missing carriers for
+the other headlines.
 
 ## Conventions
 
@@ -91,83 +135,6 @@ components when n>0.
   but their Jacobian values at 0 are 1 and 0; full rank is only a sufficient test.
 - For U=ℝ and j=2, H₂^BM(U)=0=H⁻¹(U), while H⁰(U)=ℤ;
   integer subtraction excludes the truncated-degree convention.
-
-## Exact supplier contracts
-
-- **From Mathlib:** `Projectivization`, `Projectivization.equivSubmodule`
-  (`Mathlib/LinearAlgebra/Projectivization/Basic.lean`),
-  `MvPolynomial.homogeneousSubmodule` and
-  `MvPolynomial.IsHomogeneous.sum_X_mul_pderiv`
-  (`Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` and `EulerIdentity.lean`);
-  `fderiv`, real restriction of complex scalars, `Module.finrank` and
-  `Module.End.eigenspace`; `Manifold.IsImmersion`
-  (`Mathlib/Geometry/Manifold/Immersion.lean`),
-  `Topology.IsClosedEmbedding`, `Topology.CWComplex`
-  (`Mathlib/Topology/CWComplex/Classical/Basic.lean`) and
-  `ContinuousMap.HomotopyEquiv` (`Mathlib/Topology/Homotopy/Equiv.lean`).
-  Immersion includes local complex smooth charts, not global injectivity or
-  closedness; those are separate hypotheses. Use
-  `Geometry.SimplicialComplex` and its `space` and `faces`
-  (`Mathlib/Analysis/Convex/SimplicialComplex/Basic.lean`), with finite faces
-  explicit, and `intrinsicInterior` for open simplices.
-- **From Tau Ceti:** `TauCeti.hessianQuadraticForm` and `TauCeti.morseIndex`
-  (`TauCeti/Analysis/Calculus/Morse/Index.lean`); the former uses the total
-  second Fréchet derivative and the latter its negative inertia, with no implicit
-  criticality or smoothness hypothesis.
-  `TauCeti.addHaar_image_eq_zero_of_not_surjective_fderivWithin`
-  (`TauCeti/Analysis/Calculus/Sard/EqualDimension.lean`) gives Haar-null critical
-  images on subsets of equal-dimensional finite real normed spaces with Borel
-  measurable structures; the normal-chart adapter in Layer 2 supplies these
-  hypotheses for the C¹ endpoint map. `TauCeti.IsSemialgebraic`
-  (`TauCeti/Geometry/RealAlgebraic/Semialgebraic/Basic.lean`) is the algebra of
-  sets generated by polynomial equalities and strict inequalities; compactness
-  and finite coordinate dimension are separate hypotheses.
-- **From TauCetiRoadmap.ComplexKahlerGeometry:** [K1, K3, K7.1 and K7.2](../ComplexKahlerGeometry/README.md)
-  give scalar restriction, holomorphic submanifolds, reduced analytic germs and
-  projective charts on the native quotient with complex orientation (K7.1), and
-  the tautological bundle, its dual powers O(d) and the identification of
-  H⁰(O(d)) with homogeneous degree-d polynomials (K7.2).
-- **From TauCetiRoadmap.MorseTheory:** [M1–M4](../MorseTheory/README.md)
-  give Hessian/index comparison, compact-band attachment, bounded-below proper
-  CW exhaustion, relative fine Morse approximation and the integral CW/UCT
-  consequences. Properness is additional to the Morse predicate.
-- **From TauCetiRoadmap.GeometricTopology:** [Layer 1, Layer 11, and
-  Smoothing-and-triangulation comparison step 1](../GeometricTopology/README.md)
-  give collars, tubular normal bundles, gluing along boundary pieces (which
-  produces corners), simplicial complexes, subdivision, links and smooth-to-PL
-  triangulation. Layer 4 below proves the stronger exhaustion-adapted refinement
-  it uses and owns the rounding of the cut edge of its exhaustion pieces.
-- **From TauCetiRoadmap.RiemannianGeometry:** [R5a and R6](../RiemannianGeometry/README.md)
-  give the intrinsic second fundamental form, the shape convention and the
-  focal interpretation. Layer 2 proves its Euclidean chart inputs directly;
-  the focal interpretation is not a premise of the distance-Morse proof.
-- **From TauCetiRoadmap.AlgebraicTopology:** [Stages 2–4, 6.0–6.4, 8](../AlgebraicTopology/README.md)
-  give relative chains, subdivision/excision, CW pairs, UCT, lim¹ and Milnor
-  sequences with cofinal-shift naturality, orientation local systems, compact
-  triad duality with arbitrary module-valued local coefficients and nested-cut
-  naturality, and `BasedTopPair` with its relative homotopy sequence.
-- **From TauCetiRoadmap.DifferentialGeometry:** [§10.2](../DifferentialGeometry/README.md)
-  gives smooth Sard for the generic hyperplane family and chartwise null-set
-  transport for the normal endpoint calculation in Layer 2.
-- **From TauCetiRoadmap.CharacteristicClasses:** [C1.2a S0–S5](../CharacteristicClasses/README.md)
-  gives the single supported-cochain complex, filtered compact-relative colimit
-  and the supported sequence for a supplied collared boundary.
-- **From TauCetiRoadmap.RealAlgebraicGeometry:** [Layers 3–6](../../Completed/RealAlgebraicGeometry/README.md)
-  give polynomial sign sets, continuous roots under fixed-degree/gcd hypotheses,
-  cylindrical algebraic decomposition and projection closure. Frontier preparation,
-  dimension comparison and triangulation are Layer 5 targets.
-
-## How to read the build
-
-Layers 0–3 develop projective families, Levi index bounds and affine CW models.
-Layer 4 is an independent real-topological branch: it needs none of Layers 0–3.
-Layer 5 constructs the semialgebraic lift and combines compact pairs with Layer 4;
-Layer 6 combines that comparison with the affine bounds to prove weak Lefschetz,
-and Layer 7 transports it through Veronese embeddings. Each subsection lists the
-inputs for its statement and its displayed proof route; another proof may use
-fewer inputs. Suggested.lean states the index, closed-embedding and pseudoconvex CW bounds, and finite
-marked-family triangulation headlines, and identifies the missing carriers for
-the other headlines.
 
 ## Layer 0: Polynomial-family projective carriers (A0)
 
@@ -1478,6 +1445,106 @@ projection-compatible lift for its analytic-simplex comparison. FourManifolds
 uses Layer 0's projective families and Layer 4's proper-cobordism topology.
 Weak hyperplane and hypersurface applications use Layers 6–7 with their actual
 inclusion maps; compact Hodge and Hard Lefschetz theory have independent inputs.
+
+## Scope and ownership
+
+This roadmap owns the polynomial-family projective carrier (A0), complex Levi
+index bounds (A1), closed-embedding and pseudoconvex CW bounds (A2–A3), generic
+locally finite duality (A4.0), finite semialgebraic triangulation and compact-pair
+comparison (A4.1), and weak Lefschetz with its Veronese transport (A5–A6).
+The layers above retain these A-labels as section identifiers.
+
+ComplexKahlerGeometry K1, K3 and K7 own complex submanifolds, analytic germs,
+projective charts, orientation and the line bundles O(d); MorseTheory M1–M4 own Morse approximation,
+attachments and CW exhaustion. GeometricTopology Layer 1 owns collars and
+normal bundles, Layer 11 owns simplicial subdivisions, and its
+“Smoothing-and-triangulation comparison”, step 1, owns smooth triangulation.
+The Euclidean chart distance/normal-endpoint calculation, the exhaustion-adapted
+refinement and the rounding of the cut edge of a collared exhaustion piece needed
+here are the precise additional contracts in Layers 2 and 4.
+RiemannianGeometry R5a/R6 own intrinsic second fundamental forms and focal geometry;
+the chart calculation here is independent of that intrinsic comparison.
+AlgebraicTopology Stages 2–6 and 8 own ordinary relative topology, compact
+manifold duality and tower algebra; CharacteristicClasses C1.2a S0–S5 own
+supported cochains. Their definitions are used without replacement.
+RealAlgebraicGeometry Layers 3–6 own polynomial semialgebraic sets, CAD and
+projection closure. Its completed roadmap is the supplier, not a second CAD
+construction here. Mathlib owns projectivization, geometric simplicial complexes,
+CW complexes and homotopy equivalences; Tau Ceti owns the Morse index and
+semialgebraic predicate used in the acceptance signatures.
+
+Layer 5 owns the continuous band-closure, endpoint/restriction and collapsed-band
+transfer used by its semialgebraic lift. RealAnalyticGeometry R2/R2.1 consumes
+these elementary maps and the completed lift for its analytic-simplex comparison;
+its analytic normal decomposition, property (A) and relative interior-point coning
+are outside this roadmap. No input to this lift comes from that consumer.
+FourManifolds owns its quartic and intersection-of-quadrics examples and the
+proper-family applications.
+
+## Exact supplier contracts
+
+- **From Mathlib:** `Projectivization`, `Projectivization.equivSubmodule`
+  (`Mathlib/LinearAlgebra/Projectivization/Basic.lean`),
+  `MvPolynomial.homogeneousSubmodule` and
+  `MvPolynomial.IsHomogeneous.sum_X_mul_pderiv`
+  (`Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` and `EulerIdentity.lean`);
+  `fderiv`, real restriction of complex scalars, `Module.finrank` and
+  `Module.End.eigenspace`; `Manifold.IsImmersion`
+  (`Mathlib/Geometry/Manifold/Immersion.lean`),
+  `Topology.IsClosedEmbedding`, `Topology.CWComplex`
+  (`Mathlib/Topology/CWComplex/Classical/Basic.lean`) and
+  `ContinuousMap.HomotopyEquiv` (`Mathlib/Topology/Homotopy/Equiv.lean`).
+  Immersion includes local complex smooth charts, not global injectivity or
+  closedness; those are separate hypotheses. Use
+  `Geometry.SimplicialComplex` and its `space` and `faces`
+  (`Mathlib/Analysis/Convex/SimplicialComplex/Basic.lean`), with finite faces
+  explicit, and `intrinsicInterior` for open simplices.
+- **From Tau Ceti:** `TauCeti.hessianQuadraticForm` and `TauCeti.morseIndex`
+  (`TauCeti/Analysis/Calculus/Morse/Index.lean`); the former uses the total
+  second Fréchet derivative and the latter its negative inertia, with no implicit
+  criticality or smoothness hypothesis.
+  `TauCeti.addHaar_image_eq_zero_of_not_surjective_fderivWithin`
+  (`TauCeti/Analysis/Calculus/Sard/EqualDimension.lean`) gives Haar-null critical
+  images on subsets of equal-dimensional finite real normed spaces with Borel
+  measurable structures; the normal-chart adapter in Layer 2 supplies these
+  hypotheses for the C¹ endpoint map. `TauCeti.IsSemialgebraic`
+  (`TauCeti/Geometry/RealAlgebraic/Semialgebraic/Basic.lean`) is the algebra of
+  sets generated by polynomial equalities and strict inequalities; compactness
+  and finite coordinate dimension are separate hypotheses.
+- **From TauCetiRoadmap.ComplexKahlerGeometry:** [K1, K3, K7.1 and K7.2](../ComplexKahlerGeometry/README.md)
+  give scalar restriction, holomorphic submanifolds, reduced analytic germs and
+  projective charts on the native quotient with complex orientation (K7.1), and
+  the tautological bundle, its dual powers O(d) and the identification of
+  H⁰(O(d)) with homogeneous degree-d polynomials (K7.2).
+- **From TauCetiRoadmap.MorseTheory:** [M1–M4](../MorseTheory/README.md)
+  give Hessian/index comparison, compact-band attachment, bounded-below proper
+  CW exhaustion, relative fine Morse approximation and the integral CW/UCT
+  consequences. Properness is additional to the Morse predicate.
+- **From TauCetiRoadmap.GeometricTopology:** [Layer 1, Layer 11, and
+  Smoothing-and-triangulation comparison step 1](../GeometricTopology/README.md)
+  give collars, tubular normal bundles, gluing along boundary pieces (which
+  produces corners), simplicial complexes, subdivision, links and smooth-to-PL
+  triangulation. Layer 4 above proves the stronger exhaustion-adapted refinement
+  it uses and owns the rounding of the cut edge of its exhaustion pieces.
+- **From TauCetiRoadmap.RiemannianGeometry:** [R5a and R6](../RiemannianGeometry/README.md)
+  give the intrinsic second fundamental form, the shape convention and the
+  focal interpretation. Layer 2 proves its Euclidean chart inputs directly;
+  the focal interpretation is not a premise of the distance-Morse proof.
+- **From TauCetiRoadmap.AlgebraicTopology:** [Stages 2–4, 6.0–6.4, 8](../AlgebraicTopology/README.md)
+  give relative chains, subdivision/excision, CW pairs, UCT, lim¹ and Milnor
+  sequences with cofinal-shift naturality, orientation local systems, compact
+  triad duality with arbitrary module-valued local coefficients and nested-cut
+  naturality, and `BasedTopPair` with its relative homotopy sequence.
+- **From TauCetiRoadmap.DifferentialGeometry:** [§10.2](../DifferentialGeometry/README.md)
+  gives smooth Sard for the generic hyperplane family and chartwise null-set
+  transport for the normal endpoint calculation in Layer 2.
+- **From TauCetiRoadmap.CharacteristicClasses:** [C1.2a S0–S5](../CharacteristicClasses/README.md)
+  gives the single supported-cochain complex, filtered compact-relative colimit
+  and the supported sequence for a supplied collared boundary.
+- **From TauCetiRoadmap.RealAlgebraicGeometry:** [Layers 3–6](../../Completed/RealAlgebraicGeometry/README.md)
+  give polynomial sign sets, continuous roots under fixed-degree/gcd hypotheses,
+  cylindrical algebraic decomposition and projection closure. Frontier preparation,
+  dimension comparison and triangulation are Layer 5 targets.
 
 ## References
 

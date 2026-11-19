@@ -1,78 +1,74 @@
 # Roadmap: noncommutative integration and martingale inequalities
 
-**Summary.** Build the Lp spaces of von Neumann algebras as usable analytic spaces, from the
-tracial Lp spaces, affiliated operators and continuous cores that VonNeumannAlgebras supplies:
-singular numbers and the measure topology with the full exponent range 0<p<∞ (Layer 1),
-semifinite Lp–Lq duality and complex and real interpolation (Layer 2), weight-independent
-Haagerup Lp spaces for an arbitrary von Neumann algebra (Layer 3), Kosaki's state interpolation,
-Lp inclusions and conditional expectations (Layer 4), Haagerup's finite-algebra reduction and the
-Banach-space geometry of Lp (Layer 5), row and column spaces and the p=1 noncommutative
-Khintchine inequality (Layer 6), tracial martingales and Burkholder–Gundy (Layer 7), and the
-transfer to nontracial filtrations with the finite-tracial H¹–BMO endpoint (Layer 8). The end
-theorems are Haagerup's reduction theorem, noncommutative Khintchine for 1≤p<∞ with
-dimension-independent constants, the Ball–Carlen–Lieb convexity inequality, Burkholder–Gundy
-for 1<p<∞, the UMD property of Lp(M), and finite-tracial H¹–BMO duality.
+**Summary.** On a measure space the Lp norm of a function f is `(∫|f|^p)^(1/p)`. Noncommutative
+integration replaces the bounded functions by a von Neumann algebra M and the integral by a trace τ,
+and the same formula `‖x‖_p=τ(|x|^p)^(1/p)` defines spaces Lp(M,τ) of possibly unbounded operators.
+On d×d matrices with the unnormalized trace this is the Schatten norm, the ℓ^p norm of the singular
+values. This roadmap develops these spaces and proves on them the noncommutative Khintchine,
+Ball–Carlen–Lieb and Burkholder–Gundy inequalities.
 
-## Scope and ownership
+Von Neumann algebras are complex, and a semifinite algebra carries an explicitly chosen faithful
+normal semifinite trace, not assumed finite unless stated. The spaces are built for every 0<p<∞;
+below p=1 the triangle inequality fails, and `‖x−y‖_p^p` is a complete metric instead. For
+an arbitrary von Neumann algebra the roadmap builds Haagerup's Lp(M), which starts from a faithful
+normal semifinite weight in place of a trace. It is a space of operators measurable for the
+canonical trace of the continuous core, a crossed product of M by ℝ. Different weights give
+isometrically isomorphic spaces, L¹(M) is the predual of M, and for a semifinite algebra Haagerup's
+space is isometric to the tracial one.
 
-This roadmap owns, by layer:
+For finitely many a_k in Lp(M) and independent random signs ε_k, the noncommutative Khintchine
+inequality compares the random-sum norm `(E‖∑ε_k a_k‖_p^p)^(1/p)` with the column norm
+`‖(∑a_k*a_k)^(1/2)‖_p` and the row norm `‖(∑a_k a_k*)^(1/2)‖_p`. For 2≤p<∞ the random-sum norm lies
+between the larger of the two and B_p times it. For 1≤p<2 it lies between A_p times and one times
+the infimum, over splittings a=b+c, of the column norm of b plus the row norm of c, and at p=1 one
+may take A_1=3^(−1/2). The constants depend only on p, and the theorem holds in Haagerup's Lp(M) for
+every M. For the matrix units e_(1,k), k≤n, in M_n(ℂ), every signed sum has norm √n, as does the row
+norm, while the column norm is n^(1/p). Transposing exchanges the two, so for p≠2 no estimate
+uniform in n can use one square function alone.
 
-- Layer 1: generalized singular numbers of τ-measurable operators, the measure topology, the
-  tracial Lp spaces for 0<p<1 with their p-triangle inequality, the convergence theorems,
-  Hölder's inequality with constant one for all positive exponents, the integrated Ky Fan and
-  concave inequalities, weak Lp and the Lorentz gauges, and the identification of Lp(B(H),Tr)
-  and weak Lp(B(H),Tr), for every 0<p<∞, with the operators whose approximation numbers are
-  p-summable, respectively `O((j+1)^(−1/p))`. On B(H) the Schatten quasi-ideals S_p for 0<p<1
-  and the weak Schatten classes are these spaces: their quasi-norm, adjoint, ideal, completeness
-  and Hölder laws are the B(H) instances of the general laws, not a second construction on a
-  sequence model. VonNeumannAlgebras V10.TracialLp owns the τ-measurable operator algebra
-  and Lp(M,τ) for 1≤p<∞ with completeness, Hölder, L¹=M_* and L²=GNS; Layer 1 extends that
-  construction to smaller exponents and does not rebuild it.
-- Layer 2: Lp–Lq duality for 1≤p<∞ and reflexivity, compatible Banach couples, the complex
-  method and Calderón's upper method, the real K-method, and the identification of the
-  interpolation spaces of a semifinite Lp couple. BanachSpaceTheory B1–B2 own the Banach duality,
-  weak compactness and reflexivity criteria consumed here; PDE item 9 owns the scalar
-  Riesz–Thorin theorem; the general Banach-couple functors and every noncommutative identification
-  belong here.
-- Layer 3: Haagerup Lp spaces, the dual-weight characterization with its operator-valued-weight
-  inverse, the density map M_*≃L¹(M), the canonical functional tr_H, the norms and their
-  completeness, duality, the standard form, bimodule structure, corners, weight independence and
-  the comparison with the tracial model. VonNeumannAlgebras Layer 11 owns weights, modular
-  groups, Connes cocycles, continuous cores with their dual action and trace, the dual fixed-point
-  theorem and the Pedersen–Takesaki theorem; Layer 3 consumes them.
-- Layer 4: Kosaki's complex-interpolation realization of Lp(M) from a faithful normal state, the
-  re-embedding and reiteration rules, the Lp inclusions and contractive projections attached to a
-  modular-invariant subalgebra, and the Bochner identification Lp(Ω;Lp(M))=Lp(L∞(Ω)⊗̄M).
-  VonNeumannAlgebras Layer 11 owns Takesaki's conditional-expectation theorem on M itself.
-- Layer 5: Haagerup's reduction theorem in the Haagerup–Junge–Xu form, sequential and directed,
-  the reduction of Lp(M) to finite-tracial spaces, Clarkson's inequalities, the moduli of convexity
-  and smoothness and the Ball–Carlen–Lieb inequality for every von Neumann algebra.
-  BanachSpaceTheory B2 owns the Milman–Pettis theorem with the scalar Lᵖ uniform-convexity
-  estimates; Layer 5 proves the noncommutative estimates and feeds them to that theorem.
-- Layer 6: row and column spaces Lp(M;ℓ²_C), Lp(M;ℓ²_R), their sums and intersections, the
-  random-sum norm with Kahane's moment comparison, and the p=1 Khintchine inequality for every von
-  Neumann algebra.
-- Layer 7: finite-tracial martingales, martingale Hardy spaces, Stein's inequality,
-  Burkholder–Gundy for 1<p<∞, Lp convergence, martingale transforms, Khintchine for 1<p<∞ and the
-  type and cotype of Lp.
-- Layer 8: the transfer of Stein and Burkholder–Gundy to state-preserving nontracial filtrations,
-  Khintchine in arbitrary Haagerup Lp, the UMD property, and the finite-tracial H¹–BMO duality.
+The Ball–Carlen–Lieb inequality also holds for every von Neumann algebra: for 1<p≤2 and all x,y in
+Lp(M), `‖x‖_p²+(p−1)‖y‖_p²≤(‖x+y‖_p²+‖x−y‖_p²)/2`, and for 2≤p<∞ the reverse holds. Clarkson's
+inequalities and the uniform convexity and smoothness of Lp(M), 1<p<∞, come with it.
 
-The layers are cited elsewhere as I1–I8; Layer k here is Ik.
+For martingales, let M carry a faithful normal tracial state and (M_n) be an increasing sequence of
+unital von Neumann subalgebras with ultraweakly dense union. The Hardy norm of a martingale is built
+from the row and column square functions of its differences as in Khintchine's inequality, except
+that for p<2 only splittings into two martingales count. For 1<p<∞ the Burkholder–Gundy inequality
+says that a martingale (x_n) is bounded in Lp exactly when it lies in the Hardy space, with
+`sup_n‖x_n‖_p` and the Hardy norm equivalent up to constants depending only on p. The same holds,
+with the same constants, for a faithful normal state φ and a filtration of the same kind invariant
+under the modular automorphism group of φ. Lp(M) also has the UMD property for 1<p<∞ and every M:
+changing the signs of the differences of an Lp(M)-valued martingale on a probability space
+multiplies its norm in Lp(Ω;Lp(M)) by at most C_p.
 
-Left to named roadmaps: CStarAlgebras C3–C5 own operator spaces, matrix norms, completely
-positive maps and spatial tensor products; OperatorTheory/OperatorIdeals owns singular values,
-trace class, Hilbert–Schmidt operators and the Schatten scale S_p for 1≤p≤∞, which Layer 1
-compares with Lp(B(H),Tr); OperatorTheory/Majorization owns the finite-dimensional Ky Fan
-maximum principle MAJ-A28 and triangle inequality MAJ-A31, which the Layer 1 matrix Check
-consumes; PDE owns the scalar Riesz–Thorin theorem; Tau Ceti owns the scalar Marcinkiewicz
-interpolation theorem. Mathlib owns scalar Lp spaces, conditional expectations, filtrations and
-martingales on probability spaces, finite-dimensional singular values and the Hadamard
-three-lines theorem.
+The roadmap builds on VonNeumannAlgebras, which provides the τ-measurable operators, the tracial
+spaces for 1≤p<∞ and the modular theory behind Haagerup's construction. Layer 1 identifies
+Lp(B(H),Tr) with the Schatten classes of OperatorTheory for 1≤p<∞. NoncommutativeGeometry uses its
+Schatten quasi-ideals for 0<p<1, and FreeProbability the Lp inclusions and conditional expectations
+of Layer 4. Since neither Mathlib nor Tau Ceti has a trace on a von Neumann algebra, the
+accompanying Lean file states the Khintchine and Ball–Carlen–Lieb inequalities only for d×d
+matrices, with constants uniform in d and the number of terms.
 
-Outside this roadmap: subdiagonal Hardy algebras and their factorization theorems, the
-classification of Schur multipliers, the isometric classification of noncommutative Lp spaces,
-stochastic integration, and a uniform Khintchine theorem at p=∞.
+Layers 1 to 4 build the spaces for a trace, then a weight. Layer 5 proves Haagerup's reduction
+theorem: for σ-finite M and 0<p<∞, Lp(M) embeds isometrically into a space in which isometric copies
+of the Lp spaces of finite algebras with faithful finite traces increase and have dense union;
+finite does not mean finite-dimensional. Layers 6 and 7 prove Khintchine and Burkholder–Gundy for
+finite traces, and Layer 8 transfers them through the reduction and proves the H¹–BMO duality for
+finite traces.
+
+## How to read the build
+
+Layer 1 completes the measurable-operator theory below the exponent 1 and proves the
+singular-number inequalities every later norm estimate rests on. Layer 2 proves duality and
+interpolation for a semifinite algebra, building the abstract couples and functors once. Layer 3
+constructs Haagerup Lp for an arbitrary algebra and shows it agrees with the tracial model. Layer 4
+realizes Lp(M) by Kosaki's interpolation from a state and builds the inclusions and expectations
+that martingale theory needs. Layer 5 reduces an arbitrary algebra to finite-tracial ones and
+proves the convexity inequalities. Layers 6 and 7 prove Khintchine and Burkholder–Gundy in the
+finite-tracial setting, Layer 6 at p=1 by a duality argument valid for every algebra. Layer 8
+transfers the martingale inequalities through the reduction and proves the H¹–BMO endpoint.
+Layers 1–3 are sequential; Layer 4 needs Layers 2–3; Layer 5 needs Layers 3–4; Layer 6 needs
+Layers 2–4; Layer 7 needs Layers 4 and 6; Layer 8 needs Layers 5–7.
 
 ## Conventions
 
@@ -120,83 +116,6 @@ inequalities `matrix_khintchine_high`, `matrix_khintchine_low` and `matrix_khint
 Ball–Carlen–Lieb inequalities `matrix_ball_carlen_lieb_low` and `matrix_ball_carlen_lieb_high`,
 with the definitions `matrixLpGauge`, `columnSquare`, `rowSquare`, `randomSumGauge` and
 `rowColumnSumGauge` they need.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`LinearMap.singularValues` (zero-indexed decreasing singular values of a finite-dimensional
-operator, an `ℕ →₀ ℝ`), `Matrix.trace`, `CStarMatrix` with `CStarMatrix.ofMatrix` and its
-C*-norm, `CFC.nnrpow`, `CFC.sqrt` and `CFC.rpow` (continuous functional calculus powers of
-nonnegative elements), `IsSelfAdjoint.instNonUnitalContinuousFunctionalCalculus`,
-`CStarAlgebra.instNonnegSpectrumClass'`, `ENNReal.HolderTriple`, `ENNReal.HolderConjugate`,
-`MeasureTheory.Lp` (scalar and Bochner Lp spaces), `MeasureTheory.condExp`,
-`MeasureTheory.Filtration`, `MeasureTheory.Martingale`, `UniformConvexSpace`,
-`Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip` (the three-lines
-theorem), `ContinuousLinearMap`, `ContinuousLinearEquiv`, `LinearIsometryEquiv`, `StrongDual`,
-`WeakDual`, `VonNeumannAlgebra`, `WStarAlgebra`. Mathlib has no Riesz–Thorin theorem, no Khintchine
-or Kahane inequality, no Clarkson inequality, no type or cotype, no interpolation space, no trace
-on a von Neumann algebra, no τ-measurable operator and no noncommutative Lp space.
-
-### From Tau Ceti
-
-The scalar Marcinkiewicz interpolation engine: `TauCeti.lintegral_rpow_le_of_meas_ofReal_lt_le`
-and `TauCeti.meas_ofReal_lt_le_add_setLIntegral` (two finite exponents) and
-`TauCeti.lintegral_rpow_le_of_mul_meas_ofReal_lt_le` with
-`TauCeti.lintegral_rpow_le_of_mul_meas_lt_le_of_le_eLpNormEssSup` (the (1,∞) case), stated for
-distribution functions of scalar functions. Tau Ceti has no Riesz–Thorin theorem, no Schatten
-class, no Khintchine inequality and no noncommutative Lp space.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-V2's spatial von Neumann tensor products; V4.Core, V4.PositivePredual and V4.Normality for
-preduals, normal functionals and normal maps; V5's projection comparison and the central
-decomposition into σ-finite algebras; V6's tracial standard form `JMJ=M′`; V7.Index's
-trace-preserving expectations; V8's discrete crossed products with their canonical expectation
-extracting the identity coefficient; V10.ClosedOperators and V10.Affiliation for closed affiliated
-operators and their polar decompositions; V10.TracialLp for the τ-measurable algebra and Lp(M,τ),
-1≤p<∞, with completeness, Hölder, L¹=M_* and L²=GNS; V10.ModularTheory for Tomita–Takesaki theory
-and the natural cone; Layer 11 for n.s.f. weights and their tensor products, standard forms,
-modular groups and Connes cocycles, the Pedersen–Takesaki theorem, Takesaki's
-conditional-expectation theorem, the continuous core with its canonical trace and dual action,
-the dual fixed-point theorem `(M⋊G)^(dual G)=M`, and the weight-independence cocycle isomorphism
-of cores.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-B1 for annihilators, adjoints, the bidual embedding, Goldstine's theorem and weak-star
-metrizability; B2 for Eberlein–Šmulian, the reflexivity criteria, James's theorem, Milman–Pettis
-with the scalar Lᵖ uniform-convexity estimates, and weakly compact operators.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-C3 for operator spaces, matrix norms and completely bounded maps; C4 for completely positive maps
-and the Kadison–Schwarz inequality; C5 for spatial C*-tensor products and operator-space tensor
-products.
-
-### From TauCetiRoadmap.OperatorTheory
-
-OperatorIdeals Part A for singular values and approximation numbers and Part B for the symmetric
-ideals and the Schatten scale S_p, 1≤p≤∞, with S_∞ the compact operators; Majorization MAJ-A28
-(Ky Fan maximum principle) and MAJ-A31 (Ky Fan triangle inequality `K_k(A+B)≤K_k(A)+K_k(B)`).
-
-### From TauCetiRoadmap.PDE
-
-Item 9: the scalar Riesz–Thorin theorem.
-
-## How to read the build
-
-Layer 1 completes the measurable-operator theory below the exponent 1 and proves the
-singular-number inequalities every later norm estimate rests on. Layer 2 proves duality and
-interpolation for a semifinite algebra, building the abstract couples and functors once. Layer 3
-constructs Haagerup Lp for an arbitrary algebra and shows it agrees with the tracial model. Layer 4
-realizes Lp(M) by Kosaki's interpolation from a state and builds the inclusions and expectations
-that martingale theory needs. Layer 5 reduces an arbitrary algebra to finite-tracial ones and
-proves the convexity inequalities. Layers 6 and 7 prove Khintchine and Burkholder–Gundy in the
-finite-tracial setting, Layer 6 at p=1 by a duality argument valid for every algebra. Layer 8
-transfers the martingale inequalities through the reduction and proves the H¹–BMO endpoint.
-Layers 1–3 are sequential; Layer 4 needs Layers 2–3; Layer 5 needs Layers 3–4; Layer 6 needs
-Layers 2–4; Layer 7 needs Layers 4 and 6; Layer 8 needs Layers 5–7.
 
 ## Layer 1: Singular numbers, measurable convergence and the full exponent range
 
@@ -1478,6 +1397,130 @@ Layer 8 needs Layers 5–7, VonNeumannAlgebras V8, BanachSpaceTheory B1, and Mat
   Schatten classes with the weak trace class `S_(1,∞)` (§1.6).
 - VonNeumannAlgebras Layer 11 names Layer 4 (I4) as the owner of the Lp inclusions and
   contractive projections attached to Takesaki's expectation.
+
+## Scope and ownership
+
+This roadmap owns, by layer:
+
+- Layer 1: generalized singular numbers of τ-measurable operators, the measure topology, the
+  tracial Lp spaces for 0<p<1 with their p-triangle inequality, the convergence theorems,
+  Hölder's inequality with constant one for all positive exponents, the integrated Ky Fan and
+  concave inequalities, weak Lp and the Lorentz gauges, and the identification of Lp(B(H),Tr)
+  and weak Lp(B(H),Tr), for every 0<p<∞, with the operators whose approximation numbers are
+  p-summable, respectively `O((j+1)^(−1/p))`. On B(H) the Schatten quasi-ideals S_p for 0<p<1
+  and the weak Schatten classes are these spaces: their quasi-norm, adjoint, ideal, completeness
+  and Hölder laws are the B(H) instances of the general laws, not a second construction on a
+  sequence model. VonNeumannAlgebras V10.TracialLp owns the τ-measurable operator algebra
+  and Lp(M,τ) for 1≤p<∞ with completeness, Hölder, L¹=M_* and L²=GNS; Layer 1 extends that
+  construction to smaller exponents and does not rebuild it.
+- Layer 2: Lp–Lq duality for 1≤p<∞ and reflexivity, compatible Banach couples, the complex
+  method and Calderón's upper method, the real K-method, and the identification of the
+  interpolation spaces of a semifinite Lp couple. BanachSpaceTheory B1–B2 own the Banach duality,
+  weak compactness and reflexivity criteria consumed here; PDE item 9 owns the scalar
+  Riesz–Thorin theorem; the general Banach-couple functors and every noncommutative identification
+  belong here.
+- Layer 3: Haagerup Lp spaces, the dual-weight characterization with its operator-valued-weight
+  inverse, the density map M_*≃L¹(M), the canonical functional tr_H, the norms and their
+  completeness, duality, the standard form, bimodule structure, corners, weight independence and
+  the comparison with the tracial model. VonNeumannAlgebras Layer 11 owns weights, modular
+  groups, Connes cocycles, continuous cores with their dual action and trace, the dual fixed-point
+  theorem and the Pedersen–Takesaki theorem; Layer 3 consumes them.
+- Layer 4: Kosaki's complex-interpolation realization of Lp(M) from a faithful normal state, the
+  re-embedding and reiteration rules, the Lp inclusions and contractive projections attached to a
+  modular-invariant subalgebra, and the Bochner identification Lp(Ω;Lp(M))=Lp(L∞(Ω)⊗̄M).
+  VonNeumannAlgebras Layer 11 owns Takesaki's conditional-expectation theorem on M itself.
+- Layer 5: Haagerup's reduction theorem in the Haagerup–Junge–Xu form, sequential and directed,
+  the reduction of Lp(M) to finite-tracial spaces, Clarkson's inequalities, the moduli of convexity
+  and smoothness and the Ball–Carlen–Lieb inequality for every von Neumann algebra.
+  BanachSpaceTheory B2 owns the Milman–Pettis theorem with the scalar Lᵖ uniform-convexity
+  estimates; Layer 5 proves the noncommutative estimates and feeds them to that theorem.
+- Layer 6: row and column spaces Lp(M;ℓ²_C), Lp(M;ℓ²_R), their sums and intersections, the
+  random-sum norm with Kahane's moment comparison, and the p=1 Khintchine inequality for every von
+  Neumann algebra.
+- Layer 7: finite-tracial martingales, martingale Hardy spaces, Stein's inequality,
+  Burkholder–Gundy for 1<p<∞, Lp convergence, martingale transforms, Khintchine for 1<p<∞ and the
+  type and cotype of Lp.
+- Layer 8: the transfer of Stein and Burkholder–Gundy to state-preserving nontracial filtrations,
+  Khintchine in arbitrary Haagerup Lp, the UMD property, and the finite-tracial H¹–BMO duality.
+
+The layers are cited elsewhere as I1–I8; Layer k here is Ik.
+
+Left to named roadmaps: CStarAlgebras C3–C5 own operator spaces, matrix norms, completely
+positive maps and spatial tensor products; OperatorTheory/OperatorIdeals owns singular values,
+trace class, Hilbert–Schmidt operators and the Schatten scale S_p for 1≤p≤∞, which Layer 1
+compares with Lp(B(H),Tr); OperatorTheory/Majorization owns the finite-dimensional Ky Fan
+maximum principle MAJ-A28 and triangle inequality MAJ-A31, which the Layer 1 matrix Check
+consumes; PDE owns the scalar Riesz–Thorin theorem; Tau Ceti owns the scalar Marcinkiewicz
+interpolation theorem. Mathlib owns scalar Lp spaces, conditional expectations, filtrations and
+martingales on probability spaces, finite-dimensional singular values and the Hadamard
+three-lines theorem.
+
+Outside this roadmap: subdiagonal Hardy algebras and their factorization theorems, the
+classification of Schur multipliers, the isometric classification of noncommutative Lp spaces,
+stochastic integration, and a uniform Khintchine theorem at p=∞.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`LinearMap.singularValues` (zero-indexed decreasing singular values of a finite-dimensional
+operator, an `ℕ →₀ ℝ`), `Matrix.trace`, `CStarMatrix` with `CStarMatrix.ofMatrix` and its
+C*-norm, `CFC.nnrpow`, `CFC.sqrt` and `CFC.rpow` (continuous functional calculus powers of
+nonnegative elements), `IsSelfAdjoint.instNonUnitalContinuousFunctionalCalculus`,
+`CStarAlgebra.instNonnegSpectrumClass'`, `ENNReal.HolderTriple`, `ENNReal.HolderConjugate`,
+`MeasureTheory.Lp` (scalar and Bochner Lp spaces), `MeasureTheory.condExp`,
+`MeasureTheory.Filtration`, `MeasureTheory.Martingale`, `UniformConvexSpace`,
+`Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip` (the three-lines
+theorem), `ContinuousLinearMap`, `ContinuousLinearEquiv`, `LinearIsometryEquiv`, `StrongDual`,
+`WeakDual`, `VonNeumannAlgebra`, `WStarAlgebra`. Mathlib has no Riesz–Thorin theorem, no Khintchine
+or Kahane inequality, no Clarkson inequality, no type or cotype, no interpolation space, no trace
+on a von Neumann algebra, no τ-measurable operator and no noncommutative Lp space.
+
+### From Tau Ceti
+
+The scalar Marcinkiewicz interpolation engine: `TauCeti.lintegral_rpow_le_of_meas_ofReal_lt_le`
+and `TauCeti.meas_ofReal_lt_le_add_setLIntegral` (two finite exponents) and
+`TauCeti.lintegral_rpow_le_of_mul_meas_ofReal_lt_le` with
+`TauCeti.lintegral_rpow_le_of_mul_meas_lt_le_of_le_eLpNormEssSup` (the (1,∞) case), stated for
+distribution functions of scalar functions. Tau Ceti has no Riesz–Thorin theorem, no Schatten
+class, no Khintchine inequality and no noncommutative Lp space.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+V2's spatial von Neumann tensor products; V4.Core, V4.PositivePredual and V4.Normality for
+preduals, normal functionals and normal maps; V5's projection comparison and the central
+decomposition into σ-finite algebras; V6's tracial standard form `JMJ=M′`; V7.Index's
+trace-preserving expectations; V8's discrete crossed products with their canonical expectation
+extracting the identity coefficient; V10.ClosedOperators and V10.Affiliation for closed affiliated
+operators and their polar decompositions; V10.TracialLp for the τ-measurable algebra and Lp(M,τ),
+1≤p<∞, with completeness, Hölder, L¹=M_* and L²=GNS; V10.ModularTheory for Tomita–Takesaki theory
+and the natural cone; Layer 11 for n.s.f. weights and their tensor products, standard forms,
+modular groups and Connes cocycles, the Pedersen–Takesaki theorem, Takesaki's
+conditional-expectation theorem, the continuous core with its canonical trace and dual action,
+the dual fixed-point theorem `(M⋊G)^(dual G)=M`, and the weight-independence cocycle isomorphism
+of cores.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+B1 for annihilators, adjoints, the bidual embedding, Goldstine's theorem and weak-star
+metrizability; B2 for Eberlein–Šmulian, the reflexivity criteria, James's theorem, Milman–Pettis
+with the scalar Lᵖ uniform-convexity estimates, and weakly compact operators.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+C3 for operator spaces, matrix norms and completely bounded maps; C4 for completely positive maps
+and the Kadison–Schwarz inequality; C5 for spatial C*-tensor products and operator-space tensor
+products.
+
+### From TauCetiRoadmap.OperatorTheory
+
+OperatorIdeals Part A for singular values and approximation numbers and Part B for the symmetric
+ideals and the Schatten scale S_p, 1≤p≤∞, with S_∞ the compact operators; Majorization MAJ-A28
+(Ky Fan maximum principle) and MAJ-A31 (Ky Fan triangle inequality `K_k(A+B)≤K_k(A)+K_k(B)`).
+
+### From TauCetiRoadmap.PDE
+
+Item 9: the scalar Riesz–Thorin theorem.
 
 ## References
 

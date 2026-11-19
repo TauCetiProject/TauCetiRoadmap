@@ -1,161 +1,61 @@
 # Roadmap: formal algebraic connections, loop gauge groupoids and opers
 
-**Summary.** Construct algebraic connections and their sheaf theory, formal loop gauge
-prestacks, regular and punctured opers, Drinfeld–Sokolov reduction and its Poisson cotangent
-algebroid, from the relative formal calculus of Laurent series over arbitrary commutative
-coefficient algebras and the native Hopf-point functor of affine groups. The resulting objects
-give a precise geometric parameter space for critical-level representation theory. Connections
-are relative de Rham connections; an oper remembers a transverse Borel reduction. Isomorphisms
-of the underlying connections form a groupoid over the oper space, the isomonodromy groupoid;
-they are not a global action on oper normal forms. The end theorems are the classification of
-regular formal connections by their fibre at `t = 0` (Layer 2), the polynomial factorization of
-formal loops of a connected reductive complex group over every commutative complex algebra
-(Layer 3A), the Chevalley–Kostant slice and Drinfeld–Sokolov normal form (Layer 4), the
-cyclic-vector theorem for differential modules over a differential field of characteristic zero
-with nonzero derivation and the Frenkel–Zhu theorem that every flat bundle on the punctured
-formal disc for a connected reductive complex group has an oper structure (Layer 6), the
-Drinfeld–Sokolov Poisson structure
-with its Miura screening-kernel description (Layer 7) and the identification of the isomonodromy
-Lie algebroid with the continuous cotangent algebroid of punctured opers (Layer 8). The roadmap
-is this README; `Suggested.lean` states the headline theorems whose carriers exist at the pins.
+**Summary.** A connection on the punctured formal disc is a system `d + A dt`, with `A` a Laurent
+series with coefficients in the Lie algebra `𝔤` of a group `G`; a gauge transformation `g` replaces
+`A` by `Ad(g)A − (dg)g⁻¹`. An oper is a connection with a transverse reduction to a Borel subgroup:
+in an adapted frame, the components of `A` along the negative simple roots are units and those along
+the other negative roots vanish. Every `PGL₂`-oper is isomorphic to exactly one
+`d + [[0, q], [1, 0]] dt`. Opers give a geometric parameter space for critical-level representation
+theory.
 
-## Scope and ownership
+The elementary theory of connections and differential operators is over any commutative ring, the
+rest over a field `k` of characteristic zero. The moduli constructions use every commutative
+`k`-algebra `R`, nonreduced ones included. The analytic comparisons, the loop factorization and the
+oper-reduction theorem are over `ℂ`.
 
-This roadmap owns the relative formal calculus over arbitrary coefficient algebras (Layer 1),
-the symbols, Atiyah sequences and Lie–Rinehart enveloping algebras of differential operators
-and the algebraic connection comparisons (Layer 2), the fixed-model manifold realization of
-smooth separated finite-type complex schemes with its tangent, toric, group and gauge comparisons
-(§2.4), formal and polynomial loop groups with their gauge groupoids, quotient prestacks, the
-polynomial/formal quotient comparison, the loop Grassmannian and affine flag ind-schemes and the
-lattice form of ReductiveGroupsPartII's loop decompositions (Layers 3 and 3A), intrinsic opers, the
-lower
-algebraic/analytic dictionary of `G(ℂ)`, the Chevalley–Kostant adapter and the Drinfeld–Sokolov
-normal form (Layer 4), oper coordinates and function algebras (Layer 5), the cyclic-vector
-theorem and the oper-reduction theorem over `ℂ((t))` with its proof lane (Layer 6), the
-Drinfeld–Sokolov Poisson structure and
-the Miura comparison (Layer 7), and the isomonodromy groupoid with its differentiation (Layer 8).
-The labels F1–F8 and F3A name the layers; consumers cite them by these labels. Every
-construction includes morphisms, extensionality, identity and composition, base change with its
-hypotheses, naturality, local restriction and explicit comparisons between its coordinate and
-intrinsic descriptions.
+The first main theorem says that a connection without poles is determined by its fibre at the
+origin. Let `R` be a `ℚ`-algebra, possibly nonreduced, and `A`, `B` be `n × n` matrices over
+`R[[t]]`. Taking the constant term is a bijection from the gauge transformations carrying `A` to `B`
+onto `GL_n(R)`. With `B = 0`, a horizontal frame exists and is unique once its value at `t = 0` is
+fixed. Over `𝔽_p` this fails: `1 + t^p` and `1` both solve `g′ = 0`.
 
-- **CrystallineCohomology CR.1.3** owns the ordinary form connection over an arbitrary
-  commutative base ring: the additive Leibniz carrier, base linearity, tensor symmetry, extension,
-  curvature, horizontal morphisms, tensor, Hom/dual and base change. Layer 2 consumes it and owns
-  the form/vector-field comparison with its finite-projectivity hypotheses, scheme gluing,
-  continuous and formal extensions, symbols, Atiyah sequences, Lie–Rinehart PBW and
-  principal-group connections.
-- **ComplexComparisonPartII C−1.1, C0.3–C0.4, C5.1–C5.2** owns the scheme analytification
-  functor and its analytic ring sheaf, the identification of the underlying space of `X^an` with
-  `X(ℂ)` carrying ReductiveGroups 3A.5c's classical topology and, on `G(ℂ)`, of ReductiveGroups
-  3A.5d–3A.5e's charts with the smooth charts of `G^an`, open and closed subspaces, fibre
-  products, étale local isomorphisms and the separated/Hausdorff comparison, the coherent tensor
-  pullback and finite locally free bundle dictionary, the characteristic-free order predicate on
-  differential operators with its all-order modules of principal parts, universal jet, universal
-  bijection, composition maps and localization, and the analytic differential-operator and
-  connection dictionaries. §2.2 consumes C5.1's algebraic operator interface and builds symbols, the Atiyah
-  sequence and the Lie–Rinehart enveloping algebra on top of it. This roadmap takes the
-  analytification and all these comparisons from C−1.1 and builds on no second analytification.
-  It takes complex points, their classical topology and smooth charts from ReductiveGroups
-  3A.5b–3A.5e alone (see the ReductiveGroups bullet below), and their identification with the
-  underlying space and charts of C−1.1's analytification from C−1.1. §2.4 owns the fixed-model
-  realization on `X^an` of a separated smooth finite-type complex scheme of constant differential
-  dimension `d`: the atlas modelled on `Fin d → ℂ` obtained from ReductiveGroups 3A.5d's charts,
-  its maximal atlas and the coordinate formula of morphisms, the identification of its
-  holomorphic function sheaf with C−1.1's analytic ring sheaf, the product model, the tangent
-  isomorphism and the toric, group and gauge comparisons. A roadmap that needs this fixed-model
-  manifold structure takes it from §2.4.
-  No proper GAGA or global algebraization theorem is a prerequisite of any lane here.
-- **ComplexKahlerGeometry K1, K3.0, K4** owns joint holomorphic inverse and implicit maps,
-  regular-zero-set submanifolds, finite-dimensional Cauchy/analyticity, the holomorphic
-  section/reconstruction comparison, connection carriers, curve flatness and the flat
-  holomorphic/smooth/local-system equivalence, consuming ComplexManifolds Milestone 7's bundle
-  mixin and cocycle gluing. §2.4 owns only the fixed-model and gauge comparison applications.
-- **SmoothBundlesConnections B3–B5** owns smooth connections, flat bundles, holonomy and
-  monodromy. **LieGroupoidsPoisson** owns finite-dimensional smooth groupoids and Poisson
-  manifolds; this roadmap owns the algebraic Lie–Rinehart and ind-formal versions, in native
-  Lie–Rinehart vocabulary.
-- **ReductiveGroups Layers 0–9 and 6B** owns the Hopf/scheme/points dictionary, faithful closed
-  representations, algebraic tangent and adjoint action, subgroups, quotients and components,
-  tori and their lattices, solvable and unipotent groups, centres, derived groups, central
-  isogenies and the characteristic-zero reductivity theorem, Borel/torus conjugacy, Levi and
-  Bruhat structure, the classification of split reductive groups by root data, pinned Chevalley
-  groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
-  ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
-  the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups §3A.5 owns the complex
-  points of every locally finite-type `ℂ`-scheme with their classical topology, which is
-  Hausdorff for separated schemes and second countable for finite-type ones (3A.5b–3A.5c), the
-  complex charts of every smooth one, with holomorphic transitions and étale maps local
-  biholomorphisms (3A.5d), and the complex Lie-group structure on `G(ℂ)` for every affine
-  algebraic group `G` over `ℂ`, with the chart-at-the-identity identification of its Lie algebra
-  with its Layer 2 tangent Lie algebra (3A.5e). §2.4 takes the points, topology and charts from
-  3A.5b–3A.5d; §4.3 consumes 3A.5e and owns only the comparison of those charts on `G(ℂ)` with
-  §2.4's fixed-model atlas, the identification of 3A.5c's topology on `G(ℂ)` with the pinned
-  point topology of the native Hopf-point carrier `WithConv (H →ₐ[ℂ] ℂ)` and the transport of the
-  charts to that carrier, the Maurer–Cartan trivialization and rank, the comparison of §2.4's
-  germ tangent map with the counit derivations and their convolution bracket, the realification
-  comparison and the holomorphic exponential chart.
-- **ReductiveGroupsPartII RG2.1, RG2.3 and RG2.4** owns, for every field henselian for a nontrivial
-  discrete valuation of rank one with perfect residue field, hence for `ℂ((t))`, the affine Weyl
-  group with its Coxeter system and its description `W(Φ) ⋉ Q^∨` at a special point, the parahoric,
-  Iwahori and hyperspecial subgroups, the Iwahori–Weyl group `W̃ = N(K)/Z(K)_0` with
-  `W̃ = W_a ⋊ Ω`, the Iwahori–Bruhat decomposition and the Cartan decomposition at a special
-  point, for every connected reductive group over such a field. §§3A.3 and 3A.5 prove none of
-  these again. They own the polynomial normalizer quotient `N_G(T)(ℂ[t, t⁻¹])/T(ℂ[t]) ≃ Y ⋊ W`,
-  the identification of `W̃` with `Y ⋊ W` for split `G` over `ℂ((t))`, the identification of
-  `G(ℂ[[t]])` and `I_form(ℂ)` with the hyperspecial parahoric of the origin and the Iwahori of the
-  base alcove, and the transport of RG2.4's double-coset bijections to the lattice strata of the
-  loop Grassmannian and the affine flag variety.
-- **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
-  algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
-  homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
-  equal Lie-algebra invariants for connected groups in characteristic zero, the central-direction
-  splitting for reductive `𝔤`, the rational descent of the pinned Chevalley model and the
-  comparison with CharacteristicClasses C5.1's compact restriction through a compact real form.
-  This roadmap proves no second restriction theorem.
-- **CharacteristicClasses C5.1** owns the compact-group Chevalley restriction `I(G) ≃ Sym(𝔱*)^W`.
-  §4.3's compact-form comparison identifies it with the algebraic restriction; it is a comparison
-  target consumed by NilpotentOrbits, not an input to any theorem here.
-- **LieGroups Layers 0, 6 and 7** owns the real Lie-group exponential map, maximal tori and the
-  Weyl group of compact connected groups with the surjectivity of `lieExp`, and the complexification
-  of compact groups with the existence of a compact real form of a complex reductive Lie group
-  as a milestone. §4.3 owns the holomorphic exponential chart of `G(ℂ)`, the comparison of the
-  complex Lie algebra with its realification and the identification of a compact maximal torus
-  with an algebraic torus: these are targets here, with their hypotheses, not inputs.
-- **FormalLaurentPuiseux L1–L3, L7** owns field-valued formal substitutions, the Laurent
-  derivation, residue, continuous differentials and the procyclic absolute Galois group of
-  `ℂ((t))`. Layer 1 constructs the relative `R`-algebra extensions; it does not infer them from
-  field statements.
-- **§6.2** owns the cyclic-vector theorem for finite-dimensional differential modules over a
-  differential field of characteristic zero with nonzero derivation, since no roadmap earlier in
-  the merge order states it, together with the `GL_n` flag/oper equivalence and the oper lattice
-  estimates. The finite-ramification formal normal forms, slopes and ramified descent of
-  differential modules over `F((t))` are PadicDifferentialEquationsAndRigidCohomology's
-  (§RD.6.52a) and are not used here: the oper-reduction argument of §6.4 takes the leading
-  coefficient of a connection at an order below its pole order, where it is zero.
-- **SchemeAndStackFoundations §§1.1, 1.14–1.18** owns ordinary quasi-coherent fpqc module
-  descent with its morphisms and coherence, groupoids, sheaf torsors, stackification and 2-fibre
-  products. Layers 1–3 construct the completed Tate, loop and ind-formal extensions and the
-  connection descent, which finite-presentation algebraic-stack theorems alone do not supply.
-- **AffineLieAlgebras** owns the completed universal enveloping algebra, the completed centre and
-  the Feigin–Frenkel isomorphism, including the comparison of its mode completion with §7.5's
-  completion of the classical screening-kernel algebra. This roadmap consumes nothing from it:
-  §7.5 constructs its completion explicitly, and Layer 7 is built independently of any
-  quantum-centre theorem so that the two roadmaps have no dependency cycle.
-- **KacMoody Layer 8 (KM8A)** owns, on complex points of the pinned simply connected simple group
-  `G_sc` of ReductiveGroups Layer 9, the root-element generation of `G_sc(ℂ[t, t⁻¹])`, its affine
-  Bruhat decomposition, the affine positive-root bounds and conjugation formula for the Iwahori
-  `I = ev₀⁻¹(B⁺(ℂ))` and the generation of `G_sc(ℂ[t])` by `I` and the finite negative simple root
-  groups (8.1), and the homomorphism from the untwisted minimal derived affine group, its central
-  kernel and the Iwahori, parabolic and global-form maps (8.2–8.4). It is earlier in the merge
-  order and consumes nothing here. §3A.4 states the root bounds and conjugation formula over every
-  coefficient algebra `R` and the generation of `G(ℂ[t])` for every connected reductive `G`, which
-  KacMoody 8.1 does not, and owns the identification of Layer 3A's functors at `R = ℂ` with
-  KacMoody 8.1's complex-point groups and of §3A.3's component map with KacMoody 8.4's.
-- **GeometricRepresentationCategories R3–R5** consumes the exported contracts of §8.4; its
-  categorical-lift conjectures are stated there, not here.
-- General root classification, highest-weight representation theory, PBW and universal
-  enveloping algebras stay with RootSystems, LieHighestWeight and their existing owners.
+The second concerns loops. Let `G` be a connected reductive group over `ℂ` and `R` any commutative
+`ℂ`-algebra, possibly nonreduced. Every element of `G(R((t)))` is a polynomial loop, in
+`G(R[t, t⁻¹])`, times an element of `G(R[[t]])`. This is the surjective half of a natural bijection
+`G(R[t, t⁻¹])/G(R[t]) ≃ G(R((t)))/G(R[[t]])`, also proved here.
+
+The third is the Drinfeld–Sokolov normal form. Let `G` be adjoint split semisimple of rank `ℓ` over
+`k`, and `f` the sum of the negative simple root vectors. Each connection `d + f + v(t)`, with `v`
+in the Borel subalgebra over `R((t))`, is carried by a unique gauge transformation in `N((t))`, `N`
+the unipotent radical of the Borel, to `d + f + Σ qᵢ(t) pᵢ`. Here `(e, h, f)` is the principal
+`𝔰𝔩₂`-triple and the sum runs over a fixed homogeneous basis of the kernel of `ad e`. So opers on
+the punctured disc over `R` correspond to `ℓ`-tuples of Laurent series, and have only identity
+automorphisms.
+
+The fourth is the theorem of Frenkel and Zhu: for every connected reductive `G` over `ℂ` and every
+`A ∈ 𝔤((t))`, some `g ∈ G(ℂ((t)))` carries `d + A dt` to an oper. This concerns complex points only,
+and distinct opers can have isomorphic connections, such as the `PGL₂`-opers `q = 0` and `q = 1`.
+For `G = GL_n` it is the cyclic-vector theorem, proved here in general: over a differential field of
+characteristic zero with nonzero derivation, every finite-dimensional differential module `(V, D)`
+has a vector `v` with `v, Dv, …, D^(n−1)v` a basis, `n = dim V`. `Suggested.lean` states the first
+two theorems and the cyclic-vector theorem.
+
+The roadmap builds on ReductiveGroups for reductive groups and their complex points,
+on ReductiveGroupsPartII for the Cartan and Iwahori–Bruhat decompositions over `ℂ((t))`, and on
+ComplexComparisonPartII for analytification and differential operators. AffineLieAlgebras, home of
+the Feigin–Frenkel isomorphism, uses the opers and their function algebras built here.
+GeometricRepresentationCategories uses the dual opers and the isomonodromy groupoid.
+
+Layer 1 develops calculus on Laurent series over arbitrary coefficient algebras, with coordinate
+changes and Tate modules. Layer 2 treats connections, differential operators and the analytic
+comparison for smooth complex schemes, and proves the first theorem. Layer 3 builds formal loop
+groups and the gauge groupoid; Layer 3A proves the second theorem and builds the loop Grassmannian
+and affine flag variety. Layer 4 defines opers and proves the Kostant slice theorem and the normal
+form. Layer 5 treats coordinate changes and function algebras of opers. Layer 6 proves the
+cyclic-vector and Frenkel–Zhu theorems. Layer 7 constructs the Drinfeld–Sokolov Poisson bracket,
+which in rank one gives the Virasoro relations at central charge `−6`. Layer 8 builds the
+isomonodromy groupoid, whose arrows are isomorphisms of the underlying connections, and identifies
+its Lie algebroid with the continuous cotangent algebroid of punctured opers.
 
 ## Conventions
 
@@ -192,319 +92,6 @@ Both signs are recomputed in §§7.2 and 8.2. `G(ℂ)` always means the native H
 identified in §4.3 with ReductiveGroups 3A.5c's classical topology, and with ReductiveGroups
 3A.5d–3A.5e's charts transported to it in §4.3; `Aut(O)` means the group functor of §1.2 of
 coordinate automorphisms preserving the chosen formal disc.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Derivation`, `KaehlerDifferential`, `LieRinehartRing`, `LieRinehartAlgebra` with their `Hom`
-  and `anchor`: derivations, Kähler differentials and Lie–Rinehart algebras in
-  `Mathlib/Algebra/LieRinehartAlgebra/Defs.lean`. The Kähler carrier is algebraic; Layer 1 builds
-  the continuous one.
-- `Differential` (`Mathlib/RingTheory/Derivation/DifferentialRing.lean`): a commutative ring with
-  a chosen derivation `Derivation ℤ R R`, written `f ↦ f′`; on a field it is the differential-field
-  carrier of §6.2. `Module.finrank`, `LinearIndependent` and `Nat.iterate` state the cyclic-vector
-  theorem.
-- `LaurentSeries`, `PowerSeries`, `PowerSeries.derivative`, `HahnModule`, `HahnSeries.single`,
-  `HahnSeries.ofPowerSeriesAlg` and `LaurentPolynomial.eval₂`: the coefficient rings of Layers 1
-  and 3A. Under the pinned instances, `Algebra ℚ (LaurentSeries ℚ)` is found as
-  `HahnSeries.powerSeriesAlgebra` (`Mathlib/RingTheory/HahnSeries/PowerSeries.lean`), which routes
-  through `R[[t]]`; `Suggested.lean` selects the coefficientwise `HahnSeries.instAlgebra` by the
-  local instance `laurentSeriesCoefficientAlgebra` so that its coefficient maps are algebra maps
-  for one fixed structure. The two are propositionally, not definitionally, equal.
-- `ModuleCat`, `AlgebraicGeometry.Scheme.PresheafOfModules`, `CategoryTheory.Grpd`,
-  `CategoryTheory.Pseudofunctor.IsPrestack`, native sites and descent: the categorical carriers
-  of the sheaf and prestack constructions of Layers 2–3.
-- `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `Matrix.linftyOpNormedRing`,
-  `Matrix.linftyOpNormedAlgebra`: matrix groups, their coefficient maps and the real normed-algebra
-  structure on matrices used in §2.4 and Layer 6.
-- `GroupLieAlgebra`, `LeftInvariantDerivation`, `mlieBracket` (in
-  `Mathlib/Geometry/Manifold/VectorField/`): the analytic Lie algebra of a Lie group and its
-  bracket, used in §4.3. `LeftInvariantDerivation` is a real notion with finite-dimensional, smooth
-  and identity-interior hypotheses; §4.3 applies it only to the realification.
-- `RootPairing.flip`, `RootPairing.Base.flip`: duality of root pairings, for the dual group of
-  §4.4 through ReductiveGroupsPartII.
-- `Algebra.Smooth.exists_span_eq_top_isStandardSmooth`,
-  `Algebra.IsSmoothAt.exists_isStandardEtale_mvPolynomial`: standard-smooth and standard-étale
-  presentations with their finite-presentation and smoothness hypotheses, for the charts of §2.4.
-- `AlgebraicGeometry.Spec.homEquivAlgHom` (`Mathlib/AlgebraicGeometry/GammaSpecAdjunction.lean`) and
-  `AlgebraicGeometry.Spec.map_comp`: the bijection between morphisms `Spec B → Spec A` over
-  `Spec k` and algebra maps `A →ₐ[k] B`, and functoriality of `Spec`, for the affine point
-  dictionary of §§2.4 and 4.3.
-- `MvPolynomial.eq_vanishingIdeal_singleton_of_isMaximal`,
-  `MvPolynomial.isMaximal_iff_eq_vanishingIdeal_singleton`,
-  `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`: the weak and strong Nullstellensatz over
-  `ℂ`, for the complex-point statements of §2.4. The strong form needs the reduced hypothesis.
-- `IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one`,
-  `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`, `nhds_basis_isClopen` (for a
-  `ZeroDimensionalSpace`, which a profinite group is): open subgroups inside clopen neighbourhoods
-  of `1`, for the finite-monodromy classification of Layer 6.
-
-### From Tau Ceti
-
-- `TauCeti.HopfAlgebra.pointsFunctor` and `TauCeti.HopfAlgebra.points` with the point carrier
-  `WithConv (H →ₐ[k] R)` in `TauCeti/Algebra/AlgebraicGroup/PointsFunctor.lean`,
-  `AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`,
-  `TauCeti.FiniteTypeCommHopfAlgCat` in `TauCeti/Algebra/AlgebraicGroup/FiniteType/CommHopfAlgCat.lean`
-  and `TauCeti.reductiveCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`:
-  Hopf points with their convolution group law and post-composition maps; reductivity means
-  smooth, geometrically connected, with no nontrivial connected normal smooth unipotent subgroup
-  over the algebraic closure, so the hypothesis of `formalLoop_eq_polynomial_mul_positive` is
-  "connected reductive".
-- Counit-valued derivations `Derivation k H (TauCeti.Bialgebra.CounitAlgebra k H k)` and their
-  convolution Lie bracket in `TauCeti.Algebra.AlgebraicGroup.Tangent.Lie.Basic`: the algebraic Lie
-  algebra of §3.1 and §4.3. Algebraic-group base change and the native `ProjectiveGeneralLinear`
-  group scheme.
-- `TauCeti.smoothCommHopfAlgProperty_of_charZero` and
-  `TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` in
-  `TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean`: Cartier's theorem that a finite-type
-  commutative Hopf algebra over a field of characteristic zero is smooth, and the equality of the
-  dimension of its counit derivations with its Krull dimension, for §4.3's lower dictionary.
-- `TauCeti.PointTopology.instTopologicalSpaceWithConv` and
-  `TauCeti.PointTopology.isHomeomorph_ofConv` in `TauCeti/Topology/Algebra/PointTopology/Basic.lean`:
-  the global point topology on `WithConv (A →ₐ[k] R)`, induced along `WithConv.ofConv` from the
-  coordinate-evaluation topology `TauCeti.PointTopology.topology`, with `WithConv.ofConv` a
-  homeomorphism; `TauCeti.PointTopology.isClosedEmbedding_eval_generators` there: for a T1
-  topological coefficient ring, evaluation at a generating family is a closed embedding onto the
-  common zero locus of the relations; the global instances `TauCeti.PointTopology.isTopologicalGroup`
-  (`.../PointTopology/Group.lean`, for a topological coefficient semiring),
-  `TauCeti.PointTopology.instT2SpaceWithConv`,
-  `TauCeti.PointTopology.instSecondCountableTopologyWithConv` and
-  `TauCeti.PointTopology.instLocallyCompactSpaceWithConv` (`.../PointTopology/Separation.lean`, the
-  last two for finite-type `A`); and `TauCeti.SchemePointTopology.affineHomeomorph`
-  (`.../PointTopology/Scheme.lean`), the homeomorphism from `A →ₐ[k] R` with the evaluation
-  topology onto the `R`-points of `Spec A` with the chart topology, whose underlying equivalence
-  is Mathlib's `AlgebraicGeometry.Spec.homEquivAlgHom`. These instances are global, so the native
-  carrier `G(ℂ)` has exactly one topology; §4.3 identifies it with ReductiveGroups 3A.5c's and
-  puts no second topology on it.
-- `TauCeti.chartedSpaceOfIsOpenEmbedding`, `TauCeti.isManifold_chartedSpaceOfIsOpenEmbedding` and
-  `TauCeti.maximalAtlas_chartedSpaceOfIsOpenEmbedding_eq` in
-  `TauCeti/Geometry/Manifold/Gluing/Basic.lean`: the manifold structure glued from open embeddings
-  of open subsets of the model along `C^n` local deck maps, and its uniqueness: every `C^n`
-  manifold structure in which all the embeddings are local diffeomorphisms has the same maximal
-  atlas. Applied to ReductiveGroups 3A.5d's charts on the fixed model (§2.4 and its §4.3 group
-  application).
-- `ContinuousMonoidHom.exists_mem_nhds_one_forall_le_ker` in
-  `TauCeti/Analysis/Normed/Algebra/NoSmallSubgroups.lean`: a neighbourhood of `1` in a normed
-  algebra's unit group containing no nontrivial subgroup, for Layer 6.
-- `TauCeti.zHat`, `TauCeti.zHat.gen`, `TauCeti.zHat.hom_ext`, `TauCeti.zHat.lift`,
-  `TauCeti.zHat.lift_gen`, `TauCeti.zHat.lift_unique`, `TauCeti.zHat.liftEquiv` in
-  `TauCeti/Topology/Algebra/Group/Profinite/ZHat/Basic.lean`, and
-  `TauCeti.zHat.cohomologicalDimensionAt_le_one` (for `p ≠ 0`),
-  `TauCeti.zHat.cohomologicalDimensionAt_eq_one` (for prime `p`) and
-  `TauCeti.zHat.cohomologicalDimension_eq_one` in
-  `TauCeti/Topology/Algebra/Group/Profinite/ZHat/CohomologicalDimension.lean`: the procyclic group
-  with its universal property and cohomological dimension, for Layer 6, with the nonzero/prime
-  hypotheses retained.
-- `TauCeti.Toric.regularAffinePointHomeomorph` in `TauCeti/Geometry/Toric/Analytic/RegularChart.lean`:
-  for a regular affine semigroup with generating family, the homeomorphism from its complex
-  points, with the affine point topology, onto `(ι → ℂ) × (κ → ℂˣ)`; and `coneChartEquiv`. Used by
-  the rank-one toric comparison of §2.4.
-
-### From TauCetiRoadmap.FormalLaurentPuiseux
-
-L1 supplies field-valued formal substitutions with `σ_φ∘σ_ψ = σ_(ψ∘φ)` and the coefficient
-tower; L2 the Laurent derivation and continuous one-forms; L3 the residue; L7 the continuous
-profinite identification of the absolute Galois group of `ℂ((t))` with `TauCeti.zHat`. Layer 1 extends L1–L3 to arbitrary coefficient algebras `R` by construction.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layers 0–9: the Hopf/scheme/points dictionary; Layer 1's faithful closed algebraic representation
-`G → GL(V)` with coordinate algebra generated by matrix coefficients and `det(V)⁻¹`; Layer 2's
-algebraic tangent and adjoint action; Layer 3's subgroup, quotient and component constructions and
-Layer 3A's characteristic-zero Cartier smoothness comparison; Layer 4's torus character and
-cocharacter lattices; Layer 5's solvable groups and unipotent radicals; Layer 6's centres, derived
-groups, central isogenies, simply connected and adjoint forms and the characteristic-zero
-reductive ⇔ linearly reductive theorem; Layer 7's maximal-torus/Borel conjugacy, Levi and Bruhat
-structure; Layer 8's classification of split reductive groups by root data; Layer 9's pinned
-Chevalley groups and root maps over `ℤ`; Layer 6B's complex reductive coset affineness, with its
-fpqc quotient and invariant-ring identification, applied to `GL_n/G`.
-
-§3A.5, cited by item. 3A.5b–3A.5c: the complex points `X(ℂ)` of a locally finite-type
-`ℂ`-scheme with their classical topology, the pinned chart topology
-`TauCeti.SchemePointTopology.topology`, which on `Spec A` is the evaluation topology on
-`A →ₐ[ℂ] ℂ` through `TauCeti.SchemePointTopology.affineHomeomorph`, hence on a finite affine
-presentation the zero-locus subspace topology in `ℂ^n`, and which is glued along affine opens,
-with open embeddings for open immersions, Hausdorff points for separated `X` and second-countable
-points for `X` of finite type. 3A.5d: the complex charts of a smooth `ℂ`-scheme, built from local
-standard-smooth presentations, each the restriction of an étale coordinate map `U → 𝔸^d`, on a
-Zariski open `U`, to an open set of `U(ℂ)` on which it is injective, a homeomorphism onto an open
-subset of `ℂ^d`, with holomorphic transitions, holomorphic scheme maps between smooth schemes and
-étale maps local biholomorphisms. 3A.5e: the complex Lie-group structure on `G(ℂ)` for an affine
-algebraic group `G` over `ℂ`, with multiplication, unit and inverse holomorphic because they are
-induced by scheme maps, and the chart-at-the-identity identification of its Lie algebra with
-Layer 2's tangent Lie algebra. §§2.4 and 4.3 use of the topology and the charts only these
-descriptions, and take them from no other roadmap.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-RG2.5.1: the dual pinned group from `RootPairing.flip` and `RootPairing.Base.flip`. This is the
-ordinary dual algebraic group, not a Weil semidirect product; no arithmetic normalization is
-consumed.
-
-RG2.1 *affine-weyl-group*, RG2.3 *parahoric-subgroup* and *hyperspecial-vertices*, RG2.4.1
-*iwahori-weyl-group*, RG2.4.2 *iwahori-bruhat-decomposition* and RG2.4.4 *cartan-decomposition*,
-at the single instance `K = ℂ((t))` (complete for the `t`-adic valuation, of rank one, with perfect
-residue field `ℂ`, so a field of RG2's Conventions), `G` a connected reductive group split over `ℂ`
-with the split maximal torus `T` of ReductiveGroups Layers 8–9 as its maximal split torus, so that
-`Z = T`, `Z(K)_0 = T(ℂ[[t]])` and `Z(K)/Z(K)_0 ≃ Y` (RG2.4.1's Check `splitTorus`). What is
-assumed of them: `(W_a, S_aff)` is a Coxeter system with `W_a = W ⋉ Q^∨` at the special origin;
-the Iwahori–Weyl group `W̃ = N_G(T)(ℂ((t)))/T(ℂ[[t]])` is `W_a ⋊ Ω` with `Ω` the stabilizer of
-the base alcove; `w ↦ I w I` is a bijection from `W̃` to the `I`-double cosets for the Iwahori
-`I` of the base alcove; and at the special origin, with `K₀` its parahoric, `n ↦ K₀ n K₀` induces
-a bijection `W \ W̃ / W ≃ K₀ \ G(ℂ((t))) / K₀`. These are stated there for every such field with no
-finiteness of the residue field, as RG2.4's Check `glDecompositions_infinite_residue` records for
-`ℂ((t))`; the compactness and cardinality clauses of RG2.4, which need a finite residue field, are
-not consumed. §3A.3 identifies `W̃` with `Y ⋊ W`, §3A.5 identifies `I_form(ℂ)` and `G(ℂ[[t]])`
-with RG2.3's Iwahori and hyperspecial parahoric and transports the bijections to lattice strata.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-§§1.1, 1.14–1.18: ordinary quasi-coherent fpqc module descent with morphisms and coherence,
-groupoids, sheaf torsors, stackification and 2-fibre products, and the early fpqc torsor/descent
-interfaces used by the torsor lane of §3A.2.
-
-### From TauCetiRoadmap.CrystallineCohomology
-
-CR.1.3: the ordinary connection carrier over arbitrary commutative base rings, an additive map
-`M → M ⊗_A Ω¹_(A/k)` with the Leibniz identity, its base linearity and tensor-symmetry adapters,
-extension, curvature, horizontal morphisms, tensor, Hom/dual (when the first module is finite
-projective) and base change. Its statements are cited by section; they are prose contracts.
-
-### From TauCetiRoadmap.AlgebraicVectorBundles
-
-Finite locally free sheaves, transition maps and pullback. Layer 2 owns differential operators,
-algebraic connections and their gluing.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-K1: the manifold holomorphic inverse theorem, for §4.3's holomorphic exponential chart (the
-complex charts of §2.4 are ReductiveGroups 3A.5d's and use no implicit-map theorem here); K3.0:
-finite-dimensional Cauchy and analyticity; K4: holomorphic section/reconstruction comparison,
-connection carriers, curve flatness and the flat holomorphic/smooth/local-system equivalence.
-
-### From TauCetiRoadmap.ComplexComparisonPartII
-
-C−1.1: the single scheme analytification functor `complexSchemeAnalytification` with its analytic
-ring sheaf and comparison morphism `φ_X`, the identification of the underlying topological space
-of `X^an` with `X(ℂ)` carrying ReductiveGroups 3A.5c's classical topology (on an affine chart the
-zero-locus subspace topology in `ℂ^n`, glued along algebraic opens), so that the identity of
-`X(ℂ)` is a homeomorphism; for a smooth affine group `G` of finite type over `ℂ`, the
-identification by the identity of `G(ℂ)` of ReductiveGroups 3A.5d–3A.5e's charts with the smooth
-charts of `G^an`; its open-restriction and closed-immersion comparisons, fibre-product comparison, étale
-local-isomorphism comparison and separated/Hausdorff comparison; C0.3's `holomorphicBundleDictionary`;
-C0.4's coherent tensor pullback; C5.1's algebraic interface `IsDifferentialOperator` (order at
-most `m` by iterated commutators with multiplication, for arbitrary commutative `k`, commutative
-`k`-algebras `A` and arbitrary `A`-modules, with no characteristic, smoothness or projectivity
-hypothesis), its additivity, monotonicity, common-order sum and composition-order laws, its
-all-order modules of principal parts `P^m_(A/k)(M) = ((A ⊗_k A)/I^(m+1)) ⊗_(A,right) M` with
-`I = ker(A ⊗_k A → A)`, the left `A`-action and the universal jet `s ↦ 1 ⊗ s`, the natural
-bijection between `A`-linear maps `P^m(M) → N` and operators of order at most `m`, the
-order-transition quotients and composition maps `P^(m+n)(M) → P^m(P^n(M))` with their unit,
-associativity and order-transition laws, localization and the sheafified universal property on
-schemes, and its analytic adapter `DifferentialOperatorAnalytification`; C5.2's
-`holomorphicConnectionDictionary`. The stage order is C5.1's algebraic interface, then §2.2's
-symbols, Atiyah sequence and Lie–Rinehart enveloping algebra, then C5.1's analytic adapter, then
-§2.4. The section-level comparisons of C−1.1 are cited by their subject, as C−1.1 states them in
-prose. The complex points, their classical topology and smooth charts themselves are
-ReductiveGroups 3A.5b–3A.5e's; C−1.1 supplies their identification with the underlying space and
-charts of the analytification, and no section of this roadmap proves that identification again.
-
-### From TauCetiRoadmap.ComplexManifolds
-
-Milestone 1: complex-to-real restriction of scalars and model/carrier atlas transport; Milestone 2:
-canonical-real-orientation compatibility; Milestone 7: holomorphic-transition mixin and cocycle
-gluing on native finite-rank vector bundles.
-
-### From TauCetiRoadmap.AnalyticToricGeometry
-
-L2: `AffineSemigroupComplexPoint`, `affinePointTopology` and `coneChartedSpace`; L3G and L3: the
-finite-fan regular realization `Fan.analyticRealization` and its complex atlas; L6: the independent
-toric complex-point comparison. §2.4 owns the comparison with the supplied scheme analytification
-in lattice rank one, on the actual chart and face-localization maps.
-
-### From TauCetiRoadmap.SmoothBundlesConnections
-
-B3–B5: smooth connections, flat bundles, holonomy and monodromy, for the analytic side of the
-curve comparison in §2.4.
-
-### From TauCetiRoadmap.LieGroups
-
-Layer 0: the exponential map `lieExp` of a finite-dimensional real Lie group, with derivative the
-identity at `0` and its local-diffeomorphism property; Layer 6: maximal tori, the finite Weyl group
-`N_K(T)/T` of a compact connected group with its identification with `RootPairing.weylGroup`, and
-surjectivity of `lieExp` for compact connected groups; Layer 7: complexification of compact groups
-and the existence of a compact real form of a complex reductive Lie group, stated there as a
-milestone. §4.3 proves that `G(ℂ)` satisfies that milestone's hypotheses before consuming it, and
-owns every other analytic input it needs.
-
-### From TauCetiRoadmap.LieHighestWeight
-
-Layer 7: `lieInvariantSymmetricAlgebra`, `lieCartanRestriction`, `lieChevalleyRestrictionIso` with
-its restriction-map equation and `lieChevalleyRestrictionIso_mem_homogeneous_iff`, and
-`killingSymmetricEquiv_cartan_restriction`: the Chevalley restriction isomorphism
-`S(L)^L ≃ S(H)^W` for a finite-dimensional Killing-semisimple Lie algebra `L` with Cartan
-subalgebra `H` over an algebraically closed characteristic-zero field, with its passage to
-invariant polynomial functions `S(L*)`.
-
-### From TauCetiRoadmap.CharacteristicClasses
-
-C5.1: homogeneous compact Chevalley restriction `I(K) ≃ Sym(𝔱*)^W` for a compact connected Lie
-group `K`, with compact-group versus infinitesimal invariants and finite-degree real descent.
-Consumed only by the comparison target of §4.3, never by a proof route.
-
-### From TauCetiRoadmap.AffineMorseLefschetz
-
-A4: compatible triangulations of projective pairs and locally finite-polyhedral Borel–Moore
-homology, for the finite-stage affine Springer cycles of Layer 6.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-Layers 1 and 11: compatible-pair cohomology functoriality and the general cohomological-dimension
-definitions and vanishing criteria. Layer 6 transports Tau Ceti's `zHat` dimension theorems along
-its procyclic isomorphism.
-
-### From TauCetiRoadmap.RootSystems
-
-Finite root systems, bases, positive roots, the Weyl group and its reflection representation, for
-the affine root bounds and the dominant-chamber transport of Layer 3A.
-
-### From TauCetiRoadmap.KacMoody
-
-Layer 8 (KM8A), consumed only by §3A.4's comparison target. 8.1: for the pinned simply connected
-simple group `G_sc` of ReductiveGroups Layer 9, the groups `G_sc(ℂ[t, t⁻¹])` and `G_sc(ℂ[t])` of
-points of `G_sc` over these complex algebras (ReductiveGroups Layer 0), the root elements
-`x_α(u t^n)`, the evaluation `ev_0` and the Iwahori `I = ev_0⁻¹(B⁺(ℂ))`, with the affine
-positive-root bounds, the conjugation formula `t^μ x_α(u t^n) t^(−μ) = x_α(u t^(n + α(μ)))` for
-`μ ∈ Y`, the affine Bruhat decomposition `G_sc(ℂ[t, t⁻¹]) = ⊔_(w ∈ W_aff) I ẇ I` and the
-generation of `G_sc(ℂ[t])` by `I` and the finite negative simple root groups. 8.4: for a connected
-reductive target `G`, the map of polynomial loop groups induced through its derived central
-isogeny and central torus, and its component map to `Y/Q^∨`. What is assumed: the groups of 8.1
-are points of the same group scheme through the same Hopf/scheme-points dictionary as Layer 3A's
-native Hopf points, so that the comparison is the identity on points. The minimal derived affine
-group, its homomorphism to `G_sc(ℂ[t, t⁻¹])` and its central kernel (8.2–8.3) are KacMoody's and
-enter nothing here.
-
-## How to read the build
-
-Layer 1 builds the relative formal calculus, the `!` tensor completion, coordinate automorphisms
-and Tate modules with their descent. Layer 2 builds ordinary and formal connections, the symbols,
-Atiyah sequence and Lie–Rinehart enveloping algebra over ComplexComparisonPartII C5.1's
-differential operators and principal parts, and the fixed-model analytic comparison for smooth
-complex schemes with the regular horizontal trivialization. Layer 3 builds formal loop groups,
-their connections and the gauge groupoid with its fpqc stackification; Layer 3A builds polynomial
-loops, the polynomial/formal quotient comparison, normalizers, Iwahori subgroups, the loop
-Grassmannian and affine flag ind-schemes with the lattice form of ReductiveGroupsPartII's Cartan
-and Iwahori–Bruhat decompositions, and positive double cosets. Layer 4 builds intrinsic opers, the
-lower analytic dictionary of `G(ℂ)`, the
-Chevalley–Kostant adapter and the Drinfeld–Sokolov normal form. Layer 5 builds the coordinate
-action, oper function algebras and the scalar operator models. Layer 6 proves the cyclic-vector
-theorem and the Frenkel–Zhu oper-reduction theorem with its torsor-triviality,
-Kazhdan–Lusztig-cycle and deformed-Springer prerequisites.
-Layer 7 builds the Drinfeld–Sokolov Poisson structure, the continuous cotangent algebroid, the
-coisotropic regular locus and the Miura screening-kernel description with its completion. Layer 8
-builds the isomonodromy groupoid, differentiates it and exports the contracts consumed downstream.
-The order within Layers 3A, 4 and 6 is stated at the end of each.
 
 ## Layer 1: relative formal calculus and Tate modules (F1)
 
@@ -2808,6 +2395,436 @@ GeometricRepresentationCategories.
   later in the merge order, states it in §§RD.1.2–RD.1.7 for its `p`-adic differential fields and
   for `F((t))` and is to import §6.2; its formal normal forms, slopes and ramified descent over
   `F((t))` (§RD.6.52a) are its own.
+
+## Scope and ownership
+
+This roadmap owns the relative formal calculus over arbitrary coefficient algebras (Layer 1),
+the symbols, Atiyah sequences and Lie–Rinehart enveloping algebras of differential operators
+and the algebraic connection comparisons (Layer 2), the fixed-model manifold realization of
+smooth separated finite-type complex schemes with its tangent, toric, group and gauge comparisons
+(§2.4), formal and polynomial loop groups with their gauge groupoids, quotient prestacks, the
+polynomial/formal quotient comparison, the loop Grassmannian and affine flag ind-schemes and the
+lattice form of ReductiveGroupsPartII's loop decompositions (Layers 3 and 3A), intrinsic opers, the
+lower
+algebraic/analytic dictionary of `G(ℂ)`, the Chevalley–Kostant adapter and the Drinfeld–Sokolov
+normal form (Layer 4), oper coordinates and function algebras (Layer 5), the cyclic-vector
+theorem and the oper-reduction theorem over `ℂ((t))` with its proof lane (Layer 6), the
+Drinfeld–Sokolov Poisson structure and
+the Miura comparison (Layer 7), and the isomonodromy groupoid with its differentiation (Layer 8).
+The labels F1–F8 and F3A name the layers; consumers cite them by these labels. Every
+construction includes morphisms, extensionality, identity and composition, base change with its
+hypotheses, naturality, local restriction and explicit comparisons between its coordinate and
+intrinsic descriptions.
+
+- **CrystallineCohomology CR.1.3** owns the ordinary form connection over an arbitrary
+  commutative base ring: the additive Leibniz carrier, base linearity, tensor symmetry, extension,
+  curvature, horizontal morphisms, tensor, Hom/dual and base change. Layer 2 consumes it and owns
+  the form/vector-field comparison with its finite-projectivity hypotheses, scheme gluing,
+  continuous and formal extensions, symbols, Atiyah sequences, Lie–Rinehart PBW and
+  principal-group connections.
+- **ComplexComparisonPartII C−1.1, C0.3–C0.4, C5.1–C5.2** owns the scheme analytification
+  functor and its analytic ring sheaf, the identification of the underlying space of `X^an` with
+  `X(ℂ)` carrying ReductiveGroups 3A.5c's classical topology and, on `G(ℂ)`, of ReductiveGroups
+  3A.5d–3A.5e's charts with the smooth charts of `G^an`, open and closed subspaces, fibre
+  products, étale local isomorphisms and the separated/Hausdorff comparison, the coherent tensor
+  pullback and finite locally free bundle dictionary, the characteristic-free order predicate on
+  differential operators with its all-order modules of principal parts, universal jet, universal
+  bijection, composition maps and localization, and the analytic differential-operator and
+  connection dictionaries. §2.2 consumes C5.1's algebraic operator interface and builds symbols, the Atiyah
+  sequence and the Lie–Rinehart enveloping algebra on top of it. This roadmap takes the
+  analytification and all these comparisons from C−1.1 and builds on no second analytification.
+  It takes complex points, their classical topology and smooth charts from ReductiveGroups
+  3A.5b–3A.5e alone (see the ReductiveGroups bullet below), and their identification with the
+  underlying space and charts of C−1.1's analytification from C−1.1. §2.4 owns the fixed-model
+  realization on `X^an` of a separated smooth finite-type complex scheme of constant differential
+  dimension `d`: the atlas modelled on `Fin d → ℂ` obtained from ReductiveGroups 3A.5d's charts,
+  its maximal atlas and the coordinate formula of morphisms, the identification of its
+  holomorphic function sheaf with C−1.1's analytic ring sheaf, the product model, the tangent
+  isomorphism and the toric, group and gauge comparisons. A roadmap that needs this fixed-model
+  manifold structure takes it from §2.4.
+  No proper GAGA or global algebraization theorem is a prerequisite of any lane here.
+- **ComplexKahlerGeometry K1, K3.0, K4** owns joint holomorphic inverse and implicit maps,
+  regular-zero-set submanifolds, finite-dimensional Cauchy/analyticity, the holomorphic
+  section/reconstruction comparison, connection carriers, curve flatness and the flat
+  holomorphic/smooth/local-system equivalence, consuming ComplexManifolds Milestone 7's bundle
+  mixin and cocycle gluing. §2.4 owns only the fixed-model and gauge comparison applications.
+- **SmoothBundlesConnections B3–B5** owns smooth connections, flat bundles, holonomy and
+  monodromy. **LieGroupoidsPoisson** owns finite-dimensional smooth groupoids and Poisson
+  manifolds; this roadmap owns the algebraic Lie–Rinehart and ind-formal versions, in native
+  Lie–Rinehart vocabulary.
+- **ReductiveGroups Layers 0–9 and 6B** owns the Hopf/scheme/points dictionary, faithful closed
+  representations, algebraic tangent and adjoint action, subgroups, quotients and components,
+  tori and their lattices, solvable and unipotent groups, centres, derived groups, central
+  isogenies and the characteristic-zero reductivity theorem, Borel/torus conjugacy, Levi and
+  Bruhat structure, the classification of split reductive groups by root data, pinned Chevalley
+  groups over `ℤ`, and the complex reductive coset-affineness theorem. §4.3 owns the
+  ordered-root-product, complex-point generation and analytic matrix applications; §3A.5 owns
+  the loop-Grassmannian reduction-locus application of 6B. ReductiveGroups §3A.5 owns the complex
+  points of every locally finite-type `ℂ`-scheme with their classical topology, which is
+  Hausdorff for separated schemes and second countable for finite-type ones (3A.5b–3A.5c), the
+  complex charts of every smooth one, with holomorphic transitions and étale maps local
+  biholomorphisms (3A.5d), and the complex Lie-group structure on `G(ℂ)` for every affine
+  algebraic group `G` over `ℂ`, with the chart-at-the-identity identification of its Lie algebra
+  with its Layer 2 tangent Lie algebra (3A.5e). §2.4 takes the points, topology and charts from
+  3A.5b–3A.5d; §4.3 consumes 3A.5e and owns only the comparison of those charts on `G(ℂ)` with
+  §2.4's fixed-model atlas, the identification of 3A.5c's topology on `G(ℂ)` with the pinned
+  point topology of the native Hopf-point carrier `WithConv (H →ₐ[ℂ] ℂ)` and the transport of the
+  charts to that carrier, the Maurer–Cartan trivialization and rank, the comparison of §2.4's
+  germ tangent map with the counit derivations and their convolution bracket, the realification
+  comparison and the holomorphic exponential chart.
+- **ReductiveGroupsPartII RG2.1, RG2.3 and RG2.4** owns, for every field henselian for a nontrivial
+  discrete valuation of rank one with perfect residue field, hence for `ℂ((t))`, the affine Weyl
+  group with its Coxeter system and its description `W(Φ) ⋉ Q^∨` at a special point, the parahoric,
+  Iwahori and hyperspecial subgroups, the Iwahori–Weyl group `W̃ = N(K)/Z(K)_0` with
+  `W̃ = W_a ⋊ Ω`, the Iwahori–Bruhat decomposition and the Cartan decomposition at a special
+  point, for every connected reductive group over such a field. §§3A.3 and 3A.5 prove none of
+  these again. They own the polynomial normalizer quotient `N_G(T)(ℂ[t, t⁻¹])/T(ℂ[t]) ≃ Y ⋊ W`,
+  the identification of `W̃` with `Y ⋊ W` for split `G` over `ℂ((t))`, the identification of
+  `G(ℂ[[t]])` and `I_form(ℂ)` with the hyperspecial parahoric of the origin and the Iwahori of the
+  base alcove, and the transport of RG2.4's double-coset bijections to the lattice strata of the
+  loop Grassmannian and the affine flag variety.
+- **LieHighestWeight Layer 7** owns the Lie-algebra Chevalley restriction theorem over every
+  algebraically closed characteristic-zero field, with the `Int(L)·H` density argument and the
+  homogeneous-degree compatibility. §4.3 imports it and owns only the adapters: group invariants
+  equal Lie-algebra invariants for connected groups in characteristic zero, the central-direction
+  splitting for reductive `𝔤`, the rational descent of the pinned Chevalley model and the
+  comparison with CharacteristicClasses C5.1's compact restriction through a compact real form.
+  This roadmap proves no second restriction theorem.
+- **CharacteristicClasses C5.1** owns the compact-group Chevalley restriction `I(G) ≃ Sym(𝔱*)^W`.
+  §4.3's compact-form comparison identifies it with the algebraic restriction; it is a comparison
+  target consumed by NilpotentOrbits, not an input to any theorem here.
+- **LieGroups Layers 0, 6 and 7** owns the real Lie-group exponential map, maximal tori and the
+  Weyl group of compact connected groups with the surjectivity of `lieExp`, and the complexification
+  of compact groups with the existence of a compact real form of a complex reductive Lie group
+  as a milestone. §4.3 owns the holomorphic exponential chart of `G(ℂ)`, the comparison of the
+  complex Lie algebra with its realification and the identification of a compact maximal torus
+  with an algebraic torus: these are targets here, with their hypotheses, not inputs.
+- **FormalLaurentPuiseux L1–L3, L7** owns field-valued formal substitutions, the Laurent
+  derivation, residue, continuous differentials and the procyclic absolute Galois group of
+  `ℂ((t))`. Layer 1 constructs the relative `R`-algebra extensions; it does not infer them from
+  field statements.
+- **§6.2** owns the cyclic-vector theorem for finite-dimensional differential modules over a
+  differential field of characteristic zero with nonzero derivation, since no roadmap earlier in
+  the merge order states it, together with the `GL_n` flag/oper equivalence and the oper lattice
+  estimates. The finite-ramification formal normal forms, slopes and ramified descent of
+  differential modules over `F((t))` are PadicDifferentialEquationsAndRigidCohomology's
+  (§RD.6.52a) and are not used here: the oper-reduction argument of §6.4 takes the leading
+  coefficient of a connection at an order below its pole order, where it is zero.
+- **SchemeAndStackFoundations §§1.1, 1.14–1.18** owns ordinary quasi-coherent fpqc module
+  descent with its morphisms and coherence, groupoids, sheaf torsors, stackification and 2-fibre
+  products. Layers 1–3 construct the completed Tate, loop and ind-formal extensions and the
+  connection descent, which finite-presentation algebraic-stack theorems alone do not supply.
+- **AffineLieAlgebras** owns the completed universal enveloping algebra, the completed centre and
+  the Feigin–Frenkel isomorphism, including the comparison of its mode completion with §7.5's
+  completion of the classical screening-kernel algebra. This roadmap consumes nothing from it:
+  §7.5 constructs its completion explicitly, and Layer 7 is built independently of any
+  quantum-centre theorem so that the two roadmaps have no dependency cycle.
+- **KacMoody Layer 8 (KM8A)** owns, on complex points of the pinned simply connected simple group
+  `G_sc` of ReductiveGroups Layer 9, the root-element generation of `G_sc(ℂ[t, t⁻¹])`, its affine
+  Bruhat decomposition, the affine positive-root bounds and conjugation formula for the Iwahori
+  `I = ev₀⁻¹(B⁺(ℂ))` and the generation of `G_sc(ℂ[t])` by `I` and the finite negative simple root
+  groups (8.1), and the homomorphism from the untwisted minimal derived affine group, its central
+  kernel and the Iwahori, parabolic and global-form maps (8.2–8.4). It is earlier in the merge
+  order and consumes nothing here. §3A.4 states the root bounds and conjugation formula over every
+  coefficient algebra `R` and the generation of `G(ℂ[t])` for every connected reductive `G`, which
+  KacMoody 8.1 does not, and owns the identification of Layer 3A's functors at `R = ℂ` with
+  KacMoody 8.1's complex-point groups and of §3A.3's component map with KacMoody 8.4's.
+- **GeometricRepresentationCategories R3–R5** consumes the exported contracts of §8.4; its
+  categorical-lift conjectures are stated there, not here.
+- General root classification, highest-weight representation theory, PBW and universal
+  enveloping algebras stay with RootSystems, LieHighestWeight and their existing owners.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Derivation`, `KaehlerDifferential`, `LieRinehartRing`, `LieRinehartAlgebra` with their `Hom`
+  and `anchor`: derivations, Kähler differentials and Lie–Rinehart algebras in
+  `Mathlib/Algebra/LieRinehartAlgebra/Defs.lean`. The Kähler carrier is algebraic; Layer 1 builds
+  the continuous one.
+- `Differential` (`Mathlib/RingTheory/Derivation/DifferentialRing.lean`): a commutative ring with
+  a chosen derivation `Derivation ℤ R R`, written `f ↦ f′`; on a field it is the differential-field
+  carrier of §6.2. `Module.finrank`, `LinearIndependent` and `Nat.iterate` state the cyclic-vector
+  theorem.
+- `LaurentSeries`, `PowerSeries`, `PowerSeries.derivative`, `HahnModule`, `HahnSeries.single`,
+  `HahnSeries.ofPowerSeriesAlg` and `LaurentPolynomial.eval₂`: the coefficient rings of Layers 1
+  and 3A. Under the pinned instances, `Algebra ℚ (LaurentSeries ℚ)` is found as
+  `HahnSeries.powerSeriesAlgebra` (`Mathlib/RingTheory/HahnSeries/PowerSeries.lean`), which routes
+  through `R[[t]]`; `Suggested.lean` selects the coefficientwise `HahnSeries.instAlgebra` by the
+  local instance `laurentSeriesCoefficientAlgebra` so that its coefficient maps are algebra maps
+  for one fixed structure. The two are propositionally, not definitionally, equal.
+- `ModuleCat`, `AlgebraicGeometry.Scheme.PresheafOfModules`, `CategoryTheory.Grpd`,
+  `CategoryTheory.Pseudofunctor.IsPrestack`, native sites and descent: the categorical carriers
+  of the sheaf and prestack constructions of Layers 2–3.
+- `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `Matrix.linftyOpNormedRing`,
+  `Matrix.linftyOpNormedAlgebra`: matrix groups, their coefficient maps and the real normed-algebra
+  structure on matrices used in §2.4 and Layer 6.
+- `GroupLieAlgebra`, `LeftInvariantDerivation`, `mlieBracket` (in
+  `Mathlib/Geometry/Manifold/VectorField/`): the analytic Lie algebra of a Lie group and its
+  bracket, used in §4.3. `LeftInvariantDerivation` is a real notion with finite-dimensional, smooth
+  and identity-interior hypotheses; §4.3 applies it only to the realification.
+- `RootPairing.flip`, `RootPairing.Base.flip`: duality of root pairings, for the dual group of
+  §4.4 through ReductiveGroupsPartII.
+- `Algebra.Smooth.exists_span_eq_top_isStandardSmooth`,
+  `Algebra.IsSmoothAt.exists_isStandardEtale_mvPolynomial`: standard-smooth and standard-étale
+  presentations with their finite-presentation and smoothness hypotheses, for the charts of §2.4.
+- `AlgebraicGeometry.Spec.homEquivAlgHom` (`Mathlib/AlgebraicGeometry/GammaSpecAdjunction.lean`) and
+  `AlgebraicGeometry.Spec.map_comp`: the bijection between morphisms `Spec B → Spec A` over
+  `Spec k` and algebra maps `A →ₐ[k] B`, and functoriality of `Spec`, for the affine point
+  dictionary of §§2.4 and 4.3.
+- `MvPolynomial.eq_vanishingIdeal_singleton_of_isMaximal`,
+  `MvPolynomial.isMaximal_iff_eq_vanishingIdeal_singleton`,
+  `MvPolynomial.vanishingIdeal_zeroLocus_eq_radical`: the weak and strong Nullstellensatz over
+  `ℂ`, for the complex-point statements of §2.4. The strong form needs the reduced hypothesis.
+- `IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one`,
+  `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`, `nhds_basis_isClopen` (for a
+  `ZeroDimensionalSpace`, which a profinite group is): open subgroups inside clopen neighbourhoods
+  of `1`, for the finite-monodromy classification of Layer 6.
+
+### From Tau Ceti
+
+- `TauCeti.HopfAlgebra.pointsFunctor` and `TauCeti.HopfAlgebra.points` with the point carrier
+  `WithConv (H →ₐ[k] R)` in `TauCeti/Algebra/AlgebraicGroup/PointsFunctor.lean`,
+  `AlgHom.mapValue` in `TauCeti/Algebra/AlgebraicGroup/FunctorOfPoints.lean`,
+  `TauCeti.FiniteTypeCommHopfAlgCat` in `TauCeti/Algebra/AlgebraicGroup/FiniteType/CommHopfAlgCat.lean`
+  and `TauCeti.reductiveCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`:
+  Hopf points with their convolution group law and post-composition maps; reductivity means
+  smooth, geometrically connected, with no nontrivial connected normal smooth unipotent subgroup
+  over the algebraic closure, so the hypothesis of `formalLoop_eq_polynomial_mul_positive` is
+  "connected reductive".
+- Counit-valued derivations `Derivation k H (TauCeti.Bialgebra.CounitAlgebra k H k)` and their
+  convolution Lie bracket in `TauCeti.Algebra.AlgebraicGroup.Tangent.Lie.Basic`: the algebraic Lie
+  algebra of §3.1 and §4.3. Algebraic-group base change and the native `ProjectiveGeneralLinear`
+  group scheme.
+- `TauCeti.smoothCommHopfAlgProperty_of_charZero` and
+  `TauCeti.HopfAlgebra.finrank_lie_eq_ringKrullDim_of_charZero` in
+  `TauCeti/Algebra/AlgebraicGroup/Smooth/CharZero.lean`: Cartier's theorem that a finite-type
+  commutative Hopf algebra over a field of characteristic zero is smooth, and the equality of the
+  dimension of its counit derivations with its Krull dimension, for §4.3's lower dictionary.
+- `TauCeti.PointTopology.instTopologicalSpaceWithConv` and
+  `TauCeti.PointTopology.isHomeomorph_ofConv` in `TauCeti/Topology/Algebra/PointTopology/Basic.lean`:
+  the global point topology on `WithConv (A →ₐ[k] R)`, induced along `WithConv.ofConv` from the
+  coordinate-evaluation topology `TauCeti.PointTopology.topology`, with `WithConv.ofConv` a
+  homeomorphism; `TauCeti.PointTopology.isClosedEmbedding_eval_generators` there: for a T1
+  topological coefficient ring, evaluation at a generating family is a closed embedding onto the
+  common zero locus of the relations; the global instances `TauCeti.PointTopology.isTopologicalGroup`
+  (`.../PointTopology/Group.lean`, for a topological coefficient semiring),
+  `TauCeti.PointTopology.instT2SpaceWithConv`,
+  `TauCeti.PointTopology.instSecondCountableTopologyWithConv` and
+  `TauCeti.PointTopology.instLocallyCompactSpaceWithConv` (`.../PointTopology/Separation.lean`, the
+  last two for finite-type `A`); and `TauCeti.SchemePointTopology.affineHomeomorph`
+  (`.../PointTopology/Scheme.lean`), the homeomorphism from `A →ₐ[k] R` with the evaluation
+  topology onto the `R`-points of `Spec A` with the chart topology, whose underlying equivalence
+  is Mathlib's `AlgebraicGeometry.Spec.homEquivAlgHom`. These instances are global, so the native
+  carrier `G(ℂ)` has exactly one topology; §4.3 identifies it with ReductiveGroups 3A.5c's and
+  puts no second topology on it.
+- `TauCeti.chartedSpaceOfIsOpenEmbedding`, `TauCeti.isManifold_chartedSpaceOfIsOpenEmbedding` and
+  `TauCeti.maximalAtlas_chartedSpaceOfIsOpenEmbedding_eq` in
+  `TauCeti/Geometry/Manifold/Gluing/Basic.lean`: the manifold structure glued from open embeddings
+  of open subsets of the model along `C^n` local deck maps, and its uniqueness: every `C^n`
+  manifold structure in which all the embeddings are local diffeomorphisms has the same maximal
+  atlas. Applied to ReductiveGroups 3A.5d's charts on the fixed model (§2.4 and its §4.3 group
+  application).
+- `ContinuousMonoidHom.exists_mem_nhds_one_forall_le_ker` in
+  `TauCeti/Analysis/Normed/Algebra/NoSmallSubgroups.lean`: a neighbourhood of `1` in a normed
+  algebra's unit group containing no nontrivial subgroup, for Layer 6.
+- `TauCeti.zHat`, `TauCeti.zHat.gen`, `TauCeti.zHat.hom_ext`, `TauCeti.zHat.lift`,
+  `TauCeti.zHat.lift_gen`, `TauCeti.zHat.lift_unique`, `TauCeti.zHat.liftEquiv` in
+  `TauCeti/Topology/Algebra/Group/Profinite/ZHat/Basic.lean`, and
+  `TauCeti.zHat.cohomologicalDimensionAt_le_one` (for `p ≠ 0`),
+  `TauCeti.zHat.cohomologicalDimensionAt_eq_one` (for prime `p`) and
+  `TauCeti.zHat.cohomologicalDimension_eq_one` in
+  `TauCeti/Topology/Algebra/Group/Profinite/ZHat/CohomologicalDimension.lean`: the procyclic group
+  with its universal property and cohomological dimension, for Layer 6, with the nonzero/prime
+  hypotheses retained.
+- `TauCeti.Toric.regularAffinePointHomeomorph` in `TauCeti/Geometry/Toric/Analytic/RegularChart.lean`:
+  for a regular affine semigroup with generating family, the homeomorphism from its complex
+  points, with the affine point topology, onto `(ι → ℂ) × (κ → ℂˣ)`; and `coneChartEquiv`. Used by
+  the rank-one toric comparison of §2.4.
+
+### From TauCetiRoadmap.FormalLaurentPuiseux
+
+L1 supplies field-valued formal substitutions with `σ_φ∘σ_ψ = σ_(ψ∘φ)` and the coefficient
+tower; L2 the Laurent derivation and continuous one-forms; L3 the residue; L7 the continuous
+profinite identification of the absolute Galois group of `ℂ((t))` with `TauCeti.zHat`. Layer 1 extends L1–L3 to arbitrary coefficient algebras `R` by construction.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layers 0–9: the Hopf/scheme/points dictionary; Layer 1's faithful closed algebraic representation
+`G → GL(V)` with coordinate algebra generated by matrix coefficients and `det(V)⁻¹`; Layer 2's
+algebraic tangent and adjoint action; Layer 3's subgroup, quotient and component constructions and
+Layer 3A's characteristic-zero Cartier smoothness comparison; Layer 4's torus character and
+cocharacter lattices; Layer 5's solvable groups and unipotent radicals; Layer 6's centres, derived
+groups, central isogenies, simply connected and adjoint forms and the characteristic-zero
+reductive ⇔ linearly reductive theorem; Layer 7's maximal-torus/Borel conjugacy, Levi and Bruhat
+structure; Layer 8's classification of split reductive groups by root data; Layer 9's pinned
+Chevalley groups and root maps over `ℤ`; Layer 6B's complex reductive coset affineness, with its
+fpqc quotient and invariant-ring identification, applied to `GL_n/G`.
+
+§3A.5, cited by item. 3A.5b–3A.5c: the complex points `X(ℂ)` of a locally finite-type
+`ℂ`-scheme with their classical topology, the pinned chart topology
+`TauCeti.SchemePointTopology.topology`, which on `Spec A` is the evaluation topology on
+`A →ₐ[ℂ] ℂ` through `TauCeti.SchemePointTopology.affineHomeomorph`, hence on a finite affine
+presentation the zero-locus subspace topology in `ℂ^n`, and which is glued along affine opens,
+with open embeddings for open immersions, Hausdorff points for separated `X` and second-countable
+points for `X` of finite type. 3A.5d: the complex charts of a smooth `ℂ`-scheme, built from local
+standard-smooth presentations, each the restriction of an étale coordinate map `U → 𝔸^d`, on a
+Zariski open `U`, to an open set of `U(ℂ)` on which it is injective, a homeomorphism onto an open
+subset of `ℂ^d`, with holomorphic transitions, holomorphic scheme maps between smooth schemes and
+étale maps local biholomorphisms. 3A.5e: the complex Lie-group structure on `G(ℂ)` for an affine
+algebraic group `G` over `ℂ`, with multiplication, unit and inverse holomorphic because they are
+induced by scheme maps, and the chart-at-the-identity identification of its Lie algebra with
+Layer 2's tangent Lie algebra. §§2.4 and 4.3 use of the topology and the charts only these
+descriptions, and take them from no other roadmap.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.5.1: the dual pinned group from `RootPairing.flip` and `RootPairing.Base.flip`. This is the
+ordinary dual algebraic group, not a Weil semidirect product; no arithmetic normalization is
+consumed.
+
+RG2.1 *affine-weyl-group*, RG2.3 *parahoric-subgroup* and *hyperspecial-vertices*, RG2.4.1
+*iwahori-weyl-group*, RG2.4.2 *iwahori-bruhat-decomposition* and RG2.4.4 *cartan-decomposition*,
+at the single instance `K = ℂ((t))` (complete for the `t`-adic valuation, of rank one, with perfect
+residue field `ℂ`, so a field of RG2's Conventions), `G` a connected reductive group split over `ℂ`
+with the split maximal torus `T` of ReductiveGroups Layers 8–9 as its maximal split torus, so that
+`Z = T`, `Z(K)_0 = T(ℂ[[t]])` and `Z(K)/Z(K)_0 ≃ Y` (RG2.4.1's Check `splitTorus`). What is
+assumed of them: `(W_a, S_aff)` is a Coxeter system with `W_a = W ⋉ Q^∨` at the special origin;
+the Iwahori–Weyl group `W̃ = N_G(T)(ℂ((t)))/T(ℂ[[t]])` is `W_a ⋊ Ω` with `Ω` the stabilizer of
+the base alcove; `w ↦ I w I` is a bijection from `W̃` to the `I`-double cosets for the Iwahori
+`I` of the base alcove; and at the special origin, with `K₀` its parahoric, `n ↦ K₀ n K₀` induces
+a bijection `W \ W̃ / W ≃ K₀ \ G(ℂ((t))) / K₀`. These are stated there for every such field with no
+finiteness of the residue field, as RG2.4's Check `glDecompositions_infinite_residue` records for
+`ℂ((t))`; the compactness and cardinality clauses of RG2.4, which need a finite residue field, are
+not consumed. §3A.3 identifies `W̃` with `Y ⋊ W`, §3A.5 identifies `I_form(ℂ)` and `G(ℂ[[t]])`
+with RG2.3's Iwahori and hyperspecial parahoric and transports the bijections to lattice strata.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+§§1.1, 1.14–1.18: ordinary quasi-coherent fpqc module descent with morphisms and coherence,
+groupoids, sheaf torsors, stackification and 2-fibre products, and the early fpqc torsor/descent
+interfaces used by the torsor lane of §3A.2.
+
+### From TauCetiRoadmap.CrystallineCohomology
+
+CR.1.3: the ordinary connection carrier over arbitrary commutative base rings, an additive map
+`M → M ⊗_A Ω¹_(A/k)` with the Leibniz identity, its base linearity and tensor-symmetry adapters,
+extension, curvature, horizontal morphisms, tensor, Hom/dual (when the first module is finite
+projective) and base change. Its statements are cited by section; they are prose contracts.
+
+### From TauCetiRoadmap.AlgebraicVectorBundles
+
+Finite locally free sheaves, transition maps and pullback. Layer 2 owns differential operators,
+algebraic connections and their gluing.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+K1: the manifold holomorphic inverse theorem, for §4.3's holomorphic exponential chart (the
+complex charts of §2.4 are ReductiveGroups 3A.5d's and use no implicit-map theorem here); K3.0:
+finite-dimensional Cauchy and analyticity; K4: holomorphic section/reconstruction comparison,
+connection carriers, curve flatness and the flat holomorphic/smooth/local-system equivalence.
+
+### From TauCetiRoadmap.ComplexComparisonPartII
+
+C−1.1: the single scheme analytification functor `complexSchemeAnalytification` with its analytic
+ring sheaf and comparison morphism `φ_X`, the identification of the underlying topological space
+of `X^an` with `X(ℂ)` carrying ReductiveGroups 3A.5c's classical topology (on an affine chart the
+zero-locus subspace topology in `ℂ^n`, glued along algebraic opens), so that the identity of
+`X(ℂ)` is a homeomorphism; for a smooth affine group `G` of finite type over `ℂ`, the
+identification by the identity of `G(ℂ)` of ReductiveGroups 3A.5d–3A.5e's charts with the smooth
+charts of `G^an`; its open-restriction and closed-immersion comparisons, fibre-product comparison, étale
+local-isomorphism comparison and separated/Hausdorff comparison; C0.3's `holomorphicBundleDictionary`;
+C0.4's coherent tensor pullback; C5.1's algebraic interface `IsDifferentialOperator` (order at
+most `m` by iterated commutators with multiplication, for arbitrary commutative `k`, commutative
+`k`-algebras `A` and arbitrary `A`-modules, with no characteristic, smoothness or projectivity
+hypothesis), its additivity, monotonicity, common-order sum and composition-order laws, its
+all-order modules of principal parts `P^m_(A/k)(M) = ((A ⊗_k A)/I^(m+1)) ⊗_(A,right) M` with
+`I = ker(A ⊗_k A → A)`, the left `A`-action and the universal jet `s ↦ 1 ⊗ s`, the natural
+bijection between `A`-linear maps `P^m(M) → N` and operators of order at most `m`, the
+order-transition quotients and composition maps `P^(m+n)(M) → P^m(P^n(M))` with their unit,
+associativity and order-transition laws, localization and the sheafified universal property on
+schemes, and its analytic adapter `DifferentialOperatorAnalytification`; C5.2's
+`holomorphicConnectionDictionary`. The stage order is C5.1's algebraic interface, then §2.2's
+symbols, Atiyah sequence and Lie–Rinehart enveloping algebra, then C5.1's analytic adapter, then
+§2.4. The section-level comparisons of C−1.1 are cited by their subject, as C−1.1 states them in
+prose. The complex points, their classical topology and smooth charts themselves are
+ReductiveGroups 3A.5b–3A.5e's; C−1.1 supplies their identification with the underlying space and
+charts of the analytification, and no section of this roadmap proves that identification again.
+
+### From TauCetiRoadmap.ComplexManifolds
+
+Milestone 1: complex-to-real restriction of scalars and model/carrier atlas transport; Milestone 2:
+canonical-real-orientation compatibility; Milestone 7: holomorphic-transition mixin and cocycle
+gluing on native finite-rank vector bundles.
+
+### From TauCetiRoadmap.AnalyticToricGeometry
+
+L2: `AffineSemigroupComplexPoint`, `affinePointTopology` and `coneChartedSpace`; L3G and L3: the
+finite-fan regular realization `Fan.analyticRealization` and its complex atlas; L6: the independent
+toric complex-point comparison. §2.4 owns the comparison with the supplied scheme analytification
+in lattice rank one, on the actual chart and face-localization maps.
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+B3–B5: smooth connections, flat bundles, holonomy and monodromy, for the analytic side of the
+curve comparison in §2.4.
+
+### From TauCetiRoadmap.LieGroups
+
+Layer 0: the exponential map `lieExp` of a finite-dimensional real Lie group, with derivative the
+identity at `0` and its local-diffeomorphism property; Layer 6: maximal tori, the finite Weyl group
+`N_K(T)/T` of a compact connected group with its identification with `RootPairing.weylGroup`, and
+surjectivity of `lieExp` for compact connected groups; Layer 7: complexification of compact groups
+and the existence of a compact real form of a complex reductive Lie group, stated there as a
+milestone. §4.3 proves that `G(ℂ)` satisfies that milestone's hypotheses before consuming it, and
+owns every other analytic input it needs.
+
+### From TauCetiRoadmap.LieHighestWeight
+
+Layer 7: `lieInvariantSymmetricAlgebra`, `lieCartanRestriction`, `lieChevalleyRestrictionIso` with
+its restriction-map equation and `lieChevalleyRestrictionIso_mem_homogeneous_iff`, and
+`killingSymmetricEquiv_cartan_restriction`: the Chevalley restriction isomorphism
+`S(L)^L ≃ S(H)^W` for a finite-dimensional Killing-semisimple Lie algebra `L` with Cartan
+subalgebra `H` over an algebraically closed characteristic-zero field, with its passage to
+invariant polynomial functions `S(L*)`.
+
+### From TauCetiRoadmap.CharacteristicClasses
+
+C5.1: homogeneous compact Chevalley restriction `I(K) ≃ Sym(𝔱*)^W` for a compact connected Lie
+group `K`, with compact-group versus infinitesimal invariants and finite-degree real descent.
+Consumed only by the comparison target of §4.3, never by a proof route.
+
+### From TauCetiRoadmap.AffineMorseLefschetz
+
+A4: compatible triangulations of projective pairs and locally finite-polyhedral Borel–Moore
+homology, for the finite-stage affine Springer cycles of Layer 6.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+Layers 1 and 11: compatible-pair cohomology functoriality and the general cohomological-dimension
+definitions and vanishing criteria. Layer 6 transports Tau Ceti's `zHat` dimension theorems along
+its procyclic isomorphism.
+
+### From TauCetiRoadmap.RootSystems
+
+Finite root systems, bases, positive roots, the Weyl group and its reflection representation, for
+the affine root bounds and the dominant-chamber transport of Layer 3A.
+
+### From TauCetiRoadmap.KacMoody
+
+Layer 8 (KM8A), consumed only by §3A.4's comparison target. 8.1: for the pinned simply connected
+simple group `G_sc` of ReductiveGroups Layer 9, the groups `G_sc(ℂ[t, t⁻¹])` and `G_sc(ℂ[t])` of
+points of `G_sc` over these complex algebras (ReductiveGroups Layer 0), the root elements
+`x_α(u t^n)`, the evaluation `ev_0` and the Iwahori `I = ev_0⁻¹(B⁺(ℂ))`, with the affine
+positive-root bounds, the conjugation formula `t^μ x_α(u t^n) t^(−μ) = x_α(u t^(n + α(μ)))` for
+`μ ∈ Y`, the affine Bruhat decomposition `G_sc(ℂ[t, t⁻¹]) = ⊔_(w ∈ W_aff) I ẇ I` and the
+generation of `G_sc(ℂ[t])` by `I` and the finite negative simple root groups. 8.4: for a connected
+reductive target `G`, the map of polynomial loop groups induced through its derived central
+isogeny and central torus, and its component map to `Y/Q^∨`. What is assumed: the groups of 8.1
+are points of the same group scheme through the same Hopf/scheme-points dictionary as Layer 3A's
+native Hopf points, so that the comparison is the identity on points. The minimal derived affine
+group, its homomorphism to `G_sc(ℂ[t, t⁻¹])` and its central kernel (8.2–8.3) are KacMoody's and
+enter nothing here.
 
 ## References
 

@@ -1,40 +1,76 @@
 # Roadmap: Toeplitz operators, symbols and finite sections
 
-**Summary.** Develop the scalar and finite-matrix Hardy-space models of Toeplitz
-operators from circle Fourier analysis, bounded multiplication and orthogonal
-projection. Build their symbol isometry, Brown–Halmos characterization, Hankel
-product calculus, Fredholm and winding-number theory, and finite-section algebra,
-ending with the two-limit stability criterion and strong inverse convergence with
-quantitative solution error. The roadmap is this README; Suggested.lean states its
-headline acceptance theorems on the pinned carriers.
+**Summary.** A Toeplitz matrix is an infinite matrix whose entry (i, j) depends
+only on i − j. Let H² be the space of square-integrable functions on the circle
+whose Fourier coefficients of negative index vanish. For an essentially bounded
+function a on the circle, called the symbol, the Toeplitz operator Tₐ multiplies
+by a and projects back onto H². Its matrix entry (i, j) is the Fourier
+coefficient â(i − j). The roadmap asks how the symbol governs the operator, and
+when solutions of finite truncations of a linear system converge to the true
+solution. All operator spaces are complex Hilbert spaces, and symbols are
+almost-everywhere classes.
 
-## Scope and ownership
+H² is identified isometrically with the Hardy space of holomorphic functions on
+the unit disk whose squared modulus has a harmonic majorant. Through this
+model, a nonzero element of H² is shown to be nonzero almost everywhere. The
+Hankel operator Hₐ keeps the part of the product that the projection discards;
+both are also built for matrix symbols.
 
-This is the Hardy-space and finite-section part of OperatorTheory. It owns the
-unit-disk harmonic-majorant comparison, scalar and finite-block Toeplitz/Hankel
-operators, their symbol comparisons, the determinant index formula and the
-finite-section stability theory. It extends the existing finite-section target
-by its ambient-invertibility and inverse-convergence consequences.
+The symbol map a ↦ Tₐ is an isometry: the norm of Tₐ is the essential supremum
+of |a|. By the Brown–Halmos theorem, a bounded operator T on H² satisfies
+S†TS = T, where S = T_z is the forward shift, exactly when T = Tₐ for a unique
+essentially bounded a. Products obey `T_a T_b − T_(ab) = −(H_ā)† H_b`, and this
+defect is compact when a and b are continuous.
 
-[CStarAlgebras C8](../../CStarAlgebras/README.md#c8-quasidiagonality-and-representation-approximation)
-owns the unilateral-shift algebra and its scalar exact sequence. Its
-[C1](../../CStarAlgebras/README.md#c1-ideals-hereditary-subalgebras-and-multipliers)
-and [C5](../../CStarAlgebras/README.md#c5-c-tensor-products-and-operator-space-tensor-products)
-own quotient C*-algebras, spectral permanence and bounded-product/norm-null
-quotients. [OperatorKTheory K4](../../OperatorKTheory/README.md#k4-fredholm-indices-and-extensions)
-owns the Calkin/Atkinson comparison and index boundary comparison;
-[BanachSpaceTheory B5](../../BanachSpaceTheory/README.md#b5-function-spaces-and-weak-compactness)
-owns the scalar L∞ C*-algebra structure. These constructions are imported, not
-repeated. The finite-block and Hardy-model transports here are their specified
-variants. The binary Fredholm-product theorem is already in Tau Ceti; §3.4 adds
-finite Hilbert-product transport and its converse. Circle degree, compact
-perturbation and native Fourier/projection theory are also library inputs.
+For continuous a, Tₐ is Fredholm exactly when a has no zero on the circle, and
+its index is then minus the counterclockwise winding number of a around 0. By
+Coburn's alternative, Tₐ or its adjoint is injective whenever a is nonzero in
+L∞, even if a vanishes on a set of positive measure. Hence, for continuous a, Tₐ
+is invertible exactly when a is nowhere zero with winding number 0. For a
+continuous matrix symbol the block operator is Fredholm exactly when
+the symbol is invertible at every point, with index minus the winding number of
+the determinant. Index 0 no longer forces invertibility: diag(z, z⁻¹) gives
+S ⊕ S†, of index 0 but not invertible.
 
-The analytic Hardy model follows the
-[Hardy-space design discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Hardy%20Spaces/near/588721731):
-build the unit-disk p=2 harmonic-majorant model and its boundary comparison in
-Tau Ceti, adopting a matching Mathlib carrier when available. General Hardy spaces
-on arbitrary domains are outside this roadmap.
+The second half concerns finite sections. The nth section of a bounded operator
+T on ℓ² is the matrix Aₙ of its first n + 1 rows and columns. The sections are
+stable if, from some N on, they are invertible with inverse norms at most some
+C > 0. Stability makes T invertible with ‖T⁻¹‖ ≤ C, and the inverses of
+the sections, extended by zero, converge strongly to T⁻¹. For n ≥ N, the
+zero-extended truncated solutions xₙ of Tx = b obey
+`‖x_n − T⁻¹b‖ ≤ (1 + C‖T‖) ‖(1 − P_n) T⁻¹b‖`, where Pₙ projects onto the first
+n + 1 coordinates. Invertibility of T alone does not give stability: the unitary
+swapping successive pairs of coordinates has singular sections of odd size.
+
+For Toeplitz matrices, the sections of Tₐ with a continuous and the sequences
+tending to zero in norm generate a closed algebra. Its members have
+the form `A_n = P_n (T_a + K) P_n + W_n L W_n + G_n`, with K and L compact, Gₙ
+tending to zero in norm, and Wₙ reversing the first n + 1 coordinates. Such a
+sequence is stable exactly when its strong limit `T_a + K` and the strong limit
+`T_ã + L` of its reversal, with ã(t) = a(−t), are both invertible. In
+particular, the sections of Tₐ are stable exactly when Tₐ is invertible. The
+criterion is also proved for continuous matrix symbols.
+
+This is the Hardy-space and finite-section part of OperatorTheory, which uses
+it. The CStarAlgebras roadmap provides the quotients used for stability and the
+C*-algebra of the shift, whose quotient by the compact operators is the algebra
+of continuous functions on the circle. OperatorKTheory provides the Calkin
+algebra and uses the Hardy projection and the index sign.
+
+Layers 1 to 3 build the Hardy space, the operators and their Fredholm theory.
+Layer 4 treats the sections of arbitrary bounded operators, Layer 5 those of
+Toeplitz matrices, and Layer 6 works examples. Suggested.lean states in Lean
+those headline theorems whose objects can already be defined there.
+
+## How to read the build
+
+Layer 1 constructs the Hardy model, Layer 2 its scalar and block operator
+calculus, and Layer 3 its symbol and Fredholm comparisons. Layer 4 first proves
+stability in bounded-product quotients, then the strong inverse theorems for
+coordinate compressions. Layer 5 builds the finite-section algebra before using
+its compatible-pair quotient to detect stability. Layer 6 supplies worked
+examples. Each construction includes its element-level equations and usable
+API; only the headline signatures and their simple definitions appear in Lean.
 
 ## Conventions
 
@@ -59,89 +95,6 @@ integral is (2πi)⁻¹∫γ′/γ, and is used only when γ avoids zero and is 
 - For a=2+3z, the entries (0,0),(1,0),(0,1) are 2,3,0; reflection gives 2,0,3.
 - Haar mass one gives ‖e₀‖²=‖e₁‖²=1 and ⟨e₀,e₁⟩=0; mass 2π gives the wrong norm.
 - The loops 2z and 2z⁻¹ have degrees 1 and −1 and Toeplitz indices −1 and 1.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `fourier`, `fourierCoeff`, `fourierBasis` and `span_fourierLp_closure_eq_top`
-  in `Mathlib/Analysis/Fourier/AddCircle.lean` supply normalized circle Fourier
-  analysis and density for 1≤p<∞. The Hardy nonnegative-mode comparison is §1.1.
-- `Submodule.orthogonalProjectionOnto` in
-  `Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean` supplies projection
-  to a closed submodule, with that submodule as codomain.
-- `ContinuousLinearMap.holderL` in `Mathlib/MeasureTheory/Function/Holder.lean`
-  supplies heterogeneous Lp multiplication. In particular the native Hölder
-  scalar action at ∞,∞,∞ represents the product of two scalar symbols.
-  `ContinuousMap.toLp` in `Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`
-  embeds continuous symbols; native `Lp` star supplies pointwise conjugation.
-- `lp.evalCLM` in `Mathlib/Analysis/Normed/Lp/lpSpace.lean` and
-  `PiLp.continuousLinearEquiv` in `Mathlib/Analysis/Normed/Lp/PiLp.lean`
-  construct coordinate cutoffs. `lp.inftyCStarRing` supplies the C*-norm on
-  bounded products of operator algebras.
-- `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.isFredholm_iff_exists_isQuasiInverse`
-  and `ContinuousLinearMap.IsFredholm.index_comp` in
-  `Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean`, and
-  `ContinuousLinearMap.index_continuousOn_isFredholm` in its `Open.lean`, supply finite-rank
-  parametrices, composition and index continuity on the Fredholm locus.
-- `DiffContOnCl.circleAverage_poissonKernel_smul`,
-  `InnerProductSpace.HarmonicOnNhd.circleAverage_poissonKernel_smul`,
-  `InnerProductSpace.HarmonicOnNhd.circleAverage_eq` and
-  `AnalyticOnNhd.circleAverage_log_norm`, in `Mathlib/Analysis/Complex/Poisson.lean`,
-  `Harmonic/Poisson.lean`, `Harmonic/MeanValue.lean` and `JensenFormula.lean`,
-  supply Poisson, mean-value and Jensen formulas on smaller closed disks.
-  Jensen's nonzero-center hypothesis is handled by factoring the zero at zero.
-- `Matrix.exists_mulVec_eq_zero_iff`, `LinearMap.finrank_range_of_inj`,
-  `Submodule.smithNormalFormOfRankEq` and `Module.Basis.toMatrix`, in
-  `Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.lean`, `Dimension/Finrank.lean`,
-  `FreeModule/PID.lean` and `Matrix/Basis.lean`, supply the full-rank polynomial
-  linear algebra used in §3.4. Smith normal form requires a PID and full rank.
-
-### From Tau Ceti
-
-- `Circle.degree`, `Circle.sub_eq_degree_mul` and `Circle.degree_eq_of_homotopy`
-  in `TauCeti/Topology/Circle/Degree.lean` supply integer degree, its positive
-  2π angle increment and homotopy invariance with moving basepoint.
-- `TauCeti.Contour.windingNumber` in
-  `TauCeti/Analysis/Contour/Winding/Number/Basic.lean` is the normalized
-  complex integral compared with degree for piecewise-C¹ nonvanishing loops.
-- `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
-  `ContinuousLinearMap.index_add_of_isCompactOperator` in
-  `TauCeti/Analysis/Fredholm/CompactPerturbation.lean` supply compact perturbation.
-- `ContinuousLinearMap.IsFredholm.prodMap` and `ContinuousLinearMap.index_prodMap`
-  in `TauCeti/Analysis/Fredholm/Prod.lean` supply binary Fredholm products and
-  index additivity over a nontrivially normed field. Use their native kernel,
-  range and quotient product comparisons before finite PiLp transport; the
-  ambient spaces need not be finite dimensional.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-C1 supplies closed-ideal quotients, isometry of injective star homomorphisms and
-spectral permanence with the same unit or appropriate unitization. C5 supplies
-the norm-null ideal in native bounded products, with pointwise operations and
-quotient norm. C8 supplies `0→K(ℓ²)→T→C(Circle)→0`, sending the forward shift
-Sx(0)=0, Sx(n+1)=x(n) to the identity circle coordinate.
-
-### From TauCetiRoadmap.OperatorKTheory
-
-K4 supplies the Calkin algebra and its identification of Fredholmness with
-invertibility modulo compacts, compatible with the native index.
-
-### From TauCetiRoadmap.BanachSpaceTheory
-
-B5 supplies the scalar `Lp ℂ ∞` unit and commutative C*-algebra laws, reusing
-native star and Hölder multiplication. Only finite normalized Haar measure is
-needed here; the generic measure-space theory remains there.
-
-## How to read the build
-
-Layer 1 constructs the Hardy model, Layer 2 its scalar and block operator
-calculus, and Layer 3 its symbol and Fredholm comparisons. Layer 4 first proves
-stability in bounded-product quotients, then the strong inverse theorems for
-coordinate compressions. Layer 5 builds the finite-section algebra before using
-its compatible-pair quotient to detect stability. Layer 6 supplies worked
-examples. Each construction includes its element-level equations and usable
-API; only the headline signatures and their simple definitions appear in Lean.
 
 ## Layer 1: Hardy space, multipliers and kernels
 
@@ -903,6 +856,107 @@ K6 uses the Hardy projection and index sign in circle pairings; its K4 input to
 this roadmap is only the earlier generic Calkin comparison. Applications to
 finite-dimensional approximation consume §4.3 and §5.2 with their stated
 stability hypotheses, rather than assuming ambient invertibility suffices.
+
+## Scope and ownership
+
+This is the Hardy-space and finite-section part of OperatorTheory. It owns the
+unit-disk harmonic-majorant comparison, scalar and finite-block Toeplitz/Hankel
+operators, their symbol comparisons, the determinant index formula and the
+finite-section stability theory. It extends the existing finite-section target
+by its ambient-invertibility and inverse-convergence consequences.
+
+[CStarAlgebras C8](../../CStarAlgebras/README.md#c8-quasidiagonality-and-representation-approximation)
+owns the unilateral-shift algebra and its scalar exact sequence. Its
+[C1](../../CStarAlgebras/README.md#c1-ideals-hereditary-subalgebras-and-multipliers)
+and [C5](../../CStarAlgebras/README.md#c5-c-tensor-products-and-operator-space-tensor-products)
+own quotient C*-algebras, spectral permanence and bounded-product/norm-null
+quotients. [OperatorKTheory K4](../../OperatorKTheory/README.md#k4-fredholm-indices-and-extensions)
+owns the Calkin/Atkinson comparison and index boundary comparison;
+[BanachSpaceTheory B5](../../BanachSpaceTheory/README.md#b5-function-spaces-and-weak-compactness)
+owns the scalar L∞ C*-algebra structure. These constructions are imported, not
+repeated. The finite-block and Hardy-model transports here are their specified
+variants. The binary Fredholm-product theorem is already in Tau Ceti; §3.4 adds
+finite Hilbert-product transport and its converse. Circle degree, compact
+perturbation and native Fourier/projection theory are also library inputs.
+
+The analytic Hardy model follows the
+[Hardy-space design discussion](https://leanprover.zulipchat.com/#narrow/stream/116395-maths/topic/Hardy%20Spaces/near/588721731):
+build the unit-disk p=2 harmonic-majorant model and its boundary comparison in
+Tau Ceti, adopting a matching Mathlib carrier when available. General Hardy spaces
+on arbitrary domains are outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `fourier`, `fourierCoeff`, `fourierBasis` and `span_fourierLp_closure_eq_top`
+  in `Mathlib/Analysis/Fourier/AddCircle.lean` supply normalized circle Fourier
+  analysis and density for 1≤p<∞. The Hardy nonnegative-mode comparison is §1.1.
+- `Submodule.orthogonalProjectionOnto` in
+  `Mathlib/Analysis/InnerProductSpace/Projection/Basic.lean` supplies projection
+  to a closed submodule, with that submodule as codomain.
+- `ContinuousLinearMap.holderL` in `Mathlib/MeasureTheory/Function/Holder.lean`
+  supplies heterogeneous Lp multiplication. In particular the native Hölder
+  scalar action at ∞,∞,∞ represents the product of two scalar symbols.
+  `ContinuousMap.toLp` in `Mathlib/MeasureTheory/Function/LpSpace/ContinuousFunctions.lean`
+  embeds continuous symbols; native `Lp` star supplies pointwise conjugation.
+- `lp.evalCLM` in `Mathlib/Analysis/Normed/Lp/lpSpace.lean` and
+  `PiLp.continuousLinearEquiv` in `Mathlib/Analysis/Normed/Lp/PiLp.lean`
+  construct coordinate cutoffs. `lp.inftyCStarRing` supplies the C*-norm on
+  bounded products of operator algebras.
+- `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.isFredholm_iff_exists_isQuasiInverse`
+  and `ContinuousLinearMap.IsFredholm.index_comp` in
+  `Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean`, and
+  `ContinuousLinearMap.index_continuousOn_isFredholm` in its `Open.lean`, supply finite-rank
+  parametrices, composition and index continuity on the Fredholm locus.
+- `DiffContOnCl.circleAverage_poissonKernel_smul`,
+  `InnerProductSpace.HarmonicOnNhd.circleAverage_poissonKernel_smul`,
+  `InnerProductSpace.HarmonicOnNhd.circleAverage_eq` and
+  `AnalyticOnNhd.circleAverage_log_norm`, in `Mathlib/Analysis/Complex/Poisson.lean`,
+  `Harmonic/Poisson.lean`, `Harmonic/MeanValue.lean` and `JensenFormula.lean`,
+  supply Poisson, mean-value and Jensen formulas on smaller closed disks.
+  Jensen's nonzero-center hypothesis is handled by factoring the zero at zero.
+- `Matrix.exists_mulVec_eq_zero_iff`, `LinearMap.finrank_range_of_inj`,
+  `Submodule.smithNormalFormOfRankEq` and `Module.Basis.toMatrix`, in
+  `Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.lean`, `Dimension/Finrank.lean`,
+  `FreeModule/PID.lean` and `Matrix/Basis.lean`, supply the full-rank polynomial
+  linear algebra used in §3.4. Smith normal form requires a PID and full rank.
+
+### From Tau Ceti
+
+- `Circle.degree`, `Circle.sub_eq_degree_mul` and `Circle.degree_eq_of_homotopy`
+  in `TauCeti/Topology/Circle/Degree.lean` supply integer degree, its positive
+  2π angle increment and homotopy invariance with moving basepoint.
+- `TauCeti.Contour.windingNumber` in
+  `TauCeti/Analysis/Contour/Winding/Number/Basic.lean` is the normalized
+  complex integral compared with degree for piecewise-C¹ nonvanishing loops.
+- `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
+  `ContinuousLinearMap.index_add_of_isCompactOperator` in
+  `TauCeti/Analysis/Fredholm/CompactPerturbation.lean` supply compact perturbation.
+- `ContinuousLinearMap.IsFredholm.prodMap` and `ContinuousLinearMap.index_prodMap`
+  in `TauCeti/Analysis/Fredholm/Prod.lean` supply binary Fredholm products and
+  index additivity over a nontrivially normed field. Use their native kernel,
+  range and quotient product comparisons before finite PiLp transport; the
+  ambient spaces need not be finite dimensional.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+C1 supplies closed-ideal quotients, isometry of injective star homomorphisms and
+spectral permanence with the same unit or appropriate unitization. C5 supplies
+the norm-null ideal in native bounded products, with pointwise operations and
+quotient norm. C8 supplies `0→K(ℓ²)→T→C(Circle)→0`, sending the forward shift
+Sx(0)=0, Sx(n+1)=x(n) to the identity circle coordinate.
+
+### From TauCetiRoadmap.OperatorKTheory
+
+K4 supplies the Calkin algebra and its identification of Fredholmness with
+invertibility modulo compacts, compatible with the native index.
+
+### From TauCetiRoadmap.BanachSpaceTheory
+
+B5 supplies the scalar `Lp ℂ ∞` unit and commutative C*-algebra laws, reusing
+native star and Hölder multiplication. Only finite normalized Haar measure is
+needed here; the generic measure-space theory remains there.
 
 ## References
 

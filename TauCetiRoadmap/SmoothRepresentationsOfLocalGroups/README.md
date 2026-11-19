@@ -1,165 +1,79 @@
 # Roadmap: smooth representations of local groups
 
-**Summary.** This roadmap builds the smooth representation theory of locally profinite groups over an arbitrary commutative coefficient ring, and then the local representation theory of a reductive p-adic group: the smooth category and Hecke algebras, induction and Jacquet functors, admissibility, second adjointness, the Bernstein decomposition and centre, the Satake isomorphism with its normalisations, integral families for GL_n through Whittaker models, and the parameters that enter excursion operators. We want it because the local components of automorphic representations are smooth representations, the Hecke algebras acting on the cohomology of locally symmetric spaces are the ones defined here, and local–global compatibility and the integral (torsion) theory of modularity need the statements over general rings rather than over ℂ. It is the bridge between the local groups of the previous roadmap and the Galois side.
+**Summary.** A representation of a group such as GL_n(ℚ_p) on a module is smooth when every vector
+is fixed by an open subgroup. The local components of automorphic representations are smooth
+representations, and the Hecke algebras acting on the cohomology of locally symmetric spaces are
+the ones defined here. Local–global compatibility and the integral theory of modularity need the
+theory over general rings, not only over ℂ.
 
-This roadmap builds the smooth representation theory of a locally profinite group G over an
-arbitrary commutative coefficient ring A, and the local representation theory of G = 𝐆(F) for a
-connected reductive group 𝐆 over a nonarchimedean local field F. It starts from Mathlib's algebraic
-representations, invariants and coinvariants and from Tau Ceti's discrete modules over profinite
-groups, and it ends with the Bernstein decomposition and centre, the Langlands classification conditional on Harish–Chandra tempered support,
-second adjointness, the Satake isomorphism with its explicit normalisations, the integral families
-of GL_n, and the algebra of finite-wild parameters, center images and stable operators.
+This roadmap builds the smooth representation theory of a locally profinite group G (a Hausdorff
+group whose compact open subgroups form a neighbourhood basis of 1) over an arbitrary commutative
+ring A, and then the local representation theory of G = 𝐆(F) for 𝐆 connected reductive over a
+nonarchimedean local field F. Everything that makes sense over any ring is stated over any ring; a
+statement that needs averaging assumes a cofinal family of compact open subgroups of pro-order
+invertible in A. Admissibility means that the invariants of each compact open subgroup are
+finitely generated over A. Over every commutative ring A the smooth representations form a
+Grothendieck abelian category, with enough injectives and a derived category.
 
-Two principles govern the statements. Everything that makes sense over any ring is stated over any
-ring: smoothness, invariants, compact induction, Jacquet modules, the permutation-module Hecke
-algebra and Frobenius reciprocity need no averaging, and the hypotheses that do (a cofinal family
-of compact open subgroups of pro-order invertible in A) are attached to the statements that use
-them. The complex theory is developed in the order in which it is proved: uniform admissibility and
-the Bernstein centre precede second adjointness, whose proof uses them.
+With complex coefficients and G connected reductive, every irreducible smooth representation is
+admissible, and the dimension of its invariants under a compact open K is at most a constant
+depending only on G and K. Every finitely generated admissible representation has finite length
+(Howe's theorem), and every finitely generated smooth representation is noetherian. The category
+splits into Bernstein blocks, one for each irreducible cuspidal representation of a Levi subgroup
+up to conjugacy and unramified twist. Its centre is the ring of regular functions on the Bernstein
+variety, and the Hecke algebra of each compact open subgroup is finite over its centre, a finitely
+generated ℂ-algebra. Bernstein's second adjointness comes last: normalised parabolic induction
+i_P is left adjoint to the normalised Jacquet functor `r_{P̄}` along the opposite parabolic.
 
-## Scope and ownership
+For an unramified group with hyperspecial K, the Satake transform integrates over the unipotent
+radical of a minimal parabolic P = TN and is defined over ℤ[q⁻¹], q the residue cardinality. It
+identifies the spherical Hecke algebra with the invariants of a twisted action of the relative
+Weyl group W₀ on the group algebra of the lattice Λ = T(F)/T(F)⁰. With a chosen square root of q,
+the normalised transform identifies it with the ordinary W₀-invariants. Both hold over any ring in
+which q is a unit, without inverting the order of W₀. For GL_2 the normalised transform of
+K diag(ϖ, 1) K is `q^{1/2}(X₁ + X₂)`, in the lattice classes X₁, X₂ of diag(ϖ, 1) and diag(1, ϖ).
 
-The roadmap owns the smooth category of a locally profinite group over any commutative ring, with
-its smooth vectors, invariants, averaging projectors, admissibility, characters, contragredients,
-coefficient change and centre (SR.0); Hecke algebras over rings in both the convolution and the
-permutation-module model, their comparison with the double-coset Hecke ring, Hecke modules, the
-Λ-linear Bernstein centre, positive Hecke algebras and the Iwahori–Matsumoto and Bernstein
-presentations (SR.1); the Grothendieck property, the derived smooth category with its dg
-enhancement, derived invariants, compact generation, derived duality and the derived Hecke algebra
-(SR.0d); smooth and compact induction, Jacquet functors, parabolic induction, the first
-adjointness, the geometric lemma, Casselman's pairing and Whittaker functionals (SR.2); compact and
-cuspidal representations, Harish-Chandra's compactness theorem and uniform admissibility (SR.3a);
-cuspidal support, the Bernstein decomposition and centre, noetherianity, the Langlands
-classification conditional on Harish–Chandra tempered support and the Iwahori categories (SR.3); Bernstein's stabilisation theorem and second
-adjointness over ℂ (SR.2a); the Satake transform and isomorphism with their explicit GL_n, unitary
-and GSp_4 normalisations (SR.4); the integral local families of GL_n (SR.5); and the integral
-algebra of finite-wild parameters, excursion coefficients, center images and contracting Hecke
-operators (SR.6). The generic stable-operator algebra is a prerequisite in SR.5.2.
+The integral part treats GL_n(F), F of residue characteristic p. Over a Noetherian algebra
+A over the Witt vectors W(k) of an algebraically closed field k of characteristic ℓ ≠ p, a
+co-Whittaker family is an admissible representation whose top derivative is free of rank one over
+A and whose fibres at prime ideals have essentially AIG smooth duals: an absolutely irreducible
+generic socle, a quotient by it with zero top derivative, and every vector in a finite-length
+subrepresentation. When F is p-adic and the Whittaker character comes from a nontrivial smooth
+W(k)ˣ-valued character of F, every endomorphism of such a family V is a unique scalar in A, and
+`End_A(M) → End_{A[G]}(M ⊗_A V)` is an isomorphism for every A-module M.
 
-It uses the carriers of the neighbouring roadmaps as they exist and adds the smooth category, its
-functors and its theorems on top of them. From
-[Reductive groups, Part II](../ReductiveGroupsPartII/README.md) it takes, from RG2.0, the locally
-profinite topology on 𝐆(F) and its closed subgroups P(F), M(F), N(F), on which it builds smooth
-representations of these groups; from RG2.1, the maximal split central torus and the valued root
-datum (the relative roots are ReductiveGroups layer 7), on which it builds unramified characters
-and Satake twisting; from RG2.2.4, the periodic lattice chains of GL(V), on which it builds the
-hereditary orders of the distinguished cuspidal types of GL_n; from RG2.3, the parahoric, Iwahori
-and pro-p Iwahori subgroups and the
-Moy–Prasad filtration (congruence subgroups are RG2.0 and Iwahori factorisations RG2.4), on which
-it builds positive Hecke algebras, the Iwahori block and uniform admissibility; from RG2.4, the
-Iwasawa, Cartan and Iwahori–Bruhat decompositions, compactness of P\G (hence finiteness of
-P\G/K), unimodularity and the modulus δ_P of the minimal parabolic, on which it builds the
-geometric lemma, the modulus character over A, the Satake transform and the Iwahori–Matsumoto
-presentation; and from RG2.5, the pinned integral dual group over ℤ with its Galois action through
-a finite quotient and the L-group, on which it builds the Frobenius-coinvariant dual torus,
-spherical parameters, finite-wild cocycle schemes and excursion algebras. From
-[Profinite cohomology](../ProfiniteCohomology/README.md#layer-0-discrete-modules-and-continuous-sections)
-layer 0 and [layer 1](../ProfiniteCohomology/README.md#layer-1-the-canonical-carrier-and-its-functoriality)
-it takes discrete modules over profinite groups, their exhaustion by invariants of open normal
-subgroups, and the canonical smooth discrete carrier `TauCeti.SmoothDiscreteTopRep`; this roadmap
-adds the algebraic smooth category over any commutative ring and identifies it with that carrier
-using Tau Ceti's `discreteRepEquivSmoothTopRep`, and layer 1's finite products, subobjects, quotients and
-restriction are transported along it. From
-[Profinite cohomology layer 7](../ProfiniteCohomology/README.md#layer-7-coinduced-modules-and-shapiros-lemma)
-and [layer 10](../ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees) it
-takes coinduction, Shapiro's lemma and continuous cohomology of profinite groups, and adds derived
-invariants of compact open subgroups and the derived Hecke algebra. From
-the completed roadmap
-[Profinite and pro-p groups](../../Completed/ProfiniteProPGroups/README.md#layer-1-supernatural-order-and-index)
-layer 1 it takes supernatural orders and pro-p groups, and adds compact open subgroups of pro-order
-invertible in A. From
-[Induction and restriction](../RepresentationTheory/InductionRestriction/README.md#layer-0-the-functorial-core----transitivity-and-the-projection-formula)
-layer 0 and [layer 3](../RepresentationTheory/InductionRestriction/README.md#layer-3-the-mackey-decomposition-formula)
-it takes algebraic induction in stages and the Mackey decomposition, and adds compact induction
-from open subgroups, induction in stages and the Mackey filtration. From
-[Modular forms](../ModularForms/README.md#layer-2-hecke-operators-and-the-hecke-algebra) layer 2
-it takes the double-coset Hecke ring with Shimura's product and the GL_2 polynomial presentation,
-and adds convolution and permutation-module Hecke algebras with their comparison with the
-double-coset ring, and the all-rank Satake isomorphism. Idempotented algebras, their
-nondegenerate modules with the principal projective generators He, and the Hecke-module
-equivalence are stated and proved here (SR.1.3, *locally-unital-algebra*, *hecke-module-equivalence*);
-unitary and firm modules over an arbitrary nonunital ring, left xst rings and the abelian category
-of their firm modules belong to the later roadmap CyclicHomologyLieHomologyAndQuasiFreeAlgebras
-§5.4, which records the nondegenerate modules of an idempotented algebra as its instance, and this
-roadmap cites no section of it. From
-[Reductive groups](../ReductiveGroups/README.md#layer-3-subgroups-quotients-components) layer 3,
-[layer 7](../ReductiveGroups/README.md#layer-7-structure-theory) and
-[layer 9](../ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ) it
-takes root data, parabolic and Levi subgroups, Weyl groups, the Bruhat decomposition, central
-quotients and pinned split group schemes, and adds the representation theory of the rational
-points. ReductiveGroups Layer 5P owns the characteristic-zero matrix exp/log construction
-and its restrictions to unipotent algebraic groups and their Lie algebras. SR.5.2
-*nilpotent-exp-log* adds finite evaluation in arbitrary, possibly noncommutative ℚ-algebras,
-with comparison to those matrix maps, and the continuous ℤ_ℓ interpolation needed for monodromy.
-From [Class field theory](../ClassFieldTheory/README.md#layer-9-the-local-weil-group)
-layer 9 it takes the local Weil group and its Frobenius elements (the wild and tame filtrations are
-[Local fields and ramification](../../Completed/LocalFieldsRamification/README.md); local Langlands for tori is
-an input stated where used), and adds finite-wild discretisations and cocycle functoriality.
-SR.5.2 owns the common raw Weil–Deligne fields and the entire lower linear theory:
-*nilpotent-exp-log*, *wd-parameter-operations*, *wd-algebraic-composition*,
-*wd-complete-coefficients*, *full-wd-construction* and *wd-frobenius-semisimplification*.
-These targets use ordinary
-linear representations, ClassFieldTheory layer 9 and Tau Ceti's local characters;
-they precede *classical-llc-normalization* and require neither determinant reconstruction
-nor LLC. ArithmeticGaloisRepresentations consumes this linear theory for its
-`ContinuousRep` adapter, local factors and agreement with the normalized functor.
-The ownership order is raw fields → linear operations and monodromy → full construction
-→ Frobenius semisimplification → normalized functor → arithmetic adapter/agreement.
+The roadmap builds on [Reductive groups, Part II](../ReductiveGroupsPartII/README.md) for the
+topology, parahoric subgroups and decompositions of 𝐆(F), on
+[Profinite cohomology](../ProfiniteCohomology/README.md) for discrete modules and continuous
+cohomology, and on the local Weil group of [Class field theory](../ClassFieldTheory/README.md). The
+modularity-lifting roadmaps match their Galois families against its integral GL_n families, and
+GeometricSatakeAndFusion compares geometric Satake with the normalisation fixed here.
 
-The boundaries with the roadmaps that consume this one are as follows. The ∞-categorical
-enhancement of the derived smooth category and its comparison with étale sheaves on the
-classifying stack are built by the v-stack and enhanced-sheaf roadmaps on the dg model of SR.0d.
-SR.6 concerns the integral finite-wild cocycle scheme, invariant quotients and the free-group
-excursion algebra. The geometric Hecke action on Bun_G, its map to the smooth center, and the
-integral finiteness and second-adjointness consequences requiring that action for a general
-reductive group over ℤ[1/p]-algebras are outside the
-scope of this roadmap ([FS] Theorem IX.0.1, p. 317, and Proposition IX.5.1, p. 327; [DHKM1]
-Theorems 1.1–1.2 and Corollary 1.3). For GL_n over W(k) the integral second adjointness that
-SR.5.2 uses is owned there (*integral-second-adjointness*), by Helm's route through the types and
-projectives of SR.5.2, which uses no geometric action. No geometric action is an input to the remaining SR.6 targets. The arithmetic GL_n double-coset multiplication belongs to
-ModularForms; the geometric Satake equivalence to GeometricSatakeAndFusion, which compares against
-the trace contract of SR.4; two-parahoric unitary operators, the Iwahori and Klingen computations
-for GSp_4 with their Galois applications, the GL_2 newvector theorem and the minimal-lift line of
-integral families belong to their own roadmaps, and SR.4–SR.5 export the spherical products,
-the spin polynomial and co-Whittaker families. Plancherel theory is not
-here: the Langlands classification is proved from Casselman's criterion and takes as an explicit
-hypothesis the Harish–Chandra tempered-support statement (*harish-chandra-tempered-support*), owned by SR.3.3, giving Harish-Chandra's description of tempered representations as summands of unitary
-inductions of discrete series. The Whittaker-functionals target constructs the functionals and
-twisted quotient, and includes multiplicity one for irreducible complex representations of GL_2(F). Bushnell–Kutzko types beyond
-the Iwahori case are not here, with one exception that Helm's integral block route needs: for GL_n
-over a p-adic field, SR.5.2 owns the maximal distinguished cuspidal types with their ℓ-modular
-coverage (*distinguished-cuspidal-types*), the projectives compactly and parabolically induced
-from them (*type-projective-construction*), and the integral Bernstein decomposition and second
-adjointness that these projectives give (*integral-second-adjointness*).
+The layers follow the order of proof. The first four, over any ring, build the smooth category
+with its Hecke algebras, its derived category, and the induction and Jacquet functors. Three
+layers over ℂ prove uniform admissibility, the Bernstein decomposition and centre (with a
+Langlands classification conditional on Harish-Chandra's description of tempered
+representations), and second adjointness, which uses both. The Satake layer adds explicit GL_n,
+unitary and GSp_4 formulas; the integral layer adds Weil–Deligne parameters; the last treats
+parameters as crossed cocycles of a finite-wild discrete Weil group.
 
-The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
-[U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
-with Tau Ceti `HeckeCoset.degree_eq_relIndex`. The base-change map B ⊗_A V^K → (B ⊗_A V)^K and its
-isomorphism under an averaging projector: *coefficient-change*. The normalised Satake data used by geometric Satake are those of
-*satake-isomorphism*; integral essential vectors for GL_n are outside this roadmap. The following
-library and roadmap declarations are the algebraic or compact-group halves of targets that remain
-here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti `DiscreteRep`,
-`IsSmoothDiscrete`, `discreteRepEquivSmoothTopRep`, `IsSmoothDiscrete.res` and
-`SmoothDiscreteTopRep.hasFilteredColimits` (SR.0.1–SR.0.2); `Representation.ofLinearCharacter`,
-`charTwist`, `charTwist_one`, `charTwist_charTwist` (smooth characters and twists); `Rep.dual`,
-`Rep.dualMap`, `Rep.doubleDualIso` (the algebraic contragredient);
-`Representation.invariantsBaseChangeEquiv` (finite groups) for coefficient change; `coind`,
-`DiscreteCoind`, `coindFunctor`, `smoothDiscreteResCoindAdjunction`, `DiscreteCoind.transEquiv`,
-`coindMap_surjective`, `coindFunctor_map_shortExact` and Profinite cohomology layer 7 for
-induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
-`Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
-for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
-formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
-and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
-*parabolic-adjoint-determinant* in every characteristic, supplying
-det(Ad(p)|Lie P) = det(Ad(p)|Lie N) as an algebraic identity (SR.1.4–SR.1.5, SR.2.2, SR.3a.2;
-SR.2.2 owns coefficient change and the square roots used in normalised induction, and
-AdelicAlgebraicGroups §2.2 consumes both results directly from RG2.4);
-the central-coset localisation of Modular forms, layer 2 (SR.4.3); the Iwasawa presentation
-Fr s Fr⁻¹ = s^q of Local fields and ramification, layer 4, with Tau Ceti `IsArithFrobeniusLift`,
-`tameQuotientEquiv`, `wildInertiaSubgroup` (SR.6.1); and Mathlib's Fitting decomposition
-`LinearMap.eventually_isCompl_ker_pow_range_pow`, of which stable operators on Noetherian Artinian
-modules are the instance (SR.5.2 *stable-operator*, applied in SR.6.5).
+## How to read the build
+
+`README.md` fixes the hypotheses and conclusions of the targets. `Suggested.lean` states the
+headline targets that can be stated against the pins, with proof placeholders, and each such
+target carries a *Lean:* line below; the other targets are specified here only. The layers depend
+on one another in the order
+SR.0 → SR.1 → SR.0d → SR.2 → SR.3a → SR.3 → SR.2a → SR.4 → SR.5 → SR.6, and they are presented
+below in that order. SR.0d follows SR.1 because the derived Hecke algebra extends the
+permutation-module Hecke algebra, and precedes SR.2 because the Jacquet module of a regular
+principal series splits by the vanishing of Ext between distinct central characters. SR.2a follows
+SR.3a and SR.3 because Bernstein's stabilisation theorem uses uniform admissibility, the Bernstein
+decomposition, noetherianity and generic irreducibility; SR.3 itself uses nothing from SR.2a, since
+the centre is proved by the Bernstein–Deligne route. SR.4 uses SR.1 and SR.2; SR.5 uses SR.3, with the algebraic *stable-operator* prerequisite
+in SR.5.2 preceding *integral-second-adjointness*; SR.6
+uses SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator* and is used by nothing earlier. Within a target, *Needs* names the
+earlier targets by their short names and the supplier layers by roadmap and layer; the references
+in parentheses are to the editions listed under *References*, by printed page.
 
 ## Conventions
 
@@ -261,322 +175,6 @@ Names attributed to Mathlib or Tau Ceti are full names in those libraries: their
 namespace is the root one, while the roadmap's own `Representation.IsSmooth`,
 `Representation.smoothVectors` and `Representation.IsAdmissible` sit under the roadmap namespace.
 The pinned libraries are Mathlib `f6090c7095` and Tau Ceti `358314d4ab`.
-
-## Exact supplier contracts
-
-All names in this section are part of the dependency contract, at the pins above. Each entry
-records the layer that consumes it; subject descriptions without an exact declaration are not
-dependencies.
-
-### From Mathlib
-
-The smooth representation design follows
-[smooth representation design](https://github.com/leanprover-community/mathlib4/pull/41525),
-`Mathlib/RepresentationTheory/Smooth/Basic.lean`: `Representation.Smooth.IsSmooth` is a
-proposition-valued class asserting open stabilizers, and `smoothVectors` is a
-`Subrepresentation`. The categorical extension in
-[smooth representation category design](https://github.com/leanprover-community/mathlib4/pull/41520),
-`Mathlib/RepresentationTheory/Smooth/SmRep.lean`, uses `ObjectProperty.FullSubcategory` and
-smooth vectors as the right adjoint of its inclusion. These are design references rather than
-suppliers at the pins. SR.0 constructs these interfaces in Tau Ceti using that design. The
-[discussion of smooth p-adic representations](https://leanprover-community.github.io/archive/stream/116395-maths/topic/class.20and.20def.20%28p-adic.20reps%29.html)
-also separates general topological-group smoothness from the reductive applications.
-
-For SR.0: `NonarchimedeanGroup` (open subgroups as a neighbourhood basis, without compactness),
-`loc_compact_Haus_tot_disc_of_zero_dim` in
-`Mathlib/Topology/Separation/Profinite.lean` (the locally compact Hausdorff clopen basis) and
-`exists_compact_subset` (compact neighbourhoods inside open sets). SR.0.1 supplies the
-compact-clopen translation-stabilizer argument for van Dantzig's theorem;
-`IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one` and
-`compact_exists_isClopen_in_isOpen` apply only to compact ambient spaces. Also `OpenSubgroup`,
-`Representation`, `Representation.stabilizer`, `Representation.ofMulAction` (the carrier of
-smoothness and the permutation representations used in the checks), `Rep` with `Rep.res` in
-`Mathlib/RepresentationTheory/Rep/Res.lean` and `Rep.quotient` and `Rep.mkQ` in
-`Mathlib/RepresentationTheory/Rep/Basic.lean` (restriction and quotient objects of the ambient
-category; `Rep.ofQuotient` is instead the representation of G ⧸ S
-on a module where the normal subgroup S acts trivially, and is not used for quotient objects; the
-two types are distinguished by a test),
-`CategoryTheory.ObjectProperty.FullSubcategory`,
-`CategoryTheory.ObjectProperty.IsClosedUnderColimitsOfShape`,
-`CategoryTheory.ObjectProperty.IsClosedUnderKernels`,
-`CategoryTheory.ObjectProperty.IsClosedUnderCokernels` and `CategoryTheory.Coreflective` (the
-full subcategory, its closure properties and the coreflection by smooth vectors),
-`Representation.invariants`, `Representation.averageMap` (the finite-group averaging that the
-projector extends), `MonoidAlgebra` and `Representation.asModule` (finite generation over A[G]),
-`Representation.dual` (the algebraic contragredient), `CategoryTheory.CatCenter` and
-`CategoryTheory.Linear.toCatCenter` (the centre and the ring map from A).
-
-`CategoryTheory.CatCenter.app`, `CatCenter.naturality` and `CatCenter.ext` in
-`Mathlib/CategoryTheory/Center/Basic.lean` supply evaluation, naturality and extensionality;
-`ObjectProperty.FullSubcategory.mk` and `ObjectProperty.hom_ext` in
-`Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean` and `Rep.Hom.ext` in
-`Mathlib/RepresentationTheory/Rep/Basic.lean` supply bundling and morphism equality.
-`SemidirectProduct.inv_left` and `inv_right` in `Mathlib/GroupTheory/SemidirectProduct.lean`
-fix inversion of a parameter section; SR.6 adds the section attached to a crossed cocycle.
-
-For SR.1: `LocallyConstant`, `CompactlySupportedContinuousMap` in
-`Mathlib/Topology/ContinuousMap/CompactlySupported.lean` (the model of C_c^∞ for a discrete
-target). The C_c^∞(X, M) of SR.1.1 differs by requiring no topology on the target; the comparison
-uses `LocallyConstant.toContinuousMap` and `IsLocallyConstant.iff_continuous` in
-`Mathlib/Topology/LocallyConstant/Basic.lean`. Also use `TopologicalSpace.CompactOpens` (the domain of an A-valued measure),
-`MeasureTheory.Measure.haarMeasure` (the real-valued comparison), and the double-coset Hecke ring
-`HeckeRing` on `IsHeckeTriple`, shared with Tau Ceti, which is the target of the comparison of
-SR.1.2.
-
-For SR.0d: `CategoryTheory.IsGrothendieckAbelian` with
-`CategoryTheory.IsGrothendieckAbelian.enoughInjectives` and
-`CategoryTheory.IsGrothendieckAbelian.hasExt`, `HasDerivedCategory`, `DerivedCategory`,
-`DerivedCategory.Plus`, `DerivedCategory.singleFunctor`, `CategoryTheory.Abelian.Ext`,
-`CochainComplex.IsKInjective`, `CochainComplex.isKInjective_of_injective`,
-`CochainComplex.HomComplex`, `CochainComplex.HomComplex.CohomologyClass.equivOfIsKInjective`,
-`CategoryTheory.Functor.rightDerivedFunctorPlus`, `Rep.invariantsFunctor`,
-`Rep.indResAdjunction` with `CategoryTheory.Injective.injective_of_adjoint` (restriction preserves
-injectives because algebraic induction is its exact left adjoint), and `continuousCohomology`
-(the target of the comparison of derived invariants). Also for SR.0d:
-`CategoryTheory.Abelian.Ext.comp_assoc` and `CategoryTheory.Abelian.Ext.comp_assoc_of_third_deg_zero`
-in `Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean` (the bimodule associativity and the
-naturality in the coefficients of the derived corner actions, used without restatement).
-
-For SR.2: `Representation.coind` (smooth induction is its smooth part), `Rep.ind` and
-`Rep.indResAdjunction` (compact induction from an open subgroup and its Frobenius reciprocity),
-`MeasureTheory.Measure.modularCharacter` (the modulus character), `Representation.Coinvariants`
-and `Rep.coinvariantsFunctor` (the Jacquet module), and `CategoryTheory.Adjunction.left_triangle_components`
-and `CategoryTheory.Adjunction.right_triangle_components` in
-`Mathlib/CategoryTheory/Adjunction/Basic.lean` (the triangle identities of the second adjunction).
-
-The functors of SR.2 are assembled from `Rep.resFunctor`
-(`Mathlib/RepresentationTheory/Rep/Res.lean`), `Rep.coindFunctor` with `Rep.resCoindAdjunction`
-(`Mathlib/RepresentationTheory/Coinduced.lean`), `Rep.indFunctor`
-(`Mathlib/RepresentationTheory/Induced.lean`), `Rep.invariantsFunctor` and
-`Rep.quotientToCoinvariantsFunctor` (`Mathlib/RepresentationTheory/Invariants.lean`,
-`Mathlib/RepresentationTheory/Coinvariants.lean`); functors into the smooth category and its
-morphisms use `CategoryTheory.ObjectProperty.lift`, `CategoryTheory.ObjectProperty.ι` and
-`CategoryTheory.ObjectProperty.homMk` (`Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`).
-The reductive statements use `IsNonarchimedeanLocalField` and `ValuativeRel`
-(`Mathlib/NumberTheory/LocalField/Basic.lean`, `Mathlib/RingTheory/Valuation/ValuativeRel/Basic.lean`),
-and the co-Whittaker target uses `WittVector` (`Mathlib/RingTheory/WittVector/Defs.lean`) and
-`Representation.IntertwiningMap` (`Mathlib/RepresentationTheory/Intertwining.lean`).
-
-For SR.3a: `Module.End.instDivisionRing`, `Transcendental.linearIndependent_sub_inv` (the
-countable-dimension form of Schur's lemma) and `Module.Finite.toModuleEnd_moduleEnd_surjective`
-(Burnside's theorem for the isotypic quotients).
-
-For SR.6: `Representation.tprod` (external tensor products in the excursion data).
-
-The following exact algebraic suppliers are used directly:
-
-- `LinearMap.range`, `LinearMap.range_id`, `LinearMap.range_zero` in
-  `Mathlib/Algebra/Module/Submodule/Range.lean`, and `LinearEquiv.ofInjective` in
-  `Mathlib/Algebra/Module/Submodule/Equiv.lean`. The Schwartz target adds the canonical
-  mirabolic map and proves its injectivity; an arbitrary map's range supplies neither.
-- `IsFiniteLength` and `isFiniteLength_iff_isNoetherian_isArtinian` in
-  `Mathlib/RingTheory/FiniteLength.lean` supply finite length of the group-algebra module.
-- `TauCeti.sign_eq_neg_one_pow_card_inversion` in
-  `TauCeti/GroupTheory/Perm/Inversion.lean` supplies the sign of a permutation as (−1) to its
-  inversion count. The Hall normaliser of SR.4.3 keeps the natural-number inversion count.
-- `Representation.quotient` in `Mathlib/RepresentationTheory/Basic.lean` supplies the
-  representation on an invariant quotient.
-- `Representation.invariants` in `Mathlib/RepresentationTheory/Invariants.lean` supplies
-  subgroup invariants by restriction of the representation.
-- `Representation.Coinvariants`, `Representation.Coinvariants.ker`, `Representation.Coinvariants.mk`,
-  `Representation.Coinvariants.lift`, `Representation.Coinvariants.lift_comp_mk`,
-  `Representation.Coinvariants.hom_ext`, `Representation.Coinvariants.map` and
-  `Representation.Coinvariants.map_mk` in `Mathlib/RepresentationTheory/Coinvariants.lean`
-  supply the Whittaker carrier and quotient API, applied to `Representation.charTwist ψ⁻¹ ρ`.
-  `WhittakerCoinvariants` is a definitional alias (an `abbrev`) of these coinvariants, and its
-  quotient map is `Representation.Coinvariants.mk`. The explicit ψ-relation is their presentation
-  theorem, valid over every commutative coefficient ring.
-- `LinearMap.eventually_isCompl_ker_pow_range_pow` in
-  `Mathlib/RingTheory/Artinian/Module.lean` supplies Fitting decomposition on Noetherian Artinian
-  modules. `StableOperator` allows arbitrary modules and asks for such a decomposition
-  without either chain condition.
-
-For SR.5.2: `IsNilpotent.exp`, `IsNilpotent.exp_eq_sum`,
-`IsNilpotent.exp_add_of_commute`, `IsNilpotent.map_exp`, `IsNilpotent.isUnit_exp`
-from `Mathlib/RingTheory/Nilpotent/Exp.lean` supply finite exponentials;
-`PowerSeries.log`, `PowerSeries.subst_exp_log` and `PowerSeries.subst_log_exp_sub_one`
-from `Mathlib/RingTheory/PowerSeries/Log.lean` supply the formal rational series and
-inverse substitution identities. SR.5.2 adds their finite evaluation on unipotent units.
-
-### From Tau Ceti
-
-For SR.0: `TauCeti.IsSmoothDiscrete`, `TauCeti.SmoothDiscreteTopRep` in
-`TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete/Basic.lean` (topologized
-discrete modules; the algebraic representation carrier here has no topology on its module),
-`TauCeti.isSmoothDiscrete_iff_continuousSMul` and `TauCeti.discreteRepEquivSmoothTopRep` (the
-discrete-module carrier and the comparison with the algebraic smooth category),
-`TauCeti.iSup_fixedPoints_openNormal_eq_top` and `TauCeti.directed_fixedPoints_addSubgroup` (the
-profinite exhaustion that compact-open invariants extend), `TauCeti.profiniteOrder`,
-`TauCeti.ofNat_card_quotient_le_profiniteOrder` and `TauCeti.IsProP` (supernatural order and
-pro-p groups behind invertible pro-order), and `Representation.baseChange` (coefficient change).
-
-For SR.1: the double-coset Hecke ring 𝕋 (⊤) U A of Mathlib/Tau Ceti as `HeckeRing` with
-`HeckeCosetModule`, Shimura's product `HeckeCosetModule.mul`, `HeckeCosetModule.single_mul_single`,
-`HeckeCosetModule.mul_assoc`, `HeckeCosetModule.instRingHeckeRing` and
-`HeckeCosetModule.structureConstants` (the multiplicities m(D₁, D₂; D) that the comparison
-matches), `HeckeRing.GLn.polynomialRingEquivTwo` (the GL_2 polynomial presentation, reused by the
-GL_n spherical generators), `HeckeCoset.heckeSum` (the sum on invariant linear maps, compared with the right
-vector action through q_v on the left regular representation) and `HeckeCoset.degree_eq_relIndex` (the degree of a double coset).
-
-For SR.0d and SR.2: `TauCeti.indTrivialIso` (c-Ind_U^G A = A[G/U]), `TauCeti.Rep.indFunctorCompIso`
-(transitivity of algebraic induction), `TauCeti.indProjection` (the projection formula for open
-H) and `Rep.mackeyDecomposition` (the Mackey decomposition for finite G, the direct-sum case of the
-Mackey filtration).
-
-For SR.4: `HeckeRing.GL2.Newform.satakeParameters` (the Satake pair of a classical newform at p,
-which the spherical parameters must agree with). For the derived Satake comparison of SR.4.5:
-`TauCeti.TopPairing.cup` in
-`TauCeti/RepresentationTheory/Homological/ContCohomology/Cup/Cohomology.lean` (the cup product on
-continuous cohomology), `TauCeti.TopPairing.cup_one_left` in `.../ContCohomology/Cup/Unit.lean`
-and `TauCeti.TopPairing.cup_gradedComm` in `.../ContCohomology/Cup/Graded/Comm.lean` (its unit and
-graded commutativity), and the general `TauCeti.ChainComplex.cup` in
-`TauCeti/Algebra/Homology/Monoidal/Cup.lean`. The target *finite-discrete-cup-comparison* of SR.4.5 constructs the natural S-linear,
-cup-compatible comparison with Mathlib's `groupCohomology` of the finite torus quotient.
-The unit and odd-square laws are transported through that comparison. The pinned
-`TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology` in
-`.../ContCohomology/DiscreteGroup.lean` supplies only existence of an additive equivalence.
-
-For SR.6: `TauCeti.AffineGroupSchemeCat` (the affine group schemes carrying the cocycle scheme),
-and `TauCeti.IsArithFrobeniusLift`, `TauCeti.tameQuotientEquiv`, `TauCeti.wildInertiaSubgroup`
-(the Iwasawa presentation of the tame quotient, consumed by the finite-wild discretisation).
-
-For SR.3a, SR.3 and SR.2a: `TauCeti.FiniteTypeCommHopfAlgCat` in
-`TauCeti/Algebra/AlgebraicGroup/FiniteType/CommHopfAlgCat.lean` and
-`TauCeti.reductiveCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`
-(a connected reductive group `Spec H` of finite type over F), and the dynamic subgroups
-`TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.levi` and `TauCeti.Cocharacter.unipotent` in
-`TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` with the limit map
-`TauCeti.Cocharacter.limitToLevi` in `TauCeti/Algebra/AlgebraicGroup/Dynamic/LeviDecomposition/Basic.lean`
-(the parabolic P(λ), its Levi subgroup and unipotent radical, and the projection P(λ) → M(λ)).
-
-For SR.5: `TauCeti.upperUnitriangularGroup` in
-`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/UpperUnitriangular/Basic.lean` (the unipotent
-radical U_n of the Borel), with `TauCeti.UpperUnitriangularGroup.ext` and `.map`.
-
-`Representation.ofLinearCharacter` in `TauCeti/RepresentationTheory/LinearCharacter/Basic.lean`
-supplies the character representation over any commutative semiring. In the root namespace
-`Representation`, the declarations `charTwist`, `charTwist_apply_apply`, `charTwist_one`,
-`charTwist_charTwist`, `charTwist_trivial`, `tprodEquivCharTwist`,
-`subrepresentationCharTwistOrderIso` and `isIrreducible_charTwist_iff` in
-`TauCeti/RepresentationTheory/CharacterTwist.lean` supply the algebraic twist and its API.
-The roadmap applies `Representation.charTwist χ ρ` directly, with the character first, and defines no alias for it.
-SR.0 adds the open-kernel criterion and smooth functor. The unramified action, parabolic
-normalization, Bernstein families and derivative twists all use this same supplier action. `TauCeti.IsCrossedHom` in
-`TauCeti/Topology/Algebra/Group/CrossedHom.lean` treats additive ring-valued crossed maps;
-SR.6's `CrossedCocycle` instead has an arbitrary, possibly noncommutative, target group.
-
-### From TauCetiRoadmap.ReductiveGroupsPartII
-
-RG2.0: the locally profinite topology on 𝐆(F) and on P(F), M(F), N(F), and congruence subgroups.
-RG2.1: the maximal split central torus and the valued root datum. RG2.2.4: the periodic lattice
-chains of GL(V) and their stabilisers (*gl-building-lattice-chains*), whose endomorphism orders
-are the hereditary orders of the types of SR.5.2. RG2.3: parahoric, Iwahori and
-pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position.
-RG2.4: the Iwasawa, Cartan and Iwahori–Bruhat decompositions, Iwahori factorisations and cell
-products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
-compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic. RG2.5: the pinned
-integral dual group over ℤ with its Galois action through a finite quotient and the L-group. These
-are supplied mathematical interfaces; no second topology, parahoric or dual group is defined here.
-On the native convolution carrier `Points H`, the reductive signatures in `Suggested.lean` use
-`pointsTopology`, the infimum of the evaluation-induced topologies. RG2.0 supplies the
-compatibility of this topology with the local-field point topology and its topological-group,
-Hausdorff and totally disconnected properties.
-
-For SR.2.2, RG2.4 owns `LocalIntegration.modularCharacter_eq_adjointModulus`
-(`Suggested.lean`): the local Haar modular character is the absolute adjoint determinant. This
-holds over every nonarchimedean local field, including positive characteristic. RG2.4 also owns
-*parabolic-adjoint-determinant*: for a connected reductive group G over a field E, a parabolic
-P = M ⋉ N and p ∈ P(E), it supplies det(Ad(p)|Lie P) = det(Ad(p)|Lie N) in Eˣ, in every
-characteristic. The P-stable exact sequence `0 → Lie N → Lie P → Lie M → 0` factors the
-determinant, with the quotient action induced by P → M. The adjoint determinant character of M
-is trivial: over an algebraic closure its maximal-torus weights are zero weights and opposite
-root pairs, so its restriction to that torus is one. A character of a connected reductive group
-is determined by its restriction to a maximal torus, and the identity descends to E
-([Conrad], §1.2, (1.2.1), p. 16, and Proposition 1.4.7, pp. 35–36). Local Haar unimodularity
-alone gives only an absolute-value identity. SR consumes these two RG2.4 results to construct
-the coefficient-valued modulus when the residue characteristic is invertible in A, with a chosen
-square root for normalised induction. AdelicAlgebraicGroups §2.2 consumes both results directly
-from RG2.4 for finite-place and adelic comparisons.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-Layer 0: discrete modules over profinite groups and their exhaustion by invariants of open normal
-subgroups. Layer 1: the canonical carrier `TauCeti.SmoothDiscreteTopRep` with its finite products,
-subobjects, quotients and restriction, which SR.0.2 transports along
-`discreteRepEquivSmoothTopRep`. Layer 7: coinduced modules and Shapiro's lemma, consumed by the
-derived Hecke algebra and by exactness of induction. Layer 10: continuous cohomology in all
-degrees, the target of the comparison of derived invariants in SR.0d.
-
-### From the completed roadmap ProfiniteProPGroups (Completed/ProfiniteProPGroups)
-
-Layer 1: supernatural order and index, which defines the pro-order of a profinite group and the
-pro-p property behind *unit-pro-order*.
-
-### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
-
-Layer 0: the functorial core, transitivity and the projection formula of algebraic induction, with
-which compact induction from open subgroups agrees. Layer 2: the finite-index coset model and
-preservation of finite dimension, used by induction of raw Weil–Deligne parameters in SR.5.2.
-Layer 3: the Mackey decomposition formula, the finite case of the Mackey filtration.
-
-### From TauCetiRoadmap.ModularForms
-
-Layer 2: the double-coset Hecke ring with Shimura's product, the GL_2 polynomial presentation and
-the central-coset localisation, which SR.1.2 compares with and SR.4.3 reuses rather than defining
-another multiplication.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 3: subgroups, quotients and components, for the c-group formulation. Layer 7: structure
-theory, with the relative roots, parabolic and Levi subgroups, Weyl groups and the Bruhat
-decomposition that the parabolic pairs, the geometric lemma and the dual-group arguments use.
-Layer 5P: characteristic-zero polynomial matrix exp/log and their geometric restrictions;
-SR.5.2 compares its arbitrary-ℚ-algebra finite evaluation with these maps.
-Layer 2: the Lie algebra of an algebraic group and the differential of a morphism, for the
-composites of SR.5.2 *wd-algebraic-composition*.
-Layer 4: the Jordan decomposition of elements and its functoriality under representations,
-which SR.5.2 *wd-algebraic-composition* uses for the unipotence of ρ(exp N) and for the
-preservation of Frobenius semisimplicity.
-Layer 9: the pinned Chevalley–Demazure group schemes over ℤ, carrying the finite-wild cocycle
-scheme.
-
-### From TauCetiRoadmap.ClassFieldTheory
-
-Layer 9: the local Weil group and its Frobenius elements, consumed by the torus-character
-dictionary, the finite-wild discretisation and the torus compatibility of the excursion action.
-Local Langlands for tori is an input stated where used.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-Local fields and ramification, layer 4: the wild and tame filtrations and the Iwasawa
-presentation Fr s Fr⁻¹ = s^q.
-
-### From TauCetiRoadmap.DGAInfinity and DerivedModuleAlgebra
-
-[DGAInfinity](../DGAInfinity/README.md) layers 0–1 supply A-linear Hom complexes, their
-comparison with Mathlib's additive Hom complex, and dg enrichment.
-[DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.2 supplies K-flat
-resolutions for arbitrary, possibly unbounded A-module complexes and the derived tensor
-bifunctor `DerivedDeRham.derivedTensor`. SR.0d
-constructs the equivariant resolutions and the K-injective smooth subcategory on these APIs.
-
-## How to read the build
-
-`README.md` fixes the hypotheses and conclusions of the targets. `Suggested.lean` states the
-headline targets that can be stated against the pins, with proof placeholders, and each such
-target carries a *Lean:* line below; the other targets are specified here only. The layers depend
-on one another in the order
-SR.0 → SR.1 → SR.0d → SR.2 → SR.3a → SR.3 → SR.2a → SR.4 → SR.5 → SR.6, and they are presented
-below in that order. SR.0d follows SR.1 because the derived Hecke algebra extends the
-permutation-module Hecke algebra, and precedes SR.2 because the Jacquet module of a regular
-principal series splits by the vanishing of Ext between distinct central characters. SR.2a follows
-SR.3a and SR.3 because Bernstein's stabilisation theorem uses uniform admissibility, the Bernstein
-decomposition, noetherianity and generic irreducibility; SR.3 itself uses nothing from SR.2a, since
-the centre is proved by the Bernstein–Deligne route. SR.4 uses SR.1 and SR.2; SR.5 uses SR.3, with the algebraic *stable-operator* prerequisite
-in SR.5.2 preceding *integral-second-adjointness*; SR.6
-uses SR.0–SR.3, SR.2a, SR.4 and SR.5.2 *stable-operator* and is used by nothing earlier. Within a target, *Needs* names the
-earlier targets by their short names and the supplier layers by roadmap and layer; the references
-in parentheses are to the editions listed under *References*, by printed page.
 
 ## Layer SR.0: the smooth category and its basic API
 
@@ -5319,6 +4917,448 @@ integral local families of SR.5.
 |---|---|---|
 | SR.4.3 / *gln-generators* | IntegralHeckeAndGaloisDeterminants IHG.3a.1 / Integral GLn Hecke polynomial | Characteristic-double-coset T_i and the `q^{i(i−1)/2}` factors; determinant characteristic polynomials and traces are supplied by IHG.0 / Characteristic polynomial and trace of a determinant. |
 | SR.4.5 / *gsp4-spin-polynomial*, *gsp4-galois-comparison* | IntegralHeckeAndGaloisDeterminants IHG.3a.2 / GSp4 dual-spin Hecke polynomial | The reciprocal-polynomial identity uses `Polynomial.reflect 4`; this roadmap's (T₀,T₂,T₁) are the consumer's (T₀,T₁,T₂). IHG.0 owns characteristic polynomials, traces and reciprocal determinant identities. |
+
+## Scope and ownership
+
+The roadmap owns the smooth category of a locally profinite group over any commutative ring, with
+its smooth vectors, invariants, averaging projectors, admissibility, characters, contragredients,
+coefficient change and centre (SR.0); Hecke algebras over rings in both the convolution and the
+permutation-module model, their comparison with the double-coset Hecke ring, Hecke modules, the
+Λ-linear Bernstein centre, positive Hecke algebras and the Iwahori–Matsumoto and Bernstein
+presentations (SR.1); the Grothendieck property, the derived smooth category with its dg
+enhancement, derived invariants, compact generation, derived duality and the derived Hecke algebra
+(SR.0d); smooth and compact induction, Jacquet functors, parabolic induction, the first
+adjointness, the geometric lemma, Casselman's pairing and Whittaker functionals (SR.2); compact and
+cuspidal representations, Harish-Chandra's compactness theorem and uniform admissibility (SR.3a);
+cuspidal support, the Bernstein decomposition and centre, noetherianity, the Langlands
+classification conditional on Harish–Chandra tempered support and the Iwahori categories (SR.3); Bernstein's stabilisation theorem and second
+adjointness over ℂ (SR.2a); the Satake transform and isomorphism with their explicit GL_n, unitary
+and GSp_4 normalisations (SR.4); the integral local families of GL_n (SR.5); and the integral
+algebra of finite-wild parameters, excursion coefficients, center images and contracting Hecke
+operators (SR.6). The generic stable-operator algebra is a prerequisite in SR.5.2.
+
+It uses the carriers of the neighbouring roadmaps as they exist and adds the smooth category, its
+functors and its theorems on top of them. From
+[Reductive groups, Part II](../ReductiveGroupsPartII/README.md) it takes, from RG2.0, the locally
+profinite topology on 𝐆(F) and its closed subgroups P(F), M(F), N(F), on which it builds smooth
+representations of these groups; from RG2.1, the maximal split central torus and the valued root
+datum (the relative roots are ReductiveGroups layer 7), on which it builds unramified characters
+and Satake twisting; from RG2.2.4, the periodic lattice chains of GL(V), on which it builds the
+hereditary orders of the distinguished cuspidal types of GL_n; from RG2.3, the parahoric, Iwahori
+and pro-p Iwahori subgroups and the
+Moy–Prasad filtration (congruence subgroups are RG2.0 and Iwahori factorisations RG2.4), on which
+it builds positive Hecke algebras, the Iwahori block and uniform admissibility; from RG2.4, the
+Iwasawa, Cartan and Iwahori–Bruhat decompositions, compactness of P\G (hence finiteness of
+P\G/K), unimodularity and the modulus δ_P of the minimal parabolic, on which it builds the
+geometric lemma, the modulus character over A, the Satake transform and the Iwahori–Matsumoto
+presentation; and from RG2.5, the pinned integral dual group over ℤ with its Galois action through
+a finite quotient and the L-group, on which it builds the Frobenius-coinvariant dual torus,
+spherical parameters, finite-wild cocycle schemes and excursion algebras. From
+[Profinite cohomology](../ProfiniteCohomology/README.md#layer-0-discrete-modules-and-continuous-sections)
+layer 0 and [layer 1](../ProfiniteCohomology/README.md#layer-1-the-canonical-carrier-and-its-functoriality)
+it takes discrete modules over profinite groups, their exhaustion by invariants of open normal
+subgroups, and the canonical smooth discrete carrier `TauCeti.SmoothDiscreteTopRep`; this roadmap
+adds the algebraic smooth category over any commutative ring and identifies it with that carrier
+using Tau Ceti's `discreteRepEquivSmoothTopRep`, and layer 1's finite products, subobjects, quotients and
+restriction are transported along it. From
+[Profinite cohomology layer 7](../ProfiniteCohomology/README.md#layer-7-coinduced-modules-and-shapiros-lemma)
+and [layer 10](../ProfiniteCohomology/README.md#layer-10-continuous-cohomology-in-all-degrees) it
+takes coinduction, Shapiro's lemma and continuous cohomology of profinite groups, and adds derived
+invariants of compact open subgroups and the derived Hecke algebra. From
+the completed roadmap
+[Profinite and pro-p groups](../../Completed/ProfiniteProPGroups/README.md#layer-1-supernatural-order-and-index)
+layer 1 it takes supernatural orders and pro-p groups, and adds compact open subgroups of pro-order
+invertible in A. From
+[Induction and restriction](../RepresentationTheory/InductionRestriction/README.md#layer-0-the-functorial-core----transitivity-and-the-projection-formula)
+layer 0 and [layer 3](../RepresentationTheory/InductionRestriction/README.md#layer-3-the-mackey-decomposition-formula)
+it takes algebraic induction in stages and the Mackey decomposition, and adds compact induction
+from open subgroups, induction in stages and the Mackey filtration. From
+[Modular forms](../ModularForms/README.md#layer-2-hecke-operators-and-the-hecke-algebra) layer 2
+it takes the double-coset Hecke ring with Shimura's product and the GL_2 polynomial presentation,
+and adds convolution and permutation-module Hecke algebras with their comparison with the
+double-coset ring, and the all-rank Satake isomorphism. Idempotented algebras, their
+nondegenerate modules with the principal projective generators He, and the Hecke-module
+equivalence are stated and proved here (SR.1.3, *locally-unital-algebra*, *hecke-module-equivalence*);
+unitary and firm modules over an arbitrary nonunital ring, left xst rings and the abelian category
+of their firm modules belong to the later roadmap CyclicHomologyLieHomologyAndQuasiFreeAlgebras
+§5.4, which records the nondegenerate modules of an idempotented algebra as its instance, and this
+roadmap cites no section of it. From
+[Reductive groups](../ReductiveGroups/README.md#layer-3-subgroups-quotients-components) layer 3,
+[layer 7](../ReductiveGroups/README.md#layer-7-structure-theory) and
+[layer 9](../ReductiveGroups/README.md#layer-9-pinned-chevalleydemazure-group-schemes-over-ℤ) it
+takes root data, parabolic and Levi subgroups, Weyl groups, the Bruhat decomposition, central
+quotients and pinned split group schemes, and adds the representation theory of the rational
+points. ReductiveGroups Layer 5P owns the characteristic-zero matrix exp/log construction
+and its restrictions to unipotent algebraic groups and their Lie algebras. SR.5.2
+*nilpotent-exp-log* adds finite evaluation in arbitrary, possibly noncommutative ℚ-algebras,
+with comparison to those matrix maps, and the continuous ℤ_ℓ interpolation needed for monodromy.
+From [Class field theory](../ClassFieldTheory/README.md#layer-9-the-local-weil-group)
+layer 9 it takes the local Weil group and its Frobenius elements (the wild and tame filtrations are
+[Local fields and ramification](../../Completed/LocalFieldsRamification/README.md); local Langlands for tori is
+an input stated where used), and adds finite-wild discretisations and cocycle functoriality.
+SR.5.2 owns the common raw Weil–Deligne fields and the entire lower linear theory:
+*nilpotent-exp-log*, *wd-parameter-operations*, *wd-algebraic-composition*,
+*wd-complete-coefficients*, *full-wd-construction* and *wd-frobenius-semisimplification*.
+These targets use ordinary
+linear representations, ClassFieldTheory layer 9 and Tau Ceti's local characters;
+they precede *classical-llc-normalization* and require neither determinant reconstruction
+nor LLC. ArithmeticGaloisRepresentations consumes this linear theory for its
+`ContinuousRep` adapter, local factors and agreement with the normalized functor.
+The ownership order is raw fields → linear operations and monodromy → full construction
+→ Frobenius semisimplification → normalized functor → arithmetic adapter/agreement.
+
+The boundaries with the roadmaps that consume this one are as follows. The ∞-categorical
+enhancement of the derived smooth category and its comparison with étale sheaves on the
+classifying stack are built by the v-stack and enhanced-sheaf roadmaps on the dg model of SR.0d.
+SR.6 concerns the integral finite-wild cocycle scheme, invariant quotients and the free-group
+excursion algebra. The geometric Hecke action on Bun_G, its map to the smooth center, and the
+integral finiteness and second-adjointness consequences requiring that action for a general
+reductive group over ℤ[1/p]-algebras are outside the
+scope of this roadmap ([FS] Theorem IX.0.1, p. 317, and Proposition IX.5.1, p. 327; [DHKM1]
+Theorems 1.1–1.2 and Corollary 1.3). For GL_n over W(k) the integral second adjointness that
+SR.5.2 uses is owned there (*integral-second-adjointness*), by Helm's route through the types and
+projectives of SR.5.2, which uses no geometric action. No geometric action is an input to the remaining SR.6 targets. The arithmetic GL_n double-coset multiplication belongs to
+ModularForms; the geometric Satake equivalence to GeometricSatakeAndFusion, which compares against
+the trace contract of SR.4; two-parahoric unitary operators, the Iwahori and Klingen computations
+for GSp_4 with their Galois applications, the GL_2 newvector theorem and the minimal-lift line of
+integral families belong to their own roadmaps, and SR.4–SR.5 export the spherical products,
+the spin polynomial and co-Whittaker families. Plancherel theory is not
+here: the Langlands classification is proved from Casselman's criterion and takes as an explicit
+hypothesis the Harish–Chandra tempered-support statement (*harish-chandra-tempered-support*), owned by SR.3.3, giving Harish-Chandra's description of tempered representations as summands of unitary
+inductions of discrete series. The Whittaker-functionals target constructs the functionals and
+twisted quotient, and includes multiplicity one for irreducible complex representations of GL_2(F). Bushnell–Kutzko types beyond
+the Iwahori case are not here, with one exception that Helm's integral block route needs: for GL_n
+over a p-adic field, SR.5.2 owns the maximal distinguished cuspidal types with their ℓ-modular
+coverage (*distinguished-cuspidal-types*), the projectives compactly and parabolically induced
+from them (*type-projective-construction*), and the integral Bernstein decomposition and second
+adjointness that these projectives give (*integral-second-adjointness*).
+
+The following supplier results fix the shared interfaces. Compact open subgroups form Hecke pairs, with U₁gU₂ a finite union of
+[U₁ : U₁ ∩ gU₂g⁻¹] left cosets: ReductiveGroupsPartII, RG2.4 (compact double-coset finiteness),
+with Tau Ceti `HeckeCoset.degree_eq_relIndex`. The base-change map B ⊗_A V^K → (B ⊗_A V)^K and its
+isomorphism under an averaging projector: *coefficient-change*. The normalised Satake data used by geometric Satake are those of
+*satake-isomorphism*; integral essential vectors for GL_n are outside this roadmap. The following
+library and roadmap declarations are the algebraic or compact-group halves of targets that remain
+here, which add the locally profinite, ring-valued or reductive clause: Tau Ceti `DiscreteRep`,
+`IsSmoothDiscrete`, `discreteRepEquivSmoothTopRep`, `IsSmoothDiscrete.res` and
+`SmoothDiscreteTopRep.hasFilteredColimits` (SR.0.1–SR.0.2); `Representation.ofLinearCharacter`,
+`charTwist`, `charTwist_one`, `charTwist_charTwist` (smooth characters and twists); `Rep.dual`,
+`Rep.dualMap`, `Rep.doubleDualIso` (the algebraic contragredient);
+`Representation.invariantsBaseChangeEquiv` (finite groups) for coefficient change; `coind`,
+`DiscreteCoind`, `coindFunctor`, `smoothDiscreteResCoindAdjunction`, `DiscreteCoind.transEquiv`,
+`coindMap_surjective`, `coindFunctor_map_shortExact` and Profinite cohomology layer 7 for
+induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
+`Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
+for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
+formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori) and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
+and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
+*parabolic-adjoint-determinant* in every characteristic, supplying
+det(Ad(p)|Lie P) = det(Ad(p)|Lie N) as an algebraic identity (SR.1.4–SR.1.5, SR.2.2, SR.3a.2;
+SR.2.2 owns coefficient change and the square roots used in normalised induction, and
+AdelicAlgebraicGroups §2.2 consumes both results directly from RG2.4);
+the central-coset localisation of Modular forms, layer 2 (SR.4.3); the Iwasawa presentation
+Fr s Fr⁻¹ = s^q of Local fields and ramification, layer 4, with Tau Ceti `IsArithFrobeniusLift`,
+`tameQuotientEquiv`, `wildInertiaSubgroup` (SR.6.1); and Mathlib's Fitting decomposition
+`LinearMap.eventually_isCompl_ker_pow_range_pow`, of which stable operators on Noetherian Artinian
+modules are the instance (SR.5.2 *stable-operator*, applied in SR.6.5).
+
+## Exact supplier contracts
+
+All names in this section are part of the dependency contract, at the pins above. Each entry
+records the layer that consumes it; subject descriptions without an exact declaration are not
+dependencies.
+
+### From Mathlib
+
+The smooth representation design follows
+[smooth representation design](https://github.com/leanprover-community/mathlib4/pull/41525),
+`Mathlib/RepresentationTheory/Smooth/Basic.lean`: `Representation.Smooth.IsSmooth` is a
+proposition-valued class asserting open stabilizers, and `smoothVectors` is a
+`Subrepresentation`. The categorical extension in
+[smooth representation category design](https://github.com/leanprover-community/mathlib4/pull/41520),
+`Mathlib/RepresentationTheory/Smooth/SmRep.lean`, uses `ObjectProperty.FullSubcategory` and
+smooth vectors as the right adjoint of its inclusion. These are design references rather than
+suppliers at the pins. SR.0 constructs these interfaces in Tau Ceti using that design. The
+[discussion of smooth p-adic representations](https://leanprover-community.github.io/archive/stream/116395-maths/topic/class.20and.20def.20%28p-adic.20reps%29.html)
+also separates general topological-group smoothness from the reductive applications.
+
+For SR.0: `NonarchimedeanGroup` (open subgroups as a neighbourhood basis, without compactness),
+`loc_compact_Haus_tot_disc_of_zero_dim` in
+`Mathlib/Topology/Separation/Profinite.lean` (the locally compact Hausdorff clopen basis) and
+`exists_compact_subset` (compact neighbourhoods inside open sets). SR.0.1 supplies the
+compact-clopen translation-stabilizer argument for van Dantzig's theorem;
+`IsTopologicalGroup.exist_openSubgroup_sub_clopen_nhds_of_one` and
+`compact_exists_isClopen_in_isOpen` apply only to compact ambient spaces. Also `OpenSubgroup`,
+`Representation`, `Representation.stabilizer`, `Representation.ofMulAction` (the carrier of
+smoothness and the permutation representations used in the checks), `Rep` with `Rep.res` in
+`Mathlib/RepresentationTheory/Rep/Res.lean` and `Rep.quotient` and `Rep.mkQ` in
+`Mathlib/RepresentationTheory/Rep/Basic.lean` (restriction and quotient objects of the ambient
+category; `Rep.ofQuotient` is instead the representation of G ⧸ S
+on a module where the normal subgroup S acts trivially, and is not used for quotient objects; the
+two types are distinguished by a test),
+`CategoryTheory.ObjectProperty.FullSubcategory`,
+`CategoryTheory.ObjectProperty.IsClosedUnderColimitsOfShape`,
+`CategoryTheory.ObjectProperty.IsClosedUnderKernels`,
+`CategoryTheory.ObjectProperty.IsClosedUnderCokernels` and `CategoryTheory.Coreflective` (the
+full subcategory, its closure properties and the coreflection by smooth vectors),
+`Representation.invariants`, `Representation.averageMap` (the finite-group averaging that the
+projector extends), `MonoidAlgebra` and `Representation.asModule` (finite generation over A[G]),
+`Representation.dual` (the algebraic contragredient), `CategoryTheory.CatCenter` and
+`CategoryTheory.Linear.toCatCenter` (the centre and the ring map from A).
+
+`CategoryTheory.CatCenter.app`, `CatCenter.naturality` and `CatCenter.ext` in
+`Mathlib/CategoryTheory/Center/Basic.lean` supply evaluation, naturality and extensionality;
+`ObjectProperty.FullSubcategory.mk` and `ObjectProperty.hom_ext` in
+`Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean` and `Rep.Hom.ext` in
+`Mathlib/RepresentationTheory/Rep/Basic.lean` supply bundling and morphism equality.
+`SemidirectProduct.inv_left` and `inv_right` in `Mathlib/GroupTheory/SemidirectProduct.lean`
+fix inversion of a parameter section; SR.6 adds the section attached to a crossed cocycle.
+
+For SR.1: `LocallyConstant`, `CompactlySupportedContinuousMap` in
+`Mathlib/Topology/ContinuousMap/CompactlySupported.lean` (the model of C_c^∞ for a discrete
+target). The C_c^∞(X, M) of SR.1.1 differs by requiring no topology on the target; the comparison
+uses `LocallyConstant.toContinuousMap` and `IsLocallyConstant.iff_continuous` in
+`Mathlib/Topology/LocallyConstant/Basic.lean`. Also use `TopologicalSpace.CompactOpens` (the domain of an A-valued measure),
+`MeasureTheory.Measure.haarMeasure` (the real-valued comparison), and the double-coset Hecke ring
+`HeckeRing` on `IsHeckeTriple`, shared with Tau Ceti, which is the target of the comparison of
+SR.1.2.
+
+For SR.0d: `CategoryTheory.IsGrothendieckAbelian` with
+`CategoryTheory.IsGrothendieckAbelian.enoughInjectives` and
+`CategoryTheory.IsGrothendieckAbelian.hasExt`, `HasDerivedCategory`, `DerivedCategory`,
+`DerivedCategory.Plus`, `DerivedCategory.singleFunctor`, `CategoryTheory.Abelian.Ext`,
+`CochainComplex.IsKInjective`, `CochainComplex.isKInjective_of_injective`,
+`CochainComplex.HomComplex`, `CochainComplex.HomComplex.CohomologyClass.equivOfIsKInjective`,
+`CategoryTheory.Functor.rightDerivedFunctorPlus`, `Rep.invariantsFunctor`,
+`Rep.indResAdjunction` with `CategoryTheory.Injective.injective_of_adjoint` (restriction preserves
+injectives because algebraic induction is its exact left adjoint), and `continuousCohomology`
+(the target of the comparison of derived invariants). Also for SR.0d:
+`CategoryTheory.Abelian.Ext.comp_assoc` and `CategoryTheory.Abelian.Ext.comp_assoc_of_third_deg_zero`
+in `Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean` (the bimodule associativity and the
+naturality in the coefficients of the derived corner actions, used without restatement).
+
+For SR.2: `Representation.coind` (smooth induction is its smooth part), `Rep.ind` and
+`Rep.indResAdjunction` (compact induction from an open subgroup and its Frobenius reciprocity),
+`MeasureTheory.Measure.modularCharacter` (the modulus character), `Representation.Coinvariants`
+and `Rep.coinvariantsFunctor` (the Jacquet module), and `CategoryTheory.Adjunction.left_triangle_components`
+and `CategoryTheory.Adjunction.right_triangle_components` in
+`Mathlib/CategoryTheory/Adjunction/Basic.lean` (the triangle identities of the second adjunction).
+
+The functors of SR.2 are assembled from `Rep.resFunctor`
+(`Mathlib/RepresentationTheory/Rep/Res.lean`), `Rep.coindFunctor` with `Rep.resCoindAdjunction`
+(`Mathlib/RepresentationTheory/Coinduced.lean`), `Rep.indFunctor`
+(`Mathlib/RepresentationTheory/Induced.lean`), `Rep.invariantsFunctor` and
+`Rep.quotientToCoinvariantsFunctor` (`Mathlib/RepresentationTheory/Invariants.lean`,
+`Mathlib/RepresentationTheory/Coinvariants.lean`); functors into the smooth category and its
+morphisms use `CategoryTheory.ObjectProperty.lift`, `CategoryTheory.ObjectProperty.ι` and
+`CategoryTheory.ObjectProperty.homMk` (`Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean`).
+The reductive statements use `IsNonarchimedeanLocalField` and `ValuativeRel`
+(`Mathlib/NumberTheory/LocalField/Basic.lean`, `Mathlib/RingTheory/Valuation/ValuativeRel/Basic.lean`),
+and the co-Whittaker target uses `WittVector` (`Mathlib/RingTheory/WittVector/Defs.lean`) and
+`Representation.IntertwiningMap` (`Mathlib/RepresentationTheory/Intertwining.lean`).
+
+For SR.3a: `Module.End.instDivisionRing`, `Transcendental.linearIndependent_sub_inv` (the
+countable-dimension form of Schur's lemma) and `Module.Finite.toModuleEnd_moduleEnd_surjective`
+(Burnside's theorem for the isotypic quotients).
+
+For SR.6: `Representation.tprod` (external tensor products in the excursion data).
+
+The following exact algebraic suppliers are used directly:
+
+- `LinearMap.range`, `LinearMap.range_id`, `LinearMap.range_zero` in
+  `Mathlib/Algebra/Module/Submodule/Range.lean`, and `LinearEquiv.ofInjective` in
+  `Mathlib/Algebra/Module/Submodule/Equiv.lean`. The Schwartz target adds the canonical
+  mirabolic map and proves its injectivity; an arbitrary map's range supplies neither.
+- `IsFiniteLength` and `isFiniteLength_iff_isNoetherian_isArtinian` in
+  `Mathlib/RingTheory/FiniteLength.lean` supply finite length of the group-algebra module.
+- `TauCeti.sign_eq_neg_one_pow_card_inversion` in
+  `TauCeti/GroupTheory/Perm/Inversion.lean` supplies the sign of a permutation as (−1) to its
+  inversion count. The Hall normaliser of SR.4.3 keeps the natural-number inversion count.
+- `Representation.quotient` in `Mathlib/RepresentationTheory/Basic.lean` supplies the
+  representation on an invariant quotient.
+- `Representation.invariants` in `Mathlib/RepresentationTheory/Invariants.lean` supplies
+  subgroup invariants by restriction of the representation.
+- `Representation.Coinvariants`, `Representation.Coinvariants.ker`, `Representation.Coinvariants.mk`,
+  `Representation.Coinvariants.lift`, `Representation.Coinvariants.lift_comp_mk`,
+  `Representation.Coinvariants.hom_ext`, `Representation.Coinvariants.map` and
+  `Representation.Coinvariants.map_mk` in `Mathlib/RepresentationTheory/Coinvariants.lean`
+  supply the Whittaker carrier and quotient API, applied to `Representation.charTwist ψ⁻¹ ρ`.
+  `WhittakerCoinvariants` is a definitional alias (an `abbrev`) of these coinvariants, and its
+  quotient map is `Representation.Coinvariants.mk`. The explicit ψ-relation is their presentation
+  theorem, valid over every commutative coefficient ring.
+- `LinearMap.eventually_isCompl_ker_pow_range_pow` in
+  `Mathlib/RingTheory/Artinian/Module.lean` supplies Fitting decomposition on Noetherian Artinian
+  modules. `StableOperator` allows arbitrary modules and asks for such a decomposition
+  without either chain condition.
+
+For SR.5.2: `IsNilpotent.exp`, `IsNilpotent.exp_eq_sum`,
+`IsNilpotent.exp_add_of_commute`, `IsNilpotent.map_exp`, `IsNilpotent.isUnit_exp`
+from `Mathlib/RingTheory/Nilpotent/Exp.lean` supply finite exponentials;
+`PowerSeries.log`, `PowerSeries.subst_exp_log` and `PowerSeries.subst_log_exp_sub_one`
+from `Mathlib/RingTheory/PowerSeries/Log.lean` supply the formal rational series and
+inverse substitution identities. SR.5.2 adds their finite evaluation on unipotent units.
+
+### From Tau Ceti
+
+For SR.0: `TauCeti.IsSmoothDiscrete`, `TauCeti.SmoothDiscreteTopRep` in
+`TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete/Basic.lean` (topologized
+discrete modules; the algebraic representation carrier here has no topology on its module),
+`TauCeti.isSmoothDiscrete_iff_continuousSMul` and `TauCeti.discreteRepEquivSmoothTopRep` (the
+discrete-module carrier and the comparison with the algebraic smooth category),
+`TauCeti.iSup_fixedPoints_openNormal_eq_top` and `TauCeti.directed_fixedPoints_addSubgroup` (the
+profinite exhaustion that compact-open invariants extend), `TauCeti.profiniteOrder`,
+`TauCeti.ofNat_card_quotient_le_profiniteOrder` and `TauCeti.IsProP` (supernatural order and
+pro-p groups behind invertible pro-order), and `Representation.baseChange` (coefficient change).
+
+For SR.1: the double-coset Hecke ring 𝕋 (⊤) U A of Mathlib/Tau Ceti as `HeckeRing` with
+`HeckeCosetModule`, Shimura's product `HeckeCosetModule.mul`, `HeckeCosetModule.single_mul_single`,
+`HeckeCosetModule.mul_assoc`, `HeckeCosetModule.instRingHeckeRing` and
+`HeckeCosetModule.structureConstants` (the multiplicities m(D₁, D₂; D) that the comparison
+matches), `HeckeRing.GLn.polynomialRingEquivTwo` (the GL_2 polynomial presentation, reused by the
+GL_n spherical generators), `HeckeCoset.heckeSum` (the sum on invariant linear maps, compared with the right
+vector action through q_v on the left regular representation) and `HeckeCoset.degree_eq_relIndex` (the degree of a double coset).
+
+For SR.0d and SR.2: `TauCeti.indTrivialIso` (c-Ind_U^G A = A[G/U]), `TauCeti.Rep.indFunctorCompIso`
+(transitivity of algebraic induction), `TauCeti.indProjection` (the projection formula for open
+H) and `Rep.mackeyDecomposition` (the Mackey decomposition for finite G, the direct-sum case of the
+Mackey filtration).
+
+For SR.4: `HeckeRing.GL2.Newform.satakeParameters` (the Satake pair of a classical newform at p,
+which the spherical parameters must agree with). For the derived Satake comparison of SR.4.5:
+`TauCeti.TopPairing.cup` in
+`TauCeti/RepresentationTheory/Homological/ContCohomology/Cup/Cohomology.lean` (the cup product on
+continuous cohomology), `TauCeti.TopPairing.cup_one_left` in `.../ContCohomology/Cup/Unit.lean`
+and `TauCeti.TopPairing.cup_gradedComm` in `.../ContCohomology/Cup/Graded/Comm.lean` (its unit and
+graded commutativity), and the general `TauCeti.ChainComplex.cup` in
+`TauCeti/Algebra/Homology/Monoidal/Cup.lean`. The target *finite-discrete-cup-comparison* of SR.4.5 constructs the natural S-linear,
+cup-compatible comparison with Mathlib's `groupCohomology` of the finite torus quotient.
+The unit and odd-square laws are transported through that comparison. The pinned
+`TauCeti.ContCohomology.nonempty_continuousCohomology_addEquiv_groupCohomology` in
+`.../ContCohomology/DiscreteGroup.lean` supplies only existence of an additive equivalence.
+
+For SR.6: `TauCeti.AffineGroupSchemeCat` (the affine group schemes carrying the cocycle scheme),
+and `TauCeti.IsArithFrobeniusLift`, `TauCeti.tameQuotientEquiv`, `TauCeti.wildInertiaSubgroup`
+(the Iwasawa presentation of the tame quotient, consumed by the finite-wild discretisation).
+
+For SR.3a, SR.3 and SR.2a: `TauCeti.FiniteTypeCommHopfAlgCat` in
+`TauCeti/Algebra/AlgebraicGroup/FiniteType/CommHopfAlgCat.lean` and
+`TauCeti.reductiveCommHopfAlgProperty` in `TauCeti/Algebra/AlgebraicGroup/Reductive/Basic.lean`
+(a connected reductive group `Spec H` of finite type over F), and the dynamic subgroups
+`TauCeti.Cocharacter.parabolic`, `TauCeti.Cocharacter.levi` and `TauCeti.Cocharacter.unipotent` in
+`TauCeti/Algebra/AlgebraicGroup/Dynamic/Parabolic.lean` with the limit map
+`TauCeti.Cocharacter.limitToLevi` in `TauCeti/Algebra/AlgebraicGroup/Dynamic/LeviDecomposition/Basic.lean`
+(the parabolic P(λ), its Levi subgroup and unipotent radical, and the projection P(λ) → M(λ)).
+
+For SR.5: `TauCeti.upperUnitriangularGroup` in
+`TauCeti/LinearAlgebra/Matrix/GeneralLinearGroup/UpperUnitriangular/Basic.lean` (the unipotent
+radical U_n of the Borel), with `TauCeti.UpperUnitriangularGroup.ext` and `.map`.
+
+`Representation.ofLinearCharacter` in `TauCeti/RepresentationTheory/LinearCharacter/Basic.lean`
+supplies the character representation over any commutative semiring. In the root namespace
+`Representation`, the declarations `charTwist`, `charTwist_apply_apply`, `charTwist_one`,
+`charTwist_charTwist`, `charTwist_trivial`, `tprodEquivCharTwist`,
+`subrepresentationCharTwistOrderIso` and `isIrreducible_charTwist_iff` in
+`TauCeti/RepresentationTheory/CharacterTwist.lean` supply the algebraic twist and its API.
+The roadmap applies `Representation.charTwist χ ρ` directly, with the character first, and defines no alias for it.
+SR.0 adds the open-kernel criterion and smooth functor. The unramified action, parabolic
+normalization, Bernstein families and derivative twists all use this same supplier action. `TauCeti.IsCrossedHom` in
+`TauCeti/Topology/Algebra/Group/CrossedHom.lean` treats additive ring-valued crossed maps;
+SR.6's `CrossedCocycle` instead has an arbitrary, possibly noncommutative, target group.
+
+### From TauCetiRoadmap.ReductiveGroupsPartII
+
+RG2.0: the locally profinite topology on 𝐆(F) and on P(F), M(F), N(F), and congruence subgroups.
+RG2.1: the maximal split central torus and the valued root datum. RG2.2.4: the periodic lattice
+chains of GL(V) and their stabilisers (*gl-building-lattice-chains*), whose endomorphism orders
+are the hereditary orders of the types of SR.5.2. RG2.3: parahoric, Iwahori and
+pro-p Iwahori subgroups, the Moy–Prasad filtration and congruence subgroups in good position.
+RG2.4: the Iwasawa, Cartan and Iwahori–Bruhat decompositions, Iwahori factorisations and cell
+products, compact double-coset finiteness and the index formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ (for `z` in RG2.4's dominant monoid `Δ_M`, normalizing `H ∩ M`: `z` central in `M`, or `P` minimal with `H` an Iwahori),
+compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic. RG2.5: the pinned
+integral dual group over ℤ with its Galois action through a finite quotient and the L-group. These
+are supplied mathematical interfaces; no second topology, parahoric or dual group is defined here.
+On the native convolution carrier `Points H`, the reductive signatures in `Suggested.lean` use
+`pointsTopology`, the infimum of the evaluation-induced topologies. RG2.0 supplies the
+compatibility of this topology with the local-field point topology and its topological-group,
+Hausdorff and totally disconnected properties.
+
+For SR.2.2, RG2.4 owns `LocalIntegration.modularCharacter_eq_adjointModulus`
+(`Suggested.lean`): the local Haar modular character is the absolute adjoint determinant. This
+holds over every nonarchimedean local field, including positive characteristic. RG2.4 also owns
+*parabolic-adjoint-determinant*: for a connected reductive group G over a field E, a parabolic
+P = M ⋉ N and p ∈ P(E), it supplies det(Ad(p)|Lie P) = det(Ad(p)|Lie N) in Eˣ, in every
+characteristic. The P-stable exact sequence `0 → Lie N → Lie P → Lie M → 0` factors the
+determinant, with the quotient action induced by P → M. The adjoint determinant character of M
+is trivial: over an algebraic closure its maximal-torus weights are zero weights and opposite
+root pairs, so its restriction to that torus is one. A character of a connected reductive group
+is determined by its restriction to a maximal torus, and the identity descends to E
+([Conrad], §1.2, (1.2.1), p. 16, and Proposition 1.4.7, pp. 35–36). Local Haar unimodularity
+alone gives only an absolute-value identity. SR consumes these two RG2.4 results to construct
+the coefficient-valued modulus when the residue characteristic is invertible in A, with a chosen
+square root for normalised induction. AdelicAlgebraicGroups §2.2 consumes both results directly
+from RG2.4 for finite-place and adelic comparisons.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+Layer 0: discrete modules over profinite groups and their exhaustion by invariants of open normal
+subgroups. Layer 1: the canonical carrier `TauCeti.SmoothDiscreteTopRep` with its finite products,
+subobjects, quotients and restriction, which SR.0.2 transports along
+`discreteRepEquivSmoothTopRep`. Layer 7: coinduced modules and Shapiro's lemma, consumed by the
+derived Hecke algebra and by exactness of induction. Layer 10: continuous cohomology in all
+degrees, the target of the comparison of derived invariants in SR.0d.
+
+### From the completed roadmap ProfiniteProPGroups (Completed/ProfiniteProPGroups)
+
+Layer 1: supernatural order and index, which defines the pro-order of a profinite group and the
+pro-p property behind *unit-pro-order*.
+
+### From TauCetiRoadmap.RepresentationTheory.InductionRestriction
+
+Layer 0: the functorial core, transitivity and the projection formula of algebraic induction, with
+which compact induction from open subgroups agrees. Layer 2: the finite-index coset model and
+preservation of finite dimension, used by induction of raw Weil–Deligne parameters in SR.5.2.
+Layer 3: the Mackey decomposition formula, the finite case of the Mackey filtration.
+
+### From TauCetiRoadmap.ModularForms
+
+Layer 2: the double-coset Hecke ring with Shimura's product, the GL_2 polynomial presentation and
+the central-coset localisation, which SR.1.2 compares with and SR.4.3 reuses rather than defining
+another multiplication.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 3: subgroups, quotients and components, for the c-group formulation. Layer 7: structure
+theory, with the relative roots, parabolic and Levi subgroups, Weyl groups and the Bruhat
+decomposition that the parabolic pairs, the geometric lemma and the dual-group arguments use.
+Layer 5P: characteristic-zero polynomial matrix exp/log and their geometric restrictions;
+SR.5.2 compares its arbitrary-ℚ-algebra finite evaluation with these maps.
+Layer 2: the Lie algebra of an algebraic group and the differential of a morphism, for the
+composites of SR.5.2 *wd-algebraic-composition*.
+Layer 4: the Jordan decomposition of elements and its functoriality under representations,
+which SR.5.2 *wd-algebraic-composition* uses for the unipotence of ρ(exp N) and for the
+preservation of Frobenius semisimplicity.
+Layer 9: the pinned Chevalley–Demazure group schemes over ℤ, carrying the finite-wild cocycle
+scheme.
+
+### From TauCetiRoadmap.ClassFieldTheory
+
+Layer 9: the local Weil group and its Frobenius elements, consumed by the torus-character
+dictionary, the finite-wild discretisation and the torus compatibility of the excursion action.
+Local Langlands for tori is an input stated where used.
+
+### From TauCetiRoadmap.LocalFieldsRamification
+
+Local fields and ramification, layer 4: the wild and tame filtrations and the Iwasawa
+presentation Fr s Fr⁻¹ = s^q.
+
+### From TauCetiRoadmap.DGAInfinity and DerivedModuleAlgebra
+
+[DGAInfinity](../DGAInfinity/README.md) layers 0–1 supply A-linear Hom complexes, their
+comparison with Mathlib's additive Hom complex, and dg enrichment.
+[DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.2 supplies K-flat
+resolutions for arbitrary, possibly unbounded A-module complexes and the derived tensor
+bifunctor `DerivedDeRham.derivedTensor`. SR.0d
+constructs the equivariant resolutions and the K-injective smooth subcategory on these APIs.
 
 ## References
 

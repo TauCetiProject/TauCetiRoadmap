@@ -1,16 +1,26 @@
 # Roadmap: prismatic cohomology, Part II — Nygaard filtration, absolute prisms and q-de Rham theory
 
-**Summary.** Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition.
+**Summary.** Prismatic cohomology attaches to a p-adic formal scheme X over `A/I`, for a prism `(A, I)`, a complex `Δ_{X/A}` with a Frobenius. A prism is a δ-ring A, so a ring with the Frobenius lift `φ(x) = x^p + pδ(x)`, together with an invertible ideal I satisfying conditions fixed in the first part of this series. This second part adds the Nygaard filtration with canonical Breuil–Kisin twists, an absolute theory over all prisms, and q-deformations of crystalline and de Rham cohomology. Throughout, p is a fixed prime and rings are commutative and unital, the zero ring included.
 
-## Scope and ownership
+The Nygaard filtration measures how divisible Frobenius is by the ideal. On a prism `(B, J)` its i-th step is the set of b with `φ(b) ∈ J^i`. On relative cohomology it lives on the Frobenius twist `φ_A^*Δ_{R/A}`, the base change of `Δ_{R/A}` along φ, not on `Δ_{R/A}`.
 
-The four roadmaps form the chain PrismaticCohomology (Layers 0–2) → PrismaticCohomologyPartII (Layers 3–5) → PrismaticCohomologyPartIII (Layers 6–7) → PrismaticCohomologyPartIV (Layer 8). Layer and section labels agree across the four parts. PerfectoidQuotients → AInfCohomology precede this chain; PadicHodgeTheory consumes it.
+The central theorem, due to Bhatt and Scholze, explains it. Let `(A, I)` be a bounded prism and R a p-completely smooth `A/I`-algebra. Then the relative Frobenius factors through the décalage `Lη_I Δ_{R/A}`, and the resulting map from the Frobenius twist is an isomorphism. On cohomology, `H^i` of the twist is `H^i(Δ_{R/A})` modulo I-torsion, tensored with `I^{⊗i}`. Under this isomorphism, the Nygaard filtration is the connective cover of the I-adic filtration for the Beilinson t-structure. For the crystalline prism `(W(k), (p))` the theorem is the Berthelot–Ogus isomorphism.
 
-This part consumes PrismaticCohomology Layers 0–2; PrismaticCohomologyPartIII and PrismaticCohomologyPartIV are downstream consumers. It owns canonical prism twists, the relative Nygaard filtration, the Cartier–Witt and absolute constructions, and the framed q-models. AInfCohomology supplies décalage and `AΩ`; ordinary monoidal derived and formal-stack foundations remain imports. The local enhancements and all-coordinate comparison maps are specified in Layers 3–5.
+A consequence is the de Rham comparison over every bounded prism. For a smooth p-adic formal scheme X over `A/I`, completed base change of `Δ_{X/A}` along φ and then to `A/I` gives the completed de Rham complex of X, as E∞-algebras. The first part proves it when `W(A/I)` is p-torsion-free. Alongside, every prism carries canonical Breuil–Kisin twists `A{n}` for all integers n, which reduce modulo I to the tensor powers of `I/I²`. `A{1}` has no canonical generator, even when I is principal.
 
-This roadmap owns the primitive AΩ/prismatic comparison (§5.23), the perfect-prism η-uniqueness theorem (§5.25), and absolute Nygaard, twist and divided-Frobenius data (§§3.9, 3.20, 4.25–4.31). These are the primitive inputs for CohomologyComparisons §1.7's agreement with its chosen crystalline, de Rham and étale specialization maps and §1.11's syntomic coefficients. On A_inf coefficients, §3.9 identifies the general prism twist with the line supplied by AInfCohomology §AI.0:integral.1.
+The absolute theory of Bhatt and Lurie gathers the relative complexes over all bounded prisms into one object on the Cartier–Witt stack WCart. Its points are certain generalized Cartier divisors on rings of Witt vectors. Quasi-coherent complexes on WCart are the same as prismatic crystals: compatible families of complete complexes over all bounded prisms. Its Hodge–Tate divisor is `Spf Zₚ × BG_m^♯`, the classifying stack of a divided-power variant of the multiplicative group. Sending a complex on it to its fibre at one point, with a Sen operator Θ, is fully faithful. Its image is the p-complete complexes on which `Θ^p − Θ` acts locally nilpotently on cohomology after derived reduction modulo p. For example, the twist `O{n}` with n ≠ 0 has cohomology Zₚ/n, in degree one only.
 
-Generalized Cartier divisors are supplied by SchemeAndStackFoundations §1.21; §4.2 records the imported interface for Cartier–Witt geometry.
+Taking global sections on WCart defines absolute prismatic cohomology. For algebras over `A/I`, with `(A, I)` a perfect prism, it recovers relative prismatic cohomology. For quasisyntomic schemes over Fₚ it is crystalline cohomology. For every animated ring R, the absolute prismatic cohomology of `R ⊗^L Fₚ` is the p-completed derived de Rham cohomology of R.
+
+The last part works over the q-de Rham prism `(Zₚ[[q−1]], ([p]_q))`, where `[p]_q = Σ_{i<p} q^i`. A q-PD pair `(D, I)` is a q-analogue of a divided-power thickening. For R p-completely smooth over `D/I`, q-crystalline cohomology reduces modulo q−1 to the crystalline cohomology of R over `D/(q−1)`. It is isomorphic, as an E∞-algebra and compatibly with Frobenius, to the prismatic cohomology over `(D, ([p]_q))` of the Frobenius twist of R. For a smooth Zₚ-algebra with étale coordinates it is computed by a complex of q-derivatives, independently of the coordinates. Over `A_inf(O_C)`, for a perfectoid field C of characteristic zero containing all p-power roots of unity and R smooth over its ring of integers, it agrees with the cohomology AΩ of Bhatt, Morrow and Scholze.
+
+Within Tau Ceti, PrismaticCohomology, the first of four parts, provides prisms and relative prismatic cohomology. AInfCohomology provides the décalage Lη and AΩ. PrismaticCohomologyPartIII builds syntomic complexes Zₚ(n) from the Nygaard completion and twists constructed here. CohomologyComparisons uses the comparison with AΩ to match its crystalline, de Rham and étale specialization maps.
+
+Layer 3 builds the Nygaard theory and the twists, Layer 4 the absolute theory, and Layer 5 the q-crystalline theory with its comparisons.
+
+## How to read the build
+
+Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. `Suggested.lean` explains why the headline theorems have no signatures at the library pins: prisms, prismatic cohomology and its Nygaard filtration, Cartier–Witt geometry, q-crystalline cohomology and AΩ are absent. The Lean names in the layers specify the intended library API.
 
 ## Conventions
 
@@ -25,78 +35,6 @@ Nygaard filtrations are decreasing and conjugate filtrations increasing. The rel
 For cochain Koszul models with two commuting endomorphisms `D₁,D₂`, take the complex `M→M⊕M→M` with `d⁰(m)=(D₁m,D₂m)` and `d¹(a,b)=D₂a−D₁b`. Then `d¹d⁰=0`. On `M=Z` with `D₁(m)=2m` and `D₂(m)=3m, d¹d⁰(1)=6−6=0`; replacing the minus by plus gives 12. Reversing both terms changes the orientation and still defines a complex. The q-integer is `Σ_(i<n)q^i`, so `[0]_q=0, [2]_q=1+q` and `[n]_1=n`. The q-divided power `γ` is defined only on `φ⁻¹([p]_qD)`, with `[p]_q` a nonzerodivisor. At `q=1` it satisfies `pγ(x)=x^p`; it is not defined by a `0/0` specialization.
 
 Backticked names in the namespaces `Prismatic`, `QCrys`, `QDeRham`, `FormalQCoh`, `QCohPrestack`, `FramedAlgebra` and `QFraming` are the intended library interface names of this roadmap's targets, fixed so that the layers and their consumers refer to one declaration per notion; `Suggested.lean` declares none of them, because no headline theorem of this roadmap is statable at the library pins. Supplier declarations are cited by the names their roadmaps give them, or by section when the supplier states the result in prose.
-
-## Exact supplier contracts
-
-A supplier row specifies the interface used, under the hypotheses shown. Its theories are imported. Each target lists its own additional prerequisites.
-
-| Supplier | Layers | Required interface |
-| --- | --- | --- |
-| DGAInfinity Layer 1 | 5 | Unital cochain DG algebras, their morphisms and signed tensor products over a commutative coefficient ring. Section 5.18 constructs its specific skew product on this supplied kind of algebra. |
-| DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21 | 3, 4, 5 | PD envelopes with their initial property and flat base change, including p-completion. For p-torsion-free B and a sequence regular modulo p, retain p-torsion-freeness; in characteristic p use the divided-power monomial basis. `A_crys(S)` is the initial p-complete PD thickening of a semiperfect `F_p`-algebra S, with Frobenius and PD/conjugate filtrations. The `γ_p`-stability and `γ_k∘γ_p` identities are used with their p-torsion-free hypotheses (BS22 Lemmas 2.38, 16.11). |
-| CrystallineCohomology §CR.DDR.5.18 | 3, 4 | For quasiregular semiperfect `S` over `F_p`, `LWΩ_S = A_crys(S)` is a p-torsion-free ring in degree zero, its Nygaard levels are degree-zero submodules, and `φ_i` mod p on `gr_N^i` injects into `dR_(S/F_p)` with image `Fil_i^conj`. Sections 3.5 and 4.30 cite this as the characteristic-p instance of the Nygaard graded comparison and do not construct it again. |
-| DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1 | 3, 4, 5 | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure/heart and Bocksteins retain their enhanced coherences. Derived complete M with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
-| PrismaticCohomology §1.10 | 3–5 | Completed base change along a map of finite J-complete Tor-amplitude commutes with totalization of cosimplicial complexes with a common cohomological lower bound, for a finitely generated ideal J. The q-PD application is the Layer 3 subsection *Imported completed base change and totalization*. |
-| DerivedModuleAlgebra §§0.4–0.17, 0.25; DerivedDeRhamCohomology §1.23, §§5.1–5.4 | 4 | Full cotangent complexes, transitivity, derived exterior/divided powers, décalage `∧^i(M[1])≃Γ^i(M)[i]`, p-complete Tor-amplitude and quasisyntomic/QRSP predicates. Square-zero deformation classes, map-lifting and uniqueness under cotangent vanishing are affine inputs; scheme lifting groupoids are PrismaticCohomology §2.6. |
-| DerivedDeRhamCohomology Layer 2 | 3, 4 | Derived p-complete de Rham algebras with Hodge filtration, polynomial models, continuous forms for smooth algebras and crystalline base change; the logarithmic constructors are DerivedDeRhamCohomology §6.20. Comparison maps preserve multiplication and the stated filtrations. |
-| DerivedDeRhamCohomology §§5.1–5.7 | 3, 4, 5 | Quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding from QRSP objects and completed left Kan extension. BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. |
-| CrystallineCohomology Layer CR.2, §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10 | 3, 4, 5 | Crystalline–de Rham comparison on smooth lifts and its polynomial/derived extension with Frobenius and completed base change. No singular site comparison follows from the smooth theorem alone. |
-| EnhancedDerivedSheaves Layer E2 | 5 | Enhanced sheaves, hypercovers, effective epimorphisms, cohomological descent and replete-topos limits. Use space-valued fpqc sheafification, not just groupoid stackification. |
-| DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10 | 4 | The PD conjugate filtration and the derived de Rham–crystalline realization, with completed filtered modules and base change in their stated ranges; prismatic F-crystal comparison and integral lattice descent are local targets. |
-| SchemeAndStackFoundations §§1.1, 1.18–1.22 | 4 | Affine module/vector-bundle faithfully flat descent, stacks in groupoids, quotient stacks and line bundles with a section. Complete formal QCoh, compatible-tower effectivity and punctured derived-completion descent have explicit local owners where used. |
-| AInfCohomology §AI.0:integral.1 | 3–5 | `AInf.bkTwist`: the intrinsic A_inf coefficient line, its divided conormal projections, integer tensor and dual powers, and Frobenius. Section 3.9 constructs `Prismatic.BKTwist.ainfTwistIso` to identify the general prism twist with this supplied line in its coefficient range. |
-| AInfCohomology Layer AI.1 | 3, 5 | Derived `Lη` for an invertible ideal, torsion-free `η`-models, cohomology/truncation and Bockstein reduction, with the lax symmetric monoidal refinement and all coherences of §§AI.1.3–AI.1.4, hence functoriality on `E∞` algebras. Completed commuting-endomorphism Koszul models retain the exterior degree/sign adapter. |
-| EnhancedDerivedSheaves Layer E3 | 3, 5 | Coherent left/right Kan extensions, sifted colimits, totalizations and adjunctions in enhanced categories. Polynomial animation uses its universal property, not a choice of a single resolution. |
-| EnhancedDerivedSheaves Layer E5:animation | 3 | Animated commutative rings and prelog analogues, compact projective polynomial generators, free resolutions and the nonabelian-derived universal property. Completion and algebra structures use DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology Layer 1 and EnhancedDerivedSheaves Layer E5:abstract. |
-| CrystallineCohomology Layer CR.4 | 4 | de Rham–Witt and logarithmic de Rham–Witt sheaves on smooth characteristic-p schemes, Frobenius/Verschiebung/Nygaard operators, Cartier and crystalline comparisons, and their pro-étale coefficient range. |
-| AInfCohomology §§AI.3.1–AI.3.3 | 5 | `AΩ` on small smooth formal charts over the supplied complete algebraically closed characteristic-zero coefficient field, with Frobenius. Its étale, Hodge–Tate and crystalline specializations are §§AI.4.1–AI.4.4. Section 5.22 includes the chart construction over an arbitrary characteristic-zero perfectoid field containing all p-power roots of unity. |
-| AInfCohomology §§AI.3.2–AI.3.3, AI.4.1–AI.4.4 | 5 | Framed q-de Rham computations of `AΩ` and completed Čech/Koszul models with coordinate-injective maps (§§AI.3.2–AI.3.3), together with the specializations of §§AI.4.1–AI.4.4. Arbitrary coordinate identifications and multiplicative `E₁` coherence are constructed in §§5.18, 5.22. |
-| DerivedDeRhamCohomology Layer 3 | 3 | Polynomial Cartier maps and completed derived Cartier comparison, compatible with cotangent transitivity and the conjugate filtration. |
-| SchemeAndStackFoundations §§1.15, 1.18, 1.21 | 4 | Generic prestacks, groupoid stacks, torsors, stackification, 2-fibre products and quotient stacks on the fpqc site. Space-valued formal stacks and enhanced QCoh are the additional constructions of §4.0. |
-| PerfectoidSpaces §§P1.16–P1.18, P4.15.2–P4.15.5; PerfectoidQuotients §0.0 | 3–5 | Integral perfectoid rings, `A_inf, θ`, primitive kernels, initial and perfected prisms, semiperfectoid universal quotient, André covers and surjectivity are the same inputs as PrismaticCohomology Scope; complete étale δ-extension and perfectoid Tor-independence come from PerfectoidQuotients. |
-
-### Existing library interface
-
-| Declaration | Provision |
-| --- | --- |
-| Mathlib `WittVector.map` | Witt ring map induced by a coefficient-ring map. |
-| Mathlib `WittVector.ghostComponent` | Each ghost coordinate is a ring homomorphism on infinite Witt vectors. |
-| Mathlib `WittVector.constantCoeff` | The zeroth coordinate as a ring homomorphism. |
-| Mathlib `WittVector` | the p-typical Witt-vector carrier and its existing ring operations; the cofree δ-structure is supplied by PrismaticCohomology §0.56 |
-| Mathlib `WittVector.frobenius` | The Witt vector Frobenius as a ring endomorphism |
-| Mathlib `WittVector.teichmuller` | The Teichmüller lift `R →* 𝕎 R` as a monoid homomorphism; it supplies the Teichmüller coordinate values in §5.22. |
-| Mathlib `WittVector.fontaineTheta` | Fontaine’s map `θ : W(R♭) → R` for a p-adically complete commutative ring with [Fact ¬ IsUnit `(p : R)`]. Its direct use excludes the zero ring; handle the zero-ring perfectoid separately, and derive nonunit p from completeness for a nonzero ring. |
-| Mathlib `Module.Invertible` | Invertible modules: the Cartier divisor condition on a prism ideal |
-| Mathlib `DividedPowers` | Divided power structures on an ideal; the PD ideals obtained by reducing q-PD pairs at `q = 1`. |
-| Mathlib `Polynomial.cyclotomic` | Cyclotomic polynomials: `[p]_q` is the p-th one |
-| Mathlib `Polynomial.cyclotomic_prime` | The p-th cyclotomic polynomial is `1 + X + … + X^(p−1)` |
-| Mathlib `Polynomial.eval_one_cyclotomic_prime` | The p-th cyclotomic polynomial takes the value p at 1 |
-| Mathlib `DerivedCategory` | The derived category of an abelian category (homological complexes up to quasi-isomorphism); a 1-categorical shadow of `D(A)` underlying the enhanced categories used here. |
-| Mathlib `Ideal.Cotangent` | `I/I²` as a module over `R/I`; the Hodge–Tate twist of A/I-modules is built from it. |
-| Mathlib `WittVector.frobenius_verschiebung` | `F(V(x)) = p·x` for every commutative ring; gives `ψ(I) ⊂ pW(A/I)`. |
-| Mathlib `IsAdicComplete` | Classical I-adic completeness (Hausdorff and precomplete), the form of p-completeness available for rings with bounded `p^∞`-torsion |
-| Mathlib `Ideal.comap` | the preimage of an ideal under a ring map; the Nygaard ideal `Fil^i_N B` is the comap of `J^i` under the Frobenius |
-| Mathlib `Ideal.mem_comap` | `x ∈` comap f K ↔ `f x ∈ K`, the membership criterion for the Nygaard ideals |
-| Mathlib `Ideal.map` | the ideal generated by the image of an ideal; the ideals `(φ^r)^*(I) = φ^r(I)A` of a transversal prism |
-| Mathlib `Ideal.toCotangent` | the linear surjection `I → I/I²`, used to state the transition maps of the twist |
-| Mathlib `ModuleCat.extendScalars` | extension of scalars along a ring map as a functor of module categories; base change and Frobenius pullback of the twist |
-| Mathlib `Module.Dual` | the dual module`; I^{-1} = Hom_A(I, A)` in the target of the Frobenius of the twist |
-| Mathlib `Ideal.Quotient.factor` | the ring map `R/S → R/T` for `S ≤ T`; the transition maps of the tower `B/Fil^i_N B` |
-| Mathlib `frobenius` | the Frobenius `x ↦ x^p` of a ring of characteristic p, used in the characteristic-p Witt Frobenius formula |
-| Mathlib `Units` | the unit group `A^×`, used in the unit-group actions on Cartier–Witt divisors |
-| Mathlib `WittVector.frobenius_eq_map_frobenius` | In characteristic `p, F = W`(Frobenius of R); used for the Frobenius of WCart over `F_p`-algebras. |
-| Mathlib `WittVector.verschiebung` | The Verschiebung `V : W(R) → W(R)`, an additive map shifting coordinates`; V(1)` is the point `η`. |
-| Mathlib `WittVector.verschiebung_mul_frobenius` | `V(x F(y)) = V(x) y`; gives `u V(1) = V(F(u))` and `(1 + [ε]) V(y) = V(y)`. |
-| Mathlib `Polynomial.cyclotomic_prime_mul_X_sub_one` | cyclotomic `p R * (X − 1) = X^p − 1`; gives `φ(q−1) = (q−1)[p]_q`. |
-| Mathlib `geom_sum_mul` | `(Σ_{i<n} x^i)(x − 1) = x^n − 1` in any ring; the identity behind `[n]_q (q−1) = q^n − 1`. |
-| Mathlib `comonadicExtendScalars` | Extension of scalars along a faithfully flat ring homomorphism is a comonadic left adjoint; the fpqc stack and quotient-stack interfaces are supplied by SchemeAndStackFoundations §§1.18, 1.21. |
-| Mathlib `CategoryTheory.Pseudofunctor.IsStack` | Stack predicate extending IsPrestack and requiring essential surjectivity of covering-sieve descent functors. |
-| Mathlib `CategoryTheory.Pseudofunctor.DescentData` | Descent objects for a pseudofunctor and a covering family, with pullback maps and the self/composition coherences. |
-| Mathlib `Perfection` | The perfection `{f : ℕ → α // f (n+1)^p = f n}` of a monoid (with a CommMonoid instance via Perfection.submonoid); it encodes the compatible-root systems used for large quasisyntomic algebras (§3.12). |
-
-## How to read the build
-
-Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. `Suggested.lean` explains why the headline theorems have no signatures at the library pins: prisms, prismatic cohomology and its Nygaard filtration, Cartier–Witt geometry, q-crystalline cohomology and AΩ are absent. The Lean names in the layers specify the intended library API.
 
 ## Layer 3: Nygaard filtration and Breuil–Kisin twists
 
@@ -2035,6 +1973,84 @@ PrismaticCohomology Layers 0–2, Layer 3; AInfCohomology Layer AI.1, AInfCohomo
 ## Downstream consumers
 
 PrismaticCohomologyPartIII Layers 6–7 consumes the Nygaard, absolute and q-comparison theory. Its syntomic complexes `Z_p(n)` are built from the Nygaard completion `Δ̂_S` of §3.20, with the filtration, Frobenius and divided Frobenius of §§3.10 and 3.20 and the twists `Δ̂{n}` of §3.9, without passing through topological Hochschild homology; its graded prismatic Beilinson square compares `Δ̂_S` with `π_0 TC^-(S; Z_p)` through the prismatic recognition statements of §3.26 and supplies the trace-theoretic inputs of BS22 Theorem 13.1 (BMS2 Corollary 9.12 and Theorem 8.17), identifying the BMS2 syntomic complexes with its own; and it uses the Frobenius isogeny of §3.18 on prismatic F-crystals of geometric origin. PrismaticCohomologyPartIV Layer 8 uses the logarithmic adapters of PrismaticCohomologyPartIII and the `Lη_I` factorisation of §3.16. HabiroCohomologyFoundations uses the local q-crystalline comparison of §5.21. PadicHodgeTheory and CohomologyComparisons consume the comparison interfaces; CohomologyComparisons §1.7 proves, from the primitive comparison of §5.23 and the specialisations of §5.24, the agreement with its separately constructed crystalline, de Rham and étale specialization maps, and its §1.11 takes the syntomic coefficients from §§4.25–4.31.
+
+## Scope and ownership
+
+The four roadmaps form the chain PrismaticCohomology (Layers 0–2) → PrismaticCohomologyPartII (Layers 3–5) → PrismaticCohomologyPartIII (Layers 6–7) → PrismaticCohomologyPartIV (Layer 8). Layer and section labels agree across the four parts. PerfectoidQuotients → AInfCohomology precede this chain; PadicHodgeTheory consumes it.
+
+This part consumes PrismaticCohomology Layers 0–2; PrismaticCohomologyPartIII and PrismaticCohomologyPartIV are downstream consumers. It owns canonical prism twists, the relative Nygaard filtration, the Cartier–Witt and absolute constructions, and the framed q-models. AInfCohomology supplies décalage and `AΩ`; ordinary monoidal derived and formal-stack foundations remain imports. The local enhancements and all-coordinate comparison maps are specified in Layers 3–5.
+
+This roadmap owns the primitive AΩ/prismatic comparison (§5.23), the perfect-prism η-uniqueness theorem (§5.25), and absolute Nygaard, twist and divided-Frobenius data (§§3.9, 3.20, 4.25–4.31). These are the primitive inputs for CohomologyComparisons §1.7's agreement with its chosen crystalline, de Rham and étale specialization maps and §1.11's syntomic coefficients. On A_inf coefficients, §3.9 identifies the general prism twist with the line supplied by AInfCohomology §AI.0:integral.1.
+
+Generalized Cartier divisors are supplied by SchemeAndStackFoundations §1.21; §4.2 records the imported interface for Cartier–Witt geometry.
+
+## Exact supplier contracts
+
+A supplier row specifies the interface used, under the hypotheses shown. Its theories are imported. Each target lists its own additional prerequisites.
+
+| Supplier | Layers | Required interface |
+| --- | --- | --- |
+| DGAInfinity Layer 1 | 5 | Unital cochain DG algebras, their morphisms and signed tensor products over a commutative coefficient ring. Section 5.18 constructs its specific skew product on this supplied kind of algebra. |
+| DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21 | 3, 4, 5 | PD envelopes with their initial property and flat base change, including p-completion. For p-torsion-free B and a sequence regular modulo p, retain p-torsion-freeness; in characteristic p use the divided-power monomial basis. `A_crys(S)` is the initial p-complete PD thickening of a semiperfect `F_p`-algebra S, with Frobenius and PD/conjugate filtrations. The `γ_p`-stability and `γ_k∘γ_p` identities are used with their p-torsion-free hypotheses (BS22 Lemmas 2.38, 16.11). |
+| CrystallineCohomology §CR.DDR.5.18 | 3, 4 | For quasiregular semiperfect `S` over `F_p`, `LWΩ_S = A_crys(S)` is a p-torsion-free ring in degree zero, its Nygaard levels are degree-zero submodules, and `φ_i` mod p on `gr_N^i` injects into `dR_(S/F_p)` with image `Fil_i^conj`. Sections 3.5 and 4.30 cite this as the characteristic-p instance of the Nygaard graded comparison and do not construct it again. |
+| DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1 | 3, 4, 5 | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure/heart and Bocksteins retain their enhanced coherences. Derived complete M with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
+| PrismaticCohomology §1.10 | 3–5 | Completed base change along a map of finite J-complete Tor-amplitude commutes with totalization of cosimplicial complexes with a common cohomological lower bound, for a finitely generated ideal J. The q-PD application is the Layer 3 subsection *Imported completed base change and totalization*. |
+| DerivedModuleAlgebra §§0.4–0.17, 0.25; DerivedDeRhamCohomology §1.23, §§5.1–5.4 | 4 | Full cotangent complexes, transitivity, derived exterior/divided powers, décalage `∧^i(M[1])≃Γ^i(M)[i]`, p-complete Tor-amplitude and quasisyntomic/QRSP predicates. Square-zero deformation classes, map-lifting and uniqueness under cotangent vanishing are affine inputs; scheme lifting groupoids are PrismaticCohomology §2.6. |
+| DerivedDeRhamCohomology Layer 2 | 3, 4 | Derived p-complete de Rham algebras with Hodge filtration, polynomial models, continuous forms for smooth algebras and crystalline base change; the logarithmic constructors are DerivedDeRhamCohomology §6.20. Comparison maps preserve multiplication and the stated filtrations. |
+| DerivedDeRhamCohomology §§5.1–5.7 | 3, 4, 5 | Quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding from QRSP objects and completed left Kan extension. BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. |
+| CrystallineCohomology Layer CR.2, §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10 | 3, 4, 5 | Crystalline–de Rham comparison on smooth lifts and its polynomial/derived extension with Frobenius and completed base change. No singular site comparison follows from the smooth theorem alone. |
+| EnhancedDerivedSheaves Layer E2 | 5 | Enhanced sheaves, hypercovers, effective epimorphisms, cohomological descent and replete-topos limits. Use space-valued fpqc sheafification, not just groupoid stackification. |
+| DerivedDeRhamCohomology §4.2; CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10 | 4 | The PD conjugate filtration and the derived de Rham–crystalline realization, with completed filtered modules and base change in their stated ranges; prismatic F-crystal comparison and integral lattice descent are local targets. |
+| SchemeAndStackFoundations §§1.1, 1.18–1.22 | 4 | Affine module/vector-bundle faithfully flat descent, stacks in groupoids, quotient stacks and line bundles with a section. Complete formal QCoh, compatible-tower effectivity and punctured derived-completion descent have explicit local owners where used. |
+| AInfCohomology §AI.0:integral.1 | 3–5 | `AInf.bkTwist`: the intrinsic A_inf coefficient line, its divided conormal projections, integer tensor and dual powers, and Frobenius. Section 3.9 constructs `Prismatic.BKTwist.ainfTwistIso` to identify the general prism twist with this supplied line in its coefficient range. |
+| AInfCohomology Layer AI.1 | 3, 5 | Derived `Lη` for an invertible ideal, torsion-free `η`-models, cohomology/truncation and Bockstein reduction, with the lax symmetric monoidal refinement and all coherences of §§AI.1.3–AI.1.4, hence functoriality on `E∞` algebras. Completed commuting-endomorphism Koszul models retain the exterior degree/sign adapter. |
+| EnhancedDerivedSheaves Layer E3 | 3, 5 | Coherent left/right Kan extensions, sifted colimits, totalizations and adjunctions in enhanced categories. Polynomial animation uses its universal property, not a choice of a single resolution. |
+| EnhancedDerivedSheaves Layer E5:animation | 3 | Animated commutative rings and prelog analogues, compact projective polynomial generators, free resolutions and the nonabelian-derived universal property. Completion and algebra structures use DerivedModuleAlgebra §§1.1–1.9, DerivedDeRhamCohomology Layer 1 and EnhancedDerivedSheaves Layer E5:abstract. |
+| CrystallineCohomology Layer CR.4 | 4 | de Rham–Witt and logarithmic de Rham–Witt sheaves on smooth characteristic-p schemes, Frobenius/Verschiebung/Nygaard operators, Cartier and crystalline comparisons, and their pro-étale coefficient range. |
+| AInfCohomology §§AI.3.1–AI.3.3 | 5 | `AΩ` on small smooth formal charts over the supplied complete algebraically closed characteristic-zero coefficient field, with Frobenius. Its étale, Hodge–Tate and crystalline specializations are §§AI.4.1–AI.4.4. Section 5.22 includes the chart construction over an arbitrary characteristic-zero perfectoid field containing all p-power roots of unity. |
+| AInfCohomology §§AI.3.2–AI.3.3, AI.4.1–AI.4.4 | 5 | Framed q-de Rham computations of `AΩ` and completed Čech/Koszul models with coordinate-injective maps (§§AI.3.2–AI.3.3), together with the specializations of §§AI.4.1–AI.4.4. Arbitrary coordinate identifications and multiplicative `E₁` coherence are constructed in §§5.18, 5.22. |
+| DerivedDeRhamCohomology Layer 3 | 3 | Polynomial Cartier maps and completed derived Cartier comparison, compatible with cotangent transitivity and the conjugate filtration. |
+| SchemeAndStackFoundations §§1.15, 1.18, 1.21 | 4 | Generic prestacks, groupoid stacks, torsors, stackification, 2-fibre products and quotient stacks on the fpqc site. Space-valued formal stacks and enhanced QCoh are the additional constructions of §4.0. |
+| PerfectoidSpaces §§P1.16–P1.18, P4.15.2–P4.15.5; PerfectoidQuotients §0.0 | 3–5 | Integral perfectoid rings, `A_inf, θ`, primitive kernels, initial and perfected prisms, semiperfectoid universal quotient, André covers and surjectivity are the same inputs as PrismaticCohomology Scope; complete étale δ-extension and perfectoid Tor-independence come from PerfectoidQuotients. |
+
+### Existing library interface
+
+| Declaration | Provision |
+| --- | --- |
+| Mathlib `WittVector.map` | Witt ring map induced by a coefficient-ring map. |
+| Mathlib `WittVector.ghostComponent` | Each ghost coordinate is a ring homomorphism on infinite Witt vectors. |
+| Mathlib `WittVector.constantCoeff` | The zeroth coordinate as a ring homomorphism. |
+| Mathlib `WittVector` | the p-typical Witt-vector carrier and its existing ring operations; the cofree δ-structure is supplied by PrismaticCohomology §0.56 |
+| Mathlib `WittVector.frobenius` | The Witt vector Frobenius as a ring endomorphism |
+| Mathlib `WittVector.teichmuller` | The Teichmüller lift `R →* 𝕎 R` as a monoid homomorphism; it supplies the Teichmüller coordinate values in §5.22. |
+| Mathlib `WittVector.fontaineTheta` | Fontaine’s map `θ : W(R♭) → R` for a p-adically complete commutative ring with [Fact ¬ IsUnit `(p : R)`]. Its direct use excludes the zero ring; handle the zero-ring perfectoid separately, and derive nonunit p from completeness for a nonzero ring. |
+| Mathlib `Module.Invertible` | Invertible modules: the Cartier divisor condition on a prism ideal |
+| Mathlib `DividedPowers` | Divided power structures on an ideal; the PD ideals obtained by reducing q-PD pairs at `q = 1`. |
+| Mathlib `Polynomial.cyclotomic` | Cyclotomic polynomials: `[p]_q` is the p-th one |
+| Mathlib `Polynomial.cyclotomic_prime` | The p-th cyclotomic polynomial is `1 + X + … + X^(p−1)` |
+| Mathlib `Polynomial.eval_one_cyclotomic_prime` | The p-th cyclotomic polynomial takes the value p at 1 |
+| Mathlib `DerivedCategory` | The derived category of an abelian category (homological complexes up to quasi-isomorphism); a 1-categorical shadow of `D(A)` underlying the enhanced categories used here. |
+| Mathlib `Ideal.Cotangent` | `I/I²` as a module over `R/I`; the Hodge–Tate twist of A/I-modules is built from it. |
+| Mathlib `WittVector.frobenius_verschiebung` | `F(V(x)) = p·x` for every commutative ring; gives `ψ(I) ⊂ pW(A/I)`. |
+| Mathlib `IsAdicComplete` | Classical I-adic completeness (Hausdorff and precomplete), the form of p-completeness available for rings with bounded `p^∞`-torsion |
+| Mathlib `Ideal.comap` | the preimage of an ideal under a ring map; the Nygaard ideal `Fil^i_N B` is the comap of `J^i` under the Frobenius |
+| Mathlib `Ideal.mem_comap` | `x ∈` comap f K ↔ `f x ∈ K`, the membership criterion for the Nygaard ideals |
+| Mathlib `Ideal.map` | the ideal generated by the image of an ideal; the ideals `(φ^r)^*(I) = φ^r(I)A` of a transversal prism |
+| Mathlib `Ideal.toCotangent` | the linear surjection `I → I/I²`, used to state the transition maps of the twist |
+| Mathlib `ModuleCat.extendScalars` | extension of scalars along a ring map as a functor of module categories; base change and Frobenius pullback of the twist |
+| Mathlib `Module.Dual` | the dual module`; I^{-1} = Hom_A(I, A)` in the target of the Frobenius of the twist |
+| Mathlib `Ideal.Quotient.factor` | the ring map `R/S → R/T` for `S ≤ T`; the transition maps of the tower `B/Fil^i_N B` |
+| Mathlib `frobenius` | the Frobenius `x ↦ x^p` of a ring of characteristic p, used in the characteristic-p Witt Frobenius formula |
+| Mathlib `Units` | the unit group `A^×`, used in the unit-group actions on Cartier–Witt divisors |
+| Mathlib `WittVector.frobenius_eq_map_frobenius` | In characteristic `p, F = W`(Frobenius of R); used for the Frobenius of WCart over `F_p`-algebras. |
+| Mathlib `WittVector.verschiebung` | The Verschiebung `V : W(R) → W(R)`, an additive map shifting coordinates`; V(1)` is the point `η`. |
+| Mathlib `WittVector.verschiebung_mul_frobenius` | `V(x F(y)) = V(x) y`; gives `u V(1) = V(F(u))` and `(1 + [ε]) V(y) = V(y)`. |
+| Mathlib `Polynomial.cyclotomic_prime_mul_X_sub_one` | cyclotomic `p R * (X − 1) = X^p − 1`; gives `φ(q−1) = (q−1)[p]_q`. |
+| Mathlib `geom_sum_mul` | `(Σ_{i<n} x^i)(x − 1) = x^n − 1` in any ring; the identity behind `[n]_q (q−1) = q^n − 1`. |
+| Mathlib `comonadicExtendScalars` | Extension of scalars along a faithfully flat ring homomorphism is a comonadic left adjoint; the fpqc stack and quotient-stack interfaces are supplied by SchemeAndStackFoundations §§1.18, 1.21. |
+| Mathlib `CategoryTheory.Pseudofunctor.IsStack` | Stack predicate extending IsPrestack and requiring essential surjectivity of covering-sieve descent functors. |
+| Mathlib `CategoryTheory.Pseudofunctor.DescentData` | Descent objects for a pseudofunctor and a covering family, with pullback maps and the self/composition coherences. |
+| Mathlib `Perfection` | The perfection `{f : ℕ → α // f (n+1)^p = f n}` of a monoid (with a CommMonoid instance via Perfection.submonoid); it encodes the compatible-root systems used for large quasisyntomic algebras (§3.12). |
 
 ## References
 

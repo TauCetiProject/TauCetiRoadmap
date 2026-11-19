@@ -1,110 +1,73 @@
 # Roadmap: points of algebraic stacks, stabilisers and residual gerbes
 
-**Summary.** This roadmap develops the local structure of an algebraic stack at a point, in the
-conventions of the Stacks Project. It starts from the algebraic stacks, inertia stacks, underlying
-topological spaces, quotient stacks and quasi-coherent modules of SchemeAndStackFoundations
-§§1.18–1.22 and from the site-level gerbes of AlgebraicModuliForArithmeticGeometry §4.1. It builds
-monomorphisms, immersions and closed substacks with their quasi-coherent ideals and reduced induced
-structures (Layer 0); finite type points and the automorphism group algebraic space `G_x` of a
-field-valued point (Layer 1); gerbes as morphisms of algebraic stacks, with the classifying-stack,
-flatness, smoothness, inertia and universal-homeomorphism theorems and the dense open gerbe of a
-reduced stack with quasi-compact inertia (Layer 2); reduced one-point stacks, their rigidity and the
-residual gerbe `𝒵_x` with its characterisation, uniqueness, regularity and functoriality (Layer 3);
-the existence of residual gerbes at finite type points, on stacks with a flat locally quasi-finite
-presentation, on gerbes, on stacks with quasi-compact inertia and on locally Noetherian stacks, with
-the closed-immersion criterion at closed points (Layer 4); decent stacks, the residue field `κ(x)`,
-the algebraicity of points (a gerbe over an integral affine scheme through every point of a decent
-stack with quasi-compact inertia, immersed quasi-compactly when the diagonal is quasi-compact) and
-the fppf image of a representative (Layer 5); the presentation of `𝒵_x` by a representative and its
-identification with `BG_x` (Layer 6); and the infinitesimal neighbourhoods, the normal space `N_x`
-and its comparison with the tangent space at a closed rational point (Layer 7). The end theorems are the
-characterisation of finite type points (1.1, 4.1), the existence of residual gerbes (4.2–4.4), the
-residual gerbe as a gerbe over its residue field with `𝒵_x ×_{κ(x)} k ≃ BG_x` (5.3, 6.2, 6.3), the
-canonical identification `𝒵_x ≃ BG_x` at every rational point of a stack over a field (6.4), the
-closed-immersion criterion at closed points (4.5), and the exact sequence
-`0 → T_{BG_x} → T_{𝒳,x} → N_x → 0`, so that `T_{𝒳,x} ≅ N_x` exactly when `G_x` is smooth (7.3).
+**Summary.** A point of a scheme has a residue field. A point of an algebraic stack carries more
+structure, and this roadmap develops the local structure of an algebraic stack at a point, in the
+conventions of the Stacks Project. Algebraic stacks are stacks in groupoids on schemes for the fppf
+topology whose diagonal is representable by algebraic spaces and which admit a smooth surjective
+morphism from a scheme; algebraic spaces carry no separation axiom.
 
-## Scope and ownership
+A point x of such a stack 𝒳 is a class of morphisms `Spec k → 𝒳` from spectra of fields, its
+representatives. The automorphisms of a representative form a group algebraic space `G_x` over k,
+the stabiliser, which is the fibre of the inertia `I_𝒳 → 𝒳` over it. The residual gerbe `𝒵_x`
+generalises `Spec κ(x)`, which it is when 𝒳 is a scheme. It is said to exist when some monomorphism
+from a one-point algebraic stack to 𝒳 has image x, and it is then the unique substack of 𝒳 which is
+a reduced, locally Noetherian algebraic stack with a single point, mapping to x.
 
-**This roadmap owns** the following, each at the generality of the Stacks Project:
+A point is of finite type when some representative is locally of finite type. This holds exactly
+when the point is the image of a closed point of a scheme smooth over 𝒳, and exactly when the
+residual gerbe exists and is locally of finite type over 𝒳. Such a point need not be closed: the
+generic point of `Spec ℤ_(p)` is one. Residual gerbes exist at every point when 𝒳 is locally
+Noetherian, when its inertia is quasi-compact, or when 𝒳 is a gerbe. They also exist when some
+scheme maps to 𝒳 by a surjective, flat, locally finitely presented and locally quasi-finite
+morphism, which covers algebraic spaces, Deligne–Mumford stacks and quasi-DM stacks (those with
+locally quasi-finite diagonal). On a locally Noetherian stack, a point is closed exactly when its
+residual gerbe is a closed immersion, and the residual gerbe is then the reduced induced closed
+substack on that point.
 
-- properties of algebraic stacks defined by smooth-local properties of schemes, for reducedness and
-  regularity (0.1); monomorphisms of algebraic stacks and their characterisation by full
-  faithfulness and by the diagonal (0.2); open, closed and locally closed immersions and substacks
-  and their description on a presentation (0.3); the correspondence between closed substacks and
-  quasi-coherent ideals, and the infinitesimal neighbourhoods of a closed substack (0.4); the
-  reduced induced closed substack and the reduction (0.5);
-- finite type points (1.1), closed and field-valued points (1.2), the automorphism group algebraic
-  space of a field-valued point and the morphisms inducing isomorphisms on it (1.3), and the
-  criteria for it to be a scheme (1.4);
-- gerbes as morphisms of algebraic stacks (Stacks, Morphisms of Stacks, Section 101.28) and the
-  dense open gerbe (Proposition 101.29.1) (Layer 2);
-- reduced one-point stacks and residual gerbes (Stacks, Properties of Stacks, Section 100.11;
-  Morphisms of Stacks, Sections 101.18, 101.31 and 101.51) (Layers 3–4);
-- decent algebraic stacks, the residue field of a point, the algebraicity of points on decent stacks
-  with quasi-compact inertia (Morphisms of Stacks, Lemma 101.50.2) and on stacks with quasi-compact
-  diagonal (Rydh 2011, Appendix B), and the fppf image of a representative (Layer 5);
-- the presentation of a residual gerbe by a representative, its base change to `BG_x`, neutrality
-  and rational points (Layer 6);
-- the infinitesimal neighbourhoods of a closed point, the normal space `N_x`, and the comparison map
-  from the tangent space to the normal space (Layer 7).
+Call 𝒳 decent when every point has a quasi-compact representative; stacks with quasi-compact
+diagonal are decent. On a decent stack a residual gerbe, where it exists, is a gerbe over the
+spectrum of a field `κ(x)`, unique up to unique isomorphism: the residue field of x. Its base change
+to any representative `Spec k → 𝒳` of x is the classifying stack of the stabiliser,
+`𝒵_x ×_{κ(x)} k ≃ BG_x`. For example, `[Spec ℂ/(ℤ/4)]` over ℝ, with ℤ/4 acting through
+`ℤ/2 = Gal(ℂ/ℝ)`, is its own residual gerbe, a gerbe over `Spec ℝ` with no object over ℝ, and over ℂ
+it becomes `B(ℤ/2)_ℂ`. When 𝒳 lies over a field k and x is a section `Spec k → 𝒳` of the structure
+morphism, the residual gerbe at x exists and the canonical morphism `BG_x → 𝒵_x` is an equivalence.
+If moreover 𝒳 is locally Noetherian and x is closed, `BG_x → 𝒳` is a closed immersion.
 
-Closed substacks, their description on a presentation, their quasi-coherent ideals, the reduced
-induced closed substack and the factorisation of morphisms from reduced stacks are owned here for
-every algebraic stack (0.3–0.5). The roadmap VirtualFundamentalClasses (under Downstream
-consumers) states, in its §1.2, closed substacks of Deligne–Mumford stacks of finite type over a
-field with their description on an étale presentation, the reduced induced closed substack and the
-factorisation of morphisms from reduced stacks: these are 0.3 and 0.5 for such stacks, owned here
-for every algebraic stack. Its closed substacks are closed immersions taken up to equivalence over
-the stack, and by 0.3 each such class contains exactly one substack in the sense of Convention 4, so
-the two carriers agree. What that roadmap builds on them, intersections and reduced unions,
-integral closed substacks, irreducible components, dimension and cycles, is its own; it does not use
-the ideals of 0.4. No other roadmap states any of the objects above.
-SchemeAndStackFoundations stops at the topological space `|𝒳|`, inertia, `SmoothLocal` morphism
-properties, locally Noetherian and separated stacks, presentations and quotient stacks (§§1.19–1.22);
-AlgebraicModuliForArithmeticGeometry states gerbes only on a site (§4.1) and uses closed substacks of
-Deligne–Mumford stacks without defining them (§5.4). Residual spaces of algebraic spaces (Stacks,
-Decent Spaces, Definition 68.13.6) are the residual gerbes of 3.3 on algebraic spaces (3.4); they
-have no second carrier.
+The last theorem compares two linear invariants at such a closed point, when 𝒳 is locally of finite
+type over k and `G_x` is affine. With ℐ the ideal of the closed immersion `BG_x → 𝒳`, the conormal
+module ℐ/ℐ² on `BG_x` is a finite-dimensional representation of `G_x`, and the normal space `N_x` is
+its dual. The tangent space `T_{𝒳,x}` consists of the deformations of x over the dual numbers
+`k[ε]`, each identified with x over k, up to isomorphism. A comparison map `T_{𝒳,x} → N_x` is
+constructed, and `0 → T_{BG_x} → T_{𝒳,x} → N_x → 0` is exact. Since `T_{BG_x}` vanishes exactly
+when `G_x` is smooth, the comparison map is an isomorphism exactly then. On `Bμ_p` over `𝔽_p` the
+normal space is zero and the tangent space a line.
 
-**Imported, not restated.**
+The algebraic stacks, their inertia and their spaces of points come from SchemeAndStackFoundations.
+Gerbes over algebraic stacks are the fppf case of the gerbes on a site of
+AlgebraicModuliForArithmeticGeometry, which also provides the deformations that define `T_{𝒳,x}`;
+banded gerbes stay in that roadmap. Downstream, VirtualFundamentalClasses builds its cycles on the
+closed substacks of Layer 0, and FunctionFieldArithmeticPartII asks for a statement on
+zero-dimensional Deligne–Mumford stacks that is proved here under an added quasi-compact diagonal
+hypothesis.
 
-- SchemeAndStackFoundations §§1.18–1.22: stacks in groupoids and 2-fibre products, representable
-  morphisms, algebraic and Deligne–Mumford stacks, inertia and `automorphismGroup`, `SmoothLocal`
-  and `QuasiCompactStack`, `Stacks.points` with its topology, locally Noetherian and separated
-  stacks, smooth presentations, quotient stacks `[U/R]`, `[X/G]` and `BG`, and quasi-coherent
-  modules with their description on a presentation (giving `QCoh(BG)` as comodules, Convention 9);
-  §§1.7–1.9, 1.13–1.15 and 1.17 for algebraic spaces, group spaces, groupoids, stabilizers, torsors
-  and Artin's bootstrap; §1.23's moduli functor for the base of a gerbe; §4.8's infinitesimal
-  neighbourhoods `V(I^{n+1})` of a closed subscheme, which 0.4 extends to stacks; §4.12 generic
-  flatness.
-- Tau Ceti's regular schemes `TauCeti.AlgebraicGeometry.IsRegular`, with ascent of regularity along
-  smooth morphisms and its descent along flat surjective morphisms to a locally Noetherian scheme;
-  0.1 transfers them to stacks.
-- AlgebraicModuliForArithmeticGeometry §4.1: the gerbe predicates `IsGerbe` and `relativeGerbe` on a
-  site with base change, composition and descent. A gerbe of algebraic stacks (2.1) is the fppf
-  instance of `relativeGerbe`. Bands, banded gerbes and their `H²` classification and rigidification
-  stay in that roadmap's Layers 4–5.
-- AlgebraicModuliForArithmeticGeometry §§8.1 and 8.3: framed deformation groupoids, the deformation
-  functor of a point, the stabiliser action on deformations and the framed tangent exact sequence.
-  The tangent space `T_{𝒳,x}` of Layer 7 is that deformation functor on the dual numbers; this
-  roadmap owns only the normal space and the comparison map.
-- ReductiveGroups Layer 1 with Tau Ceti's `TauCeti.Comodule`: finite-dimensional representations of
-  affine group schemes over a field as comodules. Tau Ceti's closed embedding of an affine group of
-  finite type into some `GLₙ`, its fppf quotients `G/H` with their torsor property and its
-  Lie-dimension smoothness criterion, with the representability of `G/H` from ReductiveGroups Layer 3,
-  give the dimension of `T_{BG_x}` in 7.3.
+## How to read the build
 
-**Owned elsewhere, and outside the scope.** Banded gerbes, their classification and
-rigidification belong to AlgebraicModuliForArithmeticGeometry Layers 4–5; where its §5.1 defines the
-rigidification `𝒳▹I_𝒳` by the whole inertia, it is the base `𝒳^♭` of 2.1 (2.1's comparison bullet),
-which 2.1 builds for every gerbe. Coarse spaces, Keel–Mori and tame stacks belong to
-SchemeAndStackFoundations §1.23 and appear here only in Checks. The Luna étale slice theorems of
-Alper–Hall–Rydh (Theorems 1.1 and 1.2) are outside the scope of this roadmap: they are stated in the
-vocabulary of Layer 7 (the normal space, the stabiliser and the comparison map) and appear here only
-in a Check of 7.4.
-Dimension theory of stacks is not used: the normal space is finite-dimensional because the ideal of
-a closed point pulls back to a finitely generated ideal on a locally Noetherian smooth chart (7.2).
+Layer 0 builds the substack vocabulary on SchemeAndStackFoundations' stacks: smooth-local properties,
+monomorphisms, immersions with their presentation description, closed substacks of quasi-coherent
+ideals with their infinitesimal neighbourhoods, and the reduced induced structure. Layer 1 defines
+finite type points and the automorphism group algebraic space `G_x`. Layer 2 builds gerbes of
+algebraic stacks on AlgebraicModuliForArithmeticGeometry §4.1 and proves their geometric theory up
+to the dense open gerbe. Layer 3 defines the residual gerbe through reduced one-point stacks and
+proves its properties; Layer 4 proves its existence at finite type points, on stacks with a flat,
+locally finitely presented, locally quasi-finite presentation, on gerbes, on stacks with
+quasi-compact inertia and on locally Noetherian stacks, and the closed-immersion criterion at closed
+points. Layer 5 adds decency, which is exactly what makes the base of a residual
+gerbe the spectrum of a field. Layer 6 computes residual gerbes from representatives and identifies
+them with classifying stacks at rational points. Layer 7 uses Layers 0–4 and 6 at a closed rational
+point to define the normal space and compare it with the tangent space. Layers 1 and 2 each use
+Layer 0 only and are independent of each other; Layer 3 uses 0 and 2; Layer 4 uses 0–3; Layer 5
+uses 0 and 2–4; Layer 6 uses 0–5; Layer 7 uses 0.1, 0.2, 0.3, 0.4, 1.3, 2.2, 2.3, 3.4, 4.5 and 6.4.
 
 ## Conventions
 
@@ -181,363 +144,6 @@ a closed point pulls back to a finitely generated ideal on a locally Noetherian 
 10. **Names.** Names set in italics are proposed names for the library's declarations, extending
    the `Stacks` namespace of SchemeAndStackFoundations §1.20; `Suggested.lean` declares none of
    them.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Declarations and line numbers are those of the pinned revision
-`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
-
-- `CategoryTheory.Pseudofunctor.IsStack` (`Mathlib/CategoryTheory/Sites/Descent/IsStack.lean:49`):
-  effective descent for a pseudofunctor on a site; with groupoid fibres it is the stack condition of
-  §1.18. It does not impose groupoid fibres or any algebraicity.
-- `AlgebraicGeometry.Scheme.fppfTopology` (`Mathlib/AlgebraicGeometry/Sites/Fpqc.lean:54`): the fppf
-  topology on `Scheme.{u}`.
-- `AlgebraicGeometry.Scheme.residueField` (`Mathlib/AlgebraicGeometry/ResidueField.lean:45`): the
-  residue field of a scheme point, which 3.3 identifies with the residual gerbe of a scheme.
-- `AlgebraicGeometry.IsClosedImmersion` (`Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean:44`),
-  `AlgebraicGeometry.Flat` (`Morphisms/Flat.lean:42`), `AlgebraicGeometry.LocallyOfFiniteType`
-  (`Morphisms/FiniteType.lean:42`), `AlgebraicGeometry.LocallyOfFinitePresentation`
-  (`Morphisms/FinitePresentation.lean:46`), `AlgebraicGeometry.Smooth` (`Morphisms/Smooth.lean:59`)
-  and `AlgebraicGeometry.LocallyQuasiFinite` (`Morphisms/QuasiFinite.lean:72`): the scheme morphism
-  classes from which the properties of Convention 3 are built.
-- `AlgebraicGeometry.IsReduced` (`Mathlib/AlgebraicGeometry/Properties.lean:68`) and
-  `AlgebraicGeometry.IsLocallyNoetherian` (`Mathlib/AlgebraicGeometry/Noetherian.lean:54`): the
-  scheme properties transferred to stacks in 0.1.
-- `AlgebraicGeometry.GeometricallyReduced.isReduced_of_flat_of_isLocallyNoetherian`
-  (`Mathlib/AlgebraicGeometry/Geometrically/Reduced.lean:109`): a scheme flat and geometrically
-  reduced over a reduced, locally Noetherian scheme is reduced. The Noetherian hypothesis is part of
-  the statement at the pin; with Tau Ceti's `TauCeti.AlgebraicGeometry.Smooth.geometricallyReduced`
-  it gives the ascent of reducedness along smooth morphisms to a locally Noetherian scheme, and no
-  more.
-- `AlgebraicGeometry.Scheme.IdealSheafData.vanishingIdeal`
-  (`Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean:564`), `AlgebraicGeometry.Scheme.IdealSheafData.subscheme`
-  and `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι` (`IdealSheaf/Subscheme.lean:453, 470`): the
-  reduced induced closed subscheme on a closed subset, the scheme case of 0.5, and the closed
-  subscheme of an ideal sheaf, the scheme case of 0.4.
-- `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` (`Morphisms/FiniteType.lean:112`) with
-  `JacobsonSpace` (`Mathlib/Topology/JacobsonSpace.lean:70`): a scheme locally of finite type over a
-  Jacobson base is Jacobson; it gives the scheme Checks of 1.1–1.2.
-- `finite_of_finite_type_of_isJacobsonRing` (`Mathlib/RingTheory/Jacobson/Ring.lean:691`):
-  Zariski's lemma, a field finitely generated as an algebra over a Jacobson ring `R` is a finite
-  `R`-module; a field is a Jacobson ring through the instance for Artinian rings (same file, line
-  102), and so is `k[t]` through the instance for polynomial rings over a Jacobson ring (line 438).
-  It gives the finiteness of `k` over `κ(x)` in 5.5 and, with `isField_of_isIntegral_of_isField`
-  (`Mathlib/RingTheory/IntegralClosure/IsIntegralClosure/Basic.lean:675`: a ring with an injective
-  integral map to a field is a field), the Check of 1.1 on the generic point of `𝔸¹_k`.
-- `AlgebraicGeometry.FormallyUnramified` (`Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean:54`:
-  the ring maps between affine opens are formally unramified),
-  `Algebra.FormallyUnramified.finite_of_free` (`Mathlib/RingTheory/Unramified/Finite.lean:167`: a
-  formally unramified algebra essentially of finite type over `R` and free as an `R`-module is finite
-  over `R`; over a field every module is free) and
-  `Algebra.FormallyUnramified.bijective_of_isAlgClosed_of_isLocalRing`
-  (`Mathlib/RingTheory/Unramified/Field.lean:61`: a local, formally unramified algebra essentially of
-  finite type over an algebraically closed field `K` is `K`). They make `G_x` finite and constant in
-  6.4's API bullet.
-- `AlgebraicGeometry.LocallyOfFinitePresentation.iff_locallyOfFiniteType`
-  (`Mathlib/AlgebraicGeometry/Noetherian.lean:271`): over a locally Noetherian target a morphism
-  of schemes is locally of finite presentation iff it is locally of finite type. With the
-  square-independence of SchemeAndStackFoundations §1.8's `Spaces.EtaleLocal` (an étale cover of
-  the spectrum of a field is locally Noetherian) it gives the case used in 3.2, 4.1, 4.2, 4.4 and 6.1: a
-  morphism of algebraic spaces locally of finite type over a disjoint union of spectra of fields is
-  locally of finite presentation.
-- The instance `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)`
-  (`Mathlib/AlgebraicGeometry/Morphisms/LocalFlatDescent.lean:48`), for the class
-  `CategoryTheory.MorphismProperty.DescendsAlong`
-  (`Mathlib/CategoryTheory/MorphismProperty/Descent.lean:32`): a morphism of schemes whose base
-  change along a flat, surjective, quasi-compact morphism is étale is étale. It gives the descent
-  step of the rigidity in 0.2, for schemes only.
-- `retractionKerCotangentToTensorEquivSection` (`Mathlib/RingTheory/Smooth/Kaehler.lean:324`): for a
-  surjection `P → A` of `R`-algebras with kernel `I`, `P`-linear retractions of
-  `I/I² → A ⊗_P Ω[P/R]` correspond to `R`-algebra sections of `P/I² → A`; no smoothness of `P` is
-  assumed. With `Algebra.FormallySmooth.exists_lift` (`Mathlib/RingTheory/Smooth/Basic.lean:125`,
-  lifting along nilpotent ideals for formally smooth `A`) it gives the split injectivity used in 7.3.
-  Mathlib's `Algebra.FormallySmooth.iff_split_injection` (same file, line 290) assumes `P` formally
-  smooth and does not apply to the chart of 7.3.
-
-### From Tau Ceti
-
-Declarations and line numbers are those of the pinned revision
-`2fd255d997f47c0b5d834ee416c7015d55444ce5`.
-
-- `TauCeti.AlgebraicGeometry.SchPseudofunctor` (`TauCeti/AlgebraicGeometry/Stack/Basic.lean:37`): the
-  type of `Cat`-valued pseudofunctors on `Scheme.{u}ᵒᵖ`, the carrier of stacks. It carries no stack
-  condition.
-- `TauCeti.AlgebraicGeometry.SchemePresheaf`, `TauCeti.AlgebraicGeometry.Spaces.RepresentableDiagonal`,
-  `TauCeti.AlgebraicGeometry.Spaces.EtaleAtlas` and `TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace`
-  (`TauCeti/AlgebraicGeometry/AlgebraicSpace/Basic.lean:68, 74, 113, 195`): algebraic spaces, with
-  no separation axiom.
-- `TauCeti.AlgebraicGeometry.IsRegular` (`TauCeti/AlgebraicGeometry/Scheme/Regular/Scheme.lean:68`):
-  regular schemes. The class extends Mathlib's `IsLocallyNoetherian` and asks every stalk to be a
-  regular local ring, so a regular scheme is locally Noetherian by definition.
-  `TauCeti.AlgebraicGeometry.IsRegular.of_smooth` (same file, line 90): the source of a smooth
-  morphism to a regular scheme is regular (Stacks, Descent, Lemma 35.18.4, stacks-descent line 2306,
-  ascent half). `TauCeti.AlgebraicGeometry.IsRegular.of_flat_of_surjective`
-  (`TauCeti/AlgebraicGeometry/Scheme/Regular/Descent.lean:56`): regularity descends along a flat
-  surjective morphism `X → Y` of schemes provided `Y` is locally Noetherian; that hypothesis is part
-  of the statement. In 0.1 the target is a scheme with a smooth surjective cover by a locally
-  Noetherian scheme, hence locally Noetherian by the atlas independence of SchemeAndStackFoundations
-  §1.20's locally Noetherian stacks; so the two theorems make regularity of schemes local in the
-  smooth topology. The algebraic-space clause of gap:reduced-regular-smooth-local that 3.1 and 3.4
-  use (a smooth algebraic space over a field is regular) reduces on an étale atlas to `of_smooth`
-  over `Spec k`, which is regular (a field is a principal ideal domain, hence a regular local
-  ring).
-- `TauCeti.AlgebraicGeometry.Smooth.geometricallyReduced`
-  (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/GeometricallyReduced.lean:56`): every smooth morphism
-  of schemes is geometrically reduced; with Mathlib's
-  `AlgebraicGeometry.GeometricallyReduced.isReduced_of_flat_of_isLocallyNoetherian` it is the
-  locally Noetherian case of the smooth ascent of reducedness.
-- `TauCeti.Comodule` (`TauCeti/Algebra/Coalgebra/Comodule/Basic.lean:50`) and `TauCeti.ComoduleCat`
-  (`TauCeti/Algebra/Coalgebra/Comodule/Cat.lean:50`): comodules over a coalgebra, the carrier of
-  representations in 7.2.
-- `TauCeti.linearlyReductiveAffineGroupSchemeProperty`
-  (`TauCeti/AlgebraicGeometry/AffineGroupScheme/LinearlyReductive.lean:60`): used only in the Checks
-  of 7.4 that mention linear reductivity.
-- `TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`
-  (`TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.lean:212`): an affine group scheme over a
-  field `k`, locally of finite type, has a homomorphism to the general linear group scheme `GLₙ` over
-  `k`, for some `n`, that is a closed immersion; `k` and the coordinate ring live in one universe. 7.3 applies it to `G_x`.
-- `TauCeti.HopfAlgebra.smooth_iff_finrank_lie_eq_ringKrullDim`
-  (`TauCeti/Algebra/AlgebraicGroup/Tangent/Regularity.lean:112`): a commutative Hopf algebra `H` of
-  finite type over a field `k` is smooth over `k` iff the dimension of its Lie algebra (the
-  `k`-derivations `H → k` at the counit) equals `ringKrullDim H`; no reducedness, connectedness or
-  perfectness of `k` is assumed. 7.3 uses it as `T_{BG_x} = 0` iff `G_x` is smooth.
-- `AlgebraicGeometry.Scheme.Hom.exists_finite_isSeparable_comp_eq`
-  (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/SeparablePoint.lean:43`): a nonempty scheme smooth
-  over a field `k` has a point over `Spec k` with values in a finite separable extension of `k`; no
-  perfectness of `k` is assumed. 7.3 applies it to a nonempty scheme étale over the algebraic space
-  `U ×_𝒳 Spec k`, which is smooth over `k` for a smooth `U → 𝒳` whose image contains `x`.
-- `CommHopfAlgCat.fppfHomogeneousQuotient`
-  (`TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean:217`): for an affine group
-  `G = Spec H` over a commutative ring and the closed subgroup cut out by a Hopf ideal, the fppf
-  sheafification of the left cosets on commutative algebras; no normality and no representability.
-  `CommHopfAlgCat.isPullback_fppfHomogeneousQuotientTorsor` and
-  `CommHopfAlgCat.isLocallySurjective_fppfHomogeneousQuotientSheafProjection`
-  (`.../Fppf/Quotient/Homogeneous/Torsor.lean:160, 154`): the projection `G → G/H` is locally
-  surjective with kernel pair `G × H`, that is an `H`-torsor. Representability is proved there only
-  for linearly reductive `H` and, over a field of characteristic zero, for reductive `H`
-  (`.../Homogeneous/Coinvariants.lean`, `.../Homogeneous/GeneralLinear.lean`), which `G_x` need
-  not be; the general case is gap:homogeneous-quotient-scheme.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- §1.7 (`points`, `points_atlas_surjective`, `opensEquiv`) and §1.8 (`Spaces.EtaleLocal`,
-  `spacePresentation`, fibre products of spaces): points and open subspaces of algebraic spaces, the
-  open image of an étale atlas, the presentation of a space as the quotient of an étale atlas by its
-  relation, and étale-local properties of morphisms of spaces.
-- §1.9 (`IsSeparatedSpace`, `QuasiSeparatedSpace`, `LocallySeparatedSpace`, `QuasiCompactSpace`,
-  `IsProperSpace`): separation, local separation and quasi-compactness of morphisms of spaces.
-- §1.13 (`Groups.GroupSpace`), §1.14 (`Groupoid`, `Groupoid.restrict`, `stabilizer`, `stabilizerAt`),
-  §1.15 (`Groups.IsTorsor`), §1.17 (`artinBootstrap`): group spaces, groupoids with their
-  restriction and stabilizers, torsors, and Artin's bootstrap theorem.
-- §1.18 (*StackInGroupoids*, `twoFiberProduct`, `Stack.stackification`): the carrier and
-  2-fibre products.
-- §1.19 (`IsRepresentableBySpaces`, `RepresentableProperty`, `IsAlgebraicStack`,
-  `IsDeligneMumford`, `IsDeligneMumford.iff_unramified_diagonal`): representable morphisms with
-  their properties, algebraic and Deligne–Mumford stacks (with an étale atlas).
-- §1.20 (`inertia`, `inertia.representable`, `automorphismGroup`, `setoid_criterion`, `SmoothLocal`,
-  `SmoothLocal.atlas_independent`, `Stacks.points` with `.map`, `.pullbackSurjective`,
-  `.baseChangeImage`, `.atlasOpenSurjective`, `.ofSpace`, `QuasiCompactStack`, `IsSeparatedStack`,
-  the locally Noetherian stacks, `stack_presentation`): everything of Convention 2–3.
-- §1.21 (`Stack.quotient`, `quotientStack`, `quotientStack.π`, `actionQuotient`,
-  `actionQuotient.torsorEquiv`, `quotientStack_algebraic`): quotient stacks of groupoids in fppf
-  sheaves (`Stack.quotient`) and of actions, with `BG = [S/G]` for the trivial action, and `[U/R]`
-  algebraic for flat locally finitely presented groupoid schemes. Algebraicity for groupoids in
-  algebraic spaces, such as `u ×_𝒳 u` in 4.1, is gap:flat-groupoid-quotients.
-- §1.22 (`Stacks.QCoh`, *QCoh.presentationEquiv*): quasi-coherent modules and their description on
-  a presentation `[U/R]` as modules on `U` with descent data along `R` (Stacks, Proposition
-  96.14.3). Applied to `BG = [Spec k/G]` for affine `G` over a field it gives `QCoh(BG)` as
-  `O(G)`-comodules (Convention 9); the Check of §1.22 that `QCoh(BG)` is the category of
-  `O(G)`-comodules is that instance. The abelian structure of `Stacks.QCoh`, its structure sheaf,
-  its tensor products and the exactness properties of *QCoh.pullback* used in 0.4 and 7.2 are
-  gap:qcoh-stacks-abelian-tensor.
-- §1.23 (`moduliFunctor`, `toModuliSheaf`): the fppf sheafification of isomorphism classes, the base
-  of a gerbe in 2.1.
-- §4.8 (*Scheme.formalCompletion*, with its levels `toScheme n : V(I^{n+1}) → X` for
-  `I : X.IdealSheafData`): the infinitesimal neighbourhoods of a closed subscheme, the scheme case of
-  0.4 and 7.1.
-- §4.12 (`generic_flatness`): generic flatness over an integral base. §4.13 records regular schemes
-  as Tau Ceti's (From Tau Ceti above); this roadmap consumes it only through
-  gap:reduced-regular-smooth-local.
-
-What SchemeAndStackFoundations must provide (gap:stack-morphism-permanence): §1.20 must prove, for
-its `SmoothLocal` properties flat, locally of finite presentation, locally of finite type and smooth,
-for surjectivity and for `QuasiCompactStack`, stability under composition and base change, descent
-along a surjective, flat, locally finitely presented base change, agreement with
-`RepresentableProperty` for morphisms representable by algebraic spaces, the implications smooth ⇒
-locally of finite presentation ⇒ locally of finite type, the cancellation laws for local finite type
-and local finite presentation, and that a surjective, flat, locally finitely presented morphism is
-fppf-locally essentially surjective; that a morphism of algebraic stacks is representable by
-algebraic spaces, and has `RepresentableProperty P` for a property `P` of morphisms of algebraic
-spaces stable under base change and fppf local on the target, as soon as its base change along one
-surjective, flat, locally finitely presented morphism from an algebraic space is so; and that an
-algebraic stack locally of finite type over a locally Noetherian algebraic stack is locally
-Noetherian (Stacks, Properties of Stacks, Lemmas 100.3.1–100.3.3 and 100.5.2–100.5.5; Morphisms of
-Stacks, Lemmas 101.7.3–101.7.7, 101.7.10, 101.17.2–101.17.8 with 101.17.5 for the last clause,
-101.25.2–101.25.5, 101.27.2–101.27.14, 101.27.16 and 101.33.2–101.33.5).
-
-What SchemeAndStackFoundations must provide (gap:flat-lfp-open): §1.20 must prove that for a flat,
-locally finitely presented morphism `f` of algebraic stacks the map `|f|` is open, so that such
-morphisms are universally open (Stacks, Morphisms of Stacks, Lemma 101.27.15).
-
-What SchemeAndStackFoundations must provide (gap:inertia-of-presentations): §1.20 must prove that the
-inertia `I_𝒳 → 𝒳` and the relative inertia `I_{𝒳/𝒴} → 𝒳` are locally of finite type, and that for a
-presentation `[U/R] ≃ 𝒳` the stabilizer `G → U` of the groupoid (§1.14's `stabilizer`) is the
-pullback `U ×_𝒳 I_𝒳` (Stacks, Morphisms of Stacks, Lemmas 101.5.1 and 101.5.7).
-
-What SchemeAndStackFoundations must provide (gap:stack-separation-axioms): §1.20 must define DM,
-quasi-DM and quasi-separated morphisms of algebraic stacks, and quasi-DM and quasi-separated algebraic
-stacks, by the diagonal (Stacks, Morphisms of Stacks, Definitions 101.4.1–101.4.2), a DM stack being
-§1.19's `IsDeligneMumford` through `IsDeligneMumford.iff_unramified_diagonal`, and prove separated ⇒
-quasi-separated, DM ⇒ quasi-DM and representable by algebraic spaces ⇒ DM for morphisms, stability
-under base change and composition, the permanence Lemma 101.4.11 and the comparison of the diagonal
-with the inertia, Lemma 101.6.1 (Lemmas 101.4.3, 101.4.4, 101.4.10).
-
-What SchemeAndStackFoundations must provide (gap:quasi-dm-flat-presentation): §1.19 must prove that an
-algebraic stack is quasi-DM iff it admits a surjective, flat, locally finitely presented, locally
-quasi-finite morphism from a scheme (Stacks, Morphisms of Stacks, Theorem 101.21.3), alongside its
-`IsDeligneMumford.iff_unramified_diagonal`.
-
-What SchemeAndStackFoundations must provide (gap:flat-groupoid-quotients): §1.21 must prove that for a
-groupoid `(U, R, s, t, c)` in algebraic spaces (not only a groupoid scheme, for which §1.21 states
-`quotientStack_algebraic`) with `s, t` flat and locally of finite presentation, `[U/R]` is algebraic
-(Stacks, Criteria for Representability, Theorem 97.17.2) and the projection `U → [U/R]` is surjective,
-flat and locally of finite presentation (Lemma 97.17.1), that `[B/G]` is algebraic iff `G → B` is flat and locally of finite
-presentation (Lemma 97.18.3) and is then a gerbe over `B` (Groupoids in Spaces, Lemmas 78.27.1–78.27.2),
-that the canonical `[U/R] → 𝒳` attached to a morphism `U → 𝒳` with `R = U ×_𝒳 U` is fully faithful and
-is an equivalence when `U → 𝒳` is surjective, flat and locally of finite presentation (Algebraic
-Stacks, Lemma 94.16.1, Remark 94.16.3), and that restricting a groupoid along `U' → U` gives a fully
-faithful `[U'/R'] → [U/R]` (Groupoids in Spaces, Lemma 78.25.1).
-
-What SchemeAndStackFoundations must provide (gap:qcoh-stacks-abelian-tensor): §1.22 must prove, for
-an algebraic stack `𝒳`, that `Stacks.QCoh 𝒳` is abelian, with kernels and cokernels computed on `U`
-under *QCoh.presentationEquiv* for a presentation `[U/R] ≃ 𝒳` with `s, t` flat (Sheaves on Stacks,
-Lemma 96.15.1 (1)–(2), stacks-sheaves-on-stacks lines 1068–1071; Groupoids in Spaces, Lemma 78.12.6,
-stacks-groupoids-spaces lines 593–603); that the structure sheaf `O_𝒳` (Definition 96.6.1,
-stacks-sheaves-on-stacks lines 374–375) is an object of `Stacks.QCoh 𝒳` (Lemma 96.11.3, lines
-740–742); that the tensor product over `O_𝒳` of two quasi-coherent modules is quasi-coherent (Lemma
-96.15.1 (5), lines 1076–1077); and that *QCoh.pullback* along a morphism `f` of algebraic stacks is
-the restriction `f^{-1}`, which preserves colimits and tensor products of quasi-coherent modules
-and is therefore right exact (Lemma 96.11.2, lines 733–735; Lemma 96.12.5 (1)–(2), lines 869–874).
-
-What SchemeAndStackFoundations must provide (gap:decent-algebraic-spaces): §1.7 must define decent
-algebraic spaces (Stacks, Decent Spaces, Definition 68.6.1) and prove that quasi-separated and locally
-separated spaces are decent (Section 68.6 and Lemma 68.15.2), that every point of a decent space is
-represented by a monomorphism from the spectrum of a field (Lemma 68.11.1), that decent spaces are
-sober (Proposition 68.12.4), the specialisation Lemma 68.7.2 and the stratification Lemma 68.8.3.
-
-What SchemeAndStackFoundations must provide (gap:decent-space-schematic-locus): §1.7 must prove that
-every decent algebraic space contains a dense open subspace representable by a scheme (Stacks, Decent
-Spaces, Theorem 68.10.2, stacks-decent-spaces lines 1094–1096; for a quasi-separated space,
-Properties of Spaces, Proposition 66.13.3).
-
-What SchemeAndStackFoundations must provide (gap:reduced-scheme-residue-field-factorisation): §1.7
-must prove that a morphism of schemes `Y → X` with `Y` reduced and image contained in `{x}` factors
-through `Spec κ(x) → X`, and that for `X` locally Noetherian and a set `E` of points of `X` without
-nontrivial specialisations among them a morphism from a reduced scheme with image in `E` factors
-through `⊔_{x ∈ E} Spec κ(x)` (Stacks, Morphisms, Lemmas 29.59.1–29.59.2,
-stacks-morphisms-schemes lines 7102–7125).
-
-What SchemeAndStackFoundations must provide (gap:group-spaces-over-fields): §1.13 must prove that a
-group algebraic space over a field which is locally quasi-finite, quasi-separated or locally
-separated is a scheme (Stacks, Spaces over Fields, Lemma 72.10.8; More on Groupoids in Spaces, Lemma
-79.9.4 and Proposition 79.10.3).
-
-What SchemeAndStackFoundations must provide (gap:quasi-finite-over-fields): §1.8 must prove that a
-morphism of algebraic spaces to a disjoint union of spectra of fields which factors as a
-monomorphism followed by a locally quasi-finite morphism is locally quasi-finite (Stacks, Spaces over
-Fields, Lemma 72.10.9).
-
-What SchemeAndStackFoundations must provide (gap:isomorphism-fpqc-local-spaces): §1.2 must prove that
-being an isomorphism is fpqc local on the target for morphisms of algebraic spaces, in particular
-that a morphism of algebraic spaces over `Spec k` whose base change along a field extension `k'/k`
-is an isomorphism is an isomorphism (Stacks, Descent on Spaces, Lemma 74.11.15).
-
-What SchemeAndStackFoundations must provide (gap:generic-flatness-spaces): §4.12 must extend
-`generic_flatness` to a quasi-compact morphism of algebraic spaces locally of finite type over a
-reduced algebraic space, giving a dense open of the base over which it is flat and locally of finite
-presentation (stacks-morphisms-spaces lines 3050–3057, Proposition 67.32.1; stacks-morphisms-schemes
-lines 2319–2326, Proposition 29.28.2).
-
-What SchemeAndStackFoundations must provide (gap:reduced-regular-smooth-local): §4.13 must prove that
-reducedness of schemes is local in the smooth topology over an arbitrary base and descends along flat
-surjective morphisms (Stacks, Descent, Lemmas 35.18.1 and 35.19.1, stacks-descent lines 2277 and
-2320–2321); that reducedness of algebraic spaces ascends along smooth morphisms and descends along
-flat surjective ones, and regularity of algebraic spaces ascends along smooth morphisms and descends
-along flat, surjective, locally finitely presented ones (Descent on Spaces, Lemmas 74.9.2, 74.9.4 and
-74.9.5, stacks-spaces-descent lines 424–425, 442–443 and 451–452; the smooth ascent of regularity
-reduces on étale atlases to the scheme case); and that a smooth algebraic space over a field is
-regular (Spaces over Fields, Lemma 72.16.1, stacks-spaces-over-fields lines 1213–1214). For schemes,
-regularity is Tau Ceti's `TauCeti.AlgebraicGeometry.IsRegular.of_smooth` and
-`TauCeti.AlgebraicGeometry.IsRegular.of_flat_of_surjective`, and the ascent of reducedness along
-smooth morphisms to a locally Noetherian scheme is Mathlib's
-`AlgebraicGeometry.GeometricallyReduced.isReduced_of_flat_of_isLocallyNoetherian` with Tau Ceti's
-`TauCeti.AlgebraicGeometry.Smooth.geometricallyReduced`; neither is asked for here.
-
-### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
-
-- §4.1: `IsGerbe`, `IsGerbe.equivalence_iff`, `relativeGerbe`, `relativePullback`,
-  `relativeComposition` and `relativeDescent` on a site `(C, J)` with groupoid fibres. Layer 2 takes
-  `(C, J) = (Scheme.{u}, fppf)`. Nothing about bands is assumed.
-- §5.1: `ArithmeticModuli.Rigidification.stack`, `ArithmeticModuli.Rigidification.stabilizer_kernel`
-  and `ArithmeticModuli.Rigidification.geometry`, for an algebraic stack locally of finite
-  presentation over a scheme and a closed subgroup of its inertia flat and of finite presentation
-  over it; used only in 2.1's comparison of the rigidification by the whole inertia with the base of
-  a gerbe.
-- §8.1: `deformationGroupoid`, `deformationFunctorOfPoint` and `stabiliserActionOnDeformations`, for
-  `𝒳` fibred in groupoids over a locally Noetherian `S` and `k` of finite type over `S`, with the
-  change-of-residue-field API; and §8.3's `framedDeformation_twoFibre` and
-  `framedTangent_exactSequence` (framed tangent spaces of a 2-fibre product, and smooth
-  representable morphisms are smooth on framed deformations).
-
-What AlgebraicModuliForArithmeticGeometry must provide (gap:algebraic-stacks-satisfy-rs): §8.1 must
-prove that an algebraic stack over a locally Noetherian base satisfies the Rim–Schlessinger condition
-(Stacks, Artin's Axioms, Lemma 98.5.2, stacks-artin lines 292–294), so that its framed tangent
-spaces, defined in Section 98.8 (lines 393–415), are `k`-vector spaces, and that for a finite
-extension `k'/k` (7.3 uses finite separable ones) the framed tangent space at the induced `k'`-point
-is the base change to `k'` of the tangent space at the `k`-point: under (RS) the deformation
-category over `k'` is the change of residue field of the one over `k` (Artin's Axioms, Lemma 98.7.1,
-lines 354–392), it satisfies Schlessinger's (S2) (Lemma 98.6.1 and Remark 98.6.2, lines 323–348),
-and the tangent space of a change of residue field is the base change of the tangent space (Formal
-Deformation Theory, Lemma 90.29.3, stacks-formal-defos lines 3512–3528); its deformation-category
-clause and change-of-residue-field API state these without a target.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 1 (representations of affine group schemes of finite type over a field as comodules, and the
-finite-dimensional comodule category). Nothing about reductivity is assumed. Layer 3A's orbit
-geometry is stated over an algebraically closed field and is not an input: 7.4 defines the orbit
-`G·x` over `k` itself, as the reduced image of the orbit map, and under 7.4's hypotheses `G·x` is
-smooth over `k`, so its base change to `k̄` is reduced and, when `G` and `V` have quasi-compact
-underlying spaces (Layer 3A's finiteness), is the orbit of Layer 3A for the induced `k̄`-point. Layer 3 takes the quotient `G/H` first as an fppf sheaf and makes its
-representability a theorem with hypotheses; 7.3 needs that theorem for `GLₙ/G_x`.
-
-What ReductiveGroups must provide (gap:homogeneous-quotient-scheme): Layer 3 must prove that for a
-smooth affine group scheme `G` of finite type over a field `k` and a closed subgroup scheme `H`, the
-fppf quotient `G/H` (Tau Ceti `CommHopfAlgCat.fppfHomogeneousQuotient`) is represented by a separated
-scheme of finite type over `k`, smooth over `k`, all of whose irreducible components have dimension
-`dim G − dim H` (SGA 3, Exposé VI_A, Théorème 3.2 (i), (ii), (ii′) and (iv)(a′)–(c), sga3-vi-a lines
-871–894, stated there for the left quotient `H\G ≅ G/H`, `g ↦ g⁻¹`); the torsor property of
-`G → G/H` is Tau Ceti's `CommHopfAlgCat.isPullback_fppfHomogeneousQuotientTorsor`.
-
-## How to read the build
-
-Layer 0 builds the substack vocabulary on SchemeAndStackFoundations' stacks: smooth-local properties,
-monomorphisms, immersions with their presentation description, closed substacks of quasi-coherent
-ideals with their infinitesimal neighbourhoods, and the reduced induced structure. Layer 1 defines
-finite type points and the automorphism group algebraic space `G_x`. Layer 2 builds gerbes of
-algebraic stacks on AlgebraicModuliForArithmeticGeometry §4.1 and proves their geometric theory up
-to the dense open gerbe. Layer 3 defines the residual gerbe through reduced one-point stacks and
-proves its properties; Layer 4 proves its existence at finite type points, on stacks with a flat,
-locally finitely presented, locally quasi-finite presentation, on gerbes, on stacks with
-quasi-compact inertia and on locally Noetherian stacks, and the closed-immersion criterion at closed
-points. Layer 5 adds decency, which is exactly what makes the base of a residual
-gerbe the spectrum of a field. Layer 6 computes residual gerbes from representatives and identifies
-them with classifying stacks at rational points. Layer 7 uses Layers 0–4 and 6 at a closed rational
-point to define the normal space and compare it with the tangent space. Layers 1 and 2 each use
-Layer 0 only and are independent of each other; Layer 3 uses 0 and 2; Layer 4 uses 0–3; Layer 5
-uses 0 and 2–4; Layer 6 uses 0–5; Layer 7 uses 0.1, 0.2, 0.3, 0.4, 1.3, 2.2, 2.3, 3.4, 4.5 and 6.4.
 
 ## Layer 0: monomorphisms, immersions and reduced substacks
 
@@ -2198,6 +1804,427 @@ gerbe is `Spec k`; `κ = k` at both points; `𝒳^{[n]}_0 = [Spec k[t]/(t^{n+1})
 
 **A non-neutral residual gerbe.** `𝒳 = [Spec ℂ/(ℤ/4)]` over `ℝ` is its own residual gerbe, a gerbe
 over `Spec ℝ` with no real object, with `𝒳 ×_ℝ ℂ ≃ B(ℤ/2)_ℂ` at the representative `Spec ℂ`.
+
+## Scope and ownership
+
+**This roadmap owns** the following, each at the generality of the Stacks Project:
+
+- properties of algebraic stacks defined by smooth-local properties of schemes, for reducedness and
+  regularity (0.1); monomorphisms of algebraic stacks and their characterisation by full
+  faithfulness and by the diagonal (0.2); open, closed and locally closed immersions and substacks
+  and their description on a presentation (0.3); the correspondence between closed substacks and
+  quasi-coherent ideals, and the infinitesimal neighbourhoods of a closed substack (0.4); the
+  reduced induced closed substack and the reduction (0.5);
+- finite type points (1.1), closed and field-valued points (1.2), the automorphism group algebraic
+  space of a field-valued point and the morphisms inducing isomorphisms on it (1.3), and the
+  criteria for it to be a scheme (1.4);
+- gerbes as morphisms of algebraic stacks (Stacks, Morphisms of Stacks, Section 101.28) and the
+  dense open gerbe (Proposition 101.29.1) (Layer 2);
+- reduced one-point stacks and residual gerbes (Stacks, Properties of Stacks, Section 100.11;
+  Morphisms of Stacks, Sections 101.18, 101.31 and 101.51) (Layers 3–4);
+- decent algebraic stacks, the residue field of a point, the algebraicity of points on decent stacks
+  with quasi-compact inertia (Morphisms of Stacks, Lemma 101.50.2) and on stacks with quasi-compact
+  diagonal (Rydh 2011, Appendix B), and the fppf image of a representative (Layer 5);
+- the presentation of a residual gerbe by a representative, its base change to `BG_x`, neutrality
+  and rational points (Layer 6);
+- the infinitesimal neighbourhoods of a closed point, the normal space `N_x`, and the comparison map
+  from the tangent space to the normal space (Layer 7).
+
+Closed substacks, their description on a presentation, their quasi-coherent ideals, the reduced
+induced closed substack and the factorisation of morphisms from reduced stacks are owned here for
+every algebraic stack (0.3–0.5). The roadmap VirtualFundamentalClasses (under Downstream
+consumers) states, in its §1.2, closed substacks of Deligne–Mumford stacks of finite type over a
+field with their description on an étale presentation, the reduced induced closed substack and the
+factorisation of morphisms from reduced stacks: these are 0.3 and 0.5 for such stacks, owned here
+for every algebraic stack. Its closed substacks are closed immersions taken up to equivalence over
+the stack, and by 0.3 each such class contains exactly one substack in the sense of Convention 4, so
+the two carriers agree. What that roadmap builds on them, intersections and reduced unions,
+integral closed substacks, irreducible components, dimension and cycles, is its own; it does not use
+the ideals of 0.4. No other roadmap states any of the objects above.
+SchemeAndStackFoundations stops at the topological space `|𝒳|`, inertia, `SmoothLocal` morphism
+properties, locally Noetherian and separated stacks, presentations and quotient stacks (§§1.19–1.22);
+AlgebraicModuliForArithmeticGeometry states gerbes only on a site (§4.1) and uses closed substacks of
+Deligne–Mumford stacks without defining them (§5.4). Residual spaces of algebraic spaces (Stacks,
+Decent Spaces, Definition 68.13.6) are the residual gerbes of 3.3 on algebraic spaces (3.4); they
+have no second carrier.
+
+**Imported, not restated.**
+
+- SchemeAndStackFoundations §§1.18–1.22: stacks in groupoids and 2-fibre products, representable
+  morphisms, algebraic and Deligne–Mumford stacks, inertia and `automorphismGroup`, `SmoothLocal`
+  and `QuasiCompactStack`, `Stacks.points` with its topology, locally Noetherian and separated
+  stacks, smooth presentations, quotient stacks `[U/R]`, `[X/G]` and `BG`, and quasi-coherent
+  modules with their description on a presentation (giving `QCoh(BG)` as comodules, Convention 9);
+  §§1.7–1.9, 1.13–1.15 and 1.17 for algebraic spaces, group spaces, groupoids, stabilizers, torsors
+  and Artin's bootstrap; §1.23's moduli functor for the base of a gerbe; §4.8's infinitesimal
+  neighbourhoods `V(I^{n+1})` of a closed subscheme, which 0.4 extends to stacks; §4.12 generic
+  flatness.
+- Tau Ceti's regular schemes `TauCeti.AlgebraicGeometry.IsRegular`, with ascent of regularity along
+  smooth morphisms and its descent along flat surjective morphisms to a locally Noetherian scheme;
+  0.1 transfers them to stacks.
+- AlgebraicModuliForArithmeticGeometry §4.1: the gerbe predicates `IsGerbe` and `relativeGerbe` on a
+  site with base change, composition and descent. A gerbe of algebraic stacks (2.1) is the fppf
+  instance of `relativeGerbe`. Bands, banded gerbes and their `H²` classification and rigidification
+  stay in that roadmap's Layers 4–5.
+- AlgebraicModuliForArithmeticGeometry §§8.1 and 8.3: framed deformation groupoids, the deformation
+  functor of a point, the stabiliser action on deformations and the framed tangent exact sequence.
+  The tangent space `T_{𝒳,x}` of Layer 7 is that deformation functor on the dual numbers; this
+  roadmap owns only the normal space and the comparison map.
+- ReductiveGroups Layer 1 with Tau Ceti's `TauCeti.Comodule`: finite-dimensional representations of
+  affine group schemes over a field as comodules. Tau Ceti's closed embedding of an affine group of
+  finite type into some `GLₙ`, its fppf quotients `G/H` with their torsor property and its
+  Lie-dimension smoothness criterion, with the representability of `G/H` from ReductiveGroups Layer 3,
+  give the dimension of `T_{BG_x}` in 7.3.
+
+**Owned elsewhere, and outside the scope.** Banded gerbes, their classification and
+rigidification belong to AlgebraicModuliForArithmeticGeometry Layers 4–5; where its §5.1 defines the
+rigidification `𝒳▹I_𝒳` by the whole inertia, it is the base `𝒳^♭` of 2.1 (2.1's comparison bullet),
+which 2.1 builds for every gerbe. Coarse spaces, Keel–Mori and tame stacks belong to
+SchemeAndStackFoundations §1.23 and appear here only in Checks. The Luna étale slice theorems of
+Alper–Hall–Rydh (Theorems 1.1 and 1.2) are outside the scope of this roadmap: they are stated in the
+vocabulary of Layer 7 (the normal space, the stabiliser and the comparison map) and appear here only
+in a Check of 7.4.
+Dimension theory of stacks is not used: the normal space is finite-dimensional because the ideal of
+a closed point pulls back to a finitely generated ideal on a locally Noetherian smooth chart (7.2).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Declarations and line numbers are those of the pinned revision
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e`.
+
+- `CategoryTheory.Pseudofunctor.IsStack` (`Mathlib/CategoryTheory/Sites/Descent/IsStack.lean:49`):
+  effective descent for a pseudofunctor on a site; with groupoid fibres it is the stack condition of
+  §1.18. It does not impose groupoid fibres or any algebraicity.
+- `AlgebraicGeometry.Scheme.fppfTopology` (`Mathlib/AlgebraicGeometry/Sites/Fpqc.lean:54`): the fppf
+  topology on `Scheme.{u}`.
+- `AlgebraicGeometry.Scheme.residueField` (`Mathlib/AlgebraicGeometry/ResidueField.lean:45`): the
+  residue field of a scheme point, which 3.3 identifies with the residual gerbe of a scheme.
+- `AlgebraicGeometry.IsClosedImmersion` (`Mathlib/AlgebraicGeometry/Morphisms/ClosedImmersion.lean:44`),
+  `AlgebraicGeometry.Flat` (`Morphisms/Flat.lean:42`), `AlgebraicGeometry.LocallyOfFiniteType`
+  (`Morphisms/FiniteType.lean:42`), `AlgebraicGeometry.LocallyOfFinitePresentation`
+  (`Morphisms/FinitePresentation.lean:46`), `AlgebraicGeometry.Smooth` (`Morphisms/Smooth.lean:59`)
+  and `AlgebraicGeometry.LocallyQuasiFinite` (`Morphisms/QuasiFinite.lean:72`): the scheme morphism
+  classes from which the properties of Convention 3 are built.
+- `AlgebraicGeometry.IsReduced` (`Mathlib/AlgebraicGeometry/Properties.lean:68`) and
+  `AlgebraicGeometry.IsLocallyNoetherian` (`Mathlib/AlgebraicGeometry/Noetherian.lean:54`): the
+  scheme properties transferred to stacks in 0.1.
+- `AlgebraicGeometry.GeometricallyReduced.isReduced_of_flat_of_isLocallyNoetherian`
+  (`Mathlib/AlgebraicGeometry/Geometrically/Reduced.lean:109`): a scheme flat and geometrically
+  reduced over a reduced, locally Noetherian scheme is reduced. The Noetherian hypothesis is part of
+  the statement at the pin; with Tau Ceti's `TauCeti.AlgebraicGeometry.Smooth.geometricallyReduced`
+  it gives the ascent of reducedness along smooth morphisms to a locally Noetherian scheme, and no
+  more.
+- `AlgebraicGeometry.Scheme.IdealSheafData.vanishingIdeal`
+  (`Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean:564`), `AlgebraicGeometry.Scheme.IdealSheafData.subscheme`
+  and `AlgebraicGeometry.Scheme.IdealSheafData.subschemeι` (`IdealSheaf/Subscheme.lean:453, 470`): the
+  reduced induced closed subscheme on a closed subset, the scheme case of 0.5, and the closed
+  subscheme of an ideal sheaf, the scheme case of 0.4.
+- `AlgebraicGeometry.LocallyOfFiniteType.jacobsonSpace` (`Morphisms/FiniteType.lean:112`) with
+  `JacobsonSpace` (`Mathlib/Topology/JacobsonSpace.lean:70`): a scheme locally of finite type over a
+  Jacobson base is Jacobson; it gives the scheme Checks of 1.1–1.2.
+- `finite_of_finite_type_of_isJacobsonRing` (`Mathlib/RingTheory/Jacobson/Ring.lean:691`):
+  Zariski's lemma, a field finitely generated as an algebra over a Jacobson ring `R` is a finite
+  `R`-module; a field is a Jacobson ring through the instance for Artinian rings (same file, line
+  102), and so is `k[t]` through the instance for polynomial rings over a Jacobson ring (line 438).
+  It gives the finiteness of `k` over `κ(x)` in 5.5 and, with `isField_of_isIntegral_of_isField`
+  (`Mathlib/RingTheory/IntegralClosure/IsIntegralClosure/Basic.lean:675`: a ring with an injective
+  integral map to a field is a field), the Check of 1.1 on the generic point of `𝔸¹_k`.
+- `AlgebraicGeometry.FormallyUnramified` (`Mathlib/AlgebraicGeometry/Morphisms/FormallyUnramified.lean:54`:
+  the ring maps between affine opens are formally unramified),
+  `Algebra.FormallyUnramified.finite_of_free` (`Mathlib/RingTheory/Unramified/Finite.lean:167`: a
+  formally unramified algebra essentially of finite type over `R` and free as an `R`-module is finite
+  over `R`; over a field every module is free) and
+  `Algebra.FormallyUnramified.bijective_of_isAlgClosed_of_isLocalRing`
+  (`Mathlib/RingTheory/Unramified/Field.lean:61`: a local, formally unramified algebra essentially of
+  finite type over an algebraically closed field `K` is `K`). They make `G_x` finite and constant in
+  6.4's API bullet.
+- `AlgebraicGeometry.LocallyOfFinitePresentation.iff_locallyOfFiniteType`
+  (`Mathlib/AlgebraicGeometry/Noetherian.lean:271`): over a locally Noetherian target a morphism
+  of schemes is locally of finite presentation iff it is locally of finite type. With the
+  square-independence of SchemeAndStackFoundations §1.8's `Spaces.EtaleLocal` (an étale cover of
+  the spectrum of a field is locally Noetherian) it gives the case used in 3.2, 4.1, 4.2, 4.4 and 6.1: a
+  morphism of algebraic spaces locally of finite type over a disjoint union of spectra of fields is
+  locally of finite presentation.
+- The instance `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)`
+  (`Mathlib/AlgebraicGeometry/Morphisms/LocalFlatDescent.lean:48`), for the class
+  `CategoryTheory.MorphismProperty.DescendsAlong`
+  (`Mathlib/CategoryTheory/MorphismProperty/Descent.lean:32`): a morphism of schemes whose base
+  change along a flat, surjective, quasi-compact morphism is étale is étale. It gives the descent
+  step of the rigidity in 0.2, for schemes only.
+- `retractionKerCotangentToTensorEquivSection` (`Mathlib/RingTheory/Smooth/Kaehler.lean:324`): for a
+  surjection `P → A` of `R`-algebras with kernel `I`, `P`-linear retractions of
+  `I/I² → A ⊗_P Ω[P/R]` correspond to `R`-algebra sections of `P/I² → A`; no smoothness of `P` is
+  assumed. With `Algebra.FormallySmooth.exists_lift` (`Mathlib/RingTheory/Smooth/Basic.lean:125`,
+  lifting along nilpotent ideals for formally smooth `A`) it gives the split injectivity used in 7.3.
+  Mathlib's `Algebra.FormallySmooth.iff_split_injection` (same file, line 290) assumes `P` formally
+  smooth and does not apply to the chart of 7.3.
+
+### From Tau Ceti
+
+Declarations and line numbers are those of the pinned revision
+`2fd255d997f47c0b5d834ee416c7015d55444ce5`.
+
+- `TauCeti.AlgebraicGeometry.SchPseudofunctor` (`TauCeti/AlgebraicGeometry/Stack/Basic.lean:37`): the
+  type of `Cat`-valued pseudofunctors on `Scheme.{u}ᵒᵖ`, the carrier of stacks. It carries no stack
+  condition.
+- `TauCeti.AlgebraicGeometry.SchemePresheaf`, `TauCeti.AlgebraicGeometry.Spaces.RepresentableDiagonal`,
+  `TauCeti.AlgebraicGeometry.Spaces.EtaleAtlas` and `TauCeti.AlgebraicGeometry.Spaces.IsAlgebraicSpace`
+  (`TauCeti/AlgebraicGeometry/AlgebraicSpace/Basic.lean:68, 74, 113, 195`): algebraic spaces, with
+  no separation axiom.
+- `TauCeti.AlgebraicGeometry.IsRegular` (`TauCeti/AlgebraicGeometry/Scheme/Regular/Scheme.lean:68`):
+  regular schemes. The class extends Mathlib's `IsLocallyNoetherian` and asks every stalk to be a
+  regular local ring, so a regular scheme is locally Noetherian by definition.
+  `TauCeti.AlgebraicGeometry.IsRegular.of_smooth` (same file, line 90): the source of a smooth
+  morphism to a regular scheme is regular (Stacks, Descent, Lemma 35.18.4, stacks-descent line 2306,
+  ascent half). `TauCeti.AlgebraicGeometry.IsRegular.of_flat_of_surjective`
+  (`TauCeti/AlgebraicGeometry/Scheme/Regular/Descent.lean:56`): regularity descends along a flat
+  surjective morphism `X → Y` of schemes provided `Y` is locally Noetherian; that hypothesis is part
+  of the statement. In 0.1 the target is a scheme with a smooth surjective cover by a locally
+  Noetherian scheme, hence locally Noetherian by the atlas independence of SchemeAndStackFoundations
+  §1.20's locally Noetherian stacks; so the two theorems make regularity of schemes local in the
+  smooth topology. The algebraic-space clause of gap:reduced-regular-smooth-local that 3.1 and 3.4
+  use (a smooth algebraic space over a field is regular) reduces on an étale atlas to `of_smooth`
+  over `Spec k`, which is regular (a field is a principal ideal domain, hence a regular local
+  ring).
+- `TauCeti.AlgebraicGeometry.Smooth.geometricallyReduced`
+  (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/GeometricallyReduced.lean:56`): every smooth morphism
+  of schemes is geometrically reduced; with Mathlib's
+  `AlgebraicGeometry.GeometricallyReduced.isReduced_of_flat_of_isLocallyNoetherian` it is the
+  locally Noetherian case of the smooth ascent of reducedness.
+- `TauCeti.Comodule` (`TauCeti/Algebra/Coalgebra/Comodule/Basic.lean:50`) and `TauCeti.ComoduleCat`
+  (`TauCeti/Algebra/Coalgebra/Comodule/Cat.lean:50`): comodules over a coalgebra, the carrier of
+  representations in 7.2.
+- `TauCeti.linearlyReductiveAffineGroupSchemeProperty`
+  (`TauCeti/AlgebraicGeometry/AffineGroupScheme/LinearlyReductive.lean:60`): used only in the Checks
+  of 7.4 that mention linear reductivity.
+- `TauCeti.AffineGroupSchemeCat.exists_isClosedImmersion_generalLinear`
+  (`TauCeti/Algebra/AlgebraicGroup/Representation/Embedding.lean:212`): an affine group scheme over a
+  field `k`, locally of finite type, has a homomorphism to the general linear group scheme `GLₙ` over
+  `k`, for some `n`, that is a closed immersion; `k` and the coordinate ring live in one universe. 7.3 applies it to `G_x`.
+- `TauCeti.HopfAlgebra.smooth_iff_finrank_lie_eq_ringKrullDim`
+  (`TauCeti/Algebra/AlgebraicGroup/Tangent/Regularity.lean:112`): a commutative Hopf algebra `H` of
+  finite type over a field `k` is smooth over `k` iff the dimension of its Lie algebra (the
+  `k`-derivations `H → k` at the counit) equals `ringKrullDim H`; no reducedness, connectedness or
+  perfectness of `k` is assumed. 7.3 uses it as `T_{BG_x} = 0` iff `G_x` is smooth.
+- `AlgebraicGeometry.Scheme.Hom.exists_finite_isSeparable_comp_eq`
+  (`TauCeti/AlgebraicGeometry/Morphisms/Smooth/SeparablePoint.lean:43`): a nonempty scheme smooth
+  over a field `k` has a point over `Spec k` with values in a finite separable extension of `k`; no
+  perfectness of `k` is assumed. 7.3 applies it to a nonempty scheme étale over the algebraic space
+  `U ×_𝒳 Spec k`, which is smooth over `k` for a smooth `U → 𝒳` whose image contains `x`.
+- `CommHopfAlgCat.fppfHomogeneousQuotient`
+  (`TauCeti/Algebra/AlgebraicGroup/Fppf/Quotient/Homogeneous/Basic.lean:217`): for an affine group
+  `G = Spec H` over a commutative ring and the closed subgroup cut out by a Hopf ideal, the fppf
+  sheafification of the left cosets on commutative algebras; no normality and no representability.
+  `CommHopfAlgCat.isPullback_fppfHomogeneousQuotientTorsor` and
+  `CommHopfAlgCat.isLocallySurjective_fppfHomogeneousQuotientSheafProjection`
+  (`.../Fppf/Quotient/Homogeneous/Torsor.lean:160, 154`): the projection `G → G/H` is locally
+  surjective with kernel pair `G × H`, that is an `H`-torsor. Representability is proved there only
+  for linearly reductive `H` and, over a field of characteristic zero, for reductive `H`
+  (`.../Homogeneous/Coinvariants.lean`, `.../Homogeneous/GeneralLinear.lean`), which `G_x` need
+  not be; the general case is gap:homogeneous-quotient-scheme.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- §1.7 (`points`, `points_atlas_surjective`, `opensEquiv`) and §1.8 (`Spaces.EtaleLocal`,
+  `spacePresentation`, fibre products of spaces): points and open subspaces of algebraic spaces, the
+  open image of an étale atlas, the presentation of a space as the quotient of an étale atlas by its
+  relation, and étale-local properties of morphisms of spaces.
+- §1.9 (`IsSeparatedSpace`, `QuasiSeparatedSpace`, `LocallySeparatedSpace`, `QuasiCompactSpace`,
+  `IsProperSpace`): separation, local separation and quasi-compactness of morphisms of spaces.
+- §1.13 (`Groups.GroupSpace`), §1.14 (`Groupoid`, `Groupoid.restrict`, `stabilizer`, `stabilizerAt`),
+  §1.15 (`Groups.IsTorsor`), §1.17 (`artinBootstrap`): group spaces, groupoids with their
+  restriction and stabilizers, torsors, and Artin's bootstrap theorem.
+- §1.18 (*StackInGroupoids*, `twoFiberProduct`, `Stack.stackification`): the carrier and
+  2-fibre products.
+- §1.19 (`IsRepresentableBySpaces`, `RepresentableProperty`, `IsAlgebraicStack`,
+  `IsDeligneMumford`, `IsDeligneMumford.iff_unramified_diagonal`): representable morphisms with
+  their properties, algebraic and Deligne–Mumford stacks (with an étale atlas).
+- §1.20 (`inertia`, `inertia.representable`, `automorphismGroup`, `setoid_criterion`, `SmoothLocal`,
+  `SmoothLocal.atlas_independent`, `Stacks.points` with `.map`, `.pullbackSurjective`,
+  `.baseChangeImage`, `.atlasOpenSurjective`, `.ofSpace`, `QuasiCompactStack`, `IsSeparatedStack`,
+  the locally Noetherian stacks, `stack_presentation`): everything of Convention 2–3.
+- §1.21 (`Stack.quotient`, `quotientStack`, `quotientStack.π`, `actionQuotient`,
+  `actionQuotient.torsorEquiv`, `quotientStack_algebraic`): quotient stacks of groupoids in fppf
+  sheaves (`Stack.quotient`) and of actions, with `BG = [S/G]` for the trivial action, and `[U/R]`
+  algebraic for flat locally finitely presented groupoid schemes. Algebraicity for groupoids in
+  algebraic spaces, such as `u ×_𝒳 u` in 4.1, is gap:flat-groupoid-quotients.
+- §1.22 (`Stacks.QCoh`, *QCoh.presentationEquiv*): quasi-coherent modules and their description on
+  a presentation `[U/R]` as modules on `U` with descent data along `R` (Stacks, Proposition
+  96.14.3). Applied to `BG = [Spec k/G]` for affine `G` over a field it gives `QCoh(BG)` as
+  `O(G)`-comodules (Convention 9); the Check of §1.22 that `QCoh(BG)` is the category of
+  `O(G)`-comodules is that instance. The abelian structure of `Stacks.QCoh`, its structure sheaf,
+  its tensor products and the exactness properties of *QCoh.pullback* used in 0.4 and 7.2 are
+  gap:qcoh-stacks-abelian-tensor.
+- §1.23 (`moduliFunctor`, `toModuliSheaf`): the fppf sheafification of isomorphism classes, the base
+  of a gerbe in 2.1.
+- §4.8 (*Scheme.formalCompletion*, with its levels `toScheme n : V(I^{n+1}) → X` for
+  `I : X.IdealSheafData`): the infinitesimal neighbourhoods of a closed subscheme, the scheme case of
+  0.4 and 7.1.
+- §4.12 (`generic_flatness`): generic flatness over an integral base. §4.13 records regular schemes
+  as Tau Ceti's (From Tau Ceti above); this roadmap consumes it only through
+  gap:reduced-regular-smooth-local.
+
+What SchemeAndStackFoundations must provide (gap:stack-morphism-permanence): §1.20 must prove, for
+its `SmoothLocal` properties flat, locally of finite presentation, locally of finite type and smooth,
+for surjectivity and for `QuasiCompactStack`, stability under composition and base change, descent
+along a surjective, flat, locally finitely presented base change, agreement with
+`RepresentableProperty` for morphisms representable by algebraic spaces, the implications smooth ⇒
+locally of finite presentation ⇒ locally of finite type, the cancellation laws for local finite type
+and local finite presentation, and that a surjective, flat, locally finitely presented morphism is
+fppf-locally essentially surjective; that a morphism of algebraic stacks is representable by
+algebraic spaces, and has `RepresentableProperty P` for a property `P` of morphisms of algebraic
+spaces stable under base change and fppf local on the target, as soon as its base change along one
+surjective, flat, locally finitely presented morphism from an algebraic space is so; and that an
+algebraic stack locally of finite type over a locally Noetherian algebraic stack is locally
+Noetherian (Stacks, Properties of Stacks, Lemmas 100.3.1–100.3.3 and 100.5.2–100.5.5; Morphisms of
+Stacks, Lemmas 101.7.3–101.7.7, 101.7.10, 101.17.2–101.17.8 with 101.17.5 for the last clause,
+101.25.2–101.25.5, 101.27.2–101.27.14, 101.27.16 and 101.33.2–101.33.5).
+
+What SchemeAndStackFoundations must provide (gap:flat-lfp-open): §1.20 must prove that for a flat,
+locally finitely presented morphism `f` of algebraic stacks the map `|f|` is open, so that such
+morphisms are universally open (Stacks, Morphisms of Stacks, Lemma 101.27.15).
+
+What SchemeAndStackFoundations must provide (gap:inertia-of-presentations): §1.20 must prove that the
+inertia `I_𝒳 → 𝒳` and the relative inertia `I_{𝒳/𝒴} → 𝒳` are locally of finite type, and that for a
+presentation `[U/R] ≃ 𝒳` the stabilizer `G → U` of the groupoid (§1.14's `stabilizer`) is the
+pullback `U ×_𝒳 I_𝒳` (Stacks, Morphisms of Stacks, Lemmas 101.5.1 and 101.5.7).
+
+What SchemeAndStackFoundations must provide (gap:stack-separation-axioms): §1.20 must define DM,
+quasi-DM and quasi-separated morphisms of algebraic stacks, and quasi-DM and quasi-separated algebraic
+stacks, by the diagonal (Stacks, Morphisms of Stacks, Definitions 101.4.1–101.4.2), a DM stack being
+§1.19's `IsDeligneMumford` through `IsDeligneMumford.iff_unramified_diagonal`, and prove separated ⇒
+quasi-separated, DM ⇒ quasi-DM and representable by algebraic spaces ⇒ DM for morphisms, stability
+under base change and composition, the permanence Lemma 101.4.11 and the comparison of the diagonal
+with the inertia, Lemma 101.6.1 (Lemmas 101.4.3, 101.4.4, 101.4.10).
+
+What SchemeAndStackFoundations must provide (gap:quasi-dm-flat-presentation): §1.19 must prove that an
+algebraic stack is quasi-DM iff it admits a surjective, flat, locally finitely presented, locally
+quasi-finite morphism from a scheme (Stacks, Morphisms of Stacks, Theorem 101.21.3), alongside its
+`IsDeligneMumford.iff_unramified_diagonal`.
+
+What SchemeAndStackFoundations must provide (gap:flat-groupoid-quotients): §1.21 must prove that for a
+groupoid `(U, R, s, t, c)` in algebraic spaces (not only a groupoid scheme, for which §1.21 states
+`quotientStack_algebraic`) with `s, t` flat and locally of finite presentation, `[U/R]` is algebraic
+(Stacks, Criteria for Representability, Theorem 97.17.2) and the projection `U → [U/R]` is surjective,
+flat and locally of finite presentation (Lemma 97.17.1), that `[B/G]` is algebraic iff `G → B` is flat and locally of finite
+presentation (Lemma 97.18.3) and is then a gerbe over `B` (Groupoids in Spaces, Lemmas 78.27.1–78.27.2),
+that the canonical `[U/R] → 𝒳` attached to a morphism `U → 𝒳` with `R = U ×_𝒳 U` is fully faithful and
+is an equivalence when `U → 𝒳` is surjective, flat and locally of finite presentation (Algebraic
+Stacks, Lemma 94.16.1, Remark 94.16.3), and that restricting a groupoid along `U' → U` gives a fully
+faithful `[U'/R'] → [U/R]` (Groupoids in Spaces, Lemma 78.25.1).
+
+What SchemeAndStackFoundations must provide (gap:qcoh-stacks-abelian-tensor): §1.22 must prove, for
+an algebraic stack `𝒳`, that `Stacks.QCoh 𝒳` is abelian, with kernels and cokernels computed on `U`
+under *QCoh.presentationEquiv* for a presentation `[U/R] ≃ 𝒳` with `s, t` flat (Sheaves on Stacks,
+Lemma 96.15.1 (1)–(2), stacks-sheaves-on-stacks lines 1068–1071; Groupoids in Spaces, Lemma 78.12.6,
+stacks-groupoids-spaces lines 593–603); that the structure sheaf `O_𝒳` (Definition 96.6.1,
+stacks-sheaves-on-stacks lines 374–375) is an object of `Stacks.QCoh 𝒳` (Lemma 96.11.3, lines
+740–742); that the tensor product over `O_𝒳` of two quasi-coherent modules is quasi-coherent (Lemma
+96.15.1 (5), lines 1076–1077); and that *QCoh.pullback* along a morphism `f` of algebraic stacks is
+the restriction `f^{-1}`, which preserves colimits and tensor products of quasi-coherent modules
+and is therefore right exact (Lemma 96.11.2, lines 733–735; Lemma 96.12.5 (1)–(2), lines 869–874).
+
+What SchemeAndStackFoundations must provide (gap:decent-algebraic-spaces): §1.7 must define decent
+algebraic spaces (Stacks, Decent Spaces, Definition 68.6.1) and prove that quasi-separated and locally
+separated spaces are decent (Section 68.6 and Lemma 68.15.2), that every point of a decent space is
+represented by a monomorphism from the spectrum of a field (Lemma 68.11.1), that decent spaces are
+sober (Proposition 68.12.4), the specialisation Lemma 68.7.2 and the stratification Lemma 68.8.3.
+
+What SchemeAndStackFoundations must provide (gap:decent-space-schematic-locus): §1.7 must prove that
+every decent algebraic space contains a dense open subspace representable by a scheme (Stacks, Decent
+Spaces, Theorem 68.10.2, stacks-decent-spaces lines 1094–1096; for a quasi-separated space,
+Properties of Spaces, Proposition 66.13.3).
+
+What SchemeAndStackFoundations must provide (gap:reduced-scheme-residue-field-factorisation): §1.7
+must prove that a morphism of schemes `Y → X` with `Y` reduced and image contained in `{x}` factors
+through `Spec κ(x) → X`, and that for `X` locally Noetherian and a set `E` of points of `X` without
+nontrivial specialisations among them a morphism from a reduced scheme with image in `E` factors
+through `⊔_{x ∈ E} Spec κ(x)` (Stacks, Morphisms, Lemmas 29.59.1–29.59.2,
+stacks-morphisms-schemes lines 7102–7125).
+
+What SchemeAndStackFoundations must provide (gap:group-spaces-over-fields): §1.13 must prove that a
+group algebraic space over a field which is locally quasi-finite, quasi-separated or locally
+separated is a scheme (Stacks, Spaces over Fields, Lemma 72.10.8; More on Groupoids in Spaces, Lemma
+79.9.4 and Proposition 79.10.3).
+
+What SchemeAndStackFoundations must provide (gap:quasi-finite-over-fields): §1.8 must prove that a
+morphism of algebraic spaces to a disjoint union of spectra of fields which factors as a
+monomorphism followed by a locally quasi-finite morphism is locally quasi-finite (Stacks, Spaces over
+Fields, Lemma 72.10.9).
+
+What SchemeAndStackFoundations must provide (gap:isomorphism-fpqc-local-spaces): §1.2 must prove that
+being an isomorphism is fpqc local on the target for morphisms of algebraic spaces, in particular
+that a morphism of algebraic spaces over `Spec k` whose base change along a field extension `k'/k`
+is an isomorphism is an isomorphism (Stacks, Descent on Spaces, Lemma 74.11.15).
+
+What SchemeAndStackFoundations must provide (gap:generic-flatness-spaces): §4.12 must extend
+`generic_flatness` to a quasi-compact morphism of algebraic spaces locally of finite type over a
+reduced algebraic space, giving a dense open of the base over which it is flat and locally of finite
+presentation (stacks-morphisms-spaces lines 3050–3057, Proposition 67.32.1; stacks-morphisms-schemes
+lines 2319–2326, Proposition 29.28.2).
+
+What SchemeAndStackFoundations must provide (gap:reduced-regular-smooth-local): §4.13 must prove that
+reducedness of schemes is local in the smooth topology over an arbitrary base and descends along flat
+surjective morphisms (Stacks, Descent, Lemmas 35.18.1 and 35.19.1, stacks-descent lines 2277 and
+2320–2321); that reducedness of algebraic spaces ascends along smooth morphisms and descends along
+flat surjective ones, and regularity of algebraic spaces ascends along smooth morphisms and descends
+along flat, surjective, locally finitely presented ones (Descent on Spaces, Lemmas 74.9.2, 74.9.4 and
+74.9.5, stacks-spaces-descent lines 424–425, 442–443 and 451–452; the smooth ascent of regularity
+reduces on étale atlases to the scheme case); and that a smooth algebraic space over a field is
+regular (Spaces over Fields, Lemma 72.16.1, stacks-spaces-over-fields lines 1213–1214). For schemes,
+regularity is Tau Ceti's `TauCeti.AlgebraicGeometry.IsRegular.of_smooth` and
+`TauCeti.AlgebraicGeometry.IsRegular.of_flat_of_surjective`, and the ascent of reducedness along
+smooth morphisms to a locally Noetherian scheme is Mathlib's
+`AlgebraicGeometry.GeometricallyReduced.isReduced_of_flat_of_isLocallyNoetherian` with Tau Ceti's
+`TauCeti.AlgebraicGeometry.Smooth.geometricallyReduced`; neither is asked for here.
+
+### From TauCetiRoadmap.AlgebraicModuliForArithmeticGeometry
+
+- §4.1: `IsGerbe`, `IsGerbe.equivalence_iff`, `relativeGerbe`, `relativePullback`,
+  `relativeComposition` and `relativeDescent` on a site `(C, J)` with groupoid fibres. Layer 2 takes
+  `(C, J) = (Scheme.{u}, fppf)`. Nothing about bands is assumed.
+- §5.1: `ArithmeticModuli.Rigidification.stack`, `ArithmeticModuli.Rigidification.stabilizer_kernel`
+  and `ArithmeticModuli.Rigidification.geometry`, for an algebraic stack locally of finite
+  presentation over a scheme and a closed subgroup of its inertia flat and of finite presentation
+  over it; used only in 2.1's comparison of the rigidification by the whole inertia with the base of
+  a gerbe.
+- §8.1: `deformationGroupoid`, `deformationFunctorOfPoint` and `stabiliserActionOnDeformations`, for
+  `𝒳` fibred in groupoids over a locally Noetherian `S` and `k` of finite type over `S`, with the
+  change-of-residue-field API; and §8.3's `framedDeformation_twoFibre` and
+  `framedTangent_exactSequence` (framed tangent spaces of a 2-fibre product, and smooth
+  representable morphisms are smooth on framed deformations).
+
+What AlgebraicModuliForArithmeticGeometry must provide (gap:algebraic-stacks-satisfy-rs): §8.1 must
+prove that an algebraic stack over a locally Noetherian base satisfies the Rim–Schlessinger condition
+(Stacks, Artin's Axioms, Lemma 98.5.2, stacks-artin lines 292–294), so that its framed tangent
+spaces, defined in Section 98.8 (lines 393–415), are `k`-vector spaces, and that for a finite
+extension `k'/k` (7.3 uses finite separable ones) the framed tangent space at the induced `k'`-point
+is the base change to `k'` of the tangent space at the `k`-point: under (RS) the deformation
+category over `k'` is the change of residue field of the one over `k` (Artin's Axioms, Lemma 98.7.1,
+lines 354–392), it satisfies Schlessinger's (S2) (Lemma 98.6.1 and Remark 98.6.2, lines 323–348),
+and the tangent space of a change of residue field is the base change of the tangent space (Formal
+Deformation Theory, Lemma 90.29.3, stacks-formal-defos lines 3512–3528); its deformation-category
+clause and change-of-residue-field API state these without a target.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 1 (representations of affine group schemes of finite type over a field as comodules, and the
+finite-dimensional comodule category). Nothing about reductivity is assumed. Layer 3A's orbit
+geometry is stated over an algebraically closed field and is not an input: 7.4 defines the orbit
+`G·x` over `k` itself, as the reduced image of the orbit map, and under 7.4's hypotheses `G·x` is
+smooth over `k`, so its base change to `k̄` is reduced and, when `G` and `V` have quasi-compact
+underlying spaces (Layer 3A's finiteness), is the orbit of Layer 3A for the induced `k̄`-point. Layer 3 takes the quotient `G/H` first as an fppf sheaf and makes its
+representability a theorem with hypotheses; 7.3 needs that theorem for `GLₙ/G_x`.
+
+What ReductiveGroups must provide (gap:homogeneous-quotient-scheme): Layer 3 must prove that for a
+smooth affine group scheme `G` of finite type over a field `k` and a closed subgroup scheme `H`, the
+fppf quotient `G/H` (Tau Ceti `CommHopfAlgCat.fppfHomogeneousQuotient`) is represented by a separated
+scheme of finite type over `k`, smooth over `k`, all of whose irreducible components have dimension
+`dim G − dim H` (SGA 3, Exposé VI_A, Théorème 3.2 (i), (ii), (ii′) and (iv)(a′)–(c), sga3-vi-a lines
+871–894, stated there for the left quotient `H\G ≅ G/H`, `g ↦ g⁻¹`); the torsor property of
+`G → G/H` is Tau Ceti's `CommHopfAlgCat.isPullback_fppfHomogeneousQuotientTorsor`.
 
 ## References
 

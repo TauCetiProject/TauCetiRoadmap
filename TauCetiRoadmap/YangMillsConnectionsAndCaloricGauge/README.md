@@ -1,151 +1,77 @@
 # Roadmap: Yang–Mills connections on Euclidean space and the caloric gauge
 
-**Summary.** Build the analytic theory of connections on Euclidean space with values in a compact
-Lie group at the critical regularity, from the matrix-group and Sobolev material of Mathlib and
-Tau Ceti to the caloric gauge of Oh and Tataru. The roadmap develops `G`-valued Sobolev maps at
-the critical exponent and their homotopy classes on annuli; rough bundles and connections whose
-curvature lies in `L^{d/2}` on open subsets of `ℝ^d`, `d ≥ 3`, with their gauge action;
-Uhlenbeck's Coulomb gauge on balls and punctured balls for an arbitrary compact structure group;
-the good global gauge theorem and the topological class of a rough connection; characteristic
-numbers and the instanton number; harmonic Yang–Mills connections on `ℝ⁴` with their regularity,
-decay at infinity, energy gap and ground state; the covariant elliptic and parabolic linear theory on
-`ℝ⁴` in homogeneous Sobolev and Besov spaces; the Yang–Mills heat flow in the local caloric gauge;
-and the caloric gauge with the manifold of caloric connections. Its end theorems are: gauge
-invariance of finite energy; Uhlenbeck's lemma on the unit ball for every compact `G` and every
-`d ≥ 3`; the good global gauge theorem; well-definedness, gauge invariance and locality of the
-topological class, and the characterisation of the trivial class by `Ẇ^{1,d/2}` potentials;
-topological invariance of every characteristic number; the Bogomol'nyi bound; integrality and
-completeness of the instanton number for `SU(2)`; the energy gap and the ground state theorem;
-local well-posedness, continuation and convergence to a flat limit for the heat flow; the
-Dichotomy and Threshold Theorems; existence and uniqueness of the caloric gauge; and the theorem
-that the caloric connections form a `C¹` submanifold of the Banach space `ℋ`, with its tangent
-spaces and the nonlinear div–curl decomposition. The roadmap is this README;
-`Suggested.lean` states the integrality of the `SU(2)` instanton number and the existence of every
-integer value (§6.4), and records what the other headline signatures need beyond the pinned APIs.
+**Summary.** A connection on `ℝ^d` for a compact Lie group `G` is a 1-form `A` with values in the
+Lie algebra `𝔤`; its curvature `F = dA + ½[A ∧ A]` becomes `Ad(O)F` under a gauge transformation
+`O`, a map into `G`. The `L^{d/2}` norm of `F` is dilation invariant, and in dimension four its
+square is the Yang–Mills energy. This roadmap builds their analytic theory at this critical
+regularity, from Uhlenbeck's gauge fixing to the caloric gauge of Oh and Tataru. Throughout, `G` is
+a closed subgroup of a unitary group, not assumed connected, and an `Ad(G)`-invariant inner product
+on `𝔤` is part of the data.
 
-## Scope and ownership
+For every `d ≥ 3` and every such `G`, Uhlenbeck's lemma holds: on the unit ball, a `W^{1,d/2}`
+potential whose curvature is small in `L^{d/2}` is gauge equivalent to a divergence-free one with
+vanishing normal component on the sphere and `W^{1,d/2}` norm at most a constant times that of the
+curvature. By the good global gauge theorem, every connection on `ℝ^d` with curvature in `L^{d/2}`
+is gauge equivalent to the cut-off pure gauge of a smooth map `O_∞`, homogeneous of degree zero
+about a suitable centre, plus a remainder in `Ẇ^{1,d/2}`. The homotopy class of `O_∞` on the
+sphere, up to constant factors on either side, is the topological class of the connection. It is
+gauge invariant, and trivial exactly when the connection is gauge equivalent to a potential in
+`Ẇ^{1,d/2}`.
 
-This roadmap owns, for a compact matrix group `G` with an `Ad`-invariant inner product on its
-Lie algebra (Conventions):
+For even `d`, characteristic numbers, the integrals of `Ad`-invariant forms in the curvature,
+depend only on this class. For `G = SU(2)` with the inner product `−tr(XY)`, the instanton number
+`c₂ = (8π²)⁻¹ ∫ tr(F ∧ F)` of a finite-energy connection on `ℝ⁴` is an integer: minus the degree of
+its gauge at infinity as a map `S³ → SU(2) ≅ S³`, with the orientations of the Conventions. Every
+integer occurs, and `Suggested.lean` states both facts in Lean. Moreover `c₂` is a bijection from
+the topological classes onto `ℤ`.
 
-- the comparison of Euclidean matrix formulas with SmoothBundlesConnections B3.1, B4.1–B4.2
-  (gauge action, curvature, Bianchi identity, Leibniz rules), the derivative of the
-  nearest-point retraction onto `G` (whose existence is RiemannianGeometry R6's),
-  the Euclidean and right Maurer–Cartan form of CharacteristicClasses' curvature evaluation,
-  transgression and Chern–Simons forms (C4 item 1, C5a.3) with the explicit `SU(2)`
-  normalisation, the self-dual splitting
-  of `𝔤`-valued 2-forms in dimension four with the pointwise Bogomol'nyi inequality, and the
-  structure constant `γ₀` with the cubic bound for self-dual forms (Layer 1);
-- the classes `G^{k,d/k}_loc` of matrix-valued Sobolev maps with values in `G` almost everywhere,
-  their approximation by smooth `G`-valued maps, the continuity of products, inverses, Maurer–Cartan
-  forms and the adjoint action, and the homotopy class of a critical map on an annulus (Layer 2);
-- rough bundles and connections with `L^{d/2}_loc` curvature on open subsets of `ℝ^d`, `d ≥ 3`, their
-  gauge action and patching, and the concentration radii (Layer 3);
-- Uhlenbeck's lemmas on the unit ball and the punctured ball for every compact `G`, the elliptic
-  regularity of the nonlinear div–curl system, and the good gauge on a ball (Layer 4);
-- the good global gauge theorem on `ℝ^d`, the gauge at infinity, the topological class and its
-  properties, and the characterisation of the trivial class (Layer 5);
-- characteristic numbers of connections with `L^{d/2}` curvature in even dimension, their
-  topological invariance, the integrated Bogomol'nyi bound, and the instanton number of `SU(2)`
-  connections with its integrality and completeness (Layer 6);
-- harmonic Yang–Mills connections on `ℝ⁴`: regularity, removable singularities and decay, the
-  Weitzenböck and improved Kato inequalities, the energy gap, the BPST connection on `ℝ⁴` and the
-  ground state energy (Layer 7);
-- the finite-dimensional coefficient specialisations of PDE §7.2’s homogeneous spaces and of
-  Tau Ceti's `TauCeti.D1p0`, the realised homogeneous spaces `Ẇ^{σ,p}` on `ℝ⁴`, the graph space
-  `ℋ` and frequency envelopes on `ℝ⁴`, the homogeneous `L²` product estimates (distinct from PDE
-  §7.3's inhomogeneous Hölder estimates), and the solvability theory of the covariant Laplacian
-  and of the covariant heat operator (Layer 8);
-- the covariant, dynamic and linearised Yang–Mills heat flows on `ℝ⁴`, their gauge fixings, the
-  well-posedness and long-time theory in the local caloric gauge, and the Dichotomy and Threshold
-  Theorems (Layer 9);
-- flat `Ḣ¹` connections as pure gauges, caloric connections, the map `Cal`, the notion of a `C¹`
-  split submanifold of a Banach space (a subset with charts that are Mathlib's `C¹` smooth embeddings), the
-  caloric manifold, its tangent spaces, the projection `Π_a` and the bundle of caloric initial data sets
-  (Layer 10).
+On `ℝ⁴` a harmonic Yang–Mills connection is a weak solution of `D^ℓ F_ℓj = 0`, the equation of
+critical points of the energy. Let `γ₀` be the largest `|[X, Y]|` over `X, Y ∈ 𝔤` of norm at most
+one. For noncommutative `G`, every nontrivial finite-energy harmonic Yang–Mills connection has
+energy at least `16π²/γ₀²`, and at least twice that unless it is self-dual or anti-self-dual. The
+BPST instanton, an explicit anti-self-dual connection, placed in a suitable copy of `𝔰𝔲(2)` inside
+`𝔤`, attains this bound, which is therefore the ground state energy `E_GS`.
 
-It leaves to named roadmaps:
+The Yang–Mills heat flow `F_sj = D^ℓ F_ℓj` on `ℝ⁴`, in the local caloric gauge `A_s = 0`, is
+locally well posed for data in the homogeneous Sobolev space `Ḣ¹`. Its caloric size is the `L³`
+norm of the curvature over space and heat time if the flow is global, and `+∞` otherwise; a global
+flow of finite caloric size has a flat limit. By the Dichotomy Theorem, a flow of infinite caloric
+size has rescalings that converge locally in `L²`, after gauge transformations, to a nontrivial
+finite-energy harmonic Yang–Mills connection. By the Threshold Theorem, for noncommutative `G` and
+`E < 2E_GS`, all `Ḣ¹` data of energy at most `E` have global flows of caloric size at most some
+`Q_E`.
 
-- **PDE** owns the Euclidean Sobolev spaces beyond the Tau Ceti carriers (density, embeddings,
-  Poincaré inequalities, trace and extension on Lipschitz domains: §1.2, §1.4, §1.5, §1.6),
-  Calderón–Zygmund theory and the Mihlin–Hörmander multiplier theorem (§2.3), Bochner spaces
-  (§6.1), the heat semigroup on `ℝ^d` (§6.3), the dyadic partition with the Bernstein and
-  Littlewood–Paley estimates (§7.1), Besov spaces with their homogeneous versions (§7.2) and
-  paraproducts (§7.3). Everything here is scalar
-  there and is applied componentwise to `𝔤`-valued functions in an orthonormal basis of `𝔤`.
-  The `L^p` theory of the Neumann problem on the unit ball, the `L^p` div–curl estimate for
-  1-forms with vanishing normal component on the unit ball, Hardy's inequality on `ℝ^d`, and the
-  Sobolev classes `W^{k,p}(Ω; V)` of order `k ≥ 2` of maps into a finite-dimensional real normed
-  space `V`, with their local versions and their coordinate comparison with the scalar classes,
-  are sections PDE lacks; they are requested of PDE under Exact supplier contracts. The order-one
-  class `W^{1,p}(Ω; V)` is Tau Ceti's (From Tau Ceti). The consistent inhomogeneous partition
-  needed for the restriction-Besov norm of §4.3 is requested of PDE §7.1–§7.2 there as well.
-- **SmoothBundlesConnections** owns principal connections, curvature, the gauge group and its
-  left action `u·A = Ad(u)A − du·u⁻¹` (B3.1, B4.1, B4.2). Every smooth connection here is a connection
-  on the trivial bundle `X × G` in its sense, and §1.3 proves that the formulas used here are its
-  local formulas. The Yang–Mills energy on closed Riemannian manifolds is SmoothBundlesConnections,
-  Part II, the jet-level Yang–Mills Euler–Lagrange and Noether identities are
-  LocalVariationalFieldTheory's (§4.1 for the Euler expression and its currents, §5.2 for the gauge
-  identity), and the closed-manifold `SU(2)` theory with anti-self-dual moduli spaces is
-  FourManifolds, Layer 5; none of them is planned here. §7.1 states only the weak
-  equation for rough potentials on open subsets of `ℝ⁴`. Sobolev gauge groups and Coulomb slices at
-  subcritical orders on closed manifolds are HamiltonianReduction R5's (over a surface, `H^s`,
-  `s > 1`) and SeibergWittenTheory SW4's (the abelian group on a closed four-manifold); the critical
-  classes `G^{2,d/2}_loc`, `d ≥ 3`, on Euclidean domains are a different setting and are owned here.
-- **CharacteristicClasses** owns `Ad`-invariant symmetric polynomial forms on a Lie algebra with
-  polarisation and pullback, their evaluation on curvature, closedness, gauge invariance and the
-  transgression form of the affine connection path (C4 item 1), the Weil algebra with the
-  normalised Chern–Simons forms `CS_P` and their Maurer–Cartan cocycles `τ(P)` (C5a.3), and
-  Chern–Weil theory of bundles. This roadmap reads those objects in the Euclidean trivialisation
-  and in its right Maurer–Cartan convention (§1.4), and computes characteristic numbers of rough
-  connections by transgression on `ℝ^d` (Layer 6); it states no comparison with Chern–Weil
-  classes of bundles on `S^d`.
-- **RiemannianGeometry** owns the inversion of the normal tube of a closed Euclidean embedding and
-  the smooth nearest-point retraction on a tube of uniform radius for compact embeddings (R6).
-  §1.2 applies it to `G` and computes the derivative of the retraction along `G`.
-- **DifferentialGeometry** owns differential forms, the exterior derivative `TauCeti.mextDeriv` on
-  manifolds, Stokes' theorem and the homotopy operator (Layers 0, 1, 5.3, 5.4) and the Brouwer
-  degree with its integral formula, homotopy invariance and `deg id = 1` (Layer 10, items
-  10.3–10.5). Tau Ceti's `Orientation.formHodgeStar` is the pointwise Hodge star.
-- **AlgebraicTopology** owns the comparison of cubical and spherical homotopy groups and the
-  absolute Hurewicz theorem in every universe (§8.3; for spaces in `Type` it is Tau Ceti's
-  `HomotopyGroup.bijective_hurewicz`), and the comparison of the homological degree with
-  DifferentialGeometry's smooth degree (§6.5); through them the degree classifies maps
-  `S³ → S³`.
-- **LieGroups** owns `Ad` and `ad` (Layer 1) and the generic invariant-metric and compact
-  Lie-algebra splitting (Layer 5A). Its exponential map (Layer 0) and its closed-subgroup theorem
-  with the Lie algebra of a closed subgroup (Layer 2) are already in Tau Ceti (From Tau Ceti), and
-  the matrix exponential is Mathlib's `NormedSpace.exp`. Tau Ceti also proves the facts §1.1 uses
-  about the Lie algebra of a closed subgroup: it grows with the subgroup, is preserved by `Ad(g)`
-  for `g` in the subgroup and is the range of the differential of the inclusion at `1`, and for the
-  unitary (special unitary) matrices it consists of the skew-Hermitian (trace-free
-  skew-Hermitian) matrices; `exp(𝔤) ⊆ G` is the defining property of `𝔤`. Here the matrix trace
-  metric is an explicit compatible choice; the splitting is consumed on the identity component and
-  is not reconstructed. The compact real root planes and normalised root `𝔰𝔲(2)` subalgebras are
-  LieGroups Layer 6’s constructions. The additional norm comparison saying that a longest-root
-  subalgebra attains `γ₀` is requested there under Exact supplier contracts.
-- **Yamabe** owns the sharp Euclidean Sobolev inequality with the constant `Y(Sⁿ)` (Y2 item 1),
-  which the energy gap of §7.5 consumes in dimension four.
-- **FourManifolds** states Uhlenbeck's small-curvature Coulomb gauge on the unit Euclidean
-  4-ball for `SU(2)` (§5.3) and constructs the BPST instanton on its oriented `S⁴` carrier
-  (Layer 5, introduction). This roadmap owns the Euclidean statements of §§4.1–4.2 and §7.3
-  (Coulomb gauge and removability) and §7.6 (the BPST potential on `ℝ⁴` needed by the heat flow).
-  The unit-ball statement for `SU(2)` is the case `G = SU(2)`, `d = 4` of §4.1;
-  FourManifolds' `S⁴` carrier, moduli spaces and compactification belong there.
-  The energy identity `ℰ_e = 8π²c₂ + 2‖F⁺‖²` is stated here on `ℝ⁴` for finite-energy rough
-  connections (pointwise in §1.5, integrated in §6.3); its closed-manifold form
-  `E(A) = 8π²k + 2‖F_A⁺‖²` and the BPST solution on `S⁴` (FourManifolds Layer 5, introduction),
-  which SmoothBundlesConnections' scope assigns to FourManifolds together with InstantonFloerTheory
-  IF1, stay there; InstantonFloerTheory consumes FourManifolds' `SU(2)` core for its `SO(3)` and
-  cylindrical theory, and nothing of it is planned here.
+A connection in `Ḣ¹` is caloric if its flow has finite caloric size and flat limit `0`. Every
+`a ∈ Ḣ¹` of finite caloric size is gauge equivalent to a caloric connection, unique up to constant
+gauge transformations. The caloric connections form a `C¹` submanifold of the Banach space `ℋ` of
+`a ∈ Ḣ¹` with divergence in the Besov space `ℓ¹L²`.
 
-Not owned here and owned by no roadmap this one consumes: the hyperbolic Yang–Mills equation, its
-initial data sets, the constraint equation and the caloric form of the wave equation, together
-with the generalised Coulomb condition and the heat-flow bounds for linearised caloric data
-(OhTataru-YMHF §§7.3–9, OhTataru-CaloricLWP, OhTataru-Threshold), which belong to a hyperbolic
-Yang–Mills roadmap consuming this one (Downstream consumers); the Yang–Mills heat flow on closed
-manifolds (Rade-YMHeat); the structure of `π₃` of compact Lie groups beyond what §5.6 and §6.4 use
-(MimuraToda-TopologyLieGroups, Ch. IV–V).
+The roadmap builds on PDE for the scalar Sobolev, heat-semigroup and Littlewood–Paley theory,
+applied componentwise. Every smooth connection here is one on a trivial bundle in the sense of
+[SmoothBundlesConnections](../SmoothBundlesConnections/README.md). CharacteristicClasses supplies
+the transgression forms behind characteristic numbers, and [Yamabe](../Yamabe/README.md) the sharp
+Sobolev inequality behind the energy gap. A roadmap for the hyperbolic Yang–Mills equation on
+`ℝ^{1+4}` uses every layer.
+
+After three preparatory layers (gauge algebra, critical maps into `G`, rough connections), Layers 4
+to 10 follow this summary, with the linear theory of Layer 8 before the heat flow; How to read the
+build, which follows, describes each.
+
+## How to read the build
+
+Layer 1 is pointwise algebra: the structure group, the gauge identities for smooth data, invariant
+forms with their transgression and Cartan forms, and four-dimensional self-duality. Layer 2 is the
+analysis of `G`-valued maps at the critical exponent. Layer 3 defines rough connections, proves the
+gauge invariance of finite energy and patches local gauges. Layer 4 proves Uhlenbeck's lemmas and the
+good gauge on a ball. Layer 5 globalises to `ℝ^d` and defines the topological class. Layer 6 computes
+characteristic numbers by transgression and the instanton number by degree theory. Layer 7 is the
+elliptic theory of harmonic Yang–Mills connections on `ℝ⁴` up to the ground state. Layer 8 is the
+linear covariant theory in homogeneous spaces. Layer 9 is the Yang–Mills heat flow, ending with the
+Dichotomy and Threshold Theorems. Layer 10 constructs the caloric gauge and the caloric manifold.
+Layer 1 depends only on suppliers; Layer 8 then uses its coefficient algebra;
+within Layer 4 the elliptic estimates of §4.3 precede their uses in §4.1; Layers 2–7 form a chain (Layer 6
+needs Layer 5, Layer 7 needs Layers 4–6); Layer 9 needs Layer 8 for its local theory and Layers 4, 6
+and 7 for the Dichotomy and Threshold Theorems; Layer 10 needs Layer 9 and Layers 3–4 for §10.1.
 
 ## Conventions
 
@@ -230,262 +156,6 @@ Banach space `X`. For such a space-time norm `Y = L^q(J; Ḣ^σ)`, `ℓ^pY` is t
 `‖u‖_{ℓ²L¹Ḣ^σ} ≲ ‖u‖_{L¹Ḣ^σ}`, and the reverse bound fails (8.3, Checks).
 Littlewood–Paley indices follow PDE §7.1: a frequency of size `2^j` is carried by
 `P_{j−1}` (PDE §7.1, first Check).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At the pinned Mathlib; paths under `Mathlib/`.
-
-- `Matrix.unitaryGroup` (`LinearAlgebra/UnitaryGroup.lean`, an abbreviation for the submonoid of
-  unitary matrices) and `Matrix.specialUnitaryGroup` (same file, the unitary matrices of determinant
-  one).
-- `NormedSpace.exp` and `NormedSpace.exp_add_of_commute` (`Analysis/Normed/Algebra/Exponential.lean`),
-  `Matrix.isUnit_exp` (`Analysis/Normed/Algebra/MatrixExponential.lean`).
-- `LieAlgebra.IsKilling.instSemisimple` (`Algebra/Lie/Killing.lean`: a finite-dimensional Lie algebra
-  over a field whose Killing form is nondegenerate is `LieAlgebra.IsSemisimple`, that is, the
-  independent supremum of its atomic ideals, none of them abelian) and
-  `LieAlgebra.IsSemisimple.isSimple_of_isAtom` (`Algebra/Lie/Semisimple/Basic.lean`: each atomic
-  ideal is a simple Lie algebra). Used in §1.6 for the real Lie algebra `[𝔤, 𝔤]`, whose Killing form is
-  negative-definite by LieGroups Layer 5A and hence nondegenerate.
-- `ContinuousMap.Homotopic` with `ContinuousMap.Homotopic.equivalence` (`Topology/Homotopy/Basic.lean`)
-  for free homotopy classes; `HomotopyGroup` (`Topology/Homotopy/HomotopyGroup.lean`, defined through
-  cubes, not spheres).
-- `MeasureTheory.Lp`, `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
-  (`Analysis/FunctionalSpaces/SobolevInequality.lean`: the Gagliardo–Nirenberg–Sobolev inequality
-  for compactly supported `C¹` functions), `MeasureTheory.Measure.toSphere` and
-  `homeomorphUnitSphereProd` (`MeasureTheory/Constructions/HaarToSphere.lean` and
-  `Analysis/Normed/Module/Ball/RadialEquiv.lean`) for polar coordinates.
-- `TemperedDistribution.fourierMultiplierCLM` (`Analysis/Distribution/FourierMultiplier.lean`: the
-  Fourier multiplier `𝓕⁻¹(g · 𝓕u)` on tempered distributions with values in a complex normed space,
-  used on the complexification of `V`) and `MeasureTheory.Lp.toTemperedDistribution`
-  (`Analysis/Distribution/TemperedDistribution.lean`), for the multipliers `|D|^σ P_k` and the
-  realised spaces of 8.1.
-- `ContDiff` and `HasFDerivAt` for maps between Banach spaces; `Submodule.ClosedComplemented`
-  (`Topology/Algebra/Module/Complement.lean`) for split subspaces; `Orientation.volumeForm`.
-- `Manifold.IsSmoothEmbedding` (`Geometry/Manifold/SmoothEmbedding.lean`: a `C^n` immersion that is a
-  topological embedding) and `Manifold.IsImmersion` with `Manifold.IsImmersion.isDiffImmersionAt`
-  (`Geometry/Manifold/Immersion.lean`: one complement `F` for all points, the local normal form `u ↦ (u, 0)` in
-  charts of the maximal `C^n` atlases, and a continuous left inverse of the derivative at every point), for the
-  charts of 10.4; `TopologicalSpace.Opens.instChartedSpace` (`Geometry/Manifold/HasGroupoid.lean`) for an open
-  subset as a manifold; the inverse function theorem `ContDiffAt.toOpenPartialHomeomorph` and
-  `ContDiffAt.to_localInverse` (`Analysis/Calculus/InverseFunctionTheorem/ContDiff.lean`). `isDiffImmersionAt`
-  goes from an immersion to a split injective derivative only; 10.4 proves the converse from the inverse function
-  theorem.
-
-### From Tau Ceti
-
-At the pinned Tau Ceti; paths under `TauCeti/`.
-
-- `TauCeti.HasWeakFDerivOn` (`Analysis/Sobolev/WeakDeriv/Basic.lean`): weak Fréchet derivatives of
-  functions with values in a complete normed space, which includes local integrability of the
-  function and of the derivative. `Suggested.lean` uses it for the local class `W^{1,2}_loc` of
-  `IsFiniteEnergySU2Potential` (§6.4).
-- The order-one vector-valued class, in `Analysis/Sobolev/GraphStep/`: `TauCeti.WeakDerivStep`
-  (`Basic.lean`), taken over `Lᵖ(Ω; V)` with the identity as base map, is `W^{1,p}(Ω; V)` for every
-  complete normed space `V`, a measure finite on compact sets and `1 ≤ p`, normed by
-  `(‖u‖²_p + ‖Du‖²_p)^{1/2}`; it is complete (the `CompleteSpace` instance on `TauCeti.WeakDerivStep`
-  in `Basic.lean`), and `TauCeti.mem_weakDerivStepSubmodule_iff_hasWeakFDerivOn` (`Basic.lean`; for a
-  measure locally finite on `Ω`) says that a pair lies in it exactly when its second entry is a
-  weak derivative of its first. `TauCeti.WeakDerivStep.toW1pL` (`ScalarProjection.lean`; for an
-  additive Haar measure on a finite-dimensional inner product space) is the continuous linear map
-  to the scalar `TauCeti.W1p` (`Analysis/Sobolev/W1p/Basic.lean`) given by a functional `V →L[ℝ] ℝ`.
-  `TauCeti.Wkp` (`Analysis/Sobolev/Wkp/Basic.lean`) iterates this step for real-valued functions;
-  the vector-valued orders `k ≥ 2` and the local classes are requested of PDE (gap
-  `vector-valued-wkp`).
-- `TauCeti.W1p.morreyRepresentative` (`Analysis/Sobolev/W1p/Morrey.lean`) and
-  `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`, used through PDE §1.4.
-- `TauCeti.D1p0` (`Analysis/Sobolev/D1p0/Basic.lean`): for a measure finite on compact sets, an open
-  `Ω` and `1 ≤ p`, the closure in `L^p(Ω; E)` of the gradients of real test functions, each element
-  recorded by its gradient field, with its norm and completeness; `TauCeti.D1p0.ofTestFunctionₗ` with
-  `TauCeti.D1p0.norm_ofTestFunctionₗ` (a test function has norm `‖∇φ‖_p`) and
-  `TauCeti.D1p0.denseRange_ofTestFunctionₗ` (test functions are dense). For an additive Haar measure,
-  `p* ≠ ∞` and `1/p* + 1/dim E = 1/p`: `TauCeti.D1p0.sobolevEmbeddingL`, the continuous linear map to
-  `L^{p*}(Ω)` extending `φ ↦ φ`, with `TauCeti.D1p0.norm_sobolevEmbeddingL_le` (the
-  Gagliardo–Nirenberg–Sobolev bound), `TauCeti.D1p0.hasWeakFDerivOn_sobolevEmbeddingL` (the recorded
-  field is the weak gradient of the image) and `TauCeti.D1p0.sobolevEmbeddingL_injective`. It is
-  scalar and of order one: it supplies neither the converse characterisation of its image by weak
-  gradients, nor fractional or Besov orders, nor covariant operators. Used in 8.1 with Lebesgue
-  measure, `Ω = ℝ⁴`, `p = 2`, `p* = 4`.
-- `Orientation.formHodgeStar` (`Analysis/InnerProductSpace/HodgeStar/AlternatingForm.lean`) with
-  `Orientation.wedge_formHodgeStar_apply` (`α ∧ ⋆β = ⟨α, β⟩ vol`) and
-  `Orientation.formHodgeStar_formHodgeStar_of_even`.
-- `TauCeti.heatKernel` and its semigroup and Fourier identities, used through PDE §6.3.
-- `TauCeti.Wkp.dense_contDiffOn_representatives` (`Analysis/Sobolev/Wkp/MeyersSerrin.lean`): for
-  `1 ≤ p < ∞` and an arbitrary open set, the elements of the scalar `W^{k,p}` with a representative
-  smooth on the set are dense. This is PDE §1.2's density, used coordinatewise in §2.2.
-- `TauCeti.exists_eLpNorm_fourierMultiplierCLM_le_of_norm_iteratedFDeriv_le`
-  (`Analysis/Fourier/MihlinHormander.lean`): the Mihlin–Hörmander theorem for the `L²` Fourier
-  multiplier of a symbol smooth off the origin satisfying Mihlin's condition of an order `N` with
-  `2N > dim`, giving `‖T_m f‖_{L^p} ≤ C A ‖f‖_{L^p}` for `f ∈ L²` and `1 < p < ∞`; with
-  `TauCeti.exists_norm_iteratedFDeriv_le_div_pow_of_smul_eq`
-  (`Analysis/Calculus/IteratedFDeriv/Homogeneous.lean`: a symbol smooth off the origin and
-  homogeneous of degree `0` satisfies Mihlin's condition of every order) it bounds the Riesz
-  transforms and their products `R_iR_j` on `L² ∩ L^p`, which is what the div–curl estimate of §4.3
-  uses on test functions. PDE §2.3 states these bounds on all of `L^p`.
-- The closed-subgroup theorem, in `Geometry/Lie/Subgroup/`: for a subgroup `K` of a
-  finite-dimensional real Lie group, `TauCeti.Lie.lieSubalgebraOfSubgroup` (`LieAlgebra.lean`) is the
-  Lie subalgebra generated by the `X` with `exp(tX) ∈ K` for all real `t`,
-  `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed` (`Embedded.lean`) makes a closed subgroup an
-  embedded Lie subgroup, and for a closed subgroup `K` of the units of a finite-dimensional real
-  normed algebra `R`, `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff`
-  (`Units.lean`) says that `X ∈ R` lies in the Lie algebra of `K` exactly when
-  `TauCeti.expUnit (t • X) ∈ K` for all real `t`. Used in §1.1 with `R` the `N × N` complex
-  matrices and `K` the group `G`, as a subgroup of their units; the Lie algebra so obtained is the
-  `𝔤` of the Conventions, and the choice of norm on `R` does not affect it. Further (file
-  names again in `Geometry/Lie/Subgroup/` unless a full path is given):
-  `TauCeti.Lie.lieSubalgebraOfSubgroup_mono` (`LieAlgebra.lean`: a larger subgroup has a larger Lie
-  algebra); `TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup` (`LieAlgebra.lean`: `Ad(g)` maps the Lie
-  algebra of `K` into itself for `g` in the normaliser of `K`), read in matrix coordinates through
-  `TauCeti.Lie.unitsLieAlgebraEquiv_Ad` (`Geometry/Lie/Adjoint/Units/Basic.lean`: there
-  `Ad(g)X = gXg⁻¹`);
-  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_conjTranspose_eq_neg`
-  (`Unitary.lean`: the Lie algebra of the unitary matrices is `{X : Xᴴ = −X}`);
-  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff`
-  (`SpecialUnitary.lean`: the Lie algebra of `TauCeti.GLSpecialUnitary`, the special unitary group
-  as a subgroup of the units, is `{X : Xᴴ = −X, tr X = 0}`), whose elements are those of
-  `Matrix.specialUnitaryGroup` by `TauCeti.GLSpecialUnitary.mem_iff`
-  (`LinearAlgebra/Matrix/GeneralLinearGroup/SpecialUnitary.lean`); and
-  `TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq` (`Differential.lean`: for
-  embedded-subgroup data modelled on the Lie algebra of `K`, the differential of the inclusion at
-  `1` has range the Lie algebra of `K`), with
-  `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`
-  (`Embedded.lean`: a closed subgroup `K` of a finite-dimensional real Lie group carries such data,
-  modelled on its Lie algebra). Used in §1.1, and the special unitary computation in §6.4.
-- `HomotopyGroup.bijective_hurewicz` (`AlgebraicTopology/Homotopy/Hurewicz/Absolute.lean`): for a
-  space in `Type` whose homotopy groups vanish below degree `n + 2`, the cubical Hurewicz map
-  `π_{n+2} → H_{n+2}(·; ℤ)` is bijective. Used in §6.4 for `S³`, with AlgebraicTopology §8.3's
-  comparison with pointed sphere maps.
-
-### From TauCetiRoadmap.PDE
-
-- §1.2: density of smooth functions in `W^{k,p}` on arbitrary open sets (used in §2.2).
-- §1.4: Sobolev, Morrey and higher-order embeddings, including `W^{k,p}(Ω) → W^{k−1,p*}(Ω)` on bounded
-  Lipschitz domains and the whole-space Gagliardo–Nirenberg–Sobolev inequality (§§2.2–2.5, 5.1).
-- §1.5: the Poincaré inequality on balls, `‖u − u_B‖_{L^p(B)} ≤ C(d, p) r ‖∇u‖_{L^p(B)}` for a ball `B`
-  of radius `r` and `1 ≤ p < ∞`, with the constant scaling linearly in `r` (§2.2).
-- §1.6: the trace operator and the extension operator on bounded Lipschitz domains (§§2.2, 4.1).
-- §2.2 and §2.3: interpolation, Calderón–Zygmund operators, the Riesz transforms `R_j` with
-  multiplier `−iξ_j/|ξ|` and their `L^p` bounds for `1 < p < ∞`, and the Mihlin–Hörmander theorem.
-  §4.3 derives from the Riesz transforms the whole-space div–curl estimate
-  `‖∇u‖_p ≲ ‖div u‖_p + ‖du‖_p`, `1 < p < ∞` (used in §4.3, and
-  through §4.4 in §5.2).
-- §3.2: the weak maximum principle for weak subsolutions of the Laplacian on balls (§§8.2, 10.4).
-- §6.1: Bochner spaces; §6.3: the heat semigroup `e^{sΔ}` on `L^p(ℝ^d)`, its generator, Duhamel's
-  formula and the smoothing estimates (Layers 8–9).
-- §7.1: the homogeneous blocks `P_k`, Bernstein and Littlewood–Paley estimates, and the heat-block
-  estimate for indices `j ≥ 1`; §8.1 here extends that estimate to every `k ∈ ℤ` by dilation.
-  §7.2 supplies whole-space inhomogeneous Besov spaces and homogeneous Besov spaces modulo
-  polynomials; §8.1 fixes their representatives in `𝒮'_h` in dimension four, and §4.3 defines the
-  restriction norm on a ball, using the consistent inhomogeneous partition requested below.
-  §7.3 supplies the inhomogeneous Bony decomposition pattern and its
-  Hölder–Besov estimates. The homogeneous `L²` product estimates needed in Layers 8–10 are the
-  distinct targets of §8.1, using §7.1's Bernstein inequality.
-
-What PDE must provide (gap:lp-neumann-ball): For `1 < p < ∞`, `d ≥ 2`, `f ∈ L^p(B₁)` and `V ∈ W^{1,p}(B₁;ℝ^d)` with `∫_{B₁} f = ∫_{∂B₁} ν·V`: `Δu = f` in `B₁`, `∂_νu = ν·V` on `∂B₁` has a solution `u ∈ W^{2,p}(B₁)`, unique up to constants, with `‖∇u‖_{W^{1,p}} ≤ C(d,p)(‖f‖_{L^p} + ‖V‖_{W^{1,p}})`.
-Consumed by §4.1. It belongs in PDE Layer 5, as a new section on the `L^p` Neumann problem.
-
-What PDE must provide (gap:lp-divcurl-normal-ball): For `1 < p < ∞`, `d ≥ 2` and every 1-form `a ∈ W^{1,p}(B₁;ℝ^d)` with `x^ℓa_ℓ = 0` on `∂B₁`: `‖a‖_{W^{1,p}(B₁)} ≤ C(d,p)(‖da‖_{L^p} + ‖∂^ℓa_ℓ‖_{L^p})`.
-Consumed by §4.1. It belongs in the same new section of PDE Layer 5, as its second theorem.
-
-What PDE must provide (gap:hardy-inequality): For `d ≥ 2` and `1 ≤ p < d`, `‖u/|x|‖_{L^p(ℝ^d)} ≤ (p/(d−p))‖∇u‖_{L^p(ℝ^d)}` for `u ∈ C_c^∞(ℝ^d)`, with extension to the homogeneous Sobolev closure.
-Consumed by §§5.2, 5.3 and 6.1. It belongs in PDE §1.4, as a new item.
-
-What PDE must provide (gap:vector-valued-wkp): For a finite-dimensional real normed space `V`, an open `Ω ⊆ ℝ^d` and `1 ≤ p ≤ ∞`: for every integer `k ≥ 2`, the space `W^{k,p}(Ω; V)` obtained from the order-one class `TauCeti.WeakDerivStep` over `Lᵖ(Ω; V)` by adjoining one `L^p` weak derivative (`TauCeti.HasWeakFDerivOn`) per order, as `TauCeti.Wkp` does for real-valued functions, complete for its graph norm; for every `k ≥ 1`, a continuous linear equivalence of `W^{k,p}(Ω; V)` with the product of `dim V` copies of `TauCeti.Wkp` of order `k`, given by the coordinates in any basis of `V` and commuting with every iterated weak derivative (so the class does not depend on the basis); and for every `k ≥ 1`, the local class `W^{k,p}_loc(Ω; V)` of the `u` whose restriction to every ball with closure in `Ω` lies in `W^{k,p}`.
-Consumed by §2.1, and through it by Layers 2–5 and 7. It belongs in PDE Layer 1, as a new section on Sobolev classes with values in a finite-dimensional space.
-
-What PDE must provide (gap:inhomogeneous-besov-partition): For every `d ≥ 1`, use the consistent inhomogeneous blocks `Δ_{−1} = χ(D)`, `Δ_j = ψ(2^{−j}D)` for `j ≥ 0`, with `Σ_{j≥−1}Δ_j = I`, and supply §7.2's complete Besov norms and cutoff independence for this partition.
-Consumed by §4.3. It belongs in PDE §§7.1–7.2, with the inhomogeneous partition and its Besov
-norms. The blocks `P_0 = χ(D)` and `P_j = ψ(2^{−j}D)`, `j ≥ 1`, written in PDE §7.1 sum to
-`1 + χ(ξ) − χ(ξ/2)`, which vanishes at `|ξ| = 2`, so they do not resolve the identity and cannot
-define an inhomogeneous Besov norm; the homogeneous blocks used in §8.1 run over all integers and
-sum to `1` at every `ξ ≠ 0`.
-
-### From TauCetiRoadmap.SmoothBundlesConnections
-
-- B3.1: principal connections and the local potential `A' = Ad(g⁻¹)A + g⁻¹dg` for `s' = s·g`.
-- B4.1: curvature `Ω = dω + ½[ω ∧ ω]` with the determinant-style wedge, and the Bianchi identity.
-- B4.2: the gauge group and its local formulas `u·A = Ad(u)A − du·u⁻¹`, `F_{u·A} = Ad(u)F_A`.
-  Used in §1.3 for the comparison of conventions on the trivial bundle.
-
-### From TauCetiRoadmap.CharacteristicClasses
-
-- C4 item 1: `Ad`-invariant homogeneous symmetric polynomial forms on the Lie algebra, their
-  polarisation `P(z) = B_P(z, …, z)` with no extra factorial, pullback by Lie homomorphisms and
-  evaluation on curvature with the value-bundle wedge; gauge invariance, closedness from the
-  Bianchi identity, and connection independence along the affine connection path with its explicit
-  transgression form. Used in §1.4 and Layer 6.
-- C5a.3: the Weil algebra `W(𝔤)` with `d_W θ = Ω − ½[θ, θ]`, `d_W Ω = −[θ, Ω]`; for homogeneous
-  invariant `P` of degree `k ≥ 1` the normalised form `CS_P = k ∫₀¹ B_P(θ, F_t, …, F_t) dt`,
-  `F_t = tΩ + ((t² − t)/2)[θ, θ]`, with `d_W CS_P = P(Ω)`, pullback naturality, and the cocycle
-  `τ(P)` obtained by setting `Ω = 0`. It is stated for the compact connected group with Lie algebra
-  `𝔤`, here the identity component of `G`; its constructions are algebraic in `𝔤`. Used in §1.4.
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-- R6: for a closed-image smooth embedding into a Euclidean space, the inversion of the normal tube
-  below its injectivity radius, giving the nearest-point retraction with smooth inverse of normal
-  addition, and a tube of uniform radius when the embedded manifold is compact. Used in §1.2 for
-  the compact embedded submanifold `G ⊂ M_N(ℂ)` given by Tau Ceti's closed-subgroup theorem.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-- Layer 0 (forms and the paired wedge, `TauCeti.RoughForm.wedgeWith`) and Layer 1
-  (`TauCeti.mextDeriv`, naturality, `d² = 0`, Leibniz): §1.4.
-- 5.2–5.3 (integration of top forms, Stokes' theorem with the outward-first boundary orientation)
-  and 5.4 (the homotopy operator): §§6.2, 6.4, and 5.2 for the integral in the Checks of §1.4.
-- Layer 10, items 10.3–10.5 (`degree` of a smooth map between closed oriented connected manifolds
-  of the same dimension, `∫ f*ω = deg · ∫ ω` for top forms, homotopy invariance, `deg id = 1`): §6.4.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-- §6.5: the homological characterization `f_*[M] = deg f · [N]` of DifferentialGeometry's
-  smooth degree for closed oriented connected manifolds, compared there with DifferentialGeometry
-  Layer 10: §6.4.
-- §8.3: the absolute Hurewicz map from the cubical homotopy groups through pointed
-  sphere maps, and the theorem `π_n(X) ≅ H_n(X; ℤ)` for `(n−1)`-connected `X`, `n ≥ 2`: §§5.6, 6.4.
-
-### From TauCetiRoadmap.RepresentationTheory.LieGroups
-
-- Layer 1 (`Ad`, `ad`): §1.1. The exponential map and the closed-subgroup theorem with the Lie
-  algebra of a closed subgroup are taken from Tau Ceti (From Tau Ceti).
-- Layer 5A: the invariant real metric, skew-adjointness of `ad`, and the orthogonal centre/derived
-  decomposition for compact connected groups, applied to the identity component of `G`. Starting
-  its averaging with the prescribed invariant metric returns that metric. Its derived ideal
-  `[𝔤, 𝔤]` is centreless and semisimple with negative-definite Killing form; Layer 5A does not
-  decompose it further. Mathlib decomposes it into simple ideals (From Mathlib), and §1.6 proves
-  that these ideals and the centre are mutually orthogonal for the prescribed metric.
-- Layer 6, “Compact real roots and the Weyl comparison” and “Rank-one representatives”: the
-  real root planes, coroots, normalised compact rank-one Lie subalgebras and integrated
-  `SU(2) → G` maps. §7.7 consumes them; the remaining metric extremality is the following gap.
-
-What LieGroups must provide (gap:compact-su2-subalgebra): For every noncommutative compact real Lie algebra with a prescribed ad-invariant positive inner product, the bracket constant γ₀ equals the largest root length, and its restriction to the normalised compact su(2) subalgebra of a longest root has the same value.
-Consumed by §7.7. It belongs in LieGroups Layer 6, under “Rank-one representatives”, as their
-metric extremality. Root lengths are measured in the inner product dual to the prescribed one on
-the Lie algebra of a maximal torus. The root-space operator bound and the rank-one bracket calculation are the argument of
-OhTataru-TopClass line 2381–2401, applied in each simple ideal with its prescribed metric.
-
-### From TauCetiRoadmap.Yamabe
-
-- Y2 item 1: for `n ≥ 3`, `a_n ∫ |du|² ≥ Y(Sⁿ) (∫ |u|^{p_n})^{2/p_n}` on the homogeneous space
-  `D^{1,2}(ℝⁿ)`, with `a_n = 4(n−1)/(n−2)`, `p_n = 2n/(n−2)`, `Y(Sⁿ) = n(n−1)Vol(Sⁿ)^{2/n}`. In
-  dimension four `a₄ = 6`, `p₄ = 4` and `Y(S⁴) = 12 (8π²/3)^{1/2} = 8√6 π`. Used in §7.5.
-
-## How to read the build
-
-Layer 1 is pointwise algebra: the structure group, the gauge identities for smooth data, invariant
-forms with their transgression and Cartan forms, and four-dimensional self-duality. Layer 2 is the
-analysis of `G`-valued maps at the critical exponent. Layer 3 defines rough connections, proves the
-gauge invariance of finite energy and patches local gauges. Layer 4 proves Uhlenbeck's lemmas and the
-good gauge on a ball. Layer 5 globalises to `ℝ^d` and defines the topological class. Layer 6 computes
-characteristic numbers by transgression and the instanton number by degree theory. Layer 7 is the
-elliptic theory of harmonic Yang–Mills connections on `ℝ⁴` up to the ground state. Layer 8 is the
-linear covariant theory in homogeneous spaces. Layer 9 is the Yang–Mills heat flow, ending with the
-Dichotomy and Threshold Theorems. Layer 10 constructs the caloric gauge and the caloric manifold.
-Layer 1 depends only on suppliers; Layer 8 then uses its coefficient algebra;
-within Layer 4 the elliptic estimates of §4.3 precede their uses in §4.1; Layers 2–7 form a chain (Layer 6
-needs Layer 5, Layer 7 needs Layers 4–6); Layer 9 needs Layer 8 for its local theory and Layers 4, 6
-and 7 for the Dichotomy and Threshold Theorems; Layer 10 needs Layer 9 and Layers 3–4 for §10.1.
 
 ## Layer 1: structure groups and pointwise gauge algebra
 
@@ -2546,6 +2216,370 @@ Layers 8–9; Layers 3–4 for 10.1; Layer 7 for the subthreshold existence of `
 - A roadmap for the Yang–Mills heat flow on closed manifolds in dimensions two to four
   (Rade-YMHeat Theorems 1–2, lines 212–223; GurskyKelleherStreets-GapTheorem Corollary 1.3, lines 117–123)
   can reuse the covariant flows, the energy identity and the energy gap of Layers 7 and 9.
+
+## Scope and ownership
+
+This roadmap owns, for a compact matrix group `G` with an `Ad`-invariant inner product on its
+Lie algebra (Conventions):
+
+- the comparison of Euclidean matrix formulas with SmoothBundlesConnections B3.1, B4.1–B4.2
+  (gauge action, curvature, Bianchi identity, Leibniz rules), the derivative of the
+  nearest-point retraction onto `G` (whose existence is RiemannianGeometry R6's),
+  the Euclidean and right Maurer–Cartan form of CharacteristicClasses' curvature evaluation,
+  transgression and Chern–Simons forms (C4 item 1, C5a.3) with the explicit `SU(2)`
+  normalisation, the self-dual splitting
+  of `𝔤`-valued 2-forms in dimension four with the pointwise Bogomol'nyi inequality, and the
+  structure constant `γ₀` with the cubic bound for self-dual forms (Layer 1);
+- the classes `G^{k,d/k}_loc` of matrix-valued Sobolev maps with values in `G` almost everywhere,
+  their approximation by smooth `G`-valued maps, the continuity of products, inverses, Maurer–Cartan
+  forms and the adjoint action, and the homotopy class of a critical map on an annulus (Layer 2);
+- rough bundles and connections with `L^{d/2}_loc` curvature on open subsets of `ℝ^d`, `d ≥ 3`, their
+  gauge action and patching, and the concentration radii (Layer 3);
+- Uhlenbeck's lemmas on the unit ball and the punctured ball for every compact `G`, the elliptic
+  regularity of the nonlinear div–curl system, and the good gauge on a ball (Layer 4);
+- the good global gauge theorem on `ℝ^d`, the gauge at infinity, the topological class and its
+  properties, and the characterisation of the trivial class (Layer 5);
+- characteristic numbers of connections with `L^{d/2}` curvature in even dimension, their
+  topological invariance, the integrated Bogomol'nyi bound, and the instanton number of `SU(2)`
+  connections with its integrality and completeness (Layer 6);
+- harmonic Yang–Mills connections on `ℝ⁴`: regularity, removable singularities and decay, the
+  Weitzenböck and improved Kato inequalities, the energy gap, the BPST connection on `ℝ⁴` and the
+  ground state energy (Layer 7);
+- the finite-dimensional coefficient specialisations of PDE §7.2’s homogeneous spaces and of
+  Tau Ceti's `TauCeti.D1p0`, the realised homogeneous spaces `Ẇ^{σ,p}` on `ℝ⁴`, the graph space
+  `ℋ` and frequency envelopes on `ℝ⁴`, the homogeneous `L²` product estimates (distinct from PDE
+  §7.3's inhomogeneous Hölder estimates), and the solvability theory of the covariant Laplacian
+  and of the covariant heat operator (Layer 8);
+- the covariant, dynamic and linearised Yang–Mills heat flows on `ℝ⁴`, their gauge fixings, the
+  well-posedness and long-time theory in the local caloric gauge, and the Dichotomy and Threshold
+  Theorems (Layer 9);
+- flat `Ḣ¹` connections as pure gauges, caloric connections, the map `Cal`, the notion of a `C¹`
+  split submanifold of a Banach space (a subset with charts that are Mathlib's `C¹` smooth embeddings), the
+  caloric manifold, its tangent spaces, the projection `Π_a` and the bundle of caloric initial data sets
+  (Layer 10).
+
+It leaves to named roadmaps:
+
+- **PDE** owns the Euclidean Sobolev spaces beyond the Tau Ceti carriers (density, embeddings,
+  Poincaré inequalities, trace and extension on Lipschitz domains: §1.2, §1.4, §1.5, §1.6),
+  Calderón–Zygmund theory and the Mihlin–Hörmander multiplier theorem (§2.3), Bochner spaces
+  (§6.1), the heat semigroup on `ℝ^d` (§6.3), the dyadic partition with the Bernstein and
+  Littlewood–Paley estimates (§7.1), Besov spaces with their homogeneous versions (§7.2) and
+  paraproducts (§7.3). Everything here is scalar
+  there and is applied componentwise to `𝔤`-valued functions in an orthonormal basis of `𝔤`.
+  The `L^p` theory of the Neumann problem on the unit ball, the `L^p` div–curl estimate for
+  1-forms with vanishing normal component on the unit ball, Hardy's inequality on `ℝ^d`, and the
+  Sobolev classes `W^{k,p}(Ω; V)` of order `k ≥ 2` of maps into a finite-dimensional real normed
+  space `V`, with their local versions and their coordinate comparison with the scalar classes,
+  are sections PDE lacks; they are requested of PDE under Exact supplier contracts. The order-one
+  class `W^{1,p}(Ω; V)` is Tau Ceti's (From Tau Ceti). The consistent inhomogeneous partition
+  needed for the restriction-Besov norm of §4.3 is requested of PDE §7.1–§7.2 there as well.
+- **SmoothBundlesConnections** owns principal connections, curvature, the gauge group and its
+  left action `u·A = Ad(u)A − du·u⁻¹` (B3.1, B4.1, B4.2). Every smooth connection here is a connection
+  on the trivial bundle `X × G` in its sense, and §1.3 proves that the formulas used here are its
+  local formulas. The Yang–Mills energy on closed Riemannian manifolds is SmoothBundlesConnections,
+  Part II, the jet-level Yang–Mills Euler–Lagrange and Noether identities are
+  LocalVariationalFieldTheory's (§4.1 for the Euler expression and its currents, §5.2 for the gauge
+  identity), and the closed-manifold `SU(2)` theory with anti-self-dual moduli spaces is
+  FourManifolds, Layer 5; none of them is planned here. §7.1 states only the weak
+  equation for rough potentials on open subsets of `ℝ⁴`. Sobolev gauge groups and Coulomb slices at
+  subcritical orders on closed manifolds are HamiltonianReduction R5's (over a surface, `H^s`,
+  `s > 1`) and SeibergWittenTheory SW4's (the abelian group on a closed four-manifold); the critical
+  classes `G^{2,d/2}_loc`, `d ≥ 3`, on Euclidean domains are a different setting and are owned here.
+- **CharacteristicClasses** owns `Ad`-invariant symmetric polynomial forms on a Lie algebra with
+  polarisation and pullback, their evaluation on curvature, closedness, gauge invariance and the
+  transgression form of the affine connection path (C4 item 1), the Weil algebra with the
+  normalised Chern–Simons forms `CS_P` and their Maurer–Cartan cocycles `τ(P)` (C5a.3), and
+  Chern–Weil theory of bundles. This roadmap reads those objects in the Euclidean trivialisation
+  and in its right Maurer–Cartan convention (§1.4), and computes characteristic numbers of rough
+  connections by transgression on `ℝ^d` (Layer 6); it states no comparison with Chern–Weil
+  classes of bundles on `S^d`.
+- **RiemannianGeometry** owns the inversion of the normal tube of a closed Euclidean embedding and
+  the smooth nearest-point retraction on a tube of uniform radius for compact embeddings (R6).
+  §1.2 applies it to `G` and computes the derivative of the retraction along `G`.
+- **DifferentialGeometry** owns differential forms, the exterior derivative `TauCeti.mextDeriv` on
+  manifolds, Stokes' theorem and the homotopy operator (Layers 0, 1, 5.3, 5.4) and the Brouwer
+  degree with its integral formula, homotopy invariance and `deg id = 1` (Layer 10, items
+  10.3–10.5). Tau Ceti's `Orientation.formHodgeStar` is the pointwise Hodge star.
+- **AlgebraicTopology** owns the comparison of cubical and spherical homotopy groups and the
+  absolute Hurewicz theorem in every universe (§8.3; for spaces in `Type` it is Tau Ceti's
+  `HomotopyGroup.bijective_hurewicz`), and the comparison of the homological degree with
+  DifferentialGeometry's smooth degree (§6.5); through them the degree classifies maps
+  `S³ → S³`.
+- **LieGroups** owns `Ad` and `ad` (Layer 1) and the generic invariant-metric and compact
+  Lie-algebra splitting (Layer 5A). Its exponential map (Layer 0) and its closed-subgroup theorem
+  with the Lie algebra of a closed subgroup (Layer 2) are already in Tau Ceti (From Tau Ceti), and
+  the matrix exponential is Mathlib's `NormedSpace.exp`. Tau Ceti also proves the facts §1.1 uses
+  about the Lie algebra of a closed subgroup: it grows with the subgroup, is preserved by `Ad(g)`
+  for `g` in the subgroup and is the range of the differential of the inclusion at `1`, and for the
+  unitary (special unitary) matrices it consists of the skew-Hermitian (trace-free
+  skew-Hermitian) matrices; `exp(𝔤) ⊆ G` is the defining property of `𝔤`. Here the matrix trace
+  metric is an explicit compatible choice; the splitting is consumed on the identity component and
+  is not reconstructed. The compact real root planes and normalised root `𝔰𝔲(2)` subalgebras are
+  LieGroups Layer 6’s constructions. The additional norm comparison saying that a longest-root
+  subalgebra attains `γ₀` is requested there under Exact supplier contracts.
+- **Yamabe** owns the sharp Euclidean Sobolev inequality with the constant `Y(Sⁿ)` (Y2 item 1),
+  which the energy gap of §7.5 consumes in dimension four.
+- **FourManifolds** states Uhlenbeck's small-curvature Coulomb gauge on the unit Euclidean
+  4-ball for `SU(2)` (§5.3) and constructs the BPST instanton on its oriented `S⁴` carrier
+  (Layer 5, introduction). This roadmap owns the Euclidean statements of §§4.1–4.2 and §7.3
+  (Coulomb gauge and removability) and §7.6 (the BPST potential on `ℝ⁴` needed by the heat flow).
+  The unit-ball statement for `SU(2)` is the case `G = SU(2)`, `d = 4` of §4.1;
+  FourManifolds' `S⁴` carrier, moduli spaces and compactification belong there.
+  The energy identity `ℰ_e = 8π²c₂ + 2‖F⁺‖²` is stated here on `ℝ⁴` for finite-energy rough
+  connections (pointwise in §1.5, integrated in §6.3); its closed-manifold form
+  `E(A) = 8π²k + 2‖F_A⁺‖²` and the BPST solution on `S⁴` (FourManifolds Layer 5, introduction),
+  which SmoothBundlesConnections' scope assigns to FourManifolds together with InstantonFloerTheory
+  IF1, stay there; InstantonFloerTheory consumes FourManifolds' `SU(2)` core for its `SO(3)` and
+  cylindrical theory, and nothing of it is planned here.
+
+Not owned here and owned by no roadmap this one consumes: the hyperbolic Yang–Mills equation, its
+initial data sets, the constraint equation and the caloric form of the wave equation, together
+with the generalised Coulomb condition and the heat-flow bounds for linearised caloric data
+(OhTataru-YMHF §§7.3–9, OhTataru-CaloricLWP, OhTataru-Threshold), which belong to a hyperbolic
+Yang–Mills roadmap consuming this one (Downstream consumers); the Yang–Mills heat flow on closed
+manifolds (Rade-YMHeat); the structure of `π₃` of compact Lie groups beyond what §5.6 and §6.4 use
+(MimuraToda-TopologyLieGroups, Ch. IV–V).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At the pinned Mathlib; paths under `Mathlib/`.
+
+- `Matrix.unitaryGroup` (`LinearAlgebra/UnitaryGroup.lean`, an abbreviation for the submonoid of
+  unitary matrices) and `Matrix.specialUnitaryGroup` (same file, the unitary matrices of determinant
+  one).
+- `NormedSpace.exp` and `NormedSpace.exp_add_of_commute` (`Analysis/Normed/Algebra/Exponential.lean`),
+  `Matrix.isUnit_exp` (`Analysis/Normed/Algebra/MatrixExponential.lean`).
+- `LieAlgebra.IsKilling.instSemisimple` (`Algebra/Lie/Killing.lean`: a finite-dimensional Lie algebra
+  over a field whose Killing form is nondegenerate is `LieAlgebra.IsSemisimple`, that is, the
+  independent supremum of its atomic ideals, none of them abelian) and
+  `LieAlgebra.IsSemisimple.isSimple_of_isAtom` (`Algebra/Lie/Semisimple/Basic.lean`: each atomic
+  ideal is a simple Lie algebra). Used in §1.6 for the real Lie algebra `[𝔤, 𝔤]`, whose Killing form is
+  negative-definite by LieGroups Layer 5A and hence nondegenerate.
+- `ContinuousMap.Homotopic` with `ContinuousMap.Homotopic.equivalence` (`Topology/Homotopy/Basic.lean`)
+  for free homotopy classes; `HomotopyGroup` (`Topology/Homotopy/HomotopyGroup.lean`, defined through
+  cubes, not spheres).
+- `MeasureTheory.Lp`, `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
+  (`Analysis/FunctionalSpaces/SobolevInequality.lean`: the Gagliardo–Nirenberg–Sobolev inequality
+  for compactly supported `C¹` functions), `MeasureTheory.Measure.toSphere` and
+  `homeomorphUnitSphereProd` (`MeasureTheory/Constructions/HaarToSphere.lean` and
+  `Analysis/Normed/Module/Ball/RadialEquiv.lean`) for polar coordinates.
+- `TemperedDistribution.fourierMultiplierCLM` (`Analysis/Distribution/FourierMultiplier.lean`: the
+  Fourier multiplier `𝓕⁻¹(g · 𝓕u)` on tempered distributions with values in a complex normed space,
+  used on the complexification of `V`) and `MeasureTheory.Lp.toTemperedDistribution`
+  (`Analysis/Distribution/TemperedDistribution.lean`), for the multipliers `|D|^σ P_k` and the
+  realised spaces of 8.1.
+- `ContDiff` and `HasFDerivAt` for maps between Banach spaces; `Submodule.ClosedComplemented`
+  (`Topology/Algebra/Module/Complement.lean`) for split subspaces; `Orientation.volumeForm`.
+- `Manifold.IsSmoothEmbedding` (`Geometry/Manifold/SmoothEmbedding.lean`: a `C^n` immersion that is a
+  topological embedding) and `Manifold.IsImmersion` with `Manifold.IsImmersion.isDiffImmersionAt`
+  (`Geometry/Manifold/Immersion.lean`: one complement `F` for all points, the local normal form `u ↦ (u, 0)` in
+  charts of the maximal `C^n` atlases, and a continuous left inverse of the derivative at every point), for the
+  charts of 10.4; `TopologicalSpace.Opens.instChartedSpace` (`Geometry/Manifold/HasGroupoid.lean`) for an open
+  subset as a manifold; the inverse function theorem `ContDiffAt.toOpenPartialHomeomorph` and
+  `ContDiffAt.to_localInverse` (`Analysis/Calculus/InverseFunctionTheorem/ContDiff.lean`). `isDiffImmersionAt`
+  goes from an immersion to a split injective derivative only; 10.4 proves the converse from the inverse function
+  theorem.
+
+### From Tau Ceti
+
+At the pinned Tau Ceti; paths under `TauCeti/`.
+
+- `TauCeti.HasWeakFDerivOn` (`Analysis/Sobolev/WeakDeriv/Basic.lean`): weak Fréchet derivatives of
+  functions with values in a complete normed space, which includes local integrability of the
+  function and of the derivative. `Suggested.lean` uses it for the local class `W^{1,2}_loc` of
+  `IsFiniteEnergySU2Potential` (§6.4).
+- The order-one vector-valued class, in `Analysis/Sobolev/GraphStep/`: `TauCeti.WeakDerivStep`
+  (`Basic.lean`), taken over `Lᵖ(Ω; V)` with the identity as base map, is `W^{1,p}(Ω; V)` for every
+  complete normed space `V`, a measure finite on compact sets and `1 ≤ p`, normed by
+  `(‖u‖²_p + ‖Du‖²_p)^{1/2}`; it is complete (the `CompleteSpace` instance on `TauCeti.WeakDerivStep`
+  in `Basic.lean`), and `TauCeti.mem_weakDerivStepSubmodule_iff_hasWeakFDerivOn` (`Basic.lean`; for a
+  measure locally finite on `Ω`) says that a pair lies in it exactly when its second entry is a
+  weak derivative of its first. `TauCeti.WeakDerivStep.toW1pL` (`ScalarProjection.lean`; for an
+  additive Haar measure on a finite-dimensional inner product space) is the continuous linear map
+  to the scalar `TauCeti.W1p` (`Analysis/Sobolev/W1p/Basic.lean`) given by a functional `V →L[ℝ] ℝ`.
+  `TauCeti.Wkp` (`Analysis/Sobolev/Wkp/Basic.lean`) iterates this step for real-valued functions;
+  the vector-valued orders `k ≥ 2` and the local classes are requested of PDE (gap
+  `vector-valued-wkp`).
+- `TauCeti.W1p.morreyRepresentative` (`Analysis/Sobolev/W1p/Morrey.lean`) and
+  `TauCeti.enorm_sub_le_of_mem_ball_of_finrank_lt`, used through PDE §1.4.
+- `TauCeti.D1p0` (`Analysis/Sobolev/D1p0/Basic.lean`): for a measure finite on compact sets, an open
+  `Ω` and `1 ≤ p`, the closure in `L^p(Ω; E)` of the gradients of real test functions, each element
+  recorded by its gradient field, with its norm and completeness; `TauCeti.D1p0.ofTestFunctionₗ` with
+  `TauCeti.D1p0.norm_ofTestFunctionₗ` (a test function has norm `‖∇φ‖_p`) and
+  `TauCeti.D1p0.denseRange_ofTestFunctionₗ` (test functions are dense). For an additive Haar measure,
+  `p* ≠ ∞` and `1/p* + 1/dim E = 1/p`: `TauCeti.D1p0.sobolevEmbeddingL`, the continuous linear map to
+  `L^{p*}(Ω)` extending `φ ↦ φ`, with `TauCeti.D1p0.norm_sobolevEmbeddingL_le` (the
+  Gagliardo–Nirenberg–Sobolev bound), `TauCeti.D1p0.hasWeakFDerivOn_sobolevEmbeddingL` (the recorded
+  field is the weak gradient of the image) and `TauCeti.D1p0.sobolevEmbeddingL_injective`. It is
+  scalar and of order one: it supplies neither the converse characterisation of its image by weak
+  gradients, nor fractional or Besov orders, nor covariant operators. Used in 8.1 with Lebesgue
+  measure, `Ω = ℝ⁴`, `p = 2`, `p* = 4`.
+- `Orientation.formHodgeStar` (`Analysis/InnerProductSpace/HodgeStar/AlternatingForm.lean`) with
+  `Orientation.wedge_formHodgeStar_apply` (`α ∧ ⋆β = ⟨α, β⟩ vol`) and
+  `Orientation.formHodgeStar_formHodgeStar_of_even`.
+- `TauCeti.heatKernel` and its semigroup and Fourier identities, used through PDE §6.3.
+- `TauCeti.Wkp.dense_contDiffOn_representatives` (`Analysis/Sobolev/Wkp/MeyersSerrin.lean`): for
+  `1 ≤ p < ∞` and an arbitrary open set, the elements of the scalar `W^{k,p}` with a representative
+  smooth on the set are dense. This is PDE §1.2's density, used coordinatewise in §2.2.
+- `TauCeti.exists_eLpNorm_fourierMultiplierCLM_le_of_norm_iteratedFDeriv_le`
+  (`Analysis/Fourier/MihlinHormander.lean`): the Mihlin–Hörmander theorem for the `L²` Fourier
+  multiplier of a symbol smooth off the origin satisfying Mihlin's condition of an order `N` with
+  `2N > dim`, giving `‖T_m f‖_{L^p} ≤ C A ‖f‖_{L^p}` for `f ∈ L²` and `1 < p < ∞`; with
+  `TauCeti.exists_norm_iteratedFDeriv_le_div_pow_of_smul_eq`
+  (`Analysis/Calculus/IteratedFDeriv/Homogeneous.lean`: a symbol smooth off the origin and
+  homogeneous of degree `0` satisfies Mihlin's condition of every order) it bounds the Riesz
+  transforms and their products `R_iR_j` on `L² ∩ L^p`, which is what the div–curl estimate of §4.3
+  uses on test functions. PDE §2.3 states these bounds on all of `L^p`.
+- The closed-subgroup theorem, in `Geometry/Lie/Subgroup/`: for a subgroup `K` of a
+  finite-dimensional real Lie group, `TauCeti.Lie.lieSubalgebraOfSubgroup` (`LieAlgebra.lean`) is the
+  Lie subalgebra generated by the `X` with `exp(tX) ∈ K` for all real `t`,
+  `TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed` (`Embedded.lean`) makes a closed subgroup an
+  embedded Lie subgroup, and for a closed subgroup `K` of the units of a finite-dimensional real
+  normed algebra `R`, `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff`
+  (`Units.lean`) says that `X ∈ R` lies in the Lie algebra of `K` exactly when
+  `TauCeti.expUnit (t • X) ∈ K` for all real `t`. Used in §1.1 with `R` the `N × N` complex
+  matrices and `K` the group `G`, as a subgroup of their units; the Lie algebra so obtained is the
+  `𝔤` of the Conventions, and the choice of norm on `R` does not affect it. Further (file
+  names again in `Geometry/Lie/Subgroup/` unless a full path is given):
+  `TauCeti.Lie.lieSubalgebraOfSubgroup_mono` (`LieAlgebra.lean`: a larger subgroup has a larger Lie
+  algebra); `TauCeti.Lie.Ad_mem_lieSubalgebraOfSubgroup` (`LieAlgebra.lean`: `Ad(g)` maps the Lie
+  algebra of `K` into itself for `g` in the normaliser of `K`), read in matrix coordinates through
+  `TauCeti.Lie.unitsLieAlgebraEquiv_Ad` (`Geometry/Lie/Adjoint/Units/Basic.lean`: there
+  `Ad(g)X = gXg⁻¹`);
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_lieSubalgebraOfSubgroup_iff_conjTranspose_eq_neg`
+  (`Unitary.lean`: the Lie algebra of the unitary matrices is `{X : Xᴴ = −X}`);
+  `TauCeti.Lie.unitsLieAlgebraLieEquiv_symm_mem_GLSpecialUnitary_lieSubalgebra_iff`
+  (`SpecialUnitary.lean`: the Lie algebra of `TauCeti.GLSpecialUnitary`, the special unitary group
+  as a subgroup of the units, is `{X : Xᴴ = −X, tr X = 0}`), whose elements are those of
+  `Matrix.specialUnitaryGroup` by `TauCeti.GLSpecialUnitary.mem_iff`
+  (`LinearAlgebra/Matrix/GeneralLinearGroup/SpecialUnitary.lean`); and
+  `TauCeti.Lie.EmbeddedLieSubgroupData.range_lieMapSubtypeVal_eq` (`Differential.lean`: for
+  embedded-subgroup data modelled on the Lie algebra of `K`, the differential of the inclusion at
+  `1` has range the Lie algebra of `K`), with
+  `TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`
+  (`Embedded.lean`: a closed subgroup `K` of a finite-dimensional real Lie group carries such data,
+  modelled on its Lie algebra). Used in §1.1, and the special unitary computation in §6.4.
+- `HomotopyGroup.bijective_hurewicz` (`AlgebraicTopology/Homotopy/Hurewicz/Absolute.lean`): for a
+  space in `Type` whose homotopy groups vanish below degree `n + 2`, the cubical Hurewicz map
+  `π_{n+2} → H_{n+2}(·; ℤ)` is bijective. Used in §6.4 for `S³`, with AlgebraicTopology §8.3's
+  comparison with pointed sphere maps.
+
+### From TauCetiRoadmap.PDE
+
+- §1.2: density of smooth functions in `W^{k,p}` on arbitrary open sets (used in §2.2).
+- §1.4: Sobolev, Morrey and higher-order embeddings, including `W^{k,p}(Ω) → W^{k−1,p*}(Ω)` on bounded
+  Lipschitz domains and the whole-space Gagliardo–Nirenberg–Sobolev inequality (§§2.2–2.5, 5.1).
+- §1.5: the Poincaré inequality on balls, `‖u − u_B‖_{L^p(B)} ≤ C(d, p) r ‖∇u‖_{L^p(B)}` for a ball `B`
+  of radius `r` and `1 ≤ p < ∞`, with the constant scaling linearly in `r` (§2.2).
+- §1.6: the trace operator and the extension operator on bounded Lipschitz domains (§§2.2, 4.1).
+- §2.2 and §2.3: interpolation, Calderón–Zygmund operators, the Riesz transforms `R_j` with
+  multiplier `−iξ_j/|ξ|` and their `L^p` bounds for `1 < p < ∞`, and the Mihlin–Hörmander theorem.
+  §4.3 derives from the Riesz transforms the whole-space div–curl estimate
+  `‖∇u‖_p ≲ ‖div u‖_p + ‖du‖_p`, `1 < p < ∞` (used in §4.3, and
+  through §4.4 in §5.2).
+- §3.2: the weak maximum principle for weak subsolutions of the Laplacian on balls (§§8.2, 10.4).
+- §6.1: Bochner spaces; §6.3: the heat semigroup `e^{sΔ}` on `L^p(ℝ^d)`, its generator, Duhamel's
+  formula and the smoothing estimates (Layers 8–9).
+- §7.1: the homogeneous blocks `P_k`, Bernstein and Littlewood–Paley estimates, and the heat-block
+  estimate for indices `j ≥ 1`; §8.1 here extends that estimate to every `k ∈ ℤ` by dilation.
+  §7.2 supplies whole-space inhomogeneous Besov spaces and homogeneous Besov spaces modulo
+  polynomials; §8.1 fixes their representatives in `𝒮'_h` in dimension four, and §4.3 defines the
+  restriction norm on a ball, using the consistent inhomogeneous partition requested below.
+  §7.3 supplies the inhomogeneous Bony decomposition pattern and its
+  Hölder–Besov estimates. The homogeneous `L²` product estimates needed in Layers 8–10 are the
+  distinct targets of §8.1, using §7.1's Bernstein inequality.
+
+What PDE must provide (gap:lp-neumann-ball): For `1 < p < ∞`, `d ≥ 2`, `f ∈ L^p(B₁)` and `V ∈ W^{1,p}(B₁;ℝ^d)` with `∫_{B₁} f = ∫_{∂B₁} ν·V`: `Δu = f` in `B₁`, `∂_νu = ν·V` on `∂B₁` has a solution `u ∈ W^{2,p}(B₁)`, unique up to constants, with `‖∇u‖_{W^{1,p}} ≤ C(d,p)(‖f‖_{L^p} + ‖V‖_{W^{1,p}})`.
+Consumed by §4.1. It belongs in PDE Layer 5, as a new section on the `L^p` Neumann problem.
+
+What PDE must provide (gap:lp-divcurl-normal-ball): For `1 < p < ∞`, `d ≥ 2` and every 1-form `a ∈ W^{1,p}(B₁;ℝ^d)` with `x^ℓa_ℓ = 0` on `∂B₁`: `‖a‖_{W^{1,p}(B₁)} ≤ C(d,p)(‖da‖_{L^p} + ‖∂^ℓa_ℓ‖_{L^p})`.
+Consumed by §4.1. It belongs in the same new section of PDE Layer 5, as its second theorem.
+
+What PDE must provide (gap:hardy-inequality): For `d ≥ 2` and `1 ≤ p < d`, `‖u/|x|‖_{L^p(ℝ^d)} ≤ (p/(d−p))‖∇u‖_{L^p(ℝ^d)}` for `u ∈ C_c^∞(ℝ^d)`, with extension to the homogeneous Sobolev closure.
+Consumed by §§5.2, 5.3 and 6.1. It belongs in PDE §1.4, as a new item.
+
+What PDE must provide (gap:vector-valued-wkp): For a finite-dimensional real normed space `V`, an open `Ω ⊆ ℝ^d` and `1 ≤ p ≤ ∞`: for every integer `k ≥ 2`, the space `W^{k,p}(Ω; V)` obtained from the order-one class `TauCeti.WeakDerivStep` over `Lᵖ(Ω; V)` by adjoining one `L^p` weak derivative (`TauCeti.HasWeakFDerivOn`) per order, as `TauCeti.Wkp` does for real-valued functions, complete for its graph norm; for every `k ≥ 1`, a continuous linear equivalence of `W^{k,p}(Ω; V)` with the product of `dim V` copies of `TauCeti.Wkp` of order `k`, given by the coordinates in any basis of `V` and commuting with every iterated weak derivative (so the class does not depend on the basis); and for every `k ≥ 1`, the local class `W^{k,p}_loc(Ω; V)` of the `u` whose restriction to every ball with closure in `Ω` lies in `W^{k,p}`.
+Consumed by §2.1, and through it by Layers 2–5 and 7. It belongs in PDE Layer 1, as a new section on Sobolev classes with values in a finite-dimensional space.
+
+What PDE must provide (gap:inhomogeneous-besov-partition): For every `d ≥ 1`, use the consistent inhomogeneous blocks `Δ_{−1} = χ(D)`, `Δ_j = ψ(2^{−j}D)` for `j ≥ 0`, with `Σ_{j≥−1}Δ_j = I`, and supply §7.2's complete Besov norms and cutoff independence for this partition.
+Consumed by §4.3. It belongs in PDE §§7.1–7.2, with the inhomogeneous partition and its Besov
+norms. The blocks `P_0 = χ(D)` and `P_j = ψ(2^{−j}D)`, `j ≥ 1`, written in PDE §7.1 sum to
+`1 + χ(ξ) − χ(ξ/2)`, which vanishes at `|ξ| = 2`, so they do not resolve the identity and cannot
+define an inhomogeneous Besov norm; the homogeneous blocks used in §8.1 run over all integers and
+sum to `1` at every `ξ ≠ 0`.
+
+### From TauCetiRoadmap.SmoothBundlesConnections
+
+- B3.1: principal connections and the local potential `A' = Ad(g⁻¹)A + g⁻¹dg` for `s' = s·g`.
+- B4.1: curvature `Ω = dω + ½[ω ∧ ω]` with the determinant-style wedge, and the Bianchi identity.
+- B4.2: the gauge group and its local formulas `u·A = Ad(u)A − du·u⁻¹`, `F_{u·A} = Ad(u)F_A`.
+  Used in §1.3 for the comparison of conventions on the trivial bundle.
+
+### From TauCetiRoadmap.CharacteristicClasses
+
+- C4 item 1: `Ad`-invariant homogeneous symmetric polynomial forms on the Lie algebra, their
+  polarisation `P(z) = B_P(z, …, z)` with no extra factorial, pullback by Lie homomorphisms and
+  evaluation on curvature with the value-bundle wedge; gauge invariance, closedness from the
+  Bianchi identity, and connection independence along the affine connection path with its explicit
+  transgression form. Used in §1.4 and Layer 6.
+- C5a.3: the Weil algebra `W(𝔤)` with `d_W θ = Ω − ½[θ, θ]`, `d_W Ω = −[θ, Ω]`; for homogeneous
+  invariant `P` of degree `k ≥ 1` the normalised form `CS_P = k ∫₀¹ B_P(θ, F_t, …, F_t) dt`,
+  `F_t = tΩ + ((t² − t)/2)[θ, θ]`, with `d_W CS_P = P(Ω)`, pullback naturality, and the cocycle
+  `τ(P)` obtained by setting `Ω = 0`. It is stated for the compact connected group with Lie algebra
+  `𝔤`, here the identity component of `G`; its constructions are algebraic in `𝔤`. Used in §1.4.
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+- R6: for a closed-image smooth embedding into a Euclidean space, the inversion of the normal tube
+  below its injectivity radius, giving the nearest-point retraction with smooth inverse of normal
+  addition, and a tube of uniform radius when the embedded manifold is compact. Used in §1.2 for
+  the compact embedded submanifold `G ⊂ M_N(ℂ)` given by Tau Ceti's closed-subgroup theorem.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+- Layer 0 (forms and the paired wedge, `TauCeti.RoughForm.wedgeWith`) and Layer 1
+  (`TauCeti.mextDeriv`, naturality, `d² = 0`, Leibniz): §1.4.
+- 5.2–5.3 (integration of top forms, Stokes' theorem with the outward-first boundary orientation)
+  and 5.4 (the homotopy operator): §§6.2, 6.4, and 5.2 for the integral in the Checks of §1.4.
+- Layer 10, items 10.3–10.5 (`degree` of a smooth map between closed oriented connected manifolds
+  of the same dimension, `∫ f*ω = deg · ∫ ω` for top forms, homotopy invariance, `deg id = 1`): §6.4.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+- §6.5: the homological characterization `f_*[M] = deg f · [N]` of DifferentialGeometry's
+  smooth degree for closed oriented connected manifolds, compared there with DifferentialGeometry
+  Layer 10: §6.4.
+- §8.3: the absolute Hurewicz map from the cubical homotopy groups through pointed
+  sphere maps, and the theorem `π_n(X) ≅ H_n(X; ℤ)` for `(n−1)`-connected `X`, `n ≥ 2`: §§5.6, 6.4.
+
+### From TauCetiRoadmap.RepresentationTheory.LieGroups
+
+- Layer 1 (`Ad`, `ad`): §1.1. The exponential map and the closed-subgroup theorem with the Lie
+  algebra of a closed subgroup are taken from Tau Ceti (From Tau Ceti).
+- Layer 5A: the invariant real metric, skew-adjointness of `ad`, and the orthogonal centre/derived
+  decomposition for compact connected groups, applied to the identity component of `G`. Starting
+  its averaging with the prescribed invariant metric returns that metric. Its derived ideal
+  `[𝔤, 𝔤]` is centreless and semisimple with negative-definite Killing form; Layer 5A does not
+  decompose it further. Mathlib decomposes it into simple ideals (From Mathlib), and §1.6 proves
+  that these ideals and the centre are mutually orthogonal for the prescribed metric.
+- Layer 6, “Compact real roots and the Weyl comparison” and “Rank-one representatives”: the
+  real root planes, coroots, normalised compact rank-one Lie subalgebras and integrated
+  `SU(2) → G` maps. §7.7 consumes them; the remaining metric extremality is the following gap.
+
+What LieGroups must provide (gap:compact-su2-subalgebra): For every noncommutative compact real Lie algebra with a prescribed ad-invariant positive inner product, the bracket constant γ₀ equals the largest root length, and its restriction to the normalised compact su(2) subalgebra of a longest root has the same value.
+Consumed by §7.7. It belongs in LieGroups Layer 6, under “Rank-one representatives”, as their
+metric extremality. Root lengths are measured in the inner product dual to the prescribed one on
+the Lie algebra of a maximal torus. The root-space operator bound and the rank-one bracket calculation are the argument of
+OhTataru-TopClass line 2381–2401, applied in each simple ideal with its prescribed metric.
+
+### From TauCetiRoadmap.Yamabe
+
+- Y2 item 1: for `n ≥ 3`, `a_n ∫ |du|² ≥ Y(Sⁿ) (∫ |u|^{p_n})^{2/p_n}` on the homogeneous space
+  `D^{1,2}(ℝⁿ)`, with `a_n = 4(n−1)/(n−2)`, `p_n = 2n/(n−2)`, `Y(Sⁿ) = n(n−1)Vol(Sⁿ)^{2/n}`. In
+  dimension four `a₄ = 6`, `p₄ = 4` and `Y(S⁴) = 12 (8π²/3)^{1/2} = 8√6 π`. Used in §7.5.
 
 ## References
 

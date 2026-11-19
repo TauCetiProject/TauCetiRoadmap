@@ -1,82 +1,28 @@
 # Roadmap: prismatic cohomology, Part IV — Logarithmic prismatic cohomology
 
-**Summary.** Construct logarithmic delta algebra, saturated and animated log prismatic cohomology, log Hodge–Tate, crystalline and q-de Rham comparisons, and Laurent realizations in p-Kummer local systems. Preserve integral chart lattices and the proper Cartier-type nonzero-parameter comparison.
+**Summary.** Prismatic cohomology attaches a complex to a p-adic formal scheme over a prism. The first three parts of this series construct it and several of its comparison theorems. This fourth part extends the theory to formal schemes with a logarithmic structure: a sheaf of commutative monoids mapping to the multiplicative monoid of the structure sheaf. Rings in logarithmic geometry are ℤ_(p)-algebras.
 
-## Scope and ownership
+The basic algebraic object is a `δ_log`-ring: a δ-ring A with a prelog structure `α: M → A` and a map `δ_log: M → A`, subject to three axioms which make Frobenius send α(m) to `α(m)^p·(1 + p·δ_log(m))`. For a bounded prelog prism `(A, I, M_A)` with integral monoid, and X smooth over `(A/I, M_A)` in Koshikawa's sense, the roadmap builds the relative log prismatic site. Its cohomology is a complex Δ, with reduction Δ̄ modulo I. Perfect log prisms are equivalent to perfectoid log rings, by reduction modulo the prism ideal.
 
-The four roadmaps form the chain [PrismaticCohomology](../PrismaticCohomology/README.md) (Layers 0–2) `→` [PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md) (Layers 3–5) `→` [PrismaticCohomologyPartIII](../PrismaticCohomologyPartIII/README.md) (Layers 6–7) `→` [PrismaticCohomologyPartIV](../PrismaticCohomologyPartIV/README.md) (Layer 8). Layer and section labels agree across the four parts. PerfectoidQuotients §0.0 and AInfCohomology Layers AI.0–AI.6 supply the perfectoid and integral period inputs; PadicHodgeTheory §§0.2–0.5 supplies the rational period rings used in the comparison diagrams.
+The first main theorem is the log Hodge–Tate comparison. In this setting, the log de Rham complex of X maps isomorphically, as a differential graded A/I-algebra, onto the Breuil–Kisin-twisted cohomology sheaves of Δ̄ with their Bockstein differential. In particular Δ̄ is perfect. For X quasi-compact and quasi-separated, log prismatic cohomology commutes with completed base change along maps of such prisms.
 
-This part consumes PrismaticCohomology Layers 0–2, PrismaticCohomologyPartII Layers 3–5 and PrismaticCohomologyPartIII Layers 6–7. Log monoids and log crystalline foundations come from CrystallineCohomology Layers CR.5:log-algebra and CR.5. DerivedDeRhamCohomology §6.20 supplies the shared log cotangent and derived de Rham constructors; CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18 supplies their logarithmic deformation, flatness and descent applications. The new objects here are logarithmic delta and prism data, their derived and saturated sites, log adic and diamond Kummer adapters, and the p-Kummer realization. Ordinary adic geometry, diamond sites, lisse descent and Tau Ceti’s pro-p predicate are imported. The monoid tilt is Mathlib `Perfection M p`, with its existing projection and root maps. Perfect monoids use Mathlib `PerfectRing M p`; pseudo-perfectoid monoids use `PerfectRing (Associates M) p`. These supplied notions have no separate carriers or predicates here. Kummer homomorphisms of monoids and Kummer morphisms of fs log schemes are CrystallineCohomology's (§CR.5:log-algebra.2, Kummer homomorphisms and Kummer morphisms); this part owns the Kummer-étale site built from them. Integral perfectoidization, used for saturations of log diamonds, is PrismaticCohomology §2.31.
+The crystalline and de Rham comparisons need Kato's Cartier type: on charts, the monoid map is integral with exact relative Frobenius. Take X quasi-compact and quasi-separated. If the prism ideal is (p), X is smooth of Cartier type over `(A/p, M_A)`, and the prism's log structure meets a condition stated in the layer, then log crystalline cohomology is the completed base change of log prismatic cohomology along the Frobenius of A. If X is smooth with mod-p fibre of Cartier type, log de Rham cohomology is the completed base change along Frobenius followed by A → A/I, and Frobenius is an isogeny. The roadmap also builds the log Nygaard filtration.
 
-Part IV is the sole supplier of the generic logarithmic delta, prism, site and cohomology constructions (§§8.1–8.29), their crystalline, de Rham and semistable `AΩ` comparisons (§§8.35, 8.41–8.42, 8.56), the Kummer-étale comparison (§8.69), and the shared log adic structures and Kummer-étale site (§8.60). CohomologyComparisons §4.6 is a downstream consumer of these interfaces with their stated hypotheses and owns the additional period and Hyodo–Kato compatibility diagrams and specializations. Its §6.1 consumes §8.60 for divisorial cusp log structures and the Kummer-étale site, and owns the pro-Kummer-étale tower and logarithmic period-sheaf adapters. The dependency order is Part IV before these CohomologyComparisons applications.
+Kummer-étale covers may also adjoin roots of sections of the log structure. Let X be smooth, fs, quasi-compact and quasi-separated, with mod-p fibre of Cartier type, over a perfect prism (A, (d)) with fs monoid, and base-change it, as the layer specifies, to a saturated base whose log prism is perfect. The quasi-pro-Kummer-étale cohomology of its generic fibre, a log diamond, with coefficients ℤ/p^m, is the Frobenius-fixed part of its log prismatic cohomology with d inverted, modulo p^m.
 
-### Imported log quasisyntomic sites (§8.43)
+With coefficients, Laurent F-crystals on the absolute saturated log prismatic site of a bounded fs log p-adic formal scheme are equivalent to p-Kummer ℤ_p-local systems on its generic fibre. A local system is p-Kummer when its pullback along every map from a saturated log diamond with p-divisible characteristic monoid, with compatible local charts, is ordinary. On locally noetherian fs log adic spaces over ℚ_p, this means every local log inertia representation has pro-p image. So the permutation local system of a p^a-root cover of a geometric log disc lies in the image; that of an n-root cover, n > 1 prime to p, does not.
 
-This part takes its log quasisyntomic sites and QRSP bases from CrystallineCohomology §CR.DDR.6.15, subject to the hypotheses and laws recorded here. Homological log flatness is the notion supplied by DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18, namely `B′ ⊕^L_A B ≅ B′ ⊕_A B` for every `A → B′`, with faithful flatness of the rings added for its faithfully flat version. A map of pre-log rings `A → B` is called p-completely homologically log flat when `B ⊗^L_A A/p ≅ B/p` is discrete and the reduction `(A/p, M_A) → (B/p, M_B)` is homologically log flat; requiring the reduction to be homologically log faithfully flat gives the p-completely faithfully flat version. Quasisyntomicity of a pre-log ring `(A, M_A)` consists of three conditions: `A` is p-complete, its `p^∞`-torsion is bounded, and `L_{(A,M_A)/ℤ_p}`, the Gabber log cotangent complex, is of p-complete Tor amplitude within `[−1, 0]`. Between p-complete pre-log rings with bounded `p^∞`-torsion, a map `A → B` is quasisyntomic when `L_{B/A} ⊗^L_B B/p` has Tor amplitude within `[−1, 0]` and the map is p-completely homologically log flat; with faithful flatness in place of flatness it is a quasisyntomic cover. `QSyn^prelog` denotes the category of quasisyntomic pre-log rings, and quasisyntomic covers make its opposite a site. Two variants are used: if `(R, M)` is p-complete with bounded `p^∞`-torsion, the small site `qSyn_{(R,M)}` is formed by the quasisyntomic maps `(R, M) → (S, N)`; if `(R, M)` is perfectoid and quasisyntomic, `QSyn_{(R,M)}` denotes the slice. For every `(S, N)` on these sites, `∧^i L_{(S,N)/(R,M)}[−i]` becomes an object of `D^{≥0}(S)` after p-completion.
+Finally, let C be an algebraically closed complete extension of ℚ_p, and X an fs log p-adic formal scheme, smooth and proper over 𝒪_C with an fs log structure, with mod-p fibre of Cartier type. Over a perfect log prism on W(𝒪_C♭), each Frobenius-twisted log prismatic cohomology group is a Breuil–Kisin–Fargues module. It is finitely presented, free after inverting p, and its Frobenius induces `N[1/ξ] ≅ N[1/φ(ξ)]`, where `ξ = μ/φ⁻¹(μ)` and `μ = [ε] − 1`. Over `W(𝒪_C♭)[1/φ⁻¹(μ)]`, the untwisted groups agree with the quasi-pro-Kummer-étale ℤ_p-cohomology of the generic fibre. The proof uses a Hyodo–Kato isomorphism over the crystalline period ring with p inverted.
 
-Gabber's log cotangent complex and homologically log flat maps as supplied by DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18. For trivial pre-log structures one recovers BMS2's quasisyntomic site (DerivedDeRhamCohomology §§5.1–5.7).
+The roadmap ends the chain [PrismaticCohomology](../PrismaticCohomology/README.md), [Part II](../PrismaticCohomologyPartII/README.md), [Part III](../PrismaticCohomologyPartIII/README.md), whose prisms, Nygaard filtrations and Laurent F-crystal equivalence it extends. CrystallineCohomology supplies log structures and log crystalline cohomology; DerivedDeRhamCohomology supplies Gabber's log cotangent complex. AInfCohomology supplies Breuil–Kisin–Fargues modules and the semistable AΩ complex of Česnavičius–Koshikawa, which the roadmap identifies with a log q-de Rham complex. CohomologyComparisons uses its comparisons and Kummer-étale site.
 
-(KY, §3.1, Definition 3.2 (p. 27); KY, §3.1, Definition 3.3 (p. 27); KY, §3.1, Corollary 3.7 (p. 28).)
+Everything is one layer, Layer 8; the next section reads it as seven stages, from formal log geometry and log prisms to the theory over W(𝒪_C♭).
 
-*Supplied by:* CrystallineCohomology Layer CR.5:log-algebra, Mathlib `CategoryTheory.GrothendieckTopology`, CrystallineCohomology §CR.DDR.6.15, CrystallineCohomology §CR.DDR.6.6, DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`), DerivedDeRhamCohomology §5.1.
+## How to read the build
 
-- **Objects.** The quasisyntomic condition on a pre-log ring.
-- **Maps.** The quasisyntomic condition on a map, with the cover variant.
-- **Sites.** The site `QSyn^{prelog,op}` with quasisyntomic covers, and its small variant `qSyn_{(R,M)}`.
-- **Cover descent.** For a quasisyntomic cover `A → B, A` is quasisyntomic iff `B` is.
-- **Composition.** Quasisyntomic maps compose.
-- **Pushouts.** The p-completed pushout of a quasisyntomic map along any map is discrete with bounded `p^∞`-torsion and quasisyntomic.
-- **Strict agreement.** On pre-log rings with trivial pre-log structure, the notions agree with BMS2's quasisyntomic rings and maps (DerivedDeRhamCohomology §§5.1–5.7).
-- **Cotangent bound.** For `(S, N)` in `qSyn_{(R,M)}, (∧^i L_{(S,N)/(R,M)}[−i])^∧_p ∈ D^{≥0}(S)`.
+Layer 8 is built in seven stages. §§8.0–8.0d set up the formal logarithmic geometry and the characteristic-p Riemann–Hilbert input. §§8.1–8.17 develop `δ_log`-rings, prelog and log prisms, their envelopes and perfect log prisms. §§8.18–8.29 build the relative log prismatic site and prove the log Hodge–Tate comparison and base change. §§8.30–8.42 give the `δ_log`-crystalline and log q-crystalline theories, the log crystalline comparison, the log q-de Rham complexes and the comparison with semistable `AΩ`. Using the supplied log quasisyntomic interfaces of §§8.43–8.45, §§8.46–8.58 pass to animated inputs, the log Nygaard filtration with its de Rham comparison and Frobenius isogeny, and Breuil–Kisin log cohomology. §§8.59–8.75 construct Kummer-étale sites on log schemes, log adic spaces and log diamonds, prove the Kummer-étale comparison, and identify Laurent F-crystals with p-Kummer local systems. §§8.76–8.79 apply the theory over `A_inf`: the étale comparison, log PD rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules and the standard semistable chart. Within a stage the *Needs* lines fix the construction order; earlier parts are cited by roadmap name and section.
 
-Use CrystallineCohomology §§CR.DDR.6.15–CR.DDR.6.17: KY Lemma 3.5 for a quasisyntomic cover `A → B, A ∈ QSyn^prelog` iff `B ∈ QSyn^prelog` (transitivity triangle and faithful flatness of `A/p → B/p`). Lemma 3.6: quasisyntomic maps compose; their p-completed pushouts are discrete with bounded `p^∞`-torsion and quasisyntomic over the other factor (using BMS2 Corollary 4.8 and base change of `L`). Corollary 3.7: `QSyn^{prelog,op}` is a site; Remarks 3.8–3.9 for the slice and small sites and the `D^{≥0}` property.
-
-**Checks.**
-
-- **Smooth log coordinate.** `(ℤ_p⟨T⟩, T^N)` is quasisyntomic: its log cotangent complex is free of rank 1 on `dlog T`.
-- **Trivial log structure.** `(R, {e})` is in `QSyn^prelog` iff `R` is in BMS2's QSyn.
-- **Zero chart.** `(ℤ_p, N → ℤ_p, 1 ↦ 0)` is quasisyntomic: `L_{(ℤ_p,N)/ℤ_p}` is concentrated in degrees `[−1, 0]` (KY Example 2.30).
-- **Nonintegral negative control.** For `k` of characteristic `p ≠ 2, (k, P) → (k[x, y]/(x^2, xy, y^2), N^2)`, with `P ⊂ N^2` generated by `(2,0), (0,2), (1,1)` and `P∖{0} ↦ 0`, is log étale in Kato's sense but not quasisyntomic: its log cotangent complex is unbounded on the left (KY Remark 2.13).
-- **Identity cover.** The identity of a quasisyntomic pre-log ring is a quasisyntomic cover.
-
-### Imported log QRSP inputs (§§8.44–8.45)
-
-**§8.44 Quasiregular semiperfectoid pre-log rings.**
-
-Use CrystallineCohomology §CR.DDR.6.16 (log quasiregular semiperfectoid objects) with the following hypotheses and laws. A p-complete pre-log ring `S = (S, M)` is semiperfectoid if (1) there is a ring map `R → S` from a perfectoid ring; (2) `S/p` is semiperfect; (3) the natural map `M♭ → M/M^×` is surjective. It is quasiregular semiperfectoid if moreover (4) `S` is quasisyntomic. `QRSPerfd^prelog` denotes the category of quasiregular semiperfectoid pre-log rings. Conditions (2)–(3) (log-semiperfect) imply `L_{(S,M)/R} ⊗^L S/p ∈ D^{≤−1}(S/p)` for any `R → S`; for `S` quasiregular semiperfectoid, `L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat. Equivalently (when `S/p` is log-semiperfect, `S p`-complete with bounded `p^∞`-torsion), `S ∈ QRSPerfd^prelog` iff there exists a perfectoid ring map `R → S` with trivial source prelog structure such that `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`. Once such a map exists, the cotangent condition holds for every perfectoid ring map `R → S`.
-
-p-complete pre-log rings; perfectoid in the sense of BMS1.
-
-(KY, §3.2, Definition 3.11 (p. 29); KY, §3.2, Lemma 3.16 (p. 30–31).)
-
-- **Semiperfectoid objects.** Conditions (1)–(3).
-- **QRSP objects.** Conditions (1)–(4).
-- **Cotangent flatness.** For `S ∈ QRSPerfd^prelog, L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat.
-- **Relative cotangent criterion.** Lemma 3.16: with `S/p` log-semiperfect and `S p`-complete with bounded `p^∞`-torsion, `S` is quasiregular semiperfectoid iff there exists a perfectoid ring map `R → S` with trivial source prelog structure for which `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`. If such a map exists, this condition holds for every perfectoid ring map `R → S`.
-- **Perfectoid source.** The map `(R ⊗̂ W(S♭) ⊗̂ ℤ_p⟨M♭⟩, M♭) → (S, M)` of Remark 3.13.
-- **Quotient monoids.** Condition (3) passes to quotient monoids and pushouts (Remark 3.14).
-
-Use CrystallineCohomology §CR.DDR.6.16’s four defining conditions and the variants (5)–(6) of Remark 3.12 and their implications. Remark 3.13: a semiperfectoid `(S, M)` receives `(R ⊗̂ W(S♭) ⊗̂ ℤ_p⟨M♭⟩, M♭) → (S, M)`, surjective on rings and modulo units on monoids. Lemma 3.16: purity of `π_1` of `L_{R/ℤ_p} ⊗ S/p → L_{S/ℤ_p} ⊗ S/p`, reduced to perfect fields `k` and Lemma 2.9 (via DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18).
-
-**Checks.**
-
-- **Divisible coordinate.** `(O_C⟨T^{1/p^∞}⟩, N[1/p] → T^{N[1/p]})` is quasiregular semiperfectoid.
-- **Strict agreement.** `(S, S^×)` is in `QRSPerfd^prelog` iff `S` is in BMS2's QRSPerfd (PrismaticCohomology Layer 2/DerivedDeRhamCohomology §§5.1–5.7).
-- **Nondivisible chart.** `(ℤ_p⟨T⟩, T^N)` is quasisyntomic but not semiperfectoid: `N♭ = 0` does not surject onto `N`.
-- **Missing perfectoid source.** `(ℤ_p,{1})` has semiperfect reduction and the monoid tilt condition, but receives no perfectoid ring map. A universal cotangent test over the empty collection of such maps cannot make it QRSP (CrystallineCohomology §CR.DDR.6.16).
-- **Zero ring.** The zero ring with the trivial monoid is quasiregular semiperfectoid. With the chart `N → 0` it is not semiperfectoid: `N♭` is trivial and does not surject onto `N`.
-
-**§8.45 Quasiregular semiperfectoid pre-log rings form a basis.**
-
-Use CrystallineCohomology §CR.DDR.6.17 (compatible-root covers of prelog rings, with its QRSP bases and unfolding) for (1)–(4). (1) For maps `A → B, A → C` in `QRSPerfd^prelog` with `A → B` a quasisyntomic cover, the p-completed pushout lies in `QRSPerfd^prelog` and is a quasisyntomic cover of `C`; `QRSPerfd^{prelog,op}` is a site. (2) Every `R ∈ QSyn^prelog` admits a quasisyntomic cover `R → S` with `S ∈ QRSPerfd^prelog`, which can be chosen with p-divisible monoid. (3) For such a cover every term of the Čech nerve lies in `QRSPerfd^prelog`. (4) Consequently, for every presentable `∞-category C`, restriction induces an equivalence `Shv_C(QSyn^{prelog,op}) ≅ Shv_C(QRSPerfd^{prelog,op})`.
-
-Quasisyntomic topology; presentable target.
-
-(KY, §3.2, Lemma 3.18 (p. 32); KY, §3.2, Corollary 3.20 (p. 32).)
-
-**Proof route.** (1) Lemma 3.17 via Lemma 3.6 and Remark 3.14. (2) Lemma 3.18: choose surjections `ℤ_p[X_i] → R` and `N^J → M`, base change along `(ℤ_p⟨X_i, Y_j⟩, N^J) → (O_C⟨X_i^{1/p^∞}, Y_j^{1/p^∞}⟩, N[1/p]^J)`.
-
-*Supplied by:* CrystallineCohomology §§CR.DDR.6.15–CR.DDR.6.17, CrystallineCohomology §§CR.DDR.6.16–CR.DDR.6.17, DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`), DerivedDeRhamCohomology §6.20 (`logCotangentFunctoriality`), DerivedDeRhamCohomology §§5.1–5.7.
+`Suggested.lean` contains no theorem declarations: the pinned Mathlib and Tau Ceti do not provide the log formal schemes, log prisms, log cohomology complexes, log diamonds or Laurent F-crystals needed to state the headline comparisons and realization theorems. Its module docstring identifies the missing objects for each group of headline results.
 
 ## Conventions
 
@@ -85,69 +31,6 @@ Use PrismaticCohomology Conventions for `δ`-rings, cohomological indexing and d
 Log monoids are multiplicative unless a chart is written additively. Every saturation or fs assertion includes integrality. The diagonal `N→N^r` for a semistable chart gives `dlog x₁+⋯+dlog x_r=0`; for `xy=π, dlog y=−dlog x`. A p-divisible chart is not an all-integer uniquely divisible chart. Corrected Laurent realizations land in p-Kummer local systems: prime-to-p boundary inertia is a negative control, not part of the essential image. KYcorr Theorem 7 replaces KY arXiv-v1 Theorems 7.36–7.37 (published Theorems 7.35–7.36); the proper pushforward result KY v1 Proposition 7.38 (published Proposition 7.37) is retained.
 
 The two-direction cochain Koszul convention is `d⁰(m)=(D₁m,D₂m), d¹(a,b)=D₂a−D₁b`, as in Part II. In §8.40 `e_s=dlog X_s` and the ordered exterior basis fixes the corresponding chain homotopy sign.
-
-## Exact supplier contracts
-
-A supplier row specifies the interface used, under the hypotheses shown. Its theories are imported. Each target lists its own additional prerequisites.
-
-| Supplier | Layers | Required interface |
-| --- | --- | --- |
-| [PrismaticCohomology](../PrismaticCohomology/README.md), Layers 0–2 | 8 | `δ`-rings, prisms, prismatic envelopes and the `δ`-ring constructions of PrismaticCohomology Layer 0; the relative prismatic site, Čech–Alexander complexes, Hodge–Tate comparison and base change of PrismaticCohomology Layer 1; derived prismatic cohomology, QRSP prisms and perfectoidization, including integral perfectoidization (§2.31), of PrismaticCohomology Layer 2. |
-| [PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md), Layers 3–5 | 8 | Breuil–Kisin twists, the Nygaard filtration, the `Lη` factorisation and Frobenius isogeny (Layer 3); absolute prismatic cohomology (Layer 4); q-PD pairs, q-crystalline cohomology and the q-de Rham comparison (Layer 5). In §§5.2–5.3, use the supplied q-PD pairs `(D,I)` over `(ℤ_p[[q−1]],(q−1)): D,I` are derived `(p,[p]_q)`-complete, `(D,([p]_q))` is a bounded prism, `φ(I) ⊂ [p]_qD, γ(I) ⊂ I` for `γ(x) = φ(x)/[p]_q − δ(x)`, and `D/(q−1)` is p-torsion-free with finite `(p,[p]_q)`-complete Tor amplitude over `D`. The logarithmic applications additionally assume that `D/I` is classically p-complete. |
-| [PrismaticCohomologyPartIII](../PrismaticCohomologyPartIII/README.md), Layers 6–7 | 8 | Derived Frobenius fixed points (§6.1) and the étale comparison (§§6.4–6.5); descent of prismatic crystals (§7.2) and the equivalence of Laurent F-crystals with `ℤ_p`-local systems (§7.8). |
-| `TauCetiRoadmap.AdicSpaces`, Layers 0–3 | 8 | Huber pairs, adic spectra `Spa(A,A⁺)` and rational localizations; used for the adic spaces `Spa(R[1/p],R⁺)` of §§8.60–8.61 and 8.64. |
-| AdicEtaleGeometry, Layer A1 | 8 | The small étale site of an analytic adic space and its structure sheaves `O` and `O⁺` (§§A1.6, A1.9). |
-| SchemeAndStackFoundations, Layers 2 and 4 | 8 | Sites, scheme cohomology and perfect complexes (SchemeAndStackFoundations Layer 2); formal schemes, deformations and models (SchemeAndStackFoundations Layer 4). |
-| EnhancedDerivedSheaves, Layers E1–E3 and E5 | 8 | The enhanced derived category with homotopy category Mathlib's `DerivedCategory` (E1); coherent diagrams and Kan extensions (E3); repleteness, inverse limits, Postnikov convergence and descent (E2); symmetric monoidal `∞-categories` and algebras (E5:abstract); animated commutative rings with polynomial generators and their universal property (E5:animation). Animated prelog rings use DerivedDeRhamCohomology §6.20. |
-| DerivedModuleAlgebra, §§0.13, 1.1–1.9; DerivedDeRhamCohomology, §§5.1–5.7 | 8 | The cotangent complex of a regular quotient (DerivedModuleAlgebra §0.13); derived completeness and complete flatness (DerivedModuleAlgebra §§1.1–1.9); the quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding and completed left Kan extension (DerivedDeRhamCohomology §§5.1–5.7). BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. |
-| DerivedDeRhamCohomology, §6.20; CrystallineCohomology, §§CR.DDR.6.3–CR.DDR.6.18 | 8 | Shared animated prelog rings, free prelog resolutions, Gabber log cotangent and log derived de Rham constructors (DerivedDeRhamCohomology §6.20); derived log derivations and square-zero extensions (CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.3.1), homological log flatness (§CR.DDR.6.6), integral smooth Cartier comparison (§CR.DDR.6.11), log quasisyntomic sites and log QRSP objects with compatible-root bases (§§CR.DDR.6.15–CR.DDR.6.17), and log cotangent-power descent (§CR.DDR.6.18). |
-| DerivedDeRhamCohomology, §§PD.6–PD.7; CrystallineCohomology, Layers CR.5:log-algebra, CR.5 and CR.6 | 8 | Compatible PD envelopes and their p-completions (DerivedDeRhamCohomology §§PD.6–PD.7); integral, fine and saturated monoids, prelog and associated log structures, characteristic monoids, charts, exact and integral morphisms, integral log fibre products, Kummer morphisms and the log smooth chart criterion (CR.5:log-algebra); log differentials, log PD envelopes and thickenings, log PD de Rham complexes, embedding descent and p-adic log crystalline cohomology (CR.5); Hyodo–Kato complexes and the semistable comparison in the semistable-DVR range (CR.6). Formal completion, arbitrary integral chart ranges and the proper Cartier-type deformation are made explicit in Layer 8; the arbitrary proper Cartier-type `O_C` range of §8.77 uses its separate Kato and Hyodo–Kato inputs. |
-| AInfCohomology, Layers AI.0–AI.2, AI.5–AI.6 | 8 | `A_inf` with its cyclotomic coordinates and Witt-vector API (AI.0); `Lη` for an invertible ideal with its cohomology, truncation, Bockstein and Koszul adapters (AI.1); Breuil–Kisin–Fargues modules (AInfCohomology §AI.2.2); finiteness and p-local freeness from period comparisons (AI.5); semistable `AΩ` with its log Hodge–Tate, de Rham and crystalline specializations (AI.6), with the semistable hypotheses retained. |
-| ClassicalAdicEtaleCohomology, §§1.2–1.4 and 2.5 | 8 | Geometric stalks at field pairs, Cartan–Leray spectral sequences and Tate twists on étale sites of adic spaces (§§1.2–1.4); the Spec–Spa comparison for arbitrary torsion abelian sheaves under the complete-Huber-pair standing hypotheses (§2.5, the sheaf comparison for `X = Spec A^▷`, Huber Theorem 3.2.9). |
-| DiamondsAndVStacks, Layers D1–D2, D4–D6 | 8 | Strictly totally disconnected perfectoid spaces and covers (D1); v-descent of `O` and `O⁺` and higher v-acyclicity on affinoid perfectoids (D2); diamonds, small v-stacks and their underlying spaces (D4); quasi-pro-étale maps and fibre products of locally spatial diamonds (D5); `Spd` of Huber pairs through marked untilts, and descent of untilts along v-covers (D6). The completed sheaves Ǒ and Ô and the logarithmic, Kummer and marked-structure adapters are §§8.62a–8.68. |
-| DiamondEtaleCohomology, Layers C0 and C2 | 8 | The quasi-pro-étale site of a diamond, pullbacks preserving limits, full faithfulness of quasi-pro-étale pullback and condensed coefficients (C0); testing on one v-cover (C2). |
-| PerfectoidSpaces, §§P1.16–P1.18, P1.24–P1.25 | 8 | Perfectoid rings and spaces, tilts and untilts; integral perfectoid inputs, `A_inf, θ` and primitive kernels reach this part through PrismaticCohomology and AInfCohomology. |
-| PadicHodgeTheory, §§0.2–0.5 | 8 | The de Rham period ring and filtration, crystalline period maps and the semistable logarithmic period ring, with their Frobenius and comparison maps. These supply the rational period coefficients in §8.42; the integral log PD deformation in §§8.76a–8.77 is constructed here. |
-
-### Existing library interface
-
-| Declaration | Provision |
-| --- | --- |
-| Mathlib `TruncatedWittVector` | Existing length-n p-typical Witt-vector carrier and transported Witt ring structure, not the pointwise product ring. |
-| Mathlib `Ideal.jacobson` | The Jacobson radical (infimum of maximal ideals containing an ideal); the hypothesis `p ∈ rad(A)` of the monoid Frobenius and of the extension to `M^gp`. |
-| Mathlib `MvPolynomial` | Multivariate polynomial rings; the free `δ_log`-ring on one generator is a polynomial ring on `x, δ_log(x), δ^n(δ_log(x))`. |
-| Mathlib `WittVector` | The p-typical Witt-vector carrier and its ring operations; the rings `W(k), W(R♭)` and `A_inf = W(O_C♭)`. |
-| Mathlib `WittVector.teichmuller` | The Teichmüller lift `R →* 𝕎 R` as a monoid homomorphism; it gives the rank-1 prelog structures `R♭ → W(R♭)` and `M♭ → A_inf(R)`. |
-| Mathlib `PreTilt` | For a commutative ring `O, PreTilt O p = Perfection (ModP O p) p`, the inverse Frobenius perfection of `O/p`. This provides the pre-tilt carrier; identifying it with the tilt of a perfectoid ring requires the perfectoid theory of PrismaticCohomology Layer 0. |
-| Mathlib `TensorProduct` | Tensor products of modules; carrier of `A ⊗_{ℤ_(p)[M]} ℤ_(p)[N]` in the extension of `δ_log` along `M ⊂ N ⊂ M^gp`. |
-| Mathlib `DividedPowers` | Divided power structures on an ideal; the PD ideals `J` of `δ_log`-PD triples. |
-| Mathlib `PowerSeries` | Formal power series; the ring `W(k)[[u]]` of the Breuil–Kisin prelog prism. |
-| Mathlib `PadicInt` | The ring of p-adic integers |
-| Mathlib `CategoryTheory.GrothendieckTopology` | Grothendieck topologies on a category; the étale and flat topologies on log prismatic sites, the Kummer étale and quasisyntomic topologies are instances. |
-| Mathlib `DerivedCategory` | The derived category of an abelian category (homological complexes up to quasi-isomorphism); a 1-categorical shadow of `D(A)` in which log prismatic cohomology lives. |
-| Mathlib `KaehlerDifferential` | Kähler differentials `Ω[S⁄R]` as the cotangent module of the diagonal ideal; the non-log `Ω¹` with which log differentials are compared `(Ω¹ → Ω¹_log)`. |
-| Mathlib `MonoidAlgebra` | The monoid algebra `R[M]` of a monoid over a semiring; used for `ℤ_(p)[M], A[P]` and the chart rings `A⟨P⟩` before completion. |
-| Mathlib `Algebra.GrothendieckGroup`, `Algebra.GrothendieckGroup.of`, `Algebra.GrothendieckGroup.of_injective` | The group completion `M^gp` of a commutative monoid, as localization at the top submonoid; the map `M →* M^gp` is injective for cancellative `M`. |
-| Mathlib `Perfection`, `Perfection.coeffMonoidHom`, `Perfection.pthRootMonoidHom` | The monoid perfection `{f : ℕ → M // ∀ n, f (n+1)^p = f n}`, with its commutative monoid structure, coefficient projections and shift root map. This is the tilt `M♭ = lim_(m ↦ m^p) M` of KY Definition 2.18. |
-| Mathlib `CategoryTheory.CosimplicialObject` | Cosimplicial objects `SimplexCategory ⥤ C`; carriers of Čech–Alexander nerves `C^•` and the cosimplicial algebras of Appendix B. |
-| Mathlib `TruncatedWittVector.mk` | Length-two Witt coordinate carrier and constructor, used with coeff to state the `δ_log` Witt section contract. |
-| Mathlib `PadicInt.toZModPow` | Ring homomorphism `ℤ_p→ℤ/p^n`; the coefficient reductions in finite-level inertia representations. |
-| Mathlib `Matrix.GeneralLinearGroup.map` | A ring homomorphism induces a group homomorphism on invertible matrices; reduces inertia actions coefficientwise. |
-| Mathlib `IsPGroup`, `IsPGroup.iff_card` | Every element is killed by some p-power; for finite groups and prime `p`, the supplied equivalence identifies this with p-power cardinality. |
-| Mathlib `CategoryTheory.ObjectProperty.FullSubcategory` | An object satisfying a fixed predicate and the inherited full morphism category; realizes the p-Kummer essential-image category. |
-| Mathlib `PerfectRing`, `PerfectRing.bijective_frobenius`, `powMulEquiv` | Unique p-divisibility of a commutative monoid; `PerfectRing (Associates M) p` is the pseudo-perfectoid condition. The carrier only needs a natural-power operation; no ring or characteristic hypothesis is imposed. |
-| Mathlib `Associates, Associated` | The quotient `M/M^×` of a commutative monoid and the relation of differing by a unit; the perfectoid and pseudo-perfectoid conditions of §8.14 are stated with them. |
-| Mathlib `nonZeroDivisors` | The submonoid of nonzerodivisors; the chart hypothesis for uniqueness and existence of `δ_log`-structures in §8.1. |
-| Mathlib `powersHom` | The monoid map `n ↦ x^n` from `ℕ` (written multiplicatively); the chart `N → A, 1 ↦ x`. |
-| Mathlib `Nat.Prime.multiplicity_factorial_pow`, `Nat.Prime.emultiplicity_factorial_mul` | Legendre's formula `v_p((p^n)!) = 1 + p + ⋯ + p^(n−1)` and `v_p((pn)!) = v_p(n!) + n`; together they give the contraction exponent `r·e(n)` of §8.76a. |
-| Mathlib `Condensed` | Condensed objects (sheaves on compact Hausdorff spaces); the condensed coefficient rings of §§8.62a and 8.70. |
-| Tau Ceti `TauCeti.IsProP` (`TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic`) | Every quotient by an open normal subgroup is a p-group. This existing pinned predicate, rather than a second pro-p group theory, expresses local inertia. |
-
-## How to read the build
-
-Layer 8 is built in seven stages. §§8.0–8.0d set up the formal logarithmic geometry and the characteristic-p Riemann–Hilbert input. §§8.1–8.17 develop `δ_log`-rings, prelog and log prisms, their envelopes and perfect log prisms. §§8.18–8.29 build the relative log prismatic site and prove the log Hodge–Tate comparison and base change. §§8.30–8.42 give the `δ_log`-crystalline and log q-crystalline theories, the log crystalline comparison, the log q-de Rham complexes and the comparison with semistable `AΩ`. Using the supplied log quasisyntomic interfaces of §§8.43–8.45, §§8.46–8.58 pass to animated inputs, the log Nygaard filtration with its de Rham comparison and Frobenius isogeny, and Breuil–Kisin log cohomology. §§8.59–8.75 construct Kummer-étale sites on log schemes, log adic spaces and log diamonds, prove the Kummer-étale comparison, and identify Laurent F-crystals with p-Kummer local systems. §§8.76–8.79 apply the theory over `A_inf`: the étale comparison, log PD rigidity, the Hyodo–Kato isomorphism over `A_crys`, Breuil–Kisin–Fargues modules and the standard semistable chart. Within a stage the *Needs* lines fix the construction order; earlier parts are cited by roadmap name and section.
-
-`Suggested.lean` contains no theorem declarations: the pinned Mathlib and Tau Ceti do not provide the log formal schemes, log prisms, log cohomology complexes, log diamonds or Laurent F-crystals needed to state the headline comparisons and realization theorems. Its module docstring identifies the missing objects for each group of headline results.
 
 ## Layer 8: Logarithmic prismatic cohomology
 
@@ -1900,6 +1783,139 @@ PrismaticCohomology Layers 0–2 (including §2.31), PrismaticCohomologyPartII L
 ## Downstream consumers
 
 CohomologyComparisons §4.6 consumes §§8.1–8.29, 8.35, 8.41–8.42, 8.56 and 8.69 for its generic log-prismatic constructions and comparisons, retaining their boundedness, integrality, perfect-log-base and Cartier-type hypotheses where used. Its additional period and Hyodo–Kato compatibility diagrams and specializations are applications of these supplied maps. CohomologyComparisons §6.1 consumes the shared log adic structures, logification, pullback, integral fs charts, Kummer-étale site and finite-free local systems of §8.60; its pro-Kummer-étale tower and logarithmic period-sheaf adapters are its own constructions. Part IV precedes both applications in the dependency order. Semistable applications also consume the p-Kummer realization of §§8.71–8.75.
+
+## Scope and ownership
+
+The four roadmaps form the chain [PrismaticCohomology](../PrismaticCohomology/README.md) (Layers 0–2) `→` [PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md) (Layers 3–5) `→` [PrismaticCohomologyPartIII](../PrismaticCohomologyPartIII/README.md) (Layers 6–7) `→` [PrismaticCohomologyPartIV](../PrismaticCohomologyPartIV/README.md) (Layer 8). Layer and section labels agree across the four parts. PerfectoidQuotients §0.0 and AInfCohomology Layers AI.0–AI.6 supply the perfectoid and integral period inputs; PadicHodgeTheory §§0.2–0.5 supplies the rational period rings used in the comparison diagrams.
+
+This part consumes PrismaticCohomology Layers 0–2, PrismaticCohomologyPartII Layers 3–5 and PrismaticCohomologyPartIII Layers 6–7. Log monoids and log crystalline foundations come from CrystallineCohomology Layers CR.5:log-algebra and CR.5. DerivedDeRhamCohomology §6.20 supplies the shared log cotangent and derived de Rham constructors; CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18 supplies their logarithmic deformation, flatness and descent applications. The new objects here are logarithmic delta and prism data, their derived and saturated sites, log adic and diamond Kummer adapters, and the p-Kummer realization. Ordinary adic geometry, diamond sites, lisse descent and Tau Ceti’s pro-p predicate are imported. The monoid tilt is Mathlib `Perfection M p`, with its existing projection and root maps. Perfect monoids use Mathlib `PerfectRing M p`; pseudo-perfectoid monoids use `PerfectRing (Associates M) p`. These supplied notions have no separate carriers or predicates here. Kummer homomorphisms of monoids and Kummer morphisms of fs log schemes are CrystallineCohomology's (§CR.5:log-algebra.2, Kummer homomorphisms and Kummer morphisms); this part owns the Kummer-étale site built from them. Integral perfectoidization, used for saturations of log diamonds, is PrismaticCohomology §2.31.
+
+Part IV is the sole supplier of the generic logarithmic delta, prism, site and cohomology constructions (§§8.1–8.29), their crystalline, de Rham and semistable `AΩ` comparisons (§§8.35, 8.41–8.42, 8.56), the Kummer-étale comparison (§8.69), and the shared log adic structures and Kummer-étale site (§8.60). CohomologyComparisons §4.6 is a downstream consumer of these interfaces with their stated hypotheses and owns the additional period and Hyodo–Kato compatibility diagrams and specializations. Its §6.1 consumes §8.60 for divisorial cusp log structures and the Kummer-étale site, and owns the pro-Kummer-étale tower and logarithmic period-sheaf adapters. The dependency order is Part IV before these CohomologyComparisons applications.
+
+### Imported log quasisyntomic sites (§8.43)
+
+This part takes its log quasisyntomic sites and QRSP bases from CrystallineCohomology §CR.DDR.6.15, subject to the hypotheses and laws recorded here. Homological log flatness is the notion supplied by DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18, namely `B′ ⊕^L_A B ≅ B′ ⊕_A B` for every `A → B′`, with faithful flatness of the rings added for its faithfully flat version. A map of pre-log rings `A → B` is called p-completely homologically log flat when `B ⊗^L_A A/p ≅ B/p` is discrete and the reduction `(A/p, M_A) → (B/p, M_B)` is homologically log flat; requiring the reduction to be homologically log faithfully flat gives the p-completely faithfully flat version. Quasisyntomicity of a pre-log ring `(A, M_A)` consists of three conditions: `A` is p-complete, its `p^∞`-torsion is bounded, and `L_{(A,M_A)/ℤ_p}`, the Gabber log cotangent complex, is of p-complete Tor amplitude within `[−1, 0]`. Between p-complete pre-log rings with bounded `p^∞`-torsion, a map `A → B` is quasisyntomic when `L_{B/A} ⊗^L_B B/p` has Tor amplitude within `[−1, 0]` and the map is p-completely homologically log flat; with faithful flatness in place of flatness it is a quasisyntomic cover. `QSyn^prelog` denotes the category of quasisyntomic pre-log rings, and quasisyntomic covers make its opposite a site. Two variants are used: if `(R, M)` is p-complete with bounded `p^∞`-torsion, the small site `qSyn_{(R,M)}` is formed by the quasisyntomic maps `(R, M) → (S, N)`; if `(R, M)` is perfectoid and quasisyntomic, `QSyn_{(R,M)}` denotes the slice. For every `(S, N)` on these sites, `∧^i L_{(S,N)/(R,M)}[−i]` becomes an object of `D^{≥0}(S)` after p-completion.
+
+Gabber's log cotangent complex and homologically log flat maps as supplied by DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18. For trivial pre-log structures one recovers BMS2's quasisyntomic site (DerivedDeRhamCohomology §§5.1–5.7).
+
+(KY, §3.1, Definition 3.2 (p. 27); KY, §3.1, Definition 3.3 (p. 27); KY, §3.1, Corollary 3.7 (p. 28).)
+
+*Supplied by:* CrystallineCohomology Layer CR.5:log-algebra, Mathlib `CategoryTheory.GrothendieckTopology`, CrystallineCohomology §CR.DDR.6.15, CrystallineCohomology §CR.DDR.6.6, DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`), DerivedDeRhamCohomology §5.1.
+
+- **Objects.** The quasisyntomic condition on a pre-log ring.
+- **Maps.** The quasisyntomic condition on a map, with the cover variant.
+- **Sites.** The site `QSyn^{prelog,op}` with quasisyntomic covers, and its small variant `qSyn_{(R,M)}`.
+- **Cover descent.** For a quasisyntomic cover `A → B, A` is quasisyntomic iff `B` is.
+- **Composition.** Quasisyntomic maps compose.
+- **Pushouts.** The p-completed pushout of a quasisyntomic map along any map is discrete with bounded `p^∞`-torsion and quasisyntomic.
+- **Strict agreement.** On pre-log rings with trivial pre-log structure, the notions agree with BMS2's quasisyntomic rings and maps (DerivedDeRhamCohomology §§5.1–5.7).
+- **Cotangent bound.** For `(S, N)` in `qSyn_{(R,M)}, (∧^i L_{(S,N)/(R,M)}[−i])^∧_p ∈ D^{≥0}(S)`.
+
+Use CrystallineCohomology §§CR.DDR.6.15–CR.DDR.6.17: KY Lemma 3.5 for a quasisyntomic cover `A → B, A ∈ QSyn^prelog` iff `B ∈ QSyn^prelog` (transitivity triangle and faithful flatness of `A/p → B/p`). Lemma 3.6: quasisyntomic maps compose; their p-completed pushouts are discrete with bounded `p^∞`-torsion and quasisyntomic over the other factor (using BMS2 Corollary 4.8 and base change of `L`). Corollary 3.7: `QSyn^{prelog,op}` is a site; Remarks 3.8–3.9 for the slice and small sites and the `D^{≥0}` property.
+
+**Checks.**
+
+- **Smooth log coordinate.** `(ℤ_p⟨T⟩, T^N)` is quasisyntomic: its log cotangent complex is free of rank 1 on `dlog T`.
+- **Trivial log structure.** `(R, {e})` is in `QSyn^prelog` iff `R` is in BMS2's QSyn.
+- **Zero chart.** `(ℤ_p, N → ℤ_p, 1 ↦ 0)` is quasisyntomic: `L_{(ℤ_p,N)/ℤ_p}` is concentrated in degrees `[−1, 0]` (KY Example 2.30).
+- **Nonintegral negative control.** For `k` of characteristic `p ≠ 2, (k, P) → (k[x, y]/(x^2, xy, y^2), N^2)`, with `P ⊂ N^2` generated by `(2,0), (0,2), (1,1)` and `P∖{0} ↦ 0`, is log étale in Kato's sense but not quasisyntomic: its log cotangent complex is unbounded on the left (KY Remark 2.13).
+- **Identity cover.** The identity of a quasisyntomic pre-log ring is a quasisyntomic cover.
+
+### Imported log QRSP inputs (§§8.44–8.45)
+
+**§8.44 Quasiregular semiperfectoid pre-log rings.**
+
+Use CrystallineCohomology §CR.DDR.6.16 (log quasiregular semiperfectoid objects) with the following hypotheses and laws. A p-complete pre-log ring `S = (S, M)` is semiperfectoid if (1) there is a ring map `R → S` from a perfectoid ring; (2) `S/p` is semiperfect; (3) the natural map `M♭ → M/M^×` is surjective. It is quasiregular semiperfectoid if moreover (4) `S` is quasisyntomic. `QRSPerfd^prelog` denotes the category of quasiregular semiperfectoid pre-log rings. Conditions (2)–(3) (log-semiperfect) imply `L_{(S,M)/R} ⊗^L S/p ∈ D^{≤−1}(S/p)` for any `R → S`; for `S` quasiregular semiperfectoid, `L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat. Equivalently (when `S/p` is log-semiperfect, `S p`-complete with bounded `p^∞`-torsion), `S ∈ QRSPerfd^prelog` iff there exists a perfectoid ring map `R → S` with trivial source prelog structure such that `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`. Once such a map exists, the cotangent condition holds for every perfectoid ring map `R → S`.
+
+p-complete pre-log rings; perfectoid in the sense of BMS1.
+
+(KY, §3.2, Definition 3.11 (p. 29); KY, §3.2, Lemma 3.16 (p. 30–31).)
+
+- **Semiperfectoid objects.** Conditions (1)–(3).
+- **QRSP objects.** Conditions (1)–(4).
+- **Cotangent flatness.** For `S ∈ QRSPerfd^prelog, L̂_{(S,M)/ℤ_p}[−1]` is p-completely flat.
+- **Relative cotangent criterion.** Lemma 3.16: with `S/p` log-semiperfect and `S p`-complete with bounded `p^∞`-torsion, `S` is quasiregular semiperfectoid iff there exists a perfectoid ring map `R → S` with trivial source prelog structure for which `L_{(S,M)/R} ⊗^L S/p` has Tor amplitude in degree `−1`. If such a map exists, this condition holds for every perfectoid ring map `R → S`.
+- **Perfectoid source.** The map `(R ⊗̂ W(S♭) ⊗̂ ℤ_p⟨M♭⟩, M♭) → (S, M)` of Remark 3.13.
+- **Quotient monoids.** Condition (3) passes to quotient monoids and pushouts (Remark 3.14).
+
+Use CrystallineCohomology §CR.DDR.6.16’s four defining conditions and the variants (5)–(6) of Remark 3.12 and their implications. Remark 3.13: a semiperfectoid `(S, M)` receives `(R ⊗̂ W(S♭) ⊗̂ ℤ_p⟨M♭⟩, M♭) → (S, M)`, surjective on rings and modulo units on monoids. Lemma 3.16: purity of `π_1` of `L_{R/ℤ_p} ⊗ S/p → L_{S/ℤ_p} ⊗ S/p`, reduced to perfect fields `k` and Lemma 2.9 (via DerivedDeRhamCohomology §6.20 and CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.18).
+
+**Checks.**
+
+- **Divisible coordinate.** `(O_C⟨T^{1/p^∞}⟩, N[1/p] → T^{N[1/p]})` is quasiregular semiperfectoid.
+- **Strict agreement.** `(S, S^×)` is in `QRSPerfd^prelog` iff `S` is in BMS2's QRSPerfd (PrismaticCohomology Layer 2/DerivedDeRhamCohomology §§5.1–5.7).
+- **Nondivisible chart.** `(ℤ_p⟨T⟩, T^N)` is quasisyntomic but not semiperfectoid: `N♭ = 0` does not surject onto `N`.
+- **Missing perfectoid source.** `(ℤ_p,{1})` has semiperfect reduction and the monoid tilt condition, but receives no perfectoid ring map. A universal cotangent test over the empty collection of such maps cannot make it QRSP (CrystallineCohomology §CR.DDR.6.16).
+- **Zero ring.** The zero ring with the trivial monoid is quasiregular semiperfectoid. With the chart `N → 0` it is not semiperfectoid: `N♭` is trivial and does not surject onto `N`.
+
+**§8.45 Quasiregular semiperfectoid pre-log rings form a basis.**
+
+Use CrystallineCohomology §CR.DDR.6.17 (compatible-root covers of prelog rings, with its QRSP bases and unfolding) for (1)–(4). (1) For maps `A → B, A → C` in `QRSPerfd^prelog` with `A → B` a quasisyntomic cover, the p-completed pushout lies in `QRSPerfd^prelog` and is a quasisyntomic cover of `C`; `QRSPerfd^{prelog,op}` is a site. (2) Every `R ∈ QSyn^prelog` admits a quasisyntomic cover `R → S` with `S ∈ QRSPerfd^prelog`, which can be chosen with p-divisible monoid. (3) For such a cover every term of the Čech nerve lies in `QRSPerfd^prelog`. (4) Consequently, for every presentable `∞-category C`, restriction induces an equivalence `Shv_C(QSyn^{prelog,op}) ≅ Shv_C(QRSPerfd^{prelog,op})`.
+
+Quasisyntomic topology; presentable target.
+
+(KY, §3.2, Lemma 3.18 (p. 32); KY, §3.2, Corollary 3.20 (p. 32).)
+
+**Proof route.** (1) Lemma 3.17 via Lemma 3.6 and Remark 3.14. (2) Lemma 3.18: choose surjections `ℤ_p[X_i] → R` and `N^J → M`, base change along `(ℤ_p⟨X_i, Y_j⟩, N^J) → (O_C⟨X_i^{1/p^∞}, Y_j^{1/p^∞}⟩, N[1/p]^J)`.
+
+*Supplied by:* CrystallineCohomology §§CR.DDR.6.15–CR.DDR.6.17, CrystallineCohomology §§CR.DDR.6.16–CR.DDR.6.17, DerivedDeRhamCohomology §6.20 (`gabberLogCotangent`), DerivedDeRhamCohomology §6.20 (`logCotangentFunctoriality`), DerivedDeRhamCohomology §§5.1–5.7.
+
+## Exact supplier contracts
+
+A supplier row specifies the interface used, under the hypotheses shown. Its theories are imported. Each target lists its own additional prerequisites.
+
+| Supplier | Layers | Required interface |
+| --- | --- | --- |
+| [PrismaticCohomology](../PrismaticCohomology/README.md), Layers 0–2 | 8 | `δ`-rings, prisms, prismatic envelopes and the `δ`-ring constructions of PrismaticCohomology Layer 0; the relative prismatic site, Čech–Alexander complexes, Hodge–Tate comparison and base change of PrismaticCohomology Layer 1; derived prismatic cohomology, QRSP prisms and perfectoidization, including integral perfectoidization (§2.31), of PrismaticCohomology Layer 2. |
+| [PrismaticCohomologyPartII](../PrismaticCohomologyPartII/README.md), Layers 3–5 | 8 | Breuil–Kisin twists, the Nygaard filtration, the `Lη` factorisation and Frobenius isogeny (Layer 3); absolute prismatic cohomology (Layer 4); q-PD pairs, q-crystalline cohomology and the q-de Rham comparison (Layer 5). In §§5.2–5.3, use the supplied q-PD pairs `(D,I)` over `(ℤ_p[[q−1]],(q−1)): D,I` are derived `(p,[p]_q)`-complete, `(D,([p]_q))` is a bounded prism, `φ(I) ⊂ [p]_qD, γ(I) ⊂ I` for `γ(x) = φ(x)/[p]_q − δ(x)`, and `D/(q−1)` is p-torsion-free with finite `(p,[p]_q)`-complete Tor amplitude over `D`. The logarithmic applications additionally assume that `D/I` is classically p-complete. |
+| [PrismaticCohomologyPartIII](../PrismaticCohomologyPartIII/README.md), Layers 6–7 | 8 | Derived Frobenius fixed points (§6.1) and the étale comparison (§§6.4–6.5); descent of prismatic crystals (§7.2) and the equivalence of Laurent F-crystals with `ℤ_p`-local systems (§7.8). |
+| `TauCetiRoadmap.AdicSpaces`, Layers 0–3 | 8 | Huber pairs, adic spectra `Spa(A,A⁺)` and rational localizations; used for the adic spaces `Spa(R[1/p],R⁺)` of §§8.60–8.61 and 8.64. |
+| AdicEtaleGeometry, Layer A1 | 8 | The small étale site of an analytic adic space and its structure sheaves `O` and `O⁺` (§§A1.6, A1.9). |
+| SchemeAndStackFoundations, Layers 2 and 4 | 8 | Sites, scheme cohomology and perfect complexes (SchemeAndStackFoundations Layer 2); formal schemes, deformations and models (SchemeAndStackFoundations Layer 4). |
+| EnhancedDerivedSheaves, Layers E1–E3 and E5 | 8 | The enhanced derived category with homotopy category Mathlib's `DerivedCategory` (E1); coherent diagrams and Kan extensions (E3); repleteness, inverse limits, Postnikov convergence and descent (E2); symmetric monoidal `∞-categories` and algebras (E5:abstract); animated commutative rings with polynomial generators and their universal property (E5:animation). Animated prelog rings use DerivedDeRhamCohomology §6.20. |
+| DerivedModuleAlgebra, §§0.13, 1.1–1.9; DerivedDeRhamCohomology, §§5.1–5.7 | 8 | The cotangent complex of a regular quotient (DerivedModuleAlgebra §0.13); derived completeness and complete flatness (DerivedModuleAlgebra §§1.1–1.9); the quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding and completed left Kan extension (DerivedDeRhamCohomology §§5.1–5.7). BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. |
+| DerivedDeRhamCohomology, §6.20; CrystallineCohomology, §§CR.DDR.6.3–CR.DDR.6.18 | 8 | Shared animated prelog rings, free prelog resolutions, Gabber log cotangent and log derived de Rham constructors (DerivedDeRhamCohomology §6.20); derived log derivations and square-zero extensions (CrystallineCohomology §§CR.DDR.6.3–CR.DDR.6.3.1), homological log flatness (§CR.DDR.6.6), integral smooth Cartier comparison (§CR.DDR.6.11), log quasisyntomic sites and log QRSP objects with compatible-root bases (§§CR.DDR.6.15–CR.DDR.6.17), and log cotangent-power descent (§CR.DDR.6.18). |
+| DerivedDeRhamCohomology, §§PD.6–PD.7; CrystallineCohomology, Layers CR.5:log-algebra, CR.5 and CR.6 | 8 | Compatible PD envelopes and their p-completions (DerivedDeRhamCohomology §§PD.6–PD.7); integral, fine and saturated monoids, prelog and associated log structures, characteristic monoids, charts, exact and integral morphisms, integral log fibre products, Kummer morphisms and the log smooth chart criterion (CR.5:log-algebra); log differentials, log PD envelopes and thickenings, log PD de Rham complexes, embedding descent and p-adic log crystalline cohomology (CR.5); Hyodo–Kato complexes and the semistable comparison in the semistable-DVR range (CR.6). Formal completion, arbitrary integral chart ranges and the proper Cartier-type deformation are made explicit in Layer 8; the arbitrary proper Cartier-type `O_C` range of §8.77 uses its separate Kato and Hyodo–Kato inputs. |
+| AInfCohomology, Layers AI.0–AI.2, AI.5–AI.6 | 8 | `A_inf` with its cyclotomic coordinates and Witt-vector API (AI.0); `Lη` for an invertible ideal with its cohomology, truncation, Bockstein and Koszul adapters (AI.1); Breuil–Kisin–Fargues modules (AInfCohomology §AI.2.2); finiteness and p-local freeness from period comparisons (AI.5); semistable `AΩ` with its log Hodge–Tate, de Rham and crystalline specializations (AI.6), with the semistable hypotheses retained. |
+| ClassicalAdicEtaleCohomology, §§1.2–1.4 and 2.5 | 8 | Geometric stalks at field pairs, Cartan–Leray spectral sequences and Tate twists on étale sites of adic spaces (§§1.2–1.4); the Spec–Spa comparison for arbitrary torsion abelian sheaves under the complete-Huber-pair standing hypotheses (§2.5, the sheaf comparison for `X = Spec A^▷`, Huber Theorem 3.2.9). |
+| DiamondsAndVStacks, Layers D1–D2, D4–D6 | 8 | Strictly totally disconnected perfectoid spaces and covers (D1); v-descent of `O` and `O⁺` and higher v-acyclicity on affinoid perfectoids (D2); diamonds, small v-stacks and their underlying spaces (D4); quasi-pro-étale maps and fibre products of locally spatial diamonds (D5); `Spd` of Huber pairs through marked untilts, and descent of untilts along v-covers (D6). The completed sheaves Ǒ and Ô and the logarithmic, Kummer and marked-structure adapters are §§8.62a–8.68. |
+| DiamondEtaleCohomology, Layers C0 and C2 | 8 | The quasi-pro-étale site of a diamond, pullbacks preserving limits, full faithfulness of quasi-pro-étale pullback and condensed coefficients (C0); testing on one v-cover (C2). |
+| PerfectoidSpaces, §§P1.16–P1.18, P1.24–P1.25 | 8 | Perfectoid rings and spaces, tilts and untilts; integral perfectoid inputs, `A_inf, θ` and primitive kernels reach this part through PrismaticCohomology and AInfCohomology. |
+| PadicHodgeTheory, §§0.2–0.5 | 8 | The de Rham period ring and filtration, crystalline period maps and the semistable logarithmic period ring, with their Frobenius and comparison maps. These supply the rational period coefficients in §8.42; the integral log PD deformation in §§8.76a–8.77 is constructed here. |
+
+### Existing library interface
+
+| Declaration | Provision |
+| --- | --- |
+| Mathlib `TruncatedWittVector` | Existing length-n p-typical Witt-vector carrier and transported Witt ring structure, not the pointwise product ring. |
+| Mathlib `Ideal.jacobson` | The Jacobson radical (infimum of maximal ideals containing an ideal); the hypothesis `p ∈ rad(A)` of the monoid Frobenius and of the extension to `M^gp`. |
+| Mathlib `MvPolynomial` | Multivariate polynomial rings; the free `δ_log`-ring on one generator is a polynomial ring on `x, δ_log(x), δ^n(δ_log(x))`. |
+| Mathlib `WittVector` | The p-typical Witt-vector carrier and its ring operations; the rings `W(k), W(R♭)` and `A_inf = W(O_C♭)`. |
+| Mathlib `WittVector.teichmuller` | The Teichmüller lift `R →* 𝕎 R` as a monoid homomorphism; it gives the rank-1 prelog structures `R♭ → W(R♭)` and `M♭ → A_inf(R)`. |
+| Mathlib `PreTilt` | For a commutative ring `O, PreTilt O p = Perfection (ModP O p) p`, the inverse Frobenius perfection of `O/p`. This provides the pre-tilt carrier; identifying it with the tilt of a perfectoid ring requires the perfectoid theory of PrismaticCohomology Layer 0. |
+| Mathlib `TensorProduct` | Tensor products of modules; carrier of `A ⊗_{ℤ_(p)[M]} ℤ_(p)[N]` in the extension of `δ_log` along `M ⊂ N ⊂ M^gp`. |
+| Mathlib `DividedPowers` | Divided power structures on an ideal; the PD ideals `J` of `δ_log`-PD triples. |
+| Mathlib `PowerSeries` | Formal power series; the ring `W(k)[[u]]` of the Breuil–Kisin prelog prism. |
+| Mathlib `PadicInt` | The ring of p-adic integers |
+| Mathlib `CategoryTheory.GrothendieckTopology` | Grothendieck topologies on a category; the étale and flat topologies on log prismatic sites, the Kummer étale and quasisyntomic topologies are instances. |
+| Mathlib `DerivedCategory` | The derived category of an abelian category (homological complexes up to quasi-isomorphism); a 1-categorical shadow of `D(A)` in which log prismatic cohomology lives. |
+| Mathlib `KaehlerDifferential` | Kähler differentials `Ω[S⁄R]` as the cotangent module of the diagonal ideal; the non-log `Ω¹` with which log differentials are compared `(Ω¹ → Ω¹_log)`. |
+| Mathlib `MonoidAlgebra` | The monoid algebra `R[M]` of a monoid over a semiring; used for `ℤ_(p)[M], A[P]` and the chart rings `A⟨P⟩` before completion. |
+| Mathlib `Algebra.GrothendieckGroup`, `Algebra.GrothendieckGroup.of`, `Algebra.GrothendieckGroup.of_injective` | The group completion `M^gp` of a commutative monoid, as localization at the top submonoid; the map `M →* M^gp` is injective for cancellative `M`. |
+| Mathlib `Perfection`, `Perfection.coeffMonoidHom`, `Perfection.pthRootMonoidHom` | The monoid perfection `{f : ℕ → M // ∀ n, f (n+1)^p = f n}`, with its commutative monoid structure, coefficient projections and shift root map. This is the tilt `M♭ = lim_(m ↦ m^p) M` of KY Definition 2.18. |
+| Mathlib `CategoryTheory.CosimplicialObject` | Cosimplicial objects `SimplexCategory ⥤ C`; carriers of Čech–Alexander nerves `C^•` and the cosimplicial algebras of Appendix B. |
+| Mathlib `TruncatedWittVector.mk` | Length-two Witt coordinate carrier and constructor, used with coeff to state the `δ_log` Witt section contract. |
+| Mathlib `PadicInt.toZModPow` | Ring homomorphism `ℤ_p→ℤ/p^n`; the coefficient reductions in finite-level inertia representations. |
+| Mathlib `Matrix.GeneralLinearGroup.map` | A ring homomorphism induces a group homomorphism on invertible matrices; reduces inertia actions coefficientwise. |
+| Mathlib `IsPGroup`, `IsPGroup.iff_card` | Every element is killed by some p-power; for finite groups and prime `p`, the supplied equivalence identifies this with p-power cardinality. |
+| Mathlib `CategoryTheory.ObjectProperty.FullSubcategory` | An object satisfying a fixed predicate and the inherited full morphism category; realizes the p-Kummer essential-image category. |
+| Mathlib `PerfectRing`, `PerfectRing.bijective_frobenius`, `powMulEquiv` | Unique p-divisibility of a commutative monoid; `PerfectRing (Associates M) p` is the pseudo-perfectoid condition. The carrier only needs a natural-power operation; no ring or characteristic hypothesis is imposed. |
+| Mathlib `Associates, Associated` | The quotient `M/M^×` of a commutative monoid and the relation of differing by a unit; the perfectoid and pseudo-perfectoid conditions of §8.14 are stated with them. |
+| Mathlib `nonZeroDivisors` | The submonoid of nonzerodivisors; the chart hypothesis for uniqueness and existence of `δ_log`-structures in §8.1. |
+| Mathlib `powersHom` | The monoid map `n ↦ x^n` from `ℕ` (written multiplicatively); the chart `N → A, 1 ↦ x`. |
+| Mathlib `Nat.Prime.multiplicity_factorial_pow`, `Nat.Prime.emultiplicity_factorial_mul` | Legendre's formula `v_p((p^n)!) = 1 + p + ⋯ + p^(n−1)` and `v_p((pn)!) = v_p(n!) + n`; together they give the contraction exponent `r·e(n)` of §8.76a. |
+| Mathlib `Condensed` | Condensed objects (sheaves on compact Hausdorff spaces); the condensed coefficient rings of §§8.62a and 8.70. |
+| Tau Ceti `TauCeti.IsProP` (`TauCeti.Topology.Algebra.Group.Profinite.ProP.Basic`) | Every quotient by an open normal subgroup is a p-group. This existing pinned predicate, rather than a second pro-p group theory, expresses local inertia. |
 
 ## References
 

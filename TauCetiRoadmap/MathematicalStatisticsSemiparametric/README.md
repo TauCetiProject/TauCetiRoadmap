@@ -1,101 +1,82 @@
 # Roadmap: semiparametric statistics and missing data
 
-**Summary.** This roadmap builds the information theory of semiparametric models and its
-first applications, on Mathlib's Hilbert spaces `Lp ℝ 2 P`, orthogonal projections and
-conditional expectations:
-- the Hilbert geometry of scores: mean-zero `L²`, tangent spaces, efficient scores and
-  information, and the conditional expectation as the adjoint of a pullback;
-- differentiable paths of probability measures, their scores, and local asymptotic normality
-  along a path;
-- pathwise differentiable parameters, influence functions and the efficient influence function
-  (canonical gradient), with the mean, the quantile and the semiparametric parameter `θ` of a
-  model `P_{θ,η}` as worked cases;
-- the lower bounds: the convolution and local asymptotic minimax theorems along paths, the
-  characterization of efficiency by asymptotic linearity, and the semiparametric convolution
-  bound `N(0, Ĩ⁻¹) * M`;
-- efficient estimation: sample splitting as a measurable construction, the cross-fitting lemma,
-  the one-step construction from a `√n`-consistent preliminary estimator, adaptive estimation of
-  a centre of symmetry, and partially linear regression;
-- missing data: missingness at random in measure-theoretic form, the observed-data likelihood
-  and ignorability, augmented inverse-probability weighting, double robustness, and the
-  efficient influence function and cross-fitted estimation of a missing mean;
-- the EM algorithm: monotonicity, Fisher's identity, Louis's formula, the derivative of the EM
-  map, fractions of missing information and the linear rate of convergence;
-- multiple imputation: the conditional law of total variance, the posterior as a mixture over
-  imputations, and the exact moments of Rubin's combining rules.
+**Summary.** In a semiparametric model the law of the data depends on a parameter of interest and
+on a nuisance part that may be infinite dimensional, such as an unknown density. The question is
+how precisely the parameter can be estimated from `n` independent observations, and by which
+estimators. This roadmap builds the answer on Mathlib's Hilbert spaces `L²(P)` and conditional
+expectations, and applies it to missing data.
 
-Headlines that restate a source result carry a theorem, definition,
-section or equation locator with its printed page in a text listed under References; corollaries
-and adaptations are derived in the proof routes.
+A path is a curve of probability measures through `P`, differentiable in quadratic mean from the
+right at `0`; its derivative, the score, is a mean-zero element of `L²(P)`. Every bound is relative
+to a chosen family of paths; the closed span of their scores is the tangent space. A parameter is
+pathwise differentiable when its right derivative along each path is a fixed continuous linear
+function of the score. Its influence functions represent this derivative through inner products
+with the scores, and the efficient one, `φ̃`, is the only one in the tangent space.
 
-`Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
-a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. The headlines without a Lean name are those whose carrier is missing at the
-pins; the module docstring of `Suggested.lean` lists them with the carrier each one lacks.
+The central lower bound is the convolution theorem. Suppose the scores of the family form a linear
+space and the parameter is pathwise differentiable. Call an estimator sequence `Tₙ` regular if
+`√n (Tₙ − ψ)`, with `ψ` the parameter at the law sampled from, has one limit law `L` under `P` and
+under every path at `t = 1/√n`. Then `L` is the convolution of some probability measure with the
+centred Gaussian whose covariance is the Gram matrix of `φ̃`. A measurable sequence is regular with
+exactly this Gaussian limit if and only if it is asymptotically linear in `φ̃`. For a Euclidean
+parameter `θ` with an unknown nuisance, under conditions stated in Layer 3, the Gaussian is
+`N(0, Ĩ⁻¹)`, with `Ĩ` the Gram matrix of the parts of the scores for `θ` orthogonal to the nuisance
+tangent space.
+
+For missing data, consider a response `Y` observed only when an indicator `R` is `1`, while
+covariates `X` are always observed. It is missing at random when the probability of observing it
+given `(X, Y)` depends on `X` alone, as `π₀(X)`. Assume this, with `π₀` bounded below by a positive
+constant and `Y` square integrable, and let `m₀(X) = E[Y | X]`. Then `E Y` is identified from the
+observed data. In the model of all such observed laws its efficient influence function is
+`m₀(X) + R (Y − m₀(X))/π₀(X) − E Y`, of variance `Var m₀(X) + E[Var(Y | X)/π₀(X)]`; in a two-point
+example this is `2.625`, against `4.25` for inverse probability weighting. The sum of its first two
+terms keeps mean `E Y` when `m₀` is replaced by an integrable guess, or `π₀` by a guess bounded
+below by a positive constant. The cross-fitted estimator, with `m₀` and `π₀` estimated on the other
+folds, is efficient under measurability and integrability conditions when all propensities are at
+least some fixed `δ > 0`, both `L²` errors tend to `0` in probability, and their product is
+`o_P(n^{-1/2})`. Sample splitting replaces the Donsker condition.
+
+Layer 7 studies the EM algorithm at fixed observed data, under conditions stated there. No EM step
+decreases the observed log-likelihood. Louis's formula writes the observed information as the
+complete information minus the missing information, the conditional covariance of the
+complete-data score. At a fixed point where the EM map is differentiable and the observed
+information is positive definite, the eigenvalues of its derivative lie in `[0, 1)`; they are the
+fractions of missing information. The iterates then converge from a neighbourhood, geometrically
+at every rate above the largest fraction: `57.801/435.318 = 0.13278` in Little and Rubin's
+multinomial example. Layer 8 proves exact moment identities for Rubin's rules of multiple
+imputation.
+
+The lower bounds reduce to the convolution and local asymptotic minimax theorems of
+[MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) for locally
+asymptotically normal experiments.
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies i.i.d.
+families, the weak law of large numbers and contiguity. No roadmap builds on this one. Layers 1–5
+build the general theory and Layers 6–8 treat missing data; the next section describes each layer.
+
+`Suggested.lean` states in Lean, without proofs, the results below that have a Lean name; its
+docstring lists those that cannot yet be stated.
 
 Suggested home: `TauCeti/Statistics/Semiparametric/` for Layers 1–5 and
 `TauCeti/Statistics/MissingData/` for Layers 6–8.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 is Hilbert-space geometry and nothing else: every information bound of the roadmap is a
+norm of a projection computed there. Layer 2 turns paths of measures into elements of `L²₀(P)` and
+proves the one analytic fact that all later asymptotics rest on, local asymptotic normality along
+a single path. Layer 3 identifies influence functions as the elements of `L²` whose inner
+products with scores give the pathwise derivative; the efficient one is the projection onto the
+tangent space. Layer 4 reduces the semiparametric lower bounds to the convolution and local
+asymptotic minimax theorems of MathematicalStatisticsAsymptotic for locally asymptotically normal
+experiments, by choosing finitely many orthonormal scores in a
+linear tangent set and letting them fill the tangent space. Layer 5 constructs estimators that
+attain the bounds; its only probabilistic tool beyond the weak law is conditional Chebyshev on
+an independent fold, which is what sample splitting buys. Layers 6–8 are missing data. Layer 6
+applies Layers 1–5 to the mean of a response missing at random. Layers 7 and 8 work at fixed
+observed data and need only Layer 1 and Mathlib.
 
-1. **Hilbert geometry of scores.** `L²₀(P)` as the orthogonal complement of the constants,
-   tangent spaces as closed submodules, efficient scores and the efficient information matrix
-   with the information-loss inequalities, the conditional expectation operator as the adjoint of
-   the pullback isometry, and the projection formula `A (A† A)⁻¹ A†` for a score operator.
-2. **Differentiable paths.** Paths differentiable in quadratic mean from the right, the score
-   as a mean-zero element of `L²`, independence of the dominating measure, bounded tilts, every
-   element of `L²₀(P)` as a score, the information-loss lemma for images, parametric and location
-   paths, families of paths, and local asymptotic normality along a path.
-3. **Pathwise differentiability.** Pathwise derivatives, influence functions, the efficient
-   influence function and its characterizations, the variance decomposition
-   `Pφ² = Pφ̃² + P(φ - φ̃)²`, the Cramér–Rao supremum over submodels, the mean, the quantile and
-   the median model, the efficient influence function `Ĩ⁻¹ ℓ̃` of `θ` in a semiparametric model,
-   the symmetric-location and partially linear efficient scores, and least favourable submodels.
-4. **Lower bounds.** Regularity along paths, asymptotic linearity, the identification of the
-   influence function of a regular asymptotically linear estimator, the convolution and local
-   asymptotic minimax theorems for linear tangent sets, efficiency as asymptotic linearity in the
-   efficient influence function, and the semiparametric convolution bound.
-5. **Efficient estimation.** Sample splitting, cross-fitted averages and the cross-fitting lemma
-   with no fold-size condition, the one-step theorem with data splitting, adaptive estimation of
-   a centre of symmetry, and the identification of the partially linear coefficient.
-6. **Missing data.** Missingness at random and completely at random, the observed-data density,
-   ignorability for likelihood and Bayesian inference, the augmented inverse-probability-weighted
-   estimating function and its mixed-bias identity, identification and the efficient influence
-   function of a missing mean, and its cross-fitted estimator.
-7. **EM.** The observed-data likelihood at fixed observed data, the EM criterion `Q`, the EM
-   inequality and monotonicity, stationarity of fixed points, Fisher's identity, Louis's formula,
-   the derivative of the EM map, the fractions of missing information and local linear
-   convergence.
-8. **Multiple imputation.** The law of total variance for nested σ-algebras,
-   the posterior as a mixture over the posterior predictive law, and the exact moments of the
-   combined estimate and of Rubin's total variance, scalar and vector.
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**Not owned here.** The following are used, not built:
-- convergence in probability and in law on varying probability spaces, Le Cam's first and third
-  lemmas, differentiability in quadratic mean of parametric models, local asymptotic normality of
-  experiments, the asymptotic representation theorem, the convolution and local asymptotic
-  minimax theorems for locally asymptotically normal experiments, and the multivariate central
-  limit theorem: these
-  belong to MathematicalStatisticsAsymptotic, and the exact list is under
-  [Exact supplier contracts](#from-mathematicalstatisticsasymptotic);
-- the Fisher information matrix `E ℓ̇ ℓ̇ᵀ` of a score function, owned by
-  MathematicalStatisticsAsymptotic 7.3; `informationMatrix` of 1.3 is the same matrix for scores
-  given as `Lp` classes, kept as a definition because Layer 1 uses Mathlib only;
-- i.i.d. families, the weak law of large numbers, the `o_P` algebra on one probability space
-  and contiguity basics:
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md), 8.3, 8.5,
-  8.6;
-- Z-estimator theory beyond the monotone `√n`-consistency lemma of 5.3, and every empirical-process
-  result. Nothing in this roadmap uses a Donsker class: the cross-fitting lemma replaces the
-  Donsker condition by sample splitting, and the one-step theorem of 5.2 uses splitting in the
-  same way.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are in build order: each needs only earlier layers and the suppliers. Layers 7 and 8
+need nothing from Layers 2–6 and may be built first.
 
 ## Conventions
 
@@ -162,117 +143,6 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Locators** are `(Author, Theorem, printed page)` in the editions listed under
   [References](#references). A locator marked *by the same argument* names the theorem whose
   proof the target follows when the hypotheses differ from those printed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Hilbert spaces:** `Lp`, `Lp.const`, `MemLp.toLp`, `eLpNorm`, `ClosedSubmodule`,
-  `Submodule.topologicalClosure`, `Submodule.orthogonal` (`ᗮ`), `Submodule.starProjection`,
-  `Submodule.norm_sq_eq_add_norm_sq_projection`, `InnerProductSpace.toDual`,
-  `Matrix.posDef_gram_iff_linearIndependent`,
-  `ContinuousLinearMap.adjoint`, `ContinuousLinearMap.orthogonal_range`,
-  `ContinuousLinearMap.IsPositive`, `Ring.inverse`, and
-  `Lp.compMeasurePreservingₗᵢ` (`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and its
-  composition file); density of simple functions `Lp.simpleFunc.isDenseEmbedding`
-  (`Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean`) and of bounded continuous functions
-  `BoundedContinuousFunction.toLp_denseRange`
-  (`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`).
-- **Conditional expectation:** `condExp` (`μ[f | m]`), `condExpL2`,
-  `condExp_condExp_of_le`, `setIntegral_condExp`, `condExp_mul_of_stronglyMeasurable_left`,
-  `condVar` (`Var[X; μ | m]`), `condVar_ae_eq_condExp_sq_sub_sq_condExp` and
-  `integral_condVar_add_variance_condExp` (`Mathlib/Probability/CondVar.lean`), `condDistrib`,
-  `ProbabilityTheory.cond` (`μ[|s]`), `CondIndepFun`.
-- **Measures and kernels:** `Measure.withDensity`, `Measure.rnDeriv`, `Measure.map`,
-  `Measure.pi`, `Measure.prod`, `Measure.dirac`, `Measure.bind` (`κ ∘ₘ ν`), `Kernel.comp`
-  (`∘ₖ`), `Kernel.prod` (`×ₖ`), `Kernel.id`, `IsMarkovKernel`, `StandardBorelSpace`,
-  `Measurable.measurePreserving`.
-- **Probability:** `iIndepFun`, `IndepFun`, `gaussianReal`, `variance`, `covarianceBilin` and
-  `covarianceOperator` (`Mathlib/Probability/Moments/CovarianceBilin.lean`),
-  `multivariateGaussian`, `Measure.conv`, `TendstoInMeasure`, `TendstoInDistribution`
-  (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`).
-- **Divergence:** `klDiv`, `llr`, `toReal_klDiv` and `integral_llr_add_sub_measure_univ_nonneg`
-  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`).
-- **Calculus and spectra:** `IsMaxOn`, `HasDerivWithinAt`, `HasFDerivAt`, `gradient` and
-  `HasGradientAt`, `ContDiffOn`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`,
-  `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `spectrum`, `Real.tanh`, `Matrix.PosDef`,
-  `Matrix.PosSemidef`.
-
-### From Tau Ceti
-
-- **Quantiles:** `MeasureTheory.Measure.quantile` with `quantile_def` and
-  `quantile_eq_of_le_cdf_iff` (`TauCeti/Probability/Quantile.lean`), for 3.3.
-- **Mixture moments:** `ProbabilityTheory.Kernel.variance_comp` and
-  `ProbabilityTheory.Kernel.covariance_comp` (`TauCeti/Probability/Moments/Mixture.lean`), for 8.1
-  and 8.3.
-- **Sample means:** `TauCeti.integral_norm_finiteMean_sub_sq` and `integral_finiteMean_sub_sq`
-  (`TauCeti/Probability/Moments/SampleMean.lean`), the mean-square error of an average of
-  pairwise independent variables, for 8.3.
-
-### From MathematicalStatisticsFoundations
-
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
-- 8.3: the algebra of convergence in probability on one probability space, including
-  `O_P(1) · o_P(1) = o_P(1)` (5.1, 5.2, 6.5);
-- 8.5: `IsIndependentIdenticallyDistributed`, the law of `(X 0, …, X (n-1))` as `Measure.pi`,
-  and the weak law of large numbers;
-- 8.6: contiguity of sequences of laws and the transfer of convergence in probability under
-  contiguity.
-
-`Suggested.lean` carries a local copy of `IsIndependentIdenticallyDistributed`.
-
-### From MathematicalStatisticsAsymptotic
-
-MathematicalStatisticsAsymptotic supplies exactly the following, and nothing else is used:
-- **Convergence on varying spaces** (1.1): `TendstoInProbability` and boundedness in
-  probability along a filter, the algebra of convergence in probability on varying spaces
-  (sums, constant multiples, `O_P(1) · o_P(1) = o_P(1)`, transfer under contiguity) and Slutsky's
-  lemma on varying spaces, used wherever the sample space is `Fin n → X` under a product law
-  (2.3, 4.2, 4.4, 5.2, 5.3). `Suggested.lean` carries a local copy of `TendstoInProbability`.
-- **Contiguity** (7.1): Le Cam's first lemma (contiguity from the limit laws of the likelihood
-  ratios), applied to log-likelihood ratios converging in law to `N(-σ²/2, σ²)`, whose
-  exponential has mean `1`, and mutual contiguity of `Qₙ,ₕ` and `Qₙ,₀` under local asymptotic
-  normality at each fixed `h` (used in 2.3 and 5.3).
-- **Le Cam's third lemma** (7.2), Gaussian form: joint convergence of `(Sₙ, log dQₙ/dPₙ)` to a
-  Gaussian `(S, Λ)` with `Λ ~ N(-σ²/2, σ²)` under `Pₙ` gives `Sₙ → S + Cov(S, Λ)` under `Qₙ`.
-- **Quadratic-mean differentiability and local asymptotic normality** (7.3): differentiability
-  in quadratic mean of parametric densities within a set of parameters, used for the parametric
-  paths of 2.1; local asymptotic normality within a set, used along the one-sided paths of 2.3
-  with `k = 1`, `s = [0, ∞)` and `hₙ = 1`; and the fixed-`h` definition of a locally
-  asymptotically normal sequence of
-  experiments, used for the finite-dimensional subexperiments of 4.3. Location families are not
-  taken from 7.3, which states only the case of a positive, continuously differentiable density
-  (van der Vaart, Lemma 7.6, p. 95, and Example 7.8, p. 96); the location paths of an absolutely
-  continuous density of finite Fisher information are owned here (2.1).
-- **The asymptotic representation theorem** (7.4) for sequences of experiments `(Qₙ,h : h ∈ ℝᵐ)`
-  that are locally asymptotically normal at each fixed `h`, with the limit `N(h, I⁻¹)` (van der
-  Vaart, Theorem 7.10, p. 98), used in 4.4.
-- **The convolution theorem** (7.5) under fixed-`h` local asymptotic normality: the limit law of a
-  regular estimator sequence of `Ah` is `N(0, A I⁻¹ Aᵀ) * M` (van der Vaart, Theorem 8.8, p. 115),
-  used in 4.3.
-- **The local asymptotic minimax theorem** (7.6) under fixed-`h` local asymptotic normality, for a
-  lower semicontinuous bowl-shaped loss and every measurable estimator sequence, with no tightness
-  hypothesis (van der Vaart, Theorem 8.11, p. 118), used in 4.3.
-- **The multivariate central limit theorem** (1.2) for i.i.d. vectors in `EuclideanSpace ℝ (Fin k)`.
-
-## How to read the build
-
-Layer 1 is Hilbert-space geometry and nothing else: every information bound of the roadmap is a
-norm of a projection computed there. Layer 2 turns paths of measures into elements of `L²₀(P)` and
-proves the one analytic fact that all later asymptotics rest on, local asymptotic normality along
-a single path. Layer 3 identifies influence functions as the elements of `L²` whose inner
-products with scores give the pathwise derivative; the efficient one is the projection onto the
-tangent space. Layer 4 reduces the semiparametric lower bounds to the convolution and local
-asymptotic minimax theorems of MathematicalStatisticsAsymptotic for locally asymptotically normal
-experiments, by choosing finitely many orthonormal scores in a
-linear tangent set and letting them fill the tangent space. Layer 5 constructs estimators that
-attain the bounds; its only probabilistic tool beyond the weak law is conditional Chebyshev on
-an independent fold, which is what sample splitting buys. Layers 6–8 are missing data. Layer 6
-applies Layers 1–5 to the mean of a response missing at random. Layers 7 and 8 work at fixed
-observed data and need only Layer 1 and Mathlib.
-
-The layers are in build order: each needs only earlier layers and the suppliers. Layers 7 and 8
-need nothing from Layers 2–6 and may be built first.
 
 ## Layer 1: Hilbert geometry of scores
 
@@ -1680,6 +1550,159 @@ Related libraries:
 
 No other roadmap consumes the results of this one. MathematicalStatisticsAsymptotic leaves the
 semiparametric one-step estimator with sample splitting to this roadmap (5.2).
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Hilbert geometry of scores.** `L²₀(P)` as the orthogonal complement of the constants,
+   tangent spaces as closed submodules, efficient scores and the efficient information matrix
+   with the information-loss inequalities, the conditional expectation operator as the adjoint of
+   the pullback isometry, and the projection formula `A (A† A)⁻¹ A†` for a score operator.
+2. **Differentiable paths.** Paths differentiable in quadratic mean from the right, the score
+   as a mean-zero element of `L²`, independence of the dominating measure, bounded tilts, every
+   element of `L²₀(P)` as a score, the information-loss lemma for images, parametric and location
+   paths, families of paths, and local asymptotic normality along a path.
+3. **Pathwise differentiability.** Pathwise derivatives, influence functions, the efficient
+   influence function and its characterizations, the variance decomposition
+   `Pφ² = Pφ̃² + P(φ - φ̃)²`, the Cramér–Rao supremum over submodels, the mean, the quantile and
+   the median model, the efficient influence function `Ĩ⁻¹ ℓ̃` of `θ` in a semiparametric model,
+   the symmetric-location and partially linear efficient scores, and least favourable submodels.
+4. **Lower bounds.** Regularity along paths, asymptotic linearity, the identification of the
+   influence function of a regular asymptotically linear estimator, the convolution and local
+   asymptotic minimax theorems for linear tangent sets, efficiency as asymptotic linearity in the
+   efficient influence function, and the semiparametric convolution bound.
+5. **Efficient estimation.** Sample splitting, cross-fitted averages and the cross-fitting lemma
+   with no fold-size condition, the one-step theorem with data splitting, adaptive estimation of
+   a centre of symmetry, and the identification of the partially linear coefficient.
+6. **Missing data.** Missingness at random and completely at random, the observed-data density,
+   ignorability for likelihood and Bayesian inference, the augmented inverse-probability-weighted
+   estimating function and its mixed-bias identity, identification and the efficient influence
+   function of a missing mean, and its cross-fitted estimator.
+7. **EM.** The observed-data likelihood at fixed observed data, the EM criterion `Q`, the EM
+   inequality and monotonicity, stationarity of fixed points, Fisher's identity, Louis's formula,
+   the derivative of the EM map, the fractions of missing information and local linear
+   convergence.
+8. **Multiple imputation.** The law of total variance for nested σ-algebras,
+   the posterior as a mixture over the posterior predictive law, and the exact moments of the
+   combined estimate and of Rubin's total variance, scalar and vector.
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- convergence in probability and in law on varying probability spaces, Le Cam's first and third
+  lemmas, differentiability in quadratic mean of parametric models, local asymptotic normality of
+  experiments, the asymptotic representation theorem, the convolution and local asymptotic
+  minimax theorems for locally asymptotically normal experiments, and the multivariate central
+  limit theorem: these
+  belong to MathematicalStatisticsAsymptotic, and the exact list is under
+  [Exact supplier contracts](#from-mathematicalstatisticsasymptotic);
+- the Fisher information matrix `E ℓ̇ ℓ̇ᵀ` of a score function, owned by
+  MathematicalStatisticsAsymptotic 7.3; `informationMatrix` of 1.3 is the same matrix for scores
+  given as `Lp` classes, kept as a definition because Layer 1 uses Mathlib only;
+- i.i.d. families, the weak law of large numbers, the `o_P` algebra on one probability space
+  and contiguity basics:
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md), 8.3, 8.5,
+  8.6;
+- Z-estimator theory beyond the monotone `√n`-consistency lemma of 5.3, and every empirical-process
+  result. Nothing in this roadmap uses a Donsker class: the cross-fitting lemma replaces the
+  Donsker condition by sample splitting, and the one-step theorem of 5.2 uses splitting in the
+  same way.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Hilbert spaces:** `Lp`, `Lp.const`, `MemLp.toLp`, `eLpNorm`, `ClosedSubmodule`,
+  `Submodule.topologicalClosure`, `Submodule.orthogonal` (`ᗮ`), `Submodule.starProjection`,
+  `Submodule.norm_sq_eq_add_norm_sq_projection`, `InnerProductSpace.toDual`,
+  `Matrix.posDef_gram_iff_linearIndependent`,
+  `ContinuousLinearMap.adjoint`, `ContinuousLinearMap.orthogonal_range`,
+  `ContinuousLinearMap.IsPositive`, `Ring.inverse`, and
+  `Lp.compMeasurePreservingₗᵢ` (`Mathlib/MeasureTheory/Function/LpSpace/Basic.lean` and its
+  composition file); density of simple functions `Lp.simpleFunc.isDenseEmbedding`
+  (`Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean`) and of bounded continuous functions
+  `BoundedContinuousFunction.toLp_denseRange`
+  (`Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`).
+- **Conditional expectation:** `condExp` (`μ[f | m]`), `condExpL2`,
+  `condExp_condExp_of_le`, `setIntegral_condExp`, `condExp_mul_of_stronglyMeasurable_left`,
+  `condVar` (`Var[X; μ | m]`), `condVar_ae_eq_condExp_sq_sub_sq_condExp` and
+  `integral_condVar_add_variance_condExp` (`Mathlib/Probability/CondVar.lean`), `condDistrib`,
+  `ProbabilityTheory.cond` (`μ[|s]`), `CondIndepFun`.
+- **Measures and kernels:** `Measure.withDensity`, `Measure.rnDeriv`, `Measure.map`,
+  `Measure.pi`, `Measure.prod`, `Measure.dirac`, `Measure.bind` (`κ ∘ₘ ν`), `Kernel.comp`
+  (`∘ₖ`), `Kernel.prod` (`×ₖ`), `Kernel.id`, `IsMarkovKernel`, `StandardBorelSpace`,
+  `Measurable.measurePreserving`.
+- **Probability:** `iIndepFun`, `IndepFun`, `gaussianReal`, `variance`, `covarianceBilin` and
+  `covarianceOperator` (`Mathlib/Probability/Moments/CovarianceBilin.lean`),
+  `multivariateGaussian`, `Measure.conv`, `TendstoInMeasure`, `TendstoInDistribution`
+  (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`).
+- **Divergence:** `klDiv`, `llr`, `toReal_klDiv` and `integral_llr_add_sub_measure_univ_nonneg`
+  (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`).
+- **Calculus and spectra:** `IsMaxOn`, `HasDerivWithinAt`, `HasFDerivAt`, `gradient` and
+  `HasGradientAt`, `ContDiffOn`, `hasFDerivAt_integral_of_dominated_of_fderiv_le`,
+  `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `spectrum`, `Real.tanh`, `Matrix.PosDef`,
+  `Matrix.PosSemidef`.
+
+### From Tau Ceti
+
+- **Quantiles:** `MeasureTheory.Measure.quantile` with `quantile_def` and
+  `quantile_eq_of_le_cdf_iff` (`TauCeti/Probability/Quantile.lean`), for 3.3.
+- **Mixture moments:** `ProbabilityTheory.Kernel.variance_comp` and
+  `ProbabilityTheory.Kernel.covariance_comp` (`TauCeti/Probability/Moments/Mixture.lean`), for 8.1
+  and 8.3.
+- **Sample means:** `TauCeti.integral_norm_finiteMean_sub_sq` and `integral_finiteMean_sub_sq`
+  (`TauCeti/Probability/Moments/SampleMean.lean`), the mean-square error of an average of
+  pairwise independent variables, for 8.3.
+
+### From MathematicalStatisticsFoundations
+
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
+- 8.3: the algebra of convergence in probability on one probability space, including
+  `O_P(1) · o_P(1) = o_P(1)` (5.1, 5.2, 6.5);
+- 8.5: `IsIndependentIdenticallyDistributed`, the law of `(X 0, …, X (n-1))` as `Measure.pi`,
+  and the weak law of large numbers;
+- 8.6: contiguity of sequences of laws and the transfer of convergence in probability under
+  contiguity.
+
+`Suggested.lean` carries a local copy of `IsIndependentIdenticallyDistributed`.
+
+### From MathematicalStatisticsAsymptotic
+
+MathematicalStatisticsAsymptotic supplies exactly the following, and nothing else is used:
+- **Convergence on varying spaces** (1.1): `TendstoInProbability` and boundedness in
+  probability along a filter, the algebra of convergence in probability on varying spaces
+  (sums, constant multiples, `O_P(1) · o_P(1) = o_P(1)`, transfer under contiguity) and Slutsky's
+  lemma on varying spaces, used wherever the sample space is `Fin n → X` under a product law
+  (2.3, 4.2, 4.4, 5.2, 5.3). `Suggested.lean` carries a local copy of `TendstoInProbability`.
+- **Contiguity** (7.1): Le Cam's first lemma (contiguity from the limit laws of the likelihood
+  ratios), applied to log-likelihood ratios converging in law to `N(-σ²/2, σ²)`, whose
+  exponential has mean `1`, and mutual contiguity of `Qₙ,ₕ` and `Qₙ,₀` under local asymptotic
+  normality at each fixed `h` (used in 2.3 and 5.3).
+- **Le Cam's third lemma** (7.2), Gaussian form: joint convergence of `(Sₙ, log dQₙ/dPₙ)` to a
+  Gaussian `(S, Λ)` with `Λ ~ N(-σ²/2, σ²)` under `Pₙ` gives `Sₙ → S + Cov(S, Λ)` under `Qₙ`.
+- **Quadratic-mean differentiability and local asymptotic normality** (7.3): differentiability
+  in quadratic mean of parametric densities within a set of parameters, used for the parametric
+  paths of 2.1; local asymptotic normality within a set, used along the one-sided paths of 2.3
+  with `k = 1`, `s = [0, ∞)` and `hₙ = 1`; and the fixed-`h` definition of a locally
+  asymptotically normal sequence of
+  experiments, used for the finite-dimensional subexperiments of 4.3. Location families are not
+  taken from 7.3, which states only the case of a positive, continuously differentiable density
+  (van der Vaart, Lemma 7.6, p. 95, and Example 7.8, p. 96); the location paths of an absolutely
+  continuous density of finite Fisher information are owned here (2.1).
+- **The asymptotic representation theorem** (7.4) for sequences of experiments `(Qₙ,h : h ∈ ℝᵐ)`
+  that are locally asymptotically normal at each fixed `h`, with the limit `N(h, I⁻¹)` (van der
+  Vaart, Theorem 7.10, p. 98), used in 4.4.
+- **The convolution theorem** (7.5) under fixed-`h` local asymptotic normality: the limit law of a
+  regular estimator sequence of `Ah` is `N(0, A I⁻¹ Aᵀ) * M` (van der Vaart, Theorem 8.8, p. 115),
+  used in 4.3.
+- **The local asymptotic minimax theorem** (7.6) under fixed-`h` local asymptotic normality, for a
+  lower semicontinuous bowl-shaped loss and every measurable estimator sequence, with no tightness
+  hypothesis (van der Vaart, Theorem 8.11, p. 118), used in 4.3.
+- **The multivariate central limit theorem** (1.2) for i.i.d. vectors in `EuclideanSpace ℝ (Fin k)`.
 
 ## References
 

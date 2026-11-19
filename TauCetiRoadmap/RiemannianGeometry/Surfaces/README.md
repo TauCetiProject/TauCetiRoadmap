@@ -1,79 +1,73 @@
 # Roadmap: local geometry of Riemannian surfaces
 
-**Summary.** Develop the local intrinsic geometry of smooth Riemannian surfaces: polar
-coordinates and normal strips with their Jacobians and the polar length and area formulas,
-integration up to normal cut times on surface domains, Gauss–Bonnet for disks with corners
-together with the turning theorem for curves with corners, normal balls in nonpositive
-curvature without completeness, conformal invariance of the surface Dirichlet energy, and
-the logarithmic cutoff at a point, whose Dirichlet energy tends to zero.
-Every statement is local: the ambient surface is boundaryless and never assumed complete,
-and the domains inside it may have boundary and corners.
+**Summary.** In the flat plane a circle of radius r has length 2πr, and a smooth simple
+closed curve traversed counterclockwise turns through a total angle 2π. On a curved
+surface both statements acquire a correction, an integral of the Gaussian curvature K. This
+roadmap develops the local intrinsic geometry of smooth Riemannian surfaces around these
+corrections. It also studies the Dirichlet energy `∫ |grad φ|² dμ`.
 
-## Scope and ownership
+Every statement is local: the surface is Hausdorff, second countable and boundaryless, it is
+never assumed complete, and the domains inside it may have boundary and corners. Several
+results live on a metric normal ball of radius R about a point p: `exp_p` maps the tangent
+vectors of length less than R bijectively onto the metric R-ball with `d(p, exp_p v) = |v|`,
+and the closed R-ball is compact.
 
-This sub-roadmap of [RiemannianGeometry](../README.md) is independently definitive. It owns:
+On such a ball the metric in polar coordinates is `dr² + j² dθ²`, where j solves the Jacobi
+equation `j_rr + K j = 0` with `j → 0` and `j_r → 1` at the centre. Integrating it gives the
+first main result: if L(r) is the length of the circle of radius r about p and V(r) the area
+it encloses, then `L′(r) = 2π − ∫_(B_r(p)) K dμ` and `V′(r) = L(r)` for `0 < r < R`,
+whatever the sign of K.
 
-- Layer 1: the polar Jacobian j on a metric normal ball of a surface, the normal-strip
-  Jacobian a of an embedded arc with its signed geodesic curvature, the distance to an arc
-  near an interior footpoint, and the polar length and area formulas
-  `L′(r) = 2π − ∫_(B_r) K`, `V′(r) = L(r)`.
-- Layer 2: the normal cut time of a boundary arc or circle of a surface domain, the normal
-  coverage of the near region outside a null set, and the integration formula up to the cut
-  time with `|grad d| = 1` almost everywhere and the coarea identity.
-- Layer 3: the Gauss–Bonnet formula for a compact disk with piecewise smooth boundary in an
-  oriented surface, the boundary term against local connection forms, cancellation along a
-  common boundary arc, and the extension of the signed planar turning theorem to curves with
-  corners.
-- Layer 4: disk filling for simple closed curves in a simply connected open set lying in one
-  chart, and normal balls under `K ≤ 0` on such a ball.
-- Layer 5: conformal invariance of the surface Dirichlet energy, under a conformal rescaling
-  and under a conformal diffeomorphism.
-- Layer 6: the logarithmic cutoff at the centre of a metric normal ball of a surface, with
-  Dirichlet energy `2π/log(δ/ε)` up to an error of order `1/log(δ/ε)²`, the approximation in
-  `W^(1,2)` of compactly supported `C^k` functions by functions vanishing near a finite set,
-  and the extension of quadratic-form inequalities across that set.
+The second is the Gauss–Bonnet formula for a disk with corners. Let D be a compact domain in
+an oriented surface, homeomorphic to a closed disk. Its boundary is a piecewise `C²` Jordan
+curve with finitely many corners and no cusps, traversed with D on its left, and its geodesic
+curvature k_g is integrable on the smooth pieces. Then
+`∫_D K dμ + ∫_(∂D) k_g ds + Σᵢ αᵢ = 2π`, where k_g is measured against the inward unit
+normal and `αᵢ ∈ (−π, π)` is the signed exterior angle at the i-th corner. The signs matter:
+for an L-shaped planar domain, unsigned exterior angles would sum to 3π.
 
-Boundaries with the parent and with other roadmaps:
+The third is a counterpart of the Cartan–Hadamard theorem without completeness. Suppose the
+closed R-ball about p is compact and `K ≤ 0` on the open R-ball. Suppose also that the open
+ball is simply connected and lies in the domain of one chart, or equivalently, by
+the Riemann mapping theorem, is diffeomorphic to the open unit disk. Then `exp_p` maps the
+tangent R-ball diffeomorphically onto the open ball, with radial length equal to distance.
+The proof rules out geodesic bigons and one-cornered geodesic loops by Gauss–Bonnet.
 
-- [R4.1](../README.md#r4-comparison-complete-manifolds-and-space-forms) and R4.6 own the
-  cut-truncated polar domain and polar integration on complete manifolds in all dimensions.
-  Layer 1 lives on metric normal balls of a surface, without completeness.
-- [R1](../README.md#r1-intrinsic-curvature-calculus-and-normal-coordinate-jets) owns the
-  curvature tensor, the Gaussian curvature of a surface as its sectional curvature, and the
-  conformal transformation laws of the connection and the curvature. Layer 5 is the
-  integrated two-dimensional energy identity.
-- R2 and R3 own Jacobi fields, geodesic variations, conjugate points and the loss of
-  minimality past a conjugate point.
-  [R6](../README.md#r6-focal-geometry-and-squared-distance-morse-functions) owns focal points
-  of submanifolds, the measure-zero focal set and the shortening variation past an interior
-  focal point; R4.2 owns first variation with a moving endpoint. Layers 1 and 2 consume them.
-- [R4.9.6a](../README.md#r496a-length-controlled-parametric-regularization) owns the signed
-  planar turning theorem for smooth Jordan curves and the round-sphere disk and annulus
-  identities. Layer 3 consumes the smooth turning theorem and owns only its extension to
-  corners.
-- PositiveMass §3.1 owns the Gauss–Bonnet theorem for compact surfaces with boundary and
-  arbitrary Euler characteristic, with its triangulation and Euler identification and its
-  exhaustion naturality. It consumes Layer 3's disk formula, boundary term and common-arc
-  cancellation. Annuli are the case `χ = 0` of that theorem and are not restated here.
-- R4.4 owns Cartan–Hadamard on complete manifolds. Layer 4 assumes no completeness; its
-  generality is a simply connected ball lying in one chart of the maximal atlas, which by
-  ConformalMapping L3 is the same as a ball diffeomorphic to the open unit disk. The
-  statement for an arbitrary simply connected ball reduces to this one through the theorem
-  that a simply connected open surface is diffeomorphic to the plane, equivalently through
-  disk filling on arbitrary surfaces (Epstein, *Curves on 2-manifolds and isotopies*, Acta
-  Math. 115 (1966), 83–107, Theorem 1.7). That classification is surface topology outside
-  this sub-roadmap and is owned by no roadmap cited here, so it is not an input, and the
-  chart hypothesis is Layer 4's stated generality rather than a step of its proof.
-- PositiveMass §3.3 owns the logarithmic cutoff at infinity on the complete stable surface
-  of its three-dimensional route, and ComplexCurveModuli D6 owns the Dirichlet energy
-  minimizer of an annulus with its capacity and modulus identity. Layer 6 owns the cutoff at
-  a point of a surface, as an explicit competitor with its energy bound; it solves no
-  extremal problem and defines no capacity.
-- Layer 6 is two-dimensional, the borderline case for the Dirichlet energy. In dimension
-  `n ≥ 3` the energy of a cutoff at a point also tends to zero, already for the linear cutoff
-  `(r − ε)/ε` on `[ε, 2ε]`, of Euclidean energy `(2ⁿ − 1) ω_n ε^(n−2)` with `ω_n` the volume
-  of the unit ball, and in dimension one the energy of every cutoff is at least `2/δ`.
-  Neither statement is a target here.
+The fourth concerns the energy near a point. For a metric normal ball of radius R about p
+and `0 < 4ε ≤ δ < R`, the roadmap builds a smooth function χ_ε with values in [0, 1], equal
+to 0 on the closed ε-ball and to 1 outside the open δ-ball. Its energy differs from
+`2π/log(δ/ε)` by at most `C/log(δ/ε)²`, with C independent of ε, so it tends to 0 as ε → 0
+with δ fixed: a point of a surface has zero capacity. Consequently, let V be continuous and
+`1 ≤ k ≤ ∞`. If `∫ V φ² dμ ≤ ∫ |grad φ|² dμ` holds for every compactly supported `C^k`
+function φ whose support misses a given finite set, it holds for every compactly supported
+`C^k` function.
+
+The roadmap is part of RiemannianGeometry and uses its Jacobi fields, conjugate points and
+focal points. Layer 3 extends the parent's turning theorem for smooth planar Jordan curves to
+curves with corners. The exponential map and the Gauss lemma come from the completed
+HopfRinow roadmap, and the Jordan curve and Riemann mapping theorems from ConformalMapping.
+The PositiveMass roadmap builds Gauss–Bonnet for compact surfaces with boundary and
+arbitrary Euler characteristic on the disk formula and its cancellation along common
+boundary arcs.
+
+Layers 1, 3, 4 and 6 prove the four main results in turn, and Layer 1 also builds normal
+coordinates along an arc. Layer 2 integrates in those coordinates near a boundary arc of a
+domain, up to the normal cut time. In Layer 5, replacing the metric g of a surface by f g,
+with f smooth and positive, leaves the Dirichlet energy of every real function unchanged.
+
+## How to read the build
+
+Layer 1 builds the two Jacobians of a surface, polar and normal, from the Jacobi equation,
+and derives the polar length and area formulas from `j_rr + Kj = 0`, `j_r(0) = 1` and
+Fubini alone; they use no curvature sign and no Gauss–Bonnet input. Layer 2 integrates up
+to the normal cut time on a domain, using Layer 1's strips, R6's focal theory and R4.2's
+moving-endpoint variation. Layer 3 proves the disk Gauss–Bonnet formula with corners from
+Stokes and local connection forms, independently of Layers 1–2, and extends R4.9.6a's
+turning theorem to corners. Layer 4 fills simple closed curves in a one-chart ball with
+disks and uses Layer 3's disk formula to exclude geodesic bigons and loops. Layer 5 is
+independent of Layers 1–4. Layer 6 builds the logarithmic cutoff from Layer 1's polar
+coordinates and polar length and is independent of Layers 2–5. The Lean name at each target
+is its signature in `Suggested.lean`.
 
 ## Conventions
 
@@ -117,137 +111,6 @@ sphere with `e₁ = ∂_φ` and `e₂ = (sin φ)⁻¹ ∂_ψ`: `ω = cos φ dψ`
 and on the boundary of the cap `{φ ≤ φ₀}`, traversed with the cap on its left, `T = e₂`, θ is
 constant and `k_g = ω(T) = cot φ₀`, the geodesic curvature of the latitude circle. The
 opposite sign convention would give `−cot φ₀`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ModelWithCorners`, `ChartedSpace`, `IsManifold`, `IsManifold.maximalAtlas`,
-  `RiemannianBundle`, `IsContMDiffRiemannianBundle`, `IsRiemannianManifold`: the manifold
-  and metric carriers.
-- `LipschitzWith.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Rademacher.lean`):
-  Rademacher's theorem, used by Layer 2 for the distance to an arc in charts.
-- `SimplyConnectedSpace`, `IsSimplyConnected`, `Complex.arg`, `intervalIntegral`,
-  `IntervalIntegrable`, `HasDerivAt`, `derivWithin`: the carriers of the Layer 3 and Layer 4
-  statements.
-- `Complex.exists_continuousOn_eqOn_exp_comp` (`Mathlib/Analysis/Complex/BranchLogRoot.lean`):
-  a continuous nonvanishing function on an open simply connected planar set has a continuous
-  logarithm there, used by Layer 4.1.
-- `Orientation.rightAngleRotation` (`Mathlib/Analysis/InnerProductSpace/TwoDim.lean`) and
-  `Orientation.oangle` (`Mathlib/Geometry/Euclidean/Angle/Oriented/Basic.lean`): the rotation
-  by `+π/2` and the oriented angle of an oriented real inner product plane, the inward conormal
-  and the signed exterior angle of Layer 3.2.
-- `Real.smoothTransition` (`Mathlib/Analysis/SpecialFunctions/SmoothTransition.lean`): a
-  smooth nondecreasing function equal to `0` on `(−∞, 0]` and to `1` on `[1, ∞)`, the
-  transition profile of Layer 6.1.
-
-### From Tau Ceti
-
-Each item names its module under `TauCeti/`. Every exponential-map item below is stated for
-a boundaryless model, `[I.Boundaryless]`, which the conventions impose on the ambient
-surface.
-
-- `TauCeti.Manifold.IsGeodesicCurveOn` (`Geometry/Manifold/Riemannian/Geodesic/Basic.lean`);
-  `expDomain`, `riemannianExp` (`…/Geodesic/Exponential.lean`); `IsNormalDomain`,
-  `riemannianLog` (`…/Geodesic/Normal/Basic.lean`); the Gauss lemma
-  `inner_mfderiv_riemannianExp_radial` (`…/Geodesic/Gauss/Basic.lean`); the pointwise polar
-  inequality `abs_inner_le_norm_mul_norm_mfderiv_riemannianExp` and the radial distance bound
-  `IsNormalDomain.ofReal_norm_riemannianLog_le_pathELength` (`…/Geodesic/Gauss/Polar.lean`);
-  the energy first variation `hasDerivAt_energy` (`…/Riemannian/FirstVariation.lean`); the
-  completeness theory of `…/Geodesic/HopfRinow.lean`. These are the Layers 0–4 of the
-  completed [HopfRinow](../../../Completed/HopfRinow/README.md) roadmap.
-- `TauCeti.Manifold.exists_isNormalDomain_ball` and
-  `isCompact_riemannianExp_image_closedBall` (`…/Geodesic/Normal/Basic.lean`);
-  `IsNormalDomain.image_riemannianExp_ball`, `IsNormalDomain.image_riemannianExp_closedBall`
-  and `IsNormalDomain.dist_riemannianExp_eq_of_mem_ball` (`…/Geodesic/Gauss/Distance.lean`):
-  small geodesic balls are metric balls, with radial length equal to distance and compact
-  closed balls, so every point has a radius satisfying 1.1's hypotheses; used by Layer 6.2.
-- `alongCurveWithin` (`Geometry/Manifold/VectorBundle/CovariantDerivative/AlongCurve/Basic.lean`)
-  and `curveVelocityWithin` (`Geometry/Manifold/MFDeriv/Curve.lean`): the covariant
-  derivative along a curve that defines the signed geodesic curvature of Layer 1.2.
-- `TauCeti.Manifold.IsJacobiFieldOn` with the equation `D_t²J + R(J,γ′)γ′ = 0`
-  (`…/Riemannian/Jacobi/Basic.lean`); `isJacobiFieldOn_mfderiv_riemannianExp`
-  (`…/Jacobi/Exponential.lean`), the differential of the exponential map as a Jacobi field,
-  used by Layer 1; `not_isConjugateOn_of_sectionalCurvature_nonpos`
-  (`…/Jacobi/Conjugate.lean`) and
-  `norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
-  (`…/Jacobi/Comparison.lean`), used by Layer 4.
-- `CovariantDerivative.leviCivitaConnection` and `sectionalCurvature`
-  (`Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/…`,
-  `…/Curvature/Sectional.lean`).
-- `TauCeti.SmoothEmbedding.normalExp`, `normalExpDomain`
-  (`Geometry/Manifold/TubularNeighborhood/Riemannian/Basic.lean`), with
-  `isOpen_normalExpDomain`, `contMDiffOn_normalExp` (`…/Riemannian/Regularity.lean`) and
-  `exists_partialDiffeomorph_normalExp_subset` (`…/Riemannian/Coordinates.lean`): the normal
-  exponential of an embedding and its tube.
-- `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`), with
-  its product rule `mgradient_mul` (same file) and its chain rule `mgradient_comp_deriv`
-  (`…/Riemannian/Gradient/ChainRule.lean`), used by Layer 6.
-- `TauCeti.Manifold.Orientation` and `orientationAt` (`Geometry/Manifold/Orientation/Basic.lean`):
-  an orientation of the surface and the orientation it induces on each tangent plane, the
-  orientation carrier of Layer 3.2.
-- `TauCeti.riemannianVolume` (`…/Riemannian/VolumeDensity/Volume.lean`);
-  `Homeomorph.measurePreserving_riemannianVolume` (`…/Riemannian/VolumeDensity/Isometry.lean`),
-  the isometry invariance of the Riemannian volume for a differentiable homeomorphism whose
-  tangent maps preserve the inner products, between manifolds modelled on one vector space:
-  the change of variables of Layer 5.2.
-- `TauCeti.WithMetric`, `ContMDiffRiemannianMetric.rescale` and `conformalClass`
-  (`…/Riemannian/WithMetric.lean`, `Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
-  `TauCeti.WithMetric.inner_mgradient_rescale` (`…/Riemannian/Conformal.lean`) and
-  `integral_riemannianVolume_rescale` (`…/Riemannian/VolumeDensity/Conformal.lean`), the
-  pointwise and volume halves of Layer 5; `ContMDiffRiemannianMetric.pullback` and
-  `pullback_inner` (`…/Riemannian/Pullback/Basic.lean`).
-- `TauCeti.Contour.windingNumber` (`Analysis/Contour/Winding/Number/Basic.lean`),
-  `TauCeti.IsJordanCurve` (`Topology/JordanCurve/Basic.lean`) and `TauCeti.filledHull`
-  (`Topology/FilledHull.lean`), the planar carriers of Layers 3 and 4;
-  `TauCeti.HasContinuousLogOn` (`Analysis/Complex/ContinuousLog/Basic.lean`) and the
-  filled-hull criterion `hasContinuousLogOn_sub_iff_notMem_filledHull`
-  (`Analysis/Complex/PlaneSeparation/Basic.lean`): for a bounded closed `K ⊆ ℂ`, `z ↦ z − a`
-  has a continuous logarithm on K exactly when `a ∉ filledHull K`, used by Layer 4.1.
-
-### From TauCetiRoadmap.RiemannianGeometry
-
-R1: the curvature of a surface and the constant-scaling law. R2: geodesic variations and the
-fixed-chart derivative lift. R3: a geodesic does not minimize past a conjugate point. R4.2:
-first variation with a moving endpoint. R4.9.6a: the signed planar turning theorem for
-smooth Jordan curves, with its tangent-angle lift on intervals, the degree/turning-integral
-identity and the Jordan orientation comparison giving degree `+1`. R6: focal points of the
-normal exponential of an embedded curve, nullity of its focal set, and the shortening
-variation past an interior focal point. All are stated for boundaryless manifolds.
-
-### From TauCetiRoadmap.DifferentialGeometry
-
-[DifferentialGeometry](../../DifferentialGeometry/README.md) 5.3–5.5: Stokes on manifolds
-with boundary and corners; 5.6.3: the winding-weighted Green identity for piecewise `C¹`
-cycles; 10.2: manifold Sard; 12.2: the gradient with its chain rule; 12.4: the density/measure
-comparison.
-
-### From TauCetiRoadmap.GeometricMeasureTheory
-
-[GeometricMeasureTheory](../../GeometricMeasureTheory/README.md) G1: arclength of
-rectifiable curves; G2: the area and coarea formulas.
-
-### From Completed.ConformalMapping
-
-[ConformalMapping](../../../Completed/ConformalMapping/README.md) L3: the Riemann mapping
-theorem; L5: the planar Jordan curve theorem, with exactly two complementary components, the
-inside `filledHull C \ C` open, bounded and connected with frontier C, the filled-hull
-containment and separation API, and the Carathéodory closed-disc correspondence for Jordan
-domains.
-
-## How to read the build
-
-Layer 1 builds the two Jacobians of a surface, polar and normal, from the Jacobi equation,
-and derives the polar length and area formulas from `j_rr + Kj = 0`, `j_r(0) = 1` and
-Fubini alone; they use no curvature sign and no Gauss–Bonnet input. Layer 2 integrates up
-to the normal cut time on a domain, using Layer 1's strips, R6's focal theory and R4.2's
-moving-endpoint variation. Layer 3 proves the disk Gauss–Bonnet formula with corners from
-Stokes and local connection forms, independently of Layers 1–2, and extends R4.9.6a's
-turning theorem to corners. Layer 4 fills simple closed curves in a one-chart ball with
-disks and uses Layer 3's disk formula to exclude geodesic bigons and loops. Layer 5 is
-independent of Layers 1–4. Layer 6 builds the logarithmic cutoff from Layer 1's polar
-coordinates and polar length and is independent of Layers 2–5. The Lean name at each target
-is its signature in `Suggested.lean`.
 
 ## Layer 1 (S1): polar coordinates and normal strips
 
@@ -929,6 +792,189 @@ PositiveMass §3.1 consumes Layer 3's disk formula with corners, its boundary te
 local connection forms and its cancellation along common edges, and builds the
 compact-surface theorem on them. RiemannianGeometry R1, R2, R3, R4.2, R4.9.6a and R6 supply
 this sub-roadmap and take nothing back.
+
+## Scope and ownership
+
+This sub-roadmap of [RiemannianGeometry](../README.md) is independently definitive. It owns:
+
+- Layer 1: the polar Jacobian j on a metric normal ball of a surface, the normal-strip
+  Jacobian a of an embedded arc with its signed geodesic curvature, the distance to an arc
+  near an interior footpoint, and the polar length and area formulas
+  `L′(r) = 2π − ∫_(B_r) K`, `V′(r) = L(r)`.
+- Layer 2: the normal cut time of a boundary arc or circle of a surface domain, the normal
+  coverage of the near region outside a null set, and the integration formula up to the cut
+  time with `|grad d| = 1` almost everywhere and the coarea identity.
+- Layer 3: the Gauss–Bonnet formula for a compact disk with piecewise smooth boundary in an
+  oriented surface, the boundary term against local connection forms, cancellation along a
+  common boundary arc, and the extension of the signed planar turning theorem to curves with
+  corners.
+- Layer 4: disk filling for simple closed curves in a simply connected open set lying in one
+  chart, and normal balls under `K ≤ 0` on such a ball.
+- Layer 5: conformal invariance of the surface Dirichlet energy, under a conformal rescaling
+  and under a conformal diffeomorphism.
+- Layer 6: the logarithmic cutoff at the centre of a metric normal ball of a surface, with
+  Dirichlet energy `2π/log(δ/ε)` up to an error of order `1/log(δ/ε)²`, the approximation in
+  `W^(1,2)` of compactly supported `C^k` functions by functions vanishing near a finite set,
+  and the extension of quadratic-form inequalities across that set.
+
+Boundaries with the parent and with other roadmaps:
+
+- [R4.1](../README.md#r4-comparison-complete-manifolds-and-space-forms) and R4.6 own the
+  cut-truncated polar domain and polar integration on complete manifolds in all dimensions.
+  Layer 1 lives on metric normal balls of a surface, without completeness.
+- [R1](../README.md#r1-intrinsic-curvature-calculus-and-normal-coordinate-jets) owns the
+  curvature tensor, the Gaussian curvature of a surface as its sectional curvature, and the
+  conformal transformation laws of the connection and the curvature. Layer 5 is the
+  integrated two-dimensional energy identity.
+- R2 and R3 own Jacobi fields, geodesic variations, conjugate points and the loss of
+  minimality past a conjugate point.
+  [R6](../README.md#r6-focal-geometry-and-squared-distance-morse-functions) owns focal points
+  of submanifolds, the measure-zero focal set and the shortening variation past an interior
+  focal point; R4.2 owns first variation with a moving endpoint. Layers 1 and 2 consume them.
+- [R4.9.6a](../README.md#r496a-length-controlled-parametric-regularization) owns the signed
+  planar turning theorem for smooth Jordan curves and the round-sphere disk and annulus
+  identities. Layer 3 consumes the smooth turning theorem and owns only its extension to
+  corners.
+- PositiveMass §3.1 owns the Gauss–Bonnet theorem for compact surfaces with boundary and
+  arbitrary Euler characteristic, with its triangulation and Euler identification and its
+  exhaustion naturality. It consumes Layer 3's disk formula, boundary term and common-arc
+  cancellation. Annuli are the case `χ = 0` of that theorem and are not restated here.
+- R4.4 owns Cartan–Hadamard on complete manifolds. Layer 4 assumes no completeness; its
+  generality is a simply connected ball lying in one chart of the maximal atlas, which by
+  ConformalMapping L3 is the same as a ball diffeomorphic to the open unit disk. The
+  statement for an arbitrary simply connected ball reduces to this one through the theorem
+  that a simply connected open surface is diffeomorphic to the plane, equivalently through
+  disk filling on arbitrary surfaces (Epstein, *Curves on 2-manifolds and isotopies*, Acta
+  Math. 115 (1966), 83–107, Theorem 1.7). That classification is surface topology outside
+  this sub-roadmap and is owned by no roadmap cited here, so it is not an input, and the
+  chart hypothesis is Layer 4's stated generality rather than a step of its proof.
+- PositiveMass §3.3 owns the logarithmic cutoff at infinity on the complete stable surface
+  of its three-dimensional route, and ComplexCurveModuli D6 owns the Dirichlet energy
+  minimizer of an annulus with its capacity and modulus identity. Layer 6 owns the cutoff at
+  a point of a surface, as an explicit competitor with its energy bound; it solves no
+  extremal problem and defines no capacity.
+- Layer 6 is two-dimensional, the borderline case for the Dirichlet energy. In dimension
+  `n ≥ 3` the energy of a cutoff at a point also tends to zero, already for the linear cutoff
+  `(r − ε)/ε` on `[ε, 2ε]`, of Euclidean energy `(2ⁿ − 1) ω_n ε^(n−2)` with `ω_n` the volume
+  of the unit ball, and in dimension one the energy of every cutoff is at least `2/δ`.
+  Neither statement is a target here.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ModelWithCorners`, `ChartedSpace`, `IsManifold`, `IsManifold.maximalAtlas`,
+  `RiemannianBundle`, `IsContMDiffRiemannianBundle`, `IsRiemannianManifold`: the manifold
+  and metric carriers.
+- `LipschitzWith.ae_differentiableAt` (`Mathlib/Analysis/Calculus/Rademacher.lean`):
+  Rademacher's theorem, used by Layer 2 for the distance to an arc in charts.
+- `SimplyConnectedSpace`, `IsSimplyConnected`, `Complex.arg`, `intervalIntegral`,
+  `IntervalIntegrable`, `HasDerivAt`, `derivWithin`: the carriers of the Layer 3 and Layer 4
+  statements.
+- `Complex.exists_continuousOn_eqOn_exp_comp` (`Mathlib/Analysis/Complex/BranchLogRoot.lean`):
+  a continuous nonvanishing function on an open simply connected planar set has a continuous
+  logarithm there, used by Layer 4.1.
+- `Orientation.rightAngleRotation` (`Mathlib/Analysis/InnerProductSpace/TwoDim.lean`) and
+  `Orientation.oangle` (`Mathlib/Geometry/Euclidean/Angle/Oriented/Basic.lean`): the rotation
+  by `+π/2` and the oriented angle of an oriented real inner product plane, the inward conormal
+  and the signed exterior angle of Layer 3.2.
+- `Real.smoothTransition` (`Mathlib/Analysis/SpecialFunctions/SmoothTransition.lean`): a
+  smooth nondecreasing function equal to `0` on `(−∞, 0]` and to `1` on `[1, ∞)`, the
+  transition profile of Layer 6.1.
+
+### From Tau Ceti
+
+Each item names its module under `TauCeti/`. Every exponential-map item below is stated for
+a boundaryless model, `[I.Boundaryless]`, which the conventions impose on the ambient
+surface.
+
+- `TauCeti.Manifold.IsGeodesicCurveOn` (`Geometry/Manifold/Riemannian/Geodesic/Basic.lean`);
+  `expDomain`, `riemannianExp` (`…/Geodesic/Exponential.lean`); `IsNormalDomain`,
+  `riemannianLog` (`…/Geodesic/Normal/Basic.lean`); the Gauss lemma
+  `inner_mfderiv_riemannianExp_radial` (`…/Geodesic/Gauss/Basic.lean`); the pointwise polar
+  inequality `abs_inner_le_norm_mul_norm_mfderiv_riemannianExp` and the radial distance bound
+  `IsNormalDomain.ofReal_norm_riemannianLog_le_pathELength` (`…/Geodesic/Gauss/Polar.lean`);
+  the energy first variation `hasDerivAt_energy` (`…/Riemannian/FirstVariation.lean`); the
+  completeness theory of `…/Geodesic/HopfRinow.lean`. These are the Layers 0–4 of the
+  completed [HopfRinow](../../../Completed/HopfRinow/README.md) roadmap.
+- `TauCeti.Manifold.exists_isNormalDomain_ball` and
+  `isCompact_riemannianExp_image_closedBall` (`…/Geodesic/Normal/Basic.lean`);
+  `IsNormalDomain.image_riemannianExp_ball`, `IsNormalDomain.image_riemannianExp_closedBall`
+  and `IsNormalDomain.dist_riemannianExp_eq_of_mem_ball` (`…/Geodesic/Gauss/Distance.lean`):
+  small geodesic balls are metric balls, with radial length equal to distance and compact
+  closed balls, so every point has a radius satisfying 1.1's hypotheses; used by Layer 6.2.
+- `alongCurveWithin` (`Geometry/Manifold/VectorBundle/CovariantDerivative/AlongCurve/Basic.lean`)
+  and `curveVelocityWithin` (`Geometry/Manifold/MFDeriv/Curve.lean`): the covariant
+  derivative along a curve that defines the signed geodesic curvature of Layer 1.2.
+- `TauCeti.Manifold.IsJacobiFieldOn` with the equation `D_t²J + R(J,γ′)γ′ = 0`
+  (`…/Riemannian/Jacobi/Basic.lean`); `isJacobiFieldOn_mfderiv_riemannianExp`
+  (`…/Jacobi/Exponential.lean`), the differential of the exponential map as a Jacobi field,
+  used by Layer 1; `not_isConjugateOn_of_sectionalCurvature_nonpos`
+  (`…/Jacobi/Conjugate.lean`) and
+  `norm_le_norm_mfderiv_riemannianExp_of_sectionalCurvature_nonpos`
+  (`…/Jacobi/Comparison.lean`), used by Layer 4.
+- `CovariantDerivative.leviCivitaConnection` and `sectionalCurvature`
+  (`Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/…`,
+  `…/Curvature/Sectional.lean`).
+- `TauCeti.SmoothEmbedding.normalExp`, `normalExpDomain`
+  (`Geometry/Manifold/TubularNeighborhood/Riemannian/Basic.lean`), with
+  `isOpen_normalExpDomain`, `contMDiffOn_normalExp` (`…/Riemannian/Regularity.lean`) and
+  `exists_partialDiffeomorph_normalExp_subset` (`…/Riemannian/Coordinates.lean`): the normal
+  exponential of an embedding and its tube.
+- `TauCeti.Manifold.mgradient` (`Geometry/Manifold/Riemannian/Gradient/Basic.lean`), with
+  its product rule `mgradient_mul` (same file) and its chain rule `mgradient_comp_deriv`
+  (`…/Riemannian/Gradient/ChainRule.lean`), used by Layer 6.
+- `TauCeti.Manifold.Orientation` and `orientationAt` (`Geometry/Manifold/Orientation/Basic.lean`):
+  an orientation of the surface and the orientation it induces on each tangent plane, the
+  orientation carrier of Layer 3.2.
+- `TauCeti.riemannianVolume` (`…/Riemannian/VolumeDensity/Volume.lean`);
+  `Homeomorph.measurePreserving_riemannianVolume` (`…/Riemannian/VolumeDensity/Isometry.lean`),
+  the isometry invariance of the Riemannian volume for a differentiable homeomorphism whose
+  tangent maps preserve the inner products, between manifolds modelled on one vector space:
+  the change of variables of Layer 5.2.
+- `TauCeti.WithMetric`, `ContMDiffRiemannianMetric.rescale` and `conformalClass`
+  (`…/Riemannian/WithMetric.lean`, `Geometry/Manifold/VectorBundle/Riemannian/Conformal.lean`);
+  `TauCeti.WithMetric.inner_mgradient_rescale` (`…/Riemannian/Conformal.lean`) and
+  `integral_riemannianVolume_rescale` (`…/Riemannian/VolumeDensity/Conformal.lean`), the
+  pointwise and volume halves of Layer 5; `ContMDiffRiemannianMetric.pullback` and
+  `pullback_inner` (`…/Riemannian/Pullback/Basic.lean`).
+- `TauCeti.Contour.windingNumber` (`Analysis/Contour/Winding/Number/Basic.lean`),
+  `TauCeti.IsJordanCurve` (`Topology/JordanCurve/Basic.lean`) and `TauCeti.filledHull`
+  (`Topology/FilledHull.lean`), the planar carriers of Layers 3 and 4;
+  `TauCeti.HasContinuousLogOn` (`Analysis/Complex/ContinuousLog/Basic.lean`) and the
+  filled-hull criterion `hasContinuousLogOn_sub_iff_notMem_filledHull`
+  (`Analysis/Complex/PlaneSeparation/Basic.lean`): for a bounded closed `K ⊆ ℂ`, `z ↦ z − a`
+  has a continuous logarithm on K exactly when `a ∉ filledHull K`, used by Layer 4.1.
+
+### From TauCetiRoadmap.RiemannianGeometry
+
+R1: the curvature of a surface and the constant-scaling law. R2: geodesic variations and the
+fixed-chart derivative lift. R3: a geodesic does not minimize past a conjugate point. R4.2:
+first variation with a moving endpoint. R4.9.6a: the signed planar turning theorem for
+smooth Jordan curves, with its tangent-angle lift on intervals, the degree/turning-integral
+identity and the Jordan orientation comparison giving degree `+1`. R6: focal points of the
+normal exponential of an embedded curve, nullity of its focal set, and the shortening
+variation past an interior focal point. All are stated for boundaryless manifolds.
+
+### From TauCetiRoadmap.DifferentialGeometry
+
+[DifferentialGeometry](../../DifferentialGeometry/README.md) 5.3–5.5: Stokes on manifolds
+with boundary and corners; 5.6.3: the winding-weighted Green identity for piecewise `C¹`
+cycles; 10.2: manifold Sard; 12.2: the gradient with its chain rule; 12.4: the density/measure
+comparison.
+
+### From TauCetiRoadmap.GeometricMeasureTheory
+
+[GeometricMeasureTheory](../../GeometricMeasureTheory/README.md) G1: arclength of
+rectifiable curves; G2: the area and coarea formulas.
+
+### From Completed.ConformalMapping
+
+[ConformalMapping](../../../Completed/ConformalMapping/README.md) L3: the Riemann mapping
+theorem; L5: the planar Jordan curve theorem, with exactly two complementary components, the
+inside `filledHull C \ C` open, bounded and connected with frontier C, the filled-hull
+containment and separation API, and the Carathéodory closed-disc correspondence for Jordan
+domains.
 
 ## References
 

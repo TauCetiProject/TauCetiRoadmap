@@ -1,63 +1,85 @@
 # Roadmap: operator K-theory, extensions, and KK-theory
 
-**Summary.** Starting from Mathlib's `CStarMatrix`, `IsStarProjection`, `unitary` and
-`ContinuousLinearMap.IsFredholm`, build K-theory of complex C*-algebras from projections and
-unitaries, with stability, homotopy, Bott periodicity and exact sequences (K1–K3). Develop Fredholm
-indices and extensions with their Busby invariants and Ext semigroups (K4), graded Kasparov theory
-(K5) and its product (K6), equivariance, descent and the crossed-product calculations (K7), the
-universal coefficient and Künneth theorems on the bootstrap class (K8), and asymptotic morphisms
-with E-theory (K9). The end theorems are Bott periodicity for arbitrary coefficient algebras, the
-six-term exact sequence of every extension, Atkinson's theorem with the K₀-valued module index, the
-group Ext(A,B) for separable nuclear A, associativity of the Kasparov product, the Green–Julg,
-Pimsner–Voiculescu and Connes–Thom theorems, the K-groups of free-group, rotation and Cuntz
-algebras, the UCT and Künneth sequences, the Brown–Douglas–Fillmore classification of essentially
-normal operators, and the universal property of E-theory. The output is a reusable functorial
-library whose geometric comparison, grading and boundary signs are explicit.
+**Summary.** A Fredholm operator on a Hilbert space has an index, the dimension of its kernel
+minus that of its cokernel, which survives compact perturbations and homotopies through Fredholm
+operators. Operator K-theory places this invariant inside a theory of C*-algebras. To each
+C*-algebra A it attaches two abelian groups: K₀(A), built from projections, and K₁(A), built from
+unitaries up to homotopy, both taken in matrix algebras over A. For a separable
+infinite-dimensional Hilbert space H, the index becomes the boundary map of the extension of the
+Calkin algebra B(H)/K(H) by the compact operators.
 
-## Scope and ownership
+This roadmap builds operator K-theory of complex C*-algebras, and then Kasparov's bivariant
+groups KK(A,B): homotopy classes of cycles built on graded Hilbert modules over B, composed by the
+associative Kasparov product. For trivially graded σ-unital B, KK(ℂ,B) is K₀(B), and KK(A,ℂ) is
+the analytic K-homology of A. The K-groups and their exact sequences are defined for all complex
+C*-algebras, nonunital and nonseparable ones included; KK-theory and E-theory keep the
+separability, σ-unitality and countable-generation assumptions stated at each step.
 
-This roadmap owns operator K-theory of complex C*-algebras, unital or not, separable or not;
-Atkinson's theorem and the Hilbert-module index; extension semigroups; graded KK-theory and the
-Kasparov product; equivariant KK and descent; the crossed-product, free-group, rotation-algebra
-and Cuntz-algebra calculations of K7; the centre and the simplicity criterion of the twisted group
-C*-algebras `C*(L,c)` of discrete abelian groups L with circle-valued 2-cocycles c (7.5); the
-bootstrap class with the UCT and Künneth theorems;
-the Brown–Douglas–Fillmore theorem; and asymptotic morphisms and E-theory. The layers are K1–K9
-below. Subsection k.n of layer Kk is cited as `Kk.n`; subsections 2.4 and 7.3
-also keep their names K2.LocalNormed and K7.FreeGroups.
+Bott periodicity holds with arbitrary coefficients: for every C*-algebra A, the Bott map from
+K₀(A) to K₁ of the suspension SA = C₀((0,1),A) is an isomorphism, so K_i(S²A) ≅ K_i(A). The proof
+is direct and independent of KK-theory. Every short exact sequence 0 → J → A → Q → 0 of
+C*-algebras gives a natural six-term cyclic exact sequence of K-groups, with no separability or
+completely positive splitting assumed.
 
-The following stay with their owners and are not targets here.
+Atkinson's theorem says that a bounded operator T: H₀ → H₁ between complex Hilbert spaces is
+Fredholm exactly when some bounded S: H₁ → H₀ makes ST − 1 and TS − 1 compact. For H₀ = H₁ this
+says that T is Fredholm exactly when its image in the Calkin algebra is invertible. A parametrix
+on one side does not suffice: the isometry of ℓ²(ℕ) sending δₙ to δ₂ₙ has a left inverse but an
+infinite-dimensional cokernel.
 
-- TopologicalKTheory owns geometric vector-bundle K-theory, geometric complex Bott periodicity,
-  geometric Thom classes (T5), equivariant bundles (T6) and real KO-theory (T7); this roadmap
-  proves the comparison with `K_i(C₀(X))` and Bott periodicity for C*-coefficients.
-- CStarAlgebras owns the Calkin algebra `B(H)/K(H)` and its ideal structure (C1.6), and the
-  unitary conjugacy of nearby projections and matrix units (C9.2); K4 and K1 consume them.
-- AlgebraicKTheory owns, for unital rings, the finite-projective category Proj(R) and its K₀ (A0),
-  algebraic K₁, Milnor patching and the comparison of algebraic K₁ of a Banach algebra with its
-  stable component group (A1–A2, A6, A8). This roadmap proves the comparisons of its own groups
-  with these: projection K₀ with A0's K₀ (1.4), the unitary model of K₁ with A8 (2.4), and the
-  pullback boundary with A6 (3.3).
-- PseudodifferentialOperators owns elliptic symbols, parametrices and Fredholm operators on
-  manifolds; this roadmap owns the general Atkinson, module-index and K-pairing bridges.
-- The full crossed product of a C*-dynamical system, and with it the full group C*-algebra
-  `ℂ⋊G`, is Tau Ceti's `TauCeti.CStarAction.FullCrossedProduct`. OperatorAlgebraDynamics owns the
-  reduced crossed products and reduced group C*-algebras, the comparison `ℂ⋊G≃C*(G)`, the duality
-  theorems and the finite universal Cuntz algebras O_n; their K-theory and KK consequences belong
-  here.
-- OperatorAlgebraDynamics owns the scalar twisted group C*-algebras `C*(L,c)`, with their
-  projective unitaries in the twisted regular representation, canonical trace, gauge action,
-  universal property and full=reduced theorem (D1.CentralTwists, D2.CentralTwists); 7.5 proves
-  their centre and simplicity criterion and identifies the rotation algebras among them.
-- NoncommutativeGeometry owns smooth algebras' cyclic cohomology, spectral triples and their
-  geometric index theorems.
-- CStarClassification owns dimension-group classification of AF algebras, the absorption and
-  classification properties of O_∞, and *-isomorphism classification; K1 supplies its projection
-  and trace invariants and K8 its UCT condition.
-- FreeProbability owns the end-oriented shift and radial-vector norm bounds on free groups, and
-  FactorRigidity Layer 4 owns proper length functions and Haagerup kernels.
-- This roadmap does not prove simplicity or uniqueness of the trace of the reduced free-group
-  C*-algebras; the K-group calculations of K7.FreeGroups do not use either.
+An operator T is essentially normal when `T*T − TT*` is compact, and its essential spectrum is the
+set of λ for which T − λ is not Fredholm. The Brown–Douglas–Fillmore theorem says that, on a
+separable Hilbert space, two essentially normal operators with the same essential spectrum are
+unitarily equivalent modulo compact operators exactly when T₁ − λ and T₂ − λ have the same index
+for every λ outside the essential spectrum. Likewise, an essentially normal operator is a compact
+perturbation of a normal one exactly when T − λ has index zero for every such λ. The unilateral
+shift S is essentially normal and S − λ has index −1 for |λ| < 1, so S is not normal plus
+compact.
+
+The bootstrap class is the smallest class of separable nuclear C*-algebras that contains ℂ, is
+closed under countable inductive limits and KK-equivalence, and contains the third term of any
+extension whose other two terms it contains. For A in this class and any separable B, the
+universal coefficient theorem (UCT) gives a natural short exact sequence, with indices modulo 2,
+`0 → ⊕_j Ext¹_ℤ(K_j(A), K_(j+i+1)(B)) → KK_i(A,B) → ⊕_j Hom_ℤ(K_j(A), K_(j+i)(B)) → 0`,
+whose second map is the action on K-theory. It splits, though not naturally. An isomorphism of
+the graded K-groups of two algebras in the class lifts to a KK-equivalence.
+
+Within Tau Ceti, CStarAlgebras provides the Calkin algebra, the Toeplitz extension and the
+Weyl–von Neumann–Voiculescu theorem. HilbertModules provides the Hilbert modules on which the KK
+cycles are built. OperatorAlgebraDynamics provides reduced crossed products and the finite Cuntz
+algebras, whose K-theory is computed here. TopologicalKTheory keeps geometric vector-bundle
+K-theory, and this roadmap proves its comparison with the K-groups of C₀(X). Downstream,
+CStarClassification uses the projection and trace invariants and the UCT condition.
+
+The nine layers are built in order; the next section gives the finer order within each. The
+first two construct K₀ and K₁, the third proves Bott periodicity and the exact sequences, and the
+fourth treats Fredholm indices and extensions. The fifth and sixth construct KK(A,B) and the
+Kasparov product. The seventh adds group actions and computes the K-groups of free-group, rotation
+and Cuntz algebras. The eighth proves the universal coefficient, Künneth and
+Brown–Douglas–Fillmore theorems. The ninth builds E-theory from asymptotic morphisms.
+
+## How to read the build
+
+Build the layers in the order K1–K9. Within K1, the projection calculus (1.1) precedes V(A) and
+K₀ (1.2–1.3), and the module and bundle comparisons (1.4, 1.6) follow them. K2's unitary model
+(2.1–2.3) precedes K2.LocalNormed (2.4), which K3's Fréchet comparison (3.5) consumes. In K3 the
+Bott map and periodicity (3.1) come before the six-term sequence (3.2), which the pullback
+sequence (3.3) and products (3.4) use. K4's Atkinson theorem (4.1) precedes the module index
+(4.2), which the Busby invariants (4.4) use; the dilation theorem (4.3) needs only Hilbert
+modules and precedes extension invertibility (4.5). K5 builds the graded cycles that K6
+multiplies; the Manuilov–Thomsen comparison (6.5) uses K4's unital Ext. In K7, equivariant KK and
+descent (7.1–7.2) precede K7.FreeGroups (7.3), whose tree interface comes first and is
+independent of the rest of K7; the ℤ-action Pimsner–Voiculescu sequence (7.4) precedes the
+twisted-centre and rotation calculations (7.5). The constructions of the Toeplitz–Cuntz algebras
+and O_∞ in 7.6 use no K-theory; their K-groups use K2, K3 and K6 and precede K8's bootstrap
+examples. K8 uses K6's semisplit exact sequences and K7's crossed products. The asymptotic
+morphisms of 9.1–9.3 use no K-theory; K9's E-theory uses K3's suspension conventions and
+compares with KK through K6.
+
+`Suggested.lean` states, with `sorry`, the headline theorems that are statable at the pins:
+Atkinson's theorem of 4.1 in its parametrix form, and the two Brown–Douglas–Fillmore theorems of
+8.4 with the two operator predicates they need. Its module docstring lists the headline theorems
+that are not statable there and the carrier each lacks.
 
 ## Conventions
 
@@ -93,223 +115,6 @@ p(∞) = diag(1,0),       β = [p] − [p(∞)].
 Prove that comparison with the geometric class, including the sign: TopologicalKTheory's
 rank-one dual Koszul symbol represents −β. Products, boundary maps and Thom maps must retain
 their chosen orientation; no unnamed isomorphism with ℤ determines a generator's sign.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- C*-algebras and matrices: `CStarAlgebra`, `NonUnitalCStarAlgebra`, `CStarMatrix` with
-  `CStarMatrix.conjTranspose` (`Mathlib/Analysis/CStarAlgebra/CStarMatrix.lean`),
-  `IsStarProjection` (`Mathlib/Algebra/Star/StarProjection.lean`), `unitary`, `IsStarNormal`,
-  `Unitization` with its C*-norm, the continuous functional calculus `cfc`, and
-  `Unitary.mem_pathComponentOne_iff` (`Mathlib/Analysis/CStarAlgebra/Unitary/Connected.lean`):
-  the identity path component of the unitary group is the set of finite products of
-  exponential unitaries, with logarithm charts near 1; `Unitary.joined` (same file): two
-  unitaries at distance less than 2 are joined by a path of unitaries.
-- Group completion: `Algebra.GrothendieckAddGroup`
-  (`Mathlib/GroupTheory/MonoidLocalization/GrothendieckGroup.lean`), whose class map is injective
-  only for cancellative monoids.
-- Fredholm theory: `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`,
-  `ContinuousLinearMap.isFredholm_iff_exists_isQuasiInverse` and
-  `ContinuousLinearMap.IsFredholm.index_comp`
-  (`Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean`), where a quasi-inverse inverts modulo
-  operators of finite rank (`Mathlib/Algebra/Module/LinearMap/FiniteRange.lean`);
-  `ContinuousLinearMap.index_continuousOn_isFredholm`
-  (`Mathlib/Analysis/Normed/Operator/Fredholm/Open.lean`); `LinearMap.index`
-  (`Mathlib/Algebra/Module/LinearMap/Index.lean`); `IsCompactOperator`
-  (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`); `ContinuousLinearMap.adjoint`.
-  The forward direction of Atkinson's theorem in K4 is
-  `ContinuousLinearMap.isFredholm_iff_exists_isQuasiInverse`, since an operator of finite rank is
-  compact.
-- Hilbert modules and selections: `CStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/Defs.lean`);
-  `CompletelyPositiveMap` (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`), a
-  complex-linear map between C*-algebras whose entrywise amplification to every `CStarMatrix`
-  size preserves positivity;
-  `ContinuousLinearMap.NonlinearRightInverse` (`Mathlib/Analysis/Normed/Operator/Banach.lean`),
-  a norm-controlled right inverse with no continuity field, and
-  `ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` (same file), the open mapping
-  theorem in that form; `LowerHemicontinuous.exists_continuous_selection`
-  (`Mathlib/Topology/Semicontinuity/Michael.lean`), Michael's selection theorem: a lower
-  hemicontinuous map from a paracompact normal space to a real Fréchet space with nonempty closed
-  convex values has a continuous selection.
-- Topology and harmonic analysis: `TopologicalSpace.MetrizableSpace`, `CompleteSpace`,
-  `IsTopologicalAddGroup`, `LocallyConvexSpace`, `ContinuousStar`,
-  `TopologicalSpace.SeparableSpace`, `ConnectedComponents`, `LocallyConstant.freeOfProfinite`
-  (Nöbeling), `PontryaginDual`, `MeasureTheory.Measure.haar`, `lp`.
-- Groups and graphs: `FreeGroup.of`, `FreeGroup.toWord`, `SimpleGraph.mulCayley`
-  (`Mathlib/Combinatorics/SimpleGraph/Cayley.lean`, edges `g — g·s` for s in the generating
-  set) and `SimpleGraph.IsTree`.
-- Homological algebra: `CategoryTheory.Abelian.Ext` and `CategoryTheory.Tor` on `ModuleCat ℤ`,
-  and `CategoryTheory.ShortComplex.ShortExact.extClass`.
-
-### From Tau Ceti
-
-- `TauCeti.SplitK0` (`TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`), the split
-  Grothendieck group of an essentially small additive category.
-- `TauCeti.finiteProjectiveModules` (`TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`):
-  the object property of being a finitely generated projective module over a ring, closed under
-  isomorphisms, containing zero and essentially small in the ring's universe; over Aᵐᵒᵖ it is
-  AlgebraicKTheory 0.1's Proj(A).
-- `TauCeti.IsPartialIsometry` with `TauCeti.IsPartialIsometry.isStarProjection_star_mul_self` and
-  `TauCeti.IsPartialIsometry.isStarProjection_mul_star_self`
-  (`TauCeti/Algebra/Star/PartialIsometry.lean`): an element v with `vv*v=v`, whose initial and
-  final elements `v*v` and `vv*` are projections. These are the square Murray–von Neumann
-  partial isometries of K1.
-- `TauCeti.isFredholm_one_sub`, `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
-  `ContinuousLinearMap.index_add_of_isCompactOperator`
-  (`TauCeti/Analysis/Fredholm/CompactPerturbation.lean`): compact perturbations of Fredholm
-  operators and the invariance of their index. The converse direction of Atkinson's theorem in
-  K4 starts here: if `ST−1` and `TS−1` are compact then ST and TS are Fredholm, their
-  quasi-inverses give left and right quasi-inverses of T, and these agree modulo finite rank.
-- `Continuous.isLocallyConstant_index` and `Path.index_eq`
-  (`TauCeti/Analysis/Fredholm/ContinuousFamily.lean`): homotopy invariance of the index.
-- `Matrix.fromBlocks_one_sub_mul_self_of_mul_eq` and
-  `Matrix.fromBlocks_one_sub_mul_fromBlocks_mul_fromBlocks_one_sub_of_mul_eq`
-  (`TauCeti/Data/Matrix/Block.lean`): for rectangular matrices a, b over a ring with `ab=e`,
-  `ba=f` and `be=b`, the block matrix `[[1−e, a], [b, 1−f]]` conjugates `e⊕0` to `0⊕f`, and it
-  is an involution when also `ea=a`. K1.1 applies them with a=v*, b=v.
-- `TauCeti.IsFactorSet` (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`): a normalized
-  factor set `α : G → G → kˣ` on a monoid, with `α(gh,j)α(g,h)=α(h,j)α(g,hj)` and
-  `α(1,g)=α(g,1)=1`. K7.5 states its circle-valued 2-cocycles on `Multiplicative L`, for a
-  discrete abelian group L, with it over ℂ; the twisted group C*-algebra of such a cocycle is
-  OperatorAlgebraDynamics D1.CentralTwists–D2.CentralTwists'.
-- `TauCeti.Amenable.of_commGroup` (`TauCeti/GroupTheory/Amenable/Abelian.lean`): every commutative
-  topological group is amenable, `TauCeti.Amenable` meaning a left-invariant mean on the left
-  uniformly continuous bounded real functions, which for a discrete group are all bounded
-  functions. No rank, torsion or countability hypothesis is made. K7.5 applies it to
-  `Multiplicative L` with the discrete topology, to meet the amenability hypothesis of
-  OperatorAlgebraDynamics D2.CentralTwists' full=reduced theorem.
-- `TauCeti.CStarAction.FullCrossedProduct`, with `TauCeti.CStarAction.FullCrossedProduct.of`,
-  `TauCeti.CStarAction.FullCrossedProduct.lift` and
-  `TauCeti.CStarAction.CovariantRepresentation.integratedFull`
-  (`TauCeti/Analysis/CStarAlgebra/Action/CrossedProduct/Full.lean`): for a point-norm continuous
-  action α of a locally compact group G on a C*-algebra A and a left Haar measure μ, the full
-  crossed product `A⋊_αG`, the completion of the twisted convolution algebra `C_c(G,A)` in the
-  supremum of the norms of the integrated forms of covariant representations on Hilbert spaces in
-  the universe of G and A, with the canonical dense map from `C_c(G,A)`, the extension of
-  *-homomorphisms bounded by that supremum, and the extension of every such integrated form. No
-  unit, separability or nondegeneracy is assumed.
-  `TauCeti.CStarAction.CovariantRepresentation.regular`
-  (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/Regular.lean`): the regular covariant
-  representation on `L²(G,H)` induced by a representation ρ of A on H, `π(a)ξ(r)=ρ(α_(r⁻¹)(a))ξ(r)`
-  and `λ_sξ(r)=ξ(s⁻¹r)`. K7 takes its full crossed products, and full group C*-algebras as `ℂ⋊G`,
-  from here.
-- `TauCeti.SmoothNoncommutativeTorus.twist`
-  (`TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.lean`): the phase `(y,z)↦exp(2πiθ y₂z₁)` of
-  the smooth noncommutative torus. K7.5's rotation cocycle is this phase; the smooth algebra itself
-  stays with NoncommutativeGeometry.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-- *CStarAlgebras C1.* Ideals, quotients and functional calculus in ideals; in particular C1.4's
-  quasicentral approximate units, C1.6's Calkin algebra `B(H)/K(H)`, simple for separable
-  infinite-dimensional H and zero for finite-dimensional H, and C1.7's multiplier algebras with
-  their strict topology.
-- *CStarAlgebras C5.* Spatial tensor products, C*-inductive limits, the universal algebra on
-  countably many unitaries, and the path, cone, suspension and mapping-cone algebras with their
-  pullback and extension API.
-- *CStarAlgebras C6–C8.* Nuclearity, exactness and completely positive liftings under their
-  respective hypotheses; the Toeplitz extension `0→K→T→C(𝕋)→0` of the unilateral shift; and
-  the Weyl–von Neumann–Voiculescu theorem.
-- *CStarAlgebras C9.2.* Norm stability and unitary conjugacy of nearby systems of matrix units;
-  in the one-block case, projections p and q with `‖p−q‖<1` are conjugate by a unitary u of the
-  unitization with `‖u−1‖≤√2‖p−q‖`.
-
-### From TauCetiRoadmap.HilbertModules
-
-- *HilbertModules H1–H2.* The standard module `H_A=ℓ²(ℕ,A)`, compact and adjointable module
-  operators, `K(H_A)≃A⊗K`, `L(H_A)≃M(A⊗K)`, finite direct sums and homogeneous operator
-  blocks.
-- *HilbertModules H3–H4.* Interior tensor products, Morita equivalence and Kasparov
-  stabilization.
-- *HilbertModules H5.* The analytic Serre–Swan equivalence.
-- *HilbertModules H6–H7.* Regular operators, their bounded transforms and localization.
-
-### From TauCetiRoadmap.OperatorAlgebraDynamics
-
-- *[OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md).* Covariant
-  representations and their Haar and involution conventions, consumed with Tau Ceti's full crossed
-  product `TauCeti.CStarAction.FullCrossedProduct`; reduced crossed products, the regular Hilbert
-  module, full and reduced group C*-algebras with `ℂ⋊G≃C*(G)`, the regular quotient, the faithful
-  conditional expectation of a discrete reduced crossed product, Fell absorption and the weak
-  containment of the trivial representation in the regular representation of an amenable group.
-- *OperatorAlgebraDynamics D1.CentralTwists–D2.CentralTwists.* Taken at coefficient algebra ℂ,
-  trivial action, a scalar normalized cocycle ω with values in the circle and counting Haar
-  measure on a discrete group G, with no countability hypothesis on G: the full and reduced
-  twisted group C*-algebras `C*(G,ω)` and `C*_r(G,ω)`, generated by unitaries u_s with
-  `u_su_t=ω(s,t)u_(st)` and `u_s*=conjugate(ω(s⁻¹,s))u_(s⁻¹)`; the identification of their
-  finitely supported dense algebra with Tau Ceti's `TauCeti.twistedMonoidAlgebra ℂ G ω`; the
-  twisted regular representation `V_sξ(r)=ω(s,s⁻¹r)ξ(s⁻¹r)` on ℓ²(G); the universal property for
-  families of unitaries U_s in a unital C*-algebra with `U_e=1` and `U_sU_t=ω(s,t)U_(st)`; the
-  canonical trace `τ=E`, `E(Σa_su_s)=a_e`, a faithful tracial state, with recovery and uniqueness
-  of coefficients; the isomorphism of the full and reduced algebras for amenable G; and, for
-  abelian G, the gauge action `α̂_γ(u_s)=γ(s)u_s` of `PontryaginDual G`, implemented on ℓ²(G) by
-  multiplication by γ, point-norm continuous, with `∫α̂_γ(x)dγ=E(x)1` for the normalized Haar
-  measure.
-- *OperatorAlgebraDynamics D3–D4.* Green imprimitivity and Takai duality with its character
-  conventions.
-- *OperatorAlgebraDynamics D6.* The finite universal Cuntz algebras O_n.
-
-### From TauCetiRoadmap.BanachAlgebras
-
-- *[BanachAlgebras](../BanachAlgebras/README.md) Layer 1.2.* The left-multiplication renorming
-  of a nonzero unital Banach algebra, with `‖1‖=1`.
-- *BanachAlgebras Layer 2.* Holomorphic functional calculus, used for idempotent loops in the
-  direct Bott proof and for K2.LocalNormed.
-
-### From TauCetiRoadmap.GrothendieckEulerForms
-
-- *[GrothendieckEulerForms](../GrothendieckEulerForms/README.md) Layers 1–2.* Categorical
-  Grothendieck groups and their universal properties. Consume `TauCeti.SplitK0` and
-  `Algebra.GrothendieckAddGroup`, comparing their presentations rather than defining another
-  group-completion mechanism.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-- *[TopologicalKTheory T1–T6](../TopologicalKTheory/README.md).* Finite-rank continuous bundles,
-  geometric K-groups of compact pairs and compact supports, geometric complex Bott periodicity
-  with its tautological class β, and equivariant bundles. No geometric index theorem is a
-  prerequisite for periodicity.
-
-### From TauCetiRoadmap.AlgebraicKTheory
-
-- *AlgebraicKTheory A0 (0.1, 0.3, 0.4).* For every unital ring R: Proj(R), the full subcategory
-  `TauCeti.finiteProjectiveModules Rᵐᵒᵖ` of finitely generated projective right R-modules, with
-  its zero object, finite biproducts and essential smallness (0.1); K₀(R), the group
-  `TauCeti.SplitK0` of Proj(R), with K₀(f) given by extension of scalars along unital ring maps
-  (0.3); and idempotent matrices with rectangular algebraic equivalence, `e∼f` exactly when
-  `eRⁿ≅fRᵐ`, and the identification of K₀(R) with the group completion of the idempotent monoid
-  (0.4). K1.4 and K3.5 apply them to unital C*-algebras and unital Fréchet algebras.
-- *AlgebraicKTheory A1–A2, A6, A8.* The algebraic K₁ and its quotient construction, Milnor
-  patching, and the comparison with topological K₁ of Banach algebras.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-- *[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) V11.* Pontryagin duality for locally
-  compact abelian groups.
-
-## How to read the build
-
-Build the layers in the order K1–K9. Within K1, the projection calculus (1.1) precedes V(A) and
-K₀ (1.2–1.3), and the module and bundle comparisons (1.4, 1.6) follow them. K2's unitary model
-(2.1–2.3) precedes K2.LocalNormed (2.4), which K3's Fréchet comparison (3.5) consumes. In K3 the
-Bott map and periodicity (3.1) come before the six-term sequence (3.2), which the pullback
-sequence (3.3) and products (3.4) use. K4's Atkinson theorem (4.1) precedes the module index
-(4.2), which the Busby invariants (4.4) use; the dilation theorem (4.3) needs only Hilbert
-modules and precedes extension invertibility (4.5). K5 builds the graded cycles that K6
-multiplies; the Manuilov–Thomsen comparison (6.5) uses K4's unital Ext. In K7, equivariant KK and
-descent (7.1–7.2) precede K7.FreeGroups (7.3), whose tree interface comes first and is
-independent of the rest of K7; the ℤ-action Pimsner–Voiculescu sequence (7.4) precedes the
-twisted-centre and rotation calculations (7.5). The constructions of the Toeplitz–Cuntz algebras
-and O_∞ in 7.6 use no K-theory; their K-groups use K2, K3 and K6 and precede K8's bootstrap
-examples. K8 uses K6's semisplit exact sequences and K7's crossed products. The asymptotic
-morphisms of 9.1–9.3 use no K-theory; K9's E-theory uses K3's suspension conventions and
-compares with KK through K6.
-
-`Suggested.lean` states, with `sorry`, the headline theorems that are statable at the pins:
-Atkinson's theorem of 4.1 in its parametrix form, and the two Brown–Douglas–Fillmore theorems of
-8.4 with the two operator predicates they need. Its module docstring lists the headline theorems
-that are not statable there and the carrier each lacks.
 
 ## K1. Projections, projective modules, and K₀
 
@@ -2333,6 +2138,245 @@ K2–K6; CStarAlgebras C5–C7; Mathlib `ContinuousLinearMap.NonlinearRightInver
   conventions and its swapped parity reduction.
 - CStarClassification consumes K1's projection and trace invariants, K5's countable additivity,
   K8's UCT condition and K9's asymptotic morphisms.
+
+## Scope and ownership
+
+This roadmap owns operator K-theory of complex C*-algebras, unital or not, separable or not;
+Atkinson's theorem and the Hilbert-module index; extension semigroups; graded KK-theory and the
+Kasparov product; equivariant KK and descent; the crossed-product, free-group, rotation-algebra
+and Cuntz-algebra calculations of K7; the centre and the simplicity criterion of the twisted group
+C*-algebras `C*(L,c)` of discrete abelian groups L with circle-valued 2-cocycles c (7.5); the
+bootstrap class with the UCT and Künneth theorems;
+the Brown–Douglas–Fillmore theorem; and asymptotic morphisms and E-theory. The layers are K1–K9
+above. Subsection k.n of layer Kk is cited as `Kk.n`; subsections 2.4 and 7.3
+also keep their names K2.LocalNormed and K7.FreeGroups.
+
+The following stay with their owners and are not targets here.
+
+- TopologicalKTheory owns geometric vector-bundle K-theory, geometric complex Bott periodicity,
+  geometric Thom classes (T5), equivariant bundles (T6) and real KO-theory (T7); this roadmap
+  proves the comparison with `K_i(C₀(X))` and Bott periodicity for C*-coefficients.
+- CStarAlgebras owns the Calkin algebra `B(H)/K(H)` and its ideal structure (C1.6), and the
+  unitary conjugacy of nearby projections and matrix units (C9.2); K4 and K1 consume them.
+- AlgebraicKTheory owns, for unital rings, the finite-projective category Proj(R) and its K₀ (A0),
+  algebraic K₁, Milnor patching and the comparison of algebraic K₁ of a Banach algebra with its
+  stable component group (A1–A2, A6, A8). This roadmap proves the comparisons of its own groups
+  with these: projection K₀ with A0's K₀ (1.4), the unitary model of K₁ with A8 (2.4), and the
+  pullback boundary with A6 (3.3).
+- PseudodifferentialOperators owns elliptic symbols, parametrices and Fredholm operators on
+  manifolds; this roadmap owns the general Atkinson, module-index and K-pairing bridges.
+- The full crossed product of a C*-dynamical system, and with it the full group C*-algebra
+  `ℂ⋊G`, is Tau Ceti's `TauCeti.CStarAction.FullCrossedProduct`. OperatorAlgebraDynamics owns the
+  reduced crossed products and reduced group C*-algebras, the comparison `ℂ⋊G≃C*(G)`, the duality
+  theorems and the finite universal Cuntz algebras O_n; their K-theory and KK consequences belong
+  here.
+- OperatorAlgebraDynamics owns the scalar twisted group C*-algebras `C*(L,c)`, with their
+  projective unitaries in the twisted regular representation, canonical trace, gauge action,
+  universal property and full=reduced theorem (D1.CentralTwists, D2.CentralTwists); 7.5 proves
+  their centre and simplicity criterion and identifies the rotation algebras among them.
+- NoncommutativeGeometry owns smooth algebras' cyclic cohomology, spectral triples and their
+  geometric index theorems.
+- CStarClassification owns dimension-group classification of AF algebras, the absorption and
+  classification properties of O_∞, and *-isomorphism classification; K1 supplies its projection
+  and trace invariants and K8 its UCT condition.
+- FreeProbability owns the end-oriented shift and radial-vector norm bounds on free groups, and
+  FactorRigidity Layer 4 owns proper length functions and Haagerup kernels.
+- This roadmap does not prove simplicity or uniqueness of the trace of the reduced free-group
+  C*-algebras; the K-group calculations of K7.FreeGroups do not use either.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- C*-algebras and matrices: `CStarAlgebra`, `NonUnitalCStarAlgebra`, `CStarMatrix` with
+  `CStarMatrix.conjTranspose` (`Mathlib/Analysis/CStarAlgebra/CStarMatrix.lean`),
+  `IsStarProjection` (`Mathlib/Algebra/Star/StarProjection.lean`), `unitary`, `IsStarNormal`,
+  `Unitization` with its C*-norm, the continuous functional calculus `cfc`, and
+  `Unitary.mem_pathComponentOne_iff` (`Mathlib/Analysis/CStarAlgebra/Unitary/Connected.lean`):
+  the identity path component of the unitary group is the set of finite products of
+  exponential unitaries, with logarithm charts near 1; `Unitary.joined` (same file): two
+  unitaries at distance less than 2 are joined by a path of unitaries.
+- Group completion: `Algebra.GrothendieckAddGroup`
+  (`Mathlib/GroupTheory/MonoidLocalization/GrothendieckGroup.lean`), whose class map is injective
+  only for cancellative monoids.
+- Fredholm theory: `ContinuousLinearMap.IsFredholm`, `ContinuousLinearMap.FredholmPackage`,
+  `ContinuousLinearMap.isFredholm_iff_exists_isQuasiInverse` and
+  `ContinuousLinearMap.IsFredholm.index_comp`
+  (`Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean`), where a quasi-inverse inverts modulo
+  operators of finite rank (`Mathlib/Algebra/Module/LinearMap/FiniteRange.lean`);
+  `ContinuousLinearMap.index_continuousOn_isFredholm`
+  (`Mathlib/Analysis/Normed/Operator/Fredholm/Open.lean`); `LinearMap.index`
+  (`Mathlib/Algebra/Module/LinearMap/Index.lean`); `IsCompactOperator`
+  (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`); `ContinuousLinearMap.adjoint`.
+  The forward direction of Atkinson's theorem in K4 is
+  `ContinuousLinearMap.isFredholm_iff_exists_isQuasiInverse`, since an operator of finite rank is
+  compact.
+- Hilbert modules and selections: `CStarModule` (`Mathlib/Analysis/CStarAlgebra/Module/Defs.lean`);
+  `CompletelyPositiveMap` (`Mathlib/Analysis/CStarAlgebra/CompletelyPositiveMap.lean`), a
+  complex-linear map between C*-algebras whose entrywise amplification to every `CStarMatrix`
+  size preserves positivity;
+  `ContinuousLinearMap.NonlinearRightInverse` (`Mathlib/Analysis/Normed/Operator/Banach.lean`),
+  a norm-controlled right inverse with no continuity field, and
+  `ContinuousLinearMap.exists_nonlinearRightInverse_of_surjective` (same file), the open mapping
+  theorem in that form; `LowerHemicontinuous.exists_continuous_selection`
+  (`Mathlib/Topology/Semicontinuity/Michael.lean`), Michael's selection theorem: a lower
+  hemicontinuous map from a paracompact normal space to a real Fréchet space with nonempty closed
+  convex values has a continuous selection.
+- Topology and harmonic analysis: `TopologicalSpace.MetrizableSpace`, `CompleteSpace`,
+  `IsTopologicalAddGroup`, `LocallyConvexSpace`, `ContinuousStar`,
+  `TopologicalSpace.SeparableSpace`, `ConnectedComponents`, `LocallyConstant.freeOfProfinite`
+  (Nöbeling), `PontryaginDual`, `MeasureTheory.Measure.haar`, `lp`.
+- Groups and graphs: `FreeGroup.of`, `FreeGroup.toWord`, `SimpleGraph.mulCayley`
+  (`Mathlib/Combinatorics/SimpleGraph/Cayley.lean`, edges `g — g·s` for s in the generating
+  set) and `SimpleGraph.IsTree`.
+- Homological algebra: `CategoryTheory.Abelian.Ext` and `CategoryTheory.Tor` on `ModuleCat ℤ`,
+  and `CategoryTheory.ShortComplex.ShortExact.extClass`.
+
+### From Tau Ceti
+
+- `TauCeti.SplitK0` (`TauCeti/CategoryTheory/GrothendieckGroup/Split.lean`), the split
+  Grothendieck group of an essentially small additive category.
+- `TauCeti.finiteProjectiveModules` (`TauCeti/Algebra/Category/ModuleCat/CartanMap/Basic.lean`):
+  the object property of being a finitely generated projective module over a ring, closed under
+  isomorphisms, containing zero and essentially small in the ring's universe; over Aᵐᵒᵖ it is
+  AlgebraicKTheory 0.1's Proj(A).
+- `TauCeti.IsPartialIsometry` with `TauCeti.IsPartialIsometry.isStarProjection_star_mul_self` and
+  `TauCeti.IsPartialIsometry.isStarProjection_mul_star_self`
+  (`TauCeti/Algebra/Star/PartialIsometry.lean`): an element v with `vv*v=v`, whose initial and
+  final elements `v*v` and `vv*` are projections. These are the square Murray–von Neumann
+  partial isometries of K1.
+- `TauCeti.isFredholm_one_sub`, `ContinuousLinearMap.IsFredholm.add_of_isCompactOperator` and
+  `ContinuousLinearMap.index_add_of_isCompactOperator`
+  (`TauCeti/Analysis/Fredholm/CompactPerturbation.lean`): compact perturbations of Fredholm
+  operators and the invariance of their index. The converse direction of Atkinson's theorem in
+  K4 starts here: if `ST−1` and `TS−1` are compact then ST and TS are Fredholm, their
+  quasi-inverses give left and right quasi-inverses of T, and these agree modulo finite rank.
+- `Continuous.isLocallyConstant_index` and `Path.index_eq`
+  (`TauCeti/Analysis/Fredholm/ContinuousFamily.lean`): homotopy invariance of the index.
+- `Matrix.fromBlocks_one_sub_mul_self_of_mul_eq` and
+  `Matrix.fromBlocks_one_sub_mul_fromBlocks_mul_fromBlocks_one_sub_of_mul_eq`
+  (`TauCeti/Data/Matrix/Block.lean`): for rectangular matrices a, b over a ring with `ab=e`,
+  `ba=f` and `be=b`, the block matrix `[[1−e, a], [b, 1−f]]` conjugates `e⊕0` to `0⊕f`, and it
+  is an involution when also `ea=a`. K1.1 applies them with a=v*, b=v.
+- `TauCeti.IsFactorSet` (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`): a normalized
+  factor set `α : G → G → kˣ` on a monoid, with `α(gh,j)α(g,h)=α(h,j)α(g,hj)` and
+  `α(1,g)=α(g,1)=1`. K7.5 states its circle-valued 2-cocycles on `Multiplicative L`, for a
+  discrete abelian group L, with it over ℂ; the twisted group C*-algebra of such a cocycle is
+  OperatorAlgebraDynamics D1.CentralTwists–D2.CentralTwists'.
+- `TauCeti.Amenable.of_commGroup` (`TauCeti/GroupTheory/Amenable/Abelian.lean`): every commutative
+  topological group is amenable, `TauCeti.Amenable` meaning a left-invariant mean on the left
+  uniformly continuous bounded real functions, which for a discrete group are all bounded
+  functions. No rank, torsion or countability hypothesis is made. K7.5 applies it to
+  `Multiplicative L` with the discrete topology, to meet the amenability hypothesis of
+  OperatorAlgebraDynamics D2.CentralTwists' full=reduced theorem.
+- `TauCeti.CStarAction.FullCrossedProduct`, with `TauCeti.CStarAction.FullCrossedProduct.of`,
+  `TauCeti.CStarAction.FullCrossedProduct.lift` and
+  `TauCeti.CStarAction.CovariantRepresentation.integratedFull`
+  (`TauCeti/Analysis/CStarAlgebra/Action/CrossedProduct/Full.lean`): for a point-norm continuous
+  action α of a locally compact group G on a C*-algebra A and a left Haar measure μ, the full
+  crossed product `A⋊_αG`, the completion of the twisted convolution algebra `C_c(G,A)` in the
+  supremum of the norms of the integrated forms of covariant representations on Hilbert spaces in
+  the universe of G and A, with the canonical dense map from `C_c(G,A)`, the extension of
+  *-homomorphisms bounded by that supremum, and the extension of every such integrated form. No
+  unit, separability or nondegeneracy is assumed.
+  `TauCeti.CStarAction.CovariantRepresentation.regular`
+  (`TauCeti/Analysis/CStarAlgebra/Action/Covariant/Regular.lean`): the regular covariant
+  representation on `L²(G,H)` induced by a representation ρ of A on H, `π(a)ξ(r)=ρ(α_(r⁻¹)(a))ξ(r)`
+  and `λ_sξ(r)=ξ(s⁻¹r)`. K7 takes its full crossed products, and full group C*-algebras as `ℂ⋊G`,
+  from here.
+- `TauCeti.SmoothNoncommutativeTorus.twist`
+  (`TauCeti/NoncommutativeGeometry/SmoothTorus/Basic.lean`): the phase `(y,z)↦exp(2πiθ y₂z₁)` of
+  the smooth noncommutative torus. K7.5's rotation cocycle is this phase; the smooth algebra itself
+  stays with NoncommutativeGeometry.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+- *CStarAlgebras C1.* Ideals, quotients and functional calculus in ideals; in particular C1.4's
+  quasicentral approximate units, C1.6's Calkin algebra `B(H)/K(H)`, simple for separable
+  infinite-dimensional H and zero for finite-dimensional H, and C1.7's multiplier algebras with
+  their strict topology.
+- *CStarAlgebras C5.* Spatial tensor products, C*-inductive limits, the universal algebra on
+  countably many unitaries, and the path, cone, suspension and mapping-cone algebras with their
+  pullback and extension API.
+- *CStarAlgebras C6–C8.* Nuclearity, exactness and completely positive liftings under their
+  respective hypotheses; the Toeplitz extension `0→K→T→C(𝕋)→0` of the unilateral shift; and
+  the Weyl–von Neumann–Voiculescu theorem.
+- *CStarAlgebras C9.2.* Norm stability and unitary conjugacy of nearby systems of matrix units;
+  in the one-block case, projections p and q with `‖p−q‖<1` are conjugate by a unitary u of the
+  unitization with `‖u−1‖≤√2‖p−q‖`.
+
+### From TauCetiRoadmap.HilbertModules
+
+- *HilbertModules H1–H2.* The standard module `H_A=ℓ²(ℕ,A)`, compact and adjointable module
+  operators, `K(H_A)≃A⊗K`, `L(H_A)≃M(A⊗K)`, finite direct sums and homogeneous operator
+  blocks.
+- *HilbertModules H3–H4.* Interior tensor products, Morita equivalence and Kasparov
+  stabilization.
+- *HilbertModules H5.* The analytic Serre–Swan equivalence.
+- *HilbertModules H6–H7.* Regular operators, their bounded transforms and localization.
+
+### From TauCetiRoadmap.OperatorAlgebraDynamics
+
+- *[OperatorAlgebraDynamics D1–D2](../OperatorAlgebraDynamics/README.md).* Covariant
+  representations and their Haar and involution conventions, consumed with Tau Ceti's full crossed
+  product `TauCeti.CStarAction.FullCrossedProduct`; reduced crossed products, the regular Hilbert
+  module, full and reduced group C*-algebras with `ℂ⋊G≃C*(G)`, the regular quotient, the faithful
+  conditional expectation of a discrete reduced crossed product, Fell absorption and the weak
+  containment of the trivial representation in the regular representation of an amenable group.
+- *OperatorAlgebraDynamics D1.CentralTwists–D2.CentralTwists.* Taken at coefficient algebra ℂ,
+  trivial action, a scalar normalized cocycle ω with values in the circle and counting Haar
+  measure on a discrete group G, with no countability hypothesis on G: the full and reduced
+  twisted group C*-algebras `C*(G,ω)` and `C*_r(G,ω)`, generated by unitaries u_s with
+  `u_su_t=ω(s,t)u_(st)` and `u_s*=conjugate(ω(s⁻¹,s))u_(s⁻¹)`; the identification of their
+  finitely supported dense algebra with Tau Ceti's `TauCeti.twistedMonoidAlgebra ℂ G ω`; the
+  twisted regular representation `V_sξ(r)=ω(s,s⁻¹r)ξ(s⁻¹r)` on ℓ²(G); the universal property for
+  families of unitaries U_s in a unital C*-algebra with `U_e=1` and `U_sU_t=ω(s,t)U_(st)`; the
+  canonical trace `τ=E`, `E(Σa_su_s)=a_e`, a faithful tracial state, with recovery and uniqueness
+  of coefficients; the isomorphism of the full and reduced algebras for amenable G; and, for
+  abelian G, the gauge action `α̂_γ(u_s)=γ(s)u_s` of `PontryaginDual G`, implemented on ℓ²(G) by
+  multiplication by γ, point-norm continuous, with `∫α̂_γ(x)dγ=E(x)1` for the normalized Haar
+  measure.
+- *OperatorAlgebraDynamics D3–D4.* Green imprimitivity and Takai duality with its character
+  conventions.
+- *OperatorAlgebraDynamics D6.* The finite universal Cuntz algebras O_n.
+
+### From TauCetiRoadmap.BanachAlgebras
+
+- *[BanachAlgebras](../BanachAlgebras/README.md) Layer 1.2.* The left-multiplication renorming
+  of a nonzero unital Banach algebra, with `‖1‖=1`.
+- *BanachAlgebras Layer 2.* Holomorphic functional calculus, used for idempotent loops in the
+  direct Bott proof and for K2.LocalNormed.
+
+### From TauCetiRoadmap.GrothendieckEulerForms
+
+- *[GrothendieckEulerForms](../GrothendieckEulerForms/README.md) Layers 1–2.* Categorical
+  Grothendieck groups and their universal properties. Consume `TauCeti.SplitK0` and
+  `Algebra.GrothendieckAddGroup`, comparing their presentations rather than defining another
+  group-completion mechanism.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+- *[TopologicalKTheory T1–T6](../TopologicalKTheory/README.md).* Finite-rank continuous bundles,
+  geometric K-groups of compact pairs and compact supports, geometric complex Bott periodicity
+  with its tautological class β, and equivariant bundles. No geometric index theorem is a
+  prerequisite for periodicity.
+
+### From TauCetiRoadmap.AlgebraicKTheory
+
+- *AlgebraicKTheory A0 (0.1, 0.3, 0.4).* For every unital ring R: Proj(R), the full subcategory
+  `TauCeti.finiteProjectiveModules Rᵐᵒᵖ` of finitely generated projective right R-modules, with
+  its zero object, finite biproducts and essential smallness (0.1); K₀(R), the group
+  `TauCeti.SplitK0` of Proj(R), with K₀(f) given by extension of scalars along unital ring maps
+  (0.3); and idempotent matrices with rectangular algebraic equivalence, `e∼f` exactly when
+  `eRⁿ≅fRᵐ`, and the identification of K₀(R) with the group completion of the idempotent monoid
+  (0.4). K1.4 and K3.5 apply them to unital C*-algebras and unital Fréchet algebras.
+- *AlgebraicKTheory A1–A2, A6, A8.* The algebraic K₁ and its quotient construction, Milnor
+  patching, and the comparison with topological K₁ of Banach algebras.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+- *[VonNeumannAlgebras](../VonNeumannAlgebras/README.md) V11.* Pontryagin duality for locally
+  compact abelian groups.
 
 ## References
 

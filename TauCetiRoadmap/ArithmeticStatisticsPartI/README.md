@@ -1,25 +1,20 @@
 # Roadmap: arithmetic statistics, Part I: families, heights and local specifications
 
-**Summary.** Define the counting carriers, heights with `Northcott` finiteness, local specifications, binary-form conventions and exact function-field slices used throughout arithmetic statistics. Prove finite-sublevel and local-density identities before introducing any limiting arithmetic average.
+**Summary.** Arithmetic statistics asks how often an elliptic curve, a number field or a quadratic twist has a given property. To make such a question precise, one must say what is counted: which objects, up to which equivalence, ordered by which height, and under which local conditions. This roadmap fixes those choices. Its basic object is an arithmetic family: objects taken up to the family's equivalence relation, with a height having the Northcott property, so that only finitely many members have height at most any given bound. On such families it defines counting functions, relative densities and subfamilies cut out by local conditions at the places. Global counts, Selmer averages and limiting laws are left to the later parts.
 
-## Scope and ownership
+The first main theorem concerns binary quartic forms. An integral form `ax⁴+bx³y+cx²y²+dxy³+ey⁴` has the invariants `I=12ae−3bd+c²` and `J=72ace+9bcd−27ad²−27b²e−2c³`. An integer pair `(I,J)` arises from some integral binary quartic form, irreducible or not, if and only if either `I≡0 mod 3` and `J≡0 mod 27`, or `I≡1,4,7 mod 9` with `J≡±2,±16,±7 mod 27` respectively. The attainable pairs therefore fill nine translates of the lattice `9ℤ×27ℤ`, a set of density 1/27 in `ℤ²`.
 
-This part owns families, heights and local specifications. Layer 0 constructs the family interface, local coefficient statistics, finite bundle laws and exact function-field slices. Orbit dictionaries, global counts, Selmer means and limiting laws consume these objects. The API names below specify the library interfaces to build. `Suggested.lean` states headline results on the pinned carriers, with coefficient polynomials in `TauCetiRoadmap.ArithmeticStatisticsPartI.Coefficients`.
+For a number field F, the height of a squareclass t in `F×/F×²` is the product of the norms of the finite primes at which t has odd valuation. Over ℚ the classes are represented by the squarefree integers n, and the class of n has height |n|. The second main theorem is that this height has the Northcott property on every number field. The proof counts classes through the squarefree ideal of their odd primes, whose ideal class must be a square. The quadratic twists of an elliptic curve are ordered by this height.
 
-The following boundaries fix the carriers and prevent parallel versions of existing mathematics.
+The third main theorem computes a local density of polynomials. A monic integer polynomial f is p-maximal when it lies in no ideal `(p²,pu,u²)` with u monic and irreducible modulo p; by Dedekind's criterion, for irreducible f this says that p does not divide the index of `ℤ[x]/(f)` in the ring of integers. For every prime p and n ≥ 2, the p-maximal polynomials make up exactly the proportion `1−1/p²` of monic polynomials of degree n, counted modulo p². The roadmap also computes the proportion `λ_n(p)` of monic polynomials of degree n whose discriminant is divisible by p at most once. For n ≥ 2 the product of the `λ_n(p)` over all primes converges to a strictly positive number. It equals `4/π²` for n = 2 and tends, as n grows, to `½·∏_{p odd}(1−(3p−1)/(p²(p+1)))`. The factor ½ at 2 rests on Stickelberger's congruence, proved here for integral binary forms of every degree at least two, leading zeros included: the discriminant is 0 or 1 modulo 4. Identifying these local constants with densities of global families needs a tail estimate over large primes, kept as a hypothesis.
 
-- TauCetiRoadmap.EllipticCurves Layers 1, 4–8 supply isogenies, local point groups, quadratic twists, Mordell–Weil, finite Selmer groups and their exact sequence, and the unique integral minimal short pair over `ℚ`. Here the new elliptic-family adapter sends that pair `(A,B)` to `(−3A,−27B)` and tracks the resulting height and local-density factors. Mathlib's pointwise `WeierstrassCurve.Affine.Point.naiveHeight` is a height on points and is not this curve-family height.
-- TauCetiRoadmap.GlobalNumberFields Layers 9–11 own discriminants, orders, Picard groups and the number-field lattice dictionary. GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 3.2 supplies primitive adapted bases and maximal-minor ideals for the integer saturation-index comparison here. Its §§2.2–2.8 and IntegralLattices supply the hermitian and integral-lattice comparisons used in polarization fibres.
-- TauCetiRoadmap.NumberFieldArithmetic Layers 1, 4 and 6 and TauCetiRoadmap.LocalFieldsRamification Layer 3 supply splitting, relative discriminants, towers and local ramification. TauCetiRoadmap.ClassFieldTheory Layers 11–13 supplies number-field Artin reciprocity, unramified class fields and conductor characters. ArithmeticGaloisDuality §R02.3.2 supplies function-field reciprocity and finite S-class groups. The exact function-field slices retain the removed infinity places and their degrees.
-- SchemeAndStackFoundations §§3.6–3.7 owns unpointed Picard schemes and their degree torsors, the Picard–Brauer obstruction, rational-divisor-class comparison, norm and high-degree Abel maps. The Picard quotient, carry and Hecke probability here are finite statistical specializations. AbelianSchemesAndArithmeticModuli:A3 supplies theta groups and Cartier-dual isogeny kernels; A6 supplies polarized automorphisms and the Rosati-positive-unit orbit description of principal polarizations. The finite counting fibres and their asymptotics are new.
-- ClassicalArithmeticCompletion §§7.4, 7.21, 7.56 supplies orders and maximal-order existence in characteristic zero. EulerSystemsAndKolyvaginSystems §4.8 supplies local division-order modules, maximal matrix orders, product decompositions and conductor bounds. The local-order orbit-finiteness consequence and its full Dieudonné-order application are supporting targets here.
-- The finite-field instances that the counting fibres need, namely the finiteness of Weil polynomials, the finiteness of polarized abelian varieties of fixed dimension and polarization degree, Tate's theorem at every prime over a finite field and the finiteness of an isogeny class, are stated as targets in the supporting constructions, this roadmap being the earliest in the build that uses them. The general theory around them, Honda–Tate, the lattice classification of isogeny classes and the polarized moduli stacks, is owned later in the build by AbelianSchemesAndArithmeticModuliPartII and PELModuli; nothing is imported from them here.
-- TauCetiRoadmap.AlgebraicVectorBundles L0 supplies finite locally free sheaves, their rank, tensor products and line-bundle comparison. JacobianChallenge Layers B–C supply curve cohomology, Riemann–Roch and finite pushforward; AlgebraicCurves Layers 7 and 10 supply double-cover genus and smooth models. The rank-two splitting and hyperelliptic bundle-index formulas needed for the probabilities are the specialization stated in the bundle geometry contract (Supporting constructions).
-- InverseGaloisAndArithmeticFundamentalGroups:IG.3–IG.5 own reduced Schur multipliers and covers, arithmetic lifting invariants and Hurwitz components. They are imported with their marked central-cover choices and cyclotomic power actions. Here embedded wreath types, infinity rigidifications and the normalized component sums specify which arithmetic moments are counted.
+This is the first of eight parts on arithmetic statistics. Parts II to VIII take their families, local conditions and normalizations from it. EllipticCurves provides the unique minimal integral short Weierstrass model `y²=x³+Ax+B` of an elliptic curve over ℚ, sent here to the quartic invariants `(−3A,−27B)`. GlobalNumberFields provides discriminants, orders and Picard groups of number fields. AnalyticNumberTheoryPartII provides binary cubic forms and their cubic rings; this part fixes coordinates on them and adds maximality at a prime. AbelianVarietiesOverFiniteFields uses the theorem, proved here, that over a finite field the abelian varieties of each dimension form finitely many isomorphism classes.
 
-The pointwise two-Selmer rank identity is supplied by EllipticCurves Layer 7's exact sequence and Layer 6's Mordell–Weil theorem: `dim Sel₂(E)=rank E(ℚ)+dim E(ℚ)[2]+dim Sha(E)[2]`. Its explicit descent cardinal formula and rank inequality are already `WeierstrassCurve.Affine.card_range_μ` and `WeierstrassCurve.Affine.pow_rank_le_card_of_range_μ_le` in `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup`, transported by EllipticCurves' explicit/cohomological comparison. These are pointwise inputs; an average additionally specifies its family and denominator.
+Everything sits in a single layer, Layer 0, of twenty-four sections. The first two set up families, densities and local conditions. The next six treat binary quartics and elliptic curves, squareclasses and squarefree integers, and number fields and cubic rings. The following seven mostly concern polynomials and forms over finite fields and over the integers; over `𝔽_q` there are `q^n−q^(n−1)` squarefree monic polynomials of degree n ≥ 2. The six after that turn to abelian varieties over finite fields, bundle statistics on the projective line and on hyperelliptic curves, and Wood's averages over quadratic fields. The last three return to binary forms, their orders and their discriminants. Supporting constructions, including Tate's theorem over a finite field, and worked examples close the layer.
 
-AnalyticNumberTheoryPartI §§0.25–0.26, 2.3–2.5 and AnalyticNumberTheoryPartII §§5.4–5.7, 5.21, 5.28–5.29 supply the analytic and cubic input. The other supplier contracts are: SchemeAndStackFoundations; GeometryOfNumbersAndQuadraticArithmetic; AdelicAlgebraicGroups; DiophantineApproximationAndTranscendence; InverseGaloisAndArithmeticFundamentalGroups; AbelianSchemesAndArithmeticModuli; ReductiveGroupsPartII; SelmerIwasawaCohomology; ArithmeticGaloisDuality; NeronModelsAndSemistableAbelianVarieties; EtaleDualityAndPerverseSheaves; and DeligneWeightsAndPurity. Specialized facts needed here are local supporting targets.
+## How to read the build
+
+The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers, with the definitions needed to express them. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 ## Conventions
 
@@ -32,142 +27,6 @@ Binary coefficients descend in x-degree, and changes of variables use row vector
 Coefficient lattices have additive Haar mass one locally. An algebraic-group Haar measure comes from the stated invariant differential; it is not independently renormalized during a product formula. The p-adic absolute value has `|p|_p=p⁻¹`. Archimedean coefficient regions use the displayed Euclidean or Lebesgue measure. Actual CRT residue proportions are used for coupled finite conditions; a product of marginal densities is valid only for independently imposed prime-power conditions.
 
 Every arithmetic conjecture is a proposition, not an axiom or an unconditional distribution theorem. Distribution convergence does not imply convergence of unbounded moments. Fixed-q degree limits, fixed-degree large-q limits and iterated liminf/limsup limits are kept distinct. Selmer dimension, p-infinity Selmer corank and Mordell–Weil rank are distinguished; passing from corank to rank requires the stated condition on the divisible part of Sha. A degree-one Picard-scheme point, an actual degree-one divisor, and a point over an odd-degree extension are compared only under the explicit Brauer/local-solubility hypotheses.
-
-## Exact supplier contracts
-
-From Mathlib use `Northcott`, `Northcott.comp_of_finite_fibers`, finite sets and quotient/orbit types; `Polynomial.discr`, resultants, separability and `Squarefree`; `ClassGroup`, `NumberField.discr` and `NumberField.dedekindZeta_residue`; p-adic fields and integers; Haar measures, real and extended nonnegative integrals, filters, infinite sums and products; `QuadraticForm`, bilinear forms, matrices, ranks, finite-dimensional subspaces, finite abelian-group structure and Smith normal form. The prime-counting estimate is `Chebyshev.eventually_primeCounting_le` in `Mathlib.NumberTheory.Chebyshev`: for every `ε>0` and eventually x, `π(⌊x⌋)≤(log 4+ε)x/log x`. The new weighted prime-tail statements use partial summation from that estimate. The signed resultant identity for the binary discriminant is `Polynomial.resultant_deriv`: for a polynomial `f` of positive degree d over a commutative ring, the resultant of `f` and `f′` at formal degrees `(d, d−1)` equals `(−1)^{d(d−1)/2}·lc(f)·discr(f)`. Applied to the universal form `F = Σ aᵢ xⁿ⁻ⁱ` over `ℤ[a₀,…,aₙ]`, which for `n≥1` has degree exactly n and leading coefficient `a₀`, and specialized along every coefficient vector with `Polynomial.resultant_map_map` and `Polynomial.derivative_map`, it gives `a₀·Δ_n(f) = (−1)^{n(n−1)/2}·Res_{n,n−1}(f, f′)` for `binaryDisc` (§0.12) over every commutative ring, `a₀ = 0` included; no roadmap supplies it.
-
-From `TauCeti.Order.Northcott.Basic` use `TauCeti.normLE`, `TauCeti.coe_normLE`, `TauCeti.summatory` and `TauCeti.eventually_summatory_indicator_sub_eq` for inclusive natural-height counts and finite changes of families.
-
-For irreducible monic integral polynomials, `TauCeti.NumberTheory.NumberField.Index.DedekindCriterion` supplies `TauCeti.NumberField.IntegralPrimitiveElement.not_dvd_index_iff`: at a prime p, with distinct monic residue factors `φ_i` of positive multiplicities `e_i`, chosen monic lifts `Φ_i` and `pH=f−∏Φ_i^e_i`, p does not divide the order index exactly when every i has `e_i=1` or `φ_i∤H mod p`. The reducible separable-algebra extension and exact local proportions in §0.12 remain targets here.
-
-The alternating-extension transfer consumes `TauCeti.NumberField.discr_emod_four_eq_zero_or_one` from `TauCeti.NumberTheory.NumberField.Discriminant.Stickelberger` and `NumberField.discr_eq_of_squarefree_of_mod_four_eq_one` from `TauCeti.NumberTheory.NumberField.Quadratic.RingOfIntegers`. The latter requires `minpoly ℤ θ=X²−d`, generation over `ℚ`, squarefree d and `d≡1 mod 4`. Mathlib's `NumberField.abs_discr_gt_two` rules out a nontrivial number field of absolute discriminant one. These are existing arithmetic inputs, not new targets.
-
-From TauCetiRoadmap.EllipticCurves Layers 4–8 require the finite exact sequence `0→E(K)/nE(K)→Sel_n(E/K)→Sha(E/K)[n]→0`, compatibility with localization, naturality under isogenies, and rational torsion. Over Q require a unique integral short pair with no prime satisfying `p⁴|A` and `p⁶|B`, nonsingular discriminant, finiteness of bounded-height pairs and invariance under Q-isomorphism. Over `ℚ_p` require a finite-index open formal subgroup isomorphic to an open additive `ℤ_p` subgroup and the reduction/component/Tamagawa dictionary. Over R require the one- or two-component compact Lie-group description. These exact local groups, not only their cardinalities, enter the five-adic labels.
-
-From TauCetiRoadmap.ClassFieldTheory Layers 11–13 require the unramified reciprocity quotient, including split real places for ordinary classes and allowed real ramification for narrow classes, the conductor–discriminant formula, and equivariance under field automorphisms. From NumberFieldArithmetic Layers 1, 4 and 6 require norm/extension compatibility and discriminant transitivity. From GlobalNumberFields Layer 11 require the finite order-class and overorder interfaces, trace duals, ideal norms, and discriminant/index-square identities. From GlobalQuadraticForms Layer 5 require the Hasse principle for nonsingular conics over number fields, used to compare quartic descent with the cohomological two-Selmer group.
-
-ArithmeticGaloisDuality §R02.3.2 supplies the function-field class formation and Artin reciprocity, with global/local compatibility and the abelian norm-group correspondence, together with the `S`-class group `Cl_S(F)` and its finiteness for nonempty `S`. For a finite nonempty removed-place set S, transport that reciprocity to `Pic(C)/⟨[v]:v∈S⟩`, imposing splitting at S and retaining its degree quotient `ℤ/gcd(deg(v):v∈S)ℤ` and degree-zero kernel, as in the function-field adapter (Supporting constructions).
-
-From GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 require primitive adapted bases and covolume identities; §3.2’s `hermitianMaximalMinorIdeal` supplies the general maximal-minor ideal and basis-change API. The integer two-column gcd/index comparison is a target of §0.10 here. AdelicAlgebraicGroups AA.0 supplies restricted-product measure theory for countable families of second countable locally compact groups. The adeles of `𝔽_q(t)`, rational quotient, bundle correspondence and finite-volume measure are constructed in function-field adelic bundle measure §0.18.
-
-The finite-dimensional singular system is already owned by [TauCetiRoadmap.OperatorTheory, PolarDecomposition Part C](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OperatorTheory/PolarDecomposition/README.md): PD-C09–PD-C18 supply right and left singular vectors and reconstruction. Its real invertible two-dimensional specialization gives `g=k diag(u,u⁻¹)l`, `u≥1`, for `|det g|=1`, with k,l orthogonal. This is the supplier used in compact binary transporters. Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis` in `Analysis.InnerProductSpace.Spectrum` already supplies the underlying spectral theorem; no general singular-decomposition theory is planned here.
-
-From SchemeAndStackFoundations Layers 0–3 and §§3.6–3.7 require representability and base change for the specified moduli problems, finite étale covers, smooth lifting, unpointed Picard degree torsors, and the Picard–Brauer exact sequence. From AbelianSchemesAndArithmeticModuli:A2–A3 require abelian isogenies, duality, polarizations and theta-group commutators, with fppf cohomology when the degree meets the characteristic; A6 gives the Rosati orbit description and finite polarized automorphism groups. Its §A6.4 supplies `simpleEndDivision`; §A6.5 supplies `poincareReducibility` and unique simple-factor multiplicities. ReductiveGroupsPartII §RG2.3.7 supplies Lang's theorem and torsor triviality for smooth connected groups over finite fields, specialized here to abelian varieties and Pic¹ torsors. From NeronModelsAndSemistableAbelianVarieties Layers 1–4 require local existence, semistable reduction, normalization/Picard exact sequences, graph monodromy and the identity-component comparison used in the twist parity formulas.
-
-From ClassicalArithmeticCompletion §§7.4, 7.21, 7.56 require orders finite and full over the valuation ring, and a containing maximal order when the regular-trace pairing is nondegenerate, as it is for a semisimple algebra in characteristic zero. From EulerSystemsAndKolyvaginSystems §4.8 require the classification of torsion-free modules over local division orders, the matrix-order and full-corner description, product decomposition and a central nonzero conductor. In a fixed rational module these give the maximal-order lattice types used by the local orbit-finiteness target below; no equal-rank hypothesis across the simple factors is imposed. From FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.5–R07.2.10 require the full Dieudonné ring with its Witt scalars, its W-linear morphisms commuting with F and V, and its contravariant finite-group and p-divisible-group equivalences.
-
-From SelmerIwasawaCohomology Layers 0–4 require continuous/fppf cohomology, Kummer localization, finite Selmer groups and torsors and the p-infinity corank interface. ArithmeticGaloisDuality §§D7, R02.4 supplies Poitou–Tate, local invariants and local pairings. SelmerIwasawaCohomology §4.29 supplies the cohomological Cassels–Tate pairing, its isogeny adjointness, its maximal-divisible radicals and the finite nondegenerate primary quotients. SchemeAndStackFoundations §3.6 and JacobianChallenge Layer D supply the degree/index and Picard–Brauer comparison: a rational relative Picard point is identified with a line bundle only after its obstruction vanishes.
-
-From InverseGaloisAndArithmeticFundamentalGroups:IG.0–IG.2 require finite embedding problems, quantitative Hilbert irreducibility and the fixed-model Lang–Weil estimate. IG.3 supplies `H₂(F,c)=H₂(F,ℤ)/Q_c`, a chosen reduced cover, functorial cyclotomic powers and the Tate-twisted component invariant. IG.4 supplies global arithmetic lifting invariants over number fields and the marked-extension and unramified Gamma-group carriers over global fields. IG.5 supplies Hurwitz components with their rational Frobenius action. A stable component formula is used only in its stable multidegree range; boundary components remain in the total profile.
-
-From EtaleDualityAndPerverseSheaves §§0.5–0.6, 6.3 and DeligneWeightsAndPurity:DWP.7 require compactly supported cohomology, the trace formula, Poincaré duality, weights and the uniform Betti-bound hypotheses stated below. DeligneWeightsAndPurity §1.6 supplies `#C(𝔽_(q^m))=q^m+1-Σ_i α_i^m` and `|#C(𝔽_(q^m))-(q^m+1)|≤2gq^(m/2)` for a smooth proper geometrically connected curve. Its §1.4–1.5 supplies the weight-one abelian Frobenius roots and `#A(𝔽_(q^m))=det(1-π^m)`. Arithmetic Frobenius on the Tate module and geometric Frobenius on cohomology are not interchanged.
-
-From AnalyticNumberTheoryPartII require the [binary-cubic action and discriminant](../AnalyticNumberTheoryPartII/README.md) (§5.4), [projective cubic-algebra equivalence](../AnalyticNumberTheoryPartII/README.md) (§5.5), [finite weighted cubic coefficients](../AnalyticNumberTheoryPartII/README.md) (§5.6), [uniform small-degree field bound](../AnalyticNumberTheoryPartII/README.md) (§5.7), [cubic analytic extension and residues](../AnalyticNumberTheoryPartII/README.md) (§5.21), [pole-aware cubic convexity](../AnalyticNumberTheoryPartII/README.md) (§5.28), and [quadratic large sieve and real-character moment](../AnalyticNumberTheoryPartII/README.md) (§5.29). The projective equivalence includes nonprincipal rank-two modules, stabilizers and determinant-line discriminants; restricting to the free coefficient lattice does not discard those general inputs. The cubic descriptions below are import and compatibility contracts for those objects, with the displayed basis/sign adapters, rather than a second construction of them. The local selectors below use those carriers; global sieve applications retain a separate tail hypothesis. AnalyticNumberTheoryPartI §§2.3–2.5 supplies Hecke/Dedekind extension and residue comparisons; §§0.25–0.26 supplies prime-product bounds. Completed ArithmeticDirichletSeries Layers 6 and 9 supplies Abel/Perron summation and Wiener–Ikehara, retaining coefficient positivity, convergence domains, residues and continuous boundary remainders. DiophantineApproximationAndTranscendence §2.4 supplies finite-rank unit-equation bounds and §4.3 supplies effective Thue finiteness. Embedding-fibre applications keep their source-specific uniform degree-three bound, its numerical constant and the order/cross-ratio comparison as explicit additional hypotheses.
-
-### Cubic supplier conventions
-
-**Binary cubic forms and the twisted action.** For a commutative ring R, a binary cubic form over R is `f(x,y) = a x³ + b x² y + c x y² + d y³` with a, b, c, d in R, recorded by its four coefficients `(V₃(R) = R⁴)`. Its discriminant is `disc(f) = b² c² − 4 a c³ − 4 b³ d − 27 a² d² + 18 a b c d`, which is Mathlib's `Cubic.discr` of the coefficient vector (valid also when `a = 0`). The group `GL2(R)` acts on the left by the twisted action `(γ . f)(x,y) = (det γ)⁻¹ f((x,y) γ)`, where `(x,y) γ = (g00 x + g10 y, g01 x + g11 y)` for `γ = (g_ij)`. The action is faithful: the scalar `u.1` acts as multiplication by u. It satisfies `disc(γ . f) = (det γ)² disc(f)`, and it commutes with base change of coefficients along ring homomorphisms.
-
-[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.4 supplies the action and ordinary discriminant; the coefficient/base-change API below is its arithmetic-family adapter. The formulas below fix the statistical coordinate convention.
-
-R is a commutative ring; no assumption on 2 or 3 is made. Convention pinned: the substitution is by the row vector `(x, y)` times `γ`, and the twist is `(det γ)⁻¹`; with this convention the Delone-Faddeev correspondence is `GL2(R)`-equivariant for the change of basis of `R(f)/R`. The discriminant is the discriminant of the binary form, not of the dehomogenized polynomial: for `a = 0` it is `b² (c² − 4 b d)`, not the discriminant of a quadratic.
-
-The supplier API is the unit and composition laws of the twisted action and its discriminant covariance, stated by AnalyticNumberTheoryPartII §5.4, with Mathlib’s `Cubic.discr`. Coefficient evaluation, scaling, dehomogenization and maps use that existing carrier; no **BinaryCubicForm** structure or transported copy of `Cubic` is introduced. Base change commutes with substitution and discriminant, and coefficient scaling by u multiplies the discriminant by `u⁴`.
-
-Use the action laws and discriminant covariance of AnalyticNumberTheoryPartII §5.4 on Mathlib’s `Cubic` carrier. Under ordinary substitution the discriminant gains `det(γ)⁶`; the twist contributes `det(γ)⁻⁴`, leaving `det(γ)²`. A scalar u contributes `u³` from substitution and `u⁻²` from the twist, hence acts by u. The faithfulness assertion concerns formal coefficients, including over small finite fields.
-
-*Needs:* `Cubic` (Mathlib), `Cubic.discr` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib), `Matrix.GeneralLinearGroup.det` (Mathlib), `Matrix.GeneralLinearGroup.scalar` (Mathlib).
-
-([6], Section 2, (9), printed p. 4; [7], Section 2, printed p. 2.)
-
-**Checks.**
-
-- The form `x² y − x y²` over `ℤ` has discriminant 1.
-
-- The scalar matrix 2 in `GL2(ℚ)` sends `(a,b,c,d)` to `(2a,2b,2c,2d)`, not to `(8a,8b,8c,8d)` as the untwisted substitution would.
-
-- The form `x³` has discriminant 0.
-
-- The swap matrix `(0 1; 1 0)` in `GL2(ℤ)` sends `(a,b,c,d)` to `(−d,−c,−b,−a)`.
-
-**Cubic ring.** A cubic algebra over a commutative ring R is a commutative R-algebra A (with 1) equipped, up to change of basis, with an R-basis indexed by `Fin 3`; a cubic ring is a cubic `ℤ`-algebra. For nontrivial R this is equivalently `Module.Free R A`, `Module.Finite R A` and `Module.finrank R A = 3`. The basis formulation also applies to the zero ring, where finrank is zero and cannot express the intended rank. The discriminant of A with respect to a basis b is `Disc_b(A) = det(Tr_{A/R}(b_i b_j))`, Mathlib's `Algebra.discr R b`; a change of basis by P multiplies it by `(det P)²`, so it is a well-defined element of the orbit set of R under multiplication by unit squares, denoted `R/(Rˣ)²`, and for `R = ℤ` an integer independent of the basis. A ring A that is free of finite rank over `ℤ` is maximal at a prime p if every subring B with A subset B subset `A[1/p]` that is finitely generated as a `ℤ`-module equals A; it is maximal if it is maximal at every prime.
-
-[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.5 supplies the general locally free cubic algebra; this free `Fin 3` specialization keeps maximality as its additional statistical predicate. The formulas below fix the statistical coordinate convention.
-
-Rank 3 and freeness are part of the notion; over a PID or a local ring the quotient `A/R.1` is then free of rank 2 (quotient-by-scalars-is-free). Maximality at p is tested only against overrings inside `A[1/p]` (index a power of p); this is Bhargava-Shankar-Tsimerman's `R₁ = R' ∩ (R ⊗ ℤ[1/p])`. For a free `ℤ`-module A of finite rank the map `A → A[1/p]` is injective, so A is identified with its image.
-
-Use Mathlib’s `Algebra.discr` and `Algebra.discr_of_matrix_mulVec` for the trace matrix and basis changes. The projective-form/cubic-algebra equivalence and the discriminant ideal of AnalyticNumberTheoryPartII §5.5 supply the general algebra and its determinant-line discriminant; the free-coordinate discriminant is its value in the chosen basis. **CubicRing.IsMaximalAt**, **CubicRing.IsMaximal**, **isMaximal_iff_forall_isMaximalAt** and **isMaximal_ringOfIntegers** are the additional statistical API of §0.8.
-
-Use `Algebra.discr` directly; the change-of-basis formula is Mathlib's `Algebra.discr_of_matrix_mulVec`, and over `ℤ` the unit determinant is `±1`, so the discriminant is basis-independent. Define `IsMaximalAt p A` by quantifying over the subrings of `Localization.Away (p : A)` containing the image of A and finitely generated over `ℤ`; `IsMaximal A` is maximality at every prime. The ring of integers of a number field is maximal: a subring of K finite over `ℤ` consists of integral elements, hence lies in the integral closure (Mathlib `NumberField.RingOfIntegers`).
-
-*Needs:* `Algebra.discr` (Mathlib), `Algebra.discr_of_matrix_mulVec` (Mathlib), `Module.Free` (Mathlib), `Module.finrank` (Mathlib), `Localization.Away` (Mathlib), `NumberField.RingOfIntegers` (Mathlib).
-
-([6], Section 2, printed p. 4, and Section 3, printed p. 6; [6], Proof of Lemma 13, printed p. 7; [8], Section 4, printed p. 116.)
-
-**Checks.**
-
-- The standard basis of `ℤ³` (as the ring `Fin 3 → ℤ`) has discriminant 1.
-
-- Over the zero ring R, `R³` still has its `Fin 3`-indexed basis, but `Module.finrank R (R³)=0`. Requiring `finrank=3` without `Nontrivial R` would incorrectly exclude this base change.
-
-- The power basis of `ℤ[x]/(x³ − 2)` has discriminant `−108`.
-
-- `ℤ[x]/(x³)` is not maximal at 2.
-
-- `Disc(ℤ³) = 1` in the standard basis; `Disc(ℤ[2^{1/3}]) = -108` in the power basis.
-
-- `ℤ[x]/(x³)` is not maximal at 2: `ℤ + ℤ x + ℤ (x²/2)` is a ring strictly between it and its localization.
-
-**Cubic ring of a binary cubic form.** For a binary cubic form `f = (a,b,c,d)` over a commutative ring R, let `R(f)` be the commutative R-algebra with R-basis `<1, ω, θ>` and multiplication `ω θ = -ad`, `ω² = -ac − b ω + a θ`, `θ² = -bd − d ω + c θ`. It is constructed as `R[X₀, X₁]/(X₀ X₁ + ad, X₀² + ac + b X₀ − a X₁, X₁² + bd + d X₀ − c X₁)`. It is associative and commutative, free of rank 3 with the stated basis; the constants `−ad`, `−ac`, `−bd` are the only ones compatible with associativity for a normal basis (`ω θ` in R). Moreover: `γ . f` gives an isomorphic R-algebra for `γ` in `GL2(R)`; the natural map `R(n f) → R(f)` has image `R + n R(f)`, and identifies these algebras when n is a non-zero-divisor in R; for `a = 1`, `R(f) = R[ω]` with `ω³ + b ω² + c ω + d = 0`; and `R(f) ⊗_R S = R(f_S)` for any R-algebra S.
-
-[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.5 supplies the algebra and its base change; use its simultaneously negated normal basis to obtain the signs below. The formulas below fix the statistical coordinate convention.
-
-Sign convention pinned (Bhargava-Shankar-Tsimerman (10)-(11)): `ω² = -ac − b ω + a θ`. Gross-Lucianovic and HCL III use the basis `<1, i, j> = <1, −ω, −θ>`, with `i² = -ac + b i − a j`; the index form of their basis is `−f`. No hypothesis on R.
-
-The projective-form/cubic-algebra equivalence of AnalyticNumberTheoryPartII §5.5 supplies the free algebra, basis, equivariant algebra isomorphisms and base change. The adapter API is **cubicNegatedBasis**, the basis `(1,−ω,−θ)` giving the displayed signs; **cubicRingMonicEquiv**, identifying `a=1` with `R[X]/(X³+bX²+cX+d)`; and **cubicRingScaleHom**, taking `ω` and `θ` to n times their counterparts, with image `R+nR(f)` and injectivity exactly when n is a nonzerodivisor. The basis coordinates are `1, ω, θ` in that order, so basis evaluation and trace matrices use this fixed ordering.
-
-AnalyticNumberTheoryPartII §5.5 supplies the associative free algebra, its basis and the change-of-basis and base-change isomorphisms. In the negated basis, the monic relation is `ω³+b ω²+c ω+d=0`. The content map has diagonal matrix `diag(1,n,n)`, image `R+nR(f)`, and is injective exactly when multiplication by n on R is injective. Thus `n=0` over a nonzero ring is excluded from the isomorphism-onto-image statement. These are basis and content adapters for the supplied algebra. Source locators and coefficient checks below fix the conventions.
-
-*Needs:* binary cubic forms and the twisted action (Cubic supplier conventions), cubic ring (Cubic supplier conventions), `MvPolynomial` (Mathlib), `Ideal.Quotient.mk` (Mathlib), `AdjoinRoot` (Mathlib).
-
-([6], Proof of Theorem 9, (10)-(11), printed pp. 4-5; [7], Section 3, Examples 1-3, printed p. 4; [9], Introduction, printed p. 1332.)
-
-**Checks.**
-
-- `R(x² y − x y²)` is isomorphic to `ℤ³` as a `ℤ`-algebra.
-
-- For `f = 0`: `ω² = θ² = ω θ = 0`.
-
-- `R(x³ + 2 y³)` is isomorphic to `ℤ[x]/(x³ + 2)` (`AdjoinRoot`).
-
-- For `f = y(x² + y²) (a = 0)`: `ω θ = 0` with `ω`, `θ` nonzero, so `R(f)` is not a domain.
-
-- `R(x² y − x y²) = ℤ³` via `ω ↦ (−1,0,0)`, `θ ↦ (0,−1,0)` (BST, proof of Proposition 10).
-
-**Discriminant of the cubic ring of a form.** For every binary cubic form f over a commutative ring R, the discriminant of `R(f)` with respect to its normal basis `<1, ω, θ>` equals `disc(f) = b²c² − 4ac³ − 4b³d − 27a²d² + 18abcd`.
-
-[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.5 supplies the discriminant comparison; the trace-matrix calculation below checks the chosen negated basis. The formulas below fix the statistical coordinate convention.
-
-R is any commutative ring; the identity is a polynomial identity in `ℤ[a,b,c,d]`.
-
-In the supplied algebra, traces in the basis `<1, ω, θ>`: `Tr(1) = 3`, `Tr(ω) = -b`, `Tr(θ) = c`, `Tr(ω²) = b² − 2ac`, `Tr(θ²) = c² − 2bd`, `Tr(ω θ) = -3ad` (from the multiplication table; Gan–Gross–Savin use `(α,β)=(−ω,−θ)`, so their linear traces are b and −c, while their squared and mixed traces agree with these). The determinant of the 3 x 3 trace matrix expands to `disc(f)` (a direct polynomial computation, as Bhargava-Shankar-Tsimerman state); the conceptual route through the uniqueness of the degree-4 SL2-invariant up to scalar is not needed.
-
-*Needs:* cubic ring of a binary cubic form (Cubic supplier conventions), cubic ring (Cubic supplier conventions), `Algebra.discr` (Mathlib).
-
-([6], Proposition 10 and (12), printed p. 5; [8], Section 4, printed p. 116.)
-
-**Checks.**
-
-- `f = x² y − x y²`: `R(f) = ℤ³` and both discriminants are 1.
-
-- `f = x³ + 2y³`: `-108 = Disc ℤ[2^{1/3}]`.
-
-- For `f=x²y`, `Tr(ω)=−1` whereas `Tr(α)=1` for `α=−ω`; the basis sign changes the linear trace.
-
-## How to read the build
-
-The mathematical specification is this README; `Suggested.lean` states headline theorems on the pinned carriers, with the definitions needed to express them. The sections below state every target with its hypotheses, source locator, API and Checks. Definitions requiring new arithmetic or geometric carriers are README targets. Earlier-part supplier links point to their precise statements. The source counts retain their strict or inclusive cutoffs and their own denominators.
 
 ## Layer 0: Families, heights and local specifications
 
@@ -2614,6 +2473,157 @@ This section is secondary; it compares targets with an existing formalization an
 - §0.13: the primitive hypersurface family is the sign quotient of primitive integral vectors, that is, the rational points of a projective space. `Height/Weil/NorthcottRat.lean` proves Northcott finiteness over `ℚ` by choosing a primitive integral representative and bounding its coordinates, which is also the shape of the Northcott proof for the descended height of §0.13. Its height is the logarithm of the maximum norm, whereas §0.13 orders by the Euclidean norm, and the coprime-integer formula it relies on is already Mathlib's `Rat.logHeight_eq_max_abs_of_gcd_eq_one`.
 
 The other sections have no counterpart there: the invariant height of §0.3, the curve-family height of §0.4 (a height on equations, not on points), the squareclass height of §0.5 and the families ordered by it in §§0.6 and 0.15, the discriminant ordering of §0.7, the coefficient-box, monic weighted and model heights of §§0.12 and 0.14 (on vectors, not on projective classes), the finite-field instances in the supporting constructions, and §§0.2, 0.8–0.11 and 0.16–0.24 (local specifications, densities, function-field slices, finite-field families and binary-form orders), none of which uses a height on points. Conversely, its height machine for line-bundle classes, polynomial heights with Gelfond's inequality and Gauss's lemma, Siegel's lemma and the large-coordinate estimates have no use here.
+
+## Scope and ownership
+
+This part owns families, heights and local specifications. Layer 0 constructs the family interface, local coefficient statistics, finite bundle laws and exact function-field slices. Orbit dictionaries, global counts, Selmer means and limiting laws consume these objects. The API names above specify the library interfaces to build. `Suggested.lean` states headline results on the pinned carriers, with coefficient polynomials in `TauCetiRoadmap.ArithmeticStatisticsPartI.Coefficients`.
+
+The following boundaries fix the carriers and prevent parallel versions of existing mathematics.
+
+- TauCetiRoadmap.EllipticCurves Layers 1, 4–8 supply isogenies, local point groups, quadratic twists, Mordell–Weil, finite Selmer groups and their exact sequence, and the unique integral minimal short pair over `ℚ`. Here the new elliptic-family adapter sends that pair `(A,B)` to `(−3A,−27B)` and tracks the resulting height and local-density factors. Mathlib's pointwise `WeierstrassCurve.Affine.Point.naiveHeight` is a height on points and is not this curve-family height.
+- TauCetiRoadmap.GlobalNumberFields Layers 9–11 own discriminants, orders, Picard groups and the number-field lattice dictionary. GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3, 3.2 supplies primitive adapted bases and maximal-minor ideals for the integer saturation-index comparison here. Its §§2.2–2.8 and IntegralLattices supply the hermitian and integral-lattice comparisons used in polarization fibres.
+- TauCetiRoadmap.NumberFieldArithmetic Layers 1, 4 and 6 and TauCetiRoadmap.LocalFieldsRamification Layer 3 supply splitting, relative discriminants, towers and local ramification. TauCetiRoadmap.ClassFieldTheory Layers 11–13 supplies number-field Artin reciprocity, unramified class fields and conductor characters. ArithmeticGaloisDuality §R02.3.2 supplies function-field reciprocity and finite S-class groups. The exact function-field slices retain the removed infinity places and their degrees.
+- SchemeAndStackFoundations §§3.6–3.7 owns unpointed Picard schemes and their degree torsors, the Picard–Brauer obstruction, rational-divisor-class comparison, norm and high-degree Abel maps. The Picard quotient, carry and Hecke probability here are finite statistical specializations. AbelianSchemesAndArithmeticModuli:A3 supplies theta groups and Cartier-dual isogeny kernels; A6 supplies polarized automorphisms and the Rosati-positive-unit orbit description of principal polarizations. The finite counting fibres and their asymptotics are new.
+- ClassicalArithmeticCompletion §§7.4, 7.21, 7.56 supplies orders and maximal-order existence in characteristic zero. EulerSystemsAndKolyvaginSystems §4.8 supplies local division-order modules, maximal matrix orders, product decompositions and conductor bounds. The local-order orbit-finiteness consequence and its full Dieudonné-order application are supporting targets here.
+- The finite-field instances that the counting fibres need, namely the finiteness of Weil polynomials, the finiteness of polarized abelian varieties of fixed dimension and polarization degree, Tate's theorem at every prime over a finite field and the finiteness of an isogeny class, are stated as targets in the supporting constructions, this roadmap being the earliest in the build that uses them. The general theory around them, Honda–Tate, the lattice classification of isogeny classes and the polarized moduli stacks, is owned later in the build by AbelianSchemesAndArithmeticModuliPartII and PELModuli; nothing is imported from them here.
+- TauCetiRoadmap.AlgebraicVectorBundles L0 supplies finite locally free sheaves, their rank, tensor products and line-bundle comparison. JacobianChallenge Layers B–C supply curve cohomology, Riemann–Roch and finite pushforward; AlgebraicCurves Layers 7 and 10 supply double-cover genus and smooth models. The rank-two splitting and hyperelliptic bundle-index formulas needed for the probabilities are the specialization stated in the bundle geometry contract (Supporting constructions).
+- InverseGaloisAndArithmeticFundamentalGroups:IG.3–IG.5 own reduced Schur multipliers and covers, arithmetic lifting invariants and Hurwitz components. They are imported with their marked central-cover choices and cyclotomic power actions. Here embedded wreath types, infinity rigidifications and the normalized component sums specify which arithmetic moments are counted.
+
+The pointwise two-Selmer rank identity is supplied by EllipticCurves Layer 7's exact sequence and Layer 6's Mordell–Weil theorem: `dim Sel₂(E)=rank E(ℚ)+dim E(ℚ)[2]+dim Sha(E)[2]`. Its explicit descent cardinal formula and rank inequality are already `WeierstrassCurve.Affine.card_range_μ` and `WeierstrassCurve.Affine.pow_rank_le_card_of_range_μ_le` in `TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup`, transported by EllipticCurves' explicit/cohomological comparison. These are pointwise inputs; an average additionally specifies its family and denominator.
+
+AnalyticNumberTheoryPartI §§0.25–0.26, 2.3–2.5 and AnalyticNumberTheoryPartII §§5.4–5.7, 5.21, 5.28–5.29 supply the analytic and cubic input. The other supplier contracts are: SchemeAndStackFoundations; GeometryOfNumbersAndQuadraticArithmetic; AdelicAlgebraicGroups; DiophantineApproximationAndTranscendence; InverseGaloisAndArithmeticFundamentalGroups; AbelianSchemesAndArithmeticModuli; ReductiveGroupsPartII; SelmerIwasawaCohomology; ArithmeticGaloisDuality; NeronModelsAndSemistableAbelianVarieties; EtaleDualityAndPerverseSheaves; and DeligneWeightsAndPurity. Specialized facts needed here are local supporting targets.
+
+## Exact supplier contracts
+
+From Mathlib use `Northcott`, `Northcott.comp_of_finite_fibers`, finite sets and quotient/orbit types; `Polynomial.discr`, resultants, separability and `Squarefree`; `ClassGroup`, `NumberField.discr` and `NumberField.dedekindZeta_residue`; p-adic fields and integers; Haar measures, real and extended nonnegative integrals, filters, infinite sums and products; `QuadraticForm`, bilinear forms, matrices, ranks, finite-dimensional subspaces, finite abelian-group structure and Smith normal form. The prime-counting estimate is `Chebyshev.eventually_primeCounting_le` in `Mathlib.NumberTheory.Chebyshev`: for every `ε>0` and eventually x, `π(⌊x⌋)≤(log 4+ε)x/log x`. The new weighted prime-tail statements use partial summation from that estimate. The signed resultant identity for the binary discriminant is `Polynomial.resultant_deriv`: for a polynomial `f` of positive degree d over a commutative ring, the resultant of `f` and `f′` at formal degrees `(d, d−1)` equals `(−1)^{d(d−1)/2}·lc(f)·discr(f)`. Applied to the universal form `F = Σ aᵢ xⁿ⁻ⁱ` over `ℤ[a₀,…,aₙ]`, which for `n≥1` has degree exactly n and leading coefficient `a₀`, and specialized along every coefficient vector with `Polynomial.resultant_map_map` and `Polynomial.derivative_map`, it gives `a₀·Δ_n(f) = (−1)^{n(n−1)/2}·Res_{n,n−1}(f, f′)` for `binaryDisc` (§0.12) over every commutative ring, `a₀ = 0` included; no roadmap supplies it.
+
+From `TauCeti.Order.Northcott.Basic` use `TauCeti.normLE`, `TauCeti.coe_normLE`, `TauCeti.summatory` and `TauCeti.eventually_summatory_indicator_sub_eq` for inclusive natural-height counts and finite changes of families.
+
+For irreducible monic integral polynomials, `TauCeti.NumberTheory.NumberField.Index.DedekindCriterion` supplies `TauCeti.NumberField.IntegralPrimitiveElement.not_dvd_index_iff`: at a prime p, with distinct monic residue factors `φ_i` of positive multiplicities `e_i`, chosen monic lifts `Φ_i` and `pH=f−∏Φ_i^e_i`, p does not divide the order index exactly when every i has `e_i=1` or `φ_i∤H mod p`. The reducible separable-algebra extension and exact local proportions in §0.12 remain targets here.
+
+The alternating-extension transfer consumes `TauCeti.NumberField.discr_emod_four_eq_zero_or_one` from `TauCeti.NumberTheory.NumberField.Discriminant.Stickelberger` and `NumberField.discr_eq_of_squarefree_of_mod_four_eq_one` from `TauCeti.NumberTheory.NumberField.Quadratic.RingOfIntegers`. The latter requires `minpoly ℤ θ=X²−d`, generation over `ℚ`, squarefree d and `d≡1 mod 4`. Mathlib's `NumberField.abs_discr_gt_two` rules out a nontrivial number field of absolute discriminant one. These are existing arithmetic inputs, not new targets.
+
+From TauCetiRoadmap.EllipticCurves Layers 4–8 require the finite exact sequence `0→E(K)/nE(K)→Sel_n(E/K)→Sha(E/K)[n]→0`, compatibility with localization, naturality under isogenies, and rational torsion. Over Q require a unique integral short pair with no prime satisfying `p⁴|A` and `p⁶|B`, nonsingular discriminant, finiteness of bounded-height pairs and invariance under Q-isomorphism. Over `ℚ_p` require a finite-index open formal subgroup isomorphic to an open additive `ℤ_p` subgroup and the reduction/component/Tamagawa dictionary. Over R require the one- or two-component compact Lie-group description. These exact local groups, not only their cardinalities, enter the five-adic labels.
+
+From TauCetiRoadmap.ClassFieldTheory Layers 11–13 require the unramified reciprocity quotient, including split real places for ordinary classes and allowed real ramification for narrow classes, the conductor–discriminant formula, and equivariance under field automorphisms. From NumberFieldArithmetic Layers 1, 4 and 6 require norm/extension compatibility and discriminant transitivity. From GlobalNumberFields Layer 11 require the finite order-class and overorder interfaces, trace duals, ideal norms, and discriminant/index-square identities. From GlobalQuadraticForms Layer 5 require the Hasse principle for nonsingular conics over number fields, used to compare quartic descent with the cohomological two-Selmer group.
+
+ArithmeticGaloisDuality §R02.3.2 supplies the function-field class formation and Artin reciprocity, with global/local compatibility and the abelian norm-group correspondence, together with the `S`-class group `Cl_S(F)` and its finiteness for nonempty `S`. For a finite nonempty removed-place set S, transport that reciprocity to `Pic(C)/⟨[v]:v∈S⟩`, imposing splitting at S and retaining its degree quotient `ℤ/gcd(deg(v):v∈S)ℤ` and degree-zero kernel, as in the function-field adapter (Supporting constructions).
+
+From GeometryOfNumbersAndQuadraticArithmetic §§0.2–0.3 require primitive adapted bases and covolume identities; §3.2’s `hermitianMaximalMinorIdeal` supplies the general maximal-minor ideal and basis-change API. The integer two-column gcd/index comparison is a target of §0.10 here. AdelicAlgebraicGroups AA.0 supplies restricted-product measure theory for countable families of second countable locally compact groups. The adeles of `𝔽_q(t)`, rational quotient, bundle correspondence and finite-volume measure are constructed in function-field adelic bundle measure §0.18.
+
+The finite-dimensional singular system is already owned by [TauCetiRoadmap.OperatorTheory, PolarDecomposition Part C](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/OperatorTheory/PolarDecomposition/README.md): PD-C09–PD-C18 supply right and left singular vectors and reconstruction. Its real invertible two-dimensional specialization gives `g=k diag(u,u⁻¹)l`, `u≥1`, for `|det g|=1`, with k,l orthogonal. This is the supplier used in compact binary transporters. Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis` in `Analysis.InnerProductSpace.Spectrum` already supplies the underlying spectral theorem; no general singular-decomposition theory is planned here.
+
+From SchemeAndStackFoundations Layers 0–3 and §§3.6–3.7 require representability and base change for the specified moduli problems, finite étale covers, smooth lifting, unpointed Picard degree torsors, and the Picard–Brauer exact sequence. From AbelianSchemesAndArithmeticModuli:A2–A3 require abelian isogenies, duality, polarizations and theta-group commutators, with fppf cohomology when the degree meets the characteristic; A6 gives the Rosati orbit description and finite polarized automorphism groups. Its §A6.4 supplies `simpleEndDivision`; §A6.5 supplies `poincareReducibility` and unique simple-factor multiplicities. ReductiveGroupsPartII §RG2.3.7 supplies Lang's theorem and torsor triviality for smooth connected groups over finite fields, specialized here to abelian varieties and Pic¹ torsors. From NeronModelsAndSemistableAbelianVarieties Layers 1–4 require local existence, semistable reduction, normalization/Picard exact sequences, graph monodromy and the identity-component comparison used in the twist parity formulas.
+
+From ClassicalArithmeticCompletion §§7.4, 7.21, 7.56 require orders finite and full over the valuation ring, and a containing maximal order when the regular-trace pairing is nondegenerate, as it is for a semisimple algebra in characteristic zero. From EulerSystemsAndKolyvaginSystems §4.8 require the classification of torsion-free modules over local division orders, the matrix-order and full-corner description, product decomposition and a central nonzero conductor. In a fixed rational module these give the maximal-order lattice types used by the local orbit-finiteness target above; no equal-rank hypothesis across the simple factors is imposed. From FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.5–R07.2.10 require the full Dieudonné ring with its Witt scalars, its W-linear morphisms commuting with F and V, and its contravariant finite-group and p-divisible-group equivalences.
+
+From SelmerIwasawaCohomology Layers 0–4 require continuous/fppf cohomology, Kummer localization, finite Selmer groups and torsors and the p-infinity corank interface. ArithmeticGaloisDuality §§D7, R02.4 supplies Poitou–Tate, local invariants and local pairings. SelmerIwasawaCohomology §4.29 supplies the cohomological Cassels–Tate pairing, its isogeny adjointness, its maximal-divisible radicals and the finite nondegenerate primary quotients. SchemeAndStackFoundations §3.6 and JacobianChallenge Layer D supply the degree/index and Picard–Brauer comparison: a rational relative Picard point is identified with a line bundle only after its obstruction vanishes.
+
+From InverseGaloisAndArithmeticFundamentalGroups:IG.0–IG.2 require finite embedding problems, quantitative Hilbert irreducibility and the fixed-model Lang–Weil estimate. IG.3 supplies `H₂(F,c)=H₂(F,ℤ)/Q_c`, a chosen reduced cover, functorial cyclotomic powers and the Tate-twisted component invariant. IG.4 supplies global arithmetic lifting invariants over number fields and the marked-extension and unramified Gamma-group carriers over global fields. IG.5 supplies Hurwitz components with their rational Frobenius action. A stable component formula is used only in its stable multidegree range; boundary components remain in the total profile.
+
+From EtaleDualityAndPerverseSheaves §§0.5–0.6, 6.3 and DeligneWeightsAndPurity:DWP.7 require compactly supported cohomology, the trace formula, Poincaré duality, weights and the uniform Betti-bound hypotheses stated below. DeligneWeightsAndPurity §1.6 supplies `#C(𝔽_(q^m))=q^m+1-Σ_i α_i^m` and `|#C(𝔽_(q^m))-(q^m+1)|≤2gq^(m/2)` for a smooth proper geometrically connected curve. Its §1.4–1.5 supplies the weight-one abelian Frobenius roots and `#A(𝔽_(q^m))=det(1-π^m)`. Arithmetic Frobenius on the Tate module and geometric Frobenius on cohomology are not interchanged.
+
+From AnalyticNumberTheoryPartII require the [binary-cubic action and discriminant](../AnalyticNumberTheoryPartII/README.md) (§5.4), [projective cubic-algebra equivalence](../AnalyticNumberTheoryPartII/README.md) (§5.5), [finite weighted cubic coefficients](../AnalyticNumberTheoryPartII/README.md) (§5.6), [uniform small-degree field bound](../AnalyticNumberTheoryPartII/README.md) (§5.7), [cubic analytic extension and residues](../AnalyticNumberTheoryPartII/README.md) (§5.21), [pole-aware cubic convexity](../AnalyticNumberTheoryPartII/README.md) (§5.28), and [quadratic large sieve and real-character moment](../AnalyticNumberTheoryPartII/README.md) (§5.29). The projective equivalence includes nonprincipal rank-two modules, stabilizers and determinant-line discriminants; restricting to the free coefficient lattice does not discard those general inputs. The cubic descriptions below are import and compatibility contracts for those objects, with the displayed basis/sign adapters, rather than a second construction of them. The local selectors below use those carriers; global sieve applications retain a separate tail hypothesis. AnalyticNumberTheoryPartI §§2.3–2.5 supplies Hecke/Dedekind extension and residue comparisons; §§0.25–0.26 supplies prime-product bounds. Completed ArithmeticDirichletSeries Layers 6 and 9 supplies Abel/Perron summation and Wiener–Ikehara, retaining coefficient positivity, convergence domains, residues and continuous boundary remainders. DiophantineApproximationAndTranscendence §2.4 supplies finite-rank unit-equation bounds and §4.3 supplies effective Thue finiteness. Embedding-fibre applications keep their source-specific uniform degree-three bound, its numerical constant and the order/cross-ratio comparison as explicit additional hypotheses.
+
+### Cubic supplier conventions
+
+**Binary cubic forms and the twisted action.** For a commutative ring R, a binary cubic form over R is `f(x,y) = a x³ + b x² y + c x y² + d y³` with a, b, c, d in R, recorded by its four coefficients `(V₃(R) = R⁴)`. Its discriminant is `disc(f) = b² c² − 4 a c³ − 4 b³ d − 27 a² d² + 18 a b c d`, which is Mathlib's `Cubic.discr` of the coefficient vector (valid also when `a = 0`). The group `GL2(R)` acts on the left by the twisted action `(γ . f)(x,y) = (det γ)⁻¹ f((x,y) γ)`, where `(x,y) γ = (g00 x + g10 y, g01 x + g11 y)` for `γ = (g_ij)`. The action is faithful: the scalar `u.1` acts as multiplication by u. It satisfies `disc(γ . f) = (det γ)² disc(f)`, and it commutes with base change of coefficients along ring homomorphisms.
+
+[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.4 supplies the action and ordinary discriminant; the coefficient/base-change API below is its arithmetic-family adapter. The formulas below fix the statistical coordinate convention.
+
+R is a commutative ring; no assumption on 2 or 3 is made. Convention pinned: the substitution is by the row vector `(x, y)` times `γ`, and the twist is `(det γ)⁻¹`; with this convention the Delone-Faddeev correspondence is `GL2(R)`-equivariant for the change of basis of `R(f)/R`. The discriminant is the discriminant of the binary form, not of the dehomogenized polynomial: for `a = 0` it is `b² (c² − 4 b d)`, not the discriminant of a quadratic.
+
+The supplier API is the unit and composition laws of the twisted action and its discriminant covariance, stated by AnalyticNumberTheoryPartII §5.4, with Mathlib’s `Cubic.discr`. Coefficient evaluation, scaling, dehomogenization and maps use that existing carrier; no **BinaryCubicForm** structure or transported copy of `Cubic` is introduced. Base change commutes with substitution and discriminant, and coefficient scaling by u multiplies the discriminant by `u⁴`.
+
+Use the action laws and discriminant covariance of AnalyticNumberTheoryPartII §5.4 on Mathlib’s `Cubic` carrier. Under ordinary substitution the discriminant gains `det(γ)⁶`; the twist contributes `det(γ)⁻⁴`, leaving `det(γ)²`. A scalar u contributes `u³` from substitution and `u⁻²` from the twist, hence acts by u. The faithfulness assertion concerns formal coefficients, including over small finite fields.
+
+*Needs:* `Cubic` (Mathlib), `Cubic.discr` (Mathlib), `Matrix.GeneralLinearGroup` (Mathlib), `Matrix.GeneralLinearGroup.det` (Mathlib), `Matrix.GeneralLinearGroup.scalar` (Mathlib).
+
+([6], Section 2, (9), printed p. 4; [7], Section 2, printed p. 2.)
+
+**Checks.**
+
+- The form `x² y − x y²` over `ℤ` has discriminant 1.
+
+- The scalar matrix 2 in `GL2(ℚ)` sends `(a,b,c,d)` to `(2a,2b,2c,2d)`, not to `(8a,8b,8c,8d)` as the untwisted substitution would.
+
+- The form `x³` has discriminant 0.
+
+- The swap matrix `(0 1; 1 0)` in `GL2(ℤ)` sends `(a,b,c,d)` to `(−d,−c,−b,−a)`.
+
+**Cubic ring.** A cubic algebra over a commutative ring R is a commutative R-algebra A (with 1) equipped, up to change of basis, with an R-basis indexed by `Fin 3`; a cubic ring is a cubic `ℤ`-algebra. For nontrivial R this is equivalently `Module.Free R A`, `Module.Finite R A` and `Module.finrank R A = 3`. The basis formulation also applies to the zero ring, where finrank is zero and cannot express the intended rank. The discriminant of A with respect to a basis b is `Disc_b(A) = det(Tr_{A/R}(b_i b_j))`, Mathlib's `Algebra.discr R b`; a change of basis by P multiplies it by `(det P)²`, so it is a well-defined element of the orbit set of R under multiplication by unit squares, denoted `R/(Rˣ)²`, and for `R = ℤ` an integer independent of the basis. A ring A that is free of finite rank over `ℤ` is maximal at a prime p if every subring B with A subset B subset `A[1/p]` that is finitely generated as a `ℤ`-module equals A; it is maximal if it is maximal at every prime.
+
+[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.5 supplies the general locally free cubic algebra; this free `Fin 3` specialization keeps maximality as its additional statistical predicate. The formulas below fix the statistical coordinate convention.
+
+Rank 3 and freeness are part of the notion; over a PID or a local ring the quotient `A/R.1` is then free of rank 2 (quotient-by-scalars-is-free). Maximality at p is tested only against overrings inside `A[1/p]` (index a power of p); this is Bhargava-Shankar-Tsimerman's `R₁ = R' ∩ (R ⊗ ℤ[1/p])`. For a free `ℤ`-module A of finite rank the map `A → A[1/p]` is injective, so A is identified with its image.
+
+Use Mathlib’s `Algebra.discr` and `Algebra.discr_of_matrix_mulVec` for the trace matrix and basis changes. The projective-form/cubic-algebra equivalence and the discriminant ideal of AnalyticNumberTheoryPartII §5.5 supply the general algebra and its determinant-line discriminant; the free-coordinate discriminant is its value in the chosen basis. **CubicRing.IsMaximalAt**, **CubicRing.IsMaximal**, **isMaximal_iff_forall_isMaximalAt** and **isMaximal_ringOfIntegers** are the additional statistical API of §0.8.
+
+Use `Algebra.discr` directly; the change-of-basis formula is Mathlib's `Algebra.discr_of_matrix_mulVec`, and over `ℤ` the unit determinant is `±1`, so the discriminant is basis-independent. Define `IsMaximalAt p A` by quantifying over the subrings of `Localization.Away (p : A)` containing the image of A and finitely generated over `ℤ`; `IsMaximal A` is maximality at every prime. The ring of integers of a number field is maximal: a subring of K finite over `ℤ` consists of integral elements, hence lies in the integral closure (Mathlib `NumberField.RingOfIntegers`).
+
+*Needs:* `Algebra.discr` (Mathlib), `Algebra.discr_of_matrix_mulVec` (Mathlib), `Module.Free` (Mathlib), `Module.finrank` (Mathlib), `Localization.Away` (Mathlib), `NumberField.RingOfIntegers` (Mathlib).
+
+([6], Section 2, printed p. 4, and Section 3, printed p. 6; [6], Proof of Lemma 13, printed p. 7; [8], Section 4, printed p. 116.)
+
+**Checks.**
+
+- The standard basis of `ℤ³` (as the ring `Fin 3 → ℤ`) has discriminant 1.
+
+- Over the zero ring R, `R³` still has its `Fin 3`-indexed basis, but `Module.finrank R (R³)=0`. Requiring `finrank=3` without `Nontrivial R` would incorrectly exclude this base change.
+
+- The power basis of `ℤ[x]/(x³ − 2)` has discriminant `−108`.
+
+- `ℤ[x]/(x³)` is not maximal at 2.
+
+- `Disc(ℤ³) = 1` in the standard basis; `Disc(ℤ[2^{1/3}]) = -108` in the power basis.
+
+- `ℤ[x]/(x³)` is not maximal at 2: `ℤ + ℤ x + ℤ (x²/2)` is a ring strictly between it and its localization.
+
+**Cubic ring of a binary cubic form.** For a binary cubic form `f = (a,b,c,d)` over a commutative ring R, let `R(f)` be the commutative R-algebra with R-basis `<1, ω, θ>` and multiplication `ω θ = -ad`, `ω² = -ac − b ω + a θ`, `θ² = -bd − d ω + c θ`. It is constructed as `R[X₀, X₁]/(X₀ X₁ + ad, X₀² + ac + b X₀ − a X₁, X₁² + bd + d X₀ − c X₁)`. It is associative and commutative, free of rank 3 with the stated basis; the constants `−ad`, `−ac`, `−bd` are the only ones compatible with associativity for a normal basis (`ω θ` in R). Moreover: `γ . f` gives an isomorphic R-algebra for `γ` in `GL2(R)`; the natural map `R(n f) → R(f)` has image `R + n R(f)`, and identifies these algebras when n is a non-zero-divisor in R; for `a = 1`, `R(f) = R[ω]` with `ω³ + b ω² + c ω + d = 0`; and `R(f) ⊗_R S = R(f_S)` for any R-algebra S.
+
+[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.5 supplies the algebra and its base change; use its simultaneously negated normal basis to obtain the signs below. The formulas below fix the statistical coordinate convention.
+
+Sign convention pinned (Bhargava-Shankar-Tsimerman (10)-(11)): `ω² = -ac − b ω + a θ`. Gross-Lucianovic and HCL III use the basis `<1, i, j> = <1, −ω, −θ>`, with `i² = -ac + b i − a j`; the index form of their basis is `−f`. No hypothesis on R.
+
+The projective-form/cubic-algebra equivalence of AnalyticNumberTheoryPartII §5.5 supplies the free algebra, basis, equivariant algebra isomorphisms and base change. The adapter API is **cubicNegatedBasis**, the basis `(1,−ω,−θ)` giving the displayed signs; **cubicRingMonicEquiv**, identifying `a=1` with `R[X]/(X³+bX²+cX+d)`; and **cubicRingScaleHom**, taking `ω` and `θ` to n times their counterparts, with image `R+nR(f)` and injectivity exactly when n is a nonzerodivisor. The basis coordinates are `1, ω, θ` in that order, so basis evaluation and trace matrices use this fixed ordering.
+
+AnalyticNumberTheoryPartII §5.5 supplies the associative free algebra, its basis and the change-of-basis and base-change isomorphisms. In the negated basis, the monic relation is `ω³+b ω²+c ω+d=0`. The content map has diagonal matrix `diag(1,n,n)`, image `R+nR(f)`, and is injective exactly when multiplication by n on R is injective. Thus `n=0` over a nonzero ring is excluded from the isomorphism-onto-image statement. These are basis and content adapters for the supplied algebra. Source locators and coefficient checks below fix the conventions.
+
+*Needs:* binary cubic forms and the twisted action (Cubic supplier conventions), cubic ring (Cubic supplier conventions), `MvPolynomial` (Mathlib), `Ideal.Quotient.mk` (Mathlib), `AdjoinRoot` (Mathlib).
+
+([6], Proof of Theorem 9, (10)-(11), printed pp. 4-5; [7], Section 3, Examples 1-3, printed p. 4; [9], Introduction, printed p. 1332.)
+
+**Checks.**
+
+- `R(x² y − x y²)` is isomorphic to `ℤ³` as a `ℤ`-algebra.
+
+- For `f = 0`: `ω² = θ² = ω θ = 0`.
+
+- `R(x³ + 2 y³)` is isomorphic to `ℤ[x]/(x³ + 2)` (`AdjoinRoot`).
+
+- For `f = y(x² + y²) (a = 0)`: `ω θ = 0` with `ω`, `θ` nonzero, so `R(f)` is not a domain.
+
+- `R(x² y − x y²) = ℤ³` via `ω ↦ (−1,0,0)`, `θ ↦ (0,−1,0)` (BST, proof of Proposition 10).
+
+**Discriminant of the cubic ring of a form.** For every binary cubic form f over a commutative ring R, the discriminant of `R(f)` with respect to its normal basis `<1, ω, θ>` equals `disc(f) = b²c² − 4ac³ − 4b³d − 27a²d² + 18abcd`.
+
+[AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md) §5.5 supplies the discriminant comparison; the trace-matrix calculation below checks the chosen negated basis. The formulas below fix the statistical coordinate convention.
+
+R is any commutative ring; the identity is a polynomial identity in `ℤ[a,b,c,d]`.
+
+In the supplied algebra, traces in the basis `<1, ω, θ>`: `Tr(1) = 3`, `Tr(ω) = -b`, `Tr(θ) = c`, `Tr(ω²) = b² − 2ac`, `Tr(θ²) = c² − 2bd`, `Tr(ω θ) = -3ad` (from the multiplication table; Gan–Gross–Savin use `(α,β)=(−ω,−θ)`, so their linear traces are b and −c, while their squared and mixed traces agree with these). The determinant of the 3 x 3 trace matrix expands to `disc(f)` (a direct polynomial computation, as Bhargava-Shankar-Tsimerman state); the conceptual route through the uniqueness of the degree-4 SL2-invariant up to scalar is not needed.
+
+*Needs:* cubic ring of a binary cubic form (Cubic supplier conventions), cubic ring (Cubic supplier conventions), `Algebra.discr` (Mathlib).
+
+([6], Proposition 10 and (12), printed p. 5; [8], Section 4, printed p. 116.)
+
+**Checks.**
+
+- `f = x² y − x y²`: `R(f) = ℤ³` and both discriminants are 1.
+
+- `f = x³ + 2y³`: `-108 = Disc ℤ[2^{1/3}]`.
+
+- For `f=x²y`, `Tr(ω)=−1` whereas `Tr(α)=1` for `α=−ω`; the basis sign changes the linear trace.
 
 ## References
 
