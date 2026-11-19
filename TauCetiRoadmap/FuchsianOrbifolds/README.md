@@ -1,16 +1,16 @@
 # Roadmap: Fuchsian groups and orbifold Riemann surfaces
 
-**Summary.** A Fuchsian group is a discrete subgroup Γ of PSL(2,ℝ), acting on the upper half-plane
-ℍ by Möbius transformations that preserve the hyperbolic metric and the area y⁻² dx dy. This roadmap
+**Summary.** A Fuchsian group is a discrete subgroup Γ of PSL(2,ℝ), acting on the upper half-plane ℍ
+by Möbius transformations that preserve the hyperbolic metric and the area y⁻² dx dy. This roadmap
 builds the geometry of these actions and their quotients, for the effective action of PSL(2,ℝ),
-whose point stabilizers are finite cyclic groups. It constructs the coarse quotient Γ\ℍ
-as a Riemann surface, smooth also at the elliptic points (the points with nontrivial stabilizer),
-where the quotient map is z ↦ zᵐ in suitable coordinates. It constructs cusps with normalized scaling
-data and q-coordinates, hyperbolic polygons with side pairings, and the Riemann surface X(Γ) obtained
-by adjoining one point for each cusp orbit. Γ is cofinite when its covolume, the area of a
-fundamental domain, is finite. Genus is topological, read off the Euler characteristic through
-χ = 2 − 2g; a statement involving a genus assumes that the surface has finite CW type, the hypothesis
-under which its Euler characteristic is defined.
+under which every point stabilizer of a Fuchsian group is a finite cyclic group. It constructs the
+coarse quotient Γ\ℍ as a Riemann surface, smooth also at the elliptic points (the points with
+nontrivial stabilizer), where the quotient map is z ↦ zᵐ in suitable coordinates. It constructs
+cusps with normalized scaling data and q-coordinates, hyperbolic polygons with side pairings, and
+the Riemann surface X(Γ) obtained by adjoining one point for each cusp orbit. Γ is cofinite when its
+covolume, the area of a fundamental domain, is finite. Genus is topological, read off the Euler
+characteristic through χ = 2 − 2g; a statement involving a genus assumes that the surface has finite
+CW type, the hypothesis under which its Euler characteristic is defined.
 
 The headline theorems are these.
 
@@ -138,15 +138,14 @@ parallel after Layer 0.
     `TauCetiRoadmap.FuchsianOrbifolds`. It exports `genus` and `riemannHurwitz` as
     `RiemannSurface.genus` and `RiemannSurface.riemannHurwitz`; `RiemannSurface.genus` is the name
     under which PseudoholomorphicCurveAnalysis and NoncongruenceModularForms cite the genus of §5.1.
-    Every other backticked declaration name in this README is a Mathlib or Tau Ceti declaration,
-    listed in the supplier contracts. The suggested homes are `TauCeti/Analysis/Complex/Fuchsian/`
-    for groups, polygons, cusps, quotient charts and the compactification, and
-    `TauCeti/Analysis/Complex/RiemannSurface/` for genus and Riemann–Hurwitz.
+    Every backticked declaration name that `Suggested.lean` does not declare is a Mathlib or Tau
+    Ceti declaration, listed in the supplier contracts; a few, such as `glAction`, `toPGL` and
+    `jSphere`, are written in the layers by their last component after their full name. The
+    suggested homes are `TauCeti/Analysis/Complex/Fuchsian/` for groups, polygons, cusps, quotient
+    charts and the compactification, and `TauCeti/Analysis/Complex/RiemannSurface/` for genus and
+    Riemann–Hurwitz.
 
 ## Layer 0: the effective projective Möbius action
-
-The layer follows Beardon, Chapters 7–8, and Katok, §§2.1–2.4, with Mathlib's
-`UpperHalfPlane/ProperAction.lean` and `UpperHalfPlane/FixedPoints.lean`.
 
 ### 0.1 Second countability of PSL(2,ℝ)
 
@@ -269,8 +268,6 @@ ComplexManifolds Milestone 4 frames the free quotient. No other layer of this ro
 
 ## Layer 1: elliptic points and coarse quotient charts
 
-The layer follows Farkas–Kra, §IV.9; Miranda, Chapter III §§3–4; and Diamond–Shurman, §§2.1–2.3.
-
 ### 1.1 Invariant discs and the linearizing coordinate
 
 Let `z` be an elliptic fixed point of order `m`. The invariant disc and the linearization are Tau
@@ -357,8 +354,6 @@ the quotient charts, the coarse atlas, local multiplicities and descent. Mathlib
 `t2Space_of_properlyDiscontinuousSMul_of_t2Space`.
 
 ## Layer 2: hyperbolic polygons and cofinite groups
-
-The layer follows Beardon, Chapters 9–11; Katok, Chapters 3–4; and Stillwell, Chapter 5.
 
 ### 2.1 The hyperbolic metric, area and covolume
 
@@ -573,8 +568,6 @@ Mathlib: `IsRiemannianManifold`, `MeasureTheory.covolume`, `ProperSpace ℍ`.
 
 ## Layer 3: cusps and q-coordinates
 
-The layer follows Diamond–Shurman, §2.4.
-
 ### 3.1 Cusps and cusp orbits
 
 Cusps are Tau Ceti's. `Subgroup.IsCuspPoint` holds at the fixed point of a parabolic element of `Γ`
@@ -669,9 +662,8 @@ data, horodiscs, q-coordinates, change of scaling, meridians, and the extension 
 
 ## Layer 4: compactified quotient Riemann surfaces
 
-The layer follows Katok, Chapter 4, and Diamond–Shurman, §2.4. Its construction order is normative:
-the carrier, then its topology and its separation, countability, connectedness and compactness,
-then the atlas, then the maps.
+The construction order of this layer is normative: the carrier, then its topology and its
+separation, countability, connectedness and compactness, then the atlas, then the maps.
 
 ### 4.1 The carrier and its cusp neighbourhoods
 
@@ -755,10 +747,11 @@ cusp set (Convention 9). The orbifold Euler characteristic and the area formula 
 `2π` and use the effective `PSL` convention. The form of the area formula for a side-paired
 fundamental polygon is Tau Ceti's `TauCeti.UpperHalfPlane.ConvexPolygon.SidePairing.covolume_eq_two_pi_mul`
 (`Fuchsian/Polygon/Area.lean`). For a convex `n`-gon with `k` self-paired sides and `V` finite vertex
-cycles, it reads `covolume Γ = 2π((n − k)/2 − 1 − V + Σₑ (1 − 1/mₑ))`. Its level-one case is
-`TauCeti.ModularGroup.covolume_psl2zToPSL2RRange_eq_two_pi_mul`. Its intrinsic form, with the genus
-of `Γ.CompactifiedQuotient`, is `covolume_eq_two_pi_mul_signature` of §5.7 (Katok, Chapter 4;
-Diamond–Shurman, §2.4).
+cycles, it reads `covolume Γ = 2π((n − k)/2 − 1 − V + Σₑ (1 − 1/mₑ))`. Its intrinsic form, with the
+genus of `Γ.CompactifiedQuotient`, is `covolume_eq_two_pi_mul_signature` of §5.7. At level one, with
+`−χ(X(1))` in place of `2g − 2`, the intrinsic form is Tau Ceti's
+`TauCeti.ModularGroup.covolume_psl2zToPSL2RRange_eq_two_pi_mul` (Katok, Chapter 4; Diamond–Shurman,
+§2.4).
 
 **Checks.**
 
@@ -779,9 +772,8 @@ multiplicities, degree, and the polygon area formula.
 
 ## Layer 5: compact-surface degree theory and Fuchsian applications
 
-The layer follows Forster, §§4, 17 and 19; Miranda, Chapter II §4 and Chapter III §§3–4;
-Farkas–Kra, §§I.2 and III.1; Beardon, §10.4; and Katok, §4.3. §§5.1–5.3 concern arbitrary compact
-Riemann surfaces; §§5.4–5.7 apply them to Fuchsian quotients and finite-index maps.
+§§5.1–5.3 concern arbitrary compact Riemann surfaces; §§5.4–5.7 apply them to Fuchsian quotients
+and finite-index maps.
 
 ### 5.1 Topological genus
 
@@ -796,11 +788,13 @@ atlas of class `C¹` (that is, a compact connected Riemann surface) and has fini
 Route: Euler–Poincaré over `ℚ` (`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`) writes
 `χ = b₀ − b₁ + b₂`, and connectedness gives `b₀ = 1`. ComplexManifolds Milestone 2 orients `X`, and
 the Poincaré duality of AlgebraicTopology §6.4 gives `b₂ = b₀ = 1` and `bᵢ = 0` for `i > 2`. The
-intersection pairing of AlgebraicTopology §6.5 on `H₁(X; ℚ)` is nondegenerate and alternating, so
-`b₁` is even. ComplexKahlerGeometry §7.7, with `b₁ = 2h^(1,0)`, is another route. No analytic genus
-and no Riemann–Roch theorem enters.
-*Needs:* ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.4, 6.5 and 8.7; Tau Ceti
-`TauCeti.eulerChar`, `TauCeti.FiniteCWType`, `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`.
+cup-product pairing `(a, b) ↦ ⟨a ⌣ b, [X]⟩` on `H¹(X; ℚ)` is nondegenerate, by that duality over
+the field `ℚ`, and alternating, since Tau Ceti's graded commutativity `TopCat.singularCup_gradedComm`
+gives `a ⌣ a = −(a ⌣ a)` in degree one; so `b₁` is even. ComplexKahlerGeometry §7.7, with
+`b₁ = 2h^(1,0)`, is another route. No analytic genus and no Riemann–Roch theorem enters.
+*Needs:* ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.4 and 8.7; Tau Ceti
+`TauCeti.eulerChar`, `TauCeti.FiniteCWType`, `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`,
+`TopCat.singularCup_gradedComm`.
 
 The API of `genus`:
 
@@ -903,16 +897,20 @@ multiplicities are the cusp-width ratios at cusps and the stabilizer indices at 
 Let `Γ′ ≤ Γ` be cofinite Fuchsian groups, with `Γ′` of index `d` in `Γ`. Write `g(Γ′)` and `g(Γ)`
 for the genera of `X(Γ′)` and `X(Γ)`. These are compact Riemann surfaces (§§4.2–4.3), whose finite
 CW type AlgebraicTopology §8.7 provides through ComplexManifolds Milestone 1; finite CW type is a
-property, so the genus does not depend on how it is proved. Prove the following two statements,
-with the effective-action and orientation conventions explicit. The first is the Fuchsian
-Riemann–Hurwitz formula `2g(Γ′) − 2 = d(2g(Γ) − 2) + Σ_P (e_P − 1)`, the sum running over the points
-`P` of `X(Γ′)`, with `e_P` the local multiplicity at `P` of the compactified quotient map of §5.5.
-The second is the multiplicativity `χ_orb(Γ′) = d χ_orb(Γ)` of the orbifold Euler characteristic
-`χ_orb = 2 − 2g − Σᵢ (1 − 1/mᵢ) − c`. Route: the first is §5.3 applied to the map of §5.5. The second
-is §5.7 for both groups, together with Tau Ceti's `MeasureTheory.covolume_eq_card_mul_covolume`,
-which gives `covolume Γ′ = d · covolume Γ`. This derivation from §§5.3, 5.5 and 5.7 and that theorem
-is this roadmap's own. At level one, Tau Ceti's `TauCeti.ModularGroup.finiteCWType_compactifiedQuotient`
-gives the finite CW type of `X(1)` directly.
+property, so the genus does not depend on how it is proved. Prove the following two statements, with
+the effective-action and orientation conventions explicit. The first is the Fuchsian Riemann–Hurwitz
+formula `2g(Γ′) − 2 = d(2g(Γ) − 2) + Σ_P (e_P − 1)`, the sum running over the points `P` of `X(Γ′)`,
+with `e_P` the local multiplicity at `P` of the compactified quotient map of §5.5. For `Γ` the image
+of `PSL(2, ℤ)` and `Γ′` the image of a congruence subgroup, the local multiplicities over the orbits
+of `i` and `ρ` and over the cusp turn it into the genus formula
+`g(Γ′) = 1 + d/12 − ε₂/4 − ε₃/3 − ε∞/2`, where `ε₂` and `ε₃` count the elliptic points of `X(Γ′)`
+of orders `2` and `3` and `ε∞` its cusps (Diamond–Shurman, Theorem 3.1.1). The second is the
+multiplicativity `χ_orb(Γ′) = d χ_orb(Γ)` of the orbifold Euler characteristic
+`χ_orb = 2 − 2g − Σᵢ (1 − 1/mᵢ) − c`. Route: the first is §5.3 applied to the map of §5.5. The second is §5.7 for both groups, together with Tau Ceti's
+`MeasureTheory.covolume_eq_card_mul_covolume`, which gives `covolume Γ′ = d · covolume Γ`. This
+derivation from §§5.3, 5.5 and 5.7 and that theorem is this roadmap's own. At level one, Tau Ceti's
+`TauCeti.ModularGroup.finiteCWType_compactifiedQuotient` gives the finite CW type of `X(1)`
+directly.
 *Needs:* §§5.3, 5.5 and 5.7; §2.1; §§4.2 and 4.3; Tau Ceti
 `MeasureTheory.covolume_eq_card_mul_covolume`; AlgebraicTopology §8.7 with ComplexManifolds
 Milestone 1, for the finite CW type of `X(Γ′)` and `X(Γ)`.
@@ -993,14 +991,13 @@ polygon. The cell count `χ(X(Γ)) = 2 − 2g` is kept distinct from the orbifol
 
 ### Dependencies
 
-§§5.1–5.3: ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.4, 6.5 and 8.7; Tau Ceti's
-Euler characteristic of spaces of finite CW type and the degree theory of finite holomorphic maps;
-no other layer. §§5.4–5.7: Layers 1–4, with §§2.1, 2.4 and 2.5. Layer 5 uses no modular form, no
-analytic Riemann–Roch theorem, no automorphy sheaf and no dimension formula (Convention 11).
+§§5.1–5.3: ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.4 and 8.7; Tau Ceti's Euler
+characteristic of spaces of finite CW type, the graded commutativity of the cup product and the
+degree theory of finite holomorphic maps; no other layer. §§5.4–5.7: Layers 1–4, with §§2.1, 2.4 and
+2.5. Layer 5 uses no modular form, no analytic Riemann–Roch theorem, no automorphy sheaf and no
+dimension formula (Convention 11).
 
 ## Layer 4a: minimal areas of cofinite Fuchsian groups
-
-The layer follows Siegel 1945; Martin, Theorems 2.1 and 2.2; Beardon, §10.4; and Katok, §4.3.
 
 A cofinite Fuchsian group `Γ` of signature `(g; m₁, …, mᵣ; c)`, with elliptic orders `mᵢ ≥ 2` and
 `c` cusps, has covolume `2πδ` for the deficit `δ = 2g − 2 + Σᵢ (1 − 1/mᵢ) + c` (§5.7; Martin,
@@ -1101,10 +1098,10 @@ and its value at `(2, 3, 7)`, finiteness of elliptic and cusp orbits, and the co
 
 ## Layer 6: the level-one modular quotient, in construction order
 
-The layer follows Diamond–Shurman, §§2.3–2.4, and Serre, Chapter VII, with Tau Ceti's
-`TauCeti/Analysis/Complex/ModularForms/LevelOne/JInputs.lean`. It consumes Tau Ceti's normalized
-`j`-function `TauCeti.ModularForm.j`, its modular invariance, q-expansion and exact elliptic orders
-(supplier contracts), and proceeds in the construction order below, which is normative.
+The layer consumes Tau Ceti's normalized `j`-function `TauCeti.ModularForm.j`
+(`Analysis/Complex/ModularForms/LevelOne/JInputs.lean`), its modular invariance, q-expansion and
+exact elliptic orders (supplier contracts), and proceeds in the construction order below, which is
+normative.
 
 ### 6.1 The level-one group and its compactified quotient
 
@@ -1189,14 +1186,17 @@ compactification, triangle groups, polygon presentations and the descent of inva
 functions: Layers 0–6 and Layer 4a above. Its Layer 0 also restricts Mathlib's action of `GL(2, ℝ)`
 on ℍ, through `PGL(2, ℝ)`, to the projective action, and proves that every element of `GL(2, ℝ)`,
 including the antiholomorphic elements of negative determinant, acts by an isometry of the hyperbolic
-distance. The roadmap proves the standard presentation of the acting Fuchsian group. It introduces no
-general orbifold groupoid and no orbifold fundamental-group carrier.
+distance. Its presentations of the acting Fuchsian group are Poincaré's side-pairing presentations,
+by the side relations and the finite vertex-cycle relations (§2.3), and their converse for Dirichlet
+polygons (§2.4); it derives from them no canonical presentation by the signature
+`(g; m₁, …, mᵣ; c)`. It introduces no general orbifold groupoid and no orbifold fundamental-group
+carrier.
 
 The roadmap is complete when the following hold.
 
 1. `PSL(2, ℝ)` has its effective, continuous, faithful and holomorphic action on Mathlib's
-   `UpperHalfPlane`. Discrete subgroups act properly discontinuously, and all stabilizers are finite
-   (§§0.2–0.4).
+   `UpperHalfPlane`. Discrete subgroups act properly discontinuously, and all their point
+   stabilizers are finite (§§0.2–0.4).
 2. The free locus has the standard orbit quotient, covering projection and complex-manifold
    structure (§0.5). At an elliptic point of stabilizer order `m`, a linearizing coordinate
    identifies the local quotient with `z ↦ zᵐ`. The quotient surface remains smooth there, and the
@@ -1214,7 +1214,7 @@ The roadmap is complete when the following hold.
    finite holomorphic map of compact connected Riemann surfaces satisfies Riemann–Hurwitz in genus
    form (§§5.1, 5.3). Both are applied to Fuchsian quotients and finite-index maps (§5.6), and the
    genus of the compactified quotient enters the orbifold area formula (§5.7).
-7. Fundamental polygons and the Poincaré polygon theorem produce the expected presentations,
+7. Fundamental polygons and the Poincaré polygon theorem produce the side-pairing presentations,
    orbifold signatures, genus formula and triangle-group examples (§§2.2–2.6, 4.5, 5.7).
 8. The level-one modular quotient is constructed and compactified before any identification with
    `P¹`. The descended normalized `j`-map has degree one and supplies that identification (Layer 6).
@@ -1273,15 +1273,14 @@ orbifold area formula (§§5.1, 5.3, 5.6 and 5.7); and the minimal areas with th
   removable-singularity and q-expansion arguments.
 - *Algebraic topology.* [AlgebraicTopology](../AlgebraicTopology/README.md) owns finite CW type,
   Poincaré duality and the Euler characteristic: its §8.7 gives finite CW type to a compact smooth
-  manifold, also with finitely many marked interior points, and its §§6.4 and 6.5 supply Poincaré
-  duality and the intersection pairing of a closed oriented manifold. The Euler characteristic of a
-  space of finite CW type is Tau Ceti's `TauCeti.eulerChar`, and the branched-cover formula
-  `χ(X) = deg f · χ(Y) − R(f)` is Tau Ceti's. This roadmap owns the topological genus of a compact
-  connected Riemann surface with the identity `χ = 2 − 2g` (§5.1), and Riemann–Hurwitz in genus form
-  (§5.3); no analytic genus and no Riemann–Roch theorem enters either.
-  [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) §7.7 compares its Hodge genus
-  `h^(1,0)` with the first Betti number, and ModularForms §10B compares its analytic genus with the
-  genus of §5.1; neither comparison is an input here.
+  manifold, also with finitely many marked interior points, and its §6.4 supplies Poincaré duality
+  of a closed oriented manifold. The Euler characteristic of a space of finite CW type is Tau Ceti's
+  `TauCeti.eulerChar`, and the branched-cover formula `χ(X) = deg f · χ(Y) − R(f)` is Tau Ceti's.
+  This roadmap owns the topological genus of a compact connected Riemann surface with the identity
+  `χ = 2 − 2g` (§5.1), and Riemann–Hurwitz in genus form (§5.3); no analytic genus and no
+  Riemann–Roch theorem enters either. [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md)
+  §7.7 compares its Hodge genus `h^(1,0)` with the first Betti number, and ModularForms §10B
+  compares its analytic genus with the genus of §5.1; neither comparison is an input here.
 - *Algebraic curves.* [AlgebraicCurves](../AlgebraicCurves/README.md) owns algebraic curves and
   their function fields (its Layer 0, and the dictionary between function fields and curves of its
   Layer 12). This roadmap constructs analytic Riemann surfaces. It proves no GAGA equivalence and
@@ -1477,6 +1476,9 @@ Paths are under `TauCeti/`. Every declaration below is proved at the pin.
   (`…/EulerCharacteristic/Torus.lean`). `AbstractSimplicialComplex.instFiniteCWTypeComplVertexImage`,
   for a complex with finitely many faces
   (`AlgebraicTopology/SimplicialComplex/Realization/Complement.lean`).
+  `TopCat.singularCup_gradedComm`, the graded commutativity `b ⌣ a = (−1)^(pq) (a ⌣ b)` of the
+  singular cup product of `a` in degree `p` and `b` in degree `q`, for coefficient pairings that
+  agree up to the braiding (`AlgebraicTopology/Cohomology/GradedCommutativity.lean`).
 - **Finite holomorphic maps.** `TauCeti.RiemannSurface.FiniteHolomorphicMap`, `TauCeti.RiemannSurface.degree`,
   `TauCeti.RiemannSurface.degree_eq_fiber_sum`, `TauCeti.RiemannSurface.degree_comp`,
   `TauCeti.RiemannSurface.biholomorphOfDegreeEqOne` and
@@ -1535,14 +1537,14 @@ charts.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
-§6.4: Poincaré duality for a compact Hausdorff topological manifold with a fundamental class, used
-by §5.1. §6.5: the duality formulas for the intersection pairing of a closed oriented manifold, used
-by §5.1 for the evenness of the first Betti number. §8.7: finite CW type of a compact Hausdorff
-second-countable smooth manifold with the Euclidean model, including the form with finitely many
-prescribed interior marked points; it is used by §5.1, by §5.3 for the punctured target, and by
-§5.6 and Layer 4a for the finite CW type of `X(Γ)`. Its conclusion is Tau Ceti's
-`TauCeti.FiniteCWType`, and AlgebraicTopology's Euler characteristic of a space of finite CW type
-(§7.1) is Tau Ceti's `TauCeti.eulerChar`.
+§6.4: Poincaré duality for a compact Hausdorff topological manifold with a fundamental class, over
+every commutative ring, used by §5.1 over `ℚ` for `b₂ = b₀` and for the nondegeneracy of the
+cup-product pairing on `H¹(X; ℚ)`, which gives the evenness of the first Betti number. §8.7: finite
+CW type of a compact Hausdorff second-countable smooth manifold with the Euclidean model, including
+the form with finitely many prescribed interior marked points; it is used by §5.1, by §5.3 for the
+punctured target, and by §5.6 and Layer 4a for the finite CW type of `X(Γ)`. Its conclusion is Tau
+Ceti's `TauCeti.FiniteCWType`, and AlgebraicTopology's Euler characteristic of a space of finite CW
+type (§7.1) is Tau Ceti's `TauCeti.eulerChar`.
 
 ## References
 
