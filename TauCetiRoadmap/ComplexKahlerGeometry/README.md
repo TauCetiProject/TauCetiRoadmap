@@ -496,12 +496,13 @@ projections and `kerDelBarZeroEquiv`; Mathlib's `ModuleCat`.
 ### 2.5 Holomorphic-form sheaves and the Dolbeault theorem
 
 Construct the sheaves
-Ω^p and smooth type forms, prove the latter fine/acyclic using partitions of unity, and
-prove the Dolbeault theorem `H^q(M;Ω^p)≃H^(p,q)_∂̄(M)` with naturality and products
+Ω^p and smooth type forms; the latter are sheaves of modules over the smooth real functions,
+hence soft and acyclic by SmoothBundlesConnections B6.1 (soft sheaves on paracompact Hausdorff
+spaces are acyclic, and its module form). Prove the Dolbeault theorem
+`H^q(M;Ω^p)≃H^(p,q)_∂̄(M)` with naturality and products
 (Demailly, Chapter IV, (6.13)–(6.15), p. 216, for the isomorphism). Build
 the needed analytic-sheaf/Čech/derived comparison using Mathlib's Ext-based sheaf
-cohomology carrier. Prove fine-implies-acyclic on the paracompact Hausdorff manifolds here
-and the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209). Also prove
+cohomology carrier. Prove the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209). Also prove
 that for every abelian sheaf on a paracompact Hausdorff manifold, the colimit of Čech
 cohomology over locally finite open refinements agrees with native derived
 sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Construct refinement maps, prove independence up to cochain
@@ -525,8 +526,8 @@ connectedness hypothesis. Do not assert global constancy for disconnected manifo
 
 *Needs:* 2.4; Mathlib's Ext-based sheaf cohomology,
 `MDifferentiable.exists_eq_const_of_compactSpace` and `MDifferentiable.isLocallyConstant`;
-SmoothBundlesConnections B6's scalar good-cover comparison; 4.1's `𝒪(E)` and ∂̄_E for the
-bundle-valued comparison; K7.1's `Projectivization ℂ (Fin 2 → ℂ)` for the acceptance check.
+SmoothBundlesConnections B6's scalar good-cover comparison and B6.1's acyclicity of soft sheaves
+with its module form; 4.1's `𝒪(E)` and ∂̄_E for the bundle-valued comparison; K7.1's `Projectivization ℂ (Fin 2 → ℂ)` for the acceptance check.
 
 ### Examples
 
@@ -1102,9 +1103,10 @@ of `0→ℤ→C⁰_ℂ→C⁰_ℂ×→1` and `0→ℤ→C^∞_ℂ→C^∞_ℂ×�
 nonvanishing continuous function on a chart ball has a continuous logarithm by
 Mathlib's `IsCoveringMap.existsUnique_continuousMap_lifts` for
 `Complex.isCoveringMap_exp`, and that logarithm is smooth when the function is,
-since exp is a local diffeomorphism. Both function sheaves are fine, by continuous
-partitions of unity (`PartitionOfUnity.exists_isSubordinate`) and by smooth ones, so
-K2's fine-implies-acyclic theorem gives `H^q(M;C⁰_ℂ)=H^q(M;C^∞_ℂ)=0` for q≥1
+since exp is a local diffeomorphism. Both function sheaves are soft: `C⁰_ℂ` by continuous
+partitions of unity (`PartitionOfUnity.exists_isSubordinate`), and `C^∞_ℂ` as a module over the
+smooth real functions; so SmoothBundlesConnections B6.1's acyclicity of soft sheaves gives
+`H^q(M;C⁰_ℂ)=H^q(M;C^∞_ℂ)=0` for q≥1
 (Demailly, Chapter IV, (4.11)–(4.12), p. 204, and (4.15), p. 205). Hence both
 connecting maps `H¹(M;C^∞_ℂ×)→H²(M;ℤ)` and `H¹(M;C⁰_ℂ×)→H²(M;ℤ)` are isomorphisms.
 The inclusion `C^∞_ℂ⊂C⁰_ℂ` is a morphism of the two sequences that is the identity
@@ -1147,7 +1149,8 @@ SmoothBundlesConnections B6.1 owns the manifold good-cover/sheaf/singular compar
 SmoothBundlesConnections B6's smooth line classification and curvature comparisons through it.
 AlgebraicTopology supplies singular cochains and their coefficient exact
 sequences, not a second manifold sheaf/singular bridge. The continuous-line
-corollary additionally uses K2's fine-implies-acyclic theorem, continuous partitions of
+corollary additionally uses SmoothBundlesConnections B6.1's acyclicity of soft sheaves and its
+module form, continuous partitions of
 unity and the covering-space logarithm specified above. These are its explicit lower
 inputs. Its conditional Picard isomorphism uses supplied vanishing and does
 not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
@@ -1164,9 +1167,9 @@ root-degree basis. SchubertGeometry S5's vanishing on Schubert
 varieties is algebraic coherent cohomology; it uses no holomorphic Picard group
 and is neither an input nor a consumer of K4.P.
 
-*Needs:* K2's local ∂̄/Dolbeault resolution, Čech/derived comparison and
-fine-implies-acyclic theorem; K3's function sheaf; K4's line bundles;
-SmoothBundlesConnections B6.1–B6.3; AlgebraicTopology's singular cochains;
+*Needs:* K2's local ∂̄/Dolbeault resolution and Čech/derived comparison; K3's function sheaf;
+K4's line bundles; SmoothBundlesConnections B6.1–B6.3, with B6.1's acyclicity of soft sheaves and
+its module form; AlgebraicTopology's singular cochains;
 Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
 `Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`.
 
@@ -1193,7 +1196,7 @@ Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
   `H¹(ℝP²;ℤ/2)→H²(ℝP²;ℤ)` is injective (`H¹(ℝP²;ℤ)=0`); it is smoothly and continuously
   nontrivial although its real curvature class vanishes, and a de Rham-valued `c₁` would
   call it trivial.
-- The connecting maps need the fine function sheaves: on `S¹` the locally constant sheaf ℂ
+- The connecting maps need the soft function sheaves: on `S¹` the locally constant sheaf ℂ
   has `H¹=ℂ≠0`, while `C⁰_ℂ` and `C^∞_ℂ` are acyclic; and classifying complex lines on `S²`
   by `H¹(S²;ℤ/2)=0` (the real-line classification) would miss the lines `O(k)`, `k≠0`.
 
@@ -1206,8 +1209,9 @@ sequences and `F_M`.
 
 ### Dependencies
 
-ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B6; Layers 1–3; 2.5's Čech/derived
-comparison and fine-implies-acyclic theorem for 4.5; AlgebraicTopology's singular cochains. None of
+ComplexManifolds Milestone 7; SmoothBundlesConnections B2–B6, with B6.1's acyclicity of soft
+sheaves for 4.5; Layers 1–3; 2.5's Čech/derived comparison for 4.5; AlgebraicTopology's singular
+cochains. None of
 these uses 4.5; 4.5's ℂP¹ normalization check uses K7.1's charts, and K7.FlatDegreeZero consumes
 4.5.
 
@@ -3441,7 +3445,9 @@ It leaves to named roadmaps and to the pins:
 - SmoothBundlesConnections: real smooth bundles with complex structure, tensor, dual, Hom and
   complexification, Hermitian fibre metrics and square-integrable sections, connections,
   curvature, parallel transport and their principal-bundle comparisons; its B6.1 owns the manifold
-  good-cover/sheaf/singular comparison, B6.2 the circle-bundle classification by `H²(M;ℤ)`,
+  good-cover/sheaf/singular comparison and the acyclicity of soft sheaves on paracompact Hausdorff
+  spaces with the softness of sheaves of modules over the smooth functions (consumed in 2.5 and
+  K4.P), B6.2 the circle-bundle classification by `H²(M;ℤ)`,
   which B2's associated-bundle comparison turns into the smooth complex-line classification
   consumed in K4.P, and B6.3 the rank-one Chern–Weil comparison of the real first Chern class
   with the curvature class, consumed in K4.P and in 7.3's comparison of the hyperplane class with
@@ -3610,7 +3616,9 @@ B1 (principal bundles, for K8's torus bundles), B2 (associated bundles, complexi
 RCLike square-integrable sections and B2.2's continuous fibre metrics h with
 `h.inner x : E x →L⋆[𝕜] E x →L[𝕜] 𝕜`), B3–B4 (connections, curvature, gauge), B5 (parallel
 transport and holonomy) and B6.1–B6.3 (the manifold sheaf/singular comparison, the circle-bundle
-classification and the rank-one Chern–Weil comparison).
+classification and the rank-one Chern–Weil comparison), including B6.1's acyclicity of soft
+sheaves on paracompact Hausdorff spaces and softness of every sheaf of modules over the smooth
+real functions.
 
 ### From TauCetiRoadmap.PDE
 
