@@ -46,9 +46,9 @@ Three headline theorems of Layer 7 are not statable at the pins:
 * the isomorphism between the normal bundle of a complex hypersurface and the line bundle glued
   from transverse coordinates (§7.4): that transition-cocycle model is a construction of §7.4,
   with no carrier at the pins;
-* the theorem that on a compact connected complex manifold with a free action of a finite group
-  the line bundle associated to a nontrivial character is nontrivial (§7.6): the associated line
-  bundle of a character is not a carrier at the pins.
+* the theorem that on a compact connected Hausdorff complex manifold with a free action of a finite
+  group by biholomorphisms the line bundle associated to a nontrivial character is nontrivial
+  (§7.6): the associated line bundle of a character is not a carrier at the pins.
 -/
 
 namespace TauCetiRoadmap.ComplexManifolds

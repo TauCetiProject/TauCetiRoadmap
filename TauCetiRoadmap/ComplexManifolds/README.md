@@ -186,9 +186,11 @@ and its API above, `ModelWithCorners.transContinuousLinearEquiv_refl`,
 Realification commutes with recharting: realifying the transport of a model along a complex
 equivalence `e` is transporting the realified model along `e` with scalars restricted
 (`ModelWithCorners.restrictScalars_transContinuousLinearEquiv`), and with products
-(`ModelWithCorners.restrictScalars_prod`). Prove that it commutes with restriction to an open
-subset `U ⊆ M`: the realified manifold structure of the open submanifold `U` is the open
-submanifold of the realified `M`, so that the identity of `U` is a diffeomorphism between the two.
+(`ModelWithCorners.restrictScalars_prod`). It commutes with restriction to an open subset `U ⊆ M`
+by definition: the open-subset charted space `TopologicalSpace.Opens.instChartedSpace` does not
+depend on the model, so the realified open submanifold `U` and the open submanifold of the realified
+`M` are one charted space with one real `C^n` structure, and the identity of `U` is a diffeomorphism
+between them.
 *Needs:* §§1.1–1.3; Tau Ceti `ModelWithCorners.restrictScalars_transContinuousLinearEquiv`; Mathlib
 `TopologicalSpace.Opens.instChartedSpace`.
 
@@ -494,11 +496,19 @@ homeomorphisms of a weakly locally compact space this criterion is also necessar
 
 ### 4.5 Quotients, realification and recharting
 
-Prove that quotient manifolds commute, up to the identity diffeomorphism of the orbit space, with
-realification and recharting: for a holomorphic action, the realified orbit space and the quotient
-of the realified `M` by the realified action (`ContMDiffConstSMul.restrictScalars`) carry the same real
-`C^n` structure, and likewise for a model transported along a continuous linear equivalence.
-*Needs:* §4.1; Layer 1 §§1.1–1.4; Tau Ceti `ContMDiffConstSMul.restrictScalars`.
+Quotient manifolds commute, up to the identity of the orbit space, with realification and
+recharting, because the quotient atlas `MulAction.instChartedSpaceQuotient` does not depend on the
+model. For a holomorphic action the action is `C^n` for the realified model
+(`ContMDiffConstSMul.restrictScalars`), and the realified orbit space and the quotient of the
+realified `M` are one charted space with one real `C^n` structure. Likewise the action is `C^n` for
+a model transported along a continuous linear equivalence `e` exactly when it is for the original
+model (`ContinuousLinearEquiv.contMDiffConstSMul_transContinuousLinearEquiv_iff`), the quotient for
+the transported model is the orbit space with its model transported, and its comparison with the
+original model is the identity diffeomorphism `ContinuousLinearEquiv.toTransContinuousLinearEquiv`
+of §1.3.
+*Needs:* §4.1; Layer 1 §§1.1–1.4; Tau Ceti `ContMDiffConstSMul.restrictScalars`,
+`ContinuousLinearEquiv.contMDiffConstSMul_transContinuousLinearEquiv_iff`; Mathlib
+`ContinuousLinearEquiv.toTransContinuousLinearEquiv`.
 
 ### Examples
 
@@ -828,6 +838,12 @@ hypersurface).
 - The real hypersurface `Z = ℂ × ℝ ⊂ ℂ²` has tangent spaces `ℂ × ℝ`, which are not complex subspaces
   (`i · (0, 1) = (0, i) ∉ ℂ × ℝ`), so `TM / TZ` is a real line bundle, not a complex one: the theorem needs
   a complex submanifold, and a merely real-smooth hypersurface does not satisfy it.
+- For the line `Z = {x₂ = 0}` in `ℙ²`, covered by the charts `x₀ ≠ 0` and `x₁ ≠ 0` with transverse
+  coordinates `u₀ = x₂/x₀` and `u₁ = x₂/x₁`, the cocycle `u₀/u₁ = x₁/x₀` is the affine coordinate `t`
+  of `Z`. Normal components satisfy `du₀ = t du₁` along `Z`, so the sections of the normal bundle are
+  `s₀ = a + b t`, `s₁ = a/t + b`: a two-dimensional space containing `s₀ = t`, which vanishes once, so
+  the normal bundle is `O(1)`. The inverse cocycle `1/t` would require `s₀` entire with `t s₀` bounded
+  near `∞`, hence `s₀ = 0`: it glues the conormal bundle `O(−1)`, which has no nonzero section.
 
 ### 7.5 The holomorphic cotangent and canonical bundles
 
@@ -848,7 +864,8 @@ tangent spaces (`ContMDiffVectorBundle.continuousAlternatingMap`).
 
 ### 7.6 Line bundles from characters of a deck group
 
-Let a finite group `G` act freely by biholomorphisms on a complex manifold `M`, and for a character
+Let a finite group `G` act freely by biholomorphisms on a Hausdorff complex manifold `M`, so that
+Layer 4 applies (a finite group acts properly discontinuously), and for a character
 `χ : G → ℂˣ` let `L_χ` be the associated holomorphic line bundle on `M/G`, the quotient of `M × ℂ` by
 `g · (x, v) = (g x, χ(g) v)`, glued through §7.2 and §4.3 (Demailly, Chapter V, §6, p. 261, builds in
 the same way, with locally constant transition functions, the bundle of a representation of the
@@ -871,6 +888,14 @@ manifolds (`MDifferentiable.apply_eq_of_compactSpace`).
 - `G = ℤ/2` acting on a complex torus `ℂ/Λ` by translation by a point of order two, with `χ(1) = −1`:
   `L_χ ⊗ L_χ` is trivial, and `L_χ` is not, since a nowhere-vanishing section would be a constant `f`
   with `f = −f`; the tensor order is exactly `2`.
+- Glue two copies of a complex torus `T = ℂ/Λ` by the identity along the complement of the four
+  points `p` with `2p = 0` (§5.4), and let `ℤ/2` act by `z ↦ −z`, exchanging the two copies `p₁`, `p₂`
+  of each such point `p`. The action is free and by biholomorphisms, and the glued space is compact and
+  connected but not Hausdorff. Every neighbourhood of `p₁` contains the orbit `{p + w, p − w}` for small
+  `w ≠ 0`, so the orbit projection is injective on no neighbourhood of `p₁`; and for `χ(1) = −1` a
+  continuous `f` with `f(−z) = −f(z)` has `f(p₁) = f(p₂)`, both being limits of `f(p + w)`, and
+  `f(p₂) = −f(p₁)`, so `f` vanishes at both: without the Hausdorff hypothesis there is no line bundle
+  `L_χ` whose local sections are these functions.
 
 ### Examples
 
@@ -918,10 +943,12 @@ comparison), the section descent of §4.3 and §4.4; §§5.1–5.2, uniqueness, 
 gluings of §5.4 and §5.5; §§6.1–6.4 and §6.6; the trivialization characterization of §7.1, the
 trivial-line criterion and cocycle isomorphisms of §7.3, and the holomorphic normal bundle of an embedding
 in §7.4. Mathlib supplies the holomorphic cores, direct sums, Hom and dual bundles, alternating-map
-bundles and pullbacks of §7.2. The layers name each declaration. The targets that remain are: open
-restriction (§1.4); recharting and factor interchange for the orientation (§2.3); the right-inverse
-atlas comparison (§4.1), bundle-map descent and its compatibility with bundle operations (§4.3), and
-§4.5; the overlap lemmas of §5.1, products and atlas transport (§5.3) and the finite-star gluing
+bundles and pullbacks of §7.2. Open restriction (§1.4) and §4.5 hold by definition, since neither the
+open-subset nor the quotient charted space depends on the model, §4.5 with the pinned theorems that
+the action is `C^n` for the realified and for the transported model. The layers name each declaration. The
+targets that remain are: recharting and factor interchange for the orientation (§2.3); the right-inverse
+atlas comparison (§4.1) and bundle-map descent and its compatibility with bundle operations (§4.3);
+the overlap lemmas of §5.1, products and atlas transport (§5.3) and the finite-star gluing
 (§5.4); §6.5; the holomorphic tensor, exterior-power and determinant refinements of §7.2, the
 codimension-one statements and the cocycle comparison of §7.4, §7.5 beyond the cotangent bundle, and §7.6.
 
@@ -1019,8 +1046,10 @@ All the declarations below are proved at the Tau Ceti pin; paths are under `TauC
   model has the same chart carrier and chart maps.
 - **Model transport** (`Geometry/Manifold/ModelWithCorners/LinearEquiv.lean`):
   `ModelWithCorners.transContinuousLinearEquiv_refl`, `ModelWithCorners.transContinuousLinearEquiv_trans`
-  and `ModelWithCorners.maximalAtlas_transContinuousLinearEquiv`, for models with corners over any
-  nontrivially normed field and at every regularity.
+  and `ModelWithCorners.maximalAtlas_transContinuousLinearEquiv`, and
+  `ContinuousLinearEquiv.contMDiffConstSMul_transContinuousLinearEquiv_iff`
+  (`Geometry/Manifold/Algebra/SMul.lean`), for models with corners over any nontrivially normed field
+  and at every regularity.
 - **Pullback atlases** (`Geometry/Manifold/PullbackGroupoid.lean`): `Homeomorph.pullbackChartedSpace`,
   `Homeomorph.pullbackChartedSpace_chartAt`, `Homeomorph.pullbackChartedSpace_atlas`,
   `Homeomorph.transOpenPartialHomeomorph_mem_pullbackChartedSpace_atlas`,
