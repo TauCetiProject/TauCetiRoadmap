@@ -1707,7 +1707,7 @@ The external inputs are `AlgebraicModularFormsAndSerreWeights:R15.2`, `Algebraic
 
 ## Downstream consumers
 
-SerreModularityByCompatibleSystems consumes §§3.7–3.8 for the weight in its strong form, §5.6 and Layer 6 for `p=2` with `k(ρ)=4`, and §§3.1–3.2, 3.5–3.7 and 4.1 for its consequences; for odd p, and for `p=2` with `k(ρ)=2`, it reaches the level `N(ρ)` by minimal lifts instead of by §2.13 and §5.9. It supplies global modularity and the scalar non-dihedral dyadic classical completion at its own final boundary. The case manifest is a consumer interface: it does not invoke that completion to prove a result needed earlier inside the same argument.
+SerreModularityByCompatibleSystems consumes §2.13 with §§2.1 and 3.7 for odd p, §§5.2 and 5.9–5.10 for `p=2` with `k(ρ)=2`, §5.6 and Layer 6 for `p=2` with `k(ρ)=4`, and §§3.1–3.2, 3.5–3.7 and 4.1 for its consequences; it proves by a minimal lift only the scalar non-dihedral dyadic case, which §5.11 leaves open. It supplies global modularity and the scalar non-dihedral dyadic classical completion at its own final boundary. The case manifest is a consumer interface: it does not invoke that completion to prove a result needed earlier inside the same argument.
 
 ClassicalSerreModularity consumes §§3.1–3.8, Layer 4 and the KW optimisation of §§6.6–6.11 for its rank-two lifting inputs, and the dihedral weight-one export of Layer 5 for the exact weight and level at `p=2` in Khare–Wintenberger's Lemma 6.2(i).
 
