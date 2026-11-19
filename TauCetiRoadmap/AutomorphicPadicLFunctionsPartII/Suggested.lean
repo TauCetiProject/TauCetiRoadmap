@@ -1,7 +1,7 @@
 import Mathlib
 
 /-!
-# Automorphic p-adic L-functions, part II: target signatures
+# Critical Hecke values and their p-adic measures over totally imaginary fields: target signatures
 
 The roadmap is README.md; this file is not the roadmap. It states the roadmap's
 headline theorems against the pinned APIs, with only the simple definitions needed
@@ -80,7 +80,8 @@ theorem kronecker_meromorphic_continuation
   sorry
 
 /-- The gamma-completed Kronecker series satisfies the primal/alternating-dual
-functional equation with phase exp(2πi Im H(w,z)). The metric covolume is the
+functional equation with phase exp(2πi Im H(w,z)); both continuations are meromorphic
+on ℂ. The metric covolume is the
 Lebesgue covolume multiplied by ∏h_i. The uncompleted residue at d is
 π^d/(Γ(d)vol_H Λ) when ν=0 and w belongs to the alternating dual; otherwise w
 outside that dual gives regularity at d. The pointwise equation excludes Gamma
@@ -94,6 +95,7 @@ theorem kronecker_functional_equation
     (hΛd : ∀ l, l ∈ Λd ↔ ∀ m ∈ Λ, ∃ n : ℤ, (hermitianPairing h l m).im = n)
     (ν : Fin d → ℕ) (z w : Fin d → ℂ) :
     ∃ F G : ℂ → ℂ,
+      MeromorphicOn F Set.univ ∧ MeromorphicOn G Set.univ ∧
       (∀ s : ℂ, (d : ℝ) + (∑ i, (ν i : ℝ)) / 2 < s.re →
         HasSum (fun l : Λ => kroneckerTerm h ν z w s l) (F s)) ∧
       (∀ s : ℂ, (d : ℝ) + (∑ i, (ν i : ℝ)) / 2 < s.re →
