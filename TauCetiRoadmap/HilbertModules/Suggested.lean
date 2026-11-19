@@ -8,33 +8,38 @@ import Mathlib
 # Hilbert C*-modules, Morita equivalence, and continuous trace: target signatures
 
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems that are statable against the pinned Mathlib, each with `sorry`. Right Hilbert
-`A`-modules use Mathlib's `CStarModule Aᵐᵒᵖ E`: the right action `x a` is `MulOpposite.op a • x`
-and the usual `A`-valued inner product is `MulOpposite.unop (inner Aᵐᵒᵖ x y)`.
+theorems that are statable against the pinned Mathlib and Tau Ceti, each with `sorry`. Right
+Hilbert `A`-modules use Mathlib's `CStarModule Aᵐᵒᵖ E`: the right action `x a` is
+`MulOpposite.op a • x` and the usual `A`-valued inner product is `MulOpposite.unop (inner Aᵐᵒᵖ x y)`
+(README, Convention 2).
 
-Stated here: the adjoint identity forces linearity, boundedness and module linearity (H2); the
-C*-identity `‖T*T‖ = ‖T‖²` for adjointable maps (H2); and, for unital `A`, existence of a finite
-Parseval frame is equivalent to algebraic finite generation and projectivity (H2).
+Stated here, all from Layer 2: the adjoint identity forces linearity, boundedness and module
+linearity (README §2.1); the C*-identity `‖T*T‖ = ‖T‖²` for adjointable maps (§2.2); and, for unital
+`A`, existence of a finite Parseval frame is equivalent to algebraic finite generation and
+projectivity (§2.7).
 
 Not statable at the pins, and therefore not stated:
-* `L_A(E) ≅ M(K_A(E))`, Morita equivalence via imprimitivity bimodules `A ≅ K_B(E)`, the linking
-  algebra and the Rieffel correspondence (H2–H3): the pinned Mathlib has no C*-algebra of
-  adjointable or module-compact operators and no interior tensor product of Hilbert modules.
-* Kasparov stabilization `E ⊕ H_A ≅ H_A` (H4): no standard module `H_A = ℓ²(ℕ, A)` with its
+* `L_A(E) ≅ M(K_A(E))` (§2.4), Morita equivalence through imprimitivity bimodules `A ≅ K_B(E)`, the
+  linking algebra and the Rieffel correspondence (§§3.5–3.7): the pinned libraries have no
+  C*-algebra of adjointable or module-compact operators and no interior tensor product of Hilbert
+  modules.
+* Kasparov stabilization `E ⊕ H_A ≅ H_A` (§4.2): no standard module `H_A = ℓ²(ℕ, A)` with its
   Hilbert-module structure.
-* Brown–Green–Rieffel `A ∼ B ↔ A ⊗min K(ℓ²) ≅ B ⊗min K(ℓ²)` (H4): no minimal tensor product of
+* Brown–Green–Rieffel `A ∼ B ↔ A ⊗min K(ℓ²) ≅ B ⊗min K(ℓ²)` (§4.3): no minimal tensor product of
   C*-algebras.
 * Continuous trace ⇔ local Morita equivalence to `C₀(X)` and the Dixmier–Douady classification
-  `Br(X) ≅ ČH³(X, ℤ)` (H5): no unitary dual `Â` with its topology, no continuous-trace predicate and
-  no Čech cohomology of the sheaves of continuous functions on a locally compact space.
+  `Br(X) ≅ Ȟ³(X, ℤ)` (§§5.9, 5.14): no unitary dual `Â` with its topology, no continuous-trace
+  predicate and no Morita equivalence over the spectrum. The Čech cohomology of presheaves on a
+  space is at the Tau Ceti pin (`TauCeti.Topology.cechCohomology`); the invariant `δ(A)` is built
+  from local imprimitivity bimodules, which are not.
 * The bounded-transform correspondence and the local–global principle for regular operators
-  (H6–H7): no module-valued adjoint of a partial operator, no regularity predicate and no
+  (§6.3, §7.3): no module-valued adjoint of a partial operator, no regularity predicate and no
   localization `E ⊗_A H_π`.
 -/
 
 namespace TauCetiRoadmap.HilbertModules
 
-/-! ## Layer H2: adjointable maps and module compact operators -/
+/-! ## Layer 2: adjointable maps and module compact operators -/
 
 /-- Two plain functions `T : E → F` and `S : F → E` between right Hilbert `A`-modules form an
 adjoint pair when `⟨T x, y⟩ = ⟨x, S y⟩` for all `x, y` (Raeburn–Williams, Definition 2.17). -/
@@ -45,8 +50,9 @@ def IsAdjointPair {A E F : Type*} [NonUnitalCStarAlgebra A] [PartialOrder A]
   ∀ x y, inner Aᵐᵒᵖ (T x) y = inner Aᵐᵒᵖ x (S y)
 
 /-- The adjoint identity alone forces both functions to be bounded complex-linear maps and `T` to
-commute with the right `A`-action: linearity and module linearity come from nondegeneracy of the
-inner product, boundedness from the closed graph theorem. -/
+commute with the right `A`-action, when `E` and `F` are complete: linearity and module linearity
+come from definiteness of the inner product, boundedness from the closed graph theorem
+(README §2.1). -/
 theorem adjointPair_exists_continuousLinearMaps {A E F : Type*} [NonUnitalCStarAlgebra A]
     [PartialOrder A] [StarOrderedRing A]
     [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
