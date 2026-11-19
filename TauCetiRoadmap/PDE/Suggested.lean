@@ -199,9 +199,24 @@ noncomputable def w1pVanishingOnSubmodule (mu : Measure (EuclideanSpace ℝ (Fin
     [mu.IsAddHaarMeasure] (Ω : Opens (EuclideanSpace ℝ (Fin (n + 1)))) (p : ℝ≥0∞)
     [Fact (1 ≤ p)] (Γ : Set (EuclideanSpace ℝ (Fin (n + 1)))) :
     ClosedSubmodule ℝ (W1p mu Ω p) :=
-  (Submodule.span ℝ {u | ∃ φ : EuclideanSpace ℝ (Fin (n + 1)) → ℝ, ContDiff ℝ ∞ φ ∧
-      HasCompactSupport φ ∧ Disjoint (tsupport φ) (closure Γ) ∧
-      (W1p.value u : EuclideanSpace ℝ (Fin (n + 1)) → ℝ) =ᵐ[mu.restrict Ω] φ}).closure
+  Submodule.closure
+    { carrier := {u | ∃ φ : EuclideanSpace ℝ (Fin (n + 1)) → ℝ, ContDiff ℝ ∞ φ ∧
+        HasCompactSupport φ ∧ Disjoint (tsupport φ) (closure Γ) ∧
+        (W1p.value u : EuclideanSpace ℝ (Fin (n + 1)) → ℝ) =ᵐ[mu.restrict Ω] φ}
+      zero_mem' := ⟨0, contDiff_const, HasCompactSupport.zero, by simp, by
+        rw [show W1p.value (0 : W1p mu Ω p) = 0 by
+          simpa using map_zero (W1p.valueL (mu := mu) (Omega := Ω) (p := p))]
+        exact Lp.coeFn_zero ..⟩
+      add_mem' := by
+        rintro u v ⟨φ, hφ, hφc, hφd, hφu⟩ ⟨ψ, hψ, hψc, hψd, hψv⟩
+        exact ⟨φ + ψ, hφ.add hψ, hφc.add hψc,
+          (disjoint_union_left.2 ⟨hφd, hψd⟩).mono_left (tsupport_add φ ψ),
+          (W1p.value_add_ae u v).trans (hφu.add hψv)⟩
+      smul_mem' := by
+        rintro c u ⟨φ, hφ, hφc, hφd, hφu⟩
+        exact ⟨c • φ, contDiff_const.smul hφ, hφc.smul_left,
+          hφd.mono_left (tsupport_smul_subset_right (fun _ ↦ c) φ),
+          (W1p.value_smul_ae c u).trans (hφu.const_smul c)⟩ }
 
 /-- At the whole frontier, `W^{1,p}_Γ(Ω)` is `W^{1,p}_0(Ω)`, for every open `Ω` and every `p`
 (§1.8). -/
