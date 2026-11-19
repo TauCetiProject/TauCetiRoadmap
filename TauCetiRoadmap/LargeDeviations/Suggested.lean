@@ -384,7 +384,7 @@ def IsExposedPoint (I : E → ℝ≥0∞) (y η : E) : Prop :=
 its effective domain is nonempty, `Λ` is differentiable there, and it is steep, the gradient
 norm tending to infinity at every boundary point of that interior (Dembo–Zeitouni,
 Definition 2.3.5). Essential smoothness in the sense of convex analysis (subdifferential empty
-off the interior of the domain) is owned by the convex-analysis roadmap; the two agree for
+off the interior of the domain) is owned by ConvexAnalysisAndDuality §4.3; the two agree for
 proper closed convex `Λ`. -/
 def IsEssentiallySmoothSteep [CompleteSpace E] (Λ : E → EReal) : Prop :=
   (interior {t | Λ t < ⊤}).Nonempty ∧
@@ -535,6 +535,7 @@ end Layer6
 #check @innerₗ
 #check @T35Space
 #check @PolishSpace
+#check @OpensMeasurableSpace
 #check @IsCompact.exists_isMinOn
 
 end TauCetiRoadmap.LargeDeviations

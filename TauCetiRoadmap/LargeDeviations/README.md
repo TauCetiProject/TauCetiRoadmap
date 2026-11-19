@@ -105,6 +105,11 @@ Every result that is not listed in a layer belongs to the
   space `X` with a measurable structure, and the speed is `a : ℕ → ℝ`; every theorem that needs
   it assumes `Tendsto a atTop atTop`. Continuous-parameter families `ε → 0` of the sources are
   read along sequences; the theorems used here never need more.
+- **Measurable open sets.** In "Polish forces tightness" (1.5), in 2.1–2.5 (except the moment
+  condition of 2.2) and in the inverse contraction of 3.1, open sets of `X` are measurable
+  (`OpensMeasurableSpace X`); 3.2–3.3 and Layers 4–6 assume Borel σ-algebras or say so (4.1).
+  Without it 2.1 fails: under the trivial σ-algebra on `ℝ` a lower integral is the infimum of the
+  integrand, so `∫⁻ exp ((n+1) j x) dδ₀ = 0` for `j ≠ 0` while `{0}` has outer measure `1`.
 - **Logarithms and infima.** The normalized logarithm of the measure of a set `s` is
   `(a n)⁻¹ * ENNReal.log (μ n s)` in `EReal`, with `ENNReal.log 0 = ⊥`, so a set of measure `0`
   contributes `-∞`. The junk value `Real.log 0 = 0` never enters; Check 1.1 shows that it would
@@ -337,8 +342,8 @@ complete, hence compact.
 **Checks.**
 
 - `LargeDeviationPrinciple`: the constant family `δ₀` on `ℝ` satisfies it at speed `n + 1` with
-  rate `0` at `0` and `⊤` elsewhere; it does not with rate `0` everywhere, since the closed set
-  `{1}` has measure `0` and `-⨅_{1} I = 0 > ⊥`.
+  rate `0` at `0` and `⊤` elsewhere; it does not with rate `0` everywhere, since the open set
+  `(1/2, 3/2)` has measure `0` and the lower bound there would read `0 ≤ ⊥`.
 - `LargeDeviationPrinciple` with `Real.log` (negative control): for `δ₀`, the set `{1}` has
   measure `0`. With `Real.log 0 = 0` the upper bound at `{1}` would read `0 ≤ -I 1`, forcing
   `I 1 = 0`, and the rate `0` at `0`, `⊤` elsewhere would fail the principle; with
@@ -563,13 +568,14 @@ the projections are measurable.
 **Checks.**
 
 - `ExponentiallyEquivalent`: `Yₙ = Z + (n+1)⁻¹` and `Zₙ = Z` for any random variable `Z` are
-  exponentially equivalent at any speed, since `{dist > δ}` is empty once `n + 1 > 1/δ` and
-  `log 0 = ⊥`.
+  exponentially equivalent at any speed tending to `∞`, since `{dist > δ}` is empty once
+  `n + 1 > 1/δ` and `log 0 = ⊥`.
 - `ExponentiallyEquivalent` is stronger than convergence in probability (negative control): on
   `[0, 1]` with Lebesgue measure, let `Yₙ` be the indicator of an interval of length
   `2^(-(n+1))` and `Zₙ = 0`. At speed `n + 1` and `δ = 1/2` the normalized logarithm is
   `(n+1)⁻¹ log 2^(-(n+1)) = -log 2`, not `⊥`, although `Yₙ - Zₙ → 0` in probability.
-- `ExponentiallyEquivalent` of a sequence with itself holds, every set `{dist > δ}` being empty.
+- `ExponentiallyEquivalent` of a sequence with itself holds at any speed tending to `∞`, every
+  set `{dist > δ}` being empty.
 
 ### Examples
 
@@ -653,7 +659,10 @@ The rate need not be good: it is identically `0` when `logMGF ν` is `⊤` off `
 a closed `F` not containing `m` lies in `(-∞, x₋] ∪ [x₊, ∞)` with `x₋ < m < x₊` the nearest points
 of `F`, and 4.2 with its mirror image bounds both tails; the transform is monotone on each side
 of `m`, so the infimum over `F` is attained at `x₋` or `x₊`. If the mean is `±∞` or undefined,
-the transform is monotone on all of `ℝ` (Lemma 2.2.5(b)) and one tail suffices. Lower bound: it
+the transform is monotone on all of `ℝ` (Lemma 2.2.5(b)) and one tail suffices; it is bounded by
+the Markov step of the route of 4.2, which needs no integrability: for every law, every `x` and
+every `n`, `(n+1)⁻¹ log P(X̄ ≥ x) ≤ -sup_{λ ≥ 0} (λ x - Λ(λ))`, and this supremum is the whole
+transform when `Λ = ⊤` on `(-∞, 0)` (mirror image when `Λ = ⊤` on `(0, ∞)`). Lower bound: it
 suffices to show `liminf (n+1)⁻¹ log P(X̄ ∈ (y - δ, y + δ)) ≥ -legendreRate (logMGF ν) y`. If
 `logMGF ν` is finite everywhere and the supremum defining the rate at `y` is attained at `η`,
 tilt by `η` (the tilted law has mean `y`) and apply the weak law under the tilted law. Otherwise
@@ -661,8 +670,8 @@ truncate: the restricted moments `log ∫_{[-M, M]} exp (λ x) dν` are finite, 
 `logMGF ν` as `M → ∞`, and the tilting argument applies to the restricted law; the infima over
 `λ` pass to the limit by compactness of a sublevel set in `λ`, as in Dembo–Zeitouni.
 
-*Needs:* 1.3, 4.1, 4.2 (bound only); Mathlib `Measure.tilted`, the weak law from
-`strong_law_ae`.
+*Needs:* 1.3, 4.1, 4.2 (bound, and the Markov step of its route); Mathlib `Measure.tilted`, the
+weak law from `strong_law_ae`.
 
 ### 4.4 Cramér's theorem in finite dimension
 
@@ -690,7 +699,8 @@ converging rates; tilt by `η` as in 4.3. Equivalently, 4.4 is the instance of 5
   for `t ≠ 0` and `0` at `t = 0`, so the rate is identically `0`, which is right: the sample mean
   of Cauchy observations is again standard Cauchy, and no interval decays. Mathlib's `cgf` is the
   junk value `0` for every `t`, and its transform `sup_t t x` is `⊤` for every `x ≠ 0`, a rate that
-  fails the lower bound on `(0, 2)`.
+  fails the upper bound on the closed set `[1, 2]`: its measure is
+  `(arctan 2 - arctan 1)/π = 0.102416` for every `n`, so the left side is `0` and the right `⊥`.
 - `legendreRate` for the Bernoulli law with success probability `p`:
   `x log (x/p) + (1 - x) log ((1 - x)/(1 - p))` on `[0, 1]` and `⊤` outside (Dembo–Zeitouni,
   Exercise 2.2.23, p. 35). At `p = 0.3`, `x = 0.6` it is `0.192042`; at `p = 1/2`, `x = 1` it is
@@ -768,7 +778,7 @@ exponentially. Undoing the tilt costs at most `⟪η, y⟫ - Λ η + |η| δ` on
   and it is steep: the norm of the gradient tends to `∞` at every point of the frontier of that
   interior. It differs from essential smoothness in convex analysis, whose third clause is the
   emptiness of the subdifferential off the interior of the domain, and agrees with it for proper
-  closed convex `Λ`; essential smoothness in that sense is owned by the convex-analysis roadmap,
+  closed convex `Λ`; essential smoothness in that sense is owned by ConvexAnalysisAndDuality §4.3,
   and this roadmap owns only the steep predicate in which the Gärtner–Ellis theorem uses it.
 
 - **Rockafellar's lemma** (`exists_isExposedPoint_of_mem_intrinsicInterior`): if `Λ` has
