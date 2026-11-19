@@ -17,8 +17,8 @@ and Wasserstein library, and on the empirical-process toolkit of
 - the margin bound, generalization of uniformly stable algorithms and the stability of
   regularized kernel methods, and the oracle inequality for kernel ridge regression;
 - split conformal prediction, the Cover–Hart inequalities and nearest-neighbour asymptotics,
-  Stone's theorem for local weights and response-independent forests, and consistency of
-  `k`-means;
+  Stone's theorem for local weights, with response-independent forests as an example, and
+  consistency of `k`-means;
 - cost-complexity pruning, impurity decrease, the descent of `L²` boosting, the variance of an
   ensemble average and the training error and margins of AdaBoost;
 - differential privacy: the Laplace, Gaussian and exponential mechanisms, post-processing, group
@@ -41,7 +41,8 @@ adaptations and results whose source is a paper are derived in the proof routes.
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
 a Lean name, each with every conclusion the README attaches to it, and the definitions those
 statements need. It is not an exhaustive acceptance test: the other headlines (bold or not) are
-targets of the same standing, stated in prose with their locators or proof routes.
+targets of the same standing, stated in prose with their locators or proof routes, and the module
+docstring of `Suggested.lean` lists the bold ones with the vocabulary each would need.
 
 Suggested home: `TauCeti/Statistics/Learning/`, with one subdirectory per layer.
 
@@ -67,8 +68,8 @@ The roadmap is complete when Tau Ceti proves all of the following.
    rates.
 5. **Distribution-free prediction, local rules and clustering.** Split conformal prediction; the
    Cover–Hart inequalities and the asymptotics of nearest-neighbour classification; Stone's
-   theorem for local weights and the consistency of response-independent forests; consistency of
-   `k`-means.
+   theorem for local weights, with response-independent forests as an example of local weights;
+   consistency of `k`-means.
 6. **Trees, boosting and ensembles.** Minimal cost-complexity pruning; impurity decrease and the
    categorical-split ordering; the descent of `L²` boosting; the variance of an ensemble average;
    AdaBoost's training error, margins and line search.
@@ -101,9 +102,11 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   9.1, whose conventions this roadmap adopts;
 - the Hedge forecaster and its regret:
   [RegretMinimizationAndEquilibria](../RegretMinimizationAndEquilibria/README.md) 1.2. Online
-  gradient descent belongs to a roadmap on first-order methods in an open pull request;
+  gradient descent is outside the scope; it belongs to a roadmap on first-order methods
+  (FirstOrderOptimization);
 - bandits (upper confidence bounds, Thompson sampling, adversarial and linear bandits, the
-  Lai–Robbins and minimax lower bounds) belong to a roadmap on bandits in an open pull request;
+  Lai–Robbins and minimax lower bounds) are outside the scope; they belong to the roadmap
+  MultiArmedBandits;
 - Markov decision processes, Bellman operators, policy iteration, linear programming and tabular
   `Q`-learning and TD(0): [MarkovDecisionProcesses](../MarkovDecisionProcesses/README.md);
 - realisation maps of neural networks: [Neuromanifolds](../Neuromanifolds/README.md);
@@ -173,7 +176,10 @@ These are fixed for every target. A statement that departs from them is a differ
   (`Mathlib/Combinatorics/SetFamily/Shatter.lean`).
 - **Reproducing kernels:** the class `RKHS`, `RKHS.kerFun`, `RKHS.kernel` and the evaluation
   bound `RKHS.norm_apply_le` (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`).
-- **Sub-Gaussian variables:** `HasSubgaussianMGF` (`Mathlib/Probability/Moments/SubGaussian.lean`).
+- **Sub-Gaussian variables:** `HasSubgaussianMGF` and the Azuma–Hoeffding inequality for
+  conditionally sub-Gaussian increments,
+  `ProbabilityTheory.measure_sum_ge_le_of_hasCondSubgaussianMGF`
+  (`Mathlib/Probability/Moments/SubGaussian.lean`).
 - **Conditional independence:** `ProbabilityTheory.CondIndepFun`, with the notation
   `X ⟂ᵢ[Z, hZ; μ] Y` and the characterisation `ProbabilityTheory.condIndepFun_iff`
   (`Mathlib/Probability/Independence/Conditional.lean`).
@@ -465,7 +471,8 @@ Mathlib only.
   Rademacher complexity at most `L` times that of `f`. No condition `φ(0) = 0` is needed for the
   signed complexity; the absolute-value version of Koltchinskii and Boucheron–Lugosi–Massart
   needs it.
-- **Massart's lemma** (Mohri–Rostamizadeh–Talwalkar, Thm 3.7, p. 35): for a finite nonempty
+- **Massart's lemma** (`empiricalRademacherComplexity_le_massart`;
+  Mohri–Rostamizadeh–Talwalkar, Thm 3.7, p. 35): for a finite nonempty
   class with `√(∑ i f t (z i)²) ≤ r` for all `t`, the empirical Rademacher complexity is at most
   `r √(2 log |T|) / n`.
 - **Convex hulls** (Mohri–Rostamizadeh–Talwalkar, Lemma 7.4, p. 157): the class of finite convex
@@ -473,7 +480,7 @@ Mathlib only.
 
 *Proof route.* Contraction: condition on all signs but one and compare the two values of the
 remaining sign, as in Mohri's proof of Lemma 5.7; induction on the coordinates. For a supremum
-that is `⊤` the inequality is trivial, and for the empty class both sides are `⊥`. Massart: for
+that is `⊤` the inequality is trivial, and for the empty class the left side is `⊥`. Massart: for
 `λ > 0`, Jensen and Hoeffding's lemma give
 `exp(λ n R) ≤ ∑_t E exp(λ ∑ σ_i a_ti) ≤ |T| exp(λ² r²/2)`; optimize in `λ`. Convex hulls: a
 linear functional of `w` on the simplex is maximized at a vertex.
@@ -544,15 +551,15 @@ also to the empirical complexity, which changes by at most `1/n`, and splits `δ
 - A one-member class `{f}`: the complexity is `0`, and the high-probability bound reduces to
   Hoeffding's inequality `|P_n f - P f| ≤ √(log(2/δ)/(2n))`.
 - Countable classes are pointwise separable, so the hypothesis is automatic for them; for
-  uncountable classes it is what makes the suprema measurable, and Asymptotic 3.2 records a class
-  without it whose supremum is not measurable.
+  uncountable classes it is what makes the suprema measurable. Asymptotic 3.2 records a class
+  that is not pointwise separable, the singleton indicators on `[0, 1]`.
 - `n = 1`, a class with values in `[0, 1]`: the deviation term `√(log(2/δ)/2)` exceeds `1` for
   `δ < 2e⁻²`, so the bound is trivially true there, as it must be.
 
 ### 2.4 Finite classes and hold-out selection
 
-- **Finite classes** (Devroye–Györfi–Lugosi, Thm 8.3, p. 127): for `N` classifiers and `n`
-  independent samples, the probability that
+- **Finite classes** (`finiteClass_deviation`; Devroye–Györfi–Lugosi, Thm 8.3, p. 127): for `N`
+  measurable classifiers, `ε > 0` and `n` independent samples, the probability that
   `max_j |empiricalError (φ j) z - classificationError P (φ j)| > ε` is at most
   `2N exp(-2nε²)`.
 - **Hold-out selection** (`holdOut_selection`): for `N` measurable classifiers fixed in advance
@@ -616,15 +623,19 @@ p. 22.)
 - `IsAgnosticPACLearnable ∅` is false: a rule with values in `∅` does not exist, since the type of
   samples of size `0` is nonempty. So the fundamental theorem below assumes `H` nonempty.
 - `IsRealizablePACLearnable` of a singleton class `{h}`: the constant rule works with `m = 0`.
-- `IsAgnosticPACLearnable` of a finite nonempty class: empirical risk minimization works with
-  `m(ε, δ) = ⌈2 log(2|H|/δ)/ε²⌉`, by the finite-class bound of 2.4 with deviation `ε/2`.
+- `IsAgnosticPACLearnable` of a finite nonempty class of measurable classifiers: empirical risk
+  minimization works with `m(ε, δ) = ⌈2 log(2|H|/δ)/ε²⌉`, by the finite-class bound of 2.4 with
+  deviation `ε/2`. Measurability is used: Hoeffding's inequality needs the error events to be
+  measurable.
 - `IsAgnosticPACLearnable H` implies `IsRealizablePACLearnable H`: on a realizable law
   `inf_H R = 0`, so the same rule and sample size work.
 - `IsRealizablePACLearnable` fails for the class of all classifiers on `ℕ` (by 3.5), although
   every law is realizable for it.
-- Negative control for the realizable convention: with "infimum of the errors is zero" in place
-  of "some member has error zero", the threshold class `{x ↦ decide (x ≤ t) | t < 0}` under
-  `δ_(0, true)` would be realizable although every member errs at `0` with probability `1`.
+- Negative control for the realizable convention: for the threshold class
+  `{x ↦ decide (x ≤ t) | t < 0}`, with `X` uniform on `(-1, 0)` and `Y = true`, the member with
+  threshold `t ∈ (-1, 0)` errs with probability `P(X > t) = -t`, so the infimum of the errors is
+  `0` and no member attains it: the law is realizable under the weaker convention and not under
+  the Conventions. Under a point mass no such law exists, since every error is `0` or `1`.
 
 ### 3.2 Upper bounds
 
@@ -686,10 +697,11 @@ Anthony–Bartlett.
   term needs at least three members, its `d` term `d ≥ 2`; with at least three members and `d = 1`
   the `log(1/δ)` term dominates `d` since `log 100 > 1`. The agnostic `log(1/δ)` term needs at least
   two members, which `d ≥ 1` guarantees.
-- **Infinite VC dimension** (Devroye–Györfi–Lugosi, Thm 14.3, p. 239): if `vcDim H = ⊤`, then
-  for every rule and every `n` some law under which a member has error zero makes the expected
-  error of the rule at least a universal positive constant. This is the limit `d → ∞` of the
-  realizable bound, and 3.4 uses it.
+- **Infinite VC dimension** (`exists_lintegral_classificationError_ge_of_vcDim_eq_top`;
+  Devroye–Györfi–Lugosi, Thm 14.3, p. 239): on a space with measurable singletons, if
+  `vcDim H = ⊤`, then for every rule (with values in the class or not), every `n` and every
+  `δ > 0` some law under which a member has error zero makes the expected error of the rule at
+  least `1/(2e) - δ`. This is the limit `d → ∞` of the realizable bound, and 3.4 uses it.
 
 *Proof route.* The probabilistic method on a shattered set, as in Anthony–Bartlett: in the
 agnostic case, conditional probabilities `(1 ± cε)/2` on `d` shattered points, a uniformly random
@@ -740,8 +752,11 @@ supports measurable and every function on them measurable.
 - `Infinite X` is needed: on a finite `X`, under a law with error zero for some classifier, the
   rule that copies the labels seen in the sample errs only on unseen points, whose expected mass
   `∑_x p(x)(1 - p(x))^n` is at most `|X|/n`, below `1/2 - ε` for large `n`.
-- With `n = 0` the rule sees nothing, and for `K` points with a random labelling its expected
-  error is exactly `1/2`, so the bound `1/2 - ε` cannot be raised to `1/2 + ε`.
+- The bound `1/2 - ε` cannot be raised to `1/2 + ε`: the rule that predicts the majority label of
+  a sample of odd size `n` everywhere has expected error `q(1 - p) + (1 - q)p ≤ 1/2` under every
+  law, where `p ≥ 1/2` is the probability of the more frequent label and `q ≥ 1/2` that of the
+  majority agreeing with it (`n = 3`, `p = 0.6`: `0.4704`; computed). For `n = 0` alone the bound
+  can be raised to `1`: the rule is a fixed classifier `g`, and `δ_(x, ¬g(x))` gives it error `1`.
 
 ### Examples
 
@@ -812,8 +827,7 @@ objective is `2λ`-strongly convex in `H`, so comparing the two minimizers gives
 `2λ ‖A S - A S'‖² ≤ (2G r/n) ‖A S - A S'‖`, by the Lipschitz bound on the single changed term and
 `|h(x)| ≤ ‖h‖ r` (`RKHS.norm_apply_le`); then `|c(y, A S x) - c(y, A S' x)| ≤ G r ‖A S - A S'‖`.
 
-*Needs:* 1.1; Tau Ceti McDiarmid; Mathlib `RKHS.norm_apply_le`; Nonparametric 5.8 for the
-existence of minimizers in the span of the kernel functions.
+*Needs:* 1.1; Tau Ceti McDiarmid; Mathlib `RKHS.norm_apply_le`.
 
 **Checks.**
 
@@ -922,20 +936,24 @@ applies the theorem to the conditional laws given the training part, which are e
 
 ### 5.2 Nearest-neighbour classification
 
+- `nearestIndex xs x`, for sample points `xs : Fin (n + 1) → E` in a metric space: the index of the
+  point nearest to `x`, distance ties broken by the smaller index; `nnRule z x` is the label of
+  the sample point `z (nearestIndex (fun i ↦ (z i).1) x)`, the 1-nearest-neighbour rule.
 - **Cover–Hart inequalities** (`bayesRisk_le_nnRisk_le`; Devroye–Györfi–Lugosi, (3.1), p. 22):
   for a measurable `η` with values in `[0, 1]`, `L* = E min(η, 1 - η)` and
   `L(1) = E 2η(1 - η)`, `L* ≤ L(1) ≤ 2L*(1 - L*) ≤ 2L*`.
-- **1-NN limit** (Devroye–Györfi–Lugosi, Thm 5.1, p. 70): for every law of `(X, Y)` on `ℝ^d`, the
-  expected error of the 1-nearest-neighbour rule tends to `L(1)`.
+- **1-NN limit** (`tendsto_integral_classificationError_nnRule`; Devroye–Györfi–Lugosi, Thm 5.1,
+  p. 70): for every law of `(X, Y)` on `ℝ^d` with regression function `η`, the expected error
+  of `nnRule` on `n + 1` sample points tends to `L(1) = E 2η(1 - η)`.
 - **`k`-NN limits** (Devroye–Györfi–Lugosi, Thm 5.2, p. 70, Thm 5.4, p. 73, and Thm 5.6, p. 75): for
   fixed odd `k`, the limit `L(k)` of the expected error exists for every law, is nonincreasing in
   odd `k`, and `L* ≤ L(k) ≤ L* + 1/√(ke)`; for even `k`, `L(2k) = L(2k-1)` (Thm 5.5, p. 74).
 - **Consistency** (Devroye–Györfi–Lugosi, Thm 6.4, p. 101): if `k → ∞` and `k/n → 0`, the
   expected error of the `k`-NN rule tends to `L*` for every law.
 
-Distance ties are broken by index, the convention of Nonparametric 5.6; Devroye–Györfi–Lugosi
-break them by independent uniform marks, and the limits are the same by the same argument, since
-the nearest neighbours converge to `X` almost surely whichever tie rule is used.
+Distance ties are broken by index, the convention of Devroye–Györfi–Lugosi for the `k`-NN rule
+(§5.1, p. 61, and §6.7, p. 101), who note that it suffices for weak universal consistency (Ch. 11,
+p. 170), and of Nonparametric 5.6.
 
 *Proof route.* Cover–Hart: `2η(1 - η) = 2m(1 - m)` with `m = min(η, 1 - η) ≤ 1/2`, so
 `m ≤ 2m(1 - m)`, and Jensen gives `E 2m(1 - m) ≤ 2 Em (1 - Em)`. The limits: the nearest neighbours
@@ -955,6 +973,13 @@ Nonparametric 5.6.
 - Deterministic labels (`η ∈ {0, 1}`): `L* = L(1) = 0`.
 - `η ≡ 0.2`: `L* = 0.2`, `L(1) = 0.32 = 2L*(1 - L*) < 2L* = 0.4`.
 - `η ∈ {0.1, 0.3}` with equal mass: `L* = 0.2`, `L(1) = 0.30 < 2L*(1 - L*) = 0.32` (computed).
+- `nearestIndex` on `ℝ` with `xs = (0, 2, 1)` and `x = 0.9` is `2`, at distance `0.1`.
+- `nearestIndex` with `xs = (2, 0)` and `x = 1` is `0`: both points are at distance `1`, and the
+  smaller index wins. A rule breaking ties by the larger index would give `1`.
+- `nnRule` on one sample point (`n = 0`) predicts its label everywhere.
+- `nnRule` with `z = ((2, true), (0, false))` at `x = 1` predicts `true`, the label of index `0`.
+- If `Y` is independent of `X` with `P(Y = true) = p`, the expected error of `nnRule` is
+  `2p(1 - p)` for every sample size, which is the limit `L(1)`; for `p = 0.2` it is `0.32`.
 
 ### 5.3 Local weight estimates and forests
 
@@ -969,11 +994,11 @@ Nonparametric 5.6.
 
   then `E (∑_i w_i Y_i - m(X))² → 0` for every law of `(X, Y)` with `E Y² < ∞` and regression
   function `m`.
-- **Response-independent forests**: leaf averages of a tree partition built from the sample
-  points and independent randomness but not from the responses, and averages of several such
-  trees, are local weight estimates when no leaf is free of sample points; the theorem applies
-  once the three conditions are verified for the partition scheme (cells shrinking in diameter
-  and containing a number of points tending to infinity).
+- **Response-independent forests**, as an example of local weights: leaf averages of a tree
+  partition built from the sample points and independent randomness but not from the responses,
+  and averages of several such trees, are local weight estimates when no leaf is free of sample
+  points. Stone's theorem applies to a partition scheme once its three conditions are verified
+  for it; consistency of a particular forest is that verification and is not a target here.
 
 *Proof route.* For bounded `Y` the conditional variance term is at most
 `E ∑ w_i² Var(Y_i | X_i) ≤ C' E max_i w_i`; the bias term `E(∑ w_i (m(X_i) - m(X)))²` is handled by
@@ -994,15 +1019,22 @@ nearest-neighbour weights; here it is stated once, for every weight scheme.
   finite second moment whose `k`-means risk has a unique minimizing set `C*` of at most `k`
   centers, and i.i.d. points, every choice of empirical minimizers `Cₘ` (over sets of at most
   `k` centers, against the empirical measure of the first `m + 1` points) converges to `C*` in the
-  Hausdorff distance almost surely.
+  Hausdorff distance almost surely. Uniqueness is assumed only among sets of at most `k` centers,
+  not for each smaller number of centers; the route below uses it only through
+  `m_k < m_(k-1)`, where `m_j` is the least risk of a set of at most `j` centers.
 
 *Proof route.* `kMeansRisk ν C` is the squared `W₂` distance from `ν` to the best law supported
 on `C`, so `|kMeansRisk(ν)^(1/2) - kMeansRisk(μ)^(1/2)| ≤ W₂(ν, μ)` uniformly in `C`. Tau Ceti's
 `TauCeti.tendsto_wassersteinEDist_empiricalMeasure_ae` with `p = 2` makes the empirical risks
-converge uniformly almost surely; the empirical minimizers stay in a bounded set (a center far
-away serves no mass), so by compactness every limit point of `Cₘ` minimizes the population
-risk, and uniqueness identifies it with `C*`. Linder's Thm 4.2 states the convergence of the
-risks; the convergence of the centers is the compactness step above.
+converge uniformly almost surely. Uniqueness gives `m_k < m_(k-1)` for `k ≥ 2`: a set of at most
+`k - 1` centers of risk `m_(k-1)` exists (Linder, Thm 4.1, p. 168, applied to `k - 1`), so if
+`m_k = m_(k-1)` it would be `C*`, and adding a point outside it would give a second minimizer.
+Hence the empirical minimizers stay in a bounded set: a center that escapes along a subsequence
+serves vanishing mass, so the other centers form sets of at most `k - 1` centers whose risks
+have limit superior at most `m_k`, below `m_(k-1)`, which no such set attains. By compactness
+every limit point of `Cₘ` minimizes the population risk, and uniqueness identifies it with
+`C*`. Linder's Thm 4.2 states the convergence of the risks; the convergence of the centers is the
+compactness step above.
 
 *Needs:* Tau Ceti Wasserstein convergence and quantization; Mathlib `Metric.hausdorffDist`.
 
@@ -1272,7 +1304,8 @@ total weight at most `|R| exp(ε(u(r₀) - t)/(2Δu))` relative to the weight of
 
 ### 7.3 Composition
 
-- **Basic composition** (`isDifferentiallyPrivate_compProd`; Dwork–Roth, Thm 3.16, p. 43): if
+- **Basic composition** (`isDifferentiallyPrivate_compProd`; Dwork–Roth, Thm 3.16, p. 43, for
+  mechanisms run independently, and Thm B.1, p. 267, for the adaptive form): if
   `M₁` is `(ε₁, δ₁)`-private and, for every first release `y`, `D ↦ M₂ D y` is `(ε₂, δ₂)`-private,
   with nonnegative parameters, the joint release `D ↦ M₁ D ⊗ₘ M₂ D` is
   `(ε₁ + ε₂, δ₁ + δ₂)`-private. By induction, the adaptive composition of `k` mechanisms is
@@ -1289,8 +1322,8 @@ total weight at most `|R| exp(ε(u(r₀) - t)/(2Δu))` relative to the weight of
 tail `δ'` (Dwork–Roth, proof of Thm 3.20, with Lemma 3.17–3.18 there for the reduction from
 `(ε, δ)` to `(ε, 0)` off a bad event).
 
-*Needs:* 7.1; Mathlib `Measure.compProd`; Azuma's inequality from Tau Ceti's bounded-differences
-file, in its martingale form.
+*Needs:* 7.1; Mathlib `Measure.compProd` and the Azuma–Hoeffding inequality
+`ProbabilityTheory.measure_sum_ge_le_of_hasCondSubgaussianMGF`.
 
 ### 7.4 Local privacy: randomized response and contraction
 
@@ -1566,11 +1599,11 @@ No other roadmap consumes the results of this one.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
-- **Online learning.** Online gradient descent (owned by a roadmap on first-order methods in an
-  open pull request), online-to-batch conversion, mirror descent and the Littlestone dimension of
-  online learnability.
-- **Bandits and reinforcement learning.** Bandit algorithms and lower bounds (a roadmap on bandits
-  in an open pull request); policy gradient, sample complexity with a generative model and natural
+- **Online learning.** Online gradient descent (a roadmap on first-order methods,
+  FirstOrderOptimization), online-to-batch conversion, mirror descent and the Littlestone
+  dimension of online learnability.
+- **Bandits and reinforcement learning.** Bandit algorithms and lower bounds (the roadmap
+  MultiArmedBandits); policy gradient, sample complexity with a generative model and natural
   policy gradient, which go beyond the tabular theory of MarkovDecisionProcesses; temporal
   differences with linear features.
 - **Graphical models and variational inference.** Belief propagation and the Bethe free energy,
@@ -1622,7 +1655,9 @@ only.
 for total variation) but none of the generalization bounds, trees, ensembles, privacy or shift
 results.
 
-**Coverage of CKSD 107.** The allocated entries of the CKSD synopsis are covered as follows.
+**Coverage of CKSD 107.** The table maps the allocated items of the lean-CKSD synopsis of
+Section 107 (statistical learning and machine learning) to the subsections that cover them:
+[SYNOPSIS107.md](https://github.com/bjbraams/lean-CKSD/blob/main/SYNOPSIS107.md).
 
 | CKSD 107 | Here | CKSD 107 | Here |
 |---|---|---|---|

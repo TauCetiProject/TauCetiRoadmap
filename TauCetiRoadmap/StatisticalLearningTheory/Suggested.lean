@@ -19,7 +19,33 @@ checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sor
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
 to it, together with the definitions their statements need. The README's other headlines are
 targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+not stated here. The bold headlines of the README without a Lean name, with what each lacks:
+
+* 1.4 *The tie hypothesis cannot be dropped* and *Hinge and squared hinge*: a counterexample to,
+  and examples of the calibration hypothesis of, `marginError_sub_le_surrogateRisk_sub`; they
+  are Checks of that theorem rather than separate targets.
+* 2.1 *Convex hulls*: the index type of finite convex combinations of members of a class.
+* 3.3 *The hypotheses are needed*: counterexamples to `sampleComplexity_lower_bound` without its
+  hypotheses, not a target.
+* 4.1 *Kernel form*: a corollary of `marginError_le_empiricalMarginLoss` and
+  `empiricalRademacherComplexity_closedBall_le`, with nothing to state beyond the two.
+* 4.2 *Average stability*: the replace-one sample `S^(i)` with an independent copy and a loss
+  on a parameter space, with strong convexity in the parameter.
+* 4.3 *Closed form*, *Finite rank*, *Polynomial decay* and *Sobolev kernel*: the coefficient
+  vector of the representer form, and a name for the critical radius of
+  `krr_oracle_inequality` as a function of the empirical eigenvalues.
+* 5.2 *`k`-NN limits* and *Consistency*: the `k`-nearest-neighbour rule (the `k` nearest indices,
+  ties by index, and a majority vote) and the limit `L(k)` as a polynomial in `η`.
+* 5.3 *Response-independent forests*: a carrier for random tree partitions built from the sample
+  points; the README states no theorem beyond `tendsto_lintegral_weightEstimate_sub_sq`.
+* 6.2 *Categorical splits*: the impurity of a split of a finite set of categories into two parts.
+* 6.5 *Margins without dependence on `T`*: a corollary of `adaBoost_bounds`, with nothing to
+  state beyond it.
+* 7.3 *Advanced composition*: the `k`-fold adaptive composition of mechanisms, an iterated
+  `Measure.compProd` over `Fin k`.
+* 7.4 *Sequential releases*: the joint law of `n` sequentially interactive locally private
+  releases.
+* 7.6 *Several thresholds*: the `c`-fold restarted AboveThreshold mechanism.
 
 The conventions of the README are used throughout. A sample of size `n` is a point of
 `Fin n → Z` under `Measure.pi (fun _ ↦ P)`. Probabilities of events that need not be measurable
@@ -98,7 +124,8 @@ regression function it is the Bayes classifier. -/
 def bayesClassifier (η : X → ℝ) (x : X) : Bool := decide ((1 : ℝ) / 2 ≤ η x)
 
 /-- **1.1** The ERM inequality: an approximate minimizer of an empirical criterion that is
-uniformly within `D` of the true criterion is within `2 D + ε` of every competitor. -/
+uniformly within `D` of the true criterion is within `2 D + ε` of every competitor. A sanity
+check rather than a target: it closes by `linarith` from its hypotheses. -/
 theorem le_add_two_mul_add_of_isApproxMin {T : Type*} (R Rn : T → ℝ) (t₀ : T) (D ε : ℝ)
     (hmin : ∀ t, Rn t₀ ≤ Rn t + ε) (hdev : ∀ t, |Rn t - R t| ≤ D) (t : T) :
     R t₀ ≤ R t + 2 * D + ε := sorry
@@ -197,6 +224,13 @@ theorem empiricalRademacherComplexity_comp_le {T Z : Type*} {n : ℕ} (f : T →
     empiricalRademacherComplexity (fun t w ↦ φ w (f t w)) z ≤
       ((L : ℝ) : EReal) * empiricalRademacherComplexity f z := sorry
 
+/-- **2.1** Massart's lemma: a finite nonempty class whose vectors of values on the sample have
+Euclidean norm at most `r` has empirical Rademacher complexity at most `r √(2 log |T|) / n`. -/
+theorem empiricalRademacherComplexity_le_massart {T Z : Type*} [Fintype T] [Nonempty T] {n : ℕ}
+    (f : T → Z → ℝ) (z : Fin n → Z) (r : ℝ) (hr : ∀ t, √(∑ i, f t (z i) ^ 2) ≤ r) :
+    empiricalRademacherComplexity f z ≤
+      ((r * √(2 * Real.log (Fintype.card T)) / n : ℝ) : EReal) := sorry
+
 /-- **2.2** The Rademacher complexity of the ball of radius `B` of a reproducing-kernel Hilbert
 space is at most `(B / n) √(∑ K(x_i, x_i))`, hence at most `B r / √n` when `K(x, x) ≤ r²`. -/
 theorem empiricalRademacherComplexity_closedBall_le {X H : Type*} [NormedAddCommGroup H]
@@ -228,6 +262,15 @@ theorem rademacher_bound {T Z : Type*} [MeasurableSpace Z] [Nonempty T] (P : Mea
         (Measure.pi fun _ : Fin n ↦ P).real {z |
           2 * (empiricalRademacherComplexity f z).toReal + 3 * √(Real.log (2 / δ) / (2 * n)) <
             ⨆ t, (∫ w, f t w ∂P - empiricalMean (f t) z)} ≤ δ := sorry
+
+/-- **2.4** Finite classes: for `N` measurable classifiers, the empirical errors on `n`
+independent samples are all within `ε` of the errors except with probability `2 N e^(-2nε²)`. -/
+theorem finiteClass_deviation {X : Type*} [MeasurableSpace X] (P : Measure (X × Bool))
+    [IsProbabilityMeasure P] {N n : ℕ} (φ : Fin N → X → Bool) (hφ : ∀ j, Measurable (φ j))
+    (ε : ℝ) (hε : 0 < ε) :
+    (Measure.pi fun _ : Fin n ↦ P).real
+        {z | ∃ j, ε < |empiricalError (φ j) z - classificationError P (φ j)|} ≤
+      2 * N * Real.exp (-(2 * n * ε ^ 2)) := sorry
 
 /-- **2.4** Hold-out selection: the classifier with the smallest hold-out error among `N` fixed
 classifiers has error within `√(2 log(2N/δ)/l)` of the best of them with probability at least
@@ -326,6 +369,17 @@ theorem sampleComplexity_lower_bound : ∃ c : ℝ, 0 < c ∧ ∀ {X : Type*} [M
       (n : ℝ) < c * (d + Real.log (1 / δ)) / ε → ∃ P : Measure (X × Bool),
         IsProbabilityMeasure P ∧ (∃ h ∈ H, classificationError P h = 0) ∧
           δ < (Measure.pi fun _ : Fin n ↦ P).real {z | ε < classificationError P (A n z)}) :=
+  sorry
+
+/-- **3.3** Infinite VC dimension: on a space with measurable singletons, for a class of infinite
+VC dimension, every rule and every sample size there is a law under which a member has error zero
+and the expected error of the rule is at least `1/(2e) - δ`. -/
+theorem exists_lintegral_classificationError_ge_of_vcDim_eq_top [MeasurableSingletonClass X]
+    (H : Set (X → Bool)) (hH : vcDim H = ⊤) (n : ℕ) (A : (Fin n → X × Bool) → X → Bool) (δ : ℝ)
+    (hδ : 0 < δ) :
+    ∃ P : Measure (X × Bool), IsProbabilityMeasure P ∧ (∃ h ∈ H, classificationError P h = 0) ∧
+      ENNReal.ofReal (1 / (2 * Real.exp 1) - δ) ≤
+        ∫⁻ z, ENNReal.ofReal (classificationError P (A z)) ∂(Measure.pi fun _ : Fin n ↦ P) :=
   sorry
 
 /-- **3.4** The fundamental theorem of statistical learning: for a nonempty pointwise separable
@@ -472,6 +526,27 @@ theorem bayesRisk_le_nnRisk_le {X : Type*} [MeasurableSpace X] (μ : Measure X)
       2 * (∫ x, min (η x) (1 - η x) ∂μ) * (1 - ∫ x, min (η x) (1 - η x) ∂μ) ≤
         2 * ∫ x, min (η x) (1 - η x) ∂μ := sorry
 
+/-- **5.2** The index of the sample point nearest to `x`, distance ties broken by the smaller
+index. -/
+def nearestIndex {E : Type*} [Dist E] {n : ℕ} (xs : Fin (n + 1) → E) (x : E) : Fin (n + 1) :=
+  (Finset.univ.filter fun i ↦ ∀ j, dist (xs i) x ≤ dist (xs j) x).min' (by
+    obtain ⟨i, -, hi⟩ :=
+      Finset.exists_min_image Finset.univ (fun i ↦ dist (xs i) x) Finset.univ_nonempty
+    exact ⟨i, Finset.mem_filter.2 ⟨Finset.mem_univ _, fun j ↦ hi j (Finset.mem_univ _)⟩⟩)
+
+/-- **5.2** The 1-nearest-neighbour rule: the label of the sample point nearest to `x`. -/
+def nnRule {X : Type*} [Dist X] {n : ℕ} (z : Fin (n + 1) → X × Bool) (x : X) : Bool :=
+  (z (nearestIndex (fun i ↦ (z i).1) x)).2
+
+/-- **5.2** The 1-NN limit: for every law on `ℝ^d × Bool` with regression function `η`, the
+expected error of the 1-nearest-neighbour rule tends to `L(1) = E 2η(1 - η)`. -/
+theorem tendsto_integral_classificationError_nnRule {d : ℕ}
+    (P : Measure (EuclideanSpace ℝ (Fin d) × Bool)) [IsProbabilityMeasure P]
+    (η : EuclideanSpace ℝ (Fin d) → ℝ) (hη : IsRegressionFunction P η) :
+    Tendsto (fun n : ℕ ↦ ∫ z, classificationError P (nnRule z)
+        ∂(Measure.pi fun _ : Fin (n + 1) ↦ P)) atTop
+      (𝓝 (∫ x, 2 * η x * (1 - η x) ∂(P.map Prod.fst))) := sorry
+
 /-- **5.3** Consistency of local weight estimates (Stone): if the weights of a regression estimate
 are nonnegative, sum to one, are computed from the test point, the sample points and independent
 randomness but not from the responses, and satisfy the domination, locality and no-dominant-weight
@@ -535,24 +610,22 @@ inductive CostTree : Type
   | leaf (r : ℝ) : CostTree
   | node (r : ℝ) (left right : CostTree) : CostTree
 
-namespace CostTree
-
 /-- **6.1** The resubstitution cost `R(T)`, the sum of the costs of the leaves. -/
-def cost : CostTree → ℝ
+def CostTree.cost : CostTree → ℝ
   | leaf r => r
   | node _ l r => cost l + cost r
 
 /-- **6.1** The number `|T|` of leaves. -/
-def numLeaves : CostTree → ℕ
+def CostTree.numLeaves : CostTree → ℕ
   | leaf _ => 1
   | node _ l r => numLeaves l + numLeaves r
 
 /-- **6.1** The cost-complexity `R_α(T) = R(T) + α |T|`. -/
-def costComplexity (α : ℝ) (T : CostTree) : ℝ := cost T + α * numLeaves T
+def CostTree.costComplexity (α : ℝ) (T : CostTree) : ℝ := cost T + α * numLeaves T
 
 /-- **6.1** `IsPruning S T`: `S` is a pruned subtree of `T`, obtained by turning internal nodes
 of `T` into leaves. -/
-inductive IsPruning : CostTree → CostTree → Prop
+inductive CostTree.IsPruning : CostTree → CostTree → Prop
   | leaf (r : ℝ) : IsPruning (leaf r) (leaf r)
   | prune (r : ℝ) (l l' : CostTree) : IsPruning (leaf r) (node r l l')
   | node (r : ℝ) {l l' m m' : CostTree} : IsPruning l' l → IsPruning m' m →
@@ -560,22 +633,21 @@ inductive IsPruning : CostTree → CostTree → Prop
 
 /-- **6.1** `S` is the smallest minimizing pruned subtree of `T` for `R_α`: it minimizes `R_α`
 among the pruned subtrees of `T` and is a pruned subtree of every other minimizer. -/
-def IsSmallestMinimizer (α : ℝ) (T S : CostTree) : Prop :=
+def CostTree.IsSmallestMinimizer (α : ℝ) (T S : CostTree) : Prop :=
   IsPruning S T ∧ (∀ S', IsPruning S' T → costComplexity α S ≤ costComplexity α S') ∧
     ∀ S', IsPruning S' T → (∀ S'', IsPruning S'' T → costComplexity α S' ≤ costComplexity α S'') →
       IsPruning S S'
 
 /-- **6.1** Minimal cost-complexity pruning: for each `α ≥ 0` the smallest minimizing pruned
 subtree exists and is unique, and it decreases (as a pruned subtree) when `α` increases. -/
-theorem existsUnique_isSmallestMinimizer (T : CostTree) :
+theorem CostTree.existsUnique_isSmallestMinimizer (T : CostTree) :
     (∀ α : ℝ, 0 ≤ α → ∃! S, IsSmallestMinimizer α T S) ∧
       ∀ α α' : ℝ, 0 ≤ α → α ≤ α' → ∀ S S', IsSmallestMinimizer α T S →
         IsSmallestMinimizer α' T S' → IsPruning S' S := sorry
 
-end CostTree
-
 /-- **6.2** The impurity decrease of a split is nonnegative for a strictly concave impurity, and
-vanishes exactly when both children have the class proportions of the parent. -/
+vanishes exactly when both children have the class proportions of the parent. The first conjunct
+is a sanity check (concavity, by `linarith`); the target is the second. -/
 theorem impurityDecrease_nonneg {J : ℕ} (φ : (Fin J → ℝ) → ℝ)
     (hφ : StrictConcaveOn ℝ {q | (∀ j, 0 ≤ q j) ∧ ∑ j, q j = 1} φ) (qL qR : Fin J → ℝ)
     (hqL0 : ∀ j, 0 ≤ qL j) (hqL1 : ∑ j, qL j = 1) (hqR0 : ∀ j, 0 ≤ qR j) (hqR1 : ∑ j, qR j = 1)
@@ -921,6 +993,7 @@ end Layer8
 #check @ProbabilityTheory.CondIndepFun
 #check @ProbabilityTheory.condIndepFun_iff
 #check @ProbabilityTheory.HasSubgaussianMGF
+#check @ProbabilityTheory.measure_sum_ge_le_of_hasCondSubgaussianMGF
 #check @MeasureTheory.tvDist
 #check @InformationTheory.klDiv
 #check @Metric.hausdorffDist
@@ -937,10 +1010,6 @@ end Layer8
 #check @RKHS.inner_kerFun
 #check @RKHS.posSemidef_kernel
 #check @MeasureTheory.condExp
-#check @CostTree.cost
-#check @CostTree.numLeaves
-#check @CostTree.IsPruning
-#check @CostTree.existsUnique_isSmallestMinimizer
 #check @TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences_fin
 #check @ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le
 #check @TauCeti.Probability.laplaceMeasure
