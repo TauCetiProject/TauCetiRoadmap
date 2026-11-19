@@ -585,6 +585,13 @@ Already in the libraries and therefore not targets:
 
 No roadmap on the main branch states any target of this roadmap or is a supplier.
 
+Two open roadmaps, not on main, state scalar forms of the estimate of 1.2. FirstOrderOptimization
+1.1 states, for a real function on the whole space with a Lipschitz gradient, the two-sided
+bound of the remainder by `(K/2)‖y − x‖²`, which is the case `F = ℝ`, `S = E` of 1.2;
+SpectralSteepestDescent 5.1 states the one-sided bound from above. This roadmap owns only the
+form for maps into a normed space on a convex set, which the Newton step needs, and does not
+depend on either.
+
 Not treated here: first-order methods; Newton's method on Riemannian manifolds; matrix iterations
 of Newton–Schulz type; the Newton decrement, self-concordant functions and interior-point methods;
 damped Newton steps, line-search conditions of Armijo and Wolfe type, and trust regions; global
