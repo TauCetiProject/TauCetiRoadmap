@@ -6672,8 +6672,10 @@ the map to `SO_c` and a pinned root datum, from §§9B.7–9B.8); EndoscopicTran
 LevelOneAutomorphicFormsForClassicalGroups (`Sp₂ₙ` and the special orthogonal group schemes of
 regular quadratic lattices over `ℤ`, with their `ℤ_p`-points, from §§9B.5–9B.6); and
 TwistedAutomorphicDescents (`SO(V)` of a nondegenerate quadratic space, from §9B.6).
-QuadraticFormsOverABase §§1.1–1.3, 2.1–2.2 and 3.1–3.3 (the half-discriminant, the unit criteria
-for nondegeneracy and the orthogonal group scheme of a form on `Rⁿ`, as in §9B.6),
+ArithmeticGaloisRepresentations §7.3 (*SimilitudeGroup.GSp*, the similitude group of
+`−Matrix.J`, from §9B.5), QuadraticFormsOverABase §§1.1–1.3, 2.1–2.2 and 3.1–3.3 (the
+half-discriminant, the unit criteria for nondegeneracy and the orthogonal group scheme of a form
+on `Rⁿ`, as in §9B.6),
 OrthogonalTamagawaAndLatticeMass §§0.1–0.1a (`O`, `SO` and `Spin` over a field of characteristic
 not two, and `O(q)` over a perfect field of characteristic two) and ClassicalGroupsPartII CG.0.2
 and CG.0.4 (the isogeny `𝔾_m × Sp₂g → GSp₂g` and the diagonal torus of `GSp₂g` over a field of
