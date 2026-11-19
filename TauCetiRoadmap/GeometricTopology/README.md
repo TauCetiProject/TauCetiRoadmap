@@ -36,8 +36,9 @@ manifolds. Triangulability fails in higher dimensions: by Manolescu's theorem, w
 states and leaves to later roadmaps, every dimension n ≥ 5 has a closed topological manifold not
 homeomorphic to the realization of any simplicial complex.
 
-The end theorems are resolved problems from Kirby's list of problems in low-dimensional topology,
-which the roadmap's definitions make it possible to state. Several are stated here and proved
+The end theorems are resolved problems from Kirby's list of problems in low-dimensional topology
+and classical theorems of surface and three-manifold topology, which the roadmap's definitions
+make it possible to state. Several are stated here and proved
 elsewhere. The Smale conjecture, Hatcher's theorem, says that the inclusion of the orthogonal
 group O(4) into the diffeomorphism group of `S³` is a homotopy equivalence. GeometricTopology,
 Part II starts where this roadmap stops, and proves the Smale conjecture and the JSJ theorem from
@@ -47,7 +48,7 @@ belong to RicciFlow and Poincare3D. `Suggested.lean` states the headline theorem
 
 Much of the basic vocabulary, such as the diffeomorphism group with its weak Whitney topology and
 locally flat embeddings, is already in the Tau Ceti library, and this roadmap uses it instead of
-defining its own. AlgebraicTopology provides fundamental groups, homology and cohomology, and in
+defining its own. AlgebraicTopology provides van Kampen's theorem, homology and cohomology, and in
 turn uses the smooth triangulations built here. Many roadmaps build on this one, MorseTheory among
 them, using the collars, gluing and tubular neighbourhoods of the first layer.
 
