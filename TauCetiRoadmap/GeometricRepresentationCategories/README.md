@@ -430,13 +430,16 @@ through `S`. By AffineLieAlgebras A4.2's semidirect conjugacy `aσ a_h aσ⁻¹ 
 `(h, σ) ↦ a_h ∘ aσ` is a homomorphism `H ⋊ S →* (A ≃ₐ[ℂ] A)`. Construct the complex-linear family of
 categories as the pseudofunctor `TauCeti.discreteCentralCharacterFamily` out of
 `LocallyDiscrete (ActionCategory (H ⋊ S) Op)`, with `Op` the complex points of `Op_(G∨)(D×)`, sending
-the arrow `(h, σ) : p → σ·p` to `T_h^(σ·p) ∘ T_σ^p`. Prove the covariance isomorphism
-`T_σ ∘ T_h ≅ T_(βσ h) ∘ T_σ`, the product and unit coherence, and that the restriction of the family
-to the arrows `(h, 1)` at a fixed `p` is the action of §3.2. Coordinate arrows belong to this action
-groupoid and do not become dual local-system arrows of `IsomOp`; the conjecture of §4.4 prescribes
-equivariance for the original loop group only and asks for no coordinate extension. *Needs:* Mathlib
-`SemidirectProduct`, `ActionCategory`; AffineLieAlgebras A4.2; FormalConnectionsOpers §5.1; Tau Ceti
-`TauCeti.discreteCentralCharacterFamily`; §§3.2–3.3.
+the arrow `(h, σ) : p → σ·p` to `T_h^(σ·p) ∘ T_σ^p`; its character equation on `H ⋊ S` is that of
+§3.3, since `a_h` fixes `Z` (AffineLieAlgebras A8.3). Prove that the restriction of the family to the
+arrows `(h, 1)` at a fixed `p` is the action of §3.2. The covariance isomorphism
+`T_σ ∘ T_h ≅ T_(βσ h) ∘ T_σ` is then the composite of the family's `Pseudofunctor.mapComp` cells at the
+two factorizations `(1, σ)(h, 1) = (βσ h, σ) = (βσ h, 1)(1, σ)` of the arrow `(βσ h, σ) : p → σ·p`, and
+the product and unit coherence are the pseudofunctor axioms of the family. Coordinate arrows belong
+to this action groupoid and do not become dual local-system arrows of `IsomOp`; the conjecture of §4.4
+prescribes equivariance for the original loop group only and asks for no coordinate extension.
+*Needs:* Mathlib `SemidirectProduct`, `ActionCategory`, `Pseudofunctor.mapComp`; AffineLieAlgebras
+A4.2, A8.3; FormalConnectionsOpers §5.1; Tau Ceti `TauCeti.discreteCentralCharacterFamily`; §§3.2–3.3.
 
 **Checks.**
 - For `h = diag(t, t⁻¹)` in `SL₂(ℂ((t)))` and `φ = at`: `aσ⁻¹(e_n) = a^(−n) e_n`,
