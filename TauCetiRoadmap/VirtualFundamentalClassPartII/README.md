@@ -49,8 +49,8 @@ curves of arithmetic genus `g` and `F^*T_X` of fibre degree `δ`, its virtual di
 The roadmap builds on VirtualFundamentalClass for Vistoli's groups and the Behrend–Fantechi
 construction. StackPointsAndResidualGerbes provides residual gerbes, SchemeAndStackFoundations
 stacks and the intersection theory of schemes, and StableReduction prestable families.
-AlgebraicGromovWittenTheory takes from this roadmap its stable-map obstruction theory and the
-deformation invariance of its invariants.
+AlgebraicGromovWittenTheory states for stable maps the obstruction theory and virtual dimension
+that Layer 9 states for every space of maps from prestable curves to a smooth scheme.
 
 Layers 1 to 5 build the Chow theory and its comparisons, Layers 6 to 8 the virtual class over
 general bases, and Layer 9 the spaces of maps.
@@ -1849,9 +1849,11 @@ normal cones along `X′` of the API are the same for `Z′` and for `Z′_0`), 
 fourth statement for `T_{Z′/𝔜} ⊕ T_{W/𝔜}`, and carried into `N × 𝔉` by the comparison of the API below, so that only the
 compatibility over `v` is used. No compatibility datum over the graph is used: one would need a lift of
 `g^*Ω_{Z′/𝔜} → g^*L_{Z′/Z}` to `F`, whose obstruction lies in `Ext¹(g^*Ω_{Z′/𝔜}, u^*E)` and is killed only
-in `Ext¹(g^*Ω_{Z′/𝔜}, u^*L_{X/𝔜})`. This extends VirtualFundamentalClass §9.5, which states both cases
-under the hypotheses of behrend-fantechi1997 Proposition 7.5 for separated stacks with the resolution
-property, to stacks that need not be separated. *Needs:* 3.1, 4.2–4.3, 6.1–6.2; VirtualFundamentalClass
+in `Ext¹(g^*Ω_{Z′/𝔜}, u^*L_{X/𝔜})`. This extends VirtualFundamentalClass §9.5, which states the first
+case over a base of pure dimension and the second over a base smooth over `k` with `Z′` of finite type
+over it, for separated stacks with the resolution property, to all stacks of Convention 1 whose
+theories have global resolutions and, in the second case, to every base of pure dimension, with `Z′`
+not necessarily of finite type over it. *Needs:* 3.1, 4.2–4.3, 6.1–6.2; VirtualFundamentalClass
 §§5.5, 8.1, 9.1, 9.5; for the second case and the independence of `Z′_0`, also 8.1–8.2,
 VirtualFundamentalClass §§1.5–1.6.
 
@@ -2240,8 +2242,7 @@ VirtualFundamentalClass §§3.1, 3.3, 6.4, 9.2; Tau Ceti `TauCeti.AlgebraicGeome
 - **AlgebraicGromovWittenTheory**: its §§4.1–4.3 (the stable-map obstruction theory, its global
   resolution and its virtual dimension) are the case of 9.3–9.5 with `𝔅` the prestable-curve stack and a
   smooth projective target over a field of characteristic zero; 6.2 does without the use
-  of the resolution property in its §4.2; 8.4 gives deformation invariance of its invariants; 5.4 computes
-  its degrees on coarse spaces.
+  of the resolution property in its §4.2, and 5.4 would compute its degrees on coarse spaces.
 
 ## Scope and ownership
 
@@ -2310,8 +2311,9 @@ Imported, not restated:
   and virtual degree (§§7.1–7.7); compatible obstruction theories, pullback and functoriality over
   smooth bases (§§8.1–8.5); and the relative class over a pure-dimensional algebraic stack, its flat
   base change (§9.3), regular base change and the no-obstruction and obstruction-bundle formulas
-  over smooth bases (§9.4), relative functoriality under the hypotheses of Behrend–Fantechi
-  Proposition 7.5 for separated stacks with the resolution property (§9.5) and pullback from smooth
+  over smooth bases (§9.4), relative functoriality along `v : Z′ → Z`, for smooth `v` over a base of
+  pure dimension and for `Z′`, `Z` smooth over a base smooth over `k`, `Z′` of finite type over it, for separated
+  stacks with the resolution property (§9.5), and pullback from smooth
   stacks (§9.6). Each item of this roadmap that touches one of these sections states, in one
   clause, which hypothesis of that section it does without.
 - **StackPointsAndResidualGerbes** owns, for every algebraic stack, reduced stacks (§0.1), closed
@@ -2344,7 +2346,7 @@ Imported, not restated:
   the cotangent complex of ring maps and square-zero lifting for ring maps.
 
 Not part of this roadmap: the prestable-curve stack, the stack of stable maps, its properness and
-its virtual class (AlgebraicGromovWittenTheory, a consumer of Layer 9; Layer 9 states the
+its virtual class (AlgebraicGromovWittenTheory, whose §§4.1–4.3 are the stable-map case of 9.3–9.5; Layer 9 states the
 obstruction theory of a relative space of maps for every base of pure dimension and every smooth
 target scheme, and builds no moduli stack); Chow groups of Artin stacks in the sense of Kresch (8.1
 forms cycles and rational equivalences on algebraic stacks, and no Chow group of a stack that is not
@@ -2459,7 +2461,8 @@ The pin has no algebraic stacks, no Chow groups of stacks and no cotangent compl
   regular-immersion pullback between smooth bases, functoriality and coherence.
 - §§9.2–9.6: the relative virtual class `[X/𝔜, E]^vir ∈ A_{d + rk E}(X)_ℚ` for separated `X` with the
   resolution property, flat base change, regular base change and formulas over smooth bases,
-  relative functoriality and pullback from smooth stacks.
+  relative functoriality (for smooth `v : Z′ → Z` over a base of pure dimension, and for `Z′`, `Z`
+  smooth over a base smooth over `k`, `Z′` of finite type over it) and pullback from smooth stacks.
 
 ### From TauCetiRoadmap.StackPointsAndResidualGerbes
 
