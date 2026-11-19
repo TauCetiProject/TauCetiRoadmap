@@ -54,8 +54,9 @@ layer that uses it. Layer 8 realizes PD-codes in the plane and in `ℝ³`, build
 finite-dimensional general-position and ambient-extension floor, and proves the relative labelled
 Reidemeister theorem. Layer 4 proves Reidemeister invariance, first for diagrams and then for
 smooth links. Layer 5 proves the coefficient, duality and symmetry theorems, the parity and Euler
-value, and the reduced and connected-sum theory. Layer 6 computes: certificates, the small links,
-the torus links `T(2, m)` and the crossing-number application. Layer 7 proves the movie
+value, and the reduced and connected-sum theory. Layer 6 computes: the homology of finite free
+integral complexes through the Smith normal form, the small links, the torus links `T(2, m)` and
+the crossing-number application. Layer 7 proves the movie
 presentation of link cobordisms and the functoriality theorem. The Jones polynomial enters Layer 3
 through Tau Ceti's state-sum definition, independently of its geometric invariance. Each
 subsection's *Needs:* line lists its inputs, so that a target proved by another route is not
@@ -336,12 +337,10 @@ The vertex resolution, which removes a crossing, is Tau Ceti's
 crossing-free circle counted (`TauCeti.PDCode.detachedCircleCount`), and the remaining crossings
 relabelled by `c.succAbove`; it is planar when `D` is (`TauCeti.PDCode.IsPlanar.resolveCrossing`),
 and its resolution circles are those of the corresponding states of `D`
-(`TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`). Prove its gluing comparison with the local
-calculus of §1.8: the vertex resolution of `D` at `c` is the closure of the partial resolution of
-the one-crossing disc around `c`. Layer 5 owns the orientation choices of the oriented skein
-inputs.
+(`TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`). Layer 5 owns the orientation choices of the
+oriented skein inputs.
 
-*Needs:* §§1.5–1.6, §1.8 for the gluing comparison; Tau Ceti `TauCeti.PDCode.resolveCrossing`,
+*Needs:* §§1.5–1.6; Tau Ceti `TauCeti.PDCode.resolveCrossing`,
 `TauCeti.PDCode.detachedCircleCount`, `TauCeti.PDCode.IsPlanar.resolveCrossing`,
 `TauCeti.PDCode.resolveCrossingResolvedCircleEquiv`.
 
@@ -352,12 +351,14 @@ order; a diagram is an open model of §1.6, its crossingless resolutions are mat
 endpoints together with isolated circles; diagrams compose by gluing along matched boundary
 pieces, and a closed diagram arises from an arbitrary exterior planar closure. Prove that the
 circle construction of §1.1 and the saddle correspondences of §1.5 commute with closure and with
-gluing. Classify the local configurations used later: the two-crossing face configurations of
-Layer 3 and the one-, two- and three-crossing configurations of the Reidemeister moves in Layer 4.
-Layer 8 compares these models with actual smooth plane diagrams and proves each matching and
-cyclic-order dictionary.
+gluing. Prove the gluing comparison of the vertex resolution of §1.7: the vertex resolution of a
+code at a crossing `c` is the closure of the partial resolution of the one-crossing disc around
+`c`. Classify the local configurations used later: the two-crossing face configurations of Layer 3
+and the one-, two- and three-crossing configurations of the Reidemeister moves in Layer 4. Layer 8
+compares these models with actual smooth plane diagrams and proves each matching and cyclic-order
+dictionary.
 
-*Needs:* §§1.5–1.7.
+*Needs:* §§1.5–1.7; Tau Ceti `TauCeti.PDCode.resolveCrossing` for the gluing comparison.
 
 **Checks.**
 - Four endpoints on the boundary of a disc have two crossingless matchings. Closing one of them
@@ -515,7 +516,7 @@ boundary collars.
   refinements of matched seams.
 - Prove the identity, associativity, collar-rescaling and planar-insertion laws, the unit/counit
   zigzags, saddle associativity and coassociativity, the Frobenius relations and the
-  disjoint-interchange identities, by explicit finite move certificates for the small templates.
+  disjoint-interchange identities, by explicit finite sequences of moves on the small templates.
 - Prove that admissibility, the triangle orientation and the matched-seam profiles are preserved
   by every operation, and construct such profiles for every surface used in the resolution cubes
   of Layer 3 and the elementary movie maps of Layer 7.
@@ -889,7 +890,7 @@ presentations); Tau Ceti `TauCeti.OrientedPDCode`, `TauCeti.OrientedPDCode.cross
 Using ConformalMapping's Layer 5 Jordan separation and filled-hull theory (`TauCeti.filledHull`),
 construct the finite dictionary between a realized polygonal diagram, its plane graph and its
 complement regions, with the PL-disc and boundary-orientation comparisons. Construct finite
-diagonal (ear) triangulations of polygonal regions and their effective cell refinements from that
+diagonal (ear) triangulations of polygonal regions and their cell refinements from that
 separation theorem. For a connected crossing-bearing component identify the native face cycles
 (`TauCeti.PDCode.face`) with its complement regions; for disconnected diagrams keep the
 containing-region and nesting data instead of identifying individual face cycles with global
@@ -1247,13 +1248,17 @@ chosen orientations.
 
 ### 5.2 Universal coefficients for bounded finite free complexes
 
-Construct the complex-level algebra for bounded complexes of finite free `ℤ`-modules. For an
-abelian group `M`, prove the natural short exact sequences
+For a bounded complex `C` of finite free `ℤ`-modules and an abelian group `M`, the natural short
+exact sequences
 
 ```
 0 → Hⁱ(C)⊗M → Hⁱ(C⊗M) → Tor₁(Hⁱ⁺¹(C),M) → 0,
-0 → Ext¹(H¹⁻ⁱ(C),M) → Hⁱ(Hom(C,M)) → Hom(H⁻ⁱ(C),M) → 0.
+0 → Ext¹(H¹⁻ⁱ(C),M) → Hⁱ(Hom(C,M)) → Hom(H⁻ⁱ(C),M) → 0
 ```
+
+are Tau Ceti's theorems for chain complexes, reindexed. Construct the reindexing of bounded
+`ℤ`-indexed cochain complexes as chain complexes (indexed by `ℕ` after a shift, as the Künneth
+sequence requires), with its tensor and Hom signs, and transport both sequences along it.
 
 The Hom complex is Mathlib's `CochainComplex.linearHomComplex` with target the complex concentrated
 in degree zero at `M`; construct the identification `Hom(C, M)ⁱ = Hom(C⁻ⁱ, M)`, with differential
@@ -1262,21 +1267,30 @@ in degree zero at `M`; construct the identification `Hom(C, M)ⁱ = Hom(C⁻ⁱ,
 `TauCeti.linearHomComplexPostcomp` applied to multiplication by each scalar, and prove that it
 agrees with the pointwise action and with the induced action on homology.
 
-Define `Zⁱ = ker dⁱ` and `Bⁱ = im dⁱ⁻¹`, prove these submodules finite free, and split
-`0 → Zⁱ → Cⁱ → Bⁱ⁺¹ → 0` by projectivity of `Bⁱ⁺¹`; the resulting decomposition into two-term free
-presentations proves exactness and the existence of splittings, while the presentations
-`0 → Bⁱ → Zⁱ → Hⁱ(C) → 0` need not split. Compare their tensor kernels and Hom cokernels with
-Mathlib's derived `CategoryTheory.Tor` and `CategoryTheory.Abelian.Ext`, using the `CategoryTheory.HasExt` instance of
-`ModuleCat` and the two-term projective presentations. The free presentation resolves the first
-tensor variable: construct its comparison with `CategoryTheory.Tor'` and the finite-resolution
+Over the principal ideal domain `ℤ`, with `Zⁱ = ker dⁱ` and `Bⁱ = im dⁱ⁻¹`, the cycles `Zⁱ` and the
+quotients `Cⁱ/Zⁱ ≅ Bⁱ⁺¹` are free and the inclusions `Zⁱ → Cⁱ` split (Tau Ceti's
+`HomologicalComplex.free_cycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.free_cokernel_iCycles_of_isPrincipalIdealRing` and
+`HomologicalComplex.isSplitMono_iCycles_of_isPrincipalIdealRing`); they are finite because `ℤ` is
+Noetherian, while the presentations `0 → Bⁱ → Zⁱ → Hⁱ(C) → 0` need not split. The tensor sequence
+is, after interchanging the factors by the symmetry of `⊗`, Tau Ceti's Künneth sequence
+`HomologicalComplex.homologyKunnethShortComplex_shortExact` with first factor `M` in degree zero, on
+which that theorem puts no hypothesis; its term `Tor₁(M, Hⁱ⁺¹(C))` is Mathlib's
+`CategoryTheory.Tor`, read off these presentations by
+`CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel`. The Hom/Ext sequence is
+`TauCeti.ChainComplex.extToHomology` with `TauCeti.ChainComplex.extToHomology_injective` and
+`TauCeti.ChainComplex.exact_extToHomology_kronecker`, its `Ext¹` term, Mathlib's
+`CategoryTheory.Abelian.Ext`, read off the same presentations by `TauCeti.homCokernelEquivExt`.
+Both sequences split (`HomologicalComplex.homologyKunnethShortComplexSplitting`,
+`TauCeti.ChainComplex.kroneckerSection`), with no natural simultaneous choice of splitting.
+
+The free presentation of `Hⁱ⁺¹(C)` resolves the first variable of the displayed
+`Tor₁(Hⁱ⁺¹(C), M)`: construct its comparison with `CategoryTheory.Tor'` and the finite-resolution
 balancing comparison with `CategoryTheory.Tor`, which derives the second variable, naturally in
-both inputs. Prove that the sequences split, with no natural simultaneous choice of splitting. For
-`M` the additive group of a commutative ring `R`, prove that the coefficient and Hom/Ext sequences
-and their chosen splittings are `R`-linear, with the `R`-actions on Mathlib's `Tor` and `Ext`
-defined through functoriality in the coefficient module, and that the comparison maps preserve
-them. The Hom/Ext sequence for chain complexes in an abelian category with split cycles is Tau
-Ceti's (`TauCeti.ChainComplex.extToHomology`, `TauCeti.ChainComplex.extToHomology_injective`,
-`TauCeti.ChainComplex.exact_extToHomology_kronecker`); the cochain form above is its reindexing.
+both inputs. For `M` the additive group of a commutative ring `R`, prove that the coefficient and
+Hom/Ext sequences and their chosen splittings are `R`-linear, with the `R`-actions on Mathlib's
+`Tor` and `Ext` defined through functoriality in the coefficient module, and that the comparison
+maps preserve them.
 
 Construct the universe transport of Convention 5: the lift of the finite integral state modules
 from `ModuleCat.{0} ℤ` to `ModuleCat.{u} Z_u`, with `Z_u = ULift.{u} ℤ` acting through
@@ -1289,7 +1303,13 @@ degrees reverse. Export the coefficient sequence for Khovanov homology, with ter
 
 *Needs:* §3.2; Mathlib `CochainComplex.linearHomComplex`, `CategoryTheory.Tor`,
 `CategoryTheory.Tor'`, `CategoryTheory.Abelian.Ext`, `Module.Free`; Tau Ceti
-`TauCeti.linearHomComplexPostcomp`, `TauCeti.ChainComplex.extToHomology`,
+`TauCeti.linearHomComplexPostcomp`, `HomologicalComplex.free_cycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.free_cokernel_iCycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.isSplitMono_iCycles_of_isPrincipalIdealRing`,
+`HomologicalComplex.homologyKunnethShortComplex_shortExact`,
+`HomologicalComplex.homologyKunnethShortComplexSplitting`,
+`CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel`, `TauCeti.ChainComplex.extToHomology`,
+`TauCeti.ChainComplex.kroneckerSection`, `TauCeti.homCokernelEquivExt`,
 `TauCeti.PDCode.resolutionCubeBaseChangeIso`.
 
 **Checks.**
@@ -1300,26 +1320,38 @@ degrees reverse. Export the coefficient sequence for Khovanov homology, with ter
 
 ### 5.3 Disjoint union, Künneth and the symmetry of blocks
 
-For two bounded finite free integral complexes prove
+For two bounded finite free integral complexes the Künneth sequence
 
 ```
 0 → ⊕[p+q=i] Hᵖ(C)⊗Hᑫ(D) → Hⁱ(C⊗D)
-  → ⊕[p+q=i+1] Tor₁(Hᵖ(C),Hᑫ(D)) → 0,
+  → ⊕[p+q=i+1] Tor₁(Hᵖ(C),Hᑫ(D)) → 0
 ```
 
-constructing the canonical comparison maps and proving exactness, naturality and compatibility
-with chain homotopies. Prove the disjoint-union cochain tensor equivalence: when the crossing
-block of `D₁` precedes that of `D₂`, its enhanced-state sign is `(-1)^(n₋(D₁)·|S₂|)`. Prove the
-crossing-reordering comparison and bind the symmetry of factors to Tau Ceti's
-`TauCeti.koszulBraiding` and `TauCeti.koszulSymmetricCategory`, with unsigned quantum symmetry.
-Precisely, let `σ₁₂ : C(D₁ ⊔ D₂) → C(D₁) ⊗ C(D₂)` have the displayed state sign, `ρ` reorder the two
+is Tau Ceti's `HomologicalComplex.homologyKunnethShortComplex_shortExact`: transport it along the
+reindexing of §5.2, with its tensor signs. That theorem is stated for `ℕ`-indexed chain complexes of
+modules over a commutative ring whose second factor has projective cycles and projective quotients
+by its cycles, which over `ℤ` are the instances of §5.2; its first map is the Künneth map
+`HomologicalComplex.homologyKunneth`. The sequence is natural in both complexes
+(`HomologicalComplex.homologyKunneth_naturality`, `HomologicalComplex.homologyToTor_naturality`,
+`HomologicalComplex.homologyKunnethShortComplexMap`), hence compatible with chain homotopies, and it
+splits when the cycles of the first factor split off
+(`HomologicalComplex.homologyKunnethShortComplexSplitting`).
+
+Prove the disjoint-union cochain tensor equivalence: when the crossing block of `D₁` precedes that
+of `D₂`, its enhanced-state sign is `(-1)^(n₋(D₁)·|S₂|)`. Prove the crossing-reordering comparison
+and bind the symmetry of factors to Tau Ceti's `TauCeti.koszulBraiding` and
+`TauCeti.koszulSymmetricCategory`, with unsigned quantum symmetry. Precisely, let `σ₁₂ : C(D₁ ⊔ D₂)
+→ C(D₁) ⊗ C(D₂)` have the displayed state sign, `ρ` reorder the two
 crossing blocks with subset sign `(-1)^(|S₁||S₂|)`, and `β` be the native cochain braiding; prove
 `σ₂₁ ρ = (-1)^(n₋(D₁)n₋(D₂)) β σ₁₂`, with the corresponding block-permutation coherence of §3.6.
 Apply the integral Künneth sequence to `Kh(D₁ ⊔ D₂)` (Khovanov, *A categorification of the Jones
 polynomial*, §7.4, Proposition 33 and Corollary 12).
 
 *Needs:* §§3.2–3.3, 3.6, 5.2; Tau Ceti `TauCeti.OrientedPDCode.disjointUnion`,
-`TauCeti.koszulBraiding`, `TauCeti.koszulSymmetricCategory`; Mathlib `CategoryTheory.Tor`.
+`TauCeti.koszulBraiding`, `TauCeti.koszulSymmetricCategory`,
+`HomologicalComplex.homologyKunneth`, `HomologicalComplex.homologyKunnethShortComplex_shortExact`,
+`HomologicalComplex.homologyKunnethShortComplexMap`,
+`HomologicalComplex.homologyKunnethShortComplexSplitting`; Mathlib `CategoryTheory.Tor`.
 
 **Checks.**
 - The two-component crossing-free unlink has `Kh = V ⊗ V`, ranks `1, 2, 1` in quantum degrees
@@ -1357,9 +1389,8 @@ crossing signs are kept; Tau Ceti's `TauCeti.OrientedPDCode.reverse`), and prove
 reversing a single component. Let `l` be half the signed count of the crossings between the
 selected component and all the other components; reversing that component increases `n₋` by `2l`
 and decreases `n₊` by `2l`, so the new bidegrees are the old ones minus `(2l, 6l)` (Khovanov, *A
-categorification of the Jones polynomial*, §7.2, Proposition 28, whose printed quantum shift `2l`
-should read `6l`: by his equation (134) the reversal changes the normalizing quantum shift of his
-equation (45) by `6l`).
+categorification of the Jones polynomial*, §7.2, Proposition 28; by his equations (45) and (134)
+its printed `H^{i+2l, j+2l}(L)` should read `H^{i−2l, j−6l}(L)` in his conventions).
 
 Construct this integer diagram linking count. Prove that the sum of the mixed crossing signs is
 even, by the finite mod-2 cycle and face-boundary calculus of a genus-zero native rotation system:
@@ -1560,22 +1591,27 @@ normalization constant `(-1)^(n₋(D₁)n₋(D₂))` between raw crossing-block 
 Koszul symmetry on the balanced tensor product, and prove its compatibility with the connected-sum
 map and the quantum shift.
 
-After forgetting quantum degrees, construct the finite semi-free filtration of these bounded
-complexes of finite free `W`-modules by successive cones of shifted free modules, and prove
-K-flatness and K-projectivity from it, using Mathlib's K-projectivity of bounded-above complexes of
-projectives. The derived tensor product over `W` is the bifunctor of DerivedModuleAlgebra §0.2,
-with its laws (`W` is commutative, so that section applies). For the bounded free factors here
-prove directly, by the finite filtration, that `P₁ ⊗_W C₂ → C₁ ⊗_W C₂` induced by an augmentation
-is a quasi-isomorphism, and its second-variable version; this identifies their ordinary tensor
-product with that derived tensor product. This ordinary-module comparison is made here over every
-commutative `R`, without an enveloping `A∞` algebra or a strictification theorem valid only over
-fields. Regard `W` as a degree-zero ordinary DG algebra through DGAInfinity Layer 1, construct its
-adapter `Wᵒᵖ ≅ W` between right and left modules, and compare the resulting finite semi-free module
-and tensor product with DGAInfinity Layer 5 under that layer's hypotheses. The graded chain isomorphism and its graded homology maps
-stay the separately constructed quantum comparison.
+After forgetting quantum degrees, these are bounded cochain complexes of finite free `W`-modules,
+hence K-projective (Mathlib's `CochainComplex.isKProjective_of_projective`) and K-flat (Tau Ceti's
+`CochainComplex.isKFlat_of_bounded_flat`). The derived tensor product over `W` is the bifunctor of
+DerivedModuleAlgebra §0.2, with its laws (`W` is commutative, so that section applies), and that
+section's computation for bounded-above complexes of flat modules identifies the ordinary tensor
+product `C₁ ⊗_W C₂` with it. For a quasi-isomorphism `P₁ → C₁`, the induced map
+`P₁ ⊗_W C₂ → C₁ ⊗_W C₂` is a quasi-isomorphism because `C₂` is K-flat (Tau Ceti's
+`CochainComplex.quasiIso_id_tensorHom`, with the factors interchanged by
+`TauCeti.koszulSymmetricCategory`), and likewise in the second variable. This ordinary-module
+comparison is made here over every commutative `R`, without an enveloping `A∞` algebra or a
+strictification theorem valid only over fields. Regard `W` as a degree-zero ordinary DG algebra
+through DGAInfinity Layer 1, construct its adapter `Wᵒᵖ ≅ W` between right and left modules,
+construct the finite semi-free filtration of these complexes by successive cones of shifted free
+modules, and compare the resulting semi-free module and tensor product with DGAInfinity Layer 5
+under that layer's hypotheses. The graded chain isomorphism and its graded homology maps stay the
+separately constructed quantum comparison.
 
 *Needs:* §§5.7, 5.9–5.10; DerivedModuleAlgebra §0.2 (the derived tensor product); Mathlib
-`CochainComplex.mappingCone`, `TensorProduct`; DGAInfinity Layers 1 and 5.
+`CochainComplex.mappingCone`, `CochainComplex.isKProjective_of_projective`, `TensorProduct`; Tau
+Ceti `CochainComplex.isKFlat_of_bounded_flat`, `CochainComplex.quasiIso_id_tensorHom`,
+`TauCeti.koszulSymmetricCategory`; DGAInfinity Layers 1 and 5.
 
 **Checks.**
 - For two crossing-free unknots, `V ⊗_W V = W⟨2⟩` since `V = W⟨1⟩`, and `(V ⊗_W V)⟨−1⟩ = V`, the
@@ -1594,24 +1630,30 @@ Layers 1–4 and 8. Tau Ceti: vertex resolution, the mapping cone of a cube, the
 of resolutions and dual cubes, reversal and disjoint union of oriented codes, reconnection,
 Seifert states and the parity of quantum degrees, the enhanced state sum, marks, the Koszul
 braiding of cochain complexes, the post-composition action on Hom complexes, the Hom/Ext
-universal coefficient sequence for chain complexes, and the periodic projective resolution over
-the dual numbers. Mathlib: `Tor`, `Ext`, Hom complexes, mapping cones, homology sequences,
+universal coefficient and Künneth sequences for chain complexes, free cycles over a principal ideal
+domain, `Tor₁` and `Ext¹` from presentations of length one, K-flat complexes, and the periodic
+projective resolution over the dual numbers. Mathlib: `Tor`, `Ext`, Hom complexes, mapping cones,
+homology sequences,
 projective resolutions and K-projective complexes. GeometricTopology §§4.2 and 4.5;
 DerivedModuleAlgebra §0.2; DGAInfinity Layers 1 and 5.
 
-## Layer 6: certified computations and applications
+## Layer 6: integral computations and applications
 
-### 6.1 Effective complexes and certificates
+### 6.1 Integral differentials and the Smith normal form
 
-Make the circle quotient of §1.1, the finite enhanced-state basis and the differential of §3.3, and
-the maps of Layers 4 and 5, effective. Construct integer matrices for the differentials and a
-Smith-normal-form certificate interface that proves the cycles, the boundaries and the invariant
-factors of the homology, with an explicit comparison to the abstract complex of §3.2. Over a field,
-compute by certified row reduction, and verify the coefficient comparisons of §5.2 and the Euler
-comparisons of §3.5. Prove that permutations of the basis and the choice of certificate do not
-change the answer.
+In the enhanced-state basis of §3.3, each quantum summand of the integral complex is a bounded
+complex of finite free `ℤ`-modules whose differentials are integer matrices, with entries given by
+the merge and split coefficients and the cube signs. For every bounded cochain complex `C` of finite
+free `ℤ`-modules prove
 
-*Needs:* §§1.1, 3.2–3.3, 3.5, 5.2; Mathlib `Matrix`, `Module.Free`, `Submodule.IsPrincipal`.
+`Hⁱ(C) ≅ ℤ^(rank Cⁱ − rank dⁱ − rank dⁱ⁻¹) ⊕ ⨁ₖ ℤ/eₖ`,
+
+where the `eₖ > 1` are the invariant factors of the matrix of `dⁱ⁻¹`. Apply Mathlib's
+`Submodule.smithNormalForm` to the image `Bⁱ` of `dⁱ⁻¹` in `Cⁱ`; since the quotient of `Cⁱ` by the
+cycles `Zⁱ = ker dⁱ` embeds in `Cⁱ⁺¹`, it is torsion-free, so the torsion of `Cⁱ/Bⁱ` is that of
+`Hⁱ(C) = Zⁱ/Bⁱ`, whose free rank is `rank Zⁱ − rank Bⁱ`.
+
+*Needs:* §§3.2–3.3; Mathlib `Matrix`, `Module.Free`, `Submodule.smithNormalForm`.
 
 **Checks.**
 - In quantum degree `7` the trefoil complex has rank `3` in cochain degrees `2` and `3` (the three
@@ -1643,7 +1685,7 @@ integral homology `ℤ` in `(0, 1)`, `(0, 3)`, `(2, 5)`, `(3, 9)` and `ℤ/2` in
 elsewhere; its reduced homology is `ℤ` in `(0, 2)`, `(2, 6)`, `(3, 8)` and zero elsewhere. The
 negative trefoil follows by the integral mirror comparison of §5.4, with its torsion shift. The
 positive two-crossing Hopf closure, of `σ₁²`, has `ℤ` in `(0, 0)`, `(0, 2)`, `(2, 4)`, `(2, 6)` and
-zero elsewhere. Verify these from the actual diagrams and matrices of §6.1, not from their Jones
+zero elsewhere. Prove these from the integral differentials of §6.1, not from their Jones
 polynomials alone, and include the reduced computations and the tensor and universal-coefficient
 tests that distinguish rational ranks from integral torsion (§5.2).
 
@@ -1759,9 +1801,8 @@ and Corollary 13, after Thistlethwaite).
 
 Layers 3–5 and 8. Tau Ceti: braid words and their closures with crossing signs, writhe and arc
 equations, the trefoil code, the empty, unknot and unlink codes and their homology, and the circles
-through a crossing. GeometricTopology §§4.2 and 4.2.3 (realization of diagrams and braid closures). Mathlib: integer
-matrices
-and finitely generated abelian groups.
+through a crossing. GeometricTopology §§4.2 and 4.2.3 (realization of diagrams and braid
+closures). Mathlib: integer matrices, the Smith normal form and finitely generated abelian groups.
 
 ## Layer 7: movies and projective cobordism maps
 
@@ -1981,10 +2022,10 @@ time-reversed and strand-placement variant, construct its two finite local forma
 `F_L`, `F_R`, an integral finite formal-matrix homotopy `H` and one sign `ε ∈ {−1, 1}` with
 `F_L − εF_R = dH + Hd`. Both maps have the same quantum degree `δ`, and `H` has cochain degree `−1`
 and quantum degree `δ`; equivalently these are quantum-degree-zero maps and homotopies into the
-target shifted by `⟨−δ⟩`. Verify the identities from the actual local templates and the
-two-dimensional formal relations of §2.5, with coefficient and matrix certificates for every
-schema, the reversible multi-crossing clips included, and construct the explicit homotopy
-witnesses from the local templates. Prove each identity before gluing an exterior, then transport
+target shifted by `⟨−δ⟩`. Prove the identities from the actual local templates and the
+two-dimensional formal relations of §2.5 for every schema, the reversible multi-crossing clips
+included, and construct the explicit homotopy witnesses from the local templates. Prove each
+identity before gluing an exterior, then transport
 it under every admissible planar insertion, an arbitrary exterior complex included, with the
 totalization homotopy sign `(-1)^(r₁+⋯+rᵢ₋₁)` in the replaced factor, where each preceding `rⱼ` is
 its normalized cochain degree as in §3.6. Keep one common integral sign for the entire local
@@ -2056,8 +2097,9 @@ Mathlib: the stereographic projection, homotopy categories, induced and quotient
   floor, the relative ambient extension and the labelled smooth projection and Reidemeister
   comparison of §§8.4–8.6, and the polygonal–smooth bridge of §8.1.
 - [SpectralSequencesAndConvergencePartII](../SpectralSequencesAndConvergencePartII/README.md) uses
-  the universal coefficient and Künneth sequences for bounded finite free `ℤ`-complexes and the
-  comparison of `CategoryTheory.Tor'` with `CategoryTheory.Tor` of §§5.2–5.3.
+  the universal coefficient and Künneth sequences for bounded finite free `ℤ`-complexes, in the
+  cochain indexing to which §§5.2–5.3 transport Tau Ceti's theorems, and the comparison of
+  `CategoryTheory.Tor'` with `CategoryTheory.Tor` of §5.2.
 
 ## Scope and ownership
 
@@ -2069,13 +2111,15 @@ the formal surface category with its Euler characteristic, relations, grading an
 envelope (§§2.5–2.8); face restriction of cubes (§3.1); the total complex, the enhanced-state model
 and the graded tensor structure (§3.3); finiteness of Khovanov homology (§3.4); the complexes of
 diagrams with boundary and their closed evaluation (§§3.6–3.7); all of Layer 8; Reidemeister
-invariance for diagrams and smooth links (Layer 4); the skein sequence, the complex-level
-universal coefficient, Hom/Ext and Künneth theorems for bounded finite free integral complexes
-with their `Tor'`/`Tor` comparisons, block symmetry, mirror duality, orientation reversal and the
+invariance for diagrams and smooth links (Layer 4); the skein sequence, the transport of Tau
+Ceti's universal coefficient, Hom/Ext and Künneth sequences to bounded integral cochain complexes
+with their `Tor'`/`Tor` comparisons and `R`-linearity, block symmetry, mirror duality, orientation
+reversal and the
 diagram linking count, the value at `q = 1`, graded `W`-modules, the action at a mark, the reduced
 complex and its invariance, based connected sum and the connected-sum isomorphism with its derived
-tensor comparison (Layer 5); certificates, the computations of small links and of `T(2, m)`, and the
-crossing-number application (Layer 6); and the carrier of collared link cobordisms in `S³ × [0, 1]`
+tensor comparison (Layer 5); the Smith-normal-form description of the homology of bounded finite
+free integral complexes, the computations of small links and of `T(2, m)`, and the crossing-number
+application (Layer 6); and the carrier of collared link cobordisms in `S³ × [0, 1]`
 and `ℝ³ × [0, 1]`, the movie presentation, the movie Euler count and the projective cobordism
 functor (Layer 7).
 
@@ -2093,8 +2137,12 @@ normalized complex with its support, base change and mirror comparison, Khovanov
 enhanced state sum, the graded Euler characteristic and Khovanov's theorem comparing it with the
 Jones polynomial, and the homology of the empty diagram, the unknot and the crossing-free unlinks
 (§§3.2, 3.4–3.5, 5.4, 6.2); the Koszul braiding of cochain complexes, the post-composition action on
-Hom complexes, the Hom/Ext universal coefficient sequence for chain complexes and the periodic
-projective resolution over the dual numbers (§§3.3, 5.2, 5.9); smooth links and their ambient
+Hom complexes, the Hom/Ext universal coefficient and Künneth sequences for chain complexes with
+their naturality and splittings, the freeness and splitting of cycles over a principal ideal
+domain, `Tor₁` and `Ext¹` from presentations of length one, the periodic projective resolution over
+the dual numbers, and the K-flatness of bounded complexes of flat modules with the preservation of
+quasi-isomorphisms by tensoring with a K-flat complex (§§3.3, 5.2–5.3, 5.9, 5.11); smooth links and
+their ambient
 isotopy, diffeotopies, reparametrization of smooth embeddings, the Morse–Sard theorem, filled hulls
 and braid closures (Layer 8); collared knot cobordisms (§7.1); and the cellular comparison and
 Euler–Poincaré theorem of finite CW complexes (§7.6). The exact declarations are listed under the
@@ -2142,7 +2190,7 @@ supplier contracts.
   Frobenius identities `Δ ∘ m = (m ⊗ id) ∘ α ∘ (id ⊗ Δ)` and its mirror), `PiTensorProduct`,
   `PiTensorProduct.tmulEquiv`, `TensorProduct`, `Module.Free`, `Module.Finite`, `Module.Dual`,
   `IsNoetherianRing`, `HasRankNullity`, `LaurentPolynomial`, `LaurentPolynomial.eval₂`, `ZMod`,
-  `ULift.ringEquiv`, `Matrix`, `Relation.EqvGen`.
+  `ULift.ringEquiv`, `Matrix`, `Submodule.smithNormalForm`, `Relation.EqvGen`.
 - *Categories and complexes.* `ModuleCat`, `ModuleCat.uliftFunctor`, `CategoryTheory.GradedObject`
   with `CategoryTheory.GradedObject.total`, `CategoryTheory.GradedObject.Monoidal.tensorObj`,
   `CategoryTheory.GradedObject.Monoidal.braiding` and `CategoryTheory.GradedObject.HasTensor`;
@@ -2151,7 +2199,9 @@ supplier contracts.
   (two chain maps with homotopies from their composites to the identities), `HomotopyEquiv.toHomologyIso`,
   `CochainComplex.mappingCone`, `HomotopyCategory`, `CochainComplex.linearHomComplex`,
   `CategoryTheory.Tor`, `CategoryTheory.Tor'`, `CategoryTheory.Abelian.Ext`,
-  `CategoryTheory.ProjectiveResolution`, `CategoryTheory.Mat_`, `CategoryTheory.Mat_.embedding`,
+  `CochainComplex.isKProjective_of_projective` (a bounded-above complex of projectives is
+  K-projective), `CategoryTheory.ProjectiveResolution`, `CategoryTheory.Mat_`,
+  `CategoryTheory.Mat_.embedding`,
   `CategoryTheory.Mat_.lift`, `CategoryTheory.InducedCategory`, `CategoryTheory.Quotient`.
 - *Analysis and topology.* `EuclideanSpace`, `Metric.sphere`, `stereographic'`, `ContDiffBump`,
   `dense_iInter_of_isOpen` (Baire: a countable intersection of dense open sets is dense).
@@ -2248,7 +2298,21 @@ supplier contracts.
   `TauCeti.koszulSymmetricCategory`, `TauCeti.linearHomComplexPostcomp`,
   `TauCeti.ChainComplex.extToHomology`, `TauCeti.ChainComplex.extToHomology_injective`,
   `TauCeti.ChainComplex.exact_extToHomology_kronecker` (the Hom/Ext sequence for a chain complex with
-  split cycle inclusions and projective cycles), `TauCeti.dualNumberProjectiveResolution`,
+  split cycle inclusions and projective cycles), `TauCeti.ChainComplex.kroneckerSection` (its
+  splitting), `TauCeti.homCokernelEquivExt` (`Ext¹` from a projective presentation of length one),
+  `HomologicalComplex.homologyKunneth`, `HomologicalComplex.homologyKunneth_naturality`,
+  `HomologicalComplex.homologyKunnethShortComplex_shortExact` (the Künneth sequence for `ℕ`-indexed
+  chain complexes of modules over a commutative ring, the second with projective cycles and
+  projective quotients by its cycles), `HomologicalComplex.homologyToTor_naturality`,
+  `HomologicalComplex.homologyKunnethShortComplexMap`,
+  `HomologicalComplex.homologyKunnethShortComplexSplitting` (when the cycles of the first complex
+  split off), `CategoryTheory.ShortComplex.ShortExact.torOneIsoKernel` (`Tor₁` from a projective
+  presentation of length one), `HomologicalComplex.free_cycles_of_isPrincipalIdealRing`,
+  `HomologicalComplex.free_cokernel_iCycles_of_isPrincipalIdealRing`,
+  `HomologicalComplex.isSplitMono_iCycles_of_isPrincipalIdealRing` (over a principal ideal domain,
+  for projective terms), `CochainComplex.isKFlat_of_bounded_flat`,
+  `CochainComplex.quasiIso_id_tensorHom` (tensoring with a K-flat complex preserves
+  quasi-isomorphisms), `TauCeti.dualNumberProjectiveResolution`,
   `TauCeti.dualNumberProjectiveResolutionXIso`, `TauCeti.dualNumberResidue`.
 - *Braids, smooth links and geometry.* `TauCeti.BraidWord`, `TauCeti.BraidWord.closure`,
   `TauCeti.BraidWord.crossingSign_closure`, `TauCeti.BraidWord.writhe_closure`,

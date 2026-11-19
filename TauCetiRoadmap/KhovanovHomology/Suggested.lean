@@ -83,7 +83,7 @@ theorem eval₂_one_enhancedStateSum {n : ℕ} (D : OrientedPDCode n) (hD : D.to
       2 ^ D.toPDCode.componentCount := by
   sorry
 
-/-! ## Layer 6: certified computations and applications -/
+/-! ## Layer 6: integral computations and applications -/
 
 /-- The bidegrees `(i, j)` in which the integral Khovanov homology of the positive two-strand
 torus link `T(2, m)`, `m ≥ 2`, is a free group `ℤ`: `(0, m - 2)` and `(0, m)`; for
