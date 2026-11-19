@@ -13,11 +13,16 @@ theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together wi
 real-bodied definitions those statements need: the Hochschild cocycles, coboundaries and
 cohomology `HHⁿ(A, M) = Zⁿ(A, M) / Bⁿ(A, M)` of an algebra with coefficients in a bimodule, built on
 Tau Ceti's coboundary `TauCeti.hochschildBimoduleCoboundary` (README §1.2); the cup product of
-cochains (§5.1); and, for a commutative algebra, the cup product of derivations and the
-determinant cochain (§7.5). Hochschild homology with coefficients in the algebra is read on Tau
+cochains (§5.1); and, for a commutative algebra, the cup product of derivations, the
+determinant cochain and the unnormalised and normalised HKR maps `hkrMap` and `normalizedHKRMap`
+(§7.5). Hochschild homology with coefficients in the algebra is read on Tau
 Ceti's normalised chains `TauCeti.normalizedHochschildChains.chainComplex k R`, which §2.1 identifies
 with the normalised complex `N_•(R, R)`, homotopy equivalent to `C_•(R, R)`, so that their homology
-is `HH_•(R, R)`. The README carries every target, API list and Check.
+is `HH_•(R, R)`. The algebra `A` is a bimodule over itself through Mathlib's
+`Semiring.toOppositeModule` (`op b • x = x b`); the scalar tower `IsScalarTower k Aᵐᵒᵖ A` that
+`hochschildBimoduleCocycles k A A n` requires is Mathlib's instance `IsScalarTower.opposite_mid`,
+`(c • op b) • x = x (c b) = c (x b)`, from `SMulCommClass k A A`. The README carries every target,
+API list and Check.
 
 Stated here:
 
@@ -32,22 +37,26 @@ Stated here:
 * `cupProduct_graded_comm` (§6.2): the cup product on `HH^•(A, A)` is graded commutative;
 * `detCochain_sub_factorial_smul_cupDerivations_mem` (§7.5): for every commutative `R`, the
   determinant cocycle `⟨D₁, …, Dₙ⟩` represents `n!` times the class of `D₁ ∪ ⋯ ∪ Dₙ`;
-* `cohomological_hkr_hom_kaehler` and `cohomological_hkr` (§7.6): for `R` smooth and projective
-  over `k`, `HHⁿ(R, M) ≅ Hom_R(Ωⁿ_{R/k}, M)` with its explicit formula, and
-  `⋀ⁿ_R Der_k(R) ≅ HHⁿ(R, R)`, `D₁ ∧ ⋯ ∧ Dₙ ↦ [D₁ ∪ ⋯ ∪ Dₙ]`;
 * `homological_hkr_mvPolynomial` (§8.4 in homology): for `R = MvPolynomial (Fin m) k` over every
   `k`, the antisymmetrisation `r₀ dr₁ ∧ ⋯ ∧ drₙ ↦ [Σ_σ sgn(σ) r₀ ⊗ r_{σ(1)} ⊗ ⋯ ⊗ r_{σ(n)}]` is an
-  isomorphism `Ωⁿ_{R/k} ≅ HHₙ(R, R)`.
+  isomorphism `Ωⁿ_{R/k} ≅ HHₙ(R, R)`, proved from the Koszul resolution; it is the case
+  `R = MvPolynomial (Fin m) k` of `homological_hkr` and the input of its route;
+* `homological_hkr` (§9.1): for every smooth `R` over every `k`, the antisymmetrisation is an
+  isomorphism `Ωⁿ_{R/k} ≅ HHₙ(R, R)`;
+* `cohomological_hkr_hom_kaehler`, `cohomological_hkr` and `normalized_hkr` (§9.2): for `R` smooth
+  and projective over `k`, `HHⁿ(R, M) ≅ Hom_R(Ωⁿ_{R/k}, M)` with its explicit formula,
+  `⋀ⁿ_R Der_k(R) ≅ HHⁿ(R, R)`, `D₁ ∧ ⋯ ∧ Dₙ ↦ [D₁ ∪ ⋯ ∪ Dₙ]`, and, when `n!` is invertible in `k`,
+  the same isomorphism as `ξ ↦ [Φⁿ_HKR(ξ)]` for the normalised HKR map.
 
 The pins give neither `HHⁿ(R, M)` nor the homology of the pinned normalised chains an `R`-module
-structure (§1.5 constructs it on the complexes of Layer 1), so the isomorphisms of §3.4, §7.6 and
-§8.4 are stated as `k`-linear equivalences with prescribed values on generators, which determine
+structure (§1.5 constructs it on the complexes of Layer 1), so the isomorphisms of §§3.4, 8.4, 9.1
+and 9.2 are stated as `k`-linear equivalences with prescribed values on generators, which determine
 them; a class in homology is written as the image under `HomologicalComplex.homologyπ` of a cycle
 whose image under `HomologicalComplex.iCycles`, followed by the identification
 `TauCeti.normalizedHochschildChains.chainComplexXIso` of the terms with the normalised chains, is
-the given chain. Clauses (3)–(5) of §7.6 (the
-factor `n!`, the normalised HKR map when `n!` is invertible, and the vanishing above the number of
-generators of `Ω¹_{R/k}`) follow from `cohomological_hkr_hom_kaehler`, `cohomological_hkr` and
+the given chain. Clauses (3) and (5) of §9.2 (the
+factor `n!` and the vanishing above the number of generators of `Ω¹_{R/k}`) follow from
+`cohomological_hkr_hom_kaehler`, `cohomological_hkr` and
 `detCochain_sub_factorial_smul_cupDerivations_mem`; the polynomial case of the cohomological HKR
 theorem (§8.4 in cohomology) and the Jacobian determinant of §8.5 are the instances
 `R = MvPolynomial (Fin m) k` of `cohomological_hkr` and of
@@ -199,7 +208,7 @@ theorem cupProduct_graded_comm (k A : Type u) [CommRing k] [Ring A] [Algebra k A
       hochschildBimoduleCoboundaries k A A (q + p) := by
   sorry
 
-/-! ## Layer 7: Polyvector fields and the cohomological HKR theorem -/
+/-! ## Layer 7: Polyvector fields and the HKR maps -/
 
 /-- The cup product `D₁ ∪ ⋯ ∪ Dₙ` of derivations of a commutative `k`-algebra `R`, the Hochschild
 `n`-cochain `(r₁, …, rₙ) ↦ D₁(r₁) ⋯ Dₙ(rₙ)` (README §7.5). -/
@@ -215,6 +224,40 @@ def detCochain (k R : Type u) [CommRing k] [CommRing R] [Algebra k R] {n : ℕ}
   (Matrix.detRowAlternating.toMultilinearMap.restrictScalars k).compLinearMap
     fun _ ↦ LinearMap.pi fun j ↦ (D j).toLinearMap
 
+/-- The unnormalised Hochschild–Kostant–Rosenberg map `Tⁿ_{R/k} → Cⁿ(R, R)` of a commutative
+`k`-algebra `R` (README §7.5): the `R`-linear map from the polyvector fields `⋀ⁿ_R Der_k(R)` to the
+Hochschild `n`-cochains, `R` acting on a cochain through its values, that sends `D₁ ∧ ⋯ ∧ Dₙ` to
+the determinant cochain `⟨D₁, …, Dₙ⟩`. It is the map `τₙ : Tⁿ_{R/k} → Hom_R(Ωⁿ_{R/k}, R)` of
+README §7.4 (the pairing `exteriorPower.pairingDual` after `Der_k(R) ≅ Hom_R(Ω¹_{R/k}, R)`)
+followed by evaluation on `dr₁ ∧ ⋯ ∧ drₙ` (Ginzburg, *Lectures on noncommutative geometry*,
+§9.2). -/
+noncomputable def hkrMap (k R : Type u) [CommRing k] [CommRing R] [Algebra k R] (n : ℕ) :
+    ⋀[R]^n (Derivation k R R) →ₗ[R] (Fin n → R) →ₘₗ[k] R where
+  toFun ξ :=
+    ((((exteriorPower.pairingDual R Ω[R⁄k] n) (exteriorPower.map n
+        (KaehlerDifferential.linearMapEquivDerivation k R).symm.toLinearMap ξ)).compAlternatingMap
+          (exteriorPower.ιMulti R n)).toMultilinearMap.restrictScalars k).compLinearMap
+      fun _ ↦ (KaehlerDifferential.D k R).toLinearMap
+  map_add' ξ η := by ext; simp
+  map_smul' c ξ := by ext; simp
+
+/-- On a pure wedge the unnormalised HKR map is the determinant cochain, with the index
+convention of `exteriorPower.pairingDual_ιMulti_ιMulti`: `hkrMap k R n (D₁ ∧ ⋯ ∧ Dₙ)` takes
+`(r₁, …, rₙ)` to the determinant whose row `i` is `(D₁(rᵢ), …, Dₙ(rᵢ))`. -/
+example (k R : Type u) [CommRing k] [CommRing R] [Algebra k R] {n : ℕ}
+    (D : Fin n → Derivation k R R) :
+    hkrMap k R n (exteriorPower.ιMulti R n D) = detCochain k R D := by
+  ext r
+  simp [hkrMap, detCochain, exteriorPower.map_apply_ιMulti]
+  rfl
+
+/-- The normalised Hochschild–Kostant–Rosenberg map `Φⁿ_HKR = (1/n!) ⟨…⟩` (README §7.5), defined
+when `n!` is invertible in `k` (for instance over a field of characteristic `0` or of
+characteristic greater than `n`): `hkrMap` multiplied by the image of `⅟(n!) ∈ k` in `R`. -/
+noncomputable def normalizedHKRMap (k R : Type u) [CommRing k] [CommRing R] [Algebra k R] (n : ℕ)
+    [Invertible (n.factorial : k)] : ⋀[R]^n (Derivation k R R) →ₗ[R] (Fin n → R) →ₘₗ[k] R :=
+  algebraMap k R ⅟(n.factorial : k) • hkrMap k R n
+
 /-- The determinant cocycle represents `n!` times the cup product of the derivations (README §7.5),
 for every commutative `k`-algebra `R`: `⟨D₁, …, Dₙ⟩ − n! · (D₁ ∪ ⋯ ∪ Dₙ)` is a Hochschild
 coboundary, so `[⟨D₁, …, Dₙ⟩] = n! [D₁ ∪ ⋯ ∪ Dₙ]` in `HHⁿ(R, R)`: the determinant is the signed
@@ -225,40 +268,6 @@ theorem detCochain_sub_factorial_smul_cupDerivations_mem (k R : Type u) [CommRin
     [CommRing R] [Algebra k R] {n : ℕ} (D : Fin n → Derivation k R R) :
     detCochain k R D - (n.factorial : k) • cupDerivations k R D ∈
       hochschildBimoduleCoboundaries k R R n := by
-  sorry
-
-/-- The cohomological Hochschild–Kostant–Rosenberg theorem, dual form (README §7.6(1)): for a
-commutative `k`-algebra `R` that is smooth and projective as a `k`-module, and an `R`-module `M`
-regarded as a symmetric bimodule, there is a `k`-linear isomorphism
-`HHⁿ(R, M) ≅ Hom_R(Ωⁿ_{R/k}, M)` sending the class of a cocycle `f` to the map
-`dr₁ ∧ ⋯ ∧ drₙ ↦ Σ_σ sgn(σ) f(r_{σ(1)}, …, r_{σ(n)})`, the evaluation of `f` on the
-antisymmetrised chain (Hochschild–Kostant–Rosenberg, *Differential forms on regular affine
-algebras*, Lemma 4.1, Theorem 5.1, and Theorem 5.2 over a perfect field; the homological form,
-which this dualises, is Loday, *Cyclic homology*, Theorem 3.4.4). -/
-theorem cohomological_hkr_hom_kaehler (k R : Type u) [CommRing k] [CommRing R] [Algebra k R]
-    [Algebra.Smooth k R] [Module.Projective k R] (M : Type u) [AddCommGroup M] [Module R M]
-    [Module Rᵐᵒᵖ M] [IsCentralScalar R M] [SMulCommClass R Rᵐᵒᵖ M] [Module k M]
-    [IsScalarTower k R M] [IsScalarTower k Rᵐᵒᵖ M] (n : ℕ) :
-    ∃ e : hochschildBimoduleCohomology k R M n ≃ₗ[k] (⋀[R]^n Ω[R⁄k] →ₗ[R] M),
-      ∀ (f : (Fin n → R) →ₘₗ[k] M) (hf : f ∈ hochschildBimoduleCocycles k R M n) (r : Fin n → R),
-        e (Submodule.Quotient.mk ⟨f, hf⟩)
-            (exteriorPower.ιMulti R n fun i ↦ KaehlerDifferential.D k R (r i)) =
-          ∑ σ : Equiv.Perm (Fin n), Equiv.Perm.sign σ • f (r ∘ σ) := by
-  sorry
-
-/-- The cohomological Hochschild–Kostant–Rosenberg theorem (README §7.6(2)): for a commutative
-`k`-algebra `R` that is smooth and projective as a `k`-module, the polyvector fields
-`⋀ⁿ_R Der_k(R)` are isomorphic to `HHⁿ(R, R)` by `r · D₁ ∧ ⋯ ∧ Dₙ ↦ [r · (D₁ ∪ ⋯ ∪ Dₙ)]`
-(Hochschild–Kostant–Rosenberg, *Differential forms on regular affine algebras*, Theorem 5.2, for a
-regular affine algebra over a perfect field; the homological form over a field is Weibel, *An
-introduction to homological algebra*, Theorem 9.4.7). -/
-theorem cohomological_hkr (k R : Type u) [CommRing k] [CommRing R] [Algebra k R]
-    [Algebra.Smooth k R] [Module.Projective k R] (n : ℕ) :
-    ∃ Ψ : ⋀[R]^n (Derivation k R R) ≃ₗ[k] hochschildBimoduleCohomology k R R n,
-      ∀ (r : R) (D : Fin n → Derivation k R R),
-        ∃ h : r • cupDerivations k R D ∈ hochschildBimoduleCocycles k R R n,
-          Ψ (r • exteriorPower.ιMulti R n D) =
-            Submodule.Quotient.mk ⟨r • cupDerivations k R D, h⟩ := by
   sorry
 
 /-! ## Layer 8: Polynomial algebras through the Koszul resolution -/
@@ -289,6 +298,78 @@ theorem homological_hkr_mvPolynomial (k : Type u) [CommRing k] (m n : ℕ) :
                 (fun i ↦ KaehlerDifferential.D k (MvPolynomial (Fin m) k) (r i))) =
               ((TauCeti.normalizedHochschildChains.chainComplex k
                 (MvPolynomial (Fin m) k)).homologyπ n).hom z := by
+  sorry
+
+/-! ## Layer 9: The HKR theorems for smooth algebras -/
+
+/-- The homological Hochschild–Kostant–Rosenberg theorem (README §9.1): for every commutative ring
+`k` and every smooth commutative `k`-algebra `R`, the antisymmetrisation
+`r₀ dr₁ ∧ ⋯ ∧ drₙ ↦ [Σ_σ sgn(σ) r₀ ⊗ r_{σ(1)} ⊗ ⋯ ⊗ r_{σ(n)}]` is a `k`-linear isomorphism from
+`Ωⁿ_{R/k}` to the `n`-th homology of the normalised Hochschild chains of `R` with coefficients in
+`R` (Tau Ceti's complex, whose homology is `HH_•(R, R)` by README §2.1); the antisymmetrised chain,
+with the coefficient `r₀` in slot `0`, is a cycle. No projectivity over `k` is assumed. The route
+reduces to `homological_hkr_mvPolynomial` by étale localisation (Loday, *Cyclic homology*,
+Theorem 3.4.4; Weibel, *An introduction to homological algebra*, Theorem 9.4.7). -/
+theorem homological_hkr (k R : Type u) [CommRing k] [CommRing R] [Algebra k R]
+    [Algebra.Smooth k R] (n : ℕ) :
+    ∃ e : ⋀[R]^n Ω[R⁄k] ≃ₗ[k] (TauCeti.normalizedHochschildChains.chainComplex k R).homology n,
+      ∀ (r₀ : R) (r : Fin n → R),
+        ∃ z : (TauCeti.normalizedHochschildChains.chainComplex k R).cycles n,
+          ((TauCeti.normalizedHochschildChains.chainComplex k R).iCycles n ≫
+              (TauCeti.normalizedHochschildChains.chainComplexXIso k R n).hom).hom z =
+              ∑ σ : Equiv.Perm (Fin n), Equiv.Perm.sign σ •
+                TauCeti.normalizedHochschildChains.tensor k R n (Fin.cons r₀ (r ∘ σ)) ∧
+            e (r₀ • exteriorPower.ιMulti R n (fun i ↦ KaehlerDifferential.D k R (r i))) =
+              ((TauCeti.normalizedHochschildChains.chainComplex k R).homologyπ n).hom z := by
+  sorry
+
+/-- The cohomological Hochschild–Kostant–Rosenberg theorem, dual form (README §9.2(1)): for a
+commutative `k`-algebra `R` that is smooth and projective as a `k`-module, and an `R`-module `M`
+regarded as a symmetric bimodule, there is a `k`-linear isomorphism
+`HHⁿ(R, M) ≅ Hom_R(Ωⁿ_{R/k}, M)` sending the class of a cocycle `f` to the map
+`dr₁ ∧ ⋯ ∧ drₙ ↦ Σ_σ sgn(σ) f(r_{σ(1)}, …, r_{σ(n)})`, the evaluation of `f` on the
+antisymmetrised chain (Hochschild–Kostant–Rosenberg, *Differential forms on regular affine
+algebras*, Lemma 4.1, Theorem 5.1, and Theorem 5.2 over a perfect field; the homological form,
+which this dualises, is Loday, *Cyclic homology*, Theorem 3.4.4). -/
+theorem cohomological_hkr_hom_kaehler (k R : Type u) [CommRing k] [CommRing R] [Algebra k R]
+    [Algebra.Smooth k R] [Module.Projective k R] (M : Type u) [AddCommGroup M] [Module R M]
+    [Module Rᵐᵒᵖ M] [IsCentralScalar R M] [SMulCommClass R Rᵐᵒᵖ M] [Module k M]
+    [IsScalarTower k R M] [IsScalarTower k Rᵐᵒᵖ M] (n : ℕ) :
+    ∃ e : hochschildBimoduleCohomology k R M n ≃ₗ[k] (⋀[R]^n Ω[R⁄k] →ₗ[R] M),
+      ∀ (f : (Fin n → R) →ₘₗ[k] M) (hf : f ∈ hochschildBimoduleCocycles k R M n) (r : Fin n → R),
+        e (Submodule.Quotient.mk ⟨f, hf⟩)
+            (exteriorPower.ιMulti R n fun i ↦ KaehlerDifferential.D k R (r i)) =
+          ∑ σ : Equiv.Perm (Fin n), Equiv.Perm.sign σ • f (r ∘ σ) := by
+  sorry
+
+/-- The cohomological Hochschild–Kostant–Rosenberg theorem (README §9.2(2)): for a commutative
+`k`-algebra `R` that is smooth and projective as a `k`-module, the polyvector fields
+`⋀ⁿ_R Der_k(R)` are isomorphic to `HHⁿ(R, R)` by `r · D₁ ∧ ⋯ ∧ Dₙ ↦ [r · (D₁ ∪ ⋯ ∪ Dₙ)]`
+(Hochschild–Kostant–Rosenberg, *Differential forms on regular affine algebras*, Theorem 5.2, for a
+regular affine algebra over a perfect field; the homological form over a field is Weibel, *An
+introduction to homological algebra*, Theorem 9.4.7). -/
+theorem cohomological_hkr (k R : Type u) [CommRing k] [CommRing R] [Algebra k R]
+    [Algebra.Smooth k R] [Module.Projective k R] (n : ℕ) :
+    ∃ Ψ : ⋀[R]^n (Derivation k R R) ≃ₗ[k] hochschildBimoduleCohomology k R R n,
+      ∀ (r : R) (D : Fin n → Derivation k R R),
+        ∃ h : r • cupDerivations k R D ∈ hochschildBimoduleCocycles k R R n,
+          Ψ (r • exteriorPower.ιMulti R n D) =
+            Submodule.Quotient.mk ⟨r • cupDerivations k R D, h⟩ := by
+  sorry
+
+/-- The cohomological Hochschild–Kostant–Rosenberg theorem for the normalised HKR map
+(README §9.2(4)): for a commutative `k`-algebra `R` that is smooth and projective as a `k`-module,
+and `n` with `n!` invertible in `k`, every `Φⁿ_HKR(ξ)` is a Hochschild cocycle and
+`ξ ↦ [Φⁿ_HKR(ξ)]` is an isomorphism `⋀ⁿ_R Der_k(R) ≅ HHⁿ(R, R)`; it is the isomorphism of
+`cohomological_hkr`, because `[⟨D₁, …, Dₙ⟩] = n! [D₁ ∪ ⋯ ∪ Dₙ]`
+(Hochschild–Kostant–Rosenberg, *Differential forms on regular affine algebras*, Theorem 5.2 and the
+product formula of §5; Ginzburg, *Lectures on noncommutative geometry*, Theorem 9.1.3 and §9.2). -/
+theorem normalized_hkr (k R : Type u) [CommRing k] [CommRing R] [Algebra k R]
+    [Algebra.Smooth k R] [Module.Projective k R] (n : ℕ) [Invertible (n.factorial : k)] :
+    ∃ Φ : ⋀[R]^n (Derivation k R R) ≃ₗ[k] hochschildBimoduleCohomology k R R n,
+      ∀ ξ : ⋀[R]^n (Derivation k R R),
+        ∃ h : normalizedHKRMap k R n ξ ∈ hochschildBimoduleCocycles k R R n,
+          Φ ξ = Submodule.Quotient.mk ⟨normalizedHKRMap k R n ξ, h⟩ := by
   sorry
 
 end TauCetiRoadmap.HochschildHomologyAndHKR
