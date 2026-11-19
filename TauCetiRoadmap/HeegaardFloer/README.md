@@ -53,7 +53,7 @@ submanifolds belong to CalibratedGeometry; smooth good covers with their
 input to a target here.
 DGFloer, MorseNovikov, AnalyticStableMaps, ComplexCurveModuli,
 ConvexityToric, CotangentLagrangian, HamiltonianReduction,
-HamiltonianSystems, HamiltonianFloerOperations, FukayaTheory and the
+HamiltonianSystems (proposed in TauCetiRoadmap#480), HamiltonianFloerOperations, FukayaTheory and the
 gauge-theoretic roadmaps consume this roadmap and supply nothing to it; the
 finite-filtration adapter of M.8 and the local return germ of F0.6 are
 constructed here to precede the trajectory applications. DGFloer Layer 1
@@ -122,6 +122,10 @@ Lane F5 (F5.k is §7.k) and Layer 8 holds the reconciliations R1–R3
 
 ### From Tau Ceti
 
+- **Symplectic normal forms and sphere automorphisms:** flat Darboux
+  `TauCeti.exists_diffeomorph_eventually_compContinuousLinearMap_fderiv_eq`
+  (F2.1 transfers it through charts) and sharp triple transitivity
+  `OnePoint.existsUnique_psl_smul_zero_one_infty_eq` (F2.6a at K=ℂ).
 - **Sard and nonlinear Fredholm maps:** consume Tau Ceti's
   `ContDiff.addHaar_image_criticalPoints_eq_zero`, `Fredholm.NormalForm`,
   `Fredholm.Proper`, `isMeagre_image_criticalPoints_of_isFredholm`,
@@ -327,18 +331,25 @@ Prove three results, with the index difference truncated at0 in ℕ.
   values with no critical value in [c₁,c₂], C a compact subset of
   W^u(p)∩{f=c₂}, and h a family of C^r admissible functions, each with
   support in f⁻¹((c₁,c₂)), with r≥max(ind p−ind q,0)+2. Suppose every
-  trajectory of W^u(p)∩W^s(q) passes through C and lies below c₁ after a
-  fixed time T, and the parameter derivatives of s↦φ^(f_s)_T at s=0
-  together with the tangent cone of W^s(q) span E at every point of
-  φ_T(C)∩W^s(q). Then for some ε>0 and almost every s with ‖s‖<ε,
+  trajectory of W^u(p)∩W^s(q) passes through C; that for a fixed time T,
+  f<c₁ on φ_T(C); and that at every x∈C the parameter derivatives of
+  s↦φ^(f_s)_T(x) at s=0, together with dφ_T(T_x(W^u(p)∩{f=c₂})), span E,
+  so that the universal map (s,x)↦φ^(f_s)_T(x) is a submersion along
+  {0}×C. No compactness of {x∈C : φ_T(x)∈W^s(q)} is needed, so
+  trajectories that break at an intermediate critical point are allowed.
+  Then for some ε>0 and almost every s with ‖s‖<ε,
   W^u(p) and W^s(q) of f_s are transverse at every point of
   φ^(f_s)_T(C). Since the supports lie in the open slab,
   `TauCeti.mem_unstableSet_perturb_iff` and
   `TauCeti.mem_stableSet_perturb_iff` give C⊂W^u(p) for f_s and
-  W^s(q)∩{f<c₁} the same for f and f_s. Apply sharp finite-dimensional
-  Sard to the projection to the parameter of the universal space
-  {(s,x) : x∈C, φ^(f_s)_T(x)∈W^s(q)}, whose fiber dimension is
-  ind p−ind q−1.
+  W^s(q)∩{f<c₁} the same for f and f_s. By compactness of C, the
+  universal map stays a submersion with values in {f<c₁} for ‖s‖<ε, so
+  it is transverse to the submanifold W^s(q) (closed or not), and the
+  universal space {(s,x) : x∈C, φ^(f_s)_T(x)∈W^s(q)} is a manifold. Apply
+  sharp finite-dimensional Sard to its projection to the parameter, whose
+  fiber dimension is ind p−ind q−1. This is the mirror of Audin–Damian's
+  Lemme 2.2.8, which perturbs in a slab above a critical value to make the
+  stable sphere transverse to every unstable manifold at once.
 - **All pairs.** If r≥dim E+2 and f has finitely many critical points,
   there is an admissible C^r family h such that, for some ε>0 and almost
   every s with ‖s‖<ε, f_s has the same critical points as f and is
@@ -348,7 +359,10 @@ Prove three results, with the index difference truncated at0 in ℕ.
   critical points p,q in {f≤c}. Order the critical values, apply the
   single-pair step in a slab just below each of them, and use that a
   perturbation supported above f(p) leaves W^u(p) unchanged and that
-  transversality along compact pieces is open in s.
+  transversality along compact pieces is open in s. This mirrors the
+  source's induction: it works in the slabs below the critical values and
+  moves W^u(p), with C the compact sphere W^u(p)∩{f=c₂} just below f(p),
+  where the source works in the slabs above them and moves W^s.
 - **Corollary.** Every C^∞ function f as above with finitely many critical
   points has, in every neighbourhood of 0 in the C^∞ topology of
   compactly supported functions, a perturbation g with f+g Morse–Smale.
@@ -365,9 +379,9 @@ Prove three results, with the index difference truncated at0 in ℕ.
 - For ind p=0 and ind q=1 the threshold is max(−1,0)+2=2, not
   −1+2=1: the perturbed flow and its parameter derivative need C².
 - Finiteness is needed in the all-pairs form. On ℝ² let f=|x|²/2 off the
-  balls B(4ⁱe₁,4ⁱ/10), i≥1, and f=4²ⁱk(x/4ⁱ) inside them, for a k equal
-  to |y|²/2 near the boundary of B(e₁,1/10), even in the second
-  coordinate, with a saddle–saddle trajectory on the first axis.
+  balls B(4ⁱe₁,4ⁱ/10), i≥1, and f=4²ⁱk(x/4ⁱ) inside them, for a Morse
+  function k>0 on B(e₁,1/10), equal to |y|²/2 near its boundary, even in
+  the second coordinate, with a saddle–saddle trajectory on the first axis.
   The Hessian is bounded and the sublevels are compact, but every
   compactly supported perturbation misses some ball, so f+g is never
   Morse–Smale; the band form holds, since {f≤c} meets finitely many balls.
@@ -2249,7 +2263,8 @@ Hilbert norm on D, C¹ dependence in `D→L H`, self-adjointness on D
 and limits at ±∞ in L(D,H), invertible as maps D→H. Supply
 uniform graph-norm estimates, dichotomies and adjoint-cokernel control.
 The operator `∂s−A(s)` on `W¹,²(ℝ;H)∩L²(ℝ;D)` is Fredholm with
-index `−SF(A)`; prove the actual domain/range estimate and index theorem.
+index `−SF(A)` (Robbin–Salamon, *The spectral flow and the Maslov index*,
+Theorem 4.21, with `D_A=d/dt−A(t)`); prove the actual domain/range estimate and index theorem.
 Give graph-gap transport for changes of trivialization satisfying those
 domain hypotheses, not an assertion for arbitrary discontinuous domains.
 Check A(s)=tanh(s): kernel0, cokernel span(sech(s)), index−1.
@@ -2514,9 +2529,13 @@ PseudoholomorphicCurveAnalysis PH1–PH7, which consume PDE Lane A; Differential
 
 ## Layer 4: J-holomorphic curves
 
-McDuff–Salamon (*J-holomorphic Curves and Symplectic Topology*, 2nd ed.) as spine,
-with boundary versions from Oh, and with Floer–Hofer–Salamon's cylinder transversality
-adapted to strips:
+This layer builds the J-holomorphic analysis that the Floer strips need: symplectic and
+almost-complex foundations, local theory, compactness, transversality and gluing for
+strips (4.1–4.5), then the sphere domains, simple maps, energy, degree and
+four-dimensional curve theory of 4.6. The arrangement is this roadmap's own; each
+target cites its source (McDuff–Salamon, *J-holomorphic Curves and Symplectic Topology*,
+2nd ed., for closed curves; Oh for boundary conditions; Floer–Hofer–Salamon for
+transversality, adapted from cylinders to strips).
 
 ### 4.1 Symplectic and almost-complex foundations (F2.1)
 
@@ -2538,7 +2557,7 @@ Build the shared strongly nondegenerate contraction inverse and smooth base
 dependence required here: this prerequisite is an explicit F2.1 target in
 Tau Ceti's shared symplectic API, and the Hamiltonian df case and the
 generic-form migration consume that same construction. HamiltonianSystems
-Layer 1 specializes this inverse to differentials of Hamiltonians (see
+(proposed in TauCetiRoadmap#480) Layer 1 specializes this inverse to differentials of Hamiltonians (see
 Downstream consumers). The inverse prototypes pin
 the transport interface. Prove their comparison
 through the generic-form migration. Its linear-equivalence
@@ -2575,9 +2594,12 @@ Derive the smooth-parameter local primitive corollary from DG 5.4's
 homotopyOperator under radial chart contraction centred at x₀, with
 primitive vanishing at x₀, using its smooth regularity and slice naturality.
 Darboux uses the affine form path and one such
-primitive; the parameterized lemma is the interface for C4's families. Prove **Darboux** on
-finite-dimensional boundaryless manifolds using this local
-Moser lemma, shrinking the domain to guarantee flow through [0,1].
+primitive; the parameterized lemma is the interface for C4's families. Tau Ceti's
+`TauCeti.exists_diffeomorph_eventually_compContinuousLinearMap_fderiv_eq`
+(`Geometry/Symplectic/Darboux/Basic.lean`) is Darboux on an open subset of a
+finite-dimensional normed space; transfer it through charts to prove **Darboux** on
+finite-dimensional boundaryless manifolds, using this local Moser lemma only for the
+parameterized families, and shrink the domain to guarantee flow through [0,1].
 Every point has a partial diffeomorphism pulling back a constant
 nondegenerate form to ω. Consume
 `LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J`, `IsAlt.even_finrank`
@@ -2842,7 +2864,8 @@ jointly continuous/holomorphic Möbius action, including infinity, and its
 comparison with biholomorphic self-maps. Compare the SL/center quotient
 topology with the open determinant-nonzero locus in ℂP³. Normalize determinants
 by local square-root branches and descent; no global continuous square root
-on ℂ* is used. Prove sharp triple transitivity (`sphereAut_existsUnique_map_triple`) and
+on ℂ* is used. Sharp triple transitivity is Tau Ceti's
+`OnePoint.existsUnique_psl_smul_zero_one_infty_eq` at K=ℂ; prove
 the biholomorphism from PSL to ordered triples of distinct sphere points. For surjectivity onto all
 automorphisms, normalize infinity, use degree/local multiplicity one and
 Cauchy estimates to show the resulting entire map is affine.
@@ -4938,7 +4961,8 @@ None is an input to this roadmap.
   invariant regular-current hypotheses there. **CotangentLagrangian C4**
   and **HamiltonianReduction** use relative Moser constructions;
   their specialization of F2.1 must retain the primitive and domain data.
-  **HamiltonianSystems Layer 1** specializes contraction inversion to df.
+  **HamiltonianSystems Layer 1** (proposed in TauCetiRoadmap#480) specializes
+  contraction inversion to df.
 - **HamiltonianFloerOperations H7** constructs its Morse-incidence quantum
   comparison. The ordinary constant-class endpoint is to be compared with
   M.9a's cup product, including coefficients and signs.
@@ -5035,7 +5059,8 @@ Concrete checks that rule out vacuous or mis-stated definitions:
   [*On the local behavior of solutions of non-parabolic partial differential equations*](https://doi.org/10.2307/2372496),
   Amer. J. Math.75(1953),449–476: F2.6e's local normal-form and elliptic expansion.
 - J. Robbin, D. Salamon, *The Maslov index for paths*, Topology 32 (1993);
-  *The spectral flow and the Maslov index*, Bull. LMS 27 (1995): F1.3.
+  *The spectral flow and the Maslov index*, Bull. LMS 27 (1995), 1–33, Theorem 4.21
+  (index `D_A = −μ(A)`): F1.3.
 - T. Perutz, [arXiv:0801.0564v2](https://arxiv.org/abs/0801.0564), Proposition 1.1,
   p. 3, and Theorem 1.2, p. 4: the Lagrangian Heegaard tori and handleslides as
   Hamiltonian isotopies under the area equation (F4.1, F4.4).
