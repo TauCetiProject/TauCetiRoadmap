@@ -47,7 +47,7 @@ the triangular truncation on `L²(ℝ)`.
 The roadmap takes the Schatten classes with `p < ∞` from the OperatorIdeals part of
 OperatorTheory. There the class at `p = ∞` is all of `B(H)`; the compact endpoint is defined
 here. NoncommutativeIntegration supplies complex interpolation and the finite-tracial martingale
-theory. VonNeumannAlgebras supplies the trace, the tensor identifications from which the kernel
+theory. VonNeumannAlgebras supplies the trace, the tensor identification from which the kernel
 of a Hilbert–Schmidt operator is built, and ultraproducts of Hilbert spaces. The Sobolev form of
 the Hörmander–Mikhlin–Schur theorem is left to SchattenClassesAndSchurMultipliers, Part II.
 
@@ -422,14 +422,14 @@ Throughout this layer `(Ω, μ)`, `(Ω', ν)`, `(Ω'', λ)` are σ-finite measur
 
 ### 2.1 The kernel of a Hilbert–Schmidt operator
 
-Define the kernel unitary `k ↦ T_k : L²(μ ⊗ ν) ≅ S₂(L²(ν), L²(μ))` as the composite of three
-unitaries: the inverse of `L²(μ) ⊗̂ L²(ν) ≅ L²(μ ⊗ ν)`, `f ⊗ g ↦ f(x) g(y)` (VonNeumannAlgebras
-V2.RectangularL2, whose product measure is `μ.prod ν` for σ-finite `μ`, `ν`); `id ⊗ J` onto
-`L²(μ) ⊗̂ conj(L²(ν))`, with `J g = ḡ` the complex-linear identification of `L²(ν)` with its
-conjugate space through pointwise conjugation; and the inverse of the identification of
-`S₂(L²(ν), L²(μ))` with `L²(μ) ⊗̂ conj(L²(ν))` of VonNeumannAlgebras V4.Core, under which the
-rank-one operator `u ⊗ v*` corresponds to `u ⊗ v̄`. Thus `T_k = u ⊗ v*` for
-`k(x, y) = u(x) conj v(y)`. No countable basis, standard Borel structure or separability is used.
+Define the kernel unitary `k ↦ T_k : L²(μ ⊗ ν) ≅ S₂(L²(ν), L²(μ))` as the unique unitary with
+`T_k = u ⊗ v*` for `k(x, y) = u(x) conj v(y)`, `u ∈ L²(μ)`, `v ∈ L²(ν)`. It exists because these
+products span a dense subspace of `L²(μ ⊗ ν)` (VonNeumannAlgebras V2.RectangularL2, whose product
+measure is `μ.prod ν` for σ-finite `μ`, `ν`), the operators `u ⊗ v*` span the finite-rank
+operators, which are dense in `S₂`, and the two inner products agree: that of `u(x) conj v(y)` and
+`u'(x) conj v'(y)` in `L²(μ ⊗ ν)` is `⟨u, u'⟩ ⟨v', v⟩ = Σ_j ⟨(u ⊗ v*) e_j, (u' ⊗ v'*) e_j⟩` for
+every Hilbert basis `(e_j)` of `L²(ν)` (Parseval; OperatorIdeals OI-B32–OI-B35). No countable
+basis, standard Borel structure or separability is used.
 Define the kernel
 `k_A ∈ L²(μ ⊗ ν)` of `A ∈ S₂` as the inverse image of `A` (lafforgue-delasalle-2011 lines 226–232;
 reed-simon-1-1980 §VI.6). Prove:
@@ -471,10 +471,9 @@ reed-simon-1-1980 §VI.6). Prove:
   is null.
 - For the zero measure all spaces are zero.
 
-*Needs:* VonNeumannAlgebras V2.RectangularL2, V4.Core (the identification of Hilbert–Schmidt
-operators with a completed tensor product); AutomorphicSpectralTheory §0.9; OperatorIdeals
-OI-B32–OI-B41; Mathlib `MeasureTheory.Measure.prod`, `MeasureTheory.lintegral_prod`,
-`MeasureTheory.integral_prod`.
+*Needs:* VonNeumannAlgebras V2.RectangularL2, V4.Core (the trace `Tr`); AutomorphicSpectralTheory
+§0.9; OperatorIdeals OI-B32–OI-B41; Mathlib `MeasureTheory.Measure.prod`,
+`MeasureTheory.lintegral_prod`, `MeasureTheory.integral_prod`.
 
 ### 2.2 Kernel calculus and the trace formula
 
@@ -1926,8 +1925,10 @@ Prove also the two estimates the route uses, for a finite trace and with one con
 independent of the exponent, the algebra and the filtration:
 
 - **Hardy-space interpolation.** For `0 < θ < 1` and `1/q = 1 − θ/2`,
-  `‖y‖_{[H_C^1, H_C^2]_θ} ≤ K ‖y‖_{H_C^q}`, and the same for the row spaces (cgpt-2023
-  lines 479–481).
+  `‖y‖_{[H_C^1, H_C^2]_θ} ≤ K ‖y‖_{H_C^q}`, and the same for the row spaces. For each `θ`, with a
+  constant not made explicit, this is randrianantoanina-2021 Proposition 3.18 (line 1440) for
+  adapted sequences, carried to `H_C^q` by the martingale-difference projection of lines 1335–1346,
+  with row forms by line 1460; cgpt-2023 lines 480–481 assert that the constant is absolute.
 - **The order of the Burkholder–Gundy constant.** The constant `α_q` of NoncommutativeIntegration
   §7.3 in `‖y‖_{H^q} ≤ α_q ‖y‖_q` satisfies `α_q ≤ K/(q − 1)` for `1 < q ≤ 2` (jrwz-2020, as cited
   in cgpt-2023 lines 483–484).
@@ -2602,10 +2603,10 @@ is assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
 - V4.Core: the canonical trace `Tr` on the trace class with `|Tr(X)| ≤ ‖X‖₁`, cyclicity
-  `Tr(XY) = Tr(YX)` for trace-class products and Hilbert–Schmidt pairs, the rank-one formulas
-  `Tr(u ⊗ v*) = ⟨v, u⟩` and `‖u ⊗ v*‖₁ = ‖u‖‖v‖`, and the unitary identification of the
-  Hilbert–Schmidt operators `H → K` with `K ⊗̂ conj(H)`, under which `u ⊗ v*` corresponds to
-  `u ⊗ v̄` (the kernel unitary of §2.1).
+  `Tr(XY) = Tr(YX)` for trace-class products and Hilbert–Schmidt pairs, and the rank-one formulas
+  `Tr(u ⊗ v*) = ⟨v, u⟩` and `‖u ⊗ v*‖₁ = ‖u‖‖v‖`. Its identification of the Hilbert–Schmidt
+  operators `H → K` with `K ⊗̂ conj(H)` is not used: the kernel unitary of §2.1 is built from
+  V2.RectangularL2 and the Hilbert–Schmidt inner product of rank-one operators.
 - V2 (completed Hilbert tensor products): for complex Hilbert spaces `H` and `L`, the completed
   tensor product `H ⊗̂ L`, the completion of `H ⊗[ℂ] L` for the inner product with
   `⟨h ⊗ l, h' ⊗ l'⟩ = ⟨h, h'⟩ ⟨l, l'⟩`, in which the elementary tensors span a dense subspace;
@@ -2717,9 +2718,9 @@ is assumed for arbitrary complex Hilbert spaces, as Tau Ceti implements it.
 A locator `<key> line N` or `<key> lines N–M` counts the lines of the text that
 `pdftotext -layout` extracts from the open version named below, after three header lines and with
 one marker line before each page: the arXiv version given for cgpt-2023, lafforgue-delasalle-2011,
-pisier-grothendieck-2012, caspers-delasalle-2015, mei-2007 and potapov-sukochev-2011, and HAL
-hal-00451399v2 for neuwirth-ricard-2011. The theorem, lemma, remark, equation and section numbers
-given beside them are those of the same version. Works listed without a line locator are cited by
+pisier-grothendieck-2012, caspers-delasalle-2015, mei-2007, potapov-sukochev-2011 and
+randrianantoanina-2021, and HAL hal-00451399v2 for neuwirth-ricard-2011. The theorem, lemma,
+remark, equation and section numbers given beside them are those of the same version. Works listed without a line locator are cited by
 chapter, section or theorem only.
 
 - cgpt-2023 — J. M. Conde-Alonso, A. M. González-Pérez, J. Parcet, E. Tablate, *Schur multipliers in
@@ -2740,6 +2741,8 @@ chapter, section or theorem only.
   Lp-spaces*, J. Funct. Anal. 202 (2003).
 - jrwz-2020 — Y. Jiao, N. Randrianantoanina, L. Wu, D. Zhou, *Square functions for noncommutative
   differentially subordinate martingales*, Comm. Math. Phys. 374 (2020).
+- randrianantoanina-2021 — N. Randrianantoanina, *Interpolation between noncommutative martingale
+  Hardy and BMO spaces: the case 0 < p < 1*, Canad. J. Math. (2021); arXiv 2108.06341v1.
 - reed-simon-1-1980 — M. Reed, B. Simon, *Methods of Modern Mathematical Physics I*, §VI.6.
 - simon-trace-ideals-2005 — B. Simon, *Trace Ideals and Their Applications*, Ch. 1–3.
 - gohberg-krein-1969 — I. C. Gohberg, M. G. Kreĭn, *Introduction to the Theory of Linear
