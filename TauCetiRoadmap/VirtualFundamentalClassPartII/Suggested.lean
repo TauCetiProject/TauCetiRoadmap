@@ -5,11 +5,11 @@ import Mathlib
 /-!
 # Virtual fundamental classes, part II: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It is the roadmap's acceptance test: it
-states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`,
-with only the simple definitions their statements need. At the pins no headline theorem of this
-roadmap is statable, so the file states nothing, and this docstring records each headline theorem
-with the carrier it lacks.
+**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
+This file states the roadmap's headline theorems against the pinned Mathlib and Tau Ceti, each with
+`sorry`, with only the simple definitions their statements need. At the pins no headline theorem of
+this roadmap is statable, so the file states nothing, and this docstring records each headline
+theorem with the carrier it lacks.
 
 ## What the pins lack
 
@@ -21,8 +21,10 @@ with the carrier it lacks.
   points, and no quotient stacks.
 * Tau Ceti's Chow groups `TauCeti.AlgebraicGeometry.Chow.ChowGroup` are those of locally
   Noetherian schemes, with pushforward along closed immersions only: there are no Chow groups of
-  algebraic spaces or stacks, no flat pullback, no proper pushforward in general, no Chern classes,
-  normal cones, refined Gysin maps or bivariant groups, and no equivariant Chow groups.
+  algebraic spaces or stacks, no flat pullback, no proper pushforward of Chow groups in general (the
+  pinned Mathlib has `AlgebraicGeometry.AlgebraicCycle.map`, pushforward of cycles with prescribed
+  weights), no Chern classes, normal cones, refined Gysin maps or bivariant groups, and no
+  equivariant Chow groups.
 * Neither library has the cotangent complex of a morphism of schemes or stacks as an object of a
   derived category (Mathlib's cotangent theory is the naive complex of an algebra presentation),
   nor the derived pushforward `Rπ_*` as a functor of derived categories of sheaves of modules
@@ -45,8 +47,10 @@ with the carrier it lacks.
    groups of algebraic spaces.
 5. *The Edidin–Graham comparison is a ring isomorphism* for Deligne–Mumford quotient stacks
    (README 5.3). Lacks quotient stacks, equivariant Chow groups and their products.
-6. *The degree of a closed point* `∫[𝒢_x] = [κ(x) : k]/|Aut(x̄)|` (README 5.4). Lacks residual
-   gerbes, residue fields of points of stacks and the degree of zero-cycles on a proper stack.
+6. *The degree of zero-cycles on a stack* `[𝒢_x] ↦ [κ(x) : k]/|Aut(x̄)|`, compatible with proper
+   pushforward and inducing `∫` on `A_0(ℳ)_ℚ` when the stack is proper (README 5.4). Lacks
+   residual gerbes, residue fields of points of stacks, cycles on stacks and the degree of
+   zero-cycles on a proper stack.
 7. *The virtual class without the resolution property or separatedness*, independent of the
    global resolution, with the relative formulas over a base of pure dimension (README 6.1–6.3).
    Lacks the cotangent complex of a morphism of stacks, cone stacks, the intrinsic normal cone,
