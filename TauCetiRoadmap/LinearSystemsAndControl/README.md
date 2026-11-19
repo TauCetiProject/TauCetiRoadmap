@@ -673,7 +673,9 @@ Already in the libraries and therefore not targets:
 Left to other roadmaps:
 
 - IterativeMethodsForLinearSystems (an open roadmap, not on main, on which this one depends for
-  one statement) owns, in its 1.2, the equivalence between the powers of a real matrix tending to
+  one statement) defines in its 4.1 the Krylov subspaces of a matrix and a vector; for one
+  input `b` the reachable subspace of 1.1 is their union, the span of all `A ^ k b`. Nothing
+  about them is consumed. It owns, in its 1.2, the equivalence between the powers of a real matrix tending to
   zero and the complex spectral radius being less than one. Schur stability is defined in 5.1,
   and its equivalence with `A ^ k → 0` is cited from there and is not a target of this roadmap.
 - OperatorTheory/SpectralSubspacePerturbation owns Sylvester equations `A X − X B = C` for
