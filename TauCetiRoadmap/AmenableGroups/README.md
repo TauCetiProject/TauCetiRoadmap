@@ -20,14 +20,16 @@ The headline theorems are these.
 - *Tarski's alternative.* A discrete group is amenable if and only if it is not paradoxical: there
   are no disjoint `A, B` with `A ∪ B = G` such that each of `A` and `B` can be cut into finitely
   many pieces which left translations reassemble into all of `G`.
-- The free group on two generators is paradoxical, so neither it nor any discrete group containing
-  it is amenable. Finite, abelian and compact groups are amenable, and amenability of discrete
-  groups passes to subgroups, quotients, extensions, finite products, directed unions and directed
-  colimits.
+- *The free group on two generators* is paradoxical for its left regular action.
 - *Invariant means on `L∞`.* If `G` is locally compact Hausdorff and `μ` is a regular left Haar
   measure on `G`, then `G` is amenable if and only if `L∞(G, μ)` carries a positive linear
   functional that takes the value `1` at the constant function `1` and is invariant under left
   translation.
+
+Along the way the roadmap proves that no discrete group containing the free group on two
+generators is amenable, that finite, abelian and compact groups are amenable, and that amenability
+of discrete groups passes to subgroups, quotients, extensions, finite products, directed unions and
+directed colimits.
 
 The roadmap is written on Mathlib's Følner filters, finitely additive contents, piecewise
 translations with finitely many pieces, Hall's marriage theorem, Hahn–Banach separation, and Haar
@@ -98,8 +100,9 @@ nonamenable groups without nonabelian free subgroups are outside the roadmap.
    `Borel(G × G) = Borel(G) ⊗ Borel(G)`, installs a product-measurable multiplication instance
    without proving it, or infers global `InnerRegular` from `Regular`.
 8. **Names.** Declarations of Mathlib and of the Tau Ceti library are cited by their full names.
-   The headline statements of `Suggested.lean` live in `TauCetiRoadmap.AmenableGroups` and are
-   cited by their short names. Targets with no declaration are described in prose.
+   The one headline statement of `Suggested.lean` that the pinned Tau Ceti does not prove lives in
+   `TauCetiRoadmap.AmenableGroups` and is cited by its short name. Targets with no declaration are
+   described in prose.
 
 ## Layer 1: UCB, means and transport
 
@@ -140,11 +143,12 @@ order and the pointwise algebra operations (BDHV, Appendix A.3 and Definition G.
 - Let `G` be the affine group of the line, the pairs `(a, b)` with `a > 0` acting by
   `t ↦ at + b`, so `(a, b)(c, d) = (ac, ad + b)`, and let `f(a, b) = arctan(b/a)`. For `u = (1, β)`
   with `β > 0` and `x = (a, 0)`, `ux = (a, β)` and `f(ux) − f(x) = arctan(β/a)`, which tends to
-  `π/2` as `a → 0`; so `f ∉ UCB(G)`. On the other hand `xu = (a, aβ + b)` for `u = (α, β)`,
-  and `sup_x |f(xu) − f(x)| → 0` as `u → 1`, so `f` satisfies the condition with `f(xu)` in place
-  of `f(ux)`, and `x ↦ f(x⁻¹)` lies in `UCB(G)`. A definition written with `f(xu)` would contain
-  `f`: the two conventions differ on this nonabelian group, and this is the distinction that
-  Convention 2 pins.
+  `π/2` as `a → 0`; so `f ∉ UCB(G)`. On the other hand `xu = (aα, aβ + b)` for `u = (α, β)`, so
+  with `t = b/a`, `f(xu) − f(x) = arctan((t + β)/α) − arctan(t)`, at most
+  `|β|/α + |α − 1|/(2 min(α, 1))` in absolute value. Hence `sup_x |f(xu) − f(x)| → 0` as `u → 1`,
+  so `f` satisfies the condition with `f(xu)` in place of `f(ux)`, and `x ↦ f(x⁻¹)` lies in
+  `UCB(G)`. A definition written with `f(xu)` would contain `f`: the two conventions differ on this
+  nonabelian group, and this is the distinction that Convention 2 pins.
 
 ### 1.2 Translations
 
@@ -294,7 +298,9 @@ nonnegative functions (`TauCeti.ComplexMean.map_nonneg`). *Needs:* §§1.3–1.4
 
 ### Examples
 
-Evaluation at a point is a mean on every topological group, invariant only for the trivial group.
+Evaluation at a point is a mean on every topological group. It is left invariant exactly when
+`UCB(G)` consists of the constants, which happens exactly when the topology of `G` is indiscrete;
+for a Hausdorff group, exactly when `G` is trivial.
 On a finite group the normalized counting mean is the unique invariant mean (§2.5); on a compact
 group integration against normalized Haar measure is an invariant mean (§7.8).
 
@@ -396,11 +402,10 @@ discrete space, not only for the left regular action of a group:
 ### 2.4 The discrete characterization and change of topology
 
 A discrete group is amenable exactly when it carries a left-invariant finitely additive probability
-on all of its subsets (`TauCeti.amenable_iff_exists_invariantContent`; headline
-`amenable_iff_exists_invariantContent`; Garrido, Theorem 1.15, in discrete scope; BDHV, G.1). An
-abstract group that is amenable with the discrete topology is amenable with every group topology
-(`TauCeti.Amenable.of_discrete`): restrict its mean to `UCB(G)`, which is the case `t₁ = ⊥` of
-`TauCeti.Amenable.of_le`. *Needs:* §§2.1–2.3, §1.5.
+on all of its subsets (`TauCeti.amenable_iff_exists_invariantContent`; Garrido, Theorem 1.15, in
+discrete scope; BDHV, G.1). An abstract group that is amenable with the discrete topology is
+amenable with every group topology (`TauCeti.Amenable.of_discrete`): restrict its mean to
+`UCB(G)`, which is the case `t₁ = ⊥` of `TauCeti.Amenable.of_le`. *Needs:* §§2.1–2.3, §1.5.
 
 ### 2.5 Finite groups
 
@@ -527,9 +532,9 @@ additivity. If `S` is paradoxical then `ν(S) + ν(S) = ν(S)`
 (`TauCeti.Paradoxical.addContent_add_self`), so `ν(S) = 0` when `ν(S)` is finite
 (`TauCeti.Paradoxical.addContent_eq_zero`): a finite-valued invariant content with `ν(S) > 0`
 excludes a paradoxical decomposition of `S`. In particular an invariant probability rules out
-paradoxicality of the whole space (`TauCeti.not_paradoxical_univ_of_addContent`; headline
-`not_paradoxical_univ_of_invariantContent`; the easy direction of Garrido, Theorem 1.11), and with §2.4 an amenable discrete group is not
-paradoxical for its left regular action. *Needs:* §3.3, §2.4.
+paradoxicality of the whole space (`TauCeti.not_paradoxical_univ_of_addContent`; the easy
+direction of Garrido, Theorem 1.11), and with §2.4 an amenable discrete group is not paradoxical
+for its left regular action. *Needs:* §3.3, §2.4.
 
 ### 3.5 The free group on two generators
 
@@ -557,9 +562,8 @@ whose reduced word begins with `c` is `FreeGroup.startsWith c`
 - They exhibit two disjoint subcopies, `W(a) ∪ W(a⁻¹) ∼ F₂` and `W(b) ∪ W(b⁻¹) ∼ F₂`
   (`FreeGroup.equidecomposable_startsWith_union_univ`), and the subcopy form of §3.3 gives a
   paradoxical decomposition of the whole group, identity included: every free group on at least
-  two generators is paradoxical (`FreeGroup.paradoxical_univ`; headline
-  `freeGroup_two_paradoxical`; Garrido, Proposition 1.5 (1), for `F₂`). By §3.4 such a group is not amenable
-  (`TauCeti.not_amenable_freeGroup`).
+  two generators is paradoxical (`FreeGroup.paradoxical_univ`; Garrido, Proposition 1.5 (1), for
+  `F₂`). By §3.4 such a group is not amenable (`TauCeti.not_amenable_freeGroup`).
 
 **Checks.**
 - `1 = a · a⁻¹ ∈ a·W(a⁻¹)`, `b = a · (a⁻¹ b) ∈ a·W(a⁻¹)` because `a⁻¹ b` is reduced and begins with
@@ -701,7 +705,7 @@ HasFoelnerSets G ↔
   ∀ K ⊆ G finite,  ∀ ε > 0,  ∃ F ⊆ G finite,  F ≠ ∅  ∧  ∀ g ∈ K,  |gF △ F| < ε·|F|
 ```
 
-(`TauCeti.hasFoelnerSets_iff`; headline `hasFoelnerSets_iff`). *Needs:* Mathlib `IsFoelner`,
+(`TauCeti.hasFoelnerSets_iff`). *Needs:* Mathlib `IsFoelner`,
 `maxFoelner`, `isFoelner_iff_tendsto`, `MeasureTheory.Measure.count`.
 
 - Counting measure and finite sets: for finite nonempty `F`, the `ℝ≥0∞` ratio of `IsFoelner` is
@@ -712,15 +716,17 @@ HasFoelnerSets G ↔
   conversely finite nonempty sets with ratios tending to zero along a nontrivial filter give Følner
   sets (`TauCeti.HasFoelnerSets.of_tendsto_card_smul_symmDiff_div_card`).
 - Having Følner sets is invariant under group isomorphisms (`MulEquiv.hasFoelnerSets_iff`).
+- For finite `F` and `g ∈ G`, `|gF \ F| = |F \ gF|` (`Finset.card_sdiff_comm` applied to
+  `Finset.card_smul_finset`), hence `|gF △ F| = 2 |gF \ F|` (`Finset.card_smul_finset_symmDiff`,
+  for any left-cancellative action).
 
 Prove the following facts about the finite test.
 
 - Monotonicity: a set `F` that passes the test for `K` and `ε` passes it for every `K' ⊆ K` and
   every `ε' ≥ ε`.
-- For finite `F` and `g ∈ G`, `|gF \ F| = |F \ gF|`, hence `|gF △ F| = 2 |gF \ F|`.
 - The triangle bound `|ghF △ F| ≤ |gF △ F| + |hF △ F|`, from `ghF △ F ⊆ g(hF △ F) ∪ (gF △ F)`.
 
-*Needs:* Mathlib `Finset.card_smul_finset`, `Finset.card_sdiff_comm`, `symmDiff_triangle`.
+*Needs:* Mathlib `Finset.card_smul_finset`, `symmDiff_triangle`.
 
 **Checks.**
 - For `G = ℤ`, `F_n = {0, …, n}` and `g = 1`, `(1 + F_n) △ F_n = {0, n + 1}`, so the ratio is
@@ -789,8 +795,7 @@ amenable, with every group topology (`TauCeti.Amenable.of_isFoelner`,
 ### 5.4 Følner's theorem
 
 A discrete group is amenable exactly when it has Følner sets
-(`TauCeti.amenable_iff_hasFoelnerSets`, with `TauCeti.Amenable.hasFoelnerSets`; headline
-`amenable_iff_hasFoelnerSets`):
+(`TauCeti.amenable_iff_hasFoelnerSets`, with `TauCeti.Amenable.hasFoelnerSets`):
 
 ```text
 Amenable G ↔ HasFoelnerSets G.
@@ -799,17 +804,16 @@ Amenable G ↔ HasFoelnerSets G.
 Since `TauCeti.HasFoelnerSets G` is by definition `NeBot (maxFoelner G Measure.count)` with the
 measurable space `⊤`, the same theorem says that `G` is amenable exactly when its counting-measure
 Følner filter is nontrivial. Composing with §5.1 gives the finite-test form
-(`TauCeti.amenable_iff_exists_finset`; headline `amenable_iff_exists_finset`). *Needs:* §5.2,
-§5.3.
+(`TauCeti.amenable_iff_exists_finset`). *Needs:* §5.2, §5.3.
 
 ### 5.5 Følner sequences
 
 For countable `G`, having Følner sets is equivalent to the existence of finite nonempty sets `F_n`
-with `|gF_n △ F_n| / |F_n| → 0` for every `g` (`TauCeti.hasFoelnerSets_iff_exists_seq`; headline
-`amenable_iff_exists_foelnerSequence`). The proof builds an increasing sequence of finite test sets
-covering `G`, without requiring `G` infinite, and uses error `1/(n + 1)`; the reverse implication
-uses finite intersections of eventual conditions and needs no countability. The sets `F_n` need
-not be nested or exhaustive. *Needs:* §5.1, §5.4.
+with `|gF_n △ F_n| / |F_n| → 0` for every `g` (`TauCeti.hasFoelnerSets_iff_exists_seq`); with
+§5.4, a countable discrete group is amenable exactly when it has such a sequence. The proof builds
+an increasing sequence of finite test sets covering `G`, without requiring `G` infinite, and uses
+error `1/(n + 1)`; the reverse implication uses finite intersections of eventual conditions and
+needs no countability. The sets `F_n` need not be nested or exhaustive. *Needs:* §5.1, §5.4.
 
 ### Examples
 
@@ -819,7 +823,8 @@ The intervals `{0, …, n}` in `ℤ` (Layer 6); finite groups, where `F = G` pas
 
 Layers 1–2. Mathlib `IsFoelner`, `maxFoelner`, `lp`, `geometric_hahn_banach_point_closed`. Tau Ceti
 `TauCeti/GroupTheory/Amenable/Foelner.lean`, `Reiter.lean`, `Average.lean`, `DiscreteFoelner.lean`
-and `Sequence.lean`, and `TauCeti/MeasureTheory/Group/Foelner/AddContent.lean`.
+and `Sequence.lean`, `TauCeti/MeasureTheory/Group/Foelner/AddContent.lean`, and
+`TauCeti/Algebra/Group/Action/Pointwise/Finset.lean`.
 
 References: [Garrido](https://www.math.uni-duesseldorf.de/~garrido/amenable.pdf), Definition 3.1,
 Definition 3.3, Lemma 3.4 and Theorem 3.6;
@@ -838,8 +843,9 @@ through `Multiplicative ℤ`, `ℤ` has Følner sets (`TauCeti.hasFoelnerSets_mu
 is amenable with every group topology (the instance `TauCeti.Amenable.multiplicative_int`).
 *Needs:* §5.4.
 
-Prove the interval estimate `|(k + F_n) △ F_n| ≤ 2|k|` for every integer `k` and natural number
-`n`. *Needs:* Mathlib `Finset.Icc`.
+The interval estimate `|(k + I) △ I| ≤ 2|k|` holds for every integer `k` and every interval
+`I = Icc a b` of integers, in particular for `I = F_n`
+(`Int.card_image_add_left_Icc_symmDiff_le`).
 
 **Checks.**
 - The exact value is `2 · min(|k|, n + 1)`: for `k = 3` and `n = 1`, `3 + F_1 = {3, 4}` is
@@ -869,8 +875,8 @@ carries the topology of `A`. *Needs:* §4.5, §6.2.
 ### Dependencies
 
 Layers 4–5. Mathlib `IsAddFoelner`, `Multiplicative`, `MonoidHom.noncommPiCoprod`. Tau Ceti
-`TauCeti/MeasureTheory/Group/Foelner/Int.lean`, `TauCeti/GroupTheory/Amenable/Int.lean` and
-`Abelian.lean`.
+`TauCeti/Data/Int/Interval.lean`, `TauCeti/MeasureTheory/Group/Foelner/Int.lean`,
+`TauCeti/GroupTheory/Amenable/Int.lean` and `Abelian.lean`.
 
 References: [Garrido](https://www.math.uni-duesseldorf.de/~garrido/amenable.pdf), Example 3.5 and
 Proposition 2.3; [BDHV](https://perso.univ-rennes1.fr/bachir.bekka/KazhdanTotal.pdf), Example G.5.4
@@ -880,6 +886,10 @@ for the integer intervals.
 
 Standing hypotheses as in Convention 7: `G` is a locally compact Hausdorff topological group with
 the Borel measurable space and a regular left Haar measure `μ`.
+
+In the former numbering of this layer, item 1 is §7.2, except that its Fubini statement for the
+convolution integrand is the pointwise formula of §7.3 and its orbit-integral measurability is in
+§7.4; item 2 is §7.3, item 3 is §7.4, and items 4 and 5 are §7.5.
 
 ### 7.1 Haar L∞ and the comparison with UCB
 
@@ -952,9 +962,10 @@ applied to `E` and its complement, of σ-finite measure because `H` is σ-compac
 
 ### 7.3 L¹ convolution and approximate identities
 
-The convolution `MeasureTheory.Lp.convolutionL μ p hp`, defined for `p ≠ ∞` and
-`(h ⋆ f)(x) = ∫ h(y) f(y⁻¹x) dμ(y)` almost everywhere, is a Bochner integral of left translates;
-it satisfies `‖h ⋆ f‖ ≤ ‖h‖₁ ‖f‖` (`MeasureTheory.Lp.norm_convolutionL_apply_le`), associativity
+The convolution `MeasureTheory.Lp.convolutionL μ p hp`, defined for `p ≠ ∞` as the `Lᵖ`-valued
+Bochner integral `h ⋆ f = ∫ h(y) L_y f dμ(y)` of left translates
+(`MeasureTheory.Lp.convolutionL_apply`), satisfies `‖h ⋆ f‖ ≤ ‖h‖₁ ‖f‖`
+(`MeasureTheory.Lp.norm_convolutionL_apply_le`), associativity
 (`MeasureTheory.Lp.convolutionL_assoc`), positivity (`MeasureTheory.Lp.convolutionL_nonneg`),
 `∫ (h ⋆ f) = ∫ h · ∫ f` (`MeasureTheory.Lp.integral_convolutionL`), so it preserves nonnegative
 functions of integral one, and equivariance under left translation
@@ -963,6 +974,18 @@ functions of integral one, and equivariance under left translation
 `MeasureTheory.Lp.continuous_rightTranslation_apply`), where right translation
 `MeasureTheory.Lp.rightTranslation` is normalized by `c` to be isometric, `(R_g h)(x) = c(g)⁻¹ h(xg)`
 on `L¹`. *Needs:* §7.2.
+
+Prove that `h ⋆ f` is the pointwise convolution integral almost everywhere: for real or complex
+`h ∈ L¹(G, μ)` and `f ∈ Lᵖ(G, μ)` with `p ≠ ∞` and any representatives of them, for almost every
+`x` the function `y ↦ h(y) f(y⁻¹x)` is integrable, and `x ↦ ∫ h(y) f(y⁻¹x) dμ(y)` represents
+`h ⋆ f`. Route: by §7.2, `h` and `f` vanish almost everywhere off one σ-compact open subgroup `H`,
+and both sides vanish almost everywhere off `H`. On `H` the restricted Haar measure is σ-finite,
+and Baire representatives (§7.2) make `(x, y) ↦ h(y) f(y⁻¹x)` measurable for the product of the
+Baire σ-algebras of `H`; Minkowski's integral inequality gives integrability for almost every `x`,
+and Fubini identifies the two sides after integration over sets of finite measure. No statement
+assumes `Borel(G × G) = Borel(G) ⊗ Borel(G)`. *Needs:* `MeasureTheory.Lp.convolutionL_apply`,
+`MeasureTheory.exists_openSubgroup_isSigmaCompact_forall_ae_eq_zero`,
+`MeasureTheory.Measure.measure_inv_null_of_regular`, the Baire representatives of §7.2.
 
 Prove that `L¹(G, μ)` has an approximate identity of kernels supported near `1`:
 
@@ -1081,10 +1104,14 @@ Haar measure, and *locally null* when all those intersections have measure zero;
 locally measurable when inverse images of Borel sets are locally Borel, and the book's `L∞` is the
 functions bounded outside a locally null set, modulo equality outside a locally null set. This is
 not Mathlib's global `Lp ℝ ∞ μ`, and `L∞ = (L¹)*` needs measure-theoretic hypotheses not assumed
-here; §§7.3–7.5 prove the global version directly. Prove, using a countable exhaustion by sets of
-finite measure, that for σ-finite Haar measure (for instance when `G` is σ-compact) locally Borel
-sets are Borel and locally null sets are null, so that the book's function and quotient conventions
-agree with Mathlib's in that case. A separate local-`L∞` carrier is not a target. *Needs:* §7.1.
+here; §§7.3–7.5 prove the global version directly. For every σ-finite measure, so for σ-finite
+Haar measure (for instance when `G` is σ-compact), locally Borel sets are Borel
+(`MeasureTheory.Measure.locallyMeasurableSpace_eq`), locally null sets are null, measurable or not
+(`MeasureTheory.Measure.isLocallyNull_iff`), locally measurable functions are measurable
+(`MeasureTheory.Measure.measurable_locallyMeasurableSpace_iff`), and equality outside a locally null
+set is almost-everywhere equality (`MeasureTheory.Measure.isLocallyNull_setOf_ne_iff`), by a
+countable exhaustion by sets of finite measure; so the book's function and quotient conventions
+agree with Mathlib's in that case. A separate local-`L∞` carrier is not a target.
 
 ### 7.8 Compact groups
 
@@ -1110,7 +1137,8 @@ group of positive reals by the additive group of the line, so it is amenable as 
 ### Dependencies
 
 Layers 1–2. Mathlib `MeasureTheory.Lp`, Haar measure and `MeasureTheory.Measure.modularCharacter`.
-Tau Ceti `TauCeti/MeasureTheory/Function/Lp/`, `TauCeti/MeasureTheory/Group/ModularCharacter.lean`,
+Tau Ceti `TauCeti/MeasureTheory/Function/Lp/`, `TauCeti/MeasureTheory/Measure/Localization.lean`,
+`TauCeti/MeasureTheory/Group/ModularCharacter.lean`,
 `TauCeti/MeasureTheory/Group/SigmaCompactSupport.lean`, `TauCeti/MeasureTheory/Group/Convolution/UCB.lean`,
 `TauCeti/GroupTheory/Amenable/OrbitIntegral.lean`, `Convolution.lean` and `Linfty.lean`.
 RepresentationTheory/CompactGroups §0.1 for normalized Haar probability, through Tau Ceti's
@@ -1148,8 +1176,8 @@ For every discrete group, without countability assumptions,
 G amenable  ⟺  G is not paradoxical for its left regular action
 ```
 
-(`TauCeti.amenable_iff_not_paradoxical_univ`; headline `amenable_iff_not_paradoxical`), and without
-reference to a topology, `G` has Følner sets exactly when it is not paradoxical
+(`TauCeti.amenable_iff_not_paradoxical_univ`), and without reference to a topology, `G` has Følner
+sets exactly when it is not paradoxical
 (`TauCeti.hasFoelnerSets_iff_not_paradoxical_univ`). This is the whole-group, left-regular-action
 form of Tarski's alternative: exactly one of an invariant finitely additive probability on all
 subsets and a paradoxical decomposition with finitely many pieces exists. The forward implication
@@ -1182,7 +1210,8 @@ suffices for the injection used here.
 - [VonNeumannAlgebras](../VonNeumannAlgebras/README.md): Layers 5–7, in particular the kernels
   `h_U` of §7.3 and the σ-compact localization of §7.2.
 - [BanachAlgebras](../BanachAlgebras/README.md): Layers 1 and 7, including the modular character,
-  Baire representatives and the localized integrals of §7.2.
+  Baire representatives and the localized integrals of §7.2 and the pointwise convolution formula
+  of §7.3.
 - [QuantumGroups](../QuantumGroups/README.md): Layer 1 invariant means, the Følner criterion of
   Layer 5 and Layer 7.
 - [FactorRigidity](../FactorRigidity/README.md): Layers 1–5.
@@ -1192,7 +1221,10 @@ suffices for the injection used here.
   groups (Layer 6) and the interval estimate of §6.1.
 - [HilbertModules/HeisenbergImprimitivity](../HilbertModules/HeisenbergImprimitivity/README.md):
   amenability of abelian discrete groups (Layer 6).
-- [BanachSpaceTheory](../BanachSpaceTheory/README.md): the global `L∞` convention of Layer 7.
+- [AnalyticNumberTheoryPartII](../AnalyticNumberTheoryPartII/README.md): amenability of abelian
+  discrete groups (Layer 6), for the multiplicative group of positive rationals.
+- [BanachSpaceTheory](../BanachSpaceTheory/README.md): the global `L∞` convention of Layer 7, and
+  the σ-compact localization and Baire representatives of §7.2.
 
 ## Scope and ownership
 
@@ -1208,16 +1240,17 @@ conventions (Layer 7); and Tarski's alternative for the left regular action of a
 (Layer 8).
 
 **Already in the library.** The Tau Ceti library implements most of the roadmap, under the names
-used above and listed under the supplier contracts: all of Layers 1, 3, 4 and 8; Layer 2 except
+used above and listed under the supplier contracts: all of Layers 1, 3, 4, 6 and 8; Layer 2 except
 the general naturality and equivariance of §2.3 and the counting content of §2.5; Layer 5 except
-the finite-test facts of §5.1 and the eventual-equality compatibility of §5.3; Layer 6 except the interval estimate of §6.1; and in Layer 7 the
-comparison of §7.1, the measure-theoretic inputs of §7.2 other than Baire representatives, the
-convolutions of §7.3 and §7.4, the Borel-content correspondence of §7.6, the compact groups of §7.8,
-the reverse implication of §7.5 with its independence of the Haar measure, and the discrete case.
-The remaining targets are those §§2.3, 2.5, 5.1, 5.3, 6.1 and 7.2 state as targets, the approximate
-identity of §7.3, the forward implication of §7.5, the completion of §7.6 and the local conventions
-of §7.7. The proof routes described above for results already in the library are proof sketches,
-not separate targets.
+the monotonicity and the triangle bound of the finite test in §5.1 and the eventual-equality
+compatibility of §5.3; and in Layer 7 the comparison of §7.1, the measure-theoretic inputs of §7.2
+other than Baire representatives, the convolutions of §7.3 other than their pointwise formula, the
+smoothing of §7.4, the Borel-content correspondence of §7.6, the local conventions of §7.7, the
+compact groups of §7.8, the reverse implication of §7.5 with its independence of the Haar measure,
+and the discrete case. The remaining targets are those §§2.3, 2.5, 5.1, 5.3 and 7.2 state as
+targets, the pointwise formula and the approximate identity of §7.3, the forward implication of
+§7.5 and the completion of §7.6. The proof routes described above for results already in the
+library are proof sketches, not separate targets.
 
 **Owned elsewhere and consumed here.**
 
@@ -1341,8 +1374,10 @@ recorded in the sections above.
   `IsFoelner.addContent`. `GroupTheory/Amenable/DiscreteFoelner.lean`:
   `TauCeti.Amenable.exists_sum_tsum_abs_sub_lt`, `TauCeti.amenable_iff_hasFoelnerSets`,
   `TauCeti.amenable_iff_exists_finset`. `GroupTheory/Amenable/Sequence.lean`:
-  `TauCeti.hasFoelnerSets_iff_exists_seq` (Layer 5).
-- `MeasureTheory/Group/Foelner/Int.lean`: `Int.tendsto_card_image_add_left_Icc_symmDiff_div_card`,
+  `TauCeti.hasFoelnerSets_iff_exists_seq`. `Algebra/Group/Action/Pointwise/Finset.lean`:
+  `Finset.card_smul_finset_symmDiff` (Layer 5, §8.1).
+- `Data/Int/Interval.lean`: `Int.card_image_add_left_Icc_symmDiff_le` (§6.1).
+  `MeasureTheory/Group/Foelner/Int.lean`: `Int.tendsto_card_image_add_left_Icc_symmDiff_div_card`,
   `TauCeti.isAddFoelner_int_Icc`. `GroupTheory/Amenable/Int.lean`:
   `TauCeti.hasFoelnerSets_multiplicative_int`, `TauCeti.Amenable.multiplicative_int`.
   `GroupTheory/Amenable/Abelian.lean`: `TauCeti.Amenable.of_commGroup` (Layer 6).
@@ -1369,6 +1404,11 @@ recorded in the sections above.
   `TauCeti.Amenable.of_addContent`, `TauCeti.amenable_iff_exists_lpTop_invariant`,
   `TauCeti.exists_lpTop_invariant_iff_of_regular`, `TauCeti.Mean.integral`,
   `TauCeti.Amenable.of_compactSpace`, `TauCeti.Mean.integral_haarProb` (§§7.1, 7.5, 7.8).
+  `MeasureTheory/Measure/Localization.lean`: `MeasureTheory.Measure.locallyMeasurableSpace`,
+  `MeasureTheory.Measure.IsLocallyNull`, `MeasureTheory.Measure.locallyMeasurableSpace_eq`,
+  `MeasureTheory.Measure.isLocallyNull_iff`,
+  `MeasureTheory.Measure.measurable_locallyMeasurableSpace_iff`,
+  `MeasureTheory.Measure.isLocallyNull_setOf_ne_iff`, for σ-finite measures (§7.7).
   `RepresentationTheory/Compact/Haar.lean`: `TauCeti.haarProb`, `TauCeti.haarProb_def` (§7.8).
 - `Combinatorics/Additive/Expansion.lean`: `Finset.pow_mul_card_le_card_pow_smul`,
   `Finset.exists_injective_of_mul_card_le_card_smul`. `GroupTheory/Amenable/Expansion.lean`:
