@@ -74,8 +74,9 @@ arithmetic, and Layer 12 builds examples showing which hypotheses are needed.
   (`FundamentalGroup.mul_def`). Point-pushing along `α` acts on based loops by `γ ↦ α * γ * α⁻¹`.
   The standard presentation is `π₁(Σ_{g,n}) = ⟨a₁, b₁, …, a_g, b_g, c₁, …, c_n | ∏ᵢ [aᵢ, bᵢ] ∏ⱼ cⱼ⟩`
   with `[x, y] = x y x⁻¹ y⁻¹`; it is `surfaceGroup g n` of the Lean file, and `cⱼ` is
-  `peripheralLoop j`. It is FreeGroupsAndLimitGroups §6.1's `OrientableSurfaceGroup g n`, whose
-  commutator is `x⁻¹y⁻¹xy`, transported along the inversion of the handle generators.
+  `peripheralLoop j`. It is FreeGroupsAndLimitGroups §6.1's `S⁺(g, n)` (`SurfaceGroup.orientable`,
+  declared as `OrientableSurfaceGroup g n` there), whose commutator is `x⁻¹y⁻¹xy`, transported along
+  the inversion of the handle generators.
 - A representation is a homomorphism to `GL_r(ℂ) = Matrix.GeneralLinearGroup (Fin r) ℂ`; rank zero
   is allowed and `GL₀(ℂ)` is trivial. Conjugacy means actual `GL_r(ℂ)`-conjugacy of homomorphisms,
   never equality of semisimplifications; a character variety is used only for semisimple points.
@@ -106,9 +107,11 @@ arithmetic, and Layer 12 builds examples showing which hypotheses are needed.
 
 This layer takes surfaces with boundary and punctures, their mapping class groups, Dehn twists,
 point-pushing, the Birman sequence and capping from MordellLawrenceVenkatesh Layer LV.5, and the
-compact case with its sign convention and Lickorish's theorem from GeometricTopology §1.7.2. It
-adds what the finiteness theory needs on top of them: the standard presentation of surface groups,
-the pure mapping class groups and their based actions on presented surface groups, the comparison
+compact case with its sign convention and Lickorish's theorem from GeometricTopology §1.7.2, and the
+Dehn–Nielsen–Baer theorem for closed surfaces from TeichmullerGeometry. It adds what the finiteness
+theory needs on top of them: the standard presentation of surface groups, the pure mapping class
+groups and their based actions on presented surface groups, with the Dehn–Nielsen–Baer theorem for
+punctured surfaces describing their image, the comparison
 of the two twist conventions with the formulas in the positive convention, the pure Birman
 sequence, capping all boundary circles at once, and the finiteness of the abelianization of mapping
 class groups in genus at least two.
@@ -119,7 +122,8 @@ For `g, b, p ≥ 0` let `Σ_{g,b,p}` be MordellLawrenceVenkatesh §5.1's surface
 compact connected oriented surface of genus `g` with `b` boundary circles minus `p` interior
 points, determined up to orientation-preserving homeomorphism by its type (§5.4), and
 `Σ_{g,n} = Σ_{g,0,n}`.
-The presented surface group is FreeGroupsAndLimitGroups §6.1's `OrientableSurfaceGroup g n`, with
+The presented surface group is FreeGroupsAndLimitGroups §6.1's `S⁺(g, n)` (`SurfaceGroup.orientable`,
+declared as `OrientableSurfaceGroup g n` in that roadmap's Lean file), with
 its peripheral tuple, the universal property of its presentation and its abelianization (§6.1),
 and its freeness on `a₁, …, b_g, c₁, …, c_{n−1}` for `n ≥ 1` (§6.2). The Lean carrier
 `surfaceRelator g n`, the word `∏ᵢ [aᵢ, bᵢ] · ∏ⱼ cⱼ` in the free group on `Fin g ⊕ Fin g ⊕ Fin n`
@@ -187,10 +191,33 @@ sending each `peripheralLoop j` to a conjugate of itself. Prove that under the s
 of §0.1 the image of `PMod(g, b, p + 1)` in `Aut(π₁(Σ_{g,b,p}, x))` lies in
 `pureMappingClassAut g (b + p)`: an orientation-preserving homeomorphism fixing the `j`-th puncture
 or boundary circle maps a small positively oriented loop around it to another such loop, which is
-freely homotopic to `cⱼ`. By the Dehn–Nielsen–Baer theorem the image is the whole of this subgroup
-for `b + p ≥ 1` in the hyperbolic range, and the orientation-preserving part of it for `b + p = 0`
-(Farb–Margalit, §8.2); only the containment is used in this roadmap. *Needs:* §0.1;
-MordellLawrenceVenkatesh §5.9; GeometricTopology §§1.7.2, 11.2.1; Mathlib `MulAut`.
+freely homotopic to `cⱼ`.
+
+Prove the Dehn–Nielsen–Baer theorem in the form §2.1 uses: for every `(g, n)` the image of
+`PMod(g, n + 1)` in `Aut(π₁(Σ_{g,n}, x))` has index at most two in `pureMappingClassAut g n`; it is
+all of it for `n ≥ 1`, and has index two for `n = 0` and `g ≥ 1` (Farb–Margalit, §8.2). The inner
+automorphisms lie in the image, as point-pushes (MordellLawrenceVenkatesh §5.19), and forgetting `x`
+maps `PMod(g, n + 1)` onto `PMod(g, n)` (MordellLawrenceVenkatesh §5.9), so the image is the
+preimage of the outer image of `PMod(g, n)`. For `n = 0` and `g ≥ 1` the claim is
+TeichmullerGeometry §5.4's `dehn_nielsen_baer`, an isomorphism from the mapping class group with
+orientation-reversing classes onto `Out(π₁)`, in which the orientation-preserving classes have
+index two. For `n ≥ 1` in the hyperbolic range, glue
+a one-holed torus to each boundary circle of `Σ_{g,n,0}`; the closed surface `S` of genus `g + n`
+has fundamental group the amalgam of `π₁(Σ_{g,n,0}, x)` with the `n` handle groups along the
+`⟨cⱼ⟩` (FreeGroupsAndLimitGroups §6.3). An automorphism `φ` with `φ(cⱼ) = hⱼ cⱼ hⱼ⁻¹` extends to
+`π₁(S, x)` by conjugation by `hⱼ` on the `j`-th handle group, and `dehn_nielsen_baer` realizes the
+extension by a homeomorphism of `S`. It carries each `cⱼ` to a homotopic, hence isotopic, curve
+(TeichmullerGeometry §0.0d), so after an isotopy it preserves every `cⱼ` and, carrying
+`π₁(Σ_{g,n,0}, x)` to a conjugate of itself, preserves `Σ_{g,n,0}`; it preserves orientation, since
+an orientation-reversing one would carry `cⱼ` to a conjugate of `cⱼ⁻¹`, and no nontrivial element of
+`π₁(S, x)` is conjugate to its inverse (MordellLawrenceVenkatesh §5.16, as in the bullet below). On
+`π₁(Σ_{g,n,0}, x)` its action differs from `φ` by conjugation by an element normalizing this
+vertex group, which is not cyclic and so is its own normalizer (FreeGroupsAndLimitGroups §4.7);
+restricted to the interior `Σ_{g,n}` and moved back to `x` by a push, it is a class of
+`PMod(g, n + 1)` inducing `φ`. For `(g, n) = (0, 0), (0, 1), (0, 2)` the group is trivial or `ℤ` and
+`pureMappingClassAut g n` is trivial. *Needs:* §0.1; MordellLawrenceVenkatesh §§5.9, 5.16, 5.19;
+TeichmullerGeometry §§0.0d, 5.4; FreeGroupsAndLimitGroups §§4.7, 6.3; GeometricTopology §§1.7.2,
+11.2.1; Mathlib `MulAut`.
 
 - `pureMappingClassAut g n` contains every inner automorphism, and for `n = 0` it is the whole
   automorphism group.
@@ -336,8 +363,9 @@ coordinates).
 
 ### Dependencies
 
-MordellLawrenceVenkatesh §§5.1, 5.4, 5.9–5.12, 5.19–5.21; GeometricTopology §§1.7.2, 11.2.1;
-FreeGroupsAndLimitGroups §§6.1–6.2; AlgebraicTopology Layers 1 and 6; Mathlib `PresentedGroup`,
+MordellLawrenceVenkatesh §§5.1, 5.4, 5.9–5.12, 5.16, 5.19–5.21; GeometricTopology §§1.7.2, 11.2.1;
+TeichmullerGeometry §§0.0d, 5.4; FreeGroupsAndLimitGroups §§4.7, 6.1–6.3; AlgebraicTopology
+Layers 1 and 6; Mathlib `PresentedGroup`,
 `FreeGroup`, `MulAut`, `FundamentalGroup`; Tau Ceti `IsFreeGroup.commute_iff_exists_common_zpow`.
 
 ## Layer 1: group cohomology, central isogenies, Artinian deformations and representation schemes
@@ -571,11 +599,12 @@ to an MCG-finite representation of a fibre.
 Define `HasFiniteConjugacyOrbitUnder H ρ`, for a group `G`, a subgroup `H` of `MulAut G` and
 `ρ : G → GL_r(ℂ)`: there is a finite set `S` of homomorphisms such that for every `φ ∈ H` the
 pullback `ρ ∘ φ` is `GL_r(ℂ)`-conjugate to some `σ ∈ S`. A representation `ρ` of `π₁(Σ_{g,n}, x)` is
-*MCG-finite* when this holds for the image of the based action of `PMod(g, n + 1)` (§0.2); since
-inner automorphisms change `ρ` only by conjugation, this is finiteness of the orbit of the actual
-conjugacy class of `ρ` under the outer action of `PMod(g, n)`, and, as `PMod(g, n)` has index `n!`
-in `Mod(g, n)`, under `Mod(g, n)` (Landesman–Litt, Definition 1.1.1, p. 2). No semisimplification is
-taken. *Needs:* §0.2; Mathlib `MulAut`, `Matrix.GeneralLinearGroup`.
+*MCG-finite* when this holds for the image of the based action of `PMod(g, n + 1)` (§0.2). By the
+bullets below this is Landesman–Litt's definition, finiteness of the orbit of the actual conjugacy
+class of `ρ` under `Mod(g, n)` (Definition 1.1.1, p. 2), and it depends on none of the base point,
+the model of `Σ_{g,n}` and the presentation. No semisimplification is taken. *Needs:* §§0.1, 0.2;
+MordellLawrenceVenkatesh §§5.4, 5.9, 5.17; Mathlib `MulAut`, `Matrix.GeneralLinearGroup`,
+`FundamentalGroup.fundamentalGroupMulEquivOfPath`.
 
 - `HasFiniteConjugacyOrbitUnder H ρ` holds if and only if the stabilizer in `H` of the conjugacy
   class of `ρ` has finite index in `H`.
@@ -583,14 +612,42 @@ taken. *Needs:* §0.2; Mathlib `MulAut`, `Matrix.GeneralLinearGroup`.
   from a subgroup of finite index in `H` back to `H`.
 - Precomposition with conjugation by `x` is conjugation of `ρ` by `ρ(x)`, so the predicate for `H`
   and for `H` together with the inner automorphisms agree.
-- For an automorphism `ψ` of `G` normalizing `H`, `ρ` has the property exactly when `ρ ∘ ψ` has it.
+- It is transported along isomorphisms: for `θ : G ≃ G'` and `H' = θ H θ⁻¹`, `ρ` has the property
+  for `H` exactly when `ρ ∘ θ⁻¹` has it for `H'`. In particular, for an automorphism `ψ` of `G`
+  normalizing `H`, `ρ` has the property exactly when `ρ ∘ ψ` has it.
 - If `ρ` has the property then so do `det ∘ ρ` and every exterior power of `ρ`.
+- `ρ` is MCG-finite exactly when the conjugacy class of `ρ` has finite orbit under the outer action
+  of `PMod(g, n)` (§0.2): forgetting `x` maps `PMod(g, n + 1)` onto `PMod(g, n)`
+  (MordellLawrenceVenkatesh §5.9), and the based action of a class represents the outer class of
+  its image.
+- `ρ` is MCG-finite exactly when the conjugacy class of `ρ` has finite orbit under `Mod(g, n)`,
+  acting on conjugacy classes of homomorphisms through `Out(π₁(Σ_{g,n}, x))`
+  (MordellLawrenceVenkatesh §5.9). A class of `Mod(g, n)` lifts along `Forget` to a class of
+  `Mod(Σ_{g,n}*)` fixing `x`, whose based action represents its outer class, so the orbit is the
+  orbit under the image of `Mod(Σ_{g,n}*)` in `MulAut(π₁(Σ_{g,n}, x))`; that image contains the
+  image of `PMod(g, n + 1)`, the kernel of the permutation action on the `n` punctures, with index
+  at most `n!`.
+- It depends neither on the base point nor on the model. For a path `δ` from `x` to `y`, `ρ` is
+  MCG-finite exactly when `ρ ∘ c_δ⁻¹` is, where
+  `c_δ = FundamentalGroup.fundamentalGroupMulEquivOfPath δ`:
+  lifting `δ` along the evaluation bundle of MordellLawrenceVenkatesh §5.17 gives an isotopy from
+  the identity whose end map `h` has `h(x) = y` and `h_* = c_δ`, and conjugation by `h` carries the
+  classes fixing `x` and each puncture onto those fixing `y` and each puncture. For a homeomorphism
+  `F` from `Σ_{g,n}` to another surface of type `(g, 0, n)` (MordellLawrenceVenkatesh §5.4),
+  conjugation by `F` does the same, so `ρ` is MCG-finite exactly when `ρ ∘ F_*⁻¹` is. Both follow
+  from the transport bullet.
+- Through an isomorphism `θ : surfaceGroup g n ≃ π₁(Σ_{g,n}, x)` of §0.1, `ρ` is MCG-finite exactly
+  when `HasFiniteConjugacyOrbitUnder (pureMappingClassAut g n) (ρ ∘ θ)` holds: conjugation by `θ`
+  carries the image of `PMod(g, n + 1)` onto a subgroup of `pureMappingClassAut g n` of index at most
+  two (§0.2), and the transport and finite-index bullets apply. This is the form in which
+  `Suggested.lean` states the headline theorems.
 
 **Checks.**
 
 - The trivial representation, including rank zero, has a one-element orbit.
-- A representation with finite image of a finitely generated group has finite orbit: there are
-  finitely many homomorphisms into its image, and finitely many conjugacy classes of embeddings.
+- A representation `ρ` with finite image of a finitely generated group `G` has finite orbit under
+  every `H`: each `ρ ∘ φ` takes values in the finite group `ρ(G)`, and `G` has only finitely many
+  homomorphisms to it, so `S` can be those, with no conjugation.
 - On a closed genus-two surface let `f : π₁ → ℂ` be the homomorphism with `f(a₁) = 1` and
   `f(b₁) = f(a₂) = f(b₂) = 0`. The unipotent representation `γ ↦ [[1, f(γ)], [0, 1]]` has conjugacy
   class determined by the line of `f`, and `Sp₄(ℤ)` moves this line to infinitely many lines, so
@@ -734,9 +791,10 @@ supplies actual intertwiners for the finite-index image of `π₁(M)` in `PMod(g
 
 ### Dependencies
 
-Layer 0; SchemeAndStackFoundations §4.15; TeichmullerGeometry §§2.4, 3.1–3.3, 5.1, 5.2, 5.6;
-ComplexCurveModuli D0.4, D0.5, D5; ComplexComparisonPartII §§C5.2, C6.0, C6.2; DGFloer Layer 1 item
-2; Tau Ceti `TauCeti.LocalCoefficientSystem`,
+Layer 0; MordellLawrenceVenkatesh §§5.4, 5.9, 5.17; SchemeAndStackFoundations §4.15;
+TeichmullerGeometry §§2.4, 3.1–3.3, 5.1, 5.2, 5.6; ComplexCurveModuli D0.4, D0.5, D5;
+ComplexComparisonPartII §§C5.2, C6.0, C6.2; DGFloer Layer 1 item 2; Mathlib
+`FundamentalGroup.fundamentalGroupMulEquivOfPath`; Tau Ceti `TauCeti.LocalCoefficientSystem`,
 `TauCeti.TopCat.mem_serreFibrations_of_exists_trivialization`.
 
 ## Layer 3: projective realization
@@ -1246,10 +1304,10 @@ Identifying `Ψ` with the fibre `Ē(0)`, `F_lim` is obtained from the fibre at `
 Hodge bundles by passing to the graded pieces of the filtration of `Ψ` by residue eigenvalues: its
 part in the generalized eigenspace of the residue for the eigenvalue `α` consists of the components
 there of the vectors of the fibre whose components in the generalized eigenspaces for eigenvalues
-`< α` vanish (SS22 line 413). It equals that fibre when `T` is unipotent, and differs from it
-in general (Checks). For rationally polarized variations with quasi-unipotent monodromy this is the
-setting of MixedHodgeModulesAndIrregularHodgeTheory §3.2, which this statement extends without
-passing to a cover.
+`< α` vanish (Sabbah–Schnell, §24, p. 10, SS22 line 413). It equals that fibre when `T` is
+unipotent, and differs from it in general (Checks). For rationally polarized variations with
+quasi-unipotent monodromy this is the setting of MixedHodgeModulesAndIrregularHodgeTheory §3.2,
+which this statement extends without passing to a cover.
 
 The real variation of mixed Hodge structure is *admissible* when, along every holomorphic map from
 a disc sending the punctured disc into the base, the pulled-back variation satisfies: (a) its Hodge
@@ -1268,10 +1326,11 @@ graded-polarizable real variation of mixed Hodge structure on `M` with weights i
 extension and `R¹π°_* V ⊗ O_M ≅ R¹π_*(E → E ⊗ Ω¹_{C/M}(log D))` (Landesman–Litt, Theorem 4.1.1,
 pp. 24–25; Timmerscheidt, Theorem 7.1; Schnell, Theorem 21.1, Sch19 line 1493). Landesman–Litt
 deduce graded-polarizability and admissibility from Saito's mixed Hodge modules through Schnell's
-Theorem 21.1, and that theory is stated for quasi-unipotent local monodromy (Sch19 line 520); the route
-covers the `V` whose local monodromies along the boundary divisors of a smooth compactification of
-`C°` are quasi-unipotent, and for general `V` admissibility is the condition defined above with the
-limit theorem of this section (References, *Corrections to the sources*). For an arbitrary
+Theorem 21.1, and that theory is stated for quasi-unipotent local monodromy (Schnell, §9, p. 11,
+Sch19 line 520); the route covers the `V` whose local monodromies along the boundary divisors of
+a smooth compactification of `C°` are quasi-unipotent, and for general `V` admissibility is the
+condition defined above with the limit theorem of this section (References, *Corrections to the
+sources*). For an arbitrary
 unitary `V`, write `H_V = R¹π°_* V ⊗ O_M`; the flat positive Hermitian form identifies `V^∨` with
 the complex conjugate local system `V̄`, and so gives a complex-antilinear isomorphism
 `c_V : H_V → H_{V^∨}`. Let `F̄¹ ⊂ H_V` be the preimage of `F¹H_{V^∨}` under `c_V`, the conjugate
@@ -1463,7 +1522,7 @@ its irreducible constituents has finite-order determinant; these form Drinfeld's
   (Drinfeld 2018, Proposition 1.3.1 and Theorem 5.1.1(i), Dri18 lines 175 and 1168; Drinfeld 2012,
   §1.2, Dri12 lines 33–42; Klevdal–Patrikis, proof of Proposition 6.2(2), KP20 line 728). On curves
   this is gap:curve-companions; in higher dimension it follows from the curve case by a Bertini
-  argument (Dri12 line 41).
+  argument (Drinfeld 2012, §1.2, Dri12 line 41).
 - *Companions.* For every non-archimedean `λ′ ∤ p` and every determinant-finite `λ`-adic `E` there
   is a determinant-finite `λ′`-adic `E′` with the same Frobenius characteristic polynomials, unique
   up to isomorphism and irreducible exactly when `E` is (Drinfeld 2018, Theorem 5.1.1(ii) and Remark 5.1.2,
@@ -1664,8 +1723,10 @@ with `φ ∘ γ = c_h ∘ φ` for some `h ∈ H`, and `compactPrymCohomology φ`
 group to a power of a peripheral loop. When `H` is finite and `φ` is surjective,
 `compactPrymCohomology φ` is `H¹(Σ_{g′}, ℂ)` of the compactified cover, since those elements are
 exactly the powers of the loops around the punctures of the cover, and the image of `Γ` in `Aut(π₁)`
-lies in `prymStabilizer φ` for `n = b + p` (§§0.2, 0.4); for an infinite quotient there is no
-compactified cover of finite type and the subspace is only the algebraic object. The surface group
+is a subgroup of `prymStabilizer φ` of index at most two for `n = b + p`, the image of
+`PMod(g, n + 1)` having index at most two in `pureMappingClassAut g n` (§§0.2, 0.4); for an
+infinite quotient there is no compactified cover of finite type and the subspace is only the
+algebraic object. The surface group
 acts on `Hom(ker φ, ℂ)` by conjugation, `(x · f)(k) = f(x⁻¹ k x)` (Mathlib's `MulAut.conjNormal`),
 and `ker φ` acts trivially because `f` is additive on `ker φ`; for finite `H` and surjective `φ`
 this is, through the identification of `H` with the deck group, the left action of the deck group on
@@ -1814,9 +1875,10 @@ apply §5.6 to `U_σ`. In the algebraic form of the Lean file, `higherPrym_rank_
 representation `σ` of `H` on `ℂ^d`, a subgroup `Γ′ ≤ prymStabilizer φ` of finite relative index and
 a nonzero subspace `W ≤ prymIsotypic φ σ` such that for `γ ∈ Γ′` and `f ∈ W` the class
 `k′ ↦ f(γ⁻¹ k′)` again lies in `W`, one has `2g ≤ dim W + 2d`. This is the statement for the open
-cohomology `Hom(ker φ, ℂ) = H¹(Σ_{g′,0,n′}, ℂ)` with `b = 0` and `p = n`; it follows from the
-topological form because the image of `Γ` lies in `prymStabilizer φ` (§6.1), so `Γ′ ∩ Γ` has finite
-index in `Γ` and `W` is `Γ′ ∩ Γ`-stable. Its case of a line `W = ℂ f` with `f` in
+cohomology `Hom(ker φ, ℂ) = H¹(Σ_{g′,0,n′}, ℂ)` with `b = 0` and `p = n`; it is equivalent to the
+topological form because the image of `Γ` has finite index in `prymStabilizer φ` (§6.1): `Γ′ ∩ Γ`
+has finite index in `Γ` and `W` is `Γ′ ∩ Γ`-stable, and conversely the image of a finite-index
+subgroup of `Γ` has finite index in `prymStabilizer φ`. Its case of a line `W = ℂ f` with `f` in
 `compactPrymCohomology φ` is §6.8, through the label-preserving duality of §6.1. *Needs:* §§5.6,
 6.1, 6.3, 6.4.
 
@@ -1849,7 +1911,7 @@ irreducible representation of `H` on `Fin d → ℂ` has `d < g`, a surjection
 element of `compactPrymCohomology φ` fixed by `Γ′`, that element is zero. Every finite-dimensional
 irreducible complex representation of `H` is isomorphic to one on some `Fin d → ℂ`, and every
 irreducible one is finite-dimensional since `H` is finite, so the hypothesis is the one of the
-source; the algebraic form follows from the topological one as in §6.7. *Needs:* §§6.1, 6.2, 6.5;
+source; the algebraic form is equivalent to the topological one as in §6.7. *Needs:* §§6.1, 6.2, 6.5;
 RepresentationTheory/CharacterTheory Layer 2; Mathlib `Representation.IsIrreducible`;
 AlgebraicTopology Layer 6.
 
@@ -1870,11 +1932,11 @@ Theorem 1.4.1, pp. 4 and 36; `TauCeti.sum_characterDegree_sq_eq_card`); in the L
 from `putmanWieland_of_irreducible_dim_lt` and the degree-square identity. In the algebraic form of
 the Lean file, `putmanWieland_of_card_lt`: for all `g, n ≥ 0`, a finite group `H` with `#H < g²`, a surjection
 `φ : surfaceGroup g n → H`, a subgroup `Γ′ ≤ prymStabilizer φ` of finite relative index and an
-element of `compactPrymCohomology φ` fixed by `Γ′`, that element is zero. It follows from the
-topological form: the image of `Γ` lies in `prymStabilizer φ` (§6.1), so `Γ′ ∩ Γ` has finite index
-in `Γ`, and orientation-preserving Poincaré duality turns a fixed class into a fixed vector of
-`V_K`. *Needs:* §§6.1, 6.6; Tau Ceti `TauCeti.sum_characterDegree_sq_eq_card`; AlgebraicTopology
-Layer 6.
+element of `compactPrymCohomology φ` fixed by `Γ′`, that element is zero. It is equivalent to the
+topological form: the image of `Γ` has finite index in `prymStabilizer φ` (§6.1), so finite-index
+subgroups of the two correspond, and orientation-preserving Poincaré duality turns a fixed class
+into a fixed vector of `V_K`. *Needs:* §§6.1, 6.6; Tau Ceti
+`TauCeti.sum_characterDegree_sq_eq_card`; AlgebraicTopology Layer 6.
 
 **Checks.**
 
@@ -2220,9 +2282,9 @@ Induct on the length of the socle filtration (§9.1): the socle and the quotient
 §8.3 and induction, and §9.2 splits the extension. In the algebraic form of the Lean file,
 `mcgFinite_finite_image`: for `ρ : surfaceGroup g n → GL_r(ℂ)` with
 `HasFiniteConjugacyOrbitUnder (pureMappingClassAut g n) ρ` and `r² < g + 1`, the image is finite;
-it follows because the image of the based action of `PMod(g, n + 1)` lies in
-`pureMappingClassAut g n` (§0.2), so a finite orbit under the latter is a finite orbit under the
-former. *Needs:* §§0.2, 8.3, 9.1, 9.2, 3.3.
+it is equivalent to the topological form, since MCG-finiteness is finiteness of the orbit under
+`pureMappingClassAut g n` through the standard presentation (§2.1). *Needs:* §§2.1, 8.3, 9.1, 9.2,
+3.3.
 
 **Checks.**
 
@@ -2722,8 +2784,8 @@ of surfaces of genus `≥ 2` with any number of punctures). These two classifica
 part of this target. For `g = 2, 3` this goes beyond §9.3, which needs `r² < g + 1`. In the algebraic
 form of the Lean file, `rankTwo_mcgFinite_finite_image`: for `g ≥ 2`, all `n ≥ 0` and
 `ρ : surfaceGroup g n → GL₂(ℂ)` with `HasFiniteConjugacyOrbitUnder (pureMappingClassAut g n) ρ`, the
-image is finite; it follows from the topological form as §9.3 does, since the image of the based
-action of `PMod(g, n + 1)` lies in `pureMappingClassAut g n` (§0.2). *Needs:* §§0.2, 2.1, 3.1, 3.3.
+image is finite; it is equivalent to the topological form as for §9.3 (§2.1). *Needs:* §§2.1, 3.1,
+3.3.
 
 **Checks.**
 
@@ -2852,8 +2914,10 @@ arithmetic representations, and the examples of Layer 12.
 It also owns the following foundational targets:
 
 - the identification of the presented surface group with the fundamental group of a surface with
-  punctures and boundary, the algebraic pure mapping class group, the comparison of the twist and
-  push conventions of its suppliers with the positive twist used here, the pure form of the Birman
+  punctures and boundary, the algebraic pure mapping class group, the Dehn–Nielsen–Baer theorem for
+  punctured surfaces in the form that the image of `PMod(g, n + 1)` has index at most two in it, the
+  comparison of the twist and push conventions of its suppliers with the positive twist used here,
+  the pure form of the Birman
   exact sequence, capping all boundary circles at once with its based actions, the finiteness of
   the abelianization of mapping class groups in genus at least two, Nielsen generation of
   `Aut(F_N)`, and quasi-unipotence of multitwists in finite-index subgroups (Layers 0, 7 and 9);
@@ -2884,12 +2948,14 @@ It also owns the following foundational targets:
 
 - the presented surface group `⟨a₁, b₁, …, a_g, b_g, p₁, …, p_m | ∏ [aᵢ, bᵢ] ∏ pⱼ⟩` with its
   peripheral tuple, the universal property of its presentation, its abelianization and its
-  freeness for `m ≥ 1`: FreeGroupsAndLimitGroups §§6.1–6.2 (`OrientableSurfaceGroup`,
-  `isFreeGroup_orientable`), with §6.1a for the comparison with polygonal surface models. The Lean
+  freeness for `m ≥ 1`: FreeGroupsAndLimitGroups §§6.1–6.2 (`SurfaceGroup.orientable`, declared there
+  as `OrientableSurfaceGroup`, and `isFreeGroup_orientable`), with §6.1a for the comparison with
+  polygonal surface models. The Lean
   carrier `surfaceGroup g n` of this roadmap is `OrientableSurfaceGroup g n` transported along the
   inversion of the handle generators `aᵢ ↦ aᵢ⁻¹`, `bᵢ ↦ bᵢ⁻¹`, `pⱼ ↦ cⱼ`, which carries the
   commutator `x⁻¹y⁻¹xy` of that roadmap to the commutator `xyx⁻¹y⁻¹` used here; it is declared in
-  `Suggested.lean` only because that file cannot import a roadmap module;
+  `Suggested.lean` because that file cannot import a roadmap module and the pinned Tau Ceti has no
+  presented surface group;
 - Jordan's theorem on finite subgroups of `GL_r(K)` in characteristic zero and its constant
   `jordanBound r`: FiniteGroupInvariants §10.5;
 - compact smooth surfaces with boundary, their classification and genus, their mapping class
@@ -2905,9 +2971,10 @@ It also owns the following foundational targets:
   (§§5.1, 5.4, 5.7, 5.9–5.13, 5.15–5.17, 5.19–5.21). Its positive twist turns left and is the
   inverse of the twist used here; §0.3 compares the two;
 - Teichmüller space of closed surfaces of genus `≥ 2`, the mapping-class action and the
-  Dehn–Nielsen–Baer theorem for closed surfaces: TeichmullerGeometry Layer 2 (§2.4), Layer 3
-  (§§3.1–3.3) and Layer 5 (§§5.1, 5.2, 5.6). Layer 2's uniformization differs in covering punctured
-  surfaces and the analytic moduli stack;
+  Dehn–Nielsen–Baer theorem for closed surfaces, with Epstein's theorem that homotopic curves are
+  isotopic: TeichmullerGeometry Layer 0 (§0.0d), Layer 2 (§2.4), Layer 3 (§§3.1–3.3) and Layer 5
+  (§§5.1, 5.2, 5.4, 5.6). Layer 2's uniformization differs in covering punctured surfaces and the
+  analytic moduli stack, and §0.2 deduces the punctured Dehn–Nielsen–Baer theorem from the closed one;
 - the algebraic moduli stack `M̄_{g,n}`, its open substack `M_{g,n}`, the forgetful morphism, the
   boundary normal-crossings structure and the level covers: SchemeAndStackFoundations §4.15;
 - the analytic stable pointed chart groupoid, its universal curve and the Orbifolds adapter:
@@ -2964,6 +3031,13 @@ The five-term sequence with transgression for profinite groups and closed normal
 ProfiniteCohomology Layer 5, and the Hochschild–Serre spectral sequence for profinite groups is
 NoncommutativeAndEquivariantIwasawa §F.3; Layer 1's §1.1 differs in treating arbitrary discrete
 groups, such as surface groups and mapping class groups, which are not profinite.
+Representation schemes and affine quotients for an arbitrary affine group scheme, and the outer
+action of the extended mapping class group on the fundamental group of every path-connected space,
+are SurfaceGroupCharacterVarieties §§3.3, 4.1 and 7.2. That roadmap consumes this one and proves the
+comparisons: §1.4's `R_r(Γ)` and `M_r(Γ)` are its representation scheme and affine quotient for
+`GL_r` over `ℂ` (its §§4.1, 7.2), §0.2's outer action of `PMod(g, n)` is the restriction of its
+outer action (its §3.3), and §2.1's MCG-finiteness is finiteness of the orbit under its action of
+`Mod(g, n)` (its §3.5).
 The inflation–restriction sequence in all positive degrees, the cochain construction of the
 transgression from a lift for arbitrary topological groups, projective representations of arbitrary
 monoids with their factor sets and linearizing central extensions, the socle, unitary semisimplicity
@@ -2982,7 +3056,9 @@ Conjecture 10.2.8 are not targets of this roadmap.
 
 - `FundamentalGroup` with `FundamentalGroup.mul_def` (`p * q = q.trans p`), `IsCoveringMap` and
   path lifting; the fundamental-group conventions of every layer are checked against
-  `FundamentalGroup.mul_def`.
+  `FundamentalGroup.mul_def`. `FundamentalGroup.fundamentalGroupMulEquivOfPath`
+  (`Mathlib/AlgebraicTopology/FundamentalGroupoid/FundamentalGroup.lean`): the change-of-base-point
+  isomorphism along a path, conjugation by its class in the fundamental groupoid, used in §2.1.
 - `FreeGroup`, `FreeGroup.lift` (`Mathlib/GroupTheory/FreeGroup/Basic.lean`): the free group and
   the equivalence between generator assignments and homomorphisms, used for the Nielsen-tuple
   dictionary of Layer 9. `PresentedGroup` (`Mathlib/GroupTheory/PresentedGroup.lean`): the carrier
@@ -3067,17 +3143,22 @@ Conjecture 10.2.8 are not targets of this roadmap.
 
 ### From TauCetiRoadmap.FreeGroupsAndLimitGroups
 
-§6.1 (`OrientableSurfaceGroup g m`, the presented group on `a₁, b₁, …, a_g, b_g, p₁, …, p_m` with
-the single relator `∏ [aᵢ, bᵢ] ∏ pⱼ`, commutator `x⁻¹y⁻¹xy`; the peripheral tuple
+§6.1 (`SurfaceGroup.orientable`, the orientable surface group `S⁺(g, m)`, declared in that roadmap's
+Lean file as `OrientableSurfaceGroup g m`: the presented group on `a₁, b₁, …, a_g, b_g, p₁, …, p_m`
+with the single relator `∏ [aᵢ, bᵢ] ∏ pⱼ`, commutator `x⁻¹y⁻¹xy`; the peripheral tuple
 `SurfaceGroup.peripheral`; `SurfaceGroup.lift`, homomorphisms out of it as tuples satisfying the
 relator; `SurfaceGroup.abelianization`, free abelian of rank `2g` for `m = 0` and `2g + m − 1`
-for `m ≥ 1`), §6.1a (comparison with polygonal surface models and their boundary traversals) and
+for `m ≥ 1`), §6.1a (comparison with polygonal surface models and their boundary traversals),
 §6.2 (`isFreeGroup_orientable`: for `m ≥ 1` the group is free on `a₁, …, b_g, p₁, …, p_{m−1}` and
 `p_m` is the inverse of the product of the others; for `m = 0` the closed orientable group is not
-free when `g ≥ 1`, that is `χ ≤ 0`, while for `g = 0` it is the trivial group, free of rank zero).
-Layer 0 consumes
-these through the generator inversion of *Conventions*, which is an isomorphism
-`OrientableSurfaceGroup g n ≃* surfaceGroup g n` matching `pⱼ` with `cⱼ`.
+free when `g ≥ 1`, that is `χ ≤ 0`, while for `g = 0` it is the trivial group, free of rank zero),
+§6.3 (gluing: `S⁺(g₁ + g₂, m₁ + m₂)` is the amalgam of `S⁺(g₁, m₁ + 1)` and `S⁺(g₂, m₂ + 1)` along
+their last boundary elements, with inverse orientation, when both boundary maps from `ℤ` are
+injective, that is when neither piece is a disc) and §4.7 (the Bass–Serre tree of a graph
+of groups, with vertex and edge stabilizers the conjugates of the vertex and edge groups). Layer 0
+consumes these through the generator inversion of *Conventions*, which is an isomorphism
+`OrientableSurfaceGroup g n ≃* surfaceGroup g n` matching `pⱼ` with `cⱼ`, and uses §§4.7 and 6.3
+in the Dehn–Nielsen–Baer theorem of §0.2.
 
 ### From TauCetiRoadmap.FiniteGroupInvariants
 
@@ -3136,9 +3217,13 @@ that comparison.
 
 Layer 2 (§2.4: the marked deformation atlas and the dimension `3g − 3`), Layer 3 (§§3.1–3.3: the
 mapping class groups, their action on marked structures, proper discontinuity and the moduli
-groupoid) and Layer 5 (§5.1 asphericity of closed surfaces of genus `≥ 2`, §5.2 Dehn–Nielsen–Baer,
-§5.6 finite stabilizers), for closed surfaces of genus `g ≥ 2`. Layer 2 uses them as the closed
-case of its punctured uniformization theorem.
+groupoid) and Layer 5 (§5.1 asphericity of closed surfaces of genus `≥ 2`, §5.2 Dehn–Nielsen–Baer
+realization, §5.6 finite stabilizers), for closed surfaces of genus `g ≥ 2`. Layer 2 uses them as
+the closed case of its punctured uniformization theorem. §0.2 uses §5.4's `dehn_nielsen_baer`
+(for a closed orientable surface of genus at least one and a base point, an isomorphism from the
+mapping class group with orientation-reversing classes onto the outer automorphism group of `π₁`,
+restricting to the orientation-preserving classes and `Out⁺`) and §0.0d's two-sided curve theorem
+(homotopic two-sided simple closed curves bounding no disc are ambient isotopic, Epstein's theorem).
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 

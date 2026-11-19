@@ -13,9 +13,11 @@ itself), finiteness of an orbit of conjugacy classes (`HasFiniteConjugacyOrbitUn
 higher Prym representations, the stabiliser of a finite quotient (`prymStabilizer`), the cohomology
 of the compactified cover (`compactPrymCohomology`) and the isotypic parts of the cohomology of the
 cover for the deck-group action (`prymIsotypic`). The image of the topological pure mapping class
-group in the automorphism group of the surface group lies in `pureMappingClassAut`, so each
-statement below is implied by the corresponding topological statement of the README (README
-Layer 0, §0.2).
+group `PMod(g, n + 1)` in the automorphism group of the surface group is a subgroup of
+`pureMappingClassAut` of index at most two, by the Dehn–Nielsen–Baer theorem (README §0.2): an
+orbit is finite under one group exactly when it is finite under the other, the topological
+stabiliser of a finite quotient has finite index in `prymStabilizer`, and each statement below is
+equivalent to the corresponding topological statement of the README (README §§2.1 and 6.1).
 
 Stated here:
 
@@ -96,7 +98,8 @@ def peripheralLoop {g n : ℕ} (j : Fin n) : surfaceGroup g n :=
 peripheral loop to a conjugate of itself. Every orientation-preserving homeomorphism fixing a base
 point and each puncture induces such an automorphism, so the based action of the pure mapping
 class group `PMod(g, n + 1)` lands here; by the Dehn–Nielsen–Baer theorem the image is all of it
-up to orientation (Farb–Margalit, §8.2). For `n = 0` this is the whole automorphism group. -/
+for `n ≥ 1` and has index two for `n = 0` and `g ≥ 1` (README §0.2; Farb–Margalit, §8.2). For
+`n = 0` this is the whole automorphism group. -/
 def pureMappingClassAut (g n : ℕ) : Subgroup (MulAut (surfaceGroup g n)) where
   carrier := {φ | ∀ j : Fin n, ∃ h : surfaceGroup g n,
     φ (peripheralLoop j) = h * peripheralLoop j * h⁻¹}
@@ -126,7 +129,8 @@ def pureMappingClassAut (g n : ℕ) : Subgroup (MulAut (surfaceGroup g n)) where
 automorphisms of `G`: finitely many homomorphisms represent, up to actual `GL_r(ℂ)`-conjugation,
 every pullback `ρ ∘ φ` with `φ ∈ H`. No semisimplification is taken. Inner automorphisms change
 `ρ` only by conjugation, so for `H` containing them this is finiteness of the orbit under the
-outer action (Landesman–Litt, Definition 1.1.1). -/
+outer action (Landesman–Litt, Definition 1.1.1). For `pureMappingClassAut g n` on `surfaceGroup g n`
+it is MCG-finiteness (README §2.1). -/
 def HasFiniteConjugacyOrbitUnder {G : Type*} [Group G] {r : ℕ} (H : Subgroup (MulAut G))
     (ρ : G →* GL (Fin r) ℂ) : Prop :=
   ∃ S : Set (G →* GL (Fin r) ℂ), S.Finite ∧
