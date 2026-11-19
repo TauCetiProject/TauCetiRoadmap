@@ -1,22 +1,61 @@
 # Roadmap: modularity of elliptic curves over imaginary quadratic fields, Part II: all CM fields
 
-**Summary.** Every elliptic curve over every CM number field is modular, with the same automorphic
-conclusion as the parent roadmap EllipticCurveModularityImaginaryQuadratic: a weight-zero isobaric
-representation of `GL₂(𝔸_K)` with trivial central character realizing `H¹(E_K̄, Q̄_ℓ)` for every
-coefficient prime and coefficient isomorphism, full Weil–Deligne compatibility at every finite
-place away from the coefficient prime, agreement of every finite local factor, the expected complex
-parameters and `L(E/K, s) = L(π_E, s − 1/2)`. The parent proves this for imaginary quadratic `K` by a
-geometric prime switch: a family of cyclic covers connects a quadratic twist `B_t` of `E` to an
-auxiliary elliptic curve `A_t` through congruences at `p`, `3`, `p` over `F = K(μ₃ₚ)`. Over an
-arbitrary CM field two things change. First, `ζ₅ ∉ K` no longer forces `ζ₅ ∉ F`, so the auxiliary
-curve is made modular over `K` before the cyclotomic base change (Layers 1–2). Second, when
-`ζ₅ ∈ K` the residual image `SL₂(𝔽₅)` of `A_t[5]` is exactly the configuration excluded from the
-Caraiani–Newton lifting theorem; it is recovered by a lifting theorem at `p = 5` that keeps one
-*protected* place, where residual inertia is a nontrivial unipotent and the lift is unipotently
-ramified (Layers 3–6), together with a degeneration of the cover family that produces such a place
-on `A_t` (Layer 7). The endpoints are **Theorem 2.5** (all CM fields with `ζ₅ ∉ K`, using only the
-published lifting theorems imported through the parent), **Theorem 6.2** (the protected lifting
-theorem at five, for an arbitrary representation) and **Theorem 8.1** (all CM fields).
+**Summary.** An elliptic curve over a number field `K` is modular when its étale `H¹` is realized by
+the `ℓ`-adic Galois representations attached to an automorphic representation of `GL₂(𝔸_K)`. The
+parent roadmap EllipticCurveModularityImaginaryQuadratic proves every elliptic curve over an
+imaginary quadratic field modular, and EllipticCurveModularityTotallyReal treats totally real
+fields. This roadmap does the same over every CM field: a number field that is a totally imaginary
+quadratic extension of its maximal totally real subfield.
+
+The main theorem states that for every CM field `K` and every elliptic curve `E/K` there is an
+isobaric automorphic representation `π_E` of `GL₂(𝔸_K)`, of weight zero and trivial central
+character, realizing `H¹(E_K̄, Q̄_ℓ)` for every prime `ℓ` and every isomorphism `ι : Q̄_ℓ ≅ ℂ`. At
+each finite place not above `ℓ`, the Frobenius-semisimple Weil–Deligne representation of `E`,
+monodromy included, matches the local component of `π_E` under the local Langlands correspondence.
+Every finite local factor agrees, each complex place carries the expected parameter, and
+`L(E/K, s) = L(π_E, s − 1/2)`. `π_E` is cuspidal when `E` has no complex multiplication over `K̄`;
+otherwise it comes from algebraic Hecke characters, by automorphic induction or as an isobaric sum.
+
+Without complex multiplication, the proof follows the parent's geometric prime switch: a family of
+cyclic covers with parameter `t` connects a quadratic twist `B_t` of `E` to an auxiliary elliptic
+curve `A_t` through congruences modulo `p`, `3` and `p`, for a prime `p > 100`, over `F = K(μ₃ₚ)`.
+Once `A_t` is modular over `F`, three lifting steps make `B_t` modular, and descent to `K` and
+removal of the twist give `E`.
+
+Over a general CM field two things change. First, the parent makes `A_t` modular over `F` by the
+Caraiani–Newton residual criterion at five, which needs `ζ₅ ∉ F`. But `ζ₅ ∉ K` no longer implies it:
+the CM field `ℚ(ζ₁₅ + ζ₁₅⁻¹, i)` omits `ζ₅`, yet adjoining `ζ₃` gives `ℚ(ζ₆₀)`. Making `A_t` modular
+over `K` before base change to `F` proves the second main theorem: if `ζ₅ ∉ K`, every elliptic curve
+over `K` is modular, with all the conclusions above. Its only lifting inputs are Theorems 5.2 and
+6.1 of Caraiani–Newton.
+
+Second, when `ζ₅ ∈ K` the mod-five representation of `A_t` has image `SL₂(𝔽₅)`, exactly the case the
+Caraiani–Newton lifting theorem excludes. The difficulty is one class: for the trace-zero adjoint
+`ad⁰`, `H¹(SL₂(𝔽₅), ad⁰)` is one-dimensional, while `H¹(SL₂(k), ad⁰)` vanishes for every other
+finite field `k` of odd characteristic. In their patching argument the exclusion matters only when
+choosing Taylor–Wiles primes, auxiliary primes that kill a dual Selmer group. The remedy is a
+*protected* place: a place away from five where residual inertia is nontrivial and unipotent.
+Inflated to the Galois group, that class is ramified there, so the local condition excludes it.
+
+The third main theorem is this lifting theorem, for any continuous two-dimensional five-adic Galois
+representation `ρ` of a CM field. It keeps the hypotheses of Caraiani–Newton's Theorem 5.2 except
+their condition on the projective image; among them, `ρ` is potentially semistable above five with
+Hodge–Tate weights `0` and `1`, and its reduction comes from a cuspidal automorphic representation
+with matching types above five. The new case is a field containing `ζ₅` with a nonempty finite set
+of protected places. At each of them, every inertia element has characteristic polynomial `(X − 1)²`
+under `ρ`, the automorphic representation has Iwahori-fixed vectors, and both are unramified at the
+conjugate place. Then `ρ` comes from a cuspidal regular algebraic automorphic representation of
+`PGL₂` of weight zero.
+
+For `A_t`, a degeneration of type `I₃` of the cover family gives the protected place: for `t` near
+it at a place `v` above an auxiliary prime, `A_t` is split multiplicative at `v`, with minimal
+discriminant of valuation prime to five. After a switch at five keeping `v`, the lifting theorem and
+descent make `A_t` modular over `K`.
+
+The roadmap also builds on CrystallineLocalGlobalCompatibilityCM, whose patching it extends to
+protected places, and on PotentialAutomorphyInfrastructure for solvable base change and descent.
+Layers 1–2 run the switch over any CM field and settle the case `ζ₅ ∉ K`. Layers 3–6 build the
+lifting theorem at five, Layer 7 the protected auxiliary curve, and Layer 8 the main theorem.
 
 ## How to read the build
 
