@@ -651,9 +651,10 @@ ModCat Cᵒᵖ ⥤ ModCat C ⥤ ModuleCat R`. Comparisons in `Suggested.lean` st
   recovering `linearTor` at `D = SingleObj Rᵐᵒᵖ`, `E = SingleObj ℤ`. On one-sided modules (`E =
   SingleObj ℤ`), it agrees canonically with `(Bimod.tensorLeft M).leftDerived n` because slice
   evaluation `Mod D → AddCommGrpCat` is exact; comparing with `(Bimod.tensor.obj M).leftDerived n`
-  on `Bimod C E` additionally requires evaluation `N ↦ N(-, e)` to send `Bimod C E`-projectives to
-  `C`-flat modules (for example when every `Hom_E(e, e')` is `ℤ`-flat, failing at `D = C =
-  SingleObj ℤ`, `E = SingleObj 𝔽_p`, `M = N = 𝔽_p`).
+  on `Bimod C E` additionally requires `HasProjectiveResolutions (Bimod C E)` together with
+  evaluation `N ↦ N(-, e)` sending `Bimod C E`-projectives to `C`-flat modules (for example when
+  `EssentiallySmall.{w} E` and every `Hom_E(e, e')` is `ℤ`-flat, failing at `D = C = SingleObj ℤ`,
+  `E = SingleObj 𝔽_p`, `M = N = 𝔽_p`).
 - **Rings** (`TauCeti.BalancedTor R A n : ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ ModuleCat.{v} R`,
   `TauCeti.BalancedTor.leftModule`, `TauCeti.BalancedTor.rightModule`,
   `TauCeti.BalancedTor.outerSMulCommClass`): under `[Small.{v} A]`, derives
@@ -712,9 +713,15 @@ and the long exact sequence in the left-module variable.
 
       stable Hom(X, N) ≅ Tor_1(Tr X, N)
 
-  (stated across the `max u v` and `v` morphism universes via `≃+`, natural in `N ∈ Mod C` by
-  `stableHomEquivTorTranspose_comp` and contravariantly compatible with `stableTransposeEquivalence`
-  on `underline{mod C}` since `Tor_1` vanishes on `proj Cᵒᵖ` by 1.3). Following [Krause-Defect,
+  stated across the `max u v` and `v` morphism universes as `η_{f, N} =
+  stableHomEquivTorTranspose f N` (`≃+`), natural in `N ∈ Mod C` by
+  `stableHomEquivTorTranspose_comp`. In the first variable, `Tor_1(-, N)` vanishes on `proj Cᵒᵖ`
+  (1.3), so any stable morphism `u : X' ⟶ X` in `underline{mod C}` induces a well-defined map
+  `Tor_1(Tr u, N)` independent of the representative of `Tr u` (transported along
+  `stableTransposeEquivalenceObjIso`), and for `φ : X ⟶ N` in `underline{Mod C}` the contravariant
+  naturality square `η_{f', N}(u ≫ φ) = Tor_1(Tr u, N)(η_{f, N}(φ))` commutes by lifting a
+  representative of `u` to a morphism of presentations `(P₁' → P₀') → (P₁ → P₀)` in `proj C` and
+  applying functoriality of the snake-lemma comparison below. Following [Krause-Defect,
   pp. 268–269], choose `0 → ΩN → P → N → 0` with `P` projective and set `H(M) = coker(Hom(P₀, M) →
   Hom(P₁, M))`. The snake lemma identifies `stable Hom(X, N) = coker(Hom(X, P) → Hom(X, N))` with
   `ker(H(ΩN) → H(P))`; by 0.9, `H(M) ≅ Tr X ⊗_C M` naturally, and 1.3 identifies `ker(Tr X ⊗_C ΩN →
