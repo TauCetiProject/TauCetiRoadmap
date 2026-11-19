@@ -169,7 +169,8 @@ problems; the second bullet is proved here.)
   are the sets of models of `{∅}` and of the empty formula.
 - Finiteness of `V` is needed: for `V = ℕ` the set of assignments with finitely many true values
   is closed under majority, and every clause satisfied by all of them contains a positive
-  literal, so the constant assignment `true`, which is not in the set, is a model of every such
+  literal (the assignment that is true exactly on the variables of the clause is in the set, and
+  it falsifies a clause with no positive literal), so the constant assignment `true`, which is not in the set, is a model of every such
   clause.
 
 *Needs:* PropositionalSatisfiability 1.1.
@@ -290,7 +291,14 @@ width at most `w` uses only clauses of `S` of width at most `w`. Prove:
   refutation in sequence form of length at most `∑ i ≤ w, (2 n).choose i`, the number of
   clauses of width at most `w` in the variables of `F`;
 - by 1.1, for a formula `F` of width at most `2`, `Derivable F C` if and only if
-  `WidthDerivable F 2 C`.
+  `WidthDerivable F 2 C`;
+- subsumption with width and size: if every clause of `S` has a subset in `T` and
+  `WidthDerivable S w C`, then `WidthDerivable T w C'` for some `C' ⊆ C`; and if
+  `TreeDerivable S s C`, then `TreeDerivable T s' C'` for some `C' ⊆ C` and some `s' ≤ s`. The
+  induction is that of the subsumption lemma of PropositionalSatisfiability 3.1, whose statement
+  records neither bound: when the resolved literal is missing from the subset found for one
+  premise, that subset alone is kept, and otherwise the two subsets are resolved, which gives a
+  subset of `resolve C D l`.
 
 (Proved here.)
 
@@ -324,8 +332,8 @@ of `x` that falsifies its root gives a refutation tree of the restricted formula
 induction on `b` applies, while the other restricted formula has one variable less. A refutation
 of width `k − 1` of one restriction and one of width `k` of the other combine into one of width
 `max k (CNF.width F)` of `F` (Lemmas 3.1 and 3.2 there). The restriction of a derivation is a
-derivation from the restricted clauses up to passing to subsets of clauses, which the subsumption
-lemma of PropositionalSatisfiability 3.1 absorbs when the clause derived is `∅`.
+derivation from the restricted clauses up to passing to subsets of clauses, which the last bullet
+of 3.1, subsumption with width and size, absorbs when the clause derived is `∅`.
 
 **Checks.**
 
@@ -338,8 +346,8 @@ lemma of PropositionalSatisfiability 3.1 absorbs when the clause derived is `∅
   refutation width, which can be smaller than `CNF.width F`: for `F = {∅, {x, y, z}}` it reads
   `0 ≤ 3`.
 
-*Needs:* 3.1; PropositionalSatisfiability 1.2 (restriction), 3.1 (subsumption lemma); Mathlib
-`Nat.log`.
+*Needs:* 3.1 (with its subsumption bullet); PropositionalSatisfiability 1.2 (restriction);
+Mathlib `Nat.log`.
 
 ### 3.3 Width from length
 
@@ -374,8 +382,8 @@ every refutation of `F` in sequence form has length at least
 - The length may count repeated clauses: lengthening `L` weakens the conclusion, so the
   statement for lists follows from the statement for lists without repetition.
 
-*Needs:* 3.1; PropositionalSatisfiability 1.2 (restriction), 3.1 (`IsDerivation`, subsumption
-lemma), 3.3 (`exists_isDerivation_of_not_satisfiable`); Mathlib `Real.sqrt`, `Real.log`,
+*Needs:* 3.1 (with its subsumption bullet); PropositionalSatisfiability 1.2 (restriction), 3.1
+(`IsDerivation`), 3.3 (`exists_isDerivation_of_not_satisfiable`); Mathlib `Real.sqrt`, `Real.log`,
 `Nat.ceil`.
 
 ### 3.4 The pigeonhole formulas
@@ -627,8 +635,9 @@ head movements; the stacks of Mathlib's machines take the place of the tapes.
 **Checks.**
 
 - `L = ∅` is reducible by the constant function with value `encodeCNF [[]]`, and the language of
-  all strings by the constant function with value `encodeCNF []`; both depend on strings that are
-  not codes being outside `satLang`.
+  all strings by the constant function with value `encodeCNF []`; both use the injectivity of
+  `encodeCNF` (5.1): the code of `[[]]` is the code of no other presentation, and the empty
+  formula is satisfiable.
 - The certificate bound matters: without the bound `|w| ≤ p.eval |x|` in `InNP`, every language
   that is the projection of a language in P would qualify, and the number of certificate
   variables of the formula for `x` would not be bounded.
@@ -810,6 +819,14 @@ Relation to what Mathlib and the roadmaps of this repository contain:
   `Mathlib/Computability/Reduce.lean` is reducibility by computable functions without a time
   bound. The composition is therefore a target of this roadmap, the first bullet of 4.1 above,
   stated as a proposition about the types of Mathlib.
+- CertifiedPermutationComputation (an open roadmap, not on main), in its section 1.2, plans the
+  same two facts as data for its executable primitives: the bound of the output length by the
+  input length plus a constant multiple of the number of steps, and the composite machine with an
+  explicit time polynomial. The first bullet of 4.1 is their propositional form: it asserts only
+  that the type is nonempty and exposes no machine and no polynomial, so it follows from that
+  construction and does not ask for a second one. This roadmap does not depend on that one;
+  whichever of the two is built first, the composite machine is to be built once, as data, and
+  `nonempty_tm2ComputableInPolyTime_comp` obtained from it.
 - ComputabilityTheory treats computable and computably enumerable sets, Turing reducibility, the
   jump and priority constructions, without bounds on time; nothing of it is used above and
   nothing above is stated there.
@@ -901,5 +918,14 @@ the call-by-value lambda calculus and Turing machines are an intermediate proble
 - E. Ben-Sasson and A. Wigderson, *Short proofs are narrow: resolution made simple*, Electronic
   Colloquium on Computational Complexity, Report TR99-022, 1999, whose numbering is cited; the
   journal version is J. ACM **48** (2001), 149–169.
+- Named for attribution and not consulted: B. Aspvall, M. F. Plass and R. E. Tarjan, *A
+  linear-time algorithm for testing the truth of certain quantified Boolean formulas*, Inform.
+  Process. Lett. **8** (1979), 121–123; S. A. Cook, *The complexity of theorem-proving
+  procedures*, Proc. 3rd ACM Symposium on Theory of Computing, 1971, 151–158; A. Haken, *The
+  intractability of resolution*, Theoret. Comput. Sci. **39** (1985), 297–308; L. A. Levin,
+  *Universal sequential search problems*, Problemy Peredachi Informatsii **9** (1973), no. 3,
+  115–116; H. R. Lewis, *Renaming a set of clauses as a Horn set*, J. ACM **25** (1978), 134–135;
+  T. J. Schaefer, *The complexity of satisfiability problems*, Proc. 10th ACM Symposium on Theory
+  of Computing, 1978, 216–226.
 - H. Chen, *A rendezvous of logic, complexity, and algebra*, SIGACT News Logic Column 17, 2006;
   read as arXiv:cs/0611018v1.
