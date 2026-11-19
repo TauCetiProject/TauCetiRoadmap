@@ -31,8 +31,10 @@ The roadmap rests on Tau Ceti's scalar free probability: free independence, join
 distributions, laws of selfadjoint elements, convergence in moments, the lattice of noncrossing
 partitions with its Kreweras complement and Möbius function, free cumulants and the free central
 limit theorem; it adds the operator-algebraic, analytic and matrix layers on top.
-[RandomMatrices](../RandomMatrices/README.md) shares its bounded scalar core (its Layer 6) and
-supplies the spectral measures of matrices and the Gaussian ensembles used in the last layer.
+[RandomMatrices](../RandomMatrices/README.md) supplies its bounded scalar core (its Layer 6: the
+reduced-word free product with positive state, free convolution of compactly supported laws with its
+analytic transforms, the free Poisson limit and the Weingarten formula), which the layers here
+extend, and the spectral measures of matrices and the Gaussian ensembles used in the last layer.
 [CStarAlgebras](../CStarAlgebras/README.md), [VonNeumannAlgebras](../VonNeumannAlgebras/README.md)
 and [HilbertModules](../HilbertModules/README.md) supply the operator algebras, representations and
 Hilbert C*-modules on which the free products are built. FactorRigidity, Subfactors,
@@ -42,7 +44,8 @@ Layers 1 and 2 complete the algebraic and combinatorial foundation: bounded real
 distributions, plane trees, the geodesic characterization of noncrossing partitions, the general
 Möbius function and low-order cumulants. Layers 3 and 4 build reduced and full free products with
 prescribed states, and with prescribed conditional expectations over a common subalgebra. Layer 5
-builds free convolution and the formal and analytic transforms. Layers 6 and 7 develop the
+builds the free cumulants of laws and the formal transforms that compute free convolution. Layers 6
+and 7 develop the
 semicircle, free Poisson and infinitely divisible laws, compressions and R-diagonal elements.
 Layer 8 builds the Gaussian and Haar matrix models. This README is the roadmap; every target and
 Check is required. [Suggested.lean](Suggested.lean) is the acceptance test: it states the headline
@@ -54,13 +57,13 @@ lacks.
 Layer `k` is the former section `Fk` of this roadmap, and other roadmaps cite it as "FreeProbability
 F`k`"; its numbered sections `k.n` refine it. Layer 1 needs only Tau Ceti's scalar free probability
 and the von Neumann algebra suppliers. Layer 2 needs only Tau Ceti's noncrossing partitions and free
-cumulants. Layer 3 needs the operator-algebra suppliers, and §2.2 for the free Gaussian functor;
-Layer 4 needs Layer 3 and HilbertModules. Layer 5 needs Layers 2 and 3: the free convolutions of
-measures are laws of sums and products of free bounded realizations, and the formal series need
-only Layer 2. Layer 6 needs Layers 2, 3 and 5; Layer 7 needs Layers 2, 3, 5 and 6. Layer 8 needs
-Layer 2 for its combinatorics, §3.9 for the comparison with the free Wick formula, Layer 5 for its
-measure-level conclusions and RandomMatrices for its ensembles; its moment statements need no
-operator algebra. Each section
+cumulants. Layer 3 needs the operator-algebra suppliers and RandomMatrices §6.2, and §2.2 for the
+free Gaussian functor; Layer 4 needs Layer 3 and HilbertModules. Layer 5 needs Layers 2 and 3 and
+RandomMatrices §6.3, which supplies the free convolutions of measures and their analytic transforms;
+the formal series need only Layer 2. Layer 6 needs Layers 2, 3 and 5 and RandomMatrices §6.4; Layer 7
+needs Layers 2, 3, 5 and 6. Layer 8 needs Layer 2 for its combinatorics, §3.9 for the comparison with
+the free Wick formula, Layer 5 for its measure-level conclusions and RandomMatrices for its ensembles
+and the Weingarten formula; its moment statements need no operator algebra. Each section
 ends with a `*Needs:*` line listing what its statements and its route use, so that a target proved
 by another route is not blocked behind an unrelated layer, and each layer ends with its examples
 and its dependencies.
@@ -175,15 +178,17 @@ Positivity alone gives the algebraic realization and no boundedness.
 
 ### 1.2 Freeness and weak closures
 
-Let `M ⊆ B(H)` be a von Neumann algebra with a faithful normal tracial state `τ`. Prove that if
-unital star subalgebras `A_i ⊆ M` are free with respect to `τ`, then so are the von Neumann
-algebras they generate, their weak operator closures (Nica–Speicher, Lectures 1–7). The norm
+Let `M ⊆ B(H)` be a von Neumann algebra with a normal state `φ`. Prove that if unital star
+subalgebras `A_i ⊆ M` are free with respect to `φ`, then so are the von Neumann algebras they
+generate, their weak operator closures (Nica–Speicher, Lectures 1–7); neither faithfulness nor
+traciality of `φ` is needed. The norm
 closure case is Tau Ceti's `TauCeti.IsFreelyIndependent.topologicalClosure`, which needs jointly
 continuous multiplication and so does not cover the weak operator topology. *Route:* Kaplansky
 density approximates each letter of a centred alternating word by a bounded net in `A_i`
 converging in the strong operator topology; on bounded sets multiplication is jointly strongly
-continuous and the normal state `τ` is strongly continuous, and recentring the approximants keeps
-them in `A_i`.
+continuous and the normal state `φ` is strongly continuous, and recentring the approximants keeps
+them in `A_i` (the same argument for a normal conditional expectation is Houdayer–Raum,
+Proposition 2.22).
 *Needs:* Tau Ceti `TauCeti.IsFreelyIndependent`, `TauCeti.IsFreelyIndependent.topologicalClosure`,
 `VonNeumannAlgebra.adjoin`; VonNeumannAlgebras Layer 1 (operator topologies, Kaplansky density) and
 Layer 4 (normal states); Mathlib `VonNeumannAlgebra`.
@@ -222,7 +227,8 @@ plane tree with `n` edges by `1, …, n` in depth-first (preorder) order. Prove 
 children of the vertices that have children are the blocks of a noncrossing partition of `{1, …, n}`,
 and that this defines a bijection `T` from plane trees with `n` edges onto `NC(n)`, under which the
 number of blocks of `T(t)` is the number of vertices of `t` with at least one child and the
-noncrossing pairings correspond to the trees in which every vertex has zero or two children. The
+noncrossing pairings correspond to the trees in which every vertex has zero or two children
+(Kortchemski–Marzouk, §2.1 and Proposition 4). The
 count `|NC(n)| = catalan n` is Tau Ceti's `TauCeti.NoncrossingPartition.card_fin_eq_catalan`.
 *Needs:* Tau Ceti `TauCeti.NoncrossingPartition`, `Finpartition.IsNoncrossing`; Mathlib `catalan`.
 
@@ -370,8 +376,9 @@ freeness criterion, Kreweras product formulas); Mathlib `Finpartition`, `Inciden
 ## Layer 3: Hilbert free products, Fock space and operator algebras
 
 This layer builds free products with prescribed states: algebraic, full and reduced C*-algebraic,
-and von Neumann algebraic, together with full Fock space and the free Gaussian functor. It owns the
-free-product Hilbert spaces, their commutants and their modular and trace compatibility. Sources:
+and von Neumann algebraic, together with full Fock space and the free Gaussian functor. On the
+reduced-word Hilbert space of RandomMatrices §6.2 it owns the right representations, the commutants
+and their modular and trace compatibility. Sources:
 Voiculescu–Dykema–Nica, §§1.4–1.6 and Theorem 2.6.2; Nica–Speicher, Lectures 6–7; Dykema,
 Theorem 1.1.
 
@@ -424,20 +431,22 @@ different completion, determined by input states (Voiculescu–Dykema–Nica, §
 
 ### 3.3 Free products of pointed Hilbert spaces
 
-For Hilbert spaces `H_i` with unit vectors `ξ_i` put `H_i° = H_i ⊖ ℂξ_i` and construct
+For Hilbert spaces `H_i` with unit vectors `ξ_i` put `H_i° = H_i ⊖ ℂξ_i`. The reduced-word Hilbert
+space
 
 ```
 H = ℂΩ ⊕ ⊕_(n ≥ 1, i₁ ≠ i₂ ≠ ⋯ ≠ iₙ) H_(i₁)° ⊗ ⋯ ⊗ H_(iₙ)°
 ```
 
-as an ℓ²-direct sum of completed Hilbert tensor products. Give the inclusions, the word
-projections, the density of finite sums of elementary tensors, and the canonical unitaries
-`V_i : H_i ⊗ H(i) ≅ H`, where `H(i)` is spanned by `Ω` and the words not starting in `i`. For
-representations `π_i : A_i → B(H_i)` construct the left representations `λ_i(a) = V_i (π_i(a) ⊗ 1) V_i*`
-and the right representations `ρ_i`, defined with the reversed-word convention, and prove their
-adjoint, norm, unit, multiplication and commutation identities (`λ_i` commutes with `ρ_j` for
-`i ≠ j`). For arbitrary unit vectors `ξ_i` prove `ker λ_i = ker π_i` (Voiculescu–Dykema–Nica, §1.5).
-*Needs:* Mathlib `lp`, `IsHilbertSum`, `TensorProduct` with its inner product,
+an ℓ²-direct sum of completed Hilbert tensor products, with its vacuum `Ω`, its inner product and
+the bounded left representations `λ_i` of representations `π_i : A_i → B(H_i)`, is the free-product
+construction of RandomMatrices §6.2. Give the inclusions, the word projections, the density of
+finite sums of elementary tensors, and the canonical unitaries `V_i : H_i ⊗ H(i) ≅ H`, where `H(i)`
+is spanned by `Ω` and the words not starting in `i`, with `λ_i(a) = V_i (π_i(a) ⊗ 1) V_i*`. Construct
+the right representations `ρ_i`, defined with the reversed-word convention, prove their adjoint,
+norm, unit and multiplication identities, and prove that `λ_i` commutes with `ρ_j` for `i ≠ j`. For
+arbitrary unit vectors `ξ_i` prove `ker λ_i = ker π_i` (Voiculescu–Dykema–Nica, §1.5).
+*Needs:* RandomMatrices §6.2; Mathlib `lp`, `IsHilbertSum`, `TensorProduct` with its inner product,
 `UniformSpace.Completion`, `Submodule.orthogonal`; VonNeumannAlgebras Layer 2 (completed Hilbert
 tensor products).
 
@@ -449,15 +458,15 @@ tensor products).
 
 For unital C*-algebras with states `(A_i, φ_i)`, take the GNS representations with their cyclic
 vectors as pointed inputs (Mathlib `PositiveLinearMap.gnsStarAlgHom`, Tau Ceti
-`PositiveLinearMap.gnsVector`). Prove that the vacuum state `x ↦ ⟪Ω, x Ω⟫` on the full product
-(through the representation of §3.3) is positive, restricts to `φ_i` on each factor and makes the
-factors free. The reduced C*-free product is the norm-closed algebra generated by the `λ_i(A_i)`;
-prove that its GNS space for the vacuum state is `H` and that its factor representations have
+`PositiveLinearMap.gnsVector`). The vacuum state `x ↦ ⟪Ω, x Ω⟫`, positive, restricting to `φ_i` on
+each factor and making the factors free, is RandomMatrices §6.2's. The reduced C*-free product is
+the norm-closed algebra generated by the `λ_i(A_i)`; prove that its GNS space for the vacuum state is `H` and that its factor representations have
 exactly the kernels of the input GNS representations. Faithfulness of an input state is distinct
 from faithfulness of its GNS representation; characterize the kernel of the latter by
 `a ∈ ker π_φ ↔ ∀ b, φ(b* a* a b) = 0` (Voiculescu–Dykema–Nica, §1.5).
-*Needs:* §3.3; Mathlib `PositiveLinearMap.GNS`, `PositiveLinearMap.gnsStarAlgHom`; Tau Ceti
-`PositiveLinearMap.gnsVector`, `TauCeti.IsFreelyIndependent.inner_gnsStarAlgHom_prod_gnsVector`.
+*Needs:* §3.3; RandomMatrices §6.2; Mathlib `PositiveLinearMap.GNS`,
+`PositiveLinearMap.gnsStarAlgHom`; Tau Ceti `PositiveLinearMap.gnsVector`,
+`TauCeti.IsFreelyIndependent.inner_gnsStarAlgHom_prod_gnsVector`.
 
 **Checks.**
 - On `ℂ²` with the state `φ(z, w) = z`, the kernel criterion gives `φ(b*a*ab) = |b₁|²|a₁|²`, so the
@@ -474,11 +483,25 @@ quotient map from the full onto the reduced product. Prove Dykema's theorem: if 
 reduced C*-algebra through compression to its shortest words (Dykema, Theorem 1.1); factors equal
 to `ℂ` are removed before the nontrivial-factor form of the argument is applied. If only the GNS
 representations of the `φ_i` are faithful, prove that the factor maps into the reduced product are
-injective. Prove that tracial inputs give a tracial vacuum state. Construct, for every set `J` of
-labels, the map `E_J` of the reduced product onto the reduced product of the `A_j`, `j ∈ J`, that
-preserves the vacuum state, and prove it unital, positive, idempotent onto that subproduct, bimodular
-over it and of norm one; for `J = {i}` it is the expectation onto the factor `A_i`.
-*Needs:* §3.4; Mathlib `PositiveLinearMap`, `CStarAlgebra`.
+injective. Prove that tracial inputs give a tracial vacuum state.
+
+Prove the intrinsic characterization of the reduced product (Dykema, p. 1): if a unital C*-algebra
+`A` with a state `φ` whose GNS representation is faithful is the norm closure of the star algebra
+generated by unital C*-subalgebras `B_i` that are free for `φ`, then `(A, φ)` is the reduced product
+of the `(B_i, φ|B_i)` with its vacuum state. In this form the two theorems above are the headlines
+
+- `eq_zero_of_apply_star_mul_self_eq_zero_of_isFreelyIndependent`: for such `A`, `φ` and `B_i`, if
+  `φ` is faithful on every `B_i`, then `φ` is faithful on `A`;
+- `apply_mul_comm_of_isFreelyIndependent`: if a unital C*-algebra `A` is the norm closure of the
+  star algebra generated by unital star subalgebras `B_i` that are free for a state `φ`, and `φ` is
+  tracial on every `B_i`, then `φ` is tracial on `A`; no GNS hypothesis is needed.
+
+Construct, for every set `J` of labels, the map `E_J` of the reduced product onto the reduced
+product of the `A_j`, `j ∈ J`, that preserves the vacuum state, and prove it unital, positive,
+idempotent onto that subproduct, bimodular over it and of norm one; for `J = {i}` it is the
+expectation onto the factor `A_i`.
+*Needs:* §3.4; Mathlib `PositiveLinearMap`, `PositiveLinearMap.gnsStarAlgHom`, `CStarAlgebra`,
+`StarSubalgebra.topologicalClosure`; Tau Ceti `TauCeti.IsFreelyIndependent`.
 
 **Checks.**
 - The vacuum state need not be faithful: for the single factor `M₂(ℂ)` with the pure vector state
@@ -487,19 +510,26 @@ over it and of norm one; for `J = {i}` it is the expectation onto the factor `A_
   product is `M₂(ℂ)` with a non-faithful vacuum state.
 - For two copies of `ℂ²` with the uniform states (§3.1) the reduced product is the reduced group
   C*-algebra of `ℤ/2 ∗ ℤ/2` and the vacuum state is its faithful canonical trace.
+- The full product `C*(F₂)` of two copies of `C(𝕋)` (§3.2), with the state pulled back from the
+  canonical trace of `C*_r(F₂)`, is generated by two free copies of `C(𝕋)` on which the state is the
+  faithful Haar state, yet it vanishes on `x*x` for every nonzero `x` in the kernel of the quotient
+  map onto `C*_r(F₂)` (§3.6): without a faithful GNS representation the intrinsic faithfulness
+  statement fails.
 
 ### 3.6 Full and reduced C*-algebras of the free group
 
 Take two copies of `C(𝕋)` with Haar states. Using `FreeGroup (Fin 2)`, identify their full and
 reduced free products with the full and reduced group C*-algebras `C*(F₂)` and `C*_r(F₂)` of
 OperatorAlgebraDynamics D1–D2, and prove that the quotient map is not injective: on `ℓ²(F₂)` the
-sum of the left translations by the two generators and their inverses has norm `2√3`, while the
+sum of the left translations by the two generators and their inverses has norm `2√3` (Kesten,
+Theorem 3: the symmetric random walk on the free group of rank `h` has spectral radius
+`√(2h − 1)/h`), while the
 trivial character of the full product sends it to `4`, so the trivial character does not factor
 through the reduced algebra. Prove the upper bound `2√3` with the end-oriented shift on the Cayley
 tree and the lower bound with finitely supported radial vectors, consuming the reduced-word, path
 and acyclicity interface of OperatorKTheory §7.3 (K7.FreeGroups) on Mathlib's
 `SimpleGraph.mulCayley`, at `n = 2` the four-regular tree; none of the analytic or K-theoretic
-results of OperatorKTheory Layer 7 is needed. Compare with OperatorAlgebraDynamics D2.FreeGroups.
+results of OperatorKTheory K7 is needed. Compare with OperatorAlgebraDynamics D2.FreeGroups.
 *Needs:* §§3.2, 3.4; OperatorAlgebraDynamics D1–D2; OperatorKTheory §7.3; Mathlib `FreeGroup`,
 `SimpleGraph.mulCayley`, `lp`.
 
@@ -581,8 +611,9 @@ maps); Mathlib `TensorProduct`, `InnerProductSpace`, `CompletelyPositiveMap`.
 
 ### Dependencies
 
-Layer 2 for noncrossing pairings; Tau Ceti star free products, GNS vectors and the
-orthogonality of reduced words; VonNeumannAlgebras Layers 0–4, 6, 8, 10–11 and §13.1;
+Layer 2 for noncrossing pairings; RandomMatrices §6.2 (the reduced-word free product with positive
+state); Tau Ceti star free products, GNS vectors and the orthogonality of reduced words;
+VonNeumannAlgebras Layers 0–4, 6, 8, 10–11 and §13.1;
 CStarAlgebras Layers 1–5; OperatorAlgebraDynamics D1–D2; OperatorKTheory §§7.3 and 7.6; Mathlib
 free products, Hilbert sums, tensor products and C*-algebras.
 
@@ -738,7 +769,9 @@ original algebra. For groups `G_i` containing a common subgroup `H`, identify th
 product of the group von Neumann algebras `L(G_i)` over `L(H)`, with the Fourier-coefficient
 expectations `E_H` of VonNeumannAlgebras V8.SubgroupCosets, with `L(Monoid.PushoutI)` of the
 amalgamated group, trace-preservingly, using the reduced words and the universal property of
-Mathlib's `Monoid.PushoutI`; supply the reduced group-word and Hilbert tensor identifications. The
+Mathlib's `Monoid.PushoutI` (Houdayer–Raum, Proposition 2.22, for two locally compact factors, of
+which discrete groups are a case); supply the reduced group-word and Hilbert tensor
+identifications. The
 finite-factor and rigidity properties of these algebras belong to FactorRigidity and Subfactors.
 *Needs:* §§4.4–4.6; VonNeumannAlgebras Layer 8 (V8.SubgroupCosets); Mathlib `Monoid.PushoutI`,
 `Monoid.PushoutI.NormalWord`.
@@ -761,33 +794,28 @@ Layer 3; HilbertModules H1–H3; VonNeumannAlgebras Layers 4, 6, 8, 11 and §13.
 
 ## Layer 5: free convolution, formal series and scalar transforms
 
-This layer defines the free additive and multiplicative convolutions of compactly supported laws
-through free bounded realizations, and builds the transforms that compute them: the formal series
-of Tau Ceti (moment series, cumulant series, R-series and their functional equation), their
-analytic counterparts, word-indexed series in several variables, the boxed convolution and the
+This layer works with the free additive and multiplicative convolutions of compactly supported laws
+and their analytic R- and S-transforms, which are RandomMatrices §6.3's, and builds what goes beyond
+them: the free cumulants of a law and their bounds, the formal series of Tau Ceti (moment series,
+cumulant series, R-series and their functional equation) and their comparison with the analytic
+transforms, word-indexed series in several variables, the boxed convolution and the formal
 S-transform. Sources: Nica–Speicher, Lecture 12 (Theorem 12.7), Theorem 14.4 and Lectures 16–18.
 
 ### 5.1 Free additive convolution
 
-For compactly supported probability measures `μ, ν` on `ℝ`, realize free bounded selfadjoint `a`
-and `b` with laws `μ` and `ν` in a C*-probability space: `μ` is the law of the coordinate function
-in `C(K)` under integration against `μ` (Tau Ceti
-`PositiveLinearMap.law_integralPositiveLinearMap_comap_restrict_id`), and the reduced free product
-of §3.4 makes the two coordinates free. Define `μ ⊞ ν` as the law of `a + b`. Prove that it does not
-depend on the realization: for any free selfadjoint realizations in C*-probability spaces the joint
-distributions agree (Tau Ceti
-`TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`) and a law is determined by
-its moments (`PositiveLinearMap.law_eq_law_iff_forall_apply_pow`). Prove associativity,
-commutativity, `δ₀ ⊞ μ = μ`, `δ_c ⊞ μ` is the translate of `μ` by `c`, the dilation law
-`D_t(μ ⊞ ν) = D_t μ ⊞ D_t ν`, and the support bound: if `μ` and `ν` are supported in `[−r, r]` and
-`[−s, s]`, then `μ ⊞ ν` is supported in `[−(r + s), r + s]`. Develop the convolution powers
-`μ^(⊞N)`, the law of the sum of a freely independent family, and the transport of these laws
-through C*- and von Neumann realizations. Define the free cumulants `κ_n(μ)` of a compactly
-supported law as those of any bounded selfadjoint realization, and prove
+Free additive convolution of compactly supported probability measures on `ℝ` is RandomMatrices
+§6.3's: `μ ⊞ ν` is the law of `a + b` for free bounded selfadjoint `a` and `b` with laws `μ` and `ν`
+in a C*-probability space, independent of the realization, associative and commutative, with
+`δ₀ ⊞ μ = μ`, `δ_c ⊞ μ` the translate of `μ` by `c`, the dilation law `D_t(μ ⊞ ν) = D_t μ ⊞ D_t ν`,
+and `μ ⊞ ν` supported in `[−(r + s), r + s]` when `μ` and `ν` are supported in `[−r, r]` and
+`[−s, s]`. Develop the convolution powers `μ^(⊞N)`, the law of the sum of a freely independent
+family, and the transport of these laws through C*- and von Neumann realizations. Define the free
+cumulants `κ_n(μ)` of a compactly supported law as those of any bounded selfadjoint realization,
+which do not depend on it (Tau Ceti
+`TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`), and prove
 `κ_n(μ ⊞ ν) = κ_n(μ) + κ_n(ν)` and `κ_n(μ^(⊞N)) = N κ_n(μ)` (Nica–Speicher, Lecture 12).
-*Needs:* §3.4; Tau Ceti `PositiveLinearMap.law`, `PositiveLinearMap.law_eq_law_iff_forall_apply_pow`,
-`PositiveLinearMap.law_integralPositiveLinearMap_comap_restrict_id`,
-`PositiveLinearMap.law_smul_add_algebraMap`,
+*Needs:* RandomMatrices §6.3; §3.4; Tau Ceti `PositiveLinearMap.law`,
+`PositiveLinearMap.law_eq_law_iff_forall_apply_pow`,
 `TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`,
 `TauCeti.IsFreelyIndependentElements.freeCumulant_sum`.
 
@@ -826,21 +854,18 @@ The Cauchy transform is `G_μ = −resolventTransform μ` (Convention 7). Its an
 support is Mathlib's `analyticOn_resolventTransform`; the conjugation symmetry, the sign of the
 imaginary part, the normalization at infinity and the moment expansion of `resolventTransform μ`,
 Stieltjes inversion over intervals with the half-atom endpoint terms, atom recovery and uniqueness
-are Tau Ceti's (supplier contracts), and transfer to `G_μ` by the sign change. Prove:
+are Tau Ceti's (supplier contracts), and transfer to `G_μ` by the sign change. The analytic
+R-transform of a compactly supported law, through the local inverse `K_μ(w) = 1/w + R_μ(w)` of `G_μ`
+near infinity, the identification of its power series at `0` with the formal R-series
+`∑ κ_(n+1)(μ) wⁿ` of §5.2 (Nica–Speicher, Theorem 12.7) and the additivity `R_(μ ⊞ ν) = R_μ + R_ν`
+are RandomMatrices §6.3's, in the same sign convention `G = −resolventTransform`. Prove density
+recovery: if `μ` has a density `f` that is continuous at `x`, then
+`f(x) = −π⁻¹ lim_(η↓0) Im G_μ(x + iη)`; intervals whose endpoints carry atoms are handled by the
+half-atom terms of the inversion formula. The converse direction, a density from a boundary limit
+that exists and is continuous on an interval, is RandomMatrices §3.1's.
 
-- density recovery: if `μ` has a density `f` that is continuous at `x`, then
-  `f(x) = −π⁻¹ lim_(η↓0) Im G_μ(x + iη)`; intervals whose endpoints carry atoms are handled by the
-  half-atom terms of the inversion formula;
-- the R-transform of a law supported in `[−r, r]`: `F(w) = G_μ(1/w)` is analytic near `0` with
-  `F(0) = 0` and `F′(0) = 1`; its local inverse on a disk gives `K_μ(w) = 1/F⁻¹(w)` and
-  `R_μ(w) = K_μ(w) − 1/w`, analytic near `0`, with `G_μ(K_μ(w)) = w` for small `w ≠ 0` and
-  `K_μ(G_μ(z)) = z` for large `|z|`; no global injectivity of `G_μ` is claimed;
-- the power series of `R_μ` at `0` is the formal R-series of §5.2, `∑ κ_(n+1)(μ) wⁿ`
-  (Nica–Speicher, Theorem 12.7);
-- `R_(μ ⊞ ν) = R_μ + R_ν`, as formal series and as analytic functions on their common disk.
-
-*Needs:* §§5.1–5.2; Mathlib `MeasureTheory.resolventTransform`, `analyticOn_resolventTransform`,
-`HasStrictDerivAt.localInverse`; Tau Ceti `MeasureTheory.Measure.resolventTransform_conj`,
+*Needs:* §5.2; RandomMatrices §6.3; Mathlib `MeasureTheory.resolventTransform`,
+`analyticOn_resolventTransform`; Tau Ceti `MeasureTheory.Measure.resolventTransform_conj`,
 `MeasureTheory.im_resolventTransform_pos`, `MeasureTheory.hasSum_resolventTransform_of_ae_norm_le`,
 `MeasureTheory.tendsto_intervalIntegral_im_resolventTransform`,
 `MeasureTheory.tendsto_mul_im_resolventTransform`, `MeasureTheory.Measure.ext_of_resolventTransform`.
@@ -919,14 +944,17 @@ Mathlib `PowerSeries.substInvOfIsUnit`, `PowerSeries.subst`.
 
 ### 5.7 Free multiplicative convolution
 
-For compactly supported probability measures `μ, ν` on `[0, ∞)`, define `μ ⊠ ν` as the law of
-`a^(1/2) b a^(1/2)` for free positive `a`, `b` with laws `μ`, `ν` in a tracial C*-probability space
-(the reduced free product of §3.4 with tracial inputs, §3.5). Prove independence of the realization,
-associativity, commutativity, `δ₁ ⊠ μ = μ` and `δ₀ ⊠ μ = δ₀`; prove that its moments are those of
-`ab`, and that `S_(μ ⊠ ν) = S_μ S_ν` when both means are nonzero. A positive compactly supported law of
-mean zero is `δ₀`; that case is handled by the absorbing law, not by an inverse transform with zero
-linear coefficient (Nica–Speicher, Theorem 14.4 and Lectures 16–18).
-*Needs:* §§3.4–3.5, 5.1, 5.6; Mathlib `CFC.sqrt`, `cfc`; Tau Ceti `PositiveLinearMap.law_cfc`.
+Free multiplicative convolution of compactly supported probability measures on `[0, ∞)` is
+RandomMatrices §6.3's: `μ ⊠ ν` is the law of `a^(1/2) b a^(1/2)` for free positive `a`, `b` with laws
+`μ`, `ν`, independent of the realization, associative and commutative, with `δ₁ ⊠ μ = μ` and
+`δ₀ ⊠ μ = δ₀`, and the analytic S-transforms of laws of nonzero mean satisfy `S_(μ ⊠ ν) = S_μ S_ν`.
+Prove that in a tracial C*-probability space (the reduced free product of §3.4 with tracial inputs,
+§3.5) the moments of `μ ⊠ ν` are those of `ab`, and that the power series at `0` of the analytic
+S-transform of a law `μ` of nonzero mean is the S-series `sSeries (M_μ − 1)` of §5.6, so that the
+algebraic theorem of §5.6 computes `⊠`. A positive compactly supported law of mean zero is `δ₀`; that
+case is handled by the absorbing law, not by an inverse transform with zero linear coefficient
+(Nica–Speicher, Theorem 14.4 and Lectures 16–18).
+*Needs:* §§3.4–3.5, 5.6; RandomMatrices §6.3; Tau Ceti `TauCeti.momentSeries`.
 
 **Checks.**
 - The second moment is `m₂(μ ⊠ ν) = m₂(μ) m₁(ν)² + m₁(μ)² m₂(ν) − m₁(μ)² m₁(ν)²`: for two free
@@ -941,9 +969,9 @@ linear coefficient (Nica–Speicher, Theorem 14.4 and Lectures 16–18).
 
 ### Dependencies
 
-Layers 2 and 3; Tau Ceti laws of selfadjoint elements, free cumulants, formal series and the
-resolvent transform; Mathlib power series, substitution, analytic functions and the continuous
-functional calculus.
+Layers 2 and 3; RandomMatrices §6.3 (free convolutions of compactly supported laws and their
+analytic transforms); Tau Ceti laws of selfadjoint elements, free cumulants, formal series and the
+resolvent transform; Mathlib power series, substitution and analytic functions.
 
 ## Layer 6: semicircular laws and free limit theorems
 
@@ -1038,15 +1066,17 @@ the density being an a.e. density (its value at `t = 0` is immaterial), with an 
 singularity at `λ = 1`; it is the dilation by `λ` of Tau Ceti's `marchenkoPastur (1/λ)`. For a general
 jump take the pushforward by `t ↦ αt` (a negative jump reverses the interval), and `λ = 0` or `α = 0`
 gives `δ₀`. Prove positivity, total mass `1`, the support, the moments
-`m_n = ∑_(π ∈ NC(n)) λ^#blocks(π) αⁿ` and the cumulants. Prove the free Poisson limit theorem: for
-`N ≥ λ` the `N`-fold free convolution of `(1 − λ/N)δ₀ + (λ/N)δ_α` converges to this law in moments
-and weakly, with the first-order cumulant expansion `κ_n = (λ/N)αⁿ + O(N⁻²)` and the moment bounds
-used for the measure conclusion. The square of a semicircular element of variance `σ²` has the free
-Poisson law of rate `1` and jump `σ²` (Nica–Speicher, Propositions 12.11 and 12.15).
+`m_n = ∑_(π ∈ NC(n)) λ^#blocks(π) αⁿ` and the cumulants. For `α = 1` the free Poisson limit
+theorem, the convergence for `N ≥ λ` of the `N`-fold free convolution of `(1 − λ/N)δ₀ + (λ/N)δ₁` to
+this law in moments and weakly, is RandomMatrices §6.4's, for sums of `N` free projections of trace
+`λ/N`. Deduce it for every jump `α`: the pushforward by `t ↦ αt` commutes with `⊞` (§5.1) and with
+weak convergence, and sends `(1 − λ/N)δ₀ + (λ/N)δ₁` to `(1 − λ/N)δ₀ + (λ/N)δ_α`. The square of a
+semicircular element of variance `σ²` has the free Poisson law of rate `1` and jump `σ²`
+(Nica–Speicher, Propositions 12.11 and 12.15).
 *Needs:* §§5.1–5.3; Tau Ceti `TauCeti.Probability.marchenkoPastur`,
 `TauCeti.Probability.marchenkoPastur_eq_withDensity`,
 `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow`,
-`PositiveLinearMap.tendsto_law_of_tendsto_apply_pow`; RandomMatrices §3.4.
+`PositiveLinearMap.tendsto_law_of_tendsto_apply_pow`; RandomMatrices §§3.4 and 6.4.
 
 **Checks.**
 - For `λ = 1/4` the atom at `0` has mass `3/4`, the density lives on `[1/4, 9/4]` with mass `1/4`,
@@ -1060,9 +1090,10 @@ Poisson law of rate `1` and jump `σ²` (Nica–Speicher, Propositions 12.11 and
 
 For a compactly supported probability measure `ν` on `ℝ` and `λ ≥ 0`, construct the compound free
 Poisson law with free cumulants `κ_n = λ ∫ tⁿ dν(t)`, as the limit of the `N`-fold free convolutions
-of `(1 − λ/N)δ₀ + (λ/N)ν`. Prove its positivity, the compact-support bound, uniqueness, the semigroup
-law in `λ`, the pushforwards along `t ↦ αt`, and its transforms on the series of Layer 5:
-`R(z) = λ ∫ t/(1 − tz) dν(t)` and, when the mean `λ ∫ t dν` is nonzero, its S-series. `ν = δ₀`, and
+of `(1 − λ/N)δ₀ + (λ/N)ν` (Speicher, Assignment 8, Exercise 3). Prove its positivity, the
+compact-support bound, uniqueness, the semigroup law in `λ`, the pushforwards along `t ↦ αt`, and its
+transforms on the series of Layer 5: `R(z) = λ ∫ t/(1 − tz) dν(t)` (Speicher, Assignment 9,
+Exercise 3) and, when the mean `λ ∫ t dν` is nonzero, its S-series. `ν = δ₀`, and
 degenerate jumps, are included rather than excluded by a nonzero-mean assumption.
 *Needs:* §§5.1–5.6, 6.5.
 
@@ -1077,9 +1108,14 @@ integer `N` there is a compactly supported law `μ_N` with `μ_N^(⊞N) = μ`. P
 Lévy–Khintchine theorem for compactly supported laws: `μ` is freely infinitely divisible if and only
 if its real cumulants are conditionally positive,
 `∑_(i,j=1)^r c̄_i c_j κ_(i+j) ≥ 0` for every `r` and `c ∈ ℂ^r`, if and only if
-`R_μ(z) = κ₁ + ∫ z/(1 − tz) dρ(t)` for a finite positive compactly supported measure `ρ`. Prove the
-uniqueness of `κ₁` and `ρ`, the construction of `ρ` from the moment sequence `κ_(k+2) = ∫ tᵏ dρ` by a
-GNS argument, and the bounds that make the realization bounded. Conversely, realize these cumulants
+`R_μ(z) = κ₁ + ∫ z/(1 − tz) dρ(t)` for a finite positive compactly supported measure `ρ`. For `μ` the
+law of a selfadjoint element `a` of a C*-probability space, and `μ_N^(⊞N)` the law of the sum of `N`
+free copies of a bounded selfadjoint realization of `μ_N` (§5.1), the first equivalence is the
+headline `forall_exists_isFreelyIndependentElements_law_sum_iff`: for every `N ≥ 1` the law of `a`
+is the law of the sum of `N` free identically distributed selfadjoint elements of some
+C*-probability space if and only if `∑_(i,j=1)^r c̄_i c_j κ_(i+j)(a) ≥ 0` for every `r` and
+`c ∈ ℂ^r`. Prove the uniqueness of `κ₁` and `ρ`, the construction of `ρ` from the moment sequence
+`κ_(k+2) = ∫ tᵏ dρ` by a GNS argument, and the bounds that make the realization bounded. Conversely, realize these cumulants
 on full Fock space by a scalar plus creation, annihilation and gauge operators, with the word-moment
 recursion and positivity. Construct the convolution semigroup `(μ_t)_(t ≥ 0)` with cumulants
 `t κ_n`, prove its weak continuity, `μ₀ = δ₀` and `μ_s ⊞ μ_t = μ_(s+t)`, and identify the convolution
@@ -1109,7 +1145,7 @@ supported laws, with the positivity and moment bounds stated in the limit argume
 
 Layers 2, 3 and 5; Tau Ceti semicircle and Marchenko–Pastur laws, the free central limit theorem, the
 method of moments and the laws of selfadjoint elements; VonNeumannAlgebras Layers 2 and 8;
-OperatorTheory/SelfAdjointSpectralTheory Part B; RandomMatrices §3.4.
+OperatorTheory/SelfAdjointSpectralTheory Part B; RandomMatrices §§3.4 and 6.4.
 
 ## Layer 7: compression, circular and R-diagonal elements
 
@@ -1234,8 +1270,8 @@ algebra); Mathlib `CFC.sqrt`.
 
 - Compressing two free standard semicircular elements by a projection of trace `1/2` free from both
   gives two free semicircular elements of variance `1/2` in the corner.
-- A circular element and a Haar unitary are R-diagonal with equal determining sequences; their
-  product `uc`, with `u` star-free from `c`, has the star-distribution of `c`.
+- A circular element and a Haar unitary are each R-diagonal with `α = β`; their product `uc`, with
+  `u` star-free from `c`, has the star-distribution of `c`.
 
 ### Dependencies
 
@@ -1245,9 +1281,9 @@ decomposition of bounded operators; VonNeumannAlgebras Layer 2.
 ## Layer 8: Gaussian and Haar random-matrix asymptotic freeness
 
 This layer builds the matrix models: the algebra of random matrices with all moments, the Gaussian
-ensembles and their Wick calculus, the genus expansion, Haar measure on the unitary group with the
-Weingarten calculus, and asymptotic freeness in expected normalized-trace moments, with deterministic
-matrices that need not be bounded in norm. Its conclusions concern expected moments and expected
+ensembles and their Wick calculus, the genus expansion, the Weingarten asymptotics on top of the
+Weingarten formula of RandomMatrices §6.5, and asymptotic freeness in expected normalized-trace
+moments, with deterministic matrices that need not be bounded in norm. Its conclusions concern expected moments and expected
 empirical measures. Sources: Nica–Speicher, Lectures 22–23, especially Theorems 22.35, 23.13 and
 23.14 and Lemma 23.5; Collins, Theorem 3.1 and Propositions 3.2–3.3; Collins–Śniady, Proposition 2.2,
 Corollary 2.4, Proposition 2.6 and Corollary 2.7.
@@ -1311,8 +1347,9 @@ that the exponent is `−2g` with `g ≥ 0`, and `g = 0` exactly for the noncros
 `Function.Involutive.orbitCount_finRotate_mul_add_orbitCount_eq_iff`). Give the colored-pairing
 version for independent GUE families, the adjoint-sensitive version for Ginibre families, and the
 comparison of the leading terms with the free Wick formula of §3.9. Deduce the joint expected
-star-moment convergence of independent GUE families to free semicircular systems, and of independent
-Ginibre families to free circular systems. Give finite-`N` correction bounds for each fixed word by
+star-moment convergence of independent Ginibre families to free circular systems; for independent
+GUE families the convergence to free semicircular systems is the Gaussian case of RandomMatrices
+§6.5. Give finite-`N` correction bounds for each fixed word by
 counting the positive-genus terms; these are bounds on moments, not on norms (Nica–Speicher,
 Lecture 22).
 *Needs:* §§2.2, 3.9, 8.1–8.2; Tau Ceti `TauCeti.orbitCount`,
@@ -1329,7 +1366,8 @@ Lecture 22).
 
 For a fixed finite family of deterministic matrices `D_N` whose joint star-moments under `tr_N`
 converge, prove that independent GUE families are asymptotically free from `D_N`, with the free
-semicircular limit specified in §8.3; no uniform bound on `‖D_N‖` is assumed. This is the headline
+semicircular limit specified in §8.3; no uniform bound on `‖D_N‖` is assumed (the case of uniformly
+bounded `D_N`, also almost surely, is RandomMatrices §6.5's). This is the headline
 theorem `tendsto_integral_trace_gueMatrix_word`: for independent standard Gaussian coordinates, if the
 normalized-trace star-moments of `D N` converge to those of a family `d` in an algebra with normalized
 functional `ψ`, and `s` are selfadjoint standard semicircular elements such that the algebras generated
@@ -1362,37 +1400,28 @@ Ceti `TauCeti.IsFreelyIndependent`, `TauCeti.IsSemicircular`,
 The unitary group `U(N)` is Mathlib's `Matrix.unitaryGroup (Fin N) ℂ`, with the subspace topology of
 the entrywise topology, compact by Tau Ceti's `TauCeti.Matrix.isCompact_unitaryGroup`, a topological
 group, and with the Borel structure of Mathlib's entrywise measurable structure on matrices; its Haar
-probability measure is Tau Ceti's `TauCeti.haarProb`. Develop its left, right and inversion invariance
-and the measurability of the matrix coefficients. Construct the Haar-averaging orthogonal projection
-onto the invariant tensors of `(ℂ^N)^(⊗k) ⊗ conj((ℂ^N)^(⊗k))` and its correspondence with the
-intertwiners of the `k`-th tensor power. Consume Tau Ceti's Schur–Weyl duality for `GL_N`,
-`TauCeti.centralizer_range_tensorPowerRep_eq_range_permTensorActionAlgHom`, and prove the unitary
-comparison: the commutant of the action of `U(N)` equals that of `GL_N`, by differentiating the
-action of `U(N)` along skew-Hermitian matrices, whose complex span is `gl_N`, and using matrix
-exponentials and the polar decomposition to reach `GL_N`. Prove the small-dimension relations among
-the permutation tensors (for `N < k` they are linearly dependent). Compute their Gram matrix
-`G_N(σ, τ) = N^(#cycles(σ⁻¹τ))`, written `permGram N k`. For every `N` build its inverse on its range
-and the invariant projection; for `N ≥ k` prove `G_N` invertible and define the unitary Weingarten
-function `Wg(N, σ)`, the entry `(1, σ)` of `G_N⁻¹`, written `weingarten N k σ` (for `N < k` Mathlib's
-inverse of the singular matrix, and so this value, is zero, and no statement here uses it). Prove that
-phase invariance makes the integrals of unbalanced coefficient products zero, and for `N ≥ k` the
-balanced formula
+probability measure is Tau Ceti's `TauCeti.haarProb`. The Haar entry moments and the Weingarten
+integration formula are RandomMatrices §6.5's: integrals of unbalanced coefficient products vanish,
+and for `N ≥ k`
 
 ```
 E[∏_(r=1)^k U_(i_r j_r) conj(U_(i′_r j′_r))]
-  = ∑_(α, β ∈ S_k) (∏_r δ(i_r, i′_(β(r)))) (∏_r δ(j_r, j′_(α(r)))) Wg(N, βα⁻¹).
+  = ∑_(α, β ∈ S_k) (∏_r δ(i_r, i′_(β(r)))) (∏_r δ(j_r, j′_(α(r)))) Wg(N, βα⁻¹),
 ```
 
-Prove the conjugation and inversion symmetries of `Wg` and the inverse-Gram identities. Prove the
-headline theorem `isBigO_pow_mul_weingarten_sub`: for fixed `σ ∈ S_k`,
-`Wg(N, σ) = N^(#cycles(σ) − 2k) (Möb(σ) + O(N⁻²))`, where
+where the unitary Weingarten function `Wg(N, σ)` is the entry `(1, σ)` of the inverse of the Gram
+matrix `G_N(σ, τ) = N^(#cycles(σ⁻¹τ))` of the permutation operators on `(ℂ^N)^(⊗k)`, invertible for
+`N ≥ k` (Collins–Śniady, Proposition 2.2 and Corollary 2.4). They are written `permGram N k` and
+`weingarten N k σ`; for `N < k` the Gram matrix is singular, Mathlib's inverse and so this value are
+zero, and no statement here uses it. Prove the headline theorem `isBigO_pow_mul_weingarten_sub`: for
+fixed `σ ∈ S_k`, `Wg(N, σ) = N^(#cycles(σ) − 2k) (Möb(σ) + O(N⁻²))`, where
 `Möb(σ) = ∏_(cycles C) (−1)^(|C| − 1) catalan(|C| − 1)`, with an error bound uniform over the finitely
-many `σ ∈ S_k`, through the finite Gram expansion and the transposition-length geodesics of §2.2; the
-large-`N` statement uses no inverse at a singular small dimension (Collins–Śniady, Proposition 2.2,
-Corollary 2.4, Proposition 2.6 and Corollary 2.7).
-*Needs:* §2.2; Tau Ceti `TauCeti.Matrix.isCompact_unitaryGroup`, `TauCeti.haarProb`,
-`TauCeti.centralizer_range_tensorPowerRep_eq_range_permTensorActionAlgHom`, `TauCeti.orbitCount`;
-Mathlib `Matrix.unitaryGroup`, `Matrix.inv`, `NormedSpace.exp`, `PiTensorProduct`.
+many `σ ∈ S_k`, through the finite Gram expansion and the transposition-length geodesics of §2.2
+(Collins–Śniady, Corollary 2.7, refining the order bound of their Proposition 2.6). It identifies
+the leading coefficient, which the large-dimension estimates of RandomMatrices §6.5 do not specify;
+the large-`N` statement uses no inverse at a singular small dimension.
+*Needs:* §2.2; RandomMatrices §6.5; Tau Ceti `TauCeti.Matrix.isCompact_unitaryGroup`,
+`TauCeti.haarProb`, `TauCeti.orbitCount`; Mathlib `Matrix.unitaryGroup`, `Matrix.inv`.
 
 **Checks.**
 - `k = 1`: `G_N = (N)` and `Wg(N, 1) = 1/N`, so `E[U_ij conj(U_kl)] = δ_ik δ_jl/N`.
@@ -1408,7 +1437,9 @@ Mathlib `Matrix.unitaryGroup`, `Matrix.inv`, `NormedSpace.exp`, `PiTensorProduct
 
 Prove that independent Haar unitary matrices converge in joint star-moments, in expectation, to free
 Haar unitaries, and are asymptotically free from any deterministic finite family whose joint
-star-moments under `tr_N` converge. The proof covers every centred mixed word, by the Weingarten
+star-moments under `tr_N` converge; no norm bound is assumed (the case of uniformly bounded
+deterministic matrices, also almost surely, is RandomMatrices §6.5's). The proof covers every centred
+mixed word, by the Weingarten
 expansion, the geodesic fixed-point lemma and the vanishing of centred cycle traces; a proof for a
 single unitary or for a single alternating word does not discharge the theorem (Nica–Speicher,
 Theorem 23.13 and Lemma 23.5; Collins, Theorem 3.1 and Propositions 3.2–3.3, applied to the
@@ -1416,9 +1447,13 @@ deterministic family together with its adjoints). Prove the conjugation version,
 `tendsto_integral_trace_haar_conj_word`: for deterministic families `A_N` and `D_N` whose separate
 joint star-distributions under `tr_N` converge, and `U_N` Haar distributed on `U(N)`, the families
 `U_N A_N U_N*` and `D_N` have a free joint limiting star-distribution, the limits of the two families
-being free in the limit algebra (Nica–Speicher, Theorem 23.14). No joint limit of the combined
-deterministic family and no uniform norm bound is required.
-*Needs:* §§8.1, 8.5; Tau Ceti `TauCeti.haarProb`, `TauCeti.IsFreelyIndependent`,
+being free in the limit algebra (Nica–Speicher, Theorem 23.14; Speicher, Theorem 7.5). No joint
+limit of the combined deterministic family and no uniform norm bound is required. *Route:* the
+Weingarten formula writes `E tr_N` of a word in the `U_N A_N U_N*` and the `D_N` as a sum over pairs
+of permutations of Weingarten values times products of normalized traces of words in the `A_N` alone
+and in the `D_N` alone (Speicher, proof of Theorem 7.5), so separate limits suffice; under a joint
+limit the statement is also Collins, Corollary 3.4.
+*Needs:* §§8.1, 8.5; RandomMatrices §6.5; Tau Ceti `TauCeti.haarProb`, `TauCeti.IsFreelyIndependent`,
 `TauCeti.TendstoInStarMoments`.
 
 **Checks.**
@@ -1431,7 +1466,9 @@ deterministic family and no uniform norm bound is required.
 
 For selfadjoint deterministic `A_N`, `B_N` with limiting laws `μ`, `ν` that are compactly supported,
 prove that the expected empirical spectral measures of `A_N + U_N B_N U_N*` converge weakly to
-`μ ⊞ ν`, and, for `A_N, B_N ≥ 0`, those of `A_N^(1/2) U_N B_N U_N* A_N^(1/2)` to `μ ⊠ ν`. The empirical
+`μ ⊞ ν`, and, for `A_N, B_N ≥ 0`, those of `A_N^(1/2) U_N B_N U_N* A_N^(1/2)` to `μ ⊠ ν` (Speicher,
+Theorem 7.5 and the example after it, for the sum). No uniform bound on `‖A_N‖` and `‖B_N‖` is
+assumed; the uniformly bounded case is RandomMatrices §6.5's. The empirical
 spectral measure of a Hermitian matrix is Tau Ceti's `Matrix.spectralMeasure`, its trace moments are
 `Matrix.integral_pow_spectralMeasure`, and its measurability in the matrix comes from the continuous
 ordered eigenvalues (`Matrix.measurable_eigenvalues₀`); prove the measurability of the expected
@@ -1458,10 +1495,10 @@ star-moments only.
 
 ### Dependencies
 
-Layers 2, 3 and 5; RandomMatrices §5.1 (GUE and Ginibre ensembles); StandardDistributions §5.3;
-IntegralHeckeAndGaloisDeterminants §0.2; Tau Ceti random matrix spectral measures and eigenvalues,
-Haar probability, Schur–Weyl duality for `GL_N`, permutation cycle counts and convergence in star
-moments; Mathlib Gaussian measures, independence, unitary groups and `MeasureTheory.AEEqFun`.
+Layers 2, 3 and 5; RandomMatrices §5.1 (GUE and Ginibre ensembles) and §6.5 (Haar entry moments and
+the Weingarten formula); StandardDistributions §5.3; IntegralHeckeAndGaloisDeterminants §0.2; Tau
+Ceti random matrix spectral measures and eigenvalues, Haar probability, permutation cycle counts and
+convergence in star moments; Mathlib Gaussian measures, independence, unitary groups and `MeasureTheory.AEEqFun`.
 
 ## Downstream consumers
 
@@ -1484,8 +1521,6 @@ moments; Mathlib Gaussian measures, independence, unitary groups and `MeasureThe
   expectations to Layers 3–4.
 - [TemperleyLieb](../TemperleyLieb/README.md) cites F2 for noncrossing partitions; the carrier is Tau
   Ceti's `TauCeti.NoncrossingPartition`.
-- [RandomMatrices](../RandomMatrices/README.md) shares its Layer 6 with Layers 3, 5, 6 and 8 here
-  (Scope and ownership).
 
 ## Scope and ownership
 
@@ -1493,68 +1528,70 @@ moments; Mathlib Gaussian measures, independence, unitary groups and `MeasureThe
 to weak closures (Layer 1); the plane-tree and geodesic characterizations of noncrossing partitions,
 the Möbius function on all intervals of `NC(n)`, the low-order cumulant formulas and the generator
 tests for freeness (Layer 2); free products with prescribed states, algebraic, full, reduced and von
-Neumann algebraic, the free-product Hilbert spaces with their commutants and their modular and trace
-compatibility, the full/reduced obstruction for the free group with its end-oriented shift and
+Neumann algebraic, on the reduced-word Hilbert space of RandomMatrices §6.2 the right representations,
+the commutants and their modular and trace compatibility, the full/reduced obstruction for the free group with its end-oriented shift and
 radial-vector norm bounds, full Fock space and the free Gaussian functor (Layer 3); C*-conditional
 expectations, the expectation-GNS module, the reduced amalgamated free product module and products,
 free products of unital completely positive maps and the tracial amalgamated von Neumann products
-(Layer 4); free additive and multiplicative convolution of compactly supported laws, the analytic
-R-transform, noncommutative formal series, boxed convolution and the S-transform (Layer 5); the Fock
-realization of the semicircle law, the free Gaussian algebras, semicircular systems, the free law of
-large numbers, free Poisson and compound free Poisson laws and free infinite divisibility for
+(Layer 4); the free cumulants of compactly supported laws and their bounds, density recovery from the
+Cauchy transform, noncommutative formal series, boxed convolution, the formal S-transform and its
+comparison with the analytic one (Layer 5); the Fock realization of the semicircle law, the free
+Gaussian algebras, semicircular systems, the free law of large numbers, free Poisson laws of every
+jump, compound free Poisson laws and free infinite divisibility for
 compactly supported laws (Layer 6); compression by free projections and matrix units, circular
 elements, Haar unitaries, R-diagonal elements and their polar models (Layer 7); and the random-matrix
-algebra with all moments, the Gaussian Wick calculus and genus expansion, the Weingarten calculus,
-asymptotic freeness in expected moments of Gaussian and Haar unitary matrices with deterministic
+algebra with all moments, the Gaussian Wick calculus and genus expansion, the leading-order
+Weingarten asymptotics, asymptotic freeness in expected moments of Gaussian and Haar unitary matrices with deterministic
 matrices without norm bounds, and the expected empirical spectral measures (Layer 8).
 
 **In the Tau Ceti library at the pin.** The scalar free probability on which the layers rest is
 proved in Tau Ceti and consumed by name (supplier contracts below); it is not planned again here. The
-former targets of this roadmap that the pin proves, and the declarations of the former
-`Suggested.lean` that they replace, resolve as follows (paths under `TauCeti/`).
+targets of the former sections F1–F8 that the pin proves resolve as follows (paths under `TauCeti/`).
 
 | Former target | Tau Ceti declaration |
 |---|---|
-| F1: joint distributions as evaluation on noncommutative polynomials, word extensionality, relabeling, subfamilies, substitution (former `jointDistribution`) | `TauCeti.jointDistribution`, `TauCeti.jointDistribution_eq_iff`, `TauCeti.jointDistribution_comp`, `TauCeti.jointDistribution_subst` (`Probability/FreeProbability/Distribution/Basic.lean`) |
-| F1: the star-polynomial synonym with its conjugate-linear involution and universal property (former `StarPolynomial`, `exists_polynomial_star`) | `TauCeti.StarPolynomial`, `TauCeti.StarPolynomial.lift` (`Algebra/Star/StarPolynomial.lean`) |
+| F1: joint distributions as evaluation on noncommutative polynomials, word extensionality, relabeling, subfamilies, substitution | `TauCeti.jointDistribution`, `TauCeti.jointDistribution_eq_iff`, `TauCeti.jointDistribution_comp`, `TauCeti.jointDistribution_subst` (`Probability/FreeProbability/Distribution/Basic.lean`) |
+| F1: the star-polynomial synonym with its conjugate-linear involution and universal property | `TauCeti.StarPolynomial`, `TauCeti.StarPolynomial.lift` (`Algebra/Star/StarPolynomial.lean`) |
 | F1: star-distributions and their transport | `TauCeti.starDistribution` and its API (`Probability/FreeProbability/Distribution/Star.lean`) |
 | F1: algebraic GNS realization of a positive distribution | `TauCeti.StarPositiveFunctional` with `GNS`, `representation`, `cyclicVector` (`Analysis/StarAlgebra/GNS.lean`) |
 | F1: the law `μ_a` of a selfadjoint element, its characterization by the functional calculus, uniqueness, moments, compact support, affine and polynomial pushforwards, comparison with the GNS spectral measure, realization of every compactly supported law | `PositiveLinearMap.law`, `PositiveLinearMap.eq_law_iff`, `PositiveLinearMap.law_eq_law_iff_forall_apply_pow`, `PositiveLinearMap.law_smul_add_algebraMap`, `PositiveLinearMap.law_cfc`, `PositiveLinearMap.law_eq_map_gns_diagMeasure`, `PositiveLinearMap.law_integralPositiveLinearMap_comap_restrict_id` (`Probability/FreeProbability/Law/`) |
 | F1: compatibility with moment determinacy | `TauCeti.Measure.ext_of_forall_integral_pow_eq_of_support` (`Probability/Moments/CompactDeterminacy.lean`), `PositiveLinearMap.eq_law_iff_forall_integral_pow` |
 | F1: convergence in distribution and in star-distribution; moment-to-weak convergence without a common support bound | `TauCeti.TendstoInMoments`, `TauCeti.TendstoInStarMoments` (`Probability/FreeProbability/Distribution/Convergence.lean`), `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow` (`Probability/Moments/WeakConvergence.lean`), `PositiveLinearMap.tendsto_law_of_tendsto_apply_pow` |
-| F1: freeness of subalgebras, elements and star-elements; subfamilies, restriction, images, grouping, uniqueness of the joint distribution, first mixed moments, centred polynomial tests, scalars and empty families, commuting variables, norm closures (former `IsAlternating`, `IsFree`, `free_pair_moment`) | `TauCeti.IsFreelyIndependent`, `TauCeti.IsFreelyIndependentElements`, `TauCeti.IsStarFreelyIndependentElements`, `TauCeti.IsFreelyIndependent.eqOn_iSup`, `TauCeti.IsFreelyIndependent.iSup_fiber`, `TauCeti.IsFreelyIndependent.apply_mul_of_ne`, `TauCeti.isFreelyIndependentElements_iff_polynomial`, `TauCeti.isFreelyIndependent_domRestrict_iff`, `TauCeti.IsFreelyIndependent.sub_mul_sub_eq_zero_of_commute`, `TauCeti.IsFreelyIndependent.topologicalClosure` (`Probability/FreeProbability/`) |
+| F1: freeness of subalgebras, elements and star-elements; subfamilies, restriction, images, grouping, uniqueness of the joint distribution, first mixed moments, centred polynomial tests, scalars and empty families, commuting variables, norm closures | `TauCeti.IsFreelyIndependent`, `TauCeti.IsFreelyIndependentElements`, `TauCeti.IsStarFreelyIndependentElements`, `TauCeti.IsFreelyIndependent.eqOn_iSup`, `TauCeti.IsFreelyIndependent.iSup_fiber`, `TauCeti.IsFreelyIndependent.apply_mul_of_ne`, `TauCeti.isFreelyIndependentElements_iff_polynomial`, `TauCeti.isFreelyIndependent_domRestrict_iff`, `TauCeti.IsFreelyIndependent.sub_mul_sub_eq_zero_of_commute`, `TauCeti.IsFreelyIndependent.topologicalClosure` (`Probability/FreeProbability/`) |
 | F1: orthogonality of reduced words for positive states | `TauCeti.IsFreelyIndependent.apply_star_prod_mul_prod`, `TauCeti.IsFreelyIndependent.inner_gnsStarAlgHom_prod_gnsVector` (`Probability/FreeProbability/Orthogonality.lean`) |
-| F2: noncrossing partitions on `Finpartition`, decidability, restriction, monotone relabeling, singleton insertion and deletion, rotation, reversal, the lattice with its meet and join (former `IsNoncrossing`, `NoncrossingPartition`, `noncrossingTop`) | `Finpartition.IsNoncrossing`, `TauCeti.NoncrossingPartition` with its lattice, `TauCeti.NoncrossingPartition.comap`, `TauCeti.NoncrossingPartition.singletonPartEquiv`, `TauCeti.NoncrossingPartition.rotate`, `TauCeti.NoncrossingPartition.reverse` (`Combinatorics/NoncrossingPartition/`) |
-| F2: `card NC(n) = catalan n`, noncrossing pairings, the recurrence by the first block, Narayana counts (former `card_noncrossing`) | `TauCeti.NoncrossingPartition.card_fin_eq_catalan`, `TauCeti.NoncrossingPartition.card_isPairing_fin_eq_catalan`, `TauCeti.NoncrossingPartition.card_eq_sum_card_mul_card`, `TauCeti.NoncrossingPartition.card_parts_eq_div` |
-| F2: the permutation model and the Kreweras complement: existence, maximality, order reversal, bijectivity, its square, block count, `p_(K(π)) = p_π⁻¹ γ` (former `partitionPermutation`, `exists_kreweras`, `kreweras`, `kreweras_permutation`) | `Finpartition.formPerm`, `TauCeti.NoncrossingPartition.kreweras`, `TauCeti.NoncrossingPartition.isGreatest_kreweras`, `TauCeti.NoncrossingPartition.krewerasOrderIso`, `TauCeti.NoncrossingPartition.kreweras_kreweras`, `TauCeti.NoncrossingPartition.card_parts_add_card_parts_kreweras`, `TauCeti.NoncrossingPartition.formPerm_kreweras` |
+| F2: noncrossing partitions on `Finpartition`, decidability, restriction, monotone relabeling, singleton insertion and deletion, rotation, reversal, the lattice with its meet and join | `Finpartition.IsNoncrossing`, `TauCeti.NoncrossingPartition` with its lattice, `TauCeti.NoncrossingPartition.comap`, `TauCeti.NoncrossingPartition.singletonPartEquiv`, `TauCeti.NoncrossingPartition.rotate`, `TauCeti.NoncrossingPartition.reverse` (`Combinatorics/NoncrossingPartition/`) |
+| F2: `card NC(n) = catalan n`, noncrossing pairings, the recurrence by the first block, Narayana counts | `TauCeti.NoncrossingPartition.card_fin_eq_catalan`, `TauCeti.NoncrossingPartition.card_isPairing_fin_eq_catalan`, `TauCeti.NoncrossingPartition.card_eq_sum_card_mul_card`, `TauCeti.NoncrossingPartition.card_parts_eq_div` |
+| F2: the permutation model and the Kreweras complement: existence, maximality, order reversal, bijectivity, its square, block count, `p_(K(π)) = p_π⁻¹ γ` | `Finpartition.formPerm`, `TauCeti.NoncrossingPartition.kreweras`, `TauCeti.NoncrossingPartition.isGreatest_kreweras`, `TauCeti.NoncrossingPartition.krewerasOrderIso`, `TauCeti.NoncrossingPartition.kreweras_kreweras`, `TauCeti.NoncrossingPartition.card_parts_add_card_parts_kreweras`, `TauCeti.NoncrossingPartition.formPerm_kreweras` |
 | F2: lower intervals, `μ(0_n, 1_n) = (−1)^(n−1) catalan(n − 1)`, the blockwise formula for `μ(0, π)`, the interval-partition embedding | `TauCeti.NoncrossingPartition.iicOrderIso`, `TauCeti.NoncrossingPartition.mu_bot_top_fin`, `TauCeti.NoncrossingPartition.mu_bot_eq_prod`, `TauCeti.NoncrossingPartition.exists_comap_eq_iff` |
-| F2: block moments, free cumulants by Möbius inversion, both moment–cumulant formulas, multiplicativity, multilinearity, scalar and adjoint transport, unit arguments, centring, cyclic invariance for traces, the first two cumulants, products as arguments (former `partitionMoment`, `cumulant`, `cumulant_two`) | `TauCeti.partitionMoment`, `TauCeti.freeCumulant`, `TauCeti.partitionCumulant`, `TauCeti.apply_prod_ofFn_eq_sum_prod_freeCumulant`, `TauCeti.freeCumulant_eq_sum_mu_mul_partitionMoment`, `TauCeti.partitionCumulant_eq_prod_freeCumulant`, `TauCeti.freeCumulantMultilinear`, `TauCeti.freeCumulant_star_comp_rev`, `TauCeti.freeCumulant_eq_zero_of_apply_eq_one`, `TauCeti.freeCumulant_add_algebraMap`, `TauCeti.freeCumulant_comp_finRotate`, `TauCeti.freeCumulant_pair`, `TauCeti.freeCumulant_fiberProd` (`Probability/FreeProbability/Cumulant/`) |
-| F2: freeness is the vanishing of mixed cumulants, additivity over free sums, cumulants and moments of products of two free families (former `free_cumulant_two_eq_zero`) | `TauCeti.isFreelyIndependent_iff_freeCumulant_eq_zero`, `TauCeti.IsFreelyIndependentElements.freeCumulant_sum`, `TauCeti.IsFreelyIndependent.freeCumulant_mul_eq_sum_partitionCumulant_mul_partitionCumulant`, `TauCeti.IsFreelyIndependent.apply_prod_ofFn_mul_eq_sum_partitionCumulant_mul_partitionMoment` |
+| F2: block moments, free cumulants by Möbius inversion, both moment–cumulant formulas, multiplicativity, multilinearity, scalar and adjoint transport, unit arguments, centring, cyclic invariance for traces, the first two cumulants, products as arguments | `TauCeti.partitionMoment`, `TauCeti.freeCumulant`, `TauCeti.partitionCumulant`, `TauCeti.apply_prod_ofFn_eq_sum_prod_freeCumulant`, `TauCeti.freeCumulant_eq_sum_mu_mul_partitionMoment`, `TauCeti.partitionCumulant_eq_prod_freeCumulant`, `TauCeti.freeCumulantMultilinear`, `TauCeti.freeCumulant_star_comp_rev`, `TauCeti.freeCumulant_eq_zero_of_apply_eq_one`, `TauCeti.freeCumulant_add_algebraMap`, `TauCeti.freeCumulant_comp_finRotate`, `TauCeti.freeCumulant_pair`, `TauCeti.freeCumulant_fiberProd` (`Probability/FreeProbability/Cumulant/`) |
+| F2: freeness is the vanishing of mixed cumulants, additivity over free sums, cumulants and moments of products of two free families | `TauCeti.isFreelyIndependent_iff_freeCumulant_eq_zero`, `TauCeti.IsFreelyIndependentElements.freeCumulant_sum`, `TauCeti.IsFreelyIndependent.freeCumulant_mul_eq_sum_partitionCumulant_mul_partitionCumulant`, `TauCeti.IsFreelyIndependent.apply_prod_ofFn_mul_eq_sum_partitionCumulant_mul_partitionMoment` |
 | F2: the noncrossing-pairing criterion and the genus bound | `Function.Involutive.orbitCount_finRotate_mul_add_orbitCount_eq_iff`, `Equiv.Perm.orbitCount_finRotate_mul_add_orbitCount_le` (`Combinatorics/ChordDiagram.lean`) |
 | F5: moment series, cumulant series, R-series, the functional equation and its inverse form, uniqueness, additivity over free sums | `TauCeti.momentSeries`, `TauCeti.freeCumulantSeries`, `TauCeti.rSeries`, `TauCeti.freeCumulantSeries_subst_X_mul_momentSeries`, `TauCeti.momentSeries_eq_one_add_X_mul_momentSeries_mul_rSeries_subst`, `TauCeti.freeCumulantSeries_eq_subst_substInvOfIsUnit`, `TauCeti.eq_freeCumulantSeries_of_subst_eq`, `TauCeti.IsFreelyIndependentElements.rSeries_sum` (`Probability/FreeProbability/Cumulant/Series.lean`) |
 | F5: sign, conjugation, imaginary part, normalization and moment expansion of the resolvent transform; Stieltjes inversion with atoms; uniqueness | `MeasureTheory.Measure.resolventTransform_conj`, `MeasureTheory.im_resolventTransform_pos`, `MeasureTheory.hasSum_resolventTransform_of_ae_norm_le`, `MeasureTheory.tendsto_mul_I_mul_resolventTransform`, `MeasureTheory.tendsto_intervalIntegral_im_resolventTransform`, `MeasureTheory.tendsto_mul_im_resolventTransform`, `MeasureTheory.Measure.ext_of_resolventTransform` (`MeasureTheory/Measure/ResolventTransform/`) |
-| F6: the centred semicircle measure of variance `σ²` (density, `δ₀` at `σ = 0`, normalization, symmetry, support, odd moments, `m_(2n) = catalan(n) σ^(2n)`), its only cumulant `κ₂ = σ²`, semicircular elements (former `HasSemicircularMoments`) | `TauCeti.Probability.semicircleReal`, `TauCeti.Probability.semicircleReal_eq_withDensity`, `TauCeti.Probability.integral_pow_two_mul_semicircleReal_zero`, `TauCeti.IsSemicircular`, `TauCeti.isSemicircular_iff_freeCumulant_const`, `PositiveLinearMap.law_eq_semicircleReal_iff` (`Probability/Distributions/Semicircle/`, `Probability/FreeProbability/Semicircular/`) |
+| F6: the centred semicircle measure of variance `σ²` (density, `δ₀` at `σ = 0`, normalization, symmetry, support, odd moments, `m_(2n) = catalan(n) σ^(2n)`), its only cumulant `κ₂ = σ²`, semicircular elements | `TauCeti.Probability.semicircleReal`, `TauCeti.Probability.semicircleReal_eq_withDensity`, `TauCeti.Probability.integral_pow_two_mul_semicircleReal_zero`, `TauCeti.IsSemicircular`, `TauCeti.isSemicircular_iff_freeCumulant_const`, `PositiveLinearMap.law_eq_semicircleReal_iff` (`Probability/Distributions/Semicircle/`, `Probability/FreeProbability/Semicircular/`) |
 | F6: the free central limit theorem in moments and in law, identically distributed and with bounded moments and convergent average variance | `TauCeti.IsFreelyIndependentElements.tendsto_apply_inv_sqrt_smul_sum_pow_semicircleReal`, `TauCeti.IsFreelyIndependentElements.tendsto_apply_inv_sqrt_smul_sum_pow_of_apply_pow_eq`, `TauCeti.IsFreelyIndependentElements.tendsto_law_inv_sqrt_smul_sum_semicircleReal` (`Probability/FreeProbability/CentralLimit.lean`, `Law/CentralLimit.lean`) |
 | F8: the limiting positive tracial functional of convergent word moments | `TauCeti.existsUnique_positive_tracial_starDistribution_of_tendsto` (`Probability/FreeProbability/Distribution/Limit.lean`) |
 | F8: compactness of `U(N)` and its normalized Haar probability | `TauCeti.Matrix.isCompact_unitaryGroup` (`Topology/Algebra/UnitaryGroup.lean`), `TauCeti.haarProb` (`RepresentationTheory/Compact/Haar.lean`) |
 | F8: Schur–Weyl duality for `GL_N` | `TauCeti.centralizer_range_tensorPowerRep_eq_range_permTensorActionAlgHom` (`RepresentationTheory/Symmetric/TensorAction/GeneralLinear.lean`) |
-| Former `normalized_state_bound` (`‖φ a‖ ≤ ‖a‖` for a state) | Mathlib's `PositiveContinuousLinearMap.ofReal_opNorm_eq_map_one`, `‖φ‖ = φ 1` |
+| The bound `‖φ a‖ ≤ ‖a‖` for a state | Mathlib's `PositiveContinuousLinearMap.ofReal_opNorm_eq_map_one`, `‖φ‖ = φ 1` |
 
-The two proofs of the free central limit theorem (by noncrossing pairings and by cumulants) and of
-the freeness criterion asked by the former F2 and F6 are routes to theorems the pin proves, not
-separate statements. The former `RandomMatrix` abbreviation for the a.e. quotient of matrix-valued
-functions is the carrier of §8.1, and the former `sSeries` is kept in `Suggested.lean` for the
-headline of §5.6.
+A proof of the free central limit theorem by noncrossing pairings or by cumulants, and of the
+freeness criterion, is a route to a theorem the pin proves, not a separate statement.
 
-**Shared with RandomMatrices.** [RandomMatrices](../RandomMatrices/README.md) Layer 6 states the
-bounded scalar core of the same theory: the scalar free product with positive state by reduced words
-(its §6.2; here §§3.3–3.4), free additive and multiplicative convolution of compactly supported laws
-with their R- and S-transforms (its §6.3; here §§5.1, 5.3, 5.6–5.7), the free Poisson limit (its
-§6.4; here §6.5), and Haar entry moments, Weingarten formulas and asymptotic freeness in expectation
-(its §6.5; here §§8.5–8.6). The two roadmaps describe one implementation of each of these
-constructions, in the generality and conventions specified here; RandomMatrices owns the almost-sure,
-variance and higher-centred-moment and orthogonal conclusions, non-Gaussian Wigner matrices, and its
-matrix applications. RandomMatrices also supplies the Gaussian and Ginibre ensembles (its §5.1) and
+**Consumed from RandomMatrices.** [RandomMatrices](../RandomMatrices/README.md) Layer 6 owns the
+bounded scalar core of the same theory, and this roadmap cites it there: the free product with
+positive state on the reduced-word Hilbert space (its §6.2, used in §§3.3–3.4), free additive and
+multiplicative convolution of compactly supported laws with their analytic R- and S-transforms (its
+§6.3, used in §§5.1, 5.3 and 5.7), the free Poisson limit of jump `1` (its §6.4, used in §6.5), and
+the Haar entry moments, the Weingarten formula and asymptotic freeness of Wigner and Haar-conjugated
+families with uniformly bounded deterministic matrices (its §6.5, used in §§8.3–8.7). What is planned
+here goes beyond it: the right representations, commutants, full, reduced C*- and von Neumann
+completions and faithfulness (Layer 3), the free cumulants of laws, the formal S-transform of an
+arbitrary normalized functional and its comparison with the analytic one (Layer 5), free Poisson
+laws of every jump (§6.5), the exact Weingarten asymptotics (§8.5), and asymptotic freeness without
+norm bounds (§§8.4, 8.6–8.7). RandomMatrices also owns the almost-sure, variance and
+higher-centred-moment and orthogonal conclusions, non-Gaussian Wigner matrices, and its matrix
+applications. RandomMatrices also supplies the Gaussian and Ginibre ensembles (its §5.1) and
 the Marchenko–Pastur moments and support (its §3.4); its finite combinatorial prerequisite is Tau
 Ceti's noncrossing-partition library, with the pairing converse that Layer 8 consumes. The free Poisson
 law of rate `λ > 0` and jump `1` is the dilation by `λ` of `marchenkoPastur (1/λ)`; the general jump
@@ -1592,8 +1629,8 @@ and compound laws are §§6.5–6.6.
   formula; §8.2 extends it to complex entries.
 - [IntegralHeckeAndGaloisDeterminants](../IntegralHeckeAndGaloisDeterminants/README.md) §0.2:
   `cycleProduct` and `cycleTerm`, specialized in §8.4 to `tr_N`.
-- RepresentationTheory/SchurWeyl Layer 8 and RepresentationTheory/CompactGroups Layer 0 build on the
-  Tau Ceti Schur–Weyl centralizer and Haar probability that §8.5 consumes directly.
+- RepresentationTheory/CompactGroups Layer 0 builds on the Tau Ceti Haar probability that Layer 8
+  consumes directly.
 
 **Outside this roadmap.** Factor rigidity, index, planar algebras and classification theorems
 (FactorRigidity, Subfactors); free entropy; the isomorphism problem for free group factors; analytic
@@ -1634,8 +1671,7 @@ contribution rules. These projects neither transfer ownership nor create a waiti
   `TensorProduct` and `UniformSpace.Completion`.
 - Analysis and measure theory: `MeasureTheory.resolventTransform` (the integral of `(t − z)⁻¹`) and
   `analyticOn_resolventTransform` (analytic off the support for a finite measure),
-  `HasStrictDerivAt.localInverse`, `FormalMultilinearSeries`, `HasFPowerSeriesOnBall`,
-  `NormedSpace.exp`, `MeasureTheory.AEEqFun`, `MeasureTheory.MemLp` with `MeasureTheory.MemLp.mul`,
+  `FormalMultilinearSeries`, `HasFPowerSeriesOnBall`, `MeasureTheory.AEEqFun`, `MeasureTheory.MemLp` with `MeasureTheory.MemLp.mul`,
   `MeasureTheory.Measure.haar`, `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.iIndepFun`,
   `Matrix.unitaryGroup` with its topological-group structure, the entrywise measurable structure on
   `Matrix` and its Borel property, `Circle`, `SimpleGraph.mulCayley`, `Matrix.PosSemidef`, `Cardinal`.
@@ -1748,13 +1784,10 @@ All the declarations below are proved at the pin; paths are under `TauCeti/`.
   Hermitian matrix with nonempty index type), `Matrix.integral_pow_spectralMeasure`
   (`Analysis/Matrix/SpectralMeasure.lean`), `Matrix.measurable_eigenvalues₀`
   (`Analysis/Matrix/Eigenvalues/Continuous.lean`).
-- *Unitary groups, Haar measure, Schur–Weyl*: `TauCeti.Matrix.isCompact_unitaryGroup` and its
+- *Unitary groups and Haar measure*: `TauCeti.Matrix.isCompact_unitaryGroup` and its
   `CompactSpace` instance (`Topology/Algebra/UnitaryGroup.lean`); `TauCeti.haarProb`, a Haar
   probability measure on a compact group with a Borel structure, invariant on both sides and under
-  inversion (`RepresentationTheory/Compact/Haar.lean`);
-  `TauCeti.centralizer_range_tensorPowerRep_eq_range_permTensorActionAlgHom` (over an infinite field in
-  which `d!` is invertible, the commutant of `GL_n` on `d`-fold tensors is spanned by the permutations)
-  (`RepresentationTheory/Symmetric/TensorAction/GeneralLinear.lean`).
+  inversion (`RepresentationTheory/Compact/Haar.lean`).
 
 ### From TauCetiRoadmap.CStarAlgebras
 
@@ -1798,8 +1831,19 @@ finite-stage representations).
 ### From TauCetiRoadmap.RandomMatrices
 
 §3.4 (support and noncrossing moments of the Marchenko–Pastur laws), §5.1 (the Gaussian ensemble
-`gaussianEnsemble β n g`, at `β = 2` the GUE of §8.2, and the complex Ginibre law), and Layer 6 as the
-shared bounded scalar core described in Scope and ownership.
+`gaussianEnsemble β n g`, at `β = 2` the GUE of §8.2, and the complex Ginibre law), and the bounded
+scalar core of Layer 6: §6.2 (the free product with positive state on the reduced-word Hilbert space
+of pointed Hilbert spaces: vacuum, inner product, bounded left representations, positivity of the
+vacuum state and freeness of the factors; assumed for pointed Hilbert spaces with unital
+representations, the GNS inputs of §3.4 being a case), §6.3 (free additive and multiplicative
+convolution of compactly supported laws, with well-definedness, associativity, commutativity,
+identities, scaling and support bounds; the analytic R-transform through the inverse of
+`G = −resolventTransform` near infinity, the identification of its germ with the formal R-series and
+its additivity; the analytic S-transform of a law of nonzero mean and its multiplicativity under
+`⊠`), §6.4 (the free Poisson limit for sums of free projections of trace `λ/n`) and §6.5 (Haar entry
+moments and the Weingarten formula with its large-dimension estimates; asymptotic freeness of
+Wigner, in particular GUE, and Haar-conjugated families with uniformly bounded deterministic
+matrices, in expectation and almost surely).
 
 ### From TauCetiRoadmap.StandardDistributions
 
@@ -1832,7 +1876,9 @@ element of each cycle; §8.4 uses them for `tr_N` on `M_N(ℂ)`.
   C*-Algebras*](https://jot.theta.ro/jot/archive/2009-061-002/2009-061-002-004.pdf): §4 for the
   expectation-GNS module and the represented amalgamated product.
 - K. Dykema, [*Faithfulness of Free Product States*](https://arxiv.org/abs/funct-an/9702014):
-  Theorem 1.1 and its compression proof for faithful scalar input states.
+  Theorem 1.1 and its compression proof for faithful scalar input states; p. 1 for the
+  characterization of the reduced free product by freeness, generation and a faithful GNS
+  representation.
 - A. Catterall, [*Free Products and Continuous Bundles of C*-Algebras*](https://theses.gla.ac.uk/3865/1/2003CatterallPhD.pdf):
   Chapter 2, Theorem 2.2.2, for the faithfulness of amalgamated expectations; factors equal to `B` are
   removed before its nontrivial-factor form is applied.
@@ -1845,10 +1891,22 @@ element of each cycle; §8.4 uses them for `tr_N` on `M_N(ℂ)`.
   Zuber Integral and Free Probability*](https://arxiv.org/abs/math-ph/0205010): Theorem 3.1 and
   Propositions 3.2–3.3 for the full centred-word proof of asymptotic freeness of Haar unitaries, with
   deterministic joint moment convergence and no uniform norm bound; applied to the deterministic
-  family together with its adjoints it gives the star-moment theorem.
+  family together with its adjoints it gives the star-moment theorem; Corollary 3.4 for Haar
+  conjugates under a joint limit.
 - B. Collins, P. Śniady, [*Integration with respect to the Haar measure on unitary, orthogonal and
   symplectic group*](https://arxiv.org/abs/math-ph/0402073): Proposition 2.2, Corollary 2.4,
   Proposition 2.6 and Corollary 2.7 for the invariant projection, the Weingarten inverse on the image
   algebra and its asymptotics.
 - P. Biane, *Some properties of crossings and partitions*, Discrete Math. 175 (1997), 41–53, for the
   permutation model of noncrossing partitions.
+- R. Speicher, [*Lecture Notes on "Free Probability Theory"*](https://arxiv.org/abs/1908.08125):
+  Theorem 7.5 and its proof, p. 81–84, for asymptotic freeness of Haar-conjugated matrices under
+  separate limits, and the example after it for the sum `A_N + U_N B_N U_N*`; Assignment 8,
+  Exercise 3, and Assignment 9, Exercise 3, for compound free Poisson laws and their R-transform.
+- H. Kesten, [*Symmetric Random Walks on Groups*](https://www.ams.org/journals/tran/1959-092-02/S0002-9947-1959-0109367-6/),
+  Trans. Amer. Math. Soc. 92 (1959), 336–354: Theorem 3 for the spectral radius on free groups.
+- I. Kortchemski, C. Marzouk, [*Simply Generated Non-Crossing Partitions*](https://arxiv.org/abs/1503.09174):
+  §2.1 and Proposition 4 for the depth-first bijection between plane trees and noncrossing partitions.
+- C. Houdayer, S. Raum, [*Locally Compact Groups Acting on Trees, the Type I Conjecture and
+  Non-Amenable von Neumann Algebras*](https://arxiv.org/abs/1610.00884): Proposition 2.22 for the
+  group von Neumann algebra of an amalgamated free product.
