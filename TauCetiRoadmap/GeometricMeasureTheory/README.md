@@ -808,7 +808,7 @@ perimeter, normal and surface measure of Lipschitz and `C¹` domains, constructs
 function on a bounded Lipschitz domain with integration by parts, extension and gluing, and computes
 the perimeter and outer normal of the inside of a rectifiable Jordan curve. Its inputs beyond Layers
 1–5 are the Lipschitz-domain model and Sobolev trace of PDE §1.6, Jordan separation and the
-topological Jordan index theorem from ConformalMapping §5.3, §5.5 and §5.6, the winding number of
+topological Jordan index theorem from ConformalMapping §5.3–§5.6, the winding number of
 ContourIntegration Layer 0 with the index calculus of absolutely continuous curves named in
 DifferentialGeometry 5.6.1, and the Green identity for
 absolutely continuous curves from DifferentialGeometry 5.6.3, used through the declarations named in
@@ -907,9 +907,13 @@ the winding number `TauCeti.Contour.windingNumber γ a b` is `σ` on the inside
 `filledHull C \ C` and `0` outside `filledHull C` (the last part, on the unbounded complementary
 component, is `AbsolutelyContinuousOnInterval.windingNumber_eq_zero_of_unbounded_component`).
 The value `σ` on the inside is derived from the topological Jordan index theorem of ConformalMapping
-§5.6, whose hypotheses on `γ` are continuity, closedness and injectivity on `[a, b)`: at `z` inside,
-a closed polygon inscribed in `γ` and uniformly within `dist(z, C)` of it has the winding number of `γ`
-at `z` (`AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`) and, by the comparison and
+§5.6, stated there for a homeomorphism of the circle onto `C` read as a loop on `[0, 1]`. It applies to
+`γ`: as `γ` is continuous, closed and injective on `[a, b)`, the map `exp(2πis) ↦ γ(a + s(b − a))`,
+`s ∈ [0, 1)`, is a continuous bijection of the circle onto `C`, a homeomorphism by compactness, and its
+loop on `[0, 1]` is `γ` after the increasing affine change of parameter `s ↦ a + s(b − a)`, which keeps
+the topological index (ConformalMapping §5.4). At `z` inside, a closed polygon inscribed in `γ` and
+uniformly within `dist(z, C)` of it has the winding number of `γ` at `z`
+(`AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`) and, by the comparison and
 the proximity criterion of ConformalMapping §5.5, the topological index of `γ` at `z`. Prove
 `perimeter_filledHull_sdiff`: a Jordan curve
 `C` with `H¹(C) < ∞` bounds an inside `Ω = filledHull C \ C` of finite perimeter `P(Ω) = H¹(C)`; that
@@ -946,7 +950,7 @@ develops Jordan-curve area and Hausdorff length). *Needs:* §1.1, §5.3, §5.4, 
 `AbsolutelyContinuousOnInterval.windingNumber_comp_of_monotoneOn`,
 `AbsolutelyContinuousOnInterval.windingNumber_comp_of_antitoneOn`, `TauCeti.Green.green_ac_flux`,
 `AbsolutelyContinuousOnInterval.windingNumber_eq_of_dist_lt_dist`; Mathlib `HasUnitSpeedOn`;
-ConformalMapping §5.5 and §5.6 for the index theorem.
+ConformalMapping §5.4, §5.5 and §5.6 for the index theorem.
 
 **Checks.**
 - The counterclockwise unit circle `γ(t) = exp(it)` on `[0, 2π]`: `σ = 1`, `−σ J γ'(t) = −i · i e^{it} = e^{it}`,
@@ -980,8 +984,8 @@ ConformalMapping §5.5 and §5.6 for the index theorem.
 
 ### Dependencies
 
-Layers 1, 4 and 5; PDE §1.6 for Lipschitz domains and the Sobolev trace; ConformalMapping §5.3,
-§5.5 and §5.6, ContourIntegration Layer 0 and DifferentialGeometry 5.6.1 and 5.6.3 for §6.4;
+Layers 1, 4 and 5; PDE §1.6 for Lipschitz domains and the Sobolev trace; ConformalMapping
+§5.3–§5.6, ContourIntegration Layer 0 and DifferentialGeometry 5.6.1 and 5.6.3 for §6.4;
 DifferentialGeometry 12.5 for the smooth-domain comparison of §6.2 only.
 
 ## Downstream consumers
@@ -1447,10 +1451,13 @@ declarations above; only the conventions of those sections are assumed beyond th
 
 §5.3, the Jordan curve theorem: for every Jordan curve `C ⊆ ℂ`, `ℂ \ C` has two components, the bounded
 one `filledHull C \ C` with frontier `C`. Consumed through `TauCeti.IsJordanCurve.frontier_filledHull_sdiff`.
-§5.5, the agreement of the topological index of a closed piecewise-`C¹` loop with its winding number
-and the proximity criterion for the topological index, and §5.6, the topological Jordan index
-theorem: a closed loop continuous on `[a, b]`, `a < b`, and injective on `[a, b)` has topological
-index one sign `σ ∈ {1, −1}` on the inside of its trace; both for the index theorem of §6.4.
+§5.4, the invariance of the topological index under increasing affine changes of parameter; §5.5, the
+agreement of the topological index of a closed piecewise-`C¹` loop with its winding number and the
+proximity criterion for the topological index; and §5.6, the topological Jordan index theorem: a
+homeomorphism of the circle onto a Jordan curve `C`, read as a loop on `[0, 1]`, has topological index
+one sign `σ ∈ {1, −1}` on `filledHull C \ C`. It is applied to the circle homeomorphism induced by a
+closed loop continuous on `[a, b]`, `a < b`, and injective on `[a, b)`, with §5.4 for the change of
+parameter; all three for the index theorem of §6.4.
 
 ### From TauCetiRoadmap.ContourIntegration (Completed)
 
