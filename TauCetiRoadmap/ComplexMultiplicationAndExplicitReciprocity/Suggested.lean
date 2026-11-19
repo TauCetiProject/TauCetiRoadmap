@@ -16,8 +16,10 @@ filtered for primitivity, and the normalized modular `j`. The simple analytic cl
 polynomial expresses the input to this bound; the elliptic classification, integrality
 and ring/ray reciprocity are inputs from ImaginaryQuadraticClassNumber §H3.1.
 
-At the pinned revisions, the CM-type, primitive-core, inverse-coset reflex-pair and
-selected tensor-factor interfaces needed for CM.0's reflex comparisons are absent.
+At the pinned Mathlib and Tau Ceti revisions, the CM-type, primitive-core, inverse-coset
+reflex-pair and selected tensor-factor interfaces needed for CM.0's reflex comparisons are
+absent. ShimuraVarieties §5.1 prototypes `CMType`, `CMType.typeTrace` and
+`CMType.reflexField` as roadmap signatures, not library code.
 CM.1's rational self-twist and CM tensor/Hodge/period comparisons, and CM.2's polarized
 classification and explicit reciprocity require CM actions, complex uniformization, relative Serre tensors, polarizations
 and regular Siegel level functions. The field abelian-variety and isogeny carriers alone
