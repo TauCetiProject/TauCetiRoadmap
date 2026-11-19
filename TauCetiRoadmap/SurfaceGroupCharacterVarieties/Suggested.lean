@@ -9,17 +9,20 @@ public import TauCeti.Topology.Homotopy.AmbientIsotopic.Basic
 /-!
 # Surface group character varieties: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
-definitions they need, each with a real body on a carrier that exists at the pins.
+The roadmap is `README.md`, which is definitive; this file is not the roadmap. Its signatures are
+suggested forms, not an exhaustive checklist: it states the roadmap's headline theorems against the
+pinned Mathlib and Tau Ceti, each with `sorry`, together with the few definitions they need, each
+with a real body on a carrier that exists at the pins.
 
 Carriers. A connected reductive group `𝐆` over a field `k` is Tau Ceti's: a finite-type commutative
 Hopf `k`-algebra `O(𝐆)` with `TauCeti.reductiveCommHopfAlgProperty k`; its points `𝐆(R)` are the
 convolution group `WithConv (O(𝐆) →ₐ[k] R)` with the point topology; its Lie algebra is the module
 of counit derivations `Derivation k O(𝐆) (Bialgebra.CounitAlgebra k O(𝐆) k)`, on which the points
 act by Tau Ceti's `Derivation.adRepresentation`. A real reductive datum `(𝐆, G^ℝ)` is such an `O(𝐆)`
-over `ℝ` and an open subgroup `G^ℝ` of `𝐆(ℝ)`. The outer automorphism group `Out(Γ)` is
-TeichmullerGeometry's; it is restated here only because the pins have none.
+over `ℝ` and an open subgroup `G^ℝ` of `𝐆(ℝ)`. The outer automorphism group `Out(Γ)` of a group is
+TeichmullerGeometry's `OuterAut`; it is restated here because the pins have it only for topological
+groups, as `TauCeti.ContinuousOut`, which for the discrete topology is `Out(Γ)` (TeichmullerGeometry
+§4.2).
 
 Headline theorems stated here:
 * the outer action of `Out(Γ)` on `Hom(Γ, H)` exists exactly when every homomorphism has
@@ -336,7 +339,7 @@ theorem characterVariety_t2_locallyCompact_secondCountable {H : Type} [CommRing 
   sorry
 
 /-- **The universal Hausdorff quotient** (Layer 7.2, which proves the topological statement;
-Sikora2012 lines 835–837 for the unique closed orbit in each fibre of the affine quotient). For a
+Sikora2012, §11, for the unique closed orbit in each fibre of the affine quotient). For a
 connected reductive group `G` over `ℂ` and a finitely generated group `Γ`, the character variety
 `𝒳(Γ, G(ℂ))` is Hausdorff, and sending a homomorphism to the class of the unique closed orbit in its
 orbit closure is a continuous map from `Hom(Γ, G(ℂ))` to it, constant on conjugation orbits and
