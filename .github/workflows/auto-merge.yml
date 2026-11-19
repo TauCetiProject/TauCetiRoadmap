@@ -34,6 +34,14 @@ jobs:
     if: >-
       github.event.pull_request.draft == false &&
       (github.event.action != 'edited' || github.event.changes.base != null)
+    # One run per pull request. The job re-reads the live pull request and `gh pr merge --auto` is
+    # idempotent, so the newest run does everything a superseded one would; without this, every push
+    # in a burst waits for a GitHub-hosted runner of its own (47 were queued at once on 2026-11-18,
+    # the oldest for two hours). The group is on the job rather than the workflow so that a run
+    # whose job is skipped, such as a title edit, never cancels one that would have armed the merge.
+    concurrency:
+      group: auto-merge-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     steps:
       - name: Mint App token (pull-requests + contents write)

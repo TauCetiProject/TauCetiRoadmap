@@ -2118,9 +2118,9 @@ Frobenius lift and a `τ ∈ I_K` from
 `LocalFieldsRamification.exists_topologicalClosure_zpowers_eq_tameInertia`; their classes generate
 `G_K/P_K` through `LocalFieldsRamification.tameQuotientEquiv`, hence every
 finite quotient of it, and the class of `τ` lies in tame inertia, whose finite quotients have order
-prime to `p` (`LocalFieldsRamification.tameInertiaEquiv`). These are the `σ, τ` and the hypothesis
-`¬ p ∣ orderOf τ` that `exists_tameFrame_exponents` consumes at the layer `L = fixed field of
-P_K U`, under the identification of `Gal(L/K)` with `G_K/(P_K U)` through
+prime to `p` (Tau Ceti's `TauCeti.quotientWildInertiaSubgroupEquiv`). These are the `σ, τ` and the
+hypothesis `¬ p ∣ orderOf τ` that `exists_tameFrame_exponents` consumes at the layer
+`L = fixed field of P_K U`, under the identification of `Gal(L/K)` with `G_K/(P_K U)` through
 `IntermediateField.fixedField` and `IntermediateField.restrictNormalHom_ker`. -/
 theorem exists_tameFrame_quotient (_hp : ringChar 𝓀[K] = p)
     (U : OpenNormalSubgroup (Field.absoluteGaloisGroup K))
