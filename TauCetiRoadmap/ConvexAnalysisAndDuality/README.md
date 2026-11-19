@@ -41,14 +41,16 @@ potential from a cyclically monotone set. Neither has support functions, infimal
 recession functions or perspectives of extended-real functions, directional derivatives with the
 max formula, any subdifferential calculus rule beyond affine perturbation, normal cones of
 intersections, Legendre functions, the Minkowski–Weyl theorem for polyhedra, Farkas' lemma,
-linear or conic programming duality, the Karush–Kuhn–Tucker theorem, the Brøndsted–Rockafellar
-theorem, generic differentiability, or Choquet theory. The Minkowski–Weyl theorem for cones is a
-target of ScatteringDiagrams §1.1, which this roadmap consumes.
+linear-programming duality beyond the finite transport problem, conic duality, the
+Karush–Kuhn–Tucker theorem, the Brøndsted–Rockafellar theorem, generic differentiability, or
+Choquet theory. The Minkowski–Weyl theorem for cones is a target of ScatteringDiagrams §1.1,
+which this roadmap consumes.
 
 `Suggested.lean` states, against the pinned Mathlib and Tau Ceti, the headlines below that carry
-a Lean name, each with every conclusion the README attaches to it, and the definitions those
-statements need. It is not an exhaustive acceptance test: the other headlines (bold or not) are
-targets of the same standing, stated in prose with their locators or proof routes.
+a Lean name, which in the layers are all the bold ones, each with every conclusion the README
+attaches to it, and the definitions those statements need. It is not an exhaustive acceptance
+test: the bullets without a bold name are targets of the same standing, stated in prose with
+their locators or proof routes.
 
 Suggested home: `TauCeti/Analysis/Convex/` for Layers 2–5, next to the existing
 `Conjugate.lean`, `Subdifferential.lean` and `FenchelMoreau.lean`, with Layer 1 in
@@ -107,22 +109,24 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
 - the Bishop–Phelps theorem (density of support points and support functionals):
   BanachSpaceTheory B2; John's ellipsoid theorem and the Banach–Mazur distance to `ℓ₂ⁿ`:
   BanachSpaceTheory B7;
-- proximal maps and Moreau envelopes, the Moreau decomposition for proximal maps, the
-  Baillon–Haddad theorem and the convergence theory of first-order methods (proximal point,
-  projected gradient, forward–backward, accelerated gradient, subgradient method, alternating
-  projections and Douglas–Rachford): the first-order-methods roadmap. 3.8 proves the cone case of
-  Moreau's decomposition with nearest points, which is its input. That roadmap also owns
-  existence, uniqueness and quadratic growth for minimizers of continuous real-valued strongly
-  convex functions (its 1.3), of which 4.1 is the extended-real closed form, and the
-  variational inequality for the projection onto a closed convex set (its 3.1), of which
-  `mem_normalCone_iff_isMinOn` in 3.8 is the normal-cone form;
+- the proximal map of a closed proper convex function (its 3.2), the Baillon–Haddad theorem (its
+  1.2), projected and proximal gradient descent, the subgradient method and accelerated gradient
+  methods: the first-order-methods roadmap. That roadmap also owns existence, uniqueness and
+  quadratic growth for minimizers of continuous real-valued strongly convex functions (its 1.3),
+  of which 4.1 is the extended-real closed form, and the variational inequality for the
+  projection onto a closed convex set (its 3.1), of which `mem_normalCone_iff_isMinOn` in 3.8 is
+  the normal-cone form. Moreau envelopes, the Moreau decomposition for proximal maps and the
+  other splitting methods are in the boundary list;
 - the finite matrix Farkas certificate over the rationals, with nonnegative inequality and free
   equality multipliers, among the rational polyhedron adapters of TensorProductCombinatorics
   §1.3; Farkas' lemma 1.4 is the real matrix form for the standard system `A x = b`, `x ≥ 0`;
 - the Minkowski–Weyl theorem for cones: ScatteringDiagrams §1.1, consumed by 1.3 and 1.4;
 - Ekeland's variational principle: Tau Ceti
   `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`, used by 4.6;
-- the matrix-game minimax theorem: RegretMinimizationAndEquilibria.
+- the matrix-game minimax theorem: RegretMinimizationAndEquilibria;
+- duality with both attainments for the finite transport linear program: Tau Ceti
+  `TauCeti.exists_cost_eq_finiteDualValue`, the target of OptimalTransport §2.3. It is the
+  transport instance of 5.3, proved directly there and not re-derived here.
 
 Every result that is not listed in a layer belongs to the
 [boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
@@ -202,7 +206,8 @@ These are fixed for every target. A statement that departs from them is a differ
   `gradient`, `DifferentiableAt`.
 - **Minimax:** `Sion.minimax` (`Mathlib/Topology/Sion.lean`).
 - **Order:** `Maximal`, `IsGreatest`, `IsMinOn`, `IsMaxOn`; measures `IsProbabilityMeasure`,
-  `MeasurableSet` and `IsGδ`.
+  `MeasurableSet` and `IsGδ`; the Riesz–Markov–Kakutani theorem `RealRMK.rieszMeasure` and
+  `RealRMK.integral_rieszMeasure` (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
 
 ### From Tau Ceti
 
@@ -232,6 +237,8 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Cyclic monotonicity** (`TauCeti/MeasureTheory/OptimalTransport/CTransform/Rockafellar.lean`
   and its imports): `TauCeti.IsCyclicallyMonotone`, `TauCeti.pairingCost` (the cost
   `-B x y`), and `isCyclicallyMonotone_pairingCost_iff_exists_fenchelConjugate`.
+- **Finite transport duality:** `TauCeti.exists_cost_eq_finiteDualValue`
+  (`TauCeti/MeasureTheory/OptimalTransport/Finite/Duality.lean`), the transport instance of 5.3.
 - **Polyhedra and alternatives:** `TauCeti.IsConvexPolyhedron`
   (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`), Gordan's alternative
   `exists_forall_dual_pos_iff` (`TauCeti/Geometry/Convex/Cone/Alternative.lean`).
@@ -305,8 +312,7 @@ affine span, where it is nonzero, so it is not constant on `C`.
   dimension of the vector span of `K` (Simon, Thm 8.11, p. 126; Hiriart-Urruty–Lemaréchal I,
   Ch. III, Thm 2.3.4, p. 111; Borwein–Lewis, Thm 4.1.8, p. 68).
 - Line-free closed convex sets are the convex hull of their extreme points and extreme rays
-  (Schneider, Thm 1.4.3, p. 18). This is the unbounded form used by 1.3 for polyhedra with no
-  lines, and is a target here.
+  (Schneider, Thm 1.4.3, p. 18). This unbounded form of the theorem is a target in prose.
 
 *Proof route.* By Krein–Milman (`closure_convexHull_extremePoints`) and finite dimension the
 closure is unnecessary: induct on the dimension, using 1.1 to place each frontier point in a face
@@ -330,10 +336,17 @@ theorem `convexHull_eq_union` inside the affine span, with `AffineIndependent.ca
   (Rockafellar–Wets, Thm 3.52, p. 102; Borwein–Lewis, Thm 5.1.7, p. 99), is the Minkowski–Weyl
   target of ScatteringDiagrams §1.1 and is consumed here, not built.
 
-*Proof route.* Polyhedra reduce to cones by homogenization `s ↦ {(t • x, t) | t ≥ 0, x ∈ s}` in
-`V × ℝ`, to which the cone form of ScatteringDiagrams §1.1 applies; the slice at `t = 1` gives
-`convexHull ℝ P + PointedCone.hull ℝ D`. The bounded case: `PointedCone.hull ℝ D` is bounded only
-if it is `{0}`.
+*Proof route.* Homogenize the inequalities, not the points. Write `s = {x | ∀ i, ℓᵢ x ≤ bᵢ}`
+with `ℓᵢ` linear, and let `Ĉ = {(x, t) | t ≥ 0, ∀ i, ℓᵢ x ≤ t bᵢ}` in `V × ℝ`. It is the dual
+of a finite set of linear forms by construction, so the cone form of ScatteringDiagrams §1.1
+gives finitely many generators. Those with `t > 0`, rescaled to `t = 1`, give `P`; those with
+`t = 0` give `D`; and `s` is the slice of `Ĉ` at `t = 1`, which is
+`convexHull ℝ P + PointedCone.hull ℝ D`. For the converse, apply the cone form to the cone
+generated by the `(p, 1)`, `p ∈ P`, and the `(d, 0)`, `d ∈ D`: its slice at `t = 1` is
+`convexHull ℝ P + PointedCone.hull ℝ D`, and the slice of the dual of a finite set is a
+polyhedron. The homogenization of the points, `{(t • x, t) | t ≥ 0, x ∈ s}`, does not work: it
+is not closed when `s` is unbounded. The bounded case: `PointedCone.hull ℝ D` is bounded only if
+it is `{0}`.
 
 *Needs:* ScatteringDiagrams §1.1 (Minkowski–Weyl for cones); Mathlib `PointedCone.hull`,
 `PointedCone.DualFG`; Tau Ceti `IsConvexPolyhedron`.
@@ -371,6 +384,10 @@ the cone form of Minkowski–Weyl (ScatteringDiagrams §1.1) and closed; separat
   `{0 ≤ y ≤ 1}` in `ℝ²` is `convexHull {(0,0), (0,1)} + hull {e₁, -e₁}`.
 - Negative control for boundedness: the half-line `{x ≥ 0}` in `ℝ` is a polyhedron but not a
   polytope, since every `convexHull ℝ P` is compact.
+- Negative control for the homogenization: for `s = {x ≥ 0}` in `ℝ`, the cone over the points,
+  `{(a, t) | a ≥ 0, t > 0} ∪ {(0, 0)}`, contains `(1, 1/n)` for every `n` but not `(1, 0)`, so it
+  is not closed; the homogenized inequality `-a ≤ t · 0` gives the closed quadrant
+  `{(a, t) | a ≥ 0, t ≥ 0}`, generated by `(0, 1)` and `(1, 0)`, so `P = {0}` and `D = {1}`.
 - Farkas: `A = (1 1)`, `b = -1` has no `x ≥ 0` with `x₁ + x₂ = -1`, and `y = 1` gives
   `Aᵀ y = (1, 1) ≥ 0` with `b ⬝ᵥ y = -1 < 0`.
 - Farkas, solvable side: `A = (1 1)`, `b = 1` has `x = (1, 0)`, and every `y` with
@@ -427,8 +444,10 @@ indicator, which is the indicator of the closed convex hull.
   `convexPolar (convexPolar C) = closure (convexHull ℝ (insert 0 C))` (Borwein–Lewis,
   Thm 4.1.5, p. 67).
 - For a cone `K`, the polar is the polar cone `{y | ∀ x ∈ K, ⟪x, y⟫ ≤ 0}` and the bipolar is
-  the closed convex cone generated by `K` (Borwein–Lewis, Thm 3.3.14, p. 54); for a Hilbert space
-  this is `-ProperCone.innerDual` of the dual, and it is a target in prose.
+  the closed convex cone generated by `K` (Borwein–Lewis, Thm 3.3.14, p. 54); this is a target in
+  prose. In a Hilbert space the polar cone is `-ProperCone.innerDual K`, and the bipolar is
+  `ProperCone.innerDual (ProperCone.innerDual K)`, which for a closed convex cone is `K` itself by
+  Mathlib's `ProperCone.innerDual_innerDual`.
 - The same bipolar theorem holds for a Hausdorff locally convex space `E` paired with
   `StrongDual ℝ E`, with closure in the weak topology on `E`, by the same separation argument
   with `geometric_hahn_banach_point_closed`; this is a target in prose.
@@ -513,7 +532,8 @@ Lower semicontinuity is closedness of that epigraph.
 - `convexPolar {0}` is the whole space, and `convexPolar` of the whole space is `{0}`.
 - Negative control for the inserted `0`: in `ℝ`, `convexPolar [1, 2] = (-∞, 1/2]`, whose polar is
   `[0, 2] = convexHull (insert 0 [1, 2])`, not the closed convex set `[1, 2]`.
-- `infConv (convexIndicator {0}) g = g`.
+- `infConv (convexIndicator {0}) g = g` for `g` never `⊥`; for `g 0 = ⊥` and `g = 0` elsewhere,
+  the term `y = 1` at `x = 1` is `⊤ + ⊥ = ⊥ ≠ g 1`.
 - `infConv |·| (x²/2)` is the Huber function, `x²/2` for `|x| ≤ 1` and `|x| - 1/2` otherwise;
   its conjugate is `y²/2` on `[-1, 1]` and `⊤` outside, the sum of the conjugates `δ_[-1,1]` and
   `y²/2` (at `y = 0.3` both are `0.045`).
@@ -677,11 +697,11 @@ separation.
   `⊥`, if some `A x₀` lies in the relative interior of the domain of `g`, then the subdifferential
   of `g ∘ A` at `x` is the image under `ContinuousLinearMap.adjoint A` of the subdifferential of
   `g` at `A x` (Hiriart-Urruty–Lemaréchal II, Ch. X, Thm 2.2.3, p. 58, for the conjugate).
-- **Relative interior of a linear image.** For a linear map `L` between finite-dimensional real
-  vector spaces and a convex set `C`, the relative interior of `L '' C` is the image of the
-  relative interior of `C` (Rockafellar–Wets, Prop 2.44(a), p. 66). With Mathlib's
-  `intrinsicInterior_prod_eq` and `L (a, b) = a - b` this gives
-  `ri (C - D) = ri C - ri D` for convex `C`, `D`. This is a target in prose.
+- **Relative interior of a linear image** (`intrinsicInterior_linearMap_image`). For a linear
+  map `L` between finite-dimensional real normed spaces and a convex set `C`, the relative
+  interior of `L '' C` is the image of the relative interior of `C` (Rockafellar–Wets,
+  Prop 2.44(a), p. 66). With Mathlib's `intrinsicInterior_prod_eq` and `L (a, b) = a - b` this
+  gives `ri (C - D) = ri C - ri D` for convex `C`, `D`.
 
 *Proof route.* The inclusion `⊇` is the unqualified rule of 3.5. For `⊆`, fix
 `u ∈ subdifferential (f + g) x` and set `φ y = ⨅ z, f z - ⟪z, u⟫ + g (z + y)`. Then `φ` is convex,
@@ -807,11 +827,13 @@ the maximal cyclically monotone sets, and subgradients exist densely.
 *Proof route.* Existence: `f - μ/2 ‖·‖²` has an affine minorant (Tau Ceti
 `exists_affine_le_of_lt`), so `f` is coercive and the direct method in the weak topology applies
 (VariationalMethods §1.4, or directly with Tau Ceti's weak compactness). Growth: `0` is a
-subgradient at `z`, and the subgradient inequality of the convex `f - μ/2 ‖·‖²` at `z` with
-subgradient `-μ z` rearranges to the bound. Strong monotonicity: add the two subgradient
+subgradient at `z`; the sum rule 3.5 for `f = (f - μ/2 ‖·‖²) + μ/2 ‖·‖²`, whose second term is
+continuous with gradient `μ z` at `z`, gives `-μ z ∈ ∂(f - μ/2 ‖·‖²) z`, and that subgradient
+inequality rearranges to the bound. Strong monotonicity: add the two subgradient
 inequalities of `f - μ/2 ‖·‖²`.
 
-*Needs:* Tau Ceti `exists_affine_le_of_lt`; Mathlib `strongConvexOn_iff_convex`.
+*Needs:* 3.5; Tau Ceti `exists_affine_le_of_lt`, `mem_subdifferential_of_hasFDerivAt`,
+`isCompact_toWeakSpace_of_isClosed_of_convex_of_isBounded`; Mathlib `strongConvexOn_iff_convex`.
 
 ### 4.2 Strong convexity and smooth conjugates
 
@@ -843,13 +865,13 @@ quadratic lower bound for `f = f**`.
   - `IsEssentiallyStrictlyConvex f`: `f` is strictly convex on every convex set of points where
     its subdifferential is nonempty.
   - `IsLegendre f`: both.
-- **Steepness.** For a proper closed convex `f` on a finite-dimensional inner product space,
-  `IsEssentiallySmooth f` holds exactly when the interior of the domain is nonempty, `f` is
-  differentiable on it, and `‖∇f xₙ‖ → ∞` whenever `xₙ` in the interior of the domain converges
-  to a point of its frontier (Borwein–Vanderwerff, Def 7.1.1(a), p. 338, for the steep form, and
-  Thm 7.3.8(a), p. 345, for its equivalence with `∂f` single-valued and locally bounded on its
-  domain). This is a target in prose, and it is the form in which essential smoothness enters
-  the Gärtner–Ellis theorem.
+- **Steepness** (`isEssentiallySmooth_iff_tendsto_norm_gradient`). For a proper closed convex
+  `f` on a finite-dimensional inner product space, `IsEssentiallySmooth f` holds exactly when the
+  interior of the domain is nonempty, `f` is differentiable on it, and `‖∇f xₙ‖ → ∞` whenever
+  `xₙ` in the interior of the domain converges to a point of the frontier of that interior
+  (Borwein–Vanderwerff, Def 7.1.1(a), p. 338, for the steep form, and Thm 7.3.8(a), p. 345, for
+  its equivalence with `∂f` single-valued and locally bounded on its domain). It is the form in
+  which essential smoothness enters the Gärtner–Ellis theorem.
 - **Strict–smooth duality**
   (`isEssentiallySmooth_iff_isEssentiallyStrictlyConvex_fenchelConjugate`). A proper closed
   convex `f` is essentially smooth exactly when `f*` is essentially strictly convex
@@ -959,6 +981,11 @@ the real-valued function `f - y₀` on the closed, hence complete, sublevel set
   subdifferential is empty off it.
 - `IsEssentiallySmooth` fails for `x²/2 + δ_[0,∞)`, whose subdifferential at `0` is `(-∞, 0]`.
 - `IsEssentiallySmooth` fails for `|·|`, which is not differentiable at the interior point `0`.
+- Steepness: for `-log` the gradient norm `1/x` tends to `∞` as `x ↓ 0`; for `x²/2 + δ_[0,∞)`
+  the gradient `x` tends to `0`, matching the failure of `IsEssentiallySmooth` there.
+- Negative control for closedness in the steepness equivalence: `δ_(0,1)` on `ℝ` is convex and
+  proper but not closed; it is essentially smooth (differentiable on `(0, 1)`, no subgradient off
+  it), yet its gradient is `0`, so it is not steep.
 - `IsEssentiallyStrictlyConvex (x²/2)` holds.
 - `IsEssentiallyStrictlyConvex` fails for `|·|`, which is affine on `[0, ∞)` where it has
   subgradients.
@@ -1017,13 +1044,14 @@ domain.
   Borwein–Vanderwerff, Thm 2.3.4, p. 46, under the core condition).
 - Weak duality `⨆ u, -f* (-(u ∘ A)) - g* u ≤ ⨅ x, f x + g (A x)` holds with no hypothesis, by
   Fenchel–Young; this is a target in prose.
-- **Conjugate of a sum.** For convex `f`, `g` that are never `⊥`, if `g` is finite and
-  continuous at a point of `dom f` (normed tier), or `ri dom f ∩ ri dom g` is nonempty
-  (Euclidean tier), then `(f + g)* = infConv f* g*` for the pairing of the tier, and at every
-  `u` where this value is not `⊤` the infimum defining `infConv f* g* u` is attained
+- **Conjugate of a sum** (`fenchelConjugate_add_of_continuousAt`,
+  `fenchelConjugate_add_of_intrinsicInterior`). For convex `f`, `g` that are never `⊥`, if `g`
+  is finite and continuous at a point of `dom f` (normed tier), or `ri dom f ∩ ri dom g` is
+  nonempty (Euclidean tier), then `(f + g)* = infConv f* g*` for the pairing of the tier, and at
+  every `u` where this value is not `⊤` the infimum defining `infConv f* g* u` is attained
   (Hiriart-Urruty–Lemaréchal II, Ch. X, Thm 2.3.2, p. 62, for proper closed convex functions
   under the relative-interior qualification; Bauschke–Combettes, Prop 15.2, p. 247, in Hilbert
-  space under `0 ∈ core (dom f - dom g)`). This is a target in prose.
+  space under `0 ∈ core (dom f - dom g)`).
 
 *Proof route.* The value function `v y = ⨅ x, f x + g (A x + y)` is convex, and its conjugate is
 `u ↦ f* (-(u ∘ A)) + g* u`. Under either qualification `0` is a point of continuity, or a
@@ -1044,7 +1072,8 @@ conjugate of a sum is the case `A = id` with `f` replaced by `f - B (·) u`: the
   for all `i` and `A x = b`, then every minimizer `x*` of `f` on
   `{x | ∀ i, gᵢ x ≤ 0, A x = b}` has multipliers `λᵢ ≥ 0` and `y` with `λᵢ gᵢ x* = 0` and
   `0 ∈ ∂f x* + ∑ λᵢ ∂gᵢ x* + Aᵀ y` (Hiriart-Urruty–Lemaréchal I, Ch. VII, Thm 2.2.5, p. 310;
-  Borwein–Lewis, Thm 3.2.8, p. 44; Boyd–Vandenberghe, §5.5.3, p. 243).
+  Borwein–Lewis, Thm 3.2.8, p. 44; Boyd–Vandenberghe, §5.5.3, pp. 243–244, for differentiable
+  data).
 - **Sufficiency** (`isMinOn_of_kkt`). A feasible point with such multipliers is a minimizer,
   with no constraint qualification and no convexity hypothesis: the subgradient inequalities
   carry the argument (Hiriart-Urruty–Lemaréchal I, Ch. VII, Thm 2.2.5, p. 310, for convex data).
@@ -1100,7 +1129,8 @@ applies.
   `g x = -√x` for `x ≥ 0`, `⊤` for `x < 0`, with `A = id`. The primal value is `0`, at `x = 0`.
   For `u < 0`, `f* (-u) = 0` and `g* u = -1/(4u)`, so the dual objective is `1/(4u)`, with
   supremum `0` approached as `u → -∞` and not attained (`-0.0025` at `u = -100`). The relative
-  interiors `(-∞, 0)` and `(0, ∞)` are disjoint, and `g` is continuous at no point of `dom f`.
+  interiors `(-∞, 0)` and `(0, ∞)` are disjoint, and `g` is finite and continuous at no point of
+  `dom f`.
 - KKT: `f x = x`, `g x = 1 - x` on `ℝ`: minimizer `1`, `∂f = {1}`, `∂g = {-1}`, multiplier
   `λ = 1`.
 - Negative control for Slater: `f x = x`, `g x = x²` has feasible set `{0}` and minimizer `0`,
@@ -1117,8 +1147,10 @@ applies.
 
 ### Examples
 
-- The Lagrangian dual of a quadratic program and the dual of a semidefinite program are instances
-  of 5.4 with `K` the orthant and the positive semidefinite cone.
+- The dual of a linear program in conic form and the dual of a semidefinite program are instances
+  of 5.4 with `K` the orthant and the positive semidefinite cone. A convex quadratic program is an
+  instance of 5.1 directly, with `f` the quadratic objective and `g` the indicator of the
+  feasible set.
 - Minimax: Sion's theorem (`Sion.minimax`) gives the saddle-point form for convex–concave
   functions on a compact convex set, which is the convex minimax theorem.
 
@@ -1144,12 +1176,14 @@ from Layers 2–5.
 
 *Proof route.* Choose a strictly convex continuous function `h` on `K` (metrizability gives a
 countable separating family of continuous affine functions, and `h = ∑ 2⁻ⁿ aₙ²`). Its upper
-concave envelope `ĥ` agrees with `h` exactly at the extreme points. A Riesz–Hahn–Banach argument
-gives a probability `μ` with barycenter `x` and `∫ h dμ = ĥ x`, and then `μ {h < ĥ} = 0`. The
-extreme points are `G_δ`: the complement is the union over `n` of the closed sets of midpoints
-`(a + b)/2` with `a, b ∈ K` and `d(a, b) ≥ 1/n`.
+concave envelope `ĥ` agrees with `h` exactly at the extreme points. A Hahn–Banach and
+Riesz–Markov–Kakutani argument gives a probability `μ` with barycenter `x` and
+`∫ h dμ = ĥ x`, and then `μ {h < ĥ} = 0`. The extreme points are `G_δ`: the complement is the
+union over `n` of the closed sets of midpoints `(a + b)/2` with `a, b ∈ K` and `d(a, b) ≥ 1/n`.
 
-*Needs:* 1.2; Mathlib `Set.extremePoints`, `IsProbabilityMeasure`.
+*Needs:* 1.2; Mathlib `Set.extremePoints`, `IsProbabilityMeasure`, and the Riesz–Markov–Kakutani
+theorem `RealRMK.rieszMeasure` with `RealRMK.integral_rieszMeasure`
+(`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
 
 ### 6.2 Uniqueness and simplices
 
@@ -1247,6 +1281,10 @@ under this roadmap.
   points need not be Borel.
 - **Monotone operator theory beyond subdifferentials**: Minty's theorem, resolvents,
   Fitzpatrick functions, and maximal monotonicity of subdifferentials on general Banach spaces.
+- **Proximal and splitting algorithms**: Moreau envelopes and the Moreau decomposition for
+  proximal maps, the proximal point method, alternating projections and Douglas–Rachford
+  splitting, with their convergence theory. They need the resolvent theory listed under monotone
+  operators; 3.8 proves the cone case of Moreau's decomposition, which is their input.
 - **Polyhedral and semidefinite refinements**: polyhedral qualifications in the calculus rules
   (Bauschke–Combettes, Thm 16.47(ii)–(iii), p. 276), facial reduction, and the Shapiro and Ramana
   duals of semidefinite programs.

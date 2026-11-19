@@ -19,15 +19,17 @@ public import TauCeti.Geometry.Convex.Cone.Alternative
 public import TauCeti.Topology.MetricSpace.Ekeland
 public import TauCeti.Analysis.Normed.Module.Dual.Reflexive.WeakCompact
 public import TauCeti.MeasureTheory.OptimalTransport.CTransform.Rockafellar
+public import TauCeti.MeasureTheory.OptimalTransport.Finite.Duality
 
 /-!
 # Convex analysis and duality: target signatures
 
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
-headlines of the README that carry a Lean name, each with every conclusion the README attaches
-to it, together with the definitions their statements need. The README's other headlines are
-targets of the same standing, stated there in prose with their locators or proof routes.
+bold headlines of the README, each with every conclusion the README attaches to it, together
+with the definitions their statements need; every bold headline of the README carries a Lean name
+and is stated here. The README's bullets without a bold name are targets of the same standing,
+stated there in prose with their locators or proof routes.
 
 The conventions of the README are used throughout. Extended-real functions are `E → EReal`; a
 function is *convex* when its real epigraph `{p : E × ℝ | f p.1 ≤ p.2}` is convex, *proper*
@@ -106,6 +108,15 @@ theorem isConvexPolyhedron_iff_convexHull_add_hull {s : Set V} :
         s = convexHull ℝ (P : Set V) + (PointedCone.hull ℝ (D : Set V) : Set V)) ∧
       (IsConvexPolyhedron s ∧ Bornology.IsBounded s ↔
         ∃ P : Finset V, s = convexHull ℝ (P : Set V)) := by
+  sorry
+
+/-- 3.6: in finite dimension the relative interior of a linear image of a convex set is the image
+of its relative interior; with `L (a, b) = a - b` this gives `ri (C - D) = ri C - ri D`. -/
+theorem intrinsicInterior_linearMap_image {W : Type*} [NormedAddCommGroup W] [NormedSpace ℝ W]
+    [FiniteDimensional ℝ W] (L : V →ₗ[ℝ] W) {C : Set V} (hC : Convex ℝ C) :
+    intrinsicInterior ℝ (L '' C) = L '' intrinsicInterior ℝ C ∧
+      ∀ D : Set V, Convex ℝ D →
+        intrinsicInterior ℝ (C - D) = intrinsicInterior ℝ C - intrinsicInterior ℝ D := by
   sorry
 
 /-- 1.4, Farkas' lemma: `A x = b` has a solution `x ≥ 0` exactly when no `y` has `Aᵀ y ≥ 0` and
@@ -315,6 +326,21 @@ theorem fenchelRockafellar_of_continuousAt {f : E → EReal} {g : F → EReal}
           fenchelConjugate (topDualPairing ℝ F).flip g u) := by
   sorry
 
+/-- 5.1, the conjugate of a sum under a continuity qualification: it is the infimal convolution of
+the conjugates, and the infimum is attained wherever the value is not `⊤`. -/
+theorem fenchelConjugate_add_of_continuousAt {f g : E → EReal}
+    (hf : Convex ℝ {p : E × ℝ | f p.1 ≤ p.2}) (hg : Convex ℝ {p : E × ℝ | g p.1 ≤ p.2})
+    (hbf : ∀ x, f x ≠ ⊥) (hbg : ∀ x, g x ≠ ⊥) {x₀ : E} (hfx₀ : f x₀ ≠ ⊤) (hgx₀ : g x₀ ≠ ⊤)
+    (hc : ContinuousAt g x₀) :
+    fenchelConjugate (topDualPairing ℝ E).flip (f + g) =
+        infConv (fenchelConjugate (topDualPairing ℝ E).flip f)
+          (fenchelConjugate (topDualPairing ℝ E).flip g) ∧
+      ∀ u, fenchelConjugate (topDualPairing ℝ E).flip (f + g) u ≠ ⊤ → ∃ v,
+        fenchelConjugate (topDualPairing ℝ E).flip (f + g) u =
+          fenchelConjugate (topDualPairing ℝ E).flip f v +
+            fenchelConjugate (topDualPairing ℝ E).flip g (u - v) := by
+  sorry
+
 /-- The `ε`-subdifferential: the `y` with `f x + B (x' - x) y - ε ≤ f x'` for every `x'`, at a
 point where `f` is finite. -/
 def epsSubdifferential {E' F' : Type*} [AddCommGroup E'] [Module ℝ E'] [AddCommGroup F']
@@ -431,6 +457,19 @@ theorem fenchelRockafellar_of_intrinsicInterior {f : E → EReal} {g : F → ERe
           fenchelConjugate (innerₗ F) g u) := by
   sorry
 
+/-- 5.1, the conjugate of a sum under the relative-interior qualification: it is the infimal
+convolution of the conjugates, and the infimum is attained wherever the value is not `⊤`. -/
+theorem fenchelConjugate_add_of_intrinsicInterior {f g : E → EReal}
+    (hf : Convex ℝ {p : E × ℝ | f p.1 ≤ p.2}) (hg : Convex ℝ {p : E × ℝ | g p.1 ≤ p.2})
+    (hbf : ∀ x, f x ≠ ⊥) (hbg : ∀ x, g x ≠ ⊥)
+    (hri : (intrinsicInterior ℝ {x | f x ≠ ⊤} ∩ intrinsicInterior ℝ {x | g x ≠ ⊤}).Nonempty) :
+    fenchelConjugate (innerₗ E) (f + g) =
+        infConv (fenchelConjugate (innerₗ E) f) (fenchelConjugate (innerₗ E) g) ∧
+      ∀ u, fenchelConjugate (innerₗ E) (f + g) u ≠ ⊤ → ∃ v,
+        fenchelConjugate (innerₗ E) (f + g) u =
+          fenchelConjugate (innerₗ E) f v + fenchelConjugate (innerₗ E) g (u - v) := by
+  sorry
+
 /-- 2.4: a proper closed convex function on a finite-dimensional space has bounded sublevel sets
 exactly when its recession function is positive in every nonzero direction. -/
 theorem isBounded_sublevel_iff_recessionFunction_pos {f : E → EReal}
@@ -455,6 +494,20 @@ def IsEssentiallyStrictlyConvex (f : E → EReal) : Prop :=
 /-- A function of Legendre type is essentially smooth and essentially strictly convex. -/
 def IsLegendre (f : E → EReal) : Prop :=
   IsEssentiallySmooth f ∧ IsEssentiallyStrictlyConvex f
+
+/-- 4.3, steepness: a proper closed convex function is essentially smooth exactly when the
+interior of its domain is nonempty, it is differentiable there, and the norm of its gradient tends
+to infinity at every frontier point of that interior. -/
+theorem isEssentiallySmooth_iff_tendsto_norm_gradient {f : E → EReal}
+    (hf : Convex ℝ {p : E × ℝ | f p.1 ≤ p.2}) (hbot : ∀ x, f x ≠ ⊥) (hdom : ∃ x, f x ≠ ⊤)
+    (hlsc : LowerSemicontinuous f) :
+    IsEssentiallySmooth f ↔
+      (interior {x | f x ≠ ⊤}).Nonempty ∧
+        (∀ x ∈ interior {x | f x ≠ ⊤}, DifferentiableAt ℝ (fun y => (f y).toReal) x) ∧
+        ∀ x ∈ frontier (interior {x | f x ≠ ⊤}),
+          Tendsto (fun y => ‖gradient (fun z => (f z).toReal) y‖)
+            (𝓝[interior {x | f x ≠ ⊤}] x) atTop := by
+  sorry
 
 /-- 4.3: a proper closed convex function is essentially smooth exactly when its conjugate is
 essentially strictly convex. -/
@@ -692,3 +745,7 @@ end TauCetiRoadmap.ConvexAnalysisAndDuality
 #check @Convex.toWeakSpace_closure
 #check @IsMinOn.of_isLocalMinOn_of_convexOn
 #check @NormedSpace.isCompact_closure_of_isBounded
+#check @ProperCone.innerDual_innerDual
+#check @RealRMK.rieszMeasure
+#check @RealRMK.integral_rieszMeasure
+#check @TauCeti.exists_cost_eq_finiteDualValue
