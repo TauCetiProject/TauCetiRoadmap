@@ -505,9 +505,14 @@ the needed analytic-sheaf/Čech/derived comparison using Mathlib's Ext-based she
 cohomology carrier. Prove the Čech comparison for acyclic covers (Demailly, Chapter IV, (5.17), p. 209). Also prove
 that for every abelian sheaf on a paracompact Hausdorff manifold, the colimit of Čech
 cohomology over locally finite open refinements agrees with native derived
-sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Construct refinement maps, prove independence up to cochain
-homotopy, use paracompact shrinking for exactness after refinement, and compare
-with an injective/flabby resolution. No coherent Cartan B is an input.
+sheaf cohomology (Demailly, Chapter IV, (5.21), p. 211). Consume Tau Ceti's refinement maps of
+Čech complexes and their independence up to cochain homotopy
+(`TauCeti.CategoryTheory.cechComplexMap`, `TauCeti.CategoryTheory.cechComplexMapHomotopy`,
+`TauCeti.CategoryTheory.cechComplexHomologyMap_eq`) and its Čech cohomology over a system of
+covers (`TauCeti.CategoryTheory.cechCohomologyDiagram` and its colimit
+`TauCeti.CategoryTheory.cechCohomology`), for the locally finite open covers ordered by
+refinement; prove here the paracompact shrinking for exactness after refinement and the
+comparison with an injective/flabby resolution. No coherent Cartan B is an input.
 RealAnalyticGeometry R3.2 consumes this colimit theorem after proving vanishing
 on an arbitrarily fine cofinal family of finite-order Stein covers; it does
 not assume F is already acyclic on their intersections.
@@ -526,6 +531,7 @@ connectedness hypothesis. Do not assert global constancy for disconnected manifo
 
 *Needs:* 2.4; Mathlib's Ext-based sheaf cohomology,
 `MDifferentiable.exists_eq_const_of_compactSpace` and `MDifferentiable.isLocallyConstant`;
+Tau Ceti's Čech refinement maps, their homotopies and the cover colimit named above;
 SmoothBundlesConnections B6's scalar good-cover comparison and B6.1's acyclicity of soft sheaves
 with its module form; 4.1's `𝒪(E)` and ∂̄_E for the bundle-valued comparison; K7.1's `Projectivization ℂ (Fin 2 → ℂ)` for the acceptance check.
 
@@ -538,7 +544,8 @@ nonpositive radius; no nonzero holomorphic one-form on ℂP¹.
 ### Dependencies
 
 Layer 1; 3.1 (K3.0); the pinned Dolbeault calculus and Cauchy transform; GlobalHolomorphicFunctions
-Layer 2.5's finite-rank Runge operator; Mathlib's sheaf cohomology; SmoothBundlesConnections B6.
+Layer 2.5's finite-rank Runge operator; Mathlib's sheaf cohomology; Tau Ceti's Čech refinement
+maps and cover colimit; SmoothBundlesConnections B6.
 Layer 2 precedes Layer 4's holomorphic bundles and connections; 2.5's
 bundle-valued comparison follows 4.1, and its Čech-colimit comparison is consumed by
 RealAnalyticGeometry R3.2.
@@ -1062,7 +1069,8 @@ tensor product, with the trivial line as unit and the dual as inverse, and with
 pullback homomorphisms f*:Pic_hol(M)→Pic_hol(N) for holomorphic f:N→M,
 functorial in f and compatible with restriction to open subsets. Construct the
 frame 𝒪×-torsor and its inverse by gluing trivial lines, including the actual
-overlap cocycles, coboundary changes of frames and refinement maps, in the frame
+overlap cocycles and coboundary changes of frames, with a refinement of frame covers acting on
+cocycles by Tau Ceti's `TauCeti.CategoryTheory.cechComplexMap` (𝒪× written additively), in the frame
 convention e_j=e_i g_ij, so that g_ij carries j-coordinates to i-coordinates.
 Prove the group isomorphism Pic_hol(M)≃H¹(M,𝒪×), with tensor, dual, trivial-line
 and pullback laws (Demailly, Chapter V, (8.2), p. 264, is the smooth statement;
@@ -1171,7 +1179,8 @@ and is neither an input nor a consumer of K4.P.
 K4's line bundles; SmoothBundlesConnections B6.1–B6.3, with B6.1's acyclicity of soft sheaves and
 its module form; AlgebraicTopology's singular cochains;
 Mathlib `Sheaf.H.δ`, `Additive`, `PartitionOfUnity.exists_isSubordinate`,
-`Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`.
+`Complex.isCoveringMap_exp` and `IsCoveringMap.existsUnique_continuousMap_lifts`; Tau Ceti
+`TauCeti.CategoryTheory.cechComplexMap`.
 
 **Checks.**
 
@@ -3557,6 +3566,16 @@ them.
   sequence of a filtered cochain complex `CochainComplex.spectralSequence` with its first page,
   finite-filtration convergence, naturality and comparison theorem; K8 owns only its Frölicher and
   base-degree filtration adapters (Layers 6–8).
+- Čech complexes (`TauCeti/CategoryTheory/Sites/SheafCohomology/Cech/Basic.lean` and
+  `Cech/Colimit.lean`): the map of Čech complexes induced by a morphism of families
+  `TauCeti.CategoryTheory.cechComplexMap`, the homotopy between the maps of two such morphisms
+  `TauCeti.CategoryTheory.cechComplexMapHomotopy` with their equality on cohomology
+  `TauCeti.CategoryTheory.cechComplexHomologyMap_eq`, and the Čech cohomology over a system of
+  families indexed by a preorder, `TauCeti.CategoryTheory.cechCohomologyDiagram` with its colimit
+  `TauCeti.CategoryTheory.cechCohomology`; they hold for every presheaf with values in a
+  preadditive category with products (with homology for the last three, and with colimits
+  indexed by the preorder for the colimit), with no sheaf condition and no hypothesis on the
+  space, and are consumed in 2.5 and K4.P.
 - Examples: the affine atlas and the Riemann-sphere diffeomorphism
   `OnePoint.diffeomorphProjectivization`
   (`TauCeti.Topology.Algebra.Projectivization`, `TauCeti.Geometry.Manifold.Instances.Projectivization`,
