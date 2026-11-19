@@ -1,6 +1,6 @@
 # Roadmap: automorphic bundles and classical automorphic forms
 
-**Summary.** A classical automorphic form is a section of a vector bundle on a Shimura variety; for
+**Summary.** A classical automorphic form is a section of a vector bundle on a compactified Shimura variety; for
 GL₂ and weight k, the bundle is the k-th power ω^k of the Hodge line bundle. Such a form has a
 coefficient, a field of definition and a condition at the boundary, and this roadmap constructs the
 three together. It starts from a Shimura datum (G, X) with reflex field E, a finite level K and a
@@ -31,8 +31,8 @@ toroidal compactification; cusp forms are the sections of its twist by the ideal
 boundary. In characteristic zero both spaces are independent of the fan. Where two boundary
 components cross along q₁q₂ = 0, a cusp form must lie in the ideal (q₁q₂), not merely in (q₁, q₂).
 
-The roadmap proves two expansion principles. On Lan's smooth proper toroidal model of a PEL moduli
-problem at a good prime, over a ring R, take finitely many nonempty strata whose union meets every
+The roadmap proves three expansion principles: Fourier–Jacobi for scalar and for vector coefficients, and Hilbert q-expansion. On Lan's smooth proper toroidal model of a PEL moduli
+problem at a good prime, over a field or Dedekind domain R, take finitely many nonempty strata whose union meets every
 irreducible component. For k ≥ 0 and every R-module M, the joint Fourier–Jacobi expansion along
 them is injective on sections of ω^k with coefficients in M. In Diamond's prime-to-p Hilbert setting, with its weight condition, for F ≠ ℚ totally real and p possibly
 ramified, p = 2 included, the q-expansion at cusps meeting every connected component of the minimal
@@ -51,7 +51,7 @@ provides the compactifications and the scalar Fourier–Jacobi expansion.
 AutomorphicGaloisRepresentationsPartII and PerfectoidShimuraVarieties use its bundles and their
 extensions.
 
-Layers 0 to 2 build the principal bundle, and Layers 3 and 4 the vector bundles and their
+Layers 1 and 2 build the principal bundle, and Layers 3 and 4 the vector bundles and their
 realizations. Layers 5 to 7 extend these across the boundary, Layer 7 for ramified Hilbert models.
 Layers 8 to 10 build logarithmic periods, the dual BGG complex for GSp₄ and a rational perfectoid
 tower. Layer 11 defines the forms; Layer 12 adds Hecke operators, expansions and the Siegel
