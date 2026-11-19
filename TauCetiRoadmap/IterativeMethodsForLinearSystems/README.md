@@ -242,7 +242,9 @@ Prove `forall_tendsto_sorIterate_iff`: if `A : Matrix ι ι 𝕜` is positive de
 `Matrix.PosDef`, which includes Hermitian) and `n ≥ 1`, then for real `ω` the SOR iterates
 converge to `A⁻¹ b` for every `b` and every `x₀` if and only if `0 < ω < 2`. The direction from
 `0 < ω < 2` to convergence is Saad, Theorem 4.10, p. 122, stated there, without proof, for real
-symmetric matrices; the route below applies verbatim to Hermitian ones. The theorem is due to
+symmetric matrices with positive diagonal as an equivalence with positive definiteness at a fixed
+`ω` in `(0, 2)`, of which this is the direction from positive definiteness to convergence; the
+route below proves the Hermitian case directly. The theorem is due to
 Reich for `ω = 1` and to Ostrowski in general.
 
 Route: write `M = (D + ω L)/ω`, so that `G = sorMatrix A ω = I − M⁻¹ A` and, as `U = L*`,
@@ -592,6 +594,13 @@ Already in the libraries and therefore not targets:
 - The spectral theorem for Hermitian matrices, positive definiteness and the positivity of the
   eigenvalues of a positive definite matrix (Mathlib), and the spectral theorem for normal
   matrices (Tau Ceti).
+
+This roadmap owns the equivalence of 1.2 between `G^k → 0` and the complex spectral radius being
+less than one, for complex and for real matrices. LinearSystemsAndControl (an open roadmap, not
+on main) defines Schur stable real matrices in its 5.1, every complex eigenvalue of modulus less
+than one; the equivalence of Schur stability with `A ^ k → 0` is the real case of 1.2 read
+through that predicate, the spectrum of a matrix being finite, and that roadmap cites 1.2 for it.
+This roadmap does not depend on that one.
 
 No roadmap on main owns an object of this roadmap. The closest is ClassicalArithmeticCompletion
 §6.40, which uses the Chebyshev constants of `[−1, 1]`, the least sup norm of a monic
