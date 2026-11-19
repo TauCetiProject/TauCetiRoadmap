@@ -37,7 +37,8 @@ expression of total variation on a countable space through masses, which no rout
 
 ## How to read the build
 
-Layer 1 below characterizes total variation on a countable space by couplings; it depends on no
+Layer 1 below recalls the characterization of total variation on a countable space by couplings
+and constructs the optimal coupling of a Bernoulli law with the Poisson law of the same mean; it depends on no
 other layer. Layer 2 treats the Stein equation of the Poisson law: the characterization of the
 Poisson law through it, its explicit solution and the two bounds on that solution; it depends on
 no other layer. Layer 3 proves the general bounds for counts of events: the local dependence
