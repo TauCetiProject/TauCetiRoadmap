@@ -296,7 +296,7 @@ A common prime of r,d cannot divide n. In the coprime case invert d modulo r and
 
 ### 0.9 Prime estimates in the progression factorial argument
 
-Apply AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25
+Apply AnalyticNumberTheoryPartI §§0.3–0.5, 0.16 and 0.25
 on the domains in the supplier contracts. The theta constant retains
 `SchoenfeldFiniteRangeInput`; the prime-count pair retains
 `RosserSchoenfeldFiniteRangeInput`; the mod-eight errors retain the full
@@ -331,7 +331,7 @@ n≥C_ε^(2/ε) gives τ(n)≤n^ε. This applies to nonsquarefree n as well
 - For n=p^a, τ(n)=a+1; at n=4 it is 3, not the squarefree value 2.
 - For k=2·10¹⁰, the mod-eight lower endpoint k/2=10¹⁰ is included; taking both errors at k would change their combined coefficient from 3ε/8 to 4ε/8.
 
-*Needs:* AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20, 0.25 and 3.1;
+*Needs:* AnalyticNumberTheoryPartI §§0.3–0.5, 0.16, 0.25 and 3.1;
 ExplicitZetaBounds §§0.2–0.4 for the zero-line clause of ModEightFiniteInput;
 ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 for the four finite-range
 inputs; Mathlib finite prime sums,
@@ -344,7 +344,7 @@ The primitive square product is 1·25·49=35². The signed product (−3)(−1)(
 ### Dependencies
 
 Mathlib integer gcd, factorization, prime valuations and finite sets;
-AnalyticNumberTheoryPartI §§0.3–0.5, 0.8, 0.16, 0.19–0.20, 0.25 and 3.1,
+AnalyticNumberTheoryPartI §§0.3–0.5, 0.16, 0.25 and 3.1,
 with the numerical hypotheses in the supplier table; ExplicitZetaBounds
 §§0.2–0.4 and ExplicitPrimeCounting §§3.2, 3.5, 4.3 and 6.1 for those hypotheses.
 
@@ -519,10 +519,10 @@ Prove the first-family reduced-level theorem with the hypotheses and conclusions
 
 For S, ell≥7 and a in A(k), the irreducible residual representation of E_a occurs in a weight-two newform at the deletion level M_a. M_a divides 2^8*A_i*A_j*A_h, its odd part is squarefree, M_a divides 2^7*product over primes q≤k of q, and M_a≤2^7*exp(1.000081*k). No identification with the prime-to-ell residual conductor is implicit.
 
-Here M_a is `deletionLevel` of `progressionFreyCurve` at ell: for an elliptic curve E over ℚ with conductor M, the norm of its algorithmic conductor, and minimal discriminant valuations v_q(Δ_min) read off the norm of its minimal discriminant ideal, `deletionLevel` is M divided by the product of the primes q∥M with ell dividing v_q(Δ_min). The prime q=ell is not excluded from the deletion.
+Here M_a is `deletionLevel` of `progressionFreyCurve` at ell: for an elliptic curve E over ℚ with conductor M, the norm of its algorithmic conductor, and minimal discriminant valuations v_q(Δ_min) read off the norm of its minimal discriminant ideal, `deletionLevel` is M divided by the product of the primes q∥M with ell dividing v_q(Δ_min). The prime q=ell is not excluded from the deletion. This is the rendering of the deletion level on the pinned carriers that EllipticCurveModularityPartII §2.2 defines, restated locally because a roadmap's Lean file imports only the pinned libraries.
 
 - `deletionLevel` divides M, is prime to every q∥M with ell dividing v_q(Δ_min), and retains every prime q with q²∣M.
-- For ell≥5, `deletionLevel` is the prime-to-ell residual conductor of §1.1's wrapper whenever the local hypotheses of NeronModelsAndSemistableAbelianVarieties §5.3h hold; this is §1.10's theorem, not part of the definition.
+- For a prime ell≥5, the prime-to-ell part of `deletionLevel` is the prime-to-ell residual conductor of §1.1's wrapper (NeronModelsAndSemistableAbelianVarieties §5.3h), and `deletionLevel` equals that conductor exactly when ell does not divide it; §1.10 proves ell∤M_a under H. Neither is part of the definition.
 
 **Checks.**
 
@@ -1143,15 +1143,15 @@ Choose finite small-prime ell-powerfree coefficient classes, including signs. El
 
 ### 6.4 Composite exponent reduction
 
-Prove the exponent-divisor power identity: for y∈ℤ and a natural p dividing ell, y^ell=(y^(ell/p))^p (BS20, §1 after Theorem 2, p. 357; power associativity).
+Prove the exponent-divisor power identity: for y∈ℤ and a natural p dividing ell, y^ell=(y^(ell/p))^p (an elementary step of this roadmap toward the finiteness consequence at BS20, §1, p. 357; power associativity).
 
 *Needs:* Mathlib power laws and exact natural division.
 
-Prove the absolute-value exclusion: for k≥3, d*y≠0 and a product equation with ell≥2, |y|>1 (the elementary distinct-term argument below; BS20, §1, p. 357).
+Prove the absolute-value exclusion: for k≥3, d*y≠0 and a product equation with ell≥2, |y|>1 (an elementary step of this roadmap toward the finiteness consequence at BS20, §1, p. 357, by the distinct-term argument below).
 
 *Needs:* Layer 0 `term` and nonzero finite products.
 
-Prove finiteness of root/exponent pairs: for any fixed integer Y with |Y|>1, the set of integer y and natural r≥1 satisfying y^r=Y is finite (BS20, §1, p. 357; prime valuation argument).
+Prove finiteness of root/exponent pairs: for any fixed integer Y with |Y|>1, the set of integer y and natural r≥1 satisfying y^r=Y is finite (an elementary step of this roadmap toward the finiteness consequence at BS20, §1, p. 357; prime valuation argument).
 
 *Needs:* Mathlib natural factorization and integer power valuations.
 
@@ -1548,7 +1548,8 @@ EllipticCurves §Worked examples is formalised at the pin as Tau Ceti
 the geometric torsion subgroup is Mathlib's `AddSubgroup.torsionBy`; this
 roadmap consumes both from the pins.
 EllipticCurveModularityPartII §2.0 owns the geometric-torsion module on that
-subgroup and its Galois representation, and its §5.1 the full-two-torsion predicate.
+subgroup and its Galois representation, its §2.2 the rendering of the deletion level
+on the pinned carriers, and its §5.1 the full-two-torsion predicate.
 EllipticCurves Layer 6 owns the `x − θ` Kummer map with kernel 2E(K),
 and Layer 8 owns the semistable algorithmic–Artin conductor comparison. The first family here differs by its progression normalization;
 the second differs by its equal-sum quadratic identity. ModularForms Layers 2–4, 8
@@ -1588,7 +1589,7 @@ the lower and upper ramification filtrations of a finite Galois extension, the
 Herbrand functions with Herbrand's quotient theorem, and inertia and wild inertia
 in the absolute Galois group with their restrictions to finite Galois subextensions.
 The specialized invariant identities here retain the progression hypotheses; there
-is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.8, 0.16, 0.19–0.20, 0.25, 0.34, 1.4, 1.7 and
+is no second generic invariant or point-count API. AnalyticNumberTheoryPartI §§0.2–0.6, 0.16, 0.25, 0.34, 1.4, 1.7 and
 3.1 own the generic prime estimates, the uniform exclusion of Landau–Siegel
 zeros with its exception-free bounded-height corollary,
 explicit formula, zero density and divisor estimates.
@@ -2006,16 +2007,12 @@ formula, including the bounded kernel at zero, and §1.7's effective log-free
 density bound, counting analytic multiplicities; it has no additive term. All
 constants are effective and chosen before the conductor.
 
-Consume §§0.3–0.5, 0.8, 0.16, 0.19–0.20 and 0.25 for the following estimates,
+Consume §§0.3–0.5, 0.16 and 0.25 for the following estimates,
 with their exact domains: θ(x)<1.000081x for x>0;
 |θ(x;8,a)−x/4|≤0.002811x/4 for a=3,5 and x≥10¹⁰;
 the prime-count pair x/log x·(1+1/(2 log x))<π(x)<x/log x·(1+3/(2 log x))
-for x≥59; |∑_(p≤x)1/p−log log x−B₁|<1/(2(log x)²) for x≥286;
-log x+E−1/(2 log x)<∑_(p≤x)(log p)/p<log x+E+1/(2 log x)
-for x≥319 with the same constant E at both endpoints;
-the strict half-interval prime-power margin 0.000045875k for k≥2·10¹⁰;
-and ∏_(p≤x)(1+1/p)≤2 log x for x≥10⁸. Here B₁ is the prime Mertens
-constant and E=−γ−∑_p log p/(p(p−1)); E cancels in interval subtraction.
+for x≥59; the strict half-interval prime-power margin 0.000045875k for k≥2·10¹⁰;
+and ∏_(p≤x)(1+1/p)≤2 log x for x≥10⁸.
 Consume §3.1 and §§3.1a–3.1c's effective divisor bound on positive integers.
 The constant c_LS of §0.34 is effective but has no numerical value, so these
 literal estimates and their finite-range inputs are unaffected by it.
@@ -2051,7 +2048,7 @@ Layers 1–2, with the hypotheses of the cited sections.
 | Label | Supplier section | Content consumed here |
 | --- | --- | --- |
 | EC.0 | §1.4 | 12g₀⁺(N)≤N+1 for every positive level N, for the trivial-character weight-two newspace. |
-| EC.1 | §2.2 | For E/ℚ and prime ell≥3 with E[ell] irreducible, ell≤(√p+1)^((M₀+1)/6) for every prime p≠ell with p∥M and ell dividing the minimal discriminant valuation. |
+| EC.1 | §2.2 | For E/ℚ and prime ell≥3 with E[ell] irreducible, ell≤(√p+1)^((M₀+1)/6) for every prime p≠ell with p∥M and ell dividing the minimal discriminant valuation, with M₀ the deletion level as that supplier section renders it on the pinned carriers. §1.7 restates that rendering locally as `deletionLevel`, since a roadmap's Lean file imports only the pinned libraries. |
 | EC.2 | §§1.5–1.8 | The sharp thresholds F♯, G♯, H♯ and, by §1.8, F♯(N)≤F_K(N), G♯(N)≤G_K(N), H♯(N)≤H_K(N) for N>0. |
 | EC.3 | §4.7 | For E/ℚ with full rational two-torsion, prime ell≥5, E[ell] irreducible of Serre weight two and prime-to-ell conductor N, and ell>H♯(N): an F/ℚ of conductor exactly N with full rational two-torsion and F[ell]≅E[ell]. |
 | EC.4 | §§5.4–5.5 | Irreducibility of E[ell] for primes ell≥5 under full rational two-torsion, and for primes ell≥11 under a rational point of order two. |
