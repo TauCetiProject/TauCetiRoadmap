@@ -24,7 +24,8 @@ states a result.
 ## Scope and ownership
 
 Completion means that every target below is proved in Tau Ceti, against Mathlib and Tau Ceti as
-pinned and the cited sections of roadmaps on `main`. The owned subjects are:
+pinned and the sections of other roadmaps named under Exact supplier contracts. The owned subjects
+are:
 
 - weighted graphs with loops, their degree, combinatorial, normalized and random-walk Laplacians,
   the kernels and spectra of these Laplacians, and the bridge to Mathlib's
@@ -36,11 +37,11 @@ pinned and the cited sections of roadmaps on `main`. The owned subjects are:
 - the random walk of a weighted graph, its `L²(π)` spectral expansion, diffusion maps and
   diffusion distances (Layer 4);
 - classical multidimensional scaling, the best positive semidefinite approximation of bounded
-  rank, graph approximation of geodesic distances in the Isomap setting, and Hausdorff estimation
-  of a support from a sample (Layer 5);
+  rank, graph approximation of geodesic distances in the Isomap setting, and the `O_P` rate of
+  Hausdorff estimation of a support under a local small-ball bound (Layer 5);
 - ordinary and generalized Procrustes analysis, the full and partial Procrustes distances, the
-  planar full Procrustes mean, and the extrinsic mean of a law on a closed Euclidean set with its
-  central limit theorem (Layer 6);
+  planar full Procrustes mean, and the extrinsic mean of a law on a Euclidean set with its central
+  limit theorem (Layer 6);
 - kernel mean embeddings of finite measures, the MMD and its unit-ball form, the witness
   function, and the concentration of empirical mean embeddings (Layer 7);
 - characteristic kernels: the Fourier criterion for translation-invariant kernels, scale
@@ -73,14 +74,16 @@ pinned and the cited sections of roadmaps on `main`. The owned subjects are:
 - Sinkhorn divergences and their relation to kernel energies are OptimalTransport 13.4.
 - Gram factorizations of positive semidefinite matrices and their uniqueness are
   OperatorTheory/MatrixSpectralStatistics, items MSS-A05 to MSS-A09.
-- The spectral theory of reversible Markov chains in `ℓ²(π)` and the Cheeger inequality for the
-  conductance of a chain are owned by a roadmap on Markov chain mixing in an open pull request.
-  Layers 3 and 4 state the graph forms, which that roadmap lists as outside its scope; the
-  overlap is recorded under Downstream consumers.
+- The spectral decomposition of a reversible Markov kernel and Cheeger's inequality for its
+  bottleneck ratio are MarkovChainMixing 2.1 and 3.2, stated for Markov kernels. This roadmap
+  owns the weighted-matrix forms (3.2 and 4.1) and proves them from its Layers 1–2; the dictionary
+  between the two is recorded under Downstream consumers.
 - Kernel ridge regression, its risk bounds and kernel methods for classification belong to a
   separate roadmap on statistical learning theory.
-- Topological data analysis and the statistical rates of optimal transport are listed under
-  Beyond.
+- Persistent homology, its stability and its statistical inference are TopologicalDataAnalysis.
+  The sampling bound for the Hausdorff distance from a sample to the support of a law that is
+  standard at every radius is its 8.4, consumed by 5.4.
+- The statistical rates of optimal transport are listed under Beyond.
 
 ## Conventions
 
@@ -189,6 +192,8 @@ pinned and the cited sections of roadmaps on `main`. The owned subjects are:
   `TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`) and
   `TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le`
   (`TauCeti/Analysis/InnerProductSpace/Orthonormal/Procrustes.lean`).
+- `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq` (the Hoffman–Wielandt
+  inequality, `TauCeti/Analysis/Matrix/HoffmanWielandt.lean`).
 - `TauCeti.coveringNumber_le_of_subset_closedBall` and
   `TauCeti.exists_finset_isCover_of_subset_closedBall`
   (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`).
@@ -239,16 +244,26 @@ pinned and the cited sections of roadmaps on `main`. The owned subjects are:
   `AᵀA` of a matrix with `p` rows; MSS-A09: two such factors differ by an orthogonal matrix.
   Consumed by 5.1.
 
+### From TopologicalDataAnalysis
+
+- 8.4: the sampling bound
+  `P(d_H(X̂_n, S) > ε) ≤ max(1, 4ᵇ/(a εᵇ)) exp(-n min(1, a εᵇ/2ᵇ))` for a law with compact support
+  `S` and `μ(closedBall x r) ≥ min(1, a rᵇ)` for `x ∈ S` and every `r > 0`. Consumed by 5.4.
+- 5.3: the small-ball bound at small radii for a law on a compact submanifold of positive reach
+  with density bounded below. Cited in 5.4.
+
 ## How to read the build
 
 There are two strands. The spectral strand runs Layer 1 → 2 → 3 and 2 → 4, with Layer 5 resting
-on Layer 1 and Mathlib's spectral theorem only, and Layer 6 resting on Layer 5.2 and on Mathlib.
+on Layer 1, Mathlib's spectral theorem and, for 5.4, the sampling bound of TopologicalDataAnalysis
+8.4, and Layer 6 resting on Layer 5.2 and on Mathlib.
 The kernel strand runs Layer 7 → 8 → 9 → 10 → 11; Layer 10.4 uses Layer 8's characteristic
 kernels, and Layer 11.4 uses only Layer 7. Each layer lists its definitions, its targets with
 their Lean names where `Suggested.lean` states them, locators or proof routes, and a `*Needs:*`
 line. `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion
-attached to it here; it is not an exhaustive acceptance test, and the other headlines are targets
-of the same standing, stated in prose with their locators or proof routes.
+attached to it here; it is not an exhaustive acceptance test. The targets stated only in prose
+are listed in its module docstring with what each lacks for a Lean statement; they are targets of
+this roadmap all the same, with their locators or proof routes.
 
 ## Layer 1: Weighted graphs and their Laplacians
 
@@ -399,13 +414,14 @@ Mathlib's simple-graph Laplacian and matrix library only.
   into `∑ₐ uₐᵀ 𝓛 uₐ`. Apply Tau Ceti's Ky Fan principle
   `LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues` to `-𝓛` on
   `EuclideanSpace ℝ V`.
-- **Locally linear embedding.** For a weight matrix `R` whose rows sum to `1`, put
-  `M = (I - R)ᵀ (I - R)`, which is positive semidefinite with `M 𝟙 = 0`. Among `Y : V → ℝᵖ` with
-  `∑ᵢ Yᵢ = 0` and orthonormal coordinate columns, the least value of `∑ᵢ ‖Yᵢ - ∑ⱼ Rᵢⱼ Yⱼ‖²` is the
-  sum of the second to the `(p + 1)`-st smallest eigenvalues of `M`, attained by the
-  corresponding eigenvectors (Roweis–Saul, *Nonlinear dimensionality reduction by locally linear
-  embedding*, 2000; Wang (10.4)–(10.6), pp. 206–207). Proof: the objective is `tr(Yᵀ M Y)`, the
-  constraint puts the columns in `𝟙^⊥`, and the Ky Fan argument above on `𝟙^⊥` gives the minimum.
+- `isLeast_locallyLinearEmbedding`: for a weight matrix `R` whose rows sum to `1`, put
+  `M = (I - R)ᵀ (I - R)`, which is positive semidefinite with `M 𝟙 = 0`. For `p ≤ card V - 1`,
+  among `Y : V → ℝᵖ` with `∑ᵢ Yᵢ = 0` and orthonormal coordinate columns, the least value of
+  `∑ᵢ ‖Yᵢ - ∑ⱼ Rᵢⱼ Yⱼ‖²` is the sum of the second to the `(p + 1)`-st smallest eigenvalues of `M`,
+  attained by the corresponding eigenvectors (Roweis–Saul, *Nonlinear dimensionality reduction
+  by locally linear embedding*, 2000; Wang (10.4)–(10.6), pp. 206–207). Proof: the objective is
+  `tr(Yᵀ M Y)`, the constraint puts the columns in `𝟙^⊥`, which `M` preserves, and the Ky Fan
+  argument above on `𝟙^⊥` gives the minimum. For `p ≥ card V` no admissible `Y` exists.
 
 *Needs:* 2.1; Tau Ceti Ky Fan.
 
@@ -453,8 +469,10 @@ Layer 1; Tau Ceti Courant–Fischer and Ky Fan.
   - `λ₁ ≤ 2h` (Chung Lemma 2.1, p. 25; Grigor'yan Lemma 3.2, p. 53);
   - `h²/2 ≤ λ₁` (Chung Theorem 2.2, p. 26; Grigor'yan Theorem 3.3, p. 54);
   - `1 - √(1 - h²) ≤ λ₁` (Chung Theorem 2.3, p. 27).
-  Chung states the lower bounds as strict inequalities for connected graphs; the non-strict forms
-  hold for every weighted graph and are the ones stated.
+  Chung states both lower bounds as strict inequalities for connected graphs. The strict form of
+  Theorem 2.2 holds for connected graphs, since then `h > 0` and `1 - √(1 - h²) > h²/2`; the
+  strict form of Theorem 2.3 fails for `P₃` (Examples). The non-strict forms hold for every
+  weighted graph and are the ones stated.
 - Proof route. The upper bound: `λ₁ ≤ Ncut(S) ≤ 2 cut(S)/min(vol S, vol Sᶜ)` by 2.2. The lower
   bounds: take an eigenvector `f` of `λ₁` for the generalized problem `L f = λ D f`, shift it by
   a weighted median so that both `{f > 0}` and `{f < 0}` have volume at most `vol V / 2`, and
@@ -479,10 +497,11 @@ Layer 1; Tau Ceti Courant–Fischer and Ky Fan.
 ### Examples
 
 - `C₄`: `λ₁ = 1 = 2h`, equality in the upper bound.
-- `P₃`: `h = 1` and `λ₁ = 1 = 1 - √(1 - h²)`, equality in the strongest lower bound.
+- `P₃`: `h = 1` and `λ₁ = 1 = 1 - √(1 - h²)`, equality in the strongest lower bound, so its
+  strict form fails on a connected graph.
 - `K₂`: `λ₁ = 2 = 2h`.
-- Two disjoint copies of `K₂`: `h = λ₁ = 0`, so all three bounds are equalities; the strict
-  forms of Chung fail, which is why the non-strict forms are stated.
+- Two disjoint copies of `K₂`: `h = λ₁ = 0`, so all three bounds are equalities, and the strict
+  form of `h²/2 ≤ λ₁` fails on a disconnected graph.
 
 ### Dependencies
 
@@ -568,12 +587,13 @@ Layer 1.
   `∑_{j<k} min(λⱼ, 0)² + ∑_{j≥k} λⱼ²`, attained by keeping the positive parts of the top `k`
   eigenvalues. This is the optimality of classical scaling among `k`-dimensional configurations
   for the criterion `tr (B - B̂)²` (Mardia–Kent–Bibby Theorem 14.4.2, p. 408).
-- Proof route: by unitary invariance reduce to diagonal `B`. For `C` of rank at most `k`, the
-  Hoffman–Wielandt inequality `‖B - C‖_F² ≥ ∑ⱼ (λⱼ - γⱼ)²` with the eigenvalues `γ₀ ≥ …` of `C`
-  sorted in the same order, follows from Ky Fan's principle; minimize over `γ ≥ 0` with at most
-  `k` nonzero entries.
+- Proof route: for `C` of rank at most `k`, the Hoffman–Wielandt inequality
+  `‖B - C‖_F² ≥ ∑ⱼ (λⱼ - γⱼ)²`, with the eigenvalues `γ₀ ≥ …` of `C` sorted in the same order, is
+  Tau Ceti's `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq`; minimize over
+  `γ ≥ 0` with at most `k` nonzero entries, and attain the minimum by the spectral decomposition
+  of `B` with the eigenvalues replaced.
 
-*Needs:* Mathlib `Matrix.IsHermitian.eigenvalues₀`; Tau Ceti Ky Fan.
+*Needs:* Mathlib `Matrix.IsHermitian.eigenvalues₀`; Tau Ceti Hoffman–Wielandt.
 
 ### 5.3 Graph approximation of geodesic distances
 
@@ -605,17 +625,21 @@ Layer 1.
   i.i.d. sequence from `P`, `d_H({X₀, …, X_{n-1}}, K) / (log(n + 1)/n)^{1/d}` is bounded in
   probability (Cuevas–Rodríguez-Casal, *On boundary estimation*, 2004; Genovese–Perone-Pacifico–
   Verdinelli–Wasserman, *Manifold estimation and singular deconvolution under Hausdorff loss*,
-  2012).
-- Proof route: cover `K` by `N(t) ≤ (2/t)ᵈ/c`-many balls of radius `t/2` centred in `K` (a maximal
-  `t`-separated subset of `K`, whose disjoint balls of radius `t/2` each have mass `≥ c(t/2)ᵈ`).
-  If every ball contains a sample point, `d_H ≤ t`. A union bound gives
-  `P(d_H > t) ≤ N(t) (1 - c(t/2)ᵈ)ⁿ`; with `t = C (log(n + 1)/n)^{1/d}` and `c(C/2)ᵈ = 2` this
-  tends to `0`.
-- For a `d`-dimensional compact submanifold with a density bounded below, the small-ball
-  hypothesis holds for small `r`; that geometric input is listed under Beyond.
+  2012). It differs from the rate of TopologicalDataAnalysis 8.4, which bounds the expectation for
+  laws standard at every radius, in requiring the small-ball bound only below `r₀` and concluding
+  boundedness in probability; it follows from the sampling bound of 8.4 as below.
+- Proof route. The local bound makes `P` standard at every radius with exponent `d` and
+  `a = c (r₀/(2R))ᵈ`, `R = max(r₀, diam K)`: for `r < r₀` the closed ball contains the open one and
+  `a ≤ c`; for `r₀ ≤ r ≤ diam K` it contains `B(x, r₀/2)`, of mass at least
+  `c (r₀/2)ᵈ ≥ a rᵈ`; for `r > diam K` it contains `K`. The sampling bound of
+  TopologicalDataAnalysis 8.4 at `ε = tₙ = C (log(n + 1)/n)^{1/d}` gives, once `a tₙᵈ ≤ 2ᵈ`,
+  `P(d_H > tₙ) ≤ max(1, 4ᵈ n/(a Cᵈ log(n + 1))) (n + 1)^{-a Cᵈ/2ᵈ}`, which tends to `0` when
+  `a Cᵈ/2ᵈ ≥ 2`. For each of the finitely many remaining `n ≥ 1`, `d_H ≤ diam K` almost surely.
+- For a `d`-dimensional compact submanifold of positive reach with a density bounded below, the
+  small-ball hypothesis holds below a radius `r₀`, by TopologicalDataAnalysis 5.3.
 
-*Needs:* Foundations 8.2 (local copy `IsBoundedInProbability`) and 8.5; Mathlib
-`Metric.hausdorffDist`, `Measure.infinitePi`.
+*Needs:* Foundations 8.2 (local copy `IsBoundedInProbability`) and 8.5; TopologicalDataAnalysis
+8.4; Mathlib `Metric.hausdorffDist`, `Measure.infinitePi`.
 
 **Checks.**
 
@@ -643,14 +667,14 @@ Layer 1.
 ### Examples
 
 - On the unit circle sampled with gaps at most `2δ = 0.04` and `ε = 0.1`, the graph distances lie
-  between `d_M/(1 + η)` with `η = 2 arcsin(ε/2)/ε - 1 ≈ 4.2 · 10⁻⁴` and `(1 + 4δ/ε) d_M = 1.8 d_M`;
-  in a numerical test with 2000 random points the ratio `d_G/d_M` is below `1` everywhere.
+  between `d_M/(1 + η)` with `η = 2 arcsin(ε/2)/ε - 1 ≈ 4.2 · 10⁻⁴` and `(1 + 4δ/ε) d_M = 1.8 d_M`.
 - Four points with all distances `1` (a regular simplex) give `B` with eigenvalues
   `0, 1/2, 1/2, 1/2`: realizable in `ℝ³` but not in `ℝ²`.
 
 ### Dependencies
 
-MatrixSpectralStatistics Part A; Foundations 8.2 and 8.5; Tau Ceti Ky Fan.
+MatrixSpectralStatistics Part A; Foundations 8.2 and 8.5; TopologicalDataAnalysis 8.4; Tau Ceti
+Hoffman–Wielandt.
 
 ## Layer 6: Shape and extrinsic means
 
@@ -682,15 +706,17 @@ Fan.
   `d_F = √(1 - cos² ρ) = sin ρ` and `d_P = √(2 - 2 cos ρ) = 2 sin(ρ/2)` (Dryden–Mardia Result 4.1,
   p. 61, Definition 4.13 and Result 4.2, p. 63, and p. 64). Proof:
   `‖Z₂ - β Z₁ R‖² = 1 - 2β tr(Z₂ᵀ Z₁ R) + β²`, minimized at `β = tr(Z₂ᵀ Z₁ R) ≥ 0`.
-- **Generalized Procrustes analysis** (prose target). For pre-shapes `Z₁, …, Z_n` (`m ≥ 2`)
-  minimize `G = ∑ᵢ ‖βᵢ Zᵢ Rᵢ - μ̄‖²` over `βᵢ ≥ 0` and `Rᵢ ∈ SO(m)`, with `μ̄ = n⁻¹ ∑ βᵢ Zᵢ Rᵢ`,
-  under `∑ βᵢ² = n`. At a minimizer, `μ̄/‖μ̄‖` minimizes `μ ↦ ∑ᵢ d_F²(Zᵢ, μ)` over pre-shapes, so
+- `gpaMean Z β R = n⁻¹ ∑ᵢ βᵢ Zᵢ Rᵢ` and `gpaObjective Z β R = ∑ᵢ ‖βᵢ Zᵢ Rᵢ - gpaMean Z β R‖_F²`.
+- `generalizedProcrustes_spec`: for pre-shapes `Z₁, …, Z_n` (`n ≥ 1`, `m ≥ 2`), let `(β, R)`
+  minimize `G = gpaObjective Z β R` over `βᵢ ≥ 0` and `Rᵢ ∈ SO(m)` under `∑ βᵢ² = n`, and put
+  `μ̄ = gpaMean Z β R`. Then `μ̄ ≠ 0`, `μ̄/‖μ̄‖` minimizes `μ ↦ ∑ᵢ d_F²(Zᵢ, μ)` over pre-shapes, so
   the mean of the fits has the shape of the full Procrustes mean, and `βᵢ` is proportional to
-  `cos ρ(Zᵢ, μ̄)` (Dryden–Mardia Definition 5.3, p. 88, Definition 5.5 and Result 5.2, p. 89).
+  `cos ρ(Zᵢ, μ̄/‖μ̄‖)` (Dryden–Mardia Definition 5.3, p. 88, Definition 5.5 and Result 5.2, p. 89).
   Proof route: `G = n - n‖μ̄‖²`, and `‖μ̄‖ = sup_{‖μ‖ = 1} ⟪μ̄, μ⟫`; for fixed `μ` the supremum over
   `Rᵢ` is `cos ρ(Zᵢ, μ)` by 6.1, and over `β` with `∑ βᵢ² = n` it is
   `√n (∑ᵢ cos² ρ(Zᵢ, μ))^{1/2}` by Cauchy–Schwarz, with equality for `βᵢ ∝ cos ρ(Zᵢ, μ)`. Hence
-  minimizing `G` maximizes `∑ᵢ cos² ρ(Zᵢ, μ) = n - ∑ᵢ d_F²(Zᵢ, μ)` by 6.2.
+  minimizing `G` maximizes `∑ᵢ cos² ρ(Zᵢ, μ) = n - ∑ᵢ d_F²(Zᵢ, μ)` by 6.2. Taking `μ = Z₁` gives
+  `‖μ̄‖ ≥ n^{-1/2}`, so `μ̄ ≠ 0`.
 
 *Needs:* 6.1.
 
@@ -714,10 +740,11 @@ Fan.
 
 ### 6.4 Extrinsic means
 
-- `extrinsicMean_iff`: for a law `μ` on `ℝᴰ` with finite second moment and a closed set `S`, a
-  point `p ∈ S` minimizes `q ↦ E‖X - q‖²` over `S` exactly when `p` is a nearest point of `S` to
-  the Euclidean mean `m = E X` (Bhattacharya–Bhattacharya Definition 4.1, p. 36, and Proposition
-  4.2, p. 37). Proof: `E‖X - q‖² = E‖X - m‖² + ‖m - q‖²`.
+- `extrinsicMean_iff`: for a law `μ` on `ℝᴰ` with finite second moment and any set `S`, a point
+  `p ∈ S` minimizes `q ↦ E‖X - q‖²` over `S` exactly when `p` is a nearest point of `S` to the
+  Euclidean mean `m = E X` (Bhattacharya–Bhattacharya Definition 4.1, p. 36, and Proposition
+  4.2, p. 37). Proof: `E‖X - q‖² = E‖X - m‖² + ‖m - q‖²`. Bhattacharya–Bhattacharya take `S`
+  closed, which makes the extrinsic mean set nonempty; the equivalence does not use it.
 - `tendstoInDistribution_extrinsicMean`: if `proj` is a measurable map that near `m` is a
   nearest-point map of `S` and is differentiable at `m` with derivative `Dproj`, then for an i.i.d.
   sequence `√n (proj(X̄ₙ) - proj(m)) → Dproj Z` in law with `Z ~ N(0, Cov X)`
@@ -752,6 +779,15 @@ Fan.
 - `partialProcrustesDist`: `0` between a pre-shape and a rotation of it.
 - `partialProcrustesDist`: for the mirror triangles, `√(2 - 1) = 1`.
 - `partialProcrustesDist`: it is at most `2` for pre-shapes, with `2` for `m = 1` and `Z₂ = -Z₁`.
+- `gpaMean`: for `n = 1` it is `β₁ Z₁ R₁`.
+- `gpaMean`: for `n = 2`, `Z₂ = -Z₁`, `β = (1, 1)` and `R = (I, I)` it is `0`; with `m = 2` and
+  `R₂ = -I ∈ SO(2)` it is `Z₁`.
+- `gpaMean`: it divides by `n`, not by `∑ βᵢ`: for `n = 2`, `Z₁ = Z₂`, `R = (I, I)` and
+  `β = (√2, 0)` it is `Z₁/√2`, not `Z₁`.
+- `gpaObjective`: for `n = 1` it is `0`.
+- `gpaObjective`: for `n = 2`, pre-shapes `Z₂ = -Z₁`, `β = (1, 1)` and `R = (I, I)` it is `2`; with
+  `m = 2` and `R₂ = -I` it is `0`, so rotations are fitted.
+- `gpaObjective`: for `β = 0` it is `0`, which is why the minimization constrains `∑ βᵢ² = n`.
 - `planarFullProcrustesDistSq`: `0` for `w = i z` (a rotation by `π/2`).
 - `planarFullProcrustesDistSq`: `1` for unit `z ⊥ w`.
 - `planarFullProcrustesDistSq`: for `w = 2z` it is `0`, while the partial distance of rotation
@@ -759,8 +795,9 @@ Fan.
 
 ### Examples
 
-- For two random planar pre-shapes the numerical minimum over a grid of angles and scales
-  reproduces `d_P = √(2 - 2 cos ρ)` and `d_F = √(1 - cos² ρ)` to four digits.
+- For the mirror triangles of the Checks, `cos ρ = 1/2`; the optimal scale is `β = cos ρ = 1/2`,
+  and `‖Z₂ - β Z₁ R‖² = 1 - 2 · (1/2) · (1/2) + 1/4 = 3/4 = d_F²`, while the scale `β = 1` gives
+  `2 - 2 cos ρ = 1 = d_P²`.
 - `S` the unit sphere in `ℝ³` and `μ` uniform on two antipodal points: `m = 0`, every point of
   `S` is nearest, and the extrinsic mean set is all of `S`; the differentiability hypothesis of
   6.4 fails at `m`.
@@ -795,7 +832,8 @@ Ky Fan.
   - the witness function `x ↦ ⟪Φ x, m μ - m ν⟫` is `∫ k(x, y) dμ(y) - ∫ k(x, y) dν(y)`;
   - when `MMD ≠ 0`, the normalized witness has norm `1` and attains the supremum.
 - Proof: Bochner integrals commute with the continuous functional `⟪f, ·⟫`; Cauchy–Schwarz and the
-  normalized witness give the supremum.
+  normalized witness give the supremum. The witness formula is Tau Ceti's
+  `Matrix.PosSemidef.inner_kolmogorovFeature_kernelMeanEmbedding` applied to `μ` and to `ν`.
 - The double-integral form of `MMD²` is Tau Ceti's
   `Matrix.PosSemidef.norm_kernelMeanEmbedding_sub_sq`, consumed.
 
@@ -922,10 +960,10 @@ Tau Ceti kernel library and McDiarmid; Foundations 8.5.
 
 ### Examples
 
-- Polynomial kernel: the Rademacher law on `ℝ` and `N(0, 1)` have the same mean and second
-  moment, and a quadrature computation gives `MMD² = 0` to machine precision.
-- Polynomial kernel: for two discrete laws on `ℝ²` the double-integral form and
-  `2‖m_μ - m_ν‖² + ‖S_μ - S_ν‖_F²` agree to fifteen digits.
+- Polynomial kernel: the Rademacher law on `ℝ` and `N(0, 1)` both have `m = 0` and `S = 1`, so
+  `MMD² = 0` by 8.3.
+- Polynomial kernel: for `μ = δ₀` and `ν = δ_{e₁}` on `ℝ²` the double-integral form is
+  `1 - 2 · 1 + 4 = 3`, and `2‖m_μ - m_ν‖² + ‖S_μ - S_ν‖_F² = 2 + 1 = 3`.
 
 ### Dependencies
 
@@ -952,12 +990,13 @@ Layer 7; Tau Ceti Bochner and Gaussian positive definiteness; Mathlib characteri
 ### 9.2 The Dudley distance
 
 - `dudleyDist μ ν = sup |∫ f dμ - ∫ f dν|` over `f` with `sup |f| + Lip f ≤ 1`, in `ℝ≥0∞`.
-- `dudleyDist_le`: `β ≤ W₁`, `β ≤ tvDist`, and on a space of diameter at most `D`,
-  `W₁ ≤ D · tvDist / 2` (Dudley, *Real Analysis and Probability*, 2002; Gibbs–Su,
+- `dudleyDist_le`: on a separable space, `β ≤ W₁`, `β ≤ tvDist`, and, if the diameter is at most
+  `D`, `W₁ ≤ D · tvDist / 2` (Dudley, *Real Analysis and Probability*, 2002; Gibbs–Su,
   *On choosing and bounding probability metrics*, 2002). Proof: a function with
   `Lip f ≤ 1` integrates against a coupling to at most `∫ d dπ`; `|f| ≤ 1` against `μ - ν`; and the
   coupling that keeps the common part `μ ∧ ν` on the diagonal moves mass `tvDist/2` by at most
-  `D`.
+  `D`. Separability makes the Borel σ-algebra of `X × X` the product σ-algebra, so the distance
+  is measurable for that coupling; without it `W₁` can be `∞` even for `μ = ν`.
 - `tendsto_iff_dudleyDist`: on a Polish space, weak convergence of probability measures is
   convergence in `β`. Proof: Tau Ceti's
   `TauCeti.tendsto_probabilityMeasure_iff_iSup_abs_integral_sub_integral_boundedLipschitz` at
@@ -995,8 +1034,8 @@ Layer 7; Tau Ceti Bochner and Gaussian positive definiteness; Mathlib characteri
 
 ### Examples
 
-- Gaussian kernel, `σ = 0.7`: `2 - 2e^{-r²/(2σ²)} ≤ r²/σ²` on `[0, 5]` holds numerically, which is
-  the Lipschitz constant `1/σ` of 9.1.
+- Gaussian kernel: `2 - 2e^{-r²/(2σ²)} ≤ r²/σ²` because `1 - e^{-t} ≤ t`; at `r = σ` the two
+  sides are `2 - 2e^{-1/2} ≈ 0.787` and `1`. This is the Lipschitz constant `1/σ` of 9.1.
 - For `μₙ = (1 - 1/n) δ₀ + n⁻¹ δₙ` and the Gaussian kernel, `MMD(μₙ, δ₀) ≤ √2 · 2/n → 0` by the
   total-variation bound, while `W₁(μₙ, δ₀) = 1`.
 
@@ -1083,12 +1122,19 @@ Layers 7–8; Tau Ceti optimal-transport library; Mathlib Prokhorov.
 - `hsic_empirical_eq_trace`: the HSIC of the empirical joint law of `n` pairs is
   `n⁻² tr(K H L H)` for the Gram matrices `K`, `L` and the centring matrix `H` (Gretton et al.
   2005). Proof: expand `MMD²` of the empirical joint law against the product of its marginals.
-- Limit laws of the HSIC statistics are those of degenerate V- and U-statistics of order `4`;
-  under independence `n HSIC_b → ∑_{r,s} λ_r η_s Z_{rs}²`, by Asymptotic 6.3 applied to the
-  kernel `k̃(x, x') l̃(y, y')` of order `2` after the Hoeffding projection. This is a target of the
-  same standing as 10.2 with the same proof route.
+- `tendstoInDistribution_hsic_null`: for bounded continuous kernels and a product law
+  `ρ = P_X ⊗ P_Y`, with the eigenvalues `λ_r`, `η_s` and orthonormal eigenfunctions of the centred
+  kernels `k̃` under `P_X` and `l̃` under `P_Y`, and independent standard normals `Z_{rs}`, the
+  statistic `n Ĥₙ`, with `Ĥₙ` the HSIC of the empirical joint law of `n` pairs, converges in law
+  to `∑_{r,s} λ_r η_s Z_{rs}²` (Gretton et al. 2005, for the statistic). Proof route: `Ĥₙ` is a
+  V-statistic of order `4`; its Hoeffding projection is the V-statistic of order `2` of
+  `k̃(x, x') l̃(y, y')`, whose integral operator on `L²(P_X ⊗ P_Y)` has eigenvalues `λ_r η_s`.
+  Asymptotic 6.3 gives the limit `∑ λ_r η_s (Z_{rs}² - 1)` of the U-statistic, and the diagonal
+  adds
+  `E k̃(X, X) · E l̃(Y, Y) = ∑ λ_r · ∑ η_s`, the traces of the covariance operators of the centred
+  features; the remainder of the projection is `o_P(n⁻¹)` by the bounds on the kernels.
 
-*Needs:* 8.2, 10.3; Mathlib `Matrix.PosSemidef.kronecker`; Asymptotic 6.3.
+*Needs:* 8.2, 10.1, 10.3; Mathlib `Matrix.PosSemidef.kronecker`; Asymptotic 6.3.
 
 ### 10.5 Permutation tests
 
@@ -1103,8 +1149,16 @@ Layers 7–8; Tau Ceti optimal-transport library; Mathlib Prokhorov.
   `α N!` of them.
 - Applications: for two samples under `P = Q`, the pooled vector has law `Measure.pi`, which is
   invariant; for `n` pairs under independence, permuting the `y`-coordinates alone preserves
-  `(P_X ⊗ P_Y)ⁿ`. The randomized test that rejects with the appropriate probability on the
-  boundary has level exactly `α`; this is a target stated in prose with the same proof.
+  `(P_X ⊗ P_Y)ⁿ`.
+- `randomizedPermutationPValue T z u` is `(#{σ : T(z) < T(z ∘ σ)} + u · #{σ : T(z ∘ σ) = T(z)})/N!`
+  for `u ∈ [0, 1]`.
+- `measureReal_randomizedPermutationPValue_eq`: under a law of `Fin N → X` invariant under every
+  permutation of coordinates and `u` uniform on `[0, 1]` independent of `z`, the randomized
+  p-value is uniform: `P(p̃ ≤ α) = α` for every `α ∈ [0, 1]`, so the test rejecting when `p̃ ≤ α`
+  has level exactly `α`. Proof route: as above, average over `σ`; within one orbit the values
+  `T(z ∘ σ)` form a fixed list, and the value at a uniformly chosen position, with ties broken by
+  `u`, has `p̃` uniform: a block of `m` tied values with `g` larger values carries probability
+  `m/N!`, and on it `p̃ = (g + u m)/N!` is uniform on `[g/N!, (g + m)/N!]`.
 
 *Needs:* Mathlib `Equiv.Perm`, `Measure.map`.
 
@@ -1144,15 +1198,23 @@ Layers 7–8; Tau Ceti optimal-transport library; Mathlib Prokhorov.
 - `permutationPValue`: it is at least `1/N!`, since the identity always counts.
 - `permutationPValue`: for a constant statistic it is `1`.
 - `permutationPValue`: for `N = 2`, `T(z) = z₀ - z₁` and `z₀ > z₁` it is `1/2`.
+- `randomizedPermutationPValue`: at `u = 1` it is `permutationPValue T z`.
+- `randomizedPermutationPValue`: for `N = 2` and `T(z) = z₀ - z₁` it is `u/2` when `z₀ > z₁`,
+  `(1 + u)/2` when `z₀ < z₁`, and `u` when `z₀ = z₁`.
+- `randomizedPermutationPValue`: for a constant statistic it is `u`, uniform, while
+  `permutationPValue` is `1` and the unrandomized test never rejects at `α < 1`.
 
 ### Examples
 
-- Simulation, `N = 4`, `T(z) = z₀ + z₁ - z₂ - z₃`, i.i.d. normal data: the rejection frequencies
-  of `p ≤ 1/3` and `p ≤ 1/2` are `0.339` and `0.504` in `20000` runs; for Bernoulli data with
-  ties, `p ≤ 1/2` is rejected with frequency `0.31`, illustrating conservativeness.
-- For random data, `n · mmdV = (n - 1) · mmdU + n⁻¹ ∑ h(zᵢ, zᵢ)` holds to machine precision.
-- For a discrete joint law with five atoms, `dCov² = 4 HSIC_{k₀,l₀}` and the Gram identity of
-  `hsic_empirical_eq_trace` hold to fifteen digits.
+- `N = 2`, `T(z) = z₀ - z₁`, i.i.d. data from a continuous law: `p = 1/2` when `z₀ > z₁` and
+  `p = 1` otherwise, so `P(p ≤ 1/2) = 1/2` exactly and `P(p ≤ 1/3) = 0 < 1/3`. For i.i.d.
+  Bernoulli(1/2) data, `z₀ = z₁` with probability `1/2` and then `p = 1`, so
+  `P(p ≤ 1/2) = 1/4 < 1/2`, while the randomized p-value gives `1/4 + 1/2 · 1/2 = 1/2`.
+- The `mmdU` example of the Checks (`n = 2`): `n · mmdV = 0` and
+  `(n - 1) · mmdU + n⁻¹ ∑ h(zᵢ, zᵢ) = -(2 - 2e^{-1/2}) + (2 - 2e^{-1/2}) = 0`.
+- For `z = ((0, 0), (1, 1))` and Gaussian kernels with `σ = τ = 1`, with `a = e^{-1/2}`:
+  `H K H = H L H = ((1 - a)/2) [[1, -1], [-1, 1]]`, so `n⁻² tr(K H L H) = (1 - a)²/4`, the value
+  of `hsic` on `½(δ_{(0,0)} + δ_{(1,1)})` in the Checks.
 
 ### Dependencies
 
@@ -1189,7 +1251,8 @@ Layers 7–8; Asymptotic 6.2–6.3; Foundations 2.4 and 8.4.
 
 - `tendsto_ksdSq_of_tendsto_wassersteinEDist`: if `P` has a finite first moment and Lipschitz
   score, and `k` is as in 11.1, then `W₁(μₙ, P) → 0` implies `KSD(μₙ)² → 0` (Gorham–Mackey
-  2017).
+  2017, under stronger hypotheses on the kernel and the score; the route below gives the
+  statement as written).
 - Proof route (own): `|k_P(x, y)| ≤ C'(1 + ‖x‖)(1 + ‖y‖)` from the bounds on `k` and
   `‖b(x)‖ ≤ ‖b(0)‖ + L‖x‖`. Convergence in `W₁` is weak convergence with uniformly integrable
   first moments, so `μₙ ⊗ μₙ → P ⊗ P` weakly with `(1 + ‖x‖)(1 + ‖y‖)` uniformly integrable; `k_P`
@@ -1217,6 +1280,15 @@ Layers 7–8; Asymptotic 6.2–6.3; Foundations 2.4 and 8.4.
   regularized estimator `Û_{Y|x} = ∑ᵢ βᵢ(x) l(yᵢ, ·)` with
   `cmeWeights k xs λ x = (K + nλ I)⁻¹ (k(x, xᵢ))ᵢ`; it is the representer-theorem solution
   (Nonparametric 5.8) of the ridge regression of `Ψ(Y)` on `X` with penalty `λ`.
+- `cmeWeights_isMinOn`: for `n ≥ 1`, `λ > 0` and values `v ∈ ℝⁿ` (for instance `vᵢ = g(yᵢ)`), the
+  element `f = ∑ᵢ ((K + nλ I)⁻¹ v)ᵢ Φ(xᵢ)` of the Kolmogorov space satisfies
+  `⟪f, Φ x⟫ = cmeWeights k xs λ x ⬝ v` for every `x`, and minimizes
+  `f' ↦ n⁻¹ ∑ᵢ (vᵢ - ⟪f', Φ xᵢ⟫)² + λ ‖f'‖²` over the whole space: the estimate
+  `⟪g, Û_{Y|x}⟫ = ∑ᵢ βᵢ(x) g(yᵢ)` is the kernel ridge regression of `g(Y)` on `X`. Proof: `K + nλ I`
+  is positive definite, hence invertible and symmetric; the component of `f'` orthogonal to the
+  `Φ(xᵢ)` only adds to the norm, and on their span the objective is the convex quadratic
+  `n⁻¹ ‖v - K α‖² + λ αᵀ K α`, whose gradient `2K((K + nλ I) α - v)/n` vanishes at
+  `α = (K + nλ I)⁻¹ v`.
 
 *Needs:* 7.1; Nonparametric 5.8; Mathlib `MeasureTheory.Measure.condKernel`.
 
@@ -1235,15 +1307,17 @@ Layers 7–8; Asymptotic 6.2–6.3; Foundations 2.4 and 8.4.
     `∫∫ k dμ dμ - 2 ∫∫ k dμ dν + ∫∫ k dν dν` of `rffKernel` and `k` differ by at most `4ε` for all
     probability measures carried by `M`
   (Rahimi–Recht, *Random features for large-scale kernel machines*, 2007, who state the uniform
-  bound with other constants; the constants `98` and `32(d + 1)` are those proved in lean-CKSD,
-  see Prior formalization).
+  bound with other constants; the constants `98` and `32(d + 1)` for these features with phases
+  are those of Sutherland–Schneider, *On the error of random Fourier features*, 2015).
 - Proof route. Unbiasedness: `2 cos a cos b = cos(a - b) + cos(a + b)` and the uniform phase kills
   `cos(a + b)`. Pointwise: each summand lies in `[-2/D, 2/D]`; Hoeffding
-  (`ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun`). Uniform: an `r`-net of
-  `M - M` from Tau Ceti's `TauCeti.exists_finset_isCover_of_subset_closedBall` with at most
-  `(4 diam M / r)ᵈ` points, Hoeffding at the net points with a union bound, and Markov's inequality
-  for the Lipschitz constant of `rffKernel - k` in `x - y`, whose expectation is at most `2σ`;
-  optimize `r`. MMD: each of the four double integrals moves by at most `ε`.
+  (`ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun`). Uniform: with phases,
+  `rffKernel s x y` is not a function of `x - y` (Checks), so the net lives on `M × M ⊂ ℝ²ᵈ`. An
+  `r`-net of `M` from Tau Ceti's `TauCeti.exists_finset_isCover_of_subset_closedBall`, with at
+  most `(4 diam M / r)ᵈ` points, gives a net of `M × M` of its pairs; apply Hoeffding at the net
+  pairs with a union bound, and Markov's inequality for `D⁻¹ ∑ⱼ ‖ωⱼ‖²`, which bounds the Lipschitz
+  constant of `(x, y) ↦ rffKernel s x y - k(x, y)` on `M × M`; optimize `r`. MMD: each of the
+  four double integrals moves by at most `ε`.
 - For the Gaussian kernel `e^{-γ‖x - y‖²}`, `Λ = N(0, 2γ I)` and `σ² = 2dγ`.
 
 *Needs:* Mathlib Hoeffding, `Measure.pi`; Tau Ceti covering numbers.
@@ -1269,14 +1343,16 @@ Layers 7–8; Asymptotic 6.2–6.3; Foundations 2.4 and 8.4.
 - `uniformPhase`: it gives mass `1/2` to `[0, π]` and `0` to `[2π, 3π]`.
 - `rffKernel`: for `D = 1`, `ω = 0`, it is `2 cos² b`, with mean `1 = k(x, x)`.
 - `rffKernel`: `|rffKernel s x y| ≤ 2`.
+- `rffKernel`: it is not a function of `x - y`: for `d = D = 1`, `ω = 1` and `b = 0` it is `2` at
+  `x = y = 0` and `0` at `x = y = π/2`.
 - `rffKernel`: without the phases (`b = 0`) the mean is `(k(x, y) + E cos⟪ω, x + y⟫)`, not
   `k(x, y)`: the uniform phase is needed for unbiasedness.
 
 ### Examples
 
-- Gaussian kernel `e^{-‖x - y‖²/2}` on `ℝ²` (`Λ = N(0, I)`), `D = 50`: over `20000` draws the mean
-  of `rffKernel` at `x = (0.3, -0.2)`, `y = (1, 0.5)` is `0.6125` against `k = 0.6126`, and the
-  frequency of `|error| ≥ 0.3` is `0.011`, below `2e^{-50 · 0.09/8} ≈ 1.14`.
+- For `ε = 0.3` the pointwise bound `2e^{-Dε²/8}` is below `1` from `D = 62` on
+  (`2e^{-62 · 0.09/8} ≈ 0.996`) and below `0.05` from `D = 328` on
+  (`2e^{-328 · 0.09/8} ≈ 0.0499`, while `D = 327` gives `≈ 0.0505`).
 
 ### Dependencies
 
@@ -1286,10 +1362,15 @@ Layers 7–9; Nonparametric 5.8; Tau Ceti covering numbers; Mathlib Hoeffding.
 
 No other roadmap consumes the results of this one.
 
-The spectral theory of reversible chains and the conductance form of the Cheeger inequality in
-the open Markov-chain-mixing roadmap overlap with 3.2 and 4.1 in the special case of the random
-walk of a weighted graph; whichever is implemented first supplies the other, and the graph forms
-here are stated in the language of weighted matrices, not of Markov kernels.
+MarkovChainMixing states the spectral decomposition of a kernel reversible for a stationary law
+`π > 0` (its 2.1) and Cheeger's inequality `Φ⋆²/2 ≤ γ ≤ 2Φ⋆` for the bottleneck ratio `Φ⋆` and the
+spectral gap `γ` (its 3.2), for Markov kernels. This roadmap owns the weighted-matrix forms 3.2
+and 4.1 and proves them from its Layers 1–2; neither roadmap supplies the other. The dictionary: a
+chain with transition matrix `P` reversible for `π > 0` is the weighted graph
+`W x y = π(x) P(x, y)`, with degrees `π(x)` and total volume `1`; conversely a weighted graph with
+positive degrees has the walk `P = D⁻¹ W` with `π = d / vol V` (4.1). Under it `h = Φ⋆`,
+`λ₁ = γ`, and the first half of `diffusionDistSq_eq` is MarkovChainMixing 2.1 for the walk of
+`W`. The bound `1 - √(1 - h²) ≤ λ₁` of 3.2 is specific to this roadmap.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -1299,8 +1380,8 @@ here are stated in the language of weighted matrices, not of Markov kernels.
   `ε`-neighbourhood consistency of empirical Fréchet mean sets. They need Riemannian
   exponential maps and Jacobi-field estimates that Mathlib does not have.
 - **Manifold reach.** That a compact submanifold of positive reach `τ` satisfies the local
-  chord–arc condition of 5.3 with `η = O(ε/τ)` and the small-ball condition of 5.4; minimax
-  rates of manifold estimation in Hausdorff loss (Genovese et al. 2012).
+  chord–arc condition of 5.3 with `η = O(ε/τ)`; minimax rates of manifold estimation in Hausdorff
+  loss (Genovese et al. 2012).
 - **Stein convergence control.** Weak convergence from `KSD → 0` for distantly dissipative
   targets with the inverse multiquadric kernel, the tight version for translation-invariant
   kernels with nonvanishing Fourier transform, and the counterexample for fast-decaying kernels
@@ -1311,8 +1392,6 @@ here are stated in the language of weighted matrices, not of Markov kernels.
   native space of Wendland Theorem 10.12, p. 139.
 - **Spectral convergence of graph Laplacians.** Convergence of the eigenvectors of the graph
   Laplacians of random geometric graphs to those of the Laplace–Beltrami operator.
-- **Topological data analysis.** Persistent homology, stability of persistence diagrams, Čech
-  and Rips filtrations and their statistical inference.
 - **Statistical optimal transport.** Rates of empirical Wasserstein distances, entropic and
   semidiscrete transport statistics, and estimation of transport maps.
 
@@ -1321,22 +1400,16 @@ here are stated in the language of weighted matrices, not of Markov kernels.
 This section is secondary and not prescriptive.
 
 - **lean-CKSD** (Core Knowledge of Statistics and Data Science, Apache 2.0) formalizes the
-  synopsis items behind this roadmap in `CKSD/Geometry/`. Proved without `sorry`:
-  `Cheeger.lean` (synopsis 108.1), `GeometricStatistics.lean` (108.5, 108.7, 108.8, 108.10),
-  `Kernels/Characteristic.lean`, `Kernels/Distance.lean`,
-  `Kernels/DistanceCovarianceCentering.lean`, `Kernels/DistanceProductSeparation.lean`,
-  `Kernels/EnergyDistance.lean`, `Kernels/Spectral.lean`, `Kernels/UnbiasedMMD.lean` and
-  `Kernels/RandomFeatures.lean` (108.60–108.62, 108.68, 108.74; the uniform random-feature bound
-  with the constants of 11.4 is proved there). Admitted: `Kernels/SteinDiscrepancy.lean`
-  (108.71–108.72) and one statement of `ManifoldLearning.lean` (108.4). The status of each
-  declaration is in `formalization.json`. The limit laws of `Kernels/UnbiasedMMD.lean` are for a
-  bounded finite-dimensional feature map; 10.2 here is general.
+  synopsis items behind this roadmap in `CKSD/Geometry/`: `Cheeger.lean` (synopsis 108.1),
+  `GeometricStatistics.lean` (108.5, 108.7, 108.8, 108.10), `ManifoldLearning.lean` (108.4), and
+  under `Kernels/` the files `Characteristic.lean`, `Distance.lean`,
+  `DistanceCovarianceCentering.lean`, `DistanceProductSeparation.lean`, `EnergyDistance.lean`,
+  `Spectral.lean`, `UnbiasedMMD.lean`, `RandomFeatures.lean` (108.60–108.62, 108.68, 108.74) and
+  `SteinDiscrepancy.lean` (108.71–108.72). The limit laws of `UnbiasedMMD.lean` are for a bounded
+  finite-dimensional feature map; 10.2 here is general.
 - **Statlib** (Apache 2.0) covers U-statistics and the central limit theorem used through the
-  Asymptotic roadmap; it has no kernel-discrepancy or spectral-graph material, as recorded in
-  the file `StatlibCoverage.md` of lean-CKSD.
-- Mathlib's `SimpleGraph.lapMatrix` file is the unweighted case of 1.1–1.3; the open pull request
-  leanprover-community/mathlib4#43953 bounds the eigenvalues of `SimpleGraph.lapMatrix` by `card V`
-  and is tangential to Layer 1.
+  Asymptotic roadmap; it has no kernel-discrepancy or spectral-graph material.
+- Mathlib's `SimpleGraph.lapMatrix` file is the unweighted case of 1.1–1.3.
 
 ## References
 

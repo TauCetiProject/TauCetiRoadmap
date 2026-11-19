@@ -7,6 +7,7 @@ public import TauCeti.Analysis.Bochner.Gaussian.Basic
 public import TauCeti.Analysis.InnerProductSpace.KyFan
 public import TauCeti.Analysis.InnerProductSpace.CourantFischer
 public import TauCeti.Analysis.InnerProductSpace.Orthonormal.Procrustes
+public import TauCeti.Analysis.Matrix.HoffmanWielandt
 public import TauCeti.Analysis.Normed.Module.CoveringNumber
 public import TauCeti.Probability.McDiarmid
 public import TauCeti.Probability.Moments.Covariance
@@ -22,9 +23,25 @@ public import TauCeti.MeasureTheory.Measure.FrechetMean.Empirical
 This file is not the roadmap: the roadmap is `README.md`, and this file is not an exhaustive
 checklist. It states, against the pinned Mathlib and Tau Ceti and each with `sorry`, the
 headlines of the README that carry a Lean name, each with every conclusion the README attaches
-to it, together with the definitions their statements need. The README's other headlines are
-targets of the same standing, stated there in prose with their locators or proof routes, and are
-not stated here.
+to it, together with the definitions their statements need, and one auxiliary fact
+(`isHermitian_normalizedLaplacian`, proved here) that names the eigenvalues of `𝓛`.
+
+The README's targets stated only in prose, each with what it lacks for a statement here:
+* 3.2, the sweep-cut bound (a level set of the eigenvector of `λ₁` has conductance at most
+  `√(2 λ₁)`): it is a by-product of the proof of `cheeger_inequality`, not a separate theorem.
+* 6.3, planar shape space as `ℂP^{k-2}`: it needs the quotient of centred configurations by
+  `ℂˣ` as a type with its map to `Projectivization`, which this file does not set up.
+* 7.3, almost-sure convergence of the empirical MMD, 8.3, non-characteristic polynomial kernels,
+  and 9.3, metrization on compact spaces: one-line corollaries of `kernelMeanEmbedding_empirical`,
+  `polynomialKernel_mmd_sq` and `tendsto_mmd_iff`.
+* 8.1, full spectral support for compactly supported `ψ`: it needs the analyticity of the Fourier
+  transform of a compactly supported measure, which Mathlib does not have.
+* 10.1, `E mmdU = MMD²` and the identity between `mmdU` and `mmdV`: identities of the U- and
+  V-statistics of MathematicalStatisticsFoundations 2.4, owned there.
+* 11.1, the supremum form of the kernel Stein discrepancy: it needs the divergence of elements of
+  the `d`-fold Kolmogorov space, which needs derivatives of feature-space elements.
+* 11.3, the operator form `C_{YX} C_{XX}⁻¹ Φ x`: it needs the covariance operators as bounded
+  operators with an inverse on a range.
 
 The conventions of the README are used throughout. A weighted graph on a finite type `V` is a
 real matrix `W`, symmetric with nonnegative entries; loops are allowed unless a statement
@@ -110,9 +127,11 @@ theorem laplacian_quadForm {W : Matrix V V ℝ} (hW : IsWeightedGraph W) (f : V 
     f ⬝ᵥ (laplacian W *ᵥ f) = (1 / 2 : ℝ) * ∑ i, ∑ j, W i j * (f i - f j) ^ 2 ∧
       (laplacian W).PosSemidef ∧ (normalizedLaplacian W).PosSemidef := sorry
 
-/-- **1.2** The normalized Laplacian of a symmetric weight matrix is symmetric. -/
+/-- **1.2** Auxiliary: the normalized Laplacian of a symmetric weight matrix is symmetric, which
+names the eigenvalues of `𝓛`. -/
 theorem isHermitian_normalizedLaplacian {W : Matrix V V ℝ} (hW : W.IsSymm) :
-    (normalizedLaplacian W).IsHermitian := sorry
+    (normalizedLaplacian W).IsHermitian := by
+  simp [normalizedLaplacian, laplacian, Matrix.IsHermitian, Matrix.mul_assoc, hW.eq]
 
 /-- **1.3** The kernel of `L`: the functions constant on the connected components of the graph
 of positive weights; its dimension is the number of components. -/
@@ -191,6 +210,16 @@ theorem isLeast_laplacianEigenmap {W : Matrix V V ℝ} (hW : IsWeightedGraph W)
         t = ∑ a, Y a ⬝ᵥ (laplacian W *ᵥ Y a)}
       (∑ j : Fin k, (isHermitian_normalizedLaplacian hW.symm).eigenvalues₀
         (Fin.rev (Fin.castLE hk j))) := sorry
+
+/-- **2.3** Locally linear embedding: for weights `R` with rows summing to `1` and
+`M = (I - R)ᵀ (I - R)`, the least reconstruction error over centred `Y : V → ℝᵖ` with orthonormal
+columns is the sum of the second to the `(p + 1)`-st smallest eigenvalues of `M`. -/
+theorem isLeast_locallyLinearEmbedding (R : Matrix V V ℝ) (hR : ∀ i, ∑ j, R i j = 1) {p : ℕ}
+    (hp : p + 1 ≤ Fintype.card V) :
+    IsLeast {t | ∃ Y : Matrix V (Fin p) ℝ, (∀ a, ∑ i, Y i a = 0) ∧ Yᵀ * Y = 1 ∧
+        t = ∑ i, ∑ a, (Y i a - ∑ j, R i j * Y j a) ^ 2}
+      (∑ a : Fin p, (Matrix.isHermitian_conjTranspose_mul_self (1 - R)).eigenvalues₀
+        (Fin.rev ⟨a.1 + 1, by have := a.isLt; omega⟩)) := sorry
 
 end Variational
 
@@ -309,9 +338,10 @@ theorem sampleGraphEDist_bounds (ι : M → E) (hι : LipschitzWith 1 ι)
       ENNReal.ofReal (dist a b) ≤ ENNReal.ofReal (1 + η) * sampleGraphEDist ι S ε a b :=
   sorry
 
-/-- **5.4** Hausdorff estimation of a support under a small-ball lower bound: for an i.i.d.
+/-- **5.4** Hausdorff estimation of a support under a local small-ball lower bound: for an i.i.d.
 sample from `P` carried by a compact `K` with `P (ball x r) ≥ c rᵈ` for `x ∈ K` and `r < r₀`,
-the Hausdorff distance from the first `n` points to `K` is `O_P((log n / n)^{1/d})`. -/
+the Hausdorff distance from the first `n` points to `K` is `O_P((log n / n)^{1/d})`. It follows
+from the sampling bound of TopologicalDataAnalysis 8.4, which needs the bound at every radius. -/
 theorem isBoundedInProbability_hausdorffDist {X : Type*} [MetricSpace X] [MeasurableSpace X]
     [BorelSpace X] [SecondCountableTopology X] (P : Measure X) [IsProbabilityMeasure P]
     {K : Set X} (hK : IsCompact K) (hPK : P K = 1) {d c r₀ : ℝ} (hd : 0 < d) (hc : 0 < c)
@@ -370,6 +400,33 @@ theorem procrustesDist_eq {Z₁ Z₂ : Matrix (Fin k) (Fin m) ℝ} (h₁ : IsPre
     fullProcrustesDist Z₁ Z₂ = Real.sqrt (1 - procrustesCos Z₁ Z₂ ^ 2) ∧
     partialProcrustesDist Z₁ Z₂ = Real.sqrt (2 - 2 * procrustesCos Z₁ Z₂) := sorry
 
+/-- **6.2** The mean `n⁻¹ ∑ᵢ βᵢ Zᵢ Rᵢ` of the scaled and rotated configurations. -/
+def gpaMean {n : ℕ} (Z : Fin n → Matrix (Fin k) (Fin m) ℝ) (β : Fin n → ℝ)
+    (R : Fin n → Matrix.specialOrthogonalGroup (Fin m) ℝ) : Matrix (Fin k) (Fin m) ℝ :=
+  (n : ℝ)⁻¹ • ∑ i, β i • (Z i * (R i : Matrix (Fin m) (Fin m) ℝ))
+
+/-- **6.2** The generalized Procrustes objective `∑ᵢ ‖βᵢ Zᵢ Rᵢ - μ̄‖_F²`. -/
+def gpaObjective {n : ℕ} (Z : Fin n → Matrix (Fin k) (Fin m) ℝ) (β : Fin n → ℝ)
+    (R : Fin n → Matrix.specialOrthogonalGroup (Fin m) ℝ) : ℝ :=
+  ∑ i, ∑ a, ∑ b,
+    ((β i • (Z i * (R i : Matrix (Fin m) (Fin m) ℝ)) - gpaMean Z β R : Matrix (Fin k) (Fin m) ℝ)
+      a b) ^ 2
+
+/-- **6.2** Generalized Procrustes analysis: at a minimizer of the objective under `∑ βᵢ² = n`,
+the mean of the fits is nonzero, its normalization is a full Procrustes mean of the pre-shapes,
+and the scales are proportional to the Procrustes cosines with it. -/
+theorem generalizedProcrustes_spec {n : ℕ} (hn : 0 < n) (hm : 2 ≤ m)
+    (Z : Fin n → Matrix (Fin k) (Fin m) ℝ) (hZ : ∀ i, IsPreshape (Z i)) (β : Fin n → ℝ)
+    (R : Fin n → Matrix.specialOrthogonalGroup (Fin m) ℝ) (hβ : ∀ i, 0 ≤ β i)
+    (hβn : ∑ i, β i ^ 2 = n)
+    (hmin : ∀ (β' : Fin n → ℝ) (R' : Fin n → Matrix.specialOrthogonalGroup (Fin m) ℝ),
+      (∀ i, 0 ≤ β' i) → ∑ i, β' i ^ 2 = n → gpaObjective Z β R ≤ gpaObjective Z β' R') :
+    gpaMean Z β R ≠ 0 ∧
+    IsMinOn (fun μ ↦ ∑ i, fullProcrustesDist (Z i) μ ^ 2) {μ | IsPreshape μ}
+      ((Real.sqrt (∑ a, ∑ b, gpaMean Z β R a b ^ 2))⁻¹ • gpaMean Z β R) ∧
+    ∃ c : ℝ, ∀ i, β i = c * procrustesCos (Z i)
+      ((Real.sqrt (∑ a, ∑ b, gpaMean Z β R a b ^ 2))⁻¹ • gpaMean Z β R) := sorry
+
 /-- **6.3** The squared planar full Procrustes distance, with rotation and scaling written as
 multiplication by a complex number. -/
 def planarFullProcrustesDistSq (z w : EuclideanSpace ℂ (Fin k)) : ℝ :=
@@ -387,11 +444,11 @@ theorem planarFullProcrustesMean {n : ℕ} (z : Fin n → EuclideanSpace ℂ (Fi
           ∀ (c' : ℝ) (ν : EuclideanSpace ℂ (Fin k)), ν ≠ 0 →
             (∑ i, ⟪z i, ν⟫_ℂ • z i) = (c' : ℂ) • ν → c' ≤ c) := sorry
 
-/-- **6.4** The extrinsic mean set of a law with finite second moment on a closed set `S` is the
-set of nearest points of `S` to the Euclidean mean. -/
+/-- **6.4** The extrinsic mean set of a law with finite second moment on a set `S` is the set of
+nearest points of `S` to the Euclidean mean. -/
 theorem extrinsicMean_iff {D : ℕ} (μ : Measure (EuclideanSpace ℝ (Fin D)))
     [IsProbabilityMeasure μ] (hμ : MemLp id 2 μ) {S : Set (EuclideanSpace ℝ (Fin D))}
-    (hS : IsClosed S) (p : EuclideanSpace ℝ (Fin D)) (hp : p ∈ S) :
+    (p : EuclideanSpace ℝ (Fin D)) (hp : p ∈ S) :
     (∀ q ∈ S, ∫ x, ‖x - p‖ ^ 2 ∂μ ≤ ∫ x, ‖x - q‖ ^ 2 ∂μ) ↔
       dist (∫ x, x ∂μ) p = Metric.infDist (∫ x, x ∂μ) S := sorry
 
@@ -565,8 +622,11 @@ def dudleyDist (μ ν : Measure X) : ℝ≥0∞ :=
   ⨆ (f : X → ℝ) (a : ℝ≥0) (b : ℝ≥0) (_ : a + b ≤ 1) (_ : ∀ x, |f x| ≤ a)
     (_ : LipschitzWith b f), ENNReal.ofReal |∫ x, f x ∂μ - ∫ x, f x ∂ν|
 
-/-- **9.2** `β ≤ W₁`, `β ≤ ‖μ - ν‖_TV`, and `W₁ ≤ diam · ‖μ - ν‖_TV / 2` on a bounded space. -/
-theorem dudleyDist_le (μ ν : Measure X) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν] :
+/-- **9.2** On a separable space, `β ≤ W₁`, `β ≤ ‖μ - ν‖_TV`, and `W₁ ≤ diam · ‖μ - ν‖_TV / 2` on
+a bounded space. Separability makes the distance measurable on the product σ-algebra, which the
+upper bound on `W₁` needs. -/
+theorem dudleyDist_le [SecondCountableTopology X] (μ ν : Measure X) [IsProbabilityMeasure μ]
+    [IsProbabilityMeasure ν] :
     dudleyDist μ ν ≤ TauCeti.wassersteinEDist 1 μ ν ∧
     dudleyDist μ ν ≤ ENNReal.ofReal (tvDist μ ν) ∧
     ∀ D : ℝ, (∀ x y : X, dist x y ≤ D) →
@@ -723,6 +783,36 @@ theorem hsic_empirical_eq_trace {X Y : Type*} [MeasurableSpace X] [MeasurableSpa
         centeringMatrix (Fin n) * Matrix.of (fun i j ↦ l (z i).2 (z j).2) *
         centeringMatrix (Fin n)) := sorry
 
+/-- **10.4** Null limit of the HSIC statistic: for a product law `P_X ⊗ P_Y` and bounded
+continuous kernels, `n HSIC_b → ∑_{r,s} λ_r η_s Z_{rs}²` in law, for the eigenvalues and
+orthonormal eigenfunctions of the centred kernels and independent standard normals `Z_{rs}`. -/
+theorem tendstoInDistribution_hsic_null {X Y : Type*} [MeasurableSpace X] [MeasurableSpace Y]
+    [TopologicalSpace X] [SecondCountableTopology X] [BorelSpace X] [MeasurableSingletonClass X]
+    [TopologicalSpace Y] [SecondCountableTopology Y] [BorelSpace Y] [MeasurableSingletonClass Y]
+    {k : X → X → ℝ} {l : Y → Y → ℝ} (hk : Matrix.PosSemidef k) (hl : Matrix.PosSemidef l)
+    (hkc : Continuous (Function.uncurry k)) (hlc : Continuous (Function.uncurry l)) {C : ℝ}
+    (hkC : ∀ x, k x x ≤ C) (hlC : ∀ y, l y y ≤ C) (PX : Measure X) [IsProbabilityMeasure PX]
+    (PY : Measure Y) [IsProbabilityMeasure PY]
+    (lam : ℕ → ℝ) (φ : ℕ → X → ℝ) (hφ : ∀ r, MemLp (φ r) 2 PX)
+    (hφo : ∀ r r', lam r ≠ 0 → lam r' ≠ 0 →
+      ∫ x, φ r x * φ r' x ∂PX = if r = r' then 1 else 0)
+    (hkexp : Tendsto (fun N ↦ eLpNorm (fun z : X × X ↦ centeredKernel PX k z.1 z.2 -
+      ∑ r ∈ Finset.range N, lam r * φ r z.1 * φ r z.2) 2 (PX.prod PX)) atTop (𝓝 0))
+    (eta : ℕ → ℝ) (ψ : ℕ → Y → ℝ) (hψ : ∀ s, MemLp (ψ s) 2 PY)
+    (hψo : ∀ s s', eta s ≠ 0 → eta s' ≠ 0 →
+      ∫ y, ψ s y * ψ s' y ∂PY = if s = s' then 1 else 0)
+    (hlexp : Tendsto (fun N ↦ eLpNorm (fun z : Y × Y ↦ centeredKernel PY l z.1 z.2 -
+      ∑ s ∈ Finset.range N, eta s * ψ s z.1 * ψ s z.2) 2 (PY.prod PY)) atTop (𝓝 0))
+    {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measure Ω'} [IsProbabilityMeasure μ']
+    (Zs : ℕ × ℕ → Ω' → ℝ) (hZs : iIndepFun Zs μ')
+    (hZlaw : ∀ rs, HasLaw (Zs rs) (gaussianReal 0 1) μ')
+    (W : Ω' → ℝ) (hW : Tendsto (fun N ↦ eLpNorm (fun ω ↦
+      W ω - ∑ r ∈ Finset.range N, ∑ s ∈ Finset.range N, lam r * eta s * Zs (r, s) ω ^ 2) 2 μ')
+      atTop (𝓝 0)) :
+    TendstoInDistribution (fun (n : ℕ) (z : Fin n → X × Y) ↦
+        (n : ℝ) * hsic hk hl (TauCeti.Probability.empiricalFiniteMeasure z)) atTop W
+      (fun n ↦ Measure.pi fun _ : Fin n ↦ PX.prod PY) μ' := sorry
+
 /-- **10.5** The permutation p-value: the fraction of permutations `σ` with `T(z) ≤ T(z ∘ σ)`. -/
 def permutationPValue {N : ℕ} (T : (Fin N → X) → ℝ) (z : Fin N → X) : ℝ :=
   ((Finset.univ.filter fun σ : Equiv.Perm (Fin N) ↦ T z ≤ T (z ∘ σ)).card : ℝ) /
@@ -734,6 +824,21 @@ theorem measureReal_permutationPValue_le {N : ℕ} (Q : Measure (Fin N → X))
     [IsProbabilityMeasure Q] (hQ : ∀ σ : Equiv.Perm (Fin N), Q.map (fun z ↦ z ∘ σ) = Q)
     (T : (Fin N → X) → ℝ) (hT : Measurable T) {α : ℝ} (hα : 0 ≤ α) :
     Q.real {z | permutationPValue T z ≤ α} ≤ α := sorry
+
+/-- **10.5** The randomized permutation p-value
+`(#{σ : T(z) < T(z ∘ σ)} + u · #{σ : T(z ∘ σ) = T(z)}) / N!`, with ties broken by `u ∈ [0, 1]`. -/
+def randomizedPermutationPValue {N : ℕ} (T : (Fin N → X) → ℝ) (z : Fin N → X) (u : ℝ) : ℝ :=
+  (((Finset.univ.filter fun σ : Equiv.Perm (Fin N) ↦ T z < T (z ∘ σ)).card : ℝ) +
+      u * ((Finset.univ.filter fun σ : Equiv.Perm (Fin N) ↦ T (z ∘ σ) = T z).card : ℝ)) /
+    (Fintype.card (Equiv.Perm (Fin N)) : ℝ)
+
+/-- **10.5** Under a permutation-invariant law and an independent uniform `u`, the randomized
+permutation p-value is uniform on `[0, 1]`: the randomized test has level exactly `α`. -/
+theorem measureReal_randomizedPermutationPValue_eq {N : ℕ} (Q : Measure (Fin N → X))
+    [IsProbabilityMeasure Q] (hQ : ∀ σ : Equiv.Perm (Fin N), Q.map (fun z ↦ z ∘ σ) = Q)
+    (T : (Fin N → X) → ℝ) (hT : Measurable T) {α : ℝ} (hα0 : 0 ≤ α) (hα1 : α ≤ 1) :
+    (Q.prod (volume.restrict (Icc (0 : ℝ) 1))).real
+      {w | randomizedPermutationPValue T w.1 w.2 ≤ α} = α := sorry
 
 end Tests
 
@@ -819,6 +924,18 @@ embedding `Û_{Y|x} = ∑ᵢ βᵢ(x) l(yᵢ, ·)`. -/
 def cmeWeights (k : X → X → ℝ) {n : ℕ} (xs : Fin n → X) (lam : ℝ) (x : X) : Fin n → ℝ :=
   (Matrix.of (fun i j ↦ k (xs i) (xs j)) + ((n : ℝ) * lam) • (1 : Matrix (Fin n) (Fin n) ℝ))⁻¹ *ᵥ
     fun i ↦ k x (xs i)
+
+/-- **11.3** The regularized conditional mean embedding is kernel ridge regression: for `λ > 0`
+and values `v`, the element `f = ∑ᵢ ((K + nλ I)⁻¹ v)ᵢ Φ(xᵢ)` evaluates to `β(x) ⬝ v` and
+minimizes `n⁻¹ ∑ᵢ (vᵢ - f'(xᵢ))² + λ ‖f'‖²` over the Kolmogorov space. -/
+theorem cmeWeights_isMinOn (hk : Matrix.PosSemidef k) {n : ℕ} (hn : 0 < n) (xs : Fin n → X)
+    {lam : ℝ} (hlam : 0 < lam) (v : Fin n → ℝ) (f : hk.KolmogorovSpace)
+    (hf : f = ∑ i, ((Matrix.of (fun i j ↦ k (xs i) (xs j)) +
+      ((n : ℝ) * lam) • (1 : Matrix (Fin n) (Fin n) ℝ))⁻¹ *ᵥ v) i • hk.kolmogorovFeature (xs i)) :
+    (∀ x, ⟪f, hk.kolmogorovFeature x⟫_ℝ = cmeWeights k xs lam x ⬝ᵥ v) ∧
+    IsMinOn (fun f' : hk.KolmogorovSpace ↦
+        (n : ℝ)⁻¹ * ∑ i, (v i - ⟪f', hk.kolmogorovFeature (xs i)⟫_ℝ) ^ 2 + lam * ‖f'‖ ^ 2)
+      Set.univ f := sorry
 
 end ConditionalEmbedding
 
@@ -910,6 +1027,7 @@ end RandomFeatures
 #check @LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner
 #check @LinearMap.exists_linearIsometryEquiv_trace_comp_eq_kyFanSum
 #check @TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le
+#check @Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq
 #check @TauCeti.coveringNumber_le_of_subset_closedBall
 #check @TauCeti.exists_finset_isCover_of_subset_closedBall
 #check @TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences
