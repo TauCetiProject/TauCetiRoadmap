@@ -278,10 +278,11 @@ Milestone 7).
 Tau Ceti constructs the quotient presheaf `U ↦ O(ℂ ∖ ℝ)/O(W(U))` on `ℝ`, with
 `W(U) = ℂ ∖ (ℝ ∖ U)`, in the ambient-function encoding in which holomorphic sections are extended by
 zero outside their open domain; its restrictions are surjective and it is separated. Prove the
-gluing theorem: it is a sheaf (`oneDimBoundaryPresheaf_isSheaf`). Compare the holomorphic sections
-of the encoding with ComplexKahlerGeometry's holomorphic structure sheaf on opens of `ℂ`, and the
-quotient with the local definition `B_ℝ(U) = H¹_U(W(U), O) ⊗ or`, compatibly with restriction and
-with the normal orientation `or_y` (Honda–Izawa–Suwa, (6.2), p. 19).
+gluing theorem: it is a sheaf (`oneDimBoundaryPresheaf_isSheaf`; through the comparison below, this
+is Honda–Izawa–Suwa, Proposition 2.4, p. 5, with Theorem 2.14(1), p. 8, for `n = 1`). Compare the
+holomorphic sections of the encoding with ComplexKahlerGeometry's holomorphic structure sheaf on
+opens of `ℂ`, and the quotient with the local definition `B_ℝ(U) = H¹_U(W(U), O) ⊗ or`, compatibly
+with restriction and with the normal orientation `or_y` (Honda–Izawa–Suwa, (6.2), p. 19).
 *Needs:* Tau Ceti `TauCeti.Hyperfunction.oneDimBoundaryPresheaf`,
 `TauCeti.Hyperfunction.oneDimBoundaryPresheaf_isSeparated`; GlobalHolomorphicFunctions §7.4 (Cousin
 I on open subsets of `ℂ`) for gluing; §§0.2–0.3 and §1.1 for the comparison.
@@ -577,11 +578,11 @@ BanachSpaceTheory B1 and B2.
 
 **SteinBundleDuality.** For every Stein `n`-manifold `V` and every finite-rank holomorphic bundle `E`
 on `V`: `H_c^q(V, Ω^p(E)) = 0` for `q < n`, and `H_c^n(V, Ω^p(E))` is Hausdorff and isomorphic to
-`O(V, Ω^(n−p)(E*))′_b` by the integration pairing, with its closed-range statements and
-functoriality. Use RealAnalyticGeometry R3.2's Cartan B on the global smooth Dolbeault resolution on
-the bundle Fréchet carrier, which is FS by §2.0b: each positive-degree kernel is the
-preceding image, so that image is closed. Apply §2.0e, checking both adjacent closed ranges, to the
-global compact-current transpose complex and its integration pairing. The scalar case is its
+`O(V, Ω^(n−p)(E*))′_b` by the integration pairing (Serre, Théorème 3, p. 21), with its closed-range
+statements and functoriality. Use RealAnalyticGeometry R3.2's Cartan B on the global smooth
+Dolbeault resolution on the bundle Fréchet carrier, which is FS by §2.0b: each positive-degree kernel
+is the preceding image, so that image is closed. Apply §2.0e, checking both adjacent closed ranges,
+to the global compact-current transpose complex and its integration pairing. The scalar case is its
 specialization. ComplexKahlerGeometry §5.10's Serre duality on compact manifolds is a different
 theorem. Treat `n = 0` directly. This theorem does not use purity.
 *Needs:* §§2.0b, 2.0c, 2.0e; RealAnalyticGeometry R3.2.
@@ -1018,7 +1019,8 @@ the germ, restriction, naturality in analytic coordinates and bundles, and the c
 with §0.1's complex of sections supported in `M`, where `π` is the projection of the normal cotangent
 bundle, constructed from the support localization triangle, specialization and Fourier–Sato inversion.
 
-For `F = O_X` prove **microlocal purity**: `𝓗^q(μ_M O_X) = 0` for `q ≠ n` off the zero section.
+For `F = O_X` prove **microlocal purity**: `𝓗^q(μ_M O_X) = 0` for `q ≠ n` off the zero section
+(Kashiwara–Schapira, *Microlocal study of sheaves*, (9.1.2), p. 159).
 Construct the sheaf of microfunctions `C_M = 𝓗ⁿ(μ_M O_X) ⊗ π⁻¹or_(M/X)` there; with coefficients,
 `C(E) = 𝓗ⁿ(μ_M O(E^hol)) ⊗ π⁻¹or_(M/X)`, and `Ω_X^p` for hyperforms. Construct the action of `π⁻¹A_M` by
 multiplication by holomorphic germs, prove germ independence and, in local frames,
@@ -1130,8 +1132,9 @@ directions `(0, ±1)`.
 ### Dependencies
 
 Layers 0–3; RealAnalyticGeometry R0 and R3.0; ComplexKahlerGeometry §2.3; ComplexComparisonPartII
-§C6.1; Tau Ceti's extension by zero, closed direct image, normal bundle and tubular neighbourhoods;
-Mathlib's derived categories and sheaf direct and inverse images.
+§C6.1; Tau Ceti's exactness of extension by zero and of closed direct image, normal bundle and
+tubular neighbourhoods; Mathlib's derived categories, extension by zero and sheaf direct and inverse
+images.
 
 ## Layer 4: canonical distribution and density embedding
 
@@ -1160,7 +1163,9 @@ smooth `χ` equal to `1` on a neighbourhood of `supp u`, the Cauchy transform is
 tests. Tau Ceti proves that `C_u` is holomorphic off `ℝ`, independent of `χ`, complex-linear in `u`,
 and that `C_δ(z) = −1/(2πiz)`. Prove the jump formula `bv₊C_u − bv₋C_u = u` as distributions
 (`tendsto_integral_cauchyTransform_sub`: the pairing of a test function with
-`C_u(x + iγ) − C_u(x − iγ)` tends to the pairing with `u` as `γ → 0⁺`).
+`C_u(x + iγ) − C_u(x − iγ)` tends to the pairing with `u` as `γ → 0⁺`; Tillmann, Satz 3, p. 9, and
+Satz 5, p. 12, for finite sums of derivatives of `Lᵖ` functions, `1 < p < ∞`, which include the
+compactly supported distributions).
 
 A family of complex-linear maps `ι_U : Db(U) → O(ℂ ∖ ℝ)/O(W(U))` is a Cauchy embedding
 (`IsCauchyEmbedding`) if it commutes with restriction of distributions (`restrictDistribution`,
@@ -1343,6 +1348,12 @@ Layers 2–4; ComplexKahlerGeometry §5.2; Tau Ceti's delta-series theorem.
   analytic-functional reading and the factorial-square comparison of its delta-series example.
 - [GlobalHolomorphicFunctions](../GlobalHolomorphicFunctions/README.md) identifies its §7.1 with the
   case `n = 1` of MalgrangeTopVanishing (§2.0a).
+- [ComplexComparisonPartII](../ComplexComparisonPartII/README.md) attributes to HF3a extension by
+  zero, c-soft resolutions, the localization triangle, `f_!`, proper base change and the projection
+  formula for sheaves of `ℂ`-modules, and asks in its §C6.1 for their identification with its own.
+  All of them but the projection formula are what §3a.1 takes from §C6.1 with coefficients `ℂ`
+  (extension by zero itself from the pinned libraries, as in §C6.1), so the identification is the
+  identity and needs nothing from this roadmap; the projection formula is §3a.1's.
 
 Other roadmaps cite this one in its former numbering, which maps to the sections above as follows.
 
@@ -1365,6 +1376,10 @@ Other roadmaps cite this one in its former numbering, which maps to the sections
 | HF3a | Layer 3a |
 | HF4 | Layer 4 |
 | HF5 | Layer 5 |
+
+The nuclearity of spaces of smooth sections is not stated here, under
+HF2.AnalyticPreparation.FunctionalDuality or elsewhere: §2.0b proves their Fréchet–Schwartz property
+only.
 
 ## Scope and ownership
 
@@ -1529,8 +1544,9 @@ Paths are under `TauCeti/`.
   `Distribution.cauchyTransform_add`, `Distribution.cauchyTransform_smul`, `Distribution.cauchyTransform_delta`,
   `Distribution.cauchyTransform_delta_zero`; `Distribution.complexPairing` and
   `Distribution.exists_norm_complexPairing_le`.
-- *Euclidean analysis*: `IsOpen.exists_isFilledIn_compact_exhaustion` and `TauCeti.IsFilledIn`
-  (`Analysis/Normed/Module/Exhaustion.lean`); `InnerProductSpace.HarmonicAt.analyticAt` and
+- *Euclidean analysis*: `IsOpen.exists_isFilledIn_compact_exhaustion`
+  (`Analysis/Normed/Module/Exhaustion.lean`) and `TauCeti.IsFilledIn` (`Topology/FilledIn.lean`);
+  `InnerProductSpace.HarmonicAt.analyticAt` and
   `InnerProductSpace.HarmonicOnNhd.analyticOnNhd` (`Analysis/InnerProductSpace/Harmonic/Analytic.lean`);
   `TauCeti.newtonianKernel` with `TauCeti.integral_laplacian_mul_newtonianKernel_sub` and
   `TauCeti.laplacian_newtonianKernel_convolution` (`d ≥ 3`), and `TauCeti.planarNewtonianKernel` with
@@ -1557,8 +1573,10 @@ Paths are under `TauCeti/`.
   `TauCeti.PDE.existsUnique_isWeakSolutionDirichlet_laplacian_of_subset_ball` (for an open `O` inside
   a ball of `ℝ^(m+1)` and `g ∈ L²(O)`, a unique `u ∈ H¹₀(O)` with `∫ ∇v·∇u = ∫ g v` for every
   `v ∈ H¹₀(O)`).
-- *Normal bundles* (`Geometry/Manifold/TubularNeighborhood/`): `TauCeti.SmoothEmbedding.NormalSpace` and
-  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`.
+- *Normal bundles*: `TauCeti.SmoothEmbedding.NormalSpace`
+  (`Geometry/Manifold/SmoothEmbedding/NormalSpace/Basic.lean`) and
+  `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`
+  (`Geometry/Manifold/TubularNeighborhood/Existence.lean`).
 - *The delta series* (`Analysis/Distribution/DeltaSeries.lean`): `TauCeti.not_tendsto_sum_normalized_delta_derivative`.
 
 ### From TauCetiRoadmap.RealAnalyticGeometry
@@ -1627,8 +1645,19 @@ with composition, agreement with the direct image for proper maps, and base chan
   (p. 381), closed range and duality for FS and DFS complexes.
 - B. Malgrange, *Faisceaux sur des variétés analytiques réelles*, Bull. Soc. Math. France 85 (1957),
   231–237, Lemme 3, part a (pp. 235–236): `H^p(Ω, O) = 0` for `p ≥ n` on every open `Ω ⊆ ℂⁿ`.
+- J.-P. Serre, *Un théorème de dualité*, Comment. Math. Helv. 29 (1955), 9–26,
+  [doi:10.1007/BF02564268](https://doi.org/10.1007/BF02564268), Théorème 3 (p. 21): for a holomorphic
+  vector bundle `E` on a Stein `n`-manifold `V`, `H_c^q(V, Ω^p(E)) = 0` for `q ≠ n`, and
+  `H_c^n(V, Ω^p(E))` is the topological dual of `O(V, Ω^(n−p)(E*))`.
+- H.-G. Tillmann, *Distributionen als Randverteilungen analytischer Funktionen. II*, Math. Z. 76
+  (1961), 5–21, Satz 3 (p. 9) and Satz 5 (p. 12): for a finite sum `u` of derivatives of `Lᵖ`
+  functions, `1 < p < ∞`, the jump `f(x + iε) − f(x − iε)` of the holomorphic function `f` off `ℝ`
+  whose boundary distribution is `u` tends to `u` in `D′(ℝ)` as `ε → 0⁺`.
 - M. Sato, T. Kawai and M. Kashiwara, "Microfunctions and pseudo-differential equations", in
   *Hyperfunctions and Pseudo-Differential Equations*, Lecture Notes in Mathematics 287 (1973), 265–529:
   microfunctions, analytic wavefronts and noncharacteristic operations.
 - M. Kashiwara and P. Schapira, *Sheaves on Manifolds*, Chapters III–IV: conic sheaves, specialization
   and the Fourier–Sato transform.
+- M. Kashiwara and P. Schapira, *Microlocal study of sheaves*, Astérisque 128 (1985),
+  [Numdam](https://www.numdam.org/item/AST_1985__128__1_0/), (9.1.2) (p. 159): the complex
+  `μ_M(O_X) ⊗ or_(M/X)[n]` of Sato's microfunctions is concentrated in degree zero.
