@@ -2668,10 +2668,13 @@ canonical map, and the determinant map is identified as `n!` times it.
   totalisation of the cyclic bar construction; for non-flat `A` the two differ (`k = ℤ`, `A = 𝔽_p`).
 - §1.8 (Scalar extension and étale comparison), the étale base change of Hochschild homology: for
   an étale map `A → B` (`Algebra.Etale`) of commutative `k`-algebras flat over `k`,
-  `HH_n(B/k) ≅ B ⊗_A HH_n(A/k)` for every `n`, the case `B = A[1/f]` included. Assumed of it: the
-  isomorphism is inverse to the `B`-linear extension of the map `HH_n(A/k) → HH_n(B/k)` induced by
-  `A → B`, `A` and `B` acting through the zeroth factor of the cyclic bar complex; nothing of its
-  derived or cyclic clauses. §9.1 consumes it through §6.3.
+  `HH_n(B/k) ≅ B ⊗_A HH_n(A/k)` for every `n`, the case `B = A[1/f]` included. Nothing of its
+  derived or cyclic clauses is assumed. §9.1 consumes it through §6.3.
+- What RefinedTraceMethods must provide for §1.8: that its isomorphism is inverse to the `B`-linear
+  extension `B ⊗_A HH_n(A/k) → HH_n(B/k)` of the map induced by `A → B`, `A` and `B` acting
+  through the zeroth factor of the cyclic bar complex. §1.8 states the isomorphism without naming
+  the map, and step (a) of §9.1 needs this map to be bijective, since the naturality of `ε^cl`
+  that carries `B ⊗_A ε^cl_{A,n}` to `ε^cl_{B,n}` is along it.
 - §1.9 (The antisymmetrisation map and the HKR projection): for commutative `A` flat over `k`, the
   antisymmetrisation `ε_n : Ω^n_{A/k} → HH_n(A/k)` and the projection `π_n`, with the formulas of
   the conventions, `π_n ∘ ε_n = n!`, multiplicativity of `ε` for the shuffle product, naturality
