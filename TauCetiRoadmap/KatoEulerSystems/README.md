@@ -4,8 +4,9 @@
 cohomology of its p-adic representation. The symbol of two Siegel units is an element of K₂ of a
 modular curve. Its étale Chern class gives, after projection to a newform, classes over the
 cyclotomic fields ℚ(ζ_m) that satisfy norm relations. Kato's explicit reciprocity law relates
-them to critical L-values through the dual exponential at p. `PadicFamilies` builds these
-classes and the reciprocity law; this roadmap builds the rest of the theory on them.
+them to critical L-values through the dual exponential at p. `PadicFamilies` builds the
+classes on the modular curves Y(M,N) and the reciprocity law; this roadmap builds those over
+ℚ(ζ_m) and the rest of the theory.
 
 Throughout, f is a normalized newform of weight k ≥ 2 with coefficient field F, and V(f) is its
 cohomological Galois representation over the completion E of F at a place λ above p. Many
