@@ -53,7 +53,7 @@ finite-dimensional-algebra objects (simple modules, projective covers, compositi
 path algebras and the Ringel form); this roadmap proves that its categorical `K₀` and Euler
 pairings agree with them. [AlgebraicKTheory](../AlgebraicKTheory/README.md) and
 [KTheoryLowDegrees](../KTheoryLowDegrees/README.md) own the ring-theoretic description of
-projective modules and build on the split and exact `K₀` here.
+projective modules; KTheoryLowDegrees builds on the split and exact `K₀` here.
 [StablePeriodicCurved](../StablePeriodicCurved/README.md) builds Frobenius and stable categories
 on the exact structures of Layer 0. [ZigzagPreprojective](../ZigzagPreprojective/README.md),
 [DGAInfinity](../DGAInfinity/README.md) and [McKaySkewGroup](../McKaySkewGroup/README.md) use the
@@ -210,7 +210,8 @@ isomorphism), satisfying the self-dual axioms E0/E0op, E1/E1op and E2/E2op (Büh
 map be an inflation; E2op asks the dual for deflations. These are genuine universal squares,
 Mathlib's `MorphismProperty.HasPushouts` and `MorphismProperty.IsStableUnderCobaseChange` and
 their duals, not named `Prop` fields. Two exact structures with the same conflations are equal
-(`TauCeti.ExactStructure.ext`). The standard consequences (Bühler, Propositions 2.9 and 2.12):
+(`TauCeti.ExactStructure.ext`). The standard consequences (Bühler, Remark 2.3, Lemma 2.7 and
+Propositions 2.9 and 2.12):
 
 - Split short complexes are conflations (`TauCeti.ExactStructure.conflation_of_splitting`).
 - The direct sum of two conflations is a conflation (`TauCeti.ExactStructure.conflation_biprod`).
@@ -1125,7 +1126,8 @@ under binary biproducts, with `TauCeti.IsEulerAdmissibleOn k P Q`, the object-le
 to a biadditive pairing on the exact `K₀` groups of the two subcategories,
 `TauCeti.extEulerPairing`, through `TauCeti.ExactK0.BiadditiveInvariant.bilift`, with
 `TauCeti.extEulerPairing_of_of` on classes and the universal characterization
-`TauCeti.extEulerPairing_unique` (Weibel, *The K-book*, Proposition II.7.5). It is natural under
+`TauCeti.extEulerPairing_unique` (Weibel, *The K-book*, Definition II.7.1 with the universal
+property II.6.1.2, in each variable). It is natural under
 exact `k`-linear functors bijective on Ext (`TauCeti.extEuler_map`,
 `TauCeti.extEulerPairing_map_map`). A pairing pulled back along other source categories requires
 additive conflation-exact functors into the canonical abelian exact structure; landing in
@@ -1494,7 +1496,8 @@ quotients stay distinct definitions: `TauCeti.ExtEulerLeftNumericalQuotient` and
 `TauCeti.ExtEulerRightNumericalQuotient`, with the nondegenerate descended pairing
 (`TauCeti.extEulerNumericalPairing_nondegenerate`), and their graded forms
 `TauCeti.GradedExtEulerLeftNumericalQuotient` and `TauCeti.GradedExtEulerRightNumericalQuotient`
-(Dancso–Licata, Definition 3.2). An identification of the two is proved only when an explicit
+(for the distinction between left and right, compare Dancso–Licata, Definition 3.2). An
+identification of the two is proved only when an explicit
 duality constructed in this roadmap supplies it.
 
 *Needs:* §§5.5, 6.3, 7.2–7.3; Tau Ceti the declarations named above.
@@ -1626,8 +1629,8 @@ are separate roadmaps that use this one; no declaration from them is a prerequis
 - [McKaySkewGroup](../McKaySkewGroup/README.md) uses the linear graded projective resolutions of
   Layer 3.
 - [HopfologicalAlgebra](../HopfologicalAlgebra/README.md) uses the graded dimensions of Layer 6.
-- [AlgebraicKTheory](../AlgebraicKTheory/README.md), [KTheoryLowDegrees](../KTheoryLowDegrees/README.md)
-  and [GeneralAlgebraicKTheory](../GeneralAlgebraicKTheory/README.md) use the split and exact `K₀`,
+- [KTheoryLowDegrees](../KTheoryLowDegrees/README.md) and
+  [GeneralAlgebraicKTheory](../GeneralAlgebraicKTheory/README.md) use the split and exact `K₀`,
   the additive functor maps and the resolution comparisons of Layers 2–3.
 
 ## Scope and ownership
