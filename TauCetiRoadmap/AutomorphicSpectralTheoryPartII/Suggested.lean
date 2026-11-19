@@ -88,9 +88,9 @@ def affineSpectralLattice {n k : ℕ} (a : Fin n → ℂ)
 /-- The rank-bound canonical product is entire with precisely the prescribed
 simple zeros and a global order-(p+1) growth bound. The locally uniform
 convergence, entire holomorphy and exact simple-zero divisor (the first four
-conjuncts) are the statement of GlobalHolomorphicFunctions, preparatory primary
-factors and locally uniform products, specialised to constant genus p and
-multiplicity one; the growth bound is this roadmap's contribution.
+conjuncts) are the statement of AnalyticNumberTheoryPartI §0.15, Weierstrass
+primary factors and locally uniform products, specialised to constant genus p
+and multiplicity one, times the origin factor; the growth bound is this roadmap's contribution.
 BPLZZ, Lemma 2.2; the genus-zero case uses the same elementary product estimate. -/
 theorem finite_rank_weierstrass_product (Λ : Set ℂ) (p : ℕ) (hΛ : HasRankBound Λ p) :
     TendstoLocallyUniformly (partialCanonicalProduct Λ p) (canonicalProduct Λ p)
