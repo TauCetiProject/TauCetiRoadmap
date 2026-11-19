@@ -2,12 +2,10 @@
 
 **Summary.** Arithmetic intersection problems on unitary Shimura varieties, such as the
 Kudla–Rapoport conjecture and the arithmetic fundamental lemma, take as input integral models of
-these varieties and formal moduli spaces of p-divisible groups that uniformize parts of them. The
-first part, PELModuli, stops at good primes, at the principal unramified case and at primes
-unramified in the CM field. This second part builds the integral and formal moduli of unitary type
+these varieties and formal moduli spaces of p-divisible groups that uniformize parts of them. The first part, PELModuli, stops at good primes and, for the CM moduli, at primes unramified in the CM field. This second part builds the integral and formal moduli of unitary type
 beyond those limits, but, apart from a single divisor, not the special cycles themselves.
 
-Every statement fixes data that the generic Shimura variety does not determine: the polarization
+The moduli statements fix data beyond the generic Kottwitz signature: the polarization
 kernel and signature convention, an equation that the action must satisfy on the Lie algebra, and
 the coefficient ring of the model.
 
@@ -44,7 +42,7 @@ reduction, under stated hypotheses.
 The last main theorems uniformize the basic locus, where A₀ and A are isoclinic of a common slope at
 every place of F above p. In the inert, exotic and Krämer cases, each under its own hypotheses, a
 stated piece of the completion along the basic locus is a quotient of a local space times an adelic
-coset space by the rational points of an inner form of the group. Such a quotient covers an open and
+coset space by the rational points of an inner form of the group of the Shimura variety. Such a quotient covers an open and
 closed part of the basic locus; reaching all of it needs a disjoint union over framing classes or a
 Hasse hypothesis.
 
