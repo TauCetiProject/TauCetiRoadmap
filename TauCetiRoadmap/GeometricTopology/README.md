@@ -7371,7 +7371,12 @@ Cobordisms of manifolds in general dimension, with their collars, composition an
 are TangentialBordism's (Layers 2–3) and are not restated. Define a **link cobordism** between
 smooth links `L₀, L₁` in `S³` as a compact oriented surface `Σ` smoothly and properly embedded in
 `S³ × [0, 1]` with `∂Σ = L₀ × {0} ∪ −L₁ × {1}`, and a **concordance** of links as a link cobordism
-consisting of annuli, one per component. The knot case of the **slice genus inequalities**,
+consisting of annuli, one per component. Here `∂Σ` is oriented with the outward normal first, so
+that the product `L × [0, 1]`, oriented by a tangent vector of `L` followed by `∂_t`, is a link
+cobordism from `L` to itself; the convention `∂Σ = −L₀ ⊔ L₁`, also with the outward normal first,
+is this one with the orientation of `Σ` reversed (`Σ` is a link cobordism from `L₀` to `L₁` in one
+convention exactly when `−Σ` is one in the other), and no statement of this section depends on the
+choice. The knot case of the **slice genus inequalities**,
 `|σ̄(K, ω)| ≤ 2 g_s(K)` and, for `ω` not a root of `Δ_K`, the raw `|σ(K, ω)| ≤ 2 g_s(K)`, is 6.2's
 (Tristram; Livingston, Section 9.5; Lickorish, Chapter 8, for `ω = −1`), proved in both categories
 by 6.2.1, items 6–7. Prove the inequality for link cobordisms: for a connected link cobordism `Σ`
@@ -9987,11 +9992,12 @@ Kirby–Siebenmann obstruction theory is GeometricTopology, Part II's and is no 
   compact surfaces of its LV.5, §§5.9–5.12.
 - **KhovanovHomology** and **CombinatorialHeegaardFloer** consume Layer 4's geometric and
   combinatorial presentations and the comparison theorems between them.
-  KhovanovHomology also consumes Layer 1's tubes and Layer 6.5's link cobordisms.
-  CombinatorialHeegaardFloer's Lane K also consumes Layer 4's polynomials and Layer 6.5's link
-  cobordisms, and its Lane G consumes Layer 6.5; nothing of CombinatorialHeegaardFloer is
-  consumed here as a supplier. Its Lane G, items 7 and 10, proves the Milnor conjecture that
-  4.8.3 consumes as stated, and its `τ` with the bound `|τ(K)| ≤ g_s(K)` enters
+  KhovanovHomology also consumes Layer 1's collars, gluing along the boundary and tubular
+  neighbourhoods; it builds its own collared, component-labelled link cobordisms, with boundary
+  `∂Σ = −L₀ ⊔ L₁` (6.5 relates this convention to its own).
+  CombinatorialHeegaardFloer's Lane K also consumes Layer 4's polynomials; nothing of
+  CombinatorialHeegaardFloer is consumed here as a supplier. Its Lane G, items 7 and 10, proves
+  the Milnor conjecture that 4.8.3 consumes as stated, and its `τ` with the bound `|τ(K)| ≤ g_s(K)` enters
   GeometricTopology, Part II's Mazur-satellite formulas.
 - **FourManifolds** consumes Layers 1, 2, 3, 5 and 6, Layer 4's Seifert surfaces, Seifert
   matrices and Alexander polynomial, Layer 4.3.1's finite quadratic Arf algebra and its knot
