@@ -17,8 +17,9 @@ The headline theorems of the roadmap are:
 * **Multiplicative PSS** (README Layer 7): over `ℚ`, after the coefficient comparison
   `q^A ↦ e^(−A)`, Poincaré duality followed by the Piunikhin–Salamon–Schwarz map is an isomorphism
   of unital rings from small quantum cohomology to Floer cohomology.
-* **Computations** (README Layer 8): on a symplectically aspherical target the product is the cup
-  product, and on `ℂPⁿ` the `(n+1)`-st power of the hyperplane class is `e^(−L)` times the unit.
+* **Computations** (README Layer 8): over `ℚ`, on a symplectically aspherical target the product is
+  the cup product, and on `ℂPⁿ` the `(n+1)`-st power of the hyperplane class is `e^(−L)` times the
+  unit.
 
 None of them is statable at the pins. Neither Mathlib nor Tau Ceti has the Hamiltonian Floer
 complex of a closed symplectic manifold (its capped generators, its differential or its

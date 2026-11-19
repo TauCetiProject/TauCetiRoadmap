@@ -22,11 +22,12 @@ Piunikhin–Salamon–Schwarz (PSS) map, and continuation maps between two Hamil
 isomorphisms of algebras. Second, over `ℚ`, the composite of Poincaré duality and the PSS map is
 an isomorphism of unital rings from the small quantum cohomology of `X`, with its coefficients
 carried to `Λ` by `q^A ↦ e^(−A)`, to `HF^*(H)`, proved through a geometric one-parameter family
-joining the pair-of-pants product to the three-point Gromov–Witten correspondence. Third, as computations: on a symplectically aspherical
-`X` the product is the cup product, and on `ℂPⁿ` the `(n+1)`-st power of the hyperplane class is the
-Novikov monomial of minus the line class times the unit.
+joining the pair-of-pants product to the three-point Gromov–Witten correspondence. Third, as
+computations over `ℚ`: on a symplectically aspherical `X` the product is the cup product, and on
+`ℂPⁿ` the `(n+1)`-st power of the hyperplane class is the Novikov monomial of minus the line class
+times the unit.
 
-The roadmap sits on four neighbours. DGFloer §7.C supplies the capped Floer complexes, continuation
+The roadmap sits on five neighbours. DGFloer §7.C supplies the capped Floer complexes, continuation
 maps, orientation conventions and the module PSS isomorphism on the classical branch;
 GromovWittenTheory Layer 7 supplies the quantum product that Layer 7 here compares with;
 ImplicitAtlases supplies the virtual-class engine for the rational branch; AnalyticStableMaps
@@ -62,8 +63,8 @@ so that a target proved by another route is not blocked behind an unrelated sect
 1. **Target.** `X` is a closed connected boundaryless smooth manifold of dimension `2n`, `n ≥ 1`,
    Hausdorff and second countable, with a smooth closed nondegenerate two-form `ω`
    (`TauCeti.SmoothTwoForm.IsSymplectic`). A disconnected target is treated componentwise. The
-   zero-dimensional target is the point, whose Floer complex is the coefficient ring with one
-   generator and whose product is multiplication (§8.1).
+   zero-dimensional target is the point, a separate model whose Floer complex is the coefficient
+   ring with one generator and whose product is multiplication.
 2. **Hamiltonians and orbits.** A Hamiltonian is a smooth function `H : ℝ × X → ℝ` of period one in
    the first variable; `X_H` is fixed by `ι_(X_H) ω = dH`, and `{F, G} = ω(X_F, X_G)`. The
    generators are the contractible one-periodic orbits of `X_H`, all nondegenerate; there are finitely
@@ -245,7 +246,7 @@ followed by PSS, and `FH_(n−k)` is `HF^k` in the regrading of Convention 8. Ov
 are carried explicitly; the rational comparison of GromovWittenTheory Layer 7 does not supply them.
 
 **Checks.**
-- On `ℂP¹` the quantum relation `x ⋆ x = q^L · 1` (GromovWittenTheory §7.2) has `deg q^L = 4`. Its
+- On `ℂP¹` the quantum relation `x ⋆ x = q^L · 1` (§8.4) has `deg q^L = 4`. Its
   image `e^(−L)` has raw degree `−4`, so cochain degree `4 = 2 + 2`. The comparison `q^A ↦ e^A`
   would give cochain degree `−4`, and the image of `x ⋆ x` would not be homogeneous of degree `4`.
 
@@ -277,9 +278,9 @@ angular coordinate and oriented by `ds ∧ dt`. Tau Ceti's model is `ℂ ∖ {0,
 and `1` and output end at `∞`, end coordinates `TauCeti.ThricePuncturedSphere.Puncture.endCoord`,
 end parametrisations `TauCeti.ThricePuncturedSphere.Puncture.cylindricalEndLift` and compact
 truncations `TauCeti.ThricePuncturedSphere.truncation`. Fix asymptotic markers, end coordinates and
-collars and their changes. `S` has Euler characteristic `−1`, and no automorphism of `ℙ¹` fixes three
-points, so the pair-of-pants domain has no translation quotient. Use this fixed three-marked sphere
-model, and for compositions explicit plumbing families built on
+collars and their changes. `S` has Euler characteristic `−1`, and no automorphism of `ℙ¹` other than
+the identity fixes three distinct points, so the pair-of-pants domain has no translation quotient.
+Use this fixed three-marked sphere model, and for compositions explicit plumbing families built on
 `TauCeti.ThricePuncturedSphere.Puncture.plumbingMap`. Construct:
 
 - the compactified one-parameter family of four-punctured spheres whose two ends are the two ways
@@ -410,6 +411,9 @@ truncation `S_R` the vector-space identity
 enter through §1.1. On tame compact windows use the actual positive symmetric metric, the
 coercivity estimate `TauCeti.SymplecticForm.mul_norm_sq_add_norm_sq_perturbedFDeriv_le_mul_floerEnergyDensity`
 and an operator homotopy; `ω(·, J·)` is not called a symmetric metric for a merely tame `J`.
+For a Floer cylinder the identity is equation (3.9) in the proof of FOOO, Lemma 3.10 (p. 27), and
+for pair-of-pants data of zero curvature its inequality form is FOOO, Lemma 11.10 (p. 65), each in
+that source's sign conventions.
 
 **Checks.**
 - On a cylindrical region the identity reduces to `E = A_H(x₊) − A_H(x₋)` for a Floer cylinder
@@ -427,9 +431,10 @@ and an operator homotopy; `ω(·, J·)` is not called a symmetric metric for a m
 Let `B = −A` be the output monomial, so `ν(B) = ω(A)`. Prove: if `∫_S sup_X |R_K| ≤ C`, every solution
 contributing a nonzero coefficient has `ν(B) ≥ −A_H₁(x₁, D₁) − A_H₂(x₂, D₂) + A_H₀(x₀, D₀) − C`;
 conversely `ν(B) < L` gives `E(u) ≤ A_H₁ + A_H₂ − A_H₀ + L + C`. These are the lower-support and
-energy-cutoff implications, both from `E ≥ 0` and §3.1. Carry them with the reference-cap constants,
-changes of normalisation of the Hamiltonians, all inhomogeneous terms and class splitting under
-degeneration.
+energy-cutoff implications, both from `E ≥ 0` and §3.1; for data of zero curvature, `C = 0`, the
+lower-support bound is the filtration statement of FOOO, Proposition 11.9 (p. 64). Carry them with
+the reference-cap constants, changes of normalisation of the Hamiltonians, all inhomogeneous terms
+and class splitting under degeneration.
 
 **Checks.**
 - With `C = 0` and actions `A_H₁ = 3`, `A_H₂ = 2`, `A_H₀ = 1`, every contributing class has
@@ -479,7 +484,9 @@ noncompact neck-stretching problem creates one. Route: Gromov's graph constructi
 into pseudoholomorphic curves in `S × X` (`TauCeti.SymplecticForm.floerGraphAlmostComplex`,
 `TauCeti.SymplecticForm.isJHolomorphicAt_graph_floerGraphAlmostComplex_iff`), and the attached,
 fixed-asymptotic and varying frozen-`J` application of the unforced compactness of AnalyticStableMaps
-§3.7 is constructed here; unforced compactness is not itself punctured Floer compactness.
+§3.7 is constructed here; unforced compactness is not itself punctured Floer compactness. For the
+pair-of-pants spaces with virtual counts on every closed target, the compactification and its
+boundary by breaking at the three ends are FOOO, Proposition 11.6 (1) and (3) (p. 62).
 
 *Needs:* §1.1, §2.1–§2.3, §3.1–§3.3; AnalyticStableMaps §3.7; HeegaardFloer §4.3, §4.6c; DGFloer
 §7.C.3; Tau Ceti `TauCeti.SymplecticForm.floerGraphAlmostComplex`,
@@ -620,7 +627,10 @@ of DGFloer §7.C: the rational Floer complex, its continuation maps and the modu
 both inverse homotopies, on every closed `X`; then define the virtual product on that complex
 (Layer 6). Prove regular normalisation against Layer 4 and the overlap comparison on classical
 targets: there the virtual counts are the regular counts tensored with `ℚ`. The generic engine never
-depends back on this application or on the quantum ring of GromovWittenTheory.
+depends back on this application or on the quantum ring of GromovWittenTheory. Rational Hamiltonian
+Floer homology of every closed target from implicit atlases is Pardon, Definition 10.4.1 (p. 106),
+whose footnote 35 (p. 101) allows the cover by the joint period quotient `Γ`; the module PSS
+isomorphism over `ℚ` on every closed target is Lu, Theorem 1.1 (p. 5).
 
 *Needs:* §5.3, Layer 4; DGFloer §7.C.4–§7.C.6; ImplicitAtlases §5.6; HeegaardFloer Layer 1.
 
@@ -675,8 +685,9 @@ On `C^* = CF_(n−*)` define `m₂ : C₁^a ⊗ C₂^b → C₀^(a+b)` as the pr
 from the oriented boundary of the one-dimensional product moduli spaces, whose ends are cylinder
 breakings at the three ends: this boundary count is the kernel identity of
 `TauCeti.NovikovModule.kernelMap_kernelProduct_eq_add`, which then gives the Leibniz rule on
-completed chains. For the product on a fixed complex choose all three Hamiltonians equal, or keep the
-labels `H₁, H₂, H₀` and the continuation comparisons explicitly. End Hamiltonians on an arbitrary
+completed chains (with virtual counts on every closed target, FOOO, Lemma 11.8, p. 64). For the
+product on a fixed complex choose all three Hamiltonians equal, or keep the labels `H₁, H₂, H₀` and
+the continuation comparisons explicitly. End Hamiltonians on an arbitrary
 closed target admit interpolation of finite curvature; no flat connection with prescribed holonomy
 is assumed.
 
@@ -701,7 +712,8 @@ and use the corresponding Hom differential. Prove:
 - continuation maps intertwine the products on homology
   (`TauCeti.NovikovModule.kernelMap_kernelProduct_sub_kernelProduct_kernelMap_of_mem_gradeBy`,
   `TauCeti.NovikovModule.cohomologyMap_cohomologyProduct_kernelProduct`), so, being isomorphisms
-  on homology (DGFloer §7.C.4, §5.4), they are algebra isomorphisms;
+  on homology (DGFloer §7.C.4 on the classical branch and §5.4 above on the rational branch), they
+  are algebra isomorphisms;
 - graded commutativity on homology, `m₂(a, b) = (−1)^(ab) m₂(b, a)`
   (`TauCeti.NovikovModule.kernelProduct_sub_negOnePow_smul_kernelProduct_of_tensorDifferential`);
 - associativity on homology
@@ -827,7 +839,7 @@ This is a geometric comparison identity, not a formal consequence of module PSS.
 uses the supported PSS maps `F`, inverse maps `G` and cylinder complexes of the branch, and no
 multiplicative PSS conclusion.
 
-*Needs:* §6.1–§6.2, §7.2; DGFloer §7.C.5b or §5.4.
+*Needs:* §6.1–§6.2, §7.2, and §5.4 on the rational branch; DGFloer §7.C.5b on the classical branch.
 
 ### 7.4 Multiplicative PSS
 
@@ -840,10 +852,13 @@ Prove
 with signs fixed by the degree-zero chain maps and degree `−1` homotopies. Conclude that, over `ℚ`
 and after extending coefficients along §1.4, `F ∘ PD` is an isomorphism of rings from the quantum
 cohomology of GromovWittenTheory §7.2 to the Floer cohomology of Layer 6, and that it sends `1` to
-the unit of §6.4, by the cap and Gromov–Witten unit diagrams (GromovWittenTheory §5.2). Neither the
-algebraic rearrangement nor the module inverse supplies `K`. On a general closed target the theorem
-needs the rational supported module PSS of §5.4; the classical equivalence of DGFloer cannot
-instantiate it there.
+the unit of §6.4, by the cap and Gromov–Witten unit diagrams (GromovWittenTheory §5.2). On
+semipositive targets the ring statement is Piunikhin–Salamon–Schwarz, Theorem 5.1, as Lu,
+Remark 1.2 (p. 5), identifies it, with an outline of its extension to every closed target; over the
+universal Novikov field with complex coefficients, and with bulk deformations, it is FOOO,
+Theorem 11.11 (p. 66). Neither the algebraic rearrangement nor the module inverse supplies `K`. On
+a general closed target the theorem needs the rational supported module PSS of §5.4; the classical
+equivalence of DGFloer cannot instantiate it there.
 
 **Checks.**
 - The identity follows from §7.3: applying `F₀` gives `F₀G₀T − F₀Q_M = d(F₀K) + (F₀K)d_tensor`,
@@ -851,7 +866,8 @@ instantiate it there.
   displayed identity. A version with `H₀` on the other side, `G₀F₀ − Id`, would not compose with
   `T`, whose values lie in the Floer complex.
 
-*Needs:* §6.4, §7.3; DGFloer §7.C.5b or §5.4; GromovWittenTheory §5.2, §7.2.
+*Needs:* §6.4, §7.3, and §5.4 on the rational branch; DGFloer §7.C.5b on the classical branch;
+GromovWittenTheory §5.2, §7.2.
 
 ### Examples
 
@@ -867,14 +883,15 @@ ImplicitAtlases §7.3; MorseTheory Layers 1–2 and 6; DGFloer §7.C.5b.
 ## Layer 8: computations (H8)
 
 The computations of this layer test the finished construction. None uses an unproved monotone
-specialisation or a completed augmentation; the `ℂPⁿ` formulas consume the enumerative computation
-of GromovWittenTheory §7.2 and cannot be deduced from the cyclic module rank formula of DGFloer.
+specialisation or a completed augmentation; the `ℂPⁿ` formulas rest on the product formula of
+GromovWittenTheory §7.2 and the line count of §8.4, and cannot be deduced from the cyclic module rank
+formula of DGFloer.
 
-### 8.1 The point and symplectically aspherical targets
+### 8.1 Symplectically aspherical targets
 
-Prove that on the point the product is multiplication in `R`, and that on a symplectically aspherical
-`X` (`Γ = 0`) the Floer cohomology ring over `ℚ` is the ordinary cohomology ring with the cup
-product, equivalently the intersection product, by §7.4 and the `A = 0` normalisation of §4.5.
+Prove that on a symplectically aspherical `X` (`Γ = 0`) the Floer cohomology ring over `ℚ` is the
+ordinary cohomology ring with the cup product, equivalently the intersection product, by §7.4 and
+the `A = 0` normalisation of §4.5.
 
 *Needs:* §4.5, §6.4, §7.4.
 
@@ -902,17 +919,33 @@ lines (in a chart, `TauCeti.SymplecticForm.Invariant.isComplexLinearMap_perturbe
 Prove, at the enumerative normalisation of GromovWittenTheory §7.2 and transported to the counted
 product through §7.4: on `ℂP¹`, with `x` the image of the point class, of degree `2`,
 `m₂(x, x) = e^(−L) · 1` and the unit is the image of `1`; on `ℂPⁿ`, the `(n+1)`-fold product of the
-image of the hyperplane class is `e^(−L) · 1`, `L` the line class. GromovWittenTheory §7.2 computes
-`ℂP¹` and `ℂP²`; for `n ≥ 3` the quantum relation `x^(⋆(n+1)) = q^L · 1` is proved here from its
-product formula: with the basis `x^j` and left duals `x^(n−j)`, `x^(⋆k) = x^k` for `k ≤ n`, since a
-degree-one three-point class `⟨x^a, x^b, x^c⟩_L` vanishes unless `a + b + c = 2n + 1`, and
-`x ⋆ x^n = q^L ⟨x, x^n, x^n⟩_L · 1` with `⟨x, x^n, x^n⟩_L = 1`, the one line through two general
-points, which meets a hyperplane once, counted by the regular-manifold normalisation.
+image of the hyperplane class is `e^(−L) · 1`, `L` the line class. For every `n ≥ 1` the quantum
+relation `x^(⋆(n+1)) = q^L · 1` is proved here from the product formula of GromovWittenTheory §7.2,
+which works out `ℂP¹` and `ℂP²` only in its Checks; in algebraic Gromov–Witten theory the relation is
+Fulton–Pandharipande, §10, pp. 47–48. With the basis `x^j` and left duals `x^(n−j)`, a three-point class
+`⟨x^a, x^b, x^c⟩_(dL)` vanishes unless `a + b + c = n + d(n + 1)` (GromovWittenTheory §4.3); for
+`0 ≤ a, b, c ≤ n` this leaves `d = 0`, and `d = 1` when `a + b + c = 2n + 1`. Hence `x^(⋆k) = x^k`
+for `k ≤ n`, the degree-one term of `x ⋆ x^(k−1)` needing an insertion `x^(2n+1−k)` of exponent
+above `n`, and `x ⋆ x^n = q^L ⟨x, x^n, x^n⟩_L · 1`.
+
+The line count `⟨x, x^n, x^n⟩_L = 1` is a target of its own. For the standard complex structure of
+`ℂPⁿ`, prove that every genus-zero stable map in the class `L` is regular and has no nontrivial
+automorphism: its one nonconstant component is a line, on which `u*TℂPⁿ ≅ O(2) ⊕ O(1)^(n−1)`, its
+contracted components carry trivial bundles, and so `H¹(C, u*TℂPⁿ) = 0` (Fulton–Pandharipande,
+Lemma 10, p. 28), which is the cokernel of the linearised operator of an integrable structure.
+The space of these maps with three marked points is then a compact manifold of real dimension
+`4n + 2` (Fulton–Pandharipande, Theorem 2, p. 12); prove that the orientation of
+GromovWittenTheory §3.1 is its complex orientation. For distinct points `p, q` off a hyperplane
+`H`, prove that the evaluation map is transverse to `H × {p} × {q}` and meets it in exactly one
+point, the line through `p` and `q` marked at its point on `H` and at `p` and `q`, with sign `+1`.
+ImplicitAtlases §5.6 and the transverse base change of CharacteristicClasses §2.4 then give
+`⟨x, x^n, x^n⟩_L = 1`.
 
 **Checks.**
 - On `ℂPⁿ`, `x^(n+1)` has degree `2n + 2` and `e^(−L)` has cochain degree `2c₁(L) = 2n + 2`.
 
-*Needs:* §1.4, §7.4; GromovWittenTheory §7.2; ImplicitAtlases §5.6.
+*Needs:* §1.4, §7.4; GromovWittenTheory §3.1, §4.3, §7.2; ImplicitAtlases §5.6; ComplexKahlerGeometry
+§5.10, §7.2; CharacteristicClasses §2.4.
 
 ### 8.5 Odd classes on an aspherical torus
 
@@ -940,7 +973,8 @@ classes, by §6.1.
 
 ### Dependencies
 
-Layers 1–7; GromovWittenTheory §7.2; HeegaardFloer §1.9a; ImplicitAtlases §5.6.
+Layers 1–7; GromovWittenTheory §3.1, §4.3, §7.2; HeegaardFloer §1.9a; ImplicitAtlases §5.6;
+ComplexKahlerGeometry §5.10, §7.2; CharacteristicClasses §2.4.
 
 ## Scope and ownership
 
@@ -954,7 +988,8 @@ evaluation range, product-specific tree exclusion, gluing, orientations and sign
 supported cylinder and PSS package on every closed target (Layer 5); the counted product, its
 Leibniz rule, continuation, exchange, associativity and unit homotopies and its independence of
 choices (Layer 6); the Morse quantum operation, the comparison family and multiplicative PSS
-(Layer 7); and the computations of Layer 8. It exports the labelled capped product moduli spaces
+(Layer 7); and the computations of Layer 8, with the regularity of the lines of `ℂPⁿ` and their
+three-point count. It exports the labelled capped product moduli spaces
 with their equation, energy, index and class identities, the ordered determinant maps, the compact
 cutoff counts, the continuous supported bilinear maps, all the named homotopies and multiplicative
 PSS.
@@ -988,14 +1023,17 @@ plans is in Tau Ceti as `TauCeti.NovikovSeries`.
   oriented Morse complex and its singular comparison, continuation, products and duality.
 - AnalyticStableMaps Layer 3: unforced marked genus-zero stable-map compactness, evaluation and class
   splitting.
-- GromovWittenTheory Layers 0 and 5–7: the closed stable-map invariants, the class group and Novikov
-  ring, the unit, the ordered diagonal and left-dual conventions and the quantum ring. This roadmap
-  does not rebuild that closed theory.
+- GromovWittenTheory Layers 0 and 5–7, §3.1 and §4.3: the closed stable-map invariants, the class
+  group and Novikov ring, the orientation and grading of the invariants, the unit, the ordered
+  diagonal and left-dual conventions and the quantum ring. This roadmap does not rebuild that closed
+  theory.
 - ImplicitAtlases Layers 0–7: the implicit atlas, relative virtual complex, homology-level trace,
   refinement and concordance, cell-like and product strata and transverse diagonal.
 - MorseTheory, AlgebraicTopology and DifferentialGeometry: the finite Morse core and gradient
   convergence, the fundamental class and Poincaré duality, forms, orientations and flows.
 - DGAInfinity Layers 0–1: graded tensor, Hom, differential, shift and DG-algebra vocabulary.
+- ComplexKahlerGeometry §5.10 and §7.2 and CharacteristicClasses §2.4: Serre duality and the line
+  bundles of `ℂP¹`, and transverse base change of Gysin maps, for the line count of §8.4.
 
 **Outside this roadmap.** Contact and Reeb buildings and the contact and full symplectic field
 theory levels belong to SymplecticFieldTheory; its count package is distinct from this Hamiltonian
@@ -1166,7 +1204,8 @@ Assumed exactly as stated at the pin; each is applied with its own hypotheses.
 - §0.1–§0.2: the class group `H₂(X; ℤ)` with area and Chern maps and the Novikov ring `Λ_ω` with
   `deg q^A = 2c₁(A)`; §5.2: the fundamental-class identity and the unit; §6.1: the Casimir and the
   ordered diagonal; §7.1–§7.2: the three-point classes and the quantum product with the left-dual
-  convention, and its `ℂP¹` and `ℂP²` computations.
+  convention; §3.1: the orientation of the virtual classes; §4.3: the degree of the operations
+  `I_(g,n,A)`.
 
 ### From TauCetiRoadmap.ImplicitAtlases
 
@@ -1185,8 +1224,31 @@ Assumed exactly as stated at the pin; each is applied with its own hypotheses.
 
 - Layers 0–1: signed graded tensor, Hom, differential and shift conventions and DG algebras.
 
+### From TauCetiRoadmap.ComplexKahlerGeometry and TauCetiRoadmap.CharacteristicClasses
+
+- ComplexKahlerGeometry §5.10 (K5b.1): Dolbeault cohomology of holomorphic bundles on a compact
+  base and Serre duality; §7.2 (K7.2): the line bundles `O(k)` on `ℂP¹`, `K_(ℂP¹) ≅ O(−2)` and the
+  vanishing of `H⁰(O(k))` for `k < 0`. With Serre duality they give `H¹(ℂP¹, O(k)) = 0` for
+  `k ≥ −1`, used in §8.4.
+- CharacteristicClasses §2.4 (C2.4): embedding Gysin maps and their transverse base change, which
+  turn the transverse preimage of §8.4 into the pairing of pulled-back Poincaré duals.
+
 ## References
 
+- K. Fukaya, Y.-G. Oh, H. Ohta and K. Ono (FOOO), *Spectral invariants with bulk, quasi-morphisms
+  and Lagrangian Floer theory*, arXiv:1105.5123v3 (2017), cited in that numbering: equation (3.9)
+  in the proof of Lemma 3.10, p. 27 (§3.1); Proposition 11.6, p. 62 (§3.4); Lemma 11.8 and Proposition 11.9,
+  p. 64 (§3.2, §6.2); Lemma 11.10, p. 65 (§3.1); Theorem 11.11, p. 66 (§7.4).
+- W. Fulton and R. Pandharipande, *Notes on stable maps and quantum cohomology*,
+  arXiv:alg-geom/9608011v2 (1996), cited in that numbering: Theorem 2, p. 12, Lemma 10, p. 28, and
+  §10, pp. 47–48 (§8.4).
+- G. Lu, *An explicit isomorphism between Floer homology and quantum homology*, Pacific J. Math. 213
+  (2004), cited in the numbering of arXiv:math/0011155v5: Theorem 1.1 and Remark 1.2, p. 5 (§5.4,
+  §7.4).
+- J. Pardon, *An algebraic approach to virtual fundamental cycles on moduli spaces of
+  pseudo-holomorphic curves*, Geom. Topol. 20 (2016), cited in the numbering of arXiv:1309.2370v6:
+  §10, Definition 10.4.1, p. 106, and footnote 35, p. 101 (§5.4).
 - S. Piunikhin, D. Salamon and M. Schwarz, *Symplectic Floer–Donaldson theory and quantum
   cohomology*, in *Contact and symplectic geometry*, Publ. Newton Inst. 8, Cambridge University
-  Press (1996), 171–200: the comparison of Floer cohomology with quantum cohomology (Layer 7).
+  Press (1996), 171–200: Theorem 5.1, the comparison of Floer cohomology with quantum cohomology as
+  rings (§7.4).
