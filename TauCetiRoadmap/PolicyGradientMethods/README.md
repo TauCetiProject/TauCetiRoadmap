@@ -179,7 +179,7 @@ a real `C` with `d^{π'}_ρ s ≤ C · μ s` for every `s`, there is a policy `�
 
 Since the directional derivative is linear in `π̄` and the policies form a compact set, this says,
 for `C ≥ 0`, that `V^{π'}(ρ) − V^π(ρ)` is at most `C / (1 − γ)` times the largest value of
-`(π̄ − π)ᵀ ∇_π V^π(μ)` over policies `π̄`; when `μ` has full support, the least such `C` is
+`(π̄ − π)ᵀ ∇_π V^π(μ)` over policies `π̄`; when `μ s > 0` for every `s`, the least such `C` is
 `max_s d^{π'}_ρ(s) / μ(s)`, the distribution mismatch coefficient. For `C < 0` the statement
 gives the bound with the least value in place of the largest (see the Checks).
 
@@ -227,7 +227,8 @@ Layer 2 uses Layer 1.
 ### 3.1 The softmax policy gradient
 
 Define the **softmax parametrization** `softmax θ`,
-`π_θ (a | s) = exp θ(s, a) / Σ_b exp θ(s, b)`, a policy for every `θ : S → A → ℝ`. Prove
+`π_θ (a | s) = exp θ(s, a) / Σ_b exp θ(s, b)`, a policy for every `θ : S → A → ℝ` when `A` is
+nonempty (for an empty `A` it is the empty table, whose row sums are `0`). Prove
 (`fderiv_objective_softmax`) that for `γ < 1`, every `μ : S → ℝ` and every `θ`, the map
 `θ ↦ V^{π_θ}(μ)` is differentiable at `θ` and
 
@@ -354,6 +355,11 @@ form at the states reachable from the initial distribution; proved here.)
   gradient is `(1/4, −1/4)`, `F† ∇V = (1/2, −1/2) = A^π`, and the new policy is
   `(1/(1 + exp(−η)), 1/(1 + exp η))`, which is `mwStep` of the uniform policy (`0.7311` at
   `η = 1`).
+- The same bandit at `θ = (t, 0)`, with `σ = 1/(1 + exp(−t))`: the Fisher matrix is
+  `σ(1 − σ) [[1, −1], [−1, 1]]`, its pseudoinverse is `[[1, −1], [−1, 1]] / (4σ(1 − σ))`, the
+  gradient is `σ(1 − σ) (1, −1)`, so `F† ∇V = (1/2, −1/2)` for every `t`, while
+  `A^π = (1 − σ, −σ)`. The two differ by `σ − 1/2`, a constant in the action: the step is
+  `θ + η A^π/(1 − γ)` only up to a constant per state, which does not change the policy.
 - The conclusion holds only where `d^{π_θ}_μ s > 0`: with two states, every transition into the
   first, `ρ = (1, 0)` and rewards `(0, 1)` at both states, `d^{π_θ}_ρ = (1, 0)`; the Fisher block
   and the gradient vanish at the second state, so the step leaves `θ` unchanged there, while
