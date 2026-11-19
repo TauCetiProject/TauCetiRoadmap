@@ -1762,9 +1762,10 @@ def SimpleGraph.IsTopologicalMinor (G : SimpleGraph V) (G' : SimpleGraph V') : P
 -- 3-connectivity is GraphConnectivityAndFlows' `G.IsVertexConnected 3` ([Mathlib vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355)): at least
 -- four vertices, and every pair stays reachable after deleting any two other vertices.
 
-/-- Tutte's Wheel Theorem. -/
+/-- Tutte's Wheel Theorem: the reduction form of Mohar–Thomassen, Theorem 1.4.3, p. 12. -/
 theorem exists_edge_delete_or_contract_isVertexConnected (h : G.IsVertexConnected 3) (hw : ¬ G is a wheel) :
     ∃ e, (G.deleteEdges {e}).IsVertexConnected 3 ∨ (G.contractEdge e).IsVertexConnected 3
+/-- Mohar–Thomassen, Lemma 1.4.4, pp. 12–13; contraction simplifies parallel edges. -/
 theorem exists_contractible_edge (h : G.IsVertexConnected 3) (h5 : 5 ≤ Fintype.card V) :
     ∃ e, (G.contractEdge e).IsVertexConnected 3
 
@@ -1817,11 +1818,11 @@ def Graph.HasTwoBasis (Γ : Graph α β) : Prop :=
 theorem isPlanar_iff_hasTwoBasis : G.IsPlanar ↔ (Graph.ofSimpleGraph G).HasTwoBasis
 
 /-- Straight-line and convex drawings, in the plane `ℂ`. -/
-/-- Fáry's Theorem. -/
+/-- Fáry's Theorem: Fáry 1948, §1, p. 230; the Tutte proof below is (10.9), p. 763. -/
 theorem exists_straightLine_drawing (h : G.IsPlanar) :
     ∃ D : Drawing (Graph.ofSimpleGraph G) ℂ, D.IsNoncrossing ∧ D.IsStraightLine
 
-/-- Tutte's Spring Embedding Theorem. -/
+/-- Tutte's Spring Embedding Theorem: Tutte 1963, (9.2), p. 759. -/
 theorem exists_convex_drawing (h : G.IsVertexConnected 3) (h' : G.IsPlanar) :
     ∃ D : Drawing (Graph.ofSimpleGraph G) ℂ, D.IsNoncrossing ∧ D.IsConvex
 
@@ -1851,8 +1852,8 @@ theorem colorable_five_of_noncrossing_drawing (G : SimpleGraph V)
   connect their respective pairs of neighbours. A Kempe-chain interchange frees
   a colour for the removed vertex. Include the empty and disconnected cases.
 - The dual of a simple plane graph need not be simple, which is why duality lives on multigraphs and why layer 1 didn't build on `SimpleGraph` as the foundation.
-- Tutte's spring embedding is a linear-algebra argument and is unusually formalization-friendly for its strength. Its precise form fixes a facial cycle as a convex outer polygon and produces a straight-line embedding with convex faces. It is the natural bridge toward Steinitz.
-- Prove Fáry via Tutte. Given simple planar Γ on at least 4 vertices, add edges within a fixed embedding until it is maximal planar. Maximal planar graphs on at least 4 vertices are 3-connected. Apply Tutte, then delete the added edges. The remaining segments are still non-crossing.
+- Tutte's spring embedding is a linear-algebra argument and is unusually formalization-friendly for its strength. The source is [Tutte 1963](https://www.cs.jhu.edu/~misha/Fall07/Papers/Tutte63.pdf), (9.2), p. 759; §6, pp. 752–753 constructs the barycentric linear system and proves uniqueness. Its precise form fixes a facial cycle as a convex outer polygon and produces a straight-line embedding with convex faces. It is the natural bridge toward Steinitz.
+- Prove Fáry via Tutte: (10.8)–(10.9), pp. 762–763, give the completion-and-restriction route; Fáry's original statement is §1, p. 230. Given simple planar Γ on at least 4 vertices, add edges within a fixed embedding until it is maximal planar. Maximal planar graphs on at least 4 vertices are 3-connected. Apply Tutte, then delete the added edges. The remaining segments are still non-crossing.
 - For Whitney 2-isomorphism, work with finite graph cycles and the three moves
   above. Prove cycle preservation directly for each move, then prove the classical
   converse by Whitney's finite graph argument. Package the result using Mathlib's
@@ -1911,7 +1912,9 @@ Page numbers below refer to printed pages.
 - C. Dehlinger and J.-F. Dufourd, [*Formalizing generalized maps in Coq*](https://doi.org/10.1016/j.tcs.2004.05.003), Theoret. Comput. Sci. **323** (2004), 351–397. Prior generalized-map formalization experience.
 - G. Gonthier, *Formal proof: the four-color theorem*, Notices AMS **55** (2008), 1382–1393. The hypermap encoding and the discipline of deriving graphs from maps.
 - S. Lando and A. Zvonkin, [*Graphs on Surfaces and Their Applications*](https://doi.org/10.1007/978-3-540-38361-1) (2004), chapter 1. The identification of embedded graphs with combinatorial maps, which is layer 5.
-- B. Mohar and C. Thomassen, [*Graphs on Surfaces*](https://doi.org/10.56021/9780801866890) (2001). Planar graphs and Jordan separation: §§2.1–2.2, pp. 18–29; Kuratowski: §2.3, pp. 30–32; planarity characterizations: §2.4, pp. 33–38; 3-connected embeddings: §2.5, pp. 39–42; dual graphs: §2.6, pp. 42–49. Rotation systems and embedding schemes are §§3.2–3.3, pp. 87–93; the vertex-orientation switching equivalence is on p. 92.
+- B. Mohar and C. Thomassen, [*Graphs on Surfaces*](https://doi.org/10.56021/9780801866890) (2001). Wheel construction: Theorem 1.4.3, p. 12; contractible edges: Lemma 1.4.4, pp. 12–13. Planar graphs and Jordan separation: §§2.1–2.2, pp. 18–29; Kuratowski: §2.3, pp. 30–32; planarity characterizations: §2.4, pp. 33–38; 3-connected embeddings: §2.5, pp. 39–42; dual graphs: §2.6, pp. 42–49. Rotation systems and embedding schemes are §§3.2–3.3, pp. 87–93; the vertex-orientation switching equivalence is on p. 92.
+- I. Fáry, [*On straight line representation of planar graphs*](https://acta.bibl.u-szeged.hu/13574/), Acta Sci. Math. (Szeged) **11** (1948), 229–233. The theorem is in §1, p. 230; completion to a triangulation is Lemma 2, stated on p. 230 and proved in §3, p. 231.
+- W. T. Tutte, [*How to draw a graph*](https://www.cs.jhu.edu/~misha/Fall07/Papers/Tutte63.pdf), Proc. London Math. Soc. (3) **13** (1963), 743–767. Barycentric equations and their unique solution: §6, pp. 752–753; convex embedding with prescribed facial polygon: (9.2), p. 759; completion and the straight-line consequence: (10.8)–(10.9), pp. 762–763.
 - H. Whitney, [*2-Isomorphic Graphs*](https://doi.org/10.2307/2371127), Amer. J. Math. **55** (1933), 245–254. The classical finite graph theorem for layer 10's cycle-preserving edge bijections and Whitney moves.
 - I. Moffatt and J. Oh, [*A 2-isomorphism theorem for delta-matroids*](https://pure.royalholloway.ac.uk/ws/portalfiles/portal/39545390/Whitney_PUBLISHED.pdf), November 9, 2020 author manuscript, introduction pp. 1–2, especially Figure 1. A statement and diagram of the classical graph moves; its delta-matroid extension is outside this roadmap.
 - C. Thomassen, [*Kuratowski's theorem*](https://doi.org/10.1002/jgt.3190050304), J. Graph Theory **5** (1981), 225–241. Kuratowski reference for layer 10.
