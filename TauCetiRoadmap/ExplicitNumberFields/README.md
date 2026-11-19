@@ -3,7 +3,7 @@
 **Summary.** Many basic estimates about number fields are proved with constants that are shown to
 exist but are not given. Tau Ceti already shows, for instance, that in a number field of degree `n`
 the number of ideals of norm at most `x` is a constant multiple of `x` up to an error of order
-x^{1−1/n}, but the constant in that error is unspecified. Questions such as finding every field of
+`x^{1−1/n}`, but the constant in that error is unspecified. Questions such as finding every field of
 small class number need such constants as numbers.
 
 This roadmap states the numerically explicit forms of these estimates for a number field `K` of
@@ -16,8 +16,8 @@ computation.
 Write d for the absolute value of the discriminant of `K`, h for its class number and R for its
 regulator. The first main result is Debaene's count of ideals. For every real `x` ≥ 1, the number
 of nonzero integral ideals of norm at most `x` differs from `κ_K` times `x` by at most an explicit
-multiple of x^{1−1/n}, and that multiple depends only on `n` and on hR. For ℚ(i) the bound is
-2^{40}√x, while at x = 10 the actual error is about 1.15.
+multiple of `x^{1−1/n}`, and that multiple depends only on `n` and on hR. For ℚ(i) the bound is
+`2^{40}√x`, while at x = 10 the actual error is about 1.15.
 
 The second concerns the residue. Friedman's lower bound says that `κ_K` ≥ 0.36232/√d for every
 `K` of degree at least 2. For fields of degree at least 3 with no quadratic subfield, Stark's
@@ -26,13 +26,13 @@ the degree and on whether `K` is Galois over ℚ, is reached from ℚ by a chain
 neither.
 
 The third bounds the class number without the regulator. Bordellès proved that every number field
-of degree `n` has class number at most (2^{n−1}/(n−1)!) √d (log d)^{n−1}.
+of degree `n` has class number at most `(2^{n−1}/(n−1)!) √d (log d)^{n−1}`.
 
 The fourth is about the least prime ideal with a given Frobenius class. Let L/K be a Galois
 extension of number fields with L ≠ ℚ, and let C be a conjugacy class of its Galois group. Ahn and
 Kwon proved that some prime of `K`, unramified in L and with Frobenius class C, has as absolute
 norm a rational prime at most the absolute discriminant of L to the power 12577. For ℚ(i) over ℚ
-and C complex conjugation, the bound is 4^{12577} and the least such prime is 3.
+and C complex conjugation, the bound is `4^{12577}` and the least such prime is 3.
 
 The roadmap builds on Mathlib's Dedekind zeta function, class number and regulator, and on Tau
 Ceti's ideal counts and Frobenius prime sets. Away from the half-plane Re s > 1, `ζ_K` is the
