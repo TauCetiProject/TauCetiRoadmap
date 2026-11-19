@@ -473,17 +473,20 @@ Define `IsHurwitz`: for `A : Matrix n n ℝ`, `IsHurwitz A` means that every `μ
 p. 492, where Schur stable matrices are called convergent).
 
 - `isHurwitz_iff_tendsto_exp`: `A` is Hurwitz if and only if `exp (t • A) → 0` as `t → ∞`.
-- `isSchurStable_iff_tendsto_pow`: `A` is Schur stable if and only if `A ^ k → 0` as `k → ∞`.
+- `A` is Schur stable if and only if `A ^ k → 0` as `k → ∞`. This is not a target here: it is
+  IterativeMethodsForLinearSystems 1.2 for real matrices, which states that the powers of a real
+  square matrix tend to zero if and only if the spectral radius of the same matrix over `ℂ` is
+  less than one. The spectrum of a matrix is finite, so that spectral radius is less than one
+  exactly when every `μ` in the spectrum has `‖μ‖ < 1`, which is `IsSchurStable A`.
 
 (Sontag, Proposition C.5.1, p. 491; Åström–Murray, Theorem 5.1, p. 5-13, for the first
 statement.)
 
-Route: if `A v = μ v` with `v ≠ 0` complex, then `exp (t • A) v = e^(t μ) v` and `A ^ k v = μ ^ k v`,
-which do not tend to `0` when `re μ ≥ 0` or `‖μ‖ ≥ 1`. Conversely, write the complexified `A` as
+Route: if `A v = μ v` with `v ≠ 0` complex, then `exp (t • A) v = e^(t μ) v`,
+which does not tend to `0` when `re μ ≥ 0`. Conversely, write the complexified `A` as
 `S + N` with `S` semisimple, `N` nilpotent and `S N = N S` (Jordan–Chevalley); then
 `exp (t • A) = exp (t • S) exp (t • N)`, where `exp (t • S)` decays like `e^(−α t)` for some
-`α > 0` and `exp (t • N)` is a polynomial in `t`. For powers, Gelfand's formula gives
-`‖A ^ k‖ ≤ ρ ^ k` for large `k` and any `ρ` between the spectral radius and `1`.
+`α > 0` and `exp (t • N)` is a polynomial in `t`.
 
 **Checks.**
 - `[[0, 1], [−2, −3]]` has eigenvalues `−1` and `−2` and is Hurwitz.
@@ -498,7 +501,8 @@ which do not tend to `0` when `re μ ≥ 0` or `‖μ‖ ≥ 1`. Conversely, wri
 
 *Needs:* Mathlib `spectrum`, `Matrix.mem_spectrum_iff_isRoot_charpoly`, `NormedSpace.exp`,
 `NormedSpace.exp_eq_tsum`, `Matrix.exp_add_of_commute`, `Module.End.exists_isNilpotent_isSemisimple`,
-`spectrum.gelfand_formula`, `Module.End.exists_eigenvalue`. (Proved here, after Sontag.)
+`Module.End.exists_eigenvalue`; IterativeMethodsForLinearSystems 1.2 for the second bullet.
+(Proved here, after Sontag.)
 
 ### 5.2 The Lyapunov equation
 
@@ -564,7 +568,8 @@ definite solution and `A v = μ v` with `v ≠ 0` complex, then `2 re μ (v* P v
   only if `P = ∑ₖ (Aᵀ) ^ k Q A ^ k`; in particular the equation has exactly one solution. (The
   uniqueness is item 2 of Sontag's Lemma/Exercise 5.7.19; the series formula is proved here.)
 
-Route: by 5.1 the series converges absolutely; its sum `S` satisfies `Aᵀ S A = S − Q` by shifting
+Route: for a Schur stable `A`, Gelfand's formula gives `‖A ^ k‖ ≤ ρ ^ k` for large `k` and any
+`ρ` between the spectral radius and `1`, so the series converges absolutely; its sum `S` satisfies `Aᵀ S A = S − Q` by shifting
 the index. If `Aᵀ D A = D`, then `D = (Aᵀ) ^ k D A ^ k → 0`. For positive definite `Q` the first
 term of the series is positive definite and the others are positive semidefinite. Conversely, if
 `A v = μ v` with `v ≠ 0` complex and `P`, `Q` are positive definite, then
@@ -578,8 +583,8 @@ term of the series is positive definite and the others are positive semidefinite
   there is no solution, and the series diverges, with `tsum` equal to `0` by Mathlib's
   convention.
 
-*Needs:* 5.1; Mathlib `tsum`, `HasSum`, `Matrix.PosDef`, `Matrix.PosSemidef`. (Proved here,
-after Sontag.)
+*Needs:* 5.1; Mathlib `spectrum.gelfand_formula`, `tsum`, `HasSum`, `Matrix.PosDef`,
+`Matrix.PosSemidef`. (Proved here, after Sontag.)
 
 ### 5.5 Stabilizability
 
@@ -611,7 +616,8 @@ The matrices `[[0, 1], [−2, −3]]` (Hurwitz, with its Lyapunov solutions for 
 
 ### Dependencies
 
-Layers 1 (1.4, 1.5, 1.6), 2 (2.2) and 3 (3.3), as stated in 5.3 and 5.5; Mathlib `spectrum`,
+Layers 1 (1.4, 1.5, 1.6), 2 (2.2) and 3 (3.3), as stated in 5.3 and 5.5;
+IterativeMethodsForLinearSystems 1.2; Mathlib `spectrum`,
 `Matrix.mem_spectrum_iff_isRoot_charpoly`, `NormedSpace.exp`, `NormedSpace.exp_eq_tsum`,
 `Matrix.exp_add_of_commute`, `Matrix.exp_transpose`, `hasDerivAt_exp_smul_const`,
 `Module.End.exists_isNilpotent_isSemisimple`, `Module.End.exists_eigenvalue`,
@@ -666,6 +672,10 @@ Already in the libraries and therefore not targets:
 
 Left to other roadmaps:
 
+- IterativeMethodsForLinearSystems (an open roadmap, not on main, on which this one depends for
+  one statement) owns, in its 1.2, the equivalence between the powers of a real matrix tending to
+  zero and the complex spectral radius being less than one. Schur stability is defined in 5.1,
+  and its equivalence with `A ^ k → 0` is cited from there and is not a target of this roadmap.
 - OperatorTheory/SpectralSubspacePerturbation owns Sylvester equations `A X − X B = C` for
   self-adjoint operators, with Rosenblum's theorem and the norm bounds of its Part B (including
   its bound for `A X + X B = Y` when the forms of `A` and `B` are bounded below). The Lyapunov
@@ -744,7 +754,11 @@ stabilizability of the transposed pair; nonlinear systems and their linearizatio
   `t₀`, there is exactly one `u` with `u t₀ = x` and `HasDerivAt u (B (u t) + f t) t` for all
   `t`), used in 4.2 with the operator `x ↦ A *ᵥ x` on `n → ℝ`.
 
-No roadmap is a supplier.
+### From TauCetiRoadmap.IterativeMethodsForLinearSystems
+
+- 1.2: for a real square matrix `G`, `G ^ k → 0` if and only if the spectral radius of
+  `G.map (↑) : Matrix ι ι ℂ` is less than one. Used in 5.1 for the equivalence of Schur stability
+  with `A ^ k → 0`, which is therefore not restated.
 
 ## References
 

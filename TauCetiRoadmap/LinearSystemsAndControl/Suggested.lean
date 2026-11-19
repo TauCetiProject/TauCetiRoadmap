@@ -205,11 +205,6 @@ theorem isHurwitz_iff_tendsto_exp (A : Matrix n n ℝ) :
     IsHurwitz A ↔ Tendsto (fun t : ℝ => NormedSpace.exp (t • A)) atTop (𝓝 0) := by
   sorry
 
-/-- 5.1 `A` is Schur stable if and only if `A ^ k → 0` as `k → ∞`. -/
-theorem isSchurStable_iff_tendsto_pow (A : Matrix n n ℝ) :
-    IsSchurStable A ↔ Tendsto (fun k : ℕ => A ^ k) atTop (𝓝 0) := by
-  sorry
-
 /-- 5.2 Lyapunov's theorem: `A` is Hurwitz if and only if for every positive definite `Q` the
 Lyapunov equation `Aᵀ P + P A = -Q` has a positive definite solution `P`. -/
 theorem isHurwitz_iff_forall_posDef_exists_posDef (A : Matrix n n ℝ) :
