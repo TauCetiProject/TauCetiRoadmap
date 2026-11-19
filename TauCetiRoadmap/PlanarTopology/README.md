@@ -843,7 +843,7 @@ pointwise throughout the approximation.
 
 This layer shows combinatorial invariants are topological.
 
-⚠ **Neither of these depends on the Schoenflies theorem.** Moise makes this point immediately after his triangulation theorem.  The usual derivation from Schoenflies "is in a way misleading", since in dimension three Schoenflies fails and triangulation still holds.
+⚠ **Neither of these depends on the Schoenflies theorem.** Moise makes this point immediately after his triangulation theorem.  His point is that triangulation has an independent approximation proof: it persists in dimension three even when Schoenflies fails.
 
 **From layers 0, 3, and 4.** Alexander's trick in its topological and PL forms, `Subdivides`, `IsPLMap`, the local and relative approximation theorems.
 
@@ -1528,11 +1528,11 @@ vocabulary: `TauCeti.IsJordanCurve` rather than a parametrized definition, `ℂ`
 
 ## References
 
-Stable bibliographic keys and printed-page locators are recorded in `sources.toml`.
+Page numbers below refer to printed pages.
 
-- C. Thomassen, *The Jordan–Schönflies theorem and the classification of surfaces*,
-  Amer. Math. Monthly **99** (1992), 116–131. Polygonal separation and crosscuts are Lemmas 2.3–2.4, pp. 119–120; polygonal nonplanarity of `K₃,₃` is Lemma 2.5, p. 120; the Jordan curve theorem is Theorem 2.12, p. 122; polygonal accessibility is discussed on p. 122, and the crosscut lemma with a polygonal cutting arc is Lemma 2.13, pp. 122–123; the prescribed-boundary Schoenflies extension is Theorem 3.1, pp. 123–125. These are the inputs for layers 1, 2, and 7.
-- `alonamaloh/jordan-schoenflies`, the blueprint. The only source cited here written at
+- C. Thomassen, [*The Jordan–Schönflies theorem and the classification of surfaces*](https://doi.org/10.1080/00029890.1992.11995820),
+  Amer. Math. Monthly **99** (1992), 116–130. Polygonal separation and crosscuts are Lemmas 2.3–2.4, p. 119; polygonal nonplanarity of `K₃,₃` is Lemma 2.5, stated on p. 119 and proved on p. 120; the Jordan curve theorem is Theorem 2.12, p. 122; polygonal accessibility is discussed on p. 122, and the crosscut lemma with a polygonal cutting arc is Lemma 2.13, pp. 122–123; the prescribed-boundary Schoenflies extension is Theorem 3.1, pp. 123–125. These are the inputs for layers 1, 2, and 7.
+- [`alonamaloh/jordan-schoenflies`](https://github.com/alonamaloh/jordan-schoenflies), the blueprint. The only source cited here written at
   formalization granularity, with a statement-level index and a suggested module order.
   Treat it as the primary route document for layers 1, 2, and 7.
 - E. Moise, *Geometric Topology in Dimensions 2 and 3* (1977). PL vocabulary and coning are
@@ -1543,23 +1543,27 @@ Stable bibliographic keys and printed-page locators are recorded in `sources.tom
   Theorem 8.5, p. 64. The half-plane and relative approximation forms are the
   explicit extensions targeted here. Note in particular his remark following the triangulation theorem that
   a derivation from Schoenflies can obscure the independent approximation argument.
+  Euler characteristic and classical surface background are §§21–22, pp. 147–164.
 - C. Rourke and B. Sanderson, *Introduction to Piecewise-Linear Topology*, chapters 1–3.
   The PL vocabulary, already followed by `TauCeti/AlgebraicTopology/SimplicialComplex/`.
 - M. H. A. Newman, *Elements of the Topology of Plane Sets of Points*. Classical reference
   for the plane material.
-- J. R. Munkres, *Elementary Differential Topology*; J. H. C. Whitehead, *On C¹-complexes*.
-  The smoothing route for layer 8.
-- J. R. Munkres, *Obstructions to the smoothing of piecewise-differentiable homeomorphisms*,
-  Ann. of Math. **72** (1960), 521–554; N. Kuiper, *On the smoothings of triangulated and
-  combinatorial manifolds*, in *Differential and Combinatorial Topology*, Princeton (1965). The
+- J. R. Munkres, *Elementary Differential Topology*, §4 (smoothing of maps and manifolds)
+  and §5 (manifolds with boundary); J. H. C. Whitehead,
+  [*On C¹-complexes*](https://doi.org/10.2307/1968861), Ann. of Math. **41** (1940),
+  809–824. The smoothing route for layer 8.
+- J. R. Munkres, [*Obstructions to the smoothing of piecewise-differentiable homeomorphisms*](https://doi.org/10.2307/1970228),
+  Ann. of Math. **72** (1960), 521–554; N. H. Kuiper, *On the smoothings of triangulated and
+  combinatorial manifolds*, in *Differential and Combinatorial Topology*, Princeton University Press (1965). The
   compatibility condition and the smoothing of piecewise-differentiable maps in layer 8.
 - D. B. A. Epstein, [*Curves on 2-manifolds and isotopies*](https://doi.org/10.1007/BF02392203),
   Acta Math. **115** (1966), 83–107. Two-sided curves: Theorem 2.1, p. 86; proper arcs:
   Theorem 3.1, p. 89; one-sided curves and the Möbius-band base case: Theorems 3.3–3.4,
   pp. 90–91; based curves: Theorem 4.1, p. 91; homeomorphisms: Theorems 6.3–6.4,
   pp. 99–103. Layer 8 constructs the elementary finite prerequisites explicitly.
-- J. Cannon, *Topology as Fluid Geometry*, volume 2. Exposition reference for the
-  point-set lemmas in layer 0, and the reference for the roadmap-for-a-roadmap above. Note
+- J. Cannon, *Topology as Fluid Geometry*, volume 2: *Two-Dimensional Spaces*.
+  Exposition reference for the point-set lemmas in layer 0; chapters 5, 6, 8, 10
+  and 11 supply the roadmap-for-a-roadmap above. Note
   that it is an idiosyncratic tour rather than a reference text, and its selection principle
   is explicitly aesthetic; it should not be used to scope a roadmap.
 - U. Pachner, *Shellings of simplicial balls and P.L. manifolds with boundary*,
