@@ -72,9 +72,9 @@ theorem ae_tendsto_occupation_div (ν : Measure S) [IsProbabilityMeasure ν] (y 
 
 /-! ## Layer 3: Equilibrium and coupling -/
 
-/-- The singleton test for Mathlib's detailed-balance predicate on a countable state space
-(README §3.1). -/
-theorem isReversible_iff_singletons (π : Measure S) [IsProbabilityMeasure π] :
+/-- The singleton test for Mathlib's detailed-balance predicate on a countable state space, for
+every measure `π` (README §3.1). -/
+theorem isReversible_iff_singletons (π : Measure S) :
     κ.IsReversible π ↔ ∀ x y : S, π {x} * κ x {y} = π {y} * κ y {x} := by
   sorry
 

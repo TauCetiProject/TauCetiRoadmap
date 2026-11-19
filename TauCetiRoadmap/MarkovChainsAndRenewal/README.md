@@ -135,7 +135,8 @@ Let ν be a finite measure on S. For times `t₀ < t₁ < ⋯ < t_k` and states 
 P_ν(X_{t₀} = y₀, …, X_{t_k} = y_k) = ((κ ^ t₀) ∘ₘ ν){y₀} · ∏_{i=1}^{k} p_{t_i − t_{i−1}}(y_{i−1}, y_i)
 ```
 
-(Tassion, Chapters 1–4; Norris, Chapter 1). For k = 0 this is the law at time `t₀`. The masses of
+(from Tassion, Definition 1.3 and Propositions 1.1 and 2.5; Norris, Chapter 1). For k = 0 this is
+the law at time `t₀`. The masses of
 these events determine the path law. The route sums the product formula for prefixes over the
 intermediate states and applies the discrete Chapman–Kolmogorov identity.
 *Needs:* Tau Ceti `TauCeti.Probability.markovChainLaw_map_prefix_apply_singleton`,
@@ -156,7 +157,8 @@ are half-open, the empty ones belong to states of weight zero, and they partitio
 `c_k` increases to 1. For a Markov kernel κ on S, the kernel sampler sends `(x, u)` to the sampler
 of `κ x` at u. Prove that iterating the kernel sampler with independent uniform variables, the
 initial state drawn by the sampler of ν, gives a process with path law `markovChainLaw ν κ`
-(Tassion, Chapters 1–4). The uniform law on [0, 1) is `volume.restrict (Set.Ico (0 : ℝ) 1)`.
+(Tassion, Lemma 1.2 and Proposition 1.3). The uniform law on [0, 1) is
+`volume.restrict (Set.Ico (0 : ℝ) 1)`.
 
 - The sampler is measurable, and its image of the uniform law on [0, 1) is p.
 - The sampler never returns a state of weight zero, for every u and not only almost every u.
@@ -206,8 +208,9 @@ every bounded measurable `g : S → ℝ`,
 P[g ∘ X (n + 1) | F n] =ᵐ[P] fun ω => ∫ y, g y ∂(κ (X n ω))
 ```
 
-(Tassion, Chapters 1–4; Norris, Chapter 1; the Zulip discussion of adapted filtrations for Markov
-chains). The initial law, the law of `X 0`, is specified separately.
+(natural filtration: Tassion, Proposition 1.4 and Remark 1.5; Norris, Chapter 1; the Zulip
+discussion of adapted filtrations for Markov chains). The initial law, the law of `X 0`, is
+specified separately.
 
 - For the natural filtration of X (Convention 5) and `X 0` of law ν, X is a Markov chain for it
   with kernel κ exactly when the path of X has law `markovChainLaw ν κ`, through the prefix-law
@@ -233,7 +236,8 @@ Tau Ceti `TauCeti.Probability.hasLaw_markovChainLaw_iff`.
 Let X be a Markov chain for F with kernel κ and n ∈ ℕ, and write `θ_n X := (X_{n+k})_k`. Prove that,
 conditionally on `F n`, the path `θ_n X` has law `P_{X_n}`: for every bounded measurable f on
 `ℕ → S`, `P[f ∘ θ_n X | F n] =ᵐ[P] fun ω => ∫ w, f w ∂P_{X n ω}`, and for every measurable set B of
-paths, `P(θ_n X ∈ B | F n) = P_{X_n}(B)` almost surely (Tassion, Chapters 1–4; Norris, Chapter 1).
+paths, `P(θ_n X ∈ B | F n) = P_{X_n}(B)` almost surely (natural filtration: Tassion, Theorem 2.2
+and Corollary 2.4; Norris, Chapter 1).
 Measurability is for the product σ-algebra on `ℕ → S`. The route proves the identity on cylinder
 functions by induction from §1.1 and the kernel powers and extends it by a monotone class argument;
 on the canonical space with `Filtration.piLE` the two identities are
@@ -254,7 +258,8 @@ Prove that on `{τ < ∞}`, conditionally on `F_τ`, the path `θ_τ X := (X_{τ
 P[1{τ < ∞} · f ∘ θ_τ X | F_τ] =ᵐ[P] 1{τ < ∞} · ∫ w, f w ∂P_{X_τ}
 ```
 
-and the corresponding identity for events (Tassion, Chapters 1–4; Norris, Chapter 1). The values of
+and the corresponding identity for events (natural filtration: Tassion, Theorem 2.6; Norris,
+Chapter 1). The values of
 `X_τ` and `θ_τ X` off `{τ < ∞}` do not enter. When τ < ∞ almost surely the indicators drop out.
 The route decomposes `{τ < ∞}` into the events `{τ = n}` and applies §1.2 on each; on the canonical
 space the forms are `MeasureTheory.Measure.condExp_stoppedValue_shift_iterate_markovChainLaw`,
@@ -271,11 +276,13 @@ space the forms are `MeasureTheory.Measure.condExp_stoppedValue_shift_iterate_ma
 
 ### 1.4 Visits, returns and return gaps
 
-Prove that the first entrance, the first return and the successive visits are stopping times for
-every filtration to which the path is adapted, and that the shifts `θ_n` and the concatenation of
-a finite prefix with a path are measurable. For a state x with `ρ_x = 1`, prove that under `P_x` the
-return gaps `G_k :=` (visit k + 1) − (visit k), visit zero being time zero, are independent, each
-with the law of `T_x⁺` under `P_x` (Tassion, Chapters 1–4; Norris, Chapter 1). Each gap is the
+The first entrance, the first return and the successive visits are stopping times for every
+filtration to which the path is adapted (`MeasureTheory.Adapted.isStoppingTime_hittingAfter`,
+`MeasureTheory.Adapted.isStoppingTime_successiveVisit`), and the shifts `θ_n` are measurable
+(`TauCeti.Probability.measurable_shift_iterate`). Prove that the concatenation of a finite prefix
+with a path is measurable. For a state x with `ρ_x = 1`, prove that under `P_x` the return gaps
+`G_k :=` (visit k + 1) − (visit k), visit zero being time zero, are independent, each with the law
+of `T_x⁺` under `P_x` (Tassion, Propositions 2.7–2.8; Norris, Chapter 1). Each gap is the
 length of the corresponding excursion plus one, the chain started at a state it returns to almost
 surely returns infinitely often, and the visit times of `successiveVisit` agree with the
 `hittingAfter` return times on the event where the visit exists. The route takes the excursions,
@@ -308,11 +315,11 @@ other layer.
 
 Define a state x to be recurrent when `ρ_x = 1`, transient otherwise, positive recurrent when it is
 recurrent and `m_x < ∞`, and null recurrent when it is recurrent and `m_x = ∞` (Tassion,
-Chapters 1–4; Norris, Chapter 1). Prove that for a transient x the number of positive-time visits
-satisfies `P_x(V_x = k) = ρ_x^k · (1 − ρ_x)` for every k ≥ 0, so that `V_x` has Mathlib's
+Definitions 3.1–3.2; Norris, Chapter 1). Prove that for a transient x the number of positive-time
+visits satisfies `P_x(V_x = k) = ρ_x^k · (1 − ρ_x)` for every k ≥ 0, so that `V_x` has Mathlib's
 `ProbabilityTheory.geometricMeasure` law with success probability `1 − ρ_x` (which counts the
 failures before the first success) and `1 + V_x` is geometric on {1, 2, …}; and that
-`𝔼_x V_x = ρ_x / (1 − ρ_x) < ∞`.
+`𝔼_x V_x = ρ_x / (1 − ρ_x) < ∞` (Tassion, Theorem 3.1).
 
 - x is positive recurrent exactly when `meanReturn κ x < ⊤`: a finite mean return time forces
   `ρ_x = 1`.
@@ -349,8 +356,9 @@ for every initial probability ν and every y. Prove that positive and null recur
 properties, using the occupation limits of §2.4. Every finite closed communicating class is
 positive recurrent. On a finite nonempty state space there is a closed communicating class, and
 from every initial probability the chain enters the union of the closed communicating classes
-almost surely (Tassion, Chapters 1–4; Norris, Chapter 1). The route applies the strong Markov
-property at the first entrance and the Green-function identities of §2.2.
+almost surely (Tassion, Proposition 3.10, Theorems 3.12–3.13, Corollary 3.15 and Propositions
+3.17–3.18; Norris, Chapter 1). The route applies the strong Markov property at the first entrance
+and the Green-function identities of §2.2.
 *Needs:* §1.3, §2.2, §2.4; Mathlib `ProbabilityTheory.Kernel.IsIrreducible`; Tau Ceti
 `ProbabilityTheory.Kernel.Reaches`, `ProbabilityTheory.Kernel.communicatingClass`,
 `ProbabilityTheory.Kernel.IsClosedSet`, `ProbabilityTheory.Kernel.isClosedSet_iff_forall_reaches_mem`,
@@ -366,16 +374,16 @@ property at the first entrance and the Green-function identities of §2.2.
 ### 2.4 Occupation frequencies
 
 Prove `ae_tendsto_occupation_div`: for every initial probability ν and every state y, `P_ν`-almost
-surely `V_y(n)/n → 1{H_{y} < ∞} · r_y` (Tassion, Chapters 1–4; Norris, Chapter 1). For ν = `δ_y`
-this is `V_y(n)/n → r_y` almost surely under `P_y`. Prove the expectation limit
-`𝔼_ν V_y(n)/n → P_ν(H_{y} < ∞) · r_y` by bounded convergence, since `V_y(n)/n ≤ 1`. Supply the
-consequence of the strong law for independent identically distributed nonnegative variables of
-infinite mean, that their averages tend to infinity almost surely, by truncation, rather than using
-the finite-mean theorem outside its hypotheses. The route: a transient y is visited finitely often
+surely `V_y(n)/n → 1{H_{y} < ∞} · r_y` (under `P_y`: Tassion, Theorem 3.4; Norris, Chapter 1).
+For ν = `δ_y` this is `V_y(n)/n → r_y` almost surely under `P_y`. Prove the expectation limit
+`𝔼_ν V_y(n)/n → P_ν(H_{y} < ∞) · r_y` (Tassion, Theorem 3.5) by bounded convergence, since
+`V_y(n)/n ≤ 1`. The route: a transient y is visited finitely often
 (§2.2); for a recurrent y, the strong Markov property at the first entrance and the independent
-return gaps of §1.4, of mean `m_y`, give the limit by the strong law. No irreducibility or
+return gaps of §1.4, of mean `m_y`, give the limit by the strong law, in its infinite-mean form
+`TauCeti.Probability.strong_law_ae_real_of_lintegral_eq_top` when `m_y = ∞`. No irreducibility or
 aperiodicity is assumed.
-*Needs:* §1.3, §1.4, §2.2; Mathlib `ProbabilityTheory.strong_law_ae`.
+*Needs:* §1.3, §1.4, §2.2; Mathlib `ProbabilityTheory.strong_law_ae`; Tau Ceti
+`TauCeti.Probability.strong_law_ae_real_of_lintegral_eq_top`.
 
 **Checks.**
 - The chain on {0, 1} that always switches has period 2 and `m_0 = 2`; `V_0(n)/n → 1/2`, although
@@ -386,7 +394,7 @@ aperiodicity is assumed.
 ### Examples
 
 Prove, rather than assume, the classification of three chains, with the return and hitting
-estimates each needs (Tassion, Chapters 1–4; Norris, Chapter 1):
+estimates each needs (Norris, Chapter 1):
 
 - A finite cycle of length L is positive recurrent with `m_x = L`.
 - The simple symmetric random walk on ℤ is null recurrent: `p_{2n}(0, 0) = C(2n, n)/4^n`, whose sum
@@ -405,7 +413,8 @@ Layer 2 uses Layer 1 (§1.3, §1.4) and the strong law; it does not use Layer 5.
 Stationarity is `Kernel.Invariant` and detailed balance is `Kernel.IsReversible`. Prove the countable
 singleton formulas: π is invariant exactly when `∑_x π{x} · κ x {y} = π{y}` for every y, and
 `isReversible_iff_singletons`, that κ is reversible for π exactly when
-`π{x} · κ x {y} = π{y} · κ y {x}` for all x, y (Tassion, Chapters 1–4; Norris, Chapter 1). For finite
+`π{x} · κ x {y} = π{y} · κ y {x}` for all x, y (Tassion, Definitions 4.1–4.2 and Proposition 4.1;
+Norris, Chapter 1). For finite
 S and a finite measure π with row vector `v x := (π {x}).toNNReal`, prove that π is invariant
 exactly when `v ᵥ* κ.toMatrix = v`, and reversible exactly when `v x · M x y = v y · M y x` for
 `M := κ.toMatrix`. Reversibility implies invariance by `Kernel.IsReversible.invariant`.
@@ -429,7 +438,8 @@ mass `m_x`, and `μ_x / m_x` is an invariant probability when `m_x < ∞`. Prove
 Kac's formula `invariant_mass_eq_inv_meanReturn`: an invariant probability π of an irreducible chain
 has `π{x} = 1/m_x` for every x. No aperiodicity is needed. On a finite state space every irreducible
 chain has exactly one invariant probability, `existsUnique_invariant_probability` (Tassion,
-Chapters 1–4; Norris, Chapter 1).
+Theorem 4.2, with Lemma 4.3 for positive recurrent x and Propositions 3.17–3.18 for finite S;
+Norris, Chapter 1).
 *Needs:* §1.3, §1.4, §2.2, §2.3; Mathlib `ProbabilityTheory.Kernel.Invariant`,
 `ProbabilityTheory.Kernel.IsIrreducible`; Tau Ceti
 `ProbabilityTheory.Kernel.isIrreducible_count_iff_forall_reaches`.
@@ -456,7 +466,8 @@ Z has the path law `markovChainLaw ν κ` of X. Prove the coupling inequality
 recurrent, prove that the two coordinates meet almost surely from arbitrary initial laws, by §2.3
 applied to the product chain and a diagonal state. For an irreducible aperiodic positive recurrent
 κ with invariant probability π, the product kernel has invariant probability `π ⊗ π` and is
-therefore positive recurrent by §3.2 (Tassion, Chapters 1–4; Norris, Chapter 1).
+therefore positive recurrent by §3.2 (Tassion, Propositions 4.8, 4.9, 4.11 and 4.13 and Lemma 4.14;
+Norris, Chapter 1).
 *Needs:* §1.3, §2.3, §3.2; Mathlib `ProbabilityTheory.Kernel.parallelComp`, `MeasureTheory.tvDist`;
 Tau Ceti `MeasureTheory.Measure.markovChainLaw_parallelComp`,
 `ProbabilityTheory.HasLaw.prodMk_markovChainLaw`, `ProbabilityTheory.Kernel.Invariant.parallelComp`,
@@ -478,7 +489,8 @@ On a countable space with measurable singletons, prove that finite measures μ a
 chain with an invariant probability π and every initial probability ν,
 `tvDist ((κ ^ n) ∘ₘ ν) π → 0`. Prove `tendsto_comp_pow_apply_singleton_of_not_exists_invariant`:
 for an irreducible aperiodic chain with no invariant probability, `((κ ^ n) ∘ₘ ν){y} → 0` for every
-initial probability ν and every y (Tassion, Chapters 1–4; Norris, Chapter 1).
+initial probability ν and every y (Tassion, Theorems 4.15–4.16 with Proposition 4.13 and
+Lemma 4.17; Norris, Chapter 1).
 
 The route to the second limit runs by cases on the product chain. If it is transient,
 `((κ ^ n) ∘ₘ ν){y}²` is the probability that the product chain started from `ν ⊗ ν` is at (y, y) at
@@ -498,9 +510,10 @@ right side small.
   started at 0 is `2 · π{1} · |1 − a − b|^n = (4/3) · 4^{−n}`: 4/3, 1/3, 1/12, … .
 - The chain on {0, 1} that always switches has the uniform invariant law, and the distance from the
   chain started at 0 is 1 for every n: the aperiodicity hypothesis cannot be dropped.
-- For the simple symmetric random walk on ℤ, `((κ ^ n) ∘ₘ δ₀){y} → 0` for every y, while
-  `tvDist ((κ ^ n) ∘ₘ δ₀) 0 = 1` for every n: the pointwise limit is not convergence in total
-  variation to the zero measure.
+- The lazy symmetric walk on ℤ (stay with probability 1/2, step ±1 with probability 1/4 each) is
+  irreducible and aperiodic with no invariant probability, and
+  `((κ ^ n) ∘ₘ δ₀){y} = C(2n, n + y)/4^n → 0` for every y, while `tvDist ((κ ^ n) ∘ₘ δ₀) 0 = 1` for
+  every n: the pointwise limit is not convergence in total variation to the zero measure.
 
 ### 3.6 The hard-core model
 
@@ -509,7 +522,7 @@ space is the set of independent sets of G, and `π(I) ∝ λ^|I|`. A step choose
 deletes it from the current set, and then inserts it with probability `λ/(1 + λ)` if no neighbour of
 v is in the set. Prove detailed balance for π, irreducibility, aperiodicity and convergence in total
 variation to π from every initial law (§3.5). For λ = 1, π is the uniform law on independent sets
-(Tassion, Chapters 1–4).
+(λ = 1 on the 8 × 8 grid: Tassion, Proposition 4.18).
 *Needs:* §3.1, §3.5; Mathlib `SimpleGraph`, `ProbabilityTheory.Kernel.IsReversible.invariant`.
 
 **Checks.**
@@ -534,8 +547,8 @@ and §3.5.
 ### 4.4 Explicit renewal processes
 
 Work out the count law and the renewal function for increments in {0, a}, a > 0, with
-`P(T₁ = a) = q ∈ (0, 1]` (Tassion, Chapter 5). For t ≥ 0 and `k := ⌊t/a⌋`, `N_t + 1` is the index
-of the (k + 1)-st increment equal to a, so
+`P(T₁ = a) = q ∈ (0, 1]` (Tassion, Propositions 5.1–5.2). For t ≥ 0 and `k := ⌊t/a⌋`, `N_t + 1`
+is the index of the (k + 1)-st increment equal to a, so
 
 ```text
 P(N_t = j) = C(j, k) · q^(k+1) · (1 − q)^(j−k)  for j ≥ k,      m(t) = (k + 1)/q − 1.
@@ -578,7 +591,7 @@ Prove `tendstoInDistribution_renewalCountNat`: if `T₁` has a finite second mom
 ```
 
 stated with Mathlib's `MeasureTheory.TendstoInDistribution` along `atTop` on `ℝ≥0`, equivalently
-along every sequence `t_n → ∞` (Tassion, Chapter 5; Feller, vol. II, Chapter XI). The route inverts
+along every sequence `t_n → ∞` (Tassion, Theorem 5.6; Feller, vol. II, Chapter XI). The route inverts
 the arrival times through `{N_t ≥ n} = {S_n ≤ t}` and controls the rounding of n against t, from
 the central limit theorem for the sums `S_n`.
 *Needs:* Mathlib `ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub`,
@@ -593,7 +606,7 @@ the central limit theorem for the sums `S_n`.
 
 ### 5.3 Lattice laws and the lattice renewal theorem
 
-Define `IsLatticeSpan` and `IsLattice` (Convention 8) (Tassion, Chapter 5; Feller, vol. II,
+Define `IsLatticeSpan` and `IsLattice` (Convention 8) (Tassion, Definition 5.4; Feller, vol. II,
 Chapter XI).
 
 - The point mass `δ₀` is lattice and every a > 0 is a span of it.
@@ -603,7 +616,8 @@ Chapter XI).
 - A law with a nonzero absolutely continuous part, for instance an exponential law, is nonlattice.
 
 Prove `tendsto_renewalFunction_lattice`: if a is the maximal span of F, then
-`m(a(n + 1)) − m(an) → a · r`. The route: set `q := 1 − F({0})` and let L have the conditional law
+`m(a(n + 1)) − m(an) → a · r` (Tassion, Theorem 5.12). The route: set `q := 1 − F({0})` and let L
+have the conditional law
 of `T₁/a` given `T₁ > 0`. Build the chain on `C := {j ∈ ℕ | P(L > j) > 0}` that moves from j > 0 to
 j − 1 and from 0 to a fresh `L − 1`. Prove that it is irreducible, that its return time to 0 has the
 law of L, and that its period is one by the maximality of the span. With `(R_n)_{n ≥ 0}` this chain
@@ -627,7 +641,7 @@ and §3.5) yields the limit.
 ### 5.4 The nonlattice renewal theorem
 
 Prove `tendsto_renewalFunction_add_sub`: for nonlattice F and every h ≥ 0,
-`m(t + h) − m(t) → h · r`, including infinite mean (Tassion, Chapter 5; Feller, vol. II,
+`m(t + h) − m(t) → h · r`, including infinite mean (Tassion, Theorem 5.13; Feller, vol. II,
 Chapter XI). The local renewal bound `U([t, t + h]) ≤ U([0, h])` for t, h ≥ 0, obtained by
 conditioning at the first arrival at or after t and counting `S_0` in U, and the uniform bound on
 the increments of m it gives, are `MeasureTheory.Measure.renewalMeasure_Icc_add_le` and
@@ -670,7 +684,7 @@ on each [0, t] exists and is unique, and it is `g = h ∗ U`
 `TauCeti.Probability.eq_renewalConv_renewalMeasure`). Prove the equivalent formula
 `g = h + h ∗ (U − δ₀)`, where `U − δ₀ = F ∗ U`; prove `g(0) = h(0)/(1 − F({0}))`; and recover the
 renewal equation `m = F_≤ + m ∗ F` for the renewal function, with solution `m = F_≤ ∗ U` (Tassion,
-Chapter 6; Feller, vol. II, Chapter XI).
+Proposition 6.4 and Theorem 6.6; Feller, vol. II, Chapter XI).
 *Needs:* Tau Ceti `TauCeti.Probability.renewalConv`,
 `TauCeti.Probability.renewalConv_renewalMeasure_eq_add`,
 `TauCeti.Probability.eq_renewalConv_renewalMeasure`, `TauCeti.Probability.renewalConv_add_measure`,
@@ -686,7 +700,7 @@ Chapter 6; Feller, vol. II, Chapter XI).
 
 Prove `tendsto_renewalConv_conv_renewalMeasure`: for nonlattice F and every nonnegative,
 nonincreasing, Lebesgue-integrable `h : [0, ∞) → ℝ`, `(h ∗ (U − δ₀))(t) → r ∫₀^∞ h(s) ds`. Deduce the
-same limit for `h ∗ U`, using `h(t) → 0` (Tassion, Chapter 6; Feller, vol. II, Chapter XI). The route
+same limit for `h ∗ U`, using `h(t) → 0` (Tassion, Theorem 6.7; Feller, vol. II, Chapter XI). The route
 uses the uniform bound on the increments of m (§5.4) and step-function approximations of h, which
 are part of this target.
 *Needs:* §5.4; Tau Ceti `TauCeti.Probability.renewalConv`, `MeasureTheory.Measure.renewalFunction_add_le`.
@@ -710,7 +724,7 @@ for nonlattice F with finite mean,
 P(E_t ≤ x)  →  (1/μ) ∫₀ˣ P(T₁ > s) ds   for every x ≥ 0,
 ```
 
-and prove that the limit is a probability distribution with density `F̄(x)/μ` (Tassion, Chapter 6;
+and prove that the limit is a probability distribution with density `F̄(x)/μ` (Tassion, Section 6.8;
 Feller, vol. II, Chapter XI). Apply §6.3 to the tail forcing, not directly to `h_x`, which need not
 be nonincreasing. For μ = ∞, lattice or not, prove `P(E_t ≤ x) → 0` for every finite x, using
 `{E_t ≤ x} ⊆ {N_{t+x} − N_t ≥ 1}` and §5.3 or §5.4.
@@ -739,8 +753,8 @@ be nonincreasing. For μ = ∞, lattice or not, prove `P(E_t ≤ x) → 0` for e
 
 The targets here connect the renewal processes of Layers 4–5 and the chains of Layer 0 with the
 rate-λ Poisson process of StochasticCalculus §0.6 (Convention 9), for λ > 0 unless stated otherwise:
-no point at zero, simple paths and no explosion (Tassion, Chapters 7–9; Last and Penrose,
-Chapters 3 and 5).
+no point at zero, simple paths and no explosion (Tassion, Definitions 9.1 and 9.4 and
+Proposition 9.1; Last and Penrose, Chapters 3 and 5).
 
 ### 7.1 Exponential renewals are Poisson processes
 
@@ -750,9 +764,10 @@ surely it has no atom at zero and all its atoms have mass one, and that for pair
 sets `B₁, …, B_k ⊆ ℝ≥0` of finite Lebesgue measure the counts `ξ(B_i)` are independent and Poisson
 of means `λ · Leb(B_i)`. Prove that the count process `(N_t)` is a rate-λ Poisson process for its
 natural filtration, and that every rate-λ Poisson process with the path regularity of
-Convention 9 has, as a process indexed by `ℝ≥0`, the same law as `(N_t)`. The maps from the
-increments to ξ and to the count process, and from a regular counting path to its jump times, are
-measurable. Derive `N_t/t → λ` almost surely from the renewal law of large numbers.
+Convention 9 has, as a process indexed by `ℝ≥0`, the same law as `(N_t)` (Tassion, Theorem 9.3).
+The maps from the increments to ξ and to the count process, and from a regular counting path to its
+jump times, are measurable. Derive `N_t/t → λ` almost surely from the renewal law of large numbers
+(Tassion, Theorem 9.8).
 *Needs:* StochasticCalculus §0.6; Mathlib `ProbabilityTheory.expMeasure`,
 `ProbabilityTheory.poissonMeasure`, `MeasureTheory.Measure.sum`, `MeasureTheory.Measure.dirac`,
 `MeasureTheory.Measure.measurable_of_measurable_coe`; Tau Ceti
@@ -773,7 +788,7 @@ as h ↓ 0,
 P(N_h = 1) = λh + o(h),      P(N_h ≥ 2) = o(h).
 ```
 
-The conclusion includes simplicity: almost surely every jump has size one (Tassion, Chapters 7–9).
+The conclusion includes simplicity: almost surely every jump has size one (Tassion, Theorem 9.4).
 The route subdivides [0, t] into m intervals, applies the scalar Poisson limit theorem to the number
 of intervals that carry an increment, and controls the probability that some interval carries two
 or more jumps.
@@ -787,12 +802,11 @@ or more jumps.
 
 ### 7.3 Restarting and sampling the Poisson process
 
-Prove that for each deterministic t the process `(N_{t+s} − N_t)_{s ≥ 0}` is a rate-λ Poisson
-process with the law of N and is independent of the natural history up to t, extending independence
-from finite cylinders to the generated σ-algebra by a π–λ argument. For Δ > 0, prove that
-`(N_{nΔ})_{n ≥ 0}` is a chain of Layer 0 on ℕ, with initial state 0 and the kernel sending i to the
-law of `i + Poi(λΔ)` (Tassion, Chapters 7–9). The first statement is also the specialization to the
-natural filtration of StochasticCalculus §0.6's restart property for an arbitrary filtration.
+For each deterministic t, StochasticCalculus §0.6's restart property, applied to the natural
+filtration of N, makes `(N_{t+s} − N_t)_{s ≥ 0}` a rate-λ Poisson process independent of the
+natural history up to t (Tassion, Theorem 9.7); prove that it has the law of N. For Δ > 0, prove
+that `(N_{nΔ})_{n ≥ 0}` is a chain of Layer 0 on ℕ, with initial state 0 and the kernel sending i
+to the law of `i + Poi(λΔ)`.
 *Needs:* §1.1; StochasticCalculus §0.6; Mathlib `ProbabilityTheory.poissonMeasure`,
 `ProbabilityTheory.poissonMeasure_conv_poissonMeasure`; Tau Ceti
 `TauCeti.Probability.hasLaw_markovChainLaw_iff_prefixLaw_singleton`.
@@ -807,8 +821,8 @@ Prove the temporal thinning and superposition identities. Bernoulli thinning wit
 arrival kept independently with probability p, splits a rate-λ Poisson process into independent
 Poisson processes of rates pλ and (1 − p)λ. The sum of independent Poisson processes of rates λ and
 λ' is a Poisson process of rate λ + λ'. Rate zero is the identically zero process and is treated
-separately from the positive-rate characterization by exponential gaps (Tassion, Chapters 7–9; Last
-and Penrose, Chapters 3 and 5).
+separately from the positive-rate characterization by exponential gaps (Tassion, Theorems 9.9 and
+9.11; Last and Penrose, Chapters 3 and 5).
 *Needs:* §7.1; StochasticCalculus §0.6; Mathlib `ProbabilityTheory.poissonMeasure`,
 `ProbabilityTheory.poissonMeasure_conv_poissonMeasure`.
 
@@ -983,6 +997,10 @@ contract.
   common law ρ with `ρ.map g = ν` and `ρ.map (f x) = κ x`, give path law `markovChainLaw ν κ`);
   `TauCeti.Probability.exists_uniform_randomizedChain` (a nonempty standard Borel state space and
   uniform noise on the unit interval).
+- *Infinite-mean strong law* (`Probability/StrongLaw.lean`):
+  `TauCeti.Probability.strong_law_ae_real_of_lintegral_eq_top` (pairwise independent identically
+  distributed real variables, almost surely nonnegative and of infinite mean, have averages tending
+  to infinity almost surely).
 - *Total variation* (`MeasureTheory/Measure/TotalVariation.lean`):
   `MeasureTheory.etvDist_le_two_mul_iff` (for finite measures of equal total mass, `etvDist ≤ 2c`
   exactly when every measurable event has μ-mass at most its μ'-mass plus c).
@@ -1016,9 +1034,8 @@ Mathlib and Tau Ceti contracts above are the contract.
 ## References
 
 - Vincent Tassion, *Applied Stochastic Processes*, lecture notes, ETH Zürich, Spring 2025 (revision
-  June 20, 2025), https://metaphor.ethz.ch/x/2025/fs/401-3602-00L/sc/script.pdf. The main source:
-  Chapters 1–4 correspond to Layers 0–3, Chapter 5 to Layers 4–5 and Chapter 6 to Layer 6;
-  Chapters 7–9 motivate Layer 7.
+  June 20, 2025), https://metaphor.ethz.ch/x/2025/fs/401-3602-00L/sc/script.pdf. The main source,
+  cited by numbered statement for the chain, renewal and Poisson results.
 - J. R. Norris, *Markov Chains*, Cambridge University Press (1997), Chapter 1, for full proofs of
   the chain results, including those left to exercises or admitted in the notes.
 - W. Feller, *An Introduction to Probability Theory and Its Applications*, vol. II, second edition
