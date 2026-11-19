@@ -36,12 +36,12 @@ the hypotheses and the conclusion fail.
 Independently of the Floer theory, the roadmap proves that a compact connected Lie group is
 aspherical exactly when it is isomorphic, as a topological group, to a torus `(S¹)ʳ`.
 
-Tau Ceti already has the cubical chains, Moore loops and DG local systems behind the twisted
-complexes, and the almost existence property. The roadmap builds on AlgebraicTopology for Serre
+Tau Ceti already has the cubical chains, Moore loops, DG local systems and twisted
+complexes, and the contractible almost existence property. The roadmap builds on AlgebraicTopology for Serre
 spectral sequences, Eilenberg–MacLane spaces and duality. Morse trajectory spaces come from the
 HeegaardFloer roadmap, and the analysis of Floer cylinders rests on it and on
 PseudoholomorphicCurveAnalysis. DGFloerPartII, a sequel, builds on this roadmap for the source's
-remaining applications, and StringOrientation uses the Lie group criterion.
+Theorems B and G–I, and StringOrientation uses the Lie group criterion.
 
 Layers 0–4 are reusable algebraic topology, including a mod-2 vanishing theorem: a simply
 connected space with vanishing reduced mod-2 homology has uniquely 2-divisible higher homotopy
