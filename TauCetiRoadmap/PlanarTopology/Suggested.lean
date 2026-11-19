@@ -107,7 +107,7 @@ theorem exists_spaceFillingCurve : ∃ f : C(unitInterval, Metric.closedBall (0 
   sorry
 
 /-- A non-rectifiable Jordan curve: no parametrization has bounded variation. -/
-theorem exists_nonrectifiable_jordanCurve : ∃ J : Set ℂ, TauCeti.IsJordanCurve J ∧
+theorem exists_jordanCurve_not_rectifiable : ∃ J : Set ℂ, TauCeti.IsJordanCurve J ∧
     ∀ γ : C(unitInterval, ℂ), Set.range γ = J → ¬ BoundedVariationOn γ Set.univ := by
   sorry
 
@@ -354,7 +354,7 @@ theorem schoenflies_plane {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
 
 /-- Schoenflies for the closed inside: the bounded side together with the curve is a
 closed disc. -/
-theorem schoenflies_closed_inside {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
+theorem schoenflies_closure {J : Set ℂ} (hJ : TauCeti.IsJordanCurve J) :
     Nonempty (closure (TauCeti.filledHull J \ J) ≃ₜ Metric.closedBall (0 : ℂ) 1) := by
   sorry
 
