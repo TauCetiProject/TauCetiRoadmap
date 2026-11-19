@@ -231,9 +231,9 @@ AlgebraicTopology §5.4 for the homology of tori. Mathlib's quotient atlas, cove
 ## Layer 2: holomorphic families from varying periods
 
 Fix a period family `Π : Y → (Λ →ₗ[ℤ] E)` with the hypotheses of Convention 2. Since every `Π y`
-is injective with image a lattice, `Λ` has rank `d = 2 dim_ℂ E`. The analytic family
-construction follows Birkenhake–Lange, Chapter 8, with the quotient-manifold arguments of
-ComplexManifolds.
+is injective with image a lattice, `Λ` has rank `d = 2 dim_ℂ E`. For families of this kind over
+the Siegel upper half-space see Birkenhake–Lange, Chapter 8; the quotient-manifold arguments are
+those of ComplexManifolds.
 
 ### 2.1 The period action
 
@@ -293,15 +293,21 @@ Prove that the fibre inclusion `TauCeti.torusFamilyFiberMap` is a holomorphic im
 `p⁻¹(y)` is a closed embedded complex submanifold biholomorphic to `E/LinearMap.range (Π y)`.
 
 Prove that the family is holomorphically locally trivial with one fixed fibre wherever its periods
-vary by complex-linear automorphisms: if `U ∋ y₀` is open and `g : U → (E ≃L[ℂ] E)` is
-holomorphic with `Π y = g(y) ∘ Π y₀` on `U`, then `[y, v] ↦ (y, [g(y)⁻¹ v])` is a biholomorphism
-from `p⁻¹(U)` to `U × E/LinearMap.range (Π y₀)` over `U`. Isotriviality is taken in this
-form, on the periods. Without such a hypothesis no holomorphic trivialisation with a fixed fibre
-is asserted, and the Checks give a family with none.
+vary by complex-linear automorphisms (`exists_diffeomorph_torusFamily_of_periods_eq`): for `Y`
+Hausdorff and locally compact and `(Y × E)/Λ` with Mathlib's quotient atlas, if `U ⊆ Y` is open,
+`y₀ ∈ Y` and `g : U → (E ≃L[ℂ] E)` is holomorphic with `Π y = g(y) ∘ Π y₀` for every `y ∈ U`, then
+`(y, [w]) ↦ [y, g(y) w]` is a biholomorphism from `U × E/LinearMap.range (Π y₀)` onto
+`p⁻¹(U) = q(U × E)`, over `U`. Its inverse is `[y, v] ↦ (y, [g(y)⁻¹ v])`, well defined because
+`g(y)⁻¹(v + Π y λ) = g(y)⁻¹ v + Π y₀ λ`. Isotriviality is taken in this form, on the periods.
+Without such a hypothesis no holomorphic trivialisation with a fixed fibre is asserted, and the
+Checks give a family with none.
 *Needs:* Tau Ceti `TauCeti.torusFamilyProjection`,
 `TauCeti.isSubmersionOfComplement_torusFamilyProjection`, `TauCeti.torusFamilyFiberHomeomorph`,
-`TauCeti.contMDiff_torusFamilyFiberMap`, `TauCeti.isLocalDiffeomorph_torusFamily_mk`; Mathlib
-`Manifold.IsImmersion`.
+`TauCeti.contMDiff_torusFamilyFiberMap`, `TauCeti.isLocalDiffeomorph_torusFamily_mk`,
+`TauCeti.continuousConstVAdd_periodAddAction`, `TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
+`TauCeti.isCancelVAdd_periodAddAction`, `TauCeti.isLocalDiffeomorph_addQuotientMk`; Mathlib
+`AddAction.instChartedSpaceQuotient`, `isOpenMap_quotient_mk'_add`, `Manifold.IsImmersion`,
+`Diffeomorph`.
 
 **Checks.**
 - On `ℍ` with `Π(τ)(a, b) = a + bτ`, the fibres over `τ` and `τ'` are biholomorphic only when
@@ -438,8 +444,8 @@ fibre bundle with fibre `ℝ^d/ℤ^d` whose local trivialisations are those of �
 local sections of `Y → Y/Γ`. Identify the monodromy: for a loop at `[y]` whose lift runs from `y`
 to `g·y`, identify the fibre over the endpoint with the fibre over `y` by the action of `g⁻¹`; the
 transport on the canonical marking of §2.5 is `ρ(g⁻¹)`. Equivalently, a lift ending at `g⁻¹·y`
-has monodromy `ρ(g)`. Derive the action on `H_k` of the fibres as the `k`-th exterior power of
-the action on `Λ`.
+has monodromy `ρ(g)`. This convention is this roadmap's normalisation, fixed by the Check below.
+Derive the action on `H_k` of the fibres as the `k`-th exterior power of the action on `Λ`.
 *Needs:* §§2.3, 2.5, 3.2–3.3; Tau Ceti `TauCeti.freeLocus.instIsManifold`,
 `TauCeti.contMDiff_orbitRelQuotientMap`, `Submodule.orbitRelQuotientHomologyEquiv`, and path
 lifting for the covering `Y → Y/Γ` over the free locus; AlgebraicTopology §5.5 for fibre
@@ -482,9 +488,12 @@ an additive automorphism, and fix `m > 0`. The layer is additive algebra: `A` is
 holomorphic. The translation parameter is `t : T`; an element of `Λ` is zero in `T` and cannot
 parametrise the affine geometry. Period, exact-order and freeness conditions are hypotheses of
 theorems, never fields of a structure whose consequences are assumed. Sections 4.1–4.4 are the
-torus-level affine algebra and §§4.5–4.6 the integral connecting class (Brown, Chapter VI,
-Section 2, for the cyclic norm, invariants, coinvariants and periodic cohomology). In the
-cohomological sections `T`, `Λ` and `E` live in `Type`, as Mathlib's `Rep ℤ` requires.
+torus-level affine algebra and §§4.5–4.6 the integral connecting class. For a finite cyclic group
+with generator `g` acting on a module `M`, Milne, *Class Field Theory*, Chapter II, computes
+`H¹ = ker N / (g − 1)M` (Example 1.20, p. 66), describes the connecting map through a lift of a
+cocycle (Remark 1.21, p. 66), and proves the periodicity that gives `H² = M^G / N M`
+(Proposition 3.4, p. 81). In the cohomological sections `T`, `Λ` and `E` live in `Type`, as
+Mathlib's `Rep ℤ` requires.
 
 ### 4.1 Affine maps and the iterate formula
 
@@ -676,7 +685,8 @@ reads `A_E(Π(z)λ) = Π(ζz)(A_Λ λ)`. The translation law is the full orbit s
 `T_0` with linear part `R_ζ(0)` and translation part `b_ζ(0)`, so Layer 4 applies there
 (Barth–Hulek–Peters–Van de Ven, Chapter V, the section "Logarithmic Transformations", beginning
 on p. 216, for the local cyclic-quotient model; the statements here allow torus fibres of any
-dimension).
+dimension). The multiplicity of §5.3 and the characters of §§5.4–5.5 are computed here in that
+model, with the associated-bundle convention of §5.4 as this roadmap's normalisation.
 
 ### 5.1 The total action
 
@@ -765,8 +775,9 @@ over `D_t` with period map `Π_Y`; its pullback `X = β_m^*Y → D_z` is the per
 `z ↦ Π_Y(z^m)`, and `Q = X/C_m → D_t` is the quotient of Layer 5 for a free equivariant cyclic
 affine action on `X` over the rotation. The logarithmic transform uses trivial linear part;
 general linear cocycles stay in Layer 5. The meridian is that of Convention 7.
-(Barth–Hulek–Peters–Van de Ven, Chapter V, "Logarithmic Transformations", for the local proof
-spine; compare Bogomolov–Tschinkel, §3.)
+(Barth–Hulek–Peters–Van de Ven, Chapter V, "Logarithmic Transformations", for the construction;
+Bogomolov–Tschinkel, §3, pp. 3–4, recall Kodaira's construction for elliptic fibrations, and
+§§6.2–6.4 cite its pages.)
 
 ### 6.1 The covering identification
 
@@ -778,7 +789,9 @@ lifting the atlas of `Q*` through the local inverse branches of `β_m`, and its 
 is a local biholomorphism. An independently supplied charted space or manifold structure on the
 pullback is not an input of the theorem, and the theorem uses no logarithm.
 *Needs:* §§5.1–5.2; Tau Ceti `TauCeti.puncturedDiscPow`, `TauCeti.isCoveringMap_puncturedDiscPow`,
-`TauCeti.puncturedDiscPowDeckMulEquiv`, `TauCeti.torusFamilyBaseChangeHomeomorph`.
+`TauCeti.puncturedDiscPowDeckMulEquiv`, which treat `z ↦ z^m` on the punctured unit disc and apply
+to `β_m` through the homotheties `z ↦ z/r` of `D_z*` and `t ↦ t/r^m` of `D_t*`, since
+`(z/r)^m = z^m/r^m`; `TauCeti.torusFamilyBaseChangeHomeomorph`.
 
 **Checks.**
 - For `m = 1`, `β_1` is the identity and the identification is `X* ≃ Q*`; with the literal
@@ -803,7 +816,9 @@ the action is free on the central fibre exactly when this class has exact order 
 (`TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff_addOrderOf_mk_eq`). A
 different lift `b̃` changes `λ` by an element of `mΛ` (`TauCeti.exists_eq_add_period_of_mk_eq_mk`):
 prove the corresponding comparison of the normalisations and of the overlap identifications of
-§6.4, so that no representative `λ` is treated as canonical.
+§6.4, so that no representative `λ` is treated as canonical. Bogomolov–Tschinkel, §3, p. 4, start
+from a translation already of the normalised form, a period divided by `m`; the reduction to it by
+the weighted correction `c` is this roadmap's normalisation.
 *Needs:* §§4.6, 5.1; Tau Ceti `TauCeti.exists_contMDiff_lift_torusFamily`,
 `TauCeti.exists_eq_add_period_of_mk_eq_mk`, `TauCeti.exists_birkhoffSum_translation_eq_period`,
 `TauCeti.cyclicCorrection`, `TauCeti.add_cyclicCorrection_apply_sub`,
@@ -825,6 +840,9 @@ For normalised data, with translation `Π_Y(z^m)λ/m`, prove a separate gauge `G
 `[(z, [y + (Log z / 2πi) Π_Y(t) λ])]` for a local root `z^m = t`. Prove independence of the root
 and of the branch, the two inverse identities, and holomorphy of `G` and `G⁻¹`. For
 pure-translation data that is not normalised, compose with the coordinate change of §6.2.
+Bogomolov–Tschinkel, §3, p. 4, state the identification of the quotient minus its central fibre
+with the original family minus its central fibre, for elliptic fibres and without a formula; the
+formula for `G` and its sign are this roadmap's normalisation, fixed by the first Check below.
 *Needs:* §§6.1–6.2.
 
 **Checks.**
@@ -841,7 +859,8 @@ subset of `M` that is the total space of the family. Glue `M` minus the central 
 along `Y*`, through the inclusion `Y* ⊆ M ∖ Y_0` and `G⁻¹ : Y* → Q*`, by the open gluing of
 ComplexManifolds Milestones 5–6 applied to these pieces and maps, with their separation
 hypotheses. Restrict `G` to annular overlaps and identify the regluing map on the smooth collars
-of GeometricTopology §1.1.
+of GeometricTopology §1.1 (Bogomolov–Tschinkel, §3, p. 4, for the extension of the quotient to
+the logarithmic transform of an elliptic fibration).
 *Needs:* §6.3; ComplexManifolds Milestones 5–6; GeometricTopology §§1.1 and 1.3.
 
 ### 6.5 Independence of choices
@@ -911,15 +930,12 @@ complex manifold with its covering, submersion, trivialisation, base change and 
 linear and affine actions with their proper discontinuity and freeness criteria; the whole cyclic
 affine algebra with its first cohomology and integral connecting isomorphism; the freeness and
 exact order of cyclic actions over the rotated disc; and the lift, constant orbit sum and cyclic
-correction used by the normalisation. `Suggested.lean` states no theorem: every headline statable
-at the pins is among these, and its module docstring names them and says what each remaining
-headline lacks at the pins. Mathlib owns the shape of its quotient, manifold, lattice, bundle and
-group-cohomology APIs; Tau Ceti implements the missing results at the dependency pin rather than
-waiting for another repository. Mathlib pull request
-[mathlib4#40727](https://github.com/leanprover-community/mathlib4/pull/40727) develops the quotient
-atlas through local inverses and is a reference for migrating to it; the calculations here use the
-installed atlas, and before a local-section calculation is changed, its atlas is compared with
-the installed one.
+correction used by the normalisation. Of the remaining targets, the holomorphic local triviality
+of §2.3 is the one headline statable at the pins, and `Suggested.lean` states it; its module
+docstring names the headlines proved at the pin and says what each other remaining headline lacks
+at the pins. Mathlib owns the shape of its quotient, manifold, lattice, bundle and group-cohomology
+APIs; Tau Ceti implements the missing results at the dependency pin rather than waiting for another
+repository.
 
 **Owned elsewhere.**
 - [ComplexManifolds](../ComplexManifolds/README.md) owns realification, free properly discontinuous smooth and complex quotients,
@@ -949,10 +965,10 @@ the installed one.
   Fuchsian groups, the existence of period maps, analytic toric geometry, general singular
   homology, manifold collars and any particular global assembly are not targets here.
 
-Coordinate with those roadmaps before integrating an overlapping implementation. Suggested homes
-for new modules are `TauCeti/Geometry/ComplexTorus/`, `TauCeti/Geometry/Manifold/Fibration/Torus/`
-and `TauCeti/Geometry/Manifold/LogTransform/`, beside the existing modules under
-`TauCeti/Algebra/Module/ZLattice/Family/` and `TauCeti/RepresentationTheory/Cyclic/`.
+Suggested homes for new modules are `TauCeti/Geometry/ComplexTorus/`,
+`TauCeti/Geometry/Manifold/Fibration/Torus/` and `TauCeti/Geometry/Manifold/LogTransform/`, beside
+the existing modules under `TauCeti/Algebra/Module/ZLattice/Family/` and
+`TauCeti/RepresentationTheory/Cyclic/`.
 
 ## Exact supplier contracts
 
@@ -964,8 +980,9 @@ and `TauCeti/Geometry/Manifold/LogTransform/`, beside the existing modules under
   `isAddQuotientCoveringMap_quotientMk_of_properlyDiscontinuousVAdd` (the orbit map of a free,
   properly discontinuous, continuous action on a locally compact Hausdorff space is a covering
   map), `AddAction.instChartedSpaceQuotient` (the quotient atlas for such an action),
+  `isOpenMap_quotient_mk'_add` (the orbit map of a continuous action is open),
   `Quotient.instConnectedSpace`, `t2Space_of_properlyDiscontinuousVAdd_of_t2Space`.
-- Manifolds: `ContMDiff`, `IsManifold`, `IsLocalDiffeomorph`, `ContMDiffConstVAdd`,
+- Manifolds: `ContMDiff`, `IsManifold`, `IsLocalDiffeomorph`, `Diffeomorph`, `ContMDiffConstVAdd`,
   `LieAddGroup`, `Manifold.IsImmersion`, `FiberBundle`, `VectorBundle`, `ContMDiffVectorBundle`.
 - Linear algebra and representations: `LinearMap`, `LinearEquiv`, `ContinuousLinearMap`,
   `ContinuousLinearEquiv`, `Representation`, `Representation.norm` (the sum over the group),
@@ -1040,7 +1057,8 @@ coordinatewise `C^n` periods for the regularity statements, over any nontriviall
   simply connected, locally path-connected covers
   `IsCoveringMap.exists_homeomorph_comp_eq_of_simplyConnectedSpace`.
 - *Period families* (`TauCeti.Algebra.Module.ZLattice.Family.*`): `TauCeti.periodAddAction`,
-  `TauCeti.isCancelVAdd_periodAddAction`, `TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
+  `TauCeti.continuousConstVAdd_periodAddAction`, `TauCeti.isCancelVAdd_periodAddAction`,
+  `TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
   `TauCeti.exists_pos_le_norm_period_of_isCompact` (for continuous periods and compact `K`, one
   `c > 0` bounds every nonzero period over `K` from below),
   `TauCeti.exists_pos_mul_norm_le_norm_sum_smul_period_of_isCompact`,
@@ -1158,9 +1176,10 @@ singular homology for §6.6.
 
 - Christina Birkenhake and Herbert Lange, *Complex Abelian Varieties*, second edition, Chapters
   1 and 8, for complex tori, period lattices, morphisms and families.
-- Kenneth S. Brown, *Cohomology of Groups*, Chapter VI, Section 2, for the cyclic norm and
-  periodic cohomology.
+- J. S. Milne, *Class Field Theory*, version 4.03 (2020), Chapter II, Example 1.20, Remark 1.21
+  and Proposition 3.4, for the cohomology of finite cyclic groups,
+  [jmilne.org/math/CourseNotes/CFT.pdf](https://www.jmilne.org/math/CourseNotes/CFT.pdf).
 - Wolf P. Barth, Klaus Hulek, Chris A. M. Peters and Antonius Van de Ven, *Compact Complex
   Surfaces*, second edition, Chapter V, "Logarithmic Transformations" (beginning on p. 216).
-- Fedor Bogomolov and Yuri Tschinkel, *Special elliptic fibrations*, §3,
-  [arXiv:math/0303044](https://arxiv.org/abs/math/0303044).
+- Fedor Bogomolov and Yuri Tschinkel, *Special elliptic fibrations*, §3, pp. 3–4 of the arXiv
+  version, [arXiv:math/0303044](https://arxiv.org/abs/math/0303044).

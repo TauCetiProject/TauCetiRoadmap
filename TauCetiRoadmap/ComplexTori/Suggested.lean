@@ -14,11 +14,12 @@ import TauCeti.RepresentationTheory.Homological.GroupCohomology.CyclicAutomorphi
 /-!
 # Complex tori, varying lattices and logarithmic transforms: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It is meant to state the roadmap's
-headline theorems against the pinned Mathlib and Tau Ceti, each with `sorry`. Every headline that
-is statable against the pinned interfaces is already proved at the Tau Ceti pin, where the README
-cites it by name; the `#check` lines below pin those declarations. The remaining headlines are not
-statable at the pins, so this file states no theorem.
+The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
+theorems against the pinned Mathlib and Tau Ceti, each with `sorry`. One headline is stated here:
+a period family is holomorphically locally trivial over every open set on which its periods vary
+by complex-linear automorphisms (Layer 2, §2.3). Several of the other headlines are already proved
+at the Tau Ceti pin, where the README cites them by name; the `#check` lines below pin those
+declarations. The rest are not statable at the pins.
 
 Headlines proved at the pin:
 
@@ -54,8 +55,12 @@ Headlines not statable at the pins:
   the descended projection from the second quotient to `Y/Γ` is not defined at the pins, and fibre
   transport on homology exists there only for a Hurewicz fibration given with a lifting function;
 * the central fibre of the cyclic quotient `Q = X/C_m` is a complex hypersurface of multiplicity
-  `m` (Layer 5, §§5.2–5.3): the rotated disc `TauCeti.rootsOfUnityBall m r` carries no manifold
-  structure at the pins, so neither does the family over it or its quotient, and the map
+  `m` (Layer 5, §§5.2–5.3): the order of vanishing of a holomorphic function along a hypersurface
+  of a complex manifold is not a carrier at the pins (Mathlib's `analyticOrderAt` and
+  `meromorphicOrderAt` are for functions of one variable), and neither is the complex-manifold
+  structure of a closed complex submanifold of a complex manifold (Tau Ceti's
+  `TauCeti.IsAnalyticSubmanifold` concerns subsets of `𝕜ⁿ`); nor do the pins give `Q` itself,
+  since the rotated disc `TauCeti.rootsOfUnityBall m r` carries no atlas there and the map
   `Q → D_t` descended from `z ↦ z^m` is not defined;
 * the normal bundle of the central fibre has character `ζ`, and adjunction
   `K_F ≅ K_Q|_F ⊗ N_{F/Q}` holds (Layer 5, §§5.4–5.5): the holomorphic normal and canonical line
@@ -69,6 +74,8 @@ Headlines not statable at the pins:
 -/
 
 namespace TauCetiRoadmap.ComplexTori
+
+open scoped Manifold ContDiff
 
 #check @Submodule.instLieAddGroupOrbitRelQuotient
 #check @Submodule.instCompactSpaceOrbitRelQuotient
@@ -88,5 +95,43 @@ namespace TauCetiRoadmap.ComplexTori
 #check @TauCeti.cyclicConnectingEquiv
 #check @TauCeti.isCancelSMul_torusFamilyAffineMulAction_rootsOfUnityBall_iff
 #check @TauCeti.orderOf_toPerm_torusFamilyAffineMulAction_rootsOfUnityBall
+
+/-- **Holomorphic local triviality of a period family** (README §2.3). Let `Π : Y → (Λ →ₗ[ℤ] E)`
+be a holomorphic period family over a complex manifold `Y` that is Hausdorff and locally compact,
+let `Λ` act on `Y × E` by the period action `λ +ᵥ (y, v) = (y, v + Π y λ)`, and give the orbit
+space `(Y × E)/Λ` Mathlib's quotient atlas. If `U ⊆ Y` is open, `y₀ ∈ Y`, and
+`g : U → (E ≃L[ℂ] E)` is holomorphic with `Π y = g(y) ∘ Π y₀` for every `y ∈ U`, then
+`(y, [w]) ↦ [y, g(y) w]` is a biholomorphism from `U × E/Π(y₀)Λ` onto the part
+`p⁻¹(U) = q(U × E)` of the total space over `U`; its inverse is `[y, v] ↦ (y, [g(y)⁻¹ v])`, well
+defined because `g(y)⁻¹(v + Π y λ) = g(y)⁻¹ v + Π y₀ λ`.
+
+The instances `ContinuousConstVAdd`, `ProperlyDiscontinuousVAdd` and `IsCancelVAdd`, through which
+Mathlib's atlas `AddAction.instChartedSpaceQuotient` is installed, hold for the period action
+(`TauCeti.continuousConstVAdd_periodAddAction`, `TauCeti.properlyDiscontinuousVAdd_periodAddAction`,
+`TauCeti.isCancelVAdd_periodAddAction`). -/
+theorem exists_diffeomorph_torusFamily_of_periods_eq
+    {EY : Type*} [NormedAddCommGroup EY] [NormedSpace ℂ EY] {H : Type*} [TopologicalSpace H]
+    {I : ModelWithCorners ℂ EY H} {Y : Type*} [TopologicalSpace Y] [ChartedSpace H Y]
+    [IsManifold I ∞ Y] [T2Space Y] [LocallyCompactSpace Y]
+    {Λ : Type*} [AddCommGroup Λ] [Module.Free ℤ Λ] [Module.Finite ℤ Λ]
+    {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    (P : Y → Λ →ₗ[ℤ] E) [∀ y, DiscreteTopology (LinearMap.range (P y))]
+    [∀ y, IsZLattice ℝ (LinearMap.range (P y))]
+    (hinj : ∀ y, Function.Injective (P y))
+    (hP : ∀ l, ContMDiff I 𝓘(ℂ, E) ∞ fun y ↦ P y l)
+    [AddAction Λ (Y × E)] (hact : ∀ (l : Λ) (y : Y) (v : E), l +ᵥ (y, v) = (y, v + P y l))
+    [ContinuousConstVAdd Λ (Y × E)] [ProperlyDiscontinuousVAdd Λ (Y × E)]
+    [IsCancelVAdd Λ (Y × E)]
+    (U : TopologicalSpace.Opens Y) (y₀ : Y) (g : U → E ≃L[ℂ] E)
+    (hg : ContMDiff I 𝓘(ℂ, E →L[ℂ] E) ∞ fun y : U ↦ (g y : E →L[ℂ] E))
+    (hgP : ∀ (y : U) (l : Λ), P y l = g y (P y₀ l)) :
+    ∃ Φ : Diffeomorph (I.prod 𝓘(ℂ, E)) (I.prod 𝓘(ℂ, E))
+        (U × AddAction.orbitRel.Quotient (LinearMap.range (P y₀)) E)
+        (⟨Quotient.mk _ '' (Prod.fst ⁻¹' (U : Set Y)),
+          isOpenMap_quotient_mk'_add _ (U.isOpen.preimage continuous_fst)⟩ :
+          TopologicalSpace.Opens (AddAction.orbitRel.Quotient Λ (Y × E))) ∞,
+      ∀ (y : U) (w : E), (Φ (y, Quotient.mk _ w) : AddAction.orbitRel.Quotient Λ (Y × E)) =
+        Quotient.mk _ ((y : Y), g y w) := by
+  sorry
 
 end TauCetiRoadmap.ComplexTori
