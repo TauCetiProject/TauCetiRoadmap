@@ -786,15 +786,16 @@ atlas of class `C¹` (that is, a compact connected Riemann surface) and has fini
 `χ(X) = 2 − 2 genus X`, the Euler number of a compact Riemann surface (Miranda, Chapter II §4).
 
 Route: Euler–Poincaré over `ℚ` (`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`) writes
-`χ = b₀ − b₁ + b₂`, and connectedness gives `b₀ = 1`. ComplexManifolds Milestone 2 orients `X`, and
-the Poincaré duality of AlgebraicTopology §6.4 gives `b₂ = b₀ = 1` and `bᵢ = 0` for `i > 2`. The
+`χ = b₀ − b₁ + b₂`, and connectedness gives `b₀ = 1`. ComplexManifolds Milestone 2 orients `X`,
+AlgebraicTopology §6.3 turns that orientation into a fundamental class `[X]`, and the Poincaré
+duality of its §6.4 gives `b₂ = b₀ = 1` and `bᵢ = 0` for `i > 2`. The
 cup-product pairing `(a, b) ↦ ⟨a ⌣ b, [X]⟩` on `H¹(X; ℚ)` is nondegenerate, by that duality over
 the field `ℚ`, and alternating, since Tau Ceti's graded commutativity `TopCat.singularCup_gradedComm`
 gives `a ⌣ a = −(a ⌣ a)` in degree one; so `b₁` is even. ComplexKahlerGeometry §7.7, with
 `b₁ = 2h^(1,0)`, is another route. No analytic genus and no Riemann–Roch theorem enters.
-*Needs:* ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.4 and 8.7; Tau Ceti
-`TauCeti.eulerChar`, `TauCeti.FiniteCWType`, `TauCeti.eulerChar_eq_finsum_finrank_singularHomology`,
-`TopCat.singularCup_gradedComm`.
+*Needs:* ComplexManifolds Milestones 1 and 2; AlgebraicTopology §6.3 (from the smooth orientation
+to a fundamental class) and §§6.4 and 8.7; Tau Ceti `TauCeti.eulerChar`, `TauCeti.FiniteCWType`,
+`TauCeti.eulerChar_eq_finsum_finrank_singularHomology`, `TopCat.singularCup_gradedComm`.
 
 The API of `genus`:
 
@@ -900,11 +901,7 @@ CW type AlgebraicTopology §8.7 provides through ComplexManifolds Milestone 1; f
 property, so the genus does not depend on how it is proved. Prove the following two statements, with
 the effective-action and orientation conventions explicit. The first is the Fuchsian Riemann–Hurwitz
 formula `2g(Γ′) − 2 = d(2g(Γ) − 2) + Σ_P (e_P − 1)`, the sum running over the points `P` of `X(Γ′)`,
-with `e_P` the local multiplicity at `P` of the compactified quotient map of §5.5. For `Γ` the image
-of `PSL(2, ℤ)` and `Γ′` the image of a congruence subgroup, the local multiplicities over the orbits
-of `i` and `ρ` and over the cusp turn it into the genus formula
-`g(Γ′) = 1 + d/12 − ε₂/4 − ε₃/3 − ε∞/2`, where `ε₂` and `ε₃` count the elliptic points of `X(Γ′)`
-of orders `2` and `3` and `ε∞` its cusps (Diamond–Shurman, Theorem 3.1.1). The second is the
+with `e_P` the local multiplicity at `P` of the compactified quotient map of §5.5. The second is the
 multiplicativity `χ_orb(Γ′) = d χ_orb(Γ)` of the orbifold Euler characteristic
 `χ_orb = 2 − 2g − Σᵢ (1 − 1/mᵢ) − c`. Route: the first is §5.3 applied to the map of §5.5. The second is §5.7 for both groups, together with Tau Ceti's
 `MeasureTheory.covolume_eq_card_mul_covolume`, which gives `covolume Γ′ = d · covolume Γ`. This
@@ -991,8 +988,8 @@ polygon. The cell count `χ(X(Γ)) = 2 − 2g` is kept distinct from the orbifol
 
 ### Dependencies
 
-§§5.1–5.3: ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.4 and 8.7; Tau Ceti's Euler
-characteristic of spaces of finite CW type, the graded commutativity of the cup product and the
+§§5.1–5.3: ComplexManifolds Milestones 1 and 2; AlgebraicTopology §§6.3, 6.4 and 8.7; Tau Ceti's
+Euler characteristic of spaces of finite CW type, the graded commutativity of the cup product and the
 degree theory of finite holomorphic maps; no other layer. §§5.4–5.7: Layers 1–4, with §§2.1, 2.4 and
 2.5. Layer 5 uses no modular form, no analytic Riemann–Roch theorem, no automorphy sheaf and no
 dimension formula (Convention 11).
@@ -1250,9 +1247,13 @@ orbifold area formula (§§5.1, 5.3, 5.6 and 5.7); and the minimal areas with th
 - *Outside the roadmap.* General Kleinian groups, higher-dimensional locally symmetric spaces,
   automorphic representations and the classification of all two-dimensional orbifolds.
 - *Modular forms.* [ModularForms](../ModularForms/README.md) owns modular forms and functions before
-  descent (its Layers 0–9), the congruence-subgroup arithmetic of `X(Γ)` (§10A), analytic
-  Riemann–Roch (§10B), and automorphy sheaves and dimension formulas (§10C). Hecke operators and the
-  construction and q-expansion of modular forms stay there. Its §§10A and 10B consume the
+  descent (its Layers 0–9), the congruence-subgroup arithmetic of `X(Γ)`, including the genus
+  formula of a congruence subgroup in the index of its image in `PSL(2, ℤ)` and its numbers of
+  elliptic points and cusps, which it obtains from the Fuchsian Riemann–Hurwitz formula of §5.6
+  (§10A), analytic Riemann–Roch (§10B), and automorphy sheaves and dimension formulas (§10C). Hecke
+  operators and the construction and q-expansion of modular forms stay there.
+  NoncongruenceModularForms §2.3 proves the same genus formula for every finite-index subgroup of
+  `PSL(2, ℤ)`. ModularForms §§10A and 10B consume the
   compactified quotients, degree theory and topological genus of Layers 0–5, and its §§10A and 10D
   consume the identification `X(1) ≃ P¹` of Layer 6. This roadmap does not reconstruct modular
   forms, cohomology or Riemann–Roch in its level-one application. The normalized level-one
@@ -1537,6 +1538,8 @@ charts.
 
 ### From TauCetiRoadmap.AlgebraicTopology
 
+§6.3: the correspondence between smooth orientations and integral homological orientations, used
+by §5.1 to pass from the orientation of ComplexManifolds Milestone 2 to a fundamental class of `X`.
 §6.4: Poincaré duality for a compact Hausdorff topological manifold with a fundamental class, over
 every commutative ring, used by §5.1 over `ℚ` for `b₂ = b₀` and for the nondegeneracy of the
 cup-product pairing on `H¹(X; ℚ)`, which gives the evenness of the first Betti number. §8.7: finite
