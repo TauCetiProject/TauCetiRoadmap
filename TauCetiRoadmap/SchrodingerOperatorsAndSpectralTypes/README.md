@@ -429,9 +429,10 @@ dimensions tend to `dim ran P_A((−∞, λ))`, and on each SA-E13 bounds the fo
 `(λ − 1/m)‖ψ‖² < λ‖ψ‖²`. The count follows by comparing these subspaces with the obstacles of `μ_n`:
 a `k`-dimensional admissible `L` contains a unit vector orthogonal to any `k − 1` obstacles, whose
 form is at most the maximum `c < λ` of the form on the unit sphere of `L`, so `μ_k(A) ≤ c < λ`; and
-when `ran P_A((−∞, λ))` has finite dimension `d` (always for `λ < inf σ_ess(A)`, by UO-C02), `d`
-obstacles spanning it leave only vectors of `ran P_A([λ, ∞))`, of form at least `λ` by SA-E11 as
-above, so `μ_{d+1}(A) ≥ λ`.
+when `ran P_A((−∞, λ))` has finite dimension `d` (always for `λ < inf σ_ess(A)` when `A` is bounded
+below, by UO-C02 and the compactness argument of the next paragraph), `d` obstacles spanning it
+leave only vectors of `ran P_A([λ, ∞))`, of form at least `λ` by SA-E11 as above, so
+`μ_{d+1}(A) ≥ λ`.
 
 **The statement without spectral projections.** For real `c < inf σ_ess(A)`, `ran P_A((−∞, c))` is
 the sum of the eigenspaces `ker(A − t)` over the eigenvalues `t < c`, and that sum has finite
@@ -1675,9 +1676,10 @@ compactness.
   `X_n`, the conclusion of hm23 Theorem 1.1 (line 60–66), equality of `σ(Δ_{X_n}) ∩ [0, 1/4 − ε)`
   with `σ(Δ_X) ∩ [0, 1/4 − ε)` with multiplicities, is statable with 3.6 and 1.4: the multiplicity
   of an eigenvalue `λ` is `dim ran P_{Δ_X}({λ})`. Both sides are finite sets of eigenvalues of
-  finite multiplicity by 3.11: `X` is a compact set together with finitely many standard cusp ends
-  (Layer 3, Examples), and the preimages of these in the finite cover `X_n` present `X_n` in the
-  same way. Corollary 1.3 (line 104–105), closed surfaces with
+  finite multiplicity by 3.11, once `X` is presented as a compact set together with finitely many
+  standard cusp ends (the thick–thin decomposition named under Downstream consumers; Layer 3,
+  Examples, gives it for congruence quotients), and the preimages of these in the finite cover
+  `X_n` present `X_n` in the same way. Corollary 1.3 (line 104–105), closed surfaces with
   `λ₁(X_i) → 1/4`, uses 3.7's `λ₁`, equal to `λ₁⁺` and to the first positive eigenvalue on a closed
   connected surface by 3.8 and RiemannianGeometry R5c (`λ₁(Δ⁺) = μ₂(Δ⁺) > 0`).
 - **The parabolic cylinder.** For `X = ⟨z ↦ z + 1⟩\ℍ`, 3.6, 3.7 and 3.10 give a self-adjoint
