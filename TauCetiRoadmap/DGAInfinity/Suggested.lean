@@ -39,8 +39,8 @@ Headline theorems the Tau Ceti pin already proves, cited by the README by name a
   `TauCeti.DGTwistedObject.isLeast_isoClosure_oneSided`;
 * Kadeishvili's intrinsic-formality criterion (README §8.4):
   `TauCeti.AInfinityAlgebra.isIntrinsicallyFormal_of_forall_hochschildVanishesAt`, and the
-  transferred `m₃` as an element of the triple Massey product (README §8.3):
-  `TauCeti.AInfinityAlgebra.minimalModel_m_three_mem_tripleMasseyProduct`.
+  transferred `m₃(x, y, z)` as an element of the triple Massey product when `x y = 0` and
+  `y z = 0` (README §8.3): `TauCeti.AInfinityAlgebra.minimalModel_m_three_mem_tripleMasseyProduct`.
 
 Headline theorems not statable at the pins, and the carrier each lacks:
 

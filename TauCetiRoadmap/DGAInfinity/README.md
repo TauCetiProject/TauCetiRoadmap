@@ -297,8 +297,9 @@ completed tensor coalgebras, products over the tensor length, are
 
 Prove that the reduced tensor coalgebra is conilpotent: an element of length at most `n` is
 killed by the `n`-fold iterated reduced deconcatenation. Prove that the completed reduced tensor
-coalgebra is not conilpotent as soon as `M ≠ 0`, so that direct-sum and product versions are
-never identified.
+coalgebra is not conilpotent as soon as every tensor power `M^{⊗n}` is nonzero (for instance
+`M ≠ 0` over a field, or `M` with a nonzero free direct summand), so that the direct-sum and
+product versions are then distinct.
 *Needs:* Tau Ceti `TauCeti.ReducedTensorWords.deconcatenation`,
 `TauCeti.ReducedTensorWords.filtration`, `TauCeti.CompletedReducedTensorWords`.
 
@@ -306,6 +307,10 @@ never identified.
 - For `M = k·x`, the element of the completed reduced tensor coalgebra with component `x^{⊗n}`
   in every length `n ≥ 1` has nonzero `n`-fold iterated deconcatenation for every `n`; it lies in
   no stage of the length filtration, unlike every element of the direct sum.
+- Over `k = ℤ`, `M = ℚ/ℤ` has `M ⊗ M = 0`: each `y` has `n·y = 0` for some `n ≥ 1`, and writing
+  `x = n·x′` gives `x ⊗ y = x′ ⊗ n·y = 0`. The completed reduced tensor coalgebra is then `M`
+  in length one, with zero reduced deconcatenation, so it is conilpotent and equal to the direct
+  sum; `M ≠ 0` alone does not prevent conilpotence.
 - The Taylor map of the coderivation extending `b : M → M` (arity one only) is `b` on letters and
   zero on longer words, and the coderivation acts on `x₁ ⊗ x₂` by
   `b(x₁) ⊗ x₂ + (−1)^{q|x₁|} x₁ ⊗ b(x₂)`; omitting the twist gives a map that is not a
@@ -681,8 +686,14 @@ faithful. For bimodules, prove the unsuspended Stasheff relations of the operati
 `1 − i − j`, and define homotopies and quasi-isomorphisms of bimodule morphisms. Construct the
 composition of an `(A, B)`-bimodule `M` and a `(B, C)`-bimodule `N` by the bar tensor product
 `M ⊗ Tᶜ(sB) ⊗ N` with its induced bicomodule coderivation; its differential is a finite sum on
-each element, so no completion is needed. When `B` is a DG algebra, identify `(A, B)`-bimodules
-whose right action is strict with right `A∞` modules over `Aᵒᵖ ⊗ B` (§2.1).
+each element, so no completion is needed. When `B` is a DG algebra, call the right action of an
+`(A, B)`-bimodule `M` strict when `b_{i,j} = 0` for `j ≥ 2` and for `i ≥ 1, j = 1`; then `B` acts
+on `M` on the right associatively and with the Leibniz rule, and the left operations are right
+`B`-linear. Send such a bimodule to the right `A∞` module over `Aᵒᵖ ⊗ B` (§2.1) whose operation
+on `x ∈ M` and `a_1 ⊗ b_1, …, a_{n−1} ⊗ b_{n−1}` is the right `Aᵒᵖ`-operation
+`m_n(x, a_1, …, a_{n−1})` followed by right multiplication by `b_1 ⋯ b_{n−1}`, with the Koszul
+sign of moving the `b_i` past the `a_j`. This is a construction, not an identification: a right
+module over `Aᵒᵖ ⊗ B` need not have operations of this product form.
 *Needs:* §§2.1–2.3; Tau Ceti as above.
 
 **Checks.**
@@ -1030,8 +1041,7 @@ Layers 0–3; Tau Ceti as named in the sections.
 Bondal–Kapranov, *Enhanced triangulated categories*, supplies twisted complexes and the
 pretriangulated envelope; Drinfeld, Section 2.4, supplies the one-sided formulas and the cone;
 Keller, *Deriving DG categories*, Sections 4–5, proves that representables compactly generate
-and that the compact objects are the perfect modules; Balmer–Schlichting supplies triangulated
-idempotent completion.
+and that the compact objects are the perfect modules.
 
 ### 5.1 Derived categories of DG and `A∞` modules
 
@@ -1250,10 +1260,13 @@ as density on `K₀`.
 Build the Morita bicategory whose objects are small DG categories, whose 1-morphisms are the
 bimodules whose derived tensor product preserves perfect objects, and whose composition is the
 derived tensor product, with the associativity and unit isomorphisms of the derived tensor
-product. Prove that `Perf` is invariant under Morita equivalence: an equivalence of derived
-categories preserves compact objects, and `Perf(C)` is the compact objects of `D(C)` (§5.5). The
-invariance of Hochschild cohomology and homology, of smoothness and properness, and of the Euler
-pairing is proved in §§8.1, 9.1 and 10.1, under the hypotheses of those layers.
+product. These 1-morphisms are Toën's perfect Morita morphisms, which restriction to the
+representables identifies with such bimodules (Toën, Definition 7.1 and Theorem 7.2(2), with the
+internal Hom of Theorem 6.1). Prove that `Perf` is invariant under Morita equivalence: an
+equivalence of derived categories preserves compact objects, and `Perf(C)` is the compact objects
+of `D(C)` (§5.5). The invariance of Hochschild cohomology and homology, of smoothness and
+properness, and of the Euler pairing is proved in §§8.1, 9.1 and 10.1, under the hypotheses of
+those layers.
 *Needs:* §§5.1, 5.5, 6.3.
 
 ### Examples
@@ -1360,9 +1373,10 @@ Ceti as named in the sections.
 Getzler–Jones supplies braces and the coderivation description of Hochschild cochains;
 Gerstenhaber, *On the deformation of rings and algebras*, supplies the deformation theory with
 `HH²` and `HH³`; Kadeishvili's 1988 paper supplies the Hochschild obstruction method for higher
-operations and intrinsic formality; May's *Matric Massey products* and Keller's minimal-model
-discussion (Introduction, Section 3.3) supply defining systems and the comparison with transferred
-products.
+operations and intrinsic formality; May's *Matric Massey products* supplies defining systems and
+indeterminacy. Keller (Introduction, Section 3.3) remarks that the transferred higher products
+lift Massey products; the precise comparison of §8.3 is proved there from the component equation
+of §2.2.
 
 ### 8.1 Hochschild cochains, braces and the Gerstenhaber bracket
 
@@ -1451,23 +1465,34 @@ For an `A∞` algebra over a commutative ring, Tau Ceti's triple Massey product
 `TauCeti.AInfinityAlgebra.TripleMasseyDefiningSystem`, empty exactly when the product is
 undefined (`TauCeti.AInfinityAlgebra.tripleMasseyProduct_nonempty_iff`), a coset of the
 indeterminacy `TauCeti.AInfinityAlgebra.tripleMasseyIndeterminacy`, which is `x·H + H·z` on
-homogeneous `x`. Over a field, the `m₃` of the minimal model of §3.4 lies in it
-(`TauCeti.AInfinityAlgebra.minimalModel_m_three_mem_tripleMasseyProduct`,
+homogeneous `x`. Over a field, when `x·y = 0` and `y·z = 0`, the `m₃` of the minimal model of
+§3.4 lies in it (`TauCeti.AInfinityAlgebra.minimalModel_m_three_mem_tripleMasseyProduct`,
 `TauCeti.AInfinityAlgebra.mem_tripleMasseyProduct_iff_sub_minimalModel_m_three_mem`).
 
 Define matric Massey products and `n`-fold Massey products with their defining systems (May),
 set-valued and empty exactly when undefined, and compare the triple product with May's for DG
 algebras. Prove that for every special contraction of an `A∞` algebra onto its cohomology with
-zero differential, over a commutative ring, the transferred `m₃` lies in the triple Massey
-product. For a DG algebra over a field and the minimal model transferred along a special
-contraction, prove that the higher operations encode compatible defining systems: if
-`m_k(x_j, …, x_{j+k−1}) = 0` for all `2 ≤ k < n` and all consecutive sub-tuples of
-`(x_1, …, x_n)`, then `⟨x_1, …, x_n⟩` is defined and contains `± m_n(x_1, …, x_n)`, with the sign
-fixed by the conventions above. Prove that an `A∞` quasi-isomorphism carries triple Massey
-products and their indeterminacies onto those of the target, so that every defined triple Massey
-product of a formal algebra contains zero. A multi-valued Massey product is never identified with
-a single operation without its indeterminacy.
-*Needs:* §§3.3–3.4; Tau Ceti as above.
+zero differential, over a commutative ring, the transferred `m₃(x, y, z)` lies in the triple
+Massey product `⟨x, y, z⟩` whenever `x·y = 0 = y·z`. For a DG algebra over a field and the
+minimal model transferred along a special contraction, prove that the higher operations encode
+compatible defining systems: if `m_k(x_j, …, x_{j+k−1}) = 0` for all `2 ≤ k < n` and all
+consecutive sub-tuples of `(x_1, …, x_n)`, then `⟨x_1, …, x_n⟩` is defined and contains
+`± m_n(x_1, …, x_n)`, with the sign fixed by the conventions above. Route: for the transferred
+inclusion `f : H → A`, evaluate the component equation of §2.2 on each consecutive sub-tuple of
+length `ℓ < n`; by minimality of `H` and the hypothesis every term `f_u(1 ⊗ m_s ⊗ 1)` vanishes,
+so `d f_ℓ` is a signed sum of products `f_a · f_b`, and the values `± f_ℓ` on these sub-tuples
+form a defining system. In arity `n` the only surviving such term is `f₁ m_n(x_1, …, x_n)`, so
+the Massey cycle of this system is cohomologous to `± f₁ m_n(x_1, …, x_n)`. Prove that an `A∞`
+quasi-isomorphism carries triple Massey products and their indeterminacies onto those of the
+target, so that every defined triple Massey product of a formal algebra contains zero. A
+multi-valued Massey product is never identified with a single operation without its
+indeterminacy.
+*Needs:* §§2.2, 3.3–3.4; Tau Ceti as above.
+
+**Checks.**
+- For `A = k` in degree zero over a field and `x = y = z = 1`, the minimal model is `k` itself
+  and `m₃^H(1, 1, 1) = 0`, while `⟨1, 1, 1⟩` is empty because `1·1 ≠ 0`; without the hypothesis
+  `x·y = 0 = y·z` the transferred `m₃` would have to lie in an empty set.
 
 ### 8.4 Formality
 
@@ -1524,7 +1549,11 @@ supply the distinction between left, right and negative-cyclic Calabi–Yau stru
 ### 9.1 Smoothness and properness
 
 A small DG or `A∞` category `C` is proper over `k` when every Hom complex is perfect as a complex
-of `k`-modules; over a field this means finite-dimensional total cohomology. It is smooth over `k`
+of `k`-modules; over a field this means finite-dimensional total cohomology. This is the locally
+proper notion: Keller's survey (Section 4.7) calls `C` proper when it is Morita equivalent to a
+DG algebra whose underlying complex is perfect, which agrees with it when `C` has finitely many
+objects and is stronger in general (infinitely many mutually orthogonal copies of `k` form a
+locally proper category with no compact generator of its derived category). It is smooth over `k`
 when its diagonal bimodule is perfect in `D(Cᵒᵖ ⊗ C)`. Define both as Morita-invariant
 predicates, keep them independent, and for a DG algebra compare smoothness with perfection over
 `Aᵉ = Aᵒᵖ ⊗ A`.
@@ -1863,10 +1892,11 @@ triangulated categories and idempotent completions.
   left and right numerical radicals and quotients, and linear graded projective resolutions with
   the diagonal Ext criterion: GrothendieckEulerForms (Conventions, §§2.4, 3.7, 4.4, 5.1–5.6,
   7.1–7.2), consumed in Layers 7, 10 and 11.
-- *The triangulated structure on idempotent completions*, the `K₀` of dense triangulated
-  subcategories (Thomason) and negative `K`-theory, which explain why no exact sequence is
-  asserted after idempotent completion: GeneralAlgebraicKTheory §§11.3–11.4a and §§11.6–11.7. No
-  section here uses them: §5.5 triangulates `Perf(C)` as a thick subcategory of `D(C)`.
+- *The triangulated structure on idempotent completions* (Balmer–Schlichting), the `K₀` of dense
+  triangulated subcategories (Thomason) and negative `K`-theory (Schlichting), which explain why
+  no exact sequence is asserted after idempotent completion: GeneralAlgebraicKTheory
+  §§11.3–11.4a and §§11.6–11.7. No section here uses them: §5.5 triangulates `Perf(C)` as a thick
+  subcategory of `D(C)`.
 - *Curved objects and periodic complexes*: StablePeriodicCurved. *Applications to particular
   presented algebras* and application-specific correspondence theorems (Ginzburg algebras, zigzag
   and preprojective algebras, McKay quivers): the downstream roadmaps listed above.
@@ -2219,7 +2249,8 @@ quotients.
   35 (1990), 519--541: twisted/pretriangulated envelopes and Serre functors.
 - Bertrand Toën, [“The homotopy theory of dg-categories and derived Morita
   theory,”](https://arxiv.org/abs/math/0408337) *Inventiones Mathematicae* 167 (2007), 615--667:
-  quasi-functors, bimodule mapping objects, internal Homs, localization, and Morita theory.
+  quasi-functors, bimodule mapping objects, internal Homs, localization, and Morita theory
+  (numbered as in arXiv v7).
 - Jean-Louis Loday and Bruno Vallette, *Algebraic Operads*, Grundlehren der mathematischen
   Wissenschaften 346, Springer (2012), Chapters 9--10: bar--cobar constructions, twisting
   morphisms, homotopy transfer, and operadic Koszul duality.
