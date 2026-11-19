@@ -76,12 +76,13 @@ It leaves to other roadmaps:
 Outside this roadmap: wave equations and normally hyperbolic operators on Lorentzian
 manifolds, their Green operators and energy estimates, characteristic hypersurfaces of
 hyperbolic operators and systems, the Cauchy problem for the Einstein
-equations and maximal globally hyperbolic developments, the compressible Euler equations,
-their states, developments and maximal developments, matter models, asymptotic flatness,
+equations and maximal globally hyperbolic developments, matter models, asymptotic flatness,
 null infinity, Bondi and spacetime ADM mass, black-hole regions and specific black-hole
-families beyond the Schwarzschild exterior of §7.2. These belong to a hyperbolic-PDE roadmap
-and to general-relativity roadmaps that consume this one. On flat Minkowski space the causal
-Green operators of Klein–Gordon, Dirac and Maxwell are owned by
+families beyond the Schwarzschild exterior of §7.2. These belong to hyperbolic-PDE and
+general-relativity roadmaps that consume this one. The compressible Euler equations, their
+states, developments and maximal developments belong to CompressibleEulerEquations, and linear
+symmetric hyperbolic systems on `ℝ × ℝⁿ` to SymmetricHyperbolicSystems. On flat Minkowski
+space the causal Green operators of Klein–Gordon, Dirac and Maxwell are owned by
 RelativisticQuantumFieldTheory.
 
 Distributional and Sobolev metrics and connections, distributional curvature and weak energy
@@ -208,7 +209,8 @@ proves the equivalence with the strongly causal form.
 **Extensions.** A `C^l`-extension of a connected semi-Riemannian manifold `(M, g)` without boundary
 is a smooth embedding `ι : M → M̃` into a connected Hausdorff semi-Riemannian manifold `(M̃, g̃)`
 without boundary, modelled on the same `I` and in the same universe, with `g̃` of class `C^l`,
-`ι^* g̃ = g` and `ι(M) ≠ M̃`. `(M, g)` is `C^l`-inextendible if it has none.
+`ι^* g̃ = g` and `ι(M) ≠ M̃`. `(M, g)` is `C^l`-inextendible if it has none. For
+second-countable `M` it suffices to exclude second-countable `M̃` (§2.7).
 
 **Names.** Extend the shared `TauCeti/LinearAlgebra/BilinearForm/` and
 `TauCeti/Geometry/Manifold/VectorBundle/NondegenerateMetric/` APIs for arbitrary-signature
@@ -355,7 +357,9 @@ finite-regularity generalizations.
 
 R1.3: the curvature and Ricci tensors of warped products;
 R2: Jacobi fields, initial data, Wronskians and the differential of the exponential map;
-R3: energy variations, index forms and conjugate points; R5a: immersion geometry. Part I
+R3: energy variations, index forms and conjugate points; R4.7: the hyperboloid model of
+hyperbolic space on the future unit hyperboloid, which §6.2 places in the future time cone of
+`minkowskiForm`; R5a: immersion geometry. Part I
 states the semi-Riemannian versions of these objects and proves that for positive-definite
 metrics they agree with R1.3, R2–R3 and R5a; the results using positive-definite
 estimates are used as RiemannianGeometry states them. The curvature identities, the curvature
@@ -797,6 +801,13 @@ on a finite-dimensional `E'` with `finrank ℝ E' = finrank ℝ E`, transporting
 `I`, `I'` and a linear equivalence `E' ≃L[ℝ] E` turns a `C^l`-extension modelled on `I'`
 into one modelled on `I`. So `IsInextendible l g` is inextendibility among all extensions of
 the same dimension.
+
+Prove that for connected, second-countable `M` the target may be taken second countable: given a
+`C^l`-extension `ι : M → M̃`, the open set `ι(M)` is nonempty and not closed in the connected
+`M̃`, so some `p` lies in `closure ι(M) \ ι(M)`; for a connected chart neighbourhood `U` of `p`,
+the open set `ι(M) ∪ U` is connected, Hausdorff and second countable, and `ι` into it with the
+restricted metric is a `C^l`-extension. Hence `IsInextendible l g` is equivalent to the same
+predicate quantified over second-countable `M̃` only.
 
 **Checks.**
 
@@ -1325,7 +1336,7 @@ a property of these fields, not part of the definition. Prove:
 
 These statements take `c` and `v` as given fields. The fluid side, the sound speed
 `c = √(p′(ρ))` of an equation of state and the velocity of a state of the compressible
-Euler equations, belongs to the hyperbolic-PDE roadmap named under Downstream consumers.
+Euler equations, belongs to CompressibleEulerEquations.
 
 **Checks.**
 
@@ -1923,8 +1934,8 @@ endpoint conditions are limits from within the domain. Define `D^±(A)`, `D(A)`,
 (Minguzzi 2019, Definitions 3.1 and 3.14, pp. 84 and 87) and Cauchy surfaces (`IsCauchySurface`, met exactly once
 by every inextendible timelike curve `IsInextendibleTimelikeCurve`) as in the Conventions.
 Prove for achronal `A`: `A ⊆ D(A)`; `D^+(A) ∩ I^−(A) = ∅` (Minguzzi 2019, Proposition 3.16,
-p. 87); `int D(A)` is open and, for closed `A`, globally hyperbolic (Minguzzi 2019,
-Theorem 3.45, p. 99); `H^+(A)` is closed and achronal (Proposition 3.15, p. 87), and for closed
+p. 87); for closed `A`, `int D(A)` is globally hyperbolic (Minguzzi 2019, Theorem 3.45,
+p. 99); `H^+(A)` is closed and achronal (Proposition 3.15, p. 87), and for closed
 `A` every point of `H^+(A) \ edge(A)` lies on a null geodesic in `H^+(A)` that is
 past-inextendible or has past endpoint on `edge(A)` (Minguzzi 2019, Theorem 3.24, p. 91;
 Hawking–Ellis, Prop. 6.5.3). Prove that
@@ -1998,7 +2009,8 @@ Minkowski space is `C^0`-inextendible (Sbierski 2018, Theorem 3.1, p. 13;
 
 The proof works inside the continuous extension, so it needs the following facts for a
 time-oriented continuous Lorentzian metric, with the causal curves of §8.2, their Lorentzian
-length, and an auxiliary complete Riemannian metric `h` as in §11.4. Prove:
+length, and an auxiliary complete Riemannian metric `h` as in §11.4; by §2.7 the extension may
+be taken second countable, so `h` exists on it. Prove:
 
 - every point has, for each `ε > 0`, a neighbourhood in which every causal curve has Lorentzian
   length and `h`-length less than `ε` (Galloway–Ling–Sbierski, Lemma 2.1, p. 5);
@@ -2338,13 +2350,14 @@ Layer 5; Layer 9; Layer 10 (§10.1); Layer 12 (§12.2–§12.3).
 
 ## Downstream consumers
 
-- A hyperbolic-PDE roadmap (wave equations on Lorentzian manifolds, symmetric hyperbolic
-  systems, domains of dependence and finite speed of propagation, the compressible Euler
-  equations and their acoustical metric) consumes Layers 2–4 and 7–9, §12.2 and §12.6–§12.7.
-  It owns the fluid side: equations of state and sound speed, states of class `C¹` on
-  non-open sets, initial and characteristic data, developments (sets `D` with
+- CompressibleEulerEquations consumes §6.1, §6.3, §7.3, §8.2 and §12.6 for the acoustical
+  metric of a fluid state on `ℝ × E`. It owns the fluid side: equations of state and sound
+  speed, quasilinear symmetric hyperbolic systems, initial data, developments (sets `D` with
   `D = D^+_D(S)` for the acoustical metric of §7.3 built from the solution itself), their
-  uniqueness and maximal developments, and local well-posedness. It also proves that a
+  uniqueness and maximal developments, and local well-posedness.
+- Hyperbolic-PDE roadmaps on Lorentzian manifolds (wave equations and normally hyperbolic
+  operators, their domains of dependence and finite speed of propagation, characteristic
+  hypersurfaces) consume Layers 2–4 and 7–9, §12.2 and §12.6–§12.7. They prove that a
   hypersurface is characteristic for `□_g` iff it is null in the sense of §9.2.
 - General-relativity roadmaps (the Cauchy problem for the Einstein equations, black holes,
   Cauchy horizons, `C^0`-extendibility statements) consume §2.5–§2.7, Layers 7–9, §12.2
