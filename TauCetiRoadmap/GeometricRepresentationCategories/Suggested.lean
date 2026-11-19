@@ -27,8 +27,9 @@ None of them is statable at the pins, and nothing is stated in their place:
 * the critical fibres and their symmetries need the loop-group action on the completed algebra
   (AffineLieAlgebras A4.2), the Feigin–Frenkel isomorphism of its centre with the functions on opers
   (AffineLieAlgebras A8) and the opers with their evaluation characters (FormalConnectionsOpers §5.2),
-  none of which is at the pins; the completed algebra itself is
-  `TauCeti.CurrentAlgebra.CompletedEnveloping`, and its coordinate automorphisms are;
+  none of which is at the pins; the completed algebra itself
+  (`TauCeti.CurrentAlgebra.CompletedEnveloping`) and its coordinate automorphisms
+  (`TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`) are at the pins;
 * the congruence invariance theorem needs the same loop-group action and the congruence subgroups
   of FormalConnectionsOpers §3.1;
 * the biequivalence needs a notion of biequivalence of bicategories, which Mathlib lacks, and the

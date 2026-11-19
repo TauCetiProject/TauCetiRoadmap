@@ -20,8 +20,8 @@ The headline results are these.
   categories over the action groupoid of `H ⋊ Aut(ℂ[[t]])` on opers.
 - Coherent equivariant transport along a parameter groupoid, a pseudofunctor out of the product of
   the groupoid with `H`, is biequivalent to normalized transport data on the prescribed fibres.
-- Since opers and local systems on the punctured disc have equivalent groupoids of complex points, a
-  coherent lift along the groupoid of opers and isomorphisms of their underlying local systems
+- Since the groupoid of opers and isomorphisms of their underlying local systems is equivalent, on
+  complex points, to the groupoid of local systems on the punctured disc, a coherent lift along it
   descends to local systems, uniquely up to pseudonatural equivalence.
 - The outer derivations of `A` produced by deforming the level form a continuous map
   `θ : Ω¹_cont(Z) → OutDer_cont(A)` of Lie–Rinehart algebras whose anchor is the Poisson bracket of
@@ -52,7 +52,8 @@ integration. Layer 4 treats coherent transport along a parameter groupoid, compa
 normalized data and states the categorical-lift conjecture. Layer 5 descends lifts to local systems,
 builds the infinitesimal bridge `θ` with its extension classes, and states the relative refinement
 over finite Artinian coefficient algebras. Each subsection's *Needs:* line lists its inputs, so that a
-target proved by another route is not blocked behind an unrelated section.
+target proved by another route is not blocked behind an unrelated section. Citations of this roadmap
+by the labels R1, R2, R3, R4 and R5 resolve to Layers 1 to 5, and R5.1, R5.2 and R5.3 to §§5.1–5.3.
 
 ## Conventions
 
@@ -122,9 +123,13 @@ equalities that include the unitor and the associator (`MonoidalLeftAction.monoi
 comparison transports the unit and associativity coherence, rather than merely matching action
 functors. The curried form is the monoidal functor `MonoidalLeftAction.curriedActionMop` into the
 monoidal opposite of the endofunctors, with `MonoidalLeftAction.curriedActionMopMonoidal`. The
-trivial action is `TauCeti.trivialAction`. Unit and associativity constraints of a categorical
-action are those of Frenkel–Gaitsgory, §20.1, pp. 120–121; pseudofunctors, strong transformations
-and modifications are those of Johnson–Yau. *Needs:* Mathlib `MonoidalLeftAction`,
+trivial action is `TauCeti.trivialAction`. An action of the group of complex points, by functors
+`F_g` with isomorphisms `F_(gh) ≅ F_g ∘ F_h` satisfying the cocycle identity, is that of Frenkel,
+§1.3.3, p. 25 (there `F_1` is the identity functor; here it comes with a unit isomorphism
+`F_1 ≅ Id`); Frenkel–Gaitsgory, §20.1, pp. 120–121, give the algebraic form for an affine group
+scheme, with its unit and associativity constraints. Pseudofunctors, strong transformations and
+modifications are those of Johnson–Yau, Definitions 4.1.2, 4.2.1 and 4.4.1, pp. 103–104, 117–118
+and 126–127. *Needs:* Mathlib `MonoidalLeftAction`,
 `MonoidalLeftAction.curriedActionMop`, `SingleObj`, `LocallyDiscrete`, `Cat`; Tau Ceti
 `MonoidalLeftAction.actionLeftTensorIso`, `MonoidalLeftAction.actionLeftEquivalence`,
 `MonoidalLeftAction.pseudofunctor`, `Pseudofunctor.monoidalLeftAction`,
@@ -246,7 +251,8 @@ homomorphism intertwining two such actions is equivariant with identity lineator
 (`RingHom.leftLinearRestrictScalars`). For a monoid acting on `A` and on a set `X` of parameters, the
 same twists form a pseudofunctor out of the action category, `TauCeti.actionCategoryTwist`. The
 twisting action of the loop group on smooth modules is Frenkel, §1.3.4–1.3.5, pp. 26–27; the weak
-action on discrete modules over a topological algebra is Frenkel–Gaitsgory, §20.1, p. 121. *Needs:*
+action of an affine group scheme on the discrete modules over a topological algebra it acts on is
+Frenkel–Gaitsgory, §20.1, p. 121. *Needs:*
 Mathlib `ModuleCat.restrictScalars`, `ModuleCat.restrictScalarsId'`, `ModuleCat.restrictScalarsComp'`,
 `MulSemiringAction.toRingEquiv`; Tau Ceti the declarations named above; §1.1.
 
@@ -313,18 +319,18 @@ for `sl₂`, sending the normally ordered Sugawara modes `S_n` to the oper coord
 centre. For a `PGL₂`-oper `p`, the *rank-one fibre* is `TauCeti.discreteCentralCharacterModules χp`
 with `χp` the selected isomorphism followed by evaluation at `p` (FormalConnectionsOpers §5.2). Define
 the *rank-one action* on it as `MonoidHom.discreteCentralCharacterMonoidalLeftAction` for that
-homomorphism, and the *rank-one pseudofunctor* as its classifying pseudofunctor (§1.1). Prove that the
-cells are fixed exactly: the unit of the rank-one action, transported through the fully faithful
-inclusion, is the restriction of `ModuleCat.restrictScalarsId'App`, which we call the rank-one twist
-unit; its associator at `g, h` is the restriction of `ModuleCat.restrictScalarsComp'App` for
-`(a_g)⁻¹, (a_h)⁻¹, (a_(gh))⁻¹`, which we call the rank-one twist compositor at `(p, h, g)`, since
-`(g ⊗ h) · M = g · (h · M)` corresponds to the functor order `T_h ⋙ T_g`. Prove that the action
-recovered from the rank-one pseudofunctor by `Pseudofunctor.monoidalLeftAction` equals the rank-one
-action as an action: the action functors, and the unit and associator as natural isomorphisms,
-including their hom and inverse components. Equality of action functors alone does not specify these
-cells. Route: the fixed-cell lemmas `MonoidHom.discreteCentralCharacterMonoidalLeftAction_unit` and
-`MonoidHom.discreteCentralCharacterMonoidalLeftAction_assoc`, and the round trip `MonoidalLeftAction.monoidalLeftAction_pseudofunctor`. *Needs:*
-AffineLieAlgebras A8.3, A4.2, A5.4; FormalConnectionsOpers §5.2; Tau Ceti
+homomorphism, and the *rank-one pseudofunctor* as its classifying pseudofunctor (§1.1). Its cells are
+then fixed exactly, by `MonoidHom.discreteCentralCharacterMonoidalLeftAction_unit` and
+`MonoidHom.discreteCentralCharacterMonoidalLeftAction_assoc` applied to A8.3's homomorphism: the unit
+of the rank-one action, transported through the fully faithful inclusion, is the restriction of
+`ModuleCat.restrictScalarsId'App`, which we call the rank-one twist unit; its associator at `g, h` is
+the restriction of `ModuleCat.restrictScalarsComp'App` for `(a_g)⁻¹, (a_h)⁻¹, (a_(gh))⁻¹`, which we
+call the rank-one twist compositor at `(p, h, g)`, since `(g ⊗ h) · M = g · (h · M)` corresponds to
+the functor order `T_h ⋙ T_g`. By `MonoidalLeftAction.monoidalLeftAction_pseudofunctor`, the action
+recovered from the rank-one pseudofunctor by `Pseudofunctor.monoidalLeftAction` is the rank-one
+action itself: the action functors, and the unit and associator as natural isomorphisms, including
+their hom and inverse components. Equality of action functors alone would not specify these cells.
+*Needs:* AffineLieAlgebras A8.3, A4.2, A5.4; FormalConnectionsOpers §5.2; Tau Ceti
 `MonoidHom.discreteCentralCharacterMonoidalLeftAction` and its unit and associator lemmas,
 `MonoidalLeftAction.monoidalLeftAction_pseudofunctor`; §§1.1, 2.2.
 
@@ -358,11 +364,11 @@ AffineLieAlgebras A8.1 and A8.3 followed by evaluation at `p` (FormalConnections
 `Ccrit(p)` be `TauCeti.discreteCentralCharacterModules χp`, the modules on which `z` acts by `χp(z)`
 (Frenkel–Gaitsgory, §5.1, pp. 47–48, with Theorem 5.1.1; Frenkel, §10.1, p. 308). In rank one this is
 the rank-one fibre of §2.3. Prove that A5.4's comparison of the Lie-module and completed-module
-presentations is equivariant for the twisting actions of §2.1, preserves kernels, cokernels and
-arbitrary direct sums, and restricts to the fibres, so that the fibres and their twists may be
-computed in either presentation. *Needs:* AffineLieAlgebras A3.1, A4.1, A5.4, A8.1, A8.3;
-FormalConnectionsOpers §5.2; Tau Ceti `TauCeti.CurrentAlgebra.CompletedEnveloping`,
-`TauCeti.discreteModules`, `TauCeti.discreteCentralCharacterModules`; §§2.1–2.2.
+presentations is equivariant for the twisting actions of §2.1 and restricts to the fibres, so that
+the fibres and their twists may be computed in either presentation. *Needs:* AffineLieAlgebras A3.1,
+A4.1, A5.4, A8.1, A8.3; FormalConnectionsOpers §5.2; Tau Ceti
+`TauCeti.CurrentAlgebra.CompletedEnveloping`, `TauCeti.discreteModules`,
+`TauCeti.discreteCentralCharacterModules`; §§2.1–2.2.
 
 **Checks.**
 - The vacuum module `Q_0` lies in `Ccrit` but in no fibre: for `sl₂`,
@@ -376,14 +382,19 @@ FormalConnectionsOpers §5.2; Tau Ceti `TauCeti.CurrentAlgebra.CompletedEnvelopi
 Let `a : H →* (A ≃ₐ[ℂ] A)` be AffineLieAlgebras A4.2's completed loop lift, by continuous algebra
 automorphisms with continuous inverses, which fixes `Z` pointwise (AffineLieAlgebras A8.3). Construct
 the coherent action of `H` on each `Ccrit(p)` as `MonoidHom.discreteCentralCharacterMonoidalLeftAction`
-for `a`, and prove its naturality on intertwiners, its unit, product and inverse functors, and the
-equivariance of the inclusion `Ccrit(p) ⊆ Ccrit` (Frenkel, §10.1, p. 308, where `G((t))` acts along the
-fibres because it fixes the centre). This is an unconditional construction. A dual gauge arrow
-`g : p → q` of `IsomOp` gives no algebra automorphism of `A` and, by definition, no functor between
-the fibres; such functors are the subject of the conjecture of §4.4. *Needs:* AffineLieAlgebras A4.2,
-A8.3; FormalConnectionsOpers §3.1; Tau Ceti `MonoidHom.discreteCentralCharacterMonoidalLeftAction`,
+for `a`; its unit, product and inverse functors are those of §1.1. Both `Ccrit(p)` and `Ccrit`
+carry the restrictions of the twisting action on all modules
+(`MonoidHom.isStableUnderLeftAction_discreteModules`), so the inclusion `Ccrit(p) ⊆ Ccrit` is
+equivariant by `ObjectProperty.leftLinearιOfLE` (§1.2), and the inclusion of `Ccrit(p)` into all
+modules by `MonoidHom.leftLinearInclusionDiscreteCentralCharacterMonoidalLeftAction` (Frenkel,
+§10.1, p. 308, where `G((t))` acts along the fibres because it fixes the centre). This is an
+unconditional construction. A dual gauge arrow `g : p → q` of `IsomOp` gives no algebra automorphism
+of `A` and, by definition, no functor between the fibres; such functors are the subject of the
+conjecture of §4.4. *Needs:* AffineLieAlgebras A4.2, A8.3; FormalConnectionsOpers §3.1; Tau Ceti
+`MonoidHom.discreteCentralCharacterMonoidalLeftAction`,
 `MonoidHom.isStableUnderLeftAction_discreteCentralCharacterModules_of_centerFixed`,
-`MonoidHom.leftLinearInclusionDiscreteCentralCharacterMonoidalLeftAction`; §§1.1, 3.1.
+`MonoidHom.isStableUnderLeftAction_discreteModules`, `ObjectProperty.leftLinearιOfLE`,
+`MonoidHom.leftLinearInclusionDiscreteCentralCharacterMonoidalLeftAction`; §§1.1, 1.2, 3.1.
 
 ### 3.3 Coordinate automorphisms
 
@@ -392,22 +403,24 @@ to `ℂ((t))`, and write `σφ(f)(t) = f(φ(t))` for the automorphism with `σφ
 `σφ σψ = σ_(ψ∘φ)`, where `(ψ∘φ)(t) = ψ(φ(t))`; so the right action `(p^φ)^ψ = p^(φ∘ψ)` of coordinate
 changes on opers (FormalConnectionsOpers §§1.2, 5.1) is the left action `σφ · p = p^φ` of `S`. Let
 `aσ` be the completed coordinate automorphism of `A` (AffineLieAlgebras A2.3 and A4.2;
-`TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`), and pin the Feigin–Frenkel equivariance of
-AffineLieAlgebras A8.3 as `aσ(F) = F ∘ σ⁻¹` on oper functions. Prove the coordinate character equation
-`χ_(σ·p) = χp ∘ aσ⁻¹`, so that restriction of scalars along `aσ⁻¹` is a functor
-`Ccrit(p) → Ccrit(σ·p)` (`TauCeti.discreteCentralCharacterTwist`). Prove that for `φ(t) = at` the
-quadratic current mode `S_n` maps to `a^n S_n` while the oper coefficient `L_n = Res(t^(n+1) q dt)`
-satisfies `L_n(p^φ) = a^(−n) L_n(p)`. *Needs:* AffineLieAlgebras A2.3, A4.2, A8.3;
-FormalConnectionsOpers §§1.2, 5.1, 5.2; Tau Ceti `TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`,
-`TauCeti.discreteCentralCharacterTwist`; §3.1.
+`TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`), with the Feigin–Frenkel equivariance of
+AffineLieAlgebras A8.3 pinned as `aσ(F) = F ∘ σ⁻¹` on oper functions. The coordinate character
+equation `χ_(σ·p) = χp ∘ aσ⁻¹` is A8.3's `eval_(σp) = eval_p ∘ a_σ⁻¹` with `χp` for `eval_p`, and
+A8.3's pullback along `aσ⁻¹` from the fibre at `p` to the fibre at `σ·p` is, on the strict fibres,
+the functor `Ccrit(p) → Ccrit(σ·p)` of `TauCeti.discreteCentralCharacterTwist`. *Needs:*
+AffineLieAlgebras A2.3, A4.2, A8.3; FormalConnectionsOpers §§1.2, 5.1, 5.2; Tau Ceti
+`TauCeti.CurrentAlgebra.coordinateCompletedEnvelopingAut`, `TauCeti.discreteCentralCharacterTwist`;
+§3.1.
 
 **Checks.**
 - For `φ = 2t` and `ψ = t + t²`, `σφ(σψ(t)) = σφ(t + t²) = 2t + 4t²`, which is `(ψ∘φ)(t)`, not
   `(φ∘ψ)(t) = 2t + 2t²`.
-- For `φ = at` in rank one, `q^φ(t) = a² q(at)`, so `L_n(p^φ) = Res(t^(n+1) a² q(at) dt) = a^(−n) L_n(p)`
-  after substituting `u = at`. Both sides of the character equation then give `a^(−n) L_n(p)` at `S_n`:
-  `χ_(σ·p)(S_n) = L_n(p^φ)` and `χp(aσ⁻¹ S_n) = χp(a^(−n) S_n)`. With `aσ` in place of `aσ⁻¹` the
-  right side would be `a^n L_n(p)`, wrong unless `a^(2n) = 1`.
+- For `φ = at` in rank one, `aσ(S_n) = a^n S_n`, as `σφ(t^m) = a^m t^m` for every mode, while
+  `q^φ(t) = a² q(at)`, so the oper coefficient `L_n = Res(t^(n+1) q dt)` satisfies
+  `L_n(p^φ) = Res(t^(n+1) a² q(at) dt) = a^(−n) L_n(p)` after substituting `u = at`. Both sides of
+  the character equation then give `a^(−n) L_n(p)` at `S_n`: `χ_(σ·p)(S_n) = L_n(p^φ)` and
+  `χp(aσ⁻¹ S_n) = χp(a^(−n) S_n)`. With `aσ` in place of `aσ⁻¹` the right side would be
+  `a^n L_n(p)`, wrong unless `a^(2n) = 1`.
 
 ### 3.4 The semidirect product and the action groupoid
 
@@ -436,13 +449,13 @@ equivariance for the original loop group only and asks for no coordinate extensi
 For finitely generated smooth modules, use AffineLieAlgebras A3.2's compatible rational integration
 to `K_N` to prove that the full subcategory of finitely generated objects of `Ccrit` satisfies
 `TauCeti.IsObjectwiseCongruenceInvariant K` for the congruence subgroups `K_N` of
-FormalConnectionsOpers §3.1 (Frenkel, §1.3.4, Lemma 1.3.1, pp. 26–27). In rank one, map
-FormalConnectionsOpers §3.1's positive-loop congruence subgroups into the Laurent loops
+FormalConnectionsOpers §3.1 (Frenkel, §1.3.4, Lemma 1.3.1, pp. 26–27, stated for `𝔤((t))`, and
+§1.3.6, p. 29, for `ĝκ`). In rank one, map FormalConnectionsOpers §3.1's positive-loop congruence
+subgroups into the Laurent loops
 `Matrix.SpecialLinearGroup (Fin 2) (LaurentSeries ℂ)` through the coefficient inclusion and
 AffineLieAlgebras A8.3's Hopf and matrix dictionary, and prove that this map is injective and that the
-resulting family of subgroups of Laurent loops is antitone. Apply the comparison of §1.1 to the rank-one pseudofunctor of §2.3
-before instantiating the predicate, and prove that the result equals the rank-one action, including
-its unit and associator, not only its action functors.
+resulting family of subgroups of Laurent loops is antitone. The predicate is instantiated on the
+rank-one action of §2.3, which is also the action read off the rank-one pseudofunctor (§2.3).
 
 Also apply AffineLieAlgebras A3.1's family `Q_M = Uκ/Uκ · t^M 𝔤[[t]]`, at the level `κ` of that
 section and in particular at `κc`. Prove that coefficientwise conjugation by `G(ℂ[[t]])` normalizes
@@ -905,8 +918,8 @@ A8.3; FormalConnectionsOpers §§3.4, 5.2, 6.1, 7.1, 7.2, 8.1, 8.2.
 ## Scope and ownership
 
 **This roadmap owns** the coherence of the critical family: the cells of the rank-one fibres (§2.3);
-the critical category, its fibres `Ccrit(p)`, the coherent loop-group action on each fibre, the
-coordinate character equation and the pseudofunctor over the action groupoid of `H ⋊ S` (§§3.1–3.4);
+the critical category, its fibres `Ccrit(p)`, the coherent loop-group action on each fibre and the
+pseudofunctor over the action groupoid of `H ⋊ S` (§§3.1–3.4);
 objectwise congruence invariance of finitely generated critical modules and the coherent weak
 equivariance of the family `Q_M` (§3.5); the biequivalence of lifts with normalized transport data
 (§4.2); the statement of the critical categorical-lift conjecture and its consequences (§4.4);
@@ -954,16 +967,17 @@ listed under the supplier contracts.
 **Owned elsewhere and consumed here.** AffineLieAlgebras owns the smooth and completed module
 categories and their equivalence, the loop and coordinate lifts, rational integration to `K_N`, the
 deformation family with its sections and divided operators, the completed centre and the
-Feigin–Frenkel normalizations, including the rank-one isomorphism and the loop-group action fixing the
-centre (A2–A6, A8). FormalConnectionsOpers owns the loop groups and congruence subgroups, coordinate
-automorphisms, opers, their function algebras and evaluation, the gauge groupoid, the oper-reduction
-theorem, the Drinfeld–Sokolov Poisson structure and cotangent algebroid, and `IsomOp` with its
-differentiation (§§1.2, 3.1, 3.4, 5.1, 5.2, 6.1, 7.1, 7.2, 8.1, 8.2). Formal algebraic gauge
-foundations and finite-dimensional smooth groupoid foundations have different owners; this roadmap
-uses the former. The local Langlands motivation of the sources, the arithmetic analogy, is motivation
-only: no equivalence between these categories and arithmetic representations is a target, and the
-examples keep that distinction. The unrestricted existence of the categorical lift (§4.4) and of the
-relative refinements (§5.3) are conjectures, stated as precise types and never asserted.
+Feigin–Frenkel normalizations, including the coordinate character equation, the rank-one isomorphism
+and the loop-group action fixing the centre (A2–A6, A8). FormalConnectionsOpers owns the loop groups
+and congruence subgroups, coordinate automorphisms, opers, their function algebras and evaluation,
+the gauge groupoid, the oper-reduction theorem, the Drinfeld–Sokolov Poisson structure and cotangent
+algebroid, and `IsomOp` with its differentiation (§§1.2, 3.1, 3.4, 5.1, 5.2, 6.1, 7.1, 7.2, 8.1,
+8.2). Formal algebraic gauge foundations and finite-dimensional smooth groupoid foundations have
+different owners; this roadmap uses the former. The local Langlands motivation of the sources, the
+arithmetic analogy, is motivation only: no equivalence between these categories and arithmetic
+representations is a target, and the examples keep that distinction. The unrestricted existence of
+the categorical lift (§4.4) and of the relative refinements (§5.3) are conjectures, stated as precise
+types and never asserted.
 
 ## Exact supplier contracts
 
@@ -1097,9 +1111,11 @@ automorphism pullback, the smooth/completed module equivalence); A6.3 (the defor
 change-of-lift formula, the divided loop changes quantified over lifts, the order-`ℏ²` comparison and
 the critical Poisson bracket); A8.1 (the completed critical centre, the generators `S_i[r]`, the
 threshold `S_i[r] ∈ ker π_N ⇔ r ≥ w_i N` and the quotient polynomial charts); A8.3 (the Feigin–Frenkel
-normalizations, `aσ(F) = F ∘ σ⁻¹` on oper functions, pointwise fixation of the centre by the original
-loop group, the selected rank-one isomorphism with `S_n ↦ q_(−n−2)`, the rank-one loop automorphism
-homomorphism and the Hopf and matrix dictionary). Assumed as stated there.
+normalizations, `aσ(F) = F ∘ σ⁻¹` on oper functions, the character equation
+`eval_(σp) = eval_p ∘ a_σ⁻¹` with pullback along `a_σ⁻¹` carrying the fibre at `p` to the fibre at
+`σp`, pointwise fixation of the centre by the original loop group, the selected rank-one isomorphism
+with `S_n ↦ q_(−n−2)`, the rank-one loop automorphism homomorphism and the Hopf and matrix
+dictionary). Assumed as stated there.
 
 ### From TauCetiRoadmap.FormalConnectionsOpers
 
@@ -1116,11 +1132,13 @@ calculation). Assumed as stated there.
 ## References
 
 - Edward Frenkel, [*Langlands Correspondence for Loop Groups*](https://math.berkeley.edu/~frenkel/loop.pdf),
-  Cambridge Studies in Advanced Mathematics 103 (2007): §1.3.4 with Lemma 1.3.1, pp. 26–27 (smooth
-  representations, objectwise stability under congruence subgroups, integrability of finitely
-  generated smooth modules); §1.3.5, p. 27 (smooth modules with the loop-group action as the categorical
-  analogue of smooth representations); §10.1, pp. 307–311 (the fibres `ĝc-mod_χ` over opers, the
-  loop-group action along the fibres, the base change (10.1-3), Conjectures 10.1.1 and 10.1.2);
+  Cambridge Studies in Advanced Mathematics 103 (2007): §1.3.3, p. 25 (an action of a group of complex
+  points on a category); §1.3.4 with Lemma 1.3.1, pp. 26–27 (smooth representations, objectwise
+  stability under congruence subgroups, integrability of finitely generated smooth
+  `𝔤((t))`-modules); §1.3.5, p. 27 (smooth modules with the loop-group action as the categorical
+  analogue of smooth representations); §1.3.6, p. 29 (Lemma 1.3.1 for `ĝκ`); §10.1, pp. 307–311 (the
+  fibres `ĝc-mod_χ` over opers, the loop-group action along the fibres, the base change (10.1-3),
+  Conjectures 10.1.1 and 10.1.2);
   §10.3.7, pp. 334–335 (the groupoid of isomorphisms of underlying local systems and Conjecture 10.3.10).
 - Edward Frenkel and Dennis Gaitsgory, [*Local geometric Langlands correspondence and affine Kac–Moody
   algebras*](https://arxiv.org/abs/math/0508382): §0.5, (0.8)–(0.9) (the categories over the stack of
@@ -1128,9 +1146,11 @@ calculation). Assumed as stated there.
   categories of discrete modules, the completed enveloping algebra and its centre); §7.4, Lemma 7.4.1,
   Theorem 7.4.2 and (7.2), pp. 54–55 (outer derivations from the deformation of the level, the
   identification `Ω¹(Z) ≅ isomOp`, the map `Ω¹(Z) → Ext¹(M, M)`); §§20.1–20.2, pp. 120–122 (weak actions
-  of a group on a category and weakly equivariant objects).
+  of an affine group scheme on a category and weakly equivariant objects).
 - Niles Johnson and Donald Yau, [*2-Dimensional Categories*](https://arxiv.org/abs/2002.06055), Oxford
-  University Press (2021): pseudofunctors, strong transformations, modifications and their coherence.
+  University Press (2021), cited by the numbering and pages of arXiv v3: Definitions 4.1.2, 4.2.1 and
+  4.4.1, pp. 103–104, 117–118 and 126–127 (pseudofunctors, strong transformations, modifications);
+  Theorem 8.4.1, p. 238 (coherence for bicategories).
 - Mathlib's [monoidal action definitions](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/CategoryTheory/Monoidal/Action/Basic.lean),
   [endofunctor comparison](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/CategoryTheory/Monoidal/Action/End.lean),
   [locally discrete bicategories](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/CategoryTheory/Bicategory/LocallyDiscrete.lean)
@@ -1138,5 +1158,5 @@ calculation). Assumed as stated there.
 - The [Zulip discussion of composition order](https://leanprover.zulipchat.com/#narrow/near/523092176)
   for left and right actions, whose design the conventions follow.
 - The Mathlib [pull request on pseudofunctor evaluation](https://github.com/leanprover-community/mathlib4/pull/32410),
-  which develops `eval` and `evaluation` for pseudofunctors; the comparisons of families in §5.1 follow
-  its interfaces and are built against the pinned libraries.
+  which develops `eval` and `evaluation` for pseudofunctors: a design reference only, as the pinned
+  Mathlib has neither and §5.1 is built on Tau Ceti's precomposition of pseudofunctors.
