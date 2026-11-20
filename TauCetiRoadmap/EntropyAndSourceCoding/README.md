@@ -142,7 +142,8 @@ in at least `k` of the `Fⱼ`.
   satisfies `|T|^k ≤ ∏ⱼ |{x restricted to Fⱼ : x ∈ T}|` (Galvin, Lemma 2.9, p. 6, for families of
   subsets of `[n]`, that is `A i` with two elements; the proof given there applies to any `A i`).
 
-Route: for the entropy form, follow the uncrossing argument of the cited proof. Replacing two sets
+Route: for the entropy form, argue by uncrossing (the roadmap's own route; Galvin's proof of
+Lemma 2.8 goes through the chain rule with dropped conditioning instead). Replacing two sets
 `Fⱼ`, `Fₗ` that are not comparable by `Fⱼ ∪ Fₗ` and `Fⱼ ∩ Fₗ` keeps every count of sets containing
 an index, does not increase the right side by 1.1, and decreases the number of incomparable pairs;
 when the sets form a chain, either some index lies in no set, so that `k = 0`, or `k` is at most
@@ -314,9 +315,13 @@ other value `c` has `μ (X = a) ≤ μ (X = c)` and `μ (X = b) ≤ μ (X = c)`.
   stated after Figure 2.13).
 
 Route: the sibling property is the exchange argument of the cited proof (Gallager, Lemmas 2.5.1 to
-2.5.3, pp. 30–31): in an optimal code a longest codeword has its sibling as a codeword, since
-otherwise it could be shortened, and swapping codewords between a value of least probability and a
-value of larger probability with a longer codeword does not increase the expected length. For the
+2.5.3, pp. 30–31, where every symbol has positive probability). Among the optimal codes take one
+of least total codeword length; in it a longest codeword has its sibling as a codeword, since
+otherwise it could be shortened without increasing the expected length. (The choice matters when
+a value has probability zero: for `(1/2, 1/2, 0)` the code `0, 10, 110` is optimal and the
+sibling `111` of its longest codeword is not a codeword.) Swapping codewords between a value of
+least probability and a value of larger probability with a longer codeword does not increase the
+expected length. For the
 merge identity, a prefix code for the merged label with codeword `w` at `a` extends to a prefix
 code for `X` with `w ++ [x]` at `a` and `w ++ [y]` at `b`, adding `μ (X = a) + μ (X = b)` to the
 expected length. Conversely, in the code of the sibling property the only words extending `w` that
@@ -509,7 +514,10 @@ Different statements in open roadmaps (not on main); this roadmap does not depen
   almost sure convergence of `−n⁻¹ log` of the probability of the first `n` letters. 3.1 and 3.2
   are statements about the counting and the probability of typical and high-probability sets for
   independent identically distributed labels on any probability space, proved from the strong law
-  of large numbers.
+  of large numbers. ClassicalErgodicTheory §4.6 also states strong subadditivity and a finite-set
+  Shearer inequality for the window labels of a group action, the translates of one label with
+  countably many values of finite entropy; 1.1 and 1.2 here are for an arbitrary finite family of
+  finite-valued labels, and contain the finite-valued case of that statement.
 - MeansMajorizationAndDiscreteInequalities §5.4 (an open roadmap, not on main) defines the entropy
   of a vector and proves its Schur-concavity and its maximum at the uniform vector; nothing here
   uses or restates them.
