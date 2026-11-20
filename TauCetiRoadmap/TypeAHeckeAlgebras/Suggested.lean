@@ -58,10 +58,11 @@ open TauCeti
 
 /-! ## Layer 1: The finite Hecke tower and its module theory -/
 
-/-- **The semisimplicity criterion.** Over a field `K`, the Hecke algebra on `n` strands with
-quadratic relation `(Tᵢ - q)(Tᵢ + q⁻¹) = 0` is semisimple exactly when the Poincaré polynomial
-`∏_{r=1}^{n} [r]_Q` of the symmetric group, at `Q = q²`, is nonzero, where
-`[r]_Q = 1 + Q + ⋯ + Q^(r-1)`. At `Q = 1` this is Maschke's condition `n! ≠ 0` in `K`. -/
+/-- **The semisimplicity criterion** (Andersen–Stroppel–Tubbenhauer, Theorem 5.1, except at
+`q = -1` in characteristic `≠ 2`, which the sign twist carries to `q = 1`). Over a field `K`,
+the Hecke algebra on `n` strands with quadratic relation `(Tᵢ - q)(Tᵢ + q⁻¹) = 0` is semisimple
+exactly when the Poincaré polynomial `∏_{r=1}^{n} [r]_Q` of the symmetric group, at `Q = q²`, is
+nonzero, where `[r]_Q = 1 + Q + ⋯ + Q^(r-1)`. At `Q = 1` this is Maschke's condition `n! ≠ 0` in `K`. -/
 theorem isSemisimpleRing_typeAHeckeAlgebra_iff (K : Type*) [Field K] (q : Kˣ) (n : ℕ) :
     IsSemisimpleRing (TypeAHeckeAlgebra K q n) ↔
       ∏ r ∈ Finset.range n, ∑ j ∈ Finset.range (r + 1), ((q : K) ^ 2) ^ j ≠ 0 := by
@@ -117,8 +118,9 @@ theorem ocneanuTrace_nonneg_iff_of_isSelfAdjoint (q : ℂˣ) [Fact (IsSelfAdjoin
   sorry
 
 open scoped ComplexOrder in
-/-- **Positive Markov traces at unit-circle parameters** (Wenzl, §3). Let `q` be a complex
-parameter of modulus one with `Q = q² ≠ ±1`, and give the infinite type-A Hecke algebra over `ℂ`
+/-- **Positive Markov traces at unit-circle parameters** (Wenzl, Theorem 3.6(b), with
+Proposition 2.9 for the remaining unit-circle parameters). Let `q` be a complex parameter of
+modulus one with `Q = q² ≠ ±1`, and give the infinite type-A Hecke algebra over `ℂ`
 the involution sending every generator to its inverse and conjugating scalars. The Ocneanu trace
 with parameter `z` is positive exactly when its projection parameter
 `η = (z + q⁻¹) / (q + q⁻¹)` is `0` or `1`, or `Q = exp(± 2πi / l)` for some `l ≥ 3` and

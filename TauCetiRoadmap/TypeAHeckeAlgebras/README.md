@@ -171,7 +171,9 @@ declarations above; Mathlib `FreeAlgebra`, `RingQuot`, `CoxeterSystem`, `Coxeter
 ### 1.2 Split semisimplicity and the Specht modules
 
 Over a field K put `[r]_Q = 1 + Q + ⋯ + Q^(r−1)`. Prove `isSemisimpleRing_typeAHeckeAlgebra_iff`:
-Hₙ(q) is semisimple exactly when `∏_(r=1)^n [r]_Q ≠ 0`, and prove
+Hₙ(q) is semisimple exactly when `∏_(r=1)^n [r]_Q ≠ 0` (Andersen–Stroppel–Tubbenhauer, Theorem
+5.1, p. 21, in this normalization, for every q except q = −1 in characteristic ≠ 2, which the sign
+twist of §1.1 carries to q = 1), and prove
 `nonempty_algEquiv_pi_matrix_of_prod_ne_zero`: it is then split semisimple, isomorphic as a
 K-algebra to `∏_(λ⊢n) M_(f^λ)(K)`.
 
@@ -182,9 +184,12 @@ being the partitions that strictly dominate λ; its index set at λ is the set o
 for standard λ-tableaux s, t is `T_(d(s))* x_λ T_(d(t))`, where x_λ is the row symmetrizer of the
 Young parabolic subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the
 eigenvalue q, and d(t) is the permutation carrying the row-reading λ-tableau to t, the
-minimal-length element of its coset of that subgroup. The Specht module S^λ is the cell module of
-λ, with its basis indexed by the standard λ-tableaux; every later statement about Specht modules
-refers to this fixed module and basis. The general theory of cellular algebras over a field (the
+minimal-length element of its coset of that subgroup. This is Murphy's basis, cellular over every
+commutative ring and unit parameter (Mathas, Example 2.15, p. 6, in the normalization
+`(gᵢ − Q)(gᵢ + 1) = 0`, gᵢ = qTᵢ, where its elements are unit multiples of these). The Specht
+module S^λ is the cell module of λ, with its basis indexed by the standard λ-tableaux; every later
+statement about Specht modules refers to this fixed module and basis. The general theory of
+cellular algebras over a field (the
 simple modules are the nonzero heads of the cell modules, and the algebra is semisimple exactly
 when every cell form is nondegenerate) is TemperleyLieb Layer 5's and is consumed here. Compute
 the Gram determinants of the cell forms of Hₙ(q) and deduce the criterion from them, not by an
@@ -315,9 +320,10 @@ On a generic semisimple complex fibre prove:
 - for Q > 0 the Jᵢ are self-adjoint for the real-parameter involution;
 - on the fixed tableau basis of S^λ (§1.2), Jᵢ acts triangularly for the dominance order of
   standard λ-tableaux, with diagonal entry `Q^(c)` at the tableau t, c the content of the box of i
-  in t, and Lᵢ likewise with diagonal entry `[c]_Q = (Q^c − 1)/(Q − 1)`, `[c]_1 = c`; where these
-  eigenvalues separate the standard λ-tableaux, a unitriangular change of the fixed basis gives
-  the seminormal basis, on which Jᵢ and Lᵢ act diagonally with these eigenvalues;
+  in t, and Lᵢ likewise with diagonal entry `[c]_Q = (Q^c − 1)/(Q − 1)`, `[c]_1 = c` (for the Lᵢ
+  over every commutative ring, Mathas, Example 2.15, p. 7); where these eigenvalues separate the
+  standard λ-tableaux, a unitriangular change of the fixed basis gives the seminormal basis, on
+  which Jᵢ and Lᵢ act diagonally with these eigenvalues;
 - the joint spectral projections of J₁, …, Jₙ are the branching projections onto the summands of
   §1.3, path by path.
 
@@ -863,9 +869,7 @@ API:
 
 - the removable-limit formula: for Q > 0, `a_d` is continuous at Q = 1 with value (d + 1)/(2d);
 - `a_d(Q) + a_(−d)(Q) = 1`, and `a_d(Q⁻¹) = a_d(Q)`;
-- `a_1 = 1` and `a_(−1) = 0`;
-- the trace-weight formulas: the Schur specializations of §3.14 at the finite geometric weights
-  give the parameters `a_(±r)(Q)`.
+- `a_1 = 1` and `a_(−1) = 0`.
 
 *Needs:* §§2.1, 3.3; Tau Ceti `TauCeti.InfiniteTypeAHeckeAlgebra.complementEquiv`,
 `TauCeti.InfiniteTypeAHeckeAlgebra.complementEquiv_eigenprojection`.
@@ -906,8 +910,9 @@ z = ±1/k (k letters of one sign, η = a_k(1) or a_(−k)(1)). Prove with it:
   with at most |k| columns; in Wenzl's convention, η_W = a_k with k > 0 is supported on at most k
   columns, and with k < 0 on at most |k| rows.
 
-*Needs:* §§1.2, 1.5, 1.7, 2.1, 2.2, 3.1, 3.5, 3.13, 3.14; Tau Ceti
-`TauCeti.InfiniteTypeAHeckeAlgebra.ocneanuTrace`, `TauCeti.InfiniteTypeAHeckeAlgebra.instStarRing`.
+*Needs:* §§1.2, 1.5, 1.7, 2.1, 2.2, 3.1, 3.5, 3.13, and for sufficiency the models of §3.14 with
+their positivity and Markov identity; Tau Ceti `TauCeti.InfiniteTypeAHeckeAlgebra.ocneanuTrace`,
+`TauCeti.InfiniteTypeAHeckeAlgebra.instStarRing`.
 
 **Checks.**
 - Q = 2: the interval is [1/3, 2/3], and below it `a_(−2)(2) = 2/9`, `a_(−3)(2) = 2/7`,
@@ -919,7 +924,8 @@ z = ±1/k (k letters of one sign, η = a_k(1) or a_(−k)(1)). Prove with it:
 
 ### 3.7 Positive Markov traces at unit-circle parameters
 
-Prove `ocneanuTrace_nonneg_iff_of_mem_unitary` (Wenzl, §3): for |q| = 1 with Q = q² ≠ ±1, and H∞(q)
+Prove `ocneanuTrace_nonneg_iff_of_mem_unitary` (Wenzl, Theorem 3.6(b), p. 379, with Proposition
+2.9, p. 370, for the remaining unit-circle parameters): for |q| = 1 with Q = q² ≠ ±1, and H∞(q)
 over ℂ with the unit-circle involution, the Ocneanu trace with parameter z is positive exactly when
 its native parameter η is 0 or 1, or `Q = e^(±2πi/l)` for some l ≥ 3 and `η = a_k(Q)` for some
 1 ≤ k ≤ l − 1. At `Q = e^(±2πi/l)` the parameters in Wenzl's convention are `η_W = a_(−k)(Q)`,
@@ -1193,8 +1199,10 @@ unitary `Uₙ` of §3.11 conjugates ρ with parameter q to ρ with parameter √
 relative commutant, the corner indices and the relative entropy of every family after these
 comparisons; a trace identity alone identifies none of those invariants.
 
-*Needs:* §§1.5, 3.5, 3.6, 3.12, 3.13; Tau Ceti `TauCeti.signedCheckedRep`,
-`TauCeti.InfiniteTypeAHeckeAlgebra.braidHom`, `TauCeti.ArtinGroup.exponentSum`.
+*Needs:* §§1.5, 3.5, 3.12, 3.13 for the models, their positivity and their Markov identity; §3.6
+as well for the exhaustion and for `exists_signedCheckedRep_trace_eq_ocneanuTrace`; Tau Ceti
+`TauCeti.signedCheckedRep`, `TauCeti.InfiniteTypeAHeckeAlgebra.braidHom`,
+`TauCeti.ArtinGroup.exponentSum`.
 
 **Checks.**
 - Q > 1 at the endpoint `η_W = 1/(1 + Q)`: c = 0, s = Q − 1, and the only list is
@@ -2536,7 +2544,8 @@ Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
   (§§3.2, 3.4), which concern the extra relation (11.6).
 - H. Wenzl, *Hecke algebras of type A_n and subfactors*, Invent. Math. 92 (1988), 349–383,
   [DOI 10.1007/BF01404457](https://doi.org/10.1007/BF01404457): §§2–3 for the tableau
-  representations (Theorem 2.2, §1.2), the positive trace classification (Theorem 3.6, §§3.5–3.7),
+  representations (Theorem 2.2, §1.2), the positive trace classification (Theorem 3.6, §§3.5–3.7,
+  with Proposition 2.9 for the remaining unit-circle parameters, §3.7),
   the countable hook product (3.5) (§4.12) and the subfactor examples (§4.2). The printed text has
   literal discrepancies on pp. 379–383, kept here: Theorem 3.6(b) and the setup on p. 380 print
   `q = e^(±2πi/l)`, while Theorem 3.7 prints `q = e^(±πi/l)`; Theorem 3.7(a) prints the denominator
@@ -2579,3 +2588,15 @@ Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
   brackets. These literals are kept; the squared cosine and the full theorem with the complementary
   states follow from the algebraic and positive-trace arguments of Layer 3, and the targets derive
   their conventions from the operator blocks and both stabilization identities.
+- H. H. Andersen, C. Stroppel and D. Tubbenhauer, *Semisimplicity of Hecke and (walled) Brauer
+  algebras*, J. Aust. Math. Soc. 103 (2017), 1–44,
+  [arXiv:1507.07676](https://arxiv.org/abs/1507.07676): Theorem 5.1, p. 21 of arXiv v3, for the
+  semisimplicity criterion over every field, stated with `Hᵢ² = (q − q⁻¹)Hᵢ + 1` and for q ≠ −1 in
+  characteristic ≠ 2 (§1.2).
+- A. Mathas, *Seminormal forms and Gram determinants for cellular algebras*, J. Reine Angew. Math.
+  619 (2008), 141–173, [arXiv:math/0604108](https://arxiv.org/abs/math/0604108): Example 2.15,
+  pp. 6–7 of arXiv v4, for Murphy's cellular basis of the Hecke algebra over every commutative ring
+  and the triangular action of the Jucys–Murphy elements on it, with diagonal entries `[c]_Q`, in
+  the normalization `(gᵢ − Q)(gᵢ + 1) = 0` (§§1.2, 1.6). Its parameter is our Q. For c < 0 it
+  prints `[c]_Q = −Q^(−c)[−c]_Q`; the value `L₂ = Q⁻¹g₁ = −Q⁻¹` on the sign module of H₂(q)
+  requires `[c]_Q = −Q^c[−c]_Q = (Q^c − 1)/(Q − 1)`, the formula of §1.6.
