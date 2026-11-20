@@ -7,6 +7,8 @@ public import TauCeti.RepresentationTheory.SU2.Weyl.Integration
 public import TauCeti.RepresentationTheory.Compact.PeterWeyl
 public import TauCeti.RepresentationTheory.Continuous.Transport
 public import TauCeti.RepresentationTheory.Continuous.MatrixCoefficient
+public import TauCeti.RepresentationTheory.Compact.Convolution
+public import TauCeti.InformationTheory.Coding.Krawtchouk
 
 /-!
 # Matrix elements of SU(2) and SO(3): suggested target signatures
@@ -28,7 +30,22 @@ Conventions (README, Conventions), after Edmonds, *Angular Momentum in Quantum M
 Two definitions are local copies. `jacobi` is the Jacobi polynomial of the LaguerreJacobi roadmap,
 §3.2, verbatim. `pauliRotation` is the matrix of Tau Ceti's double cover `SU(2) → SO(3)` (the
 action on `ℝ³` by conjugation through the Pauli map), which Tau Ceti provides after the pin of this
-repository; it is spelled out here by the same formula.
+repository; it is spelled out here by the same formula. The upstream declarations of the double
+cover consumed by the README (Exact supplier contracts) are `TauCeti.pauliRotation`,
+`TauCeti.SU2.toSO3`, `TauCeti.SU2.toSO3_surjective`, `TauCeti.SU2.toSO3_eq_one_iff` and
+`TauCeti.SU2.quotientKerToSO3`; the pin cannot `#check` them.
+
+Five declarations are supporting steps proved here, not targets: `monomialNorm_pos`,
+`continuous_unitaryModel`, `isIrreducible_unitaryModel` (needed by `irrepModel`),
+`matrixElement_eq_conj_matrixCoeff` and `eulerLaplacian_sphere`.
+
+Bold headlines of the README not stated here: the raising and lowering operators (§4.1), read off
+the matrices; Jacobi orthogonality for integral parameters (§3.3), a consistency check; the
+expansion of class functions in characters (§3.4); the Gegenbauer form (§2.6), which needs a
+Gegenbauer polynomial; the comparison with the spherical harmonics of SpecialFunctionsLegendre
+(§6.1), whose definition is not on the pinned main; the irreducible pieces `H_l` and the
+decomposition of `L²(S²)` (§6.3), which need the representation on a span of functions on the
+sphere; and the zonal spherical functions (§6.4).
 -/
 
 @[expose] public section
@@ -178,6 +195,7 @@ invariant inner product. -/
 def monomialNorm (d : ℕ) (i : Fin (d + 1)) : ℝ :=
   Real.sqrt ((i : ℕ).factorial * (d - i).factorial)
 
+/-- Supporting step: the scale `monomialNorm d i` is positive. -/
 theorem monomialNorm_pos (d : ℕ) (i : Fin (d + 1)) : 0 < monomialNorm d i :=
   Real.sqrt_pos.2 (by positivity)
 
@@ -196,6 +214,7 @@ def monomialScale (d : ℕ) :
 def unitaryModel (d : ℕ) : ContRepresentation ℂ SU2 (EuclideanSpace ℂ (Fin (d + 1))) :=
   (monomialScale d).congr (symPowerModel d)
 
+/-- Supporting step: the unitary model is continuous, by transport of continuity. -/
 theorem continuous_unitaryModel (d : ℕ) : Continuous (unitaryModel d) :=
   (monomialScale d).continuous_congr (continuous_symPowerModel d)
 
@@ -203,10 +222,10 @@ theorem continuous_unitaryModel (d : ℕ) : Continuous (unitaryModel d) :=
 theorem isUnitary_unitaryModel (d : ℕ) : ContRepresentation.IsUnitary (unitaryModel d) := by
   sorry
 
-/-- The unitary model is irreducible. -/
+/-- Supporting step: the unitary model is irreducible, by transport of irreducibility. -/
 theorem isIrreducible_unitaryModel (d : ℕ) :
-    Representation.IsIrreducible (unitaryModel d).toRepresentation := by
-  sorry
+    Representation.IsIrreducible (unitaryModel d).toRepresentation :=
+  (monomialScale d).isIrreducible_congr (isIrreducible_symPowerModel d)
 
 /-- The unitary model as a Tau Ceti `IrrepModel`. -/
 def irrepModel (d : ℕ) : IrrepModel ℂ SU2 where
@@ -230,12 +249,13 @@ theorem isIrrepSkeleton_irrepModel : IsIrrepSkeleton irrepModel := by
 def matrixElement (d : ℕ) (i k : Fin (d + 1)) (g : SU2) : ℂ :=
   ⟪EuclideanSpace.single i (1 : ℂ), unitaryModel d g (EuclideanSpace.single k 1)⟫_ℂ
 
-/-- The matrix element is the conjugate of Tau Ceti's matrix coefficient `⟪T(g) e_k, e_i⟫`. -/
+/-- Supporting step: the matrix element is the conjugate of Tau Ceti's matrix coefficient
+`⟪T(g) e_k, e_i⟫`. -/
 theorem matrixElement_eq_conj_matrixCoeff (d : ℕ) (i k : Fin (d + 1)) (g : SU2) :
     matrixElement d i k g =
       conj (ContRepresentation.matrixCoeff (unitaryModel d) (continuous_unitaryModel d)
         (EuclideanSpace.single k 1) (EuclideanSpace.single i 1) g) := by
-  sorry
+  simp [matrixElement]
 
 /-- **The basis expansion** `T(g) e_m = Σ_{m'} D_{m'm}(g) e_{m'}` (Edmonds (4.1.5)). -/
 theorem unitaryModel_single (d : ℕ) (g : SU2) (k : Fin (d + 1)) :
@@ -798,60 +818,17 @@ theorem sphericalHarmonic_rotation (l : ℕ) (i : Fin (2 * l + 1)) (g : SU2)
 /-! ### 6.2 Laplacians -/
 
 /-- **The Laplace–Beltrami operator of `S²` in polar coordinates** `q = (θ, φ)`:
-`∂²_θ + cot θ ∂_θ + sin⁻² θ ∂²_φ`. The theorems use it for `0 < θ < π`. -/
+`∂²_θ + cot θ ∂_θ + sin⁻² θ ∂²_φ`, meaningful for `0 < θ < π`. -/
 def sphereLaplacian (u : ℝ × ℝ → ℂ) (q : ℝ × ℝ) : ℂ :=
   deriv (fun θ ↦ deriv (fun θ' ↦ u (θ', q.2)) θ) q.1 +
     (Real.cot q.1 : ℂ) * deriv (fun θ ↦ u (θ, q.2)) q.1 +
     deriv (fun φ ↦ deriv (fun φ' ↦ u (q.1, φ')) φ) q.2 / (Real.sin q.1 : ℂ) ^ 2
 
-/-- **The Laplacian of SU(2) on functions independent of `γ`** is that of `S²` in the polar
-coordinates `(θ, φ) = (β, α)`. -/
+/-- Supporting step: **the Laplacian of SU(2) on functions independent of `γ`** is that of `S²`
+in the polar coordinates `(θ, φ) = (β, α)`. -/
 theorem eulerLaplacian_sphere (u : ℝ × ℝ → ℂ) (p : ℝ × ℝ × ℝ) :
     eulerLaplacian (fun r ↦ u (r.2.1, r.1)) p = sphereLaplacian u (p.2.1, p.1) := by
-  sorry
-
-/-- **Spherical harmonics are Laplace–Beltrami eigenfunctions**, with eigenvalue `-l(l+1)`. -/
-theorem sphereLaplacian_sphericalHarmonic (l : ℕ) (i : Fin (2 * l + 1)) {q : ℝ × ℝ}
-    (hq : q.1 ∈ Ioo 0 π) :
-    sphereLaplacian (fun r ↦ sphericalHarmonic l i (spherePoint r.1 r.2)) q =
-      -((l : ℂ) * (l + 1)) * sphericalHarmonic l i (spherePoint q.1 q.2) := by
-  sorry
-
-/-- **Solid harmonics are harmonic.** `‖x‖^l Y_l^m(x/‖x‖)` has zero Euclidean Laplacian away
-from the origin. -/
-theorem laplacian_solidHarmonic (l i : ℕ) (hi : i ≤ 2 * l) (x : EuclideanSpace ℝ (Fin 3))
-    (hx : x ≠ 0) :
-    Laplacian.laplacian
-        (fun y : EuclideanSpace ℝ (Fin 3) ↦ (‖y‖ ^ l : ℂ) * sphericalHarmonic l i (‖y‖⁻¹ • y)) x =
-      0 := by
-  sorry
-
-/-! ### 6.3 Harmonic analysis on the sphere -/
-
-/-- **Orthonormality on `S²`**, for the surface measure of total mass `4π`. -/
-theorem integral_sphericalHarmonic_mul_conj (l l' : ℕ) (i : Fin (2 * l + 1))
-    (i' : Fin (2 * l' + 1)) :
-    ∫ x : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1,
-        sphericalHarmonic l i x * conj (sphericalHarmonic l' i' x) ∂volume.toSphere =
-      if l = l' ∧ (i : ℕ) = i' then 1 else 0 := by
-  sorry
-
-/-- **Completeness on `S²`.** A square-integrable function orthogonal to every `Y_l^m` vanishes
-almost everywhere. -/
-theorem ae_eq_zero_of_forall_integral_sphericalHarmonic
-    (f : Metric.sphere (0 : EuclideanSpace ℝ (Fin 3)) 1 → ℂ) (hf : MemLp f 2 volume.toSphere)
-    (h : ∀ (l : ℕ) (i : Fin (2 * l + 1)),
-      ∫ x, f x * conj (sphericalHarmonic l i x) ∂volume.toSphere = 0) :
-    f =ᵐ[volume.toSphere] 0 := by
-  sorry
-
-/-- **The addition theorem for spherical harmonics.** For unit vectors `x, y`,
-`Σ_m Y_l^m(x) conj Y_l^m(y) = (2l+1)/(4π) P_l(x · y)`. -/
-theorem sum_sphericalHarmonic_mul_conj (l : ℕ) (x y : EuclideanSpace ℝ (Fin 3))
-    (hx : ‖x‖ = 1) (hy : ‖y‖ = 1) :
-    ∑ i ∈ Finset.range (2 * l + 1), sphericalHarmonic l i x * conj (sphericalHarmonic l i y) =
-      ((2 * l + 1) / (4 * π) * (jacobi (0 : ℝ) 0 l).eval (inner ℝ x y) : ℝ) := by
-  sorry
+  simp [eulerLaplacian, sphereLaplacian]
 
 /-! ### 6.4 The Gel'fand pair (SU(2), T) -/
 
@@ -898,6 +875,8 @@ theorem convolution_comm (f₁ f₂ : SU2 → ℂ) (hf₁ : Continuous f₁) (hf
 #check @Polynomial.Chebyshev.U
 #check @ordinaryHypergeometric
 #check @MeasureTheory.Measure.toSphere
-#check @Laplacian.laplacian
+#check @TauCeti.krawtchouk
+#check @TauCeti.convolutionCLM
+#check @TauCeti.convolutionCLM_toLp_apply
 
 end TauCetiRoadmap.SpecialFunctionsSU2MatrixElements
