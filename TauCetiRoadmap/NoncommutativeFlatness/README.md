@@ -438,7 +438,7 @@ representables.
   `C`-submodules (`I(X, -) ≤ Hom(X, -)` with postcomposition lemma `comp_mem`), order-isomorphic to
   left ideals of `Cᵒᵖ` and receiving coercions from `TauCeti.MorphismIdeal`. Single-object ideals of
   [Mitchell, §3, p. 18] and [OR, pp. 93–96] embed via extension by `0`
-  (`TauCeti.RightMorphismIdeal.ofSubobject`, `TauCeti.RightMorphismIdeal.principal`), and over
+  (`TauCeti.RightMorphismIdeal.ofSubmodule`, `TauCeti.RightMorphismIdeal.principal`), and over
   `SingleObj Aᵐᵒᵖ` order isomorphisms identify left and right ideals of `A` with those of
   `SingleObj Aᵐᵒᵖ`, sending `aA` to the principal right ideal of `op a`.
 - **Superfluous elements** (`TauCeti.IsSuperfluous`). Refactors `TauCeti.IsSuperfluous` from

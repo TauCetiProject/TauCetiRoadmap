@@ -32,6 +32,12 @@ signatures for core definitions, structures, classes, and headline theorems acro
 against the pinned Mathlib and Tau Ceti; discharging all `sorry`s here finishes neither a layer nor
 the roadmap. Existing Tau Ceti declarations carry their `TauCeti.` prefix.
 
+Every definition that later statements are about has a real body: the tensor product of
+categories, the regular bimodule, `I · M`, the coend tensor product and `Tor`, bimodule `⊗`, `Hom`
+and `Tor`, the dual `F^E`, `proj C`'s duality, the balanced tensor and `Hom` functors, the category
+algebra, and the module-category bridges. Their proof fields may still be `sorry`. The remaining
+`sorry` data are isomorphisms, equivalences and adjunctions whose existence is itself a target.
+
 For preadditive `C : Type u` with `Category.{v} C`, `ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}` (with
 covariant functors in `ModCat Cᵒᵖ` and `Hom(X, -) = (ModCat.yoneda Cᵒᵖ).obj (op X)`). A ring `A`
 enters as `SingleObj Aᵐᵒᵖ` (left `A`-modules) alongside native ring classes and functors.
@@ -52,6 +58,13 @@ open scoped CharacterModule DirectSum TensorProduct
 def addToLin {R M N : Type*} [Semiring R] [AddCommMonoid M] [AddCommMonoid N] [Module R M]
     [Module R N] (f : M →+ N) : M →ₗ[R] N :=
   { f with map_smul' := sorry }
+
+/-- An additive map between `w`-small groups, transported to their `Shrink`s. -/
+noncomputable def shrinkMap {α β : Type*} [AddCommGroup α] [AddCommGroup β] [Small.{w} α]
+    [Small.{w} β] (f : α →+ β) : Shrink.{w} α →+ Shrink.{w} β where
+  toFun x := equivShrink β (f ((equivShrink α).symm x))
+  map_zero' := sorry
+  map_add' := sorry
 
 /-! ## Layer 0: modules over a preadditive category and their tensor product -/
 
@@ -113,6 +126,8 @@ instance [EssentiallySmall.{w} C] : EnoughProjectives (ModCat.{w} C) := sorry
 instance [EssentiallySmall.{w} C] : IsGrothendieckAbelian.{w} (ModCat.{w} C) := sorry
 instance (M : ModCat.{w} C) : IsModularLattice (Subobject M) := sorry
 instance [EssentiallySmall.{w} C] (M : ModCat.{w} C) : IsCompactlyGenerated (Subobject M) := sorry
+
+instance [EssentiallySmall.{w} C] : LocallySmall.{w} (ModCat.{w} C) := sorry
 
 variable {C} in
 /-- **0.1** Every nonzero finitely generated module has a maximal proper subobject. -/
@@ -352,6 +367,36 @@ noncomputable def sliceRight (M : ModCat.Bimod.{w} D C) (d : D) : ModCat.{w} C�
   ⟨(Linear.TensorProduct.inrObj ℤ Cᵒᵖ d).op ⋙ M.obj,
     (inferInstance : ((Linear.TensorProduct.inrObj ℤ Cᵒᵖ d).op ⋙ M.obj).Additive)⟩
 
+/-- **0.3** The slices as functors: `c ↦ M(-, c)` (covariant) and `d ↦ M(d, -)` (contravariant). -/
+noncomputable def sliceLeftFunctor (M : ModCat.Bimod.{w} D C) : C ⥤ ModCat.{w} D where
+  obj c := M.sliceLeft c
+  map {c c'} b := ObjectProperty.homMk
+    { app X := M.obj.map (Linear.TensorProduct.tmul (R := ℤ)
+        (X := ⟨X.unop, Opposite.op c'⟩) (Y := ⟨X.unop, Opposite.op c⟩) (𝟙 X.unop) b.op).op
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
+
+noncomputable def sliceRightFunctor (M : ModCat.Bimod.{w} D C) : Dᵒᵖ ⥤ ModCat.{w} Cᵒᵖ where
+  obj d := M.sliceRight d.unop
+  map {d d'} a := ObjectProperty.homMk
+    { app Z := M.obj.map (Linear.TensorProduct.tmul (R := ℤ)
+        (X := ⟨d'.unop, Z.unop⟩) (Y := ⟨d.unop, Z.unop⟩) a.unop (𝟙 Z.unop)).op
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
+
+/-- **0.3** A map of bimodules restricted to the slices. -/
+noncomputable def sliceLeftMap {M M' : ModCat.Bimod.{w} D C} (μ : M ⟶ M') (c : C) :
+    M.sliceLeft c ⟶ M'.sliceLeft c :=
+  ObjectProperty.homMk
+    (Functor.whiskerLeft (Linear.TensorProduct.inlObj ℤ D (Opposite.op c)).op μ.hom)
+
+noncomputable def sliceRightMap {M M' : ModCat.Bimod.{w} D C} (μ : M ⟶ M') (d : D) :
+    M.sliceRight d ⟶ M'.sliceRight d :=
+  ObjectProperty.homMk
+    (Functor.whiskerLeft (Linear.TensorProduct.inrObj ℤ Cᵒᵖ d).op μ.hom)
+
 /-- **0.3** One-sided submodules of a `(D, C)`-bimodule `M`, forgetting the other action. -/
 def LeftSubmodule (M : ModCat.Bimod.{w} D C) : Type _ :=
   ∀ c : C, ModCat.Submodule (M.sliceLeft c)
@@ -511,7 +556,8 @@ noncomputable def tensorBifunctorMap {D : Type u} [Category.{v} D]
     tensorBifunctor G F ⟶ tensorBifunctor G' F' where
   app d' :=
     { app d := AddCommGrpCat.ofHom
-        (TensorProduct.map (α.app d').hom.toIntLinearMap (β.app d).hom.toIntLinearMap).toAddMonoidHom
+        (TensorProduct.map (α.app d').hom.toIntLinearMap
+          (β.app d).hom.toIntLinearMap).toAddMonoidHom
       naturality := sorry }
   naturality := sorry
 
@@ -633,25 +679,103 @@ universe u₁ v₁ u₂ v₂
 variable {D : Type u₁} [Category.{v₁} D] [Preadditive D]
   {E : Type u₂} [Category.{v₂} E] [Preadditive E]
 
+/-- **0.4** `a ⊗ b` acts on `T(M(d, -), N(-, e))` through `T(M(a, -), N(-, b))`. -/
+noncomputable def Bimod.liftAct (T : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w})
+    (M : ModCat.Bimod.{w} D C) (N : ModCat.Bimod.{w} C E)
+    (p q : (Linear.TensorProduct ℤ D Eᵒᵖ)ᵒᵖ) :
+    (q.unop.fst ⟶ p.unop.fst) →ₗ[ℤ] (q.unop.snd ⟶ p.unop.snd) →ₗ[ℤ]
+      ((T.obj ((Bimod.sliceRightFunctor M).obj (op p.unop.fst))).obj
+          ((Bimod.sliceLeftFunctor N).obj p.unop.snd.unop) →ₗ[ℤ]
+        (T.obj ((Bimod.sliceRightFunctor M).obj (op q.unop.fst))).obj
+          ((Bimod.sliceLeftFunctor N).obj q.unop.snd.unop)) :=
+  LinearMap.mk₂ ℤ (fun a b ↦ ((T.map ((Bimod.sliceRightFunctor M).map a.op)).app _ ≫
+      (T.obj _).map ((Bimod.sliceLeftFunctor N).map b.unop)).hom.toIntLinearMap)
+    sorry sorry sorry sorry
+
+/-- **0.4** A bifunctor `T : Mod Cᵒᵖ ⥤ Mod C ⥤ Ab` applied to bimodules slice by slice:
+`(T(M, N))(d, e) = T(M(d, -), N(-, e))`. -/
+noncomputable def Bimod.lift (T : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) :
+    ModCat.Bimod.{w} D C ⥤ ModCat.Bimod.{w} C E ⥤ ModCat.Bimod.{w} D E where
+  obj M :=
+    { obj N := ⟨{ obj p := (T.obj ((Bimod.sliceRightFunctor M).obj (op p.unop.fst))).obj
+                    ((Bimod.sliceLeftFunctor N).obj p.unop.snd.unop)
+                  map {p q} φ := AddCommGrpCat.ofHom
+                    (TensorProduct.lift (Bimod.liftAct T M N p q) φ.unop).toAddMonoidHom
+                  map_id := sorry
+                  map_comp := sorry }, sorry⟩
+      map ν := ObjectProperty.homMk
+        { app p := (T.obj _).map (Bimod.sliceLeftMap ν p.unop.snd.unop)
+          naturality := sorry }
+      map_id := sorry
+      map_comp := sorry }
+  map μ :=
+    { app N := ObjectProperty.homMk
+        { app p := (T.map (Bimod.sliceRightMap μ p.unop.fst)).app _
+          naturality := sorry }
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
+
 /-- **0.4** Symmetric bimodule tensor product `M ⊗_C N` in `Bimod D E`, evaluating at `(d, e)` to
 `M(d, -) ⊗_C N(-, e)`. -/
 noncomputable def Bimod.tensor [EssentiallySmall.{w} C] :
-    ModCat.Bimod.{w} D C ⥤ ModCat.Bimod.{w} C E ⥤ ModCat.Bimod.{w} D E := sorry
+    ModCat.Bimod.{w} D C ⥤ ModCat.Bimod.{w} C E ⥤ ModCat.Bimod.{w} D E :=
+  Bimod.lift ModCat.tensor
 
 /-- **0.4** Contravariant bimodule `Hom` functors `Hom_D(-, M) : (Mod D)ᵒᵖ ⥤ Mod Cᵒᵖ` and
 `Hom_{Cᵒᵖ}(-, M) : (Mod Cᵒᵖ)ᵒᵖ ⥤ Mod D`. -/
 noncomputable def Bimod.homLeft [EssentiallySmall.{w} D] (M : ModCat.Bimod.{w} D C) :
-    (ModCat.{w} D)ᵒᵖ ⥤ ModCat.{w} Cᵒᵖ := sorry
+    (ModCat.{w} D)ᵒᵖ ⥤ ModCat.{w} Cᵒᵖ where
+  obj P := ⟨{ obj X := AddCommGrpCat.of
+                (Shrink.{w} (P.unop ⟶ (Bimod.sliceLeftFunctor M).obj X.unop.unop))
+              map f := AddCommGrpCat.ofHom (shrinkMap
+                (Preadditive.rightComp P.unop ((Bimod.sliceLeftFunctor M).map f.unop.unop)))
+              map_id := sorry
+              map_comp := sorry }, sorry⟩
+  map α := ObjectProperty.homMk
+    { app X := AddCommGrpCat.ofHom (shrinkMap (Preadditive.leftComp _ α.unop))
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
 
 noncomputable def Bimod.homRight [EssentiallySmall.{w} C] (M : ModCat.Bimod.{w} D C) :
-    (ModCat.{w} Cᵒᵖ)ᵒᵖ ⥤ ModCat.{w} D := sorry
+    (ModCat.{w} Cᵒᵖ)ᵒᵖ ⥤ ModCat.{w} D where
+  obj G := ⟨{ obj d := AddCommGrpCat.of (Shrink.{w} (G.unop ⟶ (Bimod.sliceRightFunctor M).obj d))
+              map a := AddCommGrpCat.ofHom
+                (shrinkMap (Preadditive.rightComp G.unop ((Bimod.sliceRightFunctor M).map a)))
+              map_id := sorry
+              map_comp := sorry }, sorry⟩
+  map α := ObjectProperty.homMk
+    { app d := AddCommGrpCat.ofHom (shrinkMap (Preadditive.leftComp _ α.unop))
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
 
 /-- **0.4** Bimodule Tensor–Hom adjunction `M ⊗_C - ⊣ Hom_D(M, -)` between `Mod C` and `Mod D`. -/
 noncomputable def Bimod.tensorLeft [EssentiallySmall.{w} C] (M : ModCat.Bimod.{w} D C) :
-    ModCat.{w} C ⥤ ModCat.{w} D := sorry
+    ModCat.{w} C ⥤ ModCat.{w} D where
+  obj F := ⟨{ obj d := (ModCat.tensor.obj ((Bimod.sliceRightFunctor M).obj d)).obj F
+              map a := (ModCat.tensor.map ((Bimod.sliceRightFunctor M).map a)).app F
+              map_id := sorry
+              map_comp := sorry }, sorry⟩
+  map φ := ObjectProperty.homMk
+    { app d := (ModCat.tensor.obj _).map φ
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
 
 noncomputable def Bimod.homCovLeft [EssentiallySmall.{w} D] (M : ModCat.Bimod.{w} D C) :
-    ModCat.{w} D ⥤ ModCat.{w} C := sorry
+    ModCat.{w} D ⥤ ModCat.{w} C where
+  obj Q := ⟨{ obj c := AddCommGrpCat.of (Shrink.{w} ((Bimod.sliceLeftFunctor M).obj c.unop ⟶ Q))
+              map f := AddCommGrpCat.ofHom
+                (shrinkMap (Preadditive.leftComp Q ((Bimod.sliceLeftFunctor M).map f.unop)))
+              map_id := sorry
+              map_comp := sorry }, sorry⟩
+  map ψ := ObjectProperty.homMk
+    { app c := AddCommGrpCat.ofHom (shrinkMap (Preadditive.rightComp _ ψ))
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
 
 noncomputable def Bimod.tensorLeftHomAdjunction [EssentiallySmall.{w} C] [EssentiallySmall.{w} D]
     (M : ModCat.Bimod.{w} D C) :
@@ -887,9 +1011,33 @@ noncomputable abbrev ModCat.dualRegular [EssentiallySmall.{v} C] :
     (ModCat.{v} C)ᵒᵖ ⥤ ModCat.{v} Cᵒᵖ :=
   ModCat.Bimod.homLeft (ModCat.regularBimod C)
 
+instance (P : (ModCat.proj C).FullSubcategory) (F : ModCat.{v} C) : Small.{v} (P.obj ⟶ F) := sorry
+
+/-- **0.9** `P^∨ = Hom_{Mod C}(P, Hom(-, ·))` in `Mod Cᵒᵖ`, for `P ∈ proj C` (no smallness on `C`:
+`Hom(P, F)` is `v`-small because `P` is a retract of a finite sum of representables). -/
+noncomputable def ModCat.projDualObj (P : (ModCat.proj C).FullSubcategory) : ModCat.{v} Cᵒᵖ :=
+  ⟨{ obj X := AddCommGrpCat.of (Shrink.{v} (P.obj ⟶ (ModCat.yoneda C).obj X.unop.unop))
+     map f := AddCommGrpCat.ofHom
+       (shrinkMap (Preadditive.rightComp P.obj ((ModCat.yoneda C).map f.unop.unop)))
+     map_id := sorry
+     map_comp := sorry }, sorry⟩
+
+variable (C) in
+noncomputable def ModCat.projDualFunctor :
+    (ModCat.proj C).FullSubcategoryᵒᵖ ⥤ (ModCat.proj Cᵒᵖ).FullSubcategory where
+  obj P := ⟨ModCat.projDualObj P.unop, sorry⟩
+  map α := ObjectProperty.homMk (ObjectProperty.homMk
+    { app X := AddCommGrpCat.ofHom (shrinkMap (Preadditive.leftComp _ α.unop.hom))
+      naturality := sorry })
+  map_id := sorry
+  map_comp := sorry
+
+instance : (ModCat.projDualFunctor C).IsEquivalence := sorry
+
 variable (C) in
 noncomputable def ModCat.projDual :
-    (ModCat.proj C).FullSubcategoryᵒᵖ ≌ (ModCat.proj Cᵒᵖ).FullSubcategory := sorry
+    (ModCat.proj C).FullSubcategoryᵒᵖ ≌ (ModCat.proj Cᵒᵖ).FullSubcategory :=
+  (ModCat.projDualFunctor C).asEquivalence
 
 noncomputable def ModCat.homAddEquivTensorObjProjDual [EssentiallySmall.{v} C]
     (P : (ModCat.proj C).FullSubcategory) (F : ModCat.{v} C) :
@@ -1017,7 +1165,8 @@ variable {D : Type u₁} [Category.{v₁} D] [Preadditive D]
 /-- **1.1** Symmetric bimodule `Tor^C_n(M, N)` in `Bimod D E`, evaluating at `(d, e)` to
 `Tor^C_n(M(d, -), N(-, e))`. -/
 noncomputable def Bimod.tor [EssentiallySmall.{w} C] (n : ℕ) :
-    ModCat.Bimod.{w} D C ⥤ ModCat.Bimod.{w} C E ⥤ ModCat.Bimod.{w} D E := sorry
+    ModCat.Bimod.{w} D C ⥤ ModCat.Bimod.{w} C E ⥤ ModCat.Bimod.{w} D E :=
+  Bimod.lift (ModCat.tor n)
 
 end BimodTor
 
