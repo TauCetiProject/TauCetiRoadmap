@@ -19,81 +19,43 @@ pinned Mathlib and Tau Ceti, with the definitions they need. Part I (shared foun
 Part II (Lorentzian geometry and causality) is Layers 6–13; Part I has no implementation
 dependency on Part II.
 
-## Scope and ownership
+## How to read the build
 
-Part I owns the generalizations of the existing bundle, nondegenerate metric, curvature,
-geodesic, immersion and variation APIs specified in Layers 1–5. Part II owns the Lorentzian
-specializations and causal theorems specified in Layers 6–13. Their common objects and proofs
-are shared. Signature, dimension, coefficient regularity and strongness are hypotheses
-of individual results, with no second metric, geodesic or curvature theory for a different
-signature or regularity.
+Part I (Layers 1–5) builds the shared semi-Riemannian foundations and Part II (Layers 6–13)
+specializes them to Lorentzian geometry; Part I does not use Part II. Layer 1 is the linear
+algebra of scalar products of any signature. Layer 2 is the bundle calculus, the
+regularity-graded metric carrier with its strong inverse, Hölder classes, Levi-Civita
+connection, curvature, warped products and extensions. Layer 3 is curves, the one geodesic
+flow, its exponential map and normal neighbourhoods. Layer 4 is nondegenerate immersions and
+Layer 5 Jacobi fields, variations and the Riccati identities. Layer 6 is Lorentzian linear
+algebra: cones, reverse inequalities and causal types of subspaces. Layer 7 is Lorentzian
+metrics, model spacetimes and acoustical metrics. Layer 8 is time orientations, causal curves,
+length and the causal relations. Layer 9 is spacelike and null submanifolds, Layer 10 local
+causality at `C^{1,1}` regularity and conformal null geodesics, and Layer 11 time separation,
+the causal ladder, time functions and limit curves. Layer 12 is achronal sets, domains of
+dependence, global hyperbolicity with the theorems of Geroch, Bernal–Sánchez and Avez–Seifert,
+`C^0`-inextendibility, domains of dependence inside subsets and the horizons of `C¹` metrics.
+Layer 13 is focusing and the singularity theorems of Hawking and Penrose. Each target's
+*Needs* line lists its own prerequisites, and each layer's Dependencies subsection collects
+them; an example can cite a consequence proved in another section. Each target states its
+hypotheses; the table summarizes them.
 
-**Shared foundations.** Every construction and theorem in scope is stated at the weakest
-dimension, regularity and geometric hypotheses its mathematics permits: for a connection
-on a general bundle, an affine connection on `TM`, a symmetric nondegenerate pairing,
-a strong metric, a fixed finite signature, or a Lorentzian metric. Generalizing the existing
-Mathlib and Tau Ceti development is an implementation target: a Tau Ceti carrier or proof that
-assumes positivity it does not use is extended in its existing shared home, and the
-positive-definite statement is recovered by specialization. Generalizations of
-Mathlib suppliers live in shared Tau Ceti modules using Mathlib's vocabulary. Preserve the
-public Riemannian interfaces with aliases, wrappers or compatibility lemmas, with evaluation and
-naturality lemmas so existing clients keep using them. A second permanent metric, curvature,
-geodesic, Jacobi or immersion theory distinguished only by signature does not satisfy these
-targets; the common construction and its proof are shared.
-
-**Locality and bundles.** Differential constructions are defined on open sets, depend on
-the appropriate germs or jets, commute with restriction and agree on overlaps. Use the
-native bundle and `CovariantDerivative` interfaces and preserve their scalar generality
-where the arguments permit. A metric on `TM` is a specialization of a fibre pairing;
-torsion is specific to tangent-bundle connections, and torsion-free and metric-compatible
-are separate hypotheses. Global smooth extensions, partitions of unity, countability and
-compactness enter only in the results that need them. These requirements apply to the
-generalization of the existing proofs, including the pointwise curvature construction.
-
-HopfRinow supplies smooth nondegenerate metrics, Levi-Civita and Riemannian geodesic
-interfaces. RiemannianGeometry R1.3, R2–R3 and R5a supply warped-product curvature, Jacobi,
-index and immersion interfaces for positive-definite metrics; for positive-definite `g`, Part I
-proves that its warped-product curvature, Jacobi, index and immersion objects agree with those
-of RiemannianGeometry R1.3, R2–R3 and R5a. The one maximal flow and exponential
-of §3.2 receives its stronger regularity properties in §3.3; normal domains in §3.4 add
-bi-Lipschitz or smooth inverse properties under their own hypotheses. Riemannian distance,
-Hopf–Rinow and positivity-dependent comparison and topological consequences remain with
-the Riemannian roadmaps.
-
-It leaves to other roadmaps:
-
-- the metric-variation calculus, Hilbert stress-energy, the density `|det g|^{1/2}`, the
-  divergence and integration by parts for nondegenerate metrics: LocalVariationalFieldTheory
-  LVF6;
-- spin structures and Dirac operators: SpinGeometry;
-- Euclidean function spaces, in particular `C^{k,α}(Ω)` and `C^{k,α}_loc(Ω)` on open
-  `Ω ⊆ ℝⁿ`: PDE §1.7;
-- principal bundles, induced connections and parallel transport: SmoothBundlesConnections
-  B3–B5; §2.1 here supplies the local Banach and finite-regularity extensions of those
-  interfaces required by the shared theory;
-- the positive mass theorem for Riemannian asymptotically Euclidean manifolds: PositiveMass.
-
-Outside this roadmap: wave equations and normally hyperbolic operators on Lorentzian
-manifolds, their Green operators and energy estimates, characteristic hypersurfaces of
-hyperbolic operators and systems, the Cauchy problem for the Einstein
-equations and maximal globally hyperbolic developments, matter models, asymptotic flatness,
-null infinity, Bondi and spacetime ADM mass, black-hole regions and specific black-hole
-families beyond the Schwarzschild exterior of §7.2. These belong to hyperbolic-PDE and
-general-relativity roadmaps that consume this one. The compressible Euler equations, their
-states, developments and maximal developments belong to CompressibleEulerEquations, and linear
-symmetric hyperbolic systems on `ℝ × ℝⁿ` to SymmetricHyperbolicSystems. On flat Minkowski
-space the causal Green operators of Klein–Gordon, Dirac and Maxwell are owned by
-RelativisticQuantumFieldTheory.
-
-Distributional and Sobolev metrics and connections, distributional curvature and weak energy
-conditions, full Finsler and Lorentz–Finsler geometry, general closed-cone causality, and
-Fréchet or convenient-manifold analysis belong to separately specified developments. They
-reuse the local bundle, connection, metric-pairing and ODE interfaces here. No construction
-in this roadmap requires multiplying distributions, a Fréchet ODE theorem or a general
-Finsler connection. The `C^{1,1}` targets use locally Lipschitz coefficients and classical
-geodesics; that regularity alone does not supply a continuous classical curvature tensor. Infinite-dimensional
-trace-class Ricci theory, Fredholm/Maslov index theory and global completeness or causality
-theorems are also outside this roadmap.
+| Targets | Dimension | Regularity | Metric or connection input |
+| --- | --- | --- | --- |
+| Layer 1 | Finite | Algebraic | Symmetric nondegenerate form |
+| §2.1 | Banach base and fibres | Local coefficient order | Supplied bundle connection |
+| §2.2–§2.3 | Normed/Banach | `C^k`, `C^{k,α}` | Pairing; strongness for inverse |
+| §2.4–§2.6 | Banach, finite for traces | Stated derivative order | Strong metric or supplied weak Levi-Civita |
+| §2.7 | Finite | Metric class `C^k` | Nondegenerate metric |
+| §3.1–§3.2 | Banach; Peano finite | Curve order; locally Lipschitz coefficients for flow | Supplied tangent connection |
+| §3.3–§3.4 | Banach; Lipschitz convex neighbourhoods finite | `C^r` upgrades; `C^{1,1}` radial Gauss | Same flow; metric only for Gauss |
+| Layers 4–5 | Banach; multiplicities/traces finite | Orders stated per target | Strong induced metric or supplied connection |
+| Layers 6–9 | Finite | Continuous metrics and stated immersion orders | Lorentzian, except general null algebra |
+| Layer 10 | Finite | `C^{1,1}` local causality; `C¹` conformal null predicates | Time-oriented Lorentzian metric |
+| Layers 11–13 | Finite | Smooth for global analytic theorems | Time-oriented Lorentzian metric and stated global hypotheses |
+| §7.3 | Finite | Pointwise; `C^k` where the data are | Acoustical form on `ℝ × Σ` |
+| §12.6 | Finite, boundary or corners allowed | Continuous on a subset `D` | Lorentzian form field and timelike field on `D` |
+| §12.7 | Finite, open subsets without boundary | Locally Lipschitz; `C¹` for geodesic generators | Time-oriented Lorentzian metric |
 
 ## Conventions
 
@@ -226,167 +188,6 @@ in the `LinearMap.BilinForm` namespace (the predicates `IsLorentzian`, `IsTimeli
 connection-level geodesic carriers of Layer 3 live in the `CovariantDerivative`
 namespace beside Tau Ceti's along-curve API.
 
-## Exact supplier contracts
-
-### From Mathlib
-
-- Bilinear and quadratic forms: `LinearMap.BilinForm.IsSymm`, `.Nondegenerate`, `.toDual`,
-  `.restrict`, `.orthogonal`, `.finrank_orthogonal`, `.orthogonal_orthogonal`,
-  `.isCompl_orthogonal_of_restrict_nondegenerate`, `.orthogonal_span_singleton_eq_toLin_ker`
-  (`Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean`), `LinearMap.BilinMap.toQuadraticMap`,
-  `ContinuousLinearMap.toBilinForm`; the inertia indices `sigPos`, `sigNeg` with
-  `QuadraticForm.sigPos_add_sigNeg_add_radical`,
-  `QuadraticForm.sigNeg_of_equiv_weightedSumSquares` and
-  `QuadraticForm.equivalent_signType_weighted_sum_squared`
-  (`Mathlib/LinearAlgebra/QuadraticForm/{Signature,Real}.lean`). These give Sylvester's law
-  of inertia; §1.1 consumes it rather than reproving it.
-- Manifolds and bundles: `ModelWithCorners`, `IsManifold`, `TangentSpace`, `TangentBundle`,
-  `mfderiv`, `mfderivWithin`, `extChartAt`, `ContMDiffSection` with its notation `Cₛ^k⟮…⟯`,
-  the hom-bundle instances, `Manifold.IsImmersion`, `Manifold.IsSmoothEmbedding`,
-  `IsMIntegralCurve` and its existence and uniqueness theorems
-  (`Mathlib/Geometry/Manifold/IntegralCurve/`).
-- Connections: `CovariantDerivative`, `IsCovariantDerivativeOn`,
-  `ContMDiffCovariantDerivative` (graded by `k : ℕ∞ω`) and the torsion API
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/`).
-- Analysis: `LipschitzOnWith`, `LocallyLipschitzOn`, Rademacher's theorem
-  `LipschitzWith.ae_differentiableAt` and its one-variable form
-  `LipschitzWith.ae_differentiableAt_real`, `HolderOnWith`, `iteratedFDerivWithin`,
-  Arzelà–Ascoli (`BoundedContinuousFunction.arzela_ascoli`), and the ODE API of
-  `Mathlib/Analysis/ODE/`.
-- Banach local analysis: `ContinuousLinearMap.IsInvertible`, its continuous inverse,
-  `ContinuousLinearEquiv`, continuous multilinear maps, operator-norm differentiation,
-  the Banach inverse-function and Picard–Lindelöf APIs. The existing manifold theorem
-  `exists_isMIntegralCurveAt_of_contMDiffAt` requires `CompleteSpace E`, not finite dimension
-  (`Mathlib/Geometry/Manifold/IntegralCurve/ExistUnique.lean`). Use these suppliers for
-  §2.1 and §3.3/§3.2; the finite-dimensional Peano lemma is a target of §2.4.
-- Quantitative local inversion: `HasStrictFDerivAt.toOpenPartialHomeomorph`,
-  `HasStrictFDerivAt.localInverse`, and the Lipschitz and antilipschitz estimates for
-  `ApproximatesLinearOn` (`Mathlib/Analysis/Calculus/InverseFunctionTheorem/`). These
-  already apply in Banach spaces; §3.2 supplies the strict derivative and approximation
-  estimates for the exponential map before applying them.
-- Riemannian distance: `Manifold.pathELength`, `Manifold.riemannianEDist`,
-  `EMetricSpace.ofRiemannianMetric`, `IsRiemannianManifold`.
-
-### From Tau Ceti
-
-The metric carrier and native bundle vocabulary do not impose finite dimension throughout.
-The musical-invertibility, Levi-Civita and curvature-tensor implementations cited below
-use finite-dimensional hypotheses; generalizing the inverse step to strong metrics and
-the local tensor construction to Banach bundles is part of §2.1–§2.5. Preserve their
-finite-dimensional public interfaces.
-
-- Smooth nondegenerate metrics: `TauCeti.Manifold.ContMDiffNondegenerateMetric`
-  (`TauCeti/Geometry/Manifold/VectorBundle/NondegenerateMetric/Basic.lean`), its chart
-  representative `chartMetric`, `inCoordinates`, the musical maps `flat` and `sharp` with
-  `contMDiff_sharp` (`.../NondegenerateMetric/Musical.lean`), the restriction
-  `restrictOpenTangentSpace` (`.../Restriction.lean`), the local-isometry predicate
-  `ContMDiffNondegenerateMetric.IsLocalIsometry` (`.../LocalIsometry.lean`), and the
-  parameter families `ContMDiffNondegenerateMetricFamily` (`.../Family.lean`).
-- Signature: `ContMDiffNondegenerateMetric.signature`, `isLocallyConstant_signature`,
-  `signature_eq_of_mem_connectedComponent`, `signature_eq`, and
-  `TauCeti.Manifold.isLocallyConstant_sigPos_sigNeg_of_continuous` for continuous families
-  (`.../NondegenerateMetric/Signature.lean`).
-- The nondegenerate Levi-Civita connection:
-  `ContMDiffNondegenerateMetric.leviCivitaConnection`,
-  `isLeviCivitaConnection_leviCivitaConnection`, `koszul`, `IsMetricCompatible`,
-  `IsLeviCivitaConnection.uniqueness`, `IsLeviCivitaConnection.christoffelSymbol_eq` and
-  `IsLeviCivitaConnection.contMDiffCovariantDerivative`
-  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/`).
-- Along curves: `TauCeti.Manifold.curveVelocityWithin`, `CovariantDerivative.accelerationWithin`
-  and the nondegenerate compatibility theorems, in particular
-  `IsMetricCompatible.apply_curveVelocityWithin_self_eq_of_accelerationWithin_eq_zero`
-  (`.../CovariantDerivative/AlongCurve/NondegenerateMetric.lean`).
-- Curvature of a smooth connection: `CovariantDerivative.curvatureTensor`
-  (`.../Curvature/Tensor.lean`) and `CovariantDerivative.ricciTensor` (`.../Curvature/Ricci.lean`),
-  both metric-free; the positive-definite `CovariantDerivative.scalarCurvature`
-  (`.../Curvature/Scalar.lean`).
-- Curvature laws of Riemannian metrics, generalized in §2.5: local-isometry naturality
-  `TauCeti.IsLocalRiemannianIsometry.mfderiv_curvatureTensor`
-  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Curvature.lean`), constant scaling
-  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale_const`
-  (`TauCeti/Geometry/Manifold/Riemannian/Scaling.lean`), the product law
-  `TauCeti.Manifold.tangentSpaceProdEquiv_curvatureTensor_leviCivitaConnection_prod`
-  (`.../Curvature/Prod.lean`), the conformal-change law
-  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale`
-  (`.../Curvature/Conformal.lean`), Schur's theorem
-  `CovariantDerivative.hasConstantSectionalCurvature_of_forall_hasSectionalCurvatureAt`
-  (`.../Curvature/Schur.lean`) and constancy of the Einstein factor
-  `CovariantDerivative.eq_of_ricciTensor_eq_smul_inner` (`.../Curvature/Einstein.lean`).
-- Warped products: the Riemannian warped-product metric `TauCeti.Manifold.IsWarpedProduct`
-  (`TauCeti/Geometry/Manifold/Riemannian/WarpedProd.lean`) and its Levi-Civita connection
-  `TauCeti.Manifold.IsWarpedProduct.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`
-  (`.../LeviCivita/WarpedProd.lean`), generalized in §2.6; their curvature is
-  RiemannianGeometry R1.3's.
-- The unit round sphere `TauCeti.sphereRoundMetric`
-  (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`) and its constant sectional
-  curvature `1`, `TauCeti.hasConstantSectionalCurvature_sphere` (`.../Sphere/Curvature.lean`),
-  used for the spherical factors of §7.2.
-- Riemannian geodesics: `TauCeti.Manifold.IsGeodesicCurveOn`, `TauCeti.Manifold.geodesicSpray`,
-  `TauCeti.Manifold.expDomain`, `TauCeti.Manifold.riemannianExp` and
-  `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/`), as
-  whose implementations are generalized to the common connection-level API in Layer 3.
-- `TauCeti.nonempty_contMDiffRiemannianMetric`
-  (`TauCeti/Geometry/Manifold/VectorBundle/Riemannian/Existence.lean`): auxiliary Riemannian
-  metrics, used for smoothing time orientations and for Lipschitz parametrizations.
-- `TauCeti.Manifold.IsPiecewiseContMDiffOn` (`TauCeti/Geometry/Manifold/PiecewisePath.lean`).
-- `TauCeti.roundMetricCircle` (`TauCeti/Geometry/Manifold/Riemannian/Circle.lean`): the round
-  metric of the unit circle, used for the periodic factors of §7.3.
-- `TauCeti.HolderSpace` and `TauCeti.CkHolderSpace` (`TauCeti/Analysis/Holder/`), and the
-  orientation double cover `TauCeti.Manifold.OrientationCover`
-  (`TauCeti/Geometry/Manifold/Orientation/Cover/`) as the model for §8.1's double cover.
-
-### From TauCetiRoadmap.HopfRinow (completed)
-
-Layer 1: the nondegenerate Levi-Civita supplier listed above, the covariant derivative along
-a curve, the Riemannian geodesic spray, flow, maximal intervals and exponential map, normal
-neighbourhoods and the manifold inverse-function theorem. Layer 3 generalizes the local
-flow and inverse-function arguments to Banach connections, with the separate locally
-Lipschitz theory in §3.2.
-
-### From TauCetiRoadmap.SmoothBundlesConnections (on main)
-
-B3.1–B3.3: principal connections, the Atiyah sequence, and the connections induced on
-associated bundles, identified with Mathlib's `CovariantDerivative`, with their dual, tensor and
-Hom connections; B4.1: curvature and the exterior covariant derivative; B5.0 and B5.2:
-horizontal lifts and parallel transport along piecewise `C¹` paths, holonomy and flat
-connections. They are stated for smooth finite-rank bundles over finite-dimensional manifolds
-without boundary; §2.1 uses them in that setting and adds the local Banach and
-finite-regularity generalizations.
-
-### From TauCetiRoadmap.RiemannianGeometry (on main)
-
-R1.3: the curvature and Ricci tensors of warped products;
-R2: Jacobi fields, initial data, Wronskians and the differential of the exponential map;
-R3: energy variations, index forms and conjugate points; R4.7: the hyperboloid model of
-hyperbolic space on the future unit hyperboloid, which §6.2 places in the future time cone of
-`minkowskiForm`; R5a: immersion geometry. Part I
-states the semi-Riemannian versions of these objects and proves that for positive-definite
-metrics they agree with R1.3, R2–R3 and R5a; the results using positive-definite
-estimates are used as RiemannianGeometry states them. The curvature identities, the curvature
-of products and the round sphere are Tau Ceti's, under From Tau Ceti.
-
-### From TauCetiRoadmap.PDE (on main)
-
-§1.7: `C^{k,α}(Ω)`, `C^{k,α}_loc(Ω)` and their product estimates. §2.3 here compares the
-chartwise Hölder classes of a metric with `C^{k,α}_loc` of its components.
-
-### From TauCetiRoadmap.LocalVariationalFieldTheory (on main)
-
-LVF6: the density `|det g|^{1/2}`, the divergence of a vector field and integration by parts
-for a nondegenerate metric. §2.5 consumes the divergence for the contracted Bianchi identity.
-
-### From TauCetiRoadmap.RelativisticQuantumFieldTheory
-
-§1.1: the four-dimensional Minkowski space `Spacetime` with time coordinate first, its form
-`minkowskiSquare` of signature `(+, −, −, −)` and the flat causal sets `causalFuture` and
-`causalPast` of a subset. §8.3 proves that the manifold `J^±(p)` of Minkowski space agree with
-them.
-
-### From TauCetiRoadmap.DifferentialGeometry (on main)
-
-Layer 2: the orientation double cover, used as the pattern for the time-orientation double
-cover; Layer 3: flows of vector fields.
-
 ## Prior work and coordination
 
 PhysLean (Lean 4, Apache-2.0) formalizes Minkowski space, the Lorentz group and causal
@@ -395,44 +196,6 @@ signature conversion of the Conventions relates its notation to this roadmap's. 
 pull request [mathlib4#38194](https://github.com/leanprover-community/mathlib4/pull/38194)
 proposed an `IndefiniteMetric` structure on bilinear forms; Layers 1 and 6 use Mathlib's
 `LinearMap.BilinForm` predicates directly.
-
-## How to read the build
-
-Part I (Layers 1–5) builds the shared semi-Riemannian foundations and Part II (Layers 6–13)
-specializes them to Lorentzian geometry; Part I does not use Part II. Layer 1 is the linear
-algebra of scalar products of any signature. Layer 2 is the bundle calculus, the
-regularity-graded metric carrier with its strong inverse, Hölder classes, Levi-Civita
-connection, curvature, warped products and extensions. Layer 3 is curves, the one geodesic
-flow, its exponential map and normal neighbourhoods. Layer 4 is nondegenerate immersions and
-Layer 5 Jacobi fields, variations and the Riccati identities. Layer 6 is Lorentzian linear
-algebra: cones, reverse inequalities and causal types of subspaces. Layer 7 is Lorentzian
-metrics, model spacetimes and acoustical metrics. Layer 8 is time orientations, causal curves,
-length and the causal relations. Layer 9 is spacelike and null submanifolds, Layer 10 local
-causality at `C^{1,1}` regularity and conformal null geodesics, and Layer 11 time separation,
-the causal ladder, time functions and limit curves. Layer 12 is achronal sets, domains of
-dependence, global hyperbolicity with the theorems of Geroch, Bernal–Sánchez and Avez–Seifert,
-`C^0`-inextendibility, domains of dependence inside subsets and the horizons of `C¹` metrics.
-Layer 13 is focusing and the singularity theorems of Hawking and Penrose. Each target's
-*Needs* line lists its own prerequisites, and each layer's Dependencies subsection collects
-them; an example can cite a consequence proved in another section. Each target states its
-hypotheses; the table summarizes them.
-
-| Targets | Dimension | Regularity | Metric or connection input |
-| --- | --- | --- | --- |
-| Layer 1 | Finite | Algebraic | Symmetric nondegenerate form |
-| §2.1 | Banach base and fibres | Local coefficient order | Supplied bundle connection |
-| §2.2–§2.3 | Normed/Banach | `C^k`, `C^{k,α}` | Pairing; strongness for inverse |
-| §2.4–§2.6 | Banach, finite for traces | Stated derivative order | Strong metric or supplied weak Levi-Civita |
-| §2.7 | Finite | Metric class `C^k` | Nondegenerate metric |
-| §3.1–§3.2 | Banach; Peano finite | Curve order; locally Lipschitz coefficients for flow | Supplied tangent connection |
-| §3.3–§3.4 | Banach; Lipschitz convex neighbourhoods finite | `C^r` upgrades; `C^{1,1}` radial Gauss | Same flow; metric only for Gauss |
-| Layers 4–5 | Banach; multiplicities/traces finite | Orders stated per target | Strong induced metric or supplied connection |
-| Layers 6–9 | Finite | Continuous metrics and stated immersion orders | Lorentzian, except general null algebra |
-| Layer 10 | Finite | `C^{1,1}` local causality; `C¹` conformal null predicates | Time-oriented Lorentzian metric |
-| Layers 11–13 | Finite | Smooth for global analytic theorems | Time-oriented Lorentzian metric and stated global hypotheses |
-| §7.3 | Finite | Pointwise; `C^k` where the data are | Acoustical form on `ℝ × Σ` |
-| §12.6 | Finite, boundary or corners allowed | Continuous on a subset `D` | Lorentzian form field and timelike field on `D` |
-| §12.7 | Finite, open subsets without boundary | Locally Lipschitz; `C¹` for geodesic generators | Time-oriented Lorentzian metric |
 
 ## Layer 1: scalar products and finite signature
 
@@ -2369,6 +2132,243 @@ Layer 5; Layer 9; Layer 10 (§10.1); Layer 12 (§12.2–§12.3).
 - Geometric PDE and nonsmooth geometry can use §3.2's locally Lipschitz connection flow
   and §3.4’s `C^{1,1}` metric normal-neighbourhood theory. Distributional, Finsler and Fréchet
   developments consume these interfaces under the scope boundary above.
+
+## Scope and ownership
+
+Part I owns the generalizations of the existing bundle, nondegenerate metric, curvature,
+geodesic, immersion and variation APIs specified in Layers 1–5. Part II owns the Lorentzian
+specializations and causal theorems specified in Layers 6–13. Their common objects and proofs
+are shared. Signature, dimension, coefficient regularity and strongness are hypotheses
+of individual results, with no second metric, geodesic or curvature theory for a different
+signature or regularity.
+
+**Shared foundations.** Every construction and theorem in scope is stated at the weakest
+dimension, regularity and geometric hypotheses its mathematics permits: for a connection
+on a general bundle, an affine connection on `TM`, a symmetric nondegenerate pairing,
+a strong metric, a fixed finite signature, or a Lorentzian metric. Generalizing the existing
+Mathlib and Tau Ceti development is an implementation target: a Tau Ceti carrier or proof that
+assumes positivity it does not use is extended in its existing shared home, and the
+positive-definite statement is recovered by specialization. Generalizations of
+Mathlib suppliers live in shared Tau Ceti modules using Mathlib's vocabulary. Preserve the
+public Riemannian interfaces with aliases, wrappers or compatibility lemmas, with evaluation and
+naturality lemmas so existing clients keep using them. A second permanent metric, curvature,
+geodesic, Jacobi or immersion theory distinguished only by signature does not satisfy these
+targets; the common construction and its proof are shared.
+
+**Locality and bundles.** Differential constructions are defined on open sets, depend on
+the appropriate germs or jets, commute with restriction and agree on overlaps. Use the
+native bundle and `CovariantDerivative` interfaces and preserve their scalar generality
+where the arguments permit. A metric on `TM` is a specialization of a fibre pairing;
+torsion is specific to tangent-bundle connections, and torsion-free and metric-compatible
+are separate hypotheses. Global smooth extensions, partitions of unity, countability and
+compactness enter only in the results that need them. These requirements apply to the
+generalization of the existing proofs, including the pointwise curvature construction.
+
+HopfRinow supplies smooth nondegenerate metrics, Levi-Civita and Riemannian geodesic
+interfaces. RiemannianGeometry R1.3, R2–R3 and R5a supply warped-product curvature, Jacobi,
+index and immersion interfaces for positive-definite metrics; for positive-definite `g`, Part I
+proves that its warped-product curvature, Jacobi, index and immersion objects agree with those
+of RiemannianGeometry R1.3, R2–R3 and R5a. The one maximal flow and exponential
+of §3.2 receives its stronger regularity properties in §3.3; normal domains in §3.4 add
+bi-Lipschitz or smooth inverse properties under their own hypotheses. Riemannian distance,
+Hopf–Rinow and positivity-dependent comparison and topological consequences remain with
+the Riemannian roadmaps.
+
+It leaves to other roadmaps:
+
+- the metric-variation calculus, Hilbert stress-energy, the density `|det g|^{1/2}`, the
+  divergence and integration by parts for nondegenerate metrics: LocalVariationalFieldTheory
+  LVF6;
+- spin structures and Dirac operators: SpinGeometry;
+- Euclidean function spaces, in particular `C^{k,α}(Ω)` and `C^{k,α}_loc(Ω)` on open
+  `Ω ⊆ ℝⁿ`: PDE §1.7;
+- principal bundles, induced connections and parallel transport: SmoothBundlesConnections
+  B3–B5; §2.1 here supplies the local Banach and finite-regularity extensions of those
+  interfaces required by the shared theory;
+- the positive mass theorem for Riemannian asymptotically Euclidean manifolds: PositiveMass.
+
+Outside this roadmap: wave equations and normally hyperbolic operators on Lorentzian
+manifolds, their Green operators and energy estimates, characteristic hypersurfaces of
+hyperbolic operators and systems, the Cauchy problem for the Einstein
+equations and maximal globally hyperbolic developments, matter models, asymptotic flatness,
+null infinity, Bondi and spacetime ADM mass, black-hole regions and specific black-hole
+families beyond the Schwarzschild exterior of §7.2. These belong to hyperbolic-PDE and
+general-relativity roadmaps that consume this one. The compressible Euler equations, their
+states, developments and maximal developments belong to CompressibleEulerEquations, and linear
+symmetric hyperbolic systems on `ℝ × ℝⁿ` to SymmetricHyperbolicSystems. On flat Minkowski
+space the causal Green operators of Klein–Gordon, Dirac and Maxwell are owned by
+RelativisticQuantumFieldTheory.
+
+Distributional and Sobolev metrics and connections, distributional curvature and weak energy
+conditions, full Finsler and Lorentz–Finsler geometry, general closed-cone causality, and
+Fréchet or convenient-manifold analysis belong to separately specified developments. They
+reuse the local bundle, connection, metric-pairing and ODE interfaces here. No construction
+in this roadmap requires multiplying distributions, a Fréchet ODE theorem or a general
+Finsler connection. The `C^{1,1}` targets use locally Lipschitz coefficients and classical
+geodesics; that regularity alone does not supply a continuous classical curvature tensor. Infinite-dimensional
+trace-class Ricci theory, Fredholm/Maslov index theory and global completeness or causality
+theorems are also outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Bilinear and quadratic forms: `LinearMap.BilinForm.IsSymm`, `.Nondegenerate`, `.toDual`,
+  `.restrict`, `.orthogonal`, `.finrank_orthogonal`, `.orthogonal_orthogonal`,
+  `.isCompl_orthogonal_of_restrict_nondegenerate`, `.orthogonal_span_singleton_eq_toLin_ker`
+  (`Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean`), `LinearMap.BilinMap.toQuadraticMap`,
+  `ContinuousLinearMap.toBilinForm`; the inertia indices `sigPos`, `sigNeg` with
+  `QuadraticForm.sigPos_add_sigNeg_add_radical`,
+  `QuadraticForm.sigNeg_of_equiv_weightedSumSquares` and
+  `QuadraticForm.equivalent_signType_weighted_sum_squared`
+  (`Mathlib/LinearAlgebra/QuadraticForm/{Signature,Real}.lean`). These give Sylvester's law
+  of inertia; §1.1 consumes it rather than reproving it.
+- Manifolds and bundles: `ModelWithCorners`, `IsManifold`, `TangentSpace`, `TangentBundle`,
+  `mfderiv`, `mfderivWithin`, `extChartAt`, `ContMDiffSection` with its notation `Cₛ^k⟮…⟯`,
+  the hom-bundle instances, `Manifold.IsImmersion`, `Manifold.IsSmoothEmbedding`,
+  `IsMIntegralCurve` and its existence and uniqueness theorems
+  (`Mathlib/Geometry/Manifold/IntegralCurve/`).
+- Connections: `CovariantDerivative`, `IsCovariantDerivativeOn`,
+  `ContMDiffCovariantDerivative` (graded by `k : ℕ∞ω`) and the torsion API
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/`).
+- Analysis: `LipschitzOnWith`, `LocallyLipschitzOn`, Rademacher's theorem
+  `LipschitzWith.ae_differentiableAt` and its one-variable form
+  `LipschitzWith.ae_differentiableAt_real`, `HolderOnWith`, `iteratedFDerivWithin`,
+  Arzelà–Ascoli (`BoundedContinuousFunction.arzela_ascoli`), and the ODE API of
+  `Mathlib/Analysis/ODE/`.
+- Banach local analysis: `ContinuousLinearMap.IsInvertible`, its continuous inverse,
+  `ContinuousLinearEquiv`, continuous multilinear maps, operator-norm differentiation,
+  the Banach inverse-function and Picard–Lindelöf APIs. The existing manifold theorem
+  `exists_isMIntegralCurveAt_of_contMDiffAt` requires `CompleteSpace E`, not finite dimension
+  (`Mathlib/Geometry/Manifold/IntegralCurve/ExistUnique.lean`). Use these suppliers for
+  §2.1 and §3.3/§3.2; the finite-dimensional Peano lemma is a target of §2.4.
+- Quantitative local inversion: `HasStrictFDerivAt.toOpenPartialHomeomorph`,
+  `HasStrictFDerivAt.localInverse`, and the Lipschitz and antilipschitz estimates for
+  `ApproximatesLinearOn` (`Mathlib/Analysis/Calculus/InverseFunctionTheorem/`). These
+  already apply in Banach spaces; §3.2 supplies the strict derivative and approximation
+  estimates for the exponential map before applying them.
+- Riemannian distance: `Manifold.pathELength`, `Manifold.riemannianEDist`,
+  `EMetricSpace.ofRiemannianMetric`, `IsRiemannianManifold`.
+
+### From Tau Ceti
+
+The metric carrier and native bundle vocabulary do not impose finite dimension throughout.
+The musical-invertibility, Levi-Civita and curvature-tensor implementations cited below
+use finite-dimensional hypotheses; generalizing the inverse step to strong metrics and
+the local tensor construction to Banach bundles is part of §2.1–§2.5. Preserve their
+finite-dimensional public interfaces.
+
+- Smooth nondegenerate metrics: `TauCeti.Manifold.ContMDiffNondegenerateMetric`
+  (`TauCeti/Geometry/Manifold/VectorBundle/NondegenerateMetric/Basic.lean`), its chart
+  representative `chartMetric`, `inCoordinates`, the musical maps `flat` and `sharp` with
+  `contMDiff_sharp` (`.../NondegenerateMetric/Musical.lean`), the restriction
+  `restrictOpenTangentSpace` (`.../Restriction.lean`), the local-isometry predicate
+  `ContMDiffNondegenerateMetric.IsLocalIsometry` (`.../LocalIsometry.lean`), and the
+  parameter families `ContMDiffNondegenerateMetricFamily` (`.../Family.lean`).
+- Signature: `ContMDiffNondegenerateMetric.signature`, `isLocallyConstant_signature`,
+  `signature_eq_of_mem_connectedComponent`, `signature_eq`, and
+  `TauCeti.Manifold.isLocallyConstant_sigPos_sigNeg_of_continuous` for continuous families
+  (`.../NondegenerateMetric/Signature.lean`).
+- The nondegenerate Levi-Civita connection:
+  `ContMDiffNondegenerateMetric.leviCivitaConnection`,
+  `isLeviCivitaConnection_leviCivitaConnection`, `koszul`, `IsMetricCompatible`,
+  `IsLeviCivitaConnection.uniqueness`, `IsLeviCivitaConnection.christoffelSymbol_eq` and
+  `IsLeviCivitaConnection.contMDiffCovariantDerivative`
+  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita/Nondegenerate/`).
+- Along curves: `TauCeti.Manifold.curveVelocityWithin`, `CovariantDerivative.accelerationWithin`
+  and the nondegenerate compatibility theorems, in particular
+  `IsMetricCompatible.apply_curveVelocityWithin_self_eq_of_accelerationWithin_eq_zero`
+  (`.../CovariantDerivative/AlongCurve/NondegenerateMetric.lean`).
+- Curvature of a smooth connection: `CovariantDerivative.curvatureTensor`
+  (`.../Curvature/Tensor.lean`) and `CovariantDerivative.ricciTensor` (`.../Curvature/Ricci.lean`),
+  both metric-free; the positive-definite `CovariantDerivative.scalarCurvature`
+  (`.../Curvature/Scalar.lean`).
+- Curvature laws of Riemannian metrics, generalized in §2.5: local-isometry naturality
+  `TauCeti.IsLocalRiemannianIsometry.mfderiv_curvatureTensor`
+  (`TauCeti/Geometry/Manifold/Riemannian/Isometry/Curvature.lean`), constant scaling
+  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale_const`
+  (`TauCeti/Geometry/Manifold/Riemannian/Scaling.lean`), the product law
+  `TauCeti.Manifold.tangentSpaceProdEquiv_curvatureTensor_leviCivitaConnection_prod`
+  (`.../Curvature/Prod.lean`), the conformal-change law
+  `Bundle.ContMDiffRiemannianMetric.curvatureTensor_leviCivitaConnection_rescale`
+  (`.../Curvature/Conformal.lean`), Schur's theorem
+  `CovariantDerivative.hasConstantSectionalCurvature_of_forall_hasSectionalCurvatureAt`
+  (`.../Curvature/Schur.lean`) and constancy of the Einstein factor
+  `CovariantDerivative.eq_of_ricciTensor_eq_smul_inner` (`.../Curvature/Einstein.lean`).
+- Warped products: the Riemannian warped-product metric `TauCeti.Manifold.IsWarpedProduct`
+  (`TauCeti/Geometry/Manifold/Riemannian/WarpedProd.lean`) and its Levi-Civita connection
+  `TauCeti.Manifold.IsWarpedProduct.tangentSpaceProdEquiv_leviCivitaConnection_prodVectorField`
+  (`.../LeviCivita/WarpedProd.lean`), generalized in §2.6; their curvature is
+  RiemannianGeometry R1.3's.
+- The unit round sphere `TauCeti.sphereRoundMetric`
+  (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`) and its constant sectional
+  curvature `1`, `TauCeti.hasConstantSectionalCurvature_sphere` (`.../Sphere/Curvature.lean`),
+  used for the spherical factors of §7.2.
+- Riemannian geodesics: `TauCeti.Manifold.IsGeodesicCurveOn`, `TauCeti.Manifold.geodesicSpray`,
+  `TauCeti.Manifold.expDomain`, `TauCeti.Manifold.riemannianExp` and
+  `TauCeti.Manifold.IsNormalDomain` (`TauCeti/Geometry/Manifold/Riemannian/Geodesic/`), as
+  whose implementations are generalized to the common connection-level API in Layer 3.
+- `TauCeti.nonempty_contMDiffRiemannianMetric`
+  (`TauCeti/Geometry/Manifold/VectorBundle/Riemannian/Existence.lean`): auxiliary Riemannian
+  metrics, used for smoothing time orientations and for Lipschitz parametrizations.
+- `TauCeti.Manifold.IsPiecewiseContMDiffOn` (`TauCeti/Geometry/Manifold/PiecewisePath.lean`).
+- `TauCeti.roundMetricCircle` (`TauCeti/Geometry/Manifold/Riemannian/Circle.lean`): the round
+  metric of the unit circle, used for the periodic factors of §7.3.
+- `TauCeti.HolderSpace` and `TauCeti.CkHolderSpace` (`TauCeti/Analysis/Holder/`), and the
+  orientation double cover `TauCeti.Manifold.OrientationCover`
+  (`TauCeti/Geometry/Manifold/Orientation/Cover/`) as the model for §8.1's double cover.
+
+### From TauCetiRoadmap.HopfRinow (completed)
+
+Layer 1: the nondegenerate Levi-Civita supplier listed above, the covariant derivative along
+a curve, the Riemannian geodesic spray, flow, maximal intervals and exponential map, normal
+neighbourhoods and the manifold inverse-function theorem. Layer 3 generalizes the local
+flow and inverse-function arguments to Banach connections, with the separate locally
+Lipschitz theory in §3.2.
+
+### From TauCetiRoadmap.SmoothBundlesConnections (on main)
+
+B3.1–B3.3: principal connections, the Atiyah sequence, and the connections induced on
+associated bundles, identified with Mathlib's `CovariantDerivative`, with their dual, tensor and
+Hom connections; B4.1: curvature and the exterior covariant derivative; B5.0 and B5.2:
+horizontal lifts and parallel transport along piecewise `C¹` paths, holonomy and flat
+connections. They are stated for smooth finite-rank bundles over finite-dimensional manifolds
+without boundary; §2.1 uses them in that setting and adds the local Banach and
+finite-regularity generalizations.
+
+### From TauCetiRoadmap.RiemannianGeometry (on main)
+
+R1.3: the curvature and Ricci tensors of warped products;
+R2: Jacobi fields, initial data, Wronskians and the differential of the exponential map;
+R3: energy variations, index forms and conjugate points; R4.7: the hyperboloid model of
+hyperbolic space on the future unit hyperboloid, which §6.2 places in the future time cone of
+`minkowskiForm`; R5a: immersion geometry. Part I
+states the semi-Riemannian versions of these objects and proves that for positive-definite
+metrics they agree with R1.3, R2–R3 and R5a; the results using positive-definite
+estimates are used as RiemannianGeometry states them. The curvature identities, the curvature
+of products and the round sphere are Tau Ceti's, under From Tau Ceti.
+
+### From TauCetiRoadmap.PDE (on main)
+
+§1.7: `C^{k,α}(Ω)`, `C^{k,α}_loc(Ω)` and their product estimates. §2.3 here compares the
+chartwise Hölder classes of a metric with `C^{k,α}_loc` of its components.
+
+### From TauCetiRoadmap.LocalVariationalFieldTheory (on main)
+
+LVF6: the density `|det g|^{1/2}`, the divergence of a vector field and integration by parts
+for a nondegenerate metric. §2.5 consumes the divergence for the contracted Bianchi identity.
+
+### From TauCetiRoadmap.RelativisticQuantumFieldTheory
+
+§1.1: the four-dimensional Minkowski space `Spacetime` with time coordinate first, its form
+`minkowskiSquare` of signature `(+, −, −, −)` and the flat causal sets `causalFuture` and
+`causalPast` of a subset. §8.3 proves that the manifold `J^±(p)` of Minkowski space agree with
+them.
+
+### From TauCetiRoadmap.DifferentialGeometry (on main)
+
+Layer 2: the orientation double cover, used as the pattern for the time-orientation double
+cover; Layer 3: flows of vector fields.
 
 ## References
 
