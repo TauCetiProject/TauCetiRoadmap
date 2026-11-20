@@ -56,14 +56,15 @@ noncomputable section
 /-! ## Layer 6: Gauss sums of a lattice -/
 
 /-- **Reciprocity for the Gauss sums of an even lattice** (Layer 6.2). For an even full lattice
-`L` of rank `2k` and coprime positive integers `a` and `c`,
+`L` of rank `2k` and positive integers `a` and `c`,
 `G_L(a, c) = (c/a)^k (det L)^{-1/2} e(n/8) ∑_{y ∈ L^∨ / aL} e(-c ‖y‖² / (2a))`, where
 `e(x) = exp (2 π i x)`, `det L = |L^∨ / L|` and `e(n/8) = i^k`. Proved by computing the limit of
-`t^k Θ_L(a/c + i t)` as `t → 0⁺` in two ways (Milnor–Husemoller, Appendix 4; Turaev, 1998). -/
+`t^k Θ_L(a/c + i t)` as `t → 0⁺` in two ways (Milnor–Husemoller, Appendix 4); the identity is a
+case of the reciprocity for tensor products of bilinear lattices (Turaev, 1998, §1.3). -/
 theorem gaussSum_eq_mul_dualGaussSum {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
     [FiniteDimensional ℝ E] {L : Submodule ℤ E} [DiscreteTopology L] [IsZLattice ℝ L]
     (hL : ZLattice.IsEven L) {k : ℕ} (hk : finrank ℝ E = 2 * k) {a c : ℕ} [NeZero a] [NeZero c]
-    (hac : a.Coprime c) [Fintype (L ⧸ ((c : ℝ) • L).submoduleOf L)]
+    [Fintype (L ⧸ ((c : ℝ) • L).submoduleOf L)]
     [Fintype (dual L ⧸ ((a : ℝ) • L).submoduleOf (dual L))] :
     gaussSum L hL a c =
       ((c : ℂ) / a) ^ k * ((√(Nat.card (DiscriminantGroup L) : ℝ) : ℝ) : ℂ)⁻¹ * I ^ k *
@@ -95,8 +96,9 @@ theorem gaussSum_eq_sqrt_card_mul_jacobiSym {E : Type*} [NormedAddCommGroup E]
 
 /-- **The conductor theorem** (Layer 6.6). For an even full lattice `L` of rank `2k`, the
 conductor of the Kronecker character `(D_L / ·)` of the signed discriminant
-`D_L = (-1)^k |L^∨ / L|` divides the level of `L`. The character is Tau Ceti's
-`TauCeti.kroneckerChar` at modulus `|D_L|`; the level need not divide `D_L` (Ebeling, Chapter 3). -/
+`D_L = (-1)^k |L^∨ / L|` divides the level of `L` (Ebeling, Chapter 3). The character is Tau
+Ceti's `TauCeti.kroneckerChar` at modulus `|D_L|`, which need not divide the level (`D₄` has
+`|D_L| = 4` and level `2`). -/
 theorem conductor_kroneckerChar_dvd_level {E : Type*} [NormedAddCommGroup E]
     [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] {L : Submodule ℤ E} [DiscreteTopology L]
     [IsZLattice ℝ L] (hL : ZLattice.IsEven L) {k : ℕ} (hk : finrank ℝ E = 2 * k) :

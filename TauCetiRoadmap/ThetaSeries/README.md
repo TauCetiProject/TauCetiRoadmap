@@ -38,10 +38,11 @@ which reaches the real model through Tau Ceti's comparison of the two models. Th
 summation, and the latter, with [quaternion arithmetic](../QuaternionArithmetic/README.md), uses the
 Hecke–Schoeneberg theorem.
 
-The layers below are numbered once and for all, and other roadmaps cite them by these numbers; a
-number whose material is not a target here has no section below. Layer 1 keeps the partial Fourier
-transforms of Schwartz functions on a product; Layer 2 the discriminant group of an orthogonal sum;
-Layer 3 the theta series of an orthogonal sum; Layer 5 the basic API of the level-one theta form;
+The layers below are numbered once and for all; other roadmaps cite them by these numbers or by the
+earlier lettered labels, which *How to read the build* maps to them, and a number whose material is
+not a target here has no section below. Layer 1 keeps the partial Fourier transforms of Schwartz
+functions on a product; Layer 2 the discriminant group of an orthogonal sum; Layer 3 the theta
+series of an orthogonal sum; Layer 5 the basic API of the level-one theta form;
 Layer 6 the Gauss sums: reciprocity, Milgram's formula, the closed form, the conductor theorem and
 the nebentypus; Layer 7 the Hecke–Schoeneberg theorem, the theta series as a modular form with
 character, and the coset series on `Γ(N)`; Layer 8 the identification of `Θ_{A₂}` and `Θ_{D₄}`.
@@ -53,8 +54,21 @@ Each layer is a list of numbered sections `### k.n`, each stating its targets in
 hypotheses, the source at the claim, a *Needs:* line and, where they earn their place, Checks.
 Section numbers are fixed: §k.n is the `n`-th item of Layer `k`, and the numbers that do not appear
 below (§§1.1, 1.3–1.6, 2.1–2.8, 3.1–3.3, 3.5, all of Layer 4, §§5.1, 5.2, 5.4, 6.1, 6.4, 7.2,
-8.1–8.5) are resolved, with the declarations that carry them, in *Scope and ownership*. The
-dependency order is Layer 1; Layer 2; Layer 3; Layer 5 (on §3.4); Layer 6; Layer 7 (on Layer 6);
+8.1–8.5) are resolved, with the declarations that carry them, in *Scope and ownership*. The earlier
+lettered label `kX` is §k.n, with `n` the position of the letter `X` in the alphabet:
+
+| Earlier lettered labels | Present sections |
+|---|---|
+| 1A, 1B, 1C, 1D, 1E, 1F | §§1.1–1.6, in that order |
+| 2A, 2B, 2C, 2D, 2E, 2F, 2G, 2H | §§2.1–2.8, in that order |
+| 3A, 3B, 3C, 3D, 3E | §§3.1–3.5, in that order |
+| 4A, 4B, 4C, 4D | §§4.1–4.4, in that order |
+| 5A, 5B, 5C, 5D | §§5.1–5.4, in that order |
+| 6A, 6B, 6C, 6D, 6E, 6F | §§6.1–6.6, in that order |
+| 7A, 7B, 7C, 7D, 7E, 7F | §§7.1–7.6, in that order |
+| 8A, 8B, 8C, 8D, 8E | §§8.1–8.5, in that order |
+
+The dependency order is Layer 1; Layer 2; Layer 3; Layer 5 (on §3.4); Layer 6; Layer 7 (on Layer 6);
 Layer 8 (on Layer 7). Nothing in Layers 1–7 mentions dimension `8`, `16` or `24`, and no lattice is
 constructed here: `E₈`, the rank-16 pair, the Leech lattice, `A₂` and `D₄` are Tau Ceti's and enter
 at Layer 8. Each *Needs:* line lists what its statement and its route use, item by item, so that a
@@ -213,10 +227,11 @@ function `f` on `P × F`, the *partial Fourier transform in the second variable*
 - consequently, splitting `EuclideanSpace ℝ (Fin n)` orthogonally into one coordinate and the rest,
   the Fourier transform on `ℝⁿ` is the composite of the `n` one-dimensional partial transforms.
 
-These are what the reduction of Poisson summation on `ℤⁿ` to Mathlib's one-dimensional formula,
-coordinate by coordinate, needs beside the slices of a Schwartz function (Tau Ceti's
-`SchwartzMap.sliceRightCLM`) and the absolute summability of lattice sums, which lets a sum over
-`ℤⁿ` be computed one coordinate at a time.
+Poisson summation over `ℤⁿ` does not use them: Tau Ceti proves it in all dimensions at once, from
+the multivariate Fourier series of the periodization on the torus (row 1.2 of *Scope and
+ownership* below). These statements are general Fourier analysis on products, the Fourier-side
+companion of the slices of a Schwartz function (Tau Ceti's `SchwartzMap.sliceRightCLM`), and no
+later layer of this roadmap rests on them.
 
 *Needs:* Mathlib `SchwartzMap`, the Fourier transform `𝓕` on a finite-dimensional inner product
 space, `MeasureTheory.integral_prod`; Tau Ceti `SchwartzMap.sliceRightCLM`,
@@ -236,7 +251,7 @@ space, `MeasureTheory.integral_prod`; Tau Ceti `SchwartzMap.sliceRightCLM`,
 
 - On `ℤ²` and a product `f(x₁, x₂) = φ(x₁) ψ(x₂)` of Schwartz functions on `ℝ`, the two-dimensional
   Poisson formula `∑_{ℓ ∈ ℤ²} f(ℓ) = ∑_{m ∈ ℤ²} 𝓕 f(m)` is the product of the two one-dimensional
-  formulas, which is the shape the coordinatewise reduction takes in general.
+  formulas, since `𝓕 f (m₁, m₂) = 𝓕φ(m₁) 𝓕ψ(m₂)` by the Fubini identity.
 - For the Gaussian `exp(-π t ‖x‖²)`, `t > 0`, on `ℝⁿ`, Poisson summation over `ℤⁿ` reads
   `∑_{ℓ ∈ ℤⁿ} exp(-π t ‖ℓ‖²) = t^{-n/2} ∑_{m ∈ ℤⁿ} exp(-π ‖m‖² / t)`, the `n`-th power of the
   one-dimensional identity.
@@ -338,24 +353,19 @@ No other layer of this roadmap.
 
 Let `L` be even and unimodular of rank `2k`, and let `ZLattice.thetaForm hL hU hk`, a modular form of
 weight `k` for `SL(2, ℤ)`, be its bundled theta series, whose coercion is `Θ_L`
-(`ZLattice.coe_thetaForm`). Prove (Serre, Ch. VII §6):
+(`ZLattice.coe_thetaForm`). Prove that for `M ⊆ F` even and unimodular of rank `2l`, the bundled
+form of `L ⊕ M` (even and unimodular of rank `2(k + l)`) is the product, by `ModularForm.mul`, of
+the bundled forms of `L` and `M`, as modular forms of weight `k + l` (Serre, Ch. VII §6).
 
-- its `q`-expansion coefficients are the representation numbers: the `m`-th coefficient of
-  `qExpansion 1` of the bundled form is `r_L(2m)` for every `m ≥ 0`;
-- the bundled form is not zero;
-- for `M ⊆ F` even and unimodular of rank `2l`, the bundled form of `L ⊕ M` (even and unimodular of
-  rank `2(k + l)`) is the product, by `ModularForm.mul`, of the bundled forms of `L` and `M`, as
-  modular forms of weight `k + l`;
-- it is invariant under isometry: for `e : F ≃ₗᵢ[ℝ] E`, the bundled form of the pulled-back lattice
-  is that of `L`.
+The rest of the API that the identifications of Layer 8 consume is Tau Ceti's statements about
+`Θ_L` read through `ZLattice.coe_thetaForm`: the `m`-th coefficient of `qExpansion 1` of the bundled
+form is `r_L(2m)` for every `m ≥ 0` (`ZLattice.IsEven.qExpansion_thetaSeries_coeff`), so its
+constant coefficient is `r_L(0) = 1` (`ZLattice.representationNumber_zero`) and it is not zero; and
+for `e : F ≃ₗᵢ[ℝ] E` the bundled form of the pulled-back lattice is that of `L`
+(`ZLattice.thetaSeries_comap`).
 
-These are what the identifications of Layer 8 consume.
-
-*Needs:* §3.4 (for the product); Tau Ceti `ZLattice.thetaForm`, `ZLattice.coe_thetaForm`,
-`ZLattice.IsEven.qExpansion_thetaSeries_coeff`, `ZLattice.representationNumber_zero`,
-`ZLattice.thetaSeries_comap`, `ZLattice.isEven_comap_iff`, `ZLattice.isUnimodular_comap_iff`,
-`ZLattice.isEven_orthSum_iff`, `ZLattice.isUnimodular_orthSum_iff`; Mathlib `ModularForm.mul`,
-`UpperHalfPlane.qExpansion`.
+*Needs:* §3.4; Tau Ceti `ZLattice.thetaForm`, `ZLattice.coe_thetaForm`,
+`ZLattice.isEven_orthSum_iff`, `ZLattice.isUnimodular_orthSum_iff`; Mathlib `ModularForm.mul`.
 
 **Checks.**
 - For `E₈ ⊕ E₈`, the product of two copies of the bundled form of `E₈`, which is `E₄`, is `E₄ · E₄`
@@ -384,7 +394,7 @@ modulus. Nothing here classifies finite quadratic modules or uses Jordan splitti
 
 ### 6.2 Reciprocity
 
-For coprime positive integers `a` and `c`, prove
+For positive integers `a` and `c`, prove
 
 ```text
 G_L(a, c) = (c/a)^k * (det L)^{-1/2} * e(n/8) * ∑_{y ∈ L^∨ / aL} e(-c ‖y‖² / (2a)),
@@ -393,8 +403,9 @@ G_L(a, c) = (c/a)^k * (det L)^{-1/2} * e(n/8) * ∑_{y ∈ L^∨ / aL} e(-c ‖y
 where `e(n/8) = i^k`, `det L = |L^∨ / L|`, and the sum on the right, over the `a^n det L` classes of
 `L^∨ ⧸ aL`, is well defined because `L` is even. In Lean this is `gaussSum_eq_mul_dualGaussSum`,
 with the right-hand sum `ZLattice.dualGaussSum L hL (-c) a` (Milnor–Husemoller, Appendix 4, for the
-theta-asymptotic method; Turaev (1998) for reciprocity of Gauss sums on finite abelian groups, of
-which this is the case `L / cL` against `L^∨ / aL`).
+theta-asymptotic method; Turaev (1998), §1.3, for the reciprocity of the Gauss sums attached to a
+tensor product of bilinear lattices, of which this is the case of `ℤ` with the form `c x y` tensored
+with `L` with the form `a ⟪·, ·⟫`, pairing `L / cL` against `L^∨ / aL`).
 
 *Route of record.* Compute the limit `lim_{t → 0⁺} t^k Θ_L(a/c + it)` in two ways. ⚠ The asymptotic
 is additive, a leading term plus `o(t^{-k})`, not `G_L(a, c) · (…) · (1 + o(1))`: the Gauss sum can
@@ -507,9 +518,10 @@ Lean this is `conductor_kroneckerChar_dvd_level` (Ebeling, Ch. 3). *Route:* by T
 to `D_L` with `a ≡ 1 (mod N)`. Such an `a` is prime to `N`, so §6.5 at `c = N` gives
 `G_L(a, N) = N^k (det L)^{1/2} i^k (D_L / a)`, while `G_L(a, N) = G_L(1, N)` because the Gauss sum
 depends on `a` only modulo `N` (`ZLattice.gaussSum_eq_of_modEq`) and `G_L(1, N)` is the same
-expression with `(D_L / 1) = 1`. ⚠ The descent to the level is a statement about unit groups: the
-level need not divide `D_L` (only `N ∣ 2 det L` holds in general), so no map `ZMod |D_L| → ZMod N`
-is used, and the kernel that matters is that of the reduction of units; Tau Ceti's criterion
+expression with `(D_L / 1) = 1`. ⚠ The descent to the level is a statement about unit groups:
+`|D_L|` need not divide `N` (for `D₄`, `|D_L| = 4` and `N = 2`), so `(D_L / ·)` is not a character
+modulo `N` until its conductor is known to divide `N`, and the kernel that matters is that of the
+reduction of units; Tau Ceti's criterion
 packages exactly this, through odd positive representatives of unit classes
 (`ZMod.exists_odd_unitOfCoprime_eq`). Equivalently, the Kronecker character pulled up to modulus
 `lcm(|D_L|, N)` factors through `N` (Mathlib's `DirichletCharacter.factorsThrough_iff_ker_unitsMap`,
@@ -890,9 +902,9 @@ vocabulary is the [modular-forms roadmap](../ModularForms/README.md)'s; and the 
 ## Scope and ownership
 
 **This roadmap owns** the partial Fourier transforms of §1.2; the theta series of an orthogonal sum
-(§3.4); the basic API of the level-one theta form (§5.3); Gauss-sum reciprocity, Milgram's formula
-at positive definite signature by theta asymptotics, the closed form of the Gauss sum, the conductor
-theorem and the nebentypus `χ_L` (§§6.2, 6.3, 6.5, 6.6); the reductions of §7.1, the
+(§3.4); the product formula for the level-one theta form (§5.3); Gauss-sum reciprocity, Milgram's
+formula at positive definite signature by theta asymptotics, the closed form of the Gauss sum, the
+conductor theorem and the nebentypus `χ_L` (§§6.2, 6.3, 6.5, 6.6); the reductions of §7.1, the
 Hecke–Schoeneberg theorem, the theta series as a modular form with character, the coset series on
 `Γ(N)` and their consequences (§§7.3–7.6); and the identification of `Θ_{A₂}` and `Θ_{D₄}` (§8.6).
 No other roadmap states a theta series of a positive definite lattice or a modularity theorem for
@@ -906,7 +918,7 @@ roadmap are in italics.
 | Former § | Content | Tau Ceti declarations |
 |---|---|---|
 | 1.1 | Poisson summation over a full lattice, its reflected form for every `f`, its minus-phase form for even `f` (*poissonSummation*, *poissonSummation_neg*, *poissonSummation_of_even*) | `SchwartzMap.tsum_eq_tsum_dual_fourier`, `SchwartzMap.tsum_eq_tsum_dual_fourier_neg`, `SchwartzMap.tsum_eq_tsum_dual_fourier_of_even` (`Analysis/Fourier/PoissonSummation.lean`) |
-| 1.2, in part | Poisson summation over the lattice of an orthonormal basis (`ℤⁿ`), self-duality of that lattice, slices of Schwartz functions, absolute summability of lattice sums (*poissonSummation_stdLattice*, *dual_stdLattice*) | `SchwartzMap.tsum_eq_tsum_fourier_span_orthonormalBasis`, `ZLattice.dual_span_orthonormalBasis`, `SchwartzMap.sliceRightCLM`, `SchwartzMap.seminorm_sliceRightCLM_le`, `ZLattice.summable_norm_poisson_left`; the partial Fourier transforms are §1.2 above |
+| 1.2, in part | Poisson summation over the lattice of an orthonormal basis (`ℤⁿ`), self-duality of that lattice, slices of Schwartz functions, absolute summability of lattice sums (*stdLattice*, *poissonSummation_stdLattice*, *dual_stdLattice*) | `SchwartzMap.tsum_eq_tsum_fourier_span_orthonormalBasis`, `ZLattice.dual_span_orthonormalBasis`, `SchwartzMap.sliceRightCLM`, `SchwartzMap.seminorm_sliceRightCLM_le`, `ZLattice.summable_norm_poisson_left`; the partial Fourier transforms are §1.2 above |
 | 1.3 | Fourier transform under a linear automorphism (*fourierIntegral_comp_equiv*) | `ContinuousLinearEquiv.fourier_comp` (`Analysis/Fourier/ChangeOfVariables.lean`) |
 | 1.4 | dual lattice and covolume under a linear automorphism; every full lattice is the image of `ℤⁿ` with `|det A| = covol L` (*mapEquiv*, *dual_mapEquiv*, *covolume_mapEquiv*) | `ZLattice.dual_comap_continuousLinearEquiv`, `ZLattice.covolume_comap_continuousLinearEquiv`, `ZLattice.exists_comap_span_orthonormalBasis_eq` |
 | 1.5 | summability of both sides (*summable_poisson_left*, *summable_poisson_right*) | `ZLattice.summable_poisson_left`, `ZLattice.summable_poisson_right` (`Analysis/Distribution/SchwartzSpace/ZLattice.lean`) |
@@ -914,14 +926,14 @@ roadmap are in italics.
 | 2.1 | integral, even, unimodular; evenness implies integrality; integrality is `L ≤ L^∨`; `L^∨` is a full lattice; biduality; invariance under isometry and orthogonal sums (*dual*, *dual_dual*, *IsIntegral*, *IsEven*, *IsUnimodular*) | `ZLattice.dual`, `ZLattice.dual_dual`, `ZLattice.IsIntegral`, `ZLattice.IsEven`, `ZLattice.IsUnimodular`, `ZLattice.IsEven.isIntegral`, `ZLattice.isIntegral_iff_le_dual`, `ZLattice.isIntegral_iff`, `ZLattice.isEven_iff`, `ZLattice.isUnimodular_iff_eq_dual`, `ZLattice.isEven_comap_iff`, `ZLattice.isIntegral_comap_iff`, `ZLattice.isUnimodular_comap_iff`, `ZLattice.isIntegral_orthSum_iff`, `ZLattice.isEven_orthSum_iff`, `ZLattice.isUnimodular_orthSum_iff` |
 | 2.2 | scaling: full rank, dual, covolume, determinant, `(-c) • L = c • L`, the integrality criterion, `√m`-scalings, non-unimodularity in positive rank (*scale* and its lemmas) | the instances on `c • L`, `ZLattice.dual_smul`, `ZLattice.covolume_smul`, `ZLattice.det_smul`, `Submodule.neg_smul_eq_smul`, `ZLattice.isIntegral_smul_iff`, `ZLattice.isEven_smul_iff`, `ZLattice.IsIntegral.sqrt_smul`, `ZLattice.IsEven.sqrt_smul`, `ZLattice.IsIntegral.isEven_sqrt_smul`, `ZLattice.det_sqrt_smul`, `ZLattice.IsIntegral.not_isUnimodular_sqrt_smul`, `ZLattice.IsIntegral.not_isUnimodular_smul`, `ZLattice.IsUnimodular.not_isUnimodular_smul` |
 | 2.3 | covolume of the dual; `det L` a positive integer, the order of `L^∨/L`, the index `[L^∨ : L]`, the Gram determinant; the forms of unimodularity (*det*, *covolume_dual*, *discGroup*, *isUnimodular_iff_covolume_eq_one*) | `ZLattice.covolume_dual`, `ZLattice.det`, `ZLattice.det_def`, `ZLattice.DiscriminantGroup`, `ZLattice.IsIntegral.det_eq_card_discriminantGroup`, `ZLattice.IsIntegral.one_le_det`, `ZLattice.IsIntegral.finite_discriminantGroup`, `ZLattice.IsIntegral.det_eq_relIndex`, `ZLattice.det_eq_det_gram`, `ZLattice.IsIntegral.det_toMatrix_integralForm`, `ZLattice.IsIntegral.isUnimodular_iff_det_eq_one`, `ZLattice.IsIntegral.isUnimodular_iff_covolume_eq_one`, `ZLattice.IsIntegral.isUnimodular_iff_subsingleton_discriminantGroup` |
-| 2.4 | the comparison with the rational model in both directions: rational model, positive definiteness, nondegeneracy, evenness and unimodularity, dual and discriminant group with pairing and quadratic form, determinant, rank, shells, level; real model, mutual inverses up to isometry, transfer of non-isometry (*ratModel*, *discGroupEquiv*, *realModel*, *nonempty_isometry_of_realModel*) | `ZLattice.ratModel`, `ZLattice.isPosDef_ratModel`, `ZLattice.instIsNondegenerateRatModel`, `ZLattice.isEven_ratModel_iff`, `ZLattice.isUnimodular_ratModel_iff`, `ZLattice.ratModelDualEquiv`, `ZLattice.ratModelDiscriminantGroupEquiv`, `ZLattice.discriminantPairing_ratModelDiscriminantGroupEquiv_mk_eq_coe_iff`, `ZLattice.discriminantQuadraticMap_ratModelDiscriminantGroupEquiv_mk_eq_coe_iff`, `ZLattice.determinant_ratModel`, `ZLattice.discriminant_ratModel`, `ZLattice.finrank_ratModel`, `ZLattice.level_ratModel`, `ZLattice.ncard_vectorsOfNorm_ratModel`; `TauCeti.IntegralLattice.realModel`, `TauCeti.IntegralLattice.RealModelSpace`, `TauCeti.IntegralLattice.isIntegral_realModel`, `TauCeti.IntegralLattice.isEven_realModel_iff`, `TauCeti.IntegralLattice.isUnimodular_realModel_iff`, `TauCeti.IntegralLattice.ratModelRealModelIsometry`, `ZLattice.realModelRatModelIsometry`, `TauCeti.IntegralLattice.Isometry.ofRealModel`, `TauCeti.IntegralLattice.map_realModel_ne_realModel`, `TauCeti.IntegralLattice.det_realModel`, `TauCeti.IntegralLattice.natCard_discriminantGroup_realModel`, `TauCeti.IntegralLattice.level_realModel`, `TauCeti.IntegralLattice.representationNumber_realModel` |
+| 2.4 | the comparison with the rational model in both directions: rational model, positive definiteness, nondegeneracy, evenness and unimodularity, dual and discriminant group with pairing and quadratic form, determinant, rank, shells, level; real model, mutual inverses up to isometry, transfer of non-isometry (*ratModel*, *discGroupEquiv*, *RealSpace*, *realModel*, *nonempty_isometry_of_realModel*) | `ZLattice.ratModel`, `ZLattice.isPosDef_ratModel`, `ZLattice.instIsNondegenerateRatModel`, `ZLattice.isEven_ratModel_iff`, `ZLattice.isUnimodular_ratModel_iff`, `ZLattice.ratModelDualEquiv`, `ZLattice.ratModelDiscriminantGroupEquiv`, `ZLattice.discriminantPairing_ratModelDiscriminantGroupEquiv_mk_eq_coe_iff`, `ZLattice.discriminantQuadraticMap_ratModelDiscriminantGroupEquiv_mk_eq_coe_iff`, `ZLattice.determinant_ratModel`, `ZLattice.discriminant_ratModel`, `ZLattice.finrank_ratModel`, `ZLattice.level_ratModel`, `ZLattice.ncard_vectorsOfNorm_ratModel`; `TauCeti.IntegralLattice.realModel`, `TauCeti.IntegralLattice.RealModelSpace`, `TauCeti.IntegralLattice.isIntegral_realModel`, `TauCeti.IntegralLattice.isEven_realModel_iff`, `TauCeti.IntegralLattice.isUnimodular_realModel_iff`, `TauCeti.IntegralLattice.ratModelRealModelIsometry`, `ZLattice.realModelRatModelIsometry`, `TauCeti.IntegralLattice.Isometry.ofRealModel`, `TauCeti.IntegralLattice.map_realModel_ne_realModel`, `TauCeti.IntegralLattice.det_realModel`, `TauCeti.IntegralLattice.natCard_discriminantGroup_realModel`, `TauCeti.IntegralLattice.level_realModel`, `TauCeti.IntegralLattice.representationNumber_realModel` |
 | 2.5 | the level: positivity, its three characterizations, `level = 1` iff unimodular, isometry, `lcm` on orthogonal sums, exponent and order of `L^∨/L`, `N L^∨ ⊆ L`, primes of `det L` (*level* and its lemmas) | `ZLattice.level`, `ZLattice.level_dvd_iff`, `ZLattice.IsIntegral.level_pos`, `ZLattice.level_ratModel`, `ZLattice.level_dvd_iff_gram`, `ZLattice.isLeast_level`, `ZLattice.IsEven.level_eq_one_iff`, `ZLattice.level_comap`, `ZLattice.level_orthSum`, `ZLattice.exponent_discriminantGroup_dvd_level`, `ZLattice.level_dvd_two_mul_card_discriminantGroup`, `ZLattice.level_nsmul_mem`, `ZLattice.card_discriminantGroup_dvd_level_pow`, `ZLattice.prime_dvd_level` |
 | 2.6 | the Fricke partner `√N • L^∨`: even, determinant `N^n / det L`, level `N / gcd(N, c_L)` with `c_L` the content, the counterexample `√2 • E₈` | `ZLattice.isEven_sqrt_level_smul_dual`, `ZLattice.IsIntegral.det_sqrt_level_smul_dual`, `ZLattice.content`, `ZLattice.IsEven.level_sqrt_level_smul_dual`, `ZLattice.IsEven.level_sqrt_level_smul_dual_dvd`, `ZLattice.IsEven.level_sqrt_level_smul_dual_eq_level_iff`, `TauCeti.IntegralLattice.level_sqrt_level_smul_dual_sqrt_two_smul_realModel_typeE₈RootLattice` |
 | 2.7 | shells and representation numbers, coset shells, finiteness, `r_L(0) = 1`, isometry, the polynomial bound, parity and support conditions, the convolution identities, agreement with `vectorsOfNorm` (*shell*, *repNum*, *cosetShell*, *cosetRepNum*) | `ZLattice.shell`, `ZLattice.representationNumber`, `ZLattice.cosetShell`, `ZLattice.cosetRepresentationNumber`, `ZLattice.finite_shell`, `ZLattice.finite_cosetShell`, `ZLattice.representationNumber_zero`, `ZLattice.representationNumber_comap`, `ZLattice.representationNumber_isBigO`, `ZLattice.IsEven.shell_eq_empty`, `ZLattice.IsIntegral.shell_eq_empty`, `ZLattice.IsEven.cosetShell_eq_empty`, `ZLattice.IsEven.cosetRepresentationNumber_div_eq_zero_of_not_modEq`, `ZLattice.IsEven.representationNumber_orthSum`, `ZLattice.representationNumber_orthSum`, `ZLattice.representedNormsLE`, `ZLattice.shell_eq_image_vectorsOfNorm_ratModel` |
 | 2.8 | the Kronecker symbol and character; `D_L ≡ 0, 1 (mod 4)` (*kroneckerSym*, *kroneckerChar*, *signedDisc*) | `TauCeti.kroneckerSym` with `TauCeti.kroneckerSym_eq_jacobiSym`, `TauCeti.kroneckerSym_eq_legendreSym`, `TauCeti.kroneckerSym_two_right`, `TauCeti.kroneckerSym_neg_one_right`, `TauCeti.kroneckerSym_zero_right`, `TauCeti.kroneckerSym_mul_right`, `TauCeti.kroneckerSym_mul_right_of_ne_neg_one`, `TauCeti.kroneckerSym_mod_right'`; `TauCeti.kroneckerChar` with `TauCeti.kroneckerChar_intCast`, `TauCeti.kroneckerChar_isQuadratic`, `TauCeti.kroneckerChar_neg_one`; `ZLattice.IsEven.neg_one_pow_mul_card_discriminantGroup_modEq_zero_or_one`; odd representatives of unit classes (*exists_odd_natCast_eq_units*) `ZMod.exists_odd_unitOfCoprime_eq`, used by `DirichletCharacter.conductor_dvd_iff_forall_odd` |
 | 3.1 | the theta series and coset series, summability with the explicit bound, local uniform convergence, holomorphy (*thetaSeries*, *thetaCoset*) | `ZLattice.thetaSeries`, `ZLattice.thetaCoset`, `ZLattice.summable_thetaSeries`, `ZLattice.summable_thetaCoset`, `Complex.norm_exp_pi_mul_I_mul_ofReal_mul`, `ZLattice.hasSumLocallyUniformly_thetaSeries`, `ZLattice.hasSumLocallyUniformly_thetaCoset`, `ZLattice.differentiableOn_thetaSeries`, `ZLattice.mdifferentiable_thetaSeries`, `ZLattice.mdifferentiable_thetaCoset` |
 | 3.2 | descent to `L^∨/L`, `θ_{0+L} = Θ_L`, `θ_{-γ} = θ_γ`, the dual decomposition for integral `L` (*thetaCosetClass*, *thetaSeries_dual_eq_sum*) | `ZLattice.thetaCoset_add_mem`, `ZLattice.thetaCoset_eq_of_sub_mem`, `ZLattice.thetaCosetClass`, `ZLattice.thetaCosetClass_mk`, `ZLattice.thetaCosetClass_zero`, `ZLattice.thetaCoset_neg`, `ZLattice.thetaCosetClass_neg`, `ZLattice.IsIntegral.thetaSeries_dual_eq_sum` |
-| 3.3 | `q`- and `q_N`-expansions, period `2` for integral `L`, support of the coset coefficients, boundedness at `i∞`, constant term `1`, positivity on the imaginary axis | `ZLattice.IsEven.hasSum_thetaSeries_qParam`, `ZLattice.IsEven.qExpansion_thetaSeries_coeff`, `ZLattice.IsIntegral.hasSum_thetaSeries_qParam_two`, `ZLattice.IsIntegral.qExpansion_two_thetaSeries_coeff`, `ZLattice.IsEven.hasSum_thetaCoset_qParam`, `ZLattice.IsEven.qExpansion_thetaCoset_coeff`, `ZLattice.IsEven.qExpansion_thetaCoset_coeff_eq_zero`, `ZLattice.isBoundedAtImInfty_thetaSeries`, `ZLattice.isBoundedAtImInfty_thetaCoset`, `ZLattice.IsEven.qExpansion_thetaSeries_coeff_zero`, `ZLattice.one_le_re_thetaSeries`, `ZLattice.re_thetaCoset_pos` |
+| 3.3 | `q`- and `q_N`-expansions, period `2` for integral `L`, support of the coset coefficients, boundedness at `i∞`, constant term `1`, positivity on the imaginary axis (*hasSum_thetaSeries*, *hasSum_thetaCoset*, *qExpansion_thetaSeries_coeff*) | `ZLattice.IsEven.hasSum_thetaSeries_qParam`, `ZLattice.IsEven.qExpansion_thetaSeries_coeff`, `ZLattice.IsIntegral.hasSum_thetaSeries_qParam_two`, `ZLattice.IsIntegral.qExpansion_two_thetaSeries_coeff`, `ZLattice.IsEven.hasSum_thetaCoset_qParam`, `ZLattice.IsEven.qExpansion_thetaCoset_coeff`, `ZLattice.IsEven.qExpansion_thetaCoset_coeff_eq_zero`, `ZLattice.isBoundedAtImInfty_thetaSeries`, `ZLattice.isBoundedAtImInfty_thetaCoset`, `ZLattice.IsEven.qExpansion_thetaSeries_coeff_zero`, `ZLattice.one_le_re_thetaSeries`, `ZLattice.re_thetaCoset_pos` |
 | 3.4, in part | invariance under isometry and scaling (*thetaSeries_scale*) | `ZLattice.thetaSeries_comap`, `ZLattice.thetaCoset_comap`, `ZLattice.thetaSeries_smul`, `ZLattice.thetaCoset_smul`; orthogonal sums are §3.4 above |
 | 3.5 | the rank-one comparison with `jacobiTheta` and `q`-expansions; rank `n` (*thetaSeries_int*, *thetaSeries_stdLattice*) | `ZLattice.thetaSeries_span_one`, `ZLattice.thetaSeries_sqrt_two_smul_span_one`, `ZLattice.qExpansion_two_thetaSeries_span_one_coeff`, `ZLattice.hasSum_thetaSeries_span_one_qParam`, `ZLattice.thetaSeries_span_orthonormalBasis` |
 | 4.1 | translation: `θ_γ(τ + 1) = e(q_L(γ)) θ_γ(τ)` for even `L`, period `1` of `Θ_L`, period `2` for integral `L`, invariance of the coset series under `T^N` | `ZLattice.IsEven.thetaCoset_one_vadd`, `ZLattice.IsEven.thetaSeries_one_vadd`, `ZLattice.IsEven.thetaSeries_slash_T`, `ZLattice.IsIntegral.thetaSeries_two_vadd`, `ZLattice.IsEven.thetaCoset_slash_T_zpow_eq_self`, `ZLattice.IsEven.cexp_pi_mul_I_mul_norm_add_sq` |
@@ -943,6 +955,13 @@ roadmap are in italics.
 | 8.3 | even unimodular of rank `24`: `Θ_L = E₄³ + (r_L(2) - 720) Δ` (*thetaForm_rank_24*) | `ZLattice.IsEven.thetaForm_eq_E₄_cube_add_smul_discriminant`, `ZLattice.IsEven.thetaSeries_eq_E₄_cube_add_mul_discriminant`, `ZLattice.IsEven.representationNumber_four_add_twenty_four_mul` |
 | 8.4 | the Leech lattice: `Θ_Λ = E₄³ - 720 Δ = E₁₂ - (65520/691) Δ`, `r_Λ(2m)`, `r_Λ(4) = 196560` (*coe_thetaForm_rank_24_rootless*, *repNum_rank_24_rootless*, *repNum_four_rank_24_rootless*) | `TauCeti.IntegralLattice.thetaSeries_realModel_leechLattice_eq_E₄_cube_sub_mul_discriminant`, `TauCeti.IntegralLattice.thetaSeries_realModel_leechLattice_eq_E_twelve_sub_mul_discriminant`, `TauCeti.IntegralLattice.representationNumber_leechLattice_two_mul`, `ZLattice.IsEven.thetaSeries_eq_E_twelve_add_mul_discriminant`, `ZLattice.IsEven.representationNumber_two_mul_of_finrank_eq_twenty_four`, `ZLattice.IsEven.representationNumber_four_of_rootless` (rootless rank 24), on `TauCeti.leechLattice` |
 | 8.5 | the rank-16 pair: `Θ_{E₈⊕E₈} = Θ_{D₁₆⁺} = E₄²`, not isometric; the theta series does not determine the lattice (*thetaSeries_realModel_eq_of_rank_sixteen*, *thetaSeries_realModel_eq_and_not_isometric*, *exists_thetaSeries_eq_not_isometric*) | `TauCeti.IntegralLattice.thetaSeries_realModel_eq_E₄_sq`, `TauCeti.IntegralLattice.thetaSeries_realModel_e8PowLattice_two`, `TauCeti.IntegralLattice.thetaSeries_realModel_checkerboardPlusLattice_sixteen`, `TauCeti.IntegralLattice.not_forall_exists_map_eq_of_thetaSeries_eq`, with the non-isometry `TauCeti.IntegralLattice.isEmpty_isometry_e8PowLattice_checkerboardPlusLattice` |
+
+Former Lean names of the sections stated above: *thetaSeries_orthSum* is §3.4; *gaussSum_reciprocity*
+is §6.2 (`gaussSum_eq_mul_dualGaussSum`); *milgram* is §6.3 (`sum_cexp_norm_sq_discriminantGroup`);
+*gaussSum_eq* is §6.5 (`gaussSum_eq_sqrt_card_mul_jacobiSym`);
+*conductor_kroneckerChar_signedDisc_dvd_level* is §6.6 (`conductor_kroneckerChar_dvd_level`);
+*discChar* is the nebentypus `nebentypus` of §6.6; and *thetaFormOfLevel* with
+*thetaFormOfLevel_mem_modFormCharSpace* is §7.4 (`exists_modularForm_coe_eq_thetaSeries`).
 
 **Owned elsewhere.**
 
@@ -1135,8 +1154,9 @@ by §8.6, where Tau Ceti's `TauCeti.EisensteinSeries.charE1MF` with its coeffici
   [DOI](https://doi.org/10.1007/978-3-642-88330-9). Appendix 4 is Gauss sums and Milgram's formula,
   `∑_γ e(q(γ)) = |A|^{1/2} e(σ/8)`, proved by the theta-asymptotic method of Layer 6.
 - V. Turaev, "Reciprocity for Gauss sums on finite abelian groups", *Math. Proc. Cambridge Philos.
-  Soc.* **124** (1998), [DOI](https://doi.org/10.1017/S0305004198002655) — the reciprocity law of
-  §6.2 for a quadratic function on a finite abelian group, of which the lattice statement is the case
+  Soc.* **124** (1998), [DOI](https://doi.org/10.1017/S0305004198002655) — §1.3 is the reciprocity
+  law for the Gauss sums attached to a tensor product of bilinear lattices; the lattice statement of
+  §6.2 is the case of `ℤ` with the form `c x y` tensored with `L` with the form `a ⟪·, ·⟫`, pairing
   `L ⧸ cL` against `L^∨ ⧸ aL`; its rank-one case is the classical Landsberg–Schaar identity, tested
   here through its square at rank two.
 - T. Miyake, *Modular Forms* (Springer, 1989), [DOI](https://doi.org/10.1007/3-540-29593-3), §4.9 —
