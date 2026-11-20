@@ -65,7 +65,7 @@ derivative `U` exists, the weak divergence is the trace of `U`. The solenoidal `
 `E` form the closed subspace `L²_σ(E)` of `Lp E 2 volume`, and `ℙ` is the orthogonal
 projection onto it. Solenoidal subspaces of other spaces are written `X_σ = X ∩ {div u = 0}`.
 
-**Riesz transforms.** `Rⱼ` is Tau Ceti's `TauCeti.rieszTransform` in the direction of the
+**Riesz transforms.** `Rⱼ` is the Riesz transform of PDE §2.3 in the direction of the
 `j`-th vector of an orthonormal basis, the Fourier multiplier with symbol `−i ξⱼ/‖ξ‖`. Then
 `RⱼRₖ` has the real even symbol `−ξⱼξₖ/‖ξ‖²` and maps real functions to real functions, and
 `Σⱼ RⱼRⱼ = −1`. With these signs the Leray projection is `(ℙu)ⱼ = uⱼ + Σₖ RⱼRₖuₖ`, with symbol
@@ -152,7 +152,9 @@ solenoidal on `E`, and the solenoidal test fields `𝓓_σ(E) = ker TestFunction
 Define `ℙ : Lp E 2 volume →L[ℝ] Lp E 2 volume` as the orthogonal projection onto `L²_σ(E)`.
 Prove the Helmholtz–Weyl decomposition: the orthogonal complement of `L²_σ(E)` is the space of
 `L²` gradients, the fields `∇q` with `q` locally integrable with weak gradient in `L²`; this
-space is the closure of `{∇φ : φ ∈ 𝓓(E, ℝ)}`. Every `u ∈ L²` is uniquely `ℙu + ∇q`.
+space is the closure of `{∇φ : φ ∈ 𝓓(E, ℝ)}`. Every `u ∈ L²` is uniquely `ℙu + ∇q`
+(Tao, Notes 1, Exercise 17, with the complement described as the curl-free fields; the symbol
+of `ℙ` is Ożański–Pooley, §2.1, p. 16).
 
 - `ℙ` is idempotent and self-adjoint with `‖ℙ‖ ≤ 1`, `ℙ∇φ = 0`, and `ℙu = u` exactly on
   `L²_σ`.
@@ -176,13 +178,14 @@ space is the closure of `{∇φ : φ ∈ 𝓓(E, ℝ)}`. Every `u ∈ L²` is un
   `−ξ₁²φ̂/‖ξ‖²`, and `φ̂ − ξ₁²φ̂/‖ξ‖² = ξ₂²φ̂/‖ξ‖²`, matching the first check. The opposite sign
   convention for `Rⱼ` gives the same projection; the opposite sign in front of the sum does not.
 
-*Needs:* §1.1; Mathlib `Submodule.starProjection`; Tau Ceti `rieszTransform` and
+*Needs:* §1.1; Mathlib `Submodule.starProjection`; the Riesz transforms of PDE §2.3 and Tau Ceti
 `Lp.fourierMultiplierCLM`.
 
 ### 1.3 The Leray projection on `Lᵖ` and the pressure operator (S3)
 
 For `1 < p < ∞` extend `ℙ` from `L² ∩ Lᵖ` to a bounded projection on `Lᵖ(E; E)` with range
-`Lᵖ_σ(E)` and kernel the closure of the test gradients, with `‖ℙ‖_{Lᵖ → Lᵖ} ≤ C(d,p)`, and
+`Lᵖ_σ(E)` and kernel the closure of the test gradients, with `‖ℙ‖_{Lᵖ → Lᵖ} ≤ C(d,p)`
+(Tao, Notes 2, Proposition 13, from the `Lᵖ` bounds for the Riesz transforms), and
 prove that the `L^p` and `L^{p'}` projections are adjoint. Define the pressure operator
 `Π F = Σⱼₖ RⱼRₖFⱼₖ` on matrix fields in `Lᵖ`, `1 < p < ∞`, and prove
 `‖ΠF‖_p ≤ C(d,p)‖F‖_p`, `−Δ(ΠF) = ∂ⱼ∂ₖFⱼₖ` in distributions, and
@@ -200,7 +203,7 @@ prove that the `L^p` and `L^{p'}` projections are adjoint. Define the pressure o
 - `u = (φ, 0)` with `∫φ ≠ 0`: `ℙu` decays like `‖x‖^{−d}` at infinity and is not integrable,
   the failure of `L¹` boundedness.
 
-*Needs:* §1.2; Tau Ceti `exists_eLpNorm_rieszTransform_le` and the Mihlin–Hörmander theorem;
+*Needs:* §1.2; the `Lᵖ` bounds for the Riesz transforms of PDE §2.3 and the Mihlin–Hörmander theorem;
 PDE §2.3.
 
 ### 1.4 Solenoidal Sobolev spaces (S4)
@@ -239,7 +242,7 @@ divergence of test fields, Riesz transforms and Mihlin–Hörmander theorem.
 
 ### 2.1 Off-diagonal estimates for the heat semigroup (L5)
 
-For `1 ≤ p ≤ q ≤ ∞`, `t > 0` and `f ∈ Lᵖ(E; F)`, prove
+For `1 ≤ p ≤ q ≤ ∞` with `p < ∞`, `t > 0` and `f ∈ Lᵖ(E; F)`, prove
 `‖e^{tΔ}f‖_q ≤ (4πt)^{−(d/2)(1/p − 1/q)}‖f‖_p` and, for every multi-index order `k ≥ 1`,
 `‖D^k e^{tΔ}f‖_q ≤ C(d,k) t^{−k/2 − (d/2)(1/p − 1/q)}‖f‖_p`. The case `q = ∞`, `k = 0` is the
 pinned `eLpNorm_heatSemigroup_top_le`; the case `p = q` is PDE §6.3.
@@ -264,11 +267,15 @@ pinned `eLpNorm_heatSemigroup_top_le`; the case `p = q` is PDE §6.3.
 
 `L²_σ(E)` is invariant under the vector heat semigroup. Define the Stokes semigroup
 `S_ν(t) = e^{νtΔ}|_{L²_σ}` as a contraction semigroup on `L²_σ(E)`, with generator `νΔ` on the
-domain `H²_σ(E)`, and likewise on `Lᵖ_σ(E)` for `1 < p < ∞`. Prove the Oseen-kernel estimate:
+domain `H²_σ(E)`, and likewise on `Lᵖ_σ(E)` for `1 < p < ∞`. Prove the Oseen-kernel estimate
+(Ożański–Pooley, (1.13)–(1.14), pp. 11–12, for `d = 3`; Wang, Lemma 6.10, p. 53, for every
+`d`; both bound the kernel of `e^{tΔ}ℙ`, of which `O_t` is the gradient):
 for `t > 0` the operator `e^{tΔ}ℙ div` on matrix fields is convolution with a smooth kernel
 `O_t` satisfying `|D^k O_t(x)| ≤ C(d,k)(‖x‖ + √t)^{−d−1−k}`, and consequently
 `‖e^{tΔ}ℙ div F‖_q ≤ C(d) t^{−1/2 − (d/2)(1/p − 1/q)}‖F‖_p` for all `1 ≤ p ≤ q ≤ ∞`, including
-the endpoints where `ℙ` alone is unbounded.
+the endpoints where `ℙ` alone is unbounded. Here `e^{tΔ}ℙ div F` means `O_t ⋆ F`, which is
+defined for `F ∈ Lᵖ` with every `1 ≤ p ≤ ∞`; the pinned heat semigroup exists only for
+`p < ∞`.
 
 - `O_t(x) = t^{−(d+1)/2}O₁(x/√t)`.
 - `S_ν(t)` is self-adjoint on `L²_σ` and `‖∇S_ν(t)u₀‖₂ ≤ (2eνt)^{−1/2}‖u₀‖₂`.
@@ -304,7 +311,8 @@ equality
 - `f₀ = 0`, `F = 0`: the energy equality is the identity of §2.2 integrated to time `t`.
 - A gradient force `f₀ = ∇φ` produces `u = S_ν(t)u₀` and changes only the pressure.
 
-*Needs:* §2.2; Tau Ceti `duhamel` and the Gelfand-triple identity; PDE §6.1.
+*Needs:* §2.2; Duhamel's formula of PDE §6.3 with Tau Ceti `Semigroups.IsMildSolution`, and the
+Gelfand-triple identity; PDE §6.1.
 
 ### Examples
 
@@ -367,7 +375,9 @@ form on `H¹(E; E)` with
 
 For real `s > 0` and `f, g ∈ Hˢ(E) ∩ L^∞(E)`, prove the tame product estimate
 `‖fg‖_{Hˢ} ≤ C(d,s)(‖f‖_∞‖g‖_{Hˢ} + ‖f‖_{Hˢ}‖g‖_∞)` and the Kato–Ponce commutator estimate
-`‖J^s(fg) − f J^s g‖₂ ≤ C(d,s)(‖∇f‖_∞‖J^{s−1}g‖₂ + ‖J^s f‖₂‖g‖_∞)`.
+`‖J^s(fg) − f J^s g‖₂ ≤ C(d,s)(‖∇f‖_∞‖J^{s−1}g‖₂ + ‖J^s f‖₂‖g‖_∞)`
+(the product estimate: Tao, Notes 1, Proposition 35 and Exercise 55; the commutator estimate:
+Kato–Ponce 1988, as stated in Grafakos–Oh, §1, p. 1, here with `p = 2`).
 
 - The Sobolev embedding `Hˢ(E) ↪ C_b(E)` for `s > d/2` with
   `‖f‖_∞ ≤ C(d,s)‖f‖_{Hˢ}`, and `Hˢ(E) ↪ C¹_b(E)` for `s > d/2 + 1`.
@@ -383,14 +393,16 @@ For real `s > 0` and `f, g ∈ Hˢ(E) ∩ L^∞(E)`, prove the tame product esti
   `|x|^{−a}χ ∈ Hˢ(ℝ)` exactly when `s < 1/2 − a`, so for `(1/2 − s)/2 ≤ a < 1/2 − s` the function
   is in `Hˢ` and its square `|x|^{−2a}χ²` is not.
 
-*Needs:* PDE §7.1–§7.3; Tau Ceti `BesovSpace` and Bony's decomposition; Mathlib `MemSobolev`.
+*Needs:* PDE §7.1–§7.3 (the dyadic partition, Besov spaces and Bony's decomposition); Mathlib
+`MemSobolev`.
 
 ### 3.4 Aubin–Lions compactness (N11)
 
 Let `X₀ ↪ X ↪ X₁` be Banach spaces with `X₀` and `X₁` reflexive, the first embedding compact
 and the second continuous and injective. For `1 < p, r < ∞` and `0 < T < ∞`, prove that the
 space of `u ∈ L^p(0,T; X₀)` with weak time derivative in `L^r(0,T; X₁)`, normed by the sum,
-embeds compactly in `L^p(0,T; X)`. Prove the local form used on the whole space: a sequence
+embeds compactly in `L^p(0,T; X)` (Lions 1969, Théorème 5.1, p. 58; Wang, Lemma 5.6, p. 43;
+Simon 1987 proves a stronger form without reflexivity). Prove the local form used on the whole space: a sequence
 bounded in `L²(0,T; H¹(E; E))` with time derivatives bounded in `L^r(0,T; H⁻¹(E; E))` has a
 subsequence converging in `L²(0,T; L²(B; E))` for every bounded open `B ⊆ E`.
 
@@ -467,8 +479,11 @@ solution as a weak solution with `‖u(t) − u₀‖₂ → 0` as `t → 0⁺` 
 ### 4.2 Leray's existence theorem (W13)
 
 Prove that for every `u₀ ∈ L²_σ(E)`, every such `f` and every `0 < T ≤ ∞` there is a Leray–Hopf
-solution on `[0,T)` (Leray 1934 for `d = 3` on the whole space; Hopf 1951). The construction
-is Leray's: for a mollifier `ρ_ε`, the regularized system
+solution on `[0,T)`. For `d = 3` and `f = 0` this is Leray's theorem (Ożański–Pooley,
+Definition 4.5 and Theorem 4.7, pp. 44–45, at `ν = 1`); for every `d` and `f = 0` it is Tao,
+Notes 2, Theorem 14. The statement with a force is proved by the same construction; it is in
+neither Leray 1934, where `f = 0`, nor Hopf 1951, which treats a bounded domain. The
+construction is Leray's (Ożański–Pooley, Theorem 4.2, p. 41, and Lemma 4.3, p. 42): for a mollifier `ρ_ε`, the regularized system
 `∂ₜu + ℙ((ρ_ε ⋆ u)·∇)u = νΔu + ℙf`, `u(0) = u₀`, and both the regularized solutions and the
 passage to the limit are targets.
 
@@ -498,7 +513,8 @@ passage to the limit are targets.
 ### 4.3 The two-dimensional theory (W14)
 
 For `d = 2` prove that weak solutions are unique, satisfy the energy equality, and are
-continuous into `L²` (Lions–Prodi 1959, Ladyzhenskaya 1959), with the stability estimate
+continuous into `L²` (Lions–Prodi 1959; Ladyzhenskaya 1959; on a bounded domain, Wang,
+Theorem 6.1, p. 45), with the stability estimate
 `‖u(t) − v(t)‖² ≤ ‖u₀ − v₀‖² exp((1/ν)∫₀ᵗ‖∇v‖²)` for two weak solutions with the same force.
 
 - For `u₀ ∈ H¹_σ` and `f ∈ L²(0,T; L²)` the solution is strong:
@@ -524,7 +540,9 @@ continuous into `L²` (Lions–Prodi 1959, Ladyzhenskaya 1959), with the stabili
 
 ### 4.4 Weak–strong uniqueness (W15)
 
-Prove the Prodi–Serrin theorem: if `v` is a weak solution on `[0,T)` with
+Prove the Prodi–Serrin theorem (Prodi 1959; Serrin 1963; on a bounded domain, Wang,
+Theorems 6.6 and 6.7, pp. 47–48, with the two exponents named in the other order): if `v` is a
+weak solution on `[0,T)` with
 `v ∈ L^q(0,T'; L^p(E; E))` for every `T' < T`, where `2/q + d/p = 1` and `d < p ≤ ∞`, then
 `v` satisfies the energy equality, and every Leray–Hopf solution with the same `u₀` and `f`
 equals `v` on `[0,T)`.
@@ -561,7 +579,7 @@ Throughout this layer `f = 0` and `ν > 0`.
 ### 5.1 The bilinear fixed-point lemma (M16)
 
 Let `X` be a real Banach space and `B : X → X → X` bilinear with `‖B(x,y)‖ ≤ η‖x‖‖y‖`,
-`η > 0`. Prove that for every `a ∈ X` with `4η‖a‖ < 1` the equation `x = a + B(x,x)` has a
+`η > 0`. Prove (Wang, Lemma 7.2, p. 56) that for every `a ∈ X` with `4η‖a‖ < 1` the equation `x = a + B(x,x)` has a
 solution with `‖x‖ ≤ 2‖a‖`, that it is the only solution with `‖x‖ < 1/(2η)`, and that the
 solution map is Lipschitz on `{a : ‖a‖ ≤ r}` for each `r < 1/(4η)`, with constant
 `(1 − 4ηr)^{−1/2}`.
@@ -584,8 +602,11 @@ solution map is Lipschitz on `{a : ‖a‖ ≤ r}` for each `r < 1/(4η)`, with 
 Define a mild solution on `[0,T]` in a space `X_T` of time-dependent fields as a solution of
 `u(t) = e^{νtΔ}u₀ − ∫₀ᵗ e^{ν(t−s)Δ}ℙ div(u ⊗ u)(s) ds` in `X_T`. For `d = 3` prove:
 
-- **Fujita–Kato (1964).** For `u₀ ∈ H^{1/2}_σ(ℝ³)` there is `T > 0` and a unique mild solution
-  in `L⁴(0,T; H¹)`; it lies in `C([0,T]; H^{1/2}) ∩ L²(0,T; H^{3/2})`. There is an absolute
+- **Fujita–Kato.** For `u₀ ∈ H^{1/2}_σ(ℝ³)` there is `T > 0` and a unique mild solution
+  in `L⁴(0,T; H¹)`; it lies in `C([0,T]; H^{1/2}) ∩ L²(0,T; H^{3/2})`. The theorem originates
+  in Fujita–Kato 1964, which works on a bounded domain; the formulation in `L⁴(0,T; H¹)` is
+  that of Bahouri–Chemin–Danchin, Chapter 5, and the small-data statement in the critical
+  space is Tao, Notes 1, Theorem 45 and Exercise 49. There is an absolute
   constant `c > 0` such that `|u₀|_{Ḣ^{1/2}} ≤ cν` implies that the solution exists on
   `[0,T]` for every `T`.
 - **Kato (1984).** For `u₀ ∈ L³_σ(ℝ³)` there is `T > 0` and a mild solution
@@ -640,12 +661,14 @@ equality; and that every Leray–Hopf solution with the same initial datum coinc
 
 ### 5.4 Blow-up rates (M19)
 
-Prove Leray's lower bound: if the strong solution with `u₀ ∈ H¹_σ(ℝ³)` has maximal time
+Prove Leray's lower bound (Ożański–Pooley, Corollaries 3.11 and 3.12, p. 35, at `ν = 1`): if
+the strong solution with `u₀ ∈ H¹_σ(ℝ³)` has maximal time
 `T* < ∞`, then `‖∇u(t)‖₂ ≥ cν^{3/4}(T* − t)^{−1/4}` for `0 ≤ t < T*`, with an absolute
 `c > 0`, and consequently `T* ≥ cν³‖∇u₀‖₂^{−4}`. Prove eventual regularity: a Leray–Hopf
 solution on `[0,∞)` with `u₀ ∈ L²_σ(ℝ³)` that satisfies the strong energy inequality of §4.1,
 in particular the solution constructed in §4.2, is a strong solution on `[T₀, ∞)` for
-`T₀ = Cν^{−5}‖u₀‖₂⁴` with an absolute `C`.
+`T₀ = Cν^{−5}‖u₀‖₂⁴` with an absolute `C` (Ożański–Pooley, Theorem 4.12, p. 53, at `ν = 1`
+and for the solution of §4.2; the proof uses only the strong energy inequality).
 
 - The differential inequality `d/dt ‖∇u‖₂² + ν‖Δu‖₂² ≤ Cν^{−3}‖∇u‖₂⁶`.
 - For `d = 2` and `u₀ ∈ Hˢ_σ`, `s ≥ 0`, the solution of §4.3 stays in `Hˢ` for all time.
@@ -768,7 +791,9 @@ For `d = 2`, prove that a solenoidal field `u ∈ H¹_σ` with vorticity `ω ∈
 For `d ≥ 2`, `s > d/2 + 1`, `ν ≥ 0` and nonzero `u₀ ∈ Hˢ_σ(E)`, prove that for
 `T = 1/(2C(d,s)‖u₀‖_{Hˢ})`, independent of `ν`, there is a unique solution
 `u^ν ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−2})` of the Navier–Stokes equations for `ν > 0`, and of the
-Euler equations with `u⁰ ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−1})` for `ν = 0` (Kato 1972), with
+Euler equations with `u⁰ ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−1})` for `ν = 0` (Kato 1972 on `ℝ³`;
+Tao, Notes 3, Theorem 1, Proposition 6 and Exercise 10, for every `d` and integer `s`;
+Kato–Ponce 1988 for real `s`), with
 `‖u^ν(t)‖_{Hˢ} ≤ ‖u₀‖_{Hˢ}/(1 − C(d,s)t‖u₀‖_{Hˢ}) ≤ 2‖u₀‖_{Hˢ}`
 on `[0,T]`. For `u₀ = 0`, the solution is zero for all time.
 
@@ -794,8 +819,9 @@ on `[0,T]`. For `u₀ = 0`, the solution is zero for all time.
 ### 6.4 The Beale–Kato–Majda criterion (E23)
 
 Prove that if the `Hˢ` solution of the Euler equations of §6.3 has maximal time `T* < ∞`, then
-`∫₀^{T*}‖Ω(t)‖_∞ dt = ∞` (Beale–Kato–Majda 1984 for `d = 3`), and the same for the
-Navier–Stokes solution with `ν > 0`.
+`∫₀^{T*}‖Ω(t)‖_∞ dt = ∞` (Beale–Kato–Majda 1984 for `d = 3`; Tao, Notes 3, Theorem 19, for
+every `d` and integer `s`), and the same for the Navier–Stokes solution with `ν > 0`
+(Tao, Notes 3, Remark 22).
 
 - The double-exponential bound
   `‖u(t)‖_{Hˢ} ≤ C exp(C exp(C∫₀ᵗ‖Ω‖_∞))` with `C` depending on `d`, `s`, `‖u₀‖_{Hˢ}` and `t`.
@@ -814,9 +840,12 @@ Navier–Stokes solution with `ν > 0`.
 
 For `d = 2` prove:
 
-- **Wolibner (1933), Kato (1967).** For `u₀ ∈ Hˢ_σ(ℝ²)`, `s > 2`, the Euler solution of §6.3
-  exists for all time, with `‖u(t)‖_{Hˢ} ≤ C exp(C exp(Ct))`.
-- **Yudovich (1963).** For `ω₀ ∈ L¹ ∩ L^∞(ℝ²)` there is a unique
+- **Global smooth solutions.** For `u₀ ∈ Hˢ_σ(ℝ²)`, `s > 2`, the Euler solution of §6.3
+  exists for all time, with `‖u(t)‖_{Hˢ} ≤ C exp(C exp(Ct))` (Tao, Notes 3, Theorem 23 with
+  Theorem 19, for integer `s`; global existence of classical planar solutions goes back to
+  Wolibner 1933 and Kato 1967).
+- **Yudovich.** (Yudovich 1963 on a bounded domain; on `ℝ²`, Crippa–Stefani, Theorems 1.6
+  and 1.8 with Remark 1.7.) For `ω₀ ∈ L¹ ∩ L^∞(ℝ²)` there is a unique
   `ω ∈ L^∞(0,∞; L¹ ∩ L^∞)` with `u = K₂ ⋆ ω` and
   `∫₀^∞∫ ω(∂ₜφ + u·∇φ) + ∫ ω₀φ(0) = 0` for every `φ ∈ 𝓓([0,∞) × ℝ², ℝ)`.
 
@@ -887,6 +916,21 @@ equations with every theorem about them in Layer 6.
   generation theorems; Tau Ceti implements it. Section 2.2 constructs the Stokes semigroup as
   the restriction of the vector heat semigroup to an invariant closed subspace and builds no
   generation engine.
+- **IncompressibleFlows** plans incompressible Euler and Navier–Stokes theory on the torus and
+  on Euclidean space together. The two roadmaps divide as follows. This roadmap owns the
+  whole-space objects and theorems listed above: the solenoidal subspace and Leray projection
+  on `E`, the whole-space pressure operator, the Stokes semigroup and Oseen kernel on `E`, the
+  Biot–Savart law on `ℝ²` and `ℝ³`, and Leray–Hopf, mild and Euler solutions on `E`.
+  IncompressibleFlows owns everything periodic (vector-valued and periodic Sobolev spaces, the
+  periodic Leray projector with its zero Fourier mode, Galerkin constructions on the torus),
+  transport by incompressible fields with its Koopman groups and renormalized solutions,
+  conditional regularity and endpoint criteria beyond §4.4, critical spaces beyond `H^{1/2}`
+  and `L³`, suitable weak solutions with partial regularity, and the Onsager theory. A
+  whole-space statement that both roadmaps name is built once, in the form given here, and the
+  periodic statement is not a consequence of it.
+- **CompressibleEulerEquations** owns the product and commutator estimates at integer order on
+  its spaces `Hᵏ_Λ` (its §4.3). Section 3.3 here is the real-order statement on the Bessel
+  scale `Hˢ(E)`, which at integer `s` and `Λ = 0` agrees with it.
 - **RiemannianGeometry** and **DifferentialGeometry** own divergence, Lie derivatives and flows
   on manifolds. Nothing here is stated on a manifold; the flow maps of §6.1 are flows of
   time-dependent vector fields on `E` built from Mathlib's Picard–Lindelöf theory.
@@ -935,8 +979,7 @@ equations with every theorem about them in Layer 6.
 ### From Tau Ceti
 
 All files are under `TauCeti/`; line numbers are those of the Tau Ceti revision pinned by this
-repository's `lake-manifest.json` (`2fd255d`). Declarations cited without a line number are on
-Tau Ceti's `main` and newer than that pin.
+repository's `lake-manifest.json` (`2fd255d`).
 
 - `TauCeti.HasWeakLineDerivOn` and `TauCeti.HasWeakFDerivOn`
   (`Analysis/Sobolev/WeakDeriv/Basic.lean:212,251`): weak derivatives of locally integrable
@@ -959,11 +1002,6 @@ Tau Ceti's `main` and newer than that pin.
   `TauCeti.exists_fourierMultiplierCLM_eq_and_norm_le_of_norm_iteratedFDeriv_le`
   (`Analysis/Fourier/MihlinHormander.lean:358`): the Mihlin–Hörmander theorem, the source of
   every `Lᵖ` bound in Layer 1.
-- `TauCeti.rieszTransform` with `norm_rieszTransform_le`, `adjoint_rieszTransform`,
-  `sum_rieszTransform_compL_rieszTransform`, `sum_norm_rieszTransform_apply_sq` and
-  `exists_eLpNorm_rieszTransform_le` (`Analysis/Fourier/RieszTransform/Basic.lean`): the Riesz
-  transforms on `L²(E; F)` for a complex Hilbert space `F`, their skew-adjointness, the identity
-  `Σⱼ RⱼRⱼ = −1`, and their `Lᵖ` bounds for `1 < p < ∞`.
 - `TauCeti.heatKernel` with `heatKernel_convolution_heatKernel` and `fourier_heatKernel`
   (`Analysis/PDE/HeatKernel/Basic.lean:76,254,289`); `TauCeti.heatSemigroup` and
   `heatSemigroup_apply` (`Analysis/PDE/HeatKernel/Semigroup.lean:88,131`): the Gaussian kernel
@@ -977,18 +1015,15 @@ Tau Ceti's `main` and newer than that pin.
   as a bounded operator on `Lᵖ`.
 - `TauCeti.Semigroups.StronglyContinuousSemigroup` and `ContractionSemigroup`
   (`Analysis/Semigroups/Basic.lean:43,211`) with `StronglyContinuousSemigroup.generator`
-  (`Analysis/Semigroups/Generator/Basic.lean:113`), and `duhamel` with `IsForcedMildSolution`
-  (`Analysis/Semigroups/CauchyProblem/Inhomogeneous.lean`): the semigroup carrier of §2.2 and
-  the abstract Duhamel term of §2.3 and Layer 5.
+  (`Analysis/Semigroups/Generator/Basic.lean:113`), and `Semigroups.IsMildSolution`
+  (`Analysis/Semigroups/CauchyProblem/Basic.lean:94`): the semigroup carrier of §2.2 and the
+  mild-solution carrier behind the Duhamel terms of §2.3 and Layer 5.
 - `TauCeti.HasWeakLineDerivOn.exists_continuousOn_ae_eq_of_gelfandDual` and
   `HasWeakLineDerivOn.norm_sq_sub_norm_sq_eq_of_gelfandDual`
   (`Analysis/Sobolev/WeakDeriv/GelfandTriple.lean:151,270`): for a Gelfand triple
   `V ↪ H ↪ V*`, a function in `L²(0,T; V)` with weak time derivative in `L²(0,T; V*)` has a
   representative continuous into `H`, with the energy identity. This is the Lions–Magenes
   lemma behind every energy equality below.
-- `TauCeti.BesovSpace` (`Analysis/FunctionalSpaces/BesovSpace/Basic.lean`) with Bony's
-  decomposition (`Analysis/FunctionalSpaces/BesovSpace/Paraproduct.lean`): the dyadic input to
-  §3.3.
 - Tau Ceti has no weak divergence of a field without a full weak derivative, no solenoidal
   subspace, no Leray projection, no off-diagonal heat estimate with `q < ∞`, no vector-valued
   Sobolev carrier beyond componentwise use of the scalar ones, and no statement about the
@@ -996,10 +1031,12 @@ Tau Ceti's `main` and newer than that pin.
 
 ### From TauCetiRoadmap.PDE
 
-§1.4 (Sobolev embeddings on `ℝⁿ`), §2.2 (interpolation), §2.3 (Calderón–Zygmund operators),
-§6.1 (Bochner spaces and the Gelfand triple) and §7.1–§7.3 (the dyadic partition, Besov spaces
-and paraproducts). Layer 1 consumes §2.3 through the pinned Mihlin–Hörmander theorem only;
-§3.3 consumes §7.3; Layers 4 and 5 consume §6.1.
+§1.4 (Sobolev embeddings on `ℝⁿ`), §2.2 (interpolation), §2.3 (Calderón–Zygmund operators,
+including the Riesz transforms `R_j` with multiplier `−iξ_j/|ξ|` and their `Lᵖ` bounds), §6.1
+(Bochner spaces and the Gelfand triple), §6.3 (the heat semigroup and Duhamel's formula) and
+§7.1–§7.3 (the dyadic partition, Besov spaces and paraproducts). Layer 1 consumes §2.3 for the
+Riesz transforms and the pinned Mihlin–Hörmander theorem; §2.3 and Layer 5 consume §6.3; §3.3
+consumes §7.3; Layers 4 and 5 consume §6.1.
 
 ### From TauCetiRoadmap.OneParameterSemigroups
 
@@ -1009,33 +1046,56 @@ Part A, through the Tau Ceti declarations above.
 
 - J. Leray, *Sur le mouvement d'un liquide visqueux emplissant l'espace*, Acta Math. 63 (1934):
   weak solutions on `ℝ³`, the regularization of §4.2 and the blow-up rate of §5.4.
+- W. S. Ożański, B. C. Pooley, *Leray's fundamental work on the Navier–Stokes equations: a
+  modern review of "Sur le mouvement d'un liquide visqueux emplissant l'espace"*,
+  arXiv:1708.09787: the statements of Leray 1934 cited in §1.2, §2.2, §4.2 and §5.4, on `ℝ³`
+  with `ν = 1` and `f = 0`.
+- T. Tao, *254A: Incompressible fluid equations*, lecture notes, 2018, Notes 1 (local
+  well-posedness of the Navier–Stokes equations), Notes 2 (weak solutions) and Notes 3 (local
+  well-posedness for the Euler equations), terrytao.wordpress.com: §1.2, §1.3, §3.3, §4.2,
+  §5.2, §6.3–§6.5.
+- C. Wang, *Introduction of the Navier–Stokes equations*, lecture notes of a mini-course at
+  Beijing Normal University, 2013: §2.2, §3.4, §4.3, §4.4 and §5.1.
 - E. Hopf, *Über die Anfangswertaufgabe für die hydrodynamischen Grundgleichungen*, Math.
   Nachr. 4 (1951).
 - O. A. Ladyzhenskaya, *The Mathematical Theory of Viscous Incompressible Flow*, 2nd ed.,
   Gordon and Breach, 1969: the inequalities of §3.1 and the two-dimensional theory.
 - J.-L. Lions, G. Prodi, *Un théorème d'existence et unicité dans les équations de
   Navier–Stokes en dimension 2*, C. R. Acad. Sci. Paris 248 (1959).
+- O. A. Ladyzhenskaya, *Solution "in the large" of the nonstationary boundary value problem
+  for the Navier–Stokes system with two space variables*, Comm. Pure Appl. Math. 12 (1959),
+  427–433: §4.3.
+- J.-L. Lions, *Quelques méthodes de résolution des problèmes aux limites non linéaires*,
+  Dunod, 1969: Théorème 5.1, p. 58, the compactness lemma of §3.4.
 - G. Prodi, *Un teorema di unicità per le equazioni di Navier–Stokes*, Ann. Mat. Pura Appl. 48
   (1959); J. Serrin, *The initial value problem for the Navier–Stokes equations*, in Nonlinear
   Problems, Univ. of Wisconsin Press, 1963: §4.4.
 - H. Fujita, T. Kato, *On the Navier–Stokes initial value problem I*, Arch. Rational Mech.
   Anal. 16 (1964); T. Kato, *Strong `Lᵖ`-solutions of the Navier–Stokes equation in `ℝᵐ`*,
-  Math. Z. 187 (1984): §5.2.
+  Math. Z. 187 (1984), 471–480: §5.2.
 - T. Kato, *Nonstationary flows of viscous and ideal fluids in `ℝ³`*, J. Funct. Anal. 9 (1972):
   §6.3. T. Kato, G. Ponce, *Commutator estimates and the Euler and Navier–Stokes equations*,
-  Comm. Pure Appl. Math. 41 (1988): §3.3.
+  Comm. Pure Appl. Math. 41 (1988): §3.3 and §6.3. L. Grafakos, S. Oh, *The Kato–Ponce
+  inequality*, Comm. Partial Differential Equations 39 (2014), arXiv:1303.5144: the statement
+  of the commutator estimate.
 - J. T. Beale, T. Kato, A. Majda, *Remarks on the breakdown of smooth solutions for the 3-D
   Euler equations*, Comm. Math. Phys. 94 (1984): §6.4.
 - V. I. Yudovich, *Non-stationary flow of an ideal incompressible liquid*, Zh. Vychisl. Mat. i
   Mat. Fiz. 3 (1963); W. Wolibner, *Un théorème sur l'existence du mouvement plan d'un fluide
-  parfait*, Math. Z. 37 (1933): §6.5.
-- J. Simon, *Compact sets in the space `Lᵖ(0,T; B)`*, Ann. Mat. Pura Appl. 146 (1987): §3.4.
+  parfait, homogène, incompressible, pendant un temps infiniment long*, Math. Z. 37 (1933),
+  698–726; T. Kato, *On classical solutions of the two-dimensional non-stationary Euler
+  equation*, Arch. Rational Mech. Anal. 25 (1967), 188–200; G. Crippa, G. Stefani, *An
+  elementary proof of existence and uniqueness for the Euler flow in localized Yudovich
+  spaces*, arXiv:2110.15648: §6.5.
+- J. Simon, *Compact sets in the space `Lᵖ(0,T; B)`*, Ann. Mat. Pura Appl. 146 (1987): the
+  form of §3.4 without reflexivity.
 - A. J. Majda, A. L. Bertozzi, *Vorticity and Incompressible Flow*, Cambridge University Press,
-  2002: Chapters 1–4 and 8, the organization of Layer 6 and its exact solutions.
+  2002: the vorticity equation, exact solutions, Biot–Savart law and well-posedness results of
+  Layer 6.
 - H. Bahouri, J.-Y. Chemin, R. Danchin, *Fourier Analysis and Nonlinear Partial Differential
   Equations*, Springer, 2011: Chapters 5 and 7, the mild theory and the Euler estimates.
 - J. C. Robinson, J. L. Rodrigo, W. Sadowski, *The Three-Dimensional Navier–Stokes Equations*,
-  Cambridge University Press, 2016: the organization of Layers 4 and 5.
+  Cambridge University Press, 2016: the weak and strong solution theory of Layers 4 and 5.
 - R. Temam, *Navier–Stokes Equations: Theory and Numerical Analysis*, AMS Chelsea, 2001;
   P. Constantin, C. Foias, *Navier–Stokes Equations*, University of Chicago Press, 1988.
 - P. G. Lemarié-Rieusset, *The Navier–Stokes Problem in the 21st Century*, CRC Press, 2016:
