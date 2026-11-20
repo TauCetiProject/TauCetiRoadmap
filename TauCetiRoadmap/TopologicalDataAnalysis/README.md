@@ -15,68 +15,21 @@ Structure and Stability of Persistence Modules*), Oudot (*Persistence Theory*), 
 Analysis with Applications*); results whose source is a paper are cited by author, title and year
 and carry a proof route of our own.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when every target below is proved in Tau Ceti: the headlines with a Lean
-name in `Suggested.lean`, and the headlines stated here in prose, which are targets of the same
-standing. `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion
-this README attaches to it; it is not an exhaustive acceptance test.
+Layer 1 is pure algebra: modules, intervals, decompositions and diagrams. Layer 2 puts metrics on
+diagrams and modules and proves the isometry theorem; everything later reaches stability through
+it. Layer 3 turns filtered spaces into modules and derives sublevel stability. Layer 4 specializes
+to finite simplicial complexes, where everything is computable. Layer 5 is metric geometry of
+distance functions, independent of homology except for the offset modules. Layer 6 builds the
+complexes on point clouds and connects them with offsets through the nerve lemma. Layer 7 combines
+Layers 5 and 6 into inference theorems. Layer 8 is statistics: the distance to a measure, landscape
+limit theorems and sampling rates. Layers 5 and 6 are built together: 5.1 uses the nerve lemma of
+6.2, 4.5 uses the Rips complexes of 6.1, and 6.4 uses the correspondences of 5.4; the sections
+themselves form no cycle.
 
-Owned here:
-
-- persistence modules over `ℝ` as functors into `ModuleCat`, pointwise finite dimension,
-  `q`-tameness, interval modules, interval decompositions (finite type, and Crawley-Boevey's
-  theorem for pointwise finite-dimensional modules) and the uniqueness of the barcode;
-- the rank invariant, diagrams as multiplicity functions, matchings, the bottleneck and
-  Wasserstein distances between diagrams, interleavings and the isometry theorem;
-- sublevel persistence of functions on spaces, its stability, confidence sets from uniform bands,
-  and sublevel persistence of Morse functions;
-- simplicial filtrations, the Euler–Poincaré formula, positive and negative simplices, the
-  persistence algorithm by matrix reduction with the pairing lemma and its correctness, bottleneck
-  and Wasserstein stability of simplicial filtrations, zero-dimensional persistence as single
-  linkage;
-- distance functions to compact sets, Hausdorff perturbation of offsets, critical points, the weak
-  feature size, the reach, the isotopy lemma, and the description of the Gromov–Hausdorff distance
-  by correspondences;
-- Čech and Vietoris–Rips complexes, their inclusions, the nerve lemma for finite open covers with
-  contractible intersections, the identification of Čech persistence with offset persistence, and
-  Gromov–Hausdorff stability of Rips persistence;
-- homology inference: the Niyogi–Smale–Weinberger theorem, inference under positive weak feature
-  size from offsets and from Rips complexes, Rips pairs below the reach;
-- the distance to a measure with its stability and its empirical form, persistence landscapes with
-  their stability and their uniform limit theorems, the sampling bound and the rate for
-  `(a, b)`-standard laws.
-
-**Not owned here.**
-
-- Singular homology and its homotopy invariance are Mathlib's (`singularHomologyFunctor`); the
-  ordered simplicial chain complex, its comparison with singular homology of the realization, the
-  Čech double complex of an open cover and its quasi-isomorphism, and the vanishing of the homology
-  of contractible spaces are Tau Ceti's (supplier contracts below). The AlgebraicTopology roadmap
-  (§4.7, simplicial realizations) owns the general theory of realizations; nothing here re-owns it.
-- The Wasserstein distance between probability measures is Tau Ceti's
-  `TauCeti.wassersteinEDist`, presented in the OptimalTransport roadmap (§3.1); the
-  Gromov–Hausdorff distance is Mathlib's `GromovHausdorff.ghDist`, consumed by OptimalTransport
-  (§15.6), which does not own its description by correspondences; that description is owned here
-  (5.4).
-- The classification of indecomposable representations of equioriented type-`A` quivers is
-  Tau Ceti's (`TauCeti.gabrielIndecomposableEquivPositiveRoot`), presented in the
-  QuiverRepresentations roadmap (§5.1).
-- Morse functions, the deformation of sublevel sets across bands without critical values, Milnor's
-  cell attachment and the strong Morse inequalities are Tau Ceti's and the MorseTheory roadmap's
-  (Layers 2 and 4.1); 3.4 consumes them. Tau Ceti's file on persistence of critical points
-  (`Geometry/Manifold/Morse/Persistence.lean`) is about the survival of nondegenerate critical
-  points under perturbation, not about persistent homology.
-- Glivenko–Cantelli and Donsker classes, bracketing numbers and the bracketing theorems are
-  MathematicalStatisticsAsymptotic's (§§3.1, 3.2, 3.4); 8.3 consumes them.
-- The bootstrap and its consistency belong to the MathematicalStatisticsHigherOrderAndResampling
-  roadmap (Layer 6); the confidence sets of 3.3 use only a uniform band whose coverage is given.
-- Minimum spanning forests of weighted graphs, the cut property and the minimax property of their
-  paths belong to the SpanningTreesAndShortestPaths roadmap (§§2.1, 2.2, 2.4). 4.5 keeps only the
-  minimum spanning tree of a finite metric space, the case of the complete graph weighted by
-  distance, so as to state the single-linkage count.
-- Multiparameter persistence, zigzag persistence, Mapper, persistent cohomology algorithms and
-  the other topics listed under Beyond are not owned by any roadmap.
+Each section states targets, gives locators (printed pages) and a proof route, and ends with a
+*Needs:* line. Numbers like 2.3 refer to sections of this roadmap.
 
 ## Conventions
 
@@ -118,95 +71,6 @@ Owned here:
 - **Measures.** Sampling statements live on `Fin n → E` under `Measure.pi`. Events that need not
   be measurable are measured by the outer measure and expectations of possibly non-measurable
   quantities are lower Lebesgue integrals `∫⁻`, so no measurability hypothesis is hidden.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Preorder.smallCategory` (`CategoryTheory/Category/Preorder.lean`) and
-  `Monotone.functor` (same file): the index category and the functor of a monotone family of sets.
-- `AlgebraicTopology.singularHomologyFunctor` (`AlgebraicTopology/SingularHomology/Basic.lean`),
-  with its homotopy invariance in the same directory.
-- `ModuleCat`, `Module.rank`, `Cardinal.toENat`, `Matrix.rank`
-  (`LinearAlgebra/Matrix/Rank.lean`), `Matrix.BlockTriangular` (`LinearAlgebra/Matrix/Block.lean`).
-- `PreAbstractSimplicialComplex` and `AbstractSimplicialComplex`
-  (`AlgebraicTopology/SimplicialComplex/Basic.lean`): faces are a set of nonempty finsets closed
-  under nonempty subsets; an abstract complex contains every singleton.
-- `Metric.infDist`, `Metric.hausdorffDist`, `Metric.infDist_le_infDist_add_hausdorffDist`,
-  `Metric.hausdorffDist_le_of_infDist` (`Topology/MetricSpace/HausdorffDistance.lean`) and
-  `Metric.cthickening` (`Topology/MetricSpace/Thickening.lean`).
-- `GromovHausdorff.ghDist` and `GromovHausdorff.ghDist_le_hausdorffDist`
-  (`Topology/MetricSpace/GromovHausdorff.lean`).
-- `SimpleGraph.IsTree` (`Combinatorics/SimpleGraph/Acyclic.lean`), `Manifold.IsSmoothEmbedding`
-  (`Geometry/Manifold/SmoothEmbedding.lean`), `MeasureTheory.Measure.support`
-  (`MeasureTheory/Measure/Support.lean`), `MeasureTheory.Measure.pi`.
-
-### From Tau Ceti
-
-- `TauCeti.orderedSimplicialChainComplex`
-  (`AlgebraicTopology/SimplicialComplex/ChainComplex.lean`): for a linearly ordered vertex type,
-  the free module on the faces of each dimension with the alternating boundary.
-- `AbstractSimplicialComplex.Realization`
-  (`AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`)
-  and the comparison of ordered simplicial homology with singular homology of the realization,
-  `TauCeti.orderedSimplicialHomologyIsoSingularHomology`
-  (`AlgebraicTopology/SimplicialComplex/Realization/CWComplex/OrderedChainComplex.lean`).
-- `TauCeti.quasiIso_cechTotalAugmentation` (`AlgebraicTopology/Singular/Cech/OrderedQuasiIso.lean`):
-  the augmentation of the total complex of the Čech double complex of an open cover (ordered
-  form) is a quasi-isomorphism onto the singular chains of the union.
-- `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace` and
-  `ModuleCat.finrank_singularHomology_of_contractibleSpace`
-  (`AlgebraicTopology/Singular/Contractible.lean`).
-- `ChainComplex.eulerChar_eq_homologyEulerChar`
-  (`Algebra/Homology/EulerCharacteristic/ChainComplex.lean`).
-- `TauCeti.IsMorse` (`Geometry/Manifold/Morse/Basic.lean`), `TauCeti.criticalPoints`
-  (`Geometry/Manifold/Morse/CriticalPoints.lean`) and `TauCeti.manifoldMorseIndex`
-  (`Geometry/Manifold/Morse/Index.lean`).
-- `TauCeti.sublevelInclusion` (`Topology/Order/Sublevel.lean`),
-  `TauCeti.exists_sublevelHomotopyEquiv`
-  (`Geometry/Manifold/Morse/Deformation.lean`) and
-  `TauCeti.IsMorse.exists_relCWComplex_sublevel_deformation`
-  (`Geometry/Manifold/Morse/RelCWComplex.lean`).
-- `TauCeti.gabrielIndecomposableEquivPositiveRoot`
-  (`RepresentationTheory/Quiver/FiniteRepType/Correspondence.lean`) and the Krull–Schmidt theorem
-  in Azumaya's form for finite families, `TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end`
-  (`RingTheory/KrullSchmidt/Uniqueness.lean`).
-- `TauCeti.wassersteinEDist` (`MeasureTheory/OptimalTransport/Wasserstein/Basic.lean`), valued in
-  `ℝ≥0∞`, the infimum over couplings of the `L^p` norm of the distance.
-
-### From other roadmaps
-
-- **MathematicalStatisticsAsymptotic**, §3.1 (Glivenko–Cantelli and Donsker classes, the
-  Brownian-bridge limit), §3.2 (bracketing numbers; Lipschitz parametric classes, van der Vaart,
-  Ex 19.7) and §3.4 (Glivenko–Cantelli and Donsker under bracketing): consumed in 8.3.
-- **QuiverRepresentations**, §5.1 (indecomposables of equioriented type `A` are intervals):
-  consumed in 1.3 through the Tau Ceti declaration above.
-- **MorseTheory**, Layer 2 (deformation across bands and cell attachment) and §4.1 (strong
-  inequalities): consumed in 3.4.
-- **OptimalTransport**, §3.1 (the Wasserstein distance `W_p` of Tau Ceti): consumed in 8.1.
-- **SpanningTreesAndShortestPaths**, §2.4 (the minimax property: if `F` is a minimum spanning
-  forest of a weighted graph, then every edge of the path of `F` between two vertices weighs at
-  most as much as some edge of any walk between them): consumed in 4.5, for the complete graph on
-  a finite metric space weighted by distance, whose minimum spanning forests are its minimum
-  spanning trees.
-
-No other roadmap's definitions are copied into `Suggested.lean`.
-
-## How to read the build
-
-Layer 1 is pure algebra: modules, intervals, decompositions and diagrams. Layer 2 puts metrics on
-diagrams and modules and proves the isometry theorem; everything later reaches stability through
-it. Layer 3 turns filtered spaces into modules and derives sublevel stability. Layer 4 specializes
-to finite simplicial complexes, where everything is computable. Layer 5 is metric geometry of
-distance functions, independent of homology except for the offset modules. Layer 6 builds the
-complexes on point clouds and connects them with offsets through the nerve lemma. Layer 7 combines
-Layers 5 and 6 into inference theorems. Layer 8 is statistics: the distance to a measure, landscape
-limit theorems and sampling rates. Layers 5 and 6 are built together: 5.1 uses the nerve lemma of
-6.2, 4.5 uses the Rips complexes of 6.1, and 6.4 uses the correspondences of 5.4; the sections
-themselves form no cycle.
-
-Each section states targets, gives locators (printed pages) and a proof route, and ends with a
-*Needs:* line. Numbers like 2.3 refer to sections of this roadmap.
 
 ## Layer 1: persistence modules, intervals and diagrams
 
@@ -1412,6 +1276,142 @@ under moment conditions (Bubenik 2015) are under Beyond.
 
 The KernelsAndSpectralMethods roadmap (§5.4) uses the sampling bound of 8.4, compares its
 conclusion with the rate of 8.4, and cites the small-ball bound of 5.3.
+
+## Scope and ownership
+
+The roadmap is complete when every target below is proved in Tau Ceti: the headlines with a Lean
+name in `Suggested.lean`, and the headlines stated here in prose, which are targets of the same
+standing. `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion
+this README attaches to it; it is not an exhaustive acceptance test.
+
+Owned here:
+
+- persistence modules over `ℝ` as functors into `ModuleCat`, pointwise finite dimension,
+  `q`-tameness, interval modules, interval decompositions (finite type, and Crawley-Boevey's
+  theorem for pointwise finite-dimensional modules) and the uniqueness of the barcode;
+- the rank invariant, diagrams as multiplicity functions, matchings, the bottleneck and
+  Wasserstein distances between diagrams, interleavings and the isometry theorem;
+- sublevel persistence of functions on spaces, its stability, confidence sets from uniform bands,
+  and sublevel persistence of Morse functions;
+- simplicial filtrations, the Euler–Poincaré formula, positive and negative simplices, the
+  persistence algorithm by matrix reduction with the pairing lemma and its correctness, bottleneck
+  and Wasserstein stability of simplicial filtrations, zero-dimensional persistence as single
+  linkage;
+- distance functions to compact sets, Hausdorff perturbation of offsets, critical points, the weak
+  feature size, the reach, the isotopy lemma, and the description of the Gromov–Hausdorff distance
+  by correspondences;
+- Čech and Vietoris–Rips complexes, their inclusions, the nerve lemma for finite open covers with
+  contractible intersections, the identification of Čech persistence with offset persistence, and
+  Gromov–Hausdorff stability of Rips persistence;
+- homology inference: the Niyogi–Smale–Weinberger theorem, inference under positive weak feature
+  size from offsets and from Rips complexes, Rips pairs below the reach;
+- the distance to a measure with its stability and its empirical form, persistence landscapes with
+  their stability and their uniform limit theorems, the sampling bound and the rate for
+  `(a, b)`-standard laws.
+
+**Not owned here.**
+
+- Singular homology and its homotopy invariance are Mathlib's (`singularHomologyFunctor`); the
+  ordered simplicial chain complex, its comparison with singular homology of the realization, the
+  Čech double complex of an open cover and its quasi-isomorphism, and the vanishing of the homology
+  of contractible spaces are Tau Ceti's (supplier contracts below). The AlgebraicTopology roadmap
+  (§4.7, simplicial realizations) owns the general theory of realizations; nothing here re-owns it.
+- The Wasserstein distance between probability measures is Tau Ceti's
+  `TauCeti.wassersteinEDist`, presented in the OptimalTransport roadmap (§3.1); the
+  Gromov–Hausdorff distance is Mathlib's `GromovHausdorff.ghDist`, consumed by OptimalTransport
+  (§15.6), which does not own its description by correspondences; that description is owned here
+  (5.4).
+- The classification of indecomposable representations of equioriented type-`A` quivers is
+  Tau Ceti's (`TauCeti.gabrielIndecomposableEquivPositiveRoot`), presented in the
+  QuiverRepresentations roadmap (§5.1).
+- Morse functions, the deformation of sublevel sets across bands without critical values, Milnor's
+  cell attachment and the strong Morse inequalities are Tau Ceti's and the MorseTheory roadmap's
+  (Layers 2 and 4.1); 3.4 consumes them. Tau Ceti's file on persistence of critical points
+  (`Geometry/Manifold/Morse/Persistence.lean`) is about the survival of nondegenerate critical
+  points under perturbation, not about persistent homology.
+- Glivenko–Cantelli and Donsker classes, bracketing numbers and the bracketing theorems are
+  MathematicalStatisticsAsymptotic's (§§3.1, 3.2, 3.4); 8.3 consumes them.
+- The bootstrap and its consistency belong to the MathematicalStatisticsHigherOrderAndResampling
+  roadmap (Layer 6); the confidence sets of 3.3 use only a uniform band whose coverage is given.
+- Minimum spanning forests of weighted graphs, the cut property and the minimax property of their
+  paths belong to the SpanningTreesAndShortestPaths roadmap (§§2.1, 2.2, 2.4). 4.5 keeps only the
+  minimum spanning tree of a finite metric space, the case of the complete graph weighted by
+  distance, so as to state the single-linkage count.
+- Multiparameter persistence, zigzag persistence, Mapper, persistent cohomology algorithms and
+  the other topics listed under Beyond are not owned by any roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Preorder.smallCategory` (`CategoryTheory/Category/Preorder.lean`) and
+  `Monotone.functor` (same file): the index category and the functor of a monotone family of sets.
+- `AlgebraicTopology.singularHomologyFunctor` (`AlgebraicTopology/SingularHomology/Basic.lean`),
+  with its homotopy invariance in the same directory.
+- `ModuleCat`, `Module.rank`, `Cardinal.toENat`, `Matrix.rank`
+  (`LinearAlgebra/Matrix/Rank.lean`), `Matrix.BlockTriangular` (`LinearAlgebra/Matrix/Block.lean`).
+- `PreAbstractSimplicialComplex` and `AbstractSimplicialComplex`
+  (`AlgebraicTopology/SimplicialComplex/Basic.lean`): faces are a set of nonempty finsets closed
+  under nonempty subsets; an abstract complex contains every singleton.
+- `Metric.infDist`, `Metric.hausdorffDist`, `Metric.infDist_le_infDist_add_hausdorffDist`,
+  `Metric.hausdorffDist_le_of_infDist` (`Topology/MetricSpace/HausdorffDistance.lean`) and
+  `Metric.cthickening` (`Topology/MetricSpace/Thickening.lean`).
+- `GromovHausdorff.ghDist` and `GromovHausdorff.ghDist_le_hausdorffDist`
+  (`Topology/MetricSpace/GromovHausdorff.lean`).
+- `SimpleGraph.IsTree` (`Combinatorics/SimpleGraph/Acyclic.lean`), `Manifold.IsSmoothEmbedding`
+  (`Geometry/Manifold/SmoothEmbedding.lean`), `MeasureTheory.Measure.support`
+  (`MeasureTheory/Measure/Support.lean`), `MeasureTheory.Measure.pi`.
+
+### From Tau Ceti
+
+- `TauCeti.orderedSimplicialChainComplex`
+  (`AlgebraicTopology/SimplicialComplex/ChainComplex.lean`): for a linearly ordered vertex type,
+  the free module on the faces of each dimension with the alternating boundary.
+- `AbstractSimplicialComplex.Realization`
+  (`AlgebraicTopology/SimplicialComplex/Realization/Basic.lean`)
+  and the comparison of ordered simplicial homology with singular homology of the realization,
+  `TauCeti.orderedSimplicialHomologyIsoSingularHomology`
+  (`AlgebraicTopology/SimplicialComplex/Realization/CWComplex/OrderedChainComplex.lean`).
+- `TauCeti.quasiIso_cechTotalAugmentation` (`AlgebraicTopology/Singular/Cech/OrderedQuasiIso.lean`):
+  the augmentation of the total complex of the Čech double complex of an open cover (ordered
+  form) is a quasi-isomorphism onto the singular chains of the union.
+- `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace` and
+  `ModuleCat.finrank_singularHomology_of_contractibleSpace`
+  (`AlgebraicTopology/Singular/Contractible.lean`).
+- `ChainComplex.eulerChar_eq_homologyEulerChar`
+  (`Algebra/Homology/EulerCharacteristic/ChainComplex.lean`).
+- `TauCeti.IsMorse` (`Geometry/Manifold/Morse/Basic.lean`), `TauCeti.criticalPoints`
+  (`Geometry/Manifold/Morse/CriticalPoints.lean`) and `TauCeti.manifoldMorseIndex`
+  (`Geometry/Manifold/Morse/Index.lean`).
+- `TauCeti.sublevelInclusion` (`Topology/Order/Sublevel.lean`),
+  `TauCeti.exists_sublevelHomotopyEquiv`
+  (`Geometry/Manifold/Morse/Deformation.lean`) and
+  `TauCeti.IsMorse.exists_relCWComplex_sublevel_deformation`
+  (`Geometry/Manifold/Morse/RelCWComplex.lean`).
+- `TauCeti.gabrielIndecomposableEquivPositiveRoot`
+  (`RepresentationTheory/Quiver/FiniteRepType/Correspondence.lean`) and the Krull–Schmidt theorem
+  in Azumaya's form for finite families, `TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end`
+  (`RingTheory/KrullSchmidt/Uniqueness.lean`).
+- `TauCeti.wassersteinEDist` (`MeasureTheory/OptimalTransport/Wasserstein/Basic.lean`), valued in
+  `ℝ≥0∞`, the infimum over couplings of the `L^p` norm of the distance.
+
+### From other roadmaps
+
+- **MathematicalStatisticsAsymptotic**, §3.1 (Glivenko–Cantelli and Donsker classes, the
+  Brownian-bridge limit), §3.2 (bracketing numbers; Lipschitz parametric classes, van der Vaart,
+  Ex 19.7) and §3.4 (Glivenko–Cantelli and Donsker under bracketing): consumed in 8.3.
+- **QuiverRepresentations**, §5.1 (indecomposables of equioriented type `A` are intervals):
+  consumed in 1.3 through the Tau Ceti declaration above.
+- **MorseTheory**, Layer 2 (deformation across bands and cell attachment) and §4.1 (strong
+  inequalities): consumed in 3.4.
+- **OptimalTransport**, §3.1 (the Wasserstein distance `W_p` of Tau Ceti): consumed in 8.1.
+- **SpanningTreesAndShortestPaths**, §2.4 (the minimax property: if `F` is a minimum spanning
+  forest of a weighted graph, then every edge of the path of `F` between two vertices weighs at
+  most as much as some edge of any walk between them): consumed in 4.5, for the complete graph on
+  a finite metric space weighted by distance, whose minimum spanning forests are its minimum
+  spanning trees.
+
+No other roadmap's definitions are copied into `Suggested.lean`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
