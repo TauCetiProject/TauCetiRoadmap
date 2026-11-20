@@ -1299,12 +1299,14 @@ kernel `heckeMellinTotal`, the sum over a system of class representatives prime 
 of `χ_u(rep c)⁻¹` times the kernels, and its constant term `heckeMellinConstant`,
 `ε(χ) a₀ ∑_c χ_u(rep c)⁻¹`, which vanishes unless `χ_u` is trivial. Prove:
 
-- `unitaryPartialCompletion_eq_mellin` (Neukirch (8.3)): for `𝔞` prime to the conductor and
-  `Re s > 1`, `Λ(𝔎, χ_u, s) = χ_u(𝔞)⁻¹ ∫_0^∞ (f_D(χ, 𝔞, u) − ε(χ) a₀) u^((s + Tr p/n)/2) du/u`; the
+- `unitaryPartialCompletion_eq_mellin` (Neukirch (8.3)): for a presentation at its conductor, `𝔞`
+  prime to it and `Re s > 1`,
+  `Λ(𝔎, χ_u, s) = χ_u(𝔞)⁻¹ ∫_0^∞ (f_D(χ, 𝔞, u) − ε(χ) a₀) u^((s + Tr p/n)/2) du/u`; the
   Mellin variable is shifted by `Tr p / n` because the weight `N(y^(p/2))` is `N(x^(p/2)) t^(Tr p / 2n)`
   in the coordinates of `surfaceScale`.
-- `heckeMellinTotal_congr`: the total kernel does not depend on the representatives; replacing `𝔞`
-  by `c 𝔞` multiplies the kernel by `χ_u((c))` and the class factor by its inverse.
+- `heckeMellinTotal_congr`: for a presentation at its conductor, the total kernel does not depend
+  on the representatives; replacing `𝔞` by `c 𝔞` multiplies the kernel by `χ_u((c))` and the class
+  factor by its inverse.
 - `unitaryCompletion_eq_sum` and `unitaryCompletion_eq_mellin`: for a presentation at its conductor
   (`primitiveConductor K χ = 𝔪`) and `Re s > 1`, the unitary completion is the sum of the per-class
   completions and `Λ(χ_u, s) = ∫_0^∞ (F_D(χ, u) − a₀(χ)) u^((s + Tr p/n)/2) du/u`. Every Hecke
@@ -1329,6 +1331,10 @@ Layer 3 (`mellinKernel`, `mellinConstant`, `idealUnit`, `IsClassRepresentatives`
 
 - The trivial character of `ℚ`, `𝔞 = ℤ`: `ε = 1` and `χ_f(0) = 0`, so
   `θ_χ(ℤ, y) = ∑_{m ∈ ℤ} e^(−π y m²)`, Jacobi's `θ(iy)`, and the kernel is the Dedekind kernel of `ζ`.
+- The same character and `𝔞 = (2)`: at conductor one the scale of `2ℤ` is `4`, its kernel is
+  `½ θ(iu)`, that of `ℤ`, and both sides of the per-class Mellin identity (8.3) are `Γ_ℝ(s) ζ(s)`.
+  Presented at the modulus `(2)`, the left side is `Γ_ℝ(s)(1 − 2^(−s)) ζ(s)`, `π/8` at `s = 2`, while
+  `χ_u((2)) = 0` although `(2)` is prime to the conductor; hence the presentation at the conductor.
 - The odd character mod `4∞`: `ε = 0` and the series is `2 ∑_{m ≥ 1} χ₄(m) m e^(−π y m²)`; the even
   character mod `5`: `ε = 0` and the series is `2 ∑_{m ≥ 1} χ₅(m) e^(−π y m²)`, where a constant read
   off the polynomial alone would add `1`.
@@ -1705,7 +1711,10 @@ Prove `tendsto_prod_one_sub_inv_absNorm_div_log`: as `x → ∞`,
 `𝓞_K` of norm at most `x`, `γ` Euler's constant (Mathlib's `Real.eulerMascheroniConstant`) and
 `κ_K = Res_(s=1) ζ_K(s)` the residue of `tendsto_sub_one_mul_dedekindZetaC` (Rosen's theorem, in the
 form of Lebacque, *Generalised Mertens and Brauer–Siegel theorems*, Theorem 5 (NF), with
-`γ_K = γ + log κ_K`). Route, after Rosen and Lebacque §4.1:
+`γ_K = γ + log κ_K`). Prove also the series for the Mertens constant: Tau Ceti's
+`B_K = mertensConstant K` equals `γ + log κ_K + ∑_𝔭 (log(1 − N𝔭⁻¹) + N𝔭⁻¹)`, the sum over the
+nonzero prime ideals of `𝓞_K`, which converges absolutely because each term lies in `[−N𝔭⁻², 0]`
+(Lebacque, Proposition 3). Route, after Rosen and Lebacque §4.1, the series being step 3:
 
 1. Mertens' first theorem for `K`, `∑_{N𝔭 ≤ x} log N𝔭 / N𝔭 = log x + O(1)`, is Tau Ceti's
    `TauCeti.LFunctions.isBigO_primeSummatory_log_absNorm_div_sub_log`, proved by evaluating
@@ -1714,19 +1723,23 @@ form of Lebacque, *Generalised Mertens and Brauer–Siegel theorems*, Theorem 5 
 2. Partial summation of step 1 gives `∑_{N𝔭 ≤ x} 1/N𝔭 = log log x + B_K + ε_K(x)` with `ε_K(x) → 0`
    (Lebacque, Proposition 2): Tau Ceti's `tendsto_primeSummatory_inv_absNorm_sub_log_log`, with
    `B_K = mertensConstant K`.
-3. `B_K = γ + log κ_K + ∑_𝔭 (log(1 − N𝔭⁻¹) + N𝔭⁻¹)`: as `δ → 0⁺`, partial summation of step 2 gives
-   `∑_𝔭 N𝔭^(−1−δ) = B_K − γ − log δ + o(1)`, while the Euler product of `ζ_K` and the residue give
-   `log ζ_K(1 + δ) = −log δ + log κ_K + o(1)`; the difference
-   `∑_𝔭 N𝔭^(−1−δ) − log ζ_K(1 + δ)` of the two left sides tends to
-   `∑_𝔭 (log(1 − N𝔭⁻¹) + N𝔭⁻¹)` by dominated convergence against `∑_𝔭 N𝔭⁻²` (Lebacque,
-   Proposition 3).
+3. The series for `B_K`: as `δ → 0⁺`, partial summation of step 2 gives
+   `∑_𝔭 N𝔭^(−1−δ) = B_K − γ − log δ + o(1)`, while Tau Ceti's
+   `TauCeti.tendsto_log_dedekindZeta_re_sub_log_one_div_sub_one` gives
+   `log ζ_K(1 + δ) = −log δ + log κ_K + o(1)`; by the logarithmic Euler product
+   `TauCeti.log_dedekindZeta_re_eq_tsum_neg_log_one_sub`, the difference
+   `∑_𝔭 N𝔭^(−1−δ) − log ζ_K(1 + δ)` of the two left sides is
+   `∑_𝔭 (log(1 − N𝔭^(−1−δ)) + N𝔭^(−1−δ))`, which tends to `∑_𝔭 (log(1 − N𝔭⁻¹) + N𝔭⁻¹)` by
+   dominated convergence against `∑_𝔭 N𝔭⁻²` (Lebacque, Proposition 3).
 4. Subtracting, `∑_{N𝔭 ≤ x} log (1 − N𝔭⁻¹)⁻¹ = log log x + γ + log κ_K + o(1)`, the tail
    `∑_{N𝔭 > x} |log(1 − N𝔭⁻¹) + N𝔭⁻¹|` being at most `∑_{N𝔭 > x} N𝔭⁻² → 0`; exponentiate.
 
 *Needs:* §3.5 (`tendsto_sub_one_mul_dedekindZetaC`); Tau Ceti
 `isBigO_primeSummatory_log_absNorm_div_sub_log`, `tendsto_primeSummatory_inv_absNorm_sub_log_log`,
-`mertensConstant`, `idealSummatory_mul_eq_sub_integral_mul`, `EulerProductData`; Mathlib
-`dedekindZeta_residue`, `dedekindZeta_residue_pos`, `Real.eulerMascheroniConstant`.
+`mertensConstant`, `idealSummatory_mul_eq_sub_integral_mul`,
+`tendsto_log_dedekindZeta_re_sub_log_one_div_sub_one`,
+`log_dedekindZeta_re_eq_tsum_neg_log_one_sub`; Mathlib `dedekindZeta_residue`,
+`dedekindZeta_residue_pos`, `Real.eulerMascheroniConstant`.
 
 **Checks.**
 
@@ -1765,7 +1778,8 @@ Each example exercises a convention invisible in the easiest case.
 Layers 0 and 3 to 6 (the cards). Tau Ceti: `riemannZetaData`, `dirichletData`,
 `AnalyticLFunctionData.EqOffZero`, Mertens' first and second theorems for `K` with
 `mertensConstant`, `isBigO_card_idealsLE_sub`, `primeIdealTheorem`,
-`idealSummatory_mul_eq_sub_integral_mul`, `EulerProductData`. Mathlib: `riemannZeta`,
+`idealSummatory_mul_eq_sub_integral_mul`, `tendsto_log_dedekindZeta_re_sub_log_one_div_sub_one`,
+`log_dedekindZeta_re_eq_tsum_neg_log_one_sub`. Mathlib: `riemannZeta`,
 `completedRiemannZeta`, `dedekindZeta_residue`, `dedekindZeta_residue_pos`,
 `Real.eulerMascheroniConstant`. Lebacque, Theorem 5 (NF) and Propositions 2–3.
 
@@ -2017,7 +2031,10 @@ Paths are under `TauCeti/`. All the declarations below are proved at the pin.
 - *Arithmetic Dirichlet series* (`NumberTheory/ArithmeticDirichletSeries/`), in `TauCeti`:
   `IdealArithmeticFunction`, `MultiplicativeIdealWeight` with `IsNormTwistOnGood` and
   `IsTrivialOnGood`, `UnitaryIdealWeight` with `normTwist` and `conj`, `normCoeff`, `regroupByNorm`,
-  `EulerProductData`, `HasCancellation`, `not_hasCancellation_of_isTrivialOnGood`,
+  `EulerProductData`, `log_dedekindZeta_re_eq_tsum_neg_log_one_sub` (for real `s > 1`,
+  `log ζ_K(s) = ∑_𝔭 −log(1 − N𝔭^(−s))`), `tendsto_log_dedekindZeta_re_sub_log_one_div_sub_one`
+  (`log ζ_K(s) − log(1/(s − 1)) → log κ_K` as `s → 1⁺`, `κ_K` Mathlib's `dedekindZeta_residue`),
+  `HasCancellation`, `not_hasCancellation_of_isTrivialOnGood`,
   `continuedLFunctionOfWeight` with `continuedLFunctionOfWeight_eq_LSeries`,
   `differentiableOn_continuedLFunctionOfWeight` and
   `differentiableAt_continuedLFunctionOfWeight`, `hasCancellation_conj_iff`,

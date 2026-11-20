@@ -1737,14 +1737,17 @@ theorem unitaryCompletion_eq_sum {𝔪 : GNF.Modulus K} (χ : Grossencharacter K
     unitaryCompletion K χ s = ∑ c : ClassGroup (𝓞 K), unitaryPartialCompletion K χ (rep c) s :=
   sorry
 
-/-- **Neukirch (8.3), the per-class Mellin identity**: for `Re s > 1`,
+/-- **Neukirch (8.3), the per-class Mellin identity**: for a presentation at its conductor, `𝔞`
+prime to it and `Re s > 1`,
 `Λ(𝔎, χ_u, s) = χ_u(𝔞)⁻¹ ∫_0^∞ (f_D(χ, 𝔞, u) - ε(χ) a₀) u^((s + Tr p / n)/2) du/u`, the class of
 `𝔞` entering through `χ_u((a)) = χ_u(a 𝔞⁻¹) χ_u(𝔞)`; the Mellin variable is shifted by `Tr(p)/n`
 because the weight `N(y^(p/2))` is `N(x^(p/2)) t^(Tr p / 2n)` in the coordinates of
-`surfaceScale`. -/
+`surfaceScale`. ⚠ At a larger modulus `χ_u(𝔞)` vanishes at an `𝔞` prime to the conductor but not
+to `𝔪`, and the right side is `0`. -/
 theorem unitaryPartialCompletion_eq_mellin {𝔪 : GNF.Modulus K}
     {D : Set (mixedEmbedding.realSpace K)}
-    (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪) (𝔞 : Ideal (𝓞 K))
+    (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
+    (hχ : primitiveConductor K χ = 𝔪) (𝔞 : Ideal (𝓞 K))
     (h𝔞 : (primitiveConductor K χ).IsCoprimeTo 𝔞) {s : ℂ} (hs : 1 < s.re) :
     unitaryPartialCompletion K χ 𝔞 s =
       (χ.unitaryWeight.1 𝔞)⁻¹ *
@@ -1753,9 +1756,10 @@ theorem unitaryPartialCompletion_eq_mellin {𝔪 : GNF.Modulus K}
           ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) := sorry
 
 /-- The total kernel over a system of class representatives, with the class factors
-`χ_u(rep c)⁻¹`: the Mellin inverse of the unitary completion. It does not depend on the
-representatives (`heckeMellinTotal_congr`): replacing `𝔞` by `c 𝔞` multiplies the kernel by
-`χ_f(c) N(c^p) ∏_w |c_w|^(-P_w) = χ_u((c))` and the class factor by `χ_u((c))⁻¹`. -/
+`χ_u(rep c)⁻¹`. For a presentation at its conductor it is the Mellin inverse of the unitary
+completion and does not depend on the representatives (`heckeMellinTotal_congr`): replacing `𝔞`
+by `c 𝔞` multiplies the kernel by `χ_f(c) N(c^p) ∏_w |c_w|^(-P_w) = χ_u((c))` and the class factor
+by `χ_u((c))⁻¹`. -/
 noncomputable def heckeMellinTotal {𝔪 : GNF.Modulus K} (D : Set (mixedEmbedding.realSpace K))
     (χ : Grossencharacter K 𝔪) (rep : ClassGroup (𝓞 K) → Ideal (𝓞 K))
     (hrep : IsClassRepresentatives K (primitiveConductor K χ) rep) (u : ℝ) : ℂ :=
@@ -1769,9 +1773,11 @@ noncomputable def heckeMellinConstant {𝔪 : GNF.Modulus K} (χ : Grossencharac
   heckeEpsilon K χ * (mellinConstant K : ℂ) *
     ∑ c : ClassGroup (𝓞 K), (χ.unitaryWeight.1 (rep c))⁻¹
 
-/-- The total kernel does not depend on the system of class representatives. -/
+/-- For a presentation at its conductor, the total kernel does not depend on the system of class
+representatives. -/
 theorem heckeMellinTotal_congr {𝔪 : GNF.Modulus K} {D : Set (mixedEmbedding.realSpace K)}
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
+    (hχ : primitiveConductor K χ = 𝔪)
     (rep rep' : ClassGroup (𝓞 K) → Ideal (𝓞 K))
     (hrep : IsClassRepresentatives K (primitiveConductor K χ) rep)
     (hrep' : IsClassRepresentatives K (primitiveConductor K χ) rep') (u : ℝ) :
