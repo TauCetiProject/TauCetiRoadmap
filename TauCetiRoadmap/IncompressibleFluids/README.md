@@ -66,7 +66,8 @@ derivative `U` exists, the weak divergence is the trace of `U`. The solenoidal `
 projection onto it. Solenoidal subspaces of other spaces are written `X_σ = X ∩ {div u = 0}`.
 
 **Riesz transforms.** `Rⱼ` is the Riesz transform of PDE §2.3 in the direction of the
-`j`-th vector of an orthonormal basis, the Fourier multiplier with symbol `−i ξⱼ/‖ξ‖`. Then
+`j`-th vector of an orthonormal basis, the Fourier multiplier with symbol `−i ξⱼ/‖ξ‖`
+(Grafakos, Proposition 5.1.14, (5.1.40)). Then
 `RⱼRₖ` has the real even symbol `−ξⱼξₖ/‖ξ‖²` and maps real functions to real functions, and
 `Σⱼ RⱼRⱼ = −1`. With these signs the Leray projection is `(ℙu)ⱼ = uⱼ + Σₖ RⱼRₖuₖ`, with symbol
 `δⱼₖ − ξⱼξₖ/‖ξ‖²`, and the pressure of a field with `−Δp = ∂ⱼ∂ₖFⱼₖ` is `p = Σⱼₖ RⱼRₖFⱼₖ`.
@@ -185,7 +186,8 @@ of `ℙ` is Ożański–Pooley, §2.1, p. 16).
 
 For `1 < p < ∞` extend `ℙ` from `L² ∩ Lᵖ` to a bounded projection on `Lᵖ(E; E)` with range
 `Lᵖ_σ(E)` and kernel the closure of the test gradients, with `‖ℙ‖_{Lᵖ → Lᵖ} ≤ C(d,p)`
-(Tao, Notes 2, Proposition 13, from the `Lᵖ` bounds for the Riesz transforms), and
+(Tao, Notes 2, Proposition 13, from the `Lᵖ` bounds for the Riesz transforms; the symbol
+`1 − ξ ⊗ ξ/‖ξ‖²` of `ℙ` is Bedrossian–Vicol, (1.42)–(1.43)), and
 prove that the `L^p` and `L^{p'}` projections are adjoint. Define the pressure operator
 `Π F = Σⱼₖ RⱼRₖFⱼₖ` on matrix fields in `Lᵖ`, `1 < p < ∞`, and prove
 `‖ΠF‖_p ≤ C(d,p)‖F‖_p`, `−Δ(ΠF) = ∂ⱼ∂ₖFⱼₖ` in distributions, and
@@ -331,10 +333,12 @@ PDE §6.1 and §6.3.
 
 Prove, first for compactly supported `C¹` functions and then for `H¹(E)`:
 
-- `d = 2`: `‖u‖⁴₄ ≤ 2‖u‖²₂‖∇u‖²₂`.
+- `d = 2`: `‖u‖⁴₄ ≤ 2‖u‖²₂‖∇u‖²₂` (Constantin–Seregin, (4.1), in the form
+  `‖u‖₄² ≤ √2‖u‖₂‖∇u‖₂` for `u ∈ C_c^∞(ℝ²)`).
 - `d = 3`: `‖u‖₄ ≤ C‖u‖₂^{1/4}‖∇u‖₂^{3/4}` with an absolute constant `C`.
 - General `d ≥ 2`: `‖u‖_q ≤ C(d,q)‖u‖₂^{1−θ}‖∇u‖₂^{θ}` with `θ = d(1/2 − 1/q)`, for
-  `2 ≤ q ≤ 2d/(d−2)` when `d ≥ 3` and `2 ≤ q < ∞` when `d = 2`.
+  `2 ≤ q ≤ 2d/(d−2)` when `d ≥ 3` and `2 ≤ q < ∞` when `d = 2` (Bedrossian–Vicol,
+  Theorem A.26, (A.12)–(A.13), with an unspecified constant).
 - Parabolic interpolation: a function in `L^∞(0,T; L²) ∩ L²(0,T; H¹)` lies in `L^r(0,T; L^q)`
   whenever `2/r + d/q = d/2` in the same range of `q`, with the norm bounded by the product of
   the two energy norms raised to `1 − 2/r` and `2/r`. For `d = 2` this gives `L⁴((0,T) × E)`
@@ -481,8 +485,10 @@ solution as a weak solution with `‖u(t) − u₀‖₂ → 0` as `t → 0⁺` 
 Prove that for every `u₀ ∈ L²_σ(E)`, every such `f` and every `0 < T ≤ ∞` there is a Leray–Hopf
 solution on `[0,T)`. For `d = 3` and `f = 0` this is Leray's theorem (Ożański–Pooley,
 Definition 4.5 and Theorem 4.7, pp. 44–45, at `ν = 1`); for every `d` and `f = 0` it is Tao,
-Notes 2, Theorem 14. The statement with a force is proved by the same construction; it is in
-neither Leray 1934, where `f = 0`, nor Hopf 1951, which treats a bounded domain. The
+Notes 2, Theorem 14. With a force, for `d = 3` it is Lemarié-Rieusset, Theorem 12.2,
+pp. 357–358, with `f ∈ L²(0,T; H⁻¹)`, and Proposition 12.1, (12.10), p. 361, for the strong
+energy inequality from almost every `s > 0`; for `d = 2, 3` on an arbitrary domain with
+`f ∈ L²(0,T; L²)`, existence is Galdi, Theorem 3.1. Leray 1934 has `f = 0`. The
 construction is Leray's (Ożański–Pooley, Theorem 4.2, p. 41, and Lemma 4.3, p. 42): for a mollifier `ρ_ε`, the regularized system
 `∂ₜu + ℙ((ρ_ε ⋆ u)·∇)u = νΔu + ℙf`, `u(0) = u₀`, and both the regularized solutions and the
 passage to the limit are targets.
@@ -514,7 +520,9 @@ passage to the limit are targets.
 
 For `d = 2` prove that weak solutions are unique, satisfy the energy equality, and are
 continuous into `L²` (Lions–Prodi 1959; Ladyzhenskaya 1959; on a bounded domain, Wang,
-Theorem 6.1, p. 45), with the stability estimate
+Theorem 6.1, p. 45; on an arbitrary domain with `f ∈ L²(0,T; L²)`, Galdi, Theorem 4.1 with
+(4.4) and Remarks 4.1, 4.2 and 4.6; on `ℝ²` with `f = 0`, Bedrossian–Vicol, Theorem 4.5),
+with the stability estimate
 `‖u(t) − v(t)‖² ≤ ‖u₀ − v₀‖² exp((1/ν)∫₀ᵗ‖∇v‖²)` for two weak solutions with the same force.
 
 - For `u₀ ∈ H¹_σ` and `f ∈ L²(0,T; L²)` the solution is strong:
@@ -541,7 +549,9 @@ Theorem 6.1, p. 45), with the stability estimate
 ### 4.4 Weak–strong uniqueness (W15)
 
 Prove the Prodi–Serrin theorem (Prodi 1959; Serrin 1963; on a bounded domain, Wang,
-Theorems 6.6 and 6.7, pp. 47–48, with the two exponents named in the other order): if `v` is a
+Theorems 6.6 and 6.7, pp. 47–48, with the two exponents named in the other order; for
+`d = 2, 3` on an arbitrary domain, Galdi, Theorem 4.2(i), with Theorem 4.1 and Remark 4.3 for
+the energy equality; on `ℝ³`, Bedrossian–Vicol, Theorem 4.8): if `v` is a
 weak solution on `[0,T)` with
 `v ∈ L^q(0,T'; L^p(E; E))` for every `T' < T`, where `2/q + d/p = 1` and `d < p ≤ ∞`, then
 `v` satisfies the energy equality, and every Leray–Hopf solution with the same `u₀` and `f`
@@ -579,7 +589,7 @@ Throughout this layer `f = 0` and `ν > 0`.
 ### 5.1 The bilinear fixed-point lemma (M16)
 
 Let `X` be a real Banach space and `B : X → X → X` bilinear with `‖B(x,y)‖ ≤ η‖x‖‖y‖`,
-`η > 0`. Prove (Wang, Lemma 7.2, p. 56) that for every `a ∈ X` with `4η‖a‖ < 1` the equation `x = a + B(x,x)` has a
+`η > 0`. Prove (Wang, Lemma 7.2, p. 56; Danchin, Lemma 2.3.2) that for every `a ∈ X` with `4η‖a‖ < 1` the equation `x = a + B(x,x)` has a
 solution with `‖x‖ ≤ 2‖a‖`, that it is the only solution with `‖x‖ < 1/(2η)`, and that the
 solution map is Lipschitz on `{a : ‖a‖ ≤ r}` for each `r < 1/(4η)`, with constant
 `(1 − 4ηr)^{−1/2}`.
@@ -606,13 +616,17 @@ Define a mild solution on `[0,T]` in a space `X_T` of time-dependent fields as a
   in `L⁴(0,T; H¹)`; it lies in `C([0,T]; H^{1/2}) ∩ L²(0,T; H^{3/2})`. The theorem originates
   in Fujita–Kato 1964, which works on a bounded domain; the formulation in `L⁴(0,T; H¹)` is
   that of Bahouri–Chemin–Danchin, Chapter 5, and the small-data statement in the critical
-  space is Tao, Notes 1, Theorem 45 and Exercise 49. There is an absolute
+  space is Tao, Notes 1, Theorem 45 and Exercise 49. On `ℝ³` in homogeneous spaces: Danchin,
+  §2.3.2, Theorem (Fujita–Kato) with (2.8), has `C([0,T]; Ḣ^{1/2})` with gradient in
+  `L²(0,T; Ḣ^{1/2})`, a force, and the small-data global case; Bedrossian–Vicol, Theorem 5.4
+  and Remark 5.5, p. 109, has `C([0,T]; Ḣ^{1/2}) ∩ L⁴(0,T; Ḣ¹)` with `f = 0`. There is an absolute
   constant `c > 0` such that `|u₀|_{Ḣ^{1/2}} ≤ cν` implies that the solution exists on
   `[0,T]` for every `T`.
 - **Kato (1984).** For `u₀ ∈ L³_σ(ℝ³)` there is `T > 0` and a mild solution
   `u ∈ C([0,T]; L³)` with `t^{1/4}u ∈ C_b((0,T]; L⁶)` and `t^{1/4}‖u(t)‖₆ → 0` as `t → 0⁺`,
   unique in that class. There is an absolute constant `c > 0` such that `‖u₀‖₃ ≤ cν`
-  implies existence for every `T`.
+  implies existence for every `T`. (Lemarié-Rieusset, Theorem 7.5, with the weight
+  `t^{1/2 − 3/(2q)}` on `L^q`, `3 < q < ∞`, here at `q = 6`.)
 - **Strong solutions.** For `u₀ ∈ H¹_σ(ℝ³)` the Fujita–Kato solution is strong on `[0,T]` for
   `T = cν³/‖∇u₀‖₂⁴` with an absolute `c > 0`.
 
@@ -718,7 +732,7 @@ Conventions, prove:
   `X(s,t,·)`, and `det D_αX(t,s,α) = 1`, so it preserves Lebesgue measure. Write
   `X(α,t) = X(t,0,α)` below; a one-parameter group law requires a stationary field.
 - The Cauchy vorticity formula `ω(X(α,t),t) = ∇X(α,t)ω₀(α)` for `d = 3`, and
-  `ω(X(α,t),t) = ω₀(α)` for `d = 2`.
+  `ω(X(α,t),t) = ω₀(α)` for `d = 2` (Majda–Bertozzi, Proposition 1.8, (1.51), in §1.6).
 - Conservation of helicity `∫⟪u, ω⟫` for `d = 3`, and of `∫ Φ(ω)` for every continuous `Φ`
   with `Φ(ω₀)` integrable for `d = 2`, in particular of every `‖ω(t)‖_p`.
 - Kelvin's circulation theorem: for a `C¹` loop `γ` and `γ_t = X(·,t) ∘ γ`, the circulation
@@ -758,7 +772,9 @@ integrals.
 
 For `d = 2`, prove that a solenoidal field `u ∈ H¹_σ` with vorticity `ω ∈ L¹ ∩ L²` satisfies
 `u = K₂ ⋆ ω` with `K₂(x) = x^⊥/(2π‖x‖²)`, and for `d = 3` that `u ∈ H¹_σ` with
-`ω ∈ L¹ ∩ L²` satisfies `u(x) = (1/4π)∫ ω(y) × (x − y)/‖x − y‖³ dy`.
+`ω ∈ L¹ ∩ L²` satisfies `u(x) = (1/4π)∫ ω(y) × (x − y)/‖x − y‖³ dy` (Majda–Bertozzi,
+Proposition 2.1 in §2.1 for `d = 2` and Proposition 2.16 in §2.4 for `d = 3`, for smooth
+decaying vorticity).
 
 - For `1 < p < ∞` and a solenoidal `u ∈ H¹_σ` with `Ω ∈ Lᵖ`, in every dimension,
   `∇u ∈ Lᵖ` and `‖∇u‖_p ≤ C(d,p)‖Ω‖_p`: each `∂ₖuⱼ` is a linear combination of
@@ -767,13 +783,16 @@ For `d = 2`, prove that a solenoidal field `u ∈ H¹_σ` with vorticity `ω ∈
 - `d = 2`, `ω ∈ L¹ ∩ L^∞`: `K₂ ⋆ ω` is defined pointwise, bounded with
   `‖K₂ ⋆ ω‖_∞ ≤ C‖ω‖₁^{1/2}‖ω‖_∞^{1/2}`, solenoidal with vorticity `ω`, and log-Lipschitz:
   `|u(x) − u(y)| ≤ C(‖ω‖₁ + ‖ω‖_∞)ℓ(‖x − y‖)` with `ℓ(r) = r(1 − log r)` for `r < 1` and
-  `ℓ(r) = r` for `r ≥ 1`.
+  `ℓ(r) = r` for `r ≥ 1` (Majda–Bertozzi, Lemma 8.1, (8.32), p. 315, for the regularized
+  velocities; Crippa–Stefani, Corollary 2.4, (2.10)).
 - For bounded compactly supported `ω`: `K₂ ⋆ ω(x) − (∫ω)K₂(x) = O(‖x‖^{−2})` as `‖x‖ → ∞`, so
   `K₂ ⋆ ω ∈ L²(ℝ²)` exactly when `∫ω = 0`.
 - The logarithmic estimate of Beale–Kato–Majda: for `u ∈ Hˢ_σ`, `s > d/2 + 1`,
   `‖∇u‖_∞ ≤ C(d,s)(1 + ‖Ω‖₂ + ‖Ω‖_∞(1 + log⁺‖u‖_{Hˢ}))`,
   with `Ω` the skew-adjoint vorticity tensor; in dimensions two and three this is
-  equivalently stated using `ω`, after adjusting the dimensional constant.
+  equivalently stated using `ω`, after adjusting the dimensional constant
+  (Bedrossian–Vicol, Corollary 2.8, (2.37), with `log⁺(‖f‖_{Hʳ}/‖f‖_∞)`, `r > d/2`, in place
+  of `log⁺‖u‖_{Hˢ}`).
 
 **Checks.**
 
@@ -793,7 +812,7 @@ For `d ≥ 2`, `s > d/2 + 1`, `ν ≥ 0` and nonzero `u₀ ∈ Hˢ_σ(E)`, prove
 `u^ν ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−2})` of the Navier–Stokes equations for `ν > 0`, and of the
 Euler equations with `u⁰ ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−1})` for `ν = 0` (Kato 1972 on `ℝ³`;
 Tao, Notes 3, Theorem 1, Proposition 6 and Exercise 10, for every `d` and integer `s`;
-Kato–Ponce 1988 for real `s`), with
+Kato–Ponce 1988 and Bedrossian–Vicol, Theorems 2.1 and 3.2, for real `s`), with
 `‖u^ν(t)‖_{Hˢ} ≤ ‖u₀‖_{Hˢ}/(1 − C(d,s)t‖u₀‖_{Hˢ}) ≤ 2‖u₀‖_{Hˢ}`
 on `[0,T]`. For `u₀ = 0`, the solution is zero for all time.
 
@@ -820,7 +839,7 @@ on `[0,T]`. For `u₀ = 0`, the solution is zero for all time.
 
 Prove that if the `Hˢ` solution of the Euler equations of §6.3 has maximal time `T* < ∞`, then
 `∫₀^{T*}‖Ω(t)‖_∞ dt = ∞` (Beale–Kato–Majda 1984 for `d = 3`; Tao, Notes 3, Theorem 19, for
-every `d` and integer `s`), and the same for the Navier–Stokes solution with `ν > 0`
+every `d` and integer `s`; Bedrossian–Vicol, Theorem 2.6, (2.31), for real `s`), and the same for the Navier–Stokes solution with `ν > 0`
 (Tao, Notes 3, Remark 22).
 
 - The double-exponential bound
@@ -842,10 +861,10 @@ For `d = 2` prove:
 
 - **Global smooth solutions.** For `u₀ ∈ Hˢ_σ(ℝ²)`, `s > 2`, the Euler solution of §6.3
   exists for all time, with `‖u(t)‖_{Hˢ} ≤ C exp(C exp(Ct))` (Tao, Notes 3, Theorem 23 with
-  Theorem 19, for integer `s`; global existence of classical planar solutions goes back to
+  Theorem 19, for integer `s`; Bedrossian–Vicol, Theorem 2.9, for real `s`; global existence of classical planar solutions goes back to
   Wolibner 1933 and Kato 1967).
-- **Yudovich.** (Yudovich 1963 on a bounded domain; on `ℝ²`, Crippa–Stefani, Theorems 1.6
-  and 1.8 with Remark 1.7.) For `ω₀ ∈ L¹ ∩ L^∞(ℝ²)` there is a unique
+- **Yudovich.** (Yudovich 1963 on a bounded domain; on `ℝ²`, Majda–Bertozzi, Theorems 8.1
+  and 8.2 in §8.2, and Crippa–Stefani, Theorems 1.6 and 1.8 with Remark 1.7.) For `ω₀ ∈ L¹ ∩ L^∞(ℝ²)` there is a unique
   `ω ∈ L^∞(0,∞; L¹ ∩ L^∞)` with `u = K₂ ⋆ ω` and
   `∫₀^∞∫ ω(∂ₜφ + u·∇φ) + ∫ ω₀φ(0) = 0` for every `φ ∈ 𝓓([0,∞) × ℝ², ℝ)`.
 
@@ -1090,13 +1109,26 @@ Part A, through the Tau Ceti declarations above.
 - J. Simon, *Compact sets in the space `Lᵖ(0,T; B)`*, Ann. Mat. Pura Appl. 146 (1987): the
   form of §3.4 without reflexivity.
 - A. J. Majda, A. L. Bertozzi, *Vorticity and Incompressible Flow*, Cambridge University Press,
-  2002: the vorticity equation, exact solutions, Biot–Savart law and well-posedness results of
-  Layer 6.
+  2002: Chapters 1 (An Introduction to Vortex Dynamics for Incompressible Fluid Flows), 2 (The
+  Vorticity-Stream Formulation of the Euler and the Navier–Stokes Equations), 3 (Energy Methods
+  for the Euler and the Navier–Stokes Equations), 4 (The Particle-Trajectory Method for
+  Existence and Uniqueness of Solutions to the Euler Equation) and 8 (Weak Solutions to the 2D
+  Euler Equations with Initial Vorticity in `L^∞`): §6.1, §6.2 and §6.5.
+- J. Bedrossian, V. Vicol, *The Mathematical Analysis of the Incompressible Euler and
+  Navier–Stokes Equations: An Introduction*, Graduate Studies in Mathematics 225, American
+  Mathematical Society, 2022: §1.3, §3.1, §4.3, §4.4, §5.2, §6.2–§6.5.
+- G. P. Galdi, *An introduction to the Navier–Stokes initial-boundary value problem*, in
+  Fundamental Directions in Mathematical Fluid Mechanics, Birkhäuser, 2000, 1–70: §4.2–§4.4.
+- R. Danchin, *Fourier Analysis Methods for PDE's*, lecture notes, 2005: §5.1 and §5.2.
+- P. Constantin, G. Seregin, *Hölder continuity of solutions of 2D Navier–Stokes equations
+  with singular forcing*, 2009: the appendix, for §3.1.
+- L. Grafakos, *Classical Fourier Analysis*, 3rd ed., Springer, 2014: the Riesz transforms of
+  the Conventions.
 - H. Bahouri, J.-Y. Chemin, R. Danchin, *Fourier Analysis and Nonlinear Partial Differential
   Equations*, Springer, 2011: Chapters 5 and 7, the mild theory and the Euler estimates.
 - J. C. Robinson, J. L. Rodrigo, W. Sadowski, *The Three-Dimensional Navier–Stokes Equations*,
   Cambridge University Press, 2016: the weak and strong solution theory of Layers 4 and 5.
 - R. Temam, *Navier–Stokes Equations: Theory and Numerical Analysis*, AMS Chelsea, 2001;
   P. Constantin, C. Foias, *Navier–Stokes Equations*, University of Chicago Press, 1988.
-- P. G. Lemarié-Rieusset, *The Navier–Stokes Problem in the 21st Century*, CRC Press, 2016:
-  the Oseen kernel estimates of §2.2.
+- P. G. Lemarié-Rieusset, *The Navier–Stokes Problem in the 21st Century*, 2nd ed., CRC
+  Press, 2023: §4.2 and §5.2, and the Oseen kernel estimates of §2.2.
