@@ -880,12 +880,15 @@ definitions.
 - *`SU(2)`.* Use the basis `−iσ_a / 2` of `𝔰𝔲(2)`, which has the same cross-product bracket; the sphere
   formula stays `4πr`, but the maximal-torus generator `−iσ₃ / 2` has period `4π`, and passing to
   `SO(3) = SU(2)/{±1}` changes the weight lattice.
-- *The real Heisenberg group.* Compute its coadjoint orbits and their forms (§2.1's and §2.2's Checks)
-  and contrast its odd-dimensional adjoint orbits, the affine lines `aX + bY + ℝZ` for `(a, b) ≠ (0, 0)`,
-  with its even-dimensional coadjoint orbits.
+- *The real Heisenberg group.* Prove that Tau Ceti's `TauCeti.Nil`, the analytic manifold `ℝ × ℝ × ℝ`
+  with the product `(a, b, c)(x, y, z) = (a + x, b + y, c + z + a y)`, is an analytic Lie group: its
+  product and its inversion `(x, y, z)⁻¹ = (−x, −y, −z + x y)` are polynomial. `TauCeti.Nil.toHeisenberg`
+  identifies it with `TauCeti.HeisenbergGroup ℝ` as a group. Compute its coadjoint orbits and their forms
+  (§2.1's and §2.2's Checks) and contrast its odd-dimensional adjoint orbits, the affine lines
+  `aX + bY + ℝZ` for `(a, b) ≠ (0, 0)`, with its even-dimensional coadjoint orbits.
 
 *Needs:* §2.2, §2.5; Mathlib `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`,
-`Matrix.specialOrthogonalGroup`; Tau Ceti `TauCeti.HeisenbergGroup`.
+`Matrix.specialOrthogonalGroup`; Tau Ceti `TauCeti.Nil`, `TauCeti.Nil.toHeisenberg`.
 
 **Checks.**
 - `[−iσ_a / 2, −iσ_b / 2] = −¼ [σ_a, σ_b] = −¼ · 2i ε_abc σ_c = ε_abc (−iσ_c / 2)`, the cross-product
@@ -1282,7 +1285,10 @@ algebra `𝔤 / 𝔫` and the projection a Lie group homomorphism and submersion
 `μ_N⁻¹(0) / N`. Assuming that the `N`-stage and the residual stage are regular, free and proper, prove
 that the reduction in two stages is symplectomorphic to the direct reduction at zero. For a product
 `G = G₁ × G₂` this is Meinrenken, Proposition 8.13, p. 105, and Cannas da Silva, §24.3, p. 149, for
-compact connected factors at zero; the normal-subgroup case identifies the quotients in the same way. For a
+compact connected factors at zero. For a closed normal subgroup, which Cannas da Silva names there as an
+extension without proof, the residual level is `μ̄⁻¹(0) = μ⁻¹(0) / N` for the induced moment map `μ̄`, and
+the bijection `(μ⁻¹(0) / N) / (G/N) → μ⁻¹(0) / G` carries one reduced form to the other, both pulling
+back to the restriction of `ω` to `μ⁻¹(0)`. For a
 coadjoint-invariant nonzero `c`, apply this to `μ − c`, with first-stage value `c|_𝔫` and residual value
 zero. For a value `c` that is not coadjoint-invariant, first apply the shifting construction of §3.0b on
 `M × O_c⁻`, then reduce in stages at zero there and identify the final quotient with `Z / G_c`, with the
@@ -1331,9 +1337,10 @@ the general quotient APIs to the action and the form.
 Let `G` be compact, `c ∈ 𝔤*`, and suppose `G_c` acts locally freely on `Z = μ⁻¹(c)`. First prove the
 smooth level structure: `𝔤_x ⊆ 𝔤_c` by equivariance, local freeness gives `𝔤_x = 0`, and the moment-map
 differential identity (`IsMomentMap.differential_surjective_iff`) makes `dμ_x` onto; Tau Ceti's regular
-level then gives `Z`. No freeness of the finite stabilizers is imposed. Consume SmoothBundlesConnections
-§B1.4's proper-action slices and its finite-isotropy slices with equivariant transitions, at their
-locally free scope, with LieGroupoidsPoisson §§G0.0, G3.4 and G3.5's groupoids, restrictions, bibundles
+level then gives `Z` (Meinrenken, Theorem 8.2, p. 100: `c` is a regular value exactly when every
+stabilizer `G_x`, `x ∈ μ⁻¹(c)`, is discrete). No freeness of the finite stabilizers is imposed.
+Consume SmoothBundlesConnections §B1.4's proper-action slices and its finite-isotropy slices with
+equivariant transitions, at their locally free scope, with LieGroupoidsPoisson §§G0.0, G3.4 and G3.5's groupoids, restrictions, bibundles
 and Morita composition and §B1.0's fibre products. Verify on this `Z` the smooth-level, proper locally
 free and finite-isotropy hypotheses of Orbifolds O1.4 and O2, and consume their retained-arrow slice
 presentation, the Morita bibundle to the action groupoid `G_c ⋉ Z` and the slice-refinement theorem;
@@ -1351,7 +1358,9 @@ Morita comparison; the Hamiltonian restriction, the descent and the identificati
 this roadmap's. Neither the free manifold reduction of §3.0a nor LieGroupoidsPoisson §G7.2's descent on a
 manifold quotient is a premise. ConvexityToric §4.2 consumes this model, with the Orbifolds interfaces,
 for effective and ineffective applications. Weighted reduction of `S³`, including weights with a common
-factor and generic ineffective isotropy, is part of this section.
+factor and generic ineffective isotropy, is part of this section. Cannas da Silva, §24.5, pp. 150–151,
+treats a torus at a regular value, whose level has finite stabilizers and an orbifold quotient, and the
+weighted circle actions on `ℂ²` with weights `(k, 1)` and coprime `(k, l)`.
 
 *Needs:* §3.0; SmoothBundlesConnections §B1.0 and §B1.4; LieGroupoidsPoisson §§G0.0, G3.4, G3.5;
 Orbifolds O1.4, O2, O4.2; Tau Ceti `IsMomentMap.differential_surjective_iff`,
@@ -1466,15 +1475,17 @@ Tau Ceti `TauCeti.haarProb`, `TauCeti.haarAverage`, `SymplecticForm.exists_isSym
 
 Instantiate the local form of §3.1 at torus orbits, at fixed points and at central and zero moment
 values, with their actual `H`, `K` and `V`. The fixed-point case gives the quadratic weight model of a
-torus; general orbits keep the `𝔪*` and coadjoint directions. For compact `G` and singular reduction at
-zero, construct the orbit-type pieces of the level and the strata of the quotient from this model, with
+torus; general orbits keep the `𝔪*` and coadjoint directions. For a proper action of a Lie group `G`
+and a coadjoint orbit `O` that is locally closed in `𝔤*`, construct the orbit-type pieces of `μ⁻¹(O)`
+and the strata of the singular reduced space `μ⁻¹(O) / G` from this model, with
 their descended symplectic forms (§3.0) and their frontier and Poisson compatibility, and prove the
 stratified charts and gluing without a smooth manifold structure on the whole singular quotient
-(Bates–Lerman, Theorem 7, Corollary 14 and Theorem 15, pp. 8–15, for proper actions at locally closed
-coadjoint orbits). Treat other coadjoint levels through the
-shifting construction of §3.0b and its stabilizer hypotheses. The locally free application with finite
-isotropy uses the Orbifolds interfaces of §3.0e. The free proper reduction theorems for noncompact
-groups (§3.0a–§3.0c) and the Fréchet and Sobolev hypotheses of Layer 5 keep their own scope.
+(Bates–Lerman, Theorem 7, Corollary 14 and Theorem 15, pp. 8–15); compact `G` at `O = {0}` is the
+special case. The shifting construction of §3.0b, reducing `M × O⁻` at zero, is another route when
+`O ≠ {0}`; local closedness of `O` is what identifies its zero level with `μ⁻¹(O)` (Bates–Lerman,
+p. 8). The locally free application with finite
+isotropy uses the Orbifolds interfaces of §3.0e. The free proper reduction theorems of §3.0a–§3.0c
+and the Fréchet and Sobolev hypotheses of Layer 5 keep their own scope.
 
 *Needs:* §3.0, §3.0b, §3.0e, §3.1; Orbifolds O1.4, O2.
 
@@ -1697,7 +1708,8 @@ de Rham and local-system comparison on the surface, using local parallel frames,
 local Poincaré lemma and integration and the finite cochain comparison of AlgebraicTopology §6.1.
 Identify wedge, `B` and integration with the cup product and evaluation of local systems.
 AlgebraicTopology §6.4's twisted Poincaré duality for oriented surfaces then gives
-`H²_A(Σ; ad P) ≃ H⁰_A(Σ; ad P)*` and the nondegenerate alternating pairing on `H¹_A`. Prove the Euler formula
+`H²_A(Σ; ad P) ≃ H⁰_A(Σ; ad P)*` and the nondegenerate alternating pairing on `H¹_A` (Huebschmann, §1.2,
+(1.2.3), p. 5). Prove the Euler formula
 `dim H¹_A = (2g − 2) dim 𝔨 + 2 dim H⁰_A`. These are statements about the full deformation complex;
 quotienting the gauge group by an ineffective subgroup does not delete any cohomology summand.
 
@@ -1746,7 +1758,8 @@ converse. Evaluation identifies `I_P` with a closed subgroup of a fibre `C`, so 
 with `Lie(I_P) = H⁰(𝔷_P)`. It need not be central in the full gauge group. For connected `K` it is the
 constant `Z(K)`; for finite `K` it is the whole gauge group. Keep the point stabilizer of a particular
 flat `A` separate: it is the group of parallel sections of the adjoint group bundle, equivalently the
-centralizer of the holonomy; its Lie algebra is `H⁰_A(ad P)`, and its quotient by `I_P` has Lie algebra
+centralizer of the holonomy; its Lie algebra is `H⁰_A(ad P)` (Huebschmann, §1.2, p. 5), and its
+quotient by `I_P` has Lie algebra
 `H⁰_A(𝔨_ss, P)`.
 
 *Needs:* §5.4, §5.6; SmoothBundlesConnections §B4.2, §B5.2.
@@ -1783,7 +1796,8 @@ On the locus `H⁰_A(𝔨_ss, P) = 0`, prove regularity of the curvature into th
 the local proper slice comparison and the resulting finite-dimensional symplectic local model. The full
 slice tangent is `H¹_A(ad P)` with its cup-product and integration form. The residual stabilizer
 `Stab(A)/I_P` is compact with zero Lie algebra, hence finite. A trivial residual action gives a manifold
-chart; otherwise keep the finite group action, including any further ineffective elements, in the
+chart (Huebschmann, Theorem 2.33, p. 13, for a stabilizer acting trivially on `H¹_A`); otherwise keep
+the finite group action, including any further ineffective elements, in the
 orbifold presentation. If the effective residual action is trivial, identify its coarse chart as a
 manifold even when the presentation keeps ineffective isotropy. At positive-dimensional effective
 stabilizers use the slice and Kuranishi construction of singular strata, not the regular theorem. On
@@ -1804,7 +1818,8 @@ deformation tangent with the cocycles `Z¹(π₁Σ; 𝔨_(Ad ρ))`. Construct th
 `0 → 𝔨 / H⁰_A(ad P) → Z¹ → H¹_A(ad P) → 0`, including the evaluation identification of parallel sections
 and the comparison of de Rham and group cohomology in degree one. On a smooth unobstructed framed locus
 its dimension is `dim H¹_A + dim 𝔨 − dim H⁰_A = (2g − 1) dim 𝔨 + dim H⁰_A`. A based gauge transformation
-fixing a connection and the chosen point is the identity, but freeness alone does not make the flat level
+fixing a connection and the chosen point is the identity (Huebschmann, §2, p. 8), but freeness alone does
+not make the flat level
 regular at reducible connections; the framed quotient has no automatic symplectic structure.
 
 The following are targets of this layer.
@@ -2026,7 +2041,8 @@ All are proved at the pin; paths are under `TauCeti/`.
   `Module.Dual.even_finrank_quotient_lieAnnihilator`; `Lie.IsTorus`, `Lie.IsMaximalTorus`,
   `Lie.exists_isMaximalTorus`, `Lie.IsTorus.exists_closedZpowers_eq`,
   `Lie.IsMaximalTorus.lieSubalgebraOfSubgroup_centralizer`, `Lie.IsMaximalTorus.finite_normalizerQuotient`;
-  `TauCeti.heisenberg`.
+  `TauCeti.heisenberg`; the real Heisenberg group `TauCeti.Nil` with its analytic charts, and
+  `TauCeti.Nil.toHeisenberg` (`Geometry/Manifold/Riemannian/Nil/Basic.lean`).
 - *Root systems* (`LinearAlgebra/RootSystem/Chamber.lean`, `…/FundamentalDomain.lean`):
   `RootPairing.dominantChamber`, `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` (every Weyl orbit
   meets the closed dominant chamber exactly once, for a finite crystallographic reduced root system over
