@@ -139,6 +139,7 @@ body:
         - EndoscopicTransferAndUnitaryTraceComparison
         - EnhancedDerivedSheaves
         - EnriquesSurfaces
+        - EnriquesSurfacesAndIntegralNonexistence
         - Equidistribution
         - EquivariantIntersectionTheory
         - EtaleCohomologyFoundations
