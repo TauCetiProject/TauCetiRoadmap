@@ -40,21 +40,21 @@ Hecke–Schoeneberg theorem.
 
 The layers below are numbered once and for all; other roadmaps cite them by these numbers or by the
 earlier lettered labels, which *How to read the build* maps to them, and a number whose material is
-not a target here has no section below. Layer 1 keeps the partial Fourier transforms of Schwartz
-functions on a product; Layer 2 the discriminant group of an orthogonal sum; Layer 3 the theta
-series of an orthogonal sum; Layer 5 the basic API of the level-one theta form;
+not a target here has no section below. Layer 2 keeps the discriminant group of an orthogonal sum;
+Layer 3 the theta series of an orthogonal sum; Layer 5 the basic API of the level-one theta form;
 Layer 6 the Gauss sums: reciprocity, Milgram's formula, the closed form, the conductor theorem and
 the nebentypus; Layer 7 the Hecke–Schoeneberg theorem, the theta series as a modular form with
 character, and the coset series on `Γ(N)`; Layer 8 the identification of `Θ_{A₂}` and `Θ_{D₄}`.
-Layer 4 has no sections here.
+Layers 1 and 4 have no sections here.
 
 ## How to read the build
 
 Each layer is a list of numbered sections `### k.n`, each stating its targets in prose with their
 hypotheses, the source at the claim, a *Needs:* line and, where they earn their place, Checks.
-Section numbers are fixed: §k.n is the `n`-th item of Layer `k`, and the numbers that do not appear
-below (§§1.1, 1.3–1.6, 2.1–2.8, 3.1–3.3, 3.5, all of Layer 4, §§5.1, 5.2, 5.4, 6.1, 6.4, 7.2,
-8.1–8.5) are resolved, with the declarations that carry them, in *Scope and ownership*. The earlier
+Section numbers are fixed: §k.n is the `n`-th item of Layer `k`, and a citation of a number that
+does not appear below (all of Layer 1 and of Layer 4, §§2.1–2.8, 3.1–3.3, 3.5, 5.1, 5.2, 5.4,
+6.1, 6.4, 7.2, 8.1–8.5) resolves to what the table in *Scope and ownership* lists under that
+number: the Tau Ceti declarations that carry it, or the roadmap that owns it. The earlier
 lettered label `kX` is §k.n, with `n` the position of the letter `X` in the alphabet:
 
 | Earlier lettered labels | Present sections |
@@ -68,7 +68,7 @@ lettered label `kX` is §k.n, with `n` the position of the letter `X` in the alp
 | 7A, 7B, 7C, 7D, 7E, 7F | §§7.1–7.6, in that order |
 | 8A, 8B, 8C, 8D, 8E | §§8.1–8.5, in that order |
 
-The dependency order is Layer 1; Layer 2; Layer 3; Layer 5 (on §3.4); Layer 6; Layer 7 (on Layer 6);
+The dependency order is Layer 2; Layer 3; Layer 5 (on §3.4); Layer 6; Layer 7 (on Layer 6);
 Layer 8 (on Layer 7). Nothing in Layers 1–7 mentions dimension `8`, `16` or `24`, and no lattice is
 constructed here: `E₈`, the rank-16 pair, the Leech lattice, `A₂` and `D₄` are Tau Ceti's and enter
 at Layer 8. Each *Needs:* line lists what its statement and its route use, item by item, so that a
@@ -204,62 +204,10 @@ headline theorems of Layers 6–8 against the pinned libraries.
     weight, which needs the metaplectic group and a branch of `√τ`; half-integral weight is out of
     scope. Mathlib's odd-rank law `jacobiTheta_S_smul` is consumed only through its square, and the
     rank-one Landsberg–Schaar identity is not a target: its square at rank two is a Check of §6.2.
-19. **Files.** The targets of Layers 1, 3 and 5–8 belong beside Tau Ceti's existing files: lattice
-    Gauss sums in `TauCeti/Algebra/Module/ZLattice/`, theta series and their modularity in
-    `TauCeti/NumberTheory/ModularForms/ThetaSeries/`, partial Fourier transforms beside
-    `TauCeti/Analysis/Distribution/SchwartzSpace/Slice.lean`.
-
-## Layer 1: Poisson summation for a lattice
-
-### 1.2 Partial Fourier transforms on a product
-
-Let `P` and `F` be finite-dimensional real inner product spaces and `P × F` their orthogonal
-product `WithLp 2 (P × F)`, each with the Haar measure normalised by orthonormal bases, and use
-Mathlib's normalisation `𝓕 f (ξ) = ∫ f(x) e(-⟪x, ξ⟫) dx` of the Fourier transform. For a Schwartz
-function `f` on `P × F`, the *partial Fourier transform in the second variable* is
-`(p, ξ) ↦ ∫_F f(p, x) e(-⟪x, ξ⟫) dx`, and symmetrically in the first variable. Prove:
-
-- the partial Fourier transform in either variable of a Schwartz function on `P × F` is again a
-  Schwartz function on `P × F`, each of its seminorms bounded by finitely many seminorms of `f`, so
-  that it is a continuous linear map on Schwartz space;
-- *Fubini for the Fourier integral:* the Fourier transform of `f` is the partial transform in the
-  first variable of the partial transform of `f` in the second;
-- consequently, splitting `EuclideanSpace ℝ (Fin n)` orthogonally into one coordinate and the rest,
-  the Fourier transform on `ℝⁿ` is the composite of the `n` one-dimensional partial transforms.
-
-Poisson summation over `ℤⁿ` does not use them: Tau Ceti proves it in all dimensions at once, from
-the multivariate Fourier series of the periodization on the torus (row 1.2 of *Scope and
-ownership* below). These statements are general Fourier analysis on products, the Fourier-side
-companion of the slices of a Schwartz function (Tau Ceti's `SchwartzMap.sliceRightCLM`), and no
-later layer of this roadmap rests on them.
-
-*Needs:* Mathlib `SchwartzMap`, the Fourier transform `𝓕` on a finite-dimensional inner product
-space, `MeasureTheory.integral_prod`; Tau Ceti `SchwartzMap.sliceRightCLM`,
-`SchwartzMap.seminorm_sliceRightCLM_le`, `SchwartzMap.norm_pow_mul_seminorm_sliceRightCLM_le`
-(slices are Schwartz, with seminorms bounded and rapidly decaying in the frozen variable).
-
-**Checks.**
-- On `ℝ²`, `f(x₁, x₂) = exp(-π(x₁² + x₂²))` has partial transform `exp(-π x₁²) exp(-π ξ₂²)` in the
-  second variable, and then `exp(-π(ξ₁² + ξ₂²))`, which is `𝓕 f`: the Gaussian `exp(-π‖x‖²)` is its
-  own transform in Mathlib's normalisation. With the kernel `exp(-i x ξ)` in place of
-  `e(-x ξ)`, the partial transforms would give `exp(-(ξ₁² + ξ₂²)/(4π))`, which is not `𝓕 f`; the
-  normalisation of the partial transforms must be that of `𝓕`.
-- For a product `f(p, x) = φ(p) ψ(x)` the partial transform in the second variable is
-  `φ(p) 𝓕ψ(ξ)`, and the Fubini identity reduces to `𝓕 f (η, ξ) = 𝓕φ(η) 𝓕ψ(ξ)`.
-
-### Examples
-
-- On `ℤ²` and a product `f(x₁, x₂) = φ(x₁) ψ(x₂)` of Schwartz functions on `ℝ`, the two-dimensional
-  Poisson formula `∑_{ℓ ∈ ℤ²} f(ℓ) = ∑_{m ∈ ℤ²} 𝓕 f(m)` is the product of the two one-dimensional
-  formulas, since `𝓕 f (m₁, m₂) = 𝓕φ(m₁) 𝓕ψ(m₂)` by the Fubini identity.
-- For the Gaussian `exp(-π t ‖x‖²)`, `t > 0`, on `ℝⁿ`, Poisson summation over `ℤⁿ` reads
-  `∑_{ℓ ∈ ℤⁿ} exp(-π t ‖ℓ‖²) = t^{-n/2} ∑_{m ∈ ℤⁿ} exp(-π ‖m‖² / t)`, the `n`-th power of the
-  one-dimensional identity.
-
-### Dependencies
-
-Mathlib: Schwartz space, the Fourier transform on inner product spaces, the product measure and
-Fubini's theorem. Tau Ceti: slices of Schwartz functions. No other layer of this roadmap.
+19. **Files.** The targets of Layers 2, 3 and 5–8 belong beside Tau Ceti's existing files: the
+    discriminant group of an orthogonal sum and lattice Gauss sums in
+    `TauCeti/Algebra/Module/ZLattice/`, theta series and their modularity in
+    `TauCeti/NumberTheory/ModularForms/ThetaSeries/`.
 
 ## Layer 2: the real lattice model, the bridge, and the arithmetic invariants
 
@@ -451,6 +399,14 @@ and 7.
   `∑_{y mod c} e(a y²/c) = √(c/(2a)) e(1/8) ∑_{y mod 2a} e(-c y²/(4a))`: both Gauss sums of `L` are
   squares of rank-one sums, and `e(1/8)² = i`.
 - `L = A₂` (`det L = 3`), `a = c = 1`: `1 = (1/√3) · i · (1 + 2e(-1/3)) = (1/√3) · i · (-i√3)`.
+- Pairs that are not coprime. `L = √2 ℤ²`, `a = c = 2`: `G_L(2, 2) = (∑_{u mod 2} e(u²))² = 4`, and
+  the dual-side sum over the `16` classes `y = (u, v)/√2`, `u, v mod 4`, is
+  `(∑_{u mod 4} e(-u²/4))² = (2 - 2i)² = -8i`, so the right side is `1 · ½ · i · (-8i) = 4`.
+  `L = A₂`, `a = c = 3`: every summand of `G_L(3, 3)` is `e(‖y‖²/2) = 1`, so
+  `G_L(3, 3) = 9 = 3² G_L(1, 1)`; the dual-side summand depends only on the class of `y` in
+  `L^∨/L`, so the sum over the `27` classes of `L^∨/3L` is `9 (1 + 2e(-1/3)) = -9i√3`, and the right
+  side is `(1/√3) · i · (-9i√3) = 9`. A sum over the `3` classes of `L^∨/L` in place of `L^∨/3L`
+  would give `1`.
 
 ### 6.3 Milgram's formula
 
@@ -861,8 +817,9 @@ forces it.
   dual (former §§1.1, 1.5, 1.6, 2.1, 2.3), applied in a Euclidean model of its mixed space reached by
   a continuous real linear equivalence; these resolve to the Tau Ceti declarations in *Scope and
   ownership*.
-- [Lattice packings and perfect forms](../LatticePackingsAndPerfectForms/README.md) consumes Layer 1
-  (Poisson summation and dual covolumes) and Layer 7 (§7.3 with §7.4).
+- [Lattice packings and perfect forms](../LatticePackingsAndPerfectForms/README.md) consumes former
+  Layer 1 (Poisson summation and dual covolumes, now Tau Ceti declarations listed in *Scope and
+  ownership*) and Layer 7 (§7.3 with §7.4).
 - [Quaternion arithmetic](../QuaternionArithmetic/README.md) consumes Layer 7.
 - [Hypergeometric motives](../HypergeometricMotives/README.md) consumes the Kronecker symbol and
   character of former §2.8, Tau Ceti's `TauCeti.kroneckerSym` and `TauCeti.kroneckerChar`.
@@ -901,15 +858,14 @@ vocabulary is the [modular-forms roadmap](../ModularForms/README.md)'s; and the 
 
 ## Scope and ownership
 
-**This roadmap owns** the partial Fourier transforms of §1.2; the theta series of an orthogonal sum
-(§3.4); the product formula for the level-one theta form (§5.3); Gauss-sum reciprocity, Milgram's
-formula at positive definite signature by theta asymptotics, the closed form of the Gauss sum, the
-conductor theorem and the nebentypus `χ_L` (§§6.2, 6.3, 6.5, 6.6); the reductions of §7.1, the
-Hecke–Schoeneberg theorem, the theta series as a modular form with character, the coset series on
-`Γ(N)` and their consequences (§§7.3–7.6); and the identification of `Θ_{A₂}` and `Θ_{D₄}` (§8.6).
-No other roadmap states a theta series of a positive definite lattice or a modularity theorem for
-one. This roadmap constructs no lattice, and states no Hecke theory, dimension formula or newform
-theory of its own.
+**This roadmap owns** the discriminant group of an orthogonal sum on the real model (§2.9); the theta
+series of an orthogonal sum (§3.4); the product formula for the level-one theta form (§5.3);
+Gauss-sum reciprocity, Milgram's formula at positive definite signature by theta asymptotics, the
+closed form of the Gauss sum, the conductor theorem and the nebentypus `χ_L` (§§6.2, 6.3, 6.5, 6.6);
+the reductions of §7.1, the Hecke–Schoeneberg theorem, the theta series as a modular form with
+character, the coset series on `Γ(N)` and their consequences (§§7.3–7.6); and the identification of
+`Θ_{A₂}` and `Θ_{D₄}` (§8.6). This roadmap constructs no lattice, and states no Hecke theory,
+dimension formula or newform theory of its own.
 
 **Already in the library.** The other sections of this roadmap's numbering are proved in Tau Ceti at
 the pin (paths under `TauCeti/`); citations of them resolve as follows. Former Lean names of this
@@ -918,7 +874,7 @@ roadmap are in italics.
 | Former § | Content | Tau Ceti declarations |
 |---|---|---|
 | 1.1 | Poisson summation over a full lattice, its reflected form for every `f`, its minus-phase form for even `f` (*poissonSummation*, *poissonSummation_neg*, *poissonSummation_of_even*) | `SchwartzMap.tsum_eq_tsum_dual_fourier`, `SchwartzMap.tsum_eq_tsum_dual_fourier_neg`, `SchwartzMap.tsum_eq_tsum_dual_fourier_of_even` (`Analysis/Fourier/PoissonSummation.lean`) |
-| 1.2, in part | Poisson summation over the lattice of an orthonormal basis (`ℤⁿ`), self-duality of that lattice, slices of Schwartz functions, absolute summability of lattice sums (*stdLattice*, *poissonSummation_stdLattice*, *dual_stdLattice*) | `SchwartzMap.tsum_eq_tsum_fourier_span_orthonormalBasis`, `ZLattice.dual_span_orthonormalBasis`, `SchwartzMap.sliceRightCLM`, `SchwartzMap.seminorm_sliceRightCLM_le`, `ZLattice.summable_norm_poisson_left`; the partial Fourier transforms are §1.2 above |
+| 1.2 | Poisson summation over the lattice of an orthonormal basis (`ℤⁿ`), self-duality of that lattice, slices of Schwartz functions, absolute summability of lattice sums (*stdLattice*, *poissonSummation_stdLattice*, *dual_stdLattice*) | `SchwartzMap.tsum_eq_tsum_fourier_span_orthonormalBasis`, `ZLattice.dual_span_orthonormalBasis`, `SchwartzMap.sliceRightCLM`, `SchwartzMap.seminorm_sliceRightCLM_le`, `ZLattice.summable_norm_poisson_left`; the partial Fourier transforms are AnalyticNumberTheoryPartII §5.3g's (*Owned elsewhere*, below) |
 | 1.3 | Fourier transform under a linear automorphism (*fourierIntegral_comp_equiv*) | `ContinuousLinearEquiv.fourier_comp` (`Analysis/Fourier/ChangeOfVariables.lean`) |
 | 1.4 | dual lattice and covolume under a linear automorphism; every full lattice is the image of `ℤⁿ` with `|det A| = covol L` (*mapEquiv*, *dual_mapEquiv*, *covolume_mapEquiv*) | `ZLattice.dual_comap_continuousLinearEquiv`, `ZLattice.covolume_comap_continuousLinearEquiv`, `ZLattice.exists_comap_span_orthonormalBasis_eq` |
 | 1.5 | summability of both sides (*summable_poisson_left*, *summable_poisson_right*) | `ZLattice.summable_poisson_left`, `ZLattice.summable_poisson_right` (`Analysis/Distribution/SchwartzSpace/ZLattice.lean`) |
@@ -994,6 +950,16 @@ is §6.2 (`gaussSum_eq_mul_dualGaussSum`); *milgram* is §6.3 (`sum_cexp_norm_sq
   measure and the comparison of covolumes by the Jacobian. It is not a linear isometry: in `ℝ²` with
   the sup norm, `‖e₁ + e₂‖² + ‖e₁ - e₂‖² = 2 ≠ 4 = 2‖e₁‖² + 2‖e₂‖²` fails the parallelogram law. That
   transport is the consumer's.
+- *Partial Fourier transforms*: for a finite-dimensional real space split into two orthogonal
+  summands, the partial Fourier transform in one summand preserves Schwartz space, sends `f₁ ⊗ f₂`
+  to `f₁ ⊗ f̂₂`, commutes with the partial transform in the other summand and composes with it to
+  the full transform. These are
+  [analytic number theory, Part II](../AnalyticNumberTheoryPartII/README.md) §5.3g's, stated there
+  at every place of a number field for every nondegenerate pairing. At a real place, with the inner
+  product as the pairing and `ψ_ℝ(x) = e(x)`, the self-dual measure is the Haar measure normalised
+  by orthonormal bases and §5.3g's transform of `f` is `ξ ↦ 𝓕 f(-ξ)` in Mathlib's normalisation. No
+  layer here uses them: Tau Ceti proves Poisson summation over a lattice from the Fourier series of
+  the periodization on the torus and a linear change of variables.
 - *Not targets of this roadmap*: the Weil representation of `SL(2, ℤ)` on `ℂ[L^∨/L]` and the
   presentation `SL(2, ℤ) ≅ ⟨S, T | S⁴ = 1, (ST)³ = S²⟩`, neither needed here (the vector-valued
   inversion law and §7.5 are proved directly; a development of the Weil representation needs the
@@ -1011,7 +977,7 @@ is §6.2 (`gaussSum_eq_mul_dualGaussSum`); *milgram* is §6.3 (`sum_cexp_norm_sq
 - `LinearMap.BilinForm.dualSubmodule` and `innerₗ`: the dual lattice of record.
 - `SchwartzMap` with `SchwartzMap.compSubConstCLM` (translation), the Fourier transform `𝓕` on a
   finite-dimensional inner product space with kernel `e(-⟪x, ξ⟫)`, `fourier_gaussian_innerProductSpace`,
-  `Real.tsum_eq_tsum_fourier` (Poisson summation on `ℝ`), `MeasureTheory.integral_prod`.
+  `Real.tsum_eq_tsum_fourier` (Poisson summation on `ℝ`).
 - `WithLp.prod_norm_sq_eq_of_L2` (`‖x‖² = ‖x.1‖² + ‖x.2‖²` on `WithLp 2 (E × F)`) and
   `tsum_mul_tsum_of_summable_norm`, for §3.4.
 - Modular forms: `ModularForm`, `CuspForm`, `SlashAction` with the right-action law,
@@ -1117,11 +1083,6 @@ ownership* lists the ones that carry former sections, with their statements.
   `TauCeti.IntegralLattice.isPosDef_typeARootLattice` and
   `TauCeti.IntegralLattice.isPosDef_checkerboardLattice`, and the levels and discriminant-group
   orders of the real models of `A₂` and `D₄` (`3, 3` and `2, 4`).
-- *Fourier analysis* (`Analysis/Distribution/SchwartzSpace/Slice.lean`): `SchwartzMap.sliceRightCLM`,
-  `SchwartzMap.seminorm_sliceRightCLM_le`, `SchwartzMap.norm_pow_mul_seminorm_sliceRightCLM_le`
-  (fixing the first variable of a Schwartz function on `P × E` gives a Schwartz function on `E`,
-  continuously and linearly, with seminorms bounded uniformly and decaying rapidly in the frozen
-  variable).
 
 ### From TauCetiRoadmap.ModularForms
 
