@@ -12,33 +12,12 @@ criterion, and combines the two into Dummit's criterion in its classical form: a
 quintic over a field of characteristic zero is solvable by radicals exactly when its resolvent
 sextic has a root in the base field.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the radical criterion for finite Galois extensions in characteristic zero (Layer 1);
-- the radical criterion for polynomials, its some-root form for irreducible polynomials, and the
-  prime-degree non-solvability corollary (Layer 2);
-- the separation of the quintic `F₂₀` resolvent sextic for irreducible quintics with `5 ≠ 0`, and
-  Dummit's criterion in group form without a separability hypothesis and in radical form
-  (Layer 3).
-
-It owns nothing else. In particular:
-
-- Everything of the completed Polynomial Galois Groups roadmap is imported, never restated: the
-  permutation representation (its Layer 0), blocks and wreath products (Layer 1), the
-  primitivity dictionary (Layer 2), the discriminant test (Layer 3), resolvent specifications,
-  Dummit's invariant and the conditional quintic criterion (Layer 4), Frobenius specialization
-  (Layer 5), the transitive groups and labels of degree at most five with their certificates
-  (Layer 6) and the realization of `Sₙ` (Layer 9). Their Tau Ceti declarations are listed in the
-  supplier contracts below by name.
-- Mathlib already proves the direction from radicals to solvable groups, as
-  `isSolvable_gal_of_irreducible` and `isSolvable_gal_minpoly` in
-  `Mathlib/FieldTheory/AbelRuffini.lean`; this roadmap uses it and does not restate it.
-- The ramified cycle-type refinements of Galois groups belong to Polynomial Galois Groups,
-  Part II, and are not touched here.
-- Radicals in positive characteristic (where Artin–Schreier extensions replace Kummer
-  extensions), Hilbert irreducibility, and the realization of `Aₙ` are outside this roadmap.
+Layer 1 proves the radical criterion for a finite Galois extension in characteristic zero, by
+induction along a chain of normal subgroups of prime index after adjoining roots of unity. Layer 2
+specializes it to splitting fields of polynomials. Layer 3 is independent of Layers 1 and 2 for its
+separation theorem and group form, and uses Layer 2 for the radical form of Dummit's criterion.
 
 ## Conventions
 
@@ -63,61 +42,6 @@ It owns nothing else. In particular:
   field of `f`, are the six values `θ₁, …, θ₆` of the conjugates of `Φ` at the roots of `f`; it is
   Dummit's `f₂₀` (his formula (2), p. 389). For `X⁵ + aX + b` it is
   `X⁶ + 8aX⁵ + 40a²X⁴ + 160a³X³ + 400a⁴X² + (512a⁵ − 3125b⁴)X + (256a⁶ − 9375ab⁴)`.
-
-## Exact supplier contracts
-
-**From Mathlib** (at the pin):
-
-- `Polynomial.Gal` and `Polynomial.Gal.galActionHom` in
-  `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`; `Polynomial.rootSet` in
-  `Mathlib/Algebra/Polynomial/Roots.lean`.
-- `solvableByRad`, `solvableByRad.rad_mem`, `isSolvable_gal_minpoly` and
-  `isSolvable_gal_of_irreducible` (if `q` is irreducible and has a root in `solvableByRad F E`,
-  then `q.Gal` is solvable) in `Mathlib/FieldTheory/AbelRuffini.lean`.
-- `isCyclic_tfae` in `Mathlib/FieldTheory/KummerExtension.lean`: for a finite extension `L/K`
-  of degree `n` with a primitive `n`th root of unity in `K`, `L/K` is cyclic Galois exactly when
-  `L = K(α)` with `αⁿ ∈ K`.
-- `IsSepClosed.hasEnoughRootsOfUnity` (`Mathlib/RingTheory/RootsOfUnity/AlgebraicallyClosed.lean`)
-  and `HasEnoughRootsOfUnity.exists_primitiveRoot`, giving primitive `n`th roots of unity in
-  `AlgebraicClosure F` when `(n : F) ≠ 0`.
-- The Galois correspondence in `Mathlib/FieldTheory/Galois/Basic.lean`:
-  `IsGalois.sup_right`, `IsGalois.tower_top_intermediateField`,
-  `IntermediateField.restrictRestrictAlgEquivMapHom_injective`,
-  `IsGalois.normalAutEquivQuotient`, `IntermediateField.subgroupEquivAlgEquiv`,
-  `IsGalois.card_aut_eq_finrank`.
-- `Polynomial.Gal.galActionHom_bijective_of_prime_degree` in
-  `Mathlib/Analysis/Complex/Polynomial/Basic.lean` (an irreducible rational polynomial of prime
-  degree with exactly two nonreal complex roots has full symmetric Galois action) and
-  `Equiv.Perm.not_isSolvable` in `Mathlib/GroupTheory/Solvable.lean` (`Sym(α)` is not solvable
-  when `α` has at least five elements).
-
-**From Tau Ceti** (at the pin):
-
-- `Group.IsSolvable.exists_normal_index_prime` in `TauCeti/GroupTheory/Solvable.lean`: a
-  nontrivial finite solvable group has a normal subgroup of prime index.
-- `TauCeti.quinticF20Invariant`, `TauCeti.quinticF20Spec` and
-  `TauCeti.ResolventSpec.specialize` in `TauCeti/FieldTheory/GaloisGroups/Resolvent/Quintic/Basic.lean`
-  and `TauCeti/FieldTheory/GaloisGroups/Resolvent/Spec.lean`.
-- `TauCeti.isSolvable_gal_iff_exists_isRoot_specialize_quinticF20Spec` and
-  `TauCeti.exists_isRoot_specialize_quinticF20Spec_of_isSolvable` in
-  `TauCeti/FieldTheory/GaloisGroups/Resolvent/Quintic/Solvable.lean`, over an arbitrary field:
-  for `f` monic, separable, irreducible of degree five, a solvable `f.Gal` gives the specialized
-  sextic a root, and conversely when that sextic is separable.
-- `TauCeti.resolventSextic_X_pow_five_sub_X` and
-  `TauCeti.not_forall_exists_le_map_conj_of_isRoot_specialize_quinticF20Spec` in
-  `TauCeti/FieldTheory/GaloisGroups/Resolvent/Quintic/Collision.lean`: for the reducible
-  separable `X⁵ − X` the sextic is `(X − 2)⁴ (X² + 16)` and the converse fails.
-
-**From TauCetiRoadmap.PolynomialGaloisGroups (completed).** Layers 0–6 and 9 as listed under
-Scope and ownership, through the Tau Ceti declarations above; no statement of the base is assumed
-beyond what those declarations prove.
-
-## How to read the build
-
-Layer 1 proves the radical criterion for a finite Galois extension in characteristic zero, by
-induction along a chain of normal subgroups of prime index after adjoining roots of unity. Layer 2
-specializes it to splitting fields of polynomials. Layer 3 is independent of Layers 1 and 2 for its
-separation theorem and group form, and uses Layer 2 for the radical form of Dummit's criterion.
 
 ## Layer 1: the radical criterion for finite Galois extensions
 
@@ -305,6 +229,82 @@ The radical criterion of Layers 1 and 2 is the form in which classical statement
 radicals" enter Galois-theoretic arguments, and Layer 3 makes the base roadmap's quintic test
 unconditional for irreducible quintics. Any roadmap that states a result about expressibility by
 radicals in characteristic zero consumes Layer 2.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the radical criterion for finite Galois extensions in characteristic zero (Layer 1);
+- the radical criterion for polynomials, its some-root form for irreducible polynomials, and the
+  prime-degree non-solvability corollary (Layer 2);
+- the separation of the quintic `F₂₀` resolvent sextic for irreducible quintics with `5 ≠ 0`, and
+  Dummit's criterion in group form without a separability hypothesis and in radical form
+  (Layer 3).
+
+It owns nothing else. In particular:
+
+- Everything of the completed Polynomial Galois Groups roadmap is imported, never restated: the
+  permutation representation (its Layer 0), blocks and wreath products (Layer 1), the
+  primitivity dictionary (Layer 2), the discriminant test (Layer 3), resolvent specifications,
+  Dummit's invariant and the conditional quintic criterion (Layer 4), Frobenius specialization
+  (Layer 5), the transitive groups and labels of degree at most five with their certificates
+  (Layer 6) and the realization of `Sₙ` (Layer 9). Their Tau Ceti declarations are listed in the
+  supplier contracts below by name.
+- Mathlib already proves the direction from radicals to solvable groups, as
+  `isSolvable_gal_of_irreducible` and `isSolvable_gal_minpoly` in
+  `Mathlib/FieldTheory/AbelRuffini.lean`; this roadmap uses it and does not restate it.
+- The ramified cycle-type refinements of Galois groups belong to Polynomial Galois Groups,
+  Part II, and are not touched here.
+- Radicals in positive characteristic (where Artin–Schreier extensions replace Kummer
+  extensions), Hilbert irreducibility, and the realization of `Aₙ` are outside this roadmap.
+
+## Exact supplier contracts
+
+**From Mathlib** (at the pin):
+
+- `Polynomial.Gal` and `Polynomial.Gal.galActionHom` in
+  `Mathlib/FieldTheory/PolynomialGaloisGroup.lean`; `Polynomial.rootSet` in
+  `Mathlib/Algebra/Polynomial/Roots.lean`.
+- `solvableByRad`, `solvableByRad.rad_mem`, `isSolvable_gal_minpoly` and
+  `isSolvable_gal_of_irreducible` (if `q` is irreducible and has a root in `solvableByRad F E`,
+  then `q.Gal` is solvable) in `Mathlib/FieldTheory/AbelRuffini.lean`.
+- `isCyclic_tfae` in `Mathlib/FieldTheory/KummerExtension.lean`: for a finite extension `L/K`
+  of degree `n` with a primitive `n`th root of unity in `K`, `L/K` is cyclic Galois exactly when
+  `L = K(α)` with `αⁿ ∈ K`.
+- `IsSepClosed.hasEnoughRootsOfUnity` (`Mathlib/RingTheory/RootsOfUnity/AlgebraicallyClosed.lean`)
+  and `HasEnoughRootsOfUnity.exists_primitiveRoot`, giving primitive `n`th roots of unity in
+  `AlgebraicClosure F` when `(n : F) ≠ 0`.
+- The Galois correspondence in `Mathlib/FieldTheory/Galois/Basic.lean`:
+  `IsGalois.sup_right`, `IsGalois.tower_top_intermediateField`,
+  `IntermediateField.restrictRestrictAlgEquivMapHom_injective`,
+  `IsGalois.normalAutEquivQuotient`, `IntermediateField.subgroupEquivAlgEquiv`,
+  `IsGalois.card_aut_eq_finrank`.
+- `Polynomial.Gal.galActionHom_bijective_of_prime_degree` in
+  `Mathlib/Analysis/Complex/Polynomial/Basic.lean` (an irreducible rational polynomial of prime
+  degree with exactly two nonreal complex roots has full symmetric Galois action) and
+  `Equiv.Perm.not_isSolvable` in `Mathlib/GroupTheory/Solvable.lean` (`Sym(α)` is not solvable
+  when `α` has at least five elements).
+
+**From Tau Ceti** (at the pin):
+
+- `Group.IsSolvable.exists_normal_index_prime` in `TauCeti/GroupTheory/Solvable.lean`: a
+  nontrivial finite solvable group has a normal subgroup of prime index.
+- `TauCeti.quinticF20Invariant`, `TauCeti.quinticF20Spec` and
+  `TauCeti.ResolventSpec.specialize` in `TauCeti/FieldTheory/GaloisGroups/Resolvent/Quintic/Basic.lean`
+  and `TauCeti/FieldTheory/GaloisGroups/Resolvent/Spec.lean`.
+- `TauCeti.isSolvable_gal_iff_exists_isRoot_specialize_quinticF20Spec` and
+  `TauCeti.exists_isRoot_specialize_quinticF20Spec_of_isSolvable` in
+  `TauCeti/FieldTheory/GaloisGroups/Resolvent/Quintic/Solvable.lean`, over an arbitrary field:
+  for `f` monic, separable, irreducible of degree five, a solvable `f.Gal` gives the specialized
+  sextic a root, and conversely when that sextic is separable.
+- `TauCeti.resolventSextic_X_pow_five_sub_X` and
+  `TauCeti.not_forall_exists_le_map_conj_of_isRoot_specialize_quinticF20Spec` in
+  `TauCeti/FieldTheory/GaloisGroups/Resolvent/Quintic/Collision.lean`: for the reducible
+  separable `X⁵ − X` the sextic is `(X − 2)⁴ (X² + 16)` and the converse fails.
+
+**From TauCetiRoadmap.PolynomialGaloisGroups (completed).** Layers 0–6 and 9 as listed under
+Scope and ownership, through the Tau Ceti declarations above; no statement of the base is assumed
+beyond what those declarations prove.
 
 ## References
 
