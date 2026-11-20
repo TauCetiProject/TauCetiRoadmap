@@ -1192,7 +1192,7 @@ smooth-parameter primitives, time-dependent pullback and flows); DifferentialGeo
   zero, nondegenerate on that zero space. The Checks of §1.2 test this convention.
 - HamiltonianReduction R3 applies the tubular fibre-homotopy construction of §4.1–§4.3 to its
   orbit slices.
-- IntegrableSystems §5.2 (I5.2), the finite action and periodic-orbit dictionary, instantiates the
+- IntegrableSystems I5.2, the finite action and periodic-orbit dictionary, instantiates the
   chain dictionary of §3.1, after its sign change and deck quotient, with its cyclic configurations.
 - MathematicalBilliards builds on the convex billiards of §3.1 and on
   `exists_billiard_periodic_reflection`.
