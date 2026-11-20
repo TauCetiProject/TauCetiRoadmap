@@ -899,11 +899,15 @@ For `qr(φ) ≤ d + 1` and `n ≥ d`, prove the explicit estimate (`sentenceProb
 
     |Pr(G(n, p) ⊨ φ) - 𝟙[R ⊨ φ]| ≤ B_d(n, p).
 
-It is uniform over all sentences of the indicated rank. Derive the fixed-`p` zero–one law
-(`firstOrder_zero_one`), the equality of the almost-sure theory with `Th(R)` (the semantic
-consequence closure of `T_R`), and independence of this theory from `p ∈ (0, 1)`. The decision map
-of Layer 5 computes the limiting truth value; the rank supplies the error profile. Classical
-compactness alone is not claimed to compute either of them.
+It is uniform over all sentences of the indicated rank. It combines two separate inputs: the
+deterministic rank agreement `satisfies_iff_of_extension` (5.1), by which a graph satisfying
+`EP_{≤d}` agrees with `R` (which satisfies every `EP_{≤d}`) on every sentence of rank at most
+`d + 1`, and the probabilistic bound `extension_failure_le` (Layer 6),
+`Pr(¬EP_{≤d}(G(n, p))) ≤ B_d(n, p)`. Derive the fixed-`p` zero–one law (`firstOrder_zero_one`), the
+equality of the almost-sure theory with `Th(R)` (the semantic consequence closure of `T_R`), and
+independence of this theory from `p ∈ (0, 1)`. The decision map of Layer 5 computes the limiting
+truth value; the rank supplies the error profile. Classical compactness alone is not claimed to
+compute either of them.
 
 Derive that every finite subset of `T_R` has a finite model, and every sentence true
 in `R` has finite models of every sufficiently large cardinality
