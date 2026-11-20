@@ -465,6 +465,12 @@ strategies of Hedge against the advantages, and on the three-state MDP of the Ch
 Layer 4 uses Layers 1 and 3, MathematicalStatisticsFoundations 4.3, and Tau Ceti's
 pseudoinverse.
 
+## Provenance and prior work
+
+The Lean repository [rl-theory-in-lean](https://github.com/ShangtongZhang/rl-theory-in-lean)
+(MIT) formalizes finite MDPs, Q-learning and linear TD; its files contain no policy-gradient
+material. It is reference material, not the specification.
+
 ## Scope and ownership
 
 This roadmap owns the value, Q-function, advantage and visitation vector of arbitrary real weight
@@ -558,12 +564,6 @@ MDPs; regret of learning in an unknown MDP; continuous state or action spaces.
 ### From TauCetiRoadmap.RegretMinimizationAndEquilibria
 
 - 1.2: the definition of `hedge η`, used in the remark of 4.3 only.
-
-## Provenance and prior work
-
-The Lean repository [rl-theory-in-lean](https://github.com/ShangtongZhang/rl-theory-in-lean)
-(MIT) formalizes finite MDPs, Q-learning and linear TD; its files contain no policy-gradient
-material. It is reference material, not the specification.
 
 ## References
 
