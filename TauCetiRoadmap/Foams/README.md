@@ -1,66 +1,82 @@
 # Roadmap: foams
 
-**Summary.** Develop gl(N) foams as used in the combinatorial construction of
-gl(N) link homology, following Robert–Wagner for evaluation and
-Goertz–Marino–Wedrich for monoidal 2-categories. Construct their graded state
-spaces, spatial duality, graphical calculus and canopolis, together with the
-oriented and unoriented Bar-Natan counterparts. The progressive gl(N) category
-has all ambient 2-morphisms between its permitted webs, and progressive foam
-expressions span those spaces. [Robert–Wagner][rw] · [Goertz–Marino–Wedrich][gmw]
+**Summary.** Link homologies of type A are built from webs and foams. A web is
+an oriented trivalent graph, possibly with vertex-free circles, whose edges
+carry natural-number labels; at each vertex one label is the sum of the other
+two. A foam is a cobordism between webs in which surfaces, called facets, meet
+three at a time along seams. This roadmap formalizes gl(N) foams, following
+[Robert–Wagner][rw] for their evaluation and [Goertz–Marino–Wedrich][gmw] for
+their monoidal 2-categories. It also builds the oriented and unoriented
+Bar-Natan theories, whose foams have no seams.
 
-## Scope and ownership
+Foams here are finite combinatorial records, not embedded surfaces. The rank N
+is a positive integer, and labels are unbounded. The gl(N) identities are
+proved over Λ_N = ℤ[e₁,…,e_N], with eᵢ in degree 2i, and then specialized,
+without field or characteristic-zero hypotheses. Robert–Wagner's evaluation
+sums over colorings, in which each facet of label a receives a set of a colors
+out of N. Its value is proved to lie in Λ_N; a foam with a facet labelled above
+N has no coloring and evaluates to zero. The state space of a web is the module
+spanned by decorated foams bounding it, modulo those that evaluate to zero
+against every closing foam.
 
-This is one of four roadmaps aimed at formalizing the functoriality of type A
-link homology. The components are web calculi and quantum-group representations,
-the foam theory developed here, geometric topology and movie presentations,
-and link homology with its functoriality. This roadmap supplies the raw web
-theory its constructions need. Web representation comparisons consume it.
+The first main result is reconstruction on compatibly planar webs, whose
+cyclic orders pass a combinatorial planarity test. In the evaluated category
+with finite sums and grading shifts adjoined, each such web is isomorphic to a
+finite sum of shifted copies of the empty web. Morphisms between such webs then
+correspond to Λ_N-linear maps of their state spaces. The pairing between
+bounding and closing foams is perfect, and the state space of a disjoint union
+is the tensor product over Λ_N. The decomposition rests on graded algebra: the
+image of a degree-zero idempotent on a finite sum of shifted copies of Λ_N has
+a finite homogeneous basis.
 
-A web is an oriented trivalent graph, including vertex-free circles. A
-prefoam is an abstract cobordism built from surface facets, seams and singular
-vertices. Define unlabelled webs first, prefoams bounding a specified web
-second, and closed prefoams as the empty-boundary case. Labelling systems
-assign decoration algebras to labels. Evaluation assigns a scalar to a closed
-decorated foam. The universal construction quotients fillings by all outgoing
-closing tests to obtain state modules. Nilvalent webs and prefoams have no
-vertices or seams. Their oriented and unoriented theories use commutative
-Frobenius algebras.
+The second describes circles. For 0 ≤ a ≤ N let A_(a,N) be
+Λ_N[c₁,…,c_a,b₁,…,b_(N−a)] modulo `Σ_(i+j=r) c_i b_j = e_r` for 1 ≤ r ≤ N,
+with c₀ = b₀ = 1: the algebraic presentation of equivariant Grassmannian
+cohomology. The Schur polynomials s_λ(c), for λ in the a × (N−a) rectangle,
+form a basis of A_(a,N) over Λ_N. There are binomial(N,a) of them, and s_λ has
+degree 2|λ|. For N = 2, a = 1 this is Λ₂[x]/(x² − e₁x + e₂), with basis 1, x.
+The state space of an a-labelled circle is the shift `A_(a,N){−a(N−a)}`, with
+its Frobenius structure given by the opening, closing and saddle foams.
 
-The required endpoints include the following constructions and comparisons.
+The third concerns the algebra behind the Bar-Natan theories: a commutative
+algebra A, finite free over a commutative ring R. If ε : A → R is linear and
+the pairing (a, b) ↦ ε(ab) is perfect, identifying A with its R-linear dual,
+then A has exactly one Frobenius coalgebra structure with counit ε. Over ℤ,
+perfectness is stronger than nondegeneracy: on ℤ[X]/(X²) the trace with
+ε(1) = 0 and ε(X) = 2 is nondegenerate but not perfect.
 
-- General labelled prefoam categories, the integral equivariant gl(N)
-  evaluation and both nilvalent evaluations, including their graded versions.
-- Abstract state spaces and, on compatibly planar web objects, decomposition
-  into shifted empty webs, perfect pairings and strong tensor comparison.
-  All admissible abstract foams remain available between these objects.
-- Reusable enriched semistrict monoidal 2-categories, formal shifts with the
-  full graded coefficient action, and the concrete gl(N) and Bar-Natan instances.
-- Spatial duality, explicit elementary abstract foams and their compiler,
-  progressive spanning, and functorial disk insertion with its comparisons.
+The fourth is a spanning theorem. In the gl(N) foam 2-category, 1-morphisms
+are webs, and 2-morphisms between parallel webs form a shifted state space of
+the closed web joining them. Progressive webs are built from upward strands,
+merges and splits, with no cups, caps or circles; the progressive
+sub-2-category keeps all 2-morphisms between them. Each is a finite linear
+combination of foams given by progressive expressions: composites of
+elementary foams, such as zips and blisters, whose intermediate webs are all
+progressive.
 
-Use the native chosen rank-two Frobenius algebra and circle tensors.
-KhovanovHomology K2 supplies the formal surface category modulo sphere,
-torus and four-tube relations.
-Its K3 closed-evaluation construction supplies the formal surface evaluation.
-Foams owns KH1 (grading, 1.4), KH2 (states, 2.13), KH3 (generators, 6.1)
-and KH4 (formal surfaces, 7.4), using these contracts. The general Frobenius
-theory and evaluated nilvalent categories are developed here. The exact
-remaining ownership boundaries appear in the supplier contracts below.
+This is one of four roadmaps aimed at the functoriality of type A link
+homology; the link-homology roadmap builds on the 2-categories, duality and
+spanning theorem built here. This roadmap takes from KhovanovHomology the formal
+surface category modulo the sphere, torus and four-tube relations, and compares
+it with the dual-number Bar-Natan theory. GeometricTopology gives the
+Schoenflies and isotopy-extension theorems used for disks with holes.
 
-Foams also constructs the unsigned symmetric monoidal structure on modules
-over an internally graded commutative coefficient ring, using the native
-graded-module category. Its circle algebras are monoid objects in this category.
+Layer 0 builds the records and algebraic foundations, and Layers 1 and 2 the
+evaluations and state spaces. Layer 3 develops general semistrict monoidal
+2-categories; Layers 4 and 5 build the foam 2-categories and their duality.
+Layer 6 compiles foam expressions and proves spanning; Layer 7 inserts webs and
+foams into planar disks with holes.
 
-The compiler interprets handcrafted abstract generators. Its inputs carry
-finite incidence data. Crossing complexes, Reidemeister equivalences, movie
-functoriality, embedded foam geometry, quantum-group representations, geometric
-Grassmannian cohomology and comparison with Soergel bimodules are outside this
-roadmap. The canopolis comparison concerns these concrete foam categories.
+## How to read the build
 
-Suggested home is `TauCeti/KnotTheory/Foam/`, with reusable categorical results
-under `TauCeti/CategoryTheory/`. The README specifies the mathematics.
-[Suggested.lean](Suggested.lean) states the expressible Frobenius-reconstruction,
-integral graded-freeness and circle-algebra Schur-basis headlines as acceptance tests.
+Layer 0 supplies finite records, decorations, Frobenius algebra and coefficient
+foundations. Layer 1 supplies evaluations and Layer 2 their states and planar
+reconstruction. Layer 3 develops the higher categorical interfaces independently
+of the evaluations. Layer 4 combines them, Layer 5 constructs duality, Layer 6
+interprets generators and proves progressive spanning, and Layer 7 adds disk
+insertion. The ordinary normalization comparison precedes the planar relations.
+KH1 → KH2 → KH3 → KH4 is an additional comparison chain. Each target lists
+its statement inputs and any additional inputs to the suggested proof route.
 
 ## Conventions
 
@@ -166,148 +182,6 @@ categorical lifts appear in Layer 2. The notation **gl(N)** specifies the
 general linear type A theory with evaluation rank N; it does not impose a bound
 on raw labels. **Equivariant** evaluation retains the symmetric parameters eᵢ;
 the nonequivariant specialization sends them to zero.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Use `CategoryTheory.Bicategory`, `CategoryTheory.Bicategory.Strict`,
-  bicategorical adjunctions and their triangle/composition laws for the
-  underlying 2-category. Use the ordinary monoidal opposite and standard rigid
-  mates for ordinary-category comparisons. Higher spatial duality is developed
-  in Layer 5. [Bicategories][ml-bicat] · [Monoidal opposites][ml-opp]
-- Use `CategoryTheory.Preadditive`, `CategoryTheory.Linear`, linear quotients,
-  finite additive envelopes and idempotent completions for the corresponding
-  ordinary constructions. `CategoryTheory.MonoidalLinear` supplies linearity
-  of an ordinary monoidal category. Layer 3 specifies the higher operations.
-  [Linear categories][ml-linear] · [Linear quotients][ml-quotient]
-- Use integer-graded objects and their convolution tensor when the required
-  coproducts and preservation hypotheses hold, and use enriched ordinary
-  categories, shifts and shifted homs for their stated interfaces.
-  [Graded objects][ml-graded] · [Enriched categories][ml-enriched] · [Shifts][ml-shift]
-- Use native module bases, linear maps, submodules, quotients and tensor products.
-  `LinearMap.IsPerfPair` expresses perfectness, and `Coalgebra.IsFrobenius`
-  expresses the Frobenius law. Section 0.8 constructs the trace-to-coalgebra
-  comparison over finite free commutative algebras. [Perfect pairings][ml-pairing]
-  · [Frobenius coalgebras][ml-frobenius]
-- Use the symmetric-polynomial invariant ring and its fundamental theorem,
-  weighted homogeneous submodules and polynomial grading for the coefficient
-  and decoration rings. [Symmetric polynomials][ml-symmetric]
-
-### From Tau Ceti
-
-- Use `TauCeti.MorphismIdeal`, its quotient, quotient functor, zero criterion
-  and lift, together with the additive quotient infrastructure.
-  `TauCeti.MonoidalIdeal`, `TauCeti.MonoidalQuotient` and
-  `TauCeti.toMonoidalQuotient` supply tensor ideals and monoidal quotient descent
-  for monoidal preadditive categories, with linear descent when the source is
-  monoidal linear. Prove tensor stability of the foam ideals here.
-  [Morphism ideals and quotients][tc-ideal] · [Monoidal quotients][tc-monoidal-quotient]
-- Use `CategoryTheory.Mat_.instMonoidalCategory` for the monoidal structure on
-  the finite additive envelope of a monoidal preadditive category, and
-  `CategoryTheory.Idempotents.Karoubi.instMonoidalCategory` for the monoidal
-  idempotent completion of a monoidal category, together with their strong
-  monoidal embeddings. [Additive envelopes][tc-monoidal-mat]
-  · [Idempotent completions][tc-monoidal-karoubi]
-- `CategoryTheory.ExactPairing.rightMate` and
-  `CategoryTheory.ExactPairing.leftMate` take explicit chosen pairings.
-  `TauCeti.rightDualFunctorMonoidal` and `TauCeti.doubleRightDualFunctor`
-  supply monoidal dual functors for right rigid categories.
-  `TauCeti.PivotalCategory`, `TauCeti.pivotalExactPairing`, `TauCeti.leftTrace`
-  and `TauCeti.rightTrace` supply ordinary pivotal structure and traces on
-  rigid categories. Match these interfaces with the chosen foam pairings;
-  the higher spatial duality is constructed in Layer 5.
-  [Chosen-pairing mates][tc-mates] · [Dual functors][tc-dual-functors]
-  · [Pivotal categories][tc-pivotal] · [Traces][tc-traces]
-- The graded-module category and its shifts supply internally graded modules
-  with degree-preserving maps. Use `TauCeti.GradedModuleCat.shiftFunctor`,
-  `TauCeti.GradedModuleCat.shiftFunctorZeroIso` and
-  `TauCeti.GradedModuleCat.shiftFunctorAddIso` for shifts and their comparisons.
-  Its abelian structure supplies finite biproducts, constructed from
-  `TauCeti.GradedModuleCat.directSumObj`. Its projectivity interface transfers underlying
-  projectivity to categorical projectivity. Its bounded-below graded Nakayama
-  theorem supplies generation from the positive-degree quotient. Sections 0.10
-  and 2.8 specify the additional tensor and homogeneous-basis results needed
-  here. [Graded modules][tc-graded] · [Shifts][tc-graded-shift] · [Finite sums][tc-graded-abelian]
-  · [Projectivity][tc-projective] · [Nakayama][tc-nakayama]
-- `TauCeti.InternalGrading.tensorProduct` supplies the total grading of a tensor
-  product over a degree-zero base, with `TauCeti.InternalGrading.tmul_mem_tensorProduct`
-  and `TauCeti.InternalGrading.isHomogeneous_assoc_symm` for pure tensors and
-  reassociation. Section 0.10 constructs the balanced tensor over a graded base
-  and its unsigned symmetric monoidal structure. [Graded tensor products][tc-graded-tensor]
-- `LinearMap.IsFrobeniusFunctional` means that the trace pairing is nondegenerate.
-  Section 0.8 requires a perfect pairing over a commutative ring.
-  `LinearMap.IsFrobeniusFunctional.isPerfPair` identifies these conditions for
-  finite-dimensional algebras over a field. [Frobenius functionals][tc-frobenius]
-- For Section 0.8 and KH1, use `TauCeti.Khovanov.coalgebra`,
-  `TauCeti.Khovanov.isFrobenius`, `TauCeti.Khovanov.mul_compr₂_counit` and
-  `TauCeti.Khovanov.baseChangeCoalgEquiv` for the chosen dual-number coalgebra,
-  its Frobenius law, perfect trace pairing and base-change comparison. For KH2,
-  use `TauCeti.Khovanov.CircleTensor`, `TauCeti.Khovanov.circleBasis` and
-  `TauCeti.Khovanov.circleQuantumGrading` for finite circle tensors and their
-  graded bases. [Khovanov Frobenius algebra][tc-khov-frobenius]
-  · [Circle tensors][tc-khov-circles]
-- `TauCeti.hsymm_mul_diagramSchurPoly` and `TauCeti.hsymm_mul_schurPoly`
-  give the complete-symmetric Pieri rule; `TauCeti.esymm_mul_diagramSchurPoly`
-  and `TauCeti.esymm_mul_schurPoly` give the elementary-symmetric rule.
-  `TauCeti.schurPolyBasis` and `TauCeti.coe_schurPolyBasis` supply the Schur
-  basis of symmetric homogeneous polynomials in a finite alphabet over a
-  commutative ring. `TauCeti.diagramSchurPoly_eq_det_esymmInt` gives dual
-  Jacobi–Trudi when the determinant size is at least the diagram's number of
-  columns. Section 2.11 constructs the rectangular basis in the circle-algebra
-  quotient and its pairing. [Pieri rules][tc-pieri] · [Schur bases][tc-schur-basis]
-  · [Dual Jacobi–Trudi][tc-dual-jt]
-- `TauCeti.PermutationTriple.ribbonGraph`,
-  `TauCeti.PermutationTriple.facePerm_ribbonGraph` and
-  `TauCeti.PermutationTriple.isConnected_ribbonGraph` compare permutation triples
-  with bipartite ribbon graphs, preserving faces and connectedness.
-  `TauCeti.BipartiteRibbonGraph.toPermutationTriple` gives the reverse construction
-  after numbering the edges. Use `TauCeti.BipartiteRibbonGraph.eulerChar_toPermutationTriple`,
-  `TauCeti.BipartiteRibbonGraph.even_eulerChar` and
-  `TauCeti.BipartiteRibbonGraph.IsConnected.eulerChar_le_two` for the Euler-count
-  comparison, parity and connected upper bound. Section 2.4 constructs the
-  trivalent-web adapter, subdivision comparison and vertex-free-circle cases.
-  [Permutation triples][tc-permutations] · [Bipartite ribbon graphs][tc-ribbon]
-  · [Forward comparison][tc-ribbon-forward] · [Reverse comparison][tc-ribbon-reverse]
-  · [Euler characteristic][tc-ribbon-euler]
-- `TauCeti.SpanningTreeContraction`, `TauCeti.nonempty_spanningTreeContraction` and
-  `TauCeti.SpanningTreeContraction.isNoncrossingMatching_permCongr_matching_iff`
-  apply to a rotation and an edge involution on a nonempty connected finite set
-  of darts. They contract a spanning tree to a one-vertex chord diagram with the
-  same boundary cycles and characterize Euler equality by noninterleaving of its
-  bands after cyclic numbering. `Equiv.Perm.IsNoncrossingMatching` specifies that
-  condition, and `TauCeti.orbitCount_finRotate_mul_add_orbitCount_add_two_le`
-  bounds the boundary-cycle count when two bands interleave.
-  `TauCeti.PDCode.IsPlanar`, defined using `TauCeti.PDCode.toPermutationTriple`,
-  is the four-valent specialization; `TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`
-  gives its chord criterion for connected codes.
-  [Spanning-tree contraction][tc-ribbon-contraction] · [Chord diagrams][tc-chord]
-  · [PD-code planarity][tc-pd-planar] · [PD-code chord criterion][tc-pd-chord]
-
-### From other roadmaps
-
-| Supplier and section | Contract consumed | Foams construction |
-| --- | --- | --- |
-| [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, formal surface category and relations, and closed evaluation | Planar web calculus in 0.9 and 2.4, disk diagrams in 7.2, and the formal-surface comparison KH4 |
-| [TemperleyLieb, Layer 2][tl] | Ordinary monoidal presentations and their interpretation property | The planar web-presentation infrastructure of 0.9 |
-| [KhovanovHomology, G][khovanov-geometry] | Finite plane realizations, polygonal complement and boundary-orientation dictionaries, controlled smoothing and relative extension | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
-| [GeometricTopology, 2.2][geometric-schoenflies] and [3.3][geometric-isotopy] | Boundary-parametrized Schoenflies and relative isotopy extension with their collar and regularity hypotheses | Prove the interior-arc and boundary-relative disk-with-holes comparisons in Layer 7 |
-
-The general constructions in these supplier contracts retain their owners.
-Closed-web planarity uses the permutation-triple and ribbon-graph interfaces
-listed under From Tau Ceti. Layer 7 additionally
-constructs the relative-boundary comparisons required by its disk operations.
-
-## How to read the build
-
-Layer 0 supplies finite records, decorations, Frobenius algebra and coefficient
-foundations. Layer 1 supplies evaluations and Layer 2 their states and planar
-reconstruction. Layer 3 develops the higher categorical interfaces independently
-of the evaluations. Layer 4 combines them, Layer 5 constructs duality, Layer 6
-interprets generators and proves progressive spanning, and Layer 7 adds disk
-insertion. The ordinary normalization comparison precedes the planar relations.
-KH1 → KH2 → KH3 → KH4 is an additional comparison chain. Each target lists
-its statement inputs and any additional inputs to the suggested proof route.
 
 ## Layer 0: unlabelled prefoams, labelling and linearization
 
@@ -2795,6 +2669,191 @@ topological input. None of those downstream constructions is a prerequisite.
 The KhovanovHomology comparison chain is KH1 → KH2 → KH3 → KH4. It exports
 the specified grading, circle states, elementary maps and formal-surface
 interpretation, without assuming a link complex or movie-functoriality theorem.
+
+## Scope and ownership
+
+This is one of four roadmaps aimed at formalizing the functoriality of type A
+link homology. The components are web calculi and quantum-group representations,
+the foam theory developed here, geometric topology and movie presentations,
+and link homology with its functoriality. This roadmap supplies the raw web
+theory its constructions need. Web representation comparisons consume it.
+
+A web is an oriented trivalent graph, including vertex-free circles. A
+prefoam is an abstract cobordism built from surface facets, seams and singular
+vertices. Define unlabelled webs first, prefoams bounding a specified web
+second, and closed prefoams as the empty-boundary case. Labelling systems
+assign decoration algebras to labels. Evaluation assigns a scalar to a closed
+decorated foam. The universal construction quotients fillings by all outgoing
+closing tests to obtain state modules. Nilvalent webs and prefoams have no
+vertices or seams. Their oriented and unoriented theories use commutative
+Frobenius algebras.
+
+The required endpoints include the following constructions and comparisons.
+
+- General labelled prefoam categories, the integral equivariant gl(N)
+  evaluation and both nilvalent evaluations, including their graded versions.
+- Abstract state spaces and, on compatibly planar web objects, decomposition
+  into shifted empty webs, perfect pairings and strong tensor comparison.
+  All admissible abstract foams remain available between these objects.
+- Reusable enriched semistrict monoidal 2-categories, formal shifts with the
+  full graded coefficient action, and the concrete gl(N) and Bar-Natan instances.
+- Spatial duality, explicit elementary abstract foams and their compiler,
+  progressive spanning, and functorial disk insertion with its comparisons.
+
+Use the native chosen rank-two Frobenius algebra and circle tensors.
+KhovanovHomology K2 supplies the formal surface category modulo sphere,
+torus and four-tube relations.
+Its K3 closed-evaluation construction supplies the formal surface evaluation.
+Foams owns KH1 (grading, 1.4), KH2 (states, 2.13), KH3 (generators, 6.1)
+and KH4 (formal surfaces, 7.4), using these contracts. The general Frobenius
+theory and evaluated nilvalent categories are developed here. The exact
+remaining ownership boundaries appear in the supplier contracts below.
+
+Foams also constructs the unsigned symmetric monoidal structure on modules
+over an internally graded commutative coefficient ring, using the native
+graded-module category. Its circle algebras are monoid objects in this category.
+
+The compiler interprets handcrafted abstract generators. Its inputs carry
+finite incidence data. Crossing complexes, Reidemeister equivalences, movie
+functoriality, embedded foam geometry, quantum-group representations, geometric
+Grassmannian cohomology and comparison with Soergel bimodules are outside this
+roadmap. The canopolis comparison concerns these concrete foam categories.
+
+Suggested home is `TauCeti/KnotTheory/Foam/`, with reusable categorical results
+under `TauCeti/CategoryTheory/`. The README specifies the mathematics.
+[Suggested.lean](Suggested.lean) states the expressible Frobenius-reconstruction,
+integral graded-freeness and circle-algebra Schur-basis headlines as acceptance tests.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Use `CategoryTheory.Bicategory`, `CategoryTheory.Bicategory.Strict`,
+  bicategorical adjunctions and their triangle/composition laws for the
+  underlying 2-category. Use the ordinary monoidal opposite and standard rigid
+  mates for ordinary-category comparisons. Higher spatial duality is developed
+  in Layer 5. [Bicategories][ml-bicat] · [Monoidal opposites][ml-opp]
+- Use `CategoryTheory.Preadditive`, `CategoryTheory.Linear`, linear quotients,
+  finite additive envelopes and idempotent completions for the corresponding
+  ordinary constructions. `CategoryTheory.MonoidalLinear` supplies linearity
+  of an ordinary monoidal category. Layer 3 specifies the higher operations.
+  [Linear categories][ml-linear] · [Linear quotients][ml-quotient]
+- Use integer-graded objects and their convolution tensor when the required
+  coproducts and preservation hypotheses hold, and use enriched ordinary
+  categories, shifts and shifted homs for their stated interfaces.
+  [Graded objects][ml-graded] · [Enriched categories][ml-enriched] · [Shifts][ml-shift]
+- Use native module bases, linear maps, submodules, quotients and tensor products.
+  `LinearMap.IsPerfPair` expresses perfectness, and `Coalgebra.IsFrobenius`
+  expresses the Frobenius law. Section 0.8 constructs the trace-to-coalgebra
+  comparison over finite free commutative algebras. [Perfect pairings][ml-pairing]
+  · [Frobenius coalgebras][ml-frobenius]
+- Use the symmetric-polynomial invariant ring and its fundamental theorem,
+  weighted homogeneous submodules and polynomial grading for the coefficient
+  and decoration rings. [Symmetric polynomials][ml-symmetric]
+
+### From Tau Ceti
+
+- Use `TauCeti.MorphismIdeal`, its quotient, quotient functor, zero criterion
+  and lift, together with the additive quotient infrastructure.
+  `TauCeti.MonoidalIdeal`, `TauCeti.MonoidalQuotient` and
+  `TauCeti.toMonoidalQuotient` supply tensor ideals and monoidal quotient descent
+  for monoidal preadditive categories, with linear descent when the source is
+  monoidal linear. Prove tensor stability of the foam ideals here.
+  [Morphism ideals and quotients][tc-ideal] · [Monoidal quotients][tc-monoidal-quotient]
+- Use `CategoryTheory.Mat_.instMonoidalCategory` for the monoidal structure on
+  the finite additive envelope of a monoidal preadditive category, and
+  `CategoryTheory.Idempotents.Karoubi.instMonoidalCategory` for the monoidal
+  idempotent completion of a monoidal category, together with their strong
+  monoidal embeddings. [Additive envelopes][tc-monoidal-mat]
+  · [Idempotent completions][tc-monoidal-karoubi]
+- `CategoryTheory.ExactPairing.rightMate` and
+  `CategoryTheory.ExactPairing.leftMate` take explicit chosen pairings.
+  `TauCeti.rightDualFunctorMonoidal` and `TauCeti.doubleRightDualFunctor`
+  supply monoidal dual functors for right rigid categories.
+  `TauCeti.PivotalCategory`, `TauCeti.pivotalExactPairing`, `TauCeti.leftTrace`
+  and `TauCeti.rightTrace` supply ordinary pivotal structure and traces on
+  rigid categories. Match these interfaces with the chosen foam pairings;
+  the higher spatial duality is constructed in Layer 5.
+  [Chosen-pairing mates][tc-mates] · [Dual functors][tc-dual-functors]
+  · [Pivotal categories][tc-pivotal] · [Traces][tc-traces]
+- The graded-module category and its shifts supply internally graded modules
+  with degree-preserving maps. Use `TauCeti.GradedModuleCat.shiftFunctor`,
+  `TauCeti.GradedModuleCat.shiftFunctorZeroIso` and
+  `TauCeti.GradedModuleCat.shiftFunctorAddIso` for shifts and their comparisons.
+  Its abelian structure supplies finite biproducts, constructed from
+  `TauCeti.GradedModuleCat.directSumObj`. Its projectivity interface transfers underlying
+  projectivity to categorical projectivity. Its bounded-below graded Nakayama
+  theorem supplies generation from the positive-degree quotient. Sections 0.10
+  and 2.8 specify the additional tensor and homogeneous-basis results needed
+  here. [Graded modules][tc-graded] · [Shifts][tc-graded-shift] · [Finite sums][tc-graded-abelian]
+  · [Projectivity][tc-projective] · [Nakayama][tc-nakayama]
+- `TauCeti.InternalGrading.tensorProduct` supplies the total grading of a tensor
+  product over a degree-zero base, with `TauCeti.InternalGrading.tmul_mem_tensorProduct`
+  and `TauCeti.InternalGrading.isHomogeneous_assoc_symm` for pure tensors and
+  reassociation. Section 0.10 constructs the balanced tensor over a graded base
+  and its unsigned symmetric monoidal structure. [Graded tensor products][tc-graded-tensor]
+- `LinearMap.IsFrobeniusFunctional` means that the trace pairing is nondegenerate.
+  Section 0.8 requires a perfect pairing over a commutative ring.
+  `LinearMap.IsFrobeniusFunctional.isPerfPair` identifies these conditions for
+  finite-dimensional algebras over a field. [Frobenius functionals][tc-frobenius]
+- For Section 0.8 and KH1, use `TauCeti.Khovanov.coalgebra`,
+  `TauCeti.Khovanov.isFrobenius`, `TauCeti.Khovanov.mul_compr₂_counit` and
+  `TauCeti.Khovanov.baseChangeCoalgEquiv` for the chosen dual-number coalgebra,
+  its Frobenius law, perfect trace pairing and base-change comparison. For KH2,
+  use `TauCeti.Khovanov.CircleTensor`, `TauCeti.Khovanov.circleBasis` and
+  `TauCeti.Khovanov.circleQuantumGrading` for finite circle tensors and their
+  graded bases. [Khovanov Frobenius algebra][tc-khov-frobenius]
+  · [Circle tensors][tc-khov-circles]
+- `TauCeti.hsymm_mul_diagramSchurPoly` and `TauCeti.hsymm_mul_schurPoly`
+  give the complete-symmetric Pieri rule; `TauCeti.esymm_mul_diagramSchurPoly`
+  and `TauCeti.esymm_mul_schurPoly` give the elementary-symmetric rule.
+  `TauCeti.schurPolyBasis` and `TauCeti.coe_schurPolyBasis` supply the Schur
+  basis of symmetric homogeneous polynomials in a finite alphabet over a
+  commutative ring. `TauCeti.diagramSchurPoly_eq_det_esymmInt` gives dual
+  Jacobi–Trudi when the determinant size is at least the diagram's number of
+  columns. Section 2.11 constructs the rectangular basis in the circle-algebra
+  quotient and its pairing. [Pieri rules][tc-pieri] · [Schur bases][tc-schur-basis]
+  · [Dual Jacobi–Trudi][tc-dual-jt]
+- `TauCeti.PermutationTriple.ribbonGraph`,
+  `TauCeti.PermutationTriple.facePerm_ribbonGraph` and
+  `TauCeti.PermutationTriple.isConnected_ribbonGraph` compare permutation triples
+  with bipartite ribbon graphs, preserving faces and connectedness.
+  `TauCeti.BipartiteRibbonGraph.toPermutationTriple` gives the reverse construction
+  after numbering the edges. Use `TauCeti.BipartiteRibbonGraph.eulerChar_toPermutationTriple`,
+  `TauCeti.BipartiteRibbonGraph.even_eulerChar` and
+  `TauCeti.BipartiteRibbonGraph.IsConnected.eulerChar_le_two` for the Euler-count
+  comparison, parity and connected upper bound. Section 2.4 constructs the
+  trivalent-web adapter, subdivision comparison and vertex-free-circle cases.
+  [Permutation triples][tc-permutations] · [Bipartite ribbon graphs][tc-ribbon]
+  · [Forward comparison][tc-ribbon-forward] · [Reverse comparison][tc-ribbon-reverse]
+  · [Euler characteristic][tc-ribbon-euler]
+- `TauCeti.SpanningTreeContraction`, `TauCeti.nonempty_spanningTreeContraction` and
+  `TauCeti.SpanningTreeContraction.isNoncrossingMatching_permCongr_matching_iff`
+  apply to a rotation and an edge involution on a nonempty connected finite set
+  of darts. They contract a spanning tree to a one-vertex chord diagram with the
+  same boundary cycles and characterize Euler equality by noninterleaving of its
+  bands after cyclic numbering. `Equiv.Perm.IsNoncrossingMatching` specifies that
+  condition, and `TauCeti.orbitCount_finRotate_mul_add_orbitCount_add_two_le`
+  bounds the boundary-cycle count when two bands interleave.
+  `TauCeti.PDCode.IsPlanar`, defined using `TauCeti.PDCode.toPermutationTriple`,
+  is the four-valent specialization; `TauCeti.PDCode.isPlanar_iff_isNoncrossingMatching`
+  gives its chord criterion for connected codes.
+  [Spanning-tree contraction][tc-ribbon-contraction] · [Chord diagrams][tc-chord]
+  · [PD-code planarity][tc-pd-planar] · [PD-code chord criterion][tc-pd-chord]
+
+### From other roadmaps
+
+| Supplier and section | Contract consumed | Foams construction |
+| --- | --- | --- |
+| [KhovanovHomology, K1–K2 and K3 closed evaluation][khovanov] | Finite planar calculus, formal surface category and relations, and closed evaluation | Planar web calculus in 0.9 and 2.4, disk diagrams in 7.2, and the formal-surface comparison KH4 |
+| [TemperleyLieb, Layer 2][tl] | Ordinary monoidal presentations and their interpretation property | The planar web-presentation infrastructure of 0.9 |
+| [KhovanovHomology, G][khovanov-geometry] | Finite plane realizations, polygonal complement and boundary-orientation dictionaries, controlled smoothing and relative extension | Relative-boundary disk diagrams, collar transport and insertion in Layer 7 |
+| [GeometricTopology, 2.2][geometric-schoenflies] and [3.3][geometric-isotopy] | Boundary-parametrized Schoenflies and relative isotopy extension with their collar and regularity hypotheses | Prove the interior-arc and boundary-relative disk-with-holes comparisons in Layer 7 |
+
+The general constructions in these supplier contracts retain their owners.
+Closed-web planarity uses the permutation-triple and ribbon-graph interfaces
+listed under From Tau Ceti. Layer 7 additionally
+constructs the relative-boundary comparisons required by its disk operations.
 
 ## References
 

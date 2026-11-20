@@ -1,130 +1,80 @@
 # Roadmap: derived de Rham cohomology
 
-**Summary.** This roadmap constructs the ordinary algebraic de Rham complex `DeRham.complex`
-on Mathlib's Kähler and exterior-power carriers and derived de Rham cohomology with its Hodge
-and conjugate filtrations. It develops André–Quillen criteria, filtered completion, divided powers
-and PD envelopes, derived Cartier theory, quasisyntomic descent, proper smooth control and the
-derived description of Fontaine's period rings `A_cris` and `B_dR⁺`. Its logarithmic period
-calculation constructs the canonical comparison data and identifies Fontaine's map `ε ↦ log [ε]`.
-The module cotangent, power and completion operations are supplied by DerivedModuleAlgebra.
+**Summary.** The algebraic de Rham complex of a ring map A → B, built from Kähler differentials,
+behaves well when B is smooth over A. For a singular algebra the modules of differentials lose the
+relations that define it, while the cotangent complex and its derived exterior powers record them.
+Derived de Rham cohomology resolves B by polynomial A-algebras, takes the de Rham complex of each
+and totalizes. The result, dR(B/A), is independent of the resolution up to canonical
+quasi-isomorphism. It carries a decreasing Hodge filtration and an increasing conjugate filtration.
+This roadmap constructs the ordinary and derived de Rham complexes, their filtrations and
+completions, and the divided powers they require. It uses them to describe Fontaine's period rings
+`A_cris` and `B_dR⁺`. Rings are commutative and unital.
 
-Derived de Rham cohomology extends differential algebra to singular rings. Its cotangent and power
-operations record relations that ordinary differential modules lose. In characteristic p the
-conjugate filtration links these operations to Cartier theory; under precise flatness and
-complete-intersection hypotheses the resulting complex recovers crystalline cohomology. Completion
-and descent then make these constructions usable on p-adic formal schemes and in period
-comparisons. The main sources are Bhatt's *p-adic derived de Rham cohomology* [Bhatt12],
-Bhatt–Morrow–Scholze's *Topological Hochschild homology and integral p-adic Hodge theory* [BMS19],
-the appendices of Bhatt–Lurie's *Absolute prismatic cohomology* [BL22], Koshikawa–Yao's
-*Logarithmic prismatic cohomology II* [KY], the Stacks Project chapters on the cotangent complex and
-derived completion, and Lurie's *Spectral Algebraic Geometry* §25.2 [SAG] for derived power
-functors.
+The first main results compute the graded pieces of both filtrations. For every ring map A → B, the
+i-th Hodge graded piece is the i-th derived exterior power of the cotangent complex of B over A,
+shifted by [−i]. For example, if f ∈ A is regular and B = A/(f), it is the divided power
+Γⁱ((f)/(f²)) of the conormal module, in degree zero. For every map A → B of 𝔽ₚ-algebras, a derived
+Cartier isomorphism identifies the i-th conjugate graded piece with the same construction for B⁽¹⁾
+over A. Here B⁽¹⁾ is the derived base change of B along the Frobenius of A.
 
-Every derived object of this roadmap has an explicit strict model: a simplicial polynomial resolution,
-the alternating face complex of a simplicial module, the direct-sum or product totalization of a
-bicomplex, a diagram of complexes indexed by `ℤᵒᵖ`, or an inverse limit of a tower of complexes.
-Statements are made in Mathlib's `DerivedCategory` of the relevant abelian category. Affine
-multiplicative structure is the strict commutative differential graded algebra structure of the model
-(the shuffle product of 2.22). Global objects (Čech totalizations over schemes, formal schemes and
-quasisyntomic sites, and crystalline cohomology) carry cup products instead: maps `K ⊗^L_A K → K` in
-`D(A)`, with filtered versions in `DF(A)`, that are associative, unital and graded-commutative in the
-derived category. This is the form of the ringed-site cup product ([StacksSites] §21.33, Lemmas
-21.33.1–21.33.3; Tags 0FPK, 0FPL, 0FPM) used by CrystallineCohomology *Crystalline cup products*.
-The Alexander–Whitney product on the totalization of a cosimplicial commutative dg algebra is not strictly
-commutative, so no strict global dg algebra is asserted; 5.8 states the adapter from the affine models
-to the cup-product target. The [suggested Lean file](Suggested.lean) states the p-basis theorem,
-Bhatt's flatness criteria, Ext in the category of complexes, canonical divided powers on an augmentation ideal,
-and universal PD envelope existence and its regular-immersion presentation. Its module docstring
-identifies the missing objects needed to state the derived, descent and period headline results;
-every construction is specified by the owning roadmap.
+The second group compares derived with ordinary de Rham cohomology. For a map A → B of ℚ-algebras
+the uncompleted derived complex collapses to A: for ℚ[t, t⁻¹] over ℚ it is ℚ, although ordinary de
+Rham cohomology has H¹ = ℚ·dt/t. Completing along the Hodge filtration repairs this. For every
+smooth finitely presented map, the Hodge-completed derived complex is the ordinary de Rham complex.
+For a smooth map of ℤ/pⁿ-algebras with n ≥ 1, no completion is needed. These identifications
+preserve Hodge filtrations and products.
 
-## Scope and ownership
+The third group concerns p-adic periods. Let k be a perfect field of characteristic p, K a finite
+extension of W(k)[1/p], and C the completion of an algebraic closure K̄ of K. Here `A_cris` is the
+p-adic completion of the divided power envelope of the kernel of Fontaine's homomorphism θ from the
+Witt vectors of the tilt of the valuation ring of C onto that ring. The p-completed derived de Rham
+complex of the ring of integers of K̄ over W(k) is `A_cris`. Its Hodge filtration is the completed
+divided power filtration, and the identification preserves Frobenius and the Galois action.
+Inverting p in each Hodge quotient before passing to the limit gives `B_dR⁺`.
 
-This roadmap owns André–Quillen homology and its local complete-intersection and regularity
-criteria; algebraization, simplicial square-zero lifting and the adic perfect-system adapter;
-filtered derived categories, completion, completed tensor products and the Beilinson t-structure;
-divided powers, relative PD polynomial algebras, regular envelopes, their completions and `A_cris`;
-the ordinary algebraic de Rham complex with its differential-symbol presentation, pullback and
-universal property; derived de Rham with its Hodge and conjugate filtrations, completions and
-base-linear sheaf realizations; derived Cartier theory, PD conjugate filtrations, quasisyntomic
-sites and descent, period-ring descriptions and proper smooth control. Section 6.20 owns the shared
-free-prelog, Gabber log cotangent and log derived de Rham constructors and their canonical period
-specialization used by §6.21.
+The last main theorem recovers Fontaine's map ε ↦ log[ε] from logarithmic differentials. Here ε runs
+over ℤₚ(1), the compatible systems of pⁿ-th roots of unity in C, and log[ε] is the convergent
+logarithm of its Teichmüller lift. Logarithmic derived de Rham cohomology of the ring of integers of
+K̄, with the log structure of its nonzero elements, turns the d log of roots of unity into a
+Galois-equivariant map β from ℤₚ(1) to Fil¹ `A_cris`. The theorem is β(ε) = log[ε]. The two maps
+agree on the first graded piece, and their difference, an equivariant map into Fil² `A_cris`,
+vanishes by Tate's theorem that the nonzero Tate twists of C have no Galois invariants.
 
-It uses, without restating:
+The roadmap builds on [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) for polynomial
+resolutions, the cotangent complex and derived completion of modules.
+[PerfectoidSpaces](../PerfectoidSpaces/README.md) supplies perfectoid fields and the principal
+kernel of θ, and [PadicPeriodRings](../PadicPeriodRings/README.md) the structure of `B_dR⁺` and
+Tate's theorem. The main user is CrystallineCohomology, which builds the comparisons with
+crystalline cohomology on this roadmap's results. Prismatic cohomology lies outside this roadmap and
+is built on it.
 
-- **DGAInfinity** Layer 1 for unital cochain DG algebras, DG algebra morphisms, tensor products
-  and their Koszul signs; strict affine models use this carrier with the graded-commutativity
-  and odd-square-zero predicates of 2.21.
-- **EnhancedDerivedSheaves** §§0.1–0.3 for `ClassicalDerived.enhancedCategory`,
-  `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom` and `ClassicalDerived.inverseLimits`
-  on small ringed sites. EnhancedDerivedSheaves §E1.F3.H1 identifies module derived Hom with
-  the point-site enhancement, and §E1.8.DMA.1 supplies the affine tensor comparison;
-  §5.8 here supplies the base-linear sheaf and filtration adapters.
-- **EnhancedDerivedSheaves** §E1.4 for `enhancedPullback` and `enhancedPushforward` on ringed topoi,
-  used for the base-linear sheaf realization of §5.8.
-- **PadicPeriodRings** §§1.1–1.5 for `completedGaloisAction`, `padicComplex_fixed_eq`,
-  the finite-`K` case of `tateSen_H0` and *The de Rham period rings* for finite extensions of `ℚ_p`.
-  **PadicPeriodRings** §2 supplies `PadicFieldCompletion` and
-  `tateSen_H0` for arbitrary perfect residue fields, and §4.1 `generalBasePeriodRings`
-  supplies their period structures. Sections 5.11 and 5.14 identify these supplied interfaces with
-  the period setup; §§5.12–5.15 supply the derived-de-Rham/PD-filtered `A_cris` comparison
-  and its `Fil²` vanishing consequence. Its §3 `periodPDEnvelope` owns the ordinary principal
-  envelope and completed carrier on `O_C`; §PD.7 identifies the general envelope with that
-  carrier, and §5.13 identifies the two maps into its §4.1 de Rham period carrier.
-- **DerivedModuleAlgebra** §1.T.1 / *lim and lim¹ of a tower*, *The six-term sequence of lim
-  and lim¹*, *The Milnor sequence for towers of complexes* and *Mittag-Leffler towers have
-  vanishing lim¹* for the tower calculations underlying DerivedModuleAlgebra §1.1.
-- **DerivedModuleAlgebra** §§0.DP.2–0.DP.3 supplies the homogeneous divided-power grading,
-  base change, augmentation and base-ideal intersection. Layer PD here supplies divided powers
-  on generators and compatible sums, principal and flat extension, weighted filtrations,
-  relative PD polynomial algebras, regular envelopes, their completions and `A_cris`.
-- **PerfectoidSpaces** for integral perfectoid rings `IsIntegralPerfectoid` (§P1.24) and their
-  comparison with perfectoid Tate rings (§P1.25), Fontaine's `θ` and its principal primitive kernel
-  (§P1.17–§P1.18), perfectoid fields (§P1.10–§P1.11), and
-  `isPerfectoidField_of_isAlgClosed` (§P3.7) for complete algebraically closed nontrivially valued
-  fields of residue characteristic `p`. Its §P4.15.1
-  `semiperfectoidFiniteIdealDescent` supplies module models over simplicial bases for 1.11.1,
-  using DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9.
-- **SchemeAndStackFoundations** for the derived categories of quasi-coherent complexes on schemes
-  (§2.18), used for cotangent powers and Hodge graded pieces, Néron–Popescu desingularization (§0.15)
-  and the formal spectrum of an adic ring with its
-  adic thickening systems (§4.7).
-- **DerivedModuleAlgebra** for the Koszul complex of a finite sequence with its tensor
-  formula and regular-sequence resolution (§0.K.1) and for the homogeneous pieces `Γ^d` of Mathlib's
-  divided power algebra with their base change (§0.DP.2).
-- **EnhancedDerivedSheaves** §E1.9 (`perfect_proper_pushforward`) for perfectness and
-  arbitrary base change of proper finitely presented pushforward of target-flat finitely presented
-  modules, and DerivedModuleAlgebra §1.E.1
-  `perfectInverseSystemEffectivity` for compatible perfect systems; 1.13 supplies its adic adapter.
-- Mathlib and Tau Ceti for the carriers listed under *Exact supplier contracts*.
+The layers follow the order of construction. Layer 0 proves André–Quillen criteria: for example, a
+flat finitely presented map is a local complete intersection exactly when its cotangent complex is
+perfect of Tor amplitude [−1, 0]. Layers 1 and PD treat completion and divided powers. Layers 2 to 4
+construct the de Rham complexes, their filtrations and Cartier theory. Layers 5 and 6 develop
+quasisyntomic descent and prove the period results. The [suggested Lean file](Suggested.lean) states
+headline results that need only Mathlib's objects; its docstring names what the others need.
 
-Boundaries with neighbouring roadmaps:
+## How to read the build
 
-- DerivedModuleAlgebra §§0.1–0.17, 0.25 and 1.1–1.9 owns module derived tensor, the full
-  cotangent complex `Algebra.CotangentComplex`, its square-zero obstruction class, integral
-  derived powers, module limits, ideal completion and complete flatness. PerfectoidSpaces
-  §§P0.19–P0.24 uses the same API for its almost and semiperfectoid specializations.
-- CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
-  CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline
-  comparisons, derived de Rham–Witt theory and logarithmic applications of the shared constructors
-  of §6.20, including derivation and extension classifiers, log crystalline comparison and log descent.
-  It consumes the de Rham, Cartier, descent and PD algebra here, including the raw lci scheme
-  interface of §5.8.1. The restricted period-envelope calculation of §5.12 and the logarithmic
-  period adapter of §6.20 are owned here. CrystallineCohomology §§CR.DDR.6.1–CR.DDR.6.2,
-  CR.DDR.6.4–CR.DDR.6.5, CR.DDR.6.7 and CR.DDR.6.9–CR.DDR.6.10 use §6.20's public
-  constructors and exported laws; their additional general crystalline and logarithmic results
-  remain in CrystallineCohomology.
-- DifferentialGeometry, Layers 0–6, constructs differential forms on smooth real manifolds; Layer 2
-  here constructs algebraic Kähler forms over arbitrary commutative rings. AlgebraicVectorBundles,
-  Layer 0, supplies ordinary sheaf tensor, dual and exterior operations; the derived cotangent powers
-  here retain negative cohomology and integral divided-power behaviour.
-- The Rees algebra of an ideal, `TauCeti.RingTheory.ReesAlgebra.Grading`, is a graded algebra
-  attached to an ideal; the Rees description of 1.14 is an equivalence of filtered and graded
-  derived categories for arbitrary filtrations, with derived quotient by `t`.
-- Prismatic cohomology, `A_inf`-cohomology, Breuil–Kisin modules, the rational period rings beyond
-  `B_dR⁺` and `B_dR`, and comparison theorems with étale cohomology are outside this roadmap; they
-  are built on it.
+The layers follow the construction order. DerivedModuleAlgebra supplies the module prefix. Layer 0
+develops André–Quillen criteria and p-bases. Layer 1 develops algebraization, filtered categories
+and geometric completion estimates. Layer PD constructs divided powers, regular envelopes and
+`A_cris`. Layers 2–3 construct ordinary and derived differential algebra, their filtrations, Cartier
+theory and smooth comparisons. Layer 4 computes PD conjugate filtrations and the torsion boundary.
+Layer 5 constructs quasisyntomic covers and descent, base-linear scheme realization, period
+descriptions and proper smooth control. Layer 6 proves the logarithmic period formula from explicit
+comparison data.
+
+Construct §3.3 before §3.2 and §2.28 before §3.6.1, which uses §§3.3–3.6. Before §1.12, use
+PerfectoidSpaces §P4.15.1 and construct §1.11.1; its module inputs are in DerivedModuleAlgebra
+§§0.1–0.4, 0.14 and 1.1–1.9. The dual-number Check in §2.25 is a direct calculation in the regular PD
+envelope and its divided-power-filtration completion.
+
+Within a layer, each subsection names its target, states it with its hypotheses and source, lists
+its API as named laws, and gives discriminating **Checks**. *Needs* lists the earlier subsections
+and suppliers a target uses; references to earlier subsections of this roadmap are by layer and
+title. A source paragraph placed under a group heading applies to every subsection of that group.
 
 ## Conventions
 
@@ -205,110 +155,6 @@ de Rham namespace, `DerivedDeRham.*` names in the derived namespace, the divided
 `Suggested.lean` under `TauCetiRoadmap.DerivedDeRhamCohomology.PD`, and the cotangent complex is
 `Algebra.CotangentComplex`, the name under which DerivedModuleAlgebra §0.4 and PerfectoidSpaces
 §P0.19 cite it.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned at `6b7abb3`)
-
-- Homological algebra: `DerivedCategory`, `DerivedCategory.Q`, `DerivedCategory.singleFunctor`,
-  `DerivedCategory.homologyFunctor`, `HasDerivedCategory.standard`, `CochainComplex.of`,
-  `HomologicalComplex`, the triangulated structure and t-structure of `DerivedCategory`,
-  `CategoryTheory.Abelian.Ext`, and `CategoryTheory.Tor` for module categories. These are the
-  carriers of every derived statement; DerivedModuleAlgebra §0.2 constructs the module derived tensor, and DerivedModuleAlgebra §1.1 constructs
-  the module derived limit using the DerivedModuleAlgebra §1.T.1 tower contracts below.
-- Simplicial algebra: `CategoryTheory.SimplicialObject`, `CategoryTheory.SimplicialObject.Augmented`,
-  `CategoryTheory.SimplicialObject.Augmented.ExtraDegeneracy`,
-  `AlgebraicTopology.alternatingFaceMapComplex` and the Dold–Kan correspondence
-  `AlgebraicTopology.DoldKan`.
-- Differentials and cotangent truncations: `KaehlerDifferential`, `KaehlerDifferential.D`,
-  `KaehlerDifferential.kerTotal`, `KaehlerDifferential.quotKerTotalEquiv`,
-  `KaehlerDifferential.span_range_derivation`, `KaehlerDifferential.polynomialEquiv_D`,
-  `KaehlerDifferential.mvPolynomialBasis`, `KaehlerDifferential.map`, `Derivation.leibniz`,
-  `Derivation.leibniz_pow`, `Derivation.map_algebraMap`, `Derivation.map_one_eq_zero`,
-  `derivationToSquareZeroEquivLift`, `Algebra.Extension.cotangentComplex`,
-  `Algebra.Extension.toKaehler`, `Algebra.Extension.exact_cotangentComplex_toKaehler`,
-  `Algebra.H1Cotangent`, `Algebra.Generators.equivH1Cotangent`.
-- Exterior algebra: `ExteriorAlgebra`, `ExteriorAlgebra.exteriorPower` (notation `⋀[B]^n`),
-  `exteriorPower.ιMulti`, `exteriorPower.ιMulti_span_of_span`, `exteriorPower.zeroEquiv`,
-  `exteriorPower.oneEquiv`, `exteriorPower.presentation`, `exteriorPower.alternatingMapLinearEquiv`,
-  `ExteriorAlgebra.gradedAlgebra`, `AlternatingMap.map_eq_zero_of_eq`, `AlternatingMap.map_swap`,
-  `Finsupp.linearCombination`, `Submodule.liftQ`, `Module.Presentation.restrictScalars`.
-- Commutative algebra: `IsAdicComplete`, `AdicCompletion`, `RingTheory.Sequence.IsRegular`,
-  `RingTheory.Sequence.IsWeaklyRegular`, `Ideal.ofList`, `Module.Flat`, `Module.FaithfullyFlat`,
-  `Algebra.Smooth`, `Localization.Away`, `LaurentPolynomial`, `MvPolynomial`, `Polynomial`.
-- p-adic and perfectoid carriers: `PadicInt`, `Padic`, `ZMod`, `frobenius`, `WittVector`,
-  `WittVector.teichmuller`, `PreTilt`, `PreTilt.untilt`, `WittVector.fontaineTheta`,
-  `WittVector.fontaineTheta_teichmuller`, `surjective_fontaineTheta`, `fontaineThetaInvertP`,
-  `BDeRhamPlus` (the `ker θ[1/p]`-adic completion of `𝕎(R♭)[1/p]`) and `BDeRham`; `A_inf(R)` means
-  `WittVector p (PreTilt R p)`.
-- Divided powers: `DividedPowers`, `DividedPowerAlgebra`, `DividedPowerAlgebra.dp`.
-- Geometry: `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.Smooth`,
-  `AlgebraicGeometry.LocallyOfFinitePresentation`, `AlgebraicGeometry.Scheme.smallEtaleTopology`.
-- Galois actions: `AlgEquiv` acting on rings of integers, and `Field.absoluteGaloisGroup`.
-
-For the ordinary de Rham differential, consult [StacksDR], §10.132, pp.334–336, and [StacksExterior],
-Lemma 10.13.4, p.28. [Riou] is an independent direct-presentation design for the same complex
-proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib incorporates it.
-
-### From Tau Ceti (pinned at `a91d3aa`)
-
-- `KaehlerDifferential.mapSemilinear` and `KaehlerDifferential.mapSemilinear_D`
-  (`TauCeti.RingTheory.Kaehler.MapSemilinear`): the weight-one semilinear pullback of Kähler
-  differentials, extended to all exterior degrees in 2.13.
-- `TauCeti.ArtinRees.exists_controlled_lift` (`TauCeti.RingTheory.Ideal.ArtinRees`): the ordinary
-  Artin–Rees control used in DerivedModuleAlgebra §1.4's Noetherian completion comparison.
-- `reesAlgebra.grade`, `reesAlgebra.gradedAlgebra`, `reesAlgebra.gradeZeroEquiv`
-  (`TauCeti.RingTheory.ReesAlgebra.Grading`): the ideal Rees algebra, distinguished from 1.14.
-
-### From TauCetiRoadmap roadmaps
-
-| Supplier | Interface used here |
-|---|---|
-| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §§0.1–0.17, 0.25, 1.1–1.9 | Simplicial polynomial resolutions, K-flat module derived tensor, the cotangent complex and its deformation theory, integral derived powers, module derived limits, ideal completion, Koszul completion towers, complete flatness and module descent. |
-| EnhancedDerivedSheaves §§E1.F3.H1, E1.8.DMA.1 | Point-site derived-Hom comparison and ordinary affine comparison of module derived tensor. |
-| [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §§0.1–0.3 | `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements` and `ClassicalDerived.tensorHom` supply unbounded localization, K-injective/K-flat replacements and tensor–Hom adjunction on small ringed sites. Section 5.8 uses `ClassicalDerived.inverseLimits` for sheaf towers, retaining derived products. EnhancedDerivedSheaves §E1.F3.H1 supplies the point-site derived-Hom comparison, and §E1.8.DMA.1 supplies affine tensor comparison. |
-| [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.4 | `enhancedPullback` and `enhancedPushforward` supply ringed inverse/direct image, adjunction and composition. Section 5.8 transports these to the base coefficient sheaf and its filtered diagrams. |
-| [PadicPeriodRings](../PadicPeriodRings/README.md) §§1.1–1.5 | For finite `K/ℚ_p`, `completedGaloisAction`, `padicComplex_fixed_eq`, the finite-`K` case of `tateSen_H0` and *The de Rham period rings*: the continuous Galois action, fixed field and nonzero-twist invariants, and the `BDeRhamPlus`/`BDeRham` DVR, residue and graded-twist structure. Sections 5.11, 5.14 and 5.15 use these on their finite-local-field domain and compare their structures with the derived/PD-filtered `A_cris` description of §§5.12–5.13. |
-| [PadicPeriodRings](../PadicPeriodRings/README.md) §2, §4.1 | `PadicFieldCompletion` and `tateSen_H0` supply the completion of the algebraic closure, its continuous action and Tate-twist invariants for complete discretely valued characteristic-zero fields with arbitrary perfect residue field. `generalBasePeriodRings` supplies the period structures and their agreement with its specializations to finite extensions `K/ℚ_p`. Sections 5.11 and 5.14 identify these with Mathlib's period carriers; §5.15 derives the `Fil² A_cris` vanishing from these inputs and §§5.12–5.14. |
-| [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | `periodPDEnvelope`: the ordinary principal envelope on `O_C`, its presentation in `A_inf[1/p]`, p-adic completion, initial properties, `θ_cris`, logarithm and functorial maps. Section PD.7 identifies its general envelope specialization with these supplied objects and maps; §5.13 identifies the derived period map with the supplied §4.1 map. |
-| [DGAInfinity](../DGAInfinity/README.md) Layer 1 | Unital cochain DG algebras, DG morphisms, tensor products, units and Koszul signs. Section 2.21 defines strict graded commutativity and odd-square-zero conditions on this carrier; §§2.22 and 2.27 use its strict affine models. |
-| [PerfectoidSpaces](../PerfectoidSpaces/README.md) §P4.15.1 | `semiperfectoidFiniteIdealDescent` supplies derived module models over simplicial commutative bases, their derived tensors, mapping complexes and compatible Koszul systems. Section 1.11.1 uses this adapter for connective square-zero kernels. Its module inputs are DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9. |
-| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §1.E.1 | `perfectInverseSystemEffectivity`: compatible perfect complexes over a surjective ring tower with locally nilpotent kernels have a perfect derived limit with the specified derived reductions (Stacks Tag 0CQG). Section 1.13 derives finite-stage perfectness from `K₁` by nilpotent lifting and adds derived completeness and pseudo-coherence. |
-| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §1.T.1 / *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for towers of complexes* | `CompactCoefficients.Tower.lim` and `CompactCoefficients.Tower.limOne` are the kernel and cokernel of `Tower.shift` on `ℕ`-indexed abelian-group towers; the six-term sequence is natural for levelwise short exact sequences, and Milnor applies to degreewise-surjective cochain-complex towers. Mittag-Leffler means eventual stabilization of transition images and kills `lim¹`; surjective or finite group towers satisfy it. DerivedModuleAlgebra §1.1 retains the induced module action and constructs the module derived-limit functor. |
-| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.DP.3 | The divided power algebra `Γ_A(M)`, its augmentation, its augmentation ideal and its intersection with a base ideal. |
-| DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.5 | Divided powers from identities on generators, gluing and extension, the divided power filtration, canonical powers on `(p)` including `p = 2`, and relative PD polynomial algebras. |
-| DerivedDeRhamCohomology §PD.6 | Divided power envelopes relative to a PD base with their filtered universal maps, envelopes of regular immersions, flat base change, and completed envelopes; in particular the explicit regular envelopes, tensor discreteness, flatness and reduction of [Bhatt12], Lemmas 3.37–3.38, pp.16–17. |
-| DerivedDeRhamCohomology §PD.7; [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | The `A_cris(R)` envelope for general rings and `θ_cris`, with `Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_theta`, `Crystalline.fontaineEnvelope_identify`, `Crystalline.fontaineEnvelope_map`, and the change of perfect presentation `Crystalline.fontaineEnvelope_ofPerfectPresentation`. On `O_C`, `Crystalline.fontaineEnvelope_periodPDEnvelope` identifies them with PadicPeriodRings §3's principal envelope, presentation, p-adic completion and `θ_cris` by their initial properties. |
-| [PerfectoidSpaces](../PerfectoidSpaces/README.md) §§P1.10–P1.11, P3.7 | Perfectoid fields (§§P1.10–P1.11); `isPerfectoidField_of_isAlgClosed` (§P3.7) makes a complete algebraically closed nontrivially valued nonarchimedean field of residue characteristic `p` perfectoid. |
-| PerfectoidSpaces §P1.17–§P1.18 | Fontaine's `θ : W(S♭⁺) → S⁺` for a perfectoid Tate pair, its surjectivity, and its kernel generated by a primitive nonzerodivisor `ξ`; for `ℂ_p`, `ker θ = (p − [p♭])`. |
-| PerfectoidSpaces §P1.24–§P1.25 | `IsIntegralPerfectoid` (BMS Definition 3.5) with the Frobenius criterion of [BMS] Lemma 3.10 and the examples `ℤ_p^cycl`, `𝒪_{ℂ_p}` and the p-adic completion of `ℤ_p^cycl[T^{1/p^∞}]`. |
-| [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.15 | Néron–Popescu desingularization: a regular map of Noetherian rings is a filtered colimit of smooth algebras ([Stacks] Tag 07GB). |
-| SchemeAndStackFoundations §2.18 | `Coherent.DQCoh`, `Coherent.DQCoh.affineEquiv`, `derivedTensor`, `totalDirectImage`, `torIndependent_baseChange` for cotangent powers and Hodge graded pieces. The full base-linear de Rham complex uses the ringed-site realization of 5.8. |
-| SchemeAndStackFoundations §4.7 | `Formal.AdicRing`, `Formal.AdicThickeningSystem` and `Spf A` as the system `Spec(A/I^(n+1))`, with morphisms of adic rings. |
-| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.K.1 | The Koszul complex `K(x)` of a finite sequence (exterior-algebra terms, `d₁(v) = Σ x_i v_i`, `H₀ = A/(x)`), its tensor formula `K(x,y) ≅ K(x) ⊗ K(y)`, functoriality, and the regular-sequence resolution. Here it is reindexed from homological degree `n` to cohomological degree `−n`: for the empty sequence it is `A`, for `(p)` over `ℤ` it resolves `F_p`, and for `(0)` it has `A` in degrees `−1` and `0`. |
-| DerivedModuleAlgebra §0.DP.2 | The homogeneous piece `Γ^d_A(M)` of Mathlib's `DividedPowerAlgebra`, its functoriality and arbitrary base change, and `Γ^d ≅ TSym^d` for free modules. |
-| [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.9 | `perfect_proper_pushforward`: for a finitely presented morphism `f : X → Y` of algebraic spaces, `E` perfect on `X` and a bounded complex `G•` of finitely presented `O_X`-modules, termwise flat over `Y` with support proper over `Y`, `Rf_*(E ⊗^L G•)` is perfect and its formation commutes with every base change `Y′ → Y`, with no Noetherian hypothesis on `Y`. 5.23 uses the case `E = O_X`, `G• = Ω^i_(X_n/A_n)` of a proper smooth scheme over `A_n`, which is [StacksPerfect] Lemma 36.30.4(2) (Tag 0B91). |
-
-## How to read the build
-
-The layers follow the construction order. DerivedModuleAlgebra supplies the module prefix. Layer 0
-develops André–Quillen criteria and p-bases. Layer 1 develops algebraization, filtered categories
-and geometric completion estimates. Layer PD constructs divided powers, regular envelopes and
-`A_cris`. Layers 2–3 construct ordinary and derived differential algebra, their filtrations, Cartier
-theory and smooth comparisons. Layer 4 computes PD conjugate filtrations and the torsion boundary.
-Layer 5 constructs quasisyntomic covers and descent, base-linear scheme realization, period
-descriptions and proper smooth control. Layer 6 proves the logarithmic period formula from explicit
-comparison data.
-
-Construct §3.3 before §3.2 and §2.28 before §3.6.1, which uses §§3.3–3.6. Before §1.12, use
-PerfectoidSpaces §P4.15.1 and construct §1.11.1; its module inputs are in DerivedModuleAlgebra
-§§0.1–0.4, 0.14 and 1.1–1.9. The dual-number Check in §2.25 is a direct calculation in the regular PD
-envelope and its divided-power-filtration completion.
-
-Within a layer, each subsection names its target, states it with its hypotheses and source, lists
-its API as named laws, and gives discriminating **Checks**. *Needs* lists the earlier subsections
-and suppliers a target uses; references to earlier subsections of this roadmap are by layer and
-title. A source paragraph placed under a group heading applies to every subsection of that group.
 
 ## Layer 0: André–Quillen criteria and local differential algebra
 
@@ -5469,6 +5315,177 @@ symbol presentation of 2.1–2.6. Its polynomial Poincaré lemma over `ℚ`-alge
 in 3.12. Its `Cartier/` files construct the Frobenius-twisted complex and the inverse Cartier map and
 prove it bijective when `B` has Frobenius coordinates over `A`, for instance for a polynomial algebra
 over a perfect ring; 3.4 and 3.6 assert the isomorphism over every `F_p`-algebra `A`.
+
+## Scope and ownership
+
+This roadmap owns André–Quillen homology and its local complete-intersection and regularity
+criteria; algebraization, simplicial square-zero lifting and the adic perfect-system adapter;
+filtered derived categories, completion, completed tensor products and the Beilinson t-structure;
+divided powers, relative PD polynomial algebras, regular envelopes, their completions and `A_cris`;
+the ordinary algebraic de Rham complex with its differential-symbol presentation, pullback and
+universal property; derived de Rham with its Hodge and conjugate filtrations, completions and
+base-linear sheaf realizations; derived Cartier theory, PD conjugate filtrations, quasisyntomic
+sites and descent, period-ring descriptions and proper smooth control. Section 6.20 owns the shared
+free-prelog, Gabber log cotangent and log derived de Rham constructors and their canonical period
+specialization used by §6.21.
+
+It uses, without restating:
+
+- **DGAInfinity** Layer 1 for unital cochain DG algebras, DG algebra morphisms, tensor products
+  and their Koszul signs; strict affine models use this carrier with the graded-commutativity
+  and odd-square-zero predicates of 2.21.
+- **EnhancedDerivedSheaves** §§0.1–0.3 for `ClassicalDerived.enhancedCategory`,
+  `ClassicalDerived.replacements`, `ClassicalDerived.tensorHom` and `ClassicalDerived.inverseLimits`
+  on small ringed sites. EnhancedDerivedSheaves §E1.F3.H1 identifies module derived Hom with
+  the point-site enhancement, and §E1.8.DMA.1 supplies the affine tensor comparison;
+  §5.8 here supplies the base-linear sheaf and filtration adapters.
+- **EnhancedDerivedSheaves** §E1.4 for `enhancedPullback` and `enhancedPushforward` on ringed topoi,
+  used for the base-linear sheaf realization of §5.8.
+- **PadicPeriodRings** §§1.1–1.5 for `completedGaloisAction`, `padicComplex_fixed_eq`,
+  the finite-`K` case of `tateSen_H0` and *The de Rham period rings* for finite extensions of `ℚ_p`.
+  **PadicPeriodRings** §2 supplies `PadicFieldCompletion` and
+  `tateSen_H0` for arbitrary perfect residue fields, and §4.1 `generalBasePeriodRings`
+  supplies their period structures. Sections 5.11 and 5.14 identify these supplied interfaces with
+  the period setup; §§5.12–5.15 supply the derived-de-Rham/PD-filtered `A_cris` comparison
+  and its `Fil²` vanishing consequence. Its §3 `periodPDEnvelope` owns the ordinary principal
+  envelope and completed carrier on `O_C`; §PD.7 identifies the general envelope with that
+  carrier, and §5.13 identifies the two maps into its §4.1 de Rham period carrier.
+- **DerivedModuleAlgebra** §1.T.1 / *lim and lim¹ of a tower*, *The six-term sequence of lim
+  and lim¹*, *The Milnor sequence for towers of complexes* and *Mittag-Leffler towers have
+  vanishing lim¹* for the tower calculations underlying DerivedModuleAlgebra §1.1.
+- **DerivedModuleAlgebra** §§0.DP.2–0.DP.3 supplies the homogeneous divided-power grading,
+  base change, augmentation and base-ideal intersection. Layer PD here supplies divided powers
+  on generators and compatible sums, principal and flat extension, weighted filtrations,
+  relative PD polynomial algebras, regular envelopes, their completions and `A_cris`.
+- **PerfectoidSpaces** for integral perfectoid rings `IsIntegralPerfectoid` (§P1.24) and their
+  comparison with perfectoid Tate rings (§P1.25), Fontaine's `θ` and its principal primitive kernel
+  (§P1.17–§P1.18), perfectoid fields (§P1.10–§P1.11), and
+  `isPerfectoidField_of_isAlgClosed` (§P3.7) for complete algebraically closed nontrivially valued
+  fields of residue characteristic `p`. Its §P4.15.1
+  `semiperfectoidFiniteIdealDescent` supplies module models over simplicial bases for 1.11.1,
+  using DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9.
+- **SchemeAndStackFoundations** for the derived categories of quasi-coherent complexes on schemes
+  (§2.18), used for cotangent powers and Hodge graded pieces, Néron–Popescu desingularization (§0.15)
+  and the formal spectrum of an adic ring with its
+  adic thickening systems (§4.7).
+- **DerivedModuleAlgebra** for the Koszul complex of a finite sequence with its tensor
+  formula and regular-sequence resolution (§0.K.1) and for the homogeneous pieces `Γ^d` of Mathlib's
+  divided power algebra with their base change (§0.DP.2).
+- **EnhancedDerivedSheaves** §E1.9 (`perfect_proper_pushforward`) for perfectness and
+  arbitrary base change of proper finitely presented pushforward of target-flat finitely presented
+  modules, and DerivedModuleAlgebra §1.E.1
+  `perfectInverseSystemEffectivity` for compatible perfect systems; 1.13 supplies its adic adapter.
+- Mathlib and Tau Ceti for the carriers listed under *Exact supplier contracts*.
+
+Boundaries with neighbouring roadmaps:
+
+- DerivedModuleAlgebra §§0.1–0.17, 0.25 and 1.1–1.9 owns module derived tensor, the full
+  cotangent complex `Algebra.CotangentComplex`, its square-zero obstruction class, integral
+  derived powers, module limits, ideal completion and complete flatness. PerfectoidSpaces
+  §§P0.19–P0.24 uses the same API for its almost and semiperfectoid specializations.
+- CrystallineCohomology §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.5, CR.DDR.5.8–CR.DDR.5.10,
+  CR.DDR.5.18, CR.DDR.5.20–CR.DDR.5.22 and CR.DDR.6.1–CR.DDR.6.20 owns crystalline
+  comparisons, derived de Rham–Witt theory and logarithmic applications of the shared constructors
+  of §6.20, including derivation and extension classifiers, log crystalline comparison and log descent.
+  It consumes the de Rham, Cartier, descent and PD algebra here, including the raw lci scheme
+  interface of §5.8.1. The restricted period-envelope calculation of §5.12 and the logarithmic
+  period adapter of §6.20 are owned here. CrystallineCohomology §§CR.DDR.6.1–CR.DDR.6.2,
+  CR.DDR.6.4–CR.DDR.6.5, CR.DDR.6.7 and CR.DDR.6.9–CR.DDR.6.10 use §6.20's public
+  constructors and exported laws; their additional general crystalline and logarithmic results
+  remain in CrystallineCohomology.
+- DifferentialGeometry, Layers 0–6, constructs differential forms on smooth real manifolds; Layer 2
+  here constructs algebraic Kähler forms over arbitrary commutative rings. AlgebraicVectorBundles,
+  Layer 0, supplies ordinary sheaf tensor, dual and exterior operations; the derived cotangent powers
+  here retain negative cohomology and integral divided-power behaviour.
+- The Rees algebra of an ideal, `TauCeti.RingTheory.ReesAlgebra.Grading`, is a graded algebra
+  attached to an ideal; the Rees description of 1.14 is an equivalence of filtered and graded
+  derived categories for arbitrary filtrations, with derived quotient by `t`.
+- Prismatic cohomology, `A_inf`-cohomology, Breuil–Kisin modules, the rational period rings beyond
+  `B_dR⁺` and `B_dR`, and comparison theorems with étale cohomology are outside this roadmap; they
+  are built on it.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned at `6b7abb3`)
+
+- Homological algebra: `DerivedCategory`, `DerivedCategory.Q`, `DerivedCategory.singleFunctor`,
+  `DerivedCategory.homologyFunctor`, `HasDerivedCategory.standard`, `CochainComplex.of`,
+  `HomologicalComplex`, the triangulated structure and t-structure of `DerivedCategory`,
+  `CategoryTheory.Abelian.Ext`, and `CategoryTheory.Tor` for module categories. These are the
+  carriers of every derived statement; DerivedModuleAlgebra §0.2 constructs the module derived tensor, and DerivedModuleAlgebra §1.1 constructs
+  the module derived limit using the DerivedModuleAlgebra §1.T.1 tower contracts below.
+- Simplicial algebra: `CategoryTheory.SimplicialObject`, `CategoryTheory.SimplicialObject.Augmented`,
+  `CategoryTheory.SimplicialObject.Augmented.ExtraDegeneracy`,
+  `AlgebraicTopology.alternatingFaceMapComplex` and the Dold–Kan correspondence
+  `AlgebraicTopology.DoldKan`.
+- Differentials and cotangent truncations: `KaehlerDifferential`, `KaehlerDifferential.D`,
+  `KaehlerDifferential.kerTotal`, `KaehlerDifferential.quotKerTotalEquiv`,
+  `KaehlerDifferential.span_range_derivation`, `KaehlerDifferential.polynomialEquiv_D`,
+  `KaehlerDifferential.mvPolynomialBasis`, `KaehlerDifferential.map`, `Derivation.leibniz`,
+  `Derivation.leibniz_pow`, `Derivation.map_algebraMap`, `Derivation.map_one_eq_zero`,
+  `derivationToSquareZeroEquivLift`, `Algebra.Extension.cotangentComplex`,
+  `Algebra.Extension.toKaehler`, `Algebra.Extension.exact_cotangentComplex_toKaehler`,
+  `Algebra.H1Cotangent`, `Algebra.Generators.equivH1Cotangent`.
+- Exterior algebra: `ExteriorAlgebra`, `ExteriorAlgebra.exteriorPower` (notation `⋀[B]^n`),
+  `exteriorPower.ιMulti`, `exteriorPower.ιMulti_span_of_span`, `exteriorPower.zeroEquiv`,
+  `exteriorPower.oneEquiv`, `exteriorPower.presentation`, `exteriorPower.alternatingMapLinearEquiv`,
+  `ExteriorAlgebra.gradedAlgebra`, `AlternatingMap.map_eq_zero_of_eq`, `AlternatingMap.map_swap`,
+  `Finsupp.linearCombination`, `Submodule.liftQ`, `Module.Presentation.restrictScalars`.
+- Commutative algebra: `IsAdicComplete`, `AdicCompletion`, `RingTheory.Sequence.IsRegular`,
+  `RingTheory.Sequence.IsWeaklyRegular`, `Ideal.ofList`, `Module.Flat`, `Module.FaithfullyFlat`,
+  `Algebra.Smooth`, `Localization.Away`, `LaurentPolynomial`, `MvPolynomial`, `Polynomial`.
+- p-adic and perfectoid carriers: `PadicInt`, `Padic`, `ZMod`, `frobenius`, `WittVector`,
+  `WittVector.teichmuller`, `PreTilt`, `PreTilt.untilt`, `WittVector.fontaineTheta`,
+  `WittVector.fontaineTheta_teichmuller`, `surjective_fontaineTheta`, `fontaineThetaInvertP`,
+  `BDeRhamPlus` (the `ker θ[1/p]`-adic completion of `𝕎(R♭)[1/p]`) and `BDeRham`; `A_inf(R)` means
+  `WittVector p (PreTilt R p)`.
+- Divided powers: `DividedPowers`, `DividedPowerAlgebra`, `DividedPowerAlgebra.dp`.
+- Geometry: `AlgebraicGeometry.Scheme`, `AlgebraicGeometry.IsProper`, `AlgebraicGeometry.Smooth`,
+  `AlgebraicGeometry.LocallyOfFinitePresentation`, `AlgebraicGeometry.Scheme.smallEtaleTopology`.
+- Galois actions: `AlgEquiv` acting on rings of integers, and `Field.absoluteGaloisGroup`.
+
+For the ordinary de Rham differential, consult [StacksDR], §10.132, pp.334–336, and [StacksExterior],
+Lemma 10.13.4, p.28. [Riou] is an independent direct-presentation design for the same complex
+proposed for Mathlib; follow its mathematical shape and adopt its API if Mathlib incorporates it.
+
+### From Tau Ceti (pinned at `a91d3aa`)
+
+- `KaehlerDifferential.mapSemilinear` and `KaehlerDifferential.mapSemilinear_D`
+  (`TauCeti.RingTheory.Kaehler.MapSemilinear`): the weight-one semilinear pullback of Kähler
+  differentials, extended to all exterior degrees in 2.13.
+- `TauCeti.ArtinRees.exists_controlled_lift` (`TauCeti.RingTheory.Ideal.ArtinRees`): the ordinary
+  Artin–Rees control used in DerivedModuleAlgebra §1.4's Noetherian completion comparison.
+- `reesAlgebra.grade`, `reesAlgebra.gradedAlgebra`, `reesAlgebra.gradeZeroEquiv`
+  (`TauCeti.RingTheory.ReesAlgebra.Grading`): the ideal Rees algebra, distinguished from 1.14.
+
+### From TauCetiRoadmap roadmaps
+
+| Supplier | Interface used here |
+|---|---|
+| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §§0.1–0.17, 0.25, 1.1–1.9 | Simplicial polynomial resolutions, K-flat module derived tensor, the cotangent complex and its deformation theory, integral derived powers, module derived limits, ideal completion, Koszul completion towers, complete flatness and module descent. |
+| EnhancedDerivedSheaves §§E1.F3.H1, E1.8.DMA.1 | Point-site derived-Hom comparison and ordinary affine comparison of module derived tensor. |
+| [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §§0.1–0.3 | `ClassicalDerived.enhancedCategory`, `ClassicalDerived.replacements` and `ClassicalDerived.tensorHom` supply unbounded localization, K-injective/K-flat replacements and tensor–Hom adjunction on small ringed sites. Section 5.8 uses `ClassicalDerived.inverseLimits` for sheaf towers, retaining derived products. EnhancedDerivedSheaves §E1.F3.H1 supplies the point-site derived-Hom comparison, and §E1.8.DMA.1 supplies affine tensor comparison. |
+| [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.4 | `enhancedPullback` and `enhancedPushforward` supply ringed inverse/direct image, adjunction and composition. Section 5.8 transports these to the base coefficient sheaf and its filtered diagrams. |
+| [PadicPeriodRings](../PadicPeriodRings/README.md) §§1.1–1.5 | For finite `K/ℚ_p`, `completedGaloisAction`, `padicComplex_fixed_eq`, the finite-`K` case of `tateSen_H0` and *The de Rham period rings*: the continuous Galois action, fixed field and nonzero-twist invariants, and the `BDeRhamPlus`/`BDeRham` DVR, residue and graded-twist structure. Sections 5.11, 5.14 and 5.15 use these on their finite-local-field domain and compare their structures with the derived/PD-filtered `A_cris` description of §§5.12–5.13. |
+| [PadicPeriodRings](../PadicPeriodRings/README.md) §2, §4.1 | `PadicFieldCompletion` and `tateSen_H0` supply the completion of the algebraic closure, its continuous action and Tate-twist invariants for complete discretely valued characteristic-zero fields with arbitrary perfect residue field. `generalBasePeriodRings` supplies the period structures and their agreement with its specializations to finite extensions `K/ℚ_p`. Sections 5.11 and 5.14 identify these with Mathlib's period carriers; §5.15 derives the `Fil² A_cris` vanishing from these inputs and §§5.12–5.14. |
+| [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | `periodPDEnvelope`: the ordinary principal envelope on `O_C`, its presentation in `A_inf[1/p]`, p-adic completion, initial properties, `θ_cris`, logarithm and functorial maps. Section PD.7 identifies its general envelope specialization with these supplied objects and maps; §5.13 identifies the derived period map with the supplied §4.1 map. |
+| [DGAInfinity](../DGAInfinity/README.md) Layer 1 | Unital cochain DG algebras, DG morphisms, tensor products, units and Koszul signs. Section 2.21 defines strict graded commutativity and odd-square-zero conditions on this carrier; §§2.22 and 2.27 use its strict affine models. |
+| [PerfectoidSpaces](../PerfectoidSpaces/README.md) §P4.15.1 | `semiperfectoidFiniteIdealDescent` supplies derived module models over simplicial commutative bases, their derived tensors, mapping complexes and compatible Koszul systems. Section 1.11.1 uses this adapter for connective square-zero kernels. Its module inputs are DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9. |
+| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §1.E.1 | `perfectInverseSystemEffectivity`: compatible perfect complexes over a surjective ring tower with locally nilpotent kernels have a perfect derived limit with the specified derived reductions (Stacks Tag 0CQG). Section 1.13 derives finite-stage perfectness from `K₁` by nilpotent lifting and adds derived completeness and pseudo-coherence. |
+| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §1.T.1 / *lim and lim¹ of a tower*, *Mittag-Leffler towers*, *Mittag-Leffler towers have vanishing lim¹*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for towers of complexes* | `CompactCoefficients.Tower.lim` and `CompactCoefficients.Tower.limOne` are the kernel and cokernel of `Tower.shift` on `ℕ`-indexed abelian-group towers; the six-term sequence is natural for levelwise short exact sequences, and Milnor applies to degreewise-surjective cochain-complex towers. Mittag-Leffler means eventual stabilization of transition images and kills `lim¹`; surjective or finite group towers satisfy it. DerivedModuleAlgebra §1.1 retains the induced module action and constructs the module derived-limit functor. |
+| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.DP.3 | The divided power algebra `Γ_A(M)`, its augmentation, its augmentation ideal and its intersection with a base ideal. |
+| DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.5 | Divided powers from identities on generators, gluing and extension, the divided power filtration, canonical powers on `(p)` including `p = 2`, and relative PD polynomial algebras. |
+| DerivedDeRhamCohomology §PD.6 | Divided power envelopes relative to a PD base with their filtered universal maps, envelopes of regular immersions, flat base change, and completed envelopes; in particular the explicit regular envelopes, tensor discreteness, flatness and reduction of [Bhatt12], Lemmas 3.37–3.38, pp.16–17. |
+| DerivedDeRhamCohomology §PD.7; [PadicPeriodRings](../PadicPeriodRings/README.md) §3 | The `A_cris(R)` envelope for general rings and `θ_cris`, with `Crystalline.fontaineEnvelope_initial`, `Crystalline.fontaineEnvelope_theta`, `Crystalline.fontaineEnvelope_identify`, `Crystalline.fontaineEnvelope_map`, and the change of perfect presentation `Crystalline.fontaineEnvelope_ofPerfectPresentation`. On `O_C`, `Crystalline.fontaineEnvelope_periodPDEnvelope` identifies them with PadicPeriodRings §3's principal envelope, presentation, p-adic completion and `θ_cris` by their initial properties. |
+| [PerfectoidSpaces](../PerfectoidSpaces/README.md) §§P1.10–P1.11, P3.7 | Perfectoid fields (§§P1.10–P1.11); `isPerfectoidField_of_isAlgClosed` (§P3.7) makes a complete algebraically closed nontrivially valued nonarchimedean field of residue characteristic `p` perfectoid. |
+| PerfectoidSpaces §P1.17–§P1.18 | Fontaine's `θ : W(S♭⁺) → S⁺` for a perfectoid Tate pair, its surjectivity, and its kernel generated by a primitive nonzerodivisor `ξ`; for `ℂ_p`, `ker θ = (p − [p♭])`. |
+| PerfectoidSpaces §P1.24–§P1.25 | `IsIntegralPerfectoid` (BMS Definition 3.5) with the Frobenius criterion of [BMS] Lemma 3.10 and the examples `ℤ_p^cycl`, `𝒪_{ℂ_p}` and the p-adic completion of `ℤ_p^cycl[T^{1/p^∞}]`. |
+| [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.15 | Néron–Popescu desingularization: a regular map of Noetherian rings is a filtered colimit of smooth algebras ([Stacks] Tag 07GB). |
+| SchemeAndStackFoundations §2.18 | `Coherent.DQCoh`, `Coherent.DQCoh.affineEquiv`, `derivedTensor`, `totalDirectImage`, `torIndependent_baseChange` for cotangent powers and Hodge graded pieces. The full base-linear de Rham complex uses the ringed-site realization of 5.8. |
+| SchemeAndStackFoundations §4.7 | `Formal.AdicRing`, `Formal.AdicThickeningSystem` and `Spf A` as the system `Spec(A/I^(n+1))`, with morphisms of adic rings. |
+| [DerivedModuleAlgebra](../DerivedModuleAlgebra/README.md) §0.K.1 | The Koszul complex `K(x)` of a finite sequence (exterior-algebra terms, `d₁(v) = Σ x_i v_i`, `H₀ = A/(x)`), its tensor formula `K(x,y) ≅ K(x) ⊗ K(y)`, functoriality, and the regular-sequence resolution. Here it is reindexed from homological degree `n` to cohomological degree `−n`: for the empty sequence it is `A`, for `(p)` over `ℤ` it resolves `F_p`, and for `(0)` it has `A` in degrees `−1` and `0`. |
+| DerivedModuleAlgebra §0.DP.2 | The homogeneous piece `Γ^d_A(M)` of Mathlib's `DividedPowerAlgebra`, its functoriality and arbitrary base change, and `Γ^d ≅ TSym^d` for free modules. |
+| [EnhancedDerivedSheaves](../EnhancedDerivedSheaves/README.md) §E1.9 | `perfect_proper_pushforward`: for a finitely presented morphism `f : X → Y` of algebraic spaces, `E` perfect on `X` and a bounded complex `G•` of finitely presented `O_X`-modules, termwise flat over `Y` with support proper over `Y`, `Rf_*(E ⊗^L G•)` is perfect and its formation commutes with every base change `Y′ → Y`, with no Noetherian hypothesis on `Y`. 5.23 uses the case `E = O_X`, `G• = Ω^i_(X_n/A_n)` of a proper smooth scheme over `A_n`, which is [StacksPerfect] Lemma 36.30.4(2) (Tag 0B91). |
 
 ## References
 

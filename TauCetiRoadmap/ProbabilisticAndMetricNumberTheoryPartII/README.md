@@ -1,100 +1,72 @@
 # Roadmap: probabilistic, metric and ergodic number theory, part II — transfer operators and uniform renewal counting
 
-**Summary.** For `n ≥ 3` the linear maps `γ_j(y) = (y₁, …, ŷ_j, …, y_n, Σ_{k≠j} y_k)` generate a free
-semigroup acting on the ordered cone `H_n` of nonzero `y` with `0 ≤ y₁ ≤ ⋯ ≤ y_n` and
-`y₁ + ⋯ + y_{n−1} = y_n`. The accelerated generators `γ_{n−1}^A γ_j` act on the projective section
-`Δ_n = H_n / ℝ_{>0}` by countably many branches `F_a` with expansion factors `q_a`, and the free
-semigroup `Γ′` they generate is counted by the growth of the last coordinate,
-`N(w, r) = #{words u : log((γ_u y)_n / y_n) ≤ r}`. This roadmap
-builds C¹ jet spaces on compact convex bodies, the explicit uniform contraction of the branches
-and their closed coding attractor, the countable-branch transfer operators
-`L_s f = Σ_a q_a^{−s} f∘F_a` with their two-norm (Ionescu-Tulcea–Marinescu) inequality, the
-Schauder–Tychonoff fixed point theorem, Hennion's essential-radius bound, Birkhoff cone contraction
-for general cones, a Ruelle–Perron–Frobenius theorem with a C¹ spectral gap for countably many
-branches, analytic perturbation of simple isolated eigenvalues, Wielandt separation on vertical
-lines from a non-lattice property of the delays, and a renewal Tauberian theorem that is uniform in
-a compact parameter. The end theorems are `conformal_exponent`, a unique `β = β(n) > 1` admitting a
-`β`-conformal probability on `Δ_n`, obtained from the pressure without arithmetic counting, and
-`uniform_counting`, `N(w, r) ~ B(w) e^{βr}` uniformly in `w` for a positive C¹ function
-`B = h_β / (β |λ′_β|)`. For `n = 3` the roadmap identifies `β(3) = 2` and proves
-`counting_three`, `N(w, r) ~ 3e^{2r}/(π² w₂)` uniformly, through the Gauss map; it proves
-`β(n) ≥ β(n − 1)` and the p-series enclosure `conformal_exponent_pseries` of `β(n)`.
+**Summary.** The asymptotic formula of Gamburd, Magee and Ronan for integer points on
+Markoff–Hurwitz varieties rests on a linear count: how many elements of a free semigroup of linear
+maps enlarge the last coordinate of a vector by at most a given factor. This roadmap proves the
+asymptotic of that count, uniformly in the vector; the passage to integer points is not part of it.
 
-## Scope and ownership
+Throughout, `n ≥ 3`. The maps `γ_j(y) = (y₁, …, ŷ_j, …, y_n, Σ_{k≠j} y_k)` delete the `j`-th
+coordinate and append the sum of all the others. They act on the cone `H_n` of nonzero vectors with
+`0 ≤ y₁ ≤ ⋯ ≤ y_n` and `y₁ + ⋯ + y_{n−1} = y_n`. The accelerated products `γ_{n−1}^A γ_j`, with
+`A ≥ 0` and `1 ≤ j ≤ n − 2`, freely generate a semigroup `Γ′`. Let `N(w, r)` count the elements of
+`Γ′`, the identity included, that multiply the last coordinate of `y ∈ H_n` by at most `e^r`. It
+depends only on the ray of `y`, a point `w` of the ordered simplex `Δ_n`.
 
-The base roadmap [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
-ends its continued-fraction theory with the total Gauss map, its invariant measure, the density
-transfer operator at the Gauss parameter and an explicit C¹ derivative contraction with the
-Gauss–Kuzmin rate (its §§4.4, 4.8 and 4.9). It has no complex parameter family, no spectral theory
-of transfer operators and no higher-dimensional dynamics. This part continues in that direction:
-the Gauss operator becomes the `n = 3` member of the family `L_s`, and the spectral theory is built
-for every `n ≥ 3` and every complex `s` with `Re s > 1`.
+On `Δ_n` each generator `a` acts by a projective map `F_a` and multiplies the last coordinate by a
+factor `q_a`. The count is governed by the transfer operators `L_s f = Σ_a q_a^{−s} f∘F_a`, which
+are bounded on C¹ functions on `Δ_n` when `Re s > 1`; the roadmap builds their spectral theory.
 
-This roadmap owns: the ordered projective simplex in chart coordinates, the accelerated branches,
-their denominators and delays, chronological words and the renewal count (Layer 0); C¹ jet spaces
-on compact convex bodies with value-plus-derivative norm, their pullbacks and compact inclusion
-(Layer 0); the core/cusp decomposition, the ten short-block derivative bounds, uniform contraction
-and the closed coding attractor (Layer 1); the countable-branch transfer operators on continuous and
-C¹ functions, their C⁰ bounds, the two-norm inequality, holomorphy in the parameter, and the
-two-sided Laplace and Mellin adapters (Layer 2); the Schauder–Tychonoff theorem, eigenprobabilities,
-the Hilbert distance on general closed cones with Birkhoff's contraction theorem, the ball-cover
-measure of noncompactness, Hennion's essential-radius bound, the countable-branch cone convergence
-and the Ruelle–Perron–Frobenius theorem (Layer 3); simple isolated eigendata, their analytic
-perturbation and uniform gaps on compact parameter intervals (Layer 4); the non-lattice condition,
-its verification at branch fixed points, Wielandt separation and the pressure (Layer 5); uniform
-growth, the renewal transform and its simple pole, uniform smoothing, the uniform renewal
-Tauberian theorem, the conformal-measure characterisation and the counting theorem (Layer 6); the
-parameter-dependent Gauss conjugacy, `β(3) = 2` with the explicit `n = 3` constant, the Rauzy
-gasket comparison, explicit bounds for `β(n)` and monotonicity in `n` (Layer 7).
+The first main theorem is a Ruelle–Perron–Frobenius theorem. For real `σ > 1` there are a number
+`λ_σ > 0`, a positive C¹ function with `L_σ h_σ = λ_σ h_σ`, and a probability measure on `Δ_n` with
+`∫ L_σ f dν_σ = λ_σ ∫ f dν_σ` for every continuous `f`. No other probability measure satisfies such
+an identity, whatever the eigenvalue. With `∫ h_σ dν_σ = 1`, the iterates `λ_σ^{−m} L_σ^m f`
+converge to `h_σ ∫ f dν_σ` exponentially fast in the C¹ norm, uniformly over `f` of bounded C¹ norm.
+On each compact interval of `(1, ∞)` the constants can be chosen independently of `σ`. For `t ≠ 0`
+the spectral radius of `L_{σ+it}` on C¹ functions is strictly smaller than at `t = 0`; this rests on
+a non-lattice property of the delays `log q_a`.
 
-It leaves the following to named owners.
+The leading eigenvalue `σ ↦ λ_σ` is real analytic on `(1, ∞)`, with `λ′_σ ≤ −log(3/2) λ_σ`. It tends
+to `∞` as `σ ↓ 1` and to `0` as `σ → ∞`, so exactly one `β = β(n) > 1` has `λ_β = 1`; no arithmetic
+counting enters. The second main theorem characterises `β` by conformal measures. Call a probability
+measure `ν` on `Δ_n` `s`-conformal if `∫ f dν = Σ_a ∫ f(F_a w) |Jac_w F_a|^{s/(n−1)} dν(w)` for
+every continuous `f`. Then `β` is the only real `s` admitting an `s`-conformal probability, and at
+`β` that probability is unique.
 
-- The total Gauss map `gaussMap`, the Gauss measure `gaussMeasure`, the Gauss inverse branches with
-  their absolute derivative and the invariant density telescope are ProbabilisticAndMetricNumberTheory
-  §4.4; the density transfer operator `gaussDensityTransfer` and its duality are its §4.8; the
-  explicit 9/10 contraction and the Gauss–Kuzmin rate are its §4.9. Layer 7 consumes them and proves
-  only the parameter family and its conjugacy.
-- The ordinary Laplace transform predicate `HasLaplace`, with its measure parameter, uniqueness and
-  linearity, the squared-sinc kernel `squaredSinc`, the scalar monotone unsmoothing
-  `monotoneUnsmoothing` and Delange's theorem `delangeLaplace` are ArithmeticDirichletSeriesPartII
-  §§0.1, 1.1, 3.1 and 3.2. The two-sided transform used here is `HasLaplace` with the
-  measure `volume`; this roadmap adds only its adapters. Holomorphy of a Mellin transform under
-  power bounds is Mathlib's `mellin_differentiableAt_of_isBigO_rpow`; the strip holomorphy of §2.5
-  differs in assuming only local-uniform integrability. The uniform smoothing and uniform
-  Tauberian theorems of Layer 6 differ from its Layer 3 in being uniform over a compact parameter
-  space, with transforms valued in `C(X; ℂ)`; their scalar cases are its Layer 3.
-- The scalar Wiener–Ikehara theorems are Tau Ceti's `TauCeti.LSeries.wienerIkehara` and its
-  variants; they are not used.
-- Brouwer's fixed point theorem for nonempty compact convex subsets of finite-dimensional real
-  normed spaces, `brouwerFixedPoint_compactConvex_continuousOn`, is AlgebraicTopology Stage 2,
-  item 7. Layer 3 consumes it for the finite-dimensional step of Schauder–Tychonoff and extends
-  the fixed-point conclusion to compact convex subsets of Hausdorff locally convex spaces; the
-  compact-map Schauder theorem on Banach spaces is BanachAlgebras A8.
-- Hilbert's projective metric on positive vectors and Birkhoff's `tanh(Δ/4)` contraction for
-  strictly positive finite matrices are Tau Ceti's `TauCeti.hilbertProjectiveDist`,
-  `Matrix.projectiveDiameter` and `Matrix.hilbertProjectiveDist_mulVec_le`
-  (`TauCeti/Data/Matrix/BirkhoffContraction.lean`); OptimalTransport Layer 13B, item 9 states the
-  same finite case for strictly positive kernels. Layer 3 here proves the statement for salient
-  convex cones in arbitrary real vector spaces and for the C¹ derivative cones; on strictly
-  positive vectors its distance is the pinned one.
-- The holomorphic functional calculus and Riesz idempotents for a finite partition of the spectrum,
-  with the closed invariant direct-sum decomposition of a Banach-space operator, are BanachAlgebras
-  A2. Layer 3 consumes them for the spectral splitting; the finite-cover estimate that bounds the
-  essential spectral radius is owned here.
-- Eigenvalue and spectral-subspace perturbation of self-adjoint operators belong to OperatorTheory
-  (SelfAdjointSpectralTheory and SpectralSubspacePerturbation). Layer 4 differs in assuming
-  neither an inner product nor an adjoint.
-- Tau Ceti's `TauCeti.C1HolderSpace` is the space of bounded `C^{1,α}` maps on a whole normed
-  space; the C¹ jets of Layer 0 differ in living on a compact convex body, with the segment-integral
-  boundary convention and the sum norm.
-- Ordinary renewal processes with i.i.d. increments, Blackwell's theorem and the key renewal theorem
-  are MarkovChainsAndRenewal Layers 4–6. The renewal equation here is driven by a transfer
-  operator, not by a single interarrival law.
-- Markoff–Hurwitz varieties, their moves, the exceptional tuples and infinite descent are
-  ClassicalArithmeticCompletion §§4.38, 4.57, 4.78 and 4.105. The passage from the linear count
-  `N(w, r)` to integer points on Markoff–Hurwitz varieties (GMR19, §§2–3) and the identification of
-  `β(n)` with Baragar's arithmetic exponent are outside this roadmap. No statement about the
-  Hausdorff dimension of the attractor is made.
+The third main theorem, uniform counting, gives a positive C¹ function `B = h_β / (β |λ′_β|)` on
+`Δ_n` with `L_β B = B` such that `N(w, r) / (B(w) e^{βr}) → 1` as `r → ∞`, uniformly in `w ∈ Δ_n`.
+It comes from a renewal Tauberian theorem, proved here in general, that is uniform over a compact
+space of parameters.
+
+For `n = 3` everything is explicit. In the coordinate `w₁/w₂` the branches are the inverse branches
+of the Gauss map. Twice Lebesgue measure on the segment `0 ≤ w₁ ≤ 1/2` is `2`-conformal, so
+`β(3) = 2`, and `N(w, r) / (3e^{2r} / (π² w₂)) → 1` uniformly. At `e^r = 150` and `w₁ = 0` the count
+is `6858`, against `6839` predicted. For every `n`, `β(n)` lies between the roots of two p-series
+equations, which gives `2.18 < β(4) < 3.3`, and `β(n) ≥ β(n − 1)`.
+
+The roadmap continues
+[ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md), which
+supplies the Gauss map, its invariant measure and its density transfer operator. After a change of
+coordinate and a conjugation, the transfer operator for `n = 3` and `s = 2` becomes that density
+operator, extended to complex functions. ArithmeticDirichletSeriesPartII supplies the Laplace
+transform and the scalar Tauberian theorems, which are the one-point cases of the uniform one.
+BanachAlgebras supplies the Riesz projections that split a spectrum. The Markoff–Hurwitz varieties
+themselves are in ClassicalArithmeticCompletion.
+
+## How to read the build
+
+Layer 0 fixes the carriers: the simplex in its chart, the branches, the words and the count, and
+the C¹ jets with their calculus. Layer 1 proves that long branch compositions contract uniformly
+and builds the closed attractor. Layer 2 constructs the transfer operators, bounds them and proves
+the two-norm inequality and holomorphy in `s`; it also fixes the two-sided Laplace conventions.
+Layer 3 develops the functional analysis (Schauder–Tychonoff, Hilbert cones, noncompactness and
+Hennion's bound) and proves the real Ruelle–Perron–Frobenius theorem. Layer 4 continues the
+leading eigendata holomorphically and makes the gap uniform on compact parameter intervals.
+Layer 5 proves that the delays are non-lattice, deduces Wielandt separation on vertical lines, and
+locates the unique exponent `β` from the pressure. Layer 6 turns the spectral data into a uniform
+growth bound and a meromorphic renewal transform with one simple pole on its abscissa,
+characterises `β` by conformal measures, and proves the uniform counting theorem. Layer 7 compares with the Gauss map
+and the Rauzy gasket and bounds `β(n)`. The general theorems of Layers 3, 4 and 6 (fixed points,
+cones, noncompactness, perturbation, uniform Tauberian) depend on no transfer operator.
 
 ## Conventions
 
@@ -128,132 +100,6 @@ It leaves the following to named owners.
 - **Measures.** Probability measures on `Δ` are Borel probability measures on `ℝ^d` carried by the
   chart image of `Δ`. Continuous test functions are continuous on `ℝ^d`; by Tietze's theorem this
   is the same as continuity on `Δ`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Spectral theory: `spectralRadius` (`Mathlib/Analysis/Normed/Algebra/Spectrum.lean`), with its
-  `ℝ≥0∞` values; `spectrum.isOpen_resolventSet` and `spectrum.isCompact` (same file);
-  `spectrum.gelfand_formula`, `spectrum.nonempty` and `spectrum.hasFDerivAt_resolvent`
-  (`Mathlib/Analysis/Normed/Algebra/GelfandFormula.lean`), which require a complete normed
-  `ℂ`-algebra; `Module.End.maxGenEigenspace` and `Module.End.HasEigenvalue`;
-  `ContinuousLinearMap.IsFredholm` (`Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean`).
-- Analysis: `ImplicitFunctionData.differentiableAt_implicitFunction`
-  (`Mathlib/Analysis/Calculus/Implicit.lean`), over a general complete nontrivially normed field
-  and complete spaces; `DifferentiableOn.analyticOnNhd` (complex differentiability on an open set
-  of `ℂ` gives analyticity of Banach-valued maps); `hasFDerivAt_tsum_of_isPreconnected` and
-  `hasDerivAt_tsum_of_isPreconnected` (`Mathlib/Analysis/Calculus/SmoothSeries.lean`);
-  `ContDiffOn`, `fderivWithin`, `contDiffOn_succ_iff_fderivWithin`, `uniqueDiffOn_convex`;
-  `Convex.norm_image_sub_le_of_norm_fderivWithin_le`; `Seminorm` and `Seminorm.ball`
-  (`Mathlib/Analysis/Normed/Module/Seminorm/Basic.lean`); `LocallyConvexSpace`
-  (`Mathlib/Topology/Algebra/Module/LocallyConvex.lean`).
-- Summability: `Real.summable_one_div_nat_rpow` (`Mathlib/Analysis/PSeries.lean`, summable iff
-  `1 < p`, with the native value at `n = 0`), `Complex.summable_one_div_nat_cpow`
-  (`Mathlib/Analysis/PSeriesComplex.lean`, summable iff `1 < Re p`), `hasSum_zeta_two`.
-- Compactness: `BoundedContinuousFunction.arzela_ascoli`
-  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`, compact domain and a common compact
-  value set); `ContinuousMap.subalgebra_topologicalClosure_eq_top_of_separatesPoints`
-  (Stone–Weierstrass).
-- Measures: `MeasureTheory.ProbabilityMeasure.continuous_integral_continuousMap`
-  (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`, compact space, real continuous maps);
-  `isCompact_setOfPred_probabilityMeasure_mass_eq_compl_isCompact_le`
-  (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`), used with the constant compact set `Δ` and zero
-  bounds; `MeasureTheory.FiniteMeasure.ext_of_forall_integral_eq`
-  (`Mathlib/MeasureTheory/Measure/FiniteMeasure.lean`); `MeasureTheory.Measure.pi` for `volume` on
-  `Fin d → ℝ`.
-- Integration: `MeasureTheory.integral_tsum` and
-  `MeasureTheory.tendsto_integral_filter_of_dominated_convergence`
-  (`Mathlib/MeasureTheory/Integral/DominatedConvergence.lean`); `MeasureTheory.integral_comp_exp`
-  and `MeasureTheory.integrable_comp_exp` (`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`,
-  the substitution `u = e^t` over the whole line); `mellin` and `MellinConvergent`
-  (`Mathlib/Analysis/MellinTransform.lean`; `mellin f s = ∫_{(0,∞)} t^{s−1} f(t) dt`);
-  `mellin_differentiableAt_of_isBigO_rpow` (same file: for `f` with values in a complex normed
-  space, locally integrable on `(0, ∞)`, `O(t^{−a})` as `t → ∞` and `O(t^{−b})` as `t → 0⁺`,
-  `mellin f` is differentiable at every `s` with `b < Re s < a`);
-  `Real.tendsto_integral_exp_smul_cocompact` (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`,
-  Riemann–Lebesgue for functions with values in any complex normed space, in particular `C(X; ℂ)`).
-
-### From Tau Ceti
-
-Consume `TauCeti.hilbertProjectiveDist`, `Matrix.projectiveDiameter` and
-`Matrix.hilbertProjectiveDist_mulVec_le` (`TauCeti/Data/Matrix/BirkhoffContraction.lean`): for a
-matrix `K` with strictly positive entries on finite index types and strictly positive vectors
-`x`, `y`, `d(Kx, Ky) ≤ tanh(Δ(K)/4) d(x, y)`, where `d(x, y)` is the supremum over index pairs of
-`log(x_i y_j/(y_i x_j))` and `Δ(K)` is the `d`-diameter of the columns of `K`; the formula is
-total on all real vectors, and its metric laws hold on strictly positive vectors. This is the
-finite positive-matrix case of §3.3 and is used there as a consistency check. Consume
-`IsCompactOperator.finiteDimensional_genEigenspace_nat` and
-`IsCompactOperator.finiteDimensional_eigenspace`
-(`TauCeti/Analysis/Normed/Operator/Compact/Eigenspace.lean`: every finite-order generalised
-eigenspace, and the eigenspace, of a compact operator at a nonzero scalar is finite-dimensional,
-over any complete nontrivially normed field; at the scalar `1` the eigenspace of `K` is
-`ker(1 − K)`), `IsCompactOperator.isClosed_range_pow_one_sub` and
-`IsCompactOperator.finiteDimensional_quotient_range_one_sub`
-(`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean`: for a compact operator `K` on a
-Banach space over `ℝ` or `ℂ`, every power `(1 − K)^n` has closed range, and `1 − K` has
-finite-dimensional cokernel). These are the `r = 0` case of §3.5 and are used there as a
-consistency check.
-
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory §§4.4 and 4.8
-
-Consume `gaussMap` (`T(x) = fract(1/x)`, `T(0) = 0`), `gaussMeasure` (density
-`1/((1 + x) log 2)` on `(0, 1]`, a probability), the inverse branches `v_a(x) = 1/(a + x)`,
-`a ≥ 1`, with absolute derivative `1/(a + x)²` on `[0, 1]`, and the invariant density telescope
-`Σ_{a≥1} 1/((a + x)(a + x + 1)) = 1/(1 + x)` on `[0, 1]`, all from §4.4. Consume
-`gaussDensityTransfer` (`Lf(x) = Σ_{a≥1} f(1/(a + x))/(a + x)²`, a native real sum, with absolute
-and uniform convergence for continuous `f` on `[0, 1]`) and its Lebesgue duality from §4.8. The
-supplier's index `a ≥ 1` is `A + 1` here.
-
-### From TauCetiRoadmap.ArithmeticDirichletSeriesPartII §§0.1, 1.1, 3.1 and 3.2
-
-Consume `HasLaplace f s z μ` for `f : ℝ → E` with `NormedSpace ℝ E` and `SMul ℂ E`: integrability
-of `t ↦ exp(−st) • f t` for `μ` together with the value `z`; its uniqueness, almost-everywhere
-congruence and linearity API (§0.1). For `λ > 0`, consume `squaredSinc λ`, its nonnegativity,
-mass one (`squaredSinc_mass`), triangle Fourier transform on `[−2λ, 2λ]` (`squaredSinc_fourier`)
-and tail concentration as `λ → ∞`; evenness holds for every real `λ` (§1.1). At `λ = 0` the
-kernel is identically `0`, of mass `0`, and for `λ < 0` it is negative at `v = 0`
-(`squaredSinc (−1) 0 = −1/π`), so the positive scale is part of every use. The
-scalar statements `monotoneUnsmoothing` (§3.1) and `delangeLaplace` with `k = 0` (§3.2) are the
-one-point cases of Layer 6 and are used as consistency checks of its constants.
-
-### From TauCetiRoadmap.AlgebraicTopology Stage 2, item 7
-
-Consume `brouwerFixedPoint_compactConvex_continuousOn`: for a nonempty compact convex subset `C` of
-a finite-dimensional real normed space and `f` continuous on `C` with `f(C) ⊆ C`, some point of
-`C` is fixed by `f`; no full-dimensionality of `C` is assumed. The finite-dimensional linear span
-of finitely many vectors of a Hausdorff topological vector space carries its unique Hausdorff
-vector topology, so Mathlib's `LinearEquiv.toContinuousLinearEquiv` transports a finite convex
-hull to a normed model where the theorem applies.
-
-### From TauCetiRoadmap.OptimalTransport Layer 13B
-
-Item 9 builds Hilbert's projective metric and Birkhoff contraction with factor `tanh(Δ(K)/4)` for
-strictly positive finite kernels. Layer 3 here proves the general cone statement and checks that its
-distance on strictly positive vectors is the logarithmic max/min ratio used there.
-
-### From TauCetiRoadmap.BanachAlgebras A2
-
-Consume the Riesz idempotents of a finite partition of the spectrum of a bounded operator on a
-complex Banach space into nonempty disjoint compact sets, their orthogonality, sum one, commutation
-with the operator, the exact corner spectra and the resulting closed invariant direct-sum
-decomposition.
-
-## How to read the build
-
-Layer 0 fixes the carriers: the simplex in its chart, the branches, the words and the count, and
-the C¹ jets with their calculus. Layer 1 proves that long branch compositions contract uniformly
-and builds the closed attractor. Layer 2 constructs the transfer operators, bounds them and proves
-the two-norm inequality and holomorphy in `s`; it also fixes the two-sided Laplace conventions.
-Layer 3 develops the functional analysis (Schauder–Tychonoff, Hilbert cones, noncompactness and
-Hennion's bound) and proves the real Ruelle–Perron–Frobenius theorem. Layer 4 continues the
-leading eigendata holomorphically and makes the gap uniform on compact parameter intervals.
-Layer 5 proves that the delays are non-lattice, deduces Wielandt separation on vertical lines, and
-locates the unique exponent `β` from the pressure. Layer 6 turns the spectral data into a uniform
-growth bound and a meromorphic renewal transform with one simple pole on its abscissa,
-characterises `β` by conformal measures, and proves the uniform counting theorem. Layer 7 compares with the Gauss map
-and the Rauzy gasket and bounds `β(n)`. The general theorems of Layers 3, 4 and 6 (fixed points,
-cones, noncompactness, perturbation, uniform Tauberian) depend on no transfer operator.
 
 ## Layer 0: Affine carriers and branch counting
 
@@ -1552,6 +1398,192 @@ Layers 0–6; ProbabilisticAndMetricNumberTheory §§4.4 and 4.8.
 - **`n = 4`.** The branches at `w = (1/6, 1/3, 1/2)` have `q = 11/6` for `(0, 1)` and `q = 7/3` for
   `(1, 2)`; the two-letter word `[(0, 1), (1, 2)]` has delay `log(9/2)`; the exponent satisfies
   `2.18 < β(4) < 3.3`; the attractor is the ordered part of the Rauzy gasket.
+
+## Scope and ownership
+
+The base roadmap [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
+ends its continued-fraction theory with the total Gauss map, its invariant measure, the density
+transfer operator at the Gauss parameter and an explicit C¹ derivative contraction with the
+Gauss–Kuzmin rate (its §§4.4, 4.8 and 4.9). It has no complex parameter family, no spectral theory
+of transfer operators and no higher-dimensional dynamics. This part continues in that direction:
+the Gauss operator becomes the `n = 3` member of the family `L_s`, and the spectral theory is built
+for every `n ≥ 3` and every complex `s` with `Re s > 1`.
+
+This roadmap owns: the ordered projective simplex in chart coordinates, the accelerated branches,
+their denominators and delays, chronological words and the renewal count (Layer 0); C¹ jet spaces
+on compact convex bodies with value-plus-derivative norm, their pullbacks and compact inclusion
+(Layer 0); the core/cusp decomposition, the ten short-block derivative bounds, uniform contraction
+and the closed coding attractor (Layer 1); the countable-branch transfer operators on continuous and
+C¹ functions, their C⁰ bounds, the two-norm inequality, holomorphy in the parameter, and the
+two-sided Laplace and Mellin adapters (Layer 2); the Schauder–Tychonoff theorem, eigenprobabilities,
+the Hilbert distance on general closed cones with Birkhoff's contraction theorem, the ball-cover
+measure of noncompactness, Hennion's essential-radius bound, the countable-branch cone convergence
+and the Ruelle–Perron–Frobenius theorem (Layer 3); simple isolated eigendata, their analytic
+perturbation and uniform gaps on compact parameter intervals (Layer 4); the non-lattice condition,
+its verification at branch fixed points, Wielandt separation and the pressure (Layer 5); uniform
+growth, the renewal transform and its simple pole, uniform smoothing, the uniform renewal
+Tauberian theorem, the conformal-measure characterisation and the counting theorem (Layer 6); the
+parameter-dependent Gauss conjugacy, `β(3) = 2` with the explicit `n = 3` constant, the Rauzy
+gasket comparison, explicit bounds for `β(n)` and monotonicity in `n` (Layer 7).
+
+It leaves the following to named owners.
+
+- The total Gauss map `gaussMap`, the Gauss measure `gaussMeasure`, the Gauss inverse branches with
+  their absolute derivative and the invariant density telescope are ProbabilisticAndMetricNumberTheory
+  §4.4; the density transfer operator `gaussDensityTransfer` and its duality are its §4.8; the
+  explicit 9/10 contraction and the Gauss–Kuzmin rate are its §4.9. Layer 7 consumes them and proves
+  only the parameter family and its conjugacy.
+- The ordinary Laplace transform predicate `HasLaplace`, with its measure parameter, uniqueness and
+  linearity, the squared-sinc kernel `squaredSinc`, the scalar monotone unsmoothing
+  `monotoneUnsmoothing` and Delange's theorem `delangeLaplace` are ArithmeticDirichletSeriesPartII
+  §§0.1, 1.1, 3.1 and 3.2. The two-sided transform used here is `HasLaplace` with the
+  measure `volume`; this roadmap adds only its adapters. Holomorphy of a Mellin transform under
+  power bounds is Mathlib's `mellin_differentiableAt_of_isBigO_rpow`; the strip holomorphy of §2.5
+  differs in assuming only local-uniform integrability. The uniform smoothing and uniform
+  Tauberian theorems of Layer 6 differ from its Layer 3 in being uniform over a compact parameter
+  space, with transforms valued in `C(X; ℂ)`; their scalar cases are its Layer 3.
+- The scalar Wiener–Ikehara theorems are Tau Ceti's `TauCeti.LSeries.wienerIkehara` and its
+  variants; they are not used.
+- Brouwer's fixed point theorem for nonempty compact convex subsets of finite-dimensional real
+  normed spaces, `brouwerFixedPoint_compactConvex_continuousOn`, is AlgebraicTopology Stage 2,
+  item 7. Layer 3 consumes it for the finite-dimensional step of Schauder–Tychonoff and extends
+  the fixed-point conclusion to compact convex subsets of Hausdorff locally convex spaces; the
+  compact-map Schauder theorem on Banach spaces is BanachAlgebras A8.
+- Hilbert's projective metric on positive vectors and Birkhoff's `tanh(Δ/4)` contraction for
+  strictly positive finite matrices are Tau Ceti's `TauCeti.hilbertProjectiveDist`,
+  `Matrix.projectiveDiameter` and `Matrix.hilbertProjectiveDist_mulVec_le`
+  (`TauCeti/Data/Matrix/BirkhoffContraction.lean`); OptimalTransport Layer 13B, item 9 states the
+  same finite case for strictly positive kernels. Layer 3 here proves the statement for salient
+  convex cones in arbitrary real vector spaces and for the C¹ derivative cones; on strictly
+  positive vectors its distance is the pinned one.
+- The holomorphic functional calculus and Riesz idempotents for a finite partition of the spectrum,
+  with the closed invariant direct-sum decomposition of a Banach-space operator, are BanachAlgebras
+  A2. Layer 3 consumes them for the spectral splitting; the finite-cover estimate that bounds the
+  essential spectral radius is owned here.
+- Eigenvalue and spectral-subspace perturbation of self-adjoint operators belong to OperatorTheory
+  (SelfAdjointSpectralTheory and SpectralSubspacePerturbation). Layer 4 differs in assuming
+  neither an inner product nor an adjoint.
+- Tau Ceti's `TauCeti.C1HolderSpace` is the space of bounded `C^{1,α}` maps on a whole normed
+  space; the C¹ jets of Layer 0 differ in living on a compact convex body, with the segment-integral
+  boundary convention and the sum norm.
+- Ordinary renewal processes with i.i.d. increments, Blackwell's theorem and the key renewal theorem
+  are MarkovChainsAndRenewal Layers 4–6. The renewal equation here is driven by a transfer
+  operator, not by a single interarrival law.
+- Markoff–Hurwitz varieties, their moves, the exceptional tuples and infinite descent are
+  ClassicalArithmeticCompletion §§4.38, 4.57, 4.78 and 4.105. The passage from the linear count
+  `N(w, r)` to integer points on Markoff–Hurwitz varieties (GMR19, §§2–3) and the identification of
+  `β(n)` with Baragar's arithmetic exponent are outside this roadmap. No statement about the
+  Hausdorff dimension of the attractor is made.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Spectral theory: `spectralRadius` (`Mathlib/Analysis/Normed/Algebra/Spectrum.lean`), with its
+  `ℝ≥0∞` values; `spectrum.isOpen_resolventSet` and `spectrum.isCompact` (same file);
+  `spectrum.gelfand_formula`, `spectrum.nonempty` and `spectrum.hasFDerivAt_resolvent`
+  (`Mathlib/Analysis/Normed/Algebra/GelfandFormula.lean`), which require a complete normed
+  `ℂ`-algebra; `Module.End.maxGenEigenspace` and `Module.End.HasEigenvalue`;
+  `ContinuousLinearMap.IsFredholm` (`Mathlib/Analysis/Normed/Operator/Fredholm/Basic.lean`).
+- Analysis: `ImplicitFunctionData.differentiableAt_implicitFunction`
+  (`Mathlib/Analysis/Calculus/Implicit.lean`), over a general complete nontrivially normed field
+  and complete spaces; `DifferentiableOn.analyticOnNhd` (complex differentiability on an open set
+  of `ℂ` gives analyticity of Banach-valued maps); `hasFDerivAt_tsum_of_isPreconnected` and
+  `hasDerivAt_tsum_of_isPreconnected` (`Mathlib/Analysis/Calculus/SmoothSeries.lean`);
+  `ContDiffOn`, `fderivWithin`, `contDiffOn_succ_iff_fderivWithin`, `uniqueDiffOn_convex`;
+  `Convex.norm_image_sub_le_of_norm_fderivWithin_le`; `Seminorm` and `Seminorm.ball`
+  (`Mathlib/Analysis/Normed/Module/Seminorm/Basic.lean`); `LocallyConvexSpace`
+  (`Mathlib/Topology/Algebra/Module/LocallyConvex.lean`).
+- Summability: `Real.summable_one_div_nat_rpow` (`Mathlib/Analysis/PSeries.lean`, summable iff
+  `1 < p`, with the native value at `n = 0`), `Complex.summable_one_div_nat_cpow`
+  (`Mathlib/Analysis/PSeriesComplex.lean`, summable iff `1 < Re p`), `hasSum_zeta_two`.
+- Compactness: `BoundedContinuousFunction.arzela_ascoli`
+  (`Mathlib/Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`, compact domain and a common compact
+  value set); `ContinuousMap.subalgebra_topologicalClosure_eq_top_of_separatesPoints`
+  (Stone–Weierstrass).
+- Measures: `MeasureTheory.ProbabilityMeasure.continuous_integral_continuousMap`
+  (`Mathlib/MeasureTheory/Measure/ProbabilityMeasure.lean`, compact space, real continuous maps);
+  `isCompact_setOfPred_probabilityMeasure_mass_eq_compl_isCompact_le`
+  (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`), used with the constant compact set `Δ` and zero
+  bounds; `MeasureTheory.FiniteMeasure.ext_of_forall_integral_eq`
+  (`Mathlib/MeasureTheory/Measure/FiniteMeasure.lean`); `MeasureTheory.Measure.pi` for `volume` on
+  `Fin d → ℝ`.
+- Integration: `MeasureTheory.integral_tsum` and
+  `MeasureTheory.tendsto_integral_filter_of_dominated_convergence`
+  (`Mathlib/MeasureTheory/Integral/DominatedConvergence.lean`); `MeasureTheory.integral_comp_exp`
+  and `MeasureTheory.integrable_comp_exp` (`Mathlib/MeasureTheory/Integral/IntegralEqImproper.lean`,
+  the substitution `u = e^t` over the whole line); `mellin` and `MellinConvergent`
+  (`Mathlib/Analysis/MellinTransform.lean`; `mellin f s = ∫_{(0,∞)} t^{s−1} f(t) dt`);
+  `mellin_differentiableAt_of_isBigO_rpow` (same file: for `f` with values in a complex normed
+  space, locally integrable on `(0, ∞)`, `O(t^{−a})` as `t → ∞` and `O(t^{−b})` as `t → 0⁺`,
+  `mellin f` is differentiable at every `s` with `b < Re s < a`);
+  `Real.tendsto_integral_exp_smul_cocompact` (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`,
+  Riemann–Lebesgue for functions with values in any complex normed space, in particular `C(X; ℂ)`).
+
+### From Tau Ceti
+
+Consume `TauCeti.hilbertProjectiveDist`, `Matrix.projectiveDiameter` and
+`Matrix.hilbertProjectiveDist_mulVec_le` (`TauCeti/Data/Matrix/BirkhoffContraction.lean`): for a
+matrix `K` with strictly positive entries on finite index types and strictly positive vectors
+`x`, `y`, `d(Kx, Ky) ≤ tanh(Δ(K)/4) d(x, y)`, where `d(x, y)` is the supremum over index pairs of
+`log(x_i y_j/(y_i x_j))` and `Δ(K)` is the `d`-diameter of the columns of `K`; the formula is
+total on all real vectors, and its metric laws hold on strictly positive vectors. This is the
+finite positive-matrix case of §3.3 and is used there as a consistency check. Consume
+`IsCompactOperator.finiteDimensional_genEigenspace_nat` and
+`IsCompactOperator.finiteDimensional_eigenspace`
+(`TauCeti/Analysis/Normed/Operator/Compact/Eigenspace.lean`: every finite-order generalised
+eigenspace, and the eigenspace, of a compact operator at a nonzero scalar is finite-dimensional,
+over any complete nontrivially normed field; at the scalar `1` the eigenspace of `K` is
+`ker(1 − K)`), `IsCompactOperator.isClosed_range_pow_one_sub` and
+`IsCompactOperator.finiteDimensional_quotient_range_one_sub`
+(`TauCeti/Analysis/Normed/Operator/Compact/RieszTheory.lean`: for a compact operator `K` on a
+Banach space over `ℝ` or `ℂ`, every power `(1 − K)^n` has closed range, and `1 − K` has
+finite-dimensional cokernel). These are the `r = 0` case of §3.5 and are used there as a
+consistency check.
+
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory §§4.4 and 4.8
+
+Consume `gaussMap` (`T(x) = fract(1/x)`, `T(0) = 0`), `gaussMeasure` (density
+`1/((1 + x) log 2)` on `(0, 1]`, a probability), the inverse branches `v_a(x) = 1/(a + x)`,
+`a ≥ 1`, with absolute derivative `1/(a + x)²` on `[0, 1]`, and the invariant density telescope
+`Σ_{a≥1} 1/((a + x)(a + x + 1)) = 1/(1 + x)` on `[0, 1]`, all from §4.4. Consume
+`gaussDensityTransfer` (`Lf(x) = Σ_{a≥1} f(1/(a + x))/(a + x)²`, a native real sum, with absolute
+and uniform convergence for continuous `f` on `[0, 1]`) and its Lebesgue duality from §4.8. The
+supplier's index `a ≥ 1` is `A + 1` here.
+
+### From TauCetiRoadmap.ArithmeticDirichletSeriesPartII §§0.1, 1.1, 3.1 and 3.2
+
+Consume `HasLaplace f s z μ` for `f : ℝ → E` with `NormedSpace ℝ E` and `SMul ℂ E`: integrability
+of `t ↦ exp(−st) • f t` for `μ` together with the value `z`; its uniqueness, almost-everywhere
+congruence and linearity API (§0.1). For `λ > 0`, consume `squaredSinc λ`, its nonnegativity,
+mass one (`squaredSinc_mass`), triangle Fourier transform on `[−2λ, 2λ]` (`squaredSinc_fourier`)
+and tail concentration as `λ → ∞`; evenness holds for every real `λ` (§1.1). At `λ = 0` the
+kernel is identically `0`, of mass `0`, and for `λ < 0` it is negative at `v = 0`
+(`squaredSinc (−1) 0 = −1/π`), so the positive scale is part of every use. The
+scalar statements `monotoneUnsmoothing` (§3.1) and `delangeLaplace` with `k = 0` (§3.2) are the
+one-point cases of Layer 6 and are used as consistency checks of its constants.
+
+### From TauCetiRoadmap.AlgebraicTopology Stage 2, item 7
+
+Consume `brouwerFixedPoint_compactConvex_continuousOn`: for a nonempty compact convex subset `C` of
+a finite-dimensional real normed space and `f` continuous on `C` with `f(C) ⊆ C`, some point of
+`C` is fixed by `f`; no full-dimensionality of `C` is assumed. The finite-dimensional linear span
+of finitely many vectors of a Hausdorff topological vector space carries its unique Hausdorff
+vector topology, so Mathlib's `LinearEquiv.toContinuousLinearEquiv` transports a finite convex
+hull to a normed model where the theorem applies.
+
+### From TauCetiRoadmap.OptimalTransport Layer 13B
+
+Item 9 builds Hilbert's projective metric and Birkhoff contraction with factor `tanh(Δ(K)/4)` for
+strictly positive finite kernels. Layer 3 here proves the general cone statement and checks that its
+distance on strictly positive vectors is the logarithmic max/min ratio used there.
+
+### From TauCetiRoadmap.BanachAlgebras A2
+
+Consume the Riesz idempotents of a finite partition of the spectrum of a bounded operator on a
+complex Banach space into nonempty disjoint compact sets, their orthogonality, sum one, commutation
+with the operator, the exact corner spectra and the resulting closed invariant direct-sum
+decomposition.
 
 ## References
 

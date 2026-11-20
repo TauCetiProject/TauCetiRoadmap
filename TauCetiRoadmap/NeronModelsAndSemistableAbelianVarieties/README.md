@@ -1,297 +1,86 @@
 # Roadmap: Néron models and semistable abelian varieties
 
-**Summary.** This roadmap builds the scheme-theoretic reduction theory of abelian varieties over arithmetic
-bases: finite-type Néron models over arbitrary discrete valuation rings and over Dedekind schemes
-such as rings of integers and of `S`-integers, with the Néron mapping property as the defining
-universal property; their special fibres, identity components and finite étale component groups;
-semistable reduction, Grothendieck's monodromy criterion and the semistable reduction theorem
-after a finite extension; the Raynaud extension and the polarised uniformisation of a
-degenerating abelian variety; the degree-zero Picard scheme of a regular semistable curve, the
-identification of its toric characters with the integral first homology of the dual graph, the
-integral monodromy pairing, the component group as its cokernel and Grothendieck's pairing on
-component groups; and the Galois-theoretic consequences — Néron–Ogg–Shafarevich, isogeny
-invariance of good reduction, potential good reduction, finite-étale torsion specialization and the
-Frobenius/Euler comparison at good places, the `p`-adic comparison at the residue prime,
-the elliptic conductor with Ogg's and Saito's formulas and residual bounds, the conductor of a
-semistable abelian variety, the local Euler polynomial at bad places — together with the exact
-interfaces that level lowering, the Faltings height, the isogeny theorem and the modularity of
-abelian surfaces consume. The end theorems are the local existence theorem of Néron models,
-Grothendieck's criterion `A semistable ⇔ inertia unipotent on T_ℓ(A)`, Néron–Ogg–Shafarevich,
-the identification `Φ_A ≅ coker(X_{A^∨} → Hom(X_A, ℤ))` of the component group with the
-cokernel of the monodromy pairing, the equation-level–scheme-level comparison of every
-reduction invariant of an elliptic curve, and the independence and closed-point
-specialization of the arithmetic Tate systems of abelian varieties.
+**Summary.** An abelian variety over the fraction field of a discrete valuation ring need not
+extend to an abelian scheme over the ring: a split Tate elliptic curve has no proper smooth model.
+It still has a smooth model characterised by a universal property, its Néron model, whose special
+fibre records how the variety degenerates. This roadmap builds that reduction theory, from Néron
+models and their special fibres to semistable reduction and the Galois action on Tate modules.
+The base is a connected Dedekind scheme (Noetherian, normal, of dimension one) or, locally, a
+discrete valuation ring; henselian, completeness and excellence hypotheses are stated where used,
+never implied.
 
-The objects are schemes and group schemes over the base, carried with their generic-fibre
-markings; the mapping property quantifies over all smooth test schemes, and the finite-type
-convention is enforced. Equation-level reduction theory of elliptic curves, semistable reduction
-of curves, Jacobians of smooth curves, Néron models of tori, Tate modules and conductors of
-Galois representations, and the general theory of formal schemes, Picard functors and group
-spaces are consumed from the roadmaps named below, not rebuilt.
+A Néron model of an abelian variety `A` over `K` is a smooth, separated scheme of finite type over
+the base, with its generic fibre identified with `A`, such that for every smooth scheme `Y` over
+the base, every morphism from the generic fibre of `Y` to `A` extends uniquely to a morphism from
+`Y` to the model. Testing only sections, or only étale `Y`, is strictly weaker. The first main
+theorem is existence: over every discrete valuation ring, excellent or not, every abelian variety
+over the fraction field has a Néron model, and the same holds over every connected Dedekind
+scheme, such as the ring of integers of a number field. The model is unique up to unique
+isomorphism respecting the identification, and is a commutative group scheme extending `A`.
 
-## Scope and ownership
+`A` has good reduction when it extends to an abelian scheme over the discrete valuation ring,
+which is then its Néron model. The Néron–Ogg–Shafarevich criterion says that over a henselian
+discrete valuation ring, for a prime `ℓ` different from the residue characteristic, `A` has good
+reduction exactly when inertia acts trivially on the Tate module `T_ℓ(A)`. Over every discrete
+valuation ring, isogenous abelian varieties have good reduction simultaneously, inseparable
+isogenies included. For an elliptic curve with a minimal Weierstrass equation, the discriminant
+is a unit exactly when the curve has good reduction in this sense.
 
-The roadmap owns:
+A weaker condition is semistable reduction: the identity component of the special fibre of the
+Néron model is an extension of an abelian variety by a torus. For every discrete valuation ring
+`R` there is a finite separable extension `K'/K` such that `A` becomes semistable at every discrete
+valuation ring of the integral closure of `R` in `K'` lying over `R`. Grothendieck's monodromy
+criterion says that over a henselian discrete valuation ring, with `ℓ ≠ char k`, `A` is semistable
+exactly when inertia acts unipotently on `T_ℓ(A)`; each inertia element `σ` then satisfies
+`(σ − 1)² = 0`.
 
-- the Néron mapping property as a predicate on `Over S` relative to a base morphism `j : η → S`,
-  marked finite-type Néron models, weak Néron models, extension of morphisms and uniqueness;
-- the group law on a Néron model and the extension of homomorphisms; smoothening over an
-  excellent discrete valuation ring and local existence over every discrete valuation ring;
-  spreading out and the Dedekind local-to-global construction; the comparison with abelian-scheme models; étale base change; the
-  invariant-differential lattice of a Néron model and its Hodge line;
-- the identity component `M⁰` of a Néron model, specialised from
-  AlgebraicModuliForArithmeticGeometry §7.9, and the finite étale component group `π₀(G/k)` of
-  every group scheme `G` of finite type over a field, applied to the special fibre as `Φ_A`,
-  with the distinction between rational and geometric components (2.1–2.2); the Chevalley
-  decomposition of every smooth connected commutative group over a perfect field (2.3), applied
-  to the identity fibre; Chevalley's theorem for noncommutative groups is not stated in this
-  roadmap, and 2.3 does not use it; the toric character lattice of a Néron special fibre and its
-  functoriality;
-  functoriality under isogeny with the correct (non-exact) statements;
-- for elliptic curves: the identification of the equation-level filtration `E₁ ⊂ E₀ ⊂ E` with
-  the Néron model, the smooth locus of the minimal regular model as the Néron model, the
-  Kodaira fibre configurations and geometric component groups by type;
-- the semistable reduction predicate and its invariance under isogeny and identity-model base
-  change; the toric–finite filtration of the Tate module, Weil orthogonality, unipotence of
-  inertia, Grothendieck's monodromy criterion, semistable reduction after a finite separable
-  extension, and the full-level criterion; the Raynaud extension and the polarised rigid
-  uniformisation with its lattice and valuation pairing;
-- the degree-zero Picard scheme of a regular semistable curve over a discrete valuation ring,
-  the normalisation sequence, the dual-multigraph adapters for the supplied integral cycle
-  lattice and its identification with the toric characters, the Picard–Néron identity comparison,
-  the integral monodromy pairing of a semistable abelian variety and its graph formula for
-  Jacobians, the
-  component group as a cokernel, Grothendieck's pairing on component groups, the
-  intersection-matrix description, the one-node hyperelliptic curves of Bhargava–Gross–Wang
-  with their generalised Jacobians, two-torsion and odd-factor torsors, and the semi-abelian
-  Picard scheme of a stable family;
-- Néron–Ogg–Shafarevich, isogeny invariance of good reduction, the crystalline and semistable
-  comparison for the `p`-adic Tate module, finite-étale specialization, good-reduction
-  Frobenius and Euler polynomials, potential good reduction, the elliptic conductor and its values and bounds, the special-fibre and
-  étale Euler-characteristic comparisons, determinant of cohomology, Ogg's and Saito's
-  conductor–discriminant formulas, the comparison with Mathlib's local polynomial,
-  the conductor interface and semistable formula, and residual conductor comparisons;
-- the interfaces of Layer 6: Serre's independence and Noot's closed-point specialization,
-  the good-place and two-place realization of the semistable torsion interface,
-  degeneracy-map functoriality, character exact sequences with
-  verified kernels, semistable and isogeny behaviour of the differential lattice, connected-model
-  Kummer and localization sequences, isogeny component defects and exact cotangents of semistable
-  quotients under the strict ramification bound, the
-  equation-level–scheme-level comparisons for elliptic curves, the compatible system of
-  cohomology of an abelian variety, the semistable-ordinary adapters for abelian surfaces over
-  `ℚ₂`, and the full-level extension for curves.
+The special fibre is usually disconnected. Its connected components over a separable closure of
+the residue field `k`, with their Galois action, form a finite étale group `Φ_A` over `k`, the
+component group. For `A` semistable over a henselian base, the monodromy pairing is an integral
+pairing `X_{A^∨} × X_A → ℤ` between the character lattices of the tori in the special fibres of
+the dual of `A` and of `A`. Its adjoint `X_{A^∨} → Hom(X_A, ℤ)` is injective, and its cokernel,
+with its Galois action, is canonically `Φ_A(k̄)`. For a split Tate curve with parameter `q` the
+adjoint is multiplication by `ord(q)` on `ℤ`, and the geometric component group is `ℤ/ord(q)`.
+For Jacobians, under further hypotheses, the lattice and the pairing are read off the dual graph
+of the special fibre of a regular semistable model.
 
-It leaves to other roadmaps, and consumes from them:
+The roadmap builds on AbelianSchemesAndArithmeticModuli for abelian schemes and their duals, on
+EllipticCurves for the equation-level reduction theory of elliptic curves, and on
+StableReduction for models of curves and their semistable reduction. Conversely,
+ArakelovGeometryAndAbelianHeights uses the Néron model's lattice of invariant differentials for
+the Faltings height, and the roadmaps on Faltings's isogeny theorem, level lowering and the
+modularity of abelian surfaces draw on its other results.
 
-- **EllipticCurves** (Tau Ceti), Layers 1–5: the minimal Weierstrass model, Mathlib's
-  reduction predicates, the reduction map, `E₀(K)`, `E₁(K)` and its identification with the
-  formal group, the full Tate algorithm with its `ReductionSymbol`, the algorithmic exponent
-  `v(Δ) − m + 1`, the local index `c_p = [E(K) : E₀(K)]`, the Tate curve and its point
-  uniformisation, the invariant differential at the level of the function field, the minimal
-  discriminant, the Tate module of an elliptic curve with its Galois action and Weil pairing,
-  the three equation-level Néron–Ogg–Shafarevich statements, and the point count over finite
-  fields. That roadmap excludes Néron models by design; this roadmap owns the comparisons.
-- **StableReduction** (Tau Ceti), Layers 0–7: models over a discrete valuation ring with
-  their generic-fibre markings (`TauCeti.Model`), nodes, normalisation and the dual graph with
-  its Betti number, stable curves, blow-ups and intersection theory on arithmetic surfaces,
-  regular and minimal models with their components and multiplicities, numerical types and the
-  numerical Picard group `TauCeti.NumericalType.Pic` with its degree map and torsion, semistable
-  reduction of curves and the curve–Jacobian criterion. Layer 5 supplies the minimal regular
-  model; `KodairaConfiguration` in 2.8 here identifies its fibre with the configuration
-  attached to EllipticCurves' `ReductionSymbol`. This roadmap also owns the smooth-locus
-  and component-group comparisons.
-- **FreeGroupsAndLimitGroups**, §2.2a
-  ([finite cycle spaces and independent cycles](../FreeGroupsAndLimitGroups/README.md#22a-finite-cycle-spaces-and-independent-cycles)):
-  signed integral incidence and its kernel, binary cycles, spanning forests and their count,
-  integral and binary chord bases, coefficient reduction and both rank formulas, for all finite
-  multigraphs. Section 4.2 here identifies these carriers on the dual graph of a semistable curve
-  and compares its integral cycles with toric characters.
-- **JacobianChallenge** (Tau Ceti), Layers D–F: the Picard functor, Jacobian and Abel–Jacobi map
-  of a smooth proper curve over a field.
-- **AlgebraicCurves** (Tau Ceti), Layer 10: hyperelliptic models.
-- **ReductiveGroups** (Tau Ceti), Layer 3: the identity component and component group of an
-  affine group scheme of finite type over a field, with which 2.1–2.2 agree in the affine case;
-  Layers 4 and 7: character lattices of tori, exactness of the
-  character functor, and the Galois action on characters.
-- **ReductiveGroupsPartII** (Tau Ceti), RG2.0a and RG2.3.2: norm-one tori and Weil
-  restriction; locally finite-type Néron models of tori, their finite-type and connected open subgroups; RG2.3.7 supplies Lang's theorem for connected smooth
-  groups over finite fields and the vanishing of `H¹(k,H)`. The torus models have the
-  affine mapping property `lftMappingProperty`. Those models satisfy the mapping property of
-  1.1 and inhabit `NeronModel` exactly when they are quasi-compact. Positive-rank split tori
-  have non-quasi-compact models; some nonsplit torus models are finite type. Construction and
-  ownership of all torus models remain in ReductiveGroupsPartII; RG2.3.2 supplies the
-  comparison of the full and affine mapping properties.
-- **ModularCurves** (Tau Ceti), Layer 1: the scheme-theoretic elliptic curve attached to a
-  Weierstrass equation with unit discriminant over a base.
-- **ProfiniteCohomology** (Tau Ceti), Layer 8: the `(1,1)` cup product in continuous
-  Galois cohomology, with its coefficient pairing and connecting-map identities.
-- **SchemeAndStackFoundations**, §§0.12–0.14 (henselisation and henselian finite algebras),
-  §§0.16, 0.20–0.21 (catenary, Nagata and excellent rings), §§1.13–1.17 (group spaces,
-  torsors and quotients), §§2.1–2.4, 2.10, 2.15 (fppf cohomology and
-  comparison with field Galois cohomology), §2.22 (scheme Brauer groups), §3.6 (Picard torsors and rational
-  divisor classes), §3.8 (invariant differentials), §§4.7–4.10 (adic thickening systems,
-  coherent formal existence and algebraisation of compatible morphisms), §§4.11–4.13
-  (modifications and one-dimensional resolution), and §4.15 (moduli of stable curves). Zariski's main
-  theorem is Mathlib's `Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`.
-- **AlgebraicModuliForArithmeticGeometry**, §5.4 (`DMSchematicClosure.stack`, schematic
-  closures and their flat base change, used in the scheme case), §6.1 (`artinApproximationClassical`),
-  §7.3 (Picard-stack and representability inputs), §7.6.1 (relative Picard sheaf and base change),
-  §7.9 (`spaceSectionComponentCriterion`, general group-space identity components).
-- **ComplexComparisonPartII**, §C3.2d.2 (`relative_picard_algebraicSpace`),
-  §C3.2f.1 (`picardZeroSheaf`) and §C3.2f.2 (`picardZeroCriterion`).
-- **RigidAnalyticGeometry**, §§6.1–6.2 (`RigidSpace K` and its G-site),
-  §8.1 (rigid analytification), §§8.2–8.3 (classical points and rigid–adic comparison),
-  and **AdicSpacesPartIII**, F0 and R2.3 (formal schemes, completion and generic fibres).
-  The quotient by the period lattice belongs to 3.14 here; polarised algebraisation
-  uses AbelianSchemesAndArithmeticModuli A4.8. Finite analytic isogeny quotients do not
-  supply a quotient by an infinite lattice.
-- **AbelianSchemesAndArithmeticModuli** A0.1–A1 (abelian schemes over a base, rigidity, homomorphisms,
-  products), A2 (the dual abelian scheme and the Poincaré biextension) and A3 (finite flat
-  torsion, isogenies and the Weil pairing), together with A4.1,
-  A4.5, A4.3 and A4.2 (integral Tate modules, the minimal
-  Barsotti–Tate tower, degree-one de Rham cohomology and its vector-extension comparison),
-  A4.4 (`exteriorCohomology`), A4.8 (`polarizedEffectivity` of compatible polarised
-  abelian-scheme thickenings), A6.5 (`poincareReducibility`), A6.10–A6.12
-  (endomorphism polynomials), A6.14–A6.15 (Rosati positivity and its real operator adapter),
-  and A1.8 (Weil extension for abelian schemes).
-- **SmoothRepresentationsOfLocalGroups**, SR.5.2, `classical-llc-normalization`,
-  `wd-parameter-operations` and `wd-frobenius-semisimplification`: the canonical
-  Weil–Deligne parameter fields, coefficient descent and extension, parameter operations
-  and Frobenius semisimplification.
-- **ArithmeticGaloisRepresentations**, §§2.1–2.1a (local-field inertia and its trait comparison),
-  §§2.3–2.5 (tame characters, arithmetic Weil–Deligne adapters and local factors),
-  §§3.1–3.7 (Artin, Swan, global and residual conductor theory), §§6.1–6.2 (continuous
-  Tate-module representations, elliptic comparison, isogeny maps and Weil pairing),
-  §6.3 **The Tate curve** and **Local Euler factors** (uniformisation representation and
-  generic Euler definition), §7.6 (Zariski closures), §6.4a **Finite Frattini quotient of a compact matrix group**
-  and §6.6 **Serre's wild bound**. Good-reduction Frobenius, elliptic conductor and
-  local-polynomial comparisons are the targets of §§5.0a–5.3i here.
-- **EtaleCohomologyFoundations**, §§F.0–F.1, F.3–F.4: finite-coefficient cohomology,
-  universal-homeomorphism invariance, finiteness and adic realizations; §F.3a:
-  the general henselian-trait Galois and residue interface, valuation-inertia identification,
-  and tame character with Kummer formula, surjectivity, conjugation and finite-extension
-  normalisation. Its arbitrary-trait contract includes infinite and imperfect residue fields
-  and residue characteristic zero. Section F.3a also supplies
-  `VanishingCycles.tameCharacter_eq_inertiaTameCharacter` for valuation rings of
-  nonarchimedean local fields; ArithmeticGaloisRepresentations §2.1a transports this
-  comparison to global decomposition groups. Sections G.1–G.3 supply scheme compactifications,
-  Nagata existence and common refinements (`Compactification`, `nagataCompactification`,
-  `compactificationCommonRefinement`) for separated finite-type morphisms over qcqs bases.
-- **PadicPeriodRings**, §§1–2 and 4.1–4.3: completed algebraic closure with Galois action,
-  Tate fixed points/twists, topological `B_cris`, `B_dR`, `B_st`, their invariant functors,
-  canonical comparison maps, regularity and crystalline/semistable/de Rham predicates.
-- **NoncommutativeAndEquivariantIwasawa**, §F.6, generic period-realization prefix:
-  the potentially semistable period functor and Weil–Deligne realization on actual
-  `B_st` invariants, for all finite `K/ℚ_p`, finite coefficient fields and every prime.
-  It supplies nilpotent `N_p`, admissible tensor/dual comparisons, filtered de Rham
-  Galois descent, change of semistable extension, coefficient extension and descent.
-  Section 5.3 here transports its output by `N_K = e_K N_p` and compares it with the
-  filtered-module realization and the geometric Raynaud and abelian realizations.
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.P2–R07.P5a and R07.3.0:
-  finite-`K` crystalline/de Rham structures and `finiteKPeriodComparison` with those
-  foundational carriers, maps and predicates; §R07.4.27:
-  `FilteredPhiNModuleDD` and `FilteredPhiNModuleDD.weilDeligne`, the arithmetic-normalized
-  filtered-module construction with semilinear descent. Sections R07.P7.1–R07.P7.5 supply
-  finite-coefficient period functors, labelled Sen operators and Hodge–Tate lifts; §R07.1.20
-  (`schematicClosure_flat`) is the flat schematic closure of a generic subgroup over a Dedekind
-  base, whose argument 1.9a reuses for closed subschemes of an abelian scheme.
-  Section 5.3 here owns `PadicWeilDeligneRealization`, the normalization transport of
-  NoncommutativeAndEquivariantIwasawa §F.6's generic realization and its identification
-  with this filtered-module construction, including at `p = 2`, and the geometric
-  Raynaud realization and abelian-variety period comparison.
-- **InverseGaloisAndArithmeticFundamentalGroups**, §§IG.2.4, IG.2.6, IG.2.8: Hilbertian fields,
-  their finite-extension and finitely-generated permanence, full-group specialization of finite
-  covers and its Frattini application for 6.0.
-- **NumberFieldArithmetic**, Layer 5: finite places, completions and arithmetic Frobenius for
-  5.0b. The local-field theory of the completed LocalFieldsRamification is used from Tau Ceti by
-  name, over nonarchimedean local fields (finite residue field): the Frobenius of an unramified
-  extension `TauCeti.frobeniusAlgEquiv`; the lower and upper ramification groups
-  `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and `upperRamificationGroup`, the
-  Herbrand function `herbrandOrderIso` and Hasse–Arf `hasseArf`; the wild inertia subgroup
-  `TauCeti.wildInertiaSubgroup` and the tame quotient `TauCeti.tameQuotientEquiv`. Over arbitrary
-  perfect residue fields, including infinite ones such as
-  `F̄_p((t))`, the conductor comparisons in 5.3a–5.7 consume the filtration, breaks and Swan and
-  Artin conductors through ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which carries
-  that generality.
-- **PadicMeasuresIwasawaAlgebras**, §5.1 (determinant lines of perfect complexes over any
-  commutative ring, with quasi-isomorphism, short-exact-sequence and base-change isomorphisms),
-  and **SchemeAndStackFoundations**, §2.6 (proper coherent cohomology), supply the algebraic and
-  coherent inputs to the determinant of cohomology in 5.3d; **StableReduction** Layer 2
-  supplies the relative dualizing line.
-- **CrystallineCohomology**, CR.2.1 (crystalline cohomology), CR.2.3 (proper smooth formal
-  comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization): the
-  crystalline realization of the good abelian quotient, including `p = 2`.
-- **NeronModelsAndSemistableAbelianVarieties Part II**: Ferrand pinching and conductor squares,
-  genus-one fibres and their forms, multiple fibres over excellent discrete valuation rings,
-  global Weierstrass models and Jacobians of genus-one curves, Picard constancy and fibre
-  configurations, and the explicit models over `𝔽₂`. Part II consumes Layers 2 and 4 of this
-  roadmap.
-- **JacobianChallenge Part II**: the comparison of the Hodge line `det e^*Ω¹` of the Picard
-  scheme of a stable family with `det π_*ω`; it consumes 4.13.
-- **RelativeJacobiansAndIntegralCurveModels**, §§3.2–3.5: Raynaud's representability of
-  `Pic⁰` for normal models with multiplicity gcd one, the Néron comparison of the quotient
-  `P/E` for regular models over an arbitrary Dedekind base with perfect residue field or an
-  étale quasi-section, and the gluing of the Picard-computed global Néron model. This roadmap keeps the strictly henselian, algebraically closed residue-field case of
-  3.9 and 4.7, which that roadmap consumes.
-- **ModularCurvesPartII**, **SerreWeightAndLevelOptimisation**, **ArakelovGeometryAndAbelianHeights**,
-  **FaltingsFinitenessAndIsogenyTheorems**, **SmallRamificationAndAbelianVarietyBaseCases**,
-  **HeegnerPointEulerSystems**, **GrossZagierAndArithmeticHeights**,
-  **ComplexMultiplicationAndExplicitReciprocity**: consumers (see Downstream consumers).
+The first layer constructs Néron models, the second studies their special fibres, and the third
+treats semistable reduction and the rigid uniformisation of a degenerating abelian variety. The
+fourth constructs the monodromy pairing and computes it for Jacobians from Picard schemes of
+semistable curves. The fifth proves Néron–Ogg–Shafarevich and builds conductors and local Euler
+polynomials; the sixth collects what other roadmaps use.
 
-Already in Tau Ceti, used and not restated: abelian varieties over a field with their
-homomorphisms, isogenies, rigidity, products and tangent spaces
-(`TauCeti.AlgebraicGeometry.AbelianVariety`, `AbelianVariety.baseChange`, `AbelianVariety.IsIsogeny`,
-`isMonHom_of_one_hom`); group objects of `Over S` and their closed subgroups, kernels and
-isogenies over `Spec R` (`TauCeti.ClosedSubgroupScheme`, `TauCeti.GroupScheme.kernelBaseChangeIso`, the isogeny class
-of `GroupScheme/CentralIsogeny`); generic and special fibres over a discrete valuation ring and
-extensionality along the generic fibre (`TauCeti.genericFiber`, `specialFiber`,
-`ext_of_genericFiberι_eq`); models with generic-fibre markings, their uniqueness when separated,
-and their base change along finite extensions of discrete valuation rings (`TauCeti.Model`,
-`Model.subsingleton_iso`, `Model.baseChange`, `FiniteDVRExtension`); identity components and
-finite étale component groups of affine finite-type groups over an algebraically closed field
-(`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, `componentGroupScheme`,
-`componentGroupFppfGroupObjectIso`); the Galois correspondence for finite étale group schemes
-over a field (`TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`);
-character lattices of tori with Galois action, maximal tori and unipotent radicals of affine
-groups (`TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
-`TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor`, `IsMaximalTorus`, `unipotentRadical`,
-`DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`); the rigidified Picard functor and the
-degree-zero Picard group of an integral curve (`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`,
-`LineBundleClass.picZero`); numerical types and their Picard groups (`TauCeti.NumericalType`,
-`NumericalType.Pic`, `NumericalType.degree`, `NumericalType.torsion`, `topologicalGenus`); families
-of curves (`TauCeti.AlgebraicGeometry.FamilyOfCurves`); and the elliptic suppliers
-`WeierstrassCurve.IsSemistable` (no additive reduction at any place of a Dedekind base),
-`localMinimalDiscriminantValuation`, `minimalDiscriminantIdeal`, `projModel` with its smoothness
-for unit discriminant, `kerReduction` and `formalPointAddEquivKerReduction`, `tateCurve`,
-`tateModuleGaloisRepresentation`, `tateModuleWeilPairing`, `nodePolynomial`,
-`exists_quadraticTwist_hasSplitMultiplicativeReduction` and `localPolynomial_eq_of_hasGoodReduction`.
-From Mathlib: the morphism classes `Smooth`, `Etale`, `IsSeparated`, `QuasiCompact`,
-`LocallyOfFiniteType`, `IsProper`, `Flat`, `GeometricallyIntegral`; `Over.pullback` and the
-cartesian monoidal structure of `Over X`; `GrpObj`, `IsCommMonObj`; `HenselianLocalRing`,
-`IsDiscreteValuationRing`; `WeierstrassCurve.minimal`, `IsMinimal`, `reduction`,
-`HasGoodReduction`, `HasMultiplicativeReduction`, `HasSplitMultiplicativeReduction`,
-`HasAdditiveReduction`, `hasGoodReduction_iff_isElliptic_reduction`, `localPolynomial`;
-`BrauerGroup`; `ValuationSubring.inertiaSubgroup`; `BDeRham`; `Finsupp.linearCombination`,
-`Matrix.toLin'`, `AddCircle`.
+## How to read the build
 
-Where a target here is a variant of an existing statement, the entry says in one clause how it
-differs: a marked Néron model is a `TauCeti.Model` with smooth, separated and quasi-compact
-structure morphism, over an arbitrary base morphism `j`, and with the mapping property (1.2);
-marked extensionality and uniqueness are `ext_of_genericFiberι_eq` and `Model.subsingleton_iso`
-over `Spec R` and are derived from the mapping property over arbitrary `j` (1.2, 1.4); the
-component group of 2.2 is for every group scheme of finite type over any field, not necessarily
-affine or smooth, and agrees with `componentGroupScheme` in the affine algebraically-closed case;
-the cycle lattice adapter of 4.2 identifies FreeGroupsAndLimitGroups §2.2a's integral `H₁` with
-the kernel on StableReduction's dual-graph coordinates; the intersection-matrix description of 4.7
-is a comparison with
-`NumericalType.Pic`, not a second numerical Picard group; the semistable predicate of 3.1 is for abelian varieties and
-restricts, for elliptic curves, to the local form of `WeierstrassCurve.IsSemistable`.
-The existing symmetric discriminant form is
-`TauCeti.IntegralLattice.discriminantPairing` and `discriminantPairing_mk` in
-`TauCeti/LinearAlgebra/IntegralLattice/Discriminant/Bilinear.lean` (IntegralLattices Layer 1D and Completed/IntegralLattices
-Layer 1.4). The retained pairing in 4.6 is between cokernels of a pairing of two possibly
-different lattices, without a symmetry hypothesis; it does not reconstruct the symmetric
-lattice theory.
+The layers are in build order with the definition and Raynaud exceptions specified below.
+Layer 1 defines the Néron mapping property and marked models,
+proves uniqueness, extension and the group law, constructs models locally and globally, and
+extracts the differential lattice. Layer 2 builds the identity component, the component group,
+the Chevalley decomposition and the toric character lattice, and compares the elliptic
+equation-level objects with the model. Layer 3 defines semistability, proves the Tate-module
+filtration, the Picard–Néron identity comparison, semistable reduction after a finite
+extension and then Grothendieck's criterion, and
+compares the formal identity model with the Raynaud extension and the rigid uniformisation.
+Layer 4 builds the graph and monodromy theory of a regular semistable curve, the integral pairing of
+any semistable abelian variety, the component group as its cokernel, Grothendieck's pairing, the
+intersection-matrix description, and the one-node hyperelliptic curves. Layer 5 proves
+Néron–Ogg–Shafarevich, isogeny invariance of good reduction, the `p`-adic comparison, the
+semistable conductor formula and the local Euler polynomial at bad places. Layer 6 packages the
+interfaces for the consumers. Downstream roadmaps refer to the six layers as R11.1–R11.6. Within a
+layer, build the definition of `SemistableReduction` in 3.1 immediately after 2.4,
+then 2.5, and then the remaining API of 3.1 and 3.2. In Layer 3, the Raynaud
+subsections 3.13–3.14 need only 2.4 and 3.1, and they are built after 3.5 and before 3.6,
+whose finite flat orthogonality uses the dual Raynaud extensions; the `completion` comparison
+of 3.5 is likewise proved after 3.14. The build order of Layer 3 is therefore 3.1–3.5,
+3.13–3.14, then 3.6–3.12. Each layer ends with worked examples and the list of layers and
+roadmaps it needs.
 
 ## Conventions
 
@@ -347,379 +136,6 @@ lattice theory.
     `EquationGoodComparison` (§6.5), with the predicate `HasGoodModel` (§1.8) they are stated
     through; its module documentation
     identifies the geometric carriers needed to state the other headline results.
-
-## Exact supplier contracts
-
-The library pins are Mathlib `1b1ccf4b` and Tau Ceti `2fd255d9`.
-Roadmap section contracts describe the requested mathematics independently of implementation.
-
-### From Mathlib
-
-`AlgebraicGeometry.Smooth`, `Etale`, `IsSeparated`, `QuasiCompact`, `LocallyOfFiniteType`,
-`IsProper`, `Flat`, `GeometricallyIntegral`: the morphism classes with their composition and
-base-change instances; nothing is assumed about them beyond the stated properties.
-`CategoryTheory.Over.pullback j`: the base-change functor on `Over S`, used for generic
-restriction; its action on morphisms is the restriction map of 1.1. `Over.cartesianMonoidalCategory`
-(an abbreviation, activated as a local instance), `GrpObj`, `IsCommMonObj`: group objects in
-`Over S` for the group law of 1.5. `HenselianLocalRing`, `IsDiscreteValuationRing`,
-`IsLocalRing.ResidueField`: the local hypotheses. `WeierstrassCurve.minimal`, `IsMinimal`,
-`reduction`, `HasGoodReduction`, `HasMultiplicativeReduction`, `HasSplitMultiplicativeReduction`,
-`HasAdditiveReduction`, `hasGoodReduction_iff_isElliptic_reduction`, `localPolynomial`: the
-equation-level predicates compared in Layer 6; `localPolynomial` reads the residue cardinality
-as `Nat.card`, which is `0` for an infinite residue field. `BrauerGroup`: the target of the
-connecting map of 4.12. `BDeRham`, `WittVector.fontaineTheta`: the only period-ring material
-available for 5.3. `Finsupp.linearCombination`, `LinearMap.ker`, `Module.Dual`, `AddCircle`,
-`ZMod`: the lattice-level carriers of Layer 4 and the component-group arithmetic of Layer 2.
-`AlgebraicGeometry.Scheme.fpqcTopology` with its `Subcanonical` instance, in
-`Mathlib/AlgebraicGeometry/Sites/Fpqc.lean`: every representable presheaf is an fpqc sheaf, so
-morphisms of schemes descend along fpqc coverings; 2.2 uses this along a finite Galois extension
-of fields and along the projection to the component group. `AlgebraicGeometry.Scheme.Hom.fiber`
-and `ConnectedComponents`: the fibres and the connected components of 2.1–2.2.
-`AlgebraicGeometry.Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`, in
-`Mathlib/AlgebraicGeometry/ZariskisMainTheorem.lean`: for a separated finite-type morphism,
-the quasi-finite locus is the inverse image of an open subset of its relative normalisation
-on which the canonical morphism is an isomorphism; this is the input for 3.3.
-
-### From Tau Ceti
-
-The declarations listed under "Already in Tau Ceti" above, with these contracts:
-`TauCeti.AlgebraicGeometry.AbelianVariety` is over a field and supplies the generic fibre; abelian schemes over a
-base are `AbelianSchemesAndArithmeticModuli:A0.1–A1`. `TauCeti.Model` carries a flat finitely presented
-model with a generic-fibre marking over `Spec R`; `Model.subsingleton_iso` needs a separated
-target; `ext_of_genericFiberι_eq` needs a flat source and a separated target over `Spec R`.
-`componentGroupScheme` and `identityComponentSpec` require an affine finite-type group over an
-algebraically closed field. `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp K Ω` and
-`galoisEquivalenceCommGrp K Ω`, in `TauCeti/AlgebraicGeometry/FiniteEtale/Galois/Basic.lean`, need
-a separably closed field `Ω` Galois over `K`; they identify group objects (commutative group
-objects) in finite étale `K`-schemes with finite groups (finite abelian groups) carrying a
-continuous action of `Gal(Ω/K)` by automorphisms, a scheme going to its `Ω`-valued points, and
-identify homomorphisms on the two sides; 2.2 uses them with `Ω = k^sep`.
-`characterLatticeFunctor` is an equivalence over a perfect field and a functor in general.
-`NumericalType.Pic` is the quotient of `ℤ^{components}` by the rows `a_{ij}/w_j` of the weighted
-intersection matrix, `degree` its degree map, `torsion ℓ` the
-`ℓ`-torsion, finite for `ℓ ≠ 0`. `kerReduction` is the kernel of reduction on points over the
-adic completion at a height-one prime, `formalPointAddEquivKerReduction` its identification with
-the formal group. `tateCurve` is the Tate curve over `ℤ⟦q⟧`; `tateModuleGaloisRepresentation` is
-the Galois representation on `T_ℓ(E)`.
-The abelian-variety carrier and base change are in
-`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`; its rigidity supplier is
-`TauCeti.AlgebraicGeometry.isMonHom_of_one_hom` in `AbelianVariety/Hom/Rigidity.lean`.
-`TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`, in
-`TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean`, is the predicate that the underlying
-scheme morphism of a homomorphism is finite and surjective; it includes inseparable isogenies,
-and 5.2 states `GoodIsogeny` for it.
-The model uniqueness and flat generic-fibre extensionality suppliers are in
-`Curves/StableReduction/Model/Uniqueness.lean` and `Fibers/SchematicDensity.lean`.
-The affine component suppliers are in `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`
-and `Connected/ComponentGroup/{FiniteEtale,Representable}.lean`, all under
-`TauCeti.FiniteTypeCommHopfAlgCat`; the character functor is in
-`Torus/CharacterLattice/Functoriality.lean`, and its perfect-field equivalence in
-`Torus/CharacterLattice/Equivalence.lean`.
-For a symmetric nondegenerate integral lattice, use
-`TauCeti.IntegralLattice.discriminantPairing` and `discriminantPairing_mk` in
-`TauCeti/LinearAlgebra/IntegralLattice/Discriminant/Bilinear.lean`;
-`TauCeti.IntegralLattice.rankOneClass` and `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`
-in `TauCeti/LinearAlgebra/IntegralLattice/RankOne.lean` pin the positive rank-one
-value `kl/(2m)` modulo integers for `m : ℤ` with `m ≠ 0`: its lattice is `⟨2m⟩`,
-not `⟨m⟩`. Thus at `m = 2` its generator has self-pairing `1/4`, whereas the scalar
-pairing `rankOne 5` in 4.3 has coefficient `5` and inverse value `1/5`.
-Section 4.6 here constructs the two-lattice pairing without symmetry and compares
-it with that supplier when the two lattices come from a symmetric integral form.
-`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`, in
-`TauCeti/AlgebraicGeometry/PicardFunctor/Rigidified.lean`, is the functor of line
-bundles rigidified along a given section, not the entire relative Picard space.
-`TauCeti.AlgebraicGeometry.LineBundleClass.picZero`, in
-`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/PicZero.lean`, is the kernel of the
-Euler degree for a proper integral Noetherian curve with DVR codimension-one stalks
-and finite-dimensional `H¹(𝒪)`.
-`TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical`, in
-`TauCeti/Algebra/AlgebraicGroup/Unipotent/Radical/Construction.lean`, supplies the
-maximal connected normal smooth unipotent subgroup of an affine finite-type group;
-`TauCeti.HopfIdeal.IsMaximalTorus`, in
-`TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.lean`, supplies the maximal-torus predicate
-on a Hopf ideal. Section 2.3 applies these inside its affine subgroup after the
-Chevalley construction, with the stated perfect-field hypothesis.
-
-`Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one` in
-`TauCeti/RepresentationTheory/PGroupInvariants.lean` supplies the nonzero invariant vector
-for a finite group representation over a commutative ring of characteristic `p`, when every
-image element has `p`-power order. Section 6.13 uses `p = 2`, `k = ZMod 2`; no finite-generation
-hypothesis is needed. Mathlib's `IsPGroup.exists_pow_pow_eq_one` and `IsPGroup.of_card`
-supply the power identities from the `2`-group hypothesis.
-
-### From `TauCetiRoadmap.EllipticCurves`
-
-Layer 1: the invariant differential `dx/(2y + a₁x + a₃)` in the function field. Layer 2: torsion, Tate modules, the Galois action and the Weil pairing. Layer 3: the
-Hasse bound and the point count. Layer 4: the reduction map, `E₀(K)`, `E₁(K)`, Tate's algorithm
-with `ReductionSymbol`, termination and correctness of the residue tests, the component count
-`m` and the exponent `v(Δ) − m + 1`, the local index `c_p = [E(K) : E₀(K)]`, the Tate curve with
-its Galois-equivariant uniformisation `L^×/q^ℤ ≅ E_q(L)`, `localMinimalDiscriminant`, and the
-three equation-level Néron–Ogg–Shafarevich statements; all on a minimal Weierstrass equation over
-a complete or henselian discrete valuation ring with the residue hypotheses stated there.
-
-### From `TauCetiRoadmap.StableReduction`
-
-Layer 0: `FamilyOfCurves`, generic and special fibres, `FiniteDVRExtension`, models and their base
-change. Layer 1: at-worst-nodal families, the étale-local normal form `uv = π^n`, normalisation,
-nodes and branches, the dual graph with loops, valence and `b₁`. Layer 3: stable curves. Layer 4:
-blow-ups, strict transforms, intersection multiplicities and the resolution of `xy = π^n`.
-Layer 5: regular and minimal proper models of a positive-genus curve, their uniqueness,
-components, multiplicities, `div(π) = Σ m_i C_i`, adjunction and the genus formula. Layer 6: `NumericalType`,
-its Picard group, degree map and torsion. Layer 7: semistable reduction of curves after a finite
-separable extension and the curve–Jacobian criterion with its residue-field hypotheses. All over
-an arbitrary discrete valuation ring unless stated.
-
-### From `TauCetiRoadmap.ProfiniteCohomology`
-
-Layer 8's low-degree cup uses
-`TauCeti.ContCohomology.explicitCup11 : H1 G M →+ H1 G N →+ H2 G P` in
-`TauCeti/RepresentationTheory/Homological/ContCohomology/Cup/Product.lean`.
-The input is a `G`-equivariant biadditive coefficient pairing `M →+ N →+ P`, with
-discrete coefficients in the Galois application. Section 4.12 uses it with the
-Weil pairing on `J[2]` and the class of `W[2]`; the target is the comparison with
-the boundary of the exact sequence, rather than a second cup-product construction.
-
-### From `TauCetiRoadmap.JacobianChallenge`
-
-Layer D: `Pic_{X/k}` as the fppf sheafification of `T ↦ Pic(X_T)/Pic(T)`, rigidification by a
-point, `Pic⁰` as the identity component, representability and properness, over a field. Layers E
-and F: the Jacobian as an abelian variety and the Abel–Jacobi map.
-
-### From `TauCetiRoadmap.ReductiveGroups` and `ReductiveGroupsPartII`
-
-ReductiveGroups Layer 3: the identity component `G°` and component group `π₀(G)` of an affine
-group scheme of finite type over a field, with which the fibrewise identity components of 2.1 and
-the component group of 2.2 agree when the group is affine; Layer 4: character lattices of tori
-and exactness of `X^*`; Layer 7: the Galois action on `X^*` and the anti-equivalence with Galois
-lattices. ReductiveGroupsPartII RG2.0a:
-`NormTorus.normOne` (`R¹_{k'/k}𝔾_m`) and Weil restriction; RG2.3.2: locally-finite-type Néron
-models of tori, their finite-type and connected open subgroups. RG2.3.7 supplies Lang's theorem
-and `H¹(k,H) = 0` for smooth geometrically connected finite-type groups over finite fields.
-
-### From `SchemeAndStackFoundations`
-
-The contracts are §§0.12–0.14 for henselisation, equivalence of finite étale algebras
-and the finite part of henselian quasi-finite algebras; §§0.16, 0.20–0.21 for catenary,
-Nagata and excellent rings and finiteness of normalisation; §§1.13–1.17 for group spaces,
-torsors and quotients; §2.22 for scheme Brauer groups; §3.6 for Picard degree torsors
-and the rational-divisor-class obstruction; §3.8 for `invariant_differentials`;
-§§4.7–4.10 for adic thickening systems, coherent formal modules,
-`grothendieck_existence` and `algebraize_hom`; §§4.11–4.13 for modifications and
-one-dimensional resolution; and §4.15 for the moduli of stable curves. The §4.10 algebraisation contract
-concerns coherent modules and compatible morphisms on given proper schemes. The
-polarised algebraisation of the formal abelian quotient uses
-AbelianSchemesAndArithmeticModuli A4.8, whose polarised input is established in 3.13.
-
-### From `PadicMeasuresIwasawaAlgebras`
-
-Section 5.1 of that roadmap, "The determinant of a perfect complex", supplies `detLine`,
-`detLine_of_iso`, `detLine_quasiIso` (the canonical isomorphism for a quasi-isomorphism of
-perfect complexes and its transitivity), `detLine_shortExact`, `detLine_baseChange`,
-`detLine_dual`, `detLine_shift` and `detLine_acyclic`, for bounded complexes of finite projective
-modules over any commutative ring. What is assumed of them: the lines are graded, an invertible
-module with a locally constant parity in `ℤ/2`, with a rank-one module in degree `0` odd, the
-symmetry isomorphism carrying the Koszul sign `(−1)^{|L||L′|}`, and the shift inverting the line
-without changing the parity; the short-exact-sequence isomorphism is stated for degreewise split
-sequences, which is automatic for the complexes of 5.3d, since over a discrete valuation ring
-every term is finite free and a surjection onto a free module splits; base change is along an
-arbitrary ring map; and the acyclic trivialization of a two-term complex `[M --f--> N]` with `f`
-an isomorphism has coefficient `det(f)^{−1}` relative to independent bases, its inverse being the
-canonical section `1 ↦ det f`. Section 5.3d keeps the grading through every comparison and
-forgets the parity only at the final ungraded lines `λ_n`. The two-term witness fixing the
-conventions on both sides: `[R --π--> R]` in degrees `−1, 0` over a discrete valuation ring with
-uniformiser `π` has `detLine = R` of even parity and `H⁰ = R/(π)`; its rational trivialization
-sends the generator to `π⁻¹` and its canonical section sends `1` to `π`, so the section is `π`
-times an `R`-basis and the order convention of 5.3d assigns it order `1`, the coefficient `π⁻¹`
-of the inverse map being no order. Nothing geometric is imported from that roadmap; its own
-Checks on `A = ℚ[ε]/(ε²)` concern naturality data that 5.3d does not use.
-
-### From `RigidAnalyticGeometry` and `AdicSpacesPartIII`
-
-Over a complete nontrivially valued nonarchimedean field `K`, RigidAnalyticGeometry
-§§6.1–6.2 supplies the G-site and `RigidSpace K`, including admissible restrictions,
-gluing and fibre products. Section 8.1 supplies rigid analytification of schemes locally
-of finite type over `K`, with its universal property and fibre-product compatibility.
-Sections 8.2–8.3 supply the classical-point comparison and the fully faithful functor `r`,
-with `r(Sp A) = Spa(A,A°)` and compatibility with gluing, products and ringed topoi.
-The equivalence with adic spaces locally of finite type over `Spa(K,K°)` is restricted
-to quasi-separated objects on both sides ([Huber, Proposition 4.5(i–v), pp. 543–544](https://virtualmath1.stanford.edu/~conrad/Perfseminar/refs/Huberformalrigid.pdf)).
-AdicSpacesPartII R1.1 and R1.7 consume these same carriers and comparisons.
-AdicSpacesPartIII F0's formal-scheme carrier and completion, and R2.3's
-formal generic fibre supply the comparison between completed identity models and
-analytic groups over a complete discrete valuation field. The quotient by the Raynaud
-period lattice is the target `RigidUniformisation` in 3.14 here.
-
-### From `AlgebraicModuliForArithmeticGeometry`, `ComplexComparisonPartII`, `AbelianSchemesAndArithmeticModuli` and `ArithmeticGaloisRepresentations`
-
-AlgebraicModuliForArithmeticGeometry §5.4 gives `DMSchematicClosure.stack`, the schematic
-image of a quasi-compact morphism of locally Noetherian Deligne–Mumford stacks, which for a
-morphism of schemes is `Scheme.Hom.image` and whose formation commutes with flat base change
-(the base-change clause of 1.9a); §6.1 gives `artinApproximationClassical` over
-henselisations of finite-type algebras over excellent DVRs; §7.6.1 gives the relative
-Picard fppf sheaf and base change; §7.3 supplies Picard-stack and representability inputs;
-§7.9 gives `spaceSectionComponentCriterion` for general
-group-space identity components, including the field-level neutral-component construction.
-ComplexComparisonPartII §C3.2d.2 gives `relative_picard_algebraicSpace` under proper, flat,
-finitely presented and universal-global-functions hypotheses; §§C3.2f.1–C3.2f.2 give
-`picardZeroSheaf` and `picardZeroCriterion` for fibrewise Picard identity components. Sections 3.8–3.9 here
-establish the stronger separated semi-abelian curve case and its Néron comparison.
-AbelianSchemesAndArithmeticModuli A0.1 supplies abelian schemes over bases, A1 supplies
-products and rigidity, A2 supplies dual abelian schemes and Poincaré biextensions,
-and A3 supplies isogenies, finite flat quotients, Cartier-dual kernels and Weil pairings.
-Its A4.1, A4.2, A4.3, A4.5 and A4.10 supply integral Tate modules, universal vector
-extensions, degree-one de Rham cohomology, Barsotti–Tate towers and ordinary coordinates,
-with the prime-to-characteristic and henselian/perfect-field restrictions stated there.
-Its A4.4 `exteriorCohomology` supplies `H^n_ét(A, ℤ_ℓ) ≅ Λ^n H¹_ét(A, ℤ_ℓ)` over an
-algebraically closed field, naturally in `A`, for 6.10; its A6.5 `poincareReducibility`
-supplies Poincaré complete reducibility over an arbitrary field, imperfect fields
-included, for 3.10.
-
-Tate modules and Weil pairings have one carrier. For an abelian variety `A` over a field `K`
-and a prime `ℓ ≠ char K`, the Tate module is AbelianSchemesAndArithmeticModuli A4.1's
-`AbelianTate`, whose fibre over `K` is Tau Ceti's `TateModule ℓ (A(K^sep))` with its
-`Gal(K^sep/K)`-action; the Weil pairing is `AbelianTate.dualPairing`, the limit of the A3.5
-pairings `e_{ℓ^r}`; homomorphisms and isogenies act through `AbelianTate.map`.
-ArithmeticGaloisRepresentations §6.1 (`TateModule.tateModuleRep`) packages this module
-as a continuous representation, and its Layer 2 (§2.4) and Layer 3 (§§3.1–3.6) attach
-Weil–Deligne representations and conductors to it. Where a statement here uses the torsion, Weil-pairing or isogeny targets of
-ArithmeticGaloisRepresentations §§6.1–6.2, it uses them through a natural isomorphism with the A4.1 carrier that
-respects the transition maps, the Galois action, the Weil pairing and isogenies; equality of
-ranks is not such a comparison. This roadmap adds to that one carrier the Néron filtration
-(3.5–3.6) and the monodromy comparisons (4.3).
-A4.8's `polarizedEffectivity` algebraises compatible polarised abelian schemes over the
-thickenings of a complete Noetherian local ring, with a compatible relatively ample
-line bundle after a finite faithfully flat extension when needed; morphisms algebraise
-uniquely. Section 3.13 constructs the formal abelian quotient and its compatible
-polarisation so this supplier applies.
-SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, supplies the canonical
-parameter fields and coefficient descent/extension. Its `wd-parameter-operations` supplies the
-rescaling isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image, and
-`wd-frobenius-semisimplification` supplies Frobenius semisimplification.
-ArithmeticGaloisRepresentations Layer 2 (§§2.1–2.5) supplies local-field inertia, the arithmetic
-quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors.
-Tau Ceti's `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, `upperRamificationGroup`,
-`herbrandOrderIso` and `hasseArf` supply the ramification filtrations of finite Galois extensions
-of nonarchimedean local fields, and `TauCeti.wildInertiaSubgroup` the wild inertia subgroup of
-the absolute Galois group; over complete discretely valued fields with arbitrary perfect
-residue field, including infinite ones, the filtration, breaks and conductors are those of
-ArithmeticGaloisRepresentations §§3.1–3.2.
-ArithmeticGaloisRepresentations §§3.1–3.7 supplies Artin, Swan, global and residual
-conductor theory; §§6.1–6.2 supplies the Tate representation and pairing adapters, and
-§6.3 **Local Euler factors** supplies the generic factor on the cohomological dual with
-geometric Frobenius. Sections 5.0a–5.0c here specialize torsion and identify the good-reduction
-Frobenius and Euler polynomials; 5.1a gives potential good reduction; 5.3a–5.3i develops the
-elliptic conductor, discriminant and local-polynomial comparisons. The Raynaud Frobenius
-construction in 5.3 uses 5.0b. Sections 5.4–5.7 and 6.7 consume the elliptic comparisons
-and the retained generic conductor and Euler-factor definitions.
-These are mathematical dependency targets. Only the declarations in the Mathlib and
-Tau Ceti contracts above are asserted to exist at the pins; a carrier required from
-another roadmap is specified in this README and is not a Lean import or declaration.
-
-PadicPeriodRings §§1–2 and 4.1–4.3 supplies the completed algebraic closure, continuous
-Galois action, topological period carriers, invariant functors, canonical comparison maps,
-fixed fields, regularity and admissibility predicates. Here `B_cris`, `B_dR`, `B_st`,
-`D_cris`, `D_dR` and `D_st` denote those carriers and functors. Consume
-FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0's
-`finiteKPeriodComparison` to identify the finite-`K` crystalline/de Rham carriers, maps
-and predicates with these foundational ones, preserving topology, Frobenius, filtration,
-variance and logarithmic embedding. Its §§R07.P7.1–R07.P7.5 supplies the finite-coefficient
-period and Sen interfaces. Its §R07.4.27 supplies `FilteredPhiNModuleDD.weilDeligne`, and
-its §R07.1.20 `schematicClosure_flat` the flatness of the schematic closure of a generic
-subgroup over a Dedekind base, the argument 1.9a restates for closed subschemes.
-NoncommutativeAndEquivariantIwasawa §F.6's generic period-realization prefix supplies
-`D_pst` and the all-prime potentially semistable Weil–Deligne functor with `N_p`,
-admissible tensor/dual isomorphisms, filtered de Rham Galois descent, nilpotence,
-extension comparisons and coefficient descent. Section 5.3's `PadicWeilDeligneRealization`
-is this functor followed by `N_K = e_K N_p`; its additional comparison identifies the
-transported filtered-module realization, including at `p = 2`. Ramified restriction
-inherits the generic functor's comparisons with this normalization transport. The order
-is the shared period core and its finite-`K` comparisons, then the generic functor, then
-this adapter and 5.3's geometric Raynaud realization, then `RaynaudPeriodComparison`,
-`PadicComparison` and 6.10's trace exports.
-SelmerIwasawaCohomology §4.26 consumes the geometric comparison for its elliptic
-Bloch–Kato diagram.
-
-CrystallineCohomology CR.2.1 supplies `H¹_cris(B_k/W(k))[1/p]`, CR.2.3 supplies the proper
-smooth formal comparison over its specified PD bases, and CR.3.4 supplies semilinear Frobenius
-and its linearization. These apply to the good abelian special fibre over a finite residue field,
-including `p = 2`. The comparison with the Coleman–Iovita and period realizations over a
-possibly ramified `K/ℚ_p` is part of `PadicComparison` and
-`RaynaudFilteredRealization` in 5.3; `good_abelian_frobenius_polynomial` in 6.10 consumes
-that bridge. CR.2.3 is not asserted to provide a smooth lift over
-`W(k)` for an arbitrary abelian scheme over the ramified valuation ring.
-
-### From `EtaleCohomologyFoundations` and `ArithmeticGaloisRepresentations`
-
-EtaleCohomologyFoundations §F.3a supplies `VanishingCycles.HenselianTrait`, `HenselianTrait.inertia_exact` and
-`VanishingCycles.inertia_eq_valuation_inertia` for every henselian DVR `R`. In the Galois
-adapters of 3.5 and 4.3, its geometric generic field is the same chosen `K^sep` used by
-`AbelianTate`; its residue action identifies `Gal(s̄/s)` with `Gal(k^sep/k)`. The uniquely
-extended valuation makes the decomposition group all of `Gal(K^sep/K)`, and its inertia
-kernel is Mathlib's `ValuationSubring.inertiaSubgroup`, transported along this identification.
-No second inertia subgroup is defined. The residue field of the normalisation in `K^sep`
-can be purely inseparable over `k^sep`; its automorphism group still gives this residue action.
-
-For each prime `ℓ ≠ char k`, reduction identifies `μ_{ℓ^r}(K^sep)` with `μ_{ℓ^r}(s̄)`,
-compatibly with power maps and Galois action, by henselian lifting of prime-to-residue roots
-of unity. Thus the supplier's `ℤ_ℓ(1)` is the coefficient module of
-`AbelianTate.dualPairing`, namely Tau Ceti's `PadicTateTwist ℓ K^sep`, not another twist.
-Consume `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`,
-`tameCharacter_conj` and `tameCharacter_restrict` through these identifications:
-`t_ℓ(σ) = (σ(π^{1/ℓ^r})/π^{1/ℓ^r})_r`, the positive Kummer direction;
-`t_ℓ : I → ℤ_ℓ(1)` is continuous and surjective, vanishes on wild inertia and satisfies
-`t_ℓ(gσg⁻¹) = g·t_ℓ(σ)`; for a finite separable trait extension of ramification index `e`,
-`t_ℓ|_{I'} = e·t'_ℓ`. Inertia acts trivially on the twist. At a nonarchimedean local field,
-EtaleCohomologyFoundations §F.3a's
-`VanishingCycles.tameCharacter_eq_inertiaTameCharacter` identifies this character with the
-`ℓ`-component of `TauCeti.inertiaTameCharacter`, hence with `inertiaPadicTameCharacter`.
-The latter pinned declaration requires `IsNonarchimedeanLocalField`; its coprimality
-hypothesis cannot supply the residue-characteristic-zero case. ArithmeticGaloisRepresentations
-§2.1a transports this comparison to global decomposition groups.
-
-These identifications and character properties are the F.3a contract, sourced by Stacks
-09ED, 09EE, 0BU4, 0BU5, 0BU7 and 0BU8. F.3a supplies the arbitrary-trait inertia
-used in 3.5–3.12, 4.3 and 5.1 and its local-field comparison;
-ArithmeticGaloisRepresentations §2.1a supplies its transport to global decomposition groups.
-The downstream Picard and graph targets of LefschetzPencilsAndVanishingCycles consume
-Layers 3–4 here.
-
-### Additional supplier contracts
-
-| Target | Supplier and exact section / label | Retained adapter and consumer |
-| --- | --- | --- |
-| §4.2 finite multigraph cycle core | FreeGroupsAndLimitGroups §2.2a / `SerreGraph.integralCycleBoundary`, `SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`, `SerreGraph.supportGraph`, `SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`, `SerreGraph.spanningForest_card`, `SerreGraph.exists_forest_cycleBasis`, `SerreGraph.cycleLattice_modTwoEquiv`, `SerreGraph.finrank_cycleLattice`, `SerreGraph.modTwoCycleSpace_finrank` | The dual graph's actual edges identify with the positive darts of its doubled Serre graph. `DualGraph.boundary` and `DualGraph.cycleLattice` are the incidence and kernel in those edge coordinates. Characters, monodromy and weighted pairings are compared here. |
-| §4.2 excess identification | GraphConnectivityAndFlows §1.3 / `Assignment`, `excessAt` | Endpoint-indexed arrows correspond to actual dual-edge identities; finite assignments and vertex functions correspond to Finsupp coordinates. Identify `DualGraph.boundary` with incoming-minus-outgoing excess. |
-| §4.2 signed circulation group | GraphConnectivityAndFlows §8.1 / `signedCirculations`, `sub_mem_signedCirculations_iff` | Identify the supplied additive subgroup with the additive group of `DualGraph.cycleLattice`; ℤ satisfies the prototype's `AddCommGroup`, `LinearOrder`, and `IsOrderedAddMonoid` hypotheses. The character-lattice realization and pairings are targets here. |
-| §4.2 component count | GraphConnectivityAndFlows §1.1 / Components and their count: `Graph.componentCount` | Use the simplification bridge to identify the count with the components of FreeGroupsAndLimitGroups §2.2a's `SerreGraph.supportGraph` on the dual multigraph. Its supplied forest bases, coefficient comparison and rank formulas apply without connectedness or nonemptiness; only connected nonempty graphs have component count one. |
-
-Section 4.2 identifies the supplied incidence and cycle carriers in dual-graph coordinates
-and with the circulation group. The general cycle bases, coefficient comparison and rank
-formulas are consumed from FreeGroupsAndLimitGroups §2.2a.
-
-## How to read the build
-
-The layers are in build order with the definition and Raynaud exceptions specified below.
-Layer 1 defines the Néron mapping property and marked models,
-proves uniqueness, extension and the group law, constructs models locally and globally, and
-extracts the differential lattice. Layer 2 builds the identity component, the component group,
-the Chevalley decomposition and the toric character lattice, and compares the elliptic
-equation-level objects with the model. Layer 3 defines semistability, proves the Tate-module
-filtration, the Picard–Néron identity comparison, semistable reduction after a finite
-extension and then Grothendieck's criterion, and
-compares the formal identity model with the Raynaud extension and the rigid uniformisation.
-Layer 4 builds the graph and monodromy theory of a regular semistable curve, the integral pairing of
-any semistable abelian variety, the component group as its cokernel, Grothendieck's pairing, the
-intersection-matrix description, and the one-node hyperelliptic curves. Layer 5 proves
-Néron–Ogg–Shafarevich, isogeny invariance of good reduction, the `p`-adic comparison, the
-semistable conductor formula and the local Euler polynomial at bad places. Layer 6 packages the
-interfaces for the consumers. Downstream roadmaps refer to the six layers as R11.1–R11.6. Within a
-layer, build the definition of `SemistableReduction` in 3.1 immediately after 2.4,
-then 2.5, and then the remaining API of 3.1 and 3.2. In Layer 3, the Raynaud
-subsections 3.13–3.14 need only 2.4 and 3.1, and they are built after 3.5 and before 3.6,
-whose finite flat orthogonality uses the dual Raynaud extensions; the `completion` comparison
-of 3.5 is likewise proved after 3.14. The build order of Layer 3 is therefore 3.1–3.5,
-3.13–3.14, then 3.6–3.12. Each layer ends with worked examples and the list of layers and
-roadmaps it needs.
 
 ## Layer 1: Néron models and their uniqueness
 
@@ -4696,6 +4112,618 @@ a minimal regular model or a component group. Layers 1–5 apart from the symbol
 6 apart from the algebraic inputs to 6.5–6.6, have no counterpart there; in particular the fibre
 configurations and component groups of 2.8, the wild comparison 2.9 and the discriminant and
 Tamagawa comparisons 6.7–6.8 need the algorithm, which EllipticCurves Layer 4 supplies.
+
+## Scope and ownership
+
+The roadmap owns:
+
+- the Néron mapping property as a predicate on `Over S` relative to a base morphism `j : η → S`,
+  marked finite-type Néron models, weak Néron models, extension of morphisms and uniqueness;
+- the group law on a Néron model and the extension of homomorphisms; smoothening over an
+  excellent discrete valuation ring and local existence over every discrete valuation ring;
+  spreading out and the Dedekind local-to-global construction; the comparison with abelian-scheme models; étale base change; the
+  invariant-differential lattice of a Néron model and its Hodge line;
+- the identity component `M⁰` of a Néron model, specialised from
+  AlgebraicModuliForArithmeticGeometry §7.9, and the finite étale component group `π₀(G/k)` of
+  every group scheme `G` of finite type over a field, applied to the special fibre as `Φ_A`,
+  with the distinction between rational and geometric components (2.1–2.2); the Chevalley
+  decomposition of every smooth connected commutative group over a perfect field (2.3), applied
+  to the identity fibre; Chevalley's theorem for noncommutative groups is not stated in this
+  roadmap, and 2.3 does not use it; the toric character lattice of a Néron special fibre and its
+  functoriality;
+  functoriality under isogeny with the correct (non-exact) statements;
+- for elliptic curves: the identification of the equation-level filtration `E₁ ⊂ E₀ ⊂ E` with
+  the Néron model, the smooth locus of the minimal regular model as the Néron model, the
+  Kodaira fibre configurations and geometric component groups by type;
+- the semistable reduction predicate and its invariance under isogeny and identity-model base
+  change; the toric–finite filtration of the Tate module, Weil orthogonality, unipotence of
+  inertia, Grothendieck's monodromy criterion, semistable reduction after a finite separable
+  extension, and the full-level criterion; the Raynaud extension and the polarised rigid
+  uniformisation with its lattice and valuation pairing;
+- the degree-zero Picard scheme of a regular semistable curve over a discrete valuation ring,
+  the normalisation sequence, the dual-multigraph adapters for the supplied integral cycle
+  lattice and its identification with the toric characters, the Picard–Néron identity comparison,
+  the integral monodromy pairing of a semistable abelian variety and its graph formula for
+  Jacobians, the
+  component group as a cokernel, Grothendieck's pairing on component groups, the
+  intersection-matrix description, the one-node hyperelliptic curves of Bhargava–Gross–Wang
+  with their generalised Jacobians, two-torsion and odd-factor torsors, and the semi-abelian
+  Picard scheme of a stable family;
+- Néron–Ogg–Shafarevich, isogeny invariance of good reduction, the crystalline and semistable
+  comparison for the `p`-adic Tate module, finite-étale specialization, good-reduction
+  Frobenius and Euler polynomials, potential good reduction, the elliptic conductor and its values and bounds, the special-fibre and
+  étale Euler-characteristic comparisons, determinant of cohomology, Ogg's and Saito's
+  conductor–discriminant formulas, the comparison with Mathlib's local polynomial,
+  the conductor interface and semistable formula, and residual conductor comparisons;
+- the interfaces of Layer 6: Serre's independence and Noot's closed-point specialization,
+  the good-place and two-place realization of the semistable torsion interface,
+  degeneracy-map functoriality, character exact sequences with
+  verified kernels, semistable and isogeny behaviour of the differential lattice, connected-model
+  Kummer and localization sequences, isogeny component defects and exact cotangents of semistable
+  quotients under the strict ramification bound, the
+  equation-level–scheme-level comparisons for elliptic curves, the compatible system of
+  cohomology of an abelian variety, the semistable-ordinary adapters for abelian surfaces over
+  `ℚ₂`, and the full-level extension for curves.
+
+It leaves to other roadmaps, and consumes from them:
+
+- **EllipticCurves** (Tau Ceti), Layers 1–5: the minimal Weierstrass model, Mathlib's
+  reduction predicates, the reduction map, `E₀(K)`, `E₁(K)` and its identification with the
+  formal group, the full Tate algorithm with its `ReductionSymbol`, the algorithmic exponent
+  `v(Δ) − m + 1`, the local index `c_p = [E(K) : E₀(K)]`, the Tate curve and its point
+  uniformisation, the invariant differential at the level of the function field, the minimal
+  discriminant, the Tate module of an elliptic curve with its Galois action and Weil pairing,
+  the three equation-level Néron–Ogg–Shafarevich statements, and the point count over finite
+  fields. That roadmap excludes Néron models by design; this roadmap owns the comparisons.
+- **StableReduction** (Tau Ceti), Layers 0–7: models over a discrete valuation ring with
+  their generic-fibre markings (`TauCeti.Model`), nodes, normalisation and the dual graph with
+  its Betti number, stable curves, blow-ups and intersection theory on arithmetic surfaces,
+  regular and minimal models with their components and multiplicities, numerical types and the
+  numerical Picard group `TauCeti.NumericalType.Pic` with its degree map and torsion, semistable
+  reduction of curves and the curve–Jacobian criterion. Layer 5 supplies the minimal regular
+  model; `KodairaConfiguration` in 2.8 here identifies its fibre with the configuration
+  attached to EllipticCurves' `ReductionSymbol`. This roadmap also owns the smooth-locus
+  and component-group comparisons.
+- **FreeGroupsAndLimitGroups**, §2.2a
+  ([finite cycle spaces and independent cycles](../FreeGroupsAndLimitGroups/README.md#22a-finite-cycle-spaces-and-independent-cycles)):
+  signed integral incidence and its kernel, binary cycles, spanning forests and their count,
+  integral and binary chord bases, coefficient reduction and both rank formulas, for all finite
+  multigraphs. Section 4.2 here identifies these carriers on the dual graph of a semistable curve
+  and compares its integral cycles with toric characters.
+- **JacobianChallenge** (Tau Ceti), Layers D–F: the Picard functor, Jacobian and Abel–Jacobi map
+  of a smooth proper curve over a field.
+- **AlgebraicCurves** (Tau Ceti), Layer 10: hyperelliptic models.
+- **ReductiveGroups** (Tau Ceti), Layer 3: the identity component and component group of an
+  affine group scheme of finite type over a field, with which 2.1–2.2 agree in the affine case;
+  Layers 4 and 7: character lattices of tori, exactness of the
+  character functor, and the Galois action on characters.
+- **ReductiveGroupsPartII** (Tau Ceti), RG2.0a and RG2.3.2: norm-one tori and Weil
+  restriction; locally finite-type Néron models of tori, their finite-type and connected open subgroups; RG2.3.7 supplies Lang's theorem for connected smooth
+  groups over finite fields and the vanishing of `H¹(k,H)`. The torus models have the
+  affine mapping property `lftMappingProperty`. Those models satisfy the mapping property of
+  1.1 and inhabit `NeronModel` exactly when they are quasi-compact. Positive-rank split tori
+  have non-quasi-compact models; some nonsplit torus models are finite type. Construction and
+  ownership of all torus models remain in ReductiveGroupsPartII; RG2.3.2 supplies the
+  comparison of the full and affine mapping properties.
+- **ModularCurves** (Tau Ceti), Layer 1: the scheme-theoretic elliptic curve attached to a
+  Weierstrass equation with unit discriminant over a base.
+- **ProfiniteCohomology** (Tau Ceti), Layer 8: the `(1,1)` cup product in continuous
+  Galois cohomology, with its coefficient pairing and connecting-map identities.
+- **SchemeAndStackFoundations**, §§0.12–0.14 (henselisation and henselian finite algebras),
+  §§0.16, 0.20–0.21 (catenary, Nagata and excellent rings), §§1.13–1.17 (group spaces,
+  torsors and quotients), §§2.1–2.4, 2.10, 2.15 (fppf cohomology and
+  comparison with field Galois cohomology), §2.22 (scheme Brauer groups), §3.6 (Picard torsors and rational
+  divisor classes), §3.8 (invariant differentials), §§4.7–4.10 (adic thickening systems,
+  coherent formal existence and algebraisation of compatible morphisms), §§4.11–4.13
+  (modifications and one-dimensional resolution), and §4.15 (moduli of stable curves). Zariski's main
+  theorem is Mathlib's `Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`.
+- **AlgebraicModuliForArithmeticGeometry**, §5.4 (`DMSchematicClosure.stack`, schematic
+  closures and their flat base change, used in the scheme case), §6.1 (`artinApproximationClassical`),
+  §7.3 (Picard-stack and representability inputs), §7.6.1 (relative Picard sheaf and base change),
+  §7.9 (`spaceSectionComponentCriterion`, general group-space identity components).
+- **ComplexComparisonPartII**, §C3.2d.2 (`relative_picard_algebraicSpace`),
+  §C3.2f.1 (`picardZeroSheaf`) and §C3.2f.2 (`picardZeroCriterion`).
+- **RigidAnalyticGeometry**, §§6.1–6.2 (`RigidSpace K` and its G-site),
+  §8.1 (rigid analytification), §§8.2–8.3 (classical points and rigid–adic comparison),
+  and **AdicSpacesPartIII**, F0 and R2.3 (formal schemes, completion and generic fibres).
+  The quotient by the period lattice belongs to 3.14 here; polarised algebraisation
+  uses AbelianSchemesAndArithmeticModuli A4.8. Finite analytic isogeny quotients do not
+  supply a quotient by an infinite lattice.
+- **AbelianSchemesAndArithmeticModuli** A0.1–A1 (abelian schemes over a base, rigidity, homomorphisms,
+  products), A2 (the dual abelian scheme and the Poincaré biextension) and A3 (finite flat
+  torsion, isogenies and the Weil pairing), together with A4.1,
+  A4.5, A4.3 and A4.2 (integral Tate modules, the minimal
+  Barsotti–Tate tower, degree-one de Rham cohomology and its vector-extension comparison),
+  A4.4 (`exteriorCohomology`), A4.8 (`polarizedEffectivity` of compatible polarised
+  abelian-scheme thickenings), A6.5 (`poincareReducibility`), A6.10–A6.12
+  (endomorphism polynomials), A6.14–A6.15 (Rosati positivity and its real operator adapter),
+  and A1.8 (Weil extension for abelian schemes).
+- **SmoothRepresentationsOfLocalGroups**, SR.5.2, `classical-llc-normalization`,
+  `wd-parameter-operations` and `wd-frobenius-semisimplification`: the canonical
+  Weil–Deligne parameter fields, coefficient descent and extension, parameter operations
+  and Frobenius semisimplification.
+- **ArithmeticGaloisRepresentations**, §§2.1–2.1a (local-field inertia and its trait comparison),
+  §§2.3–2.5 (tame characters, arithmetic Weil–Deligne adapters and local factors),
+  §§3.1–3.7 (Artin, Swan, global and residual conductor theory), §§6.1–6.2 (continuous
+  Tate-module representations, elliptic comparison, isogeny maps and Weil pairing),
+  §6.3 **The Tate curve** and **Local Euler factors** (uniformisation representation and
+  generic Euler definition), §7.6 (Zariski closures), §6.4a **Finite Frattini quotient of a compact matrix group**
+  and §6.6 **Serre's wild bound**. Good-reduction Frobenius, elliptic conductor and
+  local-polynomial comparisons are the targets of §§5.0a–5.3i here.
+- **EtaleCohomologyFoundations**, §§F.0–F.1, F.3–F.4: finite-coefficient cohomology,
+  universal-homeomorphism invariance, finiteness and adic realizations; §F.3a:
+  the general henselian-trait Galois and residue interface, valuation-inertia identification,
+  and tame character with Kummer formula, surjectivity, conjugation and finite-extension
+  normalisation. Its arbitrary-trait contract includes infinite and imperfect residue fields
+  and residue characteristic zero. Section F.3a also supplies
+  `VanishingCycles.tameCharacter_eq_inertiaTameCharacter` for valuation rings of
+  nonarchimedean local fields; ArithmeticGaloisRepresentations §2.1a transports this
+  comparison to global decomposition groups. Sections G.1–G.3 supply scheme compactifications,
+  Nagata existence and common refinements (`Compactification`, `nagataCompactification`,
+  `compactificationCommonRefinement`) for separated finite-type morphisms over qcqs bases.
+- **PadicPeriodRings**, §§1–2 and 4.1–4.3: completed algebraic closure with Galois action,
+  Tate fixed points/twists, topological `B_cris`, `B_dR`, `B_st`, their invariant functors,
+  canonical comparison maps, regularity and crystalline/semistable/de Rham predicates.
+- **NoncommutativeAndEquivariantIwasawa**, §F.6, generic period-realization prefix:
+  the potentially semistable period functor and Weil–Deligne realization on actual
+  `B_st` invariants, for all finite `K/ℚ_p`, finite coefficient fields and every prime.
+  It supplies nilpotent `N_p`, admissible tensor/dual comparisons, filtered de Rham
+  Galois descent, change of semistable extension, coefficient extension and descent.
+  Section 5.3 here transports its output by `N_K = e_K N_p` and compares it with the
+  filtered-module realization and the geometric Raynaud and abelian realizations.
+- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, §§R07.P2–R07.P5a and R07.3.0:
+  finite-`K` crystalline/de Rham structures and `finiteKPeriodComparison` with those
+  foundational carriers, maps and predicates; §R07.4.27:
+  `FilteredPhiNModuleDD` and `FilteredPhiNModuleDD.weilDeligne`, the arithmetic-normalized
+  filtered-module construction with semilinear descent. Sections R07.P7.1–R07.P7.5 supply
+  finite-coefficient period functors, labelled Sen operators and Hodge–Tate lifts; §R07.1.20
+  (`schematicClosure_flat`) is the flat schematic closure of a generic subgroup over a Dedekind
+  base, whose argument 1.9a reuses for closed subschemes of an abelian scheme.
+  Section 5.3 here owns `PadicWeilDeligneRealization`, the normalization transport of
+  NoncommutativeAndEquivariantIwasawa §F.6's generic realization and its identification
+  with this filtered-module construction, including at `p = 2`, and the geometric
+  Raynaud realization and abelian-variety period comparison.
+- **InverseGaloisAndArithmeticFundamentalGroups**, §§IG.2.4, IG.2.6, IG.2.8: Hilbertian fields,
+  their finite-extension and finitely-generated permanence, full-group specialization of finite
+  covers and its Frattini application for 6.0.
+- **NumberFieldArithmetic**, Layer 5: finite places, completions and arithmetic Frobenius for
+  5.0b. The local-field theory of the completed LocalFieldsRamification is used from Tau Ceti by
+  name, over nonarchimedean local fields (finite residue field): the Frobenius of an unramified
+  extension `TauCeti.frobeniusAlgEquiv`; the lower and upper ramification groups
+  `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and `upperRamificationGroup`, the
+  Herbrand function `herbrandOrderIso` and Hasse–Arf `hasseArf`; the wild inertia subgroup
+  `TauCeti.wildInertiaSubgroup` and the tame quotient `TauCeti.tameQuotientEquiv`. Over arbitrary
+  perfect residue fields, including infinite ones such as
+  `F̄_p((t))`, the conductor comparisons in 5.3a–5.7 consume the filtration, breaks and Swan and
+  Artin conductors through ArithmeticGaloisRepresentations Layer 3 (§§3.1–3.2), which carries
+  that generality.
+- **PadicMeasuresIwasawaAlgebras**, §5.1 (determinant lines of perfect complexes over any
+  commutative ring, with quasi-isomorphism, short-exact-sequence and base-change isomorphisms),
+  and **SchemeAndStackFoundations**, §2.6 (proper coherent cohomology), supply the algebraic and
+  coherent inputs to the determinant of cohomology in 5.3d; **StableReduction** Layer 2
+  supplies the relative dualizing line.
+- **CrystallineCohomology**, CR.2.1 (crystalline cohomology), CR.2.3 (proper smooth formal
+  comparison over a PD base), CR.3.4 (semilinear Frobenius and its linearization): the
+  crystalline realization of the good abelian quotient, including `p = 2`.
+- **NeronModelsAndSemistableAbelianVarieties Part II**: Ferrand pinching and conductor squares,
+  genus-one fibres and their forms, multiple fibres over excellent discrete valuation rings,
+  global Weierstrass models and Jacobians of genus-one curves, Picard constancy and fibre
+  configurations, and the explicit models over `𝔽₂`. Part II consumes Layers 2 and 4 of this
+  roadmap.
+- **JacobianChallenge Part II**: the comparison of the Hodge line `det e^*Ω¹` of the Picard
+  scheme of a stable family with `det π_*ω`; it consumes 4.13.
+- **RelativeJacobiansAndIntegralCurveModels**, §§3.2–3.5: Raynaud's representability of
+  `Pic⁰` for normal models with multiplicity gcd one, the Néron comparison of the quotient
+  `P/E` for regular models over an arbitrary Dedekind base with perfect residue field or an
+  étale quasi-section, and the gluing of the Picard-computed global Néron model. This roadmap keeps the strictly henselian, algebraically closed residue-field case of
+  3.9 and 4.7, which that roadmap consumes.
+- **ModularCurvesPartII**, **SerreWeightAndLevelOptimisation**, **ArakelovGeometryAndAbelianHeights**,
+  **FaltingsFinitenessAndIsogenyTheorems**, **SmallRamificationAndAbelianVarietyBaseCases**,
+  **HeegnerPointEulerSystems**, **GrossZagierAndArithmeticHeights**,
+  **ComplexMultiplicationAndExplicitReciprocity**: consumers (see Downstream consumers).
+
+Already in Tau Ceti, used and not restated: abelian varieties over a field with their
+homomorphisms, isogenies, rigidity, products and tangent spaces
+(`TauCeti.AlgebraicGeometry.AbelianVariety`, `AbelianVariety.baseChange`, `AbelianVariety.IsIsogeny`,
+`isMonHom_of_one_hom`); group objects of `Over S` and their closed subgroups, kernels and
+isogenies over `Spec R` (`TauCeti.ClosedSubgroupScheme`, `TauCeti.GroupScheme.kernelBaseChangeIso`, the isogeny class
+of `GroupScheme/CentralIsogeny`); generic and special fibres over a discrete valuation ring and
+extensionality along the generic fibre (`TauCeti.genericFiber`, `specialFiber`,
+`ext_of_genericFiberι_eq`); models with generic-fibre markings, their uniqueness when separated,
+and their base change along finite extensions of discrete valuation rings (`TauCeti.Model`,
+`Model.subsingleton_iso`, `Model.baseChange`, `FiniteDVRExtension`); identity components and
+finite étale component groups of affine finite-type groups over an algebraically closed field
+(`TauCeti.FiniteTypeCommHopfAlgCat.identityComponentSpec`, `componentGroupScheme`,
+`componentGroupFppfGroupObjectIso`); the Galois correspondence for finite étale group schemes
+over a field (`TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp`, `galoisEquivalenceCommGrp`);
+character lattices of tori with Galois action, maximal tori and unipotent radicals of affine
+groups (`TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
+`TauCeti.TorusCommHopfAlgCat.characterLatticeFunctor`, `IsMaximalTorus`, `unipotentRadical`,
+`DiagonalizableGroup.isShortExact_mapDomainBialgHom_iff`); the rigidified Picard functor and the
+degree-zero Picard group of an integral curve (`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`,
+`LineBundleClass.picZero`); numerical types and their Picard groups (`TauCeti.NumericalType`,
+`NumericalType.Pic`, `NumericalType.degree`, `NumericalType.torsion`, `topologicalGenus`); families
+of curves (`TauCeti.AlgebraicGeometry.FamilyOfCurves`); and the elliptic suppliers
+`WeierstrassCurve.IsSemistable` (no additive reduction at any place of a Dedekind base),
+`localMinimalDiscriminantValuation`, `minimalDiscriminantIdeal`, `projModel` with its smoothness
+for unit discriminant, `kerReduction` and `formalPointAddEquivKerReduction`, `tateCurve`,
+`tateModuleGaloisRepresentation`, `tateModuleWeilPairing`, `nodePolynomial`,
+`exists_quadraticTwist_hasSplitMultiplicativeReduction` and `localPolynomial_eq_of_hasGoodReduction`.
+From Mathlib: the morphism classes `Smooth`, `Etale`, `IsSeparated`, `QuasiCompact`,
+`LocallyOfFiniteType`, `IsProper`, `Flat`, `GeometricallyIntegral`; `Over.pullback` and the
+cartesian monoidal structure of `Over X`; `GrpObj`, `IsCommMonObj`; `HenselianLocalRing`,
+`IsDiscreteValuationRing`; `WeierstrassCurve.minimal`, `IsMinimal`, `reduction`,
+`HasGoodReduction`, `HasMultiplicativeReduction`, `HasSplitMultiplicativeReduction`,
+`HasAdditiveReduction`, `hasGoodReduction_iff_isElliptic_reduction`, `localPolynomial`;
+`BrauerGroup`; `ValuationSubring.inertiaSubgroup`; `BDeRham`; `Finsupp.linearCombination`,
+`Matrix.toLin'`, `AddCircle`.
+
+Where a target here is a variant of an existing statement, the entry says in one clause how it
+differs: a marked Néron model is a `TauCeti.Model` with smooth, separated and quasi-compact
+structure morphism, over an arbitrary base morphism `j`, and with the mapping property (1.2);
+marked extensionality and uniqueness are `ext_of_genericFiberι_eq` and `Model.subsingleton_iso`
+over `Spec R` and are derived from the mapping property over arbitrary `j` (1.2, 1.4); the
+component group of 2.2 is for every group scheme of finite type over any field, not necessarily
+affine or smooth, and agrees with `componentGroupScheme` in the affine algebraically-closed case;
+the cycle lattice adapter of 4.2 identifies FreeGroupsAndLimitGroups §2.2a's integral `H₁` with
+the kernel on StableReduction's dual-graph coordinates; the intersection-matrix description of 4.7
+is a comparison with
+`NumericalType.Pic`, not a second numerical Picard group; the semistable predicate of 3.1 is for abelian varieties and
+restricts, for elliptic curves, to the local form of `WeierstrassCurve.IsSemistable`.
+The existing symmetric discriminant form is
+`TauCeti.IntegralLattice.discriminantPairing` and `discriminantPairing_mk` in
+`TauCeti/LinearAlgebra/IntegralLattice/Discriminant/Bilinear.lean` (IntegralLattices Layer 1D and Completed/IntegralLattices
+Layer 1.4). The retained pairing in 4.6 is between cokernels of a pairing of two possibly
+different lattices, without a symmetry hypothesis; it does not reconstruct the symmetric
+lattice theory.
+
+## Exact supplier contracts
+
+The library pins are Mathlib `1b1ccf4b` and Tau Ceti `2fd255d9`.
+Roadmap section contracts describe the requested mathematics independently of implementation.
+
+### From Mathlib
+
+`AlgebraicGeometry.Smooth`, `Etale`, `IsSeparated`, `QuasiCompact`, `LocallyOfFiniteType`,
+`IsProper`, `Flat`, `GeometricallyIntegral`: the morphism classes with their composition and
+base-change instances; nothing is assumed about them beyond the stated properties.
+`CategoryTheory.Over.pullback j`: the base-change functor on `Over S`, used for generic
+restriction; its action on morphisms is the restriction map of 1.1. `Over.cartesianMonoidalCategory`
+(an abbreviation, activated as a local instance), `GrpObj`, `IsCommMonObj`: group objects in
+`Over S` for the group law of 1.5. `HenselianLocalRing`, `IsDiscreteValuationRing`,
+`IsLocalRing.ResidueField`: the local hypotheses. `WeierstrassCurve.minimal`, `IsMinimal`,
+`reduction`, `HasGoodReduction`, `HasMultiplicativeReduction`, `HasSplitMultiplicativeReduction`,
+`HasAdditiveReduction`, `hasGoodReduction_iff_isElliptic_reduction`, `localPolynomial`: the
+equation-level predicates compared in Layer 6; `localPolynomial` reads the residue cardinality
+as `Nat.card`, which is `0` for an infinite residue field. `BrauerGroup`: the target of the
+connecting map of 4.12. `BDeRham`, `WittVector.fontaineTheta`: the only period-ring material
+available for 5.3. `Finsupp.linearCombination`, `LinearMap.ker`, `Module.Dual`, `AddCircle`,
+`ZMod`: the lattice-level carriers of Layer 4 and the component-group arithmetic of Layer 2.
+`AlgebraicGeometry.Scheme.fpqcTopology` with its `Subcanonical` instance, in
+`Mathlib/AlgebraicGeometry/Sites/Fpqc.lean`: every representable presheaf is an fpqc sheaf, so
+morphisms of schemes descend along fpqc coverings; 2.2 uses this along a finite Galois extension
+of fields and along the projection to the component group. `AlgebraicGeometry.Scheme.Hom.fiber`
+and `ConnectedComponents`: the fibres and the connected components of 2.1–2.2.
+`AlgebraicGeometry.Scheme.Hom.exists_isIso_morphismRestrict_toNormalization`, in
+`Mathlib/AlgebraicGeometry/ZariskisMainTheorem.lean`: for a separated finite-type morphism,
+the quasi-finite locus is the inverse image of an open subset of its relative normalisation
+on which the canonical morphism is an isomorphism; this is the input for 3.3.
+
+### From Tau Ceti
+
+The declarations listed under "Already in Tau Ceti" above, with these contracts:
+`TauCeti.AlgebraicGeometry.AbelianVariety` is over a field and supplies the generic fibre; abelian schemes over a
+base are `AbelianSchemesAndArithmeticModuli:A0.1–A1`. `TauCeti.Model` carries a flat finitely presented
+model with a generic-fibre marking over `Spec R`; `Model.subsingleton_iso` needs a separated
+target; `ext_of_genericFiberι_eq` needs a flat source and a separated target over `Spec R`.
+`componentGroupScheme` and `identityComponentSpec` require an affine finite-type group over an
+algebraically closed field. `TauCeti.FiniteEtaleScheme.galoisEquivalenceGrp K Ω` and
+`galoisEquivalenceCommGrp K Ω`, in `TauCeti/AlgebraicGeometry/FiniteEtale/Galois/Basic.lean`, need
+a separably closed field `Ω` Galois over `K`; they identify group objects (commutative group
+objects) in finite étale `K`-schemes with finite groups (finite abelian groups) carrying a
+continuous action of `Gal(Ω/K)` by automorphisms, a scheme going to its `Ω`-valued points, and
+identify homomorphisms on the two sides; 2.2 uses them with `Ω = k^sep`.
+`characterLatticeFunctor` is an equivalence over a perfect field and a functor in general.
+`NumericalType.Pic` is the quotient of `ℤ^{components}` by the rows `a_{ij}/w_j` of the weighted
+intersection matrix, `degree` its degree map, `torsion ℓ` the
+`ℓ`-torsion, finite for `ℓ ≠ 0`. `kerReduction` is the kernel of reduction on points over the
+adic completion at a height-one prime, `formalPointAddEquivKerReduction` its identification with
+the formal group. `tateCurve` is the Tate curve over `ℤ⟦q⟧`; `tateModuleGaloisRepresentation` is
+the Galois representation on `T_ℓ(E)`.
+The abelian-variety carrier and base change are in
+`TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean`; its rigidity supplier is
+`TauCeti.AlgebraicGeometry.isMonHom_of_one_hom` in `AbelianVariety/Hom/Rigidity.lean`.
+`TauCeti.AlgebraicGeometry.AbelianVariety.IsIsogeny`, in
+`TauCeti/AlgebraicGeometry/AbelianVariety/Isogeny.lean`, is the predicate that the underlying
+scheme morphism of a homomorphism is finite and surjective; it includes inseparable isogenies,
+and 5.2 states `GoodIsogeny` for it.
+The model uniqueness and flat generic-fibre extensionality suppliers are in
+`Curves/StableReduction/Model/Uniqueness.lean` and `Fibers/SchematicDensity.lean`.
+The affine component suppliers are in `TauCeti/Algebra/AlgebraicGroup/Connected/GroupScheme.lean`
+and `Connected/ComponentGroup/{FiniteEtale,Representable}.lean`, all under
+`TauCeti.FiniteTypeCommHopfAlgCat`; the character functor is in
+`Torus/CharacterLattice/Functoriality.lean`, and its perfect-field equivalence in
+`Torus/CharacterLattice/Equivalence.lean`.
+For a symmetric nondegenerate integral lattice, use
+`TauCeti.IntegralLattice.discriminantPairing` and `discriminantPairing_mk` in
+`TauCeti/LinearAlgebra/IntegralLattice/Discriminant/Bilinear.lean`;
+`TauCeti.IntegralLattice.rankOneClass` and `TauCeti.IntegralLattice.discriminantPairing_zsmul_rankOneClass`
+in `TauCeti/LinearAlgebra/IntegralLattice/RankOne.lean` pin the positive rank-one
+value `kl/(2m)` modulo integers for `m : ℤ` with `m ≠ 0`: its lattice is `⟨2m⟩`,
+not `⟨m⟩`. Thus at `m = 2` its generator has self-pairing `1/4`, whereas the scalar
+pairing `rankOne 5` in 4.3 has coefficient `5` and inverse value `1/5`.
+Section 4.6 here constructs the two-lattice pairing without symmetry and compares
+it with that supplier when the two lattices come from a symmetric integral form.
+`TauCeti.AlgebraicGeometry.rigidifiedPicardFunctor`, in
+`TauCeti/AlgebraicGeometry/PicardFunctor/Rigidified.lean`, is the functor of line
+bundles rigidified along a given section, not the entire relative Picard space.
+`TauCeti.AlgebraicGeometry.LineBundleClass.picZero`, in
+`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme/PicZero.lean`, is the kernel of the
+Euler degree for a proper integral Noetherian curve with DVR codimension-one stalks
+and finite-dimensional `H¹(𝒪)`.
+`TauCeti.FiniteTypeCommHopfAlgCat.unipotentRadical`, in
+`TauCeti/Algebra/AlgebraicGroup/Unipotent/Radical/Construction.lean`, supplies the
+maximal connected normal smooth unipotent subgroup of an affine finite-type group;
+`TauCeti.HopfIdeal.IsMaximalTorus`, in
+`TauCeti/Algebra/AlgebraicGroup/Torus/Maximal.lean`, supplies the maximal-torus predicate
+on a Hopf ideal. Section 2.3 applies these inside its affine subgroup after the
+Chevalley construction, with the stated perfect-field hypothesis.
+
+`Representation.exists_ne_zero_apply_eq_self_of_forall_pow_eq_one` in
+`TauCeti/RepresentationTheory/PGroupInvariants.lean` supplies the nonzero invariant vector
+for a finite group representation over a commutative ring of characteristic `p`, when every
+image element has `p`-power order. Section 6.13 uses `p = 2`, `k = ZMod 2`; no finite-generation
+hypothesis is needed. Mathlib's `IsPGroup.exists_pow_pow_eq_one` and `IsPGroup.of_card`
+supply the power identities from the `2`-group hypothesis.
+
+### From `TauCetiRoadmap.EllipticCurves`
+
+Layer 1: the invariant differential `dx/(2y + a₁x + a₃)` in the function field. Layer 2: torsion, Tate modules, the Galois action and the Weil pairing. Layer 3: the
+Hasse bound and the point count. Layer 4: the reduction map, `E₀(K)`, `E₁(K)`, Tate's algorithm
+with `ReductionSymbol`, termination and correctness of the residue tests, the component count
+`m` and the exponent `v(Δ) − m + 1`, the local index `c_p = [E(K) : E₀(K)]`, the Tate curve with
+its Galois-equivariant uniformisation `L^×/q^ℤ ≅ E_q(L)`, `localMinimalDiscriminant`, and the
+three equation-level Néron–Ogg–Shafarevich statements; all on a minimal Weierstrass equation over
+a complete or henselian discrete valuation ring with the residue hypotheses stated there.
+
+### From `TauCetiRoadmap.StableReduction`
+
+Layer 0: `FamilyOfCurves`, generic and special fibres, `FiniteDVRExtension`, models and their base
+change. Layer 1: at-worst-nodal families, the étale-local normal form `uv = π^n`, normalisation,
+nodes and branches, the dual graph with loops, valence and `b₁`. Layer 3: stable curves. Layer 4:
+blow-ups, strict transforms, intersection multiplicities and the resolution of `xy = π^n`.
+Layer 5: regular and minimal proper models of a positive-genus curve, their uniqueness,
+components, multiplicities, `div(π) = Σ m_i C_i`, adjunction and the genus formula. Layer 6: `NumericalType`,
+its Picard group, degree map and torsion. Layer 7: semistable reduction of curves after a finite
+separable extension and the curve–Jacobian criterion with its residue-field hypotheses. All over
+an arbitrary discrete valuation ring unless stated.
+
+### From `TauCetiRoadmap.ProfiniteCohomology`
+
+Layer 8's low-degree cup uses
+`TauCeti.ContCohomology.explicitCup11 : H1 G M →+ H1 G N →+ H2 G P` in
+`TauCeti/RepresentationTheory/Homological/ContCohomology/Cup/Product.lean`.
+The input is a `G`-equivariant biadditive coefficient pairing `M →+ N →+ P`, with
+discrete coefficients in the Galois application. Section 4.12 uses it with the
+Weil pairing on `J[2]` and the class of `W[2]`; the target is the comparison with
+the boundary of the exact sequence, rather than a second cup-product construction.
+
+### From `TauCetiRoadmap.JacobianChallenge`
+
+Layer D: `Pic_{X/k}` as the fppf sheafification of `T ↦ Pic(X_T)/Pic(T)`, rigidification by a
+point, `Pic⁰` as the identity component, representability and properness, over a field. Layers E
+and F: the Jacobian as an abelian variety and the Abel–Jacobi map.
+
+### From `TauCetiRoadmap.ReductiveGroups` and `ReductiveGroupsPartII`
+
+ReductiveGroups Layer 3: the identity component `G°` and component group `π₀(G)` of an affine
+group scheme of finite type over a field, with which the fibrewise identity components of 2.1 and
+the component group of 2.2 agree when the group is affine; Layer 4: character lattices of tori
+and exactness of `X^*`; Layer 7: the Galois action on `X^*` and the anti-equivalence with Galois
+lattices. ReductiveGroupsPartII RG2.0a:
+`NormTorus.normOne` (`R¹_{k'/k}𝔾_m`) and Weil restriction; RG2.3.2: locally-finite-type Néron
+models of tori, their finite-type and connected open subgroups. RG2.3.7 supplies Lang's theorem
+and `H¹(k,H) = 0` for smooth geometrically connected finite-type groups over finite fields.
+
+### From `SchemeAndStackFoundations`
+
+The contracts are §§0.12–0.14 for henselisation, equivalence of finite étale algebras
+and the finite part of henselian quasi-finite algebras; §§0.16, 0.20–0.21 for catenary,
+Nagata and excellent rings and finiteness of normalisation; §§1.13–1.17 for group spaces,
+torsors and quotients; §2.22 for scheme Brauer groups; §3.6 for Picard degree torsors
+and the rational-divisor-class obstruction; §3.8 for `invariant_differentials`;
+§§4.7–4.10 for adic thickening systems, coherent formal modules,
+`grothendieck_existence` and `algebraize_hom`; §§4.11–4.13 for modifications and
+one-dimensional resolution; and §4.15 for the moduli of stable curves. The §4.10 algebraisation contract
+concerns coherent modules and compatible morphisms on given proper schemes. The
+polarised algebraisation of the formal abelian quotient uses
+AbelianSchemesAndArithmeticModuli A4.8, whose polarised input is established in 3.13.
+
+### From `PadicMeasuresIwasawaAlgebras`
+
+Section 5.1 of that roadmap, "The determinant of a perfect complex", supplies `detLine`,
+`detLine_of_iso`, `detLine_quasiIso` (the canonical isomorphism for a quasi-isomorphism of
+perfect complexes and its transitivity), `detLine_shortExact`, `detLine_baseChange`,
+`detLine_dual`, `detLine_shift` and `detLine_acyclic`, for bounded complexes of finite projective
+modules over any commutative ring. What is assumed of them: the lines are graded, an invertible
+module with a locally constant parity in `ℤ/2`, with a rank-one module in degree `0` odd, the
+symmetry isomorphism carrying the Koszul sign `(−1)^{|L||L′|}`, and the shift inverting the line
+without changing the parity; the short-exact-sequence isomorphism is stated for degreewise split
+sequences, which is automatic for the complexes of 5.3d, since over a discrete valuation ring
+every term is finite free and a surjection onto a free module splits; base change is along an
+arbitrary ring map; and the acyclic trivialization of a two-term complex `[M --f--> N]` with `f`
+an isomorphism has coefficient `det(f)^{−1}` relative to independent bases, its inverse being the
+canonical section `1 ↦ det f`. Section 5.3d keeps the grading through every comparison and
+forgets the parity only at the final ungraded lines `λ_n`. The two-term witness fixing the
+conventions on both sides: `[R --π--> R]` in degrees `−1, 0` over a discrete valuation ring with
+uniformiser `π` has `detLine = R` of even parity and `H⁰ = R/(π)`; its rational trivialization
+sends the generator to `π⁻¹` and its canonical section sends `1` to `π`, so the section is `π`
+times an `R`-basis and the order convention of 5.3d assigns it order `1`, the coefficient `π⁻¹`
+of the inverse map being no order. Nothing geometric is imported from that roadmap; its own
+Checks on `A = ℚ[ε]/(ε²)` concern naturality data that 5.3d does not use.
+
+### From `RigidAnalyticGeometry` and `AdicSpacesPartIII`
+
+Over a complete nontrivially valued nonarchimedean field `K`, RigidAnalyticGeometry
+§§6.1–6.2 supplies the G-site and `RigidSpace K`, including admissible restrictions,
+gluing and fibre products. Section 8.1 supplies rigid analytification of schemes locally
+of finite type over `K`, with its universal property and fibre-product compatibility.
+Sections 8.2–8.3 supply the classical-point comparison and the fully faithful functor `r`,
+with `r(Sp A) = Spa(A,A°)` and compatibility with gluing, products and ringed topoi.
+The equivalence with adic spaces locally of finite type over `Spa(K,K°)` is restricted
+to quasi-separated objects on both sides ([Huber, Proposition 4.5(i–v), pp. 543–544](https://virtualmath1.stanford.edu/~conrad/Perfseminar/refs/Huberformalrigid.pdf)).
+AdicSpacesPartII R1.1 and R1.7 consume these same carriers and comparisons.
+AdicSpacesPartIII F0's formal-scheme carrier and completion, and R2.3's
+formal generic fibre supply the comparison between completed identity models and
+analytic groups over a complete discrete valuation field. The quotient by the Raynaud
+period lattice is the target `RigidUniformisation` in 3.14 here.
+
+### From `AlgebraicModuliForArithmeticGeometry`, `ComplexComparisonPartII`, `AbelianSchemesAndArithmeticModuli` and `ArithmeticGaloisRepresentations`
+
+AlgebraicModuliForArithmeticGeometry §5.4 gives `DMSchematicClosure.stack`, the schematic
+image of a quasi-compact morphism of locally Noetherian Deligne–Mumford stacks, which for a
+morphism of schemes is `Scheme.Hom.image` and whose formation commutes with flat base change
+(the base-change clause of 1.9a); §6.1 gives `artinApproximationClassical` over
+henselisations of finite-type algebras over excellent DVRs; §7.6.1 gives the relative
+Picard fppf sheaf and base change; §7.3 supplies Picard-stack and representability inputs;
+§7.9 gives `spaceSectionComponentCriterion` for general
+group-space identity components, including the field-level neutral-component construction.
+ComplexComparisonPartII §C3.2d.2 gives `relative_picard_algebraicSpace` under proper, flat,
+finitely presented and universal-global-functions hypotheses; §§C3.2f.1–C3.2f.2 give
+`picardZeroSheaf` and `picardZeroCriterion` for fibrewise Picard identity components. Sections 3.8–3.9 here
+establish the stronger separated semi-abelian curve case and its Néron comparison.
+AbelianSchemesAndArithmeticModuli A0.1 supplies abelian schemes over bases, A1 supplies
+products and rigidity, A2 supplies dual abelian schemes and Poincaré biextensions,
+and A3 supplies isogenies, finite flat quotients, Cartier-dual kernels and Weil pairings.
+Its A4.1, A4.2, A4.3, A4.5 and A4.10 supply integral Tate modules, universal vector
+extensions, degree-one de Rham cohomology, Barsotti–Tate towers and ordinary coordinates,
+with the prime-to-characteristic and henselian/perfect-field restrictions stated there.
+Its A4.4 `exteriorCohomology` supplies `H^n_ét(A, ℤ_ℓ) ≅ Λ^n H¹_ét(A, ℤ_ℓ)` over an
+algebraically closed field, naturally in `A`, for 6.10; its A6.5 `poincareReducibility`
+supplies Poincaré complete reducibility over an arbitrary field, imperfect fields
+included, for 3.10.
+
+Tate modules and Weil pairings have one carrier. For an abelian variety `A` over a field `K`
+and a prime `ℓ ≠ char K`, the Tate module is AbelianSchemesAndArithmeticModuli A4.1's
+`AbelianTate`, whose fibre over `K` is Tau Ceti's `TateModule ℓ (A(K^sep))` with its
+`Gal(K^sep/K)`-action; the Weil pairing is `AbelianTate.dualPairing`, the limit of the A3.5
+pairings `e_{ℓ^r}`; homomorphisms and isogenies act through `AbelianTate.map`.
+ArithmeticGaloisRepresentations §6.1 (`TateModule.tateModuleRep`) packages this module
+as a continuous representation, and its Layer 2 (§2.4) and Layer 3 (§§3.1–3.6) attach
+Weil–Deligne representations and conductors to it. Where a statement here uses the torsion, Weil-pairing or isogeny targets of
+ArithmeticGaloisRepresentations §§6.1–6.2, it uses them through a natural isomorphism with the A4.1 carrier that
+respects the transition maps, the Galois action, the Weil pairing and isogenies; equality of
+ranks is not such a comparison. This roadmap adds to that one carrier the Néron filtration
+(3.5–3.6) and the monodromy comparisons (4.3).
+A4.8's `polarizedEffectivity` algebraises compatible polarised abelian schemes over the
+thickenings of a complete Noetherian local ring, with a compatible relatively ample
+line bundle after a finite faithfully flat extension when needed; morphisms algebraise
+uniquely. Section 3.13 constructs the formal abelian quotient and its compatible
+polarisation so this supplier applies.
+SmoothRepresentationsOfLocalGroups SR.5.2, `classical-llc-normalization`, supplies the canonical
+parameter fields and coefficient descent/extension. Its `wd-parameter-operations` supplies the
+rescaling isomorphism for nonzero scalars, `q ≥ 2` and finite inertia image, and
+`wd-frobenius-semisimplification` supplies Frobenius semisimplification.
+ArithmeticGaloisRepresentations Layer 2 (§§2.1–2.5) supplies local-field inertia, the arithmetic
+quasi-unipotence and prime-to-residue Weil–Deligne adapters, and local Euler factors.
+Tau Ceti's `TauCeti.LocalFieldsRamification.lowerRamificationGroup`, `upperRamificationGroup`,
+`herbrandOrderIso` and `hasseArf` supply the ramification filtrations of finite Galois extensions
+of nonarchimedean local fields, and `TauCeti.wildInertiaSubgroup` the wild inertia subgroup of
+the absolute Galois group; over complete discretely valued fields with arbitrary perfect
+residue field, including infinite ones, the filtration, breaks and conductors are those of
+ArithmeticGaloisRepresentations §§3.1–3.2.
+ArithmeticGaloisRepresentations §§3.1–3.7 supplies Artin, Swan, global and residual
+conductor theory; §§6.1–6.2 supplies the Tate representation and pairing adapters, and
+§6.3 **Local Euler factors** supplies the generic factor on the cohomological dual with
+geometric Frobenius. Sections 5.0a–5.0c here specialize torsion and identify the good-reduction
+Frobenius and Euler polynomials; 5.1a gives potential good reduction; 5.3a–5.3i develops the
+elliptic conductor, discriminant and local-polynomial comparisons. The Raynaud Frobenius
+construction in 5.3 uses 5.0b. Sections 5.4–5.7 and 6.7 consume the elliptic comparisons
+and the retained generic conductor and Euler-factor definitions.
+These are mathematical dependency targets. Only the declarations in the Mathlib and
+Tau Ceti contracts above are asserted to exist at the pins; a carrier required from
+another roadmap is specified in this README and is not a Lean import or declaration.
+
+PadicPeriodRings §§1–2 and 4.1–4.3 supplies the completed algebraic closure, continuous
+Galois action, topological period carriers, invariant functors, canonical comparison maps,
+fixed fields, regularity and admissibility predicates. Here `B_cris`, `B_dR`, `B_st`,
+`D_cris`, `D_dR` and `D_st` denote those carriers and functors. Consume
+FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.P2–R07.P5a and R07.3.0's
+`finiteKPeriodComparison` to identify the finite-`K` crystalline/de Rham carriers, maps
+and predicates with these foundational ones, preserving topology, Frobenius, filtration,
+variance and logarithmic embedding. Its §§R07.P7.1–R07.P7.5 supplies the finite-coefficient
+period and Sen interfaces. Its §R07.4.27 supplies `FilteredPhiNModuleDD.weilDeligne`, and
+its §R07.1.20 `schematicClosure_flat` the flatness of the schematic closure of a generic
+subgroup over a Dedekind base, the argument 1.9a restates for closed subschemes.
+NoncommutativeAndEquivariantIwasawa §F.6's generic period-realization prefix supplies
+`D_pst` and the all-prime potentially semistable Weil–Deligne functor with `N_p`,
+admissible tensor/dual isomorphisms, filtered de Rham Galois descent, nilpotence,
+extension comparisons and coefficient descent. Section 5.3's `PadicWeilDeligneRealization`
+is this functor followed by `N_K = e_K N_p`; its additional comparison identifies the
+transported filtered-module realization, including at `p = 2`. Ramified restriction
+inherits the generic functor's comparisons with this normalization transport. The order
+is the shared period core and its finite-`K` comparisons, then the generic functor, then
+this adapter and 5.3's geometric Raynaud realization, then `RaynaudPeriodComparison`,
+`PadicComparison` and 6.10's trace exports.
+SelmerIwasawaCohomology §4.26 consumes the geometric comparison for its elliptic
+Bloch–Kato diagram.
+
+CrystallineCohomology CR.2.1 supplies `H¹_cris(B_k/W(k))[1/p]`, CR.2.3 supplies the proper
+smooth formal comparison over its specified PD bases, and CR.3.4 supplies semilinear Frobenius
+and its linearization. These apply to the good abelian special fibre over a finite residue field,
+including `p = 2`. The comparison with the Coleman–Iovita and period realizations over a
+possibly ramified `K/ℚ_p` is part of `PadicComparison` and
+`RaynaudFilteredRealization` in 5.3; `good_abelian_frobenius_polynomial` in 6.10 consumes
+that bridge. CR.2.3 is not asserted to provide a smooth lift over
+`W(k)` for an arbitrary abelian scheme over the ramified valuation ring.
+
+### From `EtaleCohomologyFoundations` and `ArithmeticGaloisRepresentations`
+
+EtaleCohomologyFoundations §F.3a supplies `VanishingCycles.HenselianTrait`, `HenselianTrait.inertia_exact` and
+`VanishingCycles.inertia_eq_valuation_inertia` for every henselian DVR `R`. In the Galois
+adapters of 3.5 and 4.3, its geometric generic field is the same chosen `K^sep` used by
+`AbelianTate`; its residue action identifies `Gal(s̄/s)` with `Gal(k^sep/k)`. The uniquely
+extended valuation makes the decomposition group all of `Gal(K^sep/K)`, and its inertia
+kernel is Mathlib's `ValuationSubring.inertiaSubgroup`, transported along this identification.
+No second inertia subgroup is defined. The residue field of the normalisation in `K^sep`
+can be purely inseparable over `k^sep`; its automorphism group still gives this residue action.
+
+For each prime `ℓ ≠ char k`, reduction identifies `μ_{ℓ^r}(K^sep)` with `μ_{ℓ^r}(s̄)`,
+compatibly with power maps and Galois action, by henselian lifting of prime-to-residue roots
+of unity. Thus the supplier's `ℤ_ℓ(1)` is the coefficient module of
+`AbelianTate.dualPairing`, namely Tau Ceti's `PadicTateTwist ℓ K^sep`, not another twist.
+Consume `VanishingCycles.tameCharacter_kummer`, `tameCharacter_surjective`,
+`tameCharacter_conj` and `tameCharacter_restrict` through these identifications:
+`t_ℓ(σ) = (σ(π^{1/ℓ^r})/π^{1/ℓ^r})_r`, the positive Kummer direction;
+`t_ℓ : I → ℤ_ℓ(1)` is continuous and surjective, vanishes on wild inertia and satisfies
+`t_ℓ(gσg⁻¹) = g·t_ℓ(σ)`; for a finite separable trait extension of ramification index `e`,
+`t_ℓ|_{I'} = e·t'_ℓ`. Inertia acts trivially on the twist. At a nonarchimedean local field,
+EtaleCohomologyFoundations §F.3a's
+`VanishingCycles.tameCharacter_eq_inertiaTameCharacter` identifies this character with the
+`ℓ`-component of `TauCeti.inertiaTameCharacter`, hence with `inertiaPadicTameCharacter`.
+The latter pinned declaration requires `IsNonarchimedeanLocalField`; its coprimality
+hypothesis cannot supply the residue-characteristic-zero case. ArithmeticGaloisRepresentations
+§2.1a transports this comparison to global decomposition groups.
+
+These identifications and character properties are the F.3a contract, sourced by Stacks
+09ED, 09EE, 0BU4, 0BU5, 0BU7 and 0BU8. F.3a supplies the arbitrary-trait inertia
+used in 3.5–3.12, 4.3 and 5.1 and its local-field comparison;
+ArithmeticGaloisRepresentations §2.1a supplies its transport to global decomposition groups.
+The downstream Picard and graph targets of LefschetzPencilsAndVanishingCycles consume
+Layers 3–4 here.
+
+### Additional supplier contracts
+
+| Target | Supplier and exact section / label | Retained adapter and consumer |
+| --- | --- | --- |
+| §4.2 finite multigraph cycle core | FreeGroupsAndLimitGroups §2.2a / `SerreGraph.integralCycleBoundary`, `SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`, `SerreGraph.supportGraph`, `SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`, `SerreGraph.spanningForest_card`, `SerreGraph.exists_forest_cycleBasis`, `SerreGraph.cycleLattice_modTwoEquiv`, `SerreGraph.finrank_cycleLattice`, `SerreGraph.modTwoCycleSpace_finrank` | The dual graph's actual edges identify with the positive darts of its doubled Serre graph. `DualGraph.boundary` and `DualGraph.cycleLattice` are the incidence and kernel in those edge coordinates. Characters, monodromy and weighted pairings are compared here. |
+| §4.2 excess identification | GraphConnectivityAndFlows §1.3 / `Assignment`, `excessAt` | Endpoint-indexed arrows correspond to actual dual-edge identities; finite assignments and vertex functions correspond to Finsupp coordinates. Identify `DualGraph.boundary` with incoming-minus-outgoing excess. |
+| §4.2 signed circulation group | GraphConnectivityAndFlows §8.1 / `signedCirculations`, `sub_mem_signedCirculations_iff` | Identify the supplied additive subgroup with the additive group of `DualGraph.cycleLattice`; ℤ satisfies the prototype's `AddCommGroup`, `LinearOrder`, and `IsOrderedAddMonoid` hypotheses. The character-lattice realization and pairings are targets here. |
+| §4.2 component count | GraphConnectivityAndFlows §1.1 / Components and their count: `Graph.componentCount` | Use the simplification bridge to identify the count with the components of FreeGroupsAndLimitGroups §2.2a's `SerreGraph.supportGraph` on the dual multigraph. Its supplied forest bases, coefficient comparison and rank formulas apply without connectedness or nonemptiness; only connected nonempty graphs have component count one. |
+
+Section 4.2 identifies the supplied incidence and cycle carriers in dual-graph coordinates
+and with the circulation group. The general cycle bases, coefficient comparison and rank
+formulas are consumed from FreeGroupsAndLimitGroups §2.2a.
 
 ## References
 

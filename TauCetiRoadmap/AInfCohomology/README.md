@@ -1,168 +1,81 @@
 # Roadmap: integral `A_inf` cohomology and Breuil–Kisin–Fargues structures
 
-**Summary.** This roadmap builds the integral p-adic cohomology theory of Bhatt, Morrow and
-Scholze for smooth and semistable formal schemes over the ring of integers `O_C` of a complete
-algebraically closed extension `C` of `ℚ_p`, together with the Breuil–Kisin descent of
-Bhatt–Morrow–Scholze over a discretely valued base. It starts from Mathlib's Witt vectors,
-`PreTilt` and Fontaine's map `WittVector.fontaineTheta`, and from the roadmaps that supply
-perfectoid rings, derived completion, enhanced derived categories of sheaves, the pro-étale site
-of an adic space and crystalline and logarithmic crystalline cohomology. It constructs the
-cyclotomic period elements `μ = [ε] − 1`, `ξ` and `ξ̃ = φ(ξ)` of `A_inf = W(O_C^♭)`, the shifted finite
-Witt coefficient maps `θ̃_r` from the supplied `θ_r` and their kernels, coherence of `W_r(O_C)` and the
-intrinsic Breuil–Kisin twist `A_inf{1}`; the décalage operator `Lη_f` on complexes and on the
-derived category of a ringed topos, with its cohomology, multiplicativity, Bockstein
-description, behaviour under completion and base change, and its value on Koszul complexes; the
-structure theory of finitely presented `A_inf`-modules, Breuil–Kisin–Fargues modules and
-Fargues' classification of finite free ones by pairs `(T, Ξ)`; the integral pro-étale sheaf
-`𝔸_inf,X`, the complex `AΩ_𝔛 = Lη_μ Rν_* 𝔸_inf,X` and its toric and `q`-de Rham computation;
-the Hodge–Tate, de Rham, de Rham–Witt, crystalline and étale specializations of `AΩ`; the proper
-theory, with perfectness, the Breuil–Kisin–Fargues structure on each cohomology group and the
-torsion and freeness comparisons between étale, crystalline and de Rham cohomology; the
-semistable theory of Česnavičius and Koshikawa, with charts, root towers, log crystalline and
-log de Rham specializations, the canonical `B_dR⁺`-deformation of the generic fibre and the
-model-independent de Rham lattice; and finally the relative topological Hochschild homology of
-`O_K`-algebras over the sphere polynomial ring, the Breuil–Kisin cohomology `RΓ_𝔖(𝔛)` and its
-base change to `A_inf`, to de Rham and to crystalline cohomology. The end theorems are the
-properties of `RΓ_{A_inf}(𝔛)` for a proper smooth formal scheme over `O_C` (BMS1, Theorem 1.8,
-arXiv v3 p.5), their semistable version (ČK, (1.2.1), p.2, and Theorem 7.4, p.69), the torsion
-inequalities between étale and de Rham or crystalline cohomology (BMS1, Theorem 1.1, p.2; ČK,
-Theorems 7.9 and 7.12, pp.70–71), the functorial de Rham lattice of a semistable model (ČK,
-Theorem 8.7, p.74), and Breuil–Kisin descent (BMS2, Theorem 1.2, arXiv p.3).
+**Summary.** A proper smooth formal scheme `𝔛` over the valuation ring `O_C` of a complete
+algebraically closed extension `C` of `ℚ_p` has three p-adic cohomologies: étale cohomology of its
+generic fibre `X`, de Rham cohomology over `O_C`, and crystalline cohomology of its special fibre
+over `W(k)`, where `k` is the residue field. Their torsion need not agree. Bhatt, Morrow and
+Scholze built one theory, with coefficients in Fontaine's ring `A_inf = W(O_C^♭)`, that
+specializes to all three. This roadmap builds it for smooth and semistable formal schemes over
+`O_C`, and descends it to the Breuil–Kisin ring `𝔖` over a discretely valued base. No noetherian
+hypothesis on `O_C` or `A_inf` is made.
 
-The layers are:
+The theory is `RΓ_{A_inf}(𝔛) = RΓ(𝔛, AΩ_𝔛)`, where `AΩ_𝔛 = Lη_μ Rν_* 𝔸_inf,X` pushes the period
+sheaf `𝔸_inf,X` from the pro-étale site of `X` to `𝔛` and applies décalage along `μ = [ε] − 1`,
+for a compatible system `ε` of p-power roots of unity. Décalage quotients each cohomology group by
+its `μ`-torsion and twists it by a power of `(μ)`.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| AI.0 | Cyclotomic periods and finite Witt coefficients | `μ`, `ξ`, `ξ̃`, `θ̃ = θ ∘ φ⁻¹`, the maps `θ_r`, `θ̃_r` and their kernels `(ξ_r)`, `(ξ̃_r)`, regularity of `(p, μ)`, coherence of `W_r(O_C)` |
-| AI.0:integral | Integral coefficient interfaces and the Breuil–Kisin twist | the residue map `A_inf → W(k)`, the Breuil–Kisin line `A_inf{1}`, Fontaine's `dlog`, `L̂_{O_C/ℤ_p} ≅ O_C{1}[1]`, `A_cris` as a coefficient ring |
-| AI.0:period-comparison | Comparison with the rational period rings | `A_inf → A_cris → B_cris⁺ → B_dR⁺`, flatness of `A_inf → B_dR⁺`, finite `ξ`-quotients |
-| AI.1 | The décalage operator `Lη` | `η_f` on complexes, `Lη_I` on `D(T, O)`, cohomology, monoidality, the Bockstein complex, completion, base change, Koszul complexes |
-| AI.2 | Breuil–Kisin–Fargues modules, lattices and modifications | the structure theorem for finitely presented `A_inf`-modules, BKF modules, lattice pairs `(T, Ξ)`, Fargues' classification, minuscule modules |
-| AI.3 | Integral pro-étale period sheaves and `AΩ` | `Ô⁺_X`, `Ô⁺♭_X`, `𝔸_inf,X`, `AΩ_𝔛`, the toric computation, the `q`-de Rham model, framing independence, Frobenius |
-| AI.4 | Local specializations of `AΩ` | Hodge–Tate, de Rham–Witt, de Rham, `A_cris` and `μ`-inverted étale specializations |
-| AI.5 | Proper `A_inf` cohomology and torsion control | perfectness, proper specializations, adjacent-degree freeness, the BKF structure on `H^i_{A_inf}(𝔛)` |
-| AI.6 | Semistable `AΩ` and logarithmic specializations | charts, root towers, semistable `AΩ`, log Hodge–Tate, log de Rham, log crystalline, the canonical `B_dR⁺`-deformation, the de Rham lattice |
-| AI.7 | Breuil–Kisin cohomology and relative traces | Breuil–Kisin coefficient maps, relative `THH` over `𝕊[z]`, `RΓ_𝔖(𝔛)`, base change to `A_inf`, de Rham and crystalline specializations |
+For `𝔛` proper and smooth over `O_C`, `RΓ_{A_inf}(𝔛)` is a perfect complex of `A_inf`-modules with
+a Frobenius. Its derived base change along Fontaine's map `θ` to `O_C` is the de Rham cohomology
+`RΓ_dR(𝔛/O_C)`. Its base change to `W(k)` is the crystalline cohomology of the special fibre,
+compatibly with Frobenius. After inverting `μ` it becomes `RΓ_ét(X, ℤ_p) ⊗ A_inf[1/μ]`. Each
+cohomology group is a Breuil–Kisin–Fargues module: finitely presented over `A_inf`, free after
+inverting `p`, with a Frobenius-semilinear isomorphism `M[1/ξ] → M[1/ξ̃]`, where `(ξ) = ker θ` and
+`ξ̃ = φ(ξ)`.
 
-The layer labels are the labels other roadmaps cite. They are built in the order of the table; see
-*How to read the build*.
+Torsion is compared in lengths: for all `i` and `n ≥ 0`, the torsion of `H^i_crys(𝔛_k/W(k))`
+modulo `p^n` has length at least that of the torsion of `H^i_ét(X, ℤ_p)` modulo `p^n`. For a lift
+of an Enriques surface in characteristic `2`, whose generic fibre has `H^1_ét(X, 𝔽_2) ≅ 𝔽_2`, this
+forces nonzero de Rham `H^1` on the special fibre. If the crystalline group in degree `i` is
+`p`-torsion-free, `H^i_{A_inf}(𝔛)` is a finite free Breuil–Kisin–Fargues module. By Fargues'
+classification such modules are equivalent to pairs `(T, Ξ)` of a finite free `ℤ_p`-module `T` and
+a `B_dR⁺`-lattice `Ξ` in `T ⊗ B_dR`; here `T = H^i_ét(X, ℤ_p)` and `Ξ = H^i_{A_inf}(𝔛) ⊗ B_dR⁺`.
 
-## Scope and ownership
+Česnavičius and Koshikawa extend this to formal schemes that are étale locally semistable, with
+`C` the completed algebraic closure of `W(k̄)[1/p]`, `k̄` algebraically closed. For proper `𝔛`
+each `H^i_{A_inf}(𝔛)` is again a finitely presented Breuil–Kisin–Fargues module, possibly with
+`p`-torsion, and étale torsion is bounded, in suitable lengths, by logarithmic crystalline and de
+Rham torsion. Arithmetically, let `K` be a complete discretely valued field of mixed
+characteristic with perfect residue field, and `𝔛₀` a proper flat semistable formal scheme over
+`O_K` with logarithmic de Rham cohomology free in degrees `i` and `i + 1`. Then `H^i_ét(X_C, ℤ_p)`
+is free, and `H^i_logdR(𝔛₀/O_K)` is the `O_K`-lattice in `H^i_dR(X_K/K)` that Breuil–Kisin–Fargues
+modules attach to it. Two such models of the same generic fibre give the same lattice.
 
-**Owned here.**
+The last part works over `O_K`, with Eisenstein polynomial `E`, residue field `k₀` and
+`𝔖 = W(k₀)[[u]]`. For `𝔛` proper and smooth over `O_K`, the Breuil–Kisin cohomology `RΓ_𝔖(𝔛)`,
+built from relative topological Hochschild homology, is a perfect complex of `𝔖`-modules. Its
+cohomology groups are finitely generated, possibly with `p`-torsion, and their linearized
+Frobenius is an isomorphism after inverting `E`. Base change along a Frobenius-twisted map
+`𝔖 → A_inf` gives the `A_inf`-cohomology of `𝔛 ⊗̂ O_C`; similar base changes give de Rham
+cohomology over `O_K` and crystalline cohomology of the special fibre.
 
-- *Cyclotomic and Witt coefficients (AI.0).* The elements `μ`, `ξ`, `ξ̃`, `ξ_r`, `ξ̃_r` of
-  `A_inf(S) = W(S^♭)` for an integral perfectoid ring `S` with a compatible system of primitive
-  `p`-power roots of unity; the shifted maps `θ̃ = θ ∘ φ⁻¹` and `θ̃_r=θ_r∘φ^(−r)`
-  from the finite Fontaine maps `θ_r` supplied by PerfectoidQuotients §0.2; their additional
-  Verschiebung compatibility and cyclotomic formulas for the kernels imported from
-  CrystallineCohomology §CR.4.4; the identification `A_inf = lim_F W_r(O_C)` and
-  the kernel of `A_inf → W(O_C)`;
-  regularity of `(p, μ)` and `(p, ξ)`; flatness of the cyclotomic
-  power-series maps `ℤ_p[[T]] → A_inf`; cyclotomic specializations of the supplied finite-Witt
-  Tor-independence theorem; coherence of `W_r(O_C)` and `W_r(O_C^♭)` for finite `r`.
-- *Integral twists (AI.0:integral).* The residue map `A_inf → W(k)`; the Breuil–Kisin line
-  `A_inf{1}` and its specializations `O_C{1}` and `ℤ_p(1)`; Fontaine's `dlog` theorem; the
-  description of `O_C{1}` by the completed cotangent complex; the integral crystalline
-  coefficient ring `A_cris` as an `A_inf`-algebra; regularity of the coefficients of an affinoid
-  perfectoid.
-- *Rational periods (AI.0:period-comparison).* The commuting maps
-  `A_inf → A_cris → B_cris⁺ → B_dR⁺`, flatness of `A_inf → B_dR⁺` and the finite `ξ`-quotients
-  of `B_dR⁺` with their Tate topologies.
-- *Décalage (AI.1).* The extension of the principal-`p` module core of CrystallineCohomology CR.4
-  to arbitrary regular `f` and ringed topoi: the operator `η_f` on cochain complexes with
-  `f`-torsion-free terms, its
-  extension `η_I` to an invertible ideal sheaf of a ringed topos and the derived functor `Lη_I`,
-  with its cohomology `H^i(Lη_I K) ≅ (H^i(K)/H^i(K)[I]) ⊗ I^{⊗i}`, filtered colimits,
-  truncations, lax symmetric monoidal structure, Bockstein description, completion,
-  composition, base change and its value on Koszul complexes of commuting operators.
-- *Modules (AI.2).* The structure theorem for finitely presented `A_inf`-modules that are free
-  after inverting `p`; Breuil–Kisin–Fargues modules; lattice pairs `(T, Ξ)` with `T` a finite
-  free `ℤ_p`-module and `Ξ` a `B_dR⁺`-lattice; the étale realization, full faithfulness and
-  essential surjectivity of Fargues' functor; continuous Galois descent; minuscule BKF linear
-  algebra. PrismaticCohomology owns the Dieudonné dictionary and its crystalline determination application.
-- *`AΩ` (AI.3–AI.5).* The pro-étale sheaves `Ô⁺_X`, `Ô⁺♭_X` and `𝔸_inf,X` and the complex
-  `AΩ_𝔛`; its local computation by `q`-de Rham complexes; its Hodge–Tate, de Rham–Witt, de
-  Rham, crystalline and étale specializations; the proper theory with its torsion and freeness
-  results.
-- *Semistable reduction (AI.6).* Semistable charts with their log structures and perfectoid root
-  towers, semistable `AΩ`, its log Hodge–Tate, log de Rham and log crystalline
-  specializations, the Hyodo–Kato comparison used with it, the canonical `B_dR⁺`-deformation of
-  the generic fibre (from the very small affinoid case to proper smooth rigid spaces), the
-  semistable `B_dR⁺` and étale comparisons, and the de Rham lattice `M_dR(T)` attached to a
-  `ℤ_p`-lattice in a de Rham representation.
-- *Breuil–Kisin descent (AI.7).* The cohomological normalization of the supplied maps
-  `𝔖 → A_inf`, the cohomological
-  Breuil–Kisin complex `RΓ_𝔖(𝔛)`, relative cyclotomic traces over `𝕊[z]`, the Frobenius-twisted
-  trace complex, its Bott-inverted descent, its trace-defined Frobenius and the base change and specialization theorems.
-- *Foundational inputs owned here.* Several general statements that the proofs need and that no
-  lower roadmap states are targets of this roadmap, in the layer that first uses them: tensor
-  powers of an invertible ideal sheaf, the Koszul complex of commuting endomorphisms, continuous
-  cochains as an integer-indexed complex, completed extension of scalars along a map of adic
-  rings, derived `p`-completion on a site that is not replete, and finitely presented modules
-  over a valuation ring with their Fitting ideals (AI.1); the boundary neighbourhoods of `Y^an`
-  and the gluing of vector bundles on it, and minuscule BKF modules over `A_inf`
-  (AI.2); the projection `ν` from the pro-étale site of the generic fibre and the operation `Sq^0`
-  on `E∞`-`𝔽_2`-algebras (AI.3); the primitive comparison over `A_inf` and rational Frobenius
-  bijectivity over `A_cris` (AI.5); log regularity, the algebraization and root towers of
-  semistable charts, formal GAGA and finiteness over rank-one valuation rings, the higher direct
-  images of `Ô_X`, extension across codimension two, acyclicity on affine formal schemes, the
-  log crystalline base change, finiteness and descent statements, the noetherian approximation,
-  connection and deformation statements behind the canonical `B_dR⁺`-deformation, and the log
-  differentials of a semistable curve (AI.6); circle actions, circle Tate constructions and the completed circle/finite-Tate comparison,
-  Dyer–Lashof operations on the supplied dual Steenrod generators, topological Hochschild homology as a
-  cyclotomic spectrum, Bökstedt periodicity, finite freeness of the Breuil–Kisin Frobenius and the
-  identification of `π_0 TP` over the sphere polynomial base (AI.7).
+The roadmap starts from Mathlib's Witt vectors, tilt and Fontaine's map. PerfectoidSpaces provides
+perfectoid rings, and CrystallineCohomology the crystalline and logarithmic crystalline theories
+used in the comparisons. PrismaticCohomology uses décalage, Breuil–Kisin–Fargues modules and `AΩ`;
+CohomologyComparisons uses the torsion and lattice statements in its comparison theorems for
+proper smooth rigid spaces.
 
-**Not here.**
+The first three layers concern the coefficients: they prove `ker θ = (ξ)` and the coherence of
+`W_r(O_C)`, and relate `A_inf` to the period rings. Décalage and module theory over `A_inf` take
+one layer each. Three layers define `AΩ` and prove its local and proper specializations, one
+treats semistable formal schemes, and the last builds Breuil–Kisin cohomology. The next section
+describes each layer.
 
-- Witt vectors, truncated Witt vectors, the Frobenius and Verschiebung, Teichmüller lifts,
-  `PreTilt`, `PreTilt.untilt`, Fontaine's `θ`, `BDeRhamPlus` and `BDeRham`, `continuousCohomology`,
-  `DividedPowers`, the ordinary derived category of an abelian category and Mathlib's
-  `PowerSeries` substitution: Mathlib, used as they stand.
-- The Huber ring `A_inf` with its `(p, [ϖ])`-adic topology, the open `𝒴 = D(p) ∩ D([ϖ])`, its
-  Frobenius windows, the interval rings `B^I` and the Fargues–Fontaine curve as an adic space:
-  TauCetiRoadmap AdicSpaces, Layer 6 (in Tau Ceti: `WittVector.isAdicComplete_span_p_teichmuller`,
-  `TauCeti.Huber.WittVector.isHuberRing_adicTopology_span_p_teichmuller`, `spaY`, `windowU`,
-  `windowV`, `spaX`). Here `A_inf` is the ring `W(O_C^♭)`; its topology is used only through
-  that layer.
-- The Koszul complex of a finite sequence and its exactness on regular sequences:
-  DerivedModuleAlgebra, §0.K.1. This roadmap builds the
-  Koszul complex of a family of commuting endomorphisms on top of it (AI.1.7).
-- Perfectoid rings, tilting, Fontaine's `θ` with its principal kernel, almost purity and
-  affinoid perfectoid spaces: PerfectoidSpaces (P1–P6); the affinoid-perfectoid basis of the
-  rigid pro-étale site over a general p-adic base and its root-torus objects: PerfectoidSpaces P7.16.
-- The cotangent complex, module derived completion and finite-sequence Koszul complexes:
-  DerivedModuleAlgebra §§0.K.1, 0.4–0.13, 1.1–1.9. Filtered completion and the Beilinson
-  t-structure: DerivedDeRhamCohomology §§1.14–1.22.
-- Enhanced derived categories of sheaves on ringed sites and topoi, K-flat and K-injective
-  replacements, derived tensor products, replete topoi, derived limits, derived completeness of
-  sheaves and algebra objects: EnhancedDerivedSheaves (E1, E2, E4, E5).
-- The pro-étale site of an analytic adic space and the morphism `ν` to the étale or Zariski site
-  of a formal model: AdicEtaleGeometry, A1.
-- Admissible formal schemes, Raynaud generic fibres, coherent sheaves on adic spaces and Tate
-  algebras: AdicSpacesPartII R0 and AdicSpacesPartIII F0, R2–R3.
-- Crystalline, logarithmic crystalline and Hyodo–Kato cohomology and de Rham–Witt complexes:
-  CrystallineCohomology CR.1–CR.6, including the arbitrary-ring finite Witt étale/base-change
-  theorem of CR.4, *Witt localization and étale descent*, and §CR.4.4's generic finite-Witt
-  Fontaine kernels, their regularity and perfectoid base change, Tor independence and
-  Verschiebung annihilator/image identities. Divided power envelopes and `A_cris` of a `p`-adically
-  complete ring: DerivedDeRhamCohomology §§PD.6–PD.7.
-- Finite-group Borel norms, Tate functors, coherent products and `can`: BordismFormalGroups
-  §F6.5. The actual dual Steenrod Hopf algebra `H_*(H𝔽_p;𝔽_p)`, its generators, coproduct
-  and conjugation conventions: TangentialBordism §B4, items 2 and 7. AI.7 transports these
-  inputs to (Sp) through EnhancedDerivedSheaves E5:spectra-comparison.
-- Breuil–Kisin modules of finite height, the coefficient rings `𝔖`, `𝒪_ℰ`, and Kisin's
-  functor: FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.2, R07.4). Its R07.4.15
-  owns `𝔖{1}` and its conormal/Frobenius data; R07.4.16 owns the scalar maps.
-- Normalized algebraic Hochschild chains: DGAInfinity Layer 8. AI.7 identifies them with
-  the Bökstedt page and owns its spectral structures.
-- Arithmetic period rings, their topologies, Galois actions and fixed points:
-  PadicPeriodRings §§1.1–1.5, 2–4. The required pro-étale period sheaves and constant-coefficient
-  rational comparison are owned by AI.3.1; the integral comparisons are in AI.4–AI.6.
-- The further rational `p`-adic comparison theorems of proper smooth rigid spaces and the uniform
-  geometric torsion statements over a general base, which use the exports of AI.5 and AI.6:
-  CohomologyComparisons.
+## How to read the build
+
+Layer AI.0 is commutative algebra over Mathlib's Witt vectors: it fixes the cyclotomic
+coefficients, imports the generic finite-Witt package of CrystallineCohomology §CR.4.4
+and proves the cyclotomic, coherence and almost-ideal refinements used throughout. Layer AI.0:integral adds
+the integral twists and the coefficient rings `W(k)` and `A_cris`; Layer AI.0:period-comparison
+relates `A_inf` to the rational period rings. Layer AI.1 is pure homological algebra: décalage on
+complexes and on derived categories of ringed topoi, with no `p`-adic geometry. Layer AI.2 is
+module theory over `A_inf`; its classification part uses the Fargues–Fontaine geometry of
+AdicSpaces, Layer 6. Layer AI.3 brings in the pro-étale site and defines `AΩ`; Layer AI.4 proves
+its local specializations and Layer AI.5 the global ones for proper smooth formal schemes,
+ending with the Breuil–Kisin–Fargues structure of `H^i_{A_inf}`. Layer AI.6 repeats AI.3–AI.5 for
+semistable formal schemes and owns the canonical `B_dR⁺`-deformation and the de Rham lattice.
+Layer AI.7 descends `A_inf`-cohomology to `𝔖` through relative topological Hochschild homology
+and proves its Frobenius-compatible specializations from relative traces. Within each layer the targets are in
+dependency order; a target cites earlier targets by title and section.
 
 ## Conventions
 
@@ -252,284 +165,6 @@ The witness for the two normalizations is the point `Spf O_C`: `θ(μ) = 0` and 
 - **(Y)** `Y^an = Spa(A_inf, A_inf)` minus its closed non-analytic point, that is
   `D(p) ∪ D([ϖ^♭])`, with its two boundary points `x_{C^♭}` (radius `0`) and `x_L` (radius `∞`);
   the interior `𝒴 = D(p) ∩ D([ϖ^♭])` is the space of TauCetiRoadmap AdicSpaces, Layer 6.
-
-## Exact supplier contracts
-
-### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
-
-- **Witt vectors and the tilt.** `WittVector` with its ring structure, `WittVector.teichmuller`
-  (the multiplicative Teichmüller lift `R →* 𝕎 R`, so `[ε]`, `[π^♭]` and `[ϖ^♭]` are its values),
-  `WittVector.frobenius` and, for a perfect ring of characteristic `p`, the automorphism
-  `WittVector.frobeniusEquiv`, which supplies `φ⁻¹` in `θ̃ = θ ∘ φ⁻¹`; `WittVector.map` (Witt
-  functoriality, used for `W(k₀) → A_inf` and for the residue map `A_inf → W(k)`),
-  `WittVector.map_teichmuller`, `WittVector.map_surjective` and
-  `WittVector.frobenius_eq_map_frobenius` (the generic residue-map API);
-  `WittVector.isAdicCompleteIdealSpanP` (p-adic completeness of `W` of a perfect ring);
-  `TruncatedWittVector` and truncation; `PreTilt O p`, the perfection of `O/p`, and
-  `PreTilt.untilt`, the multiplicative map `x ↦ x^♯`.
-- **Fontaine's map.** `WittVector.fontaineTheta : 𝕎(PreTilt O p) →+* O` for `O` p-adically complete
-  with `p` not a unit, with `WittVector.fontaineTheta_teichmuller` (`θ([x]) = x^♯`) and
-  `WittVector.surjective_fontaineTheta`, which assumes that Frobenius is surjective on `O/p`. That `ker θ` is
-  principal is not in Mathlib; it is a clause of Tau Ceti's `TauCeti.Perfectoid.IsIntegralPerfectoid`
-  (below). That perfectoid pairs satisfy it, with a nonzerodivisor generator, is PerfectoidSpaces,
-  P1.18 and P1.25, and the cyclotomic generator for `O_C` is Layer AI.0.
-- **Rational periods.** `BDeRhamPlus` (the completion of `A_inf[1/p]` along `ker θ`) and `BDeRham`
-  (the localization at the images of generators). The discrete valuation, the topology and the
-  Galois action are PadicPeriodRings, §§1.5, 4.1.
-- **Isocrystals.** `WittVector.Isocrystal` and `WittVector.FractionRing.frobeniusRingHom`; Mathlib's
-  classification is of rank-one isocrystals only, and the analytic classification is Layer AI.2.
-- **Power series.** `PowerSeries` with `PowerSeries.coeff`, `PowerSeries.constantCoeff`,
-  `PowerSeries.map` (coefficientwise maps), `PowerSeries.substAlgHom` with
-  `PowerSeries.HasSubst.X_pow`, `PowerSeries.substAlgHom_X`, `PowerSeries.coeff_subst_X_pow` and
-  `PowerSeries.constantCoeff_subst_X_pow` (the substitution `u ↦ u^p` and its coefficient formula),
-  and `PowerSeries.expand`.
-- **Commutative and homological algebra.** `ModuleCat` with `ModuleCat.of`, `ModuleCat.ofHom` and
-  `ModuleCat.Hom.hom`; `CochainComplex` (indexed by `ℤ` here) with `CochainComplex.of`,
-  `CochainComplex.ofHom`, `HomologicalComplex.d_comp_d` and `HomologicalComplex.homology`;
-  `DerivedCategory` and its localization functor `DerivedCategory.Q` (the ordinary derived
-  category; the enhancement, derived tensor products and completions are EnhancedDerivedSheaves);
-  `continuousCohomology` (continuous cohomology with topological coefficients, compared with
-  integer-indexed complexes in Layer AI.1); `TensorProduct`, `LocalizedModule`, `AdicCompletion`
-  with `AdicCompletion.evalₐ`, `AdicCompletion.evalₐ_of`, `AdicCompletion.liftRingHom`,
-  `AdicCompletion.isAdicComplete` and `IsAdicComplete.liftRingHom` (classical completion, used
-  for chart rings; derived completion is DerivedModuleAlgebra, §§1.1–1.9); `MvPolynomial` with
-  `MvPolynomial.pderiv`; `Ideal.Quotient.mk`; `KaehlerDifferential`; `DividedPowers` and
-  `DividedPowerAlgebra` (divided power envelopes are DerivedDeRhamCohomology, §§PD.6–PD.7);
-  `comonadicExtendScalars` (faithfully flat module descent),
-  `Module.FaithfullyFlat.zero_iff_lTensor_zero` and
-  `Module.FaithfullyFlat.lTensor_bijective_iff_bijective`; `Module.equiv_free_prod_directSum` and
-  `Module.equiv_directSum_of_isTorsion` (finitely generated modules over a principal ideal domain,
-  applied to `ℤ_p` and `O_K`); `ValuationRing` (no rank-one or elementary-divisor theory; general cyclic decomposition is
-  in §AI.1.3 and the `A_inf` applications are in Layer AI.2); `Finsupp`, `Finset.max'` and its dual `Finset.min'`; `WeierstrassCurve.j`; `ExteriorAlgebra`; `Module.Invertible`.
-
-### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
-
-- **Witt completeness.** `WittVector.isAdicComplete_span_p_teichmuller` and
-  `Valuation.Integers.isAdicComplete_span_p_teichmuller`, in
-  `TauCeti.RingTheory.WittVector.Complete`, give `(p, [ϖ])`-adic completeness for a perfect
-  characteristic-`p` ring complete at `ϖ`, and for the integers of a complete perfect
-  nonarchimedean field with `‖ϖ‖ < 1`, respectively. For `O_C^♭`, the nonzero elements
-  `ε − 1`, `ξ mod p` and a chosen `ϖ^♭` give cofinal valuation-ideal powers. Witt reduction
-  modulo `p` therefore identifies the `(p, μ)`-, `(p, ξ)`- and `(p, [ϖ^♭])`-adic
-  completeness inputs.
-- **Huber structure.** `WittVector.span_p_teichmuller_eq_top_iff` is in the same completeness
-  module. `TauCeti.Huber.WittVector.isHuberRing_adicTopology_span_p_teichmuller` and
-  `TauCeti.Huber.WittVector.isTateRing_adicTopology_span_p_teichmuller_iff`, in
-  `TauCeti.RingTheory.Huber.WittVector`, supply the Huber structure and the criterion that
-  this ring is Tate exactly when `ϖ` is a unit.
-- **Frobenius and analytic opens.** `WittVector.frobenius_teichmuller` and
-  `WittVector.frobeniusEquiv_symm_teichmuller` are in
-  `TauCeti.RingTheory.WittVector.Frobenius`. `TauCeti.FarguesFontaine.spaY` and
-  `TauCeti.FarguesFontaine.frobeniusHomeomorph` are in
-  `TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine.Y`;
-  `TauCeti.FarguesFontaine.windowU` and `TauCeti.FarguesFontaine.windowV` are in the
-  corresponding `Window` module, and `TauCeti.FarguesFontaine.spaX` is in `Quotient`.
-  These are the opens, Frobenius action, windows and quotient of AdicSpaces Layer 6.
-- **Fitting ideals.** Use `TauCeti.fittingIdeal R M 0`,
-  `TauCeti.fittingIdeal_eq_minorsIdeal_ker` and `TauCeti.fittingIdeal_quotient_zero` from
-  `TauCeti.RingTheory.FittingIdeal.Basic`, and `TauCeti.fittingIdeal_baseChange` from
-  `TauCeti.RingTheory.FittingIdeal.BaseChange`. They apply to finite modules over a
-  commutative ring, using a finite free surjection, and commute with arbitrary base change.
-  §AI.1.3 adds diagonal presentations over valuation rings and §AI.6.7 adds normalized
-  valuation length; neither defines another Fitting ideal.
-- **Integral perfectoid rings.** `TauCeti.Perfectoid.IsIntegralPerfectoid p A`, in
-  `TauCeti.RingTheory.Perfectoid.Integral`, is the predicate of BMS1 Definition 3.5: some `π`
-  with `π^p ∣ p` makes `A` `π`-adically complete and separated, Frobenius is surjective on
-  `A/p`, and the kernel of Mathlib's `WittVector.fontaineTheta` is principal. The same module
-  proves `IsIntegralPerfectoid.isAdicComplete_span_natCast` (`A` is `p`-adically complete),
-  `IsIntegralPerfectoid.isPrincipal_ker_fontaineTheta` and `IsIntegralPerfectoid.of_perfectRing`
-  (a perfect ring of characteristic `p` is integral perfectoid, with `π = 0`).
-  `TauCeti.Perfectoid.isPerfectoidTateRing_of_isAlgClosed`, in
-  `TauCeti.RingTheory.Perfectoid.IsAlgClosed`, makes a complete algebraically closed
-  nonarchimedean field with `‖p‖ < 1`, such as `C`, a perfectoid Tate ring. The class is a
-  predicate only: that the integral rings of perfectoid pairs, `O_C` among them, satisfy it is
-  PerfectoidSpaces P1.25, the nonzerodivisor generator of `ker θ` is P1.18, and the cyclotomic
-  generator `ξ` is Layer AI.0.
-
-### From roadmaps on main
-
-- **AdicSpaces**, Layer 6, §§6.1–6.4: `A_inf = W(O_F)` as a complete Huber ring with pair of
-  definition `(A_inf, (p, [ϖ]))`; the open `𝒴 = D(p) ∩ D([ϖ])`, its Frobenius action and
-  power comparison; the analytic locus `D(p) ∪ D([ϖ])`; the windows `U_n`, `V_n`; the
-  interval rings `B^I` for closed `I ⊂ (0, ∞)`, strongly noetherian and sheafy; and the
-  quotient `𝒳 = 𝒴/φ^ℤ` with its window charts. AI.2.3 adds the boundary neighbourhoods of
-  `Y^an` at radius `0` and `∞`.
-- **SchemeAndStackFoundations**, §0.9 (`noetherian_approximation`,
-  `finite_presentation_limits`), §1.1 (`qcoh_fpqc_descent`), §2.18
-  (`torIndependent_baseChange`) and §§2.20, 3.3 (`cm_serre_duality`,
-  `curve_serre_duality_ext_hom`): noetherian approximation and spreading out, effective
-  fpqc descent of quasi-coherent modules, Tor-independent base change for quasi-coherent
-  complexes, and Serre duality for coherent sheaves on proper Cohen–Macaulay curves.
-- **AdicSpacesPartII**, §§R0.1b, R0.9, R0.17: noetherian completion, polynomial generation
-  of maximal ideals of Tate algebras, algebraic models of affinoid étale maps and étale
-  toric charts on smooth affinoids. Formal schemes and coherent geometry are the separate
-  AdicSpacesPartIII contracts below.
-
-### From other roadmaps
-
-These are mathematical contracts on the supplier's carriers. They do not assert that an
-unimplemented carrier is already available for a Lean declaration.
-
-- **DerivedModuleAlgebra**, §0.K.1: the homological Koszul complex of a finite sequence,
-  its signed tensor formula, functorial maps, multiplication null-homotopies and the
-  resolution of a weakly regular sequence with `H₀ = R/(x₁, …, x_r)`. AI.1.7 builds
-  cochain Koszul complexes of commuting endomorphisms and compares multiplication
-  operators with the ordered cochain dual of this supplied complex.
-  Sections 0.4, 0.6, 0.8–0.13 supply the full cotangent complex, its universal property,
-  transitivity, derived base change, localization and regular-quotient models.
-  Sections 1.T.1 and 1.1–1.9 supply module derived limits, ideal completeness, the
-  completion reflector, Koszul completion towers, regular-quotient comparisons, complete
-  flatness and complete faithfully flat module descent. Section 1.3's derived Nakayama
-  criterion and DerivedDeRhamCohomology §1.13's perfect-system effectivity control
-  perfectness after complete reduction.
-- **AdicEtaleGeometry**, A1: the corrected pro-étale site of a locally noetherian analytic
-  adic space, finite-étale towers with the corrected covering condition, analytic étale
-  sites, their structure sheaves and the projection to the analytic étale site. AI.3.1
-  composes that projection with the specialization to the étale site of a formal model.
-- **AdicSpacesPartIII**, F0.1–F0.8: formal spectra, formal schemes, coherent formal
-  modules, Grothendieck existence and formal GAGA. Sections R2.1–R2.7 and R2.9 supply
-  algebras topologically of finite presentation, admissible formal schemes, Raynaud and
-  Berthelot generic fibres, specialization, étale-site comparisons, admissible blow-ups,
-  flattening, saturated finite submodules and the Raynaud–Gruson projective-module input.
-  Sections R3.1–R3.2, R3.5 and R3.7 supply associated coherent sheaves, affinoid acyclicity,
-  Kiehl gluing and proper coherent GAGA.
-- **PerfectoidSpaces**, P0.2 and P0.5–P0.15: the basic almost setup of a nondiscrete
-  valuation ring, almost modules, algebras and their operations. P1.17–P1.18 supply
-  Fontaine's map for a perfectoid pair and its primitive nonzerodivisor kernel;
-  P1.24 supplies the properties of integral perfectoid rings beyond Tau Ceti's predicate
-  (bijectivity of Frobenius `R/π → R/π^p`, compatible `p`-power roots of a unit multiple of
-  `π`) and P1.25 the integral/Tate dictionary. P2 supplies
-  affinoid perfectoid spaces; P3 supplies almost purity; P6 supplies the affinoid
-  pro-étale perfectoid interpretation of the perfectoid objects of the rigid pro-étale
-  site. P7.16 supplies the general-base affinoid-perfectoid basis
-  (`ProEtaleSite.affinoidPerfectoid_basis`) and the root-torus site object
-  (`ProEtaleSite.proEtale_rootTorus_exists`), on AdicEtaleGeometry A1’s site.
-- **EnhancedDerivedSheaves**, §§0.1–0.3 and E1.3–E1.4: enhanced derived categories of
-  ringed sites, derived tensor and direct image, and the comparison with Mathlib's
-  derived category. In particular §0.2's `ClassicalDerived.replacements` supplies
-  functorial K-injective replacements and K-flat replacements with flat terms. Tensoring
-  the injection `I → O` with each flat term makes it `I`-torsion-free for an invertible
-  ideal; this is the input for AI.1.2, without another replacement construction here.
-  E2 supplies replete-topos derived limits and unbounded hypercover descent. E4.1–E4.5
-  supply derived complete sheaves, their colimits, completed tensor, coefficient-system
-  reconstruction and equivalences detected modulo the ideal. E4.3 supplies
-  `derivedComplete_iff_cohomology` and `derivedCompleteModules_weakSerre`, so completeness
-  is detected in every integer cohomological degree and preserved by kernels and
-  cokernels of maps of complete modules. E5:abstract supplies operadic algebras;
-  E5:presentability.2 supplies `spectra` and the
-  stable symmetric monoidal structure; E5:spectra-comparison supplies `eilenbergMacLane`
-  and `moduleSpectra_equiv_derived`; its `symmetricSpectra_equiv_spectra` transports the
-  concrete spectral constructions, their coherent action diagrams, products and `HR` objects
-  to this abstract stabilization.
-- **BordismFormalGroups**, §F6.5:
-  for every finite group `G`, Borel actions, homotopy orbits and fixed points, the norm and
-  its Tate cofibre, restriction and induction, and the coherent lax symmetric monoidal
-  Tate functor with `can` and module products. AI.7 uses its `G=C_p` specialization,
-  transported through EnhancedDerivedSheaves E5:spectra-comparison, and owns the circle
-  extension and Tate-orbit comparison.
-- **TangentialBordism**, §B4, items 2 and 7:
-  the actual mod-p Eilenberg–Mac Lane homology Hopf algebra, polynomial on `ξ_i` (`i≥1`)
-  at `p=2`, and polynomial on `ξ_i` (`i≥1`) tensor exterior on `τ_i` (`i≥0`) at odd `p`,
-  with its dual Steenrod coaction, coproduct and conjugation. Use its Milnor generators
-  and conjugates after the same concrete-to-abstract spectral comparison; AI.7 owns
-  their Dyer–Lashof values, suspension compatibility and Bökstedt differentials.
-- **ArithmeticGaloisDuality**, §D7.3, *Continuous cochains in the derived category*:
-  continuous cochains and their derived-category realization on its stated compact and
-  cofinite coefficient domain. AI.1.7 owns the comparison with Mathlib's continuous
-  cochains for inverse systems of arbitrary discrete continuous modules killed by `p^n`.
-- **DerivedDeRhamCohomology**, §§1.14–1.22: filtered derived categories, filtered and
-  completed tensor products, filtered completion and the Beilinson t-structure with its
-  heart identified with complexes. Sections PD.1–PD.2 and PD.4–PD.7 supply divided
-  powers, base-compatible PD envelopes and `A_cris` for a `p`-adically complete ring.
-  On `O_C`, PD.7 identifies that envelope with PadicPeriodRings §3's principal envelope.
-  Layer 2 supplies ordinary and derived de Rham complexes. Sections 5.1–5.5 supply the
-  quasisyntomic sites, quasiregular semiperfectoid objects, elementary covers, refinement
-  and symmetric monoidal sheaf unfolding; §5.23 supplies proper smooth de Rham
-  perfectness. These are the site and finiteness inputs of AI.7.
-- **CrystallineCohomology**, CR.1–CR.3: crystalline sites and cohomology, differentials
-  of a smooth envelope, the embedding computation and its independence, enhanced
-  crystalline direct image and global sections, derived crystalline base change and
-  proper smooth perfectness; CR.3:Frobenius-isogeny’s *p-power control for purely
-  inseparable pullback* supplies the smooth relative-Frobenius bound without properness.
-  Its *Rational crystalline Frobenius isogeny* additionally assumes properness.
-  CR.4, *Witt localization and étale descent*, supplies the coefficient theorem
-  that for any étale map `A→B` of commutative rings and `r≥1`, `W_r(A)→W_r(B)` is étale
-  and `W_r(A′)⊗_{W_r(A)}W_r(B)≅W_r(B⊗_A A′)` for arbitrary `A→A′` (BMS1, Theorem 10.4).
-  *Étale base change of Witt vectors* (§AI.0.3) restates this supplied theorem.
-  Section CR.4.4, *Finite Witt base change for integral perfectoid rings*, supplies the
-  regular generators of `ker θ_r` and `ker θ̃_r`, their behaviour under perfectoid maps,
-  both derived finite-Witt base-change equivalences (restriction and Frobenius), and
-  `Ann(V^j(1))=ker F^j`, `V^j(1)W_r(S)=V^jW_{r−j}(S)`. *Finite Witt kernel generators* (§AI.0.2) and
-  *Tor independence for finite Witt vectors* (§AI.0.3) transport these generic kernel,
-  regularity and base-change statements; AI.0 owns
-  the explicit cyclotomic generators, `q_(r,j)` formulas, coherence and almost ideals.
-  CR.4 also supplies relative Frobenius–Verschiebung procomplexes, relative Witt
-  forms over perfectoid bases, continuous relative de Rham–Witt, Laurent Witt weights,
-  finite and infinite crystalline comparisons, Nygaard/conjugate/Hodge/lift filtrations,
-  strict Dieudonné complexes as décalage fixed points, the saturated de Rham–Witt
-  complex and Bockstein reduction of principal `p`-décalage. CR.5:log-algebra supplies
-  prelog rings, integral morphisms, Kato's chart criterion and log regularity. CR.5
-  supplies fine and quasi-coherent log PD envelopes, PD-smooth log thickenings, the log
-  PD Poincaré lemma, log de Rham complexes, Cartier type and the semistable chart
-  differential formula. CR.6 supplies standard log Witt bases and Hyodo–Kato theory.
-- **ClassicalAdicEtaleCohomology**, §1.3: étale–pro-étale comparison, continuous
-  cohomology on profinite `G`-sets, Cartan–Leray descent with its coefficient-topology
-  hypothesis, and étale acyclicity of vector bundles on strongly sheafy affinoids.
-  Section 4.7 supplies, as the algebraization step of its Bloch–Kato–Hyodo construction,
-  local algebraization of semistable formal charts on its finite discretely valued base
-  domain. AI.6.1 states the extension needed over `O_C`.
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2 (in particular §R07.2.18,
-  *Frobenius-fixed Witt vectors are the p-adic integers*) and R07.4: Dieudonné theory,
-  the Breuil–Kisin rings `𝔖`, `O_ℰ`, `𝔖^ur`, `O` and `S`, finite-height modules,
-  Fontaine's equivalence for étale Frobenius modules over a Cohen ring, the torsion
-  structure theorem, finite-height lattices and Kisin's functor. The relevant named
-  targets are §§R07.4.1, R07.4.4, R07.4.12, R07.4.13, R07.4.15 and R07.4.16.
-  R07.4.15 supplies the rank-one twist `𝔖{1}`, its conormal inverse system and
-  Frobenius; R07.4.16's `kisinPeriodScalarMaps` supplies both embeddings `ι₀`, `ι₁`,
-  residues `ε₀`, `ε₁` and their Eisenstein-kernel identities. AI.7 transports
-  them and proves the cohomological specialization and twist comparisons.
-- **DGAInfinity**, Layer 8: normalized Hochschild chains of strictly unital DG algebras
-  with their bar differential and normalization comparison. AI.7 transports the
-  cohomological grading to the homological/internal grading of the Bökstedt page.
-- **PadicPeriodRings**, §§1.1–1.5: the finite-`ℚ_p` completion, period DVR, Fontaine map,
-  uniformizer, topologies, continuous actions and Tate–Sen calculations. Section 2's
-  `PadicFieldCompletion`, `tateSen_H0` and `tateSen_character` apply to every complete
-  discretely valued characteristic-zero `K` with perfect residue field of characteristic
-  `p`, with `C` the completed algebraic closure. They give `C^{G_K} = K` and
-  `C(η)^{G_K} = 0` for continuous `η : G_K → ℤ_p^×` with infinite inertia image;
-  intersecting with `O_C` gives `(O_C)^{G_K} = O_K`. Such characters have finite or
-  virtually `ℤ_p` image, as required there. Section 3 supplies the principal `A_cris`
-  envelope for general `C`. Sections 4.1–4.3 supply the general-base period rings,
-  `A_cris → B_dR⁺`, `B_st`, invariant functors, regularity and the fixed embedding of
-  `K`. Sections 1.5 and 4.1 identify Mathlib's `BDeRhamPlus` and `BDeRham` carriers.
-  For arbitrary `C` in (C), AI.0:period-comparison proves the corresponding completion
-  statements; arithmetic fixed-field assertions use `C = K̄^∧`.
-- **PerfectoidQuotients**, §0.2 supplies `finiteFontaineTheta`, its level-one, restriction,
-  Frobenius and Teichmüller identities, `frobenius_surjectivity_equivalences` and
-  `theta_map_preserves_generator`; §0.0 supplies `fontaine_tor_independence`.
-  Section 0.3 (`perfectoid_cotangent_mod_p_vanishes`,
-  `perfectoid_absolute_cotangent`): relative completed cotangent vanishing for maps of
-  integral perfectoid rings and the absolute cotangent/conormal-line comparison.
-  Section 0.5 supplies perfectoid completion of `p`-integral closures on its stated
-  torsion and completeness domain. Sections 1.3–1.4 supply `bhattRootExtension`, its
-  compatible roots, saturation and almost faithful flatness over a perfectoid field.
-
-## How to read the build
-
-Layer AI.0 is commutative algebra over Mathlib's Witt vectors: it fixes the cyclotomic
-coefficients, imports the generic finite-Witt package of CrystallineCohomology §CR.4.4
-and proves the cyclotomic, coherence and almost-ideal refinements used throughout. Layer AI.0:integral adds
-the integral twists and the coefficient rings `W(k)` and `A_cris`; Layer AI.0:period-comparison
-relates `A_inf` to the rational period rings. Layer AI.1 is pure homological algebra: décalage on
-complexes and on derived categories of ringed topoi, with no `p`-adic geometry. Layer AI.2 is
-module theory over `A_inf`; its classification part uses the Fargues–Fontaine geometry of
-AdicSpaces, Layer 6. Layer AI.3 brings in the pro-étale site and defines `AΩ`; Layer AI.4 proves
-its local specializations and Layer AI.5 the global ones for proper smooth formal schemes,
-ending with the Breuil–Kisin–Fargues structure of `H^i_{A_inf}`. Layer AI.6 repeats AI.3–AI.5 for
-semistable formal schemes and owns the canonical `B_dR⁺`-deformation and the de Rham lattice.
-Layer AI.7 descends `A_inf`-cohomology to `𝔖` through relative topological Hochschild homology
-and proves its Frobenius-compatible specializations from relative traces. Within each layer the targets are in
-dependency order; a target cites earlier targets by title and section.
 
 ## Layer AI.0: Cyclotomic periods and finite Witt coefficients
 
@@ -4329,6 +3964,384 @@ for a proper smooth formal scheme each torsion summand `ℤ_p/p^a` of `H^i(RΓ_�
 - **RefinedTraceMethods**: the perfectoid coefficients of AI.0, décalage (AI.1) and the absolute
   trace computations of AI.7.
 - **HeckeStacksAndLocalShtukas**: Fargues' classification (AI.2).
+
+## Scope and ownership
+
+**Owned here.**
+
+- *Cyclotomic and Witt coefficients (AI.0).* The elements `μ`, `ξ`, `ξ̃`, `ξ_r`, `ξ̃_r` of
+  `A_inf(S) = W(S^♭)` for an integral perfectoid ring `S` with a compatible system of primitive
+  `p`-power roots of unity; the shifted maps `θ̃ = θ ∘ φ⁻¹` and `θ̃_r=θ_r∘φ^(−r)`
+  from the finite Fontaine maps `θ_r` supplied by PerfectoidQuotients §0.2; their additional
+  Verschiebung compatibility and cyclotomic formulas for the kernels imported from
+  CrystallineCohomology §CR.4.4; the identification `A_inf = lim_F W_r(O_C)` and
+  the kernel of `A_inf → W(O_C)`;
+  regularity of `(p, μ)` and `(p, ξ)`; flatness of the cyclotomic
+  power-series maps `ℤ_p[[T]] → A_inf`; cyclotomic specializations of the supplied finite-Witt
+  Tor-independence theorem; coherence of `W_r(O_C)` and `W_r(O_C^♭)` for finite `r`.
+- *Integral twists (AI.0:integral).* The residue map `A_inf → W(k)`; the Breuil–Kisin line
+  `A_inf{1}` and its specializations `O_C{1}` and `ℤ_p(1)`; Fontaine's `dlog` theorem; the
+  description of `O_C{1}` by the completed cotangent complex; the integral crystalline
+  coefficient ring `A_cris` as an `A_inf`-algebra; regularity of the coefficients of an affinoid
+  perfectoid.
+- *Rational periods (AI.0:period-comparison).* The commuting maps
+  `A_inf → A_cris → B_cris⁺ → B_dR⁺`, flatness of `A_inf → B_dR⁺` and the finite `ξ`-quotients
+  of `B_dR⁺` with their Tate topologies.
+- *Décalage (AI.1).* The extension of the principal-`p` module core of CrystallineCohomology CR.4
+  to arbitrary regular `f` and ringed topoi: the operator `η_f` on cochain complexes with
+  `f`-torsion-free terms, its
+  extension `η_I` to an invertible ideal sheaf of a ringed topos and the derived functor `Lη_I`,
+  with its cohomology `H^i(Lη_I K) ≅ (H^i(K)/H^i(K)[I]) ⊗ I^{⊗i}`, filtered colimits,
+  truncations, lax symmetric monoidal structure, Bockstein description, completion,
+  composition, base change and its value on Koszul complexes of commuting operators.
+- *Modules (AI.2).* The structure theorem for finitely presented `A_inf`-modules that are free
+  after inverting `p`; Breuil–Kisin–Fargues modules; lattice pairs `(T, Ξ)` with `T` a finite
+  free `ℤ_p`-module and `Ξ` a `B_dR⁺`-lattice; the étale realization, full faithfulness and
+  essential surjectivity of Fargues' functor; continuous Galois descent; minuscule BKF linear
+  algebra. PrismaticCohomology owns the Dieudonné dictionary and its crystalline determination application.
+- *`AΩ` (AI.3–AI.5).* The pro-étale sheaves `Ô⁺_X`, `Ô⁺♭_X` and `𝔸_inf,X` and the complex
+  `AΩ_𝔛`; its local computation by `q`-de Rham complexes; its Hodge–Tate, de Rham–Witt, de
+  Rham, crystalline and étale specializations; the proper theory with its torsion and freeness
+  results.
+- *Semistable reduction (AI.6).* Semistable charts with their log structures and perfectoid root
+  towers, semistable `AΩ`, its log Hodge–Tate, log de Rham and log crystalline
+  specializations, the Hyodo–Kato comparison used with it, the canonical `B_dR⁺`-deformation of
+  the generic fibre (from the very small affinoid case to proper smooth rigid spaces), the
+  semistable `B_dR⁺` and étale comparisons, and the de Rham lattice `M_dR(T)` attached to a
+  `ℤ_p`-lattice in a de Rham representation.
+- *Breuil–Kisin descent (AI.7).* The cohomological normalization of the supplied maps
+  `𝔖 → A_inf`, the cohomological
+  Breuil–Kisin complex `RΓ_𝔖(𝔛)`, relative cyclotomic traces over `𝕊[z]`, the Frobenius-twisted
+  trace complex, its Bott-inverted descent, its trace-defined Frobenius and the base change and specialization theorems.
+- *Foundational inputs owned here.* Several general statements that the proofs need and that no
+  lower roadmap states are targets of this roadmap, in the layer that first uses them: tensor
+  powers of an invertible ideal sheaf, the Koszul complex of commuting endomorphisms, continuous
+  cochains as an integer-indexed complex, completed extension of scalars along a map of adic
+  rings, derived `p`-completion on a site that is not replete, and finitely presented modules
+  over a valuation ring with their Fitting ideals (AI.1); the boundary neighbourhoods of `Y^an`
+  and the gluing of vector bundles on it, and minuscule BKF modules over `A_inf`
+  (AI.2); the projection `ν` from the pro-étale site of the generic fibre and the operation `Sq^0`
+  on `E∞`-`𝔽_2`-algebras (AI.3); the primitive comparison over `A_inf` and rational Frobenius
+  bijectivity over `A_cris` (AI.5); log regularity, the algebraization and root towers of
+  semistable charts, formal GAGA and finiteness over rank-one valuation rings, the higher direct
+  images of `Ô_X`, extension across codimension two, acyclicity on affine formal schemes, the
+  log crystalline base change, finiteness and descent statements, the noetherian approximation,
+  connection and deformation statements behind the canonical `B_dR⁺`-deformation, and the log
+  differentials of a semistable curve (AI.6); circle actions, circle Tate constructions and the completed circle/finite-Tate comparison,
+  Dyer–Lashof operations on the supplied dual Steenrod generators, topological Hochschild homology as a
+  cyclotomic spectrum, Bökstedt periodicity, finite freeness of the Breuil–Kisin Frobenius and the
+  identification of `π_0 TP` over the sphere polynomial base (AI.7).
+
+**Not here.**
+
+- Witt vectors, truncated Witt vectors, the Frobenius and Verschiebung, Teichmüller lifts,
+  `PreTilt`, `PreTilt.untilt`, Fontaine's `θ`, `BDeRhamPlus` and `BDeRham`, `continuousCohomology`,
+  `DividedPowers`, the ordinary derived category of an abelian category and Mathlib's
+  `PowerSeries` substitution: Mathlib, used as they stand.
+- The Huber ring `A_inf` with its `(p, [ϖ])`-adic topology, the open `𝒴 = D(p) ∩ D([ϖ])`, its
+  Frobenius windows, the interval rings `B^I` and the Fargues–Fontaine curve as an adic space:
+  TauCetiRoadmap AdicSpaces, Layer 6 (in Tau Ceti: `WittVector.isAdicComplete_span_p_teichmuller`,
+  `TauCeti.Huber.WittVector.isHuberRing_adicTopology_span_p_teichmuller`, `spaY`, `windowU`,
+  `windowV`, `spaX`). Here `A_inf` is the ring `W(O_C^♭)`; its topology is used only through
+  that layer.
+- The Koszul complex of a finite sequence and its exactness on regular sequences:
+  DerivedModuleAlgebra, §0.K.1. This roadmap builds the
+  Koszul complex of a family of commuting endomorphisms on top of it (AI.1.7).
+- Perfectoid rings, tilting, Fontaine's `θ` with its principal kernel, almost purity and
+  affinoid perfectoid spaces: PerfectoidSpaces (P1–P6); the affinoid-perfectoid basis of the
+  rigid pro-étale site over a general p-adic base and its root-torus objects: PerfectoidSpaces P7.16.
+- The cotangent complex, module derived completion and finite-sequence Koszul complexes:
+  DerivedModuleAlgebra §§0.K.1, 0.4–0.13, 1.1–1.9. Filtered completion and the Beilinson
+  t-structure: DerivedDeRhamCohomology §§1.14–1.22.
+- Enhanced derived categories of sheaves on ringed sites and topoi, K-flat and K-injective
+  replacements, derived tensor products, replete topoi, derived limits, derived completeness of
+  sheaves and algebra objects: EnhancedDerivedSheaves (E1, E2, E4, E5).
+- The pro-étale site of an analytic adic space and the morphism `ν` to the étale or Zariski site
+  of a formal model: AdicEtaleGeometry, A1.
+- Admissible formal schemes, Raynaud generic fibres, coherent sheaves on adic spaces and Tate
+  algebras: AdicSpacesPartII R0 and AdicSpacesPartIII F0, R2–R3.
+- Crystalline, logarithmic crystalline and Hyodo–Kato cohomology and de Rham–Witt complexes:
+  CrystallineCohomology CR.1–CR.6, including the arbitrary-ring finite Witt étale/base-change
+  theorem of CR.4, *Witt localization and étale descent*, and §CR.4.4's generic finite-Witt
+  Fontaine kernels, their regularity and perfectoid base change, Tor independence and
+  Verschiebung annihilator/image identities. Divided power envelopes and `A_cris` of a `p`-adically
+  complete ring: DerivedDeRhamCohomology §§PD.6–PD.7.
+- Finite-group Borel norms, Tate functors, coherent products and `can`: BordismFormalGroups
+  §F6.5. The actual dual Steenrod Hopf algebra `H_*(H𝔽_p;𝔽_p)`, its generators, coproduct
+  and conjugation conventions: TangentialBordism §B4, items 2 and 7. AI.7 transports these
+  inputs to (Sp) through EnhancedDerivedSheaves E5:spectra-comparison.
+- Breuil–Kisin modules of finite height, the coefficient rings `𝔖`, `𝒪_ℰ`, and Kisin's
+  functor: FiniteFlatGroupsAndIntegralPadicHodgeTheory (R07.2, R07.4). Its R07.4.15
+  owns `𝔖{1}` and its conormal/Frobenius data; R07.4.16 owns the scalar maps.
+- Normalized algebraic Hochschild chains: DGAInfinity Layer 8. AI.7 identifies them with
+  the Bökstedt page and owns its spectral structures.
+- Arithmetic period rings, their topologies, Galois actions and fixed points:
+  PadicPeriodRings §§1.1–1.5, 2–4. The required pro-étale period sheaves and constant-coefficient
+  rational comparison are owned by AI.3.1; the integral comparisons are in AI.4–AI.6.
+- The further rational `p`-adic comparison theorems of proper smooth rigid spaces and the uniform
+  geometric torsion statements over a general base, which use the exports of AI.5 and AI.6:
+  CohomologyComparisons.
+
+## Exact supplier contracts
+
+### From Mathlib (pinned at `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`)
+
+- **Witt vectors and the tilt.** `WittVector` with its ring structure, `WittVector.teichmuller`
+  (the multiplicative Teichmüller lift `R →* 𝕎 R`, so `[ε]`, `[π^♭]` and `[ϖ^♭]` are its values),
+  `WittVector.frobenius` and, for a perfect ring of characteristic `p`, the automorphism
+  `WittVector.frobeniusEquiv`, which supplies `φ⁻¹` in `θ̃ = θ ∘ φ⁻¹`; `WittVector.map` (Witt
+  functoriality, used for `W(k₀) → A_inf` and for the residue map `A_inf → W(k)`),
+  `WittVector.map_teichmuller`, `WittVector.map_surjective` and
+  `WittVector.frobenius_eq_map_frobenius` (the generic residue-map API);
+  `WittVector.isAdicCompleteIdealSpanP` (p-adic completeness of `W` of a perfect ring);
+  `TruncatedWittVector` and truncation; `PreTilt O p`, the perfection of `O/p`, and
+  `PreTilt.untilt`, the multiplicative map `x ↦ x^♯`.
+- **Fontaine's map.** `WittVector.fontaineTheta : 𝕎(PreTilt O p) →+* O` for `O` p-adically complete
+  with `p` not a unit, with `WittVector.fontaineTheta_teichmuller` (`θ([x]) = x^♯`) and
+  `WittVector.surjective_fontaineTheta`, which assumes that Frobenius is surjective on `O/p`. That `ker θ` is
+  principal is not in Mathlib; it is a clause of Tau Ceti's `TauCeti.Perfectoid.IsIntegralPerfectoid`
+  (below). That perfectoid pairs satisfy it, with a nonzerodivisor generator, is PerfectoidSpaces,
+  P1.18 and P1.25, and the cyclotomic generator for `O_C` is Layer AI.0.
+- **Rational periods.** `BDeRhamPlus` (the completion of `A_inf[1/p]` along `ker θ`) and `BDeRham`
+  (the localization at the images of generators). The discrete valuation, the topology and the
+  Galois action are PadicPeriodRings, §§1.5, 4.1.
+- **Isocrystals.** `WittVector.Isocrystal` and `WittVector.FractionRing.frobeniusRingHom`; Mathlib's
+  classification is of rank-one isocrystals only, and the analytic classification is Layer AI.2.
+- **Power series.** `PowerSeries` with `PowerSeries.coeff`, `PowerSeries.constantCoeff`,
+  `PowerSeries.map` (coefficientwise maps), `PowerSeries.substAlgHom` with
+  `PowerSeries.HasSubst.X_pow`, `PowerSeries.substAlgHom_X`, `PowerSeries.coeff_subst_X_pow` and
+  `PowerSeries.constantCoeff_subst_X_pow` (the substitution `u ↦ u^p` and its coefficient formula),
+  and `PowerSeries.expand`.
+- **Commutative and homological algebra.** `ModuleCat` with `ModuleCat.of`, `ModuleCat.ofHom` and
+  `ModuleCat.Hom.hom`; `CochainComplex` (indexed by `ℤ` here) with `CochainComplex.of`,
+  `CochainComplex.ofHom`, `HomologicalComplex.d_comp_d` and `HomologicalComplex.homology`;
+  `DerivedCategory` and its localization functor `DerivedCategory.Q` (the ordinary derived
+  category; the enhancement, derived tensor products and completions are EnhancedDerivedSheaves);
+  `continuousCohomology` (continuous cohomology with topological coefficients, compared with
+  integer-indexed complexes in Layer AI.1); `TensorProduct`, `LocalizedModule`, `AdicCompletion`
+  with `AdicCompletion.evalₐ`, `AdicCompletion.evalₐ_of`, `AdicCompletion.liftRingHom`,
+  `AdicCompletion.isAdicComplete` and `IsAdicComplete.liftRingHom` (classical completion, used
+  for chart rings; derived completion is DerivedModuleAlgebra, §§1.1–1.9); `MvPolynomial` with
+  `MvPolynomial.pderiv`; `Ideal.Quotient.mk`; `KaehlerDifferential`; `DividedPowers` and
+  `DividedPowerAlgebra` (divided power envelopes are DerivedDeRhamCohomology, §§PD.6–PD.7);
+  `comonadicExtendScalars` (faithfully flat module descent),
+  `Module.FaithfullyFlat.zero_iff_lTensor_zero` and
+  `Module.FaithfullyFlat.lTensor_bijective_iff_bijective`; `Module.equiv_free_prod_directSum` and
+  `Module.equiv_directSum_of_isTorsion` (finitely generated modules over a principal ideal domain,
+  applied to `ℤ_p` and `O_K`); `ValuationRing` (no rank-one or elementary-divisor theory; general cyclic decomposition is
+  in §AI.1.3 and the `A_inf` applications are in Layer AI.2); `Finsupp`, `Finset.max'` and its dual `Finset.min'`; `WeierstrassCurve.j`; `ExteriorAlgebra`; `Module.Invertible`.
+
+### From Tau Ceti (pinned at `2fd255d997f47c0b5d834ee416c7015d55444ce5`)
+
+- **Witt completeness.** `WittVector.isAdicComplete_span_p_teichmuller` and
+  `Valuation.Integers.isAdicComplete_span_p_teichmuller`, in
+  `TauCeti.RingTheory.WittVector.Complete`, give `(p, [ϖ])`-adic completeness for a perfect
+  characteristic-`p` ring complete at `ϖ`, and for the integers of a complete perfect
+  nonarchimedean field with `‖ϖ‖ < 1`, respectively. For `O_C^♭`, the nonzero elements
+  `ε − 1`, `ξ mod p` and a chosen `ϖ^♭` give cofinal valuation-ideal powers. Witt reduction
+  modulo `p` therefore identifies the `(p, μ)`-, `(p, ξ)`- and `(p, [ϖ^♭])`-adic
+  completeness inputs.
+- **Huber structure.** `WittVector.span_p_teichmuller_eq_top_iff` is in the same completeness
+  module. `TauCeti.Huber.WittVector.isHuberRing_adicTopology_span_p_teichmuller` and
+  `TauCeti.Huber.WittVector.isTateRing_adicTopology_span_p_teichmuller_iff`, in
+  `TauCeti.RingTheory.Huber.WittVector`, supply the Huber structure and the criterion that
+  this ring is Tate exactly when `ϖ` is a unit.
+- **Frobenius and analytic opens.** `WittVector.frobenius_teichmuller` and
+  `WittVector.frobeniusEquiv_symm_teichmuller` are in
+  `TauCeti.RingTheory.WittVector.Frobenius`. `TauCeti.FarguesFontaine.spaY` and
+  `TauCeti.FarguesFontaine.frobeniusHomeomorph` are in
+  `TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine.Y`;
+  `TauCeti.FarguesFontaine.windowU` and `TauCeti.FarguesFontaine.windowV` are in the
+  corresponding `Window` module, and `TauCeti.FarguesFontaine.spaX` is in `Quotient`.
+  These are the opens, Frobenius action, windows and quotient of AdicSpaces Layer 6.
+- **Fitting ideals.** Use `TauCeti.fittingIdeal R M 0`,
+  `TauCeti.fittingIdeal_eq_minorsIdeal_ker` and `TauCeti.fittingIdeal_quotient_zero` from
+  `TauCeti.RingTheory.FittingIdeal.Basic`, and `TauCeti.fittingIdeal_baseChange` from
+  `TauCeti.RingTheory.FittingIdeal.BaseChange`. They apply to finite modules over a
+  commutative ring, using a finite free surjection, and commute with arbitrary base change.
+  §AI.1.3 adds diagonal presentations over valuation rings and §AI.6.7 adds normalized
+  valuation length; neither defines another Fitting ideal.
+- **Integral perfectoid rings.** `TauCeti.Perfectoid.IsIntegralPerfectoid p A`, in
+  `TauCeti.RingTheory.Perfectoid.Integral`, is the predicate of BMS1 Definition 3.5: some `π`
+  with `π^p ∣ p` makes `A` `π`-adically complete and separated, Frobenius is surjective on
+  `A/p`, and the kernel of Mathlib's `WittVector.fontaineTheta` is principal. The same module
+  proves `IsIntegralPerfectoid.isAdicComplete_span_natCast` (`A` is `p`-adically complete),
+  `IsIntegralPerfectoid.isPrincipal_ker_fontaineTheta` and `IsIntegralPerfectoid.of_perfectRing`
+  (a perfect ring of characteristic `p` is integral perfectoid, with `π = 0`).
+  `TauCeti.Perfectoid.isPerfectoidTateRing_of_isAlgClosed`, in
+  `TauCeti.RingTheory.Perfectoid.IsAlgClosed`, makes a complete algebraically closed
+  nonarchimedean field with `‖p‖ < 1`, such as `C`, a perfectoid Tate ring. The class is a
+  predicate only: that the integral rings of perfectoid pairs, `O_C` among them, satisfy it is
+  PerfectoidSpaces P1.25, the nonzerodivisor generator of `ker θ` is P1.18, and the cyclotomic
+  generator `ξ` is Layer AI.0.
+
+### From roadmaps on main
+
+- **AdicSpaces**, Layer 6, §§6.1–6.4: `A_inf = W(O_F)` as a complete Huber ring with pair of
+  definition `(A_inf, (p, [ϖ]))`; the open `𝒴 = D(p) ∩ D([ϖ])`, its Frobenius action and
+  power comparison; the analytic locus `D(p) ∪ D([ϖ])`; the windows `U_n`, `V_n`; the
+  interval rings `B^I` for closed `I ⊂ (0, ∞)`, strongly noetherian and sheafy; and the
+  quotient `𝒳 = 𝒴/φ^ℤ` with its window charts. AI.2.3 adds the boundary neighbourhoods of
+  `Y^an` at radius `0` and `∞`.
+- **SchemeAndStackFoundations**, §0.9 (`noetherian_approximation`,
+  `finite_presentation_limits`), §1.1 (`qcoh_fpqc_descent`), §2.18
+  (`torIndependent_baseChange`) and §§2.20, 3.3 (`cm_serre_duality`,
+  `curve_serre_duality_ext_hom`): noetherian approximation and spreading out, effective
+  fpqc descent of quasi-coherent modules, Tor-independent base change for quasi-coherent
+  complexes, and Serre duality for coherent sheaves on proper Cohen–Macaulay curves.
+- **AdicSpacesPartII**, §§R0.1b, R0.9, R0.17: noetherian completion, polynomial generation
+  of maximal ideals of Tate algebras, algebraic models of affinoid étale maps and étale
+  toric charts on smooth affinoids. Formal schemes and coherent geometry are the separate
+  AdicSpacesPartIII contracts below.
+
+### From other roadmaps
+
+These are mathematical contracts on the supplier's carriers. They do not assert that an
+unimplemented carrier is already available for a Lean declaration.
+
+- **DerivedModuleAlgebra**, §0.K.1: the homological Koszul complex of a finite sequence,
+  its signed tensor formula, functorial maps, multiplication null-homotopies and the
+  resolution of a weakly regular sequence with `H₀ = R/(x₁, …, x_r)`. AI.1.7 builds
+  cochain Koszul complexes of commuting endomorphisms and compares multiplication
+  operators with the ordered cochain dual of this supplied complex.
+  Sections 0.4, 0.6, 0.8–0.13 supply the full cotangent complex, its universal property,
+  transitivity, derived base change, localization and regular-quotient models.
+  Sections 1.T.1 and 1.1–1.9 supply module derived limits, ideal completeness, the
+  completion reflector, Koszul completion towers, regular-quotient comparisons, complete
+  flatness and complete faithfully flat module descent. Section 1.3's derived Nakayama
+  criterion and DerivedDeRhamCohomology §1.13's perfect-system effectivity control
+  perfectness after complete reduction.
+- **AdicEtaleGeometry**, A1: the corrected pro-étale site of a locally noetherian analytic
+  adic space, finite-étale towers with the corrected covering condition, analytic étale
+  sites, their structure sheaves and the projection to the analytic étale site. AI.3.1
+  composes that projection with the specialization to the étale site of a formal model.
+- **AdicSpacesPartIII**, F0.1–F0.8: formal spectra, formal schemes, coherent formal
+  modules, Grothendieck existence and formal GAGA. Sections R2.1–R2.7 and R2.9 supply
+  algebras topologically of finite presentation, admissible formal schemes, Raynaud and
+  Berthelot generic fibres, specialization, étale-site comparisons, admissible blow-ups,
+  flattening, saturated finite submodules and the Raynaud–Gruson projective-module input.
+  Sections R3.1–R3.2, R3.5 and R3.7 supply associated coherent sheaves, affinoid acyclicity,
+  Kiehl gluing and proper coherent GAGA.
+- **PerfectoidSpaces**, P0.2 and P0.5–P0.15: the basic almost setup of a nondiscrete
+  valuation ring, almost modules, algebras and their operations. P1.17–P1.18 supply
+  Fontaine's map for a perfectoid pair and its primitive nonzerodivisor kernel;
+  P1.24 supplies the properties of integral perfectoid rings beyond Tau Ceti's predicate
+  (bijectivity of Frobenius `R/π → R/π^p`, compatible `p`-power roots of a unit multiple of
+  `π`) and P1.25 the integral/Tate dictionary. P2 supplies
+  affinoid perfectoid spaces; P3 supplies almost purity; P6 supplies the affinoid
+  pro-étale perfectoid interpretation of the perfectoid objects of the rigid pro-étale
+  site. P7.16 supplies the general-base affinoid-perfectoid basis
+  (`ProEtaleSite.affinoidPerfectoid_basis`) and the root-torus site object
+  (`ProEtaleSite.proEtale_rootTorus_exists`), on AdicEtaleGeometry A1’s site.
+- **EnhancedDerivedSheaves**, §§0.1–0.3 and E1.3–E1.4: enhanced derived categories of
+  ringed sites, derived tensor and direct image, and the comparison with Mathlib's
+  derived category. In particular §0.2's `ClassicalDerived.replacements` supplies
+  functorial K-injective replacements and K-flat replacements with flat terms. Tensoring
+  the injection `I → O` with each flat term makes it `I`-torsion-free for an invertible
+  ideal; this is the input for AI.1.2, without another replacement construction here.
+  E2 supplies replete-topos derived limits and unbounded hypercover descent. E4.1–E4.5
+  supply derived complete sheaves, their colimits, completed tensor, coefficient-system
+  reconstruction and equivalences detected modulo the ideal. E4.3 supplies
+  `derivedComplete_iff_cohomology` and `derivedCompleteModules_weakSerre`, so completeness
+  is detected in every integer cohomological degree and preserved by kernels and
+  cokernels of maps of complete modules. E5:abstract supplies operadic algebras;
+  E5:presentability.2 supplies `spectra` and the
+  stable symmetric monoidal structure; E5:spectra-comparison supplies `eilenbergMacLane`
+  and `moduleSpectra_equiv_derived`; its `symmetricSpectra_equiv_spectra` transports the
+  concrete spectral constructions, their coherent action diagrams, products and `HR` objects
+  to this abstract stabilization.
+- **BordismFormalGroups**, §F6.5:
+  for every finite group `G`, Borel actions, homotopy orbits and fixed points, the norm and
+  its Tate cofibre, restriction and induction, and the coherent lax symmetric monoidal
+  Tate functor with `can` and module products. AI.7 uses its `G=C_p` specialization,
+  transported through EnhancedDerivedSheaves E5:spectra-comparison, and owns the circle
+  extension and Tate-orbit comparison.
+- **TangentialBordism**, §B4, items 2 and 7:
+  the actual mod-p Eilenberg–Mac Lane homology Hopf algebra, polynomial on `ξ_i` (`i≥1`)
+  at `p=2`, and polynomial on `ξ_i` (`i≥1`) tensor exterior on `τ_i` (`i≥0`) at odd `p`,
+  with its dual Steenrod coaction, coproduct and conjugation. Use its Milnor generators
+  and conjugates after the same concrete-to-abstract spectral comparison; AI.7 owns
+  their Dyer–Lashof values, suspension compatibility and Bökstedt differentials.
+- **ArithmeticGaloisDuality**, §D7.3, *Continuous cochains in the derived category*:
+  continuous cochains and their derived-category realization on its stated compact and
+  cofinite coefficient domain. AI.1.7 owns the comparison with Mathlib's continuous
+  cochains for inverse systems of arbitrary discrete continuous modules killed by `p^n`.
+- **DerivedDeRhamCohomology**, §§1.14–1.22: filtered derived categories, filtered and
+  completed tensor products, filtered completion and the Beilinson t-structure with its
+  heart identified with complexes. Sections PD.1–PD.2 and PD.4–PD.7 supply divided
+  powers, base-compatible PD envelopes and `A_cris` for a `p`-adically complete ring.
+  On `O_C`, PD.7 identifies that envelope with PadicPeriodRings §3's principal envelope.
+  Layer 2 supplies ordinary and derived de Rham complexes. Sections 5.1–5.5 supply the
+  quasisyntomic sites, quasiregular semiperfectoid objects, elementary covers, refinement
+  and symmetric monoidal sheaf unfolding; §5.23 supplies proper smooth de Rham
+  perfectness. These are the site and finiteness inputs of AI.7.
+- **CrystallineCohomology**, CR.1–CR.3: crystalline sites and cohomology, differentials
+  of a smooth envelope, the embedding computation and its independence, enhanced
+  crystalline direct image and global sections, derived crystalline base change and
+  proper smooth perfectness; CR.3:Frobenius-isogeny’s *p-power control for purely
+  inseparable pullback* supplies the smooth relative-Frobenius bound without properness.
+  Its *Rational crystalline Frobenius isogeny* additionally assumes properness.
+  CR.4, *Witt localization and étale descent*, supplies the coefficient theorem
+  that for any étale map `A→B` of commutative rings and `r≥1`, `W_r(A)→W_r(B)` is étale
+  and `W_r(A′)⊗_{W_r(A)}W_r(B)≅W_r(B⊗_A A′)` for arbitrary `A→A′` (BMS1, Theorem 10.4).
+  *Étale base change of Witt vectors* (§AI.0.3) restates this supplied theorem.
+  Section CR.4.4, *Finite Witt base change for integral perfectoid rings*, supplies the
+  regular generators of `ker θ_r` and `ker θ̃_r`, their behaviour under perfectoid maps,
+  both derived finite-Witt base-change equivalences (restriction and Frobenius), and
+  `Ann(V^j(1))=ker F^j`, `V^j(1)W_r(S)=V^jW_{r−j}(S)`. *Finite Witt kernel generators* (§AI.0.2) and
+  *Tor independence for finite Witt vectors* (§AI.0.3) transport these generic kernel,
+  regularity and base-change statements; AI.0 owns
+  the explicit cyclotomic generators, `q_(r,j)` formulas, coherence and almost ideals.
+  CR.4 also supplies relative Frobenius–Verschiebung procomplexes, relative Witt
+  forms over perfectoid bases, continuous relative de Rham–Witt, Laurent Witt weights,
+  finite and infinite crystalline comparisons, Nygaard/conjugate/Hodge/lift filtrations,
+  strict Dieudonné complexes as décalage fixed points, the saturated de Rham–Witt
+  complex and Bockstein reduction of principal `p`-décalage. CR.5:log-algebra supplies
+  prelog rings, integral morphisms, Kato's chart criterion and log regularity. CR.5
+  supplies fine and quasi-coherent log PD envelopes, PD-smooth log thickenings, the log
+  PD Poincaré lemma, log de Rham complexes, Cartier type and the semistable chart
+  differential formula. CR.6 supplies standard log Witt bases and Hyodo–Kato theory.
+- **ClassicalAdicEtaleCohomology**, §1.3: étale–pro-étale comparison, continuous
+  cohomology on profinite `G`-sets, Cartan–Leray descent with its coefficient-topology
+  hypothesis, and étale acyclicity of vector bundles on strongly sheafy affinoids.
+  Section 4.7 supplies, as the algebraization step of its Bloch–Kato–Hyodo construction,
+  local algebraization of semistable formal charts on its finite discretely valued base
+  domain. AI.6.1 states the extension needed over `O_C`.
+- **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2 (in particular §R07.2.18,
+  *Frobenius-fixed Witt vectors are the p-adic integers*) and R07.4: Dieudonné theory,
+  the Breuil–Kisin rings `𝔖`, `O_ℰ`, `𝔖^ur`, `O` and `S`, finite-height modules,
+  Fontaine's equivalence for étale Frobenius modules over a Cohen ring, the torsion
+  structure theorem, finite-height lattices and Kisin's functor. The relevant named
+  targets are §§R07.4.1, R07.4.4, R07.4.12, R07.4.13, R07.4.15 and R07.4.16.
+  R07.4.15 supplies the rank-one twist `𝔖{1}`, its conormal inverse system and
+  Frobenius; R07.4.16's `kisinPeriodScalarMaps` supplies both embeddings `ι₀`, `ι₁`,
+  residues `ε₀`, `ε₁` and their Eisenstein-kernel identities. AI.7 transports
+  them and proves the cohomological specialization and twist comparisons.
+- **DGAInfinity**, Layer 8: normalized Hochschild chains of strictly unital DG algebras
+  with their bar differential and normalization comparison. AI.7 transports the
+  cohomological grading to the homological/internal grading of the Bökstedt page.
+- **PadicPeriodRings**, §§1.1–1.5: the finite-`ℚ_p` completion, period DVR, Fontaine map,
+  uniformizer, topologies, continuous actions and Tate–Sen calculations. Section 2's
+  `PadicFieldCompletion`, `tateSen_H0` and `tateSen_character` apply to every complete
+  discretely valued characteristic-zero `K` with perfect residue field of characteristic
+  `p`, with `C` the completed algebraic closure. They give `C^{G_K} = K` and
+  `C(η)^{G_K} = 0` for continuous `η : G_K → ℤ_p^×` with infinite inertia image;
+  intersecting with `O_C` gives `(O_C)^{G_K} = O_K`. Such characters have finite or
+  virtually `ℤ_p` image, as required there. Section 3 supplies the principal `A_cris`
+  envelope for general `C`. Sections 4.1–4.3 supply the general-base period rings,
+  `A_cris → B_dR⁺`, `B_st`, invariant functors, regularity and the fixed embedding of
+  `K`. Sections 1.5 and 4.1 identify Mathlib's `BDeRhamPlus` and `BDeRham` carriers.
+  For arbitrary `C` in (C), AI.0:period-comparison proves the corresponding completion
+  statements; arithmetic fixed-field assertions use `C = K̄^∧`.
+- **PerfectoidQuotients**, §0.2 supplies `finiteFontaineTheta`, its level-one, restriction,
+  Frobenius and Teichmüller identities, `frobenius_surjectivity_equivalences` and
+  `theta_map_preserves_generator`; §0.0 supplies `fontaine_tor_independence`.
+  Section 0.3 (`perfectoid_cotangent_mod_p_vanishes`,
+  `perfectoid_absolute_cotangent`): relative completed cotangent vanishing for maps of
+  integral perfectoid rings and the absolute cotangent/conormal-line comparison.
+  Section 0.5 supplies perfectoid completion of `p`-integral closures on its stated
+  torsion and completeness domain. Sections 1.3–1.4 supply `bhattRootExtension`, its
+  compatible roots, saturation and almost faithful flatness over a perfectoid field.
 
 ## References
 

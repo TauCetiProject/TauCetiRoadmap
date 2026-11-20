@@ -1,50 +1,59 @@
 # Roadmap: affine Lie algebras, smooth modules and completed centers
 
-**Summary.** Develop polynomial and formal currents of a Lie algebra, continuous central
-extensions, smooth representations, congruence integration and completed enveloping algebras
-(Layers A1–A5). Construct vacuum vertex algebras and prove the scalar center theorem away from
-critical level and the Feigin–Frenkel isomorphism at critical level, with exact coordinate and
-Poisson compatibility (Layers A6–A8). Build usable maps, transport, extensionality, quotients and
-examples with each object, not just a path to these headline theorems.
+**Summary.** Let g be a finite-dimensional complex simple Lie algebra and g((t)) the Lie algebra of
+Laurent series with coefficients in g. Each invariant symmetric form κ on g gives a central
+extension ĝκ = g((t)) ⊕ ℂK, and representations in which K acts as 1 are said to have level κ. At
+every level but one, the center of the completed enveloping algebra is ℂ. At the critical level κc,
+minus one half of the Killing form, the center is large: the Feigin–Frenkel theorem identifies it
+with functions on opers for the Langlands dual group G∨. This roadmap builds the affine Lie
+algebras, smooth modules and vertex algebras needed to prove both statements. The basic theory of
+currents and vertex algebras works over any field of characteristic zero; the classification,
+integration and center theorems concern complex simple g.
 
-## Scope and ownership
+The first main theorem classifies the extensions. Sending κ to the class of the residue cocycle
+`cκ(x⊗f, y⊗h) = −κ(x,y) Res(f dh)` is a linear isomorphism from the invariant symmetric forms on g
+onto the continuous, not unrestricted algebraic, cohomology `H²_cont(g((t)), ℂ)`. Its analogue for
+every discrete coefficient space with trivial action shows that the extension by a nonzero residue
+cocycle is universal among central extensions that have a discrete kernel and a continuous linear
+section. The proof uses the Whitehead lemmas for finite-dimensional complex semisimple Lie algebras
+and finite-dimensional modules: derivations are inner and two-cocycles are coboundaries.
 
-This roadmap owns:
+For vertex algebras, the roadmap proves the reconstruction theorem. Let V carry a vector vac, an
+operator T with T vac = 0, and fields (series of operators in a variable z). Assume the fields are
+pairwise local (a power of z − w kills their commutator) and that commuting with T differentiates
+each of them in z. If vac generates V under all their coefficients, then V has exactly one vertex
+algebra structure with vacuum vac and translation T in which each given field F is the field of the
+state F(z)vac at z = 0.
 
-- the arbitrary-dimensional completion comparison for currents `F ⊗ L`, continuous cochains, the residue cocycle, the
-  finite-dimensional complex Whitehead lemmas and the classification of continuous two-cohomology
-  of `g((t))` (A1);
-- the central extensions `ĝκ`, levels, `h∨`, the affine loop lift and the coordinate group
-  `Aut(O)`, the algebraic level quotient `Uκ` and its left ideals `I_N` (A2);
-- smooth modules, the polynomial/formal comparison and rational integration to `K_N` (A3);
-- the completion `Ûκ` and completed loop/coordinate lifts (A4);
-- the smooth-module adapters, continuous coinduction, central-character quotients, the
-  smooth/completed module equivalence and the field calculus (A5);
-- formal vertex algebras with the Borcherds identity, the vacuum vertex algebras `Vκ`, Sugawara
-  vectors, the generic weight-one Lie theorem and the critical deformation family (A6);
-- the vacuum center theorems, the free-field prerequisites (Heisenberg Fock vertex algebras of a
-  symmetric bilinear space, Wakimoto modules, screenings) and the jet invariant theorem (A7);
-- the completed center theorems, the noncritical extended-center argument and the exact
-  Feigin–Frenkel, coordinate and Poisson normalizations (A8).
+Reconstruction makes a vertex algebra of the vacuum module Vκ, induced from the trivial
+representation of g[[t]] with K acting as 1. Its center, identified with the g[[t]]-invariants, is
+spanned by the vacuum at every noncritical level, κ = 0 included. At the critical level it is freely
+generated as a commutative differential algebra by ℓ = rank g homogeneous Segal–Sugawara states, of
+weights d_i + 1 for the exponents d_i of g. It is isomorphic to functions on G∨-opers on the formal
+disc. Opers are connections of a special form; for sl₂ they are the operators ∂² − q.
 
-It leaves to their owners, consumed by section:
+A module over ĝκ is smooth if each vector is killed by `t^N g[[t]]` for some N > 0. Smooth modules
+of level κ are equivalent to discrete modules over the completed algebra Ûκ with continuous orbit
+maps. The center of Ûκ is ℂ at every noncritical level. At the critical level it is made up of the
+completed modes of central states of Vκc and is isomorphic to functions on G∨-opers on the punctured
+disc. The isomorphism is continuous, compatible with coordinate changes, and Poisson for the bracket
+obtained by deforming the level to κc + ℏκ0.
 
-- vector-valued Laurent currents, their convolution Lie bracket, polynomial-loop embedding and
-  finite-dimensional tensor, topology and completeness comparisons: FormalLaurentPuiseux L3;
+FormalLaurentPuiseux supplies the topology and residue calculus of Laurent series.
+FormalConnectionsOpers supplies formal loop groups, opers and classical screenings, without using
+Feigin–Frenkel. LieHighestWeight supplies the highest-weight theory behind the noncritical center,
+and Mathlib the polynomial loop algebras, Lie algebra cochains and Hahn-series vertex operators.
+GeometricRepresentationCategories uses the smooth module categories and the critical center to build
+coherent categorical actions over opers.
 
-- group versus Lie-algebra invariants `V^G = V^g` for connected groups and the finite Chevalley
-  restriction and Kostant slice theorems: FormalConnectionsOpers F4.3;
-- formal loop groups, `K_N`, exponential/BCH comparisons, opers, Drinfeld–Sokolov reduction,
-  Miura maps and classical screenings: FormalConnectionsOpers F1–F8;
-- finite root data, ADE classification and highest-weight theory: RootSystems, LieHighestWeight;
-- the pinned reductive group, opposite Borels and polynomial big-cell coordinates: ReductiveGroups
-  Layers 6–7, especially §7C;
-- coherent categorical actions, fibres and descent over opers, the outer-derivation to `Ext¹`
-  comparison and finite-Artinian scalar-extension adapters: GeometricRepresentationCategories.
-
-Ordinary universal enveloping algebras, PBW, finite Casimirs and induction keep their existing
-owners. Compatible equivalences along dual gauge arrows remain the separately owned conjecture
-statement; no categorical-lift or global Langlands theorem is requested here.
+A1 and A2 construct the currents, their cohomology and the central extensions. A3 develops smooth
+modules and integrates finitely generated ones to congruence subgroups. A4 constructs Ûκ, with the
+actions of loops and coordinate changes. A5 proves the module equivalence and develops current
+fields. A6 develops vertex algebras, including the Borcherds identity and the Lie algebra on weight
+one, and builds the Sugawara vector and the critical deformation. A7 embeds Vκ into free-field
+vertex algebras and computes invariants of jets, then proves the vacuum center theorems. A8 proves
+the completed center theorems and fixes the Feigin–Frenkel normalizations. Each subsection's *Needs*
+line lists its inputs.
 
 ## Conventions
 
@@ -72,80 +81,6 @@ extension, is included. No degree derivation is silently added.
 Vertex algebras use `Y(a,z) = Σ_(n∈ℤ) a_(n) z^(−n−1)`, so `a_(n)` is the field coefficient at
 `z^(−n−1)`; conformal operators are `L_m = ω_(m+1)` and `L_(−1) = ω_(0) = T`. Formal locality is
 coefficientwise annihilation by a power of `z − w`, not analytic convergence.
-
-## Exact supplier contracts
-
-**From Mathlib.**
-
-- `LieAlgebra.loopAlgebra`, `LoopAlgebra.toFinsupp`, `LoopAlgebra.residuePairing` and
-  `LieAlgebra.LoopAlgebra.twoCocycleOfBilinear` (`Mathlib/Algebra/Lie/Loop.lean`): the polynomial loop
-  algebra and its residue cocycle, with `+Res(f dg)` in the second mode index.
-- `LieModule.Cohomology.d₁₂`, `d₂₃`, `twoCocycle` (`Mathlib/Algebra/Lie/Cochain.lean`): alternating
-  Chevalley–Eilenberg cochains; `d₁₂` has trivial-coefficient formula `−f([x,y])`.
-- `LieAlgebra.ofTwoCocycle`, `Extension.ofTwoCocycle`, `Extension.twoCocycleOf`,
-  `oneCochainOfTwoSplitting`, `d₁₂_oneCochainOfTwoSplitting` (`Mathlib/Algebra/Lie/Extension.lean`):
-  cocycle extensions and the section-change coboundary.
-- `killingForm`, `LieModule.traceForm` and its invariance `LieModule.traceForm_lieInvariant`
-  (`Mathlib/Algebra/Lie/TraceForm.lean`); `UniversalEnvelopingAlgebra`.
-- `HVertexOperator` and `HVertexOperator.coeff` (`Mathlib/Algebra/Vertex/HVertexOperator.lean`):
-  linear maps into Hahn modules over `ℤ` and their coefficient maps. They supply lower truncation
-  of each `Y(a,z)b`, not vertex axioms, vacuum or grading.
-- `LaurentSeries`, `HahnSeries`, summable families; `SymmetricAlgebra`; `DirectSum.IsInternal`.
-- `ModuleCat.coextendScalars`, `ModuleCat.restrictCoextendScalarsAdj`
-  (`Mathlib/Algebra/Category/ModuleCat/ChangeOfRings.lean`), `ObjectProperty.FullSubcategory`,
-  `EnoughInjectives.of_adjunction`, `hasExt_of_enoughInjectives`, `TwoSidedIdeal`,
-  `Subalgebra.center`, `Filter.HasBasis`.
-- `Matrix.SpecialLinearGroup`.
-
-**From Tau Ceti.**
-
-- `Algebra/Lie/UniversalEnveloping/Basic` (generator induction, representations, center criterion),
-  `pbwAssociatedGradedEquiv` (`PBW/Injective`) and `UniversalEnvelopingAlgebra.ι_injective`
-  (`PBW/Embedding`), both for free modules, hence over `ℂ`.
-- `TauCeti.exists_isCompl_of_isKilling` (complete reducibility of finite-dimensional modules over
-  a Lie algebra with nondegenerate Killing form); Mathlib `LieAlgebra.IsSemisimple` and the Cartan
-  criterion `LieAlgebra.HasTrivialRadical.instIsKilling`.
-- `TauCeti.SpecialLinear.coordinateHopfAlgebra`, `SpecialLinear.pointsMulEquiv`,
-  `GeneralLinear.genericMatrix` (`Algebra/AlgebraicGroup/SpecialLinear/Basic`).
-
-**From TauCetiRoadmap.FormalLaurentPuiseux.** L1–L2: Laurent coefficient topology, substitution
-(anti-composition of substitution parameters) and continuous differential/residue calculus. L3:
-`HahnModule ℤ 𝕜 L` with its convolution Lie bracket for arbitrary `L`, the coefficient-preserving
-polynomial-loop embedding, and, for finite-dimensional `L`, the coefficient-preserving tensor
-Lie equivalence, basis-independent topology, completeness and lattice/finite-jet comparisons.
-L3 also supplies the derivative and residue-pairing comparison with polynomial loops.
-
-**From TauCetiRoadmap.FormalConnectionsOpers.** F1–F3: pinned `G(R((t)))`, positive congruence
-groups `K_N`, the exponential `exp : a_N ≃ K_N` with inverse `log`, finite-jet and BCH
-compatibility, adjoint action and Maurer–Cartan differential with `dlog(g) = (dg)g⁻¹`. F4.3: group
-versus Lie-algebra invariants for connected groups, `S(g*)^G ≃ S(h*)^W` with generators `P_i` of
-degrees `d_i + 1`, the Kostant regular/slice theorem and the codimension of the nonregular locus.
-F5–F8: regular and punctured opers, their function algebras `Fun Op(D)` and `Fun Op(D×)`,
-coordinate action, Miura transforms, classical W-algebras and screenings and their sign
-conventions. The classical-screening supplier contract is F7.5: its exponential-charge
-modules, translation-compatible dual-root screening derivations and Miura screening-kernel
-identification are inputs to A7.1–A7.3. A7.1 owns the restriction of the quantum Wakimoto
-intertwiners and its comparison with these supplied derivations. F7.5 constructs its classical
-objects independently of the affine vertex algebras and their centers; none of F1–F8 consumes
-Feigin–Frenkel.
-
-**From TauCetiRoadmap.LieHighestWeight.** Layers 1, 3, 5 and 7: Cartan and root spaces,
-highest-weight modules, complete reducibility, Harish–Chandra and Chevalley theory.
-
-**From TauCetiRoadmap.RootSystems.** Finite ADE classification, realizations and numbered integral
-root data.
-
-**From TauCetiRoadmap.ReductiveGroups.** Layers 6–7, especially §7C: opposite Borels,
-root subgroups and ordered polynomial coordinates on the big cell of the given pinned group.
-
-## How to read the build
-
-A1 and A2 construct currents, central extensions, current lifts and the algebraic level
-quotient. A3 constructs smooth modules and congruence integration; A4 completes the level algebra
-and extends the lifts; A5 proves the module equivalence and develops fields. A6 constructs generic
-and vacuum vertex algebras. A7 constructs free fields and jet invariants before the vacuum center
-theorems. A8 constructs the critical completed center, proves the noncritical scalar-center theorem
-and pins the Feigin–Frenkel normalizations. Each subsection's Needs line specifies its inputs.
 
 ## Layer A1: currents and continuous cohomology
 
@@ -1169,6 +1104,110 @@ consumes A8.3's selected isomorphism, loop action and dictionary.
   rank-one Feigin–Frenkel isomorphism and loop action); it owns coherent actions, fibres and descent.
 - NoncompactQuantumSymmetry P.4 extends the Whitehead lemmas of A1.2 from `ℂ` to every
   characteristic-zero field.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the arbitrary-dimensional completion comparison for currents `F ⊗ L`, continuous cochains, the residue cocycle, the
+  finite-dimensional complex Whitehead lemmas and the classification of continuous two-cohomology
+  of `g((t))` (A1);
+- the central extensions `ĝκ`, levels, `h∨`, the affine loop lift and the coordinate group
+  `Aut(O)`, the algebraic level quotient `Uκ` and its left ideals `I_N` (A2);
+- smooth modules, the polynomial/formal comparison and rational integration to `K_N` (A3);
+- the completion `Ûκ` and completed loop/coordinate lifts (A4);
+- the smooth-module adapters, continuous coinduction, central-character quotients, the
+  smooth/completed module equivalence and the field calculus (A5);
+- formal vertex algebras with the Borcherds identity, the vacuum vertex algebras `Vκ`, Sugawara
+  vectors, the generic weight-one Lie theorem and the critical deformation family (A6);
+- the vacuum center theorems, the free-field prerequisites (Heisenberg Fock vertex algebras of a
+  symmetric bilinear space, Wakimoto modules, screenings) and the jet invariant theorem (A7);
+- the completed center theorems, the noncritical extended-center argument and the exact
+  Feigin–Frenkel, coordinate and Poisson normalizations (A8).
+
+It leaves to their owners, consumed by section:
+
+- vector-valued Laurent currents, their convolution Lie bracket, polynomial-loop embedding and
+  finite-dimensional tensor, topology and completeness comparisons: FormalLaurentPuiseux L3;
+
+- group versus Lie-algebra invariants `V^G = V^g` for connected groups and the finite Chevalley
+  restriction and Kostant slice theorems: FormalConnectionsOpers F4.3;
+- formal loop groups, `K_N`, exponential/BCH comparisons, opers, Drinfeld–Sokolov reduction,
+  Miura maps and classical screenings: FormalConnectionsOpers F1–F8;
+- finite root data, ADE classification and highest-weight theory: RootSystems, LieHighestWeight;
+- the pinned reductive group, opposite Borels and polynomial big-cell coordinates: ReductiveGroups
+  Layers 6–7, especially §7C;
+- coherent categorical actions, fibres and descent over opers, the outer-derivation to `Ext¹`
+  comparison and finite-Artinian scalar-extension adapters: GeometricRepresentationCategories.
+
+Ordinary universal enveloping algebras, PBW, finite Casimirs and induction keep their existing
+owners. Compatible equivalences along dual gauge arrows remain the separately owned conjecture
+statement; no categorical-lift or global Langlands theorem is requested here.
+
+## Exact supplier contracts
+
+**From Mathlib.**
+
+- `LieAlgebra.loopAlgebra`, `LoopAlgebra.toFinsupp`, `LoopAlgebra.residuePairing` and
+  `LieAlgebra.LoopAlgebra.twoCocycleOfBilinear` (`Mathlib/Algebra/Lie/Loop.lean`): the polynomial loop
+  algebra and its residue cocycle, with `+Res(f dg)` in the second mode index.
+- `LieModule.Cohomology.d₁₂`, `d₂₃`, `twoCocycle` (`Mathlib/Algebra/Lie/Cochain.lean`): alternating
+  Chevalley–Eilenberg cochains; `d₁₂` has trivial-coefficient formula `−f([x,y])`.
+- `LieAlgebra.ofTwoCocycle`, `Extension.ofTwoCocycle`, `Extension.twoCocycleOf`,
+  `oneCochainOfTwoSplitting`, `d₁₂_oneCochainOfTwoSplitting` (`Mathlib/Algebra/Lie/Extension.lean`):
+  cocycle extensions and the section-change coboundary.
+- `killingForm`, `LieModule.traceForm` and its invariance `LieModule.traceForm_lieInvariant`
+  (`Mathlib/Algebra/Lie/TraceForm.lean`); `UniversalEnvelopingAlgebra`.
+- `HVertexOperator` and `HVertexOperator.coeff` (`Mathlib/Algebra/Vertex/HVertexOperator.lean`):
+  linear maps into Hahn modules over `ℤ` and their coefficient maps. They supply lower truncation
+  of each `Y(a,z)b`, not vertex axioms, vacuum or grading.
+- `LaurentSeries`, `HahnSeries`, summable families; `SymmetricAlgebra`; `DirectSum.IsInternal`.
+- `ModuleCat.coextendScalars`, `ModuleCat.restrictCoextendScalarsAdj`
+  (`Mathlib/Algebra/Category/ModuleCat/ChangeOfRings.lean`), `ObjectProperty.FullSubcategory`,
+  `EnoughInjectives.of_adjunction`, `hasExt_of_enoughInjectives`, `TwoSidedIdeal`,
+  `Subalgebra.center`, `Filter.HasBasis`.
+- `Matrix.SpecialLinearGroup`.
+
+**From Tau Ceti.**
+
+- `Algebra/Lie/UniversalEnveloping/Basic` (generator induction, representations, center criterion),
+  `pbwAssociatedGradedEquiv` (`PBW/Injective`) and `UniversalEnvelopingAlgebra.ι_injective`
+  (`PBW/Embedding`), both for free modules, hence over `ℂ`.
+- `TauCeti.exists_isCompl_of_isKilling` (complete reducibility of finite-dimensional modules over
+  a Lie algebra with nondegenerate Killing form); Mathlib `LieAlgebra.IsSemisimple` and the Cartan
+  criterion `LieAlgebra.HasTrivialRadical.instIsKilling`.
+- `TauCeti.SpecialLinear.coordinateHopfAlgebra`, `SpecialLinear.pointsMulEquiv`,
+  `GeneralLinear.genericMatrix` (`Algebra/AlgebraicGroup/SpecialLinear/Basic`).
+
+**From TauCetiRoadmap.FormalLaurentPuiseux.** L1–L2: Laurent coefficient topology, substitution
+(anti-composition of substitution parameters) and continuous differential/residue calculus. L3:
+`HahnModule ℤ 𝕜 L` with its convolution Lie bracket for arbitrary `L`, the coefficient-preserving
+polynomial-loop embedding, and, for finite-dimensional `L`, the coefficient-preserving tensor
+Lie equivalence, basis-independent topology, completeness and lattice/finite-jet comparisons.
+L3 also supplies the derivative and residue-pairing comparison with polynomial loops.
+
+**From TauCetiRoadmap.FormalConnectionsOpers.** F1–F3: pinned `G(R((t)))`, positive congruence
+groups `K_N`, the exponential `exp : a_N ≃ K_N` with inverse `log`, finite-jet and BCH
+compatibility, adjoint action and Maurer–Cartan differential with `dlog(g) = (dg)g⁻¹`. F4.3: group
+versus Lie-algebra invariants for connected groups, `S(g*)^G ≃ S(h*)^W` with generators `P_i` of
+degrees `d_i + 1`, the Kostant regular/slice theorem and the codimension of the nonregular locus.
+F5–F8: regular and punctured opers, their function algebras `Fun Op(D)` and `Fun Op(D×)`,
+coordinate action, Miura transforms, classical W-algebras and screenings and their sign
+conventions. The classical-screening supplier contract is F7.5: its exponential-charge
+modules, translation-compatible dual-root screening derivations and Miura screening-kernel
+identification are inputs to A7.1–A7.3. A7.1 owns the restriction of the quantum Wakimoto
+intertwiners and its comparison with these supplied derivations. F7.5 constructs its classical
+objects independently of the affine vertex algebras and their centers; none of F1–F8 consumes
+Feigin–Frenkel.
+
+**From TauCetiRoadmap.LieHighestWeight.** Layers 1, 3, 5 and 7: Cartan and root spaces,
+highest-weight modules, complete reducibility, Harish–Chandra and Chevalley theory.
+
+**From TauCetiRoadmap.RootSystems.** Finite ADE classification, realizations and numbered integral
+root data.
+
+**From TauCetiRoadmap.ReductiveGroups.** Layers 6–7, especially §7C: opposite Borels,
+root subgroups and ordered polynomial coordinates on the big cell of the given pinned group.
 
 ## References
 

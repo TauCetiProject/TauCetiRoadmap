@@ -1,48 +1,82 @@
 # Roadmap: Dyson Brownian motion
 
-**Summary.** This roadmap builds Dyson Brownian motion on two foundations: the finite-dimensional
-spectral theory, Gaussian ensembles, free convolution and deformed-Wigner laws of the RandomMatrices
-roadmap, and the Itô calculus and stochastic-differential-equation theory of the StochasticCalculus
-roadmap. It follows Anderson–Guionnet–Zeitouni (**AGZ**) §§4.3.1–4.3.2, Tao (**T**) §3.1 and
-Potters–Bouchaud (**PB**) chs. 8–9. It builds the adapters to stochastic calculus, the `β ≥ 1`
-ordered particle system with its invariant Gaussian beta law, symmetric and Hermitian matrix
-Brownian motion with the eigenvalue stochastic differential equation, and the hydrodynamic limit of
-the empirical measure. Its end theorems are Dyson's theorem (the eigenvalues of matrix Brownian
-motion solve the Dyson system and do not collide at positive times), global strong existence and
-uniqueness without collisions for every real `β ≥ 1`, and convergence of the empirical measure
-process, uniformly on compact time intervals, to the solution of a Burgers equation for the
-Stieltjes transform. For a compactly supported initial limit `ν` and uniformly bounded initial
-spectra, that limit is the free convolution `ν ⊞ SC_t`. [Suggested.lean](Suggested.lean) states the
-headline theorems that are statable against the pinned libraries; this README is the roadmap.
+**Summary.** Let a real symmetric or complex Hermitian matrix perform Brownian motion in the space
+of such matrices. The eigenvalues then move too, and they repel each other. Dyson's theorem makes
+this precise: the ordered eigenvalues solve a system of stochastic differential equations of their
+own. This roadmap studies that system, proves Dyson's theorem, and follows the eigenvalue
+distribution as the size of the matrix tends to infinity. Its main source is
+Anderson–Guionnet–Zeitouni (**AGZ**); eigenvalues are ordered decreasingly here, increasingly in
+AGZ.
 
-## Scope and ownership
+The Dyson system of size `n` and real parameter `β` moves `n` ordered particles `λ₁ ≥ ⋯ ≥ λₙ` by
+`dλᵢ = √(2/(βn)) dBᵢ + n⁻¹ ∑_{j≠i} (λᵢ-λⱼ)⁻¹ dt`, where `B` is an `n`-dimensional Brownian motion.
+Matrix Brownian motion is normalized so that at time `t` it has the law of `√t` times the GOE
+(`β = 1`) or the GUE (`β = 2`).
 
-The matrices are real symmetric (`β = 1`) and complex Hermitian (`β = 2`) of fixed size `n`
-driven by finitely many independent real Brownian motions; the particle system is the ordered
-Dyson system on `ℝⁿ` for real `β ≥ 1`, with and without the Ornstein–Uhlenbeck drift. Limits are
-taken as `n → ∞` on compact time intervals.
+The first main theorem concerns the particles alone. For every real `β ≥ 1` and every deterministic
+ordered starting point, coincident coordinates included, the Dyson system has a unique strong
+solution with continuous paths. Its coordinates are distinct at every positive time, and it depends
+continuously on the starting point. These statements also hold for the Ornstein–Uhlenbeck system,
+which adds the drift `−λᵢ/2`; for it the Gaussian beta density is an invariant probability law. The
+bound on `β` matters: for two particles the gap `λ₁ − λ₂` is a scaled Bessel process of dimension
+`β + 1`, which avoids `0` exactly when `β ≥ 1`.
 
-Outside the roadmap: `0 < β < 1`, where particles collide and the system needs reflection or
-local-time terms; quaternionic `β = 4` matrix Brownian motion; infinite-dimensional Dyson
-processes and the sine and Airy line ensembles; local relaxation flows and universality via
-Dyson Brownian motion; fluctuation and large deviation theory of the empirical measure process
-(AGZ §§4.3.3–4.3.4); and the finance and filtering models of PB.
+The second main theorem is Dyson's theorem. Start matrix Brownian motion at any real symmetric
+(`β = 1`) or complex Hermitian (`β = 2`) matrix, repeated eigenvalues allowed. Its ordered
+eigenvalues are then a weak solution of the Dyson system started at the ordered initial spectrum:
+they solve the system for some `n` independent Brownian motions on the same probability space. They
+are distinct at every positive time.
 
-Owned elsewhere and consumed here:
+The third main theorem is the hydrodynamic limit. Let `L_n(t)` be the empirical measure of the `n`
+particles at time `t`. Suppose that the initial empirical measures converge weakly to a probability
+measure `ν` and that `n⁻¹ ∑ᵢ log(1 + λᵢ(0)²)` stays bounded in `n`, with no assumption on the joint
+law of the systems of different sizes. Then on every interval `[0, T]`, `L_n` converges uniformly in
+time for the Lévy–Prokhorov metric, almost surely and in probability. The limit is the unique family
+`μ_t` with `μ_0 = ν` whose Stieltjes transforms `G_t(z) = ∫ (z−x)⁻¹ dμ_t(x)` solve Burgers'
+equation `∂_t G = −G ∂_z G` off the real line, in integrated form. This holds for the particle
+system with every `β ≥ 1` and for matrix Brownian motion from a real diagonal start.
 
-- Tau Ceti owns the empirical spectral measure `Matrix.spectralMeasure` and the semicircle family
-  `TauCeti.Probability.semicircleReal`.
-- [RandomMatrices](../RandomMatrices/README.md) owns the rest of the spectral API and its
-  measurability (§§1.1–1.2), the GOE and GUE coordinates and their normalization (§5.1), the
-  Gaussian beta ensemble densities (§§5.2–5.3), the resolvent transform toolkit (§§3.1–3.2),
-  free additive convolution of compactly supported laws with its subordination and R-transform
-  (§6.3), and the deformed-Wigner law `ν ⊞ SC_t` with the Pastur equation (§7.1).
-  Here: the time-dependent versions of these objects and their stochastic analysis.
-- StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian
-  integration, continuous integral processes and localization (S3.2–S3.4), brackets
-  (S4.1–S4.3), the `C²` Itô formula on open domains (S5.1), Lévy's characterization (S5.5), and
-  strong, local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2), and weak solutions
-  with uniqueness in law from pathwise uniqueness (S9.3).
+When `ν` has compact support and the initial spectra are bounded uniformly in `n`, the limit at
+time `t` is identified as `ν ⊞ SC_t`, the free additive convolution of `ν` with the semicircle law
+`SC_t`. It differs from classical convolution: for `ν = (δ₋₁ + δ₁)/2` it has two components near
+`±1` at small `t`, which merge at `t = 1`, while `ν ∗ N(0,t)` has full support for every `t > 0`.
+
+The roadmap rests on two others. [RandomMatrices](../RandomMatrices/README.md) supplies the GOE and
+GUE, the Gaussian beta densities and free additive convolution of compactly supported laws. Its
+deformed-Wigner law `ν ⊞ SC_t` at a fixed `t` is the static counterpart of the identification
+above. StochasticCalculus supplies Brownian motion in finite dimensions, Itô's formula, and strong
+and weak solutions of stochastic differential equations. Mathlib supplies real Brownian motion and
+the Lévy–Prokhorov metric. No other roadmap builds on this one.
+
+Layer 0 adds what StochasticCalculus does not state for vector and matrix noise. Layer 1 solves the
+particle system without matrices. Layer 2 constructs matrix Brownian motion and proves Dyson's
+theorem, using Layer 1 for the noncollision. Layer 3 proves the hydrodynamic limit on Layers 1 and
+2, and the next section gives the dependencies in detail.
+
+[Suggested.lean](Suggested.lean) states in Lean the headline theorems that the versions of Mathlib
+and Tau Ceti used here can express; this README is the roadmap. It omits the identification with
+`ν ⊞ SC_t`, since those versions lack free convolution.
+
+## How to read the build
+
+Layer 0 adapts StochasticCalculus to vector and matrix noise. Layer 1 solves the ordered
+particle system for every real `β ≥ 1` without matrices, on Layer 0 and RandomMatrices §5.3.
+Layer 2 constructs matrix Brownian motion and proves Dyson's theorem for `β = 1, 2` on Layers 0–1
+and RandomMatrices §§1.2 and 5.1; the noncollision of the matrix eigenvalues is proved by
+comparison with the Layer 1 solution. Layer 3 proves the hydrodynamic limit on Layers 1–2 and
+RandomMatrices §§3.1–3.3, 6.3 and 7.1.
+
+```text
+StochasticCalculus S1, S3–S5, S9 → 0 (adapters)
+0 + RandomMatrices 5.3 → 1 (Dyson system for β ≥ 1)
+0–1 + RandomMatrices 1.2, 5.1 → 2 (matrix Brownian motion, Dyson's theorem)
+1–2 + RandomMatrices 3.1–3.3, 6.3, 7.1 → 3 (hydrodynamic limit)
+```
+
+For each new object the build supplies construction or existence, measurability or continuity,
+invariances, and the operations its layer uses. Every limit theorem records the dimension
+sequence, the initial data and its assumptions, the coupling across sizes, the normalization,
+the topology and the mode of convergence in its statement.
 
 ## Conventions
 
@@ -74,51 +108,6 @@ Owned elsewhere and consumed here:
    `G_μ = −m_μ` for the transform `m_μ(z) = ∫ (x-z)⁻¹ dμ(x)` of RandomMatrices Convention 4.
    Under this sign change `∂_t G = −G ∂_z G` becomes `∂_t m = m ∂_z m`, which is the
    `t`-derivative of the Pastur equation `m_t(z) = m_ν(z + t m_t(z))`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Brownian motion: `ProbabilityTheory.IsPreBrownianReal` and `ProbabilityTheory.IsBrownianReal`
-  (`Mathlib/Probability/BrownianMotion/Basic.lean`), with Gaussian increments and continuous
-  paths.
-- `MeasureTheory.levyProkhorovDist` (`Mathlib/MeasureTheory/Measure/LevyProkhorovMetric.lean`).
-- `Matrix.IsHermitian.eigenvalues₀` and `Matrix.isHermitian_diagonal_of_self_adjoint`.
-
-### From Tau Ceti
-
-- `Matrix.spectralMeasure` (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`), a
-  `ProbabilityMeasure ℝ` for a Hermitian matrix of positive size.
-- `TauCeti.Probability.semicircleReal`
-  (`TauCeti/Probability/Distributions/Semicircle/LocationScale.lean`).
-
-### From TauCetiRoadmap roadmaps
-
-- RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with the GOE and GUE coordinates
-  and normalization of §5.1.
-- StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.3, with
-  `timeMeasure`, `IsFilteredBrownian` and `IsStrongSolution`.
-
-## How to read the build
-
-Layer 0 adapts StochasticCalculus to vector and matrix noise. Layer 1 solves the ordered
-particle system for every real `β ≥ 1` without matrices, on Layer 0 and RandomMatrices §5.3.
-Layer 2 constructs matrix Brownian motion and proves Dyson's theorem for `β = 1, 2` on Layers 0–1
-and RandomMatrices §§1.2 and 5.1; the noncollision of the matrix eigenvalues is proved by
-comparison with the Layer 1 solution. Layer 3 proves the hydrodynamic limit on Layers 1–2 and
-RandomMatrices §§3.1–3.3, 6.3 and 7.1.
-
-```text
-StochasticCalculus S1, S3–S5, S9 → 0 (adapters)
-0 + RandomMatrices 5.3 → 1 (Dyson system for β ≥ 1)
-0–1 + RandomMatrices 1.2, 5.1 → 2 (matrix Brownian motion, Dyson's theorem)
-1–2 + RandomMatrices 3.1–3.3, 6.3, 7.1 → 3 (hydrodynamic limit)
-```
-
-For each new object the build supplies construction or existence, measurability or continuity,
-invariances, and the operations its layer uses. Every limit theorem records the dimension
-sequence, the initial data and its assumptions, the coupling across sizes, the normalization,
-the topology and the mode of convergence in its statement.
 
 ## Layer 0: adapters to stochastic calculus
 
@@ -376,6 +365,59 @@ Layers 1–2; RandomMatrices §§3.1–3.3, 6.3, 7.1.
 
 - RandomMatrices §7.1, the deformed-Wigner law `ν ⊞ SC_t` at a fixed `t`, is the static
   counterpart of §3.2; this roadmap consumes it, and no roadmap consumes this one.
+
+## Scope and ownership
+
+The matrices are real symmetric (`β = 1`) and complex Hermitian (`β = 2`) of fixed size `n`
+driven by finitely many independent real Brownian motions; the particle system is the ordered
+Dyson system on `ℝⁿ` for real `β ≥ 1`, with and without the Ornstein–Uhlenbeck drift. Limits are
+taken as `n → ∞` on compact time intervals.
+
+Outside the roadmap: `0 < β < 1`, where particles collide and the system needs reflection or
+local-time terms; quaternionic `β = 4` matrix Brownian motion; infinite-dimensional Dyson
+processes and the sine and Airy line ensembles; local relaxation flows and universality via
+Dyson Brownian motion; fluctuation and large deviation theory of the empirical measure process
+(AGZ §§4.3.3–4.3.4); and the finance and filtering models of PB.
+
+Owned elsewhere and consumed here:
+
+- Tau Ceti owns the empirical spectral measure `Matrix.spectralMeasure` and the semicircle family
+  `TauCeti.Probability.semicircleReal`.
+- [RandomMatrices](../RandomMatrices/README.md) owns the rest of the spectral API and its
+  measurability (§§1.1–1.2), the GOE and GUE coordinates and their normalization (§5.1), the
+  Gaussian beta ensemble densities (§§5.2–5.3), the resolvent transform toolkit (§§3.1–3.2),
+  free additive convolution of compactly supported laws with its subordination and R-transform
+  (§6.3), and the deformed-Wigner law `ν ⊞ SC_t` with the Pastur equation (§7.1).
+  Here: the time-dependent versions of these objects and their stochastic analysis.
+- StochasticCalculus owns finite-dimensional Brownian motion (S1), predictable `L²` Brownian
+  integration, continuous integral processes and localization (S3.2–S3.4), brackets
+  (S4.1–S4.3), the `C²` Itô formula on open domains (S5.1), Lévy's characterization (S5.5), and
+  strong, local and maximal solutions with Lyapunov nonexplosion (S9.1–S9.2), and weak solutions
+  with uniqueness in law from pathwise uniqueness (S9.3).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Brownian motion: `ProbabilityTheory.IsPreBrownianReal` and `ProbabilityTheory.IsBrownianReal`
+  (`Mathlib/Probability/BrownianMotion/Basic.lean`), with Gaussian increments and continuous
+  paths.
+- `MeasureTheory.levyProkhorovDist` (`Mathlib/MeasureTheory/Measure/LevyProkhorovMetric.lean`).
+- `Matrix.IsHermitian.eigenvalues₀` and `Matrix.isHermitian_diagonal_of_self_adjoint`.
+
+### From Tau Ceti
+
+- `Matrix.spectralMeasure` (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`), a
+  `ProbabilityMeasure ℝ` for a Hermitian matrix of positive size.
+- `TauCeti.Probability.semicircleReal`
+  (`TauCeti/Probability/Distributions/Semicircle/LocationScale.lean`).
+
+### From TauCetiRoadmap roadmaps
+
+- RandomMatrices: §§1.1–1.2, 3.1–3.3, 5.1–5.3, 6.3 and 7.1, with the GOE and GUE coordinates
+  and normalization of §5.1.
+- StochasticCalculus: S1.2–S1.3, S3.2–S3.4, S4.1–S4.3, S5.1, S5.5, S9.1–S9.3, with
+  `timeMeasure`, `IsFilteredBrownian` and `IsStrongSolution`.
 
 ## References
 

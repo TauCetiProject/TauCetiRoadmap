@@ -1,213 +1,20 @@
 # Roadmap: unbounded operators on Hilbert space
 
-**Summary.** Build the reusable domain and spectral calculus for closed, densely defined operators on complex Hilbert spaces, and the closed-form representation and real spectral restriction over real Hilbert spaces. The central carrier is Mathlib's `LinearPMap`; domains, closures, adjoints, restrictions, sums, products, and tensor operators remain explicit. The roadmap completes the unbounded spectral operations that the self-adjoint spectral theory needs, then develops normal operators, spectral type, symmetric extensions, analytic vectors, compact perturbations, and tensor sums.
+**Summary.** An unbounded operator on a Hilbert space is defined only on a subspace, its domain, and the domain is part of the operator. Integration on `L²(ℝ)`, defined on the integrable classes, is densely defined but not closable, and its adjoint is defined only at 0. Two self-adjoint operators can commute on a common dense invariant subspace from which each is recovered by taking the closure, yet have unitary groups that do not commute; Layer 2 constructs Nelson's example of this.
 
-## Scope and ownership
+This roadmap builds the domain and spectral calculus for closed, densely defined operators on complex Hilbert spaces, and the closed-form representation and the real spectral restriction over real Hilbert spaces. Operators are Mathlib's partial linear maps (`LinearPMap`). Sums and products of unbounded operators are stated with their natural domains or their closures.
 
-This sub-roadmap consumes [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) (SAST) Part A for Stone's theorem, Part B for the bounded Borel calculus and PVM carrier (implemented at the Tau Ceti pin as `TauCeti.ProjValMeasure`), Part C for `LinearPMap` graph/adjoint operations, Part D for resolvents, and Part E for the unbounded spectral PVM `P_A` (SA-E01), its resolvent formula (SA-E05), and the generated group/Stone uniqueness (SA-E26, SA-E29, SA-E43). Use the existing `P_A`; UO-A01 builds the unbounded spectral integral and its domains. It extends those APIs; it does not define a second `LinearPMap`, PVM, bounded Borel symbol, or Stone group. UO-A01 owns the unbounded spectral integral; H6 owns the scalar unbounded continuous calculus. UO-A08 compares H6’s unbounded continuous calculus with UO-A01, and UO-A02a compares VNA V10’s affiliated-operator functional calculus with it, after the independent APIs are constructed. UO-A07 owns the V10 cyclic multiplier identification and square-integrability domains, which A08 consumes rather than duplicating. The essential spectrum of a partial operator and its perturbation theory (Weyl's theorem, relatively compact and analytic perturbations, Kato's `L²+L∞` theorem; §§3.2 and 5.4–5.7) are owned here; OperatorKTheory §8.4 owns the Fredholm essential spectrum of bounded operators, which §3.2 compares with it. GeneralizedCohomology G5.5-RealHilbert owns the conjugation of its Hilbert complexification `RealHilbertComplexification H` and the unbounded complexification of real partial operators; §4.7 owns the identification of that synonym with Tau Ceti's `WithLp 2 (TauCeti.Complexification H)` and consumes both constructions through it.
+The foundation is the spectral integral. Let P be a projection-valued measure on a measurable space, with P of the whole space the identity, and put `μˣ(B) = ⟨x, P(B)x⟩`. For measurable f, Layer 1 defines `f[P]` on exactly the vectors x with `∫ |f|² dμˣ < ∞`. This domain is dense, `f[P]` is closed with `‖f[P]x‖² = ∫ |f|² dμˣ`, and its adjoint is the integral of the complex conjugate of f, on the same domain. For the spectral measure of a self-adjoint A, this is the Borel calculus `f(A)`.
 
-Consume [HilbertModules H6](../../HilbertModules/README.md#h6-closed-module-operators-and-regularity) for the scalar Hilbert-space adjoint, graph norm, core, sum and composition foundations, and the von Neumann decomposition of `dom S*` with its boundary form and unitary classification of self-adjoint extensions. This roadmap proves the further spectral and analytic consequences of that API; it does not recopy H6's classification. Consume VonNeumannAlgebras V10.ClosedOperators' cyclic multiplier-form representation of self-adjoint operators and its domain `{g : ∫ |fg|² < ∞}`, and V10.Affiliation's spectral multiplier product rule. Consume VonNeumannAlgebras V2's completed Hilbert tensor products and V2.RectangularL2's arbitrary-measure realization. V2–V5 provide the bounded projection, commutant, representation, and finite-dimensional operator background where used; this roadmap does not redo those algebras.
+Layer 2 proves that for self-adjoint A and B and any points z and w of their resolvent sets, `(zI − A)⁻¹` and `(wI − B)⁻¹` commute exactly when `exp(isA)` and `exp(itB)` commute for all real s and t, and exactly when all spectral projections of A commute with those of B. Such operators are said to strongly commute; by Nelson's example, commuting on a common core is not enough. Layer 5 proves Nelson's theorem. Let finitely many operators be symmetric and commute on a common dense invariant subspace, and let each vector x there satisfy `‖S_{i₁}⋯S_{iₙ}x‖ ≤ C Rⁿ n!` for every n and all indices, with C and R depending on x. Then the closures of their restrictions to that subspace are self-adjoint and strongly commute.
 
-The boundary with physical quantum models is explicit: this roadmap owns generic operator and spectral theorems and the reusable examples listed below. Measurement and outcome laws and their domains, quantum logic, a Fock-operator domain API, and the physical position/momentum, oscillator, angular-momentum, hydrogen and state-probability models are outside this roadmap; a roadmap for them consumes the generic domain and spectral results below. OperatorAlgebraDynamics D8 owns the CCR/CAR/Weyl algebras, regular representations, basic field operators, and Fock carriers. SAST remains the owner of bounded Borel calculus, the self-adjoint spectral PVM construction, resolvents, and the unitary-group/Stone correspondence. The [PDE roadmap](../../PDE/README.md) owns weak-derivative Sobolev spaces and trace theory; its concrete derivative examples may consume the generic extension theory here.
+Layer 4 proves that a closed, densely defined Hermitian form that is bounded below represents exactly one self-adjoint operator, over real or complex scalars. From it comes the Friedrichs extension: a densely defined symmetric operator S with `⟨Sx, x⟩ ≥ γ‖x‖²` has a self-adjoint extension `S_F` with the same lower bound, and `(tI − T)⁻¹ ≤ (tI − S_F)⁻¹` for every real `t < γ` and every self-adjoint extension T with that lower bound. For `−d²/dx²` on smooth compactly supported functions on (0,1), `S_F` is the Dirichlet realization.
 
-BanachSpaceTheory B5 owns Hilbert dimension (the cardinality of a Hilbert basis, independent of the basis) and the unitary classification of complete inner-product spaces by it; §4.1 consumes both for the deficiency cardinals and does not prove them again. §2.4's geometric acceptance target reads the Euler characteristic, integral homology and genus of the completed surface of Nelson's example off its cell structure, through Tau Ceti's cellular homology and its comparison with singular homology. This roadmap owns only that translation surface, its completion, orientation and cell structure, and the computation of its invariants; it neither owns nor uses general surface topology (the manifold boundary, triangulations, the classification of compact surfaces).
+The essential spectrum is the spectrum without its isolated eigenvalues of finite multiplicity. By Weyl's theorem, proved in Layer 5, self-adjoint operators whose resolvents at one common resolvent point differ by a compact operator have the same essential spectrum. Layer 5 also proves Kato's theorem: for a real potential `V = V₂ + V_∞` with `V₂ ∈ L²(ℝ³)` and `V_∞ ∈ L^∞(ℝ³)`, the operator `−Δ + V` on smooth compactly supported functions is essentially self-adjoint in `L²(ℝ³)`.
 
-## Conventions
+The roadmap builds on [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md), which supplies projection-valued measures with their bounded integral, the spectral measure of a self-adjoint operator, and Stone's theorem. HilbertModules supplies adjoints, graph cores, and the classification of the self-adjoint extensions of a closed, densely defined symmetric operator by unitary maps between its two deficiency spaces; this roadmap proves further spectral and analytic consequences. VonNeumannAlgebras supplies multiplication-operator models, polar decomposition and completed tensor products. VariationalMethods uses the closed-form representation, and roadmaps for physical quantum models use all six layers.
 
-Use the convention `U(t)=exp(itA)` for the Stone group of a self-adjoint `A`, and `R_A(z)=(zI-A)⁻¹` as in SAST. Inner products are conjugate-linear in the first variable. For the unbounded Borel calculus, the operator assigned to `f` has domain `{x : ∫ |f|² dμˣ < ∞}`. Every sum or product statement below includes its natural composition domain or its closure; no unbounded expression is treated as an everywhere-defined algebraic operation.
-
-**Graph/adjoint comparisons.** Consume the existing H6 scalar graph/adjoint API and native `LinearPMap.IsFormalAdjoint`, `adjoint_graph_eq_graph_adjoint` and `adjoint_isClosed`. For A=iI on nonzero H, `A**=iI` while `overline(A*)=(closure A)*=−iI`; the identities are `closure A=A**` and `(closure A)*=A*=A***` for densely defined closable A. The pairing `⟨Aφ,ψ⟩=⟨φ,A*ψ⟩` is the defining adjoint identity, satisfied by iI, and does not assert symmetry; the symmetry criterion is `⟨Aφ,ψ⟩=⟨φ,Aψ⟩` for all φ,ψ∈D(A), equivalently A⊆A*, and equivalently a real diagonal quadratic form by polarization. For a closed densely defined N, to prove D(N*N) graph-dense in D(N), take graph-orthogonality to `graph(N|D(N*N))` and test ξ∈D(N*N), using surjectivity of 1+N*N; whole-graph orthogonality with ξ∈D(N) alone does not establish this step. These are comparisons with H6/V10's existing theory, not replacement graph or normal-operator libraries. Native `LinearMap.IsSymmetric.continuous` already supplies the everywhere-defined Hellinger–Toeplitz theorem.
-
-## Exact supplier contracts
-
-**From Mathlib.** Use `LinearPMap` and its graph, `IsClosed`, `IsClosable`,
-closure, `IsFormalAdjoint` and adjoint from `Mathlib/LinearAlgebra/LinearPMap.lean`,
-`Mathlib/Topology/Algebra/Module/LinearPMap.lean` and
-`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`. The adjoint pairing is used
-only for dense domains; closure denotes the graph closure only after closability
-is proved. A submodule S of the domain is a graph core of A, `LinearPMap.HasCore A S`, when the
-closure of the restriction of A to S is A. `HilbertBasis.repr` from `Mathlib/Analysis/InnerProductSpace/l2Space.lean`
-is an isometric identification with ℓ², not a Hamel basis. `MeasureTheory.Lp`
-and `MeasureTheory.MemLp` supply a.e. classes and product integrability without
-a σ-finiteness assumption. The positive/signed Radon–Nikodym and absolute-continuity
-inputs below retain their stated measure hypotheses. `IsCoercive.continuousLinearEquivOfBilin`
-from `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean` is the real Lax–Milgram theorem: for
-a complete real inner-product space `V` and a coercive bounded bilinear form `B : V →L[ℝ] V →L[ℝ] ℝ`
-it upgrades `B♯ = InnerProductSpace.continuousLinearMapOfBilin B`, the map with
-`⟪B♯ v, w⟫ = B v w` (`IsCoercive.continuousLinearEquivOfBilin_apply`), to a continuous linear
-equivalence `V ≃L[ℝ] V`. Its inverse, composed with the inverse Riesz map
-`(InnerProductSpace.toDual ℝ V).symm`, sends a continuous functional ℓ to the unique u with
-`B u w = ℓ w` for all w. It is stated for real scalars only.
-`banach_steinhaus` from `Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean` is the uniform
-boundedness principle used for strongly convergent operator sequences.
-
-**From Tau Ceti.** Use `LinearPMap.IsResolventAt`,
-`LinearPMap.resolventSet` and `LinearPMap.resolvent` from
-`TauCeti/Topology/Algebra/Module/LinearPMap/Resolvent/Basic.lean`: `IsResolventAt A z R`
-says that the continuous linear `R` takes values in the domain and inverts `zI−A` on both
-sides, `resolventSet A` is the set of `z` admitting such an `R`, and `resolvent A z` is that
-inverse, specified only on the resolvent set. §4.2 and §5.3 state their resolvent
-conclusions through these declarations; Layer 5 obtains membership from
-self-adjointness and nonreal parameters. Analyticity of the resolvent in the spectral
-parameter on the resolvent set is `TauCeti.LinearPMap.analyticAt_resolvent` from `TauCeti/Analysis/Normed/Operator/Resolvent/Analytic.lean`.
-The spectrum `LinearPMap.spectrum` of a partial operator is the complement of its resolvent set
-(same `Resolvent/Basic.lean`). The shift `x↦c•x−Ax` on `dom A` is the linear map
-`LinearPMap.smulSub c A : A.domain →ₗ[R] E` (`TauCeti/LinearAlgebra/LinearPMap/SmulSub.lean`),
-defined as `c • A.domain.subtype - A.toFun`; its kernel `ker(cI−A)` and range `ran(cI−A)` are the
-eigenspaces and ranges of §§3.2 and 5.5. The Stone group of a self-adjoint partial operator A is
-Tau Ceti's `TauCeti.Semigroups.StronglyContinuousGroup` (`TauCeti/Analysis/Semigroups/Group/Basic.lean`),
-a C₀-group of real-linear operators, which is unitary
-(`TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary`: each `U(t)` preserves the complex inner
-product, hence is complex-linear) and has the complex-linear generator
-`TauCeti.Semigroups.StronglyContinuousGroup.complexGenerator`
-(`TauCeti/Analysis/Semigroups/Group/Unitary.lean`); by Stone's theorem
-`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`
-(`TauCeti/Analysis/Semigroups/Group/Stone/Unbounded.lean`) a self-adjoint A has exactly one
-unitary C₀-group with complex generator `i•A`, the group `U(t)=exp(itA)`, and conversely
-`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` makes every A with
-`i•A` such a generator self-adjoint. §2.3 and §6.3 state their group conclusions through these
-declarations. The self-adjoint resolvent results of SelfAdjointSpectralTheory
-are implemented in `TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`: every nonreal
-scalar is a resolvent point of a self-adjoint partial operator
-(`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, SA-D17), its spectrum lies in the real axis
-(`IsSelfAdjoint.spectrum_subset_im_eq_zero`, SA-D18), and the adjoint of its resolvent at z is
-its resolvent at `conj z` (`IsSelfAdjoint.adjoint_resolvent`, SA-D20), an instance of
-`LinearPMap.IsFormalAdjoint.adjoint_resolvent_eq`: for formally adjoint A and B with
-`z∈ρ(A)` and `conj z∈ρ(B)`, `R_A(z)†=R_B(conj z)`. In
-`TauCeti/Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`,
-`LinearPMap.IsFormalAdjoint.norm_smul_sub_sq` is the identity
-`‖cx−Ax‖²=(Im c)²‖x‖²+‖(Re c)x−Ax‖²` for symmetric A (Teschl (2009), (2.44), p.66), and
-`LinearPMap.IsFormalAdjoint.isClosed_range_smul_sub` gives the closed range of a nonreal shift of
-a closed symmetric A. In the same file, for densely defined A,
-`LinearPMap.exists_adjoint_apply_eq_of_inner_smul_sub_eq_zero` says that a vector y orthogonal to
-the range of `cI−A` lies in `dom A†` with `A†y=conj(c)·y`; and von Neumann's criterion (SA-A21) is
-`LinearPMap.isSelfAdjoint_of_surjective_addSub`: on a complete complex Hilbert space, a symmetric
-partial operator A for which `x↦Ax+ix` and `x↦Ax−ix` are surjective from `dom A` onto H is
-self-adjoint, density of `dom A` being derived from the first surjectivity
-(`LinearPMap.dense_domain_of_surjective_add_I`). Relative boundedness is `LinearPMap.IsRelativelyBounded V A a b`
-(`TauCeti/Analysis/Normed/Operator/LinearPMap/RelativeBound.lean`): `dom A⊆dom V` and
-`‖Vx‖≤a‖x‖+b‖Ax‖` on `dom A`, the coefficient of `‖Ax‖` written second. The Kato–Rellich theorem
-is `IsSelfAdjoint.add_of_isRelativelyBounded`
-(`TauCeti/Analysis/InnerProductSpace/LinearPMap/KatoRellich.lean`, SA-C55): for self-adjoint A,
-symmetric V and `IsRelativelyBounded V A a b` with `b<1`, the sum `A+V`, whose domain is
-`dom A`, is self-adjoint, over any `RCLike` field. A closed subspace U reduces A,
-`LinearPMap.IsReducing A U` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Reducing.lean`),
-when the orthogonal projection onto U preserves `dom A` and U and its orthogonal complement are
-invariant; `LinearPMap.IsReducing.isSelfAdjoint_restrict` makes the reduced part of a
-self-adjoint operator self-adjoint. `LinearPMap.HasCore.of_graph_subset_closure`
-(`TauCeti/Topology/Algebra/Module/LinearPMap/GraphCore.lean`) makes a submodule of the domain of a
-closed A a graph core once the graph of A lies in the closure of the graph of the restriction.
-The Hilbert complexification of a real inner-product space X is the type synonym
-`WithLp 2 (TauCeti.Complexification X)` of `TauCeti/Analysis/InnerProductSpace/Complexification.lean`,
-whose complex inner product `WithLp.instComplexificationInnerProductSpace` gives `x+iy` the norm
-`√(‖x‖²+‖y‖²)`; it is complete for complete X (`WithLp.instComplexificationCompleteSpace`), the
-real inclusion is isometric (`WithLp.complexification_norm_toLp_ofReal`), and a bounded real
-operator T complexifies to `ContinuousLinearMap.complexifyL2 T`, compatibly with composition
-(`ContinuousLinearMap.complexifyL2_comp`) and adjoints (`ContinuousLinearMap.adjoint_complexifyL2`),
-preserving and reflecting self-adjointness (`ContinuousLinearMap.isSelfAdjoint_complexifyL2_iff`).
-The fixed vectors of a conjugate-linear involution K form the real subspace `TauCeti.realPoints K`
-(`TauCeti/LinearAlgebra/Complex/Conjugation.lean`).
-The projection-valued-measure carrier is `TauCeti.ProjValMeasure X H` from
-`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean` (SelfAdjointSpectralTheory SA-B14 and
-SA-B21): on an arbitrary measurable space `X` and complex Hilbert space `H`, its fields are `proj`
-(the projection of each measurable set), `diag` (finite diagonal measures with
-`⟪ξ,P(B)ξ⟫=(P.diag ξ B).toReal`), `proj_univ` (`P(X)=1`) and `proj_inter` (`P(B∩C)=P(B)P(C)`); the same file proves
-`TauCeti.ProjValMeasure.proj_compl` (`P(Bᶜ)=1−P(B)`) and the strong countable additivity
-`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint` on disjoint sequences.
-Its API at the pin: the bounded integral `TauCeti.ProjValMeasure.integral`, a unital
-star-algebra homomorphism on `TauCeti.BoundedBorelFunction X` (`ProjValMeasure/Integral.lean`,
-SA-B44), with `TauCeti.ProjValMeasure.norm_sq_integral_apply` (SA-B52) and its continuity for the
-supremum norm on symbols, `TauCeti.ProjValMeasure.continuous_integral`, where simple symbols are
-dense (`TauCeti.BoundedBorelFunction.denseRange_ofSimpleFunc`,
-`TauCeti/MeasureTheory/Function/BoundedBorel.lean`); the polarized complex
-measures `TauCeti.ProjValMeasure.polarizedComplexMeasure`, with value `⟪ψ,P(B)ξ⟫` on `B`
-(`ProjValMeasure/Polarization.lean`, SA-B40), and
-`TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`, the matrix elements
-of the bounded integral through the pairing `ContinuousLinearMap.mul ℝ ℂ`
-(`ProjValMeasure/MatrixElement.lean`, SA-B45); the reindexing `TauCeti.ProjValMeasure.map`
-(`ProjValMeasure/Map.lean`, SA-B25) with the change of variables
-`TauCeti.ProjValMeasure.integral_map` (SA-B51), the null filter `TauCeti.ProjValMeasure.ae`
-(`ProjValMeasure/Null.lean`, SA-B49), and in `ProjValMeasure/DominatedConvergence.lean` the
-almost-everywhere invariance `TauCeti.ProjValMeasure.integral_congr_ae` (SA-B50) and the bounded
-dominated-convergence theorem
-`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (SA-B53). Layers 1–3 state their spectral-measure conclusions on this
-carrier. The spectral measure of a given unbounded self-adjoint operator (SA-E01) is not at the pin.
-The geometric example uses `TauCeti.riemannianVolume` in §2.3, with its manifold
-hypotheses, and in §2.4 the finite-CW Euler–Poincaré theorem
-`TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex`, the cellular–singular
-comparison `TauCeti.cellularSingularHomologyIsoUniv`
-(`TauCeti/AlgebraicTopology/Cellular/Comparison.lean`: for a CW structure on the whole of a
-Hausdorff space, cellular homology is singular homology once the inclusion of the
-`(n + 1)`-skeleton induces an isomorphism on `Hₙ`, an instance for finite-dimensional
-complexes), and the incidence numbers `TauCeti.cellularIncidence_zero` (a `1`-cell has
-boundary the difference of its endpoints) and `TauCeti.cellularIncidence_eq_inv_cellLocalClass`
-(a `2`-cell's incidence numbers are the local degrees of its attaching map).
-
-**From TauCetiRoadmap.SelfAdjointSpectralTheory.** Parts A–E supply the
-normalized PVM with its diagonal and polarized measures (SA-B14, SA-B21, SA-B40) and the
-bounded integral with its matrix elements (SA-B44, SA-B45), with their API SA-B49–B53
-(implemented at the Tau Ceti pin, above) and SA-B54–B57, von Neumann's self-adjointness
-criterion (SA-A21), cyclic models (SA-B85), graph cores (SA-C39, Mathlib's `LinearPMap.HasCore`),
-Kato–Rellich (SA-C55), nonreal resolvents, reality of the spectrum and resolvent adjoints (SA-D17,
-SA-D18, SA-D20; SA-A21, SA-C55 and these three are implemented at the Tau Ceti pin, above),
-unbounded spectral PVM (SA-E01) with its resolvent formula (SA-E05) and its uniqueness among
-real PVMs satisfying that formula (SA-E44), and Stone identification (SA-E26, SA-E29,
-SA-E43). The unbounded integral of arbitrary Borel symbols is Layer 1 here.
-
-**From TauCetiRoadmap.BanachSpaceTheory.** B5 supplies Hilbert dimension and the unitary
-classification for complete inner-product spaces over `[RCLike 𝕜]`: for Hilbert bases
-`b : HilbertBasis ι 𝕜 H` and `c : HilbertBasis κ 𝕜 H` of one space the lifted cardinals of
-`ι` and `κ` agree (`hilbertBasis_lift_mk_eq`), and for Hilbert bases of complete spaces `H`
-and `K` a linear isometric equivalence `H ≃ₗᵢ[𝕜] K` exists exactly when the lifted index
-cardinals agree (`nonempty_linearIsometryEquiv_iff_lift_mk_eq`). §4.1 uses them at `𝕜 = ℂ`
-for the deficiency spaces, with no separability or finite-dimensionality assumption.
-
-**From TauCetiRoadmap.HilbertModules.** H6 supplies closed scalar operator
-adjoints, graph domains, the deficiency decomposition and the bijection between
-self-adjoint extensions and deficiency-space unitaries, including existence iff
-such a unitary exists. Its hypotheses are closedness, density and symmetry. H7 supplies the
-interval example built on that H6 deficiency API: the deficiency indices `(1,1)` of `−i d/dt` on
-`H₀¹([0,1])` and the parametrization of its self-adjoint extensions `D_λ`, `λ∈𝕋`, by the
-condition `α₊=λα₋` on the coefficients along normalized deficiency vectors (consumed in §4.6).
-
-**From TauCetiRoadmap.VonNeumannAlgebras.** V2 supplies completed Hilbert tensors
-and bounded tensor maps, the Hilbert space being the completion of Mathlib's inner-product
-tensor product (`UniformSpace.Completion (H ⊗[ℂ] K)`, from `TensorProduct.instInnerProductSpace`
-and `UniformSpace.Completion.innerProductSpace`); V2.RectangularL2 supplies their arbitrary-measure L²
-realization using the maximal rectangle-cover product. V10.ClosedOperators
-supplies multiplier-form realization with the full second-moment domain, the spectral
-representation `⟪ξ,Tη⟫=∫t dμ^T_(ξ,η)(t)` of a self-adjoint T for its own spectral measure on the
-domain `{η : ∫t² dμ^T_η<∞}` (consumed in §1.2), and the
-general closed-operator polar decomposition. V10.Affiliation supplies the affiliated-operator
-functional calculus with its truncation cores and the spectral multiplier product rule
-(consumed in §1.2a and §1.3). Separability is used only for the
-single finite-measure cyclic model. V2–V5 supply bounded projections and commutants.
-
-**From the other named suppliers.** PolarDecomposition PD-B23–PD-B34 supplies
-bounded rectangular polar factors (initial space PD-B29, final space PD-B32).
-BanachAlgebras A2 (Layer 2, §2.1) supplies bounded Riesz idempotents. PDE A1 and A3
-(§§1.1, 1.3) supply weak Sobolev derivatives with their interval endpoint traces and the
-Bessel-potential comparison; PDE A4 and A6 (§§1.4, 1.6) supply the Sobolev embeddings and
-local Rellich compactness used in §5.7. OperatorKTheory §8.4 defines the essential spectrum of a
-bounded operator T on a Hilbert space as the set of λ for which `T−λ` is not Fredholm; §3.2
-compares it with this roadmap's `essentialSpectrum` of a partial operator.
-For a complete real inner-product space H, the Hilbert complexification `H_ℂ`, its isometric
-real inclusion `ι_H` and the transport of bounded operators are Tau Ceti's
-`WithLp 2 (TauCeti.Complexification H)` and `ContinuousLinearMap.complexifyL2` (above).
-GeneralizedCohomology G5.5-RealHilbert works on its own Hilbert synonym
-`RealHilbertComplexification H` of `TauCeti.Complexification H`, with the inner product
-`⟨x+iy,x′+iy′⟩=(x,x′)+(y,y′)+i((x,y′)−(y,x′))`; on it, it supplies the antilinear isometric
-conjugation `J(x+iy)=x−iy` and the unbounded complexification `D_ℂ(x+iy)=Dx+iDy` of a densely
-defined real `LinearPMap` D on the complexified domain, with graph and closure transport and
-`(D_ℂ)†=(D†)_ℂ` including equality of domains. Tau Ceti's
-`WithLp.instComplexificationInnerProductSpace` gives `H_ℂ` the same inner-product formula, and
-§4.7 proves that the identity of the underlying `TauCeti.Complexification H` is a complex-linear
-isometric equivalence between the two synonyms; J and `D_ℂ` are used on `H_ℂ` through it, and
-nothing else of G5.5 is assumed about `H_ℂ`. The coercive solution map over `[RCLike 𝕜]`, the
-`J`-commutation and uniqueness properties of the complexified self-adjoint operator and the real
-spectral restriction are §4.7 targets; VariationalMethods 5.1 consumes them and supplies nothing
-here.
-LieGroups Layers 2 and 5 supply the matrix groups and SU(2) covering example.
+Layer 1 builds the spectral integral, with maximal multiplication operators on `L²(μ)` as its models. Layer 2 is about normal operators, strong commutation and joint spectral measures. Layer 3 studies the parts of the spectrum, and splits the space into pure point, absolutely continuous and singular continuous parts. Layer 4 treats self-adjoint extensions of symmetric operators, closed forms and Sturm–Liouville operators. Layer 5 treats cores, analytic vectors and perturbations. Layer 6 builds the self-adjoint closures of tensor sums and products of self-adjoint operators, and computes their spectra. The next section gives the dependency order and the milestone names.
 
 ## How to read the build
 
@@ -231,6 +38,12 @@ The targets are grouped into five milestones, which other roadmaps cite by name 
 - UO5 is Layer 6 (UO-F01–UO-F04).
 
 A target needs only what its *Needs:* line names, which can be less than all earlier milestones: §4.7, for instance, needs Layer 1 but not Layers 2–3.
+
+## Conventions
+
+Use the convention `U(t)=exp(itA)` for the Stone group of a self-adjoint `A`, and `R_A(z)=(zI-A)⁻¹` as in SAST. Inner products are conjugate-linear in the first variable. For the unbounded Borel calculus, the operator assigned to `f` has domain `{x : ∫ |f|² dμˣ < ∞}`. Every sum or product statement below includes its natural composition domain or its closure; no unbounded expression is treated as an everywhere-defined algebraic operation.
+
+**Graph/adjoint comparisons.** Consume the existing H6 scalar graph/adjoint API and native `LinearPMap.IsFormalAdjoint`, `adjoint_graph_eq_graph_adjoint` and `adjoint_isClosed`. For A=iI on nonzero H, `A**=iI` while `overline(A*)=(closure A)*=−iI`; the identities are `closure A=A**` and `(closure A)*=A*=A***` for densely defined closable A. The pairing `⟨Aφ,ψ⟩=⟨φ,A*ψ⟩` is the defining adjoint identity, satisfied by iI, and does not assert symmetry; the symmetry criterion is `⟨Aφ,ψ⟩=⟨φ,Aψ⟩` for all φ,ψ∈D(A), equivalently A⊆A*, and equivalently a real diagonal quadratic form by polarization. For a closed densely defined N, to prove D(N*N) graph-dense in D(N), take graph-orthogonality to `graph(N|D(N*N))` and test ξ∈D(N*N), using surjectivity of 1+N*N; whole-graph orthogonality with ξ∈D(N) alone does not establish this step. These are comparisons with H6/V10's existing theory, not replacement graph or normal-operator libraries. Native `LinearMap.IsSymmetric.continuous` already supplies the everywhere-defined Hellinger–Toeplitz theorem.
 
 ## Layer 1: unbounded Borel calculus and spectral correspondences
 
@@ -1492,6 +1305,207 @@ The diagonalization `U*AU=D` gives `f(A)=U f(D) U*`, not `U*f(D)U`. Native finit
 For cyclic decompositions, consume SAST SA-B85's orthogonal cyclic reducing decomposition of a self-adjoint operator, arbitrary indexing for arbitrary H, and its countable/summably weighted one-finite-measure model for separable H. Its proof needs invariance of the orthogonal complement. Self-adjointness cannot be dropped for ordinary polynomial-cyclic summands. On ℂ⁴ set `T(x₁,x₂,x₃,x₄)=(x₂+x₄,x₃,0,0)`. Prove `T³=0`, `T²≠0` and `ker T∩ker T*=0`. Every polynomial orbit has dimension≤3. An orthogonal invariant cyclic decomposition must have a summand of dimension≥3 because T²≠0; it cannot have a four-dimensional cyclic summand, so the remaining one-dimensional reducing summand would lie in both kernels, a contradiction. Keep this distinct from the existing general star-cyclic representation decomposition, which uses a different cyclicity notion. Prove the Gaussian is cyclic for bounded Q on[-1,1] using its bounded continuous reciprocal and polynomial density; this is not the unbounded whole-line model. In the construction of the scalar spectral measures from positive functionals, positivity of the vector functional precedes use of a positive scalar measure: approximate the continuous square root of each nonnegative test function by polynomials. The whole complex dual represents complex measures, not only positive measures.
 
 Further acceptance tests, rather than separate quantum-mechanics deliverables, are weighted shifts and their adjoints and non-normality; multiplication spectra and the harmonic oscillator; joint spectra and commuting groups; deficiency and boundary examples; analytic vectors; tensor sums; and the Weyl relations. The generic operator identities and tensor-sum criteria belong here; physical eigenfunctions, representation conventions, and probabilities belong to physical-model roadmaps outside this one.
+
+## Scope and ownership
+
+This sub-roadmap consumes [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) (SAST) Part A for Stone's theorem, Part B for the bounded Borel calculus and PVM carrier (implemented at the Tau Ceti pin as `TauCeti.ProjValMeasure`), Part C for `LinearPMap` graph/adjoint operations, Part D for resolvents, and Part E for the unbounded spectral PVM `P_A` (SA-E01), its resolvent formula (SA-E05), and the generated group/Stone uniqueness (SA-E26, SA-E29, SA-E43). Use the existing `P_A`; UO-A01 builds the unbounded spectral integral and its domains. It extends those APIs; it does not define a second `LinearPMap`, PVM, bounded Borel symbol, or Stone group. UO-A01 owns the unbounded spectral integral; H6 owns the scalar unbounded continuous calculus. UO-A08 compares H6’s unbounded continuous calculus with UO-A01, and UO-A02a compares VNA V10’s affiliated-operator functional calculus with it, after the independent APIs are constructed. UO-A07 owns the V10 cyclic multiplier identification and square-integrability domains, which A08 consumes rather than duplicating. The essential spectrum of a partial operator and its perturbation theory (Weyl's theorem, relatively compact and analytic perturbations, Kato's `L²+L∞` theorem; §§3.2 and 5.4–5.7) are owned here; OperatorKTheory §8.4 owns the Fredholm essential spectrum of bounded operators, which §3.2 compares with it. GeneralizedCohomology G5.5-RealHilbert owns the conjugation of its Hilbert complexification `RealHilbertComplexification H` and the unbounded complexification of real partial operators; §4.7 owns the identification of that synonym with Tau Ceti's `WithLp 2 (TauCeti.Complexification H)` and consumes both constructions through it.
+
+Consume [HilbertModules H6](../../HilbertModules/README.md#h6-closed-module-operators-and-regularity) for the scalar Hilbert-space adjoint, graph norm, core, sum and composition foundations, and the von Neumann decomposition of `dom S*` with its boundary form and unitary classification of self-adjoint extensions. This roadmap proves the further spectral and analytic consequences of that API; it does not recopy H6's classification. Consume VonNeumannAlgebras V10.ClosedOperators' cyclic multiplier-form representation of self-adjoint operators and its domain `{g : ∫ |fg|² < ∞}`, and V10.Affiliation's spectral multiplier product rule. Consume VonNeumannAlgebras V2's completed Hilbert tensor products and V2.RectangularL2's arbitrary-measure realization. V2–V5 provide the bounded projection, commutant, representation, and finite-dimensional operator background where used; this roadmap does not redo those algebras.
+
+The boundary with physical quantum models is explicit: this roadmap owns generic operator and spectral theorems and the reusable examples listed above. Measurement and outcome laws and their domains, quantum logic, a Fock-operator domain API, and the physical position/momentum, oscillator, angular-momentum, hydrogen and state-probability models are outside this roadmap; a roadmap for them consumes the generic domain and spectral results above. OperatorAlgebraDynamics D8 owns the CCR/CAR/Weyl algebras, regular representations, basic field operators, and Fock carriers. SAST remains the owner of bounded Borel calculus, the self-adjoint spectral PVM construction, resolvents, and the unitary-group/Stone correspondence. The [PDE roadmap](../../PDE/README.md) owns weak-derivative Sobolev spaces and trace theory; its concrete derivative examples may consume the generic extension theory here.
+
+BanachSpaceTheory B5 owns Hilbert dimension (the cardinality of a Hilbert basis, independent of the basis) and the unitary classification of complete inner-product spaces by it; §4.1 consumes both for the deficiency cardinals and does not prove them again. §2.4's geometric acceptance target reads the Euler characteristic, integral homology and genus of the completed surface of Nelson's example off its cell structure, through Tau Ceti's cellular homology and its comparison with singular homology. This roadmap owns only that translation surface, its completion, orientation and cell structure, and the computation of its invariants; it neither owns nor uses general surface topology (the manifold boundary, triangulations, the classification of compact surfaces).
+
+## Exact supplier contracts
+
+**From Mathlib.** Use `LinearPMap` and its graph, `IsClosed`, `IsClosable`,
+closure, `IsFormalAdjoint` and adjoint from `Mathlib/LinearAlgebra/LinearPMap.lean`,
+`Mathlib/Topology/Algebra/Module/LinearPMap.lean` and
+`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`. The adjoint pairing is used
+only for dense domains; closure denotes the graph closure only after closability
+is proved. A submodule S of the domain is a graph core of A, `LinearPMap.HasCore A S`, when the
+closure of the restriction of A to S is A. `HilbertBasis.repr` from `Mathlib/Analysis/InnerProductSpace/l2Space.lean`
+is an isometric identification with ℓ², not a Hamel basis. `MeasureTheory.Lp`
+and `MeasureTheory.MemLp` supply a.e. classes and product integrability without
+a σ-finiteness assumption. The positive/signed Radon–Nikodym and absolute-continuity
+inputs above retain their stated measure hypotheses. `IsCoercive.continuousLinearEquivOfBilin`
+from `Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean` is the real Lax–Milgram theorem: for
+a complete real inner-product space `V` and a coercive bounded bilinear form `B : V →L[ℝ] V →L[ℝ] ℝ`
+it upgrades `B♯ = InnerProductSpace.continuousLinearMapOfBilin B`, the map with
+`⟪B♯ v, w⟫ = B v w` (`IsCoercive.continuousLinearEquivOfBilin_apply`), to a continuous linear
+equivalence `V ≃L[ℝ] V`. Its inverse, composed with the inverse Riesz map
+`(InnerProductSpace.toDual ℝ V).symm`, sends a continuous functional ℓ to the unique u with
+`B u w = ℓ w` for all w. It is stated for real scalars only.
+`banach_steinhaus` from `Mathlib/Analysis/Normed/Operator/BanachSteinhaus.lean` is the uniform
+boundedness principle used for strongly convergent operator sequences.
+
+**From Tau Ceti.** Use `LinearPMap.IsResolventAt`,
+`LinearPMap.resolventSet` and `LinearPMap.resolvent` from
+`TauCeti/Topology/Algebra/Module/LinearPMap/Resolvent/Basic.lean`: `IsResolventAt A z R`
+says that the continuous linear `R` takes values in the domain and inverts `zI−A` on both
+sides, `resolventSet A` is the set of `z` admitting such an `R`, and `resolvent A z` is that
+inverse, specified only on the resolvent set. §4.2 and §5.3 state their resolvent
+conclusions through these declarations; Layer 5 obtains membership from
+self-adjointness and nonreal parameters. Analyticity of the resolvent in the spectral
+parameter on the resolvent set is `TauCeti.LinearPMap.analyticAt_resolvent` from `TauCeti/Analysis/Normed/Operator/Resolvent/Analytic.lean`.
+The spectrum `LinearPMap.spectrum` of a partial operator is the complement of its resolvent set
+(same `Resolvent/Basic.lean`). The shift `x↦c•x−Ax` on `dom A` is the linear map
+`LinearPMap.smulSub c A : A.domain →ₗ[R] E` (`TauCeti/LinearAlgebra/LinearPMap/SmulSub.lean`),
+defined as `c • A.domain.subtype - A.toFun`; its kernel `ker(cI−A)` and range `ran(cI−A)` are the
+eigenspaces and ranges of §§3.2 and 5.5. The Stone group of a self-adjoint partial operator A is
+Tau Ceti's `TauCeti.Semigroups.StronglyContinuousGroup` (`TauCeti/Analysis/Semigroups/Group/Basic.lean`),
+a C₀-group of real-linear operators, which is unitary
+(`TauCeti.Semigroups.StronglyContinuousGroup.IsUnitary`: each `U(t)` preserves the complex inner
+product, hence is complex-linear) and has the complex-linear generator
+`TauCeti.Semigroups.StronglyContinuousGroup.complexGenerator`
+(`TauCeti/Analysis/Semigroups/Group/Unitary.lean`); by Stone's theorem
+`IsSelfAdjoint.existsUnique_isUnitary_complexGenerator_eq_I_smul`
+(`TauCeti/Analysis/Semigroups/Group/Stone/Unbounded.lean`) a self-adjoint A has exactly one
+unitary C₀-group with complex generator `i•A`, the group `U(t)=exp(itA)`, and conversely
+`LinearPMap.isSelfAdjoint_iff_exists_isUnitary_complexGenerator_eq_I_smul` makes every A with
+`i•A` such a generator self-adjoint. §2.3 and §6.3 state their group conclusions through these
+declarations. The self-adjoint resolvent results of SelfAdjointSpectralTheory
+are implemented in `TauCeti/Analysis/InnerProductSpace/LinearPMap/Resolvent.lean`: every nonreal
+scalar is a resolvent point of a self-adjoint partial operator
+(`IsSelfAdjoint.mem_resolventSet_of_im_ne_zero`, SA-D17), its spectrum lies in the real axis
+(`IsSelfAdjoint.spectrum_subset_im_eq_zero`, SA-D18), and the adjoint of its resolvent at z is
+its resolvent at `conj z` (`IsSelfAdjoint.adjoint_resolvent`, SA-D20), an instance of
+`LinearPMap.IsFormalAdjoint.adjoint_resolvent_eq`: for formally adjoint A and B with
+`z∈ρ(A)` and `conj z∈ρ(B)`, `R_A(z)†=R_B(conj z)`. In
+`TauCeti/Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`,
+`LinearPMap.IsFormalAdjoint.norm_smul_sub_sq` is the identity
+`‖cx−Ax‖²=(Im c)²‖x‖²+‖(Re c)x−Ax‖²` for symmetric A (Teschl (2009), (2.44), p.66), and
+`LinearPMap.IsFormalAdjoint.isClosed_range_smul_sub` gives the closed range of a nonreal shift of
+a closed symmetric A. In the same file, for densely defined A,
+`LinearPMap.exists_adjoint_apply_eq_of_inner_smul_sub_eq_zero` says that a vector y orthogonal to
+the range of `cI−A` lies in `dom A†` with `A†y=conj(c)·y`; and von Neumann's criterion (SA-A21) is
+`LinearPMap.isSelfAdjoint_of_surjective_addSub`: on a complete complex Hilbert space, a symmetric
+partial operator A for which `x↦Ax+ix` and `x↦Ax−ix` are surjective from `dom A` onto H is
+self-adjoint, density of `dom A` being derived from the first surjectivity
+(`LinearPMap.dense_domain_of_surjective_add_I`). Relative boundedness is `LinearPMap.IsRelativelyBounded V A a b`
+(`TauCeti/Analysis/Normed/Operator/LinearPMap/RelativeBound.lean`): `dom A⊆dom V` and
+`‖Vx‖≤a‖x‖+b‖Ax‖` on `dom A`, the coefficient of `‖Ax‖` written second. The Kato–Rellich theorem
+is `IsSelfAdjoint.add_of_isRelativelyBounded`
+(`TauCeti/Analysis/InnerProductSpace/LinearPMap/KatoRellich.lean`, SA-C55): for self-adjoint A,
+symmetric V and `IsRelativelyBounded V A a b` with `b<1`, the sum `A+V`, whose domain is
+`dom A`, is self-adjoint, over any `RCLike` field. A closed subspace U reduces A,
+`LinearPMap.IsReducing A U` (`TauCeti/Analysis/InnerProductSpace/LinearPMap/Reducing.lean`),
+when the orthogonal projection onto U preserves `dom A` and U and its orthogonal complement are
+invariant; `LinearPMap.IsReducing.isSelfAdjoint_restrict` makes the reduced part of a
+self-adjoint operator self-adjoint. `LinearPMap.HasCore.of_graph_subset_closure`
+(`TauCeti/Topology/Algebra/Module/LinearPMap/GraphCore.lean`) makes a submodule of the domain of a
+closed A a graph core once the graph of A lies in the closure of the graph of the restriction.
+The Hilbert complexification of a real inner-product space X is the type synonym
+`WithLp 2 (TauCeti.Complexification X)` of `TauCeti/Analysis/InnerProductSpace/Complexification.lean`,
+whose complex inner product `WithLp.instComplexificationInnerProductSpace` gives `x+iy` the norm
+`√(‖x‖²+‖y‖²)`; it is complete for complete X (`WithLp.instComplexificationCompleteSpace`), the
+real inclusion is isometric (`WithLp.complexification_norm_toLp_ofReal`), and a bounded real
+operator T complexifies to `ContinuousLinearMap.complexifyL2 T`, compatibly with composition
+(`ContinuousLinearMap.complexifyL2_comp`) and adjoints (`ContinuousLinearMap.adjoint_complexifyL2`),
+preserving and reflecting self-adjointness (`ContinuousLinearMap.isSelfAdjoint_complexifyL2_iff`).
+The fixed vectors of a conjugate-linear involution K form the real subspace `TauCeti.realPoints K`
+(`TauCeti/LinearAlgebra/Complex/Conjugation.lean`).
+The projection-valued-measure carrier is `TauCeti.ProjValMeasure X H` from
+`TauCeti/Analysis/InnerProductSpace/ProjValMeasure/Basic.lean` (SelfAdjointSpectralTheory SA-B14 and
+SA-B21): on an arbitrary measurable space `X` and complex Hilbert space `H`, its fields are `proj`
+(the projection of each measurable set), `diag` (finite diagonal measures with
+`⟪ξ,P(B)ξ⟫=(P.diag ξ B).toReal`), `proj_univ` (`P(X)=1`) and `proj_inter` (`P(B∩C)=P(B)P(C)`); the same file proves
+`TauCeti.ProjValMeasure.proj_compl` (`P(Bᶜ)=1−P(B)`) and the strong countable additivity
+`TauCeti.ProjValMeasure.hasSum_proj_of_pairwise_disjoint` on disjoint sequences.
+Its API at the pin: the bounded integral `TauCeti.ProjValMeasure.integral`, a unital
+star-algebra homomorphism on `TauCeti.BoundedBorelFunction X` (`ProjValMeasure/Integral.lean`,
+SA-B44), with `TauCeti.ProjValMeasure.norm_sq_integral_apply` (SA-B52) and its continuity for the
+supremum norm on symbols, `TauCeti.ProjValMeasure.continuous_integral`, where simple symbols are
+dense (`TauCeti.BoundedBorelFunction.denseRange_ofSimpleFunc`,
+`TauCeti/MeasureTheory/Function/BoundedBorel.lean`); the polarized complex
+measures `TauCeti.ProjValMeasure.polarizedComplexMeasure`, with value `⟪ψ,P(B)ξ⟫` on `B`
+(`ProjValMeasure/Polarization.lean`, SA-B40), and
+`TauCeti.ProjValMeasure.integral_polarizedComplexMeasure_eq_inner_integral`, the matrix elements
+of the bounded integral through the pairing `ContinuousLinearMap.mul ℝ ℂ`
+(`ProjValMeasure/MatrixElement.lean`, SA-B45); the reindexing `TauCeti.ProjValMeasure.map`
+(`ProjValMeasure/Map.lean`, SA-B25) with the change of variables
+`TauCeti.ProjValMeasure.integral_map` (SA-B51), the null filter `TauCeti.ProjValMeasure.ae`
+(`ProjValMeasure/Null.lean`, SA-B49), and in `ProjValMeasure/DominatedConvergence.lean` the
+almost-everywhere invariance `TauCeti.ProjValMeasure.integral_congr_ae` (SA-B50) and the bounded
+dominated-convergence theorem
+`TauCeti.ProjValMeasure.tendsto_integral_apply_filter_of_dominated_convergence` (SA-B53). Layers 1–3 state their spectral-measure conclusions on this
+carrier. The spectral measure of a given unbounded self-adjoint operator (SA-E01) is not at the pin.
+The geometric example uses `TauCeti.riemannianVolume` in §2.3, with its manifold
+hypotheses, and in §2.4 the finite-CW Euler–Poincaré theorem
+`TauCeti.finsum_finrank_singularHomology_of_finite_cwComplex`, the cellular–singular
+comparison `TauCeti.cellularSingularHomologyIsoUniv`
+(`TauCeti/AlgebraicTopology/Cellular/Comparison.lean`: for a CW structure on the whole of a
+Hausdorff space, cellular homology is singular homology once the inclusion of the
+`(n + 1)`-skeleton induces an isomorphism on `Hₙ`, an instance for finite-dimensional
+complexes), and the incidence numbers `TauCeti.cellularIncidence_zero` (a `1`-cell has
+boundary the difference of its endpoints) and `TauCeti.cellularIncidence_eq_inv_cellLocalClass`
+(a `2`-cell's incidence numbers are the local degrees of its attaching map).
+
+**From TauCetiRoadmap.SelfAdjointSpectralTheory.** Parts A–E supply the
+normalized PVM with its diagonal and polarized measures (SA-B14, SA-B21, SA-B40) and the
+bounded integral with its matrix elements (SA-B44, SA-B45), with their API SA-B49–B53
+(implemented at the Tau Ceti pin, above) and SA-B54–B57, von Neumann's self-adjointness
+criterion (SA-A21), cyclic models (SA-B85), graph cores (SA-C39, Mathlib's `LinearPMap.HasCore`),
+Kato–Rellich (SA-C55), nonreal resolvents, reality of the spectrum and resolvent adjoints (SA-D17,
+SA-D18, SA-D20; SA-A21, SA-C55 and these three are implemented at the Tau Ceti pin, above),
+unbounded spectral PVM (SA-E01) with its resolvent formula (SA-E05) and its uniqueness among
+real PVMs satisfying that formula (SA-E44), and Stone identification (SA-E26, SA-E29,
+SA-E43). The unbounded integral of arbitrary Borel symbols is Layer 1 here.
+
+**From TauCetiRoadmap.BanachSpaceTheory.** B5 supplies Hilbert dimension and the unitary
+classification for complete inner-product spaces over `[RCLike 𝕜]`: for Hilbert bases
+`b : HilbertBasis ι 𝕜 H` and `c : HilbertBasis κ 𝕜 H` of one space the lifted cardinals of
+`ι` and `κ` agree (`hilbertBasis_lift_mk_eq`), and for Hilbert bases of complete spaces `H`
+and `K` a linear isometric equivalence `H ≃ₗᵢ[𝕜] K` exists exactly when the lifted index
+cardinals agree (`nonempty_linearIsometryEquiv_iff_lift_mk_eq`). §4.1 uses them at `𝕜 = ℂ`
+for the deficiency spaces, with no separability or finite-dimensionality assumption.
+
+**From TauCetiRoadmap.HilbertModules.** H6 supplies closed scalar operator
+adjoints, graph domains, the deficiency decomposition and the bijection between
+self-adjoint extensions and deficiency-space unitaries, including existence iff
+such a unitary exists. Its hypotheses are closedness, density and symmetry. H7 supplies the
+interval example built on that H6 deficiency API: the deficiency indices `(1,1)` of `−i d/dt` on
+`H₀¹([0,1])` and the parametrization of its self-adjoint extensions `D_λ`, `λ∈𝕋`, by the
+condition `α₊=λα₋` on the coefficients along normalized deficiency vectors (consumed in §4.6).
+
+**From TauCetiRoadmap.VonNeumannAlgebras.** V2 supplies completed Hilbert tensors
+and bounded tensor maps, the Hilbert space being the completion of Mathlib's inner-product
+tensor product (`UniformSpace.Completion (H ⊗[ℂ] K)`, from `TensorProduct.instInnerProductSpace`
+and `UniformSpace.Completion.innerProductSpace`); V2.RectangularL2 supplies their arbitrary-measure L²
+realization using the maximal rectangle-cover product. V10.ClosedOperators
+supplies multiplier-form realization with the full second-moment domain, the spectral
+representation `⟪ξ,Tη⟫=∫t dμ^T_(ξ,η)(t)` of a self-adjoint T for its own spectral measure on the
+domain `{η : ∫t² dμ^T_η<∞}` (consumed in §1.2), and the
+general closed-operator polar decomposition. V10.Affiliation supplies the affiliated-operator
+functional calculus with its truncation cores and the spectral multiplier product rule
+(consumed in §1.2a and §1.3). Separability is used only for the
+single finite-measure cyclic model. V2–V5 supply bounded projections and commutants.
+
+**From the other named suppliers.** PolarDecomposition PD-B23–PD-B34 supplies
+bounded rectangular polar factors (initial space PD-B29, final space PD-B32).
+BanachAlgebras A2 (Layer 2, §2.1) supplies bounded Riesz idempotents. PDE A1 and A3
+(§§1.1, 1.3) supply weak Sobolev derivatives with their interval endpoint traces and the
+Bessel-potential comparison; PDE A4 and A6 (§§1.4, 1.6) supply the Sobolev embeddings and
+local Rellich compactness used in §5.7. OperatorKTheory §8.4 defines the essential spectrum of a
+bounded operator T on a Hilbert space as the set of λ for which `T−λ` is not Fredholm; §3.2
+compares it with this roadmap's `essentialSpectrum` of a partial operator.
+For a complete real inner-product space H, the Hilbert complexification `H_ℂ`, its isometric
+real inclusion `ι_H` and the transport of bounded operators are Tau Ceti's
+`WithLp 2 (TauCeti.Complexification H)` and `ContinuousLinearMap.complexifyL2` (above).
+GeneralizedCohomology G5.5-RealHilbert works on its own Hilbert synonym
+`RealHilbertComplexification H` of `TauCeti.Complexification H`, with the inner product
+`⟨x+iy,x′+iy′⟩=(x,x′)+(y,y′)+i((x,y′)−(y,x′))`; on it, it supplies the antilinear isometric
+conjugation `J(x+iy)=x−iy` and the unbounded complexification `D_ℂ(x+iy)=Dx+iDy` of a densely
+defined real `LinearPMap` D on the complexified domain, with graph and closure transport and
+`(D_ℂ)†=(D†)_ℂ` including equality of domains. Tau Ceti's
+`WithLp.instComplexificationInnerProductSpace` gives `H_ℂ` the same inner-product formula, and
+§4.7 proves that the identity of the underlying `TauCeti.Complexification H` is a complex-linear
+isometric equivalence between the two synonyms; J and `D_ℂ` are used on `H_ℂ` through it, and
+nothing else of G5.5 is assumed about `H_ℂ`. The coercive solution map over `[RCLike 𝕜]`, the
+`J`-commutation and uniqueness properties of the complexified self-adjoint operator and the real
+spectral restriction are §4.7 targets; VariationalMethods 5.1 consumes them and supplies nothing
+here.
+LieGroups Layers 2 and 5 supply the matrix groups and SU(2) covering example.
 
 ## References
 

@@ -1,87 +1,58 @@
 # Roadmap: variational methods and constrained spectral theory
 
-**Summary.** This roadmap builds the variational connectors between Banach-space weak
-compactness, quadratic energy minimization and self-adjoint operators on a Hilbert space. From
-Mathlib's weak topologies and bidual inclusion, Tau Ceti's real coercive-form solution operators
-and BanachSpaceTheory's reflexivity and Eberlein–Šmulian theorems it builds the direct method in
-its topological and sequential forms, Euler–Lagrange equations with their real and complex
-scalar conventions, the compact form pair (a form domain `V`, a Hilbert space `H` and a compact
-injective dense inclusion `j : V → H`, kept distinct throughout), constrained Rayleigh minima on
-spheres of `H`-subspaces, successive minima with their complete eigenbasis, Courant–Fischer on
-the form domain, the compact-resolvent specialization of UnboundedOperators' represented
-operator with its domain expansion and spectrum, the abstract adapter identifying the operator
-of a differential energy `‖D u‖²` with the restricted composite `D₀† D₀`, and Ritz–Galerkin
-convergence. Its end theorems are the direct method, the constrained Rayleigh minimum and its
-restricted Euler–Lagrange equation, the ordered eigenbasis with `λₙ → ∞`, Courant–Fischer on
-the form domain, compactness of the shifted inverse of the represented operator, the domain
-expansion and spectrum identification, the differential-energy adapter and Ritz–Galerkin
-convergence. [Suggested.lean](Suggested.lean) states the headline theorems that are statable
-against the pinned libraries; this README is the roadmap.
+**Summary.** The direct method of the calculus of variations obtains a minimizer of an energy
+from weak compactness and weak lower semicontinuity. Applied to a quadratic energy on the unit
+sphere of a Hilbert space, it produces eigenvalues. The minimum is the lowest eigenvalue, and
+minimizing again orthogonally to the eigenvectors found gives the next ones. This roadmap
+develops the direct method on reflexive Banach spaces and then this construction of eigenvalues,
+with real or complex scalars.
 
-## Scope and ownership
+The first main theorem is the direct method. Let V be a real Banach space that is reflexive: the
+canonical map into its bidual is onto. If a real function E is weakly lower semicontinuous on a
+nonempty weakly closed set S and its sublevel sets in S are norm bounded, then E attains its
+infimum on S. No lower bound on E is assumed.
 
-This roadmap owns, over `𝕜 = ℝ` or `ℂ`: the direct method and its weak lower semicontinuity
-API on reflexive Banach spaces (including the real/complex weak-topology dictionary and the
-sequential-closure form of Eberlein–Šmulian on weakly compact sets); the first variation on
-affine and convex constraints and the subdifferential sum rule with an indicator; quadratic
-energies, their expansion, weak equation, energy gap and near-minimizer convergence; the energy
-space and the forcing maps of a coercive Hermitian form; semibounded shifts; the compact form
-pair with its transport API; constrained spheres, their minima and restricted Euler–Lagrange
-equations; the kernel-orthogonal Poincaré connector; successive minima, completeness,
-expansions and Courant–Fischer on the form domain; the compact-pair specialization of the
-represented operator (compact shifted inverse, eigenbasis identification, domain expansion,
-spectrum, resolvent norm, weak equations at and off the spectrum); the abstract
-differential-energy adapter; and Ritz–Galerkin convergence with its generalized matrix
-eigenvalue problem.
+The spectral theory lives on a compact form pair. Two Hilbert spaces, a form domain V and H, are
+joined by a continuous linear map `j : V → H` that is injective, compact and of dense range. A
+bounded Hermitian form a on V has energy `q(u) = Re a(u,u)`, and `c‖u‖² ≤ q(u) + ω‖j u‖²` for
+some `c > 0` and some real ω, possibly negative. For the Dirichlet form of the Laplacian on
+`(0, π)`, with V = H¹₀ and H = L², the eigenvalues are `(n+1)²`, with eigenvectors
+`sin((n+1)x)`.
 
-Owned elsewhere and consumed here:
+The second main theorem gives an ordered eigenbasis when H is infinite-dimensional. There are uₙ
+in V whose images j uₙ form a Hilbert basis of H, and reals `λ₀ ≤ λ₁ ≤ ⋯` tending to +∞, with
+`a(uₙ, v) = λₙ ⟨j uₙ, j v⟩` for every v in V. They are found one at a time: uₙ minimizes q among
+the u with `‖j u‖ = 1` and j u orthogonal to `j u₀, …, j uₙ₋₁`.
 
-- [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1–B2 owns duality, Mazur's lemma,
-  Goldstine, reflexivity (surjectivity of the continuous bidual inclusion), weak compactness of
-  the closed unit ball of a reflexive space, Eberlein–Šmulian in its compactness form,
-  Milman–Pettis and finite norming sets. Here: their variational applications, the
-  sequential-closure form of Eberlein–Šmulian on a weakly compact set (Layer 1.1) and the
-  bounded-set adapters for compact maps.
-- UnboundedOperators UO-D06 owns the closed-form representation theorem over `[RCLike 𝕜]`: the
-  coercive solution map of a shifted Hermitian form over `𝕜` (its scalar-generic adapter of
-  Mathlib's real Lax–Milgram, with the identification at `𝕜 = ℝ`), the unique self-adjoint
-  partial operator `closedFormOperator` of a closed semibounded form with its graph
-  characterization, the real-shift self-adjointness criterion, both adjoint inclusions,
-  witness independence, the Friedrichs extension, the complexification of a real form and of
-  its represented operator, and the real spectral restriction `realSpectralRestriction` with
-  its projection family and bounded real calculus. Here: the compact-pair specialization
-  (Layer 5), which consumes that operator by its graph and adds nothing to the general theory.
-  Layer 2.3's route to the coercive solution map (the direct method of 1.4 with the weak
-  equation and `I`-test of 2.2) is a second proof of UO-D06's adapter, not its owner, and
-  nothing stated in this roadmap is an input to UO-D06.
-- [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5.5-RealHilbert owns the Hilbert
-  complexification of a complete real inner-product space (its complex inner product, norm
-  `√(‖x‖²+‖y‖²)`, isometric real inclusion, antilinear conjugation, completeness, comparison
-  with the Taylor-norm `TauCeti.Complexification` and the transport of
-  `ContinuousLinearMap.complexify`). This roadmap defines no complexification.
-- [SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) Parts C–E
-  own graph norms and cores (SA-C39–SA-C43), form bounds (SA-C76–SA-C85), the resolvent set and
-  spectrum of a partial operator (SA-D01–SA-D02), the self-adjoint resolvent estimates
-  (SA-D17–SA-D22) and, over `ℂ`, the spectral projections `P_A(B)` and the resolvent formula
-  (SA-E01, SA-E03, SA-E05). Here: their identification on a compact form pair.
-- [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) PD-A50–PD-A53 owns the
-  finite-dimensional eigenbasis quadratic form, Courant–Fischer, eigenvalue monotonicity and
-  Weyl's bound for symmetric endomorphisms. Here: the form-domain versions and the conversion
-  of its decreasing order to the increasing form order.
-- Tau Ceti `Analysis/InnerProductSpace/Variational/*` owns the real coercive solution
-  operator, its compactness, symmetry, kernel, Rayleigh least value, Fredholm alternative and
-  eigenbasis; `Analysis/PDE/Spectrum` owns its Dirichlet instance. Here: the semibounded-shift,
-  complex-Hermitian, ordered-minimum and operator-domain bridges they do not state, with exact
-  comparisons at `𝕜 = ℝ`; no second solution operator is built.
+The third is Courant–Fischer on the form domain. For any Hilbert basis of H formed by images
+j uₙ of eigenvectors with nondecreasing eigenvalues, λₙ is the infimum, over (n+1)-dimensional
+subspaces M of V, of the supremum of `q(u)/‖j u‖²` over nonzero u in M. Computed inside
+finite-dimensional subspaces `V₀ ≤ V₁ ≤ ⋯` of V with dense union, the same min–max values are
+the Ritz values, and the n-th Ritz value of Vₘ tends to λₙ as m → ∞.
 
-Outside the roadmap, and not consumed: the geometric realizations. The `H²` realization of a
-nonnegative Laplace-type system on a compact boundaryless manifold, Rellich compactness of
-`H¹(E) → L²(E)`, elliptic regularity of the operator domain, Hodge theory and the comparison
-with the realization of `1+∇*∇` belong to ComplexKahlerGeometry K5a and
-PseudodifferentialOperators P6–P7, which consume this roadmap (see Downstream consumers); the
-course examples on manifolds (mean-zero Poincaré inequalities, Hodge decompositions) are their
-acceptance examples. Bounded-domain elliptic forms, boundary conditions and regularity belong to
-PDE Lane D–E, which consume Mathlib and Tau Ceti directly.
+The fourth concerns the self-adjoint operator A on H whose graph is the set of pairs (j u, f)
+with `a(u, v) = ⟨f, j v⟩` for all v. For every α ≥ ω, A + α has a bounded inverse on H that is
+compact and self-adjoint. Given such an eigenbasis with λₙ → +∞, the spectrum of A is the set of
+the λₙ, and j u lies in the domain of A exactly when `Σ λₙ² |⟨j uₙ, j u⟩|²` is finite.
+
+The UnboundedOperators roadmap constructs this operator and proves it unique; this roadmap only
+specializes it to compact form pairs. Layer 1 draws on
+[BanachSpaceTheory](../BanachSpaceTheory/README.md) for Eberlein–Šmulian and Mazur's lemma. The
+Tau Ceti library already has the solution operator of a real coercive form; this roadmap builds
+no second one and compares with it exactly over ℝ. ComplexKahlerGeometry uses Layers 2 to 5 for
+nonnegative Laplace-type systems on compact manifolds without boundary.
+
+Layer 1 proves the direct method in a topological and a sequential form over ℝ; complex spaces
+use it through their underlying real spaces. Layer 2 differentiates energies and solves the weak
+equation of a coercive Hermitian form. Layer 3 minimizes on constrained spheres and derives the
+Euler–Lagrange equation. It also proves a Poincaré inequality orthogonal to the
+kernel of a nonnegative form. Layer 4 builds the eigenbasis and proves its completeness and
+Courant–Fischer. Layer 5 identifies the operator. For a form `⟨D u, D v⟩`, with D bounded from V
+into an inner-product space, it is the composite `D₀† D₀` on its natural domain, where D₀ is
+`j u ↦ D u`. Layer 6 proves Ritz–Galerkin convergence and collects the acceptance examples.
+
+[Suggested.lean](Suggested.lean) states most of the headline theorems in Lean, admitted with
+`sorry`, and records what the others lack; this README is the roadmap.
 
 ## Conventions
 
@@ -114,121 +85,6 @@ PDE Lane D–E, which consume Mathlib and Tau Ceti directly.
 6. **Junk values.** The min–max value `rayleighMinMax L n` of a subspace of dimension at most `n`
    is `sInf ∅ = 0`; the real `sInf` of an unbounded-below set is `0`. Every theorem that uses one
    of these values carries the hypothesis that excludes the junk case.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Weak topologies: `WeakSpace`, `toWeakSpace`, `Convex.toWeakSpace_closure` and
-  `toWeakSpace_closedConvexHull_eq` (`Mathlib/Analysis/LocallyConvex/WeakSpace.lean`): a closed
-  convex set has the same norm and weak closure.
-- Biduals: `NormedSpace.inclusionInDoubleDual`, `NormedSpace.inclusionInDoubleDualWeak`,
-  `NormedSpace.isCompact_closure_of_isBounded` (`Mathlib/Analysis/Normed/Module/DoubleDual.lean`):
-  a norm-bounded set whose weak-star bidual closure lies in the range of the inclusion has
-  weakly compact closure. Surjectivity of the inclusion makes the range condition automatic.
-- Minima: `LowerSemicontinuousOn.exists_isMinOn` (`Mathlib/Topology/Semicontinuity/Basic.lean`)
-  on a nonempty compact set; `IsMinOn`, `sInf`.
-- Compact operators: `IsCompactOperator` (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`).
-- First variation: `IsLocalMinOn.hasFDerivWithinAt_nonneg`, `IsLocalMinOn.fderivWithin_eq_zero`,
-  `posTangentConeAt` (`Mathlib/Analysis/Calculus/LocalExtr/Basic.lean`);
-  `IsLocalExtrOn.exists_multipliers_of_hasStrictFDerivAt_1d`.
-- Lax–Milgram over `ℝ`: `IsCoercive`, `IsCoercive.continuousLinearEquivOfBilin`,
-  `IsCoercive.unique_continuousLinearEquivOfBilin`
-  (`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`), for `B : V →L[ℝ] V →L[ℝ] ℝ` on a
-  complete real inner-product space.
-- Inner-product spaces: `InnerProductSpace.toDual`, `InnerProductSpace.rclikeToReal`
-  (`Mathlib/Analysis/InnerProductSpace/Basic.lean`), `InnerProductSpace.toUniformConvexSpace`
-  (`Mathlib/Analysis/InnerProductSpace/Convex.lean`), `HilbertBasis`, orthogonal projections onto
-  closed submodules.
-- Rayleigh quotients of bounded operators: `ContinuousLinearMap.rayleighQuotient`,
-  `IsSelfAdjoint.eq_smul_self_of_isLocalExtrOn`, `IsSelfAdjoint.hasEigenvector_of_isMinOn`
-  (`Mathlib/Analysis/InnerProductSpace/Rayleigh.lean`); they concern bounded operators on one
-  space and do not identify an unbounded operator with a bounded operator on its form domain.
-- Partial operators: `LinearPMap`, `LinearPMap.graph`, `LinearPMap.IsClosed`
-  (`Mathlib/Topology/Algebra/Module/LinearPMap.lean`), `LinearPMap.adjoint`,
-  `LinearPMap.IsFormalAdjoint`, `IsSelfAdjoint` for partial operators
-  (`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`); `LinearPMap.comp` requires the whole
-  range of the first operator to lie in the domain of the second and is not the restricted
-  composite of Layer 5.3. `LinearEquiv.ofInjective` (`Mathlib/Algebra/Module/Submodule/Equiv.lean`).
-- Finite dimension: `Module.finrank`, `FiniteDimensional`.
-
-### From Tau Ceti
-
-- `IsCoercive.formSolutionMap : H →L[ℝ] V`, `IsCoercive.formSolutionOperator : H →L[ℝ] H`,
-  `apply_formSolutionMap`, `eq_formSolutionMap`, `isCompactOperator_formSolutionOperator`,
-  `isSymmetric_formSolutionOperator`, `ker_formSolutionOperator`,
-  `hasEigenvalue_formSolutionOperator_iff`, `finiteDimensional_eigenspace_formSolutionOperator`,
-  `exists_hilbertBasis_forall_apply_eq_smul_inner`
-  (`TauCeti/Analysis/InnerProductSpace/Variational/Spectrum.lean`): for a real coercive bilinear
-  form `B` on a complete `V` and a continuous `J : V →L[ℝ] H`, the solution operator of
-  `B u v = inner (h) (J v)`; its kernel is `(range J)ᗮ`, so density of `J` is what discards the
-  zero eigenspace; the eigenbasis needs `J` compact and dense and `B` symmetric.
-- `IsCoercive.isLeast_rayleighQuotient` (compact nonzero `J`, symmetric `B`) and
-  `isGreatest_inv_norm_formSolutionOperator`
-  (`TauCeti/Analysis/InnerProductSpace/Variational/Rayleigh.lean`).
-- `IsCoercive.formPerturbationOperator`, `isCompactOperator_formPerturbationOperator`,
-  `finiteDimensional_ker_one_sub_smul_formPerturbationOperator`,
-  `fredholmAlternative_formPerturbation`
-  (`TauCeti/Analysis/InnerProductSpace/Variational/Fredholm.lean`).
-- `dirichletSolutionOperator`, `IsDirichletEigenvalue`, `exists_hilbertBasis_forall_isDirichletEigenvalue`
-  (`TauCeti/Analysis/PDE/Spectrum.lean`): the Dirichlet instance of the real machinery, used
-  as an example only.
-- `subdifferential B f x` and `mem_subdifferential_iff` (`TauCeti/Analysis/Convex/Subdifferential.lean`),
-  for a pairing `B : E →ₗ[ℝ] F →ₗ[ℝ] ℝ` and `f : E → EReal`; `TauCeti/Analysis/Convex/FenchelMoreau.lean`
-  for convex duality. Layer 2.1 adds only the constrained-minimum and normal-cone bridge.
-- `LinearPMap.resolventSet`, `LinearPMap.IsResolventAt`, `LinearPMap.resolvent`
-  (`TauCeti/Topology/Algebra/Module/LinearPMap/Resolvent.lean`, re-exported with the resolvent
-  identities by `TauCeti/Analysis/Normed/Operator/Resolvent/Unbounded.lean`): `z` is in the
-  resolvent set when `z • I − A` is a bijection of the domain onto the space with a bounded
-  inverse. `LinearPMap.subScalar` (`TauCeti/LinearAlgebra/LinearPMap/Shift.lean`) and
-  `mem_resolventSet_subScalar_iff`, `resolvent_subScalar`
-  (`TauCeti/Analysis/Normed/Operator/Resolvent/Shift.lean`) for shifted operators.
-- `IsSelfAdjoint.smul_sub_bijective` and the surrounding self-adjoint resolvent API
-  (`TauCeti/Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`), for nonreal shifts of
-  self-adjoint partial operators.
-
-### From TauCetiRoadmap roadmaps
-
-- BanachSpaceTheory B1: Mazur's lemma in its finite-convex-combination form for weakly
-  convergent sequences; weak and weak-star continuity criteria by evaluation; Goldstine.
-  BanachSpaceTheory B2: a Banach space is reflexive iff its closed unit ball is weakly compact;
-  Eberlein–Šmulian (weakly compact iff weakly sequentially compact, with the relative version);
-  Milman–Pettis; the finite norming sets of its James development.
-- UnboundedOperators UO-D06: the coercive solution of a shifted Hermitian form over
-  `[RCLike 𝕜]` and its identification at `𝕜 = ℝ` with Mathlib's
-  `IsCoercive.continuousLinearEquivOfBilin`; `closedFormOperator` with its graph
-  characterization `j u ∈ dom A ↔ ∃ h, ∀ v, a u v = inner h (j v)`, `A (j u) = h`; density,
-  closedness, lower bound, self-adjointness, both adjoint inclusions, the resolvent estimate
-  from shifted coercivity; the witness-independence lemma; the real-shift self-adjointness
-  criterion with its form-solution specialization (bounded symmetric inverse `S : H → H`); for a
-  real form, the identification of the complexified represented operator with the operator of
-  the complexified form; `realSpectralRestriction` and the restricted projection family
-  `P_R(B) = π_R ∘ P_{A_ℂ}(B) ∘ ι_H`.
-- GeneralizedCohomology G5.5-RealHilbert: the Hilbert complexification, its real inclusion
-  `ι_H`, conjugation `J`, completeness and the comparison with the Taylor-norm model.
-- SelfAdjointSpectralTheory SA-C39–SA-C43 (graph cores and graph-norm equivalence),
-  SA-C76–SA-C85 (form bounds), SA-D02 (`spectrum A` as the complement of the resolvent set),
-  SA-D17–SA-D22 (nonreal points are resolvent points, reality of the spectrum, quantitative
-  bound, real-point resolvent from a lower bound), SA-E01, SA-E03, SA-E05 (spectral PVM,
-  spectral projections, resolvent formula, over `ℂ`).
-- PolarDecomposition PD-A50–PD-A53.
-
-## How to read the build
-
-Layer 1 works over `ℝ` and supplies weak lower semicontinuity, the two direct methods and the
-behaviour of compact maps on bounded sets, together with the real/complex dictionary through
-which complex spaces use it. Layer 2 differentiates: first variations on constraints, quadratic
-energies with their exact expansion and weak equation, the energy space and the forcing maps of
-a coercive Hermitian form, and semibounded shifts. Layer 3 bundles the compact form pair and
-minimizes the energy on constrained spheres of `H`, giving the restricted Euler–Lagrange
-equation and the kernel-orthogonal Poincaré inequality. Layer 4 iterates the constrained
-minimum into the ordered eigenbasis, proves completeness in the shifted energy inner product
-without circularity, expands energies and proves Courant–Fischer on the form domain. Layer 5
-specializes UnboundedOperators' represented operator to the compact pair: its shifted inverse
-is the compact solution operator, its eigenbasis is Layer 4's, its domain is a weighted
-summability condition, its spectrum is the eigenvalue sequence, and for a differential energy it
-is the restricted composite `D₀† D₀`. Layer 6 approximates the eigenvalues from
-finite-dimensional subspaces and collects the acceptance examples.
 
 ## Layer 1: weak lower semicontinuity and the direct method
 
@@ -1070,6 +926,169 @@ Layers 3–5; PolarDecomposition PD-A50–PD-A53; Tau Ceti `Variational/Spectrum
   Ceti `Analysis/PDE/Spectrum` is an instance of Layers 3–5 and is used here only as an example.
 - UnboundedOperators UO-D06 is a supplier, not a consumer: nothing in this roadmap is cited by
   its closed-form representation.
+
+## Scope and ownership
+
+This roadmap owns, over `𝕜 = ℝ` or `ℂ`: the direct method and its weak lower semicontinuity
+API on reflexive Banach spaces (including the real/complex weak-topology dictionary and the
+sequential-closure form of Eberlein–Šmulian on weakly compact sets); the first variation on
+affine and convex constraints and the subdifferential sum rule with an indicator; quadratic
+energies, their expansion, weak equation, energy gap and near-minimizer convergence; the energy
+space and the forcing maps of a coercive Hermitian form; semibounded shifts; the compact form
+pair with its transport API; constrained spheres, their minima and restricted Euler–Lagrange
+equations; the kernel-orthogonal Poincaré connector; successive minima, completeness,
+expansions and Courant–Fischer on the form domain; the compact-pair specialization of the
+represented operator (compact shifted inverse, eigenbasis identification, domain expansion,
+spectrum, resolvent norm, weak equations at and off the spectrum); the abstract
+differential-energy adapter; and Ritz–Galerkin convergence with its generalized matrix
+eigenvalue problem.
+
+Owned elsewhere and consumed here:
+
+- [BanachSpaceTheory](../BanachSpaceTheory/README.md) B1–B2 owns duality, Mazur's lemma,
+  Goldstine, reflexivity (surjectivity of the continuous bidual inclusion), weak compactness of
+  the closed unit ball of a reflexive space, Eberlein–Šmulian in its compactness form,
+  Milman–Pettis and finite norming sets. Here: their variational applications, the
+  sequential-closure form of Eberlein–Šmulian on a weakly compact set (Layer 1.1) and the
+  bounded-set adapters for compact maps.
+- UnboundedOperators UO-D06 owns the closed-form representation theorem over `[RCLike 𝕜]`: the
+  coercive solution map of a shifted Hermitian form over `𝕜` (its scalar-generic adapter of
+  Mathlib's real Lax–Milgram, with the identification at `𝕜 = ℝ`), the unique self-adjoint
+  partial operator `closedFormOperator` of a closed semibounded form with its graph
+  characterization, the real-shift self-adjointness criterion, both adjoint inclusions,
+  witness independence, the Friedrichs extension, the complexification of a real form and of
+  its represented operator, and the real spectral restriction `realSpectralRestriction` with
+  its projection family and bounded real calculus. Here: the compact-pair specialization
+  (Layer 5), which consumes that operator by its graph and adds nothing to the general theory.
+  Layer 2.3's route to the coercive solution map (the direct method of 1.4 with the weak
+  equation and `I`-test of 2.2) is a second proof of UO-D06's adapter, not its owner, and
+  nothing stated in this roadmap is an input to UO-D06.
+- [GeneralizedCohomology](../GeneralizedCohomology/README.md) G5.5-RealHilbert owns the Hilbert
+  complexification of a complete real inner-product space (its complex inner product, norm
+  `√(‖x‖²+‖y‖²)`, isometric real inclusion, antilinear conjugation, completeness, comparison
+  with the Taylor-norm `TauCeti.Complexification` and the transport of
+  `ContinuousLinearMap.complexify`). This roadmap defines no complexification.
+- [SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md) Parts C–E
+  own graph norms and cores (SA-C39–SA-C43), form bounds (SA-C76–SA-C85), the resolvent set and
+  spectrum of a partial operator (SA-D01–SA-D02), the self-adjoint resolvent estimates
+  (SA-D17–SA-D22) and, over `ℂ`, the spectral projections `P_A(B)` and the resolvent formula
+  (SA-E01, SA-E03, SA-E05). Here: their identification on a compact form pair.
+- [PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md) PD-A50–PD-A53 owns the
+  finite-dimensional eigenbasis quadratic form, Courant–Fischer, eigenvalue monotonicity and
+  Weyl's bound for symmetric endomorphisms. Here: the form-domain versions and the conversion
+  of its decreasing order to the increasing form order.
+- Tau Ceti `Analysis/InnerProductSpace/Variational/*` owns the real coercive solution
+  operator, its compactness, symmetry, kernel, Rayleigh least value, Fredholm alternative and
+  eigenbasis; `Analysis/PDE/Spectrum` owns its Dirichlet instance. Here: the semibounded-shift,
+  complex-Hermitian, ordered-minimum and operator-domain bridges they do not state, with exact
+  comparisons at `𝕜 = ℝ`; no second solution operator is built.
+
+Outside the roadmap, and not consumed: the geometric realizations. The `H²` realization of a
+nonnegative Laplace-type system on a compact boundaryless manifold, Rellich compactness of
+`H¹(E) → L²(E)`, elliptic regularity of the operator domain, Hodge theory and the comparison
+with the realization of `1+∇*∇` belong to ComplexKahlerGeometry K5a and
+PseudodifferentialOperators P6–P7, which consume this roadmap (see Downstream consumers); the
+course examples on manifolds (mean-zero Poincaré inequalities, Hodge decompositions) are their
+acceptance examples. Bounded-domain elliptic forms, boundary conditions and regularity belong to
+PDE Lane D–E, which consume Mathlib and Tau Ceti directly.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Weak topologies: `WeakSpace`, `toWeakSpace`, `Convex.toWeakSpace_closure` and
+  `toWeakSpace_closedConvexHull_eq` (`Mathlib/Analysis/LocallyConvex/WeakSpace.lean`): a closed
+  convex set has the same norm and weak closure.
+- Biduals: `NormedSpace.inclusionInDoubleDual`, `NormedSpace.inclusionInDoubleDualWeak`,
+  `NormedSpace.isCompact_closure_of_isBounded` (`Mathlib/Analysis/Normed/Module/DoubleDual.lean`):
+  a norm-bounded set whose weak-star bidual closure lies in the range of the inclusion has
+  weakly compact closure. Surjectivity of the inclusion makes the range condition automatic.
+- Minima: `LowerSemicontinuousOn.exists_isMinOn` (`Mathlib/Topology/Semicontinuity/Basic.lean`)
+  on a nonempty compact set; `IsMinOn`, `sInf`.
+- Compact operators: `IsCompactOperator` (`Mathlib/Analysis/Normed/Operator/Compact/Basic.lean`).
+- First variation: `IsLocalMinOn.hasFDerivWithinAt_nonneg`, `IsLocalMinOn.fderivWithin_eq_zero`,
+  `posTangentConeAt` (`Mathlib/Analysis/Calculus/LocalExtr/Basic.lean`);
+  `IsLocalExtrOn.exists_multipliers_of_hasStrictFDerivAt_1d`.
+- Lax–Milgram over `ℝ`: `IsCoercive`, `IsCoercive.continuousLinearEquivOfBilin`,
+  `IsCoercive.unique_continuousLinearEquivOfBilin`
+  (`Mathlib/Analysis/InnerProductSpace/LaxMilgram.lean`), for `B : V →L[ℝ] V →L[ℝ] ℝ` on a
+  complete real inner-product space.
+- Inner-product spaces: `InnerProductSpace.toDual`, `InnerProductSpace.rclikeToReal`
+  (`Mathlib/Analysis/InnerProductSpace/Basic.lean`), `InnerProductSpace.toUniformConvexSpace`
+  (`Mathlib/Analysis/InnerProductSpace/Convex.lean`), `HilbertBasis`, orthogonal projections onto
+  closed submodules.
+- Rayleigh quotients of bounded operators: `ContinuousLinearMap.rayleighQuotient`,
+  `IsSelfAdjoint.eq_smul_self_of_isLocalExtrOn`, `IsSelfAdjoint.hasEigenvector_of_isMinOn`
+  (`Mathlib/Analysis/InnerProductSpace/Rayleigh.lean`); they concern bounded operators on one
+  space and do not identify an unbounded operator with a bounded operator on its form domain.
+- Partial operators: `LinearPMap`, `LinearPMap.graph`, `LinearPMap.IsClosed`
+  (`Mathlib/Topology/Algebra/Module/LinearPMap.lean`), `LinearPMap.adjoint`,
+  `LinearPMap.IsFormalAdjoint`, `IsSelfAdjoint` for partial operators
+  (`Mathlib/Analysis/InnerProductSpace/LinearPMap.lean`); `LinearPMap.comp` requires the whole
+  range of the first operator to lie in the domain of the second and is not the restricted
+  composite of Layer 5.3. `LinearEquiv.ofInjective` (`Mathlib/Algebra/Module/Submodule/Equiv.lean`).
+- Finite dimension: `Module.finrank`, `FiniteDimensional`.
+
+### From Tau Ceti
+
+- `IsCoercive.formSolutionMap : H →L[ℝ] V`, `IsCoercive.formSolutionOperator : H →L[ℝ] H`,
+  `apply_formSolutionMap`, `eq_formSolutionMap`, `isCompactOperator_formSolutionOperator`,
+  `isSymmetric_formSolutionOperator`, `ker_formSolutionOperator`,
+  `hasEigenvalue_formSolutionOperator_iff`, `finiteDimensional_eigenspace_formSolutionOperator`,
+  `exists_hilbertBasis_forall_apply_eq_smul_inner`
+  (`TauCeti/Analysis/InnerProductSpace/Variational/Spectrum.lean`): for a real coercive bilinear
+  form `B` on a complete `V` and a continuous `J : V →L[ℝ] H`, the solution operator of
+  `B u v = inner (h) (J v)`; its kernel is `(range J)ᗮ`, so density of `J` is what discards the
+  zero eigenspace; the eigenbasis needs `J` compact and dense and `B` symmetric.
+- `IsCoercive.isLeast_rayleighQuotient` (compact nonzero `J`, symmetric `B`) and
+  `isGreatest_inv_norm_formSolutionOperator`
+  (`TauCeti/Analysis/InnerProductSpace/Variational/Rayleigh.lean`).
+- `IsCoercive.formPerturbationOperator`, `isCompactOperator_formPerturbationOperator`,
+  `finiteDimensional_ker_one_sub_smul_formPerturbationOperator`,
+  `fredholmAlternative_formPerturbation`
+  (`TauCeti/Analysis/InnerProductSpace/Variational/Fredholm.lean`).
+- `dirichletSolutionOperator`, `IsDirichletEigenvalue`, `exists_hilbertBasis_forall_isDirichletEigenvalue`
+  (`TauCeti/Analysis/PDE/Spectrum.lean`): the Dirichlet instance of the real machinery, used
+  as an example only.
+- `subdifferential B f x` and `mem_subdifferential_iff` (`TauCeti/Analysis/Convex/Subdifferential.lean`),
+  for a pairing `B : E →ₗ[ℝ] F →ₗ[ℝ] ℝ` and `f : E → EReal`; `TauCeti/Analysis/Convex/FenchelMoreau.lean`
+  for convex duality. Layer 2.1 adds only the constrained-minimum and normal-cone bridge.
+- `LinearPMap.resolventSet`, `LinearPMap.IsResolventAt`, `LinearPMap.resolvent`
+  (`TauCeti/Topology/Algebra/Module/LinearPMap/Resolvent.lean`, re-exported with the resolvent
+  identities by `TauCeti/Analysis/Normed/Operator/Resolvent/Unbounded.lean`): `z` is in the
+  resolvent set when `z • I − A` is a bijection of the domain onto the space with a bounded
+  inverse. `LinearPMap.subScalar` (`TauCeti/LinearAlgebra/LinearPMap/Shift.lean`) and
+  `mem_resolventSet_subScalar_iff`, `resolvent_subScalar`
+  (`TauCeti/Analysis/Normed/Operator/Resolvent/Shift.lean`) for shifted operators.
+- `IsSelfAdjoint.smul_sub_bijective` and the surrounding self-adjoint resolvent API
+  (`TauCeti/Analysis/InnerProductSpace/LinearPMap/SelfAdjoint.lean`), for nonreal shifts of
+  self-adjoint partial operators.
+
+### From TauCetiRoadmap roadmaps
+
+- BanachSpaceTheory B1: Mazur's lemma in its finite-convex-combination form for weakly
+  convergent sequences; weak and weak-star continuity criteria by evaluation; Goldstine.
+  BanachSpaceTheory B2: a Banach space is reflexive iff its closed unit ball is weakly compact;
+  Eberlein–Šmulian (weakly compact iff weakly sequentially compact, with the relative version);
+  Milman–Pettis; the finite norming sets of its James development.
+- UnboundedOperators UO-D06: the coercive solution of a shifted Hermitian form over
+  `[RCLike 𝕜]` and its identification at `𝕜 = ℝ` with Mathlib's
+  `IsCoercive.continuousLinearEquivOfBilin`; `closedFormOperator` with its graph
+  characterization `j u ∈ dom A ↔ ∃ h, ∀ v, a u v = inner h (j v)`, `A (j u) = h`; density,
+  closedness, lower bound, self-adjointness, both adjoint inclusions, the resolvent estimate
+  from shifted coercivity; the witness-independence lemma; the real-shift self-adjointness
+  criterion with its form-solution specialization (bounded symmetric inverse `S : H → H`); for a
+  real form, the identification of the complexified represented operator with the operator of
+  the complexified form; `realSpectralRestriction` and the restricted projection family
+  `P_R(B) = π_R ∘ P_{A_ℂ}(B) ∘ ι_H`.
+- GeneralizedCohomology G5.5-RealHilbert: the Hilbert complexification, its real inclusion
+  `ι_H`, conjugation `J`, completeness and the comparison with the Taylor-norm model.
+- SelfAdjointSpectralTheory SA-C39–SA-C43 (graph cores and graph-norm equivalence),
+  SA-C76–SA-C85 (form bounds), SA-D02 (`spectrum A` as the complement of the resolvent set),
+  SA-D17–SA-D22 (nonreal points are resolvent points, reality of the spectrum, quantitative
+  bound, real-point resolvent from a lower bound), SA-E01, SA-E03, SA-E05 (spectral PVM,
+  spectral projections, resolvent formula, over `ℂ`).
+- PolarDecomposition PD-A50–PD-A53.
 
 ## References
 

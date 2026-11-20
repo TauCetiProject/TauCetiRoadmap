@@ -1,48 +1,76 @@
 # Roadmap: stochastic calculus, Brownian motion and diffusions
 
-**Summary.** Build a usable theory of stochastic processes, continuous-time martingales, stochastic
-integration and finite-dimensional diffusions. The principal outputs are constructed Wiener
-laws and integrals, Itô and Stratonovich calculus, Brownian path and potential theory,
-Cameron–Martin and Girsanov changes of measure, martingale representation and time change,
-strong and weak SDEs, and probabilistic representations of deterministic PDEs. These outputs
-must have restriction, stopping, localization, congruence, naturality and integrability APIs;
-a predicate listing the desired properties is not a construction of the object.
+**Summary.** Almost every Brownian path is continuous but differentiable at no positive
+time. As partitions of [0,t] get finer, the sums of its squared increments converge in
+probability to t. Integrals against such paths need their own construction, and the chain rule
+gains a second-order term. This roadmap builds that calculus in Lean. It constructs Brownian
+motion and the stochastic integral, proves Itô's formula and the change-of-measure theorems, and
+ends with stochastic differential equations (SDEs) and their link with parabolic equations.
 
-[Suggested.lean](Suggested.lean) states headline acceptance signatures against the pinned
-APIs. The general vector, semimartingale, flow and diffusion targets have their mathematical
-specifications below, including constructions whose carriers are absent at the pins.
+Time is [0,∞), and every statement names its probability measure and filtration; the usual
+conditions are assumed only where a statement says so. The scalar integral is developed for real
+càdlàg locally square-integrable martingales, the main Itô and SDE theory for continuous ones.
+Vector martingales, Brownian noise and SDE states take values in finite-dimensional real
+inner-product spaces. A Brownian motion relative to a filtration is adapted, with increments
+independent of the past. Mathlib's Brownian predicate records only the laws and path continuity.
 
-The finite-dimensional Moore–Penrose inverse and its Penrose identities belong to
-[OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md).
-S10.2 owns measurable dependence on the diffusion matrix, regularization and
-stochastic noise reconstruction.
+Wiener measure, the law of Brownian motion on continuous paths, is built from the Gaussian
+finite-dimensional laws by a projective limit and the Kolmogorov–Chentsov theorem. The integral
+against a Brownian motion B relative to a filtration is a limit in probability of step-process
+integrals. If H is predictable and `∫_0^T H²ds` is finite almost surely for every T, the Itô
+integral `∫H dB` exists, has almost surely continuous paths and is a local martingale. It is
+unique up to indistinguishability: equality at all times outside one null set. If `E∫_0^T H²ds`
+is finite for every T, it is a martingale and `E[(∫_0^t H dB)²]=E∫_0^t H²ds`.
 
-## Scope and ownership
+For C² functions f, Itô's formula `f(B_t)=f(0)+∫_0^t f′(B)dB+½∫_0^t f″(B)ds` holds almost surely
+for all t at once; for f(x)=x² it gives `B_t²=2∫_0^t B dB+t`. Its general form treats functions,
+C² in several continuous local martingales and C¹ in continuous adapted processes of finite
+variation. For Brownian motion the Stratonovich chain rule has no second-order term. If h is C¹
+with primitive F, the sums `Σ½(h(B_{t_i})+h(B_{t_{i+1}}))(B_{t_{i+1}}−B_{t_i})` over partitions
+of [0,t] with vanishing mesh converge in probability to F(B_t)−F(B_0). Thus `∫_0^1 B∘dB=B_1²/2`
+has mean 1/2, whereas `∫_0^1 B dB` has mean 0.
 
-This roadmap owns continuous-time stochastic calculus and its finite-dimensional diffusion
-applications, from regularization and Wiener construction to stochastic integration, Brownian
-path theory, changes of measure and SDEs. Its jump example is the homogeneous Poisson
-counting process, owned here in Layer 0.6: the filtration-relative definition, existence,
-path regularization, jump times and waiting times, and (in Layers 2–4) its compensated
-martingales, counting-process compensator and brackets. MarkovChainsAndRenewal Layers 4 and 7
-own exponential renewal processes and the natural-history connections with Poisson processes,
-and nothing is consumed from them; the filtration here is arbitrary. General point processes,
-random measures and Poisson processes on general spaces are outside this roadmap.
-OrthogonalL2Bases Part D supplies Gaussian tensor bases. StandardDistributions §§8.1, 12.1–12.2 supplies the Bessel/sphere distribution
-identities. PDE Lanes C12 and C15 supply deterministic mean-value and subharmonic theory,
-OneParameterSemigroups Part A supplies C₀ generators and resolvents, and
-DifferentialGeometry §0.3 supplies differentials and pullbacks. The precise declarations
-consumed at the pins are recorded in Exact supplier contracts.
+Let θ be predictable with `∫_0^T θ²ds` finite almost surely for each T, and let
+`Z_T=exp(∫_0^T θ dB−½∫_0^T θ²ds)`. By Girsanov's theorem, if E[Z_T]=1, as Novikov's theorem
+gives when `exp(½∫_0^T θ²ds)` is integrable, then under the measure with density Z_T the process
+`B_t−∫_0^t θ ds` is a Brownian motion on [0,T] relative to the same filtration. For a continuous
+deterministic h on [0,T], the law of B+h on [0,T] is mutually absolutely continuous with that of
+B exactly when `h(t)=∫_0^t u ds` for some square-integrable u, and mutually singular otherwise.
+Thus h(t)=2t qualifies and h(t)=√t on [0,1] does not.
 
-Mathlib owns the vocabulary of measures, filtrations, native locality and Brownian laws;
-Tau Ceti's implemented submean inequality is used without a second construction. Stochastic
-chain rules, finite-measure harmonic boundary adapters and stochastic generator identification
-remain here. FinancialMathematics M0.1–M0.4 owns trading, assets and pricing; MarketImpact owns
-feedback market models. OptimalTransport §13C item 12 constructs its own finite-horizon
-Brownian path law `R^ε_r` on `C([0,1];ℝⁿ)` and owns its scaled reference and
-reciprocal-process/entropy theory; §1.2 here proves how the half-line Wiener laws restrict
-and scale to that law, and no dependency from OptimalTransport to this roadmap is asserted.
-General SPDEs and infinite-dimensional noise are outside this finite-dimensional roadmap.
+Let the scalar equation `dX=b(t,X)dt+σ(t,X)dB` have Borel coefficients, Lipschitz in x and of
+linear growth, with constants uniform on finite time intervals. A strong solution exists from
+every F₀-measurable initial value, with no moment assumption. Two solutions with the same
+initial value and noise are indistinguishable; this needs only the Lipschitz condition, which
+cannot be dropped: `dX=2√|X|dt` with X₀=0 is solved by 0 and by t². For a bounded Borel drift
+and unit diffusion, weak solutions exist and are unique in law. The Feynman–Kac formula
+`u(0,x)=E[exp(∫_0^T q(s,X_s)ds)u(T,X_T)]` holds for the solution X from x, bounded Borel q, and
+bounded C² u with bounded ∂ₓu solving `∂_t u+b∂_x u+½σ²∂_xx u+qu=0` on [0,T]×ℝ.
+
+Mathlib supplies the language of filtrations, localization and Brownian laws.
+[StandardDistributions](../StandardDistributions/README.md) supplies Poisson moments for the
+Poisson counting process, the roadmap's example with jumps, and the normalizers of its
+Bessel-process examples. The [PDE](../PDE/README.md) roadmap supplies the deterministic
+harmonic, Dirichlet and parabolic theory, and OneParameterSemigroups the generators and
+resolvents of strongly continuous semigroups. Downstream, FinancialMathematics uses the linear
+SDE with progressive coefficients and Gaussian exponential expectations.
+
+The eleven layers, described in the guide that follows, take these topics in order. Layer 6 also
+studies Brownian paths, including the strong Markov property, the law of the iterated logarithm
+and local time. Suggested.lean states the headline theorems in Lean, with proofs left open; the
+general semimartingale Itô formula and vector SDEs cannot be stated there and are specified in
+the layers.
+
+## How to read the build
+
+Layer 0 builds measurable process, stopping and augmentation adapters; Layer 1 constructs
+Wiener laws; Layer 2 regularizes and localizes martingales. Layer 3 constructs the integral,
+Layer 4 its brackets and maximal estimates, and Layer 5 the change-of-variables formulas.
+Layer 6 develops Brownian path and potential theory; Layers 7 and 8 develop clocks and
+changes of law. Layers 9 and 10 build SDEs and identify their diffusion generators and
+PDE representations. The direct Brownian integral uses Layers 0–1 and elementary conditional
+orthogonality, independently of Layer 2.5's Doob–Meyer theorem. Labels S0–S10 in internal
+references denote these same layers.
 
 ## Conventions
 
@@ -90,164 +118,6 @@ General SPDEs and infinite-dimensional noise are outside this finite-dimensional
   regularity are the final Itô target; a C³ bounded-derivative proof is a lemma on its route.
 - Where a target cites "the source" with a page, lemma or theorem number and no other name,
   the source is the MATH5695 outline notes listed in References.
-
-## Exact supplier contracts
-
-Consume the following native APIs and supplier construction targets. A roadmap contract specifies
-work to build; only the entries explicitly identified as native assert an implemented declaration.
-
-- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md)
-  PD-C19–PD-C27 supplies the finite-dimensional Moore–Penrose inverse `A⁺`, the four
-  Penrose equations, its uniqueness, adjoint compatibility and the injective, surjective
-  and invertible cases; it states no range-projection identity. S10.2 consumes this
-  inverse, derives from PD-C19 that `AA⁺` and `A⁺A` are the orthogonal projections onto
-  `ran A` and `(ker A)⊥` (self-adjoint idempotents whose ranges are fixed by `AA⁺A = A`
-  and `A⁺AA⁺ = A⁺`), and owns its Borel dependence on varying matrices, the regularized
-  approximation and the stochastic reconstruction, including rank changes.
-- Measure theory already supplies `Measure`, `Measure.map`, `withDensity`, RN and Lebesgue
-  decomposition, product measures, kernels/disintegration, completion, Bochner integration,
-  Fubini/Tonelli and convergence theorems. `MemLp`, `Lp`, `UniformIntegrable`,
-  `TendstoInMeasure`, conditional expectation including `condExpL2`, orthogonal projection,
-  tower/order/contraction and independence/tail zero–one are existing foundations.
-  `MeasureTheory.tendsto_ae_condExp_iInf` in
-  `TauCeti/Probability/Martingale/Convergence.lean` supplies reverse-martingale convergence.
-  `TauCeti.Probability.centralMoment_id_two_mul_gaussianReal` in
-  `TauCeti/Probability/Distributions/Gaussian/Moments.lean` supplies even Gaussian moments,
-  including the sixth moment. Completed/OrthogonalL2Bases Part D already supplies
-  `TauCeti.gaussianHermitePiBasis` from
-  `TauCeti/Probability/Distributions/Gaussian/Hermite/Pi/Basis.lean`, the generic
-  `TauCeti.piHilbertBasis` from `TauCeti/Analysis/InnerProductSpace/L2/Pi.lean`, and the finite-product
-  Hilbert-basis construction; consume those APIs rather than rebuilding a Gaussian product
-  basis. S6.1 owns only the normalized Brownian-increment-law pullback, finite-grid
-  sigma-field L² isometry, and dyadic density adapters.
-- Native [`BoundedVariationOn.vectorMeasure`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/VectorMeasure/BoundedVariation.lean)
-  supplies a finite-variation vector measure from a globally BV function, with interval,
-  singleton and variation formulas. Native [`VectorMeasure.integral`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/VectorMeasure/Integral.lean)
-  integrates against vector measures through a continuous bilinear pairing; its domain is L¹
-  of the variation measure. The native [BV integration-by-parts API](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/VectorMeasure/IntegrationByParts.lean)
-  supplies the left-/right-limit formulas. S0.0 builds the finite-horizon and endpoint adapters;
-  S3.5 proves random-measure measurability and agreement with stochastic integration.
-- `Probability/BrownianMotion/{GaussianProjectiveFamily,Basic}.lean` supplies
-  `BrownianReal.projectiveFamily`, its projectivity, `IsPreBrownianReal`, `IsBrownianReal`,
-  Gaussian laws/covariances, independent increments, signs/scaling/shifts and deterministic
-  past–future independence. The inverse-process law theorem is pre-Brownian; S1.4
-  constructs its continuous inversion dictionary and infinity limit.
-- Countable projective existence is already
-  `TauCeti.Measure.exists_isProjectiveLimit_nat` and `exists_isProjectiveLimit_of_countable`.
-  Mathlib's `Kernel.trajMeasure` and `TauCeti.Probability.markovChainLaw` give
-  Ionescu–Tulcea/Markov-chain construction. Use them. General arbitrary-index extension is
-  built only as its own named theorem in S1; it is not required to delay the countable-rational
-  Brownian construction.
-- Filtration/right-continuous hull, adapted/progressive/predictable definitions, stopping sigma
-  algebra, `stoppedProcess`, `stoppedValue`, `hittingAfter`/`hittingBtwn` and localization
-  framework already exist. Native `IsStronglyProgressive.stoppedProcess` assumes a strongly
-  progressive input and a stopping time, with a pseudometrizable time index and the ambient
-  order/topology hypotheses. The native hitting-time stopping theorems assume a countable,
-  conditionally complete linearly ordered, well-founded time index, an adapted process and
-  a measurable target. Real-time hitting/debut is the additional theory in S0. Native
-  predictable-to-strongly-progressive conversion uses its linear-order, bottom, measurable
-  open-set and order-closed-topology hypotheses.
-- General-index martingale definitions and discrete upcrossings, convergence, maximal
-  inequalities and optional sampling exist. Countable-range optional sampling is useful for
-  dyadic approximation. Versions requiring countable index or locally finite order do not
-  already prove arbitrary real-time sampling. `Integrable.tendsto_ae_condExp` requires
-  measurability in the supremum sigma algebra; the unrestricted limit is conditional
-  expectation onto that sigma algebra.
-- [StandardDistributions](../StandardDistributions/README.md) owns scalar Gaussian/Poisson/
-  exponential/CDF and distribution families, the modified Bessel function `Real.besselI`
-  with its series, recurrence and positivity API (§8.1), the sphere surface mass (§12.1)
-  and the spherical exponential integral as the von Mises–Fisher normalizer (§12.2). Add connecting Gaussian moment/path-integral
-  lemmas here, not duplicate law definitions.
-- Mathlib's `poissonMeasure` in `Probability/Distributions/Poisson/Basic.lean` supplies the
-  Poisson laws on `ℕ`, with `poissonMeasure_conv_poissonMeasure` (convolution adds rates) and
-  `IndepFun.hasLaw_add_map_cast_poissonMeasure` (independent real-valued Poisson variables add
-  to a Poisson variable). StandardDistributions Layer 1 supplies the Poisson mean and variance
-  `r`, and Layer 2 the Poisson-tail identity `P(X>n)=G_{n+1}(r)` with the regularized lower
-  incomplete gamma function. S0.6 owns the filtration-relative homogeneous Poisson counting
-  process built on these laws, its existence through Tau Ceti's countable projective-limit
-  theorem, its regularization, jump times and waiting-time law; S2.1, S2.5, S3.5 and S4.4 own
-  its martingales, compensator, pathwise integral and brackets. A Poisson marginal law alone
-  does not imply adaptation to an external filtration or independence of future increments.
-- [PDE](../PDE/README.md) owns deterministic elliptic/parabolic regularity, Dirichlet,
-  maximum principles and heat kernels. [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md)
-  owns generic C₀ generators/Hille–Yosida/resolvents; S10 supplies stochastic Markov/Feller
-  and generator-identification theorems. [DifferentialGeometry](../DifferentialGeometry/README.md)
-  supplies the smooth-map differential and coordinate-change interfaces consumed by S5.1 and
-  the geometric S10 applications; SC owns the stochastic chain-rule and localization adapters.
-  [OptimalTransport §13C](../OptimalTransport/README.md) item 12 constructs its own
-  finite-path-space reference `R^ε_r` on `C([0,1];ℝⁿ)` with its transition density and
-  generator, and owns disintegration, reciprocal-process and entropy/Schrödinger-bridge
-  targets; it consumes nothing from this roadmap. S1.2 proves the comparison of its
-  half-line Wiener laws with that reference by restriction and scaling.
-  General SPDEs and infinite-dimensional noise are outside this finite-dimensional
-  roadmap.
-
-### From Tau Ceti: submean inequality
-
-`TauCeti.le_setAverage_ball_of_laplacian_nonneg` in
-`TauCeti/Analysis/InnerProductSpace/Harmonic/MeanValue/Basic.lean` takes C² regularity
-on a ball, continuity on its closed ball, a nonnegative Laplacian on the ball and a
-strictly positive radius. It gives the center-to-ball-average inequality. The real
-finite-dimensional inner-product, Borel and Haar-measure hypotheses are retained.
-`TauCeti.SubharmonicOn` in `TauCeti/Analysis/InnerProductSpace/Harmonic/Subharmonic.lean`
-means continuity and frequent positive small-radius submean inequalities; it does not
-mean an extended-real upper-semicontinuous subharmonic function.
-
-### External implementation designs
-
-Shape ports to their source APIs and Mathlib's designs, preserve licenses/authors and record
-immutable provenance. Inspect theorem hypotheses and axiom dependency closures before treating
-an implementation as a supplier. Read the authors' public coordination threads; record the
-port/adaptation boundaries in implementation documentation. Obtain the authors’ agreement
-before integrating their code. If coordination is impossible, verify the copying/adaptation
-license and discuss the plan on Lean Zulip before integration, as required by the repository
-policy. These sources determine shape,
-not timing: build the required proofs here and replace compatible portions with imports when
-Mathlib supplies them.
-
-- [BrownianMotion](https://github.com/RemyDegenne/brownian-motion), commit
-  `a7ad7af662044313bc80a7c0756360fb3745f931`, supplies Kolmogorov–Chentsov, continuous
-  modifications, Brownian/Wiener construction, filtered Brownian adapters and useful
-  martingale infrastructure. Its LIL reflection/tail lemmas and some Doob–Meyer/local
-  branches contain holes; discharge those dependencies. Its `IsStochasticIntegral`
-  characterization is not a constructed integral. Adopt its genuine constructions and
-  localization vocabulary, not a blanket completion claim. Source headers credit
-  Rémy Degenne/Joris van Winden and specify Apache 2.0; retain file-level credits.
-- [MathFin](https://github.com/formal-applied-math/formal-mathfin), commit
-  `c0180c8d354e479fd9b59c5eb0126c95c2750b42`, has Brownian predictable L² completion,
-  genuine Itô CLMs/process constructors, finite-horizon bounded predictable Girsanov and a scalar
-  short-time L² Picard fixed point. Port those proofs with exact filtration/representative
-  adapters. Its C³ bounded-derivative limit theorem is not the final C²/local/vector formula,
-  and its fixed point is not by itself a global pathwise SDE theorem. Source headers
-  credit Raphael Coelho and specify Apache 2.0; verify the exact copied-file license.
-- [MarkovProcess](https://github.com/scottnarmstrong/MarkovProcess), commit
-  `666cda029098a1106914fc9fa7abd1727573284a`, has kernel/trajectory/Feller/restart/Dynkin
-  constructions. Its strong Markov theorem uses the raw canonical filtration, and its
-  `IsBrownianReal` is a project-specific predicate. Prove adapters to Mathlib's predicate and
-  the required filtration, and verify the relevant dependency closure. Do not import challenge placeholders as proof. Headers credit Scott Armstrong
-  and specify Apache 2.0; verify the copied-file license and preserve credits.
-- The Mathlib Gaussian Cameron–Martin proposal, reviewed at mathlib4 commit
-  `7282fd08af0c282368db7e08cd7635f3be769e85`, defines `cameronMartin`, `cmCoe`,
-  `cmOfDual`, `cmOfBounded` and `map_add_cameronMartin_eq_withDensity`. Follow its Gaussian
-  RKHS/translation shape. Its temporary total-variation lemmas in the singularity branch
-  require real proofs or existing replacements. S8 owns the Wiener AC–L² identification and
-  deterministic stochastic-integral coordinate, not a competing Gaussian RKHS convention.
-- The Mathlib Brownian germ proposal, reviewed at mathlib4 commit
-  `be99340ad561c51c674d8705ff559696736e057b`, informs the Brownian germ zero–one design.
-  These proposal branches are design references; implement the missing germ and Gaussian
-  translation APIs in Tau Ceti using their conventions. For collaboration and design
-  discussion, consult the [Brownian project channel](https://leanprover.zulipchat.com/#narrow/channel/509433-Brownian-motion).
-
-## How to read the build
-
-Layer 0 builds measurable process, stopping and augmentation adapters; Layer 1 constructs
-Wiener laws; Layer 2 regularizes and localizes martingales. Layer 3 constructs the integral,
-Layer 4 its brackets and maximal estimates, and Layer 5 the change-of-variables formulas.
-Layer 6 develops Brownian path and potential theory; Layers 7 and 8 develop clocks and
-changes of law. Layers 9 and 10 build SDEs and identify their diffusion generators and
-PDE representations. The direct Brownian integral uses Layers 0–1 and elementary conditional
-orthogonality, independently of Layer 2.5's Doob–Meyer theorem. Labels S0–S10 in internal
-references denote these same layers.
 
 ## Layer 0: Process spaces, usual filtrations and stopping
 
@@ -3780,6 +3650,180 @@ zero-volatility asset remains an instance of the generic linear SDE. MarketImpac
 uses these financial contracts. OptimalTransport §13C item 12 constructs its own
 Brownian reference `R^ε_r` and consumes nothing here; §1.2's comparison of the half-line
 Wiener laws with that reference is this roadmap's, not a dependency of OptimalTransport.
+
+## Scope and ownership
+
+This roadmap owns continuous-time stochastic calculus and its finite-dimensional diffusion
+applications, from regularization and Wiener construction to stochastic integration, Brownian
+path theory, changes of measure and SDEs. Its jump example is the homogeneous Poisson
+counting process, owned here in Layer 0.6: the filtration-relative definition, existence,
+path regularization, jump times and waiting times, and (in Layers 2–4) its compensated
+martingales, counting-process compensator and brackets. MarkovChainsAndRenewal Layers 4 and 7
+own exponential renewal processes and the natural-history connections with Poisson processes,
+and nothing is consumed from them; the filtration here is arbitrary. General point processes,
+random measures and Poisson processes on general spaces are outside this roadmap.
+OrthogonalL2Bases Part D supplies Gaussian tensor bases. StandardDistributions §§8.1, 12.1–12.2 supplies the Bessel/sphere distribution
+identities. PDE Lanes C12 and C15 supply deterministic mean-value and subharmonic theory,
+OneParameterSemigroups Part A supplies C₀ generators and resolvents, and
+DifferentialGeometry §0.3 supplies differentials and pullbacks. The precise declarations
+consumed at the pins are recorded in Exact supplier contracts.
+
+Mathlib owns the vocabulary of measures, filtrations, native locality and Brownian laws;
+Tau Ceti's implemented submean inequality is used without a second construction. Stochastic
+chain rules, finite-measure harmonic boundary adapters and stochastic generator identification
+remain here. FinancialMathematics M0.1–M0.4 owns trading, assets and pricing; MarketImpact owns
+feedback market models. OptimalTransport §13C item 12 constructs its own finite-horizon
+Brownian path law `R^ε_r` on `C([0,1];ℝⁿ)` and owns its scaled reference and
+reciprocal-process/entropy theory; §1.2 here proves how the half-line Wiener laws restrict
+and scale to that law, and no dependency from OptimalTransport to this roadmap is asserted.
+General SPDEs and infinite-dimensional noise are outside this finite-dimensional roadmap.
+
+## Exact supplier contracts
+
+Consume the following native APIs and supplier construction targets. A roadmap contract specifies
+work to build; only the entries explicitly identified as native assert an implemented declaration.
+
+- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md)
+  PD-C19–PD-C27 supplies the finite-dimensional Moore–Penrose inverse `A⁺`, the four
+  Penrose equations, its uniqueness, adjoint compatibility and the injective, surjective
+  and invertible cases; it states no range-projection identity. S10.2 consumes this
+  inverse, derives from PD-C19 that `AA⁺` and `A⁺A` are the orthogonal projections onto
+  `ran A` and `(ker A)⊥` (self-adjoint idempotents whose ranges are fixed by `AA⁺A = A`
+  and `A⁺AA⁺ = A⁺`), and owns its Borel dependence on varying matrices, the regularized
+  approximation and the stochastic reconstruction, including rank changes.
+- Measure theory already supplies `Measure`, `Measure.map`, `withDensity`, RN and Lebesgue
+  decomposition, product measures, kernels/disintegration, completion, Bochner integration,
+  Fubini/Tonelli and convergence theorems. `MemLp`, `Lp`, `UniformIntegrable`,
+  `TendstoInMeasure`, conditional expectation including `condExpL2`, orthogonal projection,
+  tower/order/contraction and independence/tail zero–one are existing foundations.
+  `MeasureTheory.tendsto_ae_condExp_iInf` in
+  `TauCeti/Probability/Martingale/Convergence.lean` supplies reverse-martingale convergence.
+  `TauCeti.Probability.centralMoment_id_two_mul_gaussianReal` in
+  `TauCeti/Probability/Distributions/Gaussian/Moments.lean` supplies even Gaussian moments,
+  including the sixth moment. Completed/OrthogonalL2Bases Part D already supplies
+  `TauCeti.gaussianHermitePiBasis` from
+  `TauCeti/Probability/Distributions/Gaussian/Hermite/Pi/Basis.lean`, the generic
+  `TauCeti.piHilbertBasis` from `TauCeti/Analysis/InnerProductSpace/L2/Pi.lean`, and the finite-product
+  Hilbert-basis construction; consume those APIs rather than rebuilding a Gaussian product
+  basis. S6.1 owns only the normalized Brownian-increment-law pullback, finite-grid
+  sigma-field L² isometry, and dyadic density adapters.
+- Native [`BoundedVariationOn.vectorMeasure`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/VectorMeasure/BoundedVariation.lean)
+  supplies a finite-variation vector measure from a globally BV function, with interval,
+  singleton and variation formulas. Native [`VectorMeasure.integral`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/VectorMeasure/Integral.lean)
+  integrates against vector measures through a continuous bilinear pairing; its domain is L¹
+  of the variation measure. The native [BV integration-by-parts API](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/MeasureTheory/VectorMeasure/IntegrationByParts.lean)
+  supplies the left-/right-limit formulas. S0.0 builds the finite-horizon and endpoint adapters;
+  S3.5 proves random-measure measurability and agreement with stochastic integration.
+- `Probability/BrownianMotion/{GaussianProjectiveFamily,Basic}.lean` supplies
+  `BrownianReal.projectiveFamily`, its projectivity, `IsPreBrownianReal`, `IsBrownianReal`,
+  Gaussian laws/covariances, independent increments, signs/scaling/shifts and deterministic
+  past–future independence. The inverse-process law theorem is pre-Brownian; S1.4
+  constructs its continuous inversion dictionary and infinity limit.
+- Countable projective existence is already
+  `TauCeti.Measure.exists_isProjectiveLimit_nat` and `exists_isProjectiveLimit_of_countable`.
+  Mathlib's `Kernel.trajMeasure` and `TauCeti.Probability.markovChainLaw` give
+  Ionescu–Tulcea/Markov-chain construction. Use them. General arbitrary-index extension is
+  built only as its own named theorem in S1; it is not required to delay the countable-rational
+  Brownian construction.
+- Filtration/right-continuous hull, adapted/progressive/predictable definitions, stopping sigma
+  algebra, `stoppedProcess`, `stoppedValue`, `hittingAfter`/`hittingBtwn` and localization
+  framework already exist. Native `IsStronglyProgressive.stoppedProcess` assumes a strongly
+  progressive input and a stopping time, with a pseudometrizable time index and the ambient
+  order/topology hypotheses. The native hitting-time stopping theorems assume a countable,
+  conditionally complete linearly ordered, well-founded time index, an adapted process and
+  a measurable target. Real-time hitting/debut is the additional theory in S0. Native
+  predictable-to-strongly-progressive conversion uses its linear-order, bottom, measurable
+  open-set and order-closed-topology hypotheses.
+- General-index martingale definitions and discrete upcrossings, convergence, maximal
+  inequalities and optional sampling exist. Countable-range optional sampling is useful for
+  dyadic approximation. Versions requiring countable index or locally finite order do not
+  already prove arbitrary real-time sampling. `Integrable.tendsto_ae_condExp` requires
+  measurability in the supremum sigma algebra; the unrestricted limit is conditional
+  expectation onto that sigma algebra.
+- [StandardDistributions](../StandardDistributions/README.md) owns scalar Gaussian/Poisson/
+  exponential/CDF and distribution families, the modified Bessel function `Real.besselI`
+  with its series, recurrence and positivity API (§8.1), the sphere surface mass (§12.1)
+  and the spherical exponential integral as the von Mises–Fisher normalizer (§12.2). Add connecting Gaussian moment/path-integral
+  lemmas here, not duplicate law definitions.
+- Mathlib's `poissonMeasure` in `Probability/Distributions/Poisson/Basic.lean` supplies the
+  Poisson laws on `ℕ`, with `poissonMeasure_conv_poissonMeasure` (convolution adds rates) and
+  `IndepFun.hasLaw_add_map_cast_poissonMeasure` (independent real-valued Poisson variables add
+  to a Poisson variable). StandardDistributions Layer 1 supplies the Poisson mean and variance
+  `r`, and Layer 2 the Poisson-tail identity `P(X>n)=G_{n+1}(r)` with the regularized lower
+  incomplete gamma function. S0.6 owns the filtration-relative homogeneous Poisson counting
+  process built on these laws, its existence through Tau Ceti's countable projective-limit
+  theorem, its regularization, jump times and waiting-time law; S2.1, S2.5, S3.5 and S4.4 own
+  its martingales, compensator, pathwise integral and brackets. A Poisson marginal law alone
+  does not imply adaptation to an external filtration or independence of future increments.
+- [PDE](../PDE/README.md) owns deterministic elliptic/parabolic regularity, Dirichlet,
+  maximum principles and heat kernels. [OneParameterSemigroups](../../Completed/OneParameterSemigroups/README.md)
+  owns generic C₀ generators/Hille–Yosida/resolvents; S10 supplies stochastic Markov/Feller
+  and generator-identification theorems. [DifferentialGeometry](../DifferentialGeometry/README.md)
+  supplies the smooth-map differential and coordinate-change interfaces consumed by S5.1 and
+  the geometric S10 applications; SC owns the stochastic chain-rule and localization adapters.
+  [OptimalTransport §13C](../OptimalTransport/README.md) item 12 constructs its own
+  finite-path-space reference `R^ε_r` on `C([0,1];ℝⁿ)` with its transition density and
+  generator, and owns disintegration, reciprocal-process and entropy/Schrödinger-bridge
+  targets; it consumes nothing from this roadmap. S1.2 proves the comparison of its
+  half-line Wiener laws with that reference by restriction and scaling.
+  General SPDEs and infinite-dimensional noise are outside this finite-dimensional
+  roadmap.
+
+### From Tau Ceti: submean inequality
+
+`TauCeti.le_setAverage_ball_of_laplacian_nonneg` in
+`TauCeti/Analysis/InnerProductSpace/Harmonic/MeanValue/Basic.lean` takes C² regularity
+on a ball, continuity on its closed ball, a nonnegative Laplacian on the ball and a
+strictly positive radius. It gives the center-to-ball-average inequality. The real
+finite-dimensional inner-product, Borel and Haar-measure hypotheses are retained.
+`TauCeti.SubharmonicOn` in `TauCeti/Analysis/InnerProductSpace/Harmonic/Subharmonic.lean`
+means continuity and frequent positive small-radius submean inequalities; it does not
+mean an extended-real upper-semicontinuous subharmonic function.
+
+### External implementation designs
+
+Shape ports to their source APIs and Mathlib's designs, preserve licenses/authors and record
+immutable provenance. Inspect theorem hypotheses and axiom dependency closures before treating
+an implementation as a supplier. Read the authors' public coordination threads; record the
+port/adaptation boundaries in implementation documentation. Obtain the authors’ agreement
+before integrating their code. If coordination is impossible, verify the copying/adaptation
+license and discuss the plan on Lean Zulip before integration, as required by the repository
+policy. These sources determine shape,
+not timing: build the required proofs here and replace compatible portions with imports when
+Mathlib supplies them.
+
+- [BrownianMotion](https://github.com/RemyDegenne/brownian-motion), commit
+  `a7ad7af662044313bc80a7c0756360fb3745f931`, supplies Kolmogorov–Chentsov, continuous
+  modifications, Brownian/Wiener construction, filtered Brownian adapters and useful
+  martingale infrastructure. Its LIL reflection/tail lemmas and some Doob–Meyer/local
+  branches contain holes; discharge those dependencies. Its `IsStochasticIntegral`
+  characterization is not a constructed integral. Adopt its genuine constructions and
+  localization vocabulary, not a blanket completion claim. Source headers credit
+  Rémy Degenne/Joris van Winden and specify Apache 2.0; retain file-level credits.
+- [MathFin](https://github.com/formal-applied-math/formal-mathfin), commit
+  `c0180c8d354e479fd9b59c5eb0126c95c2750b42`, has Brownian predictable L² completion,
+  genuine Itô CLMs/process constructors, finite-horizon bounded predictable Girsanov and a scalar
+  short-time L² Picard fixed point. Port those proofs with exact filtration/representative
+  adapters. Its C³ bounded-derivative limit theorem is not the final C²/local/vector formula,
+  and its fixed point is not by itself a global pathwise SDE theorem. Source headers
+  credit Raphael Coelho and specify Apache 2.0; verify the exact copied-file license.
+- [MarkovProcess](https://github.com/scottnarmstrong/MarkovProcess), commit
+  `666cda029098a1106914fc9fa7abd1727573284a`, has kernel/trajectory/Feller/restart/Dynkin
+  constructions. Its strong Markov theorem uses the raw canonical filtration, and its
+  `IsBrownianReal` is a project-specific predicate. Prove adapters to Mathlib's predicate and
+  the required filtration, and verify the relevant dependency closure. Do not import challenge placeholders as proof. Headers credit Scott Armstrong
+  and specify Apache 2.0; verify the copied-file license and preserve credits.
+- The Mathlib Gaussian Cameron–Martin proposal, reviewed at mathlib4 commit
+  `7282fd08af0c282368db7e08cd7635f3be769e85`, defines `cameronMartin`, `cmCoe`,
+  `cmOfDual`, `cmOfBounded` and `map_add_cameronMartin_eq_withDensity`. Follow its Gaussian
+  RKHS/translation shape. Its temporary total-variation lemmas in the singularity branch
+  require real proofs or existing replacements. S8 owns the Wiener AC–L² identification and
+  deterministic stochastic-integral coordinate, not a competing Gaussian RKHS convention.
+- The Mathlib Brownian germ proposal, reviewed at mathlib4 commit
+  `be99340ad561c51c674d8705ff559696736e057b`, informs the Brownian germ zero–one design.
+  These proposal branches are design references; implement the missing germ and Gaussian
+  translation APIs in Tau Ceti using their conventions. For collaboration and design
+  discussion, consult the [Brownian project channel](https://leanprover.zulipchat.com/#narrow/channel/509433-Brownian-motion).
 
 ## References
 

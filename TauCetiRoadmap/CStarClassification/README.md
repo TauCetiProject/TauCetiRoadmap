@@ -1,76 +1,62 @@
 # Roadmap: classification of AF and purely infinite simple C*-algebras
 
-**Summary.** Two classification theories are built with their construction, existence and
-uniqueness results: AF algebras by scaled ordered K₀ (Elliott), and Kirchberg algebras by
-KK-equivalence (Kirchberg–Phillips), with the K-theoretic specialization under the universal
-coefficient theorem. From the C*-algebra, Hilbert-module, K-theory and crossed-product
-foundations of the operator-algebra family, the roadmap develops the approximation and
-intertwining methods (Layer 1), AF structure theory (Layer 2), dimension groups, scales, traces
-and UHF algebras (Layer 3), pure infiniteness and projection comparison (Layer 4), sequence
-algebras, O₂ uniqueness and the exact embedding theorem (Layer 5), tensor absorption by O₂ and
-O∞ (Layer 6), full homomorphisms and the homomorphism picture of KK (Layer 7), and the
-classification, automorphism and range theorems with the Cuntz-algebra examples (Layer 8). The
-end theorems are Elliott's classification of AF algebras by `(K₀(A),K₀(A)⁺,Σ(A))` with the
-scaled range theorem, Glimm's classification of UHF algebras, Kirchberg's exact embedding
-theorem `A ↪ O₂`, the absorption theorems `A⊗O₂≅O₂` and `A≅A⊗O∞`, Phillips's homomorphism
-theorem and the Kirchberg–Phillips classification of Kirchberg algebras with its UCT form.
+**Summary.** To classify a family of C*-algebras is to find an invariant that decides when two
+members are isomorphic, and to determine which values it takes. This roadmap does so for AF
+algebras and for Kirchberg algebras, with invariants from K-theory and KK-theory. All algebras are
+complex C*-algebras.
 
-## Scope and ownership
+An AF algebra is the closure of an increasing sequence of finite-dimensional C*-subalgebras;
+nonunital algebras and the zero algebra are included. Its invariant is the ordered group K₀(A)
+together with the scale Σ(A), the set of classes of projections in A itself rather than in matrix
+algebras over A. By Elliott's theorem every isomorphism of these scaled ordered groups is induced
+by a *-isomorphism, so the invariant classifies AF algebras. For instance M₂ and M₃ have the same
+ordered group ℤ but the scales `{0,1,2}` and `{0,1,2,3}`, and are not isomorphic. Maps are
+classified too. Every homomorphism of K₀-groups carrying scale into scale is induced by
+a *-homomorphism, unique up to approximate unitary equivalence (conjugation by unitaries, up to
+any error on finite sets) with unitaries in the unitization of the target.
 
-This roadmap owns: approximate and asymptotic unitary equivalence of *-homomorphisms and
-Elliott's approximate intertwining (Layer 1); the structure, permanence and K₀-classification of
-AF algebras (Layer 2); dimension groups, the Effros–Handelman–Shen theorem, scales, the scaled
-range theorem, the ideal and trace theory of AF algebras and UHF algebras with Glimm's
-classification (Layer 3); Cuntz subequivalence, infinite and properly infinite projections,
-purely infinite simple algebras, the slice lemma and Kirchberg's tensor criterion, Zhang's
-dichotomy and the corner embeddings of O₂ and O∞ (Layer 4); norm sequence algebras and
-ultrapowers, O₂ uniqueness, `O₂⊗O₂≅O₂` and the exact embedding theorem with its translation
-crossed-product proof (Layer 5); O₂ and O∞ absorption and central-sequence absorption
-(Layer 6); full homomorphisms, Cuntz sums, full asymptotic morphisms, Phillips's deformation
-theorem, the homomorphism picture of KK and the homomorphism theorem (Layer 7); the
-Kirchberg–Phillips classification, the automorphism theorem, the range theorem through the KK
-telescope and the Cuntz-algebra computations (Layer 8).
+Dimension groups are the partially ordered abelian groups that are directed, unperforated and have
+Riesz interpolation. By the Effros–Handelman–Shen theorem, the countable ones are exactly the
+sequential limits, along positive maps, of the groups ℤʳ ordered by ℕʳ. The scaled range theorem
+realizes every countable dimension group with a scale as the invariant of an AF algebra, unique up
+to isomorphism. The UHF algebras are the nonzero unital limits of full matrix algebras along unital
+maps. Their invariant is a supernatural number, the formal least common multiple of the matrix
+sizes. By Glimm's classification, two UHF algebras are isomorphic exactly when these agree. A
+unital *-homomorphism from one into another exists exactly when the first number divides the
+second.
 
-The layers carry the labels CL1–CL8 (Layer k is CLk) under which other roadmaps cite them:
-OperatorAlgebraDynamics D2 and D6 name CL5 and this roadmap's AF classification,
-AlgebraicTopology Stage 6.0 names CL8, and TemperleyLiebOperatorAlgebras names CL2.
+A Kirchberg algebra is a nonzero separable nuclear simple C*-algebra that is purely infinite: every
+nonzero hereditary subalgebra contains an infinite projection. Unitality, stability and the
+universal coefficient theorem (UCT) are never implicit in that name. By the Kirchberg–Phillips
+theorem, for stable Kirchberg algebras A and B every invertible element of Kasparov's group KK(A,B)
+is induced by a *-isomorphism; for unital ones, every invertible element sending `[1_A]` to `[1_B]`
+is. For Kirchberg algebras in the bootstrap class, those satisfying the UCT, stable isomorphism is
+equivalent to an isomorphism of the K-groups (K₀, K₁), and unital ones are isomorphic exactly when
+some such isomorphism preserves the unit class. For any countable abelian groups G₀ and G₁ and any
+g ∈ G₀, some unital UCT Kirchberg algebra has K₀ = G₀ with unit class g and K₁ = G₁.
 
-Left to named roadmaps, and imported rather than planned here:
+The roadmap builds on OperatorKTheory for K-theory, KK-theory and the UCT, and decides here which
+algebras these invariants tell apart. CStarAlgebras provides inductive limits, nuclearity and
+exactness. OperatorAlgebraDynamics provides the Cuntz algebras `O_n` and the CAR algebra.
+TemperleyLiebOperatorAlgebras uses the second layer's presentations of AF algebras.
 
-- CStarAlgebras C1–C2 own hereditary subalgebras, closed ideals, corners, multiplier algebras
-  and representations; C5 owns bounded products, c₀ sums, their quotients and C*-inductive
-  limits; C6–C7 own nuclearity, exactness and the Choi–Effros lifting theorem; C8 owns
-  quasidiagonality; C9 owns the norm stability of matrix-unit relations, finite-dimensional
-  approximate intertwining, Voiculescu's homotopy invariance of quasidiagonality with the cone
-  theorem, and the analytic AF-embedding theorem, which is independent of classification and
-  stays there.
-- HilbertModules H1–H4 own compact module operators, stabilization, full corners and strong
-  Morita equivalence; its H3 definition of type I (every irreducible image contains the compact
-  operators) is the one used in Kirchberg's tensor criterion (§4.4).
-- OperatorKTheory K1–K3 own projections, `K₀`, `K₁`, continuity, exactness and Bott periodicity;
-  K5–K6 own KK, the Kasparov product and semisplit exactness; K7 owns the Cuntz algebras `O_n`,
-  `O∞` and the Toeplitz–Cuntz algebras `E_n` with their K-groups and unit classes; K8 owns the
-  bootstrap class, the UCT condition, countable free resolutions and the KK-equivalence `ℂ→O∞`;
-  K9 owns asymptotic morphisms, E-theory and its universal property. Which *-isomorphism classes
-  the invariants distinguish is decided here, not there.
-- OperatorAlgebraDynamics D1–D4 own crossed products and duality, including the
-  coefficient-tensor identification for `G=ℤ`; D6 owns the universal models of `O_n` with their
-  simplicity and nuclearity; D8 owns the CAR algebra and its matrix-limit presentation.
-- VonNeumannAlgebras, *C*-algebra and state prerequisites* and *Type I and finite-dimensional
-  algebras*, own the faithful direct-sum representation of a C*-algebra, matrix units from
-  orthogonal equivalent projections and the finite-dimensional matrix-block decomposition with
-  its inclusion matrices. CStarAlgebras C9 supplies the norm perturbation theory; tracial L²
-  perturbation is a different result and is not used.
-- AlgebraicTopology Stage 6.0 owns the generic lim and lim¹ of countable inverse systems with
-  their functoriality and vanishing; the KK telescope and its Milnor sequence are targets here
-  (§8.6).
-- Tau Ceti owns supernatural numbers (`TauCeti.Supernatural`); the UHF invariant is a value in
-  that type (§3.5).
+The eight layers below are in build order. The first sets up the equivalence relations on maps,
+classifies maps between finite-dimensional algebras, and develops finite-dimensional
+semiprojectivity and projection cancellation. It ends with Elliott's intertwining theorem: for
+separable unital algebras, *-homomorphisms A → B and B → A whose composites are approximately
+unitarily equivalent to the identities yield an isomorphism A ≅ B. The second proves the structure,
+permanence and K₀-classification of AF algebras, starting from Bratteli's local characterization.
+The third treats ordered groups and their scales, the ideals and traces of AF algebras, and UHF
+algebras.
 
-Outside scope: classification of nonsimple purely infinite algebras, classification of group
-actions, stably finite algebras beyond AF (in particular Z-stable classification and the Cuntz
-semigroup as a classifying invariant), and any assertion that every nuclear C*-algebra satisfies
-the UCT.
+The last five layers use the first three only through the first layer's equivalence relations
+and intertwining. The fourth develops projection comparison and pure
+infiniteness, up to Kirchberg's tensor criterion and the embeddings of O₂ and O∞ into corners. The
+fifth builds sequence algebras and uniqueness theorems for O₂, and proves Kirchberg's theorem that
+a separable C*-algebra embeds in O₂ exactly when it is exact. The sixth proves the absorption
+theorems for tensor products with O₂ and O∞. The seventh builds full homomorphisms and a picture of
+KK by homomorphisms, up to Phillips's homomorphism theorem. The eighth proves the classification
+with its automorphism and range theorems, and works out the Cuntz-algebra examples.
 
 ## Conventions
 
@@ -104,96 +90,6 @@ target B (`ApproximatelyUnitarilyEquivalent` in `Suggested.lean`), in the multip
 `M(B)`, or in the minimal unitization `B⁺`; each theorem below states which. Asymptotic unitary
 equivalence uses a norm-continuous path `u:[0,∞)→U` and pointwise convergence as `t→∞`, with
 no condition on `u(0)`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`NonUnitalCStarAlgebra`, `CStarAlgebra` and the instance `CStarAlgebra.toNonUnitalCStarAlgebra`;
-`NonUnitalStarAlgHom`, `StarAlgHom`, `StarAlgEquiv` with `StarAlgEquiv.toNonUnitalStarAlgHom`;
-`NonUnitalStarSubalgebra`, `StarSubalgebra` (unital, so inclusions between them are unital);
-`IsStarProjection`; `unitary`; the continuous functional calculus; `CStarMatrix` for the C*-norm
-on matrix algebras and `Matrix (Fin n) (Fin n) ℂ` for their algebraic structure;
-`TopologicalSpace.SeparableSpace`; `FiniteDimensional`; `Dense`; `IsOrderedAddMonoid`,
-`IsDirected`, `DirectedOn`, `AntisymmRel`, `Monotone` (positivity of an additive map between
-partially ordered groups); `AddMonoidHom` and `Countable`. Mathlib has no dimension groups,
-Riesz interpolation, unperforation, Cuntz subequivalence, C*-simplicity or hereditary
-C*-subalgebras: those are targets here.
-
-### From Tau Ceti
-
-`TauCeti.Supernatural` in `TauCeti.NumberTheory.Supernatural`: `ofNat : ℕ+ → Supernatural`,
-the `CompleteLattice` instance with pointwise exponent order (`iSup_apply`),
-`ofNat_le_ofNat_iff` (`ofNat m ≤ ofNat n ↔ m ∣ n`), `ofNat_mul`, `ofNat_gcd`, `ofNat_lcm`,
-`one_eq_bot` and `ofNat_one`. Assumed: divisibility is the lattice order, so the supremum of a
-divisibility chain of naturals is their formal least common multiple.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-C1–C2: hereditary subalgebras, closed ideals, corners, multiplier algebras, irreducible
-representations. C5: bounded products `ℓ∞(A)`, c₀ sums, their closed-ideal quotients, and
-C*-inductive limits with noninjective connecting maps, with universal properties and norm
-formulas. C6–C7: nuclearity, exactness, the Choi–Effros lifting theorem and CP-lifting
-perturbation. C8: quasidiagonality. C9: norm stability of finite matrix-unit relations with
-unitary conjugacy of nearby systems by unitaries close to 1, approximate intertwining for
-sequences of finite-dimensional algebras, Voiculescu's homotopy invariance of quasidiagonality
-with the cone theorem (`CA` quasidiagonal for separable A), and Dadarlat's external
-finite-dimensional approximation. Assumed: these hold at the generality stated there, including
-nonunital algebras.
-
-### From TauCetiRoadmap.HilbertModules
-
-H1–H2: Hilbert modules, adjointable and compact module operators. H3: induction and
-imprimitivity, strong Morita equivalence, and the definition of type I used in §4.4. H4:
-countable generation and Kasparov stabilization, full corners and `A⊗K`.
-
-### From TauCetiRoadmap.OperatorKTheory
-
-K1–K3: `K₀`, `K₁`, their positive cone and scale, functoriality, continuity under inductive
-limits, half-exactness, the six-term sequence and Bott periodicity. K5: KK-groups and countable
-additivity in the first variable. K6: the Kasparov product, semisplit exactness and the universal
-property. K7: `E_n`, `O_n`, `O∞`, their K-groups with `[1]↦1` in `K₀(O∞)=ℤ` and
-`K₀(O_n)=ℤ/(n−1)`, and the Künneth sequence. K8: the bootstrap class, the UCT condition,
-countable free resolutions, the product-compatible lifting of a K-isomorphism to a
-KK-equivalence, and the KK-equivalence `ℂ→O∞`. K9: asymptotic morphisms, homotopy into
-`C([0,1],B)`, reparameterization and the E-theory universal property.
-
-### From TauCetiRoadmap.OperatorAlgebraDynamics
-
-D1–D2: full and reduced crossed products, the coefficient-tensor identification
-`(A⋊G)⊗min D ≃ (A⊗min D)⋊G` for the trivial action on D, exactness of crossed products of exact
-algebras by amenable groups, and the full-product identification with generator formulas for
-`G=ℤ`. D3–D4: induction, imprimitivity and Takai duality. D6: the universal `O_n`, its gauge
-action and core, simplicity and nuclearity. D8: the CAR algebra and its presentation as the
-inductive limit of `M_(2ⁿ)` with unital connecting maps.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-The sections *C*-algebra and state prerequisites* and *Type I and finite-dimensional algebras*:
-the faithful direct-sum (Gelfand–Naimark) representation; matrix units from orthogonal
-equivalent projections; the decomposition of a finite-dimensional C*-algebra as a finite direct
-sum of matrix algebras and the classification of unital inclusions by inclusion matrices.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-Stage 6.0: the generic lim and lim¹ of a countable inverse system of abelian groups as the
-kernel and cokernel of `1−shift` on the product, functoriality under tower maps, and vanishing
-for towers with surjective (or constant) transition maps.
-
-## How to read the build
-
-The layers are in build order. Layer 1 supplies the equivalence relations on *-homomorphisms,
-the classification of maps between finite-dimensional algebras, finite-dimensional
-semiprojectivity, projection cancellation and Elliott's intertwining. Layer 2 proves the
-structure, permanence and K₀-classification of AF algebras. Layer 3 supplies the ordered-group
-side (dimension groups, Effros–Handelman–Shen, scales, the scaled range theorem, ideals and
-traces) and the UHF algebras. Layer 4 develops projection comparison and pure infiniteness up to
-Kirchberg's tensor criterion and the corner embeddings of O₂ and O∞. Layer 5 builds sequence
-algebras, O₂ uniqueness and the exact embedding theorem. Layer 6 proves O₂ and O∞ absorption.
-Layer 7 builds fullness, Cuntz sums, full asymptotic morphisms and the homomorphism picture of
-KK up to the homomorphism theorem. Layer 8 assembles the Kirchberg–Phillips classification, the
-automorphism theorem, the range theorem and the examples. Layers 4–8 use Layers 1–3 only
-through Layer 1's equivalence relations, perturbation lemmas and intertwining.
 
 ## Layer 1: Finite-dimensional maps and approximate intertwining (CL1)
 
@@ -1484,6 +1380,138 @@ TemperleyLiebOperatorAlgebras consumes Layer 2's AF presentations and the K₀ c
 inductive limits of finite-dimensional algebras. No roadmap consumes Layers 4–8 at present;
 OperatorKTheory K8 and CStarAlgebras C9 defer *-isomorphism classification and the dimension-group
 classification of AF algebras to this roadmap.
+
+## Scope and ownership
+
+This roadmap owns: approximate and asymptotic unitary equivalence of *-homomorphisms and
+Elliott's approximate intertwining (Layer 1); the structure, permanence and K₀-classification of
+AF algebras (Layer 2); dimension groups, the Effros–Handelman–Shen theorem, scales, the scaled
+range theorem, the ideal and trace theory of AF algebras and UHF algebras with Glimm's
+classification (Layer 3); Cuntz subequivalence, infinite and properly infinite projections,
+purely infinite simple algebras, the slice lemma and Kirchberg's tensor criterion, Zhang's
+dichotomy and the corner embeddings of O₂ and O∞ (Layer 4); norm sequence algebras and
+ultrapowers, O₂ uniqueness, `O₂⊗O₂≅O₂` and the exact embedding theorem with its translation
+crossed-product proof (Layer 5); O₂ and O∞ absorption and central-sequence absorption
+(Layer 6); full homomorphisms, Cuntz sums, full asymptotic morphisms, Phillips's deformation
+theorem, the homomorphism picture of KK and the homomorphism theorem (Layer 7); the
+Kirchberg–Phillips classification, the automorphism theorem, the range theorem through the KK
+telescope and the Cuntz-algebra computations (Layer 8).
+
+The layers carry the labels CL1–CL8 (Layer k is CLk) under which other roadmaps cite them:
+OperatorAlgebraDynamics D2 and D6 name CL5 and this roadmap's AF classification,
+AlgebraicTopology Stage 6.0 names CL8, and TemperleyLiebOperatorAlgebras names CL2.
+
+Left to named roadmaps, and imported rather than planned here:
+
+- CStarAlgebras C1–C2 own hereditary subalgebras, closed ideals, corners, multiplier algebras
+  and representations; C5 owns bounded products, c₀ sums, their quotients and C*-inductive
+  limits; C6–C7 own nuclearity, exactness and the Choi–Effros lifting theorem; C8 owns
+  quasidiagonality; C9 owns the norm stability of matrix-unit relations, finite-dimensional
+  approximate intertwining, Voiculescu's homotopy invariance of quasidiagonality with the cone
+  theorem, and the analytic AF-embedding theorem, which is independent of classification and
+  stays there.
+- HilbertModules H1–H4 own compact module operators, stabilization, full corners and strong
+  Morita equivalence; its H3 definition of type I (every irreducible image contains the compact
+  operators) is the one used in Kirchberg's tensor criterion (§4.4).
+- OperatorKTheory K1–K3 own projections, `K₀`, `K₁`, continuity, exactness and Bott periodicity;
+  K5–K6 own KK, the Kasparov product and semisplit exactness; K7 owns the Cuntz algebras `O_n`,
+  `O∞` and the Toeplitz–Cuntz algebras `E_n` with their K-groups and unit classes; K8 owns the
+  bootstrap class, the UCT condition, countable free resolutions and the KK-equivalence `ℂ→O∞`;
+  K9 owns asymptotic morphisms, E-theory and its universal property. Which *-isomorphism classes
+  the invariants distinguish is decided here, not there.
+- OperatorAlgebraDynamics D1–D4 own crossed products and duality, including the
+  coefficient-tensor identification for `G=ℤ`; D6 owns the universal models of `O_n` with their
+  simplicity and nuclearity; D8 owns the CAR algebra and its matrix-limit presentation.
+- VonNeumannAlgebras, *C*-algebra and state prerequisites* and *Type I and finite-dimensional
+  algebras*, own the faithful direct-sum representation of a C*-algebra, matrix units from
+  orthogonal equivalent projections and the finite-dimensional matrix-block decomposition with
+  its inclusion matrices. CStarAlgebras C9 supplies the norm perturbation theory; tracial L²
+  perturbation is a different result and is not used.
+- AlgebraicTopology Stage 6.0 owns the generic lim and lim¹ of countable inverse systems with
+  their functoriality and vanishing; the KK telescope and its Milnor sequence are targets here
+  (§8.6).
+- Tau Ceti owns supernatural numbers (`TauCeti.Supernatural`); the UHF invariant is a value in
+  that type (§3.5).
+
+Outside scope: classification of nonsimple purely infinite algebras, classification of group
+actions, stably finite algebras beyond AF (in particular Z-stable classification and the Cuntz
+semigroup as a classifying invariant), and any assertion that every nuclear C*-algebra satisfies
+the UCT.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`NonUnitalCStarAlgebra`, `CStarAlgebra` and the instance `CStarAlgebra.toNonUnitalCStarAlgebra`;
+`NonUnitalStarAlgHom`, `StarAlgHom`, `StarAlgEquiv` with `StarAlgEquiv.toNonUnitalStarAlgHom`;
+`NonUnitalStarSubalgebra`, `StarSubalgebra` (unital, so inclusions between them are unital);
+`IsStarProjection`; `unitary`; the continuous functional calculus; `CStarMatrix` for the C*-norm
+on matrix algebras and `Matrix (Fin n) (Fin n) ℂ` for their algebraic structure;
+`TopologicalSpace.SeparableSpace`; `FiniteDimensional`; `Dense`; `IsOrderedAddMonoid`,
+`IsDirected`, `DirectedOn`, `AntisymmRel`, `Monotone` (positivity of an additive map between
+partially ordered groups); `AddMonoidHom` and `Countable`. Mathlib has no dimension groups,
+Riesz interpolation, unperforation, Cuntz subequivalence, C*-simplicity or hereditary
+C*-subalgebras: those are targets here.
+
+### From Tau Ceti
+
+`TauCeti.Supernatural` in `TauCeti.NumberTheory.Supernatural`: `ofNat : ℕ+ → Supernatural`,
+the `CompleteLattice` instance with pointwise exponent order (`iSup_apply`),
+`ofNat_le_ofNat_iff` (`ofNat m ≤ ofNat n ↔ m ∣ n`), `ofNat_mul`, `ofNat_gcd`, `ofNat_lcm`,
+`one_eq_bot` and `ofNat_one`. Assumed: divisibility is the lattice order, so the supremum of a
+divisibility chain of naturals is their formal least common multiple.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+C1–C2: hereditary subalgebras, closed ideals, corners, multiplier algebras, irreducible
+representations. C5: bounded products `ℓ∞(A)`, c₀ sums, their closed-ideal quotients, and
+C*-inductive limits with noninjective connecting maps, with universal properties and norm
+formulas. C6–C7: nuclearity, exactness, the Choi–Effros lifting theorem and CP-lifting
+perturbation. C8: quasidiagonality. C9: norm stability of finite matrix-unit relations with
+unitary conjugacy of nearby systems by unitaries close to 1, approximate intertwining for
+sequences of finite-dimensional algebras, Voiculescu's homotopy invariance of quasidiagonality
+with the cone theorem (`CA` quasidiagonal for separable A), and Dadarlat's external
+finite-dimensional approximation. Assumed: these hold at the generality stated there, including
+nonunital algebras.
+
+### From TauCetiRoadmap.HilbertModules
+
+H1–H2: Hilbert modules, adjointable and compact module operators. H3: induction and
+imprimitivity, strong Morita equivalence, and the definition of type I used in §4.4. H4:
+countable generation and Kasparov stabilization, full corners and `A⊗K`.
+
+### From TauCetiRoadmap.OperatorKTheory
+
+K1–K3: `K₀`, `K₁`, their positive cone and scale, functoriality, continuity under inductive
+limits, half-exactness, the six-term sequence and Bott periodicity. K5: KK-groups and countable
+additivity in the first variable. K6: the Kasparov product, semisplit exactness and the universal
+property. K7: `E_n`, `O_n`, `O∞`, their K-groups with `[1]↦1` in `K₀(O∞)=ℤ` and
+`K₀(O_n)=ℤ/(n−1)`, and the Künneth sequence. K8: the bootstrap class, the UCT condition,
+countable free resolutions, the product-compatible lifting of a K-isomorphism to a
+KK-equivalence, and the KK-equivalence `ℂ→O∞`. K9: asymptotic morphisms, homotopy into
+`C([0,1],B)`, reparameterization and the E-theory universal property.
+
+### From TauCetiRoadmap.OperatorAlgebraDynamics
+
+D1–D2: full and reduced crossed products, the coefficient-tensor identification
+`(A⋊G)⊗min D ≃ (A⊗min D)⋊G` for the trivial action on D, exactness of crossed products of exact
+algebras by amenable groups, and the full-product identification with generator formulas for
+`G=ℤ`. D3–D4: induction, imprimitivity and Takai duality. D6: the universal `O_n`, its gauge
+action and core, simplicity and nuclearity. D8: the CAR algebra and its presentation as the
+inductive limit of `M_(2ⁿ)` with unital connecting maps.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+The sections *C*-algebra and state prerequisites* and *Type I and finite-dimensional algebras*:
+the faithful direct-sum (Gelfand–Naimark) representation; matrix units from orthogonal
+equivalent projections; the decomposition of a finite-dimensional C*-algebra as a finite direct
+sum of matrix algebras and the classification of unital inclusions by inclusion matrices.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+Stage 6.0: the generic lim and lim¹ of a countable inverse system of abelian groups as the
+kernel and cokernel of `1−shift` on the product, functoriality under tower maps, and vanishing
+for towers with surjective (or constant) transition maps.
 
 ## References
 

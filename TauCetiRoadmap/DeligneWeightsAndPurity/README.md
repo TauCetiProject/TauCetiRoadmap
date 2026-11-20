@@ -1,551 +1,18 @@
 # Roadmap: Deligne weights, purity and the Weil bounds
 
-**Summary.** Build the arithmetic of Frobenius eigenvalues, then weights of sheaves and
-complexes, cohomological purity, geometric semisimplicity and absolute hard
-Lefschetz. The resulting API serves point counting, exponential sums, arithmetic
-representations, rigid coefficients and finite-field equidistribution.
+**Summary.** Let `X₀` be a variety over a finite field `𝔽_q` and `X` its base change to an algebraic closure. Through the trace formula, the point counts of `X₀` over the extensions `𝔽_{qⁿ}` are governed by the Frobenius eigenvalues on the compactly supported ℓ-adic cohomology of `X`. Deligne's theory of weights says how large these eigenvalues are. An algebraic number is a Weil `q`-number of weight `w` when all its complex conjugates have absolute value `q^{w/2}`. This roadmap builds that theory for ℓ-adic sheaves and complexes. Many statements also have a version with real weights, read through one isomorphism `ι : ℚ̄_ℓ ≅ ℂ`, which says nothing about algebraicity.
 
-Purity has one route of record, Weil II with Laumon's Fourier-transform proof
-of the curve estimate. The Fourier–Deligne transform of a pure irreducible
-middle extension on the affine line is pure, of weight one more by Plancherel
-and `L²`-weights, and its local monodromy at the origin bounds the compactly
-supported cohomology on the line (DWP.4, consuming FourierDeligneTransform). This
-gives curve purity (DWP.6), then Deligne's direct-image theorem for Weil sheaves
-and complexes over separated finite-type bases (DWP.7), of which smooth
-projective purity (§4.3) is a consequence. The Rosati estimate of DWP.1 is an
-independent early estimate for abelian varieties and curves. Hard Lefschetz
-(DWP.9) uses Lefschetz pencils.
+The first main theorem is the Weil estimate for abelian varieties. If `A` is an abelian variety of dimension `g` over `𝔽_q`, every root of the characteristic polynomial of its Frobenius endomorphism is a Weil `q`-number of weight `1`. The proof uses Rosati positivity, not cohomological purity. Counting points gives `|#A(𝔽_{q^m}) − q^{mg}| ≤ 2g·q^{m(g−1/2)} + (2^{2g} − 2g − 1)·q^{m(g−1)}` for every `m ≥ 1`. For an elliptic curve over `𝔽₂` with Frobenius trace `1`, there are `8` points over `𝔽₄` and the bound reads `|8 − 4| ≤ 5`. The second theorem is rationality of the zeta function. For every separated scheme `X₀` of finite type over `𝔽_q`, with no smoothness or properness assumed, `Z(X₀, t) = exp(Σ_{n≥1} #X₀(𝔽_{qⁿ}) tⁿ/n)` is the Taylor series of a rational function with rational coefficients and value `1` at zero. Its proof uses the trace formula and finiteness, not purity.
 
-Suggested homes are `TauCeti/LinearAlgebra/Weights/`,
-`TauCeti/AlgebraicGeometry/Weights/` and
-`TauCeti/AlgebraicGeometry/Lefschetz/`. [Suggested.lean](Suggested.lean), in the
-namespace `TauCetiRoadmap.DeligneWeightsAndPurity`, states the abelian-variety point-count
-bound (§1.5), constant-coefficient zeta rationality (§1.10), degree-factor extraction (§4.4),
-and graded Lefschetz decomposition and pairings (§9.7). Its definitions use native
-abelian-variety, scheme, polynomial and vector-space carriers. The API items below are
-mathematical library targets stated in prose; the mathematics in this README is definitive.
+The central theorem is purity. For a smooth projective `X₀` over `𝔽_q` and every `i ≥ 0`, each eigenvalue of geometric Frobenius on `Hⁱ(X, ℚ_ℓ)` is a Weil `q`-number of weight `i`. Different degrees have different weights, so they cannot cancel in the zeta function. It follows that each `det(1 − Ft, Hⁱ(X, ℚ_ℓ))` has integer coefficients, independent of `ℓ ≠ p`. Integrality needs integral eigenvalues or an integral Taylor series; purity and rationality alone do not force it.
 
-## Scope and ownership
+Purity follows Weil II, with Laumon's argument for curves. On the affine line, the Fourier–Deligne transform of a suitable pure irreducible middle extension is pure of weight one more. Its local monodromy at the origin bounds the weights of the compactly supported cohomology of the sheaf. This gives purity for curves, then Deligne's fundamental theorem. Let `f : X → Y` be a separated morphism of schemes of finite type over `ℤ[1/ℓ]`, and `ℱ` a sheaf on `X` mixed of weights `≤ n`: it has a finite filtration whose quotients are pointwise pure of weights at most `n`. Then `R^i f_!ℱ` is mixed of weights `≤ n + i` for every `i`. Over `𝔽_q`, every Frobenius eigenvalue on `H^i_c(X, ℱ)` is thus a Weil `q`-number of some integer weight `w ≤ n + i`. Duality supplies lower bounds, and hence purity for proper smooth `X₀` with lisse pure coefficients.
 
-This roadmap owns the real-base scalar adapter, ordinary Frobenius and
-fixed-`ι` weights, punctual and determinantal weights, local bounds,
-weight–monodromy on finite-field curves, the weight statements about the
-Fourier–Deligne transform (weights of character sheaves, reality, `L²`-weights
-and purity of the transform), the purity theorems, mixed-complex
-estimates, weight filtrations, geometric semisimplicity, absolute Lefschetz and
-the weight-facing arithmetic and distribution exports of DWP.10. The transform
-itself and every weight-free statement about it belong to
-FourierDeligneTransform.
-Section `9.7` owns the arbitrary-field graded-vector-space primitive kernel,
-decomposition and compatible-pairing core. A consumer that packages a
-characteristic-zero Lefschetz structure (an `sl₂` triple with its lowering
-operator and grade projectors on a naturally graded cohomology) takes this core
-through the natural-grading comparison in §9.7 and adds that theory downstream;
-EtaleDualityAndPerverseSheaves extends the same core to an abelian category
-with Tate twist. There is no dependency in the reverse direction.
+On a normal scheme of finite type over `𝔽_q`, a pure lisse sheaf becomes semisimple over `𝔽̄_q`; this does not give semisimplicity over `𝔽_q`. Hard Lefschetz holds over an algebraically closed field in which `ℓ` is invertible. For `X` smooth projective of pure dimension `n` and `η` the class of an ample line bundle, cup product with `η^r` maps `H^{n−r}(X, ℚ_ℓ)` isomorphically onto `H^{n+r}(X, ℚ_ℓ(r))`. Odd Betti numbers of smooth projective varieties are therefore even. The primitive decomposition and Lefschetz pairings that follow are proved for graded vector spaces over any field.
 
-Use the scheme geometry of SchemeAndStackFoundations Layers `0`–`2`. Import finite
-cohomology, base change and Frobenius comparisons from EtaleCohomologyFoundations
-§§F.0–F.4, F.10.1–F.10.5; geometric trace formulae from
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; coefficient categories, Tate twists, six operations,
-duality, cycle classes and weak Lefschetz from EtaleCohomologyFoundations §§F.0–F.7;
-arithmetic-model approximation from SchemeAndStackFoundations §0.9 and
-LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7;
-trait inertia from EtaleCohomologyFoundations §F.3a;
-nearby cycles and local monodromy from LefschetzPencilsAndVanishingCycles §§0.2–1.6,
-and the tame restriction along a smooth divisor from its §1.8;
-Lefschetz pencils, vanishing cycles and their monodromy from its §§3.2–3.6,
-`4.2`–`4.4` and `5.1`–`5.8`, for hard Lefschetz and the arithmetic pencil statements
-of DWP.3, with semistable curves and invariant cycles from §§7a–7b; the
-Fourier–Deligne transform, its inversion, trace identity, Frobenius exchange,
-perverse `t`-exactness and local monodromy on the line from FourierDeligneTransform
-(supplier contract below). Polarizations, Rosati positivity and
-endomorphism polynomials and the Rosati–Frobenius identity come from AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A6.10–A6.14, A6.21,
-with Tate/Galois realization from ArithmeticGaloisRepresentations §§6.1–6.2 and
-`H¹`/Tate comparison from AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology.
+The roadmap builds on EtaleCohomologyFoundations for ℓ-adic coefficients, the six operations and duality. FourierDeligneTransform constructs the transform; the weight statements about it are proved here. LefschetzPencilsAndVanishingCycles supplies the pencils and the invariant cycle theorem used for hard Lefschetz. The numerical Weil bound for curves comes from SchemeAndStackFoundations. AutomorphicLFunctionsAndLocalFactors uses the direct-image theorems.
 
-This roadmap constructs rational finite-field zeta functions (§1.10), extraction
-of integral degree factors and their independence of `ℓ` (§4.4), component-aware
-point-count bounds (§10.2), and smooth proper Deligne–Mumford-stack purity (§8.24).
-Section `1.10` also owns the cohomological Euler products and rational `L`-functions
-of finite-model constructible coefficients; the geometric trace identities it
-uses belong to InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
-ArithmeticGaloisRepresentations §2.6 owns the canonical natural-base scalar
-Weil-number predicate, the monodromy filtration and
-Weil–Deligne purity. Here `IsWeilNumber` is its real-base adapter with the
-additional condition `q>1`. Section `0.19` owns their comparison for natural `q≥2`
-and the comparison of ordinary Frobenius purity with monodromy-graded purity;
-ordinary purity agrees with Weil–Deligne purity when `N=0`. Rigid coefficient
-categories, relative hard Lefschetz and decomposition are outside this roadmap;
-perverse carriers used here are supplied by EtaleCohomologyFoundations §F.8.
-
-The Hasse bound for elliptic curves is already in Tau Ceti
-(`WeierstrassCurve.hasse_bound` and its trace form); §1.8 only compares it with
-the root-modulus estimate. The numerical Weil bound
-`|#C(𝔽_{q^m}) − (q^m + 1)| ≤ 2g·q^{m/2}` for a smooth projective geometrically
-connected curve is supplied by SchemeAndStackFoundations §5.11 (the Weil bound
-via surfaces), over every `𝔽_{q^m}` by its genus base change (§3.1 there); §1.6
-here is the Jacobian variant that §5.11 does not state (the Weil numbers among
-the Frobenius roots, the point-count formula and the zeta function) together
-with the comparison of the two bounds. Import the Abel–Jacobi construction,
-reductive groups and compact representation theory. The contracts identify the base-point-free Picard and curve/Jacobian comparisons.
-Sections `5.15` and `10.6` supply the curve-reduction and elliptic-monodromy
-comparisons needed by the weight arguments, and §§3.6–3.7 the measure-theoretic density
-statements for arithmetic pencils.
-The degree-refined finite-cover Chebotarev theorem is imported from
-ArithmeticGaloisRepresentations §5.13.
-
-## Conventions
-
-- Use geometric Frobenius, with scalar `q⁻¹` and weight `−2` on `ℚ_ℓ(1)`. At a
-  closed point of degree `e` use `q_x=q^e`. Finite base extension replaces
-  `(q,F)` by `(q^r,F^r)`, preserving weight.
-- Integer Weil weights require algebraicity and the common modulus at every
-  complex conjugate; integrality is separate. Fixed-`ι` real weights are
-  `2 log_q|ια|` for `α≠0`. The chosen coefficient embedding is neither canonical
-  nor `ℓ`-adically continuous.
-- Characteristic roots are multisets, with multiplicities from generalized
-  eigenspaces. Purity allows Jordan blocks. Transpose preserves roots;
-  contragredient means inverse transpose.
-- Arbitrary scalar twists give Weil lines; étale descent retains the unit and
-  continuity conditions. Half twists require a square-root choice. Tate twist `r`
-  subtracts `2r` from weight.
-- `Hⁱ(K[m])=Hⁱ⁺ᵐ(K)`. On a smooth base, a lisse sheaf of punctual weight `β`
-  gives complex weight `β+m−2r` after `[m](r)`. Upper bounds use cohomology
-  stalks; lower bounds use Verdier duality, retaining dimension/Tate shifts.
-- Keep normality, lissity, geometric connectedness and arithmetic witnesses
-  wherever stated. Geometric semisimplicity does not give arithmetic
-  semisimplicity. Potential purity includes an explicit model.
-- Stalk Newton polygons sort slopes `v(α)/v(q)` with multiplicity. Newton couples
-  normalize `v(q)=1` and record `(v(α),v(q^n/α))` for weight `n`. Keep branch
-  orientation lines and alternating-pairing signs.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-Use these declarations in their existing namespaces, at Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
-
-- [minpoly.algHom_eq](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/Minpoly/Basic.lean): Minimal polynomials are unchanged by injective algebra maps.
-
-- [IsAlgClosed.lift](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Algebraic domain algebras embed in an algebraically closed field with the prescribed base algebra structure.
-
-- [NumberField.Embeddings.pow_eq_one_of_norm_eq_one](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean): An algebraic integer whose complex embedding norms are `1` is a root of unity.
-
-- [IsAlgClosed.cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): An uncountable algebraically closed field has a transcendence basis of its cardinality over a countable base.
-
-- [Cardinal.mk_complex](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Complex/Cardinality.lean): The cardinality of `ℂ` is `𝔠`.
-
-- [IsAlgClosed.equivOfTranscendenceBasis](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equipotent transcendence bases yield a ring equivalence; compatibility with a prescribed base embedding is a separate target.
-
-- [IsAlgClosed.ringEquiv_of_equiv_of_charZero](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equal-cardinality uncountable algebraically closed characteristic-zero fields are isomorphic.
-
-- [Algebra.IsAlgebraic.cardinalMk_le_max](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Algebraic/Cardinality.lean): An algebraic extension has cardinality bounded by `max(#R,ℵ₀)`.
-
-- [LinearMap.charpoly_baseChange](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/BaseChange.lean): Characteristic polynomials commute with scalar extension for finite free modules.
-
-- [Module.End.hasEigenvalue_iff_isRoot_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Charpoly.lean): Eigenvalues are characteristic roots over a domain.
-
-- [LinearMap.finrank_maxGenEigenspace_eq](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Zero.lean): Generalized eigenspace dimension equals root multiplicity.
-
-- [Module.End.iSup_maxGenEigenspace_eq_top](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean): Generalized eigenspaces span over an algebraically closed field.
-
-- [Module.End.independent_maxGenEigenspace](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Basic.lean): Distinct generalized eigenspaces are independent.
-
-- [Matrix.charpoly_fromBlocks_zero₂₁](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean): Block triangular characteristic polynomials multiply.
-
-- [LinearMap.charpoly_prodMap](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/ToMatrix.lean): Product-map characteristic polynomials multiply.
-
-- [Matrix.reverse_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The reversed characteristic polynomial is `det(1−tM)`.
-
-- [Matrix.trace_eq_sum_roots_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Eigs.lean): Trace is the sum of characteristic roots over an algebraically closed field.
-
-- [Matrix.charpoly_inv](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The inverse characteristic polynomial is expressed by reversal and determinant.
-
-- [Matrix.det_kronecker](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Kronecker.lean): The Kronecker-product determinant formula.
-
-- [LinearMap.trace_tensorProduct'](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Trace.lean): Tensor-map traces multiply for finite free modules.
-
-- [LinearMap.det_dualMap](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Determinant.lean): Ordinary transpose preserves determinant; a contragredient first takes the inverse.
-
-- [Polynomial.isCoprime_iff_aeval_ne_zero_of_isAlgClosed](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Coprime polynomials have no common algebraic-closure root.
-
-- [LinearMap.aeval_self_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/Basic.lean): Cayley–Hamilton.
-
-- [Polynomial.sup_ker_aeval_eq_ker_aeval_mul_of_coprime](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Polynomial/Basic.lean): Coprime polynomial kernels sum to the product kernel.
-
-- [AddValuation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Valuation/Basic.lean): Existing additive valuations with `v(0)=∞` and additive product law.
-
-- [Multiset.sort](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Multiset/Sort.lean): Sorted multisets, preserving multiplicities.
-
-- [MonoidHom.eqLocus](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Group/Subgroup/Ker.lean): Equalizer subgroup of two group homomorphisms.
-
-- [exteriorPower.map](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/ExteriorPower/Basic.lean): Functorial maps on exterior powers.
-
-- [Module.Basis.exteriorPower](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/ExteriorPower/Basis.lean): Exterior-power basis from a linearly ordered basis.
-
-- [Representation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Basic.lean): Group/monoid representations by linear endomorphisms.
-
-- [Representation.asModule](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Basic.lean): The corresponding monoid-algebra module.
-
-- [Representation.invariants](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Invariants.lean): The invariant submodule.
-
-- [IsSemisimpleModule](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/SimpleModule/Basic.lean): Semisimplicity as a complemented submodule lattice.
-
-- [Representation.IsSemisimpleRepresentation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Semisimple.lean) and `Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule`: semisimplicity of a representation and its equivalence with semisimplicity of the associated monoid-algebra module.
-
-- [LinearMap.BilinForm.Nondegenerate](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Bilinear forms separating on both sides.
-
-- [LinearMap.BilinForm.restrict](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Basic.lean): Restriction of a bilinear form.
-
-- [LinearMap.BilinForm.IsAlt](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Alternation `B(x,x)=0`.
-
-- [LinearMap.BilinForm.restrict_nondegenerate_iff_isCompl_orthogonal](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean): Over a finite-dimensional field space with reflexive form, nondegenerate restriction is equivalent to complementarity with the orthogonal.
-
-- [DirectSum.IsInternal](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/DirectSum/Basic.lean): Internal direct sums via bijectivity of the canonical map.
-
-- [LinearMap.ker](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Module/Submodule/Ker.lean): Linear-map kernels.
-
-- [Module.finrank](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Dimension/Finrank.lean): Finite dimension.
-
-- [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/RepresentationTheory/Induction/Clifford/Basic.lean): An irreducible finite-dimensional representation restricts semisimply to a normal subgroup over any field; apply summandwise to a semisimple representation.
-
-
-- [LinearMap.BilinForm.IsAlt.even_finrank](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean): a nondegenerate alternating form on a finite-dimensional space has even dimension over every field, including characteristic two. Alternation means `B(x,x)=0`; skew symmetry alone is insufficient in characteristic two. This is the parity input for §9.9 (Weil II, Corollary 4.1.5, `p`. `218`).
-
-- [TauCeti.AlgebraicGeometry.AbelianVariety](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean) and its `dim`: the abelian-variety carrier (a proper geometrically integral group scheme over a field, with its structure morphism) and its dimension as topological Krull dimension, used by the §1.5 point-count bound.
-
-- [WeierstrassCurve.hasse_bound](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/EllipticCurve/HasseBound.lean) and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (same file): for an elliptic Weierstrass curve `W` over a finite field with `q` elements, `(#W(𝔽_q) − (q + 1))² ≤ 4q`, the count including the point at infinity, and the trace form `a_q² ≤ 4q` for `W.frobeniusTrace = q + 1 − #W(𝔽_q)` (`WeierstrassCurve.frobeniusTrace_eq_card_point`, `TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Both are proved without `sorry`, through the degree of `rπ − s`. Used by §1.8, which compares them with §1.4's root-modulus estimate and restates nothing.
-
-- [Even.pow_nonneg](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Order/Ring/Basic.lean): even powers are nonnegative in an ordered ring, including the real traces of the even-tensor positivity in §5.8.
-
-- [gaussSum_mul_gaussSum_eq_card](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/GaussSum.lean): for a nontrivial multiplicative character `χ` and a primitive additive character `ψ` of a finite field `R`, `g(χ, ψ) · g(χ⁻¹, ψ⁻¹) = #R`. It gives the weight of the Gauss-sum line in §2.13.
-
-- [MonoidHom.mrange](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Group/Submonoid/Operations.lean) and `MonoidHom.mem_mrange`: use the image submonoid of the geometric representation directly. Membership is existence of a represented geometric group element; every such endomorphism is invertible. The image and its Zariski closure are distinguished throughout §8.14.
-
-### From FourierDeligneTransform
-
-FourierDeligneTransform owns the transform and states no weight; it consumes nothing from this roadmap. These are exactly the sections used here, with `ℚ̄_ℓ` or a finite extension `E` of `ℚ_ℓ` as coefficients and a nontrivial additive character `ψ : 𝔽_p → E^×`.
-
-- §0.2 (the finite Fourier transform): the Plancherel identity for functions on a finite vector space with values in a commutative ring carrying a nondegenerate character. Applied to complex-valued trace functions through `ι`, with `ι ∘ ψ` nondegenerate. Uses: [2.16](#216-plancherel-and-the-weight-of-the-transform).
-- §§2.2–2.3 (character sheaves and their traces): the character sheaf `ℒ_χ` of a smooth connected commutative group over `𝔽_q` is lisse of rank one, and `Frob_x` acts on it by `χ(N(x))`. Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines).
-- §2.5 (Artin–Schreier sheaves): `ℒ_ψ(f)` with trace `ψ(Tr f(x))`, additive in `f`, with `ℒ_ψ^∨ ≅ ℒ_{ψ⁻¹}`. Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines), [2.14](#214-complex-conjugation-through-the-transform).
-- §2.6 (Kummer sheaves). Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines).
-- §3.2 (the transform): `FT_ψ` on a vector bundle `V(E)` over a base `S`, its compatibility with tensoring by a complex pulled back from `S`, and `FT_{ψ⁻¹} ≅ [−1]^* ∘ FT_ψ`. Uses: [2.12](#212-weil-complexes-through-the-transform), [2.14](#214-complex-conjugation-through-the-transform).
-- §3.4 (inversion), as data. Uses: [2.12](#212-weil-complexes-through-the-transform), [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure).
-- §3.7 (coefficients and realization): the `E`- and `ℚ̄_ℓ`-transforms. Uses: [2.12](#212-weil-complexes-through-the-transform).
-- §3.8 (trace functions and Frobenius): the trace identity `t_{FT_ψ K} = (−1)^r 𝔉_ψ(t_K)` fibrewise and the Frobenius exchange `F^* FT_ψ(K) ≅ FT_ψ(F^*K)`. Uses: [2.12](#212-weil-complexes-through-the-transform), [2.14](#214-complex-conjugation-through-the-transform), [2.16](#216-plancherel-and-the-weight-of-the-transform).
-- §§4.1–4.2 (perverse `t`-exactness): over a field `FT_ψ` is `t`-exact, restricts to an equivalence of perverse hearts and sends simple objects to simple objects. Uses: [2.12](#212-weil-complexes-through-the-transform), [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure).
-- §5.2 (types of simple perverse sheaves on the line): the transform of a middle extension `j_{!*}F[1]` of type (T3) is again a middle extension of type (T3). Uses: [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure).
-- §5.4 (the Kummer transform and Gauss-sum lines): geometric Frobenius acts on `G(χ, ψ)` by `−g(χ, ψ)`. Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines).
-- §5.5 (local monodromy of the transform): the lisse locus of the transform, which is `𝔸¹ ∖ {0′}` when the local monodromy at `∞` is nonzero with all slopes `< 1`, and the exact sequence of `G_{0′}`-modules at `0′` whose outer terms carry the trivial action of inertia. Uses: [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure), [4.6](#46-laumons-estimate-on-the-affine-line).
-- §5.6 (local Fourier transforms): the third term of the sequence at `0′` is `𝔉^{(∞,0′)}(F_∞)`, and `𝔉^{(∞,0′)}(V) ≅ V(−1)` for unramified `V`. Uses: [4.6](#46-laumons-estimate-on-the-affine-line).
-
-### From other roadmaps
-
-Each citation identifies its mathematical interface and retains its supplying section’s hypotheses. A roadmap target is a dependency to build in Tau Ceti; it does not assert that its carrier is already in the pinned libraries.
-
-#### AbelianSchemesAndArithmeticModuli §A2.5 (Polarization)
-
-A polarization defined over the finite ground field, whose duality map is compatible with Frobenius. Uses: [1.2](#12-the-rosatifrobenius-identity-through-the-adapter).
-
-#### AbelianSchemesAndArithmeticModuli §A3.9 (Polarization.rosati)
-
-Use the Rosati anti-involution defined by the chosen polarization; its dual-isogeny and rational-endomorphism normalization is fixed in that section.
-
-#### AbelianSchemesAndArithmeticModuli §A6.10 (characteristic polynomial and trace of endomorphisms)
-
-Use the integral monic degree-`2g` characteristic polynomial and its algebraic trace, distinct from the minimal polynomial.
-
-#### AbelianSchemesAndArithmeticModuli §A6.11 (charpolyTate)
-
-Identify that characteristic polynomial with the action on the prime-to-characteristic rational Tate module.
-
-#### AbelianSchemesAndArithmeticModuli §A6.1 (degree of isogenies)
-
-Use scheme-theoretic isogeny degree, with `deg(1−π^m)` equal to the separable kernel size.
-
-#### AbelianSchemesAndArithmeticModuli §A6.14 (rosatiPositivity)
-
-Use positivity of `(α,β) ↦ Tr(αβ†)` on rational endomorphisms.
-
-#### AbelianSchemesAndArithmeticModuli §A6.12 (trace and degree through a subfield)
-
-On a commutative subfield of the endomorphism algebra use the supplier’s trace and norm-degree identities.
-
-#### SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)
-
-Noetherian approximation of finite-presentation geometry and finite coefficient data, including projective embeddings and smooth/proper pure-dimensional models. Refine a supplied arithmetic sheaf/complex model over a dense regular open; existence of an arbitrary `ℓ`-adic model is not assumed. Uses: [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [8.20](#820-sheaves-and-complexes-potentially-having-a-property-p), [8.21](#821-ri-f_ℚ_ℓ-of-a-proper-smooth-morphism-is-potentially-punctually-pure), [8.22](#822-potentially-pure-lisse-sheaves-on-a-normal-variety-are-semisimple), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
-For complexes, consume the geometric-generic arithmetic model of LefschetzPencilsAndVanishingCycles §7b.7: its
-base point lies over the generic point and its family and complex have explicit
-fibre identifications. Section `8.20` defines potential complex purity by purity
-of the total arithmetic complex in §8.13 and supplies the smooth/lisse comparison
-from fibrewise punctual purity. The general arithmetic-model and fibrewise potential-property
-interfaces of §8.20 retain their separate closed-fibre contract.
-
-#### ArithmeticGaloisRepresentations §§1.1–1.6, `6.1`–`6.2` (finite coefficient models, lattices and Tate realizations)
-
-ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius `π_A`. Section `1.5` supplies descent to finite coefficient fields; EtaleCohomologyFoundations §F.4.0 (the stable-lattice criterion and existence of integral models), realized in §1.6, supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies `H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ)`, compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through EtaleCohomologyFoundations §§F.10.2–F.10.2b. Uses: [1.4](#14-the-weil-estimate-for-abelian-varieties-over-𝔽_q), [1.7](#17-the-weights-of-h-h-and-h-of-a-curve-over-𝔽_q), [5.2](#52-weil-sheaves-and-étale-descent), [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), [5.15](#515-specialization-of-geometric-monodromy).
-
-#### ArithmeticGaloisRepresentations §2.6 (scalar Weil numbers and monodromy-graded purity)
-
-Use the canonical natural-base Weil-number predicate, its purity predicates for
-an endomorphism with monodromy and for a Weil–Deligne representation, and its centered
-monodromy filtration. The supplier owns the filtration's
-kernel/image formula, conjugation and nonzero-scaling invariance. On a
-finite-dimensional characteristic-zero
-space, nilpotent `N` and invertible `F` satisfying `NF=qFN` give `F`-stable filtration
-steps. Section `0.19` here owns the scalar and graded-piece comparisons with DWP
-purity for natural `q≥2`, including the scalar-extension identifications of the
-graded quotients. Uses: [0.19](#019-scalar-and-weildeligne-purity-comparisons), [10.1](#101-weights-on-stable-arithmetic-subquotients).
-
-#### EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)
-
-Constructible adic and rational coefficient categories from constructible integral models, finite coefficient extension, and the Tate line with geometric Frobenius `q⁻¹`; Weil descent is constructed in §5.2 here. Compare inverse arithmetic action on roots of unity. Uses: [0.15](#015-twists-vb-and-tate-twists-vr), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.2](#52-weil-sheaves-and-étale-descent), [5.3](#53-punctual-purity-and-finite-mixed-filtrations).
-
-Bounded constructible derived categories and cohomology sheaves over finite fields and `ℤ[1/ℓ]`; six operations, localization and Leray/Künneth with finite filtrations. The profinite-`π₁` description of lisse rational objects applies to the full subcategory admitting a global lisse integral lattice over a finite coefficient field; it includes every lisse object on a normal scheme. General lisse objects remain in the constructible category, with integral models that need only be constructible. For Weil sheaves the lattice condition concerns the underlying geometric sheaf. Include vanishing positive local `Ext` for lisse sheaves, generic constructibility/base change, tame `j_*` and monodromy base change, `Hⁱ_c=0` for `i>2dim X`, and finite evaluations detecting `H⁰`. Uses: [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.4](#84-ri-f_-of-a-mixed-sheaf-is-mixed), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.8](#88-rf_-preserves-complexes-of-weights--w), [8.11](#811-weight-estimates-for-the-six-operations), [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field), [8.17](#817-the-decomposition-of-an-ι-mixed-sheaf-by-weights-modulo-ℤ), [8.18](#818-the-weight-filtration-of-a-lisse-mixed-sheaf), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
-
-#### EtaleCohomologyFoundations §§F.0, `F`.`4` (constructible coefficients and adic realization)
-
-Change finite coefficient fields and compatible integral lattices before rational adic realization.
-
-#### EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)
-
-Use the invertible Tate line, with geometric Frobenius `q⁻¹` and integer tensor/inverse powers.
-
-#### EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)
-
-Exceptional inverse image right adjoint to `Rf_!`, dualizing objects, biduality and exchange with the four image functors over the stated bases. Include `D(K⊗L)=RHom(K,DL)`, perfect compact/ordinary cohomology duality, and `i^!ℚ_ℓ=ℚ_ℓ(−1)[−2]` at a closed point of `Spec ℤ[1/ℓ]`. Uses: [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), [8.10](#810-j_-of-a-pure-lisse-sheaf-across-a-smooth-divisor-is-pure), [8.11](#811-weight-estimates-for-the-six-operations), [8.12](#812-proper-direct-images-of-pure-complexes-are-pure), [8.13](#813-pure-complexes-over-ℤ1ℓ), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
-
-#### EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)
-
-Smooth dualizing object `ℚ_ℓ(N)[2N]`, perfect compact/ordinary cohomology pairings and relative traces compatible with base change. For any smooth relative-dimension-`e` morphism, including singular target, `Rf^!L=f*L(e)[2e]`. Uses: [7.12](#712-weight-bounds-for-hi_c-and-hi-over-a-finite-field-and-purity-of-the-image-hi_c--hi), [7.14](#714-the-p-adic-couples-of-frobenius-eigenvalues-lie-in-triangles), [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), [8.10](#810-j_-of-a-pure-lisse-sheaf-across-a-smooth-divisor-is-pure), [8.13](#813-pure-complexes-over-ℤ1ℓ), [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation), [9.6](#96-the-hard-lefschetz-theorem), [9.8](#98-primitive-lefschetz-decomposition-and-nondegenerate-lefschetz-pairings), [alternating-form parity](#exact-supplier-contracts), [9.12](#912-invariant-and-vanishing-cohomology-of-a-hyperplane-section-are-orthogonal-complements), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
-
-#### EtaleCohomologyFoundations §§F.5–F.6, `0.11` (curve duality)
-
-Use the perfect pairing on `H¹(C,j_*ℱ)`, dual to `H¹(C,j_*ℱ∨)(1)`; retain smooth `C` and lisse coefficients on its dense open.
-
-#### EtaleCohomologyFoundations §§F.4–F.6 (rational adic Poincaré duality)
-
-Use Frobenius-equivariant perfect compact/ordinary rational cohomology pairings for smooth pure-dimensional schemes.
-
-#### EtaleCohomologyFoundations §§F.3, `F`.`5`–`F`.`6` (extreme-degree curve cohomology)
-
-For smooth affine curves identify `H²_c` with geometric coinvariants twisted by `(−1)`, and `H⁰` with invariants; a nonzero lisse system has `H⁰_c=0`.
-
-#### EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (equivariant pairings and traces)
-
-Keep the Galois action on the trace line; pairings have their stated Tate twist.
-
-#### EtaleCohomologyFoundations §§F.5–F.6 (lisse tensor–`Hom` and curve duality)
-
-Use the lisse tensor–`Hom` adjunction and the induced perfect curve pairings.
-
-#### EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)
-
-Frobenius-equivariant projective-space and multiplicative-group cohomology, compact support and duality, in the shared Tate convention. These computations are used downstream in
-AutomorphicLFunctionsAndLocalFactors §AL.3.11 (the weight-facing acceptance suite).
-
-First Chern classes, pullback/base-change and additivity; divisor cycle classes and Gysin maps with projection/trace formulas; `Tr(c₁(L)^n)=deg_L(X)`. Uses: [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
-
-#### EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)
-
-Weak Lefschetz and its Gysin transpose; Frobenius-equivariant blowup injectivity and codimension-two decomposition, preceding hard Lefschetz. Uses: [6.1](#61-vanishing-cycles-with-unipotent-boundary-coefficients), [6.3](#63-square-improvement-on-the-product-of-a-curve).
-
-Hyperplane weak Lefschetz: restriction is an isomorphism below `n−1` and injective in degree `n−1`, with its dual Gysin statement. Uses: [3.10](#310-the-local-factors-of-the-radical-quotient-have-rational-coefficients), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.5](#95-the-image-of-hn1x-in-hn1y-is-the-monodromy-invariants).
-
-#### ArithmeticGaloisDuality §R02.3.2 (function-field ideles, local units and reciprocity)
-
-Geometric abelianized finite-field curve Weil groups are finite prime-to-`p` by pro-`p`, using idèle class theory, local units and finite Picard group. Uses: [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization).
-
-#### ArithmeticGaloisRepresentations §5.13 (degree-refined function-field Chebotarev)
-
-*Chebotarev for function fields* supplies, for every connected finite étale Galois cover of an open of a curve, the constant-field degree congruences, the degree-by-degree count `(#B/#H_geom) q^n/n + O(q^(n/2)/n)` with constant independent of `n`, Dirichlet density and Frobenius density. Section `3.7` here adds only the geometric-Frobenius inversion and the uniform conditional-mass argument for Haar-null sets. The connected double-cover zeta comparison excluding the quadratic exception is in §5.16 here; it uses DWP.1, without DWP.10. Uses: [3.7](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points), [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
-
-#### InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)
-
-For normal connected `X` and dense open `U`, surjectivity `π₁(U)→π₁(X)`, and lisse-sheaf/representation comparison. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple).
-
-#### EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)
-
-Arithmetic/geometric fundamental-group sequence, connected-cover classification and tame specialization; retain constant-field and component comparisons. The dense-open criterion is InverseGaloisAndArithmeticFundamentalGroups §IG.5.7; the dominant finite-index extension is proved in §5.8 here. Uses: [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [3.5](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points), [5.1](#51-the-weil-group-of-a-finite-field-scheme), [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization), [5.15](#515-specialization-of-geometric-monodromy), [3.2](#32-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [5.8](#58-functoriality-of-determinantal-weights).
-
-The arithmetic/geometric exact sequence for geometrically connected finite-field schemes and its Weil pullback over geometric Frobenius `ℤ`. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field).
-
-#### EtaleCohomologyFoundations §F.3a and LefschetzPencilsAndVanishingCycles §§0.2–0.8 (boundary traits and nearby cycles)
-
-Boundary local traits, Weil representations, tame character and branch sign lines. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.20](#520-weights-of-the-inertia-invariants-at-a-missing-point).
-
-#### LefschetzPencilsAndVanishingCycles §§0.6–0.8 (specialization and nearby-cycle functoriality)
-
-Use the actual specialization maps and their exact cohomology sequence.
-
-#### LefschetzPencilsAndVanishingCycles §0.5 (derived nearby cycles and the vanishing triangle)
-
-Use derived nearby cycles and the specialization/vanishing triangle, with its Galois action.
-
-#### LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)
-
-Quasi-unipotent inertia, `N:V→V(−1)`, centered monodromy filtration, primitive `SL₂` strings, Clebsch–Gordan tensor compatibility, duality and relative filtration criteria, with geometric-Frobenius signs. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.20](#520-weights-of-the-inertia-invariants-at-a-missing-point).
-
-Quasi-unipotent nearby inertia, tame character, `N` and monodromy filtrations in the geometric/arithmetic setting of WII 6.1.12. Boundary traits over any `ℓ`-invertible field have pro-`p` wild inertia (trivial in characteristic zero), with no map from pro-`p` to pro-`ℓ` for `p≠ℓ`. Uses: [8.6](#86-mixed-sheaves-on-the-special-fibre-with-an-action-of-the-generic-galois-group), [8.7](#87-nearby-cycles-of-a-mixed-sheaf-are-mixed), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
-
-#### LefschetzPencilsAndVanishingCycles §1.8 (tame restriction along a smooth divisor)
-
-For `X` regular, `D ⊂ X` a smooth divisor with a chosen equation `t` and `ℱ` a lisse sheaf on `X − D`, tamely ramified along `D`, whose local monodromy becomes unipotent after a Kummer cover, the tame restriction `ℱ[D]`: a lisse sheaf on `D` with the tame monodromy action and its residue `N`, built from the Kummer covers `t^{1/n}` with the chosen equation. The quasi-unipotence it assumes holds for `X` of finite type over `𝔽_q` by §1.1 there, the residue fields along `D` being finitely generated over `𝔽_q`; the existence of the relative monodromy filtration under weight hypotheses is §5.12 here. Uses: [5.12](#512-boundary-mixedness-and-extension-of-purity).
-
-#### LefschetzPencilsAndVanishingCycles §§2.4–2.8, 3.1–3.5 and 4.1–4.5 (surface pencils for the square-improvement argument)
-
-Only the square-improvement argument of §§6.1–6.3 uses these; no other target depends on it. From §§2.4–2.8: the vanishing-cycle triangle, the specialization five-term sequence, the normalization resolution and the nodal branch sign line. From §§3.1–3.5: finite-field Lefschetz pencils with axis, blowup and singular set after finite extension and Veronese embedding; the boundary-adapted surface-pencil extension is constructed in §6.1 here, with one node, tangency or crossing per exceptional fibre, in arbitrary characteristic. From §§4.1–4.5: the arithmetic vanishing subsheaf of `Rⁿf_*ℚ_ℓ`, its pairing into `ℚ_ℓ(−n)`, geometric constancy of the other degrees, the quotient by vanishing cycles and the radical. Uses: [6.1](#61-vanishing-cycles-with-unipotent-boundary-coefficients), [6.3](#63-square-improvement-on-the-product-of-a-curve).
-
-#### LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)
-
-Use the scheme-theoretic dual variety and the incidence family of smooth hyperplane sections.
-
-#### LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)
-
-Use the pencil after a permitted Veronese re-embedding and finite extension of the finite base field.
-
-#### LefschetzPencilsAndVanishingCycles §4.4 (radical quotient and pairing)
-
-Use the vanishing subspace modulo its pairing radical, with the induced perfect pairing and arithmetic action.
-
-#### LefschetzPencilsAndVanishingCycles §4.2 (vanishing subspace)
-
-Use the subspace generated by the local vanishing cycles, with its invariant intersection form.
-
-#### LefschetzPencilsAndVanishingCycles §§3.6, 5.1 and §5.15 here (curve reduction and monodromy specialization)
-
-LefschetzPencilsAndVanishingCycles §3.6 (arithmetic global monodromy of a pencil)
-owns arithmetic finite-model smooth-curve specialization, simultaneously over all
-congruence powers, preserving the full compact images, pairings, twists and finite
-wild boundary inertia. Its §5.1 gives Bertini for a specified monodromy image.
-Section `5.15` here owns the reduced-irreducible-base and finite-type-family
-extension, its agreement with §3.6 on arithmetic smooth curves, and normal-scheme
-curve reduction for a specified representation. The separate simultaneous-all-primes
-prime-to-`p` abelian specialization and curve surjection in §5.15 supply §5.5.
-These constructions precede purity. Uses: [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization), [5.9](#59-delignes-generalized-majoration-theorem), [5.15](#515-specialization-of-geometric-monodromy).
-
-#### LefschetzPencilsAndVanishingCycles §5.1 (Bertini for monodromy images)
-
-Use equality of monodromy images for a sufficiently general line adapted to the specified finite coefficient model.
-
-#### LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)
-
-Use openness of the nonzero symplectic radical-quotient image, in the `ℓ`-adic topology.
-
-#### LefschetzPencilsAndVanishingCycles §§5.2–5.3 (conjugacy and generation by transvections)
-
-Use geometric generation by the transported local transvections, retaining the characteristic-two branch.
-
-#### LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)
-
-Local/global invariant cycles and support-bound weak Lefschetz for explicitly modeled potentially pure complexes over algebraically closed fields. Keep both `K` and `DK` support bounds and hyperplane duality `D(K|Y)=(DK)|Y(−1)[−2]`. The supplier’s local/global invariant-cycle theorems retain their spectral or local-surjectivity hypotheses. Section `9.5` here discharges them with the numerical and cohomological weight estimates, giving the constant-coefficient fixed-part theorem for pencils satisfying WII 4.3.1. Uses: [9.5](#95-the-image-of-hn1x-in-hn1y-is-the-monodromy-invariants), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes), [9.12](#912-invariant-and-vanishing-cohomology-of-a-hyperplane-section-are-orthogonal-complements).
-The complex input to §§7b.8–7b.11 is a
-geometric-generic arithmetic model (§7b.7 there) with a total complex pure in
-§8.13's arithmetic sense, as required by arithmetic potential purity of complexes in §8.20.
-Section `9.10` uses §8.11 to prove purity of its general-incidence trait models
-from §7b.7's duality comparison and then discharges §7b.8's spectral hypothesis
-by the same weight separation. Closed-fibre purity in an arbitrary
-arithmetic model alone supplies none of these arithmetic-purity hypotheses.
-
-#### LefschetzPencilsAndVanishingCycles §§7a.3, 7a.5 (nodal-curve monodromy and arithmetic descent)
-
-Use the normalization, graph and component pieces of the centered monodromy
-filtration on generic `H¹`, with §7a.5's residue-Galois-equivariant descent and
-signed component and branch permutations.
-
-#### LefschetzPencilsAndVanishingCycles §§7a.1–7a.2, 7a.5 (normalization, specialization and arithmetic descent)
-
-Use the geometric normalization cohomology sequence and §7a.5's
-Frobenius-equivariant descent, including signed graph permutations.
-
-#### SchemeAndStackFoundations §0.29 (absolute, relative and `q`-power scheme Frobenius)
-
-Scheme `p`-Frobenius and its `q=p^a` iterate, naturality, products and base change. For smooth pure `g`-dimensional schemes, supply its finite locally free degree `q^g` from étale coordinates. Uses: [1.1](#11-the-abelian-variety-frobenius-adapter).
-
-**Checks.** On `ℙ¹` the supplied `q`-map has `q+1` geometric fixed points; on `Spec 𝔽_q` it
-is identity. For `q=p²` its affine fixed field is `𝔽_(p²)`, while one `p`-iterate has fixed
-field `𝔽_p`. The abelian specialization on an elliptic curve has degree `q`, as in §1.1.
-These checks distinguish the `q`-iterate from a single absolute `p`-map and from a map
-obtained by extending the closure scalars incorrectly (Milne, [AV](#references), II §1, `p`. `75`;
-EtaleCohomologyFoundations §F.10.1, frobeniusFixedPoints).
-
-#### SchemeAndStackFoundations §§1.19–1.20 (Deligne–Mumford stacks) and the coefficient descent target of §8.24 here
-
-Étale cohomology of finite-field Deligne–Mumford stacks and the normal-crossings normalized-stratum resolution of `j_!ℚ_ℓ`. Uses: [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification).
-
-#### EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)
-
-Finite cohomology and the coefficient Grothendieck–Lefschetz formula `Z(U₀,F₀,t)=∏ det(1−Ft,Hⁱ_c)^{(−1)^{i+1}}`; curve/Jacobian fixed-point formula `1−Tr(α′)+deg α`; proper base change on pencil fibres; Frobenius-equivariant Künneth and Leray with finite abutment filtrations. Include descent of pencils, singular/sign data and coefficient models, and trace splitting for finite surjective curve covers, including ramified covers. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian), [2.12](#212-weil-complexes-through-the-transform), [2.15](#215-the-l-weight-of-a-pure-lisse-sheaf-on-a-curve), [4.7](#47-reduction-of-the-curve-estimate-to-the-affine-line), [5.2](#52-weil-sheaves-and-étale-descent), [5.10](#510-initial-cohomological-and-boundary-weight-bounds), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.15](#515-specialization-of-geometric-monodromy), [5.18](#518-the-strict-initial-h-bound), [6.2](#62-reality-of-curve-cohomological-factors), [6.3](#63-square-improvement-on-the-product-of-a-curve), [10.5](#105-delignes-frobenius-equidistribution-theorem), [5.9](#59-delignes-generalized-majoration-theorem).
-
-Proper, smooth and compact-support base change, étale invariance under universal homeomorphisms and open/closed excision. Include the coefficient trace/Euler formula; the dense-open affine fibration used for integrality is constructed in the fibration reduction before §7.10 here. Uses: [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.21](#821-ri-f_ℚ_ℓ-of-a-proper-smooth-morphism-is-potentially-punctually-pure), [8.23](#823-semisimplicity-of-ri-f_ℚ_ℓ-for-a-proper-smooth-family), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
-
-#### AlgebraicCurves, Layer `12` (function-field/curve dictionary)
-
-Smooth projective compactification of a smooth curve over a perfect field, with finite reduced étale boundary. Uses: [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
-
-#### ArithmeticDirichletSeries, Layer `8` (Landau positivity)
-
-The nonnegative `3`,`4`,`1` trigonometric combination and exact-abscissa positivity used in WII §2. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
-
-#### SchemeAndStackFoundations §5.11 (the Weil bound via surfaces)
-
-`weil_bound`: for a smooth proper geometrically integral curve `C` of genus `g` over a finite field with `q` elements, `|#C(𝔽_q) − (q + 1)| ≤ 2g√q`, proved by the Hodge index theorem on `C̄ × C̄` with the graph of the `q`-power Frobenius. With §3.1 there / `genus_baseChange` (a proper curve with `H⁰(O) = k` keeps `H⁰` and its genus under every field extension) it applies to `C ⊗ 𝔽_{q^m}` over `𝔽_{q^m}` and gives `|#C(𝔽_{q^m}) − (q^m + 1)| ≤ 2g·q^{m/2}` for every `m ≥ 1`, as ArithmeticGaloisRepresentations §5.13 already applies it. The supplier names the curve-cohomological route as a downstream comparison; §1.6 here is that comparison and does not restate the bound as a target. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian).
-
-#### JacobianChallenge, Layer `F` (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian trace comparison)
-
-Pointed Abel–Jacobi and its universal property, with base-point-free finite-field `Pic⁰` descent from SchemeAndStackFoundations §3.6 and translation-trivial `H¹` and Frobenius-equivariant `H¹(J)≅H¹(C)` from InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1. Without a rational base point, Frobenius commutes with the Abel–Jacobi map only up to translation. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian), [1.7](#17-the-weights-of-h-h-and-h-of-a-curve-over-𝔽_q).
-
-#### ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)
-
-Finite-presentation spreading of polarized projective relative curves with sections, divisors and finite étale covers over a dense base open. Uses: [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve).
-
-#### ModularCurves §5B and ModularCurvesPartII §§3.1–3.2, `4.11`–`4.12` (full level and geometric connectedness)
-
-Use the actual full-level carriers. Section `4.11` / fixedPairingIntegralComponents
-supplies connected geometric fibres of the fixed-pairing compactification;
-§3.2 supplies smoothness at invertible level and §4.12 identifies its nonempty
-elliptic open with the fixed-pairing fine curve. A connected smooth curve over
-an algebraically closed field is irreducible, so that open is connected. Section `10.6` here derives the universal `SL₂` monodromy comparison and openness for nonconstant-`j` families from these connected towers and finite-index fundamental-group images. Uses: [10.6](#106-finite-field-satotate-for-elliptic-families).
-
-#### ReductiveGroups, Layer `2` (`Lie` algebras), and ReductiveGroupsPartII §RG2.0.2 (analytic charts)
-
-Algebraic subgroup `Lie` algebras and `ℓ`-adic analytic local charts: an `ℓ`-adically open subgroup has full algebraic dimension. Use ReductiveGroupsPartII §RG2.0.2, smooth-group-analytic-charts, for the analytic dimension comparison. Uses: [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense).
-
-#### ReductiveGroups, Layer `3` (subgroups, quotients and components)
-
-Algebraic Zariski closure of `ℚ_ℓ`-point subgroups and connectedness of `Sp`. Uses: [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense).
-
-#### ReductiveGroups, Layer `6` (reductive and semisimple groups)
-
-Algebraic reductive and semisimple group theory, centers and central isogenies.
-DWP.5 constructs the central-degree and compact-normalizer comparisons in §5.7
-and the algebraic-by-`ℤ` compact-form adapter in §5.17, using the connected `Lie`-group foundations below.
-Uses: [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), [5.17](#517-the-compact-form-of-weil-monodromy).
-
-A faithful finite-dimensional representation of an affine algebraic group over algebraically closed characteristic-zero coefficients is semisimple exactly when the identity component is reductive. Finite components use averaging; image and Zariski closure have the same invariant subspaces. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves).
-
-#### RepresentationTheory/LieGroups, Layer `7` (complexification and real forms)
-
-Connected reductive compact real forms, their complexification, existence and conjugacy, and the equivalence between continuous compact-group representations and holomorphic representations of their complexifications. Section `5.17` here compares these with the algebraic quotient, proves algebraicity for the relevant holomorphic semisimple-group representations, and extends across finite components, cyclic central quotients and Weil degree. Uses: [5.17](#517-the-compact-form-of-weil-monodromy).
-
-#### RepresentationTheory/CompactGroups, Layer `5` (Peter–Weyl)
-
-Uniform density of matrix coefficients and square-character approximation for the positive pole-order argument. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
-
-#### RepresentationTheory/CompactGroups, Layers `0`, `6` and the `SU(2)` engine case (Haar probability, characters and `SU(2)`)
-
-Normalized Haar, character orthogonality, class-function density and conjugacy separation, including `SU(2)` density `(2/π)sin²θ`. The compact-quotient disintegration, continuous clopen conditional masses and Dini uniform decay are targets of §3.7 here; the nullity of proper algebraic subsets of `ℓ`-adic symplectic cosets is a target of §3.6 here. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem), [5.17](#517-the-compact-form-of-weil-monodromy), [5.19](#519-character-decay-and-degree-fibre-equidistribution), [10.6](#106-finite-field-satotate-for-elliptic-families), [3.7](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points), [3.6](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points).
-
-#### NewtonPolygons §§0.6–0.7 (slope data and the common polygon carrier)
-
-Use the finite slope data of NewtonPolygons §0.6, its cumulative heights and the associated polygon,
-with the order-preserving embedding of rational slopes into real slopes.
-Section `5.13` supplies the Frobenius-stalk adapter; equality and comparison
-use the represented heights, with `∞` outside the finite domain, rather than
-equality of vertex lists. No second polygon carrier is constructed here.
-
+The first layer treats the linear algebra of weights, and the second the abelian-variety estimate and zeta rationality. The next five prove purity for curves, with arithmetic Lefschetz pencils alongside. Then come direct images and integrality, then mixed complexes and semisimplicity. The last two prove hard Lefschetz and transport weights to arithmetic and equidistribution. The Lean statements in [Suggested.lean](Suggested.lean) are suggested forms; the mathematics in this README is definitive.
 
 ## How to read the build
 
@@ -586,6 +53,31 @@ uses the smooth/lisse comparison to pass from its sheaf witness to §9.10.
 Each subsection specifies mathematical targets with their hypotheses and source locators.
 Definitions carry API and discriminating Checks. The supplier contracts distinguish pinned
 library declarations from the mathematical interfaces supplied by other roadmaps.
+
+## Conventions
+
+- Use geometric Frobenius, with scalar `q⁻¹` and weight `−2` on `ℚ_ℓ(1)`. At a
+  closed point of degree `e` use `q_x=q^e`. Finite base extension replaces
+  `(q,F)` by `(q^r,F^r)`, preserving weight.
+- Integer Weil weights require algebraicity and the common modulus at every
+  complex conjugate; integrality is separate. Fixed-`ι` real weights are
+  `2 log_q|ια|` for `α≠0`. The chosen coefficient embedding is neither canonical
+  nor `ℓ`-adically continuous.
+- Characteristic roots are multisets, with multiplicities from generalized
+  eigenspaces. Purity allows Jordan blocks. Transpose preserves roots;
+  contragredient means inverse transpose.
+- Arbitrary scalar twists give Weil lines; étale descent retains the unit and
+  continuity conditions. Half twists require a square-root choice. Tate twist `r`
+  subtracts `2r` from weight.
+- `Hⁱ(K[m])=Hⁱ⁺ᵐ(K)`. On a smooth base, a lisse sheaf of punctual weight `β`
+  gives complex weight `β+m−2r` after `[m](r)`. Upper bounds use cohomology
+  stalks; lower bounds use Verdier duality, retaining dimension/Tate shifts.
+- Keep normality, lissity, geometric connectedness and arithmetic witnesses
+  wherever stated. Geometric semisimplicity does not give arithmetic
+  semisimplicity. Potential purity includes an explicit model.
+- Stalk Newton polygons sort slopes `v(α)/v(q)` with multiplicity. Newton couples
+  normalize `v(q)=1` and record `(v(α),v(q^n/α))` for weight `n`. Keep branch
+  orientation lines and alternating-pairing signs.
 
 ## Layer DWP.0: Eigenvalue weights and functorial linear algebra
 
@@ -936,6 +428,7 @@ For `F=diag(1,2)` over `ℚ` and `q=2` the weights are `{0,2}`; the tensor squar
 ### Dependencies
 
 Mathlib fields, minimal polynomials, algebraic closures, characteristic polynomials, generalized eigenspaces, tensor and exterior powers, valuations and direct sums, as named in the supplier contracts; ArithmeticGaloisRepresentations §2.6 for §0.19's numerical comparison.
+
 
 ## Layer DWP.1: The initial Weil estimate through Rosati positivity
 
@@ -3527,6 +3020,502 @@ prior art for the conclusion of §4.7 on opens of the affine line and for §5.20
 §§4.5–4.6. Apart from the parts of §§1.7 and 1.10 listed above, DWP.1–DWP.3, §§4.5–4.7,
 DWP.5, DWP.6, §§7.2–7.11 and 7.13–7.14, DWP.8, DWP.9 apart from the middle degree of §9.9, and
 DWP.10 have no counterpart in AxiomMath/Weil itself.
+
+## Scope and ownership
+
+This roadmap owns the real-base scalar adapter, ordinary Frobenius and
+fixed-`ι` weights, punctual and determinantal weights, local bounds,
+weight–monodromy on finite-field curves, the weight statements about the
+Fourier–Deligne transform (weights of character sheaves, reality, `L²`-weights
+and purity of the transform), the purity theorems, mixed-complex
+estimates, weight filtrations, geometric semisimplicity, absolute Lefschetz and
+the weight-facing arithmetic and distribution exports of DWP.10. The transform
+itself and every weight-free statement about it belong to
+FourierDeligneTransform.
+Section `9.7` owns the arbitrary-field graded-vector-space primitive kernel,
+decomposition and compatible-pairing core. A consumer that packages a
+characteristic-zero Lefschetz structure (an `sl₂` triple with its lowering
+operator and grade projectors on a naturally graded cohomology) takes this core
+through the natural-grading comparison in §9.7 and adds that theory downstream;
+EtaleDualityAndPerverseSheaves extends the same core to an abelian category
+with Tate twist. There is no dependency in the reverse direction.
+
+Use the scheme geometry of SchemeAndStackFoundations Layers `0`–`2`. Import finite
+cohomology, base change and Frobenius comparisons from EtaleCohomologyFoundations
+§§F.0–F.4, F.10.1–F.10.5; geometric trace formulae from
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4; coefficient categories, Tate twists, six operations,
+duality, cycle classes and weak Lefschetz from EtaleCohomologyFoundations §§F.0–F.7;
+arithmetic-model approximation from SchemeAndStackFoundations §0.9 and
+LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7;
+trait inertia from EtaleCohomologyFoundations §F.3a;
+nearby cycles and local monodromy from LefschetzPencilsAndVanishingCycles §§0.2–1.6,
+and the tame restriction along a smooth divisor from its §1.8;
+Lefschetz pencils, vanishing cycles and their monodromy from its §§3.2–3.6,
+`4.2`–`4.4` and `5.1`–`5.8`, for hard Lefschetz and the arithmetic pencil statements
+of DWP.3, with semistable curves and invariant cycles from §§7a–7b; the
+Fourier–Deligne transform, its inversion, trace identity, Frobenius exchange,
+perverse `t`-exactness and local monodromy on the line from FourierDeligneTransform
+(supplier contract below). Polarizations, Rosati positivity and
+endomorphism polynomials and the Rosati–Frobenius identity come from AbelianSchemesAndArithmeticModuli §§A2.5, A3.9, A6.10–A6.14, A6.21,
+with Tate/Galois realization from ArithmeticGaloisRepresentations §§6.1–6.2 and
+`H¹`/Tate comparison from AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology.
+
+This roadmap constructs rational finite-field zeta functions (§1.10), extraction
+of integral degree factors and their independence of `ℓ` (§4.4), component-aware
+point-count bounds (§10.2), and smooth proper Deligne–Mumford-stack purity (§8.24).
+Section `1.10` also owns the cohomological Euler products and rational `L`-functions
+of finite-model constructible coefficients; the geometric trace identities it
+uses belong to InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
+ArithmeticGaloisRepresentations §2.6 owns the canonical natural-base scalar
+Weil-number predicate, the monodromy filtration and
+Weil–Deligne purity. Here `IsWeilNumber` is its real-base adapter with the
+additional condition `q>1`. Section `0.19` owns their comparison for natural `q≥2`
+and the comparison of ordinary Frobenius purity with monodromy-graded purity;
+ordinary purity agrees with Weil–Deligne purity when `N=0`. Rigid coefficient
+categories, relative hard Lefschetz and decomposition are outside this roadmap;
+perverse carriers used here are supplied by EtaleCohomologyFoundations §F.8.
+
+The Hasse bound for elliptic curves is already in Tau Ceti
+(`WeierstrassCurve.hasse_bound` and its trace form); §1.8 only compares it with
+the root-modulus estimate. The numerical Weil bound
+`|#C(𝔽_{q^m}) − (q^m + 1)| ≤ 2g·q^{m/2}` for a smooth projective geometrically
+connected curve is supplied by SchemeAndStackFoundations §5.11 (the Weil bound
+via surfaces), over every `𝔽_{q^m}` by its genus base change (§3.1 there); §1.6
+here is the Jacobian variant that §5.11 does not state (the Weil numbers among
+the Frobenius roots, the point-count formula and the zeta function) together
+with the comparison of the two bounds. Import the Abel–Jacobi construction,
+reductive groups and compact representation theory. The contracts identify the base-point-free Picard and curve/Jacobian comparisons.
+Sections `5.15` and `10.6` supply the curve-reduction and elliptic-monodromy
+comparisons needed by the weight arguments, and §§3.6–3.7 the measure-theoretic density
+statements for arithmetic pencils.
+The degree-refined finite-cover Chebotarev theorem is imported from
+ArithmeticGaloisRepresentations §5.13.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+Use these declarations in their existing namespaces, at Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
+
+- [minpoly.algHom_eq](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/Minpoly/Basic.lean): Minimal polynomials are unchanged by injective algebra maps.
+
+- [IsAlgClosed.lift](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Algebraic domain algebras embed in an algebraically closed field with the prescribed base algebra structure.
+
+- [NumberField.Embeddings.pow_eq_one_of_norm_eq_one](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean): An algebraic integer whose complex embedding norms are `1` is a root of unity.
+
+- [IsAlgClosed.cardinal_eq_cardinal_transcendence_basis_of_aleph0_lt](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): An uncountable algebraically closed field has a transcendence basis of its cardinality over a countable base.
+
+- [Cardinal.mk_complex](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Complex/Cardinality.lean): The cardinality of `ℂ` is `𝔠`.
+
+- [IsAlgClosed.equivOfTranscendenceBasis](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equipotent transcendence bases yield a ring equivalence; compatibility with a prescribed base embedding is a separate target.
+
+- [IsAlgClosed.ringEquiv_of_equiv_of_charZero](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Classification.lean): Equal-cardinality uncountable algebraically closed characteristic-zero fields are isomorphic.
+
+- [Algebra.IsAlgebraic.cardinalMk_le_max](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Algebraic/Cardinality.lean): An algebraic extension has cardinality bounded by `max(#R,ℵ₀)`.
+
+- [LinearMap.charpoly_baseChange](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/BaseChange.lean): Characteristic polynomials commute with scalar extension for finite free modules.
+
+- [Module.End.hasEigenvalue_iff_isRoot_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Charpoly.lean): Eigenvalues are characteristic roots over a domain.
+
+- [LinearMap.finrank_maxGenEigenspace_eq](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Zero.lean): Generalized eigenspace dimension equals root multiplicity.
+
+- [Module.End.iSup_maxGenEigenspace_eq_top](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Triangularizable.lean): Generalized eigenspaces span over an algebraically closed field.
+
+- [Module.End.independent_maxGenEigenspace](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Eigenspace/Basic.lean): Distinct generalized eigenspaces are independent.
+
+- [Matrix.charpoly_fromBlocks_zero₂₁](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.lean): Block triangular characteristic polynomials multiply.
+
+- [LinearMap.charpoly_prodMap](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/ToMatrix.lean): Product-map characteristic polynomials multiply.
+
+- [Matrix.reverse_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The reversed characteristic polynomial is `det(1−tM)`.
+
+- [Matrix.trace_eq_sum_roots_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Eigs.lean): Trace is the sum of characteristic roots over an algebraically closed field.
+
+- [Matrix.charpoly_inv](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.lean): The inverse characteristic polynomial is expressed by reversal and determinant.
+
+- [Matrix.det_kronecker](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Matrix/Kronecker.lean): The Kronecker-product determinant formula.
+
+- [LinearMap.trace_tensorProduct'](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Trace.lean): Tensor-map traces multiply for finite free modules.
+
+- [LinearMap.det_dualMap](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Determinant.lean): Ordinary transpose preserves determinant; a contragredient first takes the inverse.
+
+- [Polynomial.isCoprime_iff_aeval_ne_zero_of_isAlgClosed](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/FieldTheory/IsAlgClosed/Basic.lean): Coprime polynomials have no common algebraic-closure root.
+
+- [LinearMap.aeval_self_charpoly](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Charpoly/Basic.lean): Cayley–Hamilton.
+
+- [Polynomial.sup_ker_aeval_eq_ker_aeval_mul_of_coprime](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Polynomial/Basic.lean): Coprime polynomial kernels sum to the product kernel.
+
+- [AddValuation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/Valuation/Basic.lean): Existing additive valuations with `v(0)=∞` and additive product law.
+
+- [Multiset.sort](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Data/Multiset/Sort.lean): Sorted multisets, preserving multiplicities.
+
+- [MonoidHom.eqLocus](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Group/Subgroup/Ker.lean): Equalizer subgroup of two group homomorphisms.
+
+- [exteriorPower.map](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/ExteriorPower/Basic.lean): Functorial maps on exterior powers.
+
+- [Module.Basis.exteriorPower](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/ExteriorPower/Basis.lean): Exterior-power basis from a linearly ordered basis.
+
+- [Representation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Basic.lean): Group/monoid representations by linear endomorphisms.
+
+- [Representation.asModule](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Basic.lean): The corresponding monoid-algebra module.
+
+- [Representation.invariants](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Invariants.lean): The invariant submodule.
+
+- [IsSemisimpleModule](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RingTheory/SimpleModule/Basic.lean): Semisimplicity as a complemented submodule lattice.
+
+- [Representation.IsSemisimpleRepresentation](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/RepresentationTheory/Semisimple.lean) and `Representation.isSemisimpleRepresentation_iff_isSemisimpleModule_asModule`: semisimplicity of a representation and its equivalence with semisimplicity of the associated monoid-algebra module.
+
+- [LinearMap.BilinForm.Nondegenerate](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Bilinear forms separating on both sides.
+
+- [LinearMap.BilinForm.restrict](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Basic.lean): Restriction of a bilinear form.
+
+- [LinearMap.BilinForm.IsAlt](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Properties.lean): Alternation `B(x,x)=0`.
+
+- [LinearMap.BilinForm.restrict_nondegenerate_iff_isCompl_orthogonal](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean): Over a finite-dimensional field space with reflexive form, nondegenerate restriction is equivalent to complementarity with the orthogonal.
+
+- [DirectSum.IsInternal](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/DirectSum/Basic.lean): Internal direct sums via bijectivity of the canonical map.
+
+- [LinearMap.ker](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Module/Submodule/Ker.lean): Linear-map kernels.
+
+- [Module.finrank](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/LinearAlgebra/Dimension/Finrank.lean): Finite dimension.
+
+- [TauCeti.Representation.isSemisimpleRepresentation_comp_subtype](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/RepresentationTheory/Induction/Clifford/Basic.lean): An irreducible finite-dimensional representation restricts semisimply to a normal subgroup over any field; apply summandwise to a semisimple representation.
+
+
+- [LinearMap.BilinForm.IsAlt.even_finrank](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/LinearAlgebra/BilinearForm/SymplecticBasis.lean): a nondegenerate alternating form on a finite-dimensional space has even dimension over every field, including characteristic two. Alternation means `B(x,x)=0`; skew symmetry alone is insufficient in characteristic two. This is the parity input for §9.9 (Weil II, Corollary 4.1.5, `p`. `218`).
+
+- [TauCeti.AlgebraicGeometry.AbelianVariety](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/AbelianVariety/Basic.lean) and its `dim`: the abelian-variety carrier (a proper geometrically integral group scheme over a field, with its structure morphism) and its dimension as topological Krull dimension, used by the §1.5 point-count bound.
+
+- [WeierstrassCurve.hasse_bound](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/AlgebraicGeometry/EllipticCurve/HasseBound.lean) and `WeierstrassCurve.frobeniusTrace_sq_le_four_mul_card` (same file): for an elliptic Weierstrass curve `W` over a finite field with `q` elements, `(#W(𝔽_q) − (q + 1))² ≤ 4q`, the count including the point at infinity, and the trace form `a_q² ≤ 4q` for `W.frobeniusTrace = q + 1 − #W(𝔽_q)` (`WeierstrassCurve.frobeniusTrace_eq_card_point`, `TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`). Both are proved without `sorry`, through the degree of `rπ − s`. Used by §1.8, which compares them with §1.4's root-modulus estimate and restates nothing.
+
+- [Even.pow_nonneg](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Order/Ring/Basic.lean): even powers are nonnegative in an ordered ring, including the real traces of the even-tensor positivity in §5.8.
+
+- [gaussSum_mul_gaussSum_eq_card](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/NumberTheory/GaussSum.lean): for a nontrivial multiplicative character `χ` and a primitive additive character `ψ` of a finite field `R`, `g(χ, ψ) · g(χ⁻¹, ψ⁻¹) = #R`. It gives the weight of the Gauss-sum line in §2.13.
+
+- [MonoidHom.mrange](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Algebra/Group/Submonoid/Operations.lean) and `MonoidHom.mem_mrange`: use the image submonoid of the geometric representation directly. Membership is existence of a represented geometric group element; every such endomorphism is invertible. The image and its Zariski closure are distinguished throughout §8.14.
+
+### From FourierDeligneTransform
+
+FourierDeligneTransform owns the transform and states no weight; it consumes nothing from this roadmap. These are exactly the sections used here, with `ℚ̄_ℓ` or a finite extension `E` of `ℚ_ℓ` as coefficients and a nontrivial additive character `ψ : 𝔽_p → E^×`.
+
+- §0.2 (the finite Fourier transform): the Plancherel identity for functions on a finite vector space with values in a commutative ring carrying a nondegenerate character. Applied to complex-valued trace functions through `ι`, with `ι ∘ ψ` nondegenerate. Uses: [2.16](#216-plancherel-and-the-weight-of-the-transform).
+- §§2.2–2.3 (character sheaves and their traces): the character sheaf `ℒ_χ` of a smooth connected commutative group over `𝔽_q` is lisse of rank one, and `Frob_x` acts on it by `χ(N(x))`. Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines).
+- §2.5 (Artin–Schreier sheaves): `ℒ_ψ(f)` with trace `ψ(Tr f(x))`, additive in `f`, with `ℒ_ψ^∨ ≅ ℒ_{ψ⁻¹}`. Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines), [2.14](#214-complex-conjugation-through-the-transform).
+- §2.6 (Kummer sheaves). Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines).
+- §3.2 (the transform): `FT_ψ` on a vector bundle `V(E)` over a base `S`, its compatibility with tensoring by a complex pulled back from `S`, and `FT_{ψ⁻¹} ≅ [−1]^* ∘ FT_ψ`. Uses: [2.12](#212-weil-complexes-through-the-transform), [2.14](#214-complex-conjugation-through-the-transform).
+- §3.4 (inversion), as data. Uses: [2.12](#212-weil-complexes-through-the-transform), [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure).
+- §3.7 (coefficients and realization): the `E`- and `ℚ̄_ℓ`-transforms. Uses: [2.12](#212-weil-complexes-through-the-transform).
+- §3.8 (trace functions and Frobenius): the trace identity `t_{FT_ψ K} = (−1)^r 𝔉_ψ(t_K)` fibrewise and the Frobenius exchange `F^* FT_ψ(K) ≅ FT_ψ(F^*K)`. Uses: [2.12](#212-weil-complexes-through-the-transform), [2.14](#214-complex-conjugation-through-the-transform), [2.16](#216-plancherel-and-the-weight-of-the-transform).
+- §§4.1–4.2 (perverse `t`-exactness): over a field `FT_ψ` is `t`-exact, restricts to an equivalence of perverse hearts and sends simple objects to simple objects. Uses: [2.12](#212-weil-complexes-through-the-transform), [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure).
+- §5.2 (types of simple perverse sheaves on the line): the transform of a middle extension `j_{!*}F[1]` of type (T3) is again a middle extension of type (T3). Uses: [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure).
+- §5.4 (the Kummer transform and Gauss-sum lines): geometric Frobenius acts on `G(χ, ψ)` by `−g(χ, ψ)`. Uses: [2.13](#213-weights-of-character-sheaves-and-gauss-sum-lines).
+- §5.5 (local monodromy of the transform): the lisse locus of the transform, which is `𝔸¹ ∖ {0′}` when the local monodromy at `∞` is nonzero with all slopes `< 1`, and the exact sequence of `G_{0′}`-modules at `0′` whose outer terms carry the trivial action of inertia. Uses: [4.5](#45-the-transform-of-a-pure-middle-extension-on-the-line-is-pure), [4.6](#46-laumons-estimate-on-the-affine-line).
+- §5.6 (local Fourier transforms): the third term of the sequence at `0′` is `𝔉^{(∞,0′)}(F_∞)`, and `𝔉^{(∞,0′)}(V) ≅ V(−1)` for unramified `V`. Uses: [4.6](#46-laumons-estimate-on-the-affine-line).
+
+### From other roadmaps
+
+Each citation identifies its mathematical interface and retains its supplying section’s hypotheses. A roadmap target is a dependency to build in Tau Ceti; it does not assert that its carrier is already in the pinned libraries.
+
+#### AbelianSchemesAndArithmeticModuli §A2.5 (Polarization)
+
+A polarization defined over the finite ground field, whose duality map is compatible with Frobenius. Uses: [1.2](#12-the-rosatifrobenius-identity-through-the-adapter).
+
+#### AbelianSchemesAndArithmeticModuli §A3.9 (Polarization.rosati)
+
+Use the Rosati anti-involution defined by the chosen polarization; its dual-isogeny and rational-endomorphism normalization is fixed in that section.
+
+#### AbelianSchemesAndArithmeticModuli §A6.10 (characteristic polynomial and trace of endomorphisms)
+
+Use the integral monic degree-`2g` characteristic polynomial and its algebraic trace, distinct from the minimal polynomial.
+
+#### AbelianSchemesAndArithmeticModuli §A6.11 (charpolyTate)
+
+Identify that characteristic polynomial with the action on the prime-to-characteristic rational Tate module.
+
+#### AbelianSchemesAndArithmeticModuli §A6.1 (degree of isogenies)
+
+Use scheme-theoretic isogeny degree, with `deg(1−π^m)` equal to the separable kernel size.
+
+#### AbelianSchemesAndArithmeticModuli §A6.14 (rosatiPositivity)
+
+Use positivity of `(α,β) ↦ Tr(αβ†)` on rational endomorphisms.
+
+#### AbelianSchemesAndArithmeticModuli §A6.12 (trace and degree through a subfield)
+
+On a commutative subfield of the endomorphism algebra use the supplier’s trace and norm-degree identities.
+
+#### SchemeAndStackFoundations §0.9 and LefschetzPencilsAndVanishingCycles §§7b.3, 7b.7 (Noetherian approximation and arithmetic models)
+
+Noetherian approximation of finite-presentation geometry and finite coefficient data, including projective embeddings and smooth/proper pure-dimensional models. Refine a supplied arithmetic sheaf/complex model over a dense regular open; existence of an arbitrary `ℓ`-adic model is not assumed. Uses: [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [8.20](#820-sheaves-and-complexes-potentially-having-a-property-p), [8.21](#821-ri-f_ℚ_ℓ-of-a-proper-smooth-morphism-is-potentially-punctually-pure), [8.22](#822-potentially-pure-lisse-sheaves-on-a-normal-variety-are-semisimple), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
+For complexes, consume the geometric-generic arithmetic model of LefschetzPencilsAndVanishingCycles §7b.7: its
+base point lies over the generic point and its family and complex have explicit
+fibre identifications. Section `8.20` defines potential complex purity by purity
+of the total arithmetic complex in §8.13 and supplies the smooth/lisse comparison
+from fibrewise punctual purity. The general arithmetic-model and fibrewise potential-property
+interfaces of §8.20 retain their separate closed-fibre contract.
+
+#### ArithmeticGaloisRepresentations §§1.1–1.6, `6.1`–`6.2` (finite coefficient models, lattices and Tate realizations)
+
+ArithmeticGaloisRepresentations §§6.1–6.2 supplies the continuous Tate realization and its action, including arithmetic Frobenius `π_A`. Section `1.5` supplies descent to finite coefficient fields; EtaleCohomologyFoundations §F.4.0 (the stable-lattice criterion and existence of integral models), realized in §1.6, supplies stable lattices for compact groups. For Weil systems compactness is imposed on the geometric image. AbelianSchemesAndArithmeticModuli §A4.4 / exteriorCohomology supplies `H¹_et(A,ℤ_ℓ)≅Hom(T_ℓA,ℤ_ℓ)`, compatibly with pullback, scalar extension and coefficient reduction. Scheme/descent Frobenius is compared through EtaleCohomologyFoundations §§F.10.2–F.10.2b. Uses: [1.4](#14-the-weil-estimate-for-abelian-varieties-over-𝔽_q), [1.7](#17-the-weights-of-h-h-and-h-of-a-curve-over-𝔽_q), [5.2](#52-weil-sheaves-and-étale-descent), [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), [5.15](#515-specialization-of-geometric-monodromy).
+
+#### ArithmeticGaloisRepresentations §2.6 (scalar Weil numbers and monodromy-graded purity)
+
+Use the canonical natural-base Weil-number predicate, its purity predicates for
+an endomorphism with monodromy and for a Weil–Deligne representation, and its centered
+monodromy filtration. The supplier owns the filtration's
+kernel/image formula, conjugation and nonzero-scaling invariance. On a
+finite-dimensional characteristic-zero
+space, nilpotent `N` and invertible `F` satisfying `NF=qFN` give `F`-stable filtration
+steps. Section `0.19` here owns the scalar and graded-piece comparisons with DWP
+purity for natural `q≥2`, including the scalar-extension identifications of the
+graded quotients. Uses: [0.19](#019-scalar-and-weildeligne-purity-comparisons), [10.1](#101-weights-on-stable-arithmetic-subquotients).
+
+#### EtaleCohomologyFoundations §§F.0–F.4 (constructible derived coefficients, base change and finiteness)
+
+Constructible adic and rational coefficient categories from constructible integral models, finite coefficient extension, and the Tate line with geometric Frobenius `q⁻¹`; Weil descent is constructed in §5.2 here. Compare inverse arithmetic action on roots of unity. Uses: [0.15](#015-twists-vb-and-tate-twists-vr), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.2](#52-weil-sheaves-and-étale-descent), [5.3](#53-punctual-purity-and-finite-mixed-filtrations).
+
+Bounded constructible derived categories and cohomology sheaves over finite fields and `ℤ[1/ℓ]`; six operations, localization and Leray/Künneth with finite filtrations. The profinite-`π₁` description of lisse rational objects applies to the full subcategory admitting a global lisse integral lattice over a finite coefficient field; it includes every lisse object on a normal scheme. General lisse objects remain in the constructible category, with integral models that need only be constructible. For Weil sheaves the lattice condition concerns the underlying geometric sheaf. Include vanishing positive local `Ext` for lisse sheaves, generic constructibility/base change, tame `j_*` and monodromy base change, `Hⁱ_c=0` for `i>2dim X`, and finite evaluations detecting `H⁰`. Uses: [7.1](#71-weil-ii-12-weight-conventions-for-dwp7dwp9-imported-from-dwp5), [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [8.1](#81-mixed-complexes-and-complexes-of-weights--w), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.4](#84-ri-f_-of-a-mixed-sheaf-is-mixed), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.8](#88-rf_-preserves-complexes-of-weights--w), [8.11](#811-weight-estimates-for-the-six-operations), [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field), [8.17](#817-the-decomposition-of-an-ι-mixed-sheaf-by-weights-modulo-ℤ), [8.18](#818-the-weight-filtration-of-a-lisse-mixed-sheaf), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
+
+#### EtaleCohomologyFoundations §§F.0, `F`.`4` (constructible coefficients and adic realization)
+
+Change finite coefficient fields and compatible integral lattices before rational adic realization.
+
+#### EtaleCohomologyFoundations §§F.0.3, F.10.1–F.10.2b (Tate twists and Frobenius)
+
+Use the invertible Tate line, with geometric Frobenius `q⁻¹` and integer tensor/inverse powers.
+
+#### EtaleCohomologyFoundations §F.5 (exceptional inverse image and Verdier duality)
+
+Exceptional inverse image right adjoint to `Rf_!`, dualizing objects, biduality and exchange with the four image functors over the stated bases. Include `D(K⊗L)=RHom(K,DL)`, perfect compact/ordinary cohomology duality, and `i^!ℚ_ℓ=ℚ_ℓ(−1)[−2]` at a closed point of `Spec ℤ[1/ℓ]`. Uses: [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), [8.10](#810-j_-of-a-pure-lisse-sheaf-across-a-smooth-divisor-is-pure), [8.11](#811-weight-estimates-for-the-six-operations), [8.12](#812-proper-direct-images-of-pure-complexes-are-pure), [8.13](#813-pure-complexes-over-ℤ1ℓ), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
+
+#### EtaleCohomologyFoundations §§F.5–F.6 (smooth purity and Poincaré duality)
+
+Smooth dualizing object `ℚ_ℓ(N)[2N]`, perfect compact/ordinary cohomology pairings and relative traces compatible with base change. For any smooth relative-dimension-`e` morphism, including singular target, `Rf^!L=f*L(e)[2e]`. Uses: [7.12](#712-weight-bounds-for-hi_c-and-hi-over-a-finite-field-and-purity-of-the-image-hi_c--hi), [7.14](#714-the-p-adic-couples-of-frobenius-eigenvalues-lie-in-triangles), [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.2](#82-complexes-of-weights--w-and-pure-complexes), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.5](#85-stability-of-mixed-complexes-under-the-six-operations-and-duality), [8.9](#89-purity-on-a-smooth-scheme-is-pointwise-purity-of-lisse-cohomology-sheaves), [8.10](#810-j_-of-a-pure-lisse-sheaf-across-a-smooth-divisor-is-pure), [8.13](#813-pure-complexes-over-ℤ1ℓ), [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation), [9.6](#96-the-hard-lefschetz-theorem), [9.8](#98-primitive-lefschetz-decomposition-and-nondegenerate-lefschetz-pairings), [alternating-form parity](#exact-supplier-contracts), [9.12](#912-invariant-and-vanishing-cohomology-of-a-hyperplane-section-are-orthogonal-complements), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes).
+
+#### EtaleCohomologyFoundations §§F.5–F.6, `0.11` (curve duality)
+
+Use the perfect pairing on `H¹(C,j_*ℱ)`, dual to `H¹(C,j_*ℱ∨)(1)`; retain smooth `C` and lisse coefficients on its dense open.
+
+#### EtaleCohomologyFoundations §§F.4–F.6 (rational adic Poincaré duality)
+
+Use Frobenius-equivariant perfect compact/ordinary rational cohomology pairings for smooth pure-dimensional schemes.
+
+#### EtaleCohomologyFoundations §§F.3, `F`.`5`–`F`.`6` (extreme-degree curve cohomology)
+
+For smooth affine curves identify `H²_c` with geometric coinvariants twisted by `(−1)`, and `H⁰` with invariants; a nonzero lisse system has `H⁰_c=0`.
+
+#### EtaleCohomologyFoundations §§F.6, F.10.2–F.10.2b (equivariant pairings and traces)
+
+Keep the Galois action on the trace line; pairings have their stated Tate twist.
+
+#### EtaleCohomologyFoundations §§F.5–F.6 (lisse tensor–`Hom` and curve duality)
+
+Use the lisse tensor–`Hom` adjunction and the induced perfect curve pairings.
+
+#### EtaleCohomologyFoundations §§F.6–F.7 (cycle classes and projective-space cohomology)
+
+Frobenius-equivariant projective-space and multiplicative-group cohomology, compact support and duality, in the shared Tate convention. These computations are used downstream in
+AutomorphicLFunctionsAndLocalFactors §AL.3.11 (the weight-facing acceptance suite).
+
+First Chern classes, pullback/base-change and additivity; divisor cycle classes and Gysin maps with projection/trace formulas; `Tr(c₁(L)^n)=deg_L(X)`. Uses: [9.1](#91-the-lefschetz-operator-of-a-line-bundle), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
+
+#### EtaleCohomologyFoundations §F.7 (blow-ups and weak Lefschetz)
+
+Weak Lefschetz and its Gysin transpose; Frobenius-equivariant blowup injectivity and codimension-two decomposition, preceding hard Lefschetz. Uses: [6.1](#61-vanishing-cycles-with-unipotent-boundary-coefficients), [6.3](#63-square-improvement-on-the-product-of-a-curve).
+
+Hyperplane weak Lefschetz: restriction is an isomorphism below `n−1` and injective in degree `n−1`, with its dual Gysin statement. Uses: [3.10](#310-the-local-factors-of-the-radical-quotient-have-rational-coefficients), [9.3](#93-reduction-of-hard-lefschetz-to-the-middle-intersection-form-on-a-hyperplane-section), [9.5](#95-the-image-of-hn1x-in-hn1y-is-the-monodromy-invariants).
+
+#### ArithmeticGaloisDuality §R02.3.2 (function-field ideles, local units and reciprocity)
+
+Geometric abelianized finite-field curve Weil groups are finite prime-to-`p` by pro-`p`, using idèle class theory, local units and finite Picard group. Uses: [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization).
+
+#### ArithmeticGaloisRepresentations §5.13 (degree-refined function-field Chebotarev)
+
+*Chebotarev for function fields* supplies, for every connected finite étale Galois cover of an open of a curve, the constant-field degree congruences, the degree-by-degree count `(#B/#H_geom) q^n/n + O(q^(n/2)/n)` with constant independent of `n`, Dirichlet density and Frobenius density. Section `3.7` here adds only the geometric-Frobenius inversion and the uniform conditional-mass argument for Haar-null sets. The connected double-cover zeta comparison excluding the quadratic exception is in §5.16 here; it uses DWP.1, without DWP.10. Uses: [3.7](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points), [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
+
+#### InverseGaloisAndArithmeticFundamentalGroups §IG.0.3 (local systems) and §IG.5.7 (finite-cover criterion and dense-open surjectivity)
+
+For normal connected `X` and dense open `U`, surjectivity `π₁(U)→π₁(X)`, and lisse-sheaf/representation comparison. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field), [8.19](#819-delignes-semisimplicity-theorem-pure-lisse-sheaves-are-geometrically-semisimple).
+
+#### EtaleCohomologyFoundations §§F.0.A1–F.0.A2 and InverseGaloisAndArithmeticFundamentalGroups §§IG.1.2–IG.1.3 (arithmetic exact sequence, covers and specialization)
+
+Arithmetic/geometric fundamental-group sequence, connected-cover classification and tame specialization; retain constant-field and component comparisons. The dense-open criterion is InverseGaloisAndArithmeticFundamentalGroups §IG.5.7; the dominant finite-index extension is proved in §5.8 here. Uses: [3.1](#31-arithmetic-descent-of-the-pencil-radical-quotient), [3.5](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points), [5.1](#51-the-weil-group-of-a-finite-field-scheme), [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization), [5.15](#515-specialization-of-geometric-monodromy), [3.2](#32-geometrically-constant-lisse-sheaves-come-from-𝔽_q), [5.8](#58-functoriality-of-determinantal-weights).
+
+The arithmetic/geometric exact sequence for geometrically connected finite-field schemes and its Weil pullback over geometric Frobenius `ℤ`. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves), [8.15](#815-the-ext-sequence-of-lisse-sheaves-over-a-finite-field).
+
+#### EtaleCohomologyFoundations §F.3a and LefschetzPencilsAndVanishingCycles §§0.2–0.8 (boundary traits and nearby cycles)
+
+Boundary local traits, Weil representations, tame character and branch sign lines. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.20](#520-weights-of-the-inertia-invariants-at-a-missing-point).
+
+#### LefschetzPencilsAndVanishingCycles §§0.6–0.8 (specialization and nearby-cycle functoriality)
+
+Use the actual specialization maps and their exact cohomology sequence.
+
+#### LefschetzPencilsAndVanishingCycles §0.5 (derived nearby cycles and the vanishing triangle)
+
+Use derived nearby cycles and the specialization/vanishing triangle, with its Galois action.
+
+#### LefschetzPencilsAndVanishingCycles §§1.1–1.6 (inertia, monodromy and relative filtrations)
+
+Quasi-unipotent inertia, `N:V→V(−1)`, centered monodromy filtration, primitive `SL₂` strings, Clebsch–Gordan tensor compatibility, duality and relative filtration criteria, with geometric-Frobenius signs. Uses: [5.11](#511-the-local-weightmonodromy-theorem-on-a-curve), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.20](#520-weights-of-the-inertia-invariants-at-a-missing-point).
+
+Quasi-unipotent nearby inertia, tame character, `N` and monodromy filtrations in the geometric/arithmetic setting of WII 6.1.12. Boundary traits over any `ℓ`-invertible field have pro-`p` wild inertia (trivial in characteristic zero), with no map from pro-`p` to pro-`ℓ` for `p≠ℓ`. Uses: [8.6](#86-mixed-sheaves-on-the-special-fibre-with-an-action-of-the-generic-galois-group), [8.7](#87-nearby-cycles-of-a-mixed-sheaf-are-mixed), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
+
+#### LefschetzPencilsAndVanishingCycles §1.8 (tame restriction along a smooth divisor)
+
+For `X` regular, `D ⊂ X` a smooth divisor with a chosen equation `t` and `ℱ` a lisse sheaf on `X − D`, tamely ramified along `D`, whose local monodromy becomes unipotent after a Kummer cover, the tame restriction `ℱ[D]`: a lisse sheaf on `D` with the tame monodromy action and its residue `N`, built from the Kummer covers `t^{1/n}` with the chosen equation. The quasi-unipotence it assumes holds for `X` of finite type over `𝔽_q` by §1.1 there, the residue fields along `D` being finitely generated over `𝔽_q`; the existence of the relative monodromy filtration under weight hypotheses is §5.12 here. Uses: [5.12](#512-boundary-mixedness-and-extension-of-purity).
+
+#### LefschetzPencilsAndVanishingCycles §§2.4–2.8, 3.1–3.5 and 4.1–4.5 (surface pencils for the square-improvement argument)
+
+Only the square-improvement argument of §§6.1–6.3 uses these; no other target depends on it. From §§2.4–2.8: the vanishing-cycle triangle, the specialization five-term sequence, the normalization resolution and the nodal branch sign line. From §§3.1–3.5: finite-field Lefschetz pencils with axis, blowup and singular set after finite extension and Veronese embedding; the boundary-adapted surface-pencil extension is constructed in §6.1 here, with one node, tangency or crossing per exceptional fibre, in arbitrary characteristic. From §§4.1–4.5: the arithmetic vanishing subsheaf of `Rⁿf_*ℚ_ℓ`, its pairing into `ℚ_ℓ(−n)`, geometric constancy of the other degrees, the quotient by vanishing cycles and the radical. Uses: [6.1](#61-vanishing-cycles-with-unipotent-boundary-coefficients), [6.3](#63-square-improvement-on-the-product-of-a-curve).
+
+#### LefschetzPencilsAndVanishingCycles §3.2 (dual variety and incidence family)
+
+Use the scheme-theoretic dual variety and the incidence family of smooth hyperplane sections.
+
+#### LefschetzPencilsAndVanishingCycles §§3.4–3.5 (existence and finite-field descent of pencils)
+
+Use the pencil after a permitted Veronese re-embedding and finite extension of the finite base field.
+
+#### LefschetzPencilsAndVanishingCycles §4.4 (radical quotient and pairing)
+
+Use the vanishing subspace modulo its pairing radical, with the induced perfect pairing and arithmetic action.
+
+#### LefschetzPencilsAndVanishingCycles §4.2 (vanishing subspace)
+
+Use the subspace generated by the local vanishing cycles, with its invariant intersection form.
+
+#### LefschetzPencilsAndVanishingCycles §§3.6, 5.1 and §5.15 here (curve reduction and monodromy specialization)
+
+LefschetzPencilsAndVanishingCycles §3.6 (arithmetic global monodromy of a pencil)
+owns arithmetic finite-model smooth-curve specialization, simultaneously over all
+congruence powers, preserving the full compact images, pairings, twists and finite
+wild boundary inertia. Its §5.1 gives Bertini for a specified monodromy image.
+Section `5.15` here owns the reduced-irreducible-base and finite-type-family
+extension, its agreement with §3.6 on arithmetic smooth curves, and normal-scheme
+curve reduction for a specified representation. The separate simultaneous-all-primes
+prime-to-`p` abelian specialization and curve surjection in §5.15 supply §5.5.
+These constructions precede purity. Uses: [5.5](#55-finite-geometric-monodromy-and-rank-one-normalization), [5.9](#59-delignes-generalized-majoration-theorem), [5.15](#515-specialization-of-geometric-monodromy).
+
+#### LefschetzPencilsAndVanishingCycles §5.1 (Bertini for monodromy images)
+
+Use equality of monodromy images for a sufficiently general line adapted to the specified finite coefficient model.
+
+#### LefschetzPencilsAndVanishingCycles §§5.7–5.8 (compact symplectic groups and Kazhdan–Margulis)
+
+Use openness of the nonzero symplectic radical-quotient image, in the `ℓ`-adic topology.
+
+#### LefschetzPencilsAndVanishingCycles §§5.2–5.3 (conjugacy and generation by transvections)
+
+Use geometric generation by the transported local transvections, retaining the characteristic-two branch.
+
+#### LefschetzPencilsAndVanishingCycles §§7b.1–7b.11 (invariant cycles and support bounds)
+
+Local/global invariant cycles and support-bound weak Lefschetz for explicitly modeled potentially pure complexes over algebraically closed fields. Keep both `K` and `DK` support bounds and hyperplane duality `D(K|Y)=(DK)|Y(−1)[−2]`. The supplier’s local/global invariant-cycle theorems retain their spectral or local-surjectivity hypotheses. Section `9.5` here discharges them with the numerical and cohomological weight estimates, giving the constant-coefficient fixed-part theorem for pencils satisfying WII 4.3.1. Uses: [9.5](#95-the-image-of-hn1x-in-hn1y-is-the-monodromy-invariants), [9.10](#910-hard-lefschetz-for-potentially-pure-complexes), [9.12](#912-invariant-and-vanishing-cohomology-of-a-hyperplane-section-are-orthogonal-complements).
+The complex input to §§7b.8–7b.11 is a
+geometric-generic arithmetic model (§7b.7 there) with a total complex pure in
+§8.13's arithmetic sense, as required by arithmetic potential purity of complexes in §8.20.
+Section `9.10` uses §8.11 to prove purity of its general-incidence trait models
+from §7b.7's duality comparison and then discharges §7b.8's spectral hypothesis
+by the same weight separation. Closed-fibre purity in an arbitrary
+arithmetic model alone supplies none of these arithmetic-purity hypotheses.
+
+#### LefschetzPencilsAndVanishingCycles §§7a.3, 7a.5 (nodal-curve monodromy and arithmetic descent)
+
+Use the normalization, graph and component pieces of the centered monodromy
+filtration on generic `H¹`, with §7a.5's residue-Galois-equivariant descent and
+signed component and branch permutations.
+
+#### LefschetzPencilsAndVanishingCycles §§7a.1–7a.2, 7a.5 (normalization, specialization and arithmetic descent)
+
+Use the geometric normalization cohomology sequence and §7a.5's
+Frobenius-equivariant descent, including signed graph permutations.
+
+#### SchemeAndStackFoundations §0.29 (absolute, relative and `q`-power scheme Frobenius)
+
+Scheme `p`-Frobenius and its `q=p^a` iterate, naturality, products and base change. For smooth pure `g`-dimensional schemes, supply its finite locally free degree `q^g` from étale coordinates. Uses: [1.1](#11-the-abelian-variety-frobenius-adapter).
+
+**Checks.** On `ℙ¹` the supplied `q`-map has `q+1` geometric fixed points; on `Spec 𝔽_q` it
+is identity. For `q=p²` its affine fixed field is `𝔽_(p²)`, while one `p`-iterate has fixed
+field `𝔽_p`. The abelian specialization on an elliptic curve has degree `q`, as in §1.1.
+These checks distinguish the `q`-iterate from a single absolute `p`-map and from a map
+obtained by extending the closure scalars incorrectly (Milne, [AV](#references), II §1, `p`. `75`;
+EtaleCohomologyFoundations §F.10.1, frobeniusFixedPoints).
+
+#### SchemeAndStackFoundations §§1.19–1.20 (Deligne–Mumford stacks) and the coefficient descent target of §8.24 here
+
+Étale cohomology of finite-field Deligne–Mumford stacks and the normal-crossings normalized-stratum resolution of `j_!ℚ_ℓ`. Uses: [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification).
+
+#### EtaleCohomologyFoundations §§F.0–F.4, F.10.1–F.10.5 and InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 (finite cohomology, base change and geometric trace formulas)
+
+Finite cohomology and the coefficient Grothendieck–Lefschetz formula `Z(U₀,F₀,t)=∏ det(1−Ft,Hⁱ_c)^{(−1)^{i+1}}`; curve/Jacobian fixed-point formula `1−Tr(α′)+deg α`; proper base change on pencil fibres; Frobenius-equivariant Künneth and Leray with finite abutment filtrations. Include descent of pencils, singular/sign data and coefficient models, and trace splitting for finite surjective curve covers, including ramified covers. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian), [2.12](#212-weil-complexes-through-the-transform), [2.15](#215-the-l-weight-of-a-pure-lisse-sheaf-on-a-curve), [4.7](#47-reduction-of-the-curve-estimate-to-the-affine-line), [5.2](#52-weil-sheaves-and-étale-descent), [5.10](#510-initial-cohomological-and-boundary-weight-bounds), [5.12](#512-boundary-mixedness-and-extension-of-purity), [5.15](#515-specialization-of-geometric-monodromy), [5.18](#518-the-strict-initial-h-bound), [6.2](#62-reality-of-curve-cohomological-factors), [6.3](#63-square-improvement-on-the-product-of-a-curve), [10.5](#105-delignes-frobenius-equidistribution-theorem), [5.9](#59-delignes-generalized-majoration-theorem).
+
+Proper, smooth and compact-support base change, étale invariance under universal homeomorphisms and open/closed excision. Include the coefficient trace/Euler formula; the dense-open affine fibration used for integrality is constructed in the fibration reduction before §7.10 here. Uses: [7.3](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.4](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves), [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve), [7.7](#77-the-direct-image-theorem-for-a-tame-smooth-projective-relative-curve), [7.10](#710-delignes-integrality-theorem-sga-7-xxi-522), [7.15](#715-purity-for-proper-smooth-varieties-and-rational-homology-manifolds-over-a-finite-field), [8.3](#83-generic-mixedness-of-ri-f_-over-a-base-of-finite-type-over-ℤ1ℓ), [8.21](#821-ri-f_ℚ_ℓ-of-a-proper-smooth-morphism-is-potentially-punctually-pure), [8.23](#823-semisimplicity-of-ri-f_ℚ_ℓ-for-a-proper-smooth-family), [8.24](#824-the-weight-spectral-sequence-of-a-normal-crossings-compactification), [9.4](#94-arithmetic-models-of-a-polarised-smooth-projective-variety-and-cospecialisation).
+
+#### AlgebraicCurves, Layer `12` (function-field/curve dictionary)
+
+Smooth projective compactification of a smooth curve over a perfect field, with finite reduced étale boundary. Uses: [7.5](#73-dévissage-of-the-direct-image-property-and-tame-covers-on-curves).
+
+#### ArithmeticDirichletSeries, Layer `8` (Landau positivity)
+
+The nonnegative `3`,`4`,`1` trigonometric combination and exact-abscissa positivity used in WII §2. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
+
+#### SchemeAndStackFoundations §5.11 (the Weil bound via surfaces)
+
+`weil_bound`: for a smooth proper geometrically integral curve `C` of genus `g` over a finite field with `q` elements, `|#C(𝔽_q) − (q + 1)| ≤ 2g√q`, proved by the Hodge index theorem on `C̄ × C̄` with the graph of the `q`-power Frobenius. With §3.1 there / `genus_baseChange` (a proper curve with `H⁰(O) = k` keeps `H⁰` and its genus under every field extension) it applies to `C ⊗ 𝔽_{q^m}` over `𝔽_{q^m}` and gives `|#C(𝔽_{q^m}) − (q^m + 1)| ≤ 2g·q^{m/2}` for every `m ≥ 1`, as ArithmeticGaloisRepresentations §5.13 already applies it. The supplier names the curve-cohomological route as a downstream comparison; §1.6 here is that comparison and does not restate the bound as a target. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian).
+
+#### JacobianChallenge, Layer `F` (Abel–Jacobi), SchemeAndStackFoundations §3.6 (Picard torsors), and InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 (curve/Jacobian trace comparison)
+
+Pointed Abel–Jacobi and its universal property, with base-point-free finite-field `Pic⁰` descent from SchemeAndStackFoundations §3.6 and translation-trivial `H¹` and Frobenius-equivariant `H¹(J)≅H¹(C)` from InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1. Without a rational base point, Frobenius commutes with the Abel–Jacobi map only up to translation. Uses: [1.6](#16-the-weil-estimate-for-curves-through-the-jacobian), [1.7](#17-the-weights-of-h-h-and-h-of-a-curve-over-𝔽_q).
+
+#### ModularCurves §0E and SchemeAndStackFoundations §0.9 (spreading out)
+
+Finite-presentation spreading of polarized projective relative curves with sections, divisors and finite étale covers over a dense base open. Uses: [7.6](#76-reduction-of-the-direct-image-theorem-to-a-tame-smooth-projective-relative-curve).
+
+#### ModularCurves §5B and ModularCurvesPartII §§3.1–3.2, `4.11`–`4.12` (full level and geometric connectedness)
+
+Use the actual full-level carriers. Section `4.11` / fixedPairingIntegralComponents
+supplies connected geometric fibres of the fixed-pairing compactification;
+§3.2 supplies smoothness at invertible level and §4.12 identifies its nonempty
+elliptic open with the fixed-pairing fine curve. A connected smooth curve over
+an algebraically closed field is irreducible, so that open is connected. Section `10.6` here derives the universal `SL₂` monodromy comparison and openness for nonconstant-`j` families from these connected towers and finite-index fundamental-group images. Uses: [10.6](#106-finite-field-satotate-for-elliptic-families).
+
+#### ReductiveGroups, Layer `2` (`Lie` algebras), and ReductiveGroupsPartII §RG2.0.2 (analytic charts)
+
+Algebraic subgroup `Lie` algebras and `ℓ`-adic analytic local charts: an `ℓ`-adically open subgroup has full algebraic dimension. Use ReductiveGroupsPartII §RG2.0.2, smooth-group-analytic-charts, for the analytic dimension comparison. Uses: [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense).
+
+#### ReductiveGroups, Layer `3` (subgroups, quotients and components)
+
+Algebraic Zariski closure of `ℚ_ℓ`-point subgroups and connectedness of `Sp`. Uses: [2.2](#22-open-subgroups-of-spvℚ_ℓ-are-zariski-dense).
+
+#### ReductiveGroups, Layer `6` (reductive and semisimple groups)
+
+Algebraic reductive and semisimple group theory, centers and central isogenies.
+DWP.5 constructs the central-degree and compact-normalizer comparisons in §5.7
+and the algebraic-by-`ℤ` compact-form adapter in §5.17, using the connected `Lie`-group foundations below.
+Uses: [5.7](#57-unipotent-radical-and-central-degree-in-weil-monodromy), [5.17](#517-the-compact-form-of-weil-monodromy).
+
+A faithful finite-dimensional representation of an affine algebraic group over algebraically closed characteristic-zero coefficients is semisimple exactly when the identity component is reductive. Finite components use averaging; image and Zariski closure have the same invariant subspaces. Uses: [8.14](#814-geometric-monodromy-and-geometrically-semisimple-lisse-sheaves).
+
+#### RepresentationTheory/LieGroups, Layer `7` (complexification and real forms)
+
+Connected reductive compact real forms, their complexification, existence and conjugacy, and the equivalence between continuous compact-group representations and holomorphic representations of their complexifications. Section `5.17` here compares these with the algebraic quotient, proves algebraicity for the relevant holomorphic semisimple-group representations, and extends across finite components, cyclic central quotients and Weil degree. Uses: [5.17](#517-the-compact-form-of-weil-monodromy).
+
+#### RepresentationTheory/CompactGroups, Layer `5` (Peter–Weyl)
+
+Uniform density of matrix coefficients and square-character approximation for the positive pole-order argument. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem).
+
+#### RepresentationTheory/CompactGroups, Layers `0`, `6` and the `SU(2)` engine case (Haar probability, characters and `SU(2)`)
+
+Normalized Haar, character orthogonality, class-function density and conjugacy separation, including `SU(2)` density `(2/π)sin²θ`. The compact-quotient disintegration, continuous clopen conditional masses and Dini uniform decay are targets of §3.7 here; the nullity of proper algebraic subsets of `ℓ`-adic symplectic cosets is a target of §3.6 here. Uses: [5.16](#516-the-abstract-hadamardde-la-vallée-poussin-theorem), [5.17](#517-the-compact-form-of-weil-monodromy), [5.19](#519-character-decay-and-degree-fibre-equidistribution), [10.6](#106-finite-field-satotate-for-elliptic-families), [3.7](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points), [3.6](#35-open-arithmetic-monodromy-of-the-radical-quotient-and-a-density-zero-set-of-points).
+
+#### NewtonPolygons §§0.6–0.7 (slope data and the common polygon carrier)
+
+Use the finite slope data of NewtonPolygons §0.6, its cumulative heights and the associated polygon,
+with the order-preserving embedding of rational slopes into real slopes.
+Section `5.13` supplies the Frobenius-stalk adapter; equality and comparison
+use the represented heights, with `∞` outside the finite domain, rather than
+equality of vertex lists. No second polygon carrier is constructed here.
 
 ## References
 

@@ -1,144 +1,90 @@
 # Roadmap: the generalized hypergeometric functions
 
-**Summary.** This roadmap builds the theory of the generalized hypergeometric functions `ₚF_q`
-as a library: the principal branch for `p = q + 1` and all complex parameters, its dependence on
-the parameters, the differential equation and its local solutions, the terminating and the
-non-terminating summation and transformation formulas at unit argument, the transformations in
-the argument, the product formulas and expansions, and the integral representations with the
-connection at infinity. Its organization follows the structure of the subject rather than any one
-text. The function is first constructed and studied as a function of all its variables,
-including the limits in the parameters, which need nothing beyond the series and Euler's
-integral. The differential structure follows. The identities at unit argument are split by
-method: the terminating identities are finite and are proved by recurrences in the style of the
-WZ method; the products and transformations in the argument reduce to them by comparing
-coefficients; and the non-terminating sums, Thomae's transformation and its symmetry group need
-analytic continuation in the parameters. The Mellin–Barnes theory and the connection at infinity
-close the roadmap. The content is drawn from Andrews–Askey–Roy (*Special Functions*, Chs. 2–3),
-Duverney (*An Introduction to Hypergeometric Functions*, Chs. 3–4), Beals–Wong (*Special
-Functions*, §8.1), Koepf (*Hypergeometric Summation*, Chs. 2–3 and 6), Paris–Kaminski
-(*Asymptotics and Mellin–Barnes Integrals*, §2.3), Srinivasa Rao–Lakshminarayanan (*Generalized
-Hypergeometric Functions*, Ch. 4) and the NIST *Digital Library of Mathematical Functions*
-(DLMF), and each headline cites its sources; see [References](#references).
+**Summary.** The generalized hypergeometric function `ₚF_q` is the power series
+`∑ₙ (a₁)ₙ ⋯ (a_p)ₙ zⁿ/((b₁)ₙ ⋯ (b_q)ₙ n!)`, where `(a)ₙ = a(a + 1) ⋯ (a + n − 1)`. It has `p` top
+and `q` bottom complex parameters, no bottom one in `{0, −1, −2, …}`. The series converges on the
+whole plane when `p ≤ q`, and on the unit disk when `p = q + 1`. This roadmap builds the classical
+theory of these functions for `p ≤ q + 1`, and of the terminating series for all `p` and `q`; the
+non-terminating case `p > q + 1` lies outside it.
 
 Mathlib has the regularized series
+`𝐅(𝐚; 𝐛; z) = ∑ₙ (a₁)ₙ ⋯ (a_p)ₙ zⁿ/(Γ(b₁ + n) ⋯ Γ(b_q + n) n!)` as
+`Complex.regularizedHGFun a b z`, which allows every bottom parameter. Outside its disk of
+convergence it is Lean's value of a divergent sum. So for `p = q + 1` the roadmap defines `𝐅`
+on the cut plane `ℂ \ [1, ∞)` as its principal branch, the holomorphic function there that equals
+the series on the unit disk, and sets `F = Γ(b₁) ⋯ Γ(b_q) 𝐅`.
 
-```text
-𝐅(𝐚; 𝐛; z) = ∑ₙ (a₁)ₙ ⋯ (a_p)ₙ / (Γ(b₁ + n) ⋯ Γ(b_q + n) n!) zⁿ
-```
+The first main theorem makes this definition sound: for `p = q + 1` and every choice of complex
+parameters, exactly one holomorphic function on the cut plane equals Mathlib's series on the unit
+disk. For `p ≤ q + 1`, `𝐅` is holomorphic in the parameters and the argument jointly, on its
+domain.
 
-as `Complex.regularizedHGFun a b z`, with multisets `a`, `b` of complex parameters, and its
-radius of convergence: infinite for `p ≤ q`, `1` for `p = q + 1`. This is Duverney's modified
-function (3.21), p. 74, and DLMF 16.2.5. This roadmap defines the principal branch of `𝐅` on the
-cut plane `ℂ \ [1, ∞)` for `p = q + 1` and all complex parameters, as the continuation of
-Mathlib's series, and `F = Γ(b₁) ⋯ Γ(b_q) 𝐅`, and proves the classical theory for them.
+The second is the differential equation. For `p ≤ q + 1` and all parameters, `w = 𝐅(𝐚; 𝐛; ·)`
+satisfies `ϑ (ϑ + b₁ − 1) ⋯ (ϑ + b_q − 1) w = z (ϑ + a₁) ⋯ (ϑ + a_p) w` on its domain, where
+`ϑ = z d/dz`. If no bottom parameter is an integer and no two differ by an integer, then
+`F(𝐚; 𝐛; ·)` and `q` further solutions, each a power of `z` times a `ₚF_q`, span the solutions on
+every connected open subset of the domain that avoids `(−∞, 0]`.
 
-The roadmap covers:
-- the series, the principal branch, its existence by Euler's integral and parameter shifts, its
-  joint holomorphy in the parameters and the argument, a growth bound, and Abel summation on the
-  circle of convergence (Layer 1);
-- the confluence limits and the expansions as parameters grow (Layer 2);
-- the derivatives, the contiguous relations, the differential equation, Abel's identity for linear
-  equations of any order, and the local solutions at `0` and, for `p = q + 1`, at `∞` (Layer 3);
-- the terminating identities: the classification of balanced and well-poised series, Lerch's sum,
-  the reversal of a terminating series, the sums of Pfaff–Saalschütz, Dougall, Rogers–Dougall,
-  Dixon, Watson and Džrbasjan, and the transformations of Whipple and Sheppard (Layer 4);
-- the products, including Clausen's formula, the quadratic and cubic transformations, and the
-  expansions of Fields–Wimp and Nørlund (Layer 5);
-- the non-terminating series at unit argument: Thomae's transformation and its group of 120
-  symmetries, the three-term relations, the sums of Rogers–Dougall, Dixon, Watson and Whipple,
-  Whipple's `₇F₆` transformation, and Dougall's bilateral sum (Layer 6);
-- the Laplace, inverse Laplace and Mellin–Barnes integrals, the connection formula at `∞` for
-  `p = q + 1` and its expansion about an arbitrary centre (Layer 7).
+The third is the symmetry group of Thomae's transformation of `₃F₂(a, b, c; d, e; 1)`. Put
+`s = d + e − a − b − c`, and let `G` be the group of affine maps of `ℂ⁵` generated by the
+permutations of `(a, b, c)` and of `(d, e)` and by the map
+`(a, b, c, d, e) ↦ (d − a, e − a, s, s + b, s + c)`. Then `G` is isomorphic to the symmetric group
+`S₅`. Moreover `𝐅({a, b, c}; {d, e}; 1) · Γ(s)⁻¹` takes the same value at a point and at each of
+its images under `G`, whenever `s` has positive real part at both points.
 
-The Appell functions, the Meijer `G`-function and the non-terminating `ₚF_q` with `p > q + 1`,
-which DLMF defines through the Mellin–Barnes integral and which is a Meijer `G`-function, are
-listed in [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement),
-with the large-variable asymptotics, the zeros, the logarithmic local solutions and the
-applications and computation.
+The fourth describes `𝐅` near infinity. Let `p = q + 1`, with no top parameter in `{0, −1, −2, …}`
+and no two differing by an integer. On the plane cut along `[0, ∞)`, `𝐅` is then a linear
+combination, with coefficients built from values of `Γ`, of `p` functions `(−z)^{−aⱼ}` times a
+`ₚF_q` in `1/z`, one for each top parameter. For `q = 0` it reads
+`(1 − z)^{−a} = (−z)^{−a} (1 − 1/z)^{−a}`.
 
-The roadmap rests on Mathlib and Tau Ceti and on three roadmaps on main. It consumes the Gauss
-function, Gauss's sum, the Chu–Vandermonde sum, Dougall's bilateral sum, the periodic Carlson lemma,
-Gauss's second theorem and Bailey's sum at `½`, the Euler transformation and the Mellin–Barnes
-integral of `(1 + u)^{−a}` from
-[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md); the Gamma function on
-sectors and vertical strips from [ZerosOfLFunctions](../ZerosOfLFunctions/README.md); and the
-line-shift identity, the Gamma bound on strips and the Cahen–Mellin integral from
-[AsymptoticExpansions](../AsymptoticExpansions/README.md).
+The roadmap builds on three other roadmaps.
+[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) provides the
+principal branch of the Gauss function `₂F₁`, which the first layer identifies with
+`𝐅({a, b}; {c}; ·)`, and classical identities for it.
+[ZerosOfLFunctions](../ZerosOfLFunctions/README.md) provides estimates for the Gamma function on
+sectors and vertical strips. [AsymptoticExpansions](../AsymptoticExpansions/README.md) provides
+the shift of the line of integration in a Mellin–Barnes integral. SpecialFunctionsStruve and
+other special-function roadmaps identify the Struve, Anger–Weber and Lommel functions with `₁F₂`
+functions, using only the first layer.
+
+Layers 1 to 3 construct the function, take limits in its parameters and derive its differential
+equation. Layers 4 to 6 work at `z = 1`: first the terminating identities, which are finite;
+then the products and transformations in the argument, which reduce to them; then the
+non-terminating sums, proved through holomorphy in the parameters. Layer 7 gives the integral
+representations and the connection at infinity. The next section says how the proofs run.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/GeneralizedHypergeometric/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`, which this roadmap extends.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 defines the principal branch as the continuation of Mathlib's series to the cut plane and
+constructs it by induction on `q`. The base case is `₁F₀(a; ; z) = (1 − z)^{−a}`. Euler's integral
+in a pair `(a₀, b₀)` with `Re b₀ > Re a₀ > 0` carries a principal branch with `q − 1` bottom
+parameters to one with `q`, because `zt` lies in the cut plane for `t ∈ [0, 1]` when `z` does;
+two shift relations of the coefficients, one raising `b₀` and one raising `a₀`, reach every
+`(a₀, b₀)` from that region, as in SpecialFunctionsHypergeometric 1.2. Every identity proved on a
+piece of the unit disk then extends to the cut plane by the identity theorem, and to all
+parameters by holomorphy in the parameters. Layer 2 takes limits in the parameters, termwise on
+the disk and through Euler's integral beyond it. Layer 3 proves the derivatives, the contiguous
+relations and the equation from the series, together with Abel's identity for linear equations of
+order `n` and the spanning criterion, which replace the general theory of linear differential
+equations.
 
-1. **The series, Euler's integral and the principal branch** (1.1–1.6).
-2. **Limits in the parameters** (2.1–2.2).
-3. **Derivatives, contiguity and the differential equation** (3.1–3.6).
-4. **Terminating identities** (4.1–4.5).
-5. **Products, expansions and transformations in the argument** (5.1–5.3).
-6. **Non-terminating series at unit argument** (6.1–6.6).
-7. **Integral representations and the behaviour at infinity** (7.1–7.3).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states every headline, each with every conclusion the README attaches to it,
-except the agreement of 1.2 with the principal branch of the Gauss function, whose carrier is not
-at the pins; the remaining targets are stated in prose.
-
-**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
-- the series: Mathlib's `Complex.regularizedHGFunCoeff`, `Complex.regularizedHGFunSeries` and
-  `Complex.regularizedHGFun`, the radius of convergence (`radius_regularizedHGFunSeries_eq_top`,
-  `radius_regularizedHGFunSeries_eq_one`, `radius_regularizedHGFunSeries_eq_top_of_finite`), the
-  analyticity of the sum on its disk (`analyticOnNhd_regularizedHGFun_of_card_le`,
-  `analyticOnNhd_regularizedHGFun_of_card_eq_add_one`), and Tau Ceti's
-  `hasSum_regularizedHGFun` for `p ≤ q`;
-- `₀F₀ = exp` (Mathlib's `regularizedHGFun_zero_zero`) and the three-term relation of `₀F₁` in
-  its bottom parameter (Mathlib's `regularizedHGFun_zero_singleton_eq_mul_add_mul`);
-- the case `p = 2`, `q = 1`: SpecialFunctionsHypergeometric's principal branch of the Gauss
-  function and its theory (its Layers 1–9). A formula of this roadmap that specializes to the
-  Gauss function is stated here for general `p` and `q`, and its case `p = 2`, `q = 1` follows
-  from the agreement theorem of 1.2; this roadmap does not restate the theory of the Gauss
-  function.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-nor the consumed roadmaps provide:
-- the shift relations in a top and a bottom parameter, for the series and for the principal
-  branch (1.2);
-- Euler's integral in one pair of parameters, holomorphic on the cut plane, and the existence of
-  the continuation by induction on `q`; the fixed-count shift construction, its region of
-  holomorphy and the compatibility of different counts (1.2);
-- the growth bound `|ₚF_p(𝐚; 𝐛; w)| ≤ C (1 + |w|)^K e^{max(Re w, 0)}` (1.5);
-- for linear equations of order `n` on a connected open set, Abel's identity for the Wronskian
-  and the criterion that `n` solutions with nonvanishing Wronskian span all solutions (3.3);
-- the Wronskians of the local solutions at `0` and at `∞` in closed form (3.5–3.6);
-- the terminating Rogers–Dougall sum as the limit `f → ∞` of Dougall's `₇F₆` sum (4.3);
-- first-order recurrences in `c` for Watson's and Whipple's sums (WZ pairs), and the passage to
-  the non-terminating sums by periodicity and the limit `c → ∞` (6.4);
-- Hankel's integral `1/Γ(b) = (2πi)⁻¹ ∫_{(c)} eᵗ t^{−b} dt` on a vertical line, as an improper
-  integral for `Re b > 0` (7.1);
-- the Mellin–Barnes integrals for `p ∈ {q, q + 1}` by induction on `q`, the separating contour as
-  a line plus finitely many residues, and the loop contour around the nonnegative integers,
-  written as two rays and a segment, with its residue evaluation (7.2).
-
-**What it does not own:**
-- The Gauss function (SpecialFunctionsHypergeometric), whose results 1.2–1.4, 4.2, 5.1, 6.3 and
-  7.3 it consumes.
-- Stirling's formula on sectors and the Gamma function on vertical strips (ZerosOfLFunctions
-  1.2–1.3), and the line-shift identity, the Gamma bound on strips and the Cahen–Mellin integral
-  (AsymptoticExpansions 8.2, 8.6 and 8.7).
-- The Appell functions, the Meijer `G`-function, the non-terminating `ₚF_q` with `p > q + 1`,
-  the expansions of `ₚF_q` for large argument when `p ≤ q`, the zeros, the logarithmic local
-  solutions, the local solutions at `z = 1`, the existence of contiguous relations between any
-  `q + 2` contiguous functions, the continued fractions, and the applications and computation.
-
-See the last section for these.
-
-**The boundary in one sentence:** this roadmap owns the principal branch of `F` and `𝐅` for
-`p ≤ q + 1` on its domain, the terminating functions for all `p` and `q`, and the results stated
-through them, elementary functions and `Γ`, as listed in the layers, except the non-terminating
-`p > q + 1` case, the large-variable asymptotics, the zeros and the logarithmic and `z = 1`
-local solutions; it consumes the Gauss function from SpecialFunctionsHypergeometric and the
-Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticExpansions.
+Layers 4–6 work at `z = 1` with Mathlib's series. Layer 4 is finite: its sums and transformations
+are identities of finite sums, proved from the Euler transformation of the Gauss function, by
+first-order recurrences (WZ pairs) or by Zeilberger's algorithm. Layer 5 compares Taylor
+coefficients, which Layer 4 sums, and uses the equation of Layer 3 for Clausen's formula. Layer 6
+passes to non-terminating series by analytic continuation in the parameters: a first-order
+recurrence in one parameter, with either the terminating values and the periodic Carlson lemma
+(Rogers–Dougall) or a limit of the parameter at infinity (Watson, Whipple); Thomae's
+transformation comes from Euler's integral and the Euler transformation. Layer 7 proves the
+Mellin–Barnes integral by induction on `q` through Euler's integral and Fubini, from the
+Cahen–Mellin integral and the Mellin–Barnes integral of `(1 + u)^{−a}`; shifting its line to the
+left across the poles gives the convergent expansion at `∞` for `p = q + 1`, and from it the
+connection formula and its expansion about any centre. The `**Checks.**` and `### Examples` of
+each layer are statements to prove; they test the conventions on explicit values.
 
 ## Conventions
 
@@ -213,117 +159,6 @@ Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticE
   vertical line `Re s = σ`, written `∫ y : ℝ, f (σ + y * I)` with the factor `1/(2π)` for
   `(2πi)⁻¹ ∫ ds`; a contour that separates the two families of poles is the line integral plus
   finitely many residues (7.2).
-
-## Exact supplier contracts
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
-  `Complex.regularizedGaussHypergeometric a b c z` (`𝐅(a, b; c; z)`) and
-  `Complex.gaussHypergeometric a b c z`, the principal branches on the cut plane.
-- Its 1.2–1.4: the definition, the agreement with Mathlib's series on the unit disk, holomorphy
-  on the cut plane, and the identity principle on the cut plane. 1.2 here identifies
-  `𝐅({a, b}; {c}; ·)` with it.
-- Its 4.2: Gauss's sum 15.4.20, the Chu–Vandermonde sum 15.4.24, Dougall's bilateral sum
-  15.4.25 and the periodic Carlson lemma. Layers 4 and 6 use all four.
-- Its 5.1: the Euler transformation 15.8.1, for the Pfaff–Saalschütz sum (4.3) and Thomae's
-  transformation (6.1).
-- Its 6.3: the Mellin–Barnes integral of `(1 + u)^{−a}`,
-  `Γ(a) (1 + u)^{−a} = (1/2π) ∫ Γ(σ′ + iy) Γ(a − σ′ − iy) u^{−σ′−iy} dy` for `0 < σ′ < Re a` and
-  `u > 0`, the base case of the induction in 7.2.
-- Its 7.3: Gauss's second theorem 15.4.28 and Bailey's sum 15.4.30,
-  `F(a, 1 − a; c; ½)`, the limits of Watson's and Whipple's sums as `c → ∞` (6.4).
-
-### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
-
-- [§1.2 Stirling on the sector](../ZerosOfLFunctions/README.md#12-stirling-on-the-sector):
-  `log Γ(s) = (s − ½) log s − s + ½ log 2π + O(1/|s|)` uniformly on `|ph s| ≤ π − δ`. With the
-  reflection formula it bounds the Mellin–Barnes integrand on the lines `Re s = −N − τ` uniformly
-  in `N`, where `τ` keeps the lines a fixed distance from the poles (7.3). It also gives
-  `Γ(x + α)/Γ(x + β) ~ x^{α−β}` as `x → ∞`, for the limits `c → ∞` of the right sides of
-  Watson's and Whipple's sums (6.4).
-- [§1.3 Vertical strips](../ZerosOfLFunctions/README.md#13-vertical-strips): the bounds for `|Γ|`
-  and `|1/Γ|` on vertical strips of bounded width, for the growth estimates of Layer 6.
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-- Its 8.2, the line-shift identity for Mellin–Barnes integrals with its iteration over a sequence of
-  lines, for the connection at `∞` and the separating contour (7.2–7.3).
-- Its 8.6, the strip bound `|Γ(x + iy)| ≤ C (1 + |y|)^K e^{−π|y|/2}` on a strip, away
-  from the poles, for the integrability of the Mellin–Barnes integrands (7.2).
-- Its 8.7, the Cahen–Mellin integral `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` for `c > 0` and
-  `Re w > 0`, the base case `₀F₀(−w) = e^{−w}` of the induction
-  in 7.2.
-
-### From Tau Ceti
-
-- **The series.** `hasSum_regularizedHGFun` (`p ≤ q`, every `z`;
-  `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
-- **The binomial series.** `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
-  (`TauCeti/Analysis/Analytic/Binomial.lean`), for `₁F₀` on the disk.
-- **Residues.** `TauCeti.Contour.residue` and the residue theorem
-  (`TauCeti/Analysis/Contour/Residue/`), for the loop contour of 7.2.
-
-### From Mathlib
-
-- **The series.** `Complex.regularizedHGFunCoeff`, `Complex.regularizedHGFunSeries`,
-  `Complex.regularizedHGFun`, `Complex.regularizedHGFunCoeff_add_one`,
-  `Complex.regularizedHGFunCoeff_eq_zero_iff`, `Complex.regularizedHGFun_zero`,
-  `Complex.radius_regularizedHGFunSeries_eq_top`, `Complex.radius_regularizedHGFunSeries_eq_one`,
-  `Complex.radius_regularizedHGFunSeries_eq_top_of_finite`,
-  `Complex.analyticOnNhd_regularizedHGFun_of_card_le`,
-  `Complex.analyticOnNhd_regularizedHGFun_of_card_eq_add_one`,
-  `Complex.regularizedHGFun_zero_zero` and `Complex.regularizedHGFun_zero_singleton_eq_mul_add_mul`
-  (`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
-- **Binomial series.** `Complex.one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`
-  (`Mathlib/Analysis/Analytic/Binomial.lean`).
-- **Gamma and Beta.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
-  `Complex.Gamma_conj`, `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub`
-  (reflection), `Complex.Gamma_mul_Gamma_add_half` (duplication),
-  `Complex.Gamma_add_nat_div_Gamma_eq`, `Complex.GammaSeq_tendsto_Gamma`, `Complex.betaIntegral`,
-  `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.GammaIntegral_eq_mellin` and
-  `Complex.digamma`.
-- **Polynomials and combinatorics.** `ascPochhammer`, `Nat.stirlingSecond` (for 3.4).
-- **Holomorphic functions.** `Complex.slitPlane`, `Complex.starConvex_one_slitPlane`,
-  `DifferentiableOn.analyticOnNhd`, the identity theorem
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `IsOpen.is_const_of_deriv_eq_zero`,
-  Liouville's theorem `Differentiable.apply_eq_apply_of_bounded`, and Abel's theorem
-  `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`.
-- **Integration.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi` and on `ℝ`, Fubini,
-  dominated convergence, parametric differentiation
-  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`), Fourier inversion
-  (`MeasureTheory.Integrable.fourierInv_fourier_eq`) and Mellin inversion
-  (`mellinInv_mellin_eq`).
-- **Matrices.** `Matrix.det`, `Matrix.det_vandermonde`.
-
-## How to read the build
-
-Layer 1 defines the principal branch as the continuation of Mathlib's series to the cut plane and
-constructs it by induction on `q`. The base case is `₁F₀(a; ; z) = (1 − z)^{−a}`. Euler's integral
-in a pair `(a₀, b₀)` with `Re b₀ > Re a₀ > 0` carries a principal branch with `q − 1` bottom
-parameters to one with `q`, because `zt` lies in the cut plane for `t ∈ [0, 1]` when `z` does;
-two shift relations of the coefficients, one raising `b₀` and one raising `a₀`, reach every
-`(a₀, b₀)` from that region, as in SpecialFunctionsHypergeometric 1.2. Every identity proved on a
-piece of the unit disk then extends to the cut plane by the identity theorem, and to all
-parameters by holomorphy in the parameters. Layer 2 takes limits in the parameters, termwise on
-the disk and through Euler's integral beyond it. Layer 3 proves the derivatives, the contiguous
-relations and the equation from the series, together with Abel's identity for linear equations of
-order `n` and the spanning criterion, which replace the general theory of linear differential
-equations.
-
-Layers 4–6 work at `z = 1` with Mathlib's series. Layer 4 is finite: its sums and transformations
-are identities of finite sums, proved from the Euler transformation of the Gauss function, by
-first-order recurrences (WZ pairs) or by Zeilberger's algorithm. Layer 5 compares Taylor
-coefficients, which Layer 4 sums, and uses the equation of Layer 3 for Clausen's formula. Layer 6
-passes to non-terminating series by analytic continuation in the parameters: a first-order
-recurrence in one parameter, with either the terminating values and the periodic Carlson lemma
-(Rogers–Dougall) or a limit of the parameter at infinity (Watson, Whipple); Thomae's
-transformation comes from Euler's integral and the Euler transformation. Layer 7 proves the
-Mellin–Barnes integral by induction on `q` through Euler's integral and Fubini, from the
-Cahen–Mellin integral and the Mellin–Barnes integral of `(1 + u)^{−a}`; shifting its line to the
-left across the poles gives the convergent expansion at `∞` for `p = q + 1`, and from it the
-connection formula and its expansion about any centre. The `**Checks.**` and `### Examples` of
-each layer are statements to prove; they test the conventions on explicit values.
 
 ## Layer 1: the series, Euler's integral and the principal branch
 
@@ -1298,6 +1133,160 @@ specified by the layers.
 | 5 | `GeneralizedHypergeometric/Transformations`; `Hypergeometric/Clausen` |
 | 6 | `GeneralizedHypergeometric/UnitArgument`, `GeneralizedHypergeometric/Thomae`, `GeneralizedHypergeometric/ThomaeGroup`, `GeneralizedHypergeometric/UnitArgumentDougall`; `Hypergeometric/Identities/Whipple` |
 | 7 | `GeneralizedHypergeometric/Integrals`, `GeneralizedHypergeometric/DifferentialEquations` |
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The series, Euler's integral and the principal branch** (1.1–1.6).
+2. **Limits in the parameters** (2.1–2.2).
+3. **Derivatives, contiguity and the differential equation** (3.1–3.6).
+4. **Terminating identities** (4.1–4.5).
+5. **Products, expansions and transformations in the argument** (5.1–5.3).
+6. **Non-terminating series at unit argument** (6.1–6.6).
+7. **Integral representations and the behaviour at infinity** (7.1–7.3).
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states every headline, each with every conclusion the README attaches to it,
+except the agreement of 1.2 with the principal branch of the Gauss function, whose carrier is not
+at the pins; the remaining targets are stated in prose.
+
+**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
+- the series: Mathlib's `Complex.regularizedHGFunCoeff`, `Complex.regularizedHGFunSeries` and
+  `Complex.regularizedHGFun`, the radius of convergence (`radius_regularizedHGFunSeries_eq_top`,
+  `radius_regularizedHGFunSeries_eq_one`, `radius_regularizedHGFunSeries_eq_top_of_finite`), the
+  analyticity of the sum on its disk (`analyticOnNhd_regularizedHGFun_of_card_le`,
+  `analyticOnNhd_regularizedHGFun_of_card_eq_add_one`), and Tau Ceti's
+  `hasSum_regularizedHGFun` for `p ≤ q`;
+- `₀F₀ = exp` (Mathlib's `regularizedHGFun_zero_zero`) and the three-term relation of `₀F₁` in
+  its bottom parameter (Mathlib's `regularizedHGFun_zero_singleton_eq_mul_add_mul`);
+- the case `p = 2`, `q = 1`: SpecialFunctionsHypergeometric's principal branch of the Gauss
+  function and its theory (its Layers 1–9). A formula of this roadmap that specializes to the
+  Gauss function is stated here for general `p` and `q`, and its case `p = 2`, `q = 1` follows
+  from the agreement theorem of 1.2; this roadmap does not restate the theory of the Gauss
+  function.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+nor the consumed roadmaps provide:
+- the shift relations in a top and a bottom parameter, for the series and for the principal
+  branch (1.2);
+- Euler's integral in one pair of parameters, holomorphic on the cut plane, and the existence of
+  the continuation by induction on `q`; the fixed-count shift construction, its region of
+  holomorphy and the compatibility of different counts (1.2);
+- the growth bound `|ₚF_p(𝐚; 𝐛; w)| ≤ C (1 + |w|)^K e^{max(Re w, 0)}` (1.5);
+- for linear equations of order `n` on a connected open set, Abel's identity for the Wronskian
+  and the criterion that `n` solutions with nonvanishing Wronskian span all solutions (3.3);
+- the Wronskians of the local solutions at `0` and at `∞` in closed form (3.5–3.6);
+- the terminating Rogers–Dougall sum as the limit `f → ∞` of Dougall's `₇F₆` sum (4.3);
+- first-order recurrences in `c` for Watson's and Whipple's sums (WZ pairs), and the passage to
+  the non-terminating sums by periodicity and the limit `c → ∞` (6.4);
+- Hankel's integral `1/Γ(b) = (2πi)⁻¹ ∫_{(c)} eᵗ t^{−b} dt` on a vertical line, as an improper
+  integral for `Re b > 0` (7.1);
+- the Mellin–Barnes integrals for `p ∈ {q, q + 1}` by induction on `q`, the separating contour as
+  a line plus finitely many residues, and the loop contour around the nonnegative integers,
+  written as two rays and a segment, with its residue evaluation (7.2).
+
+**What it does not own:**
+- The Gauss function (SpecialFunctionsHypergeometric), whose results 1.2–1.4, 4.2, 5.1, 6.3 and
+  7.3 it consumes.
+- Stirling's formula on sectors and the Gamma function on vertical strips (ZerosOfLFunctions
+  1.2–1.3), and the line-shift identity, the Gamma bound on strips and the Cahen–Mellin integral
+  (AsymptoticExpansions 8.2, 8.6 and 8.7).
+- The Appell functions, the Meijer `G`-function, the non-terminating `ₚF_q` with `p > q + 1`,
+  the expansions of `ₚF_q` for large argument when `p ≤ q`, the zeros, the logarithmic local
+  solutions, the local solutions at `z = 1`, the existence of contiguous relations between any
+  `q + 2` contiguous functions, the continued fractions, and the applications and computation.
+
+See the last section for these.
+
+**The boundary in one sentence:** this roadmap owns the principal branch of `F` and `𝐅` for
+`p ≤ q + 1` on its domain, the terminating functions for all `p` and `q`, and the results stated
+through them, elementary functions and `Γ`, as listed in the layers, except the non-terminating
+`p > q + 1` case, the large-variable asymptotics, the zeros and the logarithmic and `z = 1`
+local solutions; it consumes the Gauss function from SpecialFunctionsHypergeometric and the
+Gamma-function estimates and Mellin tools from ZerosOfLFunctions and AsymptoticExpansions.
+
+## Exact supplier contracts
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
+  `Complex.regularizedGaussHypergeometric a b c z` (`𝐅(a, b; c; z)`) and
+  `Complex.gaussHypergeometric a b c z`, the principal branches on the cut plane.
+- Its 1.2–1.4: the definition, the agreement with Mathlib's series on the unit disk, holomorphy
+  on the cut plane, and the identity principle on the cut plane. 1.2 here identifies
+  `𝐅({a, b}; {c}; ·)` with it.
+- Its 4.2: Gauss's sum 15.4.20, the Chu–Vandermonde sum 15.4.24, Dougall's bilateral sum
+  15.4.25 and the periodic Carlson lemma. Layers 4 and 6 use all four.
+- Its 5.1: the Euler transformation 15.8.1, for the Pfaff–Saalschütz sum (4.3) and Thomae's
+  transformation (6.1).
+- Its 6.3: the Mellin–Barnes integral of `(1 + u)^{−a}`,
+  `Γ(a) (1 + u)^{−a} = (1/2π) ∫ Γ(σ′ + iy) Γ(a − σ′ − iy) u^{−σ′−iy} dy` for `0 < σ′ < Re a` and
+  `u > 0`, the base case of the induction in 7.2.
+- Its 7.3: Gauss's second theorem 15.4.28 and Bailey's sum 15.4.30,
+  `F(a, 1 − a; c; ½)`, the limits of Watson's and Whipple's sums as `c → ∞` (6.4).
+
+### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
+
+- [§1.2 Stirling on the sector](../ZerosOfLFunctions/README.md#12-stirling-on-the-sector):
+  `log Γ(s) = (s − ½) log s − s + ½ log 2π + O(1/|s|)` uniformly on `|ph s| ≤ π − δ`. With the
+  reflection formula it bounds the Mellin–Barnes integrand on the lines `Re s = −N − τ` uniformly
+  in `N`, where `τ` keeps the lines a fixed distance from the poles (7.3). It also gives
+  `Γ(x + α)/Γ(x + β) ~ x^{α−β}` as `x → ∞`, for the limits `c → ∞` of the right sides of
+  Watson's and Whipple's sums (6.4).
+- [§1.3 Vertical strips](../ZerosOfLFunctions/README.md#13-vertical-strips): the bounds for `|Γ|`
+  and `|1/Γ|` on vertical strips of bounded width, for the growth estimates of Layer 6.
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+- Its 8.2, the line-shift identity for Mellin–Barnes integrals with its iteration over a sequence of
+  lines, for the connection at `∞` and the separating contour (7.2–7.3).
+- Its 8.6, the strip bound `|Γ(x + iy)| ≤ C (1 + |y|)^K e^{−π|y|/2}` on a strip, away
+  from the poles, for the integrability of the Mellin–Barnes integrands (7.2).
+- Its 8.7, the Cahen–Mellin integral `∫_ℝ Γ(c + iy) w^{−c−iy} dy = 2π e^{−w}` for `c > 0` and
+  `Re w > 0`, the base case `₀F₀(−w) = e^{−w}` of the induction
+  in 7.2.
+
+### From Tau Ceti
+
+- **The series.** `hasSum_regularizedHGFun` (`p ≤ q`, every `z`;
+  `TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
+- **The binomial series.** `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
+  (`TauCeti/Analysis/Analytic/Binomial.lean`), for `₁F₀` on the disk.
+- **Residues.** `TauCeti.Contour.residue` and the residue theorem
+  (`TauCeti/Analysis/Contour/Residue/`), for the loop contour of 7.2.
+
+### From Mathlib
+
+- **The series.** `Complex.regularizedHGFunCoeff`, `Complex.regularizedHGFunSeries`,
+  `Complex.regularizedHGFun`, `Complex.regularizedHGFunCoeff_add_one`,
+  `Complex.regularizedHGFunCoeff_eq_zero_iff`, `Complex.regularizedHGFun_zero`,
+  `Complex.radius_regularizedHGFunSeries_eq_top`, `Complex.radius_regularizedHGFunSeries_eq_one`,
+  `Complex.radius_regularizedHGFunSeries_eq_top_of_finite`,
+  `Complex.analyticOnNhd_regularizedHGFun_of_card_le`,
+  `Complex.analyticOnNhd_regularizedHGFun_of_card_eq_add_one`,
+  `Complex.regularizedHGFun_zero_zero` and `Complex.regularizedHGFun_zero_singleton_eq_mul_add_mul`
+  (`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
+- **Binomial series.** `Complex.one_div_one_sub_cpow_hasFPowerSeriesOnBall_zero`
+  (`Mathlib/Analysis/Analytic/Binomial.lean`).
+- **Gamma and Beta.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
+  `Complex.Gamma_conj`, `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub`
+  (reflection), `Complex.Gamma_mul_Gamma_add_half` (duplication),
+  `Complex.Gamma_add_nat_div_Gamma_eq`, `Complex.GammaSeq_tendsto_Gamma`, `Complex.betaIntegral`,
+  `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.GammaIntegral_eq_mellin` and
+  `Complex.digamma`.
+- **Polynomials and combinatorics.** `ascPochhammer`, `Nat.stirlingSecond` (for 3.4).
+- **Holomorphic functions.** `Complex.slitPlane`, `Complex.starConvex_one_slitPlane`,
+  `DifferentiableOn.analyticOnNhd`, the identity theorem
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `IsOpen.is_const_of_deriv_eq_zero`,
+  Liouville's theorem `Differentiable.apply_eq_apply_of_bounded`, and Abel's theorem
+  `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzSet`.
+- **Integration.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi` and on `ℝ`, Fubini,
+  dominated convergence, parametric differentiation
+  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`), Fourier inversion
+  (`MeasureTheory.Integrable.fourierInv_fourier_eq`) and Mellin inversion
+  (`mellinInv_mellin_eq`).
+- **Matrices.** `Matrix.det`, `Matrix.det_vandermonde`.
 
 ## References
 

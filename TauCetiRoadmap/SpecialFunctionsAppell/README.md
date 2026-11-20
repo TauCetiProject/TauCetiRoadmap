@@ -1,8 +1,6 @@
 # Roadmap: the Appell functions
 
-**Summary.** This roadmap builds the theory of the four Appell functions `F₁`, `F₂`, `F₃`, `F₄`
-of two complex variables, and of Horn's functions `G₂` and `G₃`, as a library. The Appell
-functions are the double series
+**Summary.** The Appell functions are four double power series in two complex variables,
 
 ```text
 F₁(α; β, β′; γ; x, y)     = ∑_{m,n} (α)_{m+n} (β)ₘ (β′)ₙ/((γ)_{m+n} m! n!) xᵐ yⁿ
@@ -11,97 +9,87 @@ F₃(α, α′; β, β′; γ; x, y) = ∑_{m,n} (α)ₘ (α′)ₙ (β)ₘ (β�
 F₄(α, β; γ, γ′; x, y)     = ∑_{m,n} (α)_{m+n} (β)_{m+n}/((γ)ₘ (γ′)ₙ m! n!) xᵐ yⁿ
 ```
 
-on the domains `max(|x|, |y|) < 1`, `|x| + |y| < 1`, `max(|x|, |y|) < 1` and
-`√|x| + √|y| < 1` respectively; they are Lauricella's `F_D`, `F_A`, `F_B`, `F_C` in two variables.
-The organization follows the structure of the subject rather than any one text. A first layer
-treats the four series together, as series whose coefficient ratios are rational in the indices:
-coefficients, convergence, holomorphy, derivatives, contiguous relations and the expansions in
-Gauss functions. A second layer gives the identity theorem in two variables, which fixes the
-principal branches. Then each function has its own layer, in the order `F₁`, `F₃`, `F₂`, `F₄`:
-its Euler integral and principal branch, its system of partial differential equations, and its
-transformations and reductions. Horn's `G₂` and `G₃` come last. The content is drawn from
-Matsumoto's chapter *Appell and Lauricella hypergeometric functions* in Koornwinder–Stokman
-(*Encyclopedia of Special Functions II*, Ch. 3), Aomoto–Kita (*Theory of Hypergeometric
-Functions*, §3.1), Iwasaki–Kimura–Shimomura–Yoshida (*From Gauss to Painlevé*, §3.9.1), Srinivasa
-Rao–Lakshminarayanan (*Generalized Hypergeometric Functions*, Ch. 7) and the NIST *Digital Library
-of Mathematical Functions* (DLMF), and each headline cites its sources; see
-[References](#references).
+with `(a)ₖ = a(a + 1)⋯(a + k − 1)`. On the axis `y = 0` each is the Gauss function
+`F(α, β; γ; x)`. This roadmap builds their theory, and that of Horn's series `G₂` and `G₃`. Its
+primary objects are the regularized functions `𝐅₁`, …, `𝐅₄`, in which each bottom symbol `(γ)ₖ`
+becomes `Γ(γ + k)`, so that they are defined for all complex parameters; thus `F₁ = Γ(γ) 𝐅₁`, and
+likewise `F = Γ(γ) 𝐅` for the Gauss function. Formulas are stated in regularized form for all
+parameters where that form holds, and the classical form follows when no bottom parameter lies in
+`{0, −1, −2, …}`.
 
-Neither Mathlib nor Tau Ceti has a function of two variables of hypergeometric type. This roadmap
-defines the regularized series for all complex parameters, the principal branches of `F₁` and
-`F₃` on `{(x, y) | 1 − x, 1 − y ∈ ℂ \ (−∞, 0]}` and of `F₂` on the domain of its Euler integral,
-and proves their theory.
+The first main result gives `F₁`, `F₂` and `F₃` their principal branches. For all complex
+parameters, the series of `𝐅₁` continues analytically to the domain where neither `1 − x` nor
+`1 − y` lies on `(−∞, 0]`. The continuation is unique, and jointly holomorphic in the parameters
+and variables. Under conditions on the real parts of the parameters it equals Euler's integral
+over `[0, 1]`. The same holds for `𝐅₃` on that domain, with an integral over a triangle. For `𝐅₂`
+the domain is the set where `1 − ux − vy` avoids `(−∞, 0]` for all `u, v ∈ [0, 1]`, and the
+integral is over a square.
 
-The roadmap covers:
-- the four double series: coefficients and their recurrences, convergence, holomorphy in the
-  variables and the parameters, symmetries, conjugation, values on the axes, derivatives,
-  contiguous relations, the expansions in series of Gauss functions, and the series with all three
-  index pairs coupled, which is a Gauss function of `x + y` (Layer 1);
-- the principal domains and the identity theorem in two variables (Layer 2);
-- `F₁`: its Euler integral and principal branch, holomorphy in all parameters, its system of three
-  partial differential equations, its two transformations under `x ↦ x/(x − 1)`, and its reduction
-  to the Gauss function at `γ = β + β′` (Layer 3);
-- `F₃`: its Euler integral over a triangle and principal branch, its system, and its reductions to
-  `F₁` and to the Gauss function (Layer 4);
-- `F₂`: its Euler double integral and principal branch, its system, its transformation, and its
-  reductions to the Gauss function and to `F₁` (Layer 5);
-- `F₄`: its system, the Burchnall–Chaundy expansion and its cases, its Euler integral, and the
-  connection formula at infinity for its sum over fibres (Layer 6);
-- Horn's `G₂` and `G₃`: convergence and their systems (Layer 7).
+On these domains the three functions satisfy their systems of partial differential equations.
+They also satisfy several transformations and reductions, each on the connected component of the
+origin in the set where both sides are defined. For example, `F₃` reduces to `F₁` at
+`α′ = γ − α`:
+`𝐅₃(α, γ − α; β, β′; γ; x, y) = (1 − y)^{−β′} 𝐅₁(α; β, β′; γ; x, y/(y − 1))`.
 
-The roadmap rests on Mathlib and Tau Ceti and on
-[SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md), which is on main
-and supplies the Gauss function on its cut plane, the Chu–Vandermonde sum, the transformations of
-Euler and Pfaff and the connection formula at infinity.
+For `F₄`, which has no principal branch here, the Burchnall–Chaundy expansion holds for all
+parameters and `|x|, |y| < 1/5`: with `δ = α + β − γ − γ′ + 1`,
+`𝐅₄(α, β; γ, γ′; x(1 − y), y(1 − x))` is the sum over `k ≥ 0` of
+`(α)ₖ (β)ₖ (δ)ₖ/k! · xᵏ yᵏ 𝐅(α + k, β + k; γ + k; x) 𝐅(α + k, β + k; γ′ + k; y)`.
+When `δ = 0` only the term `k = 0` remains, a product of a Gauss function of `x` and one of `y`.
 
-Suggested home: `TauCeti/Analysis/SpecialFunctions/Appell/`, beside the Gauss function of
+A second result concerns large `y`. Suppose `γ, γ′ ∉ {0, −1, −2, …}`. The fibre sum
+`Φ(x, y) = ∑ₘ (α)ₘ (β)ₘ/((γ)ₘ m!) xᵐ F(α + m, β + m; γ′; y)` equals `F₄` for
+`√|x| + √|y| < 1`, and continues it analytically from the origin along the segment to `(0, −2)`.
+If moreover `α − β ∉ ℤ`, then for `y` off `[0, ∞)` with `√|x| + 1 < √|y|`, `Φ(x, y)` is an
+explicit combination of `(−y)^{−α} F₄(α, α − γ′ + 1; γ, α − β + 1; x/y, 1/y)` and the same term
+with `α`, `β` exchanged.
+
+The roadmap builds on [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md),
+which supplies the Gauss function on its cut plane. Its Chu–Vandermonde sum and the
+transformations of Euler and Pfaff enter the reductions, and its connection formula at infinity
+gives that of `F₄`. Neither Mathlib nor Tau Ceti has a function of two variables of
+hypergeometric type. Downstream, a roadmap on Carlson's symmetric integrals identifies a case of
+Carlson's `R_{−a}` with `F₁`.
+
+Layer 1 treats the four series together, from their coefficients, and Layer 2 proves the identity
+theorem on the principal domains. Layers 3, 4 and 5 treat `F₁`, `F₃` and `F₂`; `F₁` comes first
+because the reductions of the other two land in it. Layer 6 treats `F₄`, and Layer 7 Horn's `G₂`
+and `G₃`. The next section explains how the layers fit together.
+
+## How to read the build
+
+Layer 1 works with the double series alone. Each regularized coefficient is a ratio of Pochhammer
+symbols and reciprocal Gamma functions whose ratios in each index are rational, Horn's
+characterization of hypergeometric series in two variables. So the series converge absolutely on
+their domains for all parameters, their sums are analytic there and holomorphic in the
+parameters, and differentiation, contiguous relations and the systems of differential equations
+all come from the coefficient recurrences. Summing first over one index writes each Appell series
+as a series of Gauss functions in the other variable, which connects the Appell functions to
 SpecialFunctionsHypergeometric.
 
-## Scope and ownership
+Layer 2 proves the identity theorem on the principal domains, which makes the principal branches
+unique. Layers 3–5 construct them, as SpecialFunctionsHypergeometric 1.2 does for `𝐅`: in the
+parameter region of the Euler integral, the integral is analytic on the principal domain and
+equals the series near the origin; the contiguous relations of 1.6 express the function at any
+parameters through finitely many functions in that region. Each of these layers then proves the
+system of its function, on the series domain from the coefficient recurrences and on the
+principal domain by the identity theorem, and its transformations and reductions. Each such
+identity is first proved near the origin, by the Euler integral with a substitution, by the
+binomial series, by the expansions of 1.5 with the transformations of the Gauss function, or by
+comparing Taylor coefficients; the identity theorem then extends it to the connected component of
+the origin in the set where both sides are defined. `F₁` comes first, because the reductions of
+`F₃` and `F₂` land in `F₁`.
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 6 treats `F₄`, which has no principal branch here. The Burchnall–Chaundy expansion comes
+from a coefficient identity, and the Euler integral of `F₄` follows from it by expanding the
+integrand. The sum over fibres of Gauss functions in `y` converges also for large `y`, and the
+connection formula at infinity of the Gauss function, applied fibre by fibre, gives the
+connection formula of `F₄`. Layer 7 treats Horn's `G₂` and `G₃`, which need only Layer 1.
 
-1. **The four double series** (1.1–1.7).
-2. **Analytic continuation in two variables** (2.1–2.2).
-3. **The function `F₁`** (3.1–3.5).
-4. **The function `F₃`** (4.1–4.3).
-5. **The function `F₂`** (5.1–5.4).
-6. **The function `F₄`** (6.1–6.4).
-7. **Horn's `G₂` and `G₃`** (7.1–7.2).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-nor SpecialFunctionsHypergeometric provides:
-- summability of a double series over `ℕ × ℕ` from a bound on its terms, and termwise
-  differentiation of a double power series (1.2–1.4);
-- the contiguous relations of `𝐅₁`, `𝐅₂`, `𝐅₃` in their parameters (1.6);
-- holomorphy of the Euler integrals in the variables and the parameters on their domains (3.1,
-  4.1, 5.1);
-- finite identities of Pochhammer symbols for the Taylor coefficients of the reduction of `F₃` to
-  `F₁` and of the Burchnall–Chaundy expansion (4.3, 6.2);
-- the systems of second-order equations of `G₂` and `G₃` (7.2);
-- the sum of `F₄` over fibres of Gauss functions of `y`, and its convergence for large `y` (6.4).
-
-**What it does not own:**
-- The Gauss function (SpecialFunctionsHypergeometric), whose results 1.1–1.4, 4.2 and 5.1 it
-  consumes.
-- The generalized hypergeometric functions `ₚF_q` and the Meijer `G`-function.
-- The other Horn functions, the large-parameter asymptotics, the double Mellin–Barnes integrals,
-  the inverse Laplace transforms, the expansions for large `x` or `y` other than the connection
-  formula of 6.4, the quadratic transformations, the rank, singular locus and monodromy of the
-  systems, and the principal branch of `F₄` in two variables.
-
-See the last section for these.
-
-**The boundary in one sentence:** this roadmap owns the four Appell series, the principal branches
-of `F₁`, `F₂` and `F₃`, Horn's `G₂` and `G₃`, and the identities, systems and integral
-representations stated through them, the Gauss function, elementary functions and `Γ`, as listed
-in the layers; it consumes the Gauss function and its sums and transformations from
-SpecialFunctionsHypergeometric.
+The `**Checks.**` and `### Examples` of each layer test the conventions on explicit values. A
+Check or Example that is an exact identity or an exact value (such as `2x²/(1 − x)³`, or a junk
+value `0`) is a statement to prove. A decimal value is a numerical illustration, computed with
+mpmath to the digits shown; it is not a target.
 
 ## Conventions
 
@@ -185,86 +173,6 @@ SpecialFunctionsHypergeometric.
   SpecialFunctionsHypergeometric's `eulerIntegral`. The regularized Euler integrals of 3.1, 5.1,
   4.1 and 6.3 are `appellF1EulerIntegral`, `appellF2EulerIntegral`, `appellF3EulerIntegral` and
   `appellF4EulerIntegral`.
-
-## Exact supplier contracts
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
-  `Complex.regularizedGaussHypergeometric a b c z` and `Complex.gaussHypergeometric a b c z`, the
-  principal branches on the cut plane `1 − z ∈ slitPlane`, with the junk value `0` off it.
-- Its 1.1: Euler's integral `E(a, b, c, z)` for `0 < Re b < Re c`, its holomorphy on the cut
-  plane and its agreement with the series on the unit disk, for the Euler integral of `F₄` in 6.3.
-- Its 1.2–1.4: Euler's integral (DLMF 15.6.1), the shift relations in `c` and in `b`, the
-  agreement with Mathlib's series `Complex.regularizedGaussHGFun` on the unit disk, the joint
-  holomorphy in `(a, b, c, z)` and the symmetry in `a` and `b`. They are the fibres of 1.5 and the
-  model for the principal branches of Layers 3–5.
-- Its 4.2: the Chu–Vandermonde sum (DLMF 15.4.24), for the coefficient identities of 4.3 and 6.2.
-- Its 5.1: the transformations of Euler and Pfaff (DLMF 15.8.1), for 5.4, 6.2 and the bound on
-  the fibres near `[−2, 0]` in 6.4, and the connection formula at infinity (DLMF 15.8.2), in the
-  form with the factor `sin(π(b − a))/π` that holds for all parameters, for 6.4.
-
-`Suggested.lean` imports Mathlib and the one Tau Ceti module below, and carries roadmap-local
-copies of the four definitions of SpecialFunctionsHypergeometric's `Suggested.lean` behind the
-Gauss function: `eulerIntegral`, `IsEulerContinuation`, `regularizedGaussHypergeometric` and
-`gaussHypergeometric`.
-
-### From Tau Ceti
-
-- **The binomial series.** `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
-  (`TauCeti/Analysis/Analytic/Binomial.lean`), for the reductions of 5.4.
-
-### From Mathlib
-
-- **Series.** `HasSum`, `Summable.of_norm_bounded` and `HasSum.prod_fiberwise`, for the double
-  series and their fibre sums; `Complex.regularizedGaussHGFun` and `ordinaryHypergeometric` (`₂F₁`)
-  for the fibres on the disk.
-- **Gamma and Beta.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_conj`,
-  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub`,
-  `Complex.Gamma_add_nat_div_Gamma_eq`, `Complex.betaIntegral` and
-  `Complex.Gamma_mul_Gamma_eq_betaIntegral`.
-- **Holomorphic functions.** `Complex.slitPlane`, `Complex.starConvex_one_slitPlane`,
-  `AnalyticOnNhd`, the identity theorem `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
-  `connectedComponentIn` and `IsPreconnected.prod`. Analyticity in two variables comes from the
-  double power series and from the integrals, not from separate holomorphy.
-- **Integration.** `intervalIntegral`, `MeasureTheory.integral` on a set, Fubini
-  (`MeasureTheory.integral_prod`), dominated convergence, and parametric holomorphy of integrals
-  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
-
-## How to read the build
-
-Layer 1 works with the double series alone. Each regularized coefficient is a ratio of Pochhammer
-symbols and reciprocal Gamma functions whose ratios in each index are rational, Horn's
-characterization of hypergeometric series in two variables. So the series converge absolutely on
-their domains for all parameters, their sums are analytic there and holomorphic in the
-parameters, and differentiation, contiguous relations and the systems of differential equations
-all come from the coefficient recurrences. Summing first over one index writes each Appell series
-as a series of Gauss functions in the other variable, which connects the Appell functions to
-SpecialFunctionsHypergeometric.
-
-Layer 2 proves the identity theorem on the principal domains, which makes the principal branches
-unique. Layers 3–5 construct them, as SpecialFunctionsHypergeometric 1.2 does for `𝐅`: in the
-parameter region of the Euler integral, the integral is analytic on the principal domain and
-equals the series near the origin; the contiguous relations of 1.6 express the function at any
-parameters through finitely many functions in that region. Each of these layers then proves the
-system of its function, on the series domain from the coefficient recurrences and on the
-principal domain by the identity theorem, and its transformations and reductions. Each such
-identity is first proved near the origin, by the Euler integral with a substitution, by the
-binomial series, by the expansions of 1.5 with the transformations of the Gauss function, or by
-comparing Taylor coefficients; the identity theorem then extends it to the connected component of
-the origin in the set where both sides are defined. `F₁` comes first, because the reductions of
-`F₃` and `F₂` land in `F₁`.
-
-Layer 6 treats `F₄`, which has no principal branch here. The Burchnall–Chaundy expansion comes
-from a coefficient identity, and the Euler integral of `F₄` follows from it by expanding the
-integrand. The sum over fibres of Gauss functions in `y` converges also for large `y`, and the
-connection formula at infinity of the Gauss function, applied fibre by fibre, gives the
-connection formula of `F₄`. Layer 7 treats Horn's `G₂` and `G₃`, which need only Layer 1.
-
-The `**Checks.**` and `### Examples` of each layer test the conventions on explicit values. A
-Check or Example that is an exact identity or an exact value (such as `2x²/(1 − x)³`, or a junk
-value `0`) is a statement to prove. A decimal value is a numerical illustration, computed with
-mpmath to the digits shown; it is not a target.
 
 ## Layer 1: the four double series
 
@@ -1170,6 +1078,97 @@ specified by the layers.
 | 3–5 | `GeneralizedHypergeometric/Appell/Basic/EulerBranches`, `Appell/EulerIntegrals`, `Appell/TriangleDirichlet`, `Appell/GermTransformations` |
 | 6 | `GeneralizedHypergeometric/Appell/ComposedF4`, `Appell/BurchnallChaundy`, `Appell/EulerF4`, `Hypergeometric/AppellF4`, `GeneralizedHypergeometric/AppellContinuation` |
 | 7 | `GeneralizedHypergeometric/Appell/SeriesAndDifferentialEquations`, `Appell/HornDifferentialEquations` |
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The four double series** (1.1–1.7).
+2. **Analytic continuation in two variables** (2.1–2.2).
+3. **The function `F₁`** (3.1–3.5).
+4. **The function `F₃`** (4.1–4.3).
+5. **The function `F₂`** (5.1–5.4).
+6. **The function `F₄`** (6.1–6.4).
+7. **Horn's `G₂` and `G₃`** (7.1–7.2).
+
+The numbers are those of the layers above, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
+targets of the same standing, stated in prose.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+nor SpecialFunctionsHypergeometric provides:
+- summability of a double series over `ℕ × ℕ` from a bound on its terms, and termwise
+  differentiation of a double power series (1.2–1.4);
+- the contiguous relations of `𝐅₁`, `𝐅₂`, `𝐅₃` in their parameters (1.6);
+- holomorphy of the Euler integrals in the variables and the parameters on their domains (3.1,
+  4.1, 5.1);
+- finite identities of Pochhammer symbols for the Taylor coefficients of the reduction of `F₃` to
+  `F₁` and of the Burchnall–Chaundy expansion (4.3, 6.2);
+- the systems of second-order equations of `G₂` and `G₃` (7.2);
+- the sum of `F₄` over fibres of Gauss functions of `y`, and its convergence for large `y` (6.4).
+
+**What it does not own:**
+- The Gauss function (SpecialFunctionsHypergeometric), whose results 1.1–1.4, 4.2 and 5.1 it
+  consumes.
+- The generalized hypergeometric functions `ₚF_q` and the Meijer `G`-function.
+- The other Horn functions, the large-parameter asymptotics, the double Mellin–Barnes integrals,
+  the inverse Laplace transforms, the expansions for large `x` or `y` other than the connection
+  formula of 6.4, the quadratic transformations, the rank, singular locus and monodromy of the
+  systems, and the principal branch of `F₄` in two variables.
+
+See the last section for these.
+
+**The boundary in one sentence:** this roadmap owns the four Appell series, the principal branches
+of `F₁`, `F₂` and `F₃`, Horn's `G₂` and `G₃`, and the identities, systems and integral
+representations stated through them, the Gauss function, elementary functions and `Γ`, as listed
+in the layers; it consumes the Gauss function and its sums and transformations from
+SpecialFunctionsHypergeometric.
+
+## Exact supplier contracts
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
+  `Complex.regularizedGaussHypergeometric a b c z` and `Complex.gaussHypergeometric a b c z`, the
+  principal branches on the cut plane `1 − z ∈ slitPlane`, with the junk value `0` off it.
+- Its 1.1: Euler's integral `E(a, b, c, z)` for `0 < Re b < Re c`, its holomorphy on the cut
+  plane and its agreement with the series on the unit disk, for the Euler integral of `F₄` in 6.3.
+- Its 1.2–1.4: Euler's integral (DLMF 15.6.1), the shift relations in `c` and in `b`, the
+  agreement with Mathlib's series `Complex.regularizedGaussHGFun` on the unit disk, the joint
+  holomorphy in `(a, b, c, z)` and the symmetry in `a` and `b`. They are the fibres of 1.5 and the
+  model for the principal branches of Layers 3–5.
+- Its 4.2: the Chu–Vandermonde sum (DLMF 15.4.24), for the coefficient identities of 4.3 and 6.2.
+- Its 5.1: the transformations of Euler and Pfaff (DLMF 15.8.1), for 5.4, 6.2 and the bound on
+  the fibres near `[−2, 0]` in 6.4, and the connection formula at infinity (DLMF 15.8.2), in the
+  form with the factor `sin(π(b − a))/π` that holds for all parameters, for 6.4.
+
+`Suggested.lean` imports Mathlib and the one Tau Ceti module below, and carries roadmap-local
+copies of the four definitions of SpecialFunctionsHypergeometric's `Suggested.lean` behind the
+Gauss function: `eulerIntegral`, `IsEulerContinuation`, `regularizedGaussHypergeometric` and
+`gaussHypergeometric`.
+
+### From Tau Ceti
+
+- **The binomial series.** `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
+  (`TauCeti/Analysis/Analytic/Binomial.lean`), for the reductions of 5.4.
+
+### From Mathlib
+
+- **Series.** `HasSum`, `Summable.of_norm_bounded` and `HasSum.prod_fiberwise`, for the double
+  series and their fibre sums; `Complex.regularizedGaussHGFun` and `ordinaryHypergeometric` (`₂F₁`)
+  for the fibres on the disk.
+- **Gamma and Beta.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_conj`,
+  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub`,
+  `Complex.Gamma_add_nat_div_Gamma_eq`, `Complex.betaIntegral` and
+  `Complex.Gamma_mul_Gamma_eq_betaIntegral`.
+- **Holomorphic functions.** `Complex.slitPlane`, `Complex.starConvex_one_slitPlane`,
+  `AnalyticOnNhd`, the identity theorem `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
+  `connectedComponentIn` and `IsPreconnected.prod`. Analyticity in two variables comes from the
+  double power series and from the integrals, not from separate holomorphy.
+- **Integration.** `intervalIntegral`, `MeasureTheory.integral` on a set, Fubini
+  (`MeasureTheory.integral_prod`), dominated convergence, and parametric holomorphy of integrals
+  (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
 
 ## References
 

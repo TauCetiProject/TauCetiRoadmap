@@ -1,55 +1,61 @@
 # Roadmap: approximation, deformation and rigidity of finite factors
 
-**Summary.** This roadmap builds the correspondence and approximation methods used to
-distinguish finite von Neumann algebras and to recover group actions from their crossed
-products. From normal correspondences, tracial `L²`, conditional expectations and discrete
-crossed products (Subfactors, VonNeumannAlgebras), completely positive maps and tensor norms
-(CStarAlgebras), free products (FreeProbability) and invariant means (AmenableGroups), it develops
-relative amenability, property (T) and spectral gap, Haagerup approximation, intertwining by
-bimodules, Cartan pairs and cost, and malleable deformations as reusable theories. Its end
-theorems are: relative property (T) of `(ℤ²⋊SL₂(ℤ), ℤ²)` and of `(ℤ²⋊G, ℤ²)` for nonamenable
-`G ≤ SL₂(ℤ)` (Layer 3); the Haagerup property of the free groups `F_n`, `2 ≤ n ≤ ∞` (Layer 4);
-`F(L(ℤ²⋊F_n)) = {1}` for a finite-index free subgroup `F_n ≤ SL₂(ℤ)` (Layer 7); Popa's
-Bernoulli strong rigidity theorem (Layer 9); and solidity and primeness of `L(F_n)`,
-`2 ≤ n ≤ ∞` (Layer 10). [Suggested.lean](Suggested.lean) states the first two at the pinned
-libraries; the others need carriers the pins lack (group von Neumann algebras, crossed products,
-amplifications, spatial tensor products), as its docstring records.
+**Summary.** A countable discrete group `Γ` gives a von Neumann algebra `L(Γ)`, and a
+measure-preserving action of `Γ` on a standard probability space `X` gives the crossed product
+`L∞(X)⋊Γ`. This roadmap builds methods for telling such algebras apart and for recovering the group
+and the action. Its tracial von Neumann algebras carry a faithful normal tracial state and need not
+be factors.
 
-## Scope and ownership
+Two approximation properties pull in opposite directions. A subgroup `Λ` of a discrete group `Γ` has
+relative property (T) when every unitary representation of `Γ` with almost invariant vectors has a
+nonzero `Λ`-invariant vector. A discrete group has the Haagerup property when the constant `1` is a
+limit, uniformly on finite sets, of positive-definite functions equal to `1` at the identity and
+vanishing at infinity. Both have versions for tracial algebras, which meet in Popa's intertwining
+relation. If `P ⊆ M` has relative property (T) and `M` has the Haagerup property relative to a
+subalgebra `Q`, then `P ≺_M Q`: `L²(M)` contains a nonzero `P`–`Q` sub-bimodule of finite dimension
+over `Q`.
 
-This roadmap owns: the general tracial basic construction over arbitrary subalgebras of finite
-algebras; weak containment of normal correspondences; relative amenability and the localization
-lemma; relative property (T) for groups and for inclusions of tracial von Neumann algebras;
-spectral gap for representations, actions and inclusions, and fullness; positive-definite
-functions and the Haagerup property for groups and tracial algebras, with its relative version;
-Popa's intertwining-by-bimodules relation `P ≺_M Q`; Cartan pairs of tracial algebras, the
-p.m.p. orbit/Cartan comparison, cost and fundamental groups; tracial and s-malleable
-deformations, mixing and clustering, Popa's absorption theorem and Bernoulli strong rigidity;
-solidity and primeness of free group factors. No roadmap on main or among the open roadmap
-proposals plans property (T), the Haagerup property, intertwining by bimodules, cost or the
-fundamental group of a II₁ factor.
+The roadmap has five main theorems. [Suggested.lean](Suggested.lean) states the two about groups;
+the libraries it is written against cannot express the other three. The first is relative property
+(T) of the pairs `(ℤ²⋊G, ℤ²)` for nonamenable `G ≤ SL₂(ℤ)`. Kazhdan and Margulis proved it for `G = SL₂(ℤ)`, and
+Burger for every nonamenable `G`. The second is Haagerup's theorem: the free group on any countable
+set of generators has the Haagerup property.
 
-It leaves to named roadmaps:
+The other three concern II₁ factors. The fundamental group `F(M)` of a II₁ factor `M` is the set of
+`t > 0` with `M^t ≅ M`, where `M^t` is a matrix corner over `M` of unnormalized trace `t`. For a
+finite-index subgroup `F_n ≤ SL₂(ℤ)` free of rank `n`, `2 ≤ n < ∞`, such as
+`⟨[[1,2],[0,1]], [[1,0],[2,1]]⟩`, the roadmap proves `F(L(ℤ²⋊F_n)) = {1}`. The two group theorems
+make `L∞(𝕋²)` the unique rigid Cartan subalgebra (maximal abelian, with normalizer generating the
+algebra) of `L(ℤ²⋊F_n) ≅ L∞(𝕋²)⋊F_n`, up to unitary conjugacy. This reduces the question to the
+orbit relation of `F_n` on the torus, whose cost, the infimal total measure of a generating family
+of partial isomorphisms, is `n`. The compression formula `C(R^t) − 1 = (C(R) − 1)/t` then leaves only
+`t = 1`.
 
-- normal correspondences, Connes fusion, bounded vectors and the factor basic construction:
-  Subfactors §§S1–S2;
-- normality, tracial standard form, coupling dimension, group algebras and discrete crossed
-  products, the Bernoulli shift over a finite atomic base (target `V8.BernoulliArbitraryDiscrete`),
-  nonsingular measured relations and their algebras, tracial ultrapowers and injectivity:
-  VonNeumannAlgebras §§V2–V13b;
-- completely positive maps, Stinespring dilation, the Schwarz inequality for unital 2-positive
-  maps and minimal/maximal C*-tensor norms: CStarAlgebras §§C3–C5;
-- interior tensor products of C*-correspondences: HilbertModules §§H1–H3;
-- reduced free products and their `L²` decompositions: FreeProbability §§F3–F4;
-- covariant representations, regular representations and the P₂ amenability criterion:
-  OperatorAlgebraDynamics §§D1–D2;
-- invariant means, the free-group obstruction and Følner theory for discrete groups:
-  AmenableGroups Layers 1–5.
+Popa's Bernoulli strong rigidity theorem recovers a group and its action. Let `Γ` be a countable ICC
+group (all nontrivial conjugacy classes infinite) with an infinite normal subgroup `H` such that
+`(Γ,H)` has relative property (T), and with a free ergodic measure-preserving action on a standard
+probability space `X`. Let a countably infinite ICC group `Λ` act on `Y` by a Bernoulli shift over a
+nontrivial standard base. If `L∞(X)⋊Γ ≅ (L∞(Y)⋊Λ)^t` with `0 < t ≤ 1`, then `t = 1`, and up to an
+inner automorphism and a character of `Λ` the isomorphism comes from a group isomorphism `δ : Γ ≃ Λ`
+and a measure-space isomorphism `Δ : X ≃ Y` with `Δ∘g = δ(g)∘Δ`.
 
-Hausdorff topological groupoid C*-algebras stay in OperatorAlgebraDynamics. General cocycle
-superrigidity, the realization of all possible fundamental groups, general amalgamated
-free-product rigidity and the isomorphism problem for free group factors are not targets of
-this roadmap.
+Finally, the free group factors `L(F_n)`, `2 ≤ n ≤ ∞`, are solid and prime. A finite factor `M` is
+solid when, for every diffuse subalgebra `A`, the elements of `M` commuting with `A` form an
+amenable algebra. A II₁ factor is prime when it is not isomorphic to a tensor product `M₁⊗̄M₂` of
+two diffuse finite factors. Solidity gives primeness: both tensor factors would be amenable, hence
+so would `L(F_n)`, which is not.
+
+Within Tau Ceti, the roadmap takes correspondences (Hilbert bimodules) from Subfactors, and group
+algebras and crossed products from VonNeumannAlgebras. FreeProbability provides the free products of
+the last layer, and AmenableGroups the nonamenability of `F₂`. OperatorKTheory leaves proper length
+functions on free groups to this roadmap.
+
+Layers 1 and 2 build weak containment of correspondences and amenability relative to a subalgebra.
+Layers 3 and 4 develop the two opposing properties, and Layer 5 proves that rigidity against
+Haagerup approximation forces intertwining. Layer 6 applies this to Cartan pairs, and Layer 7 adds
+cost to compute a trivial fundamental group. Layer 8 develops malleable deformations and Popa's
+absorption theorem, from which Layer 9 proves Bernoulli strong rigidity. Layer 10 uses a
+free-product deformation to prove solidity and primeness.
 
 ## Conventions
 
@@ -76,32 +82,6 @@ representation `π`. Left translation of functions is `(L_g f)(x)=f(g⁻¹x)`.
 Measured actions are actions of countable discrete groups on standard probability spaces; freeness
 means essential freeness, and ergodicity and isomorphisms are modulo null sets. The amplification
 `M^t` of a II₁ factor uses matrix corners with unnormalized amplification trace `t`.
-
-## Exact supplier contracts
-
-| Supplier | Exact input |
-| --- | --- |
-| Mathlib | `VonNeumannAlgebra`, `WStarAlgebra`, `StarAlgHom`, `CompletelyPositiveMap` (`→CP`), `PositiveLinearMap`, opposite algebras, algebraic tensor products and `Algebra.TensorProduct.lift`, `unitary`, `ContinuousLinearMap.adjoint`, orthogonal projections; `ContRepresentation` and `Representation.invariants`; `Matrix.SpecialLinearGroup`, `Matrix.SpecialLinearGroup.toLin'`, `SemidirectProduct`, `FreeGroup`, `lp`; `MeasureTheory.Measure.infinitePi`. Mathlib has no property (T), Haagerup property, group von Neumann algebra, crossed product or amplification. |
-| Tau Ceti | `IsUnitary` for continuous representations and `isUnitary_iff_norm_map` in `TauCeti.RepresentationTheory.Continuous.Unitary.Basic`: unitarity of a representation is equivalent to norm preservation by each operator. |
-| Subfactors | §S1: normal correspondences, intertwiners, direct sums, conjugates, Connes fusion and bounded vectors; §S2: expectations, Pimsner–Popa bases and the basic construction for II₁ factors. |
-| VonNeumannAlgebras (the roadmap of that name with the modular-theory and injectivity layers V0–V13) | §V2: corners, spatial tensor products, Borel logarithms of unitaries; §V3: type I structure; §V4: preduals, normality, ultraweak topology, Lusin–Novikov selection; §§V5–V6: projection comparison, center-valued traces, tracial standard form; §V7: coupling dimension and the trace-preserving expectation onto a subfactor; §V8: group algebras, discrete crossed products, subgroup expectations, and `V8.BernoulliArbitraryDiscrete` (Bernoulli shift of an infinite discrete group over a finite atomic base, cylinder density, ergodicity, mixing, proper outerness, II₁ crossed product); §V11: nonsingular countable measured relations, full groups, hyperfinite exhaustions, their untwisted algebras, and trace-preserving expectations onto every subalgebra of a finite algebra; §V12: tracial ultrapowers, central sequences and the free-factor commutator estimate; §§V13a–V13b: injectivity, semidiscreteness, hypertraces, the hyperfinite II₁ factor `R`, and the commuting-representation minimal-norm criterion. |
-| CStarAlgebras | §C3: completely bounded maps; §C4: Stinespring dilation and the Schwarz inequality for unital 2-positive maps; §C5: the algebraic tensor product `A⊙B` and its minimal and maximal C*-norms, the minimal norm being the spatial one. |
-| HilbertModules | §H3: the interior tensor product of C*-correspondences, compared with normal fusion after completion. |
-| FreeProbability | §F3: reduced free products of tracial algebras and the reduced-word decomposition of their `L²`; §F4: amalgamated free products and their expectations. |
-| OperatorAlgebraDynamics | §D1: covariant representations on `ContRepresentation`; §D2: the regular representation, the P₂ amenability criterion and its converse to an invariant mean. |
-| AmenableGroups | Layers 1–2: invariant means `Mean`, `Amenable`, and its topology-free discrete form; Layer 3: nonamenability of `F₂` and of every group containing it; Layers 4–5: closure properties and Følner criteria. Under the discrete topology `Amenable G` is the predicate `IsAmenableDiscrete G` of this roadmap. |
-
-## How to read the build
-
-Layer 1 builds correspondence coefficients and weak containment; Layer 2 the general basic
-construction and relative amenability. Layers 3 and 4 are the two opposing approximation
-properties, relative property (T) with spectral gap and Haagerup approximation, for groups and for
-tracial algebras. Layer 5 develops intertwining by bimodules and proves that rigidity against
-Haagerup approximation forces intertwining. Layer 6 applies this to Cartan pairs and orbit
-equivalence relations, and Layer 7 combines it with cost to compute a trivial fundamental group.
-Layer 8 develops malleable deformations, mixing and Popa's absorption theorem; Layer 9 proves
-Bernoulli strong rigidity from it. Layer 10 runs the free-product deformation to prove solidity and
-primeness of free group factors.
 
 ## Layer 1: Correspondence coefficients and weak containment
 
@@ -989,6 +969,56 @@ supplier. Two leave objects to it by name: OperatorKTheory leaves proper length 
 Haagerup kernels on free groups to Layer 4.1, and the VonNeumannAlgebras roadmap with layers V0–V13
 leaves the p.m.p. specialization of its measured-relation and Lusin–Novikov selection API to
 Layer 6.2 and p.m.p. cost to Layer 7.1.
+
+## Scope and ownership
+
+This roadmap owns: the general tracial basic construction over arbitrary subalgebras of finite
+algebras; weak containment of normal correspondences; relative amenability and the localization
+lemma; relative property (T) for groups and for inclusions of tracial von Neumann algebras;
+spectral gap for representations, actions and inclusions, and fullness; positive-definite
+functions and the Haagerup property for groups and tracial algebras, with its relative version;
+Popa's intertwining-by-bimodules relation `P ≺_M Q`; Cartan pairs of tracial algebras, the
+p.m.p. orbit/Cartan comparison, cost and fundamental groups; tracial and s-malleable
+deformations, mixing and clustering, Popa's absorption theorem and Bernoulli strong rigidity;
+solidity and primeness of free group factors. No roadmap on main or among the open roadmap
+proposals plans property (T), the Haagerup property, intertwining by bimodules, cost or the
+fundamental group of a II₁ factor.
+
+It leaves to named roadmaps:
+
+- normal correspondences, Connes fusion, bounded vectors and the factor basic construction:
+  Subfactors §§S1–S2;
+- normality, tracial standard form, coupling dimension, group algebras and discrete crossed
+  products, the Bernoulli shift over a finite atomic base (target `V8.BernoulliArbitraryDiscrete`),
+  nonsingular measured relations and their algebras, tracial ultrapowers and injectivity:
+  VonNeumannAlgebras §§V2–V13b;
+- completely positive maps, Stinespring dilation, the Schwarz inequality for unital 2-positive
+  maps and minimal/maximal C*-tensor norms: CStarAlgebras §§C3–C5;
+- interior tensor products of C*-correspondences: HilbertModules §§H1–H3;
+- reduced free products and their `L²` decompositions: FreeProbability §§F3–F4;
+- covariant representations, regular representations and the P₂ amenability criterion:
+  OperatorAlgebraDynamics §§D1–D2;
+- invariant means, the free-group obstruction and Følner theory for discrete groups:
+  AmenableGroups Layers 1–5.
+
+Hausdorff topological groupoid C*-algebras stay in OperatorAlgebraDynamics. General cocycle
+superrigidity, the realization of all possible fundamental groups, general amalgamated
+free-product rigidity and the isomorphism problem for free group factors are not targets of
+this roadmap.
+
+## Exact supplier contracts
+
+| Supplier | Exact input |
+| --- | --- |
+| Mathlib | `VonNeumannAlgebra`, `WStarAlgebra`, `StarAlgHom`, `CompletelyPositiveMap` (`→CP`), `PositiveLinearMap`, opposite algebras, algebraic tensor products and `Algebra.TensorProduct.lift`, `unitary`, `ContinuousLinearMap.adjoint`, orthogonal projections; `ContRepresentation` and `Representation.invariants`; `Matrix.SpecialLinearGroup`, `Matrix.SpecialLinearGroup.toLin'`, `SemidirectProduct`, `FreeGroup`, `lp`; `MeasureTheory.Measure.infinitePi`. Mathlib has no property (T), Haagerup property, group von Neumann algebra, crossed product or amplification. |
+| Tau Ceti | `IsUnitary` for continuous representations and `isUnitary_iff_norm_map` in `TauCeti.RepresentationTheory.Continuous.Unitary.Basic`: unitarity of a representation is equivalent to norm preservation by each operator. |
+| Subfactors | §S1: normal correspondences, intertwiners, direct sums, conjugates, Connes fusion and bounded vectors; §S2: expectations, Pimsner–Popa bases and the basic construction for II₁ factors. |
+| VonNeumannAlgebras (the roadmap of that name with the modular-theory and injectivity layers V0–V13) | §V2: corners, spatial tensor products, Borel logarithms of unitaries; §V3: type I structure; §V4: preduals, normality, ultraweak topology, Lusin–Novikov selection; §§V5–V6: projection comparison, center-valued traces, tracial standard form; §V7: coupling dimension and the trace-preserving expectation onto a subfactor; §V8: group algebras, discrete crossed products, subgroup expectations, and `V8.BernoulliArbitraryDiscrete` (Bernoulli shift of an infinite discrete group over a finite atomic base, cylinder density, ergodicity, mixing, proper outerness, II₁ crossed product); §V11: nonsingular countable measured relations, full groups, hyperfinite exhaustions, their untwisted algebras, and trace-preserving expectations onto every subalgebra of a finite algebra; §V12: tracial ultrapowers, central sequences and the free-factor commutator estimate; §§V13a–V13b: injectivity, semidiscreteness, hypertraces, the hyperfinite II₁ factor `R`, and the commuting-representation minimal-norm criterion. |
+| CStarAlgebras | §C3: completely bounded maps; §C4: Stinespring dilation and the Schwarz inequality for unital 2-positive maps; §C5: the algebraic tensor product `A⊙B` and its minimal and maximal C*-norms, the minimal norm being the spatial one. |
+| HilbertModules | §H3: the interior tensor product of C*-correspondences, compared with normal fusion after completion. |
+| FreeProbability | §F3: reduced free products of tracial algebras and the reduced-word decomposition of their `L²`; §F4: amalgamated free products and their expectations. |
+| OperatorAlgebraDynamics | §D1: covariant representations on `ContRepresentation`; §D2: the regular representation, the P₂ amenability criterion and its converse to an invariant mean. |
+| AmenableGroups | Layers 1–2: invariant means `Mean`, `Amenable`, and its topology-free discrete form; Layer 3: nonamenability of `F₂` and of every group containing it; Layers 4–5: closure properties and Følner criteria. Under the discrete topology `Amenable G` is the predicate `IsAmenableDiscrete G` of this roadmap. |
 
 ## References
 

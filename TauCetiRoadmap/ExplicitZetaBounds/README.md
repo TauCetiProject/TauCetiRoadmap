@@ -1,35 +1,56 @@
 # Roadmap: explicit bounds for the zeta function and Dirichlet L-functions
 
-**Summary.** This roadmap is the numerically explicit layer of analytic number theory above the
-[zeros of L-functions roadmap](../ZerosOfLFunctions/README.md), which proves every shape used here
-with existential constants and leaves decimal constants out of its scope. On Mathlib's `riemannZeta`
-and `DirichletCharacter.LFunction`, on the analytic records of the
-[L-functions roadmap](../LFunctions/README.md) as Tau Ceti realizes them
-(`TauCeti.LFunctions.AnalyticLFunctionData`), and on Mathlib's `Complex.Gamma`, it builds: the
-explicit error calculus `f = g + O*(h)`; the bounded-height Riemann hypotheses `RH(H)` and
-`GRH(q, H)` with their bridge to Platt's finite-conductor theorem; the Euler–Maclaurin formula;
-Stirling's series for
-`log Γ` with Stieltjes' sector remainder, the two-sided modulus bound for `Γ` and the real-axis
-brackets of Alzer, Ramanujan–Mortici, Nemes and Diamond–Straub; the explicit Phragmén–Lindelöf
-principle and Rademacher's convexity bound on records of finite-order type; Backlund's strip bounds,
-the bounds right of the line one and an explicit approximate functional equation; the van der Corput
-derivative tests with explicit constants, the explicit Vinogradov mean value theorem with the
-Richert-type bounds it gives, Hardy's function and the Riemann–Siegel formula with Gabcke's
-remainder and the critical-line and one-line bounds that follow from them; Backlund's argument lemma
-for records of any degree and the explicit Riemann–von Mangoldt formulas for `ζ` and `L(s, χ)`;
-weighted zero sums; smoothed Perron formulas, mean values of Dirichlet polynomials and of `ζ`, and
-the weighted and maximal large sieves; upper and lower bounds for `|L(1, χ)|`; classical,
-Littlewood-type and Vinogradov–Korobov zero-free regions with their decimal constants, real-zero
-bounds for quadratic characters and the real-zero gap of the Landau–Siegel exclusion with its
-instances; and explicit zero-density estimates. Every computation a theorem rests on is a named
-record taken as a hypothesis (0.4, 0.4b). The end theorems are statements with literal constants:
-for instance `ζ(σ + it) ≠ 0` for `|t| ≥ 2`, `σ ≥ 1 − 1/(5.558691 log |t|)` given `RH(3·10¹²)` and
-the recorded value of `Σ_{γ>0} γ^{−2}`,
-`|N(T) − (T/2π) log(T/2πe)| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` for `T ≥ 30 610 046 000`
-given the recorded values of `ζ` at small heights that its interpolations use, and for `T ≥ e`
-given also the recorded bound for `S(T)` below that height, and
-`|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 200`, and for `t ≥ 3` given the recorded values
-below that height.
+**Summary.** The classical estimates for the Riemann zeta function and Dirichlet L-functions bound
+their size on vertical lines, count their zeros up to a height, and exhibit zero-free regions near
+the line `Re s = 1`. The [zeros of L-functions roadmap](../ZerosOfLFunctions/README.md) proves them
+in existential form, where a constant is only asserted to exist, and leaves decimal constants out of
+its scope. This roadmap proves them with the decimal constants of the explicit literature, for
+Mathlib's `ζ` and the L-functions `L(s, χ)` of primitive Dirichlet characters. It also gives
+explicit bounds for the Gamma function, which enters through their gamma factors.
+
+Two conventions hold throughout. An error term is written `f = g + O*(h)`, which means
+`‖f − g‖ ≤ h` for a displayed expression `h`; it is an inequality, never an existence statement. And
+every computation that a theorem rests on is a *record*, a named proposition taken as an explicit
+hypothesis, also when the theorem uses it only through another theorem. Among them are verifications
+`RH(H)` of the Riemann hypothesis up to a height `H`: every zero of `ζ` with `0 < Re ρ < 1` and
+`|Im ρ| ≤ H` lies on `Re ρ = 1/2`. Others are values of `ζ` on a bounded range of heights, or the
+numerical value of a sum over the zeros. Nothing here proves or performs a record.
+
+The main theorems carry literal constants. One is a zero-free region (Mossinghoff, Trudgian and
+Yang): given `RH(3·10¹²)` and the recorded value of `Σ_{γ>0} γ^{−2}`, a sum over the positive
+ordinates of the zeros, `ζ(σ + it) ≠ 0` for `|t| ≥ 2` and `σ ≥ 1 − 1/(5.558691 log |t|)`. Below
+height `3·10¹²` this follows from the verification alone, since there the region lies to the right
+of the critical line. The roadmap also proves zero-free regions for Dirichlet L-functions.
+
+Zeros are counted with an error of logarithmic size (Bellotti and Wong). Let `N(T)` count the zeros
+of `ζ` in the critical strip with `0 < Im ρ ≤ T`, with multiplicity. Given three records that bound
+`ζ` on vertical lines at small heights,
+`|N(T) − (T/2π) log(T/(2πe))| ≤ 0.10076 log T + 0.24460 log log T + 8.08344` for
+`T ≥ 30 610 046 000`. The proof uses bounds for `ζ` on vertical lines and nothing about where the
+zeros lie. Given also a recorded bound for the argument `S(T)` below that height, the same
+inequality holds for every `T ≥ e`.
+
+On the critical line, `|ζ(1/2 + it)| ≤ 0.618 t^{1/6} log t` for `t ≥ 200`, and for `t ≥ 3` given
+Hiary's recorded bounds below height `200` (Hiary, Patel and Yang). The proof combines the
+Riemann–Siegel formula with Gabcke's remainder and explicit van der Corput estimates for exponential
+sums.
+
+For a primitive character `χ` of conductor `q > 1`, `|L(1, χ)| ≤ (1/2) log q` when `χ` is even, and
+`|L(1, χ)| ≤ (1/2) log q + 5/2 − log 6` when `χ` is odd (Ramaré).
+
+The roadmap builds on the [L-functions roadmap](../LFunctions/README.md), whose general L-function
+data, a Dirichlet series with its conductor, gamma factor and functional equation, it uses as Tau
+Ceti realizes them. Rademacher's convexity bound is proved for such data under explicit conditions,
+finite order among them, and Backlund's argument lemma for data of any degree. From the zeros of
+L-functions roadmap it takes the counting function of zeros and the argument principle on a
+rectangle. `ExplicitPrimeCounting` uses the zero counts, zero-free regions and density estimates
+proved here to bound primes explicitly. `ExplicitNumberFields` applies the general convexity bound
+and argument lemma to Dedekind zeta functions.
+
+Layer 0 fixes the language and the records. Layers 1 and 2 bound the Gamma function, Layer 3 turns
+these into pointwise bounds for `ζ` and `L(s, χ)`, and Layer 4 treats exponential sums. Layer 5
+counts zeros, and Layer 6 is Perron's formula, mean values and large sieves. Layers 7, 8 and 9 prove
+the zero-free regions, the zero-density estimates and the bounds for `L(1, χ)`.
 
 Suggested home: `TauCeti/NumberTheory/ExplicitBounds/`, divided into `BigOStar/`, `VerifiedZeros/`,
 `Gamma/`, `Convexity/`, `ExponentialSums/`, `ZeroCounting/`, `MeanValues/`, `LOne/`, `ZeroFree/` and
@@ -37,183 +58,27 @@ Suggested home: `TauCeti/NumberTheory/ExplicitBounds/`, divided into `BigOStar/`
 [`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries; it is
 not the roadmap.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- the explicit error predicate `f = g + O*(h)` and its calculus (Layer 0);
-- the bounded-height Props `RH(H)` and `GRH(q, H)`, their monotonicity, their limits `RiemannHypothesis`
-  and `DirichletGRH`, their agreement with *AllOnCriticalLine*, the bridge from Platt's
-  finite-conductor theorem, the named records that theorems here take as hypotheses, the class of
-  admissible cosine polynomials, and the Euler–Maclaurin formula for functions with values in a
-  real Banach space, with real endpoints at first order and with the continuation of `ζ` to
-  `Re s > 0` that it gives (Layer 0; `AsymptoticExpansions` §13.1 states the same order-`2m`
-  formula for real-valued functions, the case `E = ℝ` of 0.5a, which is kept here in the Banach-valued form
-  that the complex-valued uses of Layers 1–4 need, so that this roadmap depends only on Mathlib,
-  the roadmaps on main and the analytic-number-theory roadmaps before it);
-- Stirling's series for `log Γ` with every explicit remainder bound in a sector, in the right
-  half-plane and on the positive axis, the Stirling coefficients of `Γ` and Nemes' bound, Binet's
-  second formula and the two-sided modulus bound for `Γ`, and the real-axis inequalities for `log Γ`,
-  `ψ` and the polygamma functions (Layers 1–2);
-- the explicit Phragmén–Lindelöf principle with products of interpolating factors, the
-  gamma-quotient bounds on vertical lines, Rademacher's convexity bound on records of finite-order
-  type and its instances for `ζ` and primitive Dirichlet characters, the linear bound for `ζ` on
-  `Re s > 0`, Backlund's strip bounds, the bounds right of the line one with the monotonicity of
-  `ζ` on `(1, ∞)`, the values of `ζ′/ζ` at real points and the alternating Laurent expansion of
-  `−ζ′/ζ` at `1`, and the Poisson–Jensen inequality on a strip (Layer 3);
-- the explicit van der Corput toolkit — Kusmin–Landau in its symmetric and asymmetric forms, the
-  finite van der Corput inequality for complex coefficients and its exponential-sum form (the
-  A-process), the second-derivative tests, Patel's corrected third, fourth and fifth derivative
-  tests, the `k`-th derivative test with recursive constants, truncated Poisson summation,
-  stationary phase and the B-process, an explicit approximate functional equation, the
-  first-derivative test, the partial fractions of `π/sin πz` and `π²/sin² πz`, the expansion of
-  `π cot πz` in the values `ζ(2n)` and the approximation of `ζ` by a partial sum at a half-integer
-  with its secondary term — together with Mathlib's Hardy function written through the theta
-  function, the Riemann–Siegel formula with Gabcke's remainder and the explicit bounds for
-  `|ζ(1/2 + it)|`, `|ζ(1 + it)|`, `|ζ|` on the lines `σ_k = 1 − k/(2^k − 2)` and `|L(1/2 + it, χ)|`
-  that they give; the explicit Vinogradov mean value theorem for complete and incomplete systems,
-  the bound for the short sums `Σ (n + u)^{−it}` that it gives, and the Richert-type bounds for `ζ`
-  and the Hurwitz zeta function (Layer 4);
-- Backlund's argument lemma for analytic records of any degree, the explicit Riemann–von Mangoldt
-  formulas for `ζ` and primitive Dirichlet L-functions with the zero-count predicate in which the
-  forms for `ζ` are stated, with and without `7/8`, and Lehman's weighted zero sum and its
-  derivative form with Trudgian's bound for the integral of `S(t)` (Layer 5);
-- the smoothed truncated Perron formulas and Landau's iterated Perron identity, the majorant
-  principle, the extremal majorant and minorant of the one-sided exponential, the explicit mean
-  values of
-  Dirichlet polynomials and of `ζ` on vertical lines, the weighted large sieve with the
-  Montgomery–Vaughan and Preissmann constants and Elliott's maximal large sieve (Layer 6);
-- the partial-fraction expansions of `ζ′/ζ` and `L′/L` with their constants, the classical-region
-  predicate, Kadiri's smoothed explicit formula, the criteria behind the classical,
-  Littlewood-type and Vinogradov–Korobov zero-free regions, the
-  regions with decimal constants for `ζ` and `L(s, χ)`, the real-zero bounds for quadratic
-  characters, the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q`, with its
-  instance up to `10¹⁰` given the recorded real-zero check and its instances without a cap, and the
-  explicit bounds for `1/ζ(σ + it)` on the line one, on `σ ≥ 1`, in the classical region and on
-  `σ ≥ 3/4` below a verified height (Layer 7);
-- the explicit zero-density estimates for `ζ` and for Dirichlet L-functions, including the log-free
-  densities and the Kadiri–Lumley–Ng density at any verification height, with the density
-  predicate, and with the explicit sums of `μ²`, of the squared Selberg coefficients and of `d` and
-  `d²` that their routes use (Layer 8; by subject these sums belong with the explicit means of
-  multiplicative functions, whose roadmap `ExplicitMultiplicativeFunctions` comes later in the
-  merge order, so they are stated here);
-- upper bounds for `|L(1, χ)|` for every primitive character and their refinements under
-  conditions on `χ(2)` and `χ(3)`, and lower bounds for non-quadratic characters and for quadratic
-  characters of conductor at most `10¹⁰`, with Hoffstein's lemma (Layer 9).
-
-The van der Corput toolkit and the explicit Vinogradov mean value theorem of Layer 4 are general
-mathematics about exponential sums; they are stated here because the routes of 4.5a–4.10 use them,
-every other consumer of them comes later in the merge order than this roadmap, and neither
-Mathlib, Tau Ceti nor a roadmap on main or earlier in the merge order states Vinogradov's mean
-value theorem in any form (`ExplicitCharacterSumsAndSieves` places it outside its scope). The
-toolkit of 4.1–4.5 has one owner, this roadmap, and its later consumers cite it rather than restate
-it: `ExplicitCharacterSumsAndSieves` consumes the finite van der Corput inequality and its
-normalized form (4.2), and owns two variants built on them, Arias de Reyna's real-part form of the
-normalized inequality (its §0.3, which keeps the real part of the weighted lag sum) and his
-iterated inequality (its §1.1, which assumes no derivative bound); no route here uses either.
-`ExplicitMultiplicativeFunctions` takes the Kusmin–Landau inequality (4.1) for the route of its
-Dirichlet divisor remainder (its §7.4); the second-derivative test in Bordellès and Daval's form
-that the same route uses differs from those of 4.3 and is that roadmap's.
-
-### Consumed, not redefined
-
-- the analytic records with their degree, gamma factor, dual and the predicates of continuation
-  and functional equation, the `ζ` record `riemannZetaData` and the primitive Dirichlet records
-  `dirichletData`: Tau Ceti, as it realizes them from Layers 0 and 4 of the
-  [L-functions roadmap](../LFunctions/README.md); the average coefficient growth predicate,
-  `dedekindZetaData` and the Dirichlet factorizations: that roadmap, Layers 0, 3 and 4;
-- the entire completion, *IsFiniteOrder*, the sector branch of `log Γ`, *continuedL*, the analytic
-  conductor, the pole-cleared continued L-function, `zeroCount` with `N(T)` and `N±(T)`, Jensen's
-  bound, Hadamard's factorization and its L-function corollaries, the exceptional-zero predicate,
-  the argument principle on a rectangle with *S* `(T)`, *HasZerosInRects* and *AllOnCriticalLine*:
-  the [zeros of L-functions roadmap](../ZerosOfLFunctions/README.md), Layers 0–7 and 9;
-- the truncated Perron formula with the Davenport-type error, as Tau Ceti realizes
-  [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md) §§6.3–6.4;
-- the slit-plane branch of `log Γ` with its Stieltjes remainder and derivative bounds (§0.23a), the
-  Dirichlet-polynomial mean square with error `6π Σ n|a_n|²` (§1.5), the weighted Hilbert
-  inequality with constant `3π/2` (§1.5a), `DirichletGRH` and `GRH` (§1.6) and the effective
-  Landau–Siegel exclusion (§0.34): `AnalyticNumberTheoryPartI`;
-- the sharp additive and primitive-character large sieves and the separated Hilbert inequality:
-  `SieveMethodsAndPrimePatterns` §2.9;
-- the Kronecker description of real primitive characters: `AnalyticNumberTheoryPartI` §0.34a.
-
-### Not owned here
-
-- the existential shapes of convexity, zero counting, zero-free regions and the explicit formula
-  (`ZerosOfLFunctions`), the effective but non-numerical Landau–Siegel exclusion and lower bound
-  `L(1, χ) ≥ c/log q` (`AnalyticNumberTheoryPartI` §§0.34 and 0.9), and the log-free density for
-  the family of primitive characters with an unspecified constant `C_ε`
-  (`AnalyticNumberTheoryPartI` §1.7, of which 8.4 is an explicit form): only decimal
-  constants and the explicit arguments producing them live here;
-- the sharp unweighted large sieves and the separated Hilbert inequality with constant `π/δ`
-  (`SieveMethodsAndPrimePatterns` §2.9);
-- explicit constants for Dedekind zeta functions with `K ≠ ℚ`, Hecke L-functions and number-field
-  invariants (`ExplicitNumberFields`), which specializes the general convexity bound of Layer 3 and
-  the general argument lemma of Layer 5; explicit bounds for `ψ`, `θ`, `π` and primes in
-  progressions (`ExplicitPrimeCounting`); explicit Pólya–Vinogradov, Burgess and Brun–Titchmarsh
-  inequalities (`ExplicitCharacterSumsAndSieves`); explicit means of multiplicative functions
-  (`ExplicitMultiplicativeFunctions`);
-- the theory of exponent pairs beyond the explicit A- and B-processes of Layer 4 (Huxley's discrete
-  Hardy–Littlewood method and decoupling bounds): no statement here uses it;
-- every computation, algorithm and table: a computation that a theorem here rests on is a named
-  record (Conventions), taken as a hypothesis and never proved or performed here;
-- the Barnes `G` remainder (`AnalyticNumberTheoryPartII` §4.3a);
-- the asymptotic second moment
-  `∫₀^T |ζ(1/2 + it)|² dt = T log(T/2π) + (2γ − 1)T + O(√T log T)` and its explicit error under a
-  finite input (`AnalyticNumberTheoryPartI` §3.23): 6.6 states one-sided bounds with explicit
-  constants from `T ≥ 4` and does not restate the asymptotic;
-- the upper bounds for `L(1, χ)` at quadratic characters of large conductor that rest on explicit
-  Pólya–Vinogradov inequalities (`johnstonramaretrudgian2023`, Theorems 1 and 2), which belong to a
-  Part II of this roadmap placed after `ExplicitCharacterSumsAndSieves`; the explicit counts of zeros
-  of Dedekind zeta functions (`kadiring2012`), which are `ExplicitNumberFields`'.
-- the bound of at most four zeros of `∏_{χ mod q} L(s, χ)` with `|Im s| ≤ x/q` and
-  `σ ≥ 1 − 1/(3.82 log x)` for `x ≥ 8·10⁹` that `ExplicitPrimeCounting` uses (Liu and Wang, as
-  Kadiri's paper on short intervals quotes it): the quotation does not say how the principal
-  factor, which carries the zeros of `ζ`, enters it, and Liu and Wang's paper is not among the
-  sources here, so `ExplicitPrimeCounting` states the bound from that paper with the theorem that
-  needs it. Ramaré and Rumely's region for the zeros of `L(s, χ)` with `|γ| ≥ 1000`, with the
-  conductor `k` and the constant `C₁(k, H)`, is not of this kind: it is owned here (7.5, fifth
-  item), and so is its form for a modulus `q`, with `q|γ|` in place of `k|γ|` and one constant `C`
-  for all the characters modulo `q` (the end of the fifth item of 7.5); `ExplicitPrimeCounting`
-  takes both from there and applies the form for a modulus at Dusart's constant (its §6.1,
-  *RamareRumelyRegion*);
-- Ramaré's explicit density theorem (`ramare2016density` Theorem 1.1, lines 83–97): its averaged
-  bound for `T ≥ 2000`, `T ≥ Q ≥ 10` and `σ ≥ 0.52`,
-  `Σ_{q≤Q} (q/φ(q)) Σ_{χ mod* q} N(σ, T, χ) ≤ 20 (56 Q⁵ T³)^{1−σ} log^{5−2σ}(Q²T) + 32 Q² log²(Q²T)`
-  (the inner sum over the primitive characters modulo `q`, `N(σ, T, χ)` the number of zeros with
-  `β ≥ σ` and `|γ| ≤ T`), its bound for the zeros of `ζ` alone, and the revised form of the latter
-  that `kadirilumleyng2018` quotes. Kadiri, Lumley and Ng record a mistake in the paper without
-  locating it (lines 93–95, a footnote to their quotation, lines 63–66); the revision of the bound
-  for `ζ`, with leading constant `965` against the printed `9.8/2 = 4.9` for the zeros with
-  `γ > 0`, rests on a proof the author communicated to them and did not publish; and the bound for
-  `ζ` is the case `Q = 1` of the argument that gives the averaged bound (`ramare2016density`
-  lines 98–104 and 208–213). So no constant of that theorem is asserted here; the explicit
-  densities here are 8.1, 8.3 and 8.5 for `ζ` and 8.4 for the family of primitive characters;
-- Johnston and Yang's recomputed constants for the Kadiri–Lumley–Ng density, which rerun Kadiri,
-  Lumley and Ng's argument with changed inputs and which `ExplicitPrimeCounting` states with the
-  theorem that uses them; 8.3 states the Kadiri–Lumley–Ng theorem with its closed-form constants
-  and the arithmetic sums of its own route;
-- the first branch `|N(T) − M(T)| ≤ 0.28 log T` for `T ≥ 2π` (with `M(T)` including `7/8`) of the
-  form that `ExplicitPrimeCounting` quotes from Lee and Nosal, whose source is not among those
-  here. From `T = 8008.3` on it follows from statements here: up to `30 610 046 000` from the
-  recorded bound for `S(T)` (0.4) with the expansion of `ϑ` in 2.9, which give
-  `|N(T) − M(T)| ≤ 2.5167 + 1/(40T)`, at most `0.28 log T` once `log T ≥ 8.98823`; and from
-  `T = e^{20.456} = 7.65·10⁸` on from Rosser's bound (5.2): with `L = log T`,
-  `0.137 L + 0.443 log L + 1.588 ≤ 0.28 L` exactly when `0.143 L − 0.443 log L ≥ 1.588`, whose
-  left side increases for `L > 3.1` and reaches `1.588` at `L = 20.45508` (at `T = 30 610 046 000`
-  Rosser's bound is `6.306`, against `0.28 log T = 6.760`). On `[2π, 8008]` it is sharper than the
-  recorded bound and rests on a computation with the zeros there, which `ExplicitPrimeCounting`
-  carries as a hypothesis of the theorems that use it. Its second branch
-  `0.1038 log T + 0.2573 log log T + 9.3675` holds as a consequence of 5.2 and is stated there;
-- the nonnegative trigonometric polynomials for Dedekind zeta functions that `ExplicitNumberFields`
-  uses (Kadiri's for her Dedekind regions, in its 4.5, which are not her polynomial for `ζ`, and
-  those of Das, Gaba, Lee, Savalia and Wong, whose coefficients are optimised together with the
-  other parameters of the region they serve, in its 4.8): each is a polynomial certificate (the
-  Prop of 0.5 at literal coefficients) of one of its theorems, and by the Conventions it is named
-  with that theorem. The certificates of the regions here, Kadiri's polynomial
-  `(0.91 + cos φ)²(0.265 + cos φ)²` and Mossinghoff and Trudgian's `F₁₆`, are named in 7.3, where a
-  consumer that uses the same polynomial (`F₁₆` in Lee's argument, `ExplicitNumberFields` 4.6) cites
-  them.
+Layer 0 fixes the language: the explicit error predicate, the bounded-height Riemann hypotheses with
+the bridge from Platt's theorem, the named records, with the Riemann–Siegel theta function as the
+integral that the recorded bound for `S(T)` uses, admissible cosine polynomials and the
+Euler–Maclaurin formula.
+Layers 1 and 2 are the Gamma function with explicit constants, on the positive axis and in the
+complex plane, ending with the Stirling form of the theta function (2.9); everything later that
+touches a gamma factor uses them. Layer 3 turns the Gamma bounds into pointwise bounds for `ζ` and
+`L(s, χ)` by the explicit Phragmén–Lindelöf principle. Layer 4 is the explicit theory of exponential
+sums, by van der Corput's and by Vinogradov's methods, and the subconvex, one-line and Richert-type
+bounds it gives. Layer 5 counts zeros with explicit errors, from Layers 3 and 4 and the argument
+principle of `ZerosOfLFunctions` Layer 7. Layer 6 is Perron's formula, mean values and large sieves.
+Layer 7 proves the zero-free regions, from the partial-fraction identities, the Gamma bounds, the
+zero counts and the pointwise bounds, bounds real zeros of quadratic L-functions and bounds `1/ζ`
+near the line one. Layer 8 proves zero-density estimates from the mean values, the pointwise bounds
+and the zero-free regions. Layer 9 bounds `L(1, χ)`, above from Ramaré's approximate formula and
+below by Louboutin's method for non-quadratic characters and from the real-zero bounds of 7.8 for
+quadratic ones. Layer 6 depends only on Layers 0–3, except the mean squares of `ζ` (6.6), which use
+the approximate functional equation 4.5a; the rest of Layer 6 can be built in parallel with Layers 4
+and 5.
 
 ## Conventions
 
@@ -270,167 +135,6 @@ that the same route uses differs from those of 4.3 and is that roadmap's.
   rationals.
 - **Uniformity.** A constant that is displayed is absolute. Quantifier order follows the source:
   "for `q ≥ 3` and `t ∈ ℝ`" means the displayed constant serves every such pair.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `riemannZeta`, `riemannZeta_zero`, `riemannZeta_one_sub`, `riemannZeta_ne_zero_of_one_lt_re`,
-  `riemannZeta_ne_zero_of_one_le_re`, `riemannZeta_neg_two_mul_nat_add_one`, `completedRiemannZeta`,
-  `completedRiemannZeta₀`, `RiemannHypothesis` (`∀ s, ζ(s) = 0 → s not a trivial zero → s ≠ 1 →
-  Re s = 1/2`, `Mathlib/NumberTheory/LSeries/RiemannZeta.lean`);
-- `DirichletCharacter.LFunction`, `DirichletCharacter.LFunction_eq_LSeries` (for `1 < Re s`),
-  `DirichletCharacter.completedLFunction`, `DirichletCharacter.gammaFactor`,
-  `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
-  `DirichletCharacter.IsPrimitive.completedLFunction_one_sub` (primitive characters),
-  `DirichletCharacter.rootNumber`, `DirichletCharacter.changeLevel`,
-  `DirichletCharacter.LFunction_changeLevel` (the Euler factors at the primes dividing the new level,
-  for `χ ≠ 1` or `s ≠ 1`), `DirichletCharacter.primitiveCharacter`,
-  `DirichletCharacter.changeLevel_primitiveCharacter`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
-  `DirichletCharacter.LFunction_apply_one_ne_zero`, `DirichletCharacter.LFunction_modOne_eq`,
-  `DirichletCharacter.completedLFunction_modOne_eq`, `DirichletCharacter.isPrimitive_one_level_one`,
-  `DirichletCharacter.IsPrimitive` (`conductor χ = q`), `DirichletCharacter.conductor`,
-  `DirichletCharacter.Even`, `DirichletCharacter.Odd`, `MulChar.IsQuadratic`, `gaussSum`;
-- `Complex.Gamma`, `Real.Gamma`, `Complex.Gamma_conj`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
-  `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_apply_add_one`,
-  `Real.eulerMascheroniConstant`, `Stirling.le_factorial_stirling`;
-- `bernoulli`, `Polynomial.bernoulli`, `bernoulliFun`, `hasDerivAt_bernoulliFun`,
-  `bernoulliFun_endpoints_eq_of_ne_one`, `hasSum_zeta_two`, `PowerSeries.exp`,
-  `intervalIntegral.integral_smul_deriv_eq_deriv_smul_of_hasDerivAt`, `iteratedDerivWithin`;
-- `hardyZ` (`Λ(1/2 + it)/|Γℝ(1/2 + it)|`) and `abs_hardyZ`
-  (`Mathlib/NumberTheory/LSeries/HardyZ.lean`);
-- `Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip` and
-  `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip₀₁'` (the three-lines
-  theorem for a function bounded and holomorphic on a closed strip),
-  `PhragmenLindelof.vertical_strip`;
-- `Real.fourierChar`, `UnitAddCircle`, `LSeries`, `LSeriesSummable`, `ArithmeticFunction.vonMangoldt`,
-  `ArithmeticFunction.sigma`, `Nat.totient`, `MeromorphicOn.divisor`, `meromorphicOrderAt`,
-  `HurwitzZeta.hurwitzZeta` (`ζ(s, u)` at the class of `u` in `UnitAddCircle`), `Fourier.fourierIntegral`;
-- `zeta_eq_tsum_one_div_nat_cpow` (`ζ(s) = Σ_{n≥1} n^{−s}` for `Re s > 1`),
-  `differentiableAt_riemannZeta`, `riemannZeta_conj`, `deriv_riemannZeta_zero`
-  (`ζ′(0) = −(log 2π)/2`, `Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean`), `cot_series_rep`
-  (`π cot πz = 1/z + Σ_{n≥1} (1/(z − n) + 1/(z + n))` on `Complex.integerComplement`, the
-  complement of `ℤ` in `ℂ`), `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`;
-- `riemannZeta_im_eq_zero_of_one_lt` (`ζ(x)` real for real `x > 1`) and
-  `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div` (`L(Λ, s) = −ζ′(s)/ζ(s)` for
-  `Re s > 1`), `Mathlib/NumberTheory/LSeries/Dirichlet.lean`; `logDeriv_riemannZeta_one_sub`
-  (`(ζ′/ζ)(s) = −(ζ′/ζ)(1 − s) + log 2π − ψ(s) + (π/2) tan(πs/2)` for `s` not an integer with
-  `ζ(s) ≠ 0`, `Mathlib/NumberTheory/LSeries/RiemannZetaLogDeriv.lean`);
-  `Complex.digamma_nat_add_one` (`ψ(n + 1) = H_n − γ`).
-
-### From Tau Ceti
-
-- `TauCeti.trigonometricCombination` and `TauCeti.IsNonnegativeTrigonometricCombination`
-  (`TauCeti/Analysis/SpecialFunctions/Trigonometric/NonnegCombination.lean`): the real part of a
-  finite weighted sum of powers of a phase, and its nonnegativity on the unit circle;
-  `TauCeti.trigonometricCombination_nonneg_of_boundary` and `TauCeti.sum_re_neg_log_one_sub_nonneg`;
-  `TauCeti.LSeries.isNonnegativeTrigonometricCombination_threeFourOne`
-  (`TauCeti/NumberTheory/LSeries/ThreeFourOne.lean`).
-- `TauCeti.truncatedPerronKernel`, `TauCeti.truncatedPerronKernel_one`,
-  `TauCeti.truncatedPerron_LSeries` and `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`
-  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/`): for `x > 0`, `c > 0`, `T > 0`, `x` off
-  the support's integers and absolute convergence on `Re s = c`, the truncated integral differs from
-  `Σ_{n < x} f(n)` by at most `Σ ‖f(n)‖ (x/n)^c/(πT|log(x/n)|)`.
-- `TauCeti.LFunctions.AnalyticLFunctionData` (`TauCeti/NumberTheory/LFunctions/Data/Basic.lean`),
-  the analytic record with fields `coeff`, `conductor : ℕ+`, `gammaR`, `gammaC`, `rootNumber`,
-  `completed` and `polarOrder`; `AnalyticLFunctionData.degree` (`#gammaR + 2 #gammaC`),
-  `AnalyticLFunctionData.gammaFactor` (`γ(s) = ∏ Gammaℝ(s + μ) ∏ Gammaℂ(s + ν)`),
-  `AnalyticLFunctionData.dual`; and the predicates `HasDirichletAgreement` (`coeff 1 = 1`, positive
-  degree, and `completed s = N^{s/2} γ(s) LSeries coeff s` for `Re s > 1`, so that the conductor
-  power is part of `completed`), `HasMeromorphicContinuation` (meromorphic on `ℂ`, a pole of exactly
-  the recorded order at each point of the polar divisor, analytic elsewhere) and
-  `HasFunctionalEquation` (`‖rootNumber‖ = 1`, the polar divisor symmetric under `s ↦ 1 − conj s`,
-  and `completed s = rootNumber · dual.completed (1 − s)` where neither `s` nor `1 − conj s` is a
-  pole).
-- `TauCeti.LFunctions.riemannZetaData` (`TauCeti/NumberTheory/LFunctions/Data/RiemannZeta.lean`):
-  coefficients `1`, conductor `1`, `gammaR = {0}`, no complex shift, root number `1`,
-  `completed = completedRiemannZeta` and simple poles at `0` and `1`, with
-  `riemannZetaData_hasDirichletAgreement`, `riemannZetaData_hasMeromorphicContinuation` and
-  `riemannZetaData_hasFunctionalEquation`.
-- `TauCeti.LFunctions.dirichletData χ hχ` (`TauCeti/NumberTheory/LFunctions/Dirichlet/Basic.lean`)
-  for `χ` primitive modulo `N`: coefficients `χ(n)`, conductor `N`, `gammaR = {a}`, root number
-  `DirichletCharacter.rootNumber χ`,
-  `completed s = N^{s/2} · DirichletCharacter.completedLFunction χ s` (Mathlib's completed function
-  carries no conductor power), no poles for `N > 1`, and the
-  `riemannZetaData` record for `N = 1` (`dirichletData_modOne`); with
-  `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
-  `dirichletData_hasFunctionalEquation`.
-
-### From TauCetiRoadmap.LFunctions
-
-- Layer 0: the average coefficient growth predicate. The records, their degree, gamma factor and
-  dual, the three predicates and `riemannZetaData` of the same layer are consumed as Tau Ceti
-  realizes them (above).
-- Layer 3: `dedekindZetaData` (named only where a Dedekind instance is a Check).
-- Layer 4: `dirichletData`, consumed as Tau Ceti realizes it (above): conductor `q`, real gamma
-  shift `a`, and completed function `q^{s/2}` times Mathlib's
-  `DirichletCharacter.completedLFunction χ s`.
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-- Layer 0: *entireCompletion*, `zetaEntireCompletion`, *IsFiniteOrder*.
-- Layer 1: 1.1 (*logGamma* on `S_δ`), 1.4 (`logDeriv Gammaℝ s = ψ(s/2)/2 − (log π)/2`), 1.6
-  (*continuedL* with `continuedL riemannZetaData = riemannZeta`).
-- Layer 3: 3.4 (*poleClearedContinuedL*).
-- Layer 4: `zeroCount`, *divisorCount*, 4.3 (Jensen's bound), 4.5 (`N(T)`, `N±(T)`, monotonicity and
-  right-continuity).
-- Layer 5: 5.5 (Hadamard's factorization at order at most one) and 5.6 (the positivity of
-  `Σ_ρ Re 1/(s − ρ)` and `Re b = −Σ_ρ Re(1/ρ)` for real records).
-- Layer 6: 6.3 (*IsExceptionalZero*), 6.4d (the partial-fraction bound for `−Re L'/L`), 6.5 (no
-  zeros on `Re s = 0, 1`).
-- Layer 7: 7.1 (*rectBoundary*), 7.2 (argument principle on a rectangle), 7.3 (*S* `(T)` and the
-  argument variation), 7.4 (the route of Riemann–von Mangoldt for `ζ`).
-- Layer 9: *HasZerosInRects*, *AllOnCriticalLine*, and the identification of its global form with
-  `RiemannHypothesis`.
-
-### From TauCetiRoadmap.ArithmeticDirichletSeries
-
-- §§6.3–6.4 as realized in Tau Ceti (above): the truncated Perron formula with finite-height
-  endpoint value `π⁻¹ arctan(T/c)` (`TauCeti.truncatedPerronKernel_one`).
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §0.23a: the slit-plane `log Γ`, normalized by `log Γ(1) = 0`, with
-  `R(z) = log Γ(z) − (z − 1/2) Log z + z − log(2π)/2 = ∫₀^∞ Q(t)(z + t)⁻² dt`,
-  `Q(t) = ({t} − {t}²)/2`, and `|R^{(j)}(z)| ≤ j! sec^{j+2}(arg z/2)/(8|z|^{j+1})`.
-- §1.5: for `N ≥ 0`, `T ≥ 0` and complex `a₁, …, a_N`,
-  `|∫_{−T}^{T} |Σ a_n n^{−it}|² dt − 2T Σ |a_n|²| ≤ 6π Σ n|a_n|²`.
-- §1.5a: for distinct real `λ_r` with local spacings `δ_r = min_{s≠r} |λ_r − λ_s|` and complex `u_r`,
-  `|Σ_{r≠s} u_r ū_s/(λ_r − λ_s)| ≤ (3π/2) Σ |u_r|²/δ_r`.
-- §1.6: `DirichletGRH χ` (every `s` with `Re s > 0`, `χ ≠ 1 ∨ s ≠ 1` and `L(s, χ) = 0` has
-  `Re s = 1/2`) and `GRH`.
-- §0.34 and §0.34a: `landau_siegel_exclusion`, an absolute effective `c_LS > 0` with
-  `(1 − β) log q ≥ c_LS` for every real zero of every primitive real nonprincipal `L(s, χ)`, `q ≥ 3`;
-  and the identification of such `χ` with a Kronecker character of fundamental discriminant
-  `χ(−1) q`.
-
-### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
-
-- §2.9: `SieveTaper.sharp_additive_largeSieve` (constant `N − 1 + δ⁻¹` for `δ`-separated
-  frequencies, `0 < δ ≤ 1/2`, `N ≥ 1`), `SieveApplications.sharp_primitive_largeSieve` (constant
-  `H − 1 + Q²`), and the separated Hilbert inequality with constant `π/δ`.
-
-## How to read the build
-
-Layer 0 fixes the language: the explicit error predicate, the bounded-height Riemann hypotheses with
-the bridge from Platt's theorem, the named records, with the Riemann–Siegel theta function as the
-integral that the recorded bound for `S(T)` uses, admissible cosine polynomials and the
-Euler–Maclaurin formula.
-Layers 1 and 2 are the Gamma function with explicit constants, on the positive axis and in the
-complex plane, ending with the Stirling form of the theta function (2.9); everything later that
-touches a gamma factor uses them. Layer 3 turns the Gamma bounds into pointwise bounds for `ζ` and
-`L(s, χ)` by the explicit Phragmén–Lindelöf principle. Layer 4 is the explicit theory of exponential
-sums, by van der Corput's and by Vinogradov's methods, and the subconvex, one-line and Richert-type
-bounds it gives. Layer 5 counts zeros with explicit errors, from Layers 3 and 4 and the argument
-principle of `ZerosOfLFunctions` Layer 7. Layer 6 is Perron's formula, mean values and large sieves.
-Layer 7 proves the zero-free regions, from the partial-fraction identities, the Gamma bounds, the
-zero counts and the pointwise bounds, bounds real zeros of quadratic L-functions and bounds `1/ζ`
-near the line one. Layer 8 proves zero-density estimates from the mean values, the pointwise bounds
-and the zero-free regions. Layer 9 bounds `L(1, χ)`, above from Ramaré's approximate formula and
-below by Louboutin's method for non-quadratic characters and from the real-zero bounds of 7.8 for
-quadratic ones. Layer 6 depends only on Layers 0–3, except the mean squares of `ζ` (6.6), which use
-the approximate functional equation 4.5a; the rest of Layer 6 can be built in parallel with Layers 4
-and 5.
 
 ## Layer 0: explicit errors, recorded computations, cosine polynomials and Euler–Maclaurin
 
@@ -3860,6 +3564,323 @@ L-functions; the records of 0.4b.
   bounds for `L(1, χ)`); its own polynomial certificates are listed under "Not owned here".
 - A Part II of this roadmap placed after `ExplicitCharacterSumsAndSieves` takes Layer 9 for the
   quadratic `L(1, χ)` bounds that need explicit Pólya–Vinogradov inequalities.
+
+## Scope and ownership
+
+### Owned here
+
+- the explicit error predicate `f = g + O*(h)` and its calculus (Layer 0);
+- the bounded-height Props `RH(H)` and `GRH(q, H)`, their monotonicity, their limits `RiemannHypothesis`
+  and `DirichletGRH`, their agreement with *AllOnCriticalLine*, the bridge from Platt's
+  finite-conductor theorem, the named records that theorems here take as hypotheses, the class of
+  admissible cosine polynomials, and the Euler–Maclaurin formula for functions with values in a
+  real Banach space, with real endpoints at first order and with the continuation of `ζ` to
+  `Re s > 0` that it gives (Layer 0; `AsymptoticExpansions` §13.1 states the same order-`2m`
+  formula for real-valued functions, the case `E = ℝ` of 0.5a, which is kept here in the Banach-valued form
+  that the complex-valued uses of Layers 1–4 need, so that this roadmap depends only on Mathlib,
+  the roadmaps on main and the analytic-number-theory roadmaps before it);
+- Stirling's series for `log Γ` with every explicit remainder bound in a sector, in the right
+  half-plane and on the positive axis, the Stirling coefficients of `Γ` and Nemes' bound, Binet's
+  second formula and the two-sided modulus bound for `Γ`, and the real-axis inequalities for `log Γ`,
+  `ψ` and the polygamma functions (Layers 1–2);
+- the explicit Phragmén–Lindelöf principle with products of interpolating factors, the
+  gamma-quotient bounds on vertical lines, Rademacher's convexity bound on records of finite-order
+  type and its instances for `ζ` and primitive Dirichlet characters, the linear bound for `ζ` on
+  `Re s > 0`, Backlund's strip bounds, the bounds right of the line one with the monotonicity of
+  `ζ` on `(1, ∞)`, the values of `ζ′/ζ` at real points and the alternating Laurent expansion of
+  `−ζ′/ζ` at `1`, and the Poisson–Jensen inequality on a strip (Layer 3);
+- the explicit van der Corput toolkit — Kusmin–Landau in its symmetric and asymmetric forms, the
+  finite van der Corput inequality for complex coefficients and its exponential-sum form (the
+  A-process), the second-derivative tests, Patel's corrected third, fourth and fifth derivative
+  tests, the `k`-th derivative test with recursive constants, truncated Poisson summation,
+  stationary phase and the B-process, an explicit approximate functional equation, the
+  first-derivative test, the partial fractions of `π/sin πz` and `π²/sin² πz`, the expansion of
+  `π cot πz` in the values `ζ(2n)` and the approximation of `ζ` by a partial sum at a half-integer
+  with its secondary term — together with Mathlib's Hardy function written through the theta
+  function, the Riemann–Siegel formula with Gabcke's remainder and the explicit bounds for
+  `|ζ(1/2 + it)|`, `|ζ(1 + it)|`, `|ζ|` on the lines `σ_k = 1 − k/(2^k − 2)` and `|L(1/2 + it, χ)|`
+  that they give; the explicit Vinogradov mean value theorem for complete and incomplete systems,
+  the bound for the short sums `Σ (n + u)^{−it}` that it gives, and the Richert-type bounds for `ζ`
+  and the Hurwitz zeta function (Layer 4);
+- Backlund's argument lemma for analytic records of any degree, the explicit Riemann–von Mangoldt
+  formulas for `ζ` and primitive Dirichlet L-functions with the zero-count predicate in which the
+  forms for `ζ` are stated, with and without `7/8`, and Lehman's weighted zero sum and its
+  derivative form with Trudgian's bound for the integral of `S(t)` (Layer 5);
+- the smoothed truncated Perron formulas and Landau's iterated Perron identity, the majorant
+  principle, the extremal majorant and minorant of the one-sided exponential, the explicit mean
+  values of
+  Dirichlet polynomials and of `ζ` on vertical lines, the weighted large sieve with the
+  Montgomery–Vaughan and Preissmann constants and Elliott's maximal large sieve (Layer 6);
+- the partial-fraction expansions of `ζ′/ζ` and `L′/L` with their constants, the classical-region
+  predicate, Kadiri's smoothed explicit formula, the criteria behind the classical,
+  Littlewood-type and Vinogradov–Korobov zero-free regions, the
+  regions with decimal constants for `ζ` and `L(s, χ)`, the real-zero bounds for quadratic
+  characters, the real-zero gap `(1 − β) log q ≥ c` for conductors up to a cap `Q`, with its
+  instance up to `10¹⁰` given the recorded real-zero check and its instances without a cap, and the
+  explicit bounds for `1/ζ(σ + it)` on the line one, on `σ ≥ 1`, in the classical region and on
+  `σ ≥ 3/4` below a verified height (Layer 7);
+- the explicit zero-density estimates for `ζ` and for Dirichlet L-functions, including the log-free
+  densities and the Kadiri–Lumley–Ng density at any verification height, with the density
+  predicate, and with the explicit sums of `μ²`, of the squared Selberg coefficients and of `d` and
+  `d²` that their routes use (Layer 8; by subject these sums belong with the explicit means of
+  multiplicative functions, whose roadmap `ExplicitMultiplicativeFunctions` comes later in the
+  merge order, so they are stated here);
+- upper bounds for `|L(1, χ)|` for every primitive character and their refinements under
+  conditions on `χ(2)` and `χ(3)`, and lower bounds for non-quadratic characters and for quadratic
+  characters of conductor at most `10¹⁰`, with Hoffstein's lemma (Layer 9).
+
+The van der Corput toolkit and the explicit Vinogradov mean value theorem of Layer 4 are general
+mathematics about exponential sums; they are stated here because the routes of 4.5a–4.10 use them,
+every other consumer of them comes later in the merge order than this roadmap, and neither
+Mathlib, Tau Ceti nor a roadmap on main or earlier in the merge order states Vinogradov's mean
+value theorem in any form (`ExplicitCharacterSumsAndSieves` places it outside its scope). The
+toolkit of 4.1–4.5 has one owner, this roadmap, and its later consumers cite it rather than restate
+it: `ExplicitCharacterSumsAndSieves` consumes the finite van der Corput inequality and its
+normalized form (4.2), and owns two variants built on them, Arias de Reyna's real-part form of the
+normalized inequality (its §0.3, which keeps the real part of the weighted lag sum) and his
+iterated inequality (its §1.1, which assumes no derivative bound); no route here uses either.
+`ExplicitMultiplicativeFunctions` takes the Kusmin–Landau inequality (4.1) for the route of its
+Dirichlet divisor remainder (its §7.4); the second-derivative test in Bordellès and Daval's form
+that the same route uses differs from those of 4.3 and is that roadmap's.
+
+### Consumed, not redefined
+
+- the analytic records with their degree, gamma factor, dual and the predicates of continuation
+  and functional equation, the `ζ` record `riemannZetaData` and the primitive Dirichlet records
+  `dirichletData`: Tau Ceti, as it realizes them from Layers 0 and 4 of the
+  [L-functions roadmap](../LFunctions/README.md); the average coefficient growth predicate,
+  `dedekindZetaData` and the Dirichlet factorizations: that roadmap, Layers 0, 3 and 4;
+- the entire completion, *IsFiniteOrder*, the sector branch of `log Γ`, *continuedL*, the analytic
+  conductor, the pole-cleared continued L-function, `zeroCount` with `N(T)` and `N±(T)`, Jensen's
+  bound, Hadamard's factorization and its L-function corollaries, the exceptional-zero predicate,
+  the argument principle on a rectangle with *S* `(T)`, *HasZerosInRects* and *AllOnCriticalLine*:
+  the [zeros of L-functions roadmap](../ZerosOfLFunctions/README.md), Layers 0–7 and 9;
+- the truncated Perron formula with the Davenport-type error, as Tau Ceti realizes
+  [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md) §§6.3–6.4;
+- the slit-plane branch of `log Γ` with its Stieltjes remainder and derivative bounds (§0.23a), the
+  Dirichlet-polynomial mean square with error `6π Σ n|a_n|²` (§1.5), the weighted Hilbert
+  inequality with constant `3π/2` (§1.5a), `DirichletGRH` and `GRH` (§1.6) and the effective
+  Landau–Siegel exclusion (§0.34): `AnalyticNumberTheoryPartI`;
+- the sharp additive and primitive-character large sieves and the separated Hilbert inequality:
+  `SieveMethodsAndPrimePatterns` §2.9;
+- the Kronecker description of real primitive characters: `AnalyticNumberTheoryPartI` §0.34a.
+
+### Not owned here
+
+- the existential shapes of convexity, zero counting, zero-free regions and the explicit formula
+  (`ZerosOfLFunctions`), the effective but non-numerical Landau–Siegel exclusion and lower bound
+  `L(1, χ) ≥ c/log q` (`AnalyticNumberTheoryPartI` §§0.34 and 0.9), and the log-free density for
+  the family of primitive characters with an unspecified constant `C_ε`
+  (`AnalyticNumberTheoryPartI` §1.7, of which 8.4 is an explicit form): only decimal
+  constants and the explicit arguments producing them live here;
+- the sharp unweighted large sieves and the separated Hilbert inequality with constant `π/δ`
+  (`SieveMethodsAndPrimePatterns` §2.9);
+- explicit constants for Dedekind zeta functions with `K ≠ ℚ`, Hecke L-functions and number-field
+  invariants (`ExplicitNumberFields`), which specializes the general convexity bound of Layer 3 and
+  the general argument lemma of Layer 5; explicit bounds for `ψ`, `θ`, `π` and primes in
+  progressions (`ExplicitPrimeCounting`); explicit Pólya–Vinogradov, Burgess and Brun–Titchmarsh
+  inequalities (`ExplicitCharacterSumsAndSieves`); explicit means of multiplicative functions
+  (`ExplicitMultiplicativeFunctions`);
+- the theory of exponent pairs beyond the explicit A- and B-processes of Layer 4 (Huxley's discrete
+  Hardy–Littlewood method and decoupling bounds): no statement here uses it;
+- every computation, algorithm and table: a computation that a theorem here rests on is a named
+  record (Conventions), taken as a hypothesis and never proved or performed here;
+- the Barnes `G` remainder (`AnalyticNumberTheoryPartII` §4.3a);
+- the asymptotic second moment
+  `∫₀^T |ζ(1/2 + it)|² dt = T log(T/2π) + (2γ − 1)T + O(√T log T)` and its explicit error under a
+  finite input (`AnalyticNumberTheoryPartI` §3.23): 6.6 states one-sided bounds with explicit
+  constants from `T ≥ 4` and does not restate the asymptotic;
+- the upper bounds for `L(1, χ)` at quadratic characters of large conductor that rest on explicit
+  Pólya–Vinogradov inequalities (`johnstonramaretrudgian2023`, Theorems 1 and 2), which belong to a
+  Part II of this roadmap placed after `ExplicitCharacterSumsAndSieves`; the explicit counts of zeros
+  of Dedekind zeta functions (`kadiring2012`), which are `ExplicitNumberFields`'.
+- the bound of at most four zeros of `∏_{χ mod q} L(s, χ)` with `|Im s| ≤ x/q` and
+  `σ ≥ 1 − 1/(3.82 log x)` for `x ≥ 8·10⁹` that `ExplicitPrimeCounting` uses (Liu and Wang, as
+  Kadiri's paper on short intervals quotes it): the quotation does not say how the principal
+  factor, which carries the zeros of `ζ`, enters it, and Liu and Wang's paper is not among the
+  sources here, so `ExplicitPrimeCounting` states the bound from that paper with the theorem that
+  needs it. Ramaré and Rumely's region for the zeros of `L(s, χ)` with `|γ| ≥ 1000`, with the
+  conductor `k` and the constant `C₁(k, H)`, is not of this kind: it is owned here (7.5, fifth
+  item), and so is its form for a modulus `q`, with `q|γ|` in place of `k|γ|` and one constant `C`
+  for all the characters modulo `q` (the end of the fifth item of 7.5); `ExplicitPrimeCounting`
+  takes both from there and applies the form for a modulus at Dusart's constant (its §6.1,
+  *RamareRumelyRegion*);
+- Ramaré's explicit density theorem (`ramare2016density` Theorem 1.1, lines 83–97): its averaged
+  bound for `T ≥ 2000`, `T ≥ Q ≥ 10` and `σ ≥ 0.52`,
+  `Σ_{q≤Q} (q/φ(q)) Σ_{χ mod* q} N(σ, T, χ) ≤ 20 (56 Q⁵ T³)^{1−σ} log^{5−2σ}(Q²T) + 32 Q² log²(Q²T)`
+  (the inner sum over the primitive characters modulo `q`, `N(σ, T, χ)` the number of zeros with
+  `β ≥ σ` and `|γ| ≤ T`), its bound for the zeros of `ζ` alone, and the revised form of the latter
+  that `kadirilumleyng2018` quotes. Kadiri, Lumley and Ng record a mistake in the paper without
+  locating it (lines 93–95, a footnote to their quotation, lines 63–66); the revision of the bound
+  for `ζ`, with leading constant `965` against the printed `9.8/2 = 4.9` for the zeros with
+  `γ > 0`, rests on a proof the author communicated to them and did not publish; and the bound for
+  `ζ` is the case `Q = 1` of the argument that gives the averaged bound (`ramare2016density`
+  lines 98–104 and 208–213). So no constant of that theorem is asserted here; the explicit
+  densities here are 8.1, 8.3 and 8.5 for `ζ` and 8.4 for the family of primitive characters;
+- Johnston and Yang's recomputed constants for the Kadiri–Lumley–Ng density, which rerun Kadiri,
+  Lumley and Ng's argument with changed inputs and which `ExplicitPrimeCounting` states with the
+  theorem that uses them; 8.3 states the Kadiri–Lumley–Ng theorem with its closed-form constants
+  and the arithmetic sums of its own route;
+- the first branch `|N(T) − M(T)| ≤ 0.28 log T` for `T ≥ 2π` (with `M(T)` including `7/8`) of the
+  form that `ExplicitPrimeCounting` quotes from Lee and Nosal, whose source is not among those
+  here. From `T = 8008.3` on it follows from statements here: up to `30 610 046 000` from the
+  recorded bound for `S(T)` (0.4) with the expansion of `ϑ` in 2.9, which give
+  `|N(T) − M(T)| ≤ 2.5167 + 1/(40T)`, at most `0.28 log T` once `log T ≥ 8.98823`; and from
+  `T = e^{20.456} = 7.65·10⁸` on from Rosser's bound (5.2): with `L = log T`,
+  `0.137 L + 0.443 log L + 1.588 ≤ 0.28 L` exactly when `0.143 L − 0.443 log L ≥ 1.588`, whose
+  left side increases for `L > 3.1` and reaches `1.588` at `L = 20.45508` (at `T = 30 610 046 000`
+  Rosser's bound is `6.306`, against `0.28 log T = 6.760`). On `[2π, 8008]` it is sharper than the
+  recorded bound and rests on a computation with the zeros there, which `ExplicitPrimeCounting`
+  carries as a hypothesis of the theorems that use it. Its second branch
+  `0.1038 log T + 0.2573 log log T + 9.3675` holds as a consequence of 5.2 and is stated there;
+- the nonnegative trigonometric polynomials for Dedekind zeta functions that `ExplicitNumberFields`
+  uses (Kadiri's for her Dedekind regions, in its 4.5, which are not her polynomial for `ζ`, and
+  those of Das, Gaba, Lee, Savalia and Wong, whose coefficients are optimised together with the
+  other parameters of the region they serve, in its 4.8): each is a polynomial certificate (the
+  Prop of 0.5 at literal coefficients) of one of its theorems, and by the Conventions it is named
+  with that theorem. The certificates of the regions here, Kadiri's polynomial
+  `(0.91 + cos φ)²(0.265 + cos φ)²` and Mossinghoff and Trudgian's `F₁₆`, are named in 7.3, where a
+  consumer that uses the same polynomial (`F₁₆` in Lee's argument, `ExplicitNumberFields` 4.6) cites
+  them.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `riemannZeta`, `riemannZeta_zero`, `riemannZeta_one_sub`, `riemannZeta_ne_zero_of_one_lt_re`,
+  `riemannZeta_ne_zero_of_one_le_re`, `riemannZeta_neg_two_mul_nat_add_one`, `completedRiemannZeta`,
+  `completedRiemannZeta₀`, `RiemannHypothesis` (`∀ s, ζ(s) = 0 → s not a trivial zero → s ≠ 1 →
+  Re s = 1/2`, `Mathlib/NumberTheory/LSeries/RiemannZeta.lean`);
+- `DirichletCharacter.LFunction`, `DirichletCharacter.LFunction_eq_LSeries` (for `1 < Re s`),
+  `DirichletCharacter.completedLFunction`, `DirichletCharacter.gammaFactor`,
+  `DirichletCharacter.LFunction_eq_completed_div_gammaFactor`,
+  `DirichletCharacter.IsPrimitive.completedLFunction_one_sub` (primitive characters),
+  `DirichletCharacter.rootNumber`, `DirichletCharacter.changeLevel`,
+  `DirichletCharacter.LFunction_changeLevel` (the Euler factors at the primes dividing the new level,
+  for `χ ≠ 1` or `s ≠ 1`), `DirichletCharacter.primitiveCharacter`,
+  `DirichletCharacter.changeLevel_primitiveCharacter`, `DirichletCharacter.LFunction_ne_zero_of_one_le_re`,
+  `DirichletCharacter.LFunction_apply_one_ne_zero`, `DirichletCharacter.LFunction_modOne_eq`,
+  `DirichletCharacter.completedLFunction_modOne_eq`, `DirichletCharacter.isPrimitive_one_level_one`,
+  `DirichletCharacter.IsPrimitive` (`conductor χ = q`), `DirichletCharacter.conductor`,
+  `DirichletCharacter.Even`, `DirichletCharacter.Odd`, `MulChar.IsQuadratic`, `gaussSum`;
+- `Complex.Gamma`, `Real.Gamma`, `Complex.Gamma_conj`, `Complex.Gammaℝ`, `Complex.Gammaℂ`,
+  `Complex.digamma`, `Complex.digamma_one`, `Complex.digamma_apply_add_one`,
+  `Real.eulerMascheroniConstant`, `Stirling.le_factorial_stirling`;
+- `bernoulli`, `Polynomial.bernoulli`, `bernoulliFun`, `hasDerivAt_bernoulliFun`,
+  `bernoulliFun_endpoints_eq_of_ne_one`, `hasSum_zeta_two`, `PowerSeries.exp`,
+  `intervalIntegral.integral_smul_deriv_eq_deriv_smul_of_hasDerivAt`, `iteratedDerivWithin`;
+- `hardyZ` (`Λ(1/2 + it)/|Γℝ(1/2 + it)|`) and `abs_hardyZ`
+  (`Mathlib/NumberTheory/LSeries/HardyZ.lean`);
+- `Complex.HadamardThreeLines.norm_le_interpStrip_of_mem_verticalClosedStrip` and
+  `Complex.HadamardThreeLines.norm_le_interp_of_mem_verticalClosedStrip₀₁'` (the three-lines
+  theorem for a function bounded and holomorphic on a closed strip),
+  `PhragmenLindelof.vertical_strip`;
+- `Real.fourierChar`, `UnitAddCircle`, `LSeries`, `LSeriesSummable`, `ArithmeticFunction.vonMangoldt`,
+  `ArithmeticFunction.sigma`, `Nat.totient`, `MeromorphicOn.divisor`, `meromorphicOrderAt`,
+  `HurwitzZeta.hurwitzZeta` (`ζ(s, u)` at the class of `u` in `UnitAddCircle`), `Fourier.fourierIntegral`;
+- `zeta_eq_tsum_one_div_nat_cpow` (`ζ(s) = Σ_{n≥1} n^{−s}` for `Re s > 1`),
+  `differentiableAt_riemannZeta`, `riemannZeta_conj`, `deriv_riemannZeta_zero`
+  (`ζ′(0) = −(log 2π)/2`, `Mathlib/NumberTheory/Harmonic/ZetaAsymp.lean`), `cot_series_rep`
+  (`π cot πz = 1/z + Σ_{n≥1} (1/(z − n) + 1/(z + n))` on `Complex.integerComplement`, the
+  complement of `ℤ` in `ℂ`), `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`;
+- `riemannZeta_im_eq_zero_of_one_lt` (`ζ(x)` real for real `x > 1`) and
+  `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div` (`L(Λ, s) = −ζ′(s)/ζ(s)` for
+  `Re s > 1`), `Mathlib/NumberTheory/LSeries/Dirichlet.lean`; `logDeriv_riemannZeta_one_sub`
+  (`(ζ′/ζ)(s) = −(ζ′/ζ)(1 − s) + log 2π − ψ(s) + (π/2) tan(πs/2)` for `s` not an integer with
+  `ζ(s) ≠ 0`, `Mathlib/NumberTheory/LSeries/RiemannZetaLogDeriv.lean`);
+  `Complex.digamma_nat_add_one` (`ψ(n + 1) = H_n − γ`).
+
+### From Tau Ceti
+
+- `TauCeti.trigonometricCombination` and `TauCeti.IsNonnegativeTrigonometricCombination`
+  (`TauCeti/Analysis/SpecialFunctions/Trigonometric/NonnegCombination.lean`): the real part of a
+  finite weighted sum of powers of a phase, and its nonnegativity on the unit circle;
+  `TauCeti.trigonometricCombination_nonneg_of_boundary` and `TauCeti.sum_re_neg_log_one_sub_nonneg`;
+  `TauCeti.LSeries.isNonnegativeTrigonometricCombination_threeFourOne`
+  (`TauCeti/NumberTheory/LSeries/ThreeFourOne.lean`).
+- `TauCeti.truncatedPerronKernel`, `TauCeti.truncatedPerronKernel_one`,
+  `TauCeti.truncatedPerron_LSeries` and `TauCeti.norm_truncatedPerron_LSeries_sub_sum_le`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/`): for `x > 0`, `c > 0`, `T > 0`, `x` off
+  the support's integers and absolute convergence on `Re s = c`, the truncated integral differs from
+  `Σ_{n < x} f(n)` by at most `Σ ‖f(n)‖ (x/n)^c/(πT|log(x/n)|)`.
+- `TauCeti.LFunctions.AnalyticLFunctionData` (`TauCeti/NumberTheory/LFunctions/Data/Basic.lean`),
+  the analytic record with fields `coeff`, `conductor : ℕ+`, `gammaR`, `gammaC`, `rootNumber`,
+  `completed` and `polarOrder`; `AnalyticLFunctionData.degree` (`#gammaR + 2 #gammaC`),
+  `AnalyticLFunctionData.gammaFactor` (`γ(s) = ∏ Gammaℝ(s + μ) ∏ Gammaℂ(s + ν)`),
+  `AnalyticLFunctionData.dual`; and the predicates `HasDirichletAgreement` (`coeff 1 = 1`, positive
+  degree, and `completed s = N^{s/2} γ(s) LSeries coeff s` for `Re s > 1`, so that the conductor
+  power is part of `completed`), `HasMeromorphicContinuation` (meromorphic on `ℂ`, a pole of exactly
+  the recorded order at each point of the polar divisor, analytic elsewhere) and
+  `HasFunctionalEquation` (`‖rootNumber‖ = 1`, the polar divisor symmetric under `s ↦ 1 − conj s`,
+  and `completed s = rootNumber · dual.completed (1 − s)` where neither `s` nor `1 − conj s` is a
+  pole).
+- `TauCeti.LFunctions.riemannZetaData` (`TauCeti/NumberTheory/LFunctions/Data/RiemannZeta.lean`):
+  coefficients `1`, conductor `1`, `gammaR = {0}`, no complex shift, root number `1`,
+  `completed = completedRiemannZeta` and simple poles at `0` and `1`, with
+  `riemannZetaData_hasDirichletAgreement`, `riemannZetaData_hasMeromorphicContinuation` and
+  `riemannZetaData_hasFunctionalEquation`.
+- `TauCeti.LFunctions.dirichletData χ hχ` (`TauCeti/NumberTheory/LFunctions/Dirichlet/Basic.lean`)
+  for `χ` primitive modulo `N`: coefficients `χ(n)`, conductor `N`, `gammaR = {a}`, root number
+  `DirichletCharacter.rootNumber χ`,
+  `completed s = N^{s/2} · DirichletCharacter.completedLFunction χ s` (Mathlib's completed function
+  carries no conductor power), no poles for `N > 1`, and the
+  `riemannZetaData` record for `N = 1` (`dirichletData_modOne`); with
+  `dirichletData_hasDirichletAgreement`, `dirichletData_hasMeromorphicContinuation` and
+  `dirichletData_hasFunctionalEquation`.
+
+### From TauCetiRoadmap.LFunctions
+
+- Layer 0: the average coefficient growth predicate. The records, their degree, gamma factor and
+  dual, the three predicates and `riemannZetaData` of the same layer are consumed as Tau Ceti
+  realizes them (above).
+- Layer 3: `dedekindZetaData` (named only where a Dedekind instance is a Check).
+- Layer 4: `dirichletData`, consumed as Tau Ceti realizes it (above): conductor `q`, real gamma
+  shift `a`, and completed function `q^{s/2}` times Mathlib's
+  `DirichletCharacter.completedLFunction χ s`.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+- Layer 0: *entireCompletion*, `zetaEntireCompletion`, *IsFiniteOrder*.
+- Layer 1: 1.1 (*logGamma* on `S_δ`), 1.4 (`logDeriv Gammaℝ s = ψ(s/2)/2 − (log π)/2`), 1.6
+  (*continuedL* with `continuedL riemannZetaData = riemannZeta`).
+- Layer 3: 3.4 (*poleClearedContinuedL*).
+- Layer 4: `zeroCount`, *divisorCount*, 4.3 (Jensen's bound), 4.5 (`N(T)`, `N±(T)`, monotonicity and
+  right-continuity).
+- Layer 5: 5.5 (Hadamard's factorization at order at most one) and 5.6 (the positivity of
+  `Σ_ρ Re 1/(s − ρ)` and `Re b = −Σ_ρ Re(1/ρ)` for real records).
+- Layer 6: 6.3 (*IsExceptionalZero*), 6.4d (the partial-fraction bound for `−Re L'/L`), 6.5 (no
+  zeros on `Re s = 0, 1`).
+- Layer 7: 7.1 (*rectBoundary*), 7.2 (argument principle on a rectangle), 7.3 (*S* `(T)` and the
+  argument variation), 7.4 (the route of Riemann–von Mangoldt for `ζ`).
+- Layer 9: *HasZerosInRects*, *AllOnCriticalLine*, and the identification of its global form with
+  `RiemannHypothesis`.
+
+### From TauCetiRoadmap.ArithmeticDirichletSeries
+
+- §§6.3–6.4 as realized in Tau Ceti (above): the truncated Perron formula with finite-height
+  endpoint value `π⁻¹ arctan(T/c)` (`TauCeti.truncatedPerronKernel_one`).
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §0.23a: the slit-plane `log Γ`, normalized by `log Γ(1) = 0`, with
+  `R(z) = log Γ(z) − (z − 1/2) Log z + z − log(2π)/2 = ∫₀^∞ Q(t)(z + t)⁻² dt`,
+  `Q(t) = ({t} − {t}²)/2`, and `|R^{(j)}(z)| ≤ j! sec^{j+2}(arg z/2)/(8|z|^{j+1})`.
+- §1.5: for `N ≥ 0`, `T ≥ 0` and complex `a₁, …, a_N`,
+  `|∫_{−T}^{T} |Σ a_n n^{−it}|² dt − 2T Σ |a_n|²| ≤ 6π Σ n|a_n|²`.
+- §1.5a: for distinct real `λ_r` with local spacings `δ_r = min_{s≠r} |λ_r − λ_s|` and complex `u_r`,
+  `|Σ_{r≠s} u_r ū_s/(λ_r − λ_s)| ≤ (3π/2) Σ |u_r|²/δ_r`.
+- §1.6: `DirichletGRH χ` (every `s` with `Re s > 0`, `χ ≠ 1 ∨ s ≠ 1` and `L(s, χ) = 0` has
+  `Re s = 1/2`) and `GRH`.
+- §0.34 and §0.34a: `landau_siegel_exclusion`, an absolute effective `c_LS > 0` with
+  `(1 − β) log q ≥ c_LS` for every real zero of every primitive real nonprincipal `L(s, χ)`, `q ≥ 3`;
+  and the identification of such `χ` with a Kronecker character of fundamental discriminant
+  `χ(−1) q`.
+
+### From TauCetiRoadmap.SieveMethodsAndPrimePatterns
+
+- §2.9: `SieveTaper.sharp_additive_largeSieve` (constant `N − 1 + δ⁻¹` for `δ`-separated
+  frequencies, `0 < δ ≤ 1/2`, `N ≥ 1`), `SieveApplications.sharp_primitive_largeSieve` (constant
+  `H − 1 + Q²`), and the separated Hilbert inequality with constant `π/δ`.
 
 ## References
 

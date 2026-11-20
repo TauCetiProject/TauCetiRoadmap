@@ -1,72 +1,77 @@
 # Roadmap: asymptotically Euclidean geometry and positive mass
 
-**Summary.** This roadmap develops the geometry and analysis of asymptotically
-Euclidean (AE) ends, the ADM mass, and the Riemannian positive-mass theorem with
-its rigidity. It builds two independent proofs: the minimizing-hypersurface
-argument in dimensions 3–7, which needs no spin structure, and Witten's spinor
-argument in every dimension n≥3. The spinor argument is carried as far as
-Cecchini–Zeidler's theorem for one specified AE end of a complete spin manifold
-whose remaining ends are arbitrary, which is the form needed by conformal Green
-blow-ups on covering spaces. The inputs are Mathlib's Riemannian manifold
-carriers, Tau Ceti's Levi-Civita scalar curvature and Riemannian volume, and the
-curvature, PDE, operator, spin and current roadmaps listed below. The end
-theorems are Layer 8: nonnegativity of the mass of every end and Euclidean
-rigidity at a zero-mass end, for finite-ended manifolds in the two settings and
-for one AE end with arbitrary other ends in the spin setting.
+**Summary.** An asymptotically Euclidean end of a Riemannian manifold M is an open set
+identified with the exterior `|x| > R` of a ball in ℝⁿ, on which the metric tends to the
+Euclidean one. Its ADM mass measures how the metric deviates from the flat one at infinity.
+The positive mass theorem says that, under nonnegative scalar curvature and hypotheses made
+precise below, the mass is nonnegative and vanishes only for Euclidean space. This roadmap
+develops these ends and their mass, and gives two independent proofs of the theorem with its
+rigidity: the minimizing-hypersurface argument in dimensions 3 to 7, which needs no spin
+structure, and Witten's spinor argument in every dimension n ≥ 3.
 
-## Scope and ownership
+Manifolds are smooth, Hausdorff, second countable and connected, of dimension n ≥ 3, with a
+smooth Riemannian metric; completeness is for the Riemannian distance. The positivity and
+rigidity theorems are for manifolds without boundary.
 
-This roadmap owns: AE ends and finite-ended AE structures; the ADM mass, its
-existence, chart invariance and normalizations; weighted Lebesgue, Sobolev and
-Hölder spaces on AE manifolds and their Fredholm theory away from the indicial
-weights; the round-sphere spinor restriction and its monogenic spectrum; the
-harmonically flat approximation and the zero-mass deformation; the AE large-ball
-volume limit; the compact torus obstruction for smooth stable hypersurfaces in
-ambient dimension at most 7 and the negative-mass compactification; Gauss–Bonnet
-for compact domains with piecewise smooth boundary, reflex corners included and
-cusps excluded, in an oriented surface, by triangulation and the Euler
-identification, with its naturality for exhaustions;
-spinors at infinity and the boundary mass identity; doubled Callias operators
-with chiral boundary conditions; and the localized Callias argument for one AE end.
+An end has order t when `g_ij − δ_ij` is `O(|x|^(−t))`, each derivative up to the second
+gaining a further factor `|x|^(−1)`. A finite-ended structure is a nonempty finite family of
+disjoint ends whose union has compact complement. The mass of an end is the limit as r → ∞
+of the Euclidean flux of the vector field `Σ_i (∂_i g_ij − ∂_j g_ii)` through the coordinate
+sphere of radius r, divided by 2(n−1) times the area of the unit sphere. It exists,
+independently of the coordinates, when t > (n−2)/2 and the scalar curvature is integrable on
+the end.
 
-It also owns two closed-manifold conformal inputs that its compact obstruction
-uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature law of a
-metric `φ^(4/(n−2)) g`, derived from RiemannianGeometry R1's law for `e^(2u) g`,
-and the metric of positive scalar curvature obtained from a positive first
-eigenfunction. The positive first eigenfunction of a Schrödinger operator on a
-closed connected manifold is RiemannianGeometry R5c's, consumed in 3.0. The
-Yamabe roadmap, a consumer of Layer 8, plans the same closed-manifold facts inside
-its variational theory; the facts this roadmap uses are owned here or in
-RiemannianGeometry, so that supply runs in one direction.
+The first main theorem makes no spin assumption. Let M be complete, of dimension 3 ≤ n ≤ 7,
+with a finite-ended asymptotically Euclidean structure of order t > (n−2)/2 and nonnegative
+scalar curvature integrable over M. Then at every end the flux converges as r → ∞, and its
+limit, the mass, is nonnegative. If one end has mass zero, M is isometric to ℝⁿ.
 
-It leaves to other roadmaps:
+The second removes the bound n ≤ 7 for spin manifolds, those whose oriented orthonormal
+frame bundle lifts to Spin(n). A complete finite-ended asymptotically Euclidean spin
+manifold of dimension n ≥ 3, with nonnegative and integrable scalar curvature, has
+nonnegative mass at every end, and zero mass at one end again makes it isometric to ℝⁿ.
 
-- the Levi-Civita connection, curvature, Gauss equation, hypersurface variation,
-  Bishop–Gromov comparison with its small-ball limit and its equality case, and
-  spherical harmonics: RiemannianGeometry R1–R5, R4.1, R7.8, R8;
-- Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
-  included and cusps excluded, with its boundary term against local connection forms
-  and the cancellation along a common boundary arc with its endpoint-angle terms:
-  RiemannianGeometry/Surfaces S3;
-- gradient, divergence, Laplace–Beltrami, Green identities, orientation cover and
-  Sard: DifferentialGeometry 2, 10, 12.2–12.5;
-- Euclidean weak spaces, maximum principles, elliptic existence and regularity:
-  PDE Layer 1 (A1–A7), Layer 3 (C12–C15), Layer 4 (D16–D19), Layer 5 (E20–E26);
-- the form-domain self-adjoint realization and its compact specialization:
-  OperatorTheory/UnboundedOperators UO-D06 and VariationalMethods V2.3, V5.1;
-- bundle distributions, local elliptic regularity and compact Sobolev comparisons:
-  ComplexKahlerGeometry K5a;
-- Spin lifts, spinor bundles, the Dirac operator and the Schrödinger–Lichnerowicz
-  formula: SpinGeometry G3–G6;
-- integral-current minimization, compactness and codimension-one regularity in
-  ambient dimension at most 7: GeometricCurrents G1–G7;
-- smooth triangulation of compact surfaces with boundary: GeometricTopology, the
-  smoothing-and-triangulation comparison, item 1 (smooth implies PL);
-- cup and cap products, Poincaré duality, degree and Euler characteristic:
-  AlgebraicTopology Stages 2–3, 6–7.
+The third, due to Cecchini and Zeidler, needs a single good end. Let M be a complete spin
+manifold of dimension n ≥ 3 without boundary, with nonnegative scalar curvature and one
+specified asymptotically Euclidean end on which the scalar curvature is integrable. No
+asymptotically Euclidean or finite-end condition is imposed on the rest of M. Then the
+specified end has nonnegative mass, and zero mass makes M isometric to ℝⁿ. Integrability is
+needed for the mass to exist: on ℝ³ the complete metric `u⁴δ`, `u = 1 + (1+r²)^(−3/8)`, has
+an end of order 3/4 > 1/2 and positive scalar curvature, but its flux has no limit.
 
-Spacetime ADM momentum, the dominant energy condition and Jang's equation need
-different geometric targets and are outside this roadmap.
+The roadmap builds on Mathlib's Riemannian manifolds and Tau Ceti's scalar curvature and
+volume. RiemannianGeometry provides the stability inequality for minimal hypersurfaces and
+the equality case of volume comparison. GeometricCurrents provides minimization of integral
+currents and their codimension-one regularity in ambient dimension at most 7. SpinGeometry
+provides the Dirac operator and the Schrödinger–Lichnerowicz formula. The Yamabe roadmap
+applies the first and third theorems to conformal Green blow-ups of closed manifolds at a
+point.
+
+Layers 0 to 2 serve both proofs. They build a weighted Fredholm theory for the Laplacian and
+the Dirac operator, and show that, once positivity is proved, zero mass forces vanishing
+Ricci curvature and then an isometry with ℝⁿ. In Layer 3 a negative mass would yield a
+closed manifold with positive scalar curvature and a map of degree one to the torus `T^n`.
+Layer 3 proves this impossible: a closed oriented d-manifold with 3 ≤ d ≤ 7 and a map of
+nonzero degree to `T^d` has no metric of positive scalar curvature. In Layers 4 to 6 a
+harmonic spinor u, asymptotic to a nonzero constant on one end and to zero on the others,
+shows that a positive multiple of that end's mass is at least `‖∇u‖²`. Layer 7 extends this
+to arbitrary other ends.
+
+## How to read the build
+
+Layer k is cited as Pk and its subsection k.n as Pk.n. Layer 0 fixes ends, decay,
+the mass and its normalizations, and the conformal scalar law. Layer 1 builds the
+weighted analysis: spaces, the scalar and spinor indicial models on the round
+sphere, and Fredholm theory with the scalar end-value problem. Layer 2 reduces to
+harmonically flat metrics, proves the zero-mass deformation and the AE volume
+rigidity. Layer 3 proves positivity in dimensions 3–7 without spin, by the compact
+torus obstruction and the negative-mass compactification, with the AE
+minimizing-hypersurface route as a second proof in dimension 3. Layers 4–6 give the
+spinor route on finite-ended manifolds: spinors at infinity and the boundary mass
+identity, doubled Callias operators with chiral boundary conditions, weighted
+solvability and positivity. Layer 7 localizes the Callias argument to one AE end
+with arbitrary other ends. Layer 8 states the theorems. Layers 3 and 4–7 are
+independent of each other; both use Layers 0–2.
 
 ## Conventions
 
@@ -95,136 +100,6 @@ unit sphere (Cecchini–Zeidler, equation (2.1), p. 6). The radius limit, not a
 selected convergent subsequence, is part of the theorems. In this normalization
 `(1+c r^(2−n))^(4/(n−2)) δ` has mass 2c. Schoen–Yau's compactification paper
 divides by `4(n−1)|S^(n−1)|` (Schoen–Yau 2017, §1, p. 4), so its mass is half of ours.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `EuclideanSpace ℝ (Fin n)` with `EuclideanSpace.basisFun`, `fderiv`, and
-  `Measure.euclideanHausdorffMeasure` (`Mathlib/Geometry/Euclidean/Volume/Measure.lean`),
-  used with exponent n−1 for coordinate spheres. Only ratios of two such areas
-  enter the mass, so the normalizing constant of the Hausdorff measure cancels.
-- `IsRiemannianManifold`, `RiemannianBundle`, `IsContMDiffRiemannianBundle` and
-  `IsContinuousRiemannianBundle` (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`,
-  `Mathlib/Geometry/Manifold/VectorBundle/Riemannian.lean`). `IsRiemannianManifold`
-  asserts only that the distance is the Riemannian distance; second countability,
-  connectedness and completeness are separate hypotheses.
-- `CovariantDerivative.leviCivitaConnection` and `CovariantDerivative.IsLeviCivitaConnection`
-  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
-- `mfderiv` for the end parametrizations, and `IsometryEquiv` for rigidity.
-- `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
-  (`Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean`): the
-  Gagliardo–Nirenberg–Sobolev inequality for compactly supported C¹ functions on a
-  finite-dimensional space, with a non-sharp constant. At p=2 it is the Euclidean
-  critical Sobolev inequality used in Layer 1 and Layer 6.
-
-### From Tau Ceti
-
-- `CovariantDerivative.scalarCurvature`
-  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Scalar.lean`):
-  the metric trace of the Ricci tensor, equal to `n(n−1)κ` for constant curvature κ.
-- The instance `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`
-  (`.../LeviCivita/Regularity.lean`): the Levi-Civita connection of a smooth metric
-  is smooth.
-- `TauCeti.riemannianVolume` (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`):
-  the chart-glued Riemannian volume, characterized by `TauCeti.eq_riemannianVolume_iff`.
-- `TauCeti.W1p0.sobolevEmbeddingL` (`TauCeti/Analysis/Sobolev/Embedding.lean`): the
-  embedding of `W^(1,p)_0(Ω)` into `L^(p⋆)(Ω)` at the Sobolev conjugate exponent.
-
-### From TauCetiRoadmap.RiemannianGeometry (on main)
-
-R1: metric connection, curvature and the conformal law
-`Scal̃ = e^(−2u)(Scal + 2(n−1)Δ⁺u − (n−1)(n−2)|du|²)` for `g̃ = e^(2u) g`.
-R1.4: normal-coordinate density. R2–R3: Jacobi fields and distance. R4.1: Ricci
-lower bounds, relative-volume monotonicity, the small-ball limit 1, and the
-equality API (equal flat volume ratio on all radii gives a global Euclidean
-isometry, without assuming simple connectedness). R4.3, R4.6: covering criterion
-and cut locus. R5a–R5b: Gauss equation, first and second variation, the
-full-scalar stability identity `∫(2|dφ|²+Scal_Σ φ²) ≥ ∫(Scal_M+|A|²)φ²` with its
-compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
-realization. R5c item 1: on a closed connected manifold of positive dimension, for
-smooth q, the lowest eigenvalue μ₁ of `Δ⁺ + q` is the least Rayleigh quotient
-`(∫|∇u|²+∫qu²)/∫u²` and is simple, with a smooth positive eigenfunction. R7.8: smooth
-Lipschitz approximation of distance functions. R8.1–R8.2:
-scalar spherical harmonics and their completeness in the compact L² realization.
-
-### From TauCetiRoadmap.RiemannianGeometry.Surfaces (on main)
-
-S3: Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
-included and cusps excluded; the boundary term against local connection forms;
-cancellation along a common boundary arc together with its endpoint-angle terms. Its
-conventions are those of 3.1: each boundary component oriented with the domain on its
-left, `k_g` against the inward conormal, signed exterior angles `αᵢ = π − βᵢ ∈ (−π, π)`
-with βᵢ the interior angle. S3 states disks only; annuli and every other Euler
-characteristic are 3.1's. Used in 3.1.
-
-### From TauCetiRoadmap.DifferentialGeometry (on main)
-
-Sections 12.2–12.5: gradient, divergence, Laplace–Beltrami (native Δ = div grad, so
-`Δ⁺` is its negative), density and Green identities. Section 2: orientation cover.
-Section 10: Sard, used for regular exhaustion boundaries.
-
-### From TauCetiRoadmap.PDE (on main)
-
-Layer 1 (A1–A7), Layer 3 (C12–C15), Layer 4 (D16–D19) and Layer 5 (E20–E26):
-Euclidean weak spaces, local and boundary estimates, maximum and Harnack principles,
-scalar Dirichlet theory; the strong maximum principle is 3.2 (C13). Euclidean scalar
-estimates do not by themselves supply the weighted bundle and boundary inverses built
-here.
-
-### From TauCetiRoadmap.VariationalMethods and TauCetiRoadmap.OperatorTheory.UnboundedOperators
-
-UnboundedOperators UO-D06: the coercive solution map of a shifted Hermitian form over
-`RCLike 𝕜`, obtained from the real case by realification and the `I • v` test; and, for a
-dense continuous injection `j:V→H` and a bounded Hermitian shifted-coercive form a, the
-operator with `Dom A = {j u : ∃h, ∀v, a(u,v)=⟨h, j v⟩}` and `A(j u)=h`, self-adjoint over
-`RCLike 𝕜`, with both adjoint inclusions and the shifted resolvent. VariationalMethods
-V2.3: the `𝕜`-linear forcing map `S_α : H → V`, `a_α(S_α h, v) = ⟨h, j v⟩`.
-VariationalMethods V5.1: the shifted inverse is `j ∘ S_α`, compact when the inclusion is
-compact. This is the only form-realization engine used here.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry (on main)
-
-K5a: real and complex bundle distributions, local and global elliptic regularity,
-and the compact boundaryless domain and form specialization. Its compact resolvent
-is not a weighted noncompact inverse and not a chiral boundary-domain theorem.
-
-### From TauCetiRoadmap.SpinGeometry (on main)
-
-G3–G6: geometric Spin lifts, chosen-factor spinor bundles, Clifford-compatible
-connections, the Dirac operator and its formal adjoint, and the
-Schrödinger–Lichnerowicz formula. Its G6.5 sphere kernel example is not the full
-spectrum, which is Layer 1 here.
-
-### From TauCetiRoadmap.GeometricCurrents (on main)
-
-G1–G7: integral-current minimization, compactness, barriers and homology-class
-closure, codimension-one interior regularity in ambient dimension at most 7, and
-G7's smooth stable-limit and no-cancellation interfaces.
-
-### From TauCetiRoadmap.GeometricTopology and TauCetiRoadmap.AlgebraicTopology (on main)
-
-GeometricTopology, the smoothing-and-triangulation comparison, item 1 (smooth
-implies PL): every smooth manifold has a smooth triangulation (Whitehead); only the
-case of compact surfaces with boundary is used, for the Euler identification in 3.1.
-AlgebraicTopology Stages 2–3, 6–7: integral cup and cap products, degree, Poincaré
-duality, finite CW Euler characteristic.
-
-## How to read the build
-
-Layer k is cited as Pk and its subsection k.n as Pk.n. Layer 0 fixes ends, decay,
-the mass and its normalizations, and the conformal scalar law. Layer 1 builds the
-weighted analysis: spaces, the scalar and spinor indicial models on the round
-sphere, and Fredholm theory with the scalar end-value problem. Layer 2 reduces to
-harmonically flat metrics, proves the zero-mass deformation and the AE volume
-rigidity. Layer 3 proves positivity in dimensions 3–7 without spin, by the compact
-torus obstruction and the negative-mass compactification, with the AE
-minimizing-hypersurface route as a second proof in dimension 3. Layers 4–6 give the
-spinor route on finite-ended manifolds: spinors at infinity and the boundary mass
-identity, doubled Callias operators with chiral boundary conditions, weighted
-solvability and positivity. Layer 7 localizes the Callias argument to one AE end
-with arbitrary other ends. Layer 8 states the theorems. Layers 3 and 4–7 are
-independent of each other; both use Layers 0–2.
 
 ## Layer 0: ends, decay and the mass functional
 
@@ -1210,6 +1085,174 @@ Layers 0–7.
   normal-coordinate curvature terms; Yamabe owns the conformal developing map,
   lifted-pole completeness and the compactification of the conclusion.
 - RiemannianGeometry R4.1's equality API is written for use in 2.3.
+
+## Scope and ownership
+
+This roadmap owns: AE ends and finite-ended AE structures; the ADM mass, its
+existence, chart invariance and normalizations; weighted Lebesgue, Sobolev and
+Hölder spaces on AE manifolds and their Fredholm theory away from the indicial
+weights; the round-sphere spinor restriction and its monogenic spectrum; the
+harmonically flat approximation and the zero-mass deformation; the AE large-ball
+volume limit; the compact torus obstruction for smooth stable hypersurfaces in
+ambient dimension at most 7 and the negative-mass compactification; Gauss–Bonnet
+for compact domains with piecewise smooth boundary, reflex corners included and
+cusps excluded, in an oriented surface, by triangulation and the Euler
+identification, with its naturality for exhaustions;
+spinors at infinity and the boundary mass identity; doubled Callias operators
+with chiral boundary conditions; and the localized Callias argument for one AE end.
+
+It also owns two closed-manifold conformal inputs that its compact obstruction
+uses, stated in Layer 0 and Layer 3: the pointwise scalar-curvature law of a
+metric `φ^(4/(n−2)) g`, derived from RiemannianGeometry R1's law for `e^(2u) g`,
+and the metric of positive scalar curvature obtained from a positive first
+eigenfunction. The positive first eigenfunction of a Schrödinger operator on a
+closed connected manifold is RiemannianGeometry R5c's, consumed in 3.0. The
+Yamabe roadmap, a consumer of Layer 8, plans the same closed-manifold facts inside
+its variational theory; the facts this roadmap uses are owned here or in
+RiemannianGeometry, so that supply runs in one direction.
+
+It leaves to other roadmaps:
+
+- the Levi-Civita connection, curvature, Gauss equation, hypersurface variation,
+  Bishop–Gromov comparison with its small-ball limit and its equality case, and
+  spherical harmonics: RiemannianGeometry R1–R5, R4.1, R7.8, R8;
+- Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
+  included and cusps excluded, with its boundary term against local connection forms
+  and the cancellation along a common boundary arc with its endpoint-angle terms:
+  RiemannianGeometry/Surfaces S3;
+- gradient, divergence, Laplace–Beltrami, Green identities, orientation cover and
+  Sard: DifferentialGeometry 2, 10, 12.2–12.5;
+- Euclidean weak spaces, maximum principles, elliptic existence and regularity:
+  PDE Layer 1 (A1–A7), Layer 3 (C12–C15), Layer 4 (D16–D19), Layer 5 (E20–E26);
+- the form-domain self-adjoint realization and its compact specialization:
+  OperatorTheory/UnboundedOperators UO-D06 and VariationalMethods V2.3, V5.1;
+- bundle distributions, local elliptic regularity and compact Sobolev comparisons:
+  ComplexKahlerGeometry K5a;
+- Spin lifts, spinor bundles, the Dirac operator and the Schrödinger–Lichnerowicz
+  formula: SpinGeometry G3–G6;
+- integral-current minimization, compactness and codimension-one regularity in
+  ambient dimension at most 7: GeometricCurrents G1–G7;
+- smooth triangulation of compact surfaces with boundary: GeometricTopology, the
+  smoothing-and-triangulation comparison, item 1 (smooth implies PL);
+- cup and cap products, Poincaré duality, degree and Euler characteristic:
+  AlgebraicTopology Stages 2–3, 6–7.
+
+Spacetime ADM momentum, the dominant energy condition and Jang's equation need
+different geometric targets and are outside this roadmap.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `EuclideanSpace ℝ (Fin n)` with `EuclideanSpace.basisFun`, `fderiv`, and
+  `Measure.euclideanHausdorffMeasure` (`Mathlib/Geometry/Euclidean/Volume/Measure.lean`),
+  used with exponent n−1 for coordinate spheres. Only ratios of two such areas
+  enter the mass, so the normalizing constant of the Hausdorff measure cancels.
+- `IsRiemannianManifold`, `RiemannianBundle`, `IsContMDiffRiemannianBundle` and
+  `IsContinuousRiemannianBundle` (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`,
+  `Mathlib/Geometry/Manifold/VectorBundle/Riemannian.lean`). `IsRiemannianManifold`
+  asserts only that the distance is the Riemannian distance; second countability,
+  connectedness and completeness are separate hypotheses.
+- `CovariantDerivative.leviCivitaConnection` and `CovariantDerivative.IsLeviCivitaConnection`
+  (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/LeviCivita.lean`).
+- `mfderiv` for the end parametrizations, and `IsometryEquiv` for rigidity.
+- `MeasureTheory.eLpNorm_le_eLpNorm_fderiv_of_eq`
+  (`Mathlib/Analysis/FunctionalSpaces/SobolevInequality.lean`): the
+  Gagliardo–Nirenberg–Sobolev inequality for compactly supported C¹ functions on a
+  finite-dimensional space, with a non-sharp constant. At p=2 it is the Euclidean
+  critical Sobolev inequality used in Layer 1 and Layer 6.
+
+### From Tau Ceti
+
+- `CovariantDerivative.scalarCurvature`
+  (`TauCeti/Geometry/Manifold/VectorBundle/CovariantDerivative/Curvature/Scalar.lean`):
+  the metric trace of the Ricci tensor, equal to `n(n−1)κ` for constant curvature κ.
+- The instance `CovariantDerivative.instContMDiffCovariantDerivativeLeviCivitaConnection`
+  (`.../LeviCivita/Regularity.lean`): the Levi-Civita connection of a smooth metric
+  is smooth.
+- `TauCeti.riemannianVolume` (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`):
+  the chart-glued Riemannian volume, characterized by `TauCeti.eq_riemannianVolume_iff`.
+- `TauCeti.W1p0.sobolevEmbeddingL` (`TauCeti/Analysis/Sobolev/Embedding.lean`): the
+  embedding of `W^(1,p)_0(Ω)` into `L^(p⋆)(Ω)` at the Sobolev conjugate exponent.
+
+### From TauCetiRoadmap.RiemannianGeometry (on main)
+
+R1: metric connection, curvature and the conformal law
+`Scal̃ = e^(−2u)(Scal + 2(n−1)Δ⁺u − (n−1)(n−2)|du|²)` for `g̃ = e^(2u) g`.
+R1.4: normal-coordinate density. R2–R3: Jacobi fields and distance. R4.1: Ricci
+lower bounds, relative-volume monotonicity, the small-ball limit 1, and the
+equality API (equal flat volume ratio on all radii gives a global Euclidean
+isometry, without assuming simple connectedness). R4.3, R4.6: covering criterion
+and cut locus. R5a–R5b: Gauss equation, first and second variation, the
+full-scalar stability identity `∫(2|dφ|²+Scal_Σ φ²) ≥ ∫(Scal_M+|A|²)φ²` with its
+compact-support and two-sidedness hypotheses, and the normal-Jacobi Dirichlet
+realization. R5c item 1: on a closed connected manifold of positive dimension, for
+smooth q, the lowest eigenvalue μ₁ of `Δ⁺ + q` is the least Rayleigh quotient
+`(∫|∇u|²+∫qu²)/∫u²` and is simple, with a smooth positive eigenfunction. R7.8: smooth
+Lipschitz approximation of distance functions. R8.1–R8.2:
+scalar spherical harmonics and their completeness in the compact L² realization.
+
+### From TauCetiRoadmap.RiemannianGeometry.Surfaces (on main)
+
+S3: Gauss–Bonnet for compact disks with piecewise smooth boundary, reflex corners
+included and cusps excluded; the boundary term against local connection forms;
+cancellation along a common boundary arc together with its endpoint-angle terms. Its
+conventions are those of 3.1: each boundary component oriented with the domain on its
+left, `k_g` against the inward conormal, signed exterior angles `αᵢ = π − βᵢ ∈ (−π, π)`
+with βᵢ the interior angle. S3 states disks only; annuli and every other Euler
+characteristic are 3.1's. Used in 3.1.
+
+### From TauCetiRoadmap.DifferentialGeometry (on main)
+
+Sections 12.2–12.5: gradient, divergence, Laplace–Beltrami (native Δ = div grad, so
+`Δ⁺` is its negative), density and Green identities. Section 2: orientation cover.
+Section 10: Sard, used for regular exhaustion boundaries.
+
+### From TauCetiRoadmap.PDE (on main)
+
+Layer 1 (A1–A7), Layer 3 (C12–C15), Layer 4 (D16–D19) and Layer 5 (E20–E26):
+Euclidean weak spaces, local and boundary estimates, maximum and Harnack principles,
+scalar Dirichlet theory; the strong maximum principle is 3.2 (C13). Euclidean scalar
+estimates do not by themselves supply the weighted bundle and boundary inverses built
+here.
+
+### From TauCetiRoadmap.VariationalMethods and TauCetiRoadmap.OperatorTheory.UnboundedOperators
+
+UnboundedOperators UO-D06: the coercive solution map of a shifted Hermitian form over
+`RCLike 𝕜`, obtained from the real case by realification and the `I • v` test; and, for a
+dense continuous injection `j:V→H` and a bounded Hermitian shifted-coercive form a, the
+operator with `Dom A = {j u : ∃h, ∀v, a(u,v)=⟨h, j v⟩}` and `A(j u)=h`, self-adjoint over
+`RCLike 𝕜`, with both adjoint inclusions and the shifted resolvent. VariationalMethods
+V2.3: the `𝕜`-linear forcing map `S_α : H → V`, `a_α(S_α h, v) = ⟨h, j v⟩`.
+VariationalMethods V5.1: the shifted inverse is `j ∘ S_α`, compact when the inclusion is
+compact. This is the only form-realization engine used here.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry (on main)
+
+K5a: real and complex bundle distributions, local and global elliptic regularity,
+and the compact boundaryless domain and form specialization. Its compact resolvent
+is not a weighted noncompact inverse and not a chiral boundary-domain theorem.
+
+### From TauCetiRoadmap.SpinGeometry (on main)
+
+G3–G6: geometric Spin lifts, chosen-factor spinor bundles, Clifford-compatible
+connections, the Dirac operator and its formal adjoint, and the
+Schrödinger–Lichnerowicz formula. Its G6.5 sphere kernel example is not the full
+spectrum, which is Layer 1 here.
+
+### From TauCetiRoadmap.GeometricCurrents (on main)
+
+G1–G7: integral-current minimization, compactness, barriers and homology-class
+closure, codimension-one interior regularity in ambient dimension at most 7, and
+G7's smooth stable-limit and no-cancellation interfaces.
+
+### From TauCetiRoadmap.GeometricTopology and TauCetiRoadmap.AlgebraicTopology (on main)
+
+GeometricTopology, the smoothing-and-triangulation comparison, item 1 (smooth
+implies PL): every smooth manifold has a smooth triangulation (Whitehead); only the
+case of compact surfaces with boundary is used, for the Euler identification in 3.1.
+AlgebraicTopology Stages 2–3, 6–7: integral cup and cap products, degree, Poincaré
+duality, finite CW Euler characteristic.
 
 ## References
 

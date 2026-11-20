@@ -1,25 +1,62 @@
 # Roadmap: closed exponential cone and elementary conic representations
 
-**Summary.** Build a reusable real exponential cone with its literal zero face, elementary
-exponential/logarithmic sections, softplus perspectives and finite nonnegative-weight
-lifts. Scalar affine, logistic-cost and process substitutions exercise the same API.
+**Summary.** Many inequalities built from exponentials and logarithms can be restated as
+membership of a few points in one closed convex cone in ℝ³, the exponential cone. For
+instance, exp(w) ≤ u holds exactly when (u,1,w) lies in that cone. This roadmap
+constructs the cone and proves such representations for logarithms, for the softplus
+function log(1+exp x) and its perspectives, and for finite sums of exponentials with
+nonnegative weights. These representations are known; no novelty is claimed.
 
-## Scope and ownership
+A point (u,v,w) has epigraph height u, perspective scale v and exponent numerator w. The
+positive branch is the set of points with v > 0 and v·exp(w/v) ≤ u. The cone is the
+closure of the pointed cone that the positive branch generates. As in Mathlib, a pointed
+cone contains zero and is closed under addition and nonnegative scaling. All variables
+are real and finite families may be empty. Every logarithm in an equivalence has a
+positive argument, by explicit hypothesis or automatically.
 
-This roadmap owns the exponential-cone specialization and its elementary representations.
-It includes the usable membership and boundary API, the supporting-halfspace proof route,
-finite weighted lifting and every scalar substitution specified below. The scalar rows do
-not assert full process-design, disjunctive or statistical-model equivalence. General GDP
-hulls, generic recession/perspective theory, projection/dual/facial classifications,
-other cone families, smoothing accuracy, optimizer existence and empirical performance
-are outside this roadmap. These are known representations, without a novelty claim.
+The first main theorem describes the cone exactly: (u,v,w) lies in it if and only if
+either v > 0 and v·exp(w/v) ≤ u, or v = 0, u ≥ 0 and w ≤ 0. The second alternative is
+the zero face; (2,0,−1) lies on it, while (1,0,1) is not in the cone. Two further
+descriptions are proved; none of the three is assumed. The cone equals the closure of
+the positive branch. It is also cut out by supporting half-spaces: (u,v,w) lies in it
+exactly when u ≥ 0, v ≥ 0 and exp(a)·(w+(1−a)v) ≤ u for every real a.
 
-The markdown is definitive. `Suggested.lean` provides nine selected admitted headline
-signatures, three concrete definitions and one coordinate-type abbreviation in namespace
-`TauCetiRoadmap.ExponentialCone`. It is not an exhaustive checklist. The basic API,
-supporting arguments, scalar identities and Checks remain mathematical requirements even
-where they do not need separate prototype theorem names. Existing native convexity,
-closedness and scaling interfaces are used directly, without duplicate wrappers.
+The second result concerns logarithms and softplus. For x > 0, t ≤ log x holds exactly
+when (x,1,t) lies in the cone; if also y > 0, then t ≤ y·log(x/y) holds exactly when
+(x,y,t) does. Softplus needs two points: log(1+exp x) ≤ t if and only if there are reals
+u, v with u+v ≤ 1 and (u,1,x−t), (v,1,−t) in the cone. For x = log 3 and t = log 4, the
+values 3/4 and 1/4 are witnesses. With a scale y > 0 in place of 1, the same system
+represents y·log(1+exp(x/y)) ≤ t. At scale 0 it holds exactly when t ≥ 0 and x ≤ t, and
+at a negative scale it has no solution. The logistic cost −log(1/(1+exp(−s))) is the
+softplus of −s.
+
+The third result lifts weighted sums. For nonnegative weights dⱼ, reals sⱼ and any real
+L, Σ dⱼ·exp(sⱼ) ≤ L holds if and only if there are reals uⱼ with Σ dⱼ·uⱼ ≤ L and every
+(uⱼ,1,sⱼ) in the cone. Zero weights and the empty family are allowed. Negative weights
+are excluded: for the single weight −1, s = 0 and L = −2, the inequality fails but u = 2
+is a witness.
+
+The fourth part treats affine exponential inequalities. For t > 0 and real u, x, the
+process inequality exp(x/t) − 1 ≤ u holds exactly when (t(u+1),t,x) lies in the cone.
+Weighted sums of these, with nonnegative weights and strictly positive times, lift as in
+the third result. For a > 0, a·exp(s) ≤ R holds exactly when a·v ≤ R for some v with
+(v,1,s) in the cone. None of this asserts equivalence with a full process-design,
+disjunctive or statistical model.
+
+The prerequisites all come from Mathlib: pointed cones with hull and closure, the real
+exponential and logarithm, and convexity and closedness. Conic modelling can use the
+elementary representations and the finite lifts directly. Generic composition and model
+lifting belong to the neighbouring roadmap ConvexLifting, and boxed-union hulls to
+BoundedConicHulls; this roadmap needs neither.
+
+Layer 1 builds the positive branch and the cone and proves the three descriptions,
+through the half-spaces and an explicit approximation of the zero face. Layer 2 uses the
+membership description for the exponential, logarithm and softplus results, and for the
+affine and logistic substitutions. Layer 3 sums the exponential representation of
+Layer 2 with finite nonnegative weights. Layer 4 uses Layers 1 and 3 for the process
+inequalities, and Layer 2 for exponential coefficients and affine right sides. The basic
+properties and checked examples in the layers remain requirements, including scalar
+identities with no suggested Lean signature.
 
 ## Conventions
 
@@ -49,40 +86,6 @@ All scalar variables are real. Families have type `Fin n → ℝ` for arbitrary 
 including zero. Logarithms in equivalences have the explicit strict domains stated below:
 Mathlib's globally extended `Real.log` does not remove those hypotheses. Use the ordinary
 product topology on `Space`.
-
-## Exact supplier contracts
-
-The prototype uses the roadmap's Lean4.36.0-rc2, Mathlib
-`1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti dependency
-`2fd255d997f47c0b5d834ee416c7015d55444ce5` interfaces. Suppliers are:
-
-- Mathlib `PointedCone.hull`, the smallest pointed cone containing a set;
-  `PointedCone.closure`, whose carrier is the topological closure; and
-  `PointedCone.convex`, `PointedCone.smul_mem`, zero/addition membership, coercion and
-  extensionality. See `Mathlib/Geometry/Convex/Cone/Pointed.lean` and
-  `Mathlib/Analysis/Convex/Cone/Closure.lean`.
-- Mathlib `Real.exp`, its positivity/monotonicity and `Real.add_one_le_exp`; `Real.log`,
-  `Real.log_le_iff_le_exp`, `Real.le_log_iff_exp_le` and `Real.log_inv`, with their actual
-  domain premises; finite sums and monotone multiplication/summation.
-- Mathlib `Convex ℝ`, `IsClosed`, `closure`, continuity of coordinate projections and
-  affine expressions, closed intersections and metric closure membership.
-
-The construction uses `PointedCone.hull` and `PointedCone.closure`; no generic
-homogenization result is consumed or introduced. Tau Ceti's
-`ConvexOn.antitoneOn_mul_map_div` is a related scalar monotonicity theorem requiring
-a convex function vanishing at zero and a nonnegative fixed numerator. Since `exp(0)=1`,
-it does not supply this cone or its closure/softplus statements.
-
-## How to read the build
-
-Layer 1 constructs the positive branch and native closed cone, proves branch/zero-face
-membership through supporting halfspaces and density, and supplies the cone API.
-Layer 2 uses that membership API for exponential and logarithmic sections, logarithmic
-perspectives, positive-scale and zero-face softplus systems, and affine/logistic
-substitutions. Layer 3 aggregates the Layer 2 exponential section with finite
-nonnegative weights. Layer 4 uses Layers 1 and 3 for scalar and weighted process rows,
-and Layer 2 for exponential coefficients and affine right sides. The API bullets and
-Checks remain requirements, including scalar identities without a selected signature.
 
 ## Layer 1: cone geometry
 
@@ -435,3 +438,43 @@ scalar equations; original thesis (8.33) and v1 (4.8) repeat `v`. The selected p
 is `t*u+t` from v3/VOR; original thesis (8.32) and v1 (4.7) print `t*u+1`. The background's
 explicit branch/face definition controls its final quotient shorthand. Each formula uses
 the conventions and source version identified above.
+
+## Scope and ownership
+
+This roadmap owns the exponential-cone specialization and its elementary representations.
+It includes the usable membership and boundary API, the supporting-halfspace proof route,
+finite weighted lifting and every scalar substitution specified above. The scalar rows do
+not assert full process-design, disjunctive or statistical-model equivalence. General GDP
+hulls, generic recession/perspective theory, projection/dual/facial classifications,
+other cone families, smoothing accuracy, optimizer existence and empirical performance
+are outside this roadmap. These are known representations, without a novelty claim.
+
+The markdown is definitive. `Suggested.lean` provides nine selected admitted headline
+signatures, three concrete definitions and one coordinate-type abbreviation in namespace
+`TauCetiRoadmap.ExponentialCone`. It is not an exhaustive checklist. The basic API,
+supporting arguments, scalar identities and Checks remain mathematical requirements even
+where they do not need separate prototype theorem names. Existing native convexity,
+closedness and scaling interfaces are used directly, without duplicate wrappers.
+
+## Exact supplier contracts
+
+The prototype uses the roadmap's Lean4.36.0-rc2, Mathlib
+`1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti dependency
+`2fd255d997f47c0b5d834ee416c7015d55444ce5` interfaces. Suppliers are:
+
+- Mathlib `PointedCone.hull`, the smallest pointed cone containing a set;
+  `PointedCone.closure`, whose carrier is the topological closure; and
+  `PointedCone.convex`, `PointedCone.smul_mem`, zero/addition membership, coercion and
+  extensionality. See `Mathlib/Geometry/Convex/Cone/Pointed.lean` and
+  `Mathlib/Analysis/Convex/Cone/Closure.lean`.
+- Mathlib `Real.exp`, its positivity/monotonicity and `Real.add_one_le_exp`; `Real.log`,
+  `Real.log_le_iff_le_exp`, `Real.le_log_iff_exp_le` and `Real.log_inv`, with their actual
+  domain premises; finite sums and monotone multiplication/summation.
+- Mathlib `Convex ℝ`, `IsClosed`, `closure`, continuity of coordinate projections and
+  affine expressions, closed intersections and metric closure membership.
+
+The construction uses `PointedCone.hull` and `PointedCone.closure`; no generic
+homogenization result is consumed or introduced. Tau Ceti's
+`ConvexOn.antitoneOn_mul_map_div` is a related scalar monotonicity theorem requiring
+a convex function vanishing at zero and a nonnegative fixed numerator. Since `exp(0)=1`,
+it does not supply this cone or its closure/softplus statements.

@@ -1,60 +1,24 @@
 # Roadmap: euler systems, Kolyvagin systems and higher-rank descent
 
-**Summary.** This roadmap takes arithmetic Euler classes to Selmer bounds through rank-one systems, bounded-error descent, self-dual structure, higher-rank Stark and Kolyvagin systems, and Iwasawa specialization. The construction uses the coefficient and local-condition interfaces of SelmerIwasawaCohomology §§2.1–2.19, 3.0–3.7; its applications take arithmetic class families and their norm and congruence relations as explicit hypotheses. Nonzero bottom classes give bounds; primitivity is an additional hypothesis for equality.
+**Summary.** Let `K` be a number field, `R` a complete noetherian local ring with finite residue field of characteristic `p`, and `T` a free `R`-module of finite rank with a continuous `R`-linear `G_K`-action unramified outside finitely many primes. A Selmer structure `F` prescribes local conditions at all places, unramified at almost all. Its Selmer module `H¹_F(K, T)` consists of the global classes satisfying them; the dual structure cuts out the dual Selmer group of `T^* = Hom(T, μ_{p^∞})`. This roadmap builds the method that bounds dual Selmer groups by families of global classes.
 
-## Scope and ownership
+An Euler system is a family of classes `c_F ∈ H¹(F, T)`, one for each finite subextension `F` of a fixed abelian extension of `K`. The corestriction of `c_{F′}` to `F` is `c_F` times the Euler factors of the newly ramified primes outside a fixed modulus. A Kolyvagin system is a family of classes `κ_n` with coefficients in quotients of `T`, indexed by squarefree products `n` of auxiliary primes. At each auxiliary prime `q`, the singular part of `κ_{nq}` is the image of `κ_n` under a finite–singular comparison map, and the bottom class `κ_1` lies in `H¹_F(K, T)`. At `p = 2`, results that dualize the local condition at auxiliary primes need an extra condition on `T`.
 
-This roadmap owns Euler-system and Kolyvagin-system carriers, their derivative and regulator maps, and the conditional Selmer bounds. Distinguished arithmetic systems and their geometric hypotheses are explicit inputs to its application theorems. Cyclotomic, Kato and Rubin–Stark applications supply their own classes and reciprocity laws. An Euler-system carrier alone does not construct a Beilinson–Flach family.
+The first main theorem, due to Mazur and Rubin, turns Euler systems into Kolyvagin systems. Over `ℚ`, with `R` the integers of a finite extension of `ℚ_p`, suppose the abelian extension contains the maximal abelian `p`-extension unramified outside `p` and the auxiliary primes, and that each auxiliary prime satisfies two explicit Frobenius conditions. Then Kolyvagin's derivatives give a canonical homomorphism from Euler systems `c` with Mazur and Rubin's Euler factors to generalised Kolyvagin systems for the canonical Selmer structure, with bottom class `c_ℚ`.
 
-The group-ring norm is the specialization of `TauCeti.subgroupCharSum` at the trivial character and the whole finite group. Its sum formula `TauCeti.subgroupCharSum_eq_sum_of_eq_top` and representation-action formula `TauCeti.asAlgebraHom_subgroupCharSum_apply` supply the norm and its action; §3.1 owns the weighted cyclic derivative and its identities.
+Over `ℚ`, Kolyvagin systems bound dual Selmer groups. Take `R` a discrete valuation ring and assume Mazur and Rubin's hypotheses `(H.0)`–`(H.5)`, torsion-free local quotients and their choice of auxiliary primes. If a Kolyvagin system has `κ_1 ≠ 0`, the dual Selmer group is finite, of length at most the largest `j` with `κ_1 ∈ m^j H¹_F(ℚ, T)`. If moreover the core rank is one (roughly, the Selmer module has one more free summand than the dual Selmer group), Kolyvagin systems form a free `R`-module of rank one. For `κ_1 ≠ 0` the bound is then an equality exactly when the system is primitive (nonzero modulo `m`).
 
-Existing Mathlib exterior powers, duals, module length and torsion decompositions are consumed directly. Tau Ceti supplies additive continuous cohomology, discrete Shapiro and corestriction, class groups and generic Fitting-ideal theory: `TauCeti/RingTheory/FittingIdeal/Basic.lean` (`TauCeti.fittingIdeal`, `fittingIdeal_monotone`, `fittingIdeal_quotient_zero`), and `BaseChange.lean` (`fittingIdeal_baseChange`). These Fitting declarations are consumed directly at the pin. The arithmetic exterior-bidual lattice and system-level Fitting bounds below add Selmer and regulator structure to these existing operations. Self-injectivity is an explicit coefficient hypothesis in the higher-rank branch. PadicMeasuresIwasawaAlgebras Layer 6 supplies character rings, involutions and Fitting algebra; it asserts no Gorenstein or exact-duality theorem for an arbitrary character quotient. The arithmetic comparison with finite Cartier duality is constructed in Layer 0.2 below. IntegralIwasawaTheory §12.6 supplies the shared exterior-bidual and finite-CM Rubin-lattice core; Layers 6–7 add its finite-projective and Selmer comparisons, contractions, coefficient change and integral transfer; compact-coefficient duality and control belong to SelmerIwasawaCohomology and ArithmeticGaloisDuality.
+Howard's self-dual theorem works over an imaginary quadratic field `K`. For `R` a discrete valuation ring with fraction field `Φ`, under Howard's hypotheses and a depth condition on the auxiliary primes, a Kolyvagin system with `κ_1 ≠ 0` forces `H¹_F(K, T)` to be free of rank one. The Selmer group of `T ⊗ Φ/R` is isomorphic to `Φ/R ⊕ M ⊕ M`, with `M` finite of length at most that of `H¹_F(K, T)/Rκ_1`.
 
-Tau Ceti's `RepresentationTheory/Coinduced.lean` supplies exact subgroup coinduction and its coextension-of-scalars comparison (`Representation.coextendScalarsEquivCoind`), and discrete inflation–restriction is consumed from the continuous cohomology interface. `RepresentationTheory/Unipotent/PowerOrder.lean` also supplies `Representation.IsIrreducible.eq_trivial_of_isPGroup` and `.finrank_eq_one_of_isPGroup`. These generic constructions and the modular `p`-group theorem are consumed, not restated. The addition in 3.16 is the `χ`-semidirect Euler presentation and its arithmetic cochain descent. Mathlib's `Polynomial.dvd_iff_isRoot` and monic division supply each linear-factor step; over `O/M` the distinct roots must also have unit differences before the factors are multiplied.
+Last comes Rubin's Iwasawa divisibility. Let `K∞/K` be a `ℤ_p^d`-extension in which no finite prime splits completely, `T` free over the integers `O` of a finite extension of `ℚ_p`, and `Λ = O[[Gal(K∞/K)]]`. Let `X∞` be the dual of the Selmer group of `T^*` over `K∞` whose classes vanish locally above `p`. Under Rubin's hypotheses `Hyp(K∞, T)` and `Hyp(K∞/K)`, the characteristic ideal of `X∞` (zero if `X∞` is not torsion) contains, for every Euler system `c`, the ideal of values of `Λ`-linear functionals at its class over `K∞`.
 
-For the algebraic input to the local-order argument, Tau Ceti supplies `IsSemisimpleRing.finiteWedderburnAlgebraPresentation` in `RingTheory/Semisimple/Wedderburn/Presentation.lean`: a finite semisimple algebra has a chosen finite product of matrix algebras over finite-dimensional division algebras. Its `RingTheory/Semisimple/MatrixDivisionRing.lean` supplies `TauCeti.Matrix.mulOppositeRingEquivEnd`, identifying the endomorphism ring of a nonzero matrix column module with the opposite division ring. These existing algebraic statements are inputs, rather than targets. The addition in 4.8 is their integral local-field refinement: maximal division orders, lattice stabilizers on both sides, rectangular lattice normal forms and uniform central conductors.
+SelmerIwasawaCohomology supplies the Selmer modules, their local and global duality, and Iwasawa cohomology. The Chebotarev roadmap supplies the density theorem for choosing auxiliary primes, and IntegralIwasawaTheory the exterior biduals that Layers 6 and 7 extend. Applications to Heegner points (HeegnerPointEulerSystems), cyclotomic units and Kato's Euler system use these results and supply their own classes.
 
-The rank-one Iwasawa layer consumes Layer 5 directly. Higher-rank Layers 6–7 have their own application branch; a higher-rank Iwasawa extension would consume both that branch and Layer 8. The maximal-order evaluation pairing and its local lattice inputs belong to Layer 4 here; ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56 supply the order carrier, maximality and maximal-order existence under the nondegenerate regular-trace hypothesis. The CM-point application takes the displayed curve, abelian variety, point and norm/congruence data as hypotheses. The geometric construction of such data is outside the generic descent theorem; its precise norm and congruence hypotheses are part of the application statement.
+Layer 0 sets up Selmer structures and core ranks; Layer 1 builds auxiliary primes and the finite–singular comparison. Layers 2 and 3 define Euler and Kolyvagin systems and the derivative map between them. Layer 4 proves the descent bounds, and Layer 5 adds primitivity and the self-dual setting. In higher rank, Stark systems control Fitting ideals of dual Selmer groups (Layer 6), and Euler systems of rank `r` give Fitting-ideal and class-group bounds (Layer 7). Layer 8 carries the rank-one theory to Iwasawa algebras.
 
-Selected ring-class descent is compared with the cyclic cochain before localization, using one restriction bound for all intermediate ring-class fields. The local relation uses divided Frobenius operators and pairs the two character twists. These inputs supply the general-character rational descent route. At the coefficient prime, the higher-weight integral bound uses finite-character unramified `μ`-vanishing and two ordinary Poitou–Tate comparisons; it does not discard a rank-dependent specialization error. The exact arithmetic and local suppliers are stated below. The classical all-prime square-index application is HeegnerPointEulerSystems §7.13. Its integral length descent and uniformity in the imaginary quadratic field are outside the bounded-exponent application of §4.13 here: that section fixes the arithmetic data before choosing its constants. In particular, this roadmap supplies no constant uniform in that family of fields; the additional length input requested by that consumer is not supplied by the exponent theorem.
+## How to read the build
 
-### Prerequisites and boundaries: Selmer propagation and finite global duality
-
-The field-linear results `LinearMap.IsFrobeniusFunctional.isPerfPair`, `LinearMap.isFrobeniusFunctional_iff_bijective`, and `LinearMap.IsFrobeniusFunctional.moduleInjective_self` in Tau Ceti’s `Algebra/Algebra/Frobenius/Basic.lean` are already present at the pin. They supply the finite-dimensional algebra specialization over a field; the additive-character comparison for mixed-characteristic finite `R` is the addition in Layer 0.2. Tau Ceti also supplies the principal-ring Baer argument as `Module.Baer.zmod_self` in `Algebra/Module/ZMod/Injective.lean`. The principal-ring Check consumes that fact rather than scheduling its proof again.
-
-**Propagation commutes with local duality.** Let `F` be a local condition on `T` at `v` and `I` an ideal of `R`. The two local conditions induced on `T^*[I] = (T/IT)^*` agree: the orthogonal complement of the condition propagated to the quotient `T/IT`, and the condition propagated to the submodule `T^*[I]` from the orthogonal complement `F^*` on `T^*`. Consequently, for a Selmer structure `F, (F on T/IT)^* = (F^* on T^*[I])`, and the same holds for the passages `T → V` and `V → V/T` of a lattice in its rational representation.
-
-The precise hypotheses are `T` a compact coefficient module over a coefficient ring (finite type, `m`-adic topology, continuous action), so that local Tate duality pairs `H¹(K_v,T)` and `H¹(K_v,T^*)` perfectly with `T^* = Hom(T, μ_{p^∞})` discrete of cofinite type.
-
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Example 1.3.3, p. 12). The square relating propagation and orthogonal complements.
-
-The local pairings for `T/IT × T^*[I]` and `T × T^*` are compatible with `T → T/IT` and `T^*[I] → T^*` (ArithmeticGaloisDuality §D7.7.2 (Compatibility of the local pairings for `T, V, W` and `W_M`)).
-
-Apply the image/inverse-image rule for orthogonal complements (`orthogonal_map_eq_comap` of ArithmeticGaloisDuality §D7.7.1 (Perfect pairings and dual local conditions)): `(image of L)^⊥ =` inverse image of `L^⊥`.
-
-The lattice case `T ⊆ V` and `W = V/T` is SelmerIwasawaCohomology §2.6 (From `V` to `T` and `W`; saturation) together with SelmerIwasawaCohomology §2.17 (Local duality for the finite conditions on `T` and `W_M`).
-
-For `F` strict on `T` both constructions give the relaxed condition on `T^*[I]`. For `F` relaxed on `T` they give the kernel of `H¹(K_v,T^*[I]) → H¹(K_v,T^*)`; this is strict precisely when that map is injective, equivalently when `H¹(K_v,T) → H¹(K_v,T/IT)` is surjective under the perfect finite/compact-discrete pairing.
-
-The condition on a quotient remembers `T: H¹_{F_can}(ℚ_p, T/IT)` is the image of `H¹(ℚ_p, T)`, which can be smaller than `H¹(ℚ_p, T/IT)` (Mazur–Rubin 2004, Definition 3.2.1 and Lemma A.1).
-
-*Needs:* `SelmerIwasawaCohomology Layer 2`; `SelmerIwasawaCohomology §2.5 (Propagating local conditions)`.
-
-**The Euler characteristic formula for Selmer modules.** Let `T` be a finite `R[[G_K]]`-module and `F` a Selmer structure on `T`. Then `length H¹_F(K, T) − length H¹_{F^*}(K, T^*) = length H⁰(K, T) − length H⁰(K, T^*) − Σ_{v ∈ Σ(F)} (length H⁰(K_v, T) − length H¹_F(K_v, T))`, all lengths over `R`.
-
-The precise hypotheses are `T` finite; lengths taken over `R` (for `R = ℤ/p^k` these are `p`-adic valuations of orders); `T` and `T^*` lie in the arithmetic coefficient category over a coefficient ring; the Selmer structure records this and `Σ(F) ⊇ S_p ∪ S_∞`.
-
-([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Proposition 2.3.5, p. 17). The finite-level Euler characteristic formula.
-
-This is the finite Greenberg–Wiles formula supplied by ArithmeticGaloisDuality R02.5.1 and SelmerIwasawaCohomology Layer 2 for `M = T, L_v = H¹_F(K_v, T)`, rewritten additively.
-
-To pass from orders to `R`-lengths apply the formula to `T` as an `R`-module: every group in it is an `R`-module of finite length and `#B = (#k)^{length_R B}`; the factors at `v ∉ Σ(F)` are 1 because `#H¹_ur(K_v, T) = #H⁰(K_v, T)`.
-
-Mazur–Rubin state it over `ℚ` and include `p = 2`; the archimedean term uses ordinary `H⁰(K_v, T)`.
-
-For `K = ℚ, R = 𝔽_p, T = μ_p` with the relaxed condition at `p` and strict at `∞` (`p` odd), the left side is `dim (ℤ[1/p]^×/p) − dim H¹_{F^*}(ℚ, ℤ/p) = 1 − 0` and the right side is `0 − 1 − ((0 − 2) + (0 − 0)) = 1`: the term at `p` is `length H⁰(ℚ_p, μ_p) − length H¹(ℚ_p, μ_p) = 0 − 2` and the term at `∞` is `0 − 0`.
-
-*Needs:* `SelmerIwasawaCohomology Layer 2`; `Module.length`.
+Layer 0 fixes Selmer data and coefficient adapters; Layer 1 constructs auxiliary primes and finite–singular interfaces. Layers 2–3 define Euler families and their derivatives. Layer 4 proves descent bounds, and Layer 5 adds primitivity and self-dual structure. Layers 6–7 form the higher-rank exterior-bidual branch. Layer 8 specializes the rank-one theory over an Iwasawa algebra. Each definition specifies operations and discriminating checks; each theorem gives its exact hypotheses and proof route. `Suggested.lean` identifies the missing arithmetic carriers needed to state the headline theorems. The definitions, operations and Checks below specify the library to be built.
 
 ## Conventions
 
@@ -67,186 +31,6 @@ For truncated coefficients `R/m^k`, divisibility indices lie between 0 and `k` a
 Every use of the MR16 hypotheses below means the corrected field contract in Layer 1.13. The auxiliary field `L` is finite Galois in `K̄`, and the residual `H¹`-vanishing is imposed over `L·H_M(T)`. Both clauses are necessary for the local and global arguments. Finite coefficient levels use the compatible Frobenius refinements constructed there.
 
 Transverse self-duality, and with it `(F_a^b(c))^* = (F^*)_b^a(c)` for `c ≠ 1`, holds under the hypothesis of Layer 1.10: the coefficient residue characteristic `p` is odd, or `p = 2` and `(|𝔽_q^×|/2)·T = 0` at every prime `q | c`. Every target below that dualizes a transverse local condition (Selmer lengths across edges, core vertices, Kolyvagin, Stark and self-dual systems) carries this hypothesis. Where a source admits `p = 2` through a nonself-duality branch, that branch is covered only under the same condition; Layer 1.10 records the excluded `ℚ₃` example.
-
-## Exact supplier contracts
-
-From Mathlib use `Module.length`, `Module.equiv_directSum_of_isTorsion`, `IsDiscreteValuationRing`, polynomial division by `X−C a`, exterior powers and linear duals, with their finite-generation and ring hypotheses. From Tau Ceti use `TauCeti.ContCohomology.H1`, `TauCeti.coind`, `TauCeti.ContCohomology.explicitShapiro1`, the discrete coefficient category and the named cohomology maps. `Suggested.lean` imports `Mathlib` and states the compact irreducible rational vanishing and integral finite-cokernel comparison theorems of §4.2a. The arithmetic headline results require Selmer and system carriers absent at the pins. Discrete arithmetic cohomology is consumed by the targets below, with its coefficient adapters as specified. The pinned revisions are Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
-
-### From IntegralIwasawaTheory §12.6
-
-Use the common `TauCeti.StarkSystems.exteriorBidual` and `toExteriorBidual`, determinant evaluation and naturality, and the rational determinant-integral lattice comparison for finite abelian group rings. Use `TauCeti.RubinStark.rubinStarkUnitLattice`, `rubinOrderMap` and `rubinLattice` for finite abelian CM extensions with ordered split-place data and torsion-free `T`-modified units; integral functionals are taken before minus projection. The same supplier owns the rational Rubin–Brumer–Stark element, the inverse image of the Stickelberger element under its order map, and its evaluation and change-of-place API. Layers 6.1 and 6.4 retain these carriers. Here modifiedUnits and ordG are adapters, and Layer 7.3's notation for the rational element and its evaluation/change-of-place statements are adapters to that supplied element and API. Its definition requires no integrality theorem. The finite-projective comparison, general semisimple-order rationalization, Selmer specialization, contractions, coefficient change and system theory are extensions of this core.
-
-### From Mathlib and Tau Ceti at the pins
-
-`TauCeti/Algebra/MonoidAlgebra/SubgroupCharSum.lean` supplies `TauCeti.subgroupCharSum` and `TauCeti.subgroupCharSum_eq_sum_of_eq_top` for a finite subgroup of a group over a commutative semiring. Specialize to `ℤ`, the trivial character and the top subgroup to obtain `N_Γ`. `TauCeti/RepresentationTheory/SubgroupCharSum.lean` supplies `TauCeti.asAlgebraHom_subgroupCharSum_apply`; this specializes to `Representation.norm` from `Mathlib/RepresentationTheory/Basic.lean`. Neither cyclicity nor division by the group order is required for these supplied operations.
-
-Mathlib's `LinearMap.charpoly`, `LinearMap.charpoly_monic` and `LinearMap.aeval_self_charpoly` apply to endomorphisms of finite free modules over a commutative ring. `Matrix.charpolyRev` is already `det(1 − X A)` and `Matrix.reverse_charpoly` identifies it with the reverse characteristic polynomial. The Euler polynomial eulerPoly of §2.1 is the coordinate-free endomorphism specialization of those operations; the arithmetic targets specify which Frobenius endomorphism to use. `Polynomial.divByMonic`, `Polynomial.dvd_iff_isRoot` and `Polynomial.mul_divByMonic_eq_iff_isRoot` supply monic linear division. `Module.equiv_directSum_of_isTorsion` supplies finite torsion-module decompositions over a PID, and `Module.length` supplies length. Exterior powers `⋀[R]^n M` and `Module.Dual`, `MonoidAlgebra`, `UnitAddCircle`, `Module.Injective` and `IsDiscreteValuationRing` retain their library meanings and hypotheses.
-
-Tau Ceti's `RepresentationTheory/Homological/ContCohomology/LowDegree.lean` supplies `TauCeti.ContCohomology.H1`; `Coinduced.lean` supplies `TauCeti.coind`; `Shapiro/Basic.lean` supplies `TauCeti.ContCohomology.explicitShapiro1`; `Corestriction/Basic.lean` supplies `TauCeti.ContCohomology.explicitCor1`; and `DeltaNaturality.lean` supplies `TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta0`. The explicit `H1` quotient allows topological coefficients with a continuous action; the supplied Shapiro and corestriction comparisons here have discrete coefficients. `SmoothDiscrete/Basic.lean` supplies `TauCeti.IsSmoothDiscrete`. ProfiniteCohomology Layers 1–3 supply their comparison with canonical continuous cohomology; ArithmeticGaloisDuality §R02.1.2 supplies the compact-coefficient comparison. No additive-group carrier is silently treated as an `R`-linear Selmer module.
-
-For §4.2a, `TauCeti/RepresentationTheory/Homological/ContCohomology/LowDegree.lean` supplies `TauCeti.ContCohomology.eq_of_mem_Z1_of_eqOn_of_topologicalClosure_closure_eq_top`: continuous cocycles into a T₁ topological additive group agree if they agree on a set generating a dense subgroup. `TauCeti/RepresentationTheory/Homological/ContCohomology/TopologicallyFinitelyGenerated.lean` supplies `TauCeti.IsTopologicallyFinitelyGenerated.finite_Z1` and `TauCeti.IsTopologicallyFinitelyGenerated.finite_H1` for finite discrete coefficients; the latter assumes a continuous action. `TauCeti.IsTopologicallyFinitelyGenerated` in `TauCeti/Topology/Algebra/Group/Generation.lean` means that some finite subset generates a dense subgroup. `TauCeti.ContCohomology.explicitCoeff1` in `TauCeti/RepresentationTheory/Homological/ContCohomology/ExplicitFunctoriality.lean` is the map on H¹ induced by a continuous equivariant additive homomorphism. Apply it to `Submodule.mkQ`, from `Mathlib/LinearAlgebra/Quotient/Defs.lean`, using `Submodule.continuous_mkQ` from `Mathlib/Topology/Algebra/Module/Basic.lean`; equivariance specifies the quotient action and hence the stable lattice.
-
-For finite-dimensional algebras over a field, `Algebra/Algebra/Frobenius/Basic.lean` supplies `LinearMap.IsFrobeniusFunctional.isPerfPair`, `LinearMap.isFrobeniusFunctional_iff_bijective` and `LinearMap.IsFrobeniusFunctional.moduleInjective_self`. `Algebra/Module/ZMod/Injective.lean` supplies `Module.Baer.zmod_self`. Layer 0.2 adds the mixed-characteristic additive-character comparison, using DerivedModuleAlgebra §1.M.1's injective hull and Matlis biduality.
-
-`RepresentationTheory/Coinduced.lean` supplies `Representation.coextendScalarsEquivCoind` for subgroup coinduction and coextension of scalars. `RepresentationTheory/Unipotent/PowerOrder.lean` supplies `Representation.IsIrreducible.eq_trivial_of_isPGroup` and `Representation.IsIrreducible.finrank_eq_one_of_isPGroup` for finite-dimensional representations in exponential characteristic `p`. The `χ`-semidirect application uses these results without constructing a second coinduction or modular `p`-group theory.
-
-`RingTheory/Semisimple/Wedderburn/Presentation.lean` supplies `IsSemisimpleRing.finiteWedderburnAlgebraPresentation`; `RingTheory/Semisimple/MatrixDivisionRing.lean` supplies `TauCeti.Matrix.mulOppositeRingEquivEnd` for a nonzero matrix-column module. These give the algebraic semisimple presentation and opposite-endomorphism comparison in §4.8, whose local-order refinements are additional targets.
-
-`RingTheory/FittingIdeal/Basic.lean` supplies `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_monotone` and `TauCeti.fittingIdeal_quotient_zero` for finitely generated modules over a commutative ring; `RingTheory/FittingIdeal/BaseChange.lean` supplies `TauCeti.fittingIdeal_baseChange`. `RingTheory/Morita/Corner.lean` supplies `IsIdempotentElem.cornerEquivalence` and `IsIdempotentElem.moritaEquivalenceCorner` when the idempotent is full. Layer 4.8 proves fullness in its lattice application before using the corner equivalence. The Fitting bounds in Layers 6–7 add arithmetic content to the supplied ideals.
-
-DerivedModuleAlgebra §1.T.1 supplies towers, `lim`, `lim¹`, their six-term exact sequence, the Mittag–Leffler criterion and the Milnor sequence. Section 1.M.1 supplies the injective hull of the finite residue field, exact Matlis duality and biduality on finite-type and cofinite-type modules over a complete noetherian local ring. The finite self-injective trace comparison is the additional construction of §0.2 here.
-
-### From ArithmeticGaloisRepresentations §5.8
-
-Use “Compact subgroup charts”: for a compact subgroup of a matrix group over a finite extension of `ℚ_p`, a normal open uniform pro-`p` subgroup and the logarithm charts. Section 4.2b deduces topological finite generation from those coordinates and the finite quotient; the infinite-base cohomology classification is an additional target here.
-
-### From TauCetiRoadmap.Chebotarev Layer 10
-
-The Chebotarev density theorem for a finite Galois extension of number fields in Dirichlet-density form: the unramified primes whose Frobenius lies in a given conjugacy class `C` of the Galois group `G` have density `|C|/|G|`, in particular infinitely many, also after removing a prescribed finite set. Used for primes with Frobenius `τz` in a finite extension cut out by Galois cohomology classes.
-
-This supplies Layer 1.22 Chebotarev selection of Kolyvagin primes with error terms; Layer 1.15 Existence of abundant tuples under the corrected span hypothesis; Layer 1.16 Residual detection of two classes and classes with prescribed ramification; Layer 5.8 Simultaneous localisation of eigenclasses in Howard's self-dual setting; Layer 4.7 Rational Kolyvagin descent for ring-class anticyclotomic Euler systems.
-
-### From TauCetiRoadmap.ProfiniteCohomology Layer 11
-
-The discrete torsion coefficient statement `cd_p(Ẑ)=1`, hence `H²(Ẑ,X/p^aX)=0` for each finite quotient. Compact passage is supplied separately by ArithmeticGaloisDuality; no assertion for every profinite coefficient module is inferred from this layer.
-
-This supplies Layer 3.12 Local lifts of an Euler system at a prime and the finite-part theorem.
-
-### From ImaginaryQuadraticClassNumber H1.4 and ClassFieldTheory Layer 13
-
-ImaginaryQuadraticClassNumber H1.4 supplies the conductor residue-unit exact sequence on invertible Picard groups, the class-number formula and the exceptional-unit indices. ClassFieldTheory Layer 13 supplies ring-class fields and the Artin/Picard-group identification on the imported quadratic-order carrier. For an inert prime `ℓ ∤ c`, derive the conductor-change kernel in Layer 2.9 by transporting that exact sequence through Artin reciprocity: `Gal(K_{cℓ}/K_c)` has order `(ℓ+1)/[O_c^×:O_{cℓ}^×]`. The order is `ℓ+1` exactly when `O_c^× = {±1}`, that is when `c > 1` or `|D_K| > 4`. For `c = 1` and `K = ℚ(i)` or `ℚ(√−3)` it is `(ℓ+1)/2` or `(ℓ+1)/3`. The principal inert prime splits in `K_c/K`, and ClassFieldTheory Layer 7's local reciprocity identifies the totally ramified relative extension.
-
-This supplies Layer 2.9 Anticyclotomic Euler systems over ring class fields.
-
-### From TauCetiRoadmap.ClassFieldTheory Layer 13
-
-Existence of the ray class field of `K` modulo a prime `q`, with `Gal(K[q]/K) ≅` the ray class group `Cl_q(K)`, and the description of its ramification; used to define `K(q), K(1)` and `Γ_q`.
-
-This supplies Layer 1.1 The fields `K(q), K(r)` and their Galois groups; Layer 2.4 The conductor-indexed presentations.
-
-### From TauCetiRoadmap.ClassFieldTheory Layer 7
-
-The absolute local Artin map, normalized by arithmetic Frobenius, and its restriction to finite tame extensions, identifying the `p`-primary tame inertia quotient with residue-field units (or the relative residue-unit quotient at Howard’s inert primes). Local Tate duality is supplied separately by Layer 5.
-
-This supplies Layer 1.2 Finite and singular parts at an unramified prime; Layer 1.10 The transverse condition is self-dual.
-
-### From TauCetiRoadmap.Chebotarev Layer 10
-
-The Chebotarev density theorem for a finite Galois extension of number fields in Dirichlet-density form: the primes with a given Frobenius class have density `|C|/|G|`; in particular infinitely many, also after removing a finite set.
-
-This supplies Layer 1.7 Kolyvagin primes: `P_k, P(L, τ)` and `R_{F,M}`; Layer 1.21 Simultaneous nonvanishing of localisations; Layer 4.10 Rubin's selection of primes with large localisation; Layer 1.11 `γ`-associated places and `(S, γ)`-abundant tuples; Layer 5.10 Howard's bound for self-dual Kolyvagin systems over a discrete valuation ring.
-
-### From PadicMeasuresIwasawaAlgebras Layer 6
-
-Use character group rings, the contragredient action, the sharp involution and Fitting algebra of Layer 6. Do not infer that a character quotient is Gorenstein. A local Gorenstein order, or a finite self-injective local ring, is separately hypothesized wherever used. For an `O`-order the Gorenstein hypothesis means its `O`-dual is invertible over the order; a local such order has a free rank-one dual, and reduction modulo a nonzero `O`-element gives the finite self-injective coefficient ring. The arithmetic use of this dual is Layer 0.2. Exterior powers, linear duals and tensor products use Mathlib carriers. Layers 6.1 and 6.3 build exterior-bidual evaluation, contractions, coefficient-change square and integral-lattice comparisons; Layer 7.2 builds group-ring invariants descent and normalized integral transfer.
-
-### From SelmerIwasawaCohomology §§2.1–2.19
-
-Consume the existing `O`-lattice/rational/discrete Selmer constructions, their quotient/submodule propagation, compact/discrete local Tate pairings and finite Cartier-dual Poitou–Tate sequence. For general finite self-injective `R`, use the arithmetic comparison constructed in Layer 0.2 from ArithmeticGaloisDuality R02.4 and R02.5.1; this is not an unstated extension of the `O`-adic layer. The compact DVR case retains its discrete torsion dual. Also supply the actual cocycle formula for the induced integral local map: its image propagates the lattice canonical condition at `p` and infinity, rather than replacing that image by the full finite-coefficient local `H¹`. Retain the finite-level reflexivity and zero-conductor conditions in the rank-one bidual/ordinary Kolyvagin comparison. Coefficient rings are complete noetherian local with finite residue field of characteristic `p` in the `m`-adic topology; compact coefficients are of finite type with the module topology and jointly continuous action; discrete `m`-power-torsion coefficients are of cofinite type with open stabilisers; Selmer supports contain `S_p ∪ S_∞` and the ramified primes, kept by duality, propagation and modification.
-
-This supplies Layer 0.7 The canonical and the unramified Selmer structures; Layer 0.4 Cartesian local conditions; Layer 0.10 Core rank of the canonical and unramified structures; Layer 0.9 The core rank is independent of the modulus; Layer 0.3 The category of quotients of `T`; the supplier propagation–duality compatibility Propagation commutes with local duality; the supplier finite Greenberg–Wiles formula The Euler characteristic formula for Selmer modules; Layer 0.6 Selmer modules of quotients and torsion submodules; Layer 0.1 Selmer triples and squarefree conductors; Layer 1.2 Finite and singular parts at an unramified prime; Layer 1.9 The Selmer structures `F_a^b(c)`; Layer 1.3 Exponents, orders and reducibility depth; Layer 1.10 The transverse condition is self-dual; Layer 4.18 Self-dual descent with explicit error constants; Layer 4.17 Rubin's bound with error terms; Layer 4.3 Rubin's hypotheses, index of divisibility and error terms; Layer 4.2 Selmer lengths across an edge; Layer 5.5 The generalised Cassels pairing and the structure `R^ε ⊕ M ⊕ M`; Layer 5.4 The Kolyvagin-constructed dual Selmer group; Layer 6.3 Selmer contractions and coefficient change; Layer 6.6 Freeness of Stark systems and control of the dual Selmer group; Layer 4.4 Localisation at abundant tuples with bounded loss.
-
-### From SelmerIwasawaCohomology §4.25
-
-Section 4.25 supplies the finite-localization criterion used in LTXZZ Proposition 2.4.6(2), pp.130–131: purity of weight `−1` and conjugate Tate self-duality give vanishing rational local `H¹` away from `ℓ`, bounded integral `H¹` and `H²` torsion, and a depth-independent annihilator of the finite-coefficient localizations of saturated Selmer submodules. Its coefficient long exact sequence retains both torsion losses. This supplies Layer 4.4; it is not part of the `O`-lattice propagation theorem in Layer 2.
-
-### From TauCetiRoadmap.ClassFieldTheory Layer 5
-
-Perfect local Tate pairings for finite `p`-primary unramified coefficients at places of residue characteristic different from `p`, with the cup/invariant normalization, restriction-corestriction adjointness and the exact-annihilator statement used for the transverse condition. Mixed-characteristic `p`-adic lattice/discrete extensions are supplied by SelmerIwasawaCohomology §§2.13, 2.16–2.17.
-
-This supplies Layer 1.2 Finite and singular parts at an unramified prime; Layer 1.10 The transverse condition is self-dual.
-
-### From ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56
-
-ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56 supply orders, maximality and maximal-order existence for an integrally closed noetherian base and a nondegenerate regular-trace pairing; the characteristic-zero semisimple algebras used here satisfy that pairing hypothesis. The additional local division-order, lattice and two-centralizer inputs needed for the pairing are constructed in this package's local maximal-order subsection. They include projectivity, both multiplicities, common central conductors and reduction kernels. Tau Ceti module `TauCeti/RingTheory/Morita/Corner.lean` supplies `IsIdempotentElem.cornerEquivalence` and `moritaEquivalenceCorner` for a full idempotent. Its use here follows a proof of fullness and does not supply maximality or projectivity by itself.
-
-This supplies Layer 4.9 Uniform cokernel bound for a separated pairing over orders.
-
-### Arithmetic hypotheses for the geometric and Rubin–Stark applications
-
-The CM-point bound of Layer 4.13 is conditional on the precise quaternionic Shimura-curve, `GL₂`-type quotient, tensor-variety, CM trace point and polarization data stated there (Nekovář §§3.1, 3.5, 5.19, pp.18–19, 33–34), on the arithmetic image hypotheses (Img₁)–(Img₂) stated there (Nekovář §§6.1–6.2, pp.35–37), and on finite generation (MW) of the Mordell–Weil group `A(H)`. The application assumes these arithmetic inputs and their norm and congruence relations explicitly. The elliptic Kummer dictionary in Layer 1.19 uses the multiplication-by-`p` exact sequence on the Tate module and finite-point module, together with SelmerIwasawaCohomology Layer 2. The class-field and inert-prime local dictionary uses ClassFieldTheory in Layers 1.1, 2.9 and 5.2 here; the ring-class conductor exact sequence and exceptional-unit indices come from ImaginaryQuadraticClassNumber H1.4. These inputs precede the supplied geometric Euler system.
-
-The archimedean Rubin–Stark conclusion of Layer 7.6 assumes Conjecture `B′` at every finite `LF/K`: a rational family characterized by the ordered logarithmic regulator, integral bidual membership and the norm relations after the character/Kummer transport of Layer 7.7. This roadmap proves the implication from those explicit regulator-element hypotheses. The finite-place CM minus regulator in Layer 6.4 has different parity and is not substituted for that hypothesis.
-
-### From PadicMeasuresIwasawaAlgebras §§4.1–4.6
-
-Sections 4.1–4.3 supply pseudo-null modules, pseudo-isomorphisms, the structure theorem over a two-dimensional regular local ring, and the one-variable regularity and Weierstrass theory of `O⟦T⟧`. Section 4.6 supplies characteristic divisors and ideals over a noetherian normal `UFD`, their multiplicativity, pseudo-isomorphism invariance, and transport under a ring automorphism through a semilinear equivalence. Section 4.4 supplies generator change for Iwasawa invariants. Apply this generic divisor algebra to the multivariable rings of SelmerIwasawaCohomology §3.0; do not infer multivariable regularity from the one-variable theorem. A pseudo-null module need not be finite for `d ≥ 2`.
-
-Section 4.5 supplies the coefficient-compatible one-variable coordinate and comparison with `TauCeti.completedGroupAlgebra`; §1.7 supplies the measure comparison. SelmerIwasawaCohomology §3.0 supplies the multivariable coordinate, regular-local dimension `d + 1` for a DVR and `Γ ≅ ℤ_p^d`, and character twists. Finite projections are compared with the corresponding twisted action; an untwisted quotient by `H ⊆ Γ` is preserved only when the character is trivial on `H`. The twist formulas use PadicMeasuresIwasawaAlgebras §4.6’s semilinear transport. Section 8.18 here proves the perturbation, normalization and length estimates used by §§8.28–8.31.
-
-This supplies the generic commutative algebra used in §§8.14–8.15, 8.18, 8.21, 8.28–8.31 and 8.37; the multivariable algebra is supplied by SelmerIwasawaCohomology §3.0 and the perturbation estimates are targets of §8.18 here.
-
-### From PadicMeasuresIwasawaAlgebras §5.2
-
-Topological Nakayama's lemma over `Λ = O[[Γ]]`: a compact `Λ`-module X with `X/𝔐X` (or `X/JX, J` the augmentation ideal) finitely generated over `O` is finitely generated over `Λ`. Used for the finite generation of `X∞` (Rubin, Lemma VII.4.1).
-
-This supplies Layer 8.20 `X∞` is finitely generated over `Λ`.
-
-### From PadicMeasuresIwasawaAlgebras §§1.7, 4.5–4.6
-
-Use the completed-group-algebra comparison and the coefficient-compatible one-variable coordinate of §§1.7 and 4.5. The character automorphisms `Tw_ρ`, their finite projections and the involution used in §§8.1 and 8.9 are supplied by SelmerIwasawaCohomology §3.0, with finite projections interpreted through the corresponding twisted coefficient action; the transport of characteristic ideals uses the generic semilinear equivalence theorem in §4.6.
-
-### From SelmerIwasawaCohomology §3.0
-
-For `O` the ring of integers of a finite extension of `ℚ_p` and `Γ ≅ ℤ_p^d`, use `Λ = O⟦Γ⟧ ≅ O⟦X₁, …, X_d⟧`, a noetherian regular local ring of dimension `d + 1`, hence a `UFD`. The coordinate is an isomorphism of topological `O`-algebras. With the generic characteristic-divisor algebra of PadicMeasuresIwasawaAlgebras §4.6 it supplies the full multivariable scope of Rubin’s Theorems II.3.2–II.3.4 and II.3.8, for every `d ≥ 1`. Pseudo-null modules are supported in codimension at least two; for finitely generated modules this is equivalent to an annihilator ideal of height at least two, and it does not imply finiteness when `d ≥ 2`.
-
-For a continuous character `ρ : Γ → O^×`, use the supplied automorphism `Tw_ρ(γ) = ρ(γ)γ`, its composition law `Tw_ρ ∘ Tw_ρ′ = Tw_{ρρ′}`, and inversion `ι(γ) = γ⁻¹`. Under a semilinear coefficient-twist comparison, `Tw_ρ(char(B ⊗ ρ)) = char(B)` and `Tw_ρ(Ann_Λ(B ⊗ ρ)) = Ann_Λ(B)` for a finitely generated torsion `Λ`-module `B`; heights are preserved (Rubin VI.1.2). For finite quotients on which `ρ` factors, these maps agree with the corresponding group-ring twists. For general `ρ`, retain the character in the specialization map as in §8.9, rather than imposing compatibility with an unchanged augmentation quotient.
-
-### From SelmerIwasawaCohomology Layers 2–3 for the coefficient-prime application
-
-For the cyclotomic `ℤ_p`-extension `K∞/K`, odd `p`, `O` the ring of integers of a finite extension of `ℚ_p`, a finite free `O`-lattice `T`, `𝐓=T⊗_OΛ` and `Σ` finite containing `p,∞` and the ramified primes: `H^i(K_Σ/K, 𝐓)` and `H^i(K_v, 𝐓) (v | p)` are finitely generated `Λ`-modules, `H²(K_v, 𝐓)` is `Λ`-torsion, and `H¹(K_Σ/K, 𝐓)` is `Λ`-torsion-free when `T̄^{G_K} = 0` (Mazur–Rubin, Lemmas 5.3.4–5.3.5, after Greenberg and Perrin-Riou); and `H²(K_v,𝐓)/𝔓≅H²(K_v,𝐓/𝔓𝐓)` (cohomological dimension two). SelmerIwasawaCohomology §3.13 supplies local `H²` torsion in this cyclotomic setting. For other towers, finite generation/perfectness uses that supplier’s explicit finite-resolution hypotheses; local `H²` torsion is a separate hypothesis whenever used, including in a generic core-rank computation. Howard’s ordinary anticyclotomic control uses the distinct local hypotheses in §8.22.
-
-This supplies Layer 8.13 The exceptional set `Σ_Λ` of height-one primes; Layer 8.22 Control of Selmer groups at height-one specializations; Layer 8.23 The generic core `rank χ(𝐓)` (Mazur–Rubin, Lemma 5.3.16); Layer 8.27 Weak Leopoldt from a `Λ`-adic Kolyvagin system (Mazur–Rubin, Theorem 5.3.6); Layer 8.19 Mazur–Rubin's principal index `Ind(c)`.
-
-### From SelmerIwasawaCohomology §4.18
-
-Rubin's Corollary I.6.4 in the direction used here: if Leopoldt's conjecture holds for `K` then `S_{Σp}(K, μ_{p^∞})` is finite.
-
-This supplies Layer 8.21 The rank-one exceptional actions (Rubin, Lemma VII.3.7).
-
-### From TauCetiRoadmap.ClassFieldTheory Layer 12
-
-Global class field theory in the form: the inertia subgroup at a finite prime `v` of the Galois group of an abelian pro-`p` extension of a number field is the image of the pro-`p` completion of `O_v^×`; hence `Z_p^d`-extensions are unramified outside `p`; and the maximal abelian `p`-extension unramified everywhere and split at the primes above `p` of a field corresponds to the `p`-part of its class group modulo those primes.
-
-This supplies Layer 8.1 `Z_p^d`-extensions in which no finite prime splits completely; Layer 8.21 The rank-one exceptional actions (Rubin, Lemma VII.3.7).
-
-### From SelmerIwasawaCohomology §3.11
-
-The snake-lemma criterion of §3.11 (classical restriction control with invariants and localization errors): restriction of Selmer groups along a `ℤ_p`-extension has kernel and cokernel controlled by the global invariant terms, the local inertia and decomposition terms and the localization cokernels. The anticyclotomic elliptic comparison built on it, augmentationControl, is a target of Layer 8.31.
-
-This supplies Layer 8.31 The error-tolerant self-dual `Λ`-adic bound (Castella–Grossi–Lee–Skinner, Theorem 3.4.1).
-
-### From ArithmeticGaloisDuality §R02.1.2 and DerivedModuleAlgebra §1.T.1
-
-ArithmeticGaloisDuality §R02.1.2 supplies continuous cochains into inverse limits and the long exact sequence for continuous cohomology; DerivedModuleAlgebra §1.T.1 supplies the Milnor sequence and Mittag–Leffler vanishing. Apply these to finite free `ℤ_p X` with continuous `Ẑ`-action. `H¹` of each `X/p^aX` is finite (determined by topological Frobenius), so `lim¹ H¹=0`; discrete `cd_p=1` then gives compact `H²=0` and `H¹(X)→H¹(X/MX)` surjective. Restrict to this finite-free setting unless stronger limit hypotheses are proved.
-
-This supplies Layer 3.12 Local lifts of an Euler system at a prime and the finite-part theorem.
-
-### From ArithmeticGaloisDuality §D7.3 (Compact Shapiro and projection formulas)
-
-Finite-index compact Shapiro on finite free lattices and finite quotients, with evaluation, restriction and cochain compatibility; consume the finite-coset carrier and the supplier’s inverse-limit comparison. Include the evaluation-pairing comparison for an index-two induced lattice: Shapiro followed by restriction to the two summands agrees with Galois-kernel evaluation, and with prime-to-`p` averaging of a lifted Frobenius. This is the comparison consumed by the induced-depth abundant-tuple criterion.
-
-This supplies Layer 1.15 Existence of abundant tuples under the corrected span hypothesis.
-
-### Finite-character hypothesis for the coefficient-prime application
-
-Layer 8.34 assumes the following arithmetic assertion for the two residual characters, in both `p`-adic orientations: for `O` containing their Teichmüller values, the dual full/unramified Selmer group of `O(θ)⊗Λ^∨` is finitely generated `Λ`-torsion with `μ=0`, including `θ` locally 1 or `ω` and `θ` globally trivial, with the trivial-character augmentation factor retained. Keller–Yin Theorem 1.2.2, pp.13–14 (arXiv v2), proves this assertion from the CM main conjecture and analytic `μ`-vanishing. It is an explicit premise of the application here. Constructing elliptic units and Katz measures and proving that premise are outside this conditional application; its generic Rubin bound does not consume that verification.
-
-### From SelmerIwasawaCohomology Layer 3
-
-Consume finite Cartier-dual Poitou–Tate, the compact/discrete inverse-limit and Shapiro comparisons, coefficient propagation, Iwasawa cohomology finite generation and local Euler characteristics, with their hypotheses. Layer 8.35 constructs the arithmetic additions for the stated anticyclotomic modular lattice: OrdinaryCoefficientPrime.local proves the local invariant/`H²` correction vanishings, ordinary rank-one freeness and exact orthogonality; `corrections` proves the unramified/strict dictionary at `(π)`; `change` constructs the two condition-change sequences and computes the balanced full/zero ranks. It uses KY1.0.1–1.0.2 pp.8–9 and KY1.3.4–1.3.6 pp.20–23. No existing SelmerIwasawaCohomology target is credited with these arithmetic verifications.
-
-This supplies Layer 8.35 From unramified `μ`-vanishing to the ordinary coefficient-prime bound; Layer 8.34 Residual transfer of anticyclotomic `μ`-vanishing.
-
-The resulting ordinary `μ`-vanishing is the conclusion of §8.35, using precisely these finite-character and local hypotheses.
-
-### Representative Lean signatures
-
-The complete statements below are definitive. `Suggested.lean` states `compactIrreducible_h1_vanish` and `integralComparison_finiteCokernel_maximalDivisible` from §4.2a on native continuous cohomology, using the canonical lattice quotient map for the integral comparison. The infinite-base classification of §4.2b requires the joint arithmetic extension and its quotient Galois action. The arithmetic system headlines have no compiled statements because their carriers are absent at the pins. The core-rank formulas of §0.10 and the finite–singular and prime-selection results of Layer 1 require coefficient-linear arithmetic cohomology and local conditions. The Euler congruence and derivative maps of §§2.3, 3.14 and 3.16–3.19 require actual Euler and Kolyvagin families. The Selmer bounds of §§4.7, 4.13 and 4.17–4.21 and the structure and primitivity theorems of §§5.3, 5.6, 5.10 and 5.13 require their Selmer carriers. The higher-rank regulator, Fitting and class-group results of §§6.6, 6.8, 7.2, 7.4, 7.5a and 7.6 require Stark systems and their arithmetic transition and determinant maps. The weak Leopoldt, primitivity and divisibility theorems of §§8.25–8.39 also require Iwasawa Selmer modules, specialization and characteristic ideals. The algebraic operations supplied by Mathlib and Tau Ceti do not by themselves define these objects. The API bullets and Checks specify mathematical operations and examples in prose; existing supplier declarations retain their library names.
-
-## How to read the build
-
-Layer 0 fixes Selmer data and coefficient adapters; Layer 1 constructs auxiliary primes and finite–singular interfaces. Layers 2–3 define Euler families and their derivatives. Layer 4 proves descent bounds, and Layer 5 adds primitivity and self-dual structure. Layers 6–7 form the higher-rank exterior-bidual branch. Layer 8 specializes the rank-one theory over an Iwasawa algebra. Each definition specifies operations and discriminating checks; each theorem gives its exact hypotheses and proof route. `Suggested.lean` identifies the missing arithmetic carriers needed to state the headline theorems. The definitions, operations and Checks below specify the library to be built.
 
 ## Layer 0: Selmer data and coefficient interfaces
 
@@ -5943,6 +5727,236 @@ The rank-two conjugate-self-dual ordinary bound is Layer 8.31 The error-tolerant
 ## Downstream consumers
 
 Applications to Heegner points and generalised Heegner cycles use the derivative constructions, self-dual bounds and specialization theory with their arithmetic inputs. Cyclotomic-unit and Kato Euler-system applications use the Layer 2 carriers and the Layer 4 and 8 bounds. Rank-zero and rank-one Birch–Swinnerton-Dyer applications use the ordinary rank-two conjugate-self-dual bound, with their higher-weight image constants as inputs. Higher-rank class-group applications use Layers 6–7 with the archimedean Rubin–Stark data of Layer 7.7 as hypotheses. Each application supplies its own classes, reciprocity laws and verifications of the hypotheses used here; this roadmap imports no theorem from them.
+
+## Scope and ownership
+
+This roadmap owns Euler-system and Kolyvagin-system carriers, their derivative and regulator maps, and the conditional Selmer bounds. Distinguished arithmetic systems and their geometric hypotheses are explicit inputs to its application theorems. Cyclotomic, Kato and Rubin–Stark applications supply their own classes and reciprocity laws. An Euler-system carrier alone does not construct a Beilinson–Flach family.
+
+The group-ring norm is the specialization of `TauCeti.subgroupCharSum` at the trivial character and the whole finite group. Its sum formula `TauCeti.subgroupCharSum_eq_sum_of_eq_top` and representation-action formula `TauCeti.asAlgebraHom_subgroupCharSum_apply` supply the norm and its action; §3.1 owns the weighted cyclic derivative and its identities.
+
+Existing Mathlib exterior powers, duals, module length and torsion decompositions are consumed directly. Tau Ceti supplies additive continuous cohomology, discrete Shapiro and corestriction, class groups and generic Fitting-ideal theory: `TauCeti/RingTheory/FittingIdeal/Basic.lean` (`TauCeti.fittingIdeal`, `fittingIdeal_monotone`, `fittingIdeal_quotient_zero`), and `BaseChange.lean` (`fittingIdeal_baseChange`). These Fitting declarations are consumed directly at the pin. The arithmetic exterior-bidual lattice and system-level Fitting bounds above add Selmer and regulator structure to these existing operations. Self-injectivity is an explicit coefficient hypothesis in the higher-rank branch. PadicMeasuresIwasawaAlgebras Layer 6 supplies character rings, involutions and Fitting algebra; it asserts no Gorenstein or exact-duality theorem for an arbitrary character quotient. The arithmetic comparison with finite Cartier duality is constructed in Layer 0.2 above. IntegralIwasawaTheory §12.6 supplies the shared exterior-bidual and finite-CM Rubin-lattice core; Layers 6–7 add its finite-projective and Selmer comparisons, contractions, coefficient change and integral transfer; compact-coefficient duality and control belong to SelmerIwasawaCohomology and ArithmeticGaloisDuality.
+
+Tau Ceti's `RepresentationTheory/Coinduced.lean` supplies exact subgroup coinduction and its coextension-of-scalars comparison (`Representation.coextendScalarsEquivCoind`), and discrete inflation–restriction is consumed from the continuous cohomology interface. `RepresentationTheory/Unipotent/PowerOrder.lean` also supplies `Representation.IsIrreducible.eq_trivial_of_isPGroup` and `.finrank_eq_one_of_isPGroup`. These generic constructions and the modular `p`-group theorem are consumed, not restated. The addition in 3.16 is the `χ`-semidirect Euler presentation and its arithmetic cochain descent. Mathlib's `Polynomial.dvd_iff_isRoot` and monic division supply each linear-factor step; over `O/M` the distinct roots must also have unit differences before the factors are multiplied.
+
+For the algebraic input to the local-order argument, Tau Ceti supplies `IsSemisimpleRing.finiteWedderburnAlgebraPresentation` in `RingTheory/Semisimple/Wedderburn/Presentation.lean`: a finite semisimple algebra has a chosen finite product of matrix algebras over finite-dimensional division algebras. Its `RingTheory/Semisimple/MatrixDivisionRing.lean` supplies `TauCeti.Matrix.mulOppositeRingEquivEnd`, identifying the endomorphism ring of a nonzero matrix column module with the opposite division ring. These existing algebraic statements are inputs, rather than targets. The addition in 4.8 is their integral local-field refinement: maximal division orders, lattice stabilizers on both sides, rectangular lattice normal forms and uniform central conductors.
+
+The rank-one Iwasawa layer consumes Layer 5 directly. Higher-rank Layers 6–7 have their own application branch; a higher-rank Iwasawa extension would consume both that branch and Layer 8. The maximal-order evaluation pairing and its local lattice inputs belong to Layer 4 here; ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56 supply the order carrier, maximality and maximal-order existence under the nondegenerate regular-trace hypothesis. The CM-point application takes the displayed curve, abelian variety, point and norm/congruence data as hypotheses. The geometric construction of such data is outside the generic descent theorem; its precise norm and congruence hypotheses are part of the application statement.
+
+Selected ring-class descent is compared with the cyclic cochain before localization, using one restriction bound for all intermediate ring-class fields. The local relation uses divided Frobenius operators and pairs the two character twists. These inputs supply the general-character rational descent route. At the coefficient prime, the higher-weight integral bound uses finite-character unramified `μ`-vanishing and two ordinary Poitou–Tate comparisons; it does not discard a rank-dependent specialization error. The exact arithmetic and local suppliers are stated below. The classical all-prime square-index application is HeegnerPointEulerSystems §7.13. Its integral length descent and uniformity in the imaginary quadratic field are outside the bounded-exponent application of §4.13 here: that section fixes the arithmetic data before choosing its constants. In particular, this roadmap supplies no constant uniform in that family of fields; the additional length input requested by that consumer is not supplied by the exponent theorem.
+
+### Prerequisites and boundaries: Selmer propagation and finite global duality
+
+The field-linear results `LinearMap.IsFrobeniusFunctional.isPerfPair`, `LinearMap.isFrobeniusFunctional_iff_bijective`, and `LinearMap.IsFrobeniusFunctional.moduleInjective_self` in Tau Ceti’s `Algebra/Algebra/Frobenius/Basic.lean` are already present at the pin. They supply the finite-dimensional algebra specialization over a field; the additive-character comparison for mixed-characteristic finite `R` is the addition in Layer 0.2. Tau Ceti also supplies the principal-ring Baer argument as `Module.Baer.zmod_self` in `Algebra/Module/ZMod/Injective.lean`. The principal-ring Check consumes that fact rather than scheduling its proof again.
+
+**Propagation commutes with local duality.** Let `F` be a local condition on `T` at `v` and `I` an ideal of `R`. The two local conditions induced on `T^*[I] = (T/IT)^*` agree: the orthogonal complement of the condition propagated to the quotient `T/IT`, and the condition propagated to the submodule `T^*[I]` from the orthogonal complement `F^*` on `T^*`. Consequently, for a Selmer structure `F, (F on T/IT)^* = (F^* on T^*[I])`, and the same holds for the passages `T → V` and `V → V/T` of a lattice in its rational representation.
+
+The precise hypotheses are `T` a compact coefficient module over a coefficient ring (finite type, `m`-adic topology, continuous action), so that local Tate duality pairs `H¹(K_v,T)` and `H¹(K_v,T^*)` perfectly with `T^* = Hom(T, μ_{p^∞})` discrete of cofinite type.
+
+([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Example 1.3.3, p. 12). The square relating propagation and orthogonal complements.
+
+The local pairings for `T/IT × T^*[I]` and `T × T^*` are compatible with `T → T/IT` and `T^*[I] → T^*` (ArithmeticGaloisDuality §D7.7.2 (Compatibility of the local pairings for `T, V, W` and `W_M`)).
+
+Apply the image/inverse-image rule for orthogonal complements (`orthogonal_map_eq_comap` of ArithmeticGaloisDuality §D7.7.1 (Perfect pairings and dual local conditions)): `(image of L)^⊥ =` inverse image of `L^⊥`.
+
+The lattice case `T ⊆ V` and `W = V/T` is SelmerIwasawaCohomology §2.6 (From `V` to `T` and `W`; saturation) together with SelmerIwasawaCohomology §2.17 (Local duality for the finite conditions on `T` and `W_M`).
+
+For `F` strict on `T` both constructions give the relaxed condition on `T^*[I]`. For `F` relaxed on `T` they give the kernel of `H¹(K_v,T^*[I]) → H¹(K_v,T^*)`; this is strict precisely when that map is injective, equivalently when `H¹(K_v,T) → H¹(K_v,T/IT)` is surjective under the perfect finite/compact-discrete pairing.
+
+The condition on a quotient remembers `T: H¹_{F_can}(ℚ_p, T/IT)` is the image of `H¹(ℚ_p, T)`, which can be smaller than `H¹(ℚ_p, T/IT)` (Mazur–Rubin 2004, Definition 3.2.1 and Lemma A.1).
+
+*Needs:* `SelmerIwasawaCohomology Layer 2`; `SelmerIwasawaCohomology §2.5 (Propagating local conditions)`.
+
+**The Euler characteristic formula for Selmer modules.** Let `T` be a finite `R[[G_K]]`-module and `F` a Selmer structure on `T`. Then `length H¹_F(K, T) − length H¹_{F^*}(K, T^*) = length H⁰(K, T) − length H⁰(K, T^*) − Σ_{v ∈ Σ(F)} (length H⁰(K_v, T) − length H¹_F(K_v, T))`, all lengths over `R`.
+
+The precise hypotheses are `T` finite; lengths taken over `R` (for `R = ℤ/p^k` these are `p`-adic valuations of orders); `T` and `T^*` lie in the arithmetic coefficient category over a coefficient ring; the Selmer structure records this and `Σ(F) ⊇ S_p ∪ S_∞`.
+
+([Barry Mazur and Karl Rubin, Kolyvagin systems](https://webusers.imj-prg.fr/~christophe.cornut/ES/Ref/KolySys.pdf), Proposition 2.3.5, p. 17). The finite-level Euler characteristic formula.
+
+This is the finite Greenberg–Wiles formula supplied by ArithmeticGaloisDuality R02.5.1 and SelmerIwasawaCohomology Layer 2 for `M = T, L_v = H¹_F(K_v, T)`, rewritten additively.
+
+To pass from orders to `R`-lengths apply the formula to `T` as an `R`-module: every group in it is an `R`-module of finite length and `#B = (#k)^{length_R B}`; the factors at `v ∉ Σ(F)` are 1 because `#H¹_ur(K_v, T) = #H⁰(K_v, T)`.
+
+Mazur–Rubin state it over `ℚ` and include `p = 2`; the archimedean term uses ordinary `H⁰(K_v, T)`.
+
+For `K = ℚ, R = 𝔽_p, T = μ_p` with the relaxed condition at `p` and strict at `∞` (`p` odd), the left side is `dim (ℤ[1/p]^×/p) − dim H¹_{F^*}(ℚ, ℤ/p) = 1 − 0` and the right side is `0 − 1 − ((0 − 2) + (0 − 0)) = 1`: the term at `p` is `length H⁰(ℚ_p, μ_p) − length H¹(ℚ_p, μ_p) = 0 − 2` and the term at `∞` is `0 − 0`.
+
+*Needs:* `SelmerIwasawaCohomology Layer 2`; `Module.length`.
+
+## Exact supplier contracts
+
+From Mathlib use `Module.length`, `Module.equiv_directSum_of_isTorsion`, `IsDiscreteValuationRing`, polynomial division by `X−C a`, exterior powers and linear duals, with their finite-generation and ring hypotheses. From Tau Ceti use `TauCeti.ContCohomology.H1`, `TauCeti.coind`, `TauCeti.ContCohomology.explicitShapiro1`, the discrete coefficient category and the named cohomology maps. `Suggested.lean` imports `Mathlib` and states the compact irreducible rational vanishing and integral finite-cokernel comparison theorems of §4.2a. The arithmetic headline results require Selmer and system carriers absent at the pins. Discrete arithmetic cohomology is consumed by the targets above, with its coefficient adapters as specified. The pinned revisions are Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e` and Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`.
+
+### From IntegralIwasawaTheory §12.6
+
+Use the common `TauCeti.StarkSystems.exteriorBidual` and `toExteriorBidual`, determinant evaluation and naturality, and the rational determinant-integral lattice comparison for finite abelian group rings. Use `TauCeti.RubinStark.rubinStarkUnitLattice`, `rubinOrderMap` and `rubinLattice` for finite abelian CM extensions with ordered split-place data and torsion-free `T`-modified units; integral functionals are taken before minus projection. The same supplier owns the rational Rubin–Brumer–Stark element, the inverse image of the Stickelberger element under its order map, and its evaluation and change-of-place API. Layers 6.1 and 6.4 retain these carriers. Here modifiedUnits and ordG are adapters, and Layer 7.3's notation for the rational element and its evaluation/change-of-place statements are adapters to that supplied element and API. Its definition requires no integrality theorem. The finite-projective comparison, general semisimple-order rationalization, Selmer specialization, contractions, coefficient change and system theory are extensions of this core.
+
+### From Mathlib and Tau Ceti at the pins
+
+`TauCeti/Algebra/MonoidAlgebra/SubgroupCharSum.lean` supplies `TauCeti.subgroupCharSum` and `TauCeti.subgroupCharSum_eq_sum_of_eq_top` for a finite subgroup of a group over a commutative semiring. Specialize to `ℤ`, the trivial character and the top subgroup to obtain `N_Γ`. `TauCeti/RepresentationTheory/SubgroupCharSum.lean` supplies `TauCeti.asAlgebraHom_subgroupCharSum_apply`; this specializes to `Representation.norm` from `Mathlib/RepresentationTheory/Basic.lean`. Neither cyclicity nor division by the group order is required for these supplied operations.
+
+Mathlib's `LinearMap.charpoly`, `LinearMap.charpoly_monic` and `LinearMap.aeval_self_charpoly` apply to endomorphisms of finite free modules over a commutative ring. `Matrix.charpolyRev` is already `det(1 − X A)` and `Matrix.reverse_charpoly` identifies it with the reverse characteristic polynomial. The Euler polynomial eulerPoly of §2.1 is the coordinate-free endomorphism specialization of those operations; the arithmetic targets specify which Frobenius endomorphism to use. `Polynomial.divByMonic`, `Polynomial.dvd_iff_isRoot` and `Polynomial.mul_divByMonic_eq_iff_isRoot` supply monic linear division. `Module.equiv_directSum_of_isTorsion` supplies finite torsion-module decompositions over a PID, and `Module.length` supplies length. Exterior powers `⋀[R]^n M` and `Module.Dual`, `MonoidAlgebra`, `UnitAddCircle`, `Module.Injective` and `IsDiscreteValuationRing` retain their library meanings and hypotheses.
+
+Tau Ceti's `RepresentationTheory/Homological/ContCohomology/LowDegree.lean` supplies `TauCeti.ContCohomology.H1`; `Coinduced.lean` supplies `TauCeti.coind`; `Shapiro/Basic.lean` supplies `TauCeti.ContCohomology.explicitShapiro1`; `Corestriction/Basic.lean` supplies `TauCeti.ContCohomology.explicitCor1`; and `DeltaNaturality.lean` supplies `TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta0`. The explicit `H1` quotient allows topological coefficients with a continuous action; the supplied Shapiro and corestriction comparisons here have discrete coefficients. `SmoothDiscrete/Basic.lean` supplies `TauCeti.IsSmoothDiscrete`. ProfiniteCohomology Layers 1–3 supply their comparison with canonical continuous cohomology; ArithmeticGaloisDuality §R02.1.2 supplies the compact-coefficient comparison. No additive-group carrier is silently treated as an `R`-linear Selmer module.
+
+For §4.2a, `TauCeti/RepresentationTheory/Homological/ContCohomology/LowDegree.lean` supplies `TauCeti.ContCohomology.eq_of_mem_Z1_of_eqOn_of_topologicalClosure_closure_eq_top`: continuous cocycles into a T₁ topological additive group agree if they agree on a set generating a dense subgroup. `TauCeti/RepresentationTheory/Homological/ContCohomology/TopologicallyFinitelyGenerated.lean` supplies `TauCeti.IsTopologicallyFinitelyGenerated.finite_Z1` and `TauCeti.IsTopologicallyFinitelyGenerated.finite_H1` for finite discrete coefficients; the latter assumes a continuous action. `TauCeti.IsTopologicallyFinitelyGenerated` in `TauCeti/Topology/Algebra/Group/Generation.lean` means that some finite subset generates a dense subgroup. `TauCeti.ContCohomology.explicitCoeff1` in `TauCeti/RepresentationTheory/Homological/ContCohomology/ExplicitFunctoriality.lean` is the map on H¹ induced by a continuous equivariant additive homomorphism. Apply it to `Submodule.mkQ`, from `Mathlib/LinearAlgebra/Quotient/Defs.lean`, using `Submodule.continuous_mkQ` from `Mathlib/Topology/Algebra/Module/Basic.lean`; equivariance specifies the quotient action and hence the stable lattice.
+
+For finite-dimensional algebras over a field, `Algebra/Algebra/Frobenius/Basic.lean` supplies `LinearMap.IsFrobeniusFunctional.isPerfPair`, `LinearMap.isFrobeniusFunctional_iff_bijective` and `LinearMap.IsFrobeniusFunctional.moduleInjective_self`. `Algebra/Module/ZMod/Injective.lean` supplies `Module.Baer.zmod_self`. Layer 0.2 adds the mixed-characteristic additive-character comparison, using DerivedModuleAlgebra §1.M.1's injective hull and Matlis biduality.
+
+`RepresentationTheory/Coinduced.lean` supplies `Representation.coextendScalarsEquivCoind` for subgroup coinduction and coextension of scalars. `RepresentationTheory/Unipotent/PowerOrder.lean` supplies `Representation.IsIrreducible.eq_trivial_of_isPGroup` and `Representation.IsIrreducible.finrank_eq_one_of_isPGroup` for finite-dimensional representations in exponential characteristic `p`. The `χ`-semidirect application uses these results without constructing a second coinduction or modular `p`-group theory.
+
+`RingTheory/Semisimple/Wedderburn/Presentation.lean` supplies `IsSemisimpleRing.finiteWedderburnAlgebraPresentation`; `RingTheory/Semisimple/MatrixDivisionRing.lean` supplies `TauCeti.Matrix.mulOppositeRingEquivEnd` for a nonzero matrix-column module. These give the algebraic semisimple presentation and opposite-endomorphism comparison in §4.8, whose local-order refinements are additional targets.
+
+`RingTheory/FittingIdeal/Basic.lean` supplies `TauCeti.fittingIdeal`, `TauCeti.fittingIdeal_monotone` and `TauCeti.fittingIdeal_quotient_zero` for finitely generated modules over a commutative ring; `RingTheory/FittingIdeal/BaseChange.lean` supplies `TauCeti.fittingIdeal_baseChange`. `RingTheory/Morita/Corner.lean` supplies `IsIdempotentElem.cornerEquivalence` and `IsIdempotentElem.moritaEquivalenceCorner` when the idempotent is full. Layer 4.8 proves fullness in its lattice application before using the corner equivalence. The Fitting bounds in Layers 6–7 add arithmetic content to the supplied ideals.
+
+DerivedModuleAlgebra §1.T.1 supplies towers, `lim`, `lim¹`, their six-term exact sequence, the Mittag–Leffler criterion and the Milnor sequence. Section 1.M.1 supplies the injective hull of the finite residue field, exact Matlis duality and biduality on finite-type and cofinite-type modules over a complete noetherian local ring. The finite self-injective trace comparison is the additional construction of §0.2 here.
+
+### From ArithmeticGaloisRepresentations §5.8
+
+Use “Compact subgroup charts”: for a compact subgroup of a matrix group over a finite extension of `ℚ_p`, a normal open uniform pro-`p` subgroup and the logarithm charts. Section 4.2b deduces topological finite generation from those coordinates and the finite quotient; the infinite-base cohomology classification is an additional target here.
+
+### From TauCetiRoadmap.Chebotarev Layer 10
+
+The Chebotarev density theorem for a finite Galois extension of number fields in Dirichlet-density form: the unramified primes whose Frobenius lies in a given conjugacy class `C` of the Galois group `G` have density `|C|/|G|`, in particular infinitely many, also after removing a prescribed finite set. Used for primes with Frobenius `τz` in a finite extension cut out by Galois cohomology classes.
+
+This supplies Layer 1.22 Chebotarev selection of Kolyvagin primes with error terms; Layer 1.15 Existence of abundant tuples under the corrected span hypothesis; Layer 1.16 Residual detection of two classes and classes with prescribed ramification; Layer 5.8 Simultaneous localisation of eigenclasses in Howard's self-dual setting; Layer 4.7 Rational Kolyvagin descent for ring-class anticyclotomic Euler systems.
+
+### From TauCetiRoadmap.ProfiniteCohomology Layer 11
+
+The discrete torsion coefficient statement `cd_p(Ẑ)=1`, hence `H²(Ẑ,X/p^aX)=0` for each finite quotient. Compact passage is supplied separately by ArithmeticGaloisDuality; no assertion for every profinite coefficient module is inferred from this layer.
+
+This supplies Layer 3.12 Local lifts of an Euler system at a prime and the finite-part theorem.
+
+### From ImaginaryQuadraticClassNumber H1.4 and ClassFieldTheory Layer 13
+
+ImaginaryQuadraticClassNumber H1.4 supplies the conductor residue-unit exact sequence on invertible Picard groups, the class-number formula and the exceptional-unit indices. ClassFieldTheory Layer 13 supplies ring-class fields and the Artin/Picard-group identification on the imported quadratic-order carrier. For an inert prime `ℓ ∤ c`, derive the conductor-change kernel in Layer 2.9 by transporting that exact sequence through Artin reciprocity: `Gal(K_{cℓ}/K_c)` has order `(ℓ+1)/[O_c^×:O_{cℓ}^×]`. The order is `ℓ+1` exactly when `O_c^× = {±1}`, that is when `c > 1` or `|D_K| > 4`. For `c = 1` and `K = ℚ(i)` or `ℚ(√−3)` it is `(ℓ+1)/2` or `(ℓ+1)/3`. The principal inert prime splits in `K_c/K`, and ClassFieldTheory Layer 7's local reciprocity identifies the totally ramified relative extension.
+
+This supplies Layer 2.9 Anticyclotomic Euler systems over ring class fields.
+
+### From TauCetiRoadmap.ClassFieldTheory Layer 13
+
+Existence of the ray class field of `K` modulo a prime `q`, with `Gal(K[q]/K) ≅` the ray class group `Cl_q(K)`, and the description of its ramification; used to define `K(q), K(1)` and `Γ_q`.
+
+This supplies Layer 1.1 The fields `K(q), K(r)` and their Galois groups; Layer 2.4 The conductor-indexed presentations.
+
+### From TauCetiRoadmap.ClassFieldTheory Layer 7
+
+The absolute local Artin map, normalized by arithmetic Frobenius, and its restriction to finite tame extensions, identifying the `p`-primary tame inertia quotient with residue-field units (or the relative residue-unit quotient at Howard’s inert primes). Local Tate duality is supplied separately by Layer 5.
+
+This supplies Layer 1.2 Finite and singular parts at an unramified prime; Layer 1.10 The transverse condition is self-dual.
+
+### From TauCetiRoadmap.Chebotarev Layer 10
+
+The Chebotarev density theorem for a finite Galois extension of number fields in Dirichlet-density form: the primes with a given Frobenius class have density `|C|/|G|`; in particular infinitely many, also after removing a finite set.
+
+This supplies Layer 1.7 Kolyvagin primes: `P_k, P(L, τ)` and `R_{F,M}`; Layer 1.21 Simultaneous nonvanishing of localisations; Layer 4.10 Rubin's selection of primes with large localisation; Layer 1.11 `γ`-associated places and `(S, γ)`-abundant tuples; Layer 5.10 Howard's bound for self-dual Kolyvagin systems over a discrete valuation ring.
+
+### From PadicMeasuresIwasawaAlgebras Layer 6
+
+Use character group rings, the contragredient action, the sharp involution and Fitting algebra of Layer 6. Do not infer that a character quotient is Gorenstein. A local Gorenstein order, or a finite self-injective local ring, is separately hypothesized wherever used. For an `O`-order the Gorenstein hypothesis means its `O`-dual is invertible over the order; a local such order has a free rank-one dual, and reduction modulo a nonzero `O`-element gives the finite self-injective coefficient ring. The arithmetic use of this dual is Layer 0.2. Exterior powers, linear duals and tensor products use Mathlib carriers. Layers 6.1 and 6.3 build exterior-bidual evaluation, contractions, coefficient-change square and integral-lattice comparisons; Layer 7.2 builds group-ring invariants descent and normalized integral transfer.
+
+### From SelmerIwasawaCohomology §§2.1–2.19
+
+Consume the existing `O`-lattice/rational/discrete Selmer constructions, their quotient/submodule propagation, compact/discrete local Tate pairings and finite Cartier-dual Poitou–Tate sequence. For general finite self-injective `R`, use the arithmetic comparison constructed in Layer 0.2 from ArithmeticGaloisDuality R02.4 and R02.5.1; this is not an unstated extension of the `O`-adic layer. The compact DVR case retains its discrete torsion dual. Also supply the actual cocycle formula for the induced integral local map: its image propagates the lattice canonical condition at `p` and infinity, rather than replacing that image by the full finite-coefficient local `H¹`. Retain the finite-level reflexivity and zero-conductor conditions in the rank-one bidual/ordinary Kolyvagin comparison. Coefficient rings are complete noetherian local with finite residue field of characteristic `p` in the `m`-adic topology; compact coefficients are of finite type with the module topology and jointly continuous action; discrete `m`-power-torsion coefficients are of cofinite type with open stabilisers; Selmer supports contain `S_p ∪ S_∞` and the ramified primes, kept by duality, propagation and modification.
+
+This supplies Layer 0.7 The canonical and the unramified Selmer structures; Layer 0.4 Cartesian local conditions; Layer 0.10 Core rank of the canonical and unramified structures; Layer 0.9 The core rank is independent of the modulus; Layer 0.3 The category of quotients of `T`; the supplier propagation–duality compatibility Propagation commutes with local duality; the supplier finite Greenberg–Wiles formula The Euler characteristic formula for Selmer modules; Layer 0.6 Selmer modules of quotients and torsion submodules; Layer 0.1 Selmer triples and squarefree conductors; Layer 1.2 Finite and singular parts at an unramified prime; Layer 1.9 The Selmer structures `F_a^b(c)`; Layer 1.3 Exponents, orders and reducibility depth; Layer 1.10 The transverse condition is self-dual; Layer 4.18 Self-dual descent with explicit error constants; Layer 4.17 Rubin's bound with error terms; Layer 4.3 Rubin's hypotheses, index of divisibility and error terms; Layer 4.2 Selmer lengths across an edge; Layer 5.5 The generalised Cassels pairing and the structure `R^ε ⊕ M ⊕ M`; Layer 5.4 The Kolyvagin-constructed dual Selmer group; Layer 6.3 Selmer contractions and coefficient change; Layer 6.6 Freeness of Stark systems and control of the dual Selmer group; Layer 4.4 Localisation at abundant tuples with bounded loss.
+
+### From SelmerIwasawaCohomology §4.25
+
+Section 4.25 supplies the finite-localization criterion used in LTXZZ Proposition 2.4.6(2), pp.130–131: purity of weight `−1` and conjugate Tate self-duality give vanishing rational local `H¹` away from `ℓ`, bounded integral `H¹` and `H²` torsion, and a depth-independent annihilator of the finite-coefficient localizations of saturated Selmer submodules. Its coefficient long exact sequence retains both torsion losses. This supplies Layer 4.4; it is not part of the `O`-lattice propagation theorem in Layer 2.
+
+### From TauCetiRoadmap.ClassFieldTheory Layer 5
+
+Perfect local Tate pairings for finite `p`-primary unramified coefficients at places of residue characteristic different from `p`, with the cup/invariant normalization, restriction-corestriction adjointness and the exact-annihilator statement used for the transverse condition. Mixed-characteristic `p`-adic lattice/discrete extensions are supplied by SelmerIwasawaCohomology §§2.13, 2.16–2.17.
+
+This supplies Layer 1.2 Finite and singular parts at an unramified prime; Layer 1.10 The transverse condition is self-dual.
+
+### From ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56
+
+ClassicalArithmeticCompletion §§7.4, 7.21 and 7.56 supply orders, maximality and maximal-order existence for an integrally closed noetherian base and a nondegenerate regular-trace pairing; the characteristic-zero semisimple algebras used here satisfy that pairing hypothesis. The additional local division-order, lattice and two-centralizer inputs needed for the pairing are constructed in this package's local maximal-order subsection. They include projectivity, both multiplicities, common central conductors and reduction kernels. Tau Ceti module `TauCeti/RingTheory/Morita/Corner.lean` supplies `IsIdempotentElem.cornerEquivalence` and `moritaEquivalenceCorner` for a full idempotent. Its use here follows a proof of fullness and does not supply maximality or projectivity by itself.
+
+This supplies Layer 4.9 Uniform cokernel bound for a separated pairing over orders.
+
+### Arithmetic hypotheses for the geometric and Rubin–Stark applications
+
+The CM-point bound of Layer 4.13 is conditional on the precise quaternionic Shimura-curve, `GL₂`-type quotient, tensor-variety, CM trace point and polarization data stated there (Nekovář §§3.1, 3.5, 5.19, pp.18–19, 33–34), on the arithmetic image hypotheses (Img₁)–(Img₂) stated there (Nekovář §§6.1–6.2, pp.35–37), and on finite generation (MW) of the Mordell–Weil group `A(H)`. The application assumes these arithmetic inputs and their norm and congruence relations explicitly. The elliptic Kummer dictionary in Layer 1.19 uses the multiplication-by-`p` exact sequence on the Tate module and finite-point module, together with SelmerIwasawaCohomology Layer 2. The class-field and inert-prime local dictionary uses ClassFieldTheory in Layers 1.1, 2.9 and 5.2 here; the ring-class conductor exact sequence and exceptional-unit indices come from ImaginaryQuadraticClassNumber H1.4. These inputs precede the supplied geometric Euler system.
+
+The archimedean Rubin–Stark conclusion of Layer 7.6 assumes Conjecture `B′` at every finite `LF/K`: a rational family characterized by the ordered logarithmic regulator, integral bidual membership and the norm relations after the character/Kummer transport of Layer 7.7. This roadmap proves the implication from those explicit regulator-element hypotheses. The finite-place CM minus regulator in Layer 6.4 has different parity and is not substituted for that hypothesis.
+
+### From PadicMeasuresIwasawaAlgebras §§4.1–4.6
+
+Sections 4.1–4.3 supply pseudo-null modules, pseudo-isomorphisms, the structure theorem over a two-dimensional regular local ring, and the one-variable regularity and Weierstrass theory of `O⟦T⟧`. Section 4.6 supplies characteristic divisors and ideals over a noetherian normal `UFD`, their multiplicativity, pseudo-isomorphism invariance, and transport under a ring automorphism through a semilinear equivalence. Section 4.4 supplies generator change for Iwasawa invariants. Apply this generic divisor algebra to the multivariable rings of SelmerIwasawaCohomology §3.0; do not infer multivariable regularity from the one-variable theorem. A pseudo-null module need not be finite for `d ≥ 2`.
+
+Section 4.5 supplies the coefficient-compatible one-variable coordinate and comparison with `TauCeti.completedGroupAlgebra`; §1.7 supplies the measure comparison. SelmerIwasawaCohomology §3.0 supplies the multivariable coordinate, regular-local dimension `d + 1` for a DVR and `Γ ≅ ℤ_p^d`, and character twists. Finite projections are compared with the corresponding twisted action; an untwisted quotient by `H ⊆ Γ` is preserved only when the character is trivial on `H`. The twist formulas use PadicMeasuresIwasawaAlgebras §4.6’s semilinear transport. Section 8.18 here proves the perturbation, normalization and length estimates used by §§8.28–8.31.
+
+This supplies the generic commutative algebra used in §§8.14–8.15, 8.18, 8.21, 8.28–8.31 and 8.37; the multivariable algebra is supplied by SelmerIwasawaCohomology §3.0 and the perturbation estimates are targets of §8.18 here.
+
+### From PadicMeasuresIwasawaAlgebras §5.2
+
+Topological Nakayama's lemma over `Λ = O[[Γ]]`: a compact `Λ`-module X with `X/𝔐X` (or `X/JX, J` the augmentation ideal) finitely generated over `O` is finitely generated over `Λ`. Used for the finite generation of `X∞` (Rubin, Lemma VII.4.1).
+
+This supplies Layer 8.20 `X∞` is finitely generated over `Λ`.
+
+### From PadicMeasuresIwasawaAlgebras §§1.7, 4.5–4.6
+
+Use the completed-group-algebra comparison and the coefficient-compatible one-variable coordinate of §§1.7 and 4.5. The character automorphisms `Tw_ρ`, their finite projections and the involution used in §§8.1 and 8.9 are supplied by SelmerIwasawaCohomology §3.0, with finite projections interpreted through the corresponding twisted coefficient action; the transport of characteristic ideals uses the generic semilinear equivalence theorem in §4.6.
+
+### From SelmerIwasawaCohomology §3.0
+
+For `O` the ring of integers of a finite extension of `ℚ_p` and `Γ ≅ ℤ_p^d`, use `Λ = O⟦Γ⟧ ≅ O⟦X₁, …, X_d⟧`, a noetherian regular local ring of dimension `d + 1`, hence a `UFD`. The coordinate is an isomorphism of topological `O`-algebras. With the generic characteristic-divisor algebra of PadicMeasuresIwasawaAlgebras §4.6 it supplies the full multivariable scope of Rubin’s Theorems II.3.2–II.3.4 and II.3.8, for every `d ≥ 1`. Pseudo-null modules are supported in codimension at least two; for finitely generated modules this is equivalent to an annihilator ideal of height at least two, and it does not imply finiteness when `d ≥ 2`.
+
+For a continuous character `ρ : Γ → O^×`, use the supplied automorphism `Tw_ρ(γ) = ρ(γ)γ`, its composition law `Tw_ρ ∘ Tw_ρ′ = Tw_{ρρ′}`, and inversion `ι(γ) = γ⁻¹`. Under a semilinear coefficient-twist comparison, `Tw_ρ(char(B ⊗ ρ)) = char(B)` and `Tw_ρ(Ann_Λ(B ⊗ ρ)) = Ann_Λ(B)` for a finitely generated torsion `Λ`-module `B`; heights are preserved (Rubin VI.1.2). For finite quotients on which `ρ` factors, these maps agree with the corresponding group-ring twists. For general `ρ`, retain the character in the specialization map as in §8.9, rather than imposing compatibility with an unchanged augmentation quotient.
+
+### From SelmerIwasawaCohomology Layers 2–3 for the coefficient-prime application
+
+For the cyclotomic `ℤ_p`-extension `K∞/K`, odd `p`, `O` the ring of integers of a finite extension of `ℚ_p`, a finite free `O`-lattice `T`, `𝐓=T⊗_OΛ` and `Σ` finite containing `p,∞` and the ramified primes: `H^i(K_Σ/K, 𝐓)` and `H^i(K_v, 𝐓) (v | p)` are finitely generated `Λ`-modules, `H²(K_v, 𝐓)` is `Λ`-torsion, and `H¹(K_Σ/K, 𝐓)` is `Λ`-torsion-free when `T̄^{G_K} = 0` (Mazur–Rubin, Lemmas 5.3.4–5.3.5, after Greenberg and Perrin-Riou); and `H²(K_v,𝐓)/𝔓≅H²(K_v,𝐓/𝔓𝐓)` (cohomological dimension two). SelmerIwasawaCohomology §3.13 supplies local `H²` torsion in this cyclotomic setting. For other towers, finite generation/perfectness uses that supplier’s explicit finite-resolution hypotheses; local `H²` torsion is a separate hypothesis whenever used, including in a generic core-rank computation. Howard’s ordinary anticyclotomic control uses the distinct local hypotheses in §8.22.
+
+This supplies Layer 8.13 The exceptional set `Σ_Λ` of height-one primes; Layer 8.22 Control of Selmer groups at height-one specializations; Layer 8.23 The generic core `rank χ(𝐓)` (Mazur–Rubin, Lemma 5.3.16); Layer 8.27 Weak Leopoldt from a `Λ`-adic Kolyvagin system (Mazur–Rubin, Theorem 5.3.6); Layer 8.19 Mazur–Rubin's principal index `Ind(c)`.
+
+### From SelmerIwasawaCohomology §4.18
+
+Rubin's Corollary I.6.4 in the direction used here: if Leopoldt's conjecture holds for `K` then `S_{Σp}(K, μ_{p^∞})` is finite.
+
+This supplies Layer 8.21 The rank-one exceptional actions (Rubin, Lemma VII.3.7).
+
+### From TauCetiRoadmap.ClassFieldTheory Layer 12
+
+Global class field theory in the form: the inertia subgroup at a finite prime `v` of the Galois group of an abelian pro-`p` extension of a number field is the image of the pro-`p` completion of `O_v^×`; hence `Z_p^d`-extensions are unramified outside `p`; and the maximal abelian `p`-extension unramified everywhere and split at the primes above `p` of a field corresponds to the `p`-part of its class group modulo those primes.
+
+This supplies Layer 8.1 `Z_p^d`-extensions in which no finite prime splits completely; Layer 8.21 The rank-one exceptional actions (Rubin, Lemma VII.3.7).
+
+### From SelmerIwasawaCohomology §3.11
+
+The snake-lemma criterion of §3.11 (classical restriction control with invariants and localization errors): restriction of Selmer groups along a `ℤ_p`-extension has kernel and cokernel controlled by the global invariant terms, the local inertia and decomposition terms and the localization cokernels. The anticyclotomic elliptic comparison built on it, augmentationControl, is a target of Layer 8.31.
+
+This supplies Layer 8.31 The error-tolerant self-dual `Λ`-adic bound (Castella–Grossi–Lee–Skinner, Theorem 3.4.1).
+
+### From ArithmeticGaloisDuality §R02.1.2 and DerivedModuleAlgebra §1.T.1
+
+ArithmeticGaloisDuality §R02.1.2 supplies continuous cochains into inverse limits and the long exact sequence for continuous cohomology; DerivedModuleAlgebra §1.T.1 supplies the Milnor sequence and Mittag–Leffler vanishing. Apply these to finite free `ℤ_p X` with continuous `Ẑ`-action. `H¹` of each `X/p^aX` is finite (determined by topological Frobenius), so `lim¹ H¹=0`; discrete `cd_p=1` then gives compact `H²=0` and `H¹(X)→H¹(X/MX)` surjective. Restrict to this finite-free setting unless stronger limit hypotheses are proved.
+
+This supplies Layer 3.12 Local lifts of an Euler system at a prime and the finite-part theorem.
+
+### From ArithmeticGaloisDuality §D7.3 (Compact Shapiro and projection formulas)
+
+Finite-index compact Shapiro on finite free lattices and finite quotients, with evaluation, restriction and cochain compatibility; consume the finite-coset carrier and the supplier’s inverse-limit comparison. Include the evaluation-pairing comparison for an index-two induced lattice: Shapiro followed by restriction to the two summands agrees with Galois-kernel evaluation, and with prime-to-`p` averaging of a lifted Frobenius. This is the comparison consumed by the induced-depth abundant-tuple criterion.
+
+This supplies Layer 1.15 Existence of abundant tuples under the corrected span hypothesis.
+
+### Finite-character hypothesis for the coefficient-prime application
+
+Layer 8.34 assumes the following arithmetic assertion for the two residual characters, in both `p`-adic orientations: for `O` containing their Teichmüller values, the dual full/unramified Selmer group of `O(θ)⊗Λ^∨` is finitely generated `Λ`-torsion with `μ=0`, including `θ` locally 1 or `ω` and `θ` globally trivial, with the trivial-character augmentation factor retained. Keller–Yin Theorem 1.2.2, pp.13–14 (arXiv v2), proves this assertion from the CM main conjecture and analytic `μ`-vanishing. It is an explicit premise of the application here. Constructing elliptic units and Katz measures and proving that premise are outside this conditional application; its generic Rubin bound does not consume that verification.
+
+### From SelmerIwasawaCohomology Layer 3
+
+Consume finite Cartier-dual Poitou–Tate, the compact/discrete inverse-limit and Shapiro comparisons, coefficient propagation, Iwasawa cohomology finite generation and local Euler characteristics, with their hypotheses. Layer 8.35 constructs the arithmetic additions for the stated anticyclotomic modular lattice: OrdinaryCoefficientPrime.local proves the local invariant/`H²` correction vanishings, ordinary rank-one freeness and exact orthogonality; `corrections` proves the unramified/strict dictionary at `(π)`; `change` constructs the two condition-change sequences and computes the balanced full/zero ranks. It uses KY1.0.1–1.0.2 pp.8–9 and KY1.3.4–1.3.6 pp.20–23. No existing SelmerIwasawaCohomology target is credited with these arithmetic verifications.
+
+This supplies Layer 8.35 From unramified `μ`-vanishing to the ordinary coefficient-prime bound; Layer 8.34 Residual transfer of anticyclotomic `μ`-vanishing.
+
+The resulting ordinary `μ`-vanishing is the conclusion of §8.35, using precisely these finite-character and local hypotheses.
+
+### Representative Lean signatures
+
+The complete statements above are definitive. `Suggested.lean` states `compactIrreducible_h1_vanish` and `integralComparison_finiteCokernel_maximalDivisible` from §4.2a on native continuous cohomology, using the canonical lattice quotient map for the integral comparison. The infinite-base classification of §4.2b requires the joint arithmetic extension and its quotient Galois action. The arithmetic system headlines have no compiled statements because their carriers are absent at the pins. The core-rank formulas of §0.10 and the finite–singular and prime-selection results of Layer 1 require coefficient-linear arithmetic cohomology and local conditions. The Euler congruence and derivative maps of §§2.3, 3.14 and 3.16–3.19 require actual Euler and Kolyvagin families. The Selmer bounds of §§4.7, 4.13 and 4.17–4.21 and the structure and primitivity theorems of §§5.3, 5.6, 5.10 and 5.13 require their Selmer carriers. The higher-rank regulator, Fitting and class-group results of §§6.6, 6.8, 7.2, 7.4, 7.5a and 7.6 require Stark systems and their arithmetic transition and determinant maps. The weak Leopoldt, primitivity and divisibility theorems of §§8.25–8.39 also require Iwasawa Selmer modules, specialization and characteristic ideals. The algebraic operations supplied by Mathlib and Tau Ceti do not by themselves define these objects. The API bullets and Checks specify mathematical operations and examples in prose; existing supplier declarations retain their library names.
 
 ## References
 

@@ -1,121 +1,95 @@
 # Roadmap: local fields and ramification, part II — general valued fields
 
-**Summary.** This roadmap extends [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md)
-from nonarchimedean local fields to fields with an arbitrary Krull valuation: valuations of any
-height, with any ordered value group, on fields that need not be complete or henselian and whose
-residue fields need not be perfect. Starting from Mathlib's valuation subrings, decomposition and
-inertia subgroups and Krasner property, from Tau Ceti's henselization and strict henselization,
-profinite Sylow theory and cohomological dimension, and from the strict localization of valuation
-rings and the tame quotient of a henselian field with separably closed residue field in
-ClassicalAdicEtaleCohomology, it builds the
-ramification tower `Kʰ ⊆ Kᵘ ⊆ Kᵗ ⊆ Kˢ` of a valued field, the six classes of algebraic extensions
-(strictly unramified, unramified, tame, henselian, totally ramified, purely wild) with their tower
-laws, maximal complements, decompletion in height one, composition of valuations and the algebraic
-Abhyankar inequality. Its end theorems are Temkin's tameness theorem — a valued field with
-residue characteristic exponent `p` and no nontrivial finite extension of `p`-power degree is tame,
-that is, every algebraic extension is tame at every prolongation — and its separable form: a field
-without nontrivial finite separable extension of `P`-number degree is separably tame at every
-valuation whose residue characteristic lies in `P`. On the way it proves the Kuhlmann–Pank–Roquette
-splitting `Kᵗ ⊗_K K_w ≅ Kᵃ` over henselian fields and in height one, and one profinite input of
-that splitting: sections of profinite surjections with pro-`p` kernel onto groups of
-`p`-cohomological dimension at most one. The other input, `cd_p(G_F) ≤ 1` for fields of
-characteristic `p`, belongs to ProfiniteCohomology.
+**Summary.** For a finite extension `L/K` of nonarchimedean local fields, the degree is the product
+`[L : K] = e·f` of the ramification index and the residue degree. For a general valued field this
+can fail in two ways. A finite extension can carry several prolongations of the valuation, and even
+over a henselian field an immediate Artin–Schreier extension has `e = f = 1` and degree `p`. This
+roadmap extends [Local fields and ramification](../../Completed/LocalFieldsRamification/README.md)
+to fields with an arbitrary Krull valuation, following Temkin (2017). The valuation may have any
+height (the Krull dimension of its valuation ring) and any value group. The field need not be
+complete or henselian, nor its residue field perfect.
 
-## Scope and ownership
+Here `p` is the characteristic exponent of the residue field, which is `1` in residue characteristic
+zero. Inside an algebraic closure `Kᵃ`, with separable closure `Kˢ` and a fixed prolongation, the
+roadmap builds the ramification tower `K ⊆ Kʰ ⊆ Kᵘ ⊆ Kᵗ ⊆ Kˢ` of the henselization, the maximal
+unramified extension and the maximal tame extension. An algebraic extension is unramified or tame
+when it lies in `Kᵘ` or `Kᵗ`, and totally ramified or purely wild when it is linearly disjoint from
+`Kᵘ` or `Kᵗ`. Following Temkin, `K` is a tame field when `Kᵃ = Kᵗ`, that is, when every algebraic
+extension is tame at every prolongation, and separably tame when `Kˢ = Kᵗ`. Neither notion includes
+a henselian hypothesis.
 
-The base roadmap, LocalFieldsRamification, stops at finite extensions of nonarchimedean local
-fields: discrete valuations, finite residue fields and the formula `[L : K] = e·f`. This Part II
-owns the general theory below; its comparison with the base roadmap, and with
-RamificationOfCompleteDiscretelyValuedFields, is §2.9.
+The main result is Temkin's tameness theorem. If a valued field `K`, of any height, has no
+nontrivial finite extension whose degree is a power of `p`, then `K` is a tame field. For `p = 1`
+the hypothesis is empty. For example `ℂ_p` is tame, while `ℚ_p` fails the hypothesis: `X^p − p`
+gives an extension of degree `p`.
 
-**Owned here.** Prime-supported degrees, `P`-extensions, `P`-closed and separably `P`-closed
-fields and split towers (Layer 0); normalization and prolongations of a valuation in a finite
-extension, the behaviour of valuation rings under étale maps and henselization, the
-henselization of a valued field, the tensor decomposition `L ⊗_K Kʰ ≅ ∏ L_wʰ`, the homogenization
-of finite-type algebras and finite modules, finite presentation of flat graded algebras and modules
-over a ring with finitely many primes detecting zero, the flat-locus finite-presentation theorem,
-and, over an arbitrary domain, finite presentation of flat finite-type algebras and of finite
-modules over finite-type algebras that are flat over the domain (Layer 1); the étale criterion for
-unramified extensions, the ramification tower, the six extension classes, tame and separably tame
-fields, their tower laws and the comparison with perfection, with local fields and with complete
-discretely valued fields (Layer 2); the section theorem for pro-`p` kernels, maximal extensions
-with prescribed ramification, the elementary complements, the splitting equivalences and the
-Kuhlmann–Pank–Roquette theorem (Layer 3); the rank-one Krasner and root-continuity bridge,
-decompletion and the height-one splitting and tameness theorems (Layer 4); composed valuations,
-finite-height coarsening chains, the Abhyankar inequality and the height bound, and the composition
-criteria (Layer 5); and the general tameness theorem with its separable export (Layer 6).
+The separable form is the one valid for imperfect fields. Let `P` be a set of natural numbers, and
+suppose `K` has no nontrivial finite separable extension whose degree has all its prime factors in
+`P`. Then `K` is separably tame at every valuation whose residue characteristic exponent lies in
+`P`; nothing is claimed at other valuations. The separable closure of `𝔽_p(t)` is separably tame for
+every valuation but not tame, because of `t^{1/p}`.
 
-**Left to other roadmaps and the libraries.**
-- The henselization of a pair, its universal property, the local case, functoriality, ind-étaleness
-  and flatness, directed colimits and radical-equivalent ideals are at the pinned Tau Ceti
-  (`TauCeti.Henselization.algebra`, `TauCeti.Henselization.existsUnique_lift`,
-  `TauCeti.Henselization.existsUnique_isLocalHom`, `TauCeti.Henselization.map`,
-  `TauCeti.Henselization.indEtale`, `TauCeti.Henselization.directLimitEquiv`,
-  `TauCeti.Henselization.algEquivOfRadicalEq`); the henselization at a prime, integral base change
-  and products over pairwise coprime ideals are SchemeAndStackFoundations §0.12
-  (`henselization_at_prime`) and §0.13 (`henselization_integral_base_change`,
-  `henselization_coprime_product`). This roadmap proves that the henselization of a valuation ring
-  is a valuation ring and builds the valued field on it (§§1.2–1.3); it defines no second
-  henselization functor.
-- The strict henselization of a local ring with respect to a separable closure of its residue field
-  is Tau Ceti's `TauCeti.StrictHenselization.algebra`, with
-  `TauCeti.StrictHenselization.existsUnique_lift`, `TauCeti.StrictHenselization.map` and
-  `TauCeti.StrictHenselization.fromHenselization`. That for a valuation ring it is a strictly
-  henselian valuation ring with the same value group and residue field the chosen separable closure,
-  its description as a localization of the invariants of the inertia subgroup of a prolongation to
-  `Kˢ`, and the isomorphism of decomposition modulo inertia with the absolute Galois group of the
-  residue field, are ClassicalAdicEtaleCohomology §5.1. The structure of `Gal(Kᵗ/K)` for a henselian
-  `K` with separably closed residue field and arbitrary value group (the character group of
-  `Γ ⊗ ℤ_(p′)/Γ`, the finite-level surjection with `p`-group kernel, and `Gal(Kˢ/Kᵗ)` the unique
-  Sylow pro-`p` subgroup) is ClassicalAdicEtaleCohomology §5.3. §§1.2 and 2.2–2.3, and the targets
-  that rest on the tame closure, use them.
-- Finite extensions of nonarchimedean local fields, their unramified, totally ramified, tame and wild
-  classes, wild inertia `P_K`, the tame character and arithmetic Frobenius are LocalFieldsRamification,
-  Layers 2–4, and are at the pinned Tau Ceti (`TauCeti.IsUnramified`, `TauCeti.ramificationIndex`,
-  `TauCeti.inertiaDegree`, `TauCeti.IsTamelyRamified`, `TauCeti.maximalUnramifiedExtension`,
-  `TauCeti.maximalTameExtension`, `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`,
-  `TauCeti.inertiaTameCharacter`, `TauCeti.IsArithFrobeniusLift`). §2.9 compares them with the
-  general classes and proves nothing about local fields that the base roadmap states.
-- Finite extensions of complete discretely valued fields with arbitrary residue field, their integer
-  rings, unramified and totally ramified classes, lower and upper ramification filtrations, the
-  different and Herbrand functions are RamificationOfCompleteDiscretelyValuedFields, Layers 3a–4a.
-  §2.9 compares its unramified and totally ramified extensions with the classes here and states
-  nothing about filtrations.
-- Decomposition and inertia subgroups of a valuation subring are Mathlib's
-  `ValuationSubring.decompositionSubgroup` and `ValuationSubring.inertiaSubgroup`; coarsenings and
-  their inverse laws are Mathlib's `ValuationSubring.ofPrime` and `ValuationSubring.idealOfLE`;
-  convex subgroups and coarsening of a valuation by a convex subgroup are Tau Ceti's
-  `TauCeti.ConvexSubgroup` and `Valuation.coarsenByUnits`; the Krasner property is Mathlib's
-  `IsKrasner`, and continuity of roots over a normed field in one direction is Mathlib's
-  `Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt`.
-- That the prolongations of a valuation subring to an algebraic extension are pairwise
-  incomparable and that finitely many of them are separated by elements that are units at one and
-  nonunits at the others are Tau Ceti's `ValuationSubring.eq_of_le_of_comap_eq` and
-  `ValuationSubring.exists_valuation_eq_one_and_lt_one`; §1.1 builds the normalization and the
-  bijection with maximal ideals on them.
-- Profinite Sylow theory (ProfiniteProPGroups, Layer 2) and the equality of `cd_p` of a profinite
-  group with that of its Sylow pro-`p` subgroups (ProfiniteProPGroups, Layer 6) are at the pinned
-  Tau Ceti: `TauCeti.IsProPSylow`, `TauCeti.exists_isProPSylow`,
-  `TauCeti.IsProPSylow.exists_map_conj_eq`, `TauCeti.IsProPSylow.eq_of_normal`,
-  `TauCeti.IsProPSylow.map_of_surjective` and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`. The
-  invariant `cd_p` itself, its reduction to finite coefficients and its monotonicity on closed
-  subgroups are ProfiniteCohomology, Layer 11, implemented as Tau Ceti's
-  `TauCeti.cohomologicalDimensionAt`,
-  `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ` and
-  `TauCeti.cohomologicalDimensionAt_le_of_isClosed`. The finite embedding problems with `p`-group
-  kernel, their finite-level solutions and the inverse-limit lifting (ProfiniteProPGroups, Layer 5)
-  and the passage from `cd_p ≤ 1` to their solvability (ProfiniteProPGroups, Layer 6) are at the
-  pinned Tau Ceti as well: `TauCeti.HasPGroupSolutions`,
-  `TauCeti.exists_continuous_lift_of_compatible_levelSolutions` and
-  `TauCeti.CohomologicalDimensionLE.hasElementaryAbelianSolutions`; §3.1 proves only the
-  compatibility of the level solutions for a pro-`p` kernel.
-- The bound `cd_p(G_F) ≤ 1` for every field `F` of characteristic `p`, from the Artin–Schreier
-  sequence and the vanishing of `Hⁱ(G_F, Fˢ)` for `i ≥ 1`, belongs to ProfiniteCohomology, Layer 9,
-  through the supplier contract below; §3.5 applies it to the residue field. The additive Hilbert 90
-  `H¹(G_F, Fˢ) = 0` is at the pinned Tau Ceti (`TauCeti.additiveHilbert90`).
-- Descent of finite presentation and descent of étaleness from the source of a faithfully flat
-  morphism (EGA IV, 17.7.5(iv) and 17.7.7) belong to SchemeAndStackFoundations, Layer 1; §2.1 uses
-  them through the two supplier contracts below.
+On the way the roadmap proves the splitting theorem of Kuhlmann, Pank and Roquette. Let `K` be
+henselian and `E` a maximal purely wild extension of `K` inside `Kᵃ`. Then multiplication
+`Kᵗ ⊗_K E → Kᵃ` is an isomorphism. In height one this holds without the henselian hypothesis. One
+input is proved here: for a prime `p`, a continuous surjective homomorphism of profinite groups with
+pro-`p` kernel, onto a group of `p`-cohomological dimension at most one, has a continuous
+homomorphic section. The other input, `cd_p(G_F) ≤ 1` for fields of characteristic `p`, belongs to
+ProfiniteCohomology.
+
+The roadmap also proves the Abhyankar inequality: for an extension of valued fields `L/K`, the
+rational rank of the value group quotient `Γ_L/Γ_K`, plus the transcendence degree of the residue
+field extension, is at most the transcendence degree of `L/K`. A companion bound shows that every
+valuation on a field of finite transcendence degree over its prime field has finite height.
+
+The tame part of the tower rests on ClassicalAdicEtaleCohomology, which describes henselian fields
+with separably closed residue field. For finite extensions of nonarchimedean local fields, the
+unramified, totally ramified and tame extensions here are those of Local fields and ramification.
+AdicCoefficientsAndComparisonsPartII uses the unramified and tame classes and both tameness
+theorems, and QuadraticFormInvariantsPartII uses the henselization, Krasner's lemma and the height
+bound.
+
+Layer 0 is field theory without valuations. Layer 1 builds the henselization of a valued field, and
+proves that a flat algebra of finite type over a domain is finitely presented. Layer 2 builds the
+tower and six classes of extensions. Above it the build has two independent branches. Layer 3 proves
+the splitting over henselian fields. Layer 4 proves Krasner's lemma over a henselian, possibly
+incomplete, base and uses approximation to extend the splitting to height one. Layer 5 composes
+valuations and proves the Abhyankar inequality. Layer 6 joins the branches, proving the tameness
+theorem by induction on the height and by descent to subfields of finite transcendence degree.
+
+## How to read the build
+
+Layer 0 is field theory without valuations: prime-supported degrees, `P`-closed fields and split
+towers. Layer 1 studies valuation rings in algebraic extensions and builds the henselization of a
+valued field on the henselization of pairs, with the tensor decomposition of a finite extension.
+Layer 2 builds the ramification tower `Kʰ ⊆ Kᵘ ⊆ Kᵗ ⊆ Kˢ`, defines the six extension classes and
+tame fields, and proves their tower laws; the tame part of the tower rests on the structure of
+henselian fields with separably closed residue field, imported from ClassicalAdicEtaleCohomology
+§5.3. Above Layer 2 the build has two independent branches, which meet only in Layer 6. The first
+reduces the splitting of `Kᵃ/Kᵗ/K` to profinite group theory: Layer 3 proves the section theorem
+for pro-`p` kernels and, with it and the bound `cd_p(G_κ) ≤ 1` of ProfiniteCohomology for the
+residue field, the splitting over henselian fields, and Layer 4 uses rank-one approximation
+to descend from `Kʰ` to `K` and so extends the splitting and the tameness of `p`-closed fields to
+height one. The second, Layer 5, composes valuations, controls finite height and proves the
+Abhyankar inequality; it uses only Layers 1 and 2 and none of Layers 3–4, so it can be built before,
+after or alongside them, and its number expresses no dependency. Layer 6 joins the branches: it
+proves tameness of `p`-closed fields by induction on finite height, with the height-one case from
+Layer 4 and the inductive step from Layer 5, and by descent to subfields of finite transcendence
+degree through Layer 5's height bound, and it exports the separable statement. Each target's
+*Needs:* line lists what its statement and its proof route use; a different route may need less.
+
+Layer `k` is also cited as `GF.k`, for `k = 0, …, 6`, and its targets as `GF.k/<name>`; the table
+gives the section of each such identifier.
+
+| Former identifier | Section here |
+|---|---|
+| `GF.0` | Layer 0: `prime-supported-degree` §0.1; `p-extensions` §0.2; `p-closed` and `separably-p-closed` §0.3; `maximal-p-extension` §0.4; `split-tower` §0.5 |
+| `GF.1` | Layer 1: `normalization-and-prolongations` §1.1; `valued-henselization` §§1.2–1.3; `henselian-tensor-decomposition` §1.4 |
+| `GF.2` | Layer 2: `unramified-etale-criterion` §2.1; `ramification-tower` §2.2; `unramified-extension` and `strictly-unramified-extension` §2.3; `tame-extension` §2.4; `henselian-extension` and `henselian-disjointness` §2.5; `totally-ramified-extension` and `purely-wild-extension` §2.6; `tame-field` and `separably-tame-field` §2.7; `tower-laws` §2.8; `local-field-comparison` §2.9; `perfection-tame-tower` §2.10 |
+| `GF.3` | Layer 3: `maximal-ramification-extension` §3.2; `elementary-complements` §3.3; `splitting-equivalences` §3.4; `henselian-pank` §3.5 |
+| `GF.4` | Layer 4: `rank-one-krasner` §4.1; `rank-one-decompletion` §4.2; `maximal-wild-henselization` §4.3; `rank-one-pank` §4.4; `rank-one-p-closed` §4.5 |
+| `GF.5` | Layer 5: `composed-valuation` §5.1; `finite-height-chain` §5.2; `abhyankar-and-rank` §5.3; `unramified-composition` §5.4; `tame-composition` §5.5; `tame-field-composition` §5.6 |
+| `GF.6` | Layer 6: `p-closed-residue-divisibility` §6.1; `finite-height-tameness` §6.2; `finite-height-descent` §6.3; `general-tameness` §6.4; `separable-p-closed-tameness` §6.5 |
 
 ## Conventions
 
@@ -162,290 +136,6 @@ criteria (Layer 5); and the general tameness theorem with its separable export (
 - **Galois groups.** `G_K` is Mathlib's `Field.absoluteGaloisGroup K` with the Krull topology,
   identified with `Gal(Kˢ/K)` through Tau Ceti's `TauCeti.absoluteGaloisGroupRestrictEquiv`.
   Fixed fields of subgroups of `G_K` are taken in `Kˢ`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ValuationSubring`, `ValuationSubring.comap`, `ValuationSubring.ofPrime`,
-  `ValuationSubring.idealOfLE`, `ValuationSubring.ofPrime_idealOfLE`,
-  `ValuationSubring.idealOfLE_ofPrime`, `Mathlib/RingTheory/Valuation/ValuationSubring.lean`: the
-  carrier, restriction along a field map and the order-reversing correspondence between overrings
-  and primes. Used in Layers 1, 5 and 6 as stated; nothing is assumed beyond these inverse laws.
-- `ValuationSubring.decompositionSubgroup` (the stabilizer of `A` in `L ≃ₐ[K] L`) and
-  `ValuationSubring.inertiaSubgroup` (the kernel of the action of the decomposition group on the
-  residue field of `A`), `Mathlib/RingTheory/Valuation/RamificationGroup.lean`. For infinite `L/K`
-  these are subgroups of the full automorphism group; neither the wild subgroup nor any fixed field
-  is provided.
-- `Valuation.HasExtension`, the instances `Valuation.HasExtension.instAlgebraInteger`,
-  `Valuation.HasExtension.instAlgebra_valuationSubring` and
-  `Valuation.HasExtension.instIsLocalHomValuationInteger`, and `Valuation.HasExtension.mapValueGroup₀`,
-  `Mathlib/RingTheory/Valuation/Extension.lean`: extension of valuations, the induced local map of
-  valuation rings, hence of residue fields, and the induced order embedding of value groups.
-- `Valuation.RankOne`, `Mathlib/RingTheory/Valuation/RankOne.lean`: an order embedding of the value
-  group into `ℝ≥0` for a nontrivial valuation; used in §4.1.
-- `IsKrasner`, `IsKrasner.krasner`, `IsKrasner.of_completeSpace_of_normal` and the instance
-  `IsKrasner.of_completeSpace`, `Mathlib/Analysis/Normed/Field/Krasner.lean`: the Krasner property,
-  proved there for a complete nontrivially normed ultrametric base and an algebraic (in the first
-  form, normal) extension whose norm extends that of the base. §4.1 proves it for a henselian base
-  without completeness.
-- `NormedField.valuation`, `Mathlib/Topology/Algebra/Valued/NormedValued.lean`: the `ℝ≥0`-valued
-  valuation `x ↦ ‖x‖₊` of an ultrametric normed field, whose valuation subring is `{x | ‖x‖ ≤ 1}`;
-  used in §4.1 to say that a normed field is henselian.
-- `Polynomial.exists_roots_norm_sub_lt_of_norm_coeff_sub_lt` and
-  `Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt`,
-  `Mathlib/Analysis/Normed/Field/Approximation.lean`: continuity of roots over a normed field: for
-  monic `f`, `g` of the same degree whose coefficients differ by less than `ε`, and `g` split, every
-  root `a` of `f` is within `((deg f + 1)·ε)^{1/deg f}·max(‖a‖, 1)` of some root of `g`. It has no
-  Krull-valued form, no statement from the roots of `g` to those of `f`, and no uniqueness of the
-  paired root; §4.1 proves those.
-- `IntermediateField.LinearDisjoint`, `IntermediateField.LinearDisjoint.isField_of_isAlgebraic`,
-  `Algebra.TensorProduct.isField_of_isAlgebraic`, `Mathlib/FieldTheory/LinearDisjoint.lean`, and
-  `IntermediateField.linearDisjoint_of_isPurelyInseparable_of_isSeparable`,
-  `Mathlib/FieldTheory/PurelyInseparable/Tower.lean`: linear disjointness, the tensor product of two
-  algebraic extensions being a field under linear disjointness, and disjointness of separable and
-  purely inseparable extensions.
-- `IsPurelyInseparable.finrank_eq_pow`, `Mathlib/FieldTheory/PurelyInseparable/Basic.lean`: finite
-  purely inseparable extensions have degree a power of the characteristic exponent.
-- `Nat.factoredNumbers`, `Mathlib/NumberTheory/SmoothNumbers.lean`: for a finset `s`, the nonzero
-  natural numbers all of whose prime factors lie in `s`; §0.1 compares it with `P`-numbers.
-- `HenselianLocalRing`, `Mathlib/RingTheory/Henselian.lean`; `ringKrullDim`,
-  `Mathlib/RingTheory/KrullDimension/Basic.lean`; `IsDiscreteValuationRing.ringKrullDim_eq_one`,
-  `Mathlib/RingTheory/DiscreteValuationRing/TFAE.lean`; `Algebra.trdeg` and `AlgebraicIndependent`,
-  `Mathlib/RingTheory/AlgebraicIndependent/Basic.lean`; `ringExpChar`,
-  `Mathlib/Algebra/CharP/Defs.lean`; `PerfectField`; `Field.absoluteGaloisGroup`,
-  `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean` (with its derived `IsTopologicalGroup` instance).
-- `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Etale/Descent.lean`,
-  and `Algebra.FinitePresentation.of_finitePresentation_tensorProduct_of_faithfullyFlat`,
-  `Mathlib/RingTheory/Finiteness/Descent.lean`: descent of étaleness and finite presentation along a
-  faithfully flat base change. They are descent along the base, not from the source of a faithfully
-  flat morphism, which is the separate contract with SchemeAndStackFoundations below.
-- `Algebra.FinitePresentation`, `Mathlib/RingTheory/FinitePresentation.lean`;
-  `Module.FinitePresentation`, `Mathlib/Algebra/Module/FinitePresentation.lean`;
-  `Module.Flat.flat_iff_torsion_eq_bot_of_valuationRing_localization_isMaximal`,
-  `Mathlib/RingTheory/Flat/TorsionFree.lean` (over a domain whose localizations at maximal ideals
-  are valuation rings, a module is flat exactly when it is torsion free; it says nothing about finite
-  presentation); `HomogeneousLocalization.Away`,
-  `Mathlib/RingTheory/GradedAlgebra/HomogeneousLocalization.lean` (the degree-zero part `S_(f)` of
-  the localization of a graded ring at a homogeneous element). Used in §1.5.
-
-### From Tau Ceti
-
-- `TauCeti.AbsoluteGaloisGroup` and `TauCeti.absoluteGaloisGroupRestrictEquiv`,
-  `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`: `Gal(Kˢ/K)` and its identification
-  with `G_K`.
-- `TauCeti.IsProP`, `TauCeti/Topology/Algebra/Group/Profinite/ProP/Basic.lean`: every quotient by an
-  open normal subgroup is a `p`-group.
-- `TauCeti.IsProPSylow` (`.../Profinite/Sylow/Basic.lean`), `TauCeti.exists_isProPSylow`
-  (`.../Sylow/Existence.lean`), `TauCeti.IsProPSylow.exists_map_conj_eq` and
-  `TauCeti.IsProPSylow.eq_of_normal` (`.../Sylow/Conjugacy.lean`),
-  `TauCeti.IsProPSylow.map_of_surjective` (`.../Sylow/Functoriality.lean`: the image of a Sylow
-  pro-`p` subgroup under a continuous surjection from a compact group to a Hausdorff group is Sylow
-  pro-`p`) and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`
-  (`.../Sylow/CohomologicalDimension.lean`: `cd_p G = cd_p P` for a Sylow pro-`p` subgroup `P` of a
-  profinite group `G`). No finite generation is assumed in any of them.
-- `TauCeti.cohomologicalDimensionAt` and `TauCeti.CohomologicalDimensionLE`,
-  `TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/Basic.lean`: the
-  `ℕ∞`-valued `cd_p`, defined by vanishing of continuous cohomology of discrete `p`-primary torsion
-  modules in all degrees above the bound; `TauCeti.cohomologicalDimensionAt_le_iff` (same file):
-  `cd_p G ≤ n` is the vanishing predicate `TauCeti.CohomologicalDimensionLE p G n`;
-  `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ` (`SingleDegree.lean`
-  in the same directory: for `p ≠ 0` and a compact `G`, `cd_p G ≤ n` exactly when `Hⁿ⁺¹(G, M)`
-  vanishes for every finite discrete `p`-primary `M`) and
-  `TauCeti.cohomologicalDimensionAt_le_of_isClosed` (`ClosedSubgroup.lean`: `cd_p U ≤ cd_p G` for a
-  closed subgroup `U` of a profinite `G`); `TauCeti.zHat.cohomologicalDimensionAt_eq_one`
-  (`TauCeti/Topology/Algebra/Group/Profinite/ZHat/CohomologicalDimension.lean`: `cd_p Ẑ = 1` for
-  every prime `p`), used in a Check of §3.5.
-- The finite embedding problems of a profinite group,
-  `TauCeti/Topology/Algebra/Group/Profinite/EmbeddingProblem/`: `TauCeti.HasPGroupSolutions`
-  (`PGroupKernel.lean`: every finite embedding problem for `G` with `p`-group kernel has a solution)
-  with `TauCeti.HasElementaryAbelianSolutions.hasPGroupSolutions` (same file: the elementary abelian
-  case suffices, by the lower `p`-central series);
-  `TauCeti.CohomologicalDimensionLE.hasElementaryAbelianSolutions` (`CohomologicalDimension.lean`:
-  `cd_p G ≤ 1` gives the elementary abelian case);
-  `TauCeti.LevelSolution` and `TauCeti.levelSolutionMap` (`Level.lean`, `Compatible.lean`: for a
-  continuous surjection `α : A ↠ B` of profinite groups and a continuous `f : G → B`, the solutions
-  of the finite-level problem at an open normal subgroup `U` of `A`, and their transition maps along
-  `V ≤ U`); `TauCeti.exists_continuous_lift_of_compatible_levelSolutions` (`Lift.lean`: a compatible
-  family of level solutions assembles into a continuous homomorphism `G → A` over `B`, with no
-  pro-`p` hypothesis on `A`); `TauCeti.HasPGroupSolutions.exists_compatible_levelSolutions`,
-  `TauCeti.isProjective_of_hasPGroupSolutions` and `TauCeti.IsProjective.exists_continuous_lift`
-  (`Projective.lean`: the compatible family and the lift when the source `A` is pro-`p`). Used in
-  §3.1, which supplies the compatible family for a pro-`p` kernel instead.
-- `Subgroup.exists_minimal_isClosed_le`, `TauCeti/Topology/Algebra/Group/ClosedSubgroup.lean`: a
-  closed subgroup of `A × G`, with `A` compact, projecting onto `G` contains a minimal closed
-  subgroup projecting onto `G`. Used in §3.1.
-- `TauCeti.linearDisjoint_fieldRange_of_isIntegrallyClosedIn`,
-  `TauCeti/FieldTheory/Minpoly/IsIntegrallyClosedIn.lean`: for fields `k ⊆ F` with `k` relatively
-  algebraically closed in `F` (`IsIntegrallyClosedIn k F`) and a separable extension `k′/k`, the
-  image of `k′` in any common overfield `E` (with compatible scalar towers) is linearly disjoint from
-  `F` over `k`. Used in §6.3.
-- `ValuationSubring.eq_of_le_of_comap_eq` and `ValuationSubring.exists_valuation_eq_one_and_lt_one`,
-  `TauCeti/RingTheory/Valuation/AlgebraicExtension.lean`: for an algebraic extension `L/K`, two
-  valuation subrings `A ≤ B` of `L` with the same restriction to `K` are equal, and a finite set of
-  valuation subrings of `L` all restricting to a valuation subring `O` of `K` admits a family `e`
-  with `e A` a unit of `A` and a nonunit of every other member. Used in §1.1.
-- The ramification of finite extensions of nonarchimedean local fields,
-  `TauCeti/NumberTheory/LocalField/`: `TauCeti.ramificationIndex`, `TauCeti.IsTotallyRamified` and
-  `TauCeti.IsTamelyRamified` (`RamificationIndex.lean`, tame meaning that the residue
-  characteristic does not divide the ramification index), `TauCeti.inertiaDegree`,
-  `TauCeti.ramificationIndex_mul_inertiaDegree` and
-  `TauCeti.isTotallyRamified_iff_inertiaDegree_eq_one` (`InertiaDegree.lean`), `TauCeti.IsUnramified`
-  (`Unramified/Basic.lean`: ramification index `1` and separable residue extension),
-  `TauCeti.maximalUnramifiedExtension` (`Unramified/Maximal.lean`), `TauCeti.inertiaSubgroup` and
-  `TauCeti.IsArithFrobeniusLift` (`Unramified/Inertia/Basic.lean`), `TauCeti.maximalTameExtension`
-  and `TauCeti.wildInertiaSubgroup` (`WildInertia.lean`: the field generated by the `m`-th roots of
-  `Kˣ` for `m` prime to the residue characteristic, and its fixing subgroup in
-  `Field.absoluteGaloisGroup K`) and `TauCeti.inertiaTameCharacter` (`Tame/Character.lean`: the
-  continuous surjection from inertia onto the prime-to-`p` Tate module with kernel the wild
-  inertia). All assume `IsNonarchimedeanLocalField`. Used only in the comparison §2.9.
-- `TauCeti.ConvexSubgroup` (`TauCeti/Algebra/Order/Group/ConvexSubgroup.lean`: convex subgroups of
-  a linearly ordered group, totally ordered by inclusion, with ordered quotients) and
-  `Valuation.coarsenByUnits` (`TauCeti/RingTheory/Valuation/Coarsen.lean`: the coarsening of a
-  valuation by a convex subgroup of its value group).
-- The henselization of a pair, `TauCeti/RingTheory/Henselization/`: `TauCeti.Henselization.algebra I`
-  with `TauCeti.Henselization.extended I` (`Algebra.lean`), the instance
-  `TauCeti.Henselization.henselian` (`Henselian.lean`), the universal property
-  `TauCeti.Henselization.existsUnique_lift` and `TauCeti.Henselization.bijective_algebraMap_of_henselianRing`
-  (`Lift.lean`: for a henselian pair the structure map is bijective), and `TauCeti.Henselization.map`
-  (`Map.lean`). For a local ring `(R, 𝔪)` the henselization is `TauCeti.Henselization.algebra 𝔪`
-  (`Local.lean`): a henselian local ring (`TauCeti.Henselization.henselianLocalRing`), local over `R`
-  (`TauCeti.Henselization.isLocalHom_algebraMap`) with the residue field of `R`
-  (`TauCeti.Henselization.residueField_map_bijective`), universal among local maps to henselian local
-  rings (`TauCeti.Henselization.existsUnique_isLocalHom`). It is ind-étale
-  (`TauCeti.Henselization.indEtale`, `IndEtale.lean`), hence flat (`TauCeti.Algebra.IndEtale.flat`,
-  `TauCeti/RingTheory/Etale/IndEtale.lean`); it commutes with directed colimits of pairs, the ideal
-  of the colimit being generated by the images of the stage ideals
-  (`TauCeti.Henselization.directLimitEquiv`, `DirectLimit.lean`, Stacks Lemma 15.12.5); and it depends
-  only on the radical of the ideal (`TauCeti.Henselization.algEquivOfRadicalEq`, `Radical.lean`, Stacks
-  Lemma 15.12.6). No Noetherian hypothesis is assumed in any of them.
-- The strict henselization of a local ring `R` with respect to a separable closure `Ω` of its residue
-  field, `TauCeti/RingTheory/StrictHenselization/`: `TauCeti.StrictHenselization.algebra R Ω`, the
-  colimit of the étale `R`-algebras pointed by an `R`-algebra map to `Ω`, with
-  `TauCeti.StrictHenselization.stage` and `TauCeti.StrictHenselization.exists_stage_eq`
-  (`Algebra.lean`: every element comes from a pointed étale neighbourhood), the instance
-  `TauCeti.StrictHenselization.henselianLocalRing` (`Henselian.lean`), the universal property
-  `TauCeti.StrictHenselization.existsUnique_lift` (`Lift.lean`), functoriality
-  `TauCeti.StrictHenselization.map` (`Map.lean`) and the local map from the henselization
-  `TauCeti.StrictHenselization.fromHenselization` (`FromHenselization.lean`).
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-- §0.12: `henselization_at_prime`: for a prime `𝔭` of a ring `R`, the henselization of `R_𝔭` is the
-  filtered colimit of the étale `R`-algebras `S`, and of their localizations `S_𝔮`, over the pairs
-  `(S, 𝔮)` with `𝔮` over `𝔭` and `κ(𝔮) = κ(𝔭)`.
-- §0.13: `henselization_integral_base_change` (for an integral ring map `R → R'`, the henselization
-  of `R'` along `IR'` is `R' ⊗_R Rʰ`) and `henselization_coprime_product` (the henselization along
-  `I_1 ∩ ⋯ ∩ I_n` with the `I_i` pairwise coprime is the product of the henselizations along the
-  `I_i`). Assumed exactly as stated there.
-- What SchemeAndStackFoundations must provide (gap:source-side-fpqc-descent): for `f : X → Y`
-  faithfully flat and locally of finite presentation and `g : Y → Z` with `g ∘ f` of finite
-  presentation, `g` is of finite presentation when `f` is quasi-compact or `g` is quasi-separated
-  (EGA IV, Lemma 17.7.5(iv)).
-- What SchemeAndStackFoundations must provide (gap:source-side-etale-descent): for `S`-schemes `X`
-  and `Y` locally of finite presentation over `S`, an `S`-morphism `g : X → Y` flat at a point `x`
-  and `X → S` étale at `x`, the morphism `Y → S` is étale at `g(x)` (EGA IV, Proposition 17.7.7).
-
-### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
-
-- §5.1, the strict localization of a valuation ring: for a valuation ring `A` with fraction field
-  `K`, a separable closure `L` of its residue field `κ_A` and the strict henselization `Aˢʰ` of `A`
-  with respect to `L`: (a) `Aˢʰ` is a strictly henselian valuation ring with residue field `L`, and
-  `A → Aˢʰ` induces an isomorphism of value groups; (b) `Aˢʰ` is the localization of the invariants
-  `Y^I` at `𝔮 ∩ Y^I`, where `Y` is the integral closure of `A` in `Kˢ`, `𝔮` a maximal ideal of `Y`
-  and `D ⊇ I` the decomposition and inertia subgroups of `𝔮` in `Gal(Kˢ/K)`; (c) `D/I ≅ Gal(L/κ_A)`.
-  No rank, discreteness or Noetherian hypothesis. Used in §§1.2, 2.2 and 2.3.
-- §5.3, the tame quotient: for a field `K` with a henselian valuation ring whose residue field `κ`
-  is separably closed of characteristic exponent `p`, with arbitrary value group `Γ`, and `Kᵗ ⊆ Kˢ`
-  the union of the finite Galois subextensions of degree prime to `p`: (i) `Gal(Kᵗ/K)` is
-  isomorphic as a profinite group to `Hom(Γ ⊗ ℤ_(p′)/Γ, μ′(κ))`, where `ℤ_(p′)` is the ring of
-  rationals with denominators prime to `p` (`ℚ` for `p = 1`) and `μ′(κ)` the roots of unity of
-  order prime to `p`, so it is abelian of supernatural order prime to `p`; (ii) for every finite
-  Galois `E/K` in `Kˢ`, the map `Gal(E/K) → Hom(Γ_E/Γ, μ(κ))`, `σ ↦ (|x| ↦ σ(x)/x mod 𝔪_E)`, is
-  surjective with kernel a `p`-group whose fixed field is `E ∩ Kᵗ`; (iii) `Gal(Kˢ/Kᵗ)` is a closed
-  normal pro-`p` subgroup of `G_K` of index prime to `p`, its unique Sylow pro-`p` subgroup, trivial
-  for `p = 1`. Used in §§2.2, 2.4, 2.6, 2.8, 2.9 and 5.5.
-
-### From TauCetiRoadmap.LocalFieldsRamification
-
-- Layer 2 (*unramified extensions and Frobenius*): unramified extensions, the maximal unramified
-  extension and arithmetic Frobenius, at the pinned Tau Ceti as `TauCeti.IsUnramified`,
-  `TauCeti.maximalUnramifiedExtension` and `TauCeti.IsArithFrobeniusLift`.
-- Layer 3 (*ramification, the tame and wild cases, and the filtration*): `e`, `f` and
-  `[L : K] = e·f` (`TauCeti.ramificationIndex`, `TauCeti.inertiaDegree`,
-  `TauCeti.ramificationIndex_mul_inertiaDegree`), total ramification (`TauCeti.IsTotallyRamified`,
-  with `TauCeti.isTotallyRamified_iff_inertiaDegree_eq_one`) and tameness
-  (`TauCeti.IsTamelyRamified`).
-- Layer 4 (*the tame quotient of the absolute Galois group*): inertia `TauCeti.inertiaSubgroup`,
-  the maximal tame extension `TauCeti.maximalTameExtension`, wild inertia
-  `TauCeti.wildInertiaSubgroup`, and the tame character `TauCeti.inertiaTameCharacter` with its
-  arithmetic-Frobenius convention.
-  These are used only in the comparison §2.9; the Tau Ceti contract above gives their files.
-
-### From TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
-
-- §3a.1: for a finite Galois extension `L/K` of complete discretely valued fields with arbitrary
-  residue field, the integer ring of `L` is a complete discrete valuation ring free of rank `[L : K]`
-  over that of `K`, so `[L : K] = e·f`; an intermediate field `F` is unramified over `K` when
-  `e(F/K) = 1` and its residue extension is separable, and `L` is totally ramified over an
-  intermediate field when the residue degree is `1`. Used only in the comparison §2.9.
-
-### From TauCetiRoadmap.ProfiniteProPGroups
-
-- Layer 2 (profinite Sylow theory: existence, conjugacy, normal Sylow subgroups, images under
-  continuous surjections), Layer 5, items 5.1–5.6 (finite embedding problems, solvability with
-  elementary abelian and with `p`-group kernel, compatible systems of finite-level solutions and the
-  inverse-limit lifting for a pro-`p` source), and Layer 6 (Serre's theorem, step 1: `cd_p G ≤ 1`
-  solves the elementary abelian problems; `cd_p` of a profinite group equals that of its Sylow
-  pro-`p` subgroups). All are at the pinned Tau Ceti under the names in the Tau Ceti contract above.
-  Used in §§2.2, 3.1 and 3.5.
-
-### From TauCetiRoadmap.ProfiniteCohomology
-
-- Layer 11: the invariant `cd_p` with its finite-coefficient test in degree `n + 1` and its
-  monotonicity on closed subgroups, at the pinned Tau Ceti as `TauCeti.cohomologicalDimensionAt`,
-  `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ` and
-  `TauCeti.cohomologicalDimensionAt_le_of_isClosed` (Tau Ceti contract above). Used in §§3.1
-  and 3.5.
-- What ProfiniteCohomology must provide (gap:char-p-galois-h2-vanishing): for every prime `p` and
-  every field `F` of characteristic `p`, `H²(G_F, ℤ/p) = 0` for the trivial module, so that
-  `TauCeti.cohomologicalDimensionAt p (Field.absoluteGaloisGroup F) ≤ 1`, from the Artin–Schreier
-  sequence `0 → 𝔽_p → Fˢ → Fˢ → 0` and the vanishing of `Hⁱ(G_F, Fˢ)` for `i ≥ 1` (Serre, *Galois
-  Cohomology*, II §2.2, Proposition 3 and Corollary 1).
-
-## How to read the build
-
-Layer 0 is field theory without valuations: prime-supported degrees, `P`-closed fields and split
-towers. Layer 1 studies valuation rings in algebraic extensions and builds the henselization of a
-valued field on the henselization of pairs, with the tensor decomposition of a finite extension.
-Layer 2 builds the ramification tower `Kʰ ⊆ Kᵘ ⊆ Kᵗ ⊆ Kˢ`, defines the six extension classes and
-tame fields, and proves their tower laws; the tame part of the tower rests on the structure of
-henselian fields with separably closed residue field, imported from ClassicalAdicEtaleCohomology
-§5.3. Above Layer 2 the build has two independent branches, which meet only in Layer 6. The first
-reduces the splitting of `Kᵃ/Kᵗ/K` to profinite group theory: Layer 3 proves the section theorem
-for pro-`p` kernels and, with it and the bound `cd_p(G_κ) ≤ 1` of ProfiniteCohomology for the
-residue field, the splitting over henselian fields, and Layer 4 uses rank-one approximation
-to descend from `Kʰ` to `K` and so extends the splitting and the tameness of `p`-closed fields to
-height one. The second, Layer 5, composes valuations, controls finite height and proves the
-Abhyankar inequality; it uses only Layers 1 and 2 and none of Layers 3–4, so it can be built before,
-after or alongside them, and its number expresses no dependency. Layer 6 joins the branches: it
-proves tameness of `p`-closed fields by induction on finite height, with the height-one case from
-Layer 4 and the inductive step from Layer 5, and by descent to subfields of finite transcendence
-degree through Layer 5's height bound, and it exports the separable statement. Each target's
-*Needs:* line lists what its statement and its proof route use; a different route may need less.
-
-Layer `k` is also cited as `GF.k`, for `k = 0, …, 6`, and its targets as `GF.k/<name>`; the table
-gives the section of each such identifier.
-
-| Former identifier | Section here |
-|---|---|
-| `GF.0` | Layer 0: `prime-supported-degree` §0.1; `p-extensions` §0.2; `p-closed` and `separably-p-closed` §0.3; `maximal-p-extension` §0.4; `split-tower` §0.5 |
-| `GF.1` | Layer 1: `normalization-and-prolongations` §1.1; `valued-henselization` §§1.2–1.3; `henselian-tensor-decomposition` §1.4 |
-| `GF.2` | Layer 2: `unramified-etale-criterion` §2.1; `ramification-tower` §2.2; `unramified-extension` and `strictly-unramified-extension` §2.3; `tame-extension` §2.4; `henselian-extension` and `henselian-disjointness` §2.5; `totally-ramified-extension` and `purely-wild-extension` §2.6; `tame-field` and `separably-tame-field` §2.7; `tower-laws` §2.8; `local-field-comparison` §2.9; `perfection-tame-tower` §2.10 |
-| `GF.3` | Layer 3: `maximal-ramification-extension` §3.2; `elementary-complements` §3.3; `splitting-equivalences` §3.4; `henselian-pank` §3.5 |
-| `GF.4` | Layer 4: `rank-one-krasner` §4.1; `rank-one-decompletion` §4.2; `maximal-wild-henselization` §4.3; `rank-one-pank` §4.4; `rank-one-p-closed` §4.5 |
-| `GF.5` | Layer 5: `composed-valuation` §5.1; `finite-height-chain` §5.2; `abhyankar-and-rank` §5.3; `unramified-composition` §5.4; `tame-composition` §5.5; `tame-field-composition` §5.6 |
-| `GF.6` | Layer 6: `p-closed-residue-divisibility` §6.1; `finite-height-tameness` §6.2; `finite-height-descent` §6.3; `general-tameness` §6.4; `separable-p-closed-tameness` §6.5 |
 
 ## Layer 0: prime-supported extensions and split towers
 
@@ -1868,6 +1558,352 @@ when perfect and is always separably tame (§2.7).
 `K = ℚ` with the `7`-adic valuation and `L = ℚ(√2)`: since `2 ≡ 3² mod 7`, there are two prolongations,
 `L ⊗ Kʰ` has two field factors (§1.4), `L/K` is not a henselian extension (§2.5), and `L` satisfies
 `IsTameGaloisExtension` (§2.4).
+
+## Scope and ownership
+
+The base roadmap, LocalFieldsRamification, stops at finite extensions of nonarchimedean local
+fields: discrete valuations, finite residue fields and the formula `[L : K] = e·f`. This Part II
+owns the general theory below; its comparison with the base roadmap, and with
+RamificationOfCompleteDiscretelyValuedFields, is §2.9.
+
+**Owned here.** Prime-supported degrees, `P`-extensions, `P`-closed and separably `P`-closed
+fields and split towers (Layer 0); normalization and prolongations of a valuation in a finite
+extension, the behaviour of valuation rings under étale maps and henselization, the
+henselization of a valued field, the tensor decomposition `L ⊗_K Kʰ ≅ ∏ L_wʰ`, the homogenization
+of finite-type algebras and finite modules, finite presentation of flat graded algebras and modules
+over a ring with finitely many primes detecting zero, the flat-locus finite-presentation theorem,
+and, over an arbitrary domain, finite presentation of flat finite-type algebras and of finite
+modules over finite-type algebras that are flat over the domain (Layer 1); the étale criterion for
+unramified extensions, the ramification tower, the six extension classes, tame and separably tame
+fields, their tower laws and the comparison with perfection, with local fields and with complete
+discretely valued fields (Layer 2); the section theorem for pro-`p` kernels, maximal extensions
+with prescribed ramification, the elementary complements, the splitting equivalences and the
+Kuhlmann–Pank–Roquette theorem (Layer 3); the rank-one Krasner and root-continuity bridge,
+decompletion and the height-one splitting and tameness theorems (Layer 4); composed valuations,
+finite-height coarsening chains, the Abhyankar inequality and the height bound, and the composition
+criteria (Layer 5); and the general tameness theorem with its separable export (Layer 6).
+
+**Left to other roadmaps and the libraries.**
+- The henselization of a pair, its universal property, the local case, functoriality, ind-étaleness
+  and flatness, directed colimits and radical-equivalent ideals are at the pinned Tau Ceti
+  (`TauCeti.Henselization.algebra`, `TauCeti.Henselization.existsUnique_lift`,
+  `TauCeti.Henselization.existsUnique_isLocalHom`, `TauCeti.Henselization.map`,
+  `TauCeti.Henselization.indEtale`, `TauCeti.Henselization.directLimitEquiv`,
+  `TauCeti.Henselization.algEquivOfRadicalEq`); the henselization at a prime, integral base change
+  and products over pairwise coprime ideals are SchemeAndStackFoundations §0.12
+  (`henselization_at_prime`) and §0.13 (`henselization_integral_base_change`,
+  `henselization_coprime_product`). This roadmap proves that the henselization of a valuation ring
+  is a valuation ring and builds the valued field on it (§§1.2–1.3); it defines no second
+  henselization functor.
+- The strict henselization of a local ring with respect to a separable closure of its residue field
+  is Tau Ceti's `TauCeti.StrictHenselization.algebra`, with
+  `TauCeti.StrictHenselization.existsUnique_lift`, `TauCeti.StrictHenselization.map` and
+  `TauCeti.StrictHenselization.fromHenselization`. That for a valuation ring it is a strictly
+  henselian valuation ring with the same value group and residue field the chosen separable closure,
+  its description as a localization of the invariants of the inertia subgroup of a prolongation to
+  `Kˢ`, and the isomorphism of decomposition modulo inertia with the absolute Galois group of the
+  residue field, are ClassicalAdicEtaleCohomology §5.1. The structure of `Gal(Kᵗ/K)` for a henselian
+  `K` with separably closed residue field and arbitrary value group (the character group of
+  `Γ ⊗ ℤ_(p′)/Γ`, the finite-level surjection with `p`-group kernel, and `Gal(Kˢ/Kᵗ)` the unique
+  Sylow pro-`p` subgroup) is ClassicalAdicEtaleCohomology §5.3. §§1.2 and 2.2–2.3, and the targets
+  that rest on the tame closure, use them.
+- Finite extensions of nonarchimedean local fields, their unramified, totally ramified, tame and wild
+  classes, wild inertia `P_K`, the tame character and arithmetic Frobenius are LocalFieldsRamification,
+  Layers 2–4, and are at the pinned Tau Ceti (`TauCeti.IsUnramified`, `TauCeti.ramificationIndex`,
+  `TauCeti.inertiaDegree`, `TauCeti.IsTamelyRamified`, `TauCeti.maximalUnramifiedExtension`,
+  `TauCeti.maximalTameExtension`, `TauCeti.inertiaSubgroup`, `TauCeti.wildInertiaSubgroup`,
+  `TauCeti.inertiaTameCharacter`, `TauCeti.IsArithFrobeniusLift`). §2.9 compares them with the
+  general classes and proves nothing about local fields that the base roadmap states.
+- Finite extensions of complete discretely valued fields with arbitrary residue field, their integer
+  rings, unramified and totally ramified classes, lower and upper ramification filtrations, the
+  different and Herbrand functions are RamificationOfCompleteDiscretelyValuedFields, Layers 3a–4a.
+  §2.9 compares its unramified and totally ramified extensions with the classes here and states
+  nothing about filtrations.
+- Decomposition and inertia subgroups of a valuation subring are Mathlib's
+  `ValuationSubring.decompositionSubgroup` and `ValuationSubring.inertiaSubgroup`; coarsenings and
+  their inverse laws are Mathlib's `ValuationSubring.ofPrime` and `ValuationSubring.idealOfLE`;
+  convex subgroups and coarsening of a valuation by a convex subgroup are Tau Ceti's
+  `TauCeti.ConvexSubgroup` and `Valuation.coarsenByUnits`; the Krasner property is Mathlib's
+  `IsKrasner`, and continuity of roots over a normed field in one direction is Mathlib's
+  `Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt`.
+- That the prolongations of a valuation subring to an algebraic extension are pairwise
+  incomparable and that finitely many of them are separated by elements that are units at one and
+  nonunits at the others are Tau Ceti's `ValuationSubring.eq_of_le_of_comap_eq` and
+  `ValuationSubring.exists_valuation_eq_one_and_lt_one`; §1.1 builds the normalization and the
+  bijection with maximal ideals on them.
+- Profinite Sylow theory (ProfiniteProPGroups, Layer 2) and the equality of `cd_p` of a profinite
+  group with that of its Sylow pro-`p` subgroups (ProfiniteProPGroups, Layer 6) are at the pinned
+  Tau Ceti: `TauCeti.IsProPSylow`, `TauCeti.exists_isProPSylow`,
+  `TauCeti.IsProPSylow.exists_map_conj_eq`, `TauCeti.IsProPSylow.eq_of_normal`,
+  `TauCeti.IsProPSylow.map_of_surjective` and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`. The
+  invariant `cd_p` itself, its reduction to finite coefficients and its monotonicity on closed
+  subgroups are ProfiniteCohomology, Layer 11, implemented as Tau Ceti's
+  `TauCeti.cohomologicalDimensionAt`,
+  `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ` and
+  `TauCeti.cohomologicalDimensionAt_le_of_isClosed`. The finite embedding problems with `p`-group
+  kernel, their finite-level solutions and the inverse-limit lifting (ProfiniteProPGroups, Layer 5)
+  and the passage from `cd_p ≤ 1` to their solvability (ProfiniteProPGroups, Layer 6) are at the
+  pinned Tau Ceti as well: `TauCeti.HasPGroupSolutions`,
+  `TauCeti.exists_continuous_lift_of_compatible_levelSolutions` and
+  `TauCeti.CohomologicalDimensionLE.hasElementaryAbelianSolutions`; §3.1 proves only the
+  compatibility of the level solutions for a pro-`p` kernel.
+- The bound `cd_p(G_F) ≤ 1` for every field `F` of characteristic `p`, from the Artin–Schreier
+  sequence and the vanishing of `Hⁱ(G_F, Fˢ)` for `i ≥ 1`, belongs to ProfiniteCohomology, Layer 9,
+  through the supplier contract below; §3.5 applies it to the residue field. The additive Hilbert 90
+  `H¹(G_F, Fˢ) = 0` is at the pinned Tau Ceti (`TauCeti.additiveHilbert90`).
+- Descent of finite presentation and descent of étaleness from the source of a faithfully flat
+  morphism (EGA IV, 17.7.5(iv) and 17.7.7) belong to SchemeAndStackFoundations, Layer 1; §2.1 uses
+  them through the two supplier contracts below.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ValuationSubring`, `ValuationSubring.comap`, `ValuationSubring.ofPrime`,
+  `ValuationSubring.idealOfLE`, `ValuationSubring.ofPrime_idealOfLE`,
+  `ValuationSubring.idealOfLE_ofPrime`, `Mathlib/RingTheory/Valuation/ValuationSubring.lean`: the
+  carrier, restriction along a field map and the order-reversing correspondence between overrings
+  and primes. Used in Layers 1, 5 and 6 as stated; nothing is assumed beyond these inverse laws.
+- `ValuationSubring.decompositionSubgroup` (the stabilizer of `A` in `L ≃ₐ[K] L`) and
+  `ValuationSubring.inertiaSubgroup` (the kernel of the action of the decomposition group on the
+  residue field of `A`), `Mathlib/RingTheory/Valuation/RamificationGroup.lean`. For infinite `L/K`
+  these are subgroups of the full automorphism group; neither the wild subgroup nor any fixed field
+  is provided.
+- `Valuation.HasExtension`, the instances `Valuation.HasExtension.instAlgebraInteger`,
+  `Valuation.HasExtension.instAlgebra_valuationSubring` and
+  `Valuation.HasExtension.instIsLocalHomValuationInteger`, and `Valuation.HasExtension.mapValueGroup₀`,
+  `Mathlib/RingTheory/Valuation/Extension.lean`: extension of valuations, the induced local map of
+  valuation rings, hence of residue fields, and the induced order embedding of value groups.
+- `Valuation.RankOne`, `Mathlib/RingTheory/Valuation/RankOne.lean`: an order embedding of the value
+  group into `ℝ≥0` for a nontrivial valuation; used in §4.1.
+- `IsKrasner`, `IsKrasner.krasner`, `IsKrasner.of_completeSpace_of_normal` and the instance
+  `IsKrasner.of_completeSpace`, `Mathlib/Analysis/Normed/Field/Krasner.lean`: the Krasner property,
+  proved there for a complete nontrivially normed ultrametric base and an algebraic (in the first
+  form, normal) extension whose norm extends that of the base. §4.1 proves it for a henselian base
+  without completeness.
+- `NormedField.valuation`, `Mathlib/Topology/Algebra/Valued/NormedValued.lean`: the `ℝ≥0`-valued
+  valuation `x ↦ ‖x‖₊` of an ultrametric normed field, whose valuation subring is `{x | ‖x‖ ≤ 1}`;
+  used in §4.1 to say that a normed field is henselian.
+- `Polynomial.exists_roots_norm_sub_lt_of_norm_coeff_sub_lt` and
+  `Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt`,
+  `Mathlib/Analysis/Normed/Field/Approximation.lean`: continuity of roots over a normed field: for
+  monic `f`, `g` of the same degree whose coefficients differ by less than `ε`, and `g` split, every
+  root `a` of `f` is within `((deg f + 1)·ε)^{1/deg f}·max(‖a‖, 1)` of some root of `g`. It has no
+  Krull-valued form, no statement from the roots of `g` to those of `f`, and no uniqueness of the
+  paired root; §4.1 proves those.
+- `IntermediateField.LinearDisjoint`, `IntermediateField.LinearDisjoint.isField_of_isAlgebraic`,
+  `Algebra.TensorProduct.isField_of_isAlgebraic`, `Mathlib/FieldTheory/LinearDisjoint.lean`, and
+  `IntermediateField.linearDisjoint_of_isPurelyInseparable_of_isSeparable`,
+  `Mathlib/FieldTheory/PurelyInseparable/Tower.lean`: linear disjointness, the tensor product of two
+  algebraic extensions being a field under linear disjointness, and disjointness of separable and
+  purely inseparable extensions.
+- `IsPurelyInseparable.finrank_eq_pow`, `Mathlib/FieldTheory/PurelyInseparable/Basic.lean`: finite
+  purely inseparable extensions have degree a power of the characteristic exponent.
+- `Nat.factoredNumbers`, `Mathlib/NumberTheory/SmoothNumbers.lean`: for a finset `s`, the nonzero
+  natural numbers all of whose prime factors lie in `s`; §0.1 compares it with `P`-numbers.
+- `HenselianLocalRing`, `Mathlib/RingTheory/Henselian.lean`; `ringKrullDim`,
+  `Mathlib/RingTheory/KrullDimension/Basic.lean`; `IsDiscreteValuationRing.ringKrullDim_eq_one`,
+  `Mathlib/RingTheory/DiscreteValuationRing/TFAE.lean`; `Algebra.trdeg` and `AlgebraicIndependent`,
+  `Mathlib/RingTheory/AlgebraicIndependent/Basic.lean`; `ringExpChar`,
+  `Mathlib/Algebra/CharP/Defs.lean`; `PerfectField`; `Field.absoluteGaloisGroup`,
+  `Mathlib/FieldTheory/AbsoluteGaloisGroup.lean` (with its derived `IsTopologicalGroup` instance).
+- `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Etale/Descent.lean`,
+  and `Algebra.FinitePresentation.of_finitePresentation_tensorProduct_of_faithfullyFlat`,
+  `Mathlib/RingTheory/Finiteness/Descent.lean`: descent of étaleness and finite presentation along a
+  faithfully flat base change. They are descent along the base, not from the source of a faithfully
+  flat morphism, which is the separate contract with SchemeAndStackFoundations below.
+- `Algebra.FinitePresentation`, `Mathlib/RingTheory/FinitePresentation.lean`;
+  `Module.FinitePresentation`, `Mathlib/Algebra/Module/FinitePresentation.lean`;
+  `Module.Flat.flat_iff_torsion_eq_bot_of_valuationRing_localization_isMaximal`,
+  `Mathlib/RingTheory/Flat/TorsionFree.lean` (over a domain whose localizations at maximal ideals
+  are valuation rings, a module is flat exactly when it is torsion free; it says nothing about finite
+  presentation); `HomogeneousLocalization.Away`,
+  `Mathlib/RingTheory/GradedAlgebra/HomogeneousLocalization.lean` (the degree-zero part `S_(f)` of
+  the localization of a graded ring at a homogeneous element). Used in §1.5.
+
+### From Tau Ceti
+
+- `TauCeti.AbsoluteGaloisGroup` and `TauCeti.absoluteGaloisGroupRestrictEquiv`,
+  `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`: `Gal(Kˢ/K)` and its identification
+  with `G_K`.
+- `TauCeti.IsProP`, `TauCeti/Topology/Algebra/Group/Profinite/ProP/Basic.lean`: every quotient by an
+  open normal subgroup is a `p`-group.
+- `TauCeti.IsProPSylow` (`.../Profinite/Sylow/Basic.lean`), `TauCeti.exists_isProPSylow`
+  (`.../Sylow/Existence.lean`), `TauCeti.IsProPSylow.exists_map_conj_eq` and
+  `TauCeti.IsProPSylow.eq_of_normal` (`.../Sylow/Conjugacy.lean`),
+  `TauCeti.IsProPSylow.map_of_surjective` (`.../Sylow/Functoriality.lean`: the image of a Sylow
+  pro-`p` subgroup under a continuous surjection from a compact group to a Hausdorff group is Sylow
+  pro-`p`) and `TauCeti.IsProPSylow.cohomologicalDimensionAt_eq`
+  (`.../Sylow/CohomologicalDimension.lean`: `cd_p G = cd_p P` for a Sylow pro-`p` subgroup `P` of a
+  profinite group `G`). No finite generation is assumed in any of them.
+- `TauCeti.cohomologicalDimensionAt` and `TauCeti.CohomologicalDimensionLE`,
+  `TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/Basic.lean`: the
+  `ℕ∞`-valued `cd_p`, defined by vanishing of continuous cohomology of discrete `p`-primary torsion
+  modules in all degrees above the bound; `TauCeti.cohomologicalDimensionAt_le_iff` (same file):
+  `cd_p G ≤ n` is the vanishing predicate `TauCeti.CohomologicalDimensionLE p G n`;
+  `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ` (`SingleDegree.lean`
+  in the same directory: for `p ≠ 0` and a compact `G`, `cd_p G ≤ n` exactly when `Hⁿ⁺¹(G, M)`
+  vanishes for every finite discrete `p`-primary `M`) and
+  `TauCeti.cohomologicalDimensionAt_le_of_isClosed` (`ClosedSubgroup.lean`: `cd_p U ≤ cd_p G` for a
+  closed subgroup `U` of a profinite `G`); `TauCeti.zHat.cohomologicalDimensionAt_eq_one`
+  (`TauCeti/Topology/Algebra/Group/Profinite/ZHat/CohomologicalDimension.lean`: `cd_p Ẑ = 1` for
+  every prime `p`), used in a Check of §3.5.
+- The finite embedding problems of a profinite group,
+  `TauCeti/Topology/Algebra/Group/Profinite/EmbeddingProblem/`: `TauCeti.HasPGroupSolutions`
+  (`PGroupKernel.lean`: every finite embedding problem for `G` with `p`-group kernel has a solution)
+  with `TauCeti.HasElementaryAbelianSolutions.hasPGroupSolutions` (same file: the elementary abelian
+  case suffices, by the lower `p`-central series);
+  `TauCeti.CohomologicalDimensionLE.hasElementaryAbelianSolutions` (`CohomologicalDimension.lean`:
+  `cd_p G ≤ 1` gives the elementary abelian case);
+  `TauCeti.LevelSolution` and `TauCeti.levelSolutionMap` (`Level.lean`, `Compatible.lean`: for a
+  continuous surjection `α : A ↠ B` of profinite groups and a continuous `f : G → B`, the solutions
+  of the finite-level problem at an open normal subgroup `U` of `A`, and their transition maps along
+  `V ≤ U`); `TauCeti.exists_continuous_lift_of_compatible_levelSolutions` (`Lift.lean`: a compatible
+  family of level solutions assembles into a continuous homomorphism `G → A` over `B`, with no
+  pro-`p` hypothesis on `A`); `TauCeti.HasPGroupSolutions.exists_compatible_levelSolutions`,
+  `TauCeti.isProjective_of_hasPGroupSolutions` and `TauCeti.IsProjective.exists_continuous_lift`
+  (`Projective.lean`: the compatible family and the lift when the source `A` is pro-`p`). Used in
+  §3.1, which supplies the compatible family for a pro-`p` kernel instead.
+- `Subgroup.exists_minimal_isClosed_le`, `TauCeti/Topology/Algebra/Group/ClosedSubgroup.lean`: a
+  closed subgroup of `A × G`, with `A` compact, projecting onto `G` contains a minimal closed
+  subgroup projecting onto `G`. Used in §3.1.
+- `TauCeti.linearDisjoint_fieldRange_of_isIntegrallyClosedIn`,
+  `TauCeti/FieldTheory/Minpoly/IsIntegrallyClosedIn.lean`: for fields `k ⊆ F` with `k` relatively
+  algebraically closed in `F` (`IsIntegrallyClosedIn k F`) and a separable extension `k′/k`, the
+  image of `k′` in any common overfield `E` (with compatible scalar towers) is linearly disjoint from
+  `F` over `k`. Used in §6.3.
+- `ValuationSubring.eq_of_le_of_comap_eq` and `ValuationSubring.exists_valuation_eq_one_and_lt_one`,
+  `TauCeti/RingTheory/Valuation/AlgebraicExtension.lean`: for an algebraic extension `L/K`, two
+  valuation subrings `A ≤ B` of `L` with the same restriction to `K` are equal, and a finite set of
+  valuation subrings of `L` all restricting to a valuation subring `O` of `K` admits a family `e`
+  with `e A` a unit of `A` and a nonunit of every other member. Used in §1.1.
+- The ramification of finite extensions of nonarchimedean local fields,
+  `TauCeti/NumberTheory/LocalField/`: `TauCeti.ramificationIndex`, `TauCeti.IsTotallyRamified` and
+  `TauCeti.IsTamelyRamified` (`RamificationIndex.lean`, tame meaning that the residue
+  characteristic does not divide the ramification index), `TauCeti.inertiaDegree`,
+  `TauCeti.ramificationIndex_mul_inertiaDegree` and
+  `TauCeti.isTotallyRamified_iff_inertiaDegree_eq_one` (`InertiaDegree.lean`), `TauCeti.IsUnramified`
+  (`Unramified/Basic.lean`: ramification index `1` and separable residue extension),
+  `TauCeti.maximalUnramifiedExtension` (`Unramified/Maximal.lean`), `TauCeti.inertiaSubgroup` and
+  `TauCeti.IsArithFrobeniusLift` (`Unramified/Inertia/Basic.lean`), `TauCeti.maximalTameExtension`
+  and `TauCeti.wildInertiaSubgroup` (`WildInertia.lean`: the field generated by the `m`-th roots of
+  `Kˣ` for `m` prime to the residue characteristic, and its fixing subgroup in
+  `Field.absoluteGaloisGroup K`) and `TauCeti.inertiaTameCharacter` (`Tame/Character.lean`: the
+  continuous surjection from inertia onto the prime-to-`p` Tate module with kernel the wild
+  inertia). All assume `IsNonarchimedeanLocalField`. Used only in the comparison §2.9.
+- `TauCeti.ConvexSubgroup` (`TauCeti/Algebra/Order/Group/ConvexSubgroup.lean`: convex subgroups of
+  a linearly ordered group, totally ordered by inclusion, with ordered quotients) and
+  `Valuation.coarsenByUnits` (`TauCeti/RingTheory/Valuation/Coarsen.lean`: the coarsening of a
+  valuation by a convex subgroup of its value group).
+- The henselization of a pair, `TauCeti/RingTheory/Henselization/`: `TauCeti.Henselization.algebra I`
+  with `TauCeti.Henselization.extended I` (`Algebra.lean`), the instance
+  `TauCeti.Henselization.henselian` (`Henselian.lean`), the universal property
+  `TauCeti.Henselization.existsUnique_lift` and `TauCeti.Henselization.bijective_algebraMap_of_henselianRing`
+  (`Lift.lean`: for a henselian pair the structure map is bijective), and `TauCeti.Henselization.map`
+  (`Map.lean`). For a local ring `(R, 𝔪)` the henselization is `TauCeti.Henselization.algebra 𝔪`
+  (`Local.lean`): a henselian local ring (`TauCeti.Henselization.henselianLocalRing`), local over `R`
+  (`TauCeti.Henselization.isLocalHom_algebraMap`) with the residue field of `R`
+  (`TauCeti.Henselization.residueField_map_bijective`), universal among local maps to henselian local
+  rings (`TauCeti.Henselization.existsUnique_isLocalHom`). It is ind-étale
+  (`TauCeti.Henselization.indEtale`, `IndEtale.lean`), hence flat (`TauCeti.Algebra.IndEtale.flat`,
+  `TauCeti/RingTheory/Etale/IndEtale.lean`); it commutes with directed colimits of pairs, the ideal
+  of the colimit being generated by the images of the stage ideals
+  (`TauCeti.Henselization.directLimitEquiv`, `DirectLimit.lean`, Stacks Lemma 15.12.5); and it depends
+  only on the radical of the ideal (`TauCeti.Henselization.algEquivOfRadicalEq`, `Radical.lean`, Stacks
+  Lemma 15.12.6). No Noetherian hypothesis is assumed in any of them.
+- The strict henselization of a local ring `R` with respect to a separable closure `Ω` of its residue
+  field, `TauCeti/RingTheory/StrictHenselization/`: `TauCeti.StrictHenselization.algebra R Ω`, the
+  colimit of the étale `R`-algebras pointed by an `R`-algebra map to `Ω`, with
+  `TauCeti.StrictHenselization.stage` and `TauCeti.StrictHenselization.exists_stage_eq`
+  (`Algebra.lean`: every element comes from a pointed étale neighbourhood), the instance
+  `TauCeti.StrictHenselization.henselianLocalRing` (`Henselian.lean`), the universal property
+  `TauCeti.StrictHenselization.existsUnique_lift` (`Lift.lean`), functoriality
+  `TauCeti.StrictHenselization.map` (`Map.lean`) and the local map from the henselization
+  `TauCeti.StrictHenselization.fromHenselization` (`FromHenselization.lean`).
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+- §0.12: `henselization_at_prime`: for a prime `𝔭` of a ring `R`, the henselization of `R_𝔭` is the
+  filtered colimit of the étale `R`-algebras `S`, and of their localizations `S_𝔮`, over the pairs
+  `(S, 𝔮)` with `𝔮` over `𝔭` and `κ(𝔮) = κ(𝔭)`.
+- §0.13: `henselization_integral_base_change` (for an integral ring map `R → R'`, the henselization
+  of `R'` along `IR'` is `R' ⊗_R Rʰ`) and `henselization_coprime_product` (the henselization along
+  `I_1 ∩ ⋯ ∩ I_n` with the `I_i` pairwise coprime is the product of the henselizations along the
+  `I_i`). Assumed exactly as stated there.
+- What SchemeAndStackFoundations must provide (gap:source-side-fpqc-descent): for `f : X → Y`
+  faithfully flat and locally of finite presentation and `g : Y → Z` with `g ∘ f` of finite
+  presentation, `g` is of finite presentation when `f` is quasi-compact or `g` is quasi-separated
+  (EGA IV, Lemma 17.7.5(iv)).
+- What SchemeAndStackFoundations must provide (gap:source-side-etale-descent): for `S`-schemes `X`
+  and `Y` locally of finite presentation over `S`, an `S`-morphism `g : X → Y` flat at a point `x`
+  and `X → S` étale at `x`, the morphism `Y → S` is étale at `g(x)` (EGA IV, Proposition 17.7.7).
+
+### From TauCetiRoadmap.ClassicalAdicEtaleCohomology
+
+- §5.1, the strict localization of a valuation ring: for a valuation ring `A` with fraction field
+  `K`, a separable closure `L` of its residue field `κ_A` and the strict henselization `Aˢʰ` of `A`
+  with respect to `L`: (a) `Aˢʰ` is a strictly henselian valuation ring with residue field `L`, and
+  `A → Aˢʰ` induces an isomorphism of value groups; (b) `Aˢʰ` is the localization of the invariants
+  `Y^I` at `𝔮 ∩ Y^I`, where `Y` is the integral closure of `A` in `Kˢ`, `𝔮` a maximal ideal of `Y`
+  and `D ⊇ I` the decomposition and inertia subgroups of `𝔮` in `Gal(Kˢ/K)`; (c) `D/I ≅ Gal(L/κ_A)`.
+  No rank, discreteness or Noetherian hypothesis. Used in §§1.2, 2.2 and 2.3.
+- §5.3, the tame quotient: for a field `K` with a henselian valuation ring whose residue field `κ`
+  is separably closed of characteristic exponent `p`, with arbitrary value group `Γ`, and `Kᵗ ⊆ Kˢ`
+  the union of the finite Galois subextensions of degree prime to `p`: (i) `Gal(Kᵗ/K)` is
+  isomorphic as a profinite group to `Hom(Γ ⊗ ℤ_(p′)/Γ, μ′(κ))`, where `ℤ_(p′)` is the ring of
+  rationals with denominators prime to `p` (`ℚ` for `p = 1`) and `μ′(κ)` the roots of unity of
+  order prime to `p`, so it is abelian of supernatural order prime to `p`; (ii) for every finite
+  Galois `E/K` in `Kˢ`, the map `Gal(E/K) → Hom(Γ_E/Γ, μ(κ))`, `σ ↦ (|x| ↦ σ(x)/x mod 𝔪_E)`, is
+  surjective with kernel a `p`-group whose fixed field is `E ∩ Kᵗ`; (iii) `Gal(Kˢ/Kᵗ)` is a closed
+  normal pro-`p` subgroup of `G_K` of index prime to `p`, its unique Sylow pro-`p` subgroup, trivial
+  for `p = 1`. Used in §§2.2, 2.4, 2.6, 2.8, 2.9 and 5.5.
+
+### From TauCetiRoadmap.LocalFieldsRamification
+
+- Layer 2 (*unramified extensions and Frobenius*): unramified extensions, the maximal unramified
+  extension and arithmetic Frobenius, at the pinned Tau Ceti as `TauCeti.IsUnramified`,
+  `TauCeti.maximalUnramifiedExtension` and `TauCeti.IsArithFrobeniusLift`.
+- Layer 3 (*ramification, the tame and wild cases, and the filtration*): `e`, `f` and
+  `[L : K] = e·f` (`TauCeti.ramificationIndex`, `TauCeti.inertiaDegree`,
+  `TauCeti.ramificationIndex_mul_inertiaDegree`), total ramification (`TauCeti.IsTotallyRamified`,
+  with `TauCeti.isTotallyRamified_iff_inertiaDegree_eq_one`) and tameness
+  (`TauCeti.IsTamelyRamified`).
+- Layer 4 (*the tame quotient of the absolute Galois group*): inertia `TauCeti.inertiaSubgroup`,
+  the maximal tame extension `TauCeti.maximalTameExtension`, wild inertia
+  `TauCeti.wildInertiaSubgroup`, and the tame character `TauCeti.inertiaTameCharacter` with its
+  arithmetic-Frobenius convention.
+  These are used only in the comparison §2.9; the Tau Ceti contract above gives their files.
+
+### From TauCetiRoadmap.RamificationOfCompleteDiscretelyValuedFields
+
+- §3a.1: for a finite Galois extension `L/K` of complete discretely valued fields with arbitrary
+  residue field, the integer ring of `L` is a complete discrete valuation ring free of rank `[L : K]`
+  over that of `K`, so `[L : K] = e·f`; an intermediate field `F` is unramified over `K` when
+  `e(F/K) = 1` and its residue extension is separable, and `L` is totally ramified over an
+  intermediate field when the residue degree is `1`. Used only in the comparison §2.9.
+
+### From TauCetiRoadmap.ProfiniteProPGroups
+
+- Layer 2 (profinite Sylow theory: existence, conjugacy, normal Sylow subgroups, images under
+  continuous surjections), Layer 5, items 5.1–5.6 (finite embedding problems, solvability with
+  elementary abelian and with `p`-group kernel, compatible systems of finite-level solutions and the
+  inverse-limit lifting for a pro-`p` source), and Layer 6 (Serre's theorem, step 1: `cd_p G ≤ 1`
+  solves the elementary abelian problems; `cd_p` of a profinite group equals that of its Sylow
+  pro-`p` subgroups). All are at the pinned Tau Ceti under the names in the Tau Ceti contract above.
+  Used in §§2.2, 3.1 and 3.5.
+
+### From TauCetiRoadmap.ProfiniteCohomology
+
+- Layer 11: the invariant `cd_p` with its finite-coefficient test in degree `n + 1` and its
+  monotonicity on closed subgroups, at the pinned Tau Ceti as `TauCeti.cohomologicalDimensionAt`,
+  `TauCeti.cohomologicalDimensionAt_le_iff_forall_finite_subsingleton_succ` and
+  `TauCeti.cohomologicalDimensionAt_le_of_isClosed` (Tau Ceti contract above). Used in §§3.1
+  and 3.5.
+- What ProfiniteCohomology must provide (gap:char-p-galois-h2-vanishing): for every prime `p` and
+  every field `F` of characteristic `p`, `H²(G_F, ℤ/p) = 0` for the trivial module, so that
+  `TauCeti.cohomologicalDimensionAt p (Field.absoluteGaloisGroup F) ≤ 1`, from the Artin–Schreier
+  sequence `0 → 𝔽_p → Fˢ → Fˢ → 0` and the vanishing of `Hⁱ(G_F, Fˢ)` for `i ≥ 1` (Serre, *Galois
+  Cohomology*, II §2.2, Proposition 3 and Corollary 1).
 
 ## References
 

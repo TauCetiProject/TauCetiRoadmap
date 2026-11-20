@@ -1,78 +1,61 @@
 # Roadmap: Ricci flow, preserved curvature cones, and sphere theorems
 
-**Summary.** Build Ricci flow on closed smooth real manifolds, from the actual space of
-Riemannian metrics and the Ricci–DeTurck initial-value problem to curvature pinching and smooth
-convergence. The end theorems are Hamilton's positive-Ricci theorem in dimension three,
-Böhm–Wilking's 2-positive-curvature-operator theorem in dimensions at least three, Brendle–Schoen's
-pointwise quarter-pinched theorem in dimensions at least four, the positive-Gauss-curvature surface
-theorem, and the global quarter-pinched sphere theorem in every dimension at least two. The basic
-library on the way includes metric variations, scaling and normalization, short-time existence,
-uniqueness, maximal intervals, curvature continuation, derivative estimates, tensor maximum
-principles, algebraic curvature cones, pinching sets, smooth metric convergence, and naturality
-under isometries and coverings. Every convergence theorem specifies an actual limit metric on the
-original smooth manifold; a subsequential limit after changing coordinates is an intermediate
-construction, not the final convergence statement.
+**Summary.** The Ricci flow evolves a Riemannian metric g by `∂_t g = −2 Ric(g)`. Along the flow
+the curvature operator, a symmetric operator on bivectors, satisfies a heat equation with a
+quadratic reaction term Q. By a maximum principle, a closed convex set of curvature tensors that is
+invariant under parallel transport and under the equation `dR/dt = Q(R)` is preserved by the flow.
+This roadmap builds the Ricci flow on closed manifolds and uses such invariant sets to prove sphere
+theorems. Manifolds are finite-dimensional, smooth, real and without boundary, and closed means
+compact.
 
-## Scope and ownership
+For every smooth metric g₀ on a closed manifold there are T > 0 and a Ricci flow on [0, T] starting
+at g₀, and two Ricci flows on [0, T] with the same initial metric agree there. Existence uses
+DeTurck's trick, which makes the equation parabolic. Every initial metric then has a unique maximal
+flow on some [0, T). If T is finite, the maximum of |Rm| tends to infinity as t tends to T.
 
-This roadmap owns, on closed finite-dimensional smooth real manifolds:
+Four geometric theorems assume a curvature condition on a closed connected manifold and conclude
+that it carries a metric of constant positive sectional curvature. In each case the
+volume-normalized flow exists for all time and converges smoothly to such a metric on the original
+manifold, not only after a change of coordinates.
 
-- the metric-family calculus of Layer 1 (the symmetric two-tensor subbundle, interval families of
-  smooth metrics with joint regularity, variation formulas, the Lie derivative of covariant
-  two-tensors, scaling, volume normalization and solitons);
-- the closed-bundle parabolic theory of Layer 2 (parabolic Hölder spaces of bundle sections, the
-  closed-bundle Schauder estimate, the spectral base solution and its comparison with the weak
-  theory, coefficient continuation, the quasilinear scalar-principal tensor theorem) and the
-  DeTurck gauge, short-time existence and forward uniqueness of Ricci flow;
-- maximal flows, Shi's derivative estimates and curvature continuation (Layer 3);
-- the curvature evolution equations, the moving-frame comparison, the scalar and convex-bundle
-  maximum principles on an evolving closed manifold and the finite-dimensional ODE invariance
-  criterion (Layer 4);
-- the algebraic curvature tensors, the reaction tensor, the curvature cones (nonnegative and
-  2-nonnegative operator, nonnegative sectional, PIC, PIC2), the Böhm–Wilking deformation and the
-  Brendle–Schoen PIC2 family (Layer 5);
-- pinching sets, the Klingenberg injectivity estimate from a pinching hypothesis, the Cheeger–Ebin
-  path-deformation lemma on finite-vertex path models, the global roundness and fixed-manifold
-  smooth convergence arguments (Layer 6);
-- the sphere theorems of Layers 7 and 8, their space-form and equivariance consequences, and the
-  surface potential, Harnack, entropy and soliton-rigidity arguments.
+A curvature operator is 2-positive when the sum of its two smallest eigenvalues is positive. By
+Böhm and Wilking's theorem, a closed connected manifold of dimension at least three whose curvature
+operator is 2-positive at every point carries a metric of constant positive curvature. In dimension
+three, 2-positivity is equivalent to positive Ricci curvature. This gives Hamilton's theorem: a
+closed connected three-manifold with positive Ricci curvature carries such a metric. The round
+metric on RP³ has positive Ricci curvature, and RP³ is not S³, so a diffeomorphism with the sphere
+needs simple connectivity.
 
-It leaves to named roadmaps, and consumes from them:
+In dimension at least four, Brendle and Schoen assume pointwise strict quarter pinching:
+0 < K(π) < 4K(π′) for any two-planes π and π′ at the same point. A closed connected manifold with
+this property carries a metric of constant positive curvature, and a closed simply connected one is
+diffeomorphic to the round sphere Sⁿ. The proof puts the curvature in the interior of the cone PIC2
+of tensors whose extension by zero from a tangent space E to E ⊕ ℝ² has nonnegative isotropic
+curvature, an inequality on orthonormal four-frames. CP² with the Fubini–Study metric has
+1 ≤ K ≤ 4 and is not diffeomorphic to S⁴, so the inequality must be strict.
 
-- [RiemannianGeometry](../RiemannianGeometry/README.md) R1 (the curvature, Gram and exterior
-  dictionaries and the curvature operator on the bivector bundle), R2–R3 (Jacobi fields, second
-  variation, finite broken-geodesic path models), R4 (Rauch and Günther comparison, Myers, the
-  injectivity-radius carrier of item 6, Schur's theorem and the Killing–Hopf space-form
-  classification of item 7) and R7.0 (the scalar Bochner identity). The curvature operator on
-  bivectors is RiemannianGeometry R1's object on SmoothBundlesConnections B2's exterior square;
-  this roadmap compares its four-tensor carrier with it and never builds a second one.
-- [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) B2–B4 (tensor, dual and Hom
-  bundles, frames, fibre metrics and induced connections).
-- [DifferentialGeometry](../DifferentialGeometry/README.md) 2.3–2.4 (covering maps and the
-  orientation double cover), 3.5 (time-dependent flows) and Layer 5 (integration, densities and
-  Stokes).
-- [PDE](../PDE/README.md) Lane F items 24–25 (Bochner spaces, the Gelfand triple, Galerkin
-  existence for linear parabolic equations) and F27.1–F27.5 (the scalar Euclidean parabolic
-  Schauder model).
-- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a (bundle Sobolev spaces, the
-  compact pair `H¹ ⊂ L²` and Sobolev embeddings on compact manifolds).
-- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) P1 (differential
-  operators and scalar jets), P5 (Hölder spaces of bundle sections, §5.4), P6 (elliptic regularity)
-  and P7 (powers of `1 + ∇*∇` and their Sobolev domains, §7.1).
-- [VariationalMethods](../VariationalMethods/README.md) Layers 1–5 (compact form pairs, the
-  kernel-orthogonal Poincaré connector of §3.4, Courant–Fischer of §4.4 and the differential-energy
-  adapter of §5.3).
-- [MorseTheory](../MorseTheory/README.md) M1–M3 (critical Hessians, compact-band deformation and
-  handles, relative `C²` Morse approximation).
-- [HopfRinow](../../Completed/HopfRinow/README.md) (geodesics, exponential maps, completeness and
-  smooth dependence) and [UniversalCovers](../../Completed/UniversalCovers/README.md) (the universal
-  cover and its deck group).
+A closed connected surface with positive Gauss curvature carries a metric of constant positive
+curvature, the smooth limit of its normalized flow. The proof uses Hamilton's Harnack inequality
+and the argument of Chen, Lu and Tian, which shows without uniformization that a shrinking gradient
+soliton on a closed surface is round. These results give the global quarter-pinched sphere
+theorem: a closed simply connected manifold of dimension n ≥ 2 whose sectional curvatures all lie
+in [a, b], with 0 < a and b < 4a, is diffeomorphic to Sⁿ.
 
-Ricci flow with surgery, geometrization and Kähler–Ricci flow are not part of this roadmap; the
-convergence theorems here are the inputs of Poincare3D and
-[GeometricTopology](../GeometricTopology/README.md), which cite Layers 1–5 and the sphere theorems.
-Every claim that a cited convergence result holds is proved through Layers 6 and 8's explicit
-estimates and comparison maps, never used as an additional hypothesis.
+The roadmap starts from the smooth Riemannian metrics and curvature tensors of Mathlib and Tau Ceti.
+It builds on [RiemannianGeometry](../RiemannianGeometry/README.md) for comparison theorems and for
+the classification of complete constant-curvature manifolds, which turns a metric of constant
+positive curvature into a diffeomorphism with a quotient of the sphere. It builds on
+[PDE](../PDE/README.md) for the Euclidean parabolic Schauder estimates. Poincare3D uses Layers 1–5
+for its three-dimensional flow analysis, and [GeometricTopology](../GeometricTopology/README.md)
+uses the sphere theorems.
+
+The layers are built out of numerical order. Layers 1 and 2 treat families of metrics, parabolic
+equations on bundles and the DeTurck gauge. The start of Layer 5, on algebraic curvature tensors
+and the reaction term, comes next, then Layer 4 on curvature evolution and maximum principles, then
+Layer 3 on maximal flows, Shi's derivative estimates and blow-up. The rest of Layer 5 builds the
+invariant cones. Layer 6 turns an invariant pinching set into global roundness and smooth
+convergence. Layer 7 applies it to 2-positive operators and to the interior of PIC2, and Layer 8
+treats surfaces and assembles the global theorem.
 
 ## Conventions
 
@@ -130,39 +113,6 @@ strict form; PIC2 is nonnegative isotropic curvature of the zero extension to `E
 family is a continuous family of closed convex `O(n)`-invariant cones as defined in 6.1. Pointwise
 strict quarter pinching at `x` means `0 < K_x(π) < 4 K_x(π′)` for all two-planes `π, π′` at `x`;
 global quarter pinching means fixed constants `0 < a ≤ K ≤ b < 4a` over all points.
-
-## Exact supplier contracts
-
-| Supplier | Exact interface consumed |
-| --- | --- |
-| Mathlib, at the pin | `ContMDiffRiemannianMetric` (`inner`, `symm`, `pos`, `isVonNBounded`, `contMDiff`), `Bundle.ContMDiffRiemannianMetric.toRiemannianMetric` and its `IsContMDiffRiemannianBundle` instance; `CovariantDerivative.leviCivitaConnection` and `CovariantDerivative.isMetricCompatible_leviCivitaConnection`; `ContinuousMultilinearMap` with `ContinuousMultilinearMap.mkPiAlgebraFin` and `compContinuousLinearMap`; `innerSL`, `stdOrthonormalBasis`, `OrthonormalBasis`; `exteriorPower` with `exteriorPower.ιMulti` and the inner product on `⋀[ℝ]^n E` of a finite-dimensional real inner product space (the Gram determinant on decomposable elements, `exteriorPower.inner_ιMulti_ιMulti`); `LinearMap.IsSymmetric` and the finite-dimensional spectral theorem; `InnerProductSpace.instLaplacian` (notation `Δ`) and `InnerProductSpace.laplacianWithin`; `ConvexCone`, `ProperCone` (the closed submodule over `ℝ≥0`, containing zero, not necessarily salient) and `ClosedSubmodule.map` (the closure of the image under a continuous `ℝ≥0`-linear map, reached by dot notation on a `ProperCone`); `tangentConeAt ℝ≥0`; Picard–Lindelöf; `ContMDiffOn`, `HasDerivWithinAt`, `Diffeomorph`; `SimplyConnectedSpace`; the charted-space and `IsManifold (𝓡 n)` instances of `Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1`. |
-| Tau Ceti, at the pin | `CovariantDerivative.curvatureTensor` (Lee's sign convention, equal to the one above), `CovariantDerivative.ricciTensor`, `CovariantDerivative.scalarCurvature`, `CovariantDerivative.sectionalCurvature`, `CovariantDerivative.HasConstantSectionalCurvature`, `Bundle.ContMDiffRiemannianMetric.IsConstantCurvatureTensor` (`R(w,u)v = κ(⟪u,v⟫w − ⟪w,v⟫u)` for the Levi-Civita connection of a smooth metric), the metric-compatible curvature symmetries, the Ricci and scalar trace formulas in orthonormal bases, `contMDiffOn_leviCivitaConnection` and the `ContMDiffCovariantDerivative` instance of the Levi-Civita connection, `TauCeti.riemannianVolume` and the canonical density, `TauCeti.Manifold.contMDiffOn_maximalIntegralCurve` and the compact-manifold flows. The `Riemannian/MetricVariation` files concern total variation of paths, not derivatives of metric families: the metric-family derivatives are Layer 1 targets. |
-| RiemannianGeometry | R1 (curvature/Gram/exterior dictionaries, normal-coordinate jets, the curvature operator on `Λ²TM`, Schur's theorem), R2 (Jacobi fields), R3 (second variation, index forms; R3.2 finite broken geodesics, subdivision/straightening, node-value Hessians and the Morse index theorem; the no-critical-value deformation and compact-band comparison), R4 (item 1 Rauch and Günther comparison, item 5 Bonnet–Myers, item 6 the injectivity radius `inj`, item 7 the round models and the Killing–Hopf classification of complete constant-curvature manifolds), R7.0 (the scalar Bochner identity and the first positive eigenvalue). |
-| SmoothBundlesConnections | B2 (associated, tensor, dual and Hom bundles, fibre metrics, frames, the exterior square `Λ²TM`), B3 (induced connections on associated bundles), B4 (curvature and the exterior covariant derivative). |
-| DifferentialGeometry | 2.3 (smooth structures on covers), 2.4 (the orientation double cover), 3.5 (`exists_timeDependentFlow`, time-dependent flows and their suspension), Layer 5 (integration of densities, Stokes). |
-| PDE | Lane F item 24 (Bochner spaces `L²(0,T;V)`, `H¹(0,T;V*)`, the Gelfand triple `V ↪ H ↪ V*`), item 25 (Galerkin existence and uniqueness for `∂_t u + Lu = f`, `u(0) = u₀`), F27.1 (Euclidean parabolic Hölder spaces, interpolation and absorption), F27.2 (constant-coefficient kernel derivative and cancellation estimates, trace attainment, linear coordinate changes), F27.3 (freezing, cutoff localization, the method of continuity), F27.5 (higher-order estimates). |
-| ComplexKahlerGeometry | K5a (`BundleSobolev`, the real compact pair `H¹ ⊂ L²`, Sobolev embeddings and elliptic regularity on compact manifolds). |
-| PseudodifferentialOperators | P1 (differential operators, scalar jets and symbols), P5 (§5.4 Hölder spaces `C^(k,α)` of bundle sections on a compact base), P6 (elliptic regularity and solvability), P7 (§7.1 powers of `1 + ∇*∇` and their Sobolev domains). |
-| VariationalMethods | Layers 1–5: compact form pairs (§3.1), the kernel-orthogonal Poincaré connector (§3.4), successive minima and Courant–Fischer (§4.4), the represented operator and the differential-energy adapter (§5.3). |
-| MorseTheory | M1 (critical Hessians and indices), M2 (compact-band deformation, handles and the handle homeomorphism), M3 (relative `C²` Morse approximation). |
-| HopfRinow (completed) | geodesics, exponential maps, completeness, smooth dependence on data. |
-| UniversalCovers (completed) | the universal cover, its deck group and the identification with `π₁`. |
-
-Every declaration named in this table is consumed, never restated. The closed-bundle and
-Ricci-specific adapters are owned here; the cited scalar and linear provider contracts are
-prerequisites for those adapters. Elliptic estimates or a static eigenbasis alone are not a
-time-dependent existence theorem: Layer 2 proves one.
-
-## How to read the build
-
-The construction order is Layer 1 (metric families and variations), Layer 2 (parabolic foundations
-and the DeTurck gauge), 5.1–5.2 (algebraic curvature carriers and the reaction tensor), 4.1–4.3
-(curvature evolution, maximum principles, the ODE criterion), Layer 3 (maximal flows, Shi
-estimates, continuation), 5.3–5.6 (cones, deformations, PIC2, quarter pinching), then Layers 6–8.
-Layer 1's metric-family equation predicate is available before curvature evolution; Layer 3 adds
-maximal intervals and estimates. Layer 6 turns an invariant pinching set into global roundness and
-smooth convergence; Layer 7 applies it to 2-positive operators and PIC2 interiors; Layer 8 treats
-surfaces separately and assembles the global quarter-pinched theorem in every dimension.
 
 ## Layer 1: metric families and variation calculus
 
@@ -1659,6 +1609,89 @@ the maximum principles) for its three-dimensional flow analysis.
 three-dimensional positive-Ricci statement and owns the Poincaré-conjecture reductions that need
 surgery. [RiemannianGeometry](../RiemannianGeometry/README.md) records that this roadmap owns the
 differentiable sphere theorem and Hamilton's three-dimensional theorem.
+
+## Scope and ownership
+
+This roadmap owns, on closed finite-dimensional smooth real manifolds:
+
+- the metric-family calculus of Layer 1 (the symmetric two-tensor subbundle, interval families of
+  smooth metrics with joint regularity, variation formulas, the Lie derivative of covariant
+  two-tensors, scaling, volume normalization and solitons);
+- the closed-bundle parabolic theory of Layer 2 (parabolic Hölder spaces of bundle sections, the
+  closed-bundle Schauder estimate, the spectral base solution and its comparison with the weak
+  theory, coefficient continuation, the quasilinear scalar-principal tensor theorem) and the
+  DeTurck gauge, short-time existence and forward uniqueness of Ricci flow;
+- maximal flows, Shi's derivative estimates and curvature continuation (Layer 3);
+- the curvature evolution equations, the moving-frame comparison, the scalar and convex-bundle
+  maximum principles on an evolving closed manifold and the finite-dimensional ODE invariance
+  criterion (Layer 4);
+- the algebraic curvature tensors, the reaction tensor, the curvature cones (nonnegative and
+  2-nonnegative operator, nonnegative sectional, PIC, PIC2), the Böhm–Wilking deformation and the
+  Brendle–Schoen PIC2 family (Layer 5);
+- pinching sets, the Klingenberg injectivity estimate from a pinching hypothesis, the Cheeger–Ebin
+  path-deformation lemma on finite-vertex path models, the global roundness and fixed-manifold
+  smooth convergence arguments (Layer 6);
+- the sphere theorems of Layers 7 and 8, their space-form and equivariance consequences, and the
+  surface potential, Harnack, entropy and soliton-rigidity arguments.
+
+It leaves to named roadmaps, and consumes from them:
+
+- [RiemannianGeometry](../RiemannianGeometry/README.md) R1 (the curvature, Gram and exterior
+  dictionaries and the curvature operator on the bivector bundle), R2–R3 (Jacobi fields, second
+  variation, finite broken-geodesic path models), R4 (Rauch and Günther comparison, Myers, the
+  injectivity-radius carrier of item 6, Schur's theorem and the Killing–Hopf space-form
+  classification of item 7) and R7.0 (the scalar Bochner identity). The curvature operator on
+  bivectors is RiemannianGeometry R1's object on SmoothBundlesConnections B2's exterior square;
+  this roadmap compares its four-tensor carrier with it and never builds a second one.
+- [SmoothBundlesConnections](../SmoothBundlesConnections/README.md) B2–B4 (tensor, dual and Hom
+  bundles, frames, fibre metrics and induced connections).
+- [DifferentialGeometry](../DifferentialGeometry/README.md) 2.3–2.4 (covering maps and the
+  orientation double cover), 3.5 (time-dependent flows) and Layer 5 (integration, densities and
+  Stokes).
+- [PDE](../PDE/README.md) Lane F items 24–25 (Bochner spaces, the Gelfand triple, Galerkin
+  existence for linear parabolic equations) and F27.1–F27.5 (the scalar Euclidean parabolic
+  Schauder model).
+- [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K5a (bundle Sobolev spaces, the
+  compact pair `H¹ ⊂ L²` and Sobolev embeddings on compact manifolds).
+- [PseudodifferentialOperators](../PseudodifferentialOperators/README.md) P1 (differential
+  operators and scalar jets), P5 (Hölder spaces of bundle sections, §5.4), P6 (elliptic regularity)
+  and P7 (powers of `1 + ∇*∇` and their Sobolev domains, §7.1).
+- [VariationalMethods](../VariationalMethods/README.md) Layers 1–5 (compact form pairs, the
+  kernel-orthogonal Poincaré connector of §3.4, Courant–Fischer of §4.4 and the differential-energy
+  adapter of §5.3).
+- [MorseTheory](../MorseTheory/README.md) M1–M3 (critical Hessians, compact-band deformation and
+  handles, relative `C²` Morse approximation).
+- [HopfRinow](../../Completed/HopfRinow/README.md) (geodesics, exponential maps, completeness and
+  smooth dependence) and [UniversalCovers](../../Completed/UniversalCovers/README.md) (the universal
+  cover and its deck group).
+
+Ricci flow with surgery, geometrization and Kähler–Ricci flow are not part of this roadmap; the
+convergence theorems here are the inputs of Poincare3D and
+[GeometricTopology](../GeometricTopology/README.md), which cite Layers 1–5 and the sphere theorems.
+Every claim that a cited convergence result holds is proved through Layers 6 and 8's explicit
+estimates and comparison maps, never used as an additional hypothesis.
+
+## Exact supplier contracts
+
+| Supplier | Exact interface consumed |
+| --- | --- |
+| Mathlib, at the pin | `ContMDiffRiemannianMetric` (`inner`, `symm`, `pos`, `isVonNBounded`, `contMDiff`), `Bundle.ContMDiffRiemannianMetric.toRiemannianMetric` and its `IsContMDiffRiemannianBundle` instance; `CovariantDerivative.leviCivitaConnection` and `CovariantDerivative.isMetricCompatible_leviCivitaConnection`; `ContinuousMultilinearMap` with `ContinuousMultilinearMap.mkPiAlgebraFin` and `compContinuousLinearMap`; `innerSL`, `stdOrthonormalBasis`, `OrthonormalBasis`; `exteriorPower` with `exteriorPower.ιMulti` and the inner product on `⋀[ℝ]^n E` of a finite-dimensional real inner product space (the Gram determinant on decomposable elements, `exteriorPower.inner_ιMulti_ιMulti`); `LinearMap.IsSymmetric` and the finite-dimensional spectral theorem; `InnerProductSpace.instLaplacian` (notation `Δ`) and `InnerProductSpace.laplacianWithin`; `ConvexCone`, `ProperCone` (the closed submodule over `ℝ≥0`, containing zero, not necessarily salient) and `ClosedSubmodule.map` (the closure of the image under a continuous `ℝ≥0`-linear map, reached by dot notation on a `ProperCone`); `tangentConeAt ℝ≥0`; Picard–Lindelöf; `ContMDiffOn`, `HasDerivWithinAt`, `Diffeomorph`; `SimplyConnectedSpace`; the charted-space and `IsManifold (𝓡 n)` instances of `Metric.sphere (0 : EuclideanSpace ℝ (Fin (n + 1))) 1`. |
+| Tau Ceti, at the pin | `CovariantDerivative.curvatureTensor` (Lee's sign convention, equal to the one above), `CovariantDerivative.ricciTensor`, `CovariantDerivative.scalarCurvature`, `CovariantDerivative.sectionalCurvature`, `CovariantDerivative.HasConstantSectionalCurvature`, `Bundle.ContMDiffRiemannianMetric.IsConstantCurvatureTensor` (`R(w,u)v = κ(⟪u,v⟫w − ⟪w,v⟫u)` for the Levi-Civita connection of a smooth metric), the metric-compatible curvature symmetries, the Ricci and scalar trace formulas in orthonormal bases, `contMDiffOn_leviCivitaConnection` and the `ContMDiffCovariantDerivative` instance of the Levi-Civita connection, `TauCeti.riemannianVolume` and the canonical density, `TauCeti.Manifold.contMDiffOn_maximalIntegralCurve` and the compact-manifold flows. The `Riemannian/MetricVariation` files concern total variation of paths, not derivatives of metric families: the metric-family derivatives are Layer 1 targets. |
+| RiemannianGeometry | R1 (curvature/Gram/exterior dictionaries, normal-coordinate jets, the curvature operator on `Λ²TM`, Schur's theorem), R2 (Jacobi fields), R3 (second variation, index forms; R3.2 finite broken geodesics, subdivision/straightening, node-value Hessians and the Morse index theorem; the no-critical-value deformation and compact-band comparison), R4 (item 1 Rauch and Günther comparison, item 5 Bonnet–Myers, item 6 the injectivity radius `inj`, item 7 the round models and the Killing–Hopf classification of complete constant-curvature manifolds), R7.0 (the scalar Bochner identity and the first positive eigenvalue). |
+| SmoothBundlesConnections | B2 (associated, tensor, dual and Hom bundles, fibre metrics, frames, the exterior square `Λ²TM`), B3 (induced connections on associated bundles), B4 (curvature and the exterior covariant derivative). |
+| DifferentialGeometry | 2.3 (smooth structures on covers), 2.4 (the orientation double cover), 3.5 (`exists_timeDependentFlow`, time-dependent flows and their suspension), Layer 5 (integration of densities, Stokes). |
+| PDE | Lane F item 24 (Bochner spaces `L²(0,T;V)`, `H¹(0,T;V*)`, the Gelfand triple `V ↪ H ↪ V*`), item 25 (Galerkin existence and uniqueness for `∂_t u + Lu = f`, `u(0) = u₀`), F27.1 (Euclidean parabolic Hölder spaces, interpolation and absorption), F27.2 (constant-coefficient kernel derivative and cancellation estimates, trace attainment, linear coordinate changes), F27.3 (freezing, cutoff localization, the method of continuity), F27.5 (higher-order estimates). |
+| ComplexKahlerGeometry | K5a (`BundleSobolev`, the real compact pair `H¹ ⊂ L²`, Sobolev embeddings and elliptic regularity on compact manifolds). |
+| PseudodifferentialOperators | P1 (differential operators, scalar jets and symbols), P5 (§5.4 Hölder spaces `C^(k,α)` of bundle sections on a compact base), P6 (elliptic regularity and solvability), P7 (§7.1 powers of `1 + ∇*∇` and their Sobolev domains). |
+| VariationalMethods | Layers 1–5: compact form pairs (§3.1), the kernel-orthogonal Poincaré connector (§3.4), successive minima and Courant–Fischer (§4.4), the represented operator and the differential-energy adapter (§5.3). |
+| MorseTheory | M1 (critical Hessians and indices), M2 (compact-band deformation, handles and the handle homeomorphism), M3 (relative `C²` Morse approximation). |
+| HopfRinow (completed) | geodesics, exponential maps, completeness, smooth dependence on data. |
+| UniversalCovers (completed) | the universal cover, its deck group and the identification with `π₁`. |
+
+Every declaration named in this table is consumed, never restated. The closed-bundle and
+Ricci-specific adapters are owned here; the cited scalar and linear provider contracts are
+prerequisites for those adapters. Elliptic estimates or a static eigenbasis alone are not a
+time-dependent existence theorem: Layer 2 proves one.
 
 ## References
 

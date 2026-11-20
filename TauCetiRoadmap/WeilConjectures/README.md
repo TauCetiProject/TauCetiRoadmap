@@ -1,74 +1,40 @@
 # Roadmap: weil conjectures and cohomological zeta functions
 
-**Summary.** This roadmap connects rational points over finite fields to the integral zeta function, its cohomological degree factors, and its functional equation. Its endpoint is a theorem about an actual smooth proper scheme over a finite field: integral factors independent of the coefficient prime, reciprocal roots of the prescribed absolute values in every complex embedding, the signed functional equation, and trace formulas for every finite extension. The same interfaces support point-count recurrences, polynomial-count criteria, weighted stack counts, and explicit curve and surface calculations.
+**Summary.** Let `k` be a finite field of characteristic `p` with `q = p^f` elements, `f ≥ 1`, and let `X` be a separated scheme of finite type over `k`. Write `N_r` for the number of points of `X` over the degree-`r` extension of `k`. Its zeta function is the power series `Z_X(T) = exp(Σ_r N_r T^r/r)`. For smooth proper `X`, the Weil conjectures say that `Z_X` is a rational function that factors by cohomological degree. They add a functional equation and the Riemann hypothesis: the reciprocal roots of the degree-`i` factor have absolute value `q^(i/2)` under every complex embedding.
 
-The constructions start with the rational-point and rational étale cohomology interfaces of **EtaleCohomologyFoundations §§`F`.4 and `F`.10.1–`F`.10.2b**. The proof of purity belongs to **DeligneWeightsAndPurity**. Perfect pairings, cycle classes and weak Lefschetz use **EtaleCohomologyFoundations §§`F`.5–`F`.7** and **EtaleDualityAndPerverseSheaves §§1, 4 and 8**. Here the work is to compare those constructions with counting interfaces, apply the supplied algebraic descent and factor extraction, and expose consequences that retain their exact hypotheses.
+This roadmap connects the counts `N_r` to the factors `det(1 − TF | H^i)` from étale cohomology with ℓ-adic coefficients, for primes `ℓ ≠ p`, with `F` the geometric Frobenius. The trace formula, duality and purity come from other roadmaps. The work here is to compare them with the actual point counts and to descend the factors to integer coefficients by theorems from other roadmaps.
 
-There are two routes for curves. The general route imports purity and then takes traces. A second route imports the graph-of-Frobenius Hodge-index inequality on the product of a curve with itself and proves root bounds from estimates for all powers. The numerical argument is independent of the purity theorem. This distinction makes it possible to use either proof without a circular dependency.
+The first main theorem needs neither smoothness nor purity. For every separated finite-type `X`, `Z_X = U/V` with `U` and `V` integer polynomials of constant term one, coprime over ℚ. For a scheme of finite type over `Spec ℤ`, the Euler product of `(1 − #κ(x)^(−s))⁻¹` over its closed points `x` converges absolutely on some right half-plane.
 
-## Scope and ownership
+The second is the Weil conjectures, for `X` smooth, proper, geometrically connected and of pure dimension `d`. For each `i` there is an integer polynomial `Π_i` with constant term one that becomes `det(1 − TF | H^i)` for every `ℓ ≠ p`. Its degree, `dim H^i`, is therefore independent of `ℓ`. The zeta function is `∏_i Π_i^((−1)^(i+1))`, and `N_r = Σ_i (−1)^i Tr(F^r | H^i)` for every `r ≥ 1`. Every reciprocal root of `Π_i` is an algebraic integer of absolute value `q^(i/2)` under every complex embedding. Purity, taken from DeligneWeightsAndPurity, separates the degrees inside `U` and `V`; neither projectivity nor semisimplicity of Frobenius is assumed. For the curve `y² = x³ − x` over `𝔽₅`, `Π₁ = 1 + 2T + 5T²`, whose reciprocal roots `−1 ± 2i` have absolute value `√5`.
 
-This roadmap owns finite groupoid mass, signed Frobenius configurations, their
-inverse-zeta and sieve applications, the general finite-spectrum moment criteria,
-integral fan schemes over arbitrary commutative rings and the smooth complete
-split-fan Chow and cycle comparison,
-signed functional-equation assembly and its arithmetic
-sign descent, polynomial-count and equivariant Tate conclusions, and the geometric
-comparisons in WC.0–WC.7. It preserves the distinction between a theorem about
-actual cohomology and a numerical theorem about a supplied spectrum.
+The third is the functional equation. It comes from the Frobenius-equivariant duality between `H^i` and `H^(2d−i)`, without purity. For `X` smooth proper of pure dimension `d`, let `χ` be the alternating sum of the degrees of the `Π_i`, an integer that may be negative. The alternating product `Δ` of the Frobenius determinants is a nonzero rational number, independent of `ℓ`, with `Δ² = q^(dχ)`. In ℚ(T), `Z_X(1/(q^d T)) = (−1)^χ Δ T^χ Z_X(T)`.
 
-§7.3 owns the ring homomorphism from the scissor ring of
-MotivesAndAlgebraicCycles §4.20 to `∏_{r≥1} ℤ` given by point counts over all
-finite extensions. The Witt-ring product formula, `Z_{X×Y} = Z_X ∗ Z_Y` for the
-multiplication `∗` of the big Witt ring `W(ℤ) = 1 + Tℤ[[T]]`, is outside this
-roadmap. Its carrier is the big Witt ring of QWittVectors §§1.3–1.4a, and on
-that carrier the formula is §7.3's homomorphism read through the injective
-ghost map, whose components on `Z_X` are the counts `N_r`.
+Two numerical theorems are useful apart from geometry. Let `α_i` be finitely many elements of a normed field, possibly repeated, with weights `w_i`. If `|Σ_i w_i α_i^n| ≤ C R^n` for all large `n`, with `C, R ≥ 0`, then `|α_j| ≤ R` whenever the entries equal to `α_j` have nonzero total weight. The second takes finitely many complex numbers of absolute value `p^(i/2)` in degrees `0 ≤ i ≤ r`, for a real `p > 1`. Suppose their alternating power sums differ from `P(p^n)` by `o(p^(sn/2))`, for a natural number `s` and some `P ∈ ℚ[T]`. Then each odd degree `i` with `s ≤ i ≤ r` is empty. In each even degree `2j` with `s ≤ 2j ≤ r`, every number equals `p^j`, and their count is the coefficient of `T^j` in `P`.
 
-Scheme geometry, descent, Chow groups, intersection theory and the surface Weil
-bound are supplied by SchemeAndStackFoundations §§0–5. Rational adic carriers,
-Frobenius and base change are supplied by EtaleCohomologyFoundations §§`F`.0–`F`.4,
-`F`.10.1–`F`.10.5. Geometric trace identities belong to
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
-DeligneWeightsAndPurity §1.10 supplies finite-field zeta rationality; §4.4
-supplies normalized integral rational-series presentations and
-`degreeFactorExtraction`; §§4.4 and 7.15 supply projective and
-smooth proper canonical factors. Its §§10.2 and 8.24 supply component bounds and
-smooth proper DM purity, respectively. The targets below identify these supplied objects
-with integral Euler expansions and with the counting and sign interfaces here;
-they do not introduce competing geometric carriers.
-PadicDifferentialEquationsAndRigidCohomology §RD.6.24 supplies arbitrary-field
-rational-series descent, §RD.7.4(b) supplies local Fatou normalization at every
-prime, and §RD.7.5 supplies the polynomial-family adapter for
-DeligneWeightsAndPurity §4.4's arbitrary-characteristic-zero extraction theorem.
-WC.1 and WC.3 own their comparison with the actual point-count series.
+For a smooth projective geometrically connected curve `C` of genus `g`, the Riemann hypothesis has a second proof. The Hodge index theorem on `C × C` gives `|N_r − 1 − q^r| ≤ 2g q^(r/2)` for every `r ≥ 1`. A consequence of the first numerical theorem then bounds the reciprocal roots of the numerator by `√q`, and duality forces equality. This route uses no curve or projective purity result, so either proof can be used without a circular dependency.
 
-WC.6 owns arbitrary-ring finite-fan gluing and its regularity and support
-criteria, followed by the smooth complete split-fan Chow/cycle comparison.
-The seven-ray example is a specialization. WC.6 supplies this integral construction to the relative torsor and arithmetic
-applications of downstream ShimuraCompactifications §§0.16–0.17. AnalyticToricGeometryPartII §6.1's
-operational Chow/Minkowski-weight comparison for possibly singular complete fans
-has a different scope from the smooth Chow-ring and cycle comparison here.
+It builds on further roadmaps, including these. EtaleCohomologyFoundations provides rational ℓ-adic cohomology with compact supports, its Frobenius and the duality pairings. InverseGaloisAndArithmeticFundamentalGroups provides the Grothendieck–Lefschetz trace formula. SchemeAndStackFoundations provides the scheme geometry and the Hodge index theorem. The zeta function of an elliptic Weierstrass curve is already in Tau Ceti from EllipticCurves; this roadmap shows that it agrees with the point-count series.
 
-The elliptic Hasse theorem, the Weierstrass point-count convention and the zeta
-function of an elliptic Weierstrass curve over a finite field (its counts over
-every finite extension, trace recurrence, rationality, functional equation and
-Riemann hypothesis) belong to EllipticCurves Layer 3 and are already in Tau Ceti,
-together with the projective Weierstrass model and its point dictionary; §5.19
-compares that zeta function with this roadmap's point-count series and does not
-derive it again. The function fields of the Artin–Schreier curves `y^p − y = x^m`,
-their constant field, place at infinity and genus are also in Tau Ceti.
-AlgebraicCurves Layer 12 owns the function-field/model/genus dictionary. Surface numerical divisor local systems
-and their cohomological descent comparisons needed here are targets in WC.7,
-as are the stated characteristic-sensitive surface invariant comparisons.
-DeligneWeightsAndPurity §8.24 supplies rational DM cohomology, Frobenius-equivariant
-coarse comparison and smooth proper DM duality. WC.1 constructs point-groupoid
-masses, their cohomological comparison, and the remaining compact-support, trace
-and arithmetic-family extensions; its pairing export adapts the supplied pairing.
-NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5 and 5.0–5.2 supply
-the genus-one fibration carrier and rational-surface blowup, Picard and cohomology
-comparisons. WC.7 extends the rank-ten comparisons to arbitrary Picard rank and
-the Jacobian genus-one case to fibrations without a section.
+## How to read the build
+
+WC.0 fixes points and Frobenius. WC.1 handles integral zeta arithmetic and
+counting operations without purity, including the stack extensions. WC.2 assembles the signed
+equation, and WC.3 uses purity to separate integral degree factors. WC.4 compares
+Betti numbers only in a specified family. WC.5 develops the numerical moment
+criteria and polynomial-count consequences, with an independent surface route
+to curve RH. WC.6 applies the arithmetic to smooth proper schemes and mixed
+coefficients; WC.7 identifies the factors in actual geometry and assembles the
+endpoint.
+
+`Suggested.lean` states the Weil conjectures through the point-count zeta series
+of a smooth proper geometrically integral scheme over a finite field,
+absolute convergence of the arithmetic Euler product,
+integral rationality of the actual point-count series,
+the smooth proper signed functional equation and the two principal numerical
+moment theorems. Its two definitions use Mathlib's extension fields, scheme
+morphisms and formal power series. The sections below explicitly identify these
+acceptance statements; other named interfaces describe library targets.
 
 ## Conventions
 
@@ -101,149 +67,6 @@ For smooth proper pure-`d` `X` put
 The determinant multiplier is retained until rational descent proves its field of definition. Purity of weight `i` means algebraicity over `ℚ` and modulus `q^{i/2}` under **every** complex embedding of the eigenvalue field. A modulus statement in one embedding is insufficient. In mixed-sheaf statements the weights are integral algebraic weights.
 
 For a stack, a count is a rational **mass**, summing inverse automorphism orders over isomorphism classes. Stack zeta expressions use WC.1’s weighted trace series and mass comparison; integer coefficients are not inferred from rational masses. For a smooth proper scheme over `Spec ℤ`, a polynomial count is an exact identity at every positive prime power, with values elsewhere irrelevant.
-
-## Exact supplier contracts
-
-### From Mathlib and Tau Ceti
-
-Use the Mathlib and Tau Ceti versions pinned by the repository manifest. The algebraic targets below extend the following interfaces.
-
-* **Finite fields:** `FiniteField.Extension k p r`, with the prime and positive-degree instances, `finrank_extension`, `natCard_extension`, `algEquivExtension`, and `natCard_algHom_of_finrank_dvd`. These provide fields and algebra maps; the geometric point transport is a separate comparison.
-* **Determinants:** `Matrix.charpolyRev`, `Matrix.reverse_charpoly`, `Matrix.eval_charpolyRev`, `Matrix.coeff_charpolyRev_eq_neg_trace`, and `Matrix.charpoly_inv`. The chosen determinant is `det(1 − TF)`, rather than `det(T − F)`.
-* **Series:** `PowerSeries.mk`, coefficient extensionality, rescaling and polynomial inclusion; `HahnSeries.ofPowerSeries_injective`; and the existing maps from `RatFunc` and power series to `LaurentSeries`. The Laurent-series field is the common carrier when a rational expression is compared with a formal expansion.
-* **Descent and integrality:** `IsGalois.mem_range_algebraMap_iff_fixed` for a finite Galois extension, `IsIntegrallyClosed.eq_map_mul_C_of_dvd` for factors of monic polynomials, Möbius inversion, `padicNorm`, and polynomial equality from infinitely many evaluations.
-* **Finite spectra:** `Matrix.vandermonde`, `det_vandermonde_ne_zero_iff`, `mul_nonsing_inv`, geometric-series summation, and the finite-sum norm inequality.
-* **Groupoids and characters:** `CategoryTheory.isIsomorphicSetoid`, `Aut`, `Aut.autMulEquivOfIso`, discrete categories, single-object groupoids, action categories, and Tau Ceti's `repRing`, `repRingCharacter`, its injectivity for finite groups in characteristic zero, and its virtual-character image criterion.
-* **Elliptic counts:** `WeierstrassCurve.pointCount`, `pointCount_eq_card_point`, and `frobeniusTrace`. The first counts affine solutions and adds infinity; its comparison with the elliptic point carrier requires nonsingularity.
-* **The genus-one zeta function and the Weierstrass model:** Tau Ceti's `WeierstrassCurve.zetaFunction`, its rationality, functional equation, Riemann hypothesis, counts over every finite extension and trace recurrence, and the projective model `WeierstrassCurve.projModel` with its base change and point dictionary. Names, modules and hypotheses are listed below.
-* **Artin–Schreier function fields:** Tau Ceti's `TauCeti.ArtinSchreierMonomial.FunctionField` with its constant field, place at infinity and genus, listed below.
-
-Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an integral pro-étale sheaf. Rational finite-dimensional spaces, compact support, continuous Frobenius, and the trace theorem are additional geometric inputs. The roadmap uses the supplier's rational construction explicitly.
-
-### From other roadmaps
-
-| Supplier | Exact contract consumed |
-| --- | --- |
-| SchemeAndStackFoundations §§0.29, 1.1–1.2, 1.15, 1.18–1.21 | The `q`-power scheme Frobenius over `k`, effective descent, torsors, algebraic/DM stacks and quotients. Effective finite twists are required with their descent datum, rather than inferred from an operator trace. |
-| SchemeAndStackFoundations §§3.2–3.4, 5.1–5.6, 5.9–5.11 | Curves and genus, Chow groups and intersection products; adjunction, numerical divisors, Hodge index and `weil_bound_via_surfaces`, over arbitrary characteristic with its actual graph and fibre intersections. |
-| EtaleCohomologyFoundations §§`F`.0.2–`F`.0.3, `F`.2–`F`.4 | Constructible coefficient categories, Tate twists, proper/smooth base change, compact supports, finite-dimensional rational realization, Künneth, coefficient extension and continuous actions. Rationalization uses an integral model with the uniform bounds required there. |
-| EtaleCohomologyFoundations §§`F`.10.1–`F`.10.2b | `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.numberOfRationalPoints`, `VanishingCycles.rationalAdicRealization` and `VanishingCycles.frobeniusCohomology`: actual finite point sets, extension fields and geometric/scheme Frobenius compatibility. The rational realization itself is §`F`.4.5. |
-| EtaleCohomologyFoundations §§`F`.5–`F`.7, 0.9–0.11 | Exceptional inverse image and duality, the smooth trace, cycle maps with Tate orientation, projective bundles and weak Lefschetz. Use the Frobenius-equivariant perfect pairing, not only equality of Betti numbers. |
-| InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 | Curve/Jacobian realization and graph trace, finite and rational constructible Grothendieck–Lefschetz, and constant-sheaf counts for every extension with compact support. §IG.0.T4 supplies the independent affine/projective-space and multiplicative-group cohomology comparisons. |
-| DeligneWeightsAndPurity §§0.1, 0.10–0.16, 1.6–1.10 | All-conjugates Weil numbers, characteristic power series, powers, tensor products and reciprocal pairings; curve purity and the coefficient Euler product/rational zeta construction `finiteFieldZetaRationality`. |
-| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; §8.24's rational étale cohomology of Deligne–Mumford stacks and smooth proper DM purity clauses, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares the supplied extraction with the point-count construction and these canonical factors. |
-| MotivesAndAlgebraicCycles §4.20 | The scissor ring `K₀Var k` of separated finite-type `k`-schemes, its independence of the small model, `[X]=[X_red]`, and its universal property for invariants additive on closed–open decompositions and multiplicative on products over `k`. §7.3 applies it to point counts over a finite field. |
-| EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
-| ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
-| AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layer 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
-| ReductiveGroupsPartII §RG2.3 | Lang torsor triviality for connected smooth linear algebraic groups over finite fields; disconnected groups retain their torsor forms. |
-| ArithmeticGaloisRepresentations §§5.1, 5.3 | Frobenius density and characteristic-zero semisimple recognition from density-one traces, for the actual continuous generic Galois representations. |
-| PadicHodgeTheory §§5.3, 8.1; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`) | Potential semistability and good-reduction crystallinity; the Mathlib theorem makes each finite Galois extension cut out by a finite image quotient of an everywhere-unramified representation have degree one. WC.5 proves the required extension-splitting implication, with the hypotheses of van den Bogaart–Edixhoven Lemma 4.2. |
-| PadicDifferentialEquationsAndRigidCohomology §§RD.6.24, RD.7.4(b), RD.7.5, RD.7.1–RD.7.9 | Arbitrary-field rational-series descent; normalized coprime local Fatou bounds for both polynomials at every prime, including `ℓ=p`; the polynomial-family extraction adapter; and the linear `q`-Frobenius rigid/crystalline/étale comparison, with explicit coefficient maps. |
-| EllipticCurves Layer 3 | The independent Hasse theorem, Weierstrass normalization and the genus-one zeta milestone: point counts over every extension, the trace recurrence, rationality, the functional equation in `ℚ(T)` and the Riemann hypothesis, all pinned in Tau Ceti as listed below. §5.19 compares them with `zetaSeries`. |
-| NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2 | `GenusOneFibration`, relative minimality and model/base-change API; `rationalSurface_commonBlowup`, `blowup_Picard_intersection`, `rationalSurface_coherent_vanishing`, `pointBlowup_ellAdicCohomology`, `rationalSurface_cycleClass` and the rank-ten Picard-constancy criterion. WC.7 generalizes the rank and the Jacobian genus-one restriction and agrees with these specializations. |
-
-Tau Ceti supplies `TauCeti.repRing`, `TauCeti.repRingCharacter` and
-`TauCeti.mem_range_repRingCharacter_iff` in
-`TauCeti.RepresentationTheory.RepresentationRing.Basic`,
-`TauCeti.repRingCharacter_injective` in
-`TauCeti.RepresentationTheory.RepresentationRing.Injective`, and
-`TauCeti.mem_virtualCharacters_iff` in
-`TauCeti.RepresentationTheory.CharacterTable.VirtualCharacter`. The virtual-character
-criterion uses a finite group, algebraically closed characteristic-zero coefficients
-and the irreducible-character expansion; rational irreducibles retain Schur indices.
-`WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_eq_card_point` and
-`WeierstrassCurve.frobeniusTrace` are in
-`TauCeti.AlgebraicGeometry.EllipticCurve.PointCount`; its comparison to the nonsingular
-point carrier assumes ellipticity and finite affine solutions. The independent
-`WeierstrassCurve.hasse_bound` is in
-`TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound`.
-
-For a Weierstrass curve `W` over a finite field `F` with `q` elements, the module
-`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Frobenius.Zeta` defines the rational
-function `WeierstrassCurve.zetaRatFunc`, equal to `(1 − a_q T + qT²)/((1 − T)(1 − qT))`
-with `a_q` the Frobenius trace, and proves `WeierstrassCurve.mobiusAutOf_zetaRatFunc`:
-it is invariant under `T ↦ 1/(qT)`. Neither needs ellipticity. Under `[W.IsElliptic]`
-the module defines the zeta function `WeierstrassCurve.zetaFunction` in `ℚ[[T]]`, the
-exponential of `∑_{n≥1} deg(1 − πⁿ)Tⁿ/n` for the `q`-power Frobenius endomorphism `π`,
-and proves five facts. `WeierstrassCurve.logOf_zetaFunction`: its logarithm is that
-series. `WeierstrassCurve.coeff_finrank_logOf_zetaFunction`: for every
-finite extension `E/F` of degree `n`, the `n`-th coefficient of its logarithm is the
-`pointCount` of the base change of `W` to `E`, divided by `n`.
-`WeierstrassCurve.zetaFunction_eq_mul_inv`: rationality, with numerator
-`1 − a_q T + qT²` and denominator `(1 − T)(1 − qT)`. `WeierstrassCurve.coe_zetaRatFunc`:
-the Laurent expansion of `zetaRatFunc` is `zetaFunction`.
-`WeierstrassCurve.norm_eq_inv_sqrt_card_of_one_sub_frobeniusTrace_mul_add_card_mul_sq_eq_zero`:
-every complex zero of `1 − a_q T + qT²` has modulus `q^(−1/2)`. The module
-`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Frobenius.PowTrace` defines, under the
-same hypotheses, `WeierstrassCurve.frobeniusPowTrace`, the sequence
-`t_n = qⁿ + 1 − deg(1 − πⁿ)` with `t₀ = 2` and `t₁ = a_q`, and proves
-`WeierstrassCurve.frobeniusPowTrace_add_two`, the recurrence
-`t_{n+2} = a_q t_{n+1} − q t_n`, and `WeierstrassCurve.frobeniusPowTrace_finrank`: over
-an extension of degree `n`, `t_n` is the Frobenius trace of the base change. These
-declarations are EllipticCurves Layer 3's zeta milestone.
-
-For a Weierstrass curve `W` over a commutative ring `R`,
-`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.ProjModel` constructs the projective
-model `WeierstrassCurve.projModel` with structure morphism
-`WeierstrassCurve.projModelOver` to `Spec R`, which is proper; for elliptic `W` it is
-smooth of relative dimension one (`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.Smooth`).
-`WeierstrassCurve.isPullback_projModelBaseChange`, in
-`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.BaseChange`, shows that for a ring map
-`f : R → R′` the model of the curve with coefficients extended along `f` is the base
-change of the model along `Spec f`. `WeierstrassCurve.projModelPointsEquiv`, in
-`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.Points`, identifies, over a field and for
-elliptic `W`, the sections of the structure morphism with Mathlib's
-`WeierstrassCurve.Affine.Point`.
-
-For a field `k` of prime characteristic `p` and a natural number `m` with `p ∤ m`,
-`TauCeti.FieldTheory.FunctionField.ArtinSchreier.Monomial` constructs the function field
-`TauCeti.ArtinSchreierMonomial.FunctionField k p m` of `y^p − y = x^m` and proves
-`TauCeti.ArtinSchreierMonomial.isIntegrallyClosedIn` (its constant field is exactly
-`k`), `TauCeti.ArtinSchreierMonomial.existsUnique_restrict_eq_infty` (exactly one place
-lies over the place at infinity of `k(x)`, and it has degree one) and
-`TauCeti.ArtinSchreierMonomial.two_mul_genus` (`2g = (p − 1)(m − 1)`).
-
-Tau Ceti's `TauCeti.Toric.Fan`, `TauCeti.Toric.Fan.IsRegular`,
-`TauCeti.Toric.Fan.IsComplete`, `TauCeti.Toric.dualSemigroup` and
-`TauCeti.Toric.Fan.algebraicRealization` occur in the modules
-`TauCeti.Geometry.Toric.Algebraic.Fan.Basic`,
-`TauCeti.Geometry.Toric.Algebraic.Regular`,
-`TauCeti.Geometry.Toric.Algebraic.DualSemigroup.Basic` and
-`TauCeti.Geometry.Toric.Algebraic.Fan.Scheme`. AnalyticToricGeometry Layer 0
-records their lattice, cone and gluing contracts. The pinned affine and fan
-scheme constructions use complex coefficients; WC.6 owns the integral model
-for every finite rational fan and the smooth complete split-fan Chow/cycle
-comparison, specialized to the specified fan in WC.6.
-
-### From TauCetiRoadmap.MotivesAndAlgebraicCycles
-
-Section 4.20 constructs `K₀Var k` for every field `k`, with its ring structure
-and its universal property for additive multiplicative invariants. This roadmap
-uses that universal property only in §7.3, for a finite field, with the
-sequence of point counts as the invariant. The compactly supported motivic
-measure and the tensor ring on `TriangulatedK0` in the same section are not
-used here.
-
-## How to read the build
-
-WC.0 fixes points and Frobenius. WC.1 handles integral zeta arithmetic and
-counting operations without purity, including the stack extensions. WC.2 assembles the signed
-equation, and WC.3 uses purity to separate integral degree factors. WC.4 compares
-Betti numbers only in a specified family. WC.5 develops the numerical moment
-criteria and polynomial-count consequences, with an independent surface route
-to curve RH. WC.6 applies the arithmetic to smooth proper schemes and mixed
-coefficients; WC.7 identifies the factors in actual geometry and assembles the
-endpoint.
-
-`Suggested.lean` states the Weil conjectures through the point-count zeta series
-of a smooth proper geometrically integral scheme over a finite field,
-absolute convergence of the arithmetic Euler product,
-integral rationality of the actual point-count series,
-the smooth proper signed functional equation and the two principal numerical
-moment theorems. Its two definitions use Mathlib's extension fields, scheme
-morphisms and formal power series. The sections below explicitly identify these
-acceptance statements; other named interfaces describe library targets.
 
 ## Layer WC.0: Rational points and Frobenius conventions
 
@@ -2060,6 +1883,193 @@ divide as follows; names omit the `.lean` suffix.
   7.15.
 - No counterpart there: §1.1, §§1.7–1.16, the sign under base extension in §2.4, WC.5,
   §§6.2–6.5 and 6.7–6.9, §7.1, the Künneth formula of §7.3, and §§7.4–7.15.
+
+## Scope and ownership
+
+This roadmap owns finite groupoid mass, signed Frobenius configurations, their
+inverse-zeta and sieve applications, the general finite-spectrum moment criteria,
+integral fan schemes over arbitrary commutative rings and the smooth complete
+split-fan Chow and cycle comparison,
+signed functional-equation assembly and its arithmetic
+sign descent, polynomial-count and equivariant Tate conclusions, and the geometric
+comparisons in WC.0–WC.7. It preserves the distinction between a theorem about
+actual cohomology and a numerical theorem about a supplied spectrum.
+
+§7.3 owns the ring homomorphism from the scissor ring of
+MotivesAndAlgebraicCycles §4.20 to `∏_{r≥1} ℤ` given by point counts over all
+finite extensions. The Witt-ring product formula, `Z_{X×Y} = Z_X ∗ Z_Y` for the
+multiplication `∗` of the big Witt ring `W(ℤ) = 1 + Tℤ[[T]]`, is outside this
+roadmap. Its carrier is the big Witt ring of QWittVectors §§1.3–1.4a, and on
+that carrier the formula is §7.3's homomorphism read through the injective
+ghost map, whose components on `Z_X` are the counts `N_r`.
+
+Scheme geometry, descent, Chow groups, intersection theory and the surface Weil
+bound are supplied by SchemeAndStackFoundations §§0–5. Rational adic carriers,
+Frobenius and base change are supplied by EtaleCohomologyFoundations §§`F`.0–`F`.4,
+`F`.10.1–`F`.10.5. Geometric trace identities belong to
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4.
+DeligneWeightsAndPurity §1.10 supplies finite-field zeta rationality; §4.4
+supplies normalized integral rational-series presentations and
+`degreeFactorExtraction`; §§4.4 and 7.15 supply projective and
+smooth proper canonical factors. Its §§10.2 and 8.24 supply component bounds and
+smooth proper DM purity, respectively. The targets above identify these supplied objects
+with integral Euler expansions and with the counting and sign interfaces here;
+they do not introduce competing geometric carriers.
+PadicDifferentialEquationsAndRigidCohomology §RD.6.24 supplies arbitrary-field
+rational-series descent, §RD.7.4(b) supplies local Fatou normalization at every
+prime, and §RD.7.5 supplies the polynomial-family adapter for
+DeligneWeightsAndPurity §4.4's arbitrary-characteristic-zero extraction theorem.
+WC.1 and WC.3 own their comparison with the actual point-count series.
+
+WC.6 owns arbitrary-ring finite-fan gluing and its regularity and support
+criteria, followed by the smooth complete split-fan Chow/cycle comparison.
+The seven-ray example is a specialization. WC.6 supplies this integral construction to the relative torsor and arithmetic
+applications of downstream ShimuraCompactifications §§0.16–0.17. AnalyticToricGeometryPartII §6.1's
+operational Chow/Minkowski-weight comparison for possibly singular complete fans
+has a different scope from the smooth Chow-ring and cycle comparison here.
+
+The elliptic Hasse theorem, the Weierstrass point-count convention and the zeta
+function of an elliptic Weierstrass curve over a finite field (its counts over
+every finite extension, trace recurrence, rationality, functional equation and
+Riemann hypothesis) belong to EllipticCurves Layer 3 and are already in Tau Ceti,
+together with the projective Weierstrass model and its point dictionary; §5.19
+compares that zeta function with this roadmap's point-count series and does not
+derive it again. The function fields of the Artin–Schreier curves `y^p − y = x^m`,
+their constant field, place at infinity and genus are also in Tau Ceti.
+AlgebraicCurves Layer 12 owns the function-field/model/genus dictionary. Surface numerical divisor local systems
+and their cohomological descent comparisons needed here are targets in WC.7,
+as are the stated characteristic-sensitive surface invariant comparisons.
+DeligneWeightsAndPurity §8.24 supplies rational DM cohomology, Frobenius-equivariant
+coarse comparison and smooth proper DM duality. WC.1 constructs point-groupoid
+masses, their cohomological comparison, and the remaining compact-support, trace
+and arithmetic-family extensions; its pairing export adapts the supplied pairing.
+NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5 and 5.0–5.2 supply
+the genus-one fibration carrier and rational-surface blowup, Picard and cohomology
+comparisons. WC.7 extends the rank-ten comparisons to arbitrary Picard rank and
+the Jacobian genus-one case to fibrations without a section.
+
+## Exact supplier contracts
+
+### From Mathlib and Tau Ceti
+
+Use the Mathlib and Tau Ceti versions pinned by the repository manifest. The algebraic targets above extend the following interfaces.
+
+* **Finite fields:** `FiniteField.Extension k p r`, with the prime and positive-degree instances, `finrank_extension`, `natCard_extension`, `algEquivExtension`, and `natCard_algHom_of_finrank_dvd`. These provide fields and algebra maps; the geometric point transport is a separate comparison.
+* **Determinants:** `Matrix.charpolyRev`, `Matrix.reverse_charpoly`, `Matrix.eval_charpolyRev`, `Matrix.coeff_charpolyRev_eq_neg_trace`, and `Matrix.charpoly_inv`. The chosen determinant is `det(1 − TF)`, rather than `det(T − F)`.
+* **Series:** `PowerSeries.mk`, coefficient extensionality, rescaling and polynomial inclusion; `HahnSeries.ofPowerSeries_injective`; and the existing maps from `RatFunc` and power series to `LaurentSeries`. The Laurent-series field is the common carrier when a rational expression is compared with a formal expansion.
+* **Descent and integrality:** `IsGalois.mem_range_algebraMap_iff_fixed` for a finite Galois extension, `IsIntegrallyClosed.eq_map_mul_C_of_dvd` for factors of monic polynomials, Möbius inversion, `padicNorm`, and polynomial equality from infinitely many evaluations.
+* **Finite spectra:** `Matrix.vandermonde`, `det_vandermonde_ne_zero_iff`, `mul_nonsing_inv`, geometric-series summation, and the finite-sum norm inequality.
+* **Groupoids and characters:** `CategoryTheory.isIsomorphicSetoid`, `Aut`, `Aut.autMulEquivOfIso`, discrete categories, single-object groupoids, action categories, and Tau Ceti's `repRing`, `repRingCharacter`, its injectivity for finite groups in characteristic zero, and its virtual-character image criterion.
+* **Elliptic counts:** `WeierstrassCurve.pointCount`, `pointCount_eq_card_point`, and `frobeniusTrace`. The first counts affine solutions and adds infinity; its comparison with the elliptic point carrier requires nonsingularity.
+* **The genus-one zeta function and the Weierstrass model:** Tau Ceti's `WeierstrassCurve.zetaFunction`, its rationality, functional equation, Riemann hypothesis, counts over every finite extension and trace recurrence, and the projective model `WeierstrassCurve.projModel` with its base change and point dictionary. Names, modules and hypotheses are listed below.
+* **Artin–Schreier function fields:** Tau Ceti's `TauCeti.ArtinSchreierMonomial.FunctionField` with its constant field, place at infinity and genus, listed below.
+
+Mathlib's `Scheme.EllAdicCohomology` is an additive-group construction from an integral pro-étale sheaf. Rational finite-dimensional spaces, compact support, continuous Frobenius, and the trace theorem are additional geometric inputs. The roadmap uses the supplier's rational construction explicitly.
+
+### From other roadmaps
+
+| Supplier | Exact contract consumed |
+| --- | --- |
+| SchemeAndStackFoundations §§0.29, 1.1–1.2, 1.15, 1.18–1.21 | The `q`-power scheme Frobenius over `k`, effective descent, torsors, algebraic/DM stacks and quotients. Effective finite twists are required with their descent datum, rather than inferred from an operator trace. |
+| SchemeAndStackFoundations §§3.2–3.4, 5.1–5.6, 5.9–5.11 | Curves and genus, Chow groups and intersection products; adjunction, numerical divisors, Hodge index and `weil_bound_via_surfaces`, over arbitrary characteristic with its actual graph and fibre intersections. |
+| EtaleCohomologyFoundations §§`F`.0.2–`F`.0.3, `F`.2–`F`.4 | Constructible coefficient categories, Tate twists, proper/smooth base change, compact supports, finite-dimensional rational realization, Künneth, coefficient extension and continuous actions. Rationalization uses an integral model with the uniform bounds required there. |
+| EtaleCohomologyFoundations §§`F`.10.1–`F`.10.2b | `VanishingCycles.frobeniusFixedPoints`, `VanishingCycles.numberOfRationalPoints`, `VanishingCycles.rationalAdicRealization` and `VanishingCycles.frobeniusCohomology`: actual finite point sets, extension fields and geometric/scheme Frobenius compatibility. The rational realization itself is §`F`.4.5. |
+| EtaleCohomologyFoundations §§`F`.5–`F`.7, 0.9–0.11 | Exceptional inverse image and duality, the smooth trace, cycle maps with Tate orientation, projective bundles and weak Lefschetz. Use the Frobenius-equivariant perfect pairing, not only equality of Betti numbers. |
+| InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T1–IG.0.T4 | Curve/Jacobian realization and graph trace, finite and rational constructible Grothendieck–Lefschetz, and constant-sheaf counts for every extension with compact support. §IG.0.T4 supplies the independent affine/projective-space and multiplicative-group cohomology comparisons. |
+| DeligneWeightsAndPurity §§0.1, 0.10–0.16, 1.6–1.10 | All-conjugates Weil numbers, characteristic power series, powers, tensor products and reciprocal pairings; curve purity and the coefficient Euler product/rational zeta construction `finiteFieldZetaRationality`. |
+| DeligneWeightsAndPurity §§4.3–4.4, 7.8–7.15, 8.24, 10.2 | Projective purity, normalized integral rational-series presentations and `degreeFactorExtraction`; canonical projective, smooth proper and homology-manifold factors; mixed direct-image bounds; §8.24's rational étale cohomology of Deligne–Mumford stacks and smooth proper DM purity clauses, Frobenius-equivariant rational coarse comparison and smooth proper DM duality; component-aware bounds. WC.3 compares the supplied extraction with the point-count construction and these canonical factors. |
+| MotivesAndAlgebraicCycles §4.20 | The scissor ring `K₀Var k` of separated finite-type `k`-schemes, its independence of the small model, `[X]=[X_red]`, and its universal property for invariants additive on closed–open decompositions and multiplicative on products over `k`. §7.3 applies it to point counts over a finite field. |
+| EtaleDualityAndPerverseSheaves §§1.3, 4.3, 4.7, 8.1–8.2 | Chow/étale cycle comparison, complete-intersection primitive Betti comparison, alternating middle pairing, graded determinant reciprocity and its sign `poincareReciprocityExport`. WC.1 adapts the DM pairing supplied by DeligneWeightsAndPurity §8.24. |
+| ComplexComparisonPartII §§C6.3–C6.6 | Finite, integral and rational Artin comparison, including compact support, cup products, coefficient maps and finite group actions. WC.4 supplies the actual family and transport path. |
+| AbelianSchemesAndArithmeticModuli §A4.4; AlgebraicCurves Layer 12 | Jacobian Tate/first-cohomology realization and the field/model/place/genus comparisons. These retain `b₁=2g` rather than identifying Betti and coherent genus without a comparison. |
+| ReductiveGroupsPartII §RG2.3 | Lang torsor triviality for connected smooth linear algebraic groups over finite fields; disconnected groups retain their torsor forms. |
+| ArithmeticGaloisRepresentations §§5.1, 5.3 | Frobenius density and characteristic-zero semisimple recognition from density-one traces, for the actual continuous generic Galois representations. |
+| PadicHodgeTheory §§5.3, 8.1; Mathlib `NumberField.finrank_eq_one_of_unramified` (`Mathlib.NumberTheory.NumberField.ExistsRamified`) | Potential semistability and good-reduction crystallinity; the Mathlib theorem makes each finite Galois extension cut out by a finite image quotient of an everywhere-unramified representation have degree one. WC.5 proves the required extension-splitting implication, with the hypotheses of van den Bogaart–Edixhoven Lemma 4.2. |
+| PadicDifferentialEquationsAndRigidCohomology §§RD.6.24, RD.7.4(b), RD.7.5, RD.7.1–RD.7.9 | Arbitrary-field rational-series descent; normalized coprime local Fatou bounds for both polynomials at every prime, including `ℓ=p`; the polynomial-family extraction adapter; and the linear `q`-Frobenius rigid/crystalline/étale comparison, with explicit coefficient maps. |
+| EllipticCurves Layer 3 | The independent Hasse theorem, Weierstrass normalization and the genus-one zeta milestone: point counts over every extension, the trace recurrence, rationality, the functional equation in `ℚ(T)` and the Riemann hypothesis, all pinned in Tau Ceti as listed below. §5.19 compares them with `zetaSeries`. |
+| NeronModelsAndSemistableAbelianVarietiesPartII §§2.1, 4.0, 4.5, 5.0–5.2 | `GenusOneFibration`, relative minimality and model/base-change API; `rationalSurface_commonBlowup`, `blowup_Picard_intersection`, `rationalSurface_coherent_vanishing`, `pointBlowup_ellAdicCohomology`, `rationalSurface_cycleClass` and the rank-ten Picard-constancy criterion. WC.7 generalizes the rank and the Jacobian genus-one restriction and agrees with these specializations. |
+
+Tau Ceti supplies `TauCeti.repRing`, `TauCeti.repRingCharacter` and
+`TauCeti.mem_range_repRingCharacter_iff` in
+`TauCeti.RepresentationTheory.RepresentationRing.Basic`,
+`TauCeti.repRingCharacter_injective` in
+`TauCeti.RepresentationTheory.RepresentationRing.Injective`, and
+`TauCeti.mem_virtualCharacters_iff` in
+`TauCeti.RepresentationTheory.CharacterTable.VirtualCharacter`. The virtual-character
+criterion uses a finite group, algebraically closed characteristic-zero coefficients
+and the irreducible-character expansion; rational irreducibles retain Schur indices.
+`WeierstrassCurve.pointCount`, `WeierstrassCurve.pointCount_eq_card_point` and
+`WeierstrassCurve.frobeniusTrace` are in
+`TauCeti.AlgebraicGeometry.EllipticCurve.PointCount`; its comparison to the nonsingular
+point carrier assumes ellipticity and finite affine solutions. The independent
+`WeierstrassCurve.hasse_bound` is in
+`TauCeti.AlgebraicGeometry.EllipticCurve.HasseBound`.
+
+For a Weierstrass curve `W` over a finite field `F` with `q` elements, the module
+`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Frobenius.Zeta` defines the rational
+function `WeierstrassCurve.zetaRatFunc`, equal to `(1 − a_q T + qT²)/((1 − T)(1 − qT))`
+with `a_q` the Frobenius trace, and proves `WeierstrassCurve.mobiusAutOf_zetaRatFunc`:
+it is invariant under `T ↦ 1/(qT)`. Neither needs ellipticity. Under `[W.IsElliptic]`
+the module defines the zeta function `WeierstrassCurve.zetaFunction` in `ℚ[[T]]`, the
+exponential of `∑_{n≥1} deg(1 − πⁿ)Tⁿ/n` for the `q`-power Frobenius endomorphism `π`,
+and proves five facts. `WeierstrassCurve.logOf_zetaFunction`: its logarithm is that
+series. `WeierstrassCurve.coeff_finrank_logOf_zetaFunction`: for every
+finite extension `E/F` of degree `n`, the `n`-th coefficient of its logarithm is the
+`pointCount` of the base change of `W` to `E`, divided by `n`.
+`WeierstrassCurve.zetaFunction_eq_mul_inv`: rationality, with numerator
+`1 − a_q T + qT²` and denominator `(1 − T)(1 − qT)`. `WeierstrassCurve.coe_zetaRatFunc`:
+the Laurent expansion of `zetaRatFunc` is `zetaFunction`.
+`WeierstrassCurve.norm_eq_inv_sqrt_card_of_one_sub_frobeniusTrace_mul_add_card_mul_sq_eq_zero`:
+every complex zero of `1 − a_q T + qT²` has modulus `q^(−1/2)`. The module
+`TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.Frobenius.PowTrace` defines, under the
+same hypotheses, `WeierstrassCurve.frobeniusPowTrace`, the sequence
+`t_n = qⁿ + 1 − deg(1 − πⁿ)` with `t₀ = 2` and `t₁ = a_q`, and proves
+`WeierstrassCurve.frobeniusPowTrace_add_two`, the recurrence
+`t_{n+2} = a_q t_{n+1} − q t_n`, and `WeierstrassCurve.frobeniusPowTrace_finrank`: over
+an extension of degree `n`, `t_n` is the Frobenius trace of the base change. These
+declarations are EllipticCurves Layer 3's zeta milestone.
+
+For a Weierstrass curve `W` over a commutative ring `R`,
+`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.ProjModel` constructs the projective
+model `WeierstrassCurve.projModel` with structure morphism
+`WeierstrassCurve.projModelOver` to `Spec R`, which is proper; for elliptic `W` it is
+smooth of relative dimension one (`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.Smooth`).
+`WeierstrassCurve.isPullback_projModelBaseChange`, in
+`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.BaseChange`, shows that for a ring map
+`f : R → R′` the model of the curve with coefficients extended along `f` is the base
+change of the model along `Spec f`. `WeierstrassCurve.projModelPointsEquiv`, in
+`TauCeti.AlgebraicGeometry.EllipticCurve.Scheme.Points`, identifies, over a field and for
+elliptic `W`, the sections of the structure morphism with Mathlib's
+`WeierstrassCurve.Affine.Point`.
+
+For a field `k` of prime characteristic `p` and a natural number `m` with `p ∤ m`,
+`TauCeti.FieldTheory.FunctionField.ArtinSchreier.Monomial` constructs the function field
+`TauCeti.ArtinSchreierMonomial.FunctionField k p m` of `y^p − y = x^m` and proves
+`TauCeti.ArtinSchreierMonomial.isIntegrallyClosedIn` (its constant field is exactly
+`k`), `TauCeti.ArtinSchreierMonomial.existsUnique_restrict_eq_infty` (exactly one place
+lies over the place at infinity of `k(x)`, and it has degree one) and
+`TauCeti.ArtinSchreierMonomial.two_mul_genus` (`2g = (p − 1)(m − 1)`).
+
+Tau Ceti's `TauCeti.Toric.Fan`, `TauCeti.Toric.Fan.IsRegular`,
+`TauCeti.Toric.Fan.IsComplete`, `TauCeti.Toric.dualSemigroup` and
+`TauCeti.Toric.Fan.algebraicRealization` occur in the modules
+`TauCeti.Geometry.Toric.Algebraic.Fan.Basic`,
+`TauCeti.Geometry.Toric.Algebraic.Regular`,
+`TauCeti.Geometry.Toric.Algebraic.DualSemigroup.Basic` and
+`TauCeti.Geometry.Toric.Algebraic.Fan.Scheme`. AnalyticToricGeometry Layer 0
+records their lattice, cone and gluing contracts. The pinned affine and fan
+scheme constructions use complex coefficients; WC.6 owns the integral model
+for every finite rational fan and the smooth complete split-fan Chow/cycle
+comparison, specialized to the specified fan in WC.6.
+
+### From TauCetiRoadmap.MotivesAndAlgebraicCycles
+
+Section 4.20 constructs `K₀Var k` for every field `k`, with its ring structure
+and its universal property for additive multiplicative invariants. This roadmap
+uses that universal property only in §7.3, for a finite field, with the
+sequence of point counts as the invariant. The compactly supported motivic
+measure and the tensor ring on `TriangulatedK0` in the same section are not
+used here.
 
 ## References
 

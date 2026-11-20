@@ -1,98 +1,61 @@
 # Roadmap: contact homology and the symplectic field theory formalism
 
-**Summary.** Construct rational contact homology of closed cooriented contact manifolds, its
-exact symplectic cobordism maps and its symmetric monoidal functor on homology, from the
-punctured-curve analysis, the coherent virtual count comparisons and the orientation-line
-algebra that make the construction work for multiply covered curves (Pardon §1.6, Theorem 1.1,
-p. 7). Build the multiple-input and arbitrary-genus SFT algebra on explicit coefficient
-carriers (EGH §§2.2–2.5), together with its geometric realization data and the conditional
-comparison theorems that follow from them. These are separate levels of the theory: the contact
-differential counts one-positive-end genus-zero curves, while the SFT formalism also describes
-the fusion of several inputs and higher genus. The basic contact construction is over ℚ and is
-an unconditional construction target (Layers 0–6). The general SFT realization assertion of
-Layer 8 is a precisely stated research-level assertion whose deliverables are its data, its
-statement and its conditional algebraic consequences; its truth is not a premise hidden in the
-contact-homology theorem. Layer 9 constructs the nonexact receiving objects and maps.
+**Summary.** Contact homology is an invariant of closed contact manifolds, defined by counting
+holomorphic curves. Its generators come from closed Reeb orbits. Its differential counts rigid
+genus-zero curves in the symplectization with one positive end and any finite number of negative
+ends. Generic regularity can fail for multiply covered curves: the double cover of a rigid regular
+plane has in general a cokernel of positive dimension. Following Pardon, this roadmap therefore
+counts curves virtually, adding finite-dimensional obstruction spaces. It constructs rational
+contact homology with its maps for exact cobordisms, and then the algebra of full symplectic field
+theory after Eliashberg, Givental and Hofer. Throughout, Y is a closed cooriented contact manifold
+of dimension 2n−1, n≥2, and every closed Reeb orbit of its contact form, covered ones included, is
+nondegenerate. Coefficients are in ℚ, and the grading is by parity.
 
-## Scope and ownership
+For a graded ℚ-module V, the free unital supercommutative algebra A(V) is the tensor algebra
+modulo xy=(−1)^(|x||y|)yx for homogeneous x and y; over ℚ, odd squares vanish. When V is ℤ-graded,
+total degree makes A(V) a ℤ-graded algebra. A linear map V→A(V) raising degree by one extends
+uniquely to a map d of A(V) obeying the signed Leibniz rule. Such a d squares to zero exactly when
+d∘d vanishes on generators. Only these three headline theorems can be stated in Lean over Mathlib
+and Tau Ceti; the others concern counts of punctured holomorphic curves, which neither library
+has.
 
-This roadmap owns:
+The contact algebra of Y is A(V), with V the direct sum of the rational orientation lines of the
+good orbits: those on whose line the cyclic group of the covering acts trivially. Its
+differential d, defined on generators by the rigid curves above read as words in their negative
+orbits, squares to zero. An exact cobordism from Y⁺ to Y⁻ gives a unital algebra chain map from
+the algebra of Y⁺ to that of Y⁻. Contact homology is invariant under change of contact form and of
+compatible almost complex structure. With the cobordism maps it becomes a symmetric monoidal
+functor from the deformation category of exact cobordisms to parity-graded supercommutative
+ℚ-algebras. For an irrational ellipsoid boundary every generator is even, so d=0.
 
-- the parametrized and unparametrized closed Reeb orbits of a nondegenerate contact form, their
-  covering multiplicities, asymptotic markers, orientation lines and the good/bad dichotomy
-  (Layer 0);
-- the free unital supercommutative algebra on an integer- or parity-graded ℚ-module, its
-  grading, its odd derivations and its tensor-product and quotient comparisons (Layer 0);
-- stable punctured pseudoholomorphic maps with Reeb asymptotics into completed cobordisms and
-  symplectizations, their energy, their holomorphic buildings and compactifications, and the
-  smaller tree-model compactification without trivial cylinders (Layer 1);
-- the weighted Reeb-end Fredholm set-up, the punctured index formula in SFT normalization and
-  the determinant-line gluing for Reeb ends (Layer 2);
-- augmented local gluing, orientation descent and the labelled/unlabelled count formulas
-  (Layer 3);
-- the contact implicit atlases on the tree-indexed moduli problems with their cell-like
-  stratification by a finite category of tree types, and the chain-level virtual fundamental
-  cycle package on them: virtual cochain complexes, pushforwards, the Čech comparison, the
-  category-stratified complex and the product map (Layer 4);
-- the coherent chain-level count diagrams, the contact differential, the exact cobordism maps
-  and the contact homology functor (Layer 5);
-- augmentations, linearized contact homology, hypertight and ellipsoid examples (Layer 6);
-- the normal-ordered Poisson and Weyl carriers, the Hamiltonian differentials, the cobordism
-  potential bimodules, the weighted exact-sector carrier, the vacuum sector and the Fock
-  representation with its curved derived brackets (Layer 7);
-- the graph-indexed realization data, the realization assertion and its conditional sewing
-  consequences, exact and nonexact (Layer 8);
-- class-labelled coefficients, admissibility, the quantum and rational receiving maps for
-  nonexact cobordisms, and the decorated nonexact category (Layer 9).
+Full symplectic field theory, a separate level, also counts curves with several positive ends and
+higher genus. Each orbit γ, of covering multiplicity κ_γ, gives variables q_γ and p_γ with
+[p_γ,q_γ]=κ_γℏ in the Weyl algebra; ℏ records genus. A series `K=Σ_(g≥0) ℏ^g H_g` with K⋆K=0 gives
+a derivation D=[K,−]/ℏ with D²=0. For a cobordism with even potential F, the potential equation
+reads H⁻·exp(F)=exp(F)·H⁺, where H=ℏ⁻¹K. Layer 8 derives both equations from realization data
+indexed by graphs. That such data can be constructed coherently is a research-level assertion,
+stated precisely and used only as a hypothesis; the contact-homology theorems do not depend on it.
 
-It leaves to named owners, and imports from them by section:
+In a nonexact cobordism W, curves without positive ends, such as a rigid closed sphere of positive
+area, contribute a part a of the potential. Given the nonexact realization data, the roadmap builds a map
+T_W between Fock spaces with T_W(1)=1, intertwining the Fock operator Q⁺ of Y⁺ with that of Y⁻
+twisted by a. When Q⁺(1)=0, the potential equation yields the quantum Maurer–Cartan identity
+Q⁻(exp a)=0.
 
-- ContactGeometry CG1–CG6: contact forms, Reeb vector fields, symplectizations, contact-type
-  ends and the elementary contact transformations. This roadmap constructs only the orbit and
-  punctured-count applications of that geometry.
-- HeegaardFloer §2.2 (F0.0) and §§3.1–3.5 (F1.1–F1.5): Banach/Fredholm theory, cylindrical
-  Sobolev spaces, elliptic/adjoint/unique-continuation theory, spectral flow, the single
-  Maslov/Conley–Zehnder and determinant-line theory, punctured weighted Riemann–Roch and the
-  finite-dimensional zero-mode extensions. HeegaardFloer §§4.3–4.5 (F2.3–F2.5) supply ordinary
-  curve regularity, compactness inputs and conditional gluing only at their stated hypotheses.
-  Layers 1–3 construct the nonlinear Reeb-end and building adapters.
-- ImplicitAtlases, later in the build, states the virtual-class engine for an arbitrary compact
-  Hausdorff space with an implicit atlas: K-sheaves and Čech cohomology, atlases with and
-  without boundary, deformation spaces and the virtual cochain complex, the virtual orientation
-  sheaf and the Čech comparison, the virtual class with its boundary, refinement, pushforward
-  and product laws, and atlases stratified by a finite poset with their stratified virtual
-  complex. This roadmap cites nothing from a roadmap later in the build, so none of that engine
-  is consumed here, and nothing here is stated for a general zero set: Layer 4 defines the
-  contact implicit atlases with their cell-like stratification by a finite category of tree
-  types (4.1) and states, for the contact moduli problems only, the chain-level virtual
-  fundamental cycle package that Pardon's construction uses (4.2), each statement cited at the
-  theorem of Pardon's 2016 paper that proves it. The general statements of ImplicitAtlases
-  specialise to those of 4.2 on these atlases, and a library that has them proves 4.2 by
-  specialisation; the stratification by a category rather than a poset is the one statement of
-  4.2 with no general counterpart. Layer 5 constructs the contact-specific coherent chain
-  diagrams needed before extracting counts.
-- DGAInfinity Layers 0–1: generic graded modules, signed tensor operations and the DG/A∞
-  algebra vocabulary. StablePeriodicCurved Layer 3: parity complexes and their integer/parity
-  comparisons. The contact differential has square zero; ℏ is a genus parameter, not a
-  curved-module curvature element.
-- MorseTheory M1–M6: finite-dimensional Morse operations used in the explicit comparison
-  examples. This roadmap introduces no Morse complex and no linear index construction of its
-  own.
-- MorseNovikov N1: the period-controlled completed group ring. Layer 9 constructs the
-  signed-word convolution adapter on it.
-- GromovWittenTheory, later in the build, owns the closed stable-map compactification and the
-  Gromov–Witten invariants of closed symplectic manifolds. The identification of the
-  vacuum/closed-map sector of Layer 7.7 with those invariants is a theorem about its objects and
-  is left to it; this roadmap constructs the sector, its filtration and its exponential from its
-  own realization data (Layers 7.7, 8.4 and 9) and takes nothing from the closed theory. Its
-  closed stable-map compactification does not establish the Reeb-end compactification.
+In Tau Ceti, the roadmap builds on ContactGeometry for contact forms, Reeb vector fields and
+symplectizations, and on HeegaardFloer for determinant lines, the Conley–Zehnder index and
+Riemann–Roch on punctured surfaces. ImplicitAtlases, later in the build, states the virtual class
+for general implicit atlases; nothing is taken from it. HamiltonianFloerOperations uses the
+holomorphic buildings with Reeb ends built here.
 
-Already in the library and consumed, not restated: the internal grading `TauCeti.InternalGrading`,
-the DG-algebra predicate `TauCeti.IsDGAlgebra`, the Koszul-signed graded tensor product and its
-total-degree grading, lifts and DG structure, the homogeneous-quotient grading, and Mathlib's
-tensor algebra, unsigned symmetric algebra, graded tensor product and `Int.negOnePow` (listed in
-the supplier contracts). HamiltonianFloerOperations consumes this roadmap's contact/Reeb
-buildings for its Hamiltonian application and supplies nothing to it.
+Layer 0 builds the orbits and the orbit algebra. Layer 1 proves compactness for holomorphic
+buildings, also in Pardon's smaller tree-model compactification. Layer 2 proves the punctured
+index formula, and Layer 3 local gluing and orientation descent. Layer 4 constructs the implicit
+atlases and their virtual fundamental cycles. Layer 5 assembles the counts into the differential,
+the cobordism maps and the functor; Layer 6 adds augmentations and examples. Layer 7 is
+independent algebra: Weyl algebras, potentials and Fock spaces with their master equations. Layer
+8 states the realization data and assertion. Layer 9 adds coefficients labelled by relative
+classes and builds the maps of nonexact cobordisms with their composition laws.
 
 ## Conventions
 
@@ -128,109 +91,6 @@ The sign witnesses: for a simple orbit γ with κ_γ=1 the Weyl relation reads `
 and the left representation `p_γ=ℏ∂/∂q_γ` gives `p_γ(q_γ)=ℏ`; the direction witness is the
 identity cylinder, whose kernel sends the positive generator q_γ⁺ to the negative generator
 q_γ⁻ (Layer 9.3).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `TensorAlgebra` and `TensorAlgebra.ι` (`Mathlib/LinearAlgebra/TensorAlgebra/Basic.lean`), with
-  the ℕ-grading `TensorAlgebra.gradedAlgebra` (`Mathlib/LinearAlgebra/TensorAlgebra/Grading.lean`);
-  the integer input-degree grading of Layer 0.4 is constructed here.
-- `RingQuot` and `RingQuot.mkAlgHom` (`Mathlib/Algebra/RingQuot.lean`): the quotient of an
-  algebra by a relation, with its universal property.
-- `SymmetricAlgebra` (`Mathlib/LinearAlgebra/SymmetricAlgebra/Basic.lean`): the unsigned
-  symmetric algebra, used only on the even part of V.
-- `GradedTensorProduct` (`Mathlib/LinearAlgebra/TensorProduct/Graded/Internal.lean`): the
-  Koszul-signed tensor product of two internally graded algebras, for any index type with a
-  `Module ι (Additive ℤˣ)` structure.
-- `Int.negOnePow` (`Mathlib/Algebra/Ring/NegOnePow.lean`): the sign (−1)^n as a unit of ℤ, used
-  for every Koszul sign in integer degree.
-- `CategoryTheory.cechComplexFunctor` (`Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean`):
-  the Čech complex of a presheaf on a family of objects. Layer 4.2 takes the Čech cohomology of
-  a compact moduli problem with coefficients in a locally constant sheaf as the colimit over
-  finite open covers of the cohomology of these complexes.
-- `Representation.invariants` (`Mathlib/RepresentationTheory/Invariants.lean`): the invariants of
-  a representation of a finite group, used for the covering-group and tree-automorphism
-  invariants of Layer 4.2.
-- Manifolds, vector bundles, flows, `ModuleCat`, quotients, direct sums, cochain complexes and
-  homology, in their native forms.
-
-### From Tau Ceti
-
-- `TauCeti.InternalGrading` (`TauCeti/Algebra/Module/GradedModule/Internal.lean`): an internal
-  ℤ-grading of a module, with the field `isInternal : DirectSum.IsInternal piece`. Layer 0's
-  integer-graded lane takes such a grading on V.
-- `TauCeti.IsDGAlgebra` (`TauCeti/Algebra/Homology/AInfinity/Algebra/DG.lean`): the predicate
-  that a degree-one map on an internally graded algebra is a square-zero signed derivation.
-- `TauCeti.gradedTensorGrading`, `TauCeti.isInternal_gradedTensorGrading`, its graded-algebra
-  instance and `TauCeti.gradedTensorLift` (`TauCeti/RingTheory/GradedAlgebra/TensorProduct.lean`):
-  the total-degree grading on the Koszul-signed graded tensor product, its internality, and the
-  lift of two graded algebra maps.
-- `TauCeti.isDGAlgebra_gradedTensorGrading` and `TauCeti.dgTensorLift`
-  (`TauCeti/Algebra/Homology/DG/Algebra/TensorProduct.lean`): the DG structure on the graded
-  tensor product of two DG algebras and the lift of two DG algebra maps.
-- `TauCeti.GradedAlgebra.quotientPiece` and `TauCeti.GradedAlgebra.isInternal_quotientPiece`
-  (`TauCeti/RingTheory/GradedAlgebra/Homogeneous/Quotient.lean`): the grading of the quotient of
-  a ring by a homogeneous two-sided ideal, and its internality.
-
-### From TauCetiRoadmap.ContactGeometry
-
-CG1 (contact distributions and cooriented forms), CG2 (Reeb vector fields, contact vector
-fields and their flows), CG4 (symplectization with its convention `ω=dθ=−dλ`) and CG6 (the
-contact/Jacobi interface). Assumed: the Reeb field R_λ is determined by λ, its rescaling law
-under λ↦fλ, and the symplectization carries the tautological form.
-
-### From TauCetiRoadmap.HeegaardFloer
-
-§2.2 (F0.0): Fredholm determinant lines, their dual/adjoint, exact-sequence and
-orientation-double-cover transport. §3.1 (F1.1): Sobolev surface and bundle adapters.
-§3.2 (F1.2): interior estimates and unique continuation. §3.3 (F1.3): spectral flow on a common
-domain. §3.4 (F1.4): the single Maslov/Conley–Zehnder theory with the normalization
-`CZ(Ψ)=−μ_RS(graph Ψ,Δ)` and the small-rotation witness. §3.5 (F1.5): Cauchy–Riemann
-Riemann–Roch on punctured surfaces with weighted ends `D=∂s−A_e` and the finite-dimensional
-zero-mode extensions. §§4.3–4.5 (F2.3–F2.5): ordinary compactness, transversality and gluing,
-consumed only at their stated hypotheses.
-
-### From TauCetiRoadmap.DGAInfinity
-
-Layer 0: internal and Mathlib-graded presentations of ℤ-graded modules, homogeneous multilinear
-maps with their Koszul substitution signs, and the tensor coalgebra. Layer 1: unital and
-augmented DG algebras, morphisms, tensor products and cohomology algebras.
-
-### From TauCetiRoadmap.StablePeriodicCurved
-
-Layer 3: differential modules and genuine two-periodic complexes as parity-graded pairs, with
-the integer-to-parity comparison.
-
-### From TauCetiRoadmap.MorseTheory
-
-M1–M6: critical Hessians, handles, Morse exhaustions, inequalities, Morse–Bott normal bundles
-and gradient convergence, used in Layer 6's comparison examples.
-
-### From TauCetiRoadmap.MorseNovikov
-
-N1: the period-controlled completed group ring Nov(R,H,N) with the exact support condition
-"finitely many nonzero coefficients below every cutoff", its lower support bound, convolution
-finiteness, completeness and the coefficient maps.
-
-## How to read the build
-
-Layer 0 constructs the orbits and the signed orbit algebra, the only part statable at the
-pins. Layer 1 fixes the asymptotic operators and weights, defines punctured maps, energy and
-buildings and proves compactness in both the retained-level and the smaller tree-model
-compactification. Layer 2 builds the weighted nonlinear Fredholm set-up and proves the punctured
-index formula and determinant gluing for Reeb ends. Layer 3 proves augmented local gluing and
-orientation descent, including the count formulas for repeated and covered ends. Layer 4
-constructs the contact implicit atlases with their stratification by a finite category of tree
-types and the chain-level virtual fundamental cycle package on them. Layer 5 constructs the
-coherent chain-level diagrams, extracts the counts, proves d²=0 and builds the exact cobordism
-maps and the symmetric monoidal functor. Layer 6 adds augmentations, linearization, hypertight
-and ellipsoid examples. Layer 7 is independent algebra: the Poisson, Weyl, potential and Fock
-carriers with their master equations. Layer 8 states the geometric realization data and
-assertion for the full formalism, exact and nonexact, and derives the master equations from
-them. Layer 9 extends coefficients by classes, proves the admissibility estimates, and
-constructs the quantum and rational receiving maps of nonexact cobordisms together with their
-composition laws and the decorated nonexact category.
 
 ## Layer 0: Orbit lines and the signed orbit algebra
 
@@ -1856,6 +1716,170 @@ Layers 5, 7 and 8; MorseNovikov N1.
 HamiltonianFloerOperations names this roadmap as the owner of contact/Reeb buildings and of the
 contact and full-SFT levels; its count package is a distinct Hamiltonian application and takes
 Layers 1–3 and 7 at their stated hypotheses.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the parametrized and unparametrized closed Reeb orbits of a nondegenerate contact form, their
+  covering multiplicities, asymptotic markers, orientation lines and the good/bad dichotomy
+  (Layer 0);
+- the free unital supercommutative algebra on an integer- or parity-graded ℚ-module, its
+  grading, its odd derivations and its tensor-product and quotient comparisons (Layer 0);
+- stable punctured pseudoholomorphic maps with Reeb asymptotics into completed cobordisms and
+  symplectizations, their energy, their holomorphic buildings and compactifications, and the
+  smaller tree-model compactification without trivial cylinders (Layer 1);
+- the weighted Reeb-end Fredholm set-up, the punctured index formula in SFT normalization and
+  the determinant-line gluing for Reeb ends (Layer 2);
+- augmented local gluing, orientation descent and the labelled/unlabelled count formulas
+  (Layer 3);
+- the contact implicit atlases on the tree-indexed moduli problems with their cell-like
+  stratification by a finite category of tree types, and the chain-level virtual fundamental
+  cycle package on them: virtual cochain complexes, pushforwards, the Čech comparison, the
+  category-stratified complex and the product map (Layer 4);
+- the coherent chain-level count diagrams, the contact differential, the exact cobordism maps
+  and the contact homology functor (Layer 5);
+- augmentations, linearized contact homology, hypertight and ellipsoid examples (Layer 6);
+- the normal-ordered Poisson and Weyl carriers, the Hamiltonian differentials, the cobordism
+  potential bimodules, the weighted exact-sector carrier, the vacuum sector and the Fock
+  representation with its curved derived brackets (Layer 7);
+- the graph-indexed realization data, the realization assertion and its conditional sewing
+  consequences, exact and nonexact (Layer 8);
+- class-labelled coefficients, admissibility, the quantum and rational receiving maps for
+  nonexact cobordisms, and the decorated nonexact category (Layer 9).
+
+It leaves to named owners, and imports from them by section:
+
+- ContactGeometry CG1–CG6: contact forms, Reeb vector fields, symplectizations, contact-type
+  ends and the elementary contact transformations. This roadmap constructs only the orbit and
+  punctured-count applications of that geometry.
+- HeegaardFloer §2.2 (F0.0) and §§3.1–3.5 (F1.1–F1.5): Banach/Fredholm theory, cylindrical
+  Sobolev spaces, elliptic/adjoint/unique-continuation theory, spectral flow, the single
+  Maslov/Conley–Zehnder and determinant-line theory, punctured weighted Riemann–Roch and the
+  finite-dimensional zero-mode extensions. HeegaardFloer §§4.3–4.5 (F2.3–F2.5) supply ordinary
+  curve regularity, compactness inputs and conditional gluing only at their stated hypotheses.
+  Layers 1–3 construct the nonlinear Reeb-end and building adapters.
+- ImplicitAtlases, later in the build, states the virtual-class engine for an arbitrary compact
+  Hausdorff space with an implicit atlas: K-sheaves and Čech cohomology, atlases with and
+  without boundary, deformation spaces and the virtual cochain complex, the virtual orientation
+  sheaf and the Čech comparison, the virtual class with its boundary, refinement, pushforward
+  and product laws, and atlases stratified by a finite poset with their stratified virtual
+  complex. This roadmap cites nothing from a roadmap later in the build, so none of that engine
+  is consumed here, and nothing here is stated for a general zero set: Layer 4 defines the
+  contact implicit atlases with their cell-like stratification by a finite category of tree
+  types (4.1) and states, for the contact moduli problems only, the chain-level virtual
+  fundamental cycle package that Pardon's construction uses (4.2), each statement cited at the
+  theorem of Pardon's 2016 paper that proves it. The general statements of ImplicitAtlases
+  specialise to those of 4.2 on these atlases, and a library that has them proves 4.2 by
+  specialisation; the stratification by a category rather than a poset is the one statement of
+  4.2 with no general counterpart. Layer 5 constructs the contact-specific coherent chain
+  diagrams needed before extracting counts.
+- DGAInfinity Layers 0–1: generic graded modules, signed tensor operations and the DG/A∞
+  algebra vocabulary. StablePeriodicCurved Layer 3: parity complexes and their integer/parity
+  comparisons. The contact differential has square zero; ℏ is a genus parameter, not a
+  curved-module curvature element.
+- MorseTheory M1–M6: finite-dimensional Morse operations used in the explicit comparison
+  examples. This roadmap introduces no Morse complex and no linear index construction of its
+  own.
+- MorseNovikov N1: the period-controlled completed group ring. Layer 9 constructs the
+  signed-word convolution adapter on it.
+- GromovWittenTheory, later in the build, owns the closed stable-map compactification and the
+  Gromov–Witten invariants of closed symplectic manifolds. The identification of the
+  vacuum/closed-map sector of Layer 7.7 with those invariants is a theorem about its objects and
+  is left to it; this roadmap constructs the sector, its filtration and its exponential from its
+  own realization data (Layers 7.7, 8.4 and 9) and takes nothing from the closed theory. Its
+  closed stable-map compactification does not establish the Reeb-end compactification.
+
+Already in the library and consumed, not restated: the internal grading `TauCeti.InternalGrading`,
+the DG-algebra predicate `TauCeti.IsDGAlgebra`, the Koszul-signed graded tensor product and its
+total-degree grading, lifts and DG structure, the homogeneous-quotient grading, and Mathlib's
+tensor algebra, unsigned symmetric algebra, graded tensor product and `Int.negOnePow` (listed in
+the supplier contracts). HamiltonianFloerOperations consumes this roadmap's contact/Reeb
+buildings for its Hamiltonian application and supplies nothing to it.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `TensorAlgebra` and `TensorAlgebra.ι` (`Mathlib/LinearAlgebra/TensorAlgebra/Basic.lean`), with
+  the ℕ-grading `TensorAlgebra.gradedAlgebra` (`Mathlib/LinearAlgebra/TensorAlgebra/Grading.lean`);
+  the integer input-degree grading of Layer 0.4 is constructed here.
+- `RingQuot` and `RingQuot.mkAlgHom` (`Mathlib/Algebra/RingQuot.lean`): the quotient of an
+  algebra by a relation, with its universal property.
+- `SymmetricAlgebra` (`Mathlib/LinearAlgebra/SymmetricAlgebra/Basic.lean`): the unsigned
+  symmetric algebra, used only on the even part of V.
+- `GradedTensorProduct` (`Mathlib/LinearAlgebra/TensorProduct/Graded/Internal.lean`): the
+  Koszul-signed tensor product of two internally graded algebras, for any index type with a
+  `Module ι (Additive ℤˣ)` structure.
+- `Int.negOnePow` (`Mathlib/Algebra/Ring/NegOnePow.lean`): the sign (−1)^n as a unit of ℤ, used
+  for every Koszul sign in integer degree.
+- `CategoryTheory.cechComplexFunctor` (`Mathlib/CategoryTheory/Sites/SheafCohomology/Cech.lean`):
+  the Čech complex of a presheaf on a family of objects. Layer 4.2 takes the Čech cohomology of
+  a compact moduli problem with coefficients in a locally constant sheaf as the colimit over
+  finite open covers of the cohomology of these complexes.
+- `Representation.invariants` (`Mathlib/RepresentationTheory/Invariants.lean`): the invariants of
+  a representation of a finite group, used for the covering-group and tree-automorphism
+  invariants of Layer 4.2.
+- Manifolds, vector bundles, flows, `ModuleCat`, quotients, direct sums, cochain complexes and
+  homology, in their native forms.
+
+### From Tau Ceti
+
+- `TauCeti.InternalGrading` (`TauCeti/Algebra/Module/GradedModule/Internal.lean`): an internal
+  ℤ-grading of a module, with the field `isInternal : DirectSum.IsInternal piece`. Layer 0's
+  integer-graded lane takes such a grading on V.
+- `TauCeti.IsDGAlgebra` (`TauCeti/Algebra/Homology/AInfinity/Algebra/DG.lean`): the predicate
+  that a degree-one map on an internally graded algebra is a square-zero signed derivation.
+- `TauCeti.gradedTensorGrading`, `TauCeti.isInternal_gradedTensorGrading`, its graded-algebra
+  instance and `TauCeti.gradedTensorLift` (`TauCeti/RingTheory/GradedAlgebra/TensorProduct.lean`):
+  the total-degree grading on the Koszul-signed graded tensor product, its internality, and the
+  lift of two graded algebra maps.
+- `TauCeti.isDGAlgebra_gradedTensorGrading` and `TauCeti.dgTensorLift`
+  (`TauCeti/Algebra/Homology/DG/Algebra/TensorProduct.lean`): the DG structure on the graded
+  tensor product of two DG algebras and the lift of two DG algebra maps.
+- `TauCeti.GradedAlgebra.quotientPiece` and `TauCeti.GradedAlgebra.isInternal_quotientPiece`
+  (`TauCeti/RingTheory/GradedAlgebra/Homogeneous/Quotient.lean`): the grading of the quotient of
+  a ring by a homogeneous two-sided ideal, and its internality.
+
+### From TauCetiRoadmap.ContactGeometry
+
+CG1 (contact distributions and cooriented forms), CG2 (Reeb vector fields, contact vector
+fields and their flows), CG4 (symplectization with its convention `ω=dθ=−dλ`) and CG6 (the
+contact/Jacobi interface). Assumed: the Reeb field R_λ is determined by λ, its rescaling law
+under λ↦fλ, and the symplectization carries the tautological form.
+
+### From TauCetiRoadmap.HeegaardFloer
+
+§2.2 (F0.0): Fredholm determinant lines, their dual/adjoint, exact-sequence and
+orientation-double-cover transport. §3.1 (F1.1): Sobolev surface and bundle adapters.
+§3.2 (F1.2): interior estimates and unique continuation. §3.3 (F1.3): spectral flow on a common
+domain. §3.4 (F1.4): the single Maslov/Conley–Zehnder theory with the normalization
+`CZ(Ψ)=−μ_RS(graph Ψ,Δ)` and the small-rotation witness. §3.5 (F1.5): Cauchy–Riemann
+Riemann–Roch on punctured surfaces with weighted ends `D=∂s−A_e` and the finite-dimensional
+zero-mode extensions. §§4.3–4.5 (F2.3–F2.5): ordinary compactness, transversality and gluing,
+consumed only at their stated hypotheses.
+
+### From TauCetiRoadmap.DGAInfinity
+
+Layer 0: internal and Mathlib-graded presentations of ℤ-graded modules, homogeneous multilinear
+maps with their Koszul substitution signs, and the tensor coalgebra. Layer 1: unital and
+augmented DG algebras, morphisms, tensor products and cohomology algebras.
+
+### From TauCetiRoadmap.StablePeriodicCurved
+
+Layer 3: differential modules and genuine two-periodic complexes as parity-graded pairs, with
+the integer-to-parity comparison.
+
+### From TauCetiRoadmap.MorseTheory
+
+M1–M6: critical Hessians, handles, Morse exhaustions, inequalities, Morse–Bott normal bundles
+and gradient convergence, used in Layer 6's comparison examples.
+
+### From TauCetiRoadmap.MorseNovikov
+
+N1: the period-controlled completed group ring Nov(R,H,N) with the exact support condition
+"finitely many nonzero coefficients below every cutoff", its lower support bound, convolution
+finiteness, completeness and the coefficient maps.
 
 ## References
 

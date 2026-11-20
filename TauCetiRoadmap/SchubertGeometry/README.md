@@ -1,68 +1,23 @@
 # Roadmap: schubert geometry, Demazure sections and flag K-theory
 
-**Summary.** Build the scheme and section interfaces for Schubert varieties in general reductive flag varieties: relative incidence and universal bundles, root-coordinate cells and their closures, all-word Bott–Samelson operations, dominant line-bundle cohomology, compatible Frobenius splitting, all-degree standard monomial theory, exact divisor multiplicities and algebraic flag K-rings. The finite-type Lakshmibai–Seshadri path engine is consumed from the pinned Tau Ceti, whose `TauCeti/RepresentationTheory/LSPath/` and `TauCeti/RepresentationTheory/Crystal/` files already prove its paths, root operators, string lengths, central transport, bond arithmetic and normal-crystal algebra; this roadmap completes it (operator stability of the path set, components, characters and the tensor rule) and builds its geometric section comparison. Compare the complex realization with the existing compact flag topology. The suggested home is `TauCeti/AlgebraicGeometry/Schubert/`.
+**Summary.** The flag variety of a split reductive group is cut into cells indexed by the Weyl group W, each an affine space, and the closures of these cells are the Schubert varieties. They can be singular, but their line bundles carry much of the representation theory of the group. This roadmap builds Schubert varieties as schemes, over fields, over ℤ and over a general base, and studies their line bundles and sections. Unless stated otherwise, G is a split connected reductive group over a field k, with maximal torus T and Borel subgroup B−. Flags are quotients G/P− by parabolic subgroups containing B−, and X(w) is the schematic closure of the cell B−wP−/P−, of dimension ℓ(w). For dominant λ the sections of the line bundle L(λ) on G/B− form the induced module ∇(λ).
 
-Use schemes, sheaves of modules, root data and rational representations at their stated hypotheses. A point-set rank condition is a comparison interface for a scheme, not its definition as a variety. Singular Schubert varieties are not declared smooth.
+The combinatorial core is Littelmann's path model. For a dominant weight λ of a finite reduced root datum, a Lakshmibai–Seshadri path of shape λ is a piecewise-linear path from 0 whose successive directions are Weyl translates of λ, decreasing in the Bruhat order, with rational break times subject to an integrality condition. Littelmann's root operators e_i and f_i act partially on paths by reflecting one piece in the simple reflection s_i and translating the rest. The first main theorem says that the set B(λ) of these paths is stable: when e_i or f_i is defined on a path in B(λ), the result is again in B(λ). The second says that every path of shape λ is reached from the straight path t ↦ tλ by finitely many lowerings f_i, so B(λ) is a connected crystal. The third is the character identity `Δ·char B(λ) = Σ_{w∈W} sgn(w) e^{w(λ+ρ)−ρ}`, where char B(λ) sums `e^{π(1)}` over the paths π and `Δ = ∏_{α>0}(1−e^{−α})`. The fourth is Littelmann's decomposition formula: for dominant λ and μ, `char B(λ)·char B(μ) = Σ_η char B(λ+η(1))`, over the paths η of shape μ with λ + η(t) dominant for every t.
 
-## Scope and ownership
+For every character λ and word of simple reflections, reduced or not, the torus character of the Euler characteristic of L(λ) pulled back to the Bott–Samelson variety is obtained from `e^λ` by applying the Demazure operators D_i in turn, where `(1−e^{−α_i}) D_i(e^λ) = e^λ − e^{−α_i} e^{s_iλ}`. For dominant λ, with the vanishing below, this gives Demazure's character formula `char H⁰(X(w), L(λ)) = D_w(e^λ)`, and at the longest element the Weyl character formula for ∇(λ) in every characteristic. In characteristic 0, ∇(λ) is the simple module L(λ); in characteristic p its character need not be that of L(λ). For SL₃ and λ = 2ω₁ + 5ω₂ the words 121 and 212 give the same character, of dimension 81.
 
-This roadmap owns the general finite-root-datum path theory, Schubert schemes,
-word resolutions, geometric sections, splitting, standard monomial theory,
-Chevalley divisors and flag K-rings. The relative Grassmannian, generic coherent
-cohomology and representation-theoretic foundations have the owners
-listed in the supplier contracts below. Abstract Coxeter combinatorics
-(exchange, deletion, Matsumoto's theorem, the Bruhat order and its parabolic
-quotients), the Weyl group of a root datum as a Coxeter system and the
-numbered integral root data are already in the pinned Tau Ceti and are
-consumed from it directly, as listed in the supplier contracts. So are the
-integral Demazure operators of a root datum (their strings, localization
-identity, idempotence, braid relations, word independence, Levi and wall
-cases and longest-element formula), the normal crystals (strict morphisms,
-components, direct sums, tensor products with Kashiwara's tie convention,
-central weight twists and formal characters) and the Lakshmibai–Seshadri
-encodings with their rational paths, root operators, string lengths, bond
-arithmetic, central transport, stretching and convexity: S3.3–3.4 own only
-the geometric interpretation of the Demazure operators through sections, and
-S4 owns the operator stability, component, character and tensor theorems of
-the path set. The pinned Tau Ceti also has the Grassmannian scheme of a module
-over an affine base with its functor of points and properness, the pivots and
-echelon cells of a subspace relative to a basis flag with their dimension and
-partition count, the isotropic-locus ideal of a bilinear form on the
-Grassmannian functor, and the extension of a basis of a Lagrangian subspace to
-a symplectic basis; S1.1, S1.3 and S1.5 consume them and build only the scheme
-structures they lack. S1.0–1 owns
-the relative parabolic quotients and finite-locally-free flag incidence needed
-here; S2 owns the
-integral word models and S5.6 their Schubert closure and base-change theory.
-S9.0 owns the coherent analytic foundations required for S9: complex
-analytic spaces with nilpotents, the analytification of complex schemes
-locally of finite type with its underlying classical point space X(ℂ) and the
-holomorphic charts of smooth schemes, coherent analytification and proper
-GAGA. These are prerequisites of the base programme. The holomorphic orbit
-submersion of a closed orbit, its holomorphic local sections and the
-biholomorphism G(ℂ)/H(ℂ)≃O_x(ℂ) belong to ReductiveGroups §3A.5; S9.1 and
-S9.8 apply them to the flags and do not rebuild them.
-No layer here constructs or consumes a holomorphic Picard group: S3.1's
-forgetful map lands in the Picard group of the scheme G/P−, S5's vanishing theorems are algebraic coherent cohomology, and S9.8 retains
-only the algebraic-to-holomorphic equivariant-line adapter, with specified
-transition functions and fibre maps. The generic holomorphic Picard group
-Pic_hol(M)≃H¹(M,𝒪^×) of a complex manifold and its exponential sequence are
-not targets here. The ordinary holomorphic Picard group of the compact flag
-K/H, its root-degree basis and the compact character-to-degree forgetful map
-belong to GeometricQuantization §§3.3–3.4.
-The holomorphic Lefschetz fixed-point formula on the flag and word
-analytifications, the word fixed-point formula for the torus Euler character
-χ_T(Z_Q,π_Q*L(λ)) that it gives, and the comparison of that formula with
-S3's Demazure recurrence are not targets here: they are left to a
-SchubertGeometry Part II placed after IndexTheory, whose I8 builds the
-generic holomorphic fixed-map trace; nothing is imported from IndexTheory in
-this roadmap.
-The type-A coordinate-path comparison
-and tableau applications are downstream consumers of the general path theory.
-The transverse complex Grassmannian incidence count (TensorProductCombinatorics
-§6.3) and the ordinary puzzle rule (its Layer 6) are not targets here. Nor is
-the general Betti cycle-class map of complex varieties, which is not a target
-here: S7.3 constructs only the flag comparison.
+The vanishing comes from a Frobenius splitting: over a perfect field of characteristic p > 0 the flag variety has one compatible with every Schubert and opposite Schubert variety, so their scheme-theoretic intersections and reduced unions are reduced. Every Schubert variety is normal. For dominant λ, H^q(X(w), L(λ)) vanishes for q > 0 and restriction of sections from the full flag variety is surjective, also on finite reduced unions of Schubert varieties for one fixed Borel subgroup. Models over ℤ carry these results to characteristic 0 and to every field. Finally, if the derived group of G is simply connected, sending `e^λ` to the class of L(λ) gives an isomorphism `R(T) ⊗_{R(G)} ℤ ≅ K₀(G/B−)`.
+
+The roadmap builds on [ReductiveGroups](../ReductiveGroups/README.md) for the groups, their parabolics and their rational representations, and on [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) for descent, coherent cohomology and K-groups. The library already has the paths with their root operators, normal crystals and the Demazure operators; this roadmap adds the theorems above. LieGroups supplies the compact flag manifolds for the complex comparison, and KacMoody uses the path crystal and divisor coefficients as its finite-type case.
+
+The first two layers build flag varieties, their cells and Bott–Samelson varieties. The third treats sections and characters, the fourth the path crystal, the fifth splitting and vanishing. The sixth builds standard monomial bases in every degree, and the seventh proves that the extremal section of L(λ) on X(w) vanishes to order ⟨λ, β∨⟩ along each Schubert divisor X(ws_β). The eighth treats K-theory, the ninth proper GAGA and the complex comparisons.
+
+## How to read the build
+
+Construct in this order: S1's relative carriers and early root cells; S2's word/incidence API; S3's early line bundles and rank-one derived push-pull; S4.1–5's completion of the native Lakshmibai–Seshadri path engine; S5's splitting/normalization/coherent comparisons; S7.1–2's divisor valuations; S4.6–7 and S6's geometric path sections and all-degree bases; S7.3's cycle comparison; S8's K-rings; S9's analytic and existing-owner comparisons. S4.1–5 is independent of Schubert splitting, vanishing, standard monomial theory and the concrete type A implementation. S4.6–7 is its geometric application, after S5 and S7.1–2. The generic finite-type engine is the single root-data owner; S9.5 gives its type-A root-datum specialization. The algebraic Steinberg supplier is independent of all these geometric conclusions.
+
+Suggested.lean lists the headline theorems and the carriers missing at the pins.
+The API targets and worked calculations belong to this README.
 
 ## Conventions
 
@@ -71,529 +26,6 @@ Fix a split connected reductive group G over a field k, a pinning when root coor
 For λ∈X, the associated line L(λ)=G×^(B−)k_λ has fibre character λ at e. Sections are regular functions f(gb)=λ(b)^−1f(g), with (g·f)(x)=f(g^−1x). Dominant λ have nonnegative pairings with simple coroots; for descent to G/P− require zero pairings on its Levi simple roots. The rank-one restriction has degree ⟨λ,α_i∨⟩. Thus H⁰(G/B−,L(λ)) is ∇(λ), whereas ordinary Δ(λ)* is ∇(−w₀λ). Distinguish this from the pinned contravariant dual D_τΔ(λ)=∇(λ).
 
 Over an arbitrary base S, relative finite-locally-free flags and incidence schemes have their universal functorial meanings. Group flag forms use their actual descent type; individual fundamental line bundles or a chosen pinning need not descend. Integral split calculations use the pinned Chevalley model and its actual character/cocharacter lattices. Characteristic-p splitting is first constructed over perfect fields, including p=2; field extensions and descent are proved before using it for geometric conclusions over other fields. Over a nonreduced S, geometrically reduced fibres do not make the total space reduced.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-The native `Module.Grassmannian` and `Module.Basis.flag` supply the module
-points and basis flag, not the relative Schubert schemes. They are defined in
-`Mathlib/RingTheory/Grassmannian.lean` and
-`Mathlib/LinearAlgebra/Basis/Flag.lean`. The Grassmannian requires a finite
-projective quotient of constant stalk rank; Mathlib does not supply a scheme
-representing that functor, which Tau Ceti supplies over an affine base (below).
-For the symplectic coordinate comparison use
-`Matrix.J` (the block matrix [[0,−I],[I,0]]) and `SymplecticGroup.mem_iff'`
-(A is symplectic exactly when AᵀJA=J) in
-`Mathlib/LinearAlgebra/SymplecticGroup.lean`. For the isotropic rank bound of
-S1.5 use `LinearMap.BilinForm.finrank_add_finrank_orthogonal`
-(`Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean`): for a reflexive form
-on a finite-dimensional space, dim W+dim W^⊥=dim V+dim(W∩V^⊥); an
-alternating form is reflexive by `LinearMap.BilinForm.IsAlt.isRefl`.
-
-### From Tau Ceti
-
-`TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, in
-`TauCeti/AlgebraicGeometry/Cohomology/Basic.lean`, is the Zariski sheaf
-cohomology Hⁱ(X,M) of a sheaf of modules M on a scheme X, obtained by
-forgetting the module structure and applying Mathlib's sheaf cohomology. S3,
-S5 and S9.0 use it as the carrier of coherent cohomology and assume of it only
-additivity, functoriality in M and the identification of H⁰ with global
-sections; coherence, Serre vanishing and derived pushforward are the
-SchemeAndStackFoundations contracts below.
-`TauCeti.AlgebraicGeometry.InvertibleSheaf`, in
-`TauCeti/AlgebraicGeometry/LineBundle/Basic.lean`, is the full subcategory of
-module sheaves cut out by the locally-free-of-rank-one predicate
-`TauCeti.AlgebraicGeometry.SheafOfModules.isInvertible`. S3.1 and S9.8 use it
-as the carrier of the associated lines; no chosen trivialization or
-linearization is assumed of it. The pinned library has no flag or
-Bott–Samelson scheme, Frobenius-splitting carrier, algebraic K-ring of a
-scheme or complex analytic space; those carriers are targets of the layers below.
-
-The Picard group of a scheme X is native.
-`TauCeti.AlgebraicGeometry.LineBundleClass X`
-(`TauCeti/AlgebraicGeometry/LineBundle/Class.lean`) is the type of isomorphism
-classes of invertible sheaves on X, a commutative group whose product is
-induced by `InvertibleSheaf.tensorProduct` (`LineBundle/TensorProduct.lean`),
-whose inverse is induced by `InvertibleSheaf.dual` (`LineBundle/Dual.lean`,
-the internal Hom into 𝒪_X) and whose unit is the class of 𝒪_X.
-`LineBundleClass.pullbackHom` (`LineBundle/Functoriality.lean`) is pullback of
-classes along a morphism of schemes, as a group homomorphism, and
-`InvertibleSheaf.pullback` (`LineBundle/Pullback.lean`) is pullback of the
-sheaves themselves. Ampleness is the native predicate
-`LineBundleClass.IsAmple` (`LineBundle/Ample.lean`) on classes: X is
-quasi-compact and every point lies in an affine nonvanishing locus of a global
-section of some line bundle in the class of a positive power. Global generation
-is the native predicate `InvertibleSheaf.IsGloballyGenerated`
-(`LineBundle/GlobalGeneration.lean`): at every point some global section does
-not vanish. S3.1's forgetful map lands in `LineBundleClass` of G/P−, its
-ampleness and global-generation statements are these two predicates, and S3.5
-consumes the latter through S3.1.
-
-The sheaf operations on finite locally free sheaves of a scheme X are native,
-each with its pullback comparison along every morphism of schemes: the dual
-`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.dual`
-(`TauCeti/AlgebraicGeometry/VectorBundle/Dual/Basic.lean`) with
-`FiniteLocallyFreeSheaf.pullbackDualIso` (`VectorBundle/Dual/Pullback.lean`);
-the exterior powers `FiniteLocallyFreeSheaf.exteriorPower`
-(`VectorBundle/ExteriorPower/Basic.lean`) with
-`FiniteLocallyFreeSheaf.pullbackExteriorPowerIso`
-(`VectorBundle/ExteriorPower/Pullback.lean`); the determinant
-`FiniteLocallyFreeSheaf.det` at locally constant rank
-(`VectorBundle/Determinant/LocallyConstantRank.lean`) with
-`FiniteLocallyFreeSheaf.pullbackDetIso` (`VectorBundle/Determinant/Pullback.lean`);
-and the tensor product of module sheaves on X, whose pullback comparison is
-invertible when either factor is quasi-coherent: the left case is
-`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and the right case is
-`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right`
-(`TauCeti/AlgebraicGeometry/Modules/Pullback/Quasicoherent.lean`). S1.0, S1.1
-and S1.4 use these sheaf operations and S3.1 the tensor comparison, assuming
-nothing beyond their functoriality under pullback. The graded quasi-coherent
-algebra `TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`
-(`TauCeti/AlgebraicGeometry/Modules/Quasicoherent/GradedAlgebra/Basic.lean`)
-is the carrier on which StableReduction Layer 2 builds relative Proj; S5.6 and
-S6.1 use it only through that relative Proj.
-
-The Grassmannian of a module M over a commutative ring R is a scheme over
-Spec R. `Module.Grassmannian.scheme R M q`
-(`TauCeti/AlgebraicGeometry/Grassmannian/Basic.lean`) is glued from the
-standard affine charts, and `Module.Grassmannian.schemeHomEquiv`
-(`Grassmannian/Points.lean`) identifies its morphisms from Spec A over Spec R
-with the points of `Module.Grassmannian` over A, that is with A-submodules of
-A⊗M whose quotient is finite projective of constant rank q, naturally in A.
-`Module.Grassmannian.isProper_toSpec` (`Grassmannian/Proper.lean`) makes it
-proper over Spec R for finite M. S1.1 uses these as its ambient Grassmannians
-over affine opens and assumes nothing about a non-affine base, which is
-ModularCurves §0G's relative version. The pivots of a subspace W of a vector
-space with a basis b indexed by `Fin n`, relative to the increasing flag F_j
-spanned by the first j basis vectors, are in
-`TauCeti/LinearAlgebra/Basis/Flag.lean`: `Module.Basis.flagPivots` is the
-zero-based pivot set, `Module.Basis.finrank_inf_flag` gives dim(W∩F_j) as the
-number of pivots below j, `Module.Basis.card_flagPivots` gives dim W pivots,
-`Module.Basis.flagCellEquiv` identifies the subspaces with a given pivot set
-with the functions on the free entries of the reduced echelon matrices, and
-`StrictMono.card_echelonFreeEntries_image` counts Σ_i(p_i−i) free entries.
-`StrictMono.sum_sub_add_sum_sub_eq_mul` and `StrictMono.antitone_sub_sub`
-(`TauCeti/Data/Fin/StrictMono.lean`) say that this count is r(n−r)−|λ| for
-the partition λ_i=n−r+i−p_i in the r×(n−r) rectangle. These files work with
-subspaces of a vector space over a division ring and construct no cell or
-closure as a scheme. For a bilinear form ω on M, `Module.Grassmannian.isotropicLocus`
-(`TauCeti/RingTheory/Grassmannian/Isotropic.lean`) is the ideal of A generated
-by the values of the base change of ω on a point N of the Grassmannian over A;
-`Module.Grassmannian.isotropicLocus_map` says its formation commutes with base
-change and `Module.Grassmannian.isotropicLocus_le_ker_iff` that the base change
-of N along A→B is isotropic exactly when B kills that ideal. No hypothesis on
-ω or on 2 is made there; the file does not glue these ideals into a closed
-subscheme. Over a field,
-`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J_inl_eq`
-(`TauCeti/LinearAlgebra/BilinearForm/LagrangianBasis.lean`) extends any basis
-e of a Lagrangian U=U^⊥ of a nondegenerate alternating form on a
-finite-dimensional space to a basis with Gram matrix Mathlib's `Matrix.J`, the
-vectors of e in the first block; thus ω(e_i,f_j)=−δ_ij and ω(f_i,e_j)=δ_ij
-for the added vectors f_j, in every characteristic.
-
-For a scheme X over Spec k and a topological k-algebra R,
-`TauCeti.SchemePointTopology.topology`
-(`TauCeti/Topology/Algebra/PointTopology/Scheme.lean`) is the topology on the
-R-points of X over Spec k (`TauCeti.SchemePointTopology.Points`) that is final
-for the affine open charts, and `TauCeti.SchemePointTopology.affineHomeomorph`
-identifies it on an affine scheme with the topology induced by evaluation of
-coordinates; no finiteness is assumed, and the file does not prove that the
-charts are open embeddings. `TauCeti.PointTopology.isOpenEmbedding_localization`
-(`Localization.lean` in the same folder) makes restriction to a basic open an
-open embedding of affine point spaces when the units of R are open and
-inversion is continuous on them, and `TauCeti.PointTopology.instT2Space` and
-`TauCeti.PointTopology.instSecondCountableTopology` (`Separation.lean`) make
-the affine point spaces Hausdorff for Hausdorff R and second countable for
-second-countable R and a finite-type coordinate algebra. S9.0 takes the
-classical topology on X(ℂ) from these with k=R=ℂ.
-
-For a family x of p vectors in ι→R, with ι linearly ordered and R a
-commutative ring, `TauCeti.plucker x`
-(`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`) is the family of its
-Plücker coordinates: at a p-element subset s of ι, the p×p minor on the
-columns in s, taken in increasing order. `TauCeti.plucker_sum_smul`
-multiplies all of them by det A when x is replaced by its product with a
-p×p matrix A, and `TauCeti.plucker_ne_zero_iff` says that, over a domain and
-for finite ι, they are not all zero exactly when x is linearly independent.
-Over a field, `TauCeti.mk_plucker_eq_mk_plucker_iff`
-(`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`) says that two
-linearly independent families have the same point of projective space
-exactly when they span the same subspace. These files have no Plücker
-relations (GroebnerGeometry G5's polynomial straightening), no Grassmannian
-charts and no Schubert ideals; S6.2 and the type-A worked example consume
-them.
-
-The abstract Coxeter inputs are in `TauCeti/GroupTheory/Coxeter/` and hold for
-an arbitrary Coxeter system, finite or not. `CoxeterSystem.strongExchange`,
-`CoxeterSystem.exchangeCondition` and `CoxeterSystem.deletionCondition`
-(`StrongExchange.lean`) give the strong exchange condition for an arbitrary
-word, the exchange condition for a reduced word with a left descent, and the
-deletion of two letters from a word that is not reduced. `TauCeti.matsumoto`
-and `TauCeti.braidEquivalent_of_isReduced_wordProd_eq` (`Matsumoto.lean`) give
-Matsumoto's theorem: two reduced words for one element are related by braid
-moves, so a monoid-valued assignment on simple letters satisfying the braid
-relations takes one value on all reduced words of an element; no square
-relation is required of it. `CoxeterSystem.BruhatLE` and
-`CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq` (`Bruhat.lean`) give
-the Bruhat order and its subword characterization for a fixed reduced word.
-`CoxeterSystem.IsMinimalCosetRep` (`Parabolic.lean`) is the predicate that u
-has minimal length in its left coset uW_J; `CoxeterSystem.MinimalCosetRepCovBy` and
-`CoxeterSystem.MinimalCosetRepChain` (`Bruhat.lean`) are the covers and
-saturated descending chains of W/W_J, and
-`CoxeterSystem.exists_minimalCosetRepChain` and
-`CoxeterSystem.MinimalCosetRepChain.length_last_add_length`
-(`ChainProperty.lean`) join comparable representatives by a saturated chain,
-every such chain from x to y having length ℓ(x)−ℓ(y).
-
-The root-datum inputs are Mathlib's `RootPairing`, `RootDatum`,
-`RootPairing.Base` and `RootPairing.weylGroup`
-(`Mathlib/LinearAlgebra/RootSystem/`). For a finite reduced crystallographic
-root pairing with a base b over a characteristic-zero domain,
-`TauCeti.weylCoxeterSystem` and `TauCeti.length_weylCoxeterSystem_eq`
-(`TauCeti/LinearAlgebra/RootSystem/Coxeter/Presentation.lean`) make the Weyl
-group a Coxeter system on the simple reflections of b, with length equal to
-the number of positive roots sent to negative roots. Spanning is not assumed,
-so the root datum of a reductive group with a central torus qualifies.
-`TauCeti.DynkinType.simplyConnectedRootDatum`,
-`TauCeti.DynkinType.simplyConnectedBase` and `TauCeti.DynkinType.simpleIndex`
-(`TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/Assembly.lean`)
-give, for each valid Dynkin type, the simply connected root datum on
-`Fin rank → ℤ` with its Bourbaki-numbered base and simple-root indices; they
-take a proof of validity. `TauCeti.GeneralLinear.diagonalRootDatum n`
-(`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Datum.lean`) is the GLₙ
-root datum on the diagonal character lattice `ULift (Fin n) →₀ ℤ`, with roots
-e_i−e_j for i≠j; it keeps the central character e₁+⋯+eₙ, which the simply
-connected type-A datum does not have.
-
-The integral Demazure operators are in
-`TauCeti/LinearAlgebra/RootSystem/Weyl/Demazure/`. For a root datum P (a root
-pairing over ℤ) and a root index i, `RootPairing.demazureOperator P i`
-(`Basic.lean`) is the ℤ-linear endomorphism D_i of the group ring
-`AddMonoidAlgebra ℤ M` of the weight lattice sending e^x, with m=⟨x,α_i∨⟩,
-to the string e^x+e^(x−α_i)+⋯+e^(x−mα_i) for m≥0, to 0 for m=−1 and to
-−(e^(x+α_i)+⋯+e^(x+(−m−1)α_i)) for m≤−2
-(`RootPairing.demazureOperator_single_of_coroot'_eq_natCast`,
-`RootPairing.demazureOperator_single_of_coroot'_eq_neg_one`,
-`RootPairing.demazureOperator_single_of_coroot'_eq_neg_natCast_sub_one`);
-`RootPairing.one_sub_single_neg_root_mul_demazureOperator` is the
-localization identity (1−e^(−α_i))D_i(f)=f−e^(−α_i)s_i(f),
-`RootPairing.demazureOperator_eq_iff` says it characterizes D_i because
-`RootPairing.isLeftRegular_one_sub_single_neg_root` makes 1−e^(−α_i) a
-non-zero-divisor, `RootPairing.demazureOperator_demazureOperator` is
-D_i²=D_i, `RootPairing.demazureOperator_eq_self_iff` says D_i fixes exactly
-the s_i-invariants and `RootPairing.demazureOperator_eq_self_of_isWeylInvariant`
-that it fixes Weyl invariants. `Braid.lean` proves the rank-two braid
-relations (`RootPairing.commute_demazureOperator_of_isOrthogonal`,
-`RootPairing.demazureOperator_braid_three`,
-`RootPairing.demazureOperator_braid_four`,
-`RootPairing.demazureOperator_braid_six`), their form for the Coxeter matrix
-of a base (`RootPairing.prod_map_demazureOperator_braidWord`), word
-independence of D_(i₁)⋯D_(i_r) along reduced words of one Weyl group element
-for a finite reduced root datum with a base
-(`RootPairing.prod_map_demazureOperator_eq_of_wordProd_eq`) and D_iD_w=D_w for
-a left descent s_i of w
-(`RootPairing.demazureOperator_mul_prod_map_demazureOperator_of_isLeftDescent`).
-`LongestElement.lean` proves Demazure's formula
-Δ·D_(w₀)(f)=Σ_(w∈W) sgn(w)e^(wρ−ρ)w(f) for a reduced word of the longest
-element (`RootPairing.weylDenominator_mul_prod_map_demazureOperator`
-and its value `RootPairing.weylDenominator_mul_prod_map_demazureOperator_single`
-on e^λ), with Δ=∏_(α>0)(1−e^(−α)) the Weyl denominator
-`TauCeti.weylDenominator` (`TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Basic.lean`)
-and the right side the dot alternatization J(f), `RootPairing.dotAlternatization`
-(`Weyl/Denominator/Integral.lean`, which also proves J(1)=Δ as
-`RootPairing.dotAlternatization_one`). Here wρ−ρ is minus the sum of the
-positive roots that w⁻¹ sends to negative roots, so every exponent lies in the
-weight lattice even when ρ does not (for PGL₂, ρ=α/2). `LongestElement.lean`
-also proves the Weyl invariance `RootPairing.isWeylInvariant_prod_map_demazureOperator` of
-D_(w₀)(f). `Parabolic.lean` proves the Levi case D_vf=f for v∈W_J and
-W_J-invariant f (`RootPairing.prod_map_demazureOperator_apply_eq_self_of_mem_parabolic`),
-the dependence of D_wf on the coset wW_J
-(`RootPairing.prod_map_demazureOperator_apply_eq_of_inv_mul_mem_parabolic`),
-the wall case that D_w(e^λ) depends only on wλ for dominant λ
-(`RootPairing.prod_map_demazureOperator_single_eq_of_smul_eq`) and the
-recursion D_iχ_ξ=χ_(s_iξ) for ⟨ξ,α_i∨⟩≥0 and D_iχ_ξ=χ_ξ for ⟨ξ,α_i∨⟩≤0
-(`RootPairing.demazureOperator_prod_map_demazureOperator_single_of_coroot'_nonneg`,
-`RootPairing.demazureOperator_prod_map_demazureOperator_single_of_coroot'_nonpos`).
-These files treat the combinatorial operator only: identifying D_w(e^λ) with
-the character of H⁰(X(w),L(λ)) or of a module is not in them, and the
-positive-denominator operator Δ_i of the Knutson handout is not defined
-there.
-
-The Lie-algebra form of the Weyl character formula is in
-`TauCeti/Algebra/Lie/HighestWeight/`. For a finite-dimensional Lie algebra
-with non-degenerate Killing form over an algebraically closed field K of
-characteristic 0, a Cartan subalgebra H and a base of its root system,
-`TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`
-(`Weyl/Character.lean`) says that a finite-dimensional module generated by a
-highest-weight vector of weight λ∈H* has formal character, in the group ring
-of H*, whose product with `TauCeti.weylDenominator` is the Weyl numerator
-`TauCeti.weylNumerator` (`TauCeti/LinearAlgebra/RootSystem/Weyl/Numerator.lean`),
-N(λ)=Σ_(w∈W) sgn(w)e^(w(λ+ρ)−ρ), defined for root systems over a ring in
-which 2 is invertible. `TauCeti.tensorMultiplicity_eq_sum_weylSign_mul_formalCharacter_coeff`
-(`RacahSpeiser.lean`) is the Racah–Speiser formula: for dominant integral
-λ, μ and ν, the multiplicity of the simple module L(ν) in L(λ)⊗L(μ) is
-Σ_(w∈W) sgn(w) times the coefficient of e^(ν−(w(λ+ρ)−ρ)) in the formal
-character of L(μ). These files concern
-Lie-algebra modules with weights in H*; they do not compare the root system
-of H with the integral root datum of G, nor Lie-algebra modules with rational
-G-modules.
-
-Normal crystals are in `TauCeti/RepresentationTheory/Crystal/`.
-`TauCeti.NormalCrystal P b B` (`Basic.lean`) bundles, over a root datum with a
-base, a weight map, partial raising and lowering maps e_i,f_i:B→Option B and
-natural string lengths ε_i,φ_i with the partial-inverse law, the weight
-change by α_i, the string identities and φ_i−ε_i=⟨wt,α_i∨⟩; the file also
-has the dual crystal, the iterated operators with their string criteria
-(`TauCeti.NormalCrystal.isSome_eIter_iff`, `TauCeti.NormalCrystal.isSome_fIter_iff`),
-strict morphisms `TauCeti.NormalCrystal.StrictHom`, strict isomorphisms
-`TauCeti.NormalCrystal.StrictIso` and transport along a bijection
-`TauCeti.NormalCrystal.transport`. `Component.lean` has the crystal graph,
-restriction to an operator-closed subset, the connected components
-`TauCeti.NormalCrystal.component` as crystals and the decomposition
-`TauCeti.NormalCrystal.sigmaComponentsIso` into their direct sum
-(`Sigma.lean`); `Tensor.lean` has the tensor product
-`TauCeti.NormalCrystal.tensor` on B₁×B₂ with Kashiwara's tie convention (on a
-tie e_i acts on the left factor and f_i on the right), its functoriality,
-associator and duality; `WeightTwist.lean` has the central weight twist
-`TauCeti.NormalCrystal.weightTwist` by a weight killed by the simple coroots,
-with its zero, addition and duality laws, the one-element crystal
-`TauCeti.NormalCrystal.central` and the identification of the twist with
-tensoring by it; `Character.lean` has the formal character
-`TauCeti.NormalCrystal.formalCharacter` of a finite crystal in
-`AddMonoidAlgebra ℤ X`, its Weyl invariance
-`TauCeti.NormalCrystal.isWeylInvariant_formalCharacter` for a finite reduced
-root datum and its invariance under strict isomorphism;
-`StringReflection.lean` has the string reversal and its weight-fibre
-bijection. No crystal structure on the Lakshmibai–Seshadri paths, and no
-identification of a formal character with a module character, is in these
-files.
-
-The Lakshmibai–Seshadri path engine is in
-`TauCeti/RepresentationTheory/LSPath/`, over an ordered field 𝕜 (ℚ for the
-rational theory) and a vector space V reached from the weight lattice by an
-additive map. `TauCeti.PLPath 𝕜 V` (`PLPath.lean`) is the piecewise-linear
-path up to nondecreasing surjective piecewise-linear reparametrization,
-modelled by its reduced segment list: `TauCeti.PLPath.normalize` removes
-stationary segments and merges adjacent segments on a common ray using only
-the vector-space operations, `TauCeti.PLPath.ofSegments_eq_ofSegments_iff`
-says two segment lists present one path exactly when the elementary moves
-relate them, and the file has the concatenation monoid,
-`TauCeti.PLPath.endpoint`, `TauCeti.PLPath.reverse`, `TauCeti.PLPath.straight`
-and the linear image `TauCeti.PLPath.map`. `Reparametrization.lean` has timed
-presentations, their parametrized paths `TauCeti.PLPath.evalTimed`, the
-reparametrization relation `TauCeti.PLPath.IsReparam` and the faithfulness
-theorem `TauCeti.PLPath.ofSegments_map_snd_eq_iff_exists_isReparam`: two timed
-presentations of positive duration present one path exactly when they are
-reparametrizations of a common one, rationality preserved.
-`RootOperator.lean` has the minimal height `TauCeti.PLPath.minHeight` of a
-linear form along a path, Littelmann's operators `TauCeti.PLPath.lower` and
-`TauCeti.PLPath.raise` for a vector x and a form f (the simple root and the
-pairing with its coroot), with `none` for Kashiwara's 0, their presentation
-independence `TauCeti.PLPath.lower_ofSegments`, the criteria
-`TauCeti.PLPath.lower_eq_none_iff` and `TauCeti.PLPath.raise_eq_none_iff`, the
-endpoint changes `TauCeti.PLPath.endpoint_of_lower_eq_some` and
-`TauCeti.PLPath.endpoint_of_raise_eq_some` by ∓x and the minimal-height
-changes by ∓1 when f(x)=2; `PartialInverse.lean` proves
-`TauCeti.PLPath.lower_eq_some_iff` and `TauCeti.PLPath.raise_eq_some_iff`
-(partial inverses on all paths); `StringLength.lean` proves the string
-criteria `TauCeti.PLPath.isSome_lowerIter_iff` and
-`TauCeti.PLPath.isSome_raiseIter_iff` and the identities φ=f(π(1))−h and
-ε=−h when these are natural numbers
-(`TauCeti.PLPath.isSome_lowerIter_iff_of_eq_natCast`,
-`TauCeti.PLPath.isSome_raiseIter_iff_of_eq_natCast`); `Concatenation.lean`
-proves the tensor rule `TauCeti.PLPath.lower_mul` and
-`TauCeti.PLPath.raise_mul` for a concatenation with integral comparison gap;
-`LinearMap.lean` the naturality `TauCeti.PLPath.lower_map` and
-`TauCeti.PLPath.raise_map`. `TauCeti.LSPath P b λ` (`Basic.lean`) is
-Littelmann's encoding (τ;a) of a path of shape λ for a finite reduced root
-datum with a base: strictly decreasing minimal coset representatives of the
-stabilizer parabolic `RootPairing.wallIndices` of λ, rational times
-0=a₀<⋯<a_(l+1)=1 and an a_(j+1)-chain at each internal break, with its
-distinguished timed presentation `TauCeti.LSPath.timed`, its path
-`TauCeti.LSPath.toPLPath`, the straight encoding `TauCeti.LSPath.straight`,
-the two-direction encodings `TauCeti.LSPath.simple`, finiteness
-`TauCeti.LSPath.finite` for dominant λ and `TauCeti.LSPath.isAChain` (every
-saturated chain between consecutive directions is an a-chain).
-`Realization.lean` proves `TauCeti.LSPath.toPLPath_injective` for a dominant
-shape and a realization injective on Wλ with no two orbit points on a common
-ray; `Distinguished.lean` proves the uniqueness
-`TauCeti.PLPath.IsDistinguished.unique` of a presentation with velocities in
-a set and changes of velocity at every break, that the presentation of an
-encoding is distinguished for dominant λ (`TauCeti.LSPath.isDistinguished_timed`),
-that adding t↦tχ is not well defined on reparametrization classes
-(`TauCeti.PLPath.not_exists_shiftTimed_on_paths`) and defines the central
-shift `TauCeti.PLPath.shiftDistinguished` on paths with a distinguished
-presentation; `Central/Transport.lean` has the bijection
-`TauCeti.LSPath.centralTransport χ : LSPath P b λ ≃ LSPath P b (λ+χ)` for χ
-killed by the simple coroots, equal on realized paths to the central shift
-(`TauCeti.LSPath.toPLPath_centralTransport`), with
-`TauCeti.LSPath.centralTransport_straight`, the endpoint law
-`TauCeti.LSPath.endpoint_toPLPath_centralTransport`, the minimal-height law
-`TauCeti.LSPath.minHeight_toPLPath_centralTransport` and the additivity, zero
-and inverse laws `TauCeti.LSPath.toPLPath_centralTransport_centralTransport`,
-`TauCeti.LSPath.toPLPath_centralTransport_zero` and
-`TauCeti.LSPath.toPLPath_centralTransport_neg`; `Highest.lean` proves that the
-straight encoding is the only one killed by every raising operator
-(`TauCeti.LSPath.forall_raise_eq_none_iff`); `Integrality.lean` proves
-integrality of the endpoint against integral forms and of the minimal
-simple-coroot heights of a realized encoding
-(`TauCeti.LSPath.exists_minHeight_eq_intCast`), hence the exact string lengths
-(`TauCeti.LSPath.exists_neg_minHeight_eq_natCast_and_apply_endpoint_sub_minHeight_eq_natCast`);
-`ConvexHull.lean` proves π(t)∈t·Conv(S) for a timed presentation with
-velocities in S (`TauCeti.PLPath.evalTimed_mem_smul_convexHull`), containment
-in Conv(S) when 0∈Conv(S) (`TauCeti.PLPath.evalTimed_mem_convexHull`) and, with
-`RootPairing.zero_mem_convexHull_orbit_weylGroup` (`Weyl/Barycenter.lean`),
-containment in Conv(Wλ) for a root system with finite Weyl group
-(`TauCeti.PLPath.evalTimed_mem_convexHull_orbit_weylGroup`); `Stretch.lean`
-and `Subdivision.lean` have the positive-integer stretch
-`TauCeti.LSPath.stretch`, its dilation law `TauCeti.LSPath.toPLPath_stretch`
-and the uniform integral subdivision
-`TauCeti.LSPath.exists_uniform_subdivision`. The bond arithmetic is in
-`TauCeti/LinearAlgebra/RootSystem/`: `RootPairing.reflectionBond`
-(`ReflectionBond.lean`) is the bond ⟨y,β∨⟩=−⟨x,β∨⟩ of weights y=s_βx for a
-positive root β, with `RootPairing.reflectionBond_self` and the central
-invariance `TauCeti.reflectionBond_smul_add` (`Weyl/CoverBond.lean`);
-`Weyl/ParabolicQuotient.lean` identifies the orbit Wλ of a dominant weight
-with W/W_λ through minimal coset representatives (`RootPairing.wallIndices`,
-`RootPairing.parabolic_wallIndices_eq_stabilizer`,
-`TauCeti.existsUnique_isMinimalCosetRep_smul_eq`) and proves the reflection
-test in its three cases
-(`TauCeti.bruhatLE_and_ne_iff_coroot'_neg_of_isMinimalCosetRep`,
-`TauCeti.eq_iff_coroot'_eq_zero_of_isMinimalCosetRep`); `Weyl/CoverBond.lean`
-proves the unique positive root label of a cover of W/W_λ
-(`TauCeti.existsUnique_isPos_reflection_smul_eq_of_minimalCosetRepCovBy`), the
-strict positivity `TauCeti.reflectionBond_pos_of_minimalCosetRepCovBy` and the
-integrality `TauCeti.exists_nat_reflectionBond_eq_of_minimalCosetRepCovBy` of
-its bond, and the bond ⟨λ,α_i∨⟩ of the cover of the identity by a simple
-reflection off the walls (`TauCeti.reflectionBond_simple_smul_one_smul`);
-`Weyl/ChainBond.lean` has the bond gcd `TauCeti.bondGcd` of a saturated chain
-(0 for the empty chain), the a-chain predicate `TauCeti.IsAChain`, the
-criterion `TauCeti.isAChain_iff_den_dvd_bondGcd`, Littelmann's form
-`TauCeti.isAChain_iff_forall_coroot'`, the concatenation law
-`TauCeti.bondGcd_smash` and the integrality of heights along a-chains;
-`Weyl/IntervalBondGcd.lean` has the interval gcd `TauCeti.intervalBondGcd` and
-its chain independence `TauCeti.bondGcd_eq_intervalBondGcd`, proved by a
-chain-sorting induction along a left descent, with
-`TauCeti.intervalBondGcd_self`, `TauCeti.intervalBondGcd_eq_gcd` and the
-a-chain criteria `TauCeti.exists_isAChain_iff_den_dvd_intervalBondGcd` and
-`TauCeti.forall_isAChain_iff_den_dvd_intervalBondGcd`;
-`Weyl/ReflectedChain.lean` reflects saturated chains lying on one side of a
-simple wall (`CoxeterSystem.MinimalCosetRepChain.simpleMul`,
-`CoxeterSystem.MinimalCosetRepChain.bondGcd_simpleMul`) and proves
-Littelmann's chain conditions at the two ends of a reflected piece
-(`TauCeti.IsAChain.exists_isAChain_simple_mul_last`,
-`TauCeti.IsAChain.exists_isAChain_simple_mul_head`). These files do not prove
-that the root operators carry the realized path of an encoding of shape λ to
-the realized path of another encoding of shape λ, do not put a
-normal-crystal structure on `TauCeti.LSPath`, and do not prove the
-component, character or tensor theorems; those are S4's targets.
-
-### From TauCetiRoadmap.ModularCurves
-
-[ModularCurves §0G](../ModularCurves/README.md) owns finite-locally-free Grassmannian representability over an arbitrary base, glued from Tau Ceti's affine `Module.Grassmannian.scheme`, with its charts, universal quotient and base change. Native `Module.Grassmannian R M q` stores a submodule with locally free quotient of rank q; an r-dimensional subspace of k^N corresponds to q=N−r. S1.1 constructs flags as closed incidence subschemes of products of those Grassmannians; a coherent quotient of a non-locally-free sheaf is not needed for this construction.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-[ReductiveGroups](../ReductiveGroups/README.md) Layers 7–10 (structure theory, field Bruhat theory and algebraic parabolics, classification, the pinned Chevalley–Demazure group schemes over ℤ, rational representations and highest weights) own Hopf/scheme/point and rational-comodule dictionaries, group/root/pinning/central-isogeny structure, and field Bruhat theory. Its integral-distribution/rational-representation extension supplies full-lattice divided-power PBW/Dist(G), Δ/∇/L, induction, pinned extremal vectors and contravariant duality. The algebraic Steinberg input is the simple module Δ((p−1)ρ)=L((p−1)ρ)=∇((p−1)ρ) on the derived simply connected cover, with dimension p^|Φ+| and normalized PBW/extremal pairing. These algebraic constructions do not consume flag splitting or standard monomial theory.
-
-[ReductiveGroups §3A.5](../ReductiveGroups/README.md) supplies, for a closed
-orbit O_x of a smooth affine group G of finite type acting on a proper complex
-scheme X, with H the scheme stabilizer of x: smoothness of the reduced orbit
-model, compactness of O_x(ℂ), the holomorphic orbit submersion G(ℂ)→O_x(ℂ),
-its holomorphic local sections and the biholomorphism G(ℂ)/H(ℂ)≃O_x(ℂ).
-S9.1 applies it to the G-action on G/P− at eP−, with the classical topology
-and holomorphic charts of S9.0. §3A.5 constructs no ringed analytification,
-no structure sheaf with nilpotents and no GAGA, and the point topology of an
-arbitrary complex scheme locally of finite type is not taken from it; those
-are S9.0's.
-
-### From TauCetiRoadmap.GroebnerGeometry
-
-[GroebnerGeometry G5](../GroebnerGeometry/README.md) owns polynomial minor/shuffle/straightening/Gröbner statements, flag-minor algebra and its Gelfand–Tsetlin initial algebra. S6 supplies the scheme, homogeneous coordinate, section and restriction identifications. The original flag algebra is not identified with its toric initial algebra.
-
-### From TauCetiRoadmap.SchemeAndStackFoundations
-
-[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) Layer 1
-(descent, gluing, closed immersions, fibre products and base change), Layer 2
-with §2.2 (Leray and Čech spectral sequences) and §2.6 (quasi-coherent
-cohomology, projective-space cohomology and Serre vanishing), §4.12 (Chow's
-lemma) and Layer 5 with §5.7 (cycles and intersections; coherent and perfect
-classes K₀, G₀ and the K-theoretic pushforward) supply generic coherent
-cohomology, ample Serre vanishing, relative derived pushforward and base change
-and coherent/perfect K-theory at their stated scope. These generic
-constructions are not redefined here.
-
-### From TauCetiRoadmap.StableReduction
-
-[StableReduction Layer 2](../StableReduction/README.md) supplies relative Proj
-on the native graded quasi-coherent algebra
-`TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra` (From Tau Ceti); with
-Layer 4 it supplies the Rees blowup construction
-used in the worked blowup example. S5.6 and S6.1 consume the relative Proj and
-do not rebuild it.
-
-### From TauCetiRoadmap.TopologicalKTheory
-
-[TopologicalKTheory T1.5](../TopologicalKTheory/README.md) supplies the single
-finite subspace Grassmannian and finite Schubert characteristic maps. S9
-compares these with the algebraic models; it does not rebuild their carriers.
-
-### From TauCetiRoadmap.LieGroups
-
-[LieGroups Layer 8](../RepresentationTheory/LieGroups/README.md) (Borel–Weil,
-flag manifolds and Bruhat) supplies the compact full and partial flags K/T and
-K/K_μ with their homogeneous complex comparisons, used by S2.5, S7.3 and
-S9.1–S9.7. S9 compares these with the algebraic models; it does not rebuild
-their carriers.
-
-### From TauCetiRoadmap.ComplexKahlerGeometry
-
-[ComplexKahlerGeometry K3–K4](../ComplexKahlerGeometry/README.md) supplies finite-dimensional holomorphic germs, Weierstrass division, local analytic sets and the holomorphic sheaf/bundle calculus. S9.0 extends these local objects to analytic spaces with nilpotents and coherent analytification; K4's bundle theory alone is not coherent GAGA.
-
-### From TauCetiRoadmap.RealAnalyticGeometry
-
-[RealAnalyticGeometry R3.2](../RealAnalyticGeometry/README.md) supplies the
-native coherent module-sheaf predicate, coherent kernels and Cartan A/B on
-Stein manifolds; S9.0 uses them, with SchemeAndStackFoundations §§2.2, 2.6 and
-4.12, in its proof of proper GAGA.
-
-### From TauCetiRoadmap.AlgebraicTopology
-
-[AlgebraicTopology Stage 5, item 3](../AlgebraicTopology/README.md) supplies,
-for a finite covering p with connected base and constant fibre cardinality d,
-the transfer on singular chains with p_*∘transfer=d·id, and, for a regular
-covering with finite deck group G, transfer∘p_*=Σ_(g∈G) g_*. S9.6 applies it to
-the free covering K/T→K/N(T) with deck group W: over ℚ the two identities
-identify H*(K/N(T);ℚ) with the W-invariants of H*(K/T;ℚ); over ℤ nothing else
-is assumed and no averaging is used.
-
-### From TauCetiRoadmap.MorseTheory
-
-[MorseTheory M2](../MorseTheory/README.md) supplies compact-band deformation
-across regular levels, the attachment of one index-λ handle at each critical
-point of a critical level, and the resulting cell attachments with their
-attaching maps ∂D^λ→M_(c−ε) and characteristic maps
-(D^λ,∂D^λ)→(M_(c+ε),M_(c−ε)). S9.7 compares these characteristic maps with the
-Bruhat cells and S7.3's classes; it assumes only the attachment statements, not
-that a Schubert closure is the image of an embedded disc.
-
-### From TauCetiRoadmap.HamiltonianReduction
-
-[HamiltonianReduction R2a](../SymplecticGeometry/HamiltonianReduction/README.md)
-supplies, on the coadjoint orbit O_μ=K/K_μ of a compact connected group K, the
-heights f_X(p)=B(p,X) with df_X=ι_(X_O)ω and critical set {p:[X,p]=0}, the
-root-plane rotations J_α with the KKS form on each root plane, the critical set
-Wμ of a regular height and its finite even-index cell model. S9.7 consumes
-these on the same orbit and compares them with the algebraic flag; it does not
-rebuild the orbit, its form or its heights.
-
-## How to read the build
-
-Construct in this order: S1's relative carriers and early root cells; S2's word/incidence API; S3's early line bundles and rank-one derived push-pull; S4.1–5's completion of the native Lakshmibai–Seshadri path engine; S5's splitting/normalization/coherent comparisons; S7.1–2's divisor valuations; S4.6–7 and S6's geometric path sections and all-degree bases; S7.3's cycle comparison; S8's K-rings; S9's analytic and existing-owner comparisons. S4.1–5 is independent of Schubert splitting, vanishing, standard monomial theory and the concrete type A implementation. S4.6–7 is its geometric application, after S5 and S7.1–2. The generic finite-type engine is the single root-data owner; S9.5 gives its type-A root-datum specialization. The algebraic Steinberg supplier is independent of all these geometric conclusions.
-
-Suggested.lean lists the headline theorems and the carriers missing at the pins.
-The API targets and worked calculations belong to this README.
 
 ## Layer 1: Relative incidence and the root-cell dictionary (S1)
 
@@ -2077,6 +1509,582 @@ coefficient). CharacteristicClasses C5a consumes S9.6's rational acyclicity of
 K/N(T), its finite-cover transfer and the computation SU(2)/N(T)=ℝP² with
 H⁰=ℤ and H²=ℤ/2. FlagVarieties §6.1 consumes S1's incidence comparisons and
 B− convention and S2.3's subword closure criterion.
+
+## Scope and ownership
+
+This roadmap owns the general finite-root-datum path theory, Schubert schemes,
+word resolutions, geometric sections, splitting, standard monomial theory,
+Chevalley divisors and flag K-rings. The relative Grassmannian, generic coherent
+cohomology and representation-theoretic foundations have the owners
+listed in the supplier contracts below. Abstract Coxeter combinatorics
+(exchange, deletion, Matsumoto's theorem, the Bruhat order and its parabolic
+quotients), the Weyl group of a root datum as a Coxeter system and the
+numbered integral root data are already in the pinned Tau Ceti and are
+consumed from it directly, as listed in the supplier contracts. So are the
+integral Demazure operators of a root datum (their strings, localization
+identity, idempotence, braid relations, word independence, Levi and wall
+cases and longest-element formula), the normal crystals (strict morphisms,
+components, direct sums, tensor products with Kashiwara's tie convention,
+central weight twists and formal characters) and the Lakshmibai–Seshadri
+encodings with their rational paths, root operators, string lengths, bond
+arithmetic, central transport, stretching and convexity: S3.3–3.4 own only
+the geometric interpretation of the Demazure operators through sections, and
+S4 owns the operator stability, component, character and tensor theorems of
+the path set. The pinned Tau Ceti also has the Grassmannian scheme of a module
+over an affine base with its functor of points and properness, the pivots and
+echelon cells of a subspace relative to a basis flag with their dimension and
+partition count, the isotropic-locus ideal of a bilinear form on the
+Grassmannian functor, and the extension of a basis of a Lagrangian subspace to
+a symplectic basis; S1.1, S1.3 and S1.5 consume them and build only the scheme
+structures they lack. S1.0–1 owns
+the relative parabolic quotients and finite-locally-free flag incidence needed
+here; S2 owns the
+integral word models and S5.6 their Schubert closure and base-change theory.
+S9.0 owns the coherent analytic foundations required for S9: complex
+analytic spaces with nilpotents, the analytification of complex schemes
+locally of finite type with its underlying classical point space X(ℂ) and the
+holomorphic charts of smooth schemes, coherent analytification and proper
+GAGA. These are prerequisites of the base programme. The holomorphic orbit
+submersion of a closed orbit, its holomorphic local sections and the
+biholomorphism G(ℂ)/H(ℂ)≃O_x(ℂ) belong to ReductiveGroups §3A.5; S9.1 and
+S9.8 apply them to the flags and do not rebuild them.
+No layer here constructs or consumes a holomorphic Picard group: S3.1's
+forgetful map lands in the Picard group of the scheme G/P−, S5's vanishing theorems are algebraic coherent cohomology, and S9.8 retains
+only the algebraic-to-holomorphic equivariant-line adapter, with specified
+transition functions and fibre maps. The generic holomorphic Picard group
+Pic_hol(M)≃H¹(M,𝒪^×) of a complex manifold and its exponential sequence are
+not targets here. The ordinary holomorphic Picard group of the compact flag
+K/H, its root-degree basis and the compact character-to-degree forgetful map
+belong to GeometricQuantization §§3.3–3.4.
+The holomorphic Lefschetz fixed-point formula on the flag and word
+analytifications, the word fixed-point formula for the torus Euler character
+χ_T(Z_Q,π_Q*L(λ)) that it gives, and the comparison of that formula with
+S3's Demazure recurrence are not targets here: they are left to a
+SchubertGeometry Part II placed after IndexTheory, whose I8 builds the
+generic holomorphic fixed-map trace; nothing is imported from IndexTheory in
+this roadmap.
+The type-A coordinate-path comparison
+and tableau applications are downstream consumers of the general path theory.
+The transverse complex Grassmannian incidence count (TensorProductCombinatorics
+§6.3) and the ordinary puzzle rule (its Layer 6) are not targets here. Nor is
+the general Betti cycle-class map of complex varieties, which is not a target
+here: S7.3 constructs only the flag comparison.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+The native `Module.Grassmannian` and `Module.Basis.flag` supply the module
+points and basis flag, not the relative Schubert schemes. They are defined in
+`Mathlib/RingTheory/Grassmannian.lean` and
+`Mathlib/LinearAlgebra/Basis/Flag.lean`. The Grassmannian requires a finite
+projective quotient of constant stalk rank; Mathlib does not supply a scheme
+representing that functor, which Tau Ceti supplies over an affine base (below).
+For the symplectic coordinate comparison use
+`Matrix.J` (the block matrix [[0,−I],[I,0]]) and `SymplecticGroup.mem_iff'`
+(A is symplectic exactly when AᵀJA=J) in
+`Mathlib/LinearAlgebra/SymplecticGroup.lean`. For the isotropic rank bound of
+S1.5 use `LinearMap.BilinForm.finrank_add_finrank_orthogonal`
+(`Mathlib/LinearAlgebra/BilinearForm/Orthogonal.lean`): for a reflexive form
+on a finite-dimensional space, dim W+dim W^⊥=dim V+dim(W∩V^⊥); an
+alternating form is reflexive by `LinearMap.BilinForm.IsAlt.isRefl`.
+
+### From Tau Ceti
+
+`TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology`, in
+`TauCeti/AlgebraicGeometry/Cohomology/Basic.lean`, is the Zariski sheaf
+cohomology Hⁱ(X,M) of a sheaf of modules M on a scheme X, obtained by
+forgetting the module structure and applying Mathlib's sheaf cohomology. S3,
+S5 and S9.0 use it as the carrier of coherent cohomology and assume of it only
+additivity, functoriality in M and the identification of H⁰ with global
+sections; coherence, Serre vanishing and derived pushforward are the
+SchemeAndStackFoundations contracts below.
+`TauCeti.AlgebraicGeometry.InvertibleSheaf`, in
+`TauCeti/AlgebraicGeometry/LineBundle/Basic.lean`, is the full subcategory of
+module sheaves cut out by the locally-free-of-rank-one predicate
+`TauCeti.AlgebraicGeometry.SheafOfModules.isInvertible`. S3.1 and S9.8 use it
+as the carrier of the associated lines; no chosen trivialization or
+linearization is assumed of it. The pinned library has no flag or
+Bott–Samelson scheme, Frobenius-splitting carrier, algebraic K-ring of a
+scheme or complex analytic space; those carriers are targets of the layers above.
+
+The Picard group of a scheme X is native.
+`TauCeti.AlgebraicGeometry.LineBundleClass X`
+(`TauCeti/AlgebraicGeometry/LineBundle/Class.lean`) is the type of isomorphism
+classes of invertible sheaves on X, a commutative group whose product is
+induced by `InvertibleSheaf.tensorProduct` (`LineBundle/TensorProduct.lean`),
+whose inverse is induced by `InvertibleSheaf.dual` (`LineBundle/Dual.lean`,
+the internal Hom into 𝒪_X) and whose unit is the class of 𝒪_X.
+`LineBundleClass.pullbackHom` (`LineBundle/Functoriality.lean`) is pullback of
+classes along a morphism of schemes, as a group homomorphism, and
+`InvertibleSheaf.pullback` (`LineBundle/Pullback.lean`) is pullback of the
+sheaves themselves. Ampleness is the native predicate
+`LineBundleClass.IsAmple` (`LineBundle/Ample.lean`) on classes: X is
+quasi-compact and every point lies in an affine nonvanishing locus of a global
+section of some line bundle in the class of a positive power. Global generation
+is the native predicate `InvertibleSheaf.IsGloballyGenerated`
+(`LineBundle/GlobalGeneration.lean`): at every point some global section does
+not vanish. S3.1's forgetful map lands in `LineBundleClass` of G/P−, its
+ampleness and global-generation statements are these two predicates, and S3.5
+consumes the latter through S3.1.
+
+The sheaf operations on finite locally free sheaves of a scheme X are native,
+each with its pullback comparison along every morphism of schemes: the dual
+`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.dual`
+(`TauCeti/AlgebraicGeometry/VectorBundle/Dual/Basic.lean`) with
+`FiniteLocallyFreeSheaf.pullbackDualIso` (`VectorBundle/Dual/Pullback.lean`);
+the exterior powers `FiniteLocallyFreeSheaf.exteriorPower`
+(`VectorBundle/ExteriorPower/Basic.lean`) with
+`FiniteLocallyFreeSheaf.pullbackExteriorPowerIso`
+(`VectorBundle/ExteriorPower/Pullback.lean`); the determinant
+`FiniteLocallyFreeSheaf.det` at locally constant rank
+(`VectorBundle/Determinant/LocallyConstantRank.lean`) with
+`FiniteLocallyFreeSheaf.pullbackDetIso` (`VectorBundle/Determinant/Pullback.lean`);
+and the tensor product of module sheaves on X, whose pullback comparison is
+invertible when either factor is quasi-coherent: the left case is
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent` and the right case is
+`Scheme.Modules.isIso_pullback_δ_of_isQuasicoherent_right`
+(`TauCeti/AlgebraicGeometry/Modules/Pullback/Quasicoherent.lean`). S1.0, S1.1
+and S1.4 use these sheaf operations and S3.1 the tensor comparison, assuming
+nothing beyond their functoriality under pullback. The graded quasi-coherent
+algebra `TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`
+(`TauCeti/AlgebraicGeometry/Modules/Quasicoherent/GradedAlgebra/Basic.lean`)
+is the carrier on which StableReduction Layer 2 builds relative Proj; S5.6 and
+S6.1 use it only through that relative Proj.
+
+The Grassmannian of a module M over a commutative ring R is a scheme over
+Spec R. `Module.Grassmannian.scheme R M q`
+(`TauCeti/AlgebraicGeometry/Grassmannian/Basic.lean`) is glued from the
+standard affine charts, and `Module.Grassmannian.schemeHomEquiv`
+(`Grassmannian/Points.lean`) identifies its morphisms from Spec A over Spec R
+with the points of `Module.Grassmannian` over A, that is with A-submodules of
+A⊗M whose quotient is finite projective of constant rank q, naturally in A.
+`Module.Grassmannian.isProper_toSpec` (`Grassmannian/Proper.lean`) makes it
+proper over Spec R for finite M. S1.1 uses these as its ambient Grassmannians
+over affine opens and assumes nothing about a non-affine base, which is
+ModularCurves §0G's relative version. The pivots of a subspace W of a vector
+space with a basis b indexed by `Fin n`, relative to the increasing flag F_j
+spanned by the first j basis vectors, are in
+`TauCeti/LinearAlgebra/Basis/Flag.lean`: `Module.Basis.flagPivots` is the
+zero-based pivot set, `Module.Basis.finrank_inf_flag` gives dim(W∩F_j) as the
+number of pivots below j, `Module.Basis.card_flagPivots` gives dim W pivots,
+`Module.Basis.flagCellEquiv` identifies the subspaces with a given pivot set
+with the functions on the free entries of the reduced echelon matrices, and
+`StrictMono.card_echelonFreeEntries_image` counts Σ_i(p_i−i) free entries.
+`StrictMono.sum_sub_add_sum_sub_eq_mul` and `StrictMono.antitone_sub_sub`
+(`TauCeti/Data/Fin/StrictMono.lean`) say that this count is r(n−r)−|λ| for
+the partition λ_i=n−r+i−p_i in the r×(n−r) rectangle. These files work with
+subspaces of a vector space over a division ring and construct no cell or
+closure as a scheme. For a bilinear form ω on M, `Module.Grassmannian.isotropicLocus`
+(`TauCeti/RingTheory/Grassmannian/Isotropic.lean`) is the ideal of A generated
+by the values of the base change of ω on a point N of the Grassmannian over A;
+`Module.Grassmannian.isotropicLocus_map` says its formation commutes with base
+change and `Module.Grassmannian.isotropicLocus_le_ker_iff` that the base change
+of N along A→B is isotropic exactly when B kills that ideal. No hypothesis on
+ω or on 2 is made there; the file does not glue these ideals into a closed
+subscheme. Over a field,
+`LinearMap.BilinForm.IsAlt.exists_basis_toMatrix_eq_J_inl_eq`
+(`TauCeti/LinearAlgebra/BilinearForm/LagrangianBasis.lean`) extends any basis
+e of a Lagrangian U=U^⊥ of a nondegenerate alternating form on a
+finite-dimensional space to a basis with Gram matrix Mathlib's `Matrix.J`, the
+vectors of e in the first block; thus ω(e_i,f_j)=−δ_ij and ω(f_i,e_j)=δ_ij
+for the added vectors f_j, in every characteristic.
+
+For a scheme X over Spec k and a topological k-algebra R,
+`TauCeti.SchemePointTopology.topology`
+(`TauCeti/Topology/Algebra/PointTopology/Scheme.lean`) is the topology on the
+R-points of X over Spec k (`TauCeti.SchemePointTopology.Points`) that is final
+for the affine open charts, and `TauCeti.SchemePointTopology.affineHomeomorph`
+identifies it on an affine scheme with the topology induced by evaluation of
+coordinates; no finiteness is assumed, and the file does not prove that the
+charts are open embeddings. `TauCeti.PointTopology.isOpenEmbedding_localization`
+(`Localization.lean` in the same folder) makes restriction to a basic open an
+open embedding of affine point spaces when the units of R are open and
+inversion is continuous on them, and `TauCeti.PointTopology.instT2Space` and
+`TauCeti.PointTopology.instSecondCountableTopology` (`Separation.lean`) make
+the affine point spaces Hausdorff for Hausdorff R and second countable for
+second-countable R and a finite-type coordinate algebra. S9.0 takes the
+classical topology on X(ℂ) from these with k=R=ℂ.
+
+For a family x of p vectors in ι→R, with ι linearly ordered and R a
+commutative ring, `TauCeti.plucker x`
+(`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`) is the family of its
+Plücker coordinates: at a p-element subset s of ι, the p×p minor on the
+columns in s, taken in increasing order. `TauCeti.plucker_sum_smul`
+multiplies all of them by det A when x is replaced by its product with a
+p×p matrix A, and `TauCeti.plucker_ne_zero_iff` says that, over a domain and
+for finite ι, they are not all zero exactly when x is linearly independent.
+Over a field, `TauCeti.mk_plucker_eq_mk_plucker_iff`
+(`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`) says that two
+linearly independent families have the same point of projective space
+exactly when they span the same subspace. These files have no Plücker
+relations (GroebnerGeometry G5's polynomial straightening), no Grassmannian
+charts and no Schubert ideals; S6.2 and the type-A worked example consume
+them.
+
+The abstract Coxeter inputs are in `TauCeti/GroupTheory/Coxeter/` and hold for
+an arbitrary Coxeter system, finite or not. `CoxeterSystem.strongExchange`,
+`CoxeterSystem.exchangeCondition` and `CoxeterSystem.deletionCondition`
+(`StrongExchange.lean`) give the strong exchange condition for an arbitrary
+word, the exchange condition for a reduced word with a left descent, and the
+deletion of two letters from a word that is not reduced. `TauCeti.matsumoto`
+and `TauCeti.braidEquivalent_of_isReduced_wordProd_eq` (`Matsumoto.lean`) give
+Matsumoto's theorem: two reduced words for one element are related by braid
+moves, so a monoid-valued assignment on simple letters satisfying the braid
+relations takes one value on all reduced words of an element; no square
+relation is required of it. `CoxeterSystem.BruhatLE` and
+`CoxeterSystem.bruhatLE_iff_exists_sublist_wordProd_eq` (`Bruhat.lean`) give
+the Bruhat order and its subword characterization for a fixed reduced word.
+`CoxeterSystem.IsMinimalCosetRep` (`Parabolic.lean`) is the predicate that u
+has minimal length in its left coset uW_J; `CoxeterSystem.MinimalCosetRepCovBy` and
+`CoxeterSystem.MinimalCosetRepChain` (`Bruhat.lean`) are the covers and
+saturated descending chains of W/W_J, and
+`CoxeterSystem.exists_minimalCosetRepChain` and
+`CoxeterSystem.MinimalCosetRepChain.length_last_add_length`
+(`ChainProperty.lean`) join comparable representatives by a saturated chain,
+every such chain from x to y having length ℓ(x)−ℓ(y).
+
+The root-datum inputs are Mathlib's `RootPairing`, `RootDatum`,
+`RootPairing.Base` and `RootPairing.weylGroup`
+(`Mathlib/LinearAlgebra/RootSystem/`). For a finite reduced crystallographic
+root pairing with a base b over a characteristic-zero domain,
+`TauCeti.weylCoxeterSystem` and `TauCeti.length_weylCoxeterSystem_eq`
+(`TauCeti/LinearAlgebra/RootSystem/Coxeter/Presentation.lean`) make the Weyl
+group a Coxeter system on the simple reflections of b, with length equal to
+the number of positive roots sent to negative roots. Spanning is not assumed,
+so the root datum of a reductive group with a central torus qualifies.
+`TauCeti.DynkinType.simplyConnectedRootDatum`,
+`TauCeti.DynkinType.simplyConnectedBase` and `TauCeti.DynkinType.simpleIndex`
+(`TauCeti/LinearAlgebra/RootSystem/SimplyConnectedRootDatum/Assembly.lean`)
+give, for each valid Dynkin type, the simply connected root datum on
+`Fin rank → ℤ` with its Bourbaki-numbered base and simple-root indices; they
+take a proof of validity. `TauCeti.GeneralLinear.diagonalRootDatum n`
+(`TauCeti/Algebra/AlgebraicGroup/GeneralLinear/Root/Datum.lean`) is the GLₙ
+root datum on the diagonal character lattice `ULift (Fin n) →₀ ℤ`, with roots
+e_i−e_j for i≠j; it keeps the central character e₁+⋯+eₙ, which the simply
+connected type-A datum does not have.
+
+The integral Demazure operators are in
+`TauCeti/LinearAlgebra/RootSystem/Weyl/Demazure/`. For a root datum P (a root
+pairing over ℤ) and a root index i, `RootPairing.demazureOperator P i`
+(`Basic.lean`) is the ℤ-linear endomorphism D_i of the group ring
+`AddMonoidAlgebra ℤ M` of the weight lattice sending e^x, with m=⟨x,α_i∨⟩,
+to the string e^x+e^(x−α_i)+⋯+e^(x−mα_i) for m≥0, to 0 for m=−1 and to
+−(e^(x+α_i)+⋯+e^(x+(−m−1)α_i)) for m≤−2
+(`RootPairing.demazureOperator_single_of_coroot'_eq_natCast`,
+`RootPairing.demazureOperator_single_of_coroot'_eq_neg_one`,
+`RootPairing.demazureOperator_single_of_coroot'_eq_neg_natCast_sub_one`);
+`RootPairing.one_sub_single_neg_root_mul_demazureOperator` is the
+localization identity (1−e^(−α_i))D_i(f)=f−e^(−α_i)s_i(f),
+`RootPairing.demazureOperator_eq_iff` says it characterizes D_i because
+`RootPairing.isLeftRegular_one_sub_single_neg_root` makes 1−e^(−α_i) a
+non-zero-divisor, `RootPairing.demazureOperator_demazureOperator` is
+D_i²=D_i, `RootPairing.demazureOperator_eq_self_iff` says D_i fixes exactly
+the s_i-invariants and `RootPairing.demazureOperator_eq_self_of_isWeylInvariant`
+that it fixes Weyl invariants. `Braid.lean` proves the rank-two braid
+relations (`RootPairing.commute_demazureOperator_of_isOrthogonal`,
+`RootPairing.demazureOperator_braid_three`,
+`RootPairing.demazureOperator_braid_four`,
+`RootPairing.demazureOperator_braid_six`), their form for the Coxeter matrix
+of a base (`RootPairing.prod_map_demazureOperator_braidWord`), word
+independence of D_(i₁)⋯D_(i_r) along reduced words of one Weyl group element
+for a finite reduced root datum with a base
+(`RootPairing.prod_map_demazureOperator_eq_of_wordProd_eq`) and D_iD_w=D_w for
+a left descent s_i of w
+(`RootPairing.demazureOperator_mul_prod_map_demazureOperator_of_isLeftDescent`).
+`LongestElement.lean` proves Demazure's formula
+Δ·D_(w₀)(f)=Σ_(w∈W) sgn(w)e^(wρ−ρ)w(f) for a reduced word of the longest
+element (`RootPairing.weylDenominator_mul_prod_map_demazureOperator`
+and its value `RootPairing.weylDenominator_mul_prod_map_demazureOperator_single`
+on e^λ), with Δ=∏_(α>0)(1−e^(−α)) the Weyl denominator
+`TauCeti.weylDenominator` (`TauCeti/LinearAlgebra/RootSystem/Weyl/Denominator/Basic.lean`)
+and the right side the dot alternatization J(f), `RootPairing.dotAlternatization`
+(`Weyl/Denominator/Integral.lean`, which also proves J(1)=Δ as
+`RootPairing.dotAlternatization_one`). Here wρ−ρ is minus the sum of the
+positive roots that w⁻¹ sends to negative roots, so every exponent lies in the
+weight lattice even when ρ does not (for PGL₂, ρ=α/2). `LongestElement.lean`
+also proves the Weyl invariance `RootPairing.isWeylInvariant_prod_map_demazureOperator` of
+D_(w₀)(f). `Parabolic.lean` proves the Levi case D_vf=f for v∈W_J and
+W_J-invariant f (`RootPairing.prod_map_demazureOperator_apply_eq_self_of_mem_parabolic`),
+the dependence of D_wf on the coset wW_J
+(`RootPairing.prod_map_demazureOperator_apply_eq_of_inv_mul_mem_parabolic`),
+the wall case that D_w(e^λ) depends only on wλ for dominant λ
+(`RootPairing.prod_map_demazureOperator_single_eq_of_smul_eq`) and the
+recursion D_iχ_ξ=χ_(s_iξ) for ⟨ξ,α_i∨⟩≥0 and D_iχ_ξ=χ_ξ for ⟨ξ,α_i∨⟩≤0
+(`RootPairing.demazureOperator_prod_map_demazureOperator_single_of_coroot'_nonneg`,
+`RootPairing.demazureOperator_prod_map_demazureOperator_single_of_coroot'_nonpos`).
+These files treat the combinatorial operator only: identifying D_w(e^λ) with
+the character of H⁰(X(w),L(λ)) or of a module is not in them, and the
+positive-denominator operator Δ_i of the Knutson handout is not defined
+there.
+
+The Lie-algebra form of the Weyl character formula is in
+`TauCeti/Algebra/Lie/HighestWeight/`. For a finite-dimensional Lie algebra
+with non-degenerate Killing form over an algebraically closed field K of
+characteristic 0, a Cartan subalgebra H and a base of its root system,
+`TauCeti.formalCharacter_mul_weylDenominator_eq_weylNumerator`
+(`Weyl/Character.lean`) says that a finite-dimensional module generated by a
+highest-weight vector of weight λ∈H* has formal character, in the group ring
+of H*, whose product with `TauCeti.weylDenominator` is the Weyl numerator
+`TauCeti.weylNumerator` (`TauCeti/LinearAlgebra/RootSystem/Weyl/Numerator.lean`),
+N(λ)=Σ_(w∈W) sgn(w)e^(w(λ+ρ)−ρ), defined for root systems over a ring in
+which 2 is invertible. `TauCeti.tensorMultiplicity_eq_sum_weylSign_mul_formalCharacter_coeff`
+(`RacahSpeiser.lean`) is the Racah–Speiser formula: for dominant integral
+λ, μ and ν, the multiplicity of the simple module L(ν) in L(λ)⊗L(μ) is
+Σ_(w∈W) sgn(w) times the coefficient of e^(ν−(w(λ+ρ)−ρ)) in the formal
+character of L(μ). These files concern
+Lie-algebra modules with weights in H*; they do not compare the root system
+of H with the integral root datum of G, nor Lie-algebra modules with rational
+G-modules.
+
+Normal crystals are in `TauCeti/RepresentationTheory/Crystal/`.
+`TauCeti.NormalCrystal P b B` (`Basic.lean`) bundles, over a root datum with a
+base, a weight map, partial raising and lowering maps e_i,f_i:B→Option B and
+natural string lengths ε_i,φ_i with the partial-inverse law, the weight
+change by α_i, the string identities and φ_i−ε_i=⟨wt,α_i∨⟩; the file also
+has the dual crystal, the iterated operators with their string criteria
+(`TauCeti.NormalCrystal.isSome_eIter_iff`, `TauCeti.NormalCrystal.isSome_fIter_iff`),
+strict morphisms `TauCeti.NormalCrystal.StrictHom`, strict isomorphisms
+`TauCeti.NormalCrystal.StrictIso` and transport along a bijection
+`TauCeti.NormalCrystal.transport`. `Component.lean` has the crystal graph,
+restriction to an operator-closed subset, the connected components
+`TauCeti.NormalCrystal.component` as crystals and the decomposition
+`TauCeti.NormalCrystal.sigmaComponentsIso` into their direct sum
+(`Sigma.lean`); `Tensor.lean` has the tensor product
+`TauCeti.NormalCrystal.tensor` on B₁×B₂ with Kashiwara's tie convention (on a
+tie e_i acts on the left factor and f_i on the right), its functoriality,
+associator and duality; `WeightTwist.lean` has the central weight twist
+`TauCeti.NormalCrystal.weightTwist` by a weight killed by the simple coroots,
+with its zero, addition and duality laws, the one-element crystal
+`TauCeti.NormalCrystal.central` and the identification of the twist with
+tensoring by it; `Character.lean` has the formal character
+`TauCeti.NormalCrystal.formalCharacter` of a finite crystal in
+`AddMonoidAlgebra ℤ X`, its Weyl invariance
+`TauCeti.NormalCrystal.isWeylInvariant_formalCharacter` for a finite reduced
+root datum and its invariance under strict isomorphism;
+`StringReflection.lean` has the string reversal and its weight-fibre
+bijection. No crystal structure on the Lakshmibai–Seshadri paths, and no
+identification of a formal character with a module character, is in these
+files.
+
+The Lakshmibai–Seshadri path engine is in
+`TauCeti/RepresentationTheory/LSPath/`, over an ordered field 𝕜 (ℚ for the
+rational theory) and a vector space V reached from the weight lattice by an
+additive map. `TauCeti.PLPath 𝕜 V` (`PLPath.lean`) is the piecewise-linear
+path up to nondecreasing surjective piecewise-linear reparametrization,
+modelled by its reduced segment list: `TauCeti.PLPath.normalize` removes
+stationary segments and merges adjacent segments on a common ray using only
+the vector-space operations, `TauCeti.PLPath.ofSegments_eq_ofSegments_iff`
+says two segment lists present one path exactly when the elementary moves
+relate them, and the file has the concatenation monoid,
+`TauCeti.PLPath.endpoint`, `TauCeti.PLPath.reverse`, `TauCeti.PLPath.straight`
+and the linear image `TauCeti.PLPath.map`. `Reparametrization.lean` has timed
+presentations, their parametrized paths `TauCeti.PLPath.evalTimed`, the
+reparametrization relation `TauCeti.PLPath.IsReparam` and the faithfulness
+theorem `TauCeti.PLPath.ofSegments_map_snd_eq_iff_exists_isReparam`: two timed
+presentations of positive duration present one path exactly when they are
+reparametrizations of a common one, rationality preserved.
+`RootOperator.lean` has the minimal height `TauCeti.PLPath.minHeight` of a
+linear form along a path, Littelmann's operators `TauCeti.PLPath.lower` and
+`TauCeti.PLPath.raise` for a vector x and a form f (the simple root and the
+pairing with its coroot), with `none` for Kashiwara's 0, their presentation
+independence `TauCeti.PLPath.lower_ofSegments`, the criteria
+`TauCeti.PLPath.lower_eq_none_iff` and `TauCeti.PLPath.raise_eq_none_iff`, the
+endpoint changes `TauCeti.PLPath.endpoint_of_lower_eq_some` and
+`TauCeti.PLPath.endpoint_of_raise_eq_some` by ∓x and the minimal-height
+changes by ∓1 when f(x)=2; `PartialInverse.lean` proves
+`TauCeti.PLPath.lower_eq_some_iff` and `TauCeti.PLPath.raise_eq_some_iff`
+(partial inverses on all paths); `StringLength.lean` proves the string
+criteria `TauCeti.PLPath.isSome_lowerIter_iff` and
+`TauCeti.PLPath.isSome_raiseIter_iff` and the identities φ=f(π(1))−h and
+ε=−h when these are natural numbers
+(`TauCeti.PLPath.isSome_lowerIter_iff_of_eq_natCast`,
+`TauCeti.PLPath.isSome_raiseIter_iff_of_eq_natCast`); `Concatenation.lean`
+proves the tensor rule `TauCeti.PLPath.lower_mul` and
+`TauCeti.PLPath.raise_mul` for a concatenation with integral comparison gap;
+`LinearMap.lean` the naturality `TauCeti.PLPath.lower_map` and
+`TauCeti.PLPath.raise_map`. `TauCeti.LSPath P b λ` (`Basic.lean`) is
+Littelmann's encoding (τ;a) of a path of shape λ for a finite reduced root
+datum with a base: strictly decreasing minimal coset representatives of the
+stabilizer parabolic `RootPairing.wallIndices` of λ, rational times
+0=a₀<⋯<a_(l+1)=1 and an a_(j+1)-chain at each internal break, with its
+distinguished timed presentation `TauCeti.LSPath.timed`, its path
+`TauCeti.LSPath.toPLPath`, the straight encoding `TauCeti.LSPath.straight`,
+the two-direction encodings `TauCeti.LSPath.simple`, finiteness
+`TauCeti.LSPath.finite` for dominant λ and `TauCeti.LSPath.isAChain` (every
+saturated chain between consecutive directions is an a-chain).
+`Realization.lean` proves `TauCeti.LSPath.toPLPath_injective` for a dominant
+shape and a realization injective on Wλ with no two orbit points on a common
+ray; `Distinguished.lean` proves the uniqueness
+`TauCeti.PLPath.IsDistinguished.unique` of a presentation with velocities in
+a set and changes of velocity at every break, that the presentation of an
+encoding is distinguished for dominant λ (`TauCeti.LSPath.isDistinguished_timed`),
+that adding t↦tχ is not well defined on reparametrization classes
+(`TauCeti.PLPath.not_exists_shiftTimed_on_paths`) and defines the central
+shift `TauCeti.PLPath.shiftDistinguished` on paths with a distinguished
+presentation; `Central/Transport.lean` has the bijection
+`TauCeti.LSPath.centralTransport χ : LSPath P b λ ≃ LSPath P b (λ+χ)` for χ
+killed by the simple coroots, equal on realized paths to the central shift
+(`TauCeti.LSPath.toPLPath_centralTransport`), with
+`TauCeti.LSPath.centralTransport_straight`, the endpoint law
+`TauCeti.LSPath.endpoint_toPLPath_centralTransport`, the minimal-height law
+`TauCeti.LSPath.minHeight_toPLPath_centralTransport` and the additivity, zero
+and inverse laws `TauCeti.LSPath.toPLPath_centralTransport_centralTransport`,
+`TauCeti.LSPath.toPLPath_centralTransport_zero` and
+`TauCeti.LSPath.toPLPath_centralTransport_neg`; `Highest.lean` proves that the
+straight encoding is the only one killed by every raising operator
+(`TauCeti.LSPath.forall_raise_eq_none_iff`); `Integrality.lean` proves
+integrality of the endpoint against integral forms and of the minimal
+simple-coroot heights of a realized encoding
+(`TauCeti.LSPath.exists_minHeight_eq_intCast`), hence the exact string lengths
+(`TauCeti.LSPath.exists_neg_minHeight_eq_natCast_and_apply_endpoint_sub_minHeight_eq_natCast`);
+`ConvexHull.lean` proves π(t)∈t·Conv(S) for a timed presentation with
+velocities in S (`TauCeti.PLPath.evalTimed_mem_smul_convexHull`), containment
+in Conv(S) when 0∈Conv(S) (`TauCeti.PLPath.evalTimed_mem_convexHull`) and, with
+`RootPairing.zero_mem_convexHull_orbit_weylGroup` (`Weyl/Barycenter.lean`),
+containment in Conv(Wλ) for a root system with finite Weyl group
+(`TauCeti.PLPath.evalTimed_mem_convexHull_orbit_weylGroup`); `Stretch.lean`
+and `Subdivision.lean` have the positive-integer stretch
+`TauCeti.LSPath.stretch`, its dilation law `TauCeti.LSPath.toPLPath_stretch`
+and the uniform integral subdivision
+`TauCeti.LSPath.exists_uniform_subdivision`. The bond arithmetic is in
+`TauCeti/LinearAlgebra/RootSystem/`: `RootPairing.reflectionBond`
+(`ReflectionBond.lean`) is the bond ⟨y,β∨⟩=−⟨x,β∨⟩ of weights y=s_βx for a
+positive root β, with `RootPairing.reflectionBond_self` and the central
+invariance `TauCeti.reflectionBond_smul_add` (`Weyl/CoverBond.lean`);
+`Weyl/ParabolicQuotient.lean` identifies the orbit Wλ of a dominant weight
+with W/W_λ through minimal coset representatives (`RootPairing.wallIndices`,
+`RootPairing.parabolic_wallIndices_eq_stabilizer`,
+`TauCeti.existsUnique_isMinimalCosetRep_smul_eq`) and proves the reflection
+test in its three cases
+(`TauCeti.bruhatLE_and_ne_iff_coroot'_neg_of_isMinimalCosetRep`,
+`TauCeti.eq_iff_coroot'_eq_zero_of_isMinimalCosetRep`); `Weyl/CoverBond.lean`
+proves the unique positive root label of a cover of W/W_λ
+(`TauCeti.existsUnique_isPos_reflection_smul_eq_of_minimalCosetRepCovBy`), the
+strict positivity `TauCeti.reflectionBond_pos_of_minimalCosetRepCovBy` and the
+integrality `TauCeti.exists_nat_reflectionBond_eq_of_minimalCosetRepCovBy` of
+its bond, and the bond ⟨λ,α_i∨⟩ of the cover of the identity by a simple
+reflection off the walls (`TauCeti.reflectionBond_simple_smul_one_smul`);
+`Weyl/ChainBond.lean` has the bond gcd `TauCeti.bondGcd` of a saturated chain
+(0 for the empty chain), the a-chain predicate `TauCeti.IsAChain`, the
+criterion `TauCeti.isAChain_iff_den_dvd_bondGcd`, Littelmann's form
+`TauCeti.isAChain_iff_forall_coroot'`, the concatenation law
+`TauCeti.bondGcd_smash` and the integrality of heights along a-chains;
+`Weyl/IntervalBondGcd.lean` has the interval gcd `TauCeti.intervalBondGcd` and
+its chain independence `TauCeti.bondGcd_eq_intervalBondGcd`, proved by a
+chain-sorting induction along a left descent, with
+`TauCeti.intervalBondGcd_self`, `TauCeti.intervalBondGcd_eq_gcd` and the
+a-chain criteria `TauCeti.exists_isAChain_iff_den_dvd_intervalBondGcd` and
+`TauCeti.forall_isAChain_iff_den_dvd_intervalBondGcd`;
+`Weyl/ReflectedChain.lean` reflects saturated chains lying on one side of a
+simple wall (`CoxeterSystem.MinimalCosetRepChain.simpleMul`,
+`CoxeterSystem.MinimalCosetRepChain.bondGcd_simpleMul`) and proves
+Littelmann's chain conditions at the two ends of a reflected piece
+(`TauCeti.IsAChain.exists_isAChain_simple_mul_last`,
+`TauCeti.IsAChain.exists_isAChain_simple_mul_head`). These files do not prove
+that the root operators carry the realized path of an encoding of shape λ to
+the realized path of another encoding of shape λ, do not put a
+normal-crystal structure on `TauCeti.LSPath`, and do not prove the
+component, character or tensor theorems; those are S4's targets.
+
+### From TauCetiRoadmap.ModularCurves
+
+[ModularCurves §0G](../ModularCurves/README.md) owns finite-locally-free Grassmannian representability over an arbitrary base, glued from Tau Ceti's affine `Module.Grassmannian.scheme`, with its charts, universal quotient and base change. Native `Module.Grassmannian R M q` stores a submodule with locally free quotient of rank q; an r-dimensional subspace of k^N corresponds to q=N−r. S1.1 constructs flags as closed incidence subschemes of products of those Grassmannians; a coherent quotient of a non-locally-free sheaf is not needed for this construction.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+[ReductiveGroups](../ReductiveGroups/README.md) Layers 7–10 (structure theory, field Bruhat theory and algebraic parabolics, classification, the pinned Chevalley–Demazure group schemes over ℤ, rational representations and highest weights) own Hopf/scheme/point and rational-comodule dictionaries, group/root/pinning/central-isogeny structure, and field Bruhat theory. Its integral-distribution/rational-representation extension supplies full-lattice divided-power PBW/Dist(G), Δ/∇/L, induction, pinned extremal vectors and contravariant duality. The algebraic Steinberg input is the simple module Δ((p−1)ρ)=L((p−1)ρ)=∇((p−1)ρ) on the derived simply connected cover, with dimension p^|Φ+| and normalized PBW/extremal pairing. These algebraic constructions do not consume flag splitting or standard monomial theory.
+
+[ReductiveGroups §3A.5](../ReductiveGroups/README.md) supplies, for a closed
+orbit O_x of a smooth affine group G of finite type acting on a proper complex
+scheme X, with H the scheme stabilizer of x: smoothness of the reduced orbit
+model, compactness of O_x(ℂ), the holomorphic orbit submersion G(ℂ)→O_x(ℂ),
+its holomorphic local sections and the biholomorphism G(ℂ)/H(ℂ)≃O_x(ℂ).
+S9.1 applies it to the G-action on G/P− at eP−, with the classical topology
+and holomorphic charts of S9.0. §3A.5 constructs no ringed analytification,
+no structure sheaf with nilpotents and no GAGA, and the point topology of an
+arbitrary complex scheme locally of finite type is not taken from it; those
+are S9.0's.
+
+### From TauCetiRoadmap.GroebnerGeometry
+
+[GroebnerGeometry G5](../GroebnerGeometry/README.md) owns polynomial minor/shuffle/straightening/Gröbner statements, flag-minor algebra and its Gelfand–Tsetlin initial algebra. S6 supplies the scheme, homogeneous coordinate, section and restriction identifications. The original flag algebra is not identified with its toric initial algebra.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) Layer 1
+(descent, gluing, closed immersions, fibre products and base change), Layer 2
+with §2.2 (Leray and Čech spectral sequences) and §2.6 (quasi-coherent
+cohomology, projective-space cohomology and Serre vanishing), §4.12 (Chow's
+lemma) and Layer 5 with §5.7 (cycles and intersections; coherent and perfect
+classes K₀, G₀ and the K-theoretic pushforward) supply generic coherent
+cohomology, ample Serre vanishing, relative derived pushforward and base change
+and coherent/perfect K-theory at their stated scope. These generic
+constructions are not redefined here.
+
+### From TauCetiRoadmap.StableReduction
+
+[StableReduction Layer 2](../StableReduction/README.md) supplies relative Proj
+on the native graded quasi-coherent algebra
+`TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra` (From Tau Ceti); with
+Layer 4 it supplies the Rees blowup construction
+used in the worked blowup example. S5.6 and S6.1 consume the relative Proj and
+do not rebuild it.
+
+### From TauCetiRoadmap.TopologicalKTheory
+
+[TopologicalKTheory T1.5](../TopologicalKTheory/README.md) supplies the single
+finite subspace Grassmannian and finite Schubert characteristic maps. S9
+compares these with the algebraic models; it does not rebuild their carriers.
+
+### From TauCetiRoadmap.LieGroups
+
+[LieGroups Layer 8](../RepresentationTheory/LieGroups/README.md) (Borel–Weil,
+flag manifolds and Bruhat) supplies the compact full and partial flags K/T and
+K/K_μ with their homogeneous complex comparisons, used by S2.5, S7.3 and
+S9.1–S9.7. S9 compares these with the algebraic models; it does not rebuild
+their carriers.
+
+### From TauCetiRoadmap.ComplexKahlerGeometry
+
+[ComplexKahlerGeometry K3–K4](../ComplexKahlerGeometry/README.md) supplies finite-dimensional holomorphic germs, Weierstrass division, local analytic sets and the holomorphic sheaf/bundle calculus. S9.0 extends these local objects to analytic spaces with nilpotents and coherent analytification; K4's bundle theory alone is not coherent GAGA.
+
+### From TauCetiRoadmap.RealAnalyticGeometry
+
+[RealAnalyticGeometry R3.2](../RealAnalyticGeometry/README.md) supplies the
+native coherent module-sheaf predicate, coherent kernels and Cartan A/B on
+Stein manifolds; S9.0 uses them, with SchemeAndStackFoundations §§2.2, 2.6 and
+4.12, in its proof of proper GAGA.
+
+### From TauCetiRoadmap.AlgebraicTopology
+
+[AlgebraicTopology Stage 5, item 3](../AlgebraicTopology/README.md) supplies,
+for a finite covering p with connected base and constant fibre cardinality d,
+the transfer on singular chains with p_*∘transfer=d·id, and, for a regular
+covering with finite deck group G, transfer∘p_*=Σ_(g∈G) g_*. S9.6 applies it to
+the free covering K/T→K/N(T) with deck group W: over ℚ the two identities
+identify H*(K/N(T);ℚ) with the W-invariants of H*(K/T;ℚ); over ℤ nothing else
+is assumed and no averaging is used.
+
+### From TauCetiRoadmap.MorseTheory
+
+[MorseTheory M2](../MorseTheory/README.md) supplies compact-band deformation
+across regular levels, the attachment of one index-λ handle at each critical
+point of a critical level, and the resulting cell attachments with their
+attaching maps ∂D^λ→M_(c−ε) and characteristic maps
+(D^λ,∂D^λ)→(M_(c+ε),M_(c−ε)). S9.7 compares these characteristic maps with the
+Bruhat cells and S7.3's classes; it assumes only the attachment statements, not
+that a Schubert closure is the image of an embedded disc.
+
+### From TauCetiRoadmap.HamiltonianReduction
+
+[HamiltonianReduction R2a](../SymplecticGeometry/HamiltonianReduction/README.md)
+supplies, on the coadjoint orbit O_μ=K/K_μ of a compact connected group K, the
+heights f_X(p)=B(p,X) with df_X=ι_(X_O)ω and critical set {p:[X,p]=0}, the
+root-plane rotations J_α with the KKS form on each root plane, the critical set
+Wμ of a regular height and its finite even-index cell model. S9.7 consumes
+these on the same orbit and compares them with the algebraic flag; it does not
+rebuild the orbit, its form or its heights.
 
 
 ## References

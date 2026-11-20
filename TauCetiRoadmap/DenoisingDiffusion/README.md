@@ -1,48 +1,68 @@
 # Roadmap: Gaussian denoising diffusion, Tweedie's formula and score matching
 
-**Summary.** Develop the probability and statistics behind denoising diffusion models in discrete
-time on `ℝ^d`. It starts with two Gaussian facts that the rest needs: the Kullback–Leibler
-divergence between isotropic Gaussian laws with different variances, and the Gaussian Bayes
-update. It builds the forward noising chain of Ho, Jain and Abbeel: the variance-preserving
-Gaussian kernels, their composition law, the closed form of `q(x_t | x_0)`, the Gaussian posterior
-`q(x_{t-1} | x_t, x_0)`, and the convergence of the marginals to the standard Gaussian. For a law
-observed through Gaussian noise it proves that the observation has a smooth positive density,
-Tweedie's formula for the posterior mean and its second-order form for the posterior covariance,
-and the equivalence of denoising and explicit score matching up to a constant, with the score as
-the unique minimizer. It ends with the variational bound of diffusion models: the reverse Markov
-property and the chain rule for the path divergence, the posterior-conditioned surrogate and the
-exact, finite constant separating them, and the closed form of the surrogate as a weighted
-noise-prediction loss whose minimizer is the score.
+**Summary.** A denoising diffusion model turns data into noise by a Markov chain that adds a little
+Gaussian noise at each step, and fits a second chain that runs from noise back to data. This
+roadmap proves the exact probabilistic facts behind it, in discrete time on `ℝ^d`, where divergence
+always means Kullback–Leibler divergence. A noise schedule is a sequence βₜ in `(0, 1)`, for
+`t ≥ 1`, with signal levels `ᾱₜ = (1 − β₁) ⋯ (1 − βₜ)`. We write `N(m, v)` for the Gaussian
+with mean m and covariance v times the identity.
 
-## Scope and ownership
+The forward chain comes first. For `a ∈ [0, 1]` the noising kernel sends x to `N(√a • x, 1 − a)`,
+and noising with level a, then b, is noising once with level ab. So the chain started at x₀ has xₜ
+distributed as `N(√ᾱₜ • x₀, 1 − ᾱₜ)`. If the initial law μ₀ has `∫ ‖x‖² dμ₀ ≤ M`, with `‖x‖²`
+integrable, then for `t ≥ 1` the divergence of the law of xₜ from the standard Gaussian is at most
+`(ᾱₜ M − d ᾱₜ − d log (1 − ᾱₜ))/2`, which tends to 0 with ᾱₜ. For `t ≥ 1` and the chain started at
+x₀, the law of xₜ₋₁ given xₜ is again an explicit isotropic Gaussian, the posterior.
 
-This roadmap owns:
+Tweedie's formula concerns one noisy observation `Y = cX + sZ`, where X has any law μ₀, Z is
+standard Gaussian and independent of X, c is real and `s > 0`. With no moment assumption on μ₀, Y
+has a positive smooth density p, and `E[Z | Y] = −s ∇ log p(Y)` almost surely. If X is integrable
+and `c ≠ 0`, this becomes `E[X | Y] = c⁻¹ (Y + s² ∇ log p(Y))`. Under the same hypotheses, the
+conditional covariance of X given Y is `(s²/c²)(I + s² ∇² log p(Y))`.
 
-- the Kullback–Leibler divergence between isotropic Gaussian laws `N(a, u)` and `N(b, v)` with
-  `u ≠ v`, and the isotropic Gaussian Bayes update;
-- the variance-preserving noising kernels, noise schedules, the forward chain, its path law and
-  marginals, and the DDPM posterior;
-- the density, gradient and score of a law convolved with an isotropic Gaussian;
-- Tweedie's formula in first and second order;
-- denoising score matching, explicit score matching and noise prediction, and their minimizers;
-- reverse models and their path law, the reverse Markov property of the forward chain, the
-  path-space variational bound, the posterior-conditioned surrogate, and its Gaussian closed form.
+The same setting gives score matching. For measurable f with `‖f(Y)‖²` integrable, the denoising
+objective `E‖f(Y) + Z/s‖²` equals the explicit objective `E‖f(Y) − ∇ log p(Y)‖²` plus a nonnegative
+constant independent of f. So it is minimized exactly by the score, up to null sets for the law of
+Y. Likewise the noise-prediction error `E‖g(Y) − Z‖²` is minimized exactly, in the same sense, by
+`g = −s ∇ log p`.
 
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
+A reverse model draws the final state from a prior π, then each xₜ₋₁ from a Markov kernel κₜ at xₜ.
+By the variational bound, the divergence of μ₀ from the model's law at time 0 is at most the
+divergence of the forward path law from the model's. A chain rule splits the latter into one term
+per step and a term for π. The surrogate of Sohl-Dickstein et al. and of Ho, Jain and Abbeel
+replaces, for `t ≥ 2`, the reverse step of the forward chain by the posterior given x₀. It exceeds
+the path divergence by a sum of conditional mutual informations that does not depend on the model
+and is finite, without moment assumptions on μ₀. So minimizing the surrogate is minimizing the path
+divergence.
 
-Out of scope, and not owned here:
+Take isotropic Gaussian model kernels κₜ with variance σₜ², `σₜ > 0`, and mean written through a
+measurable noise predictor ε̂ₜ, with `‖ε̂ₜ(xₜ)‖²` integrable. Each surrogate term with `t ≥ 2` is
+then a term free of ε̂ₜ plus a weighted loss `wₜ E‖ε − ε̂ₜ(xₜ)‖²`, where ε is the noise recovered
+from x₀ and xₜ. This loss is minimized exactly by `−√(1 − ᾱₜ)` times the score of the law of xₜ,
+almost everywhere for that law.
 
-- continuous-time diffusion: forward and reverse-time stochastic differential equations,
-  Anderson's time-reversal theorem and the probability-flow equation;
-- convergence and sampling-error bounds for learned reverse processes, and the approximation
-  theory of neural score estimators;
-- variance-exploding and non-Gaussian noising, discrete-state diffusion, deterministic samplers
-  (DDIM), and guidance.
+In Tau Ceti, the roadmap builds on the library's results on multivariate Gaussian laws, for the
+noising kernels and the posterior, and on its heat-kernel bounds, to differentiate p under the
+integral. The divergence between Gaussians of equal isotropic variance comes from
+[MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md), and
+conditional expectation from Mathlib. No roadmap on Tau Ceti's main branch builds on this one.
 
-The Kullback–Leibler divergence between Gaussian laws of equal isotropic variance belongs to
-[MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.3 and
-is consumed.
+Layer 1 proves two Gaussian facts: the divergence between isotropic Gaussians of different
+variances, and a Bayes update giving the posterior. Layer 2 builds the forward chain. Layer 3,
+independent of both, proves Tweedie's formula and score matching; Layer 4 combines the three.
+
+## How to read the build
+
+Layer 1 proves the two Gaussian facts that Layers 2 and 4 use: the divergence between isotropic
+Gaussian laws and the Bayes update. Layer 2 builds the forward chain on them: the noising kernels,
+the path law, its marginals and the posterior. Layer 3 is independent of Layers 1 and 2: the
+smoothed density, Tweedie's formula and score matching. Layer 4 combines the three into the
+variational bound, its surrogate and the noise-prediction closed form.
+
+Each layer opens with its definitions. Each numbered target ends with a **Checks** list of tests
+that a wrong convention or constant would fail, and a *Needs:* line naming the targets and
+suppliers it uses. Every claim carries a source locator in parentheses, or says that it is proved
+here. `Suggested.lean` declares every roadmap-owned name used below.
 
 ## Conventions
 
@@ -68,54 +88,6 @@ is consumed.
 - **Paths.** Paths are elements of `Π i : Finset.Iic T, E`, written `x`, with `x i` the state at
   time `i`; `pathEval i hi` (written `eval i`) is evaluation at `i`, for `hi : i ≤ T`; it is measurable
   (`measurable_pathEval`).
-
-## Exact supplier contracts
-
-- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.3:
-  `klDiv_multivariateGaussian`, for `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`,
-  `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1)) = ofReal (‖a − b‖²/(2v))`.
-- Tau Ceti, at the roadmap pin:
-  - `multivariateGaussianPDFReal` and `multivariateGaussian_eq_withDensity` (for a positive
-    definite covariance) (`TauCeti/Probability/Distributions/Gaussian/Density.lean`);
-  - `TauCeti.heatKernel`, `TauCeti.contDiff_heatKernel` and, for `t > 0`,
-    `TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le`
-    (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`, `Bounds.lean`), with
-    `φ_{s²} = heatKernel (s²/2)`;
-  - `multivariateGaussian_conv_multivariateGaussian`, for positive semidefinite covariances
-    (`TauCeti/Probability/Distributions/Gaussian/Sum.lean`);
-  - `map_affine_multivariateGaussian` and `map_comp_multivariateGaussian`, for a positive
-    semidefinite covariance (`TauCeti/Probability/Distributions/Gaussian/Affine.lean`);
-  - `indepFun_sumEquivProd_multivariateGaussian_iff`, for a positive semidefinite covariance
-    (`TauCeti/Probability/Distributions/Gaussian/Multivariate.lean`);
-  - `EuclideanSpace.gaussianCondKernel`, `EuclideanSpace.gaussianCondMean_of_posDef` and
-    `Matrix.gaussianCondCov_of_posDef` (for a positive definite observed block),
-    `EuclideanSpace.map_snd_fst_multivariateGaussian` and `condDistrib_multivariateGaussian`
-    (for a positive semidefinite covariance)
-    (`TauCeti/Probability/Distributions/Gaussian/Conditional/Basic.lean`);
-  - `TauCeti.klDiv_compProd_right` (finite measure, finite kernels) and
-    `TauCeti.klDiv_compProd_eq_add_lintegral` (finite measures, Markov kernels)
-    (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`).
-- Mathlib: `multivariateGaussian`, `stdGaussian`, `integral_id_multivariateGaussian`,
-  `covariance_eval_multivariateGaussian` (positive semidefinite covariance),
-  `EuclideanSpace.sumEquivProd`; `klDiv`, `klDiv_map_le` and `klDiv_compProd_eq_add` (finite
-  measures, Markov kernels); `Measure.compProd`, `Measure.bind`, `Measure.condKernel`,
-  `Kernel.comp`, `Kernel.comap`, `Kernel.prodMkLeft`, `Kernel.prodMkRight`,
-  `Kernel.partialTraj`; `condExp`, `eLpNorm_condExp_le_eLpNorm`, `condDistrib`, `IndepFun`,
-  `HasLaw`, `MemLp`; `gradient`, `Laplacian.laplacian`;
-  `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
-
-## How to read the build
-
-Layer 1 proves the two Gaussian facts that Layers 2 and 4 use: the divergence between isotropic
-Gaussian laws and the Bayes update. Layer 2 builds the forward chain on them: the noising kernels,
-the path law, its marginals and the posterior. Layer 3 is independent of Layers 1 and 2: the
-smoothed density, Tweedie's formula and score matching. Layer 4 combines the three into the
-variational bound, its surrogate and the noise-prediction closed form.
-
-Each layer opens with its definitions. Each numbered target ends with a **Checks** list of tests
-that a wrong convention or constant would fail, and a *Needs:* line naming the targets and
-suppliers it uses. Every claim carries a source locator in parentheses, or says that it is proved
-here. `Suggested.lean` declares every roadmap-owned name used below.
 
 ## Layer 1: isotropic Gaussian tools
 
@@ -532,6 +504,71 @@ and `modelPath`, and the statements `noiseKernel_comp` (2.1), `forwardPath_map_e
 `dsm_eq_esm_add` and `noisePrediction_minimizer` (3.3), `klDiv_forwardPath_eq` and
 `klDiv_le_klDiv_forwardPath` (4.1), `klDiv_posterior_eq_add` (4.2) and
 `klDiv_posterior_gaussian_integral` (4.3).
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the Kullback–Leibler divergence between isotropic Gaussian laws `N(a, u)` and `N(b, v)` with
+  `u ≠ v`, and the isotropic Gaussian Bayes update;
+- the variance-preserving noising kernels, noise schedules, the forward chain, its path law and
+  marginals, and the DDPM posterior;
+- the density, gradient and score of a law convolved with an isotropic Gaussian;
+- Tweedie's formula in first and second order;
+- denoising score matching, explicit score matching and noise prediction, and their minimizers;
+- reverse models and their path law, the reverse Markov property of the forward chain, the
+  path-space variational bound, the posterior-conditioned surrogate, and its Gaussian closed form.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope, and not owned here:
+
+- continuous-time diffusion: forward and reverse-time stochastic differential equations,
+  Anderson's time-reversal theorem and the probability-flow equation;
+- convergence and sampling-error bounds for learned reverse processes, and the approximation
+  theory of neural score estimators;
+- variance-exploding and non-Gaussian noising, discrete-state diffusion, deterministic samplers
+  (DDIM), and guidance.
+
+The Kullback–Leibler divergence between Gaussian laws of equal isotropic variance belongs to
+[MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.3 and
+is consumed.
+
+## Exact supplier contracts
+
+- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.3:
+  `klDiv_multivariateGaussian`, for `a, b : EuclideanSpace ℝ (Fin d)` and `v > 0`,
+  `klDiv (multivariateGaussian a (v • 1)) (multivariateGaussian b (v • 1)) = ofReal (‖a − b‖²/(2v))`.
+- Tau Ceti, at the roadmap pin:
+  - `multivariateGaussianPDFReal` and `multivariateGaussian_eq_withDensity` (for a positive
+    definite covariance) (`TauCeti/Probability/Distributions/Gaussian/Density.lean`);
+  - `TauCeti.heatKernel`, `TauCeti.contDiff_heatKernel` and, for `t > 0`,
+    `TauCeti.exists_one_add_norm_pow_mul_norm_iteratedFDeriv_heatKernel_le`
+    (`TauCeti/Analysis/PDE/HeatKernel/Basic.lean`, `Bounds.lean`), with
+    `φ_{s²} = heatKernel (s²/2)`;
+  - `multivariateGaussian_conv_multivariateGaussian`, for positive semidefinite covariances
+    (`TauCeti/Probability/Distributions/Gaussian/Sum.lean`);
+  - `map_affine_multivariateGaussian` and `map_comp_multivariateGaussian`, for a positive
+    semidefinite covariance (`TauCeti/Probability/Distributions/Gaussian/Affine.lean`);
+  - `indepFun_sumEquivProd_multivariateGaussian_iff`, for a positive semidefinite covariance
+    (`TauCeti/Probability/Distributions/Gaussian/Multivariate.lean`);
+  - `EuclideanSpace.gaussianCondKernel`, `EuclideanSpace.gaussianCondMean_of_posDef` and
+    `Matrix.gaussianCondCov_of_posDef` (for a positive definite observed block),
+    `EuclideanSpace.map_snd_fst_multivariateGaussian` and `condDistrib_multivariateGaussian`
+    (for a positive semidefinite covariance)
+    (`TauCeti/Probability/Distributions/Gaussian/Conditional/Basic.lean`);
+  - `TauCeti.klDiv_compProd_right` (finite measure, finite kernels) and
+    `TauCeti.klDiv_compProd_eq_add_lintegral` (finite measures, Markov kernels)
+    (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`).
+- Mathlib: `multivariateGaussian`, `stdGaussian`, `integral_id_multivariateGaussian`,
+  `covariance_eval_multivariateGaussian` (positive semidefinite covariance),
+  `EuclideanSpace.sumEquivProd`; `klDiv`, `klDiv_map_le` and `klDiv_compProd_eq_add` (finite
+  measures, Markov kernels); `Measure.compProd`, `Measure.bind`, `Measure.condKernel`,
+  `Kernel.comp`, `Kernel.comap`, `Kernel.prodMkLeft`, `Kernel.prodMkRight`,
+  `Kernel.partialTraj`; `condExp`, `eLpNorm_condExp_le_eLpNorm`, `condDistrib`, `IndepFun`,
+  `HasLaw`, `MemLp`; `gradient`, `Laplacian.laplacian`;
+  `hasFDerivAt_integral_of_dominated_of_fderiv_le`.
 
 ## References
 

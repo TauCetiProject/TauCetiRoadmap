@@ -1,235 +1,38 @@
 # Roadmap: automorphic Galois representations, part II — regular algebraic `GL_n`
 
-**Summary.** This roadmap constructs the continuous semisimple Galois representations associated with regular algebraic cuspidal representations of `GL_n` over CM and totally real fields. It starts with algebraic weights and the good-place Hecke polynomial, constructs the representations through compact-unitary cohomology or ordinary boundary cohomology, and then proves local compatibility, coefficient-prime admissibility and residual properties. These results provide the arithmetic input for potential automorphy, modularity lifting and the generic parts of Shimura-variety cohomology.
+**Summary.** A cuspidal automorphic representation π of `GL_n` over a number field F has, at almost every finite place v, a Hecke polynomial `P_v` of degree n. Given a prime ℓ and `ι: ℚ̄_ℓ≅ℂ`, a Galois representation attached to π is a continuous semisimple representation `r:G_F→GL_n(ℚ̄_ℓ)` that, at almost all places v not above ℓ, is unramified and has `P_v` as the characteristic polynomial of geometric Frobenius, via ι. It is unique up to isomorphism. This roadmap constructs such representations for regular algebraic π over CM or totally real fields, compares them with the local Langlands correspondence, and studies their reductions modulo ℓ. Regular algebraic means that the archimedean infinitesimal character comes from an algebraic representation; the resulting dominant weight `a` gives Hodge–Tate numbers `a_{τ,i}+n−i`.
 
-The polarized route includes conjugate-self-dual cuspidal representations over CM fields, algebraic-character twists and essentially self-dual descent to totally real fields. The nonselfdual existence and away-prime route has the CM or totally real scope of HLTT and Varma. The newer nonselfdual coefficient-prime result is the CM theorem of A’Campo–Hevesi–Thorne–Whitmore. Selected unitary discrete transfers produce semisimple sums with specified constituents; a sum of this kind need not be irreducible. Three `GSp₄` specializations at the end use AG2.P’s conditional spin constructions and transfer dictionary, retaining the supplier’s `GSp₄` classification inputs. The coefficient-prime comparisons in rank `n≥2` that go beyond the BLGGT Iwahori case, including the nonselfdual semisimple comparison built on the polarized one, and the exports and `GSp₄` clauses that use them, assume the irreducibility hypothesis `ExtremelyRegularIrreducibility` of AG2.6; rank one, the good-place construction and polarized de Rham admissibility do not.
+The first existence theorem concerns conjugate self-dual π, those with `π^c≅π^∨`, over a CM field F. For every regular algebraic conjugate self-dual cuspidal π on `GL_n(𝔸_F)` and every ℓ and ι there is an attached representation, with no further condition on the parity of n, the weight or the local components of π. The proof starts from compact unitary Shimura varieties, which give the result only for restricted weights and fields, and removes the restrictions with definite unitary families and patching. Over a totally real field the same holds for polarized pairs (π,χ), meaning `π^∨≅π⊗χ⁻¹` with `χ_v(−1)` independent of the real place v.
 
-The base roadmap AutomorphicGaloisRepresentations stops at the classical and Hilbert `GL₂`
-constructions: rank-two representations of eigenforms over `ℚ` and totally real fields, their
-lattices, Hecke determinants and deformation maps. This part does not cite it. The general-rank
-construction here is independent of those `GL₂` constructions; it meets the rank-two members only
-through the AG2.P adapters to AlgebraicModularFormsAndSerreWeights R15.5A and
-GL2AutomorphicRepresentationsAndTransfer §§R16.6.3–R16.6.4, and their representations are
-identified on the regular-weight overlap in AG2.6 and AG2.7.
-`Suggested.lean` states `hlttFactorSeparation` in AG2.4 and
-`infinitelyManyDecomposedGenericPrimes` in AG2.7. The latter uses
-`FiniteModelDecomposedGenericPrime`, a definition on finite Galois realizations of residual
-representations. These are the file's compiled declarations. The other Lean names below
-specify interfaces to build, and the Checks specify mathematical examples. Automorphic
-existence, local period comparisons and compatible-system assembly require the supplier
-carriers specified here.
+The second existence theorem, due to Harris–Lan–Taylor–Thorne, needs no self-duality: for F totally real or CM and π regular algebraic cuspidal, every ℓ and ι give an attached representation. For twists of π, boundary cohomology of unitary Shimura varieties gives representations of rank 2n, and a general theorem separates their two factors. Let μ be a continuous character of a topological group, valued in an algebraically closed Hausdorff topological field of characteristic zero, of infinite order at every point of a dense set D. If for infinitely many integers m a continuous semisimple rank-2n representation has characteristic polynomial `∏(X−α_i)·∏(X−β_i μ^m)` on D, then there are continuous semisimple rank-n representations with polynomials `∏(X−α_i)` and `∏(X−β_i)` on D.
 
-## Scope and ownership
+Varma shows for all these π that at each place v not above ℓ the Weil–Deligne representation of r has the semisimplification of the normalized local Langlands parameter of `π_v`, with monodromy bounded by the parameter's. For conjugate self-dual π over a CM field, Caraiani upgrades this to an isomorphism including the monodromy operator N.
 
-This roadmap owns the specialization of algebraic coordinates to polarized `GL_n` weights, the
-corrected Kuga–Sato realization, extraction of actual Galois constituents, the definite-unitary
-and ordinary-boundary constructions, their local comparisons and the arithmetic exports.
-General representation theory, raw compact-unitary cohomology, determinant interpolation,
-period-ring carriers and residual Hecke predicates are supplied by the roadmaps in the contracts
-below. AG2.P supplies the finite-coefficient and normalization adapters for arithmetic
-p-adic Hodge theory and the normalized-system correspondence-trace comparison.
-AG2.6 uses the relative Fargues–Fontaine curves and divisors of VectorBundlesAndIsocrystals
-VB−1, the bundle stacks, Newton strata and lisse categories of VStackSheavesAndLisseCategories
-VS3–VS4, the Satake equivalence of GeometricSatakeAndFusion GS0–GS4 and the parameter
-stacks of LanglandsParameterStacks LP1 and LP4. It owns the extension of the bundle geometry
-to `Perf_{𝔽_q}`, the global Hecke modification stacks and Hecke functors, the geometric
-spectral action with its excursion operators and integral spectral centre, and the minuscule
-local Shimura towers with their compactly supported cohomology and Hecke realization for
-arbitrary `(G,b,μ)`. These four AG2.6 sections form a self-contained prefix in the
-dependency order: they use only the suppliers just named and no automorphic, Galois or Igusa target of this roadmap, so a
-roadmap needing these objects on this domain imports these carriers. The citable sections
-are the AG2.6 subsections “Relative Fargues–Fontaine curves and degree-one divisors”,
-“Bundle strata, lisse categories and the geometric Hecke action” (the global Hecke stacks
-`Hck^I_G` with `p₁`, `p₂`, unit, leg repetition, completion and bounded pieces, and the Hecke
-functor `T_V:D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)`, its descent to `D_lis(BunG,Λ)^{BW_K^I}`,
-the monoidal structure in `V` on the descended functors, its Weil structure and minuscule
-shift `d_μ=⟨2ρ,μ⟩`), “The parameter stack and geometric spectral action” (excursions and
-the integral centre for `O_L` with `ℓ∤|π₀Z(G)|`) and “Minuscule local Shimura spaces and
-their Hecke realization” (points of `Hck_{G,≤μ}` from the trivial source to the target
-`E_b`, `b∈B(G,μ⁻¹)`, `RΓ_c` and its Hecke realization). Solid or enhanced coefficient versions and nonminuscule or
-non-basic-target towers are refinements stated on these carriers. The algebraic
-parameter stacks, finite-wild levels and excursion algebra stay with LanglandsParameterStacks
-LP1 and LP4 and SmoothRepresentationsOfLocalGroups SR.6. The AHTW Igusa
-compactification, Newton filtration, local–classical comparison and annihilator arguments
-follow them. The particular families and
-compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
-the arbitrary-rank raw carrier and operations; AG2.P owns the compatibility predicates
-and their preservation under those operations.
+Above ℓ, for polarized π over a CM field, r is de Rham with these Hodge–Tate numbers, crystalline when `π_v` is spherical and semistable when `π_v` has Iwahori-fixed vectors. The finer comparisons at ℓ in rank `n≥2` assume that, over every imaginary CM field, each regular algebraic conjugate self-dual cuspidal representation of `GL_n` with extremely regular weight (at some embedding, equal-sized sets of Hodge–Tate numbers have distinct sums) has an irreducible attached representation for some ℓ′ and ι′. Barnet-Lamb–Gee–Geraghty–Taylor prove it; here it is assumed. Under it, the comparison at ℓ for conjugate self-dual cohomological cuspidal π over a CM field includes N. Assuming it in ranks 2 to 2n, A’Campo–Hevesi–Thorne–Whitmore show that for every regular algebraic cuspidal π over a CM field, r is de Rham above ℓ with Weil–Deligne semisimplification matching the local parameter.
 
-The following interfaces retain their supplier's definitions and complete API, including its
-Checks. They are used only after the hypotheses of the named specialization are discharged.
+For a residual representation, a prime p≠ℓ is decomposed generic if it splits completely in F and, at every place above p, the representation is unramified with no ratio `α_i/α_j` (i≠j) of Frobenius eigenvalues equal to p. If one such prime exists, there are infinitely many. For F=ℚ and the trivial representation 1⊕1 over 𝔽₃, the prime 2 is decomposed generic, but 7 is not, since 7≡1 mod 3.
 
-## Exact supplier contracts
+The roadmap builds on EndoscopicTransferAndUnitaryTraceComparison for Igusa varieties, stabilized trace comparisons and local `GL_n` parameters. ArithmeticGaloisRepresentations provides lattices, Weil–Deligne representations and recognition from Frobenius polynomials. In rank two the representations are compared with independent classical and Hilbert constructions, through AlgebraicModularFormsAndSerreWeights and GL2AutomorphicRepresentationsAndTransfer. Potential automorphy and modularity lifting use the roadmap's final characteristic-zero and residual results.
 
-### Mathlib and roadmaps on main
+After preliminary layers on p-adic periods and on weights, five layers carry out the two constructions. The last three treat local comparison, compatible systems and residual representations. `Suggested.lean` states the factor separation and the infinitude of decomposed generic primes.
 
-- Mathlib `NumberField.IsCMField`, `NumberField.IsCMField.complexConj` and
-  `NumberField.IsCMField.complexEmbedding_complexConj` in
-  `Mathlib.NumberTheory.NumberField.CMField` supply CM conjugation and its effect on embeddings.
-  `Multiset.prod_X_sub_C_coeff` in `Mathlib.RingTheory.Polynomial.Vieta` supplies the signed
-  elementary-symmetric coefficient identity over a commutative ring.
-- Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`,
-  `Matrix.GeneralLinearGroup.toLin`, `Matrix.charpoly`, `Matrix.charpoly_map`,
-  `Matrix.charpoly_diagonal`, `Matrix.charpoly_units_conj`, `Matrix.rank`,
-  `Representation.IsSemisimpleRepresentation` and `Representation.IsIrreducible` supply the
-  matrix and representation algebra. `IntermediateField.finiteDimensional_adjoin` supplies
-  finite algebraic enlargement by finitely many entries. These are algebraic statements and
-  supply no period comparison or automorphic existence.
-- GlobalNumberFields Layers 9–10 supply Hecke characters, infinity types and the cyclotomic
-  dictionary; ClassFieldTheory Layers 7 and 11 supply local and global reciprocity. Use the
-  inverse of their arithmetic Artin maps for geometric Frobenius. AG2.2's S-general extension
-  prescriptions and the compatible global character extension are targets here.
-- RepresentationTheory/SchurWeyl Layer 2 supplies normalized rational Young idempotents and
-  Layer 8 supplies Schur–Weyl duality. RepresentationTheory/SemisimpleAlgebras Layers 1–2 supply
-  isotypic components and Artin–Wedderburn. The map to actual geometric correspondences,
-  coefficient degree, signs and Tate twist belong to AG2.1a.
-- AdicSpacesPartII supplies analytic/formal adic foundations. AdicSpacesPartIV §§F1.9–F1.12
-  and F1.16 supply the dagger de Rham complex, finite étale traces and the boundary-ideal log
-  complex; no dagger construction is assigned to AdicSpacesPartII.
+## How to read the build
 
-### Arithmetic and automorphic contracts
+| Layer | Output |
+| --- | --- |
+| AG2.0 | Weights, algebraic characters, coefficient fields and good-place attachment |
+| AG2.1a | Actual compact PEL/Kuga–Sato objects, coefficients, raw cohomology and traces |
+| AG2.1b | Mantovan/Igusa comparison, concentration and actual Galois constituents |
+| AG2.2 | Polarization twists, solvable base change and selected discrete sums |
+| AG2.3 | Definite families, effective patching, arbitrary regularity and common realization fields |
+| AG2.4 | Ordinary boundary rigid cohomology, Hasse approximation and nonselfdual existence |
+| AG2.5 | Local normalization, semisimple comparison, monodromy bounds and full polarized compatibility |
+| AG2.6 | Coefficient-prime comparison, compatible systems and specialization comparisons |
+| AG2.7 | Finite local realization, residual Hecke ideals, genericity and arithmetic exports |
 
-- SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData`
-  and its raw coefficient extension/conjugation, finite restriction, direct sum, tensor,
-  dual and Tate-twist operations, including their member, polynomial and Hodge formulas
-  and identity/composition laws. It also supplies the geometric/arithmetic Frobenius,
-  Weil–Deligne and Hodge-sign adapters and the marked rank-two specialization
-  `ArithmeticCompatibleFamily`. Its finite-exception comparison condition does not imply
-  the pairwise almost-strict condition. Section 5.1 supplies `GL2TypeAction.isogeny` and
-  `GL2TypeAction.baseChange`, using `endZeroIsogeny` and `endZeroBaseChange`, for marked
-  abelian-variety realizations with their chosen coefficient action and embedding.
-  AG2.P uses the raw carrier without requiring the rank-two specialization's chosen
-  models over the coefficient-field completions; compatibility predicates and automorphic
-  existence are targets here.
-- EtaleCohomologyFoundations §F.4.0 supplies `ContinuousRep`;
-  ArithmeticGaloisRepresentations §§1.1–1.6 supply its coefficient operations
-  and stable lattices; §§1.7–1.9 supply semisimplification, Brauer–Nesbitt and residual
-  reduction with lattice independence. Section 1.11 retains its additional hypotheses for
-  stronger lattice statements. Section 1.5 supplies finite local coefficient descent. Sections 2.1–2.4 supply
-  decomposition groups and Weil–Deligne representations; Layer 5 supplies recognition from
-  Frobenius polynomials and finite-field/trace-field descent. Section 7.4 supplies `PolarizedRep`,
-  `CHTGroup`, multipliers, signs, operations and coefficient transport of polarizations. The reduction-and-semisimplification
-  extension theorem is the explicit AG2.7 target below. The Galois pairing convention of BLGGT §2.1, p.31,
-  is precisely this supplied notion: transport between real places and the orthogonal/symplectic
-  alternatives retain the supplier's hypotheses. A deformation problem assuming an extension
-  is not its construction.
-- IntegralHeckeAndGaloisDeterminants §3a.1 (GLₙ Hecke polynomials and Frobenius conventions)
-  supplies the integral `GL_n` Hecke polynomial, its Satake factorization and its
-  scalar-twist, reciprocal, geometric/arithmetic and rank-two normalizations. Section 3b.1
-  (Galois-type and non-Eisenstein maximal ideals) supplies the Galois-type and non-Eisenstein
-  predicates on maximal ideals, their chosen realizations, uniqueness and coefficient
-  extension; §3b.2 supplies dual and character-twist comparison.
-  Layers 0–1 supply determinant laws and semisimple reconstruction; §4.2 supplies actual
-  uniform congruence witnesses, finite quotient data and inverse-limit interpolation, including
-  coefficient, level and ramification compatibility. These notions are used without local copies.
-- ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7 supply automorphic representations,
-  algebraic highest weights, coefficient representations, infinitesimal characters and the
-  cohomological/C-algebraic dictionary. AutomorphicSpectralTheory §4.7 supplies compact quotient
-  discrete spectral decomposition, and §7.1 supplies solvable `GLₙ` base change, descent of
-  Galois-invariant cuspidal representations and the fibre theorem used by AG2.6's descent to
-  soluble non-Galois intermediate fields. ArithmeticLocallySymmetricSpaces ALS.5b.5 supplies
-  cuspidal cohomology with algebraic coefficients over a number field, the input to
-  HLTT Corollary 1.9 for the boundary Levi.
-- AutomorphicFormsOnReductiveGroups §5.7 supplies the smooth finite-part scalar twist,
-  stabilizer rationality field, twist/conjugation laws and Clozel finiteness for regular
-  algebraic cuspidal `GL_n` over any number field in cohomological normalization.
-  AG2.0 specializes that field to CM and totally real fields and proves the good Hecke polynomial
-  and attached Galois trace comparisons.
-- EndoscopicTransferAndUnitaryTraceComparison §9.1 (Raw compact-unitary PEL cohomology)
-  supplies, for its Harris–Taylor division-algebra datum, the seven operations of its raw
-  interface: the raw PEL model at a neat level, the algebraic coefficient local system, the
-  level correspondences acting by pullback and proper trace, the comparison with the
-  integral-model nearby-cycle complex, the Weil descent action commuting with every
-  correspondence, the multiplicity Hom space of an isolated automorphic type with its induced
-  Weil action, and the identity `w(ev)=e(wv)` for a chosen Hecke idempotent `e`.
-  Thus `H^k_U(ξ)`, its level colimit, its Hecke/Galois actions and the graded multiplicity Hom
-  spaces use that raw object, retaining finite-dimensionality, continuity, finite-coefficient
-  descent, admissibility and the discrete decomposition. Its Euler class is never an actual
-  representation by definition. AG2.1a constructs the same operations for Shin’s split-algebra odd-rank
-  datum through its raw-cohomology adapter, including properness, the ramified Drinfeld
-  factor and corrected coefficient realization; §9.1 supplies the API shape, not that instance.
-- EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10 supplies finite-level rational Igusa
-  geometry and actions; §§8.3, 8.6 and 8.14 supply the polarized Honda/effectivity input;
-  §§8.16–8.22 supply raw counting and stabilization; §§10.18–10.27 supply trace-defined local `GL_n` parameters; §10.30 identifies them with
-  the supplied classical correspondence and transports dual, twist, field-isomorphism and
-  local-factor normalizations;
-  §§6.24, 6.26–6.29 and 13.1–13.4 supply cyclic/solvable transfer and selected cohomological
-  unitary transfer. Layer 14 supplies the signed Igusa spectral comparison with all mass
-  factors. These are the exact contracts for stable/endoscopic traces and pure transfer here;
-  no trace formula is deduced from the existence of a later automorphic Galois representation.
-- SmoothRepresentationsOfLocalGroups SR.0 and SR.0d supply the abelian smooth category and
-  derived Ext, and SR.3 and SR.5 supply Bernstein components and centre actions.
-  LocallyAnalyticDistributions §§4.2, 4.15–4.16 supply Fredholm determinants, analytic Banach
-  families and finite-slope decompositions. AG2.3 constructs its definite-unitary eigenvariety
-  and classicality/density comparison from these analytic objects.
-- AlgebraicModularFormsAndSerreWeights §R15.5A supplies the independent classical rank-two
-  cohomological summand and Galois attachment. GL2AutomorphicRepresentationsAndTransfer
-  §R16.6.3 supplies Hilbert cohomological weights and §R16.6.4 the classical weight-`k`
-  Frobenius conversion. AG2.P’s rank-two contract supplies the Hilbert inverse-uniformizer
-  Hecke conversion between `ρ` and `σ_Carayol`.
-  WeightsInEtaleCohomology Layer R34.6 supplies fixed-form compatible-family and local
-  comparisons only on its specified geometric domain. AG2.6's rank-two comparisons assume
-  both independently constructed members and their exact local hypotheses. The cohomological polarized rank-two
-  coefficient-prime theorem outside that supplied geometric domain is an AG2.P target.
+AG2.1 comprises its two mathematical producers AG2.1a and AG2.1b. The order below follows these layers; “Needs” records the finer proof order and names external stages explicitly. Internal links refer to each target’s mathematical layer. API and Check names lie in `TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII` unless another namespace is displayed. The tests are required discriminating examples and counterexamples, including geometrically supplied cases; the matrix statements in `Suggested.lean` are the specified algebraic components of these targets.
 
-### Geometry, coefficients and periods
-
-- PELModuli Layers M0–M4 supply PEL data, universal abelian schemes, representability,
-  canonical models and level maps. ShimuraVarieties §§8.18–8.23 supply minimal compactification
-  descent and functoriality. The HLTT integral toroidal/Kuga models, subcanonical coefficients
-  and Hasse sections are constructed in AG2.4 with the exact HLTT hypotheses.
-- EtaleCohomologyFoundations §§F.4.1–F.4.6 supply rational coefficient realization, finiteness
-  and continuous actions; §§F.5–F.6 supply duality and cycle classes. Its §F.10.3 supplies
-  coherent perfect-complex traces. LefschetzPencilsAndVanishingCycles §F.10 supplies its
-  Frobenius trace imports, LPV.0–LPV.1 nearby cycles and monodromy, and LPV.6 perversity.
-  EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5 supply the finite, integral and
-  rational coefficient categories, `TauCeti.EtaleDuality.CohCorr.rgammac`, `.comp`,
-  `.pushforward`, `.traceMap`, `.localTerm` and `fujiwaraVarshavskyTraceFormula`, including
-  the local-term/stalk-trace comparison for sufficiently large Frobenius twists with
-  proper first leg, quasi-finite second leg and finite-field descent.
-  EndoscopicTransferAndUnitaryTraceComparison §7.10a supplies their Igusa specialization.
-  AG2.P identifies the compatible normalized systems used here with those supplied objects;
-  AG2.1a verifies the compact PEL/Hecke specialization and corrected-projector compatibility.
-  AG2.5 constructs the two-chart product comparison and filtration.
-- PadicPeriodRings §§4.1–4.3 supply `B_cris, B_st, B_dR` and their actual invariant functors
-  and admissibility predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3
-  supply finite-`K` filtered `(φ,N)`-modules, weak admissibility and the semistable realization
-  interface. PhiGammaModulesAndIwasawaCohomology §§1.1–1.2 owns the common coefficient Robba
-  category, `D_rig`, étale equivalence and overconvergence; LocalGaloisDeformationRings §0.4
-  supplies its finite local coefficient specialization, including finite coefficient fields,
-  with the identifications of coefficient rings, tensor products and duals.
-  PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1 supply filtered exactness, finite-extension
-  comparison, the cyclotomic realization adapters, `N_dR(V)` and arithmetic p-adic
-  monodromy. Its proof uses PadicDifferentialEquationsAndRigidCohomology
-  §§RD.2.33–RD.2.34 and RD.2.36–RD.2.39 and recovers actual semistable periods from logarithmic solutions.
-  NeronModelsAndSemistableAbelianVarieties §5.3 supplies `PadicWeilDeligneRealization`,
-  `D_pst`, finite descent, extension independence and both `N_p` and `N_K=e_K N_p`,
-  for finite-dimensional finite-coefficient representations that become semistable over
-  a finite Galois extension, at every prime. AG2.P obtains this hypothesis for de Rham `V`
-  from `arithmeticPadicMonodromy`.
-  AG2.P retains these carriers and specializes their commuting coefficient actions,
-  labelled embeddings, normalizations and projector comparisons to the PEL/Kuga applications.
-- CrystallineCohomology Layer CR.6 supplies Hyodo–Kato complexes and the semistable
-  log-crystalline comparison. WeightsInEtaleCohomology Layer R34.3 supplies the
-  stratum/period comparison and the general geometric semistable-period comparison on
-  its finite-`K` domain, including coefficient extension and projector images with
-  `N_HK/e_K=N_p`. AG2.P applies that comparison to the specified PEL/Kuga models. The particular at-`ℓ` two-boundary
-  automorphic realization and projected diagonal concentration are AG2.6 targets, not an
-  unconditional purity assertion about every semistable variety.
-- DeligneWeightsAndPurity Layers DWP.0, DWP.7 and DWP.8 supply Weil weights, proper smooth
-  purity, mixed complexes and weight spectral sequences. ArithmeticGaloisRepresentations
-  §2.6 supplies monodromy filtrations, pair purity and indecomposable WD blocks. AG2.5 builds
-  the dominance relation and pure WD uniqueness comparisons from those objects.
-- PadicDifferentialEquationsAndRigidCohomology Layers RD.4–RD.6 supply rigid/dagger comparison,
-  supported spectral sequences, finiteness and weight bounds, with their Frobenius conventions.
-- VectorBundlesAndIsocrystals VB−1 supplies the relative Fargues–Fontaine charts, analytic
-  quotient and marked untilt divisors over `Perf_k`. VStackSheavesAndLisseCategories VS3.2,
-  VS4.0 and VS4.4 supply `BunG`, its Newton strata and charts, the lisse category and its
-  stratum comparisons. GeometricSatakeAndFusion GS0–GS4 supply the integral geometric Satake
-  equivalence, fusion and the bounded local Hecke stacks. LanglandsParameterStacks LP1.7–LP1.8
-  and LP4.1–LP4.3 supply the parameter stack, its perfect complexes and integral perfect
-  generation. AG2.6 extends these to `Perf_{𝔽_q}` and builds the global Hecke, spectral and
-  local Shimura targets on them.
+The sources are keyed in the bibliography. Locators use the stated edition's printed pages unless marked as author-copy or arXiv pages. AHTW v1 is an unrefereed preprint, cited by arXiv PDF page; from PDF page 25 on the printed folio is one less (pages 2–23 carry their PDF number). The targets are grouped by their mathematical outputs, rather than by the order of any paper.
 
 ## Conventions
 
@@ -257,23 +60,6 @@ For residual representations, first choose a finite local model and a stable lat
 
 The imaginary quadratic field in the CS discrete-transfer setup is denoted `𝒦: F=F⁺𝒦`, the norm is `N_{F/𝒦}`, and the rational splitting condition is `q∈Spl_{𝒦/ℚ}`. This resolves the undefined `F₀` in the printed Corollary 5.5.5 and uses one symbol for the same field throughout.
 
-## How to read the build
-
-| Layer | Output |
-| --- | --- |
-| AG2.0 | Weights, algebraic characters, coefficient fields and good-place attachment |
-| AG2.1a | Actual compact PEL/Kuga–Sato objects, coefficients, raw cohomology and traces |
-| AG2.1b | Mantovan/Igusa comparison, concentration and actual Galois constituents |
-| AG2.2 | Polarization twists, solvable base change and selected discrete sums |
-| AG2.3 | Definite families, effective patching, arbitrary regularity and common realization fields |
-| AG2.4 | Ordinary boundary rigid cohomology, Hasse approximation and nonselfdual existence |
-| AG2.5 | Local normalization, semisimple comparison, monodromy bounds and full polarized compatibility |
-| AG2.6 | Coefficient-prime comparison, compatible systems and specialization comparisons |
-| AG2.7 | Finite local realization, residual Hecke ideals, genericity and arithmetic exports |
-
-AG2.1 comprises its two mathematical producers AG2.1a and AG2.1b. The order below follows these layers; “Needs” records the finer proof order and names external stages explicitly. Internal links refer to each target’s mathematical layer. API and Check names lie in `TauCetiRoadmap.AutomorphicGaloisRepresentationsPartII` unless another namespace is displayed. The tests are required discriminating examples and counterexamples, including geometrically supplied cases; the matrix statements in `Suggested.lean` are the specified algebraic components of these targets.
-
-The sources are keyed in the bibliography. Locators use the stated edition's printed pages unless marked as author-copy or arXiv pages. AHTW v1 is an unrefereed preprint, cited by arXiv PDF page; from PDF page 25 on the printed folio is one less (pages 2–23 carry their PDF number). The targets are grouped by their mathematical outputs, rather than by the order of any paper.
 ## Layer AG2.P: finite-coefficient period and comparison interfaces
 
 This layer specializes supplied period functors and geometric objects to the finite local
@@ -943,7 +729,6 @@ For `Δ, a=(10,0)` has labels `{11,0}`; its good polynomial at 2 is `X²+24X+2¹
 ### Dependencies
 
 ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7; AutomorphicFormsOnReductiveGroups §5.7; GlobalNumberFields Layers 9–10; ClassFieldTheory Layer 11; IntegralHeckeAndGaloisDeterminants §3a.1; AG2.P.
-
 ## Layer AG2.1a: Compact-unitary geometry and raw cohomology
 
 Construct the actual compact PEL tower and its Kuga–Sato powers with algebraic coefficients. First produce finite continuous geometric Galois actions and raw traces. Neither a virtual automorphic identity nor a later local correspondence can replace these geometric inputs.
@@ -4025,3 +3810,215 @@ Pilloni, [Higher coherent cohomology and p-adic modular forms of singular weight
 ### Caraiani-p-published
 
 Caraiani, [Monodromy and local-global compatibility for l = p (published version)](https://msp.org/ant/2014/8-7/ant-v8-n7-p02-s.pdf). Algebra Number Theory 8 (2014), no.7, 1597–1646; journal pages. The linked PDF includes two cover pages (printed page = PDF page + 1595).
+
+## Scope and ownership
+
+This roadmap owns the specialization of algebraic coordinates to polarized `GL_n` weights, the
+corrected Kuga–Sato realization, extraction of actual Galois constituents, the definite-unitary
+and ordinary-boundary constructions, their local comparisons and the arithmetic exports.
+General representation theory, raw compact-unitary cohomology, determinant interpolation,
+period-ring carriers and residual Hecke predicates are supplied by the roadmaps in the contracts
+below. AG2.P supplies the finite-coefficient and normalization adapters for arithmetic
+p-adic Hodge theory and the normalized-system correspondence-trace comparison.
+AG2.6 uses the relative Fargues–Fontaine curves and divisors of VectorBundlesAndIsocrystals
+VB−1, the bundle stacks, Newton strata and lisse categories of VStackSheavesAndLisseCategories
+VS3–VS4, the Satake equivalence of GeometricSatakeAndFusion GS0–GS4 and the parameter
+stacks of LanglandsParameterStacks LP1 and LP4. It owns the extension of the bundle geometry
+to `Perf_{𝔽_q}`, the global Hecke modification stacks and Hecke functors, the geometric
+spectral action with its excursion operators and integral spectral centre, and the minuscule
+local Shimura towers with their compactly supported cohomology and Hecke realization for
+arbitrary `(G,b,μ)`. These four AG2.6 sections form a self-contained prefix in the
+dependency order: they use only the suppliers just named and no automorphic, Galois or Igusa target of this roadmap, so a
+roadmap needing these objects on this domain imports these carriers. The citable sections
+are the AG2.6 subsections “Relative Fargues–Fontaine curves and degree-one divisors”,
+“Bundle strata, lisse categories and the geometric Hecke action” (the global Hecke stacks
+`Hck^I_G` with `p₁`, `p₂`, unit, leg repetition, completion and bounded pieces, and the Hecke
+functor `T_V:D_lis(BunG,Λ)→D(BunG×(Div¹_K)^I,Λ)`, its descent to `D_lis(BunG,Λ)^{BW_K^I}`,
+the monoidal structure in `V` on the descended functors, its Weil structure and minuscule
+shift `d_μ=⟨2ρ,μ⟩`), “The parameter stack and geometric spectral action” (excursions and
+the integral centre for `O_L` with `ℓ∤|π₀Z(G)|`) and “Minuscule local Shimura spaces and
+their Hecke realization” (points of `Hck_{G,≤μ}` from the trivial source to the target
+`E_b`, `b∈B(G,μ⁻¹)`, `RΓ_c` and its Hecke realization). Solid or enhanced coefficient versions and nonminuscule or
+non-basic-target towers are refinements stated on these carriers. The algebraic
+parameter stacks, finite-wild levels and excursion algebra stay with LanglandsParameterStacks
+LP1 and LP4 and SmoothRepresentationsOfLocalGroups SR.6. The AHTW Igusa
+compactification, Newton filtration, local–classical comparison and annihilator arguments
+follow them. The particular families and
+compactifications belong to AG2.3–AG2.4. SmallRamificationAndAbelianVarietyBaseCases owns
+the arbitrary-rank raw carrier and operations; AG2.P owns the compatibility predicates
+and their preservation under those operations.
+
+The following interfaces retain their supplier's definitions and complete API, including its
+Checks. They are used only after the hypotheses of the named specialization are discharged.
+
+## Exact supplier contracts
+
+### Mathlib and roadmaps on main
+
+- Mathlib `NumberField.IsCMField`, `NumberField.IsCMField.complexConj` and
+  `NumberField.IsCMField.complexEmbedding_complexConj` in
+  `Mathlib.NumberTheory.NumberField.CMField` supply CM conjugation and its effect on embeddings.
+  `Multiset.prod_X_sub_C_coeff` in `Mathlib.RingTheory.Polynomial.Vieta` supplies the signed
+  elementary-symmetric coefficient identity over a commutative ring.
+- Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`,
+  `Matrix.GeneralLinearGroup.toLin`, `Matrix.charpoly`, `Matrix.charpoly_map`,
+  `Matrix.charpoly_diagonal`, `Matrix.charpoly_units_conj`, `Matrix.rank`,
+  `Representation.IsSemisimpleRepresentation` and `Representation.IsIrreducible` supply the
+  matrix and representation algebra. `IntermediateField.finiteDimensional_adjoin` supplies
+  finite algebraic enlargement by finitely many entries. These are algebraic statements and
+  supply no period comparison or automorphic existence.
+- GlobalNumberFields Layers 9–10 supply Hecke characters, infinity types and the cyclotomic
+  dictionary; ClassFieldTheory Layers 7 and 11 supply local and global reciprocity. Use the
+  inverse of their arithmetic Artin maps for geometric Frobenius. AG2.2's S-general extension
+  prescriptions and the compatible global character extension are targets here.
+- RepresentationTheory/SchurWeyl Layer 2 supplies normalized rational Young idempotents and
+  Layer 8 supplies Schur–Weyl duality. RepresentationTheory/SemisimpleAlgebras Layers 1–2 supply
+  isotypic components and Artin–Wedderburn. The map to actual geometric correspondences,
+  coefficient degree, signs and Tate twist belong to AG2.1a.
+- AdicSpacesPartII supplies analytic/formal adic foundations. AdicSpacesPartIV §§F1.9–F1.12
+  and F1.16 supply the dagger de Rham complex, finite étale traces and the boundary-ideal log
+  complex; no dagger construction is assigned to AdicSpacesPartII.
+
+### Arithmetic and automorphic contracts
+
+- SmallRamificationAndAbelianVarietyBaseCases §5.0d supplies `AutomorphicSystemData`
+  and its raw coefficient extension/conjugation, finite restriction, direct sum, tensor,
+  dual and Tate-twist operations, including their member, polynomial and Hodge formulas
+  and identity/composition laws. It also supplies the geometric/arithmetic Frobenius,
+  Weil–Deligne and Hodge-sign adapters and the marked rank-two specialization
+  `ArithmeticCompatibleFamily`. Its finite-exception comparison condition does not imply
+  the pairwise almost-strict condition. Section 5.1 supplies `GL2TypeAction.isogeny` and
+  `GL2TypeAction.baseChange`, using `endZeroIsogeny` and `endZeroBaseChange`, for marked
+  abelian-variety realizations with their chosen coefficient action and embedding.
+  AG2.P uses the raw carrier without requiring the rank-two specialization's chosen
+  models over the coefficient-field completions; compatibility predicates and automorphic
+  existence are targets here.
+- EtaleCohomologyFoundations §F.4.0 supplies `ContinuousRep`;
+  ArithmeticGaloisRepresentations §§1.1–1.6 supply its coefficient operations
+  and stable lattices; §§1.7–1.9 supply semisimplification, Brauer–Nesbitt and residual
+  reduction with lattice independence. Section 1.11 retains its additional hypotheses for
+  stronger lattice statements. Section 1.5 supplies finite local coefficient descent. Sections 2.1–2.4 supply
+  decomposition groups and Weil–Deligne representations; Layer 5 supplies recognition from
+  Frobenius polynomials and finite-field/trace-field descent. Section 7.4 supplies `PolarizedRep`,
+  `CHTGroup`, multipliers, signs, operations and coefficient transport of polarizations. The reduction-and-semisimplification
+  extension theorem is the explicit AG2.7 target above. The Galois pairing convention of BLGGT §2.1, p.31,
+  is precisely this supplied notion: transport between real places and the orthogonal/symplectic
+  alternatives retain the supplier's hypotheses. A deformation problem assuming an extension
+  is not its construction.
+- IntegralHeckeAndGaloisDeterminants §3a.1 (GLₙ Hecke polynomials and Frobenius conventions)
+  supplies the integral `GL_n` Hecke polynomial, its Satake factorization and its
+  scalar-twist, reciprocal, geometric/arithmetic and rank-two normalizations. Section 3b.1
+  (Galois-type and non-Eisenstein maximal ideals) supplies the Galois-type and non-Eisenstein
+  predicates on maximal ideals, their chosen realizations, uniqueness and coefficient
+  extension; §3b.2 supplies dual and character-twist comparison.
+  Layers 0–1 supply determinant laws and semisimple reconstruction; §4.2 supplies actual
+  uniform congruence witnesses, finite quotient data and inverse-limit interpolation, including
+  coefficient, level and ramification compatibility. These notions are used without local copies.
+- ArithmeticLocallySymmetricSpaces §§ALS.F.6–ALS.F.7 supply automorphic representations,
+  algebraic highest weights, coefficient representations, infinitesimal characters and the
+  cohomological/C-algebraic dictionary. AutomorphicSpectralTheory §4.7 supplies compact quotient
+  discrete spectral decomposition, and §7.1 supplies solvable `GLₙ` base change, descent of
+  Galois-invariant cuspidal representations and the fibre theorem used by AG2.6's descent to
+  soluble non-Galois intermediate fields. ArithmeticLocallySymmetricSpaces ALS.5b.5 supplies
+  cuspidal cohomology with algebraic coefficients over a number field, the input to
+  HLTT Corollary 1.9 for the boundary Levi.
+- AutomorphicFormsOnReductiveGroups §5.7 supplies the smooth finite-part scalar twist,
+  stabilizer rationality field, twist/conjugation laws and Clozel finiteness for regular
+  algebraic cuspidal `GL_n` over any number field in cohomological normalization.
+  AG2.0 specializes that field to CM and totally real fields and proves the good Hecke polynomial
+  and attached Galois trace comparisons.
+- EndoscopicTransferAndUnitaryTraceComparison §9.1 (Raw compact-unitary PEL cohomology)
+  supplies, for its Harris–Taylor division-algebra datum, the seven operations of its raw
+  interface: the raw PEL model at a neat level, the algebraic coefficient local system, the
+  level correspondences acting by pullback and proper trace, the comparison with the
+  integral-model nearby-cycle complex, the Weil descent action commuting with every
+  correspondence, the multiplicity Hom space of an isolated automorphic type with its induced
+  Weil action, and the identity `w(ev)=e(wv)` for a chosen Hecke idempotent `e`.
+  Thus `H^k_U(ξ)`, its level colimit, its Hecke/Galois actions and the graded multiplicity Hom
+  spaces use that raw object, retaining finite-dimensionality, continuity, finite-coefficient
+  descent, admissibility and the discrete decomposition. Its Euler class is never an actual
+  representation by definition. AG2.1a constructs the same operations for Shin’s split-algebra odd-rank
+  datum through its raw-cohomology adapter, including properness, the ramified Drinfeld
+  factor and corrected coefficient realization; §9.1 supplies the API shape, not that instance.
+- EndoscopicTransferAndUnitaryTraceComparison §§7.6–7.10 supplies finite-level rational Igusa
+  geometry and actions; §§8.3, 8.6 and 8.14 supply the polarized Honda/effectivity input;
+  §§8.16–8.22 supply raw counting and stabilization; §§10.18–10.27 supply trace-defined local `GL_n` parameters; §10.30 identifies them with
+  the supplied classical correspondence and transports dual, twist, field-isomorphism and
+  local-factor normalizations;
+  §§6.24, 6.26–6.29 and 13.1–13.4 supply cyclic/solvable transfer and selected cohomological
+  unitary transfer. Layer 14 supplies the signed Igusa spectral comparison with all mass
+  factors. These are the exact contracts for stable/endoscopic traces and pure transfer here;
+  no trace formula is deduced from the existence of a later automorphic Galois representation.
+- SmoothRepresentationsOfLocalGroups SR.0 and SR.0d supply the abelian smooth category and
+  derived Ext, and SR.3 and SR.5 supply Bernstein components and centre actions.
+  LocallyAnalyticDistributions §§4.2, 4.15–4.16 supply Fredholm determinants, analytic Banach
+  families and finite-slope decompositions. AG2.3 constructs its definite-unitary eigenvariety
+  and classicality/density comparison from these analytic objects.
+- AlgebraicModularFormsAndSerreWeights §R15.5A supplies the independent classical rank-two
+  cohomological summand and Galois attachment. GL2AutomorphicRepresentationsAndTransfer
+  §R16.6.3 supplies Hilbert cohomological weights and §R16.6.4 the classical weight-`k`
+  Frobenius conversion. AG2.P’s rank-two contract supplies the Hilbert inverse-uniformizer
+  Hecke conversion between `ρ` and `σ_Carayol`.
+  WeightsInEtaleCohomology Layer R34.6 supplies fixed-form compatible-family and local
+  comparisons only on its specified geometric domain. AG2.6's rank-two comparisons assume
+  both independently constructed members and their exact local hypotheses. The cohomological polarized rank-two
+  coefficient-prime theorem outside that supplied geometric domain is an AG2.P target.
+
+### Geometry, coefficients and periods
+
+- PELModuli Layers M0–M4 supply PEL data, universal abelian schemes, representability,
+  canonical models and level maps. ShimuraVarieties §§8.18–8.23 supply minimal compactification
+  descent and functoriality. The HLTT integral toroidal/Kuga models, subcanonical coefficients
+  and Hasse sections are constructed in AG2.4 with the exact HLTT hypotheses.
+- EtaleCohomologyFoundations §§F.4.1–F.4.6 supply rational coefficient realization, finiteness
+  and continuous actions; §§F.5–F.6 supply duality and cycle classes. Its §F.10.3 supplies
+  coherent perfect-complex traces. LefschetzPencilsAndVanishingCycles §F.10 supplies its
+  Frobenius trace imports, LPV.0–LPV.1 nearby cycles and monodromy, and LPV.6 perversity.
+  EtaleDualityAndPerverseSheaves §§3.1–3.2 and 6.1–6.5 supply the finite, integral and
+  rational coefficient categories, `TauCeti.EtaleDuality.CohCorr.rgammac`, `.comp`,
+  `.pushforward`, `.traceMap`, `.localTerm` and `fujiwaraVarshavskyTraceFormula`, including
+  the local-term/stalk-trace comparison for sufficiently large Frobenius twists with
+  proper first leg, quasi-finite second leg and finite-field descent.
+  EndoscopicTransferAndUnitaryTraceComparison §7.10a supplies their Igusa specialization.
+  AG2.P identifies the compatible normalized systems used here with those supplied objects;
+  AG2.1a verifies the compact PEL/Hecke specialization and corrected-projector compatibility.
+  AG2.5 constructs the two-chart product comparison and filtration.
+- PadicPeriodRings §§4.1–4.3 supply `B_cris, B_st, B_dR` and their actual invariant functors
+  and admissibility predicates. FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.3.0–R07.3.3
+  supply finite-`K` filtered `(φ,N)`-modules, weak admissibility and the semistable realization
+  interface. PhiGammaModulesAndIwasawaCohomology §§1.1–1.2 owns the common coefficient Robba
+  category, `D_rig`, étale equivalence and overconvergence; LocalGaloisDeformationRings §0.4
+  supplies its finite local coefficient specialization, including finite coefficient fields,
+  with the identifications of coefficient rings, tensor products and duals.
+  PadicHodgeTheory §§3.3–3.5, 4.3 and 5.1 supply filtered exactness, finite-extension
+  comparison, the cyclotomic realization adapters, `N_dR(V)` and arithmetic p-adic
+  monodromy. Its proof uses PadicDifferentialEquationsAndRigidCohomology
+  §§RD.2.33–RD.2.34 and RD.2.36–RD.2.39 and recovers actual semistable periods from logarithmic solutions.
+  NeronModelsAndSemistableAbelianVarieties §5.3 supplies `PadicWeilDeligneRealization`,
+  `D_pst`, finite descent, extension independence and both `N_p` and `N_K=e_K N_p`,
+  for finite-dimensional finite-coefficient representations that become semistable over
+  a finite Galois extension, at every prime. AG2.P obtains this hypothesis for de Rham `V`
+  from `arithmeticPadicMonodromy`.
+  AG2.P retains these carriers and specializes their commuting coefficient actions,
+  labelled embeddings, normalizations and projector comparisons to the PEL/Kuga applications.
+- CrystallineCohomology Layer CR.6 supplies Hyodo–Kato complexes and the semistable
+  log-crystalline comparison. WeightsInEtaleCohomology Layer R34.3 supplies the
+  stratum/period comparison and the general geometric semistable-period comparison on
+  its finite-`K` domain, including coefficient extension and projector images with
+  `N_HK/e_K=N_p`. AG2.P applies that comparison to the specified PEL/Kuga models. The particular at-`ℓ` two-boundary
+  automorphic realization and projected diagonal concentration are AG2.6 targets, not an
+  unconditional purity assertion about every semistable variety.
+- DeligneWeightsAndPurity Layers DWP.0, DWP.7 and DWP.8 supply Weil weights, proper smooth
+  purity, mixed complexes and weight spectral sequences. ArithmeticGaloisRepresentations
+  §2.6 supplies monodromy filtrations, pair purity and indecomposable WD blocks. AG2.5 builds
+  the dominance relation and pure WD uniqueness comparisons from those objects.
+- PadicDifferentialEquationsAndRigidCohomology Layers RD.4–RD.6 supply rigid/dagger comparison,
+  supported spectral sequences, finiteness and weight bounds, with their Frobenius conventions.
+- VectorBundlesAndIsocrystals VB−1 supplies the relative Fargues–Fontaine charts, analytic
+  quotient and marked untilt divisors over `Perf_k`. VStackSheavesAndLisseCategories VS3.2,
+  VS4.0 and VS4.4 supply `BunG`, its Newton strata and charts, the lisse category and its
+  stratum comparisons. GeometricSatakeAndFusion GS0–GS4 supply the integral geometric Satake
+  equivalence, fusion and the bounded local Hecke stacks. LanglandsParameterStacks LP1.7–LP1.8
+  and LP4.1–LP4.3 supply the parameter stack, its perfect complexes and integral perfect
+  generation. AG2.6 extends these to `Perf_{𝔽_q}` and builds the global Hecke, spectral and
+  local Shimura targets on them.

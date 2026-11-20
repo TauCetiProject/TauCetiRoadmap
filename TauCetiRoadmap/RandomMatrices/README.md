@@ -1,88 +1,94 @@
 # Roadmap: random matrices
 
-**Summary.** This roadmap builds the reusable core of random matrix theory in
-Anderson–Guionnet–Zeitouni (**AGZ**), Tao (**T**) and Potters–Bouchaud (**PB**), on Mathlib's
-finite-dimensional spectral theory, probability, sub-Gaussian moment-generating functions and
-resolvent transform. It builds sample-space extensions, empirical spectral measures and
-deterministic spectral estimates, concentration inequalities, the moment and resolvent toolkit,
-the named limiting laws, invariant ensembles and exact integration, free probability, deformed and
-spiked models, determinantal point processes and Gaussian local statistics, logarithmic gases and
-their large deviations, and small singular values. Its end theorems are the
-almost-sure semicircle, Marchenko–Pastur and circular laws, the Bai–Yin edge limits, the
-Hanson–Wright and matrix Bernstein inequalities, the GOE/GUE eigenvalue densities, asymptotic
-freeness of Wigner and Haar-conjugated families, the spiked-model phase transition, the sine and
-Airy limits with the Tracy–Widom laws `F₁` and `F₂`, the large deviation principles of the beta
-gas and of the Gaussian largest eigenvalue, and the least-singular-value bound.
-[Suggested.lean](Suggested.lean) states the headline theorems that are statable against the pinned
-libraries; this README is the roadmap.
+**Summary.** Random matrix theory studies the eigenvalues of large matrices with random entries.
+This roadmap builds the core of the subject as presented by Anderson–Guionnet–Zeitouni,
+Tao and Potters–Bouchaud. Its basic object is the empirical spectral measure of a Hermitian `n × n`
+matrix: the probability measure that puts mass `1/n` at each eigenvalue, counted with multiplicity.
 
-## Scope and ownership
+The first headline is the semicircle law. A Wigner matrix is Hermitian, with independent entries on
+and above the diagonal, and is divided by `√n`; the matrices of all sizes are the top-left corners of
+one infinite array. Suppose the entries above the diagonal are copies of a complex random variable `ξ`
+with finite second moment and `E|ξ - Eξ|² = 1`, and the diagonal entries are copies of a real random
+variable with no moment condition. Then almost surely the empirical spectral measures converge
+weakly to the semicircle law, of density `(2π)⁻¹ √(4 - x²)` on `[-2, 2]`. If in addition `ξ` has mean
+zero and a finite fourth moment, and the diagonal a finite second moment, the largest eigenvalue
+tends almost surely to `2` and the smallest to `-2`.
 
-The general ensembles are real symmetric or complex Hermitian Wigner matrices, rectangular
-i.i.d. matrices and their sample covariances, non-Hermitian i.i.d. matrices, and independent
-Haar conjugates of bounded deterministic Hermitian matrices. Exact densities cover Gaussian,
-Laguerre, Jacobi, circular unitary and real-line beta ensembles. Local bulk and soft-edge limits
-cover GOE and GUE; the free-probability development covers bounded self-adjoint variables and
-their compactly supported laws. Covariance applications cover deterministic population
-covariance, finite-rank spikes and the spectral oracle for squared Frobenius loss.
+The second is the Marchenko–Pastur law for sample covariance matrices. Let `Xₙ` be the top-left
+`p(n) × n` corner of an infinite array of independent, identically distributed entries with mean zero
+and `E|x|² = 1`, where `p(n) ≥ 1` and `p(n)/n → y > 0`. Almost surely the empirical spectral measures
+of `XₙXₙ*/n` converge weakly to the law `MP_y`, which lives on `[(1 - √y)², (1 + √y)²]` together with
+an atom of mass `1 - 1/y` at `0` when `y > 1`. Under a finite fourth moment the largest eigenvalue
+tends to `(1 + √y)²` almost surely, and when `y < 1` the smallest tends to `(1 - √y)²`.
 
-Outside the roadmap: general Wigner bulk/edge universality, hard-edge scaling limits, strong
-operator-norm asymptotic freeness of arbitrary matrix polynomials, unbounded affiliated operators
-and Brown measures, infinite-volume stochastic dynamics, replica analytic continuation, and the
-finance, Bayesian-inference, spin-glass and matrix-Kesten models of PB. PB's cavity and
-saddle-point calculations supply formulas; every formula included below has a rigorous limiting
-statement.
+The third concerns the Gaussian ensembles GOE and GUE. For GUE the probability that
+`n^(2/3)(λ_max - 2) ≤ s` tends to the Tracy–Widom distribution `F₂(s)`, the Fredholm determinant
+`det(I - K_Ai)` on `L²(s, ∞)` of the Airy kernel `K_Ai(x, y) = ∫₀^∞ Ai(x + t) Ai(y + t) dt`. For GOE
+the same scaling gives `F₁`, with `F₁(s)² = F₂(s) exp(-∫_s^∞ q(x) dx)`, where `q` is the
+Hastings–McLeod solution of the Painlevé II equation `q'' = xq + 2q³`. Inside the bulk, at `E` with
+`|E| < 2`, the GUE gap probabilities, after scaling `λ - E` by `n` times the semicircle density at
+`E`, tend to Fredholm determinants of the sine kernel.
 
-Point processes appear here only through their joint count laws on bounded Borel sets, gap
-probabilities and correlation functions; random elements of a configuration space of locally
-finite integer-valued measures with the vague topology (AGZ Definition 4.2.1), and weak
-convergence of their laws, are outside the roadmap. Dyson Brownian motion (matrix Brownian
-motion, the eigenvalue stochastic differential equation, the `β ≥ 1` particle system and its
-hydrodynamic limit, AGZ §4.3) is the subject of the DysonBrownianMotion roadmap, which builds on
-this one and on StochasticCalculus; no stochastic integral is used here.
+The fourth leaves the Hermitian setting. Let `Xₙ` be the top-left `n × n` corner of an infinite array
+of independent, identically distributed complex entries with mean zero and `E|ξ|² = 1`. Almost
+surely the eigenvalue distribution of `Xₙ/√n`, over the roots of its characteristic polynomial with
+multiplicity, converges weakly to the circular law, the uniform probability measure on the unit
+disc. The proof passes from eigenvalues to the singular values of `Xₙ/√n - zI` by Girko's
+hermitization, and needs lower bounds for the smallest singular value.
 
-Owned elsewhere and consumed here:
+The roadmap builds on Mathlib's finite-dimensional spectral theory and probability. Tau Ceti already
+has the empirical spectral measure, the Wigner matrix, and the semicircle and Marchenko–Pastur laws.
+[StandardDistributions](../StandardDistributions/README.md) supplies the Gaussian and real Wishart
+laws. [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md) supplies the Airy function and the
+Airy kernel with their bounds. Downstream, [FreeProbability](../FreeProbability/README.md)
+extends the free probability built here, adding among other things the operator-valued theory.
+Dyson Brownian motion is left to the DysonBrownianMotion roadmap, which builds on this one.
 
-- [StandardDistributions](../StandardDistributions/README.md), Layers 0 and 3–6, owns scalar
-  Gaussian, gamma and chi-squared laws, multivariate Gaussian laws, real symmetric coordinate
-  Lebesgue measure, Cholesky/Bartlett theory and real Wishart distributions, including singular
-  Gaussian-Gram laws (`wishartGramMeasure`). Its target 12.1 owns the uniform ball law
-  `cond volume (ball c r)`. Here: the complex Gaussian-Gram counterpart, spectral pushforwards,
-  the circular law as the transport of target 12.1 to `ℂ`, and large-dimension limits. No second
-  real Wishart measure is introduced.
-- Tau Ceti already has the empirical spectral and eigenvalue measures of a matrix, the Wigner matrix
-  constructor, the semicircle family `semicircleReal` with its moments and transform, the
-  Marchenko–Pastur law, the sample second-moment matrix, the Courant–Fischer formula, the
-  Hoffman–Wielandt, Weyl, singular-value and rank-perturbation bounds with the Gram form of the rank
-  bound, the covering numbers and nets of spheres in finite-dimensional normed spaces, the resolvent
-  identities and the trace and moment formulas of spectral measures, the scalar Bernstein and
-  McDiarmid inequalities, the method of moments for a compactly supported limit, product extensions
-  of a law, the noncrossing partitions with their counts, Kreweras complement and Möbius function,
-  and the scalar free probability of freeness, free cumulants, semicircular elements and the free
-  central limit theorem; they are consumed by name (see [From Tau Ceti](#from-tau-ceti)). No second
-  copy of any of them is introduced.
-- [OrthogonalL2Bases](../../Completed/OrthogonalL2Bases/README.md), Parts A–B, supplies Hermite
-  polynomials and functions and moment determinacy, implemented in
-  `TauCeti.Probability.Moments.*` and `TauCeti.Analysis.SpecialFunctions.Hermite.*`.
-  Here: convergence from moments, polynomial-ensemble kernels and Hermite asymptotics.
-- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md),
-  Layer 0, owns normalized Haar measure and averaging; its `weyl_integration_formula` is the
-  `SU(2)` case. Here: matrix-coordinate Jacobians, Weyl's integration formula on `U(n)` (§5.4),
-  eigenvalue/eigenprojector disintegrations and Haar entry integrals.
-- [OptimalTransport](../OptimalTransport/README.md), Layers 0–3, owns couplings and Wasserstein
-  distances. Here: the eigenvalue coupling and the spectral `W₁`/`W₂` corollaries.
-- [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md),
-  SSP-D06 and SSP-D13, owns the Hermitian dilation `[[0,A†],[A,0]]` of a rectangular map and its
-  operator-norm perturbation identity.
-- [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), OI-B01–OI-B19,
-  OI-B23, OI-B29, OI-B30 and Part C, owns the operator-ideal carriers, the nuclear gauge, the
-  trace-class family and its completeness, and the Hilbert–Schmidt column model. No second
-  trace-class carrier is introduced.
-- [FreeProbability](../FreeProbability/README.md), F1–F6, extends Layer 6 rather than supplying
-  it: on the same scalar expectations, cumulants and laws it adds the C*-completions, the
-  operator-valued and amalgamated theory, formal-series transforms and free Poisson laws of every
-  jump. Layer 6, with the scalar free probability that Tau Ceti already has, is the bounded
-  scalar core that those sections consume.
+Layers 0 and 1 lay the probabilistic and spectral groundwork. Layer 2 proves concentration
+inequalities, among them the Hanson–Wright inequality for quadratic forms and a matrix Bernstein
+inequality. Layer 3 develops the resolvent transform and the limiting laws, Layer 4 proves the
+global laws, and Layer 5 computes exact eigenvalue densities, including those of GOE and GUE.
+Layer 6 builds free probability and proves, under moment conditions, that independent Wigner
+matrices are asymptotically free. Layer 7 treats deformed and spiked models. Layers 8, 9 and 10
+prove the local limits, the large deviation principles and the circular law.
+[How to read the build](#how-to-read-the-build) gives the dependencies.
+
+[Suggested.lean](Suggested.lean) states the headline theorems in Lean, each with its proof left as
+`sorry`; this README is the roadmap.
+
+## How to read the build
+
+Layer 0 makes probabilistic arguments invariant under enlarging the sample space. Layer 1 builds
+spectral measures and the deterministic eigenvalue and resolvent estimates. Layers 2 and 3 rest on
+Layers 0–1 and are independent of each other: Layer 2 proves concentration and norm bounds, Layer 3
+the transform toolkit and the named limiting laws. The finite combinatorial prerequisite
+(noncrossing partitions) is independent of analysis and feeds Layers 3, 4 and 6. Layer 4 proves the
+global laws of Wigner and sample-covariance matrices; Layer 5 the exact invariant ensembles. Layer 6
+builds free probability and asymptotic freeness on Layers 1, 3, 4, 5 and the combinatorics; Layer 7
+deformed and spiked models on Layers 1–6. Layer 8 (point processes and Gaussian local statistics)
+and Layer 9 (logarithmic gases and large deviations) rest on Layers 1, 3 and 5; Layer 10 (small
+singular values and the circular law) on Layers 0–5.
+
+```text
+Mathlib / Tau Ceti probability and spectral theory
+  → 0 (extensions) → 1 (spectral API)
+  → 2 (concentration) and 3 (transforms, laws)
+finite noncrossing combinatorics → 3, 4, 6
+0–3 → 4 (global laws)
+0–3 + StandardDistributions + CompactGroups → 5 (exact ensembles)
+1, 3, 4, 5 + combinatorics → 6 (free probability)
+1–6 → 7 (deformations, covariance, spikes)
+1, 3, 5 + Hermite + OperatorIdeals + Airy → 8 (local statistics)
+1, 3, 5 → 9 (large deviations)
+0–5 → 10 (circular law)
+```
+
+For each new object the build supplies construction or existence, extensionality, measurability
+or continuity, invariances, integration and evaluation, and the operations its layer uses. Each
+limit theorem records the dimension sequence, the entry law and its moment assumptions, the
+coupling across sizes, the normalization, the topology and the mode of convergence in its
+statement, and every integrability requirement is proved before a moment, moment-generating
+function or log-determinant is evaluated.
 
 ## Conventions
 
@@ -121,197 +127,6 @@ Owned elsewhere and consumed here:
    the Wigner, covariance and circular theorems are stated for the corners of one infinite i.i.d.
    array. No independence across matrix sizes is presumed unless stated. Every `O`, `o` and tail
    estimate quantifies its constants and their parameter dependence.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Spectra and norms: `Matrix.IsHermitian.eigenvalues`, `Matrix.IsHermitian.eigenvalues₀`,
-  `Matrix.IsHermitian.eigenvalues₀_antitone` (`Mathlib/Analysis/Matrix/Spectrum.lean`);
-  `Matrix.toEuclideanLin`, `Matrix.toEuclideanCLM` and the `Matrix.Norms.L2Operator` scope
-  (`Mathlib/Analysis/CStarAlgebra/Matrix.lean`); `LinearMap.singularValues` and
-  `LinearMap.singularValues_antitone` (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`);
-  `Matrix.charpoly`, `Polynomial.roots`; `Matrix.posSemidef_vecMulVec_star_self`.
-- Measurable structure on matrices: the instance, `Matrix.measurable_iff` and the `BorelSpace`
-  instance for countable index types (`Mathlib/Analysis/Matrix/MeasurableSpace.lean`).
-- Laws and independence: `HasLaw`, `IdentDistrib`, `iIndepFun`, `MeasurePreserving`,
-  `exists_hasLaw_indepFun` and `exists_iid` (`Mathlib/Probability/HasLawExists.lean`),
-  `Mathlib/Probability/IdentDistribIndep.lean`.
-- Concentration primitives: `HasSubgaussianMGF` (`Mathlib/Probability/Moments/SubGaussian.lean`,
-  a structure recording integrability of `exp (t X)` for every `t` and `mgf X μ t ≤ exp (c t²/2)`;
-  it implies mean zero), `Mathlib/Probability/Moments/MGFAnalytic.lean`.
-- Laws: `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.betaMeasure`,
-  `ProbabilityTheory.cond`, `Complex.volume_ball` (the unit disc has area `π`).
-- Convergence: the topology of `ProbabilityMeasure`, `TendstoInDistribution`
-  (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`), Prokhorov compactness
-  (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`), the classical central limit theorem
-  (`Mathlib/Probability/CentralLimitTheorem.lean`).
-- `MeasureTheory.resolventTransform` and its analyticity
-  (`Mathlib/MeasureTheory/Measure/ResolventTransform.lean`).
-- Block and low-rank identities: the Schur-complement inverse `Matrix.invOf_fromBlocks₁₁_eq`, the
-  block determinant `Matrix.det_fromBlocks₁₁` and the determinant lemma
-  `Matrix.det_one_add_mul_comm` (`Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`); the
-  Woodbury identity `Matrix.add_mul_mul_inv_eq_sub`
-  (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`).
-
-### From Tau Ceti
-
-- `TauCeti.Probability.empiricalMeasureOfFintype` and `empiricalMeasureOfFintype_toMeasure`
-  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`): the empirical probability measure of a
-  nonempty finite family, with evaluation, integration, pushforward and measurability API.
-- `TauCeti.Probability.Moments.*` (moment determinacy) and
-  `TauCeti.Analysis.SpecialFunctions.Hermite.*` (Hermite polynomials and functions); the method
-  of moments for a compactly supported limit,
-  `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow`
-  (`TauCeti/Probability/Moments/WeakConvergence.lean`).
-- Product extensions: `ProbabilityTheory.HasLaw.prod_extension`
-  (`TauCeti/Probability/HasLaw.lean`), the law `μ.prod ν` of `(X ∘ Prod.fst, Prod.snd)` under
-  `P.prod ν`.
-- Scalar concentration: Bernstein's two-sided inequality
-  `ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le`
-  (`TauCeti/Probability/Moments/Bernstein.lean`) and McDiarmid's inequality for a product of
-  identical coordinate laws, `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences`, with
-  variance proxy `∑ cᵢ²/4` (`TauCeti/Probability/McDiarmid.lean`).
-- Spectral measures (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`): `Matrix.spectralMeasure A hA`,
-  the probability measure `L_A` of a Hermitian matrix with nonempty index type, with
-  `measurable_spectralMeasure`, `integral_spectralMeasure_eq_sum_eigenvalues₀`, the moments
-  `Matrix.integral_pow_spectralMeasure`, the resolvent transform
-  `Matrix.resolventTransform_spectralMeasure`, the zero-mass correction
-  `Matrix.spectralMeasure_conjTranspose_mul_self` and the pushforward
-  `Matrix.map_spectralMeasure_ofReal` onto the eigenvalue measure; the equal nonzero spectra
-  `Matrix.filter_map_eigenvalues_conjTranspose_mul_self` (`TauCeti/Analysis/Matrix/Spectrum.lean`);
-  and `Matrix.eigenvalueMeasure A`, the probability measure `n⁻¹ ∑ δ_z` over the roots of the
-  characteristic polynomial with algebraic multiplicity, with `eigenvalueMeasure_apply` and
-  `integral_eigenvalueMeasure`. Both require a nonempty index type.
-- Courant–Fischer (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), the completed
-  PolarDecomposition PD-A51–PD-A52: the max–min formula
-  `LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner` and Loewner monotonicity
-  `LinearMap.IsSymmetric.eigenvalue_mono`.
-- Eigenvalue perturbation: `Matrix.lipschitzWith_eigenvalues₀`, `Matrix.continuous_eigenvalues₀`
-  and `Matrix.measurable_eigenvalues₀` (`TauCeti/Analysis/Matrix/Eigenvalues/Continuous.lean`);
-  Weyl's additive inequalities `Matrix.IsHermitian.eigenvalues₀_add_le` and
-  `Matrix.IsHermitian.le_eigenvalues₀_add` and the operator-norm bound
-  `Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm` (`…/Eigenvalues/Basic.lean`); the
-  Hoffman–Wielandt inequalities `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq`
-  and `Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`
-  (`TauCeti/Analysis/Matrix/HoffmanWielandt.lean`); the singular-value bound
-  `LinearMap.abs_singularValues_sub_singularValues_le`
-  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`); and the rank bound
-  `Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card` with its Gram form
-  `Matrix.abs_spectralMeasure_mul_conjTranspose_self_Iic_sub_le_two_mul_rank_div_card`, the bound
-  `2 rank(X − Y)/m` for `XXᴴ` and `YYᴴ` with `m` rows
-  (`TauCeti/Analysis/Matrix/SpectralMeasure/RankPerturbation.lean`).
-- The sample second-moment matrix (`TauCeti/Analysis/Matrix/SampleSecondMoment.lean`):
-  `TauCeti.sampleSecondMoment v = r⁻¹ ∑ᵢ vᵢvᵢᴴ` of a finite sample `v : ι → n → 𝕜` with
-  `r = card ι`, with `TauCeti.isHermitian_sampleSecondMoment` and
-  `TauCeti.posSemidef_sampleSecondMoment`.
-- Covering numbers (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`): the packing bound
-  `TauCeti.card_le_of_isSeparated_of_subset_closedBall`, the covering bound
-  `TauCeti.coveringNumber_le_of_subset_closedBall` and the net of the unit sphere
-  `TauCeti.exists_finset_isCover_sphere`, with at most `(1 + 2/η)^dim` points for `η > 0`.
-- Resolvents of Hermitian matrices (`TauCeti/Analysis/Matrix/Resolvent/`): the norm bound
-  `Matrix.IsHermitian.l2_opNorm_inv_sub_smul_one_le`, the trace formula `trace_inv_sub_smul_one`,
-  the Ward identity `sum_norm_inv_sub_smul_one_apply_sq`, the rank-one update
-  `inv_add_smul_vecMulVec_sub_smul_one` and the leave-one-out formula
-  `inv_sub_smul_one_apply_self_eq`.
-- The resolvent transform (`TauCeti/MeasureTheory/Measure/ResolventTransform/`):
-  `MeasureTheory.im_resolventTransform_pos`, `MeasureTheory.Measure.resolventTransform_conj` and
-  `MeasureTheory.resolventTransform_map_affine` (`Basic.lean`); the finite moment expansion
-  `MeasureTheory.resolventTransform_add_sum_eq` with the remainder bound
-  `MeasureTheory.norm_resolventTransform_add_sum_le` and the total-mass asymptotic
-  `MeasureTheory.tendsto_mul_I_mul_resolventTransform` (`Expansion.lean`); Stieltjes inversion
-  `MeasureTheory.tendsto_intervalIntegral_im_resolventTransform`, with the half-atom endpoint
-  terms, and uniqueness `MeasureTheory.Measure.ext_of_resolventTransform` (`Inversion.lean`); and
-  the atom formula `MeasureTheory.tendsto_mul_im_resolventTransform` (`Atoms.lean`).
-- Named laws: `TauCeti.Probability.semicircleReal a v`
-  (`TauCeti/Probability/Distributions/Semicircle/LocationScale.lean`), with
-  `measurable_semicircleReal`, `variance_id_semicircleReal`, `map_affine_semicircleReal` and
-  `semicircleReal_eq_withDensity`, the moments `integral_pow_two_mul_semicircleReal_zero`
-  (`v^k C_k`) and `integral_pow_two_mul_add_one_semicircleReal_zero` (`Moments.lean`), and the
-  transform `resolventTransform_semicircleReal_quadratic_eq_zero` and
-  `eq_resolventTransform_semicircleReal_iff` (`ResolventTransform.lean`);
-  `TauCeti.Probability.marchenkoPastur y`
-  (`TauCeti/Probability/Distributions/MarchenkoPastur/Basic.lean`), with
-  `marchenkoPastur_eq_withDensity`, `marchenkoPastur_singleton_zero`,
-  `ae_eq_zero_or_mem_Icc_marchenkoPastur`, `integral_pow_succ_marchenkoPastur`,
-  `integral_id_marchenkoPastur` and `integral_sq_marchenkoPastur`.
-- Wigner matrices (`TauCeti/Probability/RandomMatrix/Wigner.lean`): `TauCeti.StrictUpper`,
-  `TauCeti.wignerMatrix` and `TauCeti.wignerMatrix_isHermitian`, with `measurable_wignerMatrix`,
-  `submatrix_castLE_wignerMatrix`, `indepFun_wignerMatrix_column` and
-  `identDistrib_wignerMatrix`.
-- Hadamard's bound for Gram matrices (`TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`):
-  `Matrix.det_gram_le_prod_norm_sq` and `Matrix.re_det_gram_le_prod_norm_sq`, the completed
-  SuccessiveMinima target 0.1.2.
-- Noncrossing partitions (`TauCeti/Combinatorics/NoncrossingPartition/`):
-  `Finpartition.IsNoncrossing` and `TauCeti.NoncrossingPartition s` with its order
-  (`Basic.lean`), `card_fin_eq_catalan` and `card_isPairing_fin_eq_catalan` (`Catalan.lean`), the
-  Narayana count `card_parts_eq_div` (`Narayana.lean`), the Kreweras complement
-  `Finpartition.kreweras` with `isNoncrossing_kreweras` (`Kreweras.lean`), the lower intervals
-  `iicOrderIso` (`Interval.lean`), the Möbius function `mu_bot_eq_prod` (`Mobius.lean`), and the
-  cycle count `orbitCount_formPerm_add_orbitCount_inv_mul_finRotate` (`FormPerm.lean`).
-- Scalar free probability (`TauCeti/Probability/FreeProbability/`): `TauCeti.IsFreelyIndependent`
-  (`Independence.lean`) and `TauCeti.IsFreelyIndependentElements` (`Variables.lean`);
-  `TauCeti.freeCumulant` (`Cumulant/Basic.lean`) and
-  `TauCeti.isFreelyIndependent_iff_freeCumulant_eq_zero` (`Cumulant/Free.lean`); the R-series
-  `TauCeti.rSeries` and `IsFreelyIndependentElements.rSeries_sum` (`Cumulant/Series.lean`);
-  `PositiveLinearMap.law` (`Law/Basic.lean`); `TauCeti.IsSemicircular`
-  (`Semicircular/Basic.lean`); convergence in moments `TauCeti.TendstoInMoments`
-  (`Distribution/Convergence.lean`) and
-  `TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`
-  (`Distribution/Free.lean`); and the free central limit theorem
-  `IsFreelyIndependentElements.tendsto_apply_inv_sqrt_smul_sum_pow_semicircleReal`
-  (`CentralLimit.lean`) and `IsFreelyIndependentElements.tendsto_law_inv_sqrt_smul_sum_semicircleReal`
-  (`Law/CentralLimit.lean`).
-
-### From TauCetiRoadmap roadmaps
-
-- StandardDistributions: Layers 0 and 3–6, `wishartGramMeasure`, target 12.1 (uniform ball law).
-- OrthogonalL2Bases: Parts A–B.
-- RepresentationTheory/CompactGroups: Layer 0.
-- OptimalTransport: Layers 0–3.
-- [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md): the Airy function `TauCeti.airyAi`
-  and its real restriction `TauCeti.Real.airyAi`, with the value at `0` (1.1), Airy's equation
-  and uniqueness (1.2), the integral representations (Layer 2), the expansions on the real line
-  (3.2, 3.4), the recessive characterization and the tail bound
-  `0 < Ai(x) ≤ Ai(0) e^{−(2/3)x^{3/2}}` for `x ≥ 0` (3.6), and the Airy kernel
-  `TauCeti.airyKernel` with its closed forms and the bound `|K_Ai(x,y)| ≤ C² e^{−x−y}` on
-  `[s,∞)²` (8.5).
-- OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13.
-  OperatorTheory/OperatorIdeals: OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C.
-
-## How to read the build
-
-Layer 0 makes probabilistic arguments invariant under enlarging the sample space. Layer 1 builds
-spectral measures and the deterministic eigenvalue and resolvent estimates. Layers 2 and 3 rest on
-Layers 0–1 and are independent of each other: Layer 2 proves concentration and norm bounds, Layer 3
-the transform toolkit and the named limiting laws. The finite combinatorial prerequisite
-(noncrossing partitions) is independent of analysis and feeds Layers 3, 4 and 6. Layer 4 proves the
-global laws of Wigner and sample-covariance matrices; Layer 5 the exact invariant ensembles. Layer 6
-builds free probability and asymptotic freeness on Layers 1, 3, 4, 5 and the combinatorics; Layer 7
-deformed and spiked models on Layers 1–6. Layer 8 (point processes and Gaussian local statistics)
-and Layer 9 (logarithmic gases and large deviations) rest on Layers 1, 3 and 5; Layer 10 (small
-singular values and the circular law) on Layers 0–5.
-
-```text
-Mathlib / Tau Ceti probability and spectral theory
-  → 0 (extensions) → 1 (spectral API)
-  → 2 (concentration) and 3 (transforms, laws)
-finite noncrossing combinatorics → 3, 4, 6
-0–3 → 4 (global laws)
-0–3 + StandardDistributions + CompactGroups → 5 (exact ensembles)
-1, 3, 4, 5 + combinatorics → 6 (free probability)
-1–6 → 7 (deformations, covariance, spikes)
-1, 3, 5 + Hermite + OperatorIdeals + Airy → 8 (local statistics)
-1, 3, 5 → 9 (large deviations)
-0–5 → 10 (circular law)
-```
-
-For each new object the build supplies construction or existence, extensionality, measurability
-or continuity, invariances, integration and evaluation, and the operations its layer uses. Each
-limit theorem records the dimension sequence, the entry law and its moment assumptions, the
-coupling across sizes, the normalization, the topology and the mode of convergence in its
-statement, and every integrability requirement is proved before a moment, moment-generating
-function or log-determinant is evaluated.
 
 ## Layer 0: probability arguments invariant under extension
 
@@ -1514,6 +1329,231 @@ Layers 0–5.
   Tau Ceti's `semicircleReal` and `marchenkoPastur`, the GUE, Ginibre and Haar carriers of
   Layer 5, and the free products, transforms of measures, Weingarten and expected-moment
   interface of Layer 6.
+
+## Scope and ownership
+
+The general ensembles are real symmetric or complex Hermitian Wigner matrices, rectangular
+i.i.d. matrices and their sample covariances, non-Hermitian i.i.d. matrices, and independent
+Haar conjugates of bounded deterministic Hermitian matrices. Exact densities cover Gaussian,
+Laguerre, Jacobi, circular unitary and real-line beta ensembles. Local bulk and soft-edge limits
+cover GOE and GUE; the free-probability development covers bounded self-adjoint variables and
+their compactly supported laws. Covariance applications cover deterministic population
+covariance, finite-rank spikes and the spectral oracle for squared Frobenius loss.
+
+Outside the roadmap: general Wigner bulk/edge universality, hard-edge scaling limits, strong
+operator-norm asymptotic freeness of arbitrary matrix polynomials, unbounded affiliated operators
+and Brown measures, infinite-volume stochastic dynamics, replica analytic continuation, and the
+finance, Bayesian-inference, spin-glass and matrix-Kesten models of PB. PB's cavity and
+saddle-point calculations supply formulas; every formula included above has a rigorous limiting
+statement.
+
+Point processes appear here only through their joint count laws on bounded Borel sets, gap
+probabilities and correlation functions; random elements of a configuration space of locally
+finite integer-valued measures with the vague topology (AGZ Definition 4.2.1), and weak
+convergence of their laws, are outside the roadmap. Dyson Brownian motion (matrix Brownian
+motion, the eigenvalue stochastic differential equation, the `β ≥ 1` particle system and its
+hydrodynamic limit, AGZ §4.3) is the subject of the DysonBrownianMotion roadmap, which builds on
+this one and on StochasticCalculus; no stochastic integral is used here.
+
+Owned elsewhere and consumed here:
+
+- [StandardDistributions](../StandardDistributions/README.md), Layers 0 and 3–6, owns scalar
+  Gaussian, gamma and chi-squared laws, multivariate Gaussian laws, real symmetric coordinate
+  Lebesgue measure, Cholesky/Bartlett theory and real Wishart distributions, including singular
+  Gaussian-Gram laws (`wishartGramMeasure`). Its target 12.1 owns the uniform ball law
+  `cond volume (ball c r)`. Here: the complex Gaussian-Gram counterpart, spectral pushforwards,
+  the circular law as the transport of target 12.1 to `ℂ`, and large-dimension limits. No second
+  real Wishart measure is introduced.
+- Tau Ceti already has the empirical spectral and eigenvalue measures of a matrix, the Wigner matrix
+  constructor, the semicircle family `semicircleReal` with its moments and transform, the
+  Marchenko–Pastur law, the sample second-moment matrix, the Courant–Fischer formula, the
+  Hoffman–Wielandt, Weyl, singular-value and rank-perturbation bounds with the Gram form of the rank
+  bound, the covering numbers and nets of spheres in finite-dimensional normed spaces, the resolvent
+  identities and the trace and moment formulas of spectral measures, the scalar Bernstein and
+  McDiarmid inequalities, the method of moments for a compactly supported limit, product extensions
+  of a law, the noncrossing partitions with their counts, Kreweras complement and Möbius function,
+  and the scalar free probability of freeness, free cumulants, semicircular elements and the free
+  central limit theorem; they are consumed by name (see [From Tau Ceti](#from-tau-ceti)). No second
+  copy of any of them is introduced.
+- [OrthogonalL2Bases](../../Completed/OrthogonalL2Bases/README.md), Parts A–B, supplies Hermite
+  polynomials and functions and moment determinacy, implemented in
+  `TauCeti.Probability.Moments.*` and `TauCeti.Analysis.SpecialFunctions.Hermite.*`.
+  Here: convergence from moments, polynomial-ensemble kernels and Hermite asymptotics.
+- [RepresentationTheory/CompactGroups](../RepresentationTheory/CompactGroups/README.md),
+  Layer 0, owns normalized Haar measure and averaging; its `weyl_integration_formula` is the
+  `SU(2)` case. Here: matrix-coordinate Jacobians, Weyl's integration formula on `U(n)` (§5.4),
+  eigenvalue/eigenprojector disintegrations and Haar entry integrals.
+- [OptimalTransport](../OptimalTransport/README.md), Layers 0–3, owns couplings and Wasserstein
+  distances. Here: the eigenvalue coupling and the spectral `W₁`/`W₂` corollaries.
+- [OperatorTheory/SpectralSubspacePerturbation](../OperatorTheory/SpectralSubspacePerturbation/README.md),
+  SSP-D06 and SSP-D13, owns the Hermitian dilation `[[0,A†],[A,0]]` of a rectangular map and its
+  operator-norm perturbation identity.
+- [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), OI-B01–OI-B19,
+  OI-B23, OI-B29, OI-B30 and Part C, owns the operator-ideal carriers, the nuclear gauge, the
+  trace-class family and its completeness, and the Hilbert–Schmidt column model. No second
+  trace-class carrier is introduced.
+- [FreeProbability](../FreeProbability/README.md), F1–F6, extends Layer 6 rather than supplying
+  it: on the same scalar expectations, cumulants and laws it adds the C*-completions, the
+  operator-valued and amalgamated theory, formal-series transforms and free Poisson laws of every
+  jump. Layer 6, with the scalar free probability that Tau Ceti already has, is the bounded
+  scalar core that those sections consume.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Spectra and norms: `Matrix.IsHermitian.eigenvalues`, `Matrix.IsHermitian.eigenvalues₀`,
+  `Matrix.IsHermitian.eigenvalues₀_antitone` (`Mathlib/Analysis/Matrix/Spectrum.lean`);
+  `Matrix.toEuclideanLin`, `Matrix.toEuclideanCLM` and the `Matrix.Norms.L2Operator` scope
+  (`Mathlib/Analysis/CStarAlgebra/Matrix.lean`); `LinearMap.singularValues` and
+  `LinearMap.singularValues_antitone` (`Mathlib/Analysis/InnerProductSpace/SingularValues.lean`);
+  `Matrix.charpoly`, `Polynomial.roots`; `Matrix.posSemidef_vecMulVec_star_self`.
+- Measurable structure on matrices: the instance, `Matrix.measurable_iff` and the `BorelSpace`
+  instance for countable index types (`Mathlib/Analysis/Matrix/MeasurableSpace.lean`).
+- Laws and independence: `HasLaw`, `IdentDistrib`, `iIndepFun`, `MeasurePreserving`,
+  `exists_hasLaw_indepFun` and `exists_iid` (`Mathlib/Probability/HasLawExists.lean`),
+  `Mathlib/Probability/IdentDistribIndep.lean`.
+- Concentration primitives: `HasSubgaussianMGF` (`Mathlib/Probability/Moments/SubGaussian.lean`,
+  a structure recording integrability of `exp (t X)` for every `t` and `mgf X μ t ≤ exp (c t²/2)`;
+  it implies mean zero), `Mathlib/Probability/Moments/MGFAnalytic.lean`.
+- Laws: `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.betaMeasure`,
+  `ProbabilityTheory.cond`, `Complex.volume_ball` (the unit disc has area `π`).
+- Convergence: the topology of `ProbabilityMeasure`, `TendstoInDistribution`
+  (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`), Prokhorov compactness
+  (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`), the classical central limit theorem
+  (`Mathlib/Probability/CentralLimitTheorem.lean`).
+- `MeasureTheory.resolventTransform` and its analyticity
+  (`Mathlib/MeasureTheory/Measure/ResolventTransform.lean`).
+- Block and low-rank identities: the Schur-complement inverse `Matrix.invOf_fromBlocks₁₁_eq`, the
+  block determinant `Matrix.det_fromBlocks₁₁` and the determinant lemma
+  `Matrix.det_one_add_mul_comm` (`Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`); the
+  Woodbury identity `Matrix.add_mul_mul_inv_eq_sub`
+  (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`).
+
+### From Tau Ceti
+
+- `TauCeti.Probability.empiricalMeasureOfFintype` and `empiricalMeasureOfFintype_toMeasure`
+  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`): the empirical probability measure of a
+  nonempty finite family, with evaluation, integration, pushforward and measurability API.
+- `TauCeti.Probability.Moments.*` (moment determinacy) and
+  `TauCeti.Analysis.SpecialFunctions.Hermite.*` (Hermite polynomials and functions); the method
+  of moments for a compactly supported limit,
+  `MeasureTheory.ProbabilityMeasure.tendsto_of_tendsto_integral_pow`
+  (`TauCeti/Probability/Moments/WeakConvergence.lean`).
+- Product extensions: `ProbabilityTheory.HasLaw.prod_extension`
+  (`TauCeti/Probability/HasLaw.lean`), the law `μ.prod ν` of `(X ∘ Prod.fst, Prod.snd)` under
+  `P.prod ν`.
+- Scalar concentration: Bernstein's two-sided inequality
+  `ProbabilityTheory.iIndepFun.measureReal_abs_sum_ge_le_of_abs_le`
+  (`TauCeti/Probability/Moments/Bernstein.lean`) and McDiarmid's inequality for a product of
+  identical coordinate laws, `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences`, with
+  variance proxy `∑ cᵢ²/4` (`TauCeti/Probability/McDiarmid.lean`).
+- Spectral measures (`TauCeti/Analysis/Matrix/SpectralMeasure.lean`): `Matrix.spectralMeasure A hA`,
+  the probability measure `L_A` of a Hermitian matrix with nonempty index type, with
+  `measurable_spectralMeasure`, `integral_spectralMeasure_eq_sum_eigenvalues₀`, the moments
+  `Matrix.integral_pow_spectralMeasure`, the resolvent transform
+  `Matrix.resolventTransform_spectralMeasure`, the zero-mass correction
+  `Matrix.spectralMeasure_conjTranspose_mul_self` and the pushforward
+  `Matrix.map_spectralMeasure_ofReal` onto the eigenvalue measure; the equal nonzero spectra
+  `Matrix.filter_map_eigenvalues_conjTranspose_mul_self` (`TauCeti/Analysis/Matrix/Spectrum.lean`);
+  and `Matrix.eigenvalueMeasure A`, the probability measure `n⁻¹ ∑ δ_z` over the roots of the
+  characteristic polynomial with algebraic multiplicity, with `eigenvalueMeasure_apply` and
+  `integral_eigenvalueMeasure`. Both require a nonempty index type.
+- Courant–Fischer (`TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`), the completed
+  PolarDecomposition PD-A51–PD-A52: the max–min formula
+  `LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner` and Loewner monotonicity
+  `LinearMap.IsSymmetric.eigenvalue_mono`.
+- Eigenvalue perturbation: `Matrix.lipschitzWith_eigenvalues₀`, `Matrix.continuous_eigenvalues₀`
+  and `Matrix.measurable_eigenvalues₀` (`TauCeti/Analysis/Matrix/Eigenvalues/Continuous.lean`);
+  Weyl's additive inequalities `Matrix.IsHermitian.eigenvalues₀_add_le` and
+  `Matrix.IsHermitian.le_eigenvalues₀_add` and the operator-norm bound
+  `Matrix.IsHermitian.abs_eigenvalues₀_sub_le_norm` (`…/Eigenvalues/Basic.lean`); the
+  Hoffman–Wielandt inequalities `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq`
+  and `Matrix.sum_sq_singularValues_toEuclideanLin_sub_le_frobenius_norm_sub_sq`
+  (`TauCeti/Analysis/Matrix/HoffmanWielandt.lean`); the singular-value bound
+  `LinearMap.abs_singularValues_sub_singularValues_le`
+  (`TauCeti/Analysis/OperatorIdeal/ApproximationNumber/EckartYoung.lean`); and the rank bound
+  `Matrix.IsHermitian.abs_spectralMeasure_Iic_sub_le_rank_div_card` with its Gram form
+  `Matrix.abs_spectralMeasure_mul_conjTranspose_self_Iic_sub_le_two_mul_rank_div_card`, the bound
+  `2 rank(X − Y)/m` for `XXᴴ` and `YYᴴ` with `m` rows
+  (`TauCeti/Analysis/Matrix/SpectralMeasure/RankPerturbation.lean`).
+- The sample second-moment matrix (`TauCeti/Analysis/Matrix/SampleSecondMoment.lean`):
+  `TauCeti.sampleSecondMoment v = r⁻¹ ∑ᵢ vᵢvᵢᴴ` of a finite sample `v : ι → n → 𝕜` with
+  `r = card ι`, with `TauCeti.isHermitian_sampleSecondMoment` and
+  `TauCeti.posSemidef_sampleSecondMoment`.
+- Covering numbers (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`): the packing bound
+  `TauCeti.card_le_of_isSeparated_of_subset_closedBall`, the covering bound
+  `TauCeti.coveringNumber_le_of_subset_closedBall` and the net of the unit sphere
+  `TauCeti.exists_finset_isCover_sphere`, with at most `(1 + 2/η)^dim` points for `η > 0`.
+- Resolvents of Hermitian matrices (`TauCeti/Analysis/Matrix/Resolvent/`): the norm bound
+  `Matrix.IsHermitian.l2_opNorm_inv_sub_smul_one_le`, the trace formula `trace_inv_sub_smul_one`,
+  the Ward identity `sum_norm_inv_sub_smul_one_apply_sq`, the rank-one update
+  `inv_add_smul_vecMulVec_sub_smul_one` and the leave-one-out formula
+  `inv_sub_smul_one_apply_self_eq`.
+- The resolvent transform (`TauCeti/MeasureTheory/Measure/ResolventTransform/`):
+  `MeasureTheory.im_resolventTransform_pos`, `MeasureTheory.Measure.resolventTransform_conj` and
+  `MeasureTheory.resolventTransform_map_affine` (`Basic.lean`); the finite moment expansion
+  `MeasureTheory.resolventTransform_add_sum_eq` with the remainder bound
+  `MeasureTheory.norm_resolventTransform_add_sum_le` and the total-mass asymptotic
+  `MeasureTheory.tendsto_mul_I_mul_resolventTransform` (`Expansion.lean`); Stieltjes inversion
+  `MeasureTheory.tendsto_intervalIntegral_im_resolventTransform`, with the half-atom endpoint
+  terms, and uniqueness `MeasureTheory.Measure.ext_of_resolventTransform` (`Inversion.lean`); and
+  the atom formula `MeasureTheory.tendsto_mul_im_resolventTransform` (`Atoms.lean`).
+- Named laws: `TauCeti.Probability.semicircleReal a v`
+  (`TauCeti/Probability/Distributions/Semicircle/LocationScale.lean`), with
+  `measurable_semicircleReal`, `variance_id_semicircleReal`, `map_affine_semicircleReal` and
+  `semicircleReal_eq_withDensity`, the moments `integral_pow_two_mul_semicircleReal_zero`
+  (`v^k C_k`) and `integral_pow_two_mul_add_one_semicircleReal_zero` (`Moments.lean`), and the
+  transform `resolventTransform_semicircleReal_quadratic_eq_zero` and
+  `eq_resolventTransform_semicircleReal_iff` (`ResolventTransform.lean`);
+  `TauCeti.Probability.marchenkoPastur y`
+  (`TauCeti/Probability/Distributions/MarchenkoPastur/Basic.lean`), with
+  `marchenkoPastur_eq_withDensity`, `marchenkoPastur_singleton_zero`,
+  `ae_eq_zero_or_mem_Icc_marchenkoPastur`, `integral_pow_succ_marchenkoPastur`,
+  `integral_id_marchenkoPastur` and `integral_sq_marchenkoPastur`.
+- Wigner matrices (`TauCeti/Probability/RandomMatrix/Wigner.lean`): `TauCeti.StrictUpper`,
+  `TauCeti.wignerMatrix` and `TauCeti.wignerMatrix_isHermitian`, with `measurable_wignerMatrix`,
+  `submatrix_castLE_wignerMatrix`, `indepFun_wignerMatrix_column` and
+  `identDistrib_wignerMatrix`.
+- Hadamard's bound for Gram matrices (`TauCeti/Analysis/InnerProductSpace/Gram/Hadamard.lean`):
+  `Matrix.det_gram_le_prod_norm_sq` and `Matrix.re_det_gram_le_prod_norm_sq`, the completed
+  SuccessiveMinima target 0.1.2.
+- Noncrossing partitions (`TauCeti/Combinatorics/NoncrossingPartition/`):
+  `Finpartition.IsNoncrossing` and `TauCeti.NoncrossingPartition s` with its order
+  (`Basic.lean`), `card_fin_eq_catalan` and `card_isPairing_fin_eq_catalan` (`Catalan.lean`), the
+  Narayana count `card_parts_eq_div` (`Narayana.lean`), the Kreweras complement
+  `Finpartition.kreweras` with `isNoncrossing_kreweras` (`Kreweras.lean`), the lower intervals
+  `iicOrderIso` (`Interval.lean`), the Möbius function `mu_bot_eq_prod` (`Mobius.lean`), and the
+  cycle count `orbitCount_formPerm_add_orbitCount_inv_mul_finRotate` (`FormPerm.lean`).
+- Scalar free probability (`TauCeti/Probability/FreeProbability/`): `TauCeti.IsFreelyIndependent`
+  (`Independence.lean`) and `TauCeti.IsFreelyIndependentElements` (`Variables.lean`);
+  `TauCeti.freeCumulant` (`Cumulant/Basic.lean`) and
+  `TauCeti.isFreelyIndependent_iff_freeCumulant_eq_zero` (`Cumulant/Free.lean`); the R-series
+  `TauCeti.rSeries` and `IsFreelyIndependentElements.rSeries_sum` (`Cumulant/Series.lean`);
+  `PositiveLinearMap.law` (`Law/Basic.lean`); `TauCeti.IsSemicircular`
+  (`Semicircular/Basic.lean`); convergence in moments `TauCeti.TendstoInMoments`
+  (`Distribution/Convergence.lean`) and
+  `TauCeti.IsFreelyIndependentElements.jointDistribution_eq_of_forall_pow`
+  (`Distribution/Free.lean`); and the free central limit theorem
+  `IsFreelyIndependentElements.tendsto_apply_inv_sqrt_smul_sum_pow_semicircleReal`
+  (`CentralLimit.lean`) and `IsFreelyIndependentElements.tendsto_law_inv_sqrt_smul_sum_semicircleReal`
+  (`Law/CentralLimit.lean`).
+
+### From TauCetiRoadmap roadmaps
+
+- StandardDistributions: Layers 0 and 3–6, `wishartGramMeasure`, target 12.1 (uniform ball law).
+- OrthogonalL2Bases: Parts A–B.
+- RepresentationTheory/CompactGroups: Layer 0.
+- OptimalTransport: Layers 0–3.
+- [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md): the Airy function `TauCeti.airyAi`
+  and its real restriction `TauCeti.Real.airyAi`, with the value at `0` (1.1), Airy's equation
+  and uniqueness (1.2), the integral representations (Layer 2), the expansions on the real line
+  (3.2, 3.4), the recessive characterization and the tail bound
+  `0 < Ai(x) ≤ Ai(0) e^{−(2/3)x^{3/2}}` for `x ≥ 0` (3.6), and the Airy kernel
+  `TauCeti.airyKernel` with its closed forms and the bound `|K_Ai(x,y)| ≤ C² e^{−x−y}` on
+  `[s,∞)²` (8.5).
+- OperatorTheory/SpectralSubspacePerturbation: SSP-D06, SSP-D13.
+  OperatorTheory/OperatorIdeals: OI-B01–OI-B19, OI-B23, OI-B29, OI-B30 and Part C.
 
 ## References
 

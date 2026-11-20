@@ -1,154 +1,75 @@
 # Roadmap: modular symbols and analytic p-adic L-functions of modular forms
 
-**Summary.** This roadmap builds the cohomological (Hom-side) theory of modular symbols with
-arbitrary coefficients and uses it to construct the analytic p-adic L-function of a modular form.
-It starts from the degree-zero divisors on the cusps, the homological symbols and the period map
-that Tau Ceti's ModularForms roadmap supplies (Layer 8). It then builds equivariant symbols, boundary
-symbols, parabolic cohomology, Hecke, diamond and sign operators, the cohomological
-Eichler–Shimura isomorphism, and the rational Drinfeld–Manin splitting. From there it defines signed
-period lines and saturated integral periods, and proves the twisted Mellin formula with algebraicity
-of critical values. On the p-adic side it builds distribution-valued (overconvergent) symbols with
-the weight-`k` action, proves Stevens' control theorem in small slope (Pollack–Stevens), and constructs
-the p-adic L-function of a refinement of slope less than `k + 1`, with interpolation and uniqueness.
-It also covers the integral ordinary measure, the critical-slope p-adic L-function of a
-non-`θ`-critical refinement, Pollack's half-logarithms and signed p-adic L-functions at supersingular
-primes with `a_p = 0`, tame twists, Euler depletion, coefficient embeddings and the worked examples of
-level 11. We want it because modular symbols are the standard route to the p-adic L-function of a
-single eigenform of weight at least two, and to its integral and critical-slope refinements: the
-Iwasawa main conjecture for modular forms, p-adic Birch–Swinnerton-Dyer, the comparison with Kato's
-Euler system and the families of the PadicFamilies roadmap all take it as input.
+**Summary.** The critical values of the L-function of a cusp form and of its twists are, up to
+explicit factors, sums of integrals of the form along paths between cusps. Modular symbols record
+them algebraically. For a finite-index subgroup `Γ` of `SL₂(ℤ)` and a `Γ`-module `V`, the symbols
+`Symb_Γ(V) = Hom_{ℤ[Γ]}(Δ₀, V)` are the equivariant maps to `V` from the degree-zero divisors on the
+cusps; the divisor `{b} − {a}` is the path from `a` to `b`. A cusp form `f` of weight `k + 2` gives
+the period symbol `ψ_f`, which sends `{s} − {r}` to the polynomial `2πi ∫_r^s f(z)(zX + Y)^k dz`.
+This roadmap builds these symbols for arbitrary coefficients, over `ℤ` unless an invertibility
+hypothesis is stated, and uses them for critical values and p-adic L-functions.
 
-The central object is the module `Symb_Γ(V) = Hom_{ℤ[Γ]}(Δ₀, V)` of `Γ`-equivariant maps from the
-degree-zero divisors on `P¹(ℚ)` to a coefficient module `V`. It is built integrally, with no
-invertibility hypothesis, so it accepts every coefficient module the construction needs:
-homogeneous polynomials `V_k(R)` over any ring, Dirichlet-twisted modules, and spaces of p-adic
-distributions with the weight-`k` action of the monoid `Σ₀(p)`. The end theorems are:
+The first main theorem is the cohomological Eichler–Shimura isomorphism. Parabolic cohomology
+`H¹_par(Γ, V)` consists of the classes in `H¹(Γ, V)` that vanish on every cusp stabiliser. For every
+finite-index `Γ` and `k ≥ 0`, sending a cusp form to the class of its period symbol, and a conjugate
+form to the conjugate class, is an isomorphism `S_{k+2}(Γ) ⊕ S̄_{k+2}(Γ) ≅ H¹_par(Γ, V_k(ℂ))`,
+compatible with the Hecke and diamond operators. For a newform `f` of level `N` and character `ε`,
+with coefficient field `K_f = ℚ(a_n(f), ε)`, it follows with multiplicity one for newforms that for
+each sign under `ι = diag(−1, 1)` the `V_k(K_f)`-valued `Γ₁(N)`-symbols with character `ε` and the
+Hecke eigenvalues of `f` away from `N` form a line over `K_f`, spanned over `ℂ` by `(1 ± ι)ψ_f`.
 
-- the Eichler–Shimura isomorphism `S_{k+2}(Γ) ⊕ S̄_{k+2}(Γ) ≅ H¹_par(Γ, V_k(ℂ))` in its Hecke-, diamond- and
-  sign-equivariant form, with one-dimensional signed newform eigenspaces over the coefficient
-  field (Layer 0);
-- the algebraicity of the twisted critical values `L(f, χ̄, j + 1), 0 ≤ j ≤ k`, divided by the signed
-  period selected by the parity `(−1)^{k−j}χ(−1)` (Layer 1);
-- Stevens' control theorem in slope below `k + 1`, and the existence, interpolation formula and
-  uniqueness of the p-adic L-function `L_p(f, α)` of a refinement of slope `h < k + 1`, with its
-  integral ordinary form (Layer 2);
-- the critical-slope L-function of a non-`θ`-critical refinement, normalised by its eigenlift, and the
-  family comparison principle that replaces interpolation at critical slope (Layer 3);
-- Pollack's decomposition `L_p(f, α) = L⁺_p·log⁺_p + L⁻_p·log⁻_p·α` at a supersingular prime with
-  `a_p = 0`, into Iwasawa functions `L^±_p`, and the Euler-depletion and coefficient-transport identities
-  of normalised p-adic L-functions (Layer 4).
+A period of `f` is the coordinate of `(1 ± ι)ψ_f` in a chosen basis of this line, so it is defined
+only up to `K_f^×`. The second main theorem is algebraicity. Let `χ` be a primitive Dirichlet
+character and `0 ≤ j ≤ k`. The number `τ(χ)·j!/(−2πi)^j·L(f, χ̄, j + 1)`, divided by the period of
+sign `(−1)^{k−j}χ(−1)`, lies in `K_f(χ)`; a twisted Mellin formula computes it from `ψ_f`.
 
-The mathematical assertions below are targets for formalisation; the existing library inputs are
-named in the `*Needs:*` annotations. Each definition and construction states its API and its Checks.
-The companion [Suggested.lean](Suggested.lean), in the namespace
-`TauCetiRoadmap.ModularSymbolsPadicLFunctions`, states the cohomological Eichler–Shimura period
-isomorphism and algebraicity of twisted critical coordinates, with the definitions needed to express
-them on the pinned library carriers. Its module docstring identifies the missing objects needed to
-state the other headline results. A target ending with a `*Lean:*` line names its declarations in
-that file. The Checks are mathematical cases for the full development.
+A refinement `(f, α)` at a prime `p` chooses a root `α` of `X² − a_pX + ε(p)p^{k+1}` if `p ∤ N`, and
+takes `α = a_p ≠ 0` if `p | N`; its slope is `h = v_p(α)`. The coefficients become locally analytic
+distributions on `ℤ_p`, which specialise to polynomials. By Stevens' control theorem, specialisation
+is an isomorphism on the parts where `U_p` has slope less than `k + 1`. So for `h < k + 1` each
+basis of the signed refined eigenlines has a unique eigenlift, and their sum at `{∞} − {0}`,
+restricted to `ℤ_p^×`, is the p-adic L-function `L_p(f, α)`.
 
-## Scope and ownership
+The third main theorem is interpolation with uniqueness. For `0 ≤ j ≤ k` and a character `χ` of
+`ℤ_p^×` of conductor `p^n`, the value of `L_p(f, α)` at `z^j·χ` is an explicit multiple of
+`L(f_α, χ⁻¹, j + 1)`, for the refined form `f_α`, divided by a period. It is the only `h`-admissible
+distribution (one of growth order `h`) with these values.
 
-This roadmap owns:
+The bound `h < k + 1` is sharp: at slope `k + 1` the values no longer determine the distribution.
+Layer 3, for odd `p ∤ N` with distinct Hecke roots, normalises `L_p(f, α)` at slope `k + 1` by its
+unique eigenlift when the refinement is not `θ`-critical (its overconvergent form is not
+`(q d/dq)^(k+1)` of a form of weight `−k`). In Layer 4, at an odd prime `p ∤ N` with `a_p = 0`,
+Pollack's theorem writes the p-adic L-function, twisted by a suitable tame character `ψ`, as
+`L⁺_p·log⁺_p + L⁻_p·log⁻_p·α`, with explicit half-logarithms `log^±_p` and power series `L^±_p` of
+bounded coefficients.
 
-- Manin's presentation `Δ₀ ≅ ℤ[PSL₂(ℤ)]/I` and the Hom-side modular symbols `Symb_Γ(V)` for every
-  finite-index `Γ ≤ SL₂(ℤ)` and every coefficient module, with their presentations (coset values, the
-  fundamental-domain presentation over `ℤ[Γ]` and its generators), flat base change,
-  boundary symbols, Eisenstein symbols, the connecting map to `H¹(Γ, V)`, parabolic cohomology, the
-  integral boundary exact sequence and descent along normal subgroups;
-- the operators on Hom-side symbols: the monoid `Σ₀(N)`, the Hecke operators `T_ℓ` and `U_q` at levels
-  `Γ₀(N)` and `Γ₁(N)`, the diamond operators, the involution `ι = diag(−1, 1)` and the sign decomposition,
-  symbols with character and the character decomposition;
-- the duality between Hom-side symbols and the homological module `𝕄` of ModularForms Layer 8, the
-  invariant pairing between `V_k` and `Sym^k`, the period symbol `ψ_f`, the dimension of parabolic
-  cohomology for torsion-free `Γ`, Petersson detection of period cocycles, the cohomological
-  Eichler–Shimura isomorphism, the separation of cuspidal from Eisenstein good-Hecke eigensystems and
-  the one-dimensionality of signed newform eigenspaces;
-- the rational spectral separation of parabolic and boundary Hecke supports at full level `Γ(N)` and
-  the rational Drinfeld–Manin retraction `H¹(Γ(N), V_k(ℚ)) → H¹_par(Γ(N), V_k(ℚ))`;
-- signed period lines, saturated integral period lattices, the twisted Mellin formula, algebraicity
-  of critical values, the `p`-stabilised L-function comparison and the dictionary between the
-  interpolation normalisations in the literature;
-- `p`-stabilisations, refinements and refined eigenlines; the radius-indexed spaces of analytic
-  functions and distributions on `ℤ_p` in Pollack–Stevens' normalisation with the weight-`k` action of
-  `Σ₀(p)`; specialisation; overconvergent lifting; the slope decomposition of the fibre of
-  specialisation; Stevens' control theorem; admissibility of eigensymbol values; the p-adic
-  L-function of a small-slope refinement with interpolation and uniqueness; the integral ordinary
-  measure;
-- the single-form critical-slope theory: the non-`θ`-critical L-function, its interpolation, the
-  failure of uniqueness, the `θ`-critical comparison, the family comparison principle, the
-  eigensymbols at the critical refinement of `E_{2,ℓ}` and the critical-slope examples of Pollack–Stevens;
-- tame twists, the identification of the supplied two Euler factors at `p`, both refinements at a
-  supersingular prime and their zeros, Pollack's half-logarithms, the `±` decomposition at `a_p = 0`, coefficient embeddings,
-  Euler depletion, the exclusion of a zero `U_p`-eigenvalue, and the level-11 examples.
+The roadmap builds on Tau Ceti's [ModularForms](../ModularForms/README.md) roadmap for the
+homological modular symbols with their period map, and for newforms with their L-functions.
+[LocallyAnalyticDistributions](../LocallyAnalyticDistributions/README.md) provides admissible
+distributions and their uniqueness theorem, and PadicMeasuresIwasawaAlgebras the Iwasawa algebras.
+PadicFamilies and KatoEulerSystems use the critical-slope constructions.
 
-It leaves to other roadmaps, and cites:
+Layer 0 builds the symbols and Eichler–Shimura, and ends with the rational Drinfeld–Manin retraction
+onto parabolic cohomology at level `Γ(N)`, `N ≥ 3`. Layers 1 to 4 follow the theorems above in
+order; the next section describes each layer. The companion [Suggested.lean](Suggested.lean) states
+Eichler–Shimura, without the operators, and the algebraicity of critical values.
 
-- **Tau Ceti's ModularForms roadmap.** Layer 0 (Eisenstein series with character, their
-  q-expansions and the cusp–Eisenstein decomposition), Layer 4 (newforms, primitive forms, old and new
-  spaces, the bad-prime `U_p`-eigenvalue), Layer 5 (strong multiplicity one and the characterisation of
-  normalised eigenforms by their coefficients), Layer 7 (`L(f, s)`, twisted L-series, the Mellin
-  transform and the entire extension of L-functions of cusp forms), Layer 8 (`Div⁰(P¹(ℚ))` with its
-  `GL₂⁺(ℚ)`-action, its generation by unimodular divisors and the two- and three-term Manin relations,
-  the homological symbol module `𝕄 = (Div⁰ ⊗ Sym^{k})_{Γ₁(N)}` with its Hecke operators, the period map
-  and its injectivity), Layer 8G (the coefficient field,
-  Galois stability and the conjugate newform `f^σ`) and Layer 10C (the dimension formulas, with the
-  regular/irregular cusp distinction in odd weight). Layer 8 deliberately builds `𝕄` homologically and
-  keeps group cohomology out; this roadmap is where group cohomology, parabolic cohomology and the
-  Eichler–Shimura isomorphism enter. Layer 8 presents `𝕄` through Manin symbols but states neither the
-  full kernel of Manin's map `ℤ[PSL₂(ℤ)] → Div⁰` nor the fundamental-domain presentation of `Div⁰` over `ℤ[Γ]`
-  for general `Γ`, and Layer 5 does not separate cuspidal from Eisenstein eigensystems; these are
-  targets of §0.2 and §0.7 here. In the pinned Tau Ceti library the following
-  Layer-8 material already exists and is imported, never rebuilt here:
-  `TauCeti.ModularSymbols.degreeZero`, `divisorRep`, `degreeZeroGLRep`, `degreeZeroRep` and
-  `degreeZero_eq_span_unimodular` (the divisor modules, their actions and their generation by
-  unimodular divisors), `TauCeti.ModularSymbols` (the homological module, with `symbol`,
-  `maninSymbol`, `span_maninSymbol_eq_top` and the Manin relations `maninSymbol_mul_S` and
-  `maninSymbol_add_mul_T_mul_S_add_mul_T_mul_S_sq`), `heckeSymbol` and
-  `heckeTSymbol` (Hecke operators on `𝕄`), `rawPairing`, `periodMap` and `periodMap_injective`, and
-  the binary-form actions `TauCeti.binaryFormRep` `(P ↦ P(aX + bY, cX + dY))`,
-  `TauCeti.binaryFormAdjugateRep`, `TauCeti.binaryFormDual` and `TauCeti.linearFormPow`
-  (`TauCeti/NumberTheory/ModularForms/{ModularSymbols,BinaryForms}`), together with
-  `TauCeti.cuspIntegral` and `Matrix.GeneralLinearGroup.geodesicIntegral` (integrals between cusps).
-  The level-one period polynomials `TauCeti.periodPolynomial` with `periodPolynomial_injective`
-  are the level-one homological counterpart of the period symbol of §0.7 and are cited as such.
-  ModularForms Layer 11 states the level-one isomorphism `M_{k+2} ⊕ S_{k+2} ≅ W_k` onto the space `W_k` of
-  period polynomials of degree `k` (Convention 1) by a dimension count (pinned Tau Ceti
-  `periodPolynomials` and `finrank_periodPolynomials_eq_finrank_modularForm_add_finrank_cuspForm`); the
-  Eichler–Shimura isomorphism of §0.7 differs from it in being cohomological (`S ⊕ S̄ ≅ H¹_par`, with the
-  conjugate summand) and in holding for every finite-index `Γ` with its Hecke, diamond and sign actions.
-- **LocallyAnalyticDistributions.** Layer 0 (closed-disc analytic functions, the stages of locally
-  analytic functions on `ℤ_p`, locally analytic functions and distributions `D(ℤ_p)`, inductive and projective
-  locally convex limits, compact restriction to a smaller radius), Layer 2 (distributions of order `r`,
-  that is `h`-admissible distributions, with the Amice–Vélu–Višik extension and uniqueness theorem and
-  its strict threshold), and Layer 4 (complete continuity, Fredholm series, Riesz projectors and
-  slope decompositions).
-- **PadicMeasuresIwasawaAlgebras.** Bounded measures on `ℤ_p^×` and on `ℤ_{p,M}^×`, the Iwasawa algebra
-  `𝒪⟦ℤ_p^×⟧` and its identification with bounded power series on each branch, and the `μ`- and
-  `λ`-invariants of an Iwasawa function.
-- **ModularCurvesPartII**, §§14.1–14.4a (geometric coefficient systems, parabolic
-  images and finite/adic Betti–étale comparison), §14.8 (Hecke operators with relative
-  coefficients), §14.11 (the pairing with its coefficient dual and Tate twist) and §14.12
-  (the homological modular-symbol/geodesic comparison). Its full symbol module is relative
-  homology with the dual coefficient system; the Hom-side compact-support comparison is
-  the adapter of §0.6 here.
-- **AlgebraicModularFormsAndSerreWeights**, R15.5A.2 (Classical eigenforms of weight at least
-  two), for the representation attached to `f` in the decency condition of §3.0;
-  **ArithmeticGaloisRepresentations**, §7.2 (Adjoint, trace pairing and Schur's lemma), for its full endomorphism
-  representation; **SelmerIwasawaCohomology**, §§2.1–2.2 (Selmer data and kernel), and
-  **PadicPeriodRings**, §1.5 (The topological de Rham period rings), for that condition's
-  unramified and de Rham local kernels.
+## How to read the build
 
-AutomorphicLFunctionsAndLocalFactors AL.5 supplies the complex stabilisation coefficients,
-their `U_p` recurrence and L-series identity, and the refined `GL₂` interpolation factor and its
-ramified and unramified specialisations. ArithmeticLocallySymmetricSpaces §ALS.3.1 supplies
-the derived Hecke action used by the cohomological adapter of §0.4.
-
-Global ordinary and Coleman–Mazur families belong to PadicFamilies. The local
-finite-slope eigensymbol charts needed for critical specialisation are §3.0 here.
-Kato's Euler system and explicit reciprocity law belong to KatoEulerSystems.
-P-adic Birch–Swinnerton-Dyer and Sprung's sharp/flat decomposition at supersingular
-primes with `a_p ≠ 0` are outside this roadmap's scope.
+Layer 0 turns the divisor presentation into equivariant `Hom` spaces, defines the Eisenstein subspace by
+restriction of boundary symbols and the parabolic quotient by the connecting cocycle, builds every
+operator with one coefficient convention, proves Eichler–Shimura and the multiplicity one of signed
+newform eigenspaces, and ends with the rational Drinfeld–Manin splitting. Layer 1 chooses bases of
+the signed eigenlines, saturates them integrally, and computes the twisted critical values; it also
+`p`-stabilises a newform and fixes the dictionary between the interpolation formulas in the literature.
+Layer 2 builds the distribution modules and their weight-`k` action, lifts classical symbols, proves
+the control theorem below slope `k + 1` and constructs the p-adic L-function with its interpolation
+and uniqueness. Layer 3 treats slope exactly `k + 1`, where interpolation no longer determines the
+distribution. Layer 4 adds tame twists, the supersingular theory at `a_p = 0`, Euler depletion and
+coefficient transport, and the examples of level 11. Each layer opens with its hypotheses; a target
+is a bold-titled paragraph with its statement, API, source locator, *Needs:* (earlier targets,
+library declarations and supplier layers) and, where present, *Lean:*. The Checks of a definition or
+construction are the bullets under it. Each layer ends with examples and its dependencies.
 
 ## Conventions
 
@@ -193,210 +114,6 @@ primes with `a_p ≠ 0` are outside this roadmap's scope.
     interpolation holds only for `h < k + 1`.
 15. **Coefficient embeddings.** An embedding of the coefficient field transports algebraic normalised
     coordinates and a chosen p-adic place; no action on transcendental complex periods is asserted.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-In the pinned Mathlib, each with exactly its stated hypotheses:
-`OnePoint` (`P¹(ℚ)` as `OnePoint ℚ`) and the `GL₂`-action of
-`Mathlib/Topology/Compactification/OnePoint/ProjectiveLine.lean`; `Matrix.SpecialLinearGroup`,
-`Matrix.SpecialLinearGroup.map`, `Matrix.SpecialLinearGroup.toGL`, `Matrix.SpecialLinearGroup.mapGL`,
-`Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.mkOfDetNeZero`,
-`Matrix.adjugate`, `Matrix.adjugate_mul`; `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`,
-`CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0Map`; `Submonoid`, `AddSubgroup`;
-`MonoidAlgebra`, `MonoidAlgebra.basis` and `MonoidAlgebra.mapDomainRingHom`; `Module.Free`, `Module.Flat`,
-`Module.FinitePresentation`; `MvPolynomial.homogeneousSubmodule` and `MvPolynomial.aeval`;
-`Representation`, `Representation.ofMulAction`, `Representation.linHom`,
-`Representation.Coinvariants`, `Rep.ofMulAction`, `Rep.coind`, `Rep.coinvariantsAdjunction`,
-`Rep.coinvariantsTensor`; `groupCohomology` with `groupCohomology.resNatTrans`,
-`groupCohomology.H1InfRes_exact` (exactness of the first three inflation–restriction terms only)
-and `groupCohomology.coindIso` (Shapiro); `CuspForm` and `UpperHalfPlane`;
-`CuspFormClass.qExpansion_isBigO` (Hecke's bound `O(n^{w/2})` for the coefficients of a cusp form of weight
-`w`); `ModularForm.L` (the
-L-function of a modular form on an arithmetic subgroup of `GL₂(ℝ)`, entire for cusp forms, with
-`CuspForm.Λ_eq_mellin`) and `mellin`; `Algebra.adjoin`,
-`IsCoprime`, `LinearMap.aeval_self_charpoly` (Cayley–Hamilton), `Submodule.projectionOnto`,
-`LinearMap.isCompl_of_proj`; `Nat.exists_prime_gt_modEq_one` (primes `ℓ ≡ 1 mod N` beyond any bound);
-`PowerSeries.binomialSeries`; `PadicInt` and `PadicInt.toZModPow`; `Polynomial.cyclotomic`.
-
-### From Tau Ceti
-
-In the pinned Tau Ceti library:
-`TauCeti.augmentationSubrepresentation` with `TauCeti.toSubmodule_augmentationSubrepresentation` and
-`TauCeti.single_sub_single_mem_augmentationSubrepresentation` (the degree-zero subrepresentation of a
-permutation representation, from which the pinned library builds `degreeZero`);
-`HeckeRing.GL2.commSemiringHeckeRingGamma0` (commutativity of the `Γ₀(N)` Hecke ring, `N ≠ 0`);
-`HeckeRing.GL2.diamondCosetGamma1` (the `Γ₁(N)` double coset of an element of `Γ₀(N)`);
-`HeckeRing.GLn.intEntries` and `HeckeRing.GLn.intMatrix` (the integral-entry submonoid of `GLₙ(ℚ)` and
-its underlying integral matrix); `HeckeCoset.heckeSum` with `heckeSum_eq_sum_of_rightCosets` and
-`heckeSum_comp_of_mem` (for a `Γ₁`-invariant map, the sum is independent of right-coset representatives
-and is `Γ₂`-invariant); `diamondOp`
-(lower-right convention), `cuspFormCharSpace` and `isInternal_cuspFormCharSpace` (the nebentypus
-decomposition of `S_k(Γ₁(N))`); `CuspForm.peterssonInnerCosets_definite` (positive definiteness of the
-Petersson product for finite-index `Γ`); `HeckeRing.GL2.Newform` and
-`HeckeRing.GL2.finrank_cuspFormsNewEigenspace_eq_one` (dimension one of a newspace eigenspace
-containing a nonzero form of the given character); `TauCeti.CoefficientField` (the field generated over `ℚ`
-by the coefficients `a_n(f), n ≥ 1`, of a newform) with `TauCeti.char_mem_CoefficientField` (it contains
-the values of the nebentypus); `CuspForm.twist` (for `Φ : ℤ/m → ℂ`, the twist of a cusp form on `Γ₁(N)`
-with coefficients `Φ(n)a_n`, a cusp form on `Γ₁(L)` whenever `Nm | L` and `m² | L`) and
-`TauCeti.cuspIntegral_mul_pow_zero_infty_eq_L` (`∫_0^{i∞} f(z)z^jdz = j!/(−2πi)^{j+1}·L(f, j + 1)` for a cusp
-form of positive weight on an arithmetic subgroup); `TauCeti.CuspForm.levelRaise` (`V_d f(z) = f(dz)`,
-no determinant factor) and `TauCeti.CuspForm.qExpansion_levelRaise`;
-`HeckeRing.GL2.heckeTCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul` (for `p ∤ N`,
-`T_p F = cF` iff `a_{pm} = c·a_m − χ(p)p^{w−1}a_{m/p}`, in weight `w`) and
-`HeckeRing.GL2.heckeUCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul` (for `p | N`,
-`U_p F = cF` iff `a_{pm} = c·a_m`). The Layer-8 declarations listed under Scope and ownership are supplied at this same pin.
-
-The monoid `Σ₀(N)` is the integral-matrix form of the submonoid of `intEntries 2` with upper-left entry
-a unit modulo `N` and lower-left entry divisible by `N`. On nonsingular integral matrices,
-the map to `GL₂(ℚ)` is inverse to `intMatrix 2`; its extension at singular matrices is not such an inverse.
-The operators `T_ℓ` and `U_q` on symbols are Hom-side Hecke sums with coefficient twist `act δ` and fixed
-upper-triangular representatives. On dual coefficients, §0.6 identifies them with the transpose of
-`heckeSum` on the tensor module, with its specified coefficient action.
-
-### Supplier replacements
-
-The cusps are Mathlib's `OnePoint ℚ`; the integral divisor carrier is
-`TauCeti.ModularSymbols.degreeZero ℤ`, with its `degreeZeroGLRep ℤ` action and
-`single_sub_single_mem_degreeZero`. The restriction to `SL₂(ℤ)` is the supplied `degreeZeroRep`,
-and the embedding into `GL₂(ℚ)` is Mathlib's `Matrix.SpecialLinearGroup.mapGL ℚ`.
-The polynomial carrier is Mathlib's `MvPolynomial.homogeneousSubmodule (Fin 2) R k`.
-These are used directly, with no local aliases. Bounded moment sequences use
-Mathlib's `Bornology.IsBounded (Set.range c)`, with `isBounded_iff_forall_norm_le` supplying
-the equivalent uniform norm bound; no second boundedness predicate is introduced. The oriented
-cusp-divisor map of §0.2 fixes the order `{b} − {a}`, and the coefficient action of §0.1 uses
-row-adjugate substitution on the ambient polynomial algebra; neither introduces a second divisor
-or homogeneous-polynomial carrier. The factors
-`Φ_n` are Mathlib's `Polynomial.cyclotomic (p ^ n) ℤ`, with
-`Polynomial.cyclotomic_prime_pow_eq_geom_sum` and
-`Polynomial.eval_one_cyclotomic_prime_pow`; their geometric-sum and value-at-one
-identities are consumed directly.
-
-Finite-index corestriction is `TauCeti.groupCohomology.corestriction`, supplied by
-`TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean`, with
-`map_subtype_id_comp_corestriction` `(cor ∘ res = [Γ : Γ′])` and `corestriction_trans`.
-The descent target of §0.4 adds the conjugation-sum identity and its cusp compatibility to this
-existing transfer; it does not construct another transfer.
-
-### From TauCetiRoadmap.ModularForms
-
-- Layer 8: `Div⁰(P¹(ℚ))` as a left `ℤ[GL₂⁺(ℚ)]`-module generated by the `{b} − {a}`, with
-  `0 → Div⁰ → ℤ[P¹(ℚ)] → ℤ → 0`; its generation by the unimodular divisors `{g0} − {g∞}, g ∈ SL₂(ℤ)`, and
-  the two- and three-term Manin relations (pinned Tau Ceti `degreeZero_eq_span_unimodular`,
-  `span_maninSymbol_eq_top`, `maninSymbol_mul_S`, `maninSymbol_add_mul_T_mul_S_add_mul_T_mul_S_sq`);
-  the homological module `𝕄` with its Hecke and diamond operators; the period map
-  `S_{k+2}(Γ₁(N)) → Hom_ℤ(𝕄, ℂ)` with its convergence, invariance, Hecke equivariance and injectivity.
-- Layer 8G: the coefficient field `K_f = ℚ(a_n(f))`, the character field inside it, and for a field
-  embedding `σ` the conjugate newform `f^σ` with `a_n(f^σ) = σ(a_n(f))`.
-- Layer 7: `L(f, s)` and `L(f, χ, s) = Σ χ(n)a_n n^{−s}` for cusp forms of weight `k + 2`, the Mellin
-  identity `∫_0^∞ g(iy)y^{s−1}dy = Γ(s)(2π)^{−s}L(g, s)` and the entire extension for cusp forms `g`.
-- Layer 4: for a newform `f` of weight `k + 2`, level `N`, character `ε` and a prime `p`: if `p ∤ N`, the
-  subspace of `S_{k+2}(Γ₁(N) ∩ Γ₀(p), ε)` on which every `T_ℓ, ℓ ∤ Np`, acts by `a_ℓ(f)` is spanned by `f(z)`
-  and `f(pz)`; if `p | N, U_p f = a_p(f)f`; at the primitive level `N`, the fixed-character eigenspace with
-  the eigenvalues of `f` away from `N` lies in the newspace; the Hecke eigenvalues are algebraic integers.
-- Layers 0 and 5: the Eisenstein series of weight `k + 2` with character, their q-expansions by twisted
-  divisor sums and the cusp–Eisenstein decomposition (Layer 0), and the characterisation of normalised
-  eigenforms by their coefficients (Layer 5, Diamond–Shurman Proposition 5.8.5), which together give
-  the good Hecke eigenvalues `ψ(ℓ) + φ(ℓ)ℓ^{k+1}` of the Eisenstein eigenforms of level `M, ψ` and `φ`
-  Dirichlet characters of modulus dividing `M`; strong multiplicity one (Layer 5).
-- Layer 10C: for torsion-free finite-index `Γ ≤ SL₂(ℤ)` and `μ = [PSL₂(ℤ) : Γ̄]`,
-  `dim S_{k+2}(Γ) = (k + 1)μ/12 − c_k/2 + δ_{k,0}`, where `c_k` counts all cusps for even `k` and the regular
-  cusps for odd `k`; and the full-level genera `g(X(3)) = 0, g(X(6)) = 1`.
-
-### From TauCetiRoadmap.LocallyAnalyticDistributions
-
-§0.1 (Discs, locally analytic functions and their distributions): analytic functions on a closed disc `B(a, r)` with Gauss norm and the maximum
-principle on `ℂ_p`-points, the stages of locally analytic functions and their inductive limit `LA(ℤ_p, L)`, the distributions `D(ℤ_p, L)` with their
-Fréchet structure; §0.3 (Compact restriction to a smaller radius) supplies the finite-chart
-restriction comparison using CompactOperators §0.3. The nonarchimedean inductive and projective locally convex limits are
-§0.0 (Nonarchimedean topology, exact categories and completed tensors). §2.1 (Functions of class `C^r` and distributions of order `r`): Distributions of order `r` (admissible distributions), that is `D_r(ℤ_p, L)` with its Amice-transform growth criterion, which is
-Pollack–Stevens' `h`-admissibility, order zero equals bounded measures, and §2.3 (Uniqueness, the critical case and ray-class adapters), the Amice–Vélu–Višik
-theorem: two distributions of order `r` agreeing on locally polynomial functions of degree `≤ N` coincide
-when `r < N + 1`, and `d^{N+1}δ₀` shows the threshold is sharp. §4.1 (Banach modules, complete continuity and orthonormalizable modules), §4.2 (Fredholm determinants),
-§§4.7–4.8 (root projectors and finite projective root kernels), and §4.16 (Banach complexes and
-finite-slope decompositions): complete continuity over a field, Fredholm series, Riesz projectors,
-finite projective slope summands and uniqueness of `h`-slope decompositions.
-§4.15 (Universal-character coefficient action; Cocycle law and handedness) supplies the generic
-analytic stages, multipliers, transposes and compactness comparisons; §2.2 here identifies its
-left action of `Σ₀(p)ᵒᵖ` with the right modular-symbol coefficient action.
-
-### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
-
-Layer 0 (§§0.1–0.2): bounded measures `D(X, L) = C⁰(X, L)′` on `X = ℤ_p^×` and on `ℤ_{p,M}^× = lim (ℤ/p^nM)^×`, §1.7 (Comparison with the completed group algebra) and §4.5 (The Iwasawa coordinate and the initial Fitting ideal): the identification of
-`𝒪`-valued measures with `𝒪⟦ℤ_p^×⟧` and with bounded power series on each branch of the character space,
-§3a.1 (The character space of `ℤ_pˣ` and its functions): the decomposition of characters at odd `p` (torsion `μ_{p−1}`) and at `p = 2` (torsion `μ₂, γ ∈ 1 + 4ℤ₂`),
-and §4.2 (Structure of finitely generated `Λ`-modules): the invariants of a nonzero Iwasawa function.
-
-### From ModularCurvesPartII
-
-Sections 14.1–14.4a supply the symmetric-power local systems on a neat fine `GL₂/ℚ` level,
-the support map and its parabolic image, the finite-coefficient Betti–étale comparison
-and its adic and characteristic-zero scalar extensions, on all geometric components.
-Section 14.8 supplies the coefficient pullback/trace along modular isogenies and §14.11
-the pairing with the dual local system, its adjoint Hecke action and its Tate twist.
-Section 14.12 identifies the homological modular-symbol module with relative homology
-of a truncated surface and its boundary, with the stated torsion, saturation and
-coefficient-dual hypotheses. Section 0.6 here builds the Hom-side adapter and the exact
-adjugate-polynomial dictionary; the parabolic projector of §0.8 uses that adapter.
-The higher-weight integral perfectness statements are used only where `k!` is invertible;
-the rational comparison in §0.8 is over `ℚ` and `ℚ_p`.
-
-### From the arithmetic and period roadmaps
-
-AlgebraicModularFormsAndSerreWeights R15.5A.2 (Classical eigenforms of weight at least two)
-supplies the actual representation attached to `f`, its good-prime characteristic
-polynomials, coefficient embedding and stable lattice. ArithmeticGaloisRepresentations
-§7.2 (Adjoint, trace pairing and Schur's lemma) supplies `ad ρ_f = End(ρ_f)` with the conjugation action; its trace-zero
-subrepresentation is not substituted for this carrier. SelmerIwasawaCohomology §§2.1–2.2
-supply a global Selmer kernel for specified local subspaces of continuous `H¹`.
-PadicPeriodRings §1.5 supplies `B_dR` with its continuous local Galois action.
-Section 3.0 specifies the unramified local conditions away from `p` and the de Rham kernel
-at `p` and applies that Selmer kernel to `ad ρ_f`. It does not reconstruct a modular Galois
-representation, adjoint or period ring. The good-`p` crystalline comparison, Artinian-family
-period theorem and CM adjoint-Selmer vanishing needed in §3.0 are targets there.
-
-### Direct roadmap prerequisites
-
-Each row records a direct supplier; the section numbers specify the input used here.
-The local Hom-side adapters and the finite-slope critical constructions remain targets of this roadmap.
-
-| Supplier | Exact input | Location | Used in |
-| --- | --- | --- | --- |
-| Supplied by ModularForms | Layers 0, 4–5, 7–8, 8G and 10C: eigenforms, homological symbols, periods, L-series and dimensions | main, TauCetiRoadmap/ModularForms | Layers 0–4 |
-| Supplied by FuchsianOrbifolds | Layers 2–4: finite fundamental polygons, cusp collars and quotient surfaces | main, TauCetiRoadmap/FuchsianOrbifolds | §0.6 |
-| Supplied by AlgebraicTopology | Stages 2, 4 and 6: relative cellular chains, local coefficients and oriented manifold duality | main, TauCetiRoadmap/AlgebraicTopology | §§0.6, 2.3 |
-| Supplied by PadicMeasuresIwasawaAlgebras | §§0.1–0.2, 1.7, 3a.1, 4.2 and 4.5: measures, completed group algebras, character branches and Iwasawa invariants | main, TauCetiRoadmap/PadicMeasuresIwasawaAlgebras | §§2.5, 4.1–4.4 |
-| Supplied by ClassFieldTheory | Layers 6–7 and 11: local and global reciprocity | main, TauCetiRoadmap/ClassFieldTheory | §3.0, CM adjoint-Selmer vanishing |
-| Supplied by IntegralHeckeAndGaloisDeterminants | §§0.5, 1.3 and 1.5: trace/determinant comparison, henselian reconstruction and coefficient descent | roadmap in this series | §3.0, Galois adapter |
-| Supplied by ArithmeticGaloisRepresentations | §7.2: full endomorphism adjoint, trace pairing and Schur's lemma | roadmap in this series | §3.0, Galois adapter and decency |
-| Supplied by ArithmeticGaloisDuality | §§R02.2.1–R02.2.2: inflation–restriction; D7, Local duality over finite and local coefficient fields: Tate pairings and Euler characteristic | roadmap in this series | §3.0, refined deformation tangent space and CM vanishing |
-| Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory | §§R07.P2–R07.P5 and R07.P7.1–R07.P7.5: period structures, realization comparisons and labelled Sen theory | roadmap in this series | §3.0, Galois adapter and CM finite/de Rham comparison |
-| Supplied by SelmerIwasawaCohomology | §§2.1–2.2 and 4.9: Selmer data, rational kernel and Bloch–Kato finite conditions | roadmap in this series | §3.0, decency and CM vanishing |
-| Supplied by ArithmeticLocallySymmetricSpaces | §ALS.3.1: Hecke action on derived invariants | roadmap in this series | §0.4, cohomological Hecke adapter |
-| Supplied by LocallyAnalyticDistributions | §§0.0–0.3, Layer 1, §§2.1, 2.3, 3.3 and 4.1–4.2, 4.7–4.8, 4.15–4.16: analytic coefficients, admissibility, Mellin transform and finite-slope families | roadmap in this series | Layers 2–4 |
-| Supplied by ModularCurvesPartII | §§14.1–14.4a, 14.8, 14.11–14.12: geometric coefficients, Betti–étale and symbol comparisons, Hecke and pairings; §§7.1, 9.1–9.3 and 11.1: ordinary modular geometry | roadmap in this series | §§0.6, 0.8 and 3.0 |
-| Supplied by LocalGaloisDeformationRings | §§F.1.1–F.1.10 and 1.15: deformation functors and characteristic-zero Artinian coefficients | roadmap in this series | §3.0, refined deformation functor |
-| Supplied by AutomorphicLFunctionsAndLocalFactors | AL.5, Complex period and stabilization dictionary; The ordinary `GL₂` interpolation factor | roadmap in this series | §§1.3 and 4.1 |
-| Supplied by AlgebraicModularFormsAndSerreWeights | R15.5A.2: classical higher-weight Galois attachment with coefficient field and stable lattice | roadmap in this series | §3.0, Galois adapter and decency |
-| Supplied by PadicPeriodRings | §§1.5, 3 and 4.1–4.3: topological period rings, crystalline structures and invariant functors | roadmap in this series | §3.0, crystalline periods and de Rham kernel |
-
-## How to read the build
-
-Layer 0 turns the divisor presentation into equivariant `Hom` spaces, defines the Eisenstein subspace by
-restriction of boundary symbols and the parabolic quotient by the connecting cocycle, builds every
-operator with one coefficient convention, proves Eichler–Shimura and the multiplicity one of signed
-newform eigenspaces, and ends with the rational Drinfeld–Manin splitting. Layer 1 chooses bases of
-the signed eigenlines, saturates them integrally, and computes the twisted critical values; it also
-`p`-stabilises a newform and fixes the dictionary between the interpolation formulas in the literature.
-Layer 2 builds the distribution modules and their weight-`k` action, lifts classical symbols, proves
-the control theorem below slope `k + 1` and constructs the p-adic L-function with its interpolation
-and uniqueness. Layer 3 treats slope exactly `k + 1`, where interpolation no longer determines the
-distribution. Layer 4 adds tame twists, the supersingular theory at `a_p = 0`, Euler depletion and
-coefficient transport, and the examples of level 11. Each layer opens with its hypotheses; a target
-is a bold-titled paragraph with its statement, API, source locator, *Needs:* (earlier targets,
-library declarations and supplier layers) and, where present, *Lean:*. The Checks of a definition or
-construction are the bullets under it. Each layer ends with examples and its dependencies.
 
 ## Layer 0: Hom-side modular symbols, Hecke operators and the Eichler–Shimura isomorphism
 
@@ -2721,6 +2438,296 @@ EllipticCurveModularityPartII (the pairing with the homological symbols, the Eic
 the rational Drinfeld–Manin splitting and the integral period lattices of §§0.6–0.8 and §1.1), and
 the Drinfeld–Manin projector of §0.8 for the parabolic zeta morphisms of Nakamura's rank-two universal
 deformations.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- Manin's presentation `Δ₀ ≅ ℤ[PSL₂(ℤ)]/I` and the Hom-side modular symbols `Symb_Γ(V)` for every
+  finite-index `Γ ≤ SL₂(ℤ)` and every coefficient module, with their presentations (coset values, the
+  fundamental-domain presentation over `ℤ[Γ]` and its generators), flat base change,
+  boundary symbols, Eisenstein symbols, the connecting map to `H¹(Γ, V)`, parabolic cohomology, the
+  integral boundary exact sequence and descent along normal subgroups;
+- the operators on Hom-side symbols: the monoid `Σ₀(N)`, the Hecke operators `T_ℓ` and `U_q` at levels
+  `Γ₀(N)` and `Γ₁(N)`, the diamond operators, the involution `ι = diag(−1, 1)` and the sign decomposition,
+  symbols with character and the character decomposition;
+- the duality between Hom-side symbols and the homological module `𝕄` of ModularForms Layer 8, the
+  invariant pairing between `V_k` and `Sym^k`, the period symbol `ψ_f`, the dimension of parabolic
+  cohomology for torsion-free `Γ`, Petersson detection of period cocycles, the cohomological
+  Eichler–Shimura isomorphism, the separation of cuspidal from Eisenstein good-Hecke eigensystems and
+  the one-dimensionality of signed newform eigenspaces;
+- the rational spectral separation of parabolic and boundary Hecke supports at full level `Γ(N)` and
+  the rational Drinfeld–Manin retraction `H¹(Γ(N), V_k(ℚ)) → H¹_par(Γ(N), V_k(ℚ))`;
+- signed period lines, saturated integral period lattices, the twisted Mellin formula, algebraicity
+  of critical values, the `p`-stabilised L-function comparison and the dictionary between the
+  interpolation normalisations in the literature;
+- `p`-stabilisations, refinements and refined eigenlines; the radius-indexed spaces of analytic
+  functions and distributions on `ℤ_p` in Pollack–Stevens' normalisation with the weight-`k` action of
+  `Σ₀(p)`; specialisation; overconvergent lifting; the slope decomposition of the fibre of
+  specialisation; Stevens' control theorem; admissibility of eigensymbol values; the p-adic
+  L-function of a small-slope refinement with interpolation and uniqueness; the integral ordinary
+  measure;
+- the single-form critical-slope theory: the non-`θ`-critical L-function, its interpolation, the
+  failure of uniqueness, the `θ`-critical comparison, the family comparison principle, the
+  eigensymbols at the critical refinement of `E_{2,ℓ}` and the critical-slope examples of Pollack–Stevens;
+- tame twists, the identification of the supplied two Euler factors at `p`, both refinements at a
+  supersingular prime and their zeros, Pollack's half-logarithms, the `±` decomposition at `a_p = 0`, coefficient embeddings,
+  Euler depletion, the exclusion of a zero `U_p`-eigenvalue, and the level-11 examples.
+
+It leaves to other roadmaps, and cites:
+
+- **Tau Ceti's ModularForms roadmap.** Layer 0 (Eisenstein series with character, their
+  q-expansions and the cusp–Eisenstein decomposition), Layer 4 (newforms, primitive forms, old and new
+  spaces, the bad-prime `U_p`-eigenvalue), Layer 5 (strong multiplicity one and the characterisation of
+  normalised eigenforms by their coefficients), Layer 7 (`L(f, s)`, twisted L-series, the Mellin
+  transform and the entire extension of L-functions of cusp forms), Layer 8 (`Div⁰(P¹(ℚ))` with its
+  `GL₂⁺(ℚ)`-action, its generation by unimodular divisors and the two- and three-term Manin relations,
+  the homological symbol module `𝕄 = (Div⁰ ⊗ Sym^{k})_{Γ₁(N)}` with its Hecke operators, the period map
+  and its injectivity), Layer 8G (the coefficient field,
+  Galois stability and the conjugate newform `f^σ`) and Layer 10C (the dimension formulas, with the
+  regular/irregular cusp distinction in odd weight). Layer 8 deliberately builds `𝕄` homologically and
+  keeps group cohomology out; this roadmap is where group cohomology, parabolic cohomology and the
+  Eichler–Shimura isomorphism enter. Layer 8 presents `𝕄` through Manin symbols but states neither the
+  full kernel of Manin's map `ℤ[PSL₂(ℤ)] → Div⁰` nor the fundamental-domain presentation of `Div⁰` over `ℤ[Γ]`
+  for general `Γ`, and Layer 5 does not separate cuspidal from Eisenstein eigensystems; these are
+  targets of §0.2 and §0.7 here. In the pinned Tau Ceti library the following
+  Layer-8 material already exists and is imported, never rebuilt here:
+  `TauCeti.ModularSymbols.degreeZero`, `divisorRep`, `degreeZeroGLRep`, `degreeZeroRep` and
+  `degreeZero_eq_span_unimodular` (the divisor modules, their actions and their generation by
+  unimodular divisors), `TauCeti.ModularSymbols` (the homological module, with `symbol`,
+  `maninSymbol`, `span_maninSymbol_eq_top` and the Manin relations `maninSymbol_mul_S` and
+  `maninSymbol_add_mul_T_mul_S_add_mul_T_mul_S_sq`), `heckeSymbol` and
+  `heckeTSymbol` (Hecke operators on `𝕄`), `rawPairing`, `periodMap` and `periodMap_injective`, and
+  the binary-form actions `TauCeti.binaryFormRep` `(P ↦ P(aX + bY, cX + dY))`,
+  `TauCeti.binaryFormAdjugateRep`, `TauCeti.binaryFormDual` and `TauCeti.linearFormPow`
+  (`TauCeti/NumberTheory/ModularForms/{ModularSymbols,BinaryForms}`), together with
+  `TauCeti.cuspIntegral` and `Matrix.GeneralLinearGroup.geodesicIntegral` (integrals between cusps).
+  The level-one period polynomials `TauCeti.periodPolynomial` with `periodPolynomial_injective`
+  are the level-one homological counterpart of the period symbol of §0.7 and are cited as such.
+  ModularForms Layer 11 states the level-one isomorphism `M_{k+2} ⊕ S_{k+2} ≅ W_k` onto the space `W_k` of
+  period polynomials of degree `k` (Convention 1) by a dimension count (pinned Tau Ceti
+  `periodPolynomials` and `finrank_periodPolynomials_eq_finrank_modularForm_add_finrank_cuspForm`); the
+  Eichler–Shimura isomorphism of §0.7 differs from it in being cohomological (`S ⊕ S̄ ≅ H¹_par`, with the
+  conjugate summand) and in holding for every finite-index `Γ` with its Hecke, diamond and sign actions.
+- **LocallyAnalyticDistributions.** Layer 0 (closed-disc analytic functions, the stages of locally
+  analytic functions on `ℤ_p`, locally analytic functions and distributions `D(ℤ_p)`, inductive and projective
+  locally convex limits, compact restriction to a smaller radius), Layer 2 (distributions of order `r`,
+  that is `h`-admissible distributions, with the Amice–Vélu–Višik extension and uniqueness theorem and
+  its strict threshold), and Layer 4 (complete continuity, Fredholm series, Riesz projectors and
+  slope decompositions).
+- **PadicMeasuresIwasawaAlgebras.** Bounded measures on `ℤ_p^×` and on `ℤ_{p,M}^×`, the Iwasawa algebra
+  `𝒪⟦ℤ_p^×⟧` and its identification with bounded power series on each branch, and the `μ`- and
+  `λ`-invariants of an Iwasawa function.
+- **ModularCurvesPartII**, §§14.1–14.4a (geometric coefficient systems, parabolic
+  images and finite/adic Betti–étale comparison), §14.8 (Hecke operators with relative
+  coefficients), §14.11 (the pairing with its coefficient dual and Tate twist) and §14.12
+  (the homological modular-symbol/geodesic comparison). Its full symbol module is relative
+  homology with the dual coefficient system; the Hom-side compact-support comparison is
+  the adapter of §0.6 here.
+- **AlgebraicModularFormsAndSerreWeights**, R15.5A.2 (Classical eigenforms of weight at least
+  two), for the representation attached to `f` in the decency condition of §3.0;
+  **ArithmeticGaloisRepresentations**, §7.2 (Adjoint, trace pairing and Schur's lemma), for its full endomorphism
+  representation; **SelmerIwasawaCohomology**, §§2.1–2.2 (Selmer data and kernel), and
+  **PadicPeriodRings**, §1.5 (The topological de Rham period rings), for that condition's
+  unramified and de Rham local kernels.
+
+AutomorphicLFunctionsAndLocalFactors AL.5 supplies the complex stabilisation coefficients,
+their `U_p` recurrence and L-series identity, and the refined `GL₂` interpolation factor and its
+ramified and unramified specialisations. ArithmeticLocallySymmetricSpaces §ALS.3.1 supplies
+the derived Hecke action used by the cohomological adapter of §0.4.
+
+Global ordinary and Coleman–Mazur families belong to PadicFamilies. The local
+finite-slope eigensymbol charts needed for critical specialisation are §3.0 here.
+Kato's Euler system and explicit reciprocity law belong to KatoEulerSystems.
+P-adic Birch–Swinnerton-Dyer and Sprung's sharp/flat decomposition at supersingular
+primes with `a_p ≠ 0` are outside this roadmap's scope.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+In the pinned Mathlib, each with exactly its stated hypotheses:
+`OnePoint` (`P¹(ℚ)` as `OnePoint ℚ`) and the `GL₂`-action of
+`Mathlib/Topology/Compactification/OnePoint/ProjectiveLine.lean`; `Matrix.SpecialLinearGroup`,
+`Matrix.SpecialLinearGroup.map`, `Matrix.SpecialLinearGroup.toGL`, `Matrix.SpecialLinearGroup.mapGL`,
+`Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.mkOfDetNeZero`,
+`Matrix.adjugate`, `Matrix.adjugate_mul`; `CongruenceSubgroup.Gamma0`, `CongruenceSubgroup.Gamma1`,
+`CongruenceSubgroup.Gamma`, `CongruenceSubgroup.Gamma0Map`; `Submonoid`, `AddSubgroup`;
+`MonoidAlgebra`, `MonoidAlgebra.basis` and `MonoidAlgebra.mapDomainRingHom`; `Module.Free`, `Module.Flat`,
+`Module.FinitePresentation`; `MvPolynomial.homogeneousSubmodule` and `MvPolynomial.aeval`;
+`Representation`, `Representation.ofMulAction`, `Representation.linHom`,
+`Representation.Coinvariants`, `Rep.ofMulAction`, `Rep.coind`, `Rep.coinvariantsAdjunction`,
+`Rep.coinvariantsTensor`; `groupCohomology` with `groupCohomology.resNatTrans`,
+`groupCohomology.H1InfRes_exact` (exactness of the first three inflation–restriction terms only)
+and `groupCohomology.coindIso` (Shapiro); `CuspForm` and `UpperHalfPlane`;
+`CuspFormClass.qExpansion_isBigO` (Hecke's bound `O(n^{w/2})` for the coefficients of a cusp form of weight
+`w`); `ModularForm.L` (the
+L-function of a modular form on an arithmetic subgroup of `GL₂(ℝ)`, entire for cusp forms, with
+`CuspForm.Λ_eq_mellin`) and `mellin`; `Algebra.adjoin`,
+`IsCoprime`, `LinearMap.aeval_self_charpoly` (Cayley–Hamilton), `Submodule.projectionOnto`,
+`LinearMap.isCompl_of_proj`; `Nat.exists_prime_gt_modEq_one` (primes `ℓ ≡ 1 mod N` beyond any bound);
+`PowerSeries.binomialSeries`; `PadicInt` and `PadicInt.toZModPow`; `Polynomial.cyclotomic`.
+
+### From Tau Ceti
+
+In the pinned Tau Ceti library:
+`TauCeti.augmentationSubrepresentation` with `TauCeti.toSubmodule_augmentationSubrepresentation` and
+`TauCeti.single_sub_single_mem_augmentationSubrepresentation` (the degree-zero subrepresentation of a
+permutation representation, from which the pinned library builds `degreeZero`);
+`HeckeRing.GL2.commSemiringHeckeRingGamma0` (commutativity of the `Γ₀(N)` Hecke ring, `N ≠ 0`);
+`HeckeRing.GL2.diamondCosetGamma1` (the `Γ₁(N)` double coset of an element of `Γ₀(N)`);
+`HeckeRing.GLn.intEntries` and `HeckeRing.GLn.intMatrix` (the integral-entry submonoid of `GLₙ(ℚ)` and
+its underlying integral matrix); `HeckeCoset.heckeSum` with `heckeSum_eq_sum_of_rightCosets` and
+`heckeSum_comp_of_mem` (for a `Γ₁`-invariant map, the sum is independent of right-coset representatives
+and is `Γ₂`-invariant); `diamondOp`
+(lower-right convention), `cuspFormCharSpace` and `isInternal_cuspFormCharSpace` (the nebentypus
+decomposition of `S_k(Γ₁(N))`); `CuspForm.peterssonInnerCosets_definite` (positive definiteness of the
+Petersson product for finite-index `Γ`); `HeckeRing.GL2.Newform` and
+`HeckeRing.GL2.finrank_cuspFormsNewEigenspace_eq_one` (dimension one of a newspace eigenspace
+containing a nonzero form of the given character); `TauCeti.CoefficientField` (the field generated over `ℚ`
+by the coefficients `a_n(f), n ≥ 1`, of a newform) with `TauCeti.char_mem_CoefficientField` (it contains
+the values of the nebentypus); `CuspForm.twist` (for `Φ : ℤ/m → ℂ`, the twist of a cusp form on `Γ₁(N)`
+with coefficients `Φ(n)a_n`, a cusp form on `Γ₁(L)` whenever `Nm | L` and `m² | L`) and
+`TauCeti.cuspIntegral_mul_pow_zero_infty_eq_L` (`∫_0^{i∞} f(z)z^jdz = j!/(−2πi)^{j+1}·L(f, j + 1)` for a cusp
+form of positive weight on an arithmetic subgroup); `TauCeti.CuspForm.levelRaise` (`V_d f(z) = f(dz)`,
+no determinant factor) and `TauCeti.CuspForm.qExpansion_levelRaise`;
+`HeckeRing.GL2.heckeTCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul` (for `p ∤ N`,
+`T_p F = cF` iff `a_{pm} = c·a_m − χ(p)p^{w−1}a_{m/p}`, in weight `w`) and
+`HeckeRing.GL2.heckeUCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul` (for `p | N`,
+`U_p F = cF` iff `a_{pm} = c·a_m`). The Layer-8 declarations listed under Scope and ownership are supplied at this same pin.
+
+The monoid `Σ₀(N)` is the integral-matrix form of the submonoid of `intEntries 2` with upper-left entry
+a unit modulo `N` and lower-left entry divisible by `N`. On nonsingular integral matrices,
+the map to `GL₂(ℚ)` is inverse to `intMatrix 2`; its extension at singular matrices is not such an inverse.
+The operators `T_ℓ` and `U_q` on symbols are Hom-side Hecke sums with coefficient twist `act δ` and fixed
+upper-triangular representatives. On dual coefficients, §0.6 identifies them with the transpose of
+`heckeSum` on the tensor module, with its specified coefficient action.
+
+### Supplier replacements
+
+The cusps are Mathlib's `OnePoint ℚ`; the integral divisor carrier is
+`TauCeti.ModularSymbols.degreeZero ℤ`, with its `degreeZeroGLRep ℤ` action and
+`single_sub_single_mem_degreeZero`. The restriction to `SL₂(ℤ)` is the supplied `degreeZeroRep`,
+and the embedding into `GL₂(ℚ)` is Mathlib's `Matrix.SpecialLinearGroup.mapGL ℚ`.
+The polynomial carrier is Mathlib's `MvPolynomial.homogeneousSubmodule (Fin 2) R k`.
+These are used directly, with no local aliases. Bounded moment sequences use
+Mathlib's `Bornology.IsBounded (Set.range c)`, with `isBounded_iff_forall_norm_le` supplying
+the equivalent uniform norm bound; no second boundedness predicate is introduced. The oriented
+cusp-divisor map of §0.2 fixes the order `{b} − {a}`, and the coefficient action of §0.1 uses
+row-adjugate substitution on the ambient polynomial algebra; neither introduces a second divisor
+or homogeneous-polynomial carrier. The factors
+`Φ_n` are Mathlib's `Polynomial.cyclotomic (p ^ n) ℤ`, with
+`Polynomial.cyclotomic_prime_pow_eq_geom_sum` and
+`Polynomial.eval_one_cyclotomic_prime_pow`; their geometric-sum and value-at-one
+identities are consumed directly.
+
+Finite-index corestriction is `TauCeti.groupCohomology.corestriction`, supplied by
+`TauCeti/RepresentationTheory/Homological/GroupCohomology/Corestriction.lean`, with
+`map_subtype_id_comp_corestriction` `(cor ∘ res = [Γ : Γ′])` and `corestriction_trans`.
+The descent target of §0.4 adds the conjugation-sum identity and its cusp compatibility to this
+existing transfer; it does not construct another transfer.
+
+### From TauCetiRoadmap.ModularForms
+
+- Layer 8: `Div⁰(P¹(ℚ))` as a left `ℤ[GL₂⁺(ℚ)]`-module generated by the `{b} − {a}`, with
+  `0 → Div⁰ → ℤ[P¹(ℚ)] → ℤ → 0`; its generation by the unimodular divisors `{g0} − {g∞}, g ∈ SL₂(ℤ)`, and
+  the two- and three-term Manin relations (pinned Tau Ceti `degreeZero_eq_span_unimodular`,
+  `span_maninSymbol_eq_top`, `maninSymbol_mul_S`, `maninSymbol_add_mul_T_mul_S_add_mul_T_mul_S_sq`);
+  the homological module `𝕄` with its Hecke and diamond operators; the period map
+  `S_{k+2}(Γ₁(N)) → Hom_ℤ(𝕄, ℂ)` with its convergence, invariance, Hecke equivariance and injectivity.
+- Layer 8G: the coefficient field `K_f = ℚ(a_n(f))`, the character field inside it, and for a field
+  embedding `σ` the conjugate newform `f^σ` with `a_n(f^σ) = σ(a_n(f))`.
+- Layer 7: `L(f, s)` and `L(f, χ, s) = Σ χ(n)a_n n^{−s}` for cusp forms of weight `k + 2`, the Mellin
+  identity `∫_0^∞ g(iy)y^{s−1}dy = Γ(s)(2π)^{−s}L(g, s)` and the entire extension for cusp forms `g`.
+- Layer 4: for a newform `f` of weight `k + 2`, level `N`, character `ε` and a prime `p`: if `p ∤ N`, the
+  subspace of `S_{k+2}(Γ₁(N) ∩ Γ₀(p), ε)` on which every `T_ℓ, ℓ ∤ Np`, acts by `a_ℓ(f)` is spanned by `f(z)`
+  and `f(pz)`; if `p | N, U_p f = a_p(f)f`; at the primitive level `N`, the fixed-character eigenspace with
+  the eigenvalues of `f` away from `N` lies in the newspace; the Hecke eigenvalues are algebraic integers.
+- Layers 0 and 5: the Eisenstein series of weight `k + 2` with character, their q-expansions by twisted
+  divisor sums and the cusp–Eisenstein decomposition (Layer 0), and the characterisation of normalised
+  eigenforms by their coefficients (Layer 5, Diamond–Shurman Proposition 5.8.5), which together give
+  the good Hecke eigenvalues `ψ(ℓ) + φ(ℓ)ℓ^{k+1}` of the Eisenstein eigenforms of level `M, ψ` and `φ`
+  Dirichlet characters of modulus dividing `M`; strong multiplicity one (Layer 5).
+- Layer 10C: for torsion-free finite-index `Γ ≤ SL₂(ℤ)` and `μ = [PSL₂(ℤ) : Γ̄]`,
+  `dim S_{k+2}(Γ) = (k + 1)μ/12 − c_k/2 + δ_{k,0}`, where `c_k` counts all cusps for even `k` and the regular
+  cusps for odd `k`; and the full-level genera `g(X(3)) = 0, g(X(6)) = 1`.
+
+### From TauCetiRoadmap.LocallyAnalyticDistributions
+
+§0.1 (Discs, locally analytic functions and their distributions): analytic functions on a closed disc `B(a, r)` with Gauss norm and the maximum
+principle on `ℂ_p`-points, the stages of locally analytic functions and their inductive limit `LA(ℤ_p, L)`, the distributions `D(ℤ_p, L)` with their
+Fréchet structure; §0.3 (Compact restriction to a smaller radius) supplies the finite-chart
+restriction comparison using CompactOperators §0.3. The nonarchimedean inductive and projective locally convex limits are
+§0.0 (Nonarchimedean topology, exact categories and completed tensors). §2.1 (Functions of class `C^r` and distributions of order `r`): Distributions of order `r` (admissible distributions), that is `D_r(ℤ_p, L)` with its Amice-transform growth criterion, which is
+Pollack–Stevens' `h`-admissibility, order zero equals bounded measures, and §2.3 (Uniqueness, the critical case and ray-class adapters), the Amice–Vélu–Višik
+theorem: two distributions of order `r` agreeing on locally polynomial functions of degree `≤ N` coincide
+when `r < N + 1`, and `d^{N+1}δ₀` shows the threshold is sharp. §4.1 (Banach modules, complete continuity and orthonormalizable modules), §4.2 (Fredholm determinants),
+§§4.7–4.8 (root projectors and finite projective root kernels), and §4.16 (Banach complexes and
+finite-slope decompositions): complete continuity over a field, Fredholm series, Riesz projectors,
+finite projective slope summands and uniqueness of `h`-slope decompositions.
+§4.15 (Universal-character coefficient action; Cocycle law and handedness) supplies the generic
+analytic stages, multipliers, transposes and compactness comparisons; §2.2 here identifies its
+left action of `Σ₀(p)ᵒᵖ` with the right modular-symbol coefficient action.
+
+### From TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
+
+Layer 0 (§§0.1–0.2): bounded measures `D(X, L) = C⁰(X, L)′` on `X = ℤ_p^×` and on `ℤ_{p,M}^× = lim (ℤ/p^nM)^×`, §1.7 (Comparison with the completed group algebra) and §4.5 (The Iwasawa coordinate and the initial Fitting ideal): the identification of
+`𝒪`-valued measures with `𝒪⟦ℤ_p^×⟧` and with bounded power series on each branch of the character space,
+§3a.1 (The character space of `ℤ_pˣ` and its functions): the decomposition of characters at odd `p` (torsion `μ_{p−1}`) and at `p = 2` (torsion `μ₂, γ ∈ 1 + 4ℤ₂`),
+and §4.2 (Structure of finitely generated `Λ`-modules): the invariants of a nonzero Iwasawa function.
+
+### From ModularCurvesPartII
+
+Sections 14.1–14.4a supply the symmetric-power local systems on a neat fine `GL₂/ℚ` level,
+the support map and its parabolic image, the finite-coefficient Betti–étale comparison
+and its adic and characteristic-zero scalar extensions, on all geometric components.
+Section 14.8 supplies the coefficient pullback/trace along modular isogenies and §14.11
+the pairing with the dual local system, its adjoint Hecke action and its Tate twist.
+Section 14.12 identifies the homological modular-symbol module with relative homology
+of a truncated surface and its boundary, with the stated torsion, saturation and
+coefficient-dual hypotheses. Section 0.6 here builds the Hom-side adapter and the exact
+adjugate-polynomial dictionary; the parabolic projector of §0.8 uses that adapter.
+The higher-weight integral perfectness statements are used only where `k!` is invertible;
+the rational comparison in §0.8 is over `ℚ` and `ℚ_p`.
+
+### From the arithmetic and period roadmaps
+
+AlgebraicModularFormsAndSerreWeights R15.5A.2 (Classical eigenforms of weight at least two)
+supplies the actual representation attached to `f`, its good-prime characteristic
+polynomials, coefficient embedding and stable lattice. ArithmeticGaloisRepresentations
+§7.2 (Adjoint, trace pairing and Schur's lemma) supplies `ad ρ_f = End(ρ_f)` with the conjugation action; its trace-zero
+subrepresentation is not substituted for this carrier. SelmerIwasawaCohomology §§2.1–2.2
+supply a global Selmer kernel for specified local subspaces of continuous `H¹`.
+PadicPeriodRings §1.5 supplies `B_dR` with its continuous local Galois action.
+Section 3.0 specifies the unramified local conditions away from `p` and the de Rham kernel
+at `p` and applies that Selmer kernel to `ad ρ_f`. It does not reconstruct a modular Galois
+representation, adjoint or period ring. The good-`p` crystalline comparison, Artinian-family
+period theorem and CM adjoint-Selmer vanishing needed in §3.0 are targets there.
+
+### Direct roadmap prerequisites
+
+Each row records a direct supplier; the section numbers specify the input used here.
+The local Hom-side adapters and the finite-slope critical constructions remain targets of this roadmap.
+
+| Supplier | Exact input | Location | Used in |
+| --- | --- | --- | --- |
+| Supplied by ModularForms | Layers 0, 4–5, 7–8, 8G and 10C: eigenforms, homological symbols, periods, L-series and dimensions | main, TauCetiRoadmap/ModularForms | Layers 0–4 |
+| Supplied by FuchsianOrbifolds | Layers 2–4: finite fundamental polygons, cusp collars and quotient surfaces | main, TauCetiRoadmap/FuchsianOrbifolds | §0.6 |
+| Supplied by AlgebraicTopology | Stages 2, 4 and 6: relative cellular chains, local coefficients and oriented manifold duality | main, TauCetiRoadmap/AlgebraicTopology | §§0.6, 2.3 |
+| Supplied by PadicMeasuresIwasawaAlgebras | §§0.1–0.2, 1.7, 3a.1, 4.2 and 4.5: measures, completed group algebras, character branches and Iwasawa invariants | main, TauCetiRoadmap/PadicMeasuresIwasawaAlgebras | §§2.5, 4.1–4.4 |
+| Supplied by ClassFieldTheory | Layers 6–7 and 11: local and global reciprocity | main, TauCetiRoadmap/ClassFieldTheory | §3.0, CM adjoint-Selmer vanishing |
+| Supplied by IntegralHeckeAndGaloisDeterminants | §§0.5, 1.3 and 1.5: trace/determinant comparison, henselian reconstruction and coefficient descent | roadmap in this series | §3.0, Galois adapter |
+| Supplied by ArithmeticGaloisRepresentations | §7.2: full endomorphism adjoint, trace pairing and Schur's lemma | roadmap in this series | §3.0, Galois adapter and decency |
+| Supplied by ArithmeticGaloisDuality | §§R02.2.1–R02.2.2: inflation–restriction; D7, Local duality over finite and local coefficient fields: Tate pairings and Euler characteristic | roadmap in this series | §3.0, refined deformation tangent space and CM vanishing |
+| Supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory | §§R07.P2–R07.P5 and R07.P7.1–R07.P7.5: period structures, realization comparisons and labelled Sen theory | roadmap in this series | §3.0, Galois adapter and CM finite/de Rham comparison |
+| Supplied by SelmerIwasawaCohomology | §§2.1–2.2 and 4.9: Selmer data, rational kernel and Bloch–Kato finite conditions | roadmap in this series | §3.0, decency and CM vanishing |
+| Supplied by ArithmeticLocallySymmetricSpaces | §ALS.3.1: Hecke action on derived invariants | roadmap in this series | §0.4, cohomological Hecke adapter |
+| Supplied by LocallyAnalyticDistributions | §§0.0–0.3, Layer 1, §§2.1, 2.3, 3.3 and 4.1–4.2, 4.7–4.8, 4.15–4.16: analytic coefficients, admissibility, Mellin transform and finite-slope families | roadmap in this series | Layers 2–4 |
+| Supplied by ModularCurvesPartII | §§14.1–14.4a, 14.8, 14.11–14.12: geometric coefficients, Betti–étale and symbol comparisons, Hecke and pairings; §§7.1, 9.1–9.3 and 11.1: ordinary modular geometry | roadmap in this series | §§0.6, 0.8 and 3.0 |
+| Supplied by LocalGaloisDeformationRings | §§F.1.1–F.1.10 and 1.15: deformation functors and characteristic-zero Artinian coefficients | roadmap in this series | §3.0, refined deformation functor |
+| Supplied by AutomorphicLFunctionsAndLocalFactors | AL.5, Complex period and stabilization dictionary; The ordinary `GL₂` interpolation factor | roadmap in this series | §§1.3 and 4.1 |
+| Supplied by AlgebraicModularFormsAndSerreWeights | R15.5A.2: classical higher-weight Galois attachment with coefficient field and stable lattice | roadmap in this series | §3.0, Galois adapter and decency |
+| Supplied by PadicPeriodRings | §§1.5, 3 and 4.1–4.3: topological period rings, crystalline structures and invariant functors | roadmap in this series | §3.0, crystalline periods and de Rham kernel |
 
 ## References
 

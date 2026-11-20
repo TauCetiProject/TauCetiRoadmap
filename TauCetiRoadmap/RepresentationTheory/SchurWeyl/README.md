@@ -1,78 +1,76 @@
 # Roadmap: representations of the symmetric group, Specht modules, and Schur-Weyl duality
 
-**Summary.** Tau Ceti has the representation theory of the symmetric group up to the character
-table: the partition, diagram and class dictionary, dominance, standard tableaux, Young subgroups
-and permutation modules, Young symmetrizers, the Specht modules with their standard basis,
-irreducibility, absolute irreducibility, distinctness and completeness over `ℚ` and over `ℂ`, the
-hook-length formula, the integer-valued characters with both orthogonality relations, the finite
-Schur polynomials with Jacobi–Trudi, Pieri, the Kostka expansion and the finite-variable Frobenius
-characteristic, row insertion, the tensor-power actions of `Sₙ` and `GLₔ` with their mutual
-centralizers, the Schur functor, the Brauer diagram combinatorics and the orthogonal and symplectic
-cup, cap and crossing operators. This roadmap builds what joins these into the full theory: the
-Specht sign-transpose intertwiner `S^λ ⊗ sgn ≅ S^(λᵗ)` and Specht self-duality (Layer 4); skew
-tableaux, jeu de taquin, the Littlewood–Richardson rule, the finite Frobenius formulas, the
-character-side Murnaghan–Nakayama rule, full RSK, the stable ring `Λ_R` of symmetric functions with its Hall form, `ω`, the stable
-Frobenius characteristic and its induction product, and the matrix form of Newton's identities
-(Layer 7); the simultaneous `Sₙ × GLₔ` decomposition of `(ℂᵈ)^(⊗n)` (Layer 8); and the Brauer
-algebra `B_k(δ)` with its actions on `V^(⊗k)` for the orthogonal and symplectic groups, the first
-fundamental theorem in every dimension, the harmonic tensors and their classification, the trace
-filtration, the multiplicity spaces and the semisimplicity criterion (Layer 9). The end theorems
-are `littlewoodRichardson`, `murnaghanNakayama`, `hallForm_frobeniusCharacteristic`,
-`schurWeylDecomposition`, `orthogonal_centralizer_eq_adjoin_brauerGenerators` and
-`harmonicTensors_decomposition`.
+**Summary.** The irreducible representations of the symmetric group `Sₙ` over `ℚ` or `ℂ` are indexed
+by the partitions λ of n. To each λ belongs a Specht module `S^λ`, and every irreducible
+representation is isomorphic to exactly one of them. Tau Ceti already has the Specht modules with
+this classification, the hook-length formula and the integer-valued characters. It also has the
+Schur polynomials `s_λ` in finitely many variables and the commuting actions of `Sₙ` and `GLₔ` on
+tensor powers. This roadmap proves the theorems that join them. The Specht modules are defined over
+`ℚ`; complex statements come by extending scalars.
 
-## Scope and ownership
+The first main theorem is Schur–Weyl duality. For all d and n, `(ℂᵈ)^(⊗n)` is isomorphic to the
+direct sum of `S^λ ⊗ 𝕊^λ(ℂᵈ)` over the partitions λ of n with at most d parts, where the Schur
+functor `𝕊^λ(ℂᵈ)` is the image of a Young symmetrizer in the tensor power. The isomorphism
+intertwines both actions: `Sₙ` acts on the Specht factors, `GLₔ` on the Schur functors. For d = n =
+2 it reads `(ℂ²)^(⊗2) ≅ S^((2)) ⊗ Sym²(ℂ²) ⊕ S^((1,1)) ⊗ ⋀²(ℂ²)`.
 
-This roadmap owns: the sign-transpose intertwiner `T_λ`, its scalar `κ_t`, the character identity
-`χ^(λᵗ) = sgn · χ^λ`, Specht self-duality through the tabloid form, and the induction and Kronecker
-transpose comparisons (Layer 4, §§4.1–4.4); the comparison of `κ_t` with `n!/f^λ` (Layer 5, §5.1);
-the transpose-sign identity on the symmetric character table (Layer 6, §6.1); skew tableaux and
-their conversions, jeu de taquin, Knuth equivalence, dual
-equivalence, the Littlewood–Richardson tableaux and rule, evacuation and full RSK, the
-finite Frobenius formulas and character-side Murnaghan–Nakayama rule, the Hall form on the finite
-symmetric polynomials and the isometry property of the native Frobenius characteristic, the stable ring `Λ_R` with its Hall form,
-`ω`, free generators, Hopf structure and rational power-sum presentation, the stable Frobenius
-characteristic with its induction product, and the matrix specialization of Newton's identities
-(Layer 7, §§7.1–7.9); the simultaneous equivariant decomposition of `(ℂᵈ)^(⊗n)` and its balanced
-tensor presentation and transpose comparisons (Layer 8, §§8.1–8.3); the Brauer algebra `B_k(δ)`
-with its loop rule, the
-orthogonal and symplectic Brauer actions, the first fundamental theorem on tensors and the reverse
-centralizer, the harmonic tensors and the shape spaces `E_λ`, the trace filtration and cup
-expansions, the multiplicity spaces and cell comparisons, and the three semisimplicity statements
-(Layer 9, §§9.1–9.9).
+The second is the Littlewood–Richardson rule `s_μ s_ν = Σ_κ c^κ_(μ,ν) s_κ`, in every finite alphabet
+and over every commutative semiring. The coefficient `c^κ_(μ,ν)` counts the semistandard skew
+tableaux of shape κ/μ and content ν whose reading word is a ballot word: reading the rows from the
+top down, each from right to left, every initial segment contains at least as many letters k as
+letters k + 1. For example, `c^((3,2,1))_((2,1),(2,1)) = 2`.
 
-Layers 0–3 contain no target of their own: the dictionary, the orders, standard tableaux,
-λ-tableaux and their row and column groups, Young subgroups, permutation modules and their
-induced description, Kostka numbers, the symmetrizers with their vanishing and factorization
-lemmas, the polytabloids, the Specht modules and the submodule theorem are in Tau Ceti and are
-consumed by the names listed under *From Tau Ceti*. Of Layers 4–6, irreducibility, absolute
-irreducibility, distinctness, completeness over `ℚ` and over `ℂ`, Young's rule, the trivial, sign
-and standard identifications, the standard basis, the hook-length formula, the sum of squares,
-the integer character, the character table with both orthogonality relations and the class sizes
-are likewise in Tau Ceti, including the integer/complex table comparison
-`TauCeti.symmetricCharacterTableℂ_apply` and `TauCeti.symmetricCharacterTableℂ_eq_characterTable`.
-The generic external product belongs to CharacterTheory §3.6; induction and its projection
-comparison are `Representation.ind` and `TauCeti.indProjection`. The targets here are their
-Specht-specific transpose comparisons.
+Frobenius's formula `p_ρ = Σ_λ χ^λ(ρ) s_λ`, for the power-sum product of a cycle type ρ, is proved
+in every finite alphabet and over every commutative ring. The roadmap derives from it the
+Murnaghan–Nakayama rule. Let κ be a partition of n + r with r > 0, and ρ the cycle type obtained
+from a partition ν of n by adding a part r. Then `χ^κ(ρ)` is the sum of `(−1)^h χ^μ(ν)` over the
+partitions μ of n for which κ/μ is a rim hook (a connected skew shape with no 2 × 2 block), h being
+one less than the number of rows it meets. For n ≤ d, the Frobenius characteristic into symmetric
+polynomials in d variables is an isometry from the character pairing of class functions to the Hall
+form, for which the Schur polynomials are orthonormal.
 
-Left to named roadmaps: the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation, its vanishing
-criterion and symmetric and exterior extremes belong to ClassicalGroups Layer 2, and the
-identification of Schur polynomials as torus characters of `GLₔ` and the Weyl dimension formula to
-ClassicalGroups Layers 3–5; the count of irreducibles over a splitting field, the character-table
-specification `TauCeti.IsCharacterTableSpec` and the Dixon–Schneider method belong to
-CharacterTheory Layers 2 and 5; induced characters and Frobenius reciprocity to
-InductionRestriction Layer 2; identity components, component groups and the characteristic-zero
-equivalence of reductive and linearly reductive groups to ReductiveGroups Layers 3 and 6; the
-planar diagram category, the Temperley–Lieb algebras `TL_k(δ) ⊆ B_k(δ)`, their cellular theory
-and Jones–Wenzl projections to TemperleyLieb Layers 2–6; the comparison of the finite Schur
-polynomials with polynomial `gl_n`-modules to LieHighestWeight Layer 9; hives, honeycombs and the
-saturation theorem to TensorProductCombinatorics.
+The last part replaces `GLₔ` by the orthogonal or symplectic group of a nondegenerate form. The
+operators commuting with it come from the Brauer algebra, whose diagrams may join two slots by an
+arc contracting them against the form. Let K be an infinite field with 2 ≠ 0. In every dimension n
+and degree k, the operators on `(Kⁿ)^(⊗k)` commuting with the orthogonal group of the dot product
+form the algebra generated by the slot permutations and the maps that contract two distinct slots
+and put back `Σ e_i ⊗ e_i`. This first fundamental theorem is false for `SO_n` and is stated for the
+full group `O_n`; a symplectic analogue holds over every infinite field. Over `ℂ`, the harmonic
+tensors, those killed by every such contraction, decompose under `O_n × S_q` as the sum of `E_λ ⊗
+S^λ` over the partitions λ of q whose first two columns together have at most n cells. Each such
+`E_λ`, the harmonic part of the image of a Young symmetrizer, is a nonzero irreducible
+representation of `O_n`.
 
-A kept variant: the finite-variable Hall form `hallForm` of §7.4 lives on the native
-`TauCeti.symmetricHomogeneousSubmodule`, so that its power-sum normalisation and the isometry
-property are stated against the native Frobenius characteristic; the stable Hall form of §7.5 is
-defined by stable Schur coordinates, equivalently by any projection to `d ≥ n` in degree `n`,
-and is the form consumers use in `Λ_R`. Projection to `d < n` need not preserve it.
+ClassicalGroups provides the Schur functor and uses the Schur-polynomial identities built here.
+ReductiveGroups provides the facts behind complete reducibility of the tensor representations of
+`O_n` and `Sp_(2l)`. TensorProductCombinatorics uses the skew tableaux and the Littlewood–Richardson
+rule, and KacMoody the ring of symmetric functions with its Hall form.
+
+Layers 0 to 3 come whole from Tau Ceti. Layer 4 constructs an isomorphism `S^λ ⊗ sgn ≅ S^(λᵗ)`, with
+λᵗ the transposed partition, and proves that each Specht module is isomorphic to its dual. Layer 5
+computes the square of a Young symmetrizer, and Layer 6 restates `χ^(λᵗ) = sgn · χ^λ` on the
+character table. Layer 7 holds the symmetric functions and tableau combinatorics, Layer 8 Schur–Weyl
+duality, and Layer 9 the Brauer algebra.
+
+## How to read the build
+
+Layers 0–3 are consumed from Tau Ceti and introduce nothing. Layer 4 builds the sign-transpose
+intertwiner `T_λ`, its character form, Specht self-duality and the induction and Kronecker
+transpose comparisons; Layer 5 compares its scalar with the hook-length dimension; Layer 6
+transports the transpose-sign identity through the native integer/complex table comparison. Layer 7 builds, in independent lanes, the
+skew-tableau and Littlewood–Richardson theory with RSK (§§7.1–7.2), the finite Frobenius formulas
+followed by the Murnaghan–Nakayama rule (§7.3), the finite Hall form and the isometry (§7.4), the stable ring
+`Λ_R` with its Hall form, `ω` and the rational presentation (§7.5), the stable Frobenius
+characteristic and its induction product (§7.6), the Hopf structure (§7.7), the matrix Newton
+identities (§7.8) and the power-sum basis comparisons (§7.9). Layer 8 builds the simultaneous
+decomposition of the tensor power from the native centralizer theorems and the Schur functor
+(§8.1), its balanced-tensor presentation (§8.2) and the Schur-functor transpose comparison (§8.3).
+Layer 9 builds the Brauer algebra (§9.1), its two geometric actions (§9.2), group-image complete
+reducibility over `ℂ`, the invariant-tensor bridge, FFT and reverse commutant (§9.3),
+the harmonic tensors and shape spaces (§9.4), the trace filtration (§9.5), cup expansions and their
+relations (§9.6), the multiplicity spaces and cell comparisons (§9.7), the semisimplicity
+statements (§9.8) and the rank-one symplectic examples (§9.9). The order of construction is
+Layers 4–6, then §§7.1–7.4, §7.5, §§7.6–7.9, Layer 8, §§9.1–9.9.
 
 ## Conventions
 
@@ -116,195 +114,6 @@ and is the form consumers use in `Λ_R`. Projection to `d < n` need not preserve
 - **Reading words.** The Littlewood–Richardson reading word reads rows from the top down, each row
   from right to left; letters are zero-indexed and the ballot condition is `#(k+1) ≤ #k` on every
   prefix. The Knuth row word reads rows from the bottom up, each row left to right.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `YoungDiagram` with `transpose`, `rowLen`, `colLen`, `rowLens`, `ofRowLens`, `equivListRowLens`
-  (`Combinatorics/Young/*`); `SemistandardYoungTableau`
-  with `content`; `Nat.Partition n` with its `Fintype` instance; `Equiv.Perm.cycleType`,
-  `Equiv.Perm.partition`, `Equiv.Perm.sign`.
-- `MonoidAlgebra`, `Representation`, `Representation.ofMulAction`, `Representation.ind`,
-  `Representation.dual`, `Representation.tprod`, `Representation.comp`, `Representation.IntertwiningMap`, `Subrepresentation`, `Rep`, `FDRep`
-  with its monoidal structure, `FDRep.character`, `Representation.IsIrreducible`,
-  `CategoryTheory.Simple`, Maschke's theorem and Schur's lemma.
-- `MvPolynomial.esymm`, `hsymm`, `psum`, `msymm`, `esymmPart`, `hsymmPart`, `psumPart`,
-  `MvPolynomial.esymmAlgEquiv`, `MvPolynomial.mul_esymm_eq_sum` (Newton's identities),
-  `MvPolynomial.IsSymmetric`, `MvPolynomial.IsHomogeneous`.
-- `PiTensorProduct` with `tprod`, `reindex`, `map`, `lift`, `tmulEquiv`, `dualDistribEquiv`;
-  `dualTensorHomEquiv`; `DirectSum.lmap`; `LinearMap.BilinForm`; `Module.Basis.toDual`;
-  `LinearMap.BilinForm.exists_orthogonal_basis` (needs `Invertible 2`); `Matrix.GeneralLinearGroup`,
-  `Matrix.orthogonalGroup`, `Matrix.symplecticGroup`, `Matrix.J`; `Matrix.charpoly`,
-  `Matrix.charpolyRev`, `Matrix.reverse_charpoly`, `Matrix.charpoly.univ_map_eval₂Hom`,
-  `LinearMap.charpoly_toMatrix`, `LinearMap.trace_eq_matrix_trace`; `Subalgebra.centralizer`,
-  `Algebra.adjoin`; `IsSemisimpleRing`.
-
-### From Tau Ceti
-
-Layer 0, the dictionary and orders (`Combinatorics/Young/Partitions.lean`,
-`RepresentationTheory/Symmetric/Partitions.lean`, `Combinatorics/Enumerative/Partition/{Dominance,Conjugate}.lean`,
-`Combinatorics/Young/StandardTableau/Basic.lean`, `Combinatorics/Young/Tableau.lean`,
-`RepresentationTheory/Symmetric/RowColumnSubgroup.lean`): `YoungDiagram.ofPartition`,
-`TauCeti.partitionEquivYoungDiagram`, `TauCeti.partitionEquivConjClasses`, `TauCeti.Dominates` with
-`TauCeti.lex_le_of_dominates`, `Nat.Partition.conjugate` with `TauCeti.conjugate_dominates_conjugate_iff`,
-`TauCeti.StandardYoungTableau` with `TauCeti.standardCount`, `TauCeti.YoungTableau` with
-`TauCeti.YoungTableau.relabel`, `TauCeti.YoungTableau.rowSubgroup`, `TauCeti.YoungTableau.colSubgroup`,
-`TauCeti.YoungTableau.rowSubgroup_inf_colSubgroup_eq_bot` and `TauCeti.YoungTableau.rowSubgroupMulEquiv`.
-
-Layer 1, Young subgroups and permutation modules (`RepresentationTheory/Symmetric/YoungSubgroup.lean`,
-`RepresentationTheory/Symmetric/PermutationModule/{Basic,Form}.lean`, `Combinatorics/Young/Kostka.lean`):
-`TauCeti.youngSubgroup` with `TauCeti.youngSubgroupMulEquiv`, `TauCeti.card_youngSubgroup` and
-`TauCeti.youngSubgroup_index_mul`; `TauCeti.permutationModule` with `TauCeti.finrank_permutationModule`,
-`TauCeti.permutationModuleIsoIndTrivial` and the tabloid form `TauCeti.tabloidForm` with
-`TauCeti.tabloidForm_invariant`; `TauCeti.kostkaNumber` with `TauCeti.kostkaNumber_self` and
-`TauCeti.kostkaNumber_eq_zero_of_not_dominates`; `TauCeti.BoundedSSYT`.
-
-Layer 2, symmetrizers (`RepresentationTheory/Symmetric/{Symmetrizer,Vanishing,Factorization}.lean`,
-`RepresentationTheory/Symmetric/Specht/Ideal/Idempotent.lean`): `TauCeti.YoungTableau.youngSymmetrizer`,
-`TauCeti.YoungTableau.youngSymmetrizerOver`, the absorption lemmas `TauCeti.YoungTableau.mul_youngSymmetrizer_left`
-and `TauCeti.YoungTableau.mul_youngSymmetrizer_right`, the vanishing criterion
-`TauCeti.YoungTableau.rowMeetsColumnTwice_relabel_iff`, the factorization
-`TauCeti.YoungTableau.mem_mul_of_not_rowMeetsColumnTwice`, and `TauCeti.YoungTableau.youngSymmetrizer_sq`
-(`c_t * c_t = (n! / dim (A c_t)) • c_t`) with `TauCeti.YoungTableau.isIdempotentElem_smul_youngSymmetrizer`.
-
-Layer 3, Specht modules (`RepresentationTheory/Symmetric/Specht/{Module,Comparison,SubmoduleTheorem}.lean`):
-`TauCeti.YoungTableau.tabloid`, `TauCeti.YoungTableau.polytabloid`, `TauCeti.spechtSubrepresentation`, `TauCeti.spechtModule`
-(an `FDRep ℚ (Equiv.Perm (Fin n))`), the ideal comparison
-`TauCeti.YoungTableau.spechtIdealEquivSpechtSubrepresentation`, and the submodule theorem
-`TauCeti.spechtSubrepresentation_le_or_le_orthogonal`.
-
-Layers 4–6, classification, basis, characters (`RepresentationTheory/Symmetric/Specht/{SubmoduleTheorem,AbsoluteIrreducibility,Distinctness,Completeness,Complex,Extremes,StandardBasis,HookLength,SumOfSquares,Character,Orthogonality}.lean`,
-`RepresentationTheory/Symmetric/PermutationModule/YoungRule.lean`, `RepresentationTheory/Symmetric/ClassSize.lean`):
-`TauCeti.isIrreducible_spechtModule`, `TauCeti.spechtModuleEndAlgEquiv`, `TauCeti.spechtModule_iso_iff`,
-`TauCeti.partitionEquivSimpleFDRepClasses`, `TauCeti.spechtModuleℂ`, `TauCeti.instSimpleSpechtModuleℂ`,
-`TauCeti.spechtModuleℂ_iso_iff`, `TauCeti.partitionEquivSimpleFDRepClassesℂ`,
-`TauCeti.char_permutationModule_eq_sum_kostkaNumber_mul_spechtChar` (Young's rule),
-`TauCeti.finrank_spechtModule_indiscrete`, `TauCeti.finrank_spechtModule_ones`,
-`TauCeti.spechtModule_indiscrete_ρ_eq_trivial`, `TauCeti.spechtModule_ones_ρ_apply`,
-`TauCeti.spechtModuleStandardBasis`, `TauCeti.finrank_spechtModule`,
-`YoungDiagram.hookLength` (`Combinatorics/Young/HookLength/Basic.lean`),
-`TauCeti.finrank_spechtModule_mul_prod_hookLength`, `TauCeti.standardCount_mul_prod_hookLength`,
-`TauCeti.sum_sq_standardCount`, `TauCeti.spechtChar` with `TauCeti.spechtChar_cast`,
-`TauCeti.spechtCharValue`, `TauCeti.symmetricCharacterTable`,
-`TauCeti.symmetricCharacterTable_column_orthogonality`, `TauCeti.symmetricCharacterTable_row_orthogonality`,
-`TauCeti.symmetricCharacterTableℂ` with `TauCeti.symmetricCharacterTableℂ_apply`,
-`TauCeti.symmetricCharacterTableℂ_eq_characterTable`, `TauCeti.isCharacterTableSpec_symmetricCharacterTableℂ`,
-`TauCeti.partMultiplicity`, `TauCeti.zPart` and `TauCeti.card_partition_parts_mul_zPart_fin`;
-`TauCeti.signLinearCharacter` and `FDRep.ofLinearCharacter` (`RepresentationTheory/Symmetric/SignCharacter.lean`,
-`RepresentationTheory/LinearCharacter/Basic.lean`).
-
-Layer 7, finite Schur theory and class functions (`RingTheory/MvPolynomial/Symmetric/Schur/*.lean`,
-`RingTheory/MvPolynomial/Symmetric/{Homogeneous,PowerSum,Complete,NewtonIdentities}.lean`,
-`RepresentationTheory/Symmetric/FrobeniusCharacteristic.lean`, `RepresentationTheory/Symmetric/PermutationModule/PowerSum.lean`,
-`RepresentationTheory/CharacterTable/{ClassFunction,Pairing,VirtualCharacter}.lean`,
-`RepresentationTheory/Induction/ClassFunction.lean`, `Combinatorics/Young/{RimHook,Schensted,RowInsertion}.lean`,
-`GroupTheory/Perm/SumCongr.lean`): `TauCeti.diagramSchurPoly`, `TauCeti.schurPoly`,
-`TauCeti.schurPoly_eq_rename`, `TauCeti.schurPoly_isSymmetric`, `TauCeti.schurPoly_mul_alternant`,
-`TauCeti.hsymmInt`, `TauCeti.schurPoly_eq_det_hsymmInt`, `TauCeti.hsymm_mul_schurPoly`,
-`TauCeti.psum_mul_schurPoly`, `TauCeti.schurPoly_eq_sum_kostkaNumber_smul_msymm`,
-`TauCeti.schurPoly_ones`, `TauCeti.schurPoly_indiscrete`, `TauCeti.aeval_snoc_zero_diagramSchurPoly`,
-`TauCeti.aeval_snoc_zero_hsymmInt`, `TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.msymmBasis`,
-`TauCeti.schurPolyBasis` with `TauCeti.coe_schurPolyBasis`, `TauCeti.partitionEquivSchurIndex`,
-`TauCeti.psumPart_isSymmetric`, `TauCeti.isHomogeneous_psumPart`,
-`TauCeti.psumPart_eq_sum_card_fixedPoints_smul_msymm`,
-`TauCeti.psumPart_eq_sum_character_smul_msymm`, `TauCeti.zPart_pos`, `TauCeti.zPart_dvd_factorial`,
-`TauCeti.frobeniusCharacteristic` with
-`TauCeti.frobeniusCharacteristic_spechtCharacter`, `TauCeti.schurPolyBasis_repr_frobeniusCharacteristic`,
-`TauCeti.frobeniusCharacteristic_apply` (Schur-coordinate expansion); `TauCeti.ClassFunction` with
-`TauCeti.ClassFunction.ofCharacter`,
-`TauCeti.ClassFunction.toConjClasses`, `TauCeti.ClassFunction.characterPairing`
-(`(1/|G|) ∑_g f(g) h(g⁻¹)`, bilinear), `TauCeti.virtualCharacters`, and induction of class functions
-along a subgroup `S : Subgroup G` with `[S.FiniteIndex]`,
-`TauCeti.ClassFunction.ind S : TauCeti.ClassFunction R S →ₗ[R] TauCeti.ClassFunction R G`
-over a semiring `R`; `YoungDiagram.IsRimHook μ ν` (`μ / ν`
-is a rim hook, ambient shape first) and `YoungDiagram.rimHookHeight` (rows met, minus one);
-`TauCeti.rowInsert`, `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv` and `List.IsTableauRows`;
-`Equiv.Perm.finSumPermHom` (the block embedding `Sₙ × Sₘ → S_(n+m)`); `Multiset.mul_esymm_eq_sum`.
-
-Layer 8, tensor actions (`RepresentationTheory/Symmetric/TensorAction/{Basic,Centralizer,Faithful,GeneralLinear,SchurWeyl}.lean`,
-`RepresentationTheory/ClassicalGroups/TensorPower.lean`, `RepresentationTheory/ClassicalGroups/WeylModule/{Basic,Multiplicity,SchurWeyl}.lean`,
-`RepresentationTheory/Tensor/Power.lean`): `PiTensorProduct.reindexRepresentation`,
-`TauCeti.permTensorAction`, `TauCeti.permTensorActionAlgHom`, `TauCeti.tensorPowerRep`,
-`TauCeti.centralizer_range_tensorPowerRep_eq_range_permTensorActionAlgHom`,
-`TauCeti.centralizer_range_permTensorAction_eq_range_tensorPowerRep_asAlgebraHom`,
-`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`,
-`TauCeti.permTensorActionAlgHom_injective_iff` (injective iff degree `≤` dimension),
-`TauCeti.schurFunctor d μ` (the image of the row-superstandard symmetrizer, a `FDRep ℂ (GL (Fin d) ℂ)`),
-`TauCeti.YoungTableau.intertwiningMapEquivWeylModule`,
-`TauCeti.sum_finrank_spechtModule_mul_finrank_weylModuleOfShape`, and `Representation.tensorPower`.
-
-Layer 9, Brauer combinatorics and generators (`Combinatorics/Brauer/{Diagram,Compose,LoopCount,Associativity,Generator,Relations,PropagatingNumber,Relabel,Flip}.lean`,
-`Combinatorics/Enumerative/PerfectMatching.lean`, `RepresentationTheory/ClassicalGroups/{Orthogonal,Symplectic}.lean`,
-`RepresentationTheory/ClassicalGroups/BrauerGenerators/Orthogonal/{Basic,TensorPower}.lean`,
-`RepresentationTheory/ClassicalGroups/BrauerGenerators/Symplectic.lean`): `TauCeti.BrauerDiagram k`
-(perfect matchings of `Fin k ⊕ Fin k`) with `TauCeti.card_brauerDiagram`, the arc predicates
-`IsThrough`, `IsCap`, `IsCup`, `TauCeti.permToBrauer` with `TauCeti.permToBrauer_injective`,
-`TauCeti.capCup`, `TauCeti.composeDiagram` with `TauCeti.composeDiagram_assoc` and
-`TauCeti.composeDiagram_permToBrauer`, `TauCeti.middleLoopCount`, `TauCeti.BrauerDiagram.propagatingNumber`
-with its parity and composition bounds, `TauCeti.BrauerDiagram.relabel`, `TauCeti.BrauerDiagram.flip`;
-`TauCeti.stdOrthogonalRep`, `TauCeti.stdOrthogonalRepToDual` with `TauCeti.stdOrthogonalRepToDual_equivariant`,
-`TauCeti.orthogonalCap`, `TauCeti.orthogonalCup`, `TauCeti.orthogonalCupCap`,
-`TauCeti.orthogonalCupCapAt k n d i j` (cup-cap on the slots `i, j` of the `d`-th tensor power of
-`kⁿ`; at `i = j` it is a rank-one map, not an arc, so every arc statement carries `i ≠ j`) with
-`TauCeti.orthogonalCupCapAt_tprod`, `TauCeti.commute_orthogonalCupCapAt_tensorPower`,
-`TauCeti.permTensorAction_mul_orthogonalCupCapAt`, `TauCeti.orthogonalCupCapAt_mul_self`,
-`TauCeti.piTensorProductMap_comp_orthogonalCup`; `TauCeti.stdSymplecticRep`,
-`TauCeti.stdSymplecticBilinForm`, `TauCeti.stdSymplecticRepToDual` with
-`TauCeti.stdSymplecticRepToDual_equivariant`, `TauCeti.symplecticCap`, `TauCeti.symplecticCup`
-(`−∑ J_(xy) e_x ⊗ e_y`, the inverse-form cup), `TauCeti.symplecticCupCap`
-(`= cup ∘ cap`), `TauCeti.symplecticCrossing`, `TauCeti.symplecticCap_comp_symplecticCup`
-(`= −2l`) and `TauCeti.piTensorProductMap_comp_symplecticCup`.
-
-The projection formula `TauCeti.indProjection`
-(`RepresentationTheory/Induction/Projection.lean`) is an isomorphism in `Rep` over any commutative
-ring along any group homomorphism: `Ind(X ⊗ Res Y) ≅ Ind(X) ⊗ Y`; §4.4 uses its inverse.
-
-### From TauCetiRoadmap.ClassicalGroups
-
-Layer 2 owns the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation of the tensor power, its
-tableau independence, its vanishing for more than `d` rows and the extremes `Symᵈ`, `⋀ᵈ`; Layer 4
-owns the theorem that `s_λ` is the torus character of the polynomial irreducible `V_λ`. §8.1 here
-consumes the Layer 2 carrier; Layer 7 here supplies the Schur-polynomial identities Layer 4 there
-consumes.
-
-### From TauCetiRoadmap.CharacterTheory
-
-Layer 2 owns the count of irreducibles over a splitting field; Layer 5 owns
-`TauCeti.IsCharacterTableSpec` and its uniqueness statement; §3.6 supplies external tensor
-products, formed by `Representation.tprod` after pullback along the two projections.
-§4.4 uses these products and §6.1 uses the table convention.
-
-### From TauCetiRoadmap.InductionRestriction
-
-Layer 2 owns induced characters and Frobenius reciprocity on class functions; §7.6 here consumes
-them for the induction product of the stable Frobenius characteristic.
-
-### From TauCetiRoadmap.ReductiveGroups
-
-Layer 3 owns identity components and component groups; Layer 6 owns, in characteristic zero,
-reductive ⇔ linearly reductive. §9.3 here consumes both for complete reducibility of the tensor
-representations of `O_n` and `Sp_(2l)`.
-
-## How to read the build
-
-Layers 0–3 are consumed from Tau Ceti and introduce nothing. Layer 4 builds the sign-transpose
-intertwiner `T_λ`, its character form, Specht self-duality and the induction and Kronecker
-transpose comparisons; Layer 5 compares its scalar with the hook-length dimension; Layer 6
-transports the transpose-sign identity through the native integer/complex table comparison. Layer 7 builds, in independent lanes, the
-skew-tableau and Littlewood–Richardson theory with RSK (§§7.1–7.2), the finite Frobenius formulas
-followed by the Murnaghan–Nakayama rule (§7.3), the finite Hall form and the isometry (§7.4), the stable ring
-`Λ_R` with its Hall form, `ω` and the rational presentation (§7.5), the stable Frobenius
-characteristic and its induction product (§7.6), the Hopf structure (§7.7), the matrix Newton
-identities (§7.8) and the power-sum basis comparisons (§7.9). Layer 8 builds the simultaneous
-decomposition of the tensor power from the native centralizer theorems and the Schur functor
-(§8.1), its balanced-tensor presentation (§8.2) and the Schur-functor transpose comparison (§8.3).
-Layer 9 builds the Brauer algebra (§9.1), its two geometric actions (§9.2), group-image complete
-reducibility over `ℂ`, the invariant-tensor bridge, FFT and reverse commutant (§9.3),
-the harmonic tensors and shape spaces (§9.4), the trace filtration (§9.5), cup expansions and their
-relations (§9.6), the multiplicity spaces and cell comparisons (§9.7), the semisimplicity
-statements (§9.8) and the rank-one symplectic examples (§9.9). The order of construction is
-Layers 4–6, then §§7.1–7.4, §7.5, §§7.6–7.9, Layer 8, §§9.1–9.9.
 
 ## Layer 0: partitions, diagrams, tableaux, and orders
 
@@ -1555,6 +1364,228 @@ ReductiveGroups Layers 3 and 6; Mathlib `Subalgebra.centralizer`, `Algebra.adjoi
 - **Schur–Weyl on `(ℂ²)^(⊗2)`.** `S^((2)) ⊗ Sym²(ℂ²) ⊕ S^((1,1)) ⊗ ⋀²(ℂ²)`, dimensions `3 + 1 = 4`.
 - **Brauer duality on `(ℂ³)^(⊗2)` for `O_3`.** `B_2(3)` with `s² = 1`, `e² = 3e`, `se = e`;
   `(ℂ³)^(⊗2) ≅ Sym²₀ ⊕ ⋀² ⊕ ℂ`, dimensions `5 + 3 + 1 = 9`; the trace line is the image of `e`.
+
+## Scope and ownership
+
+This roadmap owns: the sign-transpose intertwiner `T_λ`, its scalar `κ_t`, the character identity
+`χ^(λᵗ) = sgn · χ^λ`, Specht self-duality through the tabloid form, and the induction and Kronecker
+transpose comparisons (Layer 4, §§4.1–4.4); the comparison of `κ_t` with `n!/f^λ` (Layer 5, §5.1);
+the transpose-sign identity on the symmetric character table (Layer 6, §6.1); skew tableaux and
+their conversions, jeu de taquin, Knuth equivalence, dual
+equivalence, the Littlewood–Richardson tableaux and rule, evacuation and full RSK, the
+finite Frobenius formulas and character-side Murnaghan–Nakayama rule, the Hall form on the finite
+symmetric polynomials and the isometry property of the native Frobenius characteristic, the stable ring `Λ_R` with its Hall form,
+`ω`, free generators, Hopf structure and rational power-sum presentation, the stable Frobenius
+characteristic with its induction product, and the matrix specialization of Newton's identities
+(Layer 7, §§7.1–7.9); the simultaneous equivariant decomposition of `(ℂᵈ)^(⊗n)` and its balanced
+tensor presentation and transpose comparisons (Layer 8, §§8.1–8.3); the Brauer algebra `B_k(δ)`
+with its loop rule, the
+orthogonal and symplectic Brauer actions, the first fundamental theorem on tensors and the reverse
+centralizer, the harmonic tensors and the shape spaces `E_λ`, the trace filtration and cup
+expansions, the multiplicity spaces and cell comparisons, and the three semisimplicity statements
+(Layer 9, §§9.1–9.9).
+
+Layers 0–3 contain no target of their own: the dictionary, the orders, standard tableaux,
+λ-tableaux and their row and column groups, Young subgroups, permutation modules and their
+induced description, Kostka numbers, the symmetrizers with their vanishing and factorization
+lemmas, the polytabloids, the Specht modules and the submodule theorem are in Tau Ceti and are
+consumed by the names listed under *From Tau Ceti*. Of Layers 4–6, irreducibility, absolute
+irreducibility, distinctness, completeness over `ℚ` and over `ℂ`, Young's rule, the trivial, sign
+and standard identifications, the standard basis, the hook-length formula, the sum of squares,
+the integer character, the character table with both orthogonality relations and the class sizes
+are likewise in Tau Ceti, including the integer/complex table comparison
+`TauCeti.symmetricCharacterTableℂ_apply` and `TauCeti.symmetricCharacterTableℂ_eq_characterTable`.
+The generic external product belongs to CharacterTheory §3.6; induction and its projection
+comparison are `Representation.ind` and `TauCeti.indProjection`. The targets here are their
+Specht-specific transpose comparisons.
+
+Left to named roadmaps: the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation, its vanishing
+criterion and symmetric and exterior extremes belong to ClassicalGroups Layer 2, and the
+identification of Schur polynomials as torus characters of `GLₔ` and the Weyl dimension formula to
+ClassicalGroups Layers 3–5; the count of irreducibles over a splitting field, the character-table
+specification `TauCeti.IsCharacterTableSpec` and the Dixon–Schneider method belong to
+CharacterTheory Layers 2 and 5; induced characters and Frobenius reciprocity to
+InductionRestriction Layer 2; identity components, component groups and the characteristic-zero
+equivalence of reductive and linearly reductive groups to ReductiveGroups Layers 3 and 6; the
+planar diagram category, the Temperley–Lieb algebras `TL_k(δ) ⊆ B_k(δ)`, their cellular theory
+and Jones–Wenzl projections to TemperleyLieb Layers 2–6; the comparison of the finite Schur
+polynomials with polynomial `gl_n`-modules to LieHighestWeight Layer 9; hives, honeycombs and the
+saturation theorem to TensorProductCombinatorics.
+
+A kept variant: the finite-variable Hall form `hallForm` of §7.4 lives on the native
+`TauCeti.symmetricHomogeneousSubmodule`, so that its power-sum normalisation and the isometry
+property are stated against the native Frobenius characteristic; the stable Hall form of §7.5 is
+defined by stable Schur coordinates, equivalently by any projection to `d ≥ n` in degree `n`,
+and is the form consumers use in `Λ_R`. Projection to `d < n` need not preserve it.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `YoungDiagram` with `transpose`, `rowLen`, `colLen`, `rowLens`, `ofRowLens`, `equivListRowLens`
+  (`Combinatorics/Young/*`); `SemistandardYoungTableau`
+  with `content`; `Nat.Partition n` with its `Fintype` instance; `Equiv.Perm.cycleType`,
+  `Equiv.Perm.partition`, `Equiv.Perm.sign`.
+- `MonoidAlgebra`, `Representation`, `Representation.ofMulAction`, `Representation.ind`,
+  `Representation.dual`, `Representation.tprod`, `Representation.comp`, `Representation.IntertwiningMap`, `Subrepresentation`, `Rep`, `FDRep`
+  with its monoidal structure, `FDRep.character`, `Representation.IsIrreducible`,
+  `CategoryTheory.Simple`, Maschke's theorem and Schur's lemma.
+- `MvPolynomial.esymm`, `hsymm`, `psum`, `msymm`, `esymmPart`, `hsymmPart`, `psumPart`,
+  `MvPolynomial.esymmAlgEquiv`, `MvPolynomial.mul_esymm_eq_sum` (Newton's identities),
+  `MvPolynomial.IsSymmetric`, `MvPolynomial.IsHomogeneous`.
+- `PiTensorProduct` with `tprod`, `reindex`, `map`, `lift`, `tmulEquiv`, `dualDistribEquiv`;
+  `dualTensorHomEquiv`; `DirectSum.lmap`; `LinearMap.BilinForm`; `Module.Basis.toDual`;
+  `LinearMap.BilinForm.exists_orthogonal_basis` (needs `Invertible 2`); `Matrix.GeneralLinearGroup`,
+  `Matrix.orthogonalGroup`, `Matrix.symplecticGroup`, `Matrix.J`; `Matrix.charpoly`,
+  `Matrix.charpolyRev`, `Matrix.reverse_charpoly`, `Matrix.charpoly.univ_map_eval₂Hom`,
+  `LinearMap.charpoly_toMatrix`, `LinearMap.trace_eq_matrix_trace`; `Subalgebra.centralizer`,
+  `Algebra.adjoin`; `IsSemisimpleRing`.
+
+### From Tau Ceti
+
+Layer 0, the dictionary and orders (`Combinatorics/Young/Partitions.lean`,
+`RepresentationTheory/Symmetric/Partitions.lean`, `Combinatorics/Enumerative/Partition/{Dominance,Conjugate}.lean`,
+`Combinatorics/Young/StandardTableau/Basic.lean`, `Combinatorics/Young/Tableau.lean`,
+`RepresentationTheory/Symmetric/RowColumnSubgroup.lean`): `YoungDiagram.ofPartition`,
+`TauCeti.partitionEquivYoungDiagram`, `TauCeti.partitionEquivConjClasses`, `TauCeti.Dominates` with
+`TauCeti.lex_le_of_dominates`, `Nat.Partition.conjugate` with `TauCeti.conjugate_dominates_conjugate_iff`,
+`TauCeti.StandardYoungTableau` with `TauCeti.standardCount`, `TauCeti.YoungTableau` with
+`TauCeti.YoungTableau.relabel`, `TauCeti.YoungTableau.rowSubgroup`, `TauCeti.YoungTableau.colSubgroup`,
+`TauCeti.YoungTableau.rowSubgroup_inf_colSubgroup_eq_bot` and `TauCeti.YoungTableau.rowSubgroupMulEquiv`.
+
+Layer 1, Young subgroups and permutation modules (`RepresentationTheory/Symmetric/YoungSubgroup.lean`,
+`RepresentationTheory/Symmetric/PermutationModule/{Basic,Form}.lean`, `Combinatorics/Young/Kostka.lean`):
+`TauCeti.youngSubgroup` with `TauCeti.youngSubgroupMulEquiv`, `TauCeti.card_youngSubgroup` and
+`TauCeti.youngSubgroup_index_mul`; `TauCeti.permutationModule` with `TauCeti.finrank_permutationModule`,
+`TauCeti.permutationModuleIsoIndTrivial` and the tabloid form `TauCeti.tabloidForm` with
+`TauCeti.tabloidForm_invariant`; `TauCeti.kostkaNumber` with `TauCeti.kostkaNumber_self` and
+`TauCeti.kostkaNumber_eq_zero_of_not_dominates`; `TauCeti.BoundedSSYT`.
+
+Layer 2, symmetrizers (`RepresentationTheory/Symmetric/{Symmetrizer,Vanishing,Factorization}.lean`,
+`RepresentationTheory/Symmetric/Specht/Ideal/Idempotent.lean`): `TauCeti.YoungTableau.youngSymmetrizer`,
+`TauCeti.YoungTableau.youngSymmetrizerOver`, the absorption lemmas `TauCeti.YoungTableau.mul_youngSymmetrizer_left`
+and `TauCeti.YoungTableau.mul_youngSymmetrizer_right`, the vanishing criterion
+`TauCeti.YoungTableau.rowMeetsColumnTwice_relabel_iff`, the factorization
+`TauCeti.YoungTableau.mem_mul_of_not_rowMeetsColumnTwice`, and `TauCeti.YoungTableau.youngSymmetrizer_sq`
+(`c_t * c_t = (n! / dim (A c_t)) • c_t`) with `TauCeti.YoungTableau.isIdempotentElem_smul_youngSymmetrizer`.
+
+Layer 3, Specht modules (`RepresentationTheory/Symmetric/Specht/{Module,Comparison,SubmoduleTheorem}.lean`):
+`TauCeti.YoungTableau.tabloid`, `TauCeti.YoungTableau.polytabloid`, `TauCeti.spechtSubrepresentation`, `TauCeti.spechtModule`
+(an `FDRep ℚ (Equiv.Perm (Fin n))`), the ideal comparison
+`TauCeti.YoungTableau.spechtIdealEquivSpechtSubrepresentation`, and the submodule theorem
+`TauCeti.spechtSubrepresentation_le_or_le_orthogonal`.
+
+Layers 4–6, classification, basis, characters (`RepresentationTheory/Symmetric/Specht/{SubmoduleTheorem,AbsoluteIrreducibility,Distinctness,Completeness,Complex,Extremes,StandardBasis,HookLength,SumOfSquares,Character,Orthogonality}.lean`,
+`RepresentationTheory/Symmetric/PermutationModule/YoungRule.lean`, `RepresentationTheory/Symmetric/ClassSize.lean`):
+`TauCeti.isIrreducible_spechtModule`, `TauCeti.spechtModuleEndAlgEquiv`, `TauCeti.spechtModule_iso_iff`,
+`TauCeti.partitionEquivSimpleFDRepClasses`, `TauCeti.spechtModuleℂ`, `TauCeti.instSimpleSpechtModuleℂ`,
+`TauCeti.spechtModuleℂ_iso_iff`, `TauCeti.partitionEquivSimpleFDRepClassesℂ`,
+`TauCeti.char_permutationModule_eq_sum_kostkaNumber_mul_spechtChar` (Young's rule),
+`TauCeti.finrank_spechtModule_indiscrete`, `TauCeti.finrank_spechtModule_ones`,
+`TauCeti.spechtModule_indiscrete_ρ_eq_trivial`, `TauCeti.spechtModule_ones_ρ_apply`,
+`TauCeti.spechtModuleStandardBasis`, `TauCeti.finrank_spechtModule`,
+`YoungDiagram.hookLength` (`Combinatorics/Young/HookLength/Basic.lean`),
+`TauCeti.finrank_spechtModule_mul_prod_hookLength`, `TauCeti.standardCount_mul_prod_hookLength`,
+`TauCeti.sum_sq_standardCount`, `TauCeti.spechtChar` with `TauCeti.spechtChar_cast`,
+`TauCeti.spechtCharValue`, `TauCeti.symmetricCharacterTable`,
+`TauCeti.symmetricCharacterTable_column_orthogonality`, `TauCeti.symmetricCharacterTable_row_orthogonality`,
+`TauCeti.symmetricCharacterTableℂ` with `TauCeti.symmetricCharacterTableℂ_apply`,
+`TauCeti.symmetricCharacterTableℂ_eq_characterTable`, `TauCeti.isCharacterTableSpec_symmetricCharacterTableℂ`,
+`TauCeti.partMultiplicity`, `TauCeti.zPart` and `TauCeti.card_partition_parts_mul_zPart_fin`;
+`TauCeti.signLinearCharacter` and `FDRep.ofLinearCharacter` (`RepresentationTheory/Symmetric/SignCharacter.lean`,
+`RepresentationTheory/LinearCharacter/Basic.lean`).
+
+Layer 7, finite Schur theory and class functions (`RingTheory/MvPolynomial/Symmetric/Schur/*.lean`,
+`RingTheory/MvPolynomial/Symmetric/{Homogeneous,PowerSum,Complete,NewtonIdentities}.lean`,
+`RepresentationTheory/Symmetric/FrobeniusCharacteristic.lean`, `RepresentationTheory/Symmetric/PermutationModule/PowerSum.lean`,
+`RepresentationTheory/CharacterTable/{ClassFunction,Pairing,VirtualCharacter}.lean`,
+`RepresentationTheory/Induction/ClassFunction.lean`, `Combinatorics/Young/{RimHook,Schensted,RowInsertion}.lean`,
+`GroupTheory/Perm/SumCongr.lean`): `TauCeti.diagramSchurPoly`, `TauCeti.schurPoly`,
+`TauCeti.schurPoly_eq_rename`, `TauCeti.schurPoly_isSymmetric`, `TauCeti.schurPoly_mul_alternant`,
+`TauCeti.hsymmInt`, `TauCeti.schurPoly_eq_det_hsymmInt`, `TauCeti.hsymm_mul_schurPoly`,
+`TauCeti.psum_mul_schurPoly`, `TauCeti.schurPoly_eq_sum_kostkaNumber_smul_msymm`,
+`TauCeti.schurPoly_ones`, `TauCeti.schurPoly_indiscrete`, `TauCeti.aeval_snoc_zero_diagramSchurPoly`,
+`TauCeti.aeval_snoc_zero_hsymmInt`, `TauCeti.symmetricHomogeneousSubmodule`, `TauCeti.msymmBasis`,
+`TauCeti.schurPolyBasis` with `TauCeti.coe_schurPolyBasis`, `TauCeti.partitionEquivSchurIndex`,
+`TauCeti.psumPart_isSymmetric`, `TauCeti.isHomogeneous_psumPart`,
+`TauCeti.psumPart_eq_sum_card_fixedPoints_smul_msymm`,
+`TauCeti.psumPart_eq_sum_character_smul_msymm`, `TauCeti.zPart_pos`, `TauCeti.zPart_dvd_factorial`,
+`TauCeti.frobeniusCharacteristic` with
+`TauCeti.frobeniusCharacteristic_spechtCharacter`, `TauCeti.schurPolyBasis_repr_frobeniusCharacteristic`,
+`TauCeti.frobeniusCharacteristic_apply` (Schur-coordinate expansion); `TauCeti.ClassFunction` with
+`TauCeti.ClassFunction.ofCharacter`,
+`TauCeti.ClassFunction.toConjClasses`, `TauCeti.ClassFunction.characterPairing`
+(`(1/|G|) ∑_g f(g) h(g⁻¹)`, bilinear), `TauCeti.virtualCharacters`, and induction of class functions
+along a subgroup `S : Subgroup G` with `[S.FiniteIndex]`,
+`TauCeti.ClassFunction.ind S : TauCeti.ClassFunction R S →ₗ[R] TauCeti.ClassFunction R G`
+over a semiring `R`; `YoungDiagram.IsRimHook μ ν` (`μ / ν`
+is a rim hook, ambient shape first) and `YoungDiagram.rimHookHeight` (rows met, minus one);
+`TauCeti.rowInsert`, `TauCeti.reverseRowInsert`, `TauCeti.rowInsertEquiv` and `List.IsTableauRows`;
+`Equiv.Perm.finSumPermHom` (the block embedding `Sₙ × Sₘ → S_(n+m)`); `Multiset.mul_esymm_eq_sum`.
+
+Layer 8, tensor actions (`RepresentationTheory/Symmetric/TensorAction/{Basic,Centralizer,Faithful,GeneralLinear,SchurWeyl}.lean`,
+`RepresentationTheory/ClassicalGroups/TensorPower.lean`, `RepresentationTheory/ClassicalGroups/WeylModule/{Basic,Multiplicity,SchurWeyl}.lean`,
+`RepresentationTheory/Tensor/Power.lean`): `PiTensorProduct.reindexRepresentation`,
+`TauCeti.permTensorAction`, `TauCeti.permTensorActionAlgHom`, `TauCeti.tensorPowerRep`,
+`TauCeti.centralizer_range_tensorPowerRep_eq_range_permTensorActionAlgHom`,
+`TauCeti.centralizer_range_permTensorAction_eq_range_tensorPowerRep_asAlgebraHom`,
+`TauCeti.mem_range_permTensorActionAlgHom_iff_forall_commute`,
+`TauCeti.permTensorActionAlgHom_injective_iff` (injective iff degree `≤` dimension),
+`TauCeti.schurFunctor d μ` (the image of the row-superstandard symmetrizer, a `FDRep ℂ (GL (Fin d) ℂ)`),
+`TauCeti.YoungTableau.intertwiningMapEquivWeylModule`,
+`TauCeti.sum_finrank_spechtModule_mul_finrank_weylModuleOfShape`, and `Representation.tensorPower`.
+
+Layer 9, Brauer combinatorics and generators (`Combinatorics/Brauer/{Diagram,Compose,LoopCount,Associativity,Generator,Relations,PropagatingNumber,Relabel,Flip}.lean`,
+`Combinatorics/Enumerative/PerfectMatching.lean`, `RepresentationTheory/ClassicalGroups/{Orthogonal,Symplectic}.lean`,
+`RepresentationTheory/ClassicalGroups/BrauerGenerators/Orthogonal/{Basic,TensorPower}.lean`,
+`RepresentationTheory/ClassicalGroups/BrauerGenerators/Symplectic.lean`): `TauCeti.BrauerDiagram k`
+(perfect matchings of `Fin k ⊕ Fin k`) with `TauCeti.card_brauerDiagram`, the arc predicates
+`IsThrough`, `IsCap`, `IsCup`, `TauCeti.permToBrauer` with `TauCeti.permToBrauer_injective`,
+`TauCeti.capCup`, `TauCeti.composeDiagram` with `TauCeti.composeDiagram_assoc` and
+`TauCeti.composeDiagram_permToBrauer`, `TauCeti.middleLoopCount`, `TauCeti.BrauerDiagram.propagatingNumber`
+with its parity and composition bounds, `TauCeti.BrauerDiagram.relabel`, `TauCeti.BrauerDiagram.flip`;
+`TauCeti.stdOrthogonalRep`, `TauCeti.stdOrthogonalRepToDual` with `TauCeti.stdOrthogonalRepToDual_equivariant`,
+`TauCeti.orthogonalCap`, `TauCeti.orthogonalCup`, `TauCeti.orthogonalCupCap`,
+`TauCeti.orthogonalCupCapAt k n d i j` (cup-cap on the slots `i, j` of the `d`-th tensor power of
+`kⁿ`; at `i = j` it is a rank-one map, not an arc, so every arc statement carries `i ≠ j`) with
+`TauCeti.orthogonalCupCapAt_tprod`, `TauCeti.commute_orthogonalCupCapAt_tensorPower`,
+`TauCeti.permTensorAction_mul_orthogonalCupCapAt`, `TauCeti.orthogonalCupCapAt_mul_self`,
+`TauCeti.piTensorProductMap_comp_orthogonalCup`; `TauCeti.stdSymplecticRep`,
+`TauCeti.stdSymplecticBilinForm`, `TauCeti.stdSymplecticRepToDual` with
+`TauCeti.stdSymplecticRepToDual_equivariant`, `TauCeti.symplecticCap`, `TauCeti.symplecticCup`
+(`−∑ J_(xy) e_x ⊗ e_y`, the inverse-form cup), `TauCeti.symplecticCupCap`
+(`= cup ∘ cap`), `TauCeti.symplecticCrossing`, `TauCeti.symplecticCap_comp_symplecticCup`
+(`= −2l`) and `TauCeti.piTensorProductMap_comp_symplecticCup`.
+
+The projection formula `TauCeti.indProjection`
+(`RepresentationTheory/Induction/Projection.lean`) is an isomorphism in `Rep` over any commutative
+ring along any group homomorphism: `Ind(X ⊗ Res Y) ≅ Ind(X) ⊗ Y`; §4.4 uses its inverse.
+
+### From TauCetiRoadmap.ClassicalGroups
+
+Layer 2 owns the Schur functor `𝕊^λ(ℂᵈ)` as a `GLₔ`-subrepresentation of the tensor power, its
+tableau independence, its vanishing for more than `d` rows and the extremes `Symᵈ`, `⋀ᵈ`; Layer 4
+owns the theorem that `s_λ` is the torus character of the polynomial irreducible `V_λ`. §8.1 here
+consumes the Layer 2 carrier; Layer 7 here supplies the Schur-polynomial identities Layer 4 there
+consumes.
+
+### From TauCetiRoadmap.CharacterTheory
+
+Layer 2 owns the count of irreducibles over a splitting field; Layer 5 owns
+`TauCeti.IsCharacterTableSpec` and its uniqueness statement; §3.6 supplies external tensor
+products, formed by `Representation.tprod` after pullback along the two projections.
+§4.4 uses these products and §6.1 uses the table convention.
+
+### From TauCetiRoadmap.InductionRestriction
+
+Layer 2 owns induced characters and Frobenius reciprocity on class functions; §7.6 here consumes
+them for the induction product of the stable Frobenius characteristic.
+
+### From TauCetiRoadmap.ReductiveGroups
+
+Layer 3 owns identity components and component groups; Layer 6 owns, in characteristic zero,
+reductive ⇔ linearly reductive. §9.3 here consumes both for complete reducibility of the tensor
+representations of `O_n` and `Sp_(2l)`.
 
 ## References
 

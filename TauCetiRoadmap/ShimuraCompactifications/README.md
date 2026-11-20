@@ -1,164 +1,83 @@
 # Roadmap: toroidal compactifications and boundary geometry
 
-**Summary.** This roadmap compactifies Shimura varieties and their integral models toroidally, and
-describes the geometry at the boundary that automorphic forms, their `q`-expansions and Hecke
-operators depend on. Layer 0 extends AnalyticToricGeometry Layer 0 to arbitrary coefficient rings,
-torsor bases and arithmetic cone systems: it takes that roadmap's lattices, cones, dual monoids and
-finite fans over `ℂ` and makes them work over every commutative ring, over a base carrying a torus
-torsor, and for the infinite cone systems that an arithmetic group permutes with finitely many
-orbits. On that toric foundation it builds the mixed boundary data of a pure
-Shimura datum and its cusp labels (Layer 1), Pink's toroidal compactification in characteristic zero with
-its algebraization, its map to the Baily–Borel compactification and its canonical model over the
-reflex field (Layer 2, with general data in Layer 3), refinements, level and Hecke maps and the
-independence of coherent cohomology from the choice of cone system (Layers 4 and 5), and the relative
-theory of degenerating abelian schemes of Mumford, Faltings–Chai and Lan (Layer 6). It then constructs, at
-primes where a PEL datum has good reduction, the smooth proper integral toroidal compactification,
-the integral minimal compactification as the Proj of the Hodge section algebra, the Fourier–Jacobi
-expansion of Hodge-line sections, normalizations and normalized blow-ups at higher `p`-level, and the
-Koecher principle with arbitrary coefficients (Layer 7). Finally it carries out Dimitrov's construction of
-integral toroidal and minimal compactifications of Hilbert modular varieties at every prime not
-dividing the tame level, ramified primes and `p = 2` included, with the arithmetic Koecher principle,
-the `q`-expansion principle, cusp ideals, ordinary Hasse neighbourhoods of the boundary and the
-comparison with compactified modular curves (Layer 8).
+**Summary.** Every arithmetic use of automorphic forms on a noncompact Shimura variety passes
+through a compactification. Forms with integral or torsion coefficients, Koecher's principle and the
+`q`-expansion principle live on toroidal and minimal compactifications. This roadmap builds these
+compactifications and describes their boundary. A toroidal compactification is glued from toric
+charts near the boundary, and depends on a cone system, a decomposition of certain convex cones into
+smaller cones.
 
-We want this roadmap because every arithmetic use of automorphic forms on a noncompact Shimura variety
-passes through a compactification: the definition of holomorphic and cuspidal forms with integral or
-torsion coefficients, Koecher's principle, the `q`-expansion principle used to prove congruences, the
-Hasse invariant and canonical subgroups near the cusps, the Hodge line and its heights, and the
-higher Hida and Coleman theories of Boxer–Pilloni and Boxer–Calegari–Gee–Pilloni all take place on
-toroidal and minimal compactifications and need exact control of their boundary charts. Every object
-keeps its full structure: coefficient rings may be nonreduced, scheme-theoretic strata keep their
-nilpotents, the union of boundary divisors and the intersection of boundary branches have different
-ideals, the arithmetic action keeps its ineffective kernel, and finite normalizations, refinements and
-normalized blow-ups are distinct constructions.
+The first main result is Pink's toroidal compactification in characteristic zero. Given a pure
+Shimura datum (G, X), a compact open level K and a compatible arithmetic cone system Σ, it is a
+complex analytic space containing the Shimura variety as an open subspace and mapping to its
+Baily–Borel compactification. For complete Σ it is compact, the analytification of a proper normal
+algebraic space over ℂ. If Σ is moreover rational and compatible with the descent actions, this
+descends to the reflex field: as a scheme under Pink's ample-cover hypothesis, and as an algebraic
+space in general.
 
-The principal references are Pink's dissertation for mixed Shimura data and the characteristic-zero
-construction, Lan's book and his 2017 paper for integral PEL compactifications, Faltings–Chai for
-degenerations and the minimal compactification, Dimitrov and Dimitrov–Tilouine for Hilbert modular
-varieties, and the papers of Pilloni, Boxer–Pilloni, Bijakowski–Pilloni–Stroh, Calegari–Geraghty,
-Boxer–Calegari–Gee–Pilloni and Birkbeck–Heuer–Williams for the inputs of their applications. Source
-labels refer to the editions listed in the references, and page numbers follow those editions.
-`Suggested.lean` states two headline theorems against the pinned Mathlib and Tau Ceti:
-`HilbertCusp.bounded_cusp_support_is_positive` (8.5) and
-`proper_flat_globalFunctions_baseChange` (the general scheme theorem of 8.55).
-The compactification and degeneration theorems need the geometric objects specified in the layers
-below; their missing carriers are identified in the Lean module docstring. This README is the
-specification.
+The second is the integral theory for PEL data of Faltings–Chai and Lan. It works over the integers
+of the reflex field localized at a suitable set of good primes, at level prime to them. For a smooth
+compatible cone system satisfying Lan's conditions, the toroidal compactification is a smooth
+separated algebraic stack of finite type, an algebraic space at neat level, containing the PEL
+moduli space as an open subspace. For a complete cone system it is proper, and a positive power of
+the Hodge line ω is generated by global sections. The Proj of the section algebra of ω is the
+integral minimal compactification, projective, normal and flat over the base and independent of the
+cone system.
 
-| Layer | Title | Headline targets |
-| --- | --- | --- |
-| 0 | Admissible fans and relative torus embeddings | `FaceProjection.faceProjection`, `faceQuotientEquiv`, `torusEmbedding`, `stratumQuotientIso`, `ArithmeticFan`, `exists_smoothProjective_refinement`, `finiteFanScheme`, `boundaryUnion_ideal`, `characterDecomposition` |
-| 1 | Rational boundary and mixed data | `MixedBoundaryDatum`, `BoundaryMHS`, `BoundaryTorsor`, `CuspLabel`, `finite_overlap` |
-| 2 | Toroidal gluing in characteristic zero | `PartialBoundaryChart`, `ToroidalSpace`, `compact_of_complete`, `algebraization`, `toMinimal`, `ToroidalCanonicalModel`, `MixedShimura.canonicalModel_exists` |
-| 3 | General-data completion | `ToroidalCanonicalModel.general` |
-| 4 | Refinements and Hecke maps | `ToroidalRefinement`, `ToroidalHeckeSpan`, `subdivision_structureSheaf`, `pushforward_boundaryIdeal`, `cohomology_iso` |
-| 5 | General-data maps | `ToroidalCanonicalModel.general_functorial` |
-| 6 | Degenerations of polarized abelian schemes | `SemiAbelianScheme`, `TorusExtension.classification`, `PolarizedDegenerationData`, `MumfordDegeneration`, `UniversalDegeneration`, `hom_extend`, `SemiAbelianTateModule`, `hasse_det`, `KlingenToroidalCorrespondence`, `GroupScheme.verschiebung` |
-| 7 | Integral PEL compactifications | `GoodCuspModel`, `IntegralToroidalModel`, `strata_detect_geometricComponents`, `hodgeLine_semiample`, `HodgeLineFJ`, `IntegralMinimalModel`, `NormalizedToroidalModel`, `ProjectiveToroidalModel`, `koecher`, `hodgeLine_generated` |
-| 8 | Hilbert and modular specializations | `HilbertCusp.bounded_cusp_support_is_positive`, `CyclotomicPhase.tracePhase`, `HilbertModular.koecher`, `toroidal_exists`, `minimal_contraction`, `qExpansion_injective`, `boundaryIdeal_pushforward`, `boundary_ordinary`, `FormalGluing.effective` |
+The third treats Hilbert modular varieties of a totally real field F of degree g, after Dimitrov. At
+a neat tame level n, prime to the discriminant and dividing neither 2 nor 3, and for an admissible
+fan, the fine moduli scheme has a toroidal compactification over ℤ[1/N(n)] whose completions along
+the boundary are the cusp charts. Every prime not dividing the level is covered, including ramified
+primes and `p = 2`. Koecher's principle holds for g > 1 and a regular admissible fan, over any
+algebra over a suitable ring inverting the discriminant and the norm of the level: sections of the
+weight-κ line on the open moduli space extend uniquely to the toroidal model.
 
-## Scope and ownership
+The arithmetic input to Koecher's principle is stated in `Suggested.lean`. Let g > 1 and let U have
+finite index in the units of the integers of F. For any commutative ring R, suppose a : F → R
+satisfies a(u²ξ) = c(u, ξ)·a(ξ) for u in U, with each c(u, ξ) a unit of R. Suppose also that a fixed
+positive combination of the real embeddings of ξ is bounded below where a(ξ) ≠ 0. Then every such ξ
+is 0 or totally positive. For F = ℚ(√5), the traces of the multiples u²ξ of a nonzero, not totally
+positive ξ are unbounded below.
 
-**Owned here.** The face projection of a monoid algebra onto a face submonoid with its kernel,
-quotient and coefficient-change laws; the character decomposition of a split-torus torsor; relative
-torus embeddings of torsors, their face charts, regular coordinates and scheme-theoretic strata;
-toric schemes of finite fans over arbitrary commutative rings with base change, the support
-criterion for properness of relative toric maps, the integral boundary union and its completion, and
-finite toric maps for a change of lattice; arithmetic cone systems with their common and smooth
-projective refinements; toric acyclicity of subdivisions for the structure sheaf and the boundary
-ideal over any coefficient ring. Mixed boundary data of pure Shimura data, boundary mixed Hodge
-structures, boundary torus-and-abelian torsors, cusp labels, effective stabilizers with finite
-overlap and the incidence of positivity cones; canonical models of the mixed boundary Shimura
-varieties. Partial compactifications of boundary torsors, Pink's analytic toroidal compactification
-with its normality, compactness, smoothness and normal crossings, algebraization, map to the minimal
-compactification and canonical model, for abelian-type and general data. Refinement, level, datum
-and Hecke maps of toroidal models, the independence of coherent and cuspidal cohomology from the
-cone system, and its completed local form. Character sheaves, Hodge bundles, Tate modules and the
-boundary Hasse determinant on the supplied semi-abelian family carrier; the nonaffine extension of
-the supplied flat affine Frobenius–Verschiebung API; torus extensions, polarized degeneration data,
-Mumford's construction and the degeneration equivalence over complete normal bases; universal
-degenerations on cusp charts, extension of homomorphisms, endomorphisms, level structures and
-isogenies across the boundary, the Tate curve comparison with logarithmic Kodaira–Spencer, and the
-compactified Klingen correspondence of the Siegel threefold. Integral toroidal and minimal
-compactifications of PEL Shimura varieties at good primes, their strata, logarithmic
-Kodaira–Spencer, Hodge-line semiampleness (including the general generation theorem for semi-abelian
-families and the isotriviality criterion on curves), Fourier–Jacobi expansions of Hodge-line
-sections, quasi-projectivity of the moduli space, higher-level normalizations and normalized
-blow-ups, formally canonical sheaves, Koecher principles, cyclic level covers, the canonical bundle
-of a Siegel threefold and good-reduction boundary geometry. The arithmetic of Hilbert cusps (units,
-total positivity and cyclotomic trace phases), cusp data, lattices and stabilizers, admissible
-Hilbert fans, the formal gluing theorem of Rapoport and Dimitrov, integral toroidal and minimal
-Hilbert compactifications with their semi-abelian family, Hodge line, cusps, boundary fibres,
-weights, `q`-expansions, coefficient descent and cusp ideals, the comparison with Deligne–Pappas
-models, the boundary Hasse ideal and ordinary neighbourhoods, finite-level maps, and the degree-one
-comparison with compactified modular curves.
+`Suggested.lean` also states the scheme theorem used for global functions on the boundary. For a
+proper flat morphism of finite presentation with geometrically reduced, geometrically connected
+fibres, after any base change, the functions on an open of the base are exactly those on its
+preimage.
 
-**Built in Tau Ceti and cited.**
+The roadmap extends the complex toric geometry of AnalyticToricGeometry to arbitrary coefficient
+rings and arithmetic cone systems. It takes pure Shimura data, Baily–Borel compactifications and
+canonical models from ShimuraVarieties. It compactifies the moduli spaces of PELModuli, and takes
+Hilbert–Blumenthal moduli and Deligne–Pappas models from HilbertModularVarietiesAndShimuraCurves.
+AutomorphicBundles builds on it, using its Hodge bundle, cohomology comparison and Fourier–Jacobi
+expansions.
 
-- *The Tau Ceti library at the pin.* The toric carriers of `TauCeti/Geometry/Toric/Algebraic`
-  (`IsIntegralLattice`, `IsToricCone`, `IsRegularCone`, `TauCeti.Toric.Fan` with `TauCeti.Toric.Fan.ext`);
-  split tori `TauCeti.SplitTorus.groupScheme`; total positivity `NumberField.IsTotallyPositive` and
-  `NumberField.isTotallyPositive_iff` (`TauCeti/NumberTheory/NumberField/TotallyPositive`); mixed Hodge
-  structures `TauCeti.Hodge.MixedHodgeStructure` with `gradedHodgeStructure`, morphisms and strictness
-  (`TauCeti/Geometry/Hodge/Mixed`).
-- *The Tau Ceti library at the pin, geometric constructions.* Affine toric schemes `affineToricScheme` over `ℂ` with their face
-  localizations, the fan scheme `Fan.algebraicRealization` over `ℂ`, the torus coaction, and the
-  relative spectrum `TauCeti.AlgebraicGeometry.relativeSpec` of quasi-coherent algebras (`TauCeti/AlgebraicGeometry/RelativeSpec/Functor`).
-  The toric schemes there have complex coefficients; 0.16 adds arbitrary coefficient rings by base
-  change from `ℤ` and agrees with them over `ℂ`.
-  `TauCeti.SplitTorus.mapValue_frobenius_eq_comp_powEnd` already computes Frobenius on split-torus
-  points; 6.18 extends the flat affine Frobenius–Verschiebung API to nonaffine flat finitely presented groups. The field theorem
-  `TauCeti.AlgebraicGeometry.appTop_bijective_of_section` in
-  `TauCeti/AlgebraicGeometry/RationalPoint/Basic` assumes an integral scheme and a rational point;
-  8.55 instead treats relative boundary fibres and arbitrary base change, without a section.
-- *TauCetiRoadmap.AlgebraicVectorBundles.* Layers L0B–L2B supply finite locally free sheaves, their
-  determinants, symmetric algebras, relative spectra and geometric bundles. 0.21 adds the character-graded algebra
-  of a torus torsor, whose multiplication relates different invertible weight sheaves.
-- *TauCetiRoadmap.EllipticCurves* and *ModularCurves* Layer 7 already treat elliptic Frobenius and
-  Verschiebung; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 supplies the flat affine API,
-  and 6.18 extends it to nonaffine flat finitely presented commutative groups.
-- *TauCetiRoadmap.AnalyticToricGeometry.* Layer 0 (the algebraic toric supplier: lattices, cones,
-  rays, regular cones, fans, dual semigroups, face localizations and the fan scheme), Layer 2 (affine
-  analytic charts of regular cones), Layer 3 (finite-fan analytic gluing), Layer 4 (torus actions,
-  strata and the boundary) and Layer 5 (toric maps and the support criterion for properness). This
-  roadmap never restates them; its charts specialize to them over `ℂ`.
-- *TauCetiRoadmap.ReductiveGroups.* Layer 7 (parabolic subgroups, unipotent radicals and Levi
-  quotients over `ℚ`).
-- *TauCetiRoadmap.ModularCurves.* Layer 10 (compactified curves `X_H` over `ℤ[1/N]` for prime `N ≥ 5`
-  and diamond subgroups `H`, with cusps and widths), used only in 8.54.
+Layer 0 does the toric geometry, Layer 1 the mixed Shimura data describing the boundary, and Layer 2
+the characteristic-zero compactification. Layer 4 builds Hecke maps and shows that the coherent
+cohomology of a locally free sheaf of finite rank, and of its twist by the boundary ideal, does not
+depend on the cone system. Layers 3 and 5 extend Layers 2 and 4 to general pure Shimura data. Layer
+6 treats degenerating abelian schemes; Layers 7 and 8 build the integral PEL and Hilbert
+compactifications.
 
-*Suppliers in other roadmaps.* The exact contracts are in the next section but one. Scheme and
-algebraic-space foundations (relative Proj, descent, algebraic spaces and quotients,
-coherent cohomology, formal schemes and Stein factorization) are SchemeAndStackFoundations;
-relative spectra and their base change are AlgebraicVectorBundles L1A–L1B; complex
-analytic spaces with nilpotents are ComplexComparisonPartII §C-1.1; Artin
-approximation is AlgebraicModuliForArithmeticGeometry Layer 6; coherent analytification, GAGA, Chow's theorem and Remmert's theorems are
-ComplexComparisonPartII; noetherian formal geometry and proper GAGA are AdicSpacesPartIII; rigid and adic
-analytification are AdicSpacesPartII Layer R1; reduction theory and cusps of arithmetic groups are AdelicAlgebraicGroups;
-pure Shimura data are ShimuraVarieties §P.1, with the variations and additional axioms of
-ShimuraData Layers 3–4; the analytic and algebraic towers, rational boundary components,
-Baily–Borel compactifications, reciprocity and canonical models are ShimuraVarieties; abelian schemes,
-duals, polarizations, theta groups, Tate modules and complex uniformization are
-AbelianSchemesAndArithmeticModuli; Néron models, semistable reduction, the Raynaud extension and rigid
-uniformization are NeronModelsAndSemistableAbelianVarieties; PEL moduli problems and their
-normalizations at higher level are PELModuli; the Hasse invariant of a truncated Barsotti–Tate group is
-FiniteFlatGroupsAndIntegralPadicHodgeTheory; inverse limits of compact coefficients are
-ArithmeticGaloisDuality; Hilbert–Blumenthal moduli, Deligne–Pappas models, the tame polarization group
-and level structures are HilbertModularVarietiesAndShimuraCurves; the Tate curve, cusp parameters and
-compactified coarse modular curves are ModularCurvesPartII.
+## How to read the build
 
-*Downstream ownership.* Automorphic vector bundles, their canonical and subcanonical extensions, automorphic
-forms with general coefficients, their Fourier–Jacobi expansions and geometric Hecke operators are
-AutomorphicBundles, which builds on this roadmap (it uses the Hodge bundle of 6.1, the refinement
-comparison 4.10, the formally canonical sheaves of 7.21, the scalar expansions of 7.15 and the
-component detection of 7.10). Canonical subgroups, their radii, the modified integral lattices of
-differentials and overconvergent forms are HodgeTateAndCanonicalSubgroups, which uses 6.15 and
-8.45–8.51. Igusa towers and their partial compactifications, perfectoid Shimura varieties, étale
-cohomology of Shimura varieties, heights on moduli spaces and higher Hida theory use 4.11, 7.17–7.18
-and 7.30 and are built in their own roadmaps. Formal, adic and perfectoid completions of the toric
-schemes of 0.16 over nonarchimedean fields belong to AnalyticToricGeometryPartII, which builds on
-0.1, 0.4–0.7, 0.9, 0.10 and 0.16–0.18. Moduli interpretations of the normalized models at
-parahoric level are not used and are not constructed here.
+Layer 0 is pure commutative algebra and toric geometry and can start at once; its common and smooth
+projective refinements take the finite-overlap property of the arithmetic action as a hypothesis,
+proved for Shimura data in 1.5. Layer 1 builds the boundary data; Layer 2 needs Layers 0 and 1 and
+produces the characteristic-zero compactification and its canonical model; Layer 4 compares choices.
+Layers 3 and 5 extend Layers 2 and 4 to general pure Shimura data. Layer 6 needs only Layers 0 and 1
+and the abelian-scheme suppliers, and can proceed in parallel with Layers 2–5 (its last part, the
+Klingen correspondence, uses Layer 4). Layer 7 assembles Layers 0–6 into integral PEL
+compactifications. Layer 8 uses Layers 0, 1, 4 and 6 and the generic results 7.32–7.33, but not the
+good-prime models of Layer 7: its Hilbert models at primes dividing the discriminant are built
+directly, by Layer 0 charts, Layer 6 families and the gluing theorem 8.57. The elementary arithmetic of 8.1–8.8 and 8.16–8.20 is independent of everything else.
+Its Koecher support theorem 8.5 is stated in `Suggested.lean`.
+
+Numerical labels are reference labels. Build 0.21 before 0.8; 2.8 before 2.5 and 2.10 before
+2.9; 6.8 before 6.6; 7.32–7.33 before 7.13–7.16, and 7.31 before 7.20–7.22. In Layer 8,
+start with the elementary 8.1–8.8 and 8.16–8.20. Construct 8.13's ideal-level moduli, cusp
+lattices and stabilizers (8.14, 8.56), fans, all-prime chart families (8.21), Artinian
+uniformization (8.22) and formal gluing (8.57), then 8.23–8.29. The geometric Koecher statements 8.9–8.12 follow these inputs.
+Build 8.33 before 8.32, and 8.55 before 8.44.
 
 ## Conventions
 
@@ -199,180 +118,6 @@ parahoric level are not used and are not constructed here.
   ShimuraData §1.1 and Layers 3–4; NeronModelsAndSemistableAbelianVarieties Layers 1–3;
   ModularCurvesPartII Layers 3–9; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.2;
   ArithmeticGaloisDuality R02.1; ComplexComparisonPartII C-1–C4. Internal references `k.n` name target `n` of Layer `k`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-`AddMonoidAlgebra`, `AddMonoidAlgebra.comapDomain`, `Finsupp.comapDomain_apply`, `AddMonoidAlgebra.lift`,
-`AddMonoidAlgebra.mapDomainAlgHom`, `AddMonoidAlgebra.mapRingHom`, `AddMonoidAlgebra.domCongr` and
-`Ideal.quotientKerAlgEquivOfRightInverse` (0.1–0.10); `AlgebraicGeometry.Spec` (0.16); the units of a
-number field with `NumberField.Units.dirichletUnitTheorem.exists_unit`, `NumberField.Units.sum_mult_mul_log`,
-`NumberField.Units.pos_at_place`, `NumberField.IsTotallyReal.mult_eq` and `Subgroup.exists_pow_mem_of_index_ne_zero`
-(8.1); `Submodule.traceDual` with `Submodule.mem_traceDual` (8.16–8.20); `Units.mul_right_eq_zero`
-(8.4); limits of powers (8.3); `localCohomology` (7.34).
-
-### From Tau Ceti
-
-The library baseline is Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
-
-- `TauCeti.Toric.IsIntegralLattice`, `TauCeti.Toric.IsToricCone`, `TauCeti.Toric.IsRegularCone`
-  and `TauCeti.Toric.Fan` with `TauCeti.Toric.Fan.ext`: respectively
-  `TauCeti/Geometry/Toric/Algebraic/Lattice`, `Cone/Basic`, `Regular` and `Fan/Basic`.
-  These are the common lattice, cone and finite-fan carriers used throughout Layer 0.
-- `TauCeti.Toric.affineToricScheme` with its face localizations and
-  `TauCeti.Toric.Fan.algebraicRealization`: `TauCeti/Geometry/Toric/Algebraic/AffineScheme`,
-  `FaceLocalization` and `Fan/Scheme`. They supply the complex specializations compared in 0.16.
-- `TauCeti.SplitTorus.groupScheme` and `TauCeti.SplitTorus.mapValue_frobenius_eq_comp_powEnd`:
-  `TauCeti/Algebra/AlgebraicGroup/SplitTorus/Scheme` and `Frobenius`. The former is the split-torus
-  carrier; the latter computes Frobenius on its points, with which 6.18 agrees.
-- `TauCeti.AlgebraicGeometry.relativeSpec`:
-  `TauCeti/AlgebraicGeometry/RelativeSpec/Functor`; AlgebraicVectorBundles L1A–L1B supplies its
-  algebra–scheme and base-change API. 0.8 and 0.21 use this relative spectrum.
-- `TauCeti.Hodge.MixedHodgeStructure`,
-  `TauCeti.Hodge.MixedHodgeStructure.gradedHodgeStructure` and the morphism strictness theorems
-  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_F_eq_map_F` and
-  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_WQ_eq_map_WQ`:
-  `TauCeti/Geometry/Hodge/Mixed/Basic` and `Strictness`. 1.1–1.2 retain the rational weight
-  filtration and the induced quotient Hodge filtration.
-- `NumberField.IsTotallyPositive`, with `NumberField.isTotallyPositive_iff`:
-  `TauCeti/NumberTheory/NumberField/TotallyPositive`. 8.2, 8.5 and 8.6 use this predicate.
-- `TauCeti.AlgebraicGeometry.appTop_bijective_of_section`:
-  `TauCeti/AlgebraicGeometry/RationalPoint/Basic`. Its integral, universally closed scheme over a
-  field with a rational point is the field comparison; 8.55 adds relative boundary fibres and
-  arbitrary base change without a section.
-
-### From TauCetiRoadmap roadmaps
-
-AnalyticToricGeometry Layers 0, 2, 3, 4 and 5 as above: the supporting-character face formula
-`P_τ = P_σ + ℕ(−m)` and the regular dual-monoid equivalence `P_σ ≅ ℕ^r × ℤ^{n−r}` of Layer 0 are used in
-0.9–0.10, the analytic charts of Layer 2 in 2.1, the gluing of Layer 3 in 2.1–2.3, the boundary
-normal form of Layer 4 in 2.6, and the support criterion of Layer 5 in 0.17 and 4.1. ReductiveGroups
-Layer 7 supplies parabolics and unipotent radicals (Layer 1). ModularCurves Layer 10 is compared in 8.54.
-
-### From other roadmaps
-
-- **AlgebraicVectorBundles.** L0B–L0C supply finite locally free sheaves, determinants and
-  symmetric powers; L1A–L1B supply relative Spec, its algebra–scheme anti-equivalence and arbitrary
-  base change; L2A–L2B supply graded quasi-coherent algebras and geometric bundles. In particular
-  relative Spec is the pinned `TauCeti.AlgebraicGeometry.relativeSpec` and its base-change API,
-  used directly in 0.8 and 0.21.
-- **SchemeAndStackFoundations.** §0.3 supplies general relative Proj; §0.6 supplies coherent Hartogs;
-  §0.8 supplies étale coordinates; §0.17 supplies depth and Serre's conditions; §0.28 supplies
-  closed-subscheme ideal quotients; §0.29 supplies relative Frobenius. §§1.1–1.2 supply descent of
-  quasi-coherent modules and algebraic spaces, §§1.3–1.9 algebraic spaces, étale presentations and étale-local properties,
-  §§1.15–1.17 torsors, contracted products and quotients, and §§1.19–1.23 algebraic stacks,
-  quotient stacks, coarse spaces and tameness. §§2.1–2.2 supply higher direct images, projection
-  formula and Čech cohomology, §§2.5–2.6 filtered colimits and quasi-coherent cohomology with
-  `ample_serre_vanishing`, and §§2.19–2.20 relative duality. §§4.7–4.8 supply adic thickening
-  systems and completion, §4.9 formal functions and Stein factorization, and §4.10 coherent
-  existence and algebraization. Effective descent of affine schemes is ModularCurves §0E;
-  coherent proper direct images and finiteness are JacobianChallenge Layer C, as in
-  SchemeAndStackFoundations §§2.6 and 4.9. The character decomposition of torus torsors (0.21),
-  Rapoport's formal gluing (8.57) and the universal global-function theorem (8.55) are proved here.
-- **AlgebraicModuliForArithmeticGeometry.** Layer 6 supplies Artin approximation:
-  `Approximation.HasArtinApproximation` and the approximation theorem for henselian noetherian
-  local G-rings.
-- **ComplexComparisonPartII.** §C-1.1 supplies `ComplexAnalyticSpace`, including nilpotents, open
-  and closed subspaces, arbitrary open gluing and fibre products, and
-  `complexSchemeAnalytification`. §C0.4 supplies coherent analytification; Layer C2 projective
-  and proper consequences of GAGA; §C3.3 derived GAGA for proper algebraic spaces; §C4.1
-  Remmert's theorems; §C4.2 Chow's theorem with nilpotents; §C4.3 compactification and
-  algebraization with proper support; §C4.4 algebraicity of holomorphic maps out of proper schemes.
-- **AdicSpacesPartII.** §R1.3 (analytification-functor) supplies adic analytification of schemes
-  locally of finite type over a complete nonarchimedean field and its functoriality; §§R1.4 and
-  R1.7 supply its morphism comparisons and the rigid–adic comparison.
-- **AdicSpacesPartIII.** §§F0.2–F0.5 supply formal schemes and completion on topologically locally
-  ringed spaces, with the comparison to SchemeAndStackFoundations' thickening systems. §F0.6
-  supplies cohomology-of-mittag-leffler-limit, formal-functions-affine (good filtrations and
-  Mittag-Leffler for cohomology of coherent thickenings), theorem-on-formal-functions (the
-  adapter of SchemeAndStackFoundations §4.9), and formal-direct-image-comparison. §F0.7 supplies
-  grothendieck-existence; §F0.8 completion on relative morphisms and grothendieck-algebraization.
-  §R2.8 supplies formal-completion-and-algebraic-comparison; §R2.10 fractional-valuation-bound
-  and hasse-domain; §R3.7 gaga-comparison-map and proper-gaga. Every use retains the noetherian,
-  proper, coherent and complete-base hypotheses of its specified contract.
-- **AdelicAlgebraicGroups.** 3.2–3.4 (Siegel coordinates, reduction theory, adelic class sets) and
-  3.6 (cusps).
-- **ShimuraData.** §1.1 supplies the rational-weight criterion; §4.3 supplies the `SV4` predicate
-  and rational Hodge structures on all rational representations under `SV4`. Layer 3 supplies Hodge
-  variations, compact duals and reflex-field flags; Layer 4 supplies the type predicates and
-  additional axioms on the pure data and morphisms of ShimuraVarieties §P.1, with its Hodge–reflex
-  dictionary in §P.3.
-- **ShimuraVarieties.** §§P.1–P.3 supply pure data, their domains and the Hodge–reflex dictionary; 0.5 (component decomposition), 1.5 (level maps and Hecke correspondences), 2.1
-  (rational boundary components and incidence), 2.2 (Satake topology and compactness), 2.5 and 2.7
-  (Baily–Borel compactification and its algebraization), Layer 4 (reciprocity at special points), Layer 7
-  (general data), Layer 8 (canonical models, uniqueness, Hecke spans 8.4, general towers and minimal
-  compactifications 8.22–8.23). §P.6 (`TauCeti.Shimura.finite_analytic_quotient`) supplies finite
-  analytic quotients, invariant sheaves and gluing; §5.2 (`TauCeti.Shimura.weight_one_algebraization`)
-  algebraizes polarized integral weight-one variations with their lattices and polarizations.
-- **AbelianSchemesAndArithmeticModuli.** A0.1 (abelian schemes), A1.3 (invariant differentials), A2.2–A2.3
-  (dual abelian scheme, Poincaré bundle and biextensions), A2.5 (polarizations), A2.8 (projective
-  presentations over normal bases), A3.2 (multiplication and torsion), A3.6 (theta groups), A3.9 (Rosati
-  involution), A4.1 (Tate modules), A5.3 (algebraization of polarized complex tori).
-- **NeronModelsAndSemistableAbelianVarieties.** Layer 1 (Néron models and extension of morphisms), 3.10
-  (semistable reduction after a finite separable extension), 3.13 (the Raynaud extension over a complete
-  discrete valuation ring) and 3.14 (polarized rigid uniformization). These are local statements over
-  complete discrete valuation rings; Layer 6 extends them to complete normal bases.
-- **PELModuli.** M0–M1 (PEL data, PEL-type abelian schemes and moduli problems), M2.8–M2.10
-  (representability and smoothness at good primes, universal family, Kodaira–Spencer isomorphism),
-  M3.6/M4.3 (generic-fibre decomposition into `ker¹(ℚ,G)`-indexed canonical Shimura pieces for
-  connected data satisfying SV3 in type A/C), and M4.5–M4.6 (normal integral models at higher
-  `p`-level for the fixed lattice).
-- **FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.1.1 supplies `frobeniusHom`, `verschiebungHom`,
-  their naturality, base change and `VF = FV = [p]` on flat affine commutative groups; 6.18 extends
-  this interface to nonaffine groups. R07.2.21 (`Ha(G) = det V^*` for a truncated
-  Barsotti–Tate group over an `𝔽_p`-scheme, the isomorphism `LF` and the Hodge–Tate sequence).
-- **ArithmeticGaloisDuality.** R02.1.1 (towers, `lim` and `lim¹`, Mittag-Leffler and Tate's inverse-limit
-  theorem).
-- **HilbertModularVarietiesAndShimuraCurves.** H0.3–H0.5 supply polarization and trace-dual
-  lattices with their stabilizers; H1.1, H1.6, H1.7, H1.9 (polarization modules, the fine
-  moduli at scalar tame level `n = No`, its universal family and pairing/ideal-change laws); H2.2–H2.3 (Deligne–Pappas models),
-  H2.5–H2.6 (Rapoport and ordinary loci), H2.7 (the Hilbert Hasse ideal), H2.8 (formal Hasse
-  neighbourhoods and lift independence); H3 (the tame polarization group `Δ(N)` and weights); H4.4
-  (adjugate action on dual levels), H4.11 (residue polarization components), H4.13 (effective finite
-  level groups); H4.8–H4.9 supply the subgroup-level moduli and its 2-Cartesian polarization square
-  over the quotient stack. H3.6/H4.9 supply the
-  coarse Cartesian finite étale `Δ(N)`-torsor square over `X^free/Δ(N)`, including restriction to
-  invariant Hasse domains inside that free locus; H5.1 (the elliptic case `F = ℚ`).
-- **ArakelovGeometryAndAbelianHeights.** §2.0 supplies the semi-abelian family predicate for smooth
-  separated commutative groups of finite presentation, its base-change API, and the extension
-  theorem for homomorphisms of semi-abelian families over Noetherian normal schemes. 6.1 uses this
-  carrier and adds character and Hodge theory; 6.8 supplies locally Noetherian and algebraic-space
-  descent. §§5.0a–5.0b supply the principal Siegel toroidal compactification with its degeneration
-  charts and refinement maps, the integral minimal compactification, the global generation of a
-  positive Hodge power and the Hodge-degree criterion, with the principal Siegel families,
-  refinements and Hodge powers over all of `ℤ`. Layers 6–7 extend these interfaces to general degeneration and PEL data
-  and prove agreement on the principal Siegel specialization, including level pullback.
-- **PadicDifferentialEquationsAndRigidCohomology.** §RD.5.116 supplies relative Zarhin's trick: the abelian
-  scheme `(A ×_S A^∨)^4` carries a principal polarization when `A` is polarizable étale locally on
-  `S`. 7.32–7.33 apply it on the polarized abelian locus, retaining its
-  étale-local polarization hypotheses, and extend the comparisons by 6.8.
-- **ModularCurvesPartII.** 3.5 (fine loci and bad-level inertia), 3.6 (generalized Tate `n`-gons
-  and `du/u`), 3.7 (power isogenies at the boundary), 3.11 (the compactified coarse `j`-line), 4.8
-  (Tate and analytic cusp parameters), 5.2 (integral coarse modular curves), 5.13 (the fixed-pairing
-  compactified curve), 9.1 (compactified Hecke degeneracy maps), and its import of ModularCurves
-  Layer 10.
-
-## How to read the build
-
-Layer 0 is pure commutative algebra and toric geometry and can start at once; its common and smooth
-projective refinements take the finite-overlap property of the arithmetic action as a hypothesis,
-proved for Shimura data in 1.5. Layer 1 builds the boundary data; Layer 2 needs Layers 0 and 1 and
-produces the characteristic-zero compactification and its canonical model; Layer 4 compares choices.
-Layers 3 and 5 extend Layers 2 and 4 to general pure Shimura data. Layer 6 needs only Layers 0 and 1
-and the abelian-scheme suppliers, and can proceed in parallel with Layers 2–5 (its last part, the
-Klingen correspondence, uses Layer 4). Layer 7 assembles Layers 0–6 into integral PEL
-compactifications. Layer 8 uses Layers 0, 1, 4 and 6 and the generic results 7.32–7.33, but not the
-good-prime models of Layer 7: its Hilbert models at primes dividing the discriminant are built
-directly, by Layer 0 charts, Layer 6 families and the gluing theorem 8.57. The elementary arithmetic of 8.1–8.8 and 8.16–8.20 is independent of everything else.
-Its Koecher support theorem 8.5 is stated in `Suggested.lean`.
-
-Numerical labels are reference labels. Build 0.21 before 0.8; 2.8 before 2.5 and 2.10 before
-2.9; 6.8 before 6.6; 7.32–7.33 before 7.13–7.16, and 7.31 before 7.20–7.22. In Layer 8,
-start with the elementary 8.1–8.8 and 8.16–8.20. Construct 8.13's ideal-level moduli, cusp
-lattices and stabilizers (8.14, 8.56), fans, all-prime chart families (8.21), Artinian
-uniformization (8.22) and formal gluing (8.57), then 8.23–8.29. The geometric Koecher statements 8.9–8.12 follow these inputs.
-Build 8.33 before 8.32, and 8.55 before 8.44.
 
 ## Layer 0: admissible fans and relative torus embeddings
 
@@ -4260,6 +4005,262 @@ Mathlib's units of number fields and trace duals; Tau Ceti's total positivity.
 - **AnalyticToricGeometryPartII**: face projections and stratum quotients (0.1, 0.4–0.7), face
   charts and regular coordinates (0.9, 0.10), toric schemes over arbitrary rings, the support
   criterion and the integral boundary (0.16–0.18).
+
+## Scope and ownership
+
+**Owned here.** The face projection of a monoid algebra onto a face submonoid with its kernel,
+quotient and coefficient-change laws; the character decomposition of a split-torus torsor; relative
+torus embeddings of torsors, their face charts, regular coordinates and scheme-theoretic strata;
+toric schemes of finite fans over arbitrary commutative rings with base change, the support
+criterion for properness of relative toric maps, the integral boundary union and its completion, and
+finite toric maps for a change of lattice; arithmetic cone systems with their common and smooth
+projective refinements; toric acyclicity of subdivisions for the structure sheaf and the boundary
+ideal over any coefficient ring. Mixed boundary data of pure Shimura data, boundary mixed Hodge
+structures, boundary torus-and-abelian torsors, cusp labels, effective stabilizers with finite
+overlap and the incidence of positivity cones; canonical models of the mixed boundary Shimura
+varieties. Partial compactifications of boundary torsors, Pink's analytic toroidal compactification
+with its normality, compactness, smoothness and normal crossings, algebraization, map to the minimal
+compactification and canonical model, for abelian-type and general data. Refinement, level, datum
+and Hecke maps of toroidal models, the independence of coherent and cuspidal cohomology from the
+cone system, and its completed local form. Character sheaves, Hodge bundles, Tate modules and the
+boundary Hasse determinant on the supplied semi-abelian family carrier; the nonaffine extension of
+the supplied flat affine Frobenius–Verschiebung API; torus extensions, polarized degeneration data,
+Mumford's construction and the degeneration equivalence over complete normal bases; universal
+degenerations on cusp charts, extension of homomorphisms, endomorphisms, level structures and
+isogenies across the boundary, the Tate curve comparison with logarithmic Kodaira–Spencer, and the
+compactified Klingen correspondence of the Siegel threefold. Integral toroidal and minimal
+compactifications of PEL Shimura varieties at good primes, their strata, logarithmic
+Kodaira–Spencer, Hodge-line semiampleness (including the general generation theorem for semi-abelian
+families and the isotriviality criterion on curves), Fourier–Jacobi expansions of Hodge-line
+sections, quasi-projectivity of the moduli space, higher-level normalizations and normalized
+blow-ups, formally canonical sheaves, Koecher principles, cyclic level covers, the canonical bundle
+of a Siegel threefold and good-reduction boundary geometry. The arithmetic of Hilbert cusps (units,
+total positivity and cyclotomic trace phases), cusp data, lattices and stabilizers, admissible
+Hilbert fans, the formal gluing theorem of Rapoport and Dimitrov, integral toroidal and minimal
+Hilbert compactifications with their semi-abelian family, Hodge line, cusps, boundary fibres,
+weights, `q`-expansions, coefficient descent and cusp ideals, the comparison with Deligne–Pappas
+models, the boundary Hasse ideal and ordinary neighbourhoods, finite-level maps, and the degree-one
+comparison with compactified modular curves.
+
+**Built in Tau Ceti and cited.**
+
+- *The Tau Ceti library at the pin.* The toric carriers of `TauCeti/Geometry/Toric/Algebraic`
+  (`IsIntegralLattice`, `IsToricCone`, `IsRegularCone`, `TauCeti.Toric.Fan` with `TauCeti.Toric.Fan.ext`);
+  split tori `TauCeti.SplitTorus.groupScheme`; total positivity `NumberField.IsTotallyPositive` and
+  `NumberField.isTotallyPositive_iff` (`TauCeti/NumberTheory/NumberField/TotallyPositive`); mixed Hodge
+  structures `TauCeti.Hodge.MixedHodgeStructure` with `gradedHodgeStructure`, morphisms and strictness
+  (`TauCeti/Geometry/Hodge/Mixed`).
+- *The Tau Ceti library at the pin, geometric constructions.* Affine toric schemes `affineToricScheme` over `ℂ` with their face
+  localizations, the fan scheme `Fan.algebraicRealization` over `ℂ`, the torus coaction, and the
+  relative spectrum `TauCeti.AlgebraicGeometry.relativeSpec` of quasi-coherent algebras (`TauCeti/AlgebraicGeometry/RelativeSpec/Functor`).
+  The toric schemes there have complex coefficients; 0.16 adds arbitrary coefficient rings by base
+  change from `ℤ` and agrees with them over `ℂ`.
+  `TauCeti.SplitTorus.mapValue_frobenius_eq_comp_powEnd` already computes Frobenius on split-torus
+  points; 6.18 extends the flat affine Frobenius–Verschiebung API to nonaffine flat finitely presented groups. The field theorem
+  `TauCeti.AlgebraicGeometry.appTop_bijective_of_section` in
+  `TauCeti/AlgebraicGeometry/RationalPoint/Basic` assumes an integral scheme and a rational point;
+  8.55 instead treats relative boundary fibres and arbitrary base change, without a section.
+- *TauCetiRoadmap.AlgebraicVectorBundles.* Layers L0B–L2B supply finite locally free sheaves, their
+  determinants, symmetric algebras, relative spectra and geometric bundles. 0.21 adds the character-graded algebra
+  of a torus torsor, whose multiplication relates different invertible weight sheaves.
+- *TauCetiRoadmap.EllipticCurves* and *ModularCurves* Layer 7 already treat elliptic Frobenius and
+  Verschiebung; FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.1 supplies the flat affine API,
+  and 6.18 extends it to nonaffine flat finitely presented commutative groups.
+- *TauCetiRoadmap.AnalyticToricGeometry.* Layer 0 (the algebraic toric supplier: lattices, cones,
+  rays, regular cones, fans, dual semigroups, face localizations and the fan scheme), Layer 2 (affine
+  analytic charts of regular cones), Layer 3 (finite-fan analytic gluing), Layer 4 (torus actions,
+  strata and the boundary) and Layer 5 (toric maps and the support criterion for properness). This
+  roadmap never restates them; its charts specialize to them over `ℂ`.
+- *TauCetiRoadmap.ReductiveGroups.* Layer 7 (parabolic subgroups, unipotent radicals and Levi
+  quotients over `ℚ`).
+- *TauCetiRoadmap.ModularCurves.* Layer 10 (compactified curves `X_H` over `ℤ[1/N]` for prime `N ≥ 5`
+  and diamond subgroups `H`, with cusps and widths), used only in 8.54.
+
+*Suppliers in other roadmaps.* The exact contracts are in the next section but one. Scheme and
+algebraic-space foundations (relative Proj, descent, algebraic spaces and quotients,
+coherent cohomology, formal schemes and Stein factorization) are SchemeAndStackFoundations;
+relative spectra and their base change are AlgebraicVectorBundles L1A–L1B; complex
+analytic spaces with nilpotents are ComplexComparisonPartII §C-1.1; Artin
+approximation is AlgebraicModuliForArithmeticGeometry Layer 6; coherent analytification, GAGA, Chow's theorem and Remmert's theorems are
+ComplexComparisonPartII; noetherian formal geometry and proper GAGA are AdicSpacesPartIII; rigid and adic
+analytification are AdicSpacesPartII Layer R1; reduction theory and cusps of arithmetic groups are AdelicAlgebraicGroups;
+pure Shimura data are ShimuraVarieties §P.1, with the variations and additional axioms of
+ShimuraData Layers 3–4; the analytic and algebraic towers, rational boundary components,
+Baily–Borel compactifications, reciprocity and canonical models are ShimuraVarieties; abelian schemes,
+duals, polarizations, theta groups, Tate modules and complex uniformization are
+AbelianSchemesAndArithmeticModuli; Néron models, semistable reduction, the Raynaud extension and rigid
+uniformization are NeronModelsAndSemistableAbelianVarieties; PEL moduli problems and their
+normalizations at higher level are PELModuli; the Hasse invariant of a truncated Barsotti–Tate group is
+FiniteFlatGroupsAndIntegralPadicHodgeTheory; inverse limits of compact coefficients are
+ArithmeticGaloisDuality; Hilbert–Blumenthal moduli, Deligne–Pappas models, the tame polarization group
+and level structures are HilbertModularVarietiesAndShimuraCurves; the Tate curve, cusp parameters and
+compactified coarse modular curves are ModularCurvesPartII.
+
+*Downstream ownership.* Automorphic vector bundles, their canonical and subcanonical extensions, automorphic
+forms with general coefficients, their Fourier–Jacobi expansions and geometric Hecke operators are
+AutomorphicBundles, which builds on this roadmap (it uses the Hodge bundle of 6.1, the refinement
+comparison 4.10, the formally canonical sheaves of 7.21, the scalar expansions of 7.15 and the
+component detection of 7.10). Canonical subgroups, their radii, the modified integral lattices of
+differentials and overconvergent forms are HodgeTateAndCanonicalSubgroups, which uses 6.15 and
+8.45–8.51. Igusa towers and their partial compactifications, perfectoid Shimura varieties, étale
+cohomology of Shimura varieties, heights on moduli spaces and higher Hida theory use 4.11, 7.17–7.18
+and 7.30 and are built in their own roadmaps. Formal, adic and perfectoid completions of the toric
+schemes of 0.16 over nonarchimedean fields belong to AnalyticToricGeometryPartII, which builds on
+0.1, 0.4–0.7, 0.9, 0.10 and 0.16–0.18. Moduli interpretations of the normalized models at
+parahoric level are not used and are not constructed here.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+`AddMonoidAlgebra`, `AddMonoidAlgebra.comapDomain`, `Finsupp.comapDomain_apply`, `AddMonoidAlgebra.lift`,
+`AddMonoidAlgebra.mapDomainAlgHom`, `AddMonoidAlgebra.mapRingHom`, `AddMonoidAlgebra.domCongr` and
+`Ideal.quotientKerAlgEquivOfRightInverse` (0.1–0.10); `AlgebraicGeometry.Spec` (0.16); the units of a
+number field with `NumberField.Units.dirichletUnitTheorem.exists_unit`, `NumberField.Units.sum_mult_mul_log`,
+`NumberField.Units.pos_at_place`, `NumberField.IsTotallyReal.mult_eq` and `Subgroup.exists_pow_mem_of_index_ne_zero`
+(8.1); `Submodule.traceDual` with `Submodule.mem_traceDual` (8.16–8.20); `Units.mul_right_eq_zero`
+(8.4); limits of powers (8.3); `localCohomology` (7.34).
+
+### From Tau Ceti
+
+The library baseline is Mathlib `1b1ccf4` and Tau Ceti `2fd255d`.
+
+- `TauCeti.Toric.IsIntegralLattice`, `TauCeti.Toric.IsToricCone`, `TauCeti.Toric.IsRegularCone`
+  and `TauCeti.Toric.Fan` with `TauCeti.Toric.Fan.ext`: respectively
+  `TauCeti/Geometry/Toric/Algebraic/Lattice`, `Cone/Basic`, `Regular` and `Fan/Basic`.
+  These are the common lattice, cone and finite-fan carriers used throughout Layer 0.
+- `TauCeti.Toric.affineToricScheme` with its face localizations and
+  `TauCeti.Toric.Fan.algebraicRealization`: `TauCeti/Geometry/Toric/Algebraic/AffineScheme`,
+  `FaceLocalization` and `Fan/Scheme`. They supply the complex specializations compared in 0.16.
+- `TauCeti.SplitTorus.groupScheme` and `TauCeti.SplitTorus.mapValue_frobenius_eq_comp_powEnd`:
+  `TauCeti/Algebra/AlgebraicGroup/SplitTorus/Scheme` and `Frobenius`. The former is the split-torus
+  carrier; the latter computes Frobenius on its points, with which 6.18 agrees.
+- `TauCeti.AlgebraicGeometry.relativeSpec`:
+  `TauCeti/AlgebraicGeometry/RelativeSpec/Functor`; AlgebraicVectorBundles L1A–L1B supplies its
+  algebra–scheme and base-change API. 0.8 and 0.21 use this relative spectrum.
+- `TauCeti.Hodge.MixedHodgeStructure`,
+  `TauCeti.Hodge.MixedHodgeStructure.gradedHodgeStructure` and the morphism strictness theorems
+  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_F_eq_map_F` and
+  `TauCeti.Hodge.MixedHodgeStructure.Hom.range_inf_WQ_eq_map_WQ`:
+  `TauCeti/Geometry/Hodge/Mixed/Basic` and `Strictness`. 1.1–1.2 retain the rational weight
+  filtration and the induced quotient Hodge filtration.
+- `NumberField.IsTotallyPositive`, with `NumberField.isTotallyPositive_iff`:
+  `TauCeti/NumberTheory/NumberField/TotallyPositive`. 8.2, 8.5 and 8.6 use this predicate.
+- `TauCeti.AlgebraicGeometry.appTop_bijective_of_section`:
+  `TauCeti/AlgebraicGeometry/RationalPoint/Basic`. Its integral, universally closed scheme over a
+  field with a rational point is the field comparison; 8.55 adds relative boundary fibres and
+  arbitrary base change without a section.
+
+### From TauCetiRoadmap roadmaps
+
+AnalyticToricGeometry Layers 0, 2, 3, 4 and 5 as above: the supporting-character face formula
+`P_τ = P_σ + ℕ(−m)` and the regular dual-monoid equivalence `P_σ ≅ ℕ^r × ℤ^{n−r}` of Layer 0 are used in
+0.9–0.10, the analytic charts of Layer 2 in 2.1, the gluing of Layer 3 in 2.1–2.3, the boundary
+normal form of Layer 4 in 2.6, and the support criterion of Layer 5 in 0.17 and 4.1. ReductiveGroups
+Layer 7 supplies parabolics and unipotent radicals (Layer 1). ModularCurves Layer 10 is compared in 8.54.
+
+### From other roadmaps
+
+- **AlgebraicVectorBundles.** L0B–L0C supply finite locally free sheaves, determinants and
+  symmetric powers; L1A–L1B supply relative Spec, its algebra–scheme anti-equivalence and arbitrary
+  base change; L2A–L2B supply graded quasi-coherent algebras and geometric bundles. In particular
+  relative Spec is the pinned `TauCeti.AlgebraicGeometry.relativeSpec` and its base-change API,
+  used directly in 0.8 and 0.21.
+- **SchemeAndStackFoundations.** §0.3 supplies general relative Proj; §0.6 supplies coherent Hartogs;
+  §0.8 supplies étale coordinates; §0.17 supplies depth and Serre's conditions; §0.28 supplies
+  closed-subscheme ideal quotients; §0.29 supplies relative Frobenius. §§1.1–1.2 supply descent of
+  quasi-coherent modules and algebraic spaces, §§1.3–1.9 algebraic spaces, étale presentations and étale-local properties,
+  §§1.15–1.17 torsors, contracted products and quotients, and §§1.19–1.23 algebraic stacks,
+  quotient stacks, coarse spaces and tameness. §§2.1–2.2 supply higher direct images, projection
+  formula and Čech cohomology, §§2.5–2.6 filtered colimits and quasi-coherent cohomology with
+  `ample_serre_vanishing`, and §§2.19–2.20 relative duality. §§4.7–4.8 supply adic thickening
+  systems and completion, §4.9 formal functions and Stein factorization, and §4.10 coherent
+  existence and algebraization. Effective descent of affine schemes is ModularCurves §0E;
+  coherent proper direct images and finiteness are JacobianChallenge Layer C, as in
+  SchemeAndStackFoundations §§2.6 and 4.9. The character decomposition of torus torsors (0.21),
+  Rapoport's formal gluing (8.57) and the universal global-function theorem (8.55) are proved here.
+- **AlgebraicModuliForArithmeticGeometry.** Layer 6 supplies Artin approximation:
+  `Approximation.HasArtinApproximation` and the approximation theorem for henselian noetherian
+  local G-rings.
+- **ComplexComparisonPartII.** §C-1.1 supplies `ComplexAnalyticSpace`, including nilpotents, open
+  and closed subspaces, arbitrary open gluing and fibre products, and
+  `complexSchemeAnalytification`. §C0.4 supplies coherent analytification; Layer C2 projective
+  and proper consequences of GAGA; §C3.3 derived GAGA for proper algebraic spaces; §C4.1
+  Remmert's theorems; §C4.2 Chow's theorem with nilpotents; §C4.3 compactification and
+  algebraization with proper support; §C4.4 algebraicity of holomorphic maps out of proper schemes.
+- **AdicSpacesPartII.** §R1.3 (analytification-functor) supplies adic analytification of schemes
+  locally of finite type over a complete nonarchimedean field and its functoriality; §§R1.4 and
+  R1.7 supply its morphism comparisons and the rigid–adic comparison.
+- **AdicSpacesPartIII.** §§F0.2–F0.5 supply formal schemes and completion on topologically locally
+  ringed spaces, with the comparison to SchemeAndStackFoundations' thickening systems. §F0.6
+  supplies cohomology-of-mittag-leffler-limit, formal-functions-affine (good filtrations and
+  Mittag-Leffler for cohomology of coherent thickenings), theorem-on-formal-functions (the
+  adapter of SchemeAndStackFoundations §4.9), and formal-direct-image-comparison. §F0.7 supplies
+  grothendieck-existence; §F0.8 completion on relative morphisms and grothendieck-algebraization.
+  §R2.8 supplies formal-completion-and-algebraic-comparison; §R2.10 fractional-valuation-bound
+  and hasse-domain; §R3.7 gaga-comparison-map and proper-gaga. Every use retains the noetherian,
+  proper, coherent and complete-base hypotheses of its specified contract.
+- **AdelicAlgebraicGroups.** 3.2–3.4 (Siegel coordinates, reduction theory, adelic class sets) and
+  3.6 (cusps).
+- **ShimuraData.** §1.1 supplies the rational-weight criterion; §4.3 supplies the `SV4` predicate
+  and rational Hodge structures on all rational representations under `SV4`. Layer 3 supplies Hodge
+  variations, compact duals and reflex-field flags; Layer 4 supplies the type predicates and
+  additional axioms on the pure data and morphisms of ShimuraVarieties §P.1, with its Hodge–reflex
+  dictionary in §P.3.
+- **ShimuraVarieties.** §§P.1–P.3 supply pure data, their domains and the Hodge–reflex dictionary; 0.5 (component decomposition), 1.5 (level maps and Hecke correspondences), 2.1
+  (rational boundary components and incidence), 2.2 (Satake topology and compactness), 2.5 and 2.7
+  (Baily–Borel compactification and its algebraization), Layer 4 (reciprocity at special points), Layer 7
+  (general data), Layer 8 (canonical models, uniqueness, Hecke spans 8.4, general towers and minimal
+  compactifications 8.22–8.23). §P.6 (`TauCeti.Shimura.finite_analytic_quotient`) supplies finite
+  analytic quotients, invariant sheaves and gluing; §5.2 (`TauCeti.Shimura.weight_one_algebraization`)
+  algebraizes polarized integral weight-one variations with their lattices and polarizations.
+- **AbelianSchemesAndArithmeticModuli.** A0.1 (abelian schemes), A1.3 (invariant differentials), A2.2–A2.3
+  (dual abelian scheme, Poincaré bundle and biextensions), A2.5 (polarizations), A2.8 (projective
+  presentations over normal bases), A3.2 (multiplication and torsion), A3.6 (theta groups), A3.9 (Rosati
+  involution), A4.1 (Tate modules), A5.3 (algebraization of polarized complex tori).
+- **NeronModelsAndSemistableAbelianVarieties.** Layer 1 (Néron models and extension of morphisms), 3.10
+  (semistable reduction after a finite separable extension), 3.13 (the Raynaud extension over a complete
+  discrete valuation ring) and 3.14 (polarized rigid uniformization). These are local statements over
+  complete discrete valuation rings; Layer 6 extends them to complete normal bases.
+- **PELModuli.** M0–M1 (PEL data, PEL-type abelian schemes and moduli problems), M2.8–M2.10
+  (representability and smoothness at good primes, universal family, Kodaira–Spencer isomorphism),
+  M3.6/M4.3 (generic-fibre decomposition into `ker¹(ℚ,G)`-indexed canonical Shimura pieces for
+  connected data satisfying SV3 in type A/C), and M4.5–M4.6 (normal integral models at higher
+  `p`-level for the fixed lattice).
+- **FiniteFlatGroupsAndIntegralPadicHodgeTheory.** R07.1.1 supplies `frobeniusHom`, `verschiebungHom`,
+  their naturality, base change and `VF = FV = [p]` on flat affine commutative groups; 6.18 extends
+  this interface to nonaffine groups. R07.2.21 (`Ha(G) = det V^*` for a truncated
+  Barsotti–Tate group over an `𝔽_p`-scheme, the isomorphism `LF` and the Hodge–Tate sequence).
+- **ArithmeticGaloisDuality.** R02.1.1 (towers, `lim` and `lim¹`, Mittag-Leffler and Tate's inverse-limit
+  theorem).
+- **HilbertModularVarietiesAndShimuraCurves.** H0.3–H0.5 supply polarization and trace-dual
+  lattices with their stabilizers; H1.1, H1.6, H1.7, H1.9 (polarization modules, the fine
+  moduli at scalar tame level `n = No`, its universal family and pairing/ideal-change laws); H2.2–H2.3 (Deligne–Pappas models),
+  H2.5–H2.6 (Rapoport and ordinary loci), H2.7 (the Hilbert Hasse ideal), H2.8 (formal Hasse
+  neighbourhoods and lift independence); H3 (the tame polarization group `Δ(N)` and weights); H4.4
+  (adjugate action on dual levels), H4.11 (residue polarization components), H4.13 (effective finite
+  level groups); H4.8–H4.9 supply the subgroup-level moduli and its 2-Cartesian polarization square
+  over the quotient stack. H3.6/H4.9 supply the
+  coarse Cartesian finite étale `Δ(N)`-torsor square over `X^free/Δ(N)`, including restriction to
+  invariant Hasse domains inside that free locus; H5.1 (the elliptic case `F = ℚ`).
+- **ArakelovGeometryAndAbelianHeights.** §2.0 supplies the semi-abelian family predicate for smooth
+  separated commutative groups of finite presentation, its base-change API, and the extension
+  theorem for homomorphisms of semi-abelian families over Noetherian normal schemes. 6.1 uses this
+  carrier and adds character and Hodge theory; 6.8 supplies locally Noetherian and algebraic-space
+  descent. §§5.0a–5.0b supply the principal Siegel toroidal compactification with its degeneration
+  charts and refinement maps, the integral minimal compactification, the global generation of a
+  positive Hodge power and the Hodge-degree criterion, with the principal Siegel families,
+  refinements and Hodge powers over all of `ℤ`. Layers 6–7 extend these interfaces to general degeneration and PEL data
+  and prove agreement on the principal Siegel specialization, including level pullback.
+- **PadicDifferentialEquationsAndRigidCohomology.** §RD.5.116 supplies relative Zarhin's trick: the abelian
+  scheme `(A ×_S A^∨)^4` carries a principal polarization when `A` is polarizable étale locally on
+  `S`. 7.32–7.33 apply it on the polarized abelian locus, retaining its
+  étale-local polarization hypotheses, and extend the comparisons by 6.8.
+- **ModularCurvesPartII.** 3.5 (fine loci and bad-level inertia), 3.6 (generalized Tate `n`-gons
+  and `du/u`), 3.7 (power isogenies at the boundary), 3.11 (the compactified coarse `j`-line), 4.8
+  (Tate and analytic cusp parameters), 5.2 (integral coarse modular curves), 5.13 (the fixed-pairing
+  compactified curve), 9.1 (compactified Hecke degeneracy maps), and its import of ModularCurves
+  Layer 10.
 
 ## References
 

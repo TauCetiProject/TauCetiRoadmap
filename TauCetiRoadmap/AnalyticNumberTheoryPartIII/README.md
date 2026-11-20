@@ -1,172 +1,75 @@
 # Roadmap: analytic number theory, part III — smoothing, contour shifts and the classical Dirichlet series
 
-**Summary.** This part builds the general analytic tools that turn a zero-free region into an
-error term for a prime sum, and the Dirichlet series of the classical arithmetic functions. It
-starts from Mathlib's Fourier transform `𝓕`, `mellin`, `mellinInv`, `LSeries`, `riemannZeta` and
-`ArithmeticFunction`, and from Tau Ceti's residue calculus, its one-dimensional bounded-variation
-measures and its presented Hecke `L`-functions. In order it proves: Fourier decay for functions of
-bounded variation, principal-value inversion on vertical lines with a quantitative window and
-Brown's aliasing bound for the sampling series (Layer 7); the rectangle residue theorem in
-Mathlib's edge form, with residues and with circle integrals about arbitrary isolated
-singularities, the L-shaped contour shift to `Re s = −∞`, the derivative form of the
-Borel–Carathéodory inequality and Landau's local logarithmic-derivative lemma (Layer 8); Mellin
-convolution, Mellin transforms of compactly supported bumps, delta spikes for `dx/x` and the
-smoothed cutoffs `1̃_ε` (Layer 9); the smoothed sum of a Dirichlet series as an inverse Mellin
-integral, the transfer theorem from a zero-free region of width `η(t)` and a polylogarithmic bound
-to the error `x exp(−c ω_η(x))`, and the classical bound `L′/L ≪ log(|t| + 3)` in a de la Vallée
-Poussin region for the Hecke `L`-function of every ray class character of every number field
-(Layer 10); complete multiplicativity, the divisor functions `σ_ν` and `d_z` with complex
-parameter, Ramanujan's four-shift identity and the series of `2^ω`, `μ²`, `λ` and `φ` with their
-exact abscissas (Layer 11); the Hardy–Landau Tauberian theorem for Cesàro means (Layer 12); and the
-asymptotics of Erdős problem 392 with the waste-and-score framework of its upper bound, and the
-Goldbach-range propositions with their transfers and derived ranges (Layer 13).
+**Summary.** A zero-free region for an `L`-function becomes a prime number theorem with an error
+term through a contour argument: the partial sums are smoothed, written as an inverse Mellin
+integral, and the line of integration is moved into the region. Part I of this series uses such
+steps inside particular estimates; this part builds them once, as general statements with their
+own hypotheses, and proves the transfer theorem they lead to. It also computes the Dirichlet series
+of the classical arithmetic functions.
+
+The first main theorem is the transfer theorem in Ingham's form. A zero-free width is a function η
+on `[3, ∞)` with `0 < η(t) ≤ 1/2`. Its region is the set of s with
+`Re s ≥ 1 − η(|Im s| + 3)`, and its Ingham exponent `ω_η(x)` is the infimum over `t ≥ 3` of
+`η(t) log x + log t`. Suppose that η is continuous and nonincreasing, with
+`η(t) ≥ a₀ (log t)^(−A)` for some `a₀ > 0` and `A ≥ 0`. Let `a(n)` be complex coefficients with
+`|a(n)| ≤ B log(n + 1)` for `n ≥ 1`, whose Dirichlet series equals `G(s) + r/(s − 1)` on
+`Re s > 1`, where G is holomorphic on an open set containing the region and bounded on the
+region by `C₀ log(|Im s| + 3)^(B′)`. Then there are `c > 0` and C′ such that `Σ_{n≤x} a(n)`
+differs from `r x` by at most `C′ x exp(−c ω_η(x))` for every `x ≥ 3`. The classical width
+`η(t) = c₀/log t` gives the exponent `2√(c₀ log x)` for large x, hence the classical error
+`x exp(−c√log x)`.
+
+The second main theorem supplies these hypotheses for number fields. Let K be a number field, χ a
+ray class character of a modulus 𝔪 of K, and L its Hecke `L`-function. There are `c > 0` and C,
+depending on K, 𝔪 and χ, such that at every point `s ≠ 1` of the region
+`Re s ≥ 1 − c/log(|Im s| + 3)`, L does not vanish and `−L′/L(s) = G(s) + δ/(s − 1)`, where δ is 1
+if χ is trivial and 0 otherwise. Here G is holomorphic on an open set containing the region and
+bounded on it by `C log(|Im s| + 3)`. For `K = ℚ` and the trivial character, the transfer theorem
+with `a(n) = Λ(n)` and `r = 1` gives `ψ(x) = x + O(x exp(−c√log x))`.
+
+On the arithmetic side, the generalized divisor function `d_z`, for complex z, is the
+multiplicative function whose value at a prime power `p^a` is `z(z + 1)⋯(z + a − 1)/a!`. For
+`Re s > 1` its Dirichlet series converges absolutely and equals `ζ(s)^z`. The power uses
+the logarithm given by the Euler product, not the principal logarithm of the number `ζ(s)`.
+Erdős problem 392 concerns the least number of factors, each an integer between 1 and `n²`,
+whose product is `n!`; the roadmap proves that it is `n/2 − n/(2 log n) + o(n/log n)`.
+
+ZerosOfLFunctions provides the zero-free regions and growth bounds behind the second main
+theorem, and LFunctions provides the Hecke `L`-functions with their Euler products. Layer 8 rests
+on Tau Ceti's residue calculus, built by ContourIntegration. Several results of Part I are
+special cases of statements here; they are not restated and serve only as checks. Every constant is
+existential; numerical versions belong to other roadmaps, such as ExplicitPrimeCounting.
+
+The layers are numbered 7 to 13, after those of Parts I and II. Layer 7 proves Fourier decay for
+integrable functions of bounded variation and pointwise Mellin inversion on vertical lines. Layer
+8 gives the residue theorem on rectangles and Landau's lemma on logarithmic derivatives. Layer 9
+builds smoothed cutoffs whose Mellin transforms decay uniformly in the smoothing parameter. Layer
+10 combines Layers 8 and 9 into the two main theorems. Layer 11 holds the Dirichlet series,
+Ramanujan's four-shift identity among them. Layer 12 proves the Hardy–Landau Tauberian theorem
+for Cesàro means. Layer 13 holds the factorizations of `n!` and a transfer of verified Goldbach
+ranges along short intervals containing a prime.
 
 [`Suggested.lean`](Suggested.lean) states the headline theorems against the pinned libraries; it is
 not the roadmap.
 
-## Scope and ownership
+## How to read the build
 
-### Place in the series
-
-AnalyticNumberTheoryPartI owns Layers 0–3 (quantitative primes, the exclusion of Landau–Siegel
-zeros, explicit formulas, Hecke and Artin comparisons, multiplicative means) and
-AnalyticNumberTheoryPartII owns Layers 4–6 (special functions, multiple zeta functions, the
-Bost–Connes system). This part owns Layers 7–13, numbered after them so that section numbers never
-collide across the series. Part I uses contour shifts and smoothing kernels as local steps of
-particular estimates (its §§0.11c and 1.2a are examples) and states four results for `ζ` and for
-Dirichlet characters that are instances of statements here: the logarithmic-derivative bound right
-of the de la Vallée Poussin curve (§0.33a), the local logarithmic-derivative expansions of §0.30a,
-the ordered factorization count `d_n` (§§3.3–3.4) and the divisor-square Euler identity (§3.24a).
-This part builds the tools once, as general statements with their own hypotheses, consumes those
-results as Checks of 10.3, 8.3, 11.2 and 11.3, and does not restate them. It plans none of Part II's
-objects.
-
-### Owned here
-
-- Layer 7: decay of `𝓕f` for integrable functions of bounded variation and for functions with a
-  derivative of bounded variation; two uniform bounds on the truncated Dirichlet integral;
-  pointwise principal-value inversion of the two-sided Laplace and the Mellin transform on a
-  vertical line, and its windowed error; the aliasing error of the sampling series
-  `Σ f(n/2W) sinc(π(2Wt − n))` for `f` the inverse Fourier transform of an integrable function,
-  with its optimal constant.
-- Layer 8: the residue theorem on a rectangle in Mathlib's edge form and the U-shaped contour
-  identity that follows; the same edge expression as a sum of circle integrals about finitely many
-  arbitrary isolated singularities; the shift of a segment `[1, 1 + iT]` onto an L-shaped contour
-  running to `Re s = −∞`; Carathéodory's coefficient inequality and the derivative form of
-  Borel–Carathéodory; Landau's local logarithmic-derivative lemma for an arbitrary holomorphic
-  function on a disc. ZerosOfLFunctions §7.2 is the argument principle on its rectangle curve
-  *rectBoundary*, an identity for `f′/f`; 8.1 differs in treating a general meromorphic `f` and
-  in Mathlib's four-edge expression. Part I §0.30a proves the `ζ` and conductor-uniform Dirichlet
-  instances of the nested-disc argument; 8.3 differs in being the lemma for every holomorphic
-  function, with a constant depending only on the two radius ratios.
-- Layer 9: Mellin convolution on `(0, ∞)`, Mellin transforms of compactly supported `C^k` bumps,
-  the delta spikes `ν_ε` and their approximate-identity property, and the smoothed cutoffs `1̃_ε`.
-  ExplicitPrimeCounting §2.1, extending the test class of the Weil explicit formula, bounds the
-  Mellin transform of a continuous kernel supported in `[a, b] ⊂ (0, ∞)` whose derivative `tφ′(t)`
-  is of bounded variation `V` by `max(1, b) V/|s|²` on `0 ≤ Re s ≤ 1`; 9.2 differs in treating
-  `C^k` bumps on every vertical strip, with decay `(1 + |s|)^{−k}`.
-- Layer 10: smoothed summatory functions of Dirichlet series as inverse Mellin integrals and their
-  comparison with sharp sums; the transfer theorem in Ingham's zero-free-region form; the
-  classical logarithmic-derivative bound for the presented Hecke `L`-function of every ray class
-  character of a fixed field. Its `K = ℚ`, trivial-character instance is
-  AnalyticNumberTheoryPartI §0.33a; 10.3 differs in covering every number field and every ray class
-  character. ExplicitPrimeCounting §3.1 bounds `ψ(x) − x` by an explicit `εx` from a zero-free
-  region, a verified height, a zero count and, in its forms (c) and (d), a zero density, through
-  the explicit formula; 10.2 differs in being the qualitative transfer for an arbitrary Dirichlet
-  series with a pole at `1` and a polylogarithmic bound in the region, with no zero count.
-- Layer 11: the predicate of complete multiplicativity on `ArithmeticFunction R` and its
-  equivalence with Mathlib's `ℕ →*₀ R`; `σ_ν` for `ν ∈ ℂ`; `d_z` for `z ∈ ℂ`; Ramanujan's
-  four-shift identity and the series of `τ(n²)`; the series of `2^ω`, `μ²`, `λ` and `φ`, each with
-  its exact abscissa of absolute convergence. The `α = β = 0` instance of Ramanujan's identity,
-  `Σ τ(n)² n^{−s} = ζ(s)⁴/ζ(2s)`, is AnalyticNumberTheoryPartI §3.24a. 11.1 is the `ℕ`-indexed
-  predicate for an arbitrary monoid with zero `R`, with no condition on the primes where `f`
-  vanishes; ArithmeticDirichletSeries §0.2's `TauCeti.MultiplicativeIdealWeight` is the
-  ideal-indexed carrier `Ideal (𝓞 K) →*₀ ℂ` of a number field that kills only finitely many
-  primes, with unit-modulus subtype `TauCeti.UnitaryIdealWeight`; at `K = ℚ` its image under
-  `TauCeti.normCoeff` is completely multiplicative in the sense of 11.1, while 11.1 also admits
-  functions vanishing at infinitely many primes. The Dirichlet series of `d_k = ζ^k` for `k ∈ ℕ`,
-  absolutely convergent on `Re s > 1` with sum `ζ(s)^k`, is ArithmeticDirichletSeriesPartII §5.1
-  (`LSeriesHasSum_zeta_pow`); 11.2 differs in the complex exponent `z`, for which `ζ(s)^z` is the
-  exponential of `z` times the Euler-product logarithm, and its `z = k` instance enters 11.2 as a
-  Check. Complete additivity and the exponentials `n ↦ k^{f(n)}` of additive functions, with the
-  multiplicativity of `2^ω`, are ProbabilisticAndMetricNumberTheory §0.1a; 11.1 is the
-  multiplicative predicate (that section's `2^Ω` satisfies it, `2^ω` does not), and 11.4 takes the
-  multiplicativity of `2^ω` from there.
-- Layer 12: the Hardy–Landau Tauberian theorem for Cesàro means, one-sided for real sequences and
-  two-sided in real normed spaces.
-- Layer 13: the asymptotics of the least number of factors of `n!` bounded by `n²` (Erdős problem
-  392) and by `n`, with the approximate factorizations, waste and score of the upper bound; the
-  Goldbach-range propositions, their transfers, the published finite verifications as named
-  propositions, and the ranges that the short-interval theorems of ExplicitPrimeCounting Layer 7
-  give from them.
-
-### Consumed, not redefined
-
-- Mathlib: the value form of Borel–Carathéodory (`Complex.borelCaratheodory`); Mellin inversion
-  for transforms integrable on the line (`mellinInv_mellin_eq`); `𝓜 1_(0,1] = 1/s`
-  (`hasMellin_one_Ioc`); the smooth Fourier decay `(1 + u²)‖𝓕f(u)‖ ≤ ‖f‖₁ + ‖f″‖₁/(4π²)` for `C²`
-  functions with integrable derivatives (`Real.one_add_sq_mul_norm_fourier_le`); the Euler products
-  of `ζ` and of completely multiplicative `ℕ →*₀ F`; the Euler-product logarithm of `ζ`
-  (`riemannZeta_eq_exp_LSeries`); the series `L(μ, s) = 1/ζ(s)`
-  (`ArithmeticFunction.LSeries_zeta_mul_Lseries_moebius`); `ArithmeticFunction.sigma k` for
-  `k : ℕ`, `ArithmeticFunction.liouville`, `ArithmeticFunction.cardDistinctFactors`,
-  `ArithmeticFunction.moebius`; Cesàro convergence of convergent sequences
-  (`Filter.Tendsto.cesaro`); Stirling (`Stirling.factorial_isEquivalent_stirling`); Chebyshev's
-  bound and Legendre's formula.
-- Tau Ceti: the Dirichlet integral `TauCeti.Contour.tendsto_integral_sin_div_atTop`; the residue
-  and the residue theorem for null-homologous curves; the truncated Perron kernel and its
-  arithmetic formula; integration by parts against the derivative measure of a function of bounded
-  variation; the presented Hecke `L`-function `TauCeti.LFunctions.heckeLFunctionC` and the finiteness
-  of ray class groups; the binomial series of `Ring.multichoose` on the complex open unit disc
-  (`TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`), the local factor of 11.2.
-- The residue calculus itself: ContourIntegration (completed, realized in Tau Ceti).
-- Zero-free regions, Jensen's bound, wide-strip growth and the rectangle curve: ZerosOfLFunctions
-  §§3.4, 4.3, 6.2–6.5 and 7.1.
-- Continued Dedekind zeta and Hecke `L`-functions, their Euler products and nonvanishing on
-  `Re s = 1`: LFunctions Layers 3, 5 and 7.
-- The Dirichlet series of `d_k = ζ^k`, `k ∈ ℕ`: ArithmeticDirichletSeriesPartII §5.1, a Check of
-  11.2.
-- Complete additivity and the multiplicativity of `2^ω`: ProbabilisticAndMetricNumberTheory §0.1a.
-- Schoenfeld's, Ramaré–Saouter's and Kadiri–Lumley's short intervals containing a prime:
-  ExplicitPrimeCounting §§7.1–7.3, instances of the hypothesis of 13.2 in the Examples of Layer 13.
-
-### Not owned here
-
-- Zero counting, the explicit formula and the prime ideal theorem with classical error:
-  ZerosOfLFunctions Layers 4–8 (its §8.5 at `K = ℚ` is a Check of 10.2–10.3 here).
-- Effective and conductor-uniform estimates, the zero-free strip for `ζ` with logarithmic bounds
-  for `ζ − 1/(s − 1)` and `1/ζ` (§0.33), the bounds for `ζ′` and `ζ′/ζ` after pole subtraction on
-  the half-plane right of the curve (§0.33a), the local expansions of `ζ′/ζ` and of `L′/L` for
-  primitive Dirichlet characters (§0.30a), the Dirichlet divisor average (§3.22), the pointwise
-  divisor bounds (§§3.1, 3.4) and the divisor-square Euler identity (§3.24a):
-  AnalyticNumberTheoryPartI.
-- Truncated Perron for `LSeries`, Abel–Stieltjes summation, Wiener–Ikehara and the transfer
-  `ψ → θ → π`: ArithmeticDirichletSeries Layers 6, 9 and 10.
-- Newman's Tauberian theorem: TauberianBoundaryConvergence N1–N2.
-- Every decimal constant. In particular: the smoothed truncated Perron formulas with numerical
-  error terms (ExplicitZetaBounds §6.1); the zero-free regions with explicit constants, the
-  Vinogradov–Korobov regions among them (ExplicitZetaBounds Layer 7, §7.6); the explicit bounds for
-  `ψ` from a region, a verified height, a zero count and, in some forms, a zero density, with
-  Pintz's form (ExplicitPrimeCounting §3.1) and the Vinogradov–Korobov instance
-  (ExplicitPrimeCounting §3.6); the prime-gap verifications and the short intervals containing a
-  prime (ExplicitPrimeCounting §1.4 and Layer 7). Those roadmaps prove their statements by their
-  own routes; 10.2 claims only an unspecified constant `c`, and 13.2 takes a short-interval prime
-  statement as a hypothesis.
-- The Parseval form of the Mellin convolution theorem, `𝓜[x ↦ ∫ f(t) h(xt) dt](z) = 𝓜f(1 − z) 𝓜h(z)`
-  on a common strip of absolute convergence, with its inversion: AsymptoticExpansions §8.1. The
-  product formula of 9.1 is the same theorem after the substitution `t = 1/y`; 9.1 states it for
-  the operation `f ⋆ g` defined there, in its convolution variables at `x > 0`, which is the form
-  9.4 uses for `1̃_ε = 1_(0,1] ⋆ ν_ε`.
-- The shift of a full vertical line across a strip with finitely many poles under uniform decay:
-  AsymptoticExpansions §8.2. 8.1 and 8.1a here differ in being finite-height rectangle statements
-  with no decay hypothesis, and 8.1b in moving a segment of finite height to the left, with decay
-  only as `Re s → −∞`.
-- The sine integral `Si` as an entire function, with its continuation, asymptotics and Gibbs
-  phenomenon: SpecialFunctionsEiLiErfIncompleteGamma Layer 9. 7.2 here states only two uniform
-  bounds on the real truncated Dirichlet integral, without defining a function.
-- The Fejér means of circle `L¹` functions and their `L¹` approximation: ToeplitzOperators T1.
-- The Laplace carrier `HasLaplace` and Delange's theorem: ArithmeticDirichletSeriesPartII §0.1 and
-  §3.2. Layer 7 works with Mathlib's Fourier carrier and needs neither.
+Layers 7, 8 and 11–13 are independent of one another and rest only on the libraries and the
+suppliers below. Layer 9 is independent of Layer 7: its decay comes from integration by parts on
+compact supports. Layer 10 assembles 8.1–8.3, 9.1–9.4 and the zero-free regions of
+ZerosOfLFunctions: 10.1 writes a smoothed sum as an inverse Mellin integral, 10.2 shifts it across a
+rectangle inside the region, and 10.3 supplies the region and the bound in the case of number-field
+`L`-functions. Layer 11 is pure arithmetic of `LSeries` on half-planes of absolute convergence.
+Layer 12 uses only finite sums and limits. A proof sketch names one route and its inputs; a
+target's *Needs* line lists what its statement and that route use, so another route is not
+blocked. `Suggested.lean` states the definitions `deltaSpike`, `smoothCutoff`, `inghamExponent`,
+`sigmaC`, `generalizedDivisor`, `factorialFactorCount`, `EvenGoldbachUpTo` and `OddGoldbachUpTo`,
+which the headline statements need, and the headline theorems of 7.1, 7.3, 7.4, 8.1, 8.1a, 8.1b,
+8.2, 8.3, 9.4, 10.1, 10.2, 10.3, 11.2, 11.3, 11.4, 12.1, 13.1 and 13.2; 8.1 is stated with
+`TauCeti.Contour.residue` and 10.3 with `TauCeti.LFunctions.heckeLFunctionC`, and the file imports
+the two Tau Ceti modules that declare them. The definitions *mellinConv* (9.1),
+*IsCompletelyMultiplicative* (11.1) and the approximate factorizations of 13.1 with their *waste*,
+*balance* and *score*, and the remaining targets, are README targets, named here in italics.
 
 ## Conventions
 
@@ -232,209 +135,6 @@ objects.
   `χ = 1` it agrees with `riemannZeta` on `ℂ ∖ {1}`, and `−L′/L` has residue `+1` at `s = 1`.
 - **Constants.** Every constant is existential with its dependence stated; uniformity in a
   parameter means the constant is chosen before it. No decimal constant is asserted.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `𝓕` on `ℝ` (`Mathlib/Analysis/Fourier/FourierTransform.lean`), `Real.norm_fourier_le_integral_norm`,
-  `Real.fourier_deriv` (for differentiable `f` with `f, f′` integrable) and
-  `Real.one_add_sq_mul_norm_fourier_le` (`Mathlib/Analysis/Fourier/FourierTransformDeriv.lean`: for
-  `ContDiff ℝ 2 f` with `iteratedDeriv k f` integrable for `k ≤ 2`); the Riemann–Lebesgue lemma
-  `Real.zero_at_infty_fourier`; the inverse transform `𝓕⁻ g x = ∫ e^{2πixξ} g(ξ) dξ`; `Real.sinc`
-  (`Mathlib/Analysis/SpecialFunctions/Trigonometric/Sinc.lean`: `sin x / x`, with value `1` at
-  `0`).
-- `BoundedVariationOn`, `eVariationOn`, `Function.leftLim`, `Function.rightLim`;
-  `BoundedVariationOn.vectorMeasure` and `BoundedVariationOn.variation_vectorMeasure_univ_le`
-  (`Mathlib/MeasureTheory/VectorMeasure/BoundedVariation.lean`), with the vector-measure integral
-  `∫ᵛ`, `MeasureTheory.VectorMeasure.norm_integral_le_of_norm_le_const` (for a vector measure of
-  finite variation) and `MeasureTheory.VectorMeasure.tendsto_integral_of_dominated_convergence`
-  (`Mathlib/MeasureTheory/VectorMeasure/Integral.lean`).
-- `mellin`, `mellinInv`, `MellinConvergent`, `HasMellin`, `Complex.VerticalIntegrable`,
-  `hasMellin_one_Ioc`, `mellin_comp_rpow`, `mellin_comp_mul_left`, `MellinConvergent.comp_rpow`,
-  `mellin_differentiableAt_of_isBigO_rpow` (`Mathlib/Analysis/MellinTransform.lean`);
-  `mellin_eq_fourier`, `mellinInv_mellin_eq` (`Mathlib/Analysis/MellinInversion.lean`; the latter
-  takes `0 < x`, `MellinConvergent f σ`, `VerticalIntegrable (mellin f) σ` and `ContinuousAt f x`).
-- `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
-  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`), whose four-edge expression 8.1 uses verbatim,
-  and `Complex.circleIntegral_eq_of_differentiable_on_annulus_off_countable` (same file);
-  `Complex.reProdIm` (`×ℂ`); Cauchy's estimates; `circleIntegral`; `logDeriv`;
-  `analyticOrderNatAt`; `MeasureTheory.intervalIntegral_tendsto_integral_Iic`.
-- `Complex.borelCaratheodory` (`Mathlib/Analysis/Complex/BorelCaratheodory.lean`: for `f`
-  differentiable on `‖z‖ < R` with `Re f ≤ M`, `0 < M`, the bound
-  `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)`); `AnalyticOnNhd.sum_divisor_le` (Jensen,
-  `Mathlib/Analysis/Complex/JensenFormula.lean`).
-- `riemannZeta`, `LSeries`, `LSeriesSummable`, `LSeriesHasSum`, `LSeries.term`,
-  `LSeries.abscissaOfAbsConv` (an `EReal`), `ArithmeticFunction.LSeries_zeta_eq_riemannZeta`,
-  `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`, `LSeries_convolution'`,
-  `ArithmeticFunction.LSeries_mul`, `ArithmeticFunction.LSeries_zeta_mul_Lseries_moebius`,
-  `riemannZeta_ne_zero_of_one_le_re`, `differentiableAt_riemannZeta`, `riemannZeta_eq_exp_LSeries`
-  and `DirichletCharacter.eulerProduct_log_eq_LSeries`
-  (`Mathlib/NumberTheory/EulerProduct/DirichletLSeries.lean`: for `Re s > 1`,
-  `Σ_p −log(1 − χ(p) p^{−s}) = LSeries (n ↦ χ(n) Λ(n)/log n) s`; at the trivial character of
-  level `1` this is the identity through which Mathlib proves `riemannZeta_eq_exp_LSeries`).
-- `ArithmeticFunction.LSeriesSummable_zeta_iff` (`LSeriesSummable ζ s ↔ 1 < Re s`),
-  `ArithmeticFunction.LSeriesSummable_mul` (`Mathlib/NumberTheory/LSeries/Convolution.lean`: the
-  Dirichlet convolution of two absolutely convergent series converges absolutely),
-  `LSeriesSummable.of_re_le_re`, `LSeriesSummable_of_le_const_mul_rpow` (absolute convergence on
-  `Re s > x` when `|f(n)| ≤ C n^{x−1}`), `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`,
-  `LSeries.abscissaOfAbsConv_le_of_le_const` and `LSeries.abscissaOfAbsConv_le_of_le_const_mul_rpow`
-  (`Mathlib/NumberTheory/LSeries/Convergence.lean`); `Nat.Primes.not_summable_one_div`
-  (`Mathlib/NumberTheory/SumPrimeReciprocals.lean`: `Σ_p 1/p` diverges).
-- `ArithmeticFunction` with Dirichlet convolution, `ArithmeticFunction.IsMultiplicative`,
-  `ArithmeticFunction.zeta`, `ArithmeticFunction.sigma` (`k : ℕ`), `ArithmeticFunction.pow`,
-  `ArithmeticFunction.moebius`, `ArithmeticFunction.liouville` with
-  `ArithmeticFunction.liouville_apply_mul`, `ArithmeticFunction.cardDistinctFactors`,
-  `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.pmul`, `Nat.totient`,
-  `Nat.factorization`; the completely multiplicative Euler product
-  `EulerProduct.eulerProduct_completely_multiplicative_tprod` for `ℕ →*₀ F`, `F` a complete normed
-  field, and `EulerProduct.eulerProduct_tprod` (`Mathlib/NumberTheory/EulerProduct/Basic.lean`: for
-  `f` with values in a complete normed commutative ring, `f 1 = 1`, `f` multiplicative on coprime
-  arguments, `f 0 = 0` and `Σ ‖f(n)‖ < ∞`, `∏'_p Σ'_e f(p^e) = Σ' f(n)`); `Summable.clog_one_sub`
-  (`Mathlib/NumberTheory/EulerProduct/ExpLog.lean`), `HasSum.cexp`
-  (`Mathlib/Analysis/SpecialFunctions/Exp.lean`: a sum `a` exponentiates to a product `exp a`) and
-  `Complex.cpow_def_of_ne_zero`; `Ring.multichoose` and its `BinomialRing` instance for
-  `ℚ≥0`-modules, which covers `ℂ`, the Chu–Vandermonde identity `Ring.add_choose_eq` and
-  `Ring.choose_neg'` (`Ring.choose (−r) n = (−1)^n Ring.multichoose r n`)
-  (`Mathlib/RingTheory/Binomial.lean`).
-- `Filter.Tendsto.cesaro`, `Filter.Tendsto.cesaro_smul`
-  (`Mathlib/Analysis/Asymptotics/SpecificAsymptotics.lean`).
-- `Stirling.factorial_isEquivalent_stirling`, `Stirling.le_factorial_stirling`;
-  `Chebyshev.theta_le_log4_mul_x`, `Chebyshev.psi` (`Mathlib/NumberTheory/Chebyshev.lean`);
-  `Nat.factorization_factorial` (`Mathlib/Data/Nat/Choose/Factorization.lean`); `Nat.smoothNumbers`
-  (`Mathlib/NumberTheory/SmoothNumbers.lean`: the `m ≠ 0` all of whose prime factors are `< k`);
-  and Bertrand's postulate `Nat.exists_prime_lt_and_le_two_mul`.
-
-### From Tau Ceti
-
-- `BoundedVariationOn.integral_deriv_smul_eq_neg_integral_vectorMeasure`
-  (`TauCeti/Analysis/BoundedVariation/OneDimensional.lean`): for `f` of bounded variation on `ℝ`
-  with values in a real Banach space and a real compactly supported `C¹` test function `φ`,
-  `∫ φ′ • f = −∫ᵛ φ ∂(Df)`, with no integrability of `f` assumed.
-- `TauCeti.Contour.tendsto_integral_sin_div_atTop`
-  (`TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`):
-  `∫_0^R sin x/x dx → π/2`.
-- `TauCeti.Contour.residue` (`TauCeti/Analysis/Contour/Residue/Basic.lean`: the order-`(−1)`
-  Laurent coefficient at a pole of a meromorphic function, `0` where `f` is analytic and junk `0`
-  where `f` is not meromorphic) and `TauCeti.Contour.classicalResidueTheorem_nullHomologous`
-  (`TauCeti/Analysis/Contour/Residue/Cycle.lean`): for `f` holomorphic on an open `U` off a finite
-  `S`, meromorphic at the points of `S ∩ U`, and a closed piecewise-`C¹` null-homologous curve in
-  `U` avoiding `S`, the contour integral is `2πi Σ_{s∈S} n(γ, s) Res_s f`.
-- `TauCeti.truncatedPerronKernel` (the value `(2π)⁻¹ ∫_{−T}^{T} x^{c+it}/(c + it) dt`),
-  `TauCeti.truncatedPerronKernel_one` (its value `π⁻¹ arctan(T/c)` at `x = 1`, `c ≠ 0`) and
-  `TauCeti.truncatedPerron_LSeries` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/`).
-- `TauCeti.LFunctions.heckeLFunctionC` (`TauCeti/NumberTheory/LFunctions/Hecke/Basic.lean`), the
-  presented continued `L`-function of `χ : TauCeti.GlobalNumberFields.RayClassCharacter 𝔪`,
-  `TauCeti.LFunctions.heckeLFunctionC_eq_primitive` (on `Re s > 1`) and
-  `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (as punctured germs at every point);
-  `TauCeti.GlobalNumberFields.finite_rayClassGroup`
-  (`TauCeti/NumberTheory/NumberField/Global/RayClass/Finite.lean`).
-- `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
-  (`TauCeti/Analysis/Analytic/Binomial.lean`): for complex `r` and `‖x‖ < 1`, the series
-  `Σ_n Ring.multichoose r n · xⁿ` has sum `1/(1 − x)^r`, with the principal power.
-
-### From TauCetiRoadmap.ContourIntegration
-
-Layers 2–4 (completed and realized in Tau Ceti): residues, winding numbers and the residue theorem
-for null-homologous piecewise-`C¹` curves, with the exact hypotheses listed under From Tau Ceti.
-
-### From TauCetiRoadmap.ArithmeticDirichletSeries
-
-§6.3 (truncated Perron kernel, its endpoint value `π⁻¹ arctan(T/c)` at `x = 1`) and §6.4 (the
-arithmetic Perron formula), completed and realized as the Tau Ceti declarations above. They are
-the `f = 1_(0,1]` instance of 7.3 and are used only as Checks. §0.2 (the completely multiplicative
-ideal weights) is named in Scope and in a Check of 11.1.
-
-### From TauCetiRoadmap.LFunctions
-
-Layer 3 (the continued Dedekind zeta function and its simple pole at `1`), Layer 5 (finite-order
-Hecke `L`-functions, their continuation, their Euler products on `Re s > 1`, and the comparison of a
-presented character with its primitive one) and Layer 7 (nonvanishing on `Re s = 1`). 10.3 uses the
-Euler product to bound `|L(2 + it)|` below by a positive constant depending only on `[K:ℚ]`.
-
-### From TauCetiRoadmap.ZerosOfLFunctions
-
-- §3.4, the "wide strips above the poles" corollary: for a fixed record and closed strip,
-  `|L(σ + it)| ≤ C analyticConductorAt d (σ + it)^B` for `σ` in the strip and `|t| ≥ T₀` above the
-  poles; at a fixed `K` and `χ` this is `≤ C′(|t| + 3)^{B′}`.
-- §4.3 (Jensen's bound): for `f` analytic on `closedBall c R`, `f c ≠ 0`, `‖f‖ ≤ M` on the sphere
-  with `M ≥ 1`, the number of zeros in `closedBall c r` is at most `log(M/‖f c‖)/log(R/r)`.
-- §§6.2–6.4: for a primitive finite-order ray-class character `χ` of `K`, with
-  `c = heckeZeroFreeConstant [K:ℚ]`, no zero `ρ` of `L(χ, ·)` with
-  `Re ρ ≥ 1 − c/log analyticConductorAt d (i Im ρ)` except at most one real simple zero when
-  `χ² = 1` (the predicate `IsExceptionalZero`); at a fixed `K` and `χ` the analytic conductor at
-  height `γ` is at most `C_{K,χ} (|γ| + 3)^{[K:ℚ]}`.
-- §6.5: no zero on `Re s = 1`.
-- §7.1: the counterclockwise boundary curve *rectBoundary* of a rectangle, closed, piecewise `C¹`,
-  null-homologous in every open set containing the rectangle, with winding number `1` about every
-  point of the open rectangle.
-- §8.5 at `K = ℚ`: `ψ(x) = x + O(x exp(−c √log x))`, used as a Check of 10.2–10.3.
-
-### From TauCetiRoadmap.AnalyticNumberTheoryPartI
-
-- §0.33a (`riemannZeta_deriv_logDeriv_bound`): there are `0 < β < 1` and `C > 0` such that every
-  `s ≠ 1` with `Re s ≥ 1 − β/log(|Im s| + 2)` has `ζ(s) ≠ 0` and
-  `|ζ′/ζ(s) + 1/(s − 1)| ≤ C log(|Im s| + 2)`, the left side extending analytically across `1`.
-  This is the `K = ℚ`, `χ = 1` instance of 10.3, consumed and not restated; it enters 10.3 as a
-  Check.
-- §0.30a (`riemannZeta_local_logDeriv`): for `σ₀ > 1` and radii `0 < r < r′` there is `C` with
-  `|ζ′/ζ(s) + 1/(s − 1) − Σ_{|ρ−s₀|≤r′} m(ρ)/(s − ρ)| ≤ C log(|Im s₀| + 2)` for `Re s₀ = σ₀`,
-  `|s − s₀| ≤ r`, `ζ(s) ≠ 0`. It is 8.3 applied to `(s − 1)ζ(s)` and enters 8.3 as a Check.
-- §§3.3–3.4 (the ordered factorization count `d_n` and its subpolynomial bound): `d_n` is the
-  value at `z = n` of 11.2's `d_z`, a Check.
-- §3.24a (`riemannZeta_pow_four_eq_mul_LSeries_divisor_sq`): for `Re s > 1` the series
-  `Σ τ(n)² n^{−s}` converges absolutely and `ζ(s)⁴ = ζ(2s) Σ τ(n)² n^{−s}`. This is the
-  `α = β = 0` instance of 11.3, consumed and not restated; it enters 11.3 as a Check.
-
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory
-
-§0.1a (complete additivity and exponentials of additive functions): `powOfAdditive` (for a monoid
-with zero `R`, `k ∈ R` and `f : ArithmeticFunction ℕ`, the function with value `k^{f(n)}` at
-`n > 0` and `0` at `0`), `isMultiplicative_powOfAdditive_cardDistinctFactors` (`n ↦ k^{ω(n)}` is
-multiplicative for every `k`) and `IsCompletelyAdditive.powOfAdditive_mul` (`k^{f}` is
-multiplicative on all pairs, coprime or not, when `f` is completely additive, so `k^Ω` is
-completely multiplicative). 11.4 uses the multiplicativity of `2^ω` for its Euler product; `2^Ω`
-and `2^ω` enter 11.1 as Checks.
-
-### From TauCetiRoadmap.ArithmeticDirichletSeriesPartII
-
-§5.1 (`LSeriesHasSum_zeta_pow`): for every `k ∈ ℕ` and every `s` with `Re s > 1`, the series of
-`d_k = ζ^k` (the `k`-th Dirichlet power of `ArithmeticFunction.zeta`) converges absolutely and has
-sum `ζ(s)^k`. It is the `z = k` instance of the series of 11.2, consumed and not restated; it
-enters 11.2 as a Check. §0.1 (`HasLaplace`) and §3.2 (Delange's theorem) are named in Scope only.
-
-### From TauCetiRoadmap.ExplicitPrimeCounting
-
-§7.1 (Schoenfeld's interval): under that section's named hypotheses, for every `x > 2 010 759.9`
-the open interval `(x, x + x/16597)` contains a prime. §7.2 (Ramaré–Saouter's intervals): under
-that section's named hypotheses, `(x(1 − 1/28 314 000), x]` contains a prime for every
-`x > 10 726 905 041`. §7.3 (Kadiri–Lumley's rows): under that section's named hypotheses, for
-every `x > e⁵⁹` the interval `((1 − 1/1 946 282 821)x, x)` contains a prime, and for every
-`x > e⁶⁰` the interval `((1 − 1/1 966 196 911)x, x)`. They enter the Examples of Layer 13 as
-instances of the short-interval hypothesis of 13.2; no theorem here depends on them. §§1.4, 2.1,
-3.1, 3.6 and the rest of Layer 7 are named in Scope only.
-
-Every prerequisite above is a declaration of the pinned Mathlib or Tau Ceti or a section of one of
-the roadmaps named in this section.
-
-## How to read the build
-
-Layers 7, 8 and 11–13 are independent of one another and rest only on the libraries and the
-suppliers above. Layer 9 is independent of Layer 7: its decay comes from integration by parts on
-compact supports. Layer 10 assembles 8.1–8.3, 9.1–9.4 and the zero-free regions of
-ZerosOfLFunctions: 10.1 writes a smoothed sum as an inverse Mellin integral, 10.2 shifts it across a
-rectangle inside the region, and 10.3 supplies the region and the bound in the case of number-field
-`L`-functions. Layer 11 is pure arithmetic of `LSeries` on half-planes of absolute convergence.
-Layer 12 uses only finite sums and limits. A proof sketch names one route and its inputs; a
-target's *Needs* line lists what its statement and that route use, so another route is not
-blocked. `Suggested.lean` states the definitions `deltaSpike`, `smoothCutoff`, `inghamExponent`,
-`sigmaC`, `generalizedDivisor`, `factorialFactorCount`, `EvenGoldbachUpTo` and `OddGoldbachUpTo`,
-which the headline statements need, and the headline theorems of 7.1, 7.3, 7.4, 8.1, 8.1a, 8.1b,
-8.2, 8.3, 9.4, 10.1, 10.2, 10.3, 11.2, 11.3, 11.4, 12.1, 13.1 and 13.2; 8.1 is stated with
-`TauCeti.Contour.residue` and 10.3 with `TauCeti.LFunctions.heckeLFunctionC`, and the file imports
-the two Tau Ceti modules that declare them. The definitions *mellinConv* (9.1),
-*IsCompletelyMultiplicative* (11.1) and the approximate factorizations of 13.1 with their *waste*,
-*balance* and *score*, and the remaining targets, are README targets, named here in italics.
 
 ## Layer 7: Fourier and Laplace tools
 
@@ -1605,6 +1305,334 @@ Examples.
   convergence to convergence.
 - The transfer of 13.2 turns a verified even Goldbach range and a short-interval prime theorem
   into a verified odd Goldbach range.
+
+## Scope and ownership
+
+### Place in the series
+
+AnalyticNumberTheoryPartI owns Layers 0–3 (quantitative primes, the exclusion of Landau–Siegel
+zeros, explicit formulas, Hecke and Artin comparisons, multiplicative means) and
+AnalyticNumberTheoryPartII owns Layers 4–6 (special functions, multiple zeta functions, the
+Bost–Connes system). This part owns Layers 7–13, numbered after them so that section numbers never
+collide across the series. Part I uses contour shifts and smoothing kernels as local steps of
+particular estimates (its §§0.11c and 1.2a are examples) and states four results for `ζ` and for
+Dirichlet characters that are instances of statements here: the logarithmic-derivative bound right
+of the de la Vallée Poussin curve (§0.33a), the local logarithmic-derivative expansions of §0.30a,
+the ordered factorization count `d_n` (§§3.3–3.4) and the divisor-square Euler identity (§3.24a).
+This part builds the tools once, as general statements with their own hypotheses, consumes those
+results as Checks of 10.3, 8.3, 11.2 and 11.3, and does not restate them. It plans none of Part II's
+objects.
+
+### Owned here
+
+- Layer 7: decay of `𝓕f` for integrable functions of bounded variation and for functions with a
+  derivative of bounded variation; two uniform bounds on the truncated Dirichlet integral;
+  pointwise principal-value inversion of the two-sided Laplace and the Mellin transform on a
+  vertical line, and its windowed error; the aliasing error of the sampling series
+  `Σ f(n/2W) sinc(π(2Wt − n))` for `f` the inverse Fourier transform of an integrable function,
+  with its optimal constant.
+- Layer 8: the residue theorem on a rectangle in Mathlib's edge form and the U-shaped contour
+  identity that follows; the same edge expression as a sum of circle integrals about finitely many
+  arbitrary isolated singularities; the shift of a segment `[1, 1 + iT]` onto an L-shaped contour
+  running to `Re s = −∞`; Carathéodory's coefficient inequality and the derivative form of
+  Borel–Carathéodory; Landau's local logarithmic-derivative lemma for an arbitrary holomorphic
+  function on a disc. ZerosOfLFunctions §7.2 is the argument principle on its rectangle curve
+  *rectBoundary*, an identity for `f′/f`; 8.1 differs in treating a general meromorphic `f` and
+  in Mathlib's four-edge expression. Part I §0.30a proves the `ζ` and conductor-uniform Dirichlet
+  instances of the nested-disc argument; 8.3 differs in being the lemma for every holomorphic
+  function, with a constant depending only on the two radius ratios.
+- Layer 9: Mellin convolution on `(0, ∞)`, Mellin transforms of compactly supported `C^k` bumps,
+  the delta spikes `ν_ε` and their approximate-identity property, and the smoothed cutoffs `1̃_ε`.
+  ExplicitPrimeCounting §2.1, extending the test class of the Weil explicit formula, bounds the
+  Mellin transform of a continuous kernel supported in `[a, b] ⊂ (0, ∞)` whose derivative `tφ′(t)`
+  is of bounded variation `V` by `max(1, b) V/|s|²` on `0 ≤ Re s ≤ 1`; 9.2 differs in treating
+  `C^k` bumps on every vertical strip, with decay `(1 + |s|)^{−k}`.
+- Layer 10: smoothed summatory functions of Dirichlet series as inverse Mellin integrals and their
+  comparison with sharp sums; the transfer theorem in Ingham's zero-free-region form; the
+  classical logarithmic-derivative bound for the presented Hecke `L`-function of every ray class
+  character of a fixed field. Its `K = ℚ`, trivial-character instance is
+  AnalyticNumberTheoryPartI §0.33a; 10.3 differs in covering every number field and every ray class
+  character. ExplicitPrimeCounting §3.1 bounds `ψ(x) − x` by an explicit `εx` from a zero-free
+  region, a verified height, a zero count and, in its forms (c) and (d), a zero density, through
+  the explicit formula; 10.2 differs in being the qualitative transfer for an arbitrary Dirichlet
+  series with a pole at `1` and a polylogarithmic bound in the region, with no zero count.
+- Layer 11: the predicate of complete multiplicativity on `ArithmeticFunction R` and its
+  equivalence with Mathlib's `ℕ →*₀ R`; `σ_ν` for `ν ∈ ℂ`; `d_z` for `z ∈ ℂ`; Ramanujan's
+  four-shift identity and the series of `τ(n²)`; the series of `2^ω`, `μ²`, `λ` and `φ`, each with
+  its exact abscissa of absolute convergence. The `α = β = 0` instance of Ramanujan's identity,
+  `Σ τ(n)² n^{−s} = ζ(s)⁴/ζ(2s)`, is AnalyticNumberTheoryPartI §3.24a. 11.1 is the `ℕ`-indexed
+  predicate for an arbitrary monoid with zero `R`, with no condition on the primes where `f`
+  vanishes; ArithmeticDirichletSeries §0.2's `TauCeti.MultiplicativeIdealWeight` is the
+  ideal-indexed carrier `Ideal (𝓞 K) →*₀ ℂ` of a number field that kills only finitely many
+  primes, with unit-modulus subtype `TauCeti.UnitaryIdealWeight`; at `K = ℚ` its image under
+  `TauCeti.normCoeff` is completely multiplicative in the sense of 11.1, while 11.1 also admits
+  functions vanishing at infinitely many primes. The Dirichlet series of `d_k = ζ^k` for `k ∈ ℕ`,
+  absolutely convergent on `Re s > 1` with sum `ζ(s)^k`, is ArithmeticDirichletSeriesPartII §5.1
+  (`LSeriesHasSum_zeta_pow`); 11.2 differs in the complex exponent `z`, for which `ζ(s)^z` is the
+  exponential of `z` times the Euler-product logarithm, and its `z = k` instance enters 11.2 as a
+  Check. Complete additivity and the exponentials `n ↦ k^{f(n)}` of additive functions, with the
+  multiplicativity of `2^ω`, are ProbabilisticAndMetricNumberTheory §0.1a; 11.1 is the
+  multiplicative predicate (that section's `2^Ω` satisfies it, `2^ω` does not), and 11.4 takes the
+  multiplicativity of `2^ω` from there.
+- Layer 12: the Hardy–Landau Tauberian theorem for Cesàro means, one-sided for real sequences and
+  two-sided in real normed spaces.
+- Layer 13: the asymptotics of the least number of factors of `n!` bounded by `n²` (Erdős problem
+  392) and by `n`, with the approximate factorizations, waste and score of the upper bound; the
+  Goldbach-range propositions, their transfers, the published finite verifications as named
+  propositions, and the ranges that the short-interval theorems of ExplicitPrimeCounting Layer 7
+  give from them.
+
+### Consumed, not redefined
+
+- Mathlib: the value form of Borel–Carathéodory (`Complex.borelCaratheodory`); Mellin inversion
+  for transforms integrable on the line (`mellinInv_mellin_eq`); `𝓜 1_(0,1] = 1/s`
+  (`hasMellin_one_Ioc`); the smooth Fourier decay `(1 + u²)‖𝓕f(u)‖ ≤ ‖f‖₁ + ‖f″‖₁/(4π²)` for `C²`
+  functions with integrable derivatives (`Real.one_add_sq_mul_norm_fourier_le`); the Euler products
+  of `ζ` and of completely multiplicative `ℕ →*₀ F`; the Euler-product logarithm of `ζ`
+  (`riemannZeta_eq_exp_LSeries`); the series `L(μ, s) = 1/ζ(s)`
+  (`ArithmeticFunction.LSeries_zeta_mul_Lseries_moebius`); `ArithmeticFunction.sigma k` for
+  `k : ℕ`, `ArithmeticFunction.liouville`, `ArithmeticFunction.cardDistinctFactors`,
+  `ArithmeticFunction.moebius`; Cesàro convergence of convergent sequences
+  (`Filter.Tendsto.cesaro`); Stirling (`Stirling.factorial_isEquivalent_stirling`); Chebyshev's
+  bound and Legendre's formula.
+- Tau Ceti: the Dirichlet integral `TauCeti.Contour.tendsto_integral_sin_div_atTop`; the residue
+  and the residue theorem for null-homologous curves; the truncated Perron kernel and its
+  arithmetic formula; integration by parts against the derivative measure of a function of bounded
+  variation; the presented Hecke `L`-function `TauCeti.LFunctions.heckeLFunctionC` and the finiteness
+  of ray class groups; the binomial series of `Ring.multichoose` on the complex open unit disc
+  (`TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`), the local factor of 11.2.
+- The residue calculus itself: ContourIntegration (completed, realized in Tau Ceti).
+- Zero-free regions, Jensen's bound, wide-strip growth and the rectangle curve: ZerosOfLFunctions
+  §§3.4, 4.3, 6.2–6.5 and 7.1.
+- Continued Dedekind zeta and Hecke `L`-functions, their Euler products and nonvanishing on
+  `Re s = 1`: LFunctions Layers 3, 5 and 7.
+- The Dirichlet series of `d_k = ζ^k`, `k ∈ ℕ`: ArithmeticDirichletSeriesPartII §5.1, a Check of
+  11.2.
+- Complete additivity and the multiplicativity of `2^ω`: ProbabilisticAndMetricNumberTheory §0.1a.
+- Schoenfeld's, Ramaré–Saouter's and Kadiri–Lumley's short intervals containing a prime:
+  ExplicitPrimeCounting §§7.1–7.3, instances of the hypothesis of 13.2 in the Examples of Layer 13.
+
+### Not owned here
+
+- Zero counting, the explicit formula and the prime ideal theorem with classical error:
+  ZerosOfLFunctions Layers 4–8 (its §8.5 at `K = ℚ` is a Check of 10.2–10.3 here).
+- Effective and conductor-uniform estimates, the zero-free strip for `ζ` with logarithmic bounds
+  for `ζ − 1/(s − 1)` and `1/ζ` (§0.33), the bounds for `ζ′` and `ζ′/ζ` after pole subtraction on
+  the half-plane right of the curve (§0.33a), the local expansions of `ζ′/ζ` and of `L′/L` for
+  primitive Dirichlet characters (§0.30a), the Dirichlet divisor average (§3.22), the pointwise
+  divisor bounds (§§3.1, 3.4) and the divisor-square Euler identity (§3.24a):
+  AnalyticNumberTheoryPartI.
+- Truncated Perron for `LSeries`, Abel–Stieltjes summation, Wiener–Ikehara and the transfer
+  `ψ → θ → π`: ArithmeticDirichletSeries Layers 6, 9 and 10.
+- Newman's Tauberian theorem: TauberianBoundaryConvergence N1–N2.
+- Every decimal constant. In particular: the smoothed truncated Perron formulas with numerical
+  error terms (ExplicitZetaBounds §6.1); the zero-free regions with explicit constants, the
+  Vinogradov–Korobov regions among them (ExplicitZetaBounds Layer 7, §7.6); the explicit bounds for
+  `ψ` from a region, a verified height, a zero count and, in some forms, a zero density, with
+  Pintz's form (ExplicitPrimeCounting §3.1) and the Vinogradov–Korobov instance
+  (ExplicitPrimeCounting §3.6); the prime-gap verifications and the short intervals containing a
+  prime (ExplicitPrimeCounting §1.4 and Layer 7). Those roadmaps prove their statements by their
+  own routes; 10.2 claims only an unspecified constant `c`, and 13.2 takes a short-interval prime
+  statement as a hypothesis.
+- The Parseval form of the Mellin convolution theorem, `𝓜[x ↦ ∫ f(t) h(xt) dt](z) = 𝓜f(1 − z) 𝓜h(z)`
+  on a common strip of absolute convergence, with its inversion: AsymptoticExpansions §8.1. The
+  product formula of 9.1 is the same theorem after the substitution `t = 1/y`; 9.1 states it for
+  the operation `f ⋆ g` defined there, in its convolution variables at `x > 0`, which is the form
+  9.4 uses for `1̃_ε = 1_(0,1] ⋆ ν_ε`.
+- The shift of a full vertical line across a strip with finitely many poles under uniform decay:
+  AsymptoticExpansions §8.2. 8.1 and 8.1a here differ in being finite-height rectangle statements
+  with no decay hypothesis, and 8.1b in moving a segment of finite height to the left, with decay
+  only as `Re s → −∞`.
+- The sine integral `Si` as an entire function, with its continuation, asymptotics and Gibbs
+  phenomenon: SpecialFunctionsEiLiErfIncompleteGamma Layer 9. 7.2 here states only two uniform
+  bounds on the real truncated Dirichlet integral, without defining a function.
+- The Fejér means of circle `L¹` functions and their `L¹` approximation: ToeplitzOperators T1.
+- The Laplace carrier `HasLaplace` and Delange's theorem: ArithmeticDirichletSeriesPartII §0.1 and
+  §3.2. Layer 7 works with Mathlib's Fourier carrier and needs neither.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `𝓕` on `ℝ` (`Mathlib/Analysis/Fourier/FourierTransform.lean`), `Real.norm_fourier_le_integral_norm`,
+  `Real.fourier_deriv` (for differentiable `f` with `f, f′` integrable) and
+  `Real.one_add_sq_mul_norm_fourier_le` (`Mathlib/Analysis/Fourier/FourierTransformDeriv.lean`: for
+  `ContDiff ℝ 2 f` with `iteratedDeriv k f` integrable for `k ≤ 2`); the Riemann–Lebesgue lemma
+  `Real.zero_at_infty_fourier`; the inverse transform `𝓕⁻ g x = ∫ e^{2πixξ} g(ξ) dξ`; `Real.sinc`
+  (`Mathlib/Analysis/SpecialFunctions/Trigonometric/Sinc.lean`: `sin x / x`, with value `1` at
+  `0`).
+- `BoundedVariationOn`, `eVariationOn`, `Function.leftLim`, `Function.rightLim`;
+  `BoundedVariationOn.vectorMeasure` and `BoundedVariationOn.variation_vectorMeasure_univ_le`
+  (`Mathlib/MeasureTheory/VectorMeasure/BoundedVariation.lean`), with the vector-measure integral
+  `∫ᵛ`, `MeasureTheory.VectorMeasure.norm_integral_le_of_norm_le_const` (for a vector measure of
+  finite variation) and `MeasureTheory.VectorMeasure.tendsto_integral_of_dominated_convergence`
+  (`Mathlib/MeasureTheory/VectorMeasure/Integral.lean`).
+- `mellin`, `mellinInv`, `MellinConvergent`, `HasMellin`, `Complex.VerticalIntegrable`,
+  `hasMellin_one_Ioc`, `mellin_comp_rpow`, `mellin_comp_mul_left`, `MellinConvergent.comp_rpow`,
+  `mellin_differentiableAt_of_isBigO_rpow` (`Mathlib/Analysis/MellinTransform.lean`);
+  `mellin_eq_fourier`, `mellinInv_mellin_eq` (`Mathlib/Analysis/MellinInversion.lean`; the latter
+  takes `0 < x`, `MellinConvergent f σ`, `VerticalIntegrable (mellin f) σ` and `ContinuousAt f x`).
+- `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`
+  (`Mathlib/Analysis/Complex/CauchyIntegral.lean`), whose four-edge expression 8.1 uses verbatim,
+  and `Complex.circleIntegral_eq_of_differentiable_on_annulus_off_countable` (same file);
+  `Complex.reProdIm` (`×ℂ`); Cauchy's estimates; `circleIntegral`; `logDeriv`;
+  `analyticOrderNatAt`; `MeasureTheory.intervalIntegral_tendsto_integral_Iic`.
+- `Complex.borelCaratheodory` (`Mathlib/Analysis/Complex/BorelCaratheodory.lean`: for `f`
+  differentiable on `‖z‖ < R` with `Re f ≤ M`, `0 < M`, the bound
+  `‖f z‖ ≤ 2M‖z‖/(R − ‖z‖) + ‖f 0‖(R + ‖z‖)/(R − ‖z‖)`); `AnalyticOnNhd.sum_divisor_le` (Jensen,
+  `Mathlib/Analysis/Complex/JensenFormula.lean`).
+- `riemannZeta`, `LSeries`, `LSeriesSummable`, `LSeriesHasSum`, `LSeries.term`,
+  `LSeries.abscissaOfAbsConv` (an `EReal`), `ArithmeticFunction.LSeries_zeta_eq_riemannZeta`,
+  `ArithmeticFunction.LSeries_vonMangoldt_eq_deriv_riemannZeta_div`, `LSeries_convolution'`,
+  `ArithmeticFunction.LSeries_mul`, `ArithmeticFunction.LSeries_zeta_mul_Lseries_moebius`,
+  `riemannZeta_ne_zero_of_one_le_re`, `differentiableAt_riemannZeta`, `riemannZeta_eq_exp_LSeries`
+  and `DirichletCharacter.eulerProduct_log_eq_LSeries`
+  (`Mathlib/NumberTheory/EulerProduct/DirichletLSeries.lean`: for `Re s > 1`,
+  `Σ_p −log(1 − χ(p) p^{−s}) = LSeries (n ↦ χ(n) Λ(n)/log n) s`; at the trivial character of
+  level `1` this is the identity through which Mathlib proves `riemannZeta_eq_exp_LSeries`).
+- `ArithmeticFunction.LSeriesSummable_zeta_iff` (`LSeriesSummable ζ s ↔ 1 < Re s`),
+  `ArithmeticFunction.LSeriesSummable_mul` (`Mathlib/NumberTheory/LSeries/Convolution.lean`: the
+  Dirichlet convolution of two absolutely convergent series converges absolutely),
+  `LSeriesSummable.of_re_le_re`, `LSeriesSummable_of_le_const_mul_rpow` (absolute convergence on
+  `Re s > x` when `|f(n)| ≤ C n^{x−1}`), `LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable`,
+  `LSeries.abscissaOfAbsConv_le_of_le_const` and `LSeries.abscissaOfAbsConv_le_of_le_const_mul_rpow`
+  (`Mathlib/NumberTheory/LSeries/Convergence.lean`); `Nat.Primes.not_summable_one_div`
+  (`Mathlib/NumberTheory/SumPrimeReciprocals.lean`: `Σ_p 1/p` diverges).
+- `ArithmeticFunction` with Dirichlet convolution, `ArithmeticFunction.IsMultiplicative`,
+  `ArithmeticFunction.zeta`, `ArithmeticFunction.sigma` (`k : ℕ`), `ArithmeticFunction.pow`,
+  `ArithmeticFunction.moebius`, `ArithmeticFunction.liouville` with
+  `ArithmeticFunction.liouville_apply_mul`, `ArithmeticFunction.cardDistinctFactors`,
+  `ArithmeticFunction.vonMangoldt`, `ArithmeticFunction.pmul`, `Nat.totient`,
+  `Nat.factorization`; the completely multiplicative Euler product
+  `EulerProduct.eulerProduct_completely_multiplicative_tprod` for `ℕ →*₀ F`, `F` a complete normed
+  field, and `EulerProduct.eulerProduct_tprod` (`Mathlib/NumberTheory/EulerProduct/Basic.lean`: for
+  `f` with values in a complete normed commutative ring, `f 1 = 1`, `f` multiplicative on coprime
+  arguments, `f 0 = 0` and `Σ ‖f(n)‖ < ∞`, `∏'_p Σ'_e f(p^e) = Σ' f(n)`); `Summable.clog_one_sub`
+  (`Mathlib/NumberTheory/EulerProduct/ExpLog.lean`), `HasSum.cexp`
+  (`Mathlib/Analysis/SpecialFunctions/Exp.lean`: a sum `a` exponentiates to a product `exp a`) and
+  `Complex.cpow_def_of_ne_zero`; `Ring.multichoose` and its `BinomialRing` instance for
+  `ℚ≥0`-modules, which covers `ℂ`, the Chu–Vandermonde identity `Ring.add_choose_eq` and
+  `Ring.choose_neg'` (`Ring.choose (−r) n = (−1)^n Ring.multichoose r n`)
+  (`Mathlib/RingTheory/Binomial.lean`).
+- `Filter.Tendsto.cesaro`, `Filter.Tendsto.cesaro_smul`
+  (`Mathlib/Analysis/Asymptotics/SpecificAsymptotics.lean`).
+- `Stirling.factorial_isEquivalent_stirling`, `Stirling.le_factorial_stirling`;
+  `Chebyshev.theta_le_log4_mul_x`, `Chebyshev.psi` (`Mathlib/NumberTheory/Chebyshev.lean`);
+  `Nat.factorization_factorial` (`Mathlib/Data/Nat/Choose/Factorization.lean`); `Nat.smoothNumbers`
+  (`Mathlib/NumberTheory/SmoothNumbers.lean`: the `m ≠ 0` all of whose prime factors are `< k`);
+  and Bertrand's postulate `Nat.exists_prime_lt_and_le_two_mul`.
+
+### From Tau Ceti
+
+- `BoundedVariationOn.integral_deriv_smul_eq_neg_integral_vectorMeasure`
+  (`TauCeti/Analysis/BoundedVariation/OneDimensional.lean`): for `f` of bounded variation on `ℝ`
+  with values in a real Banach space and a real compactly supported `C¹` test function `φ`,
+  `∫ φ′ • f = −∫ᵛ φ ∂(Df)`, with no integrability of `f` assumed.
+- `TauCeti.Contour.tendsto_integral_sin_div_atTop`
+  (`TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`):
+  `∫_0^R sin x/x dx → π/2`.
+- `TauCeti.Contour.residue` (`TauCeti/Analysis/Contour/Residue/Basic.lean`: the order-`(−1)`
+  Laurent coefficient at a pole of a meromorphic function, `0` where `f` is analytic and junk `0`
+  where `f` is not meromorphic) and `TauCeti.Contour.classicalResidueTheorem_nullHomologous`
+  (`TauCeti/Analysis/Contour/Residue/Cycle.lean`): for `f` holomorphic on an open `U` off a finite
+  `S`, meromorphic at the points of `S ∩ U`, and a closed piecewise-`C¹` null-homologous curve in
+  `U` avoiding `S`, the contour integral is `2πi Σ_{s∈S} n(γ, s) Res_s f`.
+- `TauCeti.truncatedPerronKernel` (the value `(2π)⁻¹ ∫_{−T}^{T} x^{c+it}/(c + it) dt`),
+  `TauCeti.truncatedPerronKernel_one` (its value `π⁻¹ arctan(T/c)` at `x = 1`, `c ≠ 0`) and
+  `TauCeti.truncatedPerron_LSeries` (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Perron/`).
+- `TauCeti.LFunctions.heckeLFunctionC` (`TauCeti/NumberTheory/LFunctions/Hecke/Basic.lean`), the
+  presented continued `L`-function of `χ : TauCeti.GlobalNumberFields.RayClassCharacter 𝔪`,
+  `TauCeti.LFunctions.heckeLFunctionC_eq_primitive` (on `Re s > 1`) and
+  `TauCeti.LFunctions.heckeLFunctionC_eventuallyEq_primitive` (as punctured germs at every point);
+  `TauCeti.GlobalNumberFields.finite_rayClassGroup`
+  (`TauCeti/NumberTheory/NumberField/Global/RayClass/Finite.lean`).
+- `TauCeti.hasSum_multichoose_mul_geometric_complex_of_norm_lt_one`
+  (`TauCeti/Analysis/Analytic/Binomial.lean`): for complex `r` and `‖x‖ < 1`, the series
+  `Σ_n Ring.multichoose r n · xⁿ` has sum `1/(1 − x)^r`, with the principal power.
+
+### From TauCetiRoadmap.ContourIntegration
+
+Layers 2–4 (completed and realized in Tau Ceti): residues, winding numbers and the residue theorem
+for null-homologous piecewise-`C¹` curves, with the exact hypotheses listed under From Tau Ceti.
+
+### From TauCetiRoadmap.ArithmeticDirichletSeries
+
+§6.3 (truncated Perron kernel, its endpoint value `π⁻¹ arctan(T/c)` at `x = 1`) and §6.4 (the
+arithmetic Perron formula), completed and realized as the Tau Ceti declarations above. They are
+the `f = 1_(0,1]` instance of 7.3 and are used only as Checks. §0.2 (the completely multiplicative
+ideal weights) is named in Scope and in a Check of 11.1.
+
+### From TauCetiRoadmap.LFunctions
+
+Layer 3 (the continued Dedekind zeta function and its simple pole at `1`), Layer 5 (finite-order
+Hecke `L`-functions, their continuation, their Euler products on `Re s > 1`, and the comparison of a
+presented character with its primitive one) and Layer 7 (nonvanishing on `Re s = 1`). 10.3 uses the
+Euler product to bound `|L(2 + it)|` below by a positive constant depending only on `[K:ℚ]`.
+
+### From TauCetiRoadmap.ZerosOfLFunctions
+
+- §3.4, the "wide strips above the poles" corollary: for a fixed record and closed strip,
+  `|L(σ + it)| ≤ C analyticConductorAt d (σ + it)^B` for `σ` in the strip and `|t| ≥ T₀` above the
+  poles; at a fixed `K` and `χ` this is `≤ C′(|t| + 3)^{B′}`.
+- §4.3 (Jensen's bound): for `f` analytic on `closedBall c R`, `f c ≠ 0`, `‖f‖ ≤ M` on the sphere
+  with `M ≥ 1`, the number of zeros in `closedBall c r` is at most `log(M/‖f c‖)/log(R/r)`.
+- §§6.2–6.4: for a primitive finite-order ray-class character `χ` of `K`, with
+  `c = heckeZeroFreeConstant [K:ℚ]`, no zero `ρ` of `L(χ, ·)` with
+  `Re ρ ≥ 1 − c/log analyticConductorAt d (i Im ρ)` except at most one real simple zero when
+  `χ² = 1` (the predicate `IsExceptionalZero`); at a fixed `K` and `χ` the analytic conductor at
+  height `γ` is at most `C_{K,χ} (|γ| + 3)^{[K:ℚ]}`.
+- §6.5: no zero on `Re s = 1`.
+- §7.1: the counterclockwise boundary curve *rectBoundary* of a rectangle, closed, piecewise `C¹`,
+  null-homologous in every open set containing the rectangle, with winding number `1` about every
+  point of the open rectangle.
+- §8.5 at `K = ℚ`: `ψ(x) = x + O(x exp(−c √log x))`, used as a Check of 10.2–10.3.
+
+### From TauCetiRoadmap.AnalyticNumberTheoryPartI
+
+- §0.33a (`riemannZeta_deriv_logDeriv_bound`): there are `0 < β < 1` and `C > 0` such that every
+  `s ≠ 1` with `Re s ≥ 1 − β/log(|Im s| + 2)` has `ζ(s) ≠ 0` and
+  `|ζ′/ζ(s) + 1/(s − 1)| ≤ C log(|Im s| + 2)`, the left side extending analytically across `1`.
+  This is the `K = ℚ`, `χ = 1` instance of 10.3, consumed and not restated; it enters 10.3 as a
+  Check.
+- §0.30a (`riemannZeta_local_logDeriv`): for `σ₀ > 1` and radii `0 < r < r′` there is `C` with
+  `|ζ′/ζ(s) + 1/(s − 1) − Σ_{|ρ−s₀|≤r′} m(ρ)/(s − ρ)| ≤ C log(|Im s₀| + 2)` for `Re s₀ = σ₀`,
+  `|s − s₀| ≤ r`, `ζ(s) ≠ 0`. It is 8.3 applied to `(s − 1)ζ(s)` and enters 8.3 as a Check.
+- §§3.3–3.4 (the ordered factorization count `d_n` and its subpolynomial bound): `d_n` is the
+  value at `z = n` of 11.2's `d_z`, a Check.
+- §3.24a (`riemannZeta_pow_four_eq_mul_LSeries_divisor_sq`): for `Re s > 1` the series
+  `Σ τ(n)² n^{−s}` converges absolutely and `ζ(s)⁴ = ζ(2s) Σ τ(n)² n^{−s}`. This is the
+  `α = β = 0` instance of 11.3, consumed and not restated; it enters 11.3 as a Check.
+
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory
+
+§0.1a (complete additivity and exponentials of additive functions): `powOfAdditive` (for a monoid
+with zero `R`, `k ∈ R` and `f : ArithmeticFunction ℕ`, the function with value `k^{f(n)}` at
+`n > 0` and `0` at `0`), `isMultiplicative_powOfAdditive_cardDistinctFactors` (`n ↦ k^{ω(n)}` is
+multiplicative for every `k`) and `IsCompletelyAdditive.powOfAdditive_mul` (`k^{f}` is
+multiplicative on all pairs, coprime or not, when `f` is completely additive, so `k^Ω` is
+completely multiplicative). 11.4 uses the multiplicativity of `2^ω` for its Euler product; `2^Ω`
+and `2^ω` enter 11.1 as Checks.
+
+### From TauCetiRoadmap.ArithmeticDirichletSeriesPartII
+
+§5.1 (`LSeriesHasSum_zeta_pow`): for every `k ∈ ℕ` and every `s` with `Re s > 1`, the series of
+`d_k = ζ^k` (the `k`-th Dirichlet power of `ArithmeticFunction.zeta`) converges absolutely and has
+sum `ζ(s)^k`. It is the `z = k` instance of the series of 11.2, consumed and not restated; it
+enters 11.2 as a Check. §0.1 (`HasLaplace`) and §3.2 (Delange's theorem) are named in Scope only.
+
+### From TauCetiRoadmap.ExplicitPrimeCounting
+
+§7.1 (Schoenfeld's interval): under that section's named hypotheses, for every `x > 2 010 759.9`
+the open interval `(x, x + x/16597)` contains a prime. §7.2 (Ramaré–Saouter's intervals): under
+that section's named hypotheses, `(x(1 − 1/28 314 000), x]` contains a prime for every
+`x > 10 726 905 041`. §7.3 (Kadiri–Lumley's rows): under that section's named hypotheses, for
+every `x > e⁵⁹` the interval `((1 − 1/1 946 282 821)x, x)` contains a prime, and for every
+`x > e⁶⁰` the interval `((1 − 1/1 966 196 911)x, x)`. They enter the Examples of Layer 13 as
+instances of the short-interval hypothesis of 13.2; no theorem here depends on them. §§1.4, 2.1,
+3.1, 3.6 and the rest of Layer 7 are named in Scope only.
+
+Every prerequisite above is a declaration of the pinned Mathlib or Tau Ceti or a section of one of
+the roadmaps named in this section.
 
 ## References
 

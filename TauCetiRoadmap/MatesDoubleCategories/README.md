@@ -1,26 +1,97 @@
 # Roadmap: mates as a double isomorphism
 
-**Summary.** Construct the mates isomorphism of doubly weak double categories
-for an arbitrary Mathlib bicategory. Use the represented implicit presentation of
-Fairbanks–Shulman: cells have paths on all four boundaries, and binary and nullary
-path composites are chosen by invertible globular cells. Recover the ordinary
-strict double isomorphism when the bicategory is strict.
+**Summary.** An adjunction lets one move 2-cells around a square. In a
+bicategory K, let F₁ ⊣ G₁ and F₂ ⊣ G₂ be adjunctions with left adjoints
+F₁ : A₁ → B₁ and F₂ : A₂ → B₂, and let S : A₁ → A₂ and T : B₁ → B₂ be 1-cells.
+With composites in diagrammatic order, 2-cells `S ≫ F₂ ⟶ F₁ ≫ T` correspond
+bijectively to 2-cells `G₁ ≫ S ⟶ T ≫ G₂`, their mates. When K is a strict
+2-category, Kelly and Street showed that squares of each kind form a double
+category, and that mates give an isomorphism between them.
 
-## Scope and ownership
+This roadmap proves the corresponding statement for an arbitrary bicategory K,
+assumed strict only in the last part. There composition is associative and
+unital only up to invertible 2-cells, and squares form a doubly weak double
+category in the sense of Fairbanks and Shulman. In their represented implicit
+presentation, used here, the sides of a cell are paths of generating arrows.
+Paths concatenate strictly, so the cells form a strict double category. Weakness
+enters through a representation: chosen composites f ⋆ g and identity
+generators 1, with invertible globular cells `[f,g] ≅ [f ⋆ g]` and `[] ≅ [1]`
+(cells whose other two sides are empty). From these the roadmap derives a
+horizontal and a vertical bicategory on the generators, proving rather than
+assuming their coherence laws.
 
-The implementation belongs in `TauCeti/CategoryTheory/DoubleCategory/`, with
-reusable bicategory path and
-adjunction lemmas in the corresponding `TauCeti/CategoryTheory/Bicategory/`
-modules. Names in `Suggested.lean` illustrate interfaces, not mandated spellings.
+The central objects are two such structures, L(K) and R(K). Both have the
+objects of K, its 1-cells as horizontal generators, and its adjunctions, with
+specified unit and counit, as vertical generators. On a boundary whose paths
+compose in K to S, T, F₁ ⊣ G₁ and F₂ ⊣ G₂, cells of L(K) are 2-cells
+`S ≫ F₂ ⟶ F₁ ≫ T`, and those of R(K) are 2-cells `G₁ ≫ S ⟶ T ≫ G₂`. The main
+theorem says that taking mates on every boundary is a strict double functor
+from L(K) to R(K), the identity on objects and generators. It preserves both
+pastings, the identity cells, and the chosen composites with their comparison
+cells. With its strict two-sided inverse, it is one isomorphism of structures,
+not a family of bijections.
 
-This roadmap includes the basic theory needed to use strict double categories,
-represented implicit double categories, their strict comparison, and the mates
-isomorphisms. The Schanuel–Street walking adjunction and its simplex hom-categories
-test the implicit 2-category interface. This does not include the
-double-computad monad construction, the
-comparison with Verity or Garner presentations, general strictification
-equivalences for all bicategories, or the other examples of doubly weak double
-categories. No general equipment construction is a prerequisite.
+When K is strict, L(K) and R(K) are strict in both directions: vertically,
+composite adjunctions, units and counits included, are equal under
+reassociation and identities. Extracting squares then gives a strict double
+isomorphism between the usual double categories of left-adjoint and
+right-adjoint squares, acting on each square by Mathlib's mate bijection. This
+is the Kelly–Street theorem.
+
+Extraction is half of a comparison proved in its own right. Expansion turns an
+ordinary strict double category into a represented implicit one, taking every
+edge arrow as a generator. Extraction goes back when both derived bicategories
+are strict. Each round trip returns a structure double isomorphic to the one it
+started from, naturally in strict double functors.
+
+The roadmap also builds the Schanuel–Street walking adjunction, the free strict
+2-category on an adjunction f ⊣ g between objects + and −. Any adjunction in a
+strict 2-category, with its specified unit and counit, is the image of this one
+under a unique strict 2-functor. The hom-category from + to itself is isomorphic
+to the augmented simplex category Δ₊, with (fg)ⁿ going to the ordinal with n
+elements; the one from − to itself, to Δ₊ᵒᵖ.
+Those from − to + and from + to − are isomorphic to the wide subcategories of Δ
+whose maps preserve the greatest and the least element, respectively.
+
+Mathlib supplies the mate bijection, the bicategory of adjunctions in K and the
+simplex categories. The vertical bicategory of L(K) and R(K) is identified with
+the 2-cell dual of that bicategory, in which each hom-category is replaced by
+its opposite and which is constructed here. Tau Ceti already has
+mates for ordinary categories, and the roadmap proves the bicategorical form of
+their formula for identity adjunctions.
+
+The first of four parts sets up strict and implicit double categories, then
+implicit 2-categories, whose 1-cells are paths, and the walking adjunction. The
+second compares expansion and extraction. The third evaluates paths coherently
+in K and proves the mates isomorphism. The fourth specializes to strict K.
+
+## How to read the build
+
+The build order is M1 → M2 → M3 → M4. M2 tests the foundations on
+ordinary strict double categories before the general mates construction. M3
+proves the general mates theorem; M4 specializes it. The mathematical
+dependencies are smaller than this chosen execution order:
+
+| Target | Local prerequisites |
+| --- | --- |
+| M1.1: strict double categories and maps | none |
+| M1.2: implicit double categories and representations | M1.1 |
+| M1.3: implicit 2-categories and adjunctions | M1.1 and the horizontal constructions of M1.2 |
+| M1.4: walking adjunction and its four hom-categories | M1.3; Mathlib simplex categories |
+| M2.1: expansion | M1.1–M1.2 |
+| M2.2: extraction | M1.1–M1.2 |
+| M2.3: comparison | M2.1–M2.2 |
+| M3.1: path evaluation | M1.3 |
+| M3.2: the two adjunction double categories | M1.1–M1.2, M3.1 |
+| M3.3: mates isomorphism | M3.2 |
+| M4: strict specialization | M2 and M3 |
+
+Each target lists its library inputs below. M3 has no mathematical dependency on
+M2 or the M1.4 example. M1.4 tests the one-directional interface; M2 is the
+first double-category comparison test. `Suggested.lean` prototypes selected
+foundational interfaces and points to the Mathlib equivalence fixing the mate
+orientation. Its admitted theorem is an M1.2 target; it does not implement the
+headline isomorphisms.
 
 ## Conventions
 
@@ -75,88 +146,6 @@ directions; avoid competing global instances on the shared object type. Reuse
 `Quiver.Path`/`CategoryTheory.Paths`, `Category`, `Functor`, `Iso`, `Bicategory`,
 and the existing adjunction and mates APIs. Supply named transport and
 extensionality lemmas so users need not manipulate heterogeneous equalities.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Mathlib/CategoryTheory/Bicategory/Adjunction/Mate.lean` supplies the general
-  bicategory mate equivalence, both pasting theorems, the square interchange
-  theorem, conjugate equivalences and computable isomorphisms, mixed pasting,
-  and coherence comparisons. Its pasting names follow its displayed axes;
-  match their types to this roadmap's convention rather than their names alone.
-- `Mathlib/CategoryTheory/Bicategory/Adjunction/Adj.lean` supplies specified
-  adjunction arrows, conjugate pairs of 2-cells, and their bicategory structure.
-- `Mathlib/CategoryTheory/Bicategory/Opposites.lean` supplies the 1-cell dual,
-  preserving the direction of 2-cells. It does not supply the 2-cell dual;
-  M3.2 constructs that bicategory and its strictness transfer for the vertical
-  globular comparisons with `Bicategory.Adj`.
-- `Mathlib/CategoryTheory/Bicategory/Coherence.lean`,
-  `Mathlib/CategoryTheory/PathCategory/Basic.lean`, and
-  `Mathlib/CategoryTheory/Bicategory/Strict/Basic.lean` supply the coherence,
-  free path, and strictness vocabulary.
-- `Mathlib/CategoryTheory/Bicategory/Free.lean` supplies `FreeBicategory`, whose
-  1-cells are unquotiented formal composites. M2.2 uses it to distinguish an
-  associator isomorphism from equality of the underlying 1-cells.
-- `Mathlib/CategoryTheory/Bicategory/Adjunction/Cat.lean` supplies the comparison
-  with ordinary adjunctions and mates.
-- `Mathlib/AlgebraicTopology/SimplexCategory/Defs.lean`, `Basic.lean`, and
-  `GeneratorsRelations/` supply simplex morphisms, faces, degeneracies, and
-  their relations. `Augmented/Basic.lean` supplies `AugmentedSimplexCategory`
-  as `WithInitial SimplexCategory`; `Augmented/Monoidal.lean` supplies ordinal
-  sum. M1.4 builds its endpoint subcategories and comparisons using these APIs.
-- `Mathlib/AlgebraicTopology/SimplicialObject/II.lean` supplies
-  `SimplexCategory.II : SimplexCategory ⥤ SimplexCategoryᵒᵖ`, with object
-  `[n] ↦ [n+1]ᵒᵖ`, and its cut map `II.map'`. The endpoint lemmas
-  `II.map'_zero` and `II.map'_last` and functoriality lemmas `II.map'_id` and
-  `II.map'_map'` supply the nonempty-ordinal part of M1.4's cut duality.
-  M1.4 adds the endpoint-subcategory factorization, empty-ordinal extension,
-  inverse functor, and comparison identities.
-- `Mathlib/CategoryTheory/Widesubcategory.lean` supplies wide subcategories;
-  `Bicategory/Functor/StrictPseudofunctor.lean` supplies the strict functors
-  used in M1.4's universal property.
-
-### From Tau Ceti
-
-- `TauCeti/CategoryTheory/Adjunction/Mates.lean` adds ordinary-category identity
-  mates, transpose/conjugate naturality, and transfer of identity/composition
-  comparisons across mates. Reuse those declarations for ordinary-category
-  comparisons; add general bicategory counterparts only for the operations
-  required by M3. In particular, M3.3 proves the identity-adjunction mate formula
-  with unitors, corresponding to `CategoryTheory.mateEquiv_adjunction_id`.
-  Their existing proofs do not package a double category.
-
-All missing infrastructure specified above is Tau Ceti work. Adopt any matching
-Mathlib interface that exists at implementation time and remove duplication
-when Mathlib absorbs it. No target requires opening a Mathlib PR.
-
-## How to read the build
-
-The build order is M1 → M2 → M3 → M4. M2 tests the foundations on
-ordinary strict double categories before the general mates construction. M3
-proves the general mates theorem; M4 specializes it. The mathematical
-dependencies are smaller than this chosen execution order:
-
-| Target | Local prerequisites |
-| --- | --- |
-| M1.1: strict double categories and maps | none |
-| M1.2: implicit double categories and representations | M1.1 |
-| M1.3: implicit 2-categories and adjunctions | M1.1 and the horizontal constructions of M1.2 |
-| M1.4: walking adjunction and its four hom-categories | M1.3; Mathlib simplex categories |
-| M2.1: expansion | M1.1–M1.2 |
-| M2.2: extraction | M1.1–M1.2 |
-| M2.3: comparison | M2.1–M2.2 |
-| M3.1: path evaluation | M1.3 |
-| M3.2: the two adjunction double categories | M1.1–M1.2, M3.1 |
-| M3.3: mates isomorphism | M3.2 |
-| M4: strict specialization | M2 and M3 |
-
-Each target lists its library inputs below. M3 has no mathematical dependency on
-M2 or the M1.4 example. M1.4 tests the one-directional interface; M2 is the
-first double-category comparison test. `Suggested.lean` prototypes selected
-foundational interfaces and points to the Mathlib equivalence fixing the mate
-orientation. Its admitted theorem is an M1.2 target; it does not implement the
-headline isomorphisms.
 
 ## M1: strict and represented implicit double categories
 
@@ -826,6 +815,76 @@ isomorphism for bicategories; M4 makes that result usable through the ordinary
 strict-double-category interface. These interfaces support further work with
 strict double categories without requiring consumers to work directly with
 path representations or heterogeneous equality.
+
+## Scope and ownership
+
+The implementation belongs in `TauCeti/CategoryTheory/DoubleCategory/`, with
+reusable bicategory path and
+adjunction lemmas in the corresponding `TauCeti/CategoryTheory/Bicategory/`
+modules. Names in `Suggested.lean` illustrate interfaces, not mandated spellings.
+
+This roadmap includes the basic theory needed to use strict double categories,
+represented implicit double categories, their strict comparison, and the mates
+isomorphisms. The Schanuel–Street walking adjunction and its simplex hom-categories
+test the implicit 2-category interface. This does not include the
+double-computad monad construction, the
+comparison with Verity or Garner presentations, general strictification
+equivalences for all bicategories, or the other examples of doubly weak double
+categories. No general equipment construction is a prerequisite.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Mathlib/CategoryTheory/Bicategory/Adjunction/Mate.lean` supplies the general
+  bicategory mate equivalence, both pasting theorems, the square interchange
+  theorem, conjugate equivalences and computable isomorphisms, mixed pasting,
+  and coherence comparisons. Its pasting names follow its displayed axes;
+  match their types to this roadmap's convention rather than their names alone.
+- `Mathlib/CategoryTheory/Bicategory/Adjunction/Adj.lean` supplies specified
+  adjunction arrows, conjugate pairs of 2-cells, and their bicategory structure.
+- `Mathlib/CategoryTheory/Bicategory/Opposites.lean` supplies the 1-cell dual,
+  preserving the direction of 2-cells. It does not supply the 2-cell dual;
+  M3.2 constructs that bicategory and its strictness transfer for the vertical
+  globular comparisons with `Bicategory.Adj`.
+- `Mathlib/CategoryTheory/Bicategory/Coherence.lean`,
+  `Mathlib/CategoryTheory/PathCategory/Basic.lean`, and
+  `Mathlib/CategoryTheory/Bicategory/Strict/Basic.lean` supply the coherence,
+  free path, and strictness vocabulary.
+- `Mathlib/CategoryTheory/Bicategory/Free.lean` supplies `FreeBicategory`, whose
+  1-cells are unquotiented formal composites. M2.2 uses it to distinguish an
+  associator isomorphism from equality of the underlying 1-cells.
+- `Mathlib/CategoryTheory/Bicategory/Adjunction/Cat.lean` supplies the comparison
+  with ordinary adjunctions and mates.
+- `Mathlib/AlgebraicTopology/SimplexCategory/Defs.lean`, `Basic.lean`, and
+  `GeneratorsRelations/` supply simplex morphisms, faces, degeneracies, and
+  their relations. `Augmented/Basic.lean` supplies `AugmentedSimplexCategory`
+  as `WithInitial SimplexCategory`; `Augmented/Monoidal.lean` supplies ordinal
+  sum. M1.4 builds its endpoint subcategories and comparisons using these APIs.
+- `Mathlib/AlgebraicTopology/SimplicialObject/II.lean` supplies
+  `SimplexCategory.II : SimplexCategory ⥤ SimplexCategoryᵒᵖ`, with object
+  `[n] ↦ [n+1]ᵒᵖ`, and its cut map `II.map'`. The endpoint lemmas
+  `II.map'_zero` and `II.map'_last` and functoriality lemmas `II.map'_id` and
+  `II.map'_map'` supply the nonempty-ordinal part of M1.4's cut duality.
+  M1.4 adds the endpoint-subcategory factorization, empty-ordinal extension,
+  inverse functor, and comparison identities.
+- `Mathlib/CategoryTheory/Widesubcategory.lean` supplies wide subcategories;
+  `Bicategory/Functor/StrictPseudofunctor.lean` supplies the strict functors
+  used in M1.4's universal property.
+
+### From Tau Ceti
+
+- `TauCeti/CategoryTheory/Adjunction/Mates.lean` adds ordinary-category identity
+  mates, transpose/conjugate naturality, and transfer of identity/composition
+  comparisons across mates. Reuse those declarations for ordinary-category
+  comparisons; add general bicategory counterparts only for the operations
+  required by M3. In particular, M3.3 proves the identity-adjunction mate formula
+  with unitors, corresponding to `CategoryTheory.mateEquiv_adjunction_id`.
+  Their existing proofs do not package a double category.
+
+All missing infrastructure specified above is Tau Ceti work. Adopt any matching
+Mathlib interface that exists at implementation time and remove duplication
+when Mathlib absorbs it. No target requires opening a Mathlib PR.
 
 ## References
 

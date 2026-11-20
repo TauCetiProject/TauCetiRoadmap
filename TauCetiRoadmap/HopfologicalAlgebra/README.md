@@ -1,65 +1,63 @@
 # Roadmap: hopfological algebra
 
 **Summary.** Hopfological algebra replaces the square-zero differential of homological algebra by
-an action of a finite-dimensional Hopf algebra `H`. This roadmap builds the theory from integrals
-and the Larson–Sweedler Frobenius theorem, through the stable category `H-StMod` as a
-triangulated monoidal category, left module algebras `A`, smash products `A # H` and the finite
-dual bridge to comodule algebras, to Qi's relative homotopy category `C(A,H)`, its derived
-category `D(A,H)`, cofibrant replacement, compact generation and Grothendieck groups. The
-differential examples are the exterior Hopf superalgebra, Sweedler's algebra, the truncated
-primitive algebras of characteristic `p` with their slash homology, one-generator Nichols and Taft
-algebras, and the Laugwitz–Qi multi-differential construction `O_n` in every characteristic not
-dividing `n`. The
-end theorems are the Frobenius, Nakayama and symmetric-algebra criteria for finite Hopf algebras,
-the triangulated monoidal structure on `H-StMod`, the existence and universal property of `A # H`,
-the module-algebra/comodule-algebra equivalence over the finite dual, Qi's description of `D(A,H)`
-and its compact objects, Khovanov–Qi's slash-homology detection theorem, and the Grothendieck rings
-of the Taft stable categories and of `O_n`.
+an action of a finite-dimensional Hopf algebra `H` over a field `k`. For `H = k[d]/(d²)` in
+characteristic two, with `d` primitive, the ungraded stable category of `H`-modules is the homotopy
+category of modules with a square-zero differential; `k[d]/(d^p)` in characteristic `p` gives the
+homotopy category of `p`-complexes, where `d^p = 0`. These categories are inputs for root-of-unity
+categorification.
 
-## Scope and ownership
+This roadmap builds that theory for left modules, with `H` finite-dimensional in its core. The
+main objects are the stable category `H-StMod` of all `H`-modules, in which a morphism is zero
+exactly when it factors through a projective, and Qi's analogues `C(A,H)` and `D(A,H)` of the
+homotopy and derived categories for an algebra `A` on which `H` acts.
 
-This roadmap owns: integrals and cointegrals of Hopf algebras over a field, the modular character,
-the Hopf-algebra form of the Nakayama automorphism and the symmetric criterion; the monoidal
-structure on the category of **all** left `H`-modules, its tensor ideal of projectives and its
-descent to `H-StMod`; left module algebras, smash products, right comodule algebras and the finite
-dual comparison; the relative hopfological theory `C(A,H)`, `D(A,H)`, property (P), cofibrant
-replacement, compactness and finiteness; Hopfological Grothendieck groups; the bicharacter-braided
-graded ambient, one-generator Nichols algebras, bosonization and the differential examples; and
-the Laugwitz–Qi category `O_n`.
+By the Larson–Sweedler theorem, for finite-dimensional `H` the elements `Λ` with `hΛ = ε(h)Λ` for
+all `h` form a one-dimensional space, whose nonzero elements are the left integrals, and the
+antipode `S` is bijective. A nonzero right cointegral, a functional `φ` with `Σ φ(h₁)h₂ = φ(h)1`,
+is a Frobenius functional: the pairing `(x, y) ↦ φ(xy)` is nondegenerate. Following Khovanov, the
+roadmap deduces that projective and injective `H`-modules coincide, infinite-dimensional ones
+included, so `H-StMod` is triangulated. A companion theorem says that a finite-dimensional Hopf
+algebra has a symmetric Frobenius functional exactly when its left and right integrals agree and
+`S²` is inner.
 
-It leaves to named owners:
+A left `H`-module algebra is an algebra `A` with an `H`-action satisfying `h·1 = ε(h)1` and
+`h·(ab) = Σ (h₁·a)(h₂·b)`. Its smash product `A # H` is `A ⊗ H` with
+`(a # h)(b # l) = Σ a(h₁·b) # h₂l`. It is an associative unital algebra, through which every
+covariant pair of algebra maps out of `A` and `H` factors uniquely. For finite-dimensional `H`,
+left `H`-module algebra structures on `A` correspond bijectively to right comodule algebra
+structures over the dual Hopf algebra `H*`.
 
-- Frobenius functionals, the Nakayama automorphism of a Frobenius functional, self-injectivity,
-  Frobenius exact structures, the stable category of a Frobenius exact structure and Happel's
-  triangulation are already in the library (Tau Ceti, see the supplier contracts). The remaining
-  stable-category interfaces (universal property of the additive quotient, exact functors between
-  Frobenius categories, idempotent completion) are stated by StablePeriodicCurved, Layers 0 and 1.
-- The monoidal and rigid category `FiniteHopfModuleCat` of finite-dimensional modules over a Hopf
-  algebra, with tensor over `k` through the coproduct, the counit unit, associator and unitors, the
-  right dual through `S` and the left dual through `S⁻¹` when `S` is bijective, is stated by
-  QuantumGroups, Q8 item 5. Layer 2 here extends it to all modules and compares the two on
-  finite-dimensional objects; it does not construct the finite case again.
-- The Hopf structure on the linear dual of a finite projective Hopf algebra is already in the
-  library as `TauCeti.ConvolutionDual.instHopfAlgebra`; Layer 3 consumes it.
-- Graded modules over a `ℤ`-graded algebra, with abelian structure and grading shift, are already
-  in the library as `TauCeti.GradedModuleCat`; Layers 7 and 8 use it for graded `H`-modules.
-- Ordinary DG algebras, chain homotopy, derived categories of DG modules, DG quotients and their
-  comparison with Verdier quotients are stated by DGAInfinity, Layers 0, 1, 5 and 7. Its `K₀`
-  sequence is stated for the DG quotient of a DG category by a full DG subcategory; the purely
-  triangulated form used here, for a thick subcategory of a triangulated category, is proved in
-  §6.1 and not imported.
-- Exact structures, exact and triangulated Grothendieck groups, the `ℤ`-action of a grading
-  shift on them, the `ℤ[q,q⁻¹]`-module structure on graded exact `K₀` and the ring structure on
-  exact `K₀` of a biexact tensor product are already in the library (Tau Ceti
-  `TauCeti.ExactStructure`, `TauCeti.ExactK0`, `TauCeti.TriangulatedK0`, `TauCeti.LaurentK0`, see
-  the supplier contracts). GrothendieckEulerForms, Layer 6, is consumed only for graded dimensions
-  and the `q`-graded conventions; that roadmap excludes Verdier quotients and supplies no
-  localization sequence. The library has no `K₀` of a Verdier quotient and no ring structure on
-  triangulated `K₀`; both are targets of §6.1.
+Qi's `C(A,H)` is the stable category of `A # H`-modules for the short exact sequences that split
+over `A`, which form a Frobenius exact structure; for `A = k` it is `H-StMod`. A morphism is a
+quasi-isomorphism when its restriction to `H` is invertible in `H-StMod`, and `D(A,H)` is the
+localization at these. Following Qi, the roadmap builds cofibrant replacement and proves that
+`D(A,H)` is compactly generated by the finitely many objects `A ⊗ V`, `V` a simple `H`-module.
 
-The constructions here select no Hopf algebra for an ADE or E8 problem, quotient no affine null
-root, and construct or categorify no lattice. Roots of unity and the Jones–Wenzl projector appear
-only as published examples of the general theory.
+For `H = k[d]/(d^p)` with `p` prime and `d` primitive, which forces `char k = p`, the slash homology
+groups `H^{/j}(M) = ker(d^(j+1)) / (im(d^(p−j−1)) + ker(d^j))`, `0 ≤ j ≤ p − 2`, generalize
+ordinary homology, the case `p = 2`. By a theorem of Khovanov and Qi, a finite-dimensional module
+is projective exactly when all of them vanish. With `d` in degree one, the stable category of
+finite-dimensional graded modules has Grothendieck group `ℤ[q,q⁻¹]/(Φ_p(q))` (Khovanov).
+
+Laugwitz and Qi combine nilpotent differentials, one for each prime factor of an integer `n ≥ 2`,
+into a Hopf algebra `H_n` in a braided category of graded vector spaces, given a suitable root of
+unity in `k`. Their `O_n` is a Verdier quotient of the stable category of finite-dimensional graded
+`H_n`-modules. The roadmap proves that `K₀(O_n) ≅ ℤ[ν,ν⁻¹]/(Φ_n(ν))` as rings when `n` has at most
+two distinct prime factors. For three or more this fails, although Laugwitz–Qi's Theorem 5.15
+asserts it for every `n`: `K₀(O₃₀)` has rank 30, not `φ(30) = 8`.
+
+The roadmap builds on the Tau Ceti library's Frobenius exact structures and triangulated
+Grothendieck groups; the library has no `K₀` of a Verdier quotient and no ring structure on
+triangulated `K₀`, and Layer 6 builds both. QuantumGroups provides the monoidal category of
+finite-dimensional `H`-modules, which Layer 2 extends to all modules. DGAInfinity provides DG
+algebras and their derived categories for comparison, and StablePeriodicCurved cites this roadmap
+for the hopfological quotient.
+
+Layer 1 proves the Frobenius theorem and the symmetric criterion. Layer 2 builds `H-StMod` with its
+tensor product, and Layer 3 the smash product and comodule algebras. Layers 4 and 5 build `C(A,H)`
+and `D(A,H)`, and Layer 6 computes Grothendieck groups. Layer 7 works out the differential
+examples, among them slash homology and the Taft algebras, and Layer 8 treats `O_n`.
 
 ## Conventions
 
@@ -100,103 +98,6 @@ only as published examples of the general theory.
 - `H-StMod` is the stable quotient of **all** left `H`-modules; `H-stmod` is its essentially small
   full subcategory on finite-dimensional modules. A morphism of `C(A,H)` is a quasi-isomorphism
   when its restriction to `H` is invertible in `H-StMod`.
-
-## Exact supplier contracts
-
-**From Mathlib.** `HopfAlgebra`, `Bialgebra`, `Coalgebra.comul`, `Coalgebra.Repr` (the `ℛ`
-notation) and `IsGroupLikeElem`; `ModuleCat`; `Module.Dual`, `Module.Basis.dualBasis` and
-`Module.Dual.eval`; `WithConv`, `WithConv.toConv` and `WithConv.linearEquiv`;
-`Algebra.TensorProduct` for the algebra `A ⊗ C`; `CategoryTheory.HopfObj` for Hopf monoids in a
-braided category; `CategoryTheory.ObjectProperty.triangEnvelope` (thick envelopes, retracts
-included) and `CategoryTheory.ObjectProperty.trW` (Verdier localization at a triangulated
-subcategory); `Polynomial.cyclotomic` and `Polynomial.cyclotomic_prime` (the geometric sum for a
-prime); `IsPrimitiveRoot`. Each is used as it stands at the pin.
-
-**From Tau Ceti.**
-
-- `TauCeti.Comodule` (`TauCeti.Algebra.Coalgebra.Comodule.Basic`): right coaction with
-  coassociativity and counit laws, no multiplicativity. Layer 3 adds the comodule-algebra
-  condition.
-- `TauCeti.ConvolutionDual`, `TauCeti.ConvolutionDual.instHopfAlgebra` and
-  `TauCeti.ConvolutionDual.antipode_apply` (`TauCeti.Algebra.HopfAlgebra.FiniteDual.Basic`): the
-  Hopf algebra `H*` of a finite projective Hopf algebra over a commutative ring, with convolution
-  product, `Δf(x ⊗ y) = f(xy)`, `ε(f) = f(1)` and antipode precomposition with `S`.
-- `LinearMap.IsFrobeniusFunctional`, `LinearMap.IsSymmetricFrobeniusFunctional`,
-  `LinearMap.IsFrobeniusFunctional.nakayamaAut`, `LinearMap.IsFrobeniusFunctional.apply_mul_nakayamaAut`,
-  `LinearMap.IsFrobeniusFunctional.coe_nakayamaAut_eq` and
-  `LinearMap.IsFrobeniusFunctional.moduleInjective_self` (`TauCeti.Algebra.Algebra.Frobenius.Basic`):
-  nondegeneracy of `(a,b) ↦ φ(ab)`, the Nakayama automorphism in the stable convention with its
-  uniqueness, and self-injectivity, for finite-dimensional algebras over a field.
-- `TauCeti.ExactStructure.abelian` (`TauCeti.CategoryTheory.Exact.Abelian`): all short exact
-  sequences of an abelian category. `TauCeti.ExactStructure.IsFrobenius`
-  (`TauCeti.CategoryTheory.Exact.Frobenius`): enough relative projectives and injectives, and the
-  two classes agree. `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated`
-  (`TauCeti.CategoryTheory.Exact.Stable.Triangulated`): Happel's triangulation of the stable
-  category. `FGModuleCat.abelian_isFrobenius` (`TauCeti.Algebra.Category.FGModuleCat.Frobenius`):
-  the finitely generated module category of a two-sided self-injective finite-dimensional algebra;
-  it does not treat infinitely generated modules.
-- `TauCeti.Bialgebra.comul_pow_of_primitive` (`TauCeti.Algebra.Bialgebra.Primitive`): the binomial
-  formula for `Δ(a^n)` with `a` primitive, over any commutative semiring. The quotient bialgebras
-  of `TauCeti.Algebra.Bialgebra.Quotient` present the examples by generators and relations.
-- `TauCeti.InternalGrading` (`TauCeti.Algebra.Module.GradedModule.Internal`) and
-  `TauCeti.GradedModuleCat` with `TauCeti.GradedModuleCat.shiftFunctor`
-  (`TauCeti.Algebra.Category.GradedModuleCat.Basic`, abelian structure in `.Abelian`): genuine
-  internal `ℤ`-gradings, graded modules over `𝒜 : ℤ → Submodule k A` with degree-zero morphisms,
-  and the shift `(M{n})_p = M_{p-n}`. It carries no tensor product through a coproduct.
-- `TauCeti.ExactStructure` and `TauCeti.ExactStructure.IsConflationExact`
-  (`TauCeti.CategoryTheory.Exact.ExactStructure`, `TauCeti.CategoryTheory.Exact.Functor`): exact
-  structures and conflation-exact functors. `TauCeti.ExactK0`
-  (`TauCeti.CategoryTheory.GrothendieckGroup.Exact`) and `TauCeti.TriangulatedK0` with
-  `TauCeti.TriangulatedK0.of_distTriang`, `TauCeti.TriangulatedK0.of_shift` (`[X⟦n⟧] = (−1)ⁿ[X]`)
-  and `TauCeti.TriangulatedK0.liftEquiv` (`TauCeti.CategoryTheory.GrothendieckGroup.Triangulated`):
-  the exact and triangulated Grothendieck groups of an essentially small category, with their
-  universal properties and functoriality. `TauCeti.TriangulatedK0.shiftZPow`
-  (`TauCeti.CategoryTheory.GrothendieckGroup.Graded`): the `ℤ`-action `[M] ↦ [M{n}]` of a
-  triangulated autoequivalence commuting with the suspension; read over the group ring, it is the
-  `ℤ[q,q⁻¹]`-module structure on graded triangulated `K₀` used in Layers 7 and 8.
-  `TauCeti.LaurentK0` with `TauCeti.LaurentK0.T_smul`
-  (`TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Basic`): graded exact `K₀` as a
-  `ℤ[q,q⁻¹]`-module with `[M{n}] = qⁿ[M]`. `TauCeti.ExactK0.instRing`
-  (`TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Exact`): the ring `[X]·[Y] = [X ⊗ Y]` on
-  exact `K₀` for a biexact tensor product (`TauCeti.ExactStructure.IsMonoidal`), the model for the
-  ring structure on stable `K₀` built in §6.1. None of these treats a Verdier quotient, and the
-  library has no ring structure on triangulated `K₀`.
-
-**From TauCetiRoadmap.QuantumGroups.** Q8 item 5: `FiniteHopfModuleCat k H`, its monoidal
-structure and its rigid structure (right duals through `S`, left duals through `S⁻¹` given
-bijectivity), for any Hopf algebra over a field.
-
-**From TauCetiRoadmap.StablePeriodicCurved.** Layer 0: the additive quotient by an ideal and its
-universal property, the ideal of maps factoring through a class of objects. Layer 1: exact
-functors between Frobenius categories descend to triangle functors; triangulated structure on
-extension-closed Frobenius subcategories.
-
-**From TauCetiRoadmap.DGAInfinity.** Layers 0 and 1: graded modules with Koszul signs, DG algebras
-and DG modules, chain homotopy. Layer 5: derived categories of DG modules and their perfect
-objects, for the comparisons of Layer 5 here. Layer 7: DG quotients and Drinfeld's comparison, with
-`H⁰` of a DG quotient identified with the Verdier quotient, for the comparison of `D(A,H)` with a
-derived category in §5.1. Its `K₀` sequence is stated for the DG quotient of a DG category by a
-full DG subcategory and is not consumed: `H_n-gmod` is presented here as the stable category of a
-Frobenius category, not as `H⁰` of a DG category, and the triangulated statement §8.2 needs is
-proved in §6.1.
-
-**From TauCetiRoadmap.GrothendieckEulerForms.** Layer 6: the graded dimension of a graded vector
-space with finite-dimensional pieces and finite support, as a Laurent polynomial in `q`, and the
-`q`-graded conventions `[M{1}] = q[M]`. Its exact, triangulated and Laurent-graded Grothendieck
-groups are in the library and are consumed from Tau Ceti; it excludes Verdier quotients and
-supplies no localization sequence.
-
-## How to read the build
-
-Layer 1 proves that finite Hopf algebras are Frobenius and pins the integral, cointegral and
-Nakayama conventions. Layer 2 builds the monoidal category of all `H`-modules and its stable
-quotient `H-StMod`, triangulated and monoidal. Layer 3 builds module algebras, smash products,
-comodule algebras and the finite dual comparison. Layer 4 builds the relative Frobenius exact
-structure on `A # H`-modules and the homotopy category `C(A,H)`. Layer 5 localizes at
-quasi-isomorphisms, builds cofibrant replacement and proves compact generation. Layer 6 computes
-Grothendieck groups. Layer 7 constructs the differential examples, the braided graded ambient,
-Nichols and Taft algebras and slash homology. Layer 8 builds Laugwitz–Qi's `O_n` and computes
-its Grothendieck ring.
 
 ## Layer 1: finite Hopf algebras are Frobenius
 
@@ -849,6 +750,136 @@ StablePeriodicCurved cites this roadmap as the owner of the hopfological quotien
 module algebra, kept distinct from its stable quotients. The tensor-triangulated categories
 `H-StMod`, `C(A,H)`, `D(A,H)` and `O_n` are inputs for root-of-unity categorification; this roadmap
 builds no Jones invariant and no lattice categorification.
+
+## Scope and ownership
+
+This roadmap owns: integrals and cointegrals of Hopf algebras over a field, the modular character,
+the Hopf-algebra form of the Nakayama automorphism and the symmetric criterion; the monoidal
+structure on the category of **all** left `H`-modules, its tensor ideal of projectives and its
+descent to `H-StMod`; left module algebras, smash products, right comodule algebras and the finite
+dual comparison; the relative hopfological theory `C(A,H)`, `D(A,H)`, property (P), cofibrant
+replacement, compactness and finiteness; Hopfological Grothendieck groups; the bicharacter-braided
+graded ambient, one-generator Nichols algebras, bosonization and the differential examples; and
+the Laugwitz–Qi category `O_n`.
+
+It leaves to named owners:
+
+- Frobenius functionals, the Nakayama automorphism of a Frobenius functional, self-injectivity,
+  Frobenius exact structures, the stable category of a Frobenius exact structure and Happel's
+  triangulation are already in the library (Tau Ceti, see the supplier contracts). The remaining
+  stable-category interfaces (universal property of the additive quotient, exact functors between
+  Frobenius categories, idempotent completion) are stated by StablePeriodicCurved, Layers 0 and 1.
+- The monoidal and rigid category `FiniteHopfModuleCat` of finite-dimensional modules over a Hopf
+  algebra, with tensor over `k` through the coproduct, the counit unit, associator and unitors, the
+  right dual through `S` and the left dual through `S⁻¹` when `S` is bijective, is stated by
+  QuantumGroups, Q8 item 5. Layer 2 here extends it to all modules and compares the two on
+  finite-dimensional objects; it does not construct the finite case again.
+- The Hopf structure on the linear dual of a finite projective Hopf algebra is already in the
+  library as `TauCeti.ConvolutionDual.instHopfAlgebra`; Layer 3 consumes it.
+- Graded modules over a `ℤ`-graded algebra, with abelian structure and grading shift, are already
+  in the library as `TauCeti.GradedModuleCat`; Layers 7 and 8 use it for graded `H`-modules.
+- Ordinary DG algebras, chain homotopy, derived categories of DG modules, DG quotients and their
+  comparison with Verdier quotients are stated by DGAInfinity, Layers 0, 1, 5 and 7. Its `K₀`
+  sequence is stated for the DG quotient of a DG category by a full DG subcategory; the purely
+  triangulated form used here, for a thick subcategory of a triangulated category, is proved in
+  §6.1 and not imported.
+- Exact structures, exact and triangulated Grothendieck groups, the `ℤ`-action of a grading
+  shift on them, the `ℤ[q,q⁻¹]`-module structure on graded exact `K₀` and the ring structure on
+  exact `K₀` of a biexact tensor product are already in the library (Tau Ceti
+  `TauCeti.ExactStructure`, `TauCeti.ExactK0`, `TauCeti.TriangulatedK0`, `TauCeti.LaurentK0`, see
+  the supplier contracts). GrothendieckEulerForms, Layer 6, is consumed only for graded dimensions
+  and the `q`-graded conventions; that roadmap excludes Verdier quotients and supplies no
+  localization sequence. The library has no `K₀` of a Verdier quotient and no ring structure on
+  triangulated `K₀`; both are targets of §6.1.
+
+The constructions here select no Hopf algebra for an ADE or E8 problem, quotient no affine null
+root, and construct or categorify no lattice. Roots of unity and the Jones–Wenzl projector appear
+only as published examples of the general theory.
+
+## Exact supplier contracts
+
+**From Mathlib.** `HopfAlgebra`, `Bialgebra`, `Coalgebra.comul`, `Coalgebra.Repr` (the `ℛ`
+notation) and `IsGroupLikeElem`; `ModuleCat`; `Module.Dual`, `Module.Basis.dualBasis` and
+`Module.Dual.eval`; `WithConv`, `WithConv.toConv` and `WithConv.linearEquiv`;
+`Algebra.TensorProduct` for the algebra `A ⊗ C`; `CategoryTheory.HopfObj` for Hopf monoids in a
+braided category; `CategoryTheory.ObjectProperty.triangEnvelope` (thick envelopes, retracts
+included) and `CategoryTheory.ObjectProperty.trW` (Verdier localization at a triangulated
+subcategory); `Polynomial.cyclotomic` and `Polynomial.cyclotomic_prime` (the geometric sum for a
+prime); `IsPrimitiveRoot`. Each is used as it stands at the pin.
+
+**From Tau Ceti.**
+
+- `TauCeti.Comodule` (`TauCeti.Algebra.Coalgebra.Comodule.Basic`): right coaction with
+  coassociativity and counit laws, no multiplicativity. Layer 3 adds the comodule-algebra
+  condition.
+- `TauCeti.ConvolutionDual`, `TauCeti.ConvolutionDual.instHopfAlgebra` and
+  `TauCeti.ConvolutionDual.antipode_apply` (`TauCeti.Algebra.HopfAlgebra.FiniteDual.Basic`): the
+  Hopf algebra `H*` of a finite projective Hopf algebra over a commutative ring, with convolution
+  product, `Δf(x ⊗ y) = f(xy)`, `ε(f) = f(1)` and antipode precomposition with `S`.
+- `LinearMap.IsFrobeniusFunctional`, `LinearMap.IsSymmetricFrobeniusFunctional`,
+  `LinearMap.IsFrobeniusFunctional.nakayamaAut`, `LinearMap.IsFrobeniusFunctional.apply_mul_nakayamaAut`,
+  `LinearMap.IsFrobeniusFunctional.coe_nakayamaAut_eq` and
+  `LinearMap.IsFrobeniusFunctional.moduleInjective_self` (`TauCeti.Algebra.Algebra.Frobenius.Basic`):
+  nondegeneracy of `(a,b) ↦ φ(ab)`, the Nakayama automorphism in the stable convention with its
+  uniqueness, and self-injectivity, for finite-dimensional algebras over a field.
+- `TauCeti.ExactStructure.abelian` (`TauCeti.CategoryTheory.Exact.Abelian`): all short exact
+  sequences of an abelian category. `TauCeti.ExactStructure.IsFrobenius`
+  (`TauCeti.CategoryTheory.Exact.Frobenius`): enough relative projectives and injectives, and the
+  two classes agree. `TauCeti.ExactStructure.IsFrobenius.stableIsTriangulated`
+  (`TauCeti.CategoryTheory.Exact.Stable.Triangulated`): Happel's triangulation of the stable
+  category. `FGModuleCat.abelian_isFrobenius` (`TauCeti.Algebra.Category.FGModuleCat.Frobenius`):
+  the finitely generated module category of a two-sided self-injective finite-dimensional algebra;
+  it does not treat infinitely generated modules.
+- `TauCeti.Bialgebra.comul_pow_of_primitive` (`TauCeti.Algebra.Bialgebra.Primitive`): the binomial
+  formula for `Δ(a^n)` with `a` primitive, over any commutative semiring. The quotient bialgebras
+  of `TauCeti.Algebra.Bialgebra.Quotient` present the examples by generators and relations.
+- `TauCeti.InternalGrading` (`TauCeti.Algebra.Module.GradedModule.Internal`) and
+  `TauCeti.GradedModuleCat` with `TauCeti.GradedModuleCat.shiftFunctor`
+  (`TauCeti.Algebra.Category.GradedModuleCat.Basic`, abelian structure in `.Abelian`): genuine
+  internal `ℤ`-gradings, graded modules over `𝒜 : ℤ → Submodule k A` with degree-zero morphisms,
+  and the shift `(M{n})_p = M_{p-n}`. It carries no tensor product through a coproduct.
+- `TauCeti.ExactStructure` and `TauCeti.ExactStructure.IsConflationExact`
+  (`TauCeti.CategoryTheory.Exact.ExactStructure`, `TauCeti.CategoryTheory.Exact.Functor`): exact
+  structures and conflation-exact functors. `TauCeti.ExactK0`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Exact`) and `TauCeti.TriangulatedK0` with
+  `TauCeti.TriangulatedK0.of_distTriang`, `TauCeti.TriangulatedK0.of_shift` (`[X⟦n⟧] = (−1)ⁿ[X]`)
+  and `TauCeti.TriangulatedK0.liftEquiv` (`TauCeti.CategoryTheory.GrothendieckGroup.Triangulated`):
+  the exact and triangulated Grothendieck groups of an essentially small category, with their
+  universal properties and functoriality. `TauCeti.TriangulatedK0.shiftZPow`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Graded`): the `ℤ`-action `[M] ↦ [M{n}]` of a
+  triangulated autoequivalence commuting with the suspension; read over the group ring, it is the
+  `ℤ[q,q⁻¹]`-module structure on graded triangulated `K₀` used in Layers 7 and 8.
+  `TauCeti.LaurentK0` with `TauCeti.LaurentK0.T_smul`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Laurent.Basic`): graded exact `K₀` as a
+  `ℤ[q,q⁻¹]`-module with `[M{n}] = qⁿ[M]`. `TauCeti.ExactK0.instRing`
+  (`TauCeti.CategoryTheory.GrothendieckGroup.Monoidal.Exact`): the ring `[X]·[Y] = [X ⊗ Y]` on
+  exact `K₀` for a biexact tensor product (`TauCeti.ExactStructure.IsMonoidal`), the model for the
+  ring structure on stable `K₀` built in §6.1. None of these treats a Verdier quotient, and the
+  library has no ring structure on triangulated `K₀`.
+
+**From TauCetiRoadmap.QuantumGroups.** Q8 item 5: `FiniteHopfModuleCat k H`, its monoidal
+structure and its rigid structure (right duals through `S`, left duals through `S⁻¹` given
+bijectivity), for any Hopf algebra over a field.
+
+**From TauCetiRoadmap.StablePeriodicCurved.** Layer 0: the additive quotient by an ideal and its
+universal property, the ideal of maps factoring through a class of objects. Layer 1: exact
+functors between Frobenius categories descend to triangle functors; triangulated structure on
+extension-closed Frobenius subcategories.
+
+**From TauCetiRoadmap.DGAInfinity.** Layers 0 and 1: graded modules with Koszul signs, DG algebras
+and DG modules, chain homotopy. Layer 5: derived categories of DG modules and their perfect
+objects, for the comparisons of Layer 5 here. Layer 7: DG quotients and Drinfeld's comparison, with
+`H⁰` of a DG quotient identified with the Verdier quotient, for the comparison of `D(A,H)` with a
+derived category in §5.1. Its `K₀` sequence is stated for the DG quotient of a DG category by a
+full DG subcategory and is not consumed: `H_n-gmod` is presented here as the stable category of a
+Frobenius category, not as `H⁰` of a DG category, and the triangulated statement §8.2 needs is
+proved in §6.1.
+
+**From TauCetiRoadmap.GrothendieckEulerForms.** Layer 6: the graded dimension of a graded vector
+space with finite-dimensional pieces and finite support, as a Laurent polynomial in `q`, and the
+`q`-graded conventions `[M{1}] = q[M]`. Its exact, triangulated and Laurent-graded Grothendieck
+groups are in the library and are consumed from Tau Ceti; it excludes Verdier quotients and
+supplies no localization sequence.
 
 ## References
 
