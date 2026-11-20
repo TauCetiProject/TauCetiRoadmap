@@ -42,6 +42,14 @@ convergence (`LSeriesSummable_of_modularForm`) for Re(s)>k₀+1. Each theorem us
 the analytic carriers defined there with real bodies. The module docstring identifies
 the missing carriers for the other headlines, which remain targets in this README.
 
+## How to read the build
+
+Each milestone states what is proved, under which hypotheses, and what it rests on. "Rests on"
+names Mathlib, Tau Ceti at the pin, preceding targets or exact supplier sections. Layers 0–2
+set the nonparallel analytic conventions; Layers 3–5 give estimates and operators; Layer 6
+compares adelic forms; Layers 7–11 construct newforms and their arithmetic dictionaries.
+The general-form estimate in §3.3 is a consequence of §4.3 and is not an input to it.
+
 ## Prerequisites
 
 The Mathlib and Tau Ceti declarations consumed are listed under *What Mathlib supplies* and
@@ -52,175 +60,6 @@ this one generalizes, and the source of base-change inputs);
 [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md) Layers 0–3;
 [L-functions](../LFunctions/README.md) Layers 0 and 3; and the suppliers named in *Scope and
 ownership*.
-
-## Scope and ownership
-
-### Owned here
-
-This is the nonparallel-weight and analytic/dictionary extension of the classical parallel-weight
-construction in NoncommutativeAndEquivariantIwasawa §F.5. On the common domain k≥2, its form
-and cusp carriers, slash, expansions with constants, normalized ideal coefficients, character
-spaces and Hecke operators are used. The extensions below are compared with those objects,
-including all representative and differential factors; they do not construct another
-parallel-weight theory. Weight zero and negative weights are additional analytic cases.
-
-
-- the domain `ℍ^Σ`, the group `GL₂⁺(F)` of totally positive determinant, its action, the
-  weight-`k` slash action in the arithmetic normalization, and holomorphy on `ℍ^Σ` (Layer 0);
-- the lattices `L_𝔟 = 𝒪_F ⊕ 𝔟`, the groups `Γ₀(𝔫)_𝔟`, `Γ₁(𝔫)_𝔟`, `Γ(𝔫)_𝔟` and their
-  determinant-one subgroups `Γ_i¹(𝔫)_𝔟` with their structure, the component
-  transport between representatives of one narrow class, cusps and their finiteness (Layer 1);
-- Fourier expansions, **Koecher's principle**, the spaces `M_k(Γ)` and `M_k(𝔫)`, the normalized
-  coefficients `c(𝔪, f)` indexed by nonzero integral ideals, the parity lemma, constant terms and
-  cusp forms, cuspidality in non-parallel weight (Layer 2);
-- reduction theory (Siegel sets, finite covolume), the Hecke bound, the Petersson inner product,
-  and **finite dimensionality** by the Hilbert-space argument (Layer 3);
-- Eisenstein series of even parallel weight, including weight `2` through Hecke's trick, and the
-  decomposition `M_k = S_k ⊕ E_k` (Layer 4);
-- Hecke operators `T_𝔪` and `S_𝔪` as double-coset operators between components, the central
-  action of the narrow class group, the central-character eigenspaces `M_k(𝔫, ψ)`, the
-  coefficient formulas, commutativity, Petersson adjoints, simultaneous diagonalization, the
-  Atkin–Lehner and Fricke operators (Layer 5);
-- the **classical–adelic dictionary** for `Γ₀(𝔫)`: the comparison between the tuple of component
-  functions and a function on `GL₂(F)\GL₂(𝔸_F)`, Hecke-equivariant, with its inverse (Layer 6);
-- old and new subspaces, newforms as the LMFDB defines them, Hecke orbits, the coefficient field,
-  Galois conjugates, bad-prime coefficients, Atkin–Lehner signs (Layer 7);
-- the `L`-function of a Hilbert form as an ideal Dirichlet series, its Euler product, the
-  completed `L`-function and the Hecke–Shimura functional equation, the `L`-function card (Layer 8);
-- twists by finite-order Hecke characters, the CM predicate, the coefficient description of CM
-  forms, the base-change predicate and relation, the Doi–Naganuma lift (Layer 9);
-- the Jacquet–Langlands dictionary to totally definite quaternion algebras, stated on the
-  `𝔇`-new subspace, and the Brandt-matrix trace identity (Layer 10);
-- the LMFDB invariants of a Hilbert newform and the elliptic-curve interface (Layer 11).
-
-### Consumed, not redefined
-
-- From AutomorphicSpectralTheory §§1.5, 1.15a–1.15b: the Eisenstein constant-term
-  formula, meromorphic continuation and functional equation, and the factorization
-  of the raw GL₂ intertwiner into a Hecke L-ratio and local integrals. Section 4.2
-  owns the cusp-indexed, parallel-weight-two specialization and its holomorphic limit.
-
-- From KTheoryLowDegrees §5.4: the index ideal of a map of determinant lines,
-  its local scalar description and invariance under line isomorphisms. Section 1.1
-  uses this for inclusions of full lattices and extends to fractional indices by
-  clearing a denominator; it owns the oriented rank-two component formulas.
-
-- From [NoncommutativeAndEquivariantIwasawa](../NoncommutativeAndEquivariantIwasawa/README.md)
-  §F.5: hilbertForms, hilbertCuspForms and hilbertQExpansion, their parallel-weight k≥2
-  slash and character laws, every component and cusp, the all-cusp and standard-component
-  integral lattices, normalized ideal coefficients with constants and representative
-  factors, and all good and level-dividing Hecke operators. The comparison targets here
-  identify the parallel specialization of the nonparallel formulas with these supplied
-  objects, not merely with abstract isomorphic spaces. The two integral lattices remain distinct.
-
-- From Mathlib and Tau Ceti: everything in *Prerequisites*. In particular the narrow class group
-  is `NumberField.NarrowClassGroup F` (Tau Ceti), identified with
-  `RayClassGroup (narrowModulus F)` by Tau Ceti's `narrowEquivNarrowClassGroup`; a finite-order
-  Hecke character is `TauCeti.GlobalNumberFields.HeckeCharacter F` with `IsFiniteOrder`, and its
-  values on ideals prime to its conductor are `HeckeCharacter.idealCharacter`.
-- From [Global Number Fields](../../Completed/GlobalNumberFields/README.md): Layer 2 (moduli, ray class
-  groups, the narrow class group as the ray class group of `narrowModulus`), Layer 9 (Hecke and
-  ray class characters, conductors, primitivity), Layer 10 (infinity types; `IsAlgebraic` is the
-  hypothesis on the Hecke characters of CM extensions in Layer 9 here).
-- From [Modular Forms](../ModularForms/README.md): the `ℚ`-side objects that base change starts
-  from — `HeckeRing.GL2.Newform N k`, its nebentypus `dirichletLift`, `CoefficientField`
-  (Layers 4 and 8 there) — and the Hecke-ring definitions of its Layer 2(a), on which the
-  double-coset operators of Layer 5 are modelled.
-- From [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md):
-  `IdealArithmeticFunction`, `normCoeff`, `EulerProductData` (Layers 0–3 there);
-  the coefficient function of a Hilbert form is an `IdealArithmeticFunction F`.
-- From [L-functions](../LFunctions/README.md): the card `ArithmeticLFunctionData` with its
-  `NormalizationTranslation`, `HasFunctionalEquation`, `HasMeromorphicContinuation` and
-  `EqOffZero` (its Layer 0). Layer 8 here constructs the card of a Hilbert newform and proves its
-  predicates; it defines no second completed-`L`-function record.
-- From [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md):
-  the adelic carriers of R16.1 (finite-level automorphic functions, the compact subgroups
-  `K₀(𝔫)`), the eigensystem interface and strong multiplicity one of R16.4.4, multiplicity one
-  R16.4.3, the local newvector theory R16.2 and R16.3, global Jacquet–Langlands R17.3.1 with
-  R17.3.3, R17.3.5, R17.3.9, base change R17.4 (R17.4.1, R17.4.3–R17.4.5, R17.4.8), and
-  automorphic induction R17.4.16. The completed functional equation, trace
-  additive character and discriminant-square conductor are R16.5.4, with
-  archimedean factors R16.3.6. All enter through the dictionary of Layer 6. General local newvectors are supplied by
-  AutomorphicLFunctionsAndLocalFactors AL.2.2, and local factors by GL2AutomorphicRepresentationsAndTransfer
-  R16.3. The Hilbert comparison with these is owned here; the classical R16.6.2 has base field ℚ.
-- From [Automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md): the
-  Galois representation of a Hilbert newform (its Layer 3, §3.10) and the characterization of CM
-  by virtual reducibility (§§3.15–3.16). Layer 9 here defines CM by self-twist, as the LMFDB does,
-  and cites that roadmap for the equivalence with the induced-representation description.
-- From [Automorphic bundles](../AutomorphicBundles/README.md): the geometric Hilbert modular forms
-  (§11.9, geometric and analytic classical forms), their rational
-  structures over the defining field and field base change (§11.18), the Hilbert expansions
-  (§12.17), expansion principle (§12.18) and cusp criterion (§12.19). Layer 7 here consumes them for the
-  rationality of Fourier coefficients and the Galois action on newforms.
-- From [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md):
-  the moduli-theoretic components and Hecke isogenies of its H3 (H3.6, H3.8), the component
-  comparison H1.10 and the real-quadratic cusps H5.2. The components here are the classical
-  groups `Γ₀(𝔫)_𝔟`; their identification with the polarization classes of H3 is cited, not rebuilt.
-- For Layer 10, from [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
-  R17.3.8a–R17.3.8d: the algebraic coefficient modules `L_{n,s}` with their determinant
-  normalization (R17.3.8a), the quaternionic level forms with the finite class set
-  `Cl(U) = D^×\D_f^×/U` and the stabilizers of its evaluation (R17.3.8b), the classical
-  quaternionic forms `M_{n,s}(U; K)` (R17.3.8c) and their Hecke operators `T_v`, `S_v`, `U_{ϖ_v}`
-  (R17.3.8d); and from [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md)
-  §§R18.5.16a and R18.5.16c: Eichler orders with their levels and right ideal classes, and the
-  neighbour Brandt matrices. Layer 10 states the dictionary against these objects and takes the
-  matrices of R17.3.8d's `T_v` on the class-set basis with Mathlib `LinearMap.toMatrix`.
-- From [Adelic algebraic groups](../AdelicAlgebraicGroups/README.md): the `S`-arithmetic
-  decomposition and the strong approximation theorem for the norm-one group `D¹` of a central
-  simple algebra (its §4.2), applied to `D = M₂(F)`, where `D¹ = SL₂`.
-  Its §3.4 targets “Siegel sets cover” and “Siegel property” supply the generic
-  reduction and finite-intersection theorems; §3.1 here identifies their
-  projective GL₂ cusp coordinates. The finiteness of the
-  double coset `GL₂(F)⁺\GL₂(𝔸_{F,f})/K₀(𝔫)` and its identification with the narrow class group
-  (Layer 6) rest on it.
-- From [Number Field Arithmetic](../../Completed/NumberFieldArithmetic/README.md): the ramified
-  primes of `F` (Layer 4.3 there; the LMFDB column `field_bad_primes`) and the intrinsic field
-  label prefix `HasLMFDBIntrinsicLabel` (Layer 8.1 there, implemented as Tau Ceti's
-  `TauCeti.NumberField.HasLMFDBIntrinsicLabel`).
-
-### Not owned here
-
-- **Adelic automorphic forms and representations of `GL₂(𝔸_F)`**, local representation theory,
-  newvectors, multiplicity one, base change, Jacquet–Langlands: GL₂ automorphic representations
-  and transfer. Layer 6 builds the comparison map, not the representation theory.
-- **Galois representations** of Hilbert modular forms and the Eichler–Shimura–Carayol theorems:
-  Automorphic Galois representations.
-- **Geometry**: the Hilbert modular varieties as moduli spaces, their compactifications,
-  automorphic bundles, the geometric `q`-expansion principle: Hilbert modular varieties and
-  Shimura curves, Automorphic bundles. For real quadratic `F`, the surfaces `Γ\ℍ²`, their cusp
-  resolutions, elliptic points, Euler numbers and the **Shimizu dimension formulas** belong to the
-  sibling `HilbertModularSurfaces` roadmap; this roadmap proves finite dimensionality and no
-  closed dimension formula.
-- **Quaternion algebras**, Eichler orders, class sets, quaternionic forms and Brandt matrices:
-  Hilbert modular varieties and Shimura curves §§R18.5.16a and R18.5.16c, and GL₂ automorphic
-  representations and transfer R17.3.8a–R17.3.8d; the basis-matrix presentation in §10.3 uses the
-  Hecke action of R17.3.8d.
-- **Modularity of elliptic curves** over totally real fields, and the conductor and local data
-  of a curve over a number field: potential modularity over an extension is supplied by
-  [PotentialModularityAndCompatibleSystems](../PotentialModularityAndCompatibleSystems/README.md) §5.1
-  for given lifts satisfying its residual and local-type hypotheses.
-  Base-field modularity and full local-factor comparison are separate explicit inputs to §11.3;
-  the basic curve carrier is from [EllipticCurves](../EllipticCurves/README.md), and §11.3 states
-  the exact additional full-local-factor input needed by its comparison. Layer 11 states the matching
-  predicate between a newform and a trace-of-Frobenius function.
-- **Bianchi modular forms** (imaginary quadratic base fields): the sibling `BianchiModularForms`
-  roadmap.
-- **Half-integral weight**, Jacobi forms, Siegel modular forms: `HalfIntegralWeightModularForms`
-  and `SiegelModularForms`.
-- **Weight one** Hilbert modular forms and the totally odd Artin representations attached to
-  them: GL₂ automorphic representations and transfer R17.5.10 and Automorphic Galois
-  representations Layer 2. Every weight here has `k_w ≥ 2` wherever a theorem needs it, and the
-  weight-one case is excluded from the newform theory.
-- **Labels and orderings.** The LMFDB boundary rule applies: an invariant of the newform up to
-  isomorphism of the data (the base field, the level ideal, the weight, the Hecke eigenvalue
-  function on prime ideals, the Hecke field up to isomorphism, the flags) is defined here; the
-  ordering of the prime ideals that linearizes `hecke_eigenvalues`, the index `i` of the level
-  label `N.i`, the orbit letter, the stored defining polynomial of the Hecke field, and the
-  completeness of the tables are not targets. The intrinsic prefix of a form's label — field
-  label prefix, level norm — is stated in Layer 11.
-- **`p`-adic and overconvergent** Hilbert modular forms, ordinary projectors, Hida families:
-  OverconvergentAutomorphicForms (overconvergent Hilbert forms), PadicFamilies Layer 5 (nearly
-  ordinary Hilbert families), Ordinary automorphic forms and modularity lifting.
 
 ## Conventions
 
@@ -270,85 +109,6 @@ cuspForms, HilbertModularForms, IsCuspForm and cuspSubmodule supply the spaces. 
 coefficient definition is coeff; the convergence statements use the native L-series directly. The proved
 actions upperHalfSpaceSMul and upperHalfSpaceMulAction and support identities smul_apply, slash_add, slash_smul, slash_zero, entry_mul, det₀_mul,
 det₀_inv and entry_inv are used only to construct their actions and submodules.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ℍ` with the `GL (Fin 2) ℝ`-action, `denom`, the cocycle `denom_cocycle`, `im_smul_eq_div_normSq`,
-  and the weight-`k` slash `f ∣[k] g` with its `SlashAction` laws (`ModularForm.slash_def`, `SlashActions.lean`,
-  `UpperHalfPlane/MoebiusAction.lean`); `UpperHalfPlane.ofComplex` and `mdifferentiable_iff`
-  (`UpperHalfPlane/Manifold.lean`), which Layer 0 lifts to products.
-- `NumberField.IsTotallyReal`, `IsTotallyReal.finrank`, `embedding_of_isReal`,
-  `InfinitePlace.mult`, the finiteness of `InfinitePlace F`.
-- `FractionalIdeal`, `FractionalIdeal.dual`, `differentIdeal`, `coeIdeal_differentIdeal`,
-  `Ideal.absNorm`, `Ideal.absNorm_span_singleton`, `ClassGroup`, `HeightOneSpectrum`.
-- `LSeries`, `LSeriesSummable`, `ArithmeticFunction`, the Euler-product API, Mellin transforms
-  and `WeakFEPair` (consumed through the L-functions roadmap's level transport).
-- `Matrix.GeneralLinearGroup.map`, `Matrix.GeneralLinearGroup.det`, `Matrix.SpecialLinearGroup`.
-- `UnitAddTorus.hasSum_mFourier_series_L2`,
-  `UnitAddTorus.hasSum_mFourier_series_of_summable` and
-  `UnitAddTorus.hasSum_mFourier_series_apply_of_summable`
-  (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`): product-torus L² convergence,
-  and uniform/pointwise convergence for continuous functions with summable coefficients.
-- `MeasureTheory.L2.inner_def` (`Mathlib/MeasureTheory/Function/L2Space.lean`):
-  the integral of the conjugate-first pointwise inner product.
-- `Module.Finite.pi` (`Mathlib/RingTheory/Finiteness/Basic.lean`):
-  finite products of finite modules, applied to the narrow-class tuple after §3.5.
-- `Complex.cderiv_eq_deriv` and `Complex.norm_cderiv_le`
-  (`Mathlib/Analysis/Complex/LocallyUniformLimit.lean`): first-derivative Cauchy
-  estimate on a positive-radius disk contained in a holomorphy domain.
-
-### From Tau Ceti
-
-- `NumberField.IsTotallyPositive` with its multiplicative API, `totallyPositiveUnits`,
-  `totallyPositiveIntegerUnits`, `finiteIndex_totallyPositiveUnits`,
-  `exists_isTotallyPositive_sub_mem` (every residue class contains a totally positive integer).
-- `NumberField.NarrowClassGroup`, `NarrowClassGroup.mk`, `mk_surjective`, `mk0`, `mk0_eq_mk0_iff`,
-  `mkPrincipal_eq_one_iff`, `toClassGroup` with its kernel, finiteness
-  (`NarrowClassGroup/Finite.lean`), and `narrowEquivNarrowClassGroup` to the ray class group of
-  `narrowModulus F`.
-- `TauCeti.NumberField.HasLMFDBIntrinsicLabel F d r D` (`NumberField/IntrinsicLabel.lean`), the
-  intrinsic prefix of the field label.
-- `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `RayClassCharacter`,
-  `RayClassCharacter.onIdeals`, `HeckeCharacter`, `HeckeCharacter.IsFiniteOrder`,
-  `conductor`, `idealCharacter`, `IsAlgebraic`, `AlgebraicInfinityType`,
-  `ContinuousInfinityType.baseChange`.
-- `TauCeti.IdealArithmeticFunction`, `zeroExtend`, `normCoeff`, `EulerProductData`.
-- `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub`
-  (`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`): the holomorphic remainder
-  on Re(s)>1−1/[F:ℚ], agreeing with ζ_F(s)−ρ/(s−1) on Re(s)>1.
-- `HeckeCharacter.idealCharacter_apply_toPrincipalIdeal_eq_embeddingCharacter_inv`
-  (`TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/Ideal.lean`):
-  the inverse monomial law for a matching infinity type and a totally positive
-  generator congruent to 1 modulo the finite conductor.
-- `HeckeRing.GL2.Newform N k`, `Newform.dirichletLift`, `TauCeti.CoefficientField`,
-  `Newform.satakeParameters`, and the classical Hecke-ring realization of
-  `TauCeti.NumberTheory.HeckeRing.*`, whose double-coset formalism Layer 5 reuses.
-
-### From TauCetiRoadmap.KTheoryLowDegrees
-
-- §5.4, index ideal of a map of lines: for the inclusion det(rL′)→det(L),
-  its local determinant scalar generates the index ideal, with invariance under
-  line isomorphisms. Section 1.1 clears r to obtain a fractional ideal.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-- §1.5 (cuspidal constant term), §1.15a (meromorphic Eisenstein series and
-  intertwining identities), and §1.15b (rank-one scattering coefficient): take
-  GL₂ over F, upper Borel induction, fixed finite level, weight two at every real
-  place, and self-dual trace-character measures. With induction difference
-  t=1+2s, the spherical finite factor is L^S(t,χ)/L^S(t+1,χ); retain the raw
-  local operators at every exceptional finite place. No spherical assumption
-  is made at level primes. Section 4.2 compares these families with its cusp sums.
-
-## How to read the build
-
-Each milestone states what is proved, under which hypotheses, and what it rests on. "Rests on"
-names Mathlib, Tau Ceti at the pin, preceding targets or exact supplier sections. Layers 0–2
-set the nonparallel analytic conventions; Layers 3–5 give estimates and operators; Layer 6
-compares adelic forms; Layers 7–11 construct newforms and their arithmetic dictionaries.
-The general-form estimate in §3.3 is a consequence of §4.3 and is not an input to it.
 
 ## Layer 0: the domain, the group, the slash action, holomorphy
 
@@ -2660,6 +2420,246 @@ needs 3.1's counting and 3.4 for orthogonality) follow Layer 2; Layer 5 needs La
 Layers 5 and the cited adelic suppliers. Layer 7 needs Layers 5–6; 7.5 additionally needs
 Automorphic bundles. Layers 8, 9, 10 are independent of one another after Layer 7 (9.6 also uses
 8.1; 10.2 uses 7.7). Layer 11 collects Layers 7–9.
+
+## Scope and ownership
+
+### Owned here
+
+This is the nonparallel-weight and analytic/dictionary extension of the classical parallel-weight
+construction in NoncommutativeAndEquivariantIwasawa §F.5. On the common domain k≥2, its form
+and cusp carriers, slash, expansions with constants, normalized ideal coefficients, character
+spaces and Hecke operators are used. The extensions below are compared with those objects,
+including all representative and differential factors; they do not construct another
+parallel-weight theory. Weight zero and negative weights are additional analytic cases.
+
+
+- the domain `ℍ^Σ`, the group `GL₂⁺(F)` of totally positive determinant, its action, the
+  weight-`k` slash action in the arithmetic normalization, and holomorphy on `ℍ^Σ` (Layer 0);
+- the lattices `L_𝔟 = 𝒪_F ⊕ 𝔟`, the groups `Γ₀(𝔫)_𝔟`, `Γ₁(𝔫)_𝔟`, `Γ(𝔫)_𝔟` and their
+  determinant-one subgroups `Γ_i¹(𝔫)_𝔟` with their structure, the component
+  transport between representatives of one narrow class, cusps and their finiteness (Layer 1);
+- Fourier expansions, **Koecher's principle**, the spaces `M_k(Γ)` and `M_k(𝔫)`, the normalized
+  coefficients `c(𝔪, f)` indexed by nonzero integral ideals, the parity lemma, constant terms and
+  cusp forms, cuspidality in non-parallel weight (Layer 2);
+- reduction theory (Siegel sets, finite covolume), the Hecke bound, the Petersson inner product,
+  and **finite dimensionality** by the Hilbert-space argument (Layer 3);
+- Eisenstein series of even parallel weight, including weight `2` through Hecke's trick, and the
+  decomposition `M_k = S_k ⊕ E_k` (Layer 4);
+- Hecke operators `T_𝔪` and `S_𝔪` as double-coset operators between components, the central
+  action of the narrow class group, the central-character eigenspaces `M_k(𝔫, ψ)`, the
+  coefficient formulas, commutativity, Petersson adjoints, simultaneous diagonalization, the
+  Atkin–Lehner and Fricke operators (Layer 5);
+- the **classical–adelic dictionary** for `Γ₀(𝔫)`: the comparison between the tuple of component
+  functions and a function on `GL₂(F)\GL₂(𝔸_F)`, Hecke-equivariant, with its inverse (Layer 6);
+- old and new subspaces, newforms as the LMFDB defines them, Hecke orbits, the coefficient field,
+  Galois conjugates, bad-prime coefficients, Atkin–Lehner signs (Layer 7);
+- the `L`-function of a Hilbert form as an ideal Dirichlet series, its Euler product, the
+  completed `L`-function and the Hecke–Shimura functional equation, the `L`-function card (Layer 8);
+- twists by finite-order Hecke characters, the CM predicate, the coefficient description of CM
+  forms, the base-change predicate and relation, the Doi–Naganuma lift (Layer 9);
+- the Jacquet–Langlands dictionary to totally definite quaternion algebras, stated on the
+  `𝔇`-new subspace, and the Brandt-matrix trace identity (Layer 10);
+- the LMFDB invariants of a Hilbert newform and the elliptic-curve interface (Layer 11).
+
+### Consumed, not redefined
+
+- From AutomorphicSpectralTheory §§1.5, 1.15a–1.15b: the Eisenstein constant-term
+  formula, meromorphic continuation and functional equation, and the factorization
+  of the raw GL₂ intertwiner into a Hecke L-ratio and local integrals. Section 4.2
+  owns the cusp-indexed, parallel-weight-two specialization and its holomorphic limit.
+
+- From KTheoryLowDegrees §5.4: the index ideal of a map of determinant lines,
+  its local scalar description and invariance under line isomorphisms. Section 1.1
+  uses this for inclusions of full lattices and extends to fractional indices by
+  clearing a denominator; it owns the oriented rank-two component formulas.
+
+- From [NoncommutativeAndEquivariantIwasawa](../NoncommutativeAndEquivariantIwasawa/README.md)
+  §F.5: hilbertForms, hilbertCuspForms and hilbertQExpansion, their parallel-weight k≥2
+  slash and character laws, every component and cusp, the all-cusp and standard-component
+  integral lattices, normalized ideal coefficients with constants and representative
+  factors, and all good and level-dividing Hecke operators. The comparison targets here
+  identify the parallel specialization of the nonparallel formulas with these supplied
+  objects, not merely with abstract isomorphic spaces. The two integral lattices remain distinct.
+
+- From Mathlib and Tau Ceti: everything in *Prerequisites*. In particular the narrow class group
+  is `NumberField.NarrowClassGroup F` (Tau Ceti), identified with
+  `RayClassGroup (narrowModulus F)` by Tau Ceti's `narrowEquivNarrowClassGroup`; a finite-order
+  Hecke character is `TauCeti.GlobalNumberFields.HeckeCharacter F` with `IsFiniteOrder`, and its
+  values on ideals prime to its conductor are `HeckeCharacter.idealCharacter`.
+- From [Global Number Fields](../../Completed/GlobalNumberFields/README.md): Layer 2 (moduli, ray class
+  groups, the narrow class group as the ray class group of `narrowModulus`), Layer 9 (Hecke and
+  ray class characters, conductors, primitivity), Layer 10 (infinity types; `IsAlgebraic` is the
+  hypothesis on the Hecke characters of CM extensions in Layer 9 here).
+- From [Modular Forms](../ModularForms/README.md): the `ℚ`-side objects that base change starts
+  from — `HeckeRing.GL2.Newform N k`, its nebentypus `dirichletLift`, `CoefficientField`
+  (Layers 4 and 8 there) — and the Hecke-ring definitions of its Layer 2(a), on which the
+  double-coset operators of Layer 5 are modelled.
+- From [Arithmetic Dirichlet Series](../../Completed/ArithmeticDirichletSeries/README.md):
+  `IdealArithmeticFunction`, `normCoeff`, `EulerProductData` (Layers 0–3 there);
+  the coefficient function of a Hilbert form is an `IdealArithmeticFunction F`.
+- From [L-functions](../LFunctions/README.md): the card `ArithmeticLFunctionData` with its
+  `NormalizationTranslation`, `HasFunctionalEquation`, `HasMeromorphicContinuation` and
+  `EqOffZero` (its Layer 0). Layer 8 here constructs the card of a Hilbert newform and proves its
+  predicates; it defines no second completed-`L`-function record.
+- From [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md):
+  the adelic carriers of R16.1 (finite-level automorphic functions, the compact subgroups
+  `K₀(𝔫)`), the eigensystem interface and strong multiplicity one of R16.4.4, multiplicity one
+  R16.4.3, the local newvector theory R16.2 and R16.3, global Jacquet–Langlands R17.3.1 with
+  R17.3.3, R17.3.5, R17.3.9, base change R17.4 (R17.4.1, R17.4.3–R17.4.5, R17.4.8), and
+  automorphic induction R17.4.16. The completed functional equation, trace
+  additive character and discriminant-square conductor are R16.5.4, with
+  archimedean factors R16.3.6. All enter through the dictionary of Layer 6. General local newvectors are supplied by
+  AutomorphicLFunctionsAndLocalFactors AL.2.2, and local factors by GL2AutomorphicRepresentationsAndTransfer
+  R16.3. The Hilbert comparison with these is owned here; the classical R16.6.2 has base field ℚ.
+- From [Automorphic Galois representations](../AutomorphicGaloisRepresentations/README.md): the
+  Galois representation of a Hilbert newform (its Layer 3, §3.10) and the characterization of CM
+  by virtual reducibility (§§3.15–3.16). Layer 9 here defines CM by self-twist, as the LMFDB does,
+  and cites that roadmap for the equivalence with the induced-representation description.
+- From [Automorphic bundles](../AutomorphicBundles/README.md): the geometric Hilbert modular forms
+  (§11.9, geometric and analytic classical forms), their rational
+  structures over the defining field and field base change (§11.18), the Hilbert expansions
+  (§12.17), expansion principle (§12.18) and cusp criterion (§12.19). Layer 7 here consumes them for the
+  rationality of Fourier coefficients and the Galois action on newforms.
+- From [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md):
+  the moduli-theoretic components and Hecke isogenies of its H3 (H3.6, H3.8), the component
+  comparison H1.10 and the real-quadratic cusps H5.2. The components here are the classical
+  groups `Γ₀(𝔫)_𝔟`; their identification with the polarization classes of H3 is cited, not rebuilt.
+- For Layer 10, from [GL₂ automorphic representations and transfer](../GL2AutomorphicRepresentationsAndTransfer/README.md)
+  R17.3.8a–R17.3.8d: the algebraic coefficient modules `L_{n,s}` with their determinant
+  normalization (R17.3.8a), the quaternionic level forms with the finite class set
+  `Cl(U) = D^×\D_f^×/U` and the stabilizers of its evaluation (R17.3.8b), the classical
+  quaternionic forms `M_{n,s}(U; K)` (R17.3.8c) and their Hecke operators `T_v`, `S_v`, `U_{ϖ_v}`
+  (R17.3.8d); and from [Hilbert modular varieties and Shimura curves](../HilbertModularVarietiesAndShimuraCurves/README.md)
+  §§R18.5.16a and R18.5.16c: Eichler orders with their levels and right ideal classes, and the
+  neighbour Brandt matrices. Layer 10 states the dictionary against these objects and takes the
+  matrices of R17.3.8d's `T_v` on the class-set basis with Mathlib `LinearMap.toMatrix`.
+- From [Adelic algebraic groups](../AdelicAlgebraicGroups/README.md): the `S`-arithmetic
+  decomposition and the strong approximation theorem for the norm-one group `D¹` of a central
+  simple algebra (its §4.2), applied to `D = M₂(F)`, where `D¹ = SL₂`.
+  Its §3.4 targets “Siegel sets cover” and “Siegel property” supply the generic
+  reduction and finite-intersection theorems; §3.1 here identifies their
+  projective GL₂ cusp coordinates. The finiteness of the
+  double coset `GL₂(F)⁺\GL₂(𝔸_{F,f})/K₀(𝔫)` and its identification with the narrow class group
+  (Layer 6) rest on it.
+- From [Number Field Arithmetic](../../Completed/NumberFieldArithmetic/README.md): the ramified
+  primes of `F` (Layer 4.3 there; the LMFDB column `field_bad_primes`) and the intrinsic field
+  label prefix `HasLMFDBIntrinsicLabel` (Layer 8.1 there, implemented as Tau Ceti's
+  `TauCeti.NumberField.HasLMFDBIntrinsicLabel`).
+
+### Not owned here
+
+- **Adelic automorphic forms and representations of `GL₂(𝔸_F)`**, local representation theory,
+  newvectors, multiplicity one, base change, Jacquet–Langlands: GL₂ automorphic representations
+  and transfer. Layer 6 builds the comparison map, not the representation theory.
+- **Galois representations** of Hilbert modular forms and the Eichler–Shimura–Carayol theorems:
+  Automorphic Galois representations.
+- **Geometry**: the Hilbert modular varieties as moduli spaces, their compactifications,
+  automorphic bundles, the geometric `q`-expansion principle: Hilbert modular varieties and
+  Shimura curves, Automorphic bundles. For real quadratic `F`, the surfaces `Γ\ℍ²`, their cusp
+  resolutions, elliptic points, Euler numbers and the **Shimizu dimension formulas** belong to the
+  sibling `HilbertModularSurfaces` roadmap; this roadmap proves finite dimensionality and no
+  closed dimension formula.
+- **Quaternion algebras**, Eichler orders, class sets, quaternionic forms and Brandt matrices:
+  Hilbert modular varieties and Shimura curves §§R18.5.16a and R18.5.16c, and GL₂ automorphic
+  representations and transfer R17.3.8a–R17.3.8d; the basis-matrix presentation in §10.3 uses the
+  Hecke action of R17.3.8d.
+- **Modularity of elliptic curves** over totally real fields, and the conductor and local data
+  of a curve over a number field: potential modularity over an extension is supplied by
+  [PotentialModularityAndCompatibleSystems](../PotentialModularityAndCompatibleSystems/README.md) §5.1
+  for given lifts satisfying its residual and local-type hypotheses.
+  Base-field modularity and full local-factor comparison are separate explicit inputs to §11.3;
+  the basic curve carrier is from [EllipticCurves](../EllipticCurves/README.md), and §11.3 states
+  the exact additional full-local-factor input needed by its comparison. Layer 11 states the matching
+  predicate between a newform and a trace-of-Frobenius function.
+- **Bianchi modular forms** (imaginary quadratic base fields): the sibling `BianchiModularForms`
+  roadmap.
+- **Half-integral weight**, Jacobi forms, Siegel modular forms: `HalfIntegralWeightModularForms`
+  and `SiegelModularForms`.
+- **Weight one** Hilbert modular forms and the totally odd Artin representations attached to
+  them: GL₂ automorphic representations and transfer R17.5.10 and Automorphic Galois
+  representations Layer 2. Every weight here has `k_w ≥ 2` wherever a theorem needs it, and the
+  weight-one case is excluded from the newform theory.
+- **Labels and orderings.** The LMFDB boundary rule applies: an invariant of the newform up to
+  isomorphism of the data (the base field, the level ideal, the weight, the Hecke eigenvalue
+  function on prime ideals, the Hecke field up to isomorphism, the flags) is defined here; the
+  ordering of the prime ideals that linearizes `hecke_eigenvalues`, the index `i` of the level
+  label `N.i`, the orbit letter, the stored defining polynomial of the Hecke field, and the
+  completeness of the tables are not targets. The intrinsic prefix of a form's label — field
+  label prefix, level norm — is stated in Layer 11.
+- **`p`-adic and overconvergent** Hilbert modular forms, ordinary projectors, Hida families:
+  OverconvergentAutomorphicForms (overconvergent Hilbert forms), PadicFamilies Layer 5 (nearly
+  ordinary Hilbert families), Ordinary automorphic forms and modularity lifting.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ℍ` with the `GL (Fin 2) ℝ`-action, `denom`, the cocycle `denom_cocycle`, `im_smul_eq_div_normSq`,
+  and the weight-`k` slash `f ∣[k] g` with its `SlashAction` laws (`ModularForm.slash_def`, `SlashActions.lean`,
+  `UpperHalfPlane/MoebiusAction.lean`); `UpperHalfPlane.ofComplex` and `mdifferentiable_iff`
+  (`UpperHalfPlane/Manifold.lean`), which Layer 0 lifts to products.
+- `NumberField.IsTotallyReal`, `IsTotallyReal.finrank`, `embedding_of_isReal`,
+  `InfinitePlace.mult`, the finiteness of `InfinitePlace F`.
+- `FractionalIdeal`, `FractionalIdeal.dual`, `differentIdeal`, `coeIdeal_differentIdeal`,
+  `Ideal.absNorm`, `Ideal.absNorm_span_singleton`, `ClassGroup`, `HeightOneSpectrum`.
+- `LSeries`, `LSeriesSummable`, `ArithmeticFunction`, the Euler-product API, Mellin transforms
+  and `WeakFEPair` (consumed through the L-functions roadmap's level transport).
+- `Matrix.GeneralLinearGroup.map`, `Matrix.GeneralLinearGroup.det`, `Matrix.SpecialLinearGroup`.
+- `UnitAddTorus.hasSum_mFourier_series_L2`,
+  `UnitAddTorus.hasSum_mFourier_series_of_summable` and
+  `UnitAddTorus.hasSum_mFourier_series_apply_of_summable`
+  (`Mathlib/Analysis/Fourier/AddCircleMulti.lean`): product-torus L² convergence,
+  and uniform/pointwise convergence for continuous functions with summable coefficients.
+- `MeasureTheory.L2.inner_def` (`Mathlib/MeasureTheory/Function/L2Space.lean`):
+  the integral of the conjugate-first pointwise inner product.
+- `Module.Finite.pi` (`Mathlib/RingTheory/Finiteness/Basic.lean`):
+  finite products of finite modules, applied to the narrow-class tuple after §3.5.
+- `Complex.cderiv_eq_deriv` and `Complex.norm_cderiv_le`
+  (`Mathlib/Analysis/Complex/LocallyUniformLimit.lean`): first-derivative Cauchy
+  estimate on a positive-radius disk contained in a holomorphy domain.
+
+### From Tau Ceti
+
+- `NumberField.IsTotallyPositive` with its multiplicative API, `totallyPositiveUnits`,
+  `totallyPositiveIntegerUnits`, `finiteIndex_totallyPositiveUnits`,
+  `exists_isTotallyPositive_sub_mem` (every residue class contains a totally positive integer).
+- `NumberField.NarrowClassGroup`, `NarrowClassGroup.mk`, `mk_surjective`, `mk0`, `mk0_eq_mk0_iff`,
+  `mkPrincipal_eq_one_iff`, `toClassGroup` with its kernel, finiteness
+  (`NarrowClassGroup/Finite.lean`), and `narrowEquivNarrowClassGroup` to the ray class group of
+  `narrowModulus F`.
+- `TauCeti.NumberField.HasLMFDBIntrinsicLabel F d r D` (`NumberField/IntrinsicLabel.lean`), the
+  intrinsic prefix of the field label.
+- `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `RayClassCharacter`,
+  `RayClassCharacter.onIdeals`, `HeckeCharacter`, `HeckeCharacter.IsFiniteOrder`,
+  `conductor`, `idealCharacter`, `IsAlgebraic`, `AlgebraicInfinityType`,
+  `ContinuousInfinityType.baseChange`.
+- `TauCeti.IdealArithmeticFunction`, `zeroExtend`, `normCoeff`, `EulerProductData`.
+- `TauCeti.exists_differentiableOn_eq_dedekindZeta_sub`
+  (`TauCeti/NumberTheory/NumberField/DedekindZeta.lean`): the holomorphic remainder
+  on Re(s)>1−1/[F:ℚ], agreeing with ζ_F(s)−ρ/(s−1) on Re(s)>1.
+- `HeckeCharacter.idealCharacter_apply_toPrincipalIdeal_eq_embeddingCharacter_inv`
+  (`TauCeti/NumberTheory/NumberField/Global/HeckeCharacter/Ideal.lean`):
+  the inverse monomial law for a matching infinity type and a totally positive
+  generator congruent to 1 modulo the finite conductor.
+- `HeckeRing.GL2.Newform N k`, `Newform.dirichletLift`, `TauCeti.CoefficientField`,
+  `Newform.satakeParameters`, and the classical Hecke-ring realization of
+  `TauCeti.NumberTheory.HeckeRing.*`, whose double-coset formalism Layer 5 reuses.
+
+### From TauCetiRoadmap.KTheoryLowDegrees
+
+- §5.4, index ideal of a map of lines: for the inclusion det(rL′)→det(L),
+  its local determinant scalar generates the index ideal, with invariance under
+  line isomorphisms. Section 1.1 clears r to obtain a fractional ideal.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+- §1.5 (cuspidal constant term), §1.15a (meromorphic Eisenstein series and
+  intertwining identities), and §1.15b (rank-one scattering coefficient): take
+  GL₂ over F, upper Borel induction, fixed finite level, weight two at every real
+  place, and self-dual trace-character measures. With induction difference
+  t=1+2s, the spherical finite factor is L^S(t,χ)/L^S(t+1,χ); retain the raw
+  local operators at every exceptional finite place. No spherical assumption
+  is made at level primes. Section 4.2 compares these families with its cusp sums.
 
 ## References
 
