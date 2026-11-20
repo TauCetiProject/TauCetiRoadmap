@@ -91,6 +91,7 @@ body:
         - ClusterAlgebras
         - CoboundaryExpansion
         - ColemanIntegration
+        - ColemanIntegrationPartII
         - ColemanPowerSeries
         - CombinatorialHeegaardFloer
         - CompactOperators
