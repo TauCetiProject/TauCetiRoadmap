@@ -656,6 +656,15 @@ on the diffusion limits of the Wright–Fisher and Moran chains and on coalescen
 or recombination would build on Layers 1 and 3; a roadmap on the qualitative theory of planar
 differential equations would build on Layer 2.
 
+## Provenance and prior work
+
+The Isabelle Archive of Formal Proofs contains the entry `Markov_Models`, which treats
+discrete-time Markov chains and the classification of their states; it is reference material,
+not the specification. No entry on the probability theory page of the Archive concerns
+branching processes or population genetics, and neither Mathlib nor Tau Ceti at the pins states
+the Galton–Watson process, the Lotka–Volterra or SIR equations, the Wright–Fisher or Moran
+chains or the coalescence times.
+
 ## Scope and ownership
 
 This roadmap owns: the Galton–Watson process with one type in discrete time (its kernel,
@@ -814,15 +823,6 @@ Items are cited as "layer.item" of [MarkovChainsAndRenewal](../MarkovChainsAndRe
 - 1.1: the one-step Markov property by conditional expectations relative to a filtration, and
   its equivalence with the prefix-law recursion for the natural filtration. It is used for the
   martingales of 1.3, 3.2 and 3.3 above and for the conditioning at time `1` in 1.5 above.
-
-## Provenance and prior work
-
-The Isabelle Archive of Formal Proofs contains the entry `Markov_Models`, which treats
-discrete-time Markov chains and the classification of their states; it is reference material,
-not the specification. No entry on the probability theory page of the Archive concerns
-branching processes or population genetics, and neither Mathlib nor Tau Ceti at the pins states
-the Galton–Watson process, the Lotka–Volterra or SIR equations, the Wright–Fisher or Moran
-chains or the coalescence times.
 
 ## References
 
