@@ -268,9 +268,10 @@ def IsStein (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] (X : Type*) [
     ∀ x : X, ∃ (r : ℕ) (f : Fin r → X → ℂ), (∀ i, MDifferentiable 𝓘(ℂ, E) 𝓘(ℂ) (f i)) ∧
       Function.Injective fun v : E => fun i => mfderiv 𝓘(ℂ, E) 𝓘(ℂ) (f i) x v
 
-/-- **The Stein criterion** (README §3.1; Grauert 1958, the Levi problem). A Hausdorff,
-second-countable complex manifold carrying a smooth exhaustion `q` (every sublevel set `{q ≤ c}` is
-compact) that is strictly plurisubharmonic at every point is Stein. -/
+/-- **The Stein criterion** (README §3.1; Grauert 1958, §2, Theorem 2, for the relatively compact
+sublevel sets, and his §3 for their union). A Hausdorff, second-countable complex manifold
+carrying a smooth exhaustion `q` (every sublevel set `{q ≤ c}` is compact) that is strictly
+plurisubharmonic at every point is Stein. -/
 theorem isStein_of_strictlyPlurisubharmonic_exhaustion {E X : Type*} [NormedAddCommGroup E]
     [NormedSpace ℂ E] [FiniteDimensional ℂ E] [TopologicalSpace X] [T2Space X]
     [SecondCountableTopology X] [ChartedSpace E X] [IsManifold 𝓘(ℂ, E) ∞ X] (q : X → ℝ)

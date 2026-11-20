@@ -1080,7 +1080,8 @@ holomorphic separation of points, holomorphic local coordinates).
   hull of a compact set lies in a closed polydisc containing it.
 - The predicate is invariant under biholomorphisms.
 
-**Grauert's p-function.** Prove Grauert's construction (Grauert, 1958). A *p-function* for `M` is a
+**Grauert's p-function.** Prove Grauert's construction (Grauert, 1958, §3, Propositions 6 and 7).
+A *p-function* for `M` is a
 germ, on an open neighbourhood of the whole fixed locus `M` in the complexification, of a smooth
 function `p` with `p ≥ 0`, `p⁻¹(0) = M`, `p = dp = 0` on `M`, strictly plurisubharmonic on a possibly
 smaller neighbourhood of `M`. The neighbourhood may shrink under a positive smooth multiplier or a
@@ -1985,7 +1986,8 @@ sections).
   proofs to appear separately.
 - H. Grauert, [“On Levi's problem and the imbedding of real-analytic manifolds”](https://doi.org/10.2307/1970257),
   *Annals of Mathematics* (2) 68 (1958), 460–472: the real-analytic embedding theorem (Theorem 3,
-  p. 470) and the Stein and Levi-problem arguments of Layer 3.
+  p. 470), the Stein criterion of Layer 3 (§2, Theorem 2, for relatively compact domains, and §3
+  for the passage to an exhaustion) and its p-functions (§3, Propositions 6 and 7).
 - H. Whitney and F. Bruhat, [doi:10.1007/BF02565913](https://doi.org/10.1007/BF02565913), §1,
   Proposition 1: the complexification of a real-analytic manifold, with its separation buffers.
 - F. Forstnerič, [“Holomorphic embeddings and immersions of Stein manifolds: a survey”](https://arxiv.org/abs/1709.05630),
