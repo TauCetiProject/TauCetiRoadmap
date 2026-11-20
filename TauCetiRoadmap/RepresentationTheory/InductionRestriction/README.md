@@ -142,6 +142,8 @@ Tau Ceti's transitivity isomorphisms and Mathlib's induction functor.
 
 ## Layer 2: induced characters and Frobenius reciprocity
 
+<a id="layer-21-almost-conjugacy-and-permutation-representations"></a>
+
 ### 2.1 Almost-conjugacy: restriction and quotient-invariant adapters
 
 Two subgroups `H`, `K` of `G` are almost conjugate (Gassmann equivalent) when they meet every
@@ -546,6 +548,8 @@ Tau Ceti's virtual-character lattice, representation ring and linear independenc
 Mathlib's Maschke theorem.
 
 ## Layer 7: projective representations, factor sets, and the Schur multiplier
+
+<a id="abstract-universal-central-extensions"></a>
 
 ### 7.1 Abstract universal central extensions
 
