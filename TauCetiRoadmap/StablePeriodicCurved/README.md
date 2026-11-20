@@ -512,7 +512,7 @@ at most `d` (`TauCeti.globalDimension Rᵐᵒᵖ ≤ d`), every object of `D_sg(
 complex of finitely generated modules is perfect. This is not a claim about the quotient of
 `mod-R` by the maps factoring through projectives, which need not vanish; the self-injective
 specialization and the finite-global-dimension specialization have different hypotheses
-(Buchweitz, §4).
+(Buchweitz, §1.1 and §8.1).
 *Needs:* §§2.1, 2.4, 2.5; Tau Ceti `TauCeti.isGorensteinProjective_of_moduleInjective_self`,
 `TauCeti.globalDimension`, `DerivedCategory.Bounded.perfect_iff`.
 
@@ -881,9 +881,9 @@ Define an *eventually periodic projective resolution* of a module `M` as a proje
 `m ≥ 1` such that `P_(i+m) = P_i` for `i ≥ p` and `d_(i+m) = d_i` for `i > p`. One period
 `P_p, …, P_(p+m-1)`, with `P_i` in degree `-i mod m` and the differentials `d_(p+1), …, d_(p+m)`
 (the last one `P_p = P_(p+m) → P_(p+m-1)`), is an `m`-periodic complex. Prove that the tail
-`⋯ → P_(p+1) → P_p`, with `P_i` in degree `-i`, is the truncation in degrees at most `-p` of the
-unfolding (`TauCeti.PeriodicComplex.unfoldFunctor`) of this `m`-periodic complex, which is itself
-unbounded in both directions; and that maps of modules lift to chain maps between such
+`⋯ → P_(p+1) → P_p`, with `P_i` in degree `-i`, is the brutal (stupid) truncation in degrees at
+most `-p` of the unfolding (`TauCeti.PeriodicComplex.unfoldFunctor`) of this `m`-periodic
+complex, which is itself unbounded in both directions; and that maps of modules lift to chain maps between such
 resolutions uniquely up to homotopy, so that an eventually periodic resolution is homotopy
 equivalent to every projective resolution of `M`. Prove that over a noetherian local ring `(R, 𝔪)`,
 in particular an artinian local ring, every
@@ -917,8 +917,8 @@ minimality clauses of Eisenbud's Theorem 6.1.
   not homotopically projective (`TauCeti.not_isHomotopicallyProjective_dualNumberPeriodicComplex`).
 - Over `A = k[x]/(x^n)`, the module `A/(x^i)` has the periodic resolution alternating `x^i` and
   `x^(n-i)` (§8.2), with preperiod `0` and period `2`; by §4.5, without `A/(x^i)`, it is the
-  truncation in degrees at most zero of the unfolding of the reduction modulo `x^n` of the matrix
-  factorization `(x^(n-i), x^i)` of §8.3.
+  brutal truncation in degrees at most zero of the unfolding of the reduction modulo `x^n` of the
+  matrix factorization `(x^(n-i), x^i)` of §8.3.
 
 ### Dependencies
 
@@ -1287,8 +1287,8 @@ its zero fibre; use finitely generated projective `S`-modules. Modules over the 
 functor from `HMF(S, w)` to `D_sg(S/(w))` given by the cokernel functor of §7.4, the equivalence of
 §2.3 for `A = S/(w)` and the functor of §2.5 for `C = FGModuleCat (S ⧸ Ideal.span {w})` is an
 exact equivalence (Orlov, Proposition 3.3 and Theorem 3.9). Under these
-hypotheses no idempotent completion is inserted. A ring-theoretic non-zero-divisor condition does
-not replace the flatness of `W`, and the theorem is not applied at `w = 0`. If another source
+hypotheses no idempotent completion is inserted. Flatness of `W` is the standing hypothesis of
+Orlov's Theorem 3.9 (Orlov, §3.1), and the theorem is not applied at `w = 0`. If another source
 gives, in a global or non-affine setting, only density up to direct summands, its statement is made
 after idempotent completion, with the comparison functor before completion.
 *Needs:* §§2.3, 2.5, 7.4; Mathlib `Module.Flat`, `IsRegularRing`, `ringKrullDim`; Tau Ceti
@@ -1339,7 +1339,7 @@ in degrees `0` and `1` are finitely generated projective, compatibly with homoto
 ### Examples
 
 - For `S = k[x]` and `w = x^n`, the factorization `(x^i, x^(n-i))` reduces modulo `x^n` to a
-  two-periodic complex whose unfolding, truncated in degrees at most one, is the periodic
+  two-periodic complex whose unfolding, brutally truncated in degrees at most one, is the periodic
   resolution of `A/(x^i)` over `A = k[x]/(x^n)` with `A/(x^i)` deleted and `P_k` in degree
   `1 - k` (§§8.2–8.3).
 - Rank-one factorizations `w = ab` give cokernels `S/(a)` reduced modulo `w`, which are
@@ -1409,9 +1409,9 @@ morphisms form a space of dimension `min(i, j, n - i, n - j)`
 Prove that for `1 ≤ i < n` the minimal free resolution of `M_i` is the complex alternating
 multiplication by `x^i` and by `x^(n-i)`, augmented by `A → M_i`: it is exact
 (`TauCeti.MatrixFactorization.powerXPeriodicComplex_acyclic`), every differential lands in `(x)`,
-and, with `M_i` deleted and `P_k` in degree `-k`, it is the truncation in degrees at most zero of
-the unfolding of the two-periodic complex `TauCeti.MatrixFactorization.powerXPeriodicComplex`
-taken at the exponent `n - i`, whose differential is `x^(n-i)` from parity zero to parity one and
+and, with `M_i` deleted and `P_k` in degree `-k`, it is the brutal truncation in degrees at most
+zero of the unfolding of the two-periodic complex
+`TauCeti.MatrixFactorization.powerXPeriodicComplex` taken at the exponent `n - i`, whose differential is `x^(n-i)` from parity zero to parity one and
 `x^i` from parity one to parity zero. Prove that `min(i, j, n - i, n - j)` equals
 `min(i, j) - max(0, i + j - n)`.
 *Needs:* §§0.4, 2.1, 4.5; Tau Ceti `TauCeti.FGModuleCat.finrank_stableModuleHom_cyclicModule_root_pow`,
