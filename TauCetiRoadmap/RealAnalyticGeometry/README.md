@@ -1038,6 +1038,8 @@ No proof here uses compact global Hodge theory (ComplexKahlerGeometry K5's compa
 or the cycle theory of ComplexKahlerGeometry K6; of K6 only the local identities of K6.0 (§6.1) are
 used.
 
+<a id="r30-global-complexification-and-tubes"></a>
+
 ### 3.0 Global complexification and tubes (R3.0)
 
 **Complexification.** Construct a complexification of every Hausdorff, second-countable
@@ -1126,6 +1128,8 @@ GeometricTopology §1.5.
   maximum principle the holomorphic hull of the unit sphere is the closed unit ball minus the
   origin, which is not compact. A definition of Stein by separation and coordinates alone would
   accept `X`.
+
+<a id="r31-weighted-estimates-stein-criteria-and-approximation"></a>
 
 ### 3.1 Weighted estimates, Stein criteria and approximation (R3.1)
 
