@@ -36,8 +36,8 @@ The README's targets stated only in prose, each with what it lacks for a stateme
   `polynomialKernel_mmd_sq` and `tendsto_mmd_iff`.
 * 8.1, full spectral support for compactly supported `ψ`: it needs the analyticity of the Fourier
   transform of a compactly supported measure, which Mathlib does not have.
-* 10.1, `E mmdU = MMD²` and the identity between `mmdU` and `mmdV`: identities of the U- and
-  V-statistics of MathematicalStatisticsFoundations 2.4, owned there.
+* 10.1, `E mmdU = MMD²` for `n ≥ 2` and the identity between `mmdU` and `mmdV`: identities of
+  the U- and V-statistics of MathematicalStatisticsFoundations 2.4, owned there.
 * 11.1, the supremum form of the kernel Stein discrepancy: it needs the divergence of elements of
   the `d`-fold Kolmogorov space, which needs derivatives of feature-space elements.
 * 11.3, the operator form `C_{YX} C_{XX}⁻¹ Φ x`: it needs the covariance operators as bounded
@@ -174,8 +174,8 @@ variable {V : Type*} [Fintype V] [DecidableEq V]
 
 /-- **2.1** The spectral gap of `𝓛`, as the infimum of the Rayleigh quotient
 `gᵀ L g / ∑ dᵢ gᵢ²` over nonzero `g` with `∑ dᵢ gᵢ = 0`. The quotient is nonnegative for a
-weighted graph, so the infimum is bounded below; for `card V = 1` the index set is empty and the
-value is `0`. -/
+weighted graph, so the infimum is bounded below. For `card V = 1` the value is `0`: with a loop
+the index set is empty, and without one every nonzero `g` qualifies with quotient `0/0 = 0`. -/
 def fiedlerValue (W : Matrix V V ℝ) : ℝ :=
   ⨅ g : {g : V → ℝ // g ≠ 0 ∧ ∑ i, degree W i * g i = 0},
     (g.1 ⬝ᵥ (laplacian W *ᵥ g.1)) / ∑ i, degree W i * g.1 i ^ 2

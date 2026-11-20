@@ -114,7 +114,8 @@ are:
   `h(z, z') = k(x, x') + k(y, y') - k(x, y') - k(x', y)`, which omits all pairs with equal
   indices; the biased statistic `mmdV k n z` is the V-statistic, the squared MMD of the two
   empirical laws. Gretton et al. also use an unbiased statistic that keeps the cross terms
-  `k(xᵢ, yᵢ)`; it differs from `mmdU` by `O_P(n⁻¹)` and has the same null limit.
+  `k(xᵢ, yᵢ)`; for independent samples it differs from `mmdU` by `o_P(n⁻¹)` and has the same
+  null limit.
 - **Total variation.** Mathlib's `MeasureTheory.tvDist μ ν` is the total variation norm
   `|μ - ν|(X)`, with values in `[0, 2]` for probability measures; it is twice
   `sup_A |μ(A) - ν(A)|`. All bounds below use Mathlib's normalization.
@@ -126,8 +127,10 @@ are:
 - **Shapes.** A configuration of `k` landmarks in `ℝᵐ` is a matrix `Z : Matrix (Fin k) (Fin m) ℝ`
   whose rows are landmarks. A pre-shape is centred with unit Frobenius norm. Rotations are
   `Matrix.specialOrthogonalGroup (Fin m) ℝ`, so reflections are not quotiented out.
-- **Junk values.** `fiedlerValue W` and `cheegerConstant W` are real infima over index sets that
-  are empty when `card V = 1`, where the value is `0`; the theorems assume `2 ≤ card V`. The
+- **Junk values.** `fiedlerValue W` and `cheegerConstant W` are real infima, and both are `0` when
+  `card V = 1`: the index set of `cheegerConstant` is empty, and that of `fiedlerValue` is empty
+  when the vertex carries a loop and otherwise consists of all nonzero `g`, with quotient
+  `0/0 = 0`; the theorems assume `2 ≤ card V`. The
   normalized cut and conductance divide by volumes, which vanish only for `S = ∅` or
   `S = univ`, excluded by the hypotheses. `procrustesCos` is a real supremum over the compact group
   `SO(m)`, which is bounded. Quantities that can be infinite are in `ℝ≥0∞`:
@@ -236,7 +239,8 @@ are:
 
 - Layer 3: the Wasserstein distance and Kantorovich–Rubinstein duality, consumed by 9.1, 9.2
   and 11.2 through the Tau Ceti declarations above.
-- Layer 12, sections 12.1, 12.2 and 12.8: Fréchet barycenters, cited in 6.4 and under Beyond.
+- Layer 12, sections 12.2 and 12.8: existence and strong consistency of Fréchet barycenters,
+  cited in 6.4.
 
 ### From OperatorTheory/MatrixSpectralStatistics
 
@@ -254,9 +258,9 @@ are:
 
 ## How to read the build
 
-There are two strands. The spectral strand runs Layer 1 → 2 → 3 and 2 → 4, with Layer 5 resting
+There are two strands. The spectral strand runs Layer 1 → 2 → 3 and 1 → 4, with Layer 5 resting
 on Layer 1, Mathlib's spectral theorem and, for 5.4, the sampling bound of TopologicalDataAnalysis
-8.4, and Layer 6 resting on Layer 5.2 and on Mathlib.
+8.4, and Layer 6 resting on Mathlib and Tau Ceti.
 The kernel strand runs Layer 7 → 8 → 9 → 10 → 11; Layer 10.4 uses Layer 8's characteristic
 kernels, and Layer 11.4 uses only Layer 7. Each layer lists its definitions, its targets with
 their Lean names where `Suggested.lean` states them, locators or proof routes, and a `*Needs:*`
@@ -370,7 +374,7 @@ Mathlib's simple-graph Laplacian and matrix library only.
 ### 2.1 The spectral gap
 
 - `fiedlerValue W` is the infimum of `gᵀ L g / ∑ dᵢ gᵢ²` over nonzero `g` with `∑ dᵢ gᵢ = 0`
-  (Chung (1.4), p. 5; Fiedler's algebraic connectivity, Fiedler §6.1, p. 146, is the
+  (Chung (1.2), p. 4; Fiedler's algebraic connectivity, Fiedler §6.1, p. 146, is the
   corresponding eigenvalue of `L`).
 - `fiedlerValue_spec`: for a weighted graph with positive degrees and `2 ≤ card V`,
   - `fiedlerValue W` is an eigenvalue of `𝓛`, and every eigenvalue below it is `0`;
@@ -429,7 +433,8 @@ Mathlib's simple-graph Laplacian and matrix library only.
 
 - `fiedlerValue`: `3/2` on `K₃`, `1` on `P₃`, `2` on `K₂`.
 - `fiedlerValue`: `0` on two disjoint copies of `K₂`, which are disconnected.
-- `fiedlerValue`: on a single vertex the index set is empty and the value is `0`.
+- `fiedlerValue`: on a single vertex the value is `0`: with a loop the index set is empty, and
+  without one every nonzero `g` qualifies and the quotient is `0/0 = 0`.
 - `graphVolume`: on `P₃`, `vol {0} = 1`, `vol {1} = 2`, `vol V = 4`.
 - `graphVolume`: `vol ∅ = 0`.
 - `graphVolume`: a loop of weight `1` at a vertex adds `1` to its volume.
@@ -469,10 +474,10 @@ Layer 1; Tau Ceti Courant–Fischer and Ky Fan.
   - `λ₁ ≤ 2h` (Chung Lemma 2.1, p. 25; Grigor'yan Lemma 3.2, p. 53);
   - `h²/2 ≤ λ₁` (Chung Theorem 2.2, p. 26; Grigor'yan Theorem 3.3, p. 54);
   - `1 - √(1 - h²) ≤ λ₁` (Chung Theorem 2.3, p. 27).
-  Chung states both lower bounds as strict inequalities for connected graphs. The strict form of
-  Theorem 2.2 holds for connected graphs, since then `h > 0` and `1 - √(1 - h²) > h²/2`; the
-  strict form of Theorem 2.3 fails for `P₃` (Examples). The non-strict forms hold for every
-  weighted graph and are the ones stated.
+  The 1997 printing of Chung states both lower bounds as strict inequalities for connected
+  graphs. The strict form of Theorem 2.2 holds for connected graphs, since then `h > 0` and
+  `1 - √(1 - h²) > h²/2`; the strict form of Theorem 2.3 fails for `P₃` (Examples). The
+  non-strict forms hold for every weighted graph and are the ones stated.
 - Proof route. The upper bound: `λ₁ ≤ Ncut(S) ≤ 2 cut(S)/min(vol S, vol Sᶜ)` by 2.2. The lower
   bounds: take an eigenvector `f` of `λ₁` for the generalized problem `L f = λ D f`, shift it by
   a weighted median so that both `{f > 0}` and `{f < 0}` have volume at most `vol V / 2`, and
@@ -623,10 +628,9 @@ Layer 1.
 - `isBoundedInProbability_hausdorffDist`: let `P` be a probability measure on a separable metric
   space, carried by a compact `K`, with `P(B(x, r)) ≥ c rᵈ` for `x ∈ K` and `0 < r < r₀`. For an
   i.i.d. sequence from `P`, `d_H({X₀, …, X_{n-1}}, K) / (log(n + 1)/n)^{1/d}` is bounded in
-  probability (Cuevas–Rodríguez-Casal, *On boundary estimation*, 2004; Genovese–Perone-Pacifico–
-  Verdinelli–Wasserman, *Manifold estimation and singular deconvolution under Hausdorff loss*,
-  2012). It differs from the rate of TopologicalDataAnalysis 8.4, which bounds the expectation for
-  laws standard at every radius, in requiring the small-ball bound only below `r₀` and concluding
+  probability (Cuevas–Rodríguez-Casal, *On boundary estimation*, 2004). It differs from the rate
+  of TopologicalDataAnalysis 8.4, which bounds the expectation for laws standard at every radius,
+  in requiring the small-ball bound only below `r₀` and concluding
   boundedness in probability; it follows from the sampling bound of 8.4 as below.
 - Proof route. The local bound makes `P` standard at every radius with exponent `d` and
   `a = c (r₀/(2R))ᵈ`, `R = max(r₀, diam K)`: for `r < r₀` the closed ball contains the open one and
@@ -804,8 +808,7 @@ Fan.
 
 ### Dependencies
 
-Layer 5 for the eigenvalue tools; Foundations 8.4; Asymptotic 1.2; Tau Ceti Fréchet means and
-Ky Fan.
+Foundations 8.4; Asymptotic 1.2; Tau Ceti Fréchet means, `TauCeti.covMatrix` and Ky Fan.
 
 ## Layer 7: Kernel mean embeddings
 
@@ -1036,7 +1039,7 @@ Layer 7; Tau Ceti Bochner and Gaussian positive definiteness; Mathlib characteri
 
 - Gaussian kernel: `2 - 2e^{-r²/(2σ²)} ≤ r²/σ²` because `1 - e^{-t} ≤ t`; at `r = σ` the two
   sides are `2 - 2e^{-1/2} ≈ 0.787` and `1`. This is the Lipschitz constant `1/σ` of 9.1.
-- For `μₙ = (1 - 1/n) δ₀ + n⁻¹ δₙ` and the Gaussian kernel, `MMD(μₙ, δ₀) ≤ √2 · 2/n → 0` by the
+- For `μₙ = (1 - 1/n) δ₀ + n⁻¹ δₙ` and the Gaussian kernel, `MMD(μₙ, δ₀) ≤ 2/n → 0` by the
   total-variation bound, while `W₁(μₙ, δ₀) = 1`.
 
 ### Dependencies
@@ -1052,8 +1055,11 @@ Layers 7–8; Tau Ceti optimal-transport library; Mathlib Prokhorov.
   `k̃(x, y) = k(x, y) - E k(x, X) - E k(X, y) + E k(X, X')`.
 - `mmdV_eq_mmd_sq`: `mmdV k n z` is the squared MMD of the empirical laws of the `xᵢ` and of the
   `yᵢ`. Proof: expand both sides.
-- `E mmdU = MMD(P, Q)²` under `P ⊗ Q`, and `n · mmdV = (n - 1) · mmdU + n⁻¹ ∑ᵢ h(zᵢ, zᵢ)`; both
-  are identities of the U- and V-statistics (Foundations 2.4).
+- For `n ≥ 2` and feature maps integrable under `P` and under `Q`, `E mmdU = MMD(P, Q)²` under
+  `(P ⊗ Q)ⁿ`; for every `n`, `n · mmdV = (n - 1) · mmdU + n⁻¹ ∑ᵢ h(zᵢ, zᵢ)`. Both are identities
+  of the U- and V-statistics (Foundations 2.4). For `n ≤ 1` there are no pairs of distinct
+  indices and `mmdU = 0`, while for `P = δ₀`, `Q = δ₁` and the Gaussian kernel with `σ = 1`
+  the right side is `2 - 2e^{-1/2} ≈ 0.787`.
 
 *Needs:* Layer 7; Foundations 2.4 (local copy `uStatistic`).
 
@@ -1272,8 +1278,15 @@ Layers 7–8; Asymptotic 6.2–6.3; Foundations 2.4 and 8.4.
   space embeddings of conditional distributions*, 2009; Fukumizu–Bach–Jordan, *Dimensionality
   reduction for supervised learning with reproducing kernel Hilbert spaces*, 2004).
 - Proof: disintegrate `ρ = ρ_X ⊗ ρ.condKernel` and integrate `⟪g, Ψ y⟫ Φ x` first in `y`.
-- Consequence (prose target): if `C_{XX}` is injective and `Φ x` lies in its range, then
-  `U_{Y|x} = C_{YX} C_{XX}⁻¹ Φ x` satisfies `E[g(Y) | X = x] = ⟪g, U_{Y|x}⟫` for every `g`.
+- Consequence (prose target): if `C_{XX}` is injective, `Φ x` lies in its range, and for every `g`
+  in the Kolmogorov space of `l` some `f_g` in the Kolmogorov space of `k` represents
+  `x ↦ E[g(Y) | X = x]` as above, then `U_{Y|x} = C_{YX} C_{XX}⁻¹ Φ x` satisfies
+  `⟪g, U_{Y|x}⟫ = f_g(x)` for every `g`, hence `⟪g, U_{Y|x}⟫ = E[g(Y) | X = x]` for `ρ_X`-almost
+  every `x`. Proof: `C_{XY} g = C_{XX} f_g` by `covariance_condExp_eq`, and `C_{XX}` is
+  self-adjoint, so `⟪g, U_{Y|x}⟫ = ⟪C_{XX} f_g, C_{XX}⁻¹ Φ x⟫ = ⟪f_g, Φ x⟫`. Without the
+  representability hypothesis the conclusion fails: for `X = Y` uniform on `{1, 2}`, `k ≡ 1` and
+  `l(y, y') = 𝟙[y = y']`, `C_{XX}` is the identity on the constants, and
+  `⟪g, U_{Y|x}⟫ = (g(1) + g(2))/2` while `E[g(Y) | X = x] = g(x)`.
 - The hypothesis can fail: for Gaussian kernels and independent `X`, `Y`, the conditional
   expectations are nonzero constants, which do not lie in the Gaussian Kolmogorov space (its
   functions vanish at infinity, Wendland Theorem 10.12, p. 139, for the native space). Hence the
@@ -1324,8 +1337,9 @@ Layers 7–8; Asymptotic 6.2–6.3; Foundations 2.4 and 8.4.
 
 **Checks.**
 
-- `steinKernel`: for `P = N(0, 1)` (`b(x) = -x`) and the Gaussian kernel with `σ = 1.3`,
-  Gauss–Hermite quadrature gives `∫ k_P(x, y) dP(x) = 0` to `10⁻¹⁶` at `y = 0, 0.7, -2`.
+- `steinKernel`: for `P = N(0, 1)` (`b(x) = -x`) and the Gaussian kernel with width `σ`, on the
+  diagonal `k_P(x, x) = x² + σ⁻²`, since `∇_y k` vanishes there and `∂_x ∂_y k = σ⁻²`; at `x = 0`
+  and `σ = 1.3` it is `1/1.69 ≈ 0.592`.
 - `steinKernel`: for the constant kernel `k ≡ 1`, `k_P(x, y) = ⟪b x, b y⟫`.
 - `steinKernel`: it depends on `p` only through `b`, so `p` and `2p` give the same kernel.
 - `ksdSq`: `ksdSq k b P = 0` by 11.1.
@@ -1381,7 +1395,8 @@ positive degrees has the walk `P = D⁻¹ W` with `π = d / vol V` (4.1). Under 
   exponential maps and Jacobi-field estimates that Mathlib does not have.
 - **Manifold reach.** That a compact submanifold of positive reach `τ` satisfies the local
   chord–arc condition of 5.3 with `η = O(ε/τ)`; minimax rates of manifold estimation in Hausdorff
-  loss (Genovese et al. 2012).
+  loss (Genovese–Perone-Pacifico–Verdinelli–Wasserman, *Manifold estimation and singular
+  deconvolution under Hausdorff loss*, 2012).
 - **Stein convergence control.** Weak convergence from `KSD → 0` for distantly dissipative
   targets with the inverse multiquadric kernel, the tight version for translation-invariant
   kernels with nonvanishing Fourier transform, and the counterexample for fast-decaying kernels
@@ -1419,7 +1434,7 @@ This section is secondary and not prescriptive.
   University Press, 2012. Chapter 3: Theorems 3.2–3.3 (pp. 23–24); Chapter 4: Definition 4.1,
   Propositions 4.2–4.3 (pp. 36–38).
 - F. R. K. Chung, *Spectral Graph Theory*, CBMS Regional Conference Series 92, American
-  Mathematical Society, 1997. Chapter 1: (1.4) (p. 5), Lemma 1.7 (pp. 6–7), §1.4 (p. 12), §1.5
+  Mathematical Society, 1997. Chapter 1: (1.2) (p. 4), Lemma 1.7 (pp. 6–7), §1.4 (p. 12), §1.5
   (p. 14); Chapter 2: (2.1)–(2.2) (p. 24), Lemma 2.1 (p. 25), Theorems 2.2–2.3 (pp. 26–27).
 - I. L. Dryden and K. V. Mardia, *Statistical Shape Analysis*, Wiley, 1998. Result 3.2 (p. 44);
   Definitions 4.12–4.13, Results 4.1–4.3 and (4.25) (pp. 61–68); Definitions 5.1, 5.3, 5.5 and
@@ -1451,11 +1466,11 @@ This section is secondary and not prescriptive.
   (pp. 206–207); Chapter 12 (p. 235); Definition 14.3 (p. 290), Lemma 14.1 (p. 291).
 - H. Wendland, *Scattered Data Approximation*, Cambridge University Press, 2004. Theorem 6.6
   (p. 70), Theorem 6.10 (p. 74), Theorems 7.13–7.15 (pp. 93–95), Theorem 10.12 (p. 139).
-- Books and papers without a local copy, cited by author, title and year with proof routes of this
-  roadmap: Belkin–Niyogi 2003; Berg–Christensen–Ressel 1984; Bernstein–de Silva–Langford–Tenenbaum
-  2000; Chwialkowski–Strathmann–Gretton 2016; Coifman–Lafon 2006; Cuevas–Rodríguez-Casal 2004;
-  Dudley 2002; Fukumizu–Bach–Jordan 2004; Genovese–Perone-Pacifico–Verdinelli–Wasserman 2012;
-  Gibbs–Su 2002; Gorham–Mackey 2017; Gretton–Bousquet–Smola–Schölkopf 2005;
+- Works cited by author, title and year, with proof routes of this roadmap: Belkin–Niyogi 2003;
+  Berg–Christensen–Ressel 1984; Bernstein–de Silva–Langford–Tenenbaum 2000;
+  Chwialkowski–Strathmann–Gretton 2016; Coifman–Lafon 2006; Cuevas–Rodríguez-Casal 2004; Dudley
+  2002; Fukumizu–Bach–Jordan 2004; Genovese–Perone-Pacifico–Verdinelli–Wasserman 2012; Gibbs–Su
+  2002; Gorham–Mackey 2017; Gretton–Bousquet–Smola–Schölkopf 2005;
   Gretton–Borgwardt–Rasch–Schölkopf–Smola 2012; Hoeffding 1952; Horn 1954; Liu–Lee–Jordan 2016;
   Rahimi–Recht 2007; Roweis–Saul 2000; Sejdinovic–Sriperumbudur–Gretton–Fukumizu 2013;
   Smola–Gretton–Song–Schölkopf 2007; Song–Huang–Smola–Fukumizu 2009;
