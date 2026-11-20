@@ -5,7 +5,9 @@ import Mathlib
 
 **This file is not the roadmap.** The roadmap is `README.md`. This file states the roadmap's
 headline theorems against the pinned Mathlib, each with `sorry`, together with the definitions
-they need; every definition has a real body. Every headline theorem of the README is statable at
+they need; every definition has a real body. `tvBetweenStarts` is a verbatim copy of the
+definition of MarkovChainMixing 1.2, a roadmap this one depends on and whose Lean file cannot be
+imported; Dobrushin's coefficient is its value at time `1`. Every headline theorem of the README is statable at
 the pins and is stated here. The README's remaining targets, API lists and Checks are not
 restated.
 
@@ -23,10 +25,16 @@ variable {S : Type*} [MeasurableSpace S] [MeasurableSingletonClass S]
 
 /-! ## Layer 1: Dobrushin's ergodicity coefficient -/
 
+/-- 1.1 (copied verbatim from MarkovChainMixing 1.2): the distance between starting points
+`d̄(t) = max_{x,y} ‖κ^t(x, ·) − κ^t(y, ·)‖_TV`. -/
+def tvBetweenStarts [Fintype S] [Nonempty S] (κ : Kernel S S) (t : ℕ) : ℝ :=
+  univ.sup' univ_nonempty fun p : S × S ↦ tvDist ((κ ^ t) p.1) ((κ ^ t) p.2) / 2
+
 /-- 1.1: Dobrushin's ergodicity coefficient `δ(κ) = max_{x,y} ‖κ(x, ·) − κ(y, ·)‖_TV` of a
-kernel on a finite set, with the normalized total variation distance. -/
-def dobrushinCoeff [Fintype S] [Nonempty S] (κ : Kernel S S) : ℝ :=
-  univ.sup' univ_nonempty fun p : S × S ↦ tvDist (κ p.1) (κ p.2) / 2
+kernel on a finite set, with the normalized total variation distance: MarkovChainMixing's
+`d̄(1)`, since `κ ^ 1 = κ`. -/
+abbrev dobrushinCoeff [Fintype S] [Nonempty S] (κ : Kernel S S) : ℝ :=
+  tvBetweenStarts κ 1
 
 /-- 1.2: Dobrushin's contraction: `‖μκ − νκ‖_TV ≤ δ(κ) ‖μ − ν‖_TV` for probability measures
 `μ`, `ν` and a Markov kernel `κ` on a finite set. -/

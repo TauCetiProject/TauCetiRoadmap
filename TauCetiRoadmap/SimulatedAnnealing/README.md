@@ -267,10 +267,12 @@ Layer 2 uses Layer 1 (1.2 and 1.3), Mathlib's kernel composition and invariance,
 ### 3.1 Gibbs measures
 
 Define `gibbs U β`, written `π_β`, for an energy `U` on a finite set, as the measure giving mass
-`exp(−β U x) / Σ_y exp(−β U y)` to each point `x`. Prove:
+`exp(−β U x) / Σ_y exp(−β U y)` to each point `x`. It is Mathlib's exponential tilt of the
+counting measure, `Measure.count.tilted (fun x ↦ −(β * U x))`; prove that identification. Two
+facts then come from the library and are not targets: `π_β` is a probability measure when `S` is
+nonempty (`isProbabilityMeasure_tilted`), and `π_0` is the uniform law (`tilted_const'`). Prove:
 
-- `π_β` is a probability measure when `S` is nonempty;
-- `π_β` does not change when a constant is added to `U`, and `π_0` is the uniform law;
+- `π_β` does not change when a constant is added to `U`;
 - `dπ_β{x}/dβ = π_β{x} (Σ_y π_β{y} U y − U x)`, so `|dπ_β{x}/dβ| ≤ max U − min U`
   (Mitra–Romeo–Sangiovanni-Vincentelli, equation (3.8), p. 12, in the temperature `T = 1/β`).
 
@@ -281,7 +283,8 @@ Define `gibbs U β`, written `π_β`, for an energy `U` on a finite set, as the 
 - The sign: with `exp(+βU)` in place of `exp(−βU)` the masses would concentrate on the maximizers
   as `β → ∞`; with the definition above they do so as `β → −∞`.
 
-*Needs:* Mathlib `Measure.dirac`, `Real.exp`.
+*Needs:* Mathlib `Measure.dirac`, `Real.exp`, `Measure.tilted`, `isProbabilityMeasure_tilted`,
+`tilted_const'`.
 
 ### 3.2 Concentration on the global minimizers
 
@@ -482,25 +485,15 @@ Already in the libraries or on main, and therefore not targets:
 - the reversibility of the Metropolis–Hastings kernel (MathematicalStatisticsFoundations 9.4); 4.1
   only identifies the Metropolis kernel with it.
 
-Statements of open roadmaps (not on main) that border this one; this roadmap does not depend on
-either:
+Statements of other roadmaps that border this one:
 
-- MarkovChainMixing (an open roadmap, not on main), section 1.2, defines the distance `d̄(t)`
-  between starting points of a homogeneous chain, with the same normalization of total variation,
-  and proves `d̄(s + t) ≤ d̄(s) d̄(t)` and that `d̄(t)` is the supremum of the distance between
-  `μκ^t` and `νκ^t` over probability measures. Here `δ(κ)` is that roadmap's `d̄(1)`; 1.3 bounds
-  the coefficient of a product of two different kernels, and its submultiplicativity of `d̄` is
-  the homogeneous case `κ^s`, `κ^t` of 1.3; 1.2 is the contraction by the factor `δ(κ)` of the
-  distance of two arbitrary initial laws, not the supremum over them. Its section 6.1 (Glauber
-  dynamics) is not used.
-- HiddenMarkovModels (an open roadmap, not on main), section 6.1, states the contraction
+- MarkovChainMixing, section 1.2, is a supplier, as said above. Its section 6.1 (Glauber dynamics)
+  is not used.
+- HiddenMarkovModels, section 6.1, states the contraction
   `‖νK − ν'K‖ ≤ (1 − ε) ‖ν − ν'‖` under a minorization `ε ρ ≤ K(s, ·)` on countable spaces. This
   roadmap states only the bound of the coefficient by column minima (1.1), which with 1.2 gives
-  that contraction on finite spaces; it does not state the minorization contraction.
-- PACBayesBounds (an open roadmap, not on main), section 4.1, defines a Gibbs posterior as the
-  tilt of a prior by an empirical risk. The measure `gibbs U β` of 3.1 is its case of a finite set
-  with the uniform prior and `U` in place of the risk; the statements here (low-temperature limits,
-  summable variation) are not stated there. This roadmap does not depend on that one.
+  that contraction on finite spaces; it does not state the minorization contraction, and does not
+  depend on that roadmap.
 
 Outside the scope: Hajek's necessary and sufficient condition for convergence, that the constant
 `c` be at least the depth of the deepest local minimum that is not global; rates of convergence
@@ -536,12 +529,24 @@ algorithm and implementation.
   diverges). `Mathlib/Analysis/Calculus/Deriv/MeanValue.lean`: `monotoneOn_of_deriv_nonneg`,
   `antitoneOn_of_deriv_nonpos` (monotonicity from the sign of the derivative on a convex set).
 
+- `Mathlib/MeasureTheory/Measure/Tilted.lean`: `MeasureTheory.Measure.tilted` (`μ.tilted f` is
+  `μ` with density `exp (f x) / ∫ exp f ∂μ`), `isProbabilityMeasure_tilted` (a probability measure
+  when `μ ≠ 0` and `exp ∘ f` is integrable), `tilted_const'` (the tilt by a constant is
+  `(μ univ)⁻¹ • μ`). Used in 3.1.
+
 ### From Tau Ceti
 
 - `TauCeti/Analysis/Matrix/Exponential/ZeroTemperature.lean`:
   `Matrix.IsHermitian.tendsto_trace_exp_neg_smul_mul_div` (for a Hermitian matrix `K` and any
   matrix `x`, `Tr(exp(−βK) x)/Tr(exp(−βK)) → Tr(P₀ x)/Tr P₀` as `β → ∞`, where `P₀` is the
   spectral projection at the least eigenvalue), used in the route of 3.2.
+
+### From TauCetiRoadmap.MarkovChainMixing
+
+- 1.2: `tvBetweenStarts κ t`, the maximum over pairs `(x, y)` of
+  `tvDist ((κ ^ t) x) ((κ ^ t) y) / 2`, copied verbatim; for a Markov kernel it lies in `[0, 1]`
+  and is the supremum of the distance between `κ^t ∘ μ` and `κ^t ∘ ν` over probability measures
+  `μ`, `ν`. Used at `t = 1` as Dobrushin's coefficient, throughout.
 
 ### From TauCetiRoadmap.MarkovChainsAndRenewal
 
