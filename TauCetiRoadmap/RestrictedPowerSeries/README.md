@@ -37,10 +37,9 @@ that of `P`. If `F = Σ c_n T^n` has `F(0) = 1` and vanishes at an element `a` o
 
 Mathlib provides the restrictedness predicates and the Gauss norm on which every carrier is built.
 The completed roadmap [AdicSpaces](../../Completed/AdicSpaces/README.md) provides Huber
-rings and Wedhorn's weighted restricted series, compared with the normed ones in Layer 6;
+rings and Wedhorn's weighted restricted series, compared with the normed ones in Layer 6, and
 [AdicSpacesPartIII](../AdicSpacesPartIII/README.md) provides restricted series over adic
-noetherian rings, and [AdicSpacesPartIV](../AdicSpacesPartIV/README.md) the overconvergent
-algebra `W_n` of §7.3. The series interfaces are consumed by
+noetherian rings. The series interfaces are consumed by
 [NewtonPolygons](../NewtonPolygons/README.md) (Gauss norms, division and preparation),
 [CompactOperators](../CompactOperators/README.md) (entire series and their resultants) and
 [RigidAnalyticGeometry](../RigidAnalyticGeometry/README.md) (the structure of Tate algebras).
@@ -67,7 +66,7 @@ Mathlib coefficients and ultrametric analysis
                         modulus
 
 Layers 0–2 → open-disc series (§7.1)
-Layers 0–2 and the overconvergent algebra of AdicSpacesPartIV §F1.1 → §7.3
+Layers 0–2 → overconvergent series (§7.3)
 Layers 0–2 and 4 → entire series and polynomial division (§7.2)
 
 AdicSpaces §§0.1–0.5 → §6.1
@@ -483,9 +482,9 @@ Prove the following on the native carrier.
 - *Algebra and module forms.* For an `R`-algebra `S`, evaluation along the algebra map is an
   `R`-algebra homomorphism; for a complete ultrametric normed `R`-module `E` with
   `‖a • e‖ ≤ ‖a‖ ‖e‖` and points `x ∈ R^k` with `‖x_i‖ ≤ r_i`, evaluation `Σ_ν x^ν • e_ν` of restricted
-  `E`-valued families is additive, bounded by the Gauss norm, and satisfies `(f • e)(x) = f(x) • e(x)`
-  for the convolution action of §0.3. Tau Ceti's `TauCeti.MvPowerSeries.familyEval` is the case of
-  field coefficients.
+  `E`-valued families is additive, bounded by the Gauss norm, and, for complete `R`, satisfies
+  `(f • e)(x) = f(x) • e(x)` for the convolution action of §0.3. Tau Ceti's
+  `TauCeti.MvPowerSeries.familyEval` is the case of field coefficients.
 - *Comparison with the topological evaluation.* At unit radius and for contractive `φ`,
   evaluation `MvPowerSeries.restrictedEval₂` equals `TauCeti.MvPowerSeries.restrictedLift`, that is, Tau Ceti's
   `TauCeti.Huber.weightedEvalHom` composed with the inverse of
@@ -670,8 +669,11 @@ constant coefficient is its unique Gauss-norm-attaining coefficient
 
 Prove the compatibility of the inverse with evaluation: under the Neumann hypothesis, for
 evaluation along a contractive `φ` at `‖b_i‖ ≤ r_i`, `f(b)` is a unit of `S` and
-`f⁻¹(b) = f(b)⁻¹`.
-*Needs:* §2.1; Tau Ceti `MvPowerSeries.isNormMulUnit_of_norm_sub_C_lt`, `MvPowerSeries.restrictedEval₂`.
+`f⁻¹(b) = f(b)⁻¹`. This is glue: evaluation is a ring homomorphism, and ring homomorphisms carry
+units and their inverses to units and their inverses (Mathlib's `IsUnit.map`,
+`IsUnit.map_ringInverse`).
+*Needs:* §2.1; Tau Ceti `MvPowerSeries.isNormMulUnit_of_norm_sub_C_lt`, `MvPowerSeries.restrictedEval₂`;
+Mathlib `IsUnit.map`, `IsUnit.map_ringInverse`.
 
 **Checks.**
 - `1 − pX` is a unit in `ℚ_p⟨X⟩`, since `‖pX‖ = p⁻¹ < 1`; `1 − X` is not, its coefficient of `X`
@@ -706,14 +708,17 @@ inherit the identification of its power-bounded elements with its unit ball with
 The topologically nilpotent elements of `T` are those of norm less than one, the Gauss norm being
 multiplicative (`TauCeti.isTopologicallyNilpotent_iff_norm_lt_one_of_isPowMul`). Prove that the
 topologically nilpotent ideal of `T°`, Tau Ceti's `TauCeti.Huber.topologicallyNilpotentIdeal` of
-`T`, is `{f | ‖f‖ < 1}`, the kernel of reduction. Prove that reduction commutes with
+`T`, is `{f | ‖f‖ < 1}`, the kernel of reduction; this is glue, combining that criterion with
+`TauCeti.MvPowerSeries.powerBoundedSubring_eq_unitClosedBall` and
+`TauCeti.MvPowerSeries.ker_restrictedReduction`. Prove that reduction commutes with
 coefficient maps of valued fields: for an isometric embedding `K → L` of complete fields, mapping
 coefficients and then reducing equals reducing and then mapping along the induced map `K̃ → L̃`.
 Prove that reduction commutes with evaluation at integral points: for `x ∈ (K°)^n`, `f(x) ∈ K°` and
 its residue is the reduced polynomial evaluated at the residue of `x`.
 *Needs:* §2.1, §0.2; Tau Ceti `TauCeti.MvPowerSeries.restrictedReduction`,
 `TauCeti.isTopologicallyNilpotent_iff_norm_lt_one_of_isPowMul`,
-`TauCeti.Huber.topologicallyNilpotentIdeal`, `MvPowerSeries.restrictedEval₂`; Mathlib
+`TauCeti.Huber.topologicallyNilpotentIdeal`, `TauCeti.MvPowerSeries.powerBoundedSubring_eq_unitClosedBall`,
+`TauCeti.MvPowerSeries.ker_restrictedReduction`, `MvPowerSeries.restrictedEval₂`; Mathlib
 `IsLocalRing.ResidueField`.
 
 **Checks.**
@@ -907,9 +912,10 @@ by `w` is finite over `T_(n−1)`; these are the iterated statements carried alo
 ### 5.2 Noetherian, factorial and dimension theory
 
 `T_n` is a noetherian domain at every positive polyradius
-(`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`, `TauCeti.instIsDomainIsRestrictedSubring`),
-a unique factorisation domain (`TauCeti.MvPowerSeries.uniqueFactorizationMonoid`), hence integrally
-closed (Mathlib's `UniqueFactorizationMonoid.instIsIntegrallyClosed`), a Jacobson ring
+(`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`, `TauCeti.instIsDomainIsRestrictedSubring`;
+at unit radius the noetherianity is AdicSpaces §0.5's), a unique factorisation domain
+(`TauCeti.MvPowerSeries.uniqueFactorizationMonoid`), hence integrally closed (Mathlib's
+`UniqueFactorizationMonoid.instIsIntegrallyClosed`), a Jacobson ring
 (`TauCeti.MvPowerSeries.isJacobsonRing`) and of Krull dimension `n`
 (`TauCeti.MvPowerSeries.ringKrullDim_isRestricted_subring`, every maximal ideal of height `n`,
 `Ideal.height_eq_natCard_of_isMaximal_isRestricted_subring`). Its maximal ideals are generated by
@@ -980,9 +986,9 @@ spaces:
 ### 5.4 Positive polyradii and finite presentations
 
 The Banach algebra `K⟨r⁻¹X⟩` is kept at every positive polyradius (Layer 1), and it is noetherian
-(`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`). With one common exponent `p ≥ 1` and
-multiplicative units `u_i` with `‖u_i‖ r_i^p = 1`, the map from the unit Tate algebra sending `Y_i` to
-`u_i X_i^p` is injective, finite and isometric (`TauCeti.MvPowerSeries.restrictedRescaleExpand`,
+(`TauCeti.MvPowerSeries.isNoetherianRing_isRestricted_subring`). With one common exponent `m ≥ 1` and
+multiplicative units `u_i` with `‖u_i‖ r_i^m = 1`, the map from the unit Tate algebra sending `Y_i` to
+`u_i X_i^m` is injective, finite and isometric (`TauCeti.MvPowerSeries.restrictedRescaleExpand`,
 `TauCeti.MvPowerSeries.restrictedRescaleExpand_injective`,
 `TauCeti.MvPowerSeries.restrictedRescaleExpand_finite`,
 `TauCeti.MvPowerSeries.isometry_restrictedRescaleExpand`), with monomial generators and their norm
@@ -1015,9 +1021,10 @@ strict-affinoid criterion.
 
 ### Dependencies
 
-§§2.1–2.3, the maximum principle of §2.4, Layer 3 and Layer 4; Mathlib polynomial, finite-module,
-integrality and dimension APIs; Tau Ceti's Tate-algebra and Huber modules named above. The radius
-presentation of §5.4 is a weighted coefficient construction.
+§§2.1–2.3, the maximum principle of §2.4, Layer 3 and Layer 4; AdicSpaces §0.5 for unit-radius
+noetherianity; Mathlib polynomial, finite-module, integrality and dimension APIs; Tau Ceti's
+Tate-algebra and Huber modules named above. The radius presentation of §5.4 is a weighted
+coefficient construction.
 
 ## Layer 6: topological and adic series comparisons
 
@@ -1033,10 +1040,10 @@ variables `Fin k`, Wedhorn's weighted restricted series for weight sets `M_i ⊆
 `TauCeti.Huber.weightedRestrictedSubring M hM`, the plain ones `TauCeti.Huber.restrictedMvPowerSeriesSubring`
 (the trivial weights `{1}`, `TauCeti.Huber.weightedRestrictedSubring_one_weight`) and their separated
 completion `TauCeti.Huber.restrictedMvPowerSeriesCompletion`. The admissibility hypothesis is
-`TauCeti.Huber.IsWeightFamily M` (every `M_i^m U` with `U` a neighbourhood of zero has closure a
-neighbourhood of zero); over a Huber ring it is equivalent to Wedhorn's condition that the ideal
-generated by each `M_i` be open (`TauCeti.Huber.isWeightFamily_iff_isOpen_span`), and over a general
-nonarchimedean ring the open-ideal condition alone does not make the weighted series a ring. The
+`TauCeti.Huber.IsWeightFamily M` (for every `m` and every neighbourhood `U` of zero, the additive
+subgroup generated by `M_i^m U` is a neighbourhood of zero: Wedhorn's standing condition of §5.6);
+over a Huber ring it is equivalent to the condition that the ideal generated by each `M_i` be open
+(`TauCeti.Huber.isWeightFamily_iff_isOpen_span`), the hypothesis of [Wedhorn] Lemma 6.20. The
 contract includes the weighted polynomial topology (`TauCeti.Huber.weightedTopology`), the
 coefficient description (`TauCeti.Huber.isWeightedRestricted_iff`), density of polynomials
 (`TauCeti.Huber.dense_weightedPolynomials`), completion, renaming along embeddings of variable sets
@@ -1213,10 +1220,11 @@ open unit-disc algebra (`PowerSeries.onOpenDisc_of_bddAbove_norm_coeff`); the in
 bounded-coefficient algebra (`PowerSeries.HasGaussNorm.subring_le_onOpenDiscSubring`) is continuous,
 as are its evaluations at points of the open unit ball
 (`TauCeti.PowerSeries.HasGaussNorm.continuous_inclusion_onOpenDiscSubring`,
-`TauCeti.PowerSeries.HasGaussNorm.continuous_evalAtHom_comp_inclusion`); it is not surjective, the
-logarithm `log(1 + X)` being on the open unit disc with unbounded coefficients. Hasse derivatives,
-derivatives and bounded coefficient maps preserve the condition (`PowerSeries.OnOpenDisc.hasseDeriv`,
-`PowerSeries.OnOpenDisc.derivative`, `PowerSeries.OnOpenDisc.map`). The bounded and algebraic
+`TauCeti.PowerSeries.HasGaussNorm.continuous_evalAtHom_comp_inclusion`). Over `ℚ_p` the inclusion
+is not surjective, the logarithm `log(1 + X)` being on the open unit disc with unbounded
+coefficients. Hasse derivatives, derivatives and bounded coefficient maps preserve the condition
+(`PowerSeries.OnOpenDisc.hasseDeriv`, `PowerSeries.OnOpenDisc.derivative`,
+`PowerSeries.OnOpenDisc.map`). The bounded and algebraic
 locally analytic Amice transforms belong to functional analysis and to
 [LocallyAnalyticDistributions](../LocallyAnalyticDistributions/README.md); measure theory,
 distribution topologies and geometric Mellin transforms consume this coefficient algebra and are not
@@ -1225,10 +1233,10 @@ inputs to it.
 Prove the sequential description: for any sequence of radii `r_k` increasing to `R₀`, the algebra is
 isomorphic, as a topological ring, to the compatible sequences of restricted series at the radii
 `r_k`, independently of the sequence. Prove that translation and substitution carry the radius
-conditions of Layers 1–2: for `‖1‖ = 1` and `‖a‖ < R₀`, `f(X + a)` is on the open disc of radius `R₀`;
-for complete `R`, if `f` is on the open disc of radius `R₀` and `g` on the open disc of radius `S₀`
-with `‖g‖_s < R₀` for every `s < S₀`, then `f(g)` is on the open disc of radius `S₀`, compatibly with
-the analytic substitution of §2.2 at each radius.
+conditions of Layers 1–2: for complete `R` with `‖1‖ = 1` and `‖a‖ < R₀`, `f(X + a)` is on the open
+disc of radius `R₀`; for complete `R`, if `f` is on the open disc of radius `R₀` and `g` on the
+open disc of radius `S₀` with `‖g‖_s < R₀` for every `s < S₀`, then `f(g)` is on the open disc of
+radius `S₀`, compatibly with the analytic substitution of §2.2 at each radius.
 *Needs:* §§1.2, 2.2; Tau Ceti `TauCeti.PowerSeries.OnOpenDisc.range_restrictFamily`,
 `TauCeti.MvPowerSeries.restrictedAnalyticSubst`, `TauCeti.MvPowerSeries.restrictedTranslate`.
 
@@ -1321,8 +1329,7 @@ Prove the following.
 
 ### 7.3 Overconvergent series
 
-This section is the supplier contract with [AdicSpacesPartIV](../AdicSpacesPartIV/README.md) §F1.1,
-*overconvergent-tate-algebra*. For finitely many variables over `K`, the algebra
+For finitely many variables over `K`, the algebra
 `W_n = ⋃_{ρ>1} K⟨ρ⁻¹X₁,…,ρ⁻¹X_n⟩` inside the native formal series is Tau Ceti's
 `TauCeti.Dagger.washnitzerAlgebra`, with its inclusion in `T_n` (`TauCeti.Dagger.washnitzerAlgebra.toTate`,
 isometric for the unit Gauss norm, `TauCeti.Dagger.washnitzerAlgebra.isometry_toTate`), dense
@@ -1335,12 +1342,15 @@ substitutions are compatible with the inclusion in `T_n`
 for overconvergent `f` and overconvergent inner series of unit Gauss norm at most one, a common
 radius slightly greater than one makes §2.2 apply, so that the substitution stays overconvergent
 (`TauCeti.Dagger.washnitzerAlgebra.analyticSubst`). General dagger algebras and their locally convex
-fringe topology are supplied by AdicSpacesPartIV §F1.
+fringe topology are not used here.
 
 Prove the comparison with polyradii: in finitely many variables, `f ∈ W_n` iff `f` is restricted at
-some polyradius whose coordinates are all greater than one.
-*Needs:* Layer 1; Tau Ceti `TauCeti.Dagger.washnitzerAlgebra`, `TauCeti.Dagger.washnitzerAlgebra.ofRestricted`,
-`TauCeti.MvPowerSeries.restrictedRadiusHom`.
+some polyradius whose coordinates are all greater than one. This is glue between pinned
+declarations: a constant radius `ρ > 1` is such a polyradius (`TauCeti.Dagger.mem_washnitzerAlgebra`),
+and conversely `TauCeti.Dagger.washnitzerAlgebra.ofRestricted` applies with `ρ` the least coordinate
+(any `ρ > 1` when there are no variables).
+*Needs:* Layer 1; Tau Ceti `TauCeti.Dagger.washnitzerAlgebra`, `TauCeti.Dagger.mem_washnitzerAlgebra`,
+`TauCeti.Dagger.washnitzerAlgebra.ofRestricted`, `TauCeti.MvPowerSeries.restrictedRadiusHom`.
 
 **Checks.**
 - Radii in `|K×|` alone do not suffice for a discretely valued field: over `ℚ_p`,
@@ -1360,8 +1370,8 @@ some polyradius whose coordinates are all greater than one.
 
 ### Dependencies
 
-§§7.1 and 7.3 use Layers 0–2; §7.3 also consumes the `W_n` contract of AdicSpacesPartIV §F1.1. Entire
-division in §7.2 also uses Layer 4.
+§§7.1 and 7.3 use Layers 0–2; §7.3 also uses Tau Ceti's `W_n`. Entire division in §7.2 also uses
+Layer 4.
 
 ## Downstream consumers
 
@@ -1417,8 +1427,9 @@ supplies the interface. Library modules do not import roadmap files or their adm
 - multiplicative units, distinguishedness, Weierstrass division and preparation, with uniqueness,
   norm estimates and compatibility with coefficient maps (Layers 3–4);
 - unit-radius Tate algebras over fields: reduction, maximum modulus, distinguished coordinates,
-  finite quotients, noetherianity, factoriality, the Jacobson property, Krull dimension, and strict
-  closedness of ideals and of submodules of finite free modules (§§2.4, 3.3 and Layer 5);
+  finite quotients, factoriality, the Jacobson property, Krull dimension, and strict closedness of
+  ideals and of submodules of finite free modules (§§2.4, 3.3 and Layer 5); noetherianity at every
+  positive polyradius (§§5.2, 5.4), the unit-radius case being AdicSpaces §0.5's;
 - the compatibility of restricted series over complete adic noetherian rings, their polynomial
   reductions and maps with the normed construction (§6.3);
 - the common coefficient algebra of open-disc, entire and overconvergent series: their radius
@@ -1447,16 +1458,17 @@ translation and substitution on the open disc (§7.1); the norm identity, coeffi
 coprimality and non-normability for entire series (§7.2); and the polyradius description of `W_n`
 (§7.3).
 
-**Owned elsewhere and consumed here.**
+**Owned elsewhere.**
 
 - *Topological and subset-weighted series* ([AdicSpaces](../../Completed/AdicSpaces/README.md)
   §§0.4–0.5, on §§0.1–0.3): module series, universal properties with their naturality and
   polynomial compatibility, iteration and quotient interfaces, topological localisation, field
-  Weierstrass theory and unit-radius Tate noetherianity; §6.1 recalls them. Field division and Tate
-  noetherianity remain supplied results even where the Banach-ring theorems of Layer 4 give another
-  proof. This roadmap adds the explicit Gauss estimates and arbitrary-polyradius interfaces of
-  Layers 0–2, Banach-ring division without a globally multiplicative norm in Layer 4, and the
-  coherence of normed and completed carriers in §6.2.
+  Weierstrass theory and unit-radius Tate noetherianity; §6.1 recalls them, and §5.2 cites the
+  noetherianity. Field division and Tate noetherianity remain supplied results even where the
+  Banach-ring theorems of Layer 4 give another proof. This roadmap adds the explicit Gauss
+  estimates and arbitrary-polyradius interfaces of Layers 0–2, Banach-ring division without a
+  globally multiplicative norm in Layer 4, and the coherence of normed and completed carriers in
+  §6.2.
 - *Restricted series over an adic noetherian ring* ([AdicSpacesPartIII](../AdicSpacesPartIII/README.md)
   §F0.1, *restricted-power-series-adic*): the adic carrier, its polynomial reductions, universal
   property and noetherianity, recalled in §6.3; this roadmap adds their compatibility with the
@@ -1464,8 +1476,10 @@ coprimality and non-normability for entire series (§7.2); and the polyradius de
 - *The overconvergent algebra* ([AdicSpacesPartIV](../AdicSpacesPartIV/README.md) §F1.1,
   *overconvergent-tate-algebra* and *overconvergent-tate-algebra-properties*): `W_n`, its inclusion
   in `T_n`, its completion for the unit Gauss norm and its ideal theory, and in §F1 general dagger
-  algebras and their fringe topology; this roadmap adds the polyradius comparison and the radius
-  control of the derivative and substitution in §7.3.
+  algebras and their fringe topology. AdicSpacesPartIV consumes §§0.1, 1.1 and 5.4 of this roadmap
+  and supplies nothing to it: §7.3 uses `W_n` only through the Tau Ceti declarations it names. This
+  roadmap adds the polyradius comparison and the radius control of the derivative and substitution
+  in §7.3.
 - *Completed tensor products* ([AdicSpacesPartII](../AdicSpacesPartII/README.md) §R0.3,
   *completed-tensor-restricted-power-series*): the general completed tensor product of Huber pairs
   and `B ⊗̂_A A⟨X⟩_M ≃ B⟨X⟩_φ(M)` along an adic coefficient map; this roadmap supplies to it the
@@ -1518,7 +1532,8 @@ noncommutative Banach algebra is included (§2.1), since Fredholm theory evaluat
   `IsUltrametricDist`, `NormMulClass`, `NormOneClass`, `IsBoundedSMul`, `spectralNorm`,
   `IsCyclotomicExtension`, `Submodule.Quotient.completeSpace`, `Topology.IsStrictMap`,
   `UniqueFactorizationMonoid.instIsIntegrallyClosed`, `IsJacobsonRing`, `Ideal.jacobson`,
-  `ringKrullDim`, `IsLocalRing.ResidueField`, `IsCoprime`, `AdjoinRoot`, `Function.Exact`.
+  `ringKrullDim`, `IsLocalRing.ResidueField`, `IsCoprime`, `AdjoinRoot`, `Function.Exact`,
+  `IsUnit.map`, `IsUnit.map_ringInverse`.
 
 ### From Tau Ceti
 
@@ -1596,7 +1611,8 @@ variables, including its naturality and its agreement with polynomial evaluation
 localisation. §0.5: restricted series over complete Tate rings, module-valued series,
 substitution, quotient and iteration isomorphisms, Weierstrass division and preparation over a
 complete rank-one nonarchimedean field, noetherianity of `K⟨X₁,…,X_n⟩` and strong noetherianness.
-§6.1 consumes them and §6.2 compares them with the normed construction.
+§6.1 consumes them, §5.2 cites the noetherianity and §6.2 compares them with the normed
+construction.
 
 ### From TauCetiRoadmap.AdicSpacesPartIII
 
@@ -1606,14 +1622,6 @@ definition `I`, the restricted series ring `A{T₁,…,T_r}` (Tau Ceti's
 noetherian when `A` is, the isomorphisms `A{T}/I^(n+1) A{T} ≃ (A/I^(n+1))[T₁,…,T_r]` compatible with
 `T_i ↦ T_i`, and the universal property for complete separated linearly topologised `A`-algebras with
 no condition on the images of the variables. §6.3 consumes it.
-
-### From TauCetiRoadmap.AdicSpacesPartIV
-
-§F1.1, *overconvergent-tate-algebra*: for a complete nontrivially normed ultrametric field `K`, the
-Monsky–Washnitzer algebra `W_n = ⋃_{ρ>1} T_n(ρ)` (Tau Ceti's `TauCeti.Dagger.washnitzerAlgebra`), its
-algebra structure, inclusion in `T_n` with the restricted Gauss norm, dense polynomials, completion
-`T_n`, and the sufficiency of radii in `√|K×|`; *overconvergent-tate-algebra-properties*: its ideal
-theory. §F1: general dagger algebras and their fringe topology. §7.3 consumes them.
 
 ## References
 
