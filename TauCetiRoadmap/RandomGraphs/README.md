@@ -861,7 +861,8 @@ and the absence of candidates are required boundary checks.
 
 **Checks** (`witnessCount`).
 
-- With two candidates the count takes the values `0`, `1` and `2`.
+- With two candidates the count lies in `{0, 1, 2}`, and for `0 < q_{r,s} < 1` each of the three
+  values has positive probability; for `r = s = 0` it is always `2`.
 - With no candidates it is `0`.
 - In `K₂` with `U = {0}`, `Z = ∅` and `C = {1}` it is `1`.
 
