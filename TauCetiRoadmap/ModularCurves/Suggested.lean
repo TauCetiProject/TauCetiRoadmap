@@ -105,7 +105,8 @@ Axiomatic Regularity Theorem), the First Main Theorem for
 `[Γ(N)]` and for `[Γ₁(N)]` (KM 5.1.1 applied to the pinned problems, with the étaleness of
 `[Γ₁(N)]` where `N` is invertible), the existence of the
 universal formal deformation (Layer 7.4), KM 6.6.1 (`[Γ₀(N)]` is relatively representable, finite
-flat of constant positive rank and regular of dimension two, and étale where `N` is invertible),
+flat of constant rank `N ∏_{p ∣ N} (1 + 1/p)` and regular of dimension two, and étale where `N` is
+invertible),
 KM 7.1.3 (Katz–Mazur quotients), KM 7.5.1 (regularity of quotients), the clause of KM 7.6.1 for
 the quotients of `[Γ(pⁿ)]` by subgroups of the semi-Borel and by product subgroups of the diagonal
 Cartan (Layer 8.9), KM 8.1.1 and 8.1.5 (coarse moduli schemes and their quotients), KM
@@ -1131,16 +1132,17 @@ theorem regular_quotient_gamma_primePow (p : ℕ) [Fact p.Prime] (n : ℕ) [NeZe
 
 /-- KM 6.6.1, the fourth clause of the First Main Theorem (Layer 9.4): the pinned problem
 `[Γ₀(N)]` of cyclic subgroups of order `N`, `ModuliProblem.gammaZero`, is relatively representable
-by the cyclicity locus of `[N-Isog]`, finite over `Ell/ℤ`, finite flat of constant positive rank
-(`N ∏_{p ∣ N} (1 + 1/p)`, computed in Layer 9.4) and regular of dimension two, and étale over every
-`E/S` on whose base `N` is invertible. The problem is
+by the cyclicity locus of `[N-Isog]`, finite over `Ell/ℤ`, finite flat of constant rank
+`N ∏_{p ∣ N} (1 + 1/p)` (Layer 9.4; stated with the denominators cleared) and regular of dimension
+two, and étale over every `E/S` on whose base `N` is invertible. The problem is
 Tau Ceti's; its relative-representability data are a conclusion, since the cyclicity locus is
 constructed from the generator scheme of Layer 9.2. -/
 theorem exists_relRepData_gammaZero (N : ℕ) [NeZero N] :
     ∃ D : (ModuliProblem.gammaZero (Spec intRing.{u}) N).RelRepData,
       D.HasProperty @IsFinite ∧ D.HasProperty @Flat ∧
         D.HasProperty @LocallyOfFinitePresentation ∧
-          (∃ n : ℕ, 0 < n ∧ ∀ X, (D.rep X).hom.finrank = fun _ ↦ n) ∧ D.IsRegularOfDim 2 ∧
+          (∃ n : ℕ, n * (∏ p ∈ N.primeFactors, p) = N * (∏ p ∈ N.primeFactors, (p + 1)) ∧
+            ∀ X, (D.rep X).hom.finrank = fun _ ↦ n) ∧ D.IsRegularOfDim 2 ∧
             ∀ X : EllObj (Spec intRing.{u}), IsUnit ((N : ℕ) : Γ(X.base, ⊤)) →
               Etale (D.rep X).hom :=
   sorry

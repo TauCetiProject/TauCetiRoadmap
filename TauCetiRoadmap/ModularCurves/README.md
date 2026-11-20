@@ -1,7 +1,7 @@
 # Roadmap: modular curves and the moduli of elliptic curves with level structure
 
 **Summary.** This roadmap builds the moduli theory of elliptic curves with level structure over an
-arbitrary base, following Katz and Mazur, and the modular curves it produces. An elliptic curve
+arbitrary base, due to Katz and Mazur, and the modular curves it produces. An elliptic curve
 over a scheme `S` is a smooth proper morphism of relative dimension one with a section, which
 Zariski-locally on `S` is a projective Weierstrass cubic with the section at infinity; it is a
 commutative group scheme over `S`. A moduli problem assigns to every elliptic curve `E/S` a set of
@@ -255,7 +255,7 @@ flatness.
 
 ### 0.1 Relative effective Cartier divisors
 
-This section follows KM 1.1.1, 1.2.2 and 1.2.3. Use the general divisor and invertible-sheaf
+The sources of this section are KM 1.1.1, 1.2.2 and 1.2.3. Use the general divisor and invertible-sheaf
 objects supplied by JacobianChallenge. For a separated smooth relative curve `C ⟶ S` the statements
 are the following; items 2, 3, 4, 6 and 7 and parts of items 1 and 5 are Tau Ceti's and are consumed
 by name. Separatedness is needed for a section to have closed image; all elliptic-curve
@@ -348,7 +348,7 @@ presentation over the base; Tag 0B9E for additivity of the degree; Tags 0B8V and
 
 ### 0.2 Finite locally free group schemes and Cartier duality
 
-This section follows KM §1.12, especially 1.12.4 and 1.12.7, and §§2.5, 2.8, and SGA 3, Exposé
+The sources of this section are KM §1.12, especially 1.12.4 and 1.12.7, and §§2.5, 2.8, and SGA 3, Exposé
 VIIA, §3.3 for Cartier duality. KM 2.8.2 cites the Cartier–Nishi theorem to Oda; the Picard and
 Poincaré construction used here is specified in §2.4 rather than left as an unnamed black box. KM
 §1.11 (extensions of an étale group) is used in §0.8, in the exact form of 1.11.2–1.11.5.
@@ -771,7 +771,7 @@ is a separate parameter-space construction, not an input to the Grassmannian.
 
 ### 0.8 Full sets, `A`-structures, and generators
 
-This section follows KM 1.6.2, 1.8.2, 1.8.4, 1.9.1, 1.10.14–1.10.15 and §1.11.
+The sources of this section are KM 1.6.2, 1.8.2, 1.8.4, 1.9.1, 1.10.14–1.10.15 and §1.11.
 
 Let `Z ⟶ S` be finite locally free of rank `r`, and let `s₁,…,s_r` be sections. Define them to be a
 **full set of sections** when the following holds **after every base change** `T ⟶ S`: for every
@@ -1140,7 +1140,7 @@ is used.
 
 ## Layer 1: elliptic curves over a base scheme
 
-This layer follows KM 2.1 and 2.2 and Deligne–Rapoport II.1. It builds the theory of elliptic
+The sources of this layer are KM 2.1 and 2.2 and Deligne–Rapoport II.1. It builds the theory of elliptic
 curves over an arbitrary base that the moduli problems presuppose: the projective Weierstrass
 models, their points, the pole sheaves `𝒪_E(n[0])` and the Weierstrass presentation, the group
 law, and descent of elliptic curves.
@@ -1215,7 +1215,7 @@ No theorem identifies an arbitrary `T`-point with one global unimodular triple.
 
 ### 1.3 Pole sheaves, Weierstrass coordinates, and variable changes
 
-This section follows KM 2.1–2.2. The relative effective Cartier divisor `[0]` and its multiples are
+The sources of this section are KM 2.1–2.2. The relative effective Cartier divisor `[0]` and its multiples are
 Tau Ceti's: on a projective model, `WeierstrassCurve.zeroSectionDivisor` with
 `isRelativeEffectiveCartier_zeroSectionDivisor`, `isRelativeEffectiveCartier_zeroSectionDivisor_pow`
 and the base-change identities `zeroSectionDivisor_map` and `zeroSectionDivisor_pow_map`; on an
@@ -1419,7 +1419,7 @@ Mathlib's `Proj`, Weierstrass curves and variable changes.
 
 ## Layer 2: isogenies, duality, and the Weil pairing
 
-This layer follows KM 2.3.1, 2.5.1, 2.6.1–2.6.3 and §2.8. It builds the homomorphisms of elliptic
+The sources of this layer are KM 2.3.1, 2.5.1, 2.6.1–2.6.3 and §2.8. It builds the homomorphisms of elliptic
 curves over a base, quotients by finite locally free subgroups, the two constructions of the dual
 isogeny and their comparison, Cartier–Nishi duality with the Weil pairing, and the degree and trace
 of endomorphisms.
@@ -1626,7 +1626,7 @@ Jacobian endpoint in arbitrary families. For an elliptic curve `E/S`, write `π 
    `relativePicardDegreeZeroFppfSheaf π`. Prove that the degree-zero part is open and closed: for a
    line bundle on `E_T`, the set of points of `T` at which its fibre degree vanishes is open and
    closed in `T`, the fibre degree `χ(L_t) − χ(𝒪_t)` being locally constant in the flat proper
-   family `E_T ⟶ T` (Jacobian Challenge proper-flat cohomology contract);
+   family `E_T ⟶ T` (JacobianChallenge §§C.1–C.2);
 3. for a degree-zero line bundle `L`, apply the positive-degree theorem of Layer 1.3 to `L([0])`:
    prove fppf locally that it has a unique effective divisor of degree one, descend the resulting
    section, and deduce that the Abel–Jacobi map `P↦𝒪_E([P]-[0])`, Tau Ceti's
@@ -1847,7 +1847,7 @@ Layers A–C for line bundles and cohomology.
 
 ## Layer 3: moduli problems for elliptic curves
 
-This layer follows KM 4.2, 4.6.2, 4.7.0, Corollary 4.7.2 and 4.12, with the rigidifier families of
+The sources of this layer are KM 4.2, 4.6.2, 4.7.0, Corollary 4.7.2 and 4.12, with the rigidifier families of
 KM 2.2.9–2.2.11; KM 2.3.1 and 2.7.1–2.7.4 for naive level structures and their rigidity; SGA 3,
 Exposé V, Théorème 4.1; and Loeffler 3.7.4.
 
@@ -1966,11 +1966,12 @@ identity (`IsFiberwiseInjective.eq_id_of_isPullback`: it fixes the three points 
 and `φ b`, distinct in every fibre), so the naive `A`-structures are rigid for every such `A`
 (`isRigid_naiveLevel`), in particular naive full level for `N≥3` (`isRigid_gammaNaive`, KM
 2.7.2) and naive `[Γ₁(N)]` for `N≥4` (`isRigid_gammaOneNaive`, the semi-Borel case). Owned here
-are the corresponding statements for the fixed-pairing frames of `Y(ρ)` (Layer 5.3) and for
-the naive
-`[Γ_H]` problems (Layers 6.1–6.2), deduced from these through the morphisms of moduli problems to the
-naive
-full-level problem (`IsRigid.of_hom`: a problem mapping to a rigid problem is rigid).
+is the corresponding statement for the fixed-pairing frames of `Y(ρ)` (Layer 5.3), deduced from
+these through the morphism of moduli problems that forgets the frame, to the naive full-level
+problem (`IsRigid.of_hom`: a problem mapping to a rigid problem is rigid). Rigidity of a naive
+quotient `[Γ(N)]/H` is not deduced this way: the quotient receives a morphism from `[Γ(N)]`
+rather than mapping to it, and it is rigid only for suitable `H` (for `H = GL₂(ℤ/Nℤ)` it is
+`[Γ(1)]`, which is not rigid); the criterion is §6.2's.
 
 **Checks.**
 
@@ -2201,7 +2202,7 @@ the universal Legendre curve, and regularity of dimension `d`. No Drinfeld level
 
 ## Layer 4: Drinfeld level structures
 
-This layer follows KM 1.3.5–1.3.7, 1.4, 1.10.1, 1.10.5, 1.10.13 and §§3.1–3.7. It defines the
+The sources of this layer are KM 1.3.5–1.3.7, 1.4, 1.10.1, 1.10.5, 1.10.13 and §§3.1–3.7. It defines the
 level structures that make sense over every base, compares them with the naive ones where the level
 is invertible, and proves relative representability for `[Γ(N)]`, `[Γ₁(N)]` and balanced `[Γ₁(N)]`.
 
@@ -2459,7 +2460,7 @@ The relative representability of `[Γ₀(N)]` is §9.4.
 
 ## Layer 5: affine fine modular curves after inverting `N`
 
-This layer follows KM 2.7.2, 3.7.1, 4.7.0 and Corollary 4.7.2, and Loeffler 3.3.4, 3.3.6, 3.4.4
+The sources of this layer are KM 2.7.2, 3.7.1, 4.7.0 and Corollary 4.7.2, and Loeffler 3.3.4, 3.3.6, 3.4.4
 and §3.8. It builds the fine affine curves over `ℤ[1/N]`: `Y₁(N)` for `N ≥ 4`, the full
 ordered-basis curve `Y_full(N)` for `N ≥ 3` with its determinant, and the twisted curve `Y(ρ)`.
 
@@ -2750,7 +2751,7 @@ algebraic reduction of geometric irreducibility.
 
 ## Layer 6: quotient problems, coarse moduli schemes, and the `j`-line
 
-This layer follows KM 7.1.2–7.1.4, 7.4.2, 8.1.1–8.1.3.1, 8.1.5, 8.1.6, 8.2.1, 8.2.2 and the Notes
+The sources of this layer are KM 7.1.2–7.1.4, 7.4.2, 8.1.1–8.1.3.1, 8.1.5, 8.1.6, 8.2.1, 8.2.2 and the Notes
 Added in Proof (pp. 508–509); Igusa, *Fiber systems of Jacobian varieties III*, §2; and Loeffler
 §§3.6 and 3.8.
 
@@ -3227,7 +3228,7 @@ automorphism dichotomy for `j ≠ 0, 1728`, and kernel base change. No regularit
 
 ## Layer 7: an elliptic curve at a prime
 
-This layer follows Katz, *Serre–Tate local moduli*, Theorem 1.2.1; the points of use in KM
+The sources of this layer are Katz, *Serre–Tate local moduli*, Theorem 1.2.1; the points of use in KM
 §§5.2–5.3 are cited statement by statement.
 
 This layer studies one elliptic curve and one prime `p`: the `p`-divisible group, the formal
@@ -3541,7 +3542,7 @@ height criterion. Katz's proof of the Serre–Tate theorem is the source for ST-
 
 ## Layer 8: the axiomatic theorems and regularity of `[Γ(N)]`, `[Γ₁(N)]`, and balanced `[Γ₁(N)]`
 
-This layer follows KM 5.1.1, 5.2.1, 5.2.2, 5.3.1–5.3.6, 5.4, 6.2.1, 7.5.1–7.5.3 and 7.6.1.
+The sources of this layer are KM 5.1.1, 5.2.1, 5.2.2, 5.3.1–5.3.6, 5.4, 6.2.1, 7.5.1–7.5.3 and 7.6.1.
 
 Layers 8.1–8.5 are about an arbitrary moduli problem, or morphism of moduli problems, satisfying a
 list of axioms; no particular level structure enters. Layers 8.6–8.9 verify the regularity axioms
@@ -3934,7 +3935,7 @@ Artinian local ring, and the Drinfeld problems with their relative representabil
 
 ## Layer 9: `[N-Isog]`, cyclicity, and `[Γ₀(N)]`
 
-This layer follows KM 6.1.1, §§6.3–6.6 and the Notes Added in Proof, and KM 7.4.2 for the integral
+The sources of this layer are KM 6.1.1, §§6.3–6.6 and the Notes Added in Proof, and KM 7.4.2 for the integral
 quotient identifications.
 
 ### 9.1 The problem `[N-Isog]` and its finiteness
@@ -4101,8 +4102,8 @@ Prove KM 6.6.1 through the following chain.
 
 This completes the fourth clause of the First Main Theorem: `exists_relRepData_gammaZero` in
 `Suggested.lean`, relative-representability data for the pinned `gammaZero` over `ℤ` that are
-finite, flat, of constant positive rank and regular of dimension two, and étale over every `E/S`
-on whose base `N` is a unit. KM §6.8's stronger theorem
+finite, flat, of constant rank `N ∏_{p∣N}(1 + 1/p)` and regular of dimension two, and étale over
+every `E/S` on whose base `N` is a unit. KM §6.8's stronger theorem
 that the whole `[N-Isog]`-problem is finite flat requires an additional lifting theorem for
 homomorphisms and is outside this roadmap's endpoint; only its finiteness from Layer 9.1 is used here.
 
@@ -4172,7 +4173,7 @@ Weierstrass division.
 
 ## Layer 10: compactified coarse curves over `ℤ[1/N]`, cusps, and the Shimura covering
 
-This layer follows KM 8.6 (cusps by normalisation near infinity; compactified coarse moduli
+The sources of this layer are KM 8.6 (cusps by normalisation near infinity; compactified coarse moduli
 schemes), KM 8.11 (computation of the cusps via the Tate parameter), KM 10.5–10.9 (10.6 for
 cusp-labels, 10.8–10.9 for the structure near infinity and the basic moduli problems), and Mazur,
 *Modular curves and the Eisenstein ideal*, II §§1–2.
@@ -4404,7 +4405,7 @@ section of a separated smooth relative curve is a relative effective Cartier div
 
 ### 10.3 The ramification table of `X₁(N) → X₀(N)`
 
-This section follows Mazur II §2, Table 1, all six rows. The
+The source of this section is Mazur II §2, Table 1, all six rows. The
 covering `Y₁(N) → Y₀(N)` is Galois with group `(ℤ/N)ˣ/±1` (Layer 6 quotients); extending it
 to `X₁(N) → X₀(N)` along the normalisations is itself a milestone — and the extension is
 finite with no hypothesis on the affine map (its graph is a closed immersion into the fibre
@@ -4473,7 +4474,7 @@ smooth proper families.
 
 ### 10.4 The Shimura covering
 
-This section follows Mazur II, Cor. 2.3. Put `G = (ℤ/N)ˣ/±1`, cyclic of order
+The source of this section is Mazur II, Cor. 2.3. Put `G = (ℤ/N)ˣ/±1`, cyclic of order
 `(N−1)/2`, and `n = (N−1)/gcd(N−1, 12) = num((N−1)/12)`. Let `H ≤ G` be the unique subgroup
 of order `gcd(N−1, 12)/2`, and define `X₂(N) := X₁(N)/H`. Milestones: `X₂(N) → X₀(N)` is
 Galois cyclic of degree `n`; and it is **finite étale over `ℤ[1/N]`**, including at the cusps
