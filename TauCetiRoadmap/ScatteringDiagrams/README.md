@@ -301,6 +301,10 @@ Construct and prove the following.
   ideal `F^{c+1}𝔣` is `lowerCentralSeries c`. The injectivity and the existence of
   *bchElement c* are `comap_freeAugmentation_pow_ι` and
   `exists_bch_exp_mul_exp` in `Suggested.lean`.
+- Dynkin's form: *bchElement c* is the class of
+  `Σ_{n≥1} ((−1)^{n−1}/n) Σ [X^{r_1}Y^{s_1}⋯X^{r_n}Y^{s_n}]/((Σ_i(r_i+s_i))·∏_i r_i!s_i!)`, the
+  inner sum over `(r_i,s_i)∈ℕ²` with `r_i+s_i≥1` and `Σ_i(r_i+s_i)≤c`, where a word `x_1⋯x_d` in
+  `X`, `Y` stands for the bracket `[x_1,[x_2,[⋯,x_d]⋯]]` in `𝔣`.
 - *BCHGroup* is a group with `(exp x)⁻¹=exp(−x)` and `exp(x)^n=exp(n•x)`;
   `exp(x)exp(y)=exp(x+y)` when `[x,y]=0`, and `exp(x)exp(y)=exp(y)exp(z)exp(x)` for
   `[x,y]=z` central. It is a functor to groups along `R`-linear Lie homomorphisms
@@ -330,7 +334,10 @@ Construct and prove the following.
 PBW symmetrization identifies primitives with the Lie algebra: the `(1,d−1)`
 coproduct detects every symmetric degree `d≥2`. In the free Lie algebra, identify
 the degree filtration with augmentation powers and truncate the completed
-`log(exp X exp Y)` to construct *bchElement*.
+`log(exp X exp Y)` to construct *bchElement*. For Dynkin's form, `U(𝔣)` is the free associative
+algebra on `X`, `Y` (`FreeLieAlgebra.universalEnvelopingEquivFreeAlgebra`), where the bracketing
+of words multiplies a homogeneous Lie element of degree `d` by `d` (Dynkin–Specht–Wever); apply it
+to each degree of `IsNilpotent.log (exp(X)exp(Y))` and use the injectivity of `ι_c`.
 
 **Checks.**
 - In §0.2's Heisenberg algebra, `log(exp X exp Y)=X+Y+Z/2` and
@@ -347,7 +354,8 @@ the degree filtration with augmentation powers and truncate the completed
 `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`,
 `IsGroupLikeElem`, `Bialgebra.IsPrimitiveElem`, `TauCeti.HopfIdeal.augmentation`,
 `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization`, `FreeLieAlgebra`, `FreeLieAlgebra.lift`,
-`lowerCentralSeries`, `IsNilpotent.exp`, `IsNilpotent.log`, `IsNilpotent.log_exp`,
+`FreeLieAlgebra.universalEnvelopingEquivFreeAlgebra`, `lowerCentralSeries`, `IsNilpotent.exp`,
+`IsNilpotent.log`, `IsNilpotent.log_exp`,
 `IsNilpotent.exp_log`, `TauCeti.expAd`.
 
 ### 0.5 Completed groups and changes of filtration
@@ -1019,7 +1027,7 @@ Construct and prove the following.
 
 ### 2.3 Sign factorization and reconstruction
 
-This section follows BRI Lemmas 3.1–3.2 and Propositions 3.3–3.4.
+Sources: BRI Lemmas 3.1–3.2 and Propositions 3.3–3.4.
 For `θ∈V`, `g_+(θ)`, `g_0(θ)`, `g_-(θ)` are the sums of the `g_n`, `n∈N⁺`, with
 `θ(n)` positive, zero and negative, and `G_+(θ)`, `G_0(θ)`, `G_-(θ)` their groups at
 each order and completed. The `±` chambers are `{θ | ∀n∈N⁺, ±θ(n)>0}`.
@@ -1113,7 +1121,7 @@ Let `(Γ,P,δ)` be *PositiveDegrees* (§0.1), `g` a positively `Γ`-graded Lie
 algebra over a commutative ring `R`, and independently `i:Λ→V` an integral lattice
 with additive `ρ:Γ→Λ`. Degree `n` has geometric direction `ρ(n)`.
 
-*DirectedWallSpaces* (MAN (5); LMY Definition 1.2, whose `(m,n)` is our `(n,m)` and whose
+*DirectedWallSpaces* (MAN (3)–(4); LMY Definition 1.2, whose `(m,n)` is our `(n,m)` and whose
 third condition is §5.1's annihilation condition) consists of `R`-submodules `h_{n,m}⊆g_n` for
 `n∈P\{0}`, `m∈Λ*`, satisfying `h_{n,0}=0`, `h_{n,m}=0` if `m(ρ(n))≠0`,
 `h_{n,cm}=h_{n,m}` for nonzero integers `c`, and
@@ -1347,7 +1355,7 @@ integral lattices and primitive vectors.
 Let `R` be a commutative `ℚ`-algebra and use `Γ,Λ,ρ,P` of §3.1. The formal
 logarithmic derivations (MAN Example 2.1(i)) of degree `n∈P\{0}` are
 `g_n=R⊗_ℤ{m∈Λ* | m(ρ(n))=0}`, with generators `z^n∂_m` and bracket
-`[z^n∂_m,z^{n'}∂_{m'}]=z^{n+n'}∂_{m(ρ(n'))m'−m'(ρ(n))m}`.
+`[z^n∂_m,z^{n'}∂_{m'}]=z^{n+n'}∂_{m(ρ(n'))m'−m'(ρ(n))m}` (MAN (5)).
 The wall space `h_{n,m}` is the `R`-line of `z^n∂_m` when `m(ρ(n))=0`, and zero
 otherwise. A *coefficient monoid* is a submonoid `Q` with `P⊆Q⊆Γ`. The action on
 `R[Q]` is `z^n∂_m(z^q)=m(ρ(q))z^{n+q}`. It raises the filtration by the ideals
@@ -1618,7 +1626,7 @@ graded algebras, derivations and localization. Tau Ceti: twisted monoid algebras
 
 ### 5.1 Graded actions and shifted coefficient modules
 
-This section follows MAN §2.1 and Definition 2.10.
+Sources: MAN §2.1 and Definition 2.10.
 Let `R` be a commutative `ℚ`-algebra and `A=⊕_{p∈Γ}A_p` an associative,
 possibly noncommutative, `Γ`-graded `R`-algebra. Let §3.1's Lie algebra act
 `R`-linearly by derivations, with `g_n A_p⊆A_{n+p}` (*graded action condition*)
@@ -1714,7 +1722,7 @@ Construct and prove the following.
 
 ### 5.3 Endpoint evaluation, closed families and general position
 
-This section follows CPS Proposition 4.4 and Definition 4.6, N23 Definition 7.2 and the proof of
+Sources: CPS Proposition 4.4 and Definition 4.6, N23 Definition 7.2 and the proof of
 Proposition 7.6, and GHS Proposition 3.5, Remark 3.6 and Lemma 3.7.
 Fix `(s,a,k)` on §1.5's base. The bounded-itinerary construction uses, near each
 regular endpoint, finitely many lifted polyhedral cells, face presentations and
@@ -1893,7 +1901,7 @@ injectivity at coefficient faces.
 
 ### 5.5 Module probes and affine theta transport
 
-This section follows MAN Theorem 2.14 and §3.3.3, and LMY §3.
+Sources: MAN Theorem 2.14 and §3.3.3, and LMY §3.
 Fix a consistent §3.2 diagram `𝔇` acting as in §5.1, an order `k` and `a∈A_p`.
 The *module probe* is `g⋉M_p`, with `M_p` abelian. Set
 `Γ_ext=Γ⊕ℤ`, `Λ_ext=Λ⊕ℤe_z`, `ρ_ext(x,c)=(ρ(x),0)`,
@@ -1979,7 +1987,7 @@ Construct and prove the following.
 
 ### 5.6 Monomial presentations and comparison of theta constructions
 
-This section follows CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9, and N23
+Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9, and N23
 Proposition 7.6, Lemmas 7.7–7.8 and §7.
 A *MonomialPresentation* chooses a basis `z^p` for each nonzero chamber
 homogeneous piece, free of rank one over the common commutative scalar ring.
@@ -2131,7 +2139,7 @@ Construct and prove the following.
 ### 6.3 Worked example: the focus-focus slab and its theta basis
 
 This example applies the slab, descent and theta constructions to the focus-focus
-affine singularity (GS §2.2), following GS §2.3 and GHS Definition 3.3, Proposition 3.5 and
+affine singularity (GS §2.2). Sources: GS §2.3 and GHS Definition 3.3, Proposition 3.5 and
 Lemma 3.7.
 
 Take `B=ℝ²`, `Δ={(0,0)}`, with left and right chambers `u<0` and `u>0` and the
@@ -2257,7 +2265,7 @@ specified variable set `A`.
 
 ### 7.1 Polynomial inputs and positive representatives
 
-This section follows BLM §8.1, §9.2 (Step 3) and Corollary 9.8, and N23 §1.
+Sources: BLM §8.1, §9.2 (Step 3) and Corollary 9.8, and N23 §1.
 Fix an adapted §4.2 datum, allowing degenerate and zero forms, positive integers
 `ℓ_i` at unfrozen indices, and independent variables `a_{i,s}`, `1≤s≤ℓ_i`.
 For coefficient variables `A`, use `ℕ[A]⊆ℤ[A]⊆ℚ[A]`. A function wall groups
@@ -2378,7 +2386,7 @@ factors by N23's rank-two formula, proving termination at each finite order.
 
 ### 7.3 Dyck gradings and the rank-two polynomial formula
 
-This section follows RUP Definitions 4.1 and 4.5 and BLM Definitions 3.14, 3.17, 5.1, 5.3, 5.4
+Sources: RUP Definitions 4.1 and 4.5 and BLM Definitions 3.14, 3.17, 5.1, 5.3, 5.4
 and 5.9, Lemma 5.13, Corollary 5.14, Theorem 5.17, Remark 5.20, Lemmas 5.23, 5.27 and 5.31–5.33,
 Propositions 5.28 and 5.34, and §5.5.
 The maximal Dyck path of `(d_1,d_2)∈ℕ²` runs from `(0,0)` to `(d_1,d_2)` by
@@ -2472,7 +2480,7 @@ for `d_1>ka`, `d_2>kb` the only line counted by `B_+(ka,kb)` is the one-bend lin
 
 ### 7.4 Lattice change and affine rank-two perturbation
 
-This section follows BLM Definition 2.1, Definition 9.3, Theorem 9.5 and Corollary 9.8.
+Sources: BLM Definition 2.1, Definition 9.3, Theorem 9.5 and Corollary 9.8.
 A *RankTwoPolynomialInput* (BLM Theorem 9.9) consists of *PositiveDegrees* `(L,P,δ)`,
 a surjection `π:L→M` onto a rank-two lattice, and countably many incoming affine
 lines in `M_ℝ`, with cylinder supports in `L_ℝ`. Line `j` has a nonzero primitive
@@ -2704,10 +2712,12 @@ contracts below.
 **Adjacent roadmaps.** The
 [RepresentationTheory/LieGroups roadmap](../RepresentationTheory/LieGroups/README.md) owns the
 Lie-group exponential map (its Layer 0), the analytic local BCH identity (its Layer 3) and the
-smooth BCH group of a finite-dimensional real nilpotent Lie algebra (its Layer 5). §0.4 owns the
-algebraic statements, over any commutative `ℚ`-algebra and with no topology: the identity
+smooth BCH group of a finite-dimensional real nilpotent Lie algebra (its Layer 5); its Layer 3 also
+defines the formal series `B(X,Y)` by Dynkin's Lie series in the completed free Lie algebra. §0.4
+owns the algebraic statements, over any commutative `ℚ`-algebra and with no topology: the identity
 `exp(X)exp(Y)=exp(ι_c(b))` in `U(𝔣)/(U⁺)^{c+1}` for the truncations `b` = *bchElement c* in
-`𝔣/lowerCentralSeries c`, and algebraic nilpotent BCH groups.
+`𝔣/lowerCentralSeries c`, Dynkin's form of *bchElement c*, which identifies it with the class of the
+terms of `B(X,Y)` of degree at most `c`, and algebraic nilpotent BCH groups.
 
 **Library homes.** General components belong in the matching general areas of Tau Ceti, for
 example its Lie algebra, filtration, group theory and convex geometry modules; scattering-specific
@@ -2783,8 +2793,10 @@ sections, such as `IsIntegralLattice`, `IsLatticeRational` and `Fan.IsSubdivisio
 
 - Lie algebras: `GradedLieAlgebra` and `GradedLieModule` (`Mathlib/Algebra/Lie/Graded.lean`);
   `LieModule.lowerCentralSeries` and `LieRing.IsNilpotent` (`Mathlib/Algebra/Lie/Nilpotent.lean`),
-  with `lowerCentralSeries 0` the whole algebra; `FreeLieAlgebra` and `FreeLieAlgebra.lift`
-  (`Mathlib/Algebra/Lie/Free.lean`); `UniversalEnvelopingAlgebra` and its canonical map `ι`
+  with `lowerCentralSeries 0` the whole algebra; `FreeLieAlgebra`, `FreeLieAlgebra.lift` and
+  `FreeLieAlgebra.universalEnvelopingEquivFreeAlgebra` (`Mathlib/Algebra/Lie/Free.lean`: the
+  enveloping algebra of a free Lie algebra is the free associative algebra);
+  `UniversalEnvelopingAlgebra` and its canonical map `ι`
   (`Mathlib/Algebra/Lie/UniversalEnveloping.lean`); `LieIdeal`, `LieSubalgebra`,
   `LieAlgebra.center`, the quotient Lie algebra `LieSubmodule.Quotient.lieQuotientLieAlgebra` with
   its quotient map `LieSubmodule.Quotient.mk'`; `LieAlgebra.ExtendScalars.instLieAlgebra` (the Lie
