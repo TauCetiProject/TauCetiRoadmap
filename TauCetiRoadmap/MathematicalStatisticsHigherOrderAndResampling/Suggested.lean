@@ -32,8 +32,9 @@ about random laws `ω ↦ bootstrapLaw … (sample n ω)`. Probabilities of sets
 measurable are Mathlib's outer measure, so "in outer probability" and "outer almost surely" need
 no measurability hypothesis.
 
-Definitions owned by `MathematicalStatisticsFoundations` or by `MathematicalStatisticsAsymptotic`
-appear here as local copies, each with a docstring naming its owner. The implementation namespace
+Definitions owned by `MathematicalStatisticsFoundations`, by `MathematicalStatisticsAsymptotic`
+or by `ArithmeticStatisticsPartVIII` (the Kolmogorov distance) appear here as local copies, each
+with a docstring naming its owner. The implementation namespace
 of the README is `TauCeti`; the prototypes live in this roadmap's namespace.
 -/
 
@@ -146,7 +147,8 @@ section Layer1
 
 variable {Ω Y : Type*} [MeasurableSpace Ω]
 
-/-- **1.1** The Kolmogorov distance `sup_t |cdf P t - cdf Q t|` between laws on `ℝ`. -/
+/-- Local copy of `ArithmeticStatisticsPartVIII` §5.14: the Kolmogorov distance
+`sup_t |cdf P t - cdf Q t|` between laws on `ℝ`, used in 1.1. -/
 def kolmogorovDist (P Q : Measure ℝ) : ℝ := ⨆ t, |cdf P t - cdf Q t|
 
 /-- **1.1** Pólya's theorem: weak convergence to a law with continuous distribution function is
@@ -404,17 +406,16 @@ theorem exists_uniform_edgeworth_expansion_lattice (μ : Measure Ω) [IsProbabil
           e n := sorry
 
 /-- **4.3** No continuous expansion of a lattice mean: for a standardized law carried by `a + h ℤ`
-and every law `G` with continuous distribution function, eventually
-`√n kolmogorovDist (law of Sₙ) G ≥ h φ(0) / 2 - ε`. Here `h` is any span, not only the maximal
-one. -/
-theorem eventually_le_sqrt_mul_kolmogorovDist_lattice (μ : Measure Ω) [IsProbabilityMeasure μ]
+and every sequence of continuous functions `H n`, eventually some `x` has
+`√n |P(Sₙ ≤ x) - H n x| ≥ h φ(0) / 2 - ε`. Here `h` is any span, not only the maximal one. -/
+theorem eventually_exists_le_sqrt_mul_abs_sub_lattice (μ : Measure Ω) [IsProbabilityMeasure μ]
     (P : Measure ℝ) [IsProbabilityMeasure P] (X : ℕ → Ω → ℝ)
     (hiid : IsIndependentIdenticallyDistributed μ X P) (h3 : MemLp id 3 P)
     (h0 : ∫ x, x ∂P = 0) (h1 : ∫ x, x ^ 2 ∂P = 1) (a h : ℝ) (hh : 0 < h)
-    (hlat : P (range fun k : ℤ ↦ a + h * k)ᶜ = 0) (G : Measure ℝ) [IsProbabilityMeasure G]
-    (hG : Continuous (cdf G)) (ε : ℝ) (hε : 0 < ε) :
-    ∀ᶠ n : ℕ in atTop, h * gaussianPDFReal 0 1 0 / 2 - ε ≤
-      Real.sqrt n * kolmogorovDist (μ.map fun ω ↦ Real.sqrt n * sampleMean (sample X n ω)) G :=
+    (hlat : P (range fun k : ℤ ↦ a + h * k)ᶜ = 0) (H : ℕ → ℝ → ℝ) (hH : ∀ n, Continuous (H n))
+    (ε : ℝ) (hε : 0 < ε) :
+    ∀ᶠ n : ℕ in atTop, ∃ x : ℝ, h * gaussianPDFReal 0 1 0 / 2 - ε ≤
+      Real.sqrt n * |μ.real {ω | Real.sqrt n * sampleMean (sample X n ω) ≤ x} - H n x| :=
   sorry
 
 /-- **4.4** The Edgeworth expansion of order `k - 2` of a standardized mean under Cramér's
@@ -617,8 +618,7 @@ def saddlepointDensity (K : ℝ → ℝ) (n : ℕ) (s x : ℝ) : ℝ :=
 relative error `O(n⁻¹)`. -/
 theorem saddlepoint_approximation_sampleMean_density (μ : Measure Ω) [IsProbabilityMeasure μ]
     (P : Measure ℝ) [IsProbabilityMeasure P] (X : ℕ → Ω → ℝ)
-    (hiid : IsIndependentIdenticallyDistributed μ X P) (hac : P ≪ volume)
-    (hK : (0 : ℝ) ∈ interior (integrableExpSet id P))
+    (hiid : IsIndependentIdenticallyDistributed μ X P)
     (s x : ℝ) (hs : s ∈ interior (integrableExpSet id P)) (hsx : deriv (cgf id P) s = x)
     (ν : ℕ) (hν : 1 ≤ ν)
     (hint : Integrable fun t : ℝ ↦
@@ -652,7 +652,9 @@ def bootstrapLaw [MeasurableSpace Y] (n m : ℕ) (R : (Fin n → E) → (Fin m �
     (x : Fin n → E) : Measure Y :=
   (bootstrapKernel n m x).map (R x)
 
-/-- **6.1** The resampling kernel is Markov for `n > 0`. -/
+/-- **6.1** The resampling kernel is Markov for `n > 0`. A check of the definition rather than a
+target of its own: it is the definition unfolded at `n ≠ 0` and Mathlib's instance for
+`Kernel.comap` of a Markov kernel. -/
 theorem isMarkovKernel_bootstrapKernel (n m : ℕ) (hn : n ≠ 0) :
     IsMarkovKernel (bootstrapKernel (E := E) n m) := sorry
 
@@ -673,9 +675,11 @@ theorem bootstrapKernel_index_form [MeasurableSingletonClass E] [MeasurableSpace
 
 /-- **6.1** The bootstrap law is the conditional law of the resample given the data: under the
 joint law `Pⁿ ⊗ₘ bootstrapKernel`, the conditional distribution of the resample given the sample
-is the resampling kernel. -/
+is the resampling kernel. A check of the definition rather than a target of its own: it is
+Mathlib's `condDistrib_ae_eq_of_measure_eq_compProd` applied to the joint law, whose first
+marginal is `Pⁿ`; the instance argument holds for `n > 0` by `isMarkovKernel_bootstrapKernel`. -/
 theorem condDistrib_snd_fst_bootstrap [StandardBorelSpace E] [Nonempty E] (n m : ℕ)
-    (hn : n ≠ 0) [IsMarkovKernel (bootstrapKernel (E := E) n m)] (P : Measure E)
+    [IsMarkovKernel (bootstrapKernel (E := E) n m)] (P : Measure E)
     [IsProbabilityMeasure P] :
     let J := (Measure.pi fun _ : Fin n ↦ P) ⊗ₘ bootstrapKernel n m
     condDistrib Prod.snd Prod.fst J =ᵐ[Measure.pi fun _ : Fin n ↦ P] bootstrapKernel n m :=
@@ -824,7 +828,8 @@ theorem tendsto_kolmogorovDist_subsamplingLaw [MeasurableSpace E] (μ : Measure 
       (subsamplingLaw (θhat (b n)) (θhat n) (τ (b n)) (sample X n ω)) J}) atTop (𝓝 0) := sorry
 
 /-- **7.2** Coverage of the subsampling interval (Politis–Romano–Wolf, part (iii)): if
-`τₙ (θ̂ₙ - θ)` converges weakly to `J` and `J` is continuous at its `(1 - α)`-quantile, then
+`τₙ (θ̂ₙ - θ)` converges weakly to `J`, `J` is continuous at its `(1 - α)`-quantile and exceeds
+`1 - α` to the right of it (continuity alone is not enough), then
 `τₙ (θ̂ₙ - θ)` is at most the `(1 - α)`-quantile of the subsampling law with probability tending
 to `1 - α`. -/
 theorem tendsto_measureReal_le_quantile_subsamplingLaw [MeasurableSpace E] (μ : Measure Ω)
@@ -836,7 +841,8 @@ theorem tendsto_measureReal_le_quantile_subsamplingLaw [MeasurableSpace E] (μ :
     (hlim : ∀ x, ContinuousAt (cdf J) x →
       Tendsto (fun n ↦ μ.real {ω | τ n * (θhat n (sample X n ω) - θ) ≤ x}) atTop (𝓝 (cdf J x)))
     (α : ℝ) (hα₀ : 0 < α) (hα₁ : α < 1)
-    (hJα : ContinuousAt (cdf J) (MeasureTheory.Measure.quantile J (1 - α))) :
+    (hJα : ContinuousAt (cdf J) (MeasureTheory.Measure.quantile J (1 - α)))
+    (hJα' : ∀ x, MeasureTheory.Measure.quantile J (1 - α) < x → 1 - α < cdf J x) :
     Tendsto (fun n ↦ μ.real {ω | τ n * (θhat n (sample X n ω) - θ) ≤
       MeasureTheory.Measure.quantile
         (subsamplingLaw (θhat (b n)) (θhat n) (τ (b n)) (sample X n ω)) (1 - α)})
@@ -1033,7 +1039,8 @@ end Layer8
 
 section Layer9
 
-/-- **9.1** The open probability simplex `S_m`. -/
+/-- **9.1** The open probability simplex `S_m`. Mathlib has no open simplex, and its closed
+simplex is the type `Convexity.StdSimplex`, so the open simplex is a subset defined directly. -/
 def openSimplex (m : ℕ) : Set (Fin m → ℝ) := {p | (∀ i, 0 < p i) ∧ ∑ i, p i = 1}
 
 /-- **9.1** Tangent vectors to the simplex: `∑ uᵢ = 0`. -/
@@ -1062,15 +1069,15 @@ def CongruentEmbedding.toLinearMap {m n : ℕ} (e : CongruentEmbedding m n) :
   map_add' p p' := by ext j; simp [add_mul]
   map_smul' c p := by ext j; simp [mul_assoc]
 
-/-- **9.1** Invariance of the Fisher–Rao metric under congruent embeddings. -/
-theorem fisherRao_congruentEmbedding {m n : ℕ} (e : CongruentEmbedding m n) {p u v : Fin m → ℝ}
-    (hp : p ∈ openSimplex m) (hu : u ∈ simplexTangent m) (hv : v ∈ simplexTangent m) :
+/-- **9.1** Invariance of the Fisher–Rao metric under congruent embeddings, at every `p`, `u`,
+`v` (where `p` vanishes both sides are `0` by `x / 0 = 0`). -/
+theorem fisherRao_congruentEmbedding {m n : ℕ} (e : CongruentEmbedding m n) (p u v : Fin m → ℝ) :
     fisherRao (e.toLinearMap p) (e.toLinearMap u) (e.toLinearMap v) = fisherRao p u v := sorry
 
-/-- **9.1** Invariance of the Amari–Chentsov tensor under congruent embeddings. -/
+/-- **9.1** Invariance of the Amari–Chentsov tensor under congruent embeddings, at every `p`,
+`u`, `v`, `w`. -/
 theorem amariChentsov_congruentEmbedding {m n : ℕ} (e : CongruentEmbedding m n)
-    {p u v w : Fin m → ℝ} (hp : p ∈ openSimplex m) (hu : u ∈ simplexTangent m)
-    (hv : v ∈ simplexTangent m) (hw : w ∈ simplexTangent m) :
+    (p u v w : Fin m → ℝ) :
     amariChentsov (e.toLinearMap p) (e.toLinearMap u) (e.toLinearMap v) (e.toLinearMap w) =
       amariChentsov p u v w := sorry
 
@@ -1113,7 +1120,11 @@ theorem exists_eq_smul_amariChentsov_of_invariant
 
 end Layer9
 
-/-! ## Supplier names cited in the README -/
+/-! ## Supplier names cited in the README
+
+This block declares nothing. It pins every Mathlib and Tau Ceti name that the README writes in
+code font to the pinned libraries, so that a renamed or removed supplier breaks the build here
+instead of leaving a stale name in the README. -/
 
 #check @ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub
 #check @ProbabilityTheory.strong_law_ae

@@ -2,8 +2,9 @@
 
 **Summary.** This roadmap builds the theory that refines the central limit theorem and the
 resampling methods that exploit the refinement:
-- the Kolmogorov and bounded Lipschitz distances, and conditional convergence in law of random
-  laws, in outer probability and outer almost surely;
+- the theory of the Kolmogorov distance needed here (with Pólya's theorem) and the bounded
+  Lipschitz distance, and conditional convergence in law of random laws, in outer probability and
+  outer almost surely;
 - Esseen's smoothing inequality and the Berry–Esseen theorem;
 - lattice laws and Cramér's condition;
 - Edgeworth expansions: the one-term expansion in the nonlattice and lattice cases, expansions of
@@ -37,9 +38,10 @@ Suggested home: `TauCeti/Statistics/HigherOrder/` for Layers 1–5 and
 
 The roadmap is complete when Tau Ceti proves all of the following.
 
-1. **Distances and conditional laws.** The Kolmogorov distance and Pólya's theorem; the bounded
-   Lipschitz distance, with the metrization of weak convergence supplied by Tau Ceti; random laws
-   and their conditional convergence in law in outer probability and outer almost surely, with the
+1. **Distances and conditional laws.** The comparison of the Kolmogorov distance with total
+   variation, its invariance and jump bound, and Pólya's theorem; the bounded Lipschitz distance,
+   with the metrization of weak convergence supplied by Tau Ceti; random laws and their
+   conditional convergence in law in outer probability and outer almost surely, with the
    equivalence of the bounded Lipschitz and Kolmogorov forms for a limit with continuous
    distribution function.
 2. **Smoothing and Berry–Esseen.** Fourier–Stieltjes transforms of signed densities, the Pólya
@@ -64,8 +66,7 @@ The roadmap is complete when Tau Ceti proves all of the following.
    `m`-out-of-`n` bootstrap.
 7. **Jackknife, subsampling and empirical likelihood.** Strong consistency of the jackknife
    variance of a smooth function of means; consistency of subsampling and the coverage of the
-   subsampling interval; Owen's empirical
-   likelihood theorem.
+   subsampling interval; Owen's empirical likelihood theorem.
 8. **The studentized bootstrap.** The bootstrap Edgeworth expansion, second-order accuracy of the
    studentized bootstrap in Kolmogorov distance, and the coverage of the normal-theory, percentile
    and percentile-`t` intervals.
@@ -81,6 +82,8 @@ The numbers are those of the layers below, and `k.n` names subsection `n` of Lay
   mean and the distribution-function bound `|cdf P t - cdf Q t| ≤ tvDist P Q / 2`: these are
   [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.1–8.5,
   9.1 and 9.2;
+- the Kolmogorov distance with its metric facts: ArithmeticStatisticsPartVIII, §5.14 (subsection
+  "Kolmogorov distance");
 - the empirical-process toolkit of MathematicalStatisticsAsymptotic: outer integrals,
   Hoffmann-Jørgensen weak convergence and asymptotic measurability, the space `ℓ^∞(T)` with its
   Borel σ-algebra, the Brownian bridge laws, the Glivenko–Cantelli and classical Donsker theorems
@@ -121,7 +124,8 @@ These are fixed for every target. A statement that departs from them is a differ
   variables with unit variance, or for `√n A(X̄)/σ` with `A(μ) = 0` and `σ² = Var[DA(μ) X]`. The
   error terms are uniform in `x ∈ ℝ` unless a statement says otherwise. `κⱼ` is the `j`th cumulant
   of the summand (`cumulant`, 4.1); for a standardized summand `κ₃ = E X³` and `κ₄ = E X⁴ - 3`.
-- **Distances between laws.** `kolmogorovDist P Q = sup_t |cdf P t - cdf Q t|` in `ℝ` and
+- **Distances between laws.** `kolmogorovDist P Q = sup_t |cdf P t - cdf Q t|` in `ℝ`, the
+  distance of ArithmeticStatisticsPartVIII §5.14, and
   `boundedLipschitzDist P Q = sup |∫ f dP - ∫ f dQ|` over `1`-Lipschitz `f` with `|f| ≤ 1`, in
   `ℝ≥0∞`. Total variation is Mathlib's `tvDist`, with values in `[0, 2]` (Foundations 9.2).
 - **The bootstrap.** The resampling kernel `bootstrapKernel n m : Kernel (Fin n → E) (Fin m → E)`
@@ -230,10 +234,21 @@ These are fixed for every target. A statement that departs from them is a differ
   sample quantile;
 - 9.2, the distribution-function bound `|cdf P t - cdf Q t| ≤ tvDist P Q / 2`.
 
+### From ArithmeticStatisticsPartVIII
+
+ArithmeticStatisticsPartVIII, §5.14 (subsection "Kolmogorov distance"), owns the Kolmogorov
+distance of probability laws on `ℝ`, the supremum of `|cdf P t - cdf Q t|` built on Mathlib's
+`cdf`, with the facts that it lies in `[0, 1]`, is symmetric, satisfies the triangle inequality,
+vanishes exactly when `P = Q`, and dominates `|cdf P t - cdf Q t|` for every `t`. This roadmap
+consumes the definition and these facts (local copy `kolmogorovDist`) and builds the rest of 1.1.
+MathematicalStatisticsNonparametric refers to this roadmap for the Kolmogorov distance; it reaches
+the definition of §5.14 through 1.1.
+
 ### From MathematicalStatisticsAsymptotic
 
 [MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) owns the
-empirical-process toolkit and the central limit theorems that Mathlib lacks. This roadmap consumes exactly:
+empirical-process toolkit and the central limit theorems that Mathlib lacks. This roadmap consumes
+exactly:
 - **outer integrals and weak convergence:** `outerIntegral` and `innerIntegral` (2.1),
   `TendstoInOuterDistribution` and asymptotic measurability (outer minus inner integrals of
   bounded continuous functions tend to `0`), with the characterization of weak convergence to a
@@ -286,11 +301,13 @@ The layers are in build order: each layer needs only earlier layers and the supp
 
 ### 1.1 The Kolmogorov distance
 
-- `kolmogorovDist P Q = ⨆ t, |cdf P t - cdf Q t|`, for probability measures on `ℝ`; Mathlib's
-  `cdf` is the distribution function only for a probability measure, and every statement here
-  assumes one. The supremum is over values in `[0, 1]`, so it is a real supremum, not the junk
-  value of an unbounded one. It lies in `[0, 1]`, is symmetric, satisfies the triangle
-  inequality, and vanishes iff `P = Q` (Mathlib `MeasureTheory.Measure.eq_of_cdf`).
+- `kolmogorovDist P Q = ⨆ t, |cdf P t - cdf Q t|`, for probability measures on `ℝ`, is the
+  Kolmogorov distance of ArithmeticStatisticsPartVIII §5.14, which owns it with the facts that it
+  lies in `[0, 1]`, is symmetric, satisfies the triangle inequality, vanishes iff `P = Q` and
+  dominates each `|cdf P t - cdf Q t|`. Mathlib's `cdf` is the distribution function only for a
+  probability measure, and every statement here assumes one. The supremum is over values in
+  `[0, 1]`, so it is a real supremum, not the junk value of an unbounded one. The remaining
+  bullets of 1.1 are this roadmap's.
 - `kolmogorovDist P Q ≤ tvDist P Q / 2`, from the distribution-function bound of Foundations 9.2.
 - The supremum may be taken over rational `t`, by right continuity of `cdf`. Hence for a random
   law `ω ↦ L ω` with `ω ↦ cdf (L ω) t` measurable for every `t`, the distance
@@ -310,7 +327,7 @@ The layers are in build order: each layer needs only earlier layers and the supp
   for every `Q`: uniform convergence of distribution functions implies convergence at continuity
   points.
 
-*Needs:* Foundations 9.2; Mathlib `cdf`, `MeasureTheory.Measure.eq_of_cdf`, the portmanteau
+*Needs:* ArithmeticStatisticsPartVIII §5.14; Foundations 9.2; Mathlib `cdf`, the portmanteau
 theorem for `ProbabilityMeasure` on `ℝ`; Tau Ceti `MeasureTheory.Measure.leftLim_cdf`.
 
 **Checks.**
@@ -536,7 +553,11 @@ Mathlib, Tau Ceti's Fourier inversion, Foundations 8.5.
 - `IsLatticeLaw P`: there are `a` and `h > 0` with `P (a + h ℤ)ᶜ = 0`. A span of `P` is such an
   `h`. A nondegenerate lattice law has a largest span, its maximal span, which is Durrett's span.
   Point masses are lattice laws under this definition; Durrett calls them degenerate and reserves
-  "lattice" for the nondegenerate case.
+  "lattice" for the nondegenerate case. MarkovChainsAndRenewal, Layer 5 item 3, has the narrower
+  notion of support in `a ℕ` for some `a > 0`, with no shift, suited to renewal times: a law
+  lattice in that sense is lattice here. Unless it is a point mass, its maximal span here is an
+  integer multiple of its maximal span there, possibly larger, since only differences of support
+  points matter here: the law of `1 + 2B`, `B` Bernoulli, has maximal span `1` there and `2` here.
 - **Characterization** (`isLatticeLaw_iff_exists_norm_charFun_eq_one`): a law on `ℝ` is lattice
   iff `‖charFun P t‖ = 1` for some `t ≠ 0`. If `P` is nondegenerate, the set of such `t` is
   `(2π/h) ℤ` for its maximal span `h`; if `P` is a point mass it is all of `ℝ`
@@ -735,13 +756,17 @@ Mathlib.
   sawtooth term is the correction that makes the smoothed approximation match the jumps of
   `P(Sₙ ≤ x)` at the lattice points `(n a + h ℤ)/√n`, and the integral in the smoothing inequality
   is taken over `|t| ≤ π √n / h`, the period of `|charFun P|`.
-- **No continuous expansion** (`eventually_le_sqrt_mul_kolmogorovDist_lattice`): with the
-  hypotheses of 4.2 except that `P` is carried by `a + h ℤ` for some span `h`, and for every law
-  `G` with continuous distribution function, `liminf √n kolmogorovDist (law of Sₙ) G ≥ h φ(0) / 2`,
-  stated as: for every `ε > 0`, eventually `√n kolmogorovDist (law of Sₙ) G ≥ h φ(0)/2 - ε`. Proof
-  route: let `H ≥ h` be the maximal span. By the lattice expansion with span `H`, the jump of
-  `P(Sₙ ≤ x)` at the lattice point `xₙ` nearest `0` is `(H/√n) φ(xₙ) + o(n^{-1/2})`, and
-  `xₙ → 0`; the jump bound of 1.1 gives the claim.
+- **No continuous expansion** (`eventually_exists_le_sqrt_mul_abs_sub_lattice`): with the
+  hypotheses of 4.2 except that `P` is carried by `a + h ℤ` for some span `h`, and for every
+  sequence of continuous functions `Hₙ : ℝ → ℝ`, `liminf √n sup_x |P(Sₙ ≤ x) - Hₙ(x)| ≥ h φ(0)/2`,
+  stated as: for every `ε > 0`, eventually there is an `x` with
+  `√n |P(Sₙ ≤ x) - Hₙ(x)| ≥ h φ(0)/2 - ε`. The approximation may depend on `n`, as
+  `Φ - n^{-1/2} (κ₃/6) (x² - 1) φ` does; with `Hₙ = cdf G` it bounds
+  `√n kolmogorovDist (law of Sₙ) G` from below for every law `G` with continuous distribution
+  function. Proof route: let `H ≥ h` be the maximal span, which exists since `P` has unit
+  variance. By the lattice expansion with span `H`, the jump of `P(Sₙ ≤ x)` at the lattice point
+  `xₙ` nearest `0` is `(H/√n) φ(xₙ) + o(n^{-1/2})`, and `xₙ → 0`; the argument of the jump bound
+  of 1.1, which uses only continuity of `Hₙ` at `xₙ`, gives the claim.
 
 *Needs:* 1.1, 2.2, 3.1, 4.1.
 
@@ -933,9 +958,10 @@ Layers 1–3, Foundations 8.4–8.5, Tau Ceti's Fourier inversion and quantiles.
 - `saddlepointDensity K n s x = (n / (2π K''(s)))^{1/2} exp (n (K(s) - s x))`, the density of the
   sample mean, not of the sum.
 - **Saddlepoint approximation** (`saddlepoint_approximation_sampleMean_density`): let `X` be i.i.d.
-  with an absolutely continuous law `P`, with `0` in the interior of `integrableExpSet id P`. Let
-  `x` be given and `s` in the interior with `K'(s) = x`, the saddlepoint. Suppose the
-  characteristic function of `P_s` is in `L^ν` for an integer `ν ≥ 1`. Then for `n > ν` the law of
+  with law `P`. Let `x` be given and `s` in the interior of `integrableExpSet id P` with
+  `K'(s) = x`, the saddlepoint. Suppose the characteristic function of `P_s` is in `L^ν` for an
+  integer `ν ≥ 1`; this gives the densities below, and `P` itself need not be absolutely
+  continuous, nor `0` interior to `integrableExpSet id P`. Then for `n > ν` the law of
   `X̄ₙ` has a continuous density `fₙ`, bounded when `|charFun P|^ν` is integrable, and
 
   `fₙ(x) = saddlepointDensity K n s x · (1 + O(n⁻¹))`.
@@ -1006,7 +1032,9 @@ Layer 4, Mathlib's tilting and cumulants, Tau Ceti `cgf_tilted_mul`.
   the joint law `Pⁿ ⊗ₘ bootstrapKernel n m` the conditional distribution of the resample given the
   sample is `bootstrapKernel n m`, `Pⁿ`-a.e. (Mathlib `condDistrib_ae_eq_of_measure_eq_compProd`).
   In Lean the Markov property of the kernel, `isMarkovKernel_bootstrapKernel`, is passed as an
-  instance argument.
+  instance argument, which holds exactly for `n > 0`. This bullet and the Markov property are
+  facts about `bootstrapKernel` that follow in one step from its definition and Mathlib; their
+  Lean forms are checks of the definition.
   So bootstrap laws are conditional laws given the data, and every statement about
   `ω ↦ bootstrapLaw n m R (sample X n ω)` is a statement about conditional laws.
 - The joint space: for data `X : ℕ → Ω → E` with measurable `X i`, the probability
@@ -1294,12 +1322,14 @@ the functional delta method), Tau Ceti's empirical measures, product kernels and
   `o_P(1)`, and Pólya's theorem gives uniformity.
 - **Coverage** (`tendsto_measureReal_le_quantile_subsamplingLaw`): under the same hypotheses on `X`,
   `θ̂ₙ`, `b` and `τ`, let `τₙ (θ̂ₙ - θ)` converge in law to `J` (at the continuity points of `J`), let
-  `0 < α < 1`, and let `J` be continuous at its `(1 - α)`-quantile. With `c_{n,b}(1 - α)` the
+  `0 < α < 1`, and let `J` be continuous at its `(1 - α)`-quantile `c` with `J(x) > 1 - α` for
+  every `x > c`, so that `c` is the only solution of `J(x) = 1 - α`. With `c_{n,b}(1 - α)` the
   `(1 - α)`-quantile of the subsampling law `L` (Tau Ceti `Measure.quantile`, the infimum of
   `{x | 1 - α ≤ cdf L x}`), `P(τₙ (θ̂ₙ - θ) ≤ c_{n,b}(1 - α)) → 1 - α` (Politis–Romano–Wolf,
-  Thm 2.2.1(iii), p. 43). Proof route: the pointwise form below places `c_{n,b}(1 - α)` between
-  `c - ε` and `c' + ε` with probability tending to `1`, where `[c, c']` is the set where
-  `J = 1 - α`, and `J(c - ε)` and `J(c' + ε)` tend to `1 - α` as `ε → 0`.
+  Thm 2.2.1(iii), p. 43, *by the same argument*: the theorem prints only continuity at `c`, which
+  is not enough, see the Checks). Proof route: for `ε > 0` with `c ± ε` continuity points of
+  `J`, `J(c - ε) < 1 - α < J(c + ε)`, so the pointwise form below places `c_{n,b}(1 - α)` in
+  `(c - ε, c + ε]` with probability tending to `1`; then `J(c ± ε) → 1 - α` as `ε → 0`.
 - The same theorem gives convergence of the subsampling distribution function at each continuity
   point of `J` when `J` is not continuous (part (i)), and almost sure convergence in (i) and (ii)
   when `τ_b (θ̂ₙ - θ) → 0` almost surely and `∑ₙ exp (-d n/b) < ∞` for every `d > 0` (part (iv),
@@ -1323,6 +1353,13 @@ the functional delta method), Tau Ceti's empirical measures, product kernels and
   bootstrap does, would give `±1/2` the mass `1/4` each.
 - `subsamplingLaw` (negative control): for `b = 3 > n = 2` it is the zero measure, not a
   probability law.
+- Coverage (negative control): continuity of `J` at `c` alone does not suffice. For `X` uniform
+  on `[0, 1]`, `θ = 0`, `τₙ = n`, `b = ⌊n^{1/3}⌋`, `qₘ = 1 - α - 1/log (m + 2)` and
+  `θ̂ₘ(x) = hₘ(x₀)/m` with `hₘ(u) = u/qₘ - 1` for `u < qₘ` and `hₘ(u) = 1 + 1/m` otherwise, the
+  limit is `J = (1 - α) U[-1, 0] + α δ₁`, flat at `1 - α` on `[0, 1)`, with `c = 0`. The fraction
+  of subsamples below the top value `1 + 1/b - (b/n) hₙ(X₀)` has mean `q_b < 1 - α` and variance
+  at most `b/n = o(1/log² b)`, so with probability tending to `1` the subsampling quantile is that
+  top value, `τₙ θ̂ₙ` lies below it, and the coverage tends to `1`.
 - (negative control) `b/n → 0` is needed: for the mean with `b = n - 1` the values
   `(n - 1)(θ̂_{n,b,i} - θ̂ₙ) = X̄ₙ - Xᵢ` have the empirical law of `X̄ₙ - Xᵢ`, which tends to the law
   of `μ - X₁`, not to a normal law unless `X₁` is normal (Politis–Romano–Wolf, p. 43).
@@ -1545,8 +1582,11 @@ Layers 4 and 6, Foundations 8.2.
 ### 9.1 Simplices, congruent embeddings and invariant tensors
 
 - `openSimplex m = {p : Fin m → ℝ | ∀ i, 0 < pᵢ, ∑ pᵢ = 1}` and the tangent space
-  `simplexTangent m = {u | ∑ uᵢ = 0}`. Mathlib's `Convexity.StdSimplex` is a type of finitely
-  supported weights, not a subset of `Fin m → ℝ`, so the open simplex is defined directly.
+  `simplexTangent m = {u | ∑ uᵢ = 0}`. Mathlib has no open simplex. Its closed simplex is the
+  type `Convexity.StdSimplex` of finitely supported weights; the earlier closed simplex as a
+  subset of `Fin m → ℝ` is deprecated in its favour. So `openSimplex m` is defined directly as a
+  subset of `Fin m → ℝ`; its points are the weights of `Convexity.StdSimplex` with all
+  coordinates positive.
 - `fisherRao p u v = ∑ uᵢ vᵢ / pᵢ` and `amariChentsov p u v w = ∑ uᵢ vᵢ wᵢ / pᵢ²`. The Fisher–Rao
   form is positive definite on `simplexTangent m` at every `p ∈ openSimplex m`.
 - `CongruentEmbedding m n`: a surjection `block : Fin n → Fin m` and weights `q > 0` with
@@ -1558,10 +1598,12 @@ Layers 4 and 6, Foundations 8.2.
   of simplices, which are linear and given in coordinates by his (10.33) (Chentsov, p. 159, with
   Lemmas 9.5 and 10.10).
 - **Invariance** (`fisherRao_congruentEmbedding`, `amariChentsov_congruentEmbedding`): for every
-  congruent embedding `e`, `p ∈ openSimplex m` and tangent `u, v, w`,
+  congruent embedding `e` and all `p, u, v, w : Fin m → ℝ`,
   `fisherRao (e p) (e u) (e v) = fisherRao p u v` and the same for `amariChentsov` (Chentsov,
-  proof of Thm 11.1, pp. 159–160, for the Fisher–Rao form). Proof: the summand at `j` is the
-  summand at `block j` times `q j`, and the weights sum to `1` on each block.
+  proof of Thm 11.1, pp. 159–160, for the Fisher–Rao form at `p ∈ openSimplex m` and tangent
+  `u, v`). Proof: the summand at `j` is the summand at `block j` times `q j`, also where
+  `p (block j) = 0`, both being `0` by Lean's `x / 0 = 0`, and the weights sum to `1` on each
+  block. The geometric reading is the case `p ∈ openSimplex m` and `u, v, w` tangent.
 
 *Needs:* Mathlib linear algebra.
 
