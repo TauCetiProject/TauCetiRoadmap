@@ -808,7 +808,8 @@ homeomorphism; conversely a homeomorphism from the circle composed with `t ↦ e
 Prove `simple_closed_rectifiable_isoperimetric`: for a rectifiable simple closed curve `γ` on
 `[a, b]` with trace `C`, `4π |filledHull C \ C| ≤ L²` with `L = eVariationOn γ (Icc a b)`, whatever
 its orientation, and prove `simple_closed_rectifiable_isoperimetric_eq_iff`: equality holds exactly
-when `C = sphere c r` for some `c` and some `r > 0` (Wiedijk's entry). The parametrization is not
+when `C = sphere c r` for some `c` and some `r > 0` (Wiedijk's entry, for the inequality and for
+equality forcing a circle; the converse is Tau Ceti's). The parametrization is not
 assumed absolutely continuous, Lipschitz, differentiable or piecewise smooth, and need not have
 constant speed. *Route.* §3.1 gives `|rectifiableSignedArea γ a b| = |filledHull C \ C|`, and Tau
 Ceti's sharp inequality for the geometric signed area and its equality case for simple closed curves
@@ -825,8 +826,9 @@ conclude.
 
 Prove `jordan_isoperimetric` and `jordan_isoperimetric_eq_iff`: for a Jordan curve `C ⊆ ℂ` with
 `H¹(C) < ∞`, `4π |filledHull C \ C| ≤ H¹(C)²`, with equality exactly when `C = sphere c r` for some
-`c` and some `r > 0`. Area is Lebesgue measure of the inside and length is Hausdorff measure of
-the curve; no parametrization enters the statement (Wiedijk's entry). *Route.* Parametrize `C` by
+`c` and some `r > 0` (Wiedijk's entry, parametrized as in §6.2, for the inequality and for equality
+forcing a circle; the converse is Tau Ceti's). Area is Lebesgue measure of the inside and length
+is Hausdorff measure of the curve; no parametrization enters the statement. *Route.* Parametrize `C` by
 §6.1 and apply §6.2, with `eVariationOn γ (Icc a b) = H¹(C)`.
 *Needs:* §6.1, §6.2; Tau Ceti `ContinuousOn.eVariationOn_eq_euclideanHausdorffMeasure_image`.
 
