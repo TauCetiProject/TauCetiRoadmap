@@ -98,10 +98,15 @@ Boundaries with Mathlib, Tau Ceti, and neighboring roadmaps:
 - **Linearity and enrichment.** An `R`-linear category is Mathlib's `Linear R C`, and modules are
   additive functors to `AddCommGrpCat`. Categories enriched in `ModuleCat R` and bridges to Tau
   Ceti's DG modules (`TauCeti/CategoryTheory/DG/Functor/Category.lean`) are out of scope.
-- **Finitely presented functors.** Defining `mod C` via finite sums of representables (0.1) replaces
-  Tau Ceti's single-representable definition, which agrees when `C` has finite biproducts (as in
-  [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md)) but not on one-object
-  categories: over `ℤ`, `ℤ²` is not a quotient of `ℤ`.
+- **Finitely presented functors.** `mod C` is owned by
+  [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md) §1.1, whose single-representable
+  predicate is implemented on Tau Ceti `main` after this roadmap's pin as
+  `TauCeti.IsFinitelyPresentedFunctor`
+  (`TauCeti/CategoryTheory/FinitelyPresentedFunctor/Basic.lean`). 0.1 extends it to categories
+  without finite biproducts by finite sums of representables, keeping the name: the two agree when
+  `C` has finite biproducts (a named target of 0.1), but not on one-object categories, where over
+  `ℤ`, `ℤ²` is not a quotient of `ℤ`. Tau Ceti keeps one predicate; the single-representable form
+  becomes the theorem under `[HasFiniteBiproducts C]`.
 - **Commutative flatness and `Tor`.** Over commutative rings, flatness remains Mathlib's
   `Module.Flat` (compared with `BalancedFlat` in 2.1, making `TauCeti.flatModuleFilteredFree` a
   corollary of 2.3). [Operator K-theory](../OperatorKTheory/README.md), §8.2, owns `ℤ`-specific
@@ -351,9 +356,11 @@ We set `TauCeti.ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}`; covariant additive 
   relations of `G`—so quotients of finitely presented functors by finitely generated subfunctors are
   finitely presented, yielding `IsClosedUnderCokernels` on `mod C`), and finitely presented functors
   are closed under finite coproducts (`IsClosedUnderFiniteCoproducts`, combining presentations by
-  block matrices) and retracts (`coker(𝟙 - e)`). This replaces Tau Ceti's single-representable
-  predicates without shims: the basic single-representable API is generalized or restricted to
-  `[HasFiniteBiproducts C]`, and downstream results in additive, abelian, or Krull–Schmidt
+  block matrices) and retracts (`coker(𝟙 - e)`). This generalizes ArtinAlgebras §1.1's
+  single-representable predicates (on Tau Ceti `main` past the pin) without shims: under
+  `[HasFiniteBiproducts C]` the two agree
+  (`TauCeti.isFinitelyPresentedFunctor_iff_exists_single`), the basic single-representable API is
+  restricted to that hypothesis, and downstream results in additive, abelian, or Krull–Schmidt
   categories retain their mathematical meaning with proofs migrated to the new interface.
 - **Abelian and colimit structure.** Additive functors contain zero and are closed under objectwise
   kernels, cokernels, finite products, and colimits, equipping `Mod C` with an abelian structure and
@@ -1383,11 +1390,12 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
   M` for finite-length `M` (4.3); and Layer 2 supplies the noncommutative flatness needed for
   Hoshino's flat-dominant dimension ([Ho, Theorem, p. 275]; [Xi, §1, p. 34]).
 - **Tau Ceti refactors (no shims):**
-  - From 0.1, generalize Tau Ceti's basic single-representable finite-generation and
-    finite-presentation API to finite sums via morphism matrices, retaining single-representable
-    versions under suitable biproduct hypotheses, and migrate downstream additive, abelian, and
-    Krull–Schmidt consumers to that interface (with right-minimal representable covers identified
-    with essential epimorphisms in 4.2).
+  - From 0.1, generalize ArtinAlgebras §1.1's single-representable finite-generation and
+    finite-presentation API (on Tau Ceti `main`, `TauCeti/CategoryTheory/FinitelyPresentedFunctor/`)
+    to finite sums via morphism matrices, retaining single-representable versions under suitable
+    biproduct hypotheses, and migrate downstream additive, abelian, and Krull–Schmidt consumers to
+    that interface (with right-minimal representable covers identified with essential epimorphisms
+    in 4.2).
   - From 0.2, `TauCeti.small_mulOpposite` removes redundant `[Small.{v} Aᵐᵒᵖ]` binders.
   - From 0.3, `TauCeti.IsSuperfluous` generalizes from `Submodule R M` to lattices with `⊤`.
   - From 2.3, `TauCeti.flatModuleFilteredFree` is reproved from `BalancedFlat.denseAt`.

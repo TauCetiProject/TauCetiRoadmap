@@ -91,6 +91,14 @@ variable (C) in
 abbrev isFinitelyPresentedFunctor : ObjectProperty (Cᵒᵖ ⥤ AddCommGrpCat.{v}) :=
   IsFinitelyPresentedFunctor
 
+/-- **0.1** Under finite biproducts, finite presentation by finite sums agrees with ArtinAlgebras
+§1.1's single-representable form (on Tau Ceti `main` past the pin). -/
+theorem isFinitelyPresentedFunctor_iff_exists_single [HasFiniteBiproducts C]
+    (F : Cᵒᵖ ⥤ AddCommGrpCat.{v}) :
+    IsFinitelyPresentedFunctor F ↔
+      ∃ (X Y : C) (f : X ⟶ Y) (p : preadditiveYoneda.obj Y ⟶ F)
+        (h : preadditiveYoneda.map f ≫ p = 0), Epi p ∧ (ShortComplex.mk _ _ h).Exact := sorry
+
 /-- **0.1** If `F` is finitely generated and `G` is finitely presented, `cokernel φ` is finitely
 presented (yielding `IsClosedUnderCokernels` on `isFinitelyPresentedFunctor C`). -/
 theorem IsFinitelyPresentedFunctor.cokernel {F G : Cᵒᵖ ⥤ AddCommGrpCat.{v}} (φ : F ⟶ G)
