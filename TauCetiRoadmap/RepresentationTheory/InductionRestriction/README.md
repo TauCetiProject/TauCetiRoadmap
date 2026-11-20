@@ -398,7 +398,7 @@ Prove its character form `clifford_restrict_character`: with `reps` a left trans
 inertia group, `χ_W(n) = e · ∑_{g ∈ reps} χ_{{}^g V}(n)` for `n ∈ N`. No finiteness of `G`, no
 invertibility of `|G|` and no splitting is assumed: the conjugates of `V` are finitely many because
 `W` is finite-dimensional, and in positive characteristic the character form sees only `(e : k)`
-(Isaacs, Ch. 6; Curtis–Reiner §11; Alperin–Bell, Ch. 8).
+(Curtis–Reiner §11; Alperin–Bell, Ch. 8; for complex characters, Isaacs, Ch. 6).
 
 API:
 
@@ -438,7 +438,8 @@ the restriction of `U`), `TauCeti.indFDRep U` is simple and lies over `V`; every
 representation of `G` lying over `V` is isomorphic to such an induced representation; and two
 such `U` with isomorphic inductions are isomorphic. So induction is a bijection
 `Irr(T | V) ≅ Irr(G | V)` on isomorphism classes, which reduces the classification of the simple
-representations of `G` over `V` to that of `T` over `V` (Isaacs, Ch. 6; Curtis–Reiner §11).
+representations of `G` over `V` to that of `T` over `V` (Curtis–Reiner §11; for complex
+characters, Isaacs, Ch. 6).
 *Route.* For simple `U` over `T` lying over `V`, `Res_N U` is semisimple and `V`-isotypic (§5.2
 for `T`, which fixes `V`), and `Res_N Ind_T^G U` is the direct sum of the translates `gU`,
 `g ∈ G ⧸ T`, with `gU` isotypic of type `{}^g V`; so the `V`-isotypic part of `Res_N Ind U` is
@@ -452,13 +453,19 @@ spaces of the same dimension; `W_V` is simple, because the translates of a nonze
 part to `V`-isotypic part, so `U ≅ U'`. Neither Maschke's theorem nor the Mackey criterion
 `FDRep.simple_indFDRep_of_forall_mackeyDisjoint`, which assumes `|G|` invertible, enters. Over an
 algebraically closed field of characteristic zero the bijection is Tau Ceti's
-`FDRep.cliffordCorrespondence`.
+`FDRep.cliffordCorrespondence`. Tau Ceti proves two clauses more generally: `Ind U` lies over `V`
+over every field (`FDRep.liesOver_indFDRep_of_inertia`), and induction is injective over every
+field of characteristic zero (`FDRep.nonempty_iso_of_liesOver_inertia_of_nonempty_iso_indFDRep`);
+the simplicity of `Ind U`, the surjectivity, and the injectivity in positive characteristic are
+what this target adds.
 The further reduction from `T` to the quotient `T / N` needs `V` to extend to `T` and to have
 scalar endomorphisms (§7.5); for a division algebra of endomorphisms it is the crossed-product
 theory of §7.6–§7.7. Neither enters the proof of the correspondence.
 *Needs:* Tau Ceti `TauCeti.inertia`, `TauCeti.le_inertia`, `TauCeti.indFDRep`,
 `TauCeti.finrank_indFDRep`, `FDRep.LiesOver`, `FDRep.indResFDRepHomEquiv`,
-`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`; Mathlib `isotypicComponent`;
+`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`,
+`FDRep.liesOver_indFDRep_of_inertia`,
+`FDRep.nonempty_iso_of_liesOver_inertia_of_nonempty_iso_indFDRep`; Mathlib `isotypicComponent`;
 §5.2.
 
 **Checks.**
@@ -535,7 +542,8 @@ For an abstract group `G` (no finiteness), a central extension is a surjective h
 `G` whose kernel lies in the centre. Take the canonical free
 presentation `AbstractUCE.presentation : FreeGroup G →* G` with kernel `R`
 (`AbstractUCE.relations`), `[F, F]` (`AbstractUCE.derived`), `[F, R]`
-(`AbstractUCE.relationCommutators`), and `U = [F, F]/[F, R]` (`AbstractUCE.Cover`) with the
+(`AbstractUCE.relationCommutators`), and `U = [F, F]/[F, R]` (`AbstractUCE.Cover`, the quotient
+of `[F, F]` by `[F, R]` viewed as its subgroup `AbstractUCE.relationsInsideDerived`) with the
 induced map `AbstractUCE.projection : U → G`. For every group `G`, prove (Weibel, Ch. III,
 Example 5.3.4):
 
@@ -549,7 +557,9 @@ For `G` perfect, prove (Weibel, Ch. III, Example 5.3.4, Lemmas 5.3.2–5.3.3 and
 
 - `AbstractUCE.projection_surjective`: the projection is surjective;
 - `AbstractUCE.cover_isPerfect`: `U` is perfect (for nontrivial `G` the free group's commutator
-  subgroup is not);
+  subgroup is not). Perfection of `G` gives `F = [F, F]·R`, and `R` is central modulo `[F, R]`, so
+  every commutator of `F` is congruent modulo `[F, R]` to a commutator of two elements of
+  `[F, F]`. Weibel's proof of Theorem 5.4 applies Lemma 5.3.3 to `U` without this step;
 - `AbstractUCE.universal`: for every surjective `p : E → G` with central kernel, in any universe,
   there is exactly one homomorphism `f : U → E` with `p ∘ f` the projection.
 
@@ -673,17 +683,34 @@ with `V` on `N`, with normalized factor set `β` pulled back from `Q`. Prove (Is
 
 API: the class is unchanged when `V` is replaced by an isomorphic representation (whose inertia
 group is the same, `TauCeti.inertia_congr`) and transported along an isomorphism of quotient
-models of `Q`. For the isotypic representations of `T` over `V`, the multiplicity projective
-representation of `Q` has factor set `β⁻¹`, and its tensor product with the compatible extension,
-in the order `V ⊗ X`, is an ordinary representation of `T`; Tau Ceti proves this over an
-algebraically closed field (`TauCeti.IsProjectiveInertiaExtension.tensorRep`,
-`TauCeti.IsProjectiveInertiaExtension.homAction`, `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv`),
-and the target is the same statement under `hScalar` over any field. No class is defined for a
-representation without scalar endomorphisms, and none for the zero representation.
+models of `Q`. No class is defined for a representation without scalar endomorphisms, and none
+for the zero representation.
+
+*The tensor factorization.* For every representation `W` of `T` over a commutative ring, Tau Ceti
+makes the multiplicity space `Hom_N(V, W)` a projective representation of `Q` with factor set
+`β⁻¹` (`TauCeti.IsProjectiveInertiaExtension.homAction`,
+`TauCeti.IsProjectiveInertiaExtension.isProjectiveRep_homAction`), makes `V ⊗ X`, for any
+projective representation `X` of `Q` with factor set `β⁻¹`, an ordinary representation of `T`
+(`TauCeti.IsProjectiveInertiaExtension.tensorRep`), and makes evaluation
+`V ⊗ Hom_N(V, W) → W`, `x ⊗ φ ↦ φ(x)`, an intertwiner (`TauCeti.IsProjectiveInertiaExtension.evalTensor`).
+Over every field evaluation is onto when `W` is simple and lies over `V`
+(`TauCeti.IsProjectiveInertiaExtension.evalTensor_surjective`), and over an algebraically closed
+field it is injective (`TauCeti.IsProjectiveInertiaExtension.evalTensor_injective`,
+`TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv`). Prove, over any field and under `hScalar`,
+that evaluation `V ⊗_k Hom_N(V, W) → W` is bijective for every representation `W` of `T` whose
+restriction to `N` is semisimple and `V`-isotypic. *Route.* Under `hScalar`, Jacobson density
+(Mathlib's `Module.Finite.toModuleEnd_moduleEnd_surjective`) makes `k[N] → End_k(V)` onto, and the
+injectivity argument of the algebraically closed case applies; the image of evaluation contains the
+image of every `N`-map `V → W`, and these images sum to `W`. For finite-dimensional `W` one may
+instead compare evaluation with Tau Ceti's `FDRep.cliffordBalancedEvaluationEquiv` through
+`End_N(V) = k`.
 *Needs:* Tau Ceti `TauCeti.IsProjectiveInertiaExtension`, `TauCeti.inertia`, `TauCeti.le_inertia`,
 `TauCeti.inertia_congr`, `TauCeti.schurMultiplier`, `TauCeti.cliffordObstruction`,
 `TauCeti.IsProjectiveInertiaExtension.cohomologyClass_factorSet_eq_cliffordObstruction`,
-`TauCeti.FactorSet.cohomologyClass_eq_iff`; §7.2.
+`TauCeti.FactorSet.cohomologyClass_eq_iff`, and for the tensor factorization
+`TauCeti.IsProjectiveInertiaExtension.homAction`, `TauCeti.IsProjectiveInertiaExtension.tensorRep`,
+`TauCeti.IsProjectiveInertiaExtension.evalTensor`; Mathlib
+`Module.Finite.toModuleEnd_moduleEnd_surjective`; §7.2.
 
 **Checks.**
 - For `Q₈ ⊃ Z = {±1}` over `ℂ` and the nontrivial character `V` of `Z`, the inertia group is `Q₈`
@@ -898,7 +925,7 @@ minimal degree is made.
   `Representation.quotientToInvariants`, `Action.res`.
 - *Characters and simplicity*: `FDRep.character` with `FDRep.char_one`, `FDRep.char_conj`,
   `FDRep.char_tensor`, `FDRep.char_iso`, `FDRep.scalar_product_char_eq_finrank_equivariant`;
-  `Representation.IsIrreducible`, `IsSemisimpleRepresentation`, Maschke's theorem
+  `Representation.IsIrreducible`, `Representation.IsSemisimpleRepresentation`, Maschke's theorem
   (`MonoidAlgebra.Submodule.exists_isCompl` and the instance `IsSemisimpleModule k[G] V` for
   `IsUnit (Nat.card G : k)`), `CategoryTheory.Simple`, `FDRep.forget₂HomLinearEquiv`;
   `IsSemisimpleModule`, `isotypicComponent`, `IsIsotypicOfType`, `Representation.asModule`,
@@ -906,7 +933,9 @@ minimal degree is made.
 - *Schur's lemma* (`Mathlib/CategoryTheory/Preadditive/Schur.lean`): the division ring `End X` of a
   simple object, `CategoryTheory.finrank_endomorphism_simple_eq_one` and
   `CategoryTheory.endomorphism_simple_eq_smul_id` (algebraically closed field, finite-dimensional
-  endomorphisms), `CategoryTheory.Aut.unitsEndEquivAut`.
+  endomorphisms), `CategoryTheory.Aut.unitsEndEquivAut`; Jacobson density
+  `Module.Finite.toModuleEnd_moduleEnd_surjective` (`Mathlib/RingTheory/SimpleModule/Basic.lean`,
+  a semisimple module finite over its endomorphism ring).
 - *Groups*: `Subgroup.FiniteIndex`, `Subgroup.index`, `Subgroup.subgroupOf`,
   `Subgroup.subgroupOfEquivOfLe`, `Subgroup.inclusion`, `MulAut.conj` with
   `Subgroup.Normal.conj_smul_eq_self`, `DoubleCoset.Quotient`, `DoubleCoset.mk`, `Group.IsPerfect`,
@@ -962,7 +991,10 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   `Representation.isotypicComponentsEquivQuotientInertia`,
   `Representation.exists_forall_finrank_linearMap_eq` and
   `TauCeti.Representation.isSemisimpleRepresentation_comp_subtype` (every field);
-  `FDRep.indResFDRepHomEquiv`; `Subgroup.resFDRep`; `IsSemisimpleModule.linearEquivIsotypicComponents`,
+  `FDRep.indResFDRepHomEquiv`; `Subgroup.resFDRep`; `FDRep.liesOver_indFDRep_of_inertia` (every
+  field, inertia group of finite index) and
+  `FDRep.nonempty_iso_of_liesOver_inertia_of_nonempty_iso_indFDRep` (finite `G`, characteristic
+  zero, `V` simple); `IsSemisimpleModule.linearEquivIsotypicComponents`,
   `IsSemisimpleModule.exists_linearEquiv_pi_quotient`,
   `LinearEquiv.finrank_linearMap_eq_natCard_mul_finrank_end` and
   `TauCeti.finrank_linearMap_pos_iff_exists_nonempty_linearEquiv` (every field)
@@ -981,10 +1013,16 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   `TauCeti.FactorSet.cohomologyClass_eq_iff`;
   `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` and
   `TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective`;
-  `TauCeti.IsProjectiveInertiaExtension`, `TauCeti.inertia_congr`,
-  `TauCeti.IsProjectiveInertiaExtension.cohomologyClass_factorSet_eq_cliffordObstruction`,
-  `TauCeti.IsProjectiveInertiaExtension.tensorRep`, `TauCeti.IsProjectiveInertiaExtension.homAction`,
-  `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv` (algebraically closed, `Type`);
+  `TauCeti.IsProjectiveInertiaExtension`, `TauCeti.IsProjectiveInertiaExtension.homAction`,
+  `TauCeti.IsProjectiveInertiaExtension.isProjectiveRep_homAction`,
+  `TauCeti.IsProjectiveInertiaExtension.tensorRep` and
+  `TauCeti.IsProjectiveInertiaExtension.evalTensor` (every commutative ring, `k`, `G` and the
+  carriers in arbitrary universes); `TauCeti.inertia_congr` (every ring);
+  `TauCeti.IsProjectiveInertiaExtension.evalTensor_surjective` (every field, `W` irreducible with a
+  nonzero `N`-map from `V`); `TauCeti.IsProjectiveInertiaExtension.evalTensor_injective` and
+  `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv` (algebraically closed, `V` simple);
+  `TauCeti.IsProjectiveInertiaExtension.cohomologyClass_factorSet_eq_cliffordObstruction`
+  (algebraically closed, `V` simple, `k` and `G` in `Type`);
   `TauCeti.CrossedSystem`, `TauCeti.CrossedSystem.opInv`, `TauCeti.CrossedSystem.comap`,
   `TauCeti.CrossedSystem.Algebra`, `TauCeti.CrossedSystem.Algebra.comapHom`,
   `TauCeti.CrossedSystem.Algebra.gaugeEquiv`, `TauCeti.CrossedSystem.Algebra.moduleFinite_rightSubgroup`,
@@ -999,9 +1037,9 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
 
 - J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977). Part II, §7
   (induced representations, the induced character), §7.2 (the reciprocity formula), and the
-  Mackey irreducibility criterion (§7.4). Part II, §9–10 (the Grothendieck ring, Artin's and
-  Brauer's induction theorems, Brauer's characterization of characters, the cyclotomic splitting
-  field), for Layer 6.
+  Mackey irreducibility criterion (§7.4). Part II, §§9–12 (the ring `R(G)` and Artin's theorem
+  in Ch. 9, Brauer's theorem in Ch. 10, Brauer's characterization of characters in §11.1,
+  realizability over cyclotomic fields in §12.3), for Layer 6.
 - I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976), reprinted as AMS
   Chelsea Publishing vol. 359. Ch. 5 (induced characters, Frobenius reciprocity), Ch. 6 (Clifford
   theory, the inertia group, the Clifford correspondence), and Ch. 11 (projective

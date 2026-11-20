@@ -95,8 +95,8 @@ theorem isIso_biproductDesc_mackeyInclusion {k G : Type u} [CommRing k] [Group G
 a field `k` and a simple finite-dimensional representation `W` of `G`, there are a simple
 representation `V` of `N`, with finitely many cosets of its inertia group, and `e ≠ 0` such that
 the restriction of `W` to `N` is the direct sum of `e` copies of each conjugate `{}^q V`, `q`
-running over those cosets (Isaacs, Ch. 6; Curtis–Reiner §11). Neither finiteness of `G` nor
-invertibility of `|G|` in `k` is assumed. -/
+running over those cosets (Curtis–Reiner §11; for complex characters, Isaacs, Ch. 6). Neither
+finiteness of `G` nor invertibility of `|G|` in `k` is assumed. -/
 theorem exists_resFDRep_iso_cliffordSum {k : Type u} {G : Type u} [Field k] [Group G]
     {N : Subgroup G} [N.Normal] (W : FDRep k G) [Simple W] :
     ∃ (V : FDRep k N) (_ : Simple V) (hfinite : Finite (G ⧸ TauCeti.inertia V)),
@@ -122,8 +122,8 @@ theorem clifford_restrict_character {k : Type u} {G : Type u} [Field k] [Group G
 `V` a simple representation of `N` with inertia group `T`, and `k` any field. Then induction from
 `T` to `G` sends simple representations of `T` lying over `V` to simple representations of `G`
 lying over `V`, every simple representation of `G` lying over `V` arises so, and it determines the
-representation of `T` up to isomorphism (Isaacs, Ch. 6; Curtis–Reiner §11). Neither invertibility
-of `|G|` in `k` nor a splitting hypothesis is assumed. -/
+representation of `T` up to isomorphism (Curtis–Reiner §11; for complex characters, Isaacs,
+Ch. 6). Neither invertibility of `|G|` in `k` nor a splitting hypothesis is assumed. -/
 theorem clifford_correspondence {k : Type u} {G : Type u} [Field k] [Group G]
     [Finite G] {N : Subgroup G} [N.Normal] (V : FDRep k N) [Simple V] :
     (∀ U : FDRep k (TauCeti.inertia V), Simple U →
@@ -180,11 +180,6 @@ def projection : Cover G →* G :=
       intro x hx
       exact relationCommutators_le_relations G hx)
 
-/-- On the class of `x ∈ [F, F]` the projection is the free evaluation of `x`. -/
-@[simp] theorem projection_mk (x : derived G) :
-    projection G (QuotientGroup.mk' (relationsInsideDerived G) x) = presentation G x :=
-  rfl
-
 /-- For a perfect group the projection `U → G` is surjective. -/
 theorem projection_surjective [Group.IsPerfect G] :
     Function.Surjective (projection G) := by
@@ -208,7 +203,7 @@ def kernelMap :
       (relationCommutators G).subgroupOf (relations G ⊓ derived G)) →* (projection G).ker :=
   QuotientGroup.lift _
     { toFun := fun x => ⟨QuotientGroup.mk' (relationsInsideDerived G) ⟨x.1, x.2.2⟩, by
-        rw [MonoidHom.mem_ker, projection_mk]
+        rw [MonoidHom.mem_ker]
         exact x.2.1⟩
       map_one' := rfl
       map_mul' := fun _ _ => rfl }
