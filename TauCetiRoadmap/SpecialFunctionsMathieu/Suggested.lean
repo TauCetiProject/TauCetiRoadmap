@@ -6,6 +6,7 @@ public import TauCeti.Analysis.ODE.Wronskian
 public import TauCeti.Analysis.Fourier.Decay
 public import TauCeti.Analysis.Fourier.Uniqueness
 public import TauCeti.Analysis.InnerProductSpace.Spectrum
+public import TauCeti.Analysis.InnerProductSpace.HilbertSchmidt.Columns
 public import TauCeti.Analysis.Analytic.Inverse
 public import TauCeti.Analysis.Complex.Conformal.Rouche
 public import TauCeti.Analysis.Polynomial.Puiseux.Monic
@@ -15,27 +16,26 @@ public import TauCeti.LinearAlgebra.Matrix.Minor
 /-!
 # Mathieu functions and Hill's equation: target signatures
 
-This file states, against the pinned Mathlib and Tau Ceti, the headlines of `README.md` that
+This file states, against the pinned Mathlib and Tau Ceti, the targets of `README.md` that
 carry a Lean name, each with every conclusion the README attaches to it. It is not an exhaustive
-acceptance test: the other headlines of the README are targets of the same standing, stated in
-prose. Discharging this file finishes neither a layer nor the roadmap.
+acceptance test: the other targets of the README have the same standing, stated in prose.
+Discharging this file finishes neither a layer nor the roadmap.
 
 Every bold headline of the README is stated here. Of the prose targets without a Lean name, the
 classification of the singular points of DLMF 28.2.2 (README 1.4) needs AsymptoticExpansions'
 notions of regular and irregular singular points, the expansions in Mathieu functions (README
 6.3–6.4) and the integrals of README 8.5 beyond 28.28.11 need the Fourier-coefficient and
 joining-factor families written out, and the continued Bessel evaluations other than `J_μ⟨L⟩`
-(README Conventions) need local copies of their series; the others are statable with the
-definitions below and are left to the README.
+(README Conventions) need local copies of their series; the other prose targets are statable
+with the definitions below and are left to the README.
 
 The definitions below are roadmap-local copies of the definitions `README.md` pins; in Tau Ceti
 they live in the namespace `TauCeti`. They are stated with their intended bodies so that the
 conventions are checked by the compiler: the basic solutions by their initial values, the
 characteristic values as ordered real roots of the four boundary functions, the signs
 `ce_n(0) > 0`, `se_n′(0) > 0`, `me_ν(0) > 0`, and the modified functions `M^{(j)}_ν` by their
-Hankel behaviour at `+∞`. The Bessel functions `Y`, `H⁽¹⁾`, `H⁽²⁾`, `I`, `K` are local copies of
-the definitions of SpecialFunctionsBessel (its Conventions, 1.2 and 1.3), with that roadmap's
-bodies; `besselJLog` is the continued evaluation of README Conventions that the global expansions
+Hankel behaviour at `+∞`. The Bessel functions `Y`, `H⁽¹⁾`, `H⁽²⁾` are local copies of the
+definitions of SpecialFunctionsBessel (its Conventions and 1.2), with that roadmap's bodies; `besselJLog` is the continued evaluation of README Conventions that the global expansions
 of README 8.4 use. Theorems are stated with `sorry`. The section numbers in docstrings are those
 of the README; equation numbers are DLMF's.
 -/
@@ -57,9 +57,6 @@ def nthLeast (S : Set ℝ) : ℕ → ℝ
   | 0 => sInf S
   | m + 1 => sInf (S ∩ Ioi (nthLeast S m))
 
-/-- Mathlib's regularized `₀F₁`, `𝐅(b) x = ∑ₙ xⁿ / (n! Γ(b + n))`, as in SpecialFunctionsBessel. -/
-local notation "𝐅(" b ")" => Complex.regularizedHGFun (0 : Multiset ℂ) ({b} : Multiset ℂ)
-
 /-- Local copy of SpecialFunctionsBessel's `Y_ν(z)` (its Conventions and 1.2): DLMF 10.2.3 off
 the integers and DLMF 10.2.4, `Y_n = π⁻¹ (∂_ν J_ν|_{ν=n} + (−1)ⁿ ∂_ν J_ν|_{ν=−n})`, at integer
 order, with `(−1)ⁿ` written `cos(nπ)`. -/
@@ -76,19 +73,6 @@ def Complex.hankelH1 (ν z : ℂ) : ℂ := besselJ ν z + I * Complex.besselY ν
 /-- Local copy of SpecialFunctionsBessel's Hankel function `H⁽²⁾_ν = J_ν − i Y_ν` (its
 Conventions; DLMF 10.4.3). -/
 def Complex.hankelH2 (ν z : ℂ) : ℂ := besselJ ν z - I * Complex.besselY ν z
-
-/-- Local copy of SpecialFunctionsBessel's `I_ν(z) = (z/2)^ν 𝐅(ν + 1, (z/2)²)` (its Conventions
-and 1.3; DLMF 10.25.2). -/
-def Complex.besselI (ν z : ℂ) : ℂ := (z / 2) ^ ν * 𝐅(ν + 1) ((z / 2) ^ 2)
-
-/-- Local copy of SpecialFunctionsBessel's `K_ν(z)` (its Conventions and 1.3): DLMF 10.27.4 off
-the integers and DLMF 10.27.5, `K_n = ½ (−1)^{n−1} (∂_ν I_ν|_{ν=n} + ∂_ν I_ν|_{ν=−n})`, at integer
-order, with `(−1)^{n−1}` written `−cos(nπ)`. -/
-def Complex.besselK (ν z : ℂ) : ℂ :=
-  if ∃ n : ℤ, (n : ℂ) = ν then
-    -Complex.cos (ν * π) / 2 *
-      (deriv (fun μ => Complex.besselI μ z) ν + deriv (fun μ => Complex.besselI μ z) (-ν))
-  else (π : ℂ) / 2 * (Complex.besselI (-ν) z - Complex.besselI ν z) / Complex.sin (ν * π)
 
 /-- The continued evaluation `J_μ⟨L⟩` of README Conventions: `J_μ` at `e^L`, continued along the
 logarithm `L` of its argument. Mathlib's `besselJ μ x = (x/2)^μ · G(x²)` with `G` entire, and the
@@ -119,9 +103,9 @@ def hillWII (Q : ℝ → ℝ) (lam : ℂ) : ℝ → ℂ :=
 
 variable {Q : ℝ → ℝ}
 
-/-- README 1.1: the complex Wronskian of the basic solutions is `1`. -/
-theorem hillWI_mul_deriv_hillWII_sub (hQ : Continuous Q) (hper : Function.Periodic Q π)
-    (lam : ℂ) (x : ℝ) :
+/-- README 1.1: the complex Wronskian of the basic solutions is `1`; periodicity is not
+needed. -/
+theorem hillWI_mul_deriv_hillWII_sub (hQ : Continuous Q) (lam : ℂ) (x : ℝ) :
     hillWI Q lam x * deriv (hillWII Q lam) x - deriv (hillWI Q lam) x * hillWII Q lam x = 1 := by
   sorry
 
@@ -269,16 +253,16 @@ theorem ince_theorem {a q : ℂ} (hq : q ≠ 0) {w₁ w₂ : ℂ → ℂ}
 /-! ## Layer 3: spectral theory on one period -/
 
 /-- README 3.2, growth: `Δ` is entire, and `|Δ(λ) − 2 cos π√λ| ≤ C e^{π|Im √λ|}/|√λ|` for
-`|λ| ≥ 1`. -/
-theorem hillDiscriminant_growth (hQ : Continuous Q) (hper : Function.Periodic Q π) :
+`|λ| ≥ 1`; periodicity is not needed. -/
+theorem hillDiscriminant_growth (hQ : Continuous Q) :
     Differentiable ℂ (hillDiscriminant Q) ∧
       ∃ C : ℝ, ∀ lam : ℂ, 1 ≤ ‖lam‖ →
         ‖hillDiscriminant Q lam - 2 * Complex.cos (π * lam ^ (1 / 2 : ℂ))‖ ≤
           C * Real.exp (π * |(lam ^ (1 / 2 : ℂ)).im|) / ‖lam ^ (1 / 2 : ℂ)‖ := by
   sorry
 
-/-- README 3.2, the variation formula for `Δ′(λ)`. -/
-theorem deriv_hillDiscriminant (hQ : Continuous Q) (hper : Function.Periodic Q π) (lam : ℂ) :
+/-- README 3.2, the variation formula for `Δ′(λ)`; periodicity is not needed. -/
+theorem deriv_hillDiscriminant (hQ : Continuous Q) (lam : ℂ) :
     deriv (hillDiscriminant Q) lam =
       -∫ x in (0 : ℝ)..π, (hillWII Q lam π * hillWI Q lam x ^ 2 +
         (deriv (hillWII Q lam) π - hillWI Q lam π) * hillWI Q lam x * hillWII Q lam x -
@@ -479,6 +463,13 @@ theorem hasSum_mathieuCe_even (n : ℕ) (q : ℝ) (z : ℂ) :
       (mathieuCe (2 * n) q z) := by
   sorry
 
+/-- DLMF 28.4.4: `se_{2n+2}(z, q) = ∑ₘ B^{2n+2}_{2m+2}(q) sin (2m + 2)z` for all complex `z`. -/
+theorem hasSum_mathieuSe_even (n : ℕ) (q : ℝ) (z : ℂ) :
+    HasSum (fun m : ℕ =>
+        (mathieuFourierB (2 * n + 2) (2 * m + 2) q : ℂ) * Complex.sin ((2 * m + 2) * z))
+      (mathieuSe (2 * n + 2) q z) := by
+  sorry
+
 /-- `t_n(q) = (−1)ⁿ w_II(π; a_n(q), q) / (π ce_n(0, q))`, nonzero for `q ≠ 0`. -/
 def mathieuFeT (n : ℕ) (q : ℝ) : ℝ :=
   (-1) ^ n * (mathieuWII (mathieuA n q) q π).re / (π * mathieuCeZero n q)
@@ -541,6 +532,11 @@ def mathieuCeNu (ν q : ℝ) (z : ℂ) : ℂ := (mathieuMe ν q z + mathieuMe ν
 
 /-- `se_ν(z, q) = −½ i (me_ν(z, q) − me_ν(−z, q))` (DLMF 28.12.13). -/
 def mathieuSeNu (ν q : ℝ) (z : ℂ) : ℂ := -(I / 2) * (mathieuMe ν q z - mathieuMe ν q (-z))
+
+/-- README 4.4: `ce_ν(x, q)` and `se_ν(x, q)` are real for real `x`, for every real `ν`. -/
+theorem mathieuCeNu_im_eq_zero (ν q x : ℝ) :
+    (mathieuCeNu ν q x).im = 0 ∧ (mathieuSeNu ν q x).im = 0 := by
+  sorry
 
 /-- `c^ν_{2m}(q) = (1/π) ∫₀^π me_ν(x, q) e^{−i(ν+2m)x} dx`, the Fourier coefficients of
 README 4.5. -/
@@ -659,6 +655,21 @@ def radialMathieuMc (j n : ℕ) (h : ℝ) (z : ℂ) : ℂ := modifiedMathieuM j 
 /-- The radial function `Ms^{(j)}_n(z, h) = (−1)ⁿ M^{(j)}_{−n}(z, h)` (DLMF 28.20.16). -/
 def radialMathieuMs (j n : ℕ) (h : ℝ) (z : ℂ) : ℂ := (-1) ^ n * modifiedMathieuM j (-n) h z
 
+/-- README 8.1: `Ce_n`, `Se_n`, `Fe_n`, `Ge_n`, `Me_ν` solve the modified equation with
+`a = a_n(q)`, `b_n(q)`, `a_n(q)`, `b_n(q)`, `λ_ν(q)`, and `Mc^{(j)}_n(·, h)`, `Ms^{(j)}_n(·, h)`
+(`n ≥ 1`) solve it with `q = h²` and `a = a_n(h²)`, `b_n(h²)`. -/
+theorem isModifiedMathieuSolution_modifiedMathieu (n : ℕ) (ν q : ℝ) :
+    IsModifiedMathieuSolution (mathieuA n q) q (modifiedMathieuCe n q) ∧
+      IsModifiedMathieuSolution (mathieuB n q) q (modifiedMathieuSe n q) ∧
+      IsModifiedMathieuSolution (mathieuA n q) q (modifiedMathieuFe n q) ∧
+      IsModifiedMathieuSolution (mathieuB n q) q (modifiedMathieuGe n q) ∧
+      IsModifiedMathieuSolution (mathieuLambda ν q) q (modifiedMathieuMe ν q) ∧
+      ∀ (j : ℕ) (h : ℝ),
+        IsModifiedMathieuSolution (mathieuA n (h ^ 2)) ((h ^ 2 : ℝ) : ℂ) (radialMathieuMc j n h) ∧
+        (1 ≤ n → IsModifiedMathieuSolution (mathieuB n (h ^ 2)) ((h ^ 2 : ℝ) : ℂ)
+          (radialMathieuMs j n h)) := by
+  sorry
+
 /-- README 8.2 (DLMF §28.20(iii) prints `ζ^{1/2}`): `|M^{(3)}_ν(x, h)| (cosh x)^{1/2}` tends to
 `(πh)^{−1/2}`, so the solutions of 28.20.2 behave like `ζ^{−1/2} e^{±2ihζ}`. -/
 theorem tendsto_norm_modifiedMathieuM_three (ν : ℝ) {h : ℝ} (hh : 0 < h) :
@@ -673,19 +684,16 @@ theorem integral_exp_mul_mathieuCe (n : ℕ) {h : ℝ} (hh : 0 < h) {z : ℂ}
     (hz₃ : 0 < arg (h * (Complex.cosh z - 1))) (hz₄ : arg (h * (Complex.cosh z - 1)) < π) :
     ∫ t in Ioi (0 : ℝ),
         cexp (2 * I * h * Complex.cosh z * Real.cosh t) * mathieuCe n (h ^ 2) (I * t) =
-      π * I / 2 * I ^ n * mathieuCe n (h ^ 2) 0 * modifiedMathieuM 3 n h z := by
+      π * I / 2 * I ^ n * mathieuCe n (h ^ 2) 0 * radialMathieuMc 3 n h z := by
   sorry
 
 /-- README 8.4: for `ν ∉ ℤ`, `h > 0` and `0 < |cosh z| < 1`, the `j = 1` series 28.23.2 diverges,
-contrary to DLMF's "valid for all `z` when `j = 1`". Here `c` is the coefficient sequence
-`c^ν_{2n}(h²)` of README 4.5. -/
+contrary to DLMF's "valid for all `z` when `j = 1`"; the coefficients are the `c^ν_{2n}(h²)`
+of README 4.5. -/
 theorem not_summable_besselJ_series {ν : ℝ} (hν : ∀ m : ℤ, (m : ℝ) ≠ ν) {h : ℝ} (hh : 0 < h)
-    (c : ℤ → ℝ)
-    (hc : ∀ n, c n = (1 / π) * (∫ x in (0 : ℝ)..π,
-      mathieuMe ν (h ^ 2) x * cexp (-(I * (ν + 2 * n) * x))).re)
     {z : ℂ} (hz₀ : 0 < ‖Complex.cosh z‖) (hz₁ : ‖Complex.cosh z‖ < 1) :
     ¬ Summable (fun n : ℤ =>
-      (-1) ^ n * (c n : ℂ) * besselJ (ν + 2 * n) (2 * h * Complex.cosh z)) := by
+      (-1) ^ n * (mathieuCoeff ν n (h ^ 2) : ℂ) * besselJ (ν + 2 * n) (2 * h * Complex.cosh z)) := by
   sorry
 
 /-! ## Mathlib and Tau Ceti declarations named in README.md -/
@@ -718,6 +726,7 @@ theorem not_summable_besselJ_series {ν : ℝ} (hν : ∀ m : ℤ, (m : ℝ) ≠
 #check @TauCeti.wronskian_eq_of_hasDerivAt
 #check @TauCeti.norm_fourierCoeff_le_of_differentiableOn_strip
 #check @ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector
+#check @ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top
 #check @Matrix.abv_det_le_prod_sum_abv
 #check @Matrix.principalMinor
 #check @AnalyticAt.exists_analyticAt_eventually_eq_zero_iff

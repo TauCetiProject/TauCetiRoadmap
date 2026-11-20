@@ -61,10 +61,14 @@ The roadmap covers:
   connection formulas, expansions in Bessel functions and in cross-products of Bessel functions,
   and integral representations (Layer 8).
 
-The roadmap rests on Mathlib, Tau Ceti and two roadmaps:
+The roadmap rests on Mathlib, Tau Ceti and four roadmaps:
 [AsymptoticExpansions](../AsymptoticExpansions/README.md) for linear equations in the complex
-domain, and [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) for `Y_ν`, the Hankel
-functions, `I_ν`, `K_ν`, their behaviour for large argument, and Sturm comparison.
+domain, [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) for `Y_ν`, the Hankel
+functions, `I_ν`, `K_ν`, their behaviour for large argument, and Sturm comparison,
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md) for
+Pincherle's theorem on continued fractions, and
+[AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md) for Hilbert–Schmidt integral
+operators.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Mathieu/` for the Mathieu functions and
 `TauCeti/Analysis/ODE/Hill.lean` for Hill's equation.
@@ -83,9 +87,9 @@ The roadmap is complete when Tau Ceti proves all of the following.
 8. **Modified Mathieu functions** (8.1–8.5).
 
 The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer
+`Suggested.lean` states the targets that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other targets have the
+same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer
 are statements to prove; they test the conventions on explicit values.
 
 **Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
@@ -95,6 +99,8 @@ are statements to prove; they test the conventions on explicit values.
   complex-valued version is a target (1.1);
 - the Hilbert basis of eigenvectors of a compact symmetric operator: Tau Ceti's
   `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`, consumed in 6.1;
+- compactness of Hilbert–Schmidt operators: Tau Ceti's
+  `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`, consumed in 6.1;
 - Hadamard's bound `|det A| ≤ ∏ᵢ ∑ⱼ |Aᵢⱼ|`: Tau Ceti's `Matrix.abv_det_le_prod_sum_abv`, consumed
   for the infinite determinants of 2.3.
 
@@ -110,9 +116,11 @@ provides in this form:
 - separated Sturm–Liouville problems on a compact interval with a continuous potential: real
   simple eigenvalues, their ordering and Sturm's oscillation count (3.1), resting on the Sturm
   comparison theorem of SpecialFunctionsBessel;
-- compactness of an integral operator with continuous kernel on `L²` of a compact interval (6.1);
-- the limit of finite continued fractions with complex entries for the tails of a three-term
-  recurrence with a minimal solution (7.3);
+- for a three-term recurrence `x_{k+1} − β_k x_k + α_k x_{k−1} = 0` with `|β_k| → ∞` and
+  bounded nonzero `α_k`: the existence of a minimal solution, the nonvanishing of the partial
+  denominators of its tail fractions from some index on, and the agreement of the nested
+  quotients of [Conventions](#conventions) with the convergents of Pincherle's theorem when the
+  partial denominators are nonzero (7.3);
 - the Bessel functions continued along a logarithm of their argument, `𝒞_μ⟨L⟩` of
   [Conventions](#conventions), and their agreement with the principal values (8.4).
   SpecialFunctionsBessel works on the principal sheet and leaves the other sheets outside its
@@ -124,6 +132,12 @@ provides in this form:
 - *Bessel functions.* `J_ν` is Mathlib's `Complex.besselJ`; `Y_ν`, `H^{(1,2)}_ν`, `I_ν`, `K_ν` and
   their large-argument behaviour are SpecialFunctionsBessel's. This roadmap consumes them in
   Layer 8 and in 6.2.
+- *Pincherle's theorem.* SpecialFunctionsEiLiErfIncompleteGamma §4.1 owns minimal solutions of
+  three-term recurrences, the continued fraction as a `GenContFract` and the equivalence of its
+  convergence with the existence of a minimal solution; 7.3 applies it.
+- *Integral operators with square-integrable kernel.* AutomorphicSpectralTheory §0.8 owns the
+  Hilbert–Schmidt property of integral operators with `L²` kernel on σ-finite standard Borel
+  spaces; 6.1 applies it to a continuous kernel on `[0, 2π]²`.
 - *Sturm comparison.* SpecialFunctionsBessel owns the Sturm comparison theorem on an open interval
   (an auxiliary result of its 10.1); 3.1 and 3.3 apply it with `p = 1`.
 - *Self-adjoint realizations of Sturm–Liouville operators.* OperatorTheory/UnboundedOperators
@@ -141,8 +155,9 @@ coefficient on `ℝ`, Mathieu's equation and its modified form, the Whittaker–
 equations, the functions and characteristic values named in [Conventions](#conventions), Hill's
 determinant, the elliptic-coordinate separation, and the results stated through them, Bessel
 functions and elementary functions, as listed in the layers; it consumes the Bessel functions and
-Sturm comparison of SpecialFunctionsBessel and the local theory of linear equations of
-AsymptoticExpansions.
+Sturm comparison of SpecialFunctionsBessel, the local theory of linear equations of
+AsymptoticExpansions, Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma and the
+Hilbert–Schmidt kernels of AutomorphicSpectralTheory.
 
 ## Conventions
 
@@ -254,10 +269,12 @@ me_ν(0, q) = (π / ∫₀^π |w_I(x) + i sin(πν)/w_II(π) · w_II(x)|² dx)^{
   `Ke_n(x, h)/K_n(2h cosh x) → 1`, as `x → +∞`. These are the normalizations that DLMF's
   definitions 28.20.17–28.20.20 imply (see 8.1).
 - **Continued fractions.** `K(b₀; a_k/b_k)_{k≥1}` denotes `lim_{N→∞}` of the finite fraction
-  `a₁/(b₁ + a₂/(b₂ + ⋯ + a_N/b_N))`, written out as a `Finset`-recursion; Mathlib's
-  `GenContFract` carries the algebra of convergents but no analytic convergence theory. Division
+  `a₁/(b₁ + a₂/(b₂ + ⋯ + a_N/b_N))`, written out as a nested quotient (`mathieuTail` for the
+  tails of DLMF §28.6). Convergence theory is that of SpecialFunctionsEiLiErfIncompleteGamma §4.1,
+  for `GenContFract` and its convergents; 7.3 proves that the nested quotient equals the
+  convergent when every partial denominator is nonzero. The two differ otherwise, since division
   is Lean's, with `x/0 = 0`, so every statement about a finite fraction carries the hypothesis that
-  its partial denominators are nonzero (7.3).
+  its partial denominators are nonzero, or proves it (7.3).
 - **Branches.** Powers, square roots and logarithms are principal. `J₀(2√X)` means the entire
   function `∑ (−X)^k/(k!)²` of `X`, so DLMF 28.10.9 needs no branch, and `cos π√a` is the entire
   function `∑ (−π²a)^k/(2k)!` of `a`.
@@ -331,6 +348,24 @@ me_ν(0, q) = (π / ∫₀^π |w_I(x) + i sin(πν)/w_II(π) · w_II(x)|² dx)^{
 `Suggested.lean` declares local copies of the Bessel definitions it needs, each with a docstring
 naming SpecialFunctionsBessel and its section, with the bodies of that roadmap.
 
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- Pincherle's theorem
+  ([§4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)): for the
+  recurrence `y(n + 1) = b_n y(n) + a_n y(n − 1)` with every `a_n ≠ 0`, the continued fraction
+  `a₁/(b₁ + a₂/(b₂ + ⋯))`, as a `GenContFract` with head `0`, converges in the sense of that
+  roadmap's Conventions (eventually nonzero denominators, convergent convergents) iff the
+  recurrence has a minimal solution `f` with `f(0) ≠ 0`, and the value is then `−f(1)/f(0)`. 7.3
+  applies it with `b_n = β_n`, `a_n = −α_n`, shifted to start at the index of each tail.
+
+### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
+
+- Measurable Hilbert–Schmidt kernels (its §0.8): on σ-finite standard Borel measure spaces, the
+  integral operator of a square-integrable kernel `K` is Hilbert–Schmidt with Hilbert–Schmidt norm
+  `‖K‖₂`. 6.1 applies it on `[0, 2π]` with Lebesgue measure to the continuous Green kernel, and
+  concludes compactness by Tau Ceti's
+  `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`.
+
 ### From Tau Ceti
 
 - `TauCeti.dysonSeries`, `TauCeti.dysonSeriesLeft`, `TauCeti.hasDerivAt_dysonSeriesLeft`
@@ -346,6 +381,9 @@ naming SpecialFunctionsBessel and its section, with the bodies of that roadmap.
 - `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
   (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`): a compact symmetric operator has a Hilbert
   basis of eigenvectors. Used in 6.1.
+- `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`
+  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Columns.lean`): an operator of finite
+  Hilbert–Schmidt energy is compact. Used in 6.1.
 - `Matrix.abv_det_le_prod_sum_abv` (`TauCeti/LinearAlgebra/Matrix/AbsoluteValue.lean`), Hadamard's
   bound by row sums, and `Matrix.principalMinor` (`TauCeti/LinearAlgebra/Matrix/Minor.lean`). Used
   for the infinite determinants of 2.3.
@@ -363,7 +401,8 @@ naming SpecialFunctionsBessel and its section, with the bodies of that roadmap.
   `norm_le_gronwallBound_of_norm_deriv_right_le`, for uniqueness and the estimates in 1.1, 3.2.
 - `HasFPowerSeriesOnBall`, Cauchy's estimates, `AnalyticOnNhd`,
   `TendstoLocallyUniformlyOn.differentiableOn`, for 1.2.
-- `Laplacian.laplacian` and `laplacian_eq_iteratedFDeriv_complexPlane`, for 1.4.
+- `Laplacian.laplacian` and `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`, for
+  1.4.
 - `Matrix.det` and `Matrix.of`, for 2.3.
 - `fourierCoeff`, `fourierBasis`, `hasSum_fourier_series_of_summable`, `tsum_sq_fourierCoeff`,
   for 4.2, 6.1, 6.3.
@@ -404,8 +443,10 @@ Sources: Whittaker–Watson §19.12, p. 406; Levitan–Sargsjan §2.6, p. 66; DL
 
 Throughout Layers 1–3, `Q : ℝ → ℝ` is continuous with `Q(x + π) = Q(x)`. DLMF 28.29.3 normalizes
 `∫₀^π Q = 0` and asks `π` to be the least period; no theorem below needs either, and they are not
-hypotheses. For every `λ ∈ ℂ` there are unique `C²` functions `hillWI Q λ`, `hillWII Q λ : ℝ → ℂ`
-solving `w″ + (λ + Q(x)) w = 0` with initial values `(1, 0)` and `(0, 1)` at `0`. Prove:
+hypotheses. The Wronskian below and the growth bound and variation formula of 3.2 do not use the
+periodicity either, and their Lean statements omit it. For every `λ ∈ ℂ` there are unique `C²`
+functions `hillWI Q λ`, `hillWII Q λ : ℝ → ℂ` solving `w″ + (λ + Q(x)) w = 0` with initial values
+`(1, 0)` and `(0, 1)` at `0`. Prove:
 - every solution is `w(0) w_I + w′(0) w_II`;
 - the complex Wronskian `w_I w_II′ − w_I′ w_II` is `1` (`hillWI_mul_deriv_hillWII_sub`);
 - `w_I(x + π) = w_I(π) w_I(x) + w_I′(π) w_II(x)` and the same for `w_II(x + π)`
@@ -513,7 +554,7 @@ spheroidal equation.
   `|sinh w|² F`: the sign in the modified equation is forced.
 
 *Needs:* 1.2; AsymptoticExpansions §10.3 (for the classification of the singular points); Mathlib
-`Laplacian.laplacian`, `laplacian_eq_iteratedFDeriv_complexPlane`.
+`Laplacian.laplacian`, `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`.
 
 ### Examples
 
@@ -576,8 +617,8 @@ Prove:
 
 ### 2.3 Hill's infinite determinant
 
-Sources: Whittaker–Watson §§19.41–19.42, pp. 413–417, and §19.61, pp. 422–424 (convergence of
-determinants of von Koch's type).
+Sources: Whittaker–Watson §§19.41–19.42, pp. 413–417, and §§2.8–2.82, pp. 36–38 (convergence of
+infinite determinants).
 
 For `a ∉ {4m² : m ∈ ℤ}` let `B(a, q)` be the matrix indexed by `ℤ × ℤ` with
 `B_{m,m±1} = −q/(a − 4m²)` and all other entries `0`, and `mathieuHillDet a q N` the determinant of
@@ -656,8 +697,14 @@ The description of the boundary of the real stable set by the curves `a = a_n(q)
 ### Examples
 
 - At `q = 0`: `ν̂ = √a` for `0 ≤ a ≤ 1`.
-- `D(a, q)` has a pole at `a = 0` for `q ≠ 0` (the entry `B_{0,±1} = −q/a`), but
-  `D(a, q)(1 − cos π√a)` is entire in `a`, as the formula requires.
+- `D(a, q)(1 − cos π√a) = 1 − w_I(π; a, q)` is entire in `a`, and `1 − cos π√a` has a simple
+  zero at `a = 0`, so `D(·, q)` has a simple pole at `0` exactly when `w_I(π; 0, q) ≠ 1`. By 1.3,
+  `w_I(π) − 1 = 2 w_I′(π/2) w_II(π/2)`, which for real `q` vanishes at `a = 0` exactly when `0` is
+  one of the `a_{2n}(q)`, `b_{2n+2}(q)`. For real `0 < |q| < 7.57969 04` there is a pole, since
+  `a₀(q) < 0 < b₂(q) < a₂(q)` there. At `q = 7.57969 04`, where `b₂(q) = 0` (`w_II(π/2; 0, q)` is
+  `0.22308` at `q = 7` and `−0.17096` at `q = 8`), and at `q* = 69.42837 82910` of 7.3, where
+  `a₄(q*) = 0`, the singularity at `0` is removable, although the entry `B_{0,±1} = −q/a` of the
+  truncations has a pole there.
 
 ### Dependencies
 
@@ -745,9 +792,15 @@ Prove:
   `μ_{2m+1}` and `μ_{2m+2}` exactly `2m + 1` (`hill_zeros`).
 
 The counting comes from the growth estimate of 3.2, by comparing with `2 cos π√λ` on large circles
-(Rouché); the interlacing from the monotonicity of 3.2. The gaps: `w_II(π, λ) w_I′(π, λ) ≥ 0`
-outside the open bands, by the Wronskian and `|Δ| ≥ 2` there, and Sturm's count of 3.1 places one
-Dirichlet and one Neumann value in each gap. The zeros: Sturm comparison with the Dirichlet
+(Rouché); the interlacing from the monotonicity of 3.2. The gaps: at a root of `w_II(π, ·)` or
+of `w_I′(π, ·)` the Wronskian gives `w_I(π) w_II′(π) = 1`, hence `|Δ| = |w_I(π) + 1/w_I(π)| ≥ 2`,
+so every Dirichlet and Neumann value lies outside the open bands. The sign of `w_II′(π, ν_k)`
+(resp. `w_I(π, τ_k)`), which is `(−1)^k` by Sturm's count of 3.1, is that of `Δ` there and says
+which kind of gap contains the value; consecutive values therefore lie in different gaps, and
+comparing with `Q = 0` through the estimates of 3.2 for large `λ` puts the `k`-th in the `k`-th
+gap. The product `w_II(π) w_I′(π)` has no fixed sign outside the bands: by the Wronskian,
+`4 w_II(π) w_I′(π) = Δ² − 4 − (w_II′(π) − w_I(π))²`, which is `≥ 0` on `|Δ| ≥ 2` only when
+`w_I(π) = w_II′(π)`, as for even `Q`. The zeros: Sturm comparison with the Dirichlet
 eigenfunctions, and the parity of the number of zeros of a periodic function. Levitan–Sargsjan
 state the gap theorem with the antiperiodic gaps `[μ₀, μ₁], [μ₂, μ₃], …` (their labels) closed
 and the periodic gaps `(λ₁, λ₂), (λ₃, λ₄), …` open; for even `Q` the Dirichlet and Neumann values
@@ -766,6 +819,11 @@ Their zero theorem counts the zeros of real eigenfunctions; a complex combinatio
   `a_n(1)`: `ν₁ = μ₁` and `τ₁ = μ₂` sit at the two ends of the first gap.
 - For the same `Q`, `ν₂ = b₂(1) = λ₁` is the left end of the second gap, so the open periodic gap
   `(λ₁, λ₂)` would miss it.
+- For `Q(x) = −2 cos(2x + π/4)` (a translate of the last `Q`, with the same `Δ` and gaps) the
+  Dirichlet and Neumann values in the first gap are `ν₁ = 0.01397` and `τ₁ = 1.85873`, both in
+  `[μ₁, μ₂] = [−0.11025, 1.85911]`, while at `λ = −0.0602` in that gap `Δ = −2.40166` and
+  `w_II(π) w_I′(π) = 0.24881 · (−3.45512) = −0.85967 < 0`: a sketch resting on
+  `w_II(π) w_I′(π) ≥ 0` outside the bands fails for non-even `Q`.
 - For `Q = 0`, `hillDirichletEigenvalue 0 k = (k + 1)²` and `hillNeumannEigenvalue 0 k = k²`: the
   roots of `sin(π√λ)/√λ` start at `1` (the value at `λ = 0` is `π`), those of `−√λ sin(π√λ)` at `0`.
 - Indexing the Dirichlet values from `ν₀` would pair the first gap `[μ₁, μ₂] = {1}` with the second
@@ -889,7 +947,9 @@ With `A^n_k(q) = (1/π) ∫₀^{2π} ce_n(x, q) cos kx dx` for `k ≥ 1`, `A^n_0
 `B^n_k(q) = (1/π) ∫₀^{2π} se_n(x, q) sin kx dx`, prove:
 - DLMF 28.4.1, `ce_{2n}(z, q) = ∑ₘ A^{2n}_{2m}(q) cos 2mz` for every complex `z`
   (`hasSum_mathieuCe_even`);
-- DLMF 28.4.2–28.4.4, the series of `ce_{2n+1}`, `se_{2n+1}`, `se_{2n+2}`; all four series converge
+- DLMF 28.4.4, `se_{2n+2}(z, q) = ∑ₘ B^{2n+2}_{2m+2}(q) sin (2m + 2)z` for every complex `z`
+  (`hasSum_mathieuSe_even`);
+- DLMF 28.4.2–28.4.3, the series of `ce_{2n+1}`, `se_{2n+1}`; all four series converge
   absolutely and uniformly on compact subsets of `ℂ`, and the coefficients of the other parity
   vanish;
 - the recurrences DLMF 28.4.5–28.4.8, the normalizations 28.4.9–28.4.12, the values at `q = 0`
@@ -953,7 +1013,9 @@ Prove:
 - the normalization DLMF 28.12.5, for every real `ν` (`integral_mathieuMe_mul_neg`);
 - `me_ν(z, 0) = e^{iνz}`, pseudoperiodicity 28.12.6 and orthogonality 28.12.7;
 - DLMF 28.12.8–28.12.10 (`conj (me_ν(z, q)) = me_ν(−z̄, q)` holds for all real `ν`, `q` here);
-- the definitions DLMF 28.12.11–28.12.13, reality of `ce_ν`, `se_ν` on `ℝ`, and 28.12.14–28.12.15;
+- the definitions DLMF 28.12.11–28.12.13 and 28.12.14–28.12.15;
+- `ce_ν(x, q)` and `se_ν(x, q)` are real for real `x`, for every real `ν`
+  (`mathieuCeNu_im_eq_zero`);
 - when `ν = s/m` is rational and not an integer, every solution has period `2mπ`;
 - `me_ν(0, q) > 0` is DLMF's continuity convention (the two sides of the normalization are
   continuous in `q` and `me_ν(0, q) ≠ 0`).
@@ -1033,9 +1095,22 @@ Prove:
 
 Sources: DLMF 28.31.16–28.31.24.
 
-Prove DLMF 28.31.18–28.31.21, and the double orthogonality relations 28.31.22–28.31.24 on the
-stated contours, the inner integrals over `[0, 2π]` and the outer ones converging because `hc`, `hs`
-decay like `exp(−¼ ξ cos 2u)` along them.
+For `p ∈ ℕ`, real `ξ`, the indices of DLMF 28.31.10–28.31.11 and complex `z`, let
+`hc^m_p(z, ξ) = e^{−ξ cos 2z/4} C^m_p(z, ξ)` and `hs^m_p(z, ξ) = e^{−ξ cos 2z/4} S^m_p(z, ξ)`
+(DLMF 28.31.16–28.31.17). Prove:
+- `hc^m_p`, `hs^m_p` solve the Whittaker–Hill equation of 5.1 with `η = a^m_p(ξ)`, resp.
+  `b^m_p(ξ)` (DLMF 28.31.18);
+- the changes of sign DLMF 28.31.19–28.31.20:
+  `hc^{2m}_{2n}(z, −ξ) = (−1)^m hc^{2m}_{2n}(π/2 − z, ξ)`,
+  `hc^{2m+1}_{2n+1}(z, −ξ) = (−1)^m hs^{2m+1}_{2n+1}(π/2 − z, ξ)`,
+  `hs^{2m+1}_{2n+1}(z, −ξ) = (−1)^m hc^{2m+1}_{2n+1}(π/2 − z, ξ)` and
+  `hs^{2m+2}_{2n+2}(z, −ξ) = (−1)^m hs^{2m+2}_{2n+2}(π/2 − z, ξ)`;
+- for `m₁ ≠ m₂`, `∫₀^{2π} hc^{m₁}_p hc^{m₂}_p = ∫₀^{2π} hs^{m₁}_p hs^{m₂}_p = 0` (DLMF 28.31.21);
+- for `ξ ≠ 0`, with the path `(u₀, u_∞) = (0, i∞)` if `ξ > 0` and `(π/2, π/2 + i∞)` if `ξ < 0`,
+  `∫_{u₀}^{u_∞} ∫₀^{2π} F₁(u) F₁(v) F₂(u) F₂(v) (cos 2u − cos 2v) dv du = 0` for
+  `F₁ = hc^{m₁}_{p₁}`, `F₂ = hc^{m₂}_{p₂}` with `(p₁, m₁) ≠ (p₂, m₂)`, for two `hs` likewise, and
+  for `F₁ = hc^{m₁}_{p₁}`, `F₂ = hs^{m₂}_{p₂}` with any indices (DLMF 28.31.22–28.31.24); the outer
+  integrals converge because `hc`, `hs` decay like `exp(−¼ |ξ| cosh 2t)` along the path.
 
 *Needs:* 5.1.
 
@@ -1049,15 +1124,13 @@ Layer 4.
 
 ## Layer 6: integral operators and eigenfunction expansions
 
-### 6.1 Compact integral operators and the expansion theorem for Hill's equation
+### 6.1 The expansion theorem for Hill's equation
 
 Sources: Levitan–Sargsjan §1.5, pp. 24–28, and Theorem 1.6.1, p. 33; Whittaker–Watson §19.31,
 p. 411; DLMF 28.30.1–28.30.4.
 
 Let `λ̂₀ ≤ λ̂₁ ≤ ⋯` be the merged sequence of the `λ_n` and `μ_n`, and `w_m` real `2π`-periodic
 solutions with `w_m″ + (λ̂_m + Q) w_m = 0` and `(1/2π) ∫₀^{2π} w_m w_n = δ_{mn}`. Prove:
-- an integral operator on `L²(a, b)` with continuous kernel is compact (auxiliary; uniform
-  approximation of the kernel by finite sums of products);
 - such a family `w_m` exists, and the `w_m` form a Hilbert basis of `L²(0, 2π)` with the measure
   `dx/2π`;
 - every `2π`-periodic `f : ℝ → ℂ` with `f`, `f′` absolutely continuous on `[0, 2π]` and
@@ -1065,11 +1138,14 @@ solutions with `w_m″ + (λ̂_m + Q) w_m = 0` and `(1/2π) ∫₀^{2π} w_m w_n
   converging absolutely and uniformly.
 
 For `c` below `λ̂₀`, the Green operator of `−w″ − (Q + c) w` with periodic conditions on `[0, 2π]`
-has a continuous symmetric kernel built from `w_I, w_II`; apply Tau Ceti's spectral theorem.
+has a continuous symmetric kernel built from `w_I, w_II`; it is Hilbert–Schmidt by
+AutomorphicSpectralTheory §0.8, hence compact, and Tau Ceti's spectral theorem applies.
 Uniform convergence for `f` as stated follows by writing `f` as the Green operator applied to an
 `L²` function and using Bessel's inequality, as in Levitan–Sargsjan's proof of Theorem 1.5.1.
 
-*Needs:* 3.3; Tau Ceti `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`; Mathlib
+*Needs:* 3.3; AutomorphicSpectralTheory §0.8; Tau Ceti
+`ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`,
+`ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`; Mathlib
 `IsCompactOperator`.
 
 ### 6.2 Integral equations and the lowest Fourier coefficients
@@ -1110,8 +1186,12 @@ like `e^{−σ′n}` for every `σ′ < σ` (expand in the Fourier basis and use
 
 Sources: DLMF 28.19.1–28.19.4.
 
-Prove DLMF 28.19.2–28.19.3 for `f` holomorphic on a strip `S ⊇ ℝ` with 28.19.1, absolutely and
-uniformly on compact subsets of `S`, with the example 28.19.4.
+For real `ν` and `q`, and `f` holomorphic on an open strip `S ⊇ ℝ` with `f(z + π) = e^{iνπ} f(z)`
+(DLMF 28.19.1), prove `f(z) = ∑_{n∈ℤ} f_n me_{ν+2n}(z, q)` with
+`f_n = (1/π) ∫₀^π f(x) me_{ν+2n}(−x, q) dx`, absolutely and uniformly on compact subsets of `S`
+(DLMF 28.19.2–28.19.3), and the example 28.19.4. At integer `ν` the `me_{ν+2n}` are the
+multiples `√2 ce`, `−√2 i se` of 4.4, and the coefficient formula holds by the normalization
+28.12.5 for every real `ν`.
 
 *Needs:* 4.5, 6.3.
 
@@ -1121,7 +1201,8 @@ uniformly on compact subsets of `S`, with the example 28.19.4.
 
 ### Dependencies
 
-Layers 3–4; Mathlib `Complex.besselJ`; Tau Ceti spectral theorem.
+Layers 3–4; AutomorphicSpectralTheory §0.8; Mathlib `Complex.besselJ`; Tau Ceti spectral theorem
+and compactness of Hilbert–Schmidt operators.
 
 ## Layer 7: dependence on `q`
 
@@ -1190,11 +1271,14 @@ characteristic values in the order just proved.
 Sources: Whittaker–Watson §19.61, pp. 422–424 (the coefficient ratios as quotients of determinants);
 DLMF 28.6.16–28.6.19, 28.15.2.
 
-Auxiliary first: for a three-term recurrence `x_{k+1} − β_k x_k + α_k x_{k−1} = 0` with
-`|β_k| → ∞` and `α_k` bounded, there is `k₀` such that for `k ≥ k₀` the finite continued fractions
-for `x_k/x_{k−1}` built from the tail have nonzero partial denominators and converge to the ratio
-of the minimal solution (Pincherle), and that ratio is finite at every `k ≥ k₀` where the minimal
-solution has `x_{k−1} ≠ 0`. Then prove:
+Auxiliary first, for a three-term recurrence `x_{k+1} − β_k x_k + α_k x_{k−1} = 0` with
+`|β_k| → ∞` and `α_k` bounded and nonzero: it has a minimal solution, in the sense of
+SpecialFunctionsEiLiErfIncompleteGamma §4.1; there is `k₀` such that for `k ≥ k₀` the partial
+denominators of the finite fractions built from the tail at `k` are nonzero; and a nested
+quotient such as `mathieuTail` equals the corresponding convergent of §4.1 whenever all of its
+partial denominators are nonzero. Pincherle's theorem (§4.1) then gives the convergence of each
+tail to the ratio of consecutive terms of the minimal solution wherever the earlier term is
+nonzero. Then prove:
 - the tails: for each `n` and each index of the tail, the infinite fraction converges to the
   quotient of consecutive Fourier coefficients `A^n_{k+2}/A^n_k` (resp. `B`), whenever
   `A^n_k(q) ≠ 0`;
@@ -1206,7 +1290,13 @@ solution has `x_{k−1} ≠ 0`. Then prove:
 - for `n = 0`, `a = −2q²/(4 − a − q²/(16 − a − q²/(36 − a − ⋯)))` with `a = a₀(q)`, for all real `q`
   (`tendsto_mathieuTail_mathieuA_zero`); the right side of DLMF 28.6.16 at `n = 0` lacks the factor
   `2`. Here the head is empty and the tail starts at `A^0_2/A^0_0`, with `A^0_0(q) ≠ 0` by 6.2 (and
-  at `q = 0` both sides are `0`);
+  at `q = 0` both sides are `0`). For real `q ≠ 0` every partial denominator of every truncation
+  is positive at `a = a₀(q)`: the denominators are quotients of determinants of the finite
+  sections of the tridiagonal matrix with diagonal `(2m)² − a` and off-diagonal `q` (`m ≥ 1`),
+  and these sections minus `a₀(q)` are positive definite: `a₀(q)` is the least point of the
+  spectrum of the symmetrized matrix of DLMF 28.4.5 (indices `m ≥ 0`), so by min–max each section
+  has least eigenvalue `≥ a₀(q)`, and equality would give an eigenvector at `a₀(q)` vanishing at
+  `m = 0`, which the recurrence makes zero;
 - the continued-fraction equation DLMF 28.15.2 for `λ_ν(q)`, in the same sense.
 
 The hypotheses on the head are not removable with Lean's division: if `a₄(q*) = 0`
@@ -1220,7 +1310,7 @@ The hypotheses on the head are not removable with Lean's division: if `a₄(q*) 
   one `−0.06088 27725`.
 - At `q = 2`: `a₀ = −1.51395 68851` against `−0.75697 84425` printed.
 
-*Needs:* 4.2, 4.5, 6.2 (for `A^0_0 ≠ 0`).
+*Needs:* 4.2, 4.5, 6.2 (for `A^0_0 ≠ 0`); SpecialFunctionsEiLiErfIncompleteGamma §4.1.
 
 ### 7.4 Continuation to complex `q` and the exceptional values
 
@@ -1238,8 +1328,9 @@ multiple root. Prove:
   `q` near `q₀` are the values of `k` functions, each given by a convergent series in
   `(q − q₀)^{1/p}` with `p = k!` (any nonzero multiple of `k!` serves), finite at `q₀`.
 
-DLMF says only that the branch points are algebraic; the exponent `1/k` would need a theorem on
-the local monodromy at Mathieu collisions, which the roadmap does not claim. That the branches of
+DLMF says only that the branch points are algebraic; the cycle lengths, which fix the sharp
+exponents, would need a theorem on the local monodromy at Mathieu collisions, which the roadmap
+does not claim. That the branches of
 each family form one complete analytic function is beyond this roadmap.
 
 The discreteness: for `|q| ≤ R`, all roots of `F(·, q)` with `Re a` large lie close to the squares
@@ -1310,7 +1401,8 @@ above `4(N − 1)²`, because the truncation removes its upper neighbour.
 
 ### Dependencies
 
-Layers 3–4 and 6; Tau Ceti Rouché, implicit roots and Puiseux factorization; Mathlib `fourierCoeff`.
+Layers 3–4 and 6; SpecialFunctionsEiLiErfIncompleteGamma §4.1; Tau Ceti Rouché, implicit roots and
+Puiseux factorization; Mathlib `fourierCoeff`.
 
 ## Layer 8: modified Mathieu functions
 
@@ -1321,6 +1413,11 @@ Throughout, `h > 0`, `q = h²`, and `ν` is real, unless stated.
 Sources: DLMF 28.20.3–28.20.8, 28.20.13–28.20.20.
 
 Prove:
+- for real `q`, `n ∈ ℕ` and real `ν`, the functions `Ce_n(·, q)`, `Se_n(·, q)`, `Fe_n(·, q)`,
+  `Ge_n(·, q)` and `Me_ν(·, q)` solve the modified equation with `a = a_n(q)`, `b_n(q)`, `a_n(q)`,
+  `b_n(q)` and `λ_ν(q)`; and for real `h` and `j ∈ ℕ`, `Mc^{(j)}_n(·, h)` solves it with `q = h²`
+  and `a = a_n(h²)`, and for `n ≥ 1` `Ms^{(j)}_n(·, h)` with `a = b_n(h²)`
+  (`isModifiedMathieuSolution_modifiedMathieu`);
 - DLMF 28.20.3–28.20.7: `Ce_ν(z, q) = ce_ν(iz, q)`, `Se_ν(z, q) = −i se_ν(iz, q)`,
   `Me_ν = me_ν(−iz)`, `Fe_n = −i fe_n(iz)`, `Ge_n = ge_n(iz)` solve the modified equation, with both
   sign choices in 28.20.3–28.20.4 and 28.20.6–28.20.7 giving the same function; 28.20.5 has no sign
@@ -1366,9 +1463,20 @@ Prove:
 
 Sources: DLMF 28.22.1–28.22.14.
 
-Define the joining factors by DLMF 28.22.5–28.22.10 (well defined by the nonvanishing in 6.2), and
-prove 28.22.1–28.22.4, 28.22.11–28.22.12, 28.22.13 (with `me_ν(0, h²) ≠ 0`, by 4.4) and 28.22.14
-for `ν ∉ ℤ`.
+Throughout, `h > 0` and `z ∈ ℂ`. Define the joining factors `g_{e,m}(h)`, `g_{o,m}(h)`,
+`f_{e,m}(h)`, `f_{o,m}(h)` by DLMF 28.22.5–28.22.10 (well defined by the nonvanishing in 6.2), and
+prove, for `m ∈ ℕ` (`m ≥ 1` for the odd functions):
+- DLMF 28.22.1–28.22.4: `Mc^{(1)}_m(·, h)` and `Ms^{(1)}_m(·, h)` are the multiples of
+  `Ce_m(·, h²)` and `Se_m(·, h²)`, and `Mc^{(2)}_m`, `Ms^{(2)}_m` the combinations of
+  `Ce_m(·, h²)`, `Fe_m(·, h²)`, resp. `Se_m(·, h²)`, `Ge_m(·, h²)`, with the coefficients printed
+  there; every denominator is nonzero (`ce_m(0, h²)`, `se_m′(0, h²) > 0` by 4.1,
+  `C_m(h²)`, `S_m(h²) ≠ 0` by 4.3, and `g_{e,m}`, `g_{o,m} ≠ 0` because `w_I(π/2)` and `w_I′(π/2)`,
+  resp. `w_II(π/2)` and `w_II′(π/2)`, do not vanish together);
+- DLMF 28.22.11–28.22.12, the values `Mc^{(2)}_m′(0, h)`, `Ms^{(2)}_m(0, h)`, `fe_m′(0, h²)` and
+  `ge_m(0, h²)` through the joining factors;
+- for real `ν ∉ ℤ`: DLMF 28.22.13, `M^{(1)}_ν(z, h) = (M^{(1)}_ν(0, h)/me_ν(0, h²)) Me_ν(z, h²)`
+  (with `me_ν(0, h²) ≠ 0`, by 4.4), and 28.22.14,
+  `M^{(2)}_ν = cot(νπ) M^{(1)}_ν − M^{(1)}_{−ν}/sin(νπ)`.
 
 *Needs:* 8.1–8.2, 4.2–4.3, 4.4, 6.2.
 
@@ -1444,9 +1552,25 @@ Prove:
   the upper sign for `0 ≤ y ≤ π` and the lower for `−π ≤ y ≤ 0`; DLMF prints an extra overall
   minus sign and assigns the lower sign to `π ≤ y ≤ 2π`, where neither sign holds (`fe_{2n}` is not
   periodic);
-- DLMF 28.28.17–28.28.23;
-- DLMF 28.28.24–28.28.49, each with the hypothesis that the `D`-, `Ds`-, `Dc`- or `Dsc`-value in
-  its denominator is nonzero.
+- DLMF 28.28.17 for `j = 1, …, 4`, real `ν`, `s ∈ ℤ` and `Re z > 0`:
+
+```text
+(1/π) ∫₀^π 𝒞^{(j)}_{ν+2s}(2hR) e^{−i(ν+2s)φ} me_ν(t, h²) dt = (−1)^s c^ν_{2s}(h²) M^{(j)}_ν(z, h),
+```
+
+  with `𝒞^{(1)}, …, 𝒞^{(4)}` = `J`, `Y`, `H^{(1)}`, `H^{(2)}`,
+  `R(z, t) = (½(cosh 2z + cos 2t))^{1/2}` (nonvanishing for `Re z > 0`, the branch with
+  `R(z, 0) = cosh z`) and `φ(z, t)` the continuous solution of `e^{2iφ} = cosh(z + it)/cosh(z − it)`
+  with `φ(z, 0) = 0` (DLMF 28.28.18–28.28.19); and its integer-order forms 28.28.20–28.28.23 for
+  `ce_{2m}`, `ce_{2m+1}`, `se_{2m+1}`, `se_{2m+2}` and `ℓ ∈ ℕ`;
+- DLMF 28.28.24–28.28.49 for real `z > 0`: the integrals over `[0, 2π]` of a product of two Mathieu
+  functions (or of one and a derivative) against `cos t`, `sin t`, `cos t sin t` or `1`, divided by
+  `sinh² z + sin² t`, are constants times the cross-products `D`, `Ds`, `Dc`, `Dsc` of the
+  functions `M^{(3)}`, `M^{(4)}` (resp. `Ms`, `Mc`) at `z`, for `ν ∉ ℤ`, `m ∈ ℤ` (28.28.24–28.28.34)
+  and for integer orders with the parities stated there (28.28.35–28.28.49); the constants are the
+  Fourier integrals 28.28.27–28.28.28, 28.28.33, 28.28.38, 28.28.43, 28.28.46 and their analogues,
+  each with the hypothesis that the cross-product at `0` in its denominator is nonzero, and
+  28.28.34 is a Cauchy principal value.
 
 *Needs:* 8.1–8.4, 4.3, 4.4; SpecialFunctionsBessel §4.2.
 
@@ -1492,8 +1616,9 @@ Contributors should not attempt it under this roadmap.
   families) are branches of one complete analytic function, equivalently that each of the four
   eigenvalue equations is irreducible (DLMF §28.7). The local continuation of 7.4 does not show
   that the monodromy acts transitively on the branches.
-- **Sharper Puiseux exponents**: that the ramification at an exceptional value of multiplicity `k`
-  needs only `(q − q₀)^{1/k}` (7.4 proves `1/k!`).
+- **Sharper Puiseux exponents**: the cycle lengths at Mathieu collisions, that is, the splitting
+  of the `k` roots at an exceptional value into cycles of lengths `p₁ + ⋯ + p_r = k`, each given by
+  a series in `(q − q₀)^{1/p_i}` (7.4 proves exponent `1/k!` for all of them).
 - **Hill eigenvalue asymptotics** for large index (DLMF 28.29.19–28.29.22) and the motion of the
   Dirichlet values through the gaps under translation of `Q` (Levitan–Sargsjan Theorem 1.4.4,
   pp. 23–24).
