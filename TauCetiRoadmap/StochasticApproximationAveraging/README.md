@@ -165,7 +165,9 @@ and makes its Cesàro mean small.
   `α = 0.6`. For `γ t = 2/(t + 1)` they stay at `0.5` (the gains approach `2 (1 − i/t)`, not `1`).
 - The bound on the gains is not small: for `A = [[1, 4], [−4, 1]]` and `γ t = (t + 1)^(−0.3)`
   the early steps expand (`|1 − γ μ| > 1` while `γ > 2/17`), and the largest gain norm `max_i ‖B^t_i‖` is
-  computed as `4.5·10³⁵, 9.0·10⁴⁰, 9.1·10³⁸, 3.0·10²⁶` at `t = 500, 1000, 2000, 4000`. The lemma
+  computed as `4.5·10³⁵, 9.0·10⁴⁰, 9.1·10³⁸, 1.2·10²¹` at `t = 500, 1000, 2000, 4000`. The last
+  value needs more than double precision (the partial products reach about `10⁴¹` and the sum
+  cancels twenty orders of magnitude); these were computed with 120 significant digits. The lemma
   claims a finite bound, not a small one.
 
 *Needs:* 1.1; LinearSystemsAndControl 5.2 (`isHurwitz_iff_exists_posDef`); Mathlib
@@ -247,7 +249,8 @@ Layer 2 uses 1.2 and Mathlib's conditional expectation and convergence in measur
 ### 3.1 The Polyak–Ruppert central limit theorem
 
 Prove `tendstoInDistribution_sqrt_smul_averagedIterate_sub`: let `IsPositivelyStable A`,
-`IsAdmissibleStepSize A γ`, `R : E → E` measurable, `x 0 = x₀` deterministic, and let
+`IsAdmissibleStepSize A γ`, `R : E → E` measurable, `x 0 = x₀` deterministic (as in the source;
+the route uses only that `x 0` is measurable), and let
 `ξ 0, ξ 1, …` be measurable, independent (`iIndepFun`), identically distributed, square-integrable
 and centred, with `S = TauCeti.covMatrix (P.map (ξ 0))`. If `x` satisfies the recursion and the
 linearization hypothesis of 2.1 holds, then
