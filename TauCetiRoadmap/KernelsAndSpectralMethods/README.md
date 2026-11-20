@@ -21,69 +21,18 @@ Kernels*, Saitoh–Sawano's *Theory of Reproducing Kernels and Applications* and
 Peters–Janzing–Schölkopf's *Elements of Causal Inference*, with research papers where no book
 states a result.
 
-## Scope and ownership
+## How to read the build
 
-Completion means that every target below is proved in Tau Ceti, against Mathlib and Tau Ceti as
-pinned and the sections of other roadmaps named under Exact supplier contracts. The owned subjects
-are:
-
-- weighted graphs with loops, their degree, combinatorial, normalized and random-walk Laplacians,
-  the kernels and spectra of these Laplacians, and the bridge to Mathlib's
-  `SimpleGraph.lapMatrix` (Layer 1);
-- the Rayleigh-quotient spectral gap, the spectral relaxation of the normalized cut, Laplacian
-  eigenmaps and locally linear embedding (Layer 2);
-- conductance, the Cheeger constant and the Cheeger inequality for the normalized Laplacian of a
-  weighted graph (Layer 3);
-- the random walk of a weighted graph, its `L²(π)` spectral expansion, diffusion maps and
-  diffusion distances (Layer 4);
-- classical multidimensional scaling, the best positive semidefinite approximation of bounded
-  rank, graph approximation of geodesic distances in the Isomap setting, and the `O_P` rate of
-  Hausdorff estimation of a support under a local small-ball bound (Layer 5);
-- ordinary and generalized Procrustes analysis, the full and partial Procrustes distances, the
-  planar full Procrustes mean, and the extrinsic mean of a law on a Euclidean set with its central
-  limit theorem (Layer 6);
-- kernel mean embeddings of finite measures, the MMD and its unit-ball form, the witness
-  function, and the concentration of empirical mean embeddings (Layer 7);
-- characteristic kernels: the Fourier criterion for translation-invariant kernels, scale
-  mixtures of Gaussians, and the moment blindness of polynomial kernels (Layer 8);
-- the comparison of MMD with coupling costs, `W₁` and total variation, the Dudley distance, and
-  the metrization of weak convergence by MMD (Layer 9);
-- unbiased and biased MMD statistics with their null and alternative limits, energy distance,
-  distance covariance, HSIC with its Gram-matrix form, and permutation tests (Layer 10);
-- kernel Stein discrepancies and their convergence under `W₁`, the covariance identity of
-  conditional mean embeddings with the regularized estimator, and random Fourier features
-  (Layer 11).
-
-**Not owned here.**
-
-- Reproducing-kernel Hilbert spaces, the Moore–Aronszajn construction, the Kolmogorov feature
-  space, universal kernels and the injectivity of the mean embedding of a universal kernel on a
-  compact space are Mathlib's `RKHS` and Tau Ceti's kernel library; they are consumed.
-- Bochner's theorem is Tau Ceti's `TauCeti.bochner`; it is consumed.
-- The representer theorem and smoothing splines are MathematicalStatisticsNonparametric 5.8.
-- Limit laws of nondegenerate and degenerate U-statistics are MathematicalStatisticsAsymptotic
-  6.2 and 6.3; the multivariate central limit theorem is MathematicalStatisticsAsymptotic 1.2;
-  the delta method and Slutsky's lemma are MathematicalStatisticsFoundations 8.4. They are
-  consumed by Layers 6 and 10.
-- Wasserstein distances, Kantorovich–Rubinstein duality and the bounded-Lipschitz metrization of
-  weak convergence are Tau Ceti's optimal-transport library and OptimalTransport Layer 3.
-- Fréchet radii and barycenters, their existence on proper spaces, uniqueness in CAT(0) spaces
-  and the strong consistency of empirical barycenters are Tau Ceti's Fréchet-mean files and
-  OptimalTransport Layer 12. This roadmap owns only the extrinsic mean of Layer 6.4; intrinsic
-  means on manifolds are listed under Beyond.
-- Sinkhorn divergences and their relation to kernel energies are OptimalTransport 13.4.
-- Gram factorizations of positive semidefinite matrices and their uniqueness are
-  OperatorTheory/MatrixSpectralStatistics, items MSS-A05 to MSS-A09.
-- The spectral decomposition of a reversible Markov kernel and Cheeger's inequality for its
-  bottleneck ratio are MarkovChainMixing 2.1 and 3.2, stated for Markov kernels. This roadmap
-  owns the weighted-matrix forms (3.2 and 4.1) and proves them from its Layers 1–2; the dictionary
-  between the two is recorded under Downstream consumers.
-- Kernel ridge regression, its risk bounds and kernel methods for classification belong to a
-  separate roadmap on statistical learning theory.
-- Persistent homology, its stability and its statistical inference are TopologicalDataAnalysis.
-  The sampling bound for the Hausdorff distance from a sample to the support of a law that is
-  standard at every radius is its 8.4, consumed by 5.4.
-- The statistical rates of optimal transport are listed under Beyond.
+There are two strands. The spectral strand runs Layer 1 → 2 → 3 and 1 → 4, with Layer 5 resting
+on Layer 1, Mathlib's spectral theorem and, for 5.4, the sampling bound of TopologicalDataAnalysis
+8.4, and Layer 6 resting on Mathlib and Tau Ceti.
+The kernel strand runs Layer 7 → 8 → 9 → 10 → 11; Layer 10.4 uses Layer 8's characteristic
+kernels, and Layer 11.4 uses only Layer 7. Each layer lists its definitions, its targets with
+their Lean names where `Suggested.lean` states them, locators or proof routes, and a `*Needs:*`
+line. `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion
+attached to it here; it is not an exhaustive acceptance test. The targets stated only in prose
+are listed in its module docstring with what each lacks for a Lean statement; they are targets of
+this roadmap all the same, with their locators or proof routes.
 
 ## Conventions
 
@@ -135,139 +84,6 @@ are:
   `S = univ`, excluded by the hypotheses. `procrustesCos` is a real supremum over the compact group
   `SO(m)`, which is bounded. Quantities that can be infinite are in `ℝ≥0∞`:
   `sampleGraphEDist` (no walk) and `dudleyDist` (a supremum).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `SimpleGraph.lapMatrix`, `SimpleGraph.degMatrix`, `SimpleGraph.posSemidef_lapMatrix`,
-  `SimpleGraph.lapMatrix_mulVec_eq_zero_iff_forall_reachable` and
-  `SimpleGraph.card_connectedComponent_eq_finrank_ker_toLin'_lapMatrix`
-  (`Mathlib/Combinatorics/SimpleGraph/LapMatrix.lean`): the Laplacian of a simple graph, its
-  positivity and its kernel. Layer 1 extends them to weights.
-- `SimpleGraph.IsBipartite` and `SimpleGraph.induce`
-  (`Mathlib/Combinatorics/SimpleGraph/Maps.lean`).
-- `Matrix.IsHermitian.eigenvalues₀` with `Matrix.IsHermitian.eigenvalues₀_antitone`
-  (`Mathlib/Analysis/Matrix/Spectrum.lean`), `Module.End.HasEigenvalue`,
-  `Matrix.PosSemidef` (`Mathlib/LinearAlgebra/Matrix/PosDef.lean`), and
-  `Matrix.PosSemidef.kronecker` (`Mathlib/Analysis/Matrix/Order.lean`, finite index types).
-- `Matrix.specialOrthogonalGroup` (`Mathlib/LinearAlgebra/UnitaryGroup.lean`).
-- `RKHS` and `RKHS.kerFun` (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`).
-- `MeasureTheory.charFun` and `MeasureTheory.Measure.ext_of_charFun`
-  (`Mathlib/MeasureTheory/Measure/CharacteristicFunction/Basic.lean`).
-- `MeasureTheory.tvDist` (`Mathlib/MeasureTheory/Measure/TotalVariation/Defs.lean`).
-- `MeasureTheory.IsTightMeasureSet` and `isCompact_closure_of_isTightMeasureSet`
-  (`Mathlib/MeasureTheory/Measure/Tight.lean`, `Mathlib/MeasureTheory/Measure/Prokhorov.lean`).
-- `MeasureTheory.TendstoInDistribution`
-  (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`), `ProbabilityTheory.HasLaw`,
-  `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.multivariateGaussian`
-  (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`) and the central limit theorem
-  `ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub`
-  (`Mathlib/Probability/CentralLimitTheorem.lean`).
-- `ProbabilityTheory.HasSubgaussianMGF.measure_ge_le` and
-  `ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun` (Hoeffding).
-- `MeasureTheory.Measure.condKernel` (`Mathlib/Probability/Kernel/Disintegration/`),
-  `MeasureTheory.Measure.infinitePi` (`Mathlib/Probability/ProductMeasure.lean`),
-  `Metric.hausdorffDist`, `gradient` (`Mathlib/Analysis/Calculus/Gradient/Basic.lean`).
-
-### From Tau Ceti
-
-- `Matrix.PosSemidef.KolmogorovSpace`, `Matrix.PosSemidef.kolmogorovFeature`,
-  `Matrix.PosSemidef.inner_kolmogorovFeature`, `Matrix.PosSemidef.norm_kolmogorovFeature_sub_sq`
-  and `Matrix.PosSemidef.continuous_kolmogorovFeature`
-  (`TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`).
-- `Matrix.PosSemidef.kernelMeanEmbedding`,
-  `Matrix.PosSemidef.inner_kolmogorovFeature_kernelMeanEmbedding`,
-  `Matrix.PosSemidef.inner_kernelMeanEmbedding`,
-  `Matrix.PosSemidef.norm_kernelMeanEmbedding_sub_sq`,
-  `Matrix.PosSemidef.integrable_kolmogorovFeature` (compact space) and
-  `Matrix.PosSemidef.kernelMeanEmbedding_inj` (universal kernel on a compact space)
-  (`TauCeti/Analysis/PositiveDefinite/Kernel/MeanEmbedding.lean`), with `TauCeti.IsUniversalKernel`
-  (`…/Kernel/Universal.lean`).
-- `TauCeti.bochner`, `TauCeti.bochner_euclideanSpace` and `TauCeti.fourierAtom`
-  (`TauCeti/Analysis/Bochner/BochnerTheorem.lean`,
-  `TauCeti/Analysis/PositiveDefinite/FourierAtom.lean`), and
-  `TauCeti.posSemidef_cexp_neg_mul_sq_norm` (`TauCeti/Analysis/Bochner/Gaussian/Basic.lean`).
-- `LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues` (Ky Fan's maximum principle)
-  and `LinearMap.exists_linearIsometryEquiv_trace_comp_eq_kyFanSum`
-  (`TauCeti/Analysis/InnerProductSpace/KyFan.lean`),
-  `LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner` (Courant–Fischer,
-  `TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`) and
-  `TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le`
-  (`TauCeti/Analysis/InnerProductSpace/Orthonormal/Procrustes.lean`).
-- `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq` (the Hoffman–Wielandt
-  inequality, `TauCeti/Analysis/Matrix/HoffmanWielandt.lean`).
-- `TauCeti.coveringNumber_le_of_subset_closedBall` and
-  `TauCeti.exists_finset_isCover_of_subset_closedBall`
-  (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`).
-- `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences` (McDiarmid,
-  `TauCeti/Probability/McDiarmid.lean`).
-- `TauCeti.covMatrix` (`TauCeti/Probability/Moments/Covariance.lean`) and
-  `TauCeti.Probability.empiricalFiniteMeasure`
-  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
-- `TauCeti.IsCoupling`, `TauCeti.wassersteinEDist`, `TauCeti.wassersteinEDist_one_eq_iSup` and
-  `TauCeti.tendsto_probabilityMeasure_iff_iSup_abs_integral_sub_integral_boundedLipschitz`
-  (`TauCeti/MeasureTheory/OptimalTransport/`).
-- `TauCeti.IsFrechetBarycenter`, `TauCeti.exists_isFrechetBarycenter`,
-  `TauCeti.subsingleton_frechetBarycenters_two` and
-  `TauCeti.tendsto_of_isFrechetBarycenter_empiricalMeasure_ae`
-  (`TauCeti/MeasureTheory/Measure/FrechetMean/`).
-
-### From MathematicalStatisticsFoundations
-
-- 2.4: the U-statistic, used here through a local copy `uStatistic` whose docstring names the
-  owner.
-- 8.2: boundedness in probability, used through a local copy `IsBoundedInProbability`.
-- 8.4: the delta method, consumed by 6.4.
-- 8.5: i.i.d. sequences and the identification of the law of the first `n` terms with
-  `Measure.pi`, consumed by 5.4, 6.4 and 7.3.
-
-### From MathematicalStatisticsAsymptotic
-
-- 1.2: the multivariate central limit theorem in `EuclideanSpace ℝ (Fin k)` with limit law
-  `multivariateGaussian 0 (covMatrix P)`, consumed by 6.4.
-- 6.2: the limit law of a nondegenerate U-statistic, consumed by 10.2 (alternative).
-- 6.3: the Hoeffding decomposition and the limit law `∑ λⱼ (Zⱼ² - 1)` of a degenerate quadratic
-  U-statistic in the eigen-expansion form, consumed by 10.2 (null).
-
-### From MathematicalStatisticsNonparametric
-
-- 5.8: the representer theorem for Mathlib's `RKHS`, consumed by 11.3 for the regularized
-  conditional mean embedding.
-
-### From OptimalTransport
-
-- Layer 3: the Wasserstein distance and Kantorovich–Rubinstein duality, consumed by 9.1, 9.2
-  and 11.2 through the Tau Ceti declarations above.
-- Layer 12, sections 12.2 and 12.8: existence and strong consistency of Fréchet barycenters,
-  cited in 6.4.
-
-### From OperatorTheory/MatrixSpectralStatistics
-
-- MSS-A05 to MSS-A07: a positive semidefinite matrix of rank at most `p` is a Gram matrix
-  `AᵀA` of a matrix with `p` rows; MSS-A09: two such factors differ by an orthogonal matrix.
-  Consumed by 5.1.
-
-### From TopologicalDataAnalysis
-
-- 8.4: the sampling bound
-  `P(d_H(X̂_n, S) > ε) ≤ max(1, 4ᵇ/(a εᵇ)) exp(-n min(1, a εᵇ/2ᵇ))` for a law with compact support
-  `S` and `μ(closedBall x r) ≥ min(1, a rᵇ)` for `x ∈ S` and every `r > 0`. Consumed by 5.4.
-- 5.3: the small-ball bound at small radii for a law on a compact submanifold of positive reach
-  with density bounded below. Cited in 5.4.
-
-## How to read the build
-
-There are two strands. The spectral strand runs Layer 1 → 2 → 3 and 1 → 4, with Layer 5 resting
-on Layer 1, Mathlib's spectral theorem and, for 5.4, the sampling bound of TopologicalDataAnalysis
-8.4, and Layer 6 resting on Mathlib and Tau Ceti.
-The kernel strand runs Layer 7 → 8 → 9 → 10 → 11; Layer 10.4 uses Layer 8's characteristic
-kernels, and Layer 11.4 uses only Layer 7. Each layer lists its definitions, its targets with
-their Lean names where `Suggested.lean` states them, locators or proof routes, and a `*Needs:*`
-line. `Suggested.lean` states the headlines that carry a Lean name, each with every conclusion
-attached to it here; it is not an exhaustive acceptance test. The targets stated only in prose
-are listed in its module docstring with what each lacks for a Lean statement; they are targets of
-this roadmap all the same, with their locators or proof routes.
 
 ## Layer 1: Weighted graphs and their Laplacians
 
@@ -1385,6 +1201,190 @@ chain with transition matrix `P` reversible for `π > 0` is the weighted graph
 positive degrees has the walk `P = D⁻¹ W` with `π = d / vol V` (4.1). Under it `h = Φ⋆`,
 `λ₁ = γ`, and the first half of `diffusionDistSq_eq` is MarkovChainMixing 2.1 for the walk of
 `W`. The bound `1 - √(1 - h²) ≤ λ₁` of 3.2 is specific to this roadmap.
+
+## Scope and ownership
+
+Completion means that every target below is proved in Tau Ceti, against Mathlib and Tau Ceti as
+pinned and the sections of other roadmaps named under Exact supplier contracts. The owned subjects
+are:
+
+- weighted graphs with loops, their degree, combinatorial, normalized and random-walk Laplacians,
+  the kernels and spectra of these Laplacians, and the bridge to Mathlib's
+  `SimpleGraph.lapMatrix` (Layer 1);
+- the Rayleigh-quotient spectral gap, the spectral relaxation of the normalized cut, Laplacian
+  eigenmaps and locally linear embedding (Layer 2);
+- conductance, the Cheeger constant and the Cheeger inequality for the normalized Laplacian of a
+  weighted graph (Layer 3);
+- the random walk of a weighted graph, its `L²(π)` spectral expansion, diffusion maps and
+  diffusion distances (Layer 4);
+- classical multidimensional scaling, the best positive semidefinite approximation of bounded
+  rank, graph approximation of geodesic distances in the Isomap setting, and the `O_P` rate of
+  Hausdorff estimation of a support under a local small-ball bound (Layer 5);
+- ordinary and generalized Procrustes analysis, the full and partial Procrustes distances, the
+  planar full Procrustes mean, and the extrinsic mean of a law on a Euclidean set with its central
+  limit theorem (Layer 6);
+- kernel mean embeddings of finite measures, the MMD and its unit-ball form, the witness
+  function, and the concentration of empirical mean embeddings (Layer 7);
+- characteristic kernels: the Fourier criterion for translation-invariant kernels, scale
+  mixtures of Gaussians, and the moment blindness of polynomial kernels (Layer 8);
+- the comparison of MMD with coupling costs, `W₁` and total variation, the Dudley distance, and
+  the metrization of weak convergence by MMD (Layer 9);
+- unbiased and biased MMD statistics with their null and alternative limits, energy distance,
+  distance covariance, HSIC with its Gram-matrix form, and permutation tests (Layer 10);
+- kernel Stein discrepancies and their convergence under `W₁`, the covariance identity of
+  conditional mean embeddings with the regularized estimator, and random Fourier features
+  (Layer 11).
+
+**Not owned here.**
+
+- Reproducing-kernel Hilbert spaces, the Moore–Aronszajn construction, the Kolmogorov feature
+  space, universal kernels and the injectivity of the mean embedding of a universal kernel on a
+  compact space are Mathlib's `RKHS` and Tau Ceti's kernel library; they are consumed.
+- Bochner's theorem is Tau Ceti's `TauCeti.bochner`; it is consumed.
+- The representer theorem and smoothing splines are MathematicalStatisticsNonparametric 5.8.
+- Limit laws of nondegenerate and degenerate U-statistics are MathematicalStatisticsAsymptotic
+  6.2 and 6.3; the multivariate central limit theorem is MathematicalStatisticsAsymptotic 1.2;
+  the delta method and Slutsky's lemma are MathematicalStatisticsFoundations 8.4. They are
+  consumed by Layers 6 and 10.
+- Wasserstein distances, Kantorovich–Rubinstein duality and the bounded-Lipschitz metrization of
+  weak convergence are Tau Ceti's optimal-transport library and OptimalTransport Layer 3.
+- Fréchet radii and barycenters, their existence on proper spaces, uniqueness in CAT(0) spaces
+  and the strong consistency of empirical barycenters are Tau Ceti's Fréchet-mean files and
+  OptimalTransport Layer 12. This roadmap owns only the extrinsic mean of Layer 6.4; intrinsic
+  means on manifolds are listed under Beyond.
+- Sinkhorn divergences and their relation to kernel energies are OptimalTransport 13.4.
+- Gram factorizations of positive semidefinite matrices and their uniqueness are
+  OperatorTheory/MatrixSpectralStatistics, items MSS-A05 to MSS-A09.
+- The spectral decomposition of a reversible Markov kernel and Cheeger's inequality for its
+  bottleneck ratio are MarkovChainMixing 2.1 and 3.2, stated for Markov kernels. This roadmap
+  owns the weighted-matrix forms (3.2 and 4.1) and proves them from its Layers 1–2; the dictionary
+  between the two is recorded under Downstream consumers.
+- Kernel ridge regression, its risk bounds and kernel methods for classification belong to a
+  separate roadmap on statistical learning theory.
+- Persistent homology, its stability and its statistical inference are TopologicalDataAnalysis.
+  The sampling bound for the Hausdorff distance from a sample to the support of a law that is
+  standard at every radius is its 8.4, consumed by 5.4.
+- The statistical rates of optimal transport are listed under Beyond.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `SimpleGraph.lapMatrix`, `SimpleGraph.degMatrix`, `SimpleGraph.posSemidef_lapMatrix`,
+  `SimpleGraph.lapMatrix_mulVec_eq_zero_iff_forall_reachable` and
+  `SimpleGraph.card_connectedComponent_eq_finrank_ker_toLin'_lapMatrix`
+  (`Mathlib/Combinatorics/SimpleGraph/LapMatrix.lean`): the Laplacian of a simple graph, its
+  positivity and its kernel. Layer 1 extends them to weights.
+- `SimpleGraph.IsBipartite` and `SimpleGraph.induce`
+  (`Mathlib/Combinatorics/SimpleGraph/Maps.lean`).
+- `Matrix.IsHermitian.eigenvalues₀` with `Matrix.IsHermitian.eigenvalues₀_antitone`
+  (`Mathlib/Analysis/Matrix/Spectrum.lean`), `Module.End.HasEigenvalue`,
+  `Matrix.PosSemidef` (`Mathlib/LinearAlgebra/Matrix/PosDef.lean`), and
+  `Matrix.PosSemidef.kronecker` (`Mathlib/Analysis/Matrix/Order.lean`, finite index types).
+- `Matrix.specialOrthogonalGroup` (`Mathlib/LinearAlgebra/UnitaryGroup.lean`).
+- `RKHS` and `RKHS.kerFun` (`Mathlib/Analysis/InnerProductSpace/Reproducing.lean`).
+- `MeasureTheory.charFun` and `MeasureTheory.Measure.ext_of_charFun`
+  (`Mathlib/MeasureTheory/Measure/CharacteristicFunction/Basic.lean`).
+- `MeasureTheory.tvDist` (`Mathlib/MeasureTheory/Measure/TotalVariation/Defs.lean`).
+- `MeasureTheory.IsTightMeasureSet` and `isCompact_closure_of_isTightMeasureSet`
+  (`Mathlib/MeasureTheory/Measure/Tight.lean`, `Mathlib/MeasureTheory/Measure/Prokhorov.lean`).
+- `MeasureTheory.TendstoInDistribution`
+  (`Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean`), `ProbabilityTheory.HasLaw`,
+  `ProbabilityTheory.gaussianReal`, `ProbabilityTheory.multivariateGaussian`
+  (`Mathlib/Probability/Distributions/Gaussian/Multivariate.lean`) and the central limit theorem
+  `ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub`
+  (`Mathlib/Probability/CentralLimitTheorem.lean`).
+- `ProbabilityTheory.HasSubgaussianMGF.measure_ge_le` and
+  `ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun` (Hoeffding).
+- `MeasureTheory.Measure.condKernel` (`Mathlib/Probability/Kernel/Disintegration/`),
+  `MeasureTheory.Measure.infinitePi` (`Mathlib/Probability/ProductMeasure.lean`),
+  `Metric.hausdorffDist`, `gradient` (`Mathlib/Analysis/Calculus/Gradient/Basic.lean`).
+
+### From Tau Ceti
+
+- `Matrix.PosSemidef.KolmogorovSpace`, `Matrix.PosSemidef.kolmogorovFeature`,
+  `Matrix.PosSemidef.inner_kolmogorovFeature`, `Matrix.PosSemidef.norm_kolmogorovFeature_sub_sq`
+  and `Matrix.PosSemidef.continuous_kolmogorovFeature`
+  (`TauCeti/Analysis/PositiveDefinite/Kernel/Kolmogorov.lean`).
+- `Matrix.PosSemidef.kernelMeanEmbedding`,
+  `Matrix.PosSemidef.inner_kolmogorovFeature_kernelMeanEmbedding`,
+  `Matrix.PosSemidef.inner_kernelMeanEmbedding`,
+  `Matrix.PosSemidef.norm_kernelMeanEmbedding_sub_sq`,
+  `Matrix.PosSemidef.integrable_kolmogorovFeature` (compact space) and
+  `Matrix.PosSemidef.kernelMeanEmbedding_inj` (universal kernel on a compact space)
+  (`TauCeti/Analysis/PositiveDefinite/Kernel/MeanEmbedding.lean`), with `TauCeti.IsUniversalKernel`
+  (`…/Kernel/Universal.lean`).
+- `TauCeti.bochner`, `TauCeti.bochner_euclideanSpace` and `TauCeti.fourierAtom`
+  (`TauCeti/Analysis/Bochner/BochnerTheorem.lean`,
+  `TauCeti/Analysis/PositiveDefinite/FourierAtom.lean`), and
+  `TauCeti.posSemidef_cexp_neg_mul_sq_norm` (`TauCeti/Analysis/Bochner/Gaussian/Basic.lean`).
+- `LinearMap.IsSymmetric.sum_re_inner_apply_self_le_sum_eigenvalues` (Ky Fan's maximum principle)
+  and `LinearMap.exists_linearIsometryEquiv_trace_comp_eq_kyFanSum`
+  (`TauCeti/Analysis/InnerProductSpace/KyFan.lean`),
+  `LinearMap.IsSymmetric.eigenvalues_eq_iSup_iInf_re_inner` (Courant–Fischer,
+  `TauCeti/Analysis/InnerProductSpace/CourantFischer.lean`) and
+  `TauCeti.exists_orthonormal_span_eq_sum_norm_sub_sq_le`
+  (`TauCeti/Analysis/InnerProductSpace/Orthonormal/Procrustes.lean`).
+- `Matrix.IsHermitian.sum_sq_eigenvalues₀_sub_le_frobenius_norm_sub_sq` (the Hoffman–Wielandt
+  inequality, `TauCeti/Analysis/Matrix/HoffmanWielandt.lean`).
+- `TauCeti.coveringNumber_le_of_subset_closedBall` and
+  `TauCeti.exists_finset_isCover_of_subset_closedBall`
+  (`TauCeti/Analysis/Normed/Module/CoveringNumber.lean`).
+- `TauCeti.Probability.hasSubgaussianMGF_of_bounded_differences` (McDiarmid,
+  `TauCeti/Probability/McDiarmid.lean`).
+- `TauCeti.covMatrix` (`TauCeti/Probability/Moments/Covariance.lean`) and
+  `TauCeti.Probability.empiricalFiniteMeasure`
+  (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
+- `TauCeti.IsCoupling`, `TauCeti.wassersteinEDist`, `TauCeti.wassersteinEDist_one_eq_iSup` and
+  `TauCeti.tendsto_probabilityMeasure_iff_iSup_abs_integral_sub_integral_boundedLipschitz`
+  (`TauCeti/MeasureTheory/OptimalTransport/`).
+- `TauCeti.IsFrechetBarycenter`, `TauCeti.exists_isFrechetBarycenter`,
+  `TauCeti.subsingleton_frechetBarycenters_two` and
+  `TauCeti.tendsto_of_isFrechetBarycenter_empiricalMeasure_ae`
+  (`TauCeti/MeasureTheory/Measure/FrechetMean/`).
+
+### From MathematicalStatisticsFoundations
+
+- 2.4: the U-statistic, used here through a local copy `uStatistic` whose docstring names the
+  owner.
+- 8.2: boundedness in probability, used through a local copy `IsBoundedInProbability`.
+- 8.4: the delta method, consumed by 6.4.
+- 8.5: i.i.d. sequences and the identification of the law of the first `n` terms with
+  `Measure.pi`, consumed by 5.4, 6.4 and 7.3.
+
+### From MathematicalStatisticsAsymptotic
+
+- 1.2: the multivariate central limit theorem in `EuclideanSpace ℝ (Fin k)` with limit law
+  `multivariateGaussian 0 (covMatrix P)`, consumed by 6.4.
+- 6.2: the limit law of a nondegenerate U-statistic, consumed by 10.2 (alternative).
+- 6.3: the Hoeffding decomposition and the limit law `∑ λⱼ (Zⱼ² - 1)` of a degenerate quadratic
+  U-statistic in the eigen-expansion form, consumed by 10.2 (null).
+
+### From MathematicalStatisticsNonparametric
+
+- 5.8: the representer theorem for Mathlib's `RKHS`, consumed by 11.3 for the regularized
+  conditional mean embedding.
+
+### From OptimalTransport
+
+- Layer 3: the Wasserstein distance and Kantorovich–Rubinstein duality, consumed by 9.1, 9.2
+  and 11.2 through the Tau Ceti declarations above.
+- Layer 12, sections 12.2 and 12.8: existence and strong consistency of Fréchet barycenters,
+  cited in 6.4.
+
+### From OperatorTheory/MatrixSpectralStatistics
+
+- MSS-A05 to MSS-A07: a positive semidefinite matrix of rank at most `p` is a Gram matrix
+  `AᵀA` of a matrix with `p` rows; MSS-A09: two such factors differ by an orthogonal matrix.
+  Consumed by 5.1.
+
+### From TopologicalDataAnalysis
+
+- 8.4: the sampling bound
+  `P(d_H(X̂_n, S) > ε) ≤ max(1, 4ᵇ/(a εᵇ)) exp(-n min(1, a εᵇ/2ᵇ))` for a law with compact support
+  `S` and `μ(closedBall x r) ≥ min(1, a rᵇ)` for `x ∈ S` and every `r > 0`. Consumed by 5.4.
+- 5.3: the small-ball bound at small radii for a law on a compact submanifold of positive reach
+  with density bounded below. Cited in 5.4.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
