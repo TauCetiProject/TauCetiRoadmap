@@ -18,9 +18,9 @@ Its headline theorems are these.
 - *Linear charts.* If `Γ` is a proper étale presentation and `x` an object, the isotropy group `Γ_x` is
   finite, and near `x` the groupoid is isomorphic to `Γ_x` acting linearly on a ball in the tangent
   space `T_xΓ₀`, every isotropy arrow kept, including those acting as the identity.
-- *Triangulation.* If a compact Lie group acts smoothly on a second-countable Hausdorff manifold with
-  finite stabilizers, its orbit space is triangulable (Yang, after Cairns); consequently the coarse
-  space of every proper étale presentation has triangulations subordinate to any chart atlas.
+- *Triangulation.* If a compact Lie group acts smoothly on a second-countable Hausdorff manifold,
+  its orbit space is triangulable (Yang, after Cairns); consequently the coarse space of every
+  proper étale presentation has triangulations subordinate to any chart atlas.
 - *The rational comparison and de Rham theorem.* For a proper étale presentation `Γ`, the coarse map
   `q : BΓ → |Γ|` induces an isomorphism of cohomology rings `H*(|Γ|; R) ≅ H*(BΓ; R)` for `R = ℚ` and
   `R = ℝ`, though not over `ℤ`, and the forms on `Γ₀` invariant under the arrows compute
@@ -38,8 +38,9 @@ provides slices of proper actions, frame bundles, connections and curvature. Dif
 provides forms, orientations, integration, Stokes and the de Rham theorem on manifolds.
 AlgebraicTopology and CharacteristicClasses provide singular cochains, realizations and compact
 generation, Milnor's counit theorem, classifying spaces and the universal Chern–Weil map. For
-action groupoids of group actions the layers use Tau Ceti's local theory. HamiltonianReduction, ConvexityToric and FuchsianOrbifolds apply the roadmap to
-their quotients, and Layer 7 compares the constructions.
+action groupoids of group actions the layers use Tau Ceti's local theory. HamiltonianReduction and
+ConvexityToric apply the roadmap to their Hamiltonian quotients, and Layer 7 compares the elliptic
+charts of FuchsianOrbifolds with the generic ones.
 
 The guide to the layers is below.
 
@@ -56,6 +57,14 @@ the comparisons with neighbouring roadmaps. The build order departs from the num
 §1.6 is built after §§2.1, 2.2 and 2.4. Each *Needs:* line lists what its statement and its route
 use, so that a target proved by another route is not blocked behind an unrelated section.
 
+Other roadmaps cite the former numbering of this roadmap, in blocks O1–O7, which maps as follows.
+Block `Ok` is Layer k, and item `n` of block `Ok`, also written `Ok.n`, is §k.n for `k = 1, …, 5`:
+O1.4 is §1.4, O2 item 6 is §2.6, O4 item 1 is §4.1, O4.2 is §4.2, and O5 items 1, 4 and 5 are
+§§5.1, 5.4 and 5.5. The collared pairs O4-P are §4.4a. The lettered blocks keep their letters in the
+headings: O4-N is §4.3, O4-S §4.4, O4-R §4.5, O4-K §4.7, O4-W §4.8, O4-T §§4.9–4.9c, O5-L §5.3,
+O5-A and O5-P §5.4, and O5-T §5.5. The two paragraphs of O6 are §§6.1–6.2, and the five items of O7
+are §§7.1–7.5.
+
 ## Conventions
 
 1. **Presentations.** A *presentation* is a Lie groupoid `Γ ⇉ Γ₀` in the sense of
@@ -63,9 +72,11 @@ use, so that a target proved by another route is not blocked behind an unrelated
    arrow manifolds are finite dimensional, Hausdorff and second countable, whose source and
    target are local diffeomorphisms (*étale*), and whose map `(s, t) : Γ → Γ₀ × Γ₀` is proper in
    Mathlib's sense `IsProperMap`. Dimensions are constant on each connected component of `Γ₀` and
-   may differ between components. The isotropy group `Γ_x` of an object is the group of arrows
-   `x → x`; it is finite (§2.1). Composition is written as in LieGroupoidsPoisson: for arrows `h`
-   then `g`, the product is `gh = h ≫ g`.
+   may differ between components. A Mathlib manifold has a single model space, so such a
+   presentation is read as the disjoint union, with no arrows between the parts, of Lie groupoids
+   of §G0.2 of constant dimension, one for each dimension (§2.5). The isotropy group `Γ_x` of an
+   object is the group of arrows `x → x`; it is finite (§2.1). Composition is written as in
+   LieGroupoidsPoisson: for arrows `h` then `g`, the product is `gh = h ≫ g`.
 2. **Retained arrows.** Every arrow is kept. Two distinct arrows can induce the same germ of
    diffeomorphism of the object manifold, and the arrows inducing identity germs form the
    *ineffective kernel* (§2.3). The *effective reduction* divides it out; it has the same coarse
@@ -128,8 +139,8 @@ Prove that the class is closed under restriction to open subsets of objects (the
 subgroupoid on an open `U ⊆ Γ₀`), under finite products and under isomorphisms of Lie groupoids, and
 that it is closed under the equivalences that stay inside étale groupoids: an étale Lie groupoid
 with Hausdorff second-countable object and arrow manifolds that is Morita equivalent to a proper
-étale presentation is itself proper. Equivalence alone does not preserve étaleness (see the
-Checks). The topological parts of
+étale presentation is itself proper (Moerdijk, *Orbifolds as Groupoids*, §2.7, p. 7). Equivalence
+alone does not preserve étaleness (see the Checks). The topological parts of
 the first two closure properties are Tau Ceti's: for a native groupoid with topologies on objects
 and total arrows, the full subgroupoid on an open set has locally homeomorphic source and target
 and proper `(s, t)` (`TauCeti.isLocalHomeomorph_source_fullSubcategory`,
@@ -182,12 +193,13 @@ smooth functor `Γ' → Δ`) and principal bibundles, with its composition and r
 descent of equivariant objects along essential equivalences. These adapters extend the existing
 carriers rather than define a second theory of functors or bibundles.
 
-Prove that generalized maps induce continuous maps of coarse spaces compatibly with composition,
-and that a Morita equivalence induces a homeomorphism of coarse spaces and isomorphisms of the
-isotropy groups at corresponding points. The coarse space of a proper étale presentation is
-Hausdorff, second countable, locally compact and paracompact. For a native groupoid with continuous
-source, open target and closed image of `(s, t)`, Tau Ceti proves the quotient map to the
-isomorphism classes open (`TauCeti.isOpenQuotientMap_isomorphismClassesMk`), the quotient Hausdorff
+Prove that generalized maps induce continuous maps of coarse spaces compatibly with composition.
+That a Morita equivalence induces a homeomorphism of coarse spaces and isomorphisms of the isotropy
+groups at corresponding points is LieGroupoidsPoisson §G3.5's, the coarse space being its orbit
+space. The coarse space of a proper étale presentation is Hausdorff, second countable, locally
+compact and paracompact. For a native groupoid with continuous source, open target and closed
+image of `(s, t)`, Tau Ceti proves the quotient map to the isomorphism classes open
+(`TauCeti.isOpenQuotientMap_isomorphismClassesMk`), the quotient Hausdorff
 (`TauCeti.t2Space_isomorphismClasses`) and, for locally compact second-countable objects,
 paracompact (`TauCeti.paracompactSpace_isomorphismClasses`); second countability and local
 compactness pass along the open quotient map by Mathlib's `Topology.IsOpenQuotientMap.secondCountableTopology`
@@ -204,7 +216,8 @@ above.
   smooth functor that is an equivalence of Lie groupoids would not suffice to compare them: there is
   no smooth functor `M → ⊔ U_i` in general.
 - The effective reduction of `[*/K]` is the point; the two have the same coarse space and
-  non-isomorphic isotropy, so they are not Morita equivalent, as the isotropy statement predicts.
+  non-isomorphic isotropy, so they are not Morita equivalent, as §G3.5's isotropy statement
+  predicts.
 
 ### 1.3 Weak fibre products
 
@@ -227,9 +240,9 @@ For a proper, locally free (finite-stabilizer) smooth action of a finite-dimensi
 on a manifold `M`, construct an étale presentation of `M/G` from a countable family of slices
 (SmoothBundlesConnections B1.4), keeping the actual group elements that transport one slice to
 another. Construct its Morita bibundle to the action groupoid `G ⋉ M` and prove that the result is
-independent of the slices up to refinement. This is the general action case; the comparison with
-Hamiltonian reduction is §7.3. An ineffective orbifold is not assumed to be a global quotient of a
-compact Lie group through an effective frame construction.
+independent of the slices up to refinement. This is the general action case, which
+HamiltonianReduction R3 applies to its Hamiltonian levels. An ineffective orbifold is not assumed
+to be a global quotient of a compact Lie group through an effective frame construction.
 
 *Needs:* §1.1; §1.2; SmoothBundlesConnections B1.4; LieGroupoidsPoisson §G0.3 and §G3.5.
 
@@ -292,8 +305,8 @@ coordinates; it is not the theorem on saturated open restrictions. These maps ma
 
 *Needs:* §1.1; §2.1 and §2.4 (the finite linearization and the finite averages used for
 straightening); §2.2 (the retained-arrow atlas on which the charts are built); LieGroupoidsPoisson
-§G0.4; DifferentialGeometry's manifolds with corners. This section is built after §§2.1, 2.2 and
-2.4, none of which uses it; it keeps its number.
+§G0.4; DifferentialGeometry §5.5b (manifolds with corners and their faces). This section is built
+after §§2.1, 2.2 and 2.4, none of which uses it; it keeps its number.
 
 **Checks.**
 - For `Γ` the unit groupoid of `ℝ²` and `ρ_1 = x`, `ρ_2 = y`, `D` is the closed quadrant, with two
@@ -312,9 +325,10 @@ straightening); §2.2 (the retained-arrow atlas on which the charts are built); 
 ### Dependencies
 
 External: LieGroupoidsPoisson §§G0.2–G0.4, G3.1 and G3.5; SmoothBundlesConnections B1.0 and B1.4;
-DifferentialGeometry (manifolds with corners); Tau Ceti's topological groupoid statements and
-Mathlib's action categories. §§1.1–1.5 come first and use nothing from later layers. §1.6 is
-built after §§2.1, 2.2 and 2.4 (finite linearization, retained-arrow atlas and averages), and
+DifferentialGeometry §5.5b (manifolds with corners and their faces); Tau Ceti's topological
+groupoid statements and Mathlib's action categories. §§1.1–1.5 come first and use nothing from
+later layers. §1.6 is built after §§2.1, 2.2 and 2.4 (finite linearization, retained-arrow atlas
+and averages), and
 precedes the face-kernel comparison of §2.3 and every later use of collared domains.
 
 ## Layer 2: Retained-arrow charts, averaging and effective reduction
@@ -328,7 +342,7 @@ for an inner product invariant under the isotropy group `Γ_x`, and an isomorphi
 isotropy arrow to its own label, even when it acts as the identity on all of `U`. The isotropy group
 is finite and its representation on `T_xΓ₀` detects the ineffective kernel (§2.3): an arrow acts
 trivially near `x` exactly when its derivative at `x` is the identity. The proof works for
-non-faithful actions (Moerdijk, *Orbifolds as Groupoids*, §2).
+non-faithful actions (Moerdijk, *Orbifolds as Groupoids*, §3.4, p. 8).
 
 The route combines two halves, both Tau Ceti's. The topological half: for a native groupoid with Hausdorff arrow
 space, locally homeomorphic source and target, proper `(s, t)` and continuous units and
@@ -436,7 +450,7 @@ the order of the group is invertible, and Tau Ceti's `Representation.Intertwinin
 (an intertwining map commutes with averaging). Prove the change-of-group compatibilities needed
 here and exactness of invariants by averaging lifts: if `f` is a surjective intertwining map of
 representations of a finite group `G` over a commutative ring in which `|G|` is invertible, every
-invariant vector of the target is the image of an invariant vector (`invariant_lift`). Positive
+invariant vector of the target is the image of an invariant vector. Positive
 degree cohomology of a finite group vanishes when its order is a unit
 (`groupCohomology.subsingleton_of_isUnit_natCard`), with chain-level contraction
 `TauCeti.groupCohomology.averagingHomotopy`; consume AlgebraicTopology §8.8's bar and
@@ -473,7 +487,7 @@ cutoff statements named above; AlgebraicTopology §8.8; SmoothBundlesConnections
 - For `G = ℤ/2` acting on `V = ℤ²` by swapping coordinates, over `ℤ`, the surjection `V → ℤ`,
   `(a, b) ↦ a + b`, onto the trivial representation is intertwining, the invariants of `V` are
   `{(a, a)}`, and their image is `2ℤ`: invariants are not exact over `ℤ`, where `|G| = 2` is not a unit.
-  Over `ℚ` the invariant `(1/2, 1/2)` maps to `1`, as `invariant_lift` asserts.
+  Over `ℚ` the invariant `(1/2, 1/2)` maps to `1`, as the lifting statement asserts.
 - For `G` acting on a point, the cutoff is the constant `1/|Γ_x|`, so that the sum over the `|G|` arrows
   with source `x` is `1`; a cutoff normalized as `1` would sum to `|G|`.
 
@@ -485,7 +499,8 @@ its objects. Prove that `Γ₀^(n)` is saturated, open and closed, and that `Γ 
 groupoid. Construct an invariant positive metric and the orthonormal frame bundle `E_n → Γ₀^(n)`.
 Lift the arrows to `Γ_eff^(n)`, the effective reduction of `Γ^(n)` (§2.3), prove that its action on
 frames is free and proper, and construct the smooth quotient `F_n = E_n / Γ_eff^(n)` as a manifold.
-The residual right `O(n)` action on `F_n` is proper and locally free (LieGroups' smooth `O(n)`).
+The residual right `O(n)` action on `F_n` is proper and locally free (LieGroups Layer 2's smooth
+`O(n)`).
 Prove that `Γ_eff^(n)` is Morita equivalent to `F_n ⋊ O(n)` and that `F_n / O(n) ≅ |Γ^(n)|`. Assemble
 `E = ⊔_n E_n`, `F = ⊔_n F_n` and `|Γ| ≅ ⊔_n F_n / O(n)`; no single `O(n)` acts across components of
 different dimensions. For an ineffective presentation this construction is applied to its
@@ -496,7 +511,7 @@ germ kernel (Tau Ceti's `TauCeti.injective_tangentRepresentation` and
 `TauCeti.ker_tangentRepresentation`) make the effective action on frames free.
 
 *Needs:* §2.1; §2.3; §2.4 (invariant metrics); SmoothBundlesConnections B1.4 (free proper
-quotients) and B2.5 (frame bundles); LieGroups (the orthogonal groups).
+quotients) and B2.5 (frame bundles); LieGroups Layer 2 (the orthogonal groups).
 
 **Checks.**
 - For `ℤ/m` rotating `ℝ²`, `F_2 = (ℝ² × O(2))/(ℤ/m)` and `F_2/O(2) ≅ ℝ²/(ℤ/m)`; `O(2)` acts on `F_2` with
@@ -558,7 +573,7 @@ Layer 1 (§§1.1–1.2; §1.6 for the face statement of §2.3). §2.1 precedes �
 and the face part of §2.3. §2.4's cutoff contraction is consumed by §4.9's form comparison. §2.5 and
 §2.6 are boundaryless constructions. External: Tau Ceti's topological groupoid, linearization,
 germ-kernel, averaging, cutoff and diffeology statements; Mathlib's representation theory and
-diffeology; SmoothBundlesConnections B1.4, B2.5 and B3.1; LieGroups; AlgebraicTopology §8.8.
+diffeology; SmoothBundlesConnections B1.4, B2.5 and B3.1; LieGroups Layer 2; AlgebraicTopology §8.8.
 
 ## Layer 3: Coarse triangulation, finite covers and boundary models
 
@@ -566,19 +581,19 @@ This layer triangulates the coarse space and builds the locally finite covers an
 that Layer 4 uses for descent and Layer 5 for duality. It uses neither descent nor duality: the
 triangulation is established first and those comparisons are proved on it.
 
-### 3.1 Triangulating the orbit space of a locally free compact action
+### 3.1 Triangulating the orbit space of a compact Lie group action
 
-Prove Yang's theorem for the actions that occur here: if a compact Lie group `K` acts smoothly and
-locally freely (all stabilizers finite) on a second-countable Hausdorff, equivalently separable
-metrizable, smooth manifold `M` without boundary, then the orbit space `M/K` is triangulable, that is
-homeomorphic to the realization of an abstract simplicial complex (Tau Ceti's
-`TauCeti.IsTriangulable`) (Yang, Bull. AMS 69 (1963), 405–408). The action is proper because `K` is
-compact. This is `isTriangulable_orbitRel_quotient_of_locallyFree`, stated with Mathlib's
-`LieGroup`, `IsManifold` and `ContMDiffSMul` on finite-dimensional real models. The route
-is Yang's. SmoothBundlesConnections B1.4's slices and §2.1's finite linearization give, near each
-orbit, a slice on which a finite stabilizer acts linearly; prove from them that only finitely many
-orbit types meet each compact set, and construct regular locally polyhedral slice and join charts
-that are compatible along their frontiers. Yang's reduction rests on Cairns' locally polyhedral
+Prove Yang's theorem: if a compact Lie group `K` acts smoothly on a second-countable Hausdorff,
+equivalently separable metrizable, smooth manifold `M` without boundary, then the orbit space `M/K`
+is triangulable, that is homeomorphic to the realization of an abstract simplicial complex (Tau
+Ceti's `TauCeti.IsTriangulable`) (Yang, Bull. AMS 69 (1963), Theorem, p. 407). No hypothesis on the
+stabilizers is made. The action is proper because `K` is compact. This is
+`isTriangulable_orbitRel_quotient`, stated with Mathlib's `LieGroup`, `IsManifold` and
+`ContMDiffSMul` on finite-dimensional real models. The route is Yang's. SmoothBundlesConnections
+B1.4's equivariant linear charts and slice theorem give, near each orbit, a slice on which the
+compact stabilizer acts orthogonally; prove from them that only finitely many orbit types meet each
+compact set, and construct regular locally polyhedral slice and join charts that are compatible
+along their frontiers. Yang's reduction rests on Cairns' locally polyhedral
 triangulation theorem (Cairns, *Lectures in Topology*, University of Michigan, 1941,
 pp. 143–157), and its full proof is a target here: the locally finite construction, relative
 subdivision and gluing of locally polyhedral charts, and the realized homeomorphism from the
@@ -587,9 +602,9 @@ geometric realization of the resulting simplicial complex onto `M/K`.
 Apply the theorem to each frame action `(F_n, O(n))` of §2.5 and take the disjoint union over
 `n`; through `|Γ^(n)| ≅ F_n/O(n)` this triangulates the coarse space of every presentation.
 
-*Needs:* SmoothBundlesConnections B1.4 (slices for proper actions of compact Lie groups); §2.1;
-§2.5 (for the application to frame actions); GeometricTopology's simplicial complexes, subdivision
-and geometric realization; Tau Ceti `TauCeti.IsTriangulable`.
+*Needs:* SmoothBundlesConnections B1.4 (invariant metrics, equivariant linear charts and slices for
+actions of compact Lie groups); §2.5 (for the application to frame actions); GeometricTopology §11.1
+(simplicial complexes, subdivision and geometric realization); Tau Ceti `TauCeti.IsTriangulable`.
 
 **Checks.**
 - For `S¹` acting on `S³ ⊂ ℂ²` by `λ · (z, w) = (λ^a z, λ^b w)`, `a`, `b` coprime, the action is locally free,
@@ -653,7 +668,7 @@ quadrant model is `DSmooth` exactly when it is smooth in the manifold-with-corne
 charts. Prove the laws for face-preserving gluing, refinement and finite products. Parameter
 coordinates carry trivial isotropy, and maps exchanging faces are excluded.
 
-*Needs:* §1.6; §3.1; §2.6 (the diffeology conventions); GeometricTopology Layer 1 (smooth
+*Needs:* §1.6; §3.1; §2.6 (the diffeology conventions); GeometricTopology §1.1 (smooth
 collars); Mathlib `DiffeologicalSpace`, `DSmooth`, `dTopology`.
 
 ### 3.5 Product orientations and face signs
@@ -693,8 +708,8 @@ orientation).
 ### Dependencies
 
 Layer 1 (§1.6 for §§3.4–3.5) and Layer 2 (§§2.1–2.3, 2.5, 2.6). External: SmoothBundlesConnections
-B1.4; GeometricTopology (simplicial complexes, realization, collars); AlgebraicTopology Layers 3–4;
-DifferentialGeometry Layer 2 and §5.1; Mathlib's diffeology.
+B1.4; GeometricTopology §§1.1 and 11.1 (collars, simplicial complexes, realization);
+AlgebraicTopology Layers 3–4; DifferentialGeometry Layer 2 and §5.1; Mathlib's diffeology.
 
 ## Layer 4: Orbibundles, forms and the classifying-space comparison
 
@@ -800,6 +815,7 @@ small-chain and subdivision augmentations, the maps for common refinements and t
 homotopies. The finite horizontal filtration proves the quasi-isomorphisms without any cohomology
 of an exhaustion or inverse limit. Local finite-group averaging (§2.4) and the centred contractions
 of §3.3 identify `q^*` on each local cohomology group over `ℚ` and `ℝ`. Prove the ring isomorphism
+(for `ℚ`, Moerdijk, *Orbifolds as Groupoids*, §4.4, p. 12)
 
     q^* : H*(|Γ|; R) ≅ H*(BΓ; R),   R = ℚ or ℝ,
 
@@ -893,12 +909,14 @@ principal bundle `E_B → BΓ`, from the pullbacks to the vertices of the nerve 
 along arrows. Prove local triviality and numerability on the fat realization through the covers by
 local sections and barycentric coordinates, compatibility with the comparison to the diagonal
 singular model of §4.9, and the laws for pullback, refinement and Morita equivalence. Nontrivial
-representations of the ineffective kernel remain in `E_B`. Consume CharacteristicClasses' and
-TopologicalKTheory's ordinary characteristic classes on this represented bundle. State precise
+representations of the ineffective kernel remain in `E_B`. Consume TopologicalKTheory's numerable
+bundles and classifying maps and CharacteristicClasses' ordinary characteristic classes on this
+represented bundle. State precise
 conditions for a bundle on `BΓ` to descend to a coarse bundle; a rational cohomology isomorphism
 alone is not descent.
 
-*Needs:* §4.1; §4.3; §4.9 (the diagonal model); CharacteristicClasses C1.1b; TopologicalKTheory.
+*Needs:* §4.1; §4.3; §4.9 (the diagonal model); CharacteristicClasses C1.1b; TopologicalKTheory T1.1
+and T1.6.
 
 ### 4.8 The simplicial Chern–Weil comparison (O4-W)
 
@@ -994,8 +1012,9 @@ resolutions, and compare the double and single nerves by diagonal and iterated r
 levelwise covering map alone is not a weak equivalence. State and prove the local hypotheses used:
 properness, étaleness, Hausdorff second-countable object and arrow manifolds and numerable atlas
 refinements. Since `Sing` preserves the fibre products defining `N_pS`, `D` is also the diagonal nerve
-of the simplicial groupoid `Sing(S)`; this is the model `BG = δ*(NG)` of van den Berg and Moerdijk.
-These groupoid adapters are targets here, not assumed realization interfaces.
+of the simplicial groupoid `Sing(S)`; this is the model `BG = δ*(NG)` of van den Berg and Moerdijk
+(*Univalent completion*, §2.3). These groupoid adapters are targets here, not assumed realization
+interfaces.
 
 Use ordinary singular cohomology (AlgebraicTopology §6.1). Prove the bisimplicial Eilenberg–Zilber
 theorem: for `Y_{p,q} = Sing_q(N_pS)`, construct the natural Alexander–Whitney and shuffle maps between
@@ -1153,17 +1172,17 @@ Mathlib's sheaf cohomology and derived functors where the Leray argument uses th
 
 Fix a compact connected abelian Lie group `T` with a given continuous isomorphism `T ≃ (S¹)^m`,
 `m ≥ 0`, given by a basis of characters. Prove independence of the choice of basis and naturality for
-the specified torus homomorphisms. ConvexityToric §1.1 supplies this datum in its applications; no
-theorem on periods or isogenies is proved here, and §4.7's general represented bundle is unchanged.
+the specified torus homomorphisms. ConvexityToric's applications take this datum from their own
+character lattice; no theorem on periods or isogenies is proved here, and §4.7's general
+represented bundle is unchanged.
 The fat principal `T`-bundle and the thin bundle below are compared by the canonical equivariant nerve
 map: once both are proved locally trivial, its map into the pullback over the same base is an
 isomorphism of principal bundles, so pulling back to `BS` gives the same represented bundle and the
 same integral character classes. No general theorem on pullbacks of realizations is assumed. Where
 dimensions vary, apply the construction componentwise with the countable coproduct and product
 laws for cochains. The horizontal form contraction uses §2.4's cutoff on proper groupoids with
-counting Haar measure. None of these generic constructions uses ConvexityToric's integration,
-convexity or Duistermaat–Heckman theorem; HamiltonianReduction R3's presentation and
-ConvexityToric's character datum enter only when the application is instantiated.
+counting Haar measure. None of these generic constructions uses an input from ConvexityToric or
+HamiltonianReduction, which apply them to their own presentations and character data.
 
 *The transition functor.* For an orbifold principal torus bundle `P → S`, choose a countable numerable
 cover `U → S₀` by trivializing charts and form the refinement `S[U]`, with objects `U` and arrows
@@ -1273,7 +1292,7 @@ arbitrary real classes of two-forms. Layer 5 owns integration with full isotropy
 classifying, cohomological and bundle argument does not use them.
 
 *Needs:* §2.4; §4.7; §4.8; §4.9; §4.9a; §4.9b; CharacteristicClasses C1.1b, C1.2b and C1.5;
-SmoothBundlesConnections B6.1–B6.3; ConvexityToric §1.1 for the character datum in applications.
+SmoothBundlesConnections B6.1–B6.3.
 
 **Checks.**
 - For `S = [*/(ℤ/n)]` and `T = S¹`, a principal `S¹`-bundle over `S` is the bundle `S¹` with `ℤ/n` acting
@@ -1303,7 +1322,7 @@ characteristic-class bridge. §§4.9a–4.9c add the boundaryless topology, shea
 comparisons and compare them with §§4.4–4.8 without ConvexityToric's integration. External:
 LieGroupoidsPoisson; SmoothBundlesConnections B2–B4 and B6.1–B6.3; DifferentialGeometry Layers 0–1, 7
 and §§8.4–8.5; AlgebraicTopology Layers 2–4, §§5.1 and 6.1; CharacteristicClasses C1.1b, C1.2b, C1.5,
-C4.1 and C4.3; TopologicalKTheory.
+C4.1 and C4.3; TopologicalKTheory T1.1 and T1.6.
 
 ## Layer 5: Weighted integration, Thom classes and rational duality
 
@@ -1327,24 +1346,19 @@ invariance, additivity, and the product and Fubini formulas (Adem–Leida–Ruan
 Rational classes are integrated over `ℚ` and forms over `ℝ`; a version with another coefficient
 ring states that every isotropy order occurring is invertible in it.
 
-The finite-group arithmetic behind the chart weight is stated in Lean. For a finite group `G`,
-`finiteGroupWeight G = |G|⁻¹ ∈ ℚ`, counted with `Nat.card`; `weightedFiniteSum G f` is
-`|G|⁻¹ ∑ₓ f(x)` for a function `f` on a finite type, the chart integral with counting measure;
-`pointGroupIntegral G a = |G|⁻¹ · a` is the integral of the constant `a` over `[*/G]`;
-`weightedFunctional G I` is the rational linear functional `|G|⁻¹ · I`, with
-`weightedFunctional_apply` its value; `pointWeight G X x = |G_x|⁻¹` is the weight of a point of a
-`G`-set, `G_x` its stabilizer; and `orbitWeightedSum G X f` sums `pointWeight G X x · f(x)` over one
-chosen representative `x` of each orbit of a finite `G`-set.
+The finite-group arithmetic behind the chart weight is part of this section. For a finite group
+`G` the chart weight is `|G|⁻¹ ∈ ℚ`, counted with `Nat.card`; for a function `f` on a finite
+`G`-set `X` the chart integral with counting measure is `|G|⁻¹ ∑ₓ f(x)`, and the integral of the
+constant `a` over `[*/G]` is `|G|⁻¹ · a`, so `∫_[*/G] 1 = 1/|G|`. The weight of a point `x` of a
+`G`-set is `|G_x|⁻¹`, `G_x` its stabilizer.
 
-- `pointGroupIntegral_one`: `pointGroupIntegral G 1 = |G|⁻¹`, the scalar form of
-  `∫_[*/G] 1 = 1/|G|`.
-- `weightedFiniteSum_eq_orbitWeightedSum`: for `G` and `X` finite and `f` constant on orbits,
-  `|G|⁻¹ ∑ₓ f(x) = ∑_{orbits} |G_x|⁻¹ f(x)`. This is orbit–stabilizer, `|G · x| = |G| / |G_x|`,
-  summed over orbits: the finite model of the local weight formula, in which a point with
+- The finite local weight formula: for `G` and `X` finite and `f` constant on orbits,
+  `|G|⁻¹ ∑ₓ f(x) = ∑_{orbits} |G_x|⁻¹ f(x)`, the right side summed over one chosen point `x` of
+  each orbit. This is orbit–stabilizer, `|G · x| = |G| / |G_x|`, summed over orbits: a point with
   isotropy `G_x` counts with weight `1/|G_x|`.
-- `pointWeight_mul_invariant_of_same_orbit`: if `f` is constant on orbits and `x`, `y` lie in one
-  orbit, then `|G_x|⁻¹ f(x) = |G_y|⁻¹ f(y)`, since conjugate stabilizers have equal order; so
-  `orbitWeightedSum` does not depend on the chosen representatives.
+- If `f` is constant on orbits and `x`, `y` lie in one orbit, then `|G_x|⁻¹ f(x) = |G_y|⁻¹ f(y)`,
+  since conjugate stabilizers have equal order; so the orbit sum does not depend on the chosen
+  points.
 
 *Needs:* §2.1; §2.2; §2.4 (invariant partitions of unity); DifferentialGeometry Layer 2
 (orientations) and Layer 5 (integration of compactly supported top forms); Mathlib
@@ -1354,7 +1368,7 @@ chosen representative `x` of each orbit of a finite `G`-set.
 - `∫_[*/K] 1 = 1/|K|` for every finite group `K`, including one acting trivially. A definition
   that weights by the effective quotient of the chart group would give `1` for every `K`.
 - For `G = ℤ/2` acting on `X = {a, b, c}` by exchanging `a` and `b` and fixing `c`, with `f ≡ 1`:
-  `weightedFiniteSum` is `3/2`, and `orbitWeightedSum` is `1` (the orbit `{a, b}`, trivial
+  the chart integral `|G|⁻¹ ∑ₓ f(x)` is `3/2`, and the orbit sum is `1` (the orbit `{a, b}`, trivial
   stabilizer) plus `1/2` (the orbit `{c}`, stabilizer `ℤ/2`), again `3/2`. Counting orbits without
   weights gives `2`.
 - For `ℤ/2` acting freely on the circle of length `2π` by the half-turn, the weighted integral of
@@ -1381,8 +1395,9 @@ infinite CW complex `BK`.
 ### 5.3 Local homology of a finite linear quotient (O5-L)
 
 Prove the relative rational homology of an orientation-preserving finite linear ball quotient: if
-a finite group `G` acts linearly on `ℝ^n` preserving orientation, `B` is the open unit ball, `B̄`
-the closed ball and `S` its boundary sphere, then `H_i(B/G, (B ∖ 0)/G; ℚ)` is `ℚ` for `i = n`, with a
+a finite group `G` acts linearly on `ℝ^n` preserving orientation, `B` is the open unit ball of a
+`G`-invariant inner product, `B̄` the closed ball and `S` its boundary sphere, then
+`H_i(B/G, (B ∖ 0)/G; ℚ)` is `ℚ` for `i = n`, with a
 generator determined by the orientation, and zero otherwise; the same holds for the pair
 `(B̄/G, S/G)`. The proof uses an
 admissible equivariant subdivision, equivariant chains and finite averaging (the transfer to
@@ -1590,24 +1605,22 @@ space is the same, and the weighted class, the integral and the bundles carrying
 
 *Needs:* §2.3; §3.5; §4.7; §4.8; §5.4.
 
-### 7.3 Hamiltonian quotients
+### 7.3 Hamiltonian quotients and effective reduction
 
-For the compact locally free Hamiltonian quotient model of HamiltonianReduction R3, use R3's
-identification of its level presentation with the action presentation of §1.4. Compare R3's slice
-groupoid, which keeps the actual group elements, and its refinement bibundles with the finite
-linearized action charts of §2.1 and the retained-arrow atlas charts of §2.2, and compare the
-invariant and symplectic forms on the possibly ineffective model of R3. No integral or
-characteristic class of HamiltonianReduction is presumed. Once ConvexityToric Layer 4 has
-constructed its applications, compare the represented principal torus bundles, the dual-character
-classes, the forms and the weighted reduced volumes through §§4.3–4.9 and Layer 5 on the same
-effective or ineffective presentation; the comparison is not restricted to effective inputs. When
-the ineffective kernel has generic order `k`, compare with the effective reduction only through
-actual coarse, form and bundle data: for corresponding forms on the coarse space prove
-`∫_effective = k · ∫_full`, component by component, while a bundle that sees the isotropy need not
-descend. Symplectic descent, the full reduced volume and the common-weight examples are
-ConvexityToric's applications.
+HamiltonianReduction R3 and ConvexityToric Layer 4 consume Layers 1–5 and make the comparisons on
+their own models: R3 identifies its possibly ineffective level presentation, its slice groupoid,
+refinement bibundles and restricted symplectic form with the action presentation of §1.4 and the
+invariant forms of §4.2, and ConvexityToric Layer 4 identifies its level principal torus bundle with
+the carriers of §§4.1–4.9c before evaluating classes, reduced volumes and Duistermaat–Heckman
+integrals on effective and ineffective presentations alike. The comparison with the effective
+reduction that those applications use is generic and is proved here. On a connected component of
+the coarse space where the ineffective kernel has order `k` (§2.3), compare a presentation with its
+effective reduction only through actual coarse, form and bundle data: the invariant forms of the two
+agree, since the kernel acts trivially near every point, and for compactly supported invariant top
+forms `∫_effective = k · ∫_full`, each chart group `G` being replaced by its quotient by a kernel of
+order `k`; a bundle that sees the isotropy need not descend to the effective reduction.
 
-*Needs:* §1.4; §2.1; §2.2; §§4.3–4.9; Layer 5; HamiltonianReduction R3; ConvexityToric Layer 4.
+*Needs:* §2.3; §5.1.
 
 **Checks.**
 - On the trivial gerbe `K × N ⇒ N`, the full integral of a top form is `(1/|K|) ∫_N` and the
@@ -1621,7 +1634,8 @@ finite-action orbifold charts of §2.1, including their orientations and the nor
 (the weighted integral of §5.1 of the hyperbolic area form). Cusp compactification and the
 hyperbolic area and signature calculations remain in FuchsianOrbifolds.
 
-*Needs:* §2.1; §5.1; FuchsianOrbifolds (elliptic stabilizers and their quotient charts).
+*Needs:* §2.1; §5.1; FuchsianOrbifolds Layer 1 (elliptic stabilizers and their quotient charts) and
+Layer 2 item 1 (hyperbolic area).
 
 ### 7.5 Complex-domain chart groupoids
 
@@ -1641,8 +1655,8 @@ families every earlier layer is tested on.
 
 ### Dependencies
 
-Layers 1–6, HamiltonianReduction R3, ConvexityToric Layer 4, FuchsianOrbifolds and
-ComplexKahlerGeometry §1.1. Nothing in Layers 1–6 depends on this layer.
+Layers 1–6, FuchsianOrbifolds Layer 1 and Layer 2 item 1, and ComplexKahlerGeometry §1.1. Nothing
+in Layers 1–6 depends on this layer.
 
 ## Scope and ownership
 
@@ -1683,8 +1697,9 @@ smooth statements built from these.
 
 **Owned elsewhere and consumed here.**
 
-- *Lie groupoids, smooth functors, groupoid actions, principal bibundles and Morita composition*:
-  LieGroupoidsPoisson §§G0.0–G0.4, G3.1 and G3.5. This roadmap builds the proper étale subtheory and
+- *Lie groupoids, smooth functors, groupoid actions, principal bibundles, Morita composition and
+  the Morita invariance of orbit spaces and isotropy groups*: LieGroupoidsPoisson §§G0.0–G0.4, G3.1
+  and G3.5. This roadmap builds the proper étale subtheory and
   its finite-chart reconstruction on those carriers and defines no second functor or bibundle
   theory.
 - *Transverse fibre products, slices of proper actions, quotients, frame bundles, connections,
@@ -1704,24 +1719,25 @@ smooth statements built from these.
   CharacteristicClasses C1.1b, C1.2b, C1.5, C2.1, C4.1 and C4.3. The simplicial and universal
   comparison for orbifolds and the proper-groupoid topology, cochain and torus adapters are built
   here (§§4.8–4.9c).
-- *Ordinary vector bundles and their classifiers*: TopologicalKTheory. *Orthogonal groups*: LieGroups.
-  *Smooth triangulations of manifolds and relative collars*: GeometricTopology; the orbit-stratum,
+- *Ordinary vector bundles and their classifiers*: TopologicalKTheory T1.1 and T1.6. *Orthogonal
+  groups*: LieGroups Layer 2. *Simplicial complexes and their realization, smooth triangulations of
+  manifolds and smooth collars*: GeometricTopology §§11.1, 11.3 and 1.1; the orbit-stratum,
   locally polyhedral and quotient-compatible triangulation theory for coarse spaces is built here
   (Layer 3). *Complex orientations*: ComplexKahlerGeometry §1.1.
-- *Hamiltonian reduction*: HamiltonianReduction R3 owns its possibly ineffective Hamiltonian level
-  presentation, its restricted symplectic form and its moment, kernel and descent application.
-  Layers 1–4 here own the generic proper étale, invariant-form, Morita and represented-bundle
-  interfaces instantiated there. No second moment map, symplectic reduction or toric classification
-  is constructed here.
-- *Duistermaat–Heckman and toric applications*: ConvexityToric Layer 4 consumes §§4.3–4.9c and Layer 5
-  for its effective and ineffective Duistermaat–Heckman, reduced-volume and character–Chern
-  normalization applications, with its character datum of §1.1. Layers 1–5 here use their own
-  sources and the given presentation and bundle data, with no input from ConvexityToric's
-  integration or from Duistermaat–Heckman; the comparisons of §7.3 follow both constructions.
 - *Fuchsian orbifolds*: FuchsianOrbifolds keeps its elliptic and cusp quotients and its area and
-  signature calculations; §7.4 compares its elliptic charts with the generic ones.
+  signature calculations; §7.4 compares its elliptic charts (its Layer 1) and their hyperbolic area
+  (its Layer 2 item 1) with the generic ones.
 - *Moduli problems*: deformation of domains, stability and slicing of maps, and virtual classes
   belong to their own theories (§§6.2, 7.5).
+
+**Owned elsewhere and applying this roadmap.** HamiltonianReduction R3 owns its possibly
+ineffective Hamiltonian level presentation, its restricted symplectic form, its moment, kernel and
+descent application, and their identification with the action presentation of §1.4 and the
+invariant forms of §4.2. ConvexityToric Layer 4 owns its level principal torus bundle, its effective
+and ineffective Duistermaat–Heckman, reduced-volume and character–Chern normalization applications
+of §§4.3–4.9c and Layer 5, with its own character datum, and the identification of its bundle with
+the carriers here. Both consume this roadmap, and this roadmap takes no input from either: no second
+moment map, symplectic reduction or toric classification is constructed here (§7.3).
 
 ## Exact supplier contracts
 
@@ -1866,7 +1882,8 @@ and continuous units and composition where needed.
 - §G3.1: groupoid actions on maps `p : X → Γ₀`, in particular the algebraic fibred action carrier and
   its equivalence with functors to types, consumed in §1.5.
 - §G3.5: principal and biprincipal bibundles, their balanced composition, associators and unitors
-  with their coherence, and Morita equivalence, consumed in §1.2. The composition convention
+  with their coherence, Morita equivalence, and the homeomorphism of orbit spaces and isomorphisms
+  of isotropy groups that a Morita equivalence induces, consumed in §1.2. The composition convention
   `gh = h ≫ g` (first `h`, then `g`) is LieGroupoidsPoisson's.
 - Transverse fibre products of smooth maps are SmoothBundlesConnections B1.0's, which
   LieGroupoidsPoisson §G0.1 also consumes; §1.3 uses them through that interface.
@@ -1925,18 +1942,18 @@ and continuous units and composition where needed.
 
 ### From TauCetiRoadmap.TopologicalKTheory
 
-Ordinary vector bundles, their classifying maps and characteristic classes on paracompact bases,
-applied to the represented bundle `E_B` (§4.7).
+T1.1 and T1.6: ordinary numerable vector bundles on paracompact bases and their classifying maps
+into Grassmannians, applied to the represented bundle `E_B` (§§4.7–4.8).
 
 ### From TauCetiRoadmap.RepresentationTheory.LieGroups
 
-The orthogonal groups `O(n)` as Lie groups and their smooth matrix actions, used with
+Layer 2: the orthogonal groups `O(n)` as Lie groups and their smooth matrix actions, used with
 SmoothBundlesConnections' frame bundles (§2.5).
 
 ### From TauCetiRoadmap.GeometricTopology
 
-Smooth triangulations of manifolds, simplicial complexes with subdivision and geometric
-realization, and relative collars (Layer 1) (§§3.1, 3.4).
+§11.1: simplicial complexes with subdivision and geometric realization; §11.3: smooth
+triangulations of manifolds; §1.1: smooth collars (§§3.1, 3.4).
 
 ### From TauCetiRoadmap.ComplexKahlerGeometry
 
@@ -1945,22 +1962,10 @@ orientation, for complex-chart examples (§7.5). A complex deformation family, a
 properness or slice theorem specific to a moduli problem are further geometric data, not supplied
 by a generic presentation.
 
-### From TauCetiRoadmap.SymplecticGeometry.HamiltonianReduction
-
-R3: the level presentation of a compact locally free Hamiltonian quotient, possibly ineffective,
-with its slice groupoid keeping the actual group elements, its refinement bibundles and its
-restricted symplectic form, and its identification with the action presentation of §1.4 (§7.3).
-
-### From TauCetiRoadmap.SymplecticGeometry.ConvexityToric
-
-Layer 4's represented principal torus bundles, dual-character classes, forms and weighted reduced
-volumes, compared in §7.3, and §1.1's character basis of a torus, the datum `T ≃ (S¹)^m` of §4.9c in
-applications.
-
 ### From TauCetiRoadmap.FuchsianOrbifolds
 
-The finite elliptic quotient charts of a Fuchsian group and their area normalization, compared in
-§7.4.
+Layer 1: the finite elliptic quotient charts of a Fuchsian group; Layer 2 item 1: hyperbolic area,
+whose weighted integral is compared in §7.4.
 
 ## References
 
@@ -1973,6 +1978,8 @@ The finite elliptic quotient charts of a Fuchsian group and their area normaliza
 - I. Moerdijk and D. Pronk,
   [*Simplicial Cohomology of Orbifolds*](https://arxiv.org/abs/q-alg/9708021), §1.2, for adapted
   simplex and star lifts and atlas refinements.
+- B. van den Berg and I. Moerdijk, *Univalent completion*, Math. Ann. (2018), §2.3, for the
+  classifying space of a simplicial groupoid as the diagonal of its nerve.
 - C. T. Yang, *The triangulability of the orbit space of a differentiable transformation group*,
   Bull. AMS 69 (1963), 405–408, and S. S. Cairns, contribution to *Lectures in Topology*,
   University of Michigan, 1941, pp. 143–157, for the locally polyhedral triangulation used in the
