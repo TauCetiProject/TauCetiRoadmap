@@ -106,7 +106,7 @@ series over `K` restricted at `r` and `P` is monic of degree `u`, and let `l` an
 and the last index attaining the Gauss norm of `f` at `r`. If `P` splits over `L`, there is a
 multiset `Z` of points of `L` of norm at most `r` such that `f` has a zero of multiplicity exactly
 `Z.count x` (measured by Hasse derivatives) at every `x ∈ L` of norm at most `r`; `Z` has `u`
-elements, `l` of them of norm less than `r` (Lazard §3; BGR §5.2). -/
+elements, `l` of them of norm less than `r` (Lazard Propositions 2 and 4 with (2.7′); BGR §5.2). -/
 theorem exists_zeros_card_eq {K : Type*} [NormedField K] [IsUltrametricDist K]
     {L : Type*} [NormedField L] [IsUltrametricDist L] [CompleteSpace L] [Algebra K L]
     [DecidableEq L] (hiso : ∀ a : K, ‖algebraMap K L a‖ = ‖a‖)

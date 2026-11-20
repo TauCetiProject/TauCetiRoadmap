@@ -319,7 +319,7 @@ convexity, extraction from a convex height function, both round trips, injectivi
 unit data along order-preserving additive maps, are in the supplier contracts. Slopes and the
 initial height lie in an ordered additive group such as `ℚ` or `ℝ`; `∞` occurs only in the heights
 outside the domain; length zero is a singleton, never the empty polygon. Complete the presentations
-(Koblitz IV §§3–4; Lazard §1):
+(elementary constructions of this roadmap, with no source):
 
 - **Integer anchors.** Define finite and infinite slope data whose start is an integer, with heights
   `ℤ → WithTop Γ`; for `Γ = ℝ` these heights are convex in the sense of `TauCeti.IsIntConvexSeq`,
@@ -536,7 +536,7 @@ Prove (Lazard §1):
 **Checks.**
 - Over `ℚ_p`, the series `1 + Σ_{n≥1} p^⌈√n⌉ Xⁿ` is restricted at radius `1` with `l = u = 0`, so it
   is a unit there, while its polygon is the horizontal ray from the origin (the secant slopes
-  `⌈√n⌉ / n` decrease to `0` without reaching it); its zero count at the boundary is `u - l = 0`,
+  `⌈√n⌉ / n` are positive and tend to `0`); its zero count at the boundary is `u - l = 0`,
   not infinite.
 
 *Needs:* Tau Ceti `TauCeti.PowerSeries.IsDistinguished`, `TauCeti.PowerSeries.IsLowestDominant`,
@@ -552,11 +552,12 @@ Prove (Lazard §1):
 
 Purity, its chord criterion and its Gauss form are `Polynomial.forall_mem_newtonSlopes_eq_iff` and
 `Polynomial.forall_mem_newtonSlopes_eq_iff_norm_coeff_mul_rpow_pow_le`: for a polynomial of
-positive degree with nonzero constant coefficient, all finite slopes equal `m` exactly when the
-coefficient points lie on or above the line through the first and last points (interior points may
-lie on it). Define first breaks (Koblitz IV §§3–4): a polygon `h` with first finite index `a` has its
-*first break* at `j > a` when `h` is affine on `[a, j]` and either `j` is the right end of its finite
-domain or `j` is a finite edge whose unit slope exceeds that on `[a, j]`.
+positive degree with nonzero constant coefficient, all finite slopes equal `m` exactly when the line
+through the first and last coefficient points has slope `m` and every coefficient point lies on or
+above it (interior points may lie on it). Define first breaks (Koblitz IV §§3–4): a polygon `h`
+with first finite index `a` has its *first break* at `j > a` when `h` is affine on `[a, j]` and
+either `j` is the right end of its finite domain or `j` is a finite edge whose unit slope exceeds
+that on `[a, j]`.
 
 - **Coefficient criterion.** For an admissible coefficient sequence `c` with polygon `h` and first
   finite index `a`, `h` has its first break at `j` if and only if `c j` is finite, the line through
@@ -728,7 +729,9 @@ Prove:
 ### 4.3 Analytic multiplicity and exact counts
 
 Evaluate in a complete ultrametric extension `L` whose norm extends that of `K`; the multiplicity of
-a zero is that of Convention 8 (Lazard §3; BGR §5.2).
+a zero is that of Convention 8, a definition of this roadmap. The counts read the factorisations of
+Lazard Propositions 2 and 4 through the valuations of the roots of their polynomial factors
+(Lazard (2.7′)); see also BGR §5.2.
 
 - **Independence.** For `x ∈ L` with `‖x‖ ≤ r ≤ s` and `f` restricted at `s`, the multiplicity of `x`
   as a root of the disc polynomial at `r` equals that at `s`: the analytic multiplicity does not
@@ -774,10 +777,11 @@ a zero is that of Convention 8 (Lazard §3; BGR §5.2).
 
 ### Dependencies
 
-Layers 1–3; RestrictedPowerSeries §2 (evaluation, translation and Hasse derivatives), §2.4
-(Strassmann's bound), §3.2 (units) and Layer 4 (preparation), through the Tau Ceti declarations named
-in the supplier contracts. Sources: BGR §5.2; Kedlaya Theorem 7 and §5; Lazard §3. The distinction
-between active indices and geometric vertices is essential at the boundary.
+Layers 1–3; RestrictedPowerSeries §§2.1–2.3 (evaluation, translation and Hasse derivatives),
+§2.4 (Strassmann's bound), §3.2 (units) and Layer 4 (preparation), through the Tau Ceti
+declarations named in the supplier contracts. Sources: BGR §5.2; Kedlaya Theorem 7 and §5; Lazard
+(2.7′) and §3. The distinction between active indices and geometric vertices is essential at the
+boundary.
 
 ## Layer 5: Convergence and entire products
 
@@ -791,12 +795,12 @@ contracts).
 
 Let `L` be a complete ultrametric extension whose norm extends that of `K`. A series restricted at
 `r` converges at every point of `L` of norm at most `r` (`PowerSeries.IsRestricted.hasSum_evalAt`).
-Prove (Lazard §1, p. 48):
+Prove:
 
-- **Converse.** If `Σ aₙ xⁿ` converges at some `x ∈ L` of norm `r > 0`, then `f` is restricted at
-  `r`; so convergence at a point of norm `r` is equivalent to restrictedness at `r`. Convergence at
-  all points of a closed ball of radius `r` gives restrictedness at `r` when `r` is the norm of a
-  point of `L`.
+- **Converse** (Lazard §1, p. 48). If `Σ aₙ xⁿ` converges at some `x ∈ L` of norm `r > 0`, then
+  `f` is restricted at `r`; so convergence at a point of norm `r` is equivalent to restrictedness at
+  `r`. Convergence at all points of a closed ball of radius `r` gives restrictedness at `r` when `r`
+  is the norm of a point of `L`.
 - **Point radius.** Define `R_L^pts(f)` as the supremum of the norms of the points of `L` at which
   the series converges. Then `R_L^pts(f) ≤ R(f)`, with equality when the positive norms of `L` are
   dense in `(0, ∞)`; they are dense for `ℂ_p` (§1.3), and the inequality is strict for a suitable
@@ -820,11 +824,12 @@ there are infinitely many (`PowerSeries.IsEntire.finite_setOf_unitSlope_newtonPo
   product of `1 - X/α` over its zeros with multiplicity: for every `s > 0`, the Gauss norm at `s` of
   `f` minus the product over the zeros of norm at most `ρ` tends to `0` as `ρ → ∞`
   (`exists_zeros_tendsto_gaussNorm_sub_prod`). The product is defined by these finite subproducts.
-- **Converse and uniqueness.** A family of nonzero elements with finitely many members, counted with
-  multiplicity, in each bounded ball defines an entire product with exactly that zero divisor; two
-  entire series with constant term one and the same zero divisor are equal; the units of the ring of
-  entire series are the nonzero constants; over an algebraically closed field an entire series with
-  finitely many zeros is a polynomial.
+- **Converse and uniqueness.** Over a complete algebraically closed field, with the *zero divisor*
+  of a nonzero entire series the multiset of its zeros counted with multiplicity (Convention 8): a
+  family of nonzero elements with finitely many members, counted with multiplicity, in each bounded
+  ball defines an entire product with exactly that zero divisor; two entire series with constant
+  term one and the same zero divisor are equal; the units of the ring of entire series are the
+  nonzero constants; an entire series with finitely many zeros is a polynomial.
 
 These statements concern the whole affine line; no product statement is made on a finite open disc,
 where zeros may accumulate at the boundary.
@@ -850,10 +855,10 @@ where zeros may accumulate at the boundary.
 
 ### Dependencies
 
-Layers 0–4; RestrictedPowerSeries §7 (open-disc and entire series and entire division) through the
-Tau Ceti declarations named in the supplier contracts; ultrametric summability and extended-real
-limits; Mathlib's factorial valuations and exponential for the exponential example. Sources:
-Lazard §1 and (4.13).
+Layers 0–4; RestrictedPowerSeries §§7.1–7.2 (open-disc and entire series and entire division)
+through the Tau Ceti declarations named in the supplier contracts; ultrametric summability and
+extended-real limits; Mathlib's factorial valuations and exponential for the exponential example.
+Sources: Lazard §1 and (4.13).
 
 ## Layer 6: Discrete valuations and formal preparation
 
@@ -870,9 +875,11 @@ formal and normed preparation at radii below one are inputs (supplier contracts)
 Prove:
 
 - **Mathlib's Eisenstein.** For a discrete valuation ring `O` with fraction field `K` and integer
-  valuation `w`, a monic `f ∈ O[X]` of degree `d` satisfying Mathlib's `Polynomial.IsEisensteinAt` at
-  the maximal ideal has, over `K`, the single slope `-1/d` with multiplicity `d`, and is irreducible
-  over `K`; this recovers Mathlib's `Polynomial.IsEisensteinAt.irreducible` for `O`.
+  valuation `w`, a monic `f ∈ O[X]` of degree `d ≥ 1` satisfying Mathlib's `Polynomial.IsEisensteinAt`
+  at the maximal ideal has, over `K`, the single slope `-1/d` with multiplicity `d`, and is
+  irreducible over `K`; this recovers Mathlib's `Polynomial.IsEisensteinAt.irreducible` for `O`. The
+  slope is a direct computation from the Eisenstein conditions, and irreducibility then follows from
+  Tau Ceti's `Polynomial.irreducible_of_eisenstein`.
 - **Slope by slope** (Kedlaya Theorem 7 and §5). Over a complete `K`, let `f` have nonzero
   constant coefficient and slope factors `P_m` (§4.2) of degrees `d_m`, and let `q_m` be the reduced
   denominator of `m`. Every irreducible factor of `f` divides exactly one `P_m` and has degree a
@@ -882,9 +889,13 @@ Prove:
   and otherwise the polygon alone need not decide.
 
 **Checks.**
-- A monic Eisenstein polynomial of degree `d` has endpoints `(0, 1)` and `(d, 0)` and slope `-1/d`;
-  dividing by its constant coefficient gives constant term one and keeps the slope `-1/d`, while
-  reversal negates it to `+1/d`.
+- A monic Eisenstein polynomial of degree `d ≥ 1` has endpoints `(0, 1)` and `(d, 0)` and slope
+  `-1/d`; dividing by its constant coefficient gives constant term one and keeps the slope `-1/d`,
+  while reversal negates it to `+1/d`.
+- The constant `1` satisfies `Polynomial.IsEisensteinAt` at the maximal ideal `𝔪` (its leading
+  coefficient is a unit, the condition on coefficients below the degree is empty, and `1 ∉ 𝔪²`), yet
+  its polygon is the single point `(0, 0)` and it is a unit, hence not irreducible: the bound
+  `d ≥ 1` cannot be dropped.
 - Over `ℚ_3`, `X² - 9` and `X² - 18` have the same polygon, the segment of slope `-1` from `(0, 2)` to
   `(2, 0)`, with `d_m = 2` and `q_m = 1`; the first is reducible and the second irreducible, `2`
   being a non-square modulo `3`.
@@ -1045,7 +1056,7 @@ use Tau Ceti for part of their content, named at each section.
   preparation, general Gauss multiplicativity, evaluation, translation, Hasse derivatives,
   Strassmann's bound, units of restricted algebras, and open-disc and entire series belong to
   [RestrictedPowerSeries](../RestrictedPowerSeries/README.md) (Layers 0–1, §§2.1–2.4, §3.2,
-  Layer 4, §7), and are consumed through their Tau Ceti implementations.
+  Layer 4, §§7.1–7.2), and are consumed through their Tau Ceti implementations.
 - *Laurent and Puiseux fields*: the Laurent and Puiseux field constructions, initial forms, ramified
   substitutions, factor Hensel lifting and Newton–Puiseux belong to
   [FormalLaurentPuiseux](../FormalLaurentPuiseux/README.md); one polynomial geometry serves both
@@ -1282,9 +1293,10 @@ there.
 The restricted-series theory of its Layers 0–1 (carriers, coefficient maps, Gauss norms and
 multiplicativity), §§2.1–2.4 (evaluation, translation, Hasse derivatives, Strassmann's bound), §3.2
 (units of restricted algebras), Layer 4 (Weierstrass division and preparation, with uniqueness and
-compatibility with coefficient maps) and §7 (open-disc and entire series, entire division). This
-roadmap uses them through the Tau Ceti declarations listed above, with the hypotheses stated there:
-complete ultrametric coefficients for preparation and for the complete form of the unit criterion.
+compatibility with coefficient maps) and §§7.1–7.2 (open-disc and entire series, entire
+division). This roadmap uses them through the Tau Ceti declarations listed above, with the
+hypotheses stated there: complete ultrametric coefficients for preparation and for the complete form
+of the unit criterion.
 
 ### From TauCetiRoadmap.FormalLaurentPuiseux
 
