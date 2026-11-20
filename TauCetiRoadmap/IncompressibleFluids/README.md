@@ -155,7 +155,8 @@ Prove the Helmholtz–Weyl decomposition: the orthogonal complement of `L²_σ(E
 `L²` gradients, the fields `∇q` with `q` locally integrable with weak gradient in `L²`; this
 space is the closure of `{∇φ : φ ∈ 𝓓(E, ℝ)}`. Every `u ∈ L²` is uniquely `ℙu + ∇q`
 (Tao, Notes 1, Exercise 17, with the complement described as the curl-free fields; the symbol
-of `ℙ` is Ożański–Pooley, §2.1, p. 16).
+of `ℙ` is Ożański–Pooley, §2.1, p. 16, the display after (2.11), which gives the Fourier
+transform of `F − ∇p` as `(I − ξ⊗ξ/|ξ|²)F̂`; (2.11) itself is the Oseen kernel).
 
 - `ℙ` is idempotent and self-adjoint with `‖ℙ‖ ≤ 1`, `ℙ∇φ = 0`, and `ℙu = u` exactly on
   `L²_σ`.
@@ -300,7 +301,12 @@ existence and uniqueness in the energy class of the weak solution of
 `∂ₜu − νΔu + ∇p = f₀ + div F`, `div u = 0`, `u(0) = u₀`, given by Duhamel's formula
 `u(t) = S_ν(t)u₀ + ∫₀ᵗ S_ν(t−s)ℙ(f₀ + div F)(s) ds`, with `u ∈ C([0,T]; L²_σ)` and the energy
 equality
-`‖u(t)‖² + 2ν∫₀ᵗ‖∇u‖² = ‖u₀‖² + 2∫₀ᵗ⟪f₀, u⟫ − 2∫₀ᵗ⟪F, ∇u⟫`.
+`‖u(t)‖² + 2ν∫₀ᵗ‖∇u‖² = ‖u₀‖² + 2∫₀ᵗ⟪f₀, u⟫ − 2∫₀ᵗ⟪F, ∇u⟫`
+(for `d = 3`, `ν = 1`, `F = 0` and `f₀ ∈ C([0,T); L²)`: Ożański–Pooley, Lemma 2.1 (iii) with
+(2.7)–(2.8), p. 15, for the bound and the energy equality, and Theorem 2.5, p. 20, for
+uniqueness; the estimate with both `f₀ ∈ L¹L²` and `div F`, `F ∈ L²L²`, is Tao, Notes 1,
+Exercise 27, (29), stated there for the scalar heat equation with Schwartz data, and applies
+to the Stokes system after `ℙ`).
 
 - The estimate `‖u‖_{L^∞L²} + √ν‖∇u‖_{L²L²} ≤ C(‖u₀‖₂ + ‖f₀‖_{L¹L²} + ν^{−1/2}‖F‖_{L²L²})`
   with an absolute `C`.
@@ -406,7 +412,9 @@ Let `X₀ ↪ X ↪ X₁` be Banach spaces with `X₀` and `X₁` reflexive, the
 and the second continuous and injective. For `1 < p, r < ∞` and `0 < T < ∞`, prove that the
 space of `u ∈ L^p(0,T; X₀)` with weak time derivative in `L^r(0,T; X₁)`, normed by the sum,
 embeds compactly in `L^p(0,T; X)` (Lions 1969, Théorème 5.1, p. 58; Wang, Lemma 5.6, p. 43;
-Simon 1987 proves a stronger form without reflexivity). Prove the local form used on the whole space: a sequence
+Simon 1987 proves a stronger form without reflexivity). The target is Simon's form: no
+reflexivity, `1 < p < ∞` and `1 < r ≤ ∞`; Lions' theorem is the reflexive case with `r < ∞`,
+and neither bullet below uses reflexivity. Prove the local form used on the whole space: a sequence
 bounded in `L²(0,T; H¹(E; E))` with time derivatives bounded in `L^r(0,T; H⁻¹(E; E))` has a
 subsequence converging in `L²(0,T; L²(B; E))` for every bounded open `B ⊆ E`.
 
@@ -527,8 +535,8 @@ with the stability estimate
 
 - For `u₀ ∈ H¹_σ` and `f ∈ L²(0,T; L²)` the solution is strong:
   `u ∈ L^∞(0,T'; H¹) ∩ L²(0,T'; H²)`.
-- For `f = 0` the vorticity `ω = ∂₁u₂ − ∂₂u₁` satisfies `∂ₜω + u·∇ω = νΔω` weakly, with
-  `‖ω(t)‖₂ ≤ ‖ω₀‖₂` and `‖ω(t)‖₂² + 2ν∫₀ᵗ‖∇ω‖₂² = ‖ω₀‖₂²`.
+- For `f = 0` and `u₀ ∈ H¹_σ` the vorticity `ω = ∂₁u₂ − ∂₂u₁` satisfies
+  `∂ₜω + u·∇ω = νΔω` weakly, with `‖ω(t)‖₂ ≤ ‖ω₀‖₂` and `‖ω(t)‖₂² + 2ν∫₀ᵗ‖∇ω‖₂² = ‖ω₀‖₂²`.
 - For `f = 0` and `u₀ ∈ L²_σ` the solution is smooth on `(0,∞) × ℝ²`, with
   `‖∇u(t)‖₂² ≤ ‖u₀‖₂²/(2νt)`.
 
@@ -658,7 +666,13 @@ The bilinear estimates that feed §5.1 are targets: on `L⁴(0,T; Ḣ¹)`-semino
 Prove that the Fujita–Kato solution with `u₀ ∈ H^{1/2}_σ(ℝ³)` is smooth on `(0,T] × ℝ³`, with
 `u(t) ∈ Hˢ` for every `s` and `t > 0`; that it is a Leray–Hopf solution satisfying the energy
 equality; and that every Leray–Hopf solution with the same initial datum coincides with it on
-`[0,T]`.
+`[0,T]` (smoothness for `t > 0`: Tao, Notes 1, Exercise 42, for `s > d/2`, and Theorem 45
+with Exercise 47 for smooth data at the critical regularity, all three on the torus; smoothness and the
+energy equality for Leray's strong solutions on `ℝ³` at `ν = 1`: Ożański–Pooley,
+Corollary 3.3 and Theorem 3.4, p. 25; agreement with weak solutions obeying the energy
+inequality: Tao, Notes 2, Proposition 20, for `Hˢ` mild solutions with `s > d/2 − 1` and
+`s ≥ 1`, with the remark after it that `s ≥ 1` can be dropped. None of these states the
+theorem at `H^{1/2}(ℝ³)` in one place; the statement here combines them through §4.4).
 
 - The Fujita–Kato solution is in the Prodi–Serrin class with `(q,p) = (4,6)`, so the last
   statement is §4.4.

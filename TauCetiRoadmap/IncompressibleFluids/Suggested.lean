@@ -15,8 +15,9 @@ carriers exist at the pins. Everything else the roadmap plans, including every A
 every Check, lives in the README.
 
 Stated here: the weak divergence of a locally integrable field and the solenoidal subspace
-`L²_σ` (§1.1); the Leray projection as the orthogonal projection onto it, with its commutation
-with the heat semigroup (§1.2); the off-diagonal `Lᵖ`–`L^q` estimate for the heat semigroup
+`L²_σ` (§1.1); the Leray projection as the orthogonal projection onto it, the Helmholtz–Weyl
+description of the orthogonal complement by `L²` weak gradients, and the commutation of the
+projection with the heat semigroup (§1.2); the off-diagonal `Lᵖ`–`L^q` estimate for the heat semigroup
 (§2.1); Ladyzhenskaya's inequality in dimension two (§3.1); the Aubin–Lions lemma (§3.4); and
 the bilinear fixed-point lemma (§5.1). The closure properties of `L²_σ` and the existence of
 its orthogonal projection are proved, so that no definition or instance depends on `sorry`.
@@ -139,13 +140,25 @@ subspace (§1.2). -/
 def lerayProjection : Lp E 2 (volume : Measure E) →L[ℝ] Lp E 2 (volume : Measure E) :=
   (solenoidalL2 E).starProjection
 
-/-- **Helmholtz–Weyl** (§1.2). The orthogonal complement of `L²_σ(E)` is the closure of the
-gradients of scalar test functions: an `L²` field is orthogonal to every solenoidal field
-exactly when it is an `L²` limit of test gradients. -/
+/-- A check on the definition of `L²_σ(E)` (§1.2): its orthogonal complement is the closure of the
+gradients of scalar test functions. Since `L²_σ(E)` is by `isSolenoidalOn_top_iff` the orthogonal
+complement of the test gradients, this is the double orthogonal complement of a subspace and not
+yet the Helmholtz–Weyl theorem, which is `mem_orthogonal_solenoidalL2_iff_exists_hasWeakFDerivOn`
+below. -/
 theorem mem_orthogonal_solenoidalL2_iff (u : Lp E 2 (volume : Measure E)) :
     u ∈ (solenoidalL2 E)ᗮ ↔
       ∀ ε > 0, ∃ φ : 𝓓((⊤ : Opens E), ℝ),
         eLpNorm (fun x ↦ u x - gradient (φ : E → ℝ) x) 2 volume < ENNReal.ofReal ε := by
+  sorry
+
+/-- **Helmholtz–Weyl** (§1.2). The orthogonal complement of `L²_σ(E)` is the space of `L²`
+gradients: an `L²` field `u` is orthogonal to every solenoidal field exactly when `u = ∇q` for a
+locally integrable scalar `q`, the gradient being the weak derivative `TauCeti.HasWeakFDerivOn`
+on the whole space. -/
+theorem mem_orthogonal_solenoidalL2_iff_exists_hasWeakFDerivOn
+    (u : Lp E 2 (volume : Measure E)) :
+    u ∈ (solenoidalL2 E)ᗮ ↔
+      ∃ q : E → ℝ, HasWeakFDerivOn volume ⊤ q (fun x ↦ innerSL ℝ (u x)) := by
   sorry
 
 /-- **The Leray projection commutes with the heat semigroup** (§1.2). -/
@@ -181,16 +194,19 @@ end Layer2
 section Layer3
 
 /-- **Ladyzhenskaya's inequality in dimension two** (§3.1). For a compactly supported `C¹`
-function on the plane, `‖u‖₄⁴ ≤ 2‖u‖₂²‖∇u‖₂²`. -/
-theorem integral_pow_four_le_of_finrank_eq_two {u : EuclideanSpace ℝ (Fin 2) → ℝ}
+function on a two-dimensional real inner product space, `‖u‖₄⁴ ≤ 2‖u‖₂²‖∇u‖₂²`. -/
+theorem integral_pow_four_le_of_finrank_eq_two {E : Type*} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+    (hE : Module.finrank ℝ E = 2) {u : E → ℝ}
     (hu : ContDiff ℝ 1 u) (h2u : HasCompactSupport u) :
     ∫ x, u x ^ 4 ≤ 2 * (∫ x, u x ^ 2) * ∫ x, ‖fderiv ℝ u x‖ ^ 2 := by
   sorry
 
 /-- **The Aubin–Lions lemma** (§3.4). If `X₀` embeds compactly in `X` and `X` embeds in `X₁`,
 a sequence bounded in `Lᵖ(0,T; X₀)` whose weak time derivatives, taken in `X₁`, are bounded in
-`L^r(0,T; X₁)` has a subsequence converging in `Lᵖ(0,T; X)`. The weak time derivative is the
-pinned `TauCeti.HasWeakLineDerivOn` on the interval. -/
+`L^r(0,T; X₁)` has a subsequence converging in `Lᵖ(0,T; X)`. This is the form of §3.4 without
+reflexivity, for `1 < p < ∞` and `1 < r ≤ ∞`. The weak time derivative is the pinned
+`TauCeti.HasWeakLineDerivOn` on the interval. -/
 theorem exists_subseq_tendsto_eLpNorm_of_isCompactOperator {X₀ X X₁ : Type*}
     [NormedAddCommGroup X₀] [NormedSpace ℝ X₀] [CompleteSpace X₀]
     [NormedAddCommGroup X] [NormedSpace ℝ X] [CompleteSpace X]
