@@ -1237,8 +1237,10 @@ radical on both sides.
 - **Endomorphism rings of finite-length modules** (`TauCeti.Module.End.isSemiprimaryRing` under
   `[IsNoetherian R M] [IsArtinian R M]`; [AF, Cor. 29.3, p. 324]): `S = Module.End R M` (`f * g =
   f ∘ g`) is semiprimary via four targets:
-  1. *Nil implies T-nilpotent* ([Fisher-Nil, Thms. 1.5, 2.1, pp. 76–77], in the exposition of [AF,
-     Thm. 29.2, pp. 323–324]): for a multiplicatively closed set `I ⊆ S` of nilpotent endomorphisms,
+  1. *Nil implies T-nilpotent* ([Fisher-Nil, Thms. 1.5, 2.1, pp. 76–77], stated there for nil
+     subrings; [AF, Thm. 29.2, pp. 323–324] states it for nil one-sided ideals of `S`; both proofs
+     use only closure under products): for a multiplicatively closed set `I ⊆ S` of nilpotent
+     endomorphisms,
      if `M` is Artinian and `I` has a sequence with no vanishing product, inductively choose the
      next term among sequences with no vanishing product extending the already chosen prefix so as
      to minimize its image; if `M` is Noetherian, choose `s₁, s₂, …` with maximal kernels so that
