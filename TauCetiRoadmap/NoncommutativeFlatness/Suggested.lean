@@ -48,6 +48,11 @@ namespace TauCetiRoadmap.NoncommutativeFlatness
 open CategoryTheory CategoryTheory.Limits MulOpposite Opposite
 open scoped CharacterModule DirectSum TensorProduct
 
+/-- An additive map regarded as `R`-linear; compatibility with scalars is a proof obligation. -/
+def addToLin {R M N : Type*} [Semiring R] [AddCommMonoid M] [AddCommMonoid N] [Module R M]
+    [Module R N] (f : M →+ N) : M →ₗ[R] N :=
+  { f with map_smul' := sorry }
+
 /-! ## Layer 0: modules over a preadditive category and their tensor product -/
 
 /-! ### 0.1 `Mod C` -/
@@ -122,8 +127,17 @@ def ModCat.yoneda : C ⥤ ModCat.{v} C :=
 
 instance (X : C) : Projective ((ModCat.yoneda C).obj X) := sorry
 
+/-- **0.1** `r ∈ R` acts on `φ : F ⟶ G` by `φ ≫ G(r • 𝟙)`. -/
 instance {D : Type u} [Category.{v} D] [Preadditive D] (R : Type*) [CommRing R] [Linear R D] :
-    Linear R (ModCat.{w} D) := sorry
+    Linear R (ModCat.{w} D) where
+  homModule F G :=
+    { smul r φ := ObjectProperty.homMk
+        { app c := φ.hom.app c ≫ G.obj.map (r • 𝟙 c.unop).op
+          naturality := sorry }
+      one_smul := sorry, mul_smul := sorry, smul_zero := sorry, smul_add := sorry,
+      add_smul := sorry, zero_smul := sorry }
+  smul_comp := sorry
+  comp_smul := sorry
 
 variable {C} in
 /-- **0.1** Concrete `C`-submodule (additive subfunctor) of `F : Mod C`. -/
@@ -141,7 +155,13 @@ theorem ModCat.Submodule.ext {F : ModCat.{w} C} {S T : ModCat.Submodule F}
 instance {F : ModCat.{w} C} : PartialOrder (ModCat.Submodule F) :=
   PartialOrder.lift ModCat.Submodule.carrier fun | ⟨_, _⟩, ⟨_, _⟩, rfl => rfl
 
-noncomputable instance {F : ModCat.{w} C} : CompleteLattice (ModCat.Submodule F) := sorry
+instance {F : ModCat.{w} C} : InfSet (ModCat.Submodule F) where
+  sInf S := ⟨fun X ↦ ⨅ s ∈ S, s.carrier X, fun f x hx ↦ by
+    simp only [AddSubgroup.mem_iInf] at hx ⊢
+    exact fun s hs ↦ s.map_mem f (hx s hs)⟩
+
+noncomputable instance {F : ModCat.{w} C} : CompleteLattice (ModCat.Submodule F) :=
+  completeLatticeOfInf _ fun _ ↦ sorry
 
 variable {C} in
 noncomputable def ModCat.Submodule.orderIsoSubobject (F : ModCat.{w} C) :
@@ -158,12 +178,42 @@ section OneObject
 
 variable (A : Type u) [Ring A]
 
-/-- **0.2** Left `A`-modules are modules over `SingleObj Aᵐᵒᵖ` ([ML, IX.6, p. 226]). -/
-noncomputable def moduleCatEquivModCat : ModuleCat.{v} A ≌ ModCat.{v} (SingleObj Aᵐᵒᵖ) := sorry
+/-- **0.2** A left `A`-module `M` as the functor on `SingleObj Aᵐᵒᵖ` with value `M`, where
+`op a` acts by `a • -` ([ML, IX.6, p. 226]). -/
+noncomputable def moduleCatToModCat : ModuleCat.{v} A ⥤ ModCat.{v} (SingleObj Aᵐᵒᵖ) where
+  obj M := ⟨{ obj _ := AddCommGrpCat.of M
+              map f := AddCommGrpCat.ofHom
+                (DistribSMul.toAddMonoidHom M (MulOpposite.unop (show Aᵐᵒᵖ from f.unop)))
+              map_id := sorry
+              map_comp := sorry }, sorry⟩
+  map φ := ObjectProperty.homMk
+    { app _ := AddCommGrpCat.ofHom φ.hom.toAddMonoidHom
+      naturality := sorry }
+
+instance : (moduleCatToModCat.{v} A).IsEquivalence := sorry
+
+/-- **0.2** Left `A`-modules are modules over `SingleObj Aᵐᵒᵖ`. -/
+noncomputable def moduleCatEquivModCat : ModuleCat.{v} A ≌ ModCat.{v} (SingleObj Aᵐᵒᵖ) :=
+  (moduleCatToModCat.{v} A).asEquivalence
+
+/-- **0.2** A right `A`-module `M` as a covariant functor on `SingleObj Aᵐᵒᵖ` with value `M`. -/
+noncomputable def moduleCatMulOppositeToModCatOp :
+    ModuleCat.{v} Aᵐᵒᵖ ⥤ ModCat.{v} (SingleObj Aᵐᵒᵖ)ᵒᵖ where
+  obj M := ⟨{ obj _ := AddCommGrpCat.of M
+              map f := AddCommGrpCat.ofHom
+                (DistribSMul.toAddMonoidHom M (show Aᵐᵒᵖ from f.unop.unop))
+              map_id := sorry
+              map_comp := sorry }, sorry⟩
+  map φ := ObjectProperty.homMk
+    { app _ := AddCommGrpCat.ofHom φ.hom.toAddMonoidHom
+      naturality := sorry }
+
+instance : (moduleCatMulOppositeToModCatOp.{v} A).IsEquivalence := sorry
 
 /-- **0.2** Right `A`-modules are covariant additive functors on `SingleObj Aᵐᵒᵖ`. -/
 noncomputable def moduleCatMulOppositeEquivModCatOp :
-    ModuleCat.{v} Aᵐᵒᵖ ≌ ModCat.{v} (SingleObj Aᵐᵒᵖ)ᵒᵖ := sorry
+    ModuleCat.{v} Aᵐᵒᵖ ≌ ModCat.{v} (SingleObj Aᵐᵒᵖ)ᵒᵖ :=
+  (moduleCatMulOppositeToModCatOp.{v} A).asEquivalence
 
 instance [Small.{v} A] : EssentiallySmall.{v} (SingleObj A) := sorry
 
@@ -197,10 +247,17 @@ variable {R : Type t} [CommRing R]
   {C₁ : Type u₁} [Category.{v₁} C₁] [Preadditive C₁] [Linear R C₁]
   {C₂ : Type u₂} [Category.{v₂} C₂] [Preadditive C₂] [Linear R C₂]
 
+/-- **0.3** Composition `(f₁ ⊗ f₂) ≫ (g₁ ⊗ g₂) = (f₁ ≫ g₁) ⊗ (f₂ ≫ g₂)`, as an `R`-bilinear map. -/
+noncomputable def compBilin (X Y Z : Linear.TensorProduct R C₁ C₂) :
+    ((X.fst ⟶ Y.fst) ⊗[R] (X.snd ⟶ Y.snd)) →ₗ[R] ((Y.fst ⟶ Z.fst) ⊗[R] (Y.snd ⟶ Z.snd)) →ₗ[R]
+      ((X.fst ⟶ Z.fst) ⊗[R] (X.snd ⟶ Z.snd)) :=
+  TensorProduct.lift <| (TensorProduct.mapBilinear (RingHom.id R) _ _ _ _).compl₁₂
+    (Linear.comp X.fst Y.fst Z.fst) (Linear.comp X.snd Y.snd Z.snd)
+
 noncomputable instance : Category.{max v₁ v₂} (Linear.TensorProduct R C₁ C₂) where
   Hom X Y := _root_.TensorProduct R (X.fst ⟶ Y.fst) (X.snd ⟶ Y.snd)
   id X := 𝟙 X.fst ⊗ₜ[R] 𝟙 X.snd
-  comp := sorry
+  comp {X Y Z} f g := compBilin X Y Z f g
   id_comp := sorry
   comp_id := sorry
   assoc := sorry
@@ -224,7 +281,8 @@ def tmul {X Y : Linear.TensorProduct R C₁ C₂} (f₁ : X.fst ⟶ Y.fst) (f₂
 @[simp]
 theorem tmul_comp_tmul {X Y Z : Linear.TensorProduct R C₁ C₂}
     (f₁ : X.fst ⟶ Y.fst) (f₂ : X.snd ⟶ Y.snd) (g₁ : Y.fst ⟶ Z.fst) (g₂ : Y.snd ⟶ Z.snd) :
-    tmul (R := R) f₁ f₂ ≫ tmul (R := R) g₁ g₂ = tmul (R := R) (f₁ ≫ g₁) (f₂ ≫ g₂) := sorry
+    tmul (R := R) f₁ f₂ ≫ tmul (R := R) g₁ g₂ = tmul (R := R) (f₁ ≫ g₁) (f₂ ≫ g₂) := by
+  simp [CategoryStruct.comp, compBilin, tmul]
 
 variable (R C₁) in
 /-- **0.3** Left- and right-slice additive functors into `C₁ ⊗_R C₂`. -/
@@ -314,10 +372,19 @@ end ModCat.Bimod
 
 variable (C : Type u) [Category.{v} C] [Preadditive C]
 
-/-- **0.3** Regular `(C, C)`-bimodule `_C C_C`: `(X, Y) ↦ Hom_C(X, Y)`. -/
+/-- **0.3** `a ⊗ b` acts on `Hom_C(X, Y)` by `h ↦ a ≫ h ≫ b`. -/
+noncomputable def ModCat.regularAct {X Y X' Y' : C} :
+    (X' ⟶ X) →ₗ[ℤ] (Opposite.op Y' ⟶ Opposite.op Y) →ₗ[ℤ] ((X ⟶ Y) →ₗ[ℤ] (X' ⟶ Y')) :=
+  LinearMap.mk₂ ℤ (fun a b ↦ ((Linear.comp (S := ℤ) X' X Y' a).comp
+      ((Linear.comp (S := ℤ) X Y Y').flip b.unop)))
+    (by intros; ext; simp) (by intros; ext; simp) (by intros; ext; simp) (by intros; ext; simp)
+
+/-- **0.3** Regular `(C, C)`-bimodule `_C C_C`: `(X, Y) ↦ Hom_C(X, Y)`, with `a ⊗ b` acting by
+`h ↦ a ≫ h ≫ b`. -/
 noncomputable def ModCat.regularBimod : ModCat.Bimod.{v} C C :=
   ⟨{ obj p := AddCommGrpCat.of (p.unop.fst ⟶ p.unop.snd.unop)
-     map := sorry
+     map φ := AddCommGrpCat.ofHom
+       (TensorProduct.lift (ModCat.regularAct C) φ.unop).toAddMonoidHom
      map_id := sorry
      map_comp := sorry }, sorry⟩
 
@@ -383,20 +450,30 @@ theorem MorphismIdeal.op_toRightMorphismIdeal (I : TauCeti.MorphismIdeal C) :
   ext; simp [RightMorphismIdeal.op, MorphismIdeal.toRightMorphismIdeal,
     MorphismIdeal.toLeftMorphismIdeal, LeftMorphismIdeal.hom, RightMorphismIdeal.hom]; rfl
 
-noncomputable def RightMorphismIdeal.ofSubobject {X : C}
-    (S : Subobject ((ModCat.yoneda Cᵒᵖ).obj (Opposite.op X))) : RightMorphismIdeal C := sorry
+/-- **0.3** The right ideal concentrated at `X` given by a submodule `S ⊆ Hom(X, -)` (single-object
+ideals of [Mitchell, §3] and [OR], extended by `0`). -/
+noncomputable def RightMorphismIdeal.ofSubmodule {X : C}
+    (S : ModCat.Submodule ((ModCat.regularBimod C).sliceRight X)) : RightMorphismIdeal C := by
+  classical
+  exact fun X' ↦ if h : X' = X then h ▸ S else ⊥
 
-/-- **0.3** Principal right ideal `g C = {g ≫ h}` generated by `g : X ⟶ Y`. -/
+/-- **0.3** Principal right ideal `g C = {g ≫ h}` at `X` generated by `g : X ⟶ Y`. -/
 noncomputable def RightMorphismIdeal.principal {X Y : C} (g : X ⟶ Y) : RightMorphismIdeal C :=
-  RightMorphismIdeal.ofSubobject (imageSubobject ((ModCat.yoneda Cᵒᵖ).map g.op))
+  RightMorphismIdeal.ofSubmodule (X := X)
+    ⟨fun Z ↦ AddSubgroup.closure {f | ∃ h : Y ⟶ Z.unop.unop, f = (g ≫ h : X ⟶ Z.unop.unop)},
+      sorry⟩
 
 /-- **0.3** Superfluous element of a lattice with `⊤` (refactoring `TauCeti.IsSuperfluous`). -/
 def IsSuperfluous {α : Type*} [SemilatticeSup α] [OrderTop α] (a : α) : Prop :=
   ∀ ⦃b : α⦄, a ⊔ b = ⊤ → b = ⊤
 
-/-- **0.3** Subobject `I · M` of `M : Mod C` generated by images along morphisms in `I`. -/
-noncomputable def LeftMorphismIdeal.smul (I : LeftMorphismIdeal C) (M : ModCat.{w} C) :
-    Subobject M := sorry
+/-- **0.3** Submodule `I · M` of `M : Mod C`: `(I · M)(X)` is generated by the `M(f)(x)` with
+`f ∈ I(X, Y)` and `x ∈ M(Y)`. -/
+def LeftMorphismIdeal.smul (I : LeftMorphismIdeal C) (M : ModCat.{w} C) : ModCat.Submodule M where
+  carrier X := AddSubgroup.closure
+    {y | ∃ (Y : C) (f : X.unop ⟶ Y), f ∈ I.hom X.unop Y ∧
+      ∃ x : M.obj.obj (Opposite.op Y), y = (M.obj.map f.op).hom x}
+  map_mem := sorry
 
 end BimodAndIdeals
 
@@ -412,8 +489,31 @@ class IsVonNeumannRegularRing (A : Type u) [Ring A] : Prop where
 
 section Tensor
 
-def tensorBifunctor {D : Type u} [Category.{v} D] (G : Dᵒᵖ ⥤ AddCommGrpCat.{w})
-    (F : D ⥤ AddCommGrpCat.{w}) : Dᵒᵖ ⥤ D ⥤ AddCommGrpCat.{w} := sorry
+/-- **0.4** The bifunctor `(d', d) ↦ G(d') ⊗_ℤ F(d)` whose coend is `G ⊗_D F`. -/
+noncomputable def tensorBifunctor {D : Type u} [Category.{v} D] (G : Dᵒᵖ ⥤ AddCommGrpCat.{w})
+    (F : D ⥤ AddCommGrpCat.{w}) : Dᵒᵖ ⥤ D ⥤ AddCommGrpCat.{w} where
+  obj d' :=
+    { obj d := AddCommGrpCat.of (G.obj d' ⊗[ℤ] F.obj d)
+      map f := AddCommGrpCat.ofHom
+        (TensorProduct.map LinearMap.id (F.map f).hom.toIntLinearMap).toAddMonoidHom
+      map_id := sorry
+      map_comp := sorry }
+  map g :=
+    { app d := AddCommGrpCat.ofHom
+        (TensorProduct.map (G.map g).hom.toIntLinearMap LinearMap.id).toAddMonoidHom
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
+
+/-- **0.4** Functoriality of `tensorBifunctor` in both arguments, `α ⊗ β`. -/
+noncomputable def tensorBifunctorMap {D : Type u} [Category.{v} D]
+    {G G' : Dᵒᵖ ⥤ AddCommGrpCat.{w}} {F F' : D ⥤ AddCommGrpCat.{w}} (α : G ⟶ G') (β : F ⟶ F') :
+    tensorBifunctor G F ⟶ tensorBifunctor G' F' where
+  app d' :=
+    { app d := AddCommGrpCat.ofHom
+        (TensorProduct.map (α.app d').hom.toIntLinearMap (β.app d).hom.toIntLinearMap).toAddMonoidHom
+      naturality := sorry }
+  naturality := sorry
 
 instance {D : Type u} [Category.{v} D] [EssentiallySmall.{w} D] (G : Dᵒᵖ ⥤ AddCommGrpCat.{w})
     (F : D ⥤ AddCommGrpCat.{w}) : HasCoend (tensorBifunctor G F) := sorry
@@ -428,8 +528,43 @@ noncomputable def MorphismIdeal.quotientYoneda (I : TauCeti.MorphismIdeal C) (X 
 
 namespace ModCat
 
+/-- **0.1** The `R`-module structure on `F(c)` given by `r ↦ F(r • 𝟙 c)`. -/
+@[instance_reducible]
+noncomputable def moduleObj (R : Type*) [CommRing R] [Linear R C] (F : ModCat.{w} C) (c : Cᵒᵖ) :
+    Module R (F.obj.obj c) :=
+  Module.compHom _
+    ({ toFun r := (F.obj.map (r • 𝟙 c.unop).op).hom
+       map_one' := sorry, map_mul' := sorry, map_zero' := sorry, map_add' := sorry } :
+      R →+* AddMonoid.End (F.obj.obj c))
+
+/-- **0.8** The bifunctor `(F, E) ↦ F^E = Hom_R(F(-), E)`, contravariant in `F`. -/
 noncomputable def linearHomOpBifunctor (R : Type*) [CommRing R] [Linear R C] :
-    (ModCat.{w} C)ᵒᵖ ⥤ ModuleCat.{w} R ⥤ ModCat.{w} Cᵒᵖ := sorry
+    (ModCat.{w} C)ᵒᵖ ⥤ ModuleCat.{w} R ⥤ ModCat.{w} Cᵒᵖ where
+  obj F :=
+    { obj E := ⟨{ obj X := letI := moduleObj R F.unop X.unop
+                    AddCommGrpCat.of (F.unop.obj.obj X.unop →ₗ[R] E)
+                  map {X Y} f := letI := moduleObj R F.unop X.unop
+                    letI := moduleObj R F.unop Y.unop
+                    AddCommGrpCat.ofHom (LinearMap.lcomp R E
+                      (addToLin (F.unop.obj.map f.unop).hom)).toAddMonoidHom
+                  map_id := sorry
+                  map_comp := sorry }, sorry⟩
+      map g := ObjectProperty.homMk
+        { app X := letI := moduleObj R F.unop X.unop
+            AddCommGrpCat.ofHom (LinearMap.llcomp R _ _ _ g.hom).toAddMonoidHom
+          naturality := sorry }
+      map_id := sorry
+      map_comp := sorry }
+  map {F F'} α :=
+    { app E := ObjectProperty.homMk
+        { app X := letI := moduleObj R F.unop X.unop
+            letI := moduleObj R F'.unop X.unop
+            AddCommGrpCat.ofHom (LinearMap.lcomp R E
+              (addToLin (α.unop.hom.app X.unop).hom)).toAddMonoidHom
+          naturality := sorry }
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
 
 section CoendTensor
 
@@ -441,22 +576,48 @@ noncomputable def tensorObj (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) : AddCom
 
 /-- **0.4** Coend tensor product as an additive bifunctor `Mod Cᵒᵖ ⥤ Mod C ⥤ AddCommGrpCat`. -/
 noncomputable def tensor : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w} where
-  obj G := { obj F := tensorObj G F, map _ := sorry, map_id := sorry, map_comp := sorry }
-  map _ := { app _ := sorry, naturality := sorry }
+  obj G :=
+    { obj F := tensorObj G F
+      map φ := coend.map (tensorBifunctorMap (𝟙 G.obj) φ.hom)
+      map_id := sorry
+      map_comp := sorry }
+  map α :=
+    { app F := coend.map (tensorBifunctorMap α.hom (𝟙 F.obj))
+      naturality := sorry }
   map_id := sorry
   map_comp := sorry
 
 instance (G : ModCat.{w} Cᵒᵖ) : (tensor.obj G).Additive := sorry
 instance (F : ModCat.{w} C) : (tensor.flip.obj F).Additive := sorry
 
+/-- **0.4** `r ∈ R` acts on `G ⊗_C F` through `G ⊗_C (r • 𝟙 F)`. -/
 noncomputable instance (R : Type*) [CommRing R] [Linear R C] (G : ModCat.{w} Cᵒᵖ)
-    (F : ModCat.{w} C) : Module R (tensorObj G F) := sorry
+    (F : ModCat.{w} C) : Module R (tensorObj G F) :=
+  Module.compHom _
+    ({ toFun r := ((tensor.obj G).map (r • 𝟙 F)).hom
+       map_one' := sorry, map_mul' := sorry, map_zero' := sorry, map_add' := sorry } :
+      R →+* AddMonoid.End (tensorObj G F))
 
 end CoendTensor
 
 /-- **0.4** `R`-linear tensor bifunctor `Mod Cᵒᵖ ⥤ Mod C ⥤ ModuleCat R`. -/
 noncomputable def linearTensor [EssentiallySmall.{w} C] (R : Type*) [CommRing R] [Linear R C] :
-    ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ ModuleCat.{w} R := sorry
+    ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ ModuleCat.{w} R where
+  obj G :=
+    { obj F := ModuleCat.of R (tensorObj G F)
+      map φ := ModuleCat.ofHom
+        { toFun := ((tensor.obj G).map φ).hom, map_add' := map_add _, map_smul' := sorry }
+      map_id := sorry
+      map_comp := sorry }
+  map α :=
+    { app F := ModuleCat.ofHom
+        { toFun := ((tensor.map α).app F).hom, map_add' := map_add _, map_smul' := sorry }
+      naturality := sorry }
+  map_id := sorry
+  map_comp := sorry
+
+instance [EssentiallySmall.{w} C] (R : Type*) [CommRing R] [Linear R C] (G : ModCat.{w} Cᵒᵖ) :
+    ((linearTensor R).obj G).Additive := sorry
 
 /-- **0.4** Yoneda cancellation `G ⊗_C Hom(-, X) ≅ G(X)` and `Hom(X, -) ⊗_C F ≅ F(X)`. -/
 noncomputable def tensorObjYonedaIso [EssentiallySmall.{v} C] (G : ModCat.{v} Cᵒᵖ) (X : C) :
@@ -500,9 +661,19 @@ end BimodTensorHom
 
 end ModCat
 
-/-- **0.6** Double-opposite equivalence `Mod C ≌ Mod Cᵒᵖᵒᵖ` and swap `G ⊗_C F ≅ F ⊗_{Cᵒᵖ} G`. -/
+/-- **0.6** Restriction along `Cᵒᵖᵒᵖ ⥤ C`, giving the double-opposite equivalence
+`Mod C ≌ Mod Cᵒᵖᵒᵖ`, and the swap `G ⊗_C F ≅ F ⊗_{Cᵒᵖ} G`. -/
+noncomputable def ModCat.opOpFunctor (C : Type u) [Category.{v} C] [Preadditive C] :
+    ModCat.{w} C ⥤ ModCat.{w} Cᵒᵖᵒᵖ where
+  obj F := ⟨(unopUnop C).op ⋙ F.obj, sorry⟩
+  map φ := ObjectProperty.homMk (Functor.whiskerLeft (unopUnop C).op φ.hom)
+
+instance (C : Type u) [Category.{v} C] [Preadditive C] :
+    (ModCat.opOpFunctor.{w} C).IsEquivalence := sorry
+
 noncomputable def ModCat.opOpEquiv (C : Type u) [Category.{v} C] [Preadditive C] :
-    ModCat.{w} C ≌ ModCat.{w} Cᵒᵖᵒᵖ := sorry
+    ModCat.{w} C ≌ ModCat.{w} Cᵒᵖᵒᵖ :=
+  (ModCat.opOpFunctor.{w} C).asEquivalence
 
 noncomputable def ModCat.tensorObjSwapIso [EssentiallySmall.{w} C]
     (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) :
@@ -516,7 +687,15 @@ end Tensor
 a left `A`-module `M` over a possibly noncommutative ring `A`. -/
 instance CharacterModule.rightModule (A : Type u) [Ring A] (M : Type v) [AddCommGroup M]
     [Module A M] :
-    Module Aᵐᵒᵖ (CharacterModule M) := sorry
+    Module Aᵐᵒᵖ (CharacterModule M) where
+  smul a χ := AddMonoidHom.comp (show M →+ AddCircle (1 : ℚ) from χ)
+    (DistribSMul.toAddMonoidHom M a.unop)
+  one_smul := sorry
+  mul_smul := sorry
+  smul_zero := sorry
+  smul_add := sorry
+  add_smul := sorry
+  zero_smul := sorry
 
 namespace BalancedTensorProduct
 
@@ -572,13 +751,49 @@ end Maps
 
 /-- **0.7** Balanced tensor product bifunctor `ModuleCat Aᵐᵒᵖ ⥤ ModuleCat A ⥤ ModuleCat R`. -/
 noncomputable def functor (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A] :
-    ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ ModuleCat.{v} R := sorry
+    ModuleCat.{v} Aᵐᵒᵖ ⥤ ModuleCat.{v} A ⥤ ModuleCat.{v} R :=
+  letI : ∀ M : ModuleCat.{v} Aᵐᵒᵖ, Module R M := fun M ↦ Module.compHom M (algebraMap R Aᵐᵒᵖ)
+  letI : ∀ N : ModuleCat.{v} A, Module R N := fun N ↦ Module.compHom N (algebraMap R A)
+  { obj M :=
+      { obj N := ModuleCat.of R (TauCeti.BalancedTensorProduct R A M N)
+        map g := ModuleCat.ofHom (TauCeti.BalancedTensorProduct.map LinearMap.id
+          { toFun := g, map_add' := map_add _, map_smul' := sorry } (fun _ _ ↦ rfl)
+          (fun a n ↦ g.hom.map_smul a n))
+        map_id := sorry
+        map_comp := sorry }
+    map f :=
+      { app N := ModuleCat.ofHom (TauCeti.BalancedTensorProduct.map
+          { toFun := f, map_add' := map_add _, map_smul' := sorry } LinearMap.id
+          (fun a m ↦ f.hom.map_smul (op a) m) (fun _ _ ↦ rfl))
+        naturality := sorry }
+    map_id := sorry
+    map_comp := sorry }
 
 instance (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A] (M : ModuleCat.{v} Aᵐᵒᵖ) :
     ((functor R A).obj M).Additive := sorry
 
+/-- **0.7** The right `A`-action `(f • a)(n) = f(a • n)` on `Hom_R(N, X)`. -/
+@[instance_reducible]
+noncomputable def homRightModule (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
+    (N : Type v) [AddCommGroup N] [Module A N] (X : Type*) [AddCommGroup X] [Module R X] :
+    letI : Module R N := Module.compHom N (algebraMap R A)
+    Module Aᵐᵒᵖ (N →ₗ[R] X) :=
+  letI : Module R N := Module.compHom N (algebraMap R A)
+  { smul a f := f.comp (addToLin (DistribSMul.toAddMonoidHom N a.unop))
+    one_smul := sorry, mul_smul := sorry, smul_zero := sorry, smul_add := sorry,
+    add_smul := sorry, zero_smul := sorry }
+
+/-- **0.7** `Hom_R(N, -) : ModuleCat R ⥤ ModuleCat Aᵐᵒᵖ`, right adjoint to `- ⊗_A N`. -/
 noncomputable def homRight (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
-    (N : ModuleCat.{v} A) : ModuleCat.{v} R ⥤ ModuleCat.{v} Aᵐᵒᵖ := sorry
+    (N : ModuleCat.{v} A) : ModuleCat.{v} R ⥤ ModuleCat.{v} Aᵐᵒᵖ :=
+  letI : Module R N := Module.compHom N (algebraMap R A)
+  { obj X := letI := homRightModule R A N X
+      ModuleCat.of Aᵐᵒᵖ (N →ₗ[R] X)
+    map {X Y} g := letI := homRightModule R A N X
+      letI := homRightModule R A N Y
+      ModuleCat.ofHom (addToLin (LinearMap.llcomp R N X Y g.hom).toAddMonoidHom)
+    map_id := sorry
+    map_comp := sorry }
 
 /-- **0.7** Comparison between the coend tensor over `SingleObj Aᵐᵒᵖ` and `M ⊗_A N`. -/
 noncomputable def tensorObjSingleObjIso {A : Type u} [Ring A] [Small.{v} A]
@@ -591,11 +806,44 @@ noncomputable def tensorObjSingleObjIso {A : Type u} [Ring A] [Small.{v} A]
 adjunction (lifting `TauCeti.BalancedTensorProduct.leftModule`). -/
 noncomputable def bimodLeftFunctor (A : Type u) [Ring A] (B : Type t) [Ring B] (M : Type v)
     [AddCommGroup M] [Module A M] [Module Bᵐᵒᵖ M] [SMulCommClass A Bᵐᵒᵖ M] :
-    ModuleCat.{v} B ⥤ ModuleCat.{v} A := sorry
+    ModuleCat.{v} B ⥤ ModuleCat.{v} A where
+  obj N := letI := TauCeti.BalancedTensorProduct.leftModule (k := ℤ) (A := B) (M := M) (N := N) A
+    ModuleCat.of A (TauCeti.BalancedTensorProduct ℤ B M N)
+  map {N N'} g :=
+    letI := TauCeti.BalancedTensorProduct.leftModule (k := ℤ) (A := B) (M := M) (N := N) A
+    letI := TauCeti.BalancedTensorProduct.leftModule (k := ℤ) (A := B) (M := M) (N := N') A
+    ModuleCat.ofHom (addToLin (TauCeti.BalancedTensorProduct.map LinearMap.id
+      g.hom.toAddMonoidHom.toIntLinearMap (fun _ _ ↦ rfl)
+      (fun a n ↦ g.hom.map_smul a n)).toAddMonoidHom)
+  map_id := sorry
+  map_comp := sorry
+
+/-- **0.7** The `B`-action `(b • f)(m) = f(m • b)` on `Hom_A(M, X)` for an `(A, B)`-bimodule `M`. -/
+@[instance_reducible]
+noncomputable def bimodHomModule (A : Type u) [Ring A] (B : Type t) [Ring B] (M : Type v)
+    [AddCommGroup M] [Module A M] [Module Bᵐᵒᵖ M] [SMulCommClass A Bᵐᵒᵖ M] (X : Type*)
+    [AddCommGroup X] [Module A X] : Module B (M →ₗ[A] X) where
+  smul b f := f.comp
+    ({ toFun m := MulOpposite.op b • m, map_add' := smul_add (MulOpposite.op b),
+       map_smul' := fun a m ↦ (smul_comm a (MulOpposite.op b) m).symm } : M →ₗ[A] M)
+  one_smul := sorry
+  mul_smul := sorry
+  smul_zero := sorry
+  smul_add := sorry
+  add_smul := sorry
+  zero_smul := sorry
 
 noncomputable def bimodHomRight (A : Type u) [Ring A] (B : Type t) [Ring B] (M : Type v)
     [AddCommGroup M] [Module A M] [Module Bᵐᵒᵖ M] [SMulCommClass A Bᵐᵒᵖ M] :
-    ModuleCat.{v} A ⥤ ModuleCat.{v} B := sorry
+    ModuleCat.{v} A ⥤ ModuleCat.{v} B where
+  obj X := letI := bimodHomModule A B M X
+    ModuleCat.of B (M →ₗ[A] X)
+  map {X Y} g := letI := bimodHomModule A B M X
+    letI := bimodHomModule A B M Y
+    ModuleCat.ofHom (addToLin
+      { toFun f := g.hom.comp f, map_zero' := sorry, map_add' := sorry })
+  map_id := sorry
+  map_comp := sorry
 
 noncomputable def bimodLeftHomAdjunction (A : Type u) [Ring A] (B : Type t) [Ring B] (M : Type v)
     [AddCommGroup M] [Module A M] [Module Bᵐᵒᵖ M] [SMulCommClass A Bᵐᵒᵖ M] :
@@ -743,14 +991,21 @@ noncomputable def tor (n : ℕ) : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCom
   obj G := (tensor.obj G).leftDerived n
   map g := NatTrans.leftDerived (tensor.map g) n
 
+/-- **1.1** `r ∈ R` acts on `Tor_n(G, F)` through `Tor_n(G, r • 𝟙 F)`. -/
 noncomputable instance (R : Type*) [CommRing R] [Linear R C] (n : ℕ) (G : ModCat.{w} Cᵒᵖ)
-    (F : ModCat.{w} C) : Module R (((tor n).obj G).obj F) := sorry
+    (F : ModCat.{w} C) : Module R (((tor n).obj G).obj F) :=
+  Module.compHom _
+    ({ toFun r := (((tor n).obj G).map (r • 𝟙 F)).hom
+       map_one' := sorry, map_mul' := sorry, map_zero' := sorry, map_add' := sorry } :
+      R →+* AddMonoid.End (((tor n).obj G).obj F))
 
 end ScalarTor
 
 /-- **1.1** `R`-linear `Tor` bifunctor `Mod Cᵒᵖ ⥤ Mod C ⥤ ModuleCat R`. -/
 noncomputable def linearTor [EssentiallySmall.{w} C] (R : Type*) [CommRing R] [Linear R C]
-    (n : ℕ) : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ ModuleCat.{w} R := sorry
+    (n : ℕ) : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ ModuleCat.{w} R where
+  obj G := ((linearTensor R).obj G).leftDerived n
+  map g := NatTrans.leftDerived ((linearTensor R).map g) n
 
 section BimodTor
 
@@ -809,12 +1064,25 @@ variable {B : Type u} [Ring B] [Small.{v} B] {M N : Type v}
 @[instance_reducible]
 noncomputable def BalancedTor.leftModule (S : Type*) [Semiring S] [Module S M]
     [SMulCommClass S Bᵐᵒᵖ M] (n : ℕ) :
-    Module S (((BalancedTor.{v} ℤ B n).obj (ModuleCat.of Bᵐᵒᵖ M)).obj (ModuleCat.of B N)) := sorry
+    Module S (((BalancedTor.{v} ℤ B n).obj (ModuleCat.of Bᵐᵒᵖ M)).obj (ModuleCat.of B N)) :=
+  Module.compHom _
+    ({ toFun s := (((BalancedTor.{v} ℤ B n).map (ModuleCat.ofHom
+          { toFun := (s • ·), map_add' := smul_add s, map_smul' := fun b m ↦ smul_comm s b m } :
+            ModuleCat.of Bᵐᵒᵖ M ⟶ ModuleCat.of Bᵐᵒᵖ M)).app (ModuleCat.of B N)).hom.toAddMonoidHom
+       map_one' := sorry, map_mul' := sorry, map_zero' := sorry, map_add' := sorry } :
+      S →+* AddMonoid.End _)
 
 @[instance_reducible]
 noncomputable def BalancedTor.rightModule (T : Type*) [Semiring T] [Module T N]
     [SMulCommClass B T N] (n : ℕ) :
-    Module T (((BalancedTor.{v} ℤ B n).obj (ModuleCat.of Bᵐᵒᵖ M)).obj (ModuleCat.of B N)) := sorry
+    Module T (((BalancedTor.{v} ℤ B n).obj (ModuleCat.of Bᵐᵒᵖ M)).obj (ModuleCat.of B N)) :=
+  Module.compHom _
+    ({ toFun t := (((BalancedTor.{v} ℤ B n).obj (ModuleCat.of Bᵐᵒᵖ M)).map (ModuleCat.ofHom
+          { toFun := (t • ·), map_add' := smul_add t,
+            map_smul' := fun b x ↦ (smul_comm b t x).symm } :
+            ModuleCat.of B N ⟶ ModuleCat.of B N)).hom.toAddMonoidHom
+       map_one' := sorry, map_mul' := sorry, map_zero' := sorry, map_add' := sorry } :
+      T →+* AddMonoid.End _)
 
 theorem BalancedTor.outerSMulCommClass (S T : Type*) [Semiring S] [Semiring T]
     [Module S M] [SMulCommClass S Bᵐᵒᵖ M] [Module T N] [SMulCommClass B T N] (n : ℕ) :
@@ -991,14 +1259,28 @@ instance : AddCommGroup (CategoryAlgebra C) :=
 instance (R : Type*) [CommRing R] [Linear R C] : Module R (CategoryAlgebra C) :=
   inferInstanceAs (Module R (Π₀ p : C × C, (p.1 ⟶ p.2)))
 
+/-- **1.7** Product `(a * b)(x, z) = ∑_y a(x, y) ≫ b(y, z)`. -/
+noncomputable instance : Mul (CategoryAlgebra C) where
+  mul a b := by
+    classical
+    exact DFinsupp.sum (show Π₀ p : C × C, (p.1 ⟶ p.2) from a) fun p f ↦
+      DFinsupp.sum (show Π₀ p : C × C, (p.1 ⟶ p.2) from b) fun q g ↦
+        if h : p.2 = q.1 then DFinsupp.single (p.1, q.2) (f ≫ eqToHom h ≫ g) else 0
+
 noncomputable instance : NonUnitalRing (CategoryAlgebra C) :=
-  { (inferInstance : AddCommGroup (CategoryAlgebra C)) with
-    mul := sorry, left_distrib := sorry, right_distrib := sorry,
+  { (inferInstance : AddCommGroup (CategoryAlgebra C)),
+    (inferInstance : Mul (CategoryAlgebra C)) with
+    left_distrib := sorry, right_distrib := sorry,
     zero_mul := sorry, mul_zero := sorry, mul_assoc := sorry }
 
 variable [Finite C]
 
-noncomputable instance : One (CategoryAlgebra C) := ⟨sorry⟩
+/-- **1.7** Unit `1 = ∑_x 𝟙 x` for finitely many objects. -/
+noncomputable instance : One (CategoryAlgebra C) :=
+  ⟨by
+    classical
+    haveI := Fintype.ofFinite C
+    exact (∑ x : C, DFinsupp.single (x, x) (𝟙 x) : Π₀ p : C × C, (p.1 ⟶ p.2))⟩
 
 noncomputable instance : Ring (CategoryAlgebra C) :=
   { (inferInstance : NonUnitalRing (CategoryAlgebra C)),
