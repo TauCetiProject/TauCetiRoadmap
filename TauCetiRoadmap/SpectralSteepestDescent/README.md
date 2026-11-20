@@ -466,8 +466,9 @@ Instances:
 
 ### 6.1 Matrix interface
 
-For `A : Matrix m n 𝕜`, define the matrix polar factor `U_A` by transport along
-`Matrix.toEuclideanLin`. Prove `U_Aᴴ * U_A = 1` when `A` has full column rank, the compact
+For `A : Matrix m n 𝕜`, define the matrix polar factor `U_A = matrixPolarFactor A` by transport
+along `Matrix.toEuclideanLin`: it is the matrix of the canonical polar factor of
+`Matrix.toEuclideanLin A`. Prove `U_Aᴴ * U_A = 1` when `A` has full column rank, the compact
 singular value decomposition form `U Vᴴ`, and the matrix forms of 1.2, 1.4, 3.2 and 5.2. Use the
 trace pairing `re (trace (Aᴴ * B))`, the `Matrix.Norms.L2Operator` norm and the Frobenius norm.
 (Proved here.)

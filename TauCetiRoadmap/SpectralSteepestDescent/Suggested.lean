@@ -202,4 +202,12 @@ theorem spectral_descent {f : (E' →L[ℝ] F') → ℝ} {W : E' →L[ℝ] F'} {
       f W - η * κ * UnitarilyInvariantSeminorm.nuclear ℝ E' F' G + L / 2 * η ^ 2 * ρ ^ 2 :=
   sorry
 
+/-! ## Layer 6: matrices -/
+
+/-- 6.1. The matrix polar factor: the matrix of the canonical polar factor
+`LinearMap.polarFactor` of `Matrix.toEuclideanLin A`. -/
+def matrixPolarFactor {m n : Type*} [Fintype m] [Fintype n] [DecidableEq n]
+    (A : Matrix m n 𝕜) : Matrix m n 𝕜 :=
+  Matrix.toEuclideanLin.symm (Matrix.toEuclideanLin A).polarFactor
+
 end TauCetiRoadmap.SpectralSteepestDescent
