@@ -186,7 +186,7 @@ independence); Tau Ceti's `inducedRiemannianMetric`.
 Products carry Tau Ceti's product metric. Finite powers `Fin k → M` carry Mathlib's charts for
 `ModelWithCorners.pi`; build here their `IsManifold` instance, the identification of the tangent
 space of the power with the product of tangent spaces, and the sum metric; and the componentwise
-gradients, Hessians, retractions and exponential maps [B23, Ex. 3.67]. *Connected components:* a
+gradients, Hessians, retractions and exponential maps [B23, Prop. 3.20, Ex. 3.67]. *Connected components:* a
 connected component `C` of `M` is open, since `M` is locally connected, and as an open submanifold
 with the restricted metric (`TauCeti.Manifold.instRiemannianBundleOpen`) it is a connected
 Riemannian manifold, to which `TauCeti.MetricSpace.ofRiemannianMetric` applies. Prove that its
@@ -221,15 +221,15 @@ For each manifold: the carrier, its dimension, the tangent space as a subspace o
 the orthogonal projection onto it, and the comparison with any structure already present on the same
 set or built on it by another roadmap.
 
-- **Sphere** `{x ∈ V : ‖x‖ = 1}`, the regular level of `h(x) = ‖x‖² − 1` [B23, ⟦LOC sphere⟧]. The
+- **Sphere** `{x ∈ V : ‖x‖ = 1}`, the regular level of `h(x) = ‖x‖² − 1` [B23, §7.2, (7.8)–(7.12); AMS08, Ex. 3.6.1]. The
   identity is a diffeomorphism from it to Mathlib's stereographic structure (SmoothBundlesConnections
   B1.0 states this comparison for `‖·‖²`) and an isometry to Tau Ceti's round metric
   `TauCeti.sphereRoundMetric`. Tangent space `(ℝ ∙ x)ᗮ` (Tau Ceti's `sphereTangentEquiv`), projection
   `u ↦ u − ⟪x, u⟫x`.
 - **Oblique** `OB(n, m)`, the `n × m` matrices with unit columns: dimension `m(n − 1)`; the projection
-  removes from each column its component along the corresponding column of `X` [B23, ⟦LOC oblique⟧].
+  removes from each column its component along the corresponding column of `X` [B23, §2.3 and §7.2].
 - **Stiefel** `St(n, p) = {X : XᵀX = I_p}`, `p ≤ n`, the regular level of `h(X) = XᵀX − I_p ∈ Sym(p)`
-  [B23, ⟦LOC stiefel⟧]: dimension `np − p(p+1)/2`, tangent space `{U : XᵀU + UᵀX = 0}`, projection
+  [B23, §7.3, (7.16), (7.17), (7.26); AMS08, §3.3.2, Ex. 3.6.2]: dimension `np − p(p+1)/2`, tangent space `{U : XᵀU + UᵀX = 0}`, projection
   `Z ↦ Z − X sym(XᵀZ)`. Sending `X` to its family of columns is a diffeomorphism onto Tau Ceti's
   manifold `TauCeti.stiefel (EuclideanSpace ℝ (Fin n)) p` of orthonormal `p`-frames, and an isometry
   for the metric that `TauCeti.stiefel` inherits from `PiLp 2 (fun _ : Fin p ↦ EuclideanSpace ℝ (Fin n))`,
@@ -239,7 +239,7 @@ set or built on it by another roadmap.
   `EuclideanSpace ℝ (Fin n × Fin 1)` as a set (`XᵀX = I₁` iff `‖X‖ = 1`), and `Equiv.setCongr` of that
   equality is a diffeomorphism and an isometry between the two regular levels.
 - **Orthogonal groups.** `O(n) = St(n, n)` and `SO(n)`, its clopen subset with `det = 1`
-  [B23, ⟦LOC orthogonal⟧]. `toMatrix` restricts to bijections from these onto
+  [B23, §7.4, (7.30)–(7.38)]. `toMatrix` restricts to bijections from these onto
   `Matrix.orthogonalGroup (Fin n) ℝ` and `Matrix.specialOrthogonalGroup (Fin n) ℝ`, and the bijections
   are diffeomorphisms to the Lie-group structures of LieGroups Layer 2; the tangent space at `Q` is
   `Q · Skew(n)`.
@@ -247,12 +247,12 @@ set or built on it by another roadmap.
   `TauCeti.finiteGrassmannian ℝ p n`, of dimension `p(n − p)`; no second carrier is built. Prove that
   `π : St(n, p) → Gr(n, p)`, sending `X` to the span of its columns, is a smooth surjective submersion
   whose fibres are the orbits of the right action `X ↦ XQ` of `O(p)`, which acts by isometries, and
-  give `Gr(n, p)` the quotient metric of O0.2 for `π` [B23, ⟦LOC grassmann⟧]. The horizontal space at
+  give `Gr(n, p)` the quotient metric of O0.2 for `π` [B23, Thm. 9.35 and §9.16, (9.78)–(9.79); EAS98, §2.5]. The horizontal space at
   `X` is `{U : XᵀU = 0}`, with projection `Z ↦ (I − XXᵀ)Z`. Prove that `π X ↦ XXᵀ` is a smooth
   embedding onto the rank-`p` orthogonal projectors, and that the Riemannian distance between `π X`
   and `π Y` is `‖θ‖₂` for the principal angles `θ` between the two subspaces, whose cosines are the
-  singular values of `XᵀY` [EAS98, ⟦LOC eas-angles⟧], consuming PrincipalAngles.
-- **Fixed rank** `ℝ_r^{m×n} = {X : rank X = r}`, `1 ≤ r ≤ min(m, n)` [B23, ⟦LOC fixedrank⟧]: locally
+  singular values of `XᵀY` [EAS98, §4.3, which states it without proof; its geodesics are Thm. 2.3], consuming PrincipalAngles.
+- **Fixed rank** `ℝ_r^{m×n} = {X : rank X = r}`, `1 ≤ r ≤ min(m, n)` [B23, §7.5, (7.44), (7.47)–(7.48)]: locally
   defined by Schur complements (near `X` with an invertible `r × r` minor, after permuting rows and
   columns, `[A B; C D] ↦ D − CA⁻¹B`), of dimension `(m + n − r)r`, with tangent space at
   `X = UΣVᵀ`, for any `U ∈ St(m, r)`, `V ∈ St(n, r)` and invertible `Σ`,
@@ -270,13 +270,13 @@ set or built on it by another roadmap.
   `exp_X(U) = X^{1/2} expm(X^{−1/2}UX^{−1/2}) X^{1/2}` is defined on all of `T_X P(n)`; that
   `d(X, Y) = ‖logm(X^{−1/2}YX^{−1/2})‖_F`; and that the geodesic midpoint is the matrix geometric mean
   `X # Y = X^{1/2}(X^{−1/2}YX^{−1/2})^{1/2}X^{1/2}`, in the functional calculus of the Spectral data
-  convention [⟦LOC posdef⟧]. Prove that `gO(n) ↦ ggᵀ` is a diffeomorphism from RealSemisimpleLieGroups
+  convention [B23, §11.7, (11.35), (11.37)–(11.39); the midpoint is `exp_X(½ log_X Y)`]. Prove that `gO(n) ↦ ggᵀ` is a diffeomorphism from RealSemisimpleLieGroups
   §5.2's space `GL_n(ℝ)/O(n)` onto `P(n)`, equivariant for `g ↦ (X ↦ gXgᵀ)`, which pulls the
   affine-invariant metric back to `4` times the invariant metric of §5.3 with inner product
   `⟪Y, Z⟫ = tr(YZ)` on `𝔭 = Sym(n)`.
 - **Open simplex** `Δ°(n) = {x ∈ EuclideanSpace ℝ (Fin n) : x_i > 0, Σ x_i = 1}`, `n ≥ 1`, a Fisher
   manifold: the regular level of `h(x) = Σ x_i − 1` on the positive orthant, of dimension `n − 1`,
-  with tangent space `{ξ : Σ ξ_i = 0}` and `Π_x(z) = z − (Σ z_i) x`. Prove that `x ↦ √x` is a smooth
+  with tangent space `{ξ : Σ ξ_i = 0}` and `Π_x(z) = z − (Σ z_i) x` [B23, Ex. 3.26, Ex. 3.65]. Prove that `x ↦ √x` is a smooth
   embedding into the unit sphere of `EuclideanSpace ℝ (Fin n)`, onto its open subset of vectors with
   positive coordinates, that pulls the round metric back to a quarter of the Fisher metric; hence
   `d(x, y) = 2 arccos(Σ √(x_i y_i))`, since the minor great-circle arc between two vectors with
@@ -285,13 +285,13 @@ set or built on it by another roadmap.
 - **Multinomial** `Mult(n, m)`, Manopt's manifold of `n × m` matrices with positive entries whose
   columns sum to `1`, `n ≥ 1`, a Fisher manifold: the regular level of `h(X) = Xᵀ𝟏 − 𝟏` on the
   positive orthant, of dimension `m(n − 1)`, with tangent space `{ξ : ξᵀ𝟏 = 0}` and
-  `Π_X(Z) = Z − X diag(Zᵀ𝟏)`, the projection of `Δ°(n)` in each column [DH19, ⟦LOC dh-mult⟧]. Sending
+  `Π_X(Z) = Z − X diag(Zᵀ𝟏)`, the projection of `Δ°(n)` in each column [B23, Ex. 3.65, for the simplex]. Sending
   `X` to its family of columns is a diffeomorphism onto the `m`-th power of `Δ°(n)` (O0.2) and an
   isometry for the sum metric.
 - **Doubly stochastic** `DS(n)`, the `n × n` matrices with positive entries whose rows and columns
   sum to `1`, `n ≥ 1`, a Fisher manifold: the regular level on the positive orthant of
   `h(X) = (Xᵀ𝟏 − 𝟏, r(X))`, with `r(X)` the first `n − 1` entries of `X𝟏 − 𝟏` (the last row sum is
-  then forced, since the entries of `X` sum to `n`), of dimension `(n − 1)²`, with tangent space
+  then forced, since the entries of `X` sum to `n`), of dimension `(n − 1)²` [DH19, Prop. 1], with tangent space
   `{ξ : ξ𝟏 = 0, ξᵀ𝟏 = 0}` and Fisher-normal space `{(α𝟏ᵀ + 𝟏βᵀ) ⊙ X : α, β ∈ ℝⁿ}`. Hence
   `Π_X(Z) = Z − (α𝟏ᵀ + 𝟏βᵀ) ⊙ X` for any `α, β` with `α + Xβ = Z𝟏` and `Xᵀα + β = Zᵀ𝟏`: such `α, β`
   exist, and the correction term does not depend on the choice [DH19, Thm. 1; its proof calls the
@@ -373,7 +373,7 @@ For `f = f̄ ∘ ι` with `f̄` differentiable at `ι x`, `ι'(grad f(x)) = Proj
 (`mvfderiv_mgradient_comp`) [B23, Prop. 3.61], from Tau Ceti's chain rule
 `TauCeti.Manifold.mgradient_comp` and `TauCeti.Manifold.mgradient_eq_gradient`. On a quotient by a
 Riemannian submersion `π : M̄ → M`, the horizontal lift of `grad f(π x̄)` is `grad (f ∘ π)(x̄)`
-[B23, ⟦LOC quotient-grad⟧]. On each Fisher manifold, for `f = f̄ ∘ ι` with `ι` the inclusion,
+[B23, Prop. 9.39, (9.37)]. On each Fisher manifold, for `f = f̄ ∘ ι` with `ι` the inclusion,
 `ι'(grad f(X)) = Π_X(X ⊙ ∇f̄(X))` [DH19, Lemma 1], from the identity for `fisherEmbedding ∘ ι`; on
 `Δ°(n)` this is `x ⊙ (∇f̄(x) − ⟪x, ∇f̄(x)⟫𝟏)`.
 
@@ -394,14 +394,14 @@ Riemannian submersion `π : M̄ → M`, the horizontal lift of `grad f(π x̄)` 
 
 *Shape-operator form:* with `ν = Proj_x^⊥ ∇f̄(ι x)` and RiemannianGeometry R5a's shape operator, with
 the signs of RiemannianGeometry's Conventions,
-`ι'(Hess f(x)[u]) = Proj_x(∇²f̄(ι x)[ι'u]) + ι'(S_ν u)` [B23, ⟦LOC hess-embedded⟧]; Tau Ceti's Gauss
+`ι'(Hess f(x)[u]) = Proj_x(∇²f̄(ι x)[ι'u]) + ι'(S_ν u)` [B23, Cor. 5.47, (5.41)–(5.42)]; Tau Ceti's Gauss
 formula `CovariantDerivative.IsLeviCivitaConnection.inner_apply_eq_inner_mvfderiv` gives the
 tangential part. *Lagrangian form* on a level set of `h` with surjective derivative
 (`mvfderiv_hessianOp_comp`): if `λ : F →L[ℝ] ℝ` satisfies `∇(λ ∘ h)(ι x) = Proj_x^⊥ ∇f̄(ι x)` (it
 exists and is unique), then `ι'(Hess f(x)[u]) = Proj_x(∇²f̄(ι x)[ι'u] − ∇²(λ ∘ h)(ι x)[ι'u])`
-[B23, ⟦LOC hess-lagrange⟧]. Prove the two forms agree. *Quotients:* the horizontal lift of
+[B23, §7.7, (7.79)]. Prove the two forms agree. *Quotients:* the horizontal lift of
 `Hess f(π x̄)[u]` is `Proj^H(Hess(f ∘ π)(x̄)[ū])`, and at a critical point of a quotient by a group
-action the vertical space lies in the kernel of `Hess(f ∘ π)(x̄)` [B23, ⟦LOC quotient-hess⟧].
+action the vertical space lies in the kernel of `Hess(f ∘ π)(x̄)` [B23, Prop. 9.45, (9.51), and Lemma 9.41].
 
 **Checks.**
 
@@ -424,7 +424,7 @@ action the vertical space lies in the kernel of `Hess(f ∘ π)(x̄)` [B23, ⟦L
 
 For a `C²` cost and a `C²` curve,
 `(f ∘ γ)'' = Hess f(γ)[γ', γ'] + ⟪grad f(γ), D_t γ'⟫` (`deriv_deriv_comp_eq`)
-[B23, ⟦LOC curve⟧], with `D_t γ'` Tau Ceti's `CovariantDerivative.acceleration` for the Levi-Civita
+[B23, (5.25)], with `D_t γ'` Tau Ceti's `CovariantDerivative.acceleration` for the Levi-Civita
 connection. For embedded `M`, `ι'(D_t γ') = Proj(d²(ι ∘ γ)/dt²)`.
 
 **Checks.**
@@ -475,10 +475,10 @@ function theorem `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq`), with a local inv
 ### O2.2 Order and the standard retractions
 
 `IsSecondOrder`: every curve `t ↦ R_x(t v)` has zero covariant acceleration at `t = 0`
-[B23, ⟦LOC second-order⟧]. For embedded `M`, `R` is second order iff the ambient acceleration
-`d²/dt² ι(R_x(t v))|_{t=0}` lies in `Proj_x^⊥ V` for every `v`. The exponential map is a retraction
+[B23, Def. 5.42]. For embedded `M`, `R` is second order iff the ambient acceleration
+`d²/dt² ι(R_x(t v))|_{t=0}` lies in `Proj_x^⊥ V` for every `v` [B23, (5.23); AM12, (4), Prop. 3]. The exponential map is a retraction
 (`expRetraction`, built from Tau Ceti's exponential-map API) and is second order
-(`expRetraction_isSecondOrder`).
+(`expRetraction_isSecondOrder`) [B23, Prop. 10.18].
 
 *Metric projection.* For a locally defined submanifold `S ⊆ V`, let `𝒰 ⊆ V` be the union of the open
 sets on which every point has a unique nearest point in `S` and the nearest-point map `P_S` is smooth.
@@ -495,23 +495,25 @@ on their domains:
 
 - sphere: `(x + v)/‖x + v‖`, global and second order, since every `y ≠ 0` has the unique nearest point
   `y/‖y‖`;
-- Stiefel, polar: `(X + U)(I + UᵀU)^{−1/2}`, global and second order. Prove here that the polar
-  factor `Z(ZᵀZ)^{−1/2}` of a matrix `Z` of full column rank (PolarDecomposition) is its unique
-  nearest point in `St(n, p)` [⟦LOC polar-nearest⟧];
-- Stiefel, Q-factor: `qf(X + U)` [AMS08, ⟦LOC qf⟧], global and first order, and second order exactly
+- Stiefel, polar: `(X + U)(I + UᵀU)^{−1/2}` [B23, (7.24)], global and second order. Prove here that
+  the polar factor `Z(ZᵀZ)^{−1/2}` of a matrix `Z` of full column rank (PolarDecomposition) is its
+  unique nearest point in `St(n, p)`: `‖Z − X‖² = ‖Z‖² + p − 2 tr(XᵀZ)`, and for a thin singular value
+  decomposition `Z = UΣVᵀ`, `tr(XᵀZ) ≤ Σ σ_i(Z)`, with equality exactly at `X = UVᵀ` when
+  `σ_{p−1}(Z) > 0` ([AM12, Prop. 7] is the local statement);
+- Stiefel, Q-factor: `qf(X + U)` [AMS08, Ex. 4.1.3, (4.7)–(4.8); B23, (7.22) and p. 162 of the author PDF], global and first order, and second order exactly
   when `p ≤ 1`, where it is the sphere retraction, or `n = p = 2`, where it is the polar retraction
   (Examples);
 - Grassmann: `(π X, ξ) ↦ π(qf(X + ξ̄))`, with `ξ̄` the horizontal lift of `ξ` at `X`, well defined
   because a retraction `R̄` on the total space with `π(R̄_{XQ}(ξ̄Q)) = π(R̄_X(ξ̄))` for `Q ∈ O(p)`
-  descends; state and prove that descent lemma in general [B23, ⟦LOC grassmann-retr⟧];
+  descends; state and prove that descent lemma in general [B23, Ex. 9.34, (9.29)–(9.30), and (9.88)];
 - fixed rank: `Z ↦ ΠZ` for `Z = X + U`, with `Π` the orthogonal projection onto the sum of the
   eigenspaces of `ZZᵀ` for its `r` largest eigenvalues (the rank-`r` truncation of the SVD of `Z`),
   defined where `σ_{r−1}(Z) > σ_r(Z)` and second order, since there `ΠZ` is the unique nearest rank-`r`
   matrix in the Frobenius norm (the Eckart–Young theorem with its uniqueness case)
-  [⟦LOC eckart-young⟧; EY36];
+  [B23, §7.5, (7.49)–(7.50); AM12, Prop. 6; EY36];
 - positive-definite matrices: the exponential map, global;
 - open simplex: `R_x(ξ) = (x ⊙ exp(ξ ⊘ x))/⟪x, exp(ξ ⊘ x)⟫`, and on `Mult(n, m)` the same map in each
-  column [DH19, ⟦LOC dh-mult-retr⟧], global and first order, and not second order on `Δ°(2)`
+  column (the one-column form of the construction of [DH19, Lemma 2], with normalization in place of the Sinkhorn scaling), global and first order, and not second order on `Δ°(2)`
   (Examples);
 - doubly stochastic: `R_X(ξ) = SK(X ⊙ exp(ξ ⊘ X))` [DH19, Lemma 2], global and first order, and not
   second order on `DS(2)`, where `SK = sinkhornScaling` sends a matrix with positive entries to its
@@ -566,7 +568,10 @@ second-order retractions and, for every retraction, at critical points.
 The one-sided bound `SatisfiesPullbackBound R f L`:
 `f(R_x(v)) ≤ f(x) + ⟪grad f(x), v⟫ + (L/2)‖v‖²` on `domain`; and the two-sided bound at a single
 step, `PullbackBoundAt R f L x s`. On a compact manifold, a global retraction and a `C²` cost satisfy
-the one-sided bound for some `L > 0` (`exists_satisfiesPullbackBound`) [B23, ⟦LOC pullback⟧]. For
+the one-sided bound for some `L > 0` (`exists_satisfiesPullbackBound`): for steps of norm at most
+some `r > 0` this is [B23, Lemma 10.57], and for longer steps
+`f(R_x(s)) − f(x) − ⟪grad f(x), s⟫ ≤ 2 max |f| + (max ‖grad f‖)‖s‖ ≤ (L/2)‖s‖²` once `L` is large
+enough (compare [BAC19, Lemma 4], for compact submanifolds and costs with Lipschitz gradient). For
 `M = V` and `R_x(v) = x + v` the bound follows from `L`-Lipschitz continuity of `∇f`.
 
 **Checks.**
@@ -582,7 +587,7 @@ the one-sided bound for some `L > 0` (`exists_satisfiesPullbackBound`) [B23, ⟦
 
 A vector transport associated with `R` sends `(x, v, u)`, with `(x, v) ∈ domain` and `u ∈ T_xM`, to
 `T_v u ∈ T_{R_x(v)}M`, linearly in `u`, smoothly in the tangent-bundle trivializations, with
-`T_{0_x} = id` [AMS08, ⟦LOC transport⟧; B23, ⟦LOC transport-b23⟧]. Constructions: the differentiated
+`T_{0_x} = id` [AMS08, Def. 8.1.1, (8.6), (8.10), Prop. 8.1.2; B23, Def. 10.68, Props. 10.64, 10.66]. Constructions: the differentiated
 retraction `T_v u = d/dt R_x(v + t u)|_{t=0}`; on embedded `M` the projection transport
 `ι'(T_v u) = Proj_{R_x(v)}(ι'u)`; and parallel transport along `t ↦ exp_x(t v)`, which is isometric:
 SmoothBundlesConnections B5.0's transport for the Levi-Civita connection, through B3.3's
@@ -635,14 +640,14 @@ needs SmoothBundlesConnections B5.0 and B3.3.
 
 A local minimizer has zero gradient. This is Tau Ceti's boundaryless Fermat theorem
 `IsLocalExtr.mem_criticalPoints` with `TauCeti.Manifold.mgradient_eq_zero_iff`, consumed as it stands
-[B23, ⟦LOC first-order⟧].
+[B23, Prop. 4.5].
 
 *Needs:* Tau Ceti.
 
 ### O3.2 Second-order necessary
 
 A local minimizer of a `C²` cost has `Hess f(x) ⪰ 0` (`hessian_nonneg_of_isLocalMin`)
-[B23, ⟦LOC second-necessary⟧], from O1.4 along any second-order retraction curve.
+[B23, Prop. 6.2], from O1.4 along any second-order retraction curve.
 
 **Checks.**
 
@@ -653,7 +658,7 @@ A local minimizer of a `C²` cost has `Hess f(x) ⪰ 0` (`hessian_nonneg_of_isLo
 ### O3.3 Second-order sufficient
 
 `grad f(x) = 0` and `Hess f(x) ≻ 0` give a strict local minimizer (`eventually_lt_of_hessian_pos`)
-with quadratic growth `f(y) − f(x) ≥ c d(x, y)²` near `x` [B23, ⟦LOC second-sufficient⟧], consuming
+with quadratic growth `f(y) − f(x) ≥ c d(x, y)²` near `x` [B23, Prop. 6.5], consuming
 MorseTheory M1 §1.3's strict minimality of nondegenerate minima.
 
 **Checks.**
@@ -667,7 +672,7 @@ MorseTheory M1 §1.3's strict minimality of nondegenerate minima.
 
 On a level set of `h` with surjective derivative, `grad f(x) = 0` iff there is a (unique) `λ` with
 `∇f̄(ι x) = ∇(λ ∘ h)(ι x)`, and then `Hess f(x)[u, u] = ∇²(f̄ − λ ∘ h)(ι x)[ι'u, ι'u]`, the Hessian of
-the Lagrangian on the tangent space [B23, ⟦LOC kkt⟧]. Compare the first statement with Mathlib's
+the Lagrangian on the tangent space [B23, §7.7, (7.77)–(7.81), Ex. 7.10]. Compare the first statement with Mathlib's
 `IsLocalExtrOn.exists_multipliers_of_hasStrictFDerivAt`.
 
 **Checks.**
@@ -679,7 +684,7 @@ the Lagrangian on the tangent space [B23, ⟦LOC kkt⟧]. Compare the first stat
 
 ### O3.5 Second-order critical points and quotients
 
-Define second-order critical points (`grad f(x) = 0`, `Hess f(x) ⪰ 0`) [B23, ⟦LOC second-critical⟧].
+Define second-order critical points (`grad f(x) = 0`, `Hess f(x) ⪰ 0`) [B23, Def. 6.1, Prop. 6.3].
 On a quotient, `f` is critical (second-order critical) at `π x̄` iff `f ∘ π` is at `x̄`.
 
 **Checks.**
@@ -745,9 +750,9 @@ every cluster point of the sequence is critical.
 `armijoExponent`, `armijoStepSize`, `armijoStep`, `armijoSeq`. For a global retraction satisfying
 the pullback bound, every exponent `i` with `ᾱτ^i ≤ 2(1 − r)/L` qualifies, so the step size is at
 least `min(ᾱ, 2τ(1 − r)/L)` and `f(x) − f(x⁺) ≥ r min(ᾱ, 2τ(1 − r)/L) ‖grad f(x)‖²`
-(`armijo_decrease`) [B23, ⟦LOC armijo⟧]. The consequences of O4.1 follow with this constant
+(`armijo_decrease`) [B23, Lemma 4.12]. The consequences of O4.1 follow with this constant
 (`tendsto_norm_mgradient_armijoSeq`, `mgradient_eq_zero_of_mapClusterPt_armijoSeq`)
-[AMS08, ⟦LOC armijo-ams⟧]. On a compact manifold with a global retraction and a `C²` cost, O2.4
+[B23, Prop. 4.7, Cor. 4.13; AMS08, Thm. 4.3.1]. On a compact manifold with a global retraction and a `C²` cost, O2.4
 supplies the bound.
 
 **Checks.**
@@ -764,7 +769,7 @@ supplies the bound.
 `m_x(s) = f(x) + ⟪grad f(x), s⟫ + ½⟪H_x s, s⟫` with self-adjoint `H_x`; the ratio is
 `ρ = (f(x) − f(R_x(s)))/(m_x(0) − m_x(s))`, and the update follows the Algorithm constants
 convention. The *Cauchy point* is the minimizer of `m_x` along `−grad f(x)` within radius `Δ`, and
-`m_x(0) − m_x(s^C) ≥ ½‖g‖ min(Δ, ‖g‖/β)` for every `β > 0` with `‖H_x‖ ≤ β` [B23, ⟦LOC cauchy⟧].
+`m_x(0) − m_x(s^C) ≥ ½‖g‖ min(Δ, ‖g‖/β)` for every `β > 0` with `‖H_x‖ ≤ β` [B23, Lemma 6.15; AMS08, §7.4.1, (7.14)].
 
 **Checks.**
 
@@ -782,7 +787,7 @@ convention. The *Cauchy point* is the minimizer of `m_x` along `−grad f(x)` wi
 ### O4.4 Truncated conjugate gradients
 
 `TCGState`, `boundaryStep`, `tcgStep`, `tcg`. Truncated conjugate gradients (Steihaug–Toint)
-[AMS08, ⟦LOC tcg-alg⟧; Ste83] is the total function `tcg H g Δ θ κ`, for self-adjoint `H` and the
+[AMS08, Alg. 11 with the stopping rule (7.10); B23, Alg. 6.4; Ste83] is the total function `tcg H g Δ θ κ`, for self-adjoint `H` and the
 model `⟪g, s⟫ + ½⟪Hs, s⟫` in the ball of radius `Δ`. If `g = 0` it returns `0`. Otherwise it sets
 `η₀ = 0`, `r₀ = g`, `δ₀ = −r₀`, and for `j ≥ 0`: if `⟪δ_j, H δ_j⟫ ≤ 0`, it returns `η_j + τ δ_j`
 with `τ ≥ 0` and `‖η_j + τ δ_j‖ = Δ` (`boundaryStep`); it sets `α_j = ‖r_j‖²/⟪δ_j, H δ_j⟫`; if
@@ -792,9 +797,9 @@ with `τ ≥ 0` and `‖η_j + τ δ_j‖ = Δ` (`boundaryStep`); it sets `α_j 
 `δ_{j+1} = −r_{j+1} + (‖r_{j+1}‖²/‖r_j‖²) δ_j`. As a total function it runs `dim V` steps of this
 recursion and returns the output, or the last iterate if there is none. Prove: for `κ > 0` it
 returns within `dim V` steps (`exists_iterate_tcgStep_out_eq_some`), since the residuals are mutually
-orthogonal while it runs; the output lies in the ball (`norm_tcg_le`); `‖η_j‖` increases strictly
-and the model decreases strictly along the iterates [AMS08, ⟦LOC tcg-mono⟧; Ste83, Thm. 2.1]; the
-first iterate is the Cauchy point; hence Cauchy decrease with constant `½` for every `β > 0` with
+orthogonal while it runs (for plain conjugate gradients, [B23, §6.3]); the output lies in the ball (`norm_tcg_le`); `‖η_j‖` increases strictly
+and the model decreases strictly along the iterates [AMS08, Prop. 7.3.2; Ste83, Thm. 2.1]; the
+first iterate is the Cauchy point [B23, Ex. 6.26]; hence Cauchy decrease with constant `½` for every `β > 0` with
 `‖H‖ ≤ β` (`tcg_cauchy_decrease`).
 
 **Checks.**
@@ -850,12 +855,16 @@ only O4.3's model; O4.5 needs O4.3, with O4.4 as the inner solver.
 ### O5.1 Gradient descent near a nondegenerate local minimizer
 
 For a smooth cost, a smooth retraction and Armijo constants, there are a neighbourhood `U` of `x*`
-and a linear rate such that every Armijo sequence from `U` converges to `x*` (`armijo_local_linear`)
-[AMS08, ⟦LOC armijo-local⟧]. The proof captures the iterates in a sublevel component and uses Tau
-Ceti's local estimate `λ|f − f(x*)| ≤ ‖grad f‖²` near a nondegenerate critical point
+and a linear rate such that every Armijo sequence from `U` converges to `x*` (`armijo_local_linear`).
+[AMS08, Thm. 4.5.6] gives the linear rate of the function values for an Armijo sequence assumed to
+converge to `x*`; here convergence is part of the conclusion. The proof: near `x*` the gradient is
+small, so every tested step `ᾱτ^i grad f(x)` lies in the domain (no global retraction is needed) and
+moves `x` by at most `Cᾱ‖grad f(x)‖`; accepted steps decrease `f`, so iterates that start in a small
+sublevel neighbourhood of `x*` (O3.3's strict minimality) stay in it; Tau Ceti's local estimate
+`λ|f − f(x*)| ≤ ‖grad f‖²` near a nondegenerate critical point
 (`TauCeti.IsManifoldNondegenerateCriticalPoint.exists_mul_abs_sub_le_norm_mgradient_sq`, MorseTheory
-M6 §6.1) together with O3.3. A global retraction is not needed: near `x*` the gradient is small, so
-every tested step `ᾱτ^i grad f(x)` lies in the domain.
+M6 §6.1) and O4.2's decrease give a linear rate for `f(x_k) − f(x*)`; and O3.3's quadratic growth
+with `f(y) − f(x*) ≤ C d(y, x*)²` near `x*` turns it into the distance rate.
 
 **Checks.**
 
@@ -868,7 +877,7 @@ every tested step `ᾱτ^i grad f(x)` lies in the domain.
 
 `newtonStep`, `newtonSeq`, `newton_local_quadratic`. Near any nondegenerate critical point, of any
 index, and for any retraction, the Newton sequence converges quadratically
-[AMS08, ⟦LOC newton⟧; B23, Thm. 6.7]; O3.6 makes `hessianOp` invertible near the critical point.
+[AMS08, Thm. 6.3.2; B23, Thm. 6.7]; O3.6 makes `hessianOp` invertible near the critical point.
 
 **Checks.**
 
@@ -881,12 +890,32 @@ index, and for any retraction, the Newton sequence converges quadratically
 ### O5.3 Trust regions with truncated conjugate gradients
 
 `rtrSeq`, `trSeq_tcg_local_superlinear`. Take a global retraction, `H_x = hessianOp I f x`, and
-`tcg` with `θ > 0` and `κ ∈ (0, 1)` as inner solver [ABG07, Thms. 4.12, 4.13; AMS08, ⟦LOC rtr-local⟧;
-B23, Thms. 6.29, 6.30]. (a) Near a nondegenerate local minimizer `x*` there is a neighbourhood from
-which the iterates converge to `x*`. (b) If the iterates converge to a nondegenerate local minimizer
-`x*`, then either some iterate is `x*`, after which every trial step is `0` and is rejected
-(Conventions), or all but finitely many steps are accepted and the radius constraint is eventually
-inactive; in both cases the convergence has order `min(1 + θ, 2)`. ⟦LOC rtr-hypotheses⟧
+`tcg` with `θ > 0` and `κ ∈ (0, 1)` as inner solver. (a) Near a nondegenerate local minimizer `x*`
+there is a neighbourhood from which the iterates converge to `x*`. (b) If the iterates converge to a
+nondegenerate local minimizer `x*`, then either some iterate is `x*`, after which every trial step is
+`0` and is rejected (Conventions), or all but finitely many steps are accepted and the radius
+constraint is eventually inactive; in both cases the convergence has order `min(1 + θ, 2)`.
+
+The sources state (a) under global hypotheses (`f` bounded below with a radially Lipschitz pullback
+gradient, a uniform bound on `H`, and `‖ξ‖ ≥ µ d(x, R_x ξ)` for short `ξ`) [AMS08, Thm. 7.4.10 with
+Thm. 7.4.2; ABG07, Thm. 4.12; B23, Thm. 6.29], and (b) for a sequence assumed to converge, under
+`‖H_x − Hess(f ∘ R_x)(0)‖ ≤ β_H ‖grad f(x)‖` and a local Lipschitz bound on `Hess(f ∘ R_x)`
+[AMS08, Thms. 7.4.11, 7.4.12; ABG07, Thm. 4.13; B23, Thm. 6.30]. Here every hypothesis is local and
+follows from smoothness of `f` and `R`, along this route:
+
+- near `x*` the Hessian is uniformly positive definite, so `tcg` meets no nonpositive curvature and,
+  since `‖η_j‖` increases towards the Newton step (O4.4), its output has norm at most
+  `‖H_x⁻¹‖ ‖grad f(x)‖`: the steps are short;
+- smoothness of `R` gives `d(x, R_x ξ) ≤ C‖ξ‖` for `x` near `x*` and short `ξ`, and O2.3's
+  acceleration term gives `‖H_x − Hess(f ∘ R_x)(0)‖ ≤ β_H ‖grad f(x)‖`;
+- accepted steps decrease `f` and rejected ones keep the iterate, so iterates that start in a small
+  sublevel neighbourhood of `x*` (O3.3) stay in it, and Cauchy decrease with the local estimate of
+  O5.1 gives convergence, which is (a);
+- the model error `|f(R_x(η)) − m_x(η)|` is `O(‖grad f(x)‖ ‖η‖² + ‖η‖³)`, while the model decrease is
+  at least `c‖η‖²`, so `ρ_k → 1`: all but finitely many steps are accepted, the radius stops
+  shrinking, and as the steps tend to `0` the constraint becomes inactive (AMS08 asserts this in the
+  proof of Thm. 7.4.11 without proving it); an interior `tcg` step passes the residual test, which
+  gives the order `min(1 + θ, 2)` as in [AMS08, Thm. 7.4.11].
 
 **Checks.**
 
@@ -920,7 +949,7 @@ affinely to `[0, 1]`, a metric geodesic segment (B6.0's uniform normal radius). 
 `TauCeti.GeodesicallyConvex κ φ` (along some segment between each pair of points) are the two forms of
 OptimalTransport §9.3's `κ`-convexity, applied to `fun x ↦ (f x : EReal)`. For smooth `f`,
 `ConvexAlongGeodesics` holds iff `Hess f ⪰ κ g` everywhere (`convexAlongGeodesics_iff`)
-[B23, ⟦LOC convex-hess⟧]. On a complete manifold, `GeodesicallyConvex` holds iff `Hess f ⪰ κ g` as
+[B23, Thm. 11.23]. On a complete manifold, `GeodesicallyConvex` holds iff `Hess f ⪰ κ g` as
 well (`geodesicallyConvex_iff`), so the two forms agree there; one direction is Tau Ceti's
 `TauCeti.ConvexAlongGeodesics.geodesicallyConvex`. State the characterization on open geodesically
 convex subsets as well (every two points joined by a metric geodesic segment inside the subset).
@@ -940,7 +969,7 @@ geodesic convexity predicates; O1.4.
 
 ### O6.2 Consequences
 
-On a complete connected manifold [B23, ⟦LOC convex-consequences⟧]. For `κ ≥ 0`, every critical point
+On a complete connected manifold [B23, Thms. 11.6, 11.7, Cor. 11.22, Lemmas 11.27, 11.28]. For `κ ≥ 0`, every critical point
 and every local minimizer is a global minimizer. For `κ > 0`, a minimizer `x*` exists and is unique,
 `f(y) − f(x*) ≥ (κ/2) d(y, x*)²`, and the Polyak–Łojasiewicz inequality
 `f(x) − f(x*) ≤ ‖grad f(x)‖²/(2κ)` holds.
@@ -955,8 +984,10 @@ and every local minimizer is a global minimizer. For `κ > 0`, a minimizer `x*` 
 ### O6.3 Rates
 
 For a global retraction with the pullback bound with constant `L`, gradient descent with step `1/L`
-satisfies `f(x_k) − f(x*) ≤ (1 − κ/L)^k (f(x₀) − f(x*))` (`rgd_linear_of_convexAlongGeodesics`)
-[B23, ⟦LOC convex-rate⟧]; in positive dimension the hypotheses force `κ ≤ L`.
+satisfies `f(x_k) − f(x*) ≤ (1 − κ/L)^k (f(x₀) − f(x*))` (`rgd_linear_of_convexAlongGeodesics`);
+in positive dimension the hypotheses force `κ ≤ L`. The proof combines O4.1's decrease
+`f(x_{k+1}) ≤ f(x_k) − ‖grad f(x_k)‖²/(2L)` with O6.2's Polyak–Łojasiewicz inequality;
+[B23, Thm. 11.29] is the case of the exponential map with a Lipschitz gradient.
 
 **Checks.**
 
@@ -970,7 +1001,7 @@ satisfies `f(x_k) − f(x*) ≤ (1 − κ/L)^k (f(x₀) − f(x*))` (`rgd_linear
 A continuous `0`-geodesically convex function on a compact connected manifold is constant
 (`const_of_convexAlongGeodesics`): by O6.1, every point near a maximum point `p` lies on a metric
 geodesic segment with `p` in its interior, along which the function is convex with an interior
-maximum, so the set where the maximum is attained is open [B23, Prop. 11.12].
+maximum, so the set where the maximum is attained is open [B23, Prop. 11.12, Cor. 11.10].
 
 **Checks.**
 
@@ -1009,7 +1040,7 @@ manifolds; the argument above is its proof.
 ### O6.6 Positive-definite matrices
 
 `log det` is geodesically affine, `tr` is geodesically convex, and `tr X − log det X` has the unique
-minimizer `I` [B23, ⟦LOC posdef-convex⟧]; prove each from the explicit geodesics of O0.3, which by
+minimizer `I` [B23, Ex. 11.34 for `log det`]; prove each from the explicit geodesics of O0.3, which by
 O6.1 and the injectivity of `exp_X` are all the metric geodesic segments of `P(n)`.
 
 **Checks.**
@@ -1034,7 +1065,7 @@ needs O6.1, Tau Ceti's first variation of energy and OptimalTransport §10.3; O6
 ## Worked examples
 
 - **Manopt's first example.** For self-adjoint `A` on `V` and `f(x) = −⟪A x, x⟫` on the unit sphere
-  (`rayleighCost`) [B23, ⟦LOC rayleigh⟧]: `ι'(grad f(x)) = −2(Ax − ⟪Ax, x⟫x)`; `x` is critical iff it
+  (`rayleighCost`) [AMS08, Props. 4.6.1, 4.6.2; B23, Ex. 5.18]: `ι'(grad f(x)) = −2(Ax − ⟪Ax, x⟫x)`; `x` is critical iff it
   is an eigenvector with eigenvalue `⟪Ax, x⟫`; `Hess f(x)[u] = −2(Proj_x(Au) − ⟪Ax, x⟫u)`; every
   second-order critical point is a global minimizer (`isMinOn_rayleighCost_of_hessian_nonneg`); the
   minimum value is `−λ_max`, reconciled with Mathlib's `hasEigenvalue_iSup_of_finiteDimensional` and
@@ -1045,16 +1076,16 @@ needs O6.1, Tau Ceti's first variation of energy and OptimalTransport §10.3; O6
   `S^{m−1} × S^{n−1}`: `(x, y)` is critical iff `Ay = σx` and `Aᵀx = σy` with `σ = ⟪x, Ay⟫`, and the
   minimum value is `−σ₀(A)`, minus the operator norm of `A`. For `A = diag(3, 1)`, `x = e₁` and
   `y = −e₁` give `σ = −3`.
-- **Brockett's cost on the Stiefel manifold** [Bro91; AMS08, ⟦LOC brockett⟧]. For symmetric `A` and
+- **Brockett's cost on the Stiefel manifold** [Bro91; AMS08, §4.8.1, (4.32), and §4.8.2 for the critical points]. For symmetric `A` and
   `N = diag(μ₁, …, μ_p)`, `f(X) = tr(XᵀAXN)`: if the `μ_i` are distinct and nonzero, `X` is critical
   iff `AX = XΛ` with `Λ` diagonal; if `μ₁ ≥ … ≥ μ_p ≥ 0`, the minimum value is `Σ μ_i λ_i^↑` with the
   eigenvalues in increasing order, consuming Majorization's Ky Fan theory (MAJ-A26–MAJ-A35). For
   `A = diag(1, 3)` and `N = diag(2, 1)`, the identity gives `5` and the swap `7`.
-- **Principal subspace on the Grassmannian** [AMS08, ⟦LOC principal⟧]. For symmetric `A` on `ℝⁿ` and
+- **Principal subspace on the Grassmannian** [AMS08, §6.4.2; EAS98, §4.8; B23, Ex. 9.51]. For symmetric `A` on `ℝⁿ` and
   `0 ≤ p ≤ n`, `f(π X) = −tr(XᵀAX)` is well defined; a subspace `W ∈ Gr(n, p)` is critical iff it is
   `A`-invariant; the minimum value is `−(λ₁ + … + λ_p)` with the eigenvalues in decreasing order; and
   if `1 ≤ p < n` and `λ_p > λ_{p+1}`, every second-order critical point is the dominant
-  `p`-dimensional invariant subspace. For `A = diag(2, 1)` and `p = 1`, `span(e₁)` has value `−2` and
+  `p`-dimensional invariant subspace. The minimum value consumes Majorization's Ky Fan theory. For `A = diag(2, 1)` and `p = 1`, `span(e₁)` has value `−2` and
   transverse Hessian `2`, `span(e₂)` has value `−1` and Hessian `−2`. *Non-example:* symmetry is
   needed. For `A = [[0, 1], [−1, 0]]` the cost vanishes on `Gr(2, 1)`, so every line is critical,
   while `span(e₁)` is not invariant.
@@ -1234,8 +1265,8 @@ Paths are under `TauCeti/`.
   `TauCeti.regularFiberChartedSpace` and
   `TauCeti.exists_diffeomorph_regularFiber_regularLevel_apply_eq_self`
   (`…/RegularValue/ManifoldLevel.lean`, `…/RegularValue/Atlas.lean`); the normal exponential
-  `TauCeti.SmoothEmbedding.normalExp` and the Euclidean normal tube `TauCeti.normalTube`
-  (`Geometry/Manifold/TubularNeighborhood/Euclidean.lean`).
+  `TauCeti.SmoothEmbedding.normalExp` (`Geometry/Manifold/TubularNeighborhood/Riemannian/Basic.lean`)
+  and the Euclidean normal tube `TauCeti.normalTube` (`…/TubularNeighborhood/Euclidean.lean`).
 - **Stiefel manifolds:** `TauCeti.stiefel E k`, the orthonormal `k`-frames of `E`, with its charted
   and manifold instances and `TauCeti.range_mfderiv_coe_stiefel`
   (`Geometry/Manifold/Instances/Stiefel.lean`).
@@ -1360,4 +1391,5 @@ PA-B27 (principal angles, with cosines the singular values of the overlap matrix
   optimization on manifolds, *J. Mach. Learn. Res.* 15 (2014), 1455–1459. Documentation:
   [manifolds](https://www.manopt.org/manifolds.html),
   [a first example](https://www.manopt.org/firstexample.html).
-- [LWHWXW24] ⟦LOC lwhwxw⟧
+- [LWHWXW24] C. Li, Z. Wang, W. He, Y. Wu, S. Xu, Z. Wen, Formalization of complexity analysis of the
+  first-order algorithms for convex optimization, arXiv:2403.11437 (2024).

@@ -502,6 +502,7 @@ def tcgStep (H : V →L[ℝ] V) (Δ θ κ r₀ : ℝ) (s : TCGState V) : TCGStat
         else
           { η := η', r := r', δ := -r' + (‖r'‖ ^ 2 / ‖s.r‖ ^ 2) • s.δ, out := none }
 
+open scoped Classical in
 /-- **O4.3.** Truncated conjugate gradients (Steihaug–Toint): `0` when `g = 0`; otherwise the
 output of `finrank V` steps of `tcgStep` from `η₀ = 0`, `r₀ = g`, `δ₀ = −g`, by which it has
 returned (`exists_iterate_tcgStep_out_eq_some`), with the last iterate as junk value. -/
