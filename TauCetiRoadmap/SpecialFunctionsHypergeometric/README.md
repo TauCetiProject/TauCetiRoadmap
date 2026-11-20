@@ -62,100 +62,28 @@ Wronskians, proved here for this equation.
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Hypergeometric/`, beside Tau Ceti's
 `TauCeti/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`, which this roadmap extends.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **The principal branch by Euler's integral**: definition, existence, holomorphy, the series
-   and the polynomial cases (1.1–1.4).
-2. **Differentiation and three-term relations** (2.1–2.2).
-3. **The differential equation, Wronskians and local solutions**, including the logarithmic
-   cases and Riemann's equation (3.1–3.4).
-4. **Elementary reductions and the series at `z = 1`**: the elementary closed forms, the sums of
-   Gauss, Chu–Vandermonde and Dougall, and the circle of convergence (4.1–4.3).
-5. **Pfaff–Euler identities and the connection problem**: the connection formulas and their
-   logarithmic cases, Kummer's 24 solutions, the jump across the cut and the limits at `z = 1`
-   (5.1–5.5).
-6. **Euler, loop and Mellin–Barnes integrals** (6.1–6.3).
-7. **Transformations of degree two** and the special values they give (7.1–7.3).
-8. **Transformations of degree three** and the special values they give (8.1–8.2).
-9. **Polynomials, the Mellin transform, products and related integrals**: the Chebyshev and
-   Legendre polynomials and `D(k)`, the Mellin transform and the expansion in powers of `1/z`,
-   the products, and the incomplete Gamma, incomplete Beta and exponential-integral integrals with
-   argument off the unit disk (9.1–9.4).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`. Each
-subsection names the DLMF equations it restates, as locators, beside the books that contain them.
-
-**What this roadmap owns:** the statements of Layers 1–9, with the hypotheses and conventions
-specified there. Cases of them that Mathlib or Tau Ceti already proves are inputs, not targets;
-the targets are the remaining cases. The inputs are:
-- the Gauss series on the disk: Mathlib's `ordinaryHypergeometric` and
-  `Complex.regularizedGaussHGFun`, their radius of convergence, their symmetry in `a` and `b` and
-  `₂F₁ = Γ(c) 𝐅` for `c ∉ {0, −1, −2, …}` (`Complex.ordinaryHypergeometric_div_Gamma_eq`);
-- 15.9.24 and 15.9.25 for real `k` with `k² < 1`: Tau Ceti's
-  `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
-  (DLMF 19.5.1–19.5.2, from [EllipticIntegrals](../EllipticIntegrals/README.md)).
-
-Two roadmaps on main own special cases of targets here. This roadmap neither consumes them nor
-restates them:
-- [ConformalMappingPartII](../ConformalMappingPartII/README.md) §4.1 owns 15.10.1 for Mathlib's
-  series on the unit disk, and §4.6 owns 15.8.10 at `m = 0`, `b = a`,
-  the continuation of `₂F₁(a, a; 2a; ·)` across the slit disk around `z = 1`. 3.1 and 5.2 are
-  their general cases, on the cut plane and for all parameters.
-- [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-  owns 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies in the unit disk
-  (its 3.4, 15.2 and 7.5). 9.4 owns the rest of their range.
-
-It also owns the following auxiliary results, which the layers need and which neither Mathlib nor
-Tau Ceti provides:
-
-| Result | Target |
-|---|---|
-| Euler's integral converges for `1 − z ∈ slitPlane` and `Re c > Re b > 0`, and is holomorphic in `(a, b, c, z)` there | 1.1 |
-| Uniqueness: two functions entire in `b` and in `c` at every fixed `z` of the cut plane that agree with Euler's integral where `Re c > Re b > 0` agree on the cut plane | 1.2 |
-| The shift relations in `c` and in `b`, and the existence of the continuation by iterating them down to Euler's integral | 1.2 |
-| The shift construction with fixed counts: holomorphy on its region, agreement with Euler's integral, and compatibility of different counts | 1.2 |
-| The identity principle on the cut plane: an identity between functions holomorphic on the cut plane that holds on a nonempty open subset of the unit disk holds on the cut plane | 1.4 |
-| Abel's identity for the hypergeometric equation, and the resulting criterion: if `f₁`, `f₂` solve 15.10.1 on a connected open set with nonvanishing Wronskian, every solution there is a combination of them | 3.1 |
-| The logarithmic solutions continued to `slitPlane ∩ {1 − z ∈ slitPlane}` as parameter derivatives of the regularized pair | 3.3 |
-| Dougall's series: convergence and holomorphy in `d`, the recurrence, the integer values, the growth bound, and the periodic Carlson lemma | 4.2 |
-| The cubic transformation behind 15.4.31, which DLMF's note to 15.4.31 takes from Erdélyi et al. (1953a, Eq. 2.11(41)) | 8.1 |
-| The Mellin–Barnes integral of `(1 + u)^{−a}`, independence of the separating contour, and Barnes's first lemma (DLMF 5.13.3) | 6.3 |
-
-**What it does not own:**
-- The Gauss series on the disk and the facts listed above as inputs (Mathlib), and the complete
-  elliptic integrals `K`, `E` with 15.9.24–15.9.25 (Tau Ceti).
-- The Gamma function on vertical strips (ZerosOfLFunctions 1.3), consumed for Dougall's sum
-  (4.2) and the Mellin–Barnes integrals (6.3).
-- The incomplete Gamma function `Γ(a, x)`, the generalized exponential integral `E_p(x)` and the
-  incomplete Beta function `B_x(a, b)`, consumed from SpecialFunctionsEiLiErfIncompleteGamma for
-  9.4, and 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies in the unit
-  disk, which that roadmap owns.
-- 15.10.1 on the unit disk and 15.8.10 at `m = 0`, `b = a` in the forms of ConformalMappingPartII
-  §§4.1 and 4.6.
-- The continued fractions for ratios of contiguous functions (DLMF §15.7), and the expressions
-  of the Jacobi, Gegenbauer, Krawtchouk, Meixner and Meixner–Pollaczek polynomials and of the
-  Jacobi, Gegenbauer and Legendre functions as Gauss functions (DLMF 15.9.1–15.9.4,
-  15.9.8–15.9.23).
-- The asymptotics for large parameters (DLMF §15.12), the zeros (DLMF §15.13), branches off the
-  principal sheet and the monodromy, and the applications and numerical methods.
-- The formulas relating `F` to the Bessel and confluent hypergeometric functions through the
-  continued Gauss function, which SpecialFunctionsBessel and SpecialFunctionsConfluent leave to
-  a roadmap on the Gauss function. Both of those roadmaps come after this one, and the formulas
-  belong to SpecialFunctionsHypergeometricPartII, which consumes all three.
-
-See the last section for these.
-
-**The boundary in one sentence:** this roadmap owns the principal branch of `F` and `𝐅` on the
-cut plane for all parameters and the classical theory stated through it, elementary functions,
-`Γ`, `ψ`, Mathlib's Chebyshev and Legendre polynomials and Tau Ceti's complete elliptic
-integrals, as listed in the layers, except the continued fractions, the orthogonal polynomials
-and functions beyond Chebyshev and Legendre polynomials, the large-parameter asymptotics, the
-zeros and the applications, together with three incomplete-function integrals that are Gauss
-functions off the unit disk; it consumes the Gamma function on vertical strips from
-ZerosOfLFunctions and the incomplete Gamma and Beta functions and `E_p` from
-SpecialFunctionsEiLiErfIncompleteGamma.
+Layer 1 defines `𝐅` by Euler's integral and uniqueness. Uniqueness is two applications of the
+identity theorem in one variable: in `c` on the half-plane `Re c > Re b` at fixed `b` with
+`Re b > 0`, then in `b` on the half-plane `Re b > 0`. Existence is the construction by the two
+shift relations, which raise `Re b`, respectively `Re(c − b)`, by one and terminate in the
+region of Euler's integral; it is assembled from constructions with fixed numbers of shifts, each
+holomorphic on an open region, which agree where their regions overlap. Agreement with Mathlib's
+series on the disk is termwise integration of the binomial series of `(1 − zt)^{−a}`, and every
+identity proved on a piece of the disk then extends to the cut plane by the identity principle 1.4
+and to all parameters by holomorphy in the parameters. This is how Layer 2 proves the contiguous
+relations and Layer 3 the equation, from the series. Layer 3 also proves Abel's identity for
+Wronskians, which replaces the general theory of linear differential equations: two solutions with
+nonvanishing Wronskian span all solutions.
+Layer 4 evaluates Euler's integral at `z = 1` (Gauss's sum) and controls the series on its circle.
+Layer 5 obtains each connection formula by expanding a solution in a fundamental pair at another
+singularity (Layer 3) and fixing the two coefficients by the limits at `z = 1` (Layer 4), and
+composes these with the Euler and Pfaff transformations. Layers 6–9 apply Layers 1–5; the
+Mellin–Barnes integrals of Layer 6 are obtained from Mellin inversion of the Beta integral on
+fixed vertical lines, never by closing a contour at infinity. The
+`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions
+on explicit values.
 
 ## Conventions
 
@@ -217,94 +145,6 @@ E(a, b, c, z) = (Γ(b) Γ(c − b))⁻¹ ∫₀¹ t^{b−1} (1 − t)^{c−b−1
   it in the paragraph after 15.6.9. Mellin–Barnes integrals are along a vertical line
   `Re t = σ`, with the separating contour of DLMF written as the line integral plus finitely many
   residues (6.3).
-
-## Exact supplier contracts
-
-### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
-
-- [§1.3 Vertical strips](../ZerosOfLFunctions/README.md#13-vertical-strips):
-  `log ‖Γ(σ + it)‖ = (σ − ½) log |t| − π|t|/2 + ½ log(2π) + O(1/|t|)` uniformly for `σ` in a
-  compact interval, as `|t| → ∞`. It gives the bounds for `|Γ|` and `|1/Γ|` on vertical strips of
-  bounded width: the exponential decay of the integrands of 15.6.6–15.6.7 along a fixed vertical
-  line, the vanishing of the horizontal sides of a rectangle between two fixed lines (6.3), and
-  the growth bounds in Dougall's sum (4.2). It is not used for contours whose real part tends to
-  infinity, and none is closed that way.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- [Its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions):
-  `TauCeti.Complex.upperIncompleteGamma` (`Γ(a, z)`), `TauCeti.expIntegralE` (`E_p(z)`) and
-  `TauCeti.incompleteBeta` (`B_x(a, b)` for `a, b > 0` and `0 ≤ x ≤ 1`, with real powers).
-- Its 1.3: `Γ(a, x) = ∫_x^∞ t^{a−1} e^{−t} dt` for `x > 0`. Its 7.1 (DLMF 8.19.3):
-  `E_p(x) = ∫_1^∞ e^{−xt} t^{−p} dt` for `x > 0`. 9.4 uses these forms of the integrands.
-- Its 3.4, 15.2 and 7.5: 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies
-  in the unit disk, with Mathlib's `ordinaryHypergeometric`. 9.4 extends them by the identity
-  theorem.
-
-### From Tau Ceti
-
-- **Gauss series.** `one_le_radius_ordinaryHypergeometricSeries` and
-  `analyticOnNhd_ordinaryHypergeometric`
-  (`TauCeti/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`).
-- **Complete elliptic integrals.** `legendreK`, `legendreEc`,
-  `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
-  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for 15.9.26 in 9.1.
-- **Residues.** `TauCeti.Contour.residue` and the residue theorem
-  (`TauCeti/Analysis/Contour/Residue/`, from ContourIntegration), for 6.3.
-
-### From Mathlib
-
-- **Gauss series.** `ordinaryHypergeometric` (notation `₂F₁`), `ordinaryHypergeometricSeries`,
-  `ordinaryHypergeometric_eq_tsum`, `ordinaryHypergeometric_zero`,
-  `ordinaryHypergeometricSeries_symm`, `ordinaryHypergeometricSeries_radius_eq_one`,
-  `ordinaryHypergeometric_radius_top_of_neg_nat₁` (and `₂`, `₃`),
-  `ordinaryHypergeometricSeries_eq_zero_of_neg_nat`
-  (`Mathlib/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`);
-  `Complex.regularizedGaussHGFun`, `Complex.regularizedGaussHGFun_symm`,
-  `Complex.coeff_regularizedGaussHGFunSeries`, `Complex.ordinaryHypergeometric_div_Gamma_eq`,
-  `Complex.radius_regularizedGaussHGFunSeries_ge_one` and
-  `Complex.radius_regularizedGaussHGFunSeries_eq_top_of_left`
-  (`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
-- **Gamma, Beta and digamma.** `Complex.Gamma`, `Complex.Gamma_add_one`,
-  `Complex.Gamma_neg_nat_eq_zero`, `Complex.Gamma_ne_zero`, `Complex.Gamma_conj`,
-  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub` (reflection),
-  `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.Gamma_add_nat_div_Gamma_eq`,
-  `Complex.betaIntegral`, `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.digamma` and
-  `Complex.digamma_one_sub`.
-- **Polynomials.** `ascPochhammer`, `Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.U`,
-  `Polynomial.Chebyshev.T_complex_cos`, `Polynomial.Chebyshev.U_complex_cos` and
-  `Polynomial.shiftedLegendre`.
-- **Holomorphic functions.** `Complex.slitPlane`, `Complex.starConvex_one_slitPlane`,
-  `DifferentiableOn.analyticOnNhd`, the identity theorem
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `IsOpen.is_const_of_deriv_eq_zero`, the
-  Cauchy integral formula and `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
-- **Integration.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
-  convergence and parametric differentiation (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
-- **Asymptotics and limits.** `Asymptotics.IsBigO`, `Filter.Tendsto`, `Complex.log`,
-  `Complex.arg` and `Complex.cpow`.
-
-## How to read the build
-
-Layer 1 defines `𝐅` by Euler's integral and uniqueness. Uniqueness is two applications of the
-identity theorem in one variable: in `c` on the half-plane `Re c > Re b` at fixed `b` with
-`Re b > 0`, then in `b` on the half-plane `Re b > 0`. Existence is the construction by the two
-shift relations, which raise `Re b`, respectively `Re(c − b)`, by one and terminate in the
-region of Euler's integral; it is assembled from constructions with fixed numbers of shifts, each
-holomorphic on an open region, which agree where their regions overlap. Agreement with Mathlib's
-series on the disk is termwise integration of the binomial series of `(1 − zt)^{−a}`, and every
-identity proved on a piece of the disk then extends to the cut plane by the identity principle 1.4
-and to all parameters by holomorphy in the parameters. This is how Layer 2 proves the contiguous
-relations and Layer 3 the equation, from the series. Layer 3 also proves Abel's identity for
-Wronskians, which replaces the general theory of linear differential equations: two solutions with
-nonvanishing Wronskian span all solutions.
-Layer 4 evaluates Euler's integral at `z = 1` (Gauss's sum) and controls the series on its circle.
-Layer 5 obtains each connection formula by expanding a solution in a fundamental pair at another
-singularity (Layer 3) and fixing the two coefficients by the limits at `z = 1` (Layer 4), and
-composes these with the Euler and Pfaff transformations. Layers 6–9 apply Layers 1–5; the
-Mellin–Barnes integrals of Layer 6 are obtained from Mellin inversion of the Beta integral on
-fixed vertical lines, never by closing a contour at infinity. The
-`**Checks.**` and `### Examples` of each layer are statements to prove; they test the conventions
-on explicit values.
 
 ## Layer 1: the principal branch by Euler's integral
 
@@ -1208,6 +1048,166 @@ Layers 1–6; Tau Ceti elliptic integrals; SpecialFunctionsEiLiErfIncompleteGamm
   AsymptoticExpansions and SpecialFunctionsBessel.
 - Roadmaps for the generalized hypergeometric functions (DLMF Chapter 16) and the orthogonal
   polynomials (DLMF Chapter 18) consume Layers 1–5.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The principal branch by Euler's integral**: definition, existence, holomorphy, the series
+   and the polynomial cases (1.1–1.4).
+2. **Differentiation and three-term relations** (2.1–2.2).
+3. **The differential equation, Wronskians and local solutions**, including the logarithmic
+   cases and Riemann's equation (3.1–3.4).
+4. **Elementary reductions and the series at `z = 1`**: the elementary closed forms, the sums of
+   Gauss, Chu–Vandermonde and Dougall, and the circle of convergence (4.1–4.3).
+5. **Pfaff–Euler identities and the connection problem**: the connection formulas and their
+   logarithmic cases, Kummer's 24 solutions, the jump across the cut and the limits at `z = 1`
+   (5.1–5.5).
+6. **Euler, loop and Mellin–Barnes integrals** (6.1–6.3).
+7. **Transformations of degree two** and the special values they give (7.1–7.3).
+8. **Transformations of degree three** and the special values they give (8.1–8.2).
+9. **Polynomials, the Mellin transform, products and related integrals**: the Chebyshev and
+   Legendre polynomials and `D(k)`, the Mellin transform and the expansion in powers of `1/z`,
+   the products, and the incomplete Gamma, incomplete Beta and exponential-integral integrals with
+   argument off the unit disk (9.1–9.4).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`. Each
+subsection names the DLMF equations it restates, as locators, beside the books that contain them.
+
+**What this roadmap owns:** the statements of Layers 1–9, with the hypotheses and conventions
+specified there. Cases of them that Mathlib or Tau Ceti already proves are inputs, not targets;
+the targets are the remaining cases. The inputs are:
+- the Gauss series on the disk: Mathlib's `ordinaryHypergeometric` and
+  `Complex.regularizedGaussHGFun`, their radius of convergence, their symmetry in `a` and `b` and
+  `₂F₁ = Γ(c) 𝐅` for `c ∉ {0, −1, −2, …}` (`Complex.ordinaryHypergeometric_div_Gamma_eq`);
+- 15.9.24 and 15.9.25 for real `k` with `k² < 1`: Tau Ceti's
+  `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
+  (DLMF 19.5.1–19.5.2, from [EllipticIntegrals](../EllipticIntegrals/README.md)).
+
+Two roadmaps on main own special cases of targets here. This roadmap neither consumes them nor
+restates them:
+- [ConformalMappingPartII](../ConformalMappingPartII/README.md) §4.1 owns 15.10.1 for Mathlib's
+  series on the unit disk, and §4.6 owns 15.8.10 at `m = 0`, `b = a`,
+  the continuation of `₂F₁(a, a; 2a; ·)` across the slit disk around `z = 1`. 3.1 and 5.2 are
+  their general cases, on the cut plane and for all parameters.
+- [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+  owns 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies in the unit disk
+  (its 3.4, 15.2 and 7.5). 9.4 owns the rest of their range.
+
+It also owns the following auxiliary results, which the layers need and which neither Mathlib nor
+Tau Ceti provides:
+
+| Result | Target |
+|---|---|
+| Euler's integral converges for `1 − z ∈ slitPlane` and `Re c > Re b > 0`, and is holomorphic in `(a, b, c, z)` there | 1.1 |
+| Uniqueness: two functions entire in `b` and in `c` at every fixed `z` of the cut plane that agree with Euler's integral where `Re c > Re b > 0` agree on the cut plane | 1.2 |
+| The shift relations in `c` and in `b`, and the existence of the continuation by iterating them down to Euler's integral | 1.2 |
+| The shift construction with fixed counts: holomorphy on its region, agreement with Euler's integral, and compatibility of different counts | 1.2 |
+| The identity principle on the cut plane: an identity between functions holomorphic on the cut plane that holds on a nonempty open subset of the unit disk holds on the cut plane | 1.4 |
+| Abel's identity for the hypergeometric equation, and the resulting criterion: if `f₁`, `f₂` solve 15.10.1 on a connected open set with nonvanishing Wronskian, every solution there is a combination of them | 3.1 |
+| The logarithmic solutions continued to `slitPlane ∩ {1 − z ∈ slitPlane}` as parameter derivatives of the regularized pair | 3.3 |
+| Dougall's series: convergence and holomorphy in `d`, the recurrence, the integer values, the growth bound, and the periodic Carlson lemma | 4.2 |
+| The cubic transformation behind 15.4.31, which DLMF's note to 15.4.31 takes from Erdélyi et al. (1953a, Eq. 2.11(41)) | 8.1 |
+| The Mellin–Barnes integral of `(1 + u)^{−a}`, independence of the separating contour, and Barnes's first lemma (DLMF 5.13.3) | 6.3 |
+
+**What it does not own:**
+- The Gauss series on the disk and the facts listed above as inputs (Mathlib), and the complete
+  elliptic integrals `K`, `E` with 15.9.24–15.9.25 (Tau Ceti).
+- The Gamma function on vertical strips (ZerosOfLFunctions 1.3), consumed for Dougall's sum
+  (4.2) and the Mellin–Barnes integrals (6.3).
+- The incomplete Gamma function `Γ(a, x)`, the generalized exponential integral `E_p(x)` and the
+  incomplete Beta function `B_x(a, b)`, consumed from SpecialFunctionsEiLiErfIncompleteGamma for
+  9.4, and 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies in the unit
+  disk, which that roadmap owns.
+- 15.10.1 on the unit disk and 15.8.10 at `m = 0`, `b = a` in the forms of ConformalMappingPartII
+  §§4.1 and 4.6.
+- The continued fractions for ratios of contiguous functions (DLMF §15.7), and the expressions
+  of the Jacobi, Gegenbauer, Krawtchouk, Meixner and Meixner–Pollaczek polynomials and of the
+  Jacobi, Gegenbauer and Legendre functions as Gauss functions (DLMF 15.9.1–15.9.4,
+  15.9.8–15.9.23).
+- The asymptotics for large parameters (DLMF §15.12), the zeros (DLMF §15.13), branches off the
+  principal sheet and the monodromy, and the applications and numerical methods.
+- The formulas relating `F` to the Bessel and confluent hypergeometric functions through the
+  continued Gauss function, which SpecialFunctionsBessel and SpecialFunctionsConfluent leave to
+  a roadmap on the Gauss function. Both of those roadmaps come after this one, and the formulas
+  belong to SpecialFunctionsHypergeometricPartII, which consumes all three.
+
+See the last section for these.
+
+**The boundary in one sentence:** this roadmap owns the principal branch of `F` and `𝐅` on the
+cut plane for all parameters and the classical theory stated through it, elementary functions,
+`Γ`, `ψ`, Mathlib's Chebyshev and Legendre polynomials and Tau Ceti's complete elliptic
+integrals, as listed in the layers, except the continued fractions, the orthogonal polynomials
+and functions beyond Chebyshev and Legendre polynomials, the large-parameter asymptotics, the
+zeros and the applications, together with three incomplete-function integrals that are Gauss
+functions off the unit disk; it consumes the Gamma function on vertical strips from
+ZerosOfLFunctions and the incomplete Gamma and Beta functions and `E_p` from
+SpecialFunctionsEiLiErfIncompleteGamma.
+
+## Exact supplier contracts
+
+### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
+
+- [§1.3 Vertical strips](../ZerosOfLFunctions/README.md#13-vertical-strips):
+  `log ‖Γ(σ + it)‖ = (σ − ½) log |t| − π|t|/2 + ½ log(2π) + O(1/|t|)` uniformly for `σ` in a
+  compact interval, as `|t| → ∞`. It gives the bounds for `|Γ|` and `|1/Γ|` on vertical strips of
+  bounded width: the exponential decay of the integrands of 15.6.6–15.6.7 along a fixed vertical
+  line, the vanishing of the horizontal sides of a rectangle between two fixed lines (6.3), and
+  the growth bounds in Dougall's sum (4.2). It is not used for contours whose real part tends to
+  infinity, and none is closed that way.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- [Its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions):
+  `TauCeti.Complex.upperIncompleteGamma` (`Γ(a, z)`), `TauCeti.expIntegralE` (`E_p(z)`) and
+  `TauCeti.incompleteBeta` (`B_x(a, b)` for `a, b > 0` and `0 ≤ x ≤ 1`, with real powers).
+- Its 1.3: `Γ(a, x) = ∫_x^∞ t^{a−1} e^{−t} dt` for `x > 0`. Its 7.1 (DLMF 8.19.3):
+  `E_p(x) = ∫_1^∞ e^{−xt} t^{−p} dt` for `x > 0`. 9.4 uses these forms of the integrands.
+- Its 3.4, 15.2 and 7.5: 8.14.5–8.14.6, 8.17.9 and 8.19.25 where the hypergeometric argument lies
+  in the unit disk, with Mathlib's `ordinaryHypergeometric`. 9.4 extends them by the identity
+  theorem.
+
+### From Tau Ceti
+
+- **Gauss series.** `one_le_radius_ordinaryHypergeometricSeries` and
+  `analyticOnNhd_ordinaryHypergeometric`
+  (`TauCeti/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`).
+- **Complete elliptic integrals.** `legendreK`, `legendreEc`,
+  `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
+  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for 15.9.26 in 9.1.
+- **Residues.** `TauCeti.Contour.residue` and the residue theorem
+  (`TauCeti/Analysis/Contour/Residue/`, from ContourIntegration), for 6.3.
+
+### From Mathlib
+
+- **Gauss series.** `ordinaryHypergeometric` (notation `₂F₁`), `ordinaryHypergeometricSeries`,
+  `ordinaryHypergeometric_eq_tsum`, `ordinaryHypergeometric_zero`,
+  `ordinaryHypergeometricSeries_symm`, `ordinaryHypergeometricSeries_radius_eq_one`,
+  `ordinaryHypergeometric_radius_top_of_neg_nat₁` (and `₂`, `₃`),
+  `ordinaryHypergeometricSeries_eq_zero_of_neg_nat`
+  (`Mathlib/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`);
+  `Complex.regularizedGaussHGFun`, `Complex.regularizedGaussHGFun_symm`,
+  `Complex.coeff_regularizedGaussHGFunSeries`, `Complex.ordinaryHypergeometric_div_Gamma_eq`,
+  `Complex.radius_regularizedGaussHGFunSeries_ge_one` and
+  `Complex.radius_regularizedGaussHGFunSeries_eq_top_of_left`
+  (`Mathlib/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`).
+- **Gamma, Beta and digamma.** `Complex.Gamma`, `Complex.Gamma_add_one`,
+  `Complex.Gamma_neg_nat_eq_zero`, `Complex.Gamma_ne_zero`, `Complex.Gamma_conj`,
+  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub` (reflection),
+  `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.Gamma_add_nat_div_Gamma_eq`,
+  `Complex.betaIntegral`, `Complex.Gamma_mul_Gamma_eq_betaIntegral`, `Complex.digamma` and
+  `Complex.digamma_one_sub`.
+- **Polynomials.** `ascPochhammer`, `Polynomial.Chebyshev.T`, `Polynomial.Chebyshev.U`,
+  `Polynomial.Chebyshev.T_complex_cos`, `Polynomial.Chebyshev.U_complex_cos` and
+  `Polynomial.shiftedLegendre`.
+- **Holomorphic functions.** `Complex.slitPlane`, `Complex.starConvex_one_slitPlane`,
+  `DifferentiableOn.analyticOnNhd`, the identity theorem
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, `IsOpen.is_const_of_deriv_eq_zero`, the
+  Cauchy integral formula and `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
+- **Integration.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
+  convergence and parametric differentiation (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`).
+- **Asymptotics and limits.** `Asymptotics.IsBigO`, `Filter.Tendsto`, `Complex.log`,
+  `Complex.arg` and `Complex.cpow`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
