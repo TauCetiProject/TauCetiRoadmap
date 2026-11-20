@@ -63,6 +63,11 @@ hypotheses; a headline theorem of another roadmap is not a substitute for the in
 quotient test among the targets and Examples (§3.0c, §3.0e, §4.1, §5.10) verifies the pulled-back or
 descended form, not only the dimension or a bijection of sets.
 
+Other roadmaps cite the former numbering of this roadmap, in blocks R1–R5, which maps as follows. R1
+is Layer 1; R1a is Layer 1a and R1a.k is §1a.k; R2 is Layer 2; item k of R2a, also written R2a.k, is
+§2a.k; R3 is Layer 3, its text before R3.1 is §§3.0–3.0e, and R3.1 and R3.2 are §3.1 and §3.2; R4 is
+Layer 4; and R5 is Layer 5.
+
 ## Conventions
 
 1. **Signs** (those of the family [SymplecticGeometry](../README.md), and of Tau Ceti). The canonical
@@ -71,7 +76,9 @@ descended form, not only the dimension or a bijection of sets.
    `{f, g} = df(X_g)` (`SmoothTwoForm.poissonBracket`), and `X_({f,g}) = −[X_f, X_g]`. The fundamental
    vector field of a left action is `ξ_M(x) = d_1(g ↦ g · x)(ξ)` (`TauCeti.fundamentalVectorField`), and
    `[ξ, η]_M = −[ξ_M, η_M]`. A moment map satisfies `d⟨μ, ξ⟩ = ι_(ξ_M) ω`; the coadjoint action is
-   `Ad*_g ν = ν ∘ Ad_(g⁻¹)` (`Lie.coadjointRepresentation`). The default circle period is `2π`; §1a.3
+   `Ad*_g ν = ν ∘ Ad_(g⁻¹)` (`Lie.coadjointRepresentation`). Cannas da Silva and Bates–Lerman use
+   these conventions; Meinrenken writes the generating vector field as `−ξ_M`, so his moment-map
+   equation `d⟨Φ, ξ⟩ = −ι(ξ_M) ω` is the same condition. The default circle period is `2π`; §1a.3
    uses period-1 coordinates and converts.
 2. **Manifolds, groups and actions.** Manifolds and Lie groups are real, smooth, finite-dimensional,
    Hausdorff, second countable and without boundary, except for the space of connections of Layer 5 and
@@ -122,7 +129,7 @@ the isotropy algebra `(InfinitesimalAction.fundamental I G I' M).isotropy x`, th
 prove that it has constant rank, equal at every `g` to the dimension of the orbit tangent space
 `(InfinitesimalAction.fundamental I G I' M).orbitTangent x`, so `dim 𝔤_x + dim(𝔤 · x) = dim 𝔤` is the rank–nullity
 statement of Tau Ceti's `finrank_orbitTangent_add_finrank_isotropy` read at the group level
-(Cannas da Silva, Lectures on Symplectic Geometry, §§22–25).
+(Cannas da Silva, §23.2, item 1, p. 142, and the proof of Theorem 23.4, p. 143).
 
 *Needs:* Tau Ceti `fundamentalVectorField`, `mfderiv_smul_fundamentalVectorField`,
 `InfinitesimalAction.isotropy`, `InfinitesimalAction.orbitTangent`,
@@ -143,8 +150,9 @@ statement of Tau Ceti's `finrank_orbitTangent_add_finrank_isotropy` read at the 
 
 Throughout, `ω` is symplectic, the action is a smooth symplectic action (Conventions 2) and
 `μ : M → 𝔤*` is a group-level moment map, Tau Ceti's `SmoothTwoForm.IsEquivariantMomentMap`
-(Cannas da Silva, Lectures on Symplectic Geometry, §§22–25; Marsden–Ratiu, Introduction to Mechanics
-and Symmetry, momentum-map chapters).
+(Cannas da Silva, Definition 22.1, pp. 133–134). Restriction along a Lie group homomorphism and the
+equivalence of group and infinitesimal equivariance for connected `G` are Meinrenken, Remarks 7.13 (c)
+and (d), p. 84.
 
 - *Restriction.* For a Lie subgroup `ι : H → G`, an injective immersive homomorphism of Lie groups,
   embedded or not, with Lie algebra inclusion `dι : 𝔥 → 𝔤`,
@@ -185,8 +193,9 @@ and Symmetry, momentum-map chapters).
 ### 1.3 The model actions at group level
 
 Tau Ceti proves the infinitesimal moment maps of these actions; this section states their
-group-level forms (Cannas da Silva, Lectures on Symplectic Geometry, §§22–25; Marsden–Ratiu,
-Introduction to Mechanics and Symmetry, momentum-map chapters).
+group-level forms (Cannas da Silva, §22.4, pp. 137–138, for translations along a Lagrangian subspace
+and angular momentum; Meinrenken, Propositions 7.18 and 7.20, pp. 87–88, for invariant one-forms such
+as the Liouville form and for the linear symplectic group).
 
 - *Translations.* For a finite-dimensional symplectic vector space `(V, ω)`, the additive group `V`
   acting on itself by translation has the moment map `μ(x)(Z) = ω(Z, x)` (Tau Ceti's
@@ -285,7 +294,9 @@ specializes the time-dependent pullback derivative and the Cartan formula: for a
 time-dependent symplectic field `Y_t` with flow `Ψ_t`, `∂_t (Ψ_t* ω) = Ψ_t* (L_(Y_t) ω) = 0` on the
 actual flow domain; the common-support constructions of §1a.4 use this specialization. For every
 smooth integral one-cycle `γ`, prove that `⟨Flux(φ), γ⟩` is the integral of `ω` over the swept
-two-chain `(t, s) ↦ φ_t(γ(s))`, oriented by `dt` followed by the orientation of the cycle.
+two-chain `(t, s) ↦ φ_t(γ(s))`, oriented by `dt` followed by the orientation of the cycle. Flux as a
+homomorphism on path classes, its homotopy invariance and this swept-chain formula are Banyaga,
+Proposition II.1.1 with its proof and Remarque II.1.2, pp. 181–183.
 
 *Path classes and the flux homomorphism.* Define the group of smooth symplectic paths modulo smooth
 homotopy fixing both time ends, with compatible collars. Its product is the pointwise product
@@ -368,7 +379,8 @@ with a jointly smooth, componentwise normalized Hamiltonian. If `Flux(φ) = 0`, 
 so `ψ_1 = id`, and replacing `A_i(t)` by `u A_i(t)`, `u ∈ [0, 1]`, gives an endpoint-fixed symplectic
 contraction of `ψ` and an endpoint-fixed homotopy from `φ` to `h`. Prove the converse (a Hamiltonian
 isotopy has zero flux) and invariance under endpoint-fixed homotopy. The exported theorem: a smooth
-symplectic path has zero flux exactly when it is endpoint-fixed homotopic to a Hamiltonian isotopy.
+symplectic path has zero flux exactly when it is endpoint-fixed homotopic to a Hamiltonian isotopy
+(Banyaga, Propositions II.3.1 and II.3.3 and the diagram after them, pp. 189–191).
 This is a statement about path classes; an instantaneous closed form `α_t` need not be exact merely because its time integral is.
 
 *Needs:* §1a.0; Tau Ceti `SmoothTwoForm.hamiltonianVectorField`, `TauCeti.deRhamCohomology`,
@@ -405,11 +417,12 @@ that
 
 `1 → Ham(M, ω) → Symp₀(M, ω) → H¹_dR(M) / Γ_ω → 0`
 
-is exact. Surjectivity uses the complete flow of the vector field obtained by inverting `ω` on a representative
+is exact (Banyaga, the exact diagram on p. 191, with `Γ` and the endpoint flux defined on p. 184).
+Surjectivity uses the complete flow of the vector field obtained by inverting `ω` on a representative
 closed one-form; normality and the kernel come from §1a.0 and §1a.1. Prove that the continuous path
 and homotopy versions of these groups agree with the smooth collar-fixed versions.
 
-*The diagonal chart.* Apply CotangentLagrangian C4's relative Weinstein neighbourhood theorem to the
+*The diagonal chart.* Apply CotangentLagrangian §4.7's Weinstein neighbourhood theorem to the
 compact Lagrangian diagonal in `(M × M, pr₂*ω − pr₁*ω)`, with `graph(h) = {(x, h x)}`; this form is the
 negative of CotangentLagrangian's `ω_M − ω_N` and makes the same graphs Lagrangian. Its normal identification at a diagonal point
 `(x, x)` sends the tangent vector `(u, v)` to the covector `p = ω(·, v − u)`; fix this order before
@@ -437,7 +450,7 @@ topological statements assume nothing about discreteness of `Γ_ω`; Hausdorffne
 a finite-dimensional Lie group structure on it are not conclusions, and hold only under the
 corresponding additional hypotheses on the subgroup.
 
-*Needs:* §1a.0, §1a.1; CotangentLagrangian C4 (relative Weinstein neighbourhood germ);
+*Needs:* §1a.0, §1a.1; CotangentLagrangian §4.7 (Weinstein neighbourhood germ);
 DifferentialGeometry Layer 10 (degree); Tau Ceti `Diffeomorph.isTopologicalGroup`,
 `Diffeomorph.continuous_trans`, `Diffeomorph.continuous_symm`, `CotangentBundle.symplecticForm`.
 
@@ -452,9 +465,13 @@ DifferentialGeometry Layer 10 (degree); Tau Ceti `Diffeomorph.isTopologicalGroup
 
 ### 1a.3 The area-normalized torus lattice
 
-Use IntegrableSystems §I2.0's positive-period circle `AddCircle 1` and its product smooth structure on
-both factors of `T² = (ℝ/ℤ)²`. For `ω = A dx ∧ dy` with `A > 0`, prove `Γ_ω = A · H¹(T²; ℤ)` inside
-`H¹_dR(T²)`, where `H¹(T²; ℤ)` is the lattice of classes with integral periods. The translation loop
+Give `T² = (ℝ/ℤ)²` the product of Tau Ceti's analytic manifold and Lie group structures on the circle
+`AddCircle 1` (`AddCircle.instChartedSpace`, `AddCircle.instIsManifold`, `AddCircle.instLieAddGroup`,
+for every positive period), through Mathlib's `IsManifold.prod` and `Prod.instLieAddGroup`. For
+`ω = A dx ∧ dy` with `A > 0`, prove `Γ_ω = A · H¹(T²; ℤ)` inside `H¹_dR(T²)`, where `H¹(T²; ℤ)` is the
+lattice of classes with integral periods (Banyaga, §III.6 up to Lemme III.6.1, pp. 221–223, for
+`A = 1` on `T^(2n)`, with the signs used here, and the inclusion of `Γ` in the classes with periods
+in the period group of `ω`, p. 184). The translation loop
 with velocity `a ∂_x + b ∂_y`, `(a, b) ∈ ℤ²`, has flux `A (a [dy] − b [dx])`, which gives the
 inclusion of the integral lattice scaled by `A`. Conversely, the sweep of any integral one-cycle by
 any loop of symplectomorphisms is an integral torus two-cycle, so its `ω`-pairing is `A` times an
@@ -463,7 +480,8 @@ angular coordinates `θ_x = 2πx`, `θ_y = 2πy` the form is `(A / 4π²) dθ_x 
 on both coordinate translation loops. The computation uses neither a deformation retraction of the
 whole symplectomorphism group nor a general discreteness theorem for flux groups.
 
-*Needs:* §1a.0, §1a.2; IntegrableSystems §I2.0; Tau Ceti `deRhamCohomology`.
+*Needs:* §1a.0, §1a.2; Tau Ceti `deRhamCohomology`, `AddCircle.instIsManifold`,
+`AddCircle.instLieAddGroup`; Mathlib `IsManifold.prod`, `Prod.instLieAddGroup`.
 
 **Checks.**
 - The loop `(x, y) ↦ (x + t, y)` has velocity `∂_x` and `ι_(∂_x)(A dx ∧ dy) = A dy`, so its flux is `A [dy]`,
@@ -486,8 +504,10 @@ sequence
 
 `1 → Ham_c(M, ω) → Symp_(c,0)(M, ω) → H¹_c(M) / Γ_(ω,c) → 0`,
 
-where `Γ_(ω,c)` is the image of the common-compact-support loops. Vanishing of the flux after
-forgetting supports is a different hypothesis and does not give this kernel statement.
+where `Γ_(ω,c)` is the image of the common-compact-support loops (Banyaga, Proposition II.1.1 and the
+diagram on p. 191, stated there for compactly supported symplectomorphisms of a connected manifold
+and `H¹_c`). Vanishing of the flux after forgetting supports is a different hypothesis and does not
+give this kernel statement.
 
 *Relative stages.* For each compact support `K` choose a regular compact exhaustion stage
 `U_r = {ρ ≤ r}` with `K ⊆ int U_r`, using Tau Ceti's proper exhaustion functions
@@ -571,7 +591,7 @@ control. No continuity theorem for the unrestricted noncompact diffeomorphism gr
 Construct the support-stage diagonal chart independently of the compact endpoint theorem of §1a.2:
 choose buffers `K ⊆ int K₁ ⊆ int K₂ ⊆ V_r` with a fixed outer collar; from GeometricTopology §1.5's
 tubular neighbourhood of the diagonal, restricted over the compact buffer `K₂`, and CotangentLagrangian
-C4's fibre-homotopy construction, match
+§4.1's fibre-homotopy construction, match
 the full symplectic tensor along the diagonal using `p = ω(·, v − u)`. The difference of the forms then
 has a fibre-homotopy primitive `β = O(|p|²)` with parameter and derivative estimates. Use a base cutoff
 supported in `K₂` and a radial cutoff at radius `ρ`, equal to one over the inner graph region, and prove
@@ -588,8 +608,8 @@ support enlargement. Convex supported closed-one-form coordinates give finite-di
 and relative smooth approximation of paths and homotopies, fixing data already smooth near the
 parameter faces and keeping common collars. Export the fixed-stage comparison with its induced
 ambient weak-Whitney topology; the common compact support is a hypothesis of this comparison. The
-inputs shared with §1a.2 are the raw C4, DifferentialGeometry, GeometricTopology and degree
-inputs and the raw flux calculus, not either endpoint conclusion.
+inputs shared with §1a.2 are CotangentLagrangian Layer 4, the DifferentialGeometry, GeometricTopology
+and degree inputs and the raw flux calculus, not either endpoint conclusion.
 
 *The compact-support group topology.* Construct a group topology on `Symp_(c,0)(M, ω)` from
 translated small diagonal graph charts modelled on the closed compactly supported one-forms with
@@ -634,7 +654,7 @@ quotient theorem keep their own, distinct topologies.
 (Sard), Layer 10 (degree); DeRhamCohomologyAndDuality §2.4 and Layer 3 (relative chains and relative de
 Rham theory); GeometricTopology §1.1 (collars), §1.3.1 (Morse functions on compact manifolds with
 boundary), §1.5 (tubular neighbourhoods); MorseTheory §2.4 (CW exhaustion); AlgebraicTopology Layer 4
-and §6.1 (CW pairs, cochains, real universal coefficients); CotangentLagrangian C4 (fibre-homotopy
+and §6.1 (CW pairs, cochains, real universal coefficients); CotangentLagrangian §4.1 (fibre-homotopy
 construction).
 
 **Checks.**
@@ -659,10 +679,10 @@ construction).
 
 No other layer of this roadmap. Tau Ceti: the exact sequence of symplectic vector fields, de Rham
 cohomology (ordinary, compactly supported, periods), diffeomorphism groups with their weak-Whitney
-topologies, diffeotopies, Cartan's formula, proper exhaustions. DifferentialGeometry §§1.4, 3.5, 5.4,
-6.4, 8.3–8.4, 10.2 and Layer 10. DeRhamCohomologyAndDuality §2.4 and Layer 3. HeegaardFloer §4.1 (F2.1).
-CotangentLagrangian C4. IntegrableSystems §I2.0. GeometricTopology §§1.1, 1.3.1, 1.5. MorseTheory §2.4.
-AlgebraicTopology Layer 4 and §6.1.
+topologies, diffeotopies, Cartan's formula, proper exhaustions, the circle `AddCircle p`. Mathlib:
+product manifolds and Lie groups. DifferentialGeometry §§1.4, 3.5, 5.4, 6.4, 8.3–8.4, 10.2 and
+Layer 10. DeRhamCohomologyAndDuality §2.4 and Layer 3. HeegaardFloer §4.1 (F2.1). CotangentLagrangian
+§§4.1, 4.7. GeometricTopology §§1.1, 1.3.1, 1.5. MorseTheory §2.4. AlgebraicTopology Layer 4 and §6.1.
 
 ## Layer 2: coadjoint orbits and the Kirillov–Kostant–Souriau form
 
@@ -715,7 +735,8 @@ it is closed, by the invariant formula for `d` on fundamental fields and the Jac
 algebraic part is Tau Ceti's `Module.Dual.kksForm_jacobi`). Prove that the orbit map
 `ι_ν : O_ν → 𝔤*` is a coadjoint-equivariant moment map for `ω_ν`: `d⟨ι_ν, ξ⟩ = ι_(ξ_O) ω_ν`, whose
 pointwise form is Tau Ceti's `Module.Dual.kksForm_mk_left`. Prove the derivative formula
-`dι_ν([ξ]) = ξ_O(ν)`.
+`dι_ν([ξ]) = ξ_O(ν)`. This is the Kirillov–Kostant–Souriau theorem for an arbitrary Lie group
+(Meinrenken, Theorem 7.25, p. 92; Cannas da Silva, Homework 17, p. 139, with the formulas above).
 
 *Comparison with the linear Poisson structure.* Use the positive Lie–Poisson structure
 `{ℓ_ξ, ℓ_η} = ℓ_([ξ, η])` of LieGroupoidsPoisson §G4.6A and its sharp convention `β(π♯α) = π(α, β)`
@@ -785,12 +806,16 @@ For `X, Y ∈ 𝔱` with `Ad_g X = Y`, both `T` and `g T g⁻¹` lie in `Z_K(Y)�
 centralizing `Y`; they are maximal tori there, so conjugacy in that compact connected group gives
 `c ∈ Z_K(Y)⁰` with `c g ∈ N_K(T)`, and `Ad_(cg) X = Y`. Prove `exists_mem_normalizer_Ad_eq`: for a
 compact connected Lie group `K`, a maximal torus `T` with Lie algebra `𝔱`, and `X, Y ∈ 𝔱` with
-`Ad_g X = Y` for some `g`, there is `n` in the normalizer of `T` with `Ad_n X = Y`. The argument does not
+`Ad_g X = Y` for some `g`, there is `n` in the normalizer of `T` with `Ad_n X = Y` (Alexandrino–Bettiol,
+the remark after Definition 4.28, p. 84: the Weyl group orbits in `𝔱` are the intersections of `𝔱`
+with the adjoint orbits). The argument does not
 assume the full centralizer `Z_K(Y)` connected. Through LieGroups Layer 6's comparison the action of
 `N_K(T)/T` on `𝔱_ss` is the abstract Weyl action, and it fixes the centre; the uniqueness half of
 `TauCeti.existsUnique_mem_orbit_inter_dominantChamber` then proves that two dominant Weyl-related
 points are equal, and with dominant existence every coadjoint orbit contains exactly one point of
-`𝔷(𝔨)* × 𝔱*_(ss,+)`. No uniqueness argument for the open chamber replaces the closed-wall theorem.
+`𝔷(𝔨)* × 𝔱*_(ss,+)` (Alexandrino–Bettiol, Theorem 4.31 (ii), p. 85, for adjoint orbits and the
+closure of a Weyl chamber in `𝔱`, which contains the centre). No uniqueness argument for the open
+chamber replaces the closed-wall theorem.
 
 *Needs:* §2.3; LieGroups Layer 6 (maximal-torus conjugacy, conjugation into `𝔱`, Weyl comparison);
 Tau Ceti `Lie.Ad`, `Lie.lieSubalgebraOfSubgroup`, `TauCeti.existsUnique_mem_orbit_inter_dominantChamber`.
@@ -811,7 +836,9 @@ space is a continuous bijection by §2.4, and it is proper, using the invariant 
 closed bounded subsets of the finite-dimensional chamber and Hausdorffness of the quotient of a space
 by a compact group. For dominant `X`, compute `Lie Z_K(X)` as `𝔱` plus the real root planes with
 `α(X) = 0`. Prove `isConnected_stabilizer_coadjointRepresentation`: for a compact connected Lie group
-`K` and `ν ∈ 𝔨*`, the coadjoint stabilizer `K_ν` is connected. Under `B` it is the centralizer `Z_K(X)`
+`K` and `ν ∈ 𝔨*`, the coadjoint stabilizer `K_ν` is connected (Alexandrino–Bettiol, Lemma 4.26,
+pp. 83–84, for the adjoint stabilizer of an element of `𝔱`, which conjugation and `B` carry to every
+`ν`). Under `B` it is the centralizer `Z_K(X)`
 of `X` with `ν = B(X, ·)`, and one may take `X` dominant. For `g ∈ Z_K(X)`, conjugate `g T g⁻¹` to `T`
 inside `Z_K(X)⁰` as in §2.4; the resulting Weyl element fixes `X`, so by
 `TauCeti.stabilizer_eq_closure_wallReflections` it is a product of reflections in walls through `X`.
@@ -956,6 +983,10 @@ point; without that choice the full-flag indexing is a `W`-torsor. Prove that `f
 
 `index_p(f_X) = 2 · #{α ∈ Φ⁺ | α(p) ≠ 0 and α(X) α(p) > 0}`.
 
+Equivalently, the index of `−f_X` at `p` is twice the number of root hyperplanes separating `p` from
+`X` (Bott, Proposition 11.4 and Theorem III, p. 271, there for the energy of segments from the orbit
+to a regular point `X ∈ 𝔱`, which on the orbit is a positive multiple of `−f_X` plus a constant).
+
 With `μ` dominant and `X` in the open positive chamber this is `dim(O_μ) − 2 ℓ(w)` at `p = w μ`, `w` a
 minimal coset representative; with `X` in the open negative chamber it is `2 ℓ(w)`; equivalently
 `index_(wμ)(−f_X) = 2 ℓ(w)` for positive `X`. Prove the length formulas on `W / W_μ`, excluding the
@@ -984,7 +1015,9 @@ obtain a finite CW model of `O_μ` with one cell of the even index of §2a.3 at 
 Construct its comparison map to the orbit and label the orientation of each negative handle by its
 negative Hessian plane sum, with a fixed ordering of the roots. Deduce that the integral homology and
 cohomology of `O_μ` vanish in odd degrees and are free in even degrees with the critical cells as
-bases; prove the index generating polynomial and `χ(O_μ) = |W / W_μ|`. The even cellular differential
+bases; prove the index generating polynomial and `χ(O_μ) = |W / W_μ|` (Bott, Theorem III and
+Proposition 11.5, pp. 271–272: the orbit has no torsion and no odd Betti numbers, with one generator
+for each point of `W μ`). The even cellular differential
 is zero, but this alone is not a computation of the cohomology ring. For the full flag obtain
 `χ(K/T) = |W|` and simple connectivity from the connected CW model with one zero-cell and no one-cells.
 SchubertGeometry §9.7 makes the comparison of characteristic maps and orientations with Schubert
@@ -1049,7 +1082,7 @@ Tau Ceti `Lie.IsMaximalTorus.lieSubalgebraOfSubgroup_centralizer`, `Lie.IsTorus.
 - For `K = SU(2)`, `C = Z_K(T₀) = T₀`, `K / T₀ = S²` with `χ = 2 = |W|`, and left translation by any `k`
   has a fixed point `g T₀`, i.e. `g⁻¹ k g ∈ T₀`.
 
-### 2a.7 Source exercises and range tests
+### 2a.7 Model computations and range tests
 
 - *Heisenberg.* In the real Heisenberg algebra with `[X, Y] = Z`, the adjoint orbit of `aX + bY + cZ`
   with `(a, b) ≠ (0, 0)` is the affine line `aX + bY + ℝZ`, and central elements have point orbits. In
@@ -1118,8 +1151,7 @@ The layer has three branches sharing the level data of §3.0: the free regular b
 not assumed regular or free anywhere. The sections before §3.1 are numbered `3.0` and `3.0a`–`3.0e` so
 that §3.1 and §3.2 keep their numbers. Throughout, `(M, ω)` is symplectic, `G` acts by a smooth
 symplectic action (Conventions 2) and `μ : M → 𝔤*` is a group-level moment map,
-`SmoothTwoForm.IsEquivariantMomentMap` (Cannas da Silva, Lectures on Symplectic Geometry, §§22–25;
-Marsden–Ratiu, Introduction to Mechanics and Symmetry, momentum-map chapters).
+`SmoothTwoForm.IsEquivariantMomentMap` (Cannas da Silva, Definition 22.1, pp. 133–134).
 
 ### 3.0 Shared level data
 
@@ -1155,8 +1187,9 @@ theorem, using the principal right action `z · g = g⁻¹ z` of its conversion.
 `G_x = 1`, `𝔤_x = 0` by §1.1, and `dμ_x` is onto by `SmoothTwoForm.IsMomentMap.differential_surjective_iff`),
 while keeping the explicit regular-value hypothesis in the statement of the quotient construction.
 Compute `T_x Z = ker dμ_x = (𝔤 · x)^ω` and `ker (i*ω)_x = 𝔤_c · x`. Prove that there is a unique smooth
-symplectic form `ω_red` on `Q` with `π* ω_red = i* ω` (the Marsden–Weinstein–Meyer theorem; Cannas da
-Silva, Lectures on Symplectic Geometry, §§22–25): by §3.0 the form `i*ω` is closed and basic with kernel
+symplectic form `ω_red` on `Q` with `π* ω_red = i* ω` (the Marsden–Weinstein–Meyer theorem: Meinrenken,
+Theorem 8.3 with Remark 8.4, p. 101, at this generality; Cannas da Silva, Theorem 23.1, p. 141, is the
+case of a compact group at `c = 0`): by §3.0 the form `i*ω` is closed and basic with kernel
 exactly `ker dπ`, so Tau Ceti's `SmoothForm.descendedForm` applies, with uniqueness from
 `SmoothForm.eq_descendedForm_iff` and symplecticity from `SmoothTwoForm.isSymplectic_descendedForm_iff`.
 The reduced dimension is `dim Q = dim M − dim 𝔤 − dim 𝔤_c`; at a coadjoint-fixed `c` it is
@@ -1209,7 +1242,9 @@ the regular-value and equivariance hypotheses, hence so is `(v, w) ↦ dμ(v) �
 regular-fibre atlas of `Ψ⁻¹(0)` and the transverse fibre-product atlas of `W_O` are the same embedded
 submanifold atlas, the identity being a diffeomorphism. Under this identification prove that the
 zero-level reduction map of `(M × O⁻, Ψ)` is `q_O = e ∘ π_W` and that its descended form satisfies
-`q_O* ω_red = pr_M* ω − pr_O* ω_KKS`.
+`q_O* ω_red = pr_M* ω − pr_O* ω_KKS`. This is the shifting construction (Meinrenken, Proposition 8.6,
+p. 102; Cannas da Silva, §24.4, pp. 149–150, for compact `G`); the form `ω − μ* ω_KKS` on `μ⁻¹(O)` is
+Bates–Lerman, Proposition 11 and the remark after it, p. 10.
 
 *Needs:* §2.1, §2.2, §3.0a; SmoothBundlesConnections §B1.0 (transverse fibre products) and §B1.4;
 Tau Ceti `SmoothTwoForm.IsEquivariantMomentMap.neg`, `SmoothTwoForm.IsEquivariantMomentMap.prod`,
@@ -1241,7 +1276,9 @@ algebra `𝔤 / 𝔫` and the projection a Lie group homomorphism and submersion
 (§1.2). On `μ_N⁻¹(0)` the moment map `μ` takes values in `𝔫⁰ ≅ (𝔤/𝔫)*` (Mathlib's
 `Submodule.dualQuotEquivDualAnnihilator`), and it induces the moment map of the residual `G/N`-action on
 `μ_N⁻¹(0) / N`. Assuming that the `N`-stage and the residual stage are regular, free and proper, prove
-that the reduction in two stages is symplectomorphic to the direct reduction at zero. For a
+that the reduction in two stages is symplectomorphic to the direct reduction at zero. For a product
+`G = G₁ × G₂` this is Meinrenken, Proposition 8.13, p. 105, and Cannas da Silva, §24.3, p. 149, for
+compact connected factors at zero; the normal-subgroup case identifies the quotients in the same way. For a
 coadjoint-invariant nonzero `c`, apply this to `μ − c`, with first-stage value `c|_𝔫` and residual value
 zero. For a value `c` that is not coadjoint-invariant, first apply the shifting construction of §3.0b on
 `M × O_c⁻`, then reduce in stages at zero there and identify the final quotient with `Z / G_c`, with the
@@ -1360,8 +1397,9 @@ and the last is `ω_V`. The coadjoint orbit `G/K` carries its homogeneous struct
 only an immersed image in `𝔤*`. Prove nondegeneracy on a `G`-invariant neighbourhood of the zero orbit by
 choosing an `H`-invariant fibre neighbourhood at `[1, 0, 0]` and saturating it. Prove that the left
 `G`-action has the moment map `μ_Y([g, η, v]) = Ad*_g(ν + η + μ_V(v))`, with `d μ_Y^ξ = ι_(ξ_Y) Ω` and value
-`ν` at `[1, 0, 0]`. Closedness, basic descent and nondegeneracy are parts of the model theorem
-(Sjamaar–Lerman, Stratified symplectic spaces and reduction).
+`ν` at `[1, 0, 0]`. Closedness, basic descent and nondegeneracy are parts of the model theorem. The
+same model and moment map, for a proper action of an arbitrary Lie group, are Bates–Lerman, §2,
+pp. 11–13, where `𝔪*` appears as `(𝔤_ν / 𝔥)*`.
 
 *The tubular comparison.* Construct a `G`-equivariant tubular comparison with `M` that matches the full
 ambient symplectic tensor along `G p`. Consume §B1.4's proper-action slice and tube theorem and the
@@ -1379,8 +1417,9 @@ associated bundle vanishes on the zero orbit and has the required linearization 
 and its time-one flow germ realizes the shear. Prove the local flow, inverse and derivative identities.
 Properness, not compactness of the stabilizers alone, supplies the embedded orbit tube used here.
 
-*The equivariant relative Moser argument.* Apply CotangentLagrangian C4's tubular fibre-homotopy
-construction to the difference `Δ` of the pulled-back forms, which vanishes as a full ambient tensor
+*The equivariant relative Moser argument.* Apply CotangentLagrangian §4.1's tubular fibre-homotopy
+construction, with the zero-first-jet primitive of its §4.3, to the difference `Δ` of the pulled-back
+forms, which vanishes as a full ambient tensor
 along the zero orbit. Fibre scaling `[g, e] ↦ [g, te]` is `G`-equivariant, so the radial homotopy primitive
 `β` of the `G`-invariant `Δ` is `G`-invariant and has zero value and zero first jet along the orbit.
 Choose an `H`-invariant, fibrewise star-shaped neighbourhood at the identity slice and saturate it by `G`.
@@ -1391,9 +1430,9 @@ Moser field has zero first jet along the orbit. Prove that its maximal full-time
 time-dependent flow gives an open invariant image domain (alternatively, saturate a local full-time
 domain at `p` using equivariance and uniqueness). So the time-one map is an equivariant diffeomorphism of
 neighbourhood germs, fixes the orbit and has identity ambient differential there. These proper-orbit
-flow-domain and relative Moser statements are targets here; C4's uniform-tube theorem for compact
-submanifolds is not substituted for them, and no uniform metric radius around a noncompact orbit or
-normalized Haar probability on a noncompact `G` is asserted.
+flow-domain and relative Moser statements are targets here; CotangentLagrangian §§4.2–4.3's relative
+Moser theorems for compact submanifolds are not substituted for them, and no uniform metric radius
+around a noncompact orbit or normalized Haar probability on a noncompact `G` is asserted.
 
 *The local normal form.* The resulting equivariant symplectomorphism intertwines `μ` and `μ_Y`: their
 difference has zero differential in every Lie-algebra component and vanishes at every point of the zero
@@ -1401,10 +1440,12 @@ orbit by equivariance and the normalization; choose the fibre neighbourhoods so 
 meets that orbit. The theorem covers disconnected compact `G`, with the compact-orbit averaging proof as
 a special case, and proper actions of noncompact groups with arbitrary compact stabilizers. It is a
 finite-dimensional proper-action theorem; nothing is extrapolated to infinite-dimensional gauge
-groups (Sjamaar–Lerman, Stratified symplectic spaces and reduction).
+groups. Bates–Lerman prove it by the equivariant constant-rank embedding theorem (Theorem 9 and
+Corollary 10, p. 9) and the splitting of `T_p M` (Proposition 11 and Corollary 12, pp. 10–11).
 
 *Needs:* §1.1, §2.1, §2.2, §3.0; SmoothBundlesConnections §B1.4 (proper slices and tubes, homogeneous
-quotients) and §B2.1 (associated bundles); CotangentLagrangian C4 (tubular fibre-homotopy primitive);
+quotients) and §B2.1 (associated bundles); CotangentLagrangian §4.1 and §4.3 (tubular fibre-homotopy
+primitive with zero first jet);
 Tau Ceti `TauCeti.haarProb`, `TauCeti.haarAverage`, `SymplecticForm.exists_isSymplectomorphism_extend`,
 `IsMomentMap.ker_differential`.
 
@@ -1425,7 +1466,8 @@ torus; general orbits keep the `𝔪*` and coadjoint directions. For compact `G`
 zero, construct the orbit-type pieces of the level and the strata of the quotient from this model, with
 their descended symplectic forms (§3.0) and their frontier and Poisson compatibility, and prove the
 stratified charts and gluing without a smooth manifold structure on the whole singular quotient
-(Sjamaar–Lerman, Stratified symplectic spaces and reduction). Treat other coadjoint levels through the
+(Bates–Lerman, Theorem 7, Corollary 14 and Theorem 15, pp. 8–15, for proper actions at locally closed
+coadjoint orbits). Treat other coadjoint levels through the
 shifting construction of §3.0b and its stabilizer hypotheses. The locally free application with finite
 isotropy uses the Orbifolds interfaces of §3.0e. The free proper reduction theorems for noncompact
 groups (§3.0a–§3.0c) and the Fréchet and Sobolev hypotheses of Layer 5 keep their own scope.
@@ -1450,8 +1492,8 @@ groups (§3.0a–§3.0c) and the Fréchet and Sobolev hypotheses of Layer 5 keep
 ### Dependencies
 
 Layers 1 and 2. SmoothBundlesConnections §§B1.0, B1.1, B1.4, B2.1. LieGroupoidsPoisson §§G0.0, G3.4,
-G3.5. Orbifolds O1.4, O2, O4.2. CotangentLagrangian C4. Tau Ceti: regular levels, form descent along
-submersions and along discrete quotients, discrete quotient manifolds, Haar averaging, linear Witt
+G3.5. Orbifolds O1.4, O2, O4.2. CotangentLagrangian §§4.1, 4.3. Tau Ceti: regular levels, form descent
+along submersions and along discrete quotients, discrete quotient manifolds, Haar averaging, linear Witt
 extension. Mathlib: `Submodule.dualQuotEquivDualAnnihilator`, proper actions of discrete groups.
 
 ## Layer 4: cotangent and groupoid reduction
@@ -1460,8 +1502,12 @@ extension. Mathlib: `Submodule.dualQuotEquivDualAnnihilator`, proper actions of 
 
 Let a Lie group `G` act freely and properly on `Q`, with the cotangent-lifted action on `T*Q`, its
 canonical form `ω_can = −dλ` and the moment map `μ(q, p)(ξ) = p(ξ_Q(q))` (Tau Ceti's
-`CotangentBundle.symplecticForm` and `CotangentBundle.isEquivariantMomentMap_momentMap`; Marsden–Ratiu,
-Introduction to Mechanics and Symmetry, cotangent-reduction chapters). Use SmoothBundlesConnections
+`CotangentBundle.symplecticForm` and `CotangentBundle.isEquivariantMomentMap_momentMap`). The three
+statements below are Ortega–Ratiu, *Cotangent bundle reduction*, pp. 1–3: reduction at zero, the
+embedding version with its magnetic term, which is onto exactly when `𝔤_c = 𝔤`, and the fibration
+version (also Meinrenken, Example 8.9, p. 103, at zero). Their left connection `A_left` with
+`A_left(ξ_Q^left) = ξ` is `−A`, so their map `p ↦ p − ⟨c, A_left⟩` is the shift below and their form
+`Ω_(Q/G) − B_c` is `ω_can + pr* β_c`. Use SmoothBundlesConnections
 §B3.1's principal connections, §B2.5's adjoint bundle and §B4.1's curvature and change-of-connection
 formulas, for the standard principal right action `q · g = g⁻¹ q` and connection forms with
 `A(ξ_Q^right) = ξ`, hence `A(ξ_Q^left) = −ξ`.
@@ -1537,7 +1583,9 @@ Throughout, `Σ` is a closed connected oriented smooth surface of genus `g`, `K`
 a fixed positive-definite `Ad`-invariant inner product `B` on `𝔨`, and `P → Σ` a smooth principal
 `K`-bundle. The finite-dimensional reduction theorems of Layer 3 are not applied unchanged to the
 infinite-dimensional space of connections; every statement here carries its own Fréchet or Sobolev
-hypotheses (Atiyah–Bott, The Yang–Mills equations over Riemann surfaces).
+hypotheses. The symplectic form and the curvature moment map of §5.1 are Atiyah and Bott's
+(Meinrenken, Theorem 7.46, p. 98, for the trivial bundle, with the gauge action of §5.1; Cannas da
+Silva, §§25.3–25.4, pp. 158–159, for a principal bundle).
 
 ### 5.1 The affine space of connections and its moment map
 
@@ -1866,9 +1914,9 @@ Ceti's
 - *Morse theory*: MorseTheory §§2.3–2.4 (handles and CW exhaustion) and §5.1 (Morse–Bott attachment);
   MorseNovikov §6.4 (Lefschetz fixed-point formula); SchubertGeometry §9.7 (comparison with Schubert
   cells, downstream).
-- *Symplectic and differential topology*: CotangentLagrangian C4 (relative Weinstein neighbourhoods and
-  fibre-homotopy primitives); HeegaardFloer §4.1 (F2.1) (contraction inverse, primitives, Moser
-  calculus, time-dependent pullback differentiation); IntegrableSystems §I2.0 (positive-period circles);
+- *Symplectic and differential topology*: CotangentLagrangian §4.1 and §4.3 (fibre-homotopy
+  primitives, with zero first jet) and §4.7 (Weinstein neighbourhoods); HeegaardFloer §4.1 (F2.1)
+  (contraction inverse, primitives, Moser calculus, time-dependent pullback differentiation);
   DifferentialGeometry and DeRhamCohomologyAndDuality (Cartan calculus, flows, integration, compactly
   supported and relative de Rham theory, degree, Sard); GeometricTopology (collars, Morse functions on
   manifolds with boundary, tubular neighbourhoods); AlgebraicTopology (CW pairs, cochains, universal
@@ -1894,6 +1942,7 @@ the flux quotients or Lie structure on them is asserted.
   properly, under `CompactlyCoherentSpace`) and `t2Space_quotient_mulAction_of_properSMul`.
 - `Submodule.dualQuotEquivDualAnnihilator`: `Module.Dual R (M ⧸ W) ≃ₗ[R] W.dualAnnihilator`.
 - `Matrix.unitaryGroup`, `Matrix.specialUnitaryGroup`, `Matrix.specialOrthogonalGroup`.
+- `IsManifold.prod` and `Prod.instLieAddGroup`: products of manifolds and of additive Lie groups.
 
 ### From Tau Ceti
 
@@ -1936,6 +1985,9 @@ All are proved at the pin; paths are under `TauCeti/`.
   (compact Hausdorff manifolds modelled on locally compact spaces); `TauCeti.Diffeotopy` with
   `Diffeotopy.trans` (slices `Ψ_t ∘ Φ_t`) and `Diffeotopy.symm` (slices `Φ_t⁻¹`), carrying no collar data;
   `TauCeti.exists_contMDiffMap_isProperMap_nonneg` (smooth proper exhaustions).
+- *Circles* (`Geometry/Manifold/Instances/AddCircle.lean`): `AddCircle.instChartedSpace`,
+  `AddCircle.instIsManifold` and `AddCircle.instLieAddGroup`, the analytic manifold and additive Lie
+  group `AddCircle p` for every `p` with `Fact (0 < p)`.
 - *Regular levels and descent* (`Geometry/Manifold/RegularValue/Level.lean`,
   `Geometry/Manifold/DifferentialForm/Pullback/Submersion.lean`, `Geometry/Symplectic/Manifold/Descent.lean`,
   `Geometry/Manifold/Instances/Quotient.lean`, `Geometry/Manifold/DifferentialForm/Quotient.lean`):
@@ -2004,17 +2056,14 @@ attachments). MorseNovikov §6.4 (the Lefschetz fixed-point formula for self-map
 
 ### From TauCetiRoadmap.SymplecticGeometry.CotangentLagrangian
 
-C4 (relative Poincaré lemma by tubular fibre scaling, relative Moser, Weinstein neighbourhoods of compact
-Lagrangians).
+Layer 4: §4.1 (relative Poincaré lemma by tubular fibre scaling), §4.3 (the primitive with zero first
+jet when two forms agree as ambient tensors along the submanifold), §4.7 (Weinstein neighbourhoods of
+compact Lagrangians).
 
 ### From TauCetiRoadmap.HeegaardFloer
 
 §4.1 (F2.1): the contraction inverse of a symplectic form, primitive and Moser calculus, two-time flows,
 time-dependent pullback differentiation.
-
-### From TauCetiRoadmap.SymplecticGeometry.IntegrableSystems
-
-§I2.0: `AddCircle p` with its atlas and Lie group structure, the period-1 case, product atlases on tori.
 
 ### From TauCetiRoadmap.DifferentialGeometry and TauCetiRoadmap.DeRhamCohomologyAndDuality
 
@@ -2049,12 +2098,23 @@ regularity).
 ## References
 
 - Ana Cannas da Silva, [*Lectures on Symplectic Geometry*](https://people.math.ethz.ch/~acannas/Papers/lsg.pdf),
-  Lecture Notes in Mathematics 1764, Springer, 2001, §§22–25.
-- Jerrold Marsden and Tudor Ratiu, *Introduction to Mechanics and Symmetry*, momentum-map and
-  cotangent-reduction chapters.
-- Michael Atiyah and Raoul Bott, *The Yang–Mills equations over Riemann surfaces*, Phil. Trans. R. Soc.
-  London A 308 (1983), 523–615.
-- Reyer Sjamaar and Eugene Lerman, *Stratified symplectic spaces and reduction*, Ann. of Math. 134
-  (1991), 375–422.
+  Lecture Notes in Mathematics 1764, Springer, 2001 (author's revised version, 2006): Definition 22.1,
+  §22.4, Homework 17, Theorems 23.1 and 23.4, §23.2, §§24.3–24.4, §§25.3–25.4.
+- Eckhard Meinrenken, [*Symplectic geometry*](https://www.math.utoronto.ca/mein/teaching/LectureNotes/symplectic.pdf),
+  lecture notes, University of Toronto, Fall 2024: Remarks 7.13, Propositions 7.18 and 7.20,
+  Theorems 7.25 and 7.46, Theorem 8.3 and Remark 8.4, Proposition 8.6, Example 8.9, Proposition 8.13.
+- Augustin Banyaga, *Sur la structure du groupe des difféomorphismes qui préservent une forme
+  symplectique*, Comment. Math. Helv. 53 (1978), 174–227: Propositions II.1.1, II.3.1, II.3.3,
+  Remarque II.1.2, pp. 184 and 191, §III.6.
+- Raoul Bott, [*An application of the Morse theory to the topology of Lie-groups*](https://www.numdam.org/item/BSMF_1956__84__251_0),
+  Bull. Soc. Math. France 84 (1956), 251–281: §11, Propositions 11.4–11.5, Theorem III.
+- Marcos M. Alexandrino and Renato G. Bettiol, [*Introduction to Lie groups, isometric and adjoint
+  actions and some generalizations*](https://arxiv.org/abs/0901.2374v3), arXiv:0901.2374v3 (2010),
+  §4.3: Lemma 4.26, Theorem 4.31; numbering of this version.
+- Larry Bates and Eugene Lerman, [*Proper group actions and symplectic stratified spaces*](https://arxiv.org/abs/dg-ga/9407003v1),
+  Pacific J. Math. 181 (1997), 201–229; numbering and pages of arXiv dg-ga/9407003v1: §2, Theorems 7,
+  9 and 15, Corollaries 10, 12 and 14, Proposition 11.
+- Juan-Pablo Ortega and Tudor S. Ratiu, [*Cotangent bundle reduction*](https://arxiv.org/abs/math/0508636v1),
+  arXiv:math/0508636v1 (2005), pp. 1–3.
 - Johannes Huebschmann, [*The singularities of Yang–Mills connections for bundles on a surface. I. The
   local model*](https://arxiv.org/html/dg-ga/9411006), Math. Z. 220 (1995), 595–609, §§2.18–2.32.
