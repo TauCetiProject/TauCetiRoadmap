@@ -349,8 +349,9 @@ the `A₂` root lattice attached to the ternary Golay code (`codeInTypeA2Coordin
 TernaryGolay.code.toAddSubgroup`), by an isometry that moves the `A₂` component in table position
 `p(j)` to position `j` and multiplies it by `εⱼ = ±1` (Conway–Sloane, *SPLAG*, Chapter 16 §1;
 Ebeling, Chapters 1 and 3). The signs are units of square 1, so they preserve both the `A₂`
-half-norm and its polar pairing; a bare field-monomial equivalence of `(ℤ/3)^12` is not an isometry
-of quadratic modules and does not suffice. The route:
+half-norm and its polar pairing; a bare monomial equivalence of `(ℤ/3)^12` carries neither a proof
+that it preserves the quadratic form nor a lift to the root lattices, so the statement is made for
+the lattice isometry. The route:
 `RootfulNiemeierType.map_glueSubgroup_a2Twelfth` and `DynkinType.gluedLatticeIsometryOfEq` identify
 `N_{A₂¹²}` with `a2TwelfthLattice`, and `a2TwelfthTernaryGolayIsometry` carries that lattice onto
 the code overlattice.
@@ -437,19 +438,20 @@ Prove: for every permutation `σ` of `Fin 24` carrying `BinaryGolay.code` onto i
 isometry of the row lattice `N_{A₁²⁴}` that permutes its `A₁` components, so preserves `R`, and
 whose induced action on the glue words `A_R`, read in Golay coordinates through
 `RootfulNiemeierType.a1TwentyFourthGlueIsometry` and `a1TableToGolayIsometry`, is the coordinate
-permutation by `σ`. For every permutation `σ` of `Fin 12` carrying `TernaryGolay.code` onto
-itself, there is an isometry of `N_{A₂¹²}` that permutes its `A₂` components and acts on each by
-`±1`, and whose induced action on `A_R`, read through
-`RootfulNiemeierType.a2TwelfthGlueModuleIsometry` and `a2TwelfthGolayIsometry`, is the coordinate
-permutation by `σ` (Conway–Sloane, *SPLAG*, Chapter 16 §1; Ebeling, Chapter 3). The code
+permutation by `σ`. For every `u : Fin 12 → (ℤ/3)ˣ` and every permutation `σ` of `Fin 12` such
+that `monomialEquiv u σ` carries `TernaryGolay.code` onto itself, there is an isometry of
+`N_{A₂¹²}` that permutes its `A₂` components and acts on each by `±1`, and whose induced action on
+`A_R`, read through `RootfulNiemeierType.a2TwelfthGlueModuleIsometry` and
+`a2TwelfthGolayIsometry`, is `monomialEquiv u σ`; the coordinate permutations are the case `u ≡ 1`
+(Conway–Sloane, *SPLAG*, Chapter 16 §1; Ebeling, Chapter 3). The code
 automorphism, the permutation of components and the lattice isometry are distinct objects, and
 the statement is the compatibility between them. The `D₄⁶` analogue, for monomial
 automorphisms of the hexacode, is `d4SixHexacodeAutIsometry`.
 
 *Needs:* Tau Ceti `a1TableToGolayIsometry`, `RootfulNiemeierType.map_glueSubgroup_a1TwentyFourth`,
 `RootfulNiemeierType.a1TwentyFourthLatticeConstructionAIsometry`,
-`ConstructionA.integralLatticeReindexEquiv` (for `A₁²⁴`); `a2TwelfthGolayIsometry`,
-`DynkinType.gluedLatticePiIsometry` and §4.1 (for `A₂¹²`).
+`ConstructionA.integralLatticeReindexEquiv` (for `A₁²⁴`); `monomialEquiv`,
+`a2TwelfthGolayIsometry`, `DynkinType.gluedLatticePiIsometry` and §4.1 (for `A₂¹²`).
 
 ### Examples
 
