@@ -107,6 +107,8 @@ this convention; for it, `ι_X dα = dH − (R_α H) α`.
 live in `TauCetiRoadmap.SymplecticGeometry.ContactGeometry`. A target without a declaration in
 `Suggested.lean` is described in words.
 
+<a id="cg1--contact-distributions-contact-line-and-cooriented-forms"></a>
+
 ## Layer 1: contact distributions, contact line and cooriented forms
 
 The pointwise theory is Tau Ceti's and is consumed here: the Levi form of a `C¹` distribution
@@ -483,6 +485,8 @@ Layers 1 and 2. Tau Ceti: the linear normal form, the contact-Moser vector field
 flows, diffeotopies and the symplectic Darboux theorem on normed spaces. DifferentialGeometry
 Layers 1, 3 and 5. HeegaardFloer §4.1.
 
+<a id="cg4--symplectization-and-contactization"></a>
+
 ## Layer 4: symplectization and contactization
 
 Tau Ceti supplies the cooriented symplectization: for a one-form `α` on `M`, the form `eᵗ α` on
@@ -598,6 +602,8 @@ for `W = T*Q` with its Liouville form this is the one-jet space `J¹Q = T*Q × �
 Layers 1 and 2. Tau Ceti: the cooriented symplectization and its lift, Liouville fields and
 contact-type hypersurfaces, flows, the contactization and the one-jet space. DifferentialGeometry
 Layer 3. SmoothBundlesConnections §B2.1.
+
+<a id="cg5--isotropic-and-legendrian-neighborhoods"></a>
 
 ## Layer 5: isotropic and Legendrian neighbourhoods
 
@@ -801,6 +807,8 @@ bundle and its radial identification, conormal vanishing of the Liouville form, 
 map and time-dependent flows. GeometricTopology §1.5. SmoothBundlesConnections §§B2.1, B3.3 and
 B5.0. PseudodifferentialOperators P1.0. CotangentLagrangian Layer 1 (C1) and §2.2 (C2.2).
 DifferentialGeometry Layer 3.
+
+<a id="cg6--contactjacobi-interface-floer-boundary"></a>
 
 ## Layer 6: the Jacobi bracket and the Floer boundary interface
 
