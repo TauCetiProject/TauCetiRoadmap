@@ -12,7 +12,7 @@ distributed ones.
 The headline theorems are these.
 
 - *Kolmogorov's lower exponential bound.* Let the summands be independent and centred, bounded by
-  `M`, with variances adding up to `B`. If `x > 0`, `xM/B < 1/256` and `x²/B > 512`, then
+  `M`, with variances adding up to `B`. If `x > 0`, `xM/B < 1/256`, `x²/B > 512` and `ε ≤ 1`, then
   `P(S > x)` exceeds `exp(−(x²/2B)(1 + ε))`, where `ε` is an explicit function of `xM/B` and
   `x²/B` that is small when the first is small and the second is large. Together with Bernstein's
   upper bound this pins the tail of `S` at the Gaussian rate.
@@ -80,12 +80,18 @@ cluster set.
 Define `kolmogorovEpsilon w l = max (32 √(log l / l)) (64 √w)`. Prove
 `kolmogorov_lower_exponential_bound`: let `X_i`, `i ∈ s` (a finite set), be independent, almost
 everywhere measurable and centred, with `|X_i| ≤ M` almost surely, and let
-`B = ∑_{i ∈ s} E[X_i²]`. If `x > 0`, `ω = xM/B < 1/256` and `λ = x²/B > 512`, then
+`B = ∑_{i ∈ s} E[X_i²]`. If `x > 0`, `ω = xM/B < 1/256`, `λ = x²/B > 512` and `ε ≤ 1`, then
 
     P(∑_{i ∈ s} X_i > x) > exp(−(x² / 2B) (1 + ε)),   ε = max(32 √(log λ / λ), 64 √ω)
 
 (Kolmogorov 1929, Hilfssatz IV, statement p. 128, proof pp. 128–131). Since `B ≥ 0` and
-`x²/0 = 0`, the hypothesis `λ > 512` forces `B > 0`.
+`x²/0 = 0`, the hypothesis `λ > 512` forces `B > 0`. The hypothesis `ε ≤ 1` says that
+`ω ≤ 1/4096` and `log λ / λ ≤ 1/1024`. It is not in Kolmogorov's statement, which has only
+`ω < 1/256` and `λ > 512`, hence `ε < 4`; but the last step of his proof (p. 131) passes from the
+exponent `(x²/(2B(1 − δ)²))(1 + 4δ)`, `δ = ε/8`, to `(x²/2B)(1 + 8δ)`, which needs
+`(1 + 4δ)/(1 − δ)² ≤ 1 + 8δ`, that is `8δ² − 15δ + 2 ≥ 0`, true exactly for
+`δ ≤ (15 − √161)/16 = 0.1444…` on `0 < δ < 1/2`. With `ε ≤ 1`, `δ ≤ 1/8` and the step reads
+`1.959… ≤ 2`. The laws of Layers 2 and 3 use the bound only with `ε` small.
 
 Route (Kolmogorov's): tilt by `a = x / (B(1 − δ))` with `δ = ε/8`. A pointwise lower bound for
 `exp(a X_i)` gives `E exp(aS) > exp((a²B/2)(1 − δ²/4))`; write `E exp(aS)` as
@@ -93,7 +99,8 @@ Route (Kolmogorov's): tilt by `a = x / (B(1 − δ))` with `δ = ε/8`. A pointw
 `aB(1 − δ)`, `aB(1 + δ)` and `8aB`, and bound the four outer pieces: on the negative half-line
 by `P(S > y) ≤ 1`, and elsewhere by the upper tail bounds below (the third of them for
 `y ≥ B/M`). What remains is the integral over `[aB(1 − δ), aB(1 + δ)]`, which is at most
-`2a²B exp(a²B(1 + δ)) P(S > x)`; comparing gives the bound.
+`2a²B exp(a²B(1 + δ)) P(S > x)`; comparing gives `P(S > x) > exp(−(a²B/2)(1 + 4δ))`, and
+`a²B = x²/(B(1 − δ)²)` with `(1 + 4δ)/(1 − δ)² ≤ 1 + 8δ` for `δ ≤ 1/8` gives the bound.
 The upper tail bounds used are Kolmogorov's Hilfssätze I–III (pp. 127–128): for `xM ≤ B`,
 `P(S > x) < exp(−(x²/2B)(1 − xM/2B))` and `P(S > x) < exp(−x²/4B)`; for `xM ≥ B`,
 `P(S > x) < exp(−x/4M)`. Their forms with `≤`, which the route needs, follow from Tau Ceti's
@@ -101,13 +108,17 @@ Bernstein inequality, whose exponent `x²/(2(B + Mx/3))` is at least each of `(x
 `x²/4B` when `xM ≤ B`, and at least `x/4M` when `xM ≥ B`.
 
 **Checks.**
-- Rademacher sums: `X_i = ±1` with probability `1/2`, `n = 4·10⁷` terms, `x = 1.5·10⁵`. Then
-  `B = n`, `M = 1`, `ω = 0.00375 < 1/256 = 0.0039…`, `λ = 562.5 > 512`, `ε = 3.919…` (the
-  term `64 √ω = 3.919…` dominates `32 √(log λ / λ) = 3.394…`), and the bound is
-  `exp(−1383.5…)`, while the exact binomial tail is `P(S > x) = exp(−285.3…)`.
-- Centred Bernoulli variables `X_i = ξ_i − p` with `p = 0.1`, `n = 10¹⁰`, `x = 2·10⁶`:
-  `B = 9·10⁸`, `M = 0.9`, `ω = 0.002`, `λ = 4444.4…`, bound `exp(−8582.6…)`, while the single
-  binomial probability `P(ξ-count = ⌊np + x⌋ + 1)` alone is `exp(−2232.1…)`.
+- Rademacher sums: `X_i = ±1` with probability `1/2`, `n = 2.5·10¹¹` terms, `x = 5·10⁷`. Then
+  `B = n`, `M = 1`, `ω = 0.0002 ≤ 1/4096 = 0.00024…`, `λ = 10⁴`, `ε = 0.9711…` (the term
+  `32 √(log λ / λ) = 0.9711…` dominates `64 √ω = 0.9050…`), and the bound is `exp(−9855.7…)`,
+  while the exact binomial tail is `P(S > x) = exp(−5005.5…)`.
+- Centred Bernoulli variables `X_i = ξ_i − p` with `p = 0.1`, `n = 2.5·10¹²`, `x = 5·10⁷`:
+  `B = 2.25·10¹¹`, `M = 0.9`, `ω = 0.0002`, `λ = 11111.1…`, `ε = 0.9265…`, bound
+  `exp(−10703.1…)`, while the exact binomial tail is `exp(−5560.8…)`.
+- Where `1 < ε < 4` the bound is not proved here. For `n = 4·10⁷` Rademacher terms and
+  `x = 1.5·10⁵`, `ω = 0.00375 < 1/256`, `λ = 562.5 > 512` and `ε = 3.919…`: the stated form would
+  be `exp(−1383.5…)`, the argument above gives only `exp(−3198.9…)`, and the exact tail is
+  `exp(−285.3…)`.
 - The condition on `λ` is needed: for `n = 100` Rademacher terms and `x = 0.1`, `λ = 10⁻⁴`, the
   right-hand side is `0.9998…` while `P(S > 0.1) = P(S ≥ 2) = 0.4602…`.
 - The condition on `ω` is needed: for one Rademacher term and `x = 30`, `λ = 900 > 512` but
@@ -253,8 +264,9 @@ A different proof, based on an exponential inequality, is de Acosta's (1983).
 
 Prove `hartman_wintner_clusterPt`: under the hypotheses of 3.1, almost surely, for every real
 `c`, `c` is a limit point of `S_n / √(2 n log log n)` if and only if `−σ ≤ c ≤ σ` (Durrett,
-Exercise 8.5.2, p. 419, for `σ = 1`; it also follows from Strassen's invariance principle,
-Durrett, Theorem 8.5.3, p. 419, by evaluating the limit functions at time `1`).
+Exercise 8.5.2, p. 419, where it is stated as an exercise, for `σ = 1`; it also follows from
+Strassen's invariance principle, which Durrett states without proof as Theorem 8.5.3, p. 419,
+attributing it to Strassen (1964), by evaluating the limit functions at time `1`).
 
 Route: by 3.1 the upper and lower limits are `σ` and `−σ`, so every limit point lies in
 `[−σ, σ]` and `±σ` are limit points. The successive differences of the sequence tend to `0`

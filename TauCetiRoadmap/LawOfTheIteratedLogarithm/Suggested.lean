@@ -39,18 +39,20 @@ bound, as a function of `ω = x M / B` and `λ = x² / B`. -/
 noncomputable def kolmogorovEpsilon (w l : ℝ) : ℝ :=
   max (32 * Real.sqrt (Real.log l / l)) (64 * Real.sqrt w)
 
-/-! ## Layer 1: the exponential bounds -/
+/-! ## Layer 1: Kolmogorov's lower exponential bound -/
 
 /-- 1.1. **Kolmogorov's lower exponential bound** (Kolmogorov 1929, Hilfssatz IV, p. 128). Let
 the `X i`, `i ∈ s`, be independent, almost everywhere measurable and centred, with `|X i| ≤ M`
-almost surely, and let `B = ∑ i ∈ s, E[X i ^ 2]`. If `x > 0`, `ω = x M / B < 1/256` and
-`λ = x² / B > 512`, then `P(∑ i ∈ s, X i > x) > exp (-(x² / (2B)) (1 + ε))` with
-`ε = max (32 √(log λ / λ)) (64 √ω)`. -/
+almost surely, and let `B = ∑ i ∈ s, E[X i ^ 2]`. If `x > 0`, `ω = x M / B < 1/256`,
+`λ = x² / B > 512` and `ε ≤ 1`, then `P(∑ i ∈ s, X i > x) > exp (-(x² / (2B)) (1 + ε))` with
+`ε = max (32 √(log λ / λ)) (64 √ω)`. The hypothesis `ε ≤ 1` is not in Kolmogorov's statement;
+the last step of his proof needs `ε ≤ 1.155…`. -/
 theorem kolmogorov_lower_exponential_bound {ι : Type*} (P : Measure Ω) [IsProbabilityMeasure P]
     (X : ι → Ω → ℝ) (s : Finset ι) (hmeas : ∀ i ∈ s, AEMeasurable (X i) P)
     (hindep : iIndepFun X P) (hmean : ∀ i ∈ s, P[X i] = 0) {M x B : ℝ}
     (hbdd : ∀ i ∈ s, ∀ᵐ ω ∂P, |X i ω| ≤ M) (hB : ∑ i ∈ s, ∫ ω, X i ω ^ 2 ∂P = B)
-    (hx : 0 < x) (hw : x * M / B < 1 / 256) (hl : 512 < x ^ 2 / B) :
+    (hx : 0 < x) (hw : x * M / B < 1 / 256) (hl : 512 < x ^ 2 / B)
+    (hε : kolmogorovEpsilon (x * M / B) (x ^ 2 / B) ≤ 1) :
     Real.exp (-(x ^ 2 / (2 * B)) * (1 + kolmogorovEpsilon (x * M / B) (x ^ 2 / B))) <
       P.real {ω | x < ∑ i ∈ s, X i ω} := by
   sorry
