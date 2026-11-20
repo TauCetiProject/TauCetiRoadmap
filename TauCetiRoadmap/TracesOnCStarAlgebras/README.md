@@ -1,28 +1,29 @@
 # Roadmap: traces on C*-algebras and their trace ideals
 
-**Summary.** Build the theory of traces on C*-algebras in Dixmier's sense, additive and
-positively homogeneous maps `τ : B₊ → [0,∞]` with `τ(x*x) = τ(xx*)` that are typically unbounded,
-on Mathlib's `NonUnitalCStarAlgebra`, its continuous functional calculus and
-`LowerSemicontinuousOn`, on the von Neumann algebra theory of VonNeumannAlgebras (normal
-semifinite traces, left Hilbert algebras with their canonical weights, tracial `Lᵖ`) and on the
-K-theory of OperatorKTheory. Layer Tr1 develops the domain ideals `𝔫_τ ⊇ 𝔪_τ` with the linear
-extension of `τ`, lower semicontinuity with Combes's theorem, Dixmier's semifiniteness, density
-and matrix amplification. Layer Tr2 builds the GNS Hilbert algebra of a lower semicontinuous
-trace and proves Dixmier's normal-extension theorem: a semifinite lower semicontinuous trace is
-`τ̄ ∘ π_τ` for a faithful normal semifinite trace `τ̄` on `π_τ(B)''`, and these traces correspond
-to the quasi-equivalence classes of normal representations. Layer Tr3 develops the trace ideals
-`J_p = {b ∈ B : τ(|b|^p) < ∞}`, `1 ≤ p < ∞`, identified with `B ∩ Lᵖ(π_τ(B)'', τ̄)`: Banach
-*-ideals for `‖b‖ + τ(|b|^p)^{1/p}` with Hölder's inequality, monotonicity in `p`, the endpoints
-`J₁ = 𝔪_τ` and `J₂ = 𝔫_τ`, matrix amplification and the cyclic multilinear trace forms. Layer Tr4
-proves that the inclusions `J_p ⊆ B` induce isomorphisms on `K₀` and `K₁`, constructs the positive
-homomorphism `τ_* : K₀(B) → ℝ` of every densely defined trace, factors it through `J₁` for lower
-semicontinuous traces, and proves that on AF algebras `τ ↦ τ_*` is a bijection from the densely
-defined lower semicontinuous traces onto the positive homomorphisms `K₀(A) → ℝ`. The running
-examples are the canonical trace on the compact operators (Schatten classes), Radon measures on
-`C₀(X)` (`C₀(X) ∩ Lᵖ(μ)`), the τ-compact operators of a semifinite von Neumann algebra
-(`N ∩ Lᵖ(N,τ)`) and Dixmier traces (densely defined, not lower semicontinuous, with zero pairing).
-[Suggested.lean](Suggested.lean) states the Tr1–Tr3 headlines that are statable at the pinned
-libraries; its docstring records which carriers the remaining statements lack.
+**Summary.** Build the theory of traces on C*-algebras in Dixmier's sense, additive and positively
+homogeneous maps `τ : B₊ → [0,∞]` with `τ(x*x) = τ(xx*)` that are typically unbounded, on Mathlib's
+`NonUnitalCStarAlgebra`, its continuous functional calculus and `LowerSemicontinuousOn`, on the von
+Neumann algebra theory of VonNeumannAlgebras (normal semifinite traces, left Hilbert algebras with
+their canonical weights, tracial `Lᵖ`) and on the K-theory of OperatorKTheory. Layer Tr1 develops
+the domain ideals `𝔫_τ ⊇ 𝔪_τ` with the linear extension of `τ`, lower semicontinuity with Combes's
+theorem, Dixmier's semifiniteness, density and matrix amplification. Layer Tr2 builds the GNS
+Hilbert algebra of a lower semicontinuous trace and proves Dixmier's normal-extension theorem: a
+semifinite lower semicontinuous trace is `τ̄ ∘ π_τ` for a faithful normal semifinite trace `τ̄` on
+`π_τ(B)''`, and these traces correspond to the quasi-equivalence classes of normal representations.
+Layer Tr3 develops the trace ideals of a semifinite lower semicontinuous trace,
+`J_p = {b ∈ B : τ(|b|^p) < ∞}`, `1 ≤ p < ∞`, identified with `B ∩ Lᵖ(π_τ(B)'', τ̄)`: Banach *-ideals
+for `‖b‖ + τ(|b|^p)^{1/p}` with Hölder's inequality, monotonicity in `p`, the endpoints `J₁ = 𝔪_τ`
+and `J₂ = 𝔫_τ`, matrix amplification and the cyclic multilinear trace forms. Layer Tr4 proves that,
+for a densely defined lower semicontinuous trace, the inclusions `J_p ⊆ B` induce isomorphisms on
+`K₀` and `K₁`, constructs the positive homomorphism `τ_* : K₀(B) → ℝ` of every densely defined
+trace, factors it through `J₁` for lower semicontinuous traces, and proves that on AF algebras
+`τ ↦ τ_*` is a bijection from the densely defined lower semicontinuous traces onto the positive
+homomorphisms `K₀(A) → ℝ`. The running examples are the canonical trace on the compact operators
+(Schatten classes), Radon measures on `C₀(X)` (`C₀(X) ∩ Lᵖ(μ)`), the τ-compact operators of a
+semifinite von Neumann algebra (`N ∩ Lᵖ(N,τ)`) and Dixmier traces (densely defined, not lower
+semicontinuous, with zero pairing). [Suggested.lean](Suggested.lean) states the Tr1–Tr3 headlines
+that are statable at the pinned libraries; its docstring records which carriers the remaining
+statements lack.
 
 ## How to read the build
 
@@ -145,9 +146,10 @@ order, `Unitization ℂ B`; VonNeumannAlgebras V0 for the boundedness of positiv
   `x ↦ |x|^p`.
 - Combes's theorem for traces: a trace is lower semicontinuous iff
   `τ(x) = sup{ω(x) : ω ∈ B →P[ℂ] ℂ, ω ≤ τ on B₊}` for every `x ∈ B₊`
-  (`IsTrace.lowerSemicontinuousOn_iff`; Thomsen [KMS], Theorem 1.1.1; Kustermans–Vaes, Theorem 1.6;
-  both for lower semicontinuous weights, of which traces are a case). The supremum of continuous
-  functions is lower semicontinuous; the converse separates by `geometric_hahn_banach_point_closed`.
+  (`IsTrace.lowerSemicontinuousOn_iff`; Thomsen [KMS], Theorem 1.1.1, for semi-weights;
+  Kustermans–Vaes, Theorem 1.6, for lower semicontinuous weights; lower semicontinuous traces are
+  both). The supremum of continuous functions is lower semicontinuous; the converse separates by
+  `geometric_hahn_banach_point_closed`.
 - Density: `𝔪_τ⁺` is dense in `B₊` iff `𝔪_τ` is dense in `B` iff `𝔫_τ` is dense in `B`
   (`IsTrace.isDenselyDefined_iff`). Route: for dense `𝔫_τ`, CStarAlgebras C1.5's right approximate
   identity `e = e_{F,δ}` inside the left ideal `𝔫_τ` satisfies `e ≤ δ⁻¹b_F ∈ 𝔪_τ⁺`, and for `x ∈ B₊`
@@ -535,11 +537,11 @@ N2.
 
 - For `(K, Tr)`, `Tr_*[e] = 1` for a rank-one projection, so `Tr_*` is the inclusion
   `K₀(K) ≅ ℤ ⊆ ℝ`, as in OperatorKTheory K1.5's compact-operator example.
-- Dixmier traces: for a Dixmier trace `Tr_ω` of NoncommutativeGeometry N4 (Tau Ceti
-  `TauCeti.dixmierTrace`), the map equal to `Tr_ω` on the positive elements of `L^(1,∞)` and to
-  `∞` on the other positive compact operators is a densely defined trace vanishing on finite-rank
-  projections; hence `(Tr_ω)_* = 0` and its lower semicontinuous regularization is `0` (Thomsen
-  [WTK], §4.2), although `Tr_ω ≠ 0`.
+- Dixmier traces: for a Dixmier trace `Tr_ω` of NoncommutativeGeometry N4 with a dilation-invariant
+  `ω` (Tau Ceti `TauCeti.dixmierTrace`, additive on positive operators for such `ω`), the map equal
+  to `Tr_ω` on the positive elements of `L^(1,∞)` and to `∞` on the other positive compact operators
+  is a densely defined trace vanishing on finite-rank projections; hence `(Tr_ω)_* = 0` and its
+  lower semicontinuous regularization is `0` (Thomsen [WTK], §4.2), although `Tr_ω ≠ 0`.
 - For `(C₀(X), τ_μ)`, `τ_*[e] = ∫_X rank e(x) dμ(x)` for a projection `e ∈ M_n(C₀(X))`, which has
   compact support. For `X = ℝ²` with Lebesgue measure and the Bott class `β = [p] − [p(∞)]`,
   `τ_*(β) = 0`: a homotopy of `p` near `∞` gives a projection `q` with `[q] = [p]` and `q = p(∞)`
@@ -575,7 +577,7 @@ the bijection restricts, under `τ_*[1] = 1`, to CStarClassification §3.4's
 
 - `(K, Tr)`: `K₀(J_p) = K₀(S_p) ≅ ℤ` and `Tr_*` is the inclusion `ℤ ⊆ ℝ` (Tr4.1–Tr4.2).
 - `(C₀(ℝ²), Lebesgue)`: `τ_*` vanishes on the Bott class (Tr4.2).
-- Dixmier traces on `K`: densely defined traces with `τ_* = 0` (Tr4.2).
+- Dixmier traces on `K` (dilation-invariant `ω`): densely defined traces with `τ_* = 0` (Tr4.2).
 - `M_{2^∞} ⊗ K`: the traces `c·τ_CAR ⊗ Tr` correspond to the positive homomorphisms
   `ℤ[1/2] → ℝ` (Tr4.3).
 
