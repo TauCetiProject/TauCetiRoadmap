@@ -71,6 +71,8 @@ Define the step law `signLaw = ½ (δ₁ + δ₋₁)` on `ℤ`, the position `wa
   and `0` otherwise; in particular `u₂ₙ = C(2n, n)/4ⁿ` and `u₂ₙ₊₁ = 0` (Durrett, (4.9.1), p. 263).
 - The law of the walk is symmetric: `P(Sₙ = x) = P(Sₙ = −x)`, and more generally the steps `−ξ`
   also satisfy `IsSimpleRandomWalk`.
+- `signLaw` is the integer-valued form of Tau Ceti's Rademacher law: its image under the cast
+  `ℤ → ℝ` is `TauCeti.Probability.rademacherMeasure`.
 
 **Checks.**
 - `u₂ = 1/2`, `u₄ = 3/8`, `u₆ = 5/16`.
@@ -291,19 +293,26 @@ walk with `P ≠ 0`; the theorems below assume `d = 2` or `d ≥ 3`.
 
 ### 3.2 The return criterion
 
-Prove, under `IsLatticeWalk d P ξ` with `d ≥ 1`, that the path `ω ↦ (Sₙ ω)ₙ` has Tau Ceti's law
-`markovChainLaw (δ₀) κ_d`, where `κ_d` is the translation kernel `x ↦ latticeStepLaw d` shifted
-by `x` (Mathlib's `Kernel.ofFunOfCountable`), and deduce, for the walk:
+This section is for every step law on `ℤ^d`, not only the simple walk. Let the steps
+`ξ i : Ω → Fin d → ℤ` be independent (`iIndepFun ξ P`) with a common law `μ`
+(`HasLaw (ξ i) μ P` for every `i`, `μ` a probability measure on `Fin d → ℤ`), and let
+`Sₙ = ξ₀ + ⋯ + ξ_(n−1)`. Prove that the path `ω ↦ (Sₙ ω)ₙ` has Tau Ceti's law
+`markovChainLaw (δ₀) κ_μ`, where `κ_μ` is the translation kernel `x ↦ μ` shifted by `x`
+(Mathlib's `Kernel.ofFunOfCountable`), and deduce, for the walk:
 
 - `P(∃ n ≥ 1, Sₙ = 0) = 1` if and only if `∑ₙ P(Sₙ = 0) = ∞`;
 - if `∑ₙ P(Sₙ = 0) = ∞`, the walk is at `0` at infinitely many times almost surely.
 
-This is Durrett, Theorem 5.4.3, p. 289, for the lattice walk (there for every random walk on
-`ℝ^d`).
+This is Durrett, Theorem 5.4.3, p. 289, for walks on `ℤ^d` (there for every random walk on
+`ℝ^d`). The simple walk of 3.1 is the case `μ = latticeStepLaw d` with `d ≥ 1`, which is how 3.3
+and 3.4 use it.
 
 Route: Tau Ceti's `hasLaw_markovChainLaw_iff_prefixLaw_singleton` reduces the law of the path to
-the masses of finite paths, which by independence are products of one-step masses `κ_d x {y}`;
-the time-`n` law is `(κ_d ^ n) 0` by `HasLaw.eval_markovChainLaw`. Then Tau Ceti's recurrence
+the masses of finite paths, which by independence are products of one-step masses `κ_μ x {y}`;
+the time-`n` law is `(κ_μ ^ n) 0` by `HasLaw.eval_markovChainLaw`. (Tau Ceti's
+`hasLaw_randomizedChain` gives the same path law for a chain driven by independent noise, here
+with update `x, u ↦ x + u`; it asks for measurable noise variables consumed from index `1`, so the
+finite-path route, which needs only almost everywhere measurable steps, is the one followed.) Then Tau Ceti's recurrence
 criterion `Kernel.tsum_pow_apply_singleton_self_eq_top_iff` and
 `Kernel.ae_infinite_setOf_eq_markovChainLaw_dirac`, read through the law of the path, give the two
 statements; the first return of the path is Mathlib's `hittingAfter` from time `1`.
@@ -311,8 +320,12 @@ statements; the first return of the path is Mathlib's `hittingAfter` from time `
 **Checks.**
 - The criterion counts the visit at time `0`: `∑ₙ P(Sₙ = 0) = 1/(1 − ρ)` with
   `ρ = P(∃ n ≥ 1, Sₙ = 0)`, so the sum is at least `1` for every walk.
+- A step law that is not the simple one: on `ℤ` with `μ{1} = 2/3`, `μ{−1} = 1/3`,
+  `∑ₙ P(Sₙ = 0) = ∑ₙ C(2n, n) (2/9)ⁿ = 1/√(1 − 8/9) = 3`, so the return probability is
+  `1 − 1/3 = 2/3 < 1`.
 
-*Needs:* 3.1; Mathlib `Kernel.ofFunOfCountable`, `hittingAfter`; Tau Ceti `markovChainLaw`,
+*Needs:* Mathlib `HasLaw`, `iIndepFun`, `Kernel.ofFunOfCountable`, `hittingAfter`; Tau Ceti
+`markovChainLaw`,
 `hasLaw_markovChainLaw_iff_prefixLaw_singleton`, `HasLaw.eval_markovChainLaw`,
 `Kernel.tsum_pow_apply_singleton_self_eq_top_iff`,
 `Kernel.ae_infinite_setOf_eq_markovChainLaw_dirac`. (Durrett, Theorem 5.4.3.)
@@ -386,13 +399,16 @@ This roadmap owns the targets stated above: the simple random walk on `ℤ` give
 fair steps, the reflection principle and the law of the maximum, the ballot theorem for the walk,
 the identities for avoiding zero and the law of the first return, the exact laws of the last zero
 and of the time spent positive and their arcsine limit; the simple random walk on `ℤ^d`, the
-return criterion for it, recurrence in dimension two and transience in dimensions three and more.
+return criterion for walks on `ℤ^d` with any step law, recurrence in dimension two and transience in dimensions three and more.
 
 Already in the libraries and therefore not targets: Mathlib's independence of families of random
 variables and its finite product form, laws of random variables (`HasLaw`), convergence in
 distribution, the portmanteau theorem in the π-system form used in 2.3, Stirling's formula and
 Vandermonde's identity; Tau Ceti's bound `C(2n, n) √(2n + 1) ≤ 4ⁿ` on central binomial
-coefficients, its arcsine law with its density and distribution function, the
+coefficients, its Rademacher law `rademacherMeasure` on `ℝ` (of which `signLaw` is the
+integer-valued form, kept on `ℤ` because the parity and counting arguments of Layers 1 and 2 are
+integer statements), its path law of a chain driven by independent noise
+(`hasLaw_randomizedChain`), its arcsine law with its density and distribution function, the
 path law of a Markov chain with its characterization by finite paths, and the recurrence
 criterion through the Green function together with the infinitely many visits of a recurrent
 state. Mathlib's `Archive` (not part of the imported library) proves the ballot problem in its
@@ -420,16 +436,16 @@ Left to other roadmaps and stated differently here:
 - StandardDistributions 10.20 owns the arcsine law as the beta law of parameters `(½, ½)`, and
   excludes the Brownian arcsine theorems; Tau Ceti's `arcsineMeasure` is its formalization, and the
   limit theorem 2.3 is stated with it.
-- ElectricalNetworksAndRandomWalks (a roadmap not on main) treats reversible random walks
+- ElectricalNetworksAndRandomWalks treats reversible random walks
   on finite networks, with effective resistance, escape probabilities and commute times; it
   excludes infinite networks, recurrence and transience, and walks on lattices. Lyons–Peres prove
   Pólya's theorem through effective resistance of infinite networks; the routes here do not use
   networks. This roadmap does not depend on that one.
-- BernoulliPercolation (an open roadmap, not on main) defines the nearest-neighbour graph of `ℤ^d`
+- BernoulliPercolation defines the nearest-neighbour graph of `ℤ^d`
   as a graph; the walk of 3.1 is defined by its step law and uses no graph. This roadmap does not
   depend on that one.
 
-Outside the scope: walks with general step laws (the Chung–Fuchs theorem, Sparre Andersen's
+Outside the scope: the finer theory of walks with general step laws (the Chung–Fuchs theorem, Sparre Andersen's
 theorem, Spitzer's identity, the cycle lemma), local limit theorems and the asymptotics of
 `P(Sₙ = x)` beyond the one-line consequence of Stirling's formula used in the routes, the
 Catalan-number enumeration of paths, Brownian motion, the number of distinct points visited, and
@@ -469,6 +485,11 @@ walks on groups other than `ℤ^d`.
 
 ### From Tau Ceti
 
+- `TauCeti/Probability/Distributions/Rademacher/Basic.lean`:
+  `TauCeti.Probability.rademacherMeasure` (the law on `ℝ` with mass `1/2` at `−1` and at `1`),
+  compared with `signLaw` in 1.1. `TauCeti/Probability/MarkovChain/Simulation.lean`:
+  `TauCeti.Probability.hasLaw_randomizedChain` (a chain driven by independent measurable noise
+  with a common law has the path law `markovChainLaw`), named in the route of 3.2.
 - `TauCeti/Data/Nat/Choose/Central.lean`: `Nat.centralBinom_mul_sqrt_le_four_pow`
   (`C(2n, n) · √(2n + 1) ≤ 4ⁿ` in `ℝ`).
 - `TauCeti/Probability/Distributions/Arcsine/Basic.lean`: `TauCeti.Probability.arcsineMeasure`
@@ -497,7 +518,7 @@ walks on groups other than `ℤ^d`.
   proofs, pp. 262–267. Section 5.4: Example 5.4.2, Theorems 5.4.3 and 5.4.4 and their proofs,
   pp. 288–290.
 - R. Lyons and Y. Peres, *Probability on Trees and Networks*, Cambridge University Press, 2016;
-  the corrected and updated edition on the first author's site (version of 19 August 2026),
+  the corrected and updated edition on the first author's site,
   §2.5, Pólya's Theorem (first part), p. 38, and (second part), p. 41.
 - G. Pólya, Über eine Aufgabe der Wahrscheinlichkeitsrechnung betreffend die Irrfahrt im
   Straßennetz, *Mathematische Annalen* 84 (1921), 149–160; named as Durrett and Lyons–Peres
