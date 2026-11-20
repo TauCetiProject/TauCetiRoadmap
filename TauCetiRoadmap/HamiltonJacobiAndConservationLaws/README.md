@@ -513,7 +513,8 @@ The *structure conditions* on `H : E → E → ℝ` are: `H` is continuous, and 
 
 for all `x, y, p, q`. Prove, by doubling the variables:
 
-- **Bounded domains** (Crandall–Lions; Bardi–Capuzzo-Dolcetta, Theorem II.3.1). Let `Ω ⊆ E` be
+- **Bounded domains** (Crandall–Lions; Bardi–Capuzzo-Dolcetta, Theorem II.3.1, for continuous
+  `u`, `v`). Let `Ω ⊆ E` be
   bounded and open, `λ > 0`, and `H` continuous satisfying `(S1)`. If `u` is upper
   semicontinuous on `closure Ω` and a subsolution of `λu + H(x, ∇u) = 0` in `Ω`, `v` is lower
   semicontinuous on `closure Ω` and a supersolution, and `u ≤ v` on `frontier Ω`, then
@@ -582,7 +583,7 @@ Let `H` satisfy `(S1)`, be Lipschitz in `p` uniformly in `x` with constant `N`, 
   constants and satisfies `sup |S(t)g₁ − S(t)g₂| ≤ sup |g₁ − g₂|`.
 - If `(S1)` holds with `ω₁(r) = C₁ r` and `g` is bounded and Lipschitz, then `u(t, ·)` is
   Lipschitz with a constant depending only on `K`, `C₁` and `T`, and `u` is Lipschitz in `t`.
-- The Hopf–Lax formula (Evans, §10.3.3, Theorem 3): for `H : E → ℝ` convex and superlinear and
+- The Hopf–Lax formula (Evans, §10.3.4, Theorem 3): for `H : E → ℝ` convex and superlinear and
   `g` bounded and Lipschitz, the Hopf–Lax function of Layer 3 is a viscosity solution of
   `∂ₜu + H(∇u) = 0`, and it is the only `BUC` viscosity solution with `u(0) = g`.
 - The Hopf formula (Bardi–Evans 1984, Theorem 3.1): for `H : E → ℝ` continuous and `g` convex
