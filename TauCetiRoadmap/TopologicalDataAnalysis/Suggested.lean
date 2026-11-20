@@ -192,14 +192,14 @@ theorem exists_intervalDecomposition_of_isPFD (V : PersistenceModule 𝕜) (hV :
     Nonempty (IntervalDecomposition V) := by
   sorry
 
-/-- **Uniqueness of the barcode**: two interval decompositions of a pointwise
-finite-dimensional module have the same intervals with the same multiplicities. -/
-theorem IntervalDecomposition.exists_equiv {V : PersistenceModule 𝕜} (hV : IsPFD V)
+/-- **Uniqueness of the barcode**: two interval decompositions of any persistence module have
+the same intervals with the same multiplicities. -/
+theorem IntervalDecomposition.exists_equiv {V : PersistenceModule 𝕜}
     (D D' : IntervalDecomposition V) : ∃ e : D.ι ≃ D'.ι, ∀ j, D'.I (e j) = D.I j := by
   sorry
 
 /-- **The diagram of a decomposition** counts the intervals with the given endpoints. -/
-theorem rankDiagram_eq_encard_of_decomposition {V : PersistenceModule 𝕜} (hV : IsPFD V)
+theorem rankDiagram_eq_encard_of_decomposition {V : PersistenceModule 𝕜} (hV : IsQTame V)
     (D : IntervalDecomposition V) (x : OffDiag) :
     rankDiagram V x = {j | lowerEnd (D.I j) = x.1.1 ∧ upperEnd (D.I j) = x.1.2}.encard := by
   sorry
@@ -299,7 +299,7 @@ theorem exists_matching_of_bottleneckDist_le {D E : Diagram} [Finite D.Pt] [Fini
 
 end Distances
 
-/-! ## Layer 3: filtrations of spaces and sublevel persistence -/
+/-! ## Layer 3: sublevel persistence of functions on spaces -/
 
 section Sublevel
 
@@ -518,7 +518,7 @@ theorem wassersteinDist_simplicialModule_le (K : PreAbstractSimplicialComplex ι
 
 end Simplicial
 
-/-! ## Layer 5: distance functions and the geometry of offsets -/
+/-! ## Layer 5: distance functions, offsets and correspondences -/
 
 section Offsets
 
@@ -659,6 +659,15 @@ theorem nonempty_iso_homology_nerveComplex [LinearOrder ι] [Finite ι] (X : Top
         (TopCat.of (⋃ i, U i))) := by
   sorry
 
+/-- **The nerve lemma for compact convex sets** in Euclidean space. -/
+theorem nonempty_iso_homology_nerveComplex_of_isCompact_convex [LinearOrder ι] [Finite ι]
+    {D : ℕ} (C : ι → Set (EuclideanSpace ℝ (Fin D))) (hCc : ∀ i, IsCompact (C i))
+    (hCv : ∀ i, Convex ℝ (C i)) (hC : ∀ i, (C i).Nonempty) (p : ℕ) :
+    Nonempty ((TauCeti.orderedSimplicialChainComplex (nerveComplex C hC) 𝕜).homology p ≅
+      ((singularHomologyFunctor (ModuleCat.{0} 𝕜) p).obj (ModuleCat.of 𝕜 𝕜)).obj
+        (TopCat.of (⋃ i, C i))) := by
+  sorry
+
 /-- **Čech persistence is offset persistence** for finite nonempty point sets in Euclidean
 space. -/
 theorem nonempty_iso_cechModule_offsetModule [Finite ι] [Nonempty ι] {D : ℕ}
@@ -674,6 +683,10 @@ theorem bottleneckDist_ripsModule_le_ghDist (X Y : Type) [MetricSpace X] [Compac
         (rankDiagram (ripsModule 𝕜 (id : Y → Y) p)) ≤
         ENNReal.ofReal (GromovHausdorff.ghDist X Y) := by
   sorry
+
+/-! ### 4.5 Zero-dimensional persistence and single linkage
+
+Stated here, after Layer 6, because the statement uses `ripsModule`. -/
 
 /-- A minimum spanning tree of a finite metric space. -/
 def IsMinSpanningTree {X : Type} [PseudoMetricSpace X] (T : SimpleGraph X) : Prop :=
@@ -692,7 +705,7 @@ theorem rankInv_ripsModule_zero_eq {X : Type} [MetricSpace X] [Finite X] [Nonemp
 
 end Complexes
 
-/-! ## Layer 7: homology inference -/
+/-! ## Layer 7: homology inference from samples -/
 
 section Inference
 
@@ -751,7 +764,7 @@ theorem rankInv_ripsModule_eq_of_reach [Finite ι] [Nonempty ι] {D : ℕ}
 
 end Inference
 
-/-! ## Layer 8: statistics of diagrams and distance functions -/
+/-! ## Layer 8: statistics of diagrams and of the distance to a measure -/
 
 section Statistics
 

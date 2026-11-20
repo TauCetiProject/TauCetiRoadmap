@@ -113,7 +113,8 @@ Owned here:
 - **Offsets.** `offsetModule A p` is sublevel persistence of `x ↦ infDist x A`. For `r < 0` the
   offset is empty, for `r ≥ 0` it is the closed thickening of `A` (Mathlib's `cthickening`).
   Mathlib's `infDist x ∅` is the junk value `0`, so every theorem about offsets assumes `A`
-  nonempty.
+  nonempty. Likewise `Metric.hausdorffDist K ∅ = 0`, so every finite sample compared with a set in
+  Hausdorff distance is assumed nonempty.
 - **Measures.** Sampling statements live on `Fin n → E` under `Measure.pi`. Events that need not
   be measurable are measured by the outer measure and expectations of possibly non-measurable
   quantities are lower Lebesgue integrals `∫⁻`, so no measurability hypothesis is hidden.
@@ -173,7 +174,7 @@ Owned here:
 - `TauCeti.wassersteinEDist` (`MeasureTheory/OptimalTransport/Wasserstein/Basic.lean`), valued in
   `ℝ≥0∞`, the infimum over couplings of the `L^p` norm of the distance.
 
-### From roadmaps on main
+### From other roadmaps
 
 - **MathematicalStatisticsAsymptotic**, §3.1 (Glivenko–Cantelli and Donsker classes, the
   Brownian-bridge limit), §3.2 (bracketing numbers; Lipschitz parametric classes, van der Vaart,
@@ -183,6 +184,11 @@ Owned here:
 - **MorseTheory**, Layer 2 (deformation across bands and cell attachment) and §4.1 (strong
   inequalities): consumed in 3.4.
 - **OptimalTransport**, §3.1 (the Wasserstein distance `W_p` of Tau Ceti): consumed in 8.1.
+- **SpanningTreesAndShortestPaths**, §2.4 (the minimax property: if `F` is a minimum spanning
+  forest of a weighted graph, then every edge of the path of `F` between two vertices weighs at
+  most as much as some edge of any walk between them): consumed in 4.5, for the complete graph on
+  a finite metric space weighted by distance, whose minimum spanning forests are its minimum
+  spanning trees.
 
 No other roadmap's definitions are copied into `Suggested.lean`.
 
@@ -195,7 +201,9 @@ to finite simplicial complexes, where everything is computable. Layer 5 is metri
 distance functions, independent of homology except for the offset modules. Layer 6 builds the
 complexes on point clouds and connects them with offsets through the nerve lemma. Layer 7 combines
 Layers 5 and 6 into inference theorems. Layer 8 is statistics: the distance to a measure, landscape
-limit theorems and sampling rates.
+limit theorems and sampling rates. Layers 5 and 6 are built together: 5.1 uses the nerve lemma of
+6.2, 4.5 uses the Rips complexes of 6.1, and 6.4 uses the correspondences of 5.4; the sections
+themselves form no cycle.
 
 Each section states targets, gives locators (printed pages) and a proof route, and ends with a
 *Needs:* line. Numbers like 2.3 refer to sections of this roadmap.
@@ -264,17 +272,21 @@ Each section states targets, gives locators (printed pages) and a proof route, a
   spaces (pointwise finiteness gives the stabilization), and show that the resulting submodules
   are interval modules on the interval `(c, c')` and that their sum is direct and exhausts `V`.
   The construction is entirely within the linear algebra of `ModuleCat 𝕜`.
-- **Uniqueness of the barcode** (`IntervalDecomposition.exists_equiv`): two decompositions of a
-  pointwise finite-dimensional module are matched by a bijection of the index types preserving the
-  intervals (Chazal–de Silva–Glisse–Oudot, Thm 2.7, p. 22, Krull–Remak–Schmidt–Azumaya).
-  *Route.* An interval `I` is determined by its endpoints and their decorations. Its
-  multiplicity in a decomposition is recovered from the rank invariant by 1.2: for real endpoints
-  `b < d`, the number of summands equal to `I` is a finite alternating sum of ranks at points
-  approaching `b` and `d` from the side prescribed by the decoration, and is finite because
-  `V_t` is finite-dimensional for a point `t` of `I`. Since the counts depend on `V` only, they
-  agree for the two decompositions, and a bijection is assembled interval by interval. Tau Ceti's
-  `TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end` covers the finite case directly; the count
-  argument handles arbitrary index types.
+- **Uniqueness of the barcode** (`IntervalDecomposition.exists_equiv`): two decompositions of any
+  persistence module are matched by a bijection of the index types preserving the intervals
+  (Chazal–de Silva–Glisse–Oudot, Thm 2.7, p. 22, Krull–Remak–Schmidt–Azumaya, from
+  `End(intervalModule 𝕜 I) = 𝕜`, their Prop 2.5, p. 22). No finiteness is assumed.
+  *Route.* Fix a nonempty interval `I` and `t ∈ I`. In `V_t` form four subspaces: `A`, the
+  intersection of the images of `V_s → V_t` over `s ∈ I`, `s ≤ t`; `A'`, the union of the images
+  over the `s` below every point of `I`; `K`, the union of the kernels of `V_t → V_u` over `u ∈ I`,
+  `u ≥ t`; `K'`, the intersection of the kernels over the `u` above every point of `I`. For a
+  coproduct of interval modules each of these is the direct sum of the corresponding subspaces of
+  the summands (intersections, directed unions and sums of subspaces of the form `⊕ W_j` are
+  computed coordinatewise), and for one summand `intervalModule 𝕜 J` with `t ∈ J` the subquotient
+  `(A ∩ K') / ((A' ∩ K') + (A ∩ K))` is `𝕜` if `J = I` and `0` otherwise. So its dimension, a
+  cardinal, is the number of summands equal to `I`; it depends on `V` only, and a bijection is
+  assembled interval by interval. For finite index types Tau Ceti's
+  `TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end` gives the result directly.
 
 *Needs:* 1.2; Tau Ceti `TauCeti.gabrielIndecomposableEquivPositiveRoot`,
 `TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end`.
@@ -294,11 +306,12 @@ Each section states targets, gives locators (printed pages) and a proof route, a
   measure `r(b, c) - r(a, c)`, one reaching `-∞` has `r(b, c) - r(b, d)`, and one reaching both
   has `r(b, c)`. For `q`-tame modules the four ranks are finite because `a ≤ b < c ≤ d`, and the
   rectangle measure is a nonnegative count, so the truncated subtraction of `ℕ∞` is exact.
-- **The diagram of a decomposition** (`rankDiagram_eq_encard_of_decomposition`): for a
-  pointwise finite-dimensional module and any decomposition, the multiplicity of `(p, q)` is the
-  number of intervals with `lowerEnd = p` and `upperEnd = q`.
+- **The diagram of a decomposition** (`rankDiagram_eq_encard_of_decomposition`): for a `q`-tame
+  module and any decomposition, the multiplicity of `(p, q)` is the number of intervals with
+  `lowerEnd = p` and `upperEnd = q`.
   *Route.* By 1.2 the rectangle measure counts the intervals with lower endpoint in the closed
-  window around `p` and upper endpoint in the window around `q`; shrinking the windows isolates
+  window around `p` and upper endpoint in the window around `q`, at most `r(b, c) < ⊤` of them by
+  `q`-tameness, so the truncated subtraction is exact; shrinking the windows isolates
   the endpoints, and decorations do not matter because the windows are open at `p` and `q`
   (Chazal–de Silva–Glisse–Oudot, Cor 3.27, p. 47). Since `rankE` vanishes at `⊥` and `⊤`, a
   rectangle with `d = ⊤` counts the intervals containing `b` and `c` but not `a`, that is with
@@ -311,11 +324,12 @@ Each section states targets, gives locators (printed pages) and a proof route, a
 
 - `rankInv`: for `intervalModule 𝕜 (Set.Ico 0 1)`, `rankInv` at `(0, 1/2)` is `1` and at
   `(0, 1)` is `0`; at `(1/2, 0)` it is `0` by the convention for `t < s`.
-- `rankInv`: the constant module `𝕜^ℕ` (countable dimension, identity maps) has
-  `rankInv = ⊤` at every `s ≤ t`, so it is not `q`-tame; a definition with Mathlib's `finrank`
-  would give the junk value `0` and declare it tame.
-- `IsQTame`: the module with `V_t = 𝕜^ℕ` for every `t` and zero maps between distinct indices is
-  `q`-tame but not pointwise finite-dimensional, so the converse of the first bullet of 1.1 fails.
+- `rankInv`: the constant module whose value is the direct sum of countably many copies of `𝕜`
+  (identity maps) has `rankInv = ⊤` at every `s ≤ t`, so it is not `q`-tame; a definition with
+  Mathlib's `finrank` would give the junk value `0` and declare it tame.
+- `IsQTame`: the module whose value at every `t` is the direct sum of countably many copies of `𝕜`,
+  with zero maps between distinct indices, is `q`-tame but not pointwise finite-dimensional, so the
+  converse of the first bullet of 1.1 fails.
 - `IsPFD`: every interval module is pointwise finite-dimensional, and so is every finite coproduct
   of interval modules.
 - `intervalModule`: for the set `I = {0, 2}`, which is not order-connected, the maps
@@ -340,6 +354,16 @@ Each section states targets, gives locators (printed pages) and a proof route, a
   `r(b, c) = 1` there.
 - `rankDiagram`: for `intervalModule 𝕜 (Set.Ico 0 1)` the multiplicity is `0` at `(0, ⊤)` and at
   `(⊥, ⊤)`: the rectangles with `c > 1` have `r(b, c) = 0`.
+- `rankDiagram`: the coproduct `V` of the interval modules of `[0, 1/n)`, `n ≥ 1`, is `q`-tame
+  (`rankInv V s t` is the finite number of `m` with `t < 1/m` when `0 ≤ s < t`) but `V_0` has
+  countable dimension. For `a < 0 < b < c < 1/n < d` the measure is the number of `m` with
+  `c < 1/m ≤ d`, which is `1` when `1/n` is the only such `1/m` in `(c, d]`, so the multiplicity
+  is `1` at `(0, 1/n)`, the count of `rankDiagram_eq_encard_of_decomposition`, which needs only
+  `q`-tameness.
+- `rankDiagram`: for the coproduct of countably many copies of `[0, 1)` and one copy of
+  `[0, 1/2)`, which is not `q`-tame, the rectangles at `(0, 1/2)` with `0 < b < c < 1/2 < d < 1`
+  have measure `(⊤ + 0) - (0 + ⊤) = 0` in `ℕ∞`, so the multiplicity there is `0` although one
+  interval has these endpoints: some tameness hypothesis is needed.
 - `rankDiagram`: a singleton interval `{0}` contributes nothing: the rectangles need `b < c`, and
   the module of `{0}` has `rankInv = 0` at every `s < t`.
 - `Diagram.Pt`: a diagram with multiplicity `⊤` at one point has countably many points there,
@@ -444,12 +468,16 @@ Each section states targets, gives locators (printed pages) and a proof route, a
   `interleavingDist V W = bottleneckDist (rankDiagram V) (rankDiagram W)`
   (Chazal–de Silva–Glisse–Oudot, Thm 5.14, p. 91; Oudot, Thm 3.1, p. 49).
   *Route, `d_I ≤ d_B`.* For decomposable modules (Chazal–de Silva–Glisse–Oudot, Thm 5.11, p. 87):
-  a matching of cost `ε` gives interleavings of matched interval modules (two intervals whose
-  endpoints differ by at most `ε` are `ε`-interleaved by identities where defined) and of
-  unmatched ones with `0` (an interval of half-length at most `ε` is `ε`-interleaved with `0`);
-  coproducts of interleavings are interleavings. For `q`-tame modules, approximate: for every
-  `δ > 0` the module `V` is `δ`-interleaved with the pointwise finite-dimensional module of its
-  images `Im(V_{t-δ} → V_t)`, which decomposes by 1.3 and has diagram within `δ` of that of `V`.
+  a matching of cost `ε` gives, for every `ε' > ε`, `ε'`-interleavings of matched interval
+  modules (two intervals whose endpoints differ by at most `ε` are `ε'`-interleaved by identities
+  where defined) and of unmatched ones with `0` (an interval of half-length at most `ε` is
+  `ε'`-interleaved with `0`); coproducts of interleavings are interleavings, and both distances
+  are infima, so `d_I ≤ d_B`. The margin is needed: `intervalModule (Icc 0 1)`, of half-length
+  `1/2`, is not `1/2`-interleaved with `0`, since `V_0 → V_1` is the identity of `𝕜`, and
+  `Ico 0 1`, `Icc 0 1` have equal endpoints but are not `0`-interleaved. For `q`-tame modules,
+  approximate: for every `δ > 0` the module `V` is `δ`-interleaved with the pointwise
+  finite-dimensional module of its images `Im(V_{t-δ} → V_t)`, which decomposes by 1.3 and has
+  diagram within `δ` of that of `V`.
   *Route, `d_B ≤ d_I`.* The induced-matching argument (Bauer–Lesnick, *Induced matchings and the
   algebraic stability of persistence barcodes*, 2015) for pointwise finite-dimensional modules: an
   `ε`-interleaving `φ` factors as a surjection followed by an injection through its image, and
@@ -792,7 +820,7 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
   single-linkage clustering computed by Kruskal's algorithm; in the maximum-edge parameter they are
   the edge lengths themselves.
 
-*Needs:* 1.2, 6.1.
+*Needs:* 1.2, 6.1; SpanningTreesAndShortestPaths §2.4.
 
 **Checks.**
 
@@ -863,7 +891,7 @@ top sublevel set is `M`. (Edelsbrunner–Harer, p. 159, for the Morse inequaliti
 
 ### Dependencies
 
-4.1 → 4.2 → 4.3 → 4.4; 4.1 → 4.5 (with 6.1).
+4.1 → 4.2 → 4.3 → 4.4; 4.1 → 4.5 (with 6.1 and SpanningTreesAndShortestPaths §2.4).
 
 ## Layer 5: distance functions, offsets and correspondences
 
@@ -1020,7 +1048,7 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 - **The nerve lemma** (`nonempty_iso_homology_nerveComplex`): for finitely many nonempty open
   subsets `U i` of a space whose nonempty finite intersections are contractible, the ordered
   simplicial homology of the nerve is isomorphic to the singular homology of the union, in every
-  degree (Dey–Wang, Thm 2.1, p. 31; Edelsbrunner–Harer, Nerve Theorem, §III.2, p. 71).
+  degree (Dey–Wang, Thm 2.1, p. 31).
   *Route.* `TauCeti.quasiIso_cechTotalAugmentation` identifies the singular chains of the union
   with the total complex of the Čech double complex of the cover (ordered form). Filter by the
   Čech degree: the `E¹` page in column `σ` is the homology of `⋂_{i∈σ} U i`, which is `0` in
@@ -1029,9 +1057,29 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
   (and `0` for empty intersections). Hence the column homology is concentrated in one
   row, which is the ordered simplicial chain complex of the nerve, and the double complex is
   quasi-isomorphic to it. The isomorphism is natural for maps of covers `U i ⊆ V i`
-  (`TauCeti.cechSingularChainsMap`), which 6.3 uses.
-- The homotopy-type statement for finite closed convex covers of Euclidean space (Borsuk) is under
-  Beyond; the homological statement suffices for every use here.
+  (`TauCeti.cechSingularChainsMap`), which the next bullet uses.
+- **The nerve lemma for compact convex sets**
+  (`nonempty_iso_homology_nerveComplex_of_isCompact_convex`): for finitely many nonempty compact
+  convex subsets `C i` of a Euclidean space, the ordered simplicial homology of their nerve is
+  isomorphic to the singular homology of their union, in every degree (the homological form of
+  Edelsbrunner–Harer, Nerve Theorem, §III.2, p. 71). The isomorphism is natural for inclusions
+  `C i ⊆ C' i` (a target stated here in prose, like the naturality of the open form), which 6.3
+  uses.
+  *Route.* Write `X = ⋃ C i` and `X^δ` for its open `δ`-thickening, the union of the open
+  thickenings of the `C i`. (a) By compactness there is `δ₀ > 0` such that for `δ < δ₀` the open
+  thickenings of the `C i`, which are convex, have the same nerve as the `C i`; so the open form
+  above gives `H(nerve) ≅ H(X^δ)`, naturally, and every inclusion `X^δ → X^δ'` with
+  `δ < δ' < δ₀` induces isomorphisms. (b) `X` is a Euclidean neighbourhood retract: a compact
+  convex set is a retract of the space (nearest-point projection), and a union of two closed
+  Euclidean neighbourhood retracts whose intersection is one is one; induct on the number of sets,
+  `C n ∩ ⋃_{i<n} C i = ⋃_{i<n} (C i ∩ C n)` being a union of fewer compact convex sets. (c) Let
+  `ρ : U → X` be a retraction of a neighbourhood and take `δ` so small that `X^δ ⊆ U` and
+  `|ρ y - y| < δ'` on `X^δ`. The straight-line homotopy from `y` to `ρ y` stays in `X^δ'`, so
+  the isomorphism `H(X^δ) → H(X^δ')` factors through `ρ_* : H(X^δ) → H(X)`, which is therefore
+  injective, and it is surjective since `ρ` restricts to the identity of `X`. Hence the inclusion
+  `X → X^δ` induces isomorphisms, and `H(X) ≅ H(nerve)`.
+- The homotopy-type statements, for open covers and for closed convex families, are under Beyond;
+  the homological statements suffice for every use here.
 
 *Needs:* 4.1; Tau Ceti `TauCeti.quasiIso_cechTotalAugmentation`,
 `TauCeti.isZero_singularHomologyFunctor_of_contractibleSpace`.
@@ -1043,18 +1091,14 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
   persistence modules. For the empty family the Čech module is `0` while Mathlib's
   `infDist y ∅ = 0` makes every offset of radius `r ≥ 0` the whole space, so nonemptiness is
   needed (Conventions, Offsets).
-  *Route.* For `r < 0` both are `0`. For `r ≥ 0`, closed balls have intersections that are
-  intersections of open balls of radius `r + δ` for small `δ > 0`: a finite family of closed balls
-  of
-  radius `r` meets iff its minimal enclosing radius is `≤ r`, and the strict inequalities for the
-  non-meeting faces survive a small enlargement. So `cechComplex x r` is the nerve of the open
-  balls of radius `r + δ`, whose intersections are convex, hence contractible, and 6.2 identifies
-  its homology with that of the open offset of radius `r + δ`. The distance function to a finite
-  set has finitely many critical values (circumradii of subsets), so for small `δ` the open and
-  closed offsets have the same homology by 5.2. Naturality in `r` comes from the naturality of 6.2
-  and of the inclusions.
+  *Route.* For `r < 0` both are `0`. For `r ≥ 0`, `cechComplex x r` is by definition the nerve of
+  the closed balls of radius `r` about the points, which are nonempty, compact and convex, and
+  their union is the offset `cthickening r (range x)` of the finite set. The nerve lemma for
+  compact convex sets (6.2) identifies the homology of the two, and its naturality for the
+  inclusions of balls of radii `r ≤ r'` gives the isomorphism of persistence modules. No critical
+  radius needs separate treatment.
 
-*Needs:* 5.2, 6.2.
+*Needs:* 6.2.
 
 ### 6.4 Gromov–Hausdorff stability of Rips persistence
 
@@ -1124,7 +1168,7 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 
 ### Dependencies
 
-6.1 → 6.4; 6.2 → 6.3; 5.4 → 6.4; 5.2 → 6.3.
+6.1 → 6.4; 6.2 → 6.3; 5.4 → 6.4.
 
 ## Layer 7: homology inference from samples
 
@@ -1181,9 +1225,9 @@ on `c`, `d` and `τ`, which is the local form of `(a, d)`-standardness used in 8
 ### 7.3 Rips pairs below the reach
 
 - **Rips pairs** (`rankInv_ripsModule_eq_of_reach`): let `K ⊂ ℝ^D` be compact nonempty with reach
-  at least `τ`, and `P` finite with `d_H(K, P) ≤ ε`. If `(2 + √2) ε ≤ α` and `2√2 α + ε < τ`, then
-  `rank(H_p(Rips(α)) → H_p(Rips(2α))) = dim H_p(K)`. The window is nonempty exactly when
-  `ε < τ/(5 + 4√2) ≈ 0.0938 τ`. No manifold structure is needed.
+  at least `τ`, and `P` finite and nonempty with `d_H(K, P) ≤ ε`. If `(2 + √2) ε ≤ α` and
+  `2√2 α + ε < τ`, then `rank(H_p(Rips(α)) → H_p(Rips(2α))) = dim H_p(K)`. The window is
+  nonempty exactly when `ε < τ/(5 + 4√2) ≈ 0.0938 τ`. No manifold structure is needed.
   *Route.* `Čech(α) ⊆ Rips(α) ⊆ Čech(√2α) ⊆ Čech(2α) ⊆ Rips(2α) ⊆ Čech(2√2α)` by 6.1 (the
   Vietoris–Rips lemma). For offsets of `P`, `rank(H(P^s) → H(P^t)) = dim H(K)` whenever
   `ε ≤ s`, `s + 2ε ≤ t` and `t + ε < τ`: the route of 7.2 with `K^{s-ε} → K^{s+ε} → K^{t+ε}`
@@ -1366,7 +1410,8 @@ under moment conditions (Bubenik 2015) are under Beyond.
 
 ## Downstream consumers
 
-The KernelsAndSpectralMethods roadmap (§5.4) uses the sampling bound and the rate of 8.4.
+The KernelsAndSpectralMethods roadmap (§5.4) uses the sampling bound of 8.4, compares its
+conclusion with the rate of 8.4, and cites the small-ball bound of 5.3.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
@@ -1383,7 +1428,8 @@ under this roadmap.
 - **Persistent cohomology algorithms** and clearing, twist and dualization optimizations: they
   speed up 4.3 but add no new theorem.
 - **The homotopy-level nerve theorem** for finite closed convex covers (Borsuk; Edelsbrunner–Harer,
-  p. 71): 6.2 states the homological form, which is all that Layers 6–8 use; the homotopy form
+  p. 71) and for finite open covers: 6.2 states the homological forms, which are all that Layers
+  6–8 use; the homotopy form
   needs CW approximation or the Quillen fibre lemma.
 - **Wasserstein stability for Lipschitz functions on triangulable spaces** (Cohen-Steiner,
   Edelsbrunner, Harer, Mileyko, 2010), with exponents `q > j` for polynomially growing
