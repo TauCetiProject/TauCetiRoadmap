@@ -62,7 +62,7 @@ namespace TauCetiRoadmap.RepresentationTheory.LieGroups
 open scoped Manifold ContDiff Pointwise
 open MeasureTheory
 
-universe u v w
+universe u v w u' v' w'
 
 section LieFunctor
 
@@ -156,9 +156,9 @@ theorem exists_monoidHom_of_lieHom
     {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
     {G : Type w} [TopologicalSpace G] [ChartedSpace H G]
     [Group G] [LieGroup I ∞ G] [SimplyConnectedSpace G]
-    {E' : Type u} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
-    {H' : Type v} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
-    {G' : Type w} [TopologicalSpace G'] [ChartedSpace H' G']
+    {E' : Type u'} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
+    {H' : Type v'} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
+    {G' : Type w'} [TopologicalSpace G'] [ChartedSpace H' G']
     [Group G'] [LieGroup I' ∞ G']
     (f : LeftInvariantDerivation I G →ₗ⁅ℝ⁆ LeftInvariantDerivation I' G') :
     ∃ (φ : G →* G') (hφ : ContMDiff I I' ∞ (φ : G → G')),
@@ -326,15 +326,15 @@ include I in
 at the group level): every continuous finite-dimensional representation of a compact `G` extends to a
 holomorphic representation of its complexification. `Gc` must be the complexification: an injective
 continuous `ι` alone is not enough (`U(1)` in `SL₂(ℂ)`: its weight-one character extends to no
-holomorphic character of `SL₂(ℂ)`), so the universal property is a hypothesis, matching the
-conclusion of `exists_complexification`. README, §7.11. -/
+holomorphic character of `SL₂(ℂ)`), so the universal property is a hypothesis, as provided by
+`exists_complexification`; injectivity of `ι` is not assumed, since for compact `G` it follows from
+the universal property through a faithful unitary representation. README, §7.11. -/
 theorem exists_holomorphic_extension [CompactSpace G] [ConnectedSpace G]
     {V : Type u} [NormedAddCommGroup V] [NormedSpace ℂ V] [FiniteDimensional ℂ V]
     {Ec : Type u} [NormedAddCommGroup Ec] [NormedSpace ℂ Ec] [FiniteDimensional ℂ Ec]
     {Hc : Type v} [TopologicalSpace Hc] {Ic : ModelWithCorners ℂ Ec Hc}
     {Gc : Type w} [TopologicalSpace Gc] [ChartedSpace Hc Gc]
     [Group Gc] [LieGroup Ic ∞ Gc] (ι : G →* Gc) (hι : Continuous (ι : G → Gc))
-    (hινj : Function.Injective ι)
     (huniv : ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec')
       (_ : FiniteDimensional ℂ Ec')
       (Hc' : Type v) (_ : TopologicalSpace Hc') (Ic' : ModelWithCorners ℂ Ec' Hc')

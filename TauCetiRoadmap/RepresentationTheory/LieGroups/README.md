@@ -52,7 +52,8 @@ Bruhat, and the Cartan, Iwasawa and `KAK` decompositions. The next section gives
 
 ## How to read the build
 
-The layers come in three groups, kept from the order in which the theory is usually taught.
+The layers come in three groups, ordered by their *Needs:* lines: a target uses only its own and earlier
+layers, except that Lie's third theorem (§4.2) uses the universal cover of §5.1.
 
 - **The Lie functor, from groups to algebras (Layers 0–3).** Layer 0 fixes the Lie algebra, the
   exponential map and one-parameter subgroups; Layer 1 the adjoint representations and the
@@ -69,10 +70,10 @@ The layers come in three groups, kept from the order in which the theory is usua
   product of a compact group and the splitting of its Lie algebra. Layer 6 proves the maximal-torus
   theorems, constructs the compact root system and the Weyl group, and proves the Weyl integration
   formula. Layer 7 constructs complexifications, compact real forms, real forms of complex groups,
-  the dictionary between complex reductive algebraic groups and complex Lie groups, and the
-  compact–algebraic comparison. Layer 8 builds flag manifolds, associated line bundles, Bruhat
-  cells and the Borel–Weil–Bott theorem. Layer 9 builds the global matrix models of real reductive
-  groups and proves the Cartan, Iwasawa and `KAK` decompositions.
+  the central torus and derived subgroup of the complex Lie group of a complex reductive algebraic
+  group, and the compact–algebraic comparison. Layer 8 builds flag manifolds, associated line
+  bundles, Bruhat cells and the Borel–Weil–Bott theorem. Layer 9 builds the global matrix models of
+  real reductive groups and proves the Cartan, Iwasawa and `KAK` decompositions.
 
 Layer `5A` sits between Layers 5 and 6 and is labelled with a letter; its section is `5A.1`. Each
 layer ends with its examples and its dependencies, and a `*Needs:*` line under each target lists
@@ -389,7 +390,9 @@ theorem, and its tangent spaces are left translates of `V` by the `Ad(K₀)`-inv
 back each left-invariant `Z ∈ V` to that patch and use the local existence and uniqueness of
 integral curves (Layer 0) to show `lieExp (t • Z) ∈ K₀` for small `t`, then for all `t` by integer
 powers; hence `V = 𝔨`. Differentiating `Ad (lieExp (t • X)) V = V` inside the finite-dimensional, hence
-closed, subspace `V` gives closure under the bracket (§1.2). (Kirillov, Chs. 2–3; Varadarajan, Chs. 2–3.)
+closed, subspace `V` gives closure under the bracket (§1.2). (For finite-dimensional `G` the
+statement also follows from Yamabe's theorem that an arcwise connected subgroup is an integral
+subgroup: Neeb, *Towards a Lie theory of locally convex groups*, Rem. II.6.5(b) and Problem IV.1.)
 *Needs:* §§0.2–0.3, §1.2; Tau Ceti `TauCeti.Lie.lieSubalgebraOfSubgroup`,
 `TauCeti.Lie.hasDerivAt_Ad_lieExp_smul_apply_zero`; the finite-dimensional inverse function theorem
 (Mathlib `HasStrictFDerivAt.toOpenPartialHomeomorph`) for the product patch.
@@ -648,8 +651,10 @@ DifferentialGeometry 4.3–4.4 (Frobenius and leaves; Tau Ceti `TauCeti.IsInvolu
   injectivity. Dropping connectedness would admit the discrete group `X = SL₂(ℤ)` with
   `K = SL₂(ℤ)`, a countable immersed subgroup with `lieSubalgebraOfSubgroup K = 0`, whose Lie
   algebra integrates to `{1}`; connectedness is what makes `𝔥 ↦ integralLeafSubgroup 𝔥` injective.
-  The immersion condition follows from the others (an injective smooth homomorphism has
-  `ker dφ = Lie(ker φ) = 0`) and is kept for direct use.
+  The immersion field is the only smoothness condition: a `ℚ`-linear automorphism of `X = ℝ = G`
+  exchanging two Hamel basis vectors is an injective homomorphism of a connected group onto `K = ℝ`
+  that is not continuous. For a smooth injective homomorphism the injectivity of the differential
+  would be automatic, since `ker dφ = Lie(ker φ) = 0`.
 
 ### 4.2 Lie's third theorem
 
@@ -1267,7 +1272,7 @@ hypotheses. For arbitrary source and target universes prove the universe-polymor
 character and period maps and with the universal properties of §§7.3 and 7.6. Export the totally real
 chart of a specified real form. This global map on a given complex group is independent of the
 construction of a new complex group by convergent complex BCH in §7.3.
-(Kirillov, Chs. 5–8; Knapp, Chs. I, IV–VII.)
+(Knapp, Chs. I, IV–VII.)
 *Needs:* §§0.1–0.4, 1.4; ComplexManifolds Milestone 1; ComplexKahlerGeometry Layer 1; Mathlib
 `GroupLieAlgebra`, `ULift`; Tau Ceti `leftInvariantDerivationLieEquivGroupLieAlgebra`,
 `lieExp_eq_expUnit`.
@@ -1353,7 +1358,7 @@ differential descends through exactly the compact periods; then check the finite
 representatives, conjugation and multiplication cocycle. Identify `P` with `G_ℂ` by uniqueness of the
 universal property and prove naturality under faithful representations. This compact case uses no
 general theorem of Layer 9.
-(Kirillov, Chs. 5–8; Bump, Parts I–III.)
+(Bump, Parts I–III.)
 *Needs:* §§2.3, 4.1, 5.1, 7.3; CompactGroups §§1.2, 5.2; CotangentLagrangian C2.0; Tau Ceti as named.
 
 **Checks.**
@@ -1371,13 +1376,18 @@ negative powers of a positive Hermitian exponential force `X = 0`. So `η(G)` is
 subgroup; keep the toral lattices, the finite semisimple centres and the identification
 `π₀(G) ≅ π₀(G_ℂ)`. Prove the identifications `U(n)_ℂ ≅ GL_n(ℂ)`, `SU(n)_ℂ ≅ SL_n(ℂ)`,
 `SO(n)_ℂ ≅ SO_n(ℂ)` and `Sp(n)_ℂ ≅ Sp_{2n}(ℂ)`, with their embeddings and differentials; the
-Lie-algebra halves are Tau Ceti's `TauCeti.Lie.unitaryComplexificationLieEquiv`,
-`TauCeti.Lie.specialUnitaryComplexificationLieEquiv`, `TauCeti.Lie.specialOrthogonalBaseChangeLieEquiv`
-and `TauCeti.Lie.symplecticBaseChangeLieEquiv`, and the maximal compactness of `U(n)` in `GL_n(ℂ)` is
-`Matrix.GeneralLinearGroup.eq_unitarySubgroup_of_isCompact_of_le`. Noncompact groups and non-linear
-covers keep the general universal construction and its kernel and period data; they are not
-asserted compact or maximal compact in their complexifications.
-(Kirillov, Chs. 5–8; Bump, Parts I–III.)
+Lie-algebra halves of the first three are Tau Ceti's `TauCeti.Lie.unitaryComplexificationLieEquiv`,
+`TauCeti.Lie.specialUnitaryComplexificationLieEquiv` and `TauCeti.Lie.specialOrthogonalBaseChangeLieEquiv`,
+and the maximal compactness of `U(n)` in `GL_n(ℂ)` is
+`Matrix.GeneralLinearGroup.eq_unitarySubgroup_of_isCompact_of_le`. For the compact
+`Sp(n) = Sp_{2n}(ℂ) ∩ U(2n)` the Lie-algebra half `𝔰𝔭(n) ⊗_ℝ ℂ ≅ 𝔰𝔭(2n, ℂ)` is part of this target
+(`𝔰𝔭(2n, ℂ)` is closed under the conjugate transpose, so the skew-Hermitian splitting of the `SU(n)`
+case applies); Tau Ceti's `TauCeti.Lie.symplecticBaseChangeLieEquiv` is the statement for the split
+real form, `𝔰𝔭(2l, ℝ) ⊗_ℝ ℂ ≅ 𝔰𝔭(2l, ℂ)`, which is a different real form (for `n = l = 1`, `𝔰𝔩₂(ℝ)`
+rather than `𝔰𝔲(2)`).
+Noncompact groups and non-linear covers keep the general universal construction and its kernel and
+period data; they are not asserted compact or maximal compact in their complexifications.
+(Bump, Parts I–III.)
 *Needs:* §§7.3, 7.5; Tau Ceti as named.
 
 **Checks.**
@@ -1440,21 +1450,20 @@ pointwise; component conditions alone do not give descent.
 
 For a connected complex Lie group `H` with a specified biholomorphic group isomorphism `H ≃ G(ℂ)`,
 take `G` smooth, connected, affine and reductive over `ℂ` as in ReductiveGroups Layer 6, with
-ReductiveGroups Layer 1's faithful closed algebraic immersion `G → GL(V)`. Build, from the carriers
-of this layer and the algebraic inputs of ReductiveGroups only, the lower analytic dictionary for
-such a `G`: give the complex points `G(ℂ)` (ReductiveGroups Layer 0's functor of points) the subspace
-topology and complex atlas of the Zariski-closed subgroup `G(ℂ) ⊂ GL(V)`, a closed complex subgroup
-of the complex Lie group `GL(V)` by the complex form of the closed-subgroup theorem (§2.2 on the
-realification, with the complex structure transported by §7.2); identify its tangent Lie algebra with
-ReductiveGroups Layer 2's `Lie(G)` with its bracket, through the differential of the immersion and the
-matrix bracket; identify `Z(G)⁰` with ReductiveGroups Layer 6's central torus (Layer 4's character
-lattice gives `Z(G)⁰(ℂ) ≃ (ℂˣ)^m`) and its tangent algebra with `𝔷(𝔤)`; and realize `G_der(ℂ)` as a
-closed connected complex subgroup with tangent algebra `[𝔤, 𝔤]`, connected because the root subgroups
-and the torus of ReductiveGroups Layer 7C generate it by path-connected images (`ℂ` and `ℂˣ` are
-path connected), with the central multiplication `Z(G)⁰ × G_der → G` surjective on complex points with
-the finite kernel of ReductiveGroups Layer 6's central isogeny.
+ReductiveGroups Layer 1's faithful closed algebraic immersion `G → GL(V)`. The complex Lie group
+`G(ℂ)` on the complex points of ReductiveGroups Layer 0's functor of points, its structure as a closed
+embedded complex subgroup of `GL(V)(ℂ)` (the subspace topology and complex atlas), the holomorphy of
+the homomorphisms induced by homomorphisms of group schemes, and the identification of its tangent
+Lie algebra with ReductiveGroups Layer 2's `Lie(G)` and its bracket are ReductiveGroups §3A.5e's.
+Build on them the lower analytic dictionary of the reductive case: identify `Z(G)⁰` with
+ReductiveGroups Layer 6's central torus (Layer 4's character lattice gives `Z(G)⁰(ℂ) ≃ (ℂˣ)^m`) and its
+tangent algebra with `𝔷(𝔤)`; and realize `G_der(ℂ)` as a closed connected complex subgroup with
+tangent algebra `[𝔤, 𝔤]`, connected because the root subgroups and the torus of ReductiveGroups
+Layer 7C generate it by path-connected images (`ℂ` and `ℂˣ` are path connected), with the central
+multiplication `Z(G)⁰ × G_der → G` surjective on complex points with the finite kernel of
+ReductiveGroups Layer 6's central isogeny.
 (Knapp, Chs. I, IV–VII.)
-*Needs:* §§2.2, 7.2; ReductiveGroups Layers 0, 1, 2, 4, 6 and 7C.
+*Needs:* ReductiveGroups §3A.5e and Layers 0, 1, 2, 4, 6 and 7C.
 
 **Checks.**
 - `G = GL_n`: `G(ℂ) = GL_n(ℂ)` with its usual structure, `Z(G)⁰ = ℂˣ · 1`, `G_der = SL_n`, and the
@@ -1515,7 +1524,7 @@ representation; it does not assume that `G_ℂ` is simply connected. Compare the
 highest-weight classification with [LieHighestWeight](../LieHighestWeight/README.md) and with the
 representations and characters of [CompactGroups](../CompactGroups/README.md); Peter–Weyl in general
 stays CompactGroups' independent Haar and compact-operator construction.
-(Kirillov, Chs. 5–8; Bump, Parts I–III.)
+(Bump, Parts I–III.)
 *Needs:* §§7.3, 7.5–7.6; CompactGroups.
 
 **Checks.**
@@ -1580,10 +1589,10 @@ restriction equivalence of finite-dimensional representations in §7.11 is a sep
 
 Layers 0–6. LieHighestWeight §7.1. ComplexManifolds Milestone 1. ComplexKahlerGeometry Layer 1.
 HopfRinow Layer 3. RiemannianGeometry R4.5. CompactGroups §§1.2, 5.2 and E.2. CotangentLagrangian
-C2.0. ReductiveGroups Layers 0–4, 6 and 7C. Tau Ceti: the derivation–tangent and unit-exponential
-comparisons, the universal cover, the complexified Lie algebras of the classical groups, the matrix
-polar decomposition and maximal compact subgroups, completeness of left-invariant metrics, the
-Chevalley involution of a Serre presentation.
+C2.0. ReductiveGroups §3A.5e and Layers 0–4, 6 and 7C. Tau Ceti: the derivation–tangent and
+unit-exponential comparisons, the universal cover, the complexified Lie algebras of the classical
+groups, the matrix polar decomposition and maximal compact subgroups, completeness of left-invariant
+metrics, the Chevalley involution of a Serre presentation.
 
 ## Layer 8: Borel–Weil, flag manifolds, and Bruhat
 
@@ -1591,19 +1600,20 @@ Chevalley involution of a Serre presentation.
 
 The inputs are either (i) a compact connected Lie group `K`, its universal complexification `K_ℂ`
 (§7.3) and the algebraization `𝐊(ℂ) ≃ K_ℂ` of §7.7, or (ii) a connected affine reductive algebraic
-group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` given by the lower analytic dictionary of §7.9
-and its compact form `K` constructed by §7.10 from that dictionary. In either case work with the
-resulting affine reductive algebraic group `𝐆`, its full character and cocharacter lattices, a
-maximal torus `𝐓` and a positive system of roots. Construct the algebraic Borel subgroup
-`𝐁 = 𝐓 ⋉ 𝐍₊`, where `Lie(𝐍₊) = ⊕_{α>0} 𝔤_α`, and use its algebraic characters as holomorphic characters
-of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and the generic algebraic
-Bruhat theorem of [ReductiveGroups](../../ReductiveGroups/README.md) Layer 7 applies to `𝐆` before
-transport through the specified analytic isomorphism. The diffeomorphism `K/T ≅ 𝐆(ℂ)/𝐁(ℂ)` follows
-from the compact-form and algebraization comparison of Layer 7; it is not asserted for an unrelated
-real group. The elliptic curve `ℂ/(ℤ + iℤ)` is not a linear complex reductive group and is outside
-these hypotheses.
+group `𝐆` over `ℂ`, with its analytic group `𝐆(ℂ)` (ReductiveGroups §3A.5e) and the lower analytic
+dictionary of §7.9, and its compact form `K` constructed by §7.10 from that dictionary. In either
+case work with the resulting affine reductive algebraic group `𝐆`, its full character and
+cocharacter lattices, a maximal torus `𝐓` and a positive system of roots. Construct the algebraic
+Borel subgroup `𝐁 = 𝐓 ⋉ 𝐍₊`, where `Lie(𝐍₊) = ⊕_{α>0} 𝔤_α`, and use its algebraic characters as
+holomorphic characters of `𝐆(ℂ)`. The quotient `𝐆(ℂ)/𝐁(ℂ)` is the compact complex flag manifold, and
+the generic algebraic Bruhat theorem of [ReductiveGroups](../../ReductiveGroups/README.md) Layer 7
+applies to `𝐆` before transport through the specified analytic isomorphism. The diffeomorphism
+`K/T ≅ 𝐆(ℂ)/𝐁(ℂ)` follows from the compact-form and algebraization comparison of Layer 7; it is not
+asserted for an unrelated real group. The elliptic curve `ℂ/(ℤ + iℤ)` is not a linear complex
+reductive group and is outside these hypotheses.
 (Bump, Parts I–III.)
-*Needs:* §§6.1, 7.7, 7.9–7.10; ReductiveGroups Layers 6 and 7; §6.2 for the quotient manifold.
+*Needs:* §§6.1, 7.7, 7.9–7.10; ReductiveGroups §3A.5e and Layers 6 and 7; §6.2 for the quotient
+manifold.
 
 **Checks.**
 - `𝐆 = SL₂`: `𝐁` the upper triangular matrices, `𝐆(ℂ)/𝐁(ℂ) = ℙ¹(ℂ)`, and `K/T = SU(2)/U(1) = S²`, the same
@@ -1653,8 +1663,11 @@ with `f(gb) = χ(b)⁻¹ f(g)`, with `G` acting by `(a · f)(g) = f(a⁻¹g)`. C
 of sections, pullback and duals under this identification. The descent construction, its
 linearization and the rank-one bundle laws are built here on the flag manifold, from the torsors,
 contracted products and twisting of [SchemeAndStackFoundations](../../SchemeAndStackFoundations/README.md)
-§§1.15–1.16 and the dictionary of §7.9. Fix also the two Borel conventions: choose a representative
-`n₀` of the longest element and construct the `G`-equivariant isomorphism `φ : G/B⁺ → G/B⁻`,
+§§1.15–1.16 and the dictionary of §7.9. [SchubertGeometry](../../SchubertGeometry/README.md) builds
+its line `L(λ)` on `G/B⁻` independently, by descent over an arbitrary field (its S3.1) with its
+holomorphic model (its S9.8); the two constructions are compared through the identification `φ`
+below. Fix also the two Borel conventions: choose a representative `n₀` of the longest element and
+construct the `G`-equivariant isomorphism `φ : G/B⁺ → G/B⁻`,
 `gB⁺ ↦ g n₀ B⁻`; prove that `φ*` of the negative-Borel line with fibre character `κ` is the
 positive-Borel `E_{w₀κ}`, with its linearization, so that a roadmap working with the negative Borel
 (SchubertGeometry's `L(λ)` on `G/B⁻`) reads this roadmap's `L_μ := E_{−μ}` as its `L(−w₀μ)`. Record the
@@ -1698,8 +1711,8 @@ finite-dimensional algebraic representation on algebraic `H^q`, using the proper
 holomorphic action just constructed. Prove that the canonical GAGA isomorphism is equivariant in
 every degree, using its naturality with those translations and, over the parameter space `G`, the
 relative proper exchange map. A dimension equality or unrelated isomorphisms degree by degree do not
-supply this comparison. SchubertGeometry uses these flags, lines and comparisons afterwards and
-supplies nothing here.
+supply this comparison. SchubertGeometry uses the compact flags of this layer and their homogeneous
+complex comparisons afterwards and supplies nothing here.
 (Bump, Parts I–III.)
 *Needs:* §8.3; ComplexComparisonPartII C-1.1, C0.1, C0.3–C0.5, C1.9; SchemeAndStackFoundations
 (scheme cohomology); Tau Ceti as named.
@@ -1798,10 +1811,10 @@ component data.
 
 ### Dependencies
 
-Layers 6 and 7. ReductiveGroups Layers 6 and 7. SchemeAndStackFoundations §§1.15–1.16, 2.2 and 2.6.
-ComplexComparisonPartII C-1.1, C0.1, C0.3–C0.5 and C1.9. ComplexKahlerGeometry §§5.10 and 6.1.
-LieHighestWeight (the modules `L(λ)`). Tau Ceti: Tits systems and the Bruhat uniqueness theorems,
-scheme-module cohomology, `TauCeti.irreducibleQuotient`.
+Layers 6 and 7. ReductiveGroups §3A.5e and Layers 6 and 7. SchemeAndStackFoundations §§1.15–1.16,
+2.2 and 2.6. ComplexComparisonPartII C-1.1, C0.1, C0.3–C0.5 and C1.9. ComplexKahlerGeometry §§5.10
+and 6.1. LieHighestWeight (the modules `L(λ)`). Tau Ceti: Tits systems and the Bruhat uniqueness
+theorems, scheme-module cohomology, `TauCeti.irreducibleQuotient`.
 
 ## Layer 9: the Cartan, Iwasawa, and KAK decompositions
 
@@ -2042,9 +2055,9 @@ symplectic polar preservation.
 LieGroupoidsPoisson (Layers 0–5), NoncompactQuantumSymmetry (Layers 2, 5 and 7, and Layer 9's
 Cartan decomposition and polar coordinates), HamiltonianReduction R2 and ConvexityToric T1 (Layer 6's
 compact real root, chamber and period data), SchubertGeometry (its S2's compact rank-one
-representatives from §6.6, and its S7's and S9's flag cellular structure and cohomology, compact
-homogeneous flag model and associated lines from Layer 8, read through the opposite-Borel transport of
-§8.3) and FormalConnectionsOpers (Layer 0's exponential map, Layer 6's maximal tori and Weyl group,
+representatives from §6.6, and its S7's and S9's flag cellular structure and cohomology and compact
+homogeneous flag model from Layer 8, read through the opposite-Borel transport of §8.3) and
+FormalConnectionsOpers (Layer 0's exponential map, Layer 6's maximal tori and Weyl group,
 Layer 7's complexification, compact real forms and lower analytic dictionary, in its §4.3) use this
 roadmap, and none of them supplies it; what they build on these layers is theirs. LieGroupsPartII
 continues Layer 9 with minimal parabolic subgroups and the Bruhat decomposition of real reductive
@@ -2061,8 +2074,9 @@ the simple connectedness of `SU(2)` (§§2.3–2.4); the Baker–Campbell–Haus
 integration theorems (§§4.1–4.3, 5.1); centres, adjoint groups and connected integrations (§5.2); the
 nilpotent BCH groups (§5.3); central characters (§5.4); the compact invariant metric (§5A.1); the
 maximal-torus theorems, the compact root system, the rank-one representatives, the Weyl group
-comparison and the Weyl integration formula (§§6.1, 6.3–6.9); all of Layers 7, 8 and 9. It owns in
-particular the lower analytic dictionary of §7.9.
+comparison and the Weyl integration formula (§§6.1, 6.3–6.9); all of Layers 7, 8 and 9. Of the lower
+analytic dictionary of §7.9 it owns the reductive part: the central torus, the derived subgroup and
+the central multiplication.
 
 **Already in the library.** The following are proved at the pins and are used above by name (the
 exact declarations are in the supplier contracts below):
@@ -2103,19 +2117,18 @@ measure, unitarization, Peter–Weyl and characters (CompactGroups); the split S
 modules `L(λ)` and central characters of highest-weight modules (LieHighestWeight); abstract root
 systems and their Weyl groups (RootSystems); Ado's theorem (AdoIwasawa); algebraic groups over `ℂ`,
 their functor of points, Lie algebras, character lattices, central isogenies, root subgroups and the
-generic Bruhat theorem (ReductiveGroups Layers 0–4, 6, 7 and 7C); the realified model of a complex
-manifold (ComplexManifolds Milestone 1); the holomorphic inverse function theorem and the compact
-Hodge and curvature estimates (ComplexKahlerGeometry Layers 1, 5 and 6); completeness and Bonnet–Myers
-(HopfRinow Layer 3, RiemannianGeometry R4.5); the ambient matrix polar maps and the direct matrix
-maximal-compact arguments (CotangentLagrangian C2.0–C2.1); torsors, contracted products, the Leray
-spectral sequence and the cohomology of projective space (SchemeAndStackFoundations §§1.15–1.16, 2.2,
-2.6); analytification and GAGA (ComplexComparisonPartII C-1.1, C0.1, C0.3–C0.5, C1.9). ReductiveGroups
-§3A.5e constructs the complex Lie group `G(ℂ)` of every group scheme of finite type over `ℂ` and proves
-that, for smooth connected affine reductive `G`, its structure is that of the lower analytic dictionary
-of §7.9; the dictionary itself, built from the closed-subgroup theorem and ReductiveGroups' algebraic
-inputs, is owned here. The compact coadjoint chamber and centralizer application is HamiltonianReduction
-R2's, and character periods and integral-lattice refinements are ConvexityToric T1's. Banach–Lie groups,
-and spherical and Harish-Chandra harmonic analysis on real reductive groups, are outside this roadmap.
+generic Bruhat theorem (ReductiveGroups Layers 0–4, 6, 7 and 7C); the complex Lie group `G(ℂ)` of an
+algebraic group, its closed embedding in `GL(V)(ℂ)` and its tangent Lie algebra (ReductiveGroups
+§3A.5e); the realified model of a complex manifold (ComplexManifolds Milestone 1); the holomorphic
+inverse function theorem and the compact Hodge and curvature estimates (ComplexKahlerGeometry Layers
+1, 5 and 6); completeness and Bonnet–Myers (HopfRinow Layer 3, RiemannianGeometry R4.5); the ambient
+matrix polar maps and the direct matrix maximal-compact arguments (CotangentLagrangian C2.0–C2.1);
+torsors, contracted products, the Leray spectral sequence and the cohomology of projective space
+(SchemeAndStackFoundations §§1.15–1.16, 2.2, 2.6); analytification and GAGA (ComplexComparisonPartII
+C-1.1, C0.1, C0.3–C0.5, C1.9). The compact coadjoint chamber and centralizer application is
+HamiltonianReduction R2's, and character periods and integral-lattice refinements are ConvexityToric
+T1's. Banach–Lie groups, and spherical and Harish-Chandra harmonic analysis on real reductive groups,
+are outside this roadmap.
 
 ## Exact supplier contracts
 
@@ -2277,6 +2290,7 @@ recorded with them; "standing" means a finite-dimensional real model and `LieGro
   `Matrix.GeneralLinearGroup.cartanHomeomorph` (`𝕜 = ℝ` or `ℂ`, `U(n, 𝕜) × selfAdjoint ≃ₜ GL n 𝕜`,
   `(k, X) ↦ k exp X`), `Matrix.GeneralLinearGroup.eq_unitarySubgroup_of_isCompact_of_le`,
   `Matrix.GeneralLinearGroup.exists_conj_smul_le_unitarySubgroup`,
+  `Matrix.SpecialLinearGroup.eq_comap_unitarySubgroup_of_isCompact_of_le`,
   `TauCeti.GLSymplectic.eq_inf_unitarySubgroup_of_isCompact_of_le`, `SymplecticGroup.polarUnitary_mem`;
   `TauCeti.completeSpace_leftInvariantMetric`.
 - *Bruhat and cohomology* (`GroupTheory/TitsSystem/`, `AlgebraicGeometry/Cohomology/`):
@@ -2326,7 +2340,10 @@ theorem.
 Layer 0 (functor of points), Layer 1 (a faithful closed immersion `G → GL(V)`), Layer 2 (`Lie(G)` with
 its bracket), Layer 3 (subgroups, kernels, images and quotients), Layer 4 (character lattices), Layer 6
 (smooth connected affine reductive groups, central torus and central isogeny), Layer 7 (the generic
-Bruhat decomposition as a Tits system) and Layer 7C (root subgroups).
+Bruhat decomposition as a Tits system), Layer 7C (root subgroups) and §3A.5e (the complex Lie group
+`G(ℂ)` of a group scheme of finite type over `ℂ`, holomorphic homomorphisms induced by homomorphisms
+of group schemes, the closed embedded complex subgroup `G(ℂ) ⊂ GL(V)(ℂ)` for a closed immersion
+`G → GL(V)`, and its tangent Lie algebra identified with Layer 2's `Lie(G)`).
 
 ### From TauCetiRoadmap.ComplexManifolds
 
@@ -2369,7 +2386,7 @@ composition law) and C1.9 (projective GAGA).
 - A. Kirillov Jr., *An Introduction to Lie Groups and Lie Algebras*, Cambridge Studies in Advanced
   Mathematics 113 (2008): the exponential map, one-parameter subgroups, `Ad` and `ad`, the
   closed-subgroup theorem, the Lie functor and BCH, and the correspondence with Lie algebras
-  (Chs. 2–3); the structure of compact groups and complexification (Chs. 5–8). Theorem numbers above
+  (Chs. 2–3). Theorem numbers above
   refer to the [author's online copy](https://www.math.stonybrook.edu/~kirillov/mat552/liegroups.pdf):
   Thm. 2.5 (universal cover), Thm. 2.8 (closed subgroups), Cor. 2.9 (generation by a neighbourhood of
   `1`), Thm. 3.7 (the exponential map), Thm. 3.17 (the Lie functor, faithful on connected groups),
@@ -2400,3 +2417,6 @@ composition law) and C1.9 (projective GAGA).
   conventions).
 - Heins, *Entire functions on Lie groups*, arXiv 2512.07479: Prop. 2.1, the connected period-quotient
   construction of the universal complexification (§7.3).
+- K.-H. Neeb, *Towards a Lie theory of locally convex groups*, arXiv 1501.06269 (Japan. J. Math. 1
+  (2006)): Rem. II.6.5(b) and Problem IV.1, the Lie subalgebra `{X | exp(ℝX) ⊆ H}` of an arbitrary
+  subgroup `H` of a finite-dimensional Lie group, through Yamabe's theorem (§2.1).
