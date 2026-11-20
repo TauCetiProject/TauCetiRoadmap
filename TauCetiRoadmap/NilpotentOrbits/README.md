@@ -437,17 +437,25 @@ is dominant for a base `b`, every simple root takes a value `0`, `1` or `2` on `
 inner automorphism to one with dominant `h`
 (`IsSl2Triple.exists_mem_intLieAlgebra_smul_mem_dominantNeutralElements`), and all Cartan
 subalgebras are conjugate under inner automorphisms
-(`LieSubalgebra.exists_map_intLieAlgebraLieEquiv_eq`). Neither the bound `{0, 1, 2}` nor the
+(`LieSubalgebra.exists_map_intLieAlgebraLieEquiv_eq`). The centralizer `C_G(h)`
+(`TauCeti.centralizerHopfIdeal`) acts on `𝔤(2)`, and the differential at `e` of its orbit map is
+onto `𝔤(2)` (`IsSl2Triple.range_differential_flip_eigenspace_two_eq_top`). So the `C_G(h)`-orbit
+of `e` is open in `𝔤(2)` (`TauCeti.Comodule.isOpen_range_projectiveOrbitMap_mk_one_of_range_eq_top`),
+and the nilpositive elements of two triples with neutral element `h` are carried one to the other
+by a point of `C_G(h)` (`TauCeti.Comodule.exists_basePointsRepresentation_eq_of_range_eq_top`;
+DG07, §3, Lemma 3 and its proof, p. 4, DG07 lines 143–153). Neither the bound `{0, 1, 2}` nor the
 conjugacy below is taken from a table.
 
 Prove the rest. Construct the parabolic subgroup `P` of the cocharacter `λ` of §2.1, with Lie
 algebra `⊕_{j ≥ 0} 𝔤(j)`, and the connected grade-zero centralizer `G(0) = C_G(λ)` acting on
-`𝔤(2)`. From `[𝔤(0), e] = 𝔤(2)` and the orbit dictionary of §0.3, prove that the `G(0)`-orbit of
-`e` is open in the irreducible space `𝔤(2)` (DG07, §3, Lemma 3 and its proof, p. 4, DG07 lines
-143–153). Two such open orbits meet, hence coincide. Deduce the uniqueness and change-of-triple
+`𝔤(2)`, and prove that `G(0)` is the identity component of `C_G(h)`: it is connected, lies in
+`C_G(h)`, and both have Lie algebra `𝔤(0)`. Deduce the uniqueness and change-of-triple
 laws: two nilpotent elements whose triples have the same dominant neutral element are conjugate. So the nilpotent orbits inject into the finite set of weighted
 Dynkin diagrams (DG07, §2, p. 3, DG07 lines 92–94).
 *Needs:* §§0.3, 2.1; ReductiveGroups Layers 7 and 8; Tau Ceti
+`TauCeti.centralizerHopfIdeal`, `IsSl2Triple.range_differential_flip_eigenspace_two_eq_top`,
+`TauCeti.Comodule.isOpen_range_projectiveOrbitMap_mk_one_of_range_eq_top`,
+`TauCeti.Comodule.exists_basePointsRepresentation_eq_of_range_eq_top`,
 `TauCeti.isInternal_eigenspace_toEnd_intCast`, `IsSl2Triple.map_ad_e_eigenspace_zero`,
 `IsSl2Triple.root_apply_eq_zero_or_eq_one_or_eq_two`, `RootPairing.Base.dominantNeutralElements`,
 `RootPairing.Base.weightedDynkinDiagram`, `RootPairing.Base.weightedDynkinDiagram_injective`,
@@ -524,7 +532,7 @@ In `sl₂` the nilpotent orbits are `{0}` and the regular orbit `𝒩 ∖ {0}`, 
 
 Layers 0 and 1; FormalConnectionsOpers §4.3 (principal triple, regular nilpotent orbit, unique
 Borel); ReductiveGroups Layers 2, 3A, 5, 5P, 6, 7 and 8; the Tau Ceti `sl₂`, weighted-diagram,
-Cartan-conjugacy and inner-automorphism declarations named above.
+Cartan-conjugacy, inner-automorphism and orbit declarations named above.
 
 ## Layer 3: subregular strata and semisimple products
 
@@ -1176,9 +1184,9 @@ matrices.
 reductive, group: the group forms of the Jordan decomposition, centralizers, component groups and
 orbits (Layer 0); the nilpotent scheme, the flag variety with its universal subbundles, the
 incidence variety and its associated-bundle isomorphism, and irreducibility of the cone
-(Layer 1); the integration of triples, the open-orbit argument in degree two, the comparison of
-regular elements, density and dimension of the regular orbit, finiteness and the closure order
-(Layer 2); the subregular stratum and products (Layer 3); the comparison of type `A` with the
+(Layer 1); the integration of triples, their parabolics and the conjugacy of nilpotent elements
+with equal weighted diagrams, the comparison of regular elements, density and dimension of the
+regular orbit, finiteness and the closure order (Layer 2); the subregular stratum and products (Layer 3); the comparison of type `A` with the
 general theory and the group-level centralizers (Layer 4); reducedness and the complete
 intersection structure of the zero fibre, the unipotent scheme, the binomial curve and the
 exponential isomorphism with its comparison to the Lie-group exponential (Layer 5); the slice
@@ -1186,8 +1194,8 @@ schemes and their flatness and dimension (Layer 6); the Springer resolution, nor
 cone's local rings (Layer 7); the surface divisors, intersection pairing and ADE identifications
 (Layer 8); and the component actions with their comparison to ReductiveGroups' folding (Layer 9).
 Where a geometric foundation these need is not in the libraries, it is built in the section that
-uses it: the flag-incidence and associated-bundle constructions in Layer 1, the orbit-openness
-and characteristic arguments in Layer 2, the reducedness and complete intersection of the zero
+uses it: the flag-incidence and associated-bundle constructions in Layer 1, the characteristic
+arguments in Layer 2, the reducedness and complete intersection of the zero
 fibre in §5.0, the resolution and the local rings of the cone in Layer 7, and the surface
 divisors and intersection pairing in Layer 8. A citation of a flag variety, a cotangent bundle, a
 smooth source or a root diagram elsewhere does not supply these maps.
@@ -1198,8 +1206,9 @@ dimensions and smoothness and regular elements (§§0.3–0.4), the description 
 elements as the common zeros of the invariants and the Lie-algebraic Chevalley restriction
 (§1.1), the containment of nilpotent elements in Borel nilradicals (§1.3), the Jacobson–Morozov
 theorem with Kostant's conjugacy of triples (§2.1), the grading of a triple, the bound `{0, 1, 2}`
-on simple roots and the finiteness of dominant neutral elements (§2.2), the classification,
-centralizers, orbit dimensions and closure order of nilpotent matrices (Layer 4), the nilpotent
+on simple roots, the finiteness of dominant neutral elements and the open orbit of `C_G(h)` on
+`𝔤(2)` (§2.2), the classification, centralizers, orbit dimensions and closure order of nilpotent
+matrices (Layer 4), the nilpotent
 exponential and logarithm with their inverse laws, and exponentials in closed subgroups of `GLₙ`
 (§5.2), the linear algebra of the slice and its contracting action (§6.1), Serre's normality
 criterion (§7.2) and folded Cartan matrices (§9.3). Mathlib supplies the Lie vocabulary, the
@@ -1339,6 +1348,14 @@ All are proved at the pin.
   (reduced group over an algebraically closed field),
   `TauCeti.topologicalKrullDim_range_projectiveOrbitMap_mk_one_eq_finrank_range_ad`
   (characteristic zero), `TauCeti.smoothOfRelativeDimension_adjointOrbit`,
+  `IsSl2Triple.range_differential_flip_eigenspace_two_eq_top` (characteristic zero: for a triple
+  `(h, e, f)`, the differential at `e` of the orbit map of `C_G(h)` on the `2`-eigenspace of
+  `ad h` is onto), `TauCeti.Comodule.isOpen_range_projectiveOrbitMap_mk_one_of_range_eq_top` and
+  `TauCeti.Comodule.exists_basePointsRepresentation_eq_of_range_eq_top` (affine group of finite
+  type over an algebraically closed field of characteristic zero, finite-dimensional
+  representation: a vector at which the orbit differential is onto has an open orbit, lying in the
+  affine chart of the projective completion, and two such vectors are carried one to the other by
+  a rational point of the group),
   `Module.Dual.isCentralizerRegular_iff_forall_ringKrullDim_le`,
   `TauCeti.HopfAlgebra.IsUnipotentPoint`.
 - Exponential and logarithm: `IsNilpotent.log`, `IsNilpotent.log_eq_sum`, `IsNilpotent.log_exp`
