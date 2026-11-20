@@ -47,23 +47,27 @@ Layer 9 fundamental classes and duality; Layer 10 products; Layer 11 finite mode
 
 ## How to read the build
 
-Layer 1 uses only NoncommutativeGeometry N5 and the native operators. Layer 2 states the geometric
-conditions independently; Layer 3 builds their module and function-algebra consequences. The generic
-ideal and modulus theory of Layer 4 (§§4.1–4.4) uses OperatorIdeals, SelfAdjointSpectralTheory SA-B85
-and VonNeumannAlgebras V4; its local spectral estimate (§4.5) uses Layer 3, and is applied only after
-Layers 5 and 6 have produced Lebesgue spectrum and the lower count (§6.4). The spectral derivations of
-Layer 5 use Layer 3 and Tau Ceti's semigroup generation theorems, not vector fields on a reconstructed
-manifold. Layer 6 uses Layers 3–5. The geometric heat and symbol comparisons of §7.6 for operators
-given on a manifold use the shared analytic scale of ComplexKahlerGeometry K5a,
-PseudodifferentialOperators and the SpinGeometry and SmoothBundlesConnections foundations, independently
-of Layer 6, while the rest of Layer 7 follows Layer 6; so the converse §6.8 can use §7.6 without a
-cycle. Layer 8 uses Layers 6–7, the early generic Spinᶜ foundation of FourManifolds F4 (not its
-four-dimensional applications) and SpinGeometry's Spin lifts and Clifford modules. Layer 9 follows the
-geometric layers and the KK suppliers; neither Layer 6 nor its analytic prerequisites use the duality
-axiom. The core products of Layer 10 (§§10.1–10.5) use Layers 1–2 and NoncommutativeGeometry N5; their
-geometric refinement (§10.6) uses Layers 7–9. Layer 11 calibrates the constructions and does not
-supply the general reconstruction proof. Each section's *Needs:* line lists what its statement and
-route use, so that a target proved by another route is not blocked behind an unrelated layer.
+Layer 1 uses NoncommutativeGeometry N5, SelfAdjointSpectralTheory Parts C–E, SpinGeometry G1.4 and
+G2.1 and the native operators and Clifford algebras; of later sections only the nuclearity clause of
+§1.2 uses §§2.1, 3.1 and 3.6. Layer 2 states the geometric conditions independently; Layer 3 builds
+their module and function-algebra consequences. The generic ideal and modulus theory of Layer 4
+(§§4.1–4.4) uses OperatorIdeals, SelfAdjointSpectralTheory SA-B85, VonNeumannAlgebras V4 and
+NoncommutativeGeometry N4; its local spectral estimate (§4.5) uses §§2.1, 2.3 and 3.4, and is applied
+only after Layers 5 and 6 have produced Lebesgue spectrum and the lower count (§6.4). The spectral
+derivations of Layer 5 use Layers 1–3, NoncommutativeGeometry N5 and Tau Ceti's semigroup generation
+theorems, not vector fields on a reconstructed manifold. Layer 6 uses Layers 1–5,
+SelfAdjointSpectralTheory SA-B85 and VonNeumannAlgebras V4. The geometric Weyl law and trace formula
+of §7.6 for operators given on a manifold use PseudodifferentialOperators P4, P6 and P7,
+NoncommutativeGeometry N4 and §§2.1 and 4.4, independently of Layer 6, while the rest of Layer 7
+follows Layer 6; so the converse §6.8 can use §7.6 without a cycle. Layer 8 uses Layers 1–7, the
+early generic Spinᶜ foundation of FourManifolds F4 (not its four-dimensional applications),
+SpinGeometry's Spin lifts and Clifford modules. Layer 9 follows the geometric layers and the KK
+suppliers; neither Layer 6 nor its analytic prerequisites use the duality axiom. The core products of
+Layer 10 (§§10.1–10.5) use Layers 1–2, NoncommutativeGeometry N1 and N5, VonNeumannAlgebras V2 and,
+for the KK comparison of §10.5, OperatorKTheory K6; their geometric refinement (§10.6) uses §3.6 and
+Layers 7–9. Layer 11 calibrates the constructions and does not supply the general reconstruction
+proof. Each section's *Needs:* line lists what its statement and route use, so that a target proved
+by another route is not blocked behind an unrelated layer.
 
 `Suggested.lean` is the acceptance test of this roadmap: it states, with `sorry`, the open mapping and
 closed graph theorems of §3.2, and its module docstring names the headline theorems that cannot yet be
@@ -129,15 +133,15 @@ stated against the pinned libraries and what each lacks.
 This layer adds to the spectral triples of NoncommutativeGeometry N5 the structure every later layer
 uses: isomorphisms, the smooth core, the `D²`-test for regularity, gradings, real structures and the
 opposite action. It extends that carrier and does not copy it: no second spectral-triple or
-unbounded-operator carrier is introduced (Connes 2008; for the signs, Dąbrowski–Dossena §§2–5 and
-Ćaćić 2012, §§2.1–2.4).
+unbounded-operator carrier is introduced (Connes 2008, §2 and Appendix 1; for the signs,
+Dąbrowski–Dossena §§2–5 and Ćaćić 2012, §§2.1–2.4).
 
 ### 1.1 Isomorphisms of represented triples
 
 Define an isomorphism of represented triples `(𝒜₁, H₁, D₁) → (𝒜₂, H₂, D₂)` as a pair of a unital
 star algebra isomorphism `φ : 𝒜₁ ≃ 𝒜₂` and a unitary `U : H₁ → H₂` with `U π₁(a) U⁻¹ = π₂(φ a)` for
 every `a`, `U (Dom D₁) = Dom D₂` and `U D₁ U⁻¹ = D₂` on `Dom D₂`. For graded triples require in addition
-`U γ₁ U⁻¹ = γ₂`, and for real triples `U J₁ U⁻¹ = J₂` (Connes 2008).
+`U γ₁ U⁻¹ = γ₂`, and for real triples `U J₁ U⁻¹ = J₂`.
 *Needs:* NoncommutativeGeometry N5 spectral triples; Mathlib `StarAlgEquiv`, `LinearIsometryEquiv`,
 `LinearPMap`.
 
@@ -160,7 +164,7 @@ It comes with the following API.
 ### 1.2 The smooth core
 
 Define the smooth core `H∞ = ⋂_(m≥0) Dom Dᵐ` with the seminorms `ξ ↦ ‖Λᵐ ξ‖`, `m ≥ 0`, where
-`Λ = (1 + D²)^(1/2)` (Convention 4) (Connes 2008).
+`Λ = (1 + D²)^(1/2)` (Convention 4) (Connes 2008, §2, condition 5).
 *Needs:* NoncommutativeGeometry N5 closed `δ`-domain, graph seminorms and iterated commutator
 estimates; Mathlib `LinearPMap`, `WithSeminorms`; §3.1 for the metric and completeness, §3.6 for
 nuclearity.
@@ -187,9 +191,10 @@ It comes with the following API.
 On the common smooth core define `δ₁(T) = [D², T] Λ⁻¹`. Prove that a bounded operator `T` lies in
 the domain of every power of `δ₁` if and only if it lies in the domain of every power of
 `δ(T) = [|D|, T]`, with domain invariance and the estimates
-`‖δⁿ(T)‖ ≤ Σ_(k≤2n) C_(n,k) ‖δ₁ᵏ(T)‖` (Connes 2008). *Route:* the resolvent integral for `D² Λ⁻¹`,
-with the bounded difference `D² Λ⁻¹ − |D|`, which commutes with `D` and handles the finite kernel.
-This is the `D²`-symbol (filtration) test used for regularity in Layers 6, 7 and 10.
+`‖δⁿ(T)‖ ≤ Σ_(k≤2n) C_(n,k) ‖δ₁ᵏ(T)‖` (Connes 2008, Appendix 1, Lemma 13.2). *Route:* the resolvent
+integral for `D² Λ⁻¹`, with the bounded difference `D² Λ⁻¹ − |D|`, which commutes with `D` and
+handles the finite kernel. This is the `D²`-symbol (filtration) test used for regularity in Layers 6,
+7 and 10.
 *Needs:* §1.2; NoncommutativeGeometry N5 `δ` and its closed domain; SelfAdjointSpectralTheory Parts
 C–E functional calculus of `D`.
 
@@ -321,23 +326,24 @@ The geometric conditions are stated independently, each as a predicate on a spec
 NoncommutativeGeometry N5 (with the grading or real structure of Layer 1 where it enters), with
 forgetful maps between the packages that combine them. The conventional seven-axiom presentation
 groups them as dimension, regularity, finiteness and absolute continuity, reality, first order,
-orientability and Poincaré duality (Connes 2008); Layer 9 states the last precisely. The commutative
-reconstruction of Layer 6 uses the five conditions of §§2.1–2.5 and assumes neither reality nor
-Poincaré duality. The **strongly regular commutative package of dimension `p`** is a commutative
-triple satisfying §2.1 at `p`, §2.2 with endomorphism regularity, §2.3, §2.4 and §2.5 in its
-strongly oriented form; the weakly oriented package is §2.6.
+orientability and Poincaré duality; Layer 9 states the last precisely. The commutative reconstruction
+of Layer 6 uses the five conditions of §§2.1–2.5 (Connes 2008, §2, conditions 1–5) and assumes
+neither reality nor Poincaré duality. The **strongly regular commutative package of dimension `p`**
+is a commutative triple satisfying §2.1 at `p`, §2.2 with endomorphism regularity, §2.3, §2.4 and
+§2.5 in its strongly oriented form; the weakly oriented package is §2.6.
 
 ### 2.1 Dimension
 
 The **dimension condition** at `p ≥ 1` is `sup_j (j + 1)^(1/p) μ_j(Λ⁻¹) < ∞`, with `μ_j` the
-zero-based singular values (Connes 2008). Prove that it is equivalent to a counting bound
-`N_D(R) ≤ C (1 + R)ᵖ`, where `N_D(R)` is the number of eigenvalues of `D` of absolute value at most
-`R`, counted with multiplicity; that it is unchanged when `D` is modified on its finite kernel by a
-finite-rank operator; and that it puts `|D|⁻ᵖ` in the logarithmic ideal of NoncommutativeGeometry
-N4. For `p = 1` the condition is membership of `Λ⁻¹` in the weak ideal `μ_j = O(1/(j + 1))`, which
-is stronger than membership of `|D|⁻¹` in the logarithmic ideal. Derive that `Λ⁻¹` lies in the
-Schatten class `S_q` for every `q > p` and that `Tr e^(−tD²) < ∞` for every `t > 0`. The condition
-is an upper bound only: the nonzero lower counting bound is proved in §6.4, not built into it.
+zero-based singular values (Connes 2008, §2, condition 1). Prove that it is equivalent to a counting
+bound `N_D(R) ≤ C (1 + R)ᵖ`, where `N_D(R)` is the number of eigenvalues of `D` of absolute value at
+most `R`, counted with multiplicity; that it is unchanged when `D` is modified on its finite kernel
+by a finite-rank operator; and that it puts `|D|⁻ᵖ` in the logarithmic ideal of
+NoncommutativeGeometry N4. For `p = 1` the condition is membership of `Λ⁻¹` in the weak ideal
+`μ_j = O(1/(j + 1))`, which is stronger than membership of `|D|⁻¹` in the logarithmic ideal. Derive
+that `Λ⁻¹` lies in the Schatten class `S_q` for every `q > p` and that `Tr e^(−tD²) < ∞` for every
+`t > 0`. The condition is an upper bound only: the nonzero lower counting bound is proved in §6.4,
+not built into it.
 *Needs:* NoncommutativeGeometry N5 compact resolvent and eigenbasis calculus; Tau Ceti
 `ContinuousLinearMap.singularValue`, `TauCeti.OperatorIdealFamily.logarithmic`,
 `TauCeti.OperatorIdealFamily.schatten`.
@@ -356,8 +362,8 @@ Regularity is that of NoncommutativeGeometry N5: `π(a)` and `[D, π(a)]` lie in
 power of `δ`, with its closed graph-seminorm topology. Define **endomorphism regularity**: every
 algebraic 𝒜-linear endomorphism of `H∞` extends to a bounded operator on `H` lying in the domain of
 every power of `δ`. The **strongly regular** package includes both ordinary regularity and
-endomorphism regularity (Connes 2008). In the finite Hermitian setting of §2.3 the bounded extension
-is a theorem (§3.4), not an extra boundedness choice.
+endomorphism regularity (Connes 2008, §2, condition 3, and Definition 6.1). In the finite Hermitian
+setting of §2.3 the bounded extension is a theorem (§3.4), not an extra boundedness choice.
 *Needs:* §§1.2–1.3; NoncommutativeGeometry N5 regularity.
 
 It comes with the following API.
@@ -383,7 +389,8 @@ It comes with the following API.
 Use the represented **left** 𝒜-action. **Finiteness** is the datum of an integer `N`, a
 self-adjoint idempotent `e ∈ M_N(𝒜)` and a left-module isomorphism `H∞ ≃ 𝒜ᴺ e` (row vectors, the
 matrix acting on the right). Its Hermitian form, conjugate-linear in the first argument, is
-`h(ξ, η) = Σ_i η_i ξ_i*`, so that `h(aξ, bη) = b h(ξ, η) a*` (Connes 2008).
+`h(ξ, η) = Σ_i η_i ξ_i*`, so that `h(aξ, bη) = b h(ξ, η) a*` (Connes 2008, §2, condition 5, stated
+there with columns).
 *Needs:* §§1.2, 2.2; NoncommutativeGeometry N4 linear Dixmier trace; §4.4 for the choice of `Tr_ω`;
 HilbertModules H1 for the opposite-algebra convention; Mathlib `Matrix.mulVecLin_transpose`,
 `IsStarProjection`, `isStarProjection_iff'`, `Matrix.star_eq_conjTranspose`.
@@ -432,11 +439,11 @@ operators in §7.6.
 
 ### 2.4 Order one
 
-In the commutative package the **order-one condition** is `[[D, a], b] = 0` for all `a, b ∈ 𝒜`; in
-the real noncommutative package it is the real first-order condition of §1.6 with the right action
-`b°` (Connes 2008). Give the derivation, module and adjoint identities on `H∞` and on `Dom D` before
-passing to bounded extensions: `a ↦ [D, a]` is a derivation, 𝒜-linear in the commutative case, and
-`[D, a]* = −[D, a*]` on `Dom D`.
+In the commutative package the **order-one condition** is `[[D, a], b] = 0` for all `a, b ∈ 𝒜`
+(Connes 2008, §2, condition 2); in the real noncommutative package it is the real first-order
+condition of §1.6 with the right action `b°`. Give the derivation, module and adjoint identities on
+`H∞` and on `Dom D` before passing to bounded extensions: `a ↦ [D, a]` is a derivation, 𝒜-linear in
+the commutative case, and `[D, a]* = −[D, a*]` on `Dom D`.
 *Needs:* §§1.2, 1.6.
 
 **Checks.**
@@ -454,11 +461,12 @@ Hochschild chains are taken with bimodule coefficients: for an 𝒜-bimodule `M`
 
 For coefficients `M = 𝒜` the quotient by degenerate tensors is Tau Ceti's
 `TauCeti.normalizedHochschildChains`, and the boundaries agree. The represented chain map is
-`π_D(a₀ ⊗ a₁ ⊗ ⋯ ⊗ a_p) = π(a₀) [D, π(a₁)] ⋯ [D, π(a_p)]` (Connes 2008).
+`π_D(a₀ ⊗ a₁ ⊗ ⋯ ⊗ a_p) = π(a₀) [D, π(a₁)] ⋯ [D, π(a_p)]` (Connes 2008, §2, eq. (1)).
 
 For commutative 𝒜 an **orientation** is a finite `p`-chain `c` with coefficients `𝒜`,
 antisymmetric in its last `p` entries, with `bc = 0`. In the **strongly oriented** package the
-triple is even with `π_D(c) = γ` when `p` is even, and odd with `π_D(c) = 1` when `p` is odd. For the
+triple is even with `π_D(c) = γ` when `p` is even, and odd with `π_D(c) = 1` when `p` is odd (Connes
+2008, §2, condition 4, with the antisymmetry of Theorem 1.1). For the
 real noncommutative package use coefficients `𝒜 ⊗ 𝒜ᵒᵖ`, with the bimodule structure
 `a · (x ⊗ y°) · b = (axb) ⊗ y°` and first coefficient represented by `π(a₀) b₀°`; the opposite factor
 is a commuting coefficient, not a replacement for the two module actions.
@@ -488,16 +496,17 @@ It comes with the following API.
 
 The **weakly oriented commutative package** replaces the strong orientation by: `χ = π_D(c)` is a
 self-adjoint unitary commuting with 𝒜 with `[D, a] χ = (−1)^(p+1) χ [D, a]` for all `a`; `χ` need not be
-a grading for `D`. It keeps strong regularity and the other four conditions and, where metric
-recovery is required, the explicit **scalar-square condition** `[D, a]² ∈ π(𝒜)` for self-adjoint `a`
-(Ćaćić 2011, Corollary 2.19 and Appendix A). Its spectral parity is separate data: a grading `γ`, when
-present, commutes with `π(𝒜)` and anticommutes with `D`, and is required neither to equal `χ` nor to
-commute with it. A real structure on a weakly oriented package has KO-dimension of the parity of its
-spectral grading (§1.4), independently of `p`. Strong orientation is the subclass with `χD = −Dχ` for
-even `p` and `χ = 1` for odd `p`, regarded as the even triple with grading `χ`, respectively the odd
-triple; any other grading `γ` of the weak package is forgotten in that comparison. The reduction of
-the weak package to the strong one is §7.8; it accommodates Hodge–de Rham data without confusing
-exterior parity and volume chirality.
+a grading for `D` (Ćaćić 2011, Definition 2.7, where this condition is called pre-orientability). It
+keeps strong regularity and the other four conditions and, where metric recovery is required, the
+explicit **scalar-square condition** `[D, a]² ∈ π(𝒜)` for self-adjoint `a` (Ćaćić 2011, Definition
+2.9, where such a triple is called of Dirac type; it enters through Corollary 2.19). Its spectral
+parity is separate data: a grading `γ`, when present, commutes with `π(𝒜)` and anticommutes with `D`,
+and is required neither to equal `χ` nor to commute with it. A real structure on a weakly oriented
+package has KO-dimension of the parity of its spectral grading (§1.4), independently of `p`. Strong
+orientation is the subclass with `χD = −Dχ` for even `p` and `χ = 1` for odd `p`, regarded as the
+even triple with grading `χ`, respectively the odd triple; any other grading `γ` of the weak package
+is forgotten in that comparison. The reduction of the weak package to the strong one is §7.8; it
+accommodates Hodge–de Rham data without confusing exterior parity and volume chirality.
 *Needs:* §§1.4, 2.1–2.5.
 
 It comes with the following API.
@@ -534,7 +543,7 @@ This layer supplies the functional analysis and module theory that turn a commut
 a bundle over a compact space before any manifold structure exists: metrizable locally convex
 spaces and the F-space open mapping and closed graph theorems, the smooth Serre–Swan theorem, the
 L² module model of a commutative package, the Fréchet topology and spectral invariance of 𝒜,
-nuclearity, and the smooth functional calculus (Connes 2008; Rudin, Theorems 2.11 and 2.15; Swan
+nuclearity, and the smooth functional calculus (Connes 2008, §2; Rudin, Theorems 2.11 and 2.15; Swan
 1962, Theorem 2; Nestruev, Chapter 11).
 
 ### 3.1 Metrizable locally convex spaces
@@ -607,7 +616,7 @@ self-adjoint idempotent from local frames on the open sets where minors are inve
 continuous image bundle is Tau Ceti's `TauCeti.rangeVectorBundle`). This needs only smooth bundles
 and sections, not a Dirac operator or Layer 6.
 *Needs:* PseudodifferentialOperators P1.0; SmoothBundlesConnections B2; ComplexKahlerGeometry K5a;
-TopologicalKTheory T1; HilbertModules H1; Tau Ceti `TauCeti.rangeVectorBundle`,
+TopologicalKTheory T1; HilbertModules H1, H5; Tau Ceti `TauCeti.rangeVectorBundle`,
 `TauCeti.exists_continuous_injective_fin_of_compactSpace`; Mathlib `ContMDiffSection`,
 `ContMDiffVectorBundle`, `Module.Projective`, `Module.Finite`.
 
@@ -616,8 +625,9 @@ It comes with the following API.
   endomorphism modules correspond to the same operations on bundles.
 - The section functor is fully faithful, with inverse natural isomorphisms.
 - Completing smooth sections to continuous ones is compatible with the continuous bundle category of
-  TopologicalKTheory T1 and the Hilbert modules of HilbertModules H1. A `C(X)`-completion alone is not
-  the smooth theorem.
+  TopologicalKTheory T1, the Hilbert modules of HilbertModules H1 and HilbertModules H5's
+  identification of the section modules of continuous Hermitian bundles over a compact base with the
+  finitely generated projective modules of H2. A `C(X)`-completion alone is not the smooth theorem.
 
 **Checks.**
 - On `S² ⊂ ℝ³`, the Bott projection `e(x) = ½ (1 + x₁σ₁ + x₂σ₂ + x₃σ₃)` is a smooth self-adjoint
@@ -635,7 +645,7 @@ reconstruction, let `X = Spec A`, let `λ` be the finite positive Riesz measure 
 functional `τ_D` (BanachSpaceTheory B5), and let `E = f C(X)ᴺ`, at first a continuous image bundle.
 Construct the unitary `H ≃ f L²(X, λ)ᴺ` from the absolute-continuity equation and density; the
 transpose preserves the pointwise Hermitian form and its integral, so this unitary extends the
-represented left-module comparison of §2.3 (Connes 2008).
+represented left-module comparison of §2.3 (Connes 2008, proof of Lemma 2.1, eqs. (5)–(6)).
 *Needs:* §§2.3, 3.3; BanachSpaceTheory B5; VonNeumannAlgebras V2; Tau Ceti
 `MeasureTheory.Lp.multiplicationOperator`.
 
@@ -670,10 +680,10 @@ It comes with the following API.
 
 Under the commutative strongly regular package, prove that for `T ∈ A″` the following are
 equivalent: `T ∈ 𝒜`; `T` and `[D, T]` lie in the domain of every power of `δ`; `T` lies in the
-domain of every power of `δ`; `T(H∞) ⊂ H∞` (Connes 2008). *Route:* the centre formula of §3.4 and
-binomial domain estimates for powers of `|D|`.
+domain of every power of `δ`; `T(H∞) ⊂ H∞` (Connes 2008, Lemma 2.1; the API below is Propositions
+2.2–2.3). *Route:* the centre formula of §3.4 and binomial domain estimates for powers of `|D|`.
 *Needs:* §§1.2–1.3, 2.2, 3.4; BanachAlgebras A1–A3 (spectrum, holomorphic calculus, characters);
-Tau Ceti `AlgHom.spectrum_apply_eq`; §3.2.
+Tau Ceti `AlgHom.spectrum_apply_eq`; §3.2; §3.6 for nuclearity.
 
 It comes with the following API.
 - 𝒜 is spectrally invariant (inverse-closed) in `A`, characters of 𝒜 are automatically continuous,
@@ -723,11 +733,11 @@ N1; Tau Ceti `TauCeti.NuclearOperator`, `TauCeti.OperatorIdealFamily.traceClass`
 For commuting self-adjoint elements `a₁, …, a_k` of 𝒜 and a smooth function `φ` near their joint
 spectrum, extend `φ` to a compactly supported smooth function on `ℝᵏ` and define `φ(a)` by integrating
 its rapidly decaying Fourier transform against the commuting exponentials `e^(i Σ s_j a_j)` (Connes
-2008). Prove that `δᵏ(e^(isa))` grows polynomially in `s`, that the integral converges in every
-Fréchet seminorm of §3.5, that the result is independent of the extension, and the evaluation and
-chain rules. Construct partitions of unity in 𝒜 subordinate to any finite open cover of `X`, in
-particular the coordinate domains of §6.1, using cutoffs, this calculus and spectral invariance.
-These precede the identification of 𝒜 with `C∞(X)` in §6.6.
+2008, Proposition 2.4). Prove that `δᵏ(e^(isa))` grows polynomially in `s`, that the integral
+converges in every Fréchet seminorm of §3.5, that the result is independent of the extension, and the
+evaluation and chain rules. Construct partitions of unity in 𝒜 subordinate to any finite open cover
+of `X`, in particular the coordinate domains of §6.1, using cutoffs, this calculus and spectral
+invariance. These precede the identification of 𝒜 with `C∞(X)` in §6.6.
 *Needs:* §§3.4–3.5; Mathlib's Fourier transform (the `FourierTransform` instance, `𝓕`) on Schwartz
 functions.
 
@@ -749,7 +759,7 @@ functions.
 ### Dependencies
 
 Layers 1–2; LocallyAnalyticDistributions §0.2; AutomorphicSpectralTheory §0.11; BanachSpaceTheory
-B4–B5; BanachAlgebras A1–A3; NoncommutativeGeometry N1; VonNeumannAlgebras V2; HilbertModules H1;
+B4–B5; BanachAlgebras A1–A3; NoncommutativeGeometry N1; VonNeumannAlgebras V2; HilbertModules H1, H5;
 TopologicalKTheory T1; SmoothBundlesConnections B2; ComplexKahlerGeometry K5a;
 PseudodifferentialOperators P1.0; the Tau Ceti and Mathlib declarations named above. §§3.1–3.3 and
 §3.6 need nothing of Layers 1–2 beyond the dimension bound used in §3.6.
@@ -809,22 +819,23 @@ not make a sequence cofinal.
 For an integer `p ≥ 1` and a commuting `p`-tuple `t` of self-adjoint operators on a separable Hilbert
 space, prove
 
-`k_(p,1)(t)ᵖ = γ_p ∫_(ℝᵖ) m_ac(y) dy`, with a constant `0 < γ_p < ∞`,
+`k_(p,1)(t)ᵖ = γ_p ∫_(ℝᵖ) m_ac(y) dy`, with a constant `0 < γ_p < ∞` depending only on `p`,
 
 where `m_ac` is the multiplicity function of the absolutely continuous part of the joint spectral
-measure of `t` (Voiculescu 1979, Theorem 4.5; Connes 2008, §9 states its normalization). The same
-ideal norm is used throughout. *Route:* the joint Lebesgue–singular decomposition of the spectral
-measure, quasicentral finite-rank constructions for the upper bound and the matching lower bound on
-the absolutely continuous multiplicity; include the one-operator trace-class case, the dependence of
-the constant on the normalization of the norm, and the case of infinite multiplicity, where both sides
-are infinite. This formula is a theorem to prove here, not an assumption supplied by the existence of
-a direct integral.
+measure of `t`, and `γ₁ = 1/π` (Voiculescu 1979, Theorem 4.5; Connes 2008, §9 states its
+normalization). The same ideal norm is used throughout. *Route:* the joint Lebesgue–singular
+decomposition of the spectral measure, quasicentral finite-rank constructions for the upper bound and
+the matching lower bound on the absolutely continuous multiplicity; include the one-operator
+trace-class case, the dependence of the constant on the normalization of the norm, and the case of
+infinite multiplicity, where both sides are infinite. This formula is a theorem to prove here, not an
+assumption supplied by the existence of a direct integral.
 *Needs:* §§4.1–4.2; SelfAdjointSpectralTheory SA-B85 (multiplicity classification of representations
 of `C(K)`); VonNeumannAlgebras V4 (direct integrals, V4.0.Fields).
 
 **Checks.**
 - For `p = 1` and `t` multiplication by `x` on `L²([0, 1])`, `m_ac = 1` on `[0, 1]` and the formula
-  gives `k_(1,1)(t) = γ₁ > 0`, so no trace-class perturbation of `t` is diagonal. For a
+  gives `k_(1,1)(t) = γ₁ = 1/π` in the trace norm `‖·‖_(1,1) = ‖·‖₁` (Voiculescu 1979, Lemma 4.3), so
+  no trace-class perturbation of `t` is diagonal; a norm rescaled by `c` would give `c/π`. For a
   diagonal operator with eigenvalues dense in `[0, 1]` (pure point spectrum), `m_ac = 0` and the
   formula gives modulus `0`, which the diagonal projections confirm through the replacement of §4.2.
 - Doubling the multiplicity (`t ⊕ t`) doubles the right side, so `k_(p,1)` scales by `2^(1/p)`.
@@ -866,9 +877,10 @@ symmetrized first-derivative term and the `O(ε)` Lorentz remainder with `δ²(a
 to `1` near `K` and optimize `τ_D(b²)` over such cutoffs.
 
 Prove the localized trace estimate this uses from the logarithmic trace of §4.4: once a positive
-lower counting bound holds, the second logarithmic Cesàro generalized limit of
-`εᵖ Tr(T f(ε|D|))` equals `p ∫₀^∞ u^(p−1) f(u) du · Tr_ω(T |D|⁻ᵖ)` for `T ≥ 0`, and its ordinary
-liminf is at most that quantity (Connes 2008, Theorem 14.9 and Corollary 14.10). Prove the
+lower counting bound holds, for every continuous compactly supported `f` on `[0, ∞)` and `T ≥ 0` the
+second logarithmic Cesàro generalized limit of `εᵖ Tr(T f(ε|D|))` equals
+`p ∫₀^∞ u^(p−1) f(u) du · Tr_ω(T |D|⁻ᵖ)`, and for positive such `f` its ordinary liminf is at most
+that quantity (Connes 2008, Theorem 14.9 and Corollary 14.10). Prove the
 spectral-cutoff comparison and the scale invariance under the specified logarithmic Cesàro limit; an
 ordinary heat limit is not substituted without a Tauberian hypothesis. The finite kernel and the
 low-frequency terms are kept; they vanish in the rescaled limits. Layer 6 first obtains the lower
@@ -877,15 +889,17 @@ trace estimate follows, so there is no cycle between the lower count and the loc
 *Needs:* §§2.1, 2.3, 3.4, 4.1–4.4; NoncommutativeGeometry N4–N5.
 
 **Checks.**
-- On the circle (`p = 1`, `D = i d/dt`, `T = 1`): with `f = 1_[0,1]`, `ε #{n : |n| ≤ 1/ε} → 2`, and the
-  right side is `∫₀¹ du · Tr_ω(|D|⁻¹) = 2`; with `f(u) = e^(−u²)`, `ε Σ_n e^(−ε²n²) → √π` and
-  `∫₀^∞ e^(−u²) du · 2 = √π`. A formula without the factor `p ∫ u^(p−1) f` would give `2` in both.
+- On the circle (`p = 1`, `D = i d/dt`, `T = 1`): with `f(u) = max(0, 1 − u)`,
+  `ε Σ_n max(0, 1 − ε|n|) → ∫_ℝ max(0, 1 − |x|) dx = 1`, and the right side is
+  `∫₀¹ (1 − u) du · Tr_ω(|D|⁻¹) = ½ · 2 = 1`; with `f(u) = max(0, 1 − u²)`, the left side tends to
+  `∫_(−1)^1 (1 − x²) dx = 4/3` and the right side is `(2/3) · 2 = 4/3`. A formula without the factor
+  `p ∫ u^(p−1) f` would give `2` for both.
 
 ### Examples
 
 - On the circle, the multiplication operator by `cos t` on `L²(S¹)` has absolutely continuous
   spectrum `[−1, 1]` with multiplicity `2` (each `y ∈ (−1, 1)` has two preimages), so §4.3 gives
-  `k_(1,1) = γ₁ · 2 · 2 = 4γ₁`.
+  `k_(1,1) = γ₁ · 2 · 2 = 4/π`.
 
 ### Dependencies
 
@@ -899,16 +913,17 @@ Dixmier trace. §§4.1–4.4 use nothing of this roadmap; §4.5 uses §§2.1, 2.
 This layer produces, on the compact space `X = Spec A` of a commutative strongly regular package,
 the flows that later serve as coordinate motions, before any manifold structure exists: spectral
 derivations, their maximum principle and dissipativity, and their integration to one-parameter groups
-of automorphisms of 𝒜 that move `λ` within its measure class (Connes 2008). Throughout, the package is
-commutative and satisfies §§2.1–2.4 with endomorphism regularity, and the notation is that of §3.4.
+of automorphisms of 𝒜 that move `λ` within its measure class (Connes 2008, §§4–6). Throughout, the
+package is commutative and satisfies §§2.1–2.4 with endomorphism regularity, and the notation is that
+of §3.4.
 
 ### 5.1 Spectral derivations
 
 For `ξ ∈ H∞` define `d_ξ(a) = i h(ξ, [D, a] ξ)`, with `h` the 𝒜-valued form of §2.3. Prove that each
 `d_ξ` is a continuous real star derivation of 𝒜 (Fréchet topology of §3.5), and that every `[D, a]`
 is a finite sum `Σ_j d_(ξ_j)(a) γ_j` with fixed `ξ_j ∈ H∞` and fixed bounded module endomorphisms
-`γ_j`, using a projective frame and polarization (Connes 2008). These scalar derivations are not yet
-vector fields on a manifold.
+`γ_j`, using a projective frame and polarization (Connes 2008, Lemma 4.3). These scalar derivations
+are not yet vector fields on a manifold.
 *Needs:* §§2.3–2.4, 3.4–3.5.
 
 **Checks.**
@@ -921,13 +936,14 @@ vector fields on a manifold.
 ### 5.2 The maximum principle and dissipativity
 
 Prove the **maximum principle**: for self-adjoint `h ∈ 𝒜`, `[D, h]` vanishes on the fibre over every
-point where `h` attains its maximum or its minimum (Connes 2008). Use the limit
-`τ⁻¹ e^(iτh) |D| e^(−iτh) ξ → |[D, h]| ξ` as `τ → ∞`, for `ξ ∈ Dom D`; it depends on regularity, and is
-proved from the integral resolvent expression for the absolute value of `τ⁻¹D − i[D, h]`,
-domain-invariant commutator bounds and a dominated resolvent estimate. Bounded commutators without
-regularity do not suffice. The Cesàro means of conjugation are positive contractions and
-𝒜-bimodular; applied to states localized near a maximum they give the vanishing on the fibre. Deduce
-that `±d_ξ` are dissipative for the C*-norm, hence closable on `C(X)`.
+point where `h` attains its maximum or its minimum (Connes 2008, Theorem 5.13). Use the limit
+`τ⁻¹ e^(iτh) |D| e^(−iτh) ξ → |[D, h]| ξ` as `τ → ∞`, for `ξ ∈ Dom D` (Proposition 5.11); it depends
+on regularity, and is proved from the integral resolvent expression for the absolute value of
+`τ⁻¹D − i[D, h]`, domain-invariant commutator bounds and a dominated resolvent estimate. Bounded
+commutators without regularity do not suffice. The Cesàro means of conjugation are positive
+contractions and 𝒜-bimodular; applied to states localized near a maximum they give the vanishing on
+the fibre. Deduce that `±d_ξ` are dissipative for the C*-norm, hence closable on `C(X)` (Corollary
+5.14).
 *Needs:* §§1.3, 2.2, 5.1; NoncommutativeGeometry N5 (`|D|` and its resolvent calculus).
 
 **Checks.**
@@ -939,16 +955,17 @@ that `±d_ξ` are dissipative for the C*-norm, hence closable on `C(X)`.
 Use strong regularity to prove that `B* D B` on `Dom D` is essentially self-adjoint for every bounded
 `δ`-smooth `B` (which preserves `Dom D`), including the rank-one module endomorphisms
 `θ_(ξ,η)(ζ) = h(η, ζ) ξ`. Give the adjoint, domain and resolvent-regularization proof: an arbitrary
-bounded compression of `D` is not self-adjoint on `Dom D` (Connes 2008). For localized `ξ`, choose
-`η ∈ H∞` with `h(η, η) = 1` near the support of `ξ`; compress `D` with `θ_(ξ,η)` and compare its
-closure, minus an explicit bounded endomorphism, with `−i d_ξ` on the vectors `aη`. Prove resolvent
-solvability on each Sobolev graph space by conjugation with `(D² + λ)ᴺ`, keeping the first
-commutator error and the compact higher errors. The Sobolev-to-C* estimates of §3.5 give dense range
-of `1 ± ε d_ξ`, and the dissipative estimate of §5.2 closes it. Apply Tau Ceti's Lumer–Phillips
-theorem (`TauCeti.Semigroups.IsMDissipative.exists_contractionSemigroup_generator_eq`) or Hille–Yosida
-theorem (`TauCeti.Semigroups.hilleYosida_generation_iff`) on the real Banach space underlying `C(X)` to
-the closures of `±d_ξ`, and glue positive and negative times with the uniqueness of the generated
-semigroup into a strongly continuous isometric group `σ_t`.
+bounded compression of `D` is not self-adjoint on `Dom D` (Connes 2008, Proposition 6.5). For
+localized `ξ`, choose `η ∈ H∞` with `h(η, η) = 1` near the support of `ξ`; compress `D` with
+`θ_(ξ,η)` and compare its closure, minus an explicit bounded endomorphism, with `−i d_ξ` on the
+vectors `aη`. Prove resolvent solvability on each Sobolev graph space by conjugation with
+`(D² + λ)ᴺ`, keeping the first commutator error and the compact higher errors. The Sobolev-to-C*
+estimates of §3.5 give dense range of `1 ± ε d_ξ`, and the dissipative estimate of §5.2 closes it.
+Apply Tau Ceti's Lumer–Phillips theorem
+(`TauCeti.Semigroups.IsMDissipative.exists_contractionSemigroup_generator_eq`) or Hille–Yosida
+theorem (`TauCeti.Semigroups.hilleYosida_generation_iff`) on the real Banach space underlying `C(X)`
+to the closures of `±d_ξ`, and glue positive and negative times with the uniqueness of the generated
+semigroup into a strongly continuous isometric group `σ_t` (Connes 2008, Theorem 6.11).
 *Needs:* §§2.2, 3.4–3.5, 5.1–5.2; OneParameterSemigroups Part A; Tau Ceti
 `TauCeti.Semigroups.IsMDissipative.exists_contractionSemigroup_generator_eq`,
 `TauCeti.Semigroups.exists_contractionSemigroup_generator_eq_iff`,
@@ -962,14 +979,14 @@ semigroup into a strongly continuous isometric group `σ_t`.
 ### 5.4 The flows are automorphisms of 𝒜
 
 Prove that `σ_t` preserves products, adjoints and the unit, by smoothing with analytic elements and
-the product rule of the closed derivation (Connes 2008). Prove that `σ_t` preserves 𝒜, with bounds
-`‖σ_t(a)‖_s ≤ C_s e^(c_s|t|) ‖a‖_s` in the Fréchet seminorms of §3.5, differentiability in each
-seminorm, and joint continuity in `(t, a)`. Remove the restriction to localized `ξ` by finite
-projective frames, cutoffs and finite sums; not every Fréchet derivation is assumed to integrate.
-Finally prove that `λ` is locally strongly equivalent to its transforms under these flows: the
-bounded non-self-adjoint correction in the compressed evolution gives a positive continuous
-Radon–Nikodym density, uniformly for `t` near `0`. `λ` is not assumed invariant, nor to be a Haar
-measure.
+the product rule of the closed derivation (Connes 2008, Theorem 6.11). Prove that `σ_t` preserves 𝒜,
+with bounds `‖σ_t(a)‖_s ≤ C_s e^(c_s|t|) ‖a‖_s` in the Fréchet seminorms of §3.5, differentiability
+in each seminorm, and joint continuity in `(t, a)` (Connes 2008, Lemma 6.14 and Theorem 6.15). Remove
+the restriction to localized `ξ` by finite projective frames, cutoffs and finite sums; not every
+Fréchet derivation is assumed to integrate. Finally prove that `λ` is locally strongly equivalent to
+its transforms under these flows: the bounded non-self-adjoint correction in the compressed evolution
+gives a positive continuous Radon–Nikodym density, uniformly for `t` near `0` (Connes 2008,
+Proposition 6.16). `λ` is not assumed invariant, nor to be a Haar measure.
 *Needs:* §§3.5, 3.7, 5.3.
 
 **Checks.**
@@ -987,9 +1004,9 @@ measure.
 
 ### Dependencies
 
-Layers 2–3; NoncommutativeGeometry N5; OneParameterSemigroups Part A, through Tau Ceti's
-Hille–Yosida and Lumer–Phillips theorems. Nothing of Layers 6–11 is used: these flows are built before
-any vector field on a reconstructed manifold.
+Layers 1–3; NoncommutativeGeometry N5; OneParameterSemigroups Part A, through Tau Ceti's Hille–Yosida
+and Lumer–Phillips theorems. Nothing of Layers 6–11 is used: these flows are built before any vector
+field on a reconstructed manifold.
 
 ## Layer 6: compact commutative smooth reconstruction
 
@@ -997,8 +1014,8 @@ This layer proves Connes' reconstruction theorem (§6.7) and its converse (§6.8
 triple is a strongly regular commutative package of dimension `p ≥ 1` (Layer 2) with an
 antisymmetric orientation `p`-cycle `c`, in its strongly oriented form; `X = Spec A`, `λ`, `E` and the
 rank projections are those of §3.4, and the flows are those of Layer 5 (Connes 2008, §§2–10 and
-11.3–11.4). §§6.1–6.6 are the six components of the proof, with all measures and multiplicities
-specified.
+Theorems 11.3–11.4). §§6.1–6.6 are the six components of the proof, with all measures and
+multiplicities specified.
 
 ### 6.1 Coordinates from the orientation cycle
 
@@ -1019,7 +1036,8 @@ the finite expression of `[D, a]` through spectral derivations (§5.1) gives for
 derivations on the `a_αʲ` to be nonzero. Select that `p`-tuple of derivations locally and shrink the
 open set so that the determinant stays nonzero. Composing their flows (§5.4) and applying the
 finite-dimensional inverse function theorem proves that `s_α` is open on it, with local transverse
-flow maps depending on parameters; this does not yet make `s_α` injective (Connes 2008).
+flow maps depending on parameters; this does not yet make `s_α` injective (Connes 2008, Lemmas
+4.4–4.5, with the flows of Theorem 6.15 in place of expability).
 *Needs:* §§2.5, 3.4, 5.1, 5.4; Mathlib's inverse function theorem
 (`HasStrictFDerivAt.toOpenPartialHomeomorph`).
 
@@ -1039,7 +1057,7 @@ Smear `λ` by the local flows of §6.1 and use the measure-class bounds of §5.4
 `V` with compact closure inside a coordinate domain, `(s_α)_*(λ|V)` is equivalent to Lebesgue
 measure on `s_α(V)`, and the pushforward of `λ` restricted to the closure of `V` is at most `C` times
 Lebesgue measure. Keep uniform Jacobian bounds on shrunken flow boxes and the positivity coming from
-full support. Equivalence is not inferred from full support alone (Connes 2008).
+full support. Equivalence is not inferred from full support alone (Connes 2008, Lemmas 7.1–7.3).
 *Needs:* §§5.4, 6.1.
 
 **Checks.**
@@ -1054,8 +1072,9 @@ of VonNeumannAlgebras V4, with the local measure classes of §6.2. For the commu
 restricted to `1_V H`, with absolutely continuous multiplicity function `m_ac^V`, prove
 `#(s_α⁻¹(y) ∩ V) ≤ m_ac^V(y)` for almost every `y`, by taking finitely many disjoint neighbourhoods of
 distinct preimages and comparing the resulting copies of the same restricted Lebesgue
-representation (Connes 2008). The fibre-count function is lower semicontinuous because `s_α` is open.
-Sheets carrying mutually singular measures would not give this inequality.
+representation (Connes 2008, Theorem 8.5). The fibre-count function is lower semicontinuous because
+`s_α` is open (Connes 2008, Lemma 8.1). Sheets carrying mutually singular measures would not give
+this inequality.
 *Needs:* §6.2; SelfAdjointSpectralTheory SA-B85; VonNeumannAlgebras V4.
 
 **Checks.**
@@ -1065,10 +1084,11 @@ Sheets carrying mutually singular measures would not give this inequality.
 ### 6.4 Bounded multiplicity and the lower count
 
 The global cutoff estimate of §4.5 and the multiplicity formula of §4.3 show
-`liminf_(R→∞) R^(−p) N_D(R) > 0`. Then apply the localized bound of §4.5 to
-`K = s_α⁻¹(E) ∩ closure(V)` for compact `E ⊂ s_α(V)`: with the domination of §6.2 it gives
+`liminf_(R→∞) R^(−p) N_D(R) > 0` (Connes 2008, Lemma 9.1, eq. (159)). Then apply the localized bound
+of §4.5 to `K = s_α⁻¹(E) ∩ closure(V)` for compact `E ⊂ s_α(V)`: with the domination of §6.2 it gives
 `∫_E m_ac^V ≤ C vol(E)`, hence `m_ac^V ≤ C` almost everywhere, and lower semicontinuity of the fibre
-count (§6.3) upgrades this to a uniform finite bound on `#(s_α⁻¹(y) ∩ V)` for every `y` (Connes 2008).
+count (§6.3) upgrades this to a uniform finite bound on `#(s_α⁻¹(y) ∩ V)` for every `y` (Connes 2008,
+Lemmas 10.1–10.2).
 *Needs:* §§4.3, 4.5, 6.2–6.3.
 
 **Checks.**
@@ -1078,11 +1098,11 @@ count (§6.3) upgrades this to a uniform finite bound on `#(s_α⁻¹(y) ∩ V)`
 ### 6.5 Local homeomorphisms
 
 Prove that a finite open map with locally bounded finite fibres has a dense open set on which its
-local sheets are homeomorphisms, by stratifying by the maximal local fibre number and inducting on it.
-Use the transverse flows to move a good point to any point of `X`, transporting its coordinate
-functions by an automorphism of 𝒜; this gives local homeomorphisms everywhere (Connes 2008). The map
-given by all entries of `c` need not be injective globally, and the local result is proved without
-that inference.
+local sheets are homeomorphisms, by stratifying by the maximal local fibre number and inducting on it
+(Connes 2008, Lemma 10.3). Use the transverse flows to move a good point to any point of `X`,
+transporting its coordinate functions by an automorphism of 𝒜; this gives local homeomorphisms
+everywhere (Connes 2008, Lemma 11.1). The map given by all entries of `c` need not be injective
+globally, and the local result is proved without that inference.
 *Needs:* §§5.4, 6.1, 6.4.
 
 **Checks.**
@@ -1095,7 +1115,7 @@ The smooth functional calculus of §3.7 shows that smooth functions supported in
 of 𝒜; evaluation along the smooth flows proves the reverse local inclusion. Prove that the charts are
 smoothly compatible, glue with the partitions of unity of §3.7, and obtain 𝒜 = all smooth functions,
 with the usual Fréchet topology. The orientation chain gives a nowhere-vanishing top exterior power,
-hence an orientation (Connes 2008).
+hence an orientation (Connes 2008, Lemma 11.2 and the proof of Theorem 11.3).
 *Needs:* §§3.7, 6.5; Mathlib `ContMDiffMap`, `IsManifold`.
 
 ### 6.7 The reconstruction theorem
@@ -1104,7 +1124,7 @@ Prove that there is an oriented compact smooth `p`-manifold `X` without boundary
 of Fréchet star algebras `𝒜 ≃ C∞(X, ℂ)` extending the Gelfand isomorphism `A ≃ C(X)`; the manifold is
 unique up to the unique diffeomorphism inducing that algebra isomorphism. Prove that a unitary
 equivalence of spectral triples (§1.1) induces such a diffeomorphism. The orientation cycle is not
-asserted unique; the orientation it induces is kept (Connes 2008, §§11.3–11.4).
+asserted unique; the orientation it induces is kept (Connes 2008, Theorems 11.3–11.4).
 *Needs:* §§6.1–6.6.
 
 **Checks.**
@@ -1119,11 +1139,11 @@ For every closed oriented smooth manifold `X` of dimension `p ≥ 1`, choose a R
 Hermitian exterior-form bundle and `D = d + d*`, and use `Γ` (§1.7) as grading for even `p` and the
 summand `Γ = +1` for odd `p`. This is the **signature construction** (volume chirality), not the
 exterior-parity orientation; that every closed oriented manifold arises in this way is the converse
-half of the characterization (Connes 2008). Construct the antisymmetric volume cycle from local
-coordinates and partitions of unity, with the factor `i^(−p(p+1)/2)/p!` in the negative Clifford
-convention, and verify smooth projectivity, absolute continuity with its correctly scaled Hermitian
-form (§7.6), dimension, and regularity of every smooth bundle endomorphism by the `D²`-test of §1.3.
-Zero-dimensional compact manifolds are §11.3, not this construction with `p = 0`.
+half of the characterization (Connes 2008, Theorem 11.4). Construct the antisymmetric volume cycle
+from local coordinates and partitions of unity, with the factor `i^(−p(p+1)/2)/p!` in the negative
+Clifford convention, and verify smooth projectivity, absolute continuity with its correctly scaled
+Hermitian form (§7.6), dimension, and regularity of every smooth bundle endomorphism by the `D²`-test
+of §1.3. Zero-dimensional compact manifolds are §11.3, not this construction with `p = 0`.
 *Needs:* SpinGeometry G2, G3.4 and G6.4 (chirality, exterior connection, exterior Dirac operator);
 PseudodifferentialOperators P6 (ellipticity); the geometric part of §7.6 (leading trace), which uses
 no part of this layer; §§1.3, 1.7, 3.3.
@@ -1145,7 +1165,7 @@ no part of this layer; §§1.3, 1.7, 3.3.
 
 ### Dependencies
 
-Layers 2–5; SelfAdjointSpectralTheory SA-B85; VonNeumannAlgebras V4; for §6.8, SpinGeometry G2, G3.4,
+Layers 1–5; SelfAdjointSpectralTheory SA-B85; VonNeumannAlgebras V4; for §6.8, SpinGeometry G2, G3.4,
 G6.4, PseudodifferentialOperators P6 and §7.6, whose leading-trace result is proved for geometric
 operators independently of this layer (§7.6 depends only on Layers 1–4 and the geometric suppliers),
 so the converse creates no cycle.
@@ -1155,9 +1175,9 @@ so the converse creates no cycle.
 Under the hypotheses of Layer 6, this layer recovers the rest of the geometry: the Hermitian bundle
 and the first-order operator, the Riemannian metric (scalar-symbol lemma), the smoothness of the
 spectral measure, the Clifford-connection form of `D`, the Weyl law and the Dixmier-trace
-normalization, the geodesic distance, and the weakly oriented and real variants (Connes 2008;
-Ćaćić 2012; Ćaćić 2011). The geometric statements of §7.6 about an operator given on a manifold do
-not depend on Layer 6.
+normalization, the geodesic distance, and the weakly oriented and real variants (Connes 2008, Remark
+5.12, §12.2 and Appendix 2; Ćaćić 2011, Corollary 2.19; Ćaćić 2012, Proposition 2.16). The geometric
+statements of §7.6 about an operator given on a manifold do not depend on Layer 6.
 
 ### 7.1 The bundle and the first-order operator
 
@@ -1166,11 +1186,11 @@ Under the hypotheses of §6.7, §3.4 realizes `H∞` as the smooth sections of a
 a smooth bundle endomorphism. Construct the induced action of cotangent vectors through
 PseudodifferentialOperators P1.0's identification `I_x/I_x² ≃ T*_x X`, proving that `[D, a]` at `x`
 depends only on `da_x`, smoothness, locality, and that `D` is a first-order differential operator on
-the actual section module (Connes 2008). At this stage `D` is a first-order operator with smooth
-coefficients, symmetric in `L²(E, λ)`, with `λ` only a full-support Radon measure; the metric (§7.2)
-and the smooth density (§7.3) are derived before PseudodifferentialOperators' geometric `H¹`-domain or
-heat results are applied, since symmetry against an arbitrary Radon measure does not supply their
-smooth-density hypotheses.
+the actual section module (Ćaćić 2011, Corollary 2.19). At this stage `D` is a first-order operator
+with smooth coefficients, symmetric in `L²(E, λ)`, with `λ` only a full-support Radon measure; the
+metric (§7.2) and the smooth density (§7.3) are derived before PseudodifferentialOperators' geometric
+`H¹`-domain or heat results are applied, since symmetry against an arbitrary Radon measure does not
+supply their smooth-density hypotheses.
 *Needs:* §§2.4, 3.4, 6.7; PseudodifferentialOperators P1.0 (smooth section modules, cotangent ideal
 quotients); Mathlib `Ideal.Cotangent`, `Derivation`.
 
@@ -1179,18 +1199,19 @@ quotients); Mathlib `Ideal.Cotangent`, `Derivation`.
 Prove the **scalar-symbol lemma** for strongly regular packages: the high-frequency limit of §5.2
 commutes with every 𝒜-linear endomorphism `T` of `H∞`, because its commutator with `T` is
 `τ⁻¹ e^(iτh) [|D|, T] e^(−iτh)`; hence `[D, h]²` is central in `End_𝒜(H∞)` and lies in `π(𝒜)` by the
-centre formula of §3.4. Polarization gives a smooth scalar quadratic form on `T*X`,
+centre formula of §3.4 (Connes 2008, Remark 5.12, eq. (79)). Polarization gives a smooth scalar
+quadratic form on `T*X`,
 
 `g*(df, dg) Id = −½ ([D, f][D, g] + [D, g][D, f])` for real `f, g`,
 
 positive semidefinite by skew-adjointness. The nonzero antisymmetric orientation in each
 `p`-dimensional chart makes the cotangent Clifford action injective: a covector in the radical acts
 by zero, contradicting the nonvanishing `p`-fold alternating product after completing it to a basis.
-Prove this finite-dimensional argument and obtain a smooth positive definite metric `g` (Connes 2008).
-Consequently `D` is of Dirac type, with Fourier principal symbol `i c(ξ)` (Convention 8), and `D²` is
-of Laplace type. The scalar condition is thus a consequence for the strong package and is kept
-explicit in the weakly oriented variant (§7.8). Recover `g` uniquely from the commutators, and `E` with
-its Clifford action `c` up to unitary bundle equivalence.
+Prove this finite-dimensional argument and obtain a smooth positive definite metric `g` (Ćaćić 2011,
+proof of Corollary 2.19). Consequently `D` is of Dirac type, with Fourier principal symbol `i c(ξ)`
+(Convention 8), and `D²` is of Laplace type. The scalar condition is thus a consequence for the
+strong package and is kept explicit in the weakly oriented variant (§7.8). Recover `g` uniquely from
+the commutators, and `E` with its Clifford action `c` up to unitary bundle equivalence.
 *Needs:* §§2.2, 3.4, 5.2, 7.1; PseudodifferentialOperators P1.0 (principal symbols).
 
 **Checks.**
@@ -1224,8 +1245,8 @@ The positive Radon measure `e^(−F) λ` has every distributional partial deriva
 Ceti's `Distribution.existsUnique_eq_ofFun_const_of_forall_lineDerivOp_eq_zero` (on the connected box,
 with Lebesgue measure) it is a constant multiple of Lebesgue measure, a Radon measure being
 determined by its integrals against test functions; positivity and full support make the constant
-strictly positive. These local densities glue: `λ = f dv_g` with `f` smooth and strictly positive
-(Connes 2008). This proves smoothness before, and independently of, any heat coefficient or Weyl law.
+strictly positive. These local densities glue: `λ = f dv_g` with `f` smooth and strictly positive.
+This proves smoothness before, and independently of, any heat coefficient or Weyl law.
 *Needs:* §§7.1–7.2; Tau Ceti `StarConvex.exists_contDiffOn_forall_extDeriv_eq`,
 `Distribution.existsUnique_eq_ofFun_const_of_forall_lineDerivOp_eq_zero`; Mathlib `TestFunction`,
 `Distribution`.
@@ -1245,7 +1266,7 @@ the smooth core, on multiplication operators and on `c`. Name the transported op
 regularity of PseudodifferentialOperators P6 and the Sobolev carriers of ComplexKahlerGeometry K5a to
 `D_g`, as SpinGeometry G6.1 does for Dirac operators, to identify the maximal closed domain and its
 adjoint domain with `H¹`, show that smooth sections are a core, and compare all powers with the common
-smooth domain; transport these domains back through `U` (Connes 2008). Only after this realization are
+smooth domain; transport these domains back through `U`. Only after this realization are
 the constructions of §§7.5–7.6 used.
 *Needs:* §§7.2–7.3; PseudodifferentialOperators P6; ComplexKahlerGeometry K5a (§5.4); SpinGeometry
 G6.1.
@@ -1259,9 +1280,9 @@ G6.1.
 
 Construct a compatible Hermitian Clifford connection `∇` on `E` (SmoothBundlesConnections B3,
 SpinGeometry G3.3) and show `D_g = c ∘ ∇ + Φ` for a smooth symmetric zero-order endomorphism `Φ` in
-geometric `L²` (Connes 2008). `Φ = 0` is not asserted, and an arbitrary recovered `D` is not identified
-with a Levi-Civita spin connection. Relative to an arbitrary Clifford connection the decomposition is
-not unique: prove the affine change formula, `Φ` changing by `−c ∘ A` when `∇` changes by a
+geometric `L²`. `Φ = 0` is not asserted, and an arbitrary recovered `D` is not identified with a
+Levi-Civita spin connection. Relative to an arbitrary Clifford connection the decomposition is not
+unique: prove the affine change formula, `Φ` changing by `−c ∘ A` when `∇` changes by a
 Clifford-compatible one-form `A`. The unique Bochner connection of `D_g²` (PseudodifferentialOperators
 P1.0) is not substituted for a Clifford connection of `D_g` without proof. Transport the
 decomposition through `U` to the original weighted realization; there, symmetry of `c ∘ ∇` with the
@@ -1297,7 +1318,7 @@ Apply this to `D_g`. Unitary invariance and `U π(a) = π(a) U` transport the sc
 `D_g` back to `D`. For scalar `a` this identifies the smooth density of §7.3 as
 `f = c_p rank(E_x)` with `c_p = vol(S^(p−1))/(p (2π)ᵖ)`; hence absolute continuity uses
 `h_spectral = (c_p rank E)⁻¹ h_geometric` in the standard `L²` realization. Prove the metric and
-measure-change unitary and compare all normalizations (Connes 2008).
+measure-change unitary and compare all normalizations.
 *Needs:* PseudodifferentialOperators P4, P6, P7 (§7.1); NoncommutativeGeometry N4; §§2.1, 4.4; for the
 application to `D`, §§7.3–7.5.
 
@@ -1324,7 +1345,7 @@ clause is proved here. Prove that isomorphisms of triples preserve the metric an
 normalization of §7.6, the volume densities. Prove finite propagation of `e^(itD)` in the recovered
 distance by the commutator and Duhamel cutoff estimate, stated as the vanishing of `M_f e^(itD) M_k`
 for `f, k` with supports at distance greater than `|t|`, without assuming a pointwise kernel (Connes
-2008).
+2008, Lemma 12.2, stated there for the kernel).
 *Needs:* §§7.2, 7.4, 7.6; RiemannianGeometry R7.8; CompactQuantumMetricSpaces §3.6; Mathlib
 `Manifold.riemannianEDist`.
 
@@ -1416,9 +1437,9 @@ Weyl law and trace formula of §7.6 use only PseudodifferentialOperators, Noncom
 ## Layer 8: spin-c and spin reconstruction
 
 This layer identifies when the reconstructed bundle is a spinor bundle: irreducible Clifford modules
-correspond to Spinᶜ structures (Plymen 1986), a compatible charge conjugation reduces them to Spin
-structures, and in even dimension minimal multiplicity already forces strong regularity (Connes 2008,
-Theorem 11.5; Ćaćić 2012, §§1.1, 2.1–2.4).
+correspond to Spinᶜ structures (Plymen 1986, Theorem 2.11), a compatible charge conjugation reduces
+them to Spin structures, and in even dimension minimal multiplicity already forces strong regularity
+(Connes 2008, Theorem 11.5; Ćaćić 2012, §§1.1, 2.1–2.4).
 
 ### 8.1 The Spinᶜ group and the irreducible spinor action
 
@@ -1431,11 +1452,15 @@ SpinGeometry's geometric rank-zero convention, under which `Spinᶜ(0) ≃ Circl
 specified map to the frame bundle and isomorphisms over that map. Add here the irreducible spinor
 action `[s, z] ↦ z ρ(s)`, its comparison with F4's associated bundles, compatible connections and
 the module-to-lift reconstruction of §8.2, and prove the local frame, cocycle, determinant and
-line-twist formulas against that carrier (Plymen 1986). No second Spinᶜ group or torsor is defined;
-the Spin-lift theory of SpinGeometry G4 stays its single owner.
+line-twist formulas against that carrier (Plymen 1986, §2.9 and the proof of Theorem 2.11). For
+`p = 4`, prove that its restrictions to the `±1` eigenspaces of `Γ` (§1.7) are Tau Ceti's half-spin
+representations `CliffordAlgebra.spinCGroupHalfSpinRep`, whose chirality `CliffordAlgebra.chirality`
+is the same `Γ`. No second Spinᶜ group or torsor is defined; the Spin-lift theory of SpinGeometry G4
+stays its single owner.
 *Needs:* FourManifolds F4 (§4.1); SpinGeometry G4 (Spin lifts) and its rank-zero convention; Tau Ceti
 `CliffordAlgebra.spinCGroup`, `CliffordAlgebra.spinCGroup.det`,
-`CliffordAlgebra.spinCGroup.toSpecialOrthogonal`; Mathlib `spinGroup`, `Circle`.
+`CliffordAlgebra.spinCGroup.toSpecialOrthogonal`, `CliffordAlgebra.chirality`,
+`CliffordAlgebra.spinCGroupHalfSpinRep`; Mathlib `spinGroup`, `Circle`.
 
 **Checks.**
 - `[s, z] ↦ z ρ(s)` is well defined because `(−1) ρ(−1) = ρ(1)`; `[s, z] ↦ ρ(s)` alone is not, as it
@@ -1468,10 +1493,10 @@ representation of their direct sum is never demanded.
 ### 8.3 Spinᶜ reconstruction
 
 For a reconstructed strongly regular package (§6.7), an irreducible `C_X`-action on `E` yields a
-Spinᶜ structure, with `H = L²(S)` and `D` a Spinᶜ Dirac-type operator plus a symmetric zero-order term
-(§7.5). Conversely, for each Spinᶜ structure with a Hermitian Clifford connection and each symmetric
-zero-order term preserving the stated parity and orientation axioms, the resulting triple satisfies
-the hypotheses of §6.7 (Plymen 1986).
+Spinᶜ structure (Plymen 1986, Theorem 2.11, through §8.2), with `H = L²(S)` and `D` a Spinᶜ
+Dirac-type operator plus a symmetric zero-order term (§7.5). Conversely, for each Spinᶜ structure
+with a Hermitian Clifford connection and each symmetric zero-order term preserving the stated parity
+and orientation axioms, the resulting triple satisfies the hypotheses of §6.7.
 *Needs:* §§6.7, 6.8, 7.2–7.6, 8.2.
 
 **Checks.**
@@ -1527,8 +1552,8 @@ force this choice (Ćaćić 2012, §§1.1, 2.1–2.4).
 ### Dependencies
 
 Layers 1–7; FourManifolds F4 (§4.1) through its early generic Spinᶜ foundation only; SpinGeometry G1,
-G1.3, G4, G5; NoncommutativeGeometry N5; Tau Ceti's `CliffordAlgebra.spinCGroup` and
-`CliffordAlgebra.complexVolume`.
+G1.3, G4, G5; NoncommutativeGeometry N5; Tau Ceti's `CliffordAlgebra.spinCGroup`,
+`CliffordAlgebra.spinCGroupHalfSpinRep` and `CliffordAlgebra.complexVolume`.
 
 ## Layer 9: fundamental classes and the duality axiom
 
@@ -1551,9 +1576,12 @@ compatibility with the index pairing of NoncommutativeGeometry N2–N3.
 *Needs:* §§1.6, 2.2; NoncommutativeGeometry N5 (bounded transform); OperatorKTheory K5–K6.
 
 **Checks.**
-- For the circle triple (`d = 1`), pairing `Δ_D` with the class of the unitary `u = e^(it)` in the
-  first variable gives the index of the Toeplitz operator of `u`, which is `±1` with the sign fixed by
-  the sign of `D` (OperatorKTheory K6.6).
+- For the circle triple (`d = 1`), the restriction of `Δ_D` along `a ↦ a ⊗ 1` is the class `[D]` of
+  the triple in `K¹(C(S¹))`, and its index pairing with the class `[u] ∈ K₁(C(S¹))` of the unitary
+  `u = e^(it)` (equivalently, the pairing of `Δ_D` with `[u] ⊗ [1]`) is the index of the Toeplitz
+  operator of `u`, which is `±1` with the sign fixed by the sign of `D` (OperatorKTheory K6, §6.6).
+  The Kasparov product of `[u]` with `Δ_D` over the first factor alone is a class in `K⁰(Aᵒᵖ)`, not
+  an integer.
 
 ### 9.2 The Poincaré duality axiom
 
@@ -1567,8 +1595,11 @@ is an isomorphism of integral groups, not a determinant test on `K₀` modulo to
 
 **Checks.**
 - Two copies of the circle triple (`H = L²(S¹)²`, `D ⊕ D`) satisfy §§2.1–2.5 with the same cycle
-  `−u* ⊗ u`, and their fundamental class is `2Δ_D`; cap product with it maps `K₁(C(S¹)) ≅ ℤ` to
-  `K¹(C(S¹)) ≅ ℤ` by multiplication by `2`, not an isomorphism, so the duality axiom fails: it is
+  `−u* ⊗ u`, and their fundamental class is `2Δ_D`. Cap product with this odd class shifts the
+  degree: it sends `[1] ∈ K₀(C(S¹)) ≅ ℤ` to `2[D] ∈ K¹(C(S¹)) ≅ ℤ` and `K₁(C(S¹)) ≅ ℤ` to
+  `K⁰(C(S¹)) ≅ ℤ` by multiplication by `2`, where for one copy both maps are isomorphisms
+  (`[1] ↦ [D]` with `[D]` as in §9.1, and `[u] ↦ ±[pt]` with `[pt]` the class of a point
+  evaluation). Neither map is an isomorphism, so the duality axiom fails: it is
   independent of the five conditions used in Layer 6.
 
 ### 9.3 The geometric dual class of a Spinᶜ manifold
@@ -1838,8 +1869,8 @@ N1; PseudodifferentialOperators P7 (§7.2); SpinGeometry G2, G5; OperatorKTheory
 
 ### Dependencies
 
-Layers 1–3 for §§10.1–10.5 (with §2.6 for the weak orientation and OperatorKTheory K6 for the KK
-comparison); Layers 7–9 for §10.6; VonNeumannAlgebras V2; NoncommutativeGeometry N1, N5;
+Layers 1–2 for §§10.1–10.5 (with §2.6 for the weak orientation and OperatorKTheory K6 for the KK
+comparison); §3.6 and Layers 7–9 for §10.6; VonNeumannAlgebras V2; NoncommutativeGeometry N1, N5;
 AutomorphicSpectralTheory §0.13; PseudodifferentialOperators P7; SpinGeometry G2, G5;
 OperatorKTheory K6.
 
@@ -2046,7 +2077,8 @@ C*-algebras is introduced (§9.4).
 - *Semigroups*: the Hille–Yosida and Lumer–Phillips theorems (OneParameterSemigroups Part A)
   are already in Tau Ceti; §5.3 proves that the particular compressed derivations satisfy their
   hypotheses.
-- *Bundles*: the continuous finite-rank bundle category and complements are TopologicalKTheory T1;
+- *Bundles*: the continuous finite-rank bundle category and complements are TopologicalKTheory T1,
+  and the continuous section-module correspondence over a compact base is HilbertModules H5;
   smooth bundles, `Hom`, duals, metrics, connections and `L²` sections are SmoothBundlesConnections
   B2–B3; this roadmap owns the smooth Serre–Swan comparison needed before a metric is reconstructed
   (§3.3).
@@ -2065,7 +2097,9 @@ C*-algebras is introduced (§9.4).
   bundles, Dirac operators and the real analytic index are SpinGeometry G1–G6; the generic Spinᶜ
   foundation is FourManifolds F4 (§4.1), whose group is already in Tau Ceti; no four-dimensional
   classification or Wu theorem is needed for Layer 8, and the `ℂP²` example of §11.5 uses F4's Wu
-  identities (§4.2). This roadmap owns the missing Spinᶜ, irreducible-Clifford and charge-conjugation
+  identities (§4.2). The half-spin representations of `Spinᶜ(4)` are already in Tau Ceti
+  (`CliffordAlgebra.spinCGroupHalfSpinRep`), and §8.1 compares its general action with them at
+  `p = 4`. This roadmap owns the missing Spinᶜ, irreducible-Clifford and charge-conjugation
   reconstruction dictionary.
 - *K-theory and index theory*: Bott periodicity, KK-cycles, the Kasparov product and index pairings
   are OperatorKTheory K3–K6; symbol classes, the analytic index and its applications are IndexTheory
@@ -2150,7 +2184,11 @@ All declarations below are proved at the pin; paths are under `TauCeti/`.
   complex volume element `i^⌊(n+1)/2⌋ c(e₁) ⋯ c(e_n)`: SpinGeometry's chirality in even dimension and
   its `ω_Spin` in odd dimension); `CliffordAlgebra.spinCGroup` (the quotient of
   `spinGroup Q × Circle` by `{1, (−1, −1)}`, for a nonzero real quadratic form `Q`) with
-  `CliffordAlgebra.spinCGroup.det` and `CliffordAlgebra.spinCGroup.toSpecialOrthogonal`.
+  `CliffordAlgebra.spinCGroup.det` and `CliffordAlgebra.spinCGroup.toSpecialOrthogonal`;
+  `CliffordAlgebra.chirality` (`−c(e₁)c(e₂)c(e₃)c(e₄)` for `Q v = −‖v‖²` on an oriented four-space)
+  and `CliffordAlgebra.spinCGroupHalfSpinRep` (the descended representation `[s, z] ↦ z ρ(s)` of
+  `Spinᶜ(4)` on an eigenspace of `Γ`, unitary on a Hermitian Clifford module, Clifford equivariant
+  and of determinant `z²` in complex dimension two; `Spin/HalfSpin.lean`).
 - *Analysis on open sets*: `StarConvex.exists_contDiffOn_forall_extDeriv_eq` (a closed `C^r` form,
   `r ≥ 1`, on an open star-convex set is exact; `Analysis/Calculus/DifferentialForm/Poincare.lean`);
   `Distribution.existsUnique_eq_ofFun_const_of_forall_lineDerivOp_eq_zero` (a distribution on a
@@ -2228,7 +2266,8 @@ and `TauCeti.Semigroups.exists_contractionSemigroup_generator_eq_iff`.
 H1 (pre-Hilbert modules, completions and fibres, the opposite-algebra convention for right modules),
 H2 (adjointable maps, finite Parseval frames and the finitely generated projective modules they
 characterize), H3 (interior tensor products and induction), H5 (continuous fields of Hilbert
-spaces and modules).
+spaces and modules, and the identification of the section modules of continuous Hermitian bundles
+over a compact base with the finitely generated projective modules of H2).
 
 ### From TauCetiRoadmap.TopologicalKTheory
 
@@ -2303,12 +2342,12 @@ G5.5: the KO Thom orientation of a real spin bundle by the Clifford-module const
 ## References
 
 - A. Connes, [*On the spectral characterization of manifolds*, arXiv
-  0810.2088v1](https://arxiv.org/html/0810.2088v1) (2008): §§2–10, 11.3–11.5 and Appendices 13–14
-  give the strengthened reconstruction proof; Theorem 11.5 treats the even minimal-multiplicity
-  case, while 11.3–11.4 do not require minimal multiplicity; Appendix 2 (Theorem 14.9, Corollary
-  14.10) relates the Dixmier trace to spectral-cutoff and heat limits; §9 states the normalization
-  of Voiculescu's modulus and proves the local estimate. Layer 4 builds the Voiculescu ingredient
-  used by that proof.
+  0810.2088v1](https://arxiv.org/html/0810.2088v1) (2008): §§2–11 and its two appendices (§13,
+  Appendix 1, and §14, Appendix 2) give the strengthened reconstruction proof; Theorem 11.5 treats
+  the even minimal-multiplicity case, while Theorems 11.3–11.4 do not require minimal multiplicity;
+  Appendix 2 (Theorem 14.9, Corollary 14.10) relates the Dixmier trace to spectral-cutoff and heat
+  limits; §9 states the normalization of Voiculescu's modulus and proves the local estimate. Layer 4
+  builds the Voiculescu ingredient used by that proof.
 - L. Dąbrowski and G. Dossena, [*Product of real spectral triples*, arXiv
   1011.4456v1](https://arxiv.org/html/1011.4456v1), §§2–5: KO signs, opposite action, products by
   parity and the domain and eigenblock proof. The shuffle factors of §10.4 are fixed directly by
@@ -2322,9 +2361,9 @@ G5.5: the KO Thom orientation of a real spin bundle by the Clifford-module const
   of every KO-dimension (Proposition 2.24). Its real structures on reducible bundles do not imply
   Spin.
 - B. Ćaćić, [*A reconstruction theorem for almost-commutative spectral triples*, arXiv
-  1101.5908v4](https://arxiv.org/html/1101.5908v4), Corollary 2.19 and Appendix A: the
-  weak-orientation perturbation argument; §7.8 keeps all its domain, regularity and trace
-  perturbation obligations.
+  1101.5908v4](https://arxiv.org/html/1101.5908v4), Definitions 2.7 and 2.9 (pre-orientability and
+  Dirac type, §2.6), Corollary 2.19 and Appendix A: the weak-orientation perturbation argument; §7.8
+  keeps all its domain, regularity and trace perturbation obligations.
 - D. Voiculescu, *Some results on norm-ideal perturbations of Hilbert space operators, I*, J. Operator
   Theory 2 (1979), 3–37, Theorem 4.5: the multiplicity theorem built in §4.3.
 - W. Rudin, *Functional Analysis*, 2nd ed., McGraw-Hill (1991), Theorem 2.11 (open mapping theorem for
