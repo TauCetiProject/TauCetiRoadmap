@@ -64,23 +64,24 @@ theorem exists_ne_zero_norm_charSum_ge [Nontrivial G] (A : Finset G)
 
 end Count
 
-/-! ## Layer 2: Meshulam's theorem in `𝔽₃ⁿ` -/
+/-! ## Layer 2: Meshulam's theorem in `𝔽_pⁿ` -/
 
-/-- 2.1 Density increment: if `A ⊆ 𝔽₃ⁿ` has no nontrivial three-term progression and
-`2 · 3ⁿ ≤ |A|²`, then on some coset of a hyperplane `A` has density at least `α + α²/4`, where
-`α = |A| / 3ⁿ`; the coset `{φ = c}` has `3ⁿ⁻¹` points. -/
-theorem exists_hyperplane_density_increment {n : ℕ} (A : Finset (Fin n → ZMod 3))
-    (hA : ThreeAPFree (A : Set (Fin n → ZMod 3))) (hN : 2 * 3 ^ n ≤ #A ^ 2) :
-    ∃ φ : Module.Dual (ZMod 3) (Fin n → ZMod 3), φ ≠ 0 ∧ ∃ c : ZMod 3,
-      (#A : ℝ) / 3 ^ n + ((#A : ℝ) / 3 ^ n) ^ 2 / 4 ≤
-        3 * (#{a ∈ A | φ a = c} : ℝ) / 3 ^ n := by
+/-- 2.1 Density increment: for a prime `p`, if `A ⊆ 𝔽_pⁿ` has no nontrivial three-term
+progression and `2 · pⁿ ≤ |A|²`, then on some coset of a hyperplane `A` has density at least
+`α + α²/4`, where `α = |A| / pⁿ`; the coset `{φ = c}` has `pⁿ⁻¹` points. -/
+theorem exists_hyperplane_density_increment {p n : ℕ} [Fact p.Prime]
+    (A : Finset (Fin n → ZMod p)) (hA : ThreeAPFree (A : Set (Fin n → ZMod p)))
+    (hN : 2 * p ^ n ≤ #A ^ 2) :
+    ∃ φ : Module.Dual (ZMod p) (Fin n → ZMod p), φ ≠ 0 ∧ ∃ c : ZMod p,
+      (#A : ℝ) / (p : ℝ) ^ n + ((#A : ℝ) / (p : ℝ) ^ n) ^ 2 / 4 ≤
+        p * (#{a ∈ A | φ a = c} : ℝ) / (p : ℝ) ^ n := by
   sorry
 
-/-- 2.2 Meshulam's theorem with an explicit constant: a subset of `𝔽₃ⁿ` without nontrivial
-three-term progressions has `n · |A| ≤ 6 · 3ⁿ`. -/
-theorem card_mul_le_six_mul {n : ℕ} (A : Finset (Fin n → ZMod 3))
-    (hA : ThreeAPFree (A : Set (Fin n → ZMod 3))) :
-    (#A : ℝ) * n ≤ 6 * 3 ^ n := by
+/-- 2.2 Meshulam's theorem with an explicit constant: for a prime `p`, a subset of `𝔽_pⁿ`
+without nontrivial three-term progressions has `n · |A| ≤ 6 · pⁿ`. -/
+theorem card_mul_le_six_mul {p n : ℕ} [Fact p.Prime] (A : Finset (Fin n → ZMod p))
+    (hA : ThreeAPFree (A : Set (Fin n → ZMod p))) :
+    (#A : ℝ) * n ≤ 6 * (p : ℝ) ^ n := by
   sorry
 
 /-! ## Layer 3: the polynomial method -/

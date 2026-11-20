@@ -4,7 +4,7 @@
 `x + z = 2y` has no solutions in it except `x = y = z`. This roadmap bounds the size of such sets
 in finite groups by two methods. The first is Fourier analysis: the number of progressions in a
 set is a sum over the characters of the group, so a set with few progressions has a large
-nontrivial character sum, which in `𝔽₃ⁿ` forces a denser piece of the set on a hyperplane. The
+nontrivial character sum, which in `𝔽_pⁿ` forces a denser piece of the set on a hyperplane. The
 second is the polynomial method of Croot, Lev and Pach, which bounds the rank of a matrix built
 from a low-degree polynomial.
 
@@ -13,10 +13,10 @@ from a low-degree polynomial.
   where `N₃(A)` is the number of triples `(x, y, z) ∈ A³` with `x + z = 2y`. So in a nontrivial
   group a set without nontrivial progressions has a nontrivial character sum of modulus at
   least `|A|²/|G| − 1`.
-- *Meshulam's theorem.* A subset of `𝔽₃ⁿ` without nontrivial three-term progressions has at
-  most `6 · 3ⁿ / n` elements, for every `n ≥ 1`. The route is a density increment: when
-  `|A|² ≥ 2 · 3ⁿ`, the set has density at least `α + α²/4` on some coset of a hyperplane, where
-  `α = |A|/3ⁿ`.
+- *Meshulam's theorem.* For a prime `p`, a subset of `𝔽_pⁿ` without nontrivial three-term
+  progressions has at most `6 · pⁿ / n` elements, for every `n ≥ 1`. The route is a density
+  increment: when `|A|² ≥ 2 · pⁿ`, the set has density at least `α + α²/4` on some coset of a
+  hyperplane, where `α = |A|/pⁿ`.
 - *The Ellenberg–Gijswijt theorem.* Over a finite field with `q` elements, let `α + β + γ = 0`.
   If the only solutions of `α a₁ + β a₂ + γ a₃ = 0` with all three points in `A ⊆ 𝔽_qⁿ` have
   `a₁ = a₂ = a₃`, then `|A|` is at most three times the number of monomials in `n` variables
@@ -52,7 +52,8 @@ Layer 2 uses Layer 1, Layer 3 uses no other layer, and Layer 4 uses Parseval's i
   then `c = b`). In an elementary abelian `2`-group this holds only for sets with at most one
   element.
 - **The space `𝔽_qⁿ`.** It is `Fin n → F` for a finite field `F` with `q = Nat.card F` elements,
-  and `𝔽₃ⁿ` is `Fin n → ZMod 3`. A hyperplane coset is a set `{x : φ x = c}` with `φ` a nonzero
+  and `𝔽_pⁿ` is `Fin n → ZMod p` for a prime `p`. A hyperplane coset is a set `{x : φ x = c}`
+  with `φ` a nonzero
   linear functional (`Module.Dual`); it has `qⁿ⁻¹` points.
 - **Monomial counts.** For a real number `d`, `m_d = m(q, n, d)` is the number of exponent
   vectors `e : Fin n → Fin q` with `e_1 + ⋯ + e_n ≤ d`: the monomials in `n` variables of degree
@@ -162,22 +163,26 @@ four-point set free of progressions in `𝔽₃²` and its large character sum.
 Mathlib `AddChar`, `AddChar.sum_apply_eq_ite`, `AddChar.sum_eq_ite`, `AddChar.map_neg_eq_conj`,
 `AddChar.exists_apply_ne_zero`, `AddChar.card_eq`, `ThreeAPFree`. No other layer.
 
-## Layer 2: Meshulam's theorem in `𝔽₃ⁿ`
+## Layer 2: Meshulam's theorem in `𝔽_pⁿ`
 
 ### 2.1 The density increment
 
-Prove `exists_hyperplane_density_increment`: let `A ⊆ 𝔽₃ⁿ` be free of nontrivial three-term
-progressions with `2 · 3ⁿ ≤ |A|²`, and `α = |A|/3ⁿ`. Then there are a nonzero linear functional
-`φ` and `c ∈ 𝔽₃` such that `A` has density at least `α + α²/4` on the coset `{φ = c}`, that is
-`3 |{a ∈ A : φ(a) = c}| / 3ⁿ ≥ α + α²/4` (Zhao, Lemmas 6.2.6–6.2.8, pp. 210–211).
+Prove `exists_hyperplane_density_increment`: let `p` be a prime, let `A ⊆ 𝔽_pⁿ` be free of
+nontrivial three-term progressions with `2 · pⁿ ≤ |A|²`, and `α = |A|/pⁿ`. Then there are a
+nonzero linear functional `φ` and `c ∈ 𝔽_p` such that `A` has density at least `α + α²/4` on the
+coset `{φ = c}`, that is `p |{a ∈ A : φ(a) = c}| / pⁿ ≥ α + α²/4` (Zhao, Lemmas 6.2.6–6.2.8,
+pp. 210–211, for `p = 3`; the route below is the same for every prime).
 
-Route: every character of `𝔽₃ⁿ` is `x ↦ ω^(φ(x))` for a unique linear functional `φ`, nontrivial
-exactly when `φ ≠ 0`: restrict it to the coordinate lines and use the characters of `ℤ/3`
-(`AddChar.zmodAddEquiv`). By 1.4, some `φ ≠ 0` has `|S_A| ≥ |A|²/3ⁿ − 1 ≥ |A|²/(2 · 3ⁿ)`, the
-second step by the hypothesis. Write `S_A = k₀ + k₁ ω + k₂ ω²` with `k_j` the number of points
-of `A` on `{φ = j}`, and `α_j = 3 k_j / 3ⁿ`, so that `α = (α₀ + α₁ + α₂)/3` and
-`|S_A|/3ⁿ = |∑_j (α_j − α) ω^j| / 3 ≥ α²/2`. Since `∑_j (α_j − α) = 0`, the triangle inequality
-gives `∑_j (|α_j − α| + (α_j − α)) ≥ 3α²/2`, so some `j` has `α_j − α ≥ α²/4`.
+Route: for `p = 2` a set free of nontrivial progressions has at most one point (Conventions), so
+the hypothesis fails. Let `p` be odd and `ω = e^(2πi/p)`. Every character of `𝔽_pⁿ` is
+`x ↦ ω^(φ(x))` for a unique linear functional `φ`, nontrivial exactly when `φ ≠ 0`: restrict it
+to the coordinate lines and use the characters of `ℤ/p` (`AddChar.zmodAddEquiv`). By 1.4, some
+`φ ≠ 0` has `|S_A| ≥ |A|²/pⁿ − 1 ≥ |A|²/(2 · pⁿ)`, the second step by the hypothesis. Write
+`S_A = ∑_j k_j ω^j` with `k_j` the number of points of `A` on `{φ = j}`, and
+`α_j = p k_j / pⁿ`, so that `α = (∑_j α_j)/p` and
+`|S_A|/pⁿ = |∑_j (α_j − α) ω^j| / p ≥ α²/2`. Since `∑_j (α_j − α) = 0`, the triangle inequality
+gives `∑_j (|α_j − α| + (α_j − α)) ≥ p α²/2`, a sum of `p` terms, so some `j` has
+`α_j − α ≥ α²/4`.
 
 **Checks.**
 - In `𝔽₃³` the hypothesis asks for `|A| ≥ 8`. All sets of `8` or `9` points of `𝔽₃³` free of
@@ -186,30 +191,37 @@ gives `∑_j (|α_j − α| + (α_j − α)) ≥ 3α²/2`, so some `j` has `α_j
   `9/27 + (9/27)²/4 = 1/3 + 1/36` exceeds `3 · 3/27`.
 - For `n = 0` there is no nonzero functional, and the hypothesis fails, since `|A| ≤ 1`: some
   hypothesis excluding `n = 0` is needed.
+- In `𝔽₅²` the hypothesis asks for `|A| ≥ 8`, and the largest sets free of nontrivial
+  progressions have `6` points (enumeration): the statement says nothing there.
 
 *Needs:* 1.4; Mathlib `Module.Dual`, `AddChar.zmodAddEquiv`. (Proved here, following the cited
 proof.)
 
 ### 2.2 Meshulam's theorem
 
-Prove `card_mul_le_six_mul`: every `A ⊆ 𝔽₃ⁿ` free of nontrivial three-term progressions has
-`|A| · n ≤ 6 · 3ⁿ`. Meshulam proved `|A| = O(3ⁿ/n)` (Zhao, Theorem 6.2.1, p. 208, with its
-proof on pp. 211–212); the constant `6` is derived here from the iteration of 2.1.
+Prove `card_mul_le_six_mul`: for a prime `p`, every `A ⊆ 𝔽_pⁿ` free of nontrivial three-term
+progressions has `|A| · n ≤ 6 · pⁿ`. Meshulam proved `|A| = O(3ⁿ/n)` in `𝔽₃ⁿ` (Zhao,
+Theorem 6.2.1, p. 208, with its proof on pp. 211–212) and the argument gives `O(pⁿ/n)` for every
+odd prime (Zhao, Remark 6.2.2, p. 208); the constant `6` is derived here from the iteration
+of 2.1.
 
-Route: restricted to a coset `x + ker φ`, translated to `ker φ` and identified linearly with
-`𝔽₃ⁿ⁻¹` (`LinearMap.finrank_range_add_finrank_ker`), the set stays free of nontrivial
+Route: for `p = 2`, `|A| ≤ 1` and `n ≤ 6 · 2ⁿ`. Let `p` be odd. Restricted to a coset
+`x + ker φ`, translated to `ker φ` and identified linearly with
+`𝔽_pⁿ⁻¹` (`LinearMap.finrank_range_add_finrank_ker`), the set stays free of nontrivial
 progressions (`ThreeAPFree.mono`, `ThreeAPFree.vadd_set`, `ThreeAPFree.image'`). Iterate 2.1
-from `α₀ = α > 0` while `|A_i|² ≥ 2 · 3ⁿ⁻ⁱ`; then `α_(i+1) ≥ α_i + α_i²/4`, so
+from `α₀ = α > 0` while `|A_i|² ≥ 2 · pⁿ⁻ⁱ`; then `α_(i+1) ≥ α_i + α_i²/4`, so
 `1/α_i − 1/α_(i+1) ≥ 1/(4 + α_i) ≥ 1/5`. Densities are at most `1`, so the iteration stops after
 `m ≤ 5/α − 5` steps (at the latest at dimension `0`, where `|A_m|² ≤ 1`), and then
-`3ⁿ⁻ᵐ < 2/α_m² ≤ 2/α²`. Hence `n < 5/α − 5 + log₃ 2 + 2 log₃(1/α)`. With `ln u ≤ u/e` for
+`pⁿ⁻ᵐ < 2/α_m² ≤ 2/α²`. Hence `n < 5/α − 5 + log_p 2 + 2 log_p(1/α)`, which is at most
+`5/α − 5 + log₃ 2 + 2 log₃(1/α)` because `log_p u ≤ log₃ u` for `u ≥ 1` and `p ≥ 3`. With
+`ln u ≤ u/e` for
 `u > 0` (`Real.log_le_sub_one_of_pos` at `u/e`), `2 log₃(1/α) ≤ 2/(e ln 3 · α) < 0.67/α`, so
 `n < 5.67/α − 4.36 < 6/α`.
 
 **Checks.**
-- The bound is below the trivial `3ⁿ` exactly when `n > 6`: for `n = 6` it is `6 · 729 / 6 = 729`
-  and for `n = 10` it is `35429.4 < 59049`.
-- For `α ≥ 6/n` (so `n ≥ 6`) the quantity `n − (5/α − 5 + log₃(2/α²))` is decreasing in
+- The bound is below the trivial `pⁿ` exactly when `n > 6`: for `p = 3` and `n = 6` it is
+  `6 · 729 / 6 = 729`, and for `p = 3` and `n = 10` it is `35429.4 < 59049`.
+- For `p = 3` and `α ≥ 6/n` (so `n ≥ 6`) the quantity `n − (5/α − 5 + log₃(2/α²))` is decreasing in
   `1/α`, so it is at least its value `n/6 + 5 − log₃ 2 − 2 log₃(n/6)` at `α = 6/n`; over the
   integers `n ≥ 6` that value is least at `n = 11`, where it is `5.099`. The last step has room.
 - `A = ∅` and `n = 0` satisfy the bound trivially.
@@ -430,7 +442,8 @@ Layer 1 (1.1). Mathlib `AddChar.sum_apply_eq_ite`, `AddChar.map_neg_eq_conj`,
 This roadmap owns the definitions and theorems stated above: character sums of sets with
 Parseval's identity for them, the count of three-term progressions with its character identity,
 the counting lemma and the large character sum; the density increment and Meshulam's theorem with
-the constant `6` in `𝔽₃ⁿ`; the monomial counts, the Croot–Lev–Pach lemma, the Ellenberg–Gijswijt
+the constant `6` in `𝔽_pⁿ` for every prime `p`; the monomial counts, the Croot–Lev–Pach lemma,
+the Ellenberg–Gijswijt
 theorem, its form for sets without progressions over every finite field and the exponential
 bound in `𝔽₃ⁿ`; Bogolyubov's lemma in finite abelian groups and in vector spaces over `𝔽_p`.
 
@@ -476,7 +489,8 @@ Left to other roadmaps:
 - LinearAlgebraMethodInCombinatorics owns rank bounds for set systems (oddtown, Fisher,
   Frankl–Wilson); the rank argument of 3.2 is about polynomials on `𝔽_qⁿ` and is not one of them.
 
-Not treated here: quantitative forms of Roth's theorem in `ℤ/N` or in `{1, …, N}`, Bohr sets as
+Not treated here: Meshulam's bound `2|G|/rk(G)` for a general abelian group of odd order,
+quantitative forms of Roth's theorem in `ℤ/N` or in `{1, …, N}`, Bohr sets as
 objects with their size and the progressions they contain, Chang's lemma, the bounds of Bateman
 and Katz and of Kelley and Meka, the slice rank of tensors as a notion, the theorem of Croot, Lev
 and Pach in `(ℤ/4)ⁿ`, tricoloured sum-free sets, arithmetic regularity, Szemerédi's theorem for
@@ -517,6 +531,9 @@ longer progressions, and positive-definite functions on finite abelian groups.
   at most one), `Matrix.rank_diagonal` (the rank of a diagonal matrix over a field is its number
   of nonzero diagonal entries). `Mathlib/LinearAlgebra/Dimension/LinearMap.lean`:
   `LinearMap.rank_add_le` (rank is subadditive).
+- `Mathlib/Data/Finset/Filter.lean`: `Finset.filter` (the subset cut out by a decidable
+  predicate). `Mathlib/Data/Fintype/BigOperators.lean`: `Fintype.card_pi` (the cardinality of a
+  finite product of finite types is the product of the cardinalities).
 - `Mathlib/Algebra/Module/ZMod.lean`: `AddSubgroup.toZModSubmodule` (an additive subgroup of a
   `ℤ/n`-module is a submodule). `Mathlib/LinearAlgebra/Dimension/Finrank.lean`:
   `Module.finrank`.
@@ -528,7 +545,8 @@ Nothing is consumed from Tau Ceti.
 ## References
 
 - Yufei Zhao, *Graph Theory and Additive Combinatorics: Exploring Structure and Randomness*,
-  Cambridge University Press, 2023; the manuscript of January 2023 on the author's page,
+  Cambridge University Press, 2023; the author's version on the author's page (last updated
+  June 18, 2024),
   whose page numbers are used above (they differ slightly from the printed book).
 - Jordan S. Ellenberg and Dion Gijswijt, *On large subsets of `𝔽_qⁿ` with no three-term
   arithmetic progression*, arXiv:1605.09223v1 (2016); Annals of Mathematics 185 (2017). The
@@ -536,5 +554,6 @@ Nothing is consumed from Tau Ceti.
 - Ernie Croot, Vsevolod F. Lev and Péter Pál Pach, *Progression-free sets in `ℤ₄ⁿ` are
   exponentially small*, arXiv:1605.01506v2 (2016); Annals of Mathematics 185 (2017). The
   numbering is that of the arXiv version.
-- Attributions made in prose without a locator: Roy Meshulam (the bound `O(3ⁿ/n)`, 1995);
+- Attributions made in prose without a locator: Roy Meshulam (the bound `O(3ⁿ/n)`, 1995, and
+  its form `2|G|/rk(G)` for abelian groups of odd order);
   N. N. Bogolyubov (1939, as Zhao reports).
