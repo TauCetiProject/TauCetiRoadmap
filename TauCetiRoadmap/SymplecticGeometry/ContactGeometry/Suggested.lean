@@ -17,15 +17,16 @@ Stated here:
 
 * the contact Darboux theorem, for contact forms with exact pullback of the standard form and for
   contact distributions (README §3.1, §3.2);
-* Gray stability on a closed manifold for a smooth family of contact forms (README §3.4);
-* the strict neighbourhood theorem for a closed embedded Legendrian submanifold (README §5.4);
+* Gray stability relative to a subset for a jointly smooth family of contact distributions, with no
+  compactness and no coorientation (README §3.3), and on a closed manifold for a family of
+  contact distributions and for a family of contact forms (README §3.4); joint smoothness of the
+  family `ξₜ` is smoothness of the distribution `(t, x) ↦ 0 × ξₜ(x)` on `ℝ × M`;
+* the strict neighbourhood theorem for an embedded Legendrian submanifold (README §5.4);
 * the Jacobi bracket of a contact form: its contact Hamiltonian vector field is the Lie bracket of
   those of its arguments, and it satisfies the Jacobi identity (README §6.1).
 
 Not statable at the pins, and stated only in the README:
 
-* Gray stability for a family of contact distributions, relative to a closed subset and without
-  coorientation (README §3.3, §3.4): the pins have no notion of a smooth family of distributions;
 * the isotropic neighbourhood theorem (README §5.2): the conformal symplectic normal bundle, a
   smooth vector bundle built from the contact line, does not exist at the pins;
 * the symplectization of a contact structure on the punctured dual contact line, the lift of
@@ -50,8 +51,9 @@ open TauCeti
 /-- **Contact Darboux theorem for contact forms** (README §3.2). Around every point of a
 `(2n+1)`-dimensional manifold without boundary, a contact form `α` is the pullback of the standard
 form `dz - Σ pᵢ dqᵢ` on `ℝⁿ × ℝⁿ × ℝ` by a diffeomorphism from an open neighbourhood of the point
-onto an open subset. The pullback is exact, not only up to a multiplier (Geiges, *An Introduction
-to Contact Topology*). -/
+onto an open subset. The pullback is exact, not only up to a multiplier (Courte–Guillermou,
+*Introduction to symplectic and contact geometry*, Theorem 3.12; Geiges, *Contact geometry*,
+Theorem 2.24). -/
 theorem exists_darbouxChart_mpullback_eq
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
@@ -70,7 +72,8 @@ theorem exists_darbouxChart_mpullback_eq
 coorientation or defining form chosen, is carried by a diffeomorphism from an open neighbourhood
 of the point onto an open subset of `ℝⁿ × ℝⁿ × ℝ` to the kernel of the standard form
 `dz - Σ pᵢ dqᵢ`: at each point `y` of the neighbourhood, `D y` is the inverse image of that kernel
-under the differential of the chart (Geiges, *An Introduction to Contact Topology*). -/
+under the differential of the chart (Courte–Guillermou, *Introduction to symplectic and contact
+geometry*, Theorem 3.11). -/
 theorem exists_darbouxChart_kerDistribution_eq
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
@@ -85,12 +88,55 @@ theorem exists_darbouxChart_kerDistribution_eq
             (mfderiv I 𝓘(ℝ, EuclideanSpace ℝ (Fin n) × EuclideanSpace ℝ (Fin n) × ℝ) φ y).toLinearMap := by
   sorry
 
-/-- **Gray stability on a closed manifold** (README §3.4). Let `M` be compact, Hausdorff and
-without boundary, and let `A` be a smooth one-form on `ℝ × M` whose restriction `αₜ` to each slice
-`{t} × M`, `t ∈ [0, 1]`, is a contact form. Then there is a diffeotopy `Φ` of `M` over `[0, 1]`
-and a positive function `g` with `Φₜ^* αₜ = gₜ α₀` for every `t`; in particular `Φₜ` carries the
-contact distribution `ker α₀` onto `ker αₜ` (Gray, *Some global properties of contact
-structures*, 1959; Geiges, *An Introduction to Contact Topology*). -/
+/-- **Relative Gray stability** (README §3.3). Let `ξₜ`, `t ∈ ℝ`, be hyperplane fields on a
+Hausdorff manifold `M` without boundary, jointly smooth: `(t, x) ↦ 0 × ξₜ(x)` is a smooth
+distribution of rank `dim M - 1` on `ℝ × M`. Assume that for `t ∈ [0, 1]` each `ξₜ` is a contact
+distribution and agrees with `ξ₀` at every point of a subset `K` (equivalently of its closure, by
+continuity). Then there are an open `V ⊇ K` and a smooth `φ : [0, 1] × V → M` with `φ₀ = id`,
+`φₜ = id` on `K`, each `φₜ` a diffeomorphism of `V` onto an open subset, and `dφₜ(ξ₀) = ξₜ` on `V`.
+Neither compactness of `K` or `M` nor a coorientation is assumed (Courte–Guillermou, *Introduction
+to symplectic and contact geometry*, Theorem 3.9, for compact `K`). -/
+theorem exists_relative_isotopy_map_mfderiv_eq
+    {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
+    [IsManifold I ∞ M] [T2Space M] [BoundarylessManifold I M]
+    (ξ : ℝ → Π x : M, Submodule ℝ (TangentSpace I x))
+    (hsmooth : IsContMDiffDistribution (𝓘(ℝ).prod I) ∞ (finrank ℝ E - 1)
+      (fun p : ℝ × M ↦ (ξ p.1 p.2).map (LinearMap.inr ℝ ℝ E)))
+    (hcontact : ∀ t ∈ Set.Icc (0 : ℝ) 1, IsContactDistribution I ∞ (ξ t))
+    {K : Set M} (hagree : ∀ t ∈ Set.Icc (0 : ℝ) 1, ∀ x ∈ K, ξ t x = ξ 0 x) :
+    ∃ V : Set M, IsOpen V ∧ K ⊆ V ∧ ∃ φ : ℝ → M → M,
+      ContMDiffOn (𝓘(ℝ).prod I) I ∞ (Function.uncurry φ) (Set.Icc 0 1 ×ˢ V) ∧
+      (∀ x ∈ V, φ 0 x = x) ∧ (∀ t ∈ Set.Icc (0 : ℝ) 1, ∀ x ∈ K, φ t x = x) ∧
+      (∀ t ∈ Set.Icc (0 : ℝ) 1, IsLocalDiffeomorphOn I I ∞ (φ t) V ∧ Set.InjOn (φ t) V) ∧
+      ∀ t ∈ Set.Icc (0 : ℝ) 1, ∀ x ∈ V,
+        ξ t (φ t x) = (ξ 0 x).map (mfderiv I I (φ t) x).toLinearMap := by
+  sorry
+
+/-- **Gray stability on a closed manifold for contact distributions** (README §3.4). Let `M` be
+compact, Hausdorff and without boundary, and let `ξₜ`, `t ∈ ℝ`, be hyperplane fields on `M`,
+jointly smooth as in `exists_relative_isotopy_map_mfderiv_eq`, with `ξₜ` a contact distribution
+for every `t ∈ [0, 1]`. Then there is a diffeotopy `Φ` of `M` over `[0, 1]` with `dΦₜ(ξ₀) = ξₜ` for
+every `t`; no coorientation is assumed (Courte–Guillermou, Theorem 3.10; for cooriented structures
+Geiges, *Contact geometry*, Theorem 2.20). -/
+theorem exists_diffeotopy_map_mfderiv_eq
+    {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
+    [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
+    [IsManifold I ∞ M] [CompactSpace M] [T2Space M] [BoundarylessManifold I M]
+    (ξ : ℝ → Π x : M, Submodule ℝ (TangentSpace I x))
+    (hsmooth : IsContMDiffDistribution (𝓘(ℝ).prod I) ∞ (finrank ℝ E - 1)
+      (fun p : ℝ × M ↦ (ξ p.1 p.2).map (LinearMap.inr ℝ ℝ E)))
+    (hcontact : ∀ t ∈ Set.Icc (0 : ℝ) 1, IsContactDistribution I ∞ (ξ t)) :
+    ∃ Φ : Diffeotopy I ∞ M, ∀ (t : unitInterval) (x : M),
+      ξ t (Φ (t, x)) = (ξ 0 x).map (mfderiv I I (fun y ↦ Φ (t, y)) x).toLinearMap := by
+  sorry
+
+/-- **Gray stability on a closed manifold for contact forms** (README §3.4). Let `M` be compact,
+Hausdorff and without boundary, and let `A` be a smooth one-form on `ℝ × M` whose restriction `αₜ`
+to each slice `{t} × M`, `t ∈ [0, 1]`, is a contact form. Then there is a diffeotopy `Φ` of `M`
+over `[0, 1]` and a positive function `g` with `Φₜ^* αₜ = gₜ α₀` for every `t`; in particular `Φₜ`
+carries the contact distribution `ker α₀` onto `ker αₜ` (Geiges, *Contact geometry*, Theorem 2.20
+and its proof). -/
 theorem exists_diffeotopy_mpullback_eq_pos_smul
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
@@ -111,11 +157,11 @@ theorem exists_diffeotopy_mpullback_eq_pos_smul
 
 /-- **Strict Legendrian neighbourhood theorem** (README §5.4). Let `α` be a contact form on a
 Hausdorff, second-countable `(2k+1)`-manifold `M` without boundary and let `ι : Λ → M` be a
-smooth embedding with closed image of a `k`-manifold `Λ` without boundary, tangent to `ker α`.
-Then a neighbourhood of the zero section `{(0_q, 0)}` of the one-jet space `T*Λ × ℝ` is carried
-diffeomorphically onto a neighbourhood of `ι(Λ)` by a map `φ` with `φ(0_q, 0) = ι q` which pulls
-`α` back exactly to the one-jet form `dz - λ`, `λ` the Liouville form of `T*Λ` (Kriegl–Michor,
-*The Convenient Setting of Global Analysis*, Proposition 43.18). -/
+smooth embedding of a `k`-manifold `Λ` without boundary, tangent to `ker α`; its image need not be
+closed. Then a neighbourhood of the zero section `{(0_q, 0)}` of the one-jet space `T*Λ × ℝ` is
+carried diffeomorphically onto a neighbourhood of `ι(Λ)` by a map `φ` with `φ(0_q, 0) = ι q` which
+pulls `α` back exactly to the one-jet form `dz - λ`, `λ` the Liouville form of `T*Λ`
+(Kriegl–Michor, *The Convenient Setting of Global Analysis*, Proposition 43.18). -/
 theorem exists_mpullback_eq_contactization_of_isLegendrian
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
@@ -125,7 +171,7 @@ theorem exists_mpullback_eq_contactization_of_isLegendrian
     [ChartedSpace H' Λ] [IsManifold J ∞ Λ] [BoundarylessManifold J Λ]
     (hdim : finrank ℝ E = 2 * finrank ℝ E' + 1)
     {α : SmoothForm I M ℝ 1} (hα : α.IsContactForm)
-    {ι : Λ → M} (hι : IsSmoothEmbedding J I ∞ ι) (hclosed : IsClosed (Set.range ι))
+    {ι : Λ → M} (hι : IsSmoothEmbedding J I ∞ ι)
     (hleg : ∀ (q : Λ) (v : TangentSpace J q), α.1 (ι q) ![mfderiv J I ι q v] = 0) :
     ∃ U : Set (CotangentBundle J Λ × ℝ), IsOpen U ∧
       (∀ q : Λ,

@@ -16,13 +16,13 @@ The headline theorems are these.
   standard form `dz − Σ pᵢ dqᵢ` on `ℝⁿ × ℝⁿ × ℝ`. For a chosen contact form `α` the chart can be
   taken with `α` equal to the standard form, not only proportional to it.
 - *Gray stability.* A smooth family of contact structures `ξₜ`, `t ∈ [0, 1]`, on a closed
-  manifold is induced by an isotopy, `dφₜ(ξ₀) = ξₜ`. If the `ξₜ` agree along a closed subset
+  manifold is induced by an isotopy, `dφₜ(ξ₀) = ξₜ`. If the `ξₜ` agree at every point of a subset
   `K`, an isotopy fixing `K` exists on a neighbourhood of `K`, with no compactness and no
   coorientation.
 - *Neighbourhood theorems.* A closed embedded isotropic submanifold has a neighbourhood determined
-  up to contactomorphism by its contact line and its conformal symplectic normal bundle. A closed
-  embedded Legendrian submanifold `Λ` of `(M, α)` has a neighbourhood on which `α` is pulled back
-  exactly from the one-jet form `dz − λ` on `T*Λ × ℝ`.
+  up to contactomorphism by its contact line and its conformal symplectic normal bundle. An
+  embedded Legendrian submanifold `Λ` of `(M, α)`, closed or not, has a neighbourhood on which `α` is
+  pulled back exactly from the one-jet form `dz − λ` on `T*Λ × ℝ`.
 - *Jacobi bracket.* For a contact form `α`, the bracket `{f, g} = dα(X_f, X_g) + f R_α(g) − g R_α(f)`
   of the contact Hamiltonian vector fields satisfies the Jacobi identity, and the contact
   Hamiltonian vector field of `{f, g}` is `[X_f, X_g]`.
@@ -63,7 +63,8 @@ statement that does not use the Hausdorff or countability hypotheses does not as
 dimension `dim M = 2n + 1` is explicit wherever `n` enters a statement. A *closed embedded
 submanifold* is the image of a smooth embedding (Mathlib's `Manifold.IsSmoothEmbedding`) of a
 manifold without boundary, closed as a subset; it need not be compact. A *closed manifold* is
-compact and without boundary. 2. **Forms and fields.** Forms are Tau Ceti's: smooth `k`-forms
+compact and without boundary.
+2. **Forms and fields.** Forms are Tau Ceti's: smooth `k`-forms
 `TauCeti.SmoothForm I M ℝ k`, rough forms `TauCeti.RoughForm`, the exterior derivative
 `TauCeti.mextDeriv`, pullback `TauCeti.mpullback` and `TauCeti.SmoothForm.mpullback`, the Lie
 derivative `TauCeti.mlieDerivForm` and the wedge product `TauCeti.RoughForm.wedge`. A distribution
@@ -76,28 +77,33 @@ Levi form `L_ξ(u, v) = −[U, V] mod ξ` (`TauCeti.distributionLeviForm`) is no
 `x` the map `ξₓ → Hom(ξₓ, Tₓ M/ξₓ)`, `u ↦ L_ξ(u, ·)`, is an isomorphism. This is Tau Ceti's
 `TauCeti.IsContactDistribution I ∞ ξ`. The minus sign is chosen so that, when `ξ = ker α`, the
 isomorphism `TM/ξ ≅ ℝ` induced by `α` carries `L_ξ` to `dα|ξ`
-(`TauCeti.SmoothForm.liftQ_distributionLeviForm_kerDistribution`). 4. **Four distinct objects.** (a)
+(`TauCeti.SmoothForm.liftQ_distributionLeviForm_kerDistribution`).
+4. **Four distinct objects.** (a)
 The contact distribution `ξ`. (b) Its contact line `L = TM/ξ`. (c) A coorientation: an orientation
 of `L`. (d) A contact form: a nowhere-zero section of the annihilator line `ξ⁰ ⊂ T*M`, equivalently
 a trivialization of `L`. A global contact form exists exactly when `ξ⁰` is trivial (§1.2); a contact
-form is never part of the definition of a contact structure. 5. **Contact forms.** A one-form `α` is
+form is never part of the definition of a contact structure.
+5. **Contact forms.** A one-form `α` is
 a contact form when `αₓ ≠ 0` and `dαₓ` is nondegenerate on `ker αₓ` at every point
 (`TauCeti.SmoothForm.IsContactForm`); in dimension `2n + 1` this is the pointwise nonvanishing of
 `α ∧ (dα)ⁿ` (§1.3), a pointwise condition, not a choice of orientation or of a normalized volume
 form. Replacing `α` by `f α` with `f` nowhere zero keeps `ξ`; `f > 0` keeps the coorientation and
-`f < 0` reverses it. 6. **Standard models.** The standard form is `α_std = dz − Σ pᵢ dqᵢ` on
+`f < 0` reverses it.
+6. **Standard models.** The standard form is `α_std = dz − Σ pᵢ dqᵢ` on
 `ℝⁿ × ℝⁿ × ℝ` with coordinates `(q, p, z)` (`TauCeti.innerProductContactForm` on
 `EuclideanSpace ℝ (Fin n)`). For `n = 1` it is Tau Ceti's `dz − x dy`
 (`TauCeti.standardContactForm`) under `(q, p, z) = (y, x, z)`
 (`TauCeti.mpullback_innerProductContactForm_real`), and DifferentialGeometry's displayed model
 `dz − y dx` under `(q, p, z) = (x, y, z)`. These identify the same standard model by explicit linear
-coordinate changes. 7. **Signs.** Symplectic conventions are those of the SymplecticGeometry family:
+coordinate changes.
+7. **Signs.** Symplectic conventions are those of the SymplecticGeometry family:
 `ω = −dλ` for a primitive `λ`, Hamiltonian vector fields by `ι_(X_f) ω = df`, Poisson bracket
 `{F, G}_ω = ω(X_F, X_G) = dF(X_G)`. The Reeb field of a contact form is fixed by `α(R_α) = 1` and
 `ι_(R_α) dα = 0`. The contact Hamiltonian vector field of a function `H` is fixed by `α(X_H) = H`
 and `ι_(X_H) dα = (R_α H) α − dH`; Cartan's formula then gives `L_(X_H) α = (R_α H) α`, so its local
 flow preserves `ξ` and its coorientation. A source using `α(X) = −H` instead obtains `X_(−H)` in
-this convention; for it, `ι_X dα = dH − (R_α H) α`. 8. **Names.** The Lean names of this roadmap
+this convention; for it, `ι_X dα = dH − (R_α H) α`.
+8. **Names.** The Lean names of this roadmap
 live in `TauCetiRoadmap.SymplecticGeometry.ContactGeometry`. A target without a declaration in
 `Suggested.lean` is described in words.
 
@@ -126,8 +132,8 @@ smooth real vector bundle of rank `dim M − k`, with fibre `Tₓ M/Dₓ` at `x`
 frames: a local frame of `D` (`TauCeti.IsDistributionFrameOn`) completed by `dim M − k` vector
 fields whose values span a complement, the transition functions being the blocks of the
 change-of-frame matrices that act on the complementary vectors modulo `D`. For a contact
-distribution `ξ` this is the **contact line** `L = TM/ξ` (Grenoble contact-geometry course notes,
-§§3.2–3.3).
+distribution `ξ` this is the **contact line** `L = TM/ξ`, the target of the Levi form
+(Courte–Guillermou, p. 35).
 *Needs:* Tau Ceti `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`,
 `TauCeti.distributionLeviForm`, `TauCeti.distributionLeviForm_apply`,
 `TauCeti.IsContactDistribution`; Mathlib `VectorBundle`, `ContMDiffVectorBundle`;
@@ -162,7 +168,7 @@ an overlap differ by a unique nowhere-zero smooth multiplier
 (`TauCeti.SmoothForm.kerDistribution_eq_iff_existsUnique_fun_smul`). Define a **coorientation** of
 `ξ` as an orientation of `L`: a choice of orientation (Mathlib's `Orientation`) of each fibre
 `Tₓ M/ξₓ` that near every point is the one in which some local contact form is positive; call `ξ`
-coorientable when one exists (Grenoble contact-geometry course notes, §§3.2–3.3).
+coorientable when one exists.
 *Needs:* §1.1; Tau Ceti `TauCeti.IsContMDiffDistribution.exists_local_annihilator`,
 `TauCeti.IsContactDistribution.exists_isContactFormAt`,
 `TauCeti.SmoothForm.kerDistribution_eq_iff_existsUnique_fun_smul`,
@@ -172,7 +178,7 @@ SmoothBundlesConnections §B2.1.
 - `ξ⁰ ≅ L*` as smooth line bundles, and the local contact forms with kernel `ξ` are exactly the
   nowhere-zero local sections of `ξ⁰`; every one of them is a contact form on its domain.
 - A global contact form with kernel `ξ` exists if and only if `ξ⁰` is trivial, if and only if `L`
-  is trivial, if and only if `ξ` is coorientable.
+  is trivial, if and only if `ξ` is coorientable (Geiges, §2, p. 4).
 - A contact form `α` with kernel `ξ` determines the coorientation in which `α`, read as a map
   `L → ℝ`, is positive; `f α` determines the same coorientation exactly where `f > 0` and the
   opposite one exactly where `f < 0`. On a connected manifold a coorientable `ξ` has exactly two
@@ -197,12 +203,12 @@ Prove that a smooth one-form `α` on a `(2n + 1)`-manifold is a contact form at 
 (`TauCeti.IsContactFormAt`) if and only if `(α ∧ (dα)ⁿ)ₓ ≠ 0`; hence `α` is a contact form if and
 only if `α ∧ (dα)ⁿ` vanishes nowhere. For a contact distribution, every local contact form
 satisfies the criterion on its domain, so the criterion and the Levi nondegeneracy of §1.1 are
-equivalent in the line-valued formulation (Grenoble contact-geometry course notes, §§3.2–3.3).
+equivalent in the line-valued formulation (Courte–Guillermou, pp. 34–35).
 *Needs:* Tau Ceti `TauCeti.SmoothForm.IsContactForm`, `TauCeti.IsContactFormAt`,
 `TauCeti.SmoothForm.isContactForm_iff_forall_isContactFormAt`, `TauCeti.RoughForm.wedge`,
 `TauCeti.mextDeriv`; Mathlib `ContinuousAlternatingMap`.
 
-- `(f α) ∧ (d(f α))ⁿ = fⁿ⁺¹ α ∧ (dα)ⁿ` for a smooth function `f`.
+- `(f α) ∧ (d(f α))ⁿ = fⁿ⁺¹ α ∧ (dα)ⁿ` for a smooth function `f` (Geiges, Remark 2.2, pp. 4–5).
 - Consequently `(−α) ∧ (d(−α))ⁿ = (−1)ⁿ⁺¹ α ∧ (dα)ⁿ`: for `n` odd a contact structure orients `M`
   by itself, and for `n` even the orientation of `M` defined by `α ∧ (dα)ⁿ` changes with the
   coorientation.
@@ -281,8 +287,7 @@ Strict contactomorphisms intertwine Reeb fields
 For a contact form `α` and a nowhere-zero smooth `f`, prove the normalized form of the rescaling
 law: `R_(fα) = (R_α + Z)/f`, where `Z = f Y ∈ ξ` is the unique vector of `ξ` with
 `ι_Z dα|ξ = df|ξ / f`; and `α(R_(fα)) = 1/f`, which is where the factor `f²` of the Tau Ceti form
-comes from. Both equations are verified directly from the defining equations of `R_(fα)` (Grenoble
-contact-geometry course notes, §§3.2–3.3).
+comes from. Both equations are verified directly from the defining equations of `R_(fα)`.
 *Needs:* Tau Ceti `TauCeti.SmoothForm.reebVectorField`,
 `TauCeti.SmoothForm.IsContactForm.reebVectorField_eq_inv_smul_add_iff`,
 `TauCeti.SmoothForm.IsContactForm.isCompl_kerDistribution_span_reebVectorField`.
@@ -301,7 +306,7 @@ coorientation-preserving contactomorphism between open subsets, and it is strict
 `R_α H = 0`, in particular for the Reeb flow (`H = 1`). The local flow exists on the open domain
 given by the smooth flow theorem; a global flow is asserted only under completeness of `X_H`, which
 holds when `M` is compact or `H` has compact support. Conversely, a smooth vector field `X` whose
-local flow preserves `ξ` is `X_(α(X))` (Grenoble contact-geometry course notes, §§3.2–3.3).
+local flow preserves `ξ` is `X_(α(X))` (Courte–Guillermou, pp. 35–36 and Lemma 3.7).
 *Needs:* Tau Ceti `TauCeti.flowOf`, `TauCeti.flowDomain`, `TauCeti.isOpen_flowDomain`,
 `TauCeti.contMDiffOn_flowOf`, `TauCeti.hasDerivAt_mpullback_globalFlow`,
 `TauCeti.SmoothForm.IsContactHamiltonianVectorField.mlieDerivForm_eq`,
@@ -324,7 +329,7 @@ contactomorphism and that both implications are strict; that each class is close
 composition and inverses; that a contactomorphism `F` with `F^*α' = g α` carries the contact
 Hamiltonian vector field of `H'` to that of `(H' ∘ F)/g`, that is `F^* X_(H') = X_((H' ∘ F)/g)`;
 and that the flows of §2.2 consist of coorientation-preserving contactomorphisms, strict exactly
-when `R_α H = 0` along the orbit (Grenoble contact-geometry course notes, §§3.2–3.3).
+when `R_α H = 0` along the orbit.
 *Needs:* §2.2; Layer 1 (§1.2 for coorientations); Tau Ceti
 `TauCeti.SmoothForm.kerDistribution_mpullback`, `Diffeomorph.isContactForm_mpullback_iff`,
 `TauCeti.SmoothForm.IsContactForm.mfderiv_reebVectorField_mpullback`.
@@ -366,16 +371,16 @@ trajectory through a point where the field vanishes for all times
 
 Prove `exists_darbouxChart_kerDistribution_eq`: for a smooth contact distribution `ξ` on a
 `(2n + 1)`-manifold without boundary and a point `x`, there are an open neighbourhood `U` of `x` and
-a smooth map `φ : U → ℝⁿ × ℝⁿ × ℝ`, a diffeomorphism onto an open subset, with `dφ_y(ξ_y) = ker α_std`
-at every `y ∈ U`. Given a coorientation of `ξ` on a neighbourhood of `x`, `φ` can be chosen to
-carry it to the coorientation of `α_std`; for a local contact form `α` this reads `φ^*α_std = g α`
-with `g` nowhere zero, and `g > 0` when the coorientation is fixed (Geiges, *An Introduction to
-Contact Topology*). This is distinct from the symplectic Darboux theorem. *Route:* take a local
-contact form, choose at `x` a basis in which `αₓ` and `dαₓ` are standard (Tau Ceti's linear normal
-form), join `α` to the pullback of `α_std` by the linear path of forms, contact on a neighbourhood
-of `x` because the two forms and their exterior derivatives agree at `x`, solve the contact-Moser
-equation along the path, and shrink the chart so that the time-dependent field, which vanishes at
-`x`, has its flow defined for all `t ∈ [0, 1]`.
+a smooth map `φ : U → ℝⁿ × ℝⁿ × ℝ`, a diffeomorphism onto an open subset, with
+`dφ_y(ξ_y) = ker α_std` at every `y ∈ U`. Given a coorientation of `ξ` on a neighbourhood of `x`,
+`φ` can be chosen to carry it to the coorientation of `α_std`; for a local contact form `α` this
+reads `φ^*α_std = g α` with `g` nowhere zero, and `g > 0` when the coorientation is fixed
+(Courte–Guillermou, Theorem 3.11, p. 37). This is distinct from the symplectic Darboux theorem.
+*Route:* take a local contact form, choose at `x` a basis in which `αₓ` and `dαₓ` are standard (Tau
+Ceti's linear normal form), join `α` to the pullback of `α_std` by the linear path of forms, contact
+on a neighbourhood of `x` because the two forms and their exterior derivatives agree at `x`, solve
+the contact-Moser equation along the path, and shrink the chart so that the time-dependent field,
+which vanishes at `x`, has its flow defined for all `t ∈ [0, 1]`.
 *Needs:* Layer 1; Tau Ceti `TauCeti.IsContactDistribution.exists_isContactFormAt`,
 `TauCeti.SmoothForm.IsContactForm.exists_linearEquiv_eq_stdContact`,
 `TauCeti.SmoothForm.contactMoserVectorField`, `TauCeti.timeDependentFlowOf`,
@@ -392,12 +397,12 @@ time-dependent flows).
 Prove `exists_darbouxChart_mpullback_eq`: for a contact form `α` on a `(2n + 1)`-manifold without
 boundary and a point `x`, there are an open neighbourhood `U` of `x` and a smooth map
 `φ : U → ℝⁿ × ℝⁿ × ℝ`, a diffeomorphism onto an open subset, with `φ^*α_std = α` exactly on `U`
-(Geiges, *An Introduction to Contact Topology*). Such a chart carries `R_α` to `∂_z`. *Route:* the
-Reeb flow out of a hypersurface `Σ` through `x` transverse to `R_α` writes `α = dz + β` near `x`,
-with `β` a one-form on `Σ` and `dβ` symplectic; the symplectic Darboux theorem gives coordinates on
-`Σ` in which `dβ = Σ dqᵢ ∧ dpᵢ`, so `β + Σ pᵢ dqᵢ` is closed, hence `dh` near `x`, and the
-coordinate `z + h` absorbs it. The generic form, flow and Moser primitives come from
-DifferentialGeometry and HeegaardFloer; the contact-specific algebra is here.
+(Courte–Guillermou, Theorem 3.12, p. 37; Geiges, Theorem 2.24, pp. 17–18). Such a chart carries
+`R_α` to `∂_z`. *Route:* the Reeb flow out of a hypersurface `Σ` through `x` transverse to `R_α`
+writes `α = dz + β` near `x`, with `β` a one-form on `Σ` and `dβ` symplectic; the symplectic Darboux
+theorem gives coordinates on `Σ` in which `dβ = Σ dqᵢ ∧ dpᵢ`, so `β + Σ pᵢ dqᵢ` is closed, hence
+`dh` near `x`, and the coordinate `z + h` absorbs it. The generic form, flow and Moser primitives
+come from DifferentialGeometry and HeegaardFloer; the contact-specific algebra is here.
 *Needs:* §2.2 (Reeb flow); Tau Ceti `TauCeti.flowOf`,
 `TauCeti.exists_diffeomorph_eventually_compContinuousLinearMap_fderiv_eq` (Darboux for a closed
 two-form nondegenerate at a point of a normed space); HeegaardFloer §4.1 (F2.1, Darboux charts on
@@ -411,23 +416,29 @@ primitive).
 
 ### 3.3 Relative Gray stability
 
-Let `M` be a manifold without boundary, `K ⊆ M` closed and `U` an open neighbourhood of `K`. Let
-`ξₜ` be contact distributions on `U`, for `t` in an open interval `T ⊇ [0, 1]`, jointly smooth: near
-every point of `T × U` they are the kernels of one-forms `αₜ` depending smoothly on `(t, x)`. Assume
-`ξₜ(x) = ξ₀(x)` for every `x ∈ K` and every `t`; no coorientation is assumed. Prove that there are
-an open `V` with `K ⊆ V ⊆ U` and a smooth map `φ : [0, 1] × V → U` with `φ₀ = id`, each `φₜ` a
-diffeomorphism of `V` onto an open subset of `U`, `φₜ(x) = x` for `x ∈ K`, and `dφₜ(ξ₀) = ξₜ` on
-`V`. Locally, for defining forms `αₜ` of `ξₜ`, the identity reads `φₜ^* αₜ = gₜ α₀` with `gₜ`
-nowhere zero, positive when the `αₜ` define compatible coorientations (Gray 1959; Geiges, *An
-Introduction to Contact Topology*; Grenoble contact-geometry course notes, §§3.2–3.3). *Route:* on a
-domain of local defining forms `αₜ` the contact-Moser field `Yₜ` of `(αₜ, ∂ₜ αₜ)` solves `Yₜ ∈ ξₜ`,
-`(ι_(Yₜ) dαₜ + ∂ₜ αₜ)|ξₜ = 0`; replacing `αₜ` by `fₜ αₜ` replaces `∂ₜ αₜ` by `fₜ ∂ₜ αₜ + (∂ₜ fₜ) αₜ`
-and leaves `Yₜ` unchanged for every nowhere-zero `fₜ`, of either sign, so the local fields glue to a
-global smooth time-dependent field on `U` without a global form or an oriented contact line. On `K`,
-`∂ₜ αₜ` is a multiple of `α₀`, so `Yₜ` vanishes there; each trajectory through `K` is stationary and
-exists on `[0, 1]`, and openness of the time-dependent flow domain gives `V`, with no compactness of
-`K` and no uniform width.
+Let `M` be a Hausdorff manifold without boundary (second countability is not used) and `K ⊆ M` a
+subset. Let `ξₜ`, `t ∈ ℝ`, be hyperplane fields on `M`, jointly smooth: `(t, x) ↦ 0 × ξₜ(x)` is a
+smooth distribution of rank `dim M − 1` on `ℝ × M` (`TauCeti.IsContMDiffDistribution`), equivalently
+near every point of `ℝ × M` the `ξₜ` are the kernels of one-forms `αₜ` depending smoothly on
+`(t, x)`. Assume that for every `t ∈ [0, 1]` the field `ξₜ` is a contact distribution and
+`ξₜ(x) = ξ₀(x)` for every `x ∈ K`; no coorientation is assumed, and by continuity the agreement
+extends to the closure of `K`. Prove `exists_relative_isotopy_map_mfderiv_eq`: there are an open
+`V ⊇ K` and a smooth map `φ : [0, 1] × V → M` with `φ₀ = id`, each `φₜ` a diffeomorphism of `V`
+onto an open subset of `M`, `φₜ(x) = x` for `x ∈ K`, and `dφₜ(ξ₀) = ξₜ` on `V`. A family given only
+on an open `U ⊇ K` is the case `M = U`, and one given only for `t` in an open interval `T ⊇ [0, 1]`
+is reparametrized by a diffeomorphism `ℝ → T` that is the identity on `[0, 1]`. Locally, for
+defining forms `αₜ` of `ξₜ`, the identity reads `φₜ^* αₜ = gₜ α₀` with `gₜ` nowhere zero, positive
+when the `αₜ` define compatible coorientations (Courte–Guillermou, Theorem 3.9, p. 36, for compact
+`K`). *Route:* the set of `(t, x)` at which `ξₜ` is contact is open and contains `[0, 1] × M`. On
+it, on a domain of local defining forms `αₜ`, the contact-Moser field `Yₜ` of `(αₜ, ∂ₜ αₜ)` solves
+`Yₜ ∈ ξₜ`, `(ι_(Yₜ) dαₜ + ∂ₜ αₜ)|ξₜ = 0`; replacing `αₜ` by `fₜ αₜ` replaces `∂ₜ αₜ` by
+`fₜ ∂ₜ αₜ + (∂ₜ fₜ) αₜ` and leaves `Yₜ` unchanged for every nowhere-zero `fₜ`, of either sign, so the
+local fields glue to a smooth time-dependent field on that open set without a global form or an
+oriented contact line. On `K`, for `t ∈ [0, 1]`, `∂ₜ αₜ` is a multiple of `α₀`, so `Yₜ` vanishes
+there; each trajectory through `K` is stationary and exists on `[0, 1]`, and openness of the
+time-dependent flow domain gives `V`, with no compactness of `K` and no uniform width.
 *Needs:* Layer 1 (§1.2 for local forms and transition functions); Tau Ceti
+`TauCeti.IsContMDiffDistribution`, `TauCeti.IsContactDistribution`,
 `TauCeti.SmoothForm.contactMoserVectorField`,
 `TauCeti.SmoothForm.IsContactForm.contactMoserVectorField_of_eq_smul`,
 `TauCeti.SmoothForm.IsContactForm.contactMoserVectorField_eq_zero_iff`,
@@ -441,14 +452,16 @@ DifferentialGeometry Layer 3 (item 3.5) and Layer 1 (item 1.4, Cartan calculus).
 
 ### 3.4 Gray stability on closed manifolds
 
-When `M` is a closed manifold and `U = M`, the field of §3.3 is defined on all of `M` and its
-time-dependent flow is complete, so a smooth family of contact distributions `ξₜ`, `t ∈ [0, 1]`,
-is induced by a diffeotopy `Φ` of `M` (`TauCeti.Diffeotopy`): `dΦₜ(ξ₀) = ξₜ`. Prove
-`exists_diffeotopy_mpullback_eq_pos_smul`, the statement for a smooth family of contact forms
-`αₜ`, given as the restrictions to the slices `{t} × M` of one smooth one-form on `ℝ × M`: there are
-a diffeotopy `Φ` and a positive function `g` with `Φₜ^* αₜ = gₜ α₀` for every `t ∈ [0, 1]`
-(Gray 1959; Geiges, *An Introduction to Contact Topology*).
-*Needs:* §3.3; Tau Ceti `TauCeti.Diffeotopy`, `TauCeti.timeDependentFlowOf`;
+When `M` is a closed manifold, the field of §3.3 is defined on all of `M` for `t` near `[0, 1]`,
+and its time-dependent flow is complete. Prove `exists_diffeotopy_map_mfderiv_eq`: a family `ξₜ`,
+`t ∈ ℝ`, jointly smooth as in §3.3 and contact for `t ∈ [0, 1]`, is induced by a diffeotopy `Φ` of
+`M` (`TauCeti.Diffeotopy`), `dΦₜ(ξ₀) = ξₜ` for every `t ∈ [0, 1]`, with no coorientation
+(Courte–Guillermou, Theorem 3.10, p. 37). Prove `exists_diffeotopy_mpullback_eq_pos_smul`, the
+statement for a smooth family of contact forms `αₜ`, given as the restrictions to the slices
+`{t} × M` of one smooth one-form on `ℝ × M`: there are a diffeotopy `Φ` and a positive function `g`
+with `Φₜ^* αₜ = gₜ α₀` for every `t ∈ [0, 1]` (Geiges, Theorem 2.20 and its proof, pp. 14–15).
+*Needs:* §3.3; Tau Ceti `TauCeti.IsContMDiffDistribution`, `TauCeti.IsContactDistribution`,
+`TauCeti.Diffeotopy`, `TauCeti.timeDependentFlowOf`;
 DifferentialGeometry Layer 3 (items 3.3, completeness on compact manifolds, and 3.5).
 
 **Checks.**
@@ -496,7 +509,7 @@ the SymplecticGeometry convention. A contact form `α` with kernel `ξ` identifi
 `L* ∖ 0` on which `ℓ` is a positive multiple of `α` with `ℝ × M`, `(t, x) ↦ eᵗ αₓ`, carrying `θ` to
 Tau Ceti's `eᵗ α`; the trivialized `ℝ × M` is thus the cooriented case, and the full `L* ∖ 0`
 contains both components of a coorientable `ξ` and is connected for a noncoorientable `ξ` on a
-connected manifold (Grenoble contact-geometry course notes, §§3.2–3.3).
+connected manifold.
 *Needs:* §1.1, §1.2; Tau Ceti `TauCeti.SmoothForm.symplectization`,
 `TauCeti.SmoothForm.isSymplectic_mextDerivₗ_symplectization_iff`, `TauCeti.SmoothTwoForm.IsSymplectic`;
 SmoothBundlesConnections §B2.1 (dual bundle).
@@ -534,13 +547,13 @@ embedded hypersurface `Y` transverse to `Z`, the restriction `α = −λ|Y` is a
 `TauCeti.IsContactType.isContactForm_mpullback`, with `L_Z λ = λ` from
 `TauCeti.mlieDerivForm_eq_self_of_interior_eq`). Prove the collar theorem with the local flow: on an
 open neighbourhood of `{0} × Y` in `ℝ × Y` contained in the flow domain, the map
-`Φ(s, y) = φ_Z^s(y)` is a diffeomorphism onto an open neighbourhood of `Y` with
-`Φ^*(−λ) = eˢ α` and `Φ^*ω = d(eˢ α)`; the identity `L_Z λ = λ` along the flow fixes both signs.
-For noncompact `Y` the domain is open with variable collar width; a collar of uniform width
-`(−ε, ε) × Y` is asserted only when `Y` is compact or the flow of `Z` is defined on it. For a
-complete `Z` the form identity is Tau Ceti's `TauCeti.mpullback_globalFlow_comp_eq_symplectization`.
-Under DGFloer's convention `ω = dλ_D`, `ι_Z ω = λ_D`, the primitive is `λ_D = −λ`, and its boundary
-form `λ_D|Y` is the `α` above.
+`Φ(s, y) = φ_Z^s(y)` is a diffeomorphism onto an open neighbourhood of `Y` with `Φ^*(−λ) = eˢ α` and
+`Φ^*ω = d(eˢ α)`; the identity `L_Z λ = λ` along the flow fixes both signs. For noncompact `Y` the
+domain is open with variable collar width; a collar of uniform width `(−ε, ε) × Y` is asserted only
+when `Y` is compact, or when `Φ` is defined and injective on `(−ε, ε) × Y`; completeness of `Z` does
+not give it. For a complete `Z` the form identity is Tau Ceti's
+`TauCeti.mpullback_globalFlow_comp_eq_symplectization`. Under DGFloer's convention `ω = dλ_D`,
+`ι_Z ω = λ_D`, the primitive is `λ_D = −λ`, and its boundary form `λ_D|Y` is the `α` above.
 *Needs:* §4.1 (for the comparison with the symplectization); Tau Ceti `TauCeti.IsContactType`,
 `TauCeti.IsContactType.isContactForm_mpullback`, `TauCeti.mlieDerivForm_eq_self_of_interior_eq`,
 `TauCeti.mpullback_globalFlow_comp_eq_symplectization`, `TauCeti.flowOf`, `TauCeti.flowDomain`;
@@ -552,6 +565,10 @@ DifferentialGeometry Layer 3 (item 3.2).
   `Φ(s, y) = e^(s/2) y` is a diffeomorphism of `ℝ × S²ⁿ⁺¹` onto `ℝ²ⁿ⁺² ∖ 0`, and since `λ` is
   homogeneous of degree two, `Φ^*(−λ) = eˢ α`. With `Z(u) = u` the collar would be `eˢ y` and give
   `e^(2s) α`.
+- In `ℝ² ∖ 0` with the complete field `Z(u) = u/2`, let `Y` be the spiral `r = ρ(θ)`, `θ ∈ ℝ`, with
+  `ρ′ > 0`, `ρ → 0` as `θ → −∞` and `ρ(θ) = θ` for `θ ≥ 3`: a closed embedded curve transverse to
+  `Z`. For `θ ≥ 3` the points of `Y` at angles `θ` and `θ + 2π` lie on one ray and are joined by the
+  flow in time `2 log(1 + 2π/θ)`, which tends to `0`, so `Φ` is injective on no `(−ε, ε) × Y`.
 
 ### 4.4 Contactization
 
@@ -592,7 +609,8 @@ then vanishes on `TN`, by pulling back a local defining form and its exterior de
 bundle** `CSN(N) = (TN)^⊥_L / TN`, where `(TN)^⊥_L ⊂ ξ|N` is the `L`-valued Levi orthogonal of
 `TN`, as a smooth vector bundle of rank `2(n − dim N)` over `N` carrying the nondegenerate
 `L|N`-valued form induced by `L_ξ`; build it from local defining forms and prove its independence
-of them through the transition laws of §1.2 (Geiges, *An Introduction to Contact Topology*).
+of them through the transition laws of §1.2 (for cooriented `ξ`, Geiges, §2.4.2, pp. 19–20; for
+`dim N ≤ n`, Courte–Guillermou, Proposition 3.5, p. 35).
 *Needs:* §1.1, §1.2; Tau Ceti `TauCeti.distributionLeviForm`, `TauCeti.SmoothForm.mpullback`;
 Mathlib `Manifold.IsImmersion`; SmoothBundlesConnections §B2.1.
 
@@ -612,11 +630,14 @@ Prove: let `N ⊂ M` and `N' ⊂ M'` be closed embedded isotropic submanifolds, 
 diffeomorphism, `ψ_L : L|N ≅ ψ*(L'|N')` an isomorphism of contact lines and `Ψ : CSN(N) → CSN(N')` a
 bundle isomorphism over `ψ` that is conformally symplectic with respect to `ψ_L`. Then `ψ` extends
 to a contactomorphism of neighbourhood germs of `N` and `N'` inducing `ψ_L` on contact lines and
-`Ψ` on conformal symplectic normal bundles (Geiges, *An Introduction to Contact Topology*).
+`Ψ` on conformal symplectic normal bundles. For compact `N` in a cooriented `ξ` Geiges proves the
+extension with an induced map on conformal symplectic normal bundles that is only bundle homotopic
+to `Ψ` (Geiges, Theorem 2.27, p. 21); the form stated here, for closed and possibly noncompact `N`,
+a possibly nontrivial contact line and `Ψ` realized exactly, is proved by the route below.
 *Route.* Build the full first-order identification of `TM|N` with `TM'|N'` from `ψ`, `ψ_L` and `Ψ`
 and realize it by a tubular embedding (GeometricTopology §1.5). Extend `ψ_L` from `N` to the
 tubular neighbourhoods by bundle transport along the normal fibres (SmoothBundlesConnections
-§B5.1), so the two quotient forms are compared in one line bundle; choose complements so that their
+§B5.0), so the two quotient forms are compared in one line bundle; choose complements so that their
 full values and line-valued Levi forms agree along `N`. Their affine interpolation is contact on a
 neighbourhood of `N` for all `t ∈ [0, 1]`, and §3.3 gives a first germ fixing `N` and its contact
 line, whose induced normal map is only homotopic to `Ψ`. Then realize `Ψ` exactly by an additional
@@ -633,7 +654,7 @@ stationary and the flow domain is open, so the flow exists to time `1` on a neig
 without compactness. Composing this correcting flow on the source with the first germ gives
 exactly `Ψ`. The germ existence statement is independent of the auxiliary complements.
 *Needs:* §5.1; §3.3; §2.2; GeometricTopology §1.5 (Tau Ceti
-`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`); SmoothBundlesConnections §B5.1
+`TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`); SmoothBundlesConnections §B5.0
 (transport in a vector bundle); DifferentialGeometry Layer 3 (item 3.5).
 
 **Checks.**
@@ -649,7 +670,7 @@ submanifold** is the image of a Legendrian embedding. Prove that in `J¹Q = T*Q 
 `dz − λ_Q` the one-jet `j¹f(q) = (df_q, f(q))` of a smooth function is a Legendrian embedding, and
 the graph criterion: the image of a section `q ↦ (σ(q), u(q))` of `J¹Q → Q` is Legendrian if and only
 if `σ = du`, so the Legendrian sections are exactly the one-jets of functions (the contact lift of
-`u`).
+`u`) (Courte–Guillermou, p. 35; Kriegl–Michor, 43.17, p. 472).
 *Needs:* §5.1; Tau Ceti `TauCeti.SmoothForm.contactization`, `TauCeti.CotangentBundle.liouvilleForm`,
 `TauCeti.CotangentBundle.mpullback_liouvilleForm` (the Liouville form pulls back along the section
 of a one-form to that form); Mathlib `Manifold.IsSmoothEmbedding`.
@@ -662,15 +683,16 @@ of a one-form to that form); Mathlib `Manifold.IsSmoothEmbedding`.
 ### 5.4 The strict Legendrian neighbourhood theorem
 
 Prove `exists_mpullback_eq_contactization_of_isLegendrian`: let `α` be a contact form on a
-`(2n + 1)`-manifold `M` and `ι : Λ → M` a Legendrian embedding with closed image of an
-`n`-manifold. Then there are an open neighbourhood `U` of the zero section of `T*Λ × ℝ` and a map
+`(2n + 1)`-manifold `M` and `ι : Λ → M` a Legendrian embedding of an `n`-manifold, its image closed
+or not. Then there are an open neighbourhood `U` of the zero section of `T*Λ × ℝ` and a map
 `φ : U → M`, a diffeomorphism onto an open neighbourhood of `ι(Λ)`, with `φ(0_q, 0) = ι(q)` and
-`φ^*α = dz − λ_Λ` exactly, `λ_Λ` the Liouville form of `T*Λ` (Kriegl–Michor, §43,
-Proposition 43.18). This is a strict contactomorphism for the chosen forms, not only a
-contactomorphism of their kernels; the contact-structure argument of §3.3 alone gives only
-`φ^*α = g (dz − λ_Λ)` with `g` nowhere zero, positive when coorientations are preserved, which is
-not equivalent. Compact `Λ` is a special case. Kriegl–Michor's model `θ_Λ − dt` is carried to
-`dz − λ_Λ` by reversing both the cotangent-fibre and the real coordinate.
+`φ^*α = dz − λ_Λ` exactly, `λ_Λ` the Liouville form of `T*Λ` (Kriegl–Michor, §43, Proposition 43.18,
+pp. 472–473). This is a strict contactomorphism for the chosen forms, not only a contactomorphism of
+their kernels; the contact-structure argument of §3.3 alone gives only `φ^*α = g (dz − λ_Λ)` with
+`g` nowhere zero, positive when coorientations are preserved, which is not equivalent. Compact `Λ`
+is a special case, and closedness of the image is not assumed: an embedded submanifold is closed in
+some open neighbourhood `W` of itself, and the route below runs in `W`. Kriegl–Michor's model
+`θ_Λ − dt` is carried to `dz − λ_Λ` by reversing both the cotangent-fibre and the real coordinate.
 *Route* (Kriegl–Michor, Proposition 43.18). After identifying the full first-order contact data
 along `Λ` by a tubular embedding, arrange the two forms to have the same value and exterior
 derivative on the full ambient tangent bundle along the zero section; interpolate
@@ -699,24 +721,26 @@ along `Λ` are stationary and the flow domain is open, and the time-one map give
 For a closed embedded Legendrian `Λ` whose contact line `L|Λ` may be nontrivial, use the
 vector-bundle first jets `J¹(L|Λ)` with their transition and projection laws from
 PseudodifferentialOperators P1.0, specialized to a real line bundle. A connection `∇` on `L|Λ`
-(SmoothBundlesConnections §B3.3) splits `J¹(L|Λ) ≅ (L|Λ) ⊕ (T*Λ ⊗ L|Λ)` by PseudodifferentialOperators
-P1.0's connection splitting, and a change of connection changes the splitting by the
-difference-of-connections law. Let `z` and `p` be the tautological fibre sections. Prove that the
-`L`-valued one-form `θ = ∇z − p`, with `p` evaluated on the base projection, defines a hyperplane
-field near the zero section whose Levi pairing along the zero section is the tautological pairing
-between `TΛ` and `T*Λ ⊗ L`; that it is contact near the zero section; that its transition maps are
-those of `J¹(L|Λ)`; that changing `∇` gives contactomorphic germs, explicitly by the fibre shift in
-`p` induced by the difference of the two connections; and that in a trivialization with flat
-connection it is `dz − Σ pᵢ dqᵢ`. Then prove the neighbourhood theorem: a closed embedded Legendrian
-`Λ ⊂ (M, ξ)` has a neighbourhood germ contactomorphic to that of the zero section in this model,
-by a contactomorphism of hyperplane germs inducing the given identification of contact lines along
-`Λ`, under which the canonical line-valued quotient forms correspond through the induced line
-bundle map. The strict theorem of §5.4 additionally fixes a contact form; its untwisted model is the
-trivial-line case. For noncompact `Λ` the neighbourhoods are germs along `Λ` with no uniform
-width, obtained from a tubular germ and the open flow domain as in §3.3.
+(SmoothBundlesConnections §B3.3) splits `J¹(L|Λ) ≅ (L|Λ) ⊕ (T*Λ ⊗ L|Λ)` by
+PseudodifferentialOperators P1.0's connection splitting, and a change of connection changes the
+splitting by the difference-of-connections law. Let `z` and `p` be the tautological fibre sections.
+Prove that the `L`-valued one-form `θ = ∇z − p`, with `p` evaluated on the base projection, defines
+a hyperplane field near the zero section whose Levi pairing along the zero section is the
+tautological pairing between `TΛ` and `T*Λ ⊗ L`; that it is contact near the zero section; that its
+transition maps are those of `J¹(L|Λ)`; that changing `∇` gives contactomorphic germs, explicitly by
+the fibre shift in `p` induced by the difference of the two connections; and that in a
+trivialization with flat connection it is `dz − Σ pᵢ dqᵢ`. Then prove the neighbourhood theorem: a
+closed embedded Legendrian `Λ ⊂ (M, ξ)` has a neighbourhood germ contactomorphic to that of the zero
+section in this model, by a contactomorphism of hyperplane germs inducing the given identification
+of contact lines along `Λ`, under which the canonical line-valued quotient forms correspond through
+the induced line bundle map. The strict theorem of §5.4 additionally fixes a contact form; its
+untwisted model is the trivial-line case. For compact `Λ` and a contact form defined near `Λ`, the
+germ statement is Courte–Guillermou, Theorem 3.13, p. 38. For noncompact `Λ` the neighbourhoods are
+germs along `Λ` with no uniform width, obtained from a tubular germ and the open flow domain as in
+§3.3.
 *Needs:* §5.2 (or §3.3 directly); §1.1; PseudodifferentialOperators P1.0 (first jets of a vector
 bundle, connection splitting, difference law); SmoothBundlesConnections §B3.3 (connections) and
-§B5.1 (transport); GeometricTopology §1.5.
+§B5.0 (transport); GeometricTopology §1.5.
 
 **Checks.**
 - For `L|Λ` trivial with the trivial connection `d`, `θ = dz − p` is `dz − Σ pᵢ dqᵢ` in local
@@ -727,9 +751,9 @@ bundle, connection splitting, difference law); SmoothBundlesConnections §B3.3 (
 
 ### 5.6 Unit cosphere bundles and unit conormals
 
-Consume CotangentLagrangian C1's Liouville form and C2.2's unit cosphere bundle
-`TauCeti.CotangentBundle.cosphereBundle` of a Riemannian manifold `Q` with its two signed contact
-forms, `α_b = −λ_can|S*Q`
+Consume the Liouville form of CotangentLagrangian Layer 1 (C1) and, from its §2.2 (C2.2), the unit
+cosphere bundle `TauCeti.CotangentBundle.cosphereBundle` of a Riemannian manifold `Q` with its two
+signed contact forms, `α_b = −λ_can|S*Q`
 (`TauCeti.CotangentBundle.isContactForm_mpullback_neg_liouvilleForm_cosphereBundle`) and
 `α_g = +λ_can|S*Q = −α_b`
 (`TauCeti.CotangentBundle.isContactForm_mpullback_liouvilleForm_cosphereBundle`), and the radial
@@ -738,18 +762,18 @@ positive multiple of itself (`Diffeomorph.pos_mpullback_cosphereRadial_neg_liouv
 Prove that the radial identification preserves the contact line and its coorientation in the sense
 of §1.2. For an embedded submanifold `S ⊂ Q` of positive codimension, prove that its unit conormal
 `N*S ∩ S*Q` is an embedded Legendrian submanifold for both `α_b` and `α_g`, from `λ_can|N*S = 0`
-(CotangentLagrangian C2.2, Tau Ceti
+(CotangentLagrangian §2.2 (C2.2), Tau Ceti
 `TauCeti.CotangentBundle.mpullback_liouvilleForm_eq_zero_of_conormal`) and the dimension count
 `dim(N*S ∩ S*Q) = dim Q − 1`. For embeddedness: the radial field is tangent to the conic `N*S` and
 transverse to `S*Q`, so the intersection is transverse; it is closed in `S*Q` when `S` is closed in
 `Q`, and an embedded `S` that is not closed need not give a closed unit conormal. For the canonical
-symplectic convention use C2.2's boundary form `α_b`: on the component of the punctured contact line
-on which `ℓ` is a positive multiple of `α_b`, `θ = r α_b` and the radial map `(r, z) ↦ r z` pulls
-`ω_can` back to `dθ`. For `α_g` the same radial map pulls `ω_can` back to `−d(r α_g)`; it is
-anti-symplectic for `d(r α_g)`. The full punctured contact line keeps both components, and the
-radial symplectomorphism uses the chosen positive one. C2.2's construction is consumed, not
-repeated.
-*Needs:* §1.2, §4.1, §5.3; CotangentLagrangian C1 and C2.2; Tau Ceti
+symplectic convention use the boundary form `α_b` of CotangentLagrangian §2.2: on the component of
+the punctured contact line on which `ℓ` is a positive multiple of `α_b`, `θ = r α_b` and the radial
+map `(r, z) ↦ r z` pulls `ω_can` back to `dθ`. For `α_g` the same radial map pulls `ω_can` back to
+`−d(r α_g)`; it is anti-symplectic for `d(r α_g)`. The full punctured contact line keeps both
+components, and the radial symplectomorphism uses the chosen positive one. The construction of
+CotangentLagrangian §2.2 is consumed, not repeated.
+*Needs:* §1.2, §4.1, §5.3; CotangentLagrangian Layer 1 (C1) and §2.2 (C2.2); Tau Ceti
 `TauCeti.CotangentBundle.cosphereBundle`, `Diffeomorph.cosphereRadial`,
 `TauCeti.CotangentBundle.mpullback_liouvilleForm_eq_zero_of_conormal`.
 
@@ -762,16 +786,21 @@ repeated.
 ### Examples
 
 - The fibres of `S*Q → Q` are Legendrian spheres for `α_b`: the unit conormals of the points.
-- A Legendrian curve in `(ℝ³, dz − p dq)` is determined by its front, its projection to the
-  `(q, z)`-plane: where the front is a graph `z = f(q)`, the curve is `j¹f`, with `p = f′(q)`.
+- A Legendrian immersion `t ↦ (q, p, z)` of an interval into `(ℝ³, dz − p dq)` satisfies
+  `z′ = p q′`, so where `q′ ≠ 0` it is determined by its front `t ↦ (q, z)`, its projection to the
+  `(q, z)`-plane: `p = z′/q′`, and where the front is the graph of `z = f(q)` the curve is `j¹f`,
+  with `p = f′(q)`. A curve whose front is an immersion outside a discrete set of times is therefore
+  determined by its front, `p` extending by continuity (Geiges, Lemma 2.45, p. 38, in the
+  coordinates `(x, y) = (−p, q)`). Without that condition it is not: `t ↦ (0, t, 0)` and
+  `t ↦ (0, 2t, 0)`, `t ∈ (0, 1)`, have the same one-point front.
 
 ### Dependencies
 
 Layers 1 to 4. Tau Ceti: tubular neighbourhoods, the one-jet form, the Liouville form, the cosphere
 bundle and its radial identification, conormal vanishing of the Liouville form, the contact flat
 map and time-dependent flows. GeometricTopology §1.5. SmoothBundlesConnections §§B2.1, B3.3 and
-B5.1. PseudodifferentialOperators P1.0. CotangentLagrangian C1 and C2.2. DifferentialGeometry
-Layer 3.
+B5.0. PseudodifferentialOperators P1.0. CotangentLagrangian Layer 1 (C1) and §2.2 (C2.2).
+DifferentialGeometry Layer 3.
 
 ## Layer 6: the Jacobi bracket and the Floer boundary interface
 
@@ -808,9 +837,10 @@ contact line `L`. A local contact form `α` trivializes `L`, a section `s` being
 function `α(s)`. Prove the transition law: for `α' = h α` with `h` nowhere zero, the section
 represented by `f` for `α` is represented by `h f` for `α'`, the contact Hamiltonian vector fields
 agree, `X^(α')_(hf) = X^α_f`, and `{h f, h g}_(α') = h {f, g}_α`; so the local brackets glue to a
-bracket on smooth sections of `L`, with no coorientation. Prove that `X ↦ X mod ξ` identifies contact
-vector fields with smooth sections of `L`, carrying the Lie bracket to this bracket, and that the
-bracket is a Lie bracket given by a bidifferential operator of order one in each argument.
+bracket on smooth sections of `L`, with no coorientation. Prove that `X ↦ X mod ξ` identifies
+contact vector fields with smooth sections of `L` (Courte–Guillermou, Remark 3.8, p. 36), carrying
+the Lie bracket to this bracket, and that the bracket is a Lie bracket given by a bidifferential
+operator of order one in each argument.
 *Needs:* §6.1; §1.1, §1.2.
 
 **Checks.**
@@ -842,7 +872,7 @@ the collar of §4.3 are the interface offered to Floer-theoretic boundary constr
 sign adapter to DGFloer's conventions: with `ω = dλ_D` and `ι_Z ω = λ_D`, `λ_D = −λ`, the boundary
 contact form `λ_D|Y` is the form `α = −λ|Y` of §4.3, its Reeb field is the same, and the collar
 identity reads `Φ^* λ_D = eˢ α`. On cotangent examples the boundary form is `−λ_can|S*Q = α_b`, as in
-CotangentLagrangian C2.2.
+CotangentLagrangian §2.2 (C2.2).
 *Needs:* §4.3, §5.6; DGFloer (standing conventions, sign dictionary).
 
 **Checks.**
@@ -864,8 +894,9 @@ formula. Mathlib: the Lie bracket of vector fields. DGFloer standing conventions
 - SymplecticFieldTheory consumes Layer 1 (contact distributions and cooriented forms), Layer 2
   (Reeb fields, their rescaling law, contact vector fields and flows), Layer 4 (the symplectization
   with `ω = dθ = −dλ`) and Layer 6.
-- CotangentLagrangian C2.2 uses the contact predicate of the Conventions (Tau Ceti's
-  `TauCeti.SmoothForm.IsContactForm`) for its signed cosphere forms; §5.6 consumes C2.2 in turn.
+- CotangentLagrangian §2.2 (C2.2) uses the contact predicate of the Conventions (Tau Ceti's
+  `TauCeti.SmoothForm.IsContactForm`) for its signed cosphere forms; §5.6 consumes that section in
+  turn.
 - The SymplecticGeometry family places Darboux, Gray and neighbourhood refinements specific to
   contact geometry in Layers 3 to 5.
 
@@ -897,11 +928,11 @@ fields and the symplecticity of `d(eᵗ α)`, which Layers 2 and 4 therefore do 
 Owned elsewhere and consumed here: forms, the exterior derivative, Cartan calculus, flows,
 time-dependent flows, distributions and the contact acceptance examples (DifferentialGeometry
 Layers 0, 1, 3, 4 and 5); dual, Hom and tensor bundles, connections and transport
-(SmoothBundlesConnections §§B2.1, B3.3, B5.1); tubular neighbourhoods (GeometricTopology §1.5); the
+(SmoothBundlesConnections §§B2.1, B3.3, B5.0); tubular neighbourhoods (GeometricTopology §1.5); the
 symplectic Darboux theorem and Moser lemma on manifolds (HeegaardFloer §4.1); the cotangent
 Liouville form, conormal bundles and the unit cosphere bundle with its signed contact forms and
-metric-radial comparison (CotangentLagrangian C1 and C2.2); first jets of vector bundles and their
-connection splitting (PseudodifferentialOperators P1.0).
+metric-radial comparison (CotangentLagrangian Layer 1 (C1) and §2.2 (C2.2)); first jets of vector
+bundles and their connection splitting (PseudodifferentialOperators P1.0).
 
 Not owned here: generic Jacobi manifolds and the integration of Jacobi algebroids and groupoids are
 not targets of this roadmap, and generic Poisson structures and symplectic groupoids belong to
@@ -1037,8 +1068,8 @@ distribution through any point) and Layer 5 (the homotopy operator 5.4).
 ### From TauCetiRoadmap.SmoothBundlesConnections
 
 §B2.1 (dual, Hom and tensor bundles of finite rank), §B3.3 (connections induced on associated and
-dual bundles, as Mathlib's `CovariantDerivative`) and §B5.1 (transport in a vector bundle along
-curves, smooth in the curve).
+dual bundles, as Mathlib's `CovariantDerivative`) and §B5.0 (horizontal transport along curves and
+the associated transport in vector bundles, smooth in parameters).
 
 ### From TauCetiRoadmap.GeometricTopology
 
@@ -1047,8 +1078,8 @@ Ceti's `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`).
 
 ### From TauCetiRoadmap.SymplecticGeometry.CotangentLagrangian
 
-C1 (the Liouville form `λ_can` and `ω_can = −dλ_can`) and C2.2 (conormal bundles of embedded
-submanifolds with `λ_can|N*S = 0`; the unit cosphere bundle with `α_b = −λ_can|S*Q` and
+Layer 1 (C1: the Liouville form `λ_can` and `ω_can = −dλ_can`) and §2.2 (C2.2: conormal bundles of
+embedded submanifolds with `λ_can|N*S = 0`; the unit cosphere bundle with `α_b = −λ_can|S*Q` and
 `α_g = +λ_can|S*Q`, both contact, and their metric-radial comparison).
 
 ### From TauCetiRoadmap.HeegaardFloer
@@ -1069,14 +1100,20 @@ cotangent bundles) and the contact-type conditions of Layer 6, item 4.
 
 ## References
 
-- J. W. Gray, *Some global properties of contact structures*, Annals of Mathematics 69 (1959),
-  421–450, [primary article](https://www.jstor.org/stable/1970192). Cited in §3.3 and §3.4.
-- H. Geiges, *An Introduction to Contact Topology*, Cambridge Studies in Advanced Mathematics 109
-  (2008), for the contact Darboux, Gray and isotropic neighbourhood theorems. Cited in §§3.1–3.4,
-  §5.1 and §5.2.
+- S. Courte and S. Guillermou, *Introduction to symplectic and contact geometry*, course notes,
+  Université Grenoble Alpes (2018), Chapter 3, pp. 33–38: the `TM/ξ`-valued Levi form and the volume
+  criterion (pp. 34–35), one-jet Legendrians and Proposition 3.5 (p. 35), contact vector fields
+  (Lemma 3.7 and Remark 3.8, p. 36), relative and closed Gray stability (Theorems 3.9 and 3.10), the
+  Darboux theorems (Theorems 3.11 and 3.12) and the Legendrian neighbourhood theorem (Theorem 3.13);
+  [author-hosted text](https://www-fourier.univ-grenoble-alpes.fr/~courtes/cours.pdf). Cited in
+  §§1.1, 1.3, 2.2, 3.1–3.4, 5.1, 5.3, 5.5 and 6.2.
+- H. Geiges, *Contact geometry*, in Handbook of Differential Geometry, vol. 2, North-Holland (2006),
+  315–382; cited in the numbering of [arXiv:math/0307242v2](https://arxiv.org/abs/math/0307242v2):
+  coorientability (§2, p. 4), Remark 2.2, Gray stability (Theorem 2.20), Darboux (Theorem 2.24), the
+  conformal symplectic normal bundle (§2.4.2), the isotropic neighbourhood theorem (Theorem 2.27)
+  and fronts of Legendrian curves (Lemma 2.45). Cited in §§1.2, 1.3, 3.2, 3.4, 5.1, 5.2 and the
+  Examples of Layer 5.
 - A. Kriegl and P. W. Michor, *The Convenient Setting of Global Analysis*, AMS (1997), §43,
-  Proposition 43.18, for the strict Legendrian neighbourhood construction;
-  [author-hosted text](https://www.mat.univie.ac.at/~michor/apbook.pdf). Cited in §5.4.
-- [Grenoble contact-geometry course notes](https://www-fourier.ujf-grenoble.fr/~courtes/cours.pdf),
-  §§3.2–3.3, for intrinsic contact lines, contact vector fields and local and relative Gray
-  stability. Cited in Layers 1, 2 and 4 and in §3.3.
+  43.17 and Proposition 43.18, pp. 472–473, for one-jet Legendrians and the strict Legendrian
+  neighbourhood construction; [author-hosted text](https://www.mat.univie.ac.at/~michor/apbook.pdf).
+  Cited in §5.3 and §5.4.
