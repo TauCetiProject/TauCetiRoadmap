@@ -1,10 +1,51 @@
 # Roadmap: scattering diagrams, wall crossing and theta functions
 
-This roadmap develops theorems on graded completions, Baker–Campbell–Hausdorff
-(BCH) groups, coefficient correspondences, polyhedral geometry and gluing of sections.
-They yield scattering-diagram reconstruction, consistent outgoing completions and
-theta functions on vector spaces and singular integral-affine bases. Applications
-include the focus-focus example and positivity for skew-symmetric polynomial inputs.
+**Summary.** A scattering diagram is a collection of walls, rational polyhedra of codimension one
+in a real vector space, each labelled by an element of a pro-nilpotent group. A generic path has a
+path product, the ordered product of the labels of the walls it crosses, and the diagram is
+consistent when path products depend only on the endpoints. Here the labels lie in the completed
+Baker–Campbell–Hausdorff (BCH) group of a Lie algebra over a commutative `ℚ`-algebra `R`,
+positively graded by a submonoid of a lattice with finitely many degrees below each cutoff. Every
+statement is made at each finite order, in the nilpotent truncations of the grading, and then in
+the inverse limit. On the diagrams the roadmap builds wall-crossing actions, broken lines and theta
+functions, on real vector spaces and on integral-affine manifolds with singularities.
+
+The headline theorems are the following.
+
+- *Algebraic BCH and PBW.* Let `𝔣` be the free Lie algebra over `ℚ` on `X` and `Y`, and `U⁺` the
+  augmentation ideal of its enveloping algebra. For every `c`, `exp(X)exp(Y) = exp(b)` in
+  `U(𝔣)/(U⁺)^(c+1)` for some `b ∈ 𝔣`, unique modulo the `(c+1)`-st term of the lower central
+  series; so every Lie algebra of nilpotency class at most `c` over a commutative `ℚ`-algebra is a
+  group under the BCH product. For every Lie algebra `g` over a commutative `ℚ`-algebra `R`, with no
+  freeness hypothesis, symmetrization `Sym_R(g) → U_R(g)` is a linear isomorphism.
+- *Reconstruction.* For a positively graded Lie algebra `g` with grading lattice `N`, consistent
+  completed diagrams in `Hom(N, ℝ)`, up to equivalence, correspond bijectively to the elements of the
+  completed BCH group of `g`, compatibly with truncation (Kontsevich–Soibelman, Bridgeland).
+- *Consistent completion.* Give each degree a geometric direction by an additive map to a lattice
+  of tangent vectors, and each wall a compatible wall space. Every family of incoming full affine
+  hyperplanes with finitely many nontrivial labels at each order has a consistent completion by
+  outgoing walls, unique up to equivalence, also when some degrees have direction zero.
+- *Theta functions and positivity.* For a consistent diagram acting by derivations on a graded
+  algebra, each wall annihilating the degrees tangent to it, the sum over broken lines ending at a
+  generic point equals the coefficient read off a probe wall; so theta functions are well defined and
+  are carried across walls by path products. For skew-symmetric polynomial inputs in every rank,
+  degenerate and zero forms included, the completion has a representative whose wall functions have
+  coefficients in `ℕ[A]` for the input variables `A`, and so do the theta functions of positive
+  initial monomials.
+
+Tau Ceti supplies the lowest rungs: the lattices, rational cones and fans of the
+AnalyticToricGeometry roadmap, convex polyhedra, and the Hopf structure and
+Poincaré–Birkhoff–Witt (PBW) theory of enveloping algebras. The
+RepresentationTheory/LieGroups roadmap owns the analytic BCH series; the BCH groups here are
+algebraic. RepresentationTheory/LieHighestWeight uses the symmetrization isomorphism, and
+ClusterAlgebras uses the skew-symmetric data, quantum coefficients, completions, broken lines and
+positivity theorems.
+
+The layers run from algebra (Layer 0) and polyhedral geometry (Layer 1) through diagrams and
+their realizations (Layers 2–4) to theta functions (Layer 5), integral-affine covariance with the
+focus-focus example (Layer 6) and positivity (Layer 7).
+
+## How to read the build
 
 | Layer | Title | What it delivers | Depends on |
 |---|---|---|---|
@@ -17,143 +58,72 @@ include the focus-focus example and positivity for skew-symmetric polynomial inp
 | [6](#layer-6-integral-affine-covariance-descent-and-a-worked-example) | Integral-affine covariance, descent and a worked example | compatibility with integral-affine coordinate changes, gluing over charts, and the focus-focus example | 0–5 |
 | [7](#layer-7-wall-positivity-and-positive-theta-coefficients) | Wall positivity and positive theta coefficients | positivity of wall functions and theta coefficients for skew-symmetric polynomial inputs | 0–5 |
 
-## Scope and ownership
+Each section ends with a *Needs:* line listing what its statements and its suggested route use,
+item by item, so that a target proved by another route is not held behind an unrelated section;
+each layer ends with its examples and its dependencies.
 
-**Out of scope.** No target of this roadmap constructs or uses: motivic Hall
-algebras, stability conditions and stacks, Hall integration
-maps and Donaldson–Thomas invariants;
-quantum positivity and canonical-basis comparisons; enumerative constructions;
-general scheme reconstruction or mirror gluing from arbitrary singular affine input;
-seeds, mutation, cluster monomials, `c`- and `g`-vectors and the comparison of theta
-functions with cluster variables. The skew-form inputs of Layer 7 are defined
-without reference to cluster objects.
-
-**Adjacent roadmaps.** The
-[AnalyticToricGeometry roadmap](../../Completed/AnalyticToricGeometry/README.md)
-owns the toric lattice, salient cone, finite fan and dual-semigroup interfaces
-consumed here; §1.1 adds affine cells and complexes allowing lineality and proves
-comparisons on the existing cone carriers. The
-[RepresentationTheory/LieGroups roadmap](../RepresentationTheory/LieGroups/README.md)
-owns the Lie-group exponential map (its Layer 0) and the analytic local BCH identity (its
-Layer 3). §0.4 owns the algebraic statements: the identity
-`exp(X)exp(Y)=exp(ι_c(bchElement c))` in `U(𝔣)/(U⁺)^{c+1}`, the truncations *bchElement c* in
-`𝔣/lowerCentralSeries c`, and algebraic nilpotent BCH groups over commutative `ℚ`-algebras. The
-[RepresentationTheory/LieHighestWeight roadmap](../RepresentationTheory/LieHighestWeight/README.md)
-owns the Poincaré–Birkhoff–Witt theorem for free modules; §0.4 owns its symmetrization
-form over commutative `ℚ`-algebras for arbitrary Lie algebras.
-
-**Library homes.** General components belong in the matching general areas of Tau Ceti,
-for example its Lie algebra, filtration, group theory and convex geometry modules;
-scattering-specific carriers belong in
-`TauCeti/Geometry/ScatteringDiagram/`.
+[`Suggested.lean`](Suggested.lean) imports `Mathlib` and the two Tau Ceti modules that declare
+`TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` and `TauCeti.HopfIdeal.augmentation`;
+`lake build TauCetiRoadmap.ScatteringDiagrams.Suggested` checks it. It states, each with `sorry`,
+the four headline theorems that are statable at the pins: `comap_freeAugmentation_pow_ι` and
+`exists_bch_exp_mul_exp` (§0.4), `exists_pbwSymmetrizationEquiv` (§0.4) and
+`FocusFocus.modelTheta_mul` (§6.3). It also states Minkowski–Weyl, `PointedCone.fg_iff_dualFG`
+(§1.1). The definitions they use have real bodies: `FreeLieTwo` (the free Lie algebra `𝔣`),
+`freeAugmentation` (`U⁺`), and in `FocusFocus` the coordinates `Coordinate`, `Ambient` and
+`coordinate`, the relations `modelIdeal`, the quotient `ModelAlgebra`, the unit `modelW` (`W`) and
+`modelTheta` (`ϑ_{n,b}`). Its module docstring names the other headlines, which concern carriers
+this roadmap constructs, and the carrier each lacks at the pins. A target absent from the file is
+still a target.
 
 ## Conventions
 
-1. A lattice is a finite free `ℤ`-module. Every real vector space is a
-   finite-dimensional real normed space `V` with an integral lattice map
-   `i : L → V` satisfying `IsIntegralLattice`. In the Kontsevich–Soibelman (KS)
-   diagrams of Layer 2 the grading lattice is `N`, and walls lie in a model `V` of
-   `Hom_ℤ(N,ℝ)` with a bijective evaluation map. The directed diagrams of Layer 3
-   have a degree lattice `Γ`, a tangent lattice `Λ`, and an additive
-   `ρ : Γ → Λ`, with `V ≅ Λ ⊗_ℤ ℝ` and normals in `Λ* = Module.Dual ℤ Λ`; their
-   positive monoid and cutoff degree live in `Γ`. In the identity-projection case
-   `Γ=Λ` and `ρ=id`, both lattices are written `L`.
-2. Scalar hypotheses are stated in each construction. Gradings, Lie maps and actions
-   retain their `R`-linear structures; homogeneous pieces are arbitrary modules.
-   Ring filtrations and completions allow associative rings, and coefficient algebras
-   allow noncommutative multiplication. A derivation action is an `R`-linear Lie module
-   action satisfying the Leibniz rule. BCH groups and exponential actions use a
-   commutative `ℚ`-algebra `R`; universal BCH polynomials are evaluated over `ℚ` after
-   scalar restriction. Coefficient diagrams and finite path sums admit semiring
-   modules; function walls and the focus-focus algebra use commutative rings.
-   Rational lattice data are independent of the coefficient ring.
-3. A truncation of order `k` retains degrees at most `k`; `F^a` denotes terms of
-   degree at least `a`, and the truncation is the quotient by `F^{k+1}`. Products
-   act on the left: the first crossing is the rightmost factor, and §0.5's ordered
-   product places the smallest index leftmost. A wall with coorientation `ν` and
-   label `θ` contributes `θ^{-sgn⟨ν,γ'⟩}`, where `γ'` is the derivative of the path `γ`
-   at the crossing.
-4. Italicized names are suggested Lean declaration names for targets.
-   [`Suggested.lean`](Suggested.lean) states the headline theorems that are statable at
-   the pins, and Minkowski–Weyl (§1.1); this README is the definitive specification.
-
-## Exact supplier contracts
-
-Use Mathlib and Tau Ceti suppliers with their existing meanings and public interfaces; each
-section lists its dependencies under *Needs*. The names and paths below are those at Mathlib
-`f6090c70` and Tau Ceti `358314d4`.
-
-**Tau Ceti.**
-
-| Declaration | File | Used in |
-|---|---|---|
-| `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` | `TauCeti/Algebra/Lie/UniversalEnveloping/HopfAlgebra.lean` | §0.4 (coproduct, counit and antipode of `U_R(g)`) |
-| `TauCeti.HopfIdeal.augmentation` | `TauCeti/Algebra/HopfAlgebra/HopfIdeal/Augmentation.lean` | §0.4 (`U⁺`) |
-| `TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv` | `TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Injective.lean` | §0.4 |
-| `TauCeti.expAd`, `TauCeti.expAd_apply_eq_exp_mul_exp_neg` | `TauCeti/Algebra/Lie/InnerAutomorphism.lean` | §§0.4, 0.6 |
-| `TauCeti.heisenberg` | `TauCeti/Algebra/Lie/Heisenberg.lean` | §0.2 |
-| `TauCeti.IsPrimitive`, `TauCeti.exists_eq_zsmul_isPrimitive` | `TauCeti/Algebra/Module/Primitive.lean` | §0.1 |
-| `TauCeti.Toric.IsIntegralLattice` and its `extend`, `realCharacter`, `realCharacter_comp` | `TauCeti/Geometry/Toric/Algebraic/Lattice.lean` | Convention 1 and throughout; `extend` and `realCharacter_comp` in §§1.5, 6.1 |
-| `TauCeti.Toric.IsLatticeRational` | `TauCeti/Geometry/Toric/Algebraic/Cone/Basic.lean` | §§0.1, 1.1 |
-| `TauCeti.Toric.IsLatticeRational.fg_dualSemigroup` | `TauCeti/Geometry/Toric/Algebraic/DualSemigroup/Finiteness.lean` | §0.1 |
-| `TauCeti.Toric.Fan` | `TauCeti/Geometry/Toric/Algebraic/Fan/Basic.lean` | §1.1 |
-| `TauCeti.Toric.Fan.IsSubdivision` | `TauCeti/Geometry/Toric/Algebraic/Fan/Subdivision.lean` | §1.1 |
-| `TauCeti.IsConvexPolyhedron` | `TauCeti/Analysis/Convex/Polyhedron/Basic.lean` | §1.1 |
-
-Short names in the sections, such as `IsIntegralLattice`, `IsLatticeRational` and
-`Fan.IsSubdivision`, refer to these declarations.
-
-**Mathlib.** The main carriers, by file: `GradedLieAlgebra` (`Mathlib/Algebra/Lie/Graded.lean`);
-`lowerCentralSeries` and `LieRing.IsNilpotent` (`Mathlib/Algebra/Lie/Nilpotent.lean`);
-`FreeLieAlgebra` (`Mathlib/Algebra/Lie/Free.lean`); `UniversalEnvelopingAlgebra`
-(`Mathlib/Algebra/Lie/UniversalEnveloping.lean`); `SymmetricAlgebra`
-(`Mathlib/LinearAlgebra/SymmetricAlgebra/Basic.lean`); `IsGroupLikeElem`
-(`Mathlib/RingTheory/Coalgebra/GroupLike.lean`); `Bialgebra.IsPrimitiveElem`
-(`Mathlib/RingTheory/Bialgebra/Primitive.lean`); `IsNilpotent.exp` and
-`Module.End.exp_mul_of_derivation` (`Mathlib/RingTheory/Nilpotent/Exp.lean`);
-`IsRingFiltration` and `IsModuleFiltration` (`Mathlib/RingTheory/FilteredAlgebra/Basic.lean`);
-`GrpCat.sectionsSubgroup` and `GrpCat.limitCone` (`Mathlib/Algebra/Category/Grp/Limits.lean`);
-`LieDerivation` (`Mathlib/Algebra/Lie/Derivation/Basic.lean`); `LieAlgebra.SemiDirectSum`
-(`Mathlib/Algebra/Lie/SemiDirect.lean`); `PointedCone.DualFG`
-(`Mathlib/Geometry/Convex/Cone/DualFinite.lean`); `PointedCone.IsFaceOf` and
-`PointedCone.IsFaceOf.trans` (`Mathlib/Geometry/Convex/Cone/Face/Basic.lean`); `IsExposed`
-(`Mathlib/Analysis/Convex/Exposed.lean`); `intrinsicInterior` and `intrinsicFrontier`
-(`Mathlib/Analysis/Convex/Intrinsic.lean`); `DyckWord`
-(`Mathlib/Combinatorics/Enumerative/DyckWord.lean`).
-
-## How to read the build
-
-[`Suggested.lean`](Suggested.lean) imports `Mathlib` and the Tau Ceti modules of
-`TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra` and `TauCeti.HopfIdeal.augmentation`;
-`lake build TauCetiRoadmap.ScatteringDiagrams.Suggested` checks it. It states, each with
-`sorry`, the four headline theorems that are statable at the pins: `comap_freeAugmentation_pow_ι`
-and `exists_bch_exp_mul_exp` (§0.4), `exists_pbwSymmetrizationEquiv` (§0.4) and
-`FocusFocus.modelTheta_mul` (§6.3). It also states `PointedCone.fg_iff_dualFG`,
-Minkowski–Weyl (§1.1). The definitions they use
-have real bodies: `FreeLieTwo`
-(the free Lie algebra `𝔣`), `freeAugmentation` (`U⁺`), and in `FocusFocus` the coordinates
-`Coordinate`, `Ambient` and `coordinate`, the relations `modelIdeal`, the quotient
-`ModelAlgebra`, the unit `modelW` (`W`) and `modelTheta` (`ϑ_{n,b}`). Its module
-docstring names the other headlines, which concern carriers this roadmap constructs. A target
-absent from the file is still a target (Convention 4).
+1. A lattice is a finite free `ℤ`-module. Every real vector space is a finite-dimensional real
+   normed space `V` with an integral lattice map `i : L → V` satisfying
+   `TauCeti.Toric.IsIntegralLattice`. In the Kontsevich–Soibelman (KS) diagrams of Layer 2 the
+   grading lattice is `N`, and walls lie in a model `V` of `Hom_ℤ(N,ℝ)` with a bijective evaluation
+   map. The directed diagrams of Layer 3 have a degree lattice `Γ`, a tangent lattice `Λ`, and an
+   additive `ρ : Γ → Λ`, with `V ≅ Λ ⊗_ℤ ℝ` and normals in `Λ* = Module.Dual ℤ Λ`; their positive
+   monoid and cutoff degree live in `Γ`. In the identity-projection case `Γ=Λ` and `ρ=id`, both
+   lattices are written `L`.
+2. Scalar hypotheses are stated in each construction. Gradings, Lie maps and actions retain their
+   `R`-linear structures; homogeneous pieces are arbitrary modules. Ring filtrations and completions
+   allow associative rings, and coefficient algebras allow noncommutative multiplication. A
+   derivation action is an `R`-linear Lie module action satisfying the Leibniz rule. BCH groups and
+   exponential actions use a commutative `ℚ`-algebra `R`; universal BCH polynomials are evaluated
+   over `ℚ` after scalar restriction. Coefficient diagrams and finite path sums admit semiring
+   modules; function walls and the focus-focus algebra use commutative rings. Rational lattice data
+   are independent of the coefficient ring.
+3. A truncation of order `k` retains degrees at most `k`; `F^a` denotes terms of degree at least
+   `a`, and the truncation is the quotient by `F^(k+1)`. Products act on the left: the first
+   crossing is the rightmost factor, and §0.5's ordered product places the smallest index leftmost.
+   A wall with coorientation `ν` and label `θ` contributes `θ^(-sgn⟨ν,γ'⟩)`, where `γ'` is the
+   derivative of the path `γ` at the crossing.
+4. Italicized names, such as *bchElement* or *Scat*, are proposed names for targets of this
+   roadmap. A name in code font is a declaration of Mathlib, of Tau Ceti, or of
+   [`Suggested.lean`](Suggested.lean); this README is the definitive specification.
+5. General components, the material of Layers 0 and 1 and the coefficient constructions, are
+   stated and proved independently of scattering diagrams, so that they are usable on their own.
+   Every finite-order construction comes with its completed form, obtained from the finite orders
+   by the limit constructions of §§0.3, 0.5 and 0.7. Every construction, theorem, worked example
+   and Check of a layer is a target, at the hypotheses stated.
 
 ## Layer 0: positive gradings, completions and actions
 
 ### 0.1 Positive degree data
 
-Let `N` be an abelian group (a lattice in every instance). *PositiveDegrees* on `N` is
-an additive submonoid `P ⊆ N` with an additive `δ : N → ℤ` such that `δ(n)>0` for
+Let `N` be an abelian group (a lattice in every instance). *PositiveDegrees* on `N` (BRI §2.1;
+MAN §2.1) is an additive submonoid `P ⊆ N` with an additive `δ : N → ℤ` such that `δ(n)>0` for
 nonzero `n∈P` and `{n∈P | δ(n)≤k}` is finite for every `k∈ℕ`; `N⁺=P\{0}`. A
 *PositiveDegreeMap* `(N,P,δ) → (N',P',δ')` is an additive `T` with `T(P)⊆P'`,
 `T(N⁺)⊆(N')⁺` and a monotone cutoff modulus `λ : ℕ → ℕ` with `δ(n)>λ(k) ⇒ δ'(Tn)>k`
 for `n∈P`. Same-order means `λ(k)=k`. For a lattice-rational cone `σ`, `σ∩N` is
-its set `latticePoints`. The first instance is `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ n_i`.
+its set of *latticePoints*. The first instance is `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ n_i`.
 
 For a lattice `N`, a *SupportedRay* is a primitive ambient vector `w∈N`
 (`TauCeti.IsPrimitive`) for which `aw∈P\{0}` for some integer `a≥1`. Its
 *rayDegrees* are precisely `{aw∈P\{0} | a≥1}`; `w` itself need not belong to `P`.
 
-*Targets.*
+Construct and prove the following.
 - For fixed `n∈N`, `{(a,b)∈P² | a+b=n}` is finite, and `P` is sharp: `n,−n∈P` forces
   `n=0`.
 - Positive degree maps form a category: the identity has modulus `λ(k)=k`, and `(T,λ)`
@@ -165,7 +135,9 @@ For a lattice `N`, a *SupportedRay* is a primitive ambient vector `w∈N`
   `P` onto `P'` has a modulus in each direction.
 - A finitely generated submonoid with an integral functional
   strictly positive on its nonzero elements has finite cutoffs. For a lattice-rational
-  cone `σ`, `σ∩N` is finitely generated, by double duality from `σ^∨∩Hom_ℤ(N,ℤ)`; an integral
+  cone `σ` in an integral lattice, `σ∩N` is finitely generated (Gordan's lemma), by double
+  duality from the finitely generated monoid `σ^∨∩Hom_ℤ(N,ℤ)` of
+  `TauCeti.Toric.IsLatticeRational.fg_dualSemigroup`; an integral
   functional strictly positive on the nonzero lattice points of `σ` makes `σ∩N`
   *PositiveDegrees*, and a lattice-rational cone carrying such a functional is salient.
 - Every `n∈P\{0}` lies on a unique *SupportedRay*, with a unique integer
@@ -178,8 +150,10 @@ For a lattice `N`, a *SupportedRay* is a primitive ambient vector `w∈N`
   `aw∈P` to `ab w'∈P'`, with the original cutoff modulus.
 
 **Checks.**
-- An upper bound `δ'(Tn)≤c·δ(n)` gives no cutoff modulus: on `P={0}∪{(a,b)∈ℕ² | a≥b≥1}`
-  with `δ(a,b)=a`, `T(a,b)=b` to `(ℤ,ℕ,id)` sends every `(j,1)` to degree one.
+- An upper bound `δ'(Tn)≤c·δ(n)` gives no cutoff modulus, although it is the bound a
+  careless definition would ask for: on `P={0}∪{(a,b)∈ℕ² | a≥b≥1}` with `δ(a,b)=a`, the map
+  `T(a,b)=b` to `(ℤ,ℕ,id)` satisfies `δ'(Tn)≤δ(n)` and preserves nonzero degrees, but sends every
+  `(j,1)` to degree one, so no `λ(1)` exists.
 - For `P=2ℕe_1+ℕe_2⊆ℤ²`, the supported ray `e_1` has degrees
   `2ℕ_{>0}e_1`, although `e_1∉P`. For
   `P={0}∪{(a,b)∈ℤ² | a≥1, |b|≤a²}`, `δ(a,b)=a` has finite cutoffs,
@@ -189,7 +163,6 @@ For a lattice `N`, a *SupportedRay* is a primitive ambient vector `w∈N`
 *Needs:* `AddSubmonoid`, additive homomorphisms, `TauCeti.IsPrimitive`,
 `TauCeti.exists_eq_zsmul_isPrimitive`; for the cone targets `PointedCone`,
 `IsIntegralLattice`, `IsLatticeRational`, `IsLatticeRational.fg_dualSemigroup`.
-Sources: BRI §2.1; MAN §2.1.
 
 ### 0.2 Graded Lie algebras and truncations
 
@@ -204,7 +177,7 @@ represented as an `R`-linear map to its scalar restriction. A Lie subalgebra or 
 Heisenberg algebra is `TauCeti.heisenberg R` over `N=ℤ` with `X, Y` in degree `1` and
 `Z` in degree `2`.
 
-*Targets.*
+Construct and prove the following.
 - `F^{k+1}g` is a graded Lie ideal (*degreeIdeal_isGraded*) and `g≤k` is a nilpotent,
   positively graded Lie algebra. The kernel of `g≤k+1 → g≤k` is central and is the image
   of the pieces `g_n` with `δ(n)=k+1`.
@@ -222,7 +195,10 @@ Heisenberg algebra is `TauCeti.heisenberg R` over `N=ℤ` with `X, Y` in degree 
   summands.
 
 **Checks.**
-- The graded Heisenberg algebra is a `GradedLieAlgebra` with *IsPositiveGrading*.
+- With `X, Y` in degree `1` and `Z` in degree `2`, the Heisenberg algebra is a
+  `GradedLieAlgebra` with *IsPositiveGrading*; its truncation `g≤1` is abelian, spanned by the
+  classes of `X` and `Y`, and the kernel of `g≤2 → g≤1` is the central line `RZ`. Putting `Z` in
+  degree `1` instead is not a grading, since `[X,Y]=Z` must lie in `g_2`.
 
 *Needs:* §0.1; `GradedLieAlgebra`, `LieIdeal`, the quotient Lie algebra
 `LieSubmodule.Quotient.lieQuotientLieAlgebra` with its quotient map
@@ -248,7 +224,7 @@ and filtered maps are defined by the same quotient construction.
 For `R`-algebras over a commutative ring, *tensorFiltration* is
 `F^j(A⊗_R B)=Σ_{a+b≥j} im(I^aA⊗_R J^bB)`, with completion `A⊗̂B`.
 
-*Targets.*
+Construct and prove the following.
 - Completions, with their induced filtrations and projections, are limits of the
   quotient towers in rings, `R`-algebras or modules, respectively. The canonical maps
   are filtered; scalar restriction preserves their carriers and maps. Supply the
@@ -260,15 +236,21 @@ For `R`-algebras over a commutative ring, *tensorFiltration* is
   with `F^0=A⊗_R B`. The completed tensor map `Â×B̂→A⊗̂B`, levelwise
   `(x_k,y_k)↦x_k⊗y_k mod F^{k+1}`, is bilinear, multiplicative and compatible with
   projections.
-- *principalCompletionEquiv*: for a lattice `M` and finite `I`, the completion of
-  `MvPolynomial I (AddMonoidAlgebra R M)` along `MvPolynomial.idealOfVars` is
-  `MvPowerSeries I (AddMonoidAlgebra R M)`, preserving coefficient maps. Its inverse
-  at order `k` is `truncTotal (k+1)` followed by the quotient map.
+- For a commutative ring `A` and an ideal `J`, the completion of the `J`-adic *AlgFiltration*
+  `I^kA=J^k` is identified with Mathlib's `AdicCompletion J A`, the order-`k` quotient `A/J^{k+1}`
+  being the component of index `k+1` of the adic completion.
+- *principalCompletionEquiv*: for a commutative ring `R`, a lattice `M` and finite `I`, the
+  completion of `MvPolynomial I (AddMonoidAlgebra R M)` along the powers of
+  `MvPolynomial.idealOfVars` is `MvPowerSeries I (AddMonoidAlgebra R M)`: compose the preceding
+  identification with Mathlib's `MvPowerSeries.toAdicCompletionAlgEquiv` for the coefficient ring
+  `AddMonoidAlgebra R M`. Prove that it preserves coefficient maps, those induced by ring maps
+  `R→R'` and lattice maps `M→M'`. Its inverse at order `k` is `MvPowerSeries.truncTotal (k+1)`
+  followed by the quotient map.
 
 *Needs:* `IsFiltration`, `IsRingFiltration`, `IsModuleFiltration`, `Ideal.Quotient.mk`,
 `Ideal.Quotient.factor`,
 `AdicCompletion`, `TensorProduct`, `MvPowerSeries`,
-`MvPolynomial.idealOfVars`, `MvPowerSeries.truncTotal`.
+`MvPolynomial.idealOfVars`, `MvPowerSeries.truncTotal`, `MvPowerSeries.toAdicCompletionAlgEquiv`.
 
 ### 0.4 Algebraic exponential groups
 
@@ -278,12 +260,14 @@ Mathlib's 0-based `lowerCentralSeries ℚ 𝔣 𝔣 c` (class at most `c` means
 structure `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`. In
 `U_c=U(𝔣)/(U⁺)^{c+1}` the images of `X` and `Y` are nilpotent, and
 `ι_c : 𝔣/lowerCentralSeries c → U_c` is the map induced by `ι:𝔣 → U(𝔣)`. For `u` nilpotent
-in a `ℚ`-algebra, *nilLog*`(1+u)` is the finite series `Σ_{j≥1}(−1)^{j+1}u^j/j`.
+in a ring with a `ℚ`-module structure, Tau Ceti's finite logarithm `IsNilpotent.log (1+u)` is the
+finite series `Σ_{j≥1}(−1)^{j+1}u^j/j`; it is inverse to `IsNilpotent.exp` between nilpotent and
+unipotent elements (`IsNilpotent.log_exp`, `IsNilpotent.exp_log`).
 *bchElement c* is the element of `𝔣/lowerCentralSeries c` whose image under `ι_c` is
-*nilLog*`(exp(X)exp(Y))`.
+`IsNilpotent.log (exp(X)exp(Y))`.
 Let `R` be a commutative `ℚ`-algebra. For any `R`-Lie algebra `a` of nilpotency class
 at most `c`, *BCHGroup a* has underlying set `a`, identity exponential and logarithm,
-and product obtained by evaluating `bchElement c` at `(x,y)` through
+and product obtained by evaluating *bchElement c* at `(x,y)` through
 `FreeLieAlgebra.lift` on the scalar restriction to `ℚ`. For positively graded `g`,
 *truncatedGroup* `G≤k` is *BCHGroup* of `g≤k`.
 
@@ -300,20 +284,22 @@ when `Δ̂(x)=x⊗̂1+1⊗̂x`, the completed forms of `IsGroupLikeElem` and
 `Bialgebra.IsPrimitiveElem`. The quotients `U/I^{k+1}U` are not quotient coalgebras, so
 these predicates are stated in `Û_R(g)`. Over a commutative `ℚ`-algebra, *completedExp*
 on the first term `Î^1` of the induced filtration and *completedLog* on `1+Î^1` are
-levelwise `IsNilpotent.exp` and *nilLog*, with no norm or convergence hypothesis.
+levelwise `IsNilpotent.exp` and `IsNilpotent.log`, with no norm or convergence hypothesis.
 
-For an arbitrary Lie algebra `g` over a commutative `ℚ`-algebra `R`, *pbwSymmetrizationEquiv* `Sym_R(g) → U_R(g)` sends a product of `d`
-elements to `1/d!` times the sum of their products in all orders.
+For an arbitrary Lie algebra `g` over a commutative `ℚ`-algebra `R`, *pbwSymmetrizationEquiv*
+`Sym_R(g) → U_R(g)` sends a product of `d` elements to `1/d!` times the sum of their products in
+all orders; on the `d`-th symmetric power it is Tau Ceti's degreewise
+`TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization`, defined because `d!` is a unit of `R`.
 
-*Targets.*
+Construct and prove the following.
 - *bchElement c* is defined and unique: `ι_c` is injective, that is
-  `ι⁻¹((U⁺)^{c+1})=lowerCentralSeries c`; *nilLog*`(exp(X)exp(Y))` lies in the image of
-  `ι_c`; and
-  `exp(X)exp(Y)=exp(ι_c(bchElement c))` in `U_c`. The elements are compatible in `c`, so
+  `ι⁻¹((U⁺)^{c+1})=lowerCentralSeries c`; `IsNilpotent.log (exp(X)exp(Y))` lies in the image
+  of `ι_c`; and, writing `b` for *bchElement c*,
+  `exp(X)exp(Y)=exp(ι_c(b))` in `U_c`. The elements are compatible in `c`, so
   the *BCHGroup* product is independent of the nilpotency bound. Word length is a
   positive grading of `𝔣` over `ℕ⊆ℤ` with `δ=id`, generated in degree one, whose degree
-  ideal `F^{c+1}𝔣` is `lowerCentralSeries c`. *nilLog* is inverse to `IsNilpotent.exp`.
-  The injectivity and the existence of *bchElement c* are `comap_freeAugmentation_pow_ι` and
+  ideal `F^{c+1}𝔣` is `lowerCentralSeries c`. The injectivity and the existence of
+  *bchElement c* are `comap_freeAugmentation_pow_ι` and
   `exists_bch_exp_mul_exp` in `Suggested.lean`.
 - *BCHGroup* is a group with `(exp x)⁻¹=exp(−x)` and `exp(x)^n=exp(n•x)`;
   `exp(x)exp(y)=exp(x+y)` when `[x,y]=0`, and `exp(x)exp(y)=exp(y)exp(z)exp(x)` for
@@ -325,7 +311,9 @@ elements to `1/d!` times the sum of their products in all orders.
   comparison commutes with *BCHGroup.map*, `exp` and `log`. The `G≤k` form a tower under
   the maps induced by the truncation maps.
 - *pbwSymmetrizationEquiv* is a filtered `R`-linear coalgebra equivalence preserving the
-  lattice grading. Its existence as a linear equivalence with the symmetrization formula is
+  lattice grading, with no freeness or flatness hypothesis on `g` (PET §8: Theorem 8.1, under
+  Hypothesis 8.1, for the isomorphism and its filtration, Corollary 8.1 for the formula and
+  Theorem 8.2 for the coproducts). Its existence as a linear equivalence with the symmetrization formula is
   `exists_pbwSymmetrizationEquiv` in `Suggested.lean`.
 - Over any commutative ring: the `U_R(g)_n` give a direct-sum decomposition, by
   descending the tensor-algebra grading through the homogeneous enveloping relations;
@@ -346,9 +334,11 @@ the degree filtration with augmentation powers and truncate the completed
 
 **Checks.**
 - In §0.2's Heisenberg algebra, `log(exp X exp Y)=X+Y+Z/2` and
-  `log(exp Y exp X)=X+Y−Z/2`.
+  `log(exp Y exp X)=X+Y−Z/2`: the sign of `Z/2` records the order of the factors, and a product
+  defined by `x+y` alone would make the group abelian.
 - Through degree 3, *bchElement* is `X+Y+[X,Y]/2+([X,[X,Y]]+[Y,[Y,X]])/12`.
-- In `U(ℚx)=ℚ[x]` with `deg(x)=1`, `I²U` contains `x²` although `g_2=0`.
+- In `U(ℚx)=ℚ[x]` with `deg(x)=1`, `I²U` contains `x²` although `g_2=0`: the ideal generated by
+  the pieces `g_n` with `δ(n)≥2` is zero, so it is not *degreeIdealU*.
 - For an abelian Lie algebra with independent generators `x_d` in every degree `d≥1`,
   `x_d∈I^dU` and `x_d∉J²`, so the two filtrations are not cofinal.
 
@@ -356,8 +346,9 @@ the degree filtration with augmentation powers and truncate the completed
 `TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv`,
 `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`,
 `IsGroupLikeElem`, `Bialgebra.IsPrimitiveElem`, `TauCeti.HopfIdeal.augmentation`,
-`FreeLieAlgebra`, `lowerCentralSeries`, `IsNilpotent.exp`, `TauCeti.expAd`. Source: PET
-§8, Hypothesis 8.1 and Theorems 8.1–8.2.
+`TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization`, `FreeLieAlgebra`, `FreeLieAlgebra.lift`,
+`lowerCentralSeries`, `IsNilpotent.exp`, `IsNilpotent.log`, `IsNilpotent.log_exp`,
+`IsNilpotent.exp_log`, `TauCeti.expAd`.
 
 ### 0.5 Completed groups and changes of filtration
 
@@ -371,7 +362,7 @@ same-level homomorphisms; a *CofinalTowerHom* is a monotone `λ` with compatible
 `G_{λ(k)}→G'_k`. For positively graded `g`, `Ĝ` is the completed group of the tower
 `G≤k`.
 
-*Targets.*
+Construct and prove the following.
 - *CompletedGroup* is isomorphic to the cone point of `GrpCat.limitCone`, with the
   universal property for compatible families of homomorphisms and extensionality by
   projections. `F^aG` is decreasing and separated, `G/F^{k+1}G ≅ G_k` for surjective
@@ -413,7 +404,7 @@ Let `A` be an `R`-algebra with an *AlgFiltration*, and let `g` be a positively g
 `F^a g · I^bA ⊆ I^{a+b}A`, and is detected by the filtration when every `x ∉ F^{k+1}g`
 has `b` and `m ∈ I^bA` with `x·m ∉ I^{b+k+2}A`.
 
-*Targets.*
+Construct and prove the following.
 - For a filtration-raising action over any commutative `R`, each `x∈g` induces an
   `R`-linear endomorphism of `A/I^{k+1}A` whose `(k+1)`-st power vanishes. Group
   homomorphisms `G_k → Aut_R(A/I^{k+1}A)` along a tower of groups `G_k`, compatible with
@@ -451,13 +442,13 @@ A *section* of `p:∫L⥤D` is a functor `s` with `s⋙p=id_D`; write
 `s(d)=(d,s_d)` and `s_f:L(f)(s_d)→s_e`. Its *completed coefficient object* is
 `Â_s=lim_D(s⋙A)`. A *completed label* `s⇒t` is a natural transformation over `id_D`.
 
-*Targets.*
+Construct and prove the following.
 
 - **Comparison of limits.** For diagrams `F:J⥤𝒱`, `F':J'⥤𝒱`, a span
   `J←K−J''−H→J'` with `H` initial and `β:K⋙F⇒H⋙F'`, construct
   `lim F→lim F'` by restriction along `K`, `limMap β` and inverse restriction along
-  `H`. Prove identity and composition laws using `Comma(H₁,K₂)` and
-  `Comma.initial_snd`. The map is an isomorphism when `β` and restriction along `K`
+  `H`. Prove identity and composition laws using `Comma(H₁,K₂)` and the initiality of its
+  second projection (`Comma.initial_snd_of_isConnected_costructuredArrow`). The map is an isomorphism when `β` and restriction along `K`
   are isomorphisms (in particular when `β` is an isomorphism and `K` is initial),
   and commutes with limit-preserving functors. Identity spans recover `limMap`;
   `J←u−J'−id→J'` with `F'=u⋙F`, `β=id`, recovers `limit.pre F u`.
@@ -496,13 +487,13 @@ A *section* of `p:∫L⥤D` is a functor `s` with `s⋙p=id_D`; write
   detect this label.
 
 *Needs:* §§0.3–0.6; `CategoryTheory.Grothendieck`, `Functor.Initial.limitIso`,
-`Comma.initial_snd`, `limit.pre`, `limMap`, `SingleObj`, `SemimoduleCat`, `AlgCat`.
+`Comma.initial_snd_of_isConnected_costructuredArrow`, `limit.pre`, `limMap`, `SingleObj`, `SemimoduleCat`, `AlgCat`.
 
 ### 0.8 Homogeneous coefficient correspondences
 
 Let `R` be a semiring and `N_b→M_u`, `N_b→M_v`, written `λ_u,λ_v`, a span of
 linear maps, for example the image of `b→u,b→v` under `F:J⥤SemimoduleCat R`.
-A *GradedCorrespondence* gives decompositions `M_i=⊕_{γ∈Γ_i}M_{i,γ}` for abelian
+A *GradedCorrespondence* (MAN §2.2; GHS Definitions 3.1–3.3) gives decompositions `M_i=⊕_{γ∈Γ_i}M_{i,γ}` for abelian
 groups `Γ_i`, projections `pr_{i,γ}`, sets `I_i⊆Γ_i` of *admissible degrees*, and linear *lift*s
 `L_{i,γ}:M_{i,γ}→N_b` for `γ∈I_i`, with `λ_i L_{i,γ}=inclusion`.
 Its *transfer* is `B^{γ,η}_{u,b,v}=pr_{v,η} λ_v L_{u,γ}`.
@@ -517,7 +508,7 @@ Zero target pieces are admissible with zero lift. For §0.7 comparisons, require
 these equations of `β` on the chosen spans and their images under `K,H`;
 scalar changes use restriction of scalars.
 
-*Targets.*
+Construct and prove the following.
 
 - **Morphisms and transfers.** Construct identities and composites, and prove
   `B'^{T_uγ,η'}(r_ua)=∑_{η:T_vη=η'}r_v(B^{γ,η}(a))` for admissible `a∈M_{u,γ}`,
@@ -555,11 +546,35 @@ scalar changes use restriction of scalars.
 **Checks.**
 
 - For `M_u=M_v=ℚ` concentrated in degree `0∈ℤ` and `θ(a)=2a`, the graph
-  correspondence has `B^{0,0}(1)=2` and `B^{0,η}(1)=0` for `η≠0`.
+  correspondence has `B^{0,0}(1)=2` and `B^{0,η}(1)=0` for `η≠0`; the transfer in the other
+  direction, through the lift `θ⁻¹∘inclusion`, is `1/2`.
 
 *Needs:* §0.7; `DirectSum.Decomposition`, `DirectSum.component`,
 `DirectSum.sum_support_decompose`, linear and semilinear maps.
-Sources: MAN §2.2; GHS Definitions 3.1–3.3.
+
+### Examples
+
+- `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ n_i` is positive degree data; its supported rays are the primitive
+  vectors of `ℕ^r`, each of which lies in `P`.
+- The free Lie algebra `𝔣` on `X, Y`, graded by word length, has truncation `𝔣≤2` the Heisenberg
+  algebra: the classes of `X`, `Y` and `[X,Y]` form a basis, and `[X,Y]` is central.
+- In the BCH group of the Heisenberg algebra,
+  `exp(aX+bY+cZ)·exp(a'X+b'Y+c'Z) = exp((a+a')X+(b+b')Y+(c+c'+(ab'−a'b)/2)Z)`, since all brackets
+  of length three vanish.
+- For one variable and `M=0`, *principalCompletionEquiv* identifies the completion of `R[t]` along
+  `(t)` with `R[[t]]`; its inverse at order `k` truncates a series to degrees at most `k`.
+- For a group `H` acting on a type `X`, the limit over `SingleObj H` is the fixed-point set, and a
+  tower of groups `G_k` with identity sections recovers §0.5's completed group as completed labels.
+
+### Dependencies
+
+Mathlib: graded Lie algebras, free Lie algebras, enveloping and symmetric algebras, group-like and
+primitive elements, nilpotent exponentials, ring and module filtrations, adic completions and power
+series, limits of groups, the Grothendieck construction and initial functors. Tau Ceti: the Hopf
+structure and augmentation ideal of enveloping algebras, the PBW associated graded and degreewise
+symmetrization, the finite logarithm, `exp(ad x)`, the Heisenberg algebra, primitive lattice
+vectors, integral lattices and lattice-rational cones with Gordan's lemma for dual semigroups. No
+other layer.
 
 ## Layer 1: polyhedral geometry and paths
 
@@ -577,30 +592,35 @@ rational `c_i`; a *RelOpenCell* is cut out by finitely many equations and strict
 inequalities with rational functionals and real offsets. Write
 `dir(Q)=span_ℝ{x−y | x,y∈Q}` and `rec(Q)={v | ∀x∈Q, ∀t≥0, x+tv∈Q}`. A nonempty `F`
 is an *IsPolyhedralFace* of `Q` if `F=Q∩{ℓ=c}` for a real linear functional `ℓ` with
-`ℓ≤c` on `Q`. A *FinitePolyhedralComplex* is a finite set of nonempty closed
-rational-normal polyhedra, closed under faces, whose pairwise intersections are common
-faces; unbounded cells and lineality are allowed. *IsSubdivision*: equal supports, each
+`ℓ≤c` on `Q`. A *FinitePolyhedralComplex* (GHKK Appendix C.1; BRI §§2.2–2.5) is a finite set
+of nonempty closed rational-normal polyhedra, closed under faces, whose pairwise intersections are
+common faces; unbounded cells and lineality are allowed. *IsSubdivision*: equal supports, each
 new cell in an old cell; *IsWeakRefinement*: support in the old support, each new cell
 in an old cell.
 
-*Targets.*
+Construct and prove the following.
 - The carrier of a *RationalAffinePolyhedron* is a `TauCeti.IsConvexPolyhedron`;
   intersection, preimage under a rational affine map, image under an
   *IntegralAffineEquiv*, and the empty and full polyhedra are constructed with their
-  carriers.
+  carriers, which are those of `TauCeti.IsConvexPolyhedron.inter` and
+  `TauCeti.IsConvexPolyhedron.preimage`.
 - The *homogenization* of `Q` is the closed pointed cone in `V × ℝ` generated by
   `Q × {1}`; it depends only on the carrier, is finitely generated, is `{0}` for
   `Q = ∅`, and for nonempty `Q` is the inequality cone `{(x,t) | t ≥ 0, g_i(x) ≤ t·c_i}`
   of every presentation, with slice `Q` at `t = 1` and the recession cone of `Q` at
   `t = 0`. The nonempty faces of `Q` are exactly the nonempty height-one slices of
   `PointedCone.IsFaceOf` faces of its homogenization; every face of a finitely
-  generated pointed cone is exposed. *finite_faces*: `Q` has finitely many faces, since each
-  nonempty face is cut out by turning a subset of any finite presentation into equalities;
-  faces of faces are faces, faces are rational-normal, and the relative boundary is the
-  union of the proper faces.
-- Rational Minkowski–Weyl: a pointed cone in `V`, lineality allowed, is finitely generated
-  (`Submodule.FG`) iff it is `PointedCone.DualFG` for the pairing with `Module.Dual ℝ V`, and
-  for a lattice-rational cone the generators and defining functionals can be taken rational.
+  generated pointed cone is exposed, that is, cut out by a functional nonnegative on the cone.
+  *finite_faces*: `Q` has finitely many faces, since each nonempty face is cut out by turning a
+  subset of any finite presentation into equalities, or since the homogenization has finitely
+  many faces (`PointedCone.FG.finite_face`); faces of faces are faces, faces are
+  rational-normal, and the relative boundary is the union of the proper faces (SCH Chapter 8,
+  §8.3).
+- Rational Minkowski–Weyl (ZIE Chapter 1, by Fourier–Motzkin elimination, which preserves
+  rationality): a pointed cone in a finite-dimensional real vector space, no norm being used and
+  lineality allowed, is finitely generated (`Submodule.FG`) iff it is `PointedCone.DualFG` for the
+  pairing with `Module.Dual ℝ V`, and for a lattice-rational cone the generators and defining
+  functionals can be taken rational.
   Hence rational polyhedra with zero offsets are the finitely generated lattice-rational
   `PointedCone`s, and their faces are the `PointedCone.IsFaceOf` faces. The first
   equivalence, over `ℝ`, is `PointedCone.fg_iff_dualFG` in `Suggested.lean`.
@@ -615,24 +635,25 @@ in an old cell.
   presented polyhedra is the subdivision by the sign cells of all defining hyperplanes;
   each member is a union of its cells.
 - *toFan*, *ofFan*: maps between *IsConical* complexes (every cell a cone with apex `0`)
-  with salient cells and `TauCeti.Toric.Fan`; `toFan ∘ ofFan = id`, `ofFan` lands in
-  conical complexes with salient cells, and `Fan.IsSubdivision Φ Ψ` holds exactly when
-  `ofFan Φ` is a subdivision of `ofFan Ψ`.
+  with salient cells and `TauCeti.Toric.Fan`; *toFan* after *ofFan* is the identity, *ofFan*
+  lands in conical complexes with salient cells, and `Fan.IsSubdivision Φ Ψ` holds exactly when
+  the complex *ofFan* `Φ` is a subdivision of *ofFan* `Ψ`.
 
 **Checks.**
 - In `ℝ²`, put `H={y=1}`, `L={y=0}`, `v=(√2,0)` and `r=v+ℝ_{≥0}(1,0)`.
-  The families `{H}`, `{L}` and `{r,{v}}` are complexes; `H` has nonzero lineality.
+  The families `{H}`, `{L}` and `{r,{v}}` are complexes: the offset `√2` is allowed, since cells
+  are rational-normal and need not be rational, and `H` has nonzero lineality, which a definition
+  modelled on fans, with salient cells, would reject.
 - In `ℝ`, the presentations `0 ≤ −1` and `x ≤ 0 ∧ −x ≤ −1` of `∅` have inequality cones
-  `ℝ × {0}` and `{(0,0)}`, and homogenization `{0}`.
+  `ℝ × {0}` and `{(0,0)}`, and homogenization `{0}`: for the empty polyhedron the inequality cone
+  depends on the presentation, so the homogenization is not defined as an inequality cone.
 
 *Needs:* `TauCeti.Toric.IsIntegralLattice`, `Module.Dual`, `Submodule.FG`,
 `PointedCone.DualFG`, `PointedCone.IsFaceOf`, `PointedCone.IsFaceOf.trans`,
 `PointedCone.closure`, `IsLatticeRational`, `IsExposed`,
 `TauCeti.IsConvexPolyhedron`, `TauCeti.Toric.Fan`, `Fan.IsSubdivision`, `AffineEquiv`,
-`intrinsicInterior`, `intrinsicFrontier`. Sources: ZIE Chapter 1 (Minkowski–Weyl for
-cones and polyhedra by Fourier–Motzkin elimination, which preserves rationality) and SCH
-Chapter 8, §8.3 (faces of polyhedra) for the polyhedral facts; GHKK Appendix C.1 and BRI
-§§2.2–2.5 for complexes of walls.
+`intrinsicInterior`, `intrinsicFrontier`, `TauCeti.IsConvexPolyhedron.inter`,
+`TauCeti.IsConvexPolyhedron.preimage`, `PointedCone.FG.finite_face`.
 
 ### 1.2 Generic paths and two-parameter families
 
@@ -652,7 +673,7 @@ oriented transverse triangle that meets `j` once and meets only walls containing
 Its filled triangle avoids every other codimension-two cell of the adapted complex
 and the relative boundary of `j`.
 
-*Targets.*
+Construct and prove the following.
 - Admissible paths cross finitely: each segment meets each wall in at most one
   relative-interior point. For finitely many closed walls they exist between allowed
   endpoints, and they are closed under reversal and concatenation, the latter homotopic
@@ -692,7 +713,8 @@ one at a time; its triangles give conjugates of joint meridians and hence
   vertex, the only vertex list passes through the joint `0` and is not admissible.
 - In `U=ℝ²∖{0}`, restrict the wall `w={(x,0) | x≥0}` cooriented by `dy`.
   The counterclockwise boundary of `[−1,1]²` based at `(1,1)` and the constant
-  loop have words `w⁻¹` and `1` and are not homotopic in `U`.
+  loop have words `w⁻¹` and `1` and are not homotopic in `U`; the upward crossing at `(1,0)`
+  contributes `w⁻¹`, not `w`, by Convention 3.
 
 *Needs:* §1.1; `FreeGroup`, `FreeGroup.map`, `Subgroup.normalClosure`, `Path`,
 `ContinuousMap.Homotopy`, `BaireSpace`.
@@ -709,7 +731,7 @@ are instances. *IsFiniteBranch* means a finite union of affine embeddings of
 *LocallyClosedPolyhedron* domains. An *ExceptionalArrangement* is a finite family of
 proper affine subspaces; a point *IsGeneric* when it avoids their union.
 
-*Targets.*
+Construct and prove the following.
 - Under `IsIntegralLattice` on both lattices, a family has compatible source and target
   stratifications into *LocallyClosedPolyhedron* strata. Over each target stratum each
   branch of an *IsFiniteBranch* family is either absent or an affine copy of the
@@ -746,7 +768,7 @@ cochains for `n=i(n₀)`, `n₀∈L`, are those whose cells all have `n∉dir(P)
 `S_n(P,α,c)=(P−ℝ_{≥0}n,ι_nα,c)`, with `α` an alternating form representing the conormal
 orientation.
 
-*Targets.*
+Construct and prove the following.
 - The quotient by the stated relations agrees with the colimit over finite ambient
   subdivisions (§1.1). Additive maps `E→E'` act functorially on cochains and transverse
   cochains. For an `R`-module `E` over a commutative ring `R`, both carriers are
@@ -784,13 +806,17 @@ subdivision. The pairing and Stokes targets are independent geometric API.
   conormal `dy` has coboundary `(p₀,+dx∧dy,1)+(p₁,−dx∧dy,1)`.
   The coboundary pairs with small positively oriented triangles around `p₀,p₁` to
   give `1,−1`.
+- In `ℝ`, with `C=({0},+dx,1)` of codimension one and `n=1`, the sweep is
+  `S_nC=((−∞,0],+,1)`, whose coboundary is `({0},−dx,1)=−C`; as `dC=0`, this is
+  `dS_nC+S_ndC=−C`. Without the sign `(−1)^{k+1}` in the coboundary the identity would read
+  `dS_nC=C`, and the coboundary of the half-plane in the first Check would pair to `+c`.
 
 *Needs:* §§1.1–1.2.
 
 ### 1.5 Integral-affine bases and exponent data
 
 The *integralAffinePregroupoid* consists of maps between opens locally equal to
-*IntegralAffineEquiv*s (§1.1). An *IntegralAffinePolyhedralBase* is a pure
+*IntegralAffineEquiv*s (§1.1). An *IntegralAffinePolyhedralBase* (GS §2; GHS §§1 and 3) is a pure
 `d`-dimensional space `B` with a polyhedral decomposition locally finite on compact
 sets, a closed cell union `Δ` of dimension at most `d−2` after refinement, and an
 integral-affine atlas on `B₀=B∖Δ` whose chart cells are rational-normal polyhedra.
@@ -852,7 +878,7 @@ are allowed. Truncation deletes zero coefficients. The *IncomingTypeDatum* recor
 positions belong to the tail. A *ConstantIncomingSection* is a homogeneous matching
 family of the regular coefficient tower with zero spatial velocity.
 
-*Targets.*
+Construct and prove the following.
 - *integralAffineGroupoid*: the `Pregroupoid` axioms and its `StructureGroupoid`.
   Each member extends uniquely to a global *IntegralAffineEquiv* on each nonempty
   connected domain component, with linear part `IsIntegralLattice.extend` of the
@@ -874,7 +900,7 @@ family of the regular coefficient tower with zero spatial velocity.
   coefficient tower. Compact-path
   data admit a finite common refinement with cutoff bounded by the maximum local
   modulus; cofinal reindexing compares the local towers.
-- *incomingTailTransport*: the map `IncomingTail→IncomingTypeDatum` respects
+- *incomingTailTransport*: the map from *IncomingTail*s to *IncomingTypeDatum*s respects
   restriction of representatives and chart, face and deck identifications.
   Transport commutes with restriction, refinement, coefficient maps, truncation
   and regrading. Deck transformations act simultaneously on the path, the endpoint
@@ -883,14 +909,36 @@ family of the regular coefficient tower with zero spatial velocity.
 
 *Needs:* §§0.7–0.8, 1.1–1.3; `ChartedSpace`, `Pregroupoid`, `StructureGroupoid`,
 `AffineEquiv`, `IsIntegralLattice.extend`, `realCharacter_comp`, covering spaces and
-local systems. Sources: GS §2; GHS §§1 and 3.
+local systems.
+
+### Examples
+
+- In `ℝ²` with the lattice `ℤ²`, the cone generated by `(1,0)` and `(1,2)` is
+  `{y ≥ 0, 2x − y ≥ 0}`: generators and defining functionals are both rational, as rational
+  Minkowski–Weyl asserts. Its four faces `{0}`, the two rays and the cone are exposed, cut out by
+  `x`, `y`, `2x−y` and `0`.
+- The line `{y=1}` has itself as its only face, and the half-plane `{y≥0}` has the faces
+  `{y≥0}` and `{y=0}`; its homogenization is `{(x,y,t) | t≥0, y≥0}`.
+- Subdivide the coordinate axes of `ℝ²` into the half-axes `w₁` (positive `x`), `w₂` (positive
+  `y`), `w₃` and `w₄`, cooriented by `dy`, `dx`, `dy` and `dx`. A small counterclockwise loop
+  around the joint `0`, starting in the first quadrant, has crossing word `w₁⁻¹w₄⁻¹w₃w₂`.
+- `ℝ^d` with `Δ=∅` and the single identity chart is an *IntegralAffinePolyhedralBase*, and its
+  regular coefficient tower is the one-chart case of §1.5.
+
+### Dependencies
+
+Mathlib: pointed cones, their duals and faces, exposed sets, intrinsic interiors and frontiers,
+affine equivalences, free groups and normal closures, paths and homotopies, Baire spaces, charted
+spaces and structure groupoids, sheaves on spaces. Tau Ceti: integral lattices with their
+extension maps, lattice-rational cones, fans and their subdivisions, convex polyhedra, and the
+faces of finitely generated cones. Layer 0 enters only §1.5, through §§0.7–0.8.
 
 ## Layer 2: general scattering diagrams
 
 ### 2.1 Finite labelled complexes and path products
 
-A *FiniteWallDiagram* over a group `H` is a finite polyhedral complex in `V` (§1.1)
-whose walls carry a coorientation (a nonzero linear functional vanishing on the wall's
+A *FiniteWallDiagram* over a group `H` (BRI Definitions 2.1–2.2, in the group case) is a finite
+polyhedral complex in `V` (§1.1) whose walls carry a coorientation (a nonzero linear functional vanishing on the wall's
 direction, up to positive scalar) and exactly one label in `H`, crossed with the sign
 and order of Convention 3. *pathProduct* is `FreeGroup.lift` of the labels on §1.2's
 crossing word. A common admissible path of two diagrams is one vertex list admissible
@@ -903,9 +951,10 @@ A *GroupoidWallDiagram* in a fiber `L_d` of §0.7's label functor assigns to eac
 chamber an object of `L_d`, and to the two opposite crossings of each wall mutually
 inverse arrows. The transport of successive crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
 
-*Targets.*
+Construct and prove the following.
 - Path products are unchanged by positive rescaling of coorientations and by reversing
-  one with its label inverted; `P` then `Q` gives `pathProduct Q * pathProduct P`,
+  one with its label inverted; the path product of `P` followed by `Q` is the path product of `Q`
+  times that of `P`,
   reversal inverts, and path subdivision preserves path products.
 - *Equivalent* is an equivalence relation, by §1.2's path perturbation. Restriction to
   a subcomplex containing every wall with nonidentity label, and compatible refinement,
@@ -916,7 +965,7 @@ inverse arrows. The transport of successive crossings `ℓ_1,…,ℓ_s` is `ℓ_
 - A diagram is consistent iff its admissible loops have product `1`, and, on the vector
   space, iff `FreeGroup.lift` of the labels kills §1.2's joint-loop words.
 
-*Targets for groupoid coefficients.*
+For groupoid coefficients, construct and prove the following.
 - Path subdivision, reversal, compatible refinement, overlap identifications and
   relabelling are functorial, with the same joint-word relations. Killing local
   joint words gives homotopy-invariant transport on the regular base. Endpoint
@@ -932,14 +981,13 @@ inverse arrows. The transport of successive crossings `ℓ_1,…,ℓ_s` is `ℓ_
   horizontal half-axes `a`, cooriented by `dy`, and the vertical ones `b`, cooriented by
   `dx`, with `ab≠ba`. The counterclockwise square loop
   `(1,1)→(−1,1)→(−1,−1)→(1,−1)→(1,1)` crosses `b,a,b⁻¹,a⁻¹`, with product
-  `a⁻¹b⁻¹ab≠1`.
+  `a⁻¹b⁻¹ab≠1`, so the diagram is not consistent; with commuting labels it would be.
 
 *Needs:* §§0.7, 1.1–1.2, 1.5; `Group`, `FreeGroup`, groupoids and functors.
-Source: BRI Definitions 2.1–2.2 for the group case.
 
 ### 2.2 Graded KS complexes and completed diagrams
 
-For §0.1's `N`, the space `V` is a *KSSpace*: the model of `Hom_ℤ(N,ℝ)` of
+For §0.1's `N`, the space `V` is a *KSSpace* (BRI Definition 2.3 and §§2.9–2.11): the model of `Hom_ℤ(N,ℝ)` of
 Convention 1, with lattice map `Hom(N,ℤ)→V` satisfying `IsIntegralLattice`. For a
 rational cone `σ⊆V`, `g(σ)=⊕_{n∈N⁺, σ⊆n⊥} g_n`. A *KSComplex k* is a finite rational
 conical complex (§1.1) whose wall `𝔡` has label in `exp(g(𝔡)≤k)` and is cooriented by
@@ -948,7 +996,7 @@ of KS complexes `𝔇_k` with the projection of `𝔇_{k+1}` equivalent to `𝔇
 and consistency hold order by order. An all-order path is one vertex list admissible
 for every `𝔇_k`; a point is allowed when it lies on no wall of any `𝔇_k`.
 
-*Targets.*
+Construct and prove the following.
 - `δ` as a vector of `V`, by bijectivity of evaluation `N⁎⊗ℝ→V`; `g(σ)` as a Lie
   subalgebra, and `exp(A≤k)` for a Lie subalgebra `A` as a subgroup of `G≤k` (§0.4).
 - The complete path product on all-order paths. Two completed diagrams are equivalent
@@ -967,10 +1015,11 @@ for every `𝔇_k`; a point is allowed when it lies on no wall of any `𝔇_k`.
   half-lines of `e_1⊥`: a *CompletedDiagram* whose complexes do not stabilize.
 
 *Needs:* §§0.2, 0.4–0.5, §2.1, conical §1.1 and §1.2's countable perturbation lemma;
-`TauCeti.Toric.IsIntegralLattice`. Source: BRI Definition 2.3 and §§2.9–2.11.
+`TauCeti.Toric.IsIntegralLattice`.
 
 ### 2.3 Sign factorization and reconstruction
 
+This section follows BRI Lemmas 3.1–3.2 and Propositions 3.3–3.4.
 For `θ∈V`, `g_+(θ)`, `g_0(θ)`, `g_-(θ)` are the sums of the `g_n`, `n∈N⁺`, with
 `θ(n)` positive, zero and negative, and `G_+(θ)`, `G_0(θ)`, `G_-(θ)` their groups at
 each order and completed. The `±` chambers are `{θ | ∀n∈N⁺, ±θ(n)>0}`.
@@ -978,7 +1027,7 @@ each order and completed. The `±` chambers are `{θ | ∀n∈N⁺, ±θ(n)>0}`.
 `δ(n)≤k`. `P` is any positive monoid of §0.1; finite generation is assumed only for the
 openness of the chambers.
 
-*Targets.*
+Construct and prove the following.
 - Sign factorization: multiplication `G_+(θ)×G_0(θ)×G_-(θ)→G≤k` is a bijection, and
   so is its completed form onto `Ĝ`; the plus part, middle factor and minus part are
   functions of the product.
@@ -994,25 +1043,26 @@ openness of the chambers.
 
 **Checks.**
 - In rank one, *reconstruct g* for `g` in the completed group of §0.2's graded
-  Heisenberg algebra is the single wall `{0}` labelled `g`.
+  Heisenberg algebra is the single wall `{0}` labelled `g`: at `θ=0` every degree is tangent, so
+  the middle factor is all of `g`.
 
 *Needs:* §2.2; §0.2's central kernels; §0.1's bounded-degree and positive-functional
-properties. Source: BRI Lemmas 3.1–3.2 and Propositions 3.3–3.4.
+properties.
 
 ### 2.4 Change of coefficients and abelian-ray presentations
 
 A *DegreeHom* `f:g→g'` is §0.2's graded Lie homomorphism over the identity map of
 the positive degree data. The ray Lie algebra of a §0.1 *SupportedRay* `w` is
 `⊕_{a≥1, aw∈P}g_{aw}`; *IsAbelianRays* says it is abelian for every supported
-ray. An *IndexedWall* is a rational codimension-one cone in `w⊥`, labelled in
+ray (BRI §§2–3; GHKK §1.1). An *IndexedWall* is a rational codimension-one cone in `w⊥`, labelled in
 the completed group of this supported ray; an
 *IndexedWallPresentation* is a family of indexed walls with finitely many nontrivial at
 each order.
 
-*Targets.*
+Construct and prove the following.
 - *mapDiagram f*, with identity and composition laws, preserving equivalence and
-  consistency; `mapDiagram f (reconstruct g)` is equivalent to
-  `reconstruct (completedMap f g)` for §0.5's *completedMap*.
+  consistency; the image under *mapDiagram f* of *reconstruct g* is equivalent to the
+  reconstruction of the image of `g` under §0.5's *completedMap* `f`.
 - Change of degree acts on consistent classes only: for two positive degree functions
   on one positive monoid `P`, it is §0.5's change-of-degree isomorphism conjugated by
   *reconstructionEquiv*, and it commutes with *mapDiagram*.
@@ -1034,8 +1084,26 @@ each order.
 - When `2m,3m∈P` and `m∉P`, labels in the ray groups of `2m` and `3m` on one support
   commute by *IsAbelianRays* on their common supported primitive ray.
 
-*Needs:* §§0.4–0.5 and §§2.1–2.3; `Finset.noncommProd`, `LieAlgebra.center`. Source:
-BRI §§2–3; GHKK §1.1.
+*Needs:* §§0.4–0.5 and §§2.1–2.3; `Finset.noncommProd`, `LieAlgebra.center`.
+
+### Examples
+
+- Grade the Heisenberg algebra by `N=ℤ²` with `P=ℕ²` and `δ(a,b)=a+b`, putting `X`, `Y` and
+  `Z=[X,Y]` in degrees `e_1`, `e_2` and `e_1+e_2`, and let `g=exp(sX)exp(s'Y)` with `s,s'∈R`.
+  Then *reconstruct g* labels both half-axes of `e_1⊥` with `exp(sX)` (cooriented by `e_1`),
+  both half-axes of `e_2⊥` with `exp(s'Y)` (cooriented by `e_2`), the ray `ℝ_{≥0}(−1,1)` of
+  `(e_1+e_2)⊥` with `exp(ss'Z)` (cooriented by `e_1+e_2`) and every other cell with `1`. At
+  `θ=(−1,1)` the sign factorization is `g=exp(s'Y)·exp(ss'Z)·exp(sX)`, and the small loop
+  around the origin has product `1`.
+- For an abelian Lie algebra every diagram of full hyperplanes is consistent, and
+  *reconstructionEquiv* sends the class of a diagram to the product of its labels.
+
+### Dependencies
+
+Layers 0 and 1: positive degree data, BCH and completed groups, completed maps and changes of
+degree (§§0.1–0.5, 0.7), conical complexes, crossing words and the countable perturbation lemma
+(§§1.1–1.2), and integral-affine bases for groupoid coefficients (§1.5). Mathlib: free groups,
+`Finset.noncommProd`, Lie centers; Tau Ceti: integral lattices.
 
 ## Layer 3: directed scattering and completion
 
@@ -1045,7 +1113,8 @@ Let `(Γ,P,δ)` be *PositiveDegrees* (§0.1), `g` a positively `Γ`-graded Lie
 algebra over a commutative ring `R`, and independently `i:Λ→V` an integral lattice
 with additive `ρ:Γ→Λ`. Degree `n` has geometric direction `ρ(n)`.
 
-*DirectedWallSpaces* consists of `R`-submodules `h_{n,m}⊆g_n` for
+*DirectedWallSpaces* (MAN (5); LMY Definition 1.2, whose `(m,n)` is our `(n,m)` and whose
+third condition is §5.1's annihilation condition) consists of `R`-submodules `h_{n,m}⊆g_n` for
 `n∈P\{0}`, `m∈Λ*`, satisfying `h_{n,0}=0`, `h_{n,m}=0` if `m(ρ(n))≠0`,
 `h_{n,cm}=h_{n,m}` for nonzero integers `c`, and
 `[h_{n,m},h_{n',m'}]⊆h_{n+n',μ}` for `μ=m(ρ(n'))m'−m'(ρ(n))m`.
@@ -1060,7 +1129,7 @@ Coordinate changes are lattice isomorphisms `T_Γ`, `T_Λ` with
 `h_{n,m}` onto `h'_{T_Γn,m∘T_Λ⁻¹}`. Their cutoff moduli are those of §0.1;
 `δ'∘T_Γ=δ` gives maps at the same order.
 
-*Targets.*
+Construct and prove the following.
 
 - Homogeneous wall spaces embed in the submodules indexed by §0.1's supported
   rays, compatibly with truncation and decomposition by actual degrees in `P`.
@@ -1085,13 +1154,11 @@ Coordinate changes are lattice isomorphisms `T_Γ`, `T_Λ` with
 
 *Needs:* §§0.1–0.2, 0.4–0.5; `TauCeti.Toric.IsIntegralLattice`,
 `TauCeti.IsPrimitive`, `LieAlgebra.ExtendScalars.instLieAlgebra`,
-`DirectSum.Decomposition.baseChange`. Sources: MAN (5); LMY Definition 1.2,
-whose `(m,n)` is our `(n,m)` and whose third condition is §5.1's annihilation
-condition.
+`DirectSum.Decomposition.baseChange`.
 
 ### 3.2 Directed affine walls and admissibility
 
-A *DirectedWall* has a nonzero normal `m∈Λ*`, a *SupportedRay* `w` with
+A *DirectedWall* (MAN Definition 2.2, Remark 2.3 and (8)) has a nonzero normal `m∈Λ*`, a *SupportedRay* `w` with
 `m(ρ(w))=0`, a support `𝔡` that is a nonempty rational-normal affine polyhedron,
 bounded or not, with affine direction `ker(m_ℝ)`, and a label in *wallGroup w m*.
 Its direction is `−i(ρ(w))`. *Incoming* means `i(ρ(w))∈rec(𝔡)`, or
@@ -1107,7 +1174,7 @@ whose support contains it. Each nonidentity original support is covered by its a
 supports with pairwise disjoint relative interiors; repeated and overlapping
 indexed walls are refined separately.
 
-*Targets.*
+Construct and prove the following.
 
 - `rec(𝔡+v)=rec(𝔡)`, so *Incoming* and *Outgoing* are translation invariant;
   walls whose supports have the same affine tangent hyperplane have commuting labels.
@@ -1131,11 +1198,12 @@ indexed walls are refined separately.
 - For `Γ=ℤ²`, `P=ℕ²` and `ρ(a,b)=a∈ℤ`, a wall of degree `(0,1)`
   is incoming, including when its support is a single point of `ℝ`.
 
-*Needs:* §3.1, §§1.1–1.2, §2.1. Sources: MAN Definition 2.2, Remark 2.3 and (8).
+*Needs:* §3.1, §§1.1–1.2, §2.1.
 
 ### 3.3 Local scattering and existence of completion
 
-The input `𝔇_in` is a family of incoming full affine hyperplanes labelled in §3.1's
+The input `𝔇_in` (MAN Theorem 2.6 and Lemma 2.9; GHKK Theorem 1.21(3) and Construction C.1;
+KS Proposition 3.3.2) is a family of incoming full affine hyperplanes labelled in §3.1's
 wall groups, with finitely many active walls at each order.
 An outgoing completion is a consistent diagram containing `𝔇_in` whose other
 walls are outgoing. *HasPureBirthLogs* means each noninitial wall has a
@@ -1162,7 +1230,7 @@ transverse components with `δ(n)=k`. For `n=aw`, `a≥1`, index each swept wall
 label `exp(−c)` for degree-`n` coefficient `c` on the positive transverse side.
 The sweeps along `ρ(n)` and `ρ(w)` have the same support and outgoingness.
 
-*Targets.*
+Construct and prove the following.
 
 - *exists_outgoingCompletion*: construct an outgoing completion of the stated input, with
   finitely many active walls at each order and full affine hyperplane supports. MAN
@@ -1210,13 +1278,13 @@ are full hyperplanes, and all new logarithms remain in the ideal.
   `μ=m(ρ(n'))m'−m'(ρ(n))m` on the joint swept by `−i(ρ(n+n'))`,
   and none if `μ=0`. For `ρ=id`,
   `n=e_1,m=e_2*,n'=e_2,m'=e_1*`, the support is
-  `−ℝ_{≥0}(1,1)` with normal `e_1*−e_2*`.
+  `−ℝ_{≥0}(1,1)` with normal `e_1*−e_2*`, and with this coorientation the label is
+  `exp(+t_1t_2[x,y])`: the loop around the origin then has product `1`. The opposite ray
+  `ℝ_{≥0}(1,1)` would carry an incoming wall and is not a correction.
 - If `ρ(n+n')=0` in this calculation, the bracket and correction vanish.
 
 *Needs:* §§0.2, 0.4–0.5, 1.2, 1.4, 3.1–3.2;
 `LieAlgebra.ExtendScalars.instLieAlgebra`, `DirectSum.Decomposition.baseChange`.
-Sources: MAN Theorem 2.6 (finite input) and Lemma 2.9; GHKK Theorem 1.21(3) and
-Construction C.1; KS Proposition 3.3.2.
 
 ### 3.4 Uniqueness and compatibility
 
@@ -1224,9 +1292,10 @@ Construction C.1; KS Proposition 3.3.2.
 input, bundled with an index type in the universe of *exists_outgoingCompletion*;
 its order-`k` class is taken modulo order-`k` equivalence.
 
-*Targets.*
+Construct and prove the following.
 
-- *outgoingCompletion_unique*: two outgoing completions of one input are equivalent.
+- *outgoingCompletion_unique*: two outgoing completions of one input are equivalent (MAN
+  Theorem 2.6; GHKK Appendix C.1).
 - *relativeAbelianCompletion_unique*: relative completions with the same quotient
   diagram and ideal inputs are equivalent. The resulting class depends only on the
   quotient diagram's equivalence class and is natural under maps of split extensions
@@ -1246,18 +1315,37 @@ sum, forcing this part to vanish. Induct on order.
 **Checks.**
 
 - A nontrivial full hyperplane, with
-  `𝔡−ℝ_{≥0}i(ρ(n))⊆𝔡`, is consistent and inequivalent to `∅`.
+  `𝔡−ℝ_{≥0}i(ρ(n))⊆𝔡`, is consistent and inequivalent to `∅`. LMY Definition 1.3 calls such a
+  wall outgoing; with that definition the empty diagram and this wall would be two inequivalent
+  outgoing completions of the empty input, which is why *Outgoing* is the negation of
+  *Incoming*.
 
 *Needs:* §3.3, §0.2's graded degree ideals, §1.1's ambient subdivision.
-Sources: MAN Theorem 2.6; GHKK Appendix C.1; LMY Definition 1.3 calls a wall
-with `𝔡−ℝ_{≥0}i(ρ(n))⊆𝔡` outgoing.
+
+### Examples
+
+- An input whose normals are pairwise proportional is its own outgoing completion: its labels
+  commute by §3.1, so a loop, which crosses each hyperplane alternately in opposite directions,
+  has product `1`.
+- If `ρ=0`, every wall is incoming and every bracket of wall spaces lies in a space of normal
+  `μ=0`, hence vanishes; every input is its own outgoing completion, as *zeroDirectionObstruction*
+  predicts.
+- The first Check of §3.3 is the first step of *centralStep*: over `ℚ[t_1,t_2]/(t_1²,t_2²)` the
+  two transverse lines have the defect `t_1t_2[x,y]` at their joint, swept along `−(1,1)`.
+
+### Dependencies
+
+Layers 0–2: positive degree data and truncations, BCH and completed groups (§§0.1–0.2,
+0.4–0.5), polyhedra, generic paths and the cochain sweep (§§1.1–1.2, 1.4), and path products
+(§2.1). Mathlib: extension of scalars of Lie algebras and of direct-sum decompositions. Tau Ceti:
+integral lattices and primitive vectors.
 
 ## Layer 4: realizations and specializations
 
 ### 4.1 The tropical vertex algebra
 
 Let `R` be a commutative `ℚ`-algebra and use `Γ,Λ,ρ,P` of §3.1. The formal
-logarithmic derivations of degree `n∈P\{0}` are
+logarithmic derivations (MAN Example 2.1(i)) of degree `n∈P\{0}` are
 `g_n=R⊗_ℤ{m∈Λ* | m(ρ(n))=0}`, with generators `z^n∂_m` and bracket
 `[z^n∂_m,z^{n'}∂_{m'}]=z^{n+n'}∂_{m(ρ(n'))m'−m'(ρ(n))m}`.
 The wall space `h_{n,m}` is the `R`-line of `z^n∂_m` when `m(ρ(n))=0`, and zero
@@ -1270,7 +1358,7 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
 `S(m)(ρ'(Tp))=m(ρ(p))` for `p∈P`, `m∈U`. The identity-projection case
 `Γ=Λ=L`, `ρ=id` is the usual tropical vertex algebra and pairing.
 
-*Targets.*
+Construct and prove the following.
 - The bracket satisfies the Jacobi identity, and the `h_{n,m}` satisfy §3.1.
 - *tropicalVertexGroup*: §0.5's completed group `Ĝ` of the formal Lie algebra `g`.
   For each coefficient monoid `Q`, the `R`-linear Lie map `g→Der_R R[Q]`
@@ -1316,11 +1404,10 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
   sends `z^{e_2}∂_{e_1*}` to `½·z^{e_2}∂_{e_1*}`.
 
 *Needs:* §§0.1, 0.3–0.6, 3.1; `TensorProduct`, `AddMonoidAlgebra`, `Derivation`.
-Source: MAN Example 2.1(i).
 
 ### 4.2 Skew forms, Poisson actions and the principal realization
 
-A *SkewLatticeDatum* is a finite free lattice `N` with a saturated sublattice `N_uf`, a
+A *SkewLatticeDatum* (GHKK §1 and Appendix B; N23 §§1–3) is a finite free lattice `N` with a saturated sublattice `N_uf`, a
 finite-index sublattice `N°` and a rational skew form `{,}` with `{N_uf,N°}⊆ℤ` and
 `{N,N_uf∩N°}⊆ℤ`. Morphisms are lattice maps preserving the form and carrying these
 sublattices into their counterparts. For `0≠n∈N`, define `κ(n)∈ℚ_{>0}` by
@@ -1332,14 +1419,15 @@ subset `I_uf` whose vectors form a basis of `N_uf`, and integers `d_i>0` such th
 with `M°` over `N_ℚ`. The directed normal of `n` is `{-,n}=−p₁*(n)`; for `n=(a,b)` in rank two it is
 `{e_1,e_2}(b,−a)`. Over a
 commutative `ℚ`-algebra `R`, the skew Lie algebra has `[X_n,X_n']={n',n}X_{n+n'}`; on `R[M°][[t_i]]`, `q^n=z^{p₁*(n)}t^n` and
-`D_n(z^m t^a)=⟨n,m⟩z^{m+p₁*(n)}t^{a+n}`. The principal lift has `L_pr=M°⊕N_uf`,
+`D_n(z^m t^a)=⟨n,m⟩z^{m+p₁*(n)}t^{a+n}`. The principal lift (MAN Examples 2.1(ii), Remark 2.3)
+has `L_pr=M°⊕N_uf`,
 `P_pr=r(P_N)` for `r(n)=(p₁*(n),n)`, `δ_pr(r(n))=Σn_i`, normal `ν_n(m,a)=⟨n,m⟩` with
 primitive normal `κ(n)ν_n`, and `h_{r(n),m}` the line of `X_n` when `m`
 is a nonzero multiple of `κ(n)ν_n`, zero otherwise. A KS wall of degree `n` is
 KS-incoming if its support contains `p₁*(n)`. For an integral form, the skew comparison is
 the linear map `p₁*_ℝ:N_ℝ→M°_ℝ` extending `x↦{x,-}`.
 
-*Targets.*
+Construct and prove the following.
 - Morphisms of skew lattice data form a category; `{-,κ(n)n}` is integral for
   primitive `n∈N_uf`; the adapted-basis degree on `N⁺` and any §3.1 degree on its cone
   give the same completions.
@@ -1385,15 +1473,17 @@ the linear map `p₁*_ℝ:N_ℝ→M°_ℝ` extending `x↦{x,-}`.
   and principal-cylinder direction maps send `r(n)` to `0` and `r(n)`, respectively.
 
 *Needs:* §§0.1–0.6, 2.3–2.4, 3.1–3.2, 3.4, 4.1; `Module.Free`, `Module.Finite`,
-`AddSubgroup.index`, `Module.Dual`, `MvPowerSeries`, `AddMonoidAlgebra`. Sources: GHKK
-§1 and Appendix B; N23 §§1–3; MAN Examples 2.1(ii), Remark 2.3.
+`AddSubgroup.index`, `Module.Dual`, `MvPowerSeries`, `AddMonoidAlgebra`.
 
 ### 4.3 Quantum coefficients
 
 Let `(L,P,δ)` be *PositiveDegrees*, `R` a commutative ring, `q∈Rˣ` a specified unit,
-and `β` an integral alternating form on `L`. *QuantumMonoidAlgebra* `R q β` is the module of
-`AddMonoidAlgebra R L` with basis `z^p`, `p∈L`, and multiplication
-`z^p z^{p'}=q^{β(p,p')}z^{p+p'}`. The full twisted group algebra carries the Laurent
+and `β` an integral alternating form on `L`. Since `β` is bilinear, `α(p,p')=q^{β(p,p')}` is a
+normalized multiplicative `2`-cocycle on `Multiplicative L` with values in `Rˣ`.
+*QuantumMonoidAlgebra* `R q β` (MAN Example 2.1(iii)) is Tau Ceti's twisted monoid algebra
+`TauCeti.twistedMonoidAlgebra R (Multiplicative L) α`, with basis `z^p`, `p∈L`, the elements
+`TauCeti.TwistedMonoidAlgebra.of p`, and multiplication `z^p z^{p'}=q^{β(p,p')}z^{p+p'}`
+(`TauCeti.TwistedMonoidAlgebra.of_mul_of`). The full twisted group algebra carries the Laurent
 homogeneous pieces; its positive subalgebra spanned by `z^p`, `p∈P`, carries the degree
 completion, and its strictly positive part is a graded `R`-Lie algebra acting by inner
 derivations. BCH groups, exponential actions and quantum scattering assume in addition
@@ -1406,11 +1496,14 @@ Coefficient models include `k[q,q⁻¹]`, `RatFunc k` for characteristic-zero fi
 and specified localizations of the Laurent ring. Inputs using denominators
 `q^a−q^(-a)`, `a>0`, require these elements to be units.
 
-*Targets.*
-- *QuantumMonoidAlgebra* over any commutative `R`: associativity, unit and basis
-  theorems, `[z^n,z^{n'}]=(q^{β(n,n')}-q^{-β(n,n')})z^{n+n'}`, the `GradedAlgebra`
-  over `L` with pieces `R z^p`, and `β=0` giving `AddMonoidAlgebra` as graded
-  algebras.
+Construct and prove the following.
+- *QuantumMonoidAlgebra* over any commutative `R`: `α` satisfies `TauCeti.IsFactorSet`, so the
+  associativity, unit and basis theorems are Tau Ceti's (`TauCeti.TwistedMonoidAlgebra.basis`);
+  prove `[z^n,z^{n'}]=(q^{β(n,n')}-q^{-β(n,n')})z^{n+n'}`, the `GradedAlgebra` over `L` with
+  pieces `R z^p`, and that for `β=0` the identification
+  `TauCeti.TwistedMonoidAlgebra.monoidAlgebraEquiv`, followed by the inverse of
+  `AddMonoidAlgebra.toMultiplicativeAlgEquiv`, is an isomorphism of graded algebras with
+  `AddMonoidAlgebra R L`.
 - A lattice map preserving the forms induces a graded algebra homomorphism, extending
   to completions through §0.3 with the cutoff modulus when its restriction to the
   positive monoids is a *PositiveDegreeMap*. A ring homomorphism `φ:R→S` with
@@ -1421,7 +1514,8 @@ and specified localizations of the Laurent ring. Inputs using denominators
   maps. The `h_{n,m}` satisfy §3.1, so §3.4 gives the quantum *Scat*, natural for
   coefficient maps; for a skew datum, `β(n,-)` is `{-,n}` and the eligible normals are
   those of §4.2.
-- *quantumRayAction*: for `n∈P\{0}`, `p∈L`, `G(T)∈1+T R[[T]]` and
+- *quantumRayAction* (NQ §2.3, equations (2.14) and (2.21)): for `n∈P\{0}`, `p∈L`,
+  `G(T)∈1+T R[[T]]` and
   `r=β(n,p)`, conjugation gives
   `Ad_{G(z^n)}(z^p)=z^p G(q^{2r}z^n)G(z^n)⁻¹`, as a coefficientwise identity
   of series supported in `p+ℕn`. If `G(q^{2r}T)G(T)⁻¹=Σ_j h_j T^j`, its
@@ -1435,7 +1529,8 @@ and specified localizations of the Laurent ring. Inputs using denominators
 
 **Checks.**
 - For `β(e_1,e_2)=1`, `z^{e_1}z^{e_2}=q z^{e_1+e_2}` and
-  `z^{e_2}z^{e_1}=q⁻¹ z^{e_1+e_2}`.
+  `z^{e_2}z^{e_1}=q⁻¹ z^{e_1+e_2}`, so `[z^{e_1},z^{e_2}]=(q−q⁻¹)z^{e_1+e_2}`; a symmetric
+  twist `q^{|β|}` would make the algebra commutative.
 - For `R=ℚ(q)`, `n∈P\{0}` and `β(n,p)=1`, put `θ=Ad_{Ψ_q(z^n)}`.
   Then `θ(z^p)=z^p+z^{p+n}` and
   `θ(z^{2p})=z^{2p}+(q+q⁻¹)z^{2p+n}+z^{2p+2n}`.
@@ -1443,9 +1538,12 @@ and specified localizations of the Laurent ring. Inputs using denominators
   unnormalized commutator and its inner action vanish; no ring homomorphism `k(q)→k`
   sends `q` to `1`.
 
-*Needs:* §§0.1, 0.3–0.6, 3.1–3.4, 4.2; units, `AddMonoidAlgebra`, `GradedAlgebra`;
-`PowerSeries`, `PowerSeries.rescale`; `RatFunc` and `LaurentPolynomial` for the coefficient instances. Sources: MAN
-Example 2.1(iii); NQ §2.3, equations (2.14) and (2.21).
+*Needs:* §§0.1, 0.3–0.6, 3.1–3.4, 4.2; units, `AddMonoidAlgebra`,
+`AddMonoidAlgebra.toMultiplicativeAlgEquiv`, `GradedAlgebra`; `TauCeti.twistedMonoidAlgebra`,
+`TauCeti.IsFactorSet`, `TauCeti.TwistedMonoidAlgebra.of`, `TauCeti.TwistedMonoidAlgebra.of_mul_of`,
+`TauCeti.TwistedMonoidAlgebra.basis`, `TauCeti.TwistedMonoidAlgebra.monoidAlgebraEquiv`;
+`PowerSeries`, `PowerSeries.rescale`; `RatFunc` and `LaurentPolynomial` for the coefficient
+instances.
 
 ### 4.4 Weight-zero function walls and face algebras
 
@@ -1458,7 +1556,7 @@ map `ρ` and normal `ν`, take `ℓ=ν∘ρ`, so
 normal-weight grading, even when it does not preserve the full exponent grading.
 
 For a commutative ring `S`, tangential lattice `Λ_b` and arbitrary
-`q∈S[Λ_b]`, the *SlabAlgebra* is `N_b=S[Λ_b][X,Y]/(XY-q)`. Its chamber
+`q∈S[Λ_b]`, the *SlabAlgebra* (GS §2.3; GHS Definitions 3.1–3.3) is `N_b=S[Λ_b][X,Y]/(XY-q)`. Its chamber
 algebras are `M_u=S[Λ_b][x,x⁻¹]` and `M_v=S[Λ_b][y,y⁻¹]`, with maps
 `λ_u(X)=x`, `λ_u(Y)=qx⁻¹`, `λ_v(X)=qy⁻¹`, `λ_v(Y)=y`, fixing
 `S[Λ_b]`. Incoming lifts are `cx^a↦cX^a` and `cy^a↦cY^a` for `a≥0`,
@@ -1468,12 +1566,12 @@ For a monoid algebra quotient `S=R[Q]/I`, monomial face data consist of a kink
 exponent `κ_b∈Q` and a tangential function `f_b∈S[Λ_b]`, with `q_b=z^{κ_b}f_b`;
 `z^{κ_b}` denotes its image in `S`.
 
-*Targets.*
+Construct and prove the following.
 - *functionWallAction*: multiplicativity, inverse `Θ_{f⁻¹}`, composition
   `Θ_f Θ_g=Θ_{fg}` for weight-zero units, compatibility with truncation and
   naturality under graded maps sending `f` to `f'`. On algebras over a fixed scalar
   ring these are algebra automorphisms when the scalars have weight zero.
-- *functionWallAction_eq_exp*: over a commutative `ℚ`-algebra, in a complete
+- *functionWallAction_eq_exp* (MAN Example 2.1(i)): over a commutative `ℚ`-algebra, in a complete
   filtered coefficient algebra with `I=F¹A`, for `f∈1+I` and a
   filtration-preserving normal degree derivation `D_ℓ`, prove
   `Θ_f=exp(log(f)D_ℓ)` at finite order and after completion. This identifies
@@ -1492,16 +1590,35 @@ exponent `κ_b∈Q` and a tangential function `f_b∈S[Λ_b]`, with `q_b=z^{κ_b
 
 **Checks.**
 - In `S[w,w⁻¹][X,Y]/(XY-t(1+w))`, the incoming lift `X^a w^b` has right chamber
-  image `t^a y⁻ᵃ Σ_{j=0}^a binom(a,j)w^{b+j}`.
+  image `t^a y⁻ᵃ Σ_{j=0}^a binom(a,j)w^{b+j}`; its components are the `a+1` terms of
+  `(1+w)^a`, not the single term `t^a y^{-a} w^b` a lift ignoring `q` would give.
 
 *Needs:* §§0.3, 0.6–0.8, 1.5, 4.1–4.3; `GradedAlgebra`, `Units`, localization,
-polynomial and Laurent polynomial algebras. Sources: GS §2.3; GHS Definitions
-3.1–3.3; MAN Example 2.1(i) for the exponential comparison.
+polynomial and Laurent polynomial algebras.
+
+### Examples
+
+- For `Γ=Λ=ℤ²`, `P=ℕ²` and `ρ=id`, the label `exp(log(1+z^{e_1})∂_{e_2*})` lies in
+  *wallGroup* `e_1` `e_2*` and acts on `R[[ℕ²]]` by `z^{(a,b)} ↦ z^{(a,b)}(1+z^{e_1})^b`.
+- For the rank-two skew datum with `{e_1,e_2}=1` and `d=(1,1)`, `p₁*(e_1)=(0,1)` and
+  `p₁*(e_2)=(−1,0)`, so `q^{e_1}=z^{(0,1)}t_1`, and the wall action of `e_1` with function `1+T`
+  is `z^m t^a ↦ z^m t^a (1+z^{(0,1)}t_1)^{m_1}`.
+- In the quantum torus with `β(e_1,e_2)=1`, conjugation by `Ψ_q(z^{e_1})` sends `z^{e_2}` to
+  `z^{e_2}(1+qz^{e_1}) = z^{e_2}+z^{e_1+e_2}`.
+- For the slab algebra with `q=t(1+w)`, `Z_{−1}Z_1=XY=t(1+w)` and `Z_{−2}Z_1=X²Y=t(1+w)X`, as
+  `Z_nZ_m=q^rZ_{n+m}` predicts with `r=1`.
+
+### Dependencies
+
+Layers 0–3, and §1.5 for the face algebras of §4.4. Mathlib: monoid algebras and their
+multiplicative form, power series and their rescaling, Laurent polynomials, rational functions,
+graded algebras, derivations and localization. Tau Ceti: twisted monoid algebras of factor sets.
 
 ## Layer 5: broken lines, general position and theta transport
 
 ### 5.1 Graded actions and shifted coefficient modules
 
+This section follows MAN §2.1 and Definition 2.10.
 Let `R` be a commutative `ℚ`-algebra and `A=⊕_{p∈Γ}A_p` an associative,
 possibly noncommutative, `Γ`-graded `R`-algebra. Let §3.1's Lie algebra act
 `R`-linearly by derivations, with `g_n A_p⊆A_{n+p}` (*graded action condition*)
@@ -1514,7 +1631,7 @@ For `p∈Γ`, the *shifted module* `M_p=⊕_{n∈P}A_{p+n}` has relative degree
 The instances are §4.1's tropical vertex action, §4.2's principal action with its
 degree lattice and projection, and §4.3's inner action on twisted group algebras.
 
-*Targets.*
+Construct and prove the following.
 
 - *IsWallAnnihilating*: the annihilation condition, as a class on the action. It and
   the graded action condition hold for the three instances.
@@ -1532,7 +1649,6 @@ degree lattice and projection, and §4.3's inner action on twisted group algebra
   ordinary-wall correspondences given by the identity and the signed group action.
 
 *Needs:* §§0.1–0.6, 0.8, §3.1 and Layer 4; `GradedAlgebra`, `GradedLieModule`.
-Sources: MAN §2.1 and Definition 2.10.
 
 ### 5.2 Decorated broken lines
 
@@ -1540,7 +1656,8 @@ Use §1.5's base and incoming datum `(s,a)`, with the chamber modules `M_u` and 
 face correspondences of its regular coefficient tower over a semiring. Fix an order
 `k` and an endpoint `Q` in a chamber.
 
-A *BrokenLine* is a proper continuous path `β:(−∞,0]→B₀` ending at `Q`, with
+A *BrokenLine* (MAN Definition 2.10 and Proposition 2.13; GHKK Definitions 3.1–3.3 and
+Proposition 3.4; GHS Definitions 3.1–3.3) is a proper continuous path `β:(−∞,0]→B₀` ending at `Q`, with
 finitely many strictly increasing crossing times below `0` and nonzero homogeneous decorations
 `a_i∈M_{u_i,k,p_i}` giving velocity `−ρ(p_i)` in affine coordinates. Its first segment
 is an *IncomingTail* admitted by `(s,a)`. Record every encounter with an active
@@ -1558,7 +1675,7 @@ chart/deck labels modulo coordinate identifications and artificial subdivisions.
 Component maps determine its decorations. Its *realizations* additionally specify
 endpoints, crossing times and tail positions.
 
-*Targets.*
+Construct and prove the following.
 
 - Path evaluation, the map to *DecoratedType*, initial and final decorations, and the
   component propagation maps, with their subdivision and truncation laws.
@@ -1590,14 +1707,15 @@ endpoints, crossing times and tail positions.
   `deg t=(0,1)` and `ρ(r,s)=r`, give `{0}⊂ℝ` coorientation `u↦u` and
   label `θ(x)=x(1+t)`, `θ(t)=t`. At a right-to-left crossing with incoming
   decoration `x`, the possible next decorations are exactly `x` and `tx`,
-  both with velocity `−1`.
+  both with velocity `−1`; the label `θ⁻¹`, which the opposite crossing rule would apply, gives
+  `x` and `−tx`.
 
 *Needs:* §§0.8, 1.1–1.3, 1.5, 3.2 and 5.1.
-Sources: MAN Definition 2.10 and Proposition 2.13; GHKK Definitions 3.1–3.3 and
-Proposition 3.4; GHS Definitions 3.1–3.3.
 
 ### 5.3 Endpoint evaluation, closed families and general position
 
+This section follows CPS Proposition 4.4 and Definition 4.6, N23 Definition 7.2 and the proof of
+Proposition 7.6, and GHS Proposition 3.5, Remark 3.6 and Lemma 3.7.
 Fix `(s,a,k)` on §1.5's base. The bounded-itinerary construction uses, near each
 regular endpoint, finitely many lifted polyhedral cells, face presentations and
 incoming records, with affine transitions extending to their closures in `B`.
@@ -1615,7 +1733,7 @@ branch; at its boundary encounters converge in `B`, with finite crossing times a
 the prescribed tail identifications. Zero-length segments and encounters with `Σ_k`
 are retained as degenerations.
 
-*Targets.*
+Construct and prove the following.
 
 - *boundedItineraries_finiteClosedTypeFamily*: enumerate the finite tree of face
   choices and nonzero transfer components to depth `L`. Backward reconstruction and
@@ -1674,8 +1792,6 @@ are retained as degenerations.
   neighborhood of `0` is generic for all of them.
 
 *Needs:* §§0.3, 0.8, 1.2–1.3, 1.5, 4.4 and 5.2.
-Sources: CPS Proposition 4.4 and Definition 4.6; N23 Definition 7.2 and the proof of
-Proposition 7.6; GHS Proposition 3.5, Remark 3.6 and Lemma 3.7.
 
 ### 5.4 Local resolutions and gluing of sections
 
@@ -1684,7 +1800,7 @@ Labels of coincident regular germs commute. Segment transport `P_{yz}` has facto
 `θ^{side(y)−side(z)}` in crossing order, first rightmost, with `side=1` on `m>c`
 and `0` otherwise. Simultaneous crossings combine these factors; reversal inverts
 their product. *coefficientPathTransport* composes segment transports along admissible
-PL paths in `V∖SingularSupport`.
+PL paths in the complement of the *SingularSupport*.
 
 A sheaf of types is *IsLocallyConstantSheaf* if each point has a neighborhood whose
 restrictions to nonempty preconnected opens are bijective.
@@ -1696,11 +1812,12 @@ pieces. The nearby local histories on either side, with their composite componen
 maps from an input module `H`, are its *local resolutions*. Require uniform finite
 contributing support on `H`; for arbitrary source modules test every finite list of
 inputs by a map `H=R^n→E_s`, followed by `α_e` at source identifications.
-A *LocalResolutionCertificate* gives equality of the two sums in each outgoing
+A *LocalResolutionCertificate* (GHS §3.2, for the local identities at walls and the slab lifts)
+gives equality of the two sums in each outgoing
 degree at nonterminal events, and a common lift `H→N_b` of the two chamber sums
 at terminal faces, including tangential inputs. Joint injectivity makes this lift unique.
 
-*Targets.*
+Construct and prove the following.
 
 - Local segment cocycle: `P_{zw}P_{yz}=P_{yw}` when the convex hull of
   `y,z,w` misses *SingularSupport*. For an order-`k` directed diagram,
@@ -1734,7 +1851,8 @@ at terminal faces, including tangential inputs. Joint injectivity makes this lif
   singular-degeneration strata: the component maps in chamber coordinates agree
   across face presentations. Tangential inputs use §1.5's common source lifts.
   This constructs the certificate for graph and slab correspondences alike.
-- *finiteSum_matchingFamily*: on a locally finite polyhedral stratification of
+- *finiteSum_matchingFamily* (GHS Proposition 3.16 and Theorem 3.19; CPS Lemmas 4.7 and 4.9):
+  on a locally finite polyhedral stratification of
   §1.5's chambers, finite sums of linear maps `H→M_u` agreeing across interior
   facets and admitting common face lifts extend uniquely to a matching family when
   the spans are jointly injective. Prove compatibility with overlaps, coefficient
@@ -1771,12 +1889,11 @@ injectivity at coefficient faces.
 
 *Needs:* §§0.7–0.8, 1.1–1.2, 1.5, 2.1, 3.2, 4.4 and 5.1–5.3;
 `TopCat.Sheaf`, `TopCat.PrelocalPredicate.sheafify`,
-`TopCat.subsheafToTypes`. Sources: GHS §3.2 for
-local identities at walls and slab lifts; GHS Proposition 3.16 and Theorem 3.19,
-and CPS Lemmas 4.7 and 4.9 for gluing.
+`TopCat.subsheafToTypes`.
 
 ### 5.5 Module probes and affine theta transport
 
+This section follows MAN Theorem 2.14 and §3.3.3, and LMY §3.
 Fix a consistent §3.2 diagram `𝔇` acting as in §5.1, an order `k` and `a∈A_p`.
 The *module probe* is `g⋉M_p`, with `M_p` abelian. Set
 `Γ_ext=Γ⊕ℤ`, `Λ_ext=Λ⊕ℤe_z`, `ρ_ext(x,c)=(ρ(x),0)`,
@@ -1787,7 +1904,7 @@ module pieces, and all other spaces vanish. *Module charge* is the second degree
 coordinate. Cylinder walls are `𝔡×ℝe_z`; the *probe wall* is `z=0`, with
 degree `(p,1)`, normal `e_z*` and label `exp(a)`. Write `Θ` for *weightedEvaluation*.
 
-*Targets.*
+Construct and prove the following.
 
 - *moduleProbe*: the datum satisfies §3.1, the mixed bracket of `h_{n,m}` with
   `A_{p+n'}` having normal `m(ρ(p+n'))e_z*`; when this normal is zero the bracket
@@ -1859,10 +1976,11 @@ degree `(p,1)`, normal `e_z*` and label `exp(a)`. Write `Θ` for *weightedEvalua
 
 *Needs:* §§0.8, 1.4, 3.1, 3.3–3.4 and 5.1–5.4;
 `LieAlgebra.SemiDirectSum`, `LieDerivation`.
-Sources: MAN Theorem 2.14 and §3.3.3; LMY §3.
 
 ### 5.6 Monomial presentations and comparison of theta constructions
 
+This section follows CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9, and N23
+Proposition 7.6, Lemmas 7.7–7.8 and §7.
 A *MonomialPresentation* chooses a basis `z^p` for each nonzero chamber
 homogeneous piece, free of rank one over the common commutative scalar ring.
 Truncation sends each basis element to its corresponding element or to zero.
@@ -1875,7 +1993,7 @@ For §4.2's principal coefficients, the principal comparison projects `L_pr→M�
 terms with the same `m` into one projected homogeneous component. The walls in
 `L_pr,ℝ` are the inverse-image cylinders of the projected walls.
 
-*Targets.*
+Construct and prove the following.
 
 - The standard principal and quantum bases give *MonomialPresentation*s. Their
   ordinary-wall components are §4.2's wall-function powers and §4.3's conjugation
@@ -1906,8 +2024,26 @@ terms with the same `m` into one projected homogeneous component. The walls in
   base changes additionally use the geometric lift and incoming-tail correspondence above.
 
 *Needs:* §§4.2–4.3 and §§5.1–5.5.
-Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9; N23 Proposition 7.6,
-Lemmas 7.7–7.8 and §7.
+
+### Examples
+
+- For the empty diagram on `V` and initial `z^p` with `ρ(p)≠0`, each endpoint carries the single
+  unbent line, and the theta function is `z^p` everywhere.
+- For the wall `{x=0}` with normal `e_1*` and function `1−z^n`, `m(ρ(n))=0`, and initial `z^p`
+  with `m(ρ(p))=1`, the broken lines ending at `Q` with `Q_x<0` are the unbent line, decorated
+  `z^p`, and the line bent at the wall, decorated `−z^{p+n}`; the theta function there is
+  `z^p−z^{p+n}`, and `z^p` on the side `x>0`. Crossing the wall from `x<0` to `x>0` applies the
+  label `θ⁻¹`, which sends `z^p−z^{p+n}` to `z^p`, as *theta_transport* asserts.
+- For `ρ(p)=0` the theta function of `a∈A_p` is the constant section `a`, with no broken line
+  bending.
+
+### Dependencies
+
+Layers 0–4: coefficient correspondences and their expansions (§0.8), polyhedral geometry, generic
+paths, cochains and integral-affine bases (Layer 1), path products (§2.1), directed diagrams and
+relative completions (Layer 3), and the realizations and face algebras of Layer 4. Mathlib:
+graded algebras and Lie modules, semidirect sums of Lie algebras, Lie derivations and sheaves on
+topological spaces.
 
 ## Layer 6: integral-affine covariance, descent and a worked example
 
@@ -1925,7 +2061,7 @@ supports and preserve §0.8 spans, gradings, admissible lifts and incoming recor
 For algebra actions, `ψ(A_q)=A'_{Sq}` and `ψ(x·a)=φ(x)·ψ(a)` give the coefficient
 instance associated to a *DirectedAffineIso*.
 
-*Targets.*
+Construct and prove the following.
 - *mapAffineDiagram*: transport preserves incoming/outgoing walls, equivalence,
   consistency and path products, with identity, composition and inverse laws for
   both geometry and coefficients; on §2.1 complexes it is *image*. Restrictions
@@ -1963,7 +2099,7 @@ regular faces whose two maps `λ` are isomorphisms. In the fixed-model case a gr
 compatibly on the tower `G≤k`, with chart-change lifts in `H` and transport group
 `G≤k⋊H`, where `(g,α)(g',α')=(g·α(g'),αα')`.
 
-*Targets.*
+Construct and prove the following.
 - *descendCoefficientDiagram*: construct the descended diagram and sheaf of matching
   sections, with restriction, chart pullback, gluing uniqueness, and identity and
   composition for maps of descent data. Prove independence, up to canonical
@@ -1995,7 +2131,8 @@ compatibly on the tower `G≤k`, with chart-change lifts in `H` and transport gr
 ### 6.3 Worked example: the focus-focus slab and its theta basis
 
 This example applies the slab, descent and theta constructions to the focus-focus
-affine singularity (GS §2.2).
+affine singularity (GS §2.2), following GS §2.3 and GHS Definition 3.3, Proposition 3.5 and
+Lemma 3.7.
 
 Take `B=ℝ²`, `Δ={(0,0)}`, with left and right chambers `u<0` and `u>0` and the
 slab `u=0`. Chart extensions across the slab have transition the identity on the lower
@@ -2045,7 +2182,7 @@ The chamber embeddings
 `ι₊:R₊,k→S_k[y₂^{±1},w^{±1}]`, `x₂↦t y₂⁻¹`, are injective localizations.
 Composing with the projections of `A_k` gives §4.4's slab maps for `q=t(1+w)`.
 
-*Targets.*
+Construct and prove the following.
 - *focusFocusAlgebra*: prove the `S_k`-algebra isomorphism
   `e:S_k[W^{±1},X,Y]/(XY−t(1+W)) ≃ A_k`, with the displayed generator images,
   compatible with `K→K'` and `k+1→k`; *slabNormalForm* gives its basis and flatness.
@@ -2084,14 +2221,33 @@ Composing with the projections of `A_k` gives §4.4's slab maps for `q=t(1+w)`.
 *Route:* Eliminate `t=x_i y_i`; regularity of `1+w` identifies the fiber product.
 
 **Checks.**
-- Over `K=ℤ` at `k=2`, `ϑ_{−1,0}ϑ_{1,0}=tϑ_{0,0}+tϑ_{0,1}`.
+- Over `K=ℤ` at `k=2`, `ϑ_{−1,0}ϑ_{1,0}=tϑ_{0,0}+tϑ_{0,1}`, since `XY=t(1+W)`; without the
+  slab function, `XY=t`, the term `tϑ_{0,1}` would be missing.
   At `Q=(1,1)`, incoming `X` and `X²` from the left have respectively two and
-  three broken lines, with weights `1,1` and `1,2,1`.
+  three broken lines, with weights `1,1` and `1,2,1`: for `X^d` the heights
+  `s_j=1+j/d` are all positive, so every branch crosses the upper part of the slab.
 
 *Needs:* §§0.7–0.8, 1.5, 4.4, 5.2–5.4 and 6.1–6.2;
 `AddMonoidAlgebra`, `Ideal.Quotient.mk`, `Localization.Away`, `MvPolynomial`,
 and `CategoryTheory.Limits.pullback`.
-Sources: GS §2.3; GHS Definition 3.3, Proposition 3.5 and Lemma 3.7.
+
+### Examples
+
+- In the focus-focus algebra, `ϑ_{1,0}ϑ_{1,0}=ϑ_{2,0}` (`r=0`),
+  `ϑ_{−2,0}ϑ_{1,0}=X²Y=tϑ_{−1,0}+tϑ_{−1,1}` (`r=1`), and
+  `ϑ_{−2,0}ϑ_{2,0}=t²(ϑ_{0,0}+2ϑ_{0,1}+ϑ_{0,2})` (`r=2`), which is `0` at order `k=1`.
+- A translation of `V` by a lattice vector is an integral-affine automorphism with identity
+  linear part: it fixes normals and degrees, moves supports, and carries each theta function
+  `ϑ_{a,Q}` to `ϑ_{a,Q+v}` for the translated diagram.
+- With the swap of the Checks of §6.1, the wall `{x=0}` with normal `e_1*` and function `f`
+  becomes `{y=0}` with normal `e_2*` and the same function, and the crossing of a path `γ` is
+  sent to the crossing of `Tγ` with the same sign.
+
+### Dependencies
+
+Layers 0–5. Mathlib: affine equivalences, charted spaces and structure groupoids, semidirect
+products, sheaves on spaces, polynomial rings, quotients, localizations and pullbacks. Tau Ceti:
+integral lattices with their extension maps and real characters.
 
 ## Layer 7: wall positivity and positive theta coefficients
 
@@ -2101,6 +2257,7 @@ specified variable set `A`.
 
 ### 7.1 Polynomial inputs and positive representatives
 
+This section follows BLM §8.1, §9.2 (Step 3) and Corollary 9.8, and N23 §1.
 Fix an adapted §4.2 datum, allowing degenerate and zero forms, positive integers
 `ℓ_i` at unfrozen indices, and independent variables `a_{i,s}`, `1≤s≤ℓ_i`.
 For coefficient variables `A`, use `ℕ[A]⊆ℤ[A]⊆ℚ[A]`. A function wall groups
@@ -2108,7 +2265,7 @@ commuting §3.2 ray walls with the same support, primitive coorientation and pro
 monomial direction; its function is the product determined by their common logarithmic-derivation
 action. Coefficient maps use coefficient monoids, where the variables need not be units.
 
-*Targets.*
+Construct and prove the following.
 - *AdaptedPolynomialInput*: the principal input over `ℚ[a_{i,s}][M°]⟦t_i⟧` with, at each
   unfrozen `i`, support `e_i⊥×(N_uf)_ℝ`, primitive normal `κ(e_i)ν_{e_i}` and grouped
   wall function `1+Σ_{s=1}^{ℓ_i}a_{i,s}(q^{e_i})^s`. *OrdinaryBinomialInput* has the
@@ -2179,10 +2336,12 @@ for the zero form; a common rescaling supplies BLM's integrality conditions.
 - For the zero form with `N_uf≠0`, `N_uf∩N°→M` is not injective, and its
   *principalBLMExtension* is a *BLMPolynomialInput*.
 - The terms `p_1x`, `p_2x²` of `1+p_1x+p_2x²` lie on different rays of `P_E`.
-  The factor `f_u` on the ray of `u=p_1p_2x³` satisfies `[u]f_u=−1`.
+  The factor `f_u` on the ray of `u=p_1p_2x³` satisfies `[u]f_u=−1`: the `u`-component of
+  `log(1+p_1x+p_2x²)` is the `(p_1x)(p_2x²)` term of `−(p_1x+p_2x²)²/2`. A grouping that kept
+  the input function whole would see no factor on this ray, and the ray factors are not positive
+  one by one.
 
 *Needs:* §0.3, §§0.5–0.6, §3.2, §§4.1–4.2 and §5.1; `MvPolynomial`, `AddMonoidAlgebra`.
-Sources: BLM §8.1, §9.2 (Step 3) and Corollary 9.8; N23 §1.
 
 ### 7.2 Ordinary binomial wall positivity
 
@@ -2193,10 +2352,11 @@ A sequence `n_1,…,n_k` is ordered if `{n_i,n_{i+1}}≥0` and antiordered if
 kept in a fixed tie order. A normalized positive factor is `Ψ[tn]^{sκ(tn)}` for
 primitive `n∈N⁺` and integers `s,t>0`, using §4.2's rational normalization.
 
-*Targets.*
+Construct and prove the following.
 - *dilogElement*: `Ψ[n]` as a compatible family of levelwise exponentials; the wall
   function of a normalized positive factor is `(1+q^{tn})^s`.
-- *positiveOrdering_rankTwo*: for degrees in a rank-two sublattice and any restriction
+- *positiveOrdering_rankTwo* (N23 Theorem 5.2, Proposition 5.4 and §§5.2–5.5, whose ordering is
+  the reverse of ours; GHKK Theorem 1.13 and Appendix C.3): for degrees in a rank-two sublattice and any restriction
   of the form, including zero, a finite antiordered product of normalized positive
   factors has at every finite order an ordered factorization by normalized positive
   factors, compatible under truncation and assembling to all orders.
@@ -2210,14 +2370,17 @@ factors by N23's rank-two formula, proving termination at each finite order.
 
 **Checks.**
 - With `{e_1,e_2}=1` and `d_1=d_2=1`, `Ψ[e_2]Ψ[e_1]=Ψ[e_1]Ψ[e_1+e_2]Ψ[e_2]`, with
-  antiordered left side and ordered right side.
+  antiordered left side and ordered right side; the identity with the two sides' orders
+  reversed, `Ψ[e_1]Ψ[e_2]=Ψ[e_2]Ψ[e_1+e_2]Ψ[e_1]`, is false, as the faithful action of §4.2
+  shows on `z^{(1,0)}`.
 
-*Needs:* §§1.1–1.2, §§2.1–2.4, §4.2 and §7.1. Sources: N23 Theorem 5.2, Proposition 5.4
-and §§5.2–5.5 (N23's ordering is the reverse of ours); GHKK Theorem 1.13 and
-Appendix C.3.
+*Needs:* §§1.1–1.2, §§2.1–2.4, §4.2 and §7.1.
 
 ### 7.3 Dyck gradings and the rank-two polynomial formula
 
+This section follows RUP Definitions 4.1 and 4.5 and BLM Definitions 3.14, 3.17, 5.1, 5.3, 5.4
+and 5.9, Lemma 5.13, Corollary 5.14, Theorem 5.17, Remark 5.20, Lemmas 5.23, 5.27 and 5.31–5.33,
+Propositions 5.28 and 5.34, and §5.5.
 The maximal Dyck path of `(d_1,d_2)∈ℕ²` runs from `(0,0)` to `(d_1,d_2)` by
 horizontal and vertical unit edges, weakly below and closest to the diagonal. It is
 `DyckWord (01)^a` for `(a,a)`, `V^b` for `(0,b)` and `H^a` for `(a,0)`; the empty
@@ -2226,7 +2389,7 @@ cyclically at the final vertex. Write the initial polynomials as `P_1(x)=Σ_{r=0
 `P_2(y)=Σ_{r=0}^{ℓ_2}p_{2,r}y^r` with `p_{1,0}=p_{2,0}=1`. A grading assigns grades
 `0≤γ_V(v)≤ℓ_1` to the vertical edges and `0≤γ_H(h)≤ℓ_2` to the horizontal edges;
 `p=Σγ_V`, `q=Σγ_H`, and its weight is
-`wt(γ)=∏_v p_{1,γ_V(v)} ∏_h p_{2,γ_H(h)}`. Put `π_{r,s}(P)=[z^s]P(z)^r`
+`wt(γ)=∏_v p_{1,γ_V(v)} ∏_h p_{2,γ_H(h)}` (BLM Definition 3.17). Put `π_{r,s}(P)=[z^s]P(z)^r`
 for `r≥0`, `π_{r,0}(P)=1` for `r<0` and `π_{r,s}(P)=0` for `r<0<s`.
 
 For `t≥0`, `B_+^t(p,q)` is the weighted sum of the §5.2 broken lines for §5.1's `R[L]`
@@ -2237,28 +2400,31 @@ that axis takes the term `x^t` (`t=0`: no bend there); `B_+=B_+^0`. Dually, `B_-
 `B_-` use `Q_-` in the chamber bounded by the positive second coordinate axis and the
 term `y^t` there (BLM §5.5, before Lemma 5.31).
 
-*Targets.*
-- *Compatible*, *Shadowed*, *Tight*: a grading is compatible if for every horizontal `h`
+Construct and prove the following.
+- *Compatible*, *Shadowed*, *Tight*: a grading is compatible (RUP Definition 4.1, equivalently
+  BLM Definition 3.14) if for every horizontal `h`
   and vertical `v` there is a proper initial subpath `he` of `hv` with
   `#V(he)=Σ_{h'∈H(he)}γ_H(h')` or a proper final subpath `ev` of `hv` with
   `#H(ev)=Σ_{v'∈V(ev)}γ_V(v')`, one-edge subpaths included. The local shadow of a
   horizontal edge `e` is the set of vertical edges of the shortest subpath `ee'` whose
   vertical edge count equals the horizontal grade sum on it (RUP Definition 4.5), all
-  vertical edges if there is none and empty if `γ_H(e)=0`, and dually; the total
-  shadows, the unions of local shadows, have `min(d_2,q)` and `min(d_1,p)` edges. A
-  compatible grading is shadowed if its nonzero horizontal support lies in the total
+  vertical edges if there is none and empty if `γ_H(e)=0`, and dually for a vertical edge
+  (BLM Definition 5.1). The total horizontal shadow, the union of the local shadows of the
+  horizontal edges, is a set of `min(d_2,q)` vertical edges; dually the total vertical shadow,
+  the union of the local shadows of the vertical edges, is a set of `min(d_1,p)` horizontal
+  edges. A compatible grading is shadowed if its nonzero horizontal support lies in the total
   vertical shadow or its nonzero vertical support lies in the total horizontal shadow
   (BLM Definition 5.3), and tight if it is shadowed with `p≤d_1`, `q≤d_2` and
   `pd_2−qd_1=±gcd(p,q)` (BLM Definition 5.4).
 - *Cplus*, *Cminus*: `C_+(p,q)` is the weight sum of the compatible gradings with totals
   `(p,q)` whose nonzero vertical support lies in the total horizontal shadow, and
-  `C_-(p,q)` the dual sum. They satisfy the recursion (R)
+  `C_-(p,q)` the dual sum. They satisfy the recursion (R) (BLM Lemma 5.27)
   `Σ_{s=0}^{p} π_{d₂−q,s}(P₁)·C₊(p−s,q) = Σ_{s=0}^{q} π_{d₁−p,s}(P₂)·C₋(p,q−s)`
-  and (V): off `(0,0)`, `C_+(p,q)=0` for `d_1q≤d_2p` and `C_-(p,q)=0` for `d_1q≥d_2p`.
+  and (V) (BLM Lemma 5.23): off `(0,0)`, `C_+(p,q)=0` for `d_1q≤d_2p` and `C_-(p,q)=0` for `d_1q≥d_2p`.
   With `C_±(0,0)=1`, (R) and (V) determine `C_±` by induction on `p+q`.
 - `B_±` satisfy (R), (V) and the initial values, by deleting the last bend on the
   positive coordinate axis with §5.5's endpoint transport for §7.1's lift; hence
-  `B_±=C_±`.
+  `B_±=C_±` (BLM Lemmas 5.31–5.33, Propositions 5.28 and 5.34).
 - For coprime `a,b>0` and `k≥1`, *OneBending* `(d_1,d_2;a,b,k)` means that every
   broken line bending only on the coordinate axes and rays `ℝ_{≤0}(a',b')`, `a',b'>0`,
   from exponent `(−d_1,−d_2)` to `(ka−d_1,kb−d_2)`, at any allowed endpoint and
@@ -2290,21 +2456,23 @@ for `d_1>ka`, `d_2>kb` the only line counted by `B_+(ka,kb)` is the one-bend lin
 
 **Checks.**
 - For `P_1=1+ax+bx²` and `P_2=1+cy+dy²` the diagonal wall function in `u=xy` is
-  `f(u)=1+ac·u+(2bd+bc²+a²d)u²+5abcd·u³+…`, and `[u³]f²=14abcd+2abc³+2a³cd`.
+  `f(u)=1+ac·u+(2bd+bc²+a²d)u²+5abcd·u³+…`, and `[u³]f²=14abcd+2abc³+2a³cd`. At `a=c=2`,
+  `b=d=1` this is `1+4u+10u²+20u³+…`, the expansion of `(1−u)^{−4}` for the walls `(1+x)²`
+  and `(1+y)²`.
 - On the rectangle `(5,3)`, with `Δ=2` and `d_2=3<6`, the shadowed gradings with total
-  grading `(3,3)` sum to `16abcd+2abc³+2a³cd`; the excess `2abcd` is the two-bend broken
-  line with velocities `(5,3)`, `(2,1)`, `(2,0)` bending on the negative `y`-axis, at
-  the gap point `(3,2)`, which one-bending excludes.
-- The rectangle `(6,4)` fails `d_2≥mkb`, is one-bending by the lattice test, and its
-  shadowed-grading sum is `[u³]f²`.
+  grading `(3,3)` sum to `16abcd+2abc³+2a³cd`. The excess `2abcd` over `[u³]f²` is the
+  two-bend broken line ending at a generic point of the open fourth quadrant, with velocities
+  `(5,3)`, `(2,1)`, `(2,0)`: it bends first on the ray `ℝ_{≤0}(3,2)` of the gap point `(3,2)`,
+  with coefficient `abd`, then on the negative `y`-axis, with coefficient `2c`. One-bending
+  excludes it, so the power formula does not apply to `(5,3)`.
+- The rectangle `(6,4)` fails `d_2≥mkb`, is one-bending by the lattice test (no `a_1/b_1` with
+  `a_1,b_1≤3` lies strictly between `1` and `3/2`), and its shadowed-grading sum is `[u³]f²`.
 
-*Needs:* §§3.2–3.4, §4.1, §§5.1–5.5 and §7.1; `DyckWord`. Sources: RUP Definitions 4.1
-and 4.5; BLM Definitions 3.14, 3.17, 5.1, 5.3, 5.4 and 5.9, Lemma 5.13, Corollary 5.14,
-Theorem 5.17, Remark 5.20, Lemmas 5.23 (V), 5.27 (R) and 5.31–5.33, Propositions 5.28
-(base case) and 5.34, and §5.5.
+*Needs:* §§3.2–3.4, §4.1, §§5.1–5.5 and §7.1; `DyckWord`.
 
 ### 7.4 Lattice change and affine rank-two perturbation
 
+This section follows BLM Definition 2.1, Definition 9.3, Theorem 9.5 and Corollary 9.8.
 A *RankTwoPolynomialInput* (BLM Theorem 9.9) consists of *PositiveDegrees* `(L,P,δ)`,
 a surjection `π:L→M` onto a rank-two lattice, and countably many incoming affine
 lines in `M_ℝ`, with cylinder supports in `L_ℝ`. Line `j` has a nonzero primitive
@@ -2321,7 +2489,7 @@ The ray presentation has commuting labels `exp((log f)_w∂_{ν∘π})`, where
 logarithmic degrees lie in `P`, with finitely many active at each order, giving
 compatible finite-order inputs for §§3.3–3.4.
 
-*Targets.*
+Construct and prove the following.
 - *rankTwo_latticeChange*: let primitive independent `m_1,m_2∈M` span `M₀` of index
   `ℓ`, `N=M*⊆N₀=M₀*`, and `m°=pm_1+qm_2=r·m` with `(p,q)` coprime positive and `m`
   primitive in `M`. Then `ℓ=r·ind(m°)` for `ind(m°)=[m°⊥∩N₀ : m°⊥∩N]`, by evaluation at
@@ -2356,17 +2524,17 @@ to the basis rank-two polynomial formula.
   Its single-wall diagram is its outgoing completion and is a positive representative.
 - For `m_1=(1,0)`, `m_2=(1,2)` (`ℓ=2`) and `m°=(2,2)=2·(1,1)`: `r=2`, `ind(m°)=1`, outer
   power `2`.
-- BLM Example 5.21 has the wall function `Σ_{k≥0}(k+1)x^{2k}y^{2k}=(1−x²y²)^{-2}`,
-  positive and not a polynomial.
+- BLM Example 5.21, the completion of `1+x²` and `1+y²`, has on `ℝ_{≤0}(1,1)` the wall function
+  `Σ_{k≥0}(k+1)x^{2k}y^{2k}=(1−x²y²)^{-2}`, positive and not a polynomial: positivity of
+  grouped wall functions cannot be strengthened to polynomial wall functions.
 
-*Needs:* §§1.1–1.3, §§3.2–3.4, §4.1, §7.1 and §7.3. Sources: BLM Definition 2.1,
-Example 5.21, Definition 9.3, Theorem 9.5 and Corollary 9.8;
-Theorem 9.9.
+*Needs:* §§1.1–1.3, §§3.2–3.4, §4.1, §7.1 and §7.3.
 
 ### 7.5 All-rank positivity at joints
 
-*Targets.*
-- *polynomialWall_positiveRepresentative*: every *BLMPolynomialInput* has finite-order
+Construct and prove the following.
+- *polynomialWall_positiveRepresentative* (BLM Theorem 8.11, Definition 9.10, Lemma 9.14 and
+  §9.3): every *BLMPolynomialInput* has finite-order
   consistent outgoing representatives, compatible under truncation after suitable common
   refinements, whose grouped wall functions have coefficients in `ℕ[p_{i,s}]`. Their
   inverse limit represents the unique outgoing completion. The principal comparison of
@@ -2377,8 +2545,7 @@ order. For joint direction `W`, use §3.3's vanishing when `i(ρ(n))∈W`; in th
 transverse case pass to the rank-two quotient, apply §7.4 and lift its positive
 corrections. Refine supports and group coincident factors compatibly with truncation.
 
-*Needs:* §§1.1–1.2, §§3.3–3.4, §4.2 and §§7.1, 7.3–7.4. Sources: BLM Theorem 8.11,
-Definition 9.10, Lemma 9.14 and §9.3.
+*Needs:* §§1.1–1.2, §§3.3–3.4, §4.2 and §§7.1, 7.3–7.4.
 
 ### 7.6 Positive specialization and intrinsic positivity
 
@@ -2389,7 +2556,7 @@ with the canonical maps into the completions.
 The rings may be associative; scattering and theta instances use the commutative
 `ℚ`-algebras above and maps intertwining their actions.
 
-*Targets.*
+Construct and prove the following.
 - *PositiveSpecialization*: the structure above, with identity and composition laws; it
   preserves *IsPositive* (*map_isPositive*).
 - Positive specializations along §4.1's *tropicalVertexGroup.map* or
@@ -2428,7 +2595,7 @@ and group supported-ray factors. Uniqueness identifies the resulting class.
 The input is a positive wall representative of §7.2, §7.5 or §7.6 and a positive initial
 monomial.
 
-*Targets.*
+Construct and prove the following.
 - *positiveDecoratedEvaluation*: choose truncation-compatible additive submonoids
   in the homogeneous pieces of §5.2's modules `M_u` and in its modules `N_b`. If admissible component
   maps preserve them, finite weighted sums with positive incoming coefficient lie
@@ -2451,15 +2618,216 @@ exponent zero. Positivity survives these finite operations and the inverse limit
 *polynomialWall_positiveRepresentative* (§7.5) or
 *adaptedPolynomialWall_positiveRepresentative* (§7.6).
 
-## Completion criteria
+### Examples
 
-A layer is complete when its constructions, theorems, worked examples and Checks
-are proved in Lean with the stated hypotheses. General components must be usable
-independently of scattering; the finite-order constructions must yield the completed ones.
+- For the rank-two *OrdinaryBinomialInput* with `{e_1,e_2}=1` and `d=(1,1)`, the completion adds
+  the single wall of `e_1+e_2` with function `1+q^{e_1+e_2}`: this is the identity
+  `Ψ[e_2]Ψ[e_1]=Ψ[e_1]Ψ[e_1+e_2]Ψ[e_2]` of §7.2, and every grouped wall function is positive.
+- For the zero form the input walls commute; the input is its own outgoing completion and a
+  positive wall representative.
+- In rank two with initial functions `(1+x)²` and `(1+y)²`, the wall on `ℝ_{≤0}(1,1)` has
+  function `(1−xy)^{−4}`; with `1+x²` and `1+y²` it has `(1−x²y²)^{−2}`. Both have coefficients
+  in `ℕ` and neither is a polynomial.
+
+### Dependencies
+
+Layers 0–5: filtered completions and their maps, completed groups and exponential actions
+(§§0.3, 0.5–0.6, 0.8), polyhedral geometry and generic paths (§§1.1–1.3), diagrams and
+abelian-ray presentations (§§2.1–2.4), outgoing completion and its uniqueness (§§3.2–3.4), the
+tropical vertex and principal realizations and function walls (§§4.1–4.2, 4.4), and broken
+lines and theta functions (§§5.1–5.6). Mathlib: polynomial rings, monoid algebras and Dyck words.
 
 ## Downstream consumers
 
-None.
+- [RepresentationTheory/LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md)
+  consumes §0.4's `exists_pbwSymmetrizationEquiv`: for a Lie algebra `g` over a commutative
+  `ℚ`-algebra `R`, an `R`-linear equivalence `Sym_R(g) ≃ U_R(g)` sending a product of `d`
+  generators to `1/d!` times the sum of their products in all orders.
+- [ClusterAlgebras](../ClusterAlgebras/README.md) consumes §4.2's *SkewLatticeDatum* and
+  *AdaptedBasis*, §4.3's *QuantumMonoidAlgebra* with its coefficient and lattice maps, §0.8's
+  finite component expansion and finite recursion, the ordinary and relative abelian completions of
+  §§3.3–3.4, and §§4.2–4.4, 5.1–5.6 and 7.1–7.7 at their stated hypotheses. Seed mutation, cluster
+  chambers and the comparison of theta functions with cluster variables are its own.
+
+## Scope and ownership
+
+**Owned here.** Every target of Layers 0–7 above. In particular: positive degree data and their
+maps; truncations of positively graded Lie algebras; completions of filtered rings, algebras and
+modules and the completed tensor product; the algebraic BCH element in the free Lie algebra, BCH
+groups of nilpotent Lie algebras over commutative `ℚ`-algebras and the completed BCH group of a
+positively graded Lie algebra; PBW symmetrization as an isomorphism `Sym_R(g) ≃ U_R(g)` for an
+arbitrary Lie algebra over a commutative `ℚ`-algebra; the limit comparisons of §0.7 and the
+coefficient correspondences of §0.8; Minkowski–Weyl, rational polyhedra and polyhedral complexes
+allowing lineality; generic paths, polyhedral cochains and integral-affine bases; and the
+scattering diagrams, realizations, broken lines, theta functions and positivity theorems of
+Layers 2–7.
+
+**Out of scope.** No target of this roadmap constructs or uses: motivic Hall algebras, stability
+conditions and stacks, Hall integration maps and Donaldson–Thomas invariants; quantum positivity
+and canonical-basis comparisons; enumerative constructions; general scheme reconstruction or mirror
+gluing from arbitrary singular affine input; seeds, mutation, cluster monomials, `c`- and
+`g`-vectors and the comparison of theta functions with cluster variables. The skew-form inputs of
+Layer 7 are defined without reference to cluster objects.
+
+**Already in the library, and consumed.** The exact declarations are listed under the supplier
+contracts below.
+
+- *Toric lattices, cones and fans*: Tau Ceti's integral lattices with their extension maps and real
+  characters, lattice-rational cones, fans and fan subdivisions, and Gordan's lemma for the dual
+  semigroup of a lattice-rational cone, built for the
+  [AnalyticToricGeometry roadmap](../../Completed/AnalyticToricGeometry/README.md), which owns these
+  interfaces. §1.1 adds affine cells and complexes allowing lineality and proves comparisons on the
+  existing cone carriers; §0.1 adds Gordan's lemma for the cone itself.
+- *Faces of finitely generated cones*: Tau Ceti proves that a finitely generated pointed cone has
+  finitely many faces. §1.1 uses this through homogenization and proves that every face of a
+  finitely generated cone is exposed.
+- *Convex polyhedra*: Tau Ceti's convex polyhedra, closed under intersection and affine preimage,
+  are the carriers of §1.1's presented polyhedra.
+- *Finite exponential and logarithm*: Mathlib's `IsNilpotent.exp` and Tau Ceti's finite logarithm
+  `IsNilpotent.log`, mutually inverse between nilpotent and unipotent elements of a ring with a
+  `ℚ`-module structure. §0.4 uses the logarithm to define the BCH element and the completed
+  logarithm.
+- *Enveloping algebras*: Tau Ceti's Hopf structure on `U_R(g)`, its augmentation ideal, the PBW
+  isomorphism of `Sym_R(L)` with the associated graded of `U_R(L)` for `L` free over `R`
+  (consumed by RepresentationTheory/LieHighestWeight), and degreewise symmetrization
+  `Sym^n(L) → U_R(L)` when `n!` is a unit. §0.4 owns the assembled symmetrization isomorphism over
+  commutative `ℚ`-algebras for arbitrary Lie algebras.
+- *Power series as a completion*: Mathlib identifies multivariate power series in finitely many
+  variables with the adic completion of polynomials along the ideal of the variables. §0.3's
+  *principalCompletionEquiv* composes this with the comparison of completions and adds naturality in
+  the coefficients.
+- *Twisted monoid algebras*: Tau Ceti's twisted monoid algebra of a factor set, with its basis,
+  multiplication table, universal property and identification with the monoid algebra for the
+  trivial factor set. §4.3's *QuantumMonoidAlgebra* is its instance for the factor set
+  `q^β(p,p')`, and §4.3 adds the commutator, the grading and the coefficient and lattice maps.
+
+**Adjacent roadmaps.** The
+[RepresentationTheory/LieGroups roadmap](../RepresentationTheory/LieGroups/README.md) owns the
+Lie-group exponential map (its Layer 0), the analytic local BCH identity (its Layer 3) and the
+smooth BCH group of a finite-dimensional real nilpotent Lie algebra (its Layer 5). §0.4 owns the
+algebraic statements, over any commutative `ℚ`-algebra and with no topology: the identity
+`exp(X)exp(Y)=exp(ι_c(b))` in `U(𝔣)/(U⁺)^{c+1}` for the truncations `b` = *bchElement c* in
+`𝔣/lowerCentralSeries c`, and algebraic nilpotent BCH groups.
+
+**Library homes.** General components belong in the matching general areas of Tau Ceti, for
+example its Lie algebra, filtration, group theory and convex geometry modules; scattering-specific
+carriers belong in `TauCeti/Geometry/ScatteringDiagram/`.
+
+## Exact supplier contracts
+
+Each section above lists what it uses under *Needs:*. The declarations below are used with their
+existing meanings and public interfaces at the pinned Mathlib and Tau Ceti; short names in the
+sections, such as `IsIntegralLattice`, `IsLatticeRational` and `Fan.IsSubdivision`, refer to them.
+
+### From Tau Ceti
+
+- `TauCeti.Toric.IsIntegralLattice` (`TauCeti/Geometry/Toric/Algebraic/Lattice.lean`): an additive
+  map `i : N →+ V` from a finite free `ℤ`-module exhibits the real vector space `V` as `ℝ ⊗_ℤ N`.
+  With it, `TauCeti.Toric.IsIntegralLattice.extend` (the real-linear extension of a lattice map,
+  unique by `IsIntegralLattice.eq_extend`), `TauCeti.Toric.IsIntegralLattice.realCharacter` (the
+  real extension of an integral character) and `TauCeti.Toric.IsIntegralLattice.realCharacter_comp`
+  (real characters pull back along compatible lattice and linear maps). Used in Convention 1 and
+  throughout; `extend` and `realCharacter_comp` in §§1.5 and 6.1.
+- `TauCeti.Toric.IsLatticeRational` (`TauCeti/Geometry/Toric/Algebraic/Cone/Basic.lean`): a pointed
+  cone is the cone hull of the images of finitely many lattice vectors; and
+  `TauCeti.Toric.IsLatticeRational.fg_dualSemigroup`
+  (`TauCeti/Geometry/Toric/Algebraic/DualSemigroup/Finiteness.lean`): for an integral lattice, the
+  integral characters nonnegative on a lattice-rational cone form a finitely generated monoid. Used
+  in §§0.1 and 1.1.
+- `TauCeti.Toric.Fan` (`TauCeti/Geometry/Toric/Algebraic/Fan/Basic.lean`) and
+  `TauCeti.Toric.Fan.IsSubdivision` (`TauCeti/Geometry/Toric/Algebraic/Fan/Subdivision.lean`):
+  finite fans of toric cones and their subdivisions. Used in §1.1.
+- `TauCeti.IsConvexPolyhedron` (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`): the solution set
+  of finitely many non-strict continuous affine inequalities, with
+  `TauCeti.IsConvexPolyhedron.inter` and `TauCeti.IsConvexPolyhedron.preimage` (closure under
+  intersection and under preimage by continuous affine maps). Used in §1.1.
+- `PointedCone.FG.finite_face` (`TauCeti/Geometry/Convex/Cone/Face/Finite.lean`): a finitely
+  generated pointed cone over an ordered semiring has finitely many faces. Used in §1.1.
+- `TauCeti.IsPrimitive` and `TauCeti.exists_eq_zsmul_isPrimitive`
+  (`TauCeti/Algebra/Module/Primitive.lean`): a vector of a lattice is primitive when some integral
+  functional takes the value `1` on it, and every nonzero vector of a free `ℤ`-module is a positive
+  multiple of a primitive one. Used in §§0.1 and 3.1.
+- `TauCeti.UniversalEnvelopingAlgebra.instHopfAlgebra`
+  (`TauCeti/Algebra/Lie/UniversalEnveloping/HopfAlgebra.lean`): the Hopf algebra structure of
+  `U_R(g)`, with `Δ(ι x) = ι x ⊗ 1 + 1 ⊗ ι x`; and `TauCeti.HopfIdeal.augmentation`
+  (`TauCeti/Algebra/HopfAlgebra/HopfIdeal/Augmentation.lean`): the kernel of the counit, as a Hopf
+  ideal. Used in §0.4 and in `Suggested.lean`.
+- `TauCeti.UniversalEnvelopingAlgebra.pbwAssociatedGradedEquiv`
+  (`TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Injective.lean`): for `L` free over `R`, the
+  symmetric algebra is isomorphic to the associated graded algebra of the PBW filtration. Used in
+  §0.4.
+- `TauCeti.UniversalEnvelopingAlgebra.pbwSymmetrization`
+  (`TauCeti/Algebra/Lie/UniversalEnveloping/PBW/Symmetrization.lean`): when `n!` is a unit of `R`,
+  the linear map from the `n`-th symmetric power of `L` to `U_R(L)` averaging the ordered products
+  of the generators. Used in §0.4.
+- `IsNilpotent.log`, `IsNilpotent.log_exp` and `IsNilpotent.exp_log`
+  (`TauCeti/RingTheory/Nilpotent/Log.lean`): in a ring with a `ℚ`-module structure,
+  `IsNilpotent.log u = Σ_{j≥1}(−1)^{j+1}(u−1)^j/j` when `u−1` is nilpotent, with
+  `log(exp a) = a` for nilpotent `a` and `exp(log u) = u` for nilpotent `u−1`. Used in §§0.4 and 0.6.
+- `TauCeti.expAd` and `TauCeti.expAd_apply_eq_exp_mul_exp_neg`
+  (`TauCeti/Algebra/Lie/InnerAutomorphism.lean`): the Lie automorphism `exp(ad x)` of an
+  `ad`-nilpotent element, which on an associative algebra is conjugation by `exp x`. Used in
+  §§0.4 and 0.6.
+- `TauCeti.heisenberg` (`TauCeti/Algebra/Lie/Heisenberg.lean`): the three-dimensional Heisenberg
+  Lie algebra of strictly upper triangular `3 × 3` matrices, spanned by `X = E₀₁`, `Y = E₁₂` and
+  `Z = E₀₂` with `[X,Y] = Z` the only nonzero bracket. Used in the Checks of §§0.2–0.4 and 2.3–2.4.
+- `TauCeti.twistedMonoidAlgebra`, `TauCeti.IsFactorSet`, `TauCeti.TwistedMonoidAlgebra.of`,
+  `TauCeti.TwistedMonoidAlgebra.of_mul_of`, `TauCeti.TwistedMonoidAlgebra.basis`,
+  `TauCeti.TwistedMonoidAlgebra.lift` and `TauCeti.TwistedMonoidAlgebra.monoidAlgebraEquiv`
+  (`TauCeti/Algebra/MonoidAlgebra/Twisted/Basic.lean`): for a normalized multiplicative
+  `2`-cocycle `α` on a monoid `G` with values in the units of a commutative semiring `k`, the
+  `k`-algebra with basis `e g` and `e g · e h = α(g,h) e(gh)`, its universal property, and its
+  identification with `MonoidAlgebra k G` for `α = 1`. Used in §4.3.
+
+### From Mathlib
+
+- Lie algebras: `GradedLieAlgebra` and `GradedLieModule` (`Mathlib/Algebra/Lie/Graded.lean`);
+  `LieModule.lowerCentralSeries` and `LieRing.IsNilpotent` (`Mathlib/Algebra/Lie/Nilpotent.lean`),
+  with `lowerCentralSeries 0` the whole algebra; `FreeLieAlgebra` and `FreeLieAlgebra.lift`
+  (`Mathlib/Algebra/Lie/Free.lean`); `UniversalEnvelopingAlgebra` and its canonical map `ι`
+  (`Mathlib/Algebra/Lie/UniversalEnveloping.lean`); `LieIdeal`, `LieSubalgebra`,
+  `LieAlgebra.center`, the quotient Lie algebra `LieSubmodule.Quotient.lieQuotientLieAlgebra` with
+  its quotient map `LieSubmodule.Quotient.mk'`; `LieAlgebra.ExtendScalars.instLieAlgebra` (the Lie
+  algebra `A ⊗_R L`); `LieDerivation` and `LieAlgebra.SemiDirectSum`
+  (`Mathlib/Algebra/Lie/SemiDirect.lean`).
+- Coalgebras and exponentials: `SymmetricAlgebra`; `IsGroupLikeElem`
+  (`Mathlib/RingTheory/Coalgebra/GroupLike.lean`) and `Bialgebra.IsPrimitiveElem`
+  (`Mathlib/RingTheory/Bialgebra/Primitive.lean`); `IsNilpotent.exp`, the finite exponential
+  `Σ_i a^i/i!` of a nilpotent element, and `Module.End.exp_mul_of_derivation` (the exponential of a
+  nilpotent derivation is multiplicative) (`Mathlib/RingTheory/Nilpotent/Exp.lean`).
+- Filtrations and completions: `IsFiltration`, `IsRingFiltration` and `IsModuleFiltration`
+  (`Mathlib/RingTheory/FilteredAlgebra/Basic.lean`); `AdicCompletion`; `Ideal.Quotient.mk` and
+  `Ideal.Quotient.factor`; `TensorProduct`; `MvPowerSeries`, `MvPolynomial.idealOfVars`,
+  `MvPowerSeries.truncTotal` and `MvPowerSeries.toAdicCompletionAlgEquiv`
+  (`Mathlib/RingTheory/MvPowerSeries/Equiv.lean`: for finitely many variables and a commutative
+  ring, power series are the adic completion of polynomials along the ideal of the variables, the
+  order-`n` component of a series being its total-degree truncation below `n`).
+- Group and category theory: `GrpCat.sectionsSubgroup` and `GrpCat.limitCone`
+  (`Mathlib/Algebra/Category/Grp/Limits.lean`); `Subgroup.normalClosure`; `FreeGroup`,
+  `FreeGroup.lift` and `FreeGroup.map`; `Finset.noncommProd`; `SemidirectProduct`;
+  `CategoryTheory.Grothendieck` with `Grothendieck.ι`, `Grothendieck.map` and `Grothendieck.pre`
+  (`Mathlib/CategoryTheory/Grothendieck.lean`); `Functor.Initial.limitIso` (restriction along an
+  initial functor is an isomorphism of limits); `Comma.initial_snd_of_isConnected_costructuredArrow`
+  (`Mathlib/CategoryTheory/Comma/Final.lean`: the second projection of a comma category is initial
+  when the relevant costructured-arrow categories are connected); `limit.pre`, `limMap`,
+  `SingleObj`, `SemimoduleCat`, `AlgCat` and `CategoryTheory.Limits.pullback`.
+- Graded algebra and modules: `DirectSum.Decomposition`, `DirectSum.Decomposition.baseChange`
+  (`Mathlib/LinearAlgebra/TensorProduct/Decomposition.lean`), `DirectSum.component` and
+  `DirectSum.sum_support_decompose`; `GradedAlgebra`; `AddMonoidAlgebra` and
+  `AddMonoidAlgebra.toMultiplicativeAlgEquiv` (`AddMonoidAlgebra A M ≃ MonoidAlgebra A
+  (Multiplicative M)`); `Derivation`; `MvPolynomial`, `PowerSeries`, `PowerSeries.rescale`,
+  `LaurentPolynomial`, `RatFunc` and `Localization.Away`; `Module.Dual`, `Module.Free`,
+  `Module.Finite`, `AddSubgroup.index`, `Units`.
+- Convex and affine geometry: `PointedCone`, `Submodule.FG`, `PointedCone.DualFG`
+  (`Mathlib/Geometry/Convex/Cone/DualFinite.lean`), `PointedCone.IsFaceOf` and
+  `PointedCone.IsFaceOf.trans` (`Mathlib/Geometry/Convex/Cone/Face/Basic.lean`),
+  `PointedCone.closure`; `IsExposed` (`Mathlib/Analysis/Convex/Exposed.lean`); `intrinsicInterior`
+  and `intrinsicFrontier` (`Mathlib/Analysis/Convex/Intrinsic.lean`); `AffineEquiv`.
+- Topology: `Path` and `Path.trans`, `ContinuousMap.Homotopy`, `BaireSpace`; `ChartedSpace`,
+  `Pregroupoid` and `StructureGroupoid` (`Mathlib/Geometry/Manifold/StructureGroupoid.lean`);
+  `TopCat.Sheaf`, `TopCat.PrelocalPredicate.sheafify` and `TopCat.subsheafToTypes`
+  (`Mathlib/Topology/Sheaves/LocalPredicate.lean`).
+- Combinatorics: `DyckWord` (`Mathlib/Combinatorics/Enumerative/DyckWord.lean`).
 
 ## References
 
