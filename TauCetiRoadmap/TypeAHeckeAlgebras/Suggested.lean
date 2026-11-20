@@ -6,6 +6,7 @@ Authors: The Tau Ceti contributors
 import Mathlib
 import TauCeti.Algebra.TypeAHeckeAlgebra.Finite
 import TauCeti.Algebra.TypeAHeckeAlgebra.OcneanuTrace
+import TauCeti.Algebra.TypeAHeckeAlgebra.SignedCheckedR
 import TauCeti.Algebra.TypeAHeckeAlgebra.Star
 import TauCeti.Algebra.TypeAHeckeAlgebra.UnitaryStar
 import TauCeti.KnotTheory.Jimbo.Basic
@@ -32,7 +33,10 @@ The headlines stated here are:
   with one matrix block of size `f^λ` for each partition `λ` of `n` (README §1.2);
 * the classification of the positive Markov traces at real parameters (Wenzl; Thoma at `Q = 1`)
   (README §3.6);
-* Wenzl's classification of the positive Markov traces at unit-circle parameters (README §3.7).
+* Wenzl's classification of the positive Markov traces at unit-circle parameters (README §3.7);
+* the atomic models: at a real parameter with `Q ≠ 1` every positive Markov trace is, on the image
+  of every braid, a product-state trace of the signed checked R-matrix representation on words in
+  a countable weighted alphabet of positive and negative letters (README §3.14).
 
 The other headline theorems are not statable at the pins, and nothing is stated in their place:
 
@@ -130,6 +134,32 @@ theorem ocneanuTrace_nonneg_iff_of_mem_unitary (q : ℂˣ) [Fact ((q : ℂ) ∈ 
           ∃ k : ℕ, 1 ≤ k ∧ k ≤ l - 1 ∧
             (z + ((q⁻¹ : ℂˣ) : ℂ)) / ((q : ℂ) + ((q⁻¹ : ℂˣ) : ℂ)) =
               wenzlParameter (k : ℤ) ((q : ℂ) ^ 2)) := by
+  sorry
+
+open scoped ComplexOrder in
+/-- **Atomic models of the positive Markov traces at real parameters.** Let `q` be a real
+parameter with `Q = q² ≠ 1`, and give the infinite type-A Hecke algebra over `ℂ` the involution
+fixing every generator and conjugating scalars. Every positive Ocneanu trace is the restriction of
+a product state on words: there are a countable linearly ordered alphabet `ι`, a designation of
+its letters as positive or negative, and weights `p > 0` of total mass `1`, such that for every
+braid `b` on `n` strands with exponent sum `e(b)` the trace of its image `T_b` is
+`q ^ (-e(b)) Tr (D^{⊗n} ρ(b))`. Here `ρ` is the signed checked representation at `s = q`, in which
+the elementary braid `σᵢ` acts by the signed checked R-matrix `gᵢ = q Tᵢ` on the words of length
+`n` in `ι`, the factor `q ^ (-e(b))` converts the `gᵢ` to the `Tᵢ`, and `D = diag(p)`. The
+hypothesis `Q ≠ 1` is needed: at `Q = 1` the regular trace of `S_∞` has no atomic model. -/
+theorem exists_signedCheckedRep_trace_eq_ocneanuTrace (q : ℂˣ) [Fact (IsSelfAdjoint (q : ℂ))]
+    (hQ : (q : ℂ) ^ 2 ≠ 1) (z : ℂ)
+    (hz : ∀ x : InfiniteTypeAHeckeAlgebra ℂ q,
+      0 ≤ InfiniteTypeAHeckeAlgebra.ocneanuTrace ℂ q z (star x * x)) :
+    ∃ (ι : Type) (_ : LinearOrder ι) (_ : Countable ι) (pos : ι → Prop) (_ : DecidablePred pos)
+      (p : ι → ℝ), (∀ i, 0 < p i) ∧ HasSum p 1 ∧
+      ∀ (n : ℕ) (b : BraidGroup n),
+        InfiniteTypeAHeckeAlgebra.ocneanuTrace ℂ q z
+            (InfiniteTypeAHeckeAlgebra.braidHom ℂ q n b : InfiniteTypeAHeckeAlgebra ℂ q) =
+          (q : ℂ) ^ (-(Multiplicative.toAdd (ArtinGroup.exponentSum _ b))) *
+            ∑' w : Fin n → ι, (∏ i, (p (w i) : ℂ)) *
+              ((signedCheckedRep pos q b : Module.End ℂ ((Fin n → ι) →₀ ℂ))
+                (Finsupp.single w 1)) w := by
   sorry
 
 end TauCetiRoadmap.TypeAHeckeAlgebras

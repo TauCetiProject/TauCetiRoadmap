@@ -173,29 +173,40 @@ declarations above; Mathlib `FreeAlgebra`, `RingQuot`, `CoxeterSystem`, `Coxeter
 Over a field K put `[r]_Q = 1 + Q + ⋯ + Q^(r−1)`. Prove `isSemisimpleRing_typeAHeckeAlgebra_iff`:
 Hₙ(q) is semisimple exactly when `∏_(r=1)^n [r]_Q ≠ 0`, and prove
 `nonempty_algEquiv_pi_matrix_of_prod_ne_zero`: it is then split semisimple, isomorphic as a
-K-algebra to `∏_(λ⊢n) M_(f^λ)(K)`. Prove the criterion from the cellular bilinear forms of the
-Specht modules (their Gram determinants and radicals), not by an appeal to q being generic. Fix one
-construction of the Specht module S^λ for each partition λ ⊢ n, built from the row symmetrizer of
-the Young parabolic subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the
-eigenvalue q, with a chosen basis indexed by the standard λ-tableaux and a stated normalization;
-every later statement about Specht modules refers to this fixed module and basis. Under the
-criterion prove that the S^λ are simple, pairwise non-isomorphic and absolutely simple, that every
-simple module is one of them, that `dim S^λ = f^λ`, and the Wedderburn decomposition
+K-algebra to `∏_(λ⊢n) M_(f^λ)(K)`.
+
+Over every commutative ring R and unit q, construct one cellular basis of Hₙ(q) in the sense of
+Tau Ceti's `TauCeti.CellularBasis`: its cells are the partitions λ ⊢ n, the cells strictly below λ
+being the partitions that strictly dominate λ; its index set at λ is the set of standard
+λ-tableaux; its anti-involution * fixes every Tᵢ, so that `T_w* = T_(w⁻¹)`; and its basis element
+for standard λ-tableaux s, t is `T_(d(s))* x_λ T_(d(t))`, where x_λ is the row symmetrizer of the
+Young parabolic subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the
+eigenvalue q, and d(t) is the permutation carrying the row-reading λ-tableau to t, the
+minimal-length element of its coset of that subgroup. The Specht module S^λ is the cell module of
+λ, with its basis indexed by the standard λ-tableaux; every later statement about Specht modules
+refers to this fixed module and basis. The general theory of cellular algebras over a field (the
+simple modules are the nonzero heads of the cell modules, and the algebra is semisimple exactly
+when every cell form is nondegenerate) is TemperleyLieb Layer 5's and is consumed here. Compute
+the Gram determinants of the cell forms of Hₙ(q) and deduce the criterion from them, not by an
+appeal to q being generic. Under the criterion prove that the S^λ are simple, pairwise
+non-isomorphic and absolutely simple, that every simple module is one of them, that
+`dim S^λ = f^λ`, and the Wedderburn decomposition
 `Hₙ(q) ≅ ∏_λ End_K(S^λ)`, which realizes the isomorphism above on the fixed Specht modules. Over ℂ,
 when Q is not an l-th root of unity for any 2 ≤ l ≤ n (so Q ≠ 1), the irreducibility and pairwise
 non-isomorphism of the tableau representations and the faithfulness of their sum are Wenzl, Theorem
 2.2 (p. 365).
 
-- At q = 1 the module S^λ is carried by `groupAlgebraEquiv` to the Specht module S^λ of SchurWeyl
-  Layer 3; at q = −1 the index character becomes the sign character, and S^λ goes to
+- Over a field of characteristic zero, at q = 1 the module S^λ is carried by `groupAlgebraEquiv` to
+  the Specht module S^λ of SchurWeyl Layer 3; at q = −1 the index character becomes the sign character, and S^λ goes to
   `S^λ ⊗ sgn ≅ S^(λ′)`. The ordinary symmetric-group theory is consumed there and not developed
   again.
 - The rank identity `Σ_(λ⊢n) (f^λ)² = n!` agrees with the basis theorem.
 
 *Needs:* §1.1; Tau Ceti `TauCeti.TypeAHeckeAlgebra.basisTw`,
-`TauCeti.TypeAHeckeAlgebra.parabolicEigenSum`, `TauCeti.standardCount`,
+`TauCeti.TypeAHeckeAlgebra.parabolicEigenSum`, `TauCeti.CellularBasis`,
+`TauCeti.CellularBasis.cellRep`, `TauCeti.CellularBasis.gramMatrix`, `TauCeti.standardCount`,
 `TauCeti.StandardYoungTableau`, `TauCeti.permCoxeterSystem`; Mathlib `IsSemisimpleRing`,
-`Nat.Partition`, `YoungDiagram.ofPartition`; SchurWeyl Layers 3–5.
+`Nat.Partition`, `YoungDiagram.ofPartition`; TemperleyLieb Layer 5; SchurWeyl Layers 3–5.
 
 **Checks.**
 - n = 2: `H₂(q) = K[T]/((T − q)(T + q⁻¹))` is semisimple exactly when q ≠ −q⁻¹, that is
@@ -205,6 +216,10 @@ non-isomorphism of the tableau representations and the faithfulness of their sum
 - At Q = 1 the product is n!, so the criterion is Maschke's condition that the characteristic of
   K does not divide n!; for n = 3 it fails in characteristics 2 and 3.
 - n = 3: the partitions (3), (2,1), (1,1,1) have `f^λ = 1, 2, 1` and `1 + 4 + 1 = 6 = 3!`.
+- n = 2: `x_(2) = 1 + qT₁` and `x_(1,1) = 1`. Then `T₁ · 1 = q⁻¹ x_(2) − q⁻¹`, which is `−q⁻¹ · 1`
+  modulo the cell (2), so (2) lies below (1,1); with the cells ordered by dominance itself the
+  cellular axiom fails at (1,1). The cell forms are given by `x_(2)² = (1 + Q) x_(2)` and `1 · 1 = 1`,
+  with Gram determinants `[2]_Q` and 1, both nonzero exactly when the criterion holds.
 
 ### 1.3 Branching and induction
 
@@ -229,17 +244,18 @@ the left and right bases of rank n + 1, are the induction and recursive-trace su
 
 ### 1.4 Roots of unity: cellular forms and the semisimple quotient
 
-When `∏_(r=1)^n [r]_Q = 0`, keep the cell modules (Specht modules) and their bilinear forms, and
-prove: the radical of each form is a submodule; the nonzero heads `D^λ = S^λ / rad S^λ` are simple,
-pairwise non-isomorphic and exhaust the simple modules; and construct the
-semisimple quotient of Hₙ(q) by its Jacobson radical with its simple factors indexed by the λ with
-`D^λ ≠ 0`. Never extend the generic matrix units through a vanishing denominator. The canonical
+When `∏_(r=1)^n [r]_Q = 0`, keep the cellular basis of §1.2, its cell modules S^λ and their
+bilinear forms. TemperleyLieb Layer 5 supplies, for every cellular algebra over a field, the
+classification of the simple modules: the quotients `D^λ = S^λ / rad S^λ` of the cell modules by
+the radicals of their forms, for the λ whose form is nonzero, are simple, pairwise non-isomorphic
+and exhaust the simple modules. Apply it to Hₙ(q), and construct the semisimple quotient of Hₙ(q)
+by its Jacobson radical with its simple factors indexed by the λ with `D^λ ≠ 0`. Never extend the generic matrix units through a vanishing denominator. The canonical
 symmetrizing trace `TauCeti.TypeAHeckeAlgebra.canonicalTrace` is nondegenerate at every parameter
 (`TauCeti.TypeAHeckeAlgebra.forall_canonicalTrace_mul_eq_zero_iff`), so Hₙ(q) is a symmetric
 algebra also where it is not semisimple.
 
-*Needs:* §§1.2–1.3; Tau Ceti `TauCeti.TypeAHeckeAlgebra.canonicalTrace`; Mathlib
-`Ring.jacobson`, `IsSemisimpleRing`.
+*Needs:* §§1.2–1.3; TemperleyLieb Layer 5; Tau Ceti `TauCeti.TypeAHeckeAlgebra.canonicalTrace`;
+Mathlib `Ring.jacobson`, `IsSemisimpleRing`.
 
 **Checks.**
 - n = 2, Q = −1: q = −q⁻¹, so S^(2) (T ↦ q) and S^(1,1) (T ↦ −q⁻¹) are the same one-dimensional
@@ -297,8 +313,11 @@ that at Q = 1 the recursion of the Lᵢ is the additive Jucys–Murphy recursion
 On a generic semisimple complex fibre prove:
 
 - for Q > 0 the Jᵢ are self-adjoint for the real-parameter involution;
-- on the fixed tableau basis of S^λ, Jᵢ acts diagonally with eigenvalue `Q^(c)`, c the content of
-  the box of i, and Lᵢ with eigenvalue `[c]_Q = (Q^c − 1)/(Q − 1)`, `[c]_1 = c`;
+- on the fixed tableau basis of S^λ (§1.2), Jᵢ acts triangularly for the dominance order of
+  standard λ-tableaux, with diagonal entry `Q^(c)` at the tableau t, c the content of the box of i
+  in t, and Lᵢ likewise with diagonal entry `[c]_Q = (Q^c − 1)/(Q − 1)`, `[c]_1 = c`; where these
+  eigenvalues separate the standard λ-tableaux, a unitriangular change of the fixed basis gives
+  the seminormal basis, on which Jᵢ and Lᵢ act diagonally with these eigenvalues;
 - the joint spectral projections of J₁, …, Jₙ are the branching projections onto the summands of
   §1.3, path by path.
 
@@ -466,8 +485,10 @@ maps, coset bases, basis theorem, embedding and coefficient change; the Coxeter 
 permutations and Matsumoto's theorem; the row symmetrizers; the canonical trace and the regular
 inner product and matrices; the cycle words, shifts and block maps with the cycle-chain comparison;
 the Jucys–Murphy elements and the content-separation results; the shuffle module; standard
-tableaux, their count, interlacing and the finite-variable Pieri rule. Mathlib: free algebras,
-ring quotients, Coxeter systems, partitions and Young diagrams, semisimple rings. SchurWeyl Layers
+tableaux, their count, interlacing and the finite-variable Pieri rule; cellular bases with their
+cell representations and Gram matrices. Mathlib: free algebras, ring quotients, Coxeter systems,
+partitions and Young diagrams, semisimple rings. TemperleyLieb Layer 5 (cellular algebras over a
+field: the simple modules and the semisimplicity criterion). SchurWeyl Layers
 3–5 (symmetric-group Specht modules and branching) and §§7.5–7.6 (the ring of symmetric functions,
 its power-sum presentation, the Frobenius characteristic and induction).
 
@@ -1152,11 +1173,28 @@ limits `a_(−r)(1) = (r − 1)/(2r)` and `a_r(1) = (r + 1)/(2r)`. At Q = 1 use 
 for these discrete traces and the regular trace of `S_∞` for the collapsed interval point
 `η_W = 1/2`, and prove that this exhausts the classification of §3.6; the regular trace has Thoma
 parameter γ = 1 and is a carrier separate from the atomic densities, which have γ = 0. The case
-r = 1 is the scalar characters. Layer 4 computes the tail inclusion, its relative commutant, the
-corner indices and the relative entropy of every family after these comparisons; a trace identity
-alone identifies none of those invariants.
+r = 1 is the scalar characters.
 
-*Needs:* §§1.5, 3.5, 3.6, 3.12, 3.13.
+Prove `exists_signedCheckedRep_trace_eq_ocneanuTrace`: for q real with Q ≠ 1, every positive Markov
+trace τ is realized by such a model. There are a countable ordered alphabet J of positive and
+negative letters and weights p_j > 0 with Σ_j p_j = 1 such that, for every braid b on n strands
+with exponent sum e(b) and image T_b under `TauCeti.InfiniteTypeAHeckeAlgebra.braidHom`,
+
+```text
+τ(T_b) = q^(−e(b)) Σ_w p_(w_1) ⋯ p_(w_n) ⟨w, ρ(b) w⟩,
+```
+
+the sum over the words w of length n in J. Here ρ is Tau Ceti's `TauCeti.signedCheckedRep` with
+scale parameter q, in which σᵢ acts on the strands i and i + 1 by the signed checked R-matrix of
+§3.10, the image of gᵢ = qTᵢ, and the factor `q^(−e(b))` converts the gᵢ to the Tᵢ; the sum is
+the product state `Tr(D^(⊗n) ·)` of §3.12, D = diag(p_j), evaluated at ρ(b). For q = −√Q the word
+unitary `Uₙ` of §3.11 conjugates ρ with parameter q to ρ with parameter √Q and commutes with
+`D^(⊗n)`, so the same weights serve both signs of q. Layer 4 computes the tail inclusion, its
+relative commutant, the corner indices and the relative entropy of every family after these
+comparisons; a trace identity alone identifies none of those invariants.
+
+*Needs:* §§1.5, 3.5, 3.6, 3.12, 3.13; Tau Ceti `TauCeti.signedCheckedRep`,
+`TauCeti.InfiniteTypeAHeckeAlgebra.braidHom`, `TauCeti.ArtinGroup.exponentSum`.
 
 **Checks.**
 - Q > 1 at the endpoint `η_W = 1/(1 + Q)`: c = 0, s = Q − 1, and the only list is
@@ -1519,7 +1557,8 @@ alphabet of mass γ and prove the same specialization by finite atomic approxima
 individual dust weights tend to zero; equivalently, obtain the coherent path measure as the
 projective limit of the finite-alphabet signed RSK measures. This proves `s_λ(α;β) ≥ 0`,
 `Σ_(λ⊢n) f^λ s_λ(α;β) = 1`, the edge transition `π_(λ,Λ) = s_Λ(α;β)/s_λ(α;β)` when `s_λ(α;β) > 0`,
-and zero mass on the vertices with `s_λ(α;β) = 0` (Kerov, §4.2, printed pp. 128–129).
+and zero mass on the vertices with `s_λ(α;β) = 0`: the measures `f^λ s_λ(α;β)` on the partitions
+of n form the coherent system of the Thoma point (Féray–Méliot, §4.3, p. 16 of arXiv v2).
 
 Identify this Young-graph measure with each generic real trace of Layer 3, not with a new
 Q-dependent shape law. For Q > 0 in the semisimple real Hecke tower (and the group-algebra tower at
@@ -2235,11 +2274,12 @@ depends back on this layer.
 ## Scope and ownership
 
 **This roadmap owns** the module theory of Hₙ(q) beyond its presentation and basis: the
-semisimplicity criterion, the Specht modules with their tableau bases, Wedderburn decomposition and
-one-box branching, the cellular theory at roots of unity, the cocenter and its cycle-block basis,
-the spectral theory of the Jucys–Murphy elements, Ram's formula, the Hilbert structure of the shuffle
-module with the induced-module isomorphism, the continuous Young projectors and the positive-real
-parabolic Pieri rule (Layer 1); the compatibility of the finite trace radicals of a Markov trace,
+semisimplicity criterion, the cellular basis of Hₙ(q) with its Gram determinants, the Specht
+modules with their tableau bases, Wedderburn decomposition and one-box branching, the semisimple
+quotient at roots of unity, the cocenter and its cycle-block basis, the spectral theory of the
+Jucys–Murphy elements, Ram's formula, the Hilbert structure of the shuffle module with the
+induced-module isomorphism, the continuous Young projectors and the positive-real parabolic Pieri
+rule (Layer 1); the compatibility of the finite trace radicals of a Markov trace,
 the coefficient extensions and regularity statements of the braid invariant, the comparison of the
 Ocneanu trace with the weighted Jimbo trace and the hyperbolic specialization (Layer 2); the
 null-ideal quotient of a positive tracial state, the GNS instances of the Hecke and balanced
@@ -2272,7 +2312,8 @@ reversal anti-automorphism; the real-parameter and unit-circle involutions; the 
 algebra and its Hecke presentation; the Temperley–Lieb quotient map with its kernel; the normalized
 Hecke braid invariant with its Markov invariance, skein relations and skein characterization;
 Turaev's weighted Jimbo trace with its stabilizations and writhe normalization; the Coxeter system
-on permutations; addable cells and the content-separation results; and the empirical-frequency
+on permutations; addable cells and the content-separation results; cellular bases with their cell
+representations and Gram matrices; and the empirical-frequency
 theorem of the Exchangeability roadmap. Layer sections 1.1 and 2.1 fix these by name, and the
 supplier contracts list them; none is planned here. Mathlib's Hecke rings of double cosets
 (`Mathlib/NumberTheory/HeckeRing`) concern a different carrier and do not supply this presentation.
@@ -2285,6 +2326,11 @@ supplier contracts list them; none is planned here. Mathlib's Hecke rings of dou
   The generation of `Λ_ℂ` by the power sums through Newton's identities is SchurWeyl §7.5's rational
   power-sum presentation, which §1.7 uses. This roadmap owns only the Hecke parameter transport and
   the signed specialization, Young-path and operator adapters of Layer 4.
+- *Cellular algebras.* TemperleyLieb owns the general theory of cellular algebras on Tau Ceti's
+  `TauCeti.CellularBasis` (Layer 5): the cell modules and their bilinear forms over a commutative
+  ring, and over a field the classification of the simple modules and the criterion
+  that the algebra is semisimple exactly when every cell form is nondegenerate. §§1.2 and 1.4
+  apply it to the cellular basis of Hₙ(q) built there and do not prove it again.
 - *Ordinary Temperley–Lieb positivity.* TemperleyLiebOperatorAlgebras owns the Hermitian structure
   of the Temperley–Lieb tower, its trace radicals and Jones quotients and the Powers-state
   comparison (§§1.3, 1.5, 2.1), and Subfactors owns Jones's positivity theorem and the positive path
@@ -2315,8 +2361,8 @@ supplier contracts list them; none is planned here. Mathlib's Hecke rings of dou
   algebra, a generic Ocneanu trace or a positive-trace classification.
 
 The supplier graph is acyclic: SchurWeyl, Exchangeability, VonNeumannAlgebras, Subfactors,
-TemperleyLiebOperatorAlgebras, QuantumEnvelopingAlgebras and QuantumGroups do not depend on this
-roadmap.
+TemperleyLieb, TemperleyLiebOperatorAlgebras, QuantumEnvelopingAlgebras and QuantumGroups do not
+depend on this roadmap.
 
 ## Exact supplier contracts
 
@@ -2367,6 +2413,11 @@ Proved at the pin; each is used as stated.
   `regularInnerProductCore`; `CoxeterSystem.heckeLeftMatrix`, `CoxeterSystem.heckeRightMatrix`,
   `CoxeterSystem.commute_heckeLeftMatrix_heckeRightMatrix`,
   `CoxeterSystem.continuous_heckeLeftMatrix_sqrt`.
+- *Cellular bases* (`TauCeti/Algebra/Cellular/Basic.lean`): `TauCeti.CellularBasis` (a basis
+  `C μ s t` over a preorder of cells with an anti-involution transposing it and the cellular
+  axiom), `TauCeti.CellularBasis.lowerSpan`, `TauCeti.CellularBasis.cellRep`,
+  `TauCeti.CellularBasis.gramMatrix`, `TauCeti.CellularBasis.isSymm_gramMatrix`,
+  `TauCeti.CellularBasis.cellRep_transpose_mul_gramMatrix`.
 - *Symmetrizers, Jucys–Murphy elements, cycle words* (`…/Symmetrizer.lean`, `…/JucysMurphy.lean`,
   `…/CycleWord.lean`, `…/ContentSeparation.lean`, `TauCeti/Combinatorics/Young/Addable.lean`):
   `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum`; `TauCeti.InfiniteTypeAHeckeAlgebra.jucysMurphy`,
@@ -2406,7 +2457,9 @@ Proved at the pin; each is used as stated.
   `toTemperleyLieb_braidHom`; `TauCeti.TemperleyLieb`, `TauCeti.TemperleyLieb.markovTrace` (loop
   value `−(p + p⁻¹)`).
 - *Braid invariants* (`TauCeti/KnotTheory/Hecke/Trace.lean`, `TauCeti/KnotTheory/Hecke.lean`,
-  `TauCeti/KnotTheory/Jimbo/`): `TauCeti.MarkovBraid.heckeTrace`, `TauCeti.MarkovEquiv.heckeTrace_eq`
+  `TauCeti/KnotTheory/Jimbo/`, `TauCeti/GroupTheory/Coxeter/Artin.lean`):
+  `TauCeti.ArtinGroup.exponentSum` (the exponent sum of a braid, as a homomorphism to
+  `Multiplicative ℤ`), `TauCeti.MarkovBraid.heckeTrace`, `TauCeti.MarkovEquiv.heckeTrace_eq`
   (assuming `C l z = 1` and `C l⁻¹ (z − (q − q⁻¹)) = 1`), `TauCeti.heckeBraidInvariant`,
   `TauCeti.MarkovBraid.heckeTrace_skein`, `LinearMap.heckeTrace_skein_of_eq_zero`,
   `TauCeti.MarkovBraid.eq_heckeTrace_of_skein`, `TauCeti.MarkovEquiv`;
@@ -2430,6 +2483,14 @@ Layers 3–5 (symmetric-group Specht modules, their classification and standard 
 power-sum presentation), §7.6 (the stable Frobenius characteristic, the block embedding
 `S_k × S_l → S_(k+l)` and `ch(Ind(f ⊠ g)) = ch(f) ch(g)`) and Layer 8 (Schur–Weyl duality), as stated
 there.
+
+### From TauCetiRoadmap.TemperleyLieb
+
+Layer 5 (cellular algebras: on Tau Ceti's `TauCeti.CellularBasis`, the cell modules and their
+bilinear forms over a commutative ring, and over a field the classification of the simple modules
+as the quotients of the cell modules with nonzero form by the radicals of their forms, and the
+criterion that the algebra is semisimple exactly when every cell form is nondegenerate), as stated
+there; consumed in §§1.2 and 1.4.
 
 ### From TauCetiRoadmap.TemperleyLiebOperatorAlgebras
 
@@ -2500,13 +2561,13 @@ Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
 - A. Ram, *A Frobenius formula for the characters of the Hecke algebras*, Invent. Math. 106 (1991),
   461–488, [DOI 10.1007/BF01243921](https://doi.org/10.1007/BF01243921): Theorem 4.14, p. 475,
   with the generating function of Theorem 4.13(b), p. 474 (§1.7).
-- S. V. Kerov, *A q-analogue of the hook walk algorithm*, §4.2 "Random knot tableaux", printed
-  pp. 128–129, for the coherent Young-graph transition `s_Λ(α;β)/s_λ(α;β)` shared by the characters of
-  `S_∞` and of `H_∞(Q)`, Q > 0 (§4.8).
 - V. Féray and P.-L. Méliot, *Asymptotics of q-Plancherel measures*, Probab. Theory Related Fields
   152 (2012), 589–624, [arXiv:1001.2180](https://arxiv.org/abs/1001.2180), Theorem 1: for
   0 < q < 1 the row limits are `(1 − q)q^(i−1)`, and transposition gives the statement for columns at
-  q > 1; an independent endpoint check of the geometric Thoma specialization (§4.9).
+  q > 1; an independent endpoint check of the geometric Thoma specialization (§4.9). §4.3 (p. 16 of
+  arXiv v2) for the coherent system of probability measures `(dim λ) s_λ(α;β)` attached to a
+  point of the Thoma simplex by the specialization `p₁ ↦ 1`, `p_k ↦ Σ α_i^k + (−1)^(k−1) Σ β_i^k`
+  (§4.8).
 - P. Freyd et al., *A new polynomial invariant of knots and links*, Bull. AMS 12 (1985), 239–246,
   [DOI 10.1090/S0273-0979-1985-15361-3](https://doi.org/10.1090/S0273-0979-1985-15361-3): p. 245
   for the balanced relation, the hyperbolic parameters, the exceptional lines and points, the braid
