@@ -100,8 +100,7 @@ Boundaries with Mathlib, Tau Ceti, and neighboring roadmaps:
   Ceti's DG modules (`TauCeti/CategoryTheory/DG/Functor/Category.lean`) are out of scope.
 - **Finitely presented functors.** `mod C` is owned by
   [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md) §1.1, whose single-representable
-  predicate is implemented on Tau Ceti `main` after this roadmap's pin as
-  `TauCeti.IsFinitelyPresentedFunctor`
+  predicate is implemented in Tau Ceti as `TauCeti.IsFinitelyPresentedFunctor`
   (`TauCeti/CategoryTheory/FinitelyPresentedFunctor/Basic.lean`). 0.1 extends it to categories
   without finite biproducts by finite sums of representables, keeping the name: the two agree when
   `C` has finite biproducts (a named target of 0.1), but not on one-object categories, where over
@@ -357,7 +356,7 @@ We set `TauCeti.ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}`; covariant additive 
   finitely presented, yielding `IsClosedUnderCokernels` on `mod C`), and finitely presented functors
   are closed under finite coproducts (`IsClosedUnderFiniteCoproducts`, combining presentations by
   block matrices) and retracts (`coker(𝟙 - e)`). This generalizes ArtinAlgebras §1.1's
-  single-representable predicates (on Tau Ceti `main` past the pin) without shims: under
+  single-representable predicates without shims: under
   `[HasFiniteBiproducts C]` the two agree
   (`TauCeti.isFinitelyPresentedFunctor_iff_exists_single`), the basic single-representable API is
   restricted to that hypothesis, and downstream results in additive, abelian, or Krull–Schmidt
