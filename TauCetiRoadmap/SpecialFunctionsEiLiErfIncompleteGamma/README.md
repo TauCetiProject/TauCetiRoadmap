@@ -70,109 +70,21 @@ layer:
 - Layer 15: `IncompleteBeta/Hypergeometric.lean`.
 - The general Pincherle theorem of 4.1: `TauCeti/Algebra/ContinuedFractions/Pincherle.lean`.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **Incomplete Gamma: definitions, the bridge to Tau Ceti's real functions, and continuation to
-   the logarithmic plane** (1.1–1.5).
-2. **Values at integer parameters, Kummer representations, series, recurrences, derivatives and a
-   multiplication formula** (2.1–2.6).
-3. **Integral representations, loop and vertical-line integrals, Laplace and Mellin transforms,
-   and the incomplete Riemann zeta function** (3.1–3.5).
-4. **Continued fractions, with Pincherle's theorem, and real bounds** (4.1–4.3).
-5. **Asymptotics of the incomplete Gamma functions** for large argument, large parameter, and
-   both large in fixed ratio, and of `Γ(z, z)` and the exponential partial sums (5.1–5.4).
-6. **Real zeros of `γ*`** in the argument and in the parameter (6.1–6.2).
-7. **The exponential integral `E_p` of complex order** (7.1–7.6).
-8. **`E₁`, `Ein`, `Ei` and `li`** (8.1–8.5).
-9. **The sine and cosine integrals and their hyperbolic analogues**, with the Gibbs phenomenon
-   (9.1–9.7).
-10. **Sine and cosine integrals of complex order** (10.1–10.4).
-11. **Error functions, Dawson's integral and Fresnel integrals:** definitions, symmetry,
-    interrelations, series and hypergeometric forms, and the incomplete Gamma values at
-    half-integer parameters (11.1–11.5).
-12. **Integral representations, inequalities, continued fractions and integrals of the error
-    functions** (12.1–12.4).
-13. **Asymptotics and complex zeros of the error functions and Fresnel integrals**, and the
-    incomplete Gamma functions near the transition point (13.1–13.5).
-14. **Inverse error functions, repeated integrals of `erfc` and Voigt functions** (14.1–14.3).
-15. **The incomplete Beta function** (15.1–15.5).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`; each
-subsection gives its DLMF equation numbers and its locators in the other sources.
-
-**What this roadmap owns:** the functions and formulas listed above, with the hypotheses and
-conventions specified in the layers. It also owns the following auxiliary results, which the
-layers need and which neither Mathlib nor Tau Ceti provides:
-
-| Result | Subsection |
-|---|---|
-| Pincherle's theorem: a continued fraction converges if and only if its three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value is `−f(1)/f(0)` | 4.1 |
-| The reduction-of-order criterion for minimality | 4.1 |
-| Explicit minimal solutions for the recurrences of 8.9.1, 8.9.2, 7.18.13 and 8.17.22 | 4.2, 14.2, 15.4 |
-| `∫₀^∞ e^{−zt} t^{s−1}/(1 + t) dt` and `∫₀^∞ e^{−zt}(1 + t)^{a−1} dt` as Laplace transforms in a sector | 3.1 |
-| The circle form of Hankel's loop integral for `γ(a, z)` | 3.2 |
-| The even contraction of a `GenContFract` | 12.3 |
-| The uniform Gaussian estimates with a moving endpoint, for the transition region | 13.5 |
-
-It also owns DLMF 2.5.49 and 2.11.5–2.11.7, which AsymptoticExpansions states as facts about `E₁`
-and `E_p` and leaves to this roadmap (8.1, 7.1 and 7.6).
-
-**What this roadmap does not own:**
-- **The real functions Tau Ceti already has:** `TauCeti.lowerIncompleteGamma`,
-  `TauCeti.regularizedGamma`, `TauCeti.regularizedIncompleteBeta`,
-  `TauCeti.inverseRegularizedGamma`, `TauCeti.inverseRegularizedIncompleteBeta`,
-  `TauCeti.Real.erf`, `TauCeti.Real.erfc`, `Real.erfInv` and the offset logarithmic integral
-  `TauCeti.Real.logIntegral`, with their existing API. This roadmap restricts its complex
-  functions to them and does not restate their real theory.
-- **Dawson's integral `TauCeti.dawson` and the repeated Gaussian integrals
-  `Hh_n = TauCeti.repeatedGaussianIntegral n`**, with their basic API, owned by
-  [SpecialFunctionsParabolicCylinder §5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases)
-  and [§5.3](../SpecialFunctionsParabolicCylinder/README.md#53-the-repeated-gaussian-integrals).
-  Their formulas with the error functions (DLMF 7.5.1, 7.6.3, 7.18.12 and the others listed in
-  the layers) are owned here.
-- **Probability statements:** the normal cdf (DLMF 7.20.1), the gamma, beta, Poisson and binomial
-  cdfs, and their quantiles.
-- **Formulas through other special functions**, listed in
-  [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement):
-  Kummer's second function `U`, Whittaker functions, the parabolic cylinder functions, modified
-  and spherical Bessel functions, Laguerre polynomials, Chebyshev expansions, the continued Gauss
-  function `₂F₁` and the Hurwitz zeta function at complex shift.
-- **The uniform asymptotic expansions of DLMF §8.12 and §8.18(ii)**, which rest on the
-  coalescence of a saddle point with a pole, and exponentially improved expansions. The
-  large-parameter statements that this roadmap does own are listed with their uniformity:
-  8.11.6–8.11.7 (for fixed `λ`, 5.3), 8.11.18 (uniform for `x ≤ 1 − δ`, 5.4), 8.20.6 (uniform
-  for `λ ∈ [0, ∞)`, 7.6), 8.11.10–8.11.11 (uniform for `y` in compact subsets, 13.5) and 8.18.1
-  (fixed `b` and `x`, 15.5).
-- **Numerical tables and methods of computation.**
-
-**The boundary in one sentence:** this roadmap owns the complex theory of the functions listed
-in the Summary and its real-variable consequences; it consumes the general asymptotic methods of
-AsymptoticExpansions, the existing real incomplete Gamma, Beta and error functions, and Dawson's
-integral and `Hh_n` from the parabolic cylinder roadmap; and it excludes formulas through other
-special functions, the uniform expansions of DLMF §8.12 and §8.18(ii), exponentially improved
-expansions and numerical tables.
-
-**Mathlib and other roadmaps.** Mathlib has `Complex.partialGamma s X = ∫₀^X e^{−x} x^{s−1} dx`
-with `Complex.partialGamma_add_one`, the lower incomplete Gamma function with a real upper limit,
-which 1.4 identifies with `γ(s, X)`. It has no error function, exponential integral, incomplete
-Gamma function of complex argument, incomplete Beta function, Fresnel, sine or cosine integral,
-or Faddeeva function. Mathlib pull request
-[#34053](https://github.com/leanprover-community/mathlib4/pull/34053) (real `erf`, `erfc`) is
-prior art; Tau Ceti's `Erf.lean` follows its names, and the complex `erf` here restricts to it.
-
-Two other roadmaps define special cases of these functions for their own use:
-- QSeriesPartitionsAndMockModularForms §5.3 defines the entire kernel `E(w) = 2∫₀ʷ e^{−πt²} dt`,
-  and its §8.4 defines `H_k(w) = e^{−w} Γ(1 − k, −2w)` for real `k` and real `w ≠ 0`, on the upper
-  bank of the cut when `w > 0`.
-- AutomorphicLFunctionsAndLocalFactors §AL.0.5 defines `AL0.negativeEi r = −∫_r^∞ e^{−t}/t dt`.
-
-These stay there as those roadmaps' own adapters. This roadmap owns the general functions, and it
-proves the identifications in its own terms: `2∫₀ʷ e^{−πt²} dt = erf(√π w)` (11.1); the boundary
-values `Γ(a, −x ± i0) = upperIncompleteGammaLog a (ln x ± πi)` for `x > 0` (1.5), so that
-`H_k(w) = e^{−w} upperIncompleteGammaLog (1 − k) (ln(2w) + πi)` for `w > 0`; and
-`−∫_r^∞ e^{−t}/t dt = −E₁(r)` for `r > 0` (8.1). No layer here uses either roadmap.
+Layers 1–6 are the incomplete Gamma functions on their own. Layer 1 defines `γ*` through
+Mathlib's regularized Kummer function and `Γ(a, z)` by the ray integral, and continues `Γ(a, ·)`
+to the logarithmic plane. Layers 2 and 3 give the special values, recurrences and integral
+representations. Layer 4 proves Pincherle's theorem in general (4.1) and applies it with explicit
+minimal solutions. Layer 5 obtains the expansions from Watson's lemma and Laplace's method of
+AsymptoticExpansions, and Layer 6 the real zeros of `γ*` from the differential equation and the
+recurrences. Layers 7–10 specialize to the exponential, sine and cosine integrals, each as a
+combination of values of `upperIncompleteGammaLog`. Layers 11–14 do the same for the error
+functions through `erf z = z γ*(½, z²)`, consuming Dawson's integral and `Hh_n`; 13.5 returns to
+the incomplete Gamma functions at the transition point, which needs `erfc` and Dawson's
+integral. Layer 15 treats the incomplete Beta function, which uses only 3.3, 4.1 and Tau Ceti's
+real function. The `### Examples` of each layer are statements to prove, and they test the
+conventions on explicit parameters.
 
 ## Conventions
 
@@ -320,154 +232,6 @@ values `Γ(a, −x ± i0) = upperIncompleteGammaLog a (ln x ± πi)` for `x > 0`
 - **Mills' ratio, `inverfc` and other DLMF notation for one-line expressions** are written out:
   `𝖬(x) = (√π/2) e^{x²} erfc x`, `inverfc x = erfInv (1 − x)`. No new names or predicates are
   introduced for them.
-
-## Exact supplier contracts
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-Consumed with the hypotheses and conventions stated there:
-- the expansion notion `Asymptotics.HasAsymptoticExpansion`, asymptotic scales, Poincaré and
-  generalized expansions and uniform expansions
-  ([Layer 1](../AsymptoticExpansions/README.md#layer-1-scales-and-expansions));
-- transcendental equations and reversion, for the zeros
-  ([Layer 2](../AsymptoticExpansions/README.md#layer-2-transcendental-equations));
-- integration by parts and Watson's lemma on the real line
-  ([§3.1](../AsymptoticExpansions/README.md#31-integration-by-parts),
-  [§3.3](../AsymptoticExpansions/README.md#33-watsons-lemma-on-the-real-line));
-- Watson's lemma in a sector and the rotation of the path, including the gluing of the rotated
-  transforms in logarithmic coordinates across `|ph z| ≥ π`
-  ([§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector),
-  [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path));
-- Laplace's method on the real line and on a contour
-  ([§5.2](../AsymptoticExpansions/README.md#52-laplaces-method-on-the-real-line),
-  [§5.4](../AsymptoticExpansions/README.md#54-laplaces-method-on-a-contour));
-- Parseval's formula with Mellin inversion, the shifting of the line with residues and its
-  iteration, the pole-separated bound for `Γ` on vertical strips, and the exponential Mellin
-  inversion, for the Mellin–Barnes integrals
-  ([§8.1](../AsymptoticExpansions/README.md#81-parseval),
-  [§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line),
-  [§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips),
-  [§8.7](../AsymptoticExpansions/README.md#87-exponential-mellin-inversion));
-- difference equations whose coefficients have limits with distinct characteristic roots
-  ([§12.1](../AsymptoticExpansions/README.md#121-distinct-characteristic-roots)), for the
-  minimal solution of the incomplete Beta fraction 8.17.22 (15.4). The incomplete Gamma and
-  error-function fractions have coefficients that grow with the index, outside that theorem;
-  their minimal solutions are explicit (4.2 and 14.2), and minimality is proved by the
-  criterion of 4.1.
-
-The AsymptoticExpansions formulas that are statements about `E₁` and `E_p`, DLMF 2.5.49 and
-2.11.5–2.11.7, are owned here (8.1, 7.1 and 7.6).
-
-### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
-
-Complex Stirling in `|ph a| ≤ π − δ`
-([§1.2](../ZerosOfLFunctions/README.md#12-stirling-on-the-sector)), for 8.11.5 and for `Γ(a + 1)`
-in 13.5. The decay of `Γ` on vertical lines
-([§1.3](../ZerosOfLFunctions/README.md#13-vertical-strips)) is consumed through the
-pole-separated bound of AsymptoticExpansions §8.6. Neither is restated here.
-
-### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
-
-- [§5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases): Dawson's integral
-  `TauCeti.dawson z = e^{−z²} ∫₀¹ z e^{(sz)²} ds` (DLMF 7.2.5), entire
-  (`differentiable_dawson`), with `F′ = 1 − 2zF` (`hasDerivAt_dawson`) and `F(0) = 0`.
-- [§5.3](../SpecialFunctionsParabolicCylinder/README.md#53-the-repeated-gaussian-integrals): the
-  repeated Gaussian integrals
-  `TauCeti.repeatedGaussianIntegral n z = ∫₀^∞ tⁿ/n! · e^{−(z+t)²/2} dt`, entire, with
-  `Hh₀′ = −e^{−z²/2}`, `Hh_{n+1}′ = −Hh_n`, the recurrence `(n + 2) Hh_{n+2} = Hh_n − z Hh_{n+1}`,
-  the values `Hh_n(0)`, and reality and positivity on the real line.
-
-Only these declarations are consumed; nothing here depends on the parabolic cylinder functions
-themselves.
-
-### From [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
-
-Residues `TauCeti.Contour.residue` and the classical residue theorem
-(`TauCeti/Analysis/Contour/Residue/`, Layer 2 of ContourIntegration), for the Mellin–Barnes
-integrals (through AsymptoticExpansions §8.2).
-
-### From Tau Ceti
-
-The real functions below are owned by
-[StandardDistributions Layer 2](../StandardDistributions/README.md#layer-2-incomplete-special-functions-and-closed-form-cdfs)
-(the real incomplete Gamma, incomplete Beta and error functions) and
-[Layer 8.4](../StandardDistributions/README.md#84-inverse-functions) (their inverses), and the
-offset logarithmic integral by
-[ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) §6.2 and
-ZerosOfLFunctions. They are implemented in Tau Ceti:
-- **`TauCeti/Analysis/SpecialFunctions/Erf.lean`:** `TauCeti.Real.erf x = 2/√π ∫₀ˣ e^{−t²} dt`
-  and `TauCeti.Real.erfc = 1 − erf`, with `TauCeti.Real.erf_neg`, `TauCeti.Real.hasDerivAt_erf`,
-  `TauCeti.Real.strictMono_erf`, `TauCeti.Real.tendsto_erf_atTop` and the bounds; `Real.erfInv`,
-  `Real.erfOrderIso`, `Real.hasDerivAt_erfInv` and `Real.tendsto_erfInv_nhdsLT_one`.
-- **`TauCeti/Analysis/SpecialFunctions/IncompleteGamma.lean`:** `TauCeti.lowerIncompleteGamma s x`
-  and `TauCeti.regularizedGamma s x` for real `s`, `x`, both clamped to `0` for `s ≤ 0` or
-  `x ≤ 0`, with `TauCeti.lowerIncompleteGamma_eq_integral`,
-  `TauCeti.hasDerivAt_lowerIncompleteGamma`, `TauCeti.lowerIncompleteGamma_add_one`
-  (`γ(s + 1, x) = sγ(s, x) − xˢe^{−x}`), `TauCeti.tendsto_regularizedGamma_atTop`,
-  `TauCeti.regularizedGamma_natCast`, `TauCeti.ofReal_lowerIncompleteGamma_eq_partialGamma`
-  (`γ(s, x) = Complex.partialGamma s x`) and `TauCeti.Real.erf_eq_regularizedGamma_half_sq`.
-- **`TauCeti/Analysis/SpecialFunctions/IncompleteBeta.lean`:**
-  `TauCeti.regularizedIncompleteBeta a b x` and its inverse
-  `TauCeti.inverseRegularizedIncompleteBeta`, with
-  `TauCeti.regularizedIncompleteBeta_def_of_mem_Icc` (8.17.2),
-  `TauCeti.regularizedIncompleteBeta_symm` (`I_x(a, b) = 1 − I_{1−x}(b, a)`),
-  `TauCeti.regularizedIncompleteBeta_add_one_left` (8.17.20),
-  `TauCeti.regularizedIncompleteBeta_add_one_right` and its difference form. `Beta.lean` supplies
-  the Beta integral `TauCeti.integral_rpow_mul_one_sub_rpow`.
-- **`TauCeti/Probability/Distributions/Binomial/Tail.lean`:**
-  `TauCeti.Probability.sum_Icc_choose_mul_pow_eq_regularizedIncompleteBeta` (8.17.5).
-- **`TauCeti/Analysis/SpecialFunctions/LogIntegral.lean`:**
-  `TauCeti.Real.logIntegral x = ∫₂ˣ dt/log t` with `TauCeti.Real.logIntegral_isEquivalent_div_log`.
-- **`TauCeti/Probability/Distributions/Gamma/Quantile.lean`:** `TauCeti.inverseRegularizedGamma`.
-- **`TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`:**
-  `Complex.hasSum_regularizedHGFun`, the power series of `Complex.regularizedHGFun a b` when
-  `a.card ≤ b.card`.
-- **`TauCeti/Analysis/Complex/Conformal/Rouche.lean`:** Rouché's theorem `TauCeti.rouche` and its
-  symmetric form `TauCeti.rouche_symm`, counting zeros with multiplicity in a disc.
-- **`TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`:** the Dirichlet integral
-  `TauCeti.Contour.tendsto_integral_sin_div_atTop` (`∫₀^R sin x/x dx → π/2`).
-
-### From Mathlib
-
-- **Hypergeometric functions.** `Complex.regularizedHGFun a b` for multisets `a`, `b` of
-  complex parameters, the regularized `pFq` (DLMF 16.2.5), with `Complex.regularizedHGFunCoeff`
-  and `Complex.analyticOnNhd_regularizedHGFun_of_card_le` (entire when `a.card ≤ b.card`); the
-  Gauss series `ordinaryHypergeometric a b c x`, with junk value `0` outside its disc of
-  convergence.
-- **Gamma and related numbers.** `Complex.Gamma`, `Complex.partialGamma`,
-  `Complex.partialGamma_add_one`, `Complex.differentiableAt_Gamma`,
-  `Complex.Gamma_add_one`, `Complex.tendsto_self_mul_Gamma_nhds_zero`, `Complex.digamma`,
-  `Real.eulerMascheroniConstant`, `ProbabilityTheory.beta`, `ascPochhammer`, `descPochhammer`,
-  `riemannZeta`, `harmonic` and `Nat.choose`.
-- **Bessel and Hermite.** `Complex.besselJ` and `Polynomial.hermite`.
-- **Continued fractions.** `GenContFract`, with `GenContFract.convs`, `GenContFract.nums`,
-  `GenContFract.dens`, the recurrences for the numerators and denominators, and the determinant
-  formula `GenContFract.determinant`.
-- **Mellin transforms.** `mellin`, `mellinInv` and `mellinInv_mellin_eq`, through
-  AsymptoticExpansions §8.1.
-- **Complex analysis and integration.** `Complex.slitPlane`, `Complex.log`, `Complex.cpow`,
-  `circleIntegral`, the Cauchy theorem for rectangles, `intervalIntegral`, integrals over
-  `Set.Ioi`, parametric differentiation (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`),
-  `integral_gaussian_complex` and integration by parts
-  (`MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul`).
-- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded` and
-  `Complex.arg`.
-
-## How to read the build
-
-Layers 1–6 are the incomplete Gamma functions on their own. Layer 1 defines `γ*` through
-Mathlib's regularized Kummer function and `Γ(a, z)` by the ray integral, and continues `Γ(a, ·)`
-to the logarithmic plane. Layers 2 and 3 give the special values, recurrences and integral
-representations. Layer 4 proves Pincherle's theorem in general (4.1) and applies it with explicit
-minimal solutions. Layer 5 obtains the expansions from Watson's lemma and Laplace's method of
-AsymptoticExpansions, and Layer 6 the real zeros of `γ*` from the differential equation and the
-recurrences. Layers 7–10 specialize to the exponential, sine and cosine integrals, each as a
-combination of values of `upperIncompleteGammaLog`. Layers 11–14 do the same for the error
-functions through `erf z = z γ*(½, z²)`, consuming Dawson's integral and `Hh_n`; 13.5 returns to
-the incomplete Gamma functions at the transition point, which needs `erfc` and Dawson's
-integral. Layer 15 treats the incomplete Beta function, which uses only 3.3, 4.1 and Tau Ceti's
-real function. The `### Examples` of each layer are statements to prove, and they test the
-conventions on explicit parameters.
 
 ## Layer 1: incomplete Gamma, definitions and continuation
 
@@ -1724,6 +1488,242 @@ function; Mathlib's Gauss function and Beta function.
 - Any roadmap that needs the complex error functions, the exponential, logarithmic, sine or
   cosine integrals, or the complex incomplete Gamma and Beta functions consumes them from here,
   with the definitions and conventions pinned above.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Incomplete Gamma: definitions, the bridge to Tau Ceti's real functions, and continuation to
+   the logarithmic plane** (1.1–1.5).
+2. **Values at integer parameters, Kummer representations, series, recurrences, derivatives and a
+   multiplication formula** (2.1–2.6).
+3. **Integral representations, loop and vertical-line integrals, Laplace and Mellin transforms,
+   and the incomplete Riemann zeta function** (3.1–3.5).
+4. **Continued fractions, with Pincherle's theorem, and real bounds** (4.1–4.3).
+5. **Asymptotics of the incomplete Gamma functions** for large argument, large parameter, and
+   both large in fixed ratio, and of `Γ(z, z)` and the exponential partial sums (5.1–5.4).
+6. **Real zeros of `γ*`** in the argument and in the parameter (6.1–6.2).
+7. **The exponential integral `E_p` of complex order** (7.1–7.6).
+8. **`E₁`, `Ein`, `Ei` and `li`** (8.1–8.5).
+9. **The sine and cosine integrals and their hyperbolic analogues**, with the Gibbs phenomenon
+   (9.1–9.7).
+10. **Sine and cosine integrals of complex order** (10.1–10.4).
+11. **Error functions, Dawson's integral and Fresnel integrals:** definitions, symmetry,
+    interrelations, series and hypergeometric forms, and the incomplete Gamma values at
+    half-integer parameters (11.1–11.5).
+12. **Integral representations, inequalities, continued fractions and integrals of the error
+    functions** (12.1–12.4).
+13. **Asymptotics and complex zeros of the error functions and Fresnel integrals**, and the
+    incomplete Gamma functions near the transition point (13.1–13.5).
+14. **Inverse error functions, repeated integrals of `erfc` and Voigt functions** (14.1–14.3).
+15. **The incomplete Beta function** (15.1–15.5).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`; each
+subsection gives its DLMF equation numbers and its locators in the other sources.
+
+**What this roadmap owns:** the functions and formulas listed above, with the hypotheses and
+conventions specified in the layers. It also owns the following auxiliary results, which the
+layers need and which neither Mathlib nor Tau Ceti provides:
+
+| Result | Subsection |
+|---|---|
+| Pincherle's theorem: a continued fraction converges if and only if its three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value is `−f(1)/f(0)` | 4.1 |
+| The reduction-of-order criterion for minimality | 4.1 |
+| Explicit minimal solutions for the recurrences of 8.9.1, 8.9.2, 7.18.13 and 8.17.22 | 4.2, 14.2, 15.4 |
+| `∫₀^∞ e^{−zt} t^{s−1}/(1 + t) dt` and `∫₀^∞ e^{−zt}(1 + t)^{a−1} dt` as Laplace transforms in a sector | 3.1 |
+| The circle form of Hankel's loop integral for `γ(a, z)` | 3.2 |
+| The even contraction of a `GenContFract` | 12.3 |
+| The uniform Gaussian estimates with a moving endpoint, for the transition region | 13.5 |
+
+It also owns DLMF 2.5.49 and 2.11.5–2.11.7, which AsymptoticExpansions states as facts about `E₁`
+and `E_p` and leaves to this roadmap (8.1, 7.1 and 7.6).
+
+**What this roadmap does not own:**
+- **The real functions Tau Ceti already has:** `TauCeti.lowerIncompleteGamma`,
+  `TauCeti.regularizedGamma`, `TauCeti.regularizedIncompleteBeta`,
+  `TauCeti.inverseRegularizedGamma`, `TauCeti.inverseRegularizedIncompleteBeta`,
+  `TauCeti.Real.erf`, `TauCeti.Real.erfc`, `Real.erfInv` and the offset logarithmic integral
+  `TauCeti.Real.logIntegral`, with their existing API. This roadmap restricts its complex
+  functions to them and does not restate their real theory.
+- **Dawson's integral `TauCeti.dawson` and the repeated Gaussian integrals
+  `Hh_n = TauCeti.repeatedGaussianIntegral n`**, with their basic API, owned by
+  [SpecialFunctionsParabolicCylinder §5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases)
+  and [§5.3](../SpecialFunctionsParabolicCylinder/README.md#53-the-repeated-gaussian-integrals).
+  Their formulas with the error functions (DLMF 7.5.1, 7.6.3, 7.18.12 and the others listed in
+  the layers) are owned here.
+- **Probability statements:** the normal cdf (DLMF 7.20.1), the gamma, beta, Poisson and binomial
+  cdfs, and their quantiles.
+- **Formulas through other special functions**, listed in
+  [Beyond this roadmap](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement):
+  Kummer's second function `U`, Whittaker functions, the parabolic cylinder functions, modified
+  and spherical Bessel functions, Laguerre polynomials, Chebyshev expansions, the continued Gauss
+  function `₂F₁` and the Hurwitz zeta function at complex shift.
+- **The uniform asymptotic expansions of DLMF §8.12 and §8.18(ii)**, which rest on the
+  coalescence of a saddle point with a pole, and exponentially improved expansions. The
+  large-parameter statements that this roadmap does own are listed with their uniformity:
+  8.11.6–8.11.7 (for fixed `λ`, 5.3), 8.11.18 (uniform for `x ≤ 1 − δ`, 5.4), 8.20.6 (uniform
+  for `λ ∈ [0, ∞)`, 7.6), 8.11.10–8.11.11 (uniform for `y` in compact subsets, 13.5) and 8.18.1
+  (fixed `b` and `x`, 15.5).
+- **Numerical tables and methods of computation.**
+
+**The boundary in one sentence:** this roadmap owns the complex theory of the functions listed
+in the Summary and its real-variable consequences; it consumes the general asymptotic methods of
+AsymptoticExpansions, the existing real incomplete Gamma, Beta and error functions, and Dawson's
+integral and `Hh_n` from the parabolic cylinder roadmap; and it excludes formulas through other
+special functions, the uniform expansions of DLMF §8.12 and §8.18(ii), exponentially improved
+expansions and numerical tables.
+
+**Mathlib and other roadmaps.** Mathlib has `Complex.partialGamma s X = ∫₀^X e^{−x} x^{s−1} dx`
+with `Complex.partialGamma_add_one`, the lower incomplete Gamma function with a real upper limit,
+which 1.4 identifies with `γ(s, X)`. It has no error function, exponential integral, incomplete
+Gamma function of complex argument, incomplete Beta function, Fresnel, sine or cosine integral,
+or Faddeeva function. Mathlib pull request
+[#34053](https://github.com/leanprover-community/mathlib4/pull/34053) (real `erf`, `erfc`) is
+prior art; Tau Ceti's `Erf.lean` follows its names, and the complex `erf` here restricts to it.
+
+Two other roadmaps define special cases of these functions for their own use:
+- QSeriesPartitionsAndMockModularForms §5.3 defines the entire kernel `E(w) = 2∫₀ʷ e^{−πt²} dt`,
+  and its §8.4 defines `H_k(w) = e^{−w} Γ(1 − k, −2w)` for real `k` and real `w ≠ 0`, on the upper
+  bank of the cut when `w > 0`.
+- AutomorphicLFunctionsAndLocalFactors §AL.0.5 defines `AL0.negativeEi r = −∫_r^∞ e^{−t}/t dt`.
+
+These stay there as those roadmaps' own adapters. This roadmap owns the general functions, and it
+proves the identifications in its own terms: `2∫₀ʷ e^{−πt²} dt = erf(√π w)` (11.1); the boundary
+values `Γ(a, −x ± i0) = upperIncompleteGammaLog a (ln x ± πi)` for `x > 0` (1.5), so that
+`H_k(w) = e^{−w} upperIncompleteGammaLog (1 − k) (ln(2w) + πi)` for `w > 0`; and
+`−∫_r^∞ e^{−t}/t dt = −E₁(r)` for `r > 0` (8.1). No layer here uses either roadmap.
+
+## Exact supplier contracts
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+Consumed with the hypotheses and conventions stated there:
+- the expansion notion `Asymptotics.HasAsymptoticExpansion`, asymptotic scales, Poincaré and
+  generalized expansions and uniform expansions
+  ([Layer 1](../AsymptoticExpansions/README.md#layer-1-scales-and-expansions));
+- transcendental equations and reversion, for the zeros
+  ([Layer 2](../AsymptoticExpansions/README.md#layer-2-transcendental-equations));
+- integration by parts and Watson's lemma on the real line
+  ([§3.1](../AsymptoticExpansions/README.md#31-integration-by-parts),
+  [§3.3](../AsymptoticExpansions/README.md#33-watsons-lemma-on-the-real-line));
+- Watson's lemma in a sector and the rotation of the path, including the gluing of the rotated
+  transforms in logarithmic coordinates across `|ph z| ≥ π`
+  ([§4.2](../AsymptoticExpansions/README.md#42-watsons-lemma-in-a-sector),
+  [§4.3](../AsymptoticExpansions/README.md#43-rotation-of-the-path));
+- Laplace's method on the real line and on a contour
+  ([§5.2](../AsymptoticExpansions/README.md#52-laplaces-method-on-the-real-line),
+  [§5.4](../AsymptoticExpansions/README.md#54-laplaces-method-on-a-contour));
+- Parseval's formula with Mellin inversion, the shifting of the line with residues and its
+  iteration, the pole-separated bound for `Γ` on vertical strips, and the exponential Mellin
+  inversion, for the Mellin–Barnes integrals
+  ([§8.1](../AsymptoticExpansions/README.md#81-parseval),
+  [§8.2](../AsymptoticExpansions/README.md#82-shifting-the-line),
+  [§8.6](../AsymptoticExpansions/README.md#86-the-gamma-function-on-vertical-strips),
+  [§8.7](../AsymptoticExpansions/README.md#87-exponential-mellin-inversion));
+- difference equations whose coefficients have limits with distinct characteristic roots
+  ([§12.1](../AsymptoticExpansions/README.md#121-distinct-characteristic-roots)), for the
+  minimal solution of the incomplete Beta fraction 8.17.22 (15.4). The incomplete Gamma and
+  error-function fractions have coefficients that grow with the index, outside that theorem;
+  their minimal solutions are explicit (4.2 and 14.2), and minimality is proved by the
+  criterion of 4.1.
+
+The AsymptoticExpansions formulas that are statements about `E₁` and `E_p`, DLMF 2.5.49 and
+2.11.5–2.11.7, are owned here (8.1, 7.1 and 7.6).
+
+### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
+
+Complex Stirling in `|ph a| ≤ π − δ`
+([§1.2](../ZerosOfLFunctions/README.md#12-stirling-on-the-sector)), for 8.11.5 and for `Γ(a + 1)`
+in 13.5. The decay of `Γ` on vertical lines
+([§1.3](../ZerosOfLFunctions/README.md#13-vertical-strips)) is consumed through the
+pole-separated bound of AsymptoticExpansions §8.6. Neither is restated here.
+
+### From [SpecialFunctionsParabolicCylinder](../SpecialFunctionsParabolicCylinder/README.md)
+
+- [§5.1](../SpecialFunctionsParabolicCylinder/README.md#51-hermite-cases): Dawson's integral
+  `TauCeti.dawson z = e^{−z²} ∫₀¹ z e^{(sz)²} ds` (DLMF 7.2.5), entire
+  (`differentiable_dawson`), with `F′ = 1 − 2zF` (`hasDerivAt_dawson`) and `F(0) = 0`.
+- [§5.3](../SpecialFunctionsParabolicCylinder/README.md#53-the-repeated-gaussian-integrals): the
+  repeated Gaussian integrals
+  `TauCeti.repeatedGaussianIntegral n z = ∫₀^∞ tⁿ/n! · e^{−(z+t)²/2} dt`, entire, with
+  `Hh₀′ = −e^{−z²/2}`, `Hh_{n+1}′ = −Hh_n`, the recurrence `(n + 2) Hh_{n+2} = Hh_n − z Hh_{n+1}`,
+  the values `Hh_n(0)`, and reality and positivity on the real line.
+
+Only these declarations are consumed; nothing here depends on the parabolic cylinder functions
+themselves.
+
+### From [ContourIntegration](../../Completed/ContourIntegration/README.md), implemented in Tau Ceti
+
+Residues `TauCeti.Contour.residue` and the classical residue theorem
+(`TauCeti/Analysis/Contour/Residue/`, Layer 2 of ContourIntegration), for the Mellin–Barnes
+integrals (through AsymptoticExpansions §8.2).
+
+### From Tau Ceti
+
+The real functions below are owned by
+[StandardDistributions Layer 2](../StandardDistributions/README.md#layer-2-incomplete-special-functions-and-closed-form-cdfs)
+(the real incomplete Gamma, incomplete Beta and error functions) and
+[Layer 8.4](../StandardDistributions/README.md#84-inverse-functions) (their inverses), and the
+offset logarithmic integral by
+[ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) §6.2 and
+ZerosOfLFunctions. They are implemented in Tau Ceti:
+- **`TauCeti/Analysis/SpecialFunctions/Erf.lean`:** `TauCeti.Real.erf x = 2/√π ∫₀ˣ e^{−t²} dt`
+  and `TauCeti.Real.erfc = 1 − erf`, with `TauCeti.Real.erf_neg`, `TauCeti.Real.hasDerivAt_erf`,
+  `TauCeti.Real.strictMono_erf`, `TauCeti.Real.tendsto_erf_atTop` and the bounds; `Real.erfInv`,
+  `Real.erfOrderIso`, `Real.hasDerivAt_erfInv` and `Real.tendsto_erfInv_nhdsLT_one`.
+- **`TauCeti/Analysis/SpecialFunctions/IncompleteGamma.lean`:** `TauCeti.lowerIncompleteGamma s x`
+  and `TauCeti.regularizedGamma s x` for real `s`, `x`, both clamped to `0` for `s ≤ 0` or
+  `x ≤ 0`, with `TauCeti.lowerIncompleteGamma_eq_integral`,
+  `TauCeti.hasDerivAt_lowerIncompleteGamma`, `TauCeti.lowerIncompleteGamma_add_one`
+  (`γ(s + 1, x) = sγ(s, x) − xˢe^{−x}`), `TauCeti.tendsto_regularizedGamma_atTop`,
+  `TauCeti.regularizedGamma_natCast`, `TauCeti.ofReal_lowerIncompleteGamma_eq_partialGamma`
+  (`γ(s, x) = Complex.partialGamma s x`) and `TauCeti.Real.erf_eq_regularizedGamma_half_sq`.
+- **`TauCeti/Analysis/SpecialFunctions/IncompleteBeta.lean`:**
+  `TauCeti.regularizedIncompleteBeta a b x` and its inverse
+  `TauCeti.inverseRegularizedIncompleteBeta`, with
+  `TauCeti.regularizedIncompleteBeta_def_of_mem_Icc` (8.17.2),
+  `TauCeti.regularizedIncompleteBeta_symm` (`I_x(a, b) = 1 − I_{1−x}(b, a)`),
+  `TauCeti.regularizedIncompleteBeta_add_one_left` (8.17.20),
+  `TauCeti.regularizedIncompleteBeta_add_one_right` and its difference form. `Beta.lean` supplies
+  the Beta integral `TauCeti.integral_rpow_mul_one_sub_rpow`.
+- **`TauCeti/Probability/Distributions/Binomial/Tail.lean`:**
+  `TauCeti.Probability.sum_Icc_choose_mul_pow_eq_regularizedIncompleteBeta` (8.17.5).
+- **`TauCeti/Analysis/SpecialFunctions/LogIntegral.lean`:**
+  `TauCeti.Real.logIntegral x = ∫₂ˣ dt/log t` with `TauCeti.Real.logIntegral_isEquivalent_div_log`.
+- **`TauCeti/Probability/Distributions/Gamma/Quantile.lean`:** `TauCeti.inverseRegularizedGamma`.
+- **`TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`:**
+  `Complex.hasSum_regularizedHGFun`, the power series of `Complex.regularizedHGFun a b` when
+  `a.card ≤ b.card`.
+- **`TauCeti/Analysis/Complex/Conformal/Rouche.lean`:** Rouché's theorem `TauCeti.rouche` and its
+  symmetric form `TauCeti.rouche_symm`, counting zeros with multiplicity in a disc.
+- **`TauCeti/Analysis/Contour/WorkedExamples/HalfDisc/SineIntegral.lean`:** the Dirichlet integral
+  `TauCeti.Contour.tendsto_integral_sin_div_atTop` (`∫₀^R sin x/x dx → π/2`).
+
+### From Mathlib
+
+- **Hypergeometric functions.** `Complex.regularizedHGFun a b` for multisets `a`, `b` of
+  complex parameters, the regularized `pFq` (DLMF 16.2.5), with `Complex.regularizedHGFunCoeff`
+  and `Complex.analyticOnNhd_regularizedHGFun_of_card_le` (entire when `a.card ≤ b.card`); the
+  Gauss series `ordinaryHypergeometric a b c x`, with junk value `0` outside its disc of
+  convergence.
+- **Gamma and related numbers.** `Complex.Gamma`, `Complex.partialGamma`,
+  `Complex.partialGamma_add_one`, `Complex.differentiableAt_Gamma`,
+  `Complex.Gamma_add_one`, `Complex.tendsto_self_mul_Gamma_nhds_zero`, `Complex.digamma`,
+  `Real.eulerMascheroniConstant`, `ProbabilityTheory.beta`, `ascPochhammer`, `descPochhammer`,
+  `riemannZeta`, `harmonic` and `Nat.choose`.
+- **Bessel and Hermite.** `Complex.besselJ` and `Polynomial.hermite`.
+- **Continued fractions.** `GenContFract`, with `GenContFract.convs`, `GenContFract.nums`,
+  `GenContFract.dens`, the recurrences for the numerators and denominators, and the determinant
+  formula `GenContFract.determinant`.
+- **Mellin transforms.** `mellin`, `mellinInv` and `mellinInv_mellin_eq`, through
+  AsymptoticExpansions §8.1.
+- **Complex analysis and integration.** `Complex.slitPlane`, `Complex.log`, `Complex.cpow`,
+  `circleIntegral`, the Cauchy theorem for rectangles, `intervalIntegral`, integrals over
+  `Set.Ioi`, parametric differentiation (`hasDerivAt_integral_of_dominated_loc_of_deriv_le`),
+  `integral_gaussian_complex` and integration by parts
+  (`MeasureTheory.integral_Ioi_mul_deriv_eq_deriv_mul`).
+- **Asymptotics.** `Asymptotics.IsBigO`, `Asymptotics.IsEquivalent`, `Bornology.cobounded` and
+  `Complex.arg`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
