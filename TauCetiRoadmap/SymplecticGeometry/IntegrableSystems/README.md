@@ -14,7 +14,7 @@ system on a Hausdorff symplectic manifold and L a compact connected component of
 every point of which dF is surjective; nothing is assumed of the other components of the level, nor
 completeness of any flow. Then a neighbourhood of L is symplectomorphic to the product of an open
 set of actions in ℝⁿ with the whole torus of angles, with the form Σ dθᵢ ∧ dIᵢ, and F depends on the
-actions alone. The second is Duistermaat's account of the global obstructions: a proper Lagrangian
+actions alone. The second is the global obstruction theory begun by Duistermaat: a proper Lagrangian
 torus fibration over B is fibrewise symplectomorphic to the model T*B/Λ given by its period lattice
 exactly when its Lagrangian class vanishes, and has global action–angle coordinates exactly when
 moreover its monodromy is trivial, its period forms are exact and its action map is injective. The
@@ -496,13 +496,16 @@ SmoothBundlesConnections B6.6's classification of affine torus bundles and Algeb
 local-coefficient carrier, with SmoothBundlesConnections B6.1 for the Čech and sheaf comparisons and
 refinements. Build the sheaf Z¹ of closed one-forms, the quotient sheaf Z¹/Λ of local Lagrangian
 sections, its Čech H¹ and the torsor cocycle t of π, written s_j = s_i + t_ij for local Lagrangian
-sections s_i as in B6.6, whose class is the Lagrangian class. Prove Duistermaat's theorem: the
-Lagrangian class vanishes iff π is fibrewise symplectomorphic to the model T*B/Λ, and its image
-under the connecting map H¹(B; Z¹/Λ) → H²(B; Λ) of 0 → Λ → Z¹ → Z¹/Λ → 0 is minus the Chern class,
-since B6.6 fixes that class as −δ[t] and connecting maps are natural along Z¹ ⊂ C^∞(T*B). Prove the
-existence and uniqueness parts by gluing local action–angle sections of §2.4; when π has a smooth
-section s, prove that the Lagrangian class is, up to the sign of the identification H²_dR(B) ≅
-H¹(B; Z¹), the image of the class of s^*σ (Duistermaat, 1980). *Needs:* §§2.2–2.5;
+sections s_i as in B6.6, whose class is the Lagrangian class. Prove that the Lagrangian class
+vanishes iff π is fibrewise symplectomorphic to the model T*B/Λ (Zung, §2.3; Sjamaar, p. 9), and
+that its image under the connecting map H¹(B; Z¹/Λ) → H²(B; Λ) of 0 → Λ → Z¹ → Z¹/Λ → 0 is minus
+the Chern class, since B6.6 fixes that class as −δ[t] and connecting maps are natural along
+Z¹ ⊂ C^∞(T*B) (Zung, §2.3, and Sjamaar, p. 10, state the relation for their own definitions of the
+two classes). Prove the existence and uniqueness parts by gluing local action–angle sections of
+§2.4; when π has a smooth section s, prove that the Lagrangian class is, up to sign, the image of
+the class of s^*σ under H²_dR(B) ≅ H¹(B; Z¹) → H¹(B; Z¹/Λ): if s = s_i + α_i on U_i for a one-form
+α_i, then t_ij = α_i − α_j modulo Λ, and s^*σ = ±dα_i with a sign fixed by the convention for the
+action of T*B (Sjamaar, p. 7, Lemma). *Needs:* §§2.2–2.5;
 SmoothBundlesConnections B1.5, B6.1, B6.6; AlgebraicTopology §2.6.
 
 ### 2.7 Global action–angle coordinates
@@ -511,7 +514,10 @@ Prove that global action–angle coordinates, a fibrewise symplectomorphism of a
 torus fibration onto V × Tⁿ for an open V ⊆ ℝⁿ with σ = Σ dθᵢ ∧ dIᵢ, exist iff the linear monodromy
 is trivial, the period one-forms can be chosen globally exact, the resulting global action map
 B → ℝⁿ is injective, and the Lagrangian class vanishes; and that such coordinates are unique up to
-the integral-affine changes and angle gauge of §2.5 (Duistermaat, 1980). *Needs:* §§2.5–2.6.
+the integral-affine changes and angle gauge of §2.5. Without injectivity, for coordinates on
+B × Tⁿ whose actions form a local diffeomorphism B → ℝⁿ, the criterion is Duistermaat's in the form
+with the Lagrangian class (Sjamaar, Theorem on p. 6, and p. 8 for trivial affine monodromy as
+trivial linear monodromy with exact period forms). *Needs:* §§2.5–2.6.
 
 **Checks.**
 - The fibration T² → S¹, (θ, φ) ↦ φ, with σ = dθ ∧ dφ, is the model T*S¹/(2πℤ dφ) under
@@ -609,13 +615,17 @@ For a smooth regular Lagrangian L and a Lie group acting on Q whose lifted actio
 L, prove that Noether's quantity
 J_ξ(v) = ⟨FL(v), ξ_Q(π v)⟩ is constant along the Lagrangian flow and equals the cotangent-lift moment
 map, Tau Ceti's `TauCeti.CotangentBundle.momentMap`, composed with FL, so that the Lagrangian
-conservation law agrees with the Hamiltonian conservation law of HamiltonianReduction Layer 1
-(Cannas da Silva, Thm. 24.1, p. 147, for the Hamiltonian form). For an
+conservation law agrees with the Hamiltonian one: for H on T*Q invariant under the lifted action,
+{⟨μ, ξ⟩, H} = −dH(ξ_(T*Q)) = 0, which is Tau Ceti's Noether theorem
+`TauCeti.SmoothTwoForm.IsMomentMap.poissonBracket_eq_zero_iff` for the moment map of
+`TauCeti.CotangentBundle.isEquivariantMomentMap_momentMap` (Cannas da Silva, Thm. 24.1, p. 147,
+for the Hamiltonian form). For an
 infinitesimal symmetry ξ_Q(t, q) whose variation of L equals the total derivative dB_ξ(t, q)/dt
 along every curve, prove that J_ξ = ⟨FL, ξ_Q⟩ − B_ξ is conserved along solutions, and that it
 transforms as a function on ℝ × TQ under changes of configuration coordinates (Marsden–Ratiu,
-Ch. 11). *Needs:* §§3.1–3.2; Tau Ceti `TauCeti.CotangentBundle.momentMap`;
-HamiltonianReduction Layer 1.
+Ch. 11). *Needs:* §§3.1–3.2; Tau Ceti `TauCeti.CotangentBundle.momentMap`,
+`TauCeti.CotangentBundle.isEquivariantMomentMap_momentMap`,
+`TauCeti.SmoothTwoForm.IsMomentMap.poissonBracket_eq_zero_iff`.
 
 **Checks.**
 - For L = ½mv² on Q = ℝ and the Galilean boost ξ_Q(t, q) = t, the variation of L is
@@ -630,9 +640,9 @@ Riemannian manifold has geodesics as base curves.
 
 ### Dependencies
 
-Tau Ceti's Legendre map, Cartan forms, cotangent bundle forms, kinetic energy and cotangent-lift
-moment map; Mathlib's Levi–Civita connection; HopfRinow Layer 1; HamiltonianReduction Layer 1.
-Nothing of Layers 1, 2, 4 or 5.
+Tau Ceti's Legendre map, Cartan forms, cotangent bundle forms, kinetic energy, cotangent-lift
+moment map and Noether theorem; Mathlib's Levi–Civita connection; HopfRinow Layer 1. Nothing of
+Layers 1, 2, 4 or 5.
 
 ## Layer 4: examples that exercise the full API
 
@@ -1100,17 +1110,17 @@ the maximal invariant subset of P, and L the exit set.
   to S: every ω-limit set of a point of S⁺ lies in S, so by compactness Φ^t maps S⁺ into any
   prescribed neighbourhood of S in S⁺ for t large; Φ^t on S⁺ is homotopic to the identity, so a
   class vanishing on S, hence on that neighbourhood by continuity, vanishes on S⁺.
-- *The cup-length bound.* A flow on a compact metric space S with a continuous Lyapunov function
-  strictly decreasing along every nonconstant orbit has at least cl(Ȟ^*(S; ℝ)) + 1 rest points,
-  where the cup length cl is the largest ℓ with a nonzero ℓ-fold product of positive-degree classes
-  (0 if there is none). Route: the Lusternik–Schnirelmann minimax over the sublevel sets of the
-  Lyapunov function, with the deformation lemma supplied by the flow and compactness, continuity to
-  pass from a finite rest-point set at a level to a neighbourhood, and the standard argument that a
-  repeated minimax level carries infinitely many rest points.
+- *The cup-length bound.* A flow on a nonempty compact metric space S with a continuous Lyapunov
+  function strictly decreasing along every nonconstant orbit has at least cl(Ȟ^*(S; ℝ)) + 1 rest
+  points, where the cup length cl is the largest ℓ with a nonzero ℓ-fold product of positive-degree
+  classes (0 if there is none, ∞ if there is no largest). Route: the Lusternik–Schnirelmann minimax
+  over the sublevel sets of the Lyapunov function, with the deformation lemma supplied by the flow
+  and compactness, continuity to pass from a finite rest-point set at a level to a neighbourhood,
+  and the standard argument that a repeated minimax level carries infinitely many rest points.
 
 Here the Lyapunov function is W; the class of S¹ survives in Ȟ¹(S) by the injectivity lemma, so
-cl(Ȟ^*(S)) ≥ 1 and W has at least two critical points in Inv(P), which §5.2 converts into the two
-fixed points. Every topology, flow, relative-cup and orbit-dictionary construction above is a
+S is nonempty, cl(Ȟ^*(S)) ≥ 1 and W has at least two critical points in Inv(P), which §5.2
+converts into the two fixed points. Every topology, flow, relative-cup and orbit-dictionary construction above is a
 required part of the theorem, proved on the constructed carriers. *Needs:* §§5.2–5.3;
 CharacteristicClasses §1.2b; AlgebraicTopology §5.1 and §6.2; DifferentialGeometry Layer 3.
 
@@ -1127,6 +1137,10 @@ CharacteristicClasses §1.2b; AlgebraicTopology §5.1 and §6.2; DifferentialGeo
 - The cup-length bound is sharp: the gradient flow of the height function on S¹ has exactly
   2 = cl(Ȟ^*(S¹)) + 1 rest points; the K = 1 example has the whole circle d = −1/2 of rest points,
   infinitely many, consistent with the bound.
+- Negative control for nonemptiness: the empty space carries a flow, the Lyapunov condition holds
+  vacuously and Ȟ^*(∅) = 0 has no nonzero product, so cl = 0 and the bound would ask for one rest
+  point where there is none. On a nonempty S the case cl = 0 holds, since a point where the
+  Lyapunov function attains its minimum on S is a rest point.
 
 ### 5.5 The strict annulus fixed-point theorem
 
@@ -1169,9 +1183,8 @@ or 4.
 ## Downstream consumers
 
 The suspension construction S0 of the SymplecticGeometry family uses the period-1 circle of §2.0;
-HamiltonianReduction §1a.3 uses the period-1 torus of §2.0; MathematicalBilliards uses the
-compact-pair Čech continuity and the cup-length bound of §5.4; LocalVariationalFieldTheory uses the
-particle mechanics of Layer 3.
+MathematicalBilliards uses the compact-pair Čech continuity and the cup-length bound of §5.4;
+LocalVariationalFieldTheory uses the particle mechanics of Layer 3.
 
 ## Scope and ownership
 
@@ -1197,8 +1210,8 @@ orientation, time form and rescalings, tori with coordinate time forms, volume f
 the total family of circles and its pullback families with their forms (Tau Ceti), and Mathlib's
 topological `AddCircle` and its covering map; families of lattices and their tori (Tau Ceti); the
 Legendre map, energy, fibre Hessian, regularity, Cartan forms, mechanical Lagrangians, kinetic energy
-and the cotangent-lift moment map (Tau Ceti); the central-force Hamiltonian, angular momentum and its
-conservation, independence and integrability of (H, L), radial reduction, the Runge–Lenz vector,
+and the cotangent-lift moment map with the Hamiltonian Noether theorem (Tau Ceti); the central-force
+Hamiltonian, angular momentum and its conservation, independence and integrability of (H, L), radial reduction, the Runge–Lenz vector,
 Kepler orbits, radial actions, periods and apsidal angles for Kepler and the isotropic oscillator,
 the oscillator action–angle parametrization, period lattice and resonance, and the unit-mass
 free-particle generating function (Tau Ceti); translation numbers of circle lifts and the
@@ -1310,7 +1323,12 @@ All the declarations below are proved at the pin.
   `TauCeti.IsRegularLagrangian`, `TauCeti.isLocalDiffeomorph_legendreMap_iff` (on a boundaryless
   tangent bundle), `TauCeti.cartanForm`, `TauCeti.cartanTwoForm`,
   `TauCeti.mpullback_legendreMap_symplecticForm`, `TauCeti.mechanicalLagrangian`,
-  `TauCeti.CotangentBundle.kineticEnergy`, `TauCeti.CotangentBundle.momentMap`.
+  `TauCeti.CotangentBundle.kineticEnergy`, `TauCeti.CotangentBundle.momentMap`,
+  `TauCeti.CotangentBundle.isEquivariantMomentMap_momentMap` (on a finite-dimensional Hausdorff
+  boundaryless Q, for a Hausdorff boundaryless Lie group on a complete model),
+  `TauCeti.SmoothTwoForm.IsMomentMap.poissonBracket_eq_zero_iff` (Noether's theorem: for a moment
+  map of a nondegenerate form on a finite-dimensional manifold, {⟨μ, ξ⟩, f} = 0 exactly when the
+  derivative of f along ξ_M vanishes).
 - *Oscillators and the free particle*: `TauCeti.oscillatorHamiltonian`, `TauCeti.oscillatorActionAngle`,
   `TauCeti.oscillatorAction`, `TauCeti.oscillatorAngle`, `TauCeti.oscillatorActionAngle_add_eq_self_iff`,
   `TauCeti.isClosedEmbedding_oscillatorTorusEmbedding`, `TauCeti.closure_range_oscillatorActionAngle_eq_iff`,
@@ -1352,9 +1370,9 @@ admissible, using neither finite dimension, nor a boundaryless model, nor symple
 ### From TauCetiRoadmap.SymplecticGeometry.HamiltonianReduction
 
 Layer 1 (smooth actions, moment maps and equivariance), group-level moment maps and the
-cotangent-lift moment map μ(q, p)(ξ) = p(ξ_Q(q)) with its equivariance and conservation, used in
-§§3.3 and 4.2 here. Its Layer 3 (regular reduction and its universal property), regular reduced
-spaces, used for the reduction of the planar central-force system at L = ℓ in §4.2.
+cotangent-lift moment map μ(q, p)(ξ) = p(ξ_Q(q)) with its equivariance, used in §4.2 here. Its
+Layer 3 (regular reduction and its universal property), regular reduced spaces, used for the
+reduction of the planar central-force system at L = ℓ in §4.2.
 
 ### From TauCetiRoadmap.SymplecticGeometry.ConvexityToric
 
@@ -1403,6 +1421,12 @@ used in §5.4.
   (§§49–50 for Liouville's theorem and action–angle variables).
 - J. J. Duistermaat, *On global action-angle coordinates*, Comm. Pure Appl. Math. 33 (1980),
   687–706.
+- R. Sjamaar, *Hans Duistermaat's contributions to Poisson geometry*, Bull. Braz. Math. Soc. (N.S.)
+  42 (2011), 783–803, [arXiv:1110.5627v1](https://arxiv.org/abs/1110.5627v1), pp. 6–10, whose page
+  numbers are the ones cited.
+- N. T. Zung, *Symplectic topology of integrable Hamiltonian systems, II: Topological
+  classification*, Compositio Math. 138 (2003), [arXiv:math/0010181v2](https://arxiv.org/abs/math/0010181v2),
+  §2.3, whose numbering is the one cited.
 - J. Marsden and T. Ratiu, *Introduction to Mechanics and Symmetry*, Ch. 7 (Lagrangian mechanics and
   the Legendre transform) and Ch. 11 (momentum maps and Noether's theorem).
 - K. Efstathiou, A. Giacobbe, P. Mardešić and D. Sugny, *Rotation forms and local Hamiltonian
