@@ -87,7 +87,10 @@ Define `IsFlowOn v φ a b` for `φ : ℝ → E → E` as the conjunction of `φ 
   field is bounded by `M + K r` on the ball of radius `r` around `x₀`, so
   `IsPicardLindelof` holds on every time interval of length at most `1/(2K + 1)` with a radius
   `r ≥ 2M`; these steps do not depend on `x₀`, and finitely many of them cover `[a, b]`. Extend
-  `φ` to `t ∉ [a, b]` by the value at the nearer endpoint.
+  `φ` to `t ∉ [a, b]` by the value at the nearer endpoint. For each `x`, the existence of the
+  curve `t ↦ φ t x` on `[a, b]` is also the case `I = [a, b]`, `L = K`, `m t = ‖v t x‖` of
+  DiracScatteringAndNonlinearFourierTransform 1.7: its solution `Y` of the integral equation is
+  an integral curve of `v` on `[a, b]` because `s ↦ v s (Y s)` is continuous there.
 - **uniqueness:** two flows of `v` on `[a, b]` agree at every `t ∈ [a, b]`;
 - **Lipschitz bounds:** for `t ∈ [a, b]`,
   `dist (φ t x) (φ t y) ≤ exp (K (t − a)) dist x y` and
@@ -116,7 +119,8 @@ Define `IsFlowOn v φ a b` for `φ : ℝ → E → E` as the conjunction of `φ 
 
 *Needs:* Mathlib `IsIntegralCurveOn`, `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`,
 `ODE_solution_unique_of_mem_Icc_right`, `dist_le_of_trajectories_ODE`; Tau Ceti
-`TauCeti.timeDependentFlow` for the agreement.
+`TauCeti.timeDependentFlow` for the agreement; DiracScatteringAndNonlinearFourierTransform 1.7
+for the second route to existence.
 
 ### 1.2 Liouville's formula
 
@@ -230,7 +234,7 @@ Translations, linear fields `B t x`, the dilation `v t x = t • x`, and the non
 
 Layer 1 uses Mathlib's Picard–Lindelöf, uniqueness and Grönwall theorems and its change of
 variables formula; Tau Ceti's time-dependent flow, propagator, continuity equation, Lagrangian
-theorem and boundary-term identity; and DiracScatteringAndNonlinearFourierTransform 1.4.
+theorem and boundary-term identity; and DiracScatteringAndNonlinearFourierTransform 1.4 and 1.7.
 
 ## Layer 2: mixtures of solutions and the marginal velocity
 
@@ -825,6 +829,9 @@ this material.
 
 - 1.4: Liouville's formula `det N(t, s) = exp (∫_s^t tr P)` for the propagator `N` of the linear
   system `Y' = P Y` with an integrable matrix coefficient `P` on an interval.
+- 1.7: the nonlinear Carathéodory theorem: for a field on a Banach space that is measurable in
+  time, Lipschitz in space with an integrable constant `L` and bounded at one point by an
+  integrable `m`, the integral equation has a unique continuous solution on the interval.
 
 ### From TauCetiRoadmap.OptimalTransport
 
