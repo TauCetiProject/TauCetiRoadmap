@@ -1049,7 +1049,7 @@ L-function, conductor, root number and completions below describe that one chara
 **algebraic** Hecke character (Weil's type `A₀`): `infinityType_eq` is a witness of
 `toHeckeCharacter.IsAlgebraic`. The continuous family is not presented here — `normCharacter K t`
 for `t ≠ 0` is not algebraic (`not_isAlgebraic_normCharacter`) — and the imaginary norm twists of
-Layer 7 enter through `UnitaryIdealWeight.imaginaryNormTwist` on the weight. There is no
+Layer 7 enter through `imaginaryNormTwist` on the weight. There is no
 finite-character field: a ray-class character is a presentation only in the finite-order case
 (`exists_rayClassCharacter_of_isFiniteOrder`), and the real shift is not a field either: the
 ideal-side shift `Grossencharacter.idealShift` is the negative of the supplier's
@@ -2030,10 +2030,13 @@ theorem meromorphicOrderAt_dedekindZetaC_one_add {t : ℝ} (ht : t ≠ 0) :
 
 /-- Outside the pure-norm-twist exception, the single-character premise holds for every
 presentation. Cancellation of the unitary weight comes from the supplier's ray-class cancellation
-in finite order and from the lattice-point count in the fundamental cone weighted by the
-degree-zero archimedean character in infinite order; the conjugate and the imaginary norm twists
-follow (over `ℚ` by periodicity of the partial sums), and the square of each twist is a norm twist
-or cancels. -/
+when every angular frequency vanishes — the unitary part is then the pullback of a ray-class
+character of the modulus with the finite part of `𝔪` and every real place (the supplier's
+`HeckeCharacter.mem_range_ofRayClassCharacter_iff`), whose weight is the unitary weight, although
+the Hecke character may have infinite order (`χ₄ N` over `ℚ`) — and otherwise from the
+lattice-point count in the fundamental cone weighted by the degree-zero archimedean character; the
+conjugate and the imaginary norm twists follow (over `ℚ` by periodicity of the partial sums), and
+the square of each twist is a norm twist or cancels. -/
 theorem Grossencharacter.unitaryCancelling
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (hexc : ∀ u : ℝ,
