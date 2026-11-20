@@ -631,6 +631,8 @@ certified analytic estimates (Shin, §§2, 4, 5; Stark 1969). It does not assume
 no-exceptional-zero hypothesis, the class-number-one theorem or the answer to an integral-point
 problem.
 
+<a id="h31-modular-functions-and-the-imaginary-quadratic-cm-dictionary"></a>
+
 ### 3.1 Modular functions and the imaginary-quadratic CM dictionary
 
 Tau Ceti supplies the subfield `Subgroup.CompactifiedQuotient.coeffSubfield` of meromorphic functions
