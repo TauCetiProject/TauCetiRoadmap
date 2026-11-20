@@ -44,7 +44,9 @@ namespace TauCetiRoadmap.TaubesGromov
 /-- A **framed degree-`m` plane vortex**: a smooth field `x = (b₁, b₂, p, q)` on `ℂ` solving the
 plane vortex equations `∂̄_a α = 0` and `*iF_a = (1 - |α|²) / 8` everywhere, with finite energy
 `∫ (|F_a|² + |d_a α|² + (1 - |α|²)²) < ∞`, whose section `α` times the inverse winding phase
-`(z / |z|)^(-m)` tends to one at infinity (Taubes, *Gr ⇒ SW*; README §4.1). -/
+`(z / |z|)^(-m)` tends to one at infinity (Taubes, *Gr ⇒ SW*; README §4.1). The finite-energy
+clause follows from the others, since the section then has modulus tending to one
+(`TauCeti.Vortex.integrable_energyDensity`); it is kept to match the definition of README §4.1. -/
 def IsFramedVortex (m : ℕ) (x : ℂ → EuclideanSpace ℝ (Fin 4)) : Prop :=
   ContDiff ℝ ∞ x ∧ (∀ z, TauCeti.Vortex.equation x z = 0) ∧
     Integrable (TauCeti.Vortex.energyDensity x) ∧

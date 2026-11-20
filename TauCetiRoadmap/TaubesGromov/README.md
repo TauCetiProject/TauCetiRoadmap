@@ -129,10 +129,11 @@ families); ComplexKahlerGeometry §5.1 and §5.7 (Hodge star, harmonic forms); T
   `ρ₁ = (e₁₃ − e₂₄)/√2` and `ρ₂ = (e₁₄ + e₂₃)/√2`. The symbol of `δ₀` at `ξ = e₁` is
   `a ↦ (⟨e₁, a⟩, √2 (e₁ ∧ a)⁺)` and sends `e₁, e₂, e₃, e₄` to `1, ω_u, ρ₁, ρ₂`, because
   `*e₁₂ = e₃₄`, `*e₁₃ = −e₂₄` and `*e₁₄ = e₂₃`. It is an isometry from covectors to
-  `ℝ ⊕ Λ⁺`; `J′1 = ω_u` matches `Je₁ = e₂`, and `J′ρ₁ = D_J ρ₁/2 = ρ₂` matches `Je₃ = e₄`. This
-  computation at one covector extends to all covectors by unitary covariance. A normalization `δ₀ = (−d*, d⁺)` without the
-  factor `√2` would send `e₂ = Je₁` to `ω_u/√2`, while `J′` sends the image `1` of `e₁` to
-  `ω_u`, so that symbol would not be complex linear.
+  `ℝ ⊕ Λ⁺`; `J′1 = ω_u` matches `Je₁ = e₂`, and, in the oriented frame `(ω_u, ρ₁, ρ₂)`,
+  `J′ρ₁ = ω_u × ρ₁ = ρ₂` matches `Je₃ = e₄`. This computation at one covector extends to all
+  covectors by unitary covariance. A normalization `δ₀ = (−d*, d⁺)` without the factor `√2` would
+  send `e₂ = Je₁` to `ω_u/√2`, while `J′` sends the image `1` of `e₁` to `ω_u`, so that symbol
+  would not be complex linear.
 
 ### 0.2 Charge conjugation and point nonvanishing
 
@@ -376,9 +377,9 @@ Layer 1.
 
 ### Dependencies
 
-Layer 1 and §3.1; HeegaardFloer §2.2, §3.4 and §4.6e; PseudoholomorphicCurveAnalysis Layer 6;
-MorseNovikov Layer 1. Tau Ceti: the local series, their unit property and the product and ray
-coefficient expansions.
+Layer 1 and §3.1, which uses nothing from this layer; HeegaardFloer §2.2, §3.4 and §4.6e;
+PseudoholomorphicCurveAnalysis Layer 6; MorseNovikov Layer 1. Tau Ceti: the local series, their
+unit property and the product and ray coefficient expansions.
 
 ## Layer 3: compactness, local bifurcations and the weighted count
 
@@ -699,7 +700,8 @@ Tau Ceti's plane-vortex theory (fields, reference fields, framed gauge group, va
 its tempered inverse, gauge-fixed operator and adjoint at a field, decay, uniqueness, zeros,
 reconstruction, dilation). Mathlib: Sobolev spaces of tempered distributions, Fredholm operators,
 multisets and symmetric products. PseudodifferentialOperators and ComplexKahlerGeometry Layer 5
-(elliptic regularity and Sobolev scales). §5.1 for the four-dimensional origin of the scaling.
+(elliptic regularity and Sobolev scales). §5.1, which uses nothing from this layer, for the
+four-dimensional origin of the scaling.
 
 ## Layer 5: large-parameter equations and quantified forward bounds
 
@@ -1099,8 +1101,9 @@ constrained refinement separate from the general raw theorem.
 
 ### Examples
 
-- For `X` Kähler with `b₂⁺ > 1` and `E = K`, the limit cycle of large-`r` solutions is a canonical
-  divisor; on a minimal surface of general type with `Exc_J` empty every class is good.
+- For `X` Kähler with `b₂⁺ > 1` and `E = K`, the limit cycle of large-`r` solutions is an effective
+  divisor in the class `PD(κ)`, a canonical divisor when `b₁(X) = 0`; on a minimal surface of
+  general type with `Exc_J` empty every class is good.
 - On the one-point blowup of a K3 surface, `SW⁰` vanishes on the bad label `2E_x`, and the
   canonical cycle is the exceptional sphere.
 
@@ -1115,7 +1118,11 @@ algebra and pseudoholomorphic maps. Mathlib: Hausdorff measure and Vitali coveri
 
 This layer constructs Seiberg–Witten solutions near an admissible configuration and proves that
 every large-`r` constrained solution near it is one of them (Taubes, *Gr ⇒ SW* and *GR = SW*).
-Its sections are in build order. §7.1–§7.6 set up the norms, the graft and the normal model;
+Its sections are in build order, with two exceptions. The local stabilization of §7.6 comes after
+the ladder and rates of §7.26 and the leading equation and covering by leading zeros with which
+§7.27 opens; the transport of the rates into its chart, at the end of §7.26, and the rest of §7.27
+come after it. The exact-graph estimates that close §7.25 come after the rates of §7.26, and their
+fixed-`W` expression after §7.6. §7.1–§7.6 set up the norms, the graft and the normal model;
 §7.7–§7.19 extract, from any sequence of solutions, the normal cycle and confine it at the vortex
 scale; §7.20–§7.28 prove the uniform finite regularity ladder and the onto inverse; §7.29–§7.35
 build the profiles of finite order and the contraction; §7.36–§7.42 prove recovery, persistence and
@@ -1225,7 +1232,8 @@ every derivative. For a generic real-linear `D_C` construct `G̃₀` from the sm
 the physical `S₁` in collision coordinates. The direct sum over powers of the normal line applies
 only to the flat complex-linear model; an antilinear change of ordered roots is not presumed smooth
 in the symmetric coefficients.
-*Needs:* §7.5, §7.26–§7.27 (the ladder and the rates it is applied after).
+*Needs:* §7.5; the ladder and rates of §7.26; the normalized leading equation and covering by
+leading zeros with which §7.27 opens.
 
 ### 7.7 Physical input and quantifiers
 
@@ -1301,7 +1309,7 @@ coefficients, and for the core terms `(h/a)² + h/a`. Prove a cone-defect estima
 `D_(J_N)(T_(h,a)) ≤ C[(h/a)² + h/a] + C(a + σ) Mass(T_(h,a))` with the declared local-to-global
 covering constants; any altered bound the derivation needs must still tend to zero after mass
 absorption, in every regime. Here `D` is the integrated distance from the cone of positive
-`J_N`-`(1,1)` forms in a fixed rescaled metric. Construct `Ω = Kπ*ω_C + dλ` taming `J_N` on a
+`J_N`-`(1,1)` forms in a fixed rescaled metric. Construct `Ω = Kπ*ω_C + dϑ` taming `J_N` on a
 larger fixed disc bundle; closedness and full compact support give `T_(h,a)(Ω) = Km area(C)`.
 Prove mass control by that pairing and the cone defect, then absorb the small geometric mass term.
 The positive closed weak limits follow; the cone-defect and mass-absorption estimates are distinct
@@ -1613,7 +1621,8 @@ graph, keeping every projection derivative and the terms `Π(DL_F)f/h`, and prov
 normalized linear and adjoint a priori estimates with bounded coefficients and lower norms. The
 exact-graph family is thus an output of the rates. Its local fixed-`W` expression is
 `T_h = h⁻¹(D_h − C_FS,h A_h⁻¹ B_h)`, with all range-coordinate derivatives.
-*Needs:* §7.5, §7.24.
+*Needs:* §7.5, §7.24; for the closing exact-graph estimates, the rates of §7.26 and the fixed-`W`
+chart of §7.6.
 
 ### 7.26 The uniform finite regularity ladder and the rates
 
@@ -1637,7 +1646,8 @@ in the moving fast complement define `f₁^mov` by its compressed leading equati
 of bundle and field coordinates to their `f₁`, including the induced shift of the slow coordinate
 and all parameter and target residual derivatives, and only then use the rates in that chart.
 Neither conclusion follows from Taylor expansion at fixed frequency.
-*Needs:* §7.21–§7.25.
+*Needs:* §7.21–§7.24; the principal family and nonlinear base estimate of §7.25; §7.6 for the
+closing transport to the fixed-`W` chart.
 
 ### 7.27 Leading zeros and the onto inverse
 
@@ -1804,10 +1814,11 @@ and do not feed this inverse.
 
 In an embedded symplectic square-zero torus `C ⊂ X` choose its topologically trivial normal line, a
 complex structure compatible with the area form, and a unitary flat connection with irrational
-holonomy of infinite image. Normalize the model `ω_N = π*ω_C + d((ρ²/2)α)`, `α = dθ + A`, and
-identify the full ambient bilinear tensors and the normal symplectic fibres along `C`, not only
-their pullbacks to `TC`, using SymplecticGeometry/CotangentLagrangian C4's relative first-jet Moser
-theorem for that identification. This roadmap owns the flat connection and coupling, the
+holonomy of infinite image. Normalize the model `ω_N = π*ω_C + d((|y|²/2)(dθ + A_N))`, with `|y|`
+the fibre norm and `A_N` the flat connection form, and identify the full ambient bilinear tensors
+and the normal symplectic fibres along `C`, not only their pullbacks to `TC`, using
+SymplecticGeometry/CotangentLagrangian C4's relative first-jet Moser theorem for that
+identification. This roadmap owns the flat connection and coupling, the
 installation and extension of a compatible integrable local `J` in `X`, the realization of
 permitted normal Cauchy–Riemann jets, and the transport of the canonical `Spinᶜ` structure and the
 integral line by clutching. Do not assume a square lattice without its area-preserving comparison.
@@ -2131,8 +2142,8 @@ common endpoint value; the notation asserts no further comparison.
 
 ### Dependencies
 
-Layers 0–8; SeibergWittenTheory SW6.2, SW8 and SW10; Layer 10 (§10.1) for the product geometry.
-Tau Ceti: the chamber arithmetic of `S¹ × Y_φ`.
+Layers 0–8; SeibergWittenTheory SW6.2, SW8 and SW10; §10.1, which uses nothing from this layer,
+for the product geometry. Tau Ceti: the chamber arithmetic of `S¹ × Y_φ`.
 
 ## Layer 10: product `Spinᶜ` support, all insertions and the fixed-cone wall application
 
@@ -2647,8 +2658,9 @@ no second carrier.
   `TauCeti.orbitTorusOperator`, `TauCeti.eq_zero_of_orbitTorusOperator_eq_zero_of_antiperiodic`,
   `TauCeti.exists_ne_zero_orbitTorusOperator_eq_zero_iff_det_eq_zero`,
   `TauCeti.X_mul_derivative_torusWeightSeries_of_det_eq_one`. Assumed: `X_φ = (ℝ/ℤ)_s × Y_φ` with
-  `Ω = ds ∧ dt + σ_v`, block structures with `J∂_s = T`, and the normal operator
-  `∂_s + J₀∂_t + S(t)` in a unitary trivialization, as in §10.1 and §11.1.
+  `Ω = ds ∧ dt + ω_v` (Tau Ceti's `σ_v`), block structures with `J∂_s = R`, the suspension field
+  (Tau Ceti's `T = ∂_t`), and the normal operator `∂_s + J₀∂_t + S(t)` in a unitary trivialization,
+  as in §10.1 and §11.1.
 - **Chambers, Wang torsion and zeta functions**: `TauCeti.SmoothMappingTorus.isOfFinAddOrder_two_smul_sub_sub`,
   `TauCeti.SmoothMappingTorus.apply_self_sub_apply_canonical_eq`,
   `TauCeti.SmoothMappingTorus.apply_two_smul_sub_add_mul_apply_eq`,
