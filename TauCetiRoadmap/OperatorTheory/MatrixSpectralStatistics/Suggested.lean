@@ -12,8 +12,8 @@ import TauCeti.Probability.Moments.MatrixConcentration
 /-!
 # Matrix spectral statistics: target signatures
 
-`README.md` is the roadmap; this file is not the roadmap. It states the roadmap's headline
-theorems against the pinned Mathlib and Tau Ceti APIs.
+`README.md` is the roadmap; this file is not the roadmap. It lists the roadmap's headline
+theorems and pins, by `#check`, the Tau Ceti declarations that prove them.
 
 The headline theorems are:
 
@@ -31,8 +31,9 @@ The headline theorems are:
 
 Every one of them is statable at the pins, and every one is proved in the pinned Tau Ceti library,
 so this file restates none of them. The `#check` lines below pin the Tau Ceti declarations that
-state them, with the hypotheses the README records under its supplier contracts; the file fails to
-build if the library stops providing them in this form.
+prove them, whose hypotheses the README records under its supplier contracts; the file fails to
+build if one of them is renamed or removed. A `#check` does not compare a declaration's statement
+with the README's.
 -/
 
 namespace TauCetiRoadmap.MatrixSpectralStatistics

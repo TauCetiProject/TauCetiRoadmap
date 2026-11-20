@@ -28,9 +28,9 @@ least `c > 0` stays at least `c/2`.
 The roadmap stands on Mathlib's matrix rank, positive semidefiniteness, sorted eigenvalues of
 Hermitian matrices, continuous functional calculus and probability theory. From
 [PolarDecomposition](../PolarDecomposition/README.md) it takes Weyl's perturbation bound
-`|λ_k(S) − λ_k(T)| ≤ ‖S − T‖` for symmetric operators. It feeds
-[SpectralSubspacePerturbation](../SpectralSubspacePerturbation/README.md), whose population-gap
-`sin Θ` theorem, applied on the high-probability events of the last layer, turns a matrix
+`|λ_k(S) − λ_k(T)| ≤ ‖S − T‖` for symmetric operators. Applied on the high-probability events of
+the last layer, the population-gap `sin Θ` theorem of
+[SpectralSubspacePerturbation](../SpectralSubspacePerturbation/README.md) turns a matrix
 estimation bound into a statistical bound for spectral subspaces.
 
 Layer 1 below gives the rank and Gram factorizations and their uniqueness. Layer 2 passes from
@@ -138,7 +138,7 @@ Let `B : Matrix n n 𝕜` with `[RCLike 𝕜]` and `n` finite.
 
 - *Spectral expansion:* if `hB : B.IsHermitian`, with `U = hB.eigenvectorUnitary` and
   `λ = hB.eigenvalues`, then `B i j = ∑ₖ λ k · U i k · conj (U j k)` for all `i`, `j`
-  (`Matrix.IsHermitian.apply_eq_sum_eigenvalues`; Horn and Johnson, the spectral theorem). It is
+  (`Matrix.IsHermitian.apply_eq_sum_eigenvalues`). It is
   the entrywise reading of Mathlib's `Matrix.IsHermitian.spectral_theorem`.
 - *Square Gram factorization:* `B` is positive semidefinite if and only if `B = Aᴴ * A` for some
   `A : Matrix n n 𝕜` (`Matrix.posSemidef_iff_eq_conjTranspose_mul_self`); the reverse implication
@@ -151,7 +151,7 @@ Let `B : Matrix n n 𝕜` with `[RCLike 𝕜]` and `n` finite.
   if `B = Aᴴ * A` for some `A : Matrix m n 𝕜`
   (`Matrix.posSemidef_and_rank_le_iff_eq_conjTranspose_mul_self`). With `m = Fin d`: the
   positive-semidefinite `n × n` matrices of rank at most `d` are exactly the Gram matrices of `n`
-  points of `𝕜ᵈ` (Horn and Johnson, positive-semidefinite Gram factorizations; Cox and Cox,
+  points of `𝕜ᵈ` (Horn and Johnson, §7.2; Cox and Cox,
   *Multidimensional Scaling*, §2.2–2.3, classical scaling and Gram embeddings).
 
 *Route.* The square factorization is the description `0 ≤ x ↔ ∃ y, x = star y * y` of the
@@ -190,7 +190,7 @@ square factor `X` through a rank factorization `X = L * R` of §1.1, writes
   `U ∈ Matrix.unitaryGroup m 𝕜` (`TauCeti.conjTranspose_mul_self_eq_iff_exists_unitary_mul`). No
   rank assumption is made, and the column index type may be infinite. Route: the columns of `A`
   and of `A'` have the same Gram matrix, so the isometry between their spans extends to a unitary
-  of `𝕜ᵐ` (Horn and Johnson, positive-semidefinite Gram factorizations).
+  of `𝕜ᵐ`.
 
 *Needs:* §1.1 for the first statement; Mathlib `Matrix.unitaryGroup` for the second.
 
@@ -400,16 +400,19 @@ operator-norm concentration through §2.1.
 
 Let `(Ω, μ)` be a probability space and `ι` a finite nonempty index type, `r = card ι`; for
 `ι = Fin r` nonemptiness is `0 < r`. The sample mean `r⁻¹ ∑ₖ Xₖ` is the finite mean of
-Conventions 8 (Vershynin, *High-Dimensional Probability*).
+Conventions 8.
 
 - *Uncentered Chebyshev inequality*, for any measure `μ`: if `Y : Ω → ℝ` has `Y²` integrable,
   `∫ Y² dμ ≤ v` and `η > 0`, then `μ {η < Y} ≤ ENNReal.ofReal (v / η²)`
-  (`TauCeti.meas_gt_le_div_sq_of_integral_sq_le`). More generally, for `Y` with values in a type
-  with a norm and `‖Y‖²` integrable, `μ {c ≤ ‖Y‖} ≤ ENNReal.ofReal ((∫ ‖Y‖² dμ) / c²)` for
-  `c > 0` (`TauCeti.meas_ge_le_integral_norm_sq_div_sq`).
+  (`TauCeti.meas_gt_le_div_sq_of_integral_sq_le`; Markov's inequality for `Y²`, as in Vershynin,
+  *High-Dimensional Probability*, Proposition 1.2.4 and Corollary 1.2.5, p. 8). More generally,
+  for `Y` with values in a type with a norm and `‖Y‖²` integrable,
+  `μ {c ≤ ‖Y‖} ≤ ENNReal.ofReal ((∫ ‖Y‖² dμ) / c²)` for `c > 0`
+  (`TauCeti.meas_ge_le_integral_norm_sq_div_sq`).
 - *Scalar sample mean:* if `Z : ι → Ω → ℝ` are square integrable, pairwise independent and have a
   common mean `c`, then `∫ (r⁻¹ ∑ₖ Zₖ − c)² dμ = r⁻² ∑ₖ ∫ (Zₖ − c)² dμ`
-  (`TauCeti.integral_finiteMean_sub_sq`).
+  (`TauCeti.integral_finiteMean_sub_sq`). For independent, identically distributed `Zₖ` of
+  variance `σ²`, both sides equal `σ²/r`, the variance of the sample mean (Vershynin, (1.5), p. 9).
 - *Vector sample mean:* if `X : ι → Ω → E` take values in a real Hilbert space `E` with its Borel
   structure (finite-dimensional real inner product spaces are examples), are square integrable,
   pairwise independent and have a common mean `m`, then
@@ -486,16 +489,18 @@ second-moment matrix `TauCeti.sampleSecondMoment v` is the finite mean of the ra
 `vᵢ vᵢᴴ` (Mathlib's `Matrix.vecMulVec`), `r⁻¹ ∑ᵢ vᵢ vᵢᴴ`; its `(k, l)` entry is
 `r⁻¹ ∑ᵢ vᵢ k · conj (vᵢ l)` (`TauCeti.sampleSecondMoment_apply`). For real random vectors
 `V : ι → Ω → n → ℝ`, `M̂(ω) = TauCeti.sampleSecondMoment (fun i ↦ V i ω)` has entries
-`r⁻¹ ∑ᵢ V i ω k · V i ω l`. It is uncentered: the sample mean is not subtracted.
+`r⁻¹ ∑ᵢ V i ω k · V i ω l`. It is uncentered: the sample mean is not subtracted. For real samples
+it is the sample version (Vershynin, *High-Dimensional Probability*, §4.7, p. 99) of the
+second-moment matrix `E XXᵀ` of a random vector `X` (§3.2, p. 45).
 
 - *Hermitian:* `M̂` is Hermitian for every sample (`TauCeti.isHermitian_sampleSecondMoment`), and
   positive semidefinite (`TauCeti.posSemidef_sampleSecondMoment`).
 - *Per-entry second moment:* let `μ` be a probability measure, `ι` nonempty, and fix coordinates
   `k`, `l`. If the products `Yᵢ(ω) = V i ω k · V i ω l` are square integrable, pairwise
   independent and have a common mean `M k l`, and `∫ (Yᵢ − M k l)² dμ ≤ v` for every `i`, then
-  `∫ (M̂ k l − M k l)² dμ ≤ v / r` (`TauCeti.integral_sampleSecondMoment_apply_sub_sq_le`;
-  Vershynin, *High-Dimensional Probability*). In particular this holds when the centered second
-  moments of the `Yᵢ` are all equal to a common value at most `v`.
+  `∫ (M̂ k l − M k l)² dμ ≤ v / r` (`TauCeti.integral_sampleSecondMoment_apply_sub_sq_le`). In
+  particular this holds when the centered second moments of the `Yᵢ` are all equal to a common
+  value at most `v`.
 
 *Needs:* §3.1 (the uniform sample-mean bound with `E = ℝ`) and §3.2 (the finite mean); Mathlib
 `Matrix.vecMulVec`, `Matrix.IsHermitian`, `Matrix.PosSemidef`.
@@ -514,8 +519,7 @@ second-moment matrix `TauCeti.sampleSecondMoment v` is the finite mean of the ra
 Let `(Ω, μ)` be a measure space, `S : Ω → Matrix m n E` a random matrix with entries in a type with
 a norm and a subtraction, `A : Matrix m n E` a fixed matrix, `v` real and `η > 0`. Suppose every
 squared entrywise deviation `ω ↦ ‖S ω k l − A k l‖²` is integrable, with
-`∫ ‖S ω k l − A k l‖² dμ ≤ v`. For real entries `‖·‖²` is the square (Vershynin,
-*High-Dimensional Probability*, sample second-moment concentration).
+`∫ ‖S ω k l − A k l‖² dμ ≤ v`. For real entries `‖·‖²` is the square.
 
 - *Entrywise concentration:*
   `μ {ω | ∃ k l, η < ‖S ω k l − A k l‖} ≤ ENNReal.ofReal (card m · card n · v / η²)`
@@ -561,6 +565,13 @@ Let now `μ` be a probability measure, `[RCLike 𝕜]`, `n` finite, and `S : Ω 
   measurability of the entries and no lower bound on `d` is needed: for `d = 0` there are no
   eigenvalues and the event is certain.
 
+The probability bounds of this section come from Chebyshev's inequality and a union bound over
+entries. For comparison, when the sample vector is sub-gaussian or almost surely bounded, the
+expected operator-norm error of the empirical second-moment matrix is a small multiple of the norm
+of the second-moment matrix once the sample size exceeds a multiple of the dimension, or of the
+dimension times its logarithm (Vershynin, *High-Dimensional Probability*, Theorem 4.7.1, p. 99,
+and Theorem 5.6.1, p. 129); those bounds are not used here.
+
 *Needs:* §2.1 (the entrywise operator and eigenvalue bounds), §2.4 (the complement bound), §3.1
 (Chebyshev's inequality), §3.3 (the per-entry bound and the Hermitian `M̂`); Mathlib
 `MeasureTheory.Integrable`, `MeasureTheory.measure_iUnion_fintype_le`, `ENNReal.ofReal`.
@@ -593,10 +604,9 @@ the declarations named above. Layer 1 is not used.
 
 ## Downstream consumers
 
-- [SpectralSubspacePerturbation](../SpectralSubspacePerturbation/README.md), Part D, the
-  Yu–Wang–Samworth population-gap `sin Θ` theorem (SSP-D16): applied on the event of operator-norm
-  concentration of §3.4, it turns an entrywise second-moment bound on a matrix estimator into a
-  high-probability bound for its spectral subspaces.
+- KernelsAndSpectralMethods, §5.1 (classical scaling): the Gram characterization of §1.2 realizes
+  a Euclidean distance matrix by points of `ℝᵖ`, and the uniqueness of §1.3 identifies any two
+  centred realizations up to an orthogonal matrix.
 
 ## Provenance
 
@@ -632,10 +642,27 @@ declarations listed under the Tau Ceti supplier contracts below are Tau Ceti's.
   `LinearMap.IsSymmetric.abs_eigenvalue_sub_eigenvalue_le_norm`, and §2.1 uses its matrix form.
 
 **Outside this roadmap.** The Davis–Kahan and Yu–Wang–Samworth `sin Θ` theorems belong to
-SpectralSubspacePerturbation, which combines them with Layers 2 and 3 (Downstream consumers).
-Concentration with logarithmic dimension dependence, such as matrix Bernstein and matrix Chernoff
-inequalities, is not part of this roadmap: the dimension factors of Conventions 5 are the
-specification.
+SpectralSubspacePerturbation; they can be applied on the events of §3.4. Concentration with
+logarithmic dimension dependence, such as matrix Bernstein and matrix Chernoff inequalities, is
+not part of this roadmap: the dimension factors of Conventions 5 are the specification.
+
+**Former numbering.** Parts A, B and C of the former numbering are now Layers 1, 2 and 3, and the
+former milestones A1–A3, B1–B4 and C1–C4 are now §1.1–§1.3, §2.1–§2.4 and §3.1–§3.4, in order.
+The former item labels are at these sections:
+
+| Former labels | Section |
+| --- | --- |
+| MSS-A01, MSS-A02, MSS-A03 | §1.1 |
+| MSS-A04, MSS-A05, MSS-A06, MSS-A07 | §1.2 |
+| MSS-A08, MSS-A09 | §1.3 |
+| MSS-B01, MSS-B02, MSS-B03, MSS-B04, MSS-B05, MSS-B06, MSS-B07, MSS-B08 | §2.1 |
+| MSS-B09, MSS-B10 | §2.2 |
+| MSS-B11, MSS-B12, MSS-B13, MSS-B14 | §2.3 |
+| MSS-B16, MSS-B17, MSS-B18, MSS-B19 | §2.4 |
+| MSS-C01, MSS-C02, MSS-C03, MSS-C04, MSS-C05 | §3.1 |
+| MSS-C06, MSS-C07, MSS-C08, MSS-C09, MSS-C10, MSS-C11, MSS-C12, MSS-C13, MSS-C14 | §3.2 |
+| MSS-C15, MSS-C16, MSS-C17 | §3.3 |
+| MSS-C18, MSS-C19, MSS-C20, MSS-C21, MSS-C22, MSS-C23 | §3.4 |
 
 ## Exact supplier contracts
 
@@ -767,10 +794,12 @@ it.
 
 ## References
 
-- R. A. Horn, C. R. Johnson, *Matrix Analysis*, 2nd ed. (2013) — spectral theorem, positive
-  semidefinite Gram factorizations, Weyl's inequality (Theorem 4.3.1).
+- R. A. Horn, C. R. Johnson, *Matrix Analysis*, 2nd ed. (2013) — positive semidefinite Gram
+  factorizations (§7.2), Weyl's inequality (Theorem 4.3.1).
 - R. Bhatia, *Matrix Analysis* (GTM 169, 1997) — eigenvalue perturbation (Corollary III.2.6).
 - T. F. Cox, M. A. A. Cox, *Multidimensional Scaling*, 2nd ed. (2001), §2.2–2.3 — classical
   scaling and positive-semidefinite Gram embeddings.
-- R. Vershynin, *High-Dimensional Probability* (2018) — sample second-moment concentration and
-  its uses.
+- R. Vershynin, *High-Dimensional Probability*, 1st ed. (2018) — Markov's and Chebyshev's
+  inequalities (Proposition 1.2.4, Corollary 1.2.5), the variance of a sample mean ((1.5)), the
+  second-moment matrix and its sample version (§3.2, §4.7), covariance estimation (Theorems 4.7.1
+  and 5.6.1).
