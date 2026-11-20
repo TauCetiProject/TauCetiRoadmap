@@ -51,37 +51,41 @@ The roadmap has no model-theoretic content and no model-theoretic dependency. It
 consumer is the [CountableModelCounting](../CountableModelCounting/README.md) roadmap, which
 counts countable models through the interface of Layer 4.
 
-## Scope and ownership
+## How to read the build
 
-Every layer below is required.
+Each target of Layers 0–5 and each worked example is of one of three kinds.
 
-| Layer | Covers | Consumes | Example (compiles without later layers) |
-| --- | --- | --- | --- |
-| 0 | Word cylinders and the coordinate flip; functional Borel graphs; the cardinality bound for standard Borel spaces; perfect and Cantor antichains with transport; countable splits | Mathlib Polish, perfect-set, Cantor-scheme, analytic-set and standard-Borel APIs; Tau Ceti's Cantor-space instances, Gδ subspaces, analytic-set closure and saturation, Borel graph theorem, Borel perfect set theorem and cardinality of perfect sets | an uncountable Borel subset of ℝ contains a Cantor copy |
-| 1 | Baire-measurable maps continuous on comeagre Gδ sets; Cantor subcopies; the graphs G_S, dense and sparse word sets, the canonical words, Miller's independence lemma | 0; Mathlib Baire-category API; Tau Ceti's Kuratowski–Ulam and Mycielski | every Borel equivalence relation on Cantor space with countable classes is meagre in the square |
-| 2 | Independent sets and countable Borel colorings; the KST independent-superset lemma; invariant Lusin separation; Miller's ideals on families of assignments, amalgamation positivity and the refinement folds | 0; Mathlib Lusin separation | the complement of a Borel equivalence relation has a countable Borel coloring exactly when there are countably many classes |
-| 3 | The fusion construction and the G₀ dichotomy, oriented and symmetric | 1, 2 | G₀ has no countable Borel coloring, and a non-dense word set can give a 2-colorable G_S |
-| 4 | Silver's theorem (Polish, standard Borel, cardinal and relative forms); the perfect set theorem for analytic sets; the consumer interface | 0, 1, 3 | Silver for equality on an uncountable Polish space recovers the perfect set theorem |
-| 5 | Borel reducibility; smoothness and its characterizations; closed relations are smooth; Silver in reducibility form; E₀, its generic ergodicity and non-smoothness | 0–4 | E₀ is Borel, has a continuous Cantor antichain, and is not smooth |
+1. *Direct replacements.* The Tau Ceti declaration named in the layer is the target: the same
+   definition up to definitional equality, the same statement, or a more general statement that
+   applies verbatim (any discrete alphabet in `PiNat.isOpenEmbedding_prependWord`, countable
+   separation in `TauCeti.mk_le_continuum_of_countablySeparated`, complete metrizability in
+   `Setoid.hasCantorAntichainOn_iff_hasPerfectAntichainOn`, Hausdorff Borel spaces in
+   `SetRel.exists_measurableSet_isIndependent_superset`). This is every declaration of the table
+   above that is not listed under 2.
+2. *Adapters.* The Tau Ceti formulation differs from the layer's, and a consumer of the layer's
+   form needs the short bridge given here.
 
-The table specifies what each layer covers, not what remains to be written. At the pin, Tau
-Ceti implements every item of the *Covers* column except the perfect set theorem for analytic
-sets (4.2) and the smoothness of closed relations (5.2); those two theorems and worked examples
-3, 5 and 8 are the remaining work. Everything else is consumed from Tau Ceti, not rebuilt; see
-[How to read the build](#how-to-read-the-build).
+   | Tau Ceti declaration | Difference from the layer's form | Bridge |
+   | --- | --- | --- |
+   | `Setoid.HasCantorAntichainOn.exists_injective` | the conclusion also carries the antichain property | drop the last conjunct |
+   | `Setoid.exists_invariant_measurableSet_separating` | no class meets both `A` and `B`, in place of an invariant `B` disjoint from `A`; Hausdorff, measurable open sets | for invariant `B`, a class meeting both puts a point of `A` in `B` |
+   | `SetRel.isSmallFamily_iUnion` | an iff, over any countable index | its `.2` |
+   | `SetRel.not_isSmallFamily_comb_cross` | value condition `range (comb φ₀ φ₁) ⊆ range φ₀ ∪ range φ₁`; members written `comb φ₀ φ₁ = ψ` | the pointwise value condition gives the range form; `eq_comm` |
+   | `Setoid.isSmooth_of_countable_quotient` | measurable classes in place of a Borel graph | each class is a section, `measurable_prodMk_left hE` |
+   | `TauCeti.isGδ_of_isCompletelyMetrizableSpace` | perfectly normal and `T2Space`, complete metrizability of `s` as an instance | `T6Space` gives both by instance search; `haveI := hs` |
+   | `Setoid.borelReducible_bot_bot_iff_lift_mk_le` | `Cardinal.lift` across two universes | `Cardinal.lift_id` in one universe |
+3. *Missing at the pin.* Neither Tau Ceti nor Mathlib has these; they are the open targets of
+   this roadmap, and the two theorems are the only statements of `Suggested.lean`:
+   - the perfect set theorem for analytic sets,
+     `MeasureTheory.AnalyticSet.exists_nat_bool_injection_of_not_countable` (4.2); Tau Ceti has
+     the Borel case;
+   - closed equivalence relations on Polish spaces are smooth, `isSmooth_of_isClosed` (5.2),
+     stated for Tau Ceti's `Setoid.IsSmooth`;
+   - worked examples 3 (in its closed-relation reading) and 8, which wait on these two theorems,
+     and 5, the Vitali relation: Tau Ceti has neither the relation nor its generic ergodicity.
+     The other worked examples follow from Mathlib and the declarations of kinds 1 and 2.
 
-The ordering is the dependency order. Layers 1 and 2 can proceed in parallel once Layer 0
-exists; Layer 3 needs both; Layer 4 needs Layer 3 and Layer 1; Layer 5 needs Layer 4 only for
-Silver's reducibility form and Layer 2 only for the closed-relation theorem.
-
-The converse half of Glimm–Effros (`¬ IsSmooth E → BorelReducible eZero E`,
-Harrington–Kechris–Louveau), the Gandy–Harrington topology and all effective descriptive set
-theory, the coanalytic form of Silver's theorem and Burgess's theorem for analytic equivalence
-relations, countable Borel equivalence relations, hyperfiniteness, Polish group actions and
-orbit equivalence relations, Cantor–Bendixson ranks, infinite games and determinacy,
-uniformization, and finite Borel chromatic numbers belong to separate roadmaps. So does
-everything about spaces of countable structures and their isomorphism relations: see
-[Out of scope](#out-of-scope-for-this-roadmap).
+---
 
 ## Conventions
 
@@ -131,108 +135,6 @@ everything about spaces of countable structures and their isomorphism relations:
    `BaireSpace`, and the scoped notations `∀ᵇ` and `=ᵇ` of
    `Mathlib/Topology/Baire/BaireMeasurable.lean`.
    No second meagre or comeagre predicate is introduced.
-
-## Exact supplier contracts
-
-The following are suppliers, not requests to rebuild their objects.
-
-| Supplier | Consumed material |
-| --- | --- |
-| [Mathlib Polish spaces](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/Polish.lean) | `PolishSpace`, `PolishSpace.exists_nat_nat_continuous_surjective`, `IsClosed.polishSpace`, `IsOpen.polishSpace`, `IsGδ.polishSpace`, `IsGδ.isCompletelyMetrizableSpace`, `PolishSpace.IsClopenable` and its closure properties, `PolishSpace.exists_polishSpace_forall_le` |
-| [Mathlib perfect sets](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/Perfect.lean) and [their metric form](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/Perfect.lean) | `Perfect`, `Preperfect`, `PerfectSpace`, the closed-set Cantor–Bendixson decomposition `exists_countable_union_perfect_of_isClosed`, `Perfect.exists_nat_bool_injection`, `IsClosed.exists_nat_bool_injection_of_not_countable` |
-| [Mathlib Cantor schemes](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/CantorScheme.lean) and [`PiNat`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/PiNat.lean) | `CantorScheme.inducedMap`, `ClosureAntitone`, `VanishingDiam`, `ClosureAntitone.map_of_vanishingDiam`, `VanishingDiam.map_continuous`; `PiNat.cylinder`, `PiNat.res`, the cylinder basis and the `PiNat` metrics |
-| [Mathlib Baire category](https://github.com/leanprover-community/mathlib4/tree/master/Mathlib/Topology/Baire) | `BaireSpace` for completely metrizable spaces, `residual`, `IsMeagre`, `IsNowhereDense`, `BaireMeasurableSet` with its σ-algebra laws, `MeasurableSet.baireMeasurableSet`, `MeasurableSet.residualEq_isOpen`, `IsMeagre.preimage_of_isOpenMap`, `BaireMeasurableSet.preimage`, `Homeomorph.residual_map_eq`, `not_isMeagre_of_isOpen` |
-| [Mathlib analytic sets and standard Borel spaces](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/MeasureTheory/Constructions/Polish/Basic.lean) | `StandardBorelSpace`, `upgradeStandardBorel`, `MeasureTheory.AnalyticSet` with `AnalyticSet.iUnion`, `AnalyticSet.iInter`, `AnalyticSet.image_of_continuous`, `AnalyticSet.preimage`, `MeasurableSet.analyticSet`; Lusin separation `AnalyticSet.measurablySeparable`; Souslin's theorem `AnalyticSet.measurableSet_of_compl`; Lusin–Souslin `MeasurableSet.image_of_continuousOn_injOn`, `MeasurableSet.image_of_measurable_injOn`, `Measurable.measurableEmbedding`, `Continuous.measurableEmbedding`; `MeasurableSet.isClopenable`, `MeasurableSet.standardBorel`, `PolishSpace.borelSchroederBernstein`, `PolishSpace.measurableEquivNatBoolOfNotCountable` |
-| [Mathlib real embedding](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/MeasureTheory/Constructions/Polish/EmbeddingReal.lean) | `MeasureTheory.exists_measurableEmbedding_real` |
-| Mathlib σ-algebra and quotient API | `MeasurableSpace.CountablySeparated`, `HasCountableSeparatingOn`, the quotient σ-algebra `Quotient.instMeasurableSpace`, `measurable_of_countable` |
-| Mathlib graphs, germs and cardinals | `SimpleGraph`, `SimpleGraph.fromRel`, `SimpleGraph.Coloring`, `SimpleGraph.Hom`, `SimpleGraph.IsIndepSet`; `Filter.germSetoid`, `Filter.Germ`; `Cardinal.continuum`, `Cardinal.mk_le_aleph0_iff`, `Cardinal.mk_real` |
-
-**From Tau Ceti**, at the pinned revision `2fd255d9`. These cover every layer of the build order
-below except the items of kind 3 under [How to read the build](#how-to-read-the-build); this
-roadmap consumes them and does not restate them. Where a Tau Ceti statement is more general than
-the layer's description, the row says how.
-
-| Tau Ceti module | Consumed material |
-| --- | --- |
-| [`TauCeti/Topology/MetricSpace/Polish/Pi.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/MetricSpace/Polish/Pi.lean), [`TauCeti/Topology/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Perfect.lean) | the instances `TauCeti.polishSpace_pi_of_discreteTopology` (a countable product of countable discrete spaces is Polish) and `TauCeti.perfectSpace_pi` (a product of infinitely many nontrivial spaces is perfect), through which instance search finds `PolishSpace (ℕ → Bool)`, `PerfectSpace (ℕ → Bool)` and `PerfectSpace (ℕ → ℕ)` |
-| [`TauCeti/Topology/Baire/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/Perfect.lean) | `Set.Countable.isMeagre` (in a perfect `T₁` space every countable set is meagre), `TauCeti.not_countable_of_mem_residual` |
-| [`TauCeti/Topology/MetricSpace/Polish/GDelta.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/MetricSpace/Polish/GDelta.lean) | Alexandrov's theorem `TauCeti.isGδ_of_isCompletelyMetrizableSpace` |
-| [`TauCeti/MeasureTheory/Constructions/Polish/GDelta.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/GDelta.lean) | `IsGδ.standardBorelSpace` |
-| [`TauCeti/MeasureTheory/Constructions/Polish/Analytic.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/Analytic.lean) | `MeasureTheory.AnalyticSet.inter` (Hausdorff), `.inter_measurableSet`, `.prod`, `.offDiag`, `.image_fst`, `.relImage`, `.relPreimage`, and the saturation lemma `AnalyticSet.preimage_image_quotientMk` |
-| [`TauCeti/MeasureTheory/Constructions/Polish/Graph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/Graph.lean), [`TauCeti/MeasureTheory/MeasurableSpace/Graph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/MeasurableSpace/Graph.lean) | the Borel graph theorem `TauCeti.analyticSet_graph_iff_measurable`, `AnalyticSet.measurable_of_graph`, `TauCeti.measurableSet_graph_iff_measurable`, `Measurable.measurableSet_graph`; Layer 0.3's functional Borel graphs `MeasurableSet.measurableEmbedding_domRestrict_fst`, `MeasurableSet.of_graphOn`, `MeasurableSet.measurable_domRestrict_of_graphOn`, `TauCeti.measurableSet_graphOn_iff` |
-| [`TauCeti/MeasureTheory/Constructions/Polish/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/Perfect.lean), [`TauCeti/Topology/MetricSpace/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/MetricSpace/Perfect.lean) | the Borel perfect set theorem `MeasurableSet.exists_nat_bool_injection_of_not_countable`; `Perfect.mk_eq_continuum` |
-| [`TauCeti/Topology/Baire/KuratowskiUlam.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/KuratowskiUlam.lean) | the Kuratowski–Ulam theorem: `TauCeti.curry_le_residual`, `BaireMeasurableSet.mem_curry_iff_mem_residual`, `BaireMeasurableSet.eventually_eventually_right_iff_mem_residual`, `BaireMeasurableSet.eventually_eventually_swap`, `IsMeagre.prod_left`, `IsMeagre.prod_right`, `BaireMeasurableSet.baireMeasurableSet_curry_left`, `IsNowhereDense.eventually_isNowhereDense_curry_left`, and the meagre-sections forms `BaireMeasurableSet.eventually_isMeagre_curry_left_iff_isMeagre` and `BaireMeasurableSet.isMeagre_of_forall_isMeagre_curry_left` |
-| [`TauCeti/Topology/Baire/Mycielski.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/Mycielski.lean) | Mycielski's theorem `TauCeti.mycielski`, its binary case `TauCeti.mycielski_prod`, and `Setoid.hasCantorAntichainOn_univ_of_isMeagre` |
-| [`TauCeti/Topology/Instances/CantorSpace.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Instances/CantorSpace.lean) | Layer 0.1: word cylinders `PiNat.prependWord` (`w ++ₛ x`, over any alphabet) and `PiNat.wordCylinder`, `PiNat.mem_wordCylinder_iff`, `PiNat.wordCylinder_subset_wordCylinder_iff`, `PiNat.isOpenEmbedding_prependWord` (any discrete alphabet), the bridge `PiNat.wordCylinder_reverse_res`; the coordinate flip `PiNat.flipAt` with `PiNat.image_flipAt_wordCylinder` |
-| [`TauCeti/MeasureTheory/MeasurableSpace/Card.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/MeasurableSpace/Card.lean) | Layer 0.4: `TauCeti.mk_le_continuum_of_countablySeparated` (a countably separated measurable space, in particular a standard Borel one, has at most 𝔠 points) |
-| [`TauCeti/SetTheory/Descriptive/Antichain.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/Antichain.lean) | Layer 0.5: `Setoid.HasCantorAntichainOn`, `Setoid.HasPerfectAntichainOn`, `Setoid.IsThinOn` (the bodies of Convention 6), `Setoid.HasCantorAntichainOn.mono`, `.mono_relation`, `.mono_topology`, `.exists_injective`, `.continuum_le_mk_quotient`, `.mk_quotient_eq_continuum`, `.hasPerfectAntichainOn`, `Setoid.HasPerfectAntichainOn.hasCantorAntichainOn`, `Setoid.hasCantorAntichainOn_subtype_iff`, `Setoid.hasCantorAntichainOn_iff_hasPerfectAntichainOn` (completely metrizable spaces), `Setoid.hasCantorAntichainOn_image_iff`, `Setoid.isThinOn_image_iff` |
-| [`TauCeti/SetTheory/Descriptive/CantorScheme.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/CantorScheme.lean) | Layer 0.5: the Cantor-scheme extraction `CantorScheme.VanishingDiam.exists_antichain_map` and `CantorScheme.VanishingDiam.hasCantorAntichainOn` |
-| [`TauCeti/Data/Set/Countable.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Data/Set/Countable.lean) | Layer 0.5: countable splits `TauCeti.exists_countable_exceptions_of_splits`, `TauCeti.countable_range_of_splits`, `TauCeti.constant_off_countable_of_splits` |
-| [`TauCeti/Topology/Baire/BaireMeasurableMap.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/BaireMeasurableMap.lean) | Layer 1.3: `TauCeti.exists_isGδ_mem_residual_continuousOn`, `TauCeti.exists_cantor_subcopy_continuous` |
-| [`TauCeti/SetTheory/Descriptive/GSGraph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/GSGraph.lean) | Layer 1.4: `TauCeti.orientedGS`, `TauCeti.gSGraph`, `TauCeti.gSGraph_adj_iff`, `TauCeti.measurableSet_orientedGS`, `TauCeti.DenseWords`, `TauCeti.SparseWords`, `TauCeti.canonicalWord`, `TauCeti.canonicalWords`, `TauCeti.denseWords_canonicalWords`, `TauCeti.sparseWords_canonicalWords`, `TauCeti.exists_unique_mem_canonicalWords_length`, `TauCeti.gZero`, Miller's lemma `TauCeti.exists_gSGraph_adj_of_not_isMeagre`, `TauCeti.isMeagre_of_isIndepSet_gSGraph`, `TauCeti.not_exists_measurable_coloring_gSGraph`, the pullback form `TauCeti.isMeagre_setOf_comp_of_forall_gSGraph_adj`; and Layer 3's exclusivity `TauCeti.not_hasCountableBorelColoring_of_orientedGS_hom` (for a measurable `φ` into any measurable space) |
-| [`TauCeti/SetTheory/Descriptive/BorelColoring.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/BorelColoring.lean) | Layer 2.1–2.2: `SetRel.IsIndependent`, `SimpleGraph.isIndependent_adj_iff_isIndepSet`, `SetRel.HasCountableBorelColoring`, `SetRel.hasCountableBorelColoring_iff_exists_cover`, `SimpleGraph.hasCountableBorelColoring_adj_iff`, `SetRel.HasCountableBorelColoring.mono`, `.preimage`, `SetRel.not_hasCountableBorelColoring_of_mem`, the hinge `Setoid.hasCountableBorelColoring_not_iff`, and the Kechris–Solecki–Todorcevic lemma `SetRel.exists_measurableSet_isIndependent_superset` (Hausdorff Borel spaces) |
-| [`TauCeti/SetTheory/Descriptive/InvariantSeparation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/InvariantSeparation.lean) | Layer 2.2: `Setoid.exists_invariant_measurableSet_separating` (a Hausdorff space whose open sets are measurable; disjoint saturations of `A` and `B` in place of an invariant `B` disjoint from `A`) |
-| [`TauCeti/SetTheory/Descriptive/SmallFamily/Basic.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/SmallFamily/Basic.lean), [`TauCeti/SetTheory/Descriptive/SmallFamily/WitnessExtension.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/SmallFamily/WitnessExtension.lean) | Layer 2.3: `SetRel.IsSmallFamily`, `SetRel.isSmallFamily_iUnion` (an iff, over any countable index), the seed `SetRel.isSmallFamily_univ_iff`, amalgamation `SetRel.not_isSmallFamily_image2` and `SetRel.not_isSmallFamily_comb_cross` (the value condition as `range (comb φ₀ φ₁) ⊆ range φ₀ ∪ range φ₁`), vertex shrinking `SetRel.exists_not_isSmallFamily_inter_pi`, witness extension `SetRel.exists_subset_not_isSmallFamily_witness_extension` |
-| [`TauCeti/SetTheory/Descriptive/GZeroDichotomy.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/GZeroDichotomy.lean) | Layer 3: `TauCeti.exists_continuous_orientedGS_hom`, `TauCeti.g0_dichotomy_oriented`, `SimpleGraph.g0_dichotomy`, `Setoid.exists_continuous_forall_gSGraph_adj_not` |
-| [`TauCeti/SetTheory/Descriptive/Silver.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/Silver.lean) | Layer 4.1–4.3: `Setoid.isMeagre_comap_of_forall_gSGraph_adj`, `Setoid.hasCantorAntichainOn_range_of_forall_gSGraph_adj`, `Setoid.silver_dichotomy`, `Setoid.silver_dichotomy_standardBorel`, `Setoid.mk_quotient_le_aleph0_or_eq_continuum`, `Setoid.countable_or_hasCantorAntichainOn_of_measurableSet`; Layer 5.3: `Setoid.borelReducible_bot_iff_not_countable_quotient` |
-| [`TauCeti/SetTheory/Descriptive/BorelReducibility.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/BorelReducibility.lean) | Layers 5.1–5.2: `Setoid.BorelReducible`, `Setoid.BorelReducible.refl`, `.trans`, `.exists_measurable_injective_quotient`, `.isSmooth`, `Setoid.BorelBireducible`, `Setoid.borelReducible_bot_bot_iff_lift_mk_le` (with `Cardinal.lift` across universes), `Setoid.IsSmooth`, `Setoid.IsSmooth.measurableSet_setOf`, `Setoid.isSmooth_iff_countablySeparated`, `Setoid.isSmooth_iff_borelReducible_bot`, `Setoid.isSmooth_of_countable_quotient` (measurable classes suffice), `Setoid.borelBireducible_bot_quotient` |
-| [`TauCeti/SetTheory/Descriptive/NormalForms.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/NormalForms.lean) | Layer 5.3: `Setoid.borelReducibility_trichotomy`, `Setoid.borelBireducible_bot_cantor_iff` |
-| [`TauCeti/SetTheory/Descriptive/EZero.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/EZero.lean) | Layer 5.4: `TauCeti.eZero`, `TauCeti.eZero_iff_cofinite`, `TauCeti.measurableSet_eZero`, `TauCeti.countable_setOf_eZero`, `TauCeti.dense_setOf_eZero`, `TauCeti.isMeagre_eZero`, `TauCeti.isMeagre_or_mem_residual_of_eZero_invariant`, `TauCeti.not_isSmooth_eZero`, `TauCeti.hasCantorAntichainOn_eZero`, `TauCeti.mk_quotient_eZero`, `TauCeti.borelReducible_bot_eZero`, `TauCeti.not_isSmooth_of_borelReducible_eZero` |
-
-Open Mathlib proposals cover part of this material: [a completely metrizable subspace of a `T6`
-space is Gδ](https://github.com/leanprover-community/mathlib4/pull/42912), [the Borel graph
-theorem](https://github.com/leanprover-community/mathlib4/pull/41945) on [measurability of
-graphs](https://github.com/leanprover-community/mathlib4/pull/41944), and [`PerfectSpace` as
-`∀ x, (𝓝[≠] x).NeBot`](https://github.com/leanprover-community/mathlib4/pull/36412). When
-equivalents land in Mathlib they replace the Tau Ceti declarations. The statements here use only
-the class `PerfectSpace`, so either definition of it serves.
-
-The Tau Ceti measurable-selection module `TauCeti.MeasureTheory.MeasurableSpace.Selection`
-(Kuratowski–Ryll-Nardzewski) is related but not consumed: no milestone here needs a selector.
-
-What is missing from Mathlib: a working `PolishSpace (ℕ → Bool)` instance (at the pinned Mathlib,
-instance search does not find it although `PolishSpace.mk` produces it); `PerfectSpace` for
-infinite products; meagreness of countable sets; standard Borel Gδ subspaces; Alexandrov's
-theorem; analytic sets under binary intersection, products, off-diagonals and saturation; the
-Borel graph theorem; the perfect set theorem beyond closed sets; Kuratowski–Ulam; Mycielski; and
-the remaining objects of every layer. Tau Ceti has all of this at the pin except the items of
-kind 3 below.
-
-## How to read the build
-
-Each target of Layers 0–5 and each worked example is of one of three kinds.
-
-1. *Direct replacements.* The Tau Ceti declaration named in the layer is the target: the same
-   definition up to definitional equality, the same statement, or a more general statement that
-   applies verbatim (any discrete alphabet in `PiNat.isOpenEmbedding_prependWord`, countable
-   separation in `TauCeti.mk_le_continuum_of_countablySeparated`, complete metrizability in
-   `Setoid.hasCantorAntichainOn_iff_hasPerfectAntichainOn`, Hausdorff Borel spaces in
-   `SetRel.exists_measurableSet_isIndependent_superset`). This is every declaration of the table
-   above that is not listed under 2.
-2. *Adapters.* The Tau Ceti formulation differs from the layer's, and a consumer of the layer's
-   form needs the short bridge given here.
-
-   | Tau Ceti declaration | Difference from the layer's form | Bridge |
-   | --- | --- | --- |
-   | `Setoid.HasCantorAntichainOn.exists_injective` | the conclusion also carries the antichain property | drop the last conjunct |
-   | `Setoid.exists_invariant_measurableSet_separating` | no class meets both `A` and `B`, in place of an invariant `B` disjoint from `A`; Hausdorff, measurable open sets | for invariant `B`, a class meeting both puts a point of `A` in `B` |
-   | `SetRel.isSmallFamily_iUnion` | an iff, over any countable index | its `.2` |
-   | `SetRel.not_isSmallFamily_comb_cross` | value condition `range (comb φ₀ φ₁) ⊆ range φ₀ ∪ range φ₁`; members written `comb φ₀ φ₁ = ψ` | the pointwise value condition gives the range form; `eq_comm` |
-   | `Setoid.isSmooth_of_countable_quotient` | measurable classes in place of a Borel graph | each class is a section, `measurable_prodMk_left hE` |
-   | `TauCeti.isGδ_of_isCompletelyMetrizableSpace` | perfectly normal and `T2Space`, complete metrizability of `s` as an instance | `T6Space` gives both by instance search; `haveI := hs` |
-   | `Setoid.borelReducible_bot_bot_iff_lift_mk_le` | `Cardinal.lift` across two universes | `Cardinal.lift_id` in one universe |
-3. *Missing at the pin.* Neither Tau Ceti nor Mathlib has these; they are the open targets of
-   this roadmap, and the two theorems are the only statements of `Suggested.lean`:
-   - the perfect set theorem for analytic sets,
-     `MeasureTheory.AnalyticSet.exists_nat_bool_injection_of_not_countable` (4.2); Tau Ceti has
-     the Borel case;
-   - closed equivalence relations on Polish spaces are smooth, `isSmooth_of_isClosed` (5.2),
-     stated for Tau Ceti's `Setoid.IsSmooth`;
-   - worked examples 3 (in its closed-relation reading) and 8, which wait on these two theorems,
-     and 5, the Vitali relation: Tau Ceti has neither the relation nor its generic ergodicity.
-     The other worked examples follow from Mathlib and the declarations of kinds 1 and 2.
-
----
 
 ## Layer 0 — Polish, Cantor-space and analytic-set infrastructure
 
@@ -911,6 +813,104 @@ discharged in the same file and are not migration targets. Credit
 
 The source's [`docs/silver-phase2-route.md`](https://github.com/cameronfreer/infinitary-logic/blob/518a366cba97b1ae8c4dc64a297a396939bc3e0b/docs/silver-phase2-route.md)
 is the proof map of the Silver and G₀ formalization.
+
+## Scope and ownership
+
+Every layer below is required.
+
+| Layer | Covers | Consumes | Example (compiles without later layers) |
+| --- | --- | --- | --- |
+| 0 | Word cylinders and the coordinate flip; functional Borel graphs; the cardinality bound for standard Borel spaces; perfect and Cantor antichains with transport; countable splits | Mathlib Polish, perfect-set, Cantor-scheme, analytic-set and standard-Borel APIs; Tau Ceti's Cantor-space instances, Gδ subspaces, analytic-set closure and saturation, Borel graph theorem, Borel perfect set theorem and cardinality of perfect sets | an uncountable Borel subset of ℝ contains a Cantor copy |
+| 1 | Baire-measurable maps continuous on comeagre Gδ sets; Cantor subcopies; the graphs G_S, dense and sparse word sets, the canonical words, Miller's independence lemma | 0; Mathlib Baire-category API; Tau Ceti's Kuratowski–Ulam and Mycielski | every Borel equivalence relation on Cantor space with countable classes is meagre in the square |
+| 2 | Independent sets and countable Borel colorings; the KST independent-superset lemma; invariant Lusin separation; Miller's ideals on families of assignments, amalgamation positivity and the refinement folds | 0; Mathlib Lusin separation | the complement of a Borel equivalence relation has a countable Borel coloring exactly when there are countably many classes |
+| 3 | The fusion construction and the G₀ dichotomy, oriented and symmetric | 1, 2 | G₀ has no countable Borel coloring, and a non-dense word set can give a 2-colorable G_S |
+| 4 | Silver's theorem (Polish, standard Borel, cardinal and relative forms); the perfect set theorem for analytic sets; the consumer interface | 0, 1, 3 | Silver for equality on an uncountable Polish space recovers the perfect set theorem |
+| 5 | Borel reducibility; smoothness and its characterizations; closed relations are smooth; Silver in reducibility form; E₀, its generic ergodicity and non-smoothness | 0–4 | E₀ is Borel, has a continuous Cantor antichain, and is not smooth |
+
+The table specifies what each layer covers, not what remains to be written. At the pin, Tau
+Ceti implements every item of the *Covers* column except the perfect set theorem for analytic
+sets (4.2) and the smoothness of closed relations (5.2); those two theorems and worked examples
+3, 5 and 8 are the remaining work. Everything else is consumed from Tau Ceti, not rebuilt; see
+[How to read the build](#how-to-read-the-build).
+
+The ordering is the dependency order. Layers 1 and 2 can proceed in parallel once Layer 0
+exists; Layer 3 needs both; Layer 4 needs Layer 3 and Layer 1; Layer 5 needs Layer 4 only for
+Silver's reducibility form and Layer 2 only for the closed-relation theorem.
+
+The converse half of Glimm–Effros (`¬ IsSmooth E → BorelReducible eZero E`,
+Harrington–Kechris–Louveau), the Gandy–Harrington topology and all effective descriptive set
+theory, the coanalytic form of Silver's theorem and Burgess's theorem for analytic equivalence
+relations, countable Borel equivalence relations, hyperfiniteness, Polish group actions and
+orbit equivalence relations, Cantor–Bendixson ranks, infinite games and determinacy,
+uniformization, and finite Borel chromatic numbers belong to separate roadmaps. So does
+everything about spaces of countable structures and their isomorphism relations: see
+[Out of scope](#out-of-scope-for-this-roadmap).
+
+## Exact supplier contracts
+
+The following are suppliers, not requests to rebuild their objects.
+
+| Supplier | Consumed material |
+| --- | --- |
+| [Mathlib Polish spaces](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/Polish.lean) | `PolishSpace`, `PolishSpace.exists_nat_nat_continuous_surjective`, `IsClosed.polishSpace`, `IsOpen.polishSpace`, `IsGδ.polishSpace`, `IsGδ.isCompletelyMetrizableSpace`, `PolishSpace.IsClopenable` and its closure properties, `PolishSpace.exists_polishSpace_forall_le` |
+| [Mathlib perfect sets](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/Perfect.lean) and [their metric form](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/Perfect.lean) | `Perfect`, `Preperfect`, `PerfectSpace`, the closed-set Cantor–Bendixson decomposition `exists_countable_union_perfect_of_isClosed`, `Perfect.exists_nat_bool_injection`, `IsClosed.exists_nat_bool_injection_of_not_countable` |
+| [Mathlib Cantor schemes](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/CantorScheme.lean) and [`PiNat`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Topology/MetricSpace/PiNat.lean) | `CantorScheme.inducedMap`, `ClosureAntitone`, `VanishingDiam`, `ClosureAntitone.map_of_vanishingDiam`, `VanishingDiam.map_continuous`; `PiNat.cylinder`, `PiNat.res`, the cylinder basis and the `PiNat` metrics |
+| [Mathlib Baire category](https://github.com/leanprover-community/mathlib4/tree/master/Mathlib/Topology/Baire) | `BaireSpace` for completely metrizable spaces, `residual`, `IsMeagre`, `IsNowhereDense`, `BaireMeasurableSet` with its σ-algebra laws, `MeasurableSet.baireMeasurableSet`, `MeasurableSet.residualEq_isOpen`, `IsMeagre.preimage_of_isOpenMap`, `BaireMeasurableSet.preimage`, `Homeomorph.residual_map_eq`, `not_isMeagre_of_isOpen` |
+| [Mathlib analytic sets and standard Borel spaces](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/MeasureTheory/Constructions/Polish/Basic.lean) | `StandardBorelSpace`, `upgradeStandardBorel`, `MeasureTheory.AnalyticSet` with `AnalyticSet.iUnion`, `AnalyticSet.iInter`, `AnalyticSet.image_of_continuous`, `AnalyticSet.preimage`, `MeasurableSet.analyticSet`; Lusin separation `AnalyticSet.measurablySeparable`; Souslin's theorem `AnalyticSet.measurableSet_of_compl`; Lusin–Souslin `MeasurableSet.image_of_continuousOn_injOn`, `MeasurableSet.image_of_measurable_injOn`, `Measurable.measurableEmbedding`, `Continuous.measurableEmbedding`; `MeasurableSet.isClopenable`, `MeasurableSet.standardBorel`, `PolishSpace.borelSchroederBernstein`, `PolishSpace.measurableEquivNatBoolOfNotCountable` |
+| [Mathlib real embedding](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/MeasureTheory/Constructions/Polish/EmbeddingReal.lean) | `MeasureTheory.exists_measurableEmbedding_real` |
+| Mathlib σ-algebra and quotient API | `MeasurableSpace.CountablySeparated`, `HasCountableSeparatingOn`, the quotient σ-algebra `Quotient.instMeasurableSpace`, `measurable_of_countable` |
+| Mathlib graphs, germs and cardinals | `SimpleGraph`, `SimpleGraph.fromRel`, `SimpleGraph.Coloring`, `SimpleGraph.Hom`, `SimpleGraph.IsIndepSet`; `Filter.germSetoid`, `Filter.Germ`; `Cardinal.continuum`, `Cardinal.mk_le_aleph0_iff`, `Cardinal.mk_real` |
+
+**From Tau Ceti**, at the pinned revision `2fd255d9`. These cover every layer of the build order
+below except the items of kind 3 under [How to read the build](#how-to-read-the-build); this
+roadmap consumes them and does not restate them. Where a Tau Ceti statement is more general than
+the layer's description, the row says how.
+
+| Tau Ceti module | Consumed material |
+| --- | --- |
+| [`TauCeti/Topology/MetricSpace/Polish/Pi.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/MetricSpace/Polish/Pi.lean), [`TauCeti/Topology/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Perfect.lean) | the instances `TauCeti.polishSpace_pi_of_discreteTopology` (a countable product of countable discrete spaces is Polish) and `TauCeti.perfectSpace_pi` (a product of infinitely many nontrivial spaces is perfect), through which instance search finds `PolishSpace (ℕ → Bool)`, `PerfectSpace (ℕ → Bool)` and `PerfectSpace (ℕ → ℕ)` |
+| [`TauCeti/Topology/Baire/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/Perfect.lean) | `Set.Countable.isMeagre` (in a perfect `T₁` space every countable set is meagre), `TauCeti.not_countable_of_mem_residual` |
+| [`TauCeti/Topology/MetricSpace/Polish/GDelta.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/MetricSpace/Polish/GDelta.lean) | Alexandrov's theorem `TauCeti.isGδ_of_isCompletelyMetrizableSpace` |
+| [`TauCeti/MeasureTheory/Constructions/Polish/GDelta.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/GDelta.lean) | `IsGδ.standardBorelSpace` |
+| [`TauCeti/MeasureTheory/Constructions/Polish/Analytic.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/Analytic.lean) | `MeasureTheory.AnalyticSet.inter` (Hausdorff), `.inter_measurableSet`, `.prod`, `.offDiag`, `.image_fst`, `.relImage`, `.relPreimage`, and the saturation lemma `AnalyticSet.preimage_image_quotientMk` |
+| [`TauCeti/MeasureTheory/Constructions/Polish/Graph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/Graph.lean), [`TauCeti/MeasureTheory/MeasurableSpace/Graph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/MeasurableSpace/Graph.lean) | the Borel graph theorem `TauCeti.analyticSet_graph_iff_measurable`, `AnalyticSet.measurable_of_graph`, `TauCeti.measurableSet_graph_iff_measurable`, `Measurable.measurableSet_graph`; Layer 0.3's functional Borel graphs `MeasurableSet.measurableEmbedding_domRestrict_fst`, `MeasurableSet.of_graphOn`, `MeasurableSet.measurable_domRestrict_of_graphOn`, `TauCeti.measurableSet_graphOn_iff` |
+| [`TauCeti/MeasureTheory/Constructions/Polish/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Constructions/Polish/Perfect.lean), [`TauCeti/Topology/MetricSpace/Perfect.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/MetricSpace/Perfect.lean) | the Borel perfect set theorem `MeasurableSet.exists_nat_bool_injection_of_not_countable`; `Perfect.mk_eq_continuum` |
+| [`TauCeti/Topology/Baire/KuratowskiUlam.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/KuratowskiUlam.lean) | the Kuratowski–Ulam theorem: `TauCeti.curry_le_residual`, `BaireMeasurableSet.mem_curry_iff_mem_residual`, `BaireMeasurableSet.eventually_eventually_right_iff_mem_residual`, `BaireMeasurableSet.eventually_eventually_swap`, `IsMeagre.prod_left`, `IsMeagre.prod_right`, `BaireMeasurableSet.baireMeasurableSet_curry_left`, `IsNowhereDense.eventually_isNowhereDense_curry_left`, and the meagre-sections forms `BaireMeasurableSet.eventually_isMeagre_curry_left_iff_isMeagre` and `BaireMeasurableSet.isMeagre_of_forall_isMeagre_curry_left` |
+| [`TauCeti/Topology/Baire/Mycielski.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/Mycielski.lean) | Mycielski's theorem `TauCeti.mycielski`, its binary case `TauCeti.mycielski_prod`, and `Setoid.hasCantorAntichainOn_univ_of_isMeagre` |
+| [`TauCeti/Topology/Instances/CantorSpace.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Instances/CantorSpace.lean) | Layer 0.1: word cylinders `PiNat.prependWord` (`w ++ₛ x`, over any alphabet) and `PiNat.wordCylinder`, `PiNat.mem_wordCylinder_iff`, `PiNat.wordCylinder_subset_wordCylinder_iff`, `PiNat.isOpenEmbedding_prependWord` (any discrete alphabet), the bridge `PiNat.wordCylinder_reverse_res`; the coordinate flip `PiNat.flipAt` with `PiNat.image_flipAt_wordCylinder` |
+| [`TauCeti/MeasureTheory/MeasurableSpace/Card.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/MeasurableSpace/Card.lean) | Layer 0.4: `TauCeti.mk_le_continuum_of_countablySeparated` (a countably separated measurable space, in particular a standard Borel one, has at most 𝔠 points) |
+| [`TauCeti/SetTheory/Descriptive/Antichain.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/Antichain.lean) | Layer 0.5: `Setoid.HasCantorAntichainOn`, `Setoid.HasPerfectAntichainOn`, `Setoid.IsThinOn` (the bodies of Convention 6), `Setoid.HasCantorAntichainOn.mono`, `.mono_relation`, `.mono_topology`, `.exists_injective`, `.continuum_le_mk_quotient`, `.mk_quotient_eq_continuum`, `.hasPerfectAntichainOn`, `Setoid.HasPerfectAntichainOn.hasCantorAntichainOn`, `Setoid.hasCantorAntichainOn_subtype_iff`, `Setoid.hasCantorAntichainOn_iff_hasPerfectAntichainOn` (completely metrizable spaces), `Setoid.hasCantorAntichainOn_image_iff`, `Setoid.isThinOn_image_iff` |
+| [`TauCeti/SetTheory/Descriptive/CantorScheme.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/CantorScheme.lean) | Layer 0.5: the Cantor-scheme extraction `CantorScheme.VanishingDiam.exists_antichain_map` and `CantorScheme.VanishingDiam.hasCantorAntichainOn` |
+| [`TauCeti/Data/Set/Countable.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Data/Set/Countable.lean) | Layer 0.5: countable splits `TauCeti.exists_countable_exceptions_of_splits`, `TauCeti.countable_range_of_splits`, `TauCeti.constant_off_countable_of_splits` |
+| [`TauCeti/Topology/Baire/BaireMeasurableMap.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Topology/Baire/BaireMeasurableMap.lean) | Layer 1.3: `TauCeti.exists_isGδ_mem_residual_continuousOn`, `TauCeti.exists_cantor_subcopy_continuous` |
+| [`TauCeti/SetTheory/Descriptive/GSGraph.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/GSGraph.lean) | Layer 1.4: `TauCeti.orientedGS`, `TauCeti.gSGraph`, `TauCeti.gSGraph_adj_iff`, `TauCeti.measurableSet_orientedGS`, `TauCeti.DenseWords`, `TauCeti.SparseWords`, `TauCeti.canonicalWord`, `TauCeti.canonicalWords`, `TauCeti.denseWords_canonicalWords`, `TauCeti.sparseWords_canonicalWords`, `TauCeti.exists_unique_mem_canonicalWords_length`, `TauCeti.gZero`, Miller's lemma `TauCeti.exists_gSGraph_adj_of_not_isMeagre`, `TauCeti.isMeagre_of_isIndepSet_gSGraph`, `TauCeti.not_exists_measurable_coloring_gSGraph`, the pullback form `TauCeti.isMeagre_setOf_comp_of_forall_gSGraph_adj`; and Layer 3's exclusivity `TauCeti.not_hasCountableBorelColoring_of_orientedGS_hom` (for a measurable `φ` into any measurable space) |
+| [`TauCeti/SetTheory/Descriptive/BorelColoring.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/BorelColoring.lean) | Layer 2.1–2.2: `SetRel.IsIndependent`, `SimpleGraph.isIndependent_adj_iff_isIndepSet`, `SetRel.HasCountableBorelColoring`, `SetRel.hasCountableBorelColoring_iff_exists_cover`, `SimpleGraph.hasCountableBorelColoring_adj_iff`, `SetRel.HasCountableBorelColoring.mono`, `.preimage`, `SetRel.not_hasCountableBorelColoring_of_mem`, the hinge `Setoid.hasCountableBorelColoring_not_iff`, and the Kechris–Solecki–Todorcevic lemma `SetRel.exists_measurableSet_isIndependent_superset` (Hausdorff Borel spaces) |
+| [`TauCeti/SetTheory/Descriptive/InvariantSeparation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/InvariantSeparation.lean) | Layer 2.2: `Setoid.exists_invariant_measurableSet_separating` (a Hausdorff space whose open sets are measurable; disjoint saturations of `A` and `B` in place of an invariant `B` disjoint from `A`) |
+| [`TauCeti/SetTheory/Descriptive/SmallFamily/Basic.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/SmallFamily/Basic.lean), [`TauCeti/SetTheory/Descriptive/SmallFamily/WitnessExtension.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/SmallFamily/WitnessExtension.lean) | Layer 2.3: `SetRel.IsSmallFamily`, `SetRel.isSmallFamily_iUnion` (an iff, over any countable index), the seed `SetRel.isSmallFamily_univ_iff`, amalgamation `SetRel.not_isSmallFamily_image2` and `SetRel.not_isSmallFamily_comb_cross` (the value condition as `range (comb φ₀ φ₁) ⊆ range φ₀ ∪ range φ₁`), vertex shrinking `SetRel.exists_not_isSmallFamily_inter_pi`, witness extension `SetRel.exists_subset_not_isSmallFamily_witness_extension` |
+| [`TauCeti/SetTheory/Descriptive/GZeroDichotomy.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/GZeroDichotomy.lean) | Layer 3: `TauCeti.exists_continuous_orientedGS_hom`, `TauCeti.g0_dichotomy_oriented`, `SimpleGraph.g0_dichotomy`, `Setoid.exists_continuous_forall_gSGraph_adj_not` |
+| [`TauCeti/SetTheory/Descriptive/Silver.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/Silver.lean) | Layer 4.1–4.3: `Setoid.isMeagre_comap_of_forall_gSGraph_adj`, `Setoid.hasCantorAntichainOn_range_of_forall_gSGraph_adj`, `Setoid.silver_dichotomy`, `Setoid.silver_dichotomy_standardBorel`, `Setoid.mk_quotient_le_aleph0_or_eq_continuum`, `Setoid.countable_or_hasCantorAntichainOn_of_measurableSet`; Layer 5.3: `Setoid.borelReducible_bot_iff_not_countable_quotient` |
+| [`TauCeti/SetTheory/Descriptive/BorelReducibility.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/BorelReducibility.lean) | Layers 5.1–5.2: `Setoid.BorelReducible`, `Setoid.BorelReducible.refl`, `.trans`, `.exists_measurable_injective_quotient`, `.isSmooth`, `Setoid.BorelBireducible`, `Setoid.borelReducible_bot_bot_iff_lift_mk_le` (with `Cardinal.lift` across universes), `Setoid.IsSmooth`, `Setoid.IsSmooth.measurableSet_setOf`, `Setoid.isSmooth_iff_countablySeparated`, `Setoid.isSmooth_iff_borelReducible_bot`, `Setoid.isSmooth_of_countable_quotient` (measurable classes suffice), `Setoid.borelBireducible_bot_quotient` |
+| [`TauCeti/SetTheory/Descriptive/NormalForms.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/NormalForms.lean) | Layer 5.3: `Setoid.borelReducibility_trichotomy`, `Setoid.borelBireducible_bot_cantor_iff` |
+| [`TauCeti/SetTheory/Descriptive/EZero.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/SetTheory/Descriptive/EZero.lean) | Layer 5.4: `TauCeti.eZero`, `TauCeti.eZero_iff_cofinite`, `TauCeti.measurableSet_eZero`, `TauCeti.countable_setOf_eZero`, `TauCeti.dense_setOf_eZero`, `TauCeti.isMeagre_eZero`, `TauCeti.isMeagre_or_mem_residual_of_eZero_invariant`, `TauCeti.not_isSmooth_eZero`, `TauCeti.hasCantorAntichainOn_eZero`, `TauCeti.mk_quotient_eZero`, `TauCeti.borelReducible_bot_eZero`, `TauCeti.not_isSmooth_of_borelReducible_eZero` |
+
+Open Mathlib proposals cover part of this material: [a completely metrizable subspace of a `T6`
+space is Gδ](https://github.com/leanprover-community/mathlib4/pull/42912), [the Borel graph
+theorem](https://github.com/leanprover-community/mathlib4/pull/41945) on [measurability of
+graphs](https://github.com/leanprover-community/mathlib4/pull/41944), and [`PerfectSpace` as
+`∀ x, (𝓝[≠] x).NeBot`](https://github.com/leanprover-community/mathlib4/pull/36412). When
+equivalents land in Mathlib they replace the Tau Ceti declarations. The statements here use only
+the class `PerfectSpace`, so either definition of it serves.
+
+The Tau Ceti measurable-selection module `TauCeti.MeasureTheory.MeasurableSpace.Selection`
+(Kuratowski–Ryll-Nardzewski) is related but not consumed: no milestone here needs a selector.
+
+What is missing from Mathlib: a working `PolishSpace (ℕ → Bool)` instance (at the pinned Mathlib,
+instance search does not find it although `PolishSpace.mk` produces it); `PerfectSpace` for
+infinite products; meagreness of countable sets; standard Borel Gδ subspaces; Alexandrov's
+theorem; analytic sets under binary intersection, products, off-diagonals and saturation; the
+Borel graph theorem; the perfect set theorem beyond closed sets; Kuratowski–Ulam; Mycielski; and
+the remaining objects of every layer. Tau Ceti has all of this at the pin except the items of
+kind 3 below.
 
 ## References
 
