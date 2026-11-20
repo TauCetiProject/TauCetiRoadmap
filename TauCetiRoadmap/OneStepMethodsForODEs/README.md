@@ -19,74 +19,24 @@ It ends with contractivity of the implicit Euler and implicit midpoint methods f
 Lipschitz fields, Cooper's theorem on quadratic invariants, and the symplecticity of the
 Runge–Kutta methods that satisfy Cooper's condition.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
+The layers are built in order, and each uses only earlier ones. Layer 1 is the general theory
+of one-step methods and uses only Mathlib. Layer 2 defines Runge–Kutta methods on top of the
+one-step methods of 1.2 and bounds the Lipschitz constant of their increment functions, the
+hypothesis of 1.3 and 1.4. Layer 3 bounds the defects of six named methods and combines them
+with Layers 1 and 2. Layer 4 treats the order conditions and the classical Runge–Kutta method;
+it uses Layers 1 and 2 and the regularity of solutions and the defect bounds of 3.1 and 3.2.
+Layer 5 treats linear stability and the order barrier for explicit methods; it uses 1.2, 2.1
+and 4.1 to 4.3. Layer 6 treats contractivity, invariants and symplecticity; it uses the stage
+equations of 2.1, the solvability theorem 2.3 and Tau Ceti's Hamiltonian vector fields. The
+Checks of Layers 4, 5 and 6 evaluate the named tableaux of Layers 3 and 4, and those of 6.2 the
+stability functions of 5.1.
 
-- meshes with variable steps, one-step methods given by an increment function, the one-step
-  defect, and the discrete stability and convergence theorems;
-- Runge–Kutta methods given by a Butcher tableau: the stage equations, their unique solvability,
-  and the Lipschitz constants of the increment function;
-- the explicit Euler, explicit midpoint, explicit trapezoidal, implicit Euler, implicit midpoint,
-  trapezoidal and classical fourth-order Runge–Kutta methods, with their error constants;
-- the order conditions for orders one to four, the notion of order of a Runge–Kutta method, and
-  the bound `p ≤ s` for explicit methods;
-- the stability function, stability regions, A-stability and L-stability of Runge–Kutta methods;
-- contractivity of the implicit Euler and implicit midpoint methods for one-sided Lipschitz
-  fields, preservation of linear and quadratic invariants, and symplecticity of Runge–Kutta
-  methods.
-
-Already in the libraries, and not targets here. Every theorem of this roadmap takes a solution
-of the differential equation as a hypothesis; none constructs one. Existence of solutions is
-Mathlib's `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`
-(`Mathlib/Analysis/ODE/ExistUnique.lean`) and, for a globally Lipschitz autonomous field, Tau
-Ceti's `ODE.globalSolution` with `ODE.isIntegralCurve_globalSolution`
-(`TauCeti/Analysis/ODE/GlobalSolution.lean`); uniqueness is Mathlib's `ODE_solution_unique`
-(`Mathlib/Analysis/ODE/ExistUnique.lean`); the continuous Grönwall estimate between two solutions
-is `dist_le_of_trajectories_ODE` (`Mathlib/Analysis/ODE/Gronwall.lean`). The proof of existence
-by convergence of Euler polygons is not a target: 3.1 proves that the Euler polygons converge to
-a given solution. Mathlib's `ODE.contDiffOn_enat_Icc_of_hasDerivWithinAt`
-(`Mathlib/Analysis/ODE/PicardLindelof.lean`) proves that a solution of a `C^n` field on a
-complete space is `C^n`; 3.2 proves `C^(n+1)` and needs no completeness, which is what the
-Taylor expansions of Layers 3 and 4 use. That the exact flow of a `C²` Hamiltonian with
-Lipschitz Hamiltonian vector field preserves the symplectic form is Tau Ceti's
-`TauCeti.SymplecticForm.apply_fderiv_hamiltonianFlow`
-(`TauCeti/Geometry/Symplectic/Hamiltonian/Flow.lean`); 6.3 proves the same identity for the step
-map of a Runge–Kutta method.
-
-Boundaries with other roadmaps:
-
-- [StochasticCalculus](../StochasticCalculus/README.md) 9.6 owns the Euler–Maruyama scheme for
-  stochastic differential equations. With zero diffusion coefficient its recurrence is the
-  explicit Euler recurrence of 3.1; the two convergence statements have different hypotheses
-  (there coefficients that are Hölder of exponent `1/2` in time and a rate `1/2`, here a solution
-  with Lipschitz derivative and a rate `1`), and neither contains the other.
-- [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.4 owns
-  the leapfrog map with its reversibility and volume preservation. Leapfrog is a partitioned
-  method, not a Runge–Kutta method; it occurs here only as an example of a one-step method to
-  which Layer 1 applies. Its use and error analysis inside Hamiltonian Monte Carlo samplers is
-  not part of this roadmap.
-- [OptimalTransport](../OptimalTransport/README.md) 10.4 owns the implicit Euler step of a
-  metric gradient flow, defined by minimizing a Moreau–Yosida functional on a metric space. The
-  implicit Euler method of 3.3 is the method for a Lipschitz vector field on a normed space,
-  defined by a fixed-point equation.
-- Rates of gradient descent, which is the explicit Euler method for a gradient field read as an
-  optimization method, are not part of this roadmap.
-
-Out of scope:
-
-- linear multistep methods, zero-stability and the Dahlquist barriers; general linear methods;
-- rooted trees, B-series and the order conditions of order five and higher; the Butcher barriers
-  on the number of stages of explicit methods of order five and higher;
-- collocation and Gauss methods as a family (the two-stage Gauss method appears as an example);
-- embedded pairs, error estimators and adaptive step-size control;
-- stiff order reduction, B-convergence and algebraic stability of general Runge–Kutta methods;
-- partitioned, splitting and composition methods, backward error analysis and modified equations;
-- differential-algebraic equations, delay equations and discretizations of partial differential
-  equations;
-- stochastic differential equations;
-- floating-point arithmetic: 1.3 bounds the effect of arbitrary perturbations of each step, and
-  no model of rounding is part of this roadmap.
+Each numbered target ends with a **Checks** list of tests that a wrong convention or a wrong
+constant would fail, and a *Needs:* line naming the targets and suppliers it uses. Every claim
+carries a source locator in parentheses, or says that it is proved here. `Suggested.lean` states
+the headline theorems of each layer against the pinned APIs.
 
 ## Conventions
 
@@ -119,76 +69,6 @@ Out of scope:
   values.
 - **Matrix inverse.** `M⁻¹` for a square matrix is Mathlib's inverse, which is `0` when `det M`
   is not a unit.
-
-## Exact supplier contracts
-
-- Mathlib:
-  - `IsIntegralCurveOn γ v s` (`Mathlib/Analysis/ODE/Basic.lean`):
-    `∀ t ∈ s, HasDerivWithinAt γ (v t (γ t)) s t`;
-  - `gronwallBound` and `gronwallBound_mono` (`Mathlib/Analysis/ODE/Gronwall.lean`): the function
-    of the Conventions, monotone in `x` when `δ`, `ε`, `K` are nonnegative;
-  - `discrete_gronwall_prod_general` (`Mathlib/Analysis/ODE/DiscreteGronwall.lean`): if
-    `u (n + 1) ≤ c n * u n + b n` and `0 ≤ c n` for `n ≥ n₀`, then for `n ≥ n₀`,
-    `u n ≤ u n₀ * ∏ i ∈ Ico n₀ n, c i + ∑ k ∈ Ico n₀ n, b k * ∏ i ∈ Ico (k + 1) n, c i`;
-  - `Real.add_one_le_exp`: `x + 1 ≤ exp x`;
-  - `image_norm_le_of_norm_deriv_right_le_deriv_boundary`
-    (`Mathlib/Analysis/Calculus/MeanValue.lean`): if `g` is continuous on `[a, b]` with right
-    derivative `g'` on `[a, b)`, `‖g a‖ ≤ B a`, `B` has derivative `B'` and `‖g' x‖ ≤ B' x` on
-    `[a, b)`, then `‖g x‖ ≤ B x` on `[a, b]`; no completeness is needed;
-  - `ContractingWith.fixedPoint_isFixedPt` and `ContractingWith.fixedPoint_unique'`
-    (`Mathlib/Topology/MetricSpace/Contracting.lean`): a contraction of a nonempty complete
-    metric space has a fixed point, and two fixed points of a contraction are equal;
-  - `ODE.contDiffOn_comp` (`Mathlib/Analysis/ODE/PicardLindelof.lean`): if `Function.uncurry f`
-    is `C^n` on `s ×ˢ u` and `α` is `C^n` on `s` with values in `u`, then `t ↦ f t (α t)` is
-    `C^n` on `s`; no completeness is needed;
-  - `contDiffOn_succ_iff_derivWithin` (`Mathlib/Analysis/Calculus/ContDiff/Deriv.lean`) and
-    `uniqueDiffOn_Icc` (`Mathlib/Analysis/Calculus/TangentCone/Real.lean`): on `[a, b]` with
-    `a < b`, a function is `C^(n+1)` if and only if it is differentiable and its derivative
-    within `[a, b]` is `C^n`;
-  - `taylor_mean_remainder_bound` (`Mathlib/Analysis/Calculus/Taylor.lean`): for `g` of class
-    `C^(n+1)` on `[a, b]` with `(n+1)`-st derivative bounded by `C`, the Taylor polynomial of
-    degree `n` at `a` approximates `g x` within `C (x − a)^(n+1) / n!`;
-  - `HasStrictFDerivAt.to_localInverse`
-    (`Mathlib/Analysis/Calculus/InverseFunctionTheorem/FDeriv.lean`): the local inverse of a map
-    with invertible strict derivative has the inverse strict derivative;
-  - `Matrix.mul_nonsing_inv` and `Matrix.nonsing_inv_apply_not_isUnit`
-    (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`): `M * M⁻¹ = 1` when `det M` is a
-    unit, and `M⁻¹ = 0` otherwise;
-  - `Matrix.det_add_replicateCol_mul_replicateRow`
-    (`Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`): the matrix determinant lemma for a
-    rank-one update of a matrix with unit determinant;
-  - `Polynomial.tendsto_abv_atTop` (`Mathlib/Topology/Algebra/Polynomial.lean`): a polynomial of
-    positive degree tends to infinity in absolute value along every filter along which its
-    argument does;
-  - `real_inner_le_norm`: `⟪x, y⟫ ≤ ‖x‖ ‖y‖`.
-- Tau Ceti:
-  - `TauCeti.SymplecticForm V` (`TauCeti/Geometry/Symplectic/AlmostComplex.lean`): an
-    alternating nondegenerate bilinear form on a real vector space;
-  - `TauCeti.SymplecticForm.hamiltonianVectorField`,
-    `TauCeti.SymplecticForm.contDiff_hamiltonianVectorField` and
-    `TauCeti.SymplecticForm.apply_fderiv_hamiltonianVectorField_add`
-    (`TauCeti/Geometry/Symplectic/Hamiltonian/Basic.lean`): on a finite-dimensional real normed
-    space, the field `X_H` with `ω (X_H x) v = dH(x) v`; it is `C^n` when `H` is `C^(n+1)`; and
-    for `H` of class `C²` at `x`, `ω (DX_H(x) u) v + ω u (DX_H(x) v) = 0`.
-
-## How to read the build
-
-The layers are built in order, and each uses only earlier ones. Layer 1 is the general theory
-of one-step methods and uses only Mathlib. Layer 2 defines Runge–Kutta methods on top of the
-one-step methods of 1.2 and bounds the Lipschitz constant of their increment functions, the
-hypothesis of 1.3 and 1.4. Layer 3 bounds the defects of six named methods and combines them
-with Layers 1 and 2. Layer 4 treats the order conditions and the classical Runge–Kutta method;
-it uses Layers 1 and 2 and the regularity of solutions and the defect bounds of 3.1 and 3.2.
-Layer 5 treats linear stability and the order barrier for explicit methods; it uses 1.2, 2.1
-and 4.1 to 4.3. Layer 6 treats contractivity, invariants and symplecticity; it uses the stage
-equations of 2.1, the solvability theorem 2.3 and Tau Ceti's Hamiltonian vector fields. The
-Checks of Layers 4, 5 and 6 evaluate the named tableaux of Layers 3 and 4, and those of 6.2 the
-stability functions of 5.1.
-
-Each numbered target ends with a **Checks** list of tests that a wrong convention or a wrong
-constant would fail, and a *Needs:* line naming the targets and suppliers it uses. Every claim
-carries a source locator in parentheses, or says that it is proved here. `Suggested.lean` states
-the headline theorems of each layer against the pinned APIs.
 
 ## Layer 1: one-step methods and the convergence theorem
 
@@ -1115,6 +995,126 @@ The Isabelle Archive of Formal Proofs entry *Ordinary Differential Equations* by
 J. Hölzl (BSD licence) contains theories on one-step methods, the Euler method and Runge–Kutta
 methods, used there for rigorous numerical enclosures. It is reference material, not the
 specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- meshes with variable steps, one-step methods given by an increment function, the one-step
+  defect, and the discrete stability and convergence theorems;
+- Runge–Kutta methods given by a Butcher tableau: the stage equations, their unique solvability,
+  and the Lipschitz constants of the increment function;
+- the explicit Euler, explicit midpoint, explicit trapezoidal, implicit Euler, implicit midpoint,
+  trapezoidal and classical fourth-order Runge–Kutta methods, with their error constants;
+- the order conditions for orders one to four, the notion of order of a Runge–Kutta method, and
+  the bound `p ≤ s` for explicit methods;
+- the stability function, stability regions, A-stability and L-stability of Runge–Kutta methods;
+- contractivity of the implicit Euler and implicit midpoint methods for one-sided Lipschitz
+  fields, preservation of linear and quadratic invariants, and symplecticity of Runge–Kutta
+  methods.
+
+Already in the libraries, and not targets here. Every theorem of this roadmap takes a solution
+of the differential equation as a hypothesis; none constructs one. Existence of solutions is
+Mathlib's `IsPicardLindelof.exists_eq_forall_mem_Icc_hasDerivWithinAt`
+(`Mathlib/Analysis/ODE/ExistUnique.lean`) and, for a globally Lipschitz autonomous field, Tau
+Ceti's `ODE.globalSolution` with `ODE.isIntegralCurve_globalSolution`
+(`TauCeti/Analysis/ODE/GlobalSolution.lean`); uniqueness is Mathlib's `ODE_solution_unique`
+(`Mathlib/Analysis/ODE/ExistUnique.lean`); the continuous Grönwall estimate between two solutions
+is `dist_le_of_trajectories_ODE` (`Mathlib/Analysis/ODE/Gronwall.lean`). The proof of existence
+by convergence of Euler polygons is not a target: 3.1 proves that the Euler polygons converge to
+a given solution. Mathlib's `ODE.contDiffOn_enat_Icc_of_hasDerivWithinAt`
+(`Mathlib/Analysis/ODE/PicardLindelof.lean`) proves that a solution of a `C^n` field on a
+complete space is `C^n`; 3.2 proves `C^(n+1)` and needs no completeness, which is what the
+Taylor expansions of Layers 3 and 4 use. That the exact flow of a `C²` Hamiltonian with
+Lipschitz Hamiltonian vector field preserves the symplectic form is Tau Ceti's
+`TauCeti.SymplecticForm.apply_fderiv_hamiltonianFlow`
+(`TauCeti/Geometry/Symplectic/Hamiltonian/Flow.lean`); 6.3 proves the same identity for the step
+map of a Runge–Kutta method.
+
+Boundaries with other roadmaps:
+
+- [StochasticCalculus](../StochasticCalculus/README.md) 9.6 owns the Euler–Maruyama scheme for
+  stochastic differential equations. With zero diffusion coefficient its recurrence is the
+  explicit Euler recurrence of 3.1; the two convergence statements have different hypotheses
+  (there coefficients that are Hölder of exponent `1/2` in time and a rate `1/2`, here a solution
+  with Lipschitz derivative and a rate `1`), and neither contains the other.
+- [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.4 owns
+  the leapfrog map with its reversibility and volume preservation. Leapfrog is a partitioned
+  method, not a Runge–Kutta method; it occurs here only as an example of a one-step method to
+  which Layer 1 applies. Its use and error analysis inside Hamiltonian Monte Carlo samplers is
+  not part of this roadmap.
+- [OptimalTransport](../OptimalTransport/README.md) 10.4 owns the implicit Euler step of a
+  metric gradient flow, defined by minimizing a Moreau–Yosida functional on a metric space. The
+  implicit Euler method of 3.3 is the method for a Lipschitz vector field on a normed space,
+  defined by a fixed-point equation.
+- Rates of gradient descent, which is the explicit Euler method for a gradient field read as an
+  optimization method, are not part of this roadmap.
+
+Out of scope:
+
+- linear multistep methods, zero-stability and the Dahlquist barriers; general linear methods;
+- rooted trees, B-series and the order conditions of order five and higher; the Butcher barriers
+  on the number of stages of explicit methods of order five and higher;
+- collocation and Gauss methods as a family (the two-stage Gauss method appears as an example);
+- embedded pairs, error estimators and adaptive step-size control;
+- stiff order reduction, B-convergence and algebraic stability of general Runge–Kutta methods;
+- partitioned, splitting and composition methods, backward error analysis and modified equations;
+- differential-algebraic equations, delay equations and discretizations of partial differential
+  equations;
+- stochastic differential equations;
+- floating-point arithmetic: 1.3 bounds the effect of arbitrary perturbations of each step, and
+  no model of rounding is part of this roadmap.
+
+## Exact supplier contracts
+
+- Mathlib:
+  - `IsIntegralCurveOn γ v s` (`Mathlib/Analysis/ODE/Basic.lean`):
+    `∀ t ∈ s, HasDerivWithinAt γ (v t (γ t)) s t`;
+  - `gronwallBound` and `gronwallBound_mono` (`Mathlib/Analysis/ODE/Gronwall.lean`): the function
+    of the Conventions, monotone in `x` when `δ`, `ε`, `K` are nonnegative;
+  - `discrete_gronwall_prod_general` (`Mathlib/Analysis/ODE/DiscreteGronwall.lean`): if
+    `u (n + 1) ≤ c n * u n + b n` and `0 ≤ c n` for `n ≥ n₀`, then for `n ≥ n₀`,
+    `u n ≤ u n₀ * ∏ i ∈ Ico n₀ n, c i + ∑ k ∈ Ico n₀ n, b k * ∏ i ∈ Ico (k + 1) n, c i`;
+  - `Real.add_one_le_exp`: `x + 1 ≤ exp x`;
+  - `image_norm_le_of_norm_deriv_right_le_deriv_boundary`
+    (`Mathlib/Analysis/Calculus/MeanValue.lean`): if `g` is continuous on `[a, b]` with right
+    derivative `g'` on `[a, b)`, `‖g a‖ ≤ B a`, `B` has derivative `B'` and `‖g' x‖ ≤ B' x` on
+    `[a, b)`, then `‖g x‖ ≤ B x` on `[a, b]`; no completeness is needed;
+  - `ContractingWith.fixedPoint_isFixedPt` and `ContractingWith.fixedPoint_unique'`
+    (`Mathlib/Topology/MetricSpace/Contracting.lean`): a contraction of a nonempty complete
+    metric space has a fixed point, and two fixed points of a contraction are equal;
+  - `ODE.contDiffOn_comp` (`Mathlib/Analysis/ODE/PicardLindelof.lean`): if `Function.uncurry f`
+    is `C^n` on `s ×ˢ u` and `α` is `C^n` on `s` with values in `u`, then `t ↦ f t (α t)` is
+    `C^n` on `s`; no completeness is needed;
+  - `contDiffOn_succ_iff_derivWithin` (`Mathlib/Analysis/Calculus/ContDiff/Deriv.lean`) and
+    `uniqueDiffOn_Icc` (`Mathlib/Analysis/Calculus/TangentCone/Real.lean`): on `[a, b]` with
+    `a < b`, a function is `C^(n+1)` if and only if it is differentiable and its derivative
+    within `[a, b]` is `C^n`;
+  - `taylor_mean_remainder_bound` (`Mathlib/Analysis/Calculus/Taylor.lean`): for `g` of class
+    `C^(n+1)` on `[a, b]` with `(n+1)`-st derivative bounded by `C`, the Taylor polynomial of
+    degree `n` at `a` approximates `g x` within `C (x − a)^(n+1) / n!`;
+  - `HasStrictFDerivAt.to_localInverse`
+    (`Mathlib/Analysis/Calculus/InverseFunctionTheorem/FDeriv.lean`): the local inverse of a map
+    with invertible strict derivative has the inverse strict derivative;
+  - `Matrix.mul_nonsing_inv` and `Matrix.nonsing_inv_apply_not_isUnit`
+    (`Mathlib/LinearAlgebra/Matrix/NonsingularInverse.lean`): `M * M⁻¹ = 1` when `det M` is a
+    unit, and `M⁻¹ = 0` otherwise;
+  - `Matrix.det_add_replicateCol_mul_replicateRow`
+    (`Mathlib/LinearAlgebra/Matrix/SchurComplement.lean`): the matrix determinant lemma for a
+    rank-one update of a matrix with unit determinant;
+  - `Polynomial.tendsto_abv_atTop` (`Mathlib/Topology/Algebra/Polynomial.lean`): a polynomial of
+    positive degree tends to infinity in absolute value along every filter along which its
+    argument does;
+  - `real_inner_le_norm`: `⟪x, y⟫ ≤ ‖x‖ ‖y‖`.
+- Tau Ceti:
+  - `TauCeti.SymplecticForm V` (`TauCeti/Geometry/Symplectic/AlmostComplex.lean`): an
+    alternating nondegenerate bilinear form on a real vector space;
+  - `TauCeti.SymplecticForm.hamiltonianVectorField`,
+    `TauCeti.SymplecticForm.contDiff_hamiltonianVectorField` and
+    `TauCeti.SymplecticForm.apply_fderiv_hamiltonianVectorField_add`
+    (`TauCeti/Geometry/Symplectic/Hamiltonian/Basic.lean`): on a finite-dimensional real normed
+    space, the field `X_H` with `ω (X_H x) v = dH(x) v`; it is `C^n` when `H` is `C^(n+1)`; and
+    for `H` of class `C²` at `x`, `ω (DX_H(x) u) v + ω u (DX_H(x) v) = 0`.
 
 ## References
 
