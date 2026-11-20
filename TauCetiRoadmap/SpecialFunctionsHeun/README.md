@@ -22,7 +22,7 @@ Ronveaux (ed.), *Heun's Differential Equations* (Part A by Arscott and others, a
 parts), Kristensson (*Second Order Differential Equations*, Chs. 3, 4 and 8), Haraoka (*Linear
 Differential Equations in the Complex Domain*, Chs. 4 and 7), Iwasaki–Kimura– Shimomura–Yoshida
 (*From Gauss to Painlevé*, Chs. 1–2), Olver (*Asymptotics and Special Functions*, Ch. 5),
-Whittaker–Watson (§§10.6–10.72 and Ch. XXIII), Maier's papers on the automorphisms and the
+Whittaker–Watson (§§10.6–10.8 and Ch. XXIII), Maier's papers on the automorphisms and the
 hypergeometric reductions, and the NIST *Digital Library of Mathematical Functions* (DLMF), and each
 headline cites its sources; see [References](#references).
 
@@ -56,12 +56,15 @@ The roadmap covers:
   that produce them, and the irregular singularity of rank one of the confluent equation (Layer 7);
 - the reductions of `Hl` to the Gauss function (Layer 8).
 
-The roadmap rests on Mathlib, Tau Ceti and four roadmaps:
+The roadmap rests on Mathlib, Tau Ceti and five roadmaps:
 [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md) for the Gauss
 function, Riemann's equation and Kummer's solutions,
 [AsymptoticExpansions](../AsymptoticExpansions/README.md) for linear equations in the complex
-domain, [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) for Sturm comparison, and
-[LaguerreJacobi](../LaguerreJacobi/README.md) for the Jacobi polynomials.
+domain, three-term recurrences and Darboux's method,
+[SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md) for Sturm comparison,
+[LaguerreJacobi](../LaguerreJacobi/README.md) for the Jacobi polynomials, and
+[SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md) for
+Pincherle's theorem.
 
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Heun/`, with Layer 1 in
 `TauCeti/Analysis/ODE/Fuchsian.lean`.
@@ -96,7 +99,13 @@ inputs, not targets:
 - Riemann's equation, its invariance under homographies and its reduction to the hypergeometric
   equation: SpecialFunctionsHypergeometric 3.4, consumed in 1.2;
 - Sturm comparison on an open interval: SpecialFunctionsBessel (an auxiliary result of its 10.1),
-  consumed in 5.2.
+  consumed in 5.2;
+- the solutions of a three-term recurrence with distinct characteristic roots and the recessive
+  solution (Perron's theorem in the form of DLMF 2.9.3–2.9.8): AsymptoticExpansions §12.1, consumed
+  in 3.1, 5.3 and 5.4;
+- Darboux's method: AsymptoticExpansions §13.6, consumed in 3.4;
+- Pincherle's theorem with complex coefficients: SpecialFunctionsEiLiErfIncompleteGamma 4.1,
+  consumed in 5.3.
 
 **Auxiliary results owned here**, which the layers need and which neither Mathlib, Tau Ceti nor a
 consumed roadmap provides in this form:
@@ -109,12 +118,8 @@ consumed roadmap provides in this form:
 - holomorphic dependence on `q` of solutions of Heun's equation normalized at a regular singular
   point, and the continuity of local solutions under locally uniform convergence of the coefficients
   (3.5, 7.2);
-- Perron's theorem for three-term recurrences whose characteristic roots have distinct moduli, and
-  Pincherle's theorem with complex coefficients: the recurrence has a minimal solution if and only
-  if the associated continued fraction converges (3.1, 5.3);
-- Darboux's transfer from the singular behaviour of a function on its circle of convergence to the
-  asymptotics of its Taylor coefficients (3.4), and the outer asymptotics of Jacobi polynomials off
-  `[0, 1]` that the convergence of the series of Type II needs (5.4).
+- the outer asymptotics of Jacobi polynomials off `[0, 1]` that the convergence of the series of
+  Type II needs (5.4).
 
 **What it does not own:**
 - *The Gauss function and Riemann's equation.* `F(a, b; c; z)` on the cut plane, Riemann's equation,
@@ -133,14 +138,18 @@ consumed roadmap provides in this form:
   treats Heun's equation for fixed parameters only.
 - *Jacobi polynomials.* The Jacobi polynomials and their orthogonality are LaguerreJacobi's (its
   Layers 3–4); 5.4 consumes them.
+- *Recurrences and continued fractions.* The asymptotic solutions of three-term recurrences and
+  Darboux's method belong to AsymptoticExpansions (its §12.1 and §13.6), and Pincherle's theorem to
+  SpecialFunctionsEiLiErfIncompleteGamma (its 4.1); 3.1, 3.4, 5.3 and 5.4 apply them.
 
 **The boundary in one sentence:** this roadmap owns second-order Fuchsian equations as far as Layer
 1 states them, Heun's equation with its transformations, local solutions, Heun polynomials, Heun
 functions, their orthogonality and integral transforms, the four confluent equations as equations
 with their confluence limits and the local theory of the confluent equation at `∞`, and the
 reductions of `Hl` to the Gauss function; it consumes the Gauss function and Riemann's equation of
-SpecialFunctionsHypergeometric, the local theory of AsymptoticExpansions, Sturm comparison of
-SpecialFunctionsBessel and the Jacobi polynomials of LaguerreJacobi.
+SpecialFunctionsHypergeometric, the local theory, the recurrences and Darboux's method of
+AsymptoticExpansions, Sturm comparison of SpecialFunctionsBessel, the Jacobi polynomials of
+LaguerreJacobi and Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma.
 
 ## Conventions
 
@@ -174,7 +183,8 @@ confluentHeunLocalCoeff ε α q γ δ j, confluentHeunLocal ε α q γ δ z : �
 - **The weight.** On `(0, 1)` with real `a > 1` put `p(t) = t^γ (1 − t)^δ (a − t)^ε` and
   `ρ(t) = p(t)/(t(1 − t)(a − t)) = t^{γ−1}(1 − t)^{δ−1}(a − t)^{ε−1}`, with principal powers of
   positive bases. Then `ρ D_t f = (p f′)′ + αβ t ρ f` (the Lagrange form). DLMF writes
-  `(t − 1)^{δ−1}(t − a)^{ε−1}` (31.9.2, 31.10.2); on a segment the two differ by a constant factor.
+  `(1 − t)^{δ−1}(t − a)^{ε−1}` in 31.9.2 and `(t − 1)^{δ−1}(t − a)^{ε−1}` in 31.10.2; on a segment
+  these differ from `ρ` by a constant factor.
   For complex `a` with `|a| > 1` the factor `(a − t)^{ε−1}` is principal and continuous on `[0, 1]`,
   since `a − t` does not cross the negative real axis there.
 - **Exponents.** The exponents at a finite regular singular point `c` are the roots of the indicial
@@ -282,6 +292,27 @@ triconfluent      w″ + (γ + z) z w′ + (αz − q) w = 0                    
   their Stokes multipliers. 7.4 applies it to the confluent equation 31.12.1 at `∞` (`a₀ = 1`,
   `λ₁ = 0`, `λ₂ = −ε`, unequal exactly when `ε ≠ 0`) and to the doubly confluent equation at `∞`
   and, after `z ↦ 1/z`, at `0`.
+- **Distinct characteristic roots**
+  ([§12.1](../AsymptoticExpansions/README.md#121-distinct-characteristic-roots)): for
+  `w(n + 2) + f(n) w(n + 1) + g(n) w(n) = 0` with `f`, `g` having Poincaré expansions in `n^{−1}`,
+  `g₀ ≠ 0` and `f₀² ≠ 4g₀`, solutions `w_j(n) ∼ ρ_jⁿ n^{α_j}`, and when `|ρ₁| < |ρ₂|` the recessive
+  solution `w₁`, unique up to a factor; in the tail form, without `g(n) ≠ 0` for every `n`. The
+  recurrence of 3.1, `c_{j+1} − ((Q_j + q)/R_j) c_j + (P_j/R_j) c_{j−1} = 0`, has rational
+  coefficients with `f₀ = −(1 + a)/a`, `g₀ = 1/a`, `f₀² − 4g₀ = (a − 1)²/a² ≠ 0` and roots `1`,
+  `1/a`, of distinct moduli for `|a| ≠ 1`. Used in 3.1, 5.3 and 5.4 (the recurrences of 31.11).
+- **Darboux's method**
+  ([§13.6](../AsymptoticExpansions/README.md#136-darbouxs-method)): DLMF 2.10.29–2.10.32, including
+  the form with finitely many exceptional points on the circle. Used in 3.4 with `r = 1` and the
+  one exceptional point `z = 1`.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- **Pincherle's theorem**
+  ([4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)): for complex
+  `a n`, `b n` with every `a n ≠ 0`, the continued fraction `a₁/(b₁ + a₂/(b₂ + ⋯))` converges if
+  and only if `y(n + 1) = b n · y(n) + a n · y(n − 1)` has a minimal solution `f` with `f(0) ≠ 0`,
+  and its value is then `−f(1)/f(0)`. Used in 5.3 with `b n = (Q_n + q)/R_n` and
+  `a n = −P_n/R_n`, nonzero for `α, β ∉ {0, −1, −2, …}`.
 
 ### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
 
@@ -378,7 +409,10 @@ Consider `w″ + f w′ + g w = 0` with `f`, `g` analytic off a finite set `A �
 Fuchs' theorem: `f − ∑ A₁(c)/(z − c)` and `g − ∑ (B₁(c)/(z − c)² + C₁(c)/(z − c))` (principal parts)
 are entire; the growth conditions at `∞` make them polynomials by Liouville's theorem, and then `0`;
 the coefficient of `z` in `z² g(z)` at `∞` is `∑ C₁(c)`, which must vanish. The Fuchs relation is
-Vieta's formula: the exponent sums are `1 − A₁(c)` and `∑ A₁ − 1`. The exponents at `∞`:
+Vieta's formula: the exponent sums are `1 − A₁(c)` and `∑ A₁ − 1`. As stated, `fuchs_relation` and
+`heun_accessory_parameter` (1.3) are the algebraic steps of their headlines, about numbers given by
+the partial-fraction data, and serve as checks of the conventions; the link to solutions is the
+converse bullet, through AsymptoticExpansions §10.3. The exponents at `∞`:
 `w(z) = u(1/z)` turns `f, g` into `2/t − f(1/t)/t²` and `g(1/t)/t⁴`, whose leading coefficients give
 the indicial polynomial `X(X + 1) − (∑ A₁)X + ∑ (B₁(c) + cC₁(c))` in the convention `w ∼ z^{−ρ}`.
 
@@ -512,8 +546,8 @@ Mathlib only, and SpecialFunctionsHypergeometric 3.4 for 1.2.
 Sources: Ronveaux Part A, §2.2, (2.2.1), p. 16, and the table (2.2.4) with the parameter formulas
 (2.2.5), pp. 17–18; DLMF §31.2(v).
 
-Prove, for open `U` on which the base of the power lies in the slit plane and `w` a solution of the
-transformed equation on `U`:
+Prove, for open `U` that avoids `0`, `1` and `a` and on which the base of the power lies in the slit
+plane, and `w` a solution of the transformed equation on `U`:
 - **at `0`** (`heun_fHomotopic_zero`): `z^{1−γ} w(z)` solves Heun's equation with parameters
   `(a, q; α, β, γ, δ)` if `w` solves it with
   `(a, q + (aδ + ε)(1 − γ); α + 1 − γ, β + 1 − γ, 2 − γ, δ)`;
@@ -526,7 +560,9 @@ transformed equation on `U`:
 
 The transformed `ε` is unchanged in the first two bullets:
 `heunEps (α + 1 − γ) (β + 1 − γ) (2 − γ) δ = ε`. Each bullet is a direct computation with `deriv` of
-a principal power on the slit plane.
+a principal power on the slit plane. The hypothesis that `U` avoids the singular points is needed:
+at `z = 1` the predicate is the equation with the terms of zero denominator dropped, and for
+`w = z^{1−γ} v` the dropped equation of `w` at `1` is that of `v` plus `(1 − γ)ε v(1)/(1 − a)`.
 
 **Checks.**
 - The composite of the transformation at `0` with itself is the identity on parameters:
@@ -549,8 +585,8 @@ the six values `a, 1/a, 1 − a, 1/(1 − a), a/(a − 1), (a − 1)/a`. Prove:
   `(1/a, q/a; α, β, γ, ε)` on the image of `U`, then `w(z/a)` solves it with `(a, q; α, β, γ, δ)` on
   `U` (the transformed `ε` is `δ`);
 - **`z ↦ 1 − z`** (`heun_moebius_one_sub`): with `(1 − a, αβ − q; α, β, δ, γ)`;
-- **`z ↦ z/(z − 1)`** (`heun_moebius_div_sub_one`): for `a ≠ 1`, on open `U` with
-  `1 − z ∈ slitPlane`, `(1 − z)^{−α} w(z/(z − 1))` with
+- **`z ↦ z/(z − 1)`** (`heun_moebius_div_sub_one`): for `a ≠ 1`, on open `U` avoiding `0`, `1`,
+  `a`, with `1 − z ∈ slitPlane`, `(1 − z)^{−α} w(z/(z − 1))` with
   `(a/(a − 1), −(q − aαγ)/(a − 1); α, α + 1 − δ, γ, α + 1 − β)`;
 - the six homographies fixing `∞` are generated by the first two, and the other eighteen are these
   composed with `z ↦ z/(z − 1)` and its prefactor (Ronveaux (2.1.3) lists `a₂, …, a₆`).
@@ -566,7 +602,8 @@ the six values `a, 1/a, 1 − a, 1/(1 − a), a/(a − 1), (a − 1)/a`. Prove:
 
 ### 2.3 The 192 automorphisms
 
-Sources: Maier, "The 192 solutions of the Heun equation" (2007); Ronveaux Part A, §3.4, pp. 37–39;
+Sources: Maier, "The 192 solutions of the Heun equation" (2007), §1 and Theorems 4.3 and 4.7;
+Ronveaux Part A, §3.4, pp. 37–39;
 Whittaker–Watson Ch. XXIII, Misc. Ex. 10, p. 577; DLMF §31.2(v) and §31.3(iii).
 
 The transformations of 2.1 and 2.2 compose: an automorphism is a pair (prefactor, homography),
@@ -591,7 +628,8 @@ tuples are computed and compared; the third follows from 3.1's uniqueness.
 - With `α, β` ordered (counting the swap `α ↔ β`, which does not change the equation) the orbit has
   `384` elements: the swap is not one of the `192`.
 - Kummer's `24` solutions of the hypergeometric equation (SpecialFunctionsHypergeometric 5.3) are
-  `4` classes of `6`; Whittaker–Watson (Ex. 10, p. 577) count `192` and record that Heun's own list
+  `6` classes of `4`, the case `n = 3` of Maier's `2n` classes of `2^{n−2}(n − 1)!` (`8` classes of
+  `24` for `n = 4`); Whittaker–Watson (Ex. 10, p. 577) count `192` and record that Heun's own list
   has `48`.
 
 *Needs:* 2.1–2.2; 3.1.
@@ -671,7 +709,10 @@ AsymptoticExpansions §10.3 at `z₀ = 0` with `r = min(1, |a|)`, whose coeffici
 with exponent `≥ 1`, impossible as the other exponent is `1 − γ ∉ {1, 2, …}`. The radius: the sum
 continues analytically along every path avoiding `1` and `a` (AsymptoticExpansions §10.2), so if the
 radius exceeds `1` the sum is analytic at `1` and continues to the disc of radius `‖a‖`. The last
-bullet is Perron's theorem for recurrences whose characteristic roots have distinct moduli.
+bullet is AsymptoticExpansions §12.1 for the recurrence 31.3.3 (roots `1`, `1/a`, see
+[the supplier contracts](#from-asymptoticexpansions)): a solution with a nonzero component along
+the dominant solution has ratio tending to the dominant root, and otherwise it is a multiple of
+the recessive solution and its ratio tends to the recessive root.
 
 **Checks.**
 - `c₁ = q/(aγ)` and `c₂ = ((Q₁ + q)c₁ − P₁)/R₁` with `P₁ = αβ`, `Q₁ = γ(1 + a) + aδ + ε`,
@@ -683,7 +724,7 @@ bullet is Perron's theorem for recurrences whose characteristic roots have disti
   hypothesis).
 - At `a = 1` and `q = αβ` the series is the Gauss series (8.1); its radius is `1 = min(1, |a|)`.
 
-*Needs:* AsymptoticExpansions §§10.2–10.3; Mathlib `HasFPowerSeriesOnBall`,
+*Needs:* AsymptoticExpansions §§10.2–10.3 and §12.1; Mathlib `HasFPowerSeriesOnBall`,
 `FormalMultilinearSeries.ofScalars`.
 
 ### 3.2 Solutions at the other singular points
@@ -768,9 +809,10 @@ Prove:
   3.3's first identity.
 
 Proof: near `z = 1`, `Hl = A f₀ + B (1 − z)^{1−δ} f₁` with `f₀, f₁` analytic at `1` (3.2), and there
-is no other singular point in `‖z‖ < ‖a‖`; Darboux's method (a transfer of the singular behaviour to
-the coefficients) gives `c_j = O(j^{Re δ − 2})` (with `j^{−m−1} log j` in the logarithmic case
-`δ = 1 − m`), summable when `Re δ < 1`.
+is no other singular point in `‖z‖ < ‖a‖`; Darboux's method (AsymptoticExpansions §13.6, 2.10.30
+and 2.10.32 with the one exceptional point `z = 1` on the circle `r = 1`, the comparison function
+being the leading terms of the expansion at `1`) gives `c_j = O(j^{Re δ − 2})` (with
+`j^{−m−1} log j` in the logarithmic case `δ = 1 − m`), summable when `Re δ < 1`.
 
 **Checks.**
 - At `(a, q, α, β, γ) = (3, 0.7, 0.3, 1.1, 0.8)` and `δ = 0.45`, the slope of `log |c_j|` against
@@ -778,14 +820,15 @@ the coefficients) gives `c_j = O(j^{Re δ − 2})` (with `j^{−m−1} log j` in
 - Negative control: at `δ = 1.5` the slope is `−0.50004`, against `δ − 2 = −0.5`, and the series of
   `|c_j|` diverges.
 
-*Needs:* 3.1–3.2.
+*Needs:* 3.1–3.2; AsymptoticExpansions §13.6.
 
 ### 3.5 Connection coefficients
 
 Sources: Ronveaux Part A, §3.4, p. 39 (the connection problem); DLMF 31.9.3–31.9.4.
 
 For `1 < |a|`, `γ ∉ {0, −1, −2, …}` and `δ ∉ ℤ`, let `f₁(q, ·)` and `f₂(q, ·)` be the two solutions
-at `1` of 3.2. Prove:
+at `1` of 3.2, given there for `|1 − x| < min(1, |1 − a|)` and continued along `(0, 1)` by
+AsymptoticExpansions §10.2. Prove:
 - on `(0, 1)`, `Hl(a, q; …; x) = A(q) f₁(q, x) + B(q) f₂(q, x)` with `A`, `B` entire functions of
   `q`, given by Wronskians: `B(q) = 𝒲{f₁, Hl}/𝒲{f₁, f₂}` and `A(q) = 𝒲{Hl, f₂}/𝒲{f₁, f₂}`;
 - `𝒲{f₁, f₂}` is a constant multiple of `x^{−γ}(1 − x)^{−δ}(a − x)^{−ε}` on `(0, 1)` (Abel's
@@ -948,9 +991,8 @@ Sources: Ronveaux Part A, §3.5, pp. 39–41, and (5.2.8)–(5.2.9), p. 61; DLMF
 
 Prove:
 - **zeros of an entire function** (`exists_entire_heunEigenvalue01_iff`): for `1 < ‖a‖`,
-  `γ, δ ∉ {0, −1, −2, …}`, there is an entire function `F`, not identically zero, with
-  `IsHeunEigenvalue01 a α β γ δ q ↔ F q = 0` for all `q`; so the eigenvalues form a closed discrete
-  set;
+  `γ, δ ∉ {0, −1, −2, …}`, there is an entire function `F` with
+  `IsHeunEigenvalue01 a α β γ δ q ↔ F q = 0` for all `q`; so the eigenvalues form a closed set;
 - **the real problem** (`heunEigenvalue01_real`): for real `a > 1`, `α`, `β` and `γ, δ > 0`, the
   eigenvalues are real, form a strictly decreasing sequence `q₀ > q₁ > ⋯` tending to `−∞`, every
   eigenvalue is one of them, and `Hl(a, q_m; …)` has exactly `m` zeros in `(0, 1)`;
@@ -958,8 +1000,11 @@ Prove:
 
 `F` is `B` of 3.5 multiplied by a nonvanishing entire factor removing the hypothesis `δ ∉ ℤ` (for
 `δ ∈ {1, 2, …}` the analytic solution at `1` is the one with the larger exponent `0`, and `F` is the
-Wronskian of `Hl` with it at a point of `(0, 1)`); `F ≢ 0` because `F(q) ≠ 0` for `q` large and
-negative, by the oscillation estimate below. The real problem is a Sturm–Liouville problem on
+Wronskian of `Hl` with it at a point of `(0, 1)`). Under the hypotheses of the real problem
+`F ≢ 0`, since its zeros are the real `q_m`, so there the eigenvalues are discrete. For complex
+parameters `F ≢ 0` is not a target: the argument below is real, and DLMF §31.4 and Ronveaux §3.5,
+p. 40, give no other (see [Beyond](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement)).
+The real problem is a Sturm–Liouville problem on
 `(0, 1)`: `(p w′)′ + αβ t ρ w = q ρ w` with `p, ρ > 0` (Conventions), and the eigenvalue condition
 is analyticity at both ends. Reality: the Lagrange identity with `w̄`, whose boundary terms vanish
 because `p → 0` at both ends (`γ, δ > 0`) and `w, w′` are bounded there. Ordering and the zero
@@ -989,24 +1034,29 @@ Prove, for `1 < |a|` and `γ, δ ∉ {0, −1, −2, …}`:
 - the recurrence 31.3.3 has a minimal solution `(c*_j)` (one with `c*_j/c_j → 0` for every
   independent solution `c_j`), unique up to a factor, with `c*_{j+1}/c*_j → 1/a`;
 - `q` is an `(0, 1)`-eigenvalue if and only if the coefficients of `Hl` are the minimal solution;
-- at `q` with `Q_j + q ≠ 0` for all `j ≥ 1` and nonvanishing partial denominators, that holds if and
-  only if the continued fraction of 31.4.2 converges and
+- for `α, β ∉ {0, −1, −2, …}` and at `q` with `Q_j + q ≠ 0` for all `j ≥ 1` and nonvanishing
+  partial denominators, that holds if and only if the continued fraction of 31.4.2 converges and
   `q = aγP₁/(Q₁ + q − R₁P₂/(Q₂ + q − R₂P₃/(Q₃ + q − ⋯)))`.
 
-The first bullet: Perron's theorem for the recurrence of 3.1 (roots `1`, `1/a` of distinct moduli).
+The first bullet: AsymptoticExpansions §12.1 for the recurrence of 3.1 (roots `1`, `1/a` of
+distinct moduli), whose recessive solution is the minimal one.
 The second: by 3.4's proof the coefficients are `O(j^{Re δ−2})` or decay like `|a|^{−j}`; the second
 happens exactly for the minimal solution and exactly when `Hl` is analytic in `‖z‖ < ‖a‖`. The third
-is Pincherle's theorem, owned here with complex coefficients: the minimal solution exists if and
-only if the continued fraction of the ratios converges, and then the ratios `c*_j/c*_{j−1}` are its
-tails.
+is Pincherle's theorem (SpecialFunctionsEiLiErfIncompleteGamma 4.1) for `b n = (Q_n + q)/R_n` and
+`a n = −P_n/R_n`, which asks `a n ≠ 0`, that is `α, β ∉ {0, −1, −2, …}`: the fraction converges if
+and only if a minimal solution with `f(0) ≠ 0` exists, its value is `−f(1)/f(0)`, and the ratios
+`c*_j/c*_{j−1}` are its tails; an equivalence transformation brings it to the form 31.4.2.
 
 **Checks.**
 - With `α = −1` the fraction terminates (`P₂ = 0`) and the equation is `q(Q₁ + q) = aγP₁`, which is
-  `q² + Q₁q + aγβ = 0`, the characteristic polynomial of 4.1.
+  `q² + Q₁q + aγβ = 0`, the characteristic polynomial of 4.1. It finds the two polynomial
+  eigenvalues (`−1.31295 73851` and `−4.38704 26149` at the parameters of the Examples) and none of
+  the infinitely many others of 5.2, which is why the third bullet assumes
+  `α, β ∉ {0, −1, −2, …}`.
 - Negative control: dropping the term `q` from the partial denominators (writing `Q_j` for
   `Q_j + q`) gives `q = aγP₁/Q₁` at `α = −1`, which is not the polynomial condition.
 
-*Needs:* 3.1, 3.4, 5.1.
+*Needs:* 3.1, 3.4, 5.1; AsymptoticExpansions §12.1; SpecialFunctionsEiLiErfIncompleteGamma 4.1.
 
 ### 5.4 Hypergeometric and Jacobi series
 
@@ -1019,19 +1069,20 @@ Let `E` be the ellipse with foci `0`, `1` through `a` (Ronveaux (4.1.2)). Prove:
   series `∑ c_j P_j(z)` with `P_j` the solutions of Riemann's equations with exponents `{0, 1 − γ}`,
   `{0, 1 − δ}`, `{λ + j, μ − j}` (31.11.2; `λ = α`, `μ = β − ε`), with the coefficients satisfying
   the three-term recurrence 31.11.4–31.11.8; the series converges outside `E`;
-- every `(0, 1)`-Heun function is such a series converging in the plane cut along `[0, 1]`, with `q`
-  a root of 31.11.13;
+- a solution analytic at `a` with exponent `α` at `∞` (a Heun function for the pair `(a, ∞)`) is
+  such a series converging in the plane cut along `[0, 1]`, the segment joining its two singular
+  points, with `q` a root of 31.11.13;
 - **Type II** (31.11.14–31.11.17; Kristensson Theorem 8.2, p. 156): every `(0, 1)`-Heun function is
   a series of Jacobi polynomials `P_j^{(γ−1, δ−1)}(1 − 2z)` (in the case 31.11.14), converging
   inside `E` and absolutely on `E` if `Re ε < 1`; for a Fuchs–Frobenius solution that is not a Heun
   function the series diverges.
 
 The coefficient recurrences come from Heun's operator acting on the `P_j` (Riemann's equation,
-SpecialFunctionsHypergeometric 3.4); convergence from the asymptotics of the recurrence (Perron,
-roots determined by the conformal map of the exterior of `[0, 1]` to the exterior of the disc, whose
-level curves are the ellipses with foci `0, 1`) and of `P_j` (Laplace–Heine type asymptotics for
-Jacobi polynomials off `[0, 1]`, which LaguerreJacobi does not provide and which are owned here for
-the needed case).
+SpecialFunctionsHypergeometric 3.4); convergence from the asymptotics of the recurrence
+(AsymptoticExpansions §12.1, roots determined by the conformal map of the exterior of `[0, 1]` to
+the exterior of the disc, whose level curves are the ellipses with foci `0, 1`) and of `P_j`
+(Laplace–Heine type asymptotics for Jacobi polynomials off `[0, 1]`, which LaguerreJacobi does not
+provide and which are owned here for the needed case).
 
 **Checks.**
 - At `a = 1/2 + i` the ellipse through `a` with foci `0, 1` has semi-major axis
@@ -1039,7 +1090,8 @@ the needed case).
 - Negative control: Type II series for `Hl` itself (not a Heun function) diverge, as Ronveaux states
   before (4.3.8): the coefficients grow at the rate set by the singularity of `Hl` at `1`.
 
-*Needs:* 5.1–5.3; SpecialFunctionsHypergeometric 3.1–3.4; LaguerreJacobi Layers 3–4.
+*Needs:* 5.1–5.3; SpecialFunctionsHypergeometric 3.1–3.4; LaguerreJacobi Layers 3–4;
+AsymptoticExpansions §12.1.
 
 ### Examples
 
@@ -1047,7 +1099,9 @@ the needed case).
   `q₀ = −1.31295 73851 > q₁ = −4.38704 26149`; the corresponding Heun functions are the Heun
   polynomials.
 - For Lamé's equation (`γ = δ = ε = ½`, 2.4) the `(0, 1)`-Heun functions are the Lamé functions of
-  period `4K` in `ζ` (Ronveaux §3.5, p. 41, on periodic solutions of the trigonometric form).
+  period `2K` in `ζ`: `w(sn²(ζ, k))` is even about `0` and about `K`, since `sn²` is (Ronveaux §3.5,
+  p. 41, on periodic solutions of the trigonometric form). Period `4K` and not `2K` belongs to the
+  Heun functions with exponents `(½, 0)` or `(0, ½)` at `(0, 1)`.
 
 ### Dependencies
 
@@ -1156,7 +1210,7 @@ sin² θ (K_θθ + ((1 − 2γ) tan θ + 2(δ + ε − ½) cot θ) K_θ − 4α�
 ```
 
 - the separated solutions are products of a solution of Riemann's equation in `cos² θ` with
-  exponents `{0, 1 − γ}`, `{0, ½ − δ − σ}`, `{α, β}` and one in `cos² φ` with exponents
+  exponents `{0, 1 − γ}`, `{½ − δ − σ, ½ − ε + σ}`, `{α, β}` and one in `cos² φ` with exponents
   `{0, 1 − ε}`, `{0, 1 − δ}`, `{−½ + δ + σ, −½ + ε − σ}` (31.10.9), `σ` a separation constant; for
   Heun polynomials of degree `n`, `σ = ½ − δ − j`, `j = 0, …, n`;
 - the kernel 31.10.10, for `Re γ > 0`, `Re δ > 0` and the Pochhammer loop about `0` and `1`, gives
@@ -1175,6 +1229,12 @@ SpecialFunctionsHypergeometric 3.4.
 - Negative control: with DLMF's printed coefficient `(1 − 2δ) cot φ − (1 − 2ε) tan φ` the ratios
   differ between the two `G` (`−0.03924` against `−0.03361` at the first point), so the printed
   equation is not equivalent to `(D_z − D_t)K = 0`.
+- The six exponents of each factor sum to `1`, as Riemann's equation requires:
+  `(1 − γ) + (½ − δ − σ) + (½ − ε + σ) + α + β = 1` and
+  `(1 − ε) + (1 − δ) + (−½ + δ + σ) + (−½ + ε − σ) = 1`, by `α + β + 1 = γ + δ + ε`.
+- Negative control: the exponents `{0, ½ − δ − σ}` at `cos² θ = 1` give the sum
+  `3/2 − γ − δ − σ + α + β`, which is `1` only for `σ = ε − ½`, so they do not belong to a
+  Riemann equation for a free separation constant.
 
 *Needs:* 6.3; SpecialFunctionsHypergeometric 3.4.
 
@@ -1322,7 +1382,10 @@ The exponents are `μ_j = −(f₁λ_j + g₁)/(f₀ + 2λ_j)` (2.7.10): `μ₁ 
 - Mathieu's equation `w″ + (a − 2q cos 2x)w = 0` is a confluent Heun equation in `z = cos² x`
   (Ronveaux Part A, (2.4.13), p. 23; Kristensson §8.6.3, p. 161), and the spheroidal wave equation
   is one in `z = (1 + x)/2` (Kristensson §8.6.2, pp. 160–161).
-- The confluent hypergeometric equation is the confluent equation with `δ = 0`.
+- The confluent equation with `δ = 0` and `q = α` is `zw″ + (γ + εz)w′ + αw = 0`, for `ε ≠ 0`
+  Kummer's equation `ζu″ + (b − ζ)u′ − a′u = 0` in `ζ = −εz` with `b = γ`, `a′ = α/ε` (for
+  `ε = −1`, `ζ = z` and `a′ = −α`). With `δ = 0` alone it is not: the coefficient
+  `(αz − q)/(z(z − 1))` keeps a simple pole of residue `α − q` at `z = 1`.
 
 ### Dependencies
 
@@ -1363,8 +1426,8 @@ SpecialFunctionsHypergeometric 1.3); at `a = 1` the recurrence depends on `δ, �
 
 ### 8.2 Quadratic and cubic reductions
 
-Sources: Maier, "On reducing the Heun equation to the hypergeometric equation" (2005); DLMF
-31.7.2–31.7.4.
+Sources: Maier, "On reducing the Heun equation to the hypergeometric equation" (2005), Theorems
+3.7–3.8; DLMF 31.7.2–31.7.4.
 
 Prove:
 - **the quadratic reduction** (`heunLocal_two_eq_ordinaryHypergeometric`): for `γ ∉ {0, −1, −2, …}`
@@ -1409,8 +1472,11 @@ Layer 3; SpecialFunctionsHypergeometric.
 The following material lies outside this roadmap. It is recorded only to fix the boundary.
 Contributors should not attempt it under this roadmap.
 
+- **Discreteness of the `(0, 1)`-eigenvalues for complex parameters**: that the function `F` of
+  5.2 is not identically zero outside the hypotheses of its real problem. DLMF §31.4 asserts a
+  discrete set of eigenvalues; Ronveaux §3.5, p. 40, bases it on the real Sturm–Liouville problem.
 - **Path-multiplicative solutions** and their doubly infinite hypergeometric expansions (DLMF §31.6,
-  §31.11(v); Ronveaux Part A, (4.5.1)–(4.5.2)): Schmidt's theory, for which no source is at hand.
+  §31.11(v); Ronveaux Part A, (4.5.1)–(4.5.2)): Schmidt's theory.
 - **Finite-gap and Liouvillian solutions**: the Hermite–Darboux construction for half-odd-integer
   exponents (DLMF §31.8) and Kovacic's algorithm (DLMF §31.14(ii)).
 - **Integral equations of the second type** (DLMF §31.10(ii)), with the cylinder-function and
