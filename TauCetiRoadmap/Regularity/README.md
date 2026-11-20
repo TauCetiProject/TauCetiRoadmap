@@ -571,9 +571,10 @@ route at a transversal placement, with error `(k choose 2) · ε` times the cell
 `ε`-regularity and no lower bound on the pair-color densities
 (`TauCeti.abs_lowerRouteCountAt_sub_expectedLowerRouteCountAt_le`); the sparse-route bounds are
 separate lemmas. The prediction along the routes that are not top-regular is bounded by
-`TauCeti.Colored3Graph.exceptional_route_prediction_mass_le`, whose second term is the lower-route
-counting error summed over all routes of all transversal placements. The counting parameters do
-not depend on the top palette.
+`TauCeti.Colored3Graph.exceptional_route_prediction_mass_le`, whose second term,
+`m^(k choose 2) · (k choose 2) · ε · |V|^k` for `m` pair colors, bounds the lower-route counting
+error summed over all routes of all transversal placements. The counting parameters do not depend
+on the top palette.
 
 **Owned elsewhere.**
 
