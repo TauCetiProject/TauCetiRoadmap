@@ -112,9 +112,9 @@ unrelated section.
 
 For a bounded map `T : E → F` between seminormed spaces over a nontrivially normed field, the
 approximation numbers `aₙ(T)` of Convention 3 are `ContinuousLinearMap.singularValue` (OI-A01;
-Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn; Ullrich 2024, p. 2, one-based, on Banach
-spaces). Two bounded maps `S : E → F` and `T : G → H`, possibly between different pairs of spaces,
-*have the same approximation numbers*
+Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn; Ullrich 2024, p. 2, one-based, on real or
+complex Banach spaces). Two bounded maps `S : E → F` and `T : G → H`, possibly between different
+pairs of spaces, *have the same approximation numbers*
 when `aₙ(S) = aₙ(T)` for every `n`; this relation is `ContinuousLinearMap.SameSingularValues`
 (OI-A02, unfolded by `ContinuousLinearMap.sameSingularValues_iff`), and it is reflexive (OI-A03,
 `ContinuousLinearMap.sameSingularValues_refl`), symmetric (OI-A04,
@@ -122,9 +122,9 @@ when `aₙ(S) = aₙ(T)` for every `n`; this relation is `ContinuousLinearMap.Sa
 `ContinuousLinearMap.sameSingularValues_trans`).
 The Ky Fan gauge `Kₖ(T)` of Convention 5 is `ContinuousLinearMap.kyFanGauge`, in the same setting
 (OI-A06). The calculus below holds in this generality (Pietsch, *Eigenvalues and s-Numbers*). On
-Banach spaces and in the one-based convention, OI-A12 with OI-A13, OI-A16 and OI-A20 are the
-s-number axioms (S1), (S2) and (S3) of Ullrich 2024, p. 2, which the approximation numbers
-satisfy, and Remark 1 there states OI-A17 and OI-A22.
+real or complex Banach spaces and in the one-based convention, OI-A12 with OI-A13, OI-A16 and
+OI-A20 are the s-number axioms (S1), (S2) and (S3) of Ullrich 2024, p. 2, which the approximation
+numbers satisfy, and Remark 1 there states OI-A17 and OI-A22.
 
 - *Infimum formula* (OI-A07). `aₙ(T)` is the greatest lower bound of the set of `‖T − R‖` over the
   bounded `R` with `rank R ≤ n` (`ContinuousLinearMap.isGLB_singularValue`).
@@ -209,10 +209,10 @@ rank (Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn).
 **Checks.**
 - The identity of an infinite-dimensional Hilbert space has `aₙ = 1` for every `n` (§1.6, OI-A51),
   so it is not compact, as it should not be.
-- The diagonal operator on `ℓ²(ℕ, 𝕜)` with coefficients `1/(n + 1)` has `aₙ = 1/(n + 1)` (§1.6,
-  OI-A55), so it is compact by OI-A29, while `aₙ > 0` for every `n` gives `rank > n` for every `n`
-  by OI-A24: the decay `aₙ → 0` does not force eventual vanishing, and a characterization of
-  compactness by finite rank would be wrong.
+- Over `ℝ` or `ℂ`, the diagonal operator on `ℓ²(ℕ, 𝕜)` with coefficients `1/(n + 1)` has
+  `aₙ = 1/(n + 1)` (§1.6, OI-A55), so it is compact by OI-A29, while `aₙ > 0` for every `n` gives
+  `rank > n` for every `n` by OI-A24: the decay `aₙ → 0` does not force eventual vanishing, and a
+  characterization of compactness by finite rank would be wrong.
 
 ### 1.3 Hilbert-space invariance and lower bounds (OI-A30–OI-A34)
 
@@ -351,10 +351,11 @@ formula and the decay of the approximation numbers (Pietsch, *Eigenvalues and s-
 - *Infinite diagonal* (OI-A55). For a bounded coefficient sequence `d` whose magnitudes `|dₙ|`
   are nonincreasing, the diagonal operator on `ℓ²(ℕ, 𝕜)` (and on `ℓᵖ(ℕ, 𝕜)` for every
   `1 ≤ p ≤ ∞`) has `aₙ = |dₙ|`, which is `sup` of `|dₘ|` over `m ≥ n` (`lp.singularValue_diagonalCLM`
-  for Tau Ceti's `lp.diagonalCLM`); every nonincreasing sequence in `ℝ≥0` arises this way
-  (`lp.exists_singularValue_diagonalCLM_eq`).
+  for Tau Ceti's `lp.diagonalCLM`); over `ℝ` or `ℂ`, every nonincreasing sequence in `ℝ≥0` arises
+  this way (`lp.exists_singularValue_diagonalCLM_eq`).
 - *Infinite diagonal decay* (OI-A56). If moreover `|dₙ| → 0`, then `aₙ → 0`
-  (`lp.tendsto_singularValue_diagonalCLM`), and over `ℝ` or `ℂ` the operator is compact by OI-A29.
+  (`lp.tendsto_singularValue_diagonalCLM`), and over a locally compact nontrivially normed field,
+  such as `ℝ` or `ℂ`, the operator is compact by OI-A27, `ℓᵖ(ℕ, 𝕜)` being complete.
 
 *Needs:* §§1.1–1.4; Tau Ceti `lp.diagonalCLM`; Mathlib `OrthonormalBasis`, `Matrix.toLin`; Tau Ceti
 the declarations named above.
@@ -366,11 +367,11 @@ the declarations named above.
 
 ### Examples
 
-- The identity of `ℓ²(ℕ, 𝕜)` has `aₙ = 1` for every `n` (OI-A51, the rank `r` being infinite, in
-  fact `2^ℵ₀`), so it is not compact (OI-A29) and its Ky Fan gauges are `Kₖ = k`.
-- The diagonal operator on `ℓ²(ℕ, 𝕜)` with coefficients `1/(n + 1)` has `aₙ = 1/(n + 1)` (OI-A55),
-  is compact (OI-A56), has infinite rank (OI-A24), and its Ky Fan gauge `Kₖ` is the harmonic number
-  `1 + 1/2 + ⋯ + 1/k`.
+- Over `ℝ` or `ℂ`, the identity of `ℓ²(ℕ, 𝕜)` has `aₙ = 1` for every `n` (OI-A51, the rank `r`
+  being infinite, in fact `2^ℵ₀`), so it is not compact (OI-A29) and its Ky Fan gauges are `Kₖ = k`.
+- Over `ℝ` or `ℂ`, the diagonal operator on `ℓ²(ℕ, 𝕜)` with coefficients `1/(n + 1)` has
+  `aₙ = 1/(n + 1)` (OI-A55), is compact (OI-A56), has infinite rank (OI-A24), and its Ky Fan gauge
+  `Kₖ` is the harmonic number `1 + 1/2 + ⋯ + 1/k`.
 - A rank-one operator `x ↦ ⟪u, x⟫ • v` with `u, v ≠ 0` has `a₀ = ‖u‖ ‖v‖` (OI-A12) and `aₙ = 0`
   for `n ≥ 1` (OI-A23).
 - The identity, projection, rectangular diagonal and diagonal min–max models of §1.6 are the
