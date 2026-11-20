@@ -1539,7 +1539,8 @@ link types used silently below.
 Define the knot type of `K` as its class under `SmoothAmbientIsotopic`; the unoriented type
 additionally identifies `K` with `K.reverse`; the mirror of `K ⊂ S³` is its image under the
 fixed reflection of `S³`. The empty link `TauCeti.SmoothLinkEmbedding.empty` is the unique
-`0`-component link, and the `n`-component unlink is a set of `n` great circles in disjoint balls.
+`0`-component link, and the `n`-component unlink is a set of `n` round circles, one in each of `n`
+pairwise disjoint balls.
 Define the connected sum `K # J` of two oriented knots in `S³` by choosing disjoint balls each
 meeting one knot in an unknotted arc and joining the two arcs by an untwisted band compatible
 with the orientations, and prove that the result is independent of the choices up to ambient
@@ -6004,7 +6005,7 @@ counts have liminf ≥ 2 and limsup ≤ 512.
 On 4.2.5's signed Dowker words, specify the root, orientation and sign data counted by `n!·2^n`
 and the planar and connected-sum data needed to decode a diagram, prove the decoder's fibre
 theorem, decide whether n!·2^n bounds the knots so counted, and compare it with the exponential
-bound. The lower bounds `(2^(n−2)−1)/3`, `(2^(n−2)−3)/3`, `2^(n−2)/3` and `e^n` are stated each
+bound. The lower bounds `(2^(n−2)−1)/3`, `(2^(n−2)−3)/3` and `2^(n−2)/3` are stated each
 with its own count convention and threshold; the mirror-identified prime counts violate several
 at 4, 6 or 8.
 
