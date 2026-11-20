@@ -35,180 +35,16 @@ higher-level plus-space theory, special-value identities, cycle formulas and the
 correspondence. Analytic kernels, convergence, local factors and comparisons needed by
 those proofs are targets of the sections that use them, except for the named supplier inputs.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- The carrier `HalfIntegralForm k Γ` of holomorphic forms of weight `k + 1/2`, `k : ℕ`, on a
-  subgroup `Γ ≤ Γ₀(4)` of `SL(2, ℤ)`, with its basic API: linear structure, Fourier expansion at
-  `∞` and at every cusp, the diamond operators and the nebentypus spaces `M_{k+1/2}(N, χ)`,
-  `S_{k+1/2}(N, χ)`, the forced evenness of `χ`, multiplication by integral-weight forms and the
-  injection `f ↦ fθ` into `M_{k+1}(N, χ χ₋₄^{k+1})`, finite-dimensionality, the Petersson product
-  on `S_{k+1/2}(N, χ)`, and Cohen's basis `θ^{2k+1−4j} F^j` of `M_{k+1/2}(Γ₀(4))` (Layer 0).
-- Shimura's Hecke operators `T(p²)` with their coefficient formula, the Shimura lift `Sh_t`, the
-  theorems of Shimura and Niwa on its image, its Hecke equivariance, the Euler product, and the
-  Shimura decomposition `S_{k+1/2}(N, χ) = S_0 ⊕ ⨁_F S_{k+1/2}(N, χ, F)` with the field of
-  definition of each component (Layers 1 and 4).
-- The theta series of an even positive definite lattice of **odd** rank as a form of weight `n/2`
-  on `Γ₀(level L)` with character `(2 det L / ·)`, the coset series on `Γ(level L)`, and the
-  reading of the LMFDB column `lat_lattices.theta_series` in odd rank (Layer 2).
-- The real-weight modulus condition on AutomorphicBundles' scalar factors, the `θ` multiplier
-  system, the packaging of the consumed `η` multiplier as a multiplier system of weight `1/2`,
-  and eta quotients of half-integral weight with their level and their character measured
-  against the theta multiplier, as the `mf.half_integral_weight.*` knowls write `θ` and `η`
-  (Layer 3).
-- The unary theta series `θ_{ψ,t}` of weight `1/2` and `h_{ψ,t}` of weight `3/2` (the latter built
-  on QSeriesPartitionsAndMockModularForms' unary theta characteristics), their Dirichlet-character
-  modularity, the
-  Serre–Stark basis theorem for `M_{1/2}(N, χ)` and `S_{1/2}(N, χ)`, and the theta subspace
-  `S_0(N, χ) ⊂ S_{3/2}(N, χ)` of the Shimura decomposition (Layer 4).
-- Kohnen's plus space `M⁺_{k+1/2}(Γ₀(4))` with the plus–minus decomposition, the operator `T⁺(4)`,
-  Kohnen's Hecke isomorphism with `M_{2k}(SL₂(ℤ))`, Kohnen's level-`4N` plus space, the
-  Kohnen–Zagier formula and Waldspurger's theorem, and the Shintani lift as the Petersson
-  adjoint of the Shimura lift with Shintani's cycle-integral formula (Layer 5).
-- The classical form of the Jacobi forms `J_{k,m}` of every index `m ≥ 1`
-  (MetaplecticAutomorphicForms 6.18's carrier, compared with Eichler–Zagier's definition) with its
-  Fourier-coefficient API, the half-integral-weight membership and laws of the components of
-  MetaplecticAutomorphicForms 6.20's theta decomposition,
-  `J_{k,1} ≅ M⁺_{k−1/2}(Γ₀(4)) ≅ M_{2k−2}(SL₂(ℤ))` as Hecke modules, the dimension formula, and the
-  Skoruppa–Zagier correspondence for `J^{cusp}_{k,m}` (Layer 6).
-- The LMFDB invariant layer for `halfmf_forms`, the intrinsic label prefix `(N, k, χ)`, and the
-  coverage map (Layer 7).
-
-### Consumed, not redefined
-
-- AutomorphicBundles §§11.3–11.4 owns holomorphic invertible factors, sections, frame
-  change and the SlashAction adapter. Layer 3 specializes these to scalar real-weight
-  modulus conditions and computes the branch phases.
-
-- From Mathlib: `jacobiTheta` and `jacobiTheta₂` with their functional equations (the odd-rank
-  `S`-law of rank one, which the theta-series roadmap deliberately consumes only through its
-  square, is consumed here directly, in 4.1); `ModularForm.eta` and `eta_ne_zero` (Mathlib has
-  the function and its inversion law `ModularForm.eta_comp_eq_csqrt_I_inv`, the modular-forms
-  roadmap §0.2 its transformation under `SL₂(ℤ)` with the closed forms,
-  QSeriesPartitionsAndMockModularForms §5.2 its multiplier system);
-  `ModularForm`, `CuspForm` and `qExpansion` as the targets of every integral-weight statement;
-  `jacobiSym`, `ZMod.χ₄`, `ZMod.χ₈`; `LSeries`.
-- From Tau Ceti: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace` and
-  `mem_modFormCharSpace_iff`, the pattern that 0.4 reproduces; the finite-dimensionality of
-  `ModularForm Γ k` (0.3 reduces to it); the Petersson product on integral-weight cusp forms
-  (`TauCeti.NumberTheory.ModularForms.Petersson.Basic`), whose adjoint theory 5.7 copies in shape;
-  `HeckeRing.GL2.Newform` with its coefficient field and its Atkin–Lehner, Fricke and root-number
-  data (4.7, 6.4); `hurwitzClassNumber` (Layer 4 examples); the integral-lattice library through
-  the theta-series roadmap's bridge.
-- From the [modular-forms roadmap](../ModularForms/README.md): *Layer 0* (`M_k(N, χ)`,
-  `S_k(N, χ)`, the nebentypus law `mem_modFormCharSpace_iff_nebentypus`, the cusp–Eisenstein
-  decomposition), *Layer 2* (the Hecke operators `T_n` on `M_{2k}(Γ₁(N))`, the target of 1.3's
-  equivariance), *Layer 3* (Petersson adjoints), *Layer 4* (newforms, the `F` of 4.7), *Layer 7*
-  (`L(s, f)`, its functional equation and root number `ε(f)`, used by 5.5–5.6 and 6.4), *Layer 8*
-  and *8G* (`CoefficientField`, `CharacterField`, the `ℚ(χ)`-structure of a newspace, used by 4.7),
-  and *§0.2* (the law `η(γz) = ε(γ)(cz + d)^{1/2} η(z)` on `ℍ` with the principal root and a
-  constant `ε(γ)` with `ε(γ)²⁴ = 1`, `ε(T) = e(1/24)`, `ε(S) = e(−1/8)`; Dedekind sums `s(d, c)`
-  with their reciprocity law; the Dedekind-sum and Kronecker-symbol values of `ε(γ)` for `c > 0`;
-  the eta-quotient criterion in integral weight, with its worked example `η²⁴ = Δ`, and the
-  orders of an eta quotient at the cusps of `Γ₀(N)` for every exponent vector; used by 3.3 and
-  3.4).
-- From the [theta-series roadmap](../ThetaSeries/README.md): its carrier (a full `ℤ`-lattice
-  `L : Submodule ℤ E` in a real inner product space), `IsEven`, `IsIntegral`, `det`, `level`,
-  `repNum`, `discGroup` (*Layer 2*); `thetaSeries`, `thetaCoset`, `thetaCoset_add_mem`,
-  `hasSum_thetaSeries`, `thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int` (*Layer 3*);
-  `kroneckerSym` and `kroneckerChar` (*the Kronecker symbol*); `gaussSum`, `gaussSum_reciprocity`
-  and `milgram` (*Layer 6*), and the even-rank Hecke–Schoeneberg theorem
-  `thetaSeries_slash_of_mem_Gamma0`, `thetaCoset_slash_of_mem_Gamma`, `thetaFormOfLevel` with
-  `thetaFormOfLevel_mem_modFormCharSpace` and `discChar` (*Layer 7*). Layer 2 below states the
-  odd-rank theorem on the same `thetaSeries L` and proves it by dividing the even-rank theorem for
-  `L ⊕ A₁` by `θ` and taking the square root of the one for `L ⊕ L`; no second theta series, no
-  second Poisson summation and no second Gauss sum appear here. The Tau Ceti declarations that
-  formalize part of this material are listed under *From Tau Ceti* in *Exact supplier contracts*.
-- From GeometryOfNumbersAndQuadraticArithmetic §4.3 (*Half-integral cusp forms and the ternary
-  specialization*, *Half-integral coefficient estimate*): the theta multiplier `j(γ, z) = θ(γz)/θ(z)`
-  on `Γ₀(4)`, the nonvanishing of `θ`, the identification of `j` with Shimura's
-  `ε_d^{−1} (c/d) (cz + d)^{1/2}`, the carrier `HalfIntegralCuspForm k N` of cusp forms with trivial
-  character and its Petersson product, `thetaMultiplierPhase`, `halfIntegralKloosterman` and
-  `halfIntegralCoefficientBound`, and the analytic product specialization
-  `jacobi_product_specialization` for the eta comparison in §3.4. 0.1 records the three facts about `θ` as consumed statements;
-  0.5 identifies `S_{k+1/2}(Γ₀(N), 1)` with `HalfIntegralCuspForm k N` as subspaces of functions on
-  `ℍ`. Section 0.5 owns the elementary Hecke bound at every positive Fourier index and
-  every weight `k + 1/2`, `k ≥ 0`; the supplied Iwaniec–Duke estimate applies to positive
-  squarefree indices in weight at least `5/2`. The multiplier and its nonvanishing remain
-  supplier inputs.
-- From the [metaplectic groups, Weil representations and automorphic theta kernels roadmap](../MetaplecticAutomorphicForms/README.md):
-  *Layer 2* (the metaplectic double cover) by citation only, as the object this roadmap avoids;
-  *6.17–6.18* (the Jacobi group and `jacobiSpace`, whose holomorphic classical specialization at the
-  Jacobi lattice `SL₂(ℤ) ⋉ ℤ²`, integral index `m ≥ 1`, weight `k` and trivial multiplier is the
-  carrier `J_{k,m}` of 6.1); *6.20* (`jacobi_thetaDecomposition`, the theta decomposition with
-  finitely many discriminant residues and unique components, read in 6.2); *7.1* (the unitary
-  normalization `J(γ, z) = j(γ, z) |cz + d|^{−1/2}`, named in 3.2); *7.10* (the weight-`1/2` unitary
-  `U`, `W`, `pr⁺`, named in 5.2 as the analogue of Kohnen's operators); *7.49* (the adelic–classical
-  comparison, where a form of this roadmap meets a genuine automorphic form). Its weight-`1/2` Maass
-  spaces, their plus subspace, Hecke eigenbasis and Shimura bijection of eigenlines (7.2–7.48) are
-  spectral objects, not the holomorphic objects of Layers 1 and 5.
-- From the [q-series, partition statistics and mock modular forms roadmap](../QSeriesPartitionsAndMockModularForms/README.md):
-  *§5.2* (the eta multiplier `ν_η(γ) = η(γz)/((cz + d)^{1/2} η(z))` on `SL₂(ℤ)`, principal root,
-  which is the modular-forms roadmap §0.2's `ε(γ)`, with its square-root cocycle and the lifted
-  character on the square-root cover; the law `η(γz) = ν_η(γ)(cz + d)^{1/2} η(z)`, the
-  independence of `z`, the values `ν_η(T) = e(1/24)`, `ν_η(S) = e(−1/8)` and the closed forms
-  are §0.2's); *§6.1* (the unary theta characteristic
-  `g(a, b; τ) = ∑_{ν ∈ a + ℤ} ν exp(πiν²τ + 2πiνb)` with its shift, `T`- and `S`-laws and its
-  cuspidality at rational characteristics; 4.1 builds `h_{ψ,t}` from it); *§9.1* (the classical
-  theta-component coordinates `θ_{m,μ}(τ, z) = ∑_{r ≡ μ (2m)} e(r²τ/(4m) + rz)`, their
-  identification with `jacobiTheta₂` at rescaled arguments, their invariance under `μ ↦ μ + 2m`, and
-  the uniqueness of the theta coefficients of a holomorphic elliptic function of index `m`; 6.2
-  reads MetaplecticAutomorphicForms 6.20 in these coordinates).
-
-### Not owned here
-
-- Integral weight: the spaces `M_k(N, χ)`, Hecke operators, newforms, `L`-functions, Atkin–Lehner
-  theory, dimension formulas, coefficient fields and Galois orbits are the
-  [modular-forms roadmap](../ModularForms/README.md)'s. The target of the Shimura lift, the `F` of
-  the Shimura decomposition and the `S_{2k}(SL₂(ℤ))` of Kohnen's isomorphism are its objects.
-- Theta series of **even** rank, Poisson summation, Gauss sums of a lattice, the Kronecker symbol,
-  `Θ_{E₈} = E₄` and the Leech identity: the [theta-series roadmap](../ThetaSeries/README.md).
-  Lattice invariants (rank, determinant, level, genus, automorphisms, minimum, kissing number,
-  density, perfection): the [integral quadratic forms and lattices roadmap](../IntegralLattices/README.md)
-  and the sibling `LatticePackingsAndPerfectForms`. Layer 2 adds to a lattice exactly one new
-  statement, the modularity of `Θ_L` in odd rank.
-- The theta multiplier as a definition, the nonvanishing of `θ`, the trivial-character cusp carrier,
-  the half-integral Kloosterman sums and the coefficient bounds of Iwaniec and Duke:
-  GeometryOfNumbersAndQuadraticArithmetic §4.3.
-- The metaplectic group `Mp₂`, the Weil representation of `SL₂(ℤ)` on `ℂ[A]` for a finite quadratic
-  module, vector-valued modular forms, theta kernels and theta lifts as integrals, the Siegel–Weil
-  formula, the weight-`1/2` spectral theory, and the Jacobi group, `jacobiSpace` and the theta
-  decomposition of Jacobi forms in general: MetaplecticAutomorphicForms. 6.2 states the laws of the
-  scalar components of that decomposition on `Γ(4m)` and does not build the Weil representation.
-- The transformation of `η` under `SL₂(ℤ)` with its constant `ε(γ)`, Dedekind sums with their
-  reciprocity law, the Dedekind-sum and Kronecker-symbol values of `ε(γ)`, the eta-quotient
-  criterion in integral weight and the orders of eta quotients at the cusps of `Γ₀(N)`: the
-  [modular-forms roadmap](../ModularForms/README.md) §0.2.
-- The eta multiplier `ν_η` as a definition, with its cocycle and its lifted character, the unary
-  theta characteristics `g(a, b)` with their transformation laws, and the theta-component
-  coordinates `θ_{m,μ}`: QSeriesPartitionsAndMockModularForms §§5.2, 6.1, 9.1.
-- Harmonic Maass forms of half-integral weight, mock theta functions, shadows and completed Lerch
-  sums: QSeriesPartitionsAndMockModularForms (its Layers 5–9). Everything here is holomorphic.
-- Siegel modular forms of degree two, the Fourier–Jacobi expansion of a Siegel form, the Maass lift
-  and the Saito–Kurokawa theorem, the Gritsenko lift: the sibling `SiegelModularForms` (its Layer
-  9), which consumes 6.1–6.4 by name: its 9.2 reads the carrier `J_{k,1}` in the classical form of
-  6.1 and states on it the Jacobi Eisenstein series `E_{k,1}`, while its `V_l` are
-  specializations of §6.4's general operators, and its Maass
-  lift (9.3) and Saito–Kurokawa theorem (9.5) read MetaplecticAutomorphicForms 6.20's
-  decomposition with the components of 6.2 and the isomorphisms of 6.3; it declares no Jacobi
-  carrier of its own.
-- Modular forms of half-integral weight on **noncongruence** groups, on `Γ₀(N)` with `4 ∤ N`
-  (where no `θ`-multiplier exists and the theory needs `Mp₂`), and of weight `k + 1/2` with `k < 0`:
-  not objects of any LMFDB section served here.
-- Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists,
-  and the completeness of database tables are not targets: the LMFDB label string of a
-  `halfmf_forms` row, the ordering of the newform components on a page, the choice of basis of
-  `S_{k+1/2}(N, χ, F)` whose `q`-expansions the `half_forms` column stores. Layer 7 states only
-  the intrinsic prefix `(N, k, χ)` and the intrinsic invariants.
-
-The theta-series roadmap records the boundary from its side (*Rank*: "half-integral weight is out of
-scope, and a contributor should not attempt it here"; *Not owned here*: "Half-integral weight, as
-above"); the integral quadratic forms and lattices roadmap lists "Half-integral weight modular forms,
-hence the modularity of the theta series of a lattice of **odd** rank" among the things it does not
-own; the sibling `SiegelModularForms` lists half-integral weight Siegel modular forms, the theta
-multiplier, the Kohnen plus space and the Shimura lift under its *Not owned here*, and consumes from
-here the classical form of the Jacobi carrier and three named isomorphisms.
+Layer 0 constructs the carrier and its finite-index theory. Layer 1 constructs Hecke
+operators and the ordinary Shimura family; Layers 2 and 3 supply odd-rank theta modularity
+and multiplier calculations. Layer 4 constructs the unary families and proves Serre–Stark,
+then uses its weight-three-halves cusp criterion to prove the Shimura decomposition and
+coefficient-field descent. Layers 5 and 6 prove the plus-space and Jacobi correspondences,
+and Layer 7 packages their intrinsic invariants. The Lean acceptance test states the
+headlines that use native carriers and simple definitions; its docstring identifies the
+missing carriers for the other headlines, all of whose proofs remain targets here.
 
 ## Conventions
 
@@ -315,124 +151,6 @@ some of them differently from the sources.
   theta-series roadmap does. `χ₋₄ = (−1/·)` is `ZMod.χ₄` lifted, `(2/·) = ZMod.χ₈`, `(t/·)` is the
   theta-series roadmap's `kroneckerChar` of the discriminant of `ℚ(√t)` extended by zero to the
   level; `(a/d)` for odd `d > 0` is Mathlib's `jacobiSym a d`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `UpperHalfPlane`, the `SL(2, ℤ)` action, `denom`, `im_smul_eq_div_normSq`, `ModularGroup.S`, `T`;
-  `CongruenceSubgroup.Gamma0 N`, `Gamma1 N`, `Gamma N` as subgroups of `SL(2, ℤ)`.
-- `ModularForm Γ k`, `CuspForm Γ k`, `SlashAction`, `slash_apply`, `IsBoundedAtImInfty`,
-  `IsZeroAtImInfty`, `qExpansion`, `hasSum_qExpansion`, `ModularForm.mul`; `Cusps.lean`
-  (`IsCusp`, `CuspOrbits`, `widthInfty`, `strictPeriods`) for 0.3.
-- `jacobiTheta` (`JacobiTheta/OneVariable.lean`): `jacobiTheta_two_add`, `jacobiTheta_S_smul`
-  (`jacobiTheta (S • τ) = (−Iτ)^{1/2} jacobiTheta τ`), `hasSum_nat_jacobiTheta`,
-  `mdifferentiable_jacobiTheta`, `isBigO_at_im_infty_jacobiTheta_sub_one`; `jacobiTheta₂ z τ`
-  with `jacobiTheta₂_functional_equation`, `jacobiTheta₂_add_left`, `jacobiTheta₂_add_right`
-  (`TwoVariable.lean`). ⚠ `jacobiTheta τ = θ(τ/2)`: every use carries the substitution `τ = 2z`,
-  and `jacobiTheta_S_smul` reads `θ(−1/(4z)) = (−2iz)^{1/2} θ(z)`, the `W₄`-law of 0.1 and 5.2.
-- `ModularForm.eta` (`DedekindEta.lean`): `eta`, `eta_ne_zero`, `multipliableLocallyUniformlyOn_eta`,
-  `differentiableAt_eta_of_mem_upperHalfPlaneSet`, `logDeriv_eta_eq_E2`; and the inversion law
-  `ModularForm.eta_comp_eq_csqrt_I_inv` (`Discriminant.lean`), `η(−1/z) = (√i)⁻¹ √z η(z)` on the
-  upper half-plane, which is `η(−1/z) = (−iz)^{1/2} η(z)` with the principal root because for
-  `0 < arg z < π` both roots have argument `(arg z − π/2)/2`. Mathlib has the function, its
-  nonvanishing, its logarithmic derivative and this inversion law; it has no transformation law
-  at a general element of `SL(2, ℤ)` and no Dedekind sums.
-- `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `primitiveCharacter`,
-  `MulChar.equivToUnitHom`, `DirichletCharacter.Even`/`Odd`; `jacobiSym` with quadratic reciprocity,
-  `ZMod.χ₄`, `ZMod.χ₈`; `Int.IsFundamentalDiscr` (`FundamentalDiscriminant.lean`, with
-  `isFundamentalDiscr_iff_squarefree`; 5.3); `LSeries`, `ArithmeticFunction`
-  (1.2); `Complex.cpow`, `Real.rpow`.
-
-### From Tau Ceti
-
-- `DiamondOperators`: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace`,
-  `mem_modFormCharSpace_iff`, `eq_of_mem_cuspFormCharSpace_of_ne_zero`; 0.4 copies the construction
-  onto the new carrier. `TauCeti.finiteDimensional_modularForm_finiteIndex` in
-  `TauCeti/NumberTheory/ModularForms/SturmBound.lean`: for `𝒢 ≤ GL₂(ℝ)`,
-  determinant-one elements, finite relative index in the integral modular group and
-  discrete strict periods imply `Module.Finite ℂ (ModularForm 𝒢 k)`. The image of
-  `Γ∩Γ₁(4)` satisfies these hypotheses when `Γ` has finite index; §0.3 pulls this back
-  along `f↦fθ`.
-- `Petersson.*` (shape for 0.5, 1.1, 5.7); `Newforms.*` (`HeckeRing.GL2.Newform`, coefficient fields,
-  `a_p(F)`, Fricke and Atkin–Lehner eigenvalues, strong multiplicity one: the `F` of 4.6 and 6.4);
-  `LFunction.*` (`L(s, F)`, functional equation, root number: 5.5, 5.6, 6.4);
-  `LevelOne.GradedRing` (`dim M_{2k}(SL₂(ℤ))`: 5.3, 6.3); `SturmBound` (7.1, examples).
-- `hurwitzClassNumber` (examples of Layers 2 and 4; `r₃(n) = 12(H(4n) − 2H(n))` is a check, not a
-  target). `IntegralLattice.*` through the theta-series roadmap's bridge: `typeARootLattice`,
-  `typeE₈RootLattice`, `checkerboardLattice` for `A₁`, `A₃`, `D₅`, `E₇`.
-- The theta-series roadmap's objects that this roadmap consumes, under their Tau Ceti names (the
-  rest of this README uses that roadmap's names). In `TauCeti/Algebra/Module/ZLattice/`:
-  `ZLattice.IsEven` and `ZLattice.IsIntegral` (`Integral.lean`) are its `IsEven` and
-  `IsIntegral`; `ZLattice.dual` (`Dual.lean`, notation `L^∨`) is its `dual`; `ZLattice.level`
-  (`Level.lean`) is its `level`; `ZLattice.det` and `ZLattice.DiscriminantGroup`
-  (`Determinant.lean`) are its `det` and `discGroup`; `ZLattice.representationNumber` and
-  `ZLattice.cosetRepresentationNumber` (`Shell.lean`) are its `repNum` and `cosetRepNum`;
-  `ZLattice.gaussSum` (`GaussSum.lean`) is its `gaussSum`, with a finiteness instance on
-  `L/cL` in place of `NeZero c`; `ZLattice.IsIntegral.isEven_sqrt_smul` (`Scaling.lean`) is its
-  `isEven_scale_sqrt_of_even`, its `scale L c` being the pointwise `c • L`; and
-  `ZLattice.orthSum` (`OrthSum.lean`) is its `orthSum`, with `ZLattice.isEven_orthSum_iff`,
-  `ZLattice.det_orthSum` and `ZLattice.level_orthSum` (`Level.lean`, the level of `L ⊕ M` is
-  `lcm(level L, level M)`) for the sums `L ⊕ A₁` and `L ⊕ L` of 2.2. In
-  `TauCeti/NumberTheory/ModularForms/ThetaSeries/`: `ZLattice.thetaSeries`,
-  `ZLattice.thetaCoset` and `ZLattice.thetaCoset_add_mem` (`Basic.lean`) are its `thetaSeries`,
-  `thetaCoset` and `thetaCoset_add_mem`; `ZLattice.thetaCosetClass` (`DiscriminantGroup.lean`)
-  is its `thetaCosetClass`; `ZLattice.IsEven.hasSum_thetaSeries_qParam`,
-  `ZLattice.IsEven.qExpansion_thetaSeries_coeff` and `ZLattice.IsEven.hasSum_thetaCoset_qParam`
-  (`QExpansion.lean`) are its `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff` and
-  `hasSum_thetaCoset`, the last stated for every positive `N` with `N ‖γ‖²/2 ∈ ℤ`, which holds at
-  `N = level L` for `γ ∈ L^∨`; `ZLattice.thetaSeries_smul` (`Functoriality.lean`, for `c ≠ 0`)
-  contains its `thetaSeries_scale` (for `c > 0`); `ZLattice.thetaSeries_span_one`
-  (`RankOne.lean`) is its `thetaSeries_int`, and `ZLattice.thetaSeries_sqrt_two_smul_span_one` in
-  the same file gives `Θ_{√2ℤ}(z) = jacobiTheta(2z) = θ(z)`, the case 2.2 uses; the translation
-  laws are in `Translation.lean` and the boundedness and limit `1` at `i∞` in `Cusp.lean`.
-  `TauCeti.kroneckerSym` and `TauCeti.kroneckerChar`
-  (`TauCeti/NumberTheory/LegendreSymbol/KroneckerSymbol.lean`; the character takes its
-  coefficient ring as an argument, `ℂ` here) are its `kroneckerSym` and `kroneckerChar`. For `θ`
-  itself, `TauCeti.tendsto_jacobiTheta_comap_im_atTop` and `TauCeti.jacobiTheta_I_mul`
-  (`TauCeti/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`) give the limit `1` at `i∞`
-  and the inversion law on the imaginary axis, and `TauCeti.sum_range_cexp_two_pi_I_sq_div`
-  (`…/JacobiTheta/GaussSum.lean`) is Gauss's evaluation of the quadratic Gauss sum. In even rank
-  `2k` Tau Ceti has three laws of that roadmap's Layers 4 and 7: the vector-valued inversion law
-  `ZLattice.IsIntegral.thetaCoset_S_smul` (`…/ThetaSeries/Inversion.lean`, for integral `L`); the
-  `Γ₀(N)` law with the Gauss sum as its constant, `ZLattice.IsEven.thetaSeries_slash_eq_gaussSum_smul`
-  (`…/ThetaSeries/CosetSplitting.lean`: for `A = [[a, b], [c, d]] ∈ SL(2, ℤ)` with `c > 0` and
-  `level L ∣ c`, `Θ_L ∣[k] A = (−i)^k c^{−k} (covol L)⁻¹ G_L(a, c) Θ_L`); and the boundedness at
-  `i∞` of every `SL(2, ℤ)`-slash of `Θ_L` and of `θ_{γ+L}` for `γ ∈ L^∨`,
-  `ZLattice.IsEven.isBoundedAtImInfty_thetaSeries_slash` and
-  `ZLattice.IsEven.isBoundedAtImInfty_thetaCoset_slash` (`…/ThetaSeries/BoundedAtCusp.lean`).
-  Each assumes `finrank ℝ E = 2 * k`, so none covers odd rank; Layer 2 owns the odd-rank theorem.
-  `thetaSeries_orthSum`, `gaussSum_reciprocity`, `milgram`, `discChar`, the character laws
-  `thetaSeries_slash_of_mem_Gamma0` and `thetaCoset_slash_of_mem_Gamma`, and `thetaFormOfLevel`
-  are consumed under the theta-series roadmap's names.
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-Use §§11.3–11.4's scalar holomorphic `AutomorphyFactor`, shifted cocycle, frame changes,
-sections and `slashActionOfAutomorphyFactor`. Layer 3 adds the real-weight modulus and cusp
-bounds and proves the theta and eta specializations.
-
-### From the other roadmap suppliers
-
-The section-by-section contracts in Scope and ownership specify the exact constructions:
-ModularForms Layers 0–10 for integral-weight forms, Hecke theory, newforms, products and
-L-functions, and its §0.2 for the eta transformation, Dedekind sums and the cusp orders of eta
-quotients; ThetaSeries Layers 2, 3, 6, 7 for the same lattice theta functions; IntegralLattices
-Layer 3 for the dyadic Jordan decomposition; GeometryOfNumbersAndQuadraticArithmetic §4.3
-for the theta multiplier and its cusp carrier; MetaplecticAutomorphicForms §§6.17–6.20,
-7.1, 7.10, 7.49 for Jacobi and metaplectic comparisons; QSeriesPartitionsAndMockModularForms
-§§5.2, 6.1, 9.1 for the eta multiplier, unary characteristics and theta coordinates.
-
-## How to read the build
-
-Layer 0 constructs the carrier and its finite-index theory. Layer 1 constructs Hecke
-operators and the ordinary Shimura family; Layers 2 and 3 supply odd-rank theta modularity
-and multiplier calculations. Layer 4 constructs the unary families and proves Serre–Stark,
-then uses its weight-three-halves cusp criterion to prove the Shimura decomposition and
-coefficient-field descent. Layers 5 and 6 prove the plus-space and Jacobi correspondences,
-and Layer 7 packages their intrinsic invariants. The Lean acceptance test states the
-headlines that use native carriers and simple definitions; its docstring identifies the
-missing carriers for the other headlines, all of whose proofs remain targets here.
 
 ## Layer 0: the carrier
 
@@ -1950,6 +1668,288 @@ are specializations of §6.4's general Jacobi operators. Lattice applications co
 §2.2's odd-rank modularity on ThetaSeries' carrier. The intrinsic LMFDB fields are
 supplied by Layer 7; external labels and stored bases do not specify new mathematical
 objects.
+
+## Scope and ownership
+
+### Owned here
+
+- The carrier `HalfIntegralForm k Γ` of holomorphic forms of weight `k + 1/2`, `k : ℕ`, on a
+  subgroup `Γ ≤ Γ₀(4)` of `SL(2, ℤ)`, with its basic API: linear structure, Fourier expansion at
+  `∞` and at every cusp, the diamond operators and the nebentypus spaces `M_{k+1/2}(N, χ)`,
+  `S_{k+1/2}(N, χ)`, the forced evenness of `χ`, multiplication by integral-weight forms and the
+  injection `f ↦ fθ` into `M_{k+1}(N, χ χ₋₄^{k+1})`, finite-dimensionality, the Petersson product
+  on `S_{k+1/2}(N, χ)`, and Cohen's basis `θ^{2k+1−4j} F^j` of `M_{k+1/2}(Γ₀(4))` (Layer 0).
+- Shimura's Hecke operators `T(p²)` with their coefficient formula, the Shimura lift `Sh_t`, the
+  theorems of Shimura and Niwa on its image, its Hecke equivariance, the Euler product, and the
+  Shimura decomposition `S_{k+1/2}(N, χ) = S_0 ⊕ ⨁_F S_{k+1/2}(N, χ, F)` with the field of
+  definition of each component (Layers 1 and 4).
+- The theta series of an even positive definite lattice of **odd** rank as a form of weight `n/2`
+  on `Γ₀(level L)` with character `(2 det L / ·)`, the coset series on `Γ(level L)`, and the
+  reading of the LMFDB column `lat_lattices.theta_series` in odd rank (Layer 2).
+- The real-weight modulus condition on AutomorphicBundles' scalar factors, the `θ` multiplier
+  system, the packaging of the consumed `η` multiplier as a multiplier system of weight `1/2`,
+  and eta quotients of half-integral weight with their level and their character measured
+  against the theta multiplier, as the `mf.half_integral_weight.*` knowls write `θ` and `η`
+  (Layer 3).
+- The unary theta series `θ_{ψ,t}` of weight `1/2` and `h_{ψ,t}` of weight `3/2` (the latter built
+  on QSeriesPartitionsAndMockModularForms' unary theta characteristics), their Dirichlet-character
+  modularity, the
+  Serre–Stark basis theorem for `M_{1/2}(N, χ)` and `S_{1/2}(N, χ)`, and the theta subspace
+  `S_0(N, χ) ⊂ S_{3/2}(N, χ)` of the Shimura decomposition (Layer 4).
+- Kohnen's plus space `M⁺_{k+1/2}(Γ₀(4))` with the plus–minus decomposition, the operator `T⁺(4)`,
+  Kohnen's Hecke isomorphism with `M_{2k}(SL₂(ℤ))`, Kohnen's level-`4N` plus space, the
+  Kohnen–Zagier formula and Waldspurger's theorem, and the Shintani lift as the Petersson
+  adjoint of the Shimura lift with Shintani's cycle-integral formula (Layer 5).
+- The classical form of the Jacobi forms `J_{k,m}` of every index `m ≥ 1`
+  (MetaplecticAutomorphicForms 6.18's carrier, compared with Eichler–Zagier's definition) with its
+  Fourier-coefficient API, the half-integral-weight membership and laws of the components of
+  MetaplecticAutomorphicForms 6.20's theta decomposition,
+  `J_{k,1} ≅ M⁺_{k−1/2}(Γ₀(4)) ≅ M_{2k−2}(SL₂(ℤ))` as Hecke modules, the dimension formula, and the
+  Skoruppa–Zagier correspondence for `J^{cusp}_{k,m}` (Layer 6).
+- The LMFDB invariant layer for `halfmf_forms`, the intrinsic label prefix `(N, k, χ)`, and the
+  coverage map (Layer 7).
+
+### Consumed, not redefined
+
+- AutomorphicBundles §§11.3–11.4 owns holomorphic invertible factors, sections, frame
+  change and the SlashAction adapter. Layer 3 specializes these to scalar real-weight
+  modulus conditions and computes the branch phases.
+
+- From Mathlib: `jacobiTheta` and `jacobiTheta₂` with their functional equations (the odd-rank
+  `S`-law of rank one, which the theta-series roadmap deliberately consumes only through its
+  square, is consumed here directly, in 4.1); `ModularForm.eta` and `eta_ne_zero` (Mathlib has
+  the function and its inversion law `ModularForm.eta_comp_eq_csqrt_I_inv`, the modular-forms
+  roadmap §0.2 its transformation under `SL₂(ℤ)` with the closed forms,
+  QSeriesPartitionsAndMockModularForms §5.2 its multiplier system);
+  `ModularForm`, `CuspForm` and `qExpansion` as the targets of every integral-weight statement;
+  `jacobiSym`, `ZMod.χ₄`, `ZMod.χ₈`; `LSeries`.
+- From Tau Ceti: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace` and
+  `mem_modFormCharSpace_iff`, the pattern that 0.4 reproduces; the finite-dimensionality of
+  `ModularForm Γ k` (0.3 reduces to it); the Petersson product on integral-weight cusp forms
+  (`TauCeti.NumberTheory.ModularForms.Petersson.Basic`), whose adjoint theory 5.7 copies in shape;
+  `HeckeRing.GL2.Newform` with its coefficient field and its Atkin–Lehner, Fricke and root-number
+  data (4.7, 6.4); `hurwitzClassNumber` (Layer 4 examples); the integral-lattice library through
+  the theta-series roadmap's bridge.
+- From the [modular-forms roadmap](../ModularForms/README.md): *Layer 0* (`M_k(N, χ)`,
+  `S_k(N, χ)`, the nebentypus law `mem_modFormCharSpace_iff_nebentypus`, the cusp–Eisenstein
+  decomposition), *Layer 2* (the Hecke operators `T_n` on `M_{2k}(Γ₁(N))`, the target of 1.3's
+  equivariance), *Layer 3* (Petersson adjoints), *Layer 4* (newforms, the `F` of 4.7), *Layer 7*
+  (`L(s, f)`, its functional equation and root number `ε(f)`, used by 5.5–5.6 and 6.4), *Layer 8*
+  and *8G* (`CoefficientField`, `CharacterField`, the `ℚ(χ)`-structure of a newspace, used by 4.7),
+  and *§0.2* (the law `η(γz) = ε(γ)(cz + d)^{1/2} η(z)` on `ℍ` with the principal root and a
+  constant `ε(γ)` with `ε(γ)²⁴ = 1`, `ε(T) = e(1/24)`, `ε(S) = e(−1/8)`; Dedekind sums `s(d, c)`
+  with their reciprocity law; the Dedekind-sum and Kronecker-symbol values of `ε(γ)` for `c > 0`;
+  the eta-quotient criterion in integral weight, with its worked example `η²⁴ = Δ`, and the
+  orders of an eta quotient at the cusps of `Γ₀(N)` for every exponent vector; used by 3.3 and
+  3.4).
+- From the [theta-series roadmap](../ThetaSeries/README.md): its carrier (a full `ℤ`-lattice
+  `L : Submodule ℤ E` in a real inner product space), `IsEven`, `IsIntegral`, `det`, `level`,
+  `repNum`, `discGroup` (*Layer 2*); `thetaSeries`, `thetaCoset`, `thetaCoset_add_mem`,
+  `hasSum_thetaSeries`, `thetaSeries_orthSum`, `thetaSeries_scale`, `thetaSeries_int` (*Layer 3*);
+  `kroneckerSym` and `kroneckerChar` (*the Kronecker symbol*); `gaussSum`, `gaussSum_reciprocity`
+  and `milgram` (*Layer 6*), and the even-rank Hecke–Schoeneberg theorem
+  `thetaSeries_slash_of_mem_Gamma0`, `thetaCoset_slash_of_mem_Gamma`, `thetaFormOfLevel` with
+  `thetaFormOfLevel_mem_modFormCharSpace` and `discChar` (*Layer 7*). Layer 2 below states the
+  odd-rank theorem on the same `thetaSeries L` and proves it by dividing the even-rank theorem for
+  `L ⊕ A₁` by `θ` and taking the square root of the one for `L ⊕ L`; no second theta series, no
+  second Poisson summation and no second Gauss sum appear here. The Tau Ceti declarations that
+  formalize part of this material are listed under *From Tau Ceti* in *Exact supplier contracts*.
+- From GeometryOfNumbersAndQuadraticArithmetic §4.3 (*Half-integral cusp forms and the ternary
+  specialization*, *Half-integral coefficient estimate*): the theta multiplier `j(γ, z) = θ(γz)/θ(z)`
+  on `Γ₀(4)`, the nonvanishing of `θ`, the identification of `j` with Shimura's
+  `ε_d^{−1} (c/d) (cz + d)^{1/2}`, the carrier `HalfIntegralCuspForm k N` of cusp forms with trivial
+  character and its Petersson product, `thetaMultiplierPhase`, `halfIntegralKloosterman` and
+  `halfIntegralCoefficientBound`, and the analytic product specialization
+  `jacobi_product_specialization` for the eta comparison in §3.4. 0.1 records the three facts about `θ` as consumed statements;
+  0.5 identifies `S_{k+1/2}(Γ₀(N), 1)` with `HalfIntegralCuspForm k N` as subspaces of functions on
+  `ℍ`. Section 0.5 owns the elementary Hecke bound at every positive Fourier index and
+  every weight `k + 1/2`, `k ≥ 0`; the supplied Iwaniec–Duke estimate applies to positive
+  squarefree indices in weight at least `5/2`. The multiplier and its nonvanishing remain
+  supplier inputs.
+- From the [metaplectic groups, Weil representations and automorphic theta kernels roadmap](../MetaplecticAutomorphicForms/README.md):
+  *Layer 2* (the metaplectic double cover) by citation only, as the object this roadmap avoids;
+  *6.17–6.18* (the Jacobi group and `jacobiSpace`, whose holomorphic classical specialization at the
+  Jacobi lattice `SL₂(ℤ) ⋉ ℤ²`, integral index `m ≥ 1`, weight `k` and trivial multiplier is the
+  carrier `J_{k,m}` of 6.1); *6.20* (`jacobi_thetaDecomposition`, the theta decomposition with
+  finitely many discriminant residues and unique components, read in 6.2); *7.1* (the unitary
+  normalization `J(γ, z) = j(γ, z) |cz + d|^{−1/2}`, named in 3.2); *7.10* (the weight-`1/2` unitary
+  `U`, `W`, `pr⁺`, named in 5.2 as the analogue of Kohnen's operators); *7.49* (the adelic–classical
+  comparison, where a form of this roadmap meets a genuine automorphic form). Its weight-`1/2` Maass
+  spaces, their plus subspace, Hecke eigenbasis and Shimura bijection of eigenlines (7.2–7.48) are
+  spectral objects, not the holomorphic objects of Layers 1 and 5.
+- From the [q-series, partition statistics and mock modular forms roadmap](../QSeriesPartitionsAndMockModularForms/README.md):
+  *§5.2* (the eta multiplier `ν_η(γ) = η(γz)/((cz + d)^{1/2} η(z))` on `SL₂(ℤ)`, principal root,
+  which is the modular-forms roadmap §0.2's `ε(γ)`, with its square-root cocycle and the lifted
+  character on the square-root cover; the law `η(γz) = ν_η(γ)(cz + d)^{1/2} η(z)`, the
+  independence of `z`, the values `ν_η(T) = e(1/24)`, `ν_η(S) = e(−1/8)` and the closed forms
+  are §0.2's); *§6.1* (the unary theta characteristic
+  `g(a, b; τ) = ∑_{ν ∈ a + ℤ} ν exp(πiν²τ + 2πiνb)` with its shift, `T`- and `S`-laws and its
+  cuspidality at rational characteristics; 4.1 builds `h_{ψ,t}` from it); *§9.1* (the classical
+  theta-component coordinates `θ_{m,μ}(τ, z) = ∑_{r ≡ μ (2m)} e(r²τ/(4m) + rz)`, their
+  identification with `jacobiTheta₂` at rescaled arguments, their invariance under `μ ↦ μ + 2m`, and
+  the uniqueness of the theta coefficients of a holomorphic elliptic function of index `m`; 6.2
+  reads MetaplecticAutomorphicForms 6.20 in these coordinates).
+
+### Not owned here
+
+- Integral weight: the spaces `M_k(N, χ)`, Hecke operators, newforms, `L`-functions, Atkin–Lehner
+  theory, dimension formulas, coefficient fields and Galois orbits are the
+  [modular-forms roadmap](../ModularForms/README.md)'s. The target of the Shimura lift, the `F` of
+  the Shimura decomposition and the `S_{2k}(SL₂(ℤ))` of Kohnen's isomorphism are its objects.
+- Theta series of **even** rank, Poisson summation, Gauss sums of a lattice, the Kronecker symbol,
+  `Θ_{E₈} = E₄` and the Leech identity: the [theta-series roadmap](../ThetaSeries/README.md).
+  Lattice invariants (rank, determinant, level, genus, automorphisms, minimum, kissing number,
+  density, perfection): the [integral quadratic forms and lattices roadmap](../IntegralLattices/README.md)
+  and the sibling `LatticePackingsAndPerfectForms`. Layer 2 adds to a lattice exactly one new
+  statement, the modularity of `Θ_L` in odd rank.
+- The theta multiplier as a definition, the nonvanishing of `θ`, the trivial-character cusp carrier,
+  the half-integral Kloosterman sums and the coefficient bounds of Iwaniec and Duke:
+  GeometryOfNumbersAndQuadraticArithmetic §4.3.
+- The metaplectic group `Mp₂`, the Weil representation of `SL₂(ℤ)` on `ℂ[A]` for a finite quadratic
+  module, vector-valued modular forms, theta kernels and theta lifts as integrals, the Siegel–Weil
+  formula, the weight-`1/2` spectral theory, and the Jacobi group, `jacobiSpace` and the theta
+  decomposition of Jacobi forms in general: MetaplecticAutomorphicForms. 6.2 states the laws of the
+  scalar components of that decomposition on `Γ(4m)` and does not build the Weil representation.
+- The transformation of `η` under `SL₂(ℤ)` with its constant `ε(γ)`, Dedekind sums with their
+  reciprocity law, the Dedekind-sum and Kronecker-symbol values of `ε(γ)`, the eta-quotient
+  criterion in integral weight and the orders of eta quotients at the cusps of `Γ₀(N)`: the
+  [modular-forms roadmap](../ModularForms/README.md) §0.2.
+- The eta multiplier `ν_η` as a definition, with its cocycle and its lifted character, the unary
+  theta characteristics `g(a, b)` with their transformation laws, and the theta-component
+  coordinates `θ_{m,μ}`: QSeriesPartitionsAndMockModularForms §§5.2, 6.1, 9.1.
+- Harmonic Maass forms of half-integral weight, mock theta functions, shadows and completed Lerch
+  sums: QSeriesPartitionsAndMockModularForms (its Layers 5–9). Everything here is holomorphic.
+- Siegel modular forms of degree two, the Fourier–Jacobi expansion of a Siegel form, the Maass lift
+  and the Saito–Kurokawa theorem, the Gritsenko lift: the sibling `SiegelModularForms` (its Layer
+  9), which consumes 6.1–6.4 by name: its 9.2 reads the carrier `J_{k,1}` in the classical form of
+  6.1 and states on it the Jacobi Eisenstein series `E_{k,1}`, while its `V_l` are
+  specializations of §6.4's general operators, and its Maass
+  lift (9.3) and Saito–Kurokawa theorem (9.5) read MetaplecticAutomorphicForms 6.20's
+  decomposition with the components of 6.2 and the isomorphisms of 6.3; it declares no Jacobi
+  carrier of its own.
+- Modular forms of half-integral weight on **noncongruence** groups, on `Γ₀(N)` with `4 ∤ N`
+  (where no `θ`-multiplier exists and the theory needs `Mp₂`), and of weight `k + 1/2` with `k < 0`:
+  not objects of any LMFDB section served here.
+- Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists,
+  and the completeness of database tables are not targets: the LMFDB label string of a
+  `halfmf_forms` row, the ordering of the newform components on a page, the choice of basis of
+  `S_{k+1/2}(N, χ, F)` whose `q`-expansions the `half_forms` column stores. Layer 7 states only
+  the intrinsic prefix `(N, k, χ)` and the intrinsic invariants.
+
+The theta-series roadmap records the boundary from its side (*Rank*: "half-integral weight is out of
+scope, and a contributor should not attempt it here"; *Not owned here*: "Half-integral weight, as
+above"); the integral quadratic forms and lattices roadmap lists "Half-integral weight modular forms,
+hence the modularity of the theta series of a lattice of **odd** rank" among the things it does not
+own; the sibling `SiegelModularForms` lists half-integral weight Siegel modular forms, the theta
+multiplier, the Kohnen plus space and the Shimura lift under its *Not owned here*, and consumes from
+here the classical form of the Jacobi carrier and three named isomorphisms.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `UpperHalfPlane`, the `SL(2, ℤ)` action, `denom`, `im_smul_eq_div_normSq`, `ModularGroup.S`, `T`;
+  `CongruenceSubgroup.Gamma0 N`, `Gamma1 N`, `Gamma N` as subgroups of `SL(2, ℤ)`.
+- `ModularForm Γ k`, `CuspForm Γ k`, `SlashAction`, `slash_apply`, `IsBoundedAtImInfty`,
+  `IsZeroAtImInfty`, `qExpansion`, `hasSum_qExpansion`, `ModularForm.mul`; `Cusps.lean`
+  (`IsCusp`, `CuspOrbits`, `widthInfty`, `strictPeriods`) for 0.3.
+- `jacobiTheta` (`JacobiTheta/OneVariable.lean`): `jacobiTheta_two_add`, `jacobiTheta_S_smul`
+  (`jacobiTheta (S • τ) = (−Iτ)^{1/2} jacobiTheta τ`), `hasSum_nat_jacobiTheta`,
+  `mdifferentiable_jacobiTheta`, `isBigO_at_im_infty_jacobiTheta_sub_one`; `jacobiTheta₂ z τ`
+  with `jacobiTheta₂_functional_equation`, `jacobiTheta₂_add_left`, `jacobiTheta₂_add_right`
+  (`TwoVariable.lean`). ⚠ `jacobiTheta τ = θ(τ/2)`: every use carries the substitution `τ = 2z`,
+  and `jacobiTheta_S_smul` reads `θ(−1/(4z)) = (−2iz)^{1/2} θ(z)`, the `W₄`-law of 0.1 and 5.2.
+- `ModularForm.eta` (`DedekindEta.lean`): `eta`, `eta_ne_zero`, `multipliableLocallyUniformlyOn_eta`,
+  `differentiableAt_eta_of_mem_upperHalfPlaneSet`, `logDeriv_eta_eq_E2`; and the inversion law
+  `ModularForm.eta_comp_eq_csqrt_I_inv` (`Discriminant.lean`), `η(−1/z) = (√i)⁻¹ √z η(z)` on the
+  upper half-plane, which is `η(−1/z) = (−iz)^{1/2} η(z)` with the principal root because for
+  `0 < arg z < π` both roots have argument `(arg z − π/2)/2`. Mathlib has the function, its
+  nonvanishing, its logarithmic derivative and this inversion law; it has no transformation law
+  at a general element of `SL(2, ℤ)` and no Dedekind sums.
+- `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `primitiveCharacter`,
+  `MulChar.equivToUnitHom`, `DirichletCharacter.Even`/`Odd`; `jacobiSym` with quadratic reciprocity,
+  `ZMod.χ₄`, `ZMod.χ₈`; `Int.IsFundamentalDiscr` (`FundamentalDiscriminant.lean`, with
+  `isFundamentalDiscr_iff_squarefree`; 5.3); `LSeries`, `ArithmeticFunction`
+  (1.2); `Complex.cpow`, `Real.rpow`.
+
+### From Tau Ceti
+
+- `DiamondOperators`: `diamondOpHom`, `modFormCharSpace`, `cuspFormCharSpace`,
+  `mem_modFormCharSpace_iff`, `eq_of_mem_cuspFormCharSpace_of_ne_zero`; 0.4 copies the construction
+  onto the new carrier. `TauCeti.finiteDimensional_modularForm_finiteIndex` in
+  `TauCeti/NumberTheory/ModularForms/SturmBound.lean`: for `𝒢 ≤ GL₂(ℝ)`,
+  determinant-one elements, finite relative index in the integral modular group and
+  discrete strict periods imply `Module.Finite ℂ (ModularForm 𝒢 k)`. The image of
+  `Γ∩Γ₁(4)` satisfies these hypotheses when `Γ` has finite index; §0.3 pulls this back
+  along `f↦fθ`.
+- `Petersson.*` (shape for 0.5, 1.1, 5.7); `Newforms.*` (`HeckeRing.GL2.Newform`, coefficient fields,
+  `a_p(F)`, Fricke and Atkin–Lehner eigenvalues, strong multiplicity one: the `F` of 4.6 and 6.4);
+  `LFunction.*` (`L(s, F)`, functional equation, root number: 5.5, 5.6, 6.4);
+  `LevelOne.GradedRing` (`dim M_{2k}(SL₂(ℤ))`: 5.3, 6.3); `SturmBound` (7.1, examples).
+- `hurwitzClassNumber` (examples of Layers 2 and 4; `r₃(n) = 12(H(4n) − 2H(n))` is a check, not a
+  target). `IntegralLattice.*` through the theta-series roadmap's bridge: `typeARootLattice`,
+  `typeE₈RootLattice`, `checkerboardLattice` for `A₁`, `A₃`, `D₅`, `E₇`.
+- The theta-series roadmap's objects that this roadmap consumes, under their Tau Ceti names (the
+  rest of this README uses that roadmap's names). In `TauCeti/Algebra/Module/ZLattice/`:
+  `ZLattice.IsEven` and `ZLattice.IsIntegral` (`Integral.lean`) are its `IsEven` and
+  `IsIntegral`; `ZLattice.dual` (`Dual.lean`, notation `L^∨`) is its `dual`; `ZLattice.level`
+  (`Level.lean`) is its `level`; `ZLattice.det` and `ZLattice.DiscriminantGroup`
+  (`Determinant.lean`) are its `det` and `discGroup`; `ZLattice.representationNumber` and
+  `ZLattice.cosetRepresentationNumber` (`Shell.lean`) are its `repNum` and `cosetRepNum`;
+  `ZLattice.gaussSum` (`GaussSum.lean`) is its `gaussSum`, with a finiteness instance on
+  `L/cL` in place of `NeZero c`; `ZLattice.IsIntegral.isEven_sqrt_smul` (`Scaling.lean`) is its
+  `isEven_scale_sqrt_of_even`, its `scale L c` being the pointwise `c • L`; and
+  `ZLattice.orthSum` (`OrthSum.lean`) is its `orthSum`, with `ZLattice.isEven_orthSum_iff`,
+  `ZLattice.det_orthSum` and `ZLattice.level_orthSum` (`Level.lean`, the level of `L ⊕ M` is
+  `lcm(level L, level M)`) for the sums `L ⊕ A₁` and `L ⊕ L` of 2.2. In
+  `TauCeti/NumberTheory/ModularForms/ThetaSeries/`: `ZLattice.thetaSeries`,
+  `ZLattice.thetaCoset` and `ZLattice.thetaCoset_add_mem` (`Basic.lean`) are its `thetaSeries`,
+  `thetaCoset` and `thetaCoset_add_mem`; `ZLattice.thetaCosetClass` (`DiscriminantGroup.lean`)
+  is its `thetaCosetClass`; `ZLattice.IsEven.hasSum_thetaSeries_qParam`,
+  `ZLattice.IsEven.qExpansion_thetaSeries_coeff` and `ZLattice.IsEven.hasSum_thetaCoset_qParam`
+  (`QExpansion.lean`) are its `hasSum_thetaSeries`, `qExpansion_thetaSeries_coeff` and
+  `hasSum_thetaCoset`, the last stated for every positive `N` with `N ‖γ‖²/2 ∈ ℤ`, which holds at
+  `N = level L` for `γ ∈ L^∨`; `ZLattice.thetaSeries_smul` (`Functoriality.lean`, for `c ≠ 0`)
+  contains its `thetaSeries_scale` (for `c > 0`); `ZLattice.thetaSeries_span_one`
+  (`RankOne.lean`) is its `thetaSeries_int`, and `ZLattice.thetaSeries_sqrt_two_smul_span_one` in
+  the same file gives `Θ_{√2ℤ}(z) = jacobiTheta(2z) = θ(z)`, the case 2.2 uses; the translation
+  laws are in `Translation.lean` and the boundedness and limit `1` at `i∞` in `Cusp.lean`.
+  `TauCeti.kroneckerSym` and `TauCeti.kroneckerChar`
+  (`TauCeti/NumberTheory/LegendreSymbol/KroneckerSymbol.lean`; the character takes its
+  coefficient ring as an argument, `ℂ` here) are its `kroneckerSym` and `kroneckerChar`. For `θ`
+  itself, `TauCeti.tendsto_jacobiTheta_comap_im_atTop` and `TauCeti.jacobiTheta_I_mul`
+  (`TauCeti/NumberTheory/ModularForms/JacobiTheta/OneVariable.lean`) give the limit `1` at `i∞`
+  and the inversion law on the imaginary axis, and `TauCeti.sum_range_cexp_two_pi_I_sq_div`
+  (`…/JacobiTheta/GaussSum.lean`) is Gauss's evaluation of the quadratic Gauss sum. In even rank
+  `2k` Tau Ceti has three laws of that roadmap's Layers 4 and 7: the vector-valued inversion law
+  `ZLattice.IsIntegral.thetaCoset_S_smul` (`…/ThetaSeries/Inversion.lean`, for integral `L`); the
+  `Γ₀(N)` law with the Gauss sum as its constant, `ZLattice.IsEven.thetaSeries_slash_eq_gaussSum_smul`
+  (`…/ThetaSeries/CosetSplitting.lean`: for `A = [[a, b], [c, d]] ∈ SL(2, ℤ)` with `c > 0` and
+  `level L ∣ c`, `Θ_L ∣[k] A = (−i)^k c^{−k} (covol L)⁻¹ G_L(a, c) Θ_L`); and the boundedness at
+  `i∞` of every `SL(2, ℤ)`-slash of `Θ_L` and of `θ_{γ+L}` for `γ ∈ L^∨`,
+  `ZLattice.IsEven.isBoundedAtImInfty_thetaSeries_slash` and
+  `ZLattice.IsEven.isBoundedAtImInfty_thetaCoset_slash` (`…/ThetaSeries/BoundedAtCusp.lean`).
+  Each assumes `finrank ℝ E = 2 * k`, so none covers odd rank; Layer 2 owns the odd-rank theorem.
+  `thetaSeries_orthSum`, `gaussSum_reciprocity`, `milgram`, `discChar`, the character laws
+  `thetaSeries_slash_of_mem_Gamma0` and `thetaCoset_slash_of_mem_Gamma`, and `thetaFormOfLevel`
+  are consumed under the theta-series roadmap's names.
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+Use §§11.3–11.4's scalar holomorphic `AutomorphyFactor`, shifted cocycle, frame changes,
+sections and `slashActionOfAutomorphyFactor`. Layer 3 adds the real-weight modulus and cusp
+bounds and proves the theta and eta specializations.
+
+### From the other roadmap suppliers
+
+The section-by-section contracts in Scope and ownership specify the exact constructions:
+ModularForms Layers 0–10 for integral-weight forms, Hecke theory, newforms, products and
+L-functions, and its §0.2 for the eta transformation, Dedekind sums and the cusp orders of eta
+quotients; ThetaSeries Layers 2, 3, 6, 7 for the same lattice theta functions; IntegralLattices
+Layer 3 for the dyadic Jordan decomposition; GeometryOfNumbersAndQuadraticArithmetic §4.3
+for the theta multiplier and its cusp carrier; MetaplecticAutomorphicForms §§6.17–6.20,
+7.1, 7.10, 7.49 for Jacobi and metaplectic comparisons; QSeriesPartitionsAndMockModularForms
+§§5.2, 6.1, 9.1 for the eta multiplier, unary characteristics and theta coordinates.
 
 ## References
 
