@@ -20,33 +20,35 @@ integrable systems are Tau Ceti's `TauCeti.SmoothTwoForm.hamiltonianVectorField`
 family convention `ι_(X_f) σ = df`, `{f, g} = σ(X_f, X_g) = df(X_g)`; the canonical form of a
 cotangent bundle is `TauCeti.CotangentBundle.symplecticForm`, `ω = -dλ`.
 
-Stated: the Liouville–Arnold action–angle theorem of I2 (`exists_actionAngle`), on the cotangent
-bundle of the angle torus `Fin n → AddCircle p`; the second-order property of the Lagrangian
-vector field (`mfderiv_proj_lagrangianVectorField`) and its transport by the Legendre map to the
-Hamiltonian vector field (`mfderiv_legendreMap_lagrangianVectorField`) of I3; and the strict
-annulus fixed-point theorem of I5 (`strict_annulus_two_fixed_points`), in its lifted form on the
-strip for a smooth positive periodic density, the constant density being the standard-area case.
+Stated: the Liouville–Arnold action–angle theorem of README §2.4 (`exists_actionAngle`), on the
+cotangent bundle of the angle torus `Fin n → AddCircle p`; the second-order property of the
+Lagrangian vector field (`mfderiv_proj_lagrangianVectorField`) and its transport by the Legendre
+map to the Hamiltonian vector field (`mfderiv_legendreMap_lagrangianVectorField`) of README §3.1;
+and the strict annulus fixed-point theorem of README §5.5 (`strict_annulus_two_fixed_points`), in
+its lifted form on the strip for a smooth positive periodic density, the constant density being
+the standard-area case.
 
 Proved at the pinned Tau Ceti, and therefore not restated: the Lagrangian regular-level theorem
-of I1 (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`); the topological
-part of I2, a compact regular component of a level being the quotient of `ℝⁿ` by a discrete
-cocompact stabilizer
+of README §1.1 (`TauCeti.SmoothTwoForm.IsIntegrableSystem.isLagrangian_ker_mfderiv`); the
+topological part of README §2.1, a compact regular component of a level being the quotient of
+`ℝⁿ` by a discrete cocompact stabilizer
 (`TauCeti.SmoothTwoForm.IsSymplectic.quotientHamiltonianFlowStabilizerHomeomorph`,
-`TauCeti.SmoothTwoForm.IsSymplectic.compactSpace_quotient_hamiltonianFlowStabilizer`); and the
-conservation of angular momentum under a central force of I4
+`TauCeti.SmoothTwoForm.IsSymplectic.compactSpace_quotient_hamiltonianFlowStabilizer`), when the
+Hamiltonian fields are complete on the whole manifold; and the conservation of angular momentum
+under a central force of README §4.2
 (`TauCeti.stdSymplecticForm_poissonBracket_centralForceHamiltonian_angularMomentum`).
 
 Not statable at the pins, and therefore absent:
 
 * the period lattice `Λ ⊂ T*B` of a regular Lagrangian torus fibration `M → B`, its linear
-  monodromy, its Chern and Lagrangian classes and the global action–angle criteria of I2: the
+  monodromy, its Chern and Lagrangian classes and the global action–angle criteria: the
   pins have the stabilizer lattice at a single point
   (`TauCeti.SmoothTwoForm.IsSymplectic.hamiltonianFlowStabilizer`) and lattice families given
   by a global period map, but neither the lattice bundle `Λ ⊂ T*B` as a locally constant sheaf
   of lattices over `B` nor the sheaf `Z¹/Λ` of local Lagrangian sections, in whose cohomology
-  the two classes live;
-* the spherical-pendulum monodromy of I4: it is the transport of that period lattice around a
-  loop of regular values, and needs the lattice bundle above.
+  the two classes live (README §§2.6–2.7);
+* the spherical-pendulum monodromy of README §4.4: it is the transport of that period lattice
+  around a loop of regular values, and needs the lattice bundle above.
 -/
 noncomputable section
 @[expose] public section
@@ -56,9 +58,9 @@ variable {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
   [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
 
-/-! ## I2: Liouville–Arnold and action–angle coordinates -/
+/-! ## Layer 2: Liouville–Arnold and action–angle coordinates -/
 
-/-- **The Liouville–Arnold theorem: action–angle coordinates** (I2; Arnold, Mathematical
+/-- **The Liouville–Arnold theorem: action–angle coordinates** (README §2.4; Arnold, Mathematical
 Methods of Classical Mechanics, §§49–50; Cannas da Silva, Lectures on Symplectic Geometry,
 §18.4, Theorem 18.12(b)). Let `F : M → ℝⁿ` be an integrable system on a Hausdorff boundaryless
 symplectic manifold `(M, σ)` of dimension `2n`, and let `L` be the connected component through
@@ -95,9 +97,9 @@ theorem exists_actionAngle [FiniteDimensional ℝ E] [I.Boundaryless] [T2Space M
         ∃ h : (Fin n → ℝ) → Fin n → ℝ, ∀ x ∈ U, F x = h (fun i ↦ (φ x).2 (Pi.single i 1)) := by
   sorry
 
-/-! ## I3: Hamiltonian and Lagrangian mechanics -/
+/-! ## Layer 3: Hamiltonian and Lagrangian mechanics -/
 
-/-- **The Lagrangian vector field is second order** (I3; Marsden–Ratiu, Introduction to
+/-- **The Lagrangian vector field is second order** (README §3.1; Marsden–Ratiu, Introduction to
 Mechanics and Symmetry, Chapter 7). Let `L : TM → ℝ` be a smooth regular Lagrangian on a
 finite-dimensional boundaryless manifold `M`, and let `X_E` be the Lagrangian vector field on
 `TM`: the Hamiltonian vector field of the energy `E_L(v) = FL(v)(v) - L(v)` for the Cartan
@@ -113,7 +115,7 @@ theorem mfderiv_proj_lagrangianVectorField [FiniteDimensional ℝ E] [I.Boundary
       v.2 := by
   sorry
 
-/-- **The Legendre map carries the Euler–Lagrange flow to Hamilton's equations** (I3;
+/-- **The Legendre map carries the Euler–Lagrange flow to Hamilton's equations** (README §3.1;
 Marsden–Ratiu, Introduction to Mechanics and Symmetry, Chapter 7). Let `L : TM → ℝ` be a smooth
 hyperregular Lagrangian on a finite-dimensional boundaryless manifold `M`: regular, with
 bijective Legendre map `FL : TM → T*M`, which is then a diffeomorphism. Put `H = E_L ∘ FL⁻¹` on
@@ -131,7 +133,7 @@ theorem mfderiv_legendreMap_lagrangianVectorField [FiniteDimensional ℝ E] [I.B
         (TauCeti.legendreMap L v) := by
   sorry
 
-/-! ## I5: the strict annulus fixed-point theorem -/
+/-! ## Layer 5: the strict annulus fixed-point theorem -/
 
 /-- The closed strip `ℝ × [0,1]`, the universal cover of the compact annulus `(ℝ/ℤ) × [0,1]`. -/
 def strip : Set (ℝ × ℝ) := {p | p.2 ∈ Set.Icc 0 1}
