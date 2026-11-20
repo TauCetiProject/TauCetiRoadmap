@@ -21,62 +21,26 @@ update equations. It ends with the forgetting of the initial law: under a two-si
 condition on the transition law, two filters driven by the same observations approach each other
 at the geometric rate `1 − ε²`.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
+Layer 1 defines models and their joint densities, constructs the path law and proves its
+conditional laws and finite-dimensional densities. Layer 2 uses Layer 1: the forward variable,
+the likelihood and the filter, identified with conditional laws through the densities of 1.3.
+Layer 3 uses Layers 1 and 2: the backward variable and the smoothing laws. Layer 4 uses the joint
+density of 1.1; its comparison with the forward variable uses 2.1, and one statement of 4.2
+reads a Viterbi path as a most probable path through 3.2. Layer 5 uses the joint density of
+1.1, the likelihood of 2.1 and the smoothing quantities of Layer 3; it does not use Layer 4.
+Layer 6 uses the filter of Layer 2 and the backward variable and backward kernels of Layer 3,
+and neither Layer 4 nor Layer 5. Each numbered target ends with **Checks** and a *Needs:* line,
+and every claim carries a source locator in parentheses or says that it is proved here.
 
-- hidden Markov models with countable hidden state space and emission densities, the path law
-  of the pair process, its conditional-independence structure and its finite-dimensional
-  densities;
-- the forward and backward variables, the likelihood, the filter with its normalized recursion,
-  prediction, and the marginal, pairwise and path smoothing laws, each identified with a
-  conditional law;
-- the Viterbi variable in max-product and max-sum form and Viterbi paths;
-- Baum's auxiliary function and inequality, expected transition and emission counts, the
-  Baum–Welch update and its monotonicity;
-- the contraction of a transition law under a minorization condition and the exponential
-  stability of the filter under a mixing condition.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
-
-**Generality.** The hidden state space is countable and the observation space is an arbitrary
-measurable space. Rabiner 1989, Chapters 3 and 6 of van Handel 2008 (the matrix forms, the Viterbi
-recursion, the expected counts and the Baum–Welch update) and the Isabelle entry treat finite
-state spaces; the targets taken from them are stated here for countable `S`, with finiteness
-assumed only where a statement fails without it. Chapters 1, 2 and 5 of van Handel 2008 (the path
-law, filtering, smoothing, prediction and filter stability) treat a general measurable state
-space, strictly positive observation densities and a reference probability measure; a locator to
-those chapters points to the general statement, and the target here is its case of a countable
-state space, extended to densities that may vanish and to a reference measure that need not be
-finite. The restriction to countable `S` is what makes the forward, backward and Viterbi variables
-functions on `S` given by sums and suprema in `ℝ≥0∞`, with recursions that hold for every
-observation sequence and not only almost surely, and what gives state paths a density with respect
-to counting measure, which Layer 4 maximizes and over which Layer 5 sums. The suppliers do not
-force it: `markovChainLaw` is defined for every measurable state space.
-
-Out of scope:
-
-- hidden state spaces that are not countable, where the forward variable is a measure on the
-  state space, the recursions are integrals against a transition kernel and hold almost surely,
-  and the filter is a kernel from observation records to the state space (the setting of
-  Chapters 2 and 5 of van Handel 2008); in particular linear Gaussian
-  state-space models and the Kalman filter, whose conditional laws rest on the conditional
-  Gaussian laws of StandardDistributions;
-- continuous-time filtering (the Zakai and Kushner–Stratonovich equations);
-- particle filters and other Monte Carlo approximations of the filter;
-- consistency and asymptotic normality of the maximum likelihood estimator, identifiability,
-  and model order estimation;
-- the convergence of the Baum–Welch iterates, and updates for emission families other than
-  probability mass functions on a finite alphabet (Gaussian and other log-concave families);
-- the EM algorithm for a general missing-data model, which belongs to
-  MathematicalStatisticsSemiparametric (its Layer 7); that layer assumes strictly positive
-  complete-data densities, whereas Layer 5 here allows transition and emission probabilities
-  equal to zero and proves its inequalities directly;
-- the classification, stationary laws and convergence to equilibrium of Markov chains, which
-  belong to MarkovChainsAndRenewal;
-- partially observable Markov decision processes and control, which MarkovDecisionProcesses
-  excludes as well.
+The Checks use four small models with `S = {0, 1}`. The **example model** `E` has
+`Y = {a, b}`, `init = (1/2, 1/2)`, `trans 0 = (3/4, 1/4)`, `trans 1 = (1/4, 3/4)`, emission mass
+functions `(3/4, 1/4)` in state `0` and `(1/4, 3/4)` in state `1`, and is observed along
+`y = (a, a, b)` with horizon `n = 2`. The **uniform model** `U` has all these probabilities equal
+to `1/2`. The **frozen model** has the initial and emission laws of `E` and `trans s = pure s`.
+The **dead-end model** `D` has `init = (1, 0)`, `trans 0 = (1/2, 1/2)`, `trans 1 = (0, 1)`, and
+both states emit `a` with probability `1`.
 
 ## Conventions
 
@@ -120,96 +84,6 @@ Out of scope:
   `ENNReal.log : ℝ≥0∞ → EReal`, with `ENNReal.log 0 = ⊥`; the auxiliary function of 5.1 uses
   `Real.log`, and the statements about it carry the hypothesis that makes the value at `0`
   irrelevant.
-
-## Exact supplier contracts
-
-- Mathlib:
-  - `PMF`, `PMF.tsum_coe` (the values sum to `1`) and `PMF.toMeasure`
-    (`Mathlib/Probability/ProbabilityMassFunction/Basic.lean`); `PMF.bind`, with
-    `(ν.bind K) s' = ∑' s, ν s * K s s'` (`PMF.bind_apply`,
-    `Mathlib/Probability/ProbabilityMassFunction/Monad.lean`);
-  - `Kernel` and `IsMarkovKernel` (`Mathlib/Probability/Kernel/Defs.lean`), `Kernel.comap`
-    (`Mathlib/Probability/Kernel/Composition/MapComap.lean`), `Kernel.compProd` (`⊗ₖ`,
-    `Mathlib/Probability/Kernel/Composition/CompProd.lean`), the monoid structure on
-    `Kernel α α` given by composition, which defines the powers `κ ^ k`
-    (`Mathlib/Probability/Kernel/Composition/Comp.lean`), and `Measure.compProd` (`⊗ₘ`) with
-    `Measure.compProd_apply` for an s-finite measure and an s-finite kernel
-    (`Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean`);
-  - `Kernel.ofFunOfCountable` (`Mathlib/Probability/Kernel/Basic.lean`): on a countable space
-    with measurable singletons every function to measures is a kernel;
-  - `Measure.withDensity`, `withDensity_apply` and `lintegral_withDensity_eq_lintegral_mul`
-    (`Mathlib/MeasureTheory/Measure/WithDensity.lean`); `lintegral_count`
-    (`Mathlib/MeasureTheory/Integral/Lebesgue/Countable.lean`);
-  - `Measure.rnDeriv` with `Measure.rnDeriv_lt_top` (for σ-finite `μ`, `μ.rnDeriv ν` is finite
-    `ν`-almost everywhere; `Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`) and
-    `Measure.withDensity_rnDeriv_eq` (for `μ ≪ ν` with a Lebesgue decomposition,
-    `ν.withDensity (μ.rnDeriv ν) = μ`;
-    `Mathlib/MeasureTheory/Measure/Decomposition/RadonNikodym.lean`);
-  - `Measure.pi`, with `Measure.pi_pi` and `measurePreserving_piFinSuccAbove`, both for σ-finite
-    factors (`Mathlib/MeasureTheory/Constructions/Pi.lean`); `Fin.clamp`
-    (`Batteries/Data/Fin/Basic.lean`, imported by Mathlib);
-  - `condDistrib` and `condDistrib_ae_eq_of_measure_eq_compProd`
-    (`Mathlib/Probability/Kernel/CondDistrib.lean`): for a finite measure `μ`, almost
-    everywhere measurable `X`, `Y`, the target of `Y` standard Borel and nonempty, and a finite
-    kernel `κ` with `μ.map (fun a ↦ (X a, Y a)) = μ.map X ⊗ₘ κ`, one has
-    `condDistrib Y X μ =ᵐ[μ.map X] κ`;
-  - `ProbabilityTheory.posterior` (notation `κ†μ`) and `posterior_eq_withDensity_of_countable`
-    (`Mathlib/Probability/Kernel/Posterior.lean`): for a finite kernel `κ` from a countable
-    standard Borel nonempty space and a finite measure `μ` on it,
-    `(κ†μ) x = μ.withDensity (fun ω ↦ (κ ω).rnDeriv (κ ∘ₘ μ) x)` for `κ ∘ₘ μ`-almost every `x`;
-  - `ENNReal.tsum_comm`, `ENNReal.tsum_mul_left` and `ENNReal.tsum_prod`
-    (`Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean`); `ENNReal.mul_iSup` and
-    `ENNReal.iSup_mul`, valid for every factor and every index type
-    (`Mathlib/Basic/ENNReal/Inv.lean`);
-  - `ENNReal.log`, `ENNReal.log_mul_add` (`log (x * y) = log x + log y` for all `x`, `y`) and
-    `ENNReal.log_strictMono` (`Mathlib/Analysis/SpecialFunctions/Log/ENNRealLog.lean`);
-    `ENNReal.logOrderIso`, the order isomorphism `ℝ≥0∞ ≃o EReal` with underlying function
-    `ENNReal.log` (`Mathlib/Analysis/SpecialFunctions/Log/ENNRealLogExp.lean`), and
-    `OrderIso.map_iSup` (`Mathlib/Order/CompleteLattice/Basic.lean`);
-  - `ConcaveOn.le_map_sum` and `StrictConcaveOn.map_sum_eq_iff`
-    (`Mathlib/Analysis/Convex/Jensen.lean`), with `strictConcaveOn_log_Ioi`
-    (`Mathlib/Analysis/Convex/SpecificFunctions/Basic.lean`);
-  - `Matrix.vecMul` (`ᵥ*`) and `dotProduct` (`⬝ᵥ`) (`Mathlib/Data/Matrix/Mul.lean`) and
-    `Matrix.diagonal` (`Mathlib/Data/Matrix/Diagonal.lean`).
-- Tau Ceti:
-  - `Kernel.ofPMF p` (`TauCeti/Probability/Kernel/PMF.lean`): for `p : α → PMF β` on a countable
-    `α` with measurable singletons, the kernel whose row at `a` is the measure of `p a`, with
-    its instance `IsMarkovKernel (Kernel.ofPMF p)` and `Kernel.ofPMF_apply_singleton`
-    (`Kernel.ofPMF p a {b} = p a b` when `β` has measurable singletons);
-  - `TauCeti.Probability.markovChainLaw ν κ` (`TauCeti/Probability/Process/MarkovChain.lean`),
-    the law on `ℕ → α` of the homogeneous Markov chain with initial measure `ν` and Markov
-    kernel `κ` on a measurable space `α`, a probability measure when `ν` is; from the same file
-    `TauCeti.Probability.markovChainLaw_map_eval_zero` (the time-zero marginal is `ν`),
-    `TauCeti.Probability.markovChainLaw_map_prefix_succ_eq_compProd` (for s-finite `ν`, the law
-    of the first `n + 1` coordinates together with the next one is the law of the first
-    `n + 1` coordinates composed with `κ` at the last of them),
-    `TauCeti.Probability.markovChainLaw_map_prefix_apply_singleton` (for s-finite `ν` and
-    measurable singletons, the mass of a finite path `w` is `ν {w 0}` times the product of the
-    `κ (w i) {w (i + 1)}`), `MeasureTheory.Measure.eq_markovChainLaw` (for finite `ν`, a measure
-    on paths with time-zero marginal `ν` whose prefix laws satisfy that recursion is
-    `markovChainLaw ν κ`) and `MeasureTheory.Measure.markovChainLaw_map_eval` (the coordinate at
-    time `n` has law `(κ ^ n) ∘ₘ ν`).
-
-## How to read the build
-
-Layer 1 defines models and their joint densities, constructs the path law and proves its
-conditional laws and finite-dimensional densities. Layer 2 uses Layer 1: the forward variable,
-the likelihood and the filter, identified with conditional laws through the densities of 1.3.
-Layer 3 uses Layers 1 and 2: the backward variable and the smoothing laws. Layer 4 uses the joint
-density of 1.1; its comparison with the forward variable uses 2.1, and one statement of 4.2
-reads a Viterbi path as a most probable path through 3.2. Layer 5 uses the joint density of
-1.1, the likelihood of 2.1 and the smoothing quantities of Layer 3; it does not use Layer 4.
-Layer 6 uses the filter of Layer 2 and the backward variable and backward kernels of Layer 3,
-and neither Layer 4 nor Layer 5. Each numbered target ends with **Checks** and a *Needs:* line,
-and every claim carries a source locator in parentheses or says that it is proved here.
-
-The Checks use four small models with `S = {0, 1}`. The **example model** `E` has
-`Y = {a, b}`, `init = (1/2, 1/2)`, `trans 0 = (3/4, 1/4)`, `trans 1 = (1/4, 3/4)`, emission mass
-functions `(3/4, 1/4)` in state `0` and `(1/4, 3/4)` in state `1`, and is observed along
-`y = (a, a, b)` with horizon `n = 2`. The **uniform model** `U` has all these probabilities equal
-to `1/2`. The **frozen model** has the initial and emission laws of `E` and `trans s = pure s`.
-The **dead-end model** `D` has `init = (1, 0)`, `trans 0 = (1/2, 1/2)`, `trans 1 = (0, 1)`, and
-both states emit `a` with probability `1`.
 
 ## Layer 1: the model and its path law
 
@@ -1091,6 +965,132 @@ trees.
   of an executable Viterbi algorithm.
 
 This is reference material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- hidden Markov models with countable hidden state space and emission densities, the path law
+  of the pair process, its conditional-independence structure and its finite-dimensional
+  densities;
+- the forward and backward variables, the likelihood, the filter with its normalized recursion,
+  prediction, and the marginal, pairwise and path smoothing laws, each identified with a
+  conditional law;
+- the Viterbi variable in max-product and max-sum form and Viterbi paths;
+- Baum's auxiliary function and inequality, expected transition and emission counts, the
+  Baum–Welch update and its monotonicity;
+- the contraction of a transition law under a minorization condition and the exponential
+  stability of the filter under a mixing condition.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+**Generality.** The hidden state space is countable and the observation space is an arbitrary
+measurable space. Rabiner 1989, Chapters 3 and 6 of van Handel 2008 (the matrix forms, the Viterbi
+recursion, the expected counts and the Baum–Welch update) and the Isabelle entry treat finite
+state spaces; the targets taken from them are stated here for countable `S`, with finiteness
+assumed only where a statement fails without it. Chapters 1, 2 and 5 of van Handel 2008 (the path
+law, filtering, smoothing, prediction and filter stability) treat a general measurable state
+space, strictly positive observation densities and a reference probability measure; a locator to
+those chapters points to the general statement, and the target here is its case of a countable
+state space, extended to densities that may vanish and to a reference measure that need not be
+finite. The restriction to countable `S` is what makes the forward, backward and Viterbi variables
+functions on `S` given by sums and suprema in `ℝ≥0∞`, with recursions that hold for every
+observation sequence and not only almost surely, and what gives state paths a density with respect
+to counting measure, which Layer 4 maximizes and over which Layer 5 sums. The suppliers do not
+force it: `markovChainLaw` is defined for every measurable state space.
+
+Out of scope:
+
+- hidden state spaces that are not countable, where the forward variable is a measure on the
+  state space, the recursions are integrals against a transition kernel and hold almost surely,
+  and the filter is a kernel from observation records to the state space (the setting of
+  Chapters 2 and 5 of van Handel 2008); in particular linear Gaussian
+  state-space models and the Kalman filter, whose conditional laws rest on the conditional
+  Gaussian laws of StandardDistributions;
+- continuous-time filtering (the Zakai and Kushner–Stratonovich equations);
+- particle filters and other Monte Carlo approximations of the filter;
+- consistency and asymptotic normality of the maximum likelihood estimator, identifiability,
+  and model order estimation;
+- the convergence of the Baum–Welch iterates, and updates for emission families other than
+  probability mass functions on a finite alphabet (Gaussian and other log-concave families);
+- the EM algorithm for a general missing-data model, which belongs to
+  MathematicalStatisticsSemiparametric (its Layer 7); that layer assumes strictly positive
+  complete-data densities, whereas Layer 5 here allows transition and emission probabilities
+  equal to zero and proves its inequalities directly;
+- the classification, stationary laws and convergence to equilibrium of Markov chains, which
+  belong to MarkovChainsAndRenewal;
+- partially observable Markov decision processes and control, which MarkovDecisionProcesses
+  excludes as well.
+
+## Exact supplier contracts
+
+- Mathlib:
+  - `PMF`, `PMF.tsum_coe` (the values sum to `1`) and `PMF.toMeasure`
+    (`Mathlib/Probability/ProbabilityMassFunction/Basic.lean`); `PMF.bind`, with
+    `(ν.bind K) s' = ∑' s, ν s * K s s'` (`PMF.bind_apply`,
+    `Mathlib/Probability/ProbabilityMassFunction/Monad.lean`);
+  - `Kernel` and `IsMarkovKernel` (`Mathlib/Probability/Kernel/Defs.lean`), `Kernel.comap`
+    (`Mathlib/Probability/Kernel/Composition/MapComap.lean`), `Kernel.compProd` (`⊗ₖ`,
+    `Mathlib/Probability/Kernel/Composition/CompProd.lean`), the monoid structure on
+    `Kernel α α` given by composition, which defines the powers `κ ^ k`
+    (`Mathlib/Probability/Kernel/Composition/Comp.lean`), and `Measure.compProd` (`⊗ₘ`) with
+    `Measure.compProd_apply` for an s-finite measure and an s-finite kernel
+    (`Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean`);
+  - `Kernel.ofFunOfCountable` (`Mathlib/Probability/Kernel/Basic.lean`): on a countable space
+    with measurable singletons every function to measures is a kernel;
+  - `Measure.withDensity`, `withDensity_apply` and `lintegral_withDensity_eq_lintegral_mul`
+    (`Mathlib/MeasureTheory/Measure/WithDensity.lean`); `lintegral_count`
+    (`Mathlib/MeasureTheory/Integral/Lebesgue/Countable.lean`);
+  - `Measure.rnDeriv` with `Measure.rnDeriv_lt_top` (for σ-finite `μ`, `μ.rnDeriv ν` is finite
+    `ν`-almost everywhere; `Mathlib/MeasureTheory/Measure/Decomposition/Lebesgue.lean`) and
+    `Measure.withDensity_rnDeriv_eq` (for `μ ≪ ν` with a Lebesgue decomposition,
+    `ν.withDensity (μ.rnDeriv ν) = μ`;
+    `Mathlib/MeasureTheory/Measure/Decomposition/RadonNikodym.lean`);
+  - `Measure.pi`, with `Measure.pi_pi` and `measurePreserving_piFinSuccAbove`, both for σ-finite
+    factors (`Mathlib/MeasureTheory/Constructions/Pi.lean`); `Fin.clamp`
+    (`Batteries/Data/Fin/Basic.lean`, imported by Mathlib);
+  - `condDistrib` and `condDistrib_ae_eq_of_measure_eq_compProd`
+    (`Mathlib/Probability/Kernel/CondDistrib.lean`): for a finite measure `μ`, almost
+    everywhere measurable `X`, `Y`, the target of `Y` standard Borel and nonempty, and a finite
+    kernel `κ` with `μ.map (fun a ↦ (X a, Y a)) = μ.map X ⊗ₘ κ`, one has
+    `condDistrib Y X μ =ᵐ[μ.map X] κ`;
+  - `ProbabilityTheory.posterior` (notation `κ†μ`) and `posterior_eq_withDensity_of_countable`
+    (`Mathlib/Probability/Kernel/Posterior.lean`): for a finite kernel `κ` from a countable
+    standard Borel nonempty space and a finite measure `μ` on it,
+    `(κ†μ) x = μ.withDensity (fun ω ↦ (κ ω).rnDeriv (κ ∘ₘ μ) x)` for `κ ∘ₘ μ`-almost every `x`;
+  - `ENNReal.tsum_comm`, `ENNReal.tsum_mul_left` and `ENNReal.tsum_prod`
+    (`Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean`); `ENNReal.mul_iSup` and
+    `ENNReal.iSup_mul`, valid for every factor and every index type
+    (`Mathlib/Basic/ENNReal/Inv.lean`);
+  - `ENNReal.log`, `ENNReal.log_mul_add` (`log (x * y) = log x + log y` for all `x`, `y`) and
+    `ENNReal.log_strictMono` (`Mathlib/Analysis/SpecialFunctions/Log/ENNRealLog.lean`);
+    `ENNReal.logOrderIso`, the order isomorphism `ℝ≥0∞ ≃o EReal` with underlying function
+    `ENNReal.log` (`Mathlib/Analysis/SpecialFunctions/Log/ENNRealLogExp.lean`), and
+    `OrderIso.map_iSup` (`Mathlib/Order/CompleteLattice/Basic.lean`);
+  - `ConcaveOn.le_map_sum` and `StrictConcaveOn.map_sum_eq_iff`
+    (`Mathlib/Analysis/Convex/Jensen.lean`), with `strictConcaveOn_log_Ioi`
+    (`Mathlib/Analysis/Convex/SpecificFunctions/Basic.lean`);
+  - `Matrix.vecMul` (`ᵥ*`) and `dotProduct` (`⬝ᵥ`) (`Mathlib/Data/Matrix/Mul.lean`) and
+    `Matrix.diagonal` (`Mathlib/Data/Matrix/Diagonal.lean`).
+- Tau Ceti:
+  - `Kernel.ofPMF p` (`TauCeti/Probability/Kernel/PMF.lean`): for `p : α → PMF β` on a countable
+    `α` with measurable singletons, the kernel whose row at `a` is the measure of `p a`, with
+    its instance `IsMarkovKernel (Kernel.ofPMF p)` and `Kernel.ofPMF_apply_singleton`
+    (`Kernel.ofPMF p a {b} = p a b` when `β` has measurable singletons);
+  - `TauCeti.Probability.markovChainLaw ν κ` (`TauCeti/Probability/Process/MarkovChain.lean`),
+    the law on `ℕ → α` of the homogeneous Markov chain with initial measure `ν` and Markov
+    kernel `κ` on a measurable space `α`, a probability measure when `ν` is; from the same file
+    `TauCeti.Probability.markovChainLaw_map_eval_zero` (the time-zero marginal is `ν`),
+    `TauCeti.Probability.markovChainLaw_map_prefix_succ_eq_compProd` (for s-finite `ν`, the law
+    of the first `n + 1` coordinates together with the next one is the law of the first
+    `n + 1` coordinates composed with `κ` at the last of them),
+    `TauCeti.Probability.markovChainLaw_map_prefix_apply_singleton` (for s-finite `ν` and
+    measurable singletons, the mass of a finite path `w` is `ν {w 0}` times the product of the
+    `κ (w i) {w (i + 1)}`), `MeasureTheory.Measure.eq_markovChainLaw` (for finite `ν`, a measure
+    on paths with time-zero marginal `ν` whose prefix laws satisfy that recursion is
+    `markovChainLaw ν κ`) and `MeasureTheory.Measure.markovChainLaw_map_eval` (the coordinate at
+    time `n` has law `(κ ^ n) ∘ₘ ν`).
 
 ## References
 
