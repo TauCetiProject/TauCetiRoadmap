@@ -38,127 +38,13 @@ genus, Hurwitz, Harvey and Wiman. The geometric existence, topological classific
 generic-fullness, fixed-point, differential-character and Jacobian theorems require the
 geometric carriers specified below; the module docstring identifies these missing carriers.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- **Signatures** `(h; m₁, …, m_r)` with their Riemann–Hurwitz quantity
-  `μ(σ) = 2h − 2 + Σ (1 − 1/m_j)`, hyperbolicity `μ(σ) > 0`, and the genus
-  `g(n, σ) = 1 + n μ(σ)/2` of an action of a group of order `n` (Layer 0).
-- **Generating vectors** `GenVector G σ`: the carrier, its product relation and order conditions,
-  the signature group `Γ(σ)` with its standard presentation, the equivalence between generating
-  vectors and surface-kernel epimorphisms `Γ(σ) → G`, transport along group isomorphisms, the
-  Aut(G)-action and the `Inn(G)`-action (simultaneous conjugation), the specialization to Tau
-  Ceti's `TriangleGroup` and `PermutationTriple` when `h = 0`, `r = 3` (Layer 0).
-- **Actions on compact Riemann surfaces**: faithful holomorphic actions of a finite group, the
-  quotient Riemann surface `X/G`, branch points, stabilizer orders, the quotient genus, the
-  signature of an action, Riemann–Hurwitz in signature form, the representation of `G` on
-  holomorphic differentials (Layer 1).
-- **The Riemann existence criterion**: `G` acts on some compact Riemann surface of genus `g ≥ 2`
-  with signature `σ` iff `GenVector G σ` is nonempty and `g = g(|G|, σ)`, with the explicit
-  constructions in both directions and their compatibility (Layer 2).
-- **Equivalences of generating vectors**: refined passports (the conjugacy-class vector), braid
-  equivalence through the Hurwitz braid action, topological equivalence through Aut(G) and the
-  mapping class group, the theorem that topologically equivalent actions are exactly the
-  Aut(G) × Mod-orbits, the identification of topological equivalence with Aut(G) × B_r
-  for `h = 0`, and the finite counts of each kind of class (Layer 3).
-- **Numerical invariants**: `g0`, `r`, `dim = 3h − 3 + r`, the finiteness of the set of
-  `(G, σ)` of a given genus with the bounds `r ≤ 4(g−1)/|G| − 4h + 4`, `h ≤ g`, `|G| ≤ 84(g − 1)`; the
-  Hurwitz bound as a corollary of the criterion, with its equality case `σ = (0; 2, 3, 7)`;
-  Harvey's criterion for cyclic groups and the Wiman bound `|G| ≤ 4g + 2` for cyclic `G` with its
-  equality case (Layer 4).
-- **Full automorphism groups**: the predicate that an action is the full automorphism group of
-  its surface; generic fullness for a family; Singerman's list of signatures that never give a
-  full action, with the index and the signature of the overgroup; the extension criterion on the
-  generating vector that decides generic fullness, and the comparison with the
-  generic overgroup's generating vector (Layer 5).
-- **Macbeath's fixed-point formula** for an element of `G` in terms of the generating vector;
-  the hyperelliptic and cyclic-trigonal predicates of a family and their criteria on
-  the full group's generating vector (Layer 6).
-- **The Eichler trace formula and the Chevalley–Weil formula** for the character of `G` on
-  holomorphic differentials; the group-algebra decomposition of the Jacobian up to isogeny
-  (Kani–Rosen, Lange–Recillas), the dimensions and multiplicities of its factors (Layer 7).
-- **The hgcwa record semantics**: which stored field is which theorem, and the intrinsic label
-  prefixes (Layer 8).
-
-### Not owned here
-
-- **Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
-  the completeness of database tables** are not targets: the refined-passport index `x`, the vector
-  index `y`, the `cc`/`braid`/`topological` representative pointers, the Magma character indices in
-  `jacobian_decomp`, the stored class order, the permutation representation `G ↪ S_{|G|}` in which
-  `gen_vectors`, `hyp_involution`, `cinv` are displayed, and every completeness claim about the
-  stored tables. The composition of stored permutations is pinned in *Conventions* 1. This
-  roadmap states the intrinsic *prefix* of each label (genus, isomorphism class of `G`, quotient
-  genus, sorted signature, class vector) and nothing enumerative.
-- **The small-group identifier** `n.d` (not a target); `group`, `group_order`, `full_auto` are the
-  isomorphism class and order of an abstract finite group.
-- **Function-field predicates and quotient curves over a general field**
-  ([algebraic curves](../AlgebraicCurves/README.md) Layers 6–7, 11), and the uniqueness of the
-  trigonal pencil in genus at least five (CanonicalModelsAndGonality 5.2(f), 6.6). Layer 6 here proves the generating-vector criteria over `ℂ` and the agreement with
-  those predicates through the meromorphic function field.
-- **Weierstrass equations** (`eqn`): `HyperellipticCurves` for `y² = f(x)`; equations of
-  non-hyperelliptic families are excluded below.
-- **Riemann existence for covers of arbitrary curves, Nielsen classes, Hurwitz spaces, lifting
-  invariants, rigidity, fields of moduli** (`../InverseGaloisAndArithmeticFundamentalGroups`);
-  **Teichmüller space, the fixed-locus theorem and the classification of compact surfaces by
-  polygon schemas** (`../TeichmullerGeometry`, §0.0f for the classification); **closed and
-  boundary-relative mapping class groups** ([geometric topology](../GeometricTopology/README.md)
-  Layer 1.7.2); **van Kampen presentations** ([algebraic
-  topology](../AlgebraicTopology/README.md) Layer 1); **Fuchsian groups,
-  presentations, compactification, Riemann–Hurwitz for finite holomorphic maps**
-  ([Fuchsian orbifolds](../FuchsianOrbifolds/README.md)); **three-point covers and dessins**
-  ([Belyi maps](../BelyiMaps/README.md)).
-- **The Jacobian as a scheme, abelian varieties, isogenies, `End ⊗ ℚ`** ([Jacobian
-  challenge](../JacobianChallenge/README.md)); **complex tori** ([complex tori](../ComplexTori/README.md));
-  **rational representation descent and Schur indices** (ArithmeticGaloisRepresentations §5.6);
-  **endomorphism algebras and Sato–Tate groups** (`SatoTateGroups`). The analytic curve/Jacobian comparison is supplied by MordellLawrenceVenkatesh §8.11;
-  Layer 7 proves what the group action adds.
-- **Positive characteristic** and the failure of the Hurwitz bound there
-  ([algebraic curves](../AlgebraicCurves/README.md) Layer 11). Everything here is over `ℂ`.
-
-### The hgcwa page, column by column
-
-| Column / search field | Meaning | Where |
-| --- | --- | --- |
-| `genus` | `g = genus X = g(|G|, σ)` | 0.4, 1.4, 2.5 |
-| `group`, `group_order` | isomorphism class and order of `G` | identifier not a target; `Nat.card G` |
-| `signature` `[g0, m1, …, mr]`, `g0`, `r` | the signature of the action, quotient genus, number of branch points | 0.1, 1.3, 1.4 |
-| `dim` | `3 g0 − 3 + r` | 4.2 |
-| `gen_vectors` | a generating vector, displayed in the regular permutation representation | 0.2 (carrier); composition pinned (*Conventions* 1); the display representation is not a target |
-| `con`, `cc`, `passport_label` | the refined passport (class vector); its index | 3.1; index not a target |
-| `braid`, `braid_class` | braid equivalence class; its representative | 3.3; representative not a target |
-| `topological`, `topological_class` | topological equivalence class; its representative | 3.4–3.6; representative not a target |
-| `hgcwa_unique_groups.gen_vectors / braid / topological` | numbers of classes of each kind | 3.7 |
-| `full_auto`, `full_label`, `signH`, `inc_full` | the generic full automorphism group of the family, its signature | 5.1–5.5 |
-| `hyperelliptic`, `hyp_involution`, `inc_hyper` | the family is hyperelliptic; the involution | 6.2–6.3 |
-| `cyclic_trigonal`, `cinv`, `inc_cyc_trig` | the family is cyclic trigonal; the automorphism | 6.4 |
-| `jacobian_decomp` `[a, b, c]` | `b` copies of an abelian variety of dimension `a` | 7.4–7.6; `c` is not a target |
-| `label`, `total_label` | family and vector labels | prefixes 8.1; indices not targets |
-| `eqn` | an equation of the family | `HyperellipticCurves`; otherwise excluded |
-| `hgcwa_complete.*` | completeness of the stored tables | not a target; finiteness of realized data in §4.6 |
-
-### Exclusions
-
-- Actions in positive characteristic, wild ramification, and the automorphism groups of curves
-  over fields other than `ℂ` ([algebraic curves](../AlgebraicCurves/README.md) Layer 11 and its
-  exclusions).
-- Non-orientable quotients, anticonformal automorphisms, real forms and symmetric Riemann surfaces
-  (Bujalance–Etayo–Gamboa–Gromadzki); the full (orientation-reversing) mapping class group's
-  action.
-- Hurwitz spaces as algebraic varieties, their components and their fields of definition, lifting
-  invariants and rigidity (`../InverseGaloisAndArithmeticFundamentalGroups` IG.3.3, IG.5.3–IG.5.6).
-- Teichmüller space itself, Fenchel–Nielsen coordinates, the fixed-locus theorem's proof
-  (TeichmullerGeometry Layers 0–8), and the structure of the moduli space `M_g` (complex curve
-  moduli).
-- Equations of the families other than through `HyperellipticCurves`; the Shimura-variety
-  dimension of a family; the Frediani–Ghigi–Penegini code.
-- Fields of moduli and definition of a curve with a given action (outside this roadmap).
-- The classification of large automorphism groups beyond the finite lists of 4.3 and 5.3
-  (Hurwitz groups in general, Macbeath's and Conder's genus spectra, Accola–Maclachlan's `8g + 8`
-  theorem); the Accola–Maclachlan and Kulkarni surfaces appear only as worked examples.
-- Automorphisms of Jacobians that do not come from the curve, the Hodge structure beyond the
-  homology character, and endomorphism algebras as such (`SatoTateGroups`).
+Layer 0 develops the algebra of signatures and surface-kernel epimorphisms. Layers 1–2
+construct and classify their geometric realizations while retaining a marked complex quotient.
+Layer 3 compares the relevant equivalence relations. Layer 4 proves bounds and finiteness;
+Layer 5 treats generic extensions. Layers 6–7 derive fixed-point, differential and Jacobian
+invariants, and Layer 8 records exactly the equivalence relation each invariant respects.
 
 
 ## Conventions
@@ -254,137 +140,6 @@ Implementors make no choices about any of the following.
 15. **The Jacobian decomposition** is an isogeny statement about `Jac X` over `ℂ` (Jacobian
     challenge Layer E) indexed by the primitive central idempotents of `ℚ[G]`. In the LMFDB's
     `[a, b, c]`, `a` and `b` are theorems here and `c` is not.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Presented and free groups (`PresentedGroup`, `PresentedGroup.toGroup`, `closure_range_of`,
-`FreeGroup.lift`); commutators, generation and orders (`commutatorElement`, `Subgroup.closure`,
-`orderOf`, `orderOf_dvd_card`, `Nat.card`); conjugacy (`ConjClasses`, `IsConj`, `MulAut.conj`,
-`Subgroup.normalizer`, `Subgroup.centralizer`); actions (`MulAction`, `FaithfulSMul`,
-`MulAction.stabilizer`, `MulAction.orbitRel.Quotient`, `MulAction.fixedBy`, orbit–stabilizer);
-permutations (`Equiv.Perm`, `Equiv.Perm.partition`); complex manifolds (`ChartedSpace ℂ X`,
-`IsManifold 𝓘(ℂ) n X`, `MDifferentiable`, `mfderiv`, `UpperHalfPlane`, `PSL(2, ℝ)`); fundamental
-groups and coverings (`FundamentalGroup`, `Path.trans`, `IsCoveringMap`, `IsCoveringMap.monodromy`);
-representations (`Representation`, `FDRep`, `Representation.character`, `char_orthonormal`,
-`MonoidAlgebra`, `Module.End.eigenspace`); `Finset.lcm`, `Nat.factorization`, `ZMod n`. The analytic action is a native `MulAction` with pointwise holomorphy.
-The exact geometric carriers required by the headline statements are specified in their layers.
-For rational semisimple blocks consume
-`IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing_finite`
-(Mathlib/RingTheory/SimpleModule/WedderburnArtin.lean).
-
-### From Tau Ceti
-
-| Need | Tau Ceti (at the pin) |
-| --- | --- |
-| triangle groups, their trichotomy, lifts to permutation groups | `TauCeti.TriangleGroup`, `lift`, homEquiv, `hom_ext`, `rotate`, `equivTwoGenerator`, `toPerm`, `orbifoldEulerChar`, `orbifoldEulerChar_neg_iff`, `IsSphericalSignature`, `IsEuclideanSignature`, `infinite_of_inv_add_inv_add_inv_le_one` |
-| permutation triples and passports | `TauCeti.PermutationTriple`, `monodromyGroup`, `IsConnected`, `eulerChar`, `genus`, `PassportSpec`, `passportOf`, `PassportLabel`, `Passport.Count`, `GeneratingCount` |
-| braid groups | `TauCeti.BraidGroup n` (`ArtinGroup (CoxeterMatrix.A (n − 1))`) |
-| finite holomorphic maps | `TauCeti.RiemannSurface.localMultiplicity`, `degree`, `degree_eq_fiber_sum`, `FiniteHolomorphicMap`, `ofMDifferentiable`, `comp`, `degree_comp`, `biholomorphOfDegreeEqOne`, `ramificationDegree`, `ramificationDivisor`, `card_fiber_add_sum_localMultiplicity_sub_one` |
-| Fuchsian groups | `TauCeti.Analysis.Complex.Fuchsian.{ProperAction, Stabilizer, Elliptic.Basic, Elliptic.Linearizing, CoarseQuotient, Descent, MeromorphicDescent, Covolume, Compactification.*}` |
-| function-field automorphisms | `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`, `TauCeti.hurwitz_genus_formula`, `IsHyperellipticFunctionField`, `Automorphism.{Finite, FixedField, Rigidity, WeierstrassGaps}` |
-| group algebra idempotents | `TauCeti.Representation.characterSum`, `characterSum_mem_center`, `characterSum_mul_characterSum`, `isUnit_char_one`, the primitive central idempotents and their sum in `CharacterTable.IdempotentDecomposition` |
-| monodromy of three-point covers | `TauCeti.AlgebraicTopology.ThricePuncturedSphere.{MonodromyTriple, Deck, Regular, Classification, BranchPointAction}` |
-
-### From named roadmaps and pinned modules
-
-- From Tau Ceti at the pin: `TauCeti.TriangleGroup a b c` (presentation
-  `x ^ a, y ^ b, z ^ c, z * y * x`), `TauCeti.TriangleGroup.lift`, homEquiv, `rotate`,
-  `orbifoldEulerChar` with its sign trichotomy (`TauCeti.GroupTheory.TriangleGroup.Signatures`);
-  `TauCeti.PermutationTriple` (`σinf * σ1 * σ0 = 1`), `monodromyGroup`, `IsConnected`, `genus`,
-  `PassportSpec`, `passportOf`, `PassportLabel`; `TauCeti.BraidGroup n`;
-  `TauCeti.RiemannSurface.localMultiplicity`, `degree`, `FiniteHolomorphicMap`,
-  `FiniteHolomorphicMap.ofMDifferentiable`, `ramificationDegree`, `ramificationDivisor`,
-  `degree_eq_fiber_sum`; the Fuchsian stabilizer and linearization API
-  (`Subgroup.LinearizingCoordinate`, `stabilizerRotation`, `quotientCoordinate` in
-  `TauCeti.Analysis.Complex.Fuchsian.Elliptic.Linearizing`); the function-field automorphism
-  theory `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`, `TauCeti.hurwitz_genus_formula`,
-  `IsHyperellipticFunctionField`; `TauCeti.Representation.characterSum` and the primitive central
-  idempotents `e_ρ = (χ(1)/|G|) Σ_g χ(g⁻¹) g` with their orthogonality and sum
-  (`TauCeti.RepresentationTheory.CharacterTable.{CentralIdempotent, IdempotentDecomposition}`).
-- AlgebraicCurves Layer 11 supplies finiteness of the function-field automorphism group
-  in characteristic zero and genus at least two. FuchsianOrbifolds Layer 2 items 3–6
-  supplies fundamental polygons. The finite-action
-  linearization and quotient charts are constructed in §1.2 using the pinned
-  local-multiplicity and degree APIs.
-
-- From [Fuchsian orbifolds](../FuchsianOrbifolds/README.md): Layer 2 items 3–6 (the Poincaré
-  polygon theorem, the Dirichlet polygon of a cofinite group, the standard presentation with
-  elliptic and parabolic cycles, hyperbolic triangle groups from reflections); Layer 4 (the
-  compactified quotient as a compact Riemann surface; for a cocompact group the coarse quotient
-  itself); Layer 5 items 1–3 and 6 (the topological genus `genus X` with `χ = 2 − 2 genus`, finite
-  holomorphic maps and degree, the Euler-characteristic form of Riemann–Hurwitz
-  `χ(X) = deg f · χ(Y) − ramificationDegree f`, the Fuchsian Riemann–Hurwitz and orbifold
-  Euler characteristic). The minimum area `π/21` and its equality case are supplied by TeichmullerGeometry §10.1.
-- From [Belyi maps](../BelyiMaps/README.md): Layer 0 (permutation triples, relabeling, monodromy
-  group, connectedness, genus), Layer 1 (passports, `N_{S_n}(G)`-orbits), Layer 4 (triangle groups
-  and the trichotomy), Layer 5 (the thrice-punctured sphere and its peripheral loops), Layer 6
-  (the monodromy triple of a finite cover, deck transformations, regular covers).
-  Its pinned product relation `σinf * σ1 * σ0 = 1` and its `0, 1, ∞` ordering are
-  matched by the dictionary of 0.7 below.
-- From the roadmap *Inverse Galois theory and arithmetic fundamental groups*
-  (`../InverseGaloisAndArithmeticFundamentalGroups`): IG.3.2's `BranchTuple r G`,
-  `BranchTuple.product` (the ordered product `g₁ * ⋯ * g_r`), `BranchTuple.generated`,
-  the inner Nielsen-class quotient in **Branch tuples and Nielsen classes**, and
-  **The Hurwitz braid action**, whose generator sends `(a, b) ↦ (a b a⁻¹, a)` and
-  preserves the ordered product, the generated subgroup and the multiset of conjugacy
-  classes; IG.5.2 **Forgetting the boundary marking** supplies the simultaneous-conjugation
-  quotient of marked topological Hurwitz spaces. The `c`-part of a generating vector with `h = 0` is a
-  branch tuple with product one, and braid equivalence (3.3) is the orbit relation of that action.
-- From TeichmullerGeometry §§5.6 and 8.4: identification of closed-surface stabilizers
-  with conformal automorphisms and the fixed-locus dimension `3h − 3 + r`; §10.1:
-  minimum orbifold area. The global cone-orbifold Teichmüller identification is a target
-  of §4.2 here, and generic extension for all signatures is a target of §§5.2–5.4 here.
-
-- MordellLawrenceVenkatesh §§5.9 and 5.21 supplies punctured mapping classes, their outer
-  action on conjugacy classes of homomorphisms, and capping with marked discs. This roadmap
-  owns the cone-order restriction, half-twist formula and sphere comparison in §3.4.
-- From TeichmullerGeometry §0.0f: polygon schemas, the standard orientable model of genus `h`
-  with `r` boundary circles, whose canonical word for `(h, r) ≠ (0, 0)` is `h` handle blocks
-  followed by `r` hole blocks, and the classification of compact surfaces with boundary up to
-  homeomorphism.
-- From [geometric topology](../GeometricTopology/README.md) Layer 1.7.2: the mapping class group
-  `Mod(F)` of a compact surface `F`, isotopy classes of diffeomorphisms fixing `∂F` pointwise,
-  its orientation-preserving subgroup `Mod⁺(F)` for oriented `F`, and Dehn twists; its Layer
-  11.2.1 items 2 and 5 read these classes as isotopy classes of homeomorphisms fixing `∂F`
-  pointwise.
-- From [algebraic topology](../AlgebraicTopology/README.md) Layer 1: the based van Kampen
-  presentation (§§1.3–1.4) and the free fundamental group of a wedge of circles (§1.5).
-- From [algebraic curves](../AlgebraicCurves/README.md) Layer 11 (automorphisms of function
-  fields, rigidity, finiteness, the `84(g − 1)` bound, the characteristic-`p` caveats) and Layer
-  12 (the dictionary between compact Riemann surfaces over `ℂ`, function fields and curves); from
-  [modular forms](../ModularForms/README.md) 10B (the meromorphic function field `ℳ(X)` of a
-  compact Riemann surface is a function field over `ℂ` of the same genus, `H⁰(X, Ω)` has dimension
-  `g`, analytic Riemann–Roch).
-- From [the Jacobian challenge](../JacobianChallenge/README.md): `JacobianVariety X x₀` as an
-  abelian variety over `ℂ` with `dim Jac X = g` (Layer D–E), the Abel–Jacobi map and the
-  Albanese property (Layer F), isogenies and `End(Jac X) ⊗ ℚ` (Layer E); from
-  [complex tori](../ComplexTori/README.md) Milestone 1 the torus of an already supplied full lattice.
-  MordellLawrenceVenkatesh §8.11 supplies the period-lattice identification of the algebraic
-  Jacobian, its integral homology comparison, naturality under automorphisms and independence
-  of the Abel–Jacobi base point. Tensoring that comparison with ℚ supplies §7.3.
-- ArithmeticGaloisRepresentations §5.6 supplies simple-module descent over a perfect field.
-  For a rational simple block Mₙ(D) with centre Z and `[D:Z]=s²`, its complex constituents
-  form one Galois orbit, each has degree n·s, and the rational irreducible has character
-  s times their sum. Here n,s are positive; the specialization to ℚ gives §7.5's Schur index
-  and exponent, including nonsplit blocks.
-- HyperellipticCurves §1.4 supplies the genus-zero involution criterion, centrality and
-  uniqueness, through the meromorphic-function-field dictionary. The order-three criterion
-  needed here is derived from §1.4 below.
-- CanonicalModelsAndGonality 5.2(f) and 6.6 supply, for a function field of genus at least five
-  over a perfect field, the uniqueness of the degree-three pencil and hence of a cyclic trigonal
-  order-three automorphism subgroup, which is therefore normal; §6.4 applies them to `ℳ(X_v)`
-  over `ℂ`.
-
-
-## How to read the build
-
-Layer 0 develops the algebra of signatures and surface-kernel epimorphisms. Layers 1–2
-construct and classify their geometric realizations while retaining a marked complex quotient.
-Layer 3 compares the relevant equivalence relations. Layer 4 proves bounds and finiteness;
-Layer 5 treats generic extensions. Layers 6–7 derive fixed-point, differential and Jacobian
-invariants, and Layer 8 records exactly the equivalence relation each invariant respects.
 
 ## Layer 0: signatures and generating vectors
 
@@ -565,6 +320,7 @@ C₂,(0;2⁶) has one vector; C₁₀,(0;2,5,10) has four.
 ### Dependencies
 
 Mathlib presented groups, orders and actions; Tau Ceti triangle groups and permutation triples; InverseGaloisAndArithmeticFundamentalGroups IG.3.2; TeichmullerGeometry §10.1 only for the area minimum.
+
 
 ## Layer 1: finite group actions on compact Riemann surfaces
 
@@ -1715,6 +1471,250 @@ below shows the repeated-period case.
 FiniteGroupInvariants can compare finite-group data with the action invariants. The supply
 runs from this roadmap to that consumer. Belyi applications consume the triangle dictionary,
 and Jacobian applications consume the character and isogeny conclusions of Layer 7.
+
+## Scope and ownership
+
+### Owned here
+
+- **Signatures** `(h; m₁, …, m_r)` with their Riemann–Hurwitz quantity
+  `μ(σ) = 2h − 2 + Σ (1 − 1/m_j)`, hyperbolicity `μ(σ) > 0`, and the genus
+  `g(n, σ) = 1 + n μ(σ)/2` of an action of a group of order `n` (Layer 0).
+- **Generating vectors** `GenVector G σ`: the carrier, its product relation and order conditions,
+  the signature group `Γ(σ)` with its standard presentation, the equivalence between generating
+  vectors and surface-kernel epimorphisms `Γ(σ) → G`, transport along group isomorphisms, the
+  Aut(G)-action and the `Inn(G)`-action (simultaneous conjugation), the specialization to Tau
+  Ceti's `TriangleGroup` and `PermutationTriple` when `h = 0`, `r = 3` (Layer 0).
+- **Actions on compact Riemann surfaces**: faithful holomorphic actions of a finite group, the
+  quotient Riemann surface `X/G`, branch points, stabilizer orders, the quotient genus, the
+  signature of an action, Riemann–Hurwitz in signature form, the representation of `G` on
+  holomorphic differentials (Layer 1).
+- **The Riemann existence criterion**: `G` acts on some compact Riemann surface of genus `g ≥ 2`
+  with signature `σ` iff `GenVector G σ` is nonempty and `g = g(|G|, σ)`, with the explicit
+  constructions in both directions and their compatibility (Layer 2).
+- **Equivalences of generating vectors**: refined passports (the conjugacy-class vector), braid
+  equivalence through the Hurwitz braid action, topological equivalence through Aut(G) and the
+  mapping class group, the theorem that topologically equivalent actions are exactly the
+  Aut(G) × Mod-orbits, the identification of topological equivalence with Aut(G) × B_r
+  for `h = 0`, and the finite counts of each kind of class (Layer 3).
+- **Numerical invariants**: `g0`, `r`, `dim = 3h − 3 + r`, the finiteness of the set of
+  `(G, σ)` of a given genus with the bounds `r ≤ 4(g−1)/|G| − 4h + 4`, `h ≤ g`, `|G| ≤ 84(g − 1)`; the
+  Hurwitz bound as a corollary of the criterion, with its equality case `σ = (0; 2, 3, 7)`;
+  Harvey's criterion for cyclic groups and the Wiman bound `|G| ≤ 4g + 2` for cyclic `G` with its
+  equality case (Layer 4).
+- **Full automorphism groups**: the predicate that an action is the full automorphism group of
+  its surface; generic fullness for a family; Singerman's list of signatures that never give a
+  full action, with the index and the signature of the overgroup; the extension criterion on the
+  generating vector that decides generic fullness, and the comparison with the
+  generic overgroup's generating vector (Layer 5).
+- **Macbeath's fixed-point formula** for an element of `G` in terms of the generating vector;
+  the hyperelliptic and cyclic-trigonal predicates of a family and their criteria on
+  the full group's generating vector (Layer 6).
+- **The Eichler trace formula and the Chevalley–Weil formula** for the character of `G` on
+  holomorphic differentials; the group-algebra decomposition of the Jacobian up to isogeny
+  (Kani–Rosen, Lange–Recillas), the dimensions and multiplicities of its factors (Layer 7).
+- **The hgcwa record semantics**: which stored field is which theorem, and the intrinsic label
+  prefixes (Layer 8).
+
+### Not owned here
+
+- **Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
+  the completeness of database tables** are not targets: the refined-passport index `x`, the vector
+  index `y`, the `cc`/`braid`/`topological` representative pointers, the Magma character indices in
+  `jacobian_decomp`, the stored class order, the permutation representation `G ↪ S_{|G|}` in which
+  `gen_vectors`, `hyp_involution`, `cinv` are displayed, and every completeness claim about the
+  stored tables. The composition of stored permutations is pinned in *Conventions* 1. This
+  roadmap states the intrinsic *prefix* of each label (genus, isomorphism class of `G`, quotient
+  genus, sorted signature, class vector) and nothing enumerative.
+- **The small-group identifier** `n.d` (not a target); `group`, `group_order`, `full_auto` are the
+  isomorphism class and order of an abstract finite group.
+- **Function-field predicates and quotient curves over a general field**
+  ([algebraic curves](../AlgebraicCurves/README.md) Layers 6–7, 11), and the uniqueness of the
+  trigonal pencil in genus at least five (CanonicalModelsAndGonality 5.2(f), 6.6). Layer 6 here proves the generating-vector criteria over `ℂ` and the agreement with
+  those predicates through the meromorphic function field.
+- **Weierstrass equations** (`eqn`): `HyperellipticCurves` for `y² = f(x)`; equations of
+  non-hyperelliptic families are excluded below.
+- **Riemann existence for covers of arbitrary curves, Nielsen classes, Hurwitz spaces, lifting
+  invariants, rigidity, fields of moduli** (`../InverseGaloisAndArithmeticFundamentalGroups`);
+  **Teichmüller space, the fixed-locus theorem and the classification of compact surfaces by
+  polygon schemas** (`../TeichmullerGeometry`, §0.0f for the classification); **closed and
+  boundary-relative mapping class groups** ([geometric topology](../GeometricTopology/README.md)
+  Layer 1.7.2); **van Kampen presentations** ([algebraic
+  topology](../AlgebraicTopology/README.md) Layer 1); **Fuchsian groups,
+  presentations, compactification, Riemann–Hurwitz for finite holomorphic maps**
+  ([Fuchsian orbifolds](../FuchsianOrbifolds/README.md)); **three-point covers and dessins**
+  ([Belyi maps](../BelyiMaps/README.md)).
+- **The Jacobian as a scheme, abelian varieties, isogenies, `End ⊗ ℚ`** ([Jacobian
+  challenge](../JacobianChallenge/README.md)); **complex tori** ([complex tori](../ComplexTori/README.md));
+  **rational representation descent and Schur indices** (ArithmeticGaloisRepresentations §5.6);
+  **endomorphism algebras and Sato–Tate groups** (`SatoTateGroups`). The analytic curve/Jacobian comparison is supplied by MordellLawrenceVenkatesh §8.11;
+  Layer 7 proves what the group action adds.
+- **Positive characteristic** and the failure of the Hurwitz bound there
+  ([algebraic curves](../AlgebraicCurves/README.md) Layer 11). Everything here is over `ℂ`.
+
+### The hgcwa page, column by column
+
+| Column / search field | Meaning | Where |
+| --- | --- | --- |
+| `genus` | `g = genus X = g(|G|, σ)` | 0.4, 1.4, 2.5 |
+| `group`, `group_order` | isomorphism class and order of `G` | identifier not a target; `Nat.card G` |
+| `signature` `[g0, m1, …, mr]`, `g0`, `r` | the signature of the action, quotient genus, number of branch points | 0.1, 1.3, 1.4 |
+| `dim` | `3 g0 − 3 + r` | 4.2 |
+| `gen_vectors` | a generating vector, displayed in the regular permutation representation | 0.2 (carrier); composition pinned (*Conventions* 1); the display representation is not a target |
+| `con`, `cc`, `passport_label` | the refined passport (class vector); its index | 3.1; index not a target |
+| `braid`, `braid_class` | braid equivalence class; its representative | 3.3; representative not a target |
+| `topological`, `topological_class` | topological equivalence class; its representative | 3.4–3.6; representative not a target |
+| `hgcwa_unique_groups.gen_vectors / braid / topological` | numbers of classes of each kind | 3.7 |
+| `full_auto`, `full_label`, `signH`, `inc_full` | the generic full automorphism group of the family, its signature | 5.1–5.5 |
+| `hyperelliptic`, `hyp_involution`, `inc_hyper` | the family is hyperelliptic; the involution | 6.2–6.3 |
+| `cyclic_trigonal`, `cinv`, `inc_cyc_trig` | the family is cyclic trigonal; the automorphism | 6.4 |
+| `jacobian_decomp` `[a, b, c]` | `b` copies of an abelian variety of dimension `a` | 7.4–7.6; `c` is not a target |
+| `label`, `total_label` | family and vector labels | prefixes 8.1; indices not targets |
+| `eqn` | an equation of the family | `HyperellipticCurves`; otherwise excluded |
+| `hgcwa_complete.*` | completeness of the stored tables | not a target; finiteness of realized data in §4.6 |
+
+### Exclusions
+
+- Actions in positive characteristic, wild ramification, and the automorphism groups of curves
+  over fields other than `ℂ` ([algebraic curves](../AlgebraicCurves/README.md) Layer 11 and its
+  exclusions).
+- Non-orientable quotients, anticonformal automorphisms, real forms and symmetric Riemann surfaces
+  (Bujalance–Etayo–Gamboa–Gromadzki); the full (orientation-reversing) mapping class group's
+  action.
+- Hurwitz spaces as algebraic varieties, their components and their fields of definition, lifting
+  invariants and rigidity (`../InverseGaloisAndArithmeticFundamentalGroups` IG.3.3, IG.5.3–IG.5.6).
+- Teichmüller space itself, Fenchel–Nielsen coordinates, the fixed-locus theorem's proof
+  (TeichmullerGeometry Layers 0–8), and the structure of the moduli space `M_g` (complex curve
+  moduli).
+- Equations of the families other than through `HyperellipticCurves`; the Shimura-variety
+  dimension of a family; the Frediani–Ghigi–Penegini code.
+- Fields of moduli and definition of a curve with a given action (outside this roadmap).
+- The classification of large automorphism groups beyond the finite lists of 4.3 and 5.3
+  (Hurwitz groups in general, Macbeath's and Conder's genus spectra, Accola–Maclachlan's `8g + 8`
+  theorem); the Accola–Maclachlan and Kulkarni surfaces appear only as worked examples.
+- Automorphisms of Jacobians that do not come from the curve, the Hodge structure beyond the
+  homology character, and endomorphism algebras as such (`SatoTateGroups`).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Presented and free groups (`PresentedGroup`, `PresentedGroup.toGroup`, `closure_range_of`,
+`FreeGroup.lift`); commutators, generation and orders (`commutatorElement`, `Subgroup.closure`,
+`orderOf`, `orderOf_dvd_card`, `Nat.card`); conjugacy (`ConjClasses`, `IsConj`, `MulAut.conj`,
+`Subgroup.normalizer`, `Subgroup.centralizer`); actions (`MulAction`, `FaithfulSMul`,
+`MulAction.stabilizer`, `MulAction.orbitRel.Quotient`, `MulAction.fixedBy`, orbit–stabilizer);
+permutations (`Equiv.Perm`, `Equiv.Perm.partition`); complex manifolds (`ChartedSpace ℂ X`,
+`IsManifold 𝓘(ℂ) n X`, `MDifferentiable`, `mfderiv`, `UpperHalfPlane`, `PSL(2, ℝ)`); fundamental
+groups and coverings (`FundamentalGroup`, `Path.trans`, `IsCoveringMap`, `IsCoveringMap.monodromy`);
+representations (`Representation`, `FDRep`, `Representation.character`, `char_orthonormal`,
+`MonoidAlgebra`, `Module.End.eigenspace`); `Finset.lcm`, `Nat.factorization`, `ZMod n`. The analytic action is a native `MulAction` with pointwise holomorphy.
+The exact geometric carriers required by the headline statements are specified in their layers.
+For rational semisimple blocks consume
+`IsSemisimpleRing.exists_algEquiv_pi_matrix_divisionRing_finite`
+(Mathlib/RingTheory/SimpleModule/WedderburnArtin.lean).
+
+### From Tau Ceti
+
+| Need | Tau Ceti (at the pin) |
+| --- | --- |
+| triangle groups, their trichotomy, lifts to permutation groups | `TauCeti.TriangleGroup`, `lift`, homEquiv, `hom_ext`, `rotate`, `equivTwoGenerator`, `toPerm`, `orbifoldEulerChar`, `orbifoldEulerChar_neg_iff`, `IsSphericalSignature`, `IsEuclideanSignature`, `infinite_of_inv_add_inv_add_inv_le_one` |
+| permutation triples and passports | `TauCeti.PermutationTriple`, `monodromyGroup`, `IsConnected`, `eulerChar`, `genus`, `PassportSpec`, `passportOf`, `PassportLabel`, `Passport.Count`, `GeneratingCount` |
+| braid groups | `TauCeti.BraidGroup n` (`ArtinGroup (CoxeterMatrix.A (n − 1))`) |
+| finite holomorphic maps | `TauCeti.RiemannSurface.localMultiplicity`, `degree`, `degree_eq_fiber_sum`, `FiniteHolomorphicMap`, `ofMDifferentiable`, `comp`, `degree_comp`, `biholomorphOfDegreeEqOne`, `ramificationDegree`, `ramificationDivisor`, `card_fiber_add_sum_localMultiplicity_sub_one` |
+| Fuchsian groups | `TauCeti.Analysis.Complex.Fuchsian.{ProperAction, Stabilizer, Elliptic.Basic, Elliptic.Linearizing, CoarseQuotient, Descent, MeromorphicDescent, Covolume, Compactification.*}` |
+| function-field automorphisms | `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`, `TauCeti.hurwitz_genus_formula`, `IsHyperellipticFunctionField`, `Automorphism.{Finite, FixedField, Rigidity, WeierstrassGaps}` |
+| group algebra idempotents | `TauCeti.Representation.characterSum`, `characterSum_mem_center`, `characterSum_mul_characterSum`, `isUnit_char_one`, the primitive central idempotents and their sum in `CharacterTable.IdempotentDecomposition` |
+| monodromy of three-point covers | `TauCeti.AlgebraicTopology.ThricePuncturedSphere.{MonodromyTriple, Deck, Regular, Classification, BranchPointAction}` |
+
+### From named roadmaps and pinned modules
+
+- From Tau Ceti at the pin: `TauCeti.TriangleGroup a b c` (presentation
+  `x ^ a, y ^ b, z ^ c, z * y * x`), `TauCeti.TriangleGroup.lift`, homEquiv, `rotate`,
+  `orbifoldEulerChar` with its sign trichotomy (`TauCeti.GroupTheory.TriangleGroup.Signatures`);
+  `TauCeti.PermutationTriple` (`σinf * σ1 * σ0 = 1`), `monodromyGroup`, `IsConnected`, `genus`,
+  `PassportSpec`, `passportOf`, `PassportLabel`; `TauCeti.BraidGroup n`;
+  `TauCeti.RiemannSurface.localMultiplicity`, `degree`, `FiniteHolomorphicMap`,
+  `FiniteHolomorphicMap.ofMDifferentiable`, `ramificationDegree`, `ramificationDivisor`,
+  `degree_eq_fiber_sum`; the Fuchsian stabilizer and linearization API
+  (`Subgroup.LinearizingCoordinate`, `stabilizerRotation`, `quotientCoordinate` in
+  `TauCeti.Analysis.Complex.Fuchsian.Elliptic.Linearizing`); the function-field automorphism
+  theory `TauCeti.natCard_le_eighty_four_mul_genus_sub_one`, `TauCeti.hurwitz_genus_formula`,
+  `IsHyperellipticFunctionField`; `TauCeti.Representation.characterSum` and the primitive central
+  idempotents `e_ρ = (χ(1)/|G|) Σ_g χ(g⁻¹) g` with their orthogonality and sum
+  (`TauCeti.RepresentationTheory.CharacterTable.{CentralIdempotent, IdempotentDecomposition}`).
+- AlgebraicCurves Layer 11 supplies finiteness of the function-field automorphism group
+  in characteristic zero and genus at least two. FuchsianOrbifolds Layer 2 items 3–6
+  supplies fundamental polygons. The finite-action
+  linearization and quotient charts are constructed in §1.2 using the pinned
+  local-multiplicity and degree APIs.
+
+- From [Fuchsian orbifolds](../FuchsianOrbifolds/README.md): Layer 2 items 3–6 (the Poincaré
+  polygon theorem, the Dirichlet polygon of a cofinite group, the standard presentation with
+  elliptic and parabolic cycles, hyperbolic triangle groups from reflections); Layer 4 (the
+  compactified quotient as a compact Riemann surface; for a cocompact group the coarse quotient
+  itself); Layer 5 items 1–3 and 6 (the topological genus `genus X` with `χ = 2 − 2 genus`, finite
+  holomorphic maps and degree, the Euler-characteristic form of Riemann–Hurwitz
+  `χ(X) = deg f · χ(Y) − ramificationDegree f`, the Fuchsian Riemann–Hurwitz and orbifold
+  Euler characteristic). The minimum area `π/21` and its equality case are supplied by TeichmullerGeometry §10.1.
+- From [Belyi maps](../BelyiMaps/README.md): Layer 0 (permutation triples, relabeling, monodromy
+  group, connectedness, genus), Layer 1 (passports, `N_{S_n}(G)`-orbits), Layer 4 (triangle groups
+  and the trichotomy), Layer 5 (the thrice-punctured sphere and its peripheral loops), Layer 6
+  (the monodromy triple of a finite cover, deck transformations, regular covers).
+  Its pinned product relation `σinf * σ1 * σ0 = 1` and its `0, 1, ∞` ordering are
+  matched by the dictionary of 0.7 below.
+- From the roadmap *Inverse Galois theory and arithmetic fundamental groups*
+  (`../InverseGaloisAndArithmeticFundamentalGroups`): IG.3.2's `BranchTuple r G`,
+  `BranchTuple.product` (the ordered product `g₁ * ⋯ * g_r`), `BranchTuple.generated`,
+  the inner Nielsen-class quotient in **Branch tuples and Nielsen classes**, and
+  **The Hurwitz braid action**, whose generator sends `(a, b) ↦ (a b a⁻¹, a)` and
+  preserves the ordered product, the generated subgroup and the multiset of conjugacy
+  classes; IG.5.2 **Forgetting the boundary marking** supplies the simultaneous-conjugation
+  quotient of marked topological Hurwitz spaces. The `c`-part of a generating vector with `h = 0` is a
+  branch tuple with product one, and braid equivalence (3.3) is the orbit relation of that action.
+- From TeichmullerGeometry §§5.6 and 8.4: identification of closed-surface stabilizers
+  with conformal automorphisms and the fixed-locus dimension `3h − 3 + r`; §10.1:
+  minimum orbifold area. The global cone-orbifold Teichmüller identification is a target
+  of §4.2 here, and generic extension for all signatures is a target of §§5.2–5.4 here.
+
+- MordellLawrenceVenkatesh §§5.9 and 5.21 supplies punctured mapping classes, their outer
+  action on conjugacy classes of homomorphisms, and capping with marked discs. This roadmap
+  owns the cone-order restriction, half-twist formula and sphere comparison in §3.4.
+- From TeichmullerGeometry §0.0f: polygon schemas, the standard orientable model of genus `h`
+  with `r` boundary circles, whose canonical word for `(h, r) ≠ (0, 0)` is `h` handle blocks
+  followed by `r` hole blocks, and the classification of compact surfaces with boundary up to
+  homeomorphism.
+- From [geometric topology](../GeometricTopology/README.md) Layer 1.7.2: the mapping class group
+  `Mod(F)` of a compact surface `F`, isotopy classes of diffeomorphisms fixing `∂F` pointwise,
+  its orientation-preserving subgroup `Mod⁺(F)` for oriented `F`, and Dehn twists; its Layer
+  11.2.1 items 2 and 5 read these classes as isotopy classes of homeomorphisms fixing `∂F`
+  pointwise.
+- From [algebraic topology](../AlgebraicTopology/README.md) Layer 1: the based van Kampen
+  presentation (§§1.3–1.4) and the free fundamental group of a wedge of circles (§1.5).
+- From [algebraic curves](../AlgebraicCurves/README.md) Layer 11 (automorphisms of function
+  fields, rigidity, finiteness, the `84(g − 1)` bound, the characteristic-`p` caveats) and Layer
+  12 (the dictionary between compact Riemann surfaces over `ℂ`, function fields and curves); from
+  [modular forms](../ModularForms/README.md) 10B (the meromorphic function field `ℳ(X)` of a
+  compact Riemann surface is a function field over `ℂ` of the same genus, `H⁰(X, Ω)` has dimension
+  `g`, analytic Riemann–Roch).
+- From [the Jacobian challenge](../JacobianChallenge/README.md): `JacobianVariety X x₀` as an
+  abelian variety over `ℂ` with `dim Jac X = g` (Layer D–E), the Abel–Jacobi map and the
+  Albanese property (Layer F), isogenies and `End(Jac X) ⊗ ℚ` (Layer E); from
+  [complex tori](../ComplexTori/README.md) Milestone 1 the torus of an already supplied full lattice.
+  MordellLawrenceVenkatesh §8.11 supplies the period-lattice identification of the algebraic
+  Jacobian, its integral homology comparison, naturality under automorphisms and independence
+  of the Abel–Jacobi base point. Tensoring that comparison with ℚ supplies §7.3.
+- ArithmeticGaloisRepresentations §5.6 supplies simple-module descent over a perfect field.
+  For a rational simple block Mₙ(D) with centre Z and `[D:Z]=s²`, its complex constituents
+  form one Galois orbit, each has degree n·s, and the rational irreducible has character
+  s times their sum. Here n,s are positive; the specialization to ℚ gives §7.5's Schur index
+  and exponent, including nonsplit blocks.
+- HyperellipticCurves §1.4 supplies the genus-zero involution criterion, centrality and
+  uniqueness, through the meromorphic-function-field dictionary. The order-three criterion
+  needed here is derived from §1.4 below.
+- CanonicalModelsAndGonality 5.2(f) and 6.6 supply, for a function field of genus at least five
+  over a perfect field, the uniqueness of the degree-three pencil and hence of a cyclic trigonal
+  order-three automorphism subgroup, which is therefore normal; §6.4 applies them to `ℳ(X_v)`
+  over `ℂ`.
 
 ## References
 
