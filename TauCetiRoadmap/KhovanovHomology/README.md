@@ -17,9 +17,9 @@ The headline theorems are these.
 - *Invariance.* If two planar oriented diagrams are related by Reidemeister moves, then for every
   commutative ring `R` and every quantum degree `j` their Khovanov complexes are chain homotopy
   equivalent. Through generic projections the same holds for ambient isotopic smooth links in `ℝ³`.
-- *Euler characteristic.* The graded Euler characteristic of `Kh(D; ℤ)` is `(q + q⁻¹)` times the
-  Jones polynomial at `t^(1/2) = −q`; at `q = 1` it equals `2^c` for a `c`-component link, so
-  `Kh(D; ℤ)` is never zero.
+- *Euler characteristic.* For a nonempty diagram, the graded Euler characteristic of `Kh(D; ℤ)` is
+  `(q + q⁻¹)` times the Jones polynomial at `t^(1/2) = −q`; at `q = 1` it equals `2^c` for a
+  `c`-component link, so `Kh(D; ℤ)` is never zero.
 - *Integral computations.* The positive torus link `T(2, m)`, `m ≥ 2`, has integral homology `ℤ`
   in explicit bidegrees and `ℤ/2` in the bidegrees `(2r + 1, m + 4r)` with `1 ≤ r ≤ (m − 1)/2`; for
   the right-handed trefoil, `ℤ/2` sits in `(3, 7)`. An adequate diagram with `n` crossings has the
@@ -1538,8 +1538,9 @@ action-twist signs and commuting homotopies.
 **Checks.**
 - On `V ⊗ V`: `Δm(1 ⊗ 1) = 1 ⊗ X + X ⊗ 1 = (X ⊗ id + id ⊗ X)(1 ⊗ 1)`,
   `Δm(1 ⊗ X) = X ⊗ X = (X ⊗ id + id ⊗ X)(1 ⊗ X)` and `Δm(X ⊗ X) = 0`; and `mΔ(1) = 2X`,
-  `mΔ(X) = 0`. So `X_p + X_q` is the null-homotopic composite through the saddle, while
-  `X_p − X_q` is not of this form: on `1 ⊗ 1` it is `X ⊗ 1 − 1 ⊗ X`, which `Δm` never produces.
+  `mΔ(X) = 0`. So `X_p + X_q` is the null-homotopic composite through the saddle, while, unless
+  `2 = 0` in `R`, `X_p − X_q` is not of this form: on `1 ⊗ 1` it is `X ⊗ 1 − 1 ⊗ X`, which lies in
+  the image of `Δm` only when `2 = 0`, and then `X_p − X_q = X_p + X_q`.
 
 ### 5.10 Based connected sum of codes
 
@@ -1754,10 +1755,13 @@ and 4.2.3 (realization of diagrams and braid closures).
 
 ### 6.5 Adequate diagrams and the crossing number
 
-Define adequacy by the extreme resolutions: a PD-code is `IsAdequate` when, in the all-`A` state and
-in the all-`B` state, the two arcs of the smoothing at every crossing lie on two different circles
-(`TauCeti.PDCode.circlesAt` has two elements). Equivalently every cube edge out of the all-`A`
-vertex is a merge and every cube edge into the all-`B` vertex is a split. Prove that for an
+Adequacy is GeometricTopology §4.8.1's: the state graphs of the all-`A` and all-`B` states are
+loopless. State it by the extreme resolutions: a PD-code is `IsAdequate` when, in the all-`A` state
+and in the all-`B` state, the two arcs of the smoothing at every crossing lie on two different
+circles (`TauCeti.PDCode.circlesAt` has two elements, which by
+`TauCeti.PDCode.card_circlesAt_eq_two_iff` says that the crossing is not a loop). Equivalently
+every cube edge out of the all-`A` vertex is a merge and every cube edge into the all-`B` vertex is
+a split. Prove that for an
 adequate planar diagram `Kh(D; ℤ)` is nonzero in the two extreme cochain degrees `−n₋` and `n₊`:
 in degree `−n₋` the labelling of the all-`A` circles by `X` is a cycle that is not a boundary, and in
 degree `n₊` the labelling of the all-`B` circles by `1` is not in the image of any split (Khovanov,
@@ -1777,7 +1781,8 @@ crossings, every oriented PD-code Reidemeister equivalent to `D` has at least `n
 adequate `n`-crossing diagram realizes crossing number `n` (Khovanov, *loc. cit.*, Proposition 37
 and Corollary 13, after Thistlethwaite).
 
-*Needs:* §§3.4, 4.5, 5.6, 8.6; Tau Ceti `TauCeti.PDCode.circlesAt`,
+*Needs:* §§3.4, 4.5, 5.6, 8.6; GeometricTopology §4.8.1 (adequacy); Tau Ceti
+`TauCeti.PDCode.circlesAt`, `TauCeti.PDCode.card_circlesAt_eq_two_iff`,
 `TauCeti.OrientedPDCode.ReidemeisterEquiv`.
 
 **Checks.**
@@ -2328,8 +2333,9 @@ supplier contracts.
 
 Layer 1 (§§1.1, 1.3 and 1.5: collars, gluing along the boundary, tubular neighbourhoods) and Layer 4
 (§4.2: diagrams, their realization as links and Reidemeister's theorem; §4.2.3: braid closures;
-§4.5: the value `V_L(1) = (−2)^(μ−1)` of the Jones polynomial of a `μ`-component link). They are
-consumed in §§7.1–7.2 and 7.6 (Layer 1) and in §§4.3, 5.6, 6.4 and 8.1–8.6 (Layer 4).
+§4.5: the value `V_L(1) = (−2)^(μ−1)` of the Jones polynomial of a `μ`-component link; §4.8.1:
+adequate diagrams, by loopless state graphs of the all-`A` and all-`B` states). They are consumed
+in §§7.1–7.2 and 7.6 (Layer 1) and in §§4.3, 5.6, 6.4, 6.5 and 8.1–8.6 (Layer 4).
 
 ### From TauCetiRoadmap.DifferentialGeometry
 

@@ -17,9 +17,9 @@ The carriers are Tau Ceti's: oriented PD-codes `TauCeti.OrientedPDCode` with pla
 normalized Khovanov complex `TauCeti.OrientedPDCode.khovanovComplex` (one cochain complex of
 `R`-modules for each quantum degree), Khovanov homology `TauCeti.OrientedPDCode.khovanovHomology`
 and its graded Euler characteristic `TauCeti.OrientedPDCode.khovanovEulerChar`. Khovanov's theorem
-that this Euler characteristic is `(q + q⁻¹)` times the Jones polynomial at `t^(1/2) = -q` is
-Tau Ceti's `TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial` and is not
-restated here.
+that, for a nonempty diagram, this Euler characteristic is `(q + q⁻¹)` times the Jones polynomial
+at `t^(1/2) = -q` is Tau Ceti's
+`TauCeti.OrientedPDCode.khovanovEulerChar_eq_mul_eval₂_jonesPolynomial` and is not restated here.
 
 The headlines stated below are Reidemeister invariance of the complex (README §4.5), duality of
 the homology of the mirror over a field (§5.4), the value `2^c` of the graded Euler
