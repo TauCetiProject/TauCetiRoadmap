@@ -34,43 +34,21 @@ prose with their locators or proof routes.
 Suggested home: `TauCeti/Analysis/RoughPath/` for Layers 1–6 and
 `TauCeti/Probability/RoughPath/` for Layer 7.
 
-## Scope and ownership
+## How to read the build
 
-Completion means:
+Layer 1 is the vocabulary of paths. Layer 2 builds the sewing lemma, on which every integral in
+the roadmap rests; Young integration is its first application and Young equations its first
+fixed point. Layer 3 iterates Young integration to the signature and states the algebra of
+iterated integrals; the extension theorem is the bridge to rough paths. Layer 4 restricts to the
+level-2 Hölder theory, `α ∈ (1/3, 1/2]`, which is where Layers 5 and 7 work, and builds the
+controlled rough integral by sewing. Layer 5 solves RDEs by a fixed point in the space of
+controlled paths. Layer 6 is independent of Layers 3–5: it generalises the local expansion
+idea of controlled paths to distributions and proves reconstruction, which contains the sewing
+lemma as a special case. Layer 7 consumes StochasticCalculus and Layers 4–5.
 
-1. The `r`-variation of a path and controls exist with their basic theory (Layer 1).
-2. The sewing lemma in Hölder and control form, the Young integral with its estimates, and
-   Young differential equations with existence, uniqueness and continuity (Layer 2).
-3. The signature of a path of finite `p`-variation, `p < 2`, with Chen's identity, the shuffle
-   identity and factorial decay, and Lyons' extension theorem for multiplicative functionals
-   (Layer 3).
-4. Level-2 Hölder rough paths, the rough integral of controlled paths, its stability, and
-   composition (Layer 4).
-5. Rough differential equations: existence and uniqueness for `C_b³` coefficients, the universal
-   limit theorem, consistency with classical ODEs, and the geometric chain rule (Layer 5).
-6. Hölder–Besov spaces of negative regularity, regularity structures, models, modelled
-   distributions, reconstruction and the Hölder–Besov product (Layer 6).
-7. Brownian and Gaussian rough paths: the Kolmogorov criterion for rough paths, the Itô and
-   Stratonovich lifts, Wong–Zakai, Gaussian lifts and fractional Brownian motion with
-   `H ∈ (1/3, 1/2]` (Layer 7). Everything in Layer 7 is stated in rough-path terms; the
-   identification with stochastic integrals and SDEs is listed under *Beyond this roadmap*.
-
-**Not owned here.**
-
-- Brownian motion, its Wiener measure and the Kolmogorov–Chentsov theorem are owned by
-  StochasticCalculus, Layer 1; this roadmap consumes §§1.1–1.2 and nothing else from it. Itô
-  and Stratonovich integrals and SDEs (StochasticCalculus Layers 3, 5 and 9) are not used; the
-  identifications that would need them are under *Beyond this roadmap*.
-- Littlewood–Paley blocks, the Besov scale `B^s_{p,q}` defined by dyadic blocks, and Bony's
-  paraproduct decomposition with its paraproduct and resonant estimates are owned by PDE,
-  Layer 7 (§§7.1–7.3). This roadmap owns the local wavelet-free definition of the Hölder–Besov
-  space of negative regularity through scaled test functions, which is the form reconstruction
-  needs; it does not prove the equivalence of the two definitions (see *Beyond this roadmap*).
-- The support theorem, the enhanced Schilder theorem, rough paths of regularity at most `1/3`
-  (third and higher levels in the Hölder setting, fractional Brownian motion with
-  `H ∈ (1/4, 1/3]`), RDEs driven by `p`-rough paths with `p ≥ 3`, the uniqueness of the
-  signature up to tree-like equivalence, and singular stochastic PDE are listed under *Beyond
-  this roadmap*.
+Each subsection states its targets, a locator in at least one source (with the printed page),
+a proof route, and a *Needs:* line. Each layer ends with **Checks.**, *Examples* and
+*Dependencies*.
 
 ## Conventions
 
@@ -110,76 +88,6 @@ Completion means:
   Friz–Hairer do not use a unit, and every structure the roadmap uses is finite.
 - The implementation namespace is TauCeti; the prototypes in `Suggested.lean` live in
   `TauCetiRoadmap.YoungIntegrationAndRoughPaths`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `eVariationOn` and `BoundedVariationOn`
-  (`Mathlib/Topology/EMetricSpace/BoundedVariation.lean`): the `1`-variation, to which
-  `rEVariationOn` reduces at `r = 1`.
-- `HolderWith`, `HolderOnWith` (`Mathlib/Topology/MetricSpace/Holder.lean`) and `eHolderNorm`,
-  `MemHolder` (`Mathlib/Topology/MetricSpace/HolderNorm.lean`).
-- `intervalIntegral`, `iteratedFDeriv`, `ContDiff`, `EuclideanSpace`, `limUnder` and `Real.Gamma`.
-- `IsPicardLindelof` (`Mathlib/Analysis/ODE/PicardLindelof.lean`) and
-  `ODE_solution_unique_of_mem_Icc` (`Mathlib/Analysis/ODE/ExistUnique.lean`): the classical ODE
-  theory against which Layers 2 and 5 are checked.
-- `TestFunction` with notation `𝓓(Ω, F)` (`Mathlib/Analysis/Distribution/TestFunction.lean`)
-  and `Distribution` with notation `𝓓'(Ω, F)` and the embedding `Distribution.ofFun`
-  (`Mathlib/Analysis/Distribution/Distribution.lean`).
-- `ProbabilityTheory.IsPreBrownianReal` and `ProbabilityTheory.IsBrownianReal`
-  (`Mathlib/Probability/BrownianMotion/Basic.lean`); `ProbabilityTheory.IsKolmogorovProcess`
-  (`Mathlib/Probability/Process/Kolmogorov.lean`); `ProbabilityTheory.IsGaussianProcess`
-  (`Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean`);
-  `ProbabilityTheory.iIndepFun` and `MeasureTheory.TendstoInMeasure`.
-- `PiTensorProduct.projectiveSeminorm` (`Mathlib/Analysis/Normed/Module/PiTensorProduct/`) and
-  `TensorAlgebra`: the coordinate-free tensor algebra, against which the word coordinates are
-  checked in §3.1.
-- Mathlib has no `p`-variation for `p ≠ 1`, no control functions, no sewing lemma, no Young
-  integral and no rough path. Two open Mathlib pull requests fix the shapes used here and are
-  followed exactly: #38055 defines the `r`-variation `rEVariationOn` (a supremum over monotone
-  sequences in `ℝ≥0∞`, with the oscillation at `r = ⊤` and the jump count at `r = 0`), the
-  predicate of finite `r`-variation and monotonicity in `r`; #38053 defines `ControlOn` (a
-  superadditive function of two variables on a set, vanishing on the diagonal and continuous on
-  the ordered pairs), its global version, and powers and differences of controls. The
-  Hopf-algebra pull request #31898 on `TensorAlgebra` is prior art for the shuffle and
-  deconcatenation coproducts.
-
-### From Tau Ceti
-
-- `TauCeti.HolderSpace` (`TauCeti/Analysis/Holder/Normed.lean`): the Banach space of bounded
-  Hölder maps with the sup-plus-Hölder norm. It is the carrier in which the RDE fixed point
-  of §5.1 is taken.
-- `TauCeti/Topology/EMetricSpace/VariationOnFromTo.lean`: signed variation between two points,
-  used in the proof of the control property in §1.2.
-- Tau Ceti has no sewing, rough path, signature or Hölder–Besov material.
-
-### From other roadmaps
-
-- StochasticCalculus (on main):
-  - §1.1 (construction): the Kolmogorov–Chentsov theorem in the metric-parameter form with
-    Hölder exponents below `1/2`, used in §7.1 and as the model for its proof.
-  - §1.2 (Wiener space): the Wiener measure (its existence theorem, named there) and centred
-    vector Brownian motion on a finite-dimensional inner-product space with independent
-    orthonormal components. `IsBrownian` in `Suggested.lean` is a local copy of the latter for
-    `Vec d`.
-  - No other section of StochasticCalculus, and no other roadmap, is consumed.
-
-## How to read the build
-
-Layer 1 is the vocabulary of paths. Layer 2 builds the sewing lemma, on which every integral in
-the roadmap rests; Young integration is its first application and Young equations its first
-fixed point. Layer 3 iterates Young integration to the signature and states the algebra of
-iterated integrals; the extension theorem is the bridge to rough paths. Layer 4 restricts to the
-level-2 Hölder theory, `α ∈ (1/3, 1/2]`, which is where Layers 5 and 7 work, and builds the
-controlled rough integral by sewing. Layer 5 solves RDEs by a fixed point in the space of
-controlled paths. Layer 6 is independent of Layers 3–5: it generalises the local expansion
-idea of controlled paths to distributions and proves reconstruction, which contains the sewing
-lemma as a special case. Layer 7 consumes StochasticCalculus and Layers 4–5.
-
-Each subsection states its targets, a locator in at least one source (with the printed page),
-a proof route, and a *Needs:* line. Each layer ends with **Checks.**, *Examples* and
-*Dependencies*.
 
 ## Layer 1: variation, Hölder paths and controls
 
@@ -1072,6 +980,98 @@ Layers 4–5; StochasticCalculus §§1.1–1.2; Mathlib's Brownian motion and Ga
 - No roadmap on main consumes this one. The singular-SPDE programme listed under *Beyond this
   roadmap* is the intended consumer of Layer 6, and the support and large-deviation theorems
   listed there are the intended consumers of Layers 5 and 7.
+
+## Scope and ownership
+
+Completion means:
+
+1. The `r`-variation of a path and controls exist with their basic theory (Layer 1).
+2. The sewing lemma in Hölder and control form, the Young integral with its estimates, and
+   Young differential equations with existence, uniqueness and continuity (Layer 2).
+3. The signature of a path of finite `p`-variation, `p < 2`, with Chen's identity, the shuffle
+   identity and factorial decay, and Lyons' extension theorem for multiplicative functionals
+   (Layer 3).
+4. Level-2 Hölder rough paths, the rough integral of controlled paths, its stability, and
+   composition (Layer 4).
+5. Rough differential equations: existence and uniqueness for `C_b³` coefficients, the universal
+   limit theorem, consistency with classical ODEs, and the geometric chain rule (Layer 5).
+6. Hölder–Besov spaces of negative regularity, regularity structures, models, modelled
+   distributions, reconstruction and the Hölder–Besov product (Layer 6).
+7. Brownian and Gaussian rough paths: the Kolmogorov criterion for rough paths, the Itô and
+   Stratonovich lifts, Wong–Zakai, Gaussian lifts and fractional Brownian motion with
+   `H ∈ (1/3, 1/2]` (Layer 7). Everything in Layer 7 is stated in rough-path terms; the
+   identification with stochastic integrals and SDEs is listed under *Beyond this roadmap*.
+
+**Not owned here.**
+
+- Brownian motion, its Wiener measure and the Kolmogorov–Chentsov theorem are owned by
+  StochasticCalculus, Layer 1; this roadmap consumes §§1.1–1.2 and nothing else from it. Itô
+  and Stratonovich integrals and SDEs (StochasticCalculus Layers 3, 5 and 9) are not used; the
+  identifications that would need them are under *Beyond this roadmap*.
+- Littlewood–Paley blocks, the Besov scale `B^s_{p,q}` defined by dyadic blocks, and Bony's
+  paraproduct decomposition with its paraproduct and resonant estimates are owned by PDE,
+  Layer 7 (§§7.1–7.3). This roadmap owns the local wavelet-free definition of the Hölder–Besov
+  space of negative regularity through scaled test functions, which is the form reconstruction
+  needs; it does not prove the equivalence of the two definitions (see *Beyond this roadmap*).
+- The support theorem, the enhanced Schilder theorem, rough paths of regularity at most `1/3`
+  (third and higher levels in the Hölder setting, fractional Brownian motion with
+  `H ∈ (1/4, 1/3]`), RDEs driven by `p`-rough paths with `p ≥ 3`, the uniqueness of the
+  signature up to tree-like equivalence, and singular stochastic PDE are listed under *Beyond
+  this roadmap*.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `eVariationOn` and `BoundedVariationOn`
+  (`Mathlib/Topology/EMetricSpace/BoundedVariation.lean`): the `1`-variation, to which
+  `rEVariationOn` reduces at `r = 1`.
+- `HolderWith`, `HolderOnWith` (`Mathlib/Topology/MetricSpace/Holder.lean`) and `eHolderNorm`,
+  `MemHolder` (`Mathlib/Topology/MetricSpace/HolderNorm.lean`).
+- `intervalIntegral`, `iteratedFDeriv`, `ContDiff`, `EuclideanSpace`, `limUnder` and `Real.Gamma`.
+- `IsPicardLindelof` (`Mathlib/Analysis/ODE/PicardLindelof.lean`) and
+  `ODE_solution_unique_of_mem_Icc` (`Mathlib/Analysis/ODE/ExistUnique.lean`): the classical ODE
+  theory against which Layers 2 and 5 are checked.
+- `TestFunction` with notation `𝓓(Ω, F)` (`Mathlib/Analysis/Distribution/TestFunction.lean`)
+  and `Distribution` with notation `𝓓'(Ω, F)` and the embedding `Distribution.ofFun`
+  (`Mathlib/Analysis/Distribution/Distribution.lean`).
+- `ProbabilityTheory.IsPreBrownianReal` and `ProbabilityTheory.IsBrownianReal`
+  (`Mathlib/Probability/BrownianMotion/Basic.lean`); `ProbabilityTheory.IsKolmogorovProcess`
+  (`Mathlib/Probability/Process/Kolmogorov.lean`); `ProbabilityTheory.IsGaussianProcess`
+  (`Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean`);
+  `ProbabilityTheory.iIndepFun` and `MeasureTheory.TendstoInMeasure`.
+- `PiTensorProduct.projectiveSeminorm` (`Mathlib/Analysis/Normed/Module/PiTensorProduct/`) and
+  `TensorAlgebra`: the coordinate-free tensor algebra, against which the word coordinates are
+  checked in §3.1.
+- Mathlib has no `p`-variation for `p ≠ 1`, no control functions, no sewing lemma, no Young
+  integral and no rough path. Two open Mathlib pull requests fix the shapes used here and are
+  followed exactly: #38055 defines the `r`-variation `rEVariationOn` (a supremum over monotone
+  sequences in `ℝ≥0∞`, with the oscillation at `r = ⊤` and the jump count at `r = 0`), the
+  predicate of finite `r`-variation and monotonicity in `r`; #38053 defines `ControlOn` (a
+  superadditive function of two variables on a set, vanishing on the diagonal and continuous on
+  the ordered pairs), its global version, and powers and differences of controls. The
+  Hopf-algebra pull request #31898 on `TensorAlgebra` is prior art for the shuffle and
+  deconcatenation coproducts.
+
+### From Tau Ceti
+
+- `TauCeti.HolderSpace` (`TauCeti/Analysis/Holder/Normed.lean`): the Banach space of bounded
+  Hölder maps with the sup-plus-Hölder norm. It is the carrier in which the RDE fixed point
+  of §5.1 is taken.
+- `TauCeti/Topology/EMetricSpace/VariationOnFromTo.lean`: signed variation between two points,
+  used in the proof of the control property in §1.2.
+- Tau Ceti has no sewing, rough path, signature or Hölder–Besov material.
+
+### From other roadmaps
+
+- StochasticCalculus (on main):
+  - §1.1 (construction): the Kolmogorov–Chentsov theorem in the metric-parameter form with
+    Hölder exponents below `1/2`, used in §7.1 and as the model for its proof.
+  - §1.2 (Wiener space): the Wiener measure (its existence theorem, named there) and centred
+    vector Brownian motion on a finite-dimensional inner-product space with independent
+    orthonormal components. `IsBrownian` in `Suggested.lean` is a local copy of the latter for
+    `Vec d`.
+  - No other section of StochasticCalculus, and no other roadmap, is consumed.
 
 ## Beyond this roadmap
 
