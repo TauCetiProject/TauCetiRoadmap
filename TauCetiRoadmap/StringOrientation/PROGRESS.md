@@ -1,0 +1,12 @@
+# Progress log: StringOrientation
+
+An append-only record of what landed on the StringOrientation roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"95d9a09591fbfc63c1f88dd413e9257af59eae43","prs":[40190],"roadmap":"StringOrientation","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
+## StringOrientation: 2026-11-18 to 2026-11-19 (`95d9a09` to `b235000`)
+
+The first work on this roadmap delivers the submersion half of S3.0, the foundation that bundle gerbes will sit on. For a smooth submersion π : Y → M between finite-dimensional real boundaryless manifolds, the k-fold fibre product [Y^[k]](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/FiberProduct/IteratedSubmersion.html#TauCeti.IteratedFiberProduct), the tuples whose entries all have the same image in M, is now [a manifold of dimension k·dim Y − (k−1)·dim M, smoothly embedded in Y^k](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/FiberProduct/IteratedSubmersion.html#TauCeti.exists_isManifold_iteratedFiberProduct_isSmoothEmbedding), and it is [closed in Y^k](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/FiberProduct/IteratedSubmersion.html#TauCeti.isClosedEmbedding_coe_iteratedFiberProduct) when M is Hausdorff (TauCeti#40190). Splitting a tuple into two blocks [gives a diffeomorphism](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/FiberProduct/IteratedSubmersion.html#TauCeti.iteratedFiberProductSplitDiffeomorph), so the result does not depend on the order in which the fibre products are taken, and the two-fold case is the binary transverse fibre product.
+
+The simplicial structure comes with it. The [face maps are surjective submersions](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/FiberProduct/Simplicial.html#TauCeti.isSubmersion_face), the [diagonal degeneracies are smooth embeddings](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/FiberProduct/Simplicial.html#TauCeti.isSmoothEmbedding_degeneracy), and all five simplicial identities hold. The same work proves that a surjective submersion has [smooth local sections](https://taucetiproject.org/docs/TauCeti/Geometry/Manifold/Submersion/Basic.html#Manifold.IsSubmersion.exists_contMDiffOn_section_of_surjective) over a neighbourhood of every point of the base. The other half of S3.0, the contractible prism covers of M×[0,1], has not been started.
