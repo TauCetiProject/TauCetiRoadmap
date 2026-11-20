@@ -18,8 +18,9 @@ The headline theorems of the roadmap are:
   its nonzero roots in a splitting extension;
 * the Newton polygon of a product of two polynomials, or of two entire series, is the Minkowski
   sum of the Newton polygons of the factors;
-* the radius of convergence of a power series is `b` raised to the supremum of the finite slopes
-  of its Newton polygon;
+* the radius of convergence of a power series with admissible coefficient heights and infinitely
+  many nonzero coefficients is `b` raised to the supremum of the finite slopes of its Newton
+  polygon (a polynomial has radius `∞`);
 * the Newton-polygon irreducibility criteria over a discretely valued field, and the factorisation
   `π ^ μ · unit · distinguished polynomial` of a nonzero power series over a complete discrete
   valuation ring with exponent `μ` and degree `λ`;
@@ -59,7 +60,8 @@ theorem finiteFace_of_gaussExtrema {K : Type*} [NormedField K]
 /-- §4.1. Over a complete ultrametric normed field, let `f` be restricted at `r > 0` with constant
 coefficient one, and let `d` be the last index attaining its Gauss norm at `r`. Then `f = P * U`
 for exactly one pair of a polynomial `P` of degree `d` with constant coefficient one and a series
-`U` restricted at `r` with constant coefficient one and `‖U - 1‖_r < 1` (BGR §5.2). -/
+`U` restricted at `r` with constant coefficient one and `‖U - 1‖_r < 1` (BGR §5.2; Lazard
+Proposition 4, part 2, with upper end `+∞`). -/
 theorem discFactor_unique {K : Type*} [NormedField K] [IsUltrametricDist K] [CompleteSpace K]
     {r : ℝ} (hr : 0 < r) {f : K⟦X⟧} (hf : f.IsRestricted r) (hf1 : constantCoeff f = 1)
     {d : ℕ} (hd : IsDistinguished r d f) :
@@ -72,7 +74,7 @@ theorem discFactor_unique {K : Type*} [NormedField K] [IsUltrametricDist K] [Com
 valuation `v` and a base `b > 1`. A polynomial `f` over `K` with nonzero constant coefficient is
 `f(0)` times a product of polynomials `P m`, one for each distinct finite slope `m` of its Newton
 polygon, where `P m` has constant coefficient one, degree the multiplicity of `m` and every finite
-slope equal to `m`; the family `P` is unique (Koblitz IV; Lazard §3). -/
+slope equal to `m`; the family `P` is unique (Kedlaya Theorem 7; Lazard Proposition 2). -/
 theorem existsUnique_slopeFactors {K : Type*} [NormedField K] [CompleteSpace K]
     (v : AddValuation K (WithTop ℝ)) {b : ℝ} (hb : 1 < b)
     (hv : ∀ x : K, x ≠ 0 → ‖x‖ = b ^ (-(v x).untop₀)) {f : K[X]} (hf : f.coeff 0 ≠ 0) :

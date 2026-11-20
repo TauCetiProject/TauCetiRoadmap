@@ -26,10 +26,12 @@ The headline theorems made below are these.
   norm at most `ρ`, as `ρ → ∞`.
 
 These rest on the basic dictionary of the subject: the slopes of a polynomial are the negatives of
-the valuations of its nonzero roots, the polygon of a product is the Minkowski sum of the polygons
-of the factors, the radius of convergence is `b` to the power of the supremum of the slopes, and
-over a complete discrete valuation ring a nonzero series is `π^μ` times a unit times a distinguished
-polynomial of degree `λ`.
+the valuations of its nonzero roots; the polygon of a product of two polynomials, or of two entire
+series, is the Minkowski sum of the polygons of the factors; the radius of convergence of a series
+that has a Newton polygon and infinitely many nonzero coefficients is `b` to the power of the
+supremum of the slopes, while a polynomial has infinite radius; and over a complete discrete
+valuation ring a nonzero series is `π^μ` times a unit times a distinguished polynomial of degree
+`λ`.
 
 The roadmap sits between RestrictedPowerSeries, which supplies the restricted and entire series,
 their Gauss norms, evaluation and Weierstrass preparation that the analytic layers read through the
@@ -129,15 +131,13 @@ target proved by another route is not held behind an unrelated one.
    and characteristic zero appear only where a statement needs them. No general result assumes
    spherical completeness or a finite residue field.
 
-10. **Mathlib's interfaces are the model.** Mathlib's Newton-polygon proposal
-    ([#38050](https://github.com/leanprover-community/mathlib4/pull/38050)) uses `NewtonPolygon`,
-    `NewtonPolygon₀`, segment slopes and lengths, a height map and `IsBelow`. Its
+10. **Mathlib's interfaces are the model.** Mathlib's Newton-polygon proposal (References) uses
+    `NewtonPolygon`, `NewtonPolygon₀`, segment slopes and lengths, a height map and `IsBelow`. Its
     construction-independent interface is the one followed here: polygons are height functions,
     slope data are a second presentation, and coefficient constructions are characterised by
     greatestness. The [Zulip design discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Newton.20polygons/with/585502459)
     motivates this separation of a polygon from the source of its slopes. Additive valuations follow
-    Mathlib's proposals [#43578](https://github.com/leanprover-community/mathlib4/pull/43578) and
-    [#43580](https://github.com/leanprover-community/mathlib4/pull/43580): `WithZero.negLog`,
+    Mathlib's additive-valuation proposals (References): `WithZero.negLog`,
     `WithZero.orderAddIsoWithTop`, `Valuation.addVal` and `Valuation.addValValueGroup`, with their
     source and target conventions and naturality. Names used here reserve nothing: where Mathlib
     adopts a carrier or a name for any of these objects, that carrier and that name are used.
@@ -214,16 +214,16 @@ with this property.
 
 - The vertices are exactly the endpoints of the maximal finite segments, the endpoints of the
   domain and the start of a terminal ray; for an envelope of `a`, every vertex `n` has `h n = a n`.
-- A polygon with finite domain has finitely many vertices and is the affine interpolation of its
-  values at consecutive vertices.
+- A polygon with bounded finite domain has finitely many vertices and is the affine interpolation
+  of its values at consecutive vertices.
 - A polygon ends in a terminal ray exactly when its domain is unbounded and its unit slopes are
   eventually constant; the slope of the ray is that constant.
 
 Truncating the points beyond a vertex preserves the polygon up to that vertex
 (`TauCeti.IsLowerConvexEnvelope.eqOn_lowerConvexEnvelope_truncate_of_unitSlope_lt`).
 
-For a polygon `h` with finite nonempty domain `[l, u]`, define its *slope multiset* as the multiset
-of `unitSlope h n` over its finite edges `n`.
+For a polygon `h` whose finite domain is a nonempty bounded interval `[l, u]`, define its *slope
+multiset* as the multiset of `unitSlope h n` over its finite edges `n`.
 
 - It has `u - l` elements and sum `h u - h l`; the multiplicity of `σ` in it is the width of the
   face of `h` at slope `σ`.
@@ -323,8 +323,8 @@ outside the domain; length zero is a singleton, never the empty polygon. Complet
 
 - **Integer anchors.** Define finite and infinite slope data whose start is an integer, with heights
   `ℤ → WithTop Γ`; for `Γ = ℝ` these heights are convex in the sense of `TauCeti.IsIntConvexSeq`,
-  every convex integer height function with finite nonempty domain, or with domain bounded below and
-  unbounded above, is the heights of unique such data, and the data of `ℕ`-anchored heights extended
+  every convex integer height function whose finite domain is nonempty and bounded, or bounded below
+  and unbounded above, is the heights of unique such data, and the data of `ℕ`-anchored heights extended
   by `⊤` are the `ℕ`-anchored data with the start cast to `ℤ`.
 - **Translation.** Moving the start of finite, infinite, compressed or terminal-ray data by `k`
   translates the heights by `k` and leaves the slopes, the slope multiset and the ray slope
@@ -679,8 +679,9 @@ preparation commutes with isometric coefficient maps, and for `r ≤ s` the moni
   multiplicity of `0` as a root of `P`.
 - **Constant-one form.** When `f(0) = 1`, `f = P_r U_r` for exactly one pair of a polynomial `P_r`
   of degree `d` with `P_r(0) = 1` and a series `U_r` restricted at `r` with `U_r(0) = 1` and
-  `‖U_r - 1‖_r < 1`: this is `discFactor_unique`. Uniqueness needs all these conditions: degree and
-  constant term alone do not determine the factor.
+  `‖U_r - 1‖_r < 1`: this is `discFactor_unique` (Lazard Proposition 4, part 2, with upper end
+  `+∞`). Uniqueness needs all these conditions: degree and constant term alone do not determine the
+  factor.
 - **Estimate.** `‖f - P_r‖_r < ‖f‖_r`.
 - **Maps and nesting.** The constant-one factor commutes with isometric coefficient maps. For
   restricted radii `r ≤ s`, `P_r` divides `P_s` in `K[X]`, and in a splitting field the roots of the
@@ -696,23 +697,25 @@ preparation commutes with isometric coefficient maps, and for `r ≤ s` the moni
 
 ### 4.2 Factorisation at vertices and by slopes
 
-Prove (Koblitz IV; Lazard §3):
+Prove:
 
-- **Vertices.** Let `f(0) = 1`, `r = b ^ σ` with `f` restricted at some `s > r`, and let the face of
-  the polygon of `f` at slope `σ` end at `j`. Then `u_r(f) = j`, and the polygon of `P_r` agrees with
-  that of `f` on `[0, j]`: every `n < j` is a finite edge of one exactly when it is of the other,
-  with equal unit slopes, and `P_r` has no finite edge at `j`. At the first break (§2.4) `P_r` is
-  pure of the first slope: this is the first-segment factorisation.
-- **Slope factorisation.** A polynomial `f` over `K` with nonzero constant coefficient is `f(0)`
-  times a product of polynomials `P_m` with constant coefficient one, one for each distinct finite
-  slope `m` of its polygon, `P_m` pure of slope `m` and of degree the multiplicity of `m`; the family
-  is unique (`existsUnique_slopeFactors`), and factors of different slopes are coprime. The polynomial
+- **Vertices** (Lazard Propositions 2 and 4). Let `f(0) = 1`, `r = b ^ σ` with `f` restricted at
+  some `s > r`, and let the face of the polygon of `f` at slope `σ` end at `j`. Then `u_r(f) = j`,
+  and the polygon of `P_r` agrees with that of `f` on `[0, j]`: every `n < j` is a finite edge of
+  one exactly when it is of the other, with equal unit slopes, and `P_r` has no finite edge at `j`.
+  At the first break (§2.4) `P_r` is pure of the first slope: this is the first-segment
+  factorisation.
+- **Slope factorisation** (Kedlaya Theorem 7, in the untwisted case of Kedlaya §5; Lazard
+  Proposition 2). A polynomial `f` over `K` with nonzero constant coefficient is `f(0)` times a
+  product of polynomials `P_m` with constant coefficient one, one for each distinct finite slope
+  `m` of its polygon, `P_m` pure of slope `m` and of degree the multiplicity of `m`; the family is
+  unique (`existsUnique_slopeFactors`), and factors of different slopes are coprime. The polynomial
   need not split over `K`. Applied to `P_r`, the same factorisation sorts the zeros of a series in
   the closed disc of radius `r` by norm.
-- **Irreducible polynomials are pure.** An irreducible polynomial over `K` with nonzero constant
-  coefficient has a single finite slope; so does the minimal polynomial of a nonzero algebraic
-  element, all of whose conjugates therefore have one valuation (compare §3.3). Neither purity nor a
-  polygon with one segment implies irreducibility.
+- **Irreducible polynomials are pure** (Kedlaya §5). An irreducible polynomial over `K` with
+  nonzero constant coefficient has a single finite slope; so does the minimal polynomial of a
+  nonzero algebraic element, all of whose conjugates therefore have one valuation (compare §3.3).
+  Neither purity nor a polygon with one segment implies irreducibility.
 
 **Checks.**
 - `X² - p²` over `ℚ_p` has the single segment from `(0, 2)` to `(2, 0)` of slope `-1` and is
@@ -773,21 +776,22 @@ a zero is that of Convention 8 (Lazard §3; BGR §5.2).
 
 Layers 1–3; RestrictedPowerSeries §2 (evaluation, translation and Hasse derivatives), §2.4
 (Strassmann's bound), §3.2 (units) and Layer 4 (preparation), through the Tau Ceti declarations named
-in the supplier contracts. Sources: BGR §5.2; Koblitz IV; Lazard §3. The distinction between active
-indices and geometric vertices is essential at the boundary.
+in the supplier contracts. Sources: BGR §5.2; Kedlaya Theorem 7 and §5; Lazard §3. The distinction
+between active indices and geometric vertices is essential at the boundary.
 
 ## Layer 5: Convergence and entire products
 
 The radius `R(f)` of Convention 6, its restrictedness properties, the Cauchy–Hadamard formula, the
-formula `R(f) = b ^ λ` with `λ = liminf w(aₙ)/n`, equal to the supremum of the finite slopes for
-admissible coefficients, and `R(f) = 0` for vertical coefficients are inputs (supplier
+formula `R(f) = b ^ λ` with `λ = liminf w(aₙ)/n` (so `λ = ∞` and `R(f) = ∞` for a polynomial), the
+equality of `λ` with the supremum of the finite slopes when the coefficients are admissible and
+infinitely many are nonzero, and `R(f) = 0` for vertical coefficients are inputs (supplier
 contracts).
 
 ### 5.2 Convergence in extensions
 
 Let `L` be a complete ultrametric extension whose norm extends that of `K`. A series restricted at
 `r` converges at every point of `L` of norm at most `r` (`PowerSeries.IsRestricted.hasSum_evalAt`).
-Prove (Koblitz IV):
+Prove (Lazard §1, p. 48):
 
 - **Converse.** If `Σ aₙ xⁿ` converges at some `x ∈ L` of norm `r > 0`, then `f` is restricted at
   `r`; so convergence at a point of norm `r` is equivalent to restrictedness at `r`. Convergence at
@@ -849,7 +853,7 @@ where zeros may accumulate at the boundary.
 Layers 0–4; RestrictedPowerSeries §7 (open-disc and entire series and entire division) through the
 Tau Ceti declarations named in the supplier contracts; ultrametric summability and extended-real
 limits; Mathlib's factorial valuations and exponential for the exponential example. Sources:
-Koblitz IV; Lazard §1 and (4.13).
+Lazard §1 and (4.13).
 
 ## Layer 6: Discrete valuations and formal preparation
 
@@ -863,15 +867,16 @@ formal and normed preparation at radii below one are inputs (supplier contracts)
 
 ### 6.1 Denominators and irreducibility
 
-Prove (Neukirch):
+Prove:
 
 - **Mathlib's Eisenstein.** For a discrete valuation ring `O` with fraction field `K` and integer
   valuation `w`, a monic `f ∈ O[X]` of degree `d` satisfying Mathlib's `Polynomial.IsEisensteinAt` at
   the maximal ideal has, over `K`, the single slope `-1/d` with multiplicity `d`, and is irreducible
   over `K`; this recovers Mathlib's `Polynomial.IsEisensteinAt.irreducible` for `O`.
-- **Slope by slope.** Over a complete `K`, let `f` have nonzero constant coefficient and slope
-  factors `P_m` (§4.2) of degrees `d_m`, and let `q_m` be the reduced denominator of `m`. Every
-  irreducible factor of `f` divides exactly one `P_m` and has degree a positive multiple of `q_m`.
+- **Slope by slope** (Kedlaya Theorem 7 and §5). Over a complete `K`, let `f` have nonzero
+  constant coefficient and slope factors `P_m` (§4.2) of degrees `d_m`, and let `q_m` be the reduced
+  denominator of `m`. Every irreducible factor of `f` divides exactly one `P_m` and has degree a
+  positive multiple of `q_m`.
   Hence `f` has at least one irreducible factor for each distinct slope and at most `d_m / q_m`
   irreducible factors of slope `m`, counted with multiplicity; `d_m = q_m` makes `P_m` irreducible,
   and otherwise the polygon alone need not decide.
@@ -892,7 +897,7 @@ Prove (Neukirch):
 
 ### 6.2 Ramification consequences
 
-Prove (Neukirch):
+Prove (Kedlaya Corollary 3, for the valuations of the roots):
 
 - **Finite extensions.** If a nonzero root of a pure polynomial of slope `a/q` (in lowest terms) over
   a complete discretely valued `K` lies in a finite extension `L`, then `q` divides the integer `e`
@@ -930,9 +935,9 @@ asserted.
 
 ### 6.5 A ramified quadratic base-extension check
 
-Over `ℚ₂`, `ξ₂ = X² + 2X + 2` is Eisenstein and irreducible. Prove (Neukirch): in the valuation
-ring of any complete ultrametric normed field that is a `ℚ₂`-algebra and contains an integral `i` with
-`i² = -1`,
+Over `ℚ₂`, `ξ₂ = X² + 2X + 2` is Eisenstein and irreducible. Prove, by direct computation: in the
+valuation ring of any complete ultrametric normed field that is a `ℚ₂`-algebra and contains an
+integral `i` with `i² = -1`,
 
 ```text
 ξ₂ = (X - (i - 1)) (X - (-i - 1)),
@@ -959,8 +964,8 @@ base therefore cannot be reapplied after extension with the value group of the b
 
 Layers 1–4 for the polygon, root and ramification statements; Mathlib discrete valuation rings and
 ideal-adic preparation, through the Tau Ceti preparation theorem, for §6.4. Formal preparation and
-the additivity of `μ` and `λ` do not use the entire-series theory. Sources: Neukirch; Washington
-§7.1; NSW (5.3.1)–(5.3.4).
+the additivity of `μ` and `λ` do not use the entire-series theory. Sources: Kedlaya Theorem 7,
+Corollary 3 and §5; Washington §7.1; NSW (5.3.1)–(5.3.4).
 
 ## Downstream consumers
 
@@ -993,19 +998,13 @@ its attribution.
 | --- | --- |
 | [`PhD/TauCeti/Code/NewtonPolygons/`](https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884/PhD/TauCeti/Code/NewtonPolygons) | Valuation normalisation, convex sequences, supporting values, faces and products; `ConvexSeq.lean` includes convex extension and restriction for everywhere-finite heights. Some coefficient-interface proofs are admitted. |
 | [`PhD/Main/NewtonPolygons/`](https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884/PhD/Main/NewtonPolygons) | `OfSlopes.lean` constructs cumulative-sum heights from monotone slopes. Compare finite and infinite domains and the reverse conversions of §0.6. |
-| [`PhD/Main/ForMathlib/NumberTheory/NewtonPolygon/`](https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884/PhD/Main/ForMathlib/NumberTheory/NewtonPolygon) | Segment records and `IsBelow`; compare represented heights, subdivisions and endpoint sentinels, not raw records. Mathlib's proposal #38050 represents the same material. |
+| [`PhD/Main/ForMathlib/NumberTheory/NewtonPolygon/`](https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884/PhD/Main/ForMathlib/NumberTheory/NewtonPolygon) | Segment records and `IsBelow`; compare represented heights, subdivisions and endpoint sentinels, not raw records. Mathlib's Newton-polygon proposal represents the same material. |
 
 The complete-DVR preparation interface (formerly §6.3) and the ramified quadratic check of §6.5
-incorporate mathematical contracts requested in that repository, inspected at revision
+incorporate mathematical contracts requested in that repository at revision
 `7830230e834b85a75f763077e856864bde211112`; their statements are given here in full and need no
-access to it. Mathlib's design proposals were inspected at these revisions: the Newton-polygon
-proposal [#38050](https://github.com/leanprover-community/mathlib4/pull/38050) at
-`f4871d51724c51679899f8ca34bddde1f7006183`, and the additive-valuation proposals
-[#43578](https://github.com/leanprover-community/mathlib4/pull/43578) at
-`c2a17f4dd6efb2b77123c31434e9589e91daafdc` and
-[#43580](https://github.com/leanprover-community/mathlib4/pull/43580) at
-`d87db7956b7510870d514f10da52a0f22a5e54a6`. These revisions identify the compared interfaces; none
-of them is a prerequisite.
+access to it. The Mathlib design proposals of Convention 10 are listed under References with the
+revisions compared; none of them is a prerequisite.
 
 ## Scope and ownership
 
@@ -1029,7 +1028,7 @@ names and hypotheses are in the supplier contracts below.
 | §2.5 | Hodge lower bounds from coefficient bounds, finite and infinite ordered weights, the Fredholm determinant `det(1 - TU)` as the reversed characteristic polynomial, principal minors, invariant-factor Hodge polygons with equal endpoints | `PowerSeries.le_newtonPolygon`, `Polynomial.heights_le_newtonPolygon_iff`, `PowerSeries.heights_le_newtonPolygon_iff`, `Matrix.heights_le_newtonPolygon_charpolyRev_of_principalMinor`, `Matrix.prefixSum_le_newtonPolygon_charpolyRev_of_mul_mul_eq_diagonal`, `Matrix.newtonPolygon_charpolyRev_apply_card_of_mul_mul_eq_diagonal`, `Matrix.newtonSlopes_charpolyRev_eq_map_roots_map` (`NumberTheory/NewtonPolygon/Hodge.lean`, `Lattice.lean`) |
 | §3.1 | Active indices of a product at a fixed radius, the unique dominant term, supporting values add at every common restricted radius | `TauCeti.PowerSeries.IsLowestDominant.mul`, `TauCeti.PowerSeries.IsDistinguished.mul`, `PowerSeries.addValuation_coeff_mul_eq_add_of_isLeast`, `PowerSeries.addValuation_coeff_mul_eq_add_of_isGreatest`, `PowerSeries.supportingValue_newtonPolygon_mul_of_isRestricted` |
 | §3.4 | The ultrametric inequality for sums, convex lower bounds below the polygon of a sum, Gauss norms and active indices under small perturbation, uniform coefficient-and-tail bounds | `PowerSeries.le_newtonPolygon_add`, `PowerSeries.lowerConvexEnvelope_inf_le_newtonPolygon_add`, `TauCeti.PowerSeries.gaussNorm_eq_of_gaussNorm_sub_lt`, `TauCeti.PowerSeries.isDistinguished_iff_of_gaussNorm_sub_lt`, `TauCeti.PowerSeries.isLowestDominant_iff_of_gaussNorm_sub_lt`, `TauCeti.PowerSeries.gaussNorm_sub_lt_of_coeff_le_of_tail_le` |
-| §5.1 | The intrinsic radius, restrictedness below and not above it, Cauchy–Hadamard, the radius from the limiting slope, the vertical case | `PowerSeries.radius`, `PowerSeries.isRestricted_of_lt_radius`, `PowerSeries.not_isRestricted_of_radius_lt`, `PowerSeries.radius_inv_eq_limsup`, `PowerSeries.radius_eq_top_iff`, `PowerSeries.radius_coe`, `PowerSeries.radius_eq_exp_linearGrowthInf`, `PowerSeries.radius_eq_exp_iSup_unitSlope_newtonPolygon`, `PowerSeries.radius_eq_zero_iff_not_isAdmissible` |
+| §5.1 | The intrinsic radius, restrictedness below and not above it, Cauchy–Hadamard, the radius from the limiting slope for infinitely many nonzero coefficients, the vertical case | `PowerSeries.radius`, `PowerSeries.isRestricted_of_lt_radius`, `PowerSeries.not_isRestricted_of_radius_lt`, `PowerSeries.radius_inv_eq_limsup`, `PowerSeries.radius_eq_top_iff`, `PowerSeries.radius_coe`, `PowerSeries.radius_eq_exp_linearGrowthInf`, `PowerSeries.radius_eq_exp_iSup_unitSlope_newtonPolygon`, `PowerSeries.radius_eq_zero_iff_not_isAdmissible` |
 | §6.3 | `μ(f)` and `λ(f)` over a complete discrete valuation ring and the existence of their minima; the factorisation `f = C(π^μ) · u · P` with `P` distinguished at the maximal ideal (`Polynomial.IsDistinguishedAt`), exponent `μ(f)` and degree `λ(f)`, and its uniqueness for fixed `π`; additivity of `μ` and `λ`; `μ` and `λ` as the minimum height and its first index on the polygon | `PowerSeries.muInvariant`, `PowerSeries.lambdaInvariant`, `PowerSeries.exists_pow_mul_distinguished_mul_unit`, `PowerSeries.C_pow_mul_unit_mul_inj`, `PowerSeries.muInvariant_mul`, `PowerSeries.lambdaInvariant_mul`, `PowerSeries.isLeast_range_newtonPolygon_map`, `PowerSeries.isLeast_setOf_newtonPolygon_map_eq` (`RingTheory/PowerSeries/Weierstrass/DiscreteValuationRing.lean`, `NumberTheory/NewtonPolygon/IwasawaInvariants.lean`) |
 
 The valuation-ring form of the §6.3 preparation, which PadicMeasuresIwasawaAlgebras §4.3 cites under
@@ -1299,8 +1298,8 @@ with the valuation normalisations here.
   GTM 58, 1984, Chapter IV §§3–4: coefficient polygons, convergence and roots. Translate each slope
   convention explicitly.
 - **[Kedlaya]** K. S. Kedlaya, [*Newton polygons*, MIT 18.787 notes](https://kskedlaya.org/18.787/newton-poly.pdf),
-  2007, §§1–3, specialised to the untwisted case. The notes plot `(-i, v(a_i))`; their slopes and
-  supporting parameter have the opposite sign to ours.
+  2007, §§1–3 and 5 (Corollary 3, Theorem 7), specialised to the untwisted case. The notes plot
+  `(-i, v(a_i))`; their slopes and supporting parameter have the opposite sign to ours.
 - **[KedlayaNumerical]** K. S. Kedlaya, [*A little p-adic numerical analysis*, MIT 18.787 notes](https://kskedlaya.org/18.787/numerical.pdf),
   2007, §3, especially the minor description of Hodge heights and Theorem 16. We use `det(1 - TU)`
   and anchor the finite full-rank comparison at `(0, 0)`.
@@ -1320,3 +1319,12 @@ with the valuation normalisations here.
 - **[NSW]** J. Neukirch, A. Schmidt and K. Wingberg, *Cohomology of Number Fields*, second edition,
   (5.3.1)–(5.3.4), pp. 289–290: formal preparation over a complete discrete valuation ring. The Lean
   supplier is Mathlib's ideal-adic preparation theorem.
+- **[Mathlib proposals]** Design proposals for Mathlib that are not part of the pinned Mathlib: the
+  [Newton-polygon proposal](https://github.com/leanprover-community/mathlib4/pull/38050) at revision
+  `f4871d51724c51679899f8ca34bddde1f7006183` (`NewtonPolygon`, `NewtonPolygon₀`, segment records
+  and `IsBelow`), and the additive-valuation proposals for
+  [`WithZero.negLog` and `WithZero.orderAddIsoWithTop`](https://github.com/leanprover-community/mathlib4/pull/43578)
+  at revision `c2a17f4dd6efb2b77123c31434e9589e91daafdc` and for
+  [`Valuation.addVal` and `Valuation.addValValueGroup`](https://github.com/leanprover-community/mathlib4/pull/43580)
+  at revision `d87db7956b7510870d514f10da52a0f22a5e54a6`, adapted in Tau Ceti as
+  `Algebra/Order/GroupWithZero/NegLog.lean` and `RingTheory/Valuation/ToAdditive.lean`.
