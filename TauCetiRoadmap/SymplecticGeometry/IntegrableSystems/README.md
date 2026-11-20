@@ -151,13 +151,13 @@ flows commute (`TauCeti.SmoothTwoForm.IsSymplectic.commute_globalFlowDiffeomorph
 
 ### 1.2 Commuting flows without completeness
 
-Let f and g be smooth functions on a symplectic manifold with {f, g} = 0 on an open set containing
-the points considered, and write φ^f and φ^g for the maximal flows of X_f and X_g. Prove that the
-flows commute on rectangles: if s, t ∈ ℝ and φ^f_(s′)(φ^g_(t′)(x)) is defined for every s′ between
-0 and s and every t′ between 0 and t, then φ^g_(t′)(φ^f_(s′)(x)) is defined for all such s′, t′, and
-φ^f_s(φ^g_t(x)) = φ^g_t(φ^f_s(x)). No completeness is assumed; Tau Ceti's theorem is the complete
-case. The rectangle hypothesis cannot be weakened to the definedness of the two composites alone
-(second Check). Route: X_({f,g}) = −[X_f, X_g] gives
+Let f and g be smooth functions on a Hausdorff symplectic manifold with {f, g} = 0 on an open set
+containing the points considered, and write φ^f and φ^g for the maximal flows of X_f and X_g.
+Prove that the flows commute on rectangles: if s, t ∈ ℝ and φ^f_(s′)(φ^g_(t′)(x)) is defined for
+every s′ between 0 and s and every t′ between 0 and t, then φ^g_(t′)(φ^f_(s′)(x)) is defined for all
+such s′, t′, and φ^f_s(φ^g_t(x)) = φ^g_t(φ^f_s(x)). No completeness is assumed; Tau Ceti's theorem
+is the complete case. The rectangle hypothesis cannot be weakened to the definedness of the two
+composites alone (second Check). Route: X_({f,g}) = −[X_f, X_g] gives
 [X_f, X_g] = 0, and DifferentialGeometry §3.4 plans the commuting-flow theorem for commuting vector
 fields along maximal flows. *Needs:* DifferentialGeometry §3.4 (commuting flows), §3.2 (maximal
 flows); Tau Ceti `TauCeti.SmoothTwoForm.hamiltonianVectorField`, `TauCeti.flowOf`.
@@ -487,14 +487,14 @@ actions (the angle gauge). *Needs:* §§2.3–2.4; DifferentialGeometry §8.4.
 ### 2.6 Regular Lagrangian torus fibrations, monodromy and the Lagrangian class
 
 Define a regular Lagrangian torus fibration as a proper surjective submersion π : M → B from a
-symplectic manifold of dimension 2n onto a smooth n-manifold B, with compact connected Lagrangian
-fibres. Construct its period lattice Λ ⊂ T*B, the locally constant subsheaf of rank-n lattices of
-covectors whose induced vertical flow has time-one map the identity, its linear monodromy
-π₁(B, b) → GL(Λ_b) ≅ GL(n, ℤ), and the associated torus bundle T*B/Λ with the symplectic form descended from
-T*B. Build its topological Chern class in H²(B; Λ) with local coefficients, using
-SmoothBundlesConnections B6.6's classification of affine torus bundles and AlgebraicTopology §2.6's
-local-coefficient carrier, with SmoothBundlesConnections B6.1 for the Čech and sheaf comparisons and
-refinements. Build the sheaf Z¹ of closed one-forms, the quotient sheaf Z¹/Λ of local Lagrangian
+Hausdorff symplectic manifold of dimension 2n onto a Hausdorff second-countable smooth n-manifold
+B, with compact connected Lagrangian fibres. Construct its period lattice Λ ⊂ T*B, the locally
+constant subsheaf of rank-n lattices of covectors whose induced vertical flow has time-one map the
+identity, its linear monodromy π₁(B, b) → GL(Λ_b) ≅ GL(n, ℤ), and the associated torus bundle
+T*B/Λ with the symplectic form descended from T*B. Build its topological Chern class in H²(B; Λ)
+with local coefficients, using SmoothBundlesConnections B6.6's classification of affine torus
+bundles and AlgebraicTopology §2.6's local-coefficient carrier, with SmoothBundlesConnections B6.1
+for the Čech and sheaf comparisons and refinements. Build the sheaf Z¹ of closed one-forms, the quotient sheaf Z¹/Λ of local Lagrangian
 sections, its Čech H¹ and the torsor cocycle t of π, written s_j = s_i + t_ij for local Lagrangian
 sections s_i as in B6.6, whose class is the Lagrangian class. Prove that the Lagrangian class
 vanishes iff π is fibrewise symplectomorphic to the model T*B/Λ (Zung, §2.3; Sjamaar, p. 9), and
@@ -891,11 +891,16 @@ Extend this arc isotopy, with its T-translates, to an ambient isotopy of the str
 boundary lines, by integrating a compactly supported T-periodic time-dependent vector field that
 extends the arc velocities (DifferentialGeometry §3.5). The result fixes the boundary lines and the
 segment pointwise, hence restricts to a diffeomorphism of the closed square [0, 1]² fixing its
-boundary pointwise. Prove that such a diffeomorphism of the square is isotopic rel boundary to one
-equal to the identity near the boundary: at a point of an edge, in (tangent, normal) coordinates,
-its derivative is upper triangular with tangential entry 1 and positive normal entry, so its convex
-combination with the identity has positive determinant along the boundary and, cut off to a thin
-collar, stays a diffeomorphism. Smale's theorem (Smale, Proc. AMS 10 (1959), Thm. B, p. 621:
+boundary pointwise. Prove that such a diffeomorphism h of the square is isotopic rel boundary to
+one equal to the identity near the boundary: at a point of an edge, in (tangent, normal)
+coordinates (s, n), its derivative is upper triangular with tangential entry 1 and normal entry
+b ≥ b_min > 0. For a profile χ₀ equal to 1 on [0, 1] and to 0 for large u, with
+−1/(R − 1) ≤ d(uχ₀)/du ≤ 1 for some R > 1/b_min, and u = n/ε, the maps h + tχ₀(u)(id − h),
+t ∈ [0, 1], have Jacobian determinant b + t(1 − b)·d(uχ₀)/du + O(ε), bounded below by a positive
+constant, so for small ε they form the isotopy. A thin collar alone does not suffice, since
+uχ₀′(u) does not shrink with ε: for a bump with χ₀(2) = 0 the determinant at t = 1 is at most
+2b − 1 + O(ε) somewhere, negative when b < 1/2.
+Smale's theorem (Smale, Proc. AMS 10 (1959), Thm. B, p. 621:
 diffeomorphisms of the square which are the identity near the boundary form a contractible space)
 then gives an isotopy to the identity through such diffeomorphisms; it transfers to the strip by
 T-equivariance and descends to the annulus. Finally the twist τ^m is isotopic to the identity
