@@ -1656,6 +1656,19 @@ counting. Compatible designs for algebraic expectations, Catalan numbers and Gau
 any integration of that code requires coordination and licence verification under the repository's
 contribution rules. These projects neither transfer ownership nor create a waiting condition.
 
+Other roadmaps cite sections of this roadmap by the labels of its former numbering:
+
+| Former label | Now |
+|---|---|
+| F1 | Layer 1 |
+| F2 | Layer 2 |
+| F3 | Layer 3 |
+| F4 | Layer 4 |
+| F5 | Layer 5 |
+| F6 | Layer 6 |
+| F7 | Layer 7 |
+| F8 | Layer 8 |
+
 ## Exact supplier contracts
 
 ### From Mathlib
