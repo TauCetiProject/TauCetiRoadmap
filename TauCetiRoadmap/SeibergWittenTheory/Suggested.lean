@@ -18,8 +18,9 @@ The headline theorems are:
 * **Invariance** (§§8.2–8.3): the integral alternating forms `SW^r` on `H₁(X; ℤ)/torsion` do not
   depend on the metric or the perturbation when `b₂⁺ > 1`, and are constant on each chamber when
   `b₂⁺ = 1`.
-* **Wall crossing** (§10.3): for `b₂⁺ = 1` the jump `SW^r_+(λ) − SW^r_−(λ)` is
-  `⟨ν_T(λ) u^k/k!, [T]_h⟩` on the Picard torus.
+* **Wall crossing** (§10.3): for `b₂⁺ = 1`, `d ≥ 0`, `0 ≤ r ≤ min(b₁, d)` and `r ≡ d ≡ b₁ mod 2`,
+  the jump `SW^r_+(λ) − SW^r_−(λ)` is `⟨ν_T(λ) u^k/k!, [T]_h⟩` on the Picard torus, with
+  `k = (b₁ − r)/2`; outside this range both invariants vanish and the formula is not asserted.
 
 None of them is statable at the pins, so this file declares nothing. Each needs Spinᶜ structures on
 a smooth four-manifold (principal lifts of the oriented frame bundle with their spinor bundles and
