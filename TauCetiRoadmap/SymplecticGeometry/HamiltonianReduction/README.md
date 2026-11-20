@@ -1637,7 +1637,10 @@ rough coefficients. For `A ∈ H^s` its difference from a smooth reference is of
 derivative of class `H^(s−1)`. Prove boundedness and continuous dependence of
 `d_A + d_A* : H^s → H^(s−1)` and `d_A* d_A : H^(s+1) → H^(s−1)`, the Fredholm property and compact
 lower-order comparison through the multiplication and Rellich estimates, and the implicit-function
-theorem for the Coulomb slice on complements to the stabilizer. The globalization over smooth bundles is
+theorem for the Coulomb slice on complements to the stabilizer (Huebschmann, §2, p. 8, uses this slice
+`A + ker d_A*` at a central Yang–Mills connection `A`, with the orthogonal splitting
+`Ω¹(Σ, ad P) = im d_A ⊕ ker d_A*`, and takes its Sobolev slice property as standard). The
+globalization over smooth bundles is
 ComplexKahlerGeometry's; the rough coefficients and these gauge applications are targets here.
 
 *Needs:* §5.1; ComplexKahlerGeometry §5.4 and §5.7; PDE Layers 4–5.
@@ -1654,7 +1657,10 @@ smooth-reference first-order elliptic estimates gain a derivative and iterate to
 arbitrary weakly flat `A`, construct local rough gauges by rescaling small coordinate discs to a fixed
 disc, extending by a cutoff into a fixed auxiliary round sphere, and solving the small `H^s` Coulomb
 equation there, using the mean-zero scalar Laplace inverse obtained from ComplexKahlerGeometry §5.7's
-compact Green operator and the gauge-exponential implicit-function theorem. On the fixed connected
+compact Green operator and the gauge-exponential implicit-function theorem. In the integer Sobolev
+scale, a `W^(1,q)` connection on the unit disc whose curvature is small in `L^(s₀)`, `s₀ > 1`, has a
+`W^(2,q)` gauge into Coulomb gauge with a Neumann boundary condition (Feehan, Theorem 2.3, p. 18,
+restating Uhlenbeck's theorem). On the fixed connected
 sphere prove that `ker Δ` consists of the constants by the energy identity for the nonnegative scalar
 `Δ = d* d`, identify its geometric `L²` complement with the mean-zero functions, and use the regularity in
 all real orders to obtain the bounded inverse `H^(s−1)_0 → H^(s+1)_0`, tensored with the finite real Lie
@@ -1692,7 +1698,9 @@ smooth seminorm. Holonomy is continuous for these connections, by `H^s ⊆ C⁰`
 its gauge covariance; compare it with SmoothBundlesConnections §B5.2's smooth holonomy. Obtain the
 homeomorphism of the full quotient with the locus of `Hom(π₁Σ, K)/K` whose associated flat bundle has the
 topological class of `P`, including all reducible connections and stabilizers, and the corresponding
-framed (based) space. Prove the local slice (Kuranishi) and orbit-type comparisons; a bijection of sets
+framed (based) space (for smooth connections on a bundle that admits a flat one, Huebschmann, part II,
+Theorem 2.3 and Lemma 2.4, p. 6, which match stabilizers). Prove the local slice (Kuranishi) and
+orbit-type comparisons; a bijection of sets
 alone is not enough.
 
 *Needs:* §5.3; SmoothBundlesConnections §B5.2 (holonomy and flat connections).
@@ -1733,7 +1741,10 @@ restrict the codomain of the curvature to the corresponding affine space of cent
 full semisimple component. Its central tangent consists of the exact two-forms, equivalently the
 annihilator under integration of the parallel sections `H⁰(𝔷_P)`. This restriction of the codomain
 removes the fixed central cokernel; it does not remove `H¹(𝔷_P)`. For a fixed central-curvature level,
-choose the harmonic representative `ζ` of the class of the bundle and prove that the full gauge group
+choose the harmonic representative `ζ` of the class of the bundle (for connected `K`, whose centre has
+Lie algebra `𝔷`, it is the constant central curvature `X_P ⊗ vol_Σ` of every central Yang–Mills
+connection, `X_P ∈ 𝔷` being fixed by the topology of `P`: Huebschmann, §1.2, p. 5) and prove that the
+full gauge group
 preserves it: the component action on `𝔷_P` is parallel and `B`-orthogonal, hence commutes with the Hodge
 projection, and equivariance of the curvature and independence of the class from `A` imply that the
 action fixes the class and hence its unique harmonic representative. Keep these equations for the
@@ -2150,4 +2161,11 @@ regularity).
 - Juan-Pablo Ortega and Tudor S. Ratiu, [*Cotangent bundle reduction*](https://arxiv.org/abs/math/0508636v1),
   arXiv:math/0508636v1 (2005), pp. 1–3.
 - Johannes Huebschmann, [*The singularities of Yang–Mills connections for bundles on a surface. I. The
-  local model*](https://arxiv.org/html/dg-ga/9411006), Math. Z. 220 (1995), 595–609, §§2.18–2.32.
+  local model*](https://arxiv.org/abs/dg-ga/9411006v1), Math. Z. 220 (1995), 595–609; numbering and pages
+  of arXiv dg-ga/9411006v1: §§2.18–2.32.
+- Johannes Huebschmann, [*The singularities of Yang–Mills connections for bundles on a surface. II. The
+  stratification*](https://arxiv.org/abs/dg-ga/9411007v1), Math. Z. 221 (1996), 83–92; numbering and
+  pages of arXiv dg-ga/9411007v1: Theorem 2.3, Lemma 2.4.
+- Paul M. N. Feehan, [*Optimal Łojasiewicz–Simon inequalities and Morse–Bott Yang–Mills energy
+  functions*](https://arxiv.org/abs/1706.09349v7), arXiv:1706.09349v7 (2020), Theorem 2.3; numbering and
+  pages of this version.
