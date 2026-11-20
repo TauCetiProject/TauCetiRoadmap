@@ -28,145 +28,11 @@ groups and the half-space, weights and slash operators, the bundled forms, Fouri
 and Koecher, the `Φ`-operator and cusp forms, Eisenstein series, theta series, the degree-two
 rings, Hecke operators, `L`-functions, lifts, paramodular forms, and the LMFDB invariants.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
+The layers are in build order; each layer's *Dependencies* lists what its *Needs:* lines name. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier`, `ClassicalGroupsPartII` CG.0.1 and, for the comparisons of 0.2 and 0.3, `AutomorphicFormsOnReductiveGroups` §6.4 and `MetaplecticAutomorphicForms` 8.10; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 0–2 and `IntegralLattices` *Layer 2* for 3.3, with `LevelOneAutomorphicFormsForClassicalGroups` §6.1 and `AutomorphicBundles` §11.9 for the level-one comparison of 3.2; Layer 4 (Eisenstein series) needs Layers 0–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 0–3 and the theta-series roadmap, with `LevelOneAutomorphicFormsForClassicalGroups` §§6.4, 6.7, `MetaplecticAutomorphicForms` 8.18 and `LatticePackingsAndPerfectForms` 5.6 for comparisons, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 0–5, `PELModuli` M5 for 6.9 and `LevelOneAutomorphicFormsForClassicalGroups` §7.9 for the odd degree-four weights of 6.9; Layer 7 (Hecke operators, Satake parameters) needs Layers 0–3 and Mathlib's `HeckeRing` with Tau Ceti's ring structure on it for 7.1–7.5, while 7.6 needs Layers 4 and 6 and `LevelOneAutomorphicFormsForClassicalGroups` §6.1; Layer 8 (`L`-functions) needs Layers 2–7, the modular-forms roadmap's *Layer 7*, `LFunctions` *Layer 0*, and for the standard `L`-function `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3, `AdelicAlgebraicGroups` §§2.2–2.3 and `AutomorphicFormsOnReductiveGroups` §§3.1–3.2, and nothing of Layer 9; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa and the analytic statements on the Maass space, lifts) needs Layers 0–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 0–3 and 7–9, `SmoothRepresentationsOfLocalGroups`, `LFunctions` *Layer 0* and the abelian-surface suppliers; Layer 11 (LMFDB invariants) needs everything above. After Layer 3, Layer 5 is independent of Layer 4 and 7.1–7.5 are independent of Layers 4–6; Layer 6 joins Layers 4 and 5, 7.6 and Layer 8 join Layers 4–7, Layer 9 joins everything through Layer 8, and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
 
-- The positive similitude group `GSp⁺_{2g}(R)` for every `g` and every ordered field `R` (the
-  part of `ClassicalGroupsPartII` CG.0.1's similitude group with positive multiplier; its degree-two
-  real points `GSp₄⁺(ℝ)` with their multiplier are `AutomorphicFormsOnReductiveGroups` §6.4's
-  `positiveSimilitude`, which 0.2 identifies with `GSpPos 2 ℝ` and does not plan again) with
-  `det M = μ(M)^g`, the dual `M^∨` and the
-  sets `O_g(m)` of integral similitudes of multiplier `m`, the Siegel upper half-space `ℍ_g` with the action
-  `τ ↦ (Aτ + B)(Cτ + D)⁻¹`, the automorphy factor `Cτ + D` and its
-  cocycle law, and the arithmetic subgroups `Γ_g = Sp_{2g}(ℤ)`, `Γ_g(N)`, `Γ₀^{(g)}(N)`,
-  `Γ₁^{(g)}(N)`, together with the paramodular groups `K(N) ⊂ Sp₄(ℚ)` and
-  `Γ^{para}(d) ⊂ Sp_{2g}(ℚ)` (Layer 0).
-- Holomorphic weights `ρ`, the slash operators `f ∣_ρ γ`, the spaces `M_ρ(Γ)`, `M_ρ(Γ, ψ)`
-  and the graded ring of scalar-valued forms (Layer 1).
-- Half-integral matrices, Fourier expansions, Koecher's principle, the coefficient bounds and
-  the theory of singular forms (Layer 2).
-- Siegel's `Φ`-operator, cusp forms, the Petersson inner product, Siegel's fundamental domain
-  and finite dimensionality (Layer 3).
-- Siegel and Klingen Eisenstein series, with the Maass–Cohen formula for the Fourier
-  coefficients in degree two (Layer 4).
-- Siegel theta series of degree `g` of a positive definite lattice, with and without
-  pluriharmonic coefficients, theta constants with characteristics and their even-weight
-  products (Layer 5).
-- Igusa's generators `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅`, Igusa's structure theorem and its Hilbert
-  series, Satoh's and Tsushima's theorems for `M_{k,j}(Γ₂)`, Igusa's `Γ(2)` ring, and the
-  `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` theorems of Ibukiyama, Aoki–Ibukiyama and Hayashida–Ibukiyama
-  (Layer 6).
-- The Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action on `M_ρ(Γ)`, eigenforms and Satake
-  parameters, and the degree-two coefficient formula for `T(p)` (Layer 7).
-- The spinor and standard `L`-functions with their Euler factors, the degree-two quartic Euler
-  factor, Andrianov's identity, the analytic continuation and functional equations proved, and
-  the export to the completed `L`-function data model (Layer 8).
-- The Fourier–Jacobi expansion, the Jacobi Eisenstein series `E_{k,1}`, comparison with the supplied index-raising
-  operators `V_l` on Jacobi forms, the Maass lift and the Saito–Kurokawa theorem, and the
-  Gritsenko, Ikeda and Miyawaki lifts stated (Layer 9).
-- Paramodular forms, level-raising operators, newforms, the Roberts–Schmidt local newform
-  comparison and Poor–Yuen's weight-two theorems, and the paramodular conjecture stated
-  (Layer 10).
-- The LMFDB invariant layer: the families, the intrinsic label prefix, integrality of Fourier
-  coefficients, coefficient fields, Galois orbits of eigenforms and the page coverage map
-  (Layer 11).
-
-Every nonconjectural theorem specified below includes its proof as a target. In particular,
-Layers 6, 8, 9 and 10 own the classical dimension and classification theorems, the spinor
-functional equation and classical standard comparison, the non-Maass Ramanujan bound,
-the holomorphic Ikeda and nonzero Miyawaki lift theorems, and the paramodular newform
-consequences. A source locator specifies a theorem to prove; it is not a library assumption.
-The paramodular conjecture and explicitly identified nonvanishing conjectures remain conditional.
-
-### Not owned here
-
-- The algebraic symplectic similitude group, its coordinate Hopf algebra, its multiplier and its
-  representations: `ClassicalGroupsPartII`.
-- The real group `GSp₄⁺(ℝ) = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)` of degree two with its multiplier:
-  `AutomorphicFormsOnReductiveGroups` §6.4 (`positiveSimilitude`); `MetaplecticAutomorphicForms`
-  8.11–8.12 write it and its action in Bump–Friedberg–Hoffstein's coordinates. 0.2 keeps the
-  general-`g` group over an ordered field and identifies its `g = 2`, `R = ℝ` points with the
-  supplied group (a Check), so one real group of degree two is planned once.
-- Half-integral weight Siegel modular forms of degree `g ≥ 2`, the theta multiplier on `Γ_g(4, 8)`
-  and the LMFDB's half-integral weight family on `Γ₀^{(2)}(4)`: owned by no roadmap. The sibling
-  `HalfIntegralWeightModularForms` owns only degree one (half-integral weight modular forms on
-  `Γ₀(4N)`, the Kohnen plus space and the Shimura lift) and records that Siegel modular forms are
-  not its objects; theta constants appear here (5.4) only through their even products, so no
-  half-integral weight transformation law is stated anywhere. The Jacobi forms `J_{k,m}` of every index
-  `m ≥ 1` as spaces: the carrier and the theta decomposition are `MetaplecticAutomorphicForms`'
-  (6.18, 6.20), their classical form, half-integral components and dimension formula are
-  `HalfIntegralWeightModularForms`' (6.1–6.3). This roadmap states on that carrier only the
-  Jacobi Eisenstein series and the Maass lift; `V_l` and its Fourier/composition laws
-  come from `HalfIntegralWeightModularForms` §6.4.
-- The metaplectic cover, the Weil representation, theta kernels and theta lifts, the
-  Siegel–Weil formula, Jacobi Eisenstein series of Bump–Friedberg–Hoffstein and genuine
-  Eisenstein series: `MetaplecticAutomorphicForms`.
-- The Siegel moduli space `A_g`, its toroidal and minimal compactifications, the
-  `q`-expansion principle and geometric Siegel modular forms as sections of automorphic
-  bundles: `PELModuli` (M5 `siegelModuli`, M6 `siegelStack`), `ShimuraCompactifications` (2.8, the map
-  to the minimal compactification; 7.16, the integral minimal compactification) and
-  `AutomorphicBundles`. Everything here is a holomorphic function on `ℍ_g`; the
-  identification of `Γ_g \ ℍ_g` with `A_g(ℂ)` is theirs.
-- The adelic theory: automorphic representations of `GSp₄`, Arthur's classification and the
-  automorphic type letters (F, P, Q, B, Y, G) of the LMFDB, the general representation-theoretic theory beyond the paramodular comparison of 10.4.
-  Section 10.4 builds the local paramodular fixed-vector theory and its classical
-  comparison needed here; generic smooth representation carriers are supplied by
-  `SmoothRepresentationsOfLocalGroups` SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3.
-- Abelian surfaces, their conductors and `L`-functions, genus-two curves and their Jacobians:
-  the sibling `HyperellipticCurves` (Layers 4–5: conductors and Euler factors of genus-two
-  Jacobians, for the `g2c` section), `AbelianVarietiesOverFiniteFields` (1.3: the `L`-polynomial)
-  and the abelian-variety roadmaps.
-  The paramodular conjecture (10.6) is stated here on the modular side as a predicate
-  `IsParamodularPartner` on a newform and a family of local Euler factors; the abelian-variety
-  side supplies the Euler factors.
-- The classification of abelian surfaces by endomorphism algebra and the Sato–Tate groups:
-  `SatoTateGroups`.
-- The all-genus unweighted theta map for even unimodular lattices and the harmonic theta map:
-  `LevelOneAutomorphicFormsForClassicalGroups` §6.4 and §6.7. Layer 5
-  extends them to non-unimodular lattices and polynomial weights and proves the exact comparison.
-- The level-one statements of `LevelOneAutomorphicFormsForClassicalGroups` §§6.1–6.2 on
-  `AutomorphicBundles`' classical forms at level `Sp_{2g}(ℤ)` (its §11.16 coefficient, compared
-  with functions on `ℍ_g` by its §11.9): the Siegel operator `Φ_g` with `ker Φ_g = S_k(Γ_g)` and
-  the Zharkovskaya relation, odd- and negative-weight vanishing, and the singular-range vanishing
-  and spanning theorems; and its level-one cusp dimensions (§7.3 for `k_g > g`, `g ≤ 8`; §7.9 for
-  every degree through weight `13`). The variants kept here (1.3, 2.4, 2.6, 3.1–3.2) are stated on
-  the analytic carrier `SiegelModularForm Γ ρ` for every arithmetic `Γ` and every holomorphic
-  weight `ρ`, and are compared with §§6.1–6.2 at level one in scalar weight (3.2); the dimensions
-  of 6.3, 6.4 and 6.9 are proved here by Igusa's, Tsushima's, Tsuyumine's and Poor–Yuen's routes
-  and compared with §7.9 (Checks of 6.3 and 6.9).
-- Degree-one theta series with harmonic coefficients, spherical designs and Venkov's theorem: the
-  sibling `LatticePackingsAndPerfectForms` (its Layer 5); 5.3 specializes to its 5.6 at `g = 1`.
-- Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
-  the completeness of database tables are not targets: the LMFDB label index, the ordering of
-  Galois orbits within a space, sample names. Layer 11 states only the
-  intrinsic label prefix `g.F.N.k.j` and the invariants a search can filter on.
-- Dimension formulas for `S_k(Γ_g)` with `g ≥ 3` beyond the statements the LMFDB records
-  (Tsuyumine's degree-three ring, Poor–Yuen's degree-four even weights `k ≤ 16`) and the level-one
-  theory of `Sp_{2g}` for `g ≥ 5`: `LevelOneAutomorphicFormsForClassicalGroups` in the ranges of
-  its §§7.3 and 7.9 (above). Vector-valued forms of degree `g ≥ 3`, Harder's conjecture, and the
-  geometry of `A_2` (the Igusa quartic, cohomology of local systems, the Faber–van der Geer point
-  counts) are not objects of this roadmap. The generators of the modules `⨁_k M_{k,j}(Γ₂)` over
-  `ℂ[ψ₄, ψ₆, χ₁₀, χ₁₂]` for even `j ≥ 4` are owned by no roadmap; their dimensions are
-  Tsushima's formula (6.4).
-- Humbert surfaces in the Siegel threefold and the modular embeddings `ℍ × ℍ → ℍ₂` of real
-  quadratic orders whose images they are: owned by no roadmap, and not objects here. The
-  restriction along `SL(2, O_K) → Sp_{2g}(ℤ)` in the route of 2.6 for Freitag's Proposition 4.6
-  is a step of that proof, not an owned construction.
-- The general automorphic doubling construction and its functional equation:
-  `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3. The classical standard-factor
-  comparison, gamma normalization and pole criterion are proved in 8.3 here.
-- Borcherds products, Gritsenko–Nikulin reflective forms, Hermitian and quaternionic modular
-  forms, Hilbert–Siegel forms, Siegel modular forms over totally real fields, `p`-adic and
-  mod-`p` Siegel modular forms, Galois representations attached to Siegel modular forms, Yoshida
-  lifts as constructions (only the type letter is named), Böcherer's conjecture, and the
-  Kudla–Millson theory: no roadmap in this repository, and not objects here.
-
-The [theta-series roadmap](../ThetaSeries/README.md) records the boundary from its side
-("Siegel and Jacobi theta series" are not owned there), the
-[integral quadratic forms and lattices roadmap](../IntegralLattices/README.md) excludes
-alternating lattices and Siegel modular forms from its carrier, and the
-[modular-forms roadmap](../ModularForms/README.md) states no degree-two object.
+---
 
 ## Conventions
 
@@ -195,293 +61,6 @@ literature are each a source of silent error.
 | Paramodular group | `K(N) = Stab_{Sp₄(ℚ)}(ℤ ⊕ ℤ ⊕ ℤ ⊕ Nℤ)` (column vectors), equal to the matrices of the entrywise shape `[[*, N*, *, *], [*, *, *, */N], [*, N*, *, *], [N*, N*, N*, *]]` in `Sp₄(ℚ)` with `* ∈ ℤ`; `K(1) = Γ₂`. Weight `(k, j)` forms on `K(N)` are automorphic under the image of `K(N)` in `Sp₄(ℝ)`; the paramodular Fricke involution is `μ_N = m(A_N) = diag(A_N, A_Nᵀ)` with `A_N = [[0, √N], [1/√N, 0]]`, i.e. `μ_N = [[0, √N, 0, 0], [1/√N, 0, 0, 0], [0, 0, 0, 1/√N], [0, 0, √N, 0]]`, which normalizes `K(N)` (it carries the lattice `ℤ ⊕ ℤ ⊕ ℤ ⊕ Nℤ` to a multiple of its `J`-dual) and satisfies `μ_N² = 1`; on `ℍ[2]` it acts by `(τ', z, τ'') ↦ (Nτ'', z, τ'/N)`. |
 | Jacobi forms | `J_{k,m}` is `MetaplecticAutomorphicForms` 6.18's `jacobiSpace` at `SL₂(ℤ) ⋉ ℤ²`, index `m`, weight `k`, trivial multiplier, holomorphic with the cusp condition, read in the classical form of the sibling `HalfIntegralWeightModularForms` 6.1: functions on `ℍ × ℂ` with Eichler–Zagier's two transformation laws and `c(n, r) = 0` unless `4nm − r² ≥ 0`; for `m = 1`, `c(n, r)` depends only on `4n − r²`. No Jacobi space of any index is defined here. |
 | Label prefix | `g.F.N.k.j` with `g` the degree, `F` the family ("Sp4Z", "Sp4Z_2", "Sp4Z_j", "Gamma0_2", "Gamma0_3", "Gamma0_3_psi_3", "Gamma0_4", "Gamma0_4_psi_4", "Gamma1_2", "Gamma_2", "Kp", "Sp6Z", "Sp8Z"), `N` the level and `(k, j)` the weight; the orbit letters and sample names are not part of the API. |
-
-## Exact supplier contracts
-
-The roadmaps consumed are the [modular-forms roadmap](../ModularForms/README.md) (the degree-one
-theory: newforms, Hecke operators, `L`-functions, Satake parameters), the
-[theta-series roadmap](../ThetaSeries/README.md) (lattice Poisson summation, the real lattice
-model, the level and the discriminant character), the
-[integral quadratic forms and lattices roadmap](../IntegralLattices/README.md) (Minkowski
-reduction of positive definite forms), the `L`-functions roadmap `LFunctions` (the
-completed `L`-function data model into which the spinor and standard `L`-functions are
-exported), and the [classical groups, part II roadmap](../ClassicalGroupsPartII/README.md) (its
-CG.0.1: the symplectic similitude group and its multiplier, whose positive part 0.2 takes). The
-[metaplectic groups, Weil representations and automorphic theta kernels
-roadmap](../MetaplecticAutomorphicForms/README.md)
-owns the metaplectic, theta-kernel and Bump–Friedberg–Hoffstein side of degree two, and the Jacobi
-carrier `jacobiSpace` with its theta decomposition (its 6.18 and 6.20), on which Layer 9 is
-stated; the [q-series, partition statistics and mock modular forms
-roadmap](../QSeriesPartitionsAndMockModularForms/README.md)
-supplies the classical theta-component coordinates `θ_{m,μ}` (its §9.1). The sibling `HalfIntegralWeightModularForms`
-owns degree-one half-integral weight and the classical form of the Jacobi carrier with its
-half-integral theta components, and supplies the one identification that the Saito–Kurokawa
-theorem needs from outside this roadmap.
-
-Every `*Needs:*` line below names its inputs by one of four kinds: a Mathlib declaration at the pin; a Tau Ceti declaration at the pin; an earlier target of this roadmap; or a named target of another roadmap, cited by that roadmap's own numbering. Nothing waits on a Mathlib pull request or on an external repository.
-
-### From Mathlib
-
-- Consumed by name: `Matrix.symplecticGroup`, `Matrix.J`, `SymplecticGroup.det_eq_one`;
-  `Matrix.PosDef`, `Matrix.PosSemidef`, `Matrix.IsSymm`, `Matrix.IsHermitian`; `UpperHalfPlane`
-  and the degree-one `ModularForm`, `CuspForm`, `SlashAction`, `CongruenceSubgroup.Gamma0`,
-  `CongruenceSubgroup.Gamma`; `Representation`; `MvPolynomial.homogeneousSubmodule` and
-  `MvPolynomial.IsWeightedHomogeneous`; `Subgroup.Commensurable`; the Hecke-pair definitions
-  `IsHeckeTriple`, `HeckeCoset`, `HeckeRing` of `Mathlib/NumberTheory/HeckeRing/Defs.lean`;
-  `LSeries`, `ArithmeticFunction`, `DirichletCharacter.LFunction`; `jacobiTheta₂`.
-
-- `Mathlib/LinearAlgebra/SymplecticGroup.lean`: `Matrix.J`, `Matrix.symplecticGroup` (a
-  submonoid with a hand-built group structure), `SymplecticGroup.mem_iff`, `mem_iff'`,
-  `neg_mem`, `transpose_mem`, `inv_eq_symplectic_inv`, `det_eq_one`.
-- `Mathlib/LinearAlgebra/Matrix/PosDef.lean`: `Matrix.PosDef`, `Matrix.PosSemidef`,
-  `PosDef.det_pos`, `PosDef.isUnit`, `posDef_iff_dotProduct_mulVec`; `Matrix/Symmetric.lean`
-  and `Matrix/Hermitian.lean`: `IsSymm`, `IsSymm.map`, `isHermitian_iff_isSymm` (for `ℝ`,
-  Hermitian is symmetric).
-- `Mathlib/Data/Matrix/Block.lean`: `fromBlocks`, `toBlocks₁₁ … toBlocks₂₂`,
-  `fromBlocks_multiply`; `Mathlib/Analysis/Matrix/Normed.lean`: `Matrix.normedAddCommGroup`,
-  `Matrix.normedSpace` (local instances; every norm on `Sym g` gives the same holomorphic
-  functions).
-- `Mathlib/Geometry/Manifold/*`: `IsOpenEmbedding.singletonChartedSpace`, `MDifferentiable`,
-  `modelWithCornersSelf`; `Mathlib/Analysis/Complex/UpperHalfPlane/{Basic,Topology,Manifold}.lean`
-  is the degree-one model of 0.3.
-- `Mathlib/NumberTheory/ModularForms/*`: `ModularForm`, `CuspForm`, `SlashAction` with its
-  weight-`k` instance on `GL (Fin 2) ℝ` (`ModularForm.slash_def`), `CongruenceSubgroup.Gamma/Gamma0/Gamma1`, `IsArithmetic`,
-  `Subgroup.HasDetOne`, `qExpansion`, the normalized Eisenstein series `ModularForm.E` with
-  `EisensteinSeries.E_qExpansion_coeff_zero` (constant term `1` for even `k ≥ 4`),
-  `CuspForm.discriminant`, the level-one dimension formula `ModularForm.dimension_level_one` and
-  Sturm bound `ModularForm.sturm_bound_levelOne`; `JacobiTheta/TwoVariable.lean`: `jacobiTheta₂`
-  (the rank-one, degree-one theta with characteristics of 5.4).
-- `Mathlib/NumberTheory/HeckeRing/Defs.lean`: `IsHeckeTriple`, `HeckeCoset`, `HeckeCosetModule`,
-  `HeckeRing`; `Mathlib/GroupTheory/Commensurable.lean`: `Subgroup.Commensurable`;
-  `Mathlib/GroupTheory/Coset/Defs.lean`: `QuotientGroup.rightRel`.
-- `Mathlib/RepresentationTheory/Basic.lean`: `Representation`;
-  `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` and `WeightedHomogeneous.lean`:
-  `homogeneousSubmodule`, `IsWeightedHomogeneous`; `Mathlib/Algebra/MvPolynomial/Basic.lean`:
-  `aeval` (the linear substitution of 1.1).
-- `Mathlib/NumberTheory/LSeries/*`, `ArithmeticFunction`, `EulerProduct/*`,
-  `DirichletCharacter/*` with `DirichletCharacter.LFunction` at negative integers (Cohen's
-  function, 4.2); `Mathlib/NumberTheory/Bernoulli.lean`.
-
-Mathlib has no Siegel upper half-space, no symplectic action on it, no vector-valued modular
-form, no Siegel modular form of any degree `≥ 2`, no Siegel Eisenstein series, no Hecke
-operator on Siegel modular forms, and no paramodular group.
-
-### From Tau Ceti
-
-- Consumed by name: `TauCeti.GLSymplectic l R` with `mem_iff`, `mem_iff'`, `map`,
-  `symJ`, `mulEquivSymplecticGroup`, the Levi embedding `TauCeti.GLSymplectic.leviHom`, the
-  unipotent subgroups `upperUnipotent`/`lowerUnipotent` and the generation theorems of
-  `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.*`; the symplectic multiplier
-  lemma `Matrix.transpose_mul_J_mul_eq_det_smul` of
-  `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier`; the abstract Hecke ring of
-  `TauCeti.NumberTheory.HeckeRing.*` for every Hecke pair (`HeckeCosetModule.instRingHeckeRing`,
-  `HeckeAntiInvolution`, `HeckeCosetModule.mul_comm_of_antiInvolution`); the `GL_n` and `GL₂`
-  double-coset theory of `TauCeti.NumberTheory.HeckeRing.GLn.*` and
-  `TauCeti.NumberTheory.HeckeRing.GL2.*`; the degree-one Hecke operators of
-  `TauCeti.NumberTheory.ModularForms.HeckeSlash.*`; the
-  newforms `HeckeRing.GL2.Newform` with their Satake parameters
-  `HeckeRing.GL2.Newform.satakeParameters` (`TauCeti.NumberTheory.ModularForms.Newforms.Satake`),
-  their `L`-functions (`TauCeti.NumberTheory.ModularForms.LFunction.*`), the level-one graded
-  ring `TauCeti.ModularForm.mvPolynomialEquivModularForms`, and the normalized Eisenstein
-  series `TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMF`.
-
-- `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.Basic`: `TauCeti.GLSymplectic l R`
-  as a subgroup of `GL (l ⊕ l) R`, `GLSymplectic.mem_iff`, `mem_iff'`, `ofSymplecticGroup`,
-  `mulEquivSymplecticGroup`, `symJ`, `map`; `TauCeti.GLSymplecticFin m R` with
-  `mulEquivGLSymplectic`. `…/Symplectic/Levi.lean`: `leviHom : GL l R →* GLSymplectic l R`
-  (`A ↦ diag(A, A⁻ᵀ)`). `…/Symplectic/UnipotentGeneration.lean`: `upperUnipotent B`
-  (`[[1, B], [0, 1]]` for symmetric `B`), `lowerUnipotent`, and the generation theorem
-  `eq_top_of_root_subgroups` (`TorusGeneration.lean`), stated over a field `K`
-  (`variable {K : Type u} [Field K]` in that file): it gives the generation of `Sp_{2g}(ℚ)` by
-  its root subgroups and is the bridge check of 0.1, not the generation of `Γ_g = Sp_{2g}(ℤ)`,
-  which 0.1 owns. `TauCeti.LinearAlgebra.SymplecticGroup`: `fromBlocks_upper_mem`,
-  `fromBlocks_lower_mem`, `fromBlocks_diagonal_mem`, `transpose_eq_J_conj_inv`.
-- `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier` (namespace `Matrix`):
-  `Matrix.transpose_mul_J_mul_eq_det_smul` (`Mᵀ J M = det M • J`), over a commutative ring and
-  for a singleton index type `l` (`[Unique l]`, that is `g = 1`); comparing it with
-  `Mᵀ J M = μ • J` gives `(det M − μ) • J = 0`, hence `det M = μ` since `J` has the entry `−1`.
-  This is the `g = 1` bridge check of 0.2's `det M = μ(M)^g`, which 0.2 owns for every `g`.
-- `TauCeti.Topology.Algebra.SymplecticGroup`: `isClosed_symplecticGroup`, `isClosed_GLSymplectic`.
-- The abstract Hecke ring at the pin, for a Hecke pair `(Δ, H)` in any group: Mathlib's
-  `HeckeRing` carries no product at the pin; `TauCeti.NumberTheory.HeckeRing.Multiplication`,
-  `.One` and `.Associativity` give it the convolution product and the ring structure
-  (`HeckeCosetModule.instRingHeckeRing`, for `[IsHeckeTriple Δ H H]` and a ring of coefficients),
-  and `.Commutativity` gives Shimura's criterion: an anti-involution of `Δ` preserving `H` and
-  fixing every double coset makes the ring over a commutative coefficient ring commutative
-  (`HeckeCosetModule.mul_comm_of_antiInvolution`). 7.1 consumes these for every `g`.
-- The `GL_n` and `GL₂` double-coset theory `TauCeti.NumberTheory.HeckeRing.GLn.*` and
-  `TauCeti.NumberTheory.HeckeRing.GL2.*`, and the degree-one theory at the pin:
-  `TauCeti.NumberTheory.ModularForms.HeckeSlash.*` (`Tₙ` on `M_k(Γ₁(N))`),
-  `…ModularForms.Newforms.Newform` (`HeckeRing.GL2.Newform`, `EigenformAwayFromLevel`),
-  `…Newforms.Satake` (`satakeParameters`, `satakeAngle`), `…ModularForms.LFunction.*`
-  (`ModularForm.LSeries_qExpansion_coeff_eq`, `CuspForm.hasEntireExtension_qExpansion_coeff`,
-  the Euler product and functional equation), `…LevelOne.GradedRing`
-  (`mvPolynomialEquivModularForms`), `…EisensteinSeries.Normalized`
-  (`normalizedCharEisensteinSeriesMF`), `…ModularForms.FiniteDimensional`,
-  `…ModularForms.SturmBound`, `…ModularForms.Petersson.*`.
-- `TauCeti.LinearAlgebra.IntegralLattice.*` and `TauCeti.NumberTheory.IntegralLattice.*`: the
-  rational lattice carrier.
-- `TauCeti.NumberTheory.ModularForms.ThetaSeries.*`: the theta-series roadmap's degree-one theta
-  series `thetaSeries L` (its *Layer 3*) is `ZLattice.thetaSeries L`,
-  `τ ↦ ∑_{v ∈ L} exp(π i ‖v‖² τ)` for `L : Submodule ℤ E` (`…ThetaSeries.Basic`), with the
-  inversion law `ZLattice.thetaSeries_S_smul` in rank `2k` (`…ThetaSeries.Inversion`, that
-  roadmap's *Layer 4*) and the level-one form `ZLattice.IsEven.thetaForm` of an even unimodular lattice
-  (`…ThetaSeries.LevelOne`, its *Layer 5*); 5.1 generalizes `ZLattice.thetaSeries L` to degree
-  `g`, with the same exponent `π i ‖v‖² τ` at `g = 1`.
-- `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: the abelian-variety carrier that the
-  prose statement of the paramodular conjecture (10.6) refers to.
-
-- `TauCeti/NumberTheory/ModularForms/SturmBound.lean`: `ModularForm.sturm_bound_finiteIndex`
-  and `ModularForm.sturm_bound_finiteIndex_SL2Z`, with discrete strict periods and the
-  finite-index factor in the bound, supply the degree-one case of 3.5.
-- `TauCeti/NumberTheory/ModularForms/CharacterDecomp.lean`: `isInternal_modFormCharSpace`
-  and `isInternal_cuspFormCharSpace` decompose the Γ₁(N) spaces into character spaces for
-  Γ₀(N), for positive N; these are the degree-one comparisons in 1.3.
-- `TauCeti/NumberTheory/ModularForms/Petersson/Normal.lean`:
-  `HeckeRing.GL2.isAdjointPair_heckeRingHomCuspCharSpace_heckeTGeneratorGamma0`
-  and `HeckeRing.GL2.commute_peterssonAdjoint_heckeRingHomCuspCharSpace_heckeTGeneratorGamma0`
-  supply the degree-one good-prime adjoint and normality in 7.3, for positive N and
-  primes p coprime to N, on the character space with character χ.
-
-### From TauCetiRoadmap.ModularForms
-
-- its *Layer 2* Hecke operators
-  `Tₙ` on `M_k(Γ₁(N))`, its *Layer 4* newforms, its *Layer 7* `L`-function `L(s, f)` with Euler
-  product, and its *Layer 9* Satake parameters `{α_p, β_p}`; every degree-one object below is
-  one of these, named, and never redefined.
-
-### From TauCetiRoadmap.ThetaSeries
-
-- the real lattice model (its
-  *Layer 2*: `IsIntegral`, `IsEven`, the `level` of its 2E; the discriminant character `χ_L` of
-  its 6F, a `DirichletCharacter ℂ (level L)`), its *Layer 1* Poisson summation `poissonSummation`
-with `gaussian` and
-  `fourier_gaussian`, and its degree-one theta series `thetaSeries L` (*Layer 3*) with the two
-  modularity theorems (*Layers 5 and 7*). The degree-`g` theta series of Layer 5 below is the
-  `g`-variable generalization of that object and specializes to it at `g = 1`.
-
-### From TauCetiRoadmap.LevelOneAutomorphicFormsForClassicalGroups
-
-- §6.4: the unweighted genus-`g` theta map on even unimodular
-  lattices, with constant coefficient `1`, its Φ compatibility and modularity.
-  Section 5.1 identifies its lattice-basis value with the general lattice sum here;
-  5.2 owns the extension to arbitrary positive definite lattices and their duals.
-- §6.7: the harmonic theta map of pluriharmonic coefficients of weight `det^ν` on even unimodular
-  lattices, cuspidal for `ν ≥ 1`; 5.3 compares its scalar even-unimodular case with the
-  pluriharmonic theta series of general lattices and polynomial weights.
-- §6.1: the Siegel operator `Φ_g` on level-one scalar forms, `ker Φ_g = S_k(Γ_g)`, and its
-  intertwining of the Hecke operators through the Satake restriction (the Zharkovskaya relation
-  `L(s, F, St) = L(s, Φ_g F, St) ζ(s − (g − k)) ζ(s + (g − k))` for an eigenform with
-  `Φ_g F ≠ 0`); 3.2 compares it with 3.1's `Φ`, and 7.6 uses the intertwining for the Satake
-  parameters of Klingen Eisenstein series.
-- §6.2: odd- and negative-weight vanishing and the singular-range theorems at level one, which
-  1.3, 2.4 and 2.6 generalize on the analytic carrier; and §7.9, the level-one scalar cusp
-  dimensions through weight `13`, against which 6.3 and 6.9 are checked. Its carrier is
-  `AutomorphicBundles`' classical forms; the comparisons pass through `AutomorphicBundles` §11.9.
-
-### From TauCetiRoadmap.AutomorphicBundles
-
-- §11.9: the comparison of the classical forms of §11.1 (with the Siegel coefficient of §11.16)
-  with holomorphic equivariant functions on `ℍ_g` satisfying the boundary condition, through
-  which the level-one statements of `LevelOneAutomorphicFormsForClassicalGroups` §§6.1–6.2 are
-  read on `SiegelModularForm (Gamma g) (detWeight g k)`. Nothing else of that roadmap is consumed.
-
-### From TauCetiRoadmap.IntegralLattices
-
-- its
-  *Layer 2* Minkowski reduction of positive definite forms, the input to Siegel's fundamental
-  domain (3.3).
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactorsPartII
-
-- Sections 9.1–9.3: the global doubling integral, completed product and functional equation
-  for cuspidal unitary representations, with norm twists and fixed local measures. Section 8.3
-  proves the classical standard-factor comparison and does not use this as a spinor theorem.
-
-### From TauCetiRoadmap.AdelicAlgebraicGroups
-
-- Sections 2.2–2.3: quotient measures used in the classical adelization of 8.3.
-
-### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
-
-- §§3.1–3.2: smooth automorphic forms, `classicalEquiv`, and their global representation spaces; 8.3 specializes this comparison to holomorphic Siegel vectors and identifies the local factors.
-- §6.4: the index-two subgroup `G⁺ = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)` of `GSp₄(ℝ)` with its
-  multiplier, exposed as `positiveSimilitude`; it is the owner of `GSp₄⁺(ℝ)`, and 0.2's
-  `GSpPos 2 ℝ` is the same subgroup of `GL₄(ℝ)` (its Check), the only degree-two real
-  similitude group used here.
-
-### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
-
-- SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3: smoothness, compact-open invariants, admissibility, convolution, double cosets and Hecke modules, on which
-  10.4 builds the paramodular local theory.
-
-### From TauCetiRoadmap.LFunctions
-
-- its *Layer 0* records `AnalyticLFunctionData`
-  and `ArithmeticLFunctionData` with `NormalizationTranslation`; 8.5 fills these records and
-  adds no competing `L`-function card.
-
-### From TauCetiRoadmap.ClassicalGroupsPartII
-
-- its CG.0.1
-  symplectic similitude group, whose points over a commutative algebra `A` of a field of
-  characteristic zero are the `h ∈ GL_{2g}(A)` with `h J hᵀ = ν(h) J` for a unit `ν(h) ∈ Aˣ`,
-  with the multiplier `ν` (a homomorphism, unique for `g ≥ 1`) and the fibre `ν = 1` equal to
-  `Sp_{2g}`. Its `J = [[0, 1], [−1, 0]]` is the negative of Mathlib's `J` under the reindexing
-  `Fin g ⊕ Fin g ≃ Fin (2g)`, which changes neither the group nor `ν`. 0.2 takes the subgroup of
-  `R`-points with `ν > 0` for an ordered field `R`; its multiplier `μ` is `ν` restricted there,
-  and no second multiplier is defined here.
-
-### From TauCetiRoadmap.MetaplecticAutomorphicForms
-
-- its 6.18 `jacobiSpace` at the Jacobi lattice `SL₂(ℤ) ⋉ ℤ²`, integral index `m ≥ 1`, weight `k`
-  and trivial multiplier, holomorphic in `τ` with the cusp condition, which is the carrier
-  `J_{k,m}` on which 9.2–9.6 are stated, read in the classical form of the sibling
-  `HalfIntegralWeightModularForms` 6.1; and its 6.20 `jacobi_thetaDecomposition`, the theta
-  decomposition of 9.2 and 9.5. Four of its objects are identified with objects here by
-  comparison milestones stated in prose: its 8.10 degree-two Siegel space is homeomorphic to `ℍ[2]` by the map keeping the underlying
-  matrix (0.3 below); its 8.11–8.12 coordinates for
-  `AutomorphicFormsOnReductiveGroups` §6.4's `GSp₄⁺(ℝ)` and its action are `GSp⁺₄(ℝ) = GSpPos 2 ℝ`
-  acting as in 0.4; its 8.18 genus-two theta series `θ^a_ν(Z, W)` at `W = 0`,
-  `ν = 0` is the degree-two theta series of the rank-one lattice `√(2a) ℤ` of 5.1; its 8.19
-  half-integral matrix dictionary is the degree-two case of 2.1. Its genuine (half-integral
-  weight) Siegel Eisenstein series (8.76–8.80) and its Whittaker analysis are not objects of this
-  roadmap.
-
-### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
-
-- its §9.1 classical theta-component coordinates
-  `θ_{m,μ}(τ, z) = ∑_{r ≡ μ (2m)} e(r²τ/(4m) + rz)`, with their identification with `jacobiTheta₂`
-  at rescaled arguments and the invariance under `μ ↦ μ + 2m`: the coordinates of the theta
-  decomposition in 9.2.
-
-### From TauCetiRoadmap.HalfIntegralWeightModularForms
-
-- the classical form of the carrier `J_{k,m}`
-  (its 6.1: the comparison of MetaplecticAutomorphicForms 6.18's specialization with
-  Eichler–Zagier's two laws and Fourier condition, the dependence of `c(n, r)` on `4nm − r²`, the
-  cusp subspace); the half-integral-weight components `h_μ` of the theta decomposition (6.2);
-  the Hecke-equivariant isomorphism `J_{k,1} ≅ M⁺_{k−1/2}(Γ₀(4)) ≅ M_{2k−2}(SL₂(ℤ))` (6.3,
-  Eichler–Zagier's theta decomposition and Kohnen's isomorphism), consumed by 9.2 for the
-  dimension count and by 9.5 as the identification of the Jacobi eigenvalue system of
-  `φ ∈ J_{k,1}` with that of a degree-one eigenform `f ∈ M_{2k−2}(SL₂(ℤ))`; and the
-  index-raising maps `V_l : J_{k,m} → J_{k,ml}` with Fourier and composition laws
-  (6.4, for positive `l,m`), and the Skoruppa–Zagier correspondence for `J^{cusp}_{k,N}`, `N > 1` (6.4), consumed by the statement
-  of the Gritsenko lift (9.6). No Jacobi carrier is declared here, in prose or in `Suggested.lean`.
-
-### From TauCetiRoadmap.LatticePackingsAndPerfectForms
-
-- Its 5.6: the degree-one theta series `Θ_{L,P}` of an even unimodular lattice with a harmonic polynomial `P` of degree `d > 0`, a cusp form of weight `m/2 + d` on `SL₂(ℤ)`; 5.3 below specializes to it at `g = 1` by comparison and does not reprove it.
-
-### From TauCetiRoadmap.HyperellipticCurves and TauCetiRoadmap.AbelianVarietiesOverFiniteFields
-
-- `HyperellipticCurves` 5.3 (the good Euler factors `L_p(J, X)` of a genus-two Jacobian) and 5.6 (its conductor), and `AbelianVarietiesOverFiniteFields` 1.3 (the `L`-polynomial of an abelian variety over `𝔽_p`, which is `L_p(A, X)` for the reduction of an abelian surface at a good prime): the family of polynomials `(L_p(A, X))_{p ∤ N}` and the conductor `N` that the paramodular conjecture (10.6) is stated against. Nothing about abelian surfaces is defined here.
-
-## How to read the build
-
-The layers are in build order; each layer's *Dependencies* lists what its *Needs:* lines name. Layer 0 (groups, half-space, action, automorphy factor, arithmetic and paramodular groups) rests on Mathlib, Tau Ceti's `GLSymplectic` and `SymplecticMultiplier`, `ClassicalGroupsPartII` CG.0.1 and, for the comparisons of 0.2 and 0.3, `AutomorphicFormsOnReductiveGroups` §6.4 and `MetaplecticAutomorphicForms` 8.10; Layer 1 (weights, slash operators, bundled forms) needs Layer 0; Layer 2 (half-integral matrices, Fourier expansion, Koecher, bounds, singular forms) needs Layers 0–1 and `IntegralLattices` *Layer 2* for 2.1, and 2.1 itself is independent of Layers 0–1; Layer 3 (`Φ`, cusp forms, fundamental domain, Petersson, finite dimensionality) needs Layers 0–2 and `IntegralLattices` *Layer 2* for 3.3, with `LevelOneAutomorphicFormsForClassicalGroups` §6.1 and `AutomorphicBundles` §11.9 for the level-one comparison of 3.2; Layer 4 (Eisenstein series) needs Layers 0–3 and the Jacobi suppliers; 4.2 first constructs the Jacobi Eisenstein series and general Maass lift and then derives the Siegel coefficient formula, which anchors Layer 6; Layer 5 (theta series, theta constants) needs Layers 0–3 and the theta-series roadmap, with `LevelOneAutomorphicFormsForClassicalGroups` §§6.4, 6.7, `MetaplecticAutomorphicForms` 8.18 and `LatticePackingsAndPerfectForms` 5.6 for comparisons, and is independent of Layer 4; Layer 6 (degree-two rings) needs Layers 0–5, `PELModuli` M5 for 6.9 and `LevelOneAutomorphicFormsForClassicalGroups` §7.9 for the odd degree-four weights of 6.9; Layer 7 (Hecke operators, Satake parameters) needs Layers 0–3 and Mathlib's `HeckeRing` with Tau Ceti's ring structure on it for 7.1–7.5, while 7.6 needs Layers 4 and 6 and `LevelOneAutomorphicFormsForClassicalGroups` §6.1; Layer 8 (`L`-functions) needs Layers 2–7, the modular-forms roadmap's *Layer 7*, `LFunctions` *Layer 0*, and for the standard `L`-function `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3, `AdelicAlgebraicGroups` §§2.2–2.3 and `AutomorphicFormsOnReductiveGroups` §§3.1–3.2, and nothing of Layer 9; Layer 9 (Fourier–Jacobi, Maass lift, Saito–Kurokawa and the analytic statements on the Maass space, lifts) needs Layers 0–8 and the Jacobi suppliers; Layer 10 (paramodular) needs Layers 0–3 and 7–9, `SmoothRepresentationsOfLocalGroups`, `LFunctions` *Layer 0* and the abelian-surface suppliers; Layer 11 (LMFDB invariants) needs everything above. After Layer 3, Layer 5 is independent of Layer 4 and 7.1–7.5 are independent of Layers 4–6; Layer 6 joins Layers 4 and 5, 7.6 and Layer 8 join Layers 4–7, Layer 9 joins everything through Layer 8, and Layers 10–11 close. What each layer delivers: The positive similitude group and the Siegel upper half-space with its action; holomorphic weights and slash operators; Siegel modular forms of degree `g ≥ 2` with and without character; Fourier expansions over half-integral matrices, Koecher's principle, the coefficient bounds and singular forms; the `Φ`-operator, cusp forms, the Petersson product, Siegel's fundamental domain and finite dimensionality; Siegel and Klingen Eisenstein series and the degree-two Maass–Cohen coefficient formula; degree-`g` theta series of lattices, pluriharmonic theta series and theta constants; `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅` and Igusa's theorem; Satoh's module, Tsushima's formula and the `Γ(2)`, `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` rings; the Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action, eigenforms, Satake parameters and the degree-two coefficient formula; spinor and standard `L`-functions; the Fourier–Jacobi expansion, the Jacobi Eisenstein series and `V_l`, the Maass lift and the Saito–Kurokawa theorem, and the statements of the Gritsenko, Ikeda and Miyawaki lifts; paramodular groups, forms, level raising, newforms, the Roberts–Schmidt and Poor–Yuen statements and the paramodular conjecture; the LMFDB invariants.
-
----
 
 ## Layer 0: symplectic groups and the Siegel upper half-space
 
@@ -3603,6 +3182,427 @@ read from the cited theorem.
     Saito–Kurokawa in weight `20`: `S^*_{20}(Γ₂)` is two-dimensional (`dim S_{38}(SL₂(ℤ)) = 2`)
     with coefficient field `ℚ(√63737521)` (`ℚ(√18295489)` is the field of `S_{32}(SL₂(ℤ))`,
     the Saito–Kurokawa space of weight `17`, which is empty: `17` is odd).
+
+## Scope and ownership
+
+### Owned here
+
+- The positive similitude group `GSp⁺_{2g}(R)` for every `g` and every ordered field `R` (the
+  part of `ClassicalGroupsPartII` CG.0.1's similitude group with positive multiplier; its degree-two
+  real points `GSp₄⁺(ℝ)` with their multiplier are `AutomorphicFormsOnReductiveGroups` §6.4's
+  `positiveSimilitude`, which 0.2 identifies with `GSpPos 2 ℝ` and does not plan again) with
+  `det M = μ(M)^g`, the dual `M^∨` and the
+  sets `O_g(m)` of integral similitudes of multiplier `m`, the Siegel upper half-space `ℍ_g` with the action
+  `τ ↦ (Aτ + B)(Cτ + D)⁻¹`, the automorphy factor `Cτ + D` and its
+  cocycle law, and the arithmetic subgroups `Γ_g = Sp_{2g}(ℤ)`, `Γ_g(N)`, `Γ₀^{(g)}(N)`,
+  `Γ₁^{(g)}(N)`, together with the paramodular groups `K(N) ⊂ Sp₄(ℚ)` and
+  `Γ^{para}(d) ⊂ Sp_{2g}(ℚ)` (Layer 0).
+- Holomorphic weights `ρ`, the slash operators `f ∣_ρ γ`, the spaces `M_ρ(Γ)`, `M_ρ(Γ, ψ)`
+  and the graded ring of scalar-valued forms (Layer 1).
+- Half-integral matrices, Fourier expansions, Koecher's principle, the coefficient bounds and
+  the theory of singular forms (Layer 2).
+- Siegel's `Φ`-operator, cusp forms, the Petersson inner product, Siegel's fundamental domain
+  and finite dimensionality (Layer 3).
+- Siegel and Klingen Eisenstein series, with the Maass–Cohen formula for the Fourier
+  coefficients in degree two (Layer 4).
+- Siegel theta series of degree `g` of a positive definite lattice, with and without
+  pluriharmonic coefficients, theta constants with characteristics and their even-weight
+  products (Layer 5).
+- Igusa's generators `ψ₄, ψ₆, χ₁₀, χ₁₂, χ₃₅`, Igusa's structure theorem and its Hilbert
+  series, Satoh's and Tsushima's theorems for `M_{k,j}(Γ₂)`, Igusa's `Γ(2)` ring, and the
+  `Γ₀(2)`, `Γ₀(3)`, `Γ₀(4)` theorems of Ibukiyama, Aoki–Ibukiyama and Hayashida–Ibukiyama
+  (Layer 6).
+- The Hecke algebra of `(Γ_g, GSp⁺_{2g}(ℚ))`, its action on `M_ρ(Γ)`, eigenforms and Satake
+  parameters, and the degree-two coefficient formula for `T(p)` (Layer 7).
+- The spinor and standard `L`-functions with their Euler factors, the degree-two quartic Euler
+  factor, Andrianov's identity, the analytic continuation and functional equations proved, and
+  the export to the completed `L`-function data model (Layer 8).
+- The Fourier–Jacobi expansion, the Jacobi Eisenstein series `E_{k,1}`, comparison with the supplied index-raising
+  operators `V_l` on Jacobi forms, the Maass lift and the Saito–Kurokawa theorem, and the
+  Gritsenko, Ikeda and Miyawaki lifts stated (Layer 9).
+- Paramodular forms, level-raising operators, newforms, the Roberts–Schmidt local newform
+  comparison and Poor–Yuen's weight-two theorems, and the paramodular conjecture stated
+  (Layer 10).
+- The LMFDB invariant layer: the families, the intrinsic label prefix, integrality of Fourier
+  coefficients, coefficient fields, Galois orbits of eigenforms and the page coverage map
+  (Layer 11).
+
+Every nonconjectural theorem specified below includes its proof as a target. In particular,
+Layers 6, 8, 9 and 10 own the classical dimension and classification theorems, the spinor
+functional equation and classical standard comparison, the non-Maass Ramanujan bound,
+the holomorphic Ikeda and nonzero Miyawaki lift theorems, and the paramodular newform
+consequences. A source locator specifies a theorem to prove; it is not a library assumption.
+The paramodular conjecture and explicitly identified nonvanishing conjectures remain conditional.
+
+### Not owned here
+
+- The algebraic symplectic similitude group, its coordinate Hopf algebra, its multiplier and its
+  representations: `ClassicalGroupsPartII`.
+- The real group `GSp₄⁺(ℝ) = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)` of degree two with its multiplier:
+  `AutomorphicFormsOnReductiveGroups` §6.4 (`positiveSimilitude`); `MetaplecticAutomorphicForms`
+  8.11–8.12 write it and its action in Bump–Friedberg–Hoffstein's coordinates. 0.2 keeps the
+  general-`g` group over an ordered field and identifies its `g = 2`, `R = ℝ` points with the
+  supplied group (a Check), so one real group of degree two is planned once.
+- Half-integral weight Siegel modular forms of degree `g ≥ 2`, the theta multiplier on `Γ_g(4, 8)`
+  and the LMFDB's half-integral weight family on `Γ₀^{(2)}(4)`: owned by no roadmap. The sibling
+  `HalfIntegralWeightModularForms` owns only degree one (half-integral weight modular forms on
+  `Γ₀(4N)`, the Kohnen plus space and the Shimura lift) and records that Siegel modular forms are
+  not its objects; theta constants appear here (5.4) only through their even products, so no
+  half-integral weight transformation law is stated anywhere. The Jacobi forms `J_{k,m}` of every index
+  `m ≥ 1` as spaces: the carrier and the theta decomposition are `MetaplecticAutomorphicForms`'
+  (6.18, 6.20), their classical form, half-integral components and dimension formula are
+  `HalfIntegralWeightModularForms`' (6.1–6.3). This roadmap states on that carrier only the
+  Jacobi Eisenstein series and the Maass lift; `V_l` and its Fourier/composition laws
+  come from `HalfIntegralWeightModularForms` §6.4.
+- The metaplectic cover, the Weil representation, theta kernels and theta lifts, the
+  Siegel–Weil formula, Jacobi Eisenstein series of Bump–Friedberg–Hoffstein and genuine
+  Eisenstein series: `MetaplecticAutomorphicForms`.
+- The Siegel moduli space `A_g`, its toroidal and minimal compactifications, the
+  `q`-expansion principle and geometric Siegel modular forms as sections of automorphic
+  bundles: `PELModuli` (M5 `siegelModuli`, M6 `siegelStack`), `ShimuraCompactifications` (2.8, the map
+  to the minimal compactification; 7.16, the integral minimal compactification) and
+  `AutomorphicBundles`. Everything here is a holomorphic function on `ℍ_g`; the
+  identification of `Γ_g \ ℍ_g` with `A_g(ℂ)` is theirs.
+- The adelic theory: automorphic representations of `GSp₄`, Arthur's classification and the
+  automorphic type letters (F, P, Q, B, Y, G) of the LMFDB, the general representation-theoretic theory beyond the paramodular comparison of 10.4.
+  Section 10.4 builds the local paramodular fixed-vector theory and its classical
+  comparison needed here; generic smooth representation carriers are supplied by
+  `SmoothRepresentationsOfLocalGroups` SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3.
+- Abelian surfaces, their conductors and `L`-functions, genus-two curves and their Jacobians:
+  the sibling `HyperellipticCurves` (Layers 4–5: conductors and Euler factors of genus-two
+  Jacobians, for the `g2c` section), `AbelianVarietiesOverFiniteFields` (1.3: the `L`-polynomial)
+  and the abelian-variety roadmaps.
+  The paramodular conjecture (10.6) is stated here on the modular side as a predicate
+  `IsParamodularPartner` on a newform and a family of local Euler factors; the abelian-variety
+  side supplies the Euler factors.
+- The classification of abelian surfaces by endomorphism algebra and the Sato–Tate groups:
+  `SatoTateGroups`.
+- The all-genus unweighted theta map for even unimodular lattices and the harmonic theta map:
+  `LevelOneAutomorphicFormsForClassicalGroups` §6.4 and §6.7. Layer 5
+  extends them to non-unimodular lattices and polynomial weights and proves the exact comparison.
+- The level-one statements of `LevelOneAutomorphicFormsForClassicalGroups` §§6.1–6.2 on
+  `AutomorphicBundles`' classical forms at level `Sp_{2g}(ℤ)` (its §11.16 coefficient, compared
+  with functions on `ℍ_g` by its §11.9): the Siegel operator `Φ_g` with `ker Φ_g = S_k(Γ_g)` and
+  the Zharkovskaya relation, odd- and negative-weight vanishing, and the singular-range vanishing
+  and spanning theorems; and its level-one cusp dimensions (§7.3 for `k_g > g`, `g ≤ 8`; §7.9 for
+  every degree through weight `13`). The variants kept here (1.3, 2.4, 2.6, 3.1–3.2) are stated on
+  the analytic carrier `SiegelModularForm Γ ρ` for every arithmetic `Γ` and every holomorphic
+  weight `ρ`, and are compared with §§6.1–6.2 at level one in scalar weight (3.2); the dimensions
+  of 6.3, 6.4 and 6.9 are proved here by Igusa's, Tsushima's, Tsuyumine's and Poor–Yuen's routes
+  and compared with §7.9 (Checks of 6.3 and 6.9).
+- Degree-one theta series with harmonic coefficients, spherical designs and Venkov's theorem: the
+  sibling `LatticePackingsAndPerfectForms` (its Layer 5); 5.3 specializes to its 5.6 at `g = 1`.
+- Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
+  the completeness of database tables are not targets: the LMFDB label index, the ordering of
+  Galois orbits within a space, sample names. Layer 11 states only the
+  intrinsic label prefix `g.F.N.k.j` and the invariants a search can filter on.
+- Dimension formulas for `S_k(Γ_g)` with `g ≥ 3` beyond the statements the LMFDB records
+  (Tsuyumine's degree-three ring, Poor–Yuen's degree-four even weights `k ≤ 16`) and the level-one
+  theory of `Sp_{2g}` for `g ≥ 5`: `LevelOneAutomorphicFormsForClassicalGroups` in the ranges of
+  its §§7.3 and 7.9 (above). Vector-valued forms of degree `g ≥ 3`, Harder's conjecture, and the
+  geometry of `A_2` (the Igusa quartic, cohomology of local systems, the Faber–van der Geer point
+  counts) are not objects of this roadmap. The generators of the modules `⨁_k M_{k,j}(Γ₂)` over
+  `ℂ[ψ₄, ψ₆, χ₁₀, χ₁₂]` for even `j ≥ 4` are owned by no roadmap; their dimensions are
+  Tsushima's formula (6.4).
+- Humbert surfaces in the Siegel threefold and the modular embeddings `ℍ × ℍ → ℍ₂` of real
+  quadratic orders whose images they are: owned by no roadmap, and not objects here. The
+  restriction along `SL(2, O_K) → Sp_{2g}(ℤ)` in the route of 2.6 for Freitag's Proposition 4.6
+  is a step of that proof, not an owned construction.
+- The general automorphic doubling construction and its functional equation:
+  `AutomorphicLFunctionsAndLocalFactorsPartII` §§9.1–9.3. The classical standard-factor
+  comparison, gamma normalization and pole criterion are proved in 8.3 here.
+- Borcherds products, Gritsenko–Nikulin reflective forms, Hermitian and quaternionic modular
+  forms, Hilbert–Siegel forms, Siegel modular forms over totally real fields, `p`-adic and
+  mod-`p` Siegel modular forms, Galois representations attached to Siegel modular forms, Yoshida
+  lifts as constructions (only the type letter is named), Böcherer's conjecture, and the
+  Kudla–Millson theory: no roadmap in this repository, and not objects here.
+
+The [theta-series roadmap](../ThetaSeries/README.md) records the boundary from its side
+("Siegel and Jacobi theta series" are not owned there), the
+[integral quadratic forms and lattices roadmap](../IntegralLattices/README.md) excludes
+alternating lattices and Siegel modular forms from its carrier, and the
+[modular-forms roadmap](../ModularForms/README.md) states no degree-two object.
+
+## Exact supplier contracts
+
+The roadmaps consumed are the [modular-forms roadmap](../ModularForms/README.md) (the degree-one
+theory: newforms, Hecke operators, `L`-functions, Satake parameters), the
+[theta-series roadmap](../ThetaSeries/README.md) (lattice Poisson summation, the real lattice
+model, the level and the discriminant character), the
+[integral quadratic forms and lattices roadmap](../IntegralLattices/README.md) (Minkowski
+reduction of positive definite forms), the `L`-functions roadmap `LFunctions` (the
+completed `L`-function data model into which the spinor and standard `L`-functions are
+exported), and the [classical groups, part II roadmap](../ClassicalGroupsPartII/README.md) (its
+CG.0.1: the symplectic similitude group and its multiplier, whose positive part 0.2 takes). The
+[metaplectic groups, Weil representations and automorphic theta kernels
+roadmap](../MetaplecticAutomorphicForms/README.md)
+owns the metaplectic, theta-kernel and Bump–Friedberg–Hoffstein side of degree two, and the Jacobi
+carrier `jacobiSpace` with its theta decomposition (its 6.18 and 6.20), on which Layer 9 is
+stated; the [q-series, partition statistics and mock modular forms
+roadmap](../QSeriesPartitionsAndMockModularForms/README.md)
+supplies the classical theta-component coordinates `θ_{m,μ}` (its §9.1). The sibling `HalfIntegralWeightModularForms`
+owns degree-one half-integral weight and the classical form of the Jacobi carrier with its
+half-integral theta components, and supplies the one identification that the Saito–Kurokawa
+theorem needs from outside this roadmap.
+
+Every `*Needs:*` line below names its inputs by one of four kinds: a Mathlib declaration at the pin; a Tau Ceti declaration at the pin; an earlier target of this roadmap; or a named target of another roadmap, cited by that roadmap's own numbering. Nothing waits on a Mathlib pull request or on an external repository.
+
+### From Mathlib
+
+- Consumed by name: `Matrix.symplecticGroup`, `Matrix.J`, `SymplecticGroup.det_eq_one`;
+  `Matrix.PosDef`, `Matrix.PosSemidef`, `Matrix.IsSymm`, `Matrix.IsHermitian`; `UpperHalfPlane`
+  and the degree-one `ModularForm`, `CuspForm`, `SlashAction`, `CongruenceSubgroup.Gamma0`,
+  `CongruenceSubgroup.Gamma`; `Representation`; `MvPolynomial.homogeneousSubmodule` and
+  `MvPolynomial.IsWeightedHomogeneous`; `Subgroup.Commensurable`; the Hecke-pair definitions
+  `IsHeckeTriple`, `HeckeCoset`, `HeckeRing` of `Mathlib/NumberTheory/HeckeRing/Defs.lean`;
+  `LSeries`, `ArithmeticFunction`, `DirichletCharacter.LFunction`; `jacobiTheta₂`.
+
+- `Mathlib/LinearAlgebra/SymplecticGroup.lean`: `Matrix.J`, `Matrix.symplecticGroup` (a
+  submonoid with a hand-built group structure), `SymplecticGroup.mem_iff`, `mem_iff'`,
+  `neg_mem`, `transpose_mem`, `inv_eq_symplectic_inv`, `det_eq_one`.
+- `Mathlib/LinearAlgebra/Matrix/PosDef.lean`: `Matrix.PosDef`, `Matrix.PosSemidef`,
+  `PosDef.det_pos`, `PosDef.isUnit`, `posDef_iff_dotProduct_mulVec`; `Matrix/Symmetric.lean`
+  and `Matrix/Hermitian.lean`: `IsSymm`, `IsSymm.map`, `isHermitian_iff_isSymm` (for `ℝ`,
+  Hermitian is symmetric).
+- `Mathlib/Data/Matrix/Block.lean`: `fromBlocks`, `toBlocks₁₁ … toBlocks₂₂`,
+  `fromBlocks_multiply`; `Mathlib/Analysis/Matrix/Normed.lean`: `Matrix.normedAddCommGroup`,
+  `Matrix.normedSpace` (local instances; every norm on `Sym g` gives the same holomorphic
+  functions).
+- `Mathlib/Geometry/Manifold/*`: `IsOpenEmbedding.singletonChartedSpace`, `MDifferentiable`,
+  `modelWithCornersSelf`; `Mathlib/Analysis/Complex/UpperHalfPlane/{Basic,Topology,Manifold}.lean`
+  is the degree-one model of 0.3.
+- `Mathlib/NumberTheory/ModularForms/*`: `ModularForm`, `CuspForm`, `SlashAction` with its
+  weight-`k` instance on `GL (Fin 2) ℝ` (`ModularForm.slash_def`), `CongruenceSubgroup.Gamma/Gamma0/Gamma1`, `IsArithmetic`,
+  `Subgroup.HasDetOne`, `qExpansion`, the normalized Eisenstein series `ModularForm.E` with
+  `EisensteinSeries.E_qExpansion_coeff_zero` (constant term `1` for even `k ≥ 4`),
+  `CuspForm.discriminant`, the level-one dimension formula `ModularForm.dimension_level_one` and
+  Sturm bound `ModularForm.sturm_bound_levelOne`; `JacobiTheta/TwoVariable.lean`: `jacobiTheta₂`
+  (the rank-one, degree-one theta with characteristics of 5.4).
+- `Mathlib/NumberTheory/HeckeRing/Defs.lean`: `IsHeckeTriple`, `HeckeCoset`, `HeckeCosetModule`,
+  `HeckeRing`; `Mathlib/GroupTheory/Commensurable.lean`: `Subgroup.Commensurable`;
+  `Mathlib/GroupTheory/Coset/Defs.lean`: `QuotientGroup.rightRel`.
+- `Mathlib/RepresentationTheory/Basic.lean`: `Representation`;
+  `Mathlib/RingTheory/MvPolynomial/Homogeneous.lean` and `WeightedHomogeneous.lean`:
+  `homogeneousSubmodule`, `IsWeightedHomogeneous`; `Mathlib/Algebra/MvPolynomial/Basic.lean`:
+  `aeval` (the linear substitution of 1.1).
+- `Mathlib/NumberTheory/LSeries/*`, `ArithmeticFunction`, `EulerProduct/*`,
+  `DirichletCharacter/*` with `DirichletCharacter.LFunction` at negative integers (Cohen's
+  function, 4.2); `Mathlib/NumberTheory/Bernoulli.lean`.
+
+Mathlib has no Siegel upper half-space, no symplectic action on it, no vector-valued modular
+form, no Siegel modular form of any degree `≥ 2`, no Siegel Eisenstein series, no Hecke
+operator on Siegel modular forms, and no paramodular group.
+
+### From Tau Ceti
+
+- Consumed by name: `TauCeti.GLSymplectic l R` with `mem_iff`, `mem_iff'`, `map`,
+  `symJ`, `mulEquivSymplecticGroup`, the Levi embedding `TauCeti.GLSymplectic.leviHom`, the
+  unipotent subgroups `upperUnipotent`/`lowerUnipotent` and the generation theorems of
+  `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.*`; the symplectic multiplier
+  lemma `Matrix.transpose_mul_J_mul_eq_det_smul` of
+  `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier`; the abstract Hecke ring of
+  `TauCeti.NumberTheory.HeckeRing.*` for every Hecke pair (`HeckeCosetModule.instRingHeckeRing`,
+  `HeckeAntiInvolution`, `HeckeCosetModule.mul_comm_of_antiInvolution`); the `GL_n` and `GL₂`
+  double-coset theory of `TauCeti.NumberTheory.HeckeRing.GLn.*` and
+  `TauCeti.NumberTheory.HeckeRing.GL2.*`; the degree-one Hecke operators of
+  `TauCeti.NumberTheory.ModularForms.HeckeSlash.*`; the
+  newforms `HeckeRing.GL2.Newform` with their Satake parameters
+  `HeckeRing.GL2.Newform.satakeParameters` (`TauCeti.NumberTheory.ModularForms.Newforms.Satake`),
+  their `L`-functions (`TauCeti.NumberTheory.ModularForms.LFunction.*`), the level-one graded
+  ring `TauCeti.ModularForm.mvPolynomialEquivModularForms`, and the normalized Eisenstein
+  series `TauCeti.EisensteinSeries.normalizedCharEisensteinSeriesMF`.
+
+- `TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.Symplectic.Basic`: `TauCeti.GLSymplectic l R`
+  as a subgroup of `GL (l ⊕ l) R`, `GLSymplectic.mem_iff`, `mem_iff'`, `ofSymplecticGroup`,
+  `mulEquivSymplecticGroup`, `symJ`, `map`; `TauCeti.GLSymplecticFin m R` with
+  `mulEquivGLSymplectic`. `…/Symplectic/Levi.lean`: `leviHom : GL l R →* GLSymplectic l R`
+  (`A ↦ diag(A, A⁻ᵀ)`). `…/Symplectic/UnipotentGeneration.lean`: `upperUnipotent B`
+  (`[[1, B], [0, 1]]` for symmetric `B`), `lowerUnipotent`, and the generation theorem
+  `eq_top_of_root_subgroups` (`TorusGeneration.lean`), stated over a field `K`
+  (`variable {K : Type u} [Field K]` in that file): it gives the generation of `Sp_{2g}(ℚ)` by
+  its root subgroups and is the bridge check of 0.1, not the generation of `Γ_g = Sp_{2g}(ℤ)`,
+  which 0.1 owns. `TauCeti.LinearAlgebra.SymplecticGroup`: `fromBlocks_upper_mem`,
+  `fromBlocks_lower_mem`, `fromBlocks_diagonal_mem`, `transpose_eq_J_conj_inv`.
+- `TauCeti.LinearAlgebra.Matrix.SymplecticMultiplier` (namespace `Matrix`):
+  `Matrix.transpose_mul_J_mul_eq_det_smul` (`Mᵀ J M = det M • J`), over a commutative ring and
+  for a singleton index type `l` (`[Unique l]`, that is `g = 1`); comparing it with
+  `Mᵀ J M = μ • J` gives `(det M − μ) • J = 0`, hence `det M = μ` since `J` has the entry `−1`.
+  This is the `g = 1` bridge check of 0.2's `det M = μ(M)^g`, which 0.2 owns for every `g`.
+- `TauCeti.Topology.Algebra.SymplecticGroup`: `isClosed_symplecticGroup`, `isClosed_GLSymplectic`.
+- The abstract Hecke ring at the pin, for a Hecke pair `(Δ, H)` in any group: Mathlib's
+  `HeckeRing` carries no product at the pin; `TauCeti.NumberTheory.HeckeRing.Multiplication`,
+  `.One` and `.Associativity` give it the convolution product and the ring structure
+  (`HeckeCosetModule.instRingHeckeRing`, for `[IsHeckeTriple Δ H H]` and a ring of coefficients),
+  and `.Commutativity` gives Shimura's criterion: an anti-involution of `Δ` preserving `H` and
+  fixing every double coset makes the ring over a commutative coefficient ring commutative
+  (`HeckeCosetModule.mul_comm_of_antiInvolution`). 7.1 consumes these for every `g`.
+- The `GL_n` and `GL₂` double-coset theory `TauCeti.NumberTheory.HeckeRing.GLn.*` and
+  `TauCeti.NumberTheory.HeckeRing.GL2.*`, and the degree-one theory at the pin:
+  `TauCeti.NumberTheory.ModularForms.HeckeSlash.*` (`Tₙ` on `M_k(Γ₁(N))`),
+  `…ModularForms.Newforms.Newform` (`HeckeRing.GL2.Newform`, `EigenformAwayFromLevel`),
+  `…Newforms.Satake` (`satakeParameters`, `satakeAngle`), `…ModularForms.LFunction.*`
+  (`ModularForm.LSeries_qExpansion_coeff_eq`, `CuspForm.hasEntireExtension_qExpansion_coeff`,
+  the Euler product and functional equation), `…LevelOne.GradedRing`
+  (`mvPolynomialEquivModularForms`), `…EisensteinSeries.Normalized`
+  (`normalizedCharEisensteinSeriesMF`), `…ModularForms.FiniteDimensional`,
+  `…ModularForms.SturmBound`, `…ModularForms.Petersson.*`.
+- `TauCeti.LinearAlgebra.IntegralLattice.*` and `TauCeti.NumberTheory.IntegralLattice.*`: the
+  rational lattice carrier.
+- `TauCeti.NumberTheory.ModularForms.ThetaSeries.*`: the theta-series roadmap's degree-one theta
+  series `thetaSeries L` (its *Layer 3*) is `ZLattice.thetaSeries L`,
+  `τ ↦ ∑_{v ∈ L} exp(π i ‖v‖² τ)` for `L : Submodule ℤ E` (`…ThetaSeries.Basic`), with the
+  inversion law `ZLattice.thetaSeries_S_smul` in rank `2k` (`…ThetaSeries.Inversion`, that
+  roadmap's *Layer 4*) and the level-one form `ZLattice.IsEven.thetaForm` of an even unimodular lattice
+  (`…ThetaSeries.LevelOne`, its *Layer 5*); 5.1 generalizes `ZLattice.thetaSeries L` to degree
+  `g`, with the same exponent `π i ‖v‖² τ` at `g = 1`.
+- `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: the abelian-variety carrier that the
+  prose statement of the paramodular conjecture (10.6) refers to.
+
+- `TauCeti/NumberTheory/ModularForms/SturmBound.lean`: `ModularForm.sturm_bound_finiteIndex`
+  and `ModularForm.sturm_bound_finiteIndex_SL2Z`, with discrete strict periods and the
+  finite-index factor in the bound, supply the degree-one case of 3.5.
+- `TauCeti/NumberTheory/ModularForms/CharacterDecomp.lean`: `isInternal_modFormCharSpace`
+  and `isInternal_cuspFormCharSpace` decompose the Γ₁(N) spaces into character spaces for
+  Γ₀(N), for positive N; these are the degree-one comparisons in 1.3.
+- `TauCeti/NumberTheory/ModularForms/Petersson/Normal.lean`:
+  `HeckeRing.GL2.isAdjointPair_heckeRingHomCuspCharSpace_heckeTGeneratorGamma0`
+  and `HeckeRing.GL2.commute_peterssonAdjoint_heckeRingHomCuspCharSpace_heckeTGeneratorGamma0`
+  supply the degree-one good-prime adjoint and normality in 7.3, for positive N and
+  primes p coprime to N, on the character space with character χ.
+
+### From TauCetiRoadmap.ModularForms
+
+- its *Layer 2* Hecke operators
+  `Tₙ` on `M_k(Γ₁(N))`, its *Layer 4* newforms, its *Layer 7* `L`-function `L(s, f)` with Euler
+  product, and its *Layer 9* Satake parameters `{α_p, β_p}`; every degree-one object below is
+  one of these, named, and never redefined.
+
+### From TauCetiRoadmap.ThetaSeries
+
+- the real lattice model (its
+  *Layer 2*: `IsIntegral`, `IsEven`, the `level` of its 2E; the discriminant character `χ_L` of
+  its 6F, a `DirichletCharacter ℂ (level L)`), its *Layer 1* Poisson summation `poissonSummation`
+with `gaussian` and
+  `fourier_gaussian`, and its degree-one theta series `thetaSeries L` (*Layer 3*) with the two
+  modularity theorems (*Layers 5 and 7*). The degree-`g` theta series of Layer 5 below is the
+  `g`-variable generalization of that object and specializes to it at `g = 1`.
+
+### From TauCetiRoadmap.LevelOneAutomorphicFormsForClassicalGroups
+
+- §6.4: the unweighted genus-`g` theta map on even unimodular
+  lattices, with constant coefficient `1`, its Φ compatibility and modularity.
+  Section 5.1 identifies its lattice-basis value with the general lattice sum here;
+  5.2 owns the extension to arbitrary positive definite lattices and their duals.
+- §6.7: the harmonic theta map of pluriharmonic coefficients of weight `det^ν` on even unimodular
+  lattices, cuspidal for `ν ≥ 1`; 5.3 compares its scalar even-unimodular case with the
+  pluriharmonic theta series of general lattices and polynomial weights.
+- §6.1: the Siegel operator `Φ_g` on level-one scalar forms, `ker Φ_g = S_k(Γ_g)`, and its
+  intertwining of the Hecke operators through the Satake restriction (the Zharkovskaya relation
+  `L(s, F, St) = L(s, Φ_g F, St) ζ(s − (g − k)) ζ(s + (g − k))` for an eigenform with
+  `Φ_g F ≠ 0`); 3.2 compares it with 3.1's `Φ`, and 7.6 uses the intertwining for the Satake
+  parameters of Klingen Eisenstein series.
+- §6.2: odd- and negative-weight vanishing and the singular-range theorems at level one, which
+  1.3, 2.4 and 2.6 generalize on the analytic carrier; and §7.9, the level-one scalar cusp
+  dimensions through weight `13`, against which 6.3 and 6.9 are checked. Its carrier is
+  `AutomorphicBundles`' classical forms; the comparisons pass through `AutomorphicBundles` §11.9.
+
+### From TauCetiRoadmap.AutomorphicBundles
+
+- §11.9: the comparison of the classical forms of §11.1 (with the Siegel coefficient of §11.16)
+  with holomorphic equivariant functions on `ℍ_g` satisfying the boundary condition, through
+  which the level-one statements of `LevelOneAutomorphicFormsForClassicalGroups` §§6.1–6.2 are
+  read on `SiegelModularForm (Gamma g) (detWeight g k)`. Nothing else of that roadmap is consumed.
+
+### From TauCetiRoadmap.IntegralLattices
+
+- its
+  *Layer 2* Minkowski reduction of positive definite forms, the input to Siegel's fundamental
+  domain (3.3).
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactorsPartII
+
+- Sections 9.1–9.3: the global doubling integral, completed product and functional equation
+  for cuspidal unitary representations, with norm twists and fixed local measures. Section 8.3
+  proves the classical standard-factor comparison and does not use this as a spinor theorem.
+
+### From TauCetiRoadmap.AdelicAlgebraicGroups
+
+- Sections 2.2–2.3: quotient measures used in the classical adelization of 8.3.
+
+### From TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
+
+- §§3.1–3.2: smooth automorphic forms, `classicalEquiv`, and their global representation spaces; 8.3 specializes this comparison to holomorphic Siegel vectors and identifies the local factors.
+- §6.4: the index-two subgroup `G⁺ = {g : ν(g) > 0} = ℝ_{>0}·Sp₄(ℝ)` of `GSp₄(ℝ)` with its
+  multiplier, exposed as `positiveSimilitude`; it is the owner of `GSp₄⁺(ℝ)`, and 0.2's
+  `GSpPos 2 ℝ` is the same subgroup of `GL₄(ℝ)` (its Check), the only degree-two real
+  similitude group used here.
+
+### From TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+
+- SR.0.1, SR.0.3–SR.0.4 and SR.1.1–SR.1.3: smoothness, compact-open invariants, admissibility, convolution, double cosets and Hecke modules, on which
+  10.4 builds the paramodular local theory.
+
+### From TauCetiRoadmap.LFunctions
+
+- its *Layer 0* records `AnalyticLFunctionData`
+  and `ArithmeticLFunctionData` with `NormalizationTranslation`; 8.5 fills these records and
+  adds no competing `L`-function card.
+
+### From TauCetiRoadmap.ClassicalGroupsPartII
+
+- its CG.0.1
+  symplectic similitude group, whose points over a commutative algebra `A` of a field of
+  characteristic zero are the `h ∈ GL_{2g}(A)` with `h J hᵀ = ν(h) J` for a unit `ν(h) ∈ Aˣ`,
+  with the multiplier `ν` (a homomorphism, unique for `g ≥ 1`) and the fibre `ν = 1` equal to
+  `Sp_{2g}`. Its `J = [[0, 1], [−1, 0]]` is the negative of Mathlib's `J` under the reindexing
+  `Fin g ⊕ Fin g ≃ Fin (2g)`, which changes neither the group nor `ν`. 0.2 takes the subgroup of
+  `R`-points with `ν > 0` for an ordered field `R`; its multiplier `μ` is `ν` restricted there,
+  and no second multiplier is defined here.
+
+### From TauCetiRoadmap.MetaplecticAutomorphicForms
+
+- its 6.18 `jacobiSpace` at the Jacobi lattice `SL₂(ℤ) ⋉ ℤ²`, integral index `m ≥ 1`, weight `k`
+  and trivial multiplier, holomorphic in `τ` with the cusp condition, which is the carrier
+  `J_{k,m}` on which 9.2–9.6 are stated, read in the classical form of the sibling
+  `HalfIntegralWeightModularForms` 6.1; and its 6.20 `jacobi_thetaDecomposition`, the theta
+  decomposition of 9.2 and 9.5. Four of its objects are identified with objects here by
+  comparison milestones stated in prose: its 8.10 degree-two Siegel space is homeomorphic to `ℍ[2]` by the map keeping the underlying
+  matrix (0.3 below); its 8.11–8.12 coordinates for
+  `AutomorphicFormsOnReductiveGroups` §6.4's `GSp₄⁺(ℝ)` and its action are `GSp⁺₄(ℝ) = GSpPos 2 ℝ`
+  acting as in 0.4; its 8.18 genus-two theta series `θ^a_ν(Z, W)` at `W = 0`,
+  `ν = 0` is the degree-two theta series of the rank-one lattice `√(2a) ℤ` of 5.1; its 8.19
+  half-integral matrix dictionary is the degree-two case of 2.1. Its genuine (half-integral
+  weight) Siegel Eisenstein series (8.76–8.80) and its Whittaker analysis are not objects of this
+  roadmap.
+
+### From TauCetiRoadmap.QSeriesPartitionsAndMockModularForms
+
+- its §9.1 classical theta-component coordinates
+  `θ_{m,μ}(τ, z) = ∑_{r ≡ μ (2m)} e(r²τ/(4m) + rz)`, with their identification with `jacobiTheta₂`
+  at rescaled arguments and the invariance under `μ ↦ μ + 2m`: the coordinates of the theta
+  decomposition in 9.2.
+
+### From TauCetiRoadmap.HalfIntegralWeightModularForms
+
+- the classical form of the carrier `J_{k,m}`
+  (its 6.1: the comparison of MetaplecticAutomorphicForms 6.18's specialization with
+  Eichler–Zagier's two laws and Fourier condition, the dependence of `c(n, r)` on `4nm − r²`, the
+  cusp subspace); the half-integral-weight components `h_μ` of the theta decomposition (6.2);
+  the Hecke-equivariant isomorphism `J_{k,1} ≅ M⁺_{k−1/2}(Γ₀(4)) ≅ M_{2k−2}(SL₂(ℤ))` (6.3,
+  Eichler–Zagier's theta decomposition and Kohnen's isomorphism), consumed by 9.2 for the
+  dimension count and by 9.5 as the identification of the Jacobi eigenvalue system of
+  `φ ∈ J_{k,1}` with that of a degree-one eigenform `f ∈ M_{2k−2}(SL₂(ℤ))`; and the
+  index-raising maps `V_l : J_{k,m} → J_{k,ml}` with Fourier and composition laws
+  (6.4, for positive `l,m`), and the Skoruppa–Zagier correspondence for `J^{cusp}_{k,N}`, `N > 1` (6.4), consumed by the statement
+  of the Gritsenko lift (9.6). No Jacobi carrier is declared here, in prose or in `Suggested.lean`.
+
+### From TauCetiRoadmap.LatticePackingsAndPerfectForms
+
+- Its 5.6: the degree-one theta series `Θ_{L,P}` of an even unimodular lattice with a harmonic polynomial `P` of degree `d > 0`, a cusp form of weight `m/2 + d` on `SL₂(ℤ)`; 5.3 below specializes to it at `g = 1` by comparison and does not reprove it.
+
+### From TauCetiRoadmap.HyperellipticCurves and TauCetiRoadmap.AbelianVarietiesOverFiniteFields
+
+- `HyperellipticCurves` 5.3 (the good Euler factors `L_p(J, X)` of a genus-two Jacobian) and 5.6 (its conductor), and `AbelianVarietiesOverFiniteFields` 1.3 (the `L`-polynomial of an abelian variety over `𝔽_p`, which is `L_p(A, X)` for the reduction of an abelian surface at a good prime): the family of polynomials `(L_p(A, X))_{p ∤ N}` and the conductor `N` that the paramodular conjecture (10.6) is stated against. Nothing about abelian surfaces is defined here.
 
 ## References
 
