@@ -28,7 +28,7 @@ rests on (5.1), the Subspace Theorem in its parametric, algebraic, affine, gener
 subspace forms with its consistency with Layer 3 (6.1, 6.3–6.7), the exponents of an algebraic
 number, Schmidt's two simultaneous-approximation theorems, the combinatorial transcendence criterion
 and the complexity of algebraic irrationals (7.1–7.3), the `S`-unit equations, decomposable-form,
-Thue, Thue–Mahler and hyperelliptic equations and the Corvaja–Zannier gcd bounds (8.1–8.6), and
+Thue and hyperelliptic equations and the Corvaja–Zannier gcd bounds (8.1–8.6), and
 Evertse's Theorem A for systems of inequalities (9.1). Evertse's lemma (4.4) and Roth's theorem as a
 value of the irrationality exponent (3.3) are already Tau Ceti's at the pin (`NumberField.exists_evertse`,
 `IsAlgebraic.irrationalityExponent_eq_two`) and are not restated.
@@ -580,17 +580,6 @@ theorem finite_setOf_eval_homogenize_eq (S : Finset (HeightOneSpectrum (𝓞 K))
     {p : K × K | p.1 ∈ (S : Set (HeightOneSpectrum (𝓞 K))).integer K ∧
       p.2 ∈ (S : Set (HeightOneSpectrum (𝓞 K))).integer K ∧
       MvPolynomial.eval ![p.1, p.2] (g.homogenize d) = m}.Finite :=
-  sorry
-
-open Classical in
-/-- **Layer 8.4** (Mahler 1933; Bombieri–Gubler 5.3.2). Thue–Mahler over `ℤ`: finitely many
-coprime `x, y` and exponents `z` with `|G(x, y)| = ∏ p_k ^ z_k`. -/
-theorem finite_setOf_natAbs_eval_homogenize_eq_prod_pow {g : ℤ[X]} {d : ℕ} (hd : g.natDegree ≤ d)
-    (hg : 3 ≤ (g.map (algebraMap ℤ ℂ)).roots.toFinset.card + if g.natDegree < d then 1 else 0)
-    {s : ℕ} (p : Fin s → ℕ) (hp : ∀ k, (p k).Prime) :
-    {xyz : ℤ × ℤ × (Fin s → ℕ) | IsCoprime xyz.1 xyz.2.1 ∧
-      (MvPolynomial.eval ![xyz.1, xyz.2.1] (g.homogenize d)).natAbs =
-        ∏ k, p k ^ xyz.2.2 k}.Finite :=
   sorry
 
 open Classical in

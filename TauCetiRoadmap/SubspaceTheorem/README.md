@@ -33,13 +33,14 @@ lattice, the places with their normalized absolute values and the product formul
 [SuccessiveMinima](../SuccessiveMinima/README.md), through Tau Ceti, supplies Minkowski's second
 theorem.
 
-The route is Bombieri and Gubler's, Chapters 6 and 7, with their adelic geometry of numbers replaced
-by lattices and convex bodies in a real vector space. Below, Layer 0 classifies the absolute values
-above a place and proves Liouville's inequality; Layer 1 studies the approximation exponents; Layers
-2 and 3 build Roth's auxiliary polynomial over `K` and prove Roth's theorem; Layers 4 and 5 are the
-geometry of numbers of Schmidt's parallelepipeds and the Roth machinery in several blocks of
-variables; Layer 6 is the Subspace Theorem; Layers 7 and 8 apply it to numbers and to equations; and
-Layer 9 counts the subspaces.
+The route is Schmidt's method: Roth's lemma in several blocks of variables against the geometry of
+numbers of a family of parallelepipeds, done with lattices and convex bodies in a real vector space
+rather than adelically. Below, Layer 0 classifies the absolute values above a place and proves
+Liouville's inequality; Layer 1 studies the approximation exponents; Layers 2 and 3 build Roth's
+auxiliary polynomial over `K` and prove Roth's theorem; Layers 4 and 5 are the geometry of numbers
+of Schmidt's parallelepipeds and the Roth machinery in several blocks of variables; Layer 6 is the
+Subspace Theorem; Layers 7 and 8 apply it to numbers and to equations; and Layer 9 counts the
+subspaces.
 
 ## How to read the build
 
@@ -68,11 +69,14 @@ milestone here is stated against that target's statement and built regardless.
    characteristic has a product formula and Weil heights, while Roth's theorem fails there for one
    place and one target (Bombieri–Gubler 6.2.8).
 2. **Points and subspaces.** Points are tuples `x : ι → K` with `[Fintype ι]`, following
-   `Height.mulHeight`; the dimension `n + 1` of the literature is `Fintype.card ι`. Every form of
-   the Subspace Theorem carries `[Nontrivial ι]`, that is `n ≥ 1`: for a one-element `ι` the only
-   proper subspace is `0`, every nonzero `x` has height `1`, the hypothesis can hold, and the
-   statement is false there rather than empty. Subspaces are `Submodule K (ι → K)`, never
-   `Module.Grassmannian` or `Projectivization.Subspace`, because the subspace height of Tau Ceti
+   `Height.mulHeight`; the dimension `n + 1` of the literature is `Fintype.card ι`. The forms of the
+   Subspace Theorem on all of `ι → K` with a smallness hypothesis on the solutions (6.2–6.5 and
+   9.1) carry `[Nontrivial ι]`, that is `n ≥ 1`: for a one-element `ι` the only proper subspace is
+   `0`, every nonzero `x` has height `1`, the hypothesis can hold, and the statement is false there
+   rather than empty. 3.4 fixes `card ι = 2` and 6.7 asks `2 ≤ finrank K U` of its subspace instead;
+   the parametric theorem 6.1 needs none, since for a one-element `ι` its domain is `0` at large
+   levels. Subspaces are `Submodule K (ι → K)`, never `Module.Grassmannian` or
+   `Projectivization.Subspace`, because the subspace height of Tau Ceti
    (`Submodule.relativeSubspaceHeight`) is defined on `Submodule`.
 3. **A finite set of places** is a pair of typed finsets, `Sinf : Finset (InfinitePlace K)` and
    `Sfin : Finset (FinitePlace K)`, in the shape of Mathlib's `NumberField.mulHeight_eq` (a product
@@ -508,8 +512,8 @@ ownership). *Needs:* 1.1, 1.2; Tau Ceti `IsAlgebraic.mahlerExponent_le`,
 **Checks.**
 - A rational number has every `w_n = 0` (a nonzero integer polynomial vanishing at it is excluded
   by the definition, and every other value is at least the inverse of a denominator power), so it is
-  an `A`-number; `√2` has `w_n ≤ 1` for all `n`, so `w = 0`; a definition of `A` as "`w_n` bounded"
-  would agree here but the `limsup` of `w_n / n` is what makes the four classes exhaust `ℝ`.
+  an `A`-number; `√2` has `w_n ≤ 1` for all `n`, so `w = 0`, while `w_1(√2) = 1`: a definition of
+  `A` as "every `w_n = 0`" would leave `√2` out, against `isANumber_iff`.
 - Mathlib's Liouville constant `∑ 10^(−k!)` is a `U`-number with `w_1 = ⊤`.
 
 ### Examples
@@ -528,8 +532,8 @@ used.
 ## Layer 2: the auxiliary polynomial over a number field
 
 The non-vanishing technology Layers 3 and 5 share. The Hasse derivative, the weighted index and
-Roth's lemma are Tau Ceti's; this layer adds the two estimates Bombieri–Gubler's Chapter 6 needs
-beyond them.
+Roth's lemma are Tau Ceti's; this layer adds the two estimates Layer 3 needs beyond them, the
+first of which Layer 5 also uses.
 
 ### 2.1 Counting and volume
 
@@ -547,8 +551,9 @@ beyond them.
   `TauCeti.simplexVolume_eq_zero_of_neg`, `TauCeti.simplexVolume_one`).
 
 Prove:
-- *the exponential-moment estimate*: for a nonnegative integrable weight `g` on the line, `λ > 0` and
-  `s : ℝ`, `∫_{∑ x j ≤ s} ∏ j, g (x j) ≤ exp (λ s) (∫ exp (−λ x) g x)^m`, decoupled by Mathlib's
+- *the exponential-moment estimate*: for a nonnegative integrable weight `g` on the line, `λ > 0`
+  with `x ↦ exp (−λ x) g x` integrable, and `s : ℝ`,
+  `∫_{∑ x j ≤ s} ∏ j, g (x j) ≤ exp (λ s) (∫ exp (−λ x) g x)^m`, decoupled by Mathlib's
   `MeasureTheory.integral_fintype_prod_volume_eq_pow`; applied at the indicator of `[0, 1]` it gives
   the tail above, and at the Beta density the next item;
 - *the multihomogeneous tail*: for `1 ≤ n` and `0 ≤ η`, the proportion of exponent tuples `J` of
@@ -1523,9 +1528,11 @@ Prove (Schmidt 1972; Schlickewei 1977; Bombieri–Gubler, Theorem 7.2.2 with `F 
 and in `Sfin`, and `ε > 0`, there is a finite set of proper subspaces of `ι → K` containing every
 `x ≠ 0` with `approxProd Sinf Sfin L x ≤ mulHeight x ^ (−card ι − ε)`, the absolute values being the
 places themselves; and its inclusion form, that the set of such `x` lies in the union of a finite
-set of proper subspaces. *Route*, with no new definition: 5.1's package, then 6.1 for each of its
-finitely many exponent systems (their levels combined by one `max`, with no uniformity), the
-kernels of the forms for the solutions where a form vanishes, and Tau Ceti's
+set of proper subspaces. As a statement it is 6.3's
+`exists_finset_submodule_of_approxProd_le_extension` at `F = K` and `w v = v`, the name under which
+a consumer cites it; 6.3 is proved from it. *Route*, with no new definition: 5.1's package, then 6.1
+for each of its finitely many exponent systems (their levels combined by one `max`, with no
+uniformity), the kernels of the forms for the solutions where a form vanishes, and Tau Ceti's
 `Projectivization.instNorthcottMulHeight` for the solutions of small height. Those are finitely many
 *projective* points, each contributing the line it spans; the tuples of bounded height are never
 finite in number. A line is proper because `ι` is nontrivial. The normalizing scalars of 5.1 never
@@ -1816,8 +1823,9 @@ weak form), 6.3; Mathlib `Real.ofDigits`, `Real.abs_ofDigits_sub_ofDigits_le`, `
 - `∑_{j ≥ 0} 10^(−(2^j + 1))` is `Real.ofDigits a` in base `10` for the digits `a k = 1` when `k` is
   a power of `2` and `0` otherwise. It is stammering with `w = 3`: take `U` the first `2^j + 1`
   digits and `V` a block of `⌊(2^j − 1) / 3⌋` zeros, so that `U V V V` is a prefix and
-  `|U| ≤ 4 |V|` for `j ≥ 3`; and `a` is not eventually periodic, its gaps growing. The criterion, the
-  `w > 2` form and the working form each prove it transcendental.
+  `|U| ≤ 4 |V|` for `j ≥ 4` (at `j = 3`, `|U| = 9 > 8 = 4 |V|`); and `a` is not eventually periodic,
+  its gaps growing. The criterion, the `w > 2` form and the working form each prove it
+  transcendental.
 - The constant sequence `0` is stammering with value `0`, which is algebraic; it is excluded only by
   the periodicity hypothesis.
 - Every sequence satisfies the condition at `w = 1`, with `U k` empty and `V k` the prefix of length
@@ -1852,7 +1860,9 @@ Mathlib `Set.ncard`, `Set.injOn_of_ncard_image_eq`, `Real.ofDigits`.
   which `Set.ncard` counts as `0`, so `complexity id 1 = 0` while `complexity id 0 = 1`, and
   monotonicity fails.
 - The binary digits of `∑_{k ≥ 0} 2^(−2^k)` (a `1` exactly at the positions `2^k − 1`) have
-  complexity at most `3n + 1`, with equality for some `n` (computed for `n < 400`), so the number is
+  complexity at most `2n` for every `n ≥ 1`: besides `0^n` and the `n` factors with one `1`, a factor
+  of length `n` with two `1`s starts at some `i ≤ n − 2`, since the `1` after a position `2^k − 1 ≥ i`
+  is at `2^(k+1) − 1 ≥ 2i + 1`. The values for `n = 1, …, 5` are `2, 4, 6, 7, 9`. So the number is
   transcendental by the theorem.
 - The constant sequence `0` has algebraic (rational) value and `complexity = 1`, so
   `complexity a n / n → 0`: irrationality is needed.
@@ -1973,11 +1983,9 @@ Bombieri–Gubler 5.3.1–5.3.2). Prove:
   with `x, y ∈ S.integer K`; DiophantineApproximationAndTranscendence §1.6's Thue theorem over `ℤ`
   is the case `K = ℚ`, `S = ∅`;
 - the `S`-integral `(x, y)` with `G(x, y) ∈ S.unit K` are `S`-unit multiples of finitely many
-  solutions;
-- *Thue–Mahler over `ℤ`*, `finite_setOf_natAbs_eval_homogenize_eq_prod_pow`: for `g ∈ ℤ[X]` with
-  the hypothesis over `ℂ` and primes `p_1, …, p_s`, only finitely many coprime `x, y` and exponents
-  `z` satisfy `|G(x, y)| = ∏_k p_k^(z_k)`; DiophantineApproximationAndTranscendence §2.3's Thue–Mahler
-  theorem.
+  solutions; at `K = ℚ`, with `S` the primes `p_1, …, p_s`, this gives
+  DiophantineApproximationAndTranscendence §2.3's Thue–Mahler theorem over `ℤ` (finitely many
+  coprime `x, y` with `|G(x, y)| = ∏_k p_k^(z_k)`), for `G` square-free or not.
 
 *Route*: over the splitting field `L`, `G` is a constant times powers of pairwise non-proportional
 binary linear forms; three such forms are triangularly connected, since two span the dual of `L²`
@@ -2092,8 +2100,8 @@ the counts of unit equations consume them from one place (Evertse 1984, §2; Sch
   archimedean constants (the factor to the power `mult v / [K : ℚ]`) in the product. The
   coefficients are normalized by Minkowski's bound on ideal classes, and a prime above `2` has norm
   at most `2^[K : ℚ]`.
-- *Subclasses*: if `0 < u p i ≤ 1` for `p` in a finite set `P` and `i ∈ ι`, with product `b`, and
-  `N ≥ 1`, there are natural numbers `k p i` with `u p i ≤ b^(k p i / N)` and
+- *Subclasses*: if `0 < u p i ≤ 1` for `p` in a nonempty finite set `P` and `i` in a nonempty `ι`,
+  with product `b`, and `N ≥ 1`, there are natural numbers `k p i` with `u p i ≤ b^(k p i / N)` and
   `∑ k p i / N ≥ 1 − #P · card ι / N`.
 
 *Needs:* Layer 0 (0.3); Tau Ceti `TauCeti.house`, `Set.mem_integer_iff_finitePlace`,
@@ -2102,7 +2110,8 @@ the counts of unit equations consume them from one place (Evertse 1984, §2; Sch
 **Checks.**
 - *Subclasses*, `b < 1`: with `θ = log u / log b ∈ [0, 1]` summing to `1`, `k = ⌊N θ⌋` gives
   `u ≤ b^(k/N)` (as `k/N ≤ θ` and `b < 1`) and `∑ k / N ≥ ∑ (θ − 1/N) = 1 − #P · card ι / N`; rounding
-  up instead would violate `u ≤ b^(k/N)`.
+  up instead would violate `u ≤ b^(k/N)`. At `b = 1` every `u = 1` and `k = N` works. For empty `P`
+  or `ι` there is no `k`, the sum is `0` and the bound `1`: nonemptiness is needed.
 - `H(y, −∑ y) ≤ (card ι)^[K : ℚ] H(y)`: over `ℚ` with `y = (1, 1)` the left side is
   `H(1, 1, −2) = 2` and the right side `2 · 1 = 2`, so the constant `card ι` cannot be lowered.
 
@@ -2739,12 +2748,10 @@ Consumed as stated there, by section:
 ## References
 
 - E. Bombieri and W. Gubler, *Heights in Diophantine Geometry*, Cambridge New Mathematical Monographs
-  4, 2006. The reference for the whole roadmap: §1.3 extensions of absolute values; §1.5 the
-  fundamental and Liouville inequalities; Chapter 5 the unit equation, Thue–Mahler and the
-  hyperelliptic equation; Chapter 6 Roth's theorem and its proof (6.3–6.5); Chapter 7 the Subspace
-  Theorem (7.2), its applications (7.3–7.4) and its proof (7.5, Steps 0–IX); Appendix C.2. Layer 4
-  replaces the adelic part of 7.5 and nothing else, and the route takes 7.5.3 (Step 0, `F = K`) with
-  Remark 7.2.3.
+  4, 2006. Cited for: §1.3 extensions of absolute values; §1.5 the fundamental and Liouville
+  inequalities; Chapter 5 the unit equation, Thue–Mahler and the hyperelliptic equation; Chapter 6
+  Roth's theorem and its proof (6.3–6.5); Chapter 7 the Subspace Theorem (7.2), its applications
+  (7.3–7.4) and its proof (7.5); Appendix C.2.
 - W. M. Schmidt, "Norm form equations", *Ann. of Math.* **96** (1972), 526–551; "Simultaneous
   approximation to algebraic numbers by rationals", *Acta Math.* **125** (1970), 189–201; *Diophantine
   Approximation*, LNM 785, Springer, 1980; *Diophantine Approximations and Diophantine Equations*,
