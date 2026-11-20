@@ -125,7 +125,7 @@ unconditional form used in 2.1.
 - For independent events of probability `p` with trivial `𝒢₀` and `δ = Np`, the right side is
   `Np ≥ 1 − (1 − p)^N`, the union bound.
 
-*Needs:* 1.1; Mathlib `MeasureTheory.condExp`. (Durrett's induction on `N`.)
+*Needs:* Mathlib `MeasureTheory.condExp`. (Durrett's induction on `N`.)
 
 ### 1.3 McLeish's theorem
 
@@ -373,9 +373,9 @@ natural filtration of the path, by Tau Ceti's Markov property
 `MeasureTheory.Measure.condExp_shift_iterate_markovChainLaw`, and
 `∑_{j<n} (f(ω j) − E_π f) = ∑_{j<n} Mⱼ + g(ω 0) − g(ω n)`. The conditional variance of `Mⱼ` is
 `h(ω j)` with `h = P(g²) − (P g)²`, and `n⁻¹ ∑_{j<n} h(ω j) → E_π h = σ²` almost surely by the
-ergodic theorem for occupation frequencies (MarkovChainsAndRenewal Layer 2, item 4, where the
-chain reaches every state almost surely by its Layer 2, item 3, with
-`π{y} = 1/E_y[return time]` from its Layer 3, item 2); `E_π h = E_π[g²] − E_π[(P g)²]` by
+ergodic theorem for occupation frequencies (MarkovChainsAndRenewal Layer 2, occupation
+frequencies, where the chain reaches every state almost surely by its Layer 2, class properties,
+with `π{y} = 1/E_y[return time]` from its Layer 3, invariant probabilities); `E_π h = E_π[g²] − E_π[(P g)²]` by
 stationarity. The increments are bounded, so the Lindeberg condition of 3.1 holds, and 3.1 gives
 the martingale part; the boundary term `(g(ω 0) − g(ω n))/√n` tends to `0` uniformly.
 
@@ -400,8 +400,11 @@ the martingale part; the boundary term `(g(ω 0) − g(ω n))/√n` tends to `0`
 *Needs:* 3.1; Tau Ceti `TauCeti.Probability.markovChainLaw`,
 `MeasureTheory.Measure.condExp_shift_iterate_markovChainLaw`; Mathlib
 `MeasureTheory.Filtration.piLE`, `Kernel.Invariant`, `Kernel.IsIrreducible`,
-`tendstoInDistribution_of_tendstoInMeasure_sub`; MarkovChainsAndRenewal Layer 2, items 3 and 4,
-and Layer 3, item 2.
+`tendstoInDistribution_of_tendstoInMeasure_sub`; MarkovChainsAndRenewal Layer 2, class properties
+and occupation frequencies (items 3 and 4; 2.3 and 2.4 in the sectioned numbering), and Layer 3,
+invariant probabilities (item 2; 3.2). On a finite state space with measurable singletons,
+`Kernel.IsIrreducible Measure.count κ` is that roadmap's irreducibility (every pair of states
+communicates): a set has positive counting measure exactly when it is nonempty.
 
 ### Examples
 
@@ -412,7 +415,8 @@ The two-state chain with `κ(a, b) = p`, `κ(b, a) = q`, `p, q ∈ (0, 1]`, and 
 ### Dependencies
 
 Layer 4 uses 3.1, Tau Ceti's path law and Markov property, Mathlib's Slutsky lemma, and
-MarkovChainsAndRenewal Layer 2, items 3 and 4, and Layer 3, item 2.
+MarkovChainsAndRenewal Layer 2, class properties and occupation frequencies (items 3 and 4; 2.3
+and 2.4 in the sectioned numbering), and Layer 3, invariant probabilities (item 2; 3.2).
 
 ## Scope and ownership
 
@@ -483,8 +487,8 @@ for mixing sequences.
   distributed case, cited in the Checks of 3.1 and 3.2).
 - `Mathlib/Dynamics/Ergodic/Ergodic.lean`: `Ergodic f μ` (measure preserving, and invariant
   measurable sets are null or conull). `Mathlib/Dynamics/Ergodic/Function.lean`:
-  `Ergodic.ae_eq_const_of_ae_eq_comp_ae` (an almost everywhere invariant function into a
-  countably separated space is almost everywhere constant).
+  `Ergodic.ae_eq_const_of_ae_eq_comp_ae` (an almost everywhere strongly measurable, almost
+  everywhere invariant function into a nonempty metrizable space is almost everywhere constant).
 - `Mathlib/Probability/Kernel/Invariance.lean`: `ProbabilityTheory.Kernel.Invariant κ π`.
   `Mathlib/Probability/Kernel/Irreducible.lean`: `ProbabilityTheory.Kernel.IsIrreducible φ κ`,
   used with `φ = Measure.count`.
@@ -505,12 +509,15 @@ for mixing sequences.
 
 ### From TauCetiRoadmap.MarkovChainsAndRenewal
 
-- Layer 2, item 4: for every initial law and every state `y`, the occupation frequency
-  `n⁻¹ #{1 ≤ j ≤ n : X j = y}` tends almost surely to
+- Layer 2, occupation frequencies (item 4; 2.4 in the sectioned numbering): for every initial
+  law and every state `y`, the occupation frequency `n⁻¹ #{1 ≤ j ≤ n : X j = y}` tends almost
+  surely to
   `1{the chain reaches y} / E_y[return time to y]`.
-- Layer 2, item 3: a finite closed communicating class is positive recurrent, and an irreducible
-  recurrent chain reaches every state almost surely from every initial law.
-- Layer 3, item 2: an irreducible positive recurrent chain has a unique invariant probability,
+- Layer 2, class properties (item 3; 2.3 in the sectioned numbering): a finite closed
+  communicating class is positive recurrent, and an irreducible recurrent chain reaches every
+  state almost surely from every initial law.
+- Layer 3, invariant probabilities and Kac's formula (item 2; 3.2 in the sectioned numbering): an
+  irreducible positive recurrent chain has a unique invariant probability,
   with `π{x} = 1/E_x[return time to x]`.
 
 ## References
@@ -522,12 +529,12 @@ for mixing sequences.
   (8.2.3) on pp. 400–401, Theorem 8.2.8 on p. 401), and §8.3, pp. 402–405 (Theorem 8.3.1 on
   p. 402, Example 8.3.4 on p. 405). Page numbers are those printed in that file.
 - D. L. McLeish, Dependent central limit theorems and invariance principles, *Annals of
-  Probability* 2 (1974), 620–628. Attributed in prose only; no locator is given.
+  Probability* 2 (1974), 620–628. Cited for attribution.
 - B. M. Brown, Martingale central limit theorems, *Annals of Mathematical Statistics* 42 (1971),
   59–66; P. Hall and C. C. Heyde, *Martingale Limit Theory and Its Application*, Academic Press,
-  1980. Attributed in prose only; no locator is given.
+  1980. Cited for attribution.
 - P. Billingsley, The Lindeberg–Lévy theorem for martingales, *Proceedings of the American
   Mathematical Society* 12 (1961), 788–792; I. A. Ibragimov, A central limit theorem for a class
   of dependent random variables, *Theory of Probability and its Applications* 8 (1963), 83–89;
   M. I. Gordin, The central limit theorem for stationary processes, *Soviet Mathematics Doklady*
-  10 (1969), 1174–1176. Attributed as Durrett attributes them; not consulted.
+  10 (1969), 1174–1176. Cited for attribution, as Durrett attributes them.
