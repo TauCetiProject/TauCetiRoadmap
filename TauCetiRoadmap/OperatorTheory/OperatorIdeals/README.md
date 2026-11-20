@@ -6,8 +6,10 @@ counted from zero, so that `a₀(T) = ‖T‖`. On finite-dimensional inner prod
 singular values. This roadmap develops their calculus and their Hilbert-space theory, builds from
 them the Ky Fan, trace-class, Hilbert–Schmidt and Schatten ideals by one construction from
 symmetric gauges on sequences, and describes the Hilbert–Schmidt operators by square-summable
-columns. Statements about norms and rank hold over any nontrivially normed field; those using
-inner products or adjoints are over `ℝ` or `ℂ`, and say which spaces must be complete.
+columns. Statements about norms and rank hold over any nontrivially normed field unless a section
+says otherwise: the rank characterization needs a complete field, and the compactness criteria a
+locally compact one. Those using inner products or adjoints are over `ℝ` or `ℂ`, and say which
+spaces must be complete.
 
 The first main theorem characterizes compactness: if `F` is a Hilbert space over `ℝ` or `ℂ`, a
 bounded operator from a normed space into `F` is compact exactly when its approximation numbers
@@ -29,7 +31,7 @@ inner product spaces are the generalized decreasing merge of those of the two bl
 
 The roadmap takes the operator modulus `|T| = √(T†T)` from
 [PolarDecomposition](../PolarDecomposition/README.md), and finite-dimensional Ky Fan sums,
-unitarily invariant seminorms and the Frobenius seminorm from
+unitarily invariant seminorms and the operator-norm, nuclear and Frobenius seminorms from
 [Majorization](../Majorization/README.md). Its approximation numbers are the ones
 [SNumbers](../../SNumbers/README.md) compares with the other s-number sequences on Banach spaces;
 its trace class and Hilbert–Schmidt class carry the trace of
@@ -63,7 +65,8 @@ unrelated section.
 
 1. **Scalars and spaces.** Where a statement involves only norms and rank, `𝕜` is a nontrivially
    normed field and the spaces are seminormed spaces over it (Mathlib `SeminormedAddCommGroup` with
-   `NormedSpace 𝕜`), in arbitrary and possibly different universes. Statements that use an inner
+   `NormedSpace 𝕜`), in arbitrary and possibly different universes; a statement that needs a
+   complete or locally compact field, or normed spaces, says so. Statements that use an inner
    product, an adjoint, an orthogonal projection or singular values are over `𝕜` with `RCLike 𝕜`,
    that is `ℝ` or `ℂ`. A *Hilbert space* is a complete inner product space; each statement says which
    of its spaces must be complete. Bounded maps are `E →L[𝕜] F`, with operator norm `‖T‖`, its
@@ -81,7 +84,7 @@ unrelated section.
    with multiplicity, indexed from zero, and zero from the dimension of the source on.
 5. **Ky Fan gauges.** `Kₖ(T) = a₀(T) + ⋯ + aₖ₋₁(T)`, Tau Ceti's `ContinuousLinearMap.kyFanGauge T k`,
    with `K₀(T) = 0`. In finite dimension the Ky Fan sum `σ₀(T) + ⋯ + σₖ₋₁(T)` is Tau Ceti's
-   `LinearMap.kyFanSum` (Majorization, MAJ-A26).
+   `LinearMap.kyFanSum` (Majorization, section *Ky Fan sums*).
 6. **Gauges and ideals.** Operator gauges take values in `ℝ≥0∞`, and the operators of finite gauge
    form the ideal. The four laws of an operator-ideal gauge `Φ` are subadditivity
    `Φ(S + T) ≤ Φ(S) + Φ(T)`, absolute homogeneity `Φ(cT) = ‖c‖ₑ Φ(T)` (with `0 · ∞ = 0`),
@@ -109,16 +112,19 @@ unrelated section.
 
 For a bounded map `T : E → F` between seminormed spaces over a nontrivially normed field, the
 approximation numbers `aₙ(T)` of Convention 3 are `ContinuousLinearMap.singularValue` (OI-A01;
-Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn). Two bounded maps `S : E → F` and
-`T : G → H`, possibly between different pairs of spaces, *have the same approximation numbers*
+Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn; Ullrich 2024, p. 2, one-based, on Banach
+spaces). Two bounded maps `S : E → F` and `T : G → H`, possibly between different pairs of spaces,
+*have the same approximation numbers*
 when `aₙ(S) = aₙ(T)` for every `n`; this relation is `ContinuousLinearMap.SameSingularValues`
 (OI-A02, unfolded by `ContinuousLinearMap.sameSingularValues_iff`), and it is reflexive (OI-A03,
 `ContinuousLinearMap.sameSingularValues_refl`), symmetric (OI-A04,
 `ContinuousLinearMap.sameSingularValues_symm`) and transitive (OI-A05,
 `ContinuousLinearMap.sameSingularValues_trans`).
 The Ky Fan gauge `Kₖ(T)` of Convention 5 is `ContinuousLinearMap.kyFanGauge`, in the same setting
-(OI-A06). The calculus below holds in this generality (Pietsch, *Eigenvalues and s-Numbers*;
-Ullrich 2024 for inequalities between s-numbers).
+(OI-A06). The calculus below holds in this generality (Pietsch, *Eigenvalues and s-Numbers*). On
+Banach spaces and in the one-based convention, OI-A12 with OI-A13, OI-A16 and OI-A20 are the
+s-number axioms (S1), (S2) and (S3) of Ullrich 2024, p. 2, which the approximation numbers
+satisfy, and Remark 1 there states OI-A17 and OI-A22.
 
 - *Infimum formula* (OI-A07). `aₙ(T)` is the greatest lower bound of the set of `‖T − R‖` over the
   bounded `R` with `rank R ≤ n` (`ContinuousLinearMap.isGLB_singularValue`).
@@ -170,8 +176,9 @@ The vanishing of `aₙ(T)` encodes rank, and its decay encodes approximability b
 rank (Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn).
 
 - *Vanishing from rank* (OI-A23). If `rank T ≤ n`, then `aₙ(T) = 0`
-  (`ContinuousLinearMap.singularValue_eq_zero_of_rank_le`); in particular `aₙ(T) = 0` as soon as
-  the source has rank at most `n` (`ContinuousLinearMap.singularValue_eq_zero_of_rank_domain_le`).
+  (`ContinuousLinearMap.singularValue_eq_zero_of_rank_le`; axiom (S5) of Ullrich 2024, p. 2); in
+  particular `aₙ(T) = 0` as soon as the source has rank at most `n`
+  (`ContinuousLinearMap.singularValue_eq_zero_of_rank_domain_le`).
 - *Rank characterization* (OI-A24). Over a complete nontrivially normed field and for normed
   spaces, `aₙ(T) = 0` exactly when `rank T ≤ n`
   (`ContinuousLinearMap.singularValue_eq_zero_iff_rank_le`). No finite dimension is assumed; the
@@ -305,8 +312,8 @@ sums of singular values (Bhatia, *Matrix Analysis*; Eckart and Young 1936).
   product spaces, `|σₙ(A) − σₙ(B)| ≤ ‖A − B‖` for every `n`
   (`LinearMap.abs_singularValues_sub_singularValues_le`).
 
-*Needs:* §§1.1, 1.3, 1.4; Majorization MAJ-A26 (Tau Ceti `LinearMap.kyFanSum`); Mathlib
-`LinearMap.singularValues`; Tau Ceti the declarations named above.
+*Needs:* §§1.1, 1.3, 1.4; Majorization, section *Ky Fan sums* (Tau Ceti `LinearMap.kyFanSum`);
+Mathlib `LinearMap.singularValues`; Tau Ceti the declarations named above.
 
 **Checks.**
 - With `S = diag(1, 0)` and `T = diag(0, 1)` on `𝕜²` as in §1.1, `K₁(S + T) = 1 ≤ 2` and
@@ -359,8 +366,8 @@ the declarations named above.
 
 ### Examples
 
-- The identity of `ℓ²(ℕ, 𝕜)` has `aₙ = 1` for every `n` (OI-A51 with `r = ℵ₀`), so it is not
-  compact (OI-A29) and its Ky Fan gauges are `Kₖ = k`.
+- The identity of `ℓ²(ℕ, 𝕜)` has `aₙ = 1` for every `n` (OI-A51, the rank `r` being infinite, in
+  fact `2^ℵ₀`), so it is not compact (OI-A29) and its Ky Fan gauges are `Kₖ = k`.
 - The diagonal operator on `ℓ²(ℕ, 𝕜)` with coefficients `1/(n + 1)` has `aₙ = 1/(n + 1)` (OI-A55),
   is compact (OI-A56), has infinite rank (OI-A24), and its Ky Fan gauge `Kₖ` is the harmonic number
   `1 + 1/2 + ⋯ + 1/k`.
@@ -371,10 +378,10 @@ the declarations named above.
 
 ### Dependencies
 
-PolarDecomposition PD-A36, the bounded-operator modulus, for §1.3. Majorization MAJ-A26, the Ky Fan
-sums of a finite-dimensional linear map, for §1.5. Mathlib bounded linear maps, rank, adjoints,
-orthogonal projections, compact operators and `LinearMap.singularValues`. Tau Ceti the
-approximation numbers and the declarations named in §§1.1–1.6.
+PolarDecomposition PD-A36, the bounded-operator modulus, for §1.3. Majorization, section *Ky Fan
+sums*: the Ky Fan sums of a finite-dimensional linear map, for §1.5. Mathlib bounded linear maps,
+rank, adjoints, orthogonal projections, compact operators and `LinearMap.singularValues`. Tau Ceti
+the approximation numbers and the declarations named in §§1.1–1.6.
 
 ## Layer 2: symmetric operator ideals and Schatten norms
 
@@ -466,7 +473,7 @@ Hilbert–Schmidt gauge comes from the energy of the columns (Pietsch, *Operator
 - *Adjoint swap* (OI-B34). For `T` between Hilbert spaces and Hilbert bases `b` of the source and
   `c` of the target, `E_c(T†) = E_b(T)` (`ContinuousLinearMap.hilbertSchmidtEnergy_adjoint`): both
   are the double sum of OI-B33, and the exchange of the two `ℝ≥0∞`-valued sums (Mathlib
-  `ENNReal.tsum_comm`) is the whole content.
+  `tsum_comm`) is the whole content.
 - *Basis independence* (OI-B35). For `T` between Hilbert spaces, `E_b(T)` does not depend on the
   Hilbert basis `b` of the source (`ContinuousLinearMap.hilbertSchmidtEnergy_indep`).
 - *Hilbert–Schmidt norm* (OI-B36). For `T` between Hilbert spaces, `‖T‖_HS = √(E_b(T))` on
@@ -499,7 +506,7 @@ Hilbert–Schmidt gauge comes from the energy of the columns (Pietsch, *Operator
   (`TauCeti.OperatorIdealFamily.hilbertSchmidt_isComplete`). Its symmetric form is
   `TauCeti.SymmetricOperatorIdealFamily.hilbertSchmidt`.
 
-*Needs:* §2.1; §1.1 and OI-A48; Mathlib `HilbertBasis`, `ENNReal.tsum_comm`, `ENNReal.rpow`; Tau
+*Needs:* §2.1; §1.1 and OI-A48; Mathlib `HilbertBasis`, `tsum_comm`, `ENNReal.rpow`; Tau
 Ceti the declarations named above.
 
 **Checks.**
@@ -536,10 +543,12 @@ Analysis*).
   dominant.
 - *Finite-dimensional Schatten norm* (OI-B47). For finite-dimensional inner product spaces `E`, `F`
   over `ℝ` or `ℂ` and real `p ≥ 1`, `‖T‖_p = (∑_{i < dim E} σᵢ(T)^p)^(1/p)` defines a unitarily
-  invariant seminorm on linear maps `E → F` in the sense of Majorization (MAJ-B01, Tau Ceti's
-  `TauCeti.UnitarilyInvariantSeminorm`). It is `TauCeti.UnitarilyInvariantSeminorm.schatten 𝕜 E F p`,
-  for `p : ℝ≥0∞` with `1 ≤ p`, with the formula for finite `p`
-  (`TauCeti.UnitarilyInvariantSeminorm.schatten_apply_of_ne_top`) and the operator norm at `p = ∞`
+  invariant seminorm on linear maps `E → F` in the sense of Majorization (section *Rectangular
+  seminorms and transport*, Tau Ceti's `TauCeti.UnitarilyInvariantSeminorm`). It is
+  `TauCeti.UnitarilyInvariantSeminorm.schatten 𝕜 E F p`, for `p : ℝ≥0∞` with `1 ≤ p`, with the
+  formula for finite `p` (`TauCeti.UnitarilyInvariantSeminorm.schatten_apply_of_ne_top`), and at
+  `p = ∞` it is the operator-norm seminorm of Majorization (section *Concrete rectangular
+  seminorms*, Tau Ceti's `TauCeti.UnitarilyInvariantSeminorm.opNorm`)
   (`TauCeti.UnitarilyInvariantSeminorm.schatten_top`).
 - *Laws* (OI-B48–OI-B51). `‖·‖_p` is subadditive, being a seminorm (OI-B48); it vanishes only at `0`
   (`TauCeti.UnitarilyInvariantSeminorm.schatten_apply_eq_zero_iff`, OI-B49); `‖T†‖_p = ‖T‖_p`
@@ -549,17 +558,20 @@ Analysis*).
   every `x` then `‖AC‖_p ≤ c ‖A‖_p` (`TauCeti.UnitarilyInvariantSeminorm.schatten_comp_le_right`),
   and the two combine (`TauCeti.UnitarilyInvariantSeminorm.schatten_comp_comp_le`); the factors may
   change the source and target spaces.
-- *Nuclear endpoint* (OI-B52). At `p = 1`, `‖T‖₁ = ∑ᵢ σᵢ(T)` is the nuclear seminorm
-  (`TauCeti.UnitarilyInvariantSeminorm.schatten_one`, for `TauCeti.UnitarilyInvariantSeminorm.nuclear`).
+- *Nuclear endpoint* (OI-B52). At `p = 1`, `‖T‖₁ = ∑ᵢ σᵢ(T)` is the nuclear seminorm of
+  Majorization (section *Concrete rectangular seminorms*, Tau Ceti's
+  `TauCeti.UnitarilyInvariantSeminorm.nuclear`) (`TauCeti.UnitarilyInvariantSeminorm.schatten_one`).
 - *Frobenius endpoint* (OI-B54). At `p = 2`, `‖T‖₂` is the Frobenius seminorm of Majorization
-  (MAJ-B31, Tau Ceti's `TauCeti.UnitarilyInvariantSeminorm.frobenius`)
-  (`TauCeti.UnitarilyInvariantSeminorm.schatten_two`).
+  (section *Concrete rectangular seminorms*, Tau Ceti's
+  `TauCeti.UnitarilyInvariantSeminorm.frobenius`) (`TauCeti.UnitarilyInvariantSeminorm.schatten_two`).
 - *Finite-dimensional energy identity* (OI-B55). For a finite-dimensional source,
   `E_b(T) = ENNReal.ofReal (‖T‖_F²)` (`ContinuousLinearMap.hilbertSchmidtEnergy_eq_ofReal_sq_frobenius`).
 
-*Needs:* §§2.1, 2.2; §1.5 (OI-A49); Majorization MAJ-B01 and MAJ-B31 (Tau Ceti
-`TauCeti.UnitarilyInvariantSeminorm`, `TauCeti.UnitarilyInvariantSeminorm.frobenius`); Mathlib
-`LinearMap.singularValues`; Tau Ceti the declarations named above.
+*Needs:* §§2.1, 2.2; §1.5 (OI-A49); Majorization, sections *Rectangular seminorms and transport*
+(Tau Ceti `TauCeti.UnitarilyInvariantSeminorm`) and *Concrete rectangular seminorms* (Tau Ceti
+`TauCeti.UnitarilyInvariantSeminorm.opNorm`, `TauCeti.UnitarilyInvariantSeminorm.nuclear`,
+`TauCeti.UnitarilyInvariantSeminorm.frobenius`); Mathlib `LinearMap.singularValues`; Tau Ceti the
+declarations named above.
 
 **Checks.**
 - For `T = diag(3, 4)` on `𝕜²`, `σ(T) = (4, 3)`, so `‖T‖₁ = 7`, `‖T‖₂ = 5`, which is the Frobenius
@@ -613,12 +625,22 @@ supported sequences; applied to the approximation numbers it gives an operator-i
   **Target:** prove it for `𝕜` in an arbitrary universe `u` and families over sources in an
   arbitrary universe `v` and targets in an arbitrary universe `w`, `symmetricGaugeFamily_injective`.
   A route: if `a 0 = ∞` both sides are `∞` by OI-B59; otherwise `a` is the approximation-number
-  sequence of a diagonal operator on `ℓ²(ℕ, 𝕜)` (OI-A55), carried by
-  linear isometric equivalences to a Hilbert space over `𝕜` in universe `v` and one in universe
-  `w`, under which approximation numbers do not change
-  (`ContinuousLinearMap.singularValue_comp_linearIsometryEquiv`). *Needs:* OI-A55, OI-B59, OI-B65;
-  Tau Ceti `lp.exists_singularValue_diagonalCLM_eq`,
-  `ContinuousLinearMap.singularValue_comp_linearIsometryEquiv`.
+  sequence of a diagonal operator on `ℓ²(ℕ, 𝕜)` (OI-A55), carried by linear isometric equivalences
+  to a Hilbert space over `𝕜` in universe `v` and one in universe `w`, under which approximation
+  numbers do not change (`ContinuousLinearMap.singularValue_comp_linearIsometryEquiv`). Those two
+  spaces are part of the target, because the pinned libraries supply no Hilbert space over `𝕜` in
+  an arbitrary universe: `ℓ²(ℕ, 𝕜)` lies in the universe `u` of `𝕜`, and Mathlib gives `ULift` a
+  normed-space structure (`ULift.normedSpace`) but no inner product. For every universe `v`, the
+  target constructs a Hilbert space over `𝕜` in `Type v` with a `𝕜`-linear isometric equivalence to
+  `ℓ²(ℕ, 𝕜)`: take `ℓ²(ℕ, ℂ)` if `im I = 1` in `𝕜` and `ℓ²(ℕ, ℝ)` if `I = 0`
+  (`RCLike.I_eq_zero_or_im_I_eq_one`), transport its scalars to `𝕜` along the isometric ring
+  isomorphism `RCLike.complexRingEquiv` or `RCLike.realRingEquiv` (isometric by
+  `RCLike.complexLinearIsometryEquiv`, `RCLike.realLinearIsometryEquiv`), composing its inner
+  product with the inverse isomorphism, and lift it to `Type v` with `ULift`. *Needs:*
+  OI-A55, OI-B59, OI-B65; Tau Ceti `lp.exists_singularValue_diagonalCLM_eq`,
+  `ContinuousLinearMap.singularValue_comp_linearIsometryEquiv`; Mathlib `ULift.normedSpace`,
+  `RCLike.I_eq_zero_or_im_I_eq_one`, `RCLike.complexRingEquiv`, `RCLike.realRingEquiv`,
+  `RCLike.complexLinearIsometryEquiv`, `RCLike.realLinearIsometryEquiv`.
 - *Membership by approximation numbers* (OI-B73). Operators with the same approximation numbers,
   possibly on different pairs of spaces, have the same induced gauge
   (`TauCeti.SymmetricGauge.opGauge_eq_of_sameSingularValues`), hence the same membership in every
@@ -749,8 +771,8 @@ declarations named above; Mathlib `WithLp`.
 - For `a = (3, 1, 0, 0, …)` and `b = (2, 2, 0, 0, …)`, `a ⊔↓ b = (3, 2, 2, 1, 0, 0, …)`: at `n = 3`
   the four largest entries are `3, 2, 2, 1`, and from `n = 4` on any five distinct entries include
   a `0`. So `diag(3, 1) ⊕ diag(2, 2)` has trace norm `8 = 4 + 4` and operator norm
-  `3 = max(3, 2)`: the two bounds of OI-B93 and OI-B94 are attained by the `ℓ¹` and supremum
-  gauges.
+  `3 = max(3, 2)`: the two bounds of OI-B93 and OI-B94 are attained by the supremum and `ℓ¹`
+  gauges respectively.
 - For `a = (1, 1, 1, …)` and `b = (1/2, 0, 0, …)`, `(a ⊔↓ b)ₙ = 1` for every `n`, which is the
   approximation-number sequence of the identity of `ℓ²(ℕ, 𝕜)` summed with a rank-one block of norm
   `1/2`. The value `1/2` appears at no index: a definition that sorts the union of the two
@@ -769,8 +791,9 @@ declarations named above; Mathlib `WithLp`.
 
 ### Dependencies
 
-Layer 1. Majorization MAJ-B01 and MAJ-B31, unitarily invariant seminorms and the Frobenius
-seminorm, for §2.3. Mathlib Hilbert bases, `ℝ≥0∞`-valued sums and `WithLp`. Tau Ceti the
+Layer 1. Majorization, sections *Rectangular seminorms and transport* and *Concrete rectangular
+seminorms*: unitarily invariant seminorms and the operator-norm, nuclear and Frobenius seminorms,
+for §2.3. Mathlib Hilbert bases, `ℝ≥0∞`-valued sums and `WithLp`. Tau Ceti the
 declarations named in §§2.1–2.6.
 
 ## Layer 3: Hilbert–Schmidt operators as ℓ² of columns
@@ -941,11 +964,13 @@ of the operator norm used in OI-A37.
 - *The bounded-operator modulus* `|T| = √(T†T)` belongs to PolarDecomposition (PD-A36) and is Tau
   Ceti's `ContinuousLinearMap.modulus`; §1.3 uses it. Finite singular systems belong to
   PolarDecomposition, Part C.
-- *Finite-dimensional Ky Fan sums, unitarily invariant seminorms and the Frobenius seminorm* belong
-  to Majorization (MAJ-A26, MAJ-B01, MAJ-B31) and are Tau Ceti's `LinearMap.kyFanSum`,
-  `TauCeti.UnitarilyInvariantSeminorm` and `TauCeti.UnitarilyInvariantSeminorm.frobenius`; §§1.5
-  and 2.3 use them. The finite-dimensional Schatten seminorms of §2.3 are this roadmap's, built on
-  them.
+- *Finite-dimensional Ky Fan sums, unitarily invariant seminorms and the operator-norm, nuclear and
+  Frobenius seminorms* belong to Majorization (sections *Ky Fan sums*, *Rectangular seminorms and
+  transport* and *Concrete rectangular seminorms*) and are Tau Ceti's `LinearMap.kyFanSum`,
+  `TauCeti.UnitarilyInvariantSeminorm`, `TauCeti.UnitarilyInvariantSeminorm.opNorm`,
+  `TauCeti.UnitarilyInvariantSeminorm.nuclear` and `TauCeti.UnitarilyInvariantSeminorm.frobenius`;
+  §§1.5 and 2.3 use them. The finite-dimensional Schatten seminorms of §2.3 are this roadmap's,
+  built on them.
 - *The other s-number sequences on Banach spaces* (Gelfand, Kolmogorov, Bernstein, Hilbert and
   entropy numbers) belong to SNumbers, and the trace on the trace class to VonNeumannAlgebras.
 
@@ -968,7 +993,12 @@ of the operator norm used in OI-A37.
 - `Submodule.starProjection` and `Submodule.HasOrthogonalProjection`, `Submodule.orthogonal`,
   `Submodule.subtypeL`, `OrthonormalBasis`, `Matrix.toLin`.
 - `HilbertBasis`, `lp` with its inner product space structure at `p = 2`, `Memℓp`, `WithLp`.
-- `ENNReal.tsum_comm`, `ENNReal.rpow`, `Finsupp.equivMapDomain`, `CFC.sqrt`.
+- `tsum_comm`, `ENNReal.rpow`, `Finsupp.equivMapDomain`, `CFC.sqrt`.
+- For the target of §2.4: `RCLike.I_eq_zero_or_im_I_eq_one`, `RCLike.realRingEquiv` and
+  `RCLike.realLinearIsometryEquiv` (`Mathlib/Analysis/RCLike/Basic.lean`),
+  `RCLike.complexRingEquiv` and `RCLike.complexLinearIsometryEquiv`
+  (`Mathlib/Analysis/Complex/Basic.lean`), and `ULift.normedSpace`
+  (`Mathlib/Analysis/Normed/Module/Basic.lean`).
 
 ### From Tau Ceti
 
@@ -1093,8 +1123,9 @@ above give its hypotheses.
   `TauCeti.OperatorIdealFamily.isKyFanDominant_opNorm`, `TauCeti.OperatorIdealFamily.isKyFanDominant_kyFan`,
   `TauCeti.OperatorIdealFamily.isKyFanDominant_traceClass`,
   `TauCeti.SymmetricGauge.isKyFanDominant_operatorIdealFamily`.
-- Finite-dimensional Schatten seminorms (`InnerProductSpace/UnitarilyInvariantSeminorm/Basic.lean`,
-  `.../Schatten.lean`, `.../Frobenius.lean`, `.../KyFan.lean`): `TauCeti.UnitarilyInvariantSeminorm`,
+- Unitarily invariant seminorms and the finite-dimensional Schatten seminorms
+  (`InnerProductSpace/UnitarilyInvariantSeminorm/Basic.lean`, `.../Schatten.lean`,
+  `.../OpNorm.lean`, `.../Frobenius.lean`, `.../KyFan.lean`): `TauCeti.UnitarilyInvariantSeminorm`,
   `TauCeti.UnitarilyInvariantSeminorm.schatten`, `TauCeti.UnitarilyInvariantSeminorm.schatten_apply_of_ne_top`,
   `TauCeti.UnitarilyInvariantSeminorm.schatten_top`,
   `TauCeti.UnitarilyInvariantSeminorm.schatten_apply_eq_zero_iff`,
@@ -1103,7 +1134,8 @@ above give its hypotheses.
   `TauCeti.UnitarilyInvariantSeminorm.schatten_comp_le_right`,
   `TauCeti.UnitarilyInvariantSeminorm.schatten_comp_comp_le`,
   `TauCeti.UnitarilyInvariantSeminorm.schatten_one`, `TauCeti.UnitarilyInvariantSeminorm.schatten_two`,
-  `TauCeti.UnitarilyInvariantSeminorm.nuclear`, `TauCeti.UnitarilyInvariantSeminorm.frobenius`.
+  `TauCeti.UnitarilyInvariantSeminorm.opNorm`, `TauCeti.UnitarilyInvariantSeminorm.nuclear`,
+  `TauCeti.UnitarilyInvariantSeminorm.frobenius`.
 - Symmetric gauges (`OperatorIdeal/SymmetricGauge/Basic.lean`, `.../Lp.lean`):
   `TauCeti.SymmetricGauge`, `TauCeti.SymmetricGauge.map_single`, `TauCeti.SymmetricGauge.iSup_le_apply`,
   `TauCeti.SymmetricGauge.apply_le_sum`, `TauCeti.SymmetricGauge.extend`,
@@ -1175,9 +1207,11 @@ Tau Ceti's `ContinuousLinearMap.modulus`; assumed as stated there.
 
 ### From TauCetiRoadmap.Majorization
 
-MAJ-A26, the Ky Fan sums of a linear map between finite-dimensional inner product spaces (Tau Ceti
-`LinearMap.kyFanSum`); MAJ-B01, rectangular unitarily invariant seminorms (Tau Ceti
-`TauCeti.UnitarilyInvariantSeminorm`); MAJ-B31, the Frobenius seminorm (Tau Ceti
+Section *Ky Fan sums*: the Ky Fan sums of a linear map between finite-dimensional inner product
+spaces (Tau Ceti `LinearMap.kyFanSum`). Section *Rectangular seminorms and transport*: rectangular
+unitarily invariant seminorms (Tau Ceti `TauCeti.UnitarilyInvariantSeminorm`). Section *Concrete
+rectangular seminorms*: the operator-norm, nuclear and Frobenius seminorms (Tau Ceti
+`TauCeti.UnitarilyInvariantSeminorm.opNorm`, `TauCeti.UnitarilyInvariantSeminorm.nuclear`,
 `TauCeti.UnitarilyInvariantSeminorm.frobenius`). Assumed as stated there.
 
 ## References
@@ -1195,7 +1229,8 @@ MAJ-A26, the Ky Fan sums of a linear map between finite-dimensional inner produc
   (1960), 50–59.
 - R. A. Horn and C. R. Johnson, *Matrix Analysis*, 2nd ed., Cambridge University Press, 2013,
   Thm. 4.2.6.
-- M. Ullrich, "Inequalities between s-numbers", *Adv. Oper. Theory* **9** (2024), art. 75.
+- M. Ullrich, "Inequalities between s-numbers", *Adv. Oper. Theory* **9** (2024), art. 82;
+  page numbers as in arXiv:2405.05509v2.
 - The Mathlib proposal for singular values, `ContinuousLinearMap.singularValue : ℕ → ℝ≥0`, indexed
   from zero, https://github.com/leanprover-community/mathlib4/pull/32126, and the Lean Zulip thread
   "Singular Value Decomposition",
