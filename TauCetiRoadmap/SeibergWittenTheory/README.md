@@ -1542,21 +1542,26 @@ Other roadmaps cite sections of this roadmap by the labels of its former numberi
 | SW4.4 | §4.4 |
 | SW4.5 | §4.5 |
 | SW5 | Layer 5 |
+| SW5.2 | §5.2 |
 | SW5.3 | §5.3 |
 | SW5.4 | §5.4 |
 | SW6 | Layer 6 |
 | SW6.1 | §6.1 |
 | SW6.2 | §6.2 |
+| SW6.3 | §6.3 |
 | SW7 | Layer 7 |
 | SW7.1 | §7.1 |
 | SW7.2 | §7.2 |
+| SW7.3 | §7.3 |
 | SW8 | Layer 8 |
+| SW8.2 | §8.2 |
 | SW8.3 | §8.3 |
 | SW9 | Layer 9 |
 | SW10 | Layer 10 |
 | SW11 | Layer 11 |
 | SW11.1 | §11.1 |
 | SW11.2 | §11.2 |
+| SW11.3 | §11.3 |
 
 ## Exact supplier contracts
 
