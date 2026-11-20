@@ -63,9 +63,8 @@ This roadmap owns:
   (0.4–0.6); the ring API for `M ⊗_A N`, outer bimodule tensor functors, and the right `A`-module
   action on `CharacterModule M` (0.7); duals `F^E` (0.8); `proj C`, `proj C ≌ Karoubi (Mat_ C)`,
   projective duality `Hom(-, C)`, and finite-presentation bridges (0.9); and Morita equivalence of
-  preadditive categories (`Mod C ≌ Mod D ↔ proj C ≌ proj D` and invertible bimodules) together with
-  the ring `finiteProjectiveModules` and invertible-bimodule characterizations assembled with Tau
-  Ceti `main`'s progenerator and corner theorems (0.10).
+  preadditive categories (`Mod C ≌ Mod D ↔ proj C ≌ proj D` and invertible bimodules) and of rings
+  (`finiteProjectiveModules`, progenerators, matrix corners, and invertible bimodules, 0.10).
 - **Layer 1 (`Tor` and category algebras):** scalar and bimodule `Tor` over categories and rings
   (with symmetric outer bimodule actions on `BalancedTor`), long exact sequences, balance,
   `underline{mod C}` with `(underline{mod C})ᵒᵖ ≌ underline{mod Cᵒᵖ}`, `stable Hom(X, N) ≅
@@ -115,17 +114,14 @@ Boundaries with Mathlib, Tau Ceti, and neighboring roadmaps:
   character-module proofs replaced by 3.4 (and a second proof of the semiprimary case from 4.6).
 - **Semiperfect rings, covers, and ideals.** `TauCeti.IsSemiperfectRing` is refactored to extend
   `IsSemilocalRing` (4.2). Krull–Schmidt categories and Krause's criterion belong to ArtinAlgebras
-  §0.2 (`TauCeti.IsKrullSchmidt` in `TauCeti/CategoryTheory/Preadditive/KrullSchmidt/Basic.lean`,
-  landed on Tau Ceti `main` past the current `lake-manifest.json` pin, restated identically in
-  `Suggested.lean`, and linked to `IsSemiperfectCategory` in 4.2). Two-sided ideals and `J(C)`
-  remain `TauCeti.MorphismIdeal` and `TauCeti.jacobsonRadicalIdeal`; minimal presentations use
+  §0.2 (`IsKrullSchmidt`, restated identically in `Suggested.lean` and linked to
+  `IsSemiperfectCategory` in 4.2). Two-sided ideals and `J(C)` remain `TauCeti.MorphismIdeal` and
+  `TauCeti.jacobsonRadicalIdeal`; minimal presentations use
   `TauCeti.IsMinimalProjectivePresentation`.
 - **Morita theory.** Categorical Morita equivalence (`Mod C ≌ Mod D ↔ proj C ≌ proj D` and
-  invertible bimodules) and the ring `finiteProjectiveModules` and invertible-bimodule clauses of
-  `isMoritaEquivalent_tfae` live in 0.10, assembling with Tau Ceti `main`'s
-  `TauCeti.isMoritaEquivalent_iff_exists_progenerator`,
-  `TauCeti.exists_finiteModules_equivalence_iff_isMoritaEquivalent`,
-  `IsIdempotentElem.isMoritaEquivalent_corner`, and Mathlib's `IsMoritaEquivalent.matrix`;
+  invertible bimodules) and the ring `TFAE` characterization (`finiteProjectiveModules`,
+  progenerators, full-idempotent matrix corners via `IsIdempotentElem.isMoritaEquivalent_corner` and
+  `IsMoritaEquivalent.matrix`, and invertible `R`-central bimodules) live in 0.10;
   [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md), §7.1, treats Artin-algebra
   invariants under Morita equivalence.
 - **Out of scope:** intrinsic flatness inside `Flat(C)` ([CI]); `n`-fold multilinear functors for
@@ -212,10 +208,10 @@ remains reserved for characteristic `p`.
     bijectivity of Frobenius in characteristic `p`; Bass's and Simson's classes are always named
     `IsLeftPerfectRing` and `IsLeftPerfectCategory`.
 11. **Duals.** For an `R`-module `E`, `F^E = Hom_R(F(-), E)` in `Mod Cᵒᵖ` (0.8), while ring modules
-    use Tau Ceti `main`'s `TauCeti.MatlisDual R E M = Hom_R(M, E)`
-    (`TauCeti/RingTheory/MatlisDuality/Basic.lean`, a type synonym of `M →ₗ[R] E`); at `R = ℤ` and
-    `E = ℚ ⧸ ℤ` (`AddCircle (1 : ℚ)`), `M⁺` is Mathlib's `CharacterModule M`, equipped with its
-    noncommutative right `A`-module action `TauCeti.CharacterModule.rightModule` in 0.7.
+    use `Hom_R(M, E)` (`M →ₗ[R] E` with precomposition right `A`-action, packaged into
+    `TauCeti.BalancedTensorProduct.homRight R A M` in 0.7); at `R = ℤ` and `E = ℚ ⧸ ℤ` (`AddCircle
+    (1 : ℚ)`), `M⁺` is Mathlib's `CharacterModule M`, equipped with its noncommutative right
+    `A`-module action `TauCeti.CharacterModule.rightModule` in 0.7.
 12. **Projective covers.** Categorically, a projective cover is an essential epimorphism
     (`TauCeti.IsEssentialEpi`) from a projective object, with existence written
     `TauCeti.HasProjectiveCover M` (4.2). Over a ring, `TauCeti.IsProjectiveCover` is a surjection
@@ -272,12 +268,10 @@ remains reserved for characteristic `p`.
 
 ### From Tau Ceti
 
-- **Balanced tensor product, duals, and character modules:** `TauCeti.BalancedTensorProduct`
-  (`tmul`, `balance`, `lift`, `hom_ext`, `induction_on`, `map`, `congr`, `lid`, `rid`,
-  `finsuppScalarRight`, `leftModule`, `rightModule`, `outerSMulCommClass`, `assoc`),
-  `TauCeti.MatlisDual` and `ModuleCat.matlisDual` (`TauCeti/RingTheory/MatlisDuality/Basic.lean` and
-  `TauCeti/Algebra/Category/ModuleCat/MatlisDual.lean`, landed on Tau Ceti `main` past the current
-  `lake-manifest.json` pin), and `TauCeti.CharacterModule.eval_injective`.
+- **Balanced tensor product and character modules:** `TauCeti.BalancedTensorProduct` (`tmul`,
+  `balance`, `lift`, `hom_ext`, `induction_on`, `map`, `congr`, `lid`, `rid`, `finsuppScalarRight`,
+  `leftModule`, `rightModule`, `outerSMulCommClass`, `assoc`) and
+  `TauCeti.CharacterModule.eval_injective`.
 - **Derived functors, bicomplexes, and commutative flatness/`Tor`:** `NatTrans.leftDerived_add`,
   `Functor.isZero_leftDerived_succ`, `ShortComplex.ShortExact.leftDerivedOneIsoKernel`,
   `HomologicalComplex₂.quasiIso_totalAugmentation_of_rows` and
@@ -292,10 +286,7 @@ remains reserved for characteristic `p`.
   `CategoryTheory.ObjectProperty.factorIdeal`,
   `ModuleCat.tensorHomCokernelEquivProjectiveStableHom`, `TauCeti.quiverRepEquivalence`,
   `TauCeti.Quiver.Kronecker.upperTriangularAlgEquiv`, `IsIdempotentElem.isMoritaEquivalent_corner`,
-  `TauCeti.isMoritaEquivalent_iff_exists_progenerator` and
-  `TauCeti.exists_finiteModules_equivalence_iff_isMoritaEquivalent`
-  (`TauCeti/RingTheory/Morita/Progenerator.lean`, landed on Tau Ceti `main` past the current
-  `lake-manifest.json` pin), `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence`, and
+  `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence`, and
   `TauCeti.finiteProjectiveModules`.
 - **Ideals, radicals, socles, covers, and global dimension:** `TauCeti.MorphismIdeal` (`Quotient`,
   `quotientFunctor`, monoid structure, `op`), `TauCeti.jacobsonRadicalIdeal`
@@ -303,9 +294,7 @@ remains reserved for characteristic `p`.
   `TauCeti.socle`, `TauCeti.IsSemiprimaryRing.mulOpposite`,
   `TauCeti.Ring.mem_jacobson_mulOpposite_iff`,
   `TauCeti.Ring.isSemisimpleRing_quotient_jacobson_mulOpposite_iff`,
-  `TauCeti.isSemisimpleModule_quotient_smul_top`, `TauCeti.IsKrullSchmidt`
-  (`TauCeti/CategoryTheory/Preadditive/KrullSchmidt/Basic.lean`, landed on Tau Ceti `main` past the
-  pin; restated in `Suggested.lean`), `TauCeti.IsSemiperfectRing` (refactored in 4.2)
+  `TauCeti.isSemisimpleModule_quotient_smul_top`, `TauCeti.IsSemiperfectRing` (refactored in 4.2)
   with `CompleteOrthogonalIdempotents.exists_surjective_of_isSimpleModule`,
   `TauCeti.IsEssentialEpi` (`isIso_of_comp_eq`), `TauCeti.IsSuperfluous` (refactored in 0.3),
   `TauCeti.IsProjectiveCover` and `TauCeti.exists_isProjectiveCover`,
@@ -431,11 +420,11 @@ representables.
   symmetric category of `R`-central `(D, C)`-bimodules (agreeing at `R = ℤ` with arbitrary
   `(D, C)`-bimodules `ModCat.Bimod D C := ModCat (D ⊗_ℤ Cᵒᵖ)`) that inherits `Abelian`, colimits,
   `IsGrothendieckAbelian`, and two-sided subbimodules (`ModCat.Submodule M`) directly from 0.1
-  without duplication, with currying equivalences (`C ⥤+ Mod D`, `Dᵒᵖ ⥤+ Mod Cᵒᵖ`), slices
-  `M(-, c) : Mod D` and `M(d, -) : Mod Cᵒᵖ`, the regular bimodule `${}_C C_C`
-  (`(X, Y) ↦ Hom_C(X, Y)`), and the one-object bridge
-  `LinearBimod R (SingleObj Aᵐᵒᵖ) (SingleObj Bᵐᵒᵖ) ≌ ModuleCat (A ⊗[R] Bᵐᵒᵖ)` matching Mathlib's
-  `TensorProduct.Algebra.module` (`Mathlib/Algebra/Module/Bimodule.lean`).
+  without duplication, with currying equivalences `Bimod D C ≌ (C ⥤+ Mod D)` and `Dᵒᵖ ⥤+ Mod Cᵒᵖ`
+  at `R = ℤ` (and onto `R`-linear functors for `LinearBimod R D C`), slices `M(-, c) : Mod D` and
+  `M(d, -) : Mod Cᵒᵖ`, the regular bimodule `${}_C C_C` (`(X, Y) ↦ Hom_C(X, Y)`), and the
+  one-object bridge `LinearBimod R (SingleObj Aᵐᵒᵖ) (SingleObj Bᵐᵒᵖ) ≌ ModuleCat (A ⊗[R] Bᵐᵒᵖ)`
+  matching Mathlib's `TensorProduct.Algebra.module` (`Mathlib/Algebra/Module/Bimodule.lean`).
 - **One-sided and two-sided ideals via `${}_C C_C`** (`TauCeti.ModCat.Bimod.LeftSubmodule`,
   `TauCeti.ModCat.Bimod.RightSubmodule`, `TauCeti.MorphismIdeal.orderIsoSubmoduleRegularBimod`,
   `TauCeti.LeftMorphismIdeal C`, `TauCeti.RightMorphismIdeal C`,
@@ -535,9 +524,10 @@ For an `R`-algebra `A`, ring tensor products extend `TauCeti.BalancedTensorProdu
 
 - **Functoriality, adjunction, and projective factors** (`TauCeti.BalancedTensorProduct.rTensor`,
   `TauCeti.BalancedTensorProduct.functor`, `TauCeti.BalancedTensorProduct.homRight`): `- ⊗_A N` is
-  left adjoint to `Hom_R(N, -)` (`MatlisDual R X N`), giving right exactness in both variables
-  ([Lam-FC, (24.20), p. 365]); projective factors preserve injections; `m ⊗ n ↦ n ⊗ m` swaps
-  `M ⊗_A N ≃ₗ[R] N ⊗_{Aᵐᵒᵖ} M` via `RingEquiv.opOp A`.
+  left adjoint to `Hom_R(N, -)` (`BalancedTensorProduct.homRight R A N`, equipping `N →ₗ[R] E` with
+  precomposition right `A`-action), giving right exactness in both variables ([Lam-FC, (24.20),
+  p. 365]); projective factors preserve injections; `m ⊗ n ↦ n ⊗ m` swaps `M ⊗_A N ≃ₗ[R]
+  N ⊗_{Aᵐᵒᵖ} M` via `RingEquiv.opOp A`.
 - **Change of base and comparisons** (`TauCeti.BalancedTensorProduct.changeBaseLinearEquiv`,
   `TauCeti.BalancedTensorProduct.changeBaseLinearEquiv_tmul`,
   `TauCeti.BalancedTensorProduct.changeBaseAddEquiv`,
@@ -556,8 +546,8 @@ For an `R`-algebra `A`, ring tensor products extend `TauCeti.BalancedTensorProdu
   and associator `TauCeti.BalancedTensorProduct.assoc`); lifting `leftModule` packages `M ⊗_B - :
   ModuleCat B ⥤ ModuleCat A` left adjoint to `Hom_A(M, -) : ModuleCat A ⥤ ModuleCat B` (and
   symmetrically on the right).
-- **Duals and character modules** (`TauCeti.CharacterModule.rightModule`): using Tau Ceti `main`'s
-  `TauCeti.MatlisDual R E N`, `Hom_R(M ⊗_A N, E) ≃ₗ[R] Hom_{Aᵐᵒᵖ}(M, MatlisDual R E N)`; equipping
+- **Duals and character modules** (`TauCeti.CharacterModule.rightModule`): under the precomposition
+  right `A`-action on `N →ₗ[R] E`, `Hom_R(M ⊗_A N, E) ≃ₗ[R] Hom_{Aᵐᵒᵖ}(M, Hom_R(N, E))`; equipping
   `CharacterModule N` (`N⁺`, i.e. `R = ℤ`, `E = ℚ ⧸ ℤ`) with its right `A`-module action
   `CharacterModule.rightModule` (`(op a • χ) n = χ (a • n)`), `i ⊗ N` is injective iff
   precomposition into `N⁺` is surjective (`TauCeti.CharacterModule.eval_injective`; [Lambek,
@@ -638,23 +628,20 @@ conditions.
   `[Linear R C] [Linear R D]`, the `R`-linear enrichment requires `R`-linear equivalences in (1)–(3)
   and invertible `R`-central bimodules `P : LinearBimod R D C`, `Q : LinearBimod R C D` (0.3) with
   `R`-linear bimodule isomorphisms in (4).
-- **Rings** (`TauCeti.isMoritaEquivalent_tfae`; [Lam-LMR, §18, pp. 475–490]): assembles two new
-  equivalences for `R`-algebras `A, B : Type u`—`R`-linear equivalence of
-  `finiteProjectiveModules A` and `finiteProjectiveModules B` (inverting Tau Ceti's
-  `finiteProjectiveModulesEquivalence` via (1) ⇔ (2)) and existence of `R`-central `(B, A)`- and
-  `(A, B)`-bimodules `P`, `Q` with bimodule isomorphisms `Q ⊗_B P ≅ A` and `P ⊗_A Q ≅ B` (using
-  `BalancedTensorProduct.leftModule`, `rightModule`, and `assoc`)—with Tau Ceti `main`'s existing
-  progenerator equivalence `TauCeti.isMoritaEquivalent_iff_exists_progenerator` (`Suggested.lean`
-  writes `IsSeparator` against the current `lake-manifest.json` pin) and full-idempotent matrix
-  corners (`IsMoritaEquivalent.matrix` and `IsIdempotentElem.isMoritaEquivalent_corner`).
+- **Rings** (`TauCeti.isMoritaEquivalent_tfae`; [Lam-LMR, §18, pp. 475–490]): equates Morita
+  equivalence `IsMoritaEquivalent R A B` of `R`-algebras `A, B : Type u` with `R`-linear
+  equivalence of `finiteProjectiveModules A` and `finiteProjectiveModules B` (inverting Tau Ceti's
+  `finiteProjectiveModulesEquivalence` via (1) ⇔ (2)), existence of a finitely generated projective
+  separator `P : ModuleCat.{u} A` with `B ≃ₐ[R] (Module.End A P)ᵐᵒᵖ`, full-idempotent matrix
+  corners (`IsMoritaEquivalent.matrix` and `IsIdempotentElem.isMoritaEquivalent_corner`), and
+  invertible `R`-central `(B, A)`- and `(A, B)`-bimodules `P`, `Q` with bimodule isomorphisms `Q ⊗_B
+  P ≅ A` and `P ⊗_A Q ≅ B` (using `BalancedTensorProduct.leftModule`, `rightModule`, and `assoc`).
 
 **Checks.** `Mod C ≌ Mod (Mat_ C)` recovers `IsMoritaEquivalent.matrix` at `SingleObj Aᵐᵒᵖ`; full
-idempotents give `IsIdempotentElem.isMoritaEquivalent_corner`; `fg`-module equivalence is
-`TauCeti.exists_finiteModules_equivalence_iff_isMoritaEquivalent`.
+idempotents give `IsIdempotentElem.isMoritaEquivalent_corner`.
 
 *Needs:* 0.1–0.4, 0.7, 0.9; Mathlib `IsMoritaEquivalent`, `IsMoritaEquivalent.matrix`; Tau Ceti
-`isMoritaEquivalent_corner`, `isMoritaEquivalent_iff_exists_progenerator`,
-`exists_finiteModules_equivalence_iff_isMoritaEquivalent`, `finiteProjectiveModulesEquivalence`.
+`isMoritaEquivalent_corner`, `finiteProjectiveModulesEquivalence`.
 
 ## Layer 1: `Tor`
 
@@ -770,7 +757,7 @@ For an `R`-linear `C` and an injective `R`-module `E`, resolving `G` via balance
 natural isomorphism of bifunctors `TauCeti.ModCat.torExtDualityNatIso` ([CE, VI, Prop. 5.1,
 p. 120]; [Lambek, p. 241]), giving `Hom_R(Tor_n^C(G, F), E) ≃ₗ[R] Ext^n(G, F^E)` and the ring
 counterpart `TauCeti.balancedTorExtDualityEquiv : Hom_R(Tor_n^A(M, N), E) ≃ₗ[R]
-Ext^n_{Aᵐᵒᵖ}(M, MatlisDual R E N)`.
+Ext^n_{Aᵐᵒᵖ}(M, (BalancedTensorProduct.homRight R A N).obj E)`.
 
 *Needs:* 0.7, 0.8, 1.1, 1.3.
 

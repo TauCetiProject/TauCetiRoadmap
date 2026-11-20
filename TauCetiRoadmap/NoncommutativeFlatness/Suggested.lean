@@ -695,9 +695,9 @@ theorem ModCat.morita_tfae (C : Type u₁) [Category.{v} C] [Preadditive C] [Ess
             Nonempty (((ModCat.Bimod.tensor.obj P).obj Q) ≅ ModCat.regularBimod D)] := sorry
 
 open scoped ModuleCat.Algebra in
-/-- **0.10, rings** Assembly of `IsMoritaEquivalent R A B`: `finiteProjectiveModules` and invertible
-`R`-central bimodules (new), assembled with progenerators and full-idempotent matrix corners from
-Tau Ceti `main` ([Lam-LMR, §18]). -/
+/-- **0.10, rings** Characterizations of `IsMoritaEquivalent R A B` via `finiteProjectiveModules`,
+progenerators, full-idempotent matrix corners, and invertible `R`-central bimodules ([Lam-LMR,
+§18]). -/
 theorem isMoritaEquivalent_tfae (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
     (B : Type u) [Ring B] [Algebra R B] :
     List.TFAE
@@ -1494,7 +1494,7 @@ theorem globalDimension_le_of_forall_finitePresentation_mulOpposite {A : Type u}
     (h : ∀ N : ModuleCat.{v} Aᵐᵒᵖ, Module.FinitePresentation Aᵐᵒᵖ N →
       HasProjectiveDimensionLE N n) : TauCeti.globalDimension.{v} A ≤ n := sorry
 
-/-! ## Layer 4: semiperfect and perfect categories, and Bass's Theorem P -/
+/-! ## Layer 4: semiperfect and left perfect categories, and Bass's Theorem P -/
 
 /-! ### 4.1 T-nilpotence and Nakayama's lemma for all modules -/
 
@@ -1580,8 +1580,7 @@ class IsSemiperfectCategory : Prop extends IsSemilocalCategory C where
 
 attribute [instance] IsSemiperfectCategory.isSemiperfectRing_end
 
-/-- **Supplier (on Tau Ceti `main` past the pin, ArtinAlgebras §0.2)** `TauCeti.IsKrullSchmidt`
-(`TauCeti/CategoryTheory/Preadditive/KrullSchmidt/Basic.lean`), restated here against the pin. -/
+/-- **Supplier (ArtinAlgebras §0.2)** `TauCeti.IsKrullSchmidt`, restated identically here. -/
 class IsKrullSchmidt [HasFiniteBiproducts C] : Prop where
   exists_iso_biproduct (X : C) :
     ∃ (n : ℕ) (P : Fin n → C), (∀ i, IsLocalRing (End (P i))) ∧ Nonempty (X ≅ ⨁ P)
