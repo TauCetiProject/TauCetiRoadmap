@@ -314,22 +314,22 @@ end ModCat.Bimod
 
 variable (C : Type u) [Category.{v} C] [Preadditive C]
 
-/-- **0.3** Regular `(C, C)`-bimodule `${}_C C_C`: `(X, Y) ↦ Hom_C(X, Y)`. -/
+/-- **0.3** Regular `(C, C)`-bimodule `_C C_C`: `(X, Y) ↦ Hom_C(X, Y)`. -/
 noncomputable def ModCat.regularBimod : ModCat.Bimod.{v} C C :=
   ⟨{ obj p := AddCommGrpCat.of (p.unop.fst ⟶ p.unop.snd.unop)
      map := sorry
      map_id := sorry
      map_comp := sorry }, sorry⟩
 
-/-- **0.3** Two-sided ideals `MorphismIdeal C` are `(C, C)`-subbimodules of `${}_C C_C`. -/
+/-- **0.3** Two-sided ideals `MorphismIdeal C` are `(C, C)`-subbimodules of `_C C_C`. -/
 noncomputable def MorphismIdeal.orderIsoSubmoduleRegularBimod :
     TauCeti.MorphismIdeal C ≃o ModCat.Submodule (ModCat.regularBimod C) := sorry
 
-/-- **0.3** A left ideal of `C`: a left `C`-submodule of the `(C, C)`-bimodule `${}_C C_C`. -/
+/-- **0.3** A left ideal of `C`: a left `C`-submodule of the `(C, C)`-bimodule `_C C_C`. -/
 abbrev LeftMorphismIdeal : Type (max u v) :=
   (ModCat.regularBimod C).LeftSubmodule
 
-/-- **0.3** A right ideal of `C`: a right `C`-submodule of the `(C, C)`-bimodule `${}_C C_C`. -/
+/-- **0.3** A right ideal of `C`: a right `C`-submodule of the `(C, C)`-bimodule `_C C_C`. -/
 abbrev RightMorphismIdeal : Type (max u v) :=
   (ModCat.regularBimod C).RightSubmodule
 
@@ -514,8 +514,8 @@ end Tensor
 
 /-- **0.7** Right `A`-module structure `(op a • χ) m = χ (a • m)` on `CharacterModule M` (`M⁺`) for
 a left `A`-module `M` over a possibly noncommutative ring `A`. -/
-@[instance_reducible]
-def CharacterModule.rightModule (A : Type u) [Ring A] (M : Type v) [AddCommGroup M] [Module A M] :
+instance CharacterModule.rightModule (A : Type u) [Ring A] (M : Type v) [AddCommGroup M]
+    [Module A M] :
     Module Aᵐᵒᵖ (CharacterModule M) := sorry
 
 namespace BalancedTensorProduct
@@ -632,7 +632,7 @@ noncomputable def ModCat.projEquivKaroubiMat :
     (ModCat.proj C).FullSubcategory ≌ CategoryTheory.Idempotents.Karoubi (Mat_ C) := sorry
 
 variable (C) in
-/-- **0.9** Dual `Hom_{Mod C}(-, {}_C C_C) : (Mod C)ᵒᵖ ⥤ Mod Cᵒᵖ` on `Mod C` via the regular
+/-- **0.9** Dual `Hom_{Mod C}(-, _C C_C) : (Mod C)ᵒᵖ ⥤ Mod Cᵒᵖ` on `Mod C` via the regular
 bimodule (0.4, under `EssentiallySmall.{v} C`), while on `proj C` Yoneda gives smallness-free
 `projDual : (proj C)ᵒᵖ ≌ proj Cᵒᵖ`. -/
 noncomputable abbrev ModCat.dualRegular [EssentiallySmall.{v} C] :
@@ -706,7 +706,7 @@ theorem isMoritaEquivalent_tfae (R : Type t) [CommRing R] (A : Type u) [Ring A] 
             (TauCeti.finiteProjectiveModules B).FullSubcategory, e.functor.Linear R,
         ∃ P : ModuleCat.{u} A, Module.Finite A P ∧ Module.Projective A P ∧ IsSeparator P ∧
           Nonempty (B ≃ₐ[R] (Module.End A P)ᵐᵒᵖ),
-        ∃ (n : ℕ) (e : Matrix (Fin n) (Fin n) A) (he : IsIdempotentElem e),
+        ∃ (n : ℕ) (e : Matrix (Fin (n + 1)) (Fin (n + 1)) A) (he : IsIdempotentElem e),
           TwoSidedIdeal.span {e} = ⊤ ∧ Nonempty (B ≃ₐ[R] he.Corner),
         ∃ (P Q : Type u) (_ : AddCommGroup P) (_ : Module R P) (_ : Module B P)
             (_ : Module Aᵐᵒᵖ P) (_ : IsScalarTower R B P) (_ : IsScalarTower R Aᵐᵒᵖ P)
@@ -1151,7 +1151,6 @@ theorem Module.balancedFlat_tfae {A : Type u} [Ring A] [Small.{v} A] (M : Type v
         ∀ I : Submodule Aᵐᵒᵖ A, I.FG →
           IsZero (((BalancedTor.{v} ℤ A 1).obj (ModuleCat.of Aᵐᵒᵖ (Shrink.{v} (A ⧸ I)))).obj
             (ModuleCat.of A M)),
-        letI := CharacterModule.rightModule A M
         Module.Injective Aᵐᵒᵖ (CharacterModule M)] := sorry
 
 /-! ### 2.3–2.4 Lazard, purity, left exactness, and the representation theorem -/
@@ -1373,7 +1372,6 @@ noncomputable def flatDimension (M : ModuleCat.{v} A) : WithBot ℕ∞ :=
   sInf {d : WithBot ℕ∞ | ∀ i : ℕ, d < i → HasFlatDimensionLT M i}
 
 theorem flatDimension_eq_injectiveDimension_characterModule (M : ModuleCat.{v} A) :
-    letI := CharacterModule.rightModule A M
     flatDimension M = injectiveDimension (ModuleCat.of Aᵐᵒᵖ (CharacterModule M)) := sorry
 
 end RingFlatDimension
