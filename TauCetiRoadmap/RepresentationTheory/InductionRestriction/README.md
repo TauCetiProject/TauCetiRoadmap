@@ -11,13 +11,13 @@ statements over general fields and the constructions that complete it.
 
 The headline theorems are these.
 
-- *Clifford's theorem over every field.* A simple finite-dimensional representation W of G over
-  any field restricts to N as the direct sum of e ≥ 1 copies of each G-conjugate of one simple
-  representation V of N, the distinct conjugates indexed by the cosets of the inertia group T of V.
-- *The Clifford correspondence over a splitting field.* If moreover |G| is invertible in k and
-  every simple representation of G over k has endomorphism algebra k, induction from T is a
-  bijection, on isomorphism classes, from the simple representations of T lying over V to those of
-  G lying over V.
+- *Clifford's theorem over every field.* A simple finite-dimensional representation W of a group
+  G (finite or not) over any field restricts to a normal subgroup N as the direct sum of e ≥ 1
+  copies of each G-conjugate of one simple representation V of N, the distinct conjugates indexed
+  by the finitely many cosets of the inertia group T of V.
+- *The Clifford correspondence over every field.* If G is finite, induction from T is a bijection,
+  on isomorphism classes, from the simple representations of T lying over V to those of G lying
+  over V; no invertibility of |G| and no splitting hypothesis is needed.
 - *The universal central extension of a perfect group.* For G perfect with a free presentation
   F → G of kernel R, the group [F, F]/[F, R] is perfect, maps onto G with central kernel
   (R ∩ [F, F])/[F, R], and maps uniquely over G to every central extension of G.
@@ -40,9 +40,9 @@ subgroups), InverseGaloisAndArithmeticFundamentalGroups and InductionRestriction
 (representation groups), and StableHomotopyKTheory (universal central extensions).
 
 Layer 0 gives generator formulas for induction in stages; Layer 2 two adapters for almost-conjugacy
-and the normalization of the character pairing; Layer 3 Mackey's formula as a biproduct; Layer 4
-the refinements of the Hom-space decomposition and the example over ℝ; Layer 5 Clifford theory over
-every field; Layer 6 the virtual-character lattice over a splitting field of characteristic zero;
+and Checks on the normalization of the character pairing; Layer 3 Mackey's formula as a biproduct;
+Layer 4 the refinements of the Hom-space decomposition and the example over ℝ; Layer 5 Clifford
+theory over every field; Layer 6 the virtual-character lattice over a field of characteristic zero;
 Layer 7 universal central extensions, projective representations, the scalar obstruction and
 division crossed systems. There is no Layer 1: the conjugate representation is a supplier's, as the
 Scope section below records.
@@ -97,8 +97,6 @@ Scope section below records.
    `kˣ` acts faithfully on `V` (`[FaithfulSMul kˣ V]`, which holds for nonzero `V` over a field).
    `G` acts trivially on `kˣ` (`TauCeti.trivialMulDistribMulAction`), and `H²(G, kˣ)` is
    `TauCeti.schurMultiplier k G`, the second cohomology of `Additive kˣ` with the trivial action.
-   The statements of `Suggested.lean` that use an uncurried `α : G × G → kˣ` pass to the curried
-   form by `Function.curry`.
 9. **Universes.** The categorical wrappers of Mathlib and Tau Ceti put the coefficient ring, the
    group and the carriers in one universe; statements over them do the same. The statements of
    Layer 7 about factor sets and Schur multipliers are made for `Type`, as `TauCeti.schurMultiplier`
@@ -172,16 +170,19 @@ API:
 
 ### 2.3 Permutation characters and the normalization of the pairing
 
-Over a field `k` with `hG : IsUnit (Nat.card G : k)` and `G` finite, with Tau Ceti's character
-pairing `TauCeti.ClassFunction.characterPairing` (`⟨f₁, f₂⟩ = |G|⁻¹ ∑_g f₁(g) f₂(g⁻¹)`):
+Over a field `k` with `hG : IsUnit (Nat.card G : k)` and `G` finite, Tau Ceti's character pairing
+`TauCeti.ClassFunction.characterPairing` (`⟨f₁, f₂⟩ = |G|⁻¹ ∑_g f₁(g) f₂(g⁻¹)`) is normalized as
+follows, and the Checks below test the normalization; neither statement is a target, since each
+follows in a line from Tau Ceti.
 
-- prove that the character of the permutation representation `Ind_H^G 1` pairs to `1` with the
-  trivial character of `G`; this is Frobenius reciprocity with the trivial representations
-  (Serre, Part I, §7.3–7.4);
-- prove that a simple finite-dimensional representation `V` of `G` with scalar endomorphisms
-  (`finrank k (V ⟶ V) = 1`) has `⟨χ_V, χ_V⟩ = 1`, from Tau Ceti's
-  `TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank`, which gives the pairing of two
-  characters as the dimension of the Hom space cast into `k`.
+- The character of the permutation representation `Ind_H^G 1` pairs to `1` with the trivial
+  character of `G`: this is Frobenius reciprocity with the trivial representations (Serre,
+  Part II, §7.2), and `TauCeti.characterPairing_ofMulAction_eq_card_orbits` with a one-point set
+  gives it as the number `1` of orbits of `G` on `G ⧸ H`.
+- A simple finite-dimensional representation `V` of `G` with scalar endomorphisms
+  (`finrank k (V ⟶ V) = 1`) has `⟨χ_V, χ_V⟩ = 1`: Tau Ceti's
+  `TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank` gives the pairing of two characters
+  as the dimension of the Hom space cast into `k`.
 
 *Needs:* Tau Ceti `TauCeti.ClassFunction.characterPairing`, `TauCeti.ClassFunction.ofCharacter`,
 `TauCeti.ClassFunction.ofFDRep`, `TauCeti.char_ind_trivial`, `TauCeti.characterPairing_ind`
@@ -248,7 +249,8 @@ statement is made about a representative-free summand.
 ### Examples
 
 - For `G = S₃`, `H = ⟨(1 2)⟩` and the sign `A` of `H`, the biproduct form gives
-  `Res_H Ind_H^G A ≅ sign ⊕ k[H]`, while `Ind_H^G A ≅ sign ⊕ standard` is reducible.
+  `Res_H Ind_H^G A ≅ sign ⊕ k[H]` over every `k`, while over `ℚ` the induced representation
+  `Ind_H^G A ≅ sign ⊕ standard` is reducible.
 
 ### Dependencies
 
@@ -271,7 +273,7 @@ the Mackey subgroup at `h₀` is all of `H` and the intertwiner space at `h₀` 
 endomorphism `FDRep.indEndAlgHom V f`, for `f ∈ End_H(V)`, has component `0` at every double coset
 other than the identity one, and that the map sending `f` to the component of that image at the
 identity double coset is a `k`-linear isomorphism `End_H(V) ≅ Hom_H(V, Res_{y ↦ h₀⁻¹ y h₀} V)`
-(Serre, Part I, §7.4, Prop. 23–25). In particular `FDRep.indEndAlgHom V` is an injective algebra
+(Serre, Part II, §7.4). In particular `FDRep.indEndAlgHom V` is an injective algebra
 homomorphism onto the endomorphisms supported at the identity double coset, and it is an algebra
 isomorphism exactly when every other component space is zero (Tau Ceti's `FDRep.indEndAlgEquiv`
 proves the "if" by counting dimensions).
@@ -302,7 +304,7 @@ transports the components of the decomposition of §4.1 between representatives.
 Prove that `TauCeti.MackeyDisjoint V s` holds exactly when every intertwiner from the restriction
 of `V` to `H ⊓ sHs⁻¹` (a subgroup of `G`, along its inclusion into `H`) to the restriction of the
 conjugate `TauCeti.conjFDRep s V` (along the inclusion of `H ⊓ sHs⁻¹` into `sHs⁻¹`) is zero
-(Serre, Part I, §7.4). This is the form in which the criterion is usually stated; the two
+(Serre, Part II, §7.4). This is the form in which the criterion is usually stated; the two
 formulations differ by the identification of `H ⊓ sHs⁻¹` with the subgroup
 `(H ⊓ sHs⁻¹).subgroupOf H` of `H` and by `{}^s V` restricted to `H ⊓ sHs⁻¹` being `V` restricted
 along `y ↦ s⁻¹ y s`.
@@ -353,7 +355,7 @@ Mathlib's quaternion group and quaternions for §4.4.
 
 ## Layer 5: Clifford theory over a normal subgroup
 
-Throughout, `G` is finite, `N` is a normal subgroup and `k` is a field.
+Throughout, `N` is a normal subgroup of `G` and `k` is a field; `G` is finite in §5.1 and §5.3.
 
 ### 5.1 Isotypic decomposition in `FDRep`
 
@@ -368,7 +370,7 @@ multiplicities (Tau Ceti's `IsSemisimpleModule.linearEquivIsotypicComponents`,
   biproduct of its isotypic components;
 - if `V` is simple with scalar endomorphisms, the number of summands isomorphic to `V` in any
   decomposition of `W` into simple objects is `finrank k (V ⟶ W)`;
-- if `k` splits `G`, a simple `V` occurs in `W` exactly when its isotypic component is nonzero,
+- a simple `V` occurs in `W` exactly when its isotypic component is nonzero,
   equivalently when `finrank k (V ⟶ W) ≠ 0`, in any characteristic prime to `|G|`;
 - if `k` has characteristic zero, `V` occurs in `W` exactly when `⟨χ_V, χ_W⟩ ≠ 0`. In
   characteristic `p` the pairing is the dimension cast into `k` and can vanish for a constituent.
@@ -393,8 +395,9 @@ Let `W : FDRep k G` be simple. Prove `exists_resFDRep_iso_cliffordSum`: there ar
 `V : FDRep k N` and `e ≠ 0` with `Res_N W ≅ V.cliffordSum e`, the direct sum of `e` copies of each
 conjugate `{}^q V`, `q` running over `G ⧸ TauCeti.inertia V` (Tau Ceti's `FDRep.cliffordSum`).
 Prove its character form `clifford_restrict_character`: with `reps` a left transversal of the
-inertia group, `χ_W(n) = e · ∑_{g ∈ reps} χ_{{}^g V}(n)` for `n ∈ N`. No invertibility of `|G|`
-and no splitting is assumed; in positive characteristic the character form sees only `(e : k)`
+inertia group, `χ_W(n) = e · ∑_{g ∈ reps} χ_{{}^g V}(n)` for `n ∈ N`. No finiteness of `G`, no
+invertibility of `|G|` and no splitting is assumed: the conjugates of `V` are finitely many because
+`W` is finite-dimensional, and in positive characteristic the character form sees only `(e : k)`
 (Isaacs, Ch. 6; Curtis–Reiner §11; Alperin–Bell, Ch. 8).
 
 API:
@@ -426,28 +429,37 @@ closed field this is Tau Ceti's `FDRep.clifford_restrict_iso`.
   of order `3` has characteristic polynomial `x² + x + 1`, irreducible over `𝔽₂`, so the
   restriction to `A₃` is simple, `e = 1` and `T = S₃`.
 
-### 5.3 The Clifford correspondence over a splitting field
+### 5.3 The Clifford correspondence over every field
 
-Let `V : FDRep k N` be simple with inertia group `T`, and assume `hG : IsUnit (Nat.card G : k)` and
-that `k` splits `G` (`hSplitG`). Prove `clifford_correspondence_of_scalarSchur`: for every simple
+Let `V : FDRep k N` be simple with inertia group `T`; no invertibility of `|G|` in `k` and no
+splitting hypothesis is assumed. Prove `clifford_correspondence`: for every simple
 `U : FDRep k T` lying over `V` (Tau Ceti's `FDRep.LiesOver`, a nonzero intertwiner from `V` into
 the restriction of `U`), `TauCeti.indFDRep U` is simple and lies over `V`; every simple
 representation of `G` lying over `V` is isomorphic to such an induced representation; and two
 such `U` with isomorphic inductions are isomorphic. So induction is a bijection
 `Irr(T | V) ≅ Irr(G | V)` on isomorphism classes, which reduces the classification of the simple
 representations of `G` over `V` to that of `T` over `V` (Isaacs, Ch. 6; Curtis–Reiner §11).
-*Route.* For `s ∉ T` the restrictions of `U` and `{}^s U` to `N` are isotypic of the non-isomorphic
-types `V` and `{}^s V`, so `U` is disjoint from its conjugates and Tau Ceti's
-`FDRep.simple_indFDRep_of_forall_mackeyDisjoint` makes `Ind U` simple; surjectivity is Frobenius
-reciprocity (`FDRep.indResFDRepHomEquiv`) with Maschke's theorem for `T`, and injectivity reads
-off the `V`-isotypic part of `Res_T Ind_T^G U` from the Mackey decomposition. Over an algebraically
-closed field of characteristic zero the bijection is Tau Ceti's `FDRep.cliffordCorrespondence`.
+*Route.* For simple `U` over `T` lying over `V`, `Res_N U` is semisimple and `V`-isotypic (§5.2
+for `T`, which fixes `V`), and `Res_N Ind_T^G U` is the direct sum of the translates `gU`,
+`g ∈ G ⧸ T`, with `gU` isotypic of type `{}^g V`; so the `V`-isotypic part of `Res_N Ind U` is
+`U`. A nonzero `G`-submodule `X` of `Ind U` has semisimple restriction to `N`, so it is the sum of
+its intersections with the `gU`; as `X` is `G`-stable it meets `U`, so it contains the simple
+`T`-module `U` and is `Ind U`: `Ind U` is simple. For simple `W` lying over
+`V`, the `V`-isotypic part `W_V` of `Res_N W` is a `T`-module with `W = ⊕_{g ∈ G ⧸ T} g W_V`, so
+the map `Ind_T^G W_V → W` adjoint to the inclusion (`FDRep.indResFDRepHomEquiv`) is onto between
+spaces of the same dimension; `W_V` is simple, because the translates of a nonzero `T`-submodule
+`Y` of `W_V` sum to `W`, which forces `Y = W_V`. An isomorphism `Ind U ≅ Ind U'` maps `V`-isotypic
+part to `V`-isotypic part, so `U ≅ U'`. Neither Maschke's theorem nor the Mackey criterion
+`FDRep.simple_indFDRep_of_forall_mackeyDisjoint`, which assumes `|G|` invertible, enters. Over an
+algebraically closed field of characteristic zero the bijection is Tau Ceti's
+`FDRep.cliffordCorrespondence`.
 The further reduction from `T` to the quotient `T / N` needs `V` to extend to `T` and to have
 scalar endomorphisms (§7.5); for a division algebra of endomorphisms it is the crossed-product
 theory of §7.6–§7.7. Neither enters the proof of the correspondence.
-*Needs:* Tau Ceti `TauCeti.inertia`, `TauCeti.le_inertia`, `TauCeti.indFDRep`, `FDRep.LiesOver`,
-`FDRep.simple_indFDRep_of_forall_mackeyDisjoint`, `FDRep.indResFDRepHomEquiv`,
-`FDRep.indHomMackeyLinearEquiv`; §5.1.
+*Needs:* Tau Ceti `TauCeti.inertia`, `TauCeti.le_inertia`, `TauCeti.indFDRep`,
+`TauCeti.finrank_indFDRep`, `FDRep.LiesOver`, `FDRep.indResFDRepHomEquiv`,
+`TauCeti.Representation.isSemisimpleRepresentation_comp_subtype`; Mathlib `isotypicComponent`;
+§5.2.
 
 **Checks.**
 - For `S₄ ⊃ V₄` over `ℚ`, which splits `S₄`, and the character `χ` of `V₄` with kernel
@@ -470,29 +482,31 @@ theory of §7.6–§7.7. Neither enters the proof of the correspondence.
 
 ### Dependencies
 
-§5.1 for §5.2–§5.3; Layer 4's sufficient criterion and Hom-space decomposition for §5.3; Tau
-Ceti's orbit, inertia and multiplicity results.
+§5.2 for §5.3; Tau Ceti's orbit, inertia and multiplicity results, and its finite-dimensional
+induction and reciprocity for §5.3.
 
 ## Layer 6: the virtual-character ring, Artin and Brauer induction
 
-### 6.1 The virtual-character lattice over a splitting field of characteristic zero
+### 6.1 The virtual-character lattice over a field of characteristic zero
 
-Let `G` be finite and `k` a field of characteristic zero that splits `G`. Prove that the lattice of
-virtual characters `TauCeti.virtualCharacters k G`, the additive subgroup of `G → k` generated by
+Let `G` be finite and `k` a field of characteristic zero; `k` need not split `G`. Prove that the
+lattice of virtual characters `TauCeti.virtualCharacters k G`, the additive subgroup of `G → k` generated by
 the characters of finite-dimensional representations and the image of the representation ring
 under the character map, is the `ℤ`-span of the irreducible characters
 `TauCeti.irreducibleCharacters k G`, and that the characters of pairwise non-isomorphic simple
 representations are linearly independent, so that they form a basis of the lattice and the
-character map identifies the representation ring with it (Serre, Part II, §9–10). For an
-algebraically closed field these are Tau Ceti's
+character map identifies the representation ring with it (over `ℂ`: Serre, Part II, §9–10). For
+an algebraically closed field these are Tau Ceti's
 `TauCeti.virtualCharacters_eq_closure_irreducibleCharacters` and
 `TauCeti.ClassFunction.linearIndependent_character_fdRep`; the target removes algebraic closure.
 *Route.* By Maschke's theorem every character is a natural-number combination of irreducible
-characters; under the splitting hypothesis the irreducible characters are orthonormal for the
-pairing (`TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank` with Schur's lemma), hence
-linearly independent.
+characters; the characters of pairwise non-isomorphic simple representations are orthogonal for
+the pairing (`TauCeti.ClassFunction.characterPairing_ofFDRep_eq_zero`), with
+`⟨χ_V, χ_V⟩ = dim_k End(V)` (`TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank`), which
+is nonzero in characteristic zero; an orthogonal family with nonzero norms is linearly independent.
 *Needs:* Tau Ceti `TauCeti.virtualCharacters`, `TauCeti.irreducibleCharacters`,
 `TauCeti.irreducibleCharacters_subset_range`, `TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank`,
+`TauCeti.ClassFunction.characterPairing_ofFDRep_eq_zero`,
 `TauCeti.repRingCharacter`, `TauCeti.range_repRingCharacter`, `TauCeti.repRingCharacter_injective`;
 Mathlib Maschke's theorem.
 
@@ -518,28 +532,30 @@ Mathlib's Maschke theorem.
 ### 7.1 Abstract universal central extensions
 
 For an abstract group `G` (no finiteness), a central extension is a surjective homomorphism onto
-`G` whose kernel lies in the centre, `AbstractUCE.IsCentralExtension`. Take the canonical free
+`G` whose kernel lies in the centre. Take the canonical free
 presentation `AbstractUCE.presentation : FreeGroup G →* G` with kernel `R`
 (`AbstractUCE.relations`), `[F, F]` (`AbstractUCE.derived`), `[F, R]`
 (`AbstractUCE.relationCommutators`), and `U = [F, F]/[F, R]` (`AbstractUCE.Cover`) with the
-induced map `AbstractUCE.projection : U → G`. For every group `G`, prove (Borcherds, p. 109):
+induced map `AbstractUCE.projection : U → G`. For every group `G`, prove (Weibel, Ch. III,
+Example 5.3.4):
 
 - `AbstractUCE.ker_projection_le_center`: the kernel of the projection is central;
 - `AbstractUCE.ker_projection_eq_map`: it is the image of `R ∩ [F, F]`;
 - `AbstractUCE.kernelMap_bijective`: the canonical homomorphism `AbstractUCE.kernelMap` from
-  `(R ∩ [F, F])/[F, R]` to the kernel, sending the class of `x` to the class of `x`, is bijective
-  (Hopf's formula for the kernel).
+  `(R ∩ [F, F])/[F, R]` to the kernel, sending the class of `x` to the class of `x`, is bijective,
+  so that the kernel of `U → G` is `(R ∩ [F, F])/[F, R]`.
 
-For `G` perfect, prove:
+For `G` perfect, prove (Weibel, Ch. III, Example 5.3.4, Lemmas 5.3.2–5.3.3 and Theorem 5.4):
 
 - `AbstractUCE.projection_surjective`: the projection is surjective;
-- `AbstractUCE.cover_isPerfect`: `U` is perfect (the free group's commutator subgroup is not);
+- `AbstractUCE.cover_isPerfect`: `U` is perfect (for nontrivial `G` the free group's commutator
+  subgroup is not);
 - `AbstractUCE.universal`: for every surjective `p : E → G` with central kernel, in any universe,
   there is exactly one homomorphism `f : U → E` with `p ∘ f` the projection.
 
-API: `AbstractUCE.projection_isCentralExtension` packages the first two;
-`AbstractUCE.relationCommutators_le_derived` and `AbstractUCE.relationCommutators_le_relations`
-place `[F, R]` inside `[F, F] ∩ R`. Independence of the presentation: for any free presentation
+API: `AbstractUCE.relationCommutators_le_relations` places `[F, R]` inside `R`, as `R` is normal;
+`[F, R] ≤ [F, F]` is monotonicity of commutators. Independence of the presentation: for any free
+presentation
 `F' → G` with kernel `R'`, `[F', F']/[F', R']` is isomorphic to `U` over `G`, by the universal
 property. *Route.* Lift the free generators to `E`; on `[F, F]` the lift kills `[F, R]` and does not
 depend on the choice of lifts, because two choices differ by central elements; perfection of `U`
@@ -556,19 +572,17 @@ universal covering of a Lie group.
 
 ### 7.2 Projective representations, the projective linear group and cocycles
 
-Over a field `k` and for a group `G`:
-
-- prove `factorSet_mem_cocycles₂`: a function `α : G × G → kˣ` satisfying the multiplicative
-  cocycle identity `α(gh, j) α(g, h) = α(h, j) α(g, hj)` lies, written additively, in
-  `groupCohomology.cocycles₂ (Rep.trivial ℤ G (Additive kˣ))`; normalization is not used (Mathlib's
-  `groupCohomology.cocyclesOfIsMulCocycle₂`);
-- for `V` free with a finite basis `b`, nonzero, prove the converse of Tau Ceti's
-  `TauCeti.IsProjectiveRep.toPGL`: two projective representations `ρ`, `ρ'` of `G` on `V` with the
-  same image `G →* PGL(ι, k)` differ by a normalized scalar function, `ρ' g = c g • ρ g` with
-  `c 1 = 1`; consequently, by `TauCeti.IsProjectiveRep.cohomologyClass_eq_of_eq_smul`, every
-  homomorphism `G →* PGL(ι, k)` has a well-defined class in `H²(G, kˣ)`, that of any of its lifts
-  (`MonoidHom.exists_isProjectiveRep_toPGL_eq`). A projective representation lands in `PGL(ι, k)`
-  only after the basis is chosen (Karpilovsky; Isaacs, Ch. 11).
+Over a field `k` and for a group `G`, a function `α : G × G → kˣ` satisfying the multiplicative
+cocycle identity `α(gh, j) α(g, h) = α(h, j) α(g, hj)` is, written additively, a 2-cocycle of the
+trivial module `Additive kˣ`: this is Mathlib's `groupCohomology.cocyclesOfIsMulCocycle₂` for the
+trivial action `TauCeti.trivialMulDistribMulAction`, and normalization is not used. For `V` free
+with a finite basis `b`, nonzero, prove the converse of Tau Ceti's `TauCeti.IsProjectiveRep.toPGL`:
+two projective representations `ρ`, `ρ'` of `G` on `V` with the same image `G →* PGL(ι, k)` differ
+by a normalized scalar function, `ρ' g = c g • ρ g` with `c 1 = 1`; consequently, by
+`TauCeti.IsProjectiveRep.cohomologyClass_eq_of_eq_smul`, every homomorphism `G →* PGL(ι, k)` has a
+well-defined class in `H²(G, kˣ)`, that of any of its lifts
+(`MonoidHom.exists_isProjectiveRep_toPGL_eq`). A projective representation lands in `PGL(ι, k)`
+only after the basis is chosen (Isaacs, Ch. 11).
 
 *Needs:* Tau Ceti `TauCeti.IsProjectiveRep`, `TauCeti.IsProjectiveRep.toPGL`,
 `MonoidHom.exists_isProjectiveRep_toPGL_eq`, `TauCeti.IsProjectiveRep.cohomologyClass_eq_of_eq_smul`,
@@ -577,9 +591,8 @@ Over a field `k` and for a group `G`:
 `Matrix.ProjGenLinGroup`.
 
 **Checks.**
-- The class of a projective action is not determined by its factor set alone: `C₂` acting on `ℂ²`
-  trivially and through `diag(1, −1)` has factor set `1` both times, and the two images in `PGL₂(ℂ)`
-  differ.
+- A projective action is not determined by its factor set: `C₂` acting on `ℂ²` trivially and
+  through `diag(1, −1)` has factor set `1` both times, and the two images in `PGL₂(ℂ)` differ.
 - On `V = 0` every normalized `α` is the factor set of the unique family `ρ`, so no intrinsic class
   exists there; this is why the converse above assumes `V` nonzero.
 - For `C₂ × C₂ = ⟨a, b⟩` acting on `ℂ²` by `ρ(a) = X = [[0, 1], [1, 0]]`, `ρ(b) = Z = diag(1, −1)`
@@ -594,12 +607,12 @@ For a normalized factor set `α`, Tau Ceti's `TauCeti.twistedMonoidAlgebra k G �
 group algebra `k_α[G]`, with basis `TauCeti.TwistedMonoidAlgebra.basis` indexed by `G` and
 multiplication `e_g e_h = α(g, h) e_{gh}` (`TauCeti.TwistedMonoidAlgebra.of_mul_of`); projective
 representations with factor set `α` are its modules (`TauCeti.isProjectiveRepEquivAlgHom`), and
-cohomologous factor sets give isomorphic algebras. Define on `G →₀ k` the product `twistedMul`,
-`e_g · e_h = α(g, h) e_{gh}` extended bilinearly, with `twistedMul_single` on basis vectors (no
-cocycle condition used), and the coordinate identification `twistedCoordinateEquiv` through the
-basis. Prove `twistedCoordinateEquiv_mul`: the identification carries `twistedMul` to the product
-of `k_α[G]` (Karpilovsky). Associativity and the unit of `twistedMul` hold for normalized cocycles
-and fail for an arbitrary `α`.
+cohomologous factor sets give isomorphic algebras. Define on `G →₀ k` the twisted product,
+`e_g · e_h = α(g, h) e_{gh}` extended bilinearly, with its value on basis vectors (no cocycle
+condition used), and the coordinate identification of `G →₀ k` with `k_α[G]` through the basis.
+Prove that the coordinate identification carries the twisted product to the product of `k_α[G]`.
+Associativity and the unit of the twisted product hold for normalized cocycles and fail for an
+arbitrary `α`.
 *Needs:* Tau Ceti `TauCeti.twistedMonoidAlgebra`, `TauCeti.TwistedMonoidAlgebra.basis`,
 `TauCeti.TwistedMonoidAlgebra.of_mul_of`, `TauCeti.IsFactorSet`; Mathlib `Finsupp`.
 
@@ -609,19 +622,14 @@ and fail for an arbitrary `α`.
 
 ### 7.4 The central extension of a normalized factor set, and representation groups
 
-For a normalized factor set `α : G × G → kˣ` (cocycle identity `hα`, normalization `hα₁`), the
-central extension `1 → kˣ → E_α → G → 1` has carrier `centralExtensionOfFactorSet α hα hα₁ = kˣ × G`
-with `(a, g)(b, h) = (a b α(g, h), g h)` (`factorSetExtension_mul`); its group structure
-`factorSetExtensionGroup` is transported from Tau Ceti's `TauCeti.FactorSet.Extension` along
-`factorSetNativeEquiv` (with `normalizedFactorSet` the bundled factor set and
-`factorSetNativeMulEquiv` the multiplicative identification). With the projection
-`factorSetProjection` (surjective, `factorSetProjection_surjective`) and the scalar inclusion
-`factorSetScalarInclusion`, prove (Karpilovsky):
-
-- `factorSetScalarRange_eq_kernel`: the image of the scalar inclusion is the kernel of the
-  projection, so that `factorSetGroupExtension` is a Mathlib `GroupExtension kˣ E_α G`;
-- `factorSetProjection_isCentralExtension`: the projection is a central extension in the sense of
-  §7.1.
+For a normalized factor set `α : G × G → kˣ`, bundled as Tau Ceti's `TauCeti.FactorSet G kˣ` for
+the trivial action, the central extension `1 → kˣ → E_α → G → 1` is Tau Ceti's
+`TauCeti.FactorSet.Extension α`: the set `kˣ × G` (`TauCeti.FactorSet.Extension.equivProd`) with
+`(a, g)(b, h) = (a b α(g, h), g h)`. Tau Ceti proves that the image of the scalar inclusion is the
+kernel of the projection (`TauCeti.FactorSet.range_inl_eq_ker_rightHom`), so that
+`TauCeti.FactorSet.groupExtension` is a Mathlib `GroupExtension kˣ E_α G`, and that the scalars
+are central for the trivial action (`TauCeti.FactorSet.inl_range_le_center`). This section
+consumes that extension.
 
 A representation group (Schur cover) of a finite group `G` is a central extension `Ĝ → G` with
 kernel inside `[Ĝ, Ĝ]` through which every projective representation of `G` over an algebraically
@@ -629,15 +637,15 @@ closed field lifts to a linear one. Tau Ceti proves its existence with lifting f
 `PGL(ι, k)` (`TauCeti.exists_finite_stem_extension_lifting_pgl`). Prove the lifting for projective
 representations on arbitrary `k`-modules: for `G` finite and `k` algebraically closed there is a
 finite stem extension `p : E → G` such that for every `TauCeti.IsProjectiveRep ρ α` on any `V`
-there are a homomorphism `π : E →* (V ≃ₗ[k] V)` and `c : E → kˣ` with `π x = c x • ρ (p x)`.
+there are a homomorphism `π : E →* (V ≃ₗ[k] V)` and `c : E → kˣ` with `π x = c x • ρ (p x)`
+(Isaacs, Ch. 11).
 *Route.* Tau Ceti's `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` gives a
 finite stem factor set with bijective transgression, and
 `TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective` linearizes
 through it.
-*Needs:* §7.1; Tau Ceti `TauCeti.FactorSet`, `TauCeti.FactorSet.Extension`,
-`TauCeti.FactorSet.Extension.equivProd`, `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression`,
-`TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective`; Mathlib
-`GroupExtension`.
+*Needs:* Tau Ceti `TauCeti.IsProjectiveRep`,
+`TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression`,
+`TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective`.
 
 **Checks.**
 - For `G = C₂ = {1, g}` and `α(g, g) = −1`, `α` is not a coboundary over `ℝ` (that would need
@@ -652,8 +660,7 @@ Let `k` be any field, `N` normal in `G` (no finiteness), `V : FDRep k N` simple 
 endomorphisms (`hScalar : ∀ f : V ⟶ V, ∃ c : k, f = c • 𝟙 V`; simplicity makes `V` nonzero and `c`
 unique), `T = TauCeti.inertia V` and `Q = T ⧸ N`. A compatible projective extension is Tau Ceti's
 `TauCeti.IsProjectiveInertiaExtension V ρ β`: a projective representation `ρ` of `T` on `V` agreeing
-with `V` on `N`, with normalized factor set `β` pulled back from `Q`. Prove (Isaacs, Ch. 11;
-Karpilovsky):
+with `V` on `N`, with normalized factor set `β` pulled back from `Q`. Prove (Isaacs, Ch. 11):
 
 - `exists_scalarProjectiveInertiaExtension`: a compatible projective extension exists;
 - `scalarProjectiveInertiaExtension_class_eq`: any two have cohomologous factor sets, so they
@@ -736,8 +743,11 @@ over the crossed product on `Dᵐᵒᵖ` with action `σ_qᵐᵒᵖ` and factor 
 full faithfulness of the multiplicity functor `FDRep.cliffordMultiplicityFunctor` on
 representations whose restriction to `N` is a direct sum of copies of `V`. Prove:
 
-- every finite-dimensional module over this crossed product is the multiplicity space of such a
-  representation, so that the multiplicity functor is an equivalence between the finite-dimensional
+- `exists_cliffordMultiplicityFunctor_obj_iso`: every module over this crossed product that is
+  finite-dimensional over `k` is, up to isomorphism, the multiplicity space of a finite-dimensional
+  representation of `T` whose restriction to `N` is semisimple and isotypic of type `V`; with Tau
+  Ceti's full faithfulness (`FDRep.cliffordMultiplicityFunctor_map_bijective`) the multiplicity
+  functor is then an equivalence between the finite-dimensional
   representations of `T` whose restriction to `N` is a direct sum of copies of `V` and the
   finite-dimensional modules over the crossed product; this needs no Maschke hypothesis;
 - simple representations correspond to simple modules, and endomorphism algebras correspond;
@@ -747,7 +757,8 @@ representations whose restriction to `N` is a direct sum of copies of `V`. Prove
   algebra is `k_{β⁻¹}[Q]`, and the equivalence becomes the tensor factorization of §7.5.
 
 *Needs:* §7.5–§7.6; Tau Ceti `FDRep.cliffordMultiplicityFunctor`,
-`FDRep.cliffordMultiplicityHomEquiv`, `FDRep.cliffordBalancedEvaluationEquiv`,
+`FDRep.cliffordMultiplicityFunctor_map_bijective`, `FDRep.cliffordMultiplicityHomEquiv`,
+`FDRep.cliffordBalancedEvaluationEquiv`,
 `TauCeti.CrossedSystem.Algebra`, `TauCeti.CrossedSystem.opInv`, `FDRep.cliffordCrossedProductEquiv`,
 `TauCeti.CrossedSystem.Algebra.gaugeEquiv`.
 
@@ -793,7 +804,7 @@ inverse conventions of §7.7:
 ### Dependencies
 
 §7.1 is independent of the rest of the layer. §7.2–§7.4 use Tau Ceti's projective representations
-and factor sets; §7.4 uses §7.1. §7.5 uses Tau Ceti's inertia groups and compatible projective
+and factor sets. §7.5 uses Tau Ceti's inertia groups and compatible projective
 extensions; §7.6–§7.8 use Tau Ceti's Clifford extension and crossed products, and §7.7 uses §7.5
 for the scalar case.
 
@@ -815,16 +826,14 @@ for the scalar case.
 ## Scope and ownership
 
 **This roadmap owns** the generator formulas of induction in stages (§0.1); the restriction and
-quotient-invariant adapters for equivalences (§2.1); the trivial-character pairing of permutation
-characters and the normalization of the pairing under scalar Schur (§2.3); Mackey's formula as a
-finite biproduct (§3.1); the identity component of the Hom-space decomposition, the change of
-double-coset representative, the conjugate-representation form of disjointness and the real `Q₈`
-example (§§4.1–4.4); the isotypic decomposition in `FDRep`, Clifford's theorem over every field and
-the Clifford correspondence over a splitting field (§§5.1–5.3); the virtual-character lattice over a
-splitting field of characteristic zero (§6.1); abstract universal central extensions (§7.1); the
-class of a homomorphism to `PGL`, the cocycle adapter, coordinates on the twisted group algebra, the
-product model of the extension of a factor set and the lifting through representation groups on
-arbitrary modules (§§7.2–7.4); the scalar Clifford obstruction over an arbitrary field (§7.5); and
+quotient-invariant adapters for equivalences (§2.1); Mackey's formula as a finite biproduct (§3.1);
+the identity component of the Hom-space decomposition, the change of double-coset representative,
+the conjugate-representation form of disjointness and the real `Q₈` example (§§4.1–4.4); the
+isotypic decomposition in `FDRep`, Clifford's theorem over every field and the Clifford
+correspondence over every field (§§5.1–5.3); the virtual-character lattice over a field of
+characteristic zero (§6.1); abstract universal central extensions (§7.1); the class of a
+homomorphism to `PGL`, coordinates on the twisted group algebra and the lifting through
+representation groups on arbitrary modules (§§7.2–7.4); the scalar Clifford obstruction over an arbitrary field (§7.5); and
 the operator presentation and equivalence of division crossed systems, the isotypic-category
 equivalence and its restriction–induction comparisons (§§7.6–7.8).
 
@@ -832,7 +841,7 @@ equivalence and its restriction–induction comparisons (§§7.6–7.8).
 consumed, not planned again. Other roadmaps cite it under this roadmap's layer and section numbers,
 which resolve as follows.
 
-| Item | In Tau Ceti |
+| Item (former layer or section) | In Tau Ceti |
 |---|---|
 | Layer 0: transitivity of induction, restriction and coinduction | `TauCeti.Rep.indFunctorCompIso`, `TauCeti.Rep.resFunctorCompIso`, `TauCeti.Rep.coindFunctorCompIso`, `TauCeti.Rep.indFunctorSubgroupOfIso`, with their adjunction compatibilities (`TauCeti.Rep.conjugateEquiv_indFunctorCompIso_inv`) |
 | Layer 0: the projection formula and its dual | `TauCeti.indProjection` (`Ind(A ⊗ Res B) ≅ Ind A ⊗ B`, forward generator `⟦h ⊗ (a ⊗ b)⟧ ↦ ⟦h ⊗ a⟧ ⊗ ρ(h⁻¹) b`), `TauCeti.indProjectionNatIsoLeft`, `TauCeti.indProjectionNatIsoRight`, `TauCeti.coinvariantsTensorIndHom_map_indProjection_mk`, `TauCeti.coindProjection`, `TauCeti.coindProjectionNatIso`, `TauCeti.indFDRepProjection` |
@@ -850,8 +859,17 @@ which resolve as follows.
 | Layer 7: factor sets, Schur multiplier, twisted algebras, representation groups, Clifford extensions | `TauCeti.IsProjectiveRep`, `TauCeti.IsProjectiveRep.cohomologyClass_eq_zero_iff`, `TauCeti.IsProjectiveRep.exists_monoidHom_of_cohomologyClass_eq_zero` (no faithfulness needed), `TauCeti.FactorSet.cohomologyClass`, `TauCeti.FactorSet.cohomologyClassEquiv`, `TauCeti.schurMultiplier`, `TauCeti.twistedMonoidAlgebra`, `TauCeti.TwistedMonoidAlgebra.nonempty_algEquiv_of_cohomologyClass_eq`, `TauCeti.FactorSet.groupExtension`, `TauCeti.FactorSet.inl_range_le_center`, `TauCeti.GroupExtension.nonempty_equiv_iff_cohomologyClass_factorSet_eq`, `TauCeti.exists_finite_stem_extension_lifting_pgl`, `TauCeti.exists_isProjectiveInertiaExtension`, `TauCeti.cliffordObstruction`, `TauCeti.cliffordObstruction_eq_zero_iff`, `TauCeti.CliffordExtension.groupExtension`, `TauCeti.CliffordExtension.nonempty_splitting_iff`, `FDRep.cliffordExtensionConjClassesEquiv`, `FDRep.cliffordExtensionNonabelianH1Equiv` |
 | Worked examples: `S₄` on four points, Young subgroups, `S₃`, `D₄`, `A₄ ◁ S₄` | `TauCeti.characterPairing_ind_trivial_stabilizer`, `TauCeti.isCompl_invariantLine_augmentationSubrepresentation`, `TauCeti.permutationModuleIsoIndTrivial`, `Nat.Partition.character_indFDRep_trivial_parts_two_two`, `TauCeti.char_permutationModule`, `TauCeti.not_simple_indFDRep_stabilizer_perm_fin_three`, `TauCeti.simple_indFDRep_ofLinearCharacter_alternatingGroup_fin_three`, `TauCeti.simple_indFDRep_ofLinearCharacter_dihedralGroupFourRotationChar`, `TauCeti.inertia_ofLinearCharacter_alternatingGroup`, `FDRep.liesOver_alternatingGroup_iff_nonempty_iso_indFDRep` |
 
-FiniteGroupInvariants cites §2.1 and §2.2 by the names Gassmann.almostConjugate_iff_permutation_equiv
-and Gassmann.exists_S16_gassmann_pair; these statements are Tau Ceti's
+The former headings resolve as follows. Layer 2.1, "almost-conjugacy and permutation
+representations", is now §2.1 together with the §2.1 row of the table, and Layer 2.2 is the §2.2
+row. Layer 3a, "the decomposition as an isomorphism of representations", is Tau Ceti's
+`Rep.mackeyDecomposition` together with §3.1, and Layer 3b is the Layer 3 row. The subsection
+"Abstract universal central extensions" of Layer 7 is now §7.1; Layer7.ScalarObstruction is now
+§7.5 and Layer7.DivisionCrossedSystem is §§7.6–7.8. The list "What Mathlib already has (consume)"
+is now From Mathlib under Exact supplier contracts below.
+
+FiniteGroupInvariants cites §2.1 and §2.2 by the names
+Gassmann.almostConjugate_iff_permutation_equiv and Gassmann.exists_S16_gassmann_pair, and
+PseudodifferentialOperators cites §2.1 by the first; these statements are Tau Ceti's
 `TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction` and `TauCeti.exists_S16_gassmann_pair`.
 The comparison of the scalar Schur hypothesis with split Wedderburn presentations of `k[G]`, which
 draws on SemisimpleAlgebras Layers 1–2, is Tau Ceti's
@@ -882,7 +900,9 @@ minimal degree is made.
   `FDRep.char_tensor`, `FDRep.char_iso`, `FDRep.scalar_product_char_eq_finrank_equivariant`;
   `Representation.IsIrreducible`, `IsSemisimpleRepresentation`, Maschke's theorem
   (`MonoidAlgebra.Submodule.exists_isCompl` and the instance `IsSemisimpleModule k[G] V` for
-  `IsUnit (Nat.card G : k)`), `CategoryTheory.Simple`, `FDRep.forget₂HomLinearEquiv`.
+  `IsUnit (Nat.card G : k)`), `CategoryTheory.Simple`, `FDRep.forget₂HomLinearEquiv`;
+  `IsSemisimpleModule`, `isotypicComponent`, `IsIsotypicOfType`, `Representation.asModule`,
+  `ModuleCat`.
 - *Schur's lemma* (`Mathlib/CategoryTheory/Preadditive/Schur.lean`): the division ring `End X` of a
   simple object, `CategoryTheory.finrank_endomorphism_simple_eq_one` and
   `CategoryTheory.endomorphism_simple_eq_smul_id` (algebraically closed field, finite-dimensional
@@ -920,7 +940,8 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
 - *Layer 2*: `Representation.Equiv.invariantsLinearEquiv` (`RepresentationTheory/Invariants.lean`,
   over a commutative ring); `TauCeti.orbitSumEquiv` (`RepresentationTheory/OfMulAction.lean`);
   `TauCeti.ClassFunction.characterPairing`, `TauCeti.ClassFunction.ofCharacter`,
-  `TauCeti.ClassFunction.ofFDRep` and `TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank`
+  `TauCeti.ClassFunction.ofFDRep`, `TauCeti.ClassFunction.characterPairing_ofFDRep_eq_zero` and
+  `TauCeti.ClassFunction.characterPairing_ofFDRep_eq_finrank`
   (`[Invertible (Nat.card G : k)]`, the pairing of `V` and `W` is `finrank k (W ⟶ V)`)
   (`RepresentationTheory/CharacterTable/Pairing.lean`); `TauCeti.characterPairing_ind` and
   `TauCeti.characterPairing_ofMulAction_eq_card_orbits`.
@@ -956,7 +977,8 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   (`[FaithfulSMul kˣ V]`); `TauCeti.trivialMulDistribMulAction`; `TauCeti.IsFactorSet`,
   `TauCeti.TwistedMonoidAlgebra.basis`, `TauCeti.TwistedMonoidAlgebra.of_mul_of`,
   `TauCeti.isProjectiveRepEquivAlgHom`; `TauCeti.FactorSet`, `TauCeti.FactorSet.Extension`,
-  `TauCeti.FactorSet.Extension.equivProd`, `TauCeti.FactorSet.cohomologyClass_eq_iff`;
+  `TauCeti.FactorSet.Extension.equivProd`, `TauCeti.FactorSet.range_inl_eq_ker_rightHom`,
+  `TauCeti.FactorSet.cohomologyClass_eq_iff`;
   `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` and
   `TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective`;
   `TauCeti.IsProjectiveInertiaExtension`, `TauCeti.inertia_congr`,
@@ -968,20 +990,22 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   `TauCeti.CrossedSystem.Algebra.gaugeEquiv`, `TauCeti.CrossedSystem.Algebra.moduleFinite_rightSubgroup`,
   `TauCeti.CliffordExtension.commutantAction`, `TauCeti.OuterAlgAut`, `FDRep.cliffordCrossedSystem`,
   `FDRep.cliffordOuterAction`, `FDRep.commutantAction_gauge`, `FDRep.factorSetFun_clifford_gauge`,
-  `FDRep.cliffordMultiplicityFunctor`, `FDRep.cliffordMultiplicityHomEquiv`,
+  `FDRep.cliffordMultiplicityFunctor`, `FDRep.cliffordMultiplicityFunctor_map_bijective`,
+  `FDRep.cliffordMultiplicityHomEquiv`,
   `FDRep.cliffordBalancedEvaluationEquiv`, `FDRep.cliffordCrossedProductEquiv` (every field, no
   simplicity or finiteness unless stated).
 
 ## References
 
-- J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977). Part I, §7
-  (induced representations, the induced character), §7.3–7.4 (Frobenius reciprocity), and the
-  Mackey irreducibility criterion (§7.4, Prop. 23–25). Part II, §9–10 (the Grothendieck ring,
-  Artin's and Brauer's induction theorems, Brauer's characterization of characters, the cyclotomic
-  splitting field), for Layer 6.
-- I. M. Isaacs, *Character Theory of Finite Groups*, AMS Chelsea (1976). Ch. 5 (induced
-  characters, Frobenius reciprocity), Ch. 6 (Clifford theory, the inertia group, the Clifford
-  correspondence), and Ch. 8 and Ch. 11 (projective representations), for Layer 7.
+- J.-P. Serre, *Linear Representations of Finite Groups*, Springer GTM 42 (1977). Part II, §7
+  (induced representations, the induced character), §7.2 (the reciprocity formula), and the
+  Mackey irreducibility criterion (§7.4). Part II, §9–10 (the Grothendieck ring, Artin's and
+  Brauer's induction theorems, Brauer's characterization of characters, the cyclotomic splitting
+  field), for Layer 6.
+- I. M. Isaacs, *Character Theory of Finite Groups*, Academic Press (1976), reprinted as AMS
+  Chelsea Publishing vol. 359. Ch. 5 (induced characters, Frobenius reciprocity), Ch. 6 (Clifford
+  theory, the inertia group, the Clifford correspondence), and Ch. 11 (projective
+  representations), for Layer 7.
 - C. W. Curtis, I. Reiner, *Methods of Representation Theory, Vol. I*, Wiley (1981). §10–11
   (induction and restriction of modules, the Mackey decomposition and subgroup theorems,
   transitivity, the projection formula) and §11 (Clifford theory) in module-theoretic generality.
@@ -991,9 +1015,9 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   representations, Mackey's theorem, Clifford theory).
 - G. W. Mackey, *On induced representations of groups*, Amer. J. Math. 73 (1951), 576–592. The
   original decomposition and irreducibility theorems.
-- G. Karpilovsky, *Projective Representations of Finite Groups*, Marcel Dekker (1985). Factor sets,
-  the twisted group algebra, the Schur multiplier `H²(G, kˣ)` and representation groups, for
-  Layer 7.
-- Borcherds, p. 109, for the existence of universal central extensions of perfect groups (§7.1).
+- C. A. Weibel, *The K-book: an Introduction to Algebraic K-theory*, AMS Graduate Studies in
+  Mathematics 145 (2013), in the chapter files on the author's web page. Ch. III, Lemmas
+  5.3.2–5.3.3, Example 5.3.4 and Theorem 5.4 (the central extension `[F, F]/[F, R]` of a free
+  presentation and the universal central extension of a perfect group), for §7.1.
 - Lean Zulip, [Category Rep and restriction of scalars](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Category.20Rep.20and.20restriction.20of.20scalars/with/607304102):
   representation maps are constructed first and categorical wrappers derived from them.

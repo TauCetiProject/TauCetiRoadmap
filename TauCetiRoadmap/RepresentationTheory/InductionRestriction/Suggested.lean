@@ -4,8 +4,7 @@ import TauCeti.RepresentationTheory.Induction.Mackey.Decomposition
 import TauCeti.RepresentationTheory.Induction.Clifford.Equivalence
 import TauCeti.RepresentationTheory.Induction.Clifford.Correspondence
 import TauCeti.RepresentationTheory.Induction.Clifford.Obstruction
-import TauCeti.RepresentationTheory.ProjectiveRepresentation.Basic
-import TauCeti.GroupTheory.GroupExtension.Of.FactorSet
+import TauCeti.RepresentationTheory.Induction.Clifford.Extension.Module
 
 /-!
 # Induction, restriction and Mackey theory for finite groups: target signatures
@@ -14,31 +13,35 @@ The roadmap is `README.md`; this file is not the roadmap. It states the roadmap'
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, together with the few
 definitions those statements need.
 
-The headline theorems are:
-* the Mackey decomposition as a finite biproduct of induced conjugates (README §3.1,
-  `isIso_biproductDesc_mackeyInclusion`);
+The headline theorems are the four of the README's overview:
 * Clifford's theorem over every field, in structural and in character form (README §5.2,
   `exists_resFDRep_iso_cliffordSum`, `clifford_restrict_character`);
-* the Clifford correspondence over a field in which `|G|` is invertible and which splits `G`
-  (README §5.3, `clifford_correspondence_of_scalarSchur`);
+* the Clifford correspondence over every field (README §5.3, `clifford_correspondence`);
 * the universal central extension `[F, F] / [F, R]` of a perfect group and its kernel
   `(R ∩ [F, F]) / [F, R]` (README §7.1, namespace `AbstractUCE`);
-* the scalar Clifford obstruction over an arbitrary field (README §7.5).
+* Clifford obstructions over every field: the scalar obstruction (README §7.5) and the description
+  of the representations of the inertia group whose restriction to `N` is a sum of copies of `V`
+  as the modules over the crossed product of the division crossed system (README §7.7). Tau Ceti
+  proves that the multiplicity functor is fully faithful on these representations
+  (`FDRep.cliffordMultiplicityFunctor_map_bijective`); the statement here,
+  `exists_cliffordMultiplicityFunctor_obj_iso`, is that every finite-dimensional module is in its
+  essential image.
 
-Two headline theorems are not stated: the equivalence between representations of the inertia
-group whose restriction to `N` is isotypic of type `V` and modules over the crossed-product
-algebra of the division crossed system (README §7.7), and its compatibility with restriction and
-induction between intermediate subgroups (README §7.8). Both have as their source the full
-subcategory of `V`-isotypic representations of the inertia group, which the pins do not define.
+The compatibility of that description with restriction and induction between intermediate
+subgroups `N ≤ T' ≤ T` (README §7.8) is not stated: the pins define the multiplicity functor only
+for the full inertia group `TauCeti.inertia V`, so the multiplicity functor of `T'` that the
+comparisons involve has no carrier.
 
-The remaining declarations are the adapters of README §2.1 and §7.2–§7.4. Everything this roadmap
-consumes from Mathlib and Tau Ceti is listed under "Exact supplier contracts" in the README.
+Besides the headline theorems, the file states Mackey's formula as a finite biproduct (README §3.1,
+`isIso_biproductDesc_mackeyInclusion`) and defines the two adapters of README §2.1 under the names
+by which PolynomialGaloisGroupsPartIII consumes them. Everything this roadmap consumes from Mathlib
+and Tau Ceti is listed under "Exact supplier contracts" in the README.
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction
 
 open CategoryTheory Limits
-open scoped Pointwise Classical
+open scoped Pointwise Classical MonoidAlgebra
 
 universe u
 
@@ -88,12 +91,13 @@ theorem isIso_biproductDesc_mackeyInclusion {k G : Type u} [CommRing k] [Group G
 
 /-! ## Layer 5: Clifford theory over a normal subgroup -/
 
-/-- **Clifford's theorem over every field** (README §5.2). For a finite group `G`, a normal
-subgroup `N`, a field `k` and a simple finite-dimensional representation `W` of `G`, there are a
-simple representation `V` of `N` and `e ≠ 0` such that the restriction of `W` to `N` is the direct
-sum of `e` copies of each conjugate `{}^q V`, `q` running over the cosets of the inertia group of
-`V` (Isaacs, Ch. 6; Curtis–Reiner §11). No invertibility of `|G|` in `k` is assumed. -/
-theorem exists_resFDRep_iso_cliffordSum {k : Type u} {G : Type u} [Field k] [Group G] [Finite G]
+/-- **Clifford's theorem over every field** (README §5.2). For a group `G`, a normal subgroup `N`,
+a field `k` and a simple finite-dimensional representation `W` of `G`, there are a simple
+representation `V` of `N`, with finitely many cosets of its inertia group, and `e ≠ 0` such that
+the restriction of `W` to `N` is the direct sum of `e` copies of each conjugate `{}^q V`, `q`
+running over those cosets (Isaacs, Ch. 6; Curtis–Reiner §11). Neither finiteness of `G` nor
+invertibility of `|G|` in `k` is assumed. -/
+theorem exists_resFDRep_iso_cliffordSum {k : Type u} {G : Type u} [Field k] [Group G]
     {N : Subgroup G} [N.Normal] (W : FDRep k G) [Simple W] :
     ∃ (V : FDRep k N) (_ : Simple V) (hfinite : Finite (G ⧸ TauCeti.inertia V)),
       let _ := hfinite
@@ -101,12 +105,12 @@ theorem exists_resFDRep_iso_cliffordSum {k : Type u} {G : Type u} [Field k] [Gro
   sorry
 
 /-- **Clifford's theorem, character form, over every field** (README §5.2). For a simple
-finite-dimensional `W`, there are a simple `V` of `N`, a natural multiplicity `e ≠ 0` and a left
-transversal `reps` of the inertia group of `V` such that on `N` the character of `W` is `e` times
-the sum of the characters of the conjugates `{}^g V`, `g ∈ reps`. In positive characteristic the
-identity sees only `(e : k)`. -/
+finite-dimensional `W`, there are a simple `V` of `N`, a natural multiplicity `e ≠ 0` and a finite
+left transversal `reps` of the inertia group of `V` such that on `N` the character of `W` is `e`
+times the sum of the characters of the conjugates `{}^g V`, `g ∈ reps`. In positive characteristic
+the identity sees only `(e : k)`. -/
 theorem clifford_restrict_character {k : Type u} {G : Type u} [Field k] [Group G]
-    {N : Subgroup G} [N.Normal] [Fintype G] (W : FDRep k G) [Simple W] :
+    {N : Subgroup G} [N.Normal] (W : FDRep k G) [Simple W] :
     ∃ (V : FDRep k N) (_ : Simple V) (e : ℕ) (reps : Finset G),
       e ≠ 0 ∧
       (∀ g : G, ∃! r, r ∈ reps ∧ g⁻¹ * r ∈ TauCeti.inertia V) ∧
@@ -114,17 +118,14 @@ theorem clifford_restrict_character {k : Type u} {G : Type u} [Field k] [Group G
         = (e : k) * ∑ g ∈ reps, (TauCeti.conjNormalFDRep g V).character n := by
   sorry
 
-/-- **The Clifford correspondence over a splitting field** (README §5.3). Let `G` be finite, `N`
-normal, `V` a simple representation of `N` with inertia group `T`, and `k` a field in which `|G|`
-is invertible and over which every simple finite-dimensional representation of `G` has
-one-dimensional endomorphism algebra. Then induction from `T` to `G` sends simple representations
-of `T` lying over `V` to simple representations of `G` lying over `V`, every simple representation
-of `G` lying over `V` arises so, and it determines the representation of `T` up to isomorphism
-(Isaacs, Ch. 6; Curtis–Reiner §11). -/
-theorem clifford_correspondence_of_scalarSchur {k : Type u} {G : Type u} [Field k] [Group G]
-    [Finite G] {N : Subgroup G} [N.Normal] (hG : IsUnit (Nat.card G : k))
-    (hSplitG : ∀ W : FDRep k G, Simple W → Module.finrank k (W ⟶ W) = 1)
-    (V : FDRep k N) [Simple V] :
+/-- **The Clifford correspondence over every field** (README §5.3). Let `G` be finite, `N` normal,
+`V` a simple representation of `N` with inertia group `T`, and `k` any field. Then induction from
+`T` to `G` sends simple representations of `T` lying over `V` to simple representations of `G`
+lying over `V`, every simple representation of `G` lying over `V` arises so, and it determines the
+representation of `T` up to isomorphism (Isaacs, Ch. 6; Curtis–Reiner §11). Neither invertibility
+of `|G|` in `k` nor a splitting hypothesis is assumed. -/
+theorem clifford_correspondence {k : Type u} {G : Type u} [Field k] [Group G]
+    [Finite G] {N : Subgroup G} [N.Normal] (V : FDRep k N) [Simple V] :
     (∀ U : FDRep k (TauCeti.inertia V), Simple U →
         U.LiesOver (Subgroup.inclusion (TauCeti.le_inertia V)) V →
           Simple (TauCeti.indFDRep U) ∧ (TauCeti.indFDRep U).LiesOver N.subtype V) ∧
@@ -148,11 +149,6 @@ universe v w
 
 variable (G : Type w) [Group G]
 
-/-- A central extension of `G` is a surjective homomorphism onto `G` whose kernel lies in the
-centre (README §7.1). -/
-def IsCentralExtension {E : Type v} [Group E] (p : E →* G) : Prop :=
-  Function.Surjective p ∧ p.ker ≤ Subgroup.center E
-
 /-- The canonical free presentation `F → G`, sending the generator indexed by `g` to `g`. -/
 abbrev presentation : FreeGroup G →* G := FreeGroup.prod
 
@@ -165,10 +161,6 @@ abbrev derived : Subgroup (FreeGroup G) := commutator (FreeGroup G)
 /-- The normal subgroup `[F, R]`. -/
 abbrev relationCommutators : Subgroup (FreeGroup G) :=
   ⁅(⊤ : Subgroup (FreeGroup G)), relations G⁆
-
-/-- `[F, R]` is contained in `[F, F]`. -/
-theorem relationCommutators_le_derived : relationCommutators G ≤ derived G :=
-  Subgroup.commutator_mono le_rfl le_top
 
 /-- `[F, R]` is contained in `R`, since `R` is normal. -/
 theorem relationCommutators_le_relations : relationCommutators G ≤ relations G :=
@@ -227,17 +219,13 @@ def kernelMap :
       rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff]
       exact hx)
 
-/-- **The Hopf formula for the kernel** (README §7.1): the canonical homomorphism from
-`(R ∩ [F, F]) / [F, R]` to the kernel of `U → G` is bijective. -/
+/-- **The kernel of `U → G` as `(R ∩ [F, F]) / [F, R]`** (README §7.1): the canonical
+homomorphism from `(R ∩ [F, F]) / [F, R]` to the kernel of `U → G` is bijective. -/
 theorem kernelMap_bijective : Function.Bijective (kernelMap G) := by
   sorry
 
-/-- The projection `U → G` of a perfect group is a central extension. -/
-theorem projection_isCentralExtension [Group.IsPerfect G] :
-    IsCentralExtension G (projection G) :=
-  ⟨projection_surjective G, ker_projection_le_center G⟩
-
-/-- `U` is perfect when `G` is; the free commutator subgroup `[F, F]` itself is not. -/
+/-- `U` is perfect when `G` is; for nontrivial `G` the free commutator subgroup `[F, F]` itself is
+not. -/
 theorem cover_isPerfect [Group.IsPerfect G] : Group.IsPerfect (Cover G) := by
   sorry
 
@@ -255,54 +243,15 @@ end TauCetiRoadmap.RepresentationTheory.InductionRestriction.AbstractUCE
 namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction
 
 open CategoryTheory
+open scoped MonoidAlgebra
+
+universe u
 
 section Projective
 
 variable {k : Type} [Field k] {G : Type} [Group G]
 
 attribute [local instance] TauCeti.trivialMulDistribMulAction
-
-/-- **A factor set is a `2`-cocycle** (README §7.2). For the trivial action of `G` on `kˣ`, a
-function `α : G × G → kˣ` satisfying the multiplicative cocycle identity lies, written additively,
-in `groupCohomology.cocycles₂` of the trivial module `Additive kˣ`. -/
-theorem factorSet_mem_cocycles₂ (α : G × G → kˣ)
-    (hα : ∀ g h j : G, α (g * h, j) * α (g, h) = α (h, j) * α (g, h * j)) :
-    (fun p : G × G => Additive.ofMul (α p)) ∈
-      groupCohomology.cocycles₂ (Rep.trivial ℤ G (Additive kˣ)) := sorry
-
-/-- The twisted product on `G →₀ k`, `e_g * e_h = α(g, h) • e_{g h}`, extended bilinearly
-(README §7.3). -/
-noncomputable def twistedMul (α : G × G → kˣ) : (G →₀ k) → (G →₀ k) → (G →₀ k) := fun f g ↦
-  f.sum fun x a ↦ g.sum fun y b ↦ Finsupp.single (x * y) (a * b * (α (x, y) : k))
-
-/-- On basis vectors the twisted product is `α(g, h) • e_{g h}`; no cocycle condition is needed. -/
-theorem twistedMul_single (α : G × G → kˣ) (x y : G) (a b : k) :
-    twistedMul α (Finsupp.single x a) (Finsupp.single y b) =
-      Finsupp.single (x * y) (a * b * (α (x, y) : k)) := by
-  classical
-  simp [twistedMul]
-
-/-- The coordinate identification of `G →₀ k` with Tau Ceti's twisted group algebra, through its
-basis indexed by `G` (README §7.3). -/
-noncomputable def twistedCoordinateEquiv (α : G × G → kˣ)
-    [TauCeti.IsFactorSet (Function.curry α)] :
-    (G →₀ k) ≃ₗ[k] TauCeti.twistedMonoidAlgebra k G (Function.curry α) :=
-  (TauCeti.TwistedMonoidAlgebra.basis k G (Function.curry α)).repr.symm
-
-/-- The coordinate identification carries the twisted product on `G →₀ k` to the product of the
-twisted group algebra (README §7.3). -/
-theorem twistedCoordinateEquiv_mul (α : G × G → kˣ)
-    [TauCeti.IsFactorSet (Function.curry α)] (f g : G →₀ k) :
-    twistedCoordinateEquiv α (twistedMul α f g) =
-      twistedCoordinateEquiv α f * twistedCoordinateEquiv α g := by
-  sorry
-
-/-- The carrier `kˣ × G` of the central extension `1 → kˣ → E_α → G → 1` of a normalized factor
-set `α` (README §7.4); its group structure is `factorSetExtensionGroup` below. The cocycle identity
-`hα` and the normalization `hα₁` are part of the data. -/
-def centralExtensionOfFactorSet (α : G × G → kˣ)
-    (_hα : ∀ g h j : G, α (g * h, j) * α (g, h) = α (h, j) * α (g, h * j))
-    (_hα₁ : ∀ g : G, α (1, g) = 1 ∧ α (g, 1) = 1) : Type := kˣ × G
 
 /-- **Existence of a compatible projective extension, scalar case** (README §7.5). Over any field,
 a simple finite-dimensional representation `V` of a normal subgroup `N` whose endomorphisms are
@@ -372,83 +321,29 @@ theorem cliffordObstruction_eq_native [IsAlgClosed k] {N : Subgroup G} [N.Normal
 
 end Projective
 
-section FactorSetCentralExtension
-
-variable {k G : Type} [Field k] [Group G]
-variable (α : G × G → kˣ)
-variable (hα : ∀ g h j : G, α (g * h, j) * α (g, h) = α (h, j) * α (g, h * j))
-variable (hα₁ : ∀ g : G, α (1, g) = 1 ∧ α (g, 1) = 1)
-
-attribute [local instance] TauCeti.trivialMulDistribMulAction
-
-/-- The normalized factor set `α`, bundled as Tau Ceti's `TauCeti.FactorSet` for the trivial
-action. -/
-def normalizedFactorSet : TauCeti.FactorSet G kˣ where
-  toFun := α
-  isMulCocycle₂' g h j := by simpa using hα g h j
-  map_one_one' := (hα₁ 1).1
-
-/-- The product carrier `kˣ × G` is the carrier of Tau Ceti's extension of the factor set. -/
-def factorSetNativeEquiv : centralExtensionOfFactorSet α hα hα₁ ≃
-    (normalizedFactorSet α hα hα₁).Extension :=
-  (TauCeti.FactorSet.Extension.equivProd (normalizedFactorSet α hα hα₁)).symm
-
-/-- The group structure on `kˣ × G`, transported from Tau Ceti's extension. -/
-instance factorSetExtensionGroup : Group (centralExtensionOfFactorSet α hα hα₁) :=
-  (factorSetNativeEquiv α hα hα₁).group
-
-/-- The identification of `kˣ × G` with Tau Ceti's extension is multiplicative. -/
-def factorSetNativeMulEquiv : centralExtensionOfFactorSet α hα hα₁ ≃*
-    (normalizedFactorSet α hα hα₁).Extension where
-  toEquiv := factorSetNativeEquiv α hα hα₁
-  map_mul' _ _ := rfl
-
-/-- The twisted multiplication `(a, g)(b, h) = (a b α(g, h), g h)`. -/
-@[simp] theorem factorSetExtension_mul
-    (x y : centralExtensionOfFactorSet α hα hα₁) :
-    x * y = (x.1 * y.1 * α (x.2, y.2), x.2 * y.2) := rfl
-
-/-- The projection `(a, g) ↦ g`. -/
-def factorSetProjection : centralExtensionOfFactorSet α hα hα₁ →* G where
-  toFun x := x.2
-  map_one' := rfl
-  map_mul' _ _ := rfl
-
-/-- The scalar inclusion `a ↦ (a, 1)`. -/
-def factorSetScalarInclusion : kˣ →* centralExtensionOfFactorSet α hα hα₁ where
-  toFun a := (a, 1)
-  map_one' := rfl
-  map_mul' a b := by
-    change (a * b, (1 : G)) = (a * b * α (1, 1), (1 : G) * 1)
-    simp [(hα₁ 1).1]
-
-/-- The projection `kˣ × G → G` is surjective. -/
-theorem factorSetProjection_surjective : Function.Surjective (factorSetProjection α hα hα₁) := by
-  intro g
-  exact ⟨(1, g), rfl⟩
-
-/-- The image of the scalar inclusion is the kernel of the projection (README §7.4). -/
-theorem factorSetScalarRange_eq_kernel :
-    (factorSetScalarInclusion α hα hα₁).range = (factorSetProjection α hα hα₁).ker := by
+/-- **Crossed-product modules are multiplicity spaces** (README §7.7). Let `N` be normal in `G`,
+`V` a simple finite-dimensional representation of `N` over any field `k`, and `s` a normalized
+section of its Clifford extension. Every module `M` over the crossed product of the division
+crossed system (opposite coefficients, inverse factors) that is finite-dimensional over `k` is,
+up to isomorphism, the multiplicity space `Hom_N(V, W)` of a finite-dimensional representation `W`
+of the inertia group whose restriction to `N` is semisimple and isotypic of type `V`. With Tau
+Ceti's full faithfulness of the multiplicity functor on such `W`, this makes the functor an
+equivalence onto the finite-dimensional modules. -/
+theorem exists_cliffordMultiplicityFunctor_obj_iso {k G : Type u} [Field k] [Group G]
+    {N : Subgroup G} [N.Normal] (V : FDRep k N) [Simple V]
+    (s : (TauCeti.CliffordExtension.groupExtension V).Section) (hs : s 1 = 1)
+    (M : Type u) [AddCommGroup M]
+    [Module (TauCeti.CrossedSystem.Algebra (FDRep.cliffordCrossedSystem V s hs).opInv) M]
+    [Module k M] [IsScalarTower k
+      (TauCeti.CrossedSystem.Algebra (FDRep.cliffordCrossedSystem V s hs).opInv) M]
+    [FiniteDimensional k M] :
+    ∃ W : FDRep k (TauCeti.inertia V),
+      IsSemisimpleModule k[N] (Representation.asModule (FDRep.ρ
+        ((Action.res (FGModuleCat k) (Subgroup.inclusion (TauCeti.le_inertia V))).obj W))) ∧
+      IsIsotypicOfType k[N] (Representation.asModule (FDRep.ρ
+        ((Action.res (FGModuleCat k) (Subgroup.inclusion (TauCeti.le_inertia V))).obj W)))
+        (Representation.asModule V.ρ) ∧
+      Nonempty ((FDRep.cliffordMultiplicityFunctor V s hs).obj W ≅ ModuleCat.of _ M) := by
   sorry
-
-/-- The projection `kˣ × G → G` is a central extension in the sense of §7.1 (README §7.4). -/
-theorem factorSetProjection_isCentralExtension :
-    AbstractUCE.IsCentralExtension G (factorSetProjection α hα hα₁) := by
-  refine ⟨factorSetProjection_surjective α hα hα₁, ?_⟩
-  sorry
-
-/-- The extension `1 → kˣ → kˣ × G → G → 1` as a Mathlib `GroupExtension`. -/
-def factorSetGroupExtension :
-    GroupExtension kˣ (centralExtensionOfFactorSet α hα hα₁) G where
-  inl := factorSetScalarInclusion α hα hα₁
-  rightHom := factorSetProjection α hα hα₁
-  inl_injective := by
-    intro a b h
-    exact congrArg Prod.fst h
-  range_inl_eq_ker_rightHom := factorSetScalarRange_eq_kernel α hα hα₁
-  rightHom_surjective := factorSetProjection_surjective α hα hα₁
-
-end FactorSetCentralExtension
 
 end TauCetiRoadmap.RepresentationTheory.InductionRestriction
