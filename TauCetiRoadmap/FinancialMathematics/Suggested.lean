@@ -74,9 +74,9 @@ theorem existsUnique_weighted_price {α : ℝ≥0} (hα0 : 0 < α) (hα1 : α < 
 /-! ## Layer 4: Black–Scholes calls and puts -/
 
 /-- **Uniqueness of the Black–Scholes call price** (§4.2). Let `σ > 0`, `K > 0`, `T > 0` and
-`r ∈ ℝ`. Let `V(s, t)` be continuous on the closed domain `s ≥ 0`, `0 ≤ t ≤ T`, of class `C^{2,1}`
-on the open domain `s > 0`, `0 < t < T` (twice continuously differentiable in the spot,
-differentiable in time, with `∂V/∂t`, `∂V/∂s` and `∂²V/∂s²` jointly continuous there), a solution
+`r ∈ ℝ`. Let `V(s, t)` be continuous on the closed domain `s ≥ 0`, `0 ≤ t ≤ T`, twice
+continuously differentiable in the spot and differentiable in time on the open domain `s > 0`,
+`0 < t < T` (no joint continuity of the derivatives is assumed), a solution
 of the Black–Scholes equation `V_t + σ² s² / 2 V_ss + r (s V_s - V) = 0` on the open domain, with
 `|V(s, t)| ≤ A (1 + s)` on the closed domain and terminal value `V(s, T) = (s - K)⁺`. Then `V` is
 the Black–Scholes call price `C(s, t) = callValue s r σ K (T - t)` on the closed domain. -/
@@ -85,12 +85,6 @@ theorem eq_callValue_of_pde {r σ K T A : ℝ} (hσ : 0 < σ) (hK : 0 < K) (hT :
     (hcont : ContinuousOn (fun p : ℝ × ℝ => V p.1 p.2) (Ici 0 ×ˢ Icc 0 T))
     (hspot : ∀ t ∈ Ioo 0 T, ContDiffOn ℝ 2 (fun x => V x t) (Ioi 0))
     (htime : ∀ s ∈ Ioi (0 : ℝ), DifferentiableOn ℝ (fun u => V s u) (Ioo 0 T))
-    (hcont_t : ContinuousOn (fun p : ℝ × ℝ => deriv (fun u => V p.1 u) p.2)
-      (Ioi 0 ×ˢ Ioo 0 T))
-    (hcont_s : ContinuousOn (fun p : ℝ × ℝ => deriv (fun x => V x p.2) p.1)
-      (Ioi 0 ×ˢ Ioo 0 T))
-    (hcont_ss : ContinuousOn (fun p : ℝ × ℝ => deriv (deriv fun x => V x p.2) p.1)
-      (Ioi 0 ×ˢ Ioo 0 T))
     (hpde : ∀ s ∈ Ioi (0 : ℝ), ∀ t ∈ Ioo 0 T,
       deriv (fun u => V s u) t + σ ^ 2 * s ^ 2 / 2 * deriv (deriv fun x => V x t) s +
         r * (s * deriv (fun x => V x t) s - V s t) = 0)
@@ -107,12 +101,6 @@ theorem eq_putValue_of_pde {r σ K T A : ℝ} (hσ : 0 < σ) (hK : 0 < K) (hT : 
     (hcont : ContinuousOn (fun p : ℝ × ℝ => V p.1 p.2) (Ici 0 ×ˢ Icc 0 T))
     (hspot : ∀ t ∈ Ioo 0 T, ContDiffOn ℝ 2 (fun x => V x t) (Ioi 0))
     (htime : ∀ s ∈ Ioi (0 : ℝ), DifferentiableOn ℝ (fun u => V s u) (Ioo 0 T))
-    (hcont_t : ContinuousOn (fun p : ℝ × ℝ => deriv (fun u => V p.1 u) p.2)
-      (Ioi 0 ×ˢ Ioo 0 T))
-    (hcont_s : ContinuousOn (fun p : ℝ × ℝ => deriv (fun x => V x p.2) p.1)
-      (Ioi 0 ×ˢ Ioo 0 T))
-    (hcont_ss : ContinuousOn (fun p : ℝ × ℝ => deriv (deriv fun x => V x p.2) p.1)
-      (Ioi 0 ×ˢ Ioo 0 T))
     (hpde : ∀ s ∈ Ioi (0 : ℝ), ∀ t ∈ Ioo 0 T,
       deriv (fun u => V s u) t + σ ^ 2 * s ^ 2 / 2 * deriv (deriv fun x => V x t) s +
         r * (s * deriv (fun x => V x t) s - V s t) = 0)

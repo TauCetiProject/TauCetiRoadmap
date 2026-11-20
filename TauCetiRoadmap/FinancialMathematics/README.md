@@ -21,8 +21,9 @@ from zero and the market price of risk (μ − r)/σ is bounded, a solution cont
 with |C| + |s ∂C/∂s| ≤ A(1 + sᵖ) and terminal value h is the replication price of h(S_T) when the
 asset has finite maximal Q-moments of order 2p. Third, for constant r, σ > 0 and a strike K > 0,
 the call price s Φ(d₊) − K e^(−r(T−t)) Φ(d₋) is replicated by holding Φ(d₊) shares, and it is the
-only solution of the Black–Scholes equation of class C^(2,1) on s > 0, 0 < t < T, continuous on
-s ≥ 0, 0 ≤ t ≤ T, bounded by A(1 + s), with terminal value (s − K)⁺; likewise for the put.
+only solution of the Black–Scholes equation on s > 0, 0 < t < T, twice continuously differentiable
+in s and differentiable in t there, continuous on s ≥ 0, 0 ≤ t ≤ T, bounded by A(1 + s), with
+terminal value (s − K)⁺; likewise for the put.
 
 StochasticCalculus supplies the stochastic integral, Itô's formula, the asset's linear equation,
 Brownian martingale representation and Girsanov's theorem; PDE supplies the Schauder theory behind
@@ -634,8 +635,9 @@ the stochastic integrability of the hedge and the self-financing equation, by It
 
 ### 4.2 Uniqueness in the linear-growth class
 
-Prove `eq_callValue_of_pde`: let V(s, t) be continuous on the closed domain s ≥ 0, 0 ≤ t ≤ T, of
-class C^(2,1) on the open domain s > 0, 0 < t < T, a solution of the Black–Scholes equation
+Prove `eq_callValue_of_pde`: let V(s, t) be continuous on the closed domain s ≥ 0, 0 ≤ t ≤ T,
+twice continuously differentiable in s and differentiable in t on the open domain s > 0,
+0 < t < T, without joint continuity of the derivatives, a solution of the Black–Scholes equation
 `V_t + (σ²s²/2) V_ss + r(sV_s − V) = 0` there, with `|V(s, t)| ≤ A(1 + s)` on the closed domain and
 terminal value V(s, T) = (s − K)⁺. Then V(s, t) = C(s, t) on the closed domain. Prove
 `eq_putValue_of_pde`, the same with terminal value (K − s)⁺ and conclusion V = P. A solution with a
@@ -650,7 +652,8 @@ of absolute value at most |r| + σ²/2 and zeroth-order coefficient at most |r|.
 uniqueness theorem for the Cauchy problem on the whole space among classical solutions with bounded
 difference (`TauCeti.PDE.eqOn_of_deriv_sub_sum_mul_fderiv_fderiv_add_fderiv_add_mul_eq_of_eqOn_initial`,
 on `EuclideanSpace ℝ (Fin 1)`) gives v = 0, so D = 0 for s > 0, and continuity gives D = 0 at s = 0.
-A second route is stochastic. Fix s > 0 and 0 < t < T, and let S be the geometric Brownian
+A second route is stochastic and needs V of class C^(2,1) (Convention 8) for Itô's formula. Fix
+s > 0 and 0 < t < T, and let S be the geometric Brownian
 motion with drift r started at s at time t. Apply Itô's formula to `e^(−ru) D(S_u, u)` up to the
 exit of S from [1/n, n] and the time T − ε, where the derivatives of D are bounded; the drift
 vanishes by the equation, so `e^(−rt) D(s, t)` is the expectation of the stopped discounted value.
