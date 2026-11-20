@@ -13,45 +13,12 @@ the expected and almost-sure convergence of stochastic gradient descent. It ends
 methods: preconditioned descent, AdaGrad-Norm, the step bound of Adam, and the counterexample of
 Reddi, Kale and Kumar on which Adam does not converge.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the vocabulary of `K`-smooth functions on real Hilbert spaces, the gradient forms of their
-  quadratic bounds, and their convex and strongly convex refinements;
-- the Polyak–Łojasiewicz condition;
-- gradient descent with a fixed step size, and its rates;
-- the theory of the nearest-point map onto a closed convex subset of a real Hilbert space (the
-  variational inequality and firm nonexpansiveness; the map itself is owned by
-  MathematicalStatisticsNonparametric 6.5), and the proximal map of a closed proper convex
-  function with its basic theory;
-- the subgradient method and proximal gradient descent (forward–backward splitting), and their
-  rates;
-- the heavy-ball method on quadratics, FISTA, and FISTA with constant momentum;
-- the Robbins–Siegmund theorem;
-- stochastic gradient descent driven by an unbiased gradient oracle with bounded conditional
-  variance: one-step bounds, expected rates, and almost-sure convergence under Robbins–Monro step
-  sizes;
-- preconditioned gradient descent, AdaGrad-Norm, the update rules of RMSProp and Adam with their
-  step bound, and the Reddi–Kale–Kumar counterexample.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
-
-Out of scope:
-
-- Riemannian optimization on manifolds (retractions, Riemannian gradient descent, Newton and
-  trust-region methods); the Euclidean statements here are proved directly;
-- steepest descent for non-Euclidean norms, including the spectral norm and Muon, which belongs to
-  [SpectralSteepestDescent](../SpectralSteepestDescent/README.md);
-- continuous-time gradient flows, which belong to [OptimalTransport](../OptimalTransport/README.md)
-  and Tau Ceti's `GradientFlow` library;
-- second-order, quasi-Newton and conjugate-gradient methods, line searches, coordinate and block
-  methods, variance-reduced stochastic methods, mirror descent, Frank–Wolfe, primal–dual and
-  splitting methods other than forward–backward, and lower complexity bounds;
-- the Kurdyka–Łojasiewicz theory of nonsmooth nonconvex descent;
-- online-learning regret bounds, except the regret computation of 6.4;
-- floating-point error and automatic differentiation.
+Each layer opens with its definitions. Each numbered target ends with a **Checks** list of tests
+that a wrong convention or a wrong constant would fail, and a *Needs:* line naming the targets and
+suppliers it uses. Every claim carries a source locator in parentheses, or says that it is proved
+here. `Suggested.lean` states the headline theorems of each layer against the pinned APIs.
 
 ## Conventions
 
@@ -90,33 +57,6 @@ Out of scope:
 - **Coordinates.** Coordinatewise methods (Layer 6) act on `EuclideanSpace ℝ ι` with `ι` a
   `Fintype`. Squares, square roots and divisions of vectors are coordinatewise.
 
-## Exact supplier contracts
-
-- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 6.4: the
-  soft-threshold map `softThreshold λ y = sign y · (|y| − λ)₊`; and 6.5: the nearest-point map
-  `metricProj s x`, a point of `s` at distance `infDist x s` from `x`, and `0` where there is
-  none.
-- [SpectralSteepestDescent](../SpectralSteepestDescent/README.md) 5.1: the descent lemma
-  `le_add_fderiv_add_of_lipschitz` for a real normed space: if `f` is differentiable on the
-  segment `[x, x + h]` and `‖fderiv ℝ f y − fderiv ℝ f x‖ ≤ L ‖y − x‖` there, then
-  `f (x + h) ≤ f x + fderiv ℝ f x h + L / 2 ‖h‖²`.
-- Tau Ceti:
-  - `StrongConvexOn.add_add_le_of_hasFDerivWithinAt` (`TauCeti/Analysis/Convex/Strong.lean`):
-    `f x + f' (y − x) + μ / 2 ‖y − x‖² ≤ f y`; at `μ = 0`, through Mathlib's
-    `strongConvexOn_zero`, it is the first-order inequality `f x + ⟪∇f x, y − x⟫ ≤ f y` of a
-    convex differentiable `f`;
-  - `exists_affine_le_of_lt` (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): a closed proper
-    convex `g : E → EReal` has a continuous affine minorant;
-  - `subdifferential` (`TauCeti/Analysis/Convex/Subdifferential.lean`) with the pairing
-    `innerₗ E`;
-  - `moreauYosidaResolvent` (`TauCeti/Analysis/GradientFlow/MoreauYosida/Basic.lean`).
-- Mathlib: `gradient` and `toDual_gradient`; `ConvexOn`, `StrongConvexOn`, `strongConvexOn_zero`
-  and `strongConvexOn_iff_convex`;
-  `exists_norm_eq_iInf_of_complete_convex` and `norm_eq_iInf_iff_real_inner_le_zero`;
-  `LinearMap.IsSymmetric.eigenvectorBasis`; `LinearMap.singularValues`; `condExp`, `Filtration`,
-  `Supermartingale`, `Submartingale.ae_tendsto_limitProcess` and
-  `Submartingale.exists_ae_tendsto_of_bdd`.
-
 ## Coordination
 
 - Mathlib PR [#39574](https://github.com/leanprover-community/mathlib4/pull/39574) defines
@@ -129,13 +69,6 @@ Out of scope:
   [#45868](https://github.com/leanprover-community/mathlib4/pull/45868) defines subgradients of
   real-valued functions. Targets here that cover the same ground take those PRs' names and
   statement shapes, and are replaced by Mathlib's declarations when they land.
-
-## How to read the build
-
-Each layer opens with its definitions. Each numbered target ends with a **Checks** list of tests
-that a wrong convention or a wrong constant would fail, and a *Needs:* line naming the targets and
-suppliers it uses. Every claim carries a source locator in parentheses, or says that it is proved
-here. `Suggested.lean` states the headline theorems of each layer against the pinned APIs.
 
 ## Layer 1: smoothness and convexity inequalities
 
@@ -817,6 +750,73 @@ the convex and strongly convex gradient descent rates, the subgradient and proxi
 methods, and Nesterov's method in an earlier Lean and Mathlib; `nesterov-lean`
 (<https://github.com/velvetmonkey/nesterov-lean>, MIT) proves the `O(1/k²)` rate. These are
 reference material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the vocabulary of `K`-smooth functions on real Hilbert spaces, the gradient forms of their
+  quadratic bounds, and their convex and strongly convex refinements;
+- the Polyak–Łojasiewicz condition;
+- gradient descent with a fixed step size, and its rates;
+- the theory of the nearest-point map onto a closed convex subset of a real Hilbert space (the
+  variational inequality and firm nonexpansiveness; the map itself is owned by
+  MathematicalStatisticsNonparametric 6.5), and the proximal map of a closed proper convex
+  function with its basic theory;
+- the subgradient method and proximal gradient descent (forward–backward splitting), and their
+  rates;
+- the heavy-ball method on quadratics, FISTA, and FISTA with constant momentum;
+- the Robbins–Siegmund theorem;
+- stochastic gradient descent driven by an unbiased gradient oracle with bounded conditional
+  variance: one-step bounds, expected rates, and almost-sure convergence under Robbins–Monro step
+  sizes;
+- preconditioned gradient descent, AdaGrad-Norm, the update rules of RMSProp and Adam with their
+  step bound, and the Reddi–Kale–Kumar counterexample.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope:
+
+- Riemannian optimization on manifolds (retractions, Riemannian gradient descent, Newton and
+  trust-region methods); the Euclidean statements here are proved directly;
+- steepest descent for non-Euclidean norms, including the spectral norm and Muon, which belongs to
+  [SpectralSteepestDescent](../SpectralSteepestDescent/README.md);
+- continuous-time gradient flows, which belong to [OptimalTransport](../OptimalTransport/README.md)
+  and Tau Ceti's `GradientFlow` library;
+- second-order, quasi-Newton and conjugate-gradient methods, line searches, coordinate and block
+  methods, variance-reduced stochastic methods, mirror descent, Frank–Wolfe, primal–dual and
+  splitting methods other than forward–backward, and lower complexity bounds;
+- the Kurdyka–Łojasiewicz theory of nonsmooth nonconvex descent;
+- online-learning regret bounds, except the regret computation of 6.4;
+- floating-point error and automatic differentiation.
+
+## Exact supplier contracts
+
+- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 6.4: the
+  soft-threshold map `softThreshold λ y = sign y · (|y| − λ)₊`; and 6.5: the nearest-point map
+  `metricProj s x`, a point of `s` at distance `infDist x s` from `x`, and `0` where there is
+  none.
+- [SpectralSteepestDescent](../SpectralSteepestDescent/README.md) 5.1: the descent lemma
+  `le_add_fderiv_add_of_lipschitz` for a real normed space: if `f` is differentiable on the
+  segment `[x, x + h]` and `‖fderiv ℝ f y − fderiv ℝ f x‖ ≤ L ‖y − x‖` there, then
+  `f (x + h) ≤ f x + fderiv ℝ f x h + L / 2 ‖h‖²`.
+- Tau Ceti:
+  - `StrongConvexOn.add_add_le_of_hasFDerivWithinAt` (`TauCeti/Analysis/Convex/Strong.lean`):
+    `f x + f' (y − x) + μ / 2 ‖y − x‖² ≤ f y`; at `μ = 0`, through Mathlib's
+    `strongConvexOn_zero`, it is the first-order inequality `f x + ⟪∇f x, y − x⟫ ≤ f y` of a
+    convex differentiable `f`;
+  - `exists_affine_le_of_lt` (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): a closed proper
+    convex `g : E → EReal` has a continuous affine minorant;
+  - `subdifferential` (`TauCeti/Analysis/Convex/Subdifferential.lean`) with the pairing
+    `innerₗ E`;
+  - `moreauYosidaResolvent` (`TauCeti/Analysis/GradientFlow/MoreauYosida/Basic.lean`).
+- Mathlib: `gradient` and `toDual_gradient`; `ConvexOn`, `StrongConvexOn`, `strongConvexOn_zero`
+  and `strongConvexOn_iff_convex`;
+  `exists_norm_eq_iInf_of_complete_convex` and `norm_eq_iInf_iff_real_inner_le_zero`;
+  `LinearMap.IsSymmetric.eigenvectorBasis`; `LinearMap.singularValues`; `condExp`, `Filtration`,
+  `Supermartingale`, `Submartingale.ae_tendsto_limitProcess` and
+  `Submartingale.exists_ae_tendsto_of_bdd`.
 
 ## References
 
