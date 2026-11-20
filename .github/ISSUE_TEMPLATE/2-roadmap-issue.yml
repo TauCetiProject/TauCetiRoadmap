@@ -292,6 +292,7 @@ body:
         - OperatorTheory
         - OptimalTransport
         - Orbifolds
+        - OrthogonalTamagawaAndLatticeMass
         - PCurvature
         - PDE
         - PELModuli
@@ -413,6 +414,7 @@ body:
         - TangentialBordism
         - TauberianBoundaryConvergence
         - TaubesGromov
+        - TeichmullerGeometry
         - TemperleyLieb
         - TemperleyLiebOperatorAlgebras
         - TensorProductCombinatorics
