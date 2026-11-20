@@ -1,4 +1,6 @@
-import TauCetiRoadmap.SymplecticGeometry.Suggested
+import TauCetiRoadmap.SymplecticGeometry.CotangentLagrangian.Suggested
+import TauCeti.Geometry.Lie.Adjoint.Basic
+import TauCeti.Geometry.Symplectic.Hamiltonian.Manifold
 import Mathlib.Geometry.Manifold.IsManifold.InteriorBoundary
 
 /-!
@@ -39,7 +41,7 @@ structure IsEquivariantMomentMap (σ : TauCeti.SmoothTwoForm I M)
     (μ : M → StrongDual ℝ EG) : Prop where
   smooth : ContMDiff I 𝓘(ℝ, StrongDual ℝ EG) ∞ μ
   hamiltonian : ∀ ξ : GroupLieAlgebra IG G,
-    HasHamiltonianField σ (fun x ↦ μ x ξ) (fundamentalField (IG := IG) ξ)
+    TauCeti.SmoothTwoForm.IsHamiltonianVectorField σ (fun x ↦ μ x ξ) (fundamentalField (IG := IG) ξ)
   equivariant : ∀ (g : G) x, μ (g • x) = coadjoint (IG := IG) g (μ x)
 
 /-- Fundamental fields are the exact antihomomorphism required by HamiltonianSystems. -/
@@ -58,7 +60,7 @@ theorem equivariantMoment_infinitesimal (σ : TauCeti.SmoothTwoForm I M)
     (μ : M → StrongDual ℝ EG) (hμ : IsEquivariantMomentMap (IG := IG) (G := G) σ μ)
     (ξ : GroupLieAlgebra IG G) :
     ContMDiff I 𝓘(ℝ, ℝ) ∞ (fun x ↦ algebraicMoment (IG := IG) μ x ξ) ∧
-      HasHamiltonianField σ (fun x ↦ algebraicMoment (IG := IG) μ x ξ) (fundamentalField ξ) := by
+      TauCeti.SmoothTwoForm.IsHamiltonianVectorField σ (fun x ↦ algebraicMoment (IG := IG) μ x ξ) (fundamentalField ξ) := by
   sorry
 
 /-- Momentum for the intrinsic cotangent lift. -/
@@ -73,7 +75,7 @@ def cotangentLiftedAction (g : G) (z : Cotangent I M) : Cotangent I M :=
 theorem cotangentMomentum_hamiltonian [FiniteDimensional ℝ E]
     (ha : ContMDiff (IG.prod I) I ∞ (fun gx : G × M ↦ gx.1 • gx.2))
     (ξ : GroupLieAlgebra IG G) :
-    HasHamiltonianField (canonicalForm (M := M) I)
+    TauCeti.SmoothTwoForm.IsHamiltonianVectorField (canonicalForm (M := M) I)
       (fun z : Cotangent I M ↦ cotangentMomentum (IG := IG) (G := G) z ξ)
       (fun z ↦ mfderiv IG (cotangentModel I)
         (fun g : G ↦ cotangentLiftedAction g z) 1 ξ) := by
