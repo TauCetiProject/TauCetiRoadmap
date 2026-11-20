@@ -1,21 +1,44 @@
-import Mathlib.Analysis.Analytic.Basic
-import Mathlib.Analysis.Convex.Intrinsic
-import Mathlib.Analysis.Convex.SimplicialComplex.Basic
-import Mathlib.Geometry.Manifold.IsManifold.ExtChartAt
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.LinearAlgebra.Projectivization.Basic
-import Mathlib.Topology.Defs.Induced
-import Mathlib.Topology.Maps.Proper.Basic
+import Mathlib
 import TauCeti.Analysis.Analytic.Submanifold.Basic
 import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Function
+import TauCeti.Geometry.RealAnalytic.Semianalytic.Basic
+import TauCeti.Geometry.RealAnalytic.Semianalytic.PartiallySemialgebraic
 
 /-!
-# Real analytic geometry: suggested target signatures
+# Real-analytic geometry and semianalytic triangulation: target signatures
 
-**This file is not the roadmap, and it is not exhaustive.** The definitive specification is
-`README.md`. The `sorry`s below are honest theorem targets. In particular, these declarations
-only prototype finite-dimensional local models; the README specifies the manifold, Stein, and
-triangulation APIs that make them useful.
+**This file is not the roadmap.** The roadmap is `README.md`, which is the definitive
+specification; this file states the roadmap's headline theorems against the pinned Mathlib and
+Tau Ceti APIs, each with `sorry`, and is read as suggested forms, never as an exhaustive checklist.
+
+Stated here:
+
+* Łojasiewicz's triangulation theorem in affine space (Theorem 1, README §2.0h),
+  `exists_affine_semianalytic_triangulation`;
+* the bounded semialgebraic triangulation theorem (Theorem 3, README §2.1),
+  `bounded_semialgebraic_analytic_triangulation`, with the structure
+  `FiniteCompatibleAnalyticTriangulation` it produces;
+* Grauert's proper real-analytic embedding theorem (README §4.2),
+  `grauert_proper_real_analytic_embedding`, with the structure `ProperRealAnalyticEmbedding`.
+
+Not statable at the pins:
+
+* Łojasiewicz's manifold theorem (Theorem 2, README §5.2): the libraries have no notion of an
+  analytic submanifold of an abstract real-analytic manifold, of a map analytic on such a
+  submanifold, or of partial semialgebraicity over a manifold base (property (A) for maps into a
+  manifold); README §0.2 and §5.2 build them.
+* The real multiprojective triangulation theorem (Theorem 4, README §2.1b): there is no notion of
+  semialgebraic subsets of, or semialgebraic maps into, real projective spaces, and Tau Ceti's
+  analytic atlas of projective space is built on Tau Ceti's own copy of the quotient topology, which
+  cannot be imported together with Mathlib's.
+* The Stein property of the strictly plurisubharmonic tube around a real-analytic manifold in its
+  complexification (README §§3.0–3.1): there is no complexification of a real-analytic manifold and
+  no Stein predicate.
+* Hörmander's weighted `L²` estimate for `∂̄` on complete Kähler manifolds (README §3.1): there are
+  no square-integrable bundle-valued `(n, k)`-forms on a Kähler manifold, no curvature operator
+  `[iΘ(E) + i∂∂̄φ, Λ]` and no maximal `∂̄` with its Hilbert adjoint.
+* Cartan's theorems A and B on Stein manifolds (README §3.2): there is no holomorphic structure
+  sheaf of a complex manifold, hence no coherent analytic sheaf, and no Stein predicate.
 -/
 
 noncomputable section
@@ -23,113 +46,80 @@ open scoped ContDiff Manifold
 
 namespace TauCetiRoadmap.RealAnalyticGeometry
 
+/-- Real affine coordinates `ℝⁿ`, the coordinate space on which the analytic-submanifold,
+semianalytic and semialgebraic carriers of Tau Ceti are stated. -/
 abbrev RealCoordinates (n : ℕ) := Fin n → ℝ
-/-- A scalar function analytic on some neighborhood of the fixed point. -/
-structure LocalAnalyticFunction (n : ℕ) (x : RealCoordinates n) where
-  toFun : RealCoordinates n → ℝ
-  radius : ℝ
-  radius_pos : 0 < radius
-  analyticOnBall : AnalyticOnNhd ℝ toFun (Metric.ball x radius)
 
-inductive SemiAnalyticFormula (n : ℕ) (x : RealCoordinates n) : Type
-  | zeroSet : LocalAnalyticFunction n x → SemiAnalyticFormula n x
-  | positiveSet : LocalAnalyticFunction n x → SemiAnalyticFormula n x
-  | top : SemiAnalyticFormula n x
-  | bottom : SemiAnalyticFormula n x
-  | compl : SemiAnalyticFormula n x → SemiAnalyticFormula n x
-  | inter : SemiAnalyticFormula n x → SemiAnalyticFormula n x → SemiAnalyticFormula n x
-  | union : SemiAnalyticFormula n x → SemiAnalyticFormula n x → SemiAnalyticFormula n x
+/-! ## Layer 2: Łojasiewicz's theorem in affine space and the semialgebraic theorems -/
 
-def SemiAnalyticFormula.realize {n : ℕ} {x : RealCoordinates n} :
-    SemiAnalyticFormula n x → Set (RealCoordinates n)
-  | .zeroSet f => {y | f.toFun y = 0}
-  | .positiveSet f => {y | 0 < f.toFun y}
-  | .top => Set.univ
-  | .bottom => ∅
-  | .compl p => (p.realize)ᶜ
-  | .inter p q => p.realize ∩ q.realize
-  | .union p q => p.realize ∪ q.realize
-
-def SemiAnalyticFormula.radiusBound {n : ℕ} {x : RealCoordinates n} :
-    SemiAnalyticFormula n x → ℝ → Prop
-  | .zeroSet f, r => r ≤ f.radius
-  | .positiveSet f, r => r ≤ f.radius
-  | .top, _ => True
-  | .bottom, _ => True
-  | .compl p, r => p.radiusBound r
-  | .inter p q, r => p.radiusBound r ∧ q.radiusBound r
-  | .union p q, r => p.radiusBound r ∧ q.radiusBound r
-
-/-- A local finite Boolean analytic presentation of a subset near `x`. -/
-structure SemiAnalyticAt {n : ℕ} (s : Set (RealCoordinates n)) (x : RealCoordinates n) where
-  radius : ℝ
-  radius_pos : 0 < radius
-  formula : SemiAnalyticFormula n x
-  witnesses_analytic : formula.radiusBound radius
-  agrees : ∀ y, dist y x < radius → (y ∈ s ↔ y ∈ formula.realize)
-
-/-- Pulling a local semianalytic set back by an analytic map preserves its local Boolean
-presentation; the pointwise analytic witnesses may be used instead of a globally analytic function. -/
-theorem semianalytic_preimage_local {n m : ℕ}
-    {s : Set (RealCoordinates n)} {x : RealCoordinates m}
-    (f : RealCoordinates m → RealCoordinates n)
-    (hs : SemiAnalyticAt s (f x))
-    (hf : AnalyticAt ℝ f x) :
-    Nonempty (SemiAnalyticAt (f ⁻¹' s) x) := by
+/-- **Łojasiewicz's triangulation theorem in affine space** (Łojasiewicz 1964, §3, Theorem 1,
+printed p. 463), in affine coordinates `ℝⁿ`. For a locally finite family `B` of semianalytic
+subsets of `ℝⁿ` there are a locally finite simplicial complex `K` in `ℝⁿ` with `|K| = ℝⁿ` and a
+homeomorphism `τ` of `ℝⁿ` with property (A), that is, its graph `{(y, x) | y = τ x}`, with base
+the target and fibre the source, is partially semialgebraic, such that `τ` maps every open simplex
+(the intrinsic interior of a face) analytically isomorphically onto an analytic submanifold of the
+same dimension, contained in or disjoint from each `B ν`. -/
+theorem exists_affine_semianalytic_triangulation {n : ℕ} {ι : Type*}
+    (B : ι → Set (RealCoordinates n)) (hB : ∀ ν, TauCeti.IsSemianalytic (B ν))
+    (hlf : LocallyFinite B) :
+    ∃ (K : Geometry.SimplicialComplex ℝ (RealCoordinates n))
+      (τ : RealCoordinates n ≃ₜ RealCoordinates n),
+      K.space = Set.univ ∧
+      LocallyFinite (fun s : K.faces => convexHull ℝ (s : Set (RealCoordinates n))) ∧
+      TauCeti.IsPartiallySemialgebraic {p : RealCoordinates n × (Fin n → ℝ) | p.1 = τ p.2} ∧
+      ∀ s ∈ K.faces,
+        TauCeti.IsAnalyticSubmanifold (s.card - 1)
+            (τ '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n)))) ∧
+          TauCeti.AnalyticOnSubmanifold (s.card - 1) τ
+            (intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n)))) ∧
+          TauCeti.AnalyticOnSubmanifold (s.card - 1) τ.symm
+            (τ '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n)))) ∧
+          ∀ ν, τ '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n))) ⊆ B ν ∨
+            τ '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n))) ⊆ (B ν)ᶜ := by
   sorry
 
-/-- A Nash germ is analytic and satisfies a genuinely nonzero polynomial relation on a
-neighborhood. The polynomial may depend on the point; no global graph claim is built in. -/
-def IsNashAt {n : ℕ} (f : RealCoordinates n → ℝ) (x : RealCoordinates n) : Prop :=
-  AnalyticAt ℝ f x ∧
-    ∃ P : MvPolynomial (Fin n ⊕ Unit) ℝ, P ≠ 0 ∧
-      ∃ r : ℝ, 0 < r ∧ ∀ y ∈ Metric.ball x r,
-        MvPolynomial.eval (Sum.elim y (fun _ => f y)) P = 0
-
-/-- R1.1's graph criterion includes both analyticity and an open semialgebraic neighborhood.
-The scalar output uses the native graph carrier's one-coordinate function representation. -/
-theorem isNashAt_iff_local_semialgebraic_graph {n : ℕ}
-    (f : RealCoordinates n → ℝ) (x : RealCoordinates n) :
-    IsNashAt f x ↔ AnalyticAt ℝ f x ∧
-      ∃ U : Set (RealCoordinates n), IsOpen U ∧ x ∈ U ∧
-        TauCeti.IsSemialgebraicOn (fun y (_ : Unit) => f y) U := by
-  sorry
-
-/-- Local semialgebraicity is tested at every ambient point, including points outside the set. -/
-def IsLocallySemialgebraic {n : ℕ} (s : Set (RealCoordinates n)) : Prop :=
-  ∀ x, ∃ U : Set (RealCoordinates n), IsOpen U ∧ x ∈ U ∧
-    TauCeti.IsSemialgebraic U ∧ TauCeti.IsSemialgebraic (s ∩ U)
-
-theorem IsLocallySemialgebraic.isSemialgebraic_of_isBounded {n : ℕ}
-    {s : Set (RealCoordinates n)} (hs : IsLocallySemialgebraic s)
-    (hb : Bornology.IsBounded s) : TauCeti.IsSemialgebraic s := by
-  sorry
-
-/-- A finite affine triangulation with the full bounded theorem's analytic and marked-set
-conditions. Total ambient extensions let the native graph/submanifold APIs express the maps;
-their values off the support and target are unrestricted. -/
+/-- A finite affine triangulation of `⋃ i, closure (B i)` with the conditions of the bounded
+theorem: a finite simplicial complex in `ℝⁿ`, a homeomorphism from its support onto the union of
+the closures whose graph is semialgebraic, analytic isomorphisms of the open simplices onto
+analytic submanifolds of the same dimension, and compatibility with every `B i`. The total maps
+`forward` and `inverse` extend the homeomorphism and its inverse so that the graph and
+submanifold APIs apply; their values off the support and off the union are unrestricted. -/
 structure FiniteCompatibleAnalyticTriangulation {n k : ℕ}
     (B : Fin k → Set (RealCoordinates n)) where
+  /-- The simplicial complex, in the original coordinates. -/
   complex : Geometry.SimplicialComplex ℝ (RealCoordinates n)
+  /-- The complex is finite. -/
   finite_faces : complex.faces.Finite
+  /-- The triangulating homeomorphism from the support onto the union of the closures. -/
   homeomorph : complex.space ≃ₜ (⋃ i, closure (B i))
+  /-- A total extension of the homeomorphism. -/
   forward : RealCoordinates n → RealCoordinates n
+  /-- A total extension of its inverse. -/
   inverse : RealCoordinates n → RealCoordinates n
+  /-- `forward` agrees with the homeomorphism on the support. -/
   forward_agrees : ∀ x : complex.space, forward x = (homeomorph x).val
+  /-- `inverse` agrees with the inverse homeomorphism on the union of the closures. -/
   inverse_agrees : ∀ y : (⋃ i, closure (B i)), inverse y = (homeomorph.symm y).val
+  /-- The homeomorphism has semialgebraic graph over the support. -/
   semialgebraic : TauCeti.IsSemialgebraicOn forward complex.space
+  /-- Each open simplex and its image are analytic submanifolds of dimension `card s - 1`, and the
+  homeomorphism and its inverse are analytic on them. -/
   analytic_simplex : ∀ s ∈ complex.faces,
     let U := intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n)))
     TauCeti.IsAnalyticSubmanifold (s.card - 1) U ∧
       TauCeti.IsAnalyticSubmanifold (s.card - 1) (forward '' U) ∧
       TauCeti.AnalyticOnSubmanifold (s.card - 1) forward U ∧
       TauCeti.AnalyticOnSubmanifold (s.card - 1) inverse (forward '' U)
+  /-- The image of each open simplex lies in `B i` or in its complement. -/
   compatible : ∀ s ∈ complex.faces, ∀ i,
     forward '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n))) ⊆ B i ∨
       forward '' intrinsicInterior ℝ (convexHull ℝ (s : Set (RealCoordinates n))) ⊆ (B i)ᶜ
 
-/-- Theorem 3 retains possibly nonclosed input sets and a finite complex in the original
-ambient space. The full Nash lifting proof belongs to R2.1. -/
+/-- **The bounded semialgebraic triangulation theorem** (Łojasiewicz 1964, §3, Theorem 3, printed
+p. 464). For finitely many bounded semialgebraic subsets `B i` of `ℝⁿ`, not necessarily closed,
+the union of their closures has a finite triangulation by a complex in `ℝⁿ` itself, through a
+homeomorphism with semialgebraic graph that is an analytic isomorphism on every open simplex and is
+compatible with every `B i`. -/
 theorem bounded_semialgebraic_analytic_triangulation {n k : ℕ}
     (B : Fin k → Set (RealCoordinates n))
     (hB : ∀ i, TauCeti.IsSemialgebraic (B i))
@@ -137,88 +127,32 @@ theorem bounded_semialgebraic_analytic_triangulation {n k : ℕ}
     Nonempty (FiniteCompatibleAnalyticTriangulation B) := by
   sorry
 
-/-- Correct n+1-coordinate projector formula, totalized at zero only for convenient notation. -/
-def rankOneProjector {n : ℕ} (x : RealCoordinates (n + 1)) :
-    Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
-  fun i j => x i * x j / ∑ k, (x k) ^ 2
+/-! ## Layer 4: Grauert's proper real-analytic embedding -/
 
-theorem rankOneProjector_smul {n : ℕ} (t : ℝ) (ht : t ≠ 0)
-    (x : RealCoordinates (n + 1)) :
-    rankOneProjector (t • x) = rankOneProjector x := by
-  sorry
-
-/-- Descent uses the existing linear-projectivization quotient, without a private carrier. -/
-def projectiveProjector {n : ℕ}
-    (p : Projectivization ℝ (RealCoordinates (n + 1))) :
-    Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ :=
-  Projectivization.lift (fun x => rankOneProjector x.val) (by
-    intro a b t h
-    have ht : t ≠ 0 := by
-      intro ht
-      apply a.property
-      simpa [ht] using h
-    change rankOneProjector (a : RealCoordinates (n + 1)) =
-      rankOneProjector (b : RealCoordinates (n + 1))
-    rw [h]
-    exact rankOneProjector_smul t ht b.val) p
-
-/-- Symmetric idempotents of trace one are exactly rank-one orthogonal projectors over ℝ. -/
-def ProjectorLocus (n : ℕ) : Set (Matrix (Fin (n + 1)) (Fin (n + 1)) ℝ) :=
-  {A | A.transpose = A ∧ A * A = A ∧ Matrix.trace A = 1}
-
-theorem range_projectiveProjector (n : ℕ) :
-    Set.range (projectiveProjector (n := n)) = ProjectorLocus n := by
-  sorry
-
-/-- Matrix entries are flattened to the native coordinate-index semialgebraic carrier. -/
-theorem isSemialgebraic_projectorLocus (n : ℕ) :
-    TauCeti.IsSemialgebraic
-      {a : Fin (n + 1) × Fin (n + 1) → ℝ |
-        (fun i j => a (i, j)) ∈ ProjectorLocus n} := by
-  sorry
-
-/-- Use a fixed real-linear coordinate equivalence after the native extended charts.
-In particular `E` may be a complex vector space restricted to real scalars; the affine
-submanifold carrier still uses real coordinates. Chart and coordinate independence are R0
-targets, rather than additional assumptions on an untyped analytic atlas. -/
-def ChartwiseRealAnalyticSubmanifold
-    {n : ℕ} {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-    [I.Boundaryless] [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ω M]
-    (e : E ≃L[ℝ] RealCoordinates n) (d : ℕ) (s : Set M) : Prop :=
-  ∀ x ∈ s, ∃ U : Set (RealCoordinates n), IsOpen U ∧
-    e (extChartAt I x x) ∈ U ∧
-    U ⊆ e '' (extChartAt I x).target ∧
-    TauCeti.IsAnalyticSubmanifold d
-      (U ∩ ((fun y => e (extChartAt I x y)) ''
-        (s ∩ (extChartAt I x).source)))
-
-/-- A proper analytic embedding of a genuine finite-dimensional real-analytic manifold into
-real affine space, with chartwise analyticity, injective differential and compact preimages. -/
+/-- A regular proper analytic embedding of a finite-dimensional real-analytic manifold into
+`ℝᴺ`: a closed embedding whose expression in every extended chart is analytic with injective
+differential. Closed embeddings are proper maps (`Topology.IsClosedEmbedding.isProperMap`). -/
 structure ProperRealAnalyticEmbedding
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
     [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ω M]
     (N : ℕ) where
+  /-- The embedding. -/
   toFun : M → RealCoordinates N
+  /-- It is a closed embedding. -/
   closedEmbedding : Topology.IsClosedEmbedding toFun
+  /-- It is analytic in every extended chart. -/
   analytic_chart : ∀ x : M,
     AnalyticAt ℝ (fun y : E => toFun ((extChartAt I x).symm y)) (extChartAt I x x)
+  /-- Its differential in every extended chart is injective. -/
   regular_chart : ∀ x : M,
     Function.Injective
       (fderiv ℝ (fun y : E => toFun ((extChartAt I x).symm y)) (extChartAt I x x))
 
-/-- Native closed embeddings are proper; compact-preimage claims use this API. -/
-theorem ProperRealAnalyticEmbedding.isProperMap
-    {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
-    [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
-    [TopologicalSpace M] [T2Space M] [ChartedSpace H M] [IsManifold I ω M]
-    {N : ℕ} (F : ProperRealAnalyticEmbedding (M := M) (I := I) N) :
-    IsProperMap F.toFun :=
-  F.closedEmbedding.isProperMap
-
-/-- Grauert's theorem in the fixed target dimension used by manifold triangulation. The proof
-must handle noncompact manifolds through R3's Stein tube and a proper holomorphic embedding. -/
+/-- **Grauert's embedding theorem** (Grauert 1958), in the fixed target dimension `4n + 2`: every
+Hausdorff, second-countable real-analytic manifold of dimension `n` without boundary has a regular
+proper analytic embedding into `ℝ^(4n+2)`. The proof handles noncompact manifolds through the
+Stein tube of the complexification and a proper holomorphic embedding into `ℂ^(2n+1)`. -/
 theorem grauert_proper_real_analytic_embedding
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
     [FiniteDimensional ℝ E] [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
