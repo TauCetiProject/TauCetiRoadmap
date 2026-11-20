@@ -11,88 +11,16 @@ The comparison targets concern invariant metrics and unitary equivalence, G-fini
 representations, metrizability, duals of arbitrary products, compact abelian
 Fourier bases, global forms with their torus characters and unitary conjugacy of SU(2) actions.
 
-## Scope and ownership
+## How to read the build
 
-**Where the base roadmap stops.** The Haar-through-Peter–Weyl and SU(2) constructions
-belong to the base roadmap, Layers 0–6 and its engine case, and nothing of the base
-roadmap is planned again here. Their implemented statements are inputs, not construction targets:
-Haar averaging and bi-invariance; Gram averaging and unitarization; orthogonal
-complete reducibility; matrix coefficients, their star-algebra, Schur orthogonality,
-convolution and uniform/L² density; the native irreducible skeleton and identified
-Peter–Weyl basis; trace characters and the central L² character basis;
-Frobenius–Schur forms and structure maps; and SU(2) classification and Weyl integration.
-The base roadmap's “What is not consumable, and is a build item here” comparison
-targets own the forgetful correspondence with finite-dimensional algebraic
-representations, its character comparison, the identification of continuous and
-algebraic intertwiners, and finite-dimensional irreducibility comparison.
-The exact native interfaces are listed below. §0.1 adds only tensor and dual
-compatibility of that correspondence, preserving its underlying maps.
-
-This roadmap owns field-general orbit finiteness and compact strongly continuous
-Banach density. AutomorphicFormsOnReductiveGroups §2.1 owns the complete locally
-convex extension and consumes this Banach theorem. SmoothBanachRepresentations
-§4.1 owns the real and complex smooth-topology comparison;
-AutomorphicFormsOnReductiveGroups §2.7 supplies the complex smooth result. Neither is an analytic input.
-Completed/OrthogonalL2Bases Part B owns generic weighted L² basis assembly;
-CharacterTheory Layers 0–4 own finite-group character theory.
-
-LieGroups Layers 2 and 4–5 supply automatic smoothness, Lie integration and
-covering groups. The compact structure theory is LieGroups': its Layer 5A owns the
-Ad-invariant inner product, the orthogonal splitting of the Lie algebra into its
-center and its semisimple derived algebra, and the negative-definite Killing form;
-its Layer 6 owns maximal tori, the Weyl group, and (compact real roots and the Weyl
-comparison) the root characters, the Cartan subalgebra, root multiplicity one and
-the comparison with Mathlib's `LieAlgebra.IsKilling.rootSystem`; its Layer 7
-(compact semisimple integration) owns the compact simply connected cover of a
-compact connected semisimple group and the finiteness of its fundamental group.
-SymplecticGeometry/ConvexityToric T1 owns the 2π-normalized period and weight
-dictionary of a compact torus, the integer pairing of characters with coroots and
-the finite-index lattice comparison under a central isogeny. §6.5 owns the
-compact-group equality of the cocharacter and coroot lattices for a simply
-connected compact semisimple group, proved using Lie integration and the pinned
-highest-weight modules. Layer 6 also owns the closed derived subgroup and the commuting
-product, the finite central cover with the descent of characters, the dominance
-comparison, the classification of irreducible representations by dominant
-characters and the formal-character basis of the Weyl invariants. The rest of
-LieGroups Layer 7, the group complexification and the equivalence between
-continuous and holomorphic representations, is not a premise here.
-
-TopologicalKTheory T6 owns the representation ring R(G) of a compact Lie group,
-with its ring structure, restriction maps and naturality, and it consumes §2.1 of
-this roadmap. So that the supply runs in one direction, this roadmap constructs no
-Grothendieck ring of representations and no target here uses that carrier: Layer 6
-states its results on formal characters in the integral group algebra of the
-character group of a maximal torus.
-
-OperatorTheory/OperatorIdeals Part C owns the generic Hilbert–Schmidt theory; its
-column model, energy identities and compactness are already in the pinned Tau Ceti
-(`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`), and §0.2 consumes those
-declarations. The base roadmap's Layer 5 keeps the step that a continuous kernel on a compact
-space gives a Hilbert–Schmidt integral operator, as an input to the compactness of
-the Haar convolution operator. §0.2 differs from that step in two respects: it is
-stated for a general compact space with a finite Borel measure, not only for Haar
-convolution, and it proves the exact energy identity and the adjoint comparison.
-AutomorphicSpectralTheory §0.8 owns square-integrable measurable kernels on σ-finite
-standard Borel spaces, whose L² spaces are separable; §0.2 keeps continuous kernels
-on a compact Hausdorff space that need not be metrizable, where L²(μ) need not be
-separable and the product sigma algebra can be strictly smaller than the Borel one,
-and it does not consume that target.
-LieHighestWeight Layers 7 and 9 own the algebraic universal-enveloping center
-and reductive trace-form comparison; CharacteristicClasses §C5.1 owns compact invariant
-polynomial restriction. Neither is a premise for group-character descent.
-BanachSpaceTheory B5 owns the equivalence between separability of a complete
-real or complex inner-product space and countability of a Hilbert-basis index.
-Layer 3 owns its Peter–Weyl application and compact-group countability criteria.
-
-NoncompactQuantumSymmetry M0 owns the isotypic decomposition `H_τ ≅ τ ⊗ Hom_K(τ,H)`
-of a strongly continuous unitary Hilbert representation of a compact group, with its
-normalized multiplicity inner product. §1.3 keeps only the finite-dimensional case,
-with standard coordinates `ℂ^{m_i}` in place of `Hom_K(S_i,V)`, built directly from
-the pinned orthogonal irreducible decomposition and Schur; it does not consume M0,
-because M0 consumes the density theorem of §2.1.
-The pinned Tau Ceti replaces an equivalence of unitary representations by a unitary
-one only for an irreducible source (`ContRepresentation.exists_linearIsometryEquiv_congr_eq`);
-§1.4 owns the general finite-dimensional case, from equality of characters.
+Layer 0 compares the continuous representation interfaces and continuous kernels.
+Layer 1 classifies invariant metrics and proves that unitary representations with
+equal characters are unitarily equivalent; Layer 2 proves Banach orbit-finite density;
+Layer 3 relates countability and metrizability; Layer 4 handles arbitrary products;
+Layer 5 identifies abelian Fourier bases; Layer 6 constructs global-form descent
+and the formal-character basis of the Weyl invariants; Layer 7 classifies unitary SU(2) actions. Layers 1,
+2 and 4 are independent beyond their named native inputs. The README carries
+all targets and Checks; `Suggested.lean` carries headline acceptance statements.
 
 ## Conventions
 
@@ -132,294 +60,6 @@ irreducibility uses closed invariant subspaces and is a different condition.
 - For the S₃ standard unitary representation, a three-cycle acts by rotation
   through 2π/3. Its diagonal coefficient at e₁ is −1/2; at the identity it is 1.
   A zero coefficient vector gives 0 for every group element.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `ContRepresentation`, `ContRepresentation.toRepresentation` and
-  `ContIntertwiningMap` in `Mathlib/RepresentationTheory/Continuous/Basic.lean`:
-  actions by continuous linear operators, with parameter continuity added explicitly.
-- `LinearMap.continuous_of_finiteDimensional` in
-  `Mathlib/Topology/Algebra/Module/FiniteDimension.lean`: linear maps with
-  finite-dimensional Hausdorff domain are continuous.
-- `Representation.IsIrreducible` in `Mathlib/RepresentationTheory/Irreducible.lean`:
-  `IsSimpleOrder` of the subrepresentation lattice, including nontriviality.
-- `Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative` in
-  `Mathlib/RepresentationTheory/Irreducible.lean`: a finite-dimensional
-  irreducible representation of a commutative monoid over an algebraically
-  closed field has dimension 1. This algebraic input requires no topology,
-  compactness or continuity.
-- `HilbertBasis`, its coordinate isometry and Parseval in
-  `Mathlib/Analysis/InnerProductSpace/l2Space.lean`; `ContinuousMap.toLp_denseRange`
-  in `Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`.
-- `Summable.countable_support_ennreal` in
-  `Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean`: a nonnegative family with
-  finite total mass has countable support. Apply it to squared basis coordinates.
-- `PontryaginDual` and its compact-open topology in
-  `Mathlib/Topology/Algebra/PontryaginDual.lean`, including discreteness for compact
-  domain; `Circle.eq_one_of_forall_pow_mem_centeredArc_pi_div_two` for finite
-  coordinate dependence. `AddMonoidAlgebra` is the carrier of the formal
-  characters of Layer 6.
-- `LieAlgebra.IsKilling.rootSystem` in `Mathlib/Algebra/Lie/Weights/RootSystem.lean`:
-  the root system of a finite-dimensional Killing Lie algebra with a splitting
-  Cartan subalgebra. Layer 6 uses it for the complexified derived pair of a
-  compact connected Lie group.
-- `RootPairing.Base.toCoweightBasis` and
-  `RootPairing.Base.toCoweightBasis_apply` in
-  `Mathlib/LinearAlgebra/RootSystem/Base.lean`, with
-  `Module.Basis.dualBasis_apply_self` in `Mathlib/LinearAlgebra/Dual/Basis.lean`:
-  the simple coroots form a basis, whose dual fundamental weights take
-  values 1 and 0 on the corresponding and other simple coroots.
-- `MvPolynomial.esymmAlgEquiv` in
-  `Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`: over any
-  commutative ring, the symmetric polynomials in n variables are freely generated
-  by the elementary symmetric polynomials e₁,…,e_n. §6.8 applies it over ℤ.
-- The C*-algebra structure on `E →L[ℂ] E` for a complete complex inner-product
-  space E, in `Mathlib/Analysis/CStarAlgebra/ContinuousLinearMap.lean`;
-  `CFC.sqrt` in
-  `Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean`,
-  the positive square root of a positive element, and `Commute.cfcₙ_nnreal` in
-  `Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Commute.lean`: a
-  function of an element by the functional calculus commutes with everything that
-  commutes with the element. §1.4 applies them to `T†T`.
-
-### From Tau Ceti
-
-Paths in this list are below `TauCeti/RepresentationTheory/` unless given in full.
-
-- `TauCeti/Geometry/Hodge/Conjugation.lean`:
-  `TauCeti.Hodge.complexificationConjugation`,
-  `TauCeti.Hodge.complexificationConjugation_toEquiv_tmul` and
-  `LinearMap.map_eigenspace_baseChange` supply conjugation on ℂ⊗ℝV,
-  its semilinearity and involution, and the conjugate-eigenvalue comparison
-  for real-linear maps. Layer 6 restricts this existing map to simultaneous
-  torus weight spaces.
-- `Compact/Haar.lean`: `TauCeti.haarProb`, `TauCeti.haarProb_def`,
-  `TauCeti.haarProb_apply_univ` and the probability, Haar and bi-invariance instances.
-  `Compact/Averaging.lean`: `TauCeti.haarAverage`, for complete normed targets.
-- `Compact/Unitarizable.lean`: `ContRepresentation.gramOperator` and
-  `ContRepresentation.isUnitarizable`, the Haar-averaged Gram operator and
-  its self-adjoint, positive-definite and invariant form, for a representation
-  of a compact group (with its Borel structure) on a complete inner-product
-  space over ℝ or ℂ whose parameter map is continuous in the operator-norm
-  topology; no finite-dimensional hypothesis enters. `Compact/UnitaryModel.lean`:
-  `ContRepresentation.exists_isUnitary_congr`, which in finite dimension
-  conjugates such a representation by a continuous linear automorphism into
-  one that is unitary for the given inner product.
-- `Continuous/Intertwining.lean`: `ContRepresentation.intertwiningMapEquiv`,
-  `ContRepresentation.intertwiningMapEquiv_id`,
-  `ContRepresentation.intertwiningMapEquiv_comp` and
-  `ContRepresentation.nonempty_equiv_iff` identify continuous and algebraic
-  intertwiners and equivalences for finite-dimensional Hausdorff complex
-  representations, preserving underlying maps, identities and composition.
-  `FDRep/Basic.lean`: `FDRep.ofShrink`, `FDRep.ofShrinkEquiv` and
-  `FDRep.character_ofShrink` give the universe-compatible algebraic object,
-  its equivalence with the original action and preservation of its character.
-  For trivial ℂ the Hom comparison fixes 2I and 3I and their composite 6I;
-  shrinking the C₃ character preserves its value ω at a generator.
-- `Continuous/TensorProduct.lean`: `ContRepresentation.tprod` and
-  `ContRepresentation.continuous_tprod` give the tensor product of two
-  continuous representations, acting by π(g)⊗ρ(g), and its continuity. They are
-  stated on inner-product spaces, and no character identity for this carrier is
-  supplied. `Continuous/LinHom.lean`: `ContRepresentation.linHom`,
-  `ContRepresentation.continuous_linHom` and
-  `ContRepresentation.character_linHom` give the action
-  T↦ρ(g)∘T∘π(g⁻¹) on continuous linear maps between normed spaces, its
-  continuity for a topological group, and its character
-  `χ_π(g⁻¹)·χ_ρ(g)` in finite dimension; `Continuous/Character.lean`:
-  `ContRepresentation.character_trivial` gives the constant character of a
-  trivial action. With ρ the trivial line the action is the dual
-  f↦f∘π(g⁻¹) with character g↦χ_π(g⁻¹): for the C₃ character with value ω
-  this is `ω⁻¹·1=ω²`.
-- `Compact/Finite.lean`: `TauCeti.integral_haarProb` and
-  `ContRepresentation.inner_gramOperator_eq_inv_mul_sum`: for a finite
-  discrete group, the normalized Haar integral is `|G|⁻¹Σ_g` and the
-  unitarizing Gram form is `⟪v,Tw⟫=|G|⁻¹Σ_g⟪π(g)v,π(g)w⟫`.
-- `Continuous/Unitary/Basic.lean`: `ContRepresentation.IsUnitary`;
-  `Continuous/Unitary/Equivalence.lean`:
-  `ContRepresentation.exists_linearIsometryEquiv_congr_eq`, which replaces an
-  equivalence between unitary representations over an algebraically closed
-  field, with finite-dimensional irreducible source, by a linear isometry
-  transporting one action onto the other;
-  `Continuous/OrthogonalDecomposition.lean`:
-  `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
-  `Continuous/Schur.lean`:
-  `ContRepresentation.exists_eq_smul_one_of_isIrreducible`.
-  `Continuous/InvariantComplement.lean`:
-  `ContRepresentation.IsUnitary.isSemisimpleRepresentation`, complete
-  reducibility of a finite-dimensional unitary representation of any group, with no
-  topology on the group; `Semisimple.lean`:
-  `Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation`,
-  which over a field of characteristic zero makes two finite-dimensional semisimple
-  representations of any monoid with equal characters equivalent. Used in §1.4.
-- `Continuous/MatrixCoefficient.lean` and `Compact/MatrixCoefficient.lean`:
-  `ContRepresentation.matrixCoeff` and `ContRepresentation.matrixCoeffLp`;
-  `Compact/SchurOrthogonality.lean`:
-  `ContRepresentation.schur_orthogonality_self` and
-  `ContRepresentation.schur_orthogonality_basis`, with unitary irreducible hypotheses.
-- `Compact/Convolution.lean`, `Compact/ApproximateIdentity.lean`,
-  `Compact/EigenspaceRepresentation.lean`, `Compact/RepresentativeDensity.lean`:
-  the continuous-kernel convolution, approximate identities and noncircular density route;
-  in particular `TauCeti.representativeStarSubalgebra_dense` and its point-separation corollary.
-- `Continuous/Integrated/Basic.lean`:
-  `ContRepresentation.integratedOperatorL1`,
-  `ContRepresentation.integratedOperatorL1_toL1`,
-  `ContRepresentation.norm_integratedOperatorL1_le`,
-  `ContRepresentation.comp_integratedOperatorL1` and
-  `ContRepresentation.tendsto_integratedOperatorL1_apply`. These supply the L¹
-  action, Bochner formula, uniform-bound estimate, left covariance and strong
-  approximate-identity convergence. For a multiplicative G, use the additive
-  tag `Additive G` and transport the action to `Multiplicative (Additive G)`.
-  The group need not be commutative; the measure is Borel and inner regular
-  on compact sets. Covariance uses left invariance and a complete target;
-  convergence uses mass-one weights, a uniform L¹ bound and concentration
-  at the identity, with no second countability or separability hypothesis.
-- `Compact/PeterWeyl.lean`: `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`,
-  `TauCeti.IrrepClass`, `TauCeti.stdPeterWeylBasis` and `TauCeti.coe_stdPeterWeylBasis`.
-  The index for G in universe u is in universe u; there is no countability restriction.
-- `Compact/Character/Basis.lean`: `TauCeti.characterBasis` and
-  `TauCeti.coe_characterBasis` on the native central L² subspace; these use trace
-  characters, with the inverse-map comparison to conjugate coefficient blocks.
-- `Compact/FrobeniusSchur/InvariantForm.lean` and `StructureMap.lean`:
-  `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`,
-  `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` and
-  `ContRepresentation.frobeniusSchurIndicator_eq_one_iff_exists_structureMap`.
-- `SU2/TorusConjugacy.lean`: `TauCeti.SU2.exists_isConj_torusHom`;
-  `SU2/Weight.lean`: `TauCeti.SU2.symPower_torusHom_weightBasis`, with weights
-  2i−d for 0≤i≤d. These give the kernel computation in Layer 7 directly.
-- `SU2/Exhaustion.lean`: `TauCeti.SU2.symPowerModel` and
-  `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`;
-  `SU2/Weyl/Character.lean` and `Integration.lean`: the global weight sum,
-  sine quotient with nonzero denominator, endpoint values and
-  `TauCeti.SU2.weyl_integration_formula`. Unitarize the monomial model before
-  applying coefficient formulas; its Euclidean coordinates are not unitary for n≥2.
-- `Compact/FourierPeterWeyl.lean`: `TauCeti.fourierPeterWeylIndexEquiv` and
-  `TauCeti.peterWeylFamily_fourierIrrepModel`, including the sign −n.
-
-- `TauCeti/Analysis/Fourier/AddCircle.lean`: `TauCeti.fourierPontryaginDualEquiv`,
-  the group isomorphism `Multiplicative ℤ ≃* PontryaginDual (Multiplicative (AddCircle T))`,
-  supplies the single-circle dual.
-- `TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean`:
-  `ContinuousLinearMap.hilbertSchmidtEnergy`, the sum of the squared norms of the
-  images of a Hilbert basis, with values in `ℝ≥0∞`, and
-  `ContinuousLinearMap.hilbertSchmidtNorm`, its square root, which is 0 on an
-  operator of infinite energy; `ContinuousLinearMap.hilbertSchmidtEnergy_indep`
-  (the energy does not depend on the basis),
-  `ContinuousLinearMap.hilbertSchmidtEnergy_adjoint` (the adjoint has the same
-  energy), `ContinuousLinearMap.sq_hilbertSchmidtNorm` (the squared norm is the real
-  value of the energy) and `ContinuousLinearMap.norm_le_hilbertSchmidtNorm` (on
-  finite energy the operator norm is at most the Hilbert–Schmidt norm), all between
-  complete inner-product spaces. `…/HilbertSchmidt/Columns.lean`:
-  `HilbertBasis.columnOperator`, the operator `x ↦ Σ_i ⟪b_i,x⟫ f_i` of an ℓ² family of
-  columns, with `HilbertBasis.columnOperator_mk` (a finite-energy operator is the
-  operator of its columns), `HilbertBasis.norm_columnOperator_apply_le`
-  (`‖T_f‖ ≤ ‖f‖`), `HilbertBasis.tsum_norm_columnOperator_apply_self_sq` and
-  `HilbertBasis.hilbertSchmidtEnergy_columnOperator` (the energy of `T_f` is `‖f‖²`)
-  and `HilbertBasis.existsUnique_columnOperator_eq` (a finite-energy operator has a
-  unique column family). `Compact/Convolution.lean`:
-  `TauCeti.convolutionOperator`, the Haar convolution operator of a continuous
-  kernel on L². These are the carriers and inputs of §0.2. The pins have no integral
-  operator of a continuous kernel on a general compact space.
-- `TauCeti/Geometry/Lie/Subgroup/Torus.lean`: `TauCeti.Lie.IsTorus` (a compact,
-  connected, commutative subgroup), `TauCeti.Lie.IsMaximalTorus` (maximal among
-  these; neither closedness nor a Lie structure is part of the definition),
-  `TauCeti.Lie.exists_isMaximalTorus` and
-  `TauCeti.Lie.IsTorus.nonempty_continuousMulEquiv_pi_circle`, which identifies a
-  torus of a Lie group with a finite product of circles indexed by the dimension
-  of its Lie algebra; `TauCeti/Geometry/Lie/Subgroup/Weyl/Finite.lean`:
-  `TauCeti.Lie.IsMaximalTorus.finite_normalizerQuotient`, finiteness of
-  `W = N_K(T)/T` for a compact Lie group. Used in §§6.1, 6.2 and 6.4. For a
-  general compact connected Lie group the pins have no root characters, positive
-  system or conjugacy theorem for maximal tori. For U(n) they have element
-  conjugacy into the diagonal torus, conjugacy of maximal tori and the Weyl group
-  `Equiv.Perm (Fin n)` (next item), but no root characters and no positive system.
-- `TauCeti/Analysis/Matrix/UnitaryGroup/Torus.lean`, `MaximalTorus.lean` and
-  `Weyl.lean`: `TauCeti.unitaryTorusHom` (the injective continuous homomorphism
-  `(Fin n → Circle) → U(n)`, z ↦ diag(z)) with range `TauCeti.unitaryTorus`;
-  `TauCeti.exists_isConj_unitaryTorusHom` (every element of U(n) is conjugate to
-  some diag(z)); `TauCeti.isMaximalTorus_unitaryTorus` and
-  `TauCeti.exists_map_conj_eq_of_isMaximalTorus` (the diagonal torus is a maximal
-  torus, and any two maximal tori of U(n) are conjugate);
-  `TauCeti.unitaryTorusNormalizerQuotientMulEquivPerm` (the Weyl group of the
-  diagonal torus is `Equiv.Perm (Fin n)`, a normalizer element going to its
-  coordinate permutation σ_g) and
-  `TauCeti.unitaryTorusNormalizer_mul_unitaryTorusHom_mul_inv`
-  (`g·diag(z)·g⁻¹ = diag(z ∘ σ_g⁻¹)`). The permutation matrix
-  `Matrix.permutationUnitary σ` (`TauCeti/LinearAlgebra/Matrix/UnitaryGroup/Basic.lean`,
-  the permutation matrix of σ⁻¹ in Mathlib's indexing) sends `e_j` to `e_{σ(j)}` and has
-  coordinate permutation σ by `TauCeti.unitaryTorusNormalizerPerm_permutationUnitary`,
-  so this is the convention of the Conventions section: `n_σ diag(t) n_σ⁻¹` puts t_j
-  in position σ(j). Used in §§6.8 and 6.9.
-- `TauCeti/Algebra/Lie/Weights/WeightLattice.lean` and `Integrality.lean`:
-  `TauCeti.integralWeightLattice` and `TauCeti.exists_int_apply_coroot`, the
-  integral weights of a Cartan subalgebra and the integrality of the weights of a
-  finite-dimensional module on coroots.
-  `TauCeti/Algebra/Lie/HighestWeight/Basic.lean`, `Verma.lean`,
-  `FiniteDimensional.lean` and `Existence.lean`: `TauCeti.IsDominantIntegral`
-  (natural-number values on the simple coroots of a base),
-  `TauCeti.irreducibleQuotient`,
-  `TauCeti.finiteDimensional_irreducibleQuotient_of_isDominantIntegral` and
-  `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`.
-  `TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`:
-  `TauCeti.exists_isCompl_of_isKilling`.
-  `TauCeti/Algebra/Lie/Weights/FormalCharacter.lean` and
-  `TauCeti/Algebra/Lie/HighestWeight/OrbitSum.lean`: `TauCeti.formalCharacter`,
-  `TauCeti.formalCharacter_tensor`, `TauCeti.formalCharacter_coeff_weylGroup_smul`
-  and `TauCeti.formalCharacter_eq_orbitSum_add_lower`. All of these are stated for
-  a finite-dimensional Killing Lie algebra over a field of characteristic zero
-  with a Cartan subalgebra acting triangularizably and a base of
-  `LieAlgebra.IsKilling.rootSystem`; §§6.5–6.8 apply them to the complexified
-  derived pair.
-
-### From named roadmaps
-
-LieGroups Layers 0 and 2–5 supply the exponential, automatic smoothness,
-differentiation, integration of homomorphisms from simply connected groups and
-universal covering homomorphisms. LieGroups Layer 5A supplies the Ad-invariant
-inner product, the splitting `𝔨 = 𝔷 ⊕ [𝔨,𝔨]` and the negative-definite Killing form
-of the derived algebra. LieGroups Layer 6 supplies conjugacy of maximal tori and
-of every element into a maximal torus, the Weyl group with its action on the
-torus, and, in its target on compact real roots and the Weyl comparison, the
-splitting `𝔱 = 𝔷 ⊕ 𝔱_ss`, the root characters with `dχ_α = iα`, the Cartan
-subalgebra `𝔱_ss ⊗ ℂ` of the complexified derived algebra, root multiplicity one
-and the identification with `LieAlgebra.IsKilling.rootSystem`, under which the
-Weyl group acts through the root reflections and fixes the center. LieGroups
-Layer 7, in its target on compact semisimple integration, supplies the compact
-simply connected cover of a compact connected semisimple group with finite
-covering kernel. SymplecticGeometry/ConvexityToric T1 supplies the 2π-normalized
-period and weight dictionary of a compact torus (characters identified by
-`(1/i)dχ`, with integer values on `(2π)⁻¹ ker exp`), the integer pairing of
-characters with coroots and the finite-index lattice comparison under a central
-isogeny. The semisimple highest-weight theory is consumed through the Mathlib
-and Tau Ceti declarations listed above; §6.5 combines it with Lie integration
-and the period dictionary to prove the simply connected compact cocharacter
-comparison.
-BanachSpaceTheory B5 supplies: for every complete real or complex inner-product
-space with a Hilbert basis indexed by I, separability is equivalent to
-countability of I. Layer 3 applies the complex case to the native Peter–Weyl basis.
-The base roadmap (RepresentationTheory, CompactGroups) supplies
-its Layers 0–6 and its engine case through the Tau Ceti declarations listed above:
-Layer 0 Haar averaging and bi-invariance, Layers 1–2 unitarization and complete
-reducibility, Layers 3–4 matrix coefficients and Schur orthogonality, Layer 5 the
-Peter–Weyl basis and density, Layer 6 characters, and the engine case the SU(2)
-classification and Weyl integration. Its “What is not consumable, and is a build
-item here” comparison targets supply the continuous-to-algebraic correspondence,
-character compatibility and finite-dimensional irreducibility comparison;
-§0.1 consumes these together with the pinned Hom and shrinking maps.
-No supplier is required to construct Haar,
-unitarization, Peter–Weyl or the SU(2) classification a second time.
-
-## How to read the build
-
-Layer 0 compares the continuous representation interfaces and continuous kernels.
-Layer 1 classifies invariant metrics and proves that unitary representations with
-equal characters are unitarily equivalent; Layer 2 proves Banach orbit-finite density;
-Layer 3 relates countability and metrizability; Layer 4 handles arbitrary products;
-Layer 5 identifies abelian Fourier bases; Layer 6 constructs global-form descent
-and the formal-character basis of the Weyl invariants; Layer 7 classifies unitary SU(2) actions. Layers 1,
-2 and 4 are independent beyond their named native inputs. The README carries
-all targets and Checks; `Suggested.lean` carries headline acceptance statements.
 
 ## Layer 0: comparisons with the base theory
 
@@ -1720,6 +1360,366 @@ AutomorphicFormsOnReductiveGroups §2.7 for the complex case. TopologicalKTheory
 consumes the same density theorem for its equivariant section spaces and owns
 the representation ring R(G); the basis theorem of §6.7 is stated on formal
 characters, so a consumer placed after TopologicalKTheory reads it on that ring.
+
+## Scope and ownership
+
+**Where the base roadmap stops.** The Haar-through-Peter–Weyl and SU(2) constructions
+belong to the base roadmap, Layers 0–6 and its engine case, and nothing of the base
+roadmap is planned again here. Their implemented statements are inputs, not construction targets:
+Haar averaging and bi-invariance; Gram averaging and unitarization; orthogonal
+complete reducibility; matrix coefficients, their star-algebra, Schur orthogonality,
+convolution and uniform/L² density; the native irreducible skeleton and identified
+Peter–Weyl basis; trace characters and the central L² character basis;
+Frobenius–Schur forms and structure maps; and SU(2) classification and Weyl integration.
+The base roadmap's “What is not consumable, and is a build item here” comparison
+targets own the forgetful correspondence with finite-dimensional algebraic
+representations, its character comparison, the identification of continuous and
+algebraic intertwiners, and finite-dimensional irreducibility comparison.
+The exact native interfaces are listed below. §0.1 adds only tensor and dual
+compatibility of that correspondence, preserving its underlying maps.
+
+This roadmap owns field-general orbit finiteness and compact strongly continuous
+Banach density. AutomorphicFormsOnReductiveGroups §2.1 owns the complete locally
+convex extension and consumes this Banach theorem. SmoothBanachRepresentations
+§4.1 owns the real and complex smooth-topology comparison;
+AutomorphicFormsOnReductiveGroups §2.7 supplies the complex smooth result. Neither is an analytic input.
+Completed/OrthogonalL2Bases Part B owns generic weighted L² basis assembly;
+CharacterTheory Layers 0–4 own finite-group character theory.
+
+LieGroups Layers 2 and 4–5 supply automatic smoothness, Lie integration and
+covering groups. The compact structure theory is LieGroups': its Layer 5A owns the
+Ad-invariant inner product, the orthogonal splitting of the Lie algebra into its
+center and its semisimple derived algebra, and the negative-definite Killing form;
+its Layer 6 owns maximal tori, the Weyl group, and (compact real roots and the Weyl
+comparison) the root characters, the Cartan subalgebra, root multiplicity one and
+the comparison with Mathlib's `LieAlgebra.IsKilling.rootSystem`; its Layer 7
+(compact semisimple integration) owns the compact simply connected cover of a
+compact connected semisimple group and the finiteness of its fundamental group.
+SymplecticGeometry/ConvexityToric T1 owns the 2π-normalized period and weight
+dictionary of a compact torus, the integer pairing of characters with coroots and
+the finite-index lattice comparison under a central isogeny. §6.5 owns the
+compact-group equality of the cocharacter and coroot lattices for a simply
+connected compact semisimple group, proved using Lie integration and the pinned
+highest-weight modules. Layer 6 also owns the closed derived subgroup and the commuting
+product, the finite central cover with the descent of characters, the dominance
+comparison, the classification of irreducible representations by dominant
+characters and the formal-character basis of the Weyl invariants. The rest of
+LieGroups Layer 7, the group complexification and the equivalence between
+continuous and holomorphic representations, is not a premise here.
+
+TopologicalKTheory T6 owns the representation ring R(G) of a compact Lie group,
+with its ring structure, restriction maps and naturality, and it consumes §2.1 of
+this roadmap. So that the supply runs in one direction, this roadmap constructs no
+Grothendieck ring of representations and no target here uses that carrier: Layer 6
+states its results on formal characters in the integral group algebra of the
+character group of a maximal torus.
+
+OperatorTheory/OperatorIdeals Part C owns the generic Hilbert–Schmidt theory; its
+column model, energy identities and compactness are already in the pinned Tau Ceti
+(`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/`), and §0.2 consumes those
+declarations. The base roadmap's Layer 5 keeps the step that a continuous kernel on a compact
+space gives a Hilbert–Schmidt integral operator, as an input to the compactness of
+the Haar convolution operator. §0.2 differs from that step in two respects: it is
+stated for a general compact space with a finite Borel measure, not only for Haar
+convolution, and it proves the exact energy identity and the adjoint comparison.
+AutomorphicSpectralTheory §0.8 owns square-integrable measurable kernels on σ-finite
+standard Borel spaces, whose L² spaces are separable; §0.2 keeps continuous kernels
+on a compact Hausdorff space that need not be metrizable, where L²(μ) need not be
+separable and the product sigma algebra can be strictly smaller than the Borel one,
+and it does not consume that target.
+LieHighestWeight Layers 7 and 9 own the algebraic universal-enveloping center
+and reductive trace-form comparison; CharacteristicClasses §C5.1 owns compact invariant
+polynomial restriction. Neither is a premise for group-character descent.
+BanachSpaceTheory B5 owns the equivalence between separability of a complete
+real or complex inner-product space and countability of a Hilbert-basis index.
+Layer 3 owns its Peter–Weyl application and compact-group countability criteria.
+
+NoncompactQuantumSymmetry M0 owns the isotypic decomposition `H_τ ≅ τ ⊗ Hom_K(τ,H)`
+of a strongly continuous unitary Hilbert representation of a compact group, with its
+normalized multiplicity inner product. §1.3 keeps only the finite-dimensional case,
+with standard coordinates `ℂ^{m_i}` in place of `Hom_K(S_i,V)`, built directly from
+the pinned orthogonal irreducible decomposition and Schur; it does not consume M0,
+because M0 consumes the density theorem of §2.1.
+The pinned Tau Ceti replaces an equivalence of unitary representations by a unitary
+one only for an irreducible source (`ContRepresentation.exists_linearIsometryEquiv_congr_eq`);
+§1.4 owns the general finite-dimensional case, from equality of characters.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `ContRepresentation`, `ContRepresentation.toRepresentation` and
+  `ContIntertwiningMap` in `Mathlib/RepresentationTheory/Continuous/Basic.lean`:
+  actions by continuous linear operators, with parameter continuity added explicitly.
+- `LinearMap.continuous_of_finiteDimensional` in
+  `Mathlib/Topology/Algebra/Module/FiniteDimension.lean`: linear maps with
+  finite-dimensional Hausdorff domain are continuous.
+- `Representation.IsIrreducible` in `Mathlib/RepresentationTheory/Irreducible.lean`:
+  `IsSimpleOrder` of the subrepresentation lattice, including nontriviality.
+- `Representation.IsIrreducible.finrank_eq_one_of_isMulCommutative` in
+  `Mathlib/RepresentationTheory/Irreducible.lean`: a finite-dimensional
+  irreducible representation of a commutative monoid over an algebraically
+  closed field has dimension 1. This algebraic input requires no topology,
+  compactness or continuity.
+- `HilbertBasis`, its coordinate isometry and Parseval in
+  `Mathlib/Analysis/InnerProductSpace/l2Space.lean`; `ContinuousMap.toLp_denseRange`
+  in `Mathlib/MeasureTheory/Function/ContinuousMapDense.lean`.
+- `Summable.countable_support_ennreal` in
+  `Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean`: a nonnegative family with
+  finite total mass has countable support. Apply it to squared basis coordinates.
+- `PontryaginDual` and its compact-open topology in
+  `Mathlib/Topology/Algebra/PontryaginDual.lean`, including discreteness for compact
+  domain; `Circle.eq_one_of_forall_pow_mem_centeredArc_pi_div_two` for finite
+  coordinate dependence. `AddMonoidAlgebra` is the carrier of the formal
+  characters of Layer 6.
+- `LieAlgebra.IsKilling.rootSystem` in `Mathlib/Algebra/Lie/Weights/RootSystem.lean`:
+  the root system of a finite-dimensional Killing Lie algebra with a splitting
+  Cartan subalgebra. Layer 6 uses it for the complexified derived pair of a
+  compact connected Lie group.
+- `RootPairing.Base.toCoweightBasis` and
+  `RootPairing.Base.toCoweightBasis_apply` in
+  `Mathlib/LinearAlgebra/RootSystem/Base.lean`, with
+  `Module.Basis.dualBasis_apply_self` in `Mathlib/LinearAlgebra/Dual/Basis.lean`:
+  the simple coroots form a basis, whose dual fundamental weights take
+  values 1 and 0 on the corresponding and other simple coroots.
+- `MvPolynomial.esymmAlgEquiv` in
+  `Mathlib/RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`: over any
+  commutative ring, the symmetric polynomials in n variables are freely generated
+  by the elementary symmetric polynomials e₁,…,e_n. §6.8 applies it over ℤ.
+- The C*-algebra structure on `E →L[ℂ] E` for a complete complex inner-product
+  space E, in `Mathlib/Analysis/CStarAlgebra/ContinuousLinearMap.lean`;
+  `CFC.sqrt` in
+  `Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean`,
+  the positive square root of a positive element, and `Commute.cfcₙ_nnreal` in
+  `Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Commute.lean`: a
+  function of an element by the functional calculus commutes with everything that
+  commutes with the element. §1.4 applies them to `T†T`.
+
+### From Tau Ceti
+
+Paths in this list are below `TauCeti/RepresentationTheory/` unless given in full.
+
+- `TauCeti/Geometry/Hodge/Conjugation.lean`:
+  `TauCeti.Hodge.complexificationConjugation`,
+  `TauCeti.Hodge.complexificationConjugation_toEquiv_tmul` and
+  `LinearMap.map_eigenspace_baseChange` supply conjugation on ℂ⊗ℝV,
+  its semilinearity and involution, and the conjugate-eigenvalue comparison
+  for real-linear maps. Layer 6 restricts this existing map to simultaneous
+  torus weight spaces.
+- `Compact/Haar.lean`: `TauCeti.haarProb`, `TauCeti.haarProb_def`,
+  `TauCeti.haarProb_apply_univ` and the probability, Haar and bi-invariance instances.
+  `Compact/Averaging.lean`: `TauCeti.haarAverage`, for complete normed targets.
+- `Compact/Unitarizable.lean`: `ContRepresentation.gramOperator` and
+  `ContRepresentation.isUnitarizable`, the Haar-averaged Gram operator and
+  its self-adjoint, positive-definite and invariant form, for a representation
+  of a compact group (with its Borel structure) on a complete inner-product
+  space over ℝ or ℂ whose parameter map is continuous in the operator-norm
+  topology; no finite-dimensional hypothesis enters. `Compact/UnitaryModel.lean`:
+  `ContRepresentation.exists_isUnitary_congr`, which in finite dimension
+  conjugates such a representation by a continuous linear automorphism into
+  one that is unitary for the given inner product.
+- `Continuous/Intertwining.lean`: `ContRepresentation.intertwiningMapEquiv`,
+  `ContRepresentation.intertwiningMapEquiv_id`,
+  `ContRepresentation.intertwiningMapEquiv_comp` and
+  `ContRepresentation.nonempty_equiv_iff` identify continuous and algebraic
+  intertwiners and equivalences for finite-dimensional Hausdorff complex
+  representations, preserving underlying maps, identities and composition.
+  `FDRep/Basic.lean`: `FDRep.ofShrink`, `FDRep.ofShrinkEquiv` and
+  `FDRep.character_ofShrink` give the universe-compatible algebraic object,
+  its equivalence with the original action and preservation of its character.
+  For trivial ℂ the Hom comparison fixes 2I and 3I and their composite 6I;
+  shrinking the C₃ character preserves its value ω at a generator.
+- `Continuous/TensorProduct.lean`: `ContRepresentation.tprod` and
+  `ContRepresentation.continuous_tprod` give the tensor product of two
+  continuous representations, acting by π(g)⊗ρ(g), and its continuity. They are
+  stated on inner-product spaces, and no character identity for this carrier is
+  supplied. `Continuous/LinHom.lean`: `ContRepresentation.linHom`,
+  `ContRepresentation.continuous_linHom` and
+  `ContRepresentation.character_linHom` give the action
+  T↦ρ(g)∘T∘π(g⁻¹) on continuous linear maps between normed spaces, its
+  continuity for a topological group, and its character
+  `χ_π(g⁻¹)·χ_ρ(g)` in finite dimension; `Continuous/Character.lean`:
+  `ContRepresentation.character_trivial` gives the constant character of a
+  trivial action. With ρ the trivial line the action is the dual
+  f↦f∘π(g⁻¹) with character g↦χ_π(g⁻¹): for the C₃ character with value ω
+  this is `ω⁻¹·1=ω²`.
+- `Compact/Finite.lean`: `TauCeti.integral_haarProb` and
+  `ContRepresentation.inner_gramOperator_eq_inv_mul_sum`: for a finite
+  discrete group, the normalized Haar integral is `|G|⁻¹Σ_g` and the
+  unitarizing Gram form is `⟪v,Tw⟫=|G|⁻¹Σ_g⟪π(g)v,π(g)w⟫`.
+- `Continuous/Unitary/Basic.lean`: `ContRepresentation.IsUnitary`;
+  `Continuous/Unitary/Equivalence.lean`:
+  `ContRepresentation.exists_linearIsometryEquiv_congr_eq`, which replaces an
+  equivalence between unitary representations over an algebraically closed
+  field, with finite-dimensional irreducible source, by a linear isometry
+  transporting one action onto the other;
+  `Continuous/OrthogonalDecomposition.lean`:
+  `ContRepresentation.IsUnitary.exists_orthogonal_irreducible_decomposition`;
+  `Continuous/Schur.lean`:
+  `ContRepresentation.exists_eq_smul_one_of_isIrreducible`.
+  `Continuous/InvariantComplement.lean`:
+  `ContRepresentation.IsUnitary.isSemisimpleRepresentation`, complete
+  reducibility of a finite-dimensional unitary representation of any group, with no
+  topology on the group; `Semisimple.lean`:
+  `Representation.nonempty_equiv_of_character_eq_of_isSemisimpleRepresentation`,
+  which over a field of characteristic zero makes two finite-dimensional semisimple
+  representations of any monoid with equal characters equivalent. Used in §1.4.
+- `Continuous/MatrixCoefficient.lean` and `Compact/MatrixCoefficient.lean`:
+  `ContRepresentation.matrixCoeff` and `ContRepresentation.matrixCoeffLp`;
+  `Compact/SchurOrthogonality.lean`:
+  `ContRepresentation.schur_orthogonality_self` and
+  `ContRepresentation.schur_orthogonality_basis`, with unitary irreducible hypotheses.
+- `Compact/Convolution.lean`, `Compact/ApproximateIdentity.lean`,
+  `Compact/EigenspaceRepresentation.lean`, `Compact/RepresentativeDensity.lean`:
+  the continuous-kernel convolution, approximate identities and noncircular density route;
+  in particular `TauCeti.representativeStarSubalgebra_dense` and its point-separation corollary.
+- `Continuous/Integrated/Basic.lean`:
+  `ContRepresentation.integratedOperatorL1`,
+  `ContRepresentation.integratedOperatorL1_toL1`,
+  `ContRepresentation.norm_integratedOperatorL1_le`,
+  `ContRepresentation.comp_integratedOperatorL1` and
+  `ContRepresentation.tendsto_integratedOperatorL1_apply`. These supply the L¹
+  action, Bochner formula, uniform-bound estimate, left covariance and strong
+  approximate-identity convergence. For a multiplicative G, use the additive
+  tag `Additive G` and transport the action to `Multiplicative (Additive G)`.
+  The group need not be commutative; the measure is Borel and inner regular
+  on compact sets. Covariance uses left invariance and a complete target;
+  convergence uses mass-one weights, a uniform L¹ bound and concentration
+  at the identity, with no second countability or separability hypothesis.
+- `Compact/PeterWeyl.lean`: `TauCeti.IrrepModel`, `TauCeti.IsIrrepSkeleton`,
+  `TauCeti.IrrepClass`, `TauCeti.stdPeterWeylBasis` and `TauCeti.coe_stdPeterWeylBasis`.
+  The index for G in universe u is in universe u; there is no countability restriction.
+- `Compact/Character/Basis.lean`: `TauCeti.characterBasis` and
+  `TauCeti.coe_characterBasis` on the native central L² subspace; these use trace
+  characters, with the inverse-map comparison to conjugate coefficient blocks.
+- `Compact/FrobeniusSchur/InvariantForm.lean` and `StructureMap.lean`:
+  `ContRepresentation.frobeniusSchurIndicator_eq_one_iff`,
+  `ContRepresentation.frobeniusSchurIndicator_eq_neg_one_iff` and
+  `ContRepresentation.frobeniusSchurIndicator_eq_one_iff_exists_structureMap`.
+- `SU2/TorusConjugacy.lean`: `TauCeti.SU2.exists_isConj_torusHom`;
+  `SU2/Weight.lean`: `TauCeti.SU2.symPower_torusHom_weightBasis`, with weights
+  2i−d for 0≤i≤d. These give the kernel computation in Layer 7 directly.
+- `SU2/Exhaustion.lean`: `TauCeti.SU2.symPowerModel` and
+  `TauCeti.SU2.existsUnique_nonempty_equiv_symPower`;
+  `SU2/Weyl/Character.lean` and `Integration.lean`: the global weight sum,
+  sine quotient with nonzero denominator, endpoint values and
+  `TauCeti.SU2.weyl_integration_formula`. Unitarize the monomial model before
+  applying coefficient formulas; its Euclidean coordinates are not unitary for n≥2.
+- `Compact/FourierPeterWeyl.lean`: `TauCeti.fourierPeterWeylIndexEquiv` and
+  `TauCeti.peterWeylFamily_fourierIrrepModel`, including the sign −n.
+
+- `TauCeti/Analysis/Fourier/AddCircle.lean`: `TauCeti.fourierPontryaginDualEquiv`,
+  the group isomorphism `Multiplicative ℤ ≃* PontryaginDual (Multiplicative (AddCircle T))`,
+  supplies the single-circle dual.
+- `TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Basic.lean`:
+  `ContinuousLinearMap.hilbertSchmidtEnergy`, the sum of the squared norms of the
+  images of a Hilbert basis, with values in `ℝ≥0∞`, and
+  `ContinuousLinearMap.hilbertSchmidtNorm`, its square root, which is 0 on an
+  operator of infinite energy; `ContinuousLinearMap.hilbertSchmidtEnergy_indep`
+  (the energy does not depend on the basis),
+  `ContinuousLinearMap.hilbertSchmidtEnergy_adjoint` (the adjoint has the same
+  energy), `ContinuousLinearMap.sq_hilbertSchmidtNorm` (the squared norm is the real
+  value of the energy) and `ContinuousLinearMap.norm_le_hilbertSchmidtNorm` (on
+  finite energy the operator norm is at most the Hilbert–Schmidt norm), all between
+  complete inner-product spaces. `…/HilbertSchmidt/Columns.lean`:
+  `HilbertBasis.columnOperator`, the operator `x ↦ Σ_i ⟪b_i,x⟫ f_i` of an ℓ² family of
+  columns, with `HilbertBasis.columnOperator_mk` (a finite-energy operator is the
+  operator of its columns), `HilbertBasis.norm_columnOperator_apply_le`
+  (`‖T_f‖ ≤ ‖f‖`), `HilbertBasis.tsum_norm_columnOperator_apply_self_sq` and
+  `HilbertBasis.hilbertSchmidtEnergy_columnOperator` (the energy of `T_f` is `‖f‖²`)
+  and `HilbertBasis.existsUnique_columnOperator_eq` (a finite-energy operator has a
+  unique column family). `Compact/Convolution.lean`:
+  `TauCeti.convolutionOperator`, the Haar convolution operator of a continuous
+  kernel on L². These are the carriers and inputs of §0.2. The pins have no integral
+  operator of a continuous kernel on a general compact space.
+- `TauCeti/Geometry/Lie/Subgroup/Torus.lean`: `TauCeti.Lie.IsTorus` (a compact,
+  connected, commutative subgroup), `TauCeti.Lie.IsMaximalTorus` (maximal among
+  these; neither closedness nor a Lie structure is part of the definition),
+  `TauCeti.Lie.exists_isMaximalTorus` and
+  `TauCeti.Lie.IsTorus.nonempty_continuousMulEquiv_pi_circle`, which identifies a
+  torus of a Lie group with a finite product of circles indexed by the dimension
+  of its Lie algebra; `TauCeti/Geometry/Lie/Subgroup/Weyl/Finite.lean`:
+  `TauCeti.Lie.IsMaximalTorus.finite_normalizerQuotient`, finiteness of
+  `W = N_K(T)/T` for a compact Lie group. Used in §§6.1, 6.2 and 6.4. For a
+  general compact connected Lie group the pins have no root characters, positive
+  system or conjugacy theorem for maximal tori. For U(n) they have element
+  conjugacy into the diagonal torus, conjugacy of maximal tori and the Weyl group
+  `Equiv.Perm (Fin n)` (next item), but no root characters and no positive system.
+- `TauCeti/Analysis/Matrix/UnitaryGroup/Torus.lean`, `MaximalTorus.lean` and
+  `Weyl.lean`: `TauCeti.unitaryTorusHom` (the injective continuous homomorphism
+  `(Fin n → Circle) → U(n)`, z ↦ diag(z)) with range `TauCeti.unitaryTorus`;
+  `TauCeti.exists_isConj_unitaryTorusHom` (every element of U(n) is conjugate to
+  some diag(z)); `TauCeti.isMaximalTorus_unitaryTorus` and
+  `TauCeti.exists_map_conj_eq_of_isMaximalTorus` (the diagonal torus is a maximal
+  torus, and any two maximal tori of U(n) are conjugate);
+  `TauCeti.unitaryTorusNormalizerQuotientMulEquivPerm` (the Weyl group of the
+  diagonal torus is `Equiv.Perm (Fin n)`, a normalizer element going to its
+  coordinate permutation σ_g) and
+  `TauCeti.unitaryTorusNormalizer_mul_unitaryTorusHom_mul_inv`
+  (`g·diag(z)·g⁻¹ = diag(z ∘ σ_g⁻¹)`). The permutation matrix
+  `Matrix.permutationUnitary σ` (`TauCeti/LinearAlgebra/Matrix/UnitaryGroup/Basic.lean`,
+  the permutation matrix of σ⁻¹ in Mathlib's indexing) sends `e_j` to `e_{σ(j)}` and has
+  coordinate permutation σ by `TauCeti.unitaryTorusNormalizerPerm_permutationUnitary`,
+  so this is the convention of the Conventions section: `n_σ diag(t) n_σ⁻¹` puts t_j
+  in position σ(j). Used in §§6.8 and 6.9.
+- `TauCeti/Algebra/Lie/Weights/WeightLattice.lean` and `Integrality.lean`:
+  `TauCeti.integralWeightLattice` and `TauCeti.exists_int_apply_coroot`, the
+  integral weights of a Cartan subalgebra and the integrality of the weights of a
+  finite-dimensional module on coroots.
+  `TauCeti/Algebra/Lie/HighestWeight/Basic.lean`, `Verma.lean`,
+  `FiniteDimensional.lean` and `Existence.lean`: `TauCeti.IsDominantIntegral`
+  (natural-number values on the simple coroots of a base),
+  `TauCeti.irreducibleQuotient`,
+  `TauCeti.finiteDimensional_irreducibleQuotient_of_isDominantIntegral` and
+  `TauCeti.existsUnique_isDominantIntegral_highestWeight_of_finiteDimensional_irreducible`.
+  `TauCeti/Algebra/Lie/HighestWeight/CompleteReducibility.lean`:
+  `TauCeti.exists_isCompl_of_isKilling`.
+  `TauCeti/Algebra/Lie/Weights/FormalCharacter.lean` and
+  `TauCeti/Algebra/Lie/HighestWeight/OrbitSum.lean`: `TauCeti.formalCharacter`,
+  `TauCeti.formalCharacter_tensor`, `TauCeti.formalCharacter_coeff_weylGroup_smul`
+  and `TauCeti.formalCharacter_eq_orbitSum_add_lower`. All of these are stated for
+  a finite-dimensional Killing Lie algebra over a field of characteristic zero
+  with a Cartan subalgebra acting triangularizably and a base of
+  `LieAlgebra.IsKilling.rootSystem`; §§6.5–6.8 apply them to the complexified
+  derived pair.
+
+### From named roadmaps
+
+LieGroups Layers 0 and 2–5 supply the exponential, automatic smoothness,
+differentiation, integration of homomorphisms from simply connected groups and
+universal covering homomorphisms. LieGroups Layer 5A supplies the Ad-invariant
+inner product, the splitting `𝔨 = 𝔷 ⊕ [𝔨,𝔨]` and the negative-definite Killing form
+of the derived algebra. LieGroups Layer 6 supplies conjugacy of maximal tori and
+of every element into a maximal torus, the Weyl group with its action on the
+torus, and, in its target on compact real roots and the Weyl comparison, the
+splitting `𝔱 = 𝔷 ⊕ 𝔱_ss`, the root characters with `dχ_α = iα`, the Cartan
+subalgebra `𝔱_ss ⊗ ℂ` of the complexified derived algebra, root multiplicity one
+and the identification with `LieAlgebra.IsKilling.rootSystem`, under which the
+Weyl group acts through the root reflections and fixes the center. LieGroups
+Layer 7, in its target on compact semisimple integration, supplies the compact
+simply connected cover of a compact connected semisimple group with finite
+covering kernel. SymplecticGeometry/ConvexityToric T1 supplies the 2π-normalized
+period and weight dictionary of a compact torus (characters identified by
+`(1/i)dχ`, with integer values on `(2π)⁻¹ ker exp`), the integer pairing of
+characters with coroots and the finite-index lattice comparison under a central
+isogeny. The semisimple highest-weight theory is consumed through the Mathlib
+and Tau Ceti declarations listed above; §6.5 combines it with Lie integration
+and the period dictionary to prove the simply connected compact cocharacter
+comparison.
+BanachSpaceTheory B5 supplies: for every complete real or complex inner-product
+space with a Hilbert basis indexed by I, separability is equivalent to
+countability of I. Layer 3 applies the complex case to the native Peter–Weyl basis.
+The base roadmap (RepresentationTheory, CompactGroups) supplies
+its Layers 0–6 and its engine case through the Tau Ceti declarations listed above:
+Layer 0 Haar averaging and bi-invariance, Layers 1–2 unitarization and complete
+reducibility, Layers 3–4 matrix coefficients and Schur orthogonality, Layer 5 the
+Peter–Weyl basis and density, Layer 6 characters, and the engine case the SU(2)
+classification and Weyl integration. Its “What is not consumable, and is a build
+item here” comparison targets supply the continuous-to-algebraic correspondence,
+character compatibility and finite-dimensional irreducibility comparison;
+§0.1 consumes these together with the pinned Hom and shrinking maps.
+No supplier is required to construct Haar,
+unitarization, Peter–Weyl or the SU(2) classification a second time.
 
 ## References
 
