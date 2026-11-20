@@ -321,7 +321,7 @@ ordered products of the `q (ι (e i))` span `A` over `S`
 finite `S`-module (`TauCeti.UniversalEnvelopingAlgebra.moduleFinite_of_isIntegral_of_span_eq_top`).
 A commutative subalgebra `R` of the centre of `U(L)` is made a ring of scalars by
 `Subalgebra.centralSubalgebraAlgebra`; with `q` the identity this is the module-finiteness theorem
-consumed by Layer 6. A relation of degree `0` would read `1 = 0` and is excluded by monicity.
+consumed by Layer 6. A monic relation of degree `0` reads `1 = 0` and forces `A = 0`.
 *Needs:* §1.2; Tau Ceti the declarations named above.
 
 ### Examples
@@ -561,9 +561,14 @@ exactly the nilpotent elements modulo it that `I` has
 over a field of characteristic zero, with `N = nil S`, every derivation qualifies by §3.4, and the
 refinement is stable under every lifted derivation
 (`Ideal.exists_cofinite_refinement_stableDerivations_of_isSolvable`). This is the input of Layer 4.
-Solvability enters through `D S ≤ nil S` (§3.4): for a semisimple `S` and `D = ad x ≠ 0`,
-`nil S = 0` while `D S ≠ 0`, so the range containment `Dᵁ (U(S)) ≤ B` fails, and the statement is
-made for solvable `S`, as Layer 4 uses it.
+Solvability enters the route through `D S ≤ nil S` (§3.4). For a semisimple `S`, `nil S = 0` and
+`B = I`, and the range containment `Dᵁ (U(S)) ≤ B` depends on `I`: it holds for `I = U⁺(S)`, which
+contains every `ι (D y)` (§3.2), and fails for `S = sl₂`, `D = ad x` with `x ≠ 0` and `I` the kernel
+of the two-dimensional representation `σ`, the image of `Dᵁ` in `U(S) ⧸ I ≅ M₂(K)` being
+`[σ x, M₂(K)] ≠ 0`. The statement is made for solvable `S`, as Layer 4 uses it; for a
+finite-dimensional semisimple `S` in characteristic zero its conclusion holds with `J = I`, every
+derivation being inner and the lift of `ad x` being the commutator with `ι x` (§3.2), which preserves
+every two-sided ideal.
 *Needs:* §§1.2–1.3, 3.2, 3.4, 3.5; Mathlib `LieModule.isNilpotent_iff_forall` (Engel); Tau Ceti
 `LieIdeal.envelopingIdeal` and the declarations named above.
 
@@ -642,21 +647,20 @@ Fulton–Harris, Proposition E.5, are separated:
 
 ### 4.5 Transport along equivalences
 
-Prove the internal form of the extension theorems of §4.4 and their invariance under the choices
-made: for `L` finite-dimensional, an ideal `S` and a Lie subalgebra `H` with
-`IsCompl S.toSubmodule H.toSubmodule`, and a finite-dimensional representation `σ` of `S`,
+Prove the internal form of the extension theorems of §4.4: for `L` finite-dimensional, an ideal `S`
+and a Lie subalgebra `H` with `IsCompl S.toSubmodule H.toSubmodule`, and a finite-dimensional
+representation `σ` of `S`,
 
 - in characteristic zero, if `S` is solvable, `σ` a nilrepresentation and `nil L = nil S` (as
   subsets of `L`), there is a finite-dimensional nilrepresentation `ρ` of `L` with
   `{s ∈ S | ρ s = 0} ⊆ ker σ`;
 - if `L` is nilpotent and `σ` acts by nilpotent endomorphisms, there is a finite-dimensional
-  representation `ρ` of `L` by nilpotent endomorphisms with `{s ∈ S | ρ s = 0} ⊆ ker σ`;
+  representation `ρ` of `L` by nilpotent endomorphisms with `{s ∈ S | ρ s = 0} ⊆ ker σ`.
 
-and these conclusions are unchanged when the equivalence `L ≃ S ⋊ H` of §4.1 is replaced by another
-equivalence of split extensions, and when `σ` is replaced by an equivalent representation (`σ`
-conjugated by a linear isomorphism `V ≃ₗ[K] V'`). Clients consume these statements and not the
-chosen complement. *Route.* Compose the representations of §4.4 with the equivalence of §4.1;
-kernels and nilpotence are carried along equivalences and conjugation.
+These statements mention no equivalence `L ≃ S ⋊ H`, and neither their hypotheses on `σ` nor
+`ker σ` change when `σ` is conjugated by a linear isomorphism `V ≃ₗ[K] V'`, so clients consume them
+and not a chosen equivalence. *Route.* Compose the representations of §4.4 with the equivalence of
+§4.1; kernels and nilpotence are carried along the equivalence.
 *Needs:* §§4.1, 4.4; Tau Ceti `LieIdeal.restrict_nilradical` for the comparison of `nil L = nil S`
 with the hypothesis of `TauCeti.exists_semiDirectSum_rep_of_isSolvable`.
 
@@ -758,8 +762,9 @@ nilrepresentation of `L` with `ker ρ₀ ∩ Z(L) = 0`. Since the kernel of `ad`
   is no Levi step, and the result acts by nilpotent endomorphisms, the guarantee of §2.4.
 
 Hochschild's strengthening in characteristic zero is a separate argument on top of this, not a
-corollary of it (Hochschild 1966). In §§5.5–5.8, `M` is a finite-dimensional `L`-module on which
-`N` acts nilpotently and `x : L` has `ad x` nilpotent; the goal is that `x` acts nilpotently on `M`.
+corollary of it (Hochschild 1966, pp. 531–532). In §§5.5–5.8, `M` is a finite-dimensional
+`L`-module on which `N` acts nilpotently and `x : L` has `ad x` nilpotent; the goal is that `x` acts
+nilpotently on `M`.
 
 ### 5.5 The nilpotent-extension lemma
 
@@ -777,23 +782,26 @@ declarations named above.
 
 ### 5.6 The semisimple component acts nilpotently
 
-Write `L = S ⊕ R` with `S` a Levi complement (§5.3) and `x = s + r` accordingly. Prove that `ad x`
-nilpotent forces `ad_S s` nilpotent, where `ad_S` is the adjoint representation of `S`.
-*Route.* The projection `L → L ⧸ R ≅ S` is a Lie homomorphism sending `x` to `s`, and `ad` of the
-image of an `ad`-nilpotent element is nilpotent on the quotient. Then `S` is semisimple, so its
-Killing form is nondegenerate, and an `ad`-nilpotent `s` of `S` satisfies `⁅s, t⁆ = s` for some
-`t : S` (`TauCeti.exists_lie_eq_self_of_isNilpotent_ad`), over the original field, with no algebraic
-closure and no `sl₂`-triple: for `z ∈ ker (ad s)`, `ad z` commutes with the nilpotent `ad s`, so
-`ad s ∘ ad z` is nilpotent and `κ(s, z) = 0`; hence `s ∈ (ker (ad s))ᗮ`, which is `range (ad s)` by
-invariance and nondegeneracy of `κ` and rank–nullity (`TauCeti.mem_range_ad_self_of_isNilpotent_ad`).
+Write `L = S ⊕ R` with `S` a Levi complement (§5.3) and `x = s + r` accordingly. If `ad x` is
+nilpotent, then `ad_S s` is nilpotent, where `ad_S` is the adjoint representation of `S`
+(`LieIdeal.isNilpotent_ad_right_of_isCompl`, for any Lie ideal and complementary Lie subalgebra over
+a commutative ring): the projection of `L ≅ R ⋊ S` onto `S` is a surjective Lie homomorphism sending
+`x` to `s`, and a surjective Lie homomorphism carries `ad`-nilpotent elements to `ad`-nilpotent
+elements. Then `S` is semisimple, so its Killing form is nondegenerate, and an `ad`-nilpotent `s` of
+`S` satisfies `⁅s, t⁆ = s` for some `t : S` (`TauCeti.exists_lie_eq_self_of_isNilpotent_ad`), over
+the original field, with no algebraic closure and no `sl₂`-triple: for `z ∈ ker (ad s)`, `ad z`
+commutes with the nilpotent `ad s`, so `ad s ∘ ad z` is nilpotent and `κ(s, z) = 0`; hence
+`s ∈ (ker (ad s))ᗮ`, which is `range (ad s)` by invariance and nondegeneracy of `κ` and rank–nullity
+(`TauCeti.mem_range_ad_self_of_isNilpotent_ad`).
 An element with a nonzero adjoint eigenvalue, `⁅t, s⁆ = −s`, acts nilpotently in every
 finite-dimensional representation (`TauCeti.isNilpotent_apply_of_lie_eq_smul`), so `s` acts
 nilpotently on `L` and on `M` (`TauCeti.isNilpotent_toEnd_of_isNilpotent_ad`, applied to `S`). This
 keeps the Jacobson–Morozov theorem out of the dependencies; Hochschild applies Lie's theorem to the
 solvable algebra spanned by `s` and `t`, and the eigenvalue argument replaces it.
-*Needs:* §5.3; Mathlib `LieAlgebra.IsKilling`, `LieAlgebra.ad`, Lie algebra quotients; Tau Ceti
-`TauCeti.exists_lie_eq_self_of_isNilpotent_ad`, `TauCeti.mem_range_ad_self_of_isNilpotent_ad`,
-`TauCeti.isNilpotent_apply_of_lie_eq_smul`, `TauCeti.isNilpotent_toEnd_of_isNilpotent_ad`.
+*Needs:* §5.3; Mathlib `LieAlgebra.IsKilling`, `LieAlgebra.ad`; Tau Ceti
+`LieIdeal.isNilpotent_ad_right_of_isCompl`, `TauCeti.exists_lie_eq_self_of_isNilpotent_ad`,
+`TauCeti.mem_range_ad_self_of_isNilpotent_ad`, `TauCeti.isNilpotent_apply_of_lie_eq_smul`,
+`TauCeti.isNilpotent_toEnd_of_isNilpotent_ad`.
 
 **Checks.**
 - For `sl₂` and `s = e`, `t = h / 2` gives `⁅e, h / 2⁆ = −e`, and `⁅e, −h / 2⁆ = e`; the argument
@@ -842,7 +850,8 @@ through a semisimple quotient, the square-zero representation, the nilpotent-ext
 ## Layer 6: central `p`-polynomials and module-finiteness
 
 Throughout, `K` has prime characteristic `p` (`[Fact p.Prime] [CharP K p]`) and `L` is
-finite-dimensional (Hochschild 1966; Jacobson, *Lie Algebras*, Chapters V–VI and pp. 202–203).
+finite-dimensional (Hochschild 1966, proof of Theorem 2, p. 532; Jacobson, *Lie Algebras*,
+Chapter V, Theorem 6 and Lemma 4, and Chapter VI, Lemma 5, as Hochschild cites them).
 
 ### 6.1 The Frobenius commutator identity
 
@@ -951,15 +960,16 @@ central augmentation ideal named above.
 
 ## Layer 7: the generalized Krull intersection and finite quotients
 
-Throughout, `K` has prime characteristic `p` and `L` is finite-dimensional (Hochschild 1966).
+Throughout, `K` has prime characteristic `p` and `L` is finite-dimensional (Hochschild 1966,
+Theorem 2, p. 532).
 
 ### 7.1 The Krull intersection theorem
 
 The commutative input is Mathlib's generalized Krull intersection theorem
 `Ideal.mem_iInf_smul_pow_eq_bot_iff`: for `R` commutative Noetherian, `M` a finite `R`-module and
 `J` an ideal of `R`, `x ∈ ⨅ i, J ^ i • ⊤` iff `r • x = x` for some `r ∈ J` (Hochschild cites
-Zariski–Samuel, p. 253, for it). It is not restated. For `R` Noetherian and an `R`-algebra `A`
-finite over `R` it reads: `x ∈ ⨅ n, (J · A)^n` iff `r x = x` for some `r ∈ J` (`Ideal.mem_iInf_map_algebraMap_pow_iff`),
+Zariski–Samuel, Vol. I, p. 253, for it). It is not restated. For `R` Noetherian and an `R`-algebra
+`A` finite over `R` it reads: `x ∈ ⨅ n, (J · A)^n` iff `r x = x` for some `r ∈ J` (`Ideal.mem_iInf_map_algebraMap_pow_iff`),
 and for a Hopf algebra finite over its Noetherian centre, with `UC` in place of `J · A`
 (`TauCeti.HopfIdeal.mem_iInf_centralAugmentationIdeal_pow_iff`). The hypotheses are discharged for
 `U(L)` over its centre by §6.4, and every commutative ideal in the argument lives in the centre.
@@ -1001,9 +1011,11 @@ Prove the explicit finite spanning set: with `c₁, …, c_d` and the exponents 
 for the basis `x₁, …, x_d`, the images in `U(L) ⧸ (UC)^n` of the products
 `c₁^β₁ ⋯ c_d^β_d · ι x₁^m₁ ⋯ ι x_d^m_d` with `β₁ + ⋯ + β_d < n` and `0 ≤ mᵢ < p ^ eᵢ` span it over
 `K`. *Route.* The bounded monomials span `U(L)` over `R₀` (§1.5), and `R₀ ⧸ (c₁, …, c_d)^n` is
-spanned by the monomials in the `cᵢ` of total degree `< n`.
+spanned by the monomials in the `cᵢ` of total degree `< n`
+(`TauCeti.span_range_prod_quotient_span_pow_eq_top`).
 *Needs:* §§1.5, 6.4; Tau Ceti `TauCeti.UniversalEnvelopingAlgebra.span_range_bounded_orderedPowerProducts_eq_top`,
-`TauCeti.UniversalEnvelopingAlgebra.exists_pCentralGenerators_moduleFinite`.
+`TauCeti.UniversalEnvelopingAlgebra.exists_pCentralGenerators_moduleFinite`,
+`TauCeti.span_range_prod_quotient_span_pow_eq_top`.
 
 **Checks.**
 - For the one-dimensional abelian `L = K x`, `c = x` with `e = 0`, and the spanning set is
@@ -1023,7 +1035,8 @@ the finite quotient named above.
 
 ## Layer 8: assemble the positive-characteristic theorem
 
-Throughout, `K` has prime characteristic `p` and `L` is finite-dimensional (Hochschild 1966).
+Throughout, `K` has prime characteristic `p` and `L` is finite-dimensional (Hochschild 1966,
+pp. 532–533).
 
 ### 8.1 The separating quotient and its representation
 
@@ -1077,7 +1090,7 @@ For a field, `ringChar K` is `0` or a prime (Mathlib `CharP.char_is_prime_or_zer
 strengthened statements, so the summit is not proved twice, and it is instance plumbing kept apart
 from the mathematics. The result is Hochschild's theorem over an arbitrary field: a faithful
 finite-dimensional representation satisfying Hochschild's condition
-(`TauCeti.exists_faithful_preserving_ad_nilpotence`; Hochschild 1966).
+(`TauCeti.exists_faithful_preserving_ad_nilpotence`; Hochschild 1966, Theorem 1, p. 531).
 *Needs:* §§5.8, 8.2; Mathlib `ringChar`, `CharP.char_is_prime_or_zero`,
 `CharP.ringChar_zero_iff_CharZero`; Tau Ceti `TauCeti.exists_faithful_preserving_ad_nilpotence`.
 
@@ -1166,10 +1179,9 @@ decomposition, Ado's theorem in characteristic zero and every step of Hochschild
 extended-ideal identity (Layer 6); the Krull intersection, the finite-stage separation and the
 finite-dimensional quotient (§§7.1–7.3 and the first paragraph of §7.4); and all of Layers 8 and 9.
 The targets of this roadmap are the statements introduced by "Prove": the faithfulness dictionary
-(§0.1), the nilradical under extension to an algebraic closure (§3.3), the internal and transported
-extension theorems (§4.5), the flag lemma (§5.2), the nilpotence of the semisimple component (§5.6),
-naturality of central `p`-polynomials under field extension (§6.2) and the explicit spanning set of
-§7.4.
+(§0.1), the nilradical under extension to an algebraic closure (§3.3), the internal form of the
+extension theorems (§4.5), the flag lemma (§5.2), naturality of central `p`-polynomials under field
+extension (§6.2) and the explicit spanning set of §7.4.
 
 **Owned elsewhere and consumed here.**
 
@@ -1352,8 +1364,10 @@ Paths are under `TauCeti/`. Every declaration below is proved at the pin.
   `LieSubalgebra.isNilpotent_toEnd_of_mem_lieSpan_insert_of_forall`,
   `LieIdeal.isNilpotent_toEnd_of_mem_span_singleton_sup`,
   `TauCeti.LieAlgebra.isNilpotent_ad_of_mem_span_singleton_sup_nilradical` (`Algebra/Lie/NilpotentExtension.lean`);
-  `TauCeti.exists_lie_eq_self_of_isNilpotent_ad`, `TauCeti.mem_range_ad_self_of_isNilpotent_ad`
-  (`[IsKilling K L]`; `Algebra/Lie/Killing/AdNilpotent.lean`); `TauCeti.isNilpotent_apply_of_lie_eq_smul`,
+  `LieIdeal.isNilpotent_ad_right_of_isCompl` (any commutative ring;
+  `Algebra/Lie/SemiDirect/AdNilpotent.lean`); `TauCeti.exists_lie_eq_self_of_isNilpotent_ad`,
+  `TauCeti.mem_range_ad_self_of_isNilpotent_ad` (`[IsKilling K L]`;
+  `Algebra/Lie/Killing/AdNilpotent.lean`); `TauCeti.isNilpotent_apply_of_lie_eq_smul`,
   `TauCeti.isNilpotent_toEnd_of_isNilpotent_ad`,
   `LieSubalgebra.isNilpotent_toEnd_of_isNilpotent_ad_of_isCompl_radical`,
   `LieSubalgebra.isNilpotent_apply_of_isNilpotent_ad_of_isCompl_radical` (`RepresentationTheory/Lie/AdNilpotent.lean`);
@@ -1386,7 +1400,8 @@ Paths are under `TauCeti/`. Every declaration below is proved at the pin.
   `Ideal.mem_iInf_map_algebraMap_pow_iff`, `Ideal.iInf_map_algebraMap_pow_eq_bot`
   (`RingTheory/Ideal/Extended.lean`); `Submodule.exists_forall_inf_eq_bot_of_antitone`,
   `Ideal.exists_forall_inf_restrictScalars_pow_eq_bot` (`Algebra/Module/Submodule/FilteredIntersection.lean`);
-  `TauCeti.finite_quotient_pow_of_algebraMap_mem` (`RingTheory/Ideal/Quotient/Finite.lean`).
+  `TauCeti.span_range_prod_quotient_span_pow_eq_top`, `TauCeti.finite_quotient_pow_of_algebraMap_mem`
+  (`RingTheory/Ideal/Quotient/Finite.lean`).
 - *The characteristic-`p` assembly* (`RepresentationTheory/Lie/Ado/`):
   `TauCeti.UniversalEnvelopingAlgebra.finiteDimensional_quotient_centralAugmentationIdeal_pow`
   (`FiniteQuotient.lean`); `TauCeti.UniversalEnvelopingAlgebra.isNilpotent_quotient_ι_of_isNilpotent_ad`,
@@ -1423,8 +1438,8 @@ Paths are under `TauCeti/`. Every declaration below is proved at the pin.
 - P. Zusmanovich, [*Yet another proof of the Ado theorem*](https://arxiv.org/abs/1507.02233), Journal of
   Lie Theory **26** (2016), 673–681 — an independent nilpotent characteristic-zero proof and a careful
   account of where elementary tensor and derivation arguments fail in positive characteristic.
-- O. Zariski and P. Samuel, *Commutative Algebra*, p. 253, as cited by Hochschild for the generalized
-  Krull intersection theorem.
+- O. Zariski and P. Samuel, *Commutative Algebra*, Vol. I, Van Nostrand (1958), p. 253, as cited by
+  Hochschild for the generalized Krull intersection theorem.
 - Lean Zulip, channel `mathlib4`, thread
   [*The plan for PBW theorem*](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/The.20plan.20for.20PBW.20theorem/near/583326631)
   — two approaches to the PBW theorem for Mathlib: an abstract categorical proof and a Diamond-Lemma
