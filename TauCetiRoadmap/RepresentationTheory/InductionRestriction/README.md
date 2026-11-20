@@ -15,9 +15,10 @@ The headline theorems are these.
   G (finite or not) over any field restricts to a normal subgroup N as the direct sum of e ≥ 1
   copies of each G-conjugate of one simple representation V of N, the distinct conjugates indexed
   by the finitely many cosets of the inertia group T of V.
-- *The Clifford correspondence over every field.* If G is finite, induction from T is a bijection,
-  on isomorphism classes, from the simple representations of T lying over V to those of G lying
-  over V; no invertibility of |G| and no splitting hypothesis is needed.
+- *The Clifford correspondence over every field.* If T has finite index in G (for instance if G is
+  finite), induction from T is a bijection, on isomorphism classes, from the simple
+  representations of T lying over V to those of G lying over V; no invertibility of |G| and no
+  splitting hypothesis is needed.
 - *The universal central extension of a perfect group.* For G perfect with a free presentation
   F → G of kernel R, the group [F, F]/[F, R] is perfect, maps onto G with central kernel
   (R ∩ [F, F])/[F, R], and maps uniquely over G to every central extension of G.
@@ -97,10 +98,12 @@ Scope section below records.
    `kˣ` acts faithfully on `V` (`[FaithfulSMul kˣ V]`, which holds for nonzero `V` over a field).
    `G` acts trivially on `kˣ` (`TauCeti.trivialMulDistribMulAction`), and `H²(G, kˣ)` is
    `TauCeti.schurMultiplier k G`, the second cohomology of `Additive kˣ` with the trivial action.
-9. **Universes.** The categorical wrappers of Mathlib and Tau Ceti put the coefficient ring, the
-   group and the carriers in one universe; statements over them do the same. The statements of
-   Layer 7 about factor sets and Schur multipliers are made for `Type`, as `TauCeti.schurMultiplier`
-   is.
+9. **Universes.** The statements over `FDRep` and `Rep` put the coefficient ring, the group and
+   the carriers in one universe, as Tau Ceti's Mackey decomposition and Clifford correspondence
+   do. The exception is the existence of a compatible projective extension (§7.5), stated for `k`
+   and `G` in arbitrary universes, as Tau Ceti's algebraically closed version is. The other
+   statements of Layer 7 about factor sets and Schur multipliers are made for `Type`, as
+   `TauCeti.schurMultiplier` is.
 10. **Names.** `Suggested.lean` states its targets in the namespace
     `TauCetiRoadmap.RepresentationTheory.InductionRestriction`, with the sub-namespaces `Gassmann`
     (Layer 2) and `AbstractUCE` (§7.1). In Tau Ceti the material lives under
@@ -143,8 +146,9 @@ Tau Ceti's transitivity isomorphisms and Mathlib's induction functor.
 
 Two subgroups `H`, `K` of `G` are almost conjugate (Gassmann equivalent) when they meet every
 conjugacy class of `G` in the same number of elements; this is Tau Ceti's `Subgroup.AlmostConjugate`,
-and over a field of characteristic zero it holds exactly when the permutation representations on
-`G ⧸ H` and `G ⧸ K` are equivalent (`TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`).
+and, for finite `G` and over a field of characteristic zero, it holds exactly when the permutation
+representations on `G ⧸ H` and `G ⧸ K` are equivalent
+(`TauCeti.almostConjugate_iff_nonempty_equiv_ofMulAction`).
 Arithmetic applications pass such an equivalence to a decomposition group `D` and to the invariants
 of an inertia subgroup `I` normal in `D`. For that, define, over a commutative ring `k`:
 
@@ -159,10 +163,11 @@ API:
 
 - The underlying linear map of the second adapter is Tau Ceti's
   `Representation.Equiv.invariantsLinearEquiv` of the restriction of `e` to `I`.
-- Composed with Tau Ceti's `TauCeti.orbitSumEquiv`, which identifies the representation of `D ⧸ I`
-  on the `I`-invariants of `k[X]` with the permutation representation on the `I`-orbits, an
-  equivalence of permutation representations of `D` yields an equivalence of the permutation
-  representations of `D ⧸ I` on `I`-orbits.
+- Composed with Tau Ceti's `TauCeti.orbitSumEquiv`, which identifies, for a finite `D`-set `X`,
+  the representation of `D ⧸ I` on the `I`-invariants of `k[X]` with the permutation
+  representation on the `I`-orbits, an equivalence of the permutation representations of `D` on
+  two finite sets yields an equivalence of the permutation representations of `D ⧸ I` on their
+  `I`-orbits.
 
 *Needs:* Mathlib `Representation.Equiv`, `Representation.comp`,
 `Representation.quotientToInvariants`; Tau Ceti `Representation.Equiv.invariantsLinearEquiv`, and
@@ -225,17 +230,19 @@ ring and `A` a representation of `H`. For each double coset with representative 
 to `Res_K (Ind_H^G A)` sending `⟦u ⊗ a⟧` to `⟦s⁻¹ u ⊗ a⟧`. Prove
 `isIso_biproductDesc_mackeyInclusion`: the morphism out of the categorical biproduct of the
 summands whose components are these inclusions is an isomorphism in `Rep k K`, so that
-`Res_K (Ind_H^G A) ≅ ⨁_{KsH} Ind_{K ⊓ sHs⁻¹}^K (Res {}^s A)` (Mackey 1951; Curtis–Reiner §10–11;
-Alperin–Bell, Ch. 8). The statement takes `HasFiniteBiproducts (Rep k K)` as a hypothesis, as
-the pinned Mathlib does not infer it for `Rep`. *Route.* Tau Ceti's `Rep.mackeyDecomposition A`
-identifies `Res_K (Ind_H^G A)` with the direct-sum representation `Rep.mackeyDirectSum H K A`, and
-its inverse sends the summand at `s` by `⟦u ⊗ a⟧ ↦ ⟦s⁻¹ u ⊗ a⟧`
+`Res_K (Ind_H^G A) ≅ ⨁_{KsH} Ind_{K ⊓ sHs⁻¹}^K (Res {}^s A)` (Mackey 1951; Curtis–Reiner §10–11).
+The statement takes `HasFiniteBiproducts (Rep k K)` as a hypothesis, as the pinned Mathlib does
+not infer it for `Rep`; it always holds, since `Rep k K` is abelian and Mathlib's
+`CategoryTheory.Abelian.hasFiniteBiproducts` supplies it. *Route.* Tau Ceti's
+`Rep.mackeyDecomposition A` identifies `Res_K (Ind_H^G A)` with the direct-sum representation
+`Rep.mackeyDirectSum H K A`, and its inverse sends the summand at `s` by `⟦u ⊗ a⟧ ↦ ⟦s⁻¹ u ⊗ a⟧`
 (`Rep.mackeyDecomposition_inv_hom_apply_lof`); it remains to identify the finite direct sum of
 modules with the categorical biproduct. The summands are built from the chosen representatives; no
 statement is made about a representative-free summand.
 *Needs:* Tau Ceti `Rep.mackeyInclusion`, `Rep.mackeySummand`, `Rep.mackeyDirectSum`,
 `Rep.mackeyDecomposition`, `Rep.mackeyDecomposition_inv_hom_apply_lof`; Mathlib
-`DoubleCoset.Quotient`, `CategoryTheory.Limits.biproduct.desc`, `HasFiniteBiproducts`.
+`DoubleCoset.Quotient`, `CategoryTheory.Limits.biproduct.desc`, `HasFiniteBiproducts`,
+`CategoryTheory.Abelian.hasFiniteBiproducts`.
 
 **Checks.**
 - For `G = S₃`, `H = K = ⟨(1 2)⟩` and `A` the sign of `H`, there are two double cosets, of sizes 2
@@ -355,7 +362,8 @@ Mathlib's quaternion group and quaternions for §4.4.
 
 ## Layer 5: Clifford theory over a normal subgroup
 
-Throughout, `N` is a normal subgroup of `G` and `k` is a field; `G` is finite in §5.1 and §5.3.
+Throughout, `N` is a normal subgroup of `G` and `k` is a field; `G` is finite in §5.1, and in §5.3
+the inertia group has finite index in `G`.
 
 ### 5.1 Isotypic decomposition in `FDRep`
 
@@ -398,7 +406,7 @@ Prove its character form `clifford_restrict_character`: with `reps` a left trans
 inertia group, `χ_W(n) = e · ∑_{g ∈ reps} χ_{{}^g V}(n)` for `n ∈ N`. No finiteness of `G`, no
 invertibility of `|G|` and no splitting is assumed: the conjugates of `V` are finitely many because
 `W` is finite-dimensional, and in positive characteristic the character form sees only `(e : k)`
-(Curtis–Reiner §11; Alperin–Bell, Ch. 8; for complex characters, Isaacs, Ch. 6).
+(Curtis–Reiner §11; for complex characters, Isaacs, Ch. 6).
 
 API:
 
@@ -431,8 +439,10 @@ closed field this is Tau Ceti's `FDRep.clifford_restrict_iso`.
 
 ### 5.3 The Clifford correspondence over every field
 
-Let `V : FDRep k N` be simple with inertia group `T`; no invertibility of `|G|` in `k` and no
-splitting hypothesis is assumed. Prove `clifford_correspondence`: for every simple
+Let `V : FDRep k N` be simple with inertia group `T` of finite index in `G`
+(`[(TauCeti.inertia V).FiniteIndex]`, an instance when `G` is finite); `G` need not be finite, and
+no invertibility of `|G|` in `k` and no splitting hypothesis is assumed. Prove
+`clifford_correspondence`: for every simple
 `U : FDRep k T` lying over `V` (Tau Ceti's `FDRep.LiesOver`, a nonzero intertwiner from `V` into
 the restriction of `U`), `TauCeti.indFDRep U` is simple and lies over `V`; every simple
 representation of `G` lying over `V` is isomorphic to such an induced representation; and two
@@ -453,11 +463,12 @@ spaces of the same dimension; `W_V` is simple, because the translates of a nonze
 part to `V`-isotypic part, so `U ≅ U'`. Neither Maschke's theorem nor the Mackey criterion
 `FDRep.simple_indFDRep_of_forall_mackeyDisjoint`, which assumes `|G|` invertible, enters. Over an
 algebraically closed field of characteristic zero the bijection is Tau Ceti's
-`FDRep.cliffordCorrespondence`. Tau Ceti proves two clauses more generally: `Ind U` lies over `V`
-over every field (`FDRep.liesOver_indFDRep_of_inertia`), and induction is injective over every
-field of characteristic zero (`FDRep.nonempty_iso_of_liesOver_inertia_of_nonempty_iso_indFDRep`);
-the simplicity of `Ind U`, the surjectivity, and the injectivity in positive characteristic are
-what this target adds.
+`FDRep.cliffordCorrespondence` (for finite `G`). Tau Ceti proves two clauses more generally: `Ind U`
+lies over `V` over every field (`FDRep.liesOver_indFDRep_of_inertia`), and, for finite `G`,
+induction is injective over every field of characteristic zero
+(`FDRep.nonempty_iso_of_liesOver_inertia_of_nonempty_iso_indFDRep`);
+the simplicity of `Ind U`, the surjectivity, and the injectivity in positive characteristic or
+for infinite `G` are what this target adds. The route uses the finiteness of `G ⧸ T` only.
 The further reduction from `T` to the quotient `T / N` needs `V` to extend to `T` and to have
 scalar endomorphisms (§7.5); for a division algebra of endomorphisms it is the crossed-product
 theory of §7.6–§7.7. Neither enters the proof of the correspondence.
@@ -548,7 +559,6 @@ induced map `AbstractUCE.projection : U → G`. For every group `G`, prove (Weib
 Example 5.3.4):
 
 - `AbstractUCE.ker_projection_le_center`: the kernel of the projection is central;
-- `AbstractUCE.ker_projection_eq_map`: it is the image of `R ∩ [F, F]`;
 - `AbstractUCE.kernelMap_bijective`: the canonical homomorphism `AbstractUCE.kernelMap` from
   `(R ∩ [F, F])/[F, R]` to the kernel, sending the class of `x` to the class of `x`, is bijective,
   so that the kernel of `U → G` is `(R ∩ [F, F])/[F, R]`.
@@ -564,15 +574,16 @@ For `G` perfect, prove (Weibel, Ch. III, Example 5.3.4, Lemmas 5.3.2–5.3.3 and
   there is exactly one homomorphism `f : U → E` with `p ∘ f` the projection.
 
 API: `AbstractUCE.relationCommutators_le_relations` places `[F, R]` inside `R`, as `R` is normal;
-`[F, R] ≤ [F, F]` is monotonicity of commutators. Independence of the presentation: for any free
-presentation
-`F' → G` with kernel `R'`, `[F', F']/[F', R']` is isomorphic to `U` over `G`, by the universal
-property. *Route.* Lift the free generators to `E`; on `[F, F]` the lift kills `[F, R]` and does not
-depend on the choice of lifts, because two choices differ by central elements; perfection of `U`
-gives uniqueness. This is a theorem about abstract groups; it says nothing about topology or the
+`[F, R] ≤ [F, F]` is monotonicity of commutators. The kernel of the projection is the image of
+`R ∩ [F, F]` in `U`: the projection is a `QuotientGroup.lift`, so this is Mathlib's
+`QuotientGroup.ker_lift`, which gives the surjectivity half of `AbstractUCE.kernelMap_bijective`.
+Independence of the presentation: for any free presentation `F' → G` with kernel `R'`,
+`[F', F']/[F', R']` is isomorphic to `U` over `G`, by the universal property. *Route.* Lift the
+free generators to `E`; on `[F, F]` the lift kills `[F, R]` and does not depend on the choice of
+lifts, because two choices differ by central elements; perfection of `U` gives uniqueness. This is a theorem about abstract groups; it says nothing about topology or the
 universal covering of a Lie group.
 *Needs:* Mathlib `Group.IsPerfect`, `FreeGroup`, `FreeGroup.prod`, `commutator`,
-`Subgroup.center`, `QuotientGroup.lift`.
+`Subgroup.center`, `QuotientGroup.lift`, `QuotientGroup.ker_lift`.
 
 **Checks.**
 - For a group that is not perfect, such as `C₂`, the image of `U` is `[G, G] = 1`, so the
@@ -644,15 +655,17 @@ consumes that extension.
 A representation group (Schur cover) of a finite group `G` is a central extension `Ĝ → G` with
 kernel inside `[Ĝ, Ĝ]` through which every projective representation of `G` over an algebraically
 closed field lifts to a linear one. Tau Ceti proves its existence with lifting for homomorphisms to
-`PGL(ι, k)` (`TauCeti.exists_finite_stem_extension_lifting_pgl`). Prove the lifting for projective
-representations on arbitrary `k`-modules: for `G` finite and `k` algebraically closed there is a
-finite stem extension `p : E → G` such that for every `TauCeti.IsProjectiveRep ρ α` on any `V`
-there are a homomorphism `π : E →* (V ≃ₗ[k] V)` and `c : E → kˣ` with `π x = c x • ρ (p x)`
-(Isaacs, Ch. 11).
-*Route.* Tau Ceti's `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` gives a
-finite stem factor set with bijective transgression, and
-`TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective` linearizes
-through it.
+`PGL(ι, k)` (`TauCeti.exists_finite_stem_extension_lifting_pgl`). The lifting holds for projective
+representations on arbitrary `k`-modules as well: for `G` finite and `k` algebraically closed there
+is a finite stem extension `p : E → G` such that for every `TauCeti.IsProjectiveRep ρ α` on any `V`
+there are a homomorphism `π : E →* (V ≃ₗ[k] V)` and `c : E → kˣ` with `π x = c x • ρ (p x)` (for
+complex representations, Isaacs, Ch. 11). This is an API fact of the section, not a target: it is
+the composition of the two lemmas from which Tau Ceti assembles the `PGL` case.
+`TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression` gives a finite stem factor
+set `γ` with bijective character transgression, `p` being the projection of its extension, and
+`TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective` gives `π` and
+the scalars, `c x = χ(a) · c₀(g)` for `x = (a, g)` with a character `χ` of the kernel and a function
+`c₀ : G → kˣ`.
 *Needs:* Tau Ceti `TauCeti.IsProjectiveRep`,
 `TauCeti.exists_finite_stem_factorSet_bijective_characterTransgression`,
 `TauCeti.IsProjectiveRep.exists_linearization_of_characterTransgression_surjective`.
@@ -670,7 +683,8 @@ Let `k` be any field, `N` normal in `G` (no finiteness), `V : FDRep k N` simple 
 endomorphisms (`hScalar : ∀ f : V ⟶ V, ∃ c : k, f = c • 𝟙 V`; simplicity makes `V` nonzero and `c`
 unique), `T = TauCeti.inertia V` and `Q = T ⧸ N`. A compatible projective extension is Tau Ceti's
 `TauCeti.IsProjectiveInertiaExtension V ρ β`: a projective representation `ρ` of `T` on `V` agreeing
-with `V` on `N`, with normalized factor set `β` pulled back from `Q`. Prove (Isaacs, Ch. 11):
+with `V` on `N`, with normalized factor set `β` pulled back from `Q`. Prove (for complex
+representations, Isaacs, Ch. 11):
 
 - `exists_scalarProjectiveInertiaExtension`: a compatible projective extension exists;
 - `scalarProjectiveInertiaExtension_class_eq`: any two have cohomologous factor sets, so they
@@ -708,8 +722,10 @@ instead compare evaluation with Tau Ceti's `FDRep.cliffordBalancedEvaluationEqui
 `TauCeti.inertia_congr`, `TauCeti.schurMultiplier`, `TauCeti.cliffordObstruction`,
 `TauCeti.IsProjectiveInertiaExtension.cohomologyClass_factorSet_eq_cliffordObstruction`,
 `TauCeti.FactorSet.cohomologyClass_eq_iff`, and for the tensor factorization
-`TauCeti.IsProjectiveInertiaExtension.homAction`, `TauCeti.IsProjectiveInertiaExtension.tensorRep`,
-`TauCeti.IsProjectiveInertiaExtension.evalTensor`; Mathlib
+`TauCeti.IsProjectiveInertiaExtension.homAction`,
+`TauCeti.IsProjectiveInertiaExtension.isProjectiveRep_homAction`,
+`TauCeti.IsProjectiveInertiaExtension.tensorRep`, `TauCeti.IsProjectiveInertiaExtension.evalTensor`
+and, for the alternative route, `FDRep.cliffordBalancedEvaluationEquiv`; Mathlib
 `Module.Finite.toModuleEnd_moduleEnd_surjective`; §7.2.
 
 **Checks.**
@@ -728,7 +744,8 @@ the Clifford extension of `Q = T ⧸ N` by `Dˣ` (`TauCeti.CliffordExtension.gro
 subgroup of pairs `(t, U)` in `T × GL_k(V)` with `U` implementing `t` on `N`, modulo the pairs
 `(n, r(n))`), its crossed system `FDRep.cliffordCrossedSystem V s hs` for a normalized section `s`,
 its outer action `FDRep.cliffordOuterAction`, splittings, gauges and the non-abelian `H¹`
-classification. Prove (Isaacs, Ch. 11; Curtis–Reiner §11):
+classification. Prove (Curtis–Reiner §11; for complex representations, where `D = ℂ`, Isaacs,
+Ch. 11):
 
 - *the algebra `D`*: `D` is a finite-dimensional `k`-algebra, `k` mapping into its centre, and its
   units are the invertible intertwiners (Mathlib's `CategoryTheory.Aut.unitsEndEquivAut`);
@@ -859,8 +876,8 @@ the conjugate-representation form of disjointness and the real `Q₈` example (�
 isotypic decomposition in `FDRep`, Clifford's theorem over every field and the Clifford
 correspondence over every field (§§5.1–5.3); the virtual-character lattice over a field of
 characteristic zero (§6.1); abstract universal central extensions (§7.1); the class of a
-homomorphism to `PGL`, coordinates on the twisted group algebra and the lifting through
-representation groups on arbitrary modules (§§7.2–7.4); the scalar Clifford obstruction over an arbitrary field (§7.5); and
+homomorphism to `PGL` and coordinates on the twisted group algebra (§§7.2–7.3); the scalar
+Clifford obstruction over an arbitrary field (§7.5); and
 the operator presentation and equivalence of division crossed systems, the isotypic-category
 equivalence and its restriction–induction comparisons (§§7.6–7.8).
 
@@ -940,11 +957,13 @@ minimal degree is made.
   `Subgroup.subgroupOfEquivOfLe`, `Subgroup.inclusion`, `MulAut.conj` with
   `Subgroup.Normal.conj_smul_eq_self`, `DoubleCoset.Quotient`, `DoubleCoset.mk`, `Group.IsPerfect`,
   `FreeGroup`, `FreeGroup.prod`, `commutator`, `Subgroup.center`, `QuotientGroup.lift`,
-  `GroupExtension`, `QuaternionGroup`, `DihedralGroup`, `Quaternion`.
+  `QuotientGroup.ker_lift`, `GroupExtension`, `QuaternionGroup`, `DihedralGroup`, `Quaternion`.
 - *Cohomology and projective linear groups*: `groupCohomology.cocycles₂`,
   `groupCohomology.IsMulCocycle₂`, `groupCohomology.cocyclesOfIsMulCocycle₂`,
   `groupCohomology.H2`, `Rep.ofMulDistribMulAction`, `Matrix.ProjGenLinGroup`.
-- *Categories*: `CategoryTheory.Limits.biproduct.desc`, `HasFiniteBiproducts`, `CategoryTheory.Linear.homCongr`.
+- *Categories*: `CategoryTheory.Limits.biproduct.desc`, `HasFiniteBiproducts`,
+  `CategoryTheory.Abelian.hasFiniteBiproducts` (with the instance `Abelian (Rep k G)`),
+  `CategoryTheory.Linear.homCongr`.
 - *Vocabulary of the supplied theory and the examples*: `Rep.ofQuotient`, `FDRep.char_dual`,
   `FDRep.char_mul_comm`, `FDRep.average_char_eq_finrank_invariants`, `FDRep.char_orthonormal`,
   `Representation.linHom`, `Representation.dual`, `Representation.IsIrreducible.bijective_or_eq_zero`,
@@ -1019,8 +1038,9 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   `TauCeti.IsProjectiveInertiaExtension.evalTensor` (every commutative ring, `k`, `G` and the
   carriers in arbitrary universes); `TauCeti.inertia_congr` (every ring);
   `TauCeti.IsProjectiveInertiaExtension.evalTensor_surjective` (every field, `W` irreducible with a
-  nonzero `N`-map from `V`); `TauCeti.IsProjectiveInertiaExtension.evalTensor_injective` and
-  `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv` (algebraically closed, `V` simple);
+  nonzero `N`-map from `V`); `TauCeti.IsProjectiveInertiaExtension.evalTensor_injective`
+  (algebraically closed, `V` simple) and `TauCeti.IsProjectiveInertiaExtension.tensorRepEquiv`
+  (algebraically closed, `V` simple, `W` irreducible with a nonzero `N`-map from `V`);
   `TauCeti.IsProjectiveInertiaExtension.cohomologyClass_factorSet_eq_cliffordObstruction`
   (algebraically closed, `V` simple, `k` and `G` in `Type`);
   `TauCeti.CrossedSystem`, `TauCeti.CrossedSystem.opInv`, `TauCeti.CrossedSystem.comap`,
@@ -1049,8 +1069,8 @@ Every declaration of the table in the Scope section, with the hypotheses stated 
   transitivity, the projection formula) and §11 (Clifford theory) in module-theoretic generality.
 - G. James, M. Liebeck, *Representations and Characters of Groups*, 2nd ed., CUP (2001). Ch. 21
   (induced modules and characters), with the `Sₙ` and permutation-character examples.
-- J. L. Alperin, R. B. Bell, *Groups and Representations*, Springer GTM 162 (1995). Ch. 8 (induced
-  representations, Mackey's theorem, Clifford theory).
+- J. L. Alperin, R. B. Bell, *Groups and Representations*, Springer GTM 162 (1995). §16
+  (induction), the last section of the chapter on group representations.
 - G. W. Mackey, *On induced representations of groups*, Amer. J. Math. 73 (1951), 576–592. The
   original decomposition and irreducibility theorems.
 - C. A. Weibel, *The K-book: an Introduction to Algebraic K-theory*, AMS Graduate Studies in

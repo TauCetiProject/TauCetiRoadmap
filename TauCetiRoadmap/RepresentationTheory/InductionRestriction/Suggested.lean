@@ -118,14 +118,16 @@ theorem clifford_restrict_character {k : Type u} {G : Type u} [Field k] [Group G
         = (e : k) * ∑ g ∈ reps, (TauCeti.conjNormalFDRep g V).character n := by
   sorry
 
-/-- **The Clifford correspondence over every field** (README §5.3). Let `G` be finite, `N` normal,
-`V` a simple representation of `N` with inertia group `T`, and `k` any field. Then induction from
-`T` to `G` sends simple representations of `T` lying over `V` to simple representations of `G`
-lying over `V`, every simple representation of `G` lying over `V` arises so, and it determines the
-representation of `T` up to isomorphism (Curtis–Reiner §11; for complex characters, Isaacs,
-Ch. 6). Neither invertibility of `|G|` in `k` nor a splitting hypothesis is assumed. -/
+/-- **The Clifford correspondence over every field** (README §5.3). Let `N` be a normal subgroup
+of a group `G`, `V` a simple representation of `N` whose inertia group `T` has finite index in `G`
+(for instance `G` finite), and `k` any field. Then induction from `T` to `G` sends simple
+representations of `T` lying over `V` to simple representations of `G` lying over `V`, every
+simple representation of `G` lying over `V` arises so, and it determines the representation of `T`
+up to isomorphism (Curtis–Reiner §11; for complex characters, Isaacs, Ch. 6). Neither
+invertibility of `|G|` in `k` nor a splitting hypothesis is assumed. -/
 theorem clifford_correspondence {k : Type u} {G : Type u} [Field k] [Group G]
-    [Finite G] {N : Subgroup G} [N.Normal] (V : FDRep k N) [Simple V] :
+    {N : Subgroup G} [N.Normal] (V : FDRep k N) [Simple V]
+    [(TauCeti.inertia V).FiniteIndex] :
     (∀ U : FDRep k (TauCeti.inertia V), Simple U →
         U.LiesOver (Subgroup.inclusion (TauCeti.le_inertia V)) V →
           Simple (TauCeti.indFDRep U) ∧ (TauCeti.indFDRep U).LiesOver N.subtype V) ∧
@@ -190,12 +192,6 @@ theorem ker_projection_le_center :
     (projection G).ker ≤ Subgroup.center (Cover G) := by
   sorry
 
-/-- The kernel of the projection is the image of `R ∩ [F, F]` in `U`. -/
-theorem ker_projection_eq_map :
-    (projection G).ker = ((relations G).subgroupOf (derived G)).map
-      (QuotientGroup.mk' (relationsInsideDerived G)) := by
-  sorry
-
 /-- The canonical homomorphism `(R ∩ [F, F]) / [F, R] → ker (U → G)`, sending the class of `x`
 to the class of `x` in `U`. -/
 def kernelMap :
@@ -240,11 +236,9 @@ namespace TauCetiRoadmap.RepresentationTheory.InductionRestriction
 open CategoryTheory
 open scoped MonoidAlgebra
 
-universe u
+universe u v
 
 section Projective
-
-variable {k : Type} [Field k] {G : Type} [Group G]
 
 attribute [local instance] TauCeti.trivialMulDistribMulAction
 
@@ -252,11 +246,13 @@ attribute [local instance] TauCeti.trivialMulDistribMulAction
 a simple finite-dimensional representation `V` of a normal subgroup `N` whose endomorphisms are
 scalars extends to a projective representation of its inertia group, agreeing with `V` on `N`,
 with factor set pulled back from the quotient by `N`. -/
-theorem exists_scalarProjectiveInertiaExtension {N : Subgroup G} [N.Normal]
-    (V : FDRep k N) [Simple V]
+theorem exists_scalarProjectiveInertiaExtension {k : Type u} [Field k] {G : Type v} [Group G]
+    {N : Subgroup G} [N.Normal] (V : FDRep k N) [Simple V]
     (hScalar : ∀ f : V ⟶ V, ∃ c : k, f = c • 𝟙 V) :
     ∃ ρ β, TauCeti.IsProjectiveInertiaExtension V ρ β := by
   sorry
+
+variable {k : Type} [Field k] {G : Type} [Group G]
 
 /-- Any two compatible projective extensions of a simple `V` with scalar endomorphisms have
 cohomologous quotient factor sets (README §7.5). -/
