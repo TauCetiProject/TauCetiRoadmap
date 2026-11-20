@@ -23,12 +23,13 @@ inner products; reducing subspaces; completeness of a subspace admitting an orth
 projection in a complete space; and the orthogonal family of the lines spanned by pairwise
 orthogonal vectors. Every headline theorem is statable at the pins.
 
-The file declares one definition, `familyIsometry`, the coordinate isometry of an orthonormal
-family indexed by `Fin d`, which the acceptance file of the PrincipalAngles roadmap builds its
-overlap operator from. It is built from Mathlib alone: Tau Ceti's coordinate isometry
-`Orthonormal.synthesisMapIsometry` lives in a module that imports Tau Ceti's operator square
-root, which the acceptance file of the PolarDecomposition roadmap, imported beside this one,
-declares under the same name.
+The file declares one definition, `familyIsometry`, a local copy of Tau Ceti's coordinate
+isometry `Orthonormal.synthesisMapIsometry` for an orthonormal family indexed by `Fin d`, kept
+under the name from which the acceptance file of the PrincipalAngles roadmap builds its overlap
+operator; it is not a declaration to be added to Tau Ceti. It is built from Mathlib alone: Tau
+Ceti's coordinate isometry lives in a module that imports Tau Ceti's operator square root, which
+the acceptance file of the PolarDecomposition roadmap, imported beside this one, declares under
+the same name.
 -/
 
 namespace TauCetiRoadmap.OrthogonalGeometry
@@ -36,7 +37,8 @@ namespace TauCetiRoadmap.OrthogonalGeometry
 /-- The coordinate isometry `EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E`, `x ↦ ∑ⱼ xⱼ • vⱼ`, of an
 orthonormal family `v : Fin d → E`: the linear map sending the standard basis vector `eⱼ` to
 `vⱼ`, isometric because it carries the orthonormal standard basis to an orthonormal family. It
-agrees with Tau Ceti's `Orthonormal.synthesisMapIsometry` for the index type `Fin d`. -/
+is a local copy of Tau Ceti's `Orthonormal.synthesisMapIsometry` for the index type `Fin d`, and
+equal to it. -/
 noncomputable def familyIsometry {𝕜 E : Type*} [RCLike 𝕜] [NormedAddCommGroup E]
     [InnerProductSpace 𝕜 E] {d : ℕ} {v : Fin d → E} (hv : Orthonormal 𝕜 v) :
     EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E :=

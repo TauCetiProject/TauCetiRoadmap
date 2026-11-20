@@ -8,8 +8,8 @@ the pairwise inner products ⟪vᵢ, vⱼ⟫; the coordinate isometry of a finit
 subspaces reducing an operator; and series of pairwise-orthogonal vectors, among which zero
 vectors are allowed.
 
-Its central theorem is Gram rigidity, a theorem of Tau Ceti's inner-product library on which the
-layers below build. If two linear maps S and T out of a common vector space satisfy
+Its central theorem is Gram rigidity, a theorem of Tau Ceti's inner-product library which the
+layers below complement. If two linear maps S and T out of a common vector space satisfy
 ⟪Sx, Sy⟫ = ⟪Tx, Ty⟫ for all x and y, then Sx ↦ Tx is a well-defined linear isometry from the range
 of S onto the range of T. For two families (vᵢ) and (wᵢ) indexed by the same set with
 ⟪vᵢ, vⱼ⟫ = ⟪wᵢ, wⱼ⟫ for all i and j, this gives an isometry of their spans sending each vᵢ to wᵢ;
@@ -18,9 +18,7 @@ isometry of the space onto itself carries one to the other. Neither linear indep
 finite index set is needed.
 
 The roadmap's own theorems complete this picture. The inner product of two linear combinations
-is computed from the pairwise inner products: ⟪∑ᵢ aᵢφᵢ, ∑ⱼ bⱼψⱼ⟫ = ∑ᵢ ∑ⱼ āᵢ bⱼ ⟪φᵢ, ψⱼ⟫. For an
-orthonormal family of d vectors, the coordinate map x ↦ ∑ⱼ xⱼvⱼ is a linear isometry from
-d-dimensional Euclidean coordinate space into E sending the j-th standard basis vector to vⱼ. If
+is computed from the pairwise inner products: ⟪∑ᵢ aᵢφᵢ, ∑ⱼ bⱼψⱼ⟫ = ∑ᵢ ∑ⱼ āᵢ bⱼ ⟪φᵢ, ψⱼ⟫. If
 (vᵢ) is a pairwise-orthogonal family with sum x, then ∑ᵢ ‖vᵢ‖² = ‖x‖², with no completeness
 hypothesis; and in a complete space the series ∑ᵢ vᵢ converges exactly when ∑ᵢ ‖vᵢ‖² does. These
 cover families such as (σᵢuᵢ) with (uᵢ) orthonormal and some σᵢ = 0, which cannot be normalized.
@@ -33,9 +31,10 @@ lines spanned by pairwise-orthogonal vectors. Majorization uses Gram rigidity in
 constructions, PrincipalAngles builds its overlap operator from the coordinate isometry, and
 SelfAdjointSpectralTheory uses reducing subspaces and the completeness of projected subspaces.
 
-Layer 1 expands inner products of linear combinations. Layer 2 fixes the coordinate isometry on
-d-dimensional Euclidean coordinate space. Layer 3 proves the summability criterion and Parseval's
-identity for pairwise-orthogonal families. The three layers are independent of one another.
+Layer 1 expands inner products of linear combinations. Layer 2 identifies the coordinate isometry
+on d-dimensional Euclidean coordinate space with Tau Ceti's. Layer 3 proves the summability
+criterion and Parseval's identity for pairwise-orthogonal families. The three layers are
+independent of one another.
 
 ## Conventions
 
@@ -91,8 +90,10 @@ equal Gram data are carried onto one another by some `W : E ≃ₗᵢ[𝕜] E`
 (`TauCeti.exists_linearIsometryEquiv_of_inner_eq`), whose restriction to the span of `v` is the
 span isometry by the uniqueness statement; and `Matrix.gram 𝕜 v = Matrix.gram 𝕜 w` holds exactly
 when such a `W` exists (`TauCeti.gram_eq_iff_exists_linearIsometryEquiv`). Chien and Waldron
-give Gram rigidity in its frame-theoretic form. The layer adds the expansion that computes the
-inner products of linear combinations from Gram data.
+recall Gram rigidity in its frame-theoretic form, for finite sequences of vectors in Hilbert
+spaces, as a well-known fact without proof (Chien–Waldron, Thm 2.2(1), pp. 4–5; also (1.1),
+p. 2). The layer adds the expansion that computes the inner products of linear combinations from
+Gram data.
 
 ### 1.1 Inner products of linear combinations (OG-04)
 
@@ -152,31 +153,37 @@ finite index type `ι` and an orthonormal `v : ι → E` this is Tau Ceti's
 `Orthonormal.synthesisMapIsometry_apply`, its action `Orthonormal.synthesisMapIsometry_single` on
 single-coordinate vectors, its range `Orthonormal.range_synthesisMapIsometry` (the span of `v`)
 and, for complete `E`, its adjoint `Orthonormal.adjoint_synthesisMapIsometry_apply`, which sends
-`y` to `(⟪v i, y⟫_𝕜)ᵢ`. This layer fixes the coordinate isometry on the coordinates `Fin d`, in
-which the principal-angle constructions of the operator-theory roadmaps are written.
+`y` to `(⟪v i, y⟫_𝕜)ᵢ`. This layer records its case on the coordinates `Fin d`, in which the
+principal-angle constructions of the operator-theory roadmaps are written.
 
-### 2.1 The coordinate isometry on `Fin d` (OG-09–OG-11)
+### 2.1 The coordinate isometry on `Fin d`
 
-For `v : Fin d → E` and `hv : Orthonormal 𝕜 v`, the coordinate isometry is
-`familyIsometry hv : EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E`, defined from Mathlib alone: the linear
-map sending the standard basis vector `eⱼ` to `vⱼ` (`Module.Basis.constr` on the basis
-`EuclideanSpace.basisFun (Fin d) 𝕜`), which is a linear isometry because it carries an orthonormal
-basis to an orthonormal family (`LinearMap.isometryOfOrthonormal`). This is OG-09. Prove its API:
+For `v : Fin d → E` and `hv : Orthonormal 𝕜 v`, the coordinate isometry is Tau Ceti's
+`Orthonormal.synthesisMapIsometry hv : EuclideanSpace 𝕜 (Fin d) →ₗᵢ[𝕜] E`, the case `ι = Fin d`
+of the map above. It sends `x` to `∑ j, x j • v j` (`Orthonormal.synthesisMapIsometry_apply`)
+and `EuclideanSpace.single j c` to `c • v j` for every `c : 𝕜`
+(`Orthonormal.synthesisMapIsometry_single`), in particular the standard basis vector `eⱼ` to `vⱼ`.
 
-- for every `x : EuclideanSpace 𝕜 (Fin d)`, the image of `x` is `∑ j, x j • v j` (OG-10);
-- the image of `EuclideanSpace.single j c` is `c • v j` for every `c : 𝕜`, in particular the
-  image of the standard basis vector `eⱼ` is `vⱼ` (OG-11);
-- `familyIsometry hv` is equal, as a linear isometry, to Tau Ceti's
-  `Orthonormal.synthesisMapIsometry hv`, so that its range is the span of `v` and, for complete
-  `E`, its adjoint sends `y` to `(⟪v j, y⟫_𝕜)ⱼ`.
+The acceptance file `Suggested.lean` declares a local copy of this map, `familyIsometry hv`, under
+the name from which the acceptance file of PrincipalAngles builds its overlap operator; the copy is
+not to be added to Tau Ceti. It is defined from Mathlib alone, as the linear map sending `eⱼ` to
+`vⱼ` (`Module.Basis.constr` on the basis `EuclideanSpace.basisFun (Fin d) 𝕜`), a linear isometry
+because it carries an orthonormal basis to an orthonormal family
+(`LinearMap.isometryOfOrthonormal`): the Tau Ceti module of `Orthonormal.synthesisMapIsometry`
+imports Tau Ceti's operator square root `LinearMap.IsPositive.sqrt`, a name that the acceptance
+file of PolarDecomposition declares as well, and the acceptance files of Majorization and
+PrincipalAngles import that file beside this one. The single statement about the copy, a sanity
+check and not a library target, is that `familyIsometry hv` equals
+`hv.synthesisMapIsometry` as a linear isometry.
 
-*Route.* The first two facts follow from `LinearMap.coe_isometryOfOrthonormal`,
-`Module.Basis.constr_apply_fintype` and `Module.Basis.constr_basis` with
-`EuclideanSpace.basisFun_apply`; the third follows from the first and
-`Orthonormal.synthesisMapIsometry_apply` by extensionality.
-*Needs:* Mathlib `EuclideanSpace.basisFun`, `EuclideanSpace.single`, `Module.Basis.constr`,
-`LinearMap.isometryOfOrthonormal`; Tau Ceti `Orthonormal.synthesisMapIsometry`,
-`Orthonormal.synthesisMapIsometry_apply`.
+*Route.* By extensionality: `LinearMap.coe_isometryOfOrthonormal` and
+`Module.Basis.constr_apply_fintype` write the copy as `x ↦ ∑ j, cⱼ(x) • v j` with `cⱼ(x)` the
+coordinates of `x` in the basis, `EuclideanSpace.basisFun_repr` identifies `cⱼ(x)` with `x j`,
+and the resulting formula is `Orthonormal.synthesisMapIsometry_apply`.
+*Needs:* Tau Ceti `Orthonormal.synthesisMapIsometry`, `Orthonormal.synthesisMapIsometry_apply`,
+`Orthonormal.synthesisMapIsometry_single`; for the copy, Mathlib `EuclideanSpace.basisFun`,
+`EuclideanSpace.basisFun_repr`, `EuclideanSpace.single`, `Module.Basis.constr`,
+`LinearMap.isometryOfOrthonormal`.
 
 **Checks.**
 - The family `v₁ = v₂ = e₁` in `ℝ²` consists of unit vectors but is not orthonormal. The linear
@@ -201,9 +208,9 @@ basis to an orthonormal family (`LinearMap.isometryOfOrthonormal`). This is OG-0
 
 ### Dependencies
 
-§2.1 uses Mathlib's Euclidean space, bases and `LinearMap.isometryOfOrthonormal` for the
-definition, and Tau Ceti's `Orthonormal.synthesisMapIsometry` with its coordinate formula for the
-comparison. No other roadmap is used.
+§2.1 uses Tau Ceti's `Orthonormal.synthesisMapIsometry` with its coordinate formula and its
+action on single-coordinate vectors; the acceptance-file copy uses Mathlib's Euclidean space,
+bases and `LinearMap.isometryOfOrthonormal`. No other roadmap is used.
 
 ## Layer 3: orthogonal series
 
@@ -225,6 +232,8 @@ arbitrary. Prove:
   `HasSum (fun i ↦ ‖v i‖ ^ 2) (‖x‖ ^ 2)`; no completeness is assumed. Consequently, if
   `Summable v`, then `‖∑' i, v i‖ ^ 2 = ∑' i, ‖v i‖ ^ 2`.
 
+The routes below are complete proofs from the declarations they name (for Parseval's identity,
+finite Pythagoras and continuity of the norm), so the section needs no source.
 *Route.* For the criterion, apply Mathlib's `OrthogonalFamily.summable_iff_norm_sq_summable` to
 the orthogonal family `TauCeti.orthogonalFamily_span_singleton hv` and the elements
 `⟨v i, Submodule.mem_span_singleton_self (v i)⟩` of the lines. For Parseval's identity, the finite
@@ -270,9 +279,10 @@ other roadmap is used.
 
 - [Majorization](../Majorization/README.md) Part A consumes Gram rigidity (OG-01–OG-08) in the
   rectangular orbit arguments of its operator half.
-- [PrincipalAngles](../PrincipalAngles/README.md) Part A consumes the coordinate isometry
-  `familyIsometry` (OG-09–OG-11, §2.1), from which its overlap operator is built, and the
-  orthogonal family of lines (OG-19); its Part C consumes the invariant-subspace material.
+- [PrincipalAngles](../PrincipalAngles/README.md) Part A consumes the coordinate isometry on
+  `Fin d` (OG-09–OG-11, §2.1), from which its overlap operator is built (its acceptance file uses
+  the copy `familyIsometry`), and the orthogonal family of lines (OG-19); its Part C consumes the
+  invariant-subspace material.
 - [SelfAdjointSpectralTheory](../SelfAdjointSpectralTheory/README.md) Part C consumes the
   reducing-subspace definition (OG-15) and the completeness of projected subspaces (OG-18).
 
@@ -281,10 +291,10 @@ other roadmap is used.
 **This roadmap owns** the orthogonal geometry of the operator-theory roadmaps: Gram rigidity, the
 coordinate isometry of an orthonormal family, reducing subspaces, completeness of subspaces
 admitting an orthogonal projection, and orthogonal series of pairwise-orthogonal vectors. Its
-targets are the expansion of inner products of linear combinations (§1.1), the coordinate
-isometry on the coordinates `Fin d` with its formula, basis action and comparison with Tau Ceti's
-coordinate isometry (§2.1), and the summability criterion and Parseval's identity for
-pairwise-orthogonal families (§3.1).
+targets are the expansion of inner products of linear combinations (§1.1) and the summability
+criterion and Parseval's identity for pairwise-orthogonal families (§3.1). The coordinate isometry
+on the coordinates `Fin d` (§2.1) is Tau Ceti's `Orthonormal.synthesisMapIsometry`;
+`familyIsometry` is a copy of it in the acceptance file, not a library target.
 
 **Already in the pinned Tau Ceti.** The other labelled items are theorems and definitions of the
 pinned Tau Ceti, used above by these names; paths are under `TauCeti/Analysis/InnerProductSpace/`.
@@ -298,9 +308,9 @@ pinned Tau Ceti, used above by these names; paths are under `TauCeti/Analysis/In
 | OG-06 | its action | `TauCeti.spanEquivOfInnerEq_apply` (`Gram/Rigidity.lean`) |
 | OG-07 | ambient Gram rigidity in finite dimension | `TauCeti.exists_linearIsometryEquiv_of_inner_eq` (`Gram/Rigidity.lean`), for any index type; the restriction to the span of the first family is the span isometry by `TauCeti.eq_spanEquivOfInnerEq` |
 | OG-08 | the Gram-matrix characterization | `TauCeti.gram_eq_iff_exists_linearIsometryEquiv` (`Gram/Rigidity.lean`), for any index type |
-| OG-09 | the coordinate isometry of an orthonormal family | `Orthonormal.synthesisMapIsometry` (`Orthonormal/Family.lean`), for any finite index type; on `Fin d`, `familyIsometry` of §2.1 |
-| OG-10 | the coordinate formula | `Orthonormal.synthesisMapIsometry_apply`; on `Fin d`, §2.1 |
-| OG-11 | the standard-basis action | `Orthonormal.synthesisMapIsometry_single`; on `Fin d`, §2.1 |
+| OG-09 | the coordinate isometry of an orthonormal family | `Orthonormal.synthesisMapIsometry` (`Orthonormal/Family.lean`), for any finite index type, `Fin d` included (§2.1) |
+| OG-10 | the coordinate formula | `Orthonormal.synthesisMapIsometry_apply` (`Orthonormal/Family.lean`) |
+| OG-11 | the standard-basis action | `Orthonormal.synthesisMapIsometry_single` (`Orthonormal/Family.lean`) |
 | OG-15 | reducing subspaces | `Submodule.IsReducing` (`InvariantSubspace.lean`) |
 | OG-18 | completeness of projected subspaces | `Submodule.isComplete_coe_of_hasOrthogonalProjection` (`Projection/Completeness.lean`) |
 | OG-19 | the orthogonal family of cyclic spans | `TauCeti.orthogonalFamily_span_singleton` (`OrthogonalFamily.lean`) |
@@ -326,7 +336,8 @@ Part C.
   `Matrix.gram_apply`, and `Matrix.star_dotProduct_gram_mulVec` (for a finite family `v`,
   `star x ⬝ᵥ gram 𝕜 v *ᵥ y = ⟪∑ i, x i • v i, ∑ i, y i • v i⟫`).
 - *Coordinates*: `EuclideanSpace`, `EuclideanSpace.single`, `EuclideanSpace.basisFun` with
-  `EuclideanSpace.basisFun_apply` (`basisFun ι 𝕜 i = EuclideanSpace.single i 1`) and
+  `EuclideanSpace.basisFun_apply` (`basisFun ι 𝕜 i = EuclideanSpace.single i 1`),
+  `EuclideanSpace.basisFun_repr` (the coordinates of `x` in it are the `x i`) and
   `OrthonormalBasis.coe_toBasis`; `Module.Basis.constr` with `Module.Basis.constr_basis` and
   `Module.Basis.constr_apply_fintype`; `LinearMap.isometryOfOrthonormal` (a linear map sending an
   orthonormal basis to an orthonormal family, as a linear isometry) with
@@ -392,7 +403,9 @@ All the declarations below are proved at the pin; paths are under
 
 - T.-Y. Chien and S. Waldron, *A characterization of projective unitary equivalence of finite
   frames and applications*, SIAM J. Discrete Math. **30** (2016), arXiv:1312.5393: Gram rigidity
-  in its frame-theoretic form (Layer 1).
+  for finite sequences of vectors, Theorem 2.2(1), pp. 4–5, and (1.1), p. 2 (Layer 1). The
+  locators refer to arXiv v1 (2013), titled *A characterisation of projective unitary
+  equivalence of finite frames*.
 - The [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware,
   Inc.; Apache-2.0) contains an implementation of this material.
 - The Gram-matrix material also appeared in
