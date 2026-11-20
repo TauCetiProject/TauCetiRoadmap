@@ -79,87 +79,23 @@ polynomials in `L²(S²)` from [RiemannianGeometry](../RiemannianGeometry/README
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Legendre/`, beside the Gauss hypergeometric
 function of SpecialFunctionsHypergeometric.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **Principal solutions of the associated Legendre equation** (1.1–1.6).
-2. **Legendre polynomials and Ferrers functions of integer degree** (2.1–2.5).
-3. **Spherical harmonics** (3.1–3.4).
-4. **Local theory at the origin and at the singular points** (4.1–4.5).
-5. **Wronskians, recessive solutions and connection formulas** (5.1–5.3).
-6. **Zeros** (6.1–6.2).
-7. **The second kind: recurrences, integer degree, parameter derivatives, continued fractions**
-   (7.1–7.4).
-8. **Integral representations** (8.1–8.3).
-9. **Integrals of products and Mellin transforms** (9.1–9.2).
-10. **Fourier series, addition theorems and expansions in Legendre functions** (10.1–10.4).
-11. **Toroidal, conical, Gegenbauer and Jacobi functions** (11.1–11.3).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose.
-
-**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
-- the Legendre polynomials: Mathlib's `Polynomial.shiftedLegendre`, its Rodrigues formula
-  `Polynomial.factorial_mul_shiftedLegendre_eq`, its coefficients
-  `Polynomial.coeff_shiftedLegendre` and its symmetry `Polynomial.shiftedLegendre_eval_symm`;
-- the terminating Gauss series of `Pₙ` (DLMF 15.9.7), from SpecialFunctionsHypergeometric 9.1;
-- the harmonic decomposition of homogeneous polynomials and the dimension of the space of
-  harmonic polynomials of degree `l` in three variables: Tau Ceti's
-  `MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow` and
-  `MvPolynomial.finrank_harmonicSubmodule_add_two`, consumed in 3.3.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-provides:
-- Abel's identity for the associated Legendre equation and the span criterion: two solutions with
-  nonvanishing Wronskian span all solutions on a connected open set (1.3);
-- the branch identities behind the definitions: `((1 + z)/(1 − z))^{μ/2}` and `(1 − z²)^{−μ/2}`
-  are holomorphic on the doubly cut plane, `((z + 1)/(z − 1))^{μ/2}`, `(z − 1)^{μ/2} (z + 1)^{μ/2}`
-  and `z^{ν+μ+1}` on `ℂ \ (−∞, 1]`, and each is the principal value on the real interval (1.1);
-- Sturm's separation theorem for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval of
-  `(−1, 1)` or of `(1, ∞)`, and the continuity of the zeros of a solution in its parameters (6.1);
-- the Ferrers–Adams linearization of `Pₘ Pₙ` in Legendre polynomials (9.2);
-- the Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the
-  integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and
-  `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when
-  `g(1) ≠ 0`). Proof: split at `1 − δ`; the part over `(0, 1 − δ)` is `O((1 − δ)^σ)`, and on
-  `(1 − δ, 1)` the substitution `x = e^{−u/σ}` and dominated convergence give `Γ(μ + 1) g(1)`
-  (9.1).
-
-**What it does not own:**
-- The principal branch of `𝐅` and its theory (SpecialFunctionsHypergeometric), the Legendre
-  polynomials as polynomials (Mathlib) and the complete elliptic integrals (Tau Ceti).
-- Pincherle's theorem (SpecialFunctionsEiLiErfIncompleteGamma 4.1), consumed in 7.4.
-- Sturm's comparison theorem and the simplicity and isolation of the zeros of a real solution of
-  `(p y′)′ + Q y = 0` for `p > 0` of class `C¹` on an open interval (SpecialFunctionsBessel 10.1,
-  an auxiliary target there), consumed in 6.1 with `p = |1 − x²|`.
-- The theory of harmonic polynomials in `n` variables (Tau Ceti's `MvPolynomial.harmonicSubmodule`
-  and its decomposition) and the spectral theory of the Laplace–Beltrami operator on `Sᵐ`
-  (RiemannianGeometry R8). Layer 3 consumes the first, and the completeness clause of
-  RiemannianGeometry R8.2 at `m = 2`. It owns the explicit basis `Y_{l,m}` of `S²` in the
-  coordinates `(θ, φ)` and its completeness in those coordinates, which 3.3 deduces from R8.2 by
-  the change of variables.
-- The uniform asymptotics for large degree or order, the generalized Mehler–Fock transformation,
-  the branches off the principal sheet, the zeros in the complex plane and on the left cut, and
-  the formulas of other function families through Legendre functions. See the last section for
-  these.
-
-**An object defined elsewhere:** AutomorphicSpectralTheory (§§0.35–0.38 of that roadmap) defines
-the Legendre function of the second kind `Q_{s−1}(t)` for `t > 1` and `Re s > 0` by Heine's
-integral `∫₀^∞ (t + (t² − 1)^{1/2} cosh u)^{−s} du`, with its asymptotics as `t → 1+` and
-`t → ∞`. `associatedLegendreQ ν μ` here is its continuation to all `ν`, `μ` and to `U`, and 8.3
-proves that the two agree. Neither roadmap consumes the other.
-
-**The boundary in one sentence:** this roadmap owns the principal branches of `𝖯^μ_ν`, `𝖰^μ_ν`,
-`P^μ_ν`, `Q^μ_ν` and `𝑸^μ_ν` for all complex degree and order, Dunster's `𝖰̂` and the spherical
-harmonics `Y_{l,m}`, and the results stated through them, `𝐅`, `Γ`, `ψ`, elementary functions,
-the Legendre polynomials and the complete elliptic integrals, as listed in the layers, except the
-uniform asymptotics, the Mehler–Fock transformation, the branches off the principal sheet and the
-complex zeros; it consumes `𝐅` from SpecialFunctionsHypergeometric, Pincherle's theorem from
-SpecialFunctionsEiLiErfIncompleteGamma, Sturm comparison from SpecialFunctionsBessel and the
-completeness clause of RiemannianGeometry R8.2.
+Layer 1 defines the functions through `𝐅` and proves that they are holomorphic on `D` or `U` and
+in the parameters, that they solve the associated Legendre equation, the symmetries that follow
+from the Euler transformation and from 15.2.3_5, and the contiguous relations of the first kind.
+Every identity is proved on a real interval or a disk where the series converge, or for parameters
+in an open region, and then extended by the identity theorem in the variable (1.4 of
+SpecialFunctionsHypergeometric) and by holomorphy in the parameters. Layers 2 and 3 need only
+Layer 1 and Mathlib's polynomials: the integer degree is treated first, through Rodrigues'
+formula and Cauchy's integral formula, and it carries the spherical harmonics. Abel's identity
+(1.3) replaces the general theory of linear differential equations: a Wronskian is `C/(1 − z²)`,
+and `C` is read off from the behaviour at a singular point (Layer 4), which gives Layer 5's
+Wronskians; each connection formula then expresses a solution in a fundamental pair and fixes the
+two coefficients from the values at `x = 0` or the behaviour at `±1` and `∞` (Layer 4). Layers
+6–11 apply Layers 1–5. The `**Checks.**` and `### Examples` of each layer are statements to prove;
+they test the conventions on explicit values. Every decimal value in them was computed
+independently of the formula it checks.
 
 ## Conventions
 
@@ -248,120 +184,6 @@ associatedLegendreQ ν μ z = e^{μπi} Γ(ν + μ + 1) olverLegendreQ ν μ z  
   conclusion; every integral that the roadmap states converges absolutely under the hypotheses
   given. Contour integrals over circles are Mathlib's `circleIntegral`; the loop contours of 8.1
   are described in the text.
-
-## Exact supplier contracts
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
-  `regularizedGaussHypergeometric a b c z` (`𝐅`, in `Complex` there) and the unregularized
-  `F = Γ(c) 𝐅`, principal branches on `1 − z ∈ slitPlane`, with the junk value `0` off it.
-- 1.3: agreement with Mathlib's series on `‖z‖ < 1`, and 15.2.3_5
-  (`𝐅(a, b; −n; z) = (a)ₙ₊₁ (b)ₙ₊₁ zⁿ⁺¹ 𝐅(a + n + 1, b + n + 1; n + 2; z)`), for 1.5.
-- 1.4: holomorphy in `z` on the cut plane and in each parameter, the conjugation symmetry, and the
-  identity principle on the cut plane. Every extension from an interval to `D` or `U` here, and
-  from a parameter region to all parameters, is 1.4 with the identity theorem.
-- Layer 2: the derivatives and contiguous relations 15.5.1–15.5.21, for 1.4.
-- 3.1: the hypergeometric equation 15.10.1, for 1.3; 3.4: Riemann's equation 15.11.1 and the
-  transformation 15.11.8, for the exponents and the prefactor in 1.3 and for 1.6.
-- 4.2: Gauss's sum and the limit of `𝐅` at `z = 1`, for 4.5; 4.3: the series on its circle of
-  convergence, for 10.1.
-- Layer 5: the Euler and Pfaff transformations 15.8.1 and the jump across the cut 15.2.3 (5.1),
-  the logarithmic limiting cases 15.8.8–15.8.12 (5.2) and the connection formulas
-  15.10.11–15.10.36 (5.3–5.4), for 1.2, 1.5 and Layers 4, 5 and 7.
-- 6.1: Euler's integral 15.6.1, for 8.1–8.2.
-- Layer 7: the quadratic transformations 15.8.13–15.8.30 and the values 15.4.26–15.4.30, for
-  Layers 4, 7 and 11.
-- 9.1: the terminating Gauss series 15.9.7 of `Pₙ`, for 2.1.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- Its Conventions and 4.1: the continued fraction `contFrac a b`, a `GenContFract ℂ` with head
-  `0`, and its convergence (eventually nonzero `GenContFract.dens` and convergence of
-  `GenContFract.convs`); Pincherle's theorem, as stated there: a continued fraction converges if
-  and only if its three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value
-  is `−f(1)/f(0)` in that roadmap's normalization; the reduction-of-order criterion for minimality;
-  and termination at a zero partial numerator. 7.4 applies it to the recurrence in the order
-  (DLMF 14.10.6) and to the recurrence in the degree (DLMF 14.10.3).
-
-### From SpecialFunctionsBessel
-
-- 10.1, its auxiliary Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and
-  continuous `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of
-  `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in
-  `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and
-  the zeros of a nontrivial real solution are simple and isolated. For 6.1, with `p = |1 − x²|`
-  and `Q = ±q`.
-
-### From [RiemannianGeometry](../RiemannianGeometry/README.md)
-
-- R8.2 (spectral completeness and eigenspace identification), its completeness clause at `m = 2`:
-  on the unit round sphere `S²` of `EuclideanSpace ℝ (Fin 3)`, with Tau Ceti's round metric
-  `TauCeti.sphereRoundMetric` and its Riemannian volume, the restrictions of the harmonic
-  homogeneous polynomials of all degrees (`MvPolynomial.harmonicSphereRestriction`) span a dense
-  subspace of `L²(S²)`, and the spaces of different degrees are orthogonal. For 3.3. R8.2 states
-  this over `ℝ`; the complex `L²` follows by taking real and imaginary parts.
-
-### From Tau Ceti
-
-- **Complete elliptic integrals.** `TauCeti.Real.legendreK`, `TauCeti.Real.legendreEc`,
-  `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
-  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for the elliptic values in 4.4.
-- **Harmonic polynomials.** `MvPolynomial.laplacian`, `MvPolynomial.harmonicSubmodule`,
-  `MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow` (the harmonic
-  decomposition), `MvPolynomial.finrank_harmonicSubmodule_add_two` and
-  `MvPolynomial.sphereEval` (`TauCeti/RingTheory/MvPolynomial/Harmonic.lean`,
-  `TauCeti/Analysis/MvPolynomial/Sphere.lean`), for Layer 3; and Laplace's equation for the
-  evaluation of a polynomial, `MvPolynomial.laplacian_eval_euclidean` and
-  `MvPolynomial.harmonicOnNhd_eval_euclidean_iff`
-  (`TauCeti/Analysis/MvPolynomial/Laplacian.lean`), stated for real polynomials and applied to
-  the real and imaginary parts of `p_{l,m}`, for 3.3.
-- **Residue theorem.** `TauCeti.Contour.classicalResidueTheorem_circle`
-  (`TauCeti/Analysis/Contour/Residue/Theorem.lean`), for meromorphic functions on a closed disc,
-  for Dougall's expansion in 10.3.
-- **Round sphere and Riemannian volume.** `TauCeti.sphereRoundMetric`
-  (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`), `TauCeti.riemannianVolume` and the
-  integration-in-coordinates theorem `TauCeti.setIntegral_riemannianVolume_of_subset`
-  (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`), for the change of variables
-  in 3.3.
-
-### From Mathlib
-
-- **Gamma and digamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
-  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub` (reflection),
-  `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.betaIntegral`,
-  `Complex.digamma`, `Real.eulerMascheroniConstant`.
-- **Polynomials.** `ascPochhammer`, `Polynomial.shiftedLegendre` and the lemmas listed as inputs,
-  `Polynomial.derivative`, `Polynomial.iterate_derivative_mul`.
-- **Holomorphic functions.** `Complex.slitPlane`, `Complex.cpow`, `Complex.log`,
-  `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
-  `IsOpen.is_const_of_deriv_eq_zero`, `circleIntegral` and Cauchy's integral formula
-  `DiffContOnCl.circleIntegral_sub_inv_smul`.
-- **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
-  convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, the change-of-variables
-  formula `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`,
-  `Asymptotics.IsEquivalent`, `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `HilbertBasis`,
-  `Laplacian.laplacian` (`Δ`, from `InnerProductSpace.instLaplacian`), and Tannery's theorem
-  `tendsto_tsum_of_dominated_convergence`.
-- **Continued fractions.** `GenContFract`, `GenContFract.convs`, `GenContFract.dens`.
-
-## How to read the build
-
-Layer 1 defines the functions through `𝐅` and proves that they are holomorphic on `D` or `U` and
-in the parameters, that they solve the associated Legendre equation, the symmetries that follow
-from the Euler transformation and from 15.2.3_5, and the contiguous relations of the first kind.
-Every identity is proved on a real interval or a disk where the series converge, or for parameters
-in an open region, and then extended by the identity theorem in the variable (1.4 of
-SpecialFunctionsHypergeometric) and by holomorphy in the parameters. Layers 2 and 3 need only
-Layer 1 and Mathlib's polynomials: the integer degree is treated first, through Rodrigues'
-formula and Cauchy's integral formula, and it carries the spherical harmonics. Abel's identity
-(1.3) replaces the general theory of linear differential equations: a Wronskian is `C/(1 − z²)`,
-and `C` is read off from the behaviour at a singular point (Layer 4), which gives Layer 5's
-Wronskians; each connection formula then expresses a solution in a fundamental pair and fixes the
-two coefficients from the values at `x = 0` or the behaviour at `±1` and `∞` (Layer 4). Layers
-6–11 apply Layers 1–5. The `**Checks.**` and `### Examples` of each layer are statements to prove;
-they test the conventions on explicit values. Every decimal value in them was computed
-independently of the formula it checks.
 
 ## Layer 1: principal solutions of the associated Legendre equation
 
@@ -1596,6 +1418,184 @@ Layers 1, 2, 4, 5; SpecialFunctionsHypergeometric Layers 3, 5, 7, 9.
 - A roadmap for the classical orthogonal polynomials consumes Layers 1, 2 and 11 for the Legendre
   and Gegenbauer cases.
 - Roadmaps for spheroidal wave functions and for the `3j`, `6j`, `9j` symbols consume Layers 1–4.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Principal solutions of the associated Legendre equation** (1.1–1.6).
+2. **Legendre polynomials and Ferrers functions of integer degree** (2.1–2.5).
+3. **Spherical harmonics** (3.1–3.4).
+4. **Local theory at the origin and at the singular points** (4.1–4.5).
+5. **Wronskians, recessive solutions and connection formulas** (5.1–5.3).
+6. **Zeros** (6.1–6.2).
+7. **The second kind: recurrences, integer degree, parameter derivatives, continued fractions**
+   (7.1–7.4).
+8. **Integral representations** (8.1–8.3).
+9. **Integrals of products and Mellin transforms** (9.1–9.2).
+10. **Fourier series, addition theorems and expansions in Legendre functions** (10.1–10.4).
+11. **Toroidal, conical, Gegenbauer and Jacobi functions** (11.1–11.3).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
+targets of the same standing, stated in prose.
+
+**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
+- the Legendre polynomials: Mathlib's `Polynomial.shiftedLegendre`, its Rodrigues formula
+  `Polynomial.factorial_mul_shiftedLegendre_eq`, its coefficients
+  `Polynomial.coeff_shiftedLegendre` and its symmetry `Polynomial.shiftedLegendre_eval_symm`;
+- the terminating Gauss series of `Pₙ` (DLMF 15.9.7), from SpecialFunctionsHypergeometric 9.1;
+- the harmonic decomposition of homogeneous polynomials and the dimension of the space of
+  harmonic polynomials of degree `l` in three variables: Tau Ceti's
+  `MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow` and
+  `MvPolynomial.finrank_harmonicSubmodule_add_two`, consumed in 3.3.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+provides:
+- Abel's identity for the associated Legendre equation and the span criterion: two solutions with
+  nonvanishing Wronskian span all solutions on a connected open set (1.3);
+- the branch identities behind the definitions: `((1 + z)/(1 − z))^{μ/2}` and `(1 − z²)^{−μ/2}`
+  are holomorphic on the doubly cut plane, `((z + 1)/(z − 1))^{μ/2}`, `(z − 1)^{μ/2} (z + 1)^{μ/2}`
+  and `z^{ν+μ+1}` on `ℂ \ (−∞, 1]`, and each is the principal value on the real interval (1.1);
+- Sturm's separation theorem for `((1 − x²) y′)′ + q(x) y = 0` on an open subinterval of
+  `(−1, 1)` or of `(1, ∞)`, and the continuity of the zeros of a solution in its parameters (6.1);
+- the Ferrers–Adams linearization of `Pₘ Pₙ` in Legendre polynomials (9.2);
+- the Abelian estimate: for `Re μ > −1` and `g` integrable on `(0, 1)` and continuous at `1`, the
+  integral `I(σ) = ∫₀¹ x^σ (1 − x)^μ g(x) dx` exists for `σ ≥ 0` and
+  `σ^{μ+1} I(σ) → Γ(μ + 1) g(1)` as `σ → +∞` (so `I(σ) ∼ Γ(μ + 1) g(1) σ^{−μ−1}` when
+  `g(1) ≠ 0`). Proof: split at `1 − δ`; the part over `(0, 1 − δ)` is `O((1 − δ)^σ)`, and on
+  `(1 − δ, 1)` the substitution `x = e^{−u/σ}` and dominated convergence give `Γ(μ + 1) g(1)`
+  (9.1).
+
+**What it does not own:**
+- The principal branch of `𝐅` and its theory (SpecialFunctionsHypergeometric), the Legendre
+  polynomials as polynomials (Mathlib) and the complete elliptic integrals (Tau Ceti).
+- Pincherle's theorem (SpecialFunctionsEiLiErfIncompleteGamma 4.1), consumed in 7.4.
+- Sturm's comparison theorem and the simplicity and isolation of the zeros of a real solution of
+  `(p y′)′ + Q y = 0` for `p > 0` of class `C¹` on an open interval (SpecialFunctionsBessel 10.1,
+  an auxiliary target there), consumed in 6.1 with `p = |1 − x²|`.
+- The theory of harmonic polynomials in `n` variables (Tau Ceti's `MvPolynomial.harmonicSubmodule`
+  and its decomposition) and the spectral theory of the Laplace–Beltrami operator on `Sᵐ`
+  (RiemannianGeometry R8). Layer 3 consumes the first, and the completeness clause of
+  RiemannianGeometry R8.2 at `m = 2`. It owns the explicit basis `Y_{l,m}` of `S²` in the
+  coordinates `(θ, φ)` and its completeness in those coordinates, which 3.3 deduces from R8.2 by
+  the change of variables.
+- The uniform asymptotics for large degree or order, the generalized Mehler–Fock transformation,
+  the branches off the principal sheet, the zeros in the complex plane and on the left cut, and
+  the formulas of other function families through Legendre functions. See the last section for
+  these.
+
+**An object defined elsewhere:** AutomorphicSpectralTheory (§§0.35–0.38 of that roadmap) defines
+the Legendre function of the second kind `Q_{s−1}(t)` for `t > 1` and `Re s > 0` by Heine's
+integral `∫₀^∞ (t + (t² − 1)^{1/2} cosh u)^{−s} du`, with its asymptotics as `t → 1+` and
+`t → ∞`. `associatedLegendreQ ν μ` here is its continuation to all `ν`, `μ` and to `U`, and 8.3
+proves that the two agree. Neither roadmap consumes the other.
+
+**The boundary in one sentence:** this roadmap owns the principal branches of `𝖯^μ_ν`, `𝖰^μ_ν`,
+`P^μ_ν`, `Q^μ_ν` and `𝑸^μ_ν` for all complex degree and order, Dunster's `𝖰̂` and the spherical
+harmonics `Y_{l,m}`, and the results stated through them, `𝐅`, `Γ`, `ψ`, elementary functions,
+the Legendre polynomials and the complete elliptic integrals, as listed in the layers, except the
+uniform asymptotics, the Mehler–Fock transformation, the branches off the principal sheet and the
+complex zeros; it consumes `𝐅` from SpecialFunctionsHypergeometric, Pincherle's theorem from
+SpecialFunctionsEiLiErfIncompleteGamma, Sturm comparison from SpecialFunctionsBessel and the
+completeness clause of RiemannianGeometry R8.2.
+
+## Exact supplier contracts
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
+  `regularizedGaussHypergeometric a b c z` (`𝐅`, in `Complex` there) and the unregularized
+  `F = Γ(c) 𝐅`, principal branches on `1 − z ∈ slitPlane`, with the junk value `0` off it.
+- 1.3: agreement with Mathlib's series on `‖z‖ < 1`, and 15.2.3_5
+  (`𝐅(a, b; −n; z) = (a)ₙ₊₁ (b)ₙ₊₁ zⁿ⁺¹ 𝐅(a + n + 1, b + n + 1; n + 2; z)`), for 1.5.
+- 1.4: holomorphy in `z` on the cut plane and in each parameter, the conjugation symmetry, and the
+  identity principle on the cut plane. Every extension from an interval to `D` or `U` here, and
+  from a parameter region to all parameters, is 1.4 with the identity theorem.
+- Layer 2: the derivatives and contiguous relations 15.5.1–15.5.21, for 1.4.
+- 3.1: the hypergeometric equation 15.10.1, for 1.3; 3.4: Riemann's equation 15.11.1 and the
+  transformation 15.11.8, for the exponents and the prefactor in 1.3 and for 1.6.
+- 4.2: Gauss's sum and the limit of `𝐅` at `z = 1`, for 4.5; 4.3: the series on its circle of
+  convergence, for 10.1.
+- Layer 5: the Euler and Pfaff transformations 15.8.1 and the jump across the cut 15.2.3 (5.1),
+  the logarithmic limiting cases 15.8.8–15.8.12 (5.2) and the connection formulas
+  15.10.11–15.10.36 (5.3–5.4), for 1.2, 1.5 and Layers 4, 5 and 7.
+- 6.1: Euler's integral 15.6.1, for 8.1–8.2.
+- Layer 7: the quadratic transformations 15.8.13–15.8.30 and the values 15.4.26–15.4.30, for
+  Layers 4, 7 and 11.
+- 9.1: the terminating Gauss series 15.9.7 of `Pₙ`, for 2.1.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- Its Conventions and 4.1: the continued fraction `contFrac a b`, a `GenContFract ℂ` with head
+  `0`, and its convergence (eventually nonzero `GenContFract.dens` and convergence of
+  `GenContFract.convs`); Pincherle's theorem, as stated there: a continued fraction converges if
+  and only if its three-term recurrence has a minimal solution `f` with `f(0) ≠ 0`, and its value
+  is `−f(1)/f(0)` in that roadmap's normalization; the reduction-of-order criterion for minimality;
+  and termination at a zero partial numerator. 7.4 applies it to the recurrence in the order
+  (DLMF 14.10.6) and to the recurrence in the degree (DLMF 14.10.3).
+
+### From SpecialFunctionsBessel
+
+- 10.1, its auxiliary Sturm comparison on an open interval `I ⊆ ℝ`: for `p > 0` of class `C¹` and
+  continuous `q₁ ≤ q₂`, if `a < b` are consecutive zeros of a nontrivial real solution `u` of
+  `(p u′)′ + q₁ u = 0`, then every real solution `v` of `(p v′)′ + q₂ v = 0` has a zero in
+  `(a, b)`, unless `q₁ = q₂` on `[a, b]` and `v` is a constant multiple of `u` on `[a, b]`; and
+  the zeros of a nontrivial real solution are simple and isolated. For 6.1, with `p = |1 − x²|`
+  and `Q = ±q`.
+
+### From [RiemannianGeometry](../RiemannianGeometry/README.md)
+
+- R8.2 (spectral completeness and eigenspace identification), its completeness clause at `m = 2`:
+  on the unit round sphere `S²` of `EuclideanSpace ℝ (Fin 3)`, with Tau Ceti's round metric
+  `TauCeti.sphereRoundMetric` and its Riemannian volume, the restrictions of the harmonic
+  homogeneous polynomials of all degrees (`MvPolynomial.harmonicSphereRestriction`) span a dense
+  subspace of `L²(S²)`, and the spaces of different degrees are orthogonal. For 3.3. R8.2 states
+  this over `ℝ`; the complex `L²` follows by taking real and imaginary parts.
+
+### From Tau Ceti
+
+- **Complete elliptic integrals.** `TauCeti.Real.legendreK`, `TauCeti.Real.legendreEc`,
+  `legendreK_eq_ordinaryHypergeometric` and `legendreEc_eq_ordinaryHypergeometric`
+  (`TauCeti/Analysis/SpecialFunctions/EllipticIntegral/`), for the elliptic values in 4.4.
+- **Harmonic polynomials.** `MvPolynomial.laplacian`, `MvPolynomial.harmonicSubmodule`,
+  `MvPolynomial.homogeneousSubmodule_eq_iSup_map_mulLeft_normSq_pow` (the harmonic
+  decomposition), `MvPolynomial.finrank_harmonicSubmodule_add_two` and
+  `MvPolynomial.sphereEval` (`TauCeti/RingTheory/MvPolynomial/Harmonic.lean`,
+  `TauCeti/Analysis/MvPolynomial/Sphere.lean`), for Layer 3; and Laplace's equation for the
+  evaluation of a polynomial, `MvPolynomial.laplacian_eval_euclidean` and
+  `MvPolynomial.harmonicOnNhd_eval_euclidean_iff`
+  (`TauCeti/Analysis/MvPolynomial/Laplacian.lean`), stated for real polynomials and applied to
+  the real and imaginary parts of `p_{l,m}`, for 3.3.
+- **Residue theorem.** `TauCeti.Contour.classicalResidueTheorem_circle`
+  (`TauCeti/Analysis/Contour/Residue/Theorem.lean`), for meromorphic functions on a closed disc,
+  for Dougall's expansion in 10.3.
+- **Round sphere and Riemannian volume.** `TauCeti.sphereRoundMetric`
+  (`TauCeti/Geometry/Manifold/Riemannian/Sphere/Basic.lean`), `TauCeti.riemannianVolume` and the
+  integration-in-coordinates theorem `TauCeti.setIntegral_riemannianVolume_of_subset`
+  (`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/Volume.lean`), for the change of variables
+  in 3.3.
+
+### From Mathlib
+
+- **Gamma and digamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
+  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub` (reflection),
+  `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.betaIntegral`,
+  `Complex.digamma`, `Real.eulerMascheroniConstant`.
+- **Polynomials.** `ascPochhammer`, `Polynomial.shiftedLegendre` and the lemmas listed as inputs,
+  `Polynomial.derivative`, `Polynomial.iterate_derivative_mul`.
+- **Holomorphic functions.** `Complex.slitPlane`, `Complex.cpow`, `Complex.log`,
+  `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`,
+  `IsOpen.is_const_of_deriv_eq_zero`, `circleIntegral` and Cauchy's integral formula
+  `DiffContOnCl.circleIntegral_sub_inv_smul`.
+- **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
+  convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, the change-of-variables
+  formula `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`,
+  `Asymptotics.IsEquivalent`, `Asymptotics.IsBigO`, `HasSum`, `fourierBasis`, `HilbertBasis`,
+  `Laplacian.laplacian` (`Δ`, from `InnerProductSpace.instLaplacian`), and Tannery's theorem
+  `tendsto_tsum_of_dominated_convergence`.
+- **Continued fractions.** `GenContFract`, `GenContFract.convs`, `GenContFract.dens`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
