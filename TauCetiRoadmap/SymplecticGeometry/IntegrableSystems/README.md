@@ -248,6 +248,8 @@ commuting complete flows and quadratic Hamiltonians; local Darboux; Differential
 
 ## Layer 2: Liouville–Arnold and action–angle coordinates
 
+<a id="i20-positive-period-circles-and-families"></a>
+
 ### 2.0 Positive-period circles and families
 
 This reusable foundation is independent of the integrable map of Layer 1. The carrier is Mathlib's
@@ -536,6 +538,8 @@ Layer 1 (§§1.1–1.2); Tau Ceti's circles, tori and circle families, integrabl
 flow action and stabilizer, regular fibres, inverse function theorem, period families of lattices
 and cotangent bundles; DifferentialGeometry Layers 0–1 and §8.4; SmoothBundlesConnections B1.5,
 B6.1 and B6.6; AlgebraicTopology §2.6; ConvexityToric §1.1 for the torus and lattice dictionary.
+
+<a id="i3-hamiltonian-and-lagrangian-mechanics"></a>
 
 ## Layer 3: Hamiltonian and Lagrangian mechanics
 
