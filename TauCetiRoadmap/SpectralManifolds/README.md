@@ -1998,8 +1998,8 @@ same Fourier conventions, the finitely generated free smooth core and the normal
 Hermitian and Dixmier form, and write down its orientation Hochschild `2`-cycle. Consume
 NoncommutativeGeometry's cyclic and index computations. These checks establish the stated analytic,
 module, orientation and real-structure interfaces; they do not infer the duality axiom of §9.2.
-Irrationality of `θ` is not imposed. Products with finite models (§10.2) give explicit
-almost-commutative examples, with the conditions verified case by case; no classification of
+Irrationality of `θ` is not imposed. Products with finite models (§10.2) give explicit examples,
+almost-commutative when `θ ∈ ℤ`, with the conditions verified case by case; no classification of
 almost-commutative fibrations or of quantum manifolds is inferred from them.
 *Needs:* §§1.5–1.6, 2.3, 2.5, 10.2; NoncommutativeGeometry N6–N7; Tau Ceti
 `TauCeti.SmoothNoncommutativeTorus`.
