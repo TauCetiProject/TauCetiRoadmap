@@ -1009,7 +1009,8 @@ The predicate `IsHenselization` below recognises both constructions:
   the colimit argument below uses it; for `A` henselian local and `ψ` surjective it is Tag 08HR
   as printed. Surjectivity of `χ` is necessary for existence, since `L` must embed in `κ_B` over
   `R`. The target `IsHenselization.bijective_of_comp_eq` is the uniqueness:
-  if moreover `χ : B → L` is a henselisation at the same point, every such `f` is bijective. The
+  if `ψ : A → L` and `χ : B → L` are both henselisations at the same point, every such `f` is
+  bijective. The
   two together are Tag 08HT: two henselisations at the same point are isomorphic over `L` by
   exactly one `R`-algebra isomorphism, `AlgEquiv.ofBijective` of the unique compatible map, so the
   comparison is data and never a chosen isomorphism. For `A = R^{sh}` the map is
@@ -1549,8 +1550,8 @@ homomorphism the cokernel of its scheme-theoretic kernel in the category of grou
 
 *Needs:* §§0.1–0.3, 0.5, 1.3–1.5, 2.1; Tau Ceti `EllipticCurveGeom.IsIsogeny`,
 `EllipticCurveGeom.isIsogeny_iff`, `TauCeti.GroupScheme.isColimitKernelCofork`,
-`TauCeti.AffineInvariantQuotient.quotient`; JacobianChallenge Layer A for the norm of invertible
-sheaves and §§C.1–C.2 for the fibrewise genus.
+`TauCeti.AffineInvariantQuotient.quotient`; JacobianChallenge Layer A (invertible sheaves, on
+which the norm functor of item 1 is built) and §§C.1–C.2 for the fibrewise genus.
 
 **Checks.**
 
