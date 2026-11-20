@@ -73,91 +73,29 @@ operators.
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Mathieu/` for the Mathieu functions and
 `TauCeti/Analysis/ODE/Hill.lean` for Hill's equation.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 sets up the equations. Hill's equation is real-variable, with a continuous real
+`π`-periodic coefficient; Mathieu's equation is complex, with solutions entire in all three
+variables, and restricted to real `x` and real `(a, q)` it is Hill's equation with
+`Q(x) = −2q cos 2x`. Layer 1 also derives both Mathieu equations from the Helmholtz equation in
+elliptic coordinates, which is where they come from (Whittaker–Watson §19.1). Layer 2 is Floquet
+theory: the monodromy matrix and its trace, the characteristic exponent, Hill's determinant as an
+explicit formula for the trace, Ince's coexistence theorem and stability. Layer 3 turns the trace
+into a spectral picture: the four separated problems on `[0, π/2]` give `a_n`, `b_n` for real `q`,
+the bands of Hill's discriminant give the band functions `λ_ν`, and both are read from one
+interlacing theorem. Layer 4 builds the eigenfunctions of integer and noninteger order and their
+Fourier coefficients from Layer 3. Layer 5 widens the class of equations to the Hill equations
+with two cosine terms, of Whittaker–Hill and Ince, whose finite three-term recurrences give
+polynomial eigenfunctions and reduce to the Fourier coefficients of Layer 4 in a limit. Layer 6
+is the analysis of integral operators: the expansion theorem for Hill's equation, the integral
+equations of Mathieu functions, and the expansions in Mathieu functions. Layer 7 studies the
+dependence on `q`; it comes after Layer 6 because the continued fraction at `n = 0` uses the
+nonvanishing of `A^0_0` proved there. Layer 8 is the modified equation and consumes
+SpecialFunctionsBessel.
 
-1. **Periodic equations and their basic solutions** (1.1–1.4).
-2. **Floquet theory, Hill's determinant and stability** (2.1–2.5).
-3. **Spectral theory on one period** (3.1–3.5).
-4. **Eigenfunctions and their Fourier series** (4.1–4.5).
-5. **Hill equations with two cosine terms** (5.1–5.2).
-6. **Integral operators and eigenfunction expansions** (6.1–6.4).
-7. **Dependence on `q`** (7.1–7.5).
-8. **Modified Mathieu functions** (8.1–8.5).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the targets that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other targets have the
-same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer
-are statements to prove; they test the conventions on explicit values.
-
-**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
-- existence and uniqueness for linear systems with continuous coefficients on `ℝ`: Tau Ceti's
-  `TauCeti.dysonSeriesLeft` and Mathlib's `ODE_solution_unique`, consumed in 1.1;
-- the constancy of the real Wronskian: Tau Ceti's `TauCeti.wronskian_eq_of_hasDerivAt`, whose
-  complex-valued version is a target (1.1);
-- the Hilbert basis of eigenvectors of a compact symmetric operator: Tau Ceti's
-  `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`, consumed in 6.1;
-- compactness of Hilbert–Schmidt operators: Tau Ceti's
-  `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`, consumed in 6.1;
-- Hadamard's bound `|det A| ≤ ∏ᵢ ∑ⱼ |Aᵢⱼ|`: Tau Ceti's `Matrix.abv_det_le_prod_sum_abv`, consumed
-  for the infinite determinants of 2.3.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-provides in this form:
-- linear second-order equations on `ℝ` with complex-valued continuous coefficients: complex
-  Wronskians and the variation formula for the discriminant (1.1, 3.2);
-- holomorphic dependence on parameters of the entire solutions of a linear equation with entire
-  coefficients, and joint analyticity in `(z, a, q)` (1.2);
-- the Laplacian of `f ∘ φ` for holomorphic `φ`, `Δ(f ∘ φ) = |φ′|² (Δf) ∘ φ` (1.4);
-- infinite determinants `det(1 + B)` with `∑ |Bᵢⱼ| < ∞`, as limits of the symmetric
-  truncations (2.3);
-- separated Sturm–Liouville problems on a compact interval with a continuous potential: real
-  simple eigenvalues, their ordering and Sturm's oscillation count (3.1), resting on the Sturm
-  comparison theorem of SpecialFunctionsBessel;
-- for a three-term recurrence `x_{k+1} − β_k x_k + α_k x_{k−1} = 0` with `|β_k| → ∞` and
-  bounded nonzero `α_k`: the existence of a minimal solution, the nonvanishing of the partial
-  denominators of its tail fractions from some index on, and the agreement of the nested
-  quotients of [Conventions](#conventions) with the convergents of Pincherle's theorem when the
-  partial denominators are nonzero (7.3);
-- the Bessel functions continued along a logarithm of their argument, `𝒞_μ⟨L⟩` of
-  [Conventions](#conventions), and their agreement with the principal values (8.4).
-  SpecialFunctionsBessel works on the principal sheet and leaves the other sheets outside its
-  scope; this roadmap owns only these continued series and the facts 8.4 uses.
-
-**What it does not own:**
-- *The ordinary-point theorem and the irregular singularity of rank one.* These are
-  AsymptoticExpansions §10.2 and §10.4; this roadmap applies them (1.2, 8.1, 8.2).
-- *Bessel functions.* `J_ν` is Mathlib's `Complex.besselJ`; `Y_ν`, `H^{(1,2)}_ν`, `I_ν`, `K_ν` and
-  their large-argument behaviour are SpecialFunctionsBessel's. This roadmap consumes them in
-  Layer 8 and in 6.2.
-- *Pincherle's theorem.* SpecialFunctionsEiLiErfIncompleteGamma §4.1 owns minimal solutions of
-  three-term recurrences, the continued fraction as a `GenContFract` and the equivalence of its
-  convergence with the existence of a minimal solution; 7.3 applies it.
-- *Integral operators with square-integrable kernel.* AutomorphicSpectralTheory §0.8 owns the
-  Hilbert–Schmidt property of integral operators with `L²` kernel on σ-finite standard Borel
-  spaces; 6.1 applies it to a continuous kernel on `[0, 2π]²`.
-- *Sturm comparison.* SpecialFunctionsBessel owns the Sturm comparison theorem on an open interval
-  (an auxiliary result of its 10.1); 3.1 and 3.3 apply it with `p = 1`.
-- *Self-adjoint realizations of Sturm–Liouville operators.* OperatorTheory/UnboundedOperators
-  §4.8 owns the general Sturm–Liouville expression with endpoint classification and Weyl's
-  alternative. This roadmap proves only what Hill's and Mathieu's equations need on compact
-  intervals and the circle, by elementary means, and consumes nothing from there.
-- *Separation of variables as a theory of coordinate systems.* 1.4 owns only the elliptic
-  coordinates of the plane and the product solutions they give; the general theory of separable
-  coordinates and the spheroidal and ellipsoidal systems are outside.
-- *The Mathieu groups.* `M₁₁, …, M₂₄` (Rank24LatticeConstructions, CFSGBasicProperties) are
-  unrelated to this roadmap despite the name.
-
-**The boundary in one sentence:** this roadmap owns Hill's equation with a continuous periodic
-coefficient on `ℝ`, Mathieu's equation and its modified form, the Whittaker–Hill and Ince
-equations, the functions and characteristic values named in [Conventions](#conventions), Hill's
-determinant, the elliptic-coordinate separation, and the results stated through them, Bessel
-functions and elementary functions, as listed in the layers; it consumes the Bessel functions and
-Sturm comparison of SpecialFunctionsBessel, the local theory of linear equations of
-AsymptoticExpansions, Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma and the
-Hilbert–Schmidt kernels of AutomorphicSpectralTheory.
+The harder material is in 3.3 (the interlacing theorem), 7.4–7.5 (the exceptional values and the
+sum rules), 8.4 (the cross-product expansions) and 8.5 (the integrals of products).
 
 ## Conventions
 
@@ -308,131 +246,11 @@ me_ν(0, q) = (π / ∫₀^π |w_I(x) + i sin(πν)/w_II(π) · w_II(x)|² dx)^{
   - 28.6.16 at `n = 0`: the right side needs a factor `2` (7.3);
   - 28.23.2–28.23.5 with `j = 1`, `ν ∉ ℤ`: valid only where `|cosh z| > 1` (resp. `|sinh z| > 1`);
     checked for 28.23.2, the others following by the same term estimate (8.4);
+  - 28.28.10–28.28.14: the condition 28.28.10 does not suffice, since it and the left sides are
+    invariant under `z ↦ −z` and `M^{(3)}_ν` is not; the identities hold for `Re z > 0`,
+    `0 < Im z < π` (8.5);
   - 28.28.11: the factor is `e^{iνπ/2}`, not `e^{iνπ}` (8.5);
   - 28.28.16: the overall sign, and the lower sign belongs to `−π ≤ y ≤ 0` (8.5).
-
-## Exact supplier contracts
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-- **Ordinary points**
-  ([§10.2](../AsymptoticExpansions/README.md#102-ordinary-points)): for coefficients holomorphic on
-  a disc, the initial-value problem has a unique solution holomorphic on the disc, with Taylor
-  coefficients given by the recursion. 1.2 applies it on every disc to get entire solutions, and
-  8.1 to the modified equation.
-- **Irregular singularity of rank one**
-  ([§10.4](../AsymptoticExpansions/README.md#104-irregular-singularity-of-rank-one-at-infinity)):
-  existence and uniqueness of the solutions with prescribed exponential behaviour, stated there in
-  logarithmic coordinates for coefficients that are convergent series in `ζ^{−1}` and for unequal
-  roots `λ₁ ≠ λ₂`. 8.2 applies it to the algebraic form 28.20.2 at `ζ = ∞`, whose coefficients
-  `ζ/(ζ² − 1)` and `(4qζ² − 2q − a)/(ζ² − 1)` converge for `|ζ| > 1`, with `λ₁,₂ = ±2ih` (unequal
-  since `h > 0`) and `μ₁ = μ₂ = −½`, and reads off 28.25.1–28.25.3.
-
-### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
-
-- `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` with the definitions of its Conventions, their
-  equations, recurrences and Wronskians (its Layer 1, with `I_ν`, `K_ν` in its 1.3), used in
-  Layer 8 and 6.2.
-- The Hankel expansions and the large-argument expansion of `K_ν` (its §6.1) and the
-  large-argument forms of `J`, `Y`, `I` (its §6.2), used for the normalizations of 8.1 (`K` for
-  `Ke_n, Ko_n`) and for 8.2.
-- Holomorphy in the order and the continuation formulas 10.11 (its §§1.2, 1.6), used to show
-  that the continued evaluations `𝒞_μ⟨L⟩` of [Conventions](#conventions) agree with the principal
-  values on `|Im L| < π` and to read off their values on the other sheets.
-- The Jacobi–Anger expansions and Graf's addition theorem (its §§4.1–4.2), used for 8.4 and 8.5.
-- Sturm comparison (an auxiliary result of its 10.1): for `p > 0` of class `C¹` and continuous
-  `q₁ ≤ q₂` on an open interval, between consecutive zeros of a nontrivial real solution of
-  `(p u′)′ + q₁ u = 0` every real solution of `(p v′)′ + q₂ v = 0` vanishes, unless `q₁ = q₂` there
-  and `v` is a multiple of `u`. Used with `p = 1` in 3.1 and 3.3.
-
-`Suggested.lean` declares local copies of the Bessel definitions it needs, each with a docstring
-naming SpecialFunctionsBessel and its section, with the bodies of that roadmap.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- Pincherle's theorem
-  ([§4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)): for the
-  recurrence `y(n + 1) = b_n y(n) + a_n y(n − 1)` with every `a_n ≠ 0`, the continued fraction
-  `a₁/(b₁ + a₂/(b₂ + ⋯))`, as a `GenContFract` with head `0`, converges in the sense of that
-  roadmap's Conventions (eventually nonzero denominators, convergent convergents) iff the
-  recurrence has a minimal solution `f` with `f(0) ≠ 0`, and the value is then `−f(1)/f(0)`. 7.3
-  applies it with `b_n = β_n`, `a_n = −α_n`, shifted to start at the index of each tail.
-
-### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
-
-- Measurable Hilbert–Schmidt kernels (its §0.8): on σ-finite standard Borel measure spaces, the
-  integral operator of a square-integrable kernel `K` is Hilbert–Schmidt with Hilbert–Schmidt norm
-  `‖K‖₂`. 6.1 applies it on `[0, 2π]` with Lebesgue measure to the continuous Green kernel, and
-  concludes compactness by Tau Ceti's
-  `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`.
-
-### From Tau Ceti
-
-- `TauCeti.dysonSeries`, `TauCeti.dysonSeriesLeft`, `TauCeti.hasDerivAt_dysonSeriesLeft`
-  (`TauCeti/Analysis/ODE/DysonSeries.lean`): global solutions on `ℝ` of `Γ′ = p Γ` for continuous
-  `p` with values in a real Banach algebra. 1.1 takes `p(x) = [[0, 1], [−(λ + Q(x)), 0]]` in
-  `Matrix (Fin 2) (Fin 2) ℂ`.
-- `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`), the real-valued
-  constancy of the Wronskian; 1.1 proves the complex-valued version beside it.
-- `TauCeti.norm_fourierCoeff_le_of_differentiableOn_strip` (`TauCeti/Analysis/Fourier/Decay.lean`)
-  and the uniqueness theorems of `TauCeti/Analysis/Fourier/Uniqueness.lean`: Fourier coefficients
-  of a function holomorphic and bounded on a strip decay exponentially; a function with vanishing
-  Fourier coefficients vanishes almost everywhere. Used in 2.2, 4.2, 4.5, 6.3.
-- `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
-  (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`): a compact symmetric operator has a Hilbert
-  basis of eigenvectors. Used in 6.1.
-- `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`
-  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Columns.lean`): an operator of finite
-  Hilbert–Schmidt energy is compact. Used in 6.1.
-- `Matrix.abv_det_le_prod_sum_abv` (`TauCeti/LinearAlgebra/Matrix/AbsoluteValue.lean`), Hadamard's
-  bound by row sums, and `Matrix.principalMinor` (`TauCeti/LinearAlgebra/Matrix/Minor.lean`). Used
-  for the infinite determinants of 2.3.
-- `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff` (`TauCeti/Analysis/Analytic/Inverse.lean`),
-  the analytic implicit root theorem, and `TauCeti.rouche`
-  (`TauCeti/Analysis/Complex/Conformal/Rouche.lean`). Used in 3.2, 3.4, 7.1 and 7.4.
-- `TauCeti.Polynomial.exists_analyticOnNhd_prod_X_sub_C_powerSubstitution_ball`
-  (`TauCeti/Analysis/Polynomial/Puiseux/Monic.lean`): a monic degree-`d` family, analytic and
-  separable off a hyperplane, splits into analytic linear factors after the substitution `t ↦ tⁿ`
-  for any nonzero multiple `n` of `d!`. Used for the Puiseux expansions in 7.4.
-
-### From Mathlib
-
-- `ODE_solution_unique`, `ODE_solution_unique_of_mem_Icc`, `gronwallBound` and
-  `norm_le_gronwallBound_of_norm_deriv_right_le`, for uniqueness and the estimates in 1.1, 3.2.
-- `HasFPowerSeriesOnBall`, Cauchy's estimates, `AnalyticOnNhd`,
-  `TendstoLocallyUniformlyOn.differentiableOn`, for 1.2.
-- `Laplacian.laplacian` and `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`, for
-  1.4.
-- `Matrix.det` and `Matrix.of`, for 2.3.
-- `fourierCoeff`, `fourierBasis`, `hasSum_fourier_series_of_summable`, `tsum_sq_fourierCoeff`,
-  for 4.2, 6.1, 6.3.
-- `IsCompactOperator`, `LinearMap.IsSymmetric`, `MeasureTheory.Lp`, for 6.1.
-- `Complex.besselJ` and `Complex.besselJ_neg_int`, for 6.2, 8.4 and 8.5.
-- `intervalIntegral` and its change-of-variables lemmas, `Real.cos`, `Complex.cosh`, throughout.
-
-## How to read the build
-
-Layer 1 sets up the equations. Hill's equation is real-variable, with a continuous real
-`π`-periodic coefficient; Mathieu's equation is complex, with solutions entire in all three
-variables, and restricted to real `x` and real `(a, q)` it is Hill's equation with
-`Q(x) = −2q cos 2x`. Layer 1 also derives both Mathieu equations from the Helmholtz equation in
-elliptic coordinates, which is where they come from (Whittaker–Watson §19.1). Layer 2 is Floquet
-theory: the monodromy matrix and its trace, the characteristic exponent, Hill's determinant as an
-explicit formula for the trace, Ince's coexistence theorem and stability. Layer 3 turns the trace
-into a spectral picture: the four separated problems on `[0, π/2]` give `a_n`, `b_n` for real `q`,
-the bands of Hill's discriminant give the band functions `λ_ν`, and both are read from one
-interlacing theorem. Layer 4 builds the eigenfunctions of integer and noninteger order and their
-Fourier coefficients from Layer 3. Layer 5 widens the class of equations to the Hill equations
-with two cosine terms, of Whittaker–Hill and Ince, whose finite three-term recurrences give
-polynomial eigenfunctions and reduce to the Fourier coefficients of Layer 4 in a limit. Layer 6
-is the analysis of integral operators: the expansion theorem for Hill's equation, the integral
-equations of Mathieu functions, and the expansions in Mathieu functions. Layer 7 studies the
-dependence on `q`; it comes after Layer 6 because the continued fraction at `n = 0` uses the
-nonvanishing of `A^0_0` proved there. Layer 8 is the modified equation and consumes
-SpecialFunctionsBessel.
-
-The harder material is in 3.3 (the interlacing theorem), 7.4–7.5 (the exceptional values and the
-sum rules), 8.4 (the cross-product expansions) and 8.5 (the integrals of products).
 
 ## Layer 1: periodic equations and their basic solutions
 
@@ -1137,6 +955,10 @@ solutions with `w_m″ + (λ̂_m + Q) w_m = 0` and `(1/2π) ∫₀^{2π} w_m w_n
   `f″ ∈ L²(0, 2π)` satisfies `f = ∑ f_m w_m` with `f_m = (1/2π) ∫₀^{2π} f w_m`, the series
   converging absolutely and uniformly.
 
+Both are `hill_expansion`, which states the Hilbert basis as orthonormality with Parseval's
+identity for every `f ∈ L²(0, 2π)`, and the hypothesis on `f` as: `f` is `C¹` and
+`f′(x) = f′(0) + ∫₀ˣ g` with `g ∈ L²(0, 2π)`.
+
 For `c` below `λ̂₀`, the Green operator of `−w″ − (Q + c) w` with periodic conditions on `[0, 2π]`
 has a continuous symmetric kernel built from `w_I, w_II`; it is Hilbert–Schmidt by
 AutomorphicSpectralTheory §0.8, hence compact, and Tau Ceti's spectral theorem applies.
@@ -1320,7 +1142,8 @@ DLMF §28.7.
 Let `F^{(1)}(a, q) = w_I′(π/2; a, q)`, `F^{(2)} = w_II(π/2; ·)`, `F^{(3)} = w_I(π/2; ·)` and
 `F^{(3′)} = w_II′(π/2; ·)`, entire on `ℂ²`. Call `q ∈ ℂ` exceptional for `F` if `F(·, q)` has a
 multiple root. Prove:
-- the exceptional set of each `F` is a closed discrete subset of `ℂ` disjoint from `ℝ`;
+- the exceptional set of each `F` is a closed discrete subset of `ℂ` disjoint from `ℝ`
+  (`mathieuExceptionalSet_closed_discrete`);
 - `a_n`, `b_n` extend holomorphically to an open neighbourhood of `ℝ` in `ℂ`, and continue
   analytically along every path in `ℂ` that starts on `ℝ` and avoids the exceptional set, the
   continued value remaining a root of the same `F`;
@@ -1334,10 +1157,11 @@ does not claim. That the branches of
 each family form one complete analytic function is beyond this roadmap.
 
 The discreteness: for `|q| ≤ R`, all roots of `F(·, q)` with `Re a` large lie close to the squares
-and are simple (Rouché against the `q = 0` function); the finitely many others, near a given `q₀`,
-are the roots of a monic polynomial `P(a, q)` of degree `k` in `a` whose coefficients, obtained
-from the power sums `∮ aʲ ∂_a F/F da`, are holomorphic in `q`; its discriminant is holomorphic and
-nonzero on `ℝ`, so `P(·, q)` is separable for `q` near `q₀`, `q ≠ q₀`, and Tau Ceti's
+and are simple (Rouché against the `q = 0` function), so the number `k` of the others is the same
+for all `|q| < R`; these are the roots of a monic polynomial `P(a, q)` of degree `k` in `a` whose
+coefficients, obtained from the power sums `∮ aʲ ∂_a F/F da`, are holomorphic for `|q| < R`; its
+discriminant is holomorphic on that disc and nonzero at its real points, hence not identically
+zero, so its zeros are isolated, `P(·, q)` is separable for `q ≠ q₀` near any `q₀`, and Tau Ceti's
 `exists_analyticOnNhd_prod_X_sub_C_powerSubstitution_ball` with exponent `k!` gives the Puiseux
 series. Kato's Theorem II-1.8 is the same local structure for the eigenvalues of a holomorphic
 matrix family, with cycles of period at most `k`.
@@ -1538,8 +1362,11 @@ Prove:
 - DLMF 28.28.2–28.28.5;
 - DLMF 28.28.7–28.28.9 for paths `L_j` along whose ends `Im w(t) → +∞`, so that the integrands
   decay;
-- DLMF 28.28.11–28.28.14 under 28.28.10, with `e^{iνπ/2}` in place of DLMF's `e^{iνπ}` in 28.28.11;
-- at integer order `n`, under 28.28.10,
+- DLMF 28.28.11–28.28.14 for `Re z > 0` and `0 < Im z < π`, with `e^{iνπ/2}` in place of DLMF's
+  `e^{iνπ}` in 28.28.11. For `h > 0` this region lies in the region 28.28.10, where
+  `Im cosh z > 0`; that region is invariant under `z ↦ −z` and `z ↦ z + 2πi`, and so are the left
+  sides, but `M^{(3)}_ν(·, h)` is not, so DLMF's condition alone does not suffice;
+- at integer order `n`, for `Re z > 0` and `0 < Im z < π`,
   `∫₀^∞ e^{2ih cosh z cosh t} ce_n(it, h²) dt = ½πi iⁿ ce_n(0, h²) Mc^{(3)}_n(z, h)`
   (`integral_exp_mul_mathieuCe`);
 - DLMF 28.28.15, and 28.28.16 in the corrected form
@@ -1579,6 +1406,11 @@ Prove:
 - DLMF 28.28.11 with `ν = n ∈ {0, 1, 2, 3}`, `h = 1`, `z = 1 + 0.5i`: the ratio of the left side to
   `½πi ce_n(0, 1) Mc^{(3)}_n(z, 1)` is `1, i, −1, −i` (to the quadrature accuracy), that is
   `e^{inπ/2}`, not `e^{inπ}`.
+- The same identity at `n = 0`, `h = 1` and `−z₀`, `z₀ = 1 + 0.5i`: `Im cosh(±z₀) = 0.56342 > 0`,
+  so 28.28.10 holds at both points and the left side is the same, but
+  `Mc^{(3)}_0(−z₀, 1) ≠ Mc^{(3)}_0(z₀, 1)`: their difference is a nonzero multiple of the odd
+  solution of 28.20.1 with `a = a₀(1)`, `q = 1` and slope `1` at `0`, which is
+  `1.02304 − 0.29316i` at `z₀`. The identity holds at `z₀` and fails at `−z₀`.
 - DLMF 28.28.16 with `n = 0`, `h = 1`: the left side is `0.17414` at `y = 0.7` and `y = −0.7`, and
   `−0.17414` at `y = π ± 0.7`. The corrected right side gives these values on `[−π, π]`. DLMF's sign
   gives `−0.17414` at `y = 0.7`, and neither sign gives `−0.17414` at `y = π + 0.7` (the two
@@ -1596,6 +1428,191 @@ Layers 1, 4, 6–7; AsymptoticExpansions §10.4; SpecialFunctionsBessel.
   coordinates (1.4 here; Temme §10.2).
 - Spectral theory of one-dimensional periodic Schrödinger operators, for which Hill's
   discriminant and the bands of 3.3 describe the spectrum.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Periodic equations and their basic solutions** (1.1–1.4).
+2. **Floquet theory, Hill's determinant and stability** (2.1–2.5).
+3. **Spectral theory on one period** (3.1–3.5).
+4. **Eigenfunctions and their Fourier series** (4.1–4.5).
+5. **Hill equations with two cosine terms** (5.1–5.2).
+6. **Integral operators and eigenfunction expansions** (6.1–6.4).
+7. **Dependence on `q`** (7.1–7.5).
+8. **Modified Mathieu functions** (8.1–8.5).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the targets that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other targets have the
+same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer
+are statements to prove; they test the conventions on explicit values.
+
+**Inputs.** Cases of the targets that Mathlib or Tau Ceti already proves are inputs, not targets:
+- existence and uniqueness for linear systems with continuous coefficients on `ℝ`: Tau Ceti's
+  `TauCeti.dysonSeriesLeft` and Mathlib's `ODE_solution_unique`, consumed in 1.1;
+- the constancy of the real Wronskian: Tau Ceti's `TauCeti.wronskian_eq_of_hasDerivAt`, whose
+  complex-valued version is a target (1.1);
+- the Hilbert basis of eigenvectors of a compact symmetric operator: Tau Ceti's
+  `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`, consumed in 6.1;
+- compactness of Hilbert–Schmidt operators: Tau Ceti's
+  `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`, consumed in 6.1;
+- Hadamard's bound `|det A| ≤ ∏ᵢ ∑ⱼ |Aᵢⱼ|`: Tau Ceti's `Matrix.abv_det_le_prod_sum_abv`, consumed
+  for the infinite determinants of 2.3.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+provides in this form:
+- linear second-order equations on `ℝ` with complex-valued continuous coefficients: complex
+  Wronskians and the variation formula for the discriminant (1.1, 3.2);
+- holomorphic dependence on parameters of the entire solutions of a linear equation with entire
+  coefficients, and joint analyticity in `(z, a, q)` (1.2);
+- the Laplacian of `f ∘ φ` for holomorphic `φ`, `Δ(f ∘ φ) = |φ′|² (Δf) ∘ φ` (1.4);
+- infinite determinants `det(1 + B)` with `∑ |Bᵢⱼ| < ∞`, as limits of the symmetric
+  truncations (2.3);
+- separated Sturm–Liouville problems on a compact interval with a continuous potential: real
+  simple eigenvalues, their ordering and Sturm's oscillation count (3.1), resting on the Sturm
+  comparison theorem of SpecialFunctionsBessel;
+- for a three-term recurrence `x_{k+1} − β_k x_k + α_k x_{k−1} = 0` with `|β_k| → ∞` and
+  bounded nonzero `α_k`: the existence of a minimal solution, the nonvanishing of the partial
+  denominators of its tail fractions from some index on, and the agreement of the nested
+  quotients of [Conventions](#conventions) with the convergents of Pincherle's theorem when the
+  partial denominators are nonzero (7.3);
+- the Bessel functions continued along a logarithm of their argument, `𝒞_μ⟨L⟩` of
+  [Conventions](#conventions), and their agreement with the principal values (8.4).
+  SpecialFunctionsBessel works on the principal sheet and leaves the other sheets outside its
+  scope; this roadmap owns only these continued series and the facts 8.4 uses.
+
+**What it does not own:**
+- *The ordinary-point theorem and the irregular singularity of rank one.* These are
+  AsymptoticExpansions §10.2 and §10.4; this roadmap applies them (1.2, 8.1, 8.2).
+- *Bessel functions.* `J_ν` is Mathlib's `Complex.besselJ`; `Y_ν`, `H^{(1,2)}_ν`, `I_ν`, `K_ν` and
+  their large-argument behaviour are SpecialFunctionsBessel's. This roadmap consumes them in
+  Layer 8 and in 6.2.
+- *Pincherle's theorem.* SpecialFunctionsEiLiErfIncompleteGamma §4.1 owns minimal solutions of
+  three-term recurrences, the continued fraction as a `GenContFract` and the equivalence of its
+  convergence with the existence of a minimal solution; 7.3 applies it.
+- *Integral operators with square-integrable kernel.* AutomorphicSpectralTheory §0.8 owns the
+  Hilbert–Schmidt property of integral operators with `L²` kernel on σ-finite standard Borel
+  spaces; 6.1 applies it to a continuous kernel on `[0, 2π]²`.
+- *Sturm comparison.* SpecialFunctionsBessel owns the Sturm comparison theorem on an open interval
+  (an auxiliary result of its 10.1); 3.1 and 3.3 apply it with `p = 1`.
+- *Self-adjoint realizations of Sturm–Liouville operators.* OperatorTheory/UnboundedOperators
+  §4.8 owns the general Sturm–Liouville expression with endpoint classification and Weyl's
+  alternative. This roadmap proves only what Hill's and Mathieu's equations need on compact
+  intervals and the circle, by elementary means, and consumes nothing from there.
+- *Separation of variables as a theory of coordinate systems.* 1.4 owns only the elliptic
+  coordinates of the plane and the product solutions they give; the general theory of separable
+  coordinates and the spheroidal and ellipsoidal systems are outside.
+- *The Mathieu groups.* `M₁₁, …, M₂₄` (Rank24LatticeConstructions, CFSGBasicProperties) are
+  unrelated to this roadmap despite the name.
+
+**The boundary in one sentence:** this roadmap owns Hill's equation with a continuous periodic
+coefficient on `ℝ`, Mathieu's equation and its modified form, the Whittaker–Hill and Ince
+equations, the functions and characteristic values named in [Conventions](#conventions), Hill's
+determinant, the elliptic-coordinate separation, and the results stated through them, Bessel
+functions and elementary functions, as listed in the layers; it consumes the Bessel functions and
+Sturm comparison of SpecialFunctionsBessel, the local theory of linear equations of
+AsymptoticExpansions, Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma and the
+Hilbert–Schmidt kernels of AutomorphicSpectralTheory.
+
+## Exact supplier contracts
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+- **Ordinary points**
+  ([§10.2](../AsymptoticExpansions/README.md#102-ordinary-points)): for coefficients holomorphic on
+  a disc, the initial-value problem has a unique solution holomorphic on the disc, with Taylor
+  coefficients given by the recursion. 1.2 applies it on every disc to get entire solutions, and
+  8.1 to the modified equation.
+- **Irregular singularity of rank one**
+  ([§10.4](../AsymptoticExpansions/README.md#104-irregular-singularity-of-rank-one-at-infinity)):
+  existence and uniqueness of the solutions with prescribed exponential behaviour, stated there in
+  logarithmic coordinates for coefficients that are convergent series in `ζ^{−1}` and for unequal
+  roots `λ₁ ≠ λ₂`. 8.2 applies it to the algebraic form 28.20.2 at `ζ = ∞`, whose coefficients
+  `ζ/(ζ² − 1)` and `(4qζ² − 2q − a)/(ζ² − 1)` converge for `|ζ| > 1`, with `λ₁,₂ = ±2ih` (unequal
+  since `h > 0`) and `μ₁ = μ₂ = −½`, and reads off 28.25.1–28.25.3.
+
+### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
+
+- `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `I_ν`, `K_ν` with the definitions of its Conventions, their
+  equations, recurrences and Wronskians (its Layer 1, with `I_ν`, `K_ν` in its 1.3), used in
+  Layer 8 and 6.2.
+- The Hankel expansions and the large-argument expansion of `K_ν` (its §6.1) and the
+  large-argument forms of `J`, `Y`, `I` (its §6.2), used for the normalizations of 8.1 (`K` for
+  `Ke_n, Ko_n`) and for 8.2.
+- Holomorphy in the order and the continuation formulas 10.11 (its §§1.2, 1.6), used to show
+  that the continued evaluations `𝒞_μ⟨L⟩` of [Conventions](#conventions) agree with the principal
+  values on `|Im L| < π` and to read off their values on the other sheets.
+- The Jacobi–Anger expansions and Graf's addition theorem (its §§4.1–4.2), used for 8.4 and 8.5.
+- Sturm comparison (an auxiliary result of its 10.1): for `p > 0` of class `C¹` and continuous
+  `q₁ ≤ q₂` on an open interval, between consecutive zeros of a nontrivial real solution of
+  `(p u′)′ + q₁ u = 0` every real solution of `(p v′)′ + q₂ v = 0` vanishes, unless `q₁ = q₂` there
+  and `v` is a multiple of `u`. Used with `p = 1` in 3.1 and 3.3.
+
+`Suggested.lean` declares local copies of the Bessel definitions it needs, each with a docstring
+naming SpecialFunctionsBessel and its section, with the bodies of that roadmap.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- Pincherle's theorem
+  ([§4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)): for the
+  recurrence `y(n + 1) = b_n y(n) + a_n y(n − 1)` with every `a_n ≠ 0`, the continued fraction
+  `a₁/(b₁ + a₂/(b₂ + ⋯))`, as a `GenContFract` with head `0`, converges in the sense of that
+  roadmap's Conventions (eventually nonzero denominators, convergent convergents) iff the
+  recurrence has a minimal solution `f` with `f(0) ≠ 0`, and the value is then `−f(1)/f(0)`. 7.3
+  applies it with `b_n = β_n`, `a_n = −α_n`, shifted to start at the index of each tail.
+
+### From [AutomorphicSpectralTheory](../AutomorphicSpectralTheory/README.md)
+
+- Measurable Hilbert–Schmidt kernels (its §0.8): on σ-finite standard Borel measure spaces, the
+  integral operator of a square-integrable kernel `K` is Hilbert–Schmidt with Hilbert–Schmidt norm
+  `‖K‖₂`. 6.1 applies it on `[0, 2π]` with Lebesgue measure to the continuous Green kernel, and
+  concludes compactness by Tau Ceti's
+  `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`.
+
+### From Tau Ceti
+
+- `TauCeti.dysonSeries`, `TauCeti.dysonSeriesLeft`, `TauCeti.hasDerivAt_dysonSeriesLeft`
+  (`TauCeti/Analysis/ODE/DysonSeries.lean`): global solutions on `ℝ` of `Γ′ = p Γ` for continuous
+  `p` with values in a real Banach algebra. 1.1 takes `p(x) = [[0, 1], [−(λ + Q(x)), 0]]` in
+  `Matrix (Fin 2) (Fin 2) ℂ`.
+- `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`), the real-valued
+  constancy of the Wronskian; 1.1 proves the complex-valued version beside it.
+- `TauCeti.norm_fourierCoeff_le_of_differentiableOn_strip` (`TauCeti/Analysis/Fourier/Decay.lean`)
+  and the uniqueness theorems of `TauCeti/Analysis/Fourier/Uniqueness.lean`: Fourier coefficients
+  of a function holomorphic and bounded on a strip decay exponentially; a function with vanishing
+  Fourier coefficients vanishes almost everywhere. Used in 2.2, 4.2, 4.5, 6.3.
+- `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector`
+  (`TauCeti/Analysis/InnerProductSpace/Spectrum.lean`): a compact symmetric operator has a Hilbert
+  basis of eigenvectors. Used in 6.1.
+- `ContinuousLinearMap.isCompactOperator_of_hilbertSchmidtEnergy_ne_top`
+  (`TauCeti/Analysis/InnerProductSpace/HilbertSchmidt/Columns.lean`): an operator of finite
+  Hilbert–Schmidt energy is compact. Used in 6.1.
+- `Matrix.abv_det_le_prod_sum_abv` (`TauCeti/LinearAlgebra/Matrix/AbsoluteValue.lean`), Hadamard's
+  bound by row sums, and `Matrix.principalMinor` (`TauCeti/LinearAlgebra/Matrix/Minor.lean`). Used
+  for the infinite determinants of 2.3.
+- `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff` (`TauCeti/Analysis/Analytic/Inverse.lean`),
+  the analytic implicit root theorem, and `TauCeti.rouche`
+  (`TauCeti/Analysis/Complex/Conformal/Rouche.lean`). Used in 3.2, 3.4, 7.1 and 7.4.
+- `TauCeti.Polynomial.exists_analyticOnNhd_prod_X_sub_C_powerSubstitution_ball`
+  (`TauCeti/Analysis/Polynomial/Puiseux/Monic.lean`): a monic degree-`d` family, analytic and
+  separable off a hyperplane, splits into analytic linear factors after the substitution `t ↦ tⁿ`
+  for any nonzero multiple `n` of `d!`. Used for the Puiseux expansions in 7.4.
+
+### From Mathlib
+
+- `ODE_solution_unique`, `ODE_solution_unique_of_mem_Icc`, `gronwallBound` and
+  `norm_le_gronwallBound_of_norm_deriv_right_le`, for uniqueness and the estimates in 1.1, 3.2.
+- `HasFPowerSeriesOnBall`, Cauchy's estimates, `AnalyticOnNhd`,
+  `TendstoLocallyUniformlyOn.differentiableOn`, for 1.2.
+- `Laplacian.laplacian` and `InnerProductSpace.laplacian_eq_iteratedFDeriv_complexPlane`, for
+  1.4.
+- `Matrix.det` and `Matrix.of`, for 2.3.
+- `fourierCoeff`, `fourierBasis`, `hasSum_fourier_series_of_summable`, `tsum_sq_fourierCoeff`,
+  for 4.2, 6.1, 6.3.
+- `IsCompactOperator`, `LinearMap.IsSymmetric`, `MeasureTheory.Lp`, for 6.1.
+- `Complex.besselJ` and `Complex.besselJ_neg_int`, for 6.2, 8.4 and 8.5.
+- `intervalIntegral` and its change-of-variables lemmas, `Real.cos`, `Complex.cosh`, throughout.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 

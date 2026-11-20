@@ -21,7 +21,8 @@ carry a Lean name, each with every conclusion the README attaches to it. It is n
 acceptance test: the other targets of the README have the same standing, stated in prose.
 Discharging this file finishes neither a layer nor the roadmap.
 
-Every bold headline of the README is stated here. Of the prose targets without a Lean name, the
+Every bold headline of the README is stated here, and so are the expansion theorem of README 6.1
+and the exceptional sets of README 7.4. Of the prose targets without a Lean name, the
 classification of the singular points of DLMF 28.2.2 (README 1.4) needs AsymptoticExpansions'
 notions of regular and irregular singular points, the expansions in Mathieu functions (README
 6.3–6.4) and the integrals of README 8.5 beyond 28.28.11 need the Fourier-coefficient and
@@ -35,8 +36,9 @@ conventions are checked by the compiler: the basic solutions by their initial va
 characteristic values as ordered real roots of the four boundary functions, the signs
 `ce_n(0) > 0`, `se_n′(0) > 0`, `me_ν(0) > 0`, and the modified functions `M^{(j)}_ν` by their
 Hankel behaviour at `+∞`. The Bessel functions `Y`, `H⁽¹⁾`, `H⁽²⁾` are local copies of the
-definitions of SpecialFunctionsBessel (its Conventions and 1.2), with that roadmap's bodies; `besselJLog` is the continued evaluation of README Conventions that the global expansions
-of README 8.4 use. Theorems are stated with `sorry`. The section numbers in docstrings are those
+definitions of SpecialFunctionsBessel (its Conventions and 1.2), with that roadmap's bodies;
+`besselJLog` is the continued evaluation of README Conventions that the global expansions of
+README 8.4 use. Theorems are stated with `sorry`. The section numbers in docstrings are those
 of the README; equation numbers are DLMF's.
 -/
 
@@ -501,13 +503,17 @@ def mathieuGeS (n : ℕ) (q : ℝ) : ℝ :=
   else SignType.sign (mathieuGeT n q) *
     √(π / ∫ x in (0 : ℝ)..2 * π, ‖mathieuGeG n q x‖ ^ 2)
 
-/-- `fe_n(z, q) = C_n(q) (z ce_n(z, q) + f_n(z, q))` (DLMF 28.5.1). -/
+/-- `fe_n(z, q) = C_n(q) (z ce_n(z, q) + f_n(z, q))` for `q ≠ 0` (DLMF 28.5.1); at `q = 0` the
+values of DLMF 28.5.7, `fe_0 = z` and `fe_n = sin nz` for `n ≥ 1`. -/
 def mathieuFe (n : ℕ) (q : ℝ) (z : ℂ) : ℂ :=
-  mathieuFeC n q * (z * mathieuCe n q z + mathieuFeF n q z)
+  if q = 0 then (if n = 0 then z else Complex.sin (n * z))
+  else mathieuFeC n q * (z * mathieuCe n q z + mathieuFeF n q z)
 
-/-- `ge_n(z, q) = S_n(q) (z se_n(z, q) + g_n(z, q))` (DLMF 28.5.2). -/
+/-- `ge_n(z, q) = S_n(q) (z se_n(z, q) + g_n(z, q))` for `q ≠ 0` (DLMF 28.5.2); at `q = 0` the
+values `ge_n = cos nz` of DLMF 28.5.7 for `n ≥ 1` (`ge_0` is not used). -/
 def mathieuGe (n : ℕ) (q : ℝ) (z : ℂ) : ℂ :=
-  mathieuGeS n q * (z * mathieuSe n q z + mathieuGeG n q z)
+  if q = 0 ∧ n ≠ 0 then Complex.cos (n * z)
+  else mathieuGeS n q * (z * mathieuSe n q z + mathieuGeG n q z)
 
 /-- DLMF 28.5.6, second relation, corrected: `C_{2m+1}(−q) = −S_{2m+1}(q)`. -/
 theorem mathieuFeC_odd_neg (m : ℕ) (q : ℝ) :
@@ -561,6 +567,35 @@ theorem whittakerHill_of_ince {ξ η p : ℂ} {w : ℂ → ℂ} (hw : Differenti
         (w z * cexp (-(ξ * Complex.cos (2 * z)) / 4)) = 0 := by
   sorry
 
+/-! ## Layer 6: integral operators and eigenfunction expansions -/
+
+/-- README 6.1, the expansion theorem: for the merged sequence `λ̂₀ ≤ λ̂₁ ≤ ⋯` of the roots of
+`Δ − 2` and `Δ + 2`, with multiplicity, there are real `2π`-periodic solutions `w_m` for `λ̂_m`,
+orthonormal for `dx/2π` on `[0, 2π]` and complete (Parseval for every `f ∈ L²(0, 2π)`, so a Hilbert
+basis), and every `2π`-periodic `f` with `f`, `f′` absolutely continuous and `f″ ∈ L²(0, 2π)`
+(stated as: `f` is `C¹` and `f′(x) = f′(0) + ∫₀ˣ g` with `g ∈ L²(0, 2π)`) is the sum of its
+expansion, absolutely at every point and uniformly. -/
+theorem hill_expansion (hQ : Continuous Q) (hper : Function.Periodic Q π) :
+    ∃ (lamHat : ℕ → ℝ) (w : ℕ → ℝ → ℝ),
+      Monotone lamHat ∧
+      (∀ t : ℝ, Nat.card {m : ℕ // lamHat m ≤ t} =
+        realRootCount (fun lam => hillDiscriminant Q lam - 2) t +
+          realRootCount (fun lam => hillDiscriminant Q lam + 2) t) ∧
+      (∀ m, IsHillSolution Q (lamHat m) (fun x => (w m x : ℂ)) ∧
+        Function.Periodic (w m) (2 * π)) ∧
+      (∀ m n, 1 / (2 * π) * ∫ x in (0 : ℝ)..2 * π, w m x * w n x = if m = n then 1 else 0) ∧
+      (∀ f : ℝ → ℂ, MemLp f 2 (volume.restrict (Ioc 0 (2 * π))) →
+        HasSum (fun m => ‖1 / (2 * π) * ∫ x in (0 : ℝ)..2 * π, f x * w m x‖ ^ 2)
+          (1 / (2 * π) * ∫ x in (0 : ℝ)..2 * π, ‖f x‖ ^ 2)) ∧
+      (∀ f g : ℝ → ℂ, Function.Periodic f (2 * π) → ContDiff ℝ 1 f →
+        MemLp g 2 (volume.restrict (Ioc 0 (2 * π))) →
+        (∀ x, deriv f x = deriv f 0 + ∫ t in (0 : ℝ)..x, g t) →
+        (∀ x, Summable fun m =>
+          ‖(1 / (2 * π) * ∫ t in (0 : ℝ)..2 * π, f t * w m t) * w m x‖) ∧
+        TendstoUniformly (fun N x => ∑ m ∈ Finset.range N,
+          (1 / (2 * π) * ∫ t in (0 : ℝ)..2 * π, f t * w m t) * w m x) f atTop) := by
+  sorry
+
 /-! ## Layer 7: dependence on `q` -/
 
 /-- DLMF 28.6.1 through `q⁴`: `a₀` is the restriction of a function holomorphic at `0` with
@@ -593,6 +628,20 @@ def mathieuTail (a q : ℝ) : ℕ → ℕ → ℝ
 `a₀ = −2q²/(4 − a₀ − q²/(16 − a₀ − ⋯))`. -/
 theorem tendsto_mathieuTail_mathieuA_zero (q : ℝ) :
     Tendsto (fun N => -2 * mathieuTail (mathieuA 0 q) q 2 N) atTop (𝓝 (mathieuA 0 q)) := by
+  sorry
+
+/-- README 7.4: `q ∈ ℂ` is exceptional for `F` if `F(·, q)` has a multiple root. -/
+def mathieuExceptionalSet (F : ℂ → ℂ → ℂ) : Set ℂ :=
+  {q | ∃ a, F a q = 0 ∧ deriv (fun b => F b q) a = 0}
+
+/-- README 7.4: for each of `F^{(1)} = w_I′(π/2)`, `F^{(2)} = w_II(π/2)`, `F^{(3)} = w_I(π/2)` and
+`F^{(3′)} = w_II′(π/2)`, the exceptional set is closed, discrete and disjoint from `ℝ`. -/
+theorem mathieuExceptionalSet_closed_discrete :
+    ∀ F ∈ ({fun a q => deriv (mathieuWI a q) (π / 2), fun a q => mathieuWII a q (π / 2),
+        fun a q => mathieuWI a q (π / 2), fun a q => deriv (mathieuWII a q) (π / 2)} :
+        Set (ℂ → ℂ → ℂ)),
+      IsClosed (mathieuExceptionalSet F) ∧ DiscreteTopology (mathieuExceptionalSet F) ∧
+        ∀ x : ℝ, (x : ℂ) ∉ mathieuExceptionalSet F := by
   sorry
 
 /-- DLMF 28.7.1: `∑ₙ (a_{2n}(q) − (2n)²) = 0`. -/
@@ -678,10 +727,10 @@ theorem tendsto_norm_modifiedMathieuM_three (ν : ℝ) {h : ℝ} (hh : 0 < h) :
   sorry
 
 /-- DLMF 28.28.11 for integer order, with the factor `e^{inπ/2} = iⁿ` in place of DLMF's
-`e^{inπ}`, under 28.28.10. -/
+`e^{inπ}`, for `Re z > 0` and `0 < Im z < π` (README 8.5; DLMF's 28.28.10 alone is invariant
+under `z ↦ −z`, which `Mc^{(3)}_n` is not). -/
 theorem integral_exp_mul_mathieuCe (n : ℕ) {h : ℝ} (hh : 0 < h) {z : ℂ}
-    (hz₁ : 0 < arg (h * (Complex.cosh z + 1))) (hz₂ : arg (h * (Complex.cosh z + 1)) < π)
-    (hz₃ : 0 < arg (h * (Complex.cosh z - 1))) (hz₄ : arg (h * (Complex.cosh z - 1)) < π) :
+    (hz₁ : 0 < z.re) (hz₂ : 0 < z.im) (hz₃ : z.im < π) :
     ∫ t in Ioi (0 : ℝ),
         cexp (2 * I * h * Complex.cosh z * Real.cosh t) * mathieuCe n (h ^ 2) (I * t) =
       π * I / 2 * I ^ n * mathieuCe n (h ^ 2) 0 * radialMathieuMc 3 n h z := by
@@ -693,7 +742,8 @@ of README 4.5. -/
 theorem not_summable_besselJ_series {ν : ℝ} (hν : ∀ m : ℤ, (m : ℝ) ≠ ν) {h : ℝ} (hh : 0 < h)
     {z : ℂ} (hz₀ : 0 < ‖Complex.cosh z‖) (hz₁ : ‖Complex.cosh z‖ < 1) :
     ¬ Summable (fun n : ℤ =>
-      (-1) ^ n * (mathieuCoeff ν n (h ^ 2) : ℂ) * besselJ (ν + 2 * n) (2 * h * Complex.cosh z)) := by
+      (-1) ^ n * (mathieuCoeff ν n (h ^ 2) : ℂ) *
+        besselJ (ν + 2 * n) (2 * h * Complex.cosh z)) := by
   sorry
 
 /-! ## Mathlib and Tau Ceti declarations named in README.md -/
