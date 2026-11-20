@@ -2623,8 +2623,8 @@ Jacobian; `Fin p` fixes the order of the coordinates.
   space is a homeomorphism for it: a topology transported from the coordinates would be a second,
   only propositionally equal, structure on the same type.
 - For `p = 2` and `L = [[x, 0], [y, z]]`, the lower coordinates of `L * Lᵀ` are
-  `(x², xy, y² + z²)`, whose Jacobian determinant is `4x²z = 2² · x^(2 − 0) · z^(2 − 1)`. Counting rows
-  from one, with exponents `p − i + 1`, would give `4x³z²` instead.
+  `(x², xy, y² + z²)`, whose Jacobian determinant is `4x²z = 2² · x^(2 − 0) · z^(2 − 1)`. Applying
+  the one-based exponent `p − i + 1` to the zero-based index `i.val` would give `4x³z²` instead.
 
 ### 6.3 Multivariate Gamma
 
@@ -3252,11 +3252,13 @@ measurable on `α × (0, 1)` (`MeasureTheory.Measure.measurable_quantile_cdf_fam
 
 The quantile realizes every real law from a uniform variable: for a probability law `μ`, the image
 of Lebesgue measure on `(0, 1)` under `Q` is `μ` (`MeasureTheory.Measure.map_quantile_volume_Ioo`,
-`MeasureTheory.Measure.measurePreserving_quantile`). Prove the same identity for the interval
-uniform law of §0.3 (`map_uniform_quantile`): `(uniformMeasure 0 1).map μ.quantile = μ` with `uniformMeasure 0 1` the law
-`TauCeti.Probability.uniformMeasure 0 1` on `(0, 1]`; the two reference measures differ by the null
-set `{1}`. For an atomless probability law the probability integral transform holds: the image of
-`μ` under `F` is Lebesgue measure on `[0, 1]` (`MeasureTheory.Measure.cdf_map_eq_volume_restrict`).
+`MeasureTheory.Measure.measurePreserving_quantile`). The same holds for the interval uniform law
+`TauCeti.Probability.uniformMeasure 0 1` of §0.3, `(uniformMeasure 0 1).map μ.quantile = μ`: that
+law is Lebesgue measure on `(0, 1]` (`TauCeti.Probability.uniformMeasure_eq_smul`), which agrees
+with Lebesgue measure on `(0, 1)` because `{1}` is null
+(`MeasureTheory.restrict_Ioo_eq_restrict_Ioc`). For an atomless probability law the probability
+integral transform holds: the image of `μ` under `F` is Lebesgue measure on `[0, 1]`
+(`MeasureTheory.Measure.cdf_map_eq_volume_restrict`).
 In `EReal`, the one-sided limits of `Q` and of `Q⁺` at `0⁺` and `1⁻` are the infimum and the
 supremum of the topological support, including infinite endpoints
 (`MeasureTheory.Measure.tendsto_quantile_nhdsGT_zero`,
@@ -3301,7 +3303,8 @@ label `ℓ`, `Q(u) = x` iff `μ(ℓ < x) < u ≤ μ(ℓ ≤ x)` (`MeasureTheory.
 *Needs:* Mathlib `ProbabilityTheory.cdf`, `MeasureTheory.ProbabilityMeasure`, `EReal`,
 `MeasureTheory.Measure.support`; Tau Ceti `Probability/Quantile.lean`, `Probability/Quantile/Map.lean`,
 `Probability/Quantile/Discrete.lean`, `Probability/Quantile/Finite.lean`, `Probability/Cdf.lean`,
-`TauCeti.Probability.uniformMeasure`; §7.1; §0.3, §0.5; §1.1.
+`TauCeti.Probability.uniformMeasure`, `TauCeti.Probability.uniformMeasure_eq_smul`; Mathlib
+`MeasureTheory.restrict_Ioo_eq_restrict_Ioc`; §7.1; §0.3, §0.5; §1.1.
 
 **Checks.**
 
@@ -7107,7 +7110,8 @@ with degree `2b` (`TauCeti.Probability.chiSquaredMeasure (2 * b)`, §3.5)
 zero measure (`TauCeti.Probability.noncentralBetaMeasure_of_not`), and the law is a probability
 measure exactly when `a ≥ 0` and `b > 0`
 (`TauCeti.Probability.isProbabilityMeasure_noncentralBetaMeasure_iff`) (R noncentral Beta
-documentation, ratio and Poisson-mixture conventions; Johnson, Kotz and Balakrishnan, vol. 2). The
+documentation, Details, ratio and Poisson-mixture conventions; Johnson, Kotz and Balakrishnan,
+vol. 2, pp. 502–503, where the R documentation locates both definitions). The
 numerator shape `a = 0` is allowed and is specified explicitly below.
 
 Prove that the denominator is almost surely positive: for `a ≥ 0`, `b > 0` and `λ ≥ 0`, under the
@@ -8245,7 +8249,7 @@ coordinate laws above.
   three; a normalization by the volume `π^(d/2)/Γ(d/2 + 1)` of the ball instead would give `2`, `π`
   and `4π/3`.
 - In dimension three a sphere coordinate is uniform on `[−1, 1]` (the parameters are `(1, 1)`), with
-  variance `1/3 = 1/d`; parameters `(d/2, d/2)` would give the semicircle law, of variance `1/5`.
+  variance `1/3 = 1/d`; parameters `(d/2, d/2)` would give the semicircle law, of variance `1/4`.
 - In dimension one the uniform sphere law is two-point, not uniform on `[−1, 1]`; the ball
   covariance `r²/(d + 2)` gives `r²/3`, the variance of the uniform law on `[−r, r]`, whereas `r²/d`
   would give `r²`.
@@ -9358,9 +9362,9 @@ theorem on positive-definite functions. The characteristic functions are compute
 ### 15.1 Parameters and exponent
 
 The stable law `S₀(α, β, s, m)` is `TauCeti.Probability.stableMeasure α β s m`, with `α, β, m ∈ ℝ`
-and `s ≥ 0` (`s : ℝ≥0`), in Nolan's `S₀` convention (Nolan 2020, introductory chapter). The valid
-shapes are `0 < α ≤ 2` and `−1 ≤ β ≤ 1`. Shape validity is checked first. An invalid shape gives the
-zero measure at every scale and location, even at `s = 0`
+and `s ≥ 0` (`s : ℝ≥0`), in Nolan's `S₀` convention (Nolan 2020, introductory chapter,
+Definition 1.7). The valid shapes are `0 < α ≤ 2` and `−1 ≤ β ≤ 1`. Shape validity is checked
+first. An invalid shape gives the zero measure at every scale and location, even at `s = 0`
 (`TauCeti.Probability.stableMeasure_of_invalid`, `TauCeti.Probability.stableMeasure_of_not_valid`).
 A valid shape with `s = 0` gives `δ_m` (`TauCeti.Probability.stableMeasure_zero_scale`), and every
 valid shape gives a probability measure (`TauCeti.Probability.isProbabilityMeasure_stableMeasure`).
@@ -9395,7 +9399,8 @@ The `S₁` location is `TauCeti.Probability.stableS1Location α β s m = m − h
     h_α(β, s) = β s tan(πα/2)    (α ≠ 1),      h_1(β, s) = (2/π) β s log s
 
 (`TauCeti.Probability.stableS1Location_zero_scale`,
-`TauCeti.Probability.stableS1Location_of_ne_one`, `TauCeti.Probability.stableS1Location_one`).
+`TauCeti.Probability.stableS1Location_of_ne_one`, `TauCeti.Probability.stableS1Location_one`; Nolan
+2020, introductory chapter, (1.7)).
 Writing `d` for it, the characteristic exponent takes the `S₁` form
 `−|st|^α + i(dt + β sign(t)|st|^α tan(πα/2))` for `α ≠ 1`, and `−|st| + i(dt − (2/π)βst log|t|)` for
 `α = 1`, without a parallel family of measures
@@ -9547,11 +9552,12 @@ nonnegative and continuous everywhere (`TauCeti.Probability.stablePDFReal_nonneg
 **Support.** Prove `support_stableMeasure`: for valid shapes, the exact topological support of
 `S₀(α, β, s, m)` with `s > 0` is `[d, ∞)`
 for `0 < α < 1`, `β = 1`, is `(−∞, d]` for `0 < α < 1`, `β = −1`, and is `ℝ` in every other valid
-case, fully skewed `α ≥ 1` included. Here `d` is the `S₁` location of §15.1. Prove both that the law
-is concentrated on the claimed set and that every open interval meeting its interior has positive
-mass. Route: independent large-jump and small-jump decompositions of §15.2's compensated
-compound-Poisson construction. These require variance control of the centred small-jump remainder
-and positive probability for prescribed finite collections of jump intervals. For `α < 1` with full
+case, fully skewed `α ≥ 1` included (Nolan 2020, introductory chapter, Lemma 1.10). Here `d` is the
+`S₁` location of §15.1. Prove both that the law is concentrated on the claimed set and that every
+open interval meeting its interior has positive mass. Route: independent large-jump and
+small-jump decompositions of §15.2's compensated compound-Poisson construction. These require
+variance control of the centred small-jump remainder and positive probability for prescribed finite
+collections of jump intervals. For `α < 1` with full
 skewness, integrability of the jump size near zero identifies the endpoint `d`, and the one-sided
 support follows from the nonnegative jumps, or by reflection. For `α ≥ 1` with full skewness the
 small-jump centring diverges, and positive jumps alone do not confine the centred law to a
@@ -9609,14 +9615,17 @@ are those of §15.1.
 ### 15.5 Moments and tails
 
 For `s > 0`, `0 < α < 2` and real `q > 0`, prove that `|x|^q` is integrable exactly when `q < α`
-(`integrable_rpow_abs_stableMeasure_iff`).
+(`integrable_rpow_abs_stableMeasure_iff`; Nolan 2020, introductory chapter, p. 15 and Problem 1.11).
 Prove that the mean is the `S₁` location `d` when `α > 1`, and that `id` is not integrable when
-`α ≤ 1`. In particular the second moment is not integrable for any positive-scale non-Gaussian
-stable law. The Gaussian (`α = 2`) and Dirac (`s = 0`) cases are those of §1.10 and §0.5.
+`α ≤ 1` (Nolan 2020, introductory chapter, Proposition 1.13 and p. 16). In particular the second
+moment is not integrable for any positive-scale non-Gaussian stable law. The Gaussian (`α = 2`) and
+Dirac (`s = 0`) cases are those of §1.10 and §0.5.
 
 For `s > 0` and `0 < α < 2`, with `C_α = Γ(α) sin(πα/2)/π`
 (`TauCeti.Probability.stableTailConstant`), prove the tail limits
-(`tendsto_rpow_mul_stableMeasure_Ioi`, `tendsto_rpow_mul_stableMeasure_Iio`)
+(`tendsto_rpow_mul_stableMeasure_Ioi`, `tendsto_rpow_mul_stableMeasure_Iio`; Nolan 2020,
+introductory chapter, Theorem 1.12 and its reflected form, pp. 14–15, stated there as asymptotic
+equivalences for `β ≠ −1` on the right and `β ≠ 1` on the left)
 
     x^α μ((x, ∞)) → C_α s^α (1 + β),      x^α μ((−∞, −x)) → C_α s^α (1 − β)    (x → ∞).
 
@@ -9753,8 +9762,10 @@ pseudoinverse (§5.4), correlation coordinates (§14.1–§14.2), and the generi
 compound and mixed Poisson laws, folding and censoring, tilting identities, hazards, weak continuity,
 weighted laws, and the scalar stochastic order with its parameter comparisons). It owns the
 non-identical Bernoulli-sum theorem (§9.4) and the explicit log-normal moment-indeterminacy example
-(§3.3). Constructions of laws from random variables are in scope, as product-measure pushforwards
-and their `ProbabilityTheory.HasLaw` corollaries.
+(§3.3). It owns the real Wick–Isserlis formula (§5.3): RandomMatrices, which consumes Layer 5, takes
+the real case of its §2.5 from here and owns the complex formula and Gaussian integration by parts.
+Constructions of laws from random variables are in scope, as product-measure pushforwards and their
+`ProbabilityTheory.HasLaw` corollaries.
 
 **What the pinned library already states.** The pinned Tau Ceti and Mathlib already prove most of
 what the layers state: every fact the layers give with a declaration name is such a statement, and
@@ -9770,10 +9781,9 @@ state, and which this roadmap asks for, are:
   of its real-power moments below the threshold (§5.6);
 - the exact almost-sure rank of the Gaussian-Gram law, and the congruence image of the nonsingular
   law under a rank-deficient map at natural degrees (§6.4);
-- affine maps commuting with convolution, the quantile pushing the uniform law forward to `μ`, the
-  density and integration formulas of a conditional law, the domain of a finite mixture, and the weak
-  continuity of finite mixtures with converging weights, and the rank-change statement for the
-  joint laws of `(Z, tZ)` (§7.1–§7.4, §7.11);
+- affine maps commuting with convolution, the density and integration formulas of a conditional
+  law, the domain of a finite mixture, and the weak continuity of finite mixtures with converging
+  weights, and the rank-change statement for the joint laws of `(Z, tZ)` (§7.1, §7.3, §7.4, §7.11);
 - the joint smoothness of the Gaussian lattice sum and the locally uniform convergence of the
   lattice and periodized series (§8.3), joint measurability of the inverse incomplete Beta function
   (§8.4), and the permutation construction of the negative hypergeometric law (§9.3);
@@ -9826,12 +9836,12 @@ samplers, privacy theorems or SampCert's programming interface. statlib concerns
 inference, which is outside this roadmap. Neither project supplies code here.
 
 **Mathlib designs.** Where Mathlib states a declaration at the pin, the roadmap uses it. Its
-interfaces follow the Mathlib design proposals listed under References (binomial mean and variance,
+interfaces follow the Mathlib design proposals listed under References (binomial variance,
 exponential moments and memorylessness, the real error functions, the lower quantile, Bessel
-functions, finite uniform measures, `PMF`s versus measures): `MeasureTheory.Measure.quantile` is the
-quantile, the finite uniform laws are Mathlib's uniform measures on finite sets, and the Bessel
-representation and endpoint choices of §8.1 are those of the Bessel proposal. Nothing in the roadmap
-waits for any of these proposals.
+functions, `PMF`s versus measures): `MeasureTheory.Measure.quantile` is the quantile, the finite
+uniform laws are Mathlib's uniform measures on finite sets, and the Bessel representation and
+endpoint choices of §8.1 are those of the Bessel proposal. Nothing in the roadmap waits for any of
+these proposals.
 
 ## Exact supplier contracts
 
@@ -9842,7 +9852,8 @@ roadmap's own and are not listed.
 
 ### From Mathlib
 
-Paths are under `Mathlib/`.
+Paths are under `Mathlib/`. `Nat.succ` (§9.10) is not Mathlib's: it is a constructor of Lean
+core's `Nat`, in `Init/Prelude.lean` of the Lean toolchain.
 
 - Conventions. `Probability/HasLaw.lean`: `ProbabilityTheory.HasLaw`; `Probability/Density.lean`: `MeasureTheory.HasPDF`; `Probability/Independence/Basic.lean`: `ProbabilityTheory.iIndepFun`; `MeasureTheory/Measure/GiryMonad.lean`: `MeasureTheory.Measure.bind`; `Probability/CDF.lean`: `ProbabilityTheory.cdf`; `Probability/Moments/CovarianceBilin.lean`: `ProbabilityTheory.covarianceBilin`; `LinearAlgebra/Matrix/Defs.lean`: `Matrix.of`; `Analysis/SpecialFunctions/Pow/Real.lean`: `Real.rpow`; `Analysis/SpecialFunctions/Pow/Complex.lean`: `Complex.cpow`; `Analysis/InnerProductSpace/PiL2.lean`: `Matrix.toEuclideanLin`; `Probability/Distributions/Gamma.lean`: `ProbabilityTheory.gammaMeasure`; `Geometry/Convex/ConvexSpace/Defs.lean`: `Convexity.StdSimplex`; `MeasureTheory/Function/Jacobian.lean`: `MeasureTheory.map_withDensity_abs_det_fderiv_eq_addHaar`, `MeasureTheory.restrict_map_withDensity_abs_det_fderiv_eq_addHaar`, `MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul`, `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`; `MeasureTheory/Measure/MeasureSpaceDef.lean`: `MeasureTheory.Measure`; `MeasureTheory/Group/Convolution.lean`: `MeasureTheory.Measure.conv`; `Probability/ConditionalProbability.lean`: `ProbabilityTheory.cond`; `MeasureTheory/Measure/Tilted.lean`: `MeasureTheory.Measure.tilted`; `Probability/Kernel/Defs.lean`: `ProbabilityTheory.Kernel`.
 - §0.1. `Probability/Distributions/Gaussian/Real.lean`: `ProbabilityTheory.gaussianPDF_zero_var`, `ProbabilityTheory.gaussianReal`; `Probability/Density.lean`: `MeasureTheory.pdf`; `MeasureTheory/Measure/WithDensity.lean`: `MeasureTheory.Measure.withDensity`; `Probability/Distributions/Beta.lean`: `ProbabilityTheory.betaMeasure`; `Probability/Distributions/Exponential.lean`: `ProbabilityTheory.expMeasure`; `Probability/Distributions/Cauchy.lean`: `ProbabilityTheory.cauchyMeasure`; `Probability/Distributions/Pareto.lean`: `ProbabilityTheory.paretoMeasure`.
@@ -9884,6 +9895,7 @@ Paths are under `Mathlib/`.
 - §6.5. `MeasureTheory/Measure/Restrict.lean`: `map_comap_subtype_coe`; `MeasureTheory/Measure/Comap.lean`: `MeasureTheory.Measure.comap`.
 - §6.8. `LinearAlgebra/Matrix/SchurComplement.lean`: `Matrix.invOf_fromBlocks₂₂_eq`.
 - §7.1. `MeasureTheory/Measure/Typeclasses/Probability.lean`: `MeasureTheory.Measure.isProbabilityMeasure_map_iff`; `Probability/HasLaw.lean`: `ProbabilityTheory.HasLaw.comp`, `ProbabilityTheory.hasLaw_map`; `MeasureTheory/Measure/Dirac/Basic.lean`: `MeasureTheory.Measure.map_const`; `MeasureTheory/Group/Convolution.lean`: `MeasureTheory.Measure.map_conv_addMonoidHom`, `MeasureTheory.Measure.conv_dirac`.
+- §7.2. `MeasureTheory/Measure/Typeclasses/NullSingletonClass.lean`: `MeasureTheory.restrict_Ioo_eq_restrict_Ioc`.
 - §7.3. `Probability/ConditionalProbability.lean`: `ProbabilityTheory.cond_isProbabilityMeasure_of_finite`, `ProbabilityTheory.cond_apply`, `ProbabilityTheory.cond_eq_zero_of_meas_eq_zero`.
 - §7.4. `MeasureTheory/Measure/ProbabilityMeasure.lean`: `MeasureTheory.isProbabilityMeasure_bind`; `MeasureTheory/Measure/GiryMonad.lean`: `MeasureTheory.Measure.bind_congr_right`, `MeasureTheory.Measure.map_bind`, `MeasureTheory.Measure.bind_map`, `MeasureTheory.Measure.bind_apply`, `MeasureTheory.Measure.lintegral_bind`.
 - §7.7. `MeasureTheory/Group/Measure.lean`: `MeasureTheory.Measure.IsNegInvariant`; `Order/Interval/Set/ProjIcc.lean`: `Set.projIcc`, `Set.projIci`, `Set.projIic`.
@@ -9896,7 +9908,6 @@ Paths are under `Mathlib/`.
 - §9.1. `Probability/UniformOn.lean`: `ProbabilityTheory.isProbabilityMeasure_uniformOn`, `ProbabilityTheory.uniformOn`; `MeasureTheory/Measure/Typeclasses/Probability.lean`: `MeasureTheory.IsProbabilityMeasure`; `MeasureTheory/MeasurableSpace/Basic.lean`: `measurable_of_countable`; `Probability/Distributions/Uniform.lean`: `MeasureTheory.Measure.uniformOfFinset`.
 - §9.6. `MeasureTheory/Measure/TotalVariation/Defs.lean`: `MeasureTheory.tvDist`.
 - §9.7. `Analysis/SpecialFunctions/Complex/Log.lean`: `Complex.log`.
-- §9.10. `Init.lean`: `Nat.succ`.
 - §10.1. `Analysis/SpecialFunctions/Sigmoid.lean`: `Real.sigmoid`.
 - §10.2. `NumberTheory/Harmonic/EulerMascheroni.lean`: `Real.eulerMascheroniConstant`; `Analysis/SpecialFunctions/Gamma/Basic.lean`: `Complex.Gamma`; `MeasureTheory/Group/Measure.lean`: `MeasureTheory.Measure.neg`.
 - §10.7. `Analysis/RCLike/Sqrt.lean`: `Complex.sqrt`; `Probability/Moments/Basic.lean`: `ProbabilityTheory.mgf_neg`.
@@ -9976,7 +9987,7 @@ Paths are under `TauCeti/`.
 - §6.8. `Probability/Distributions/Wishart/Inverse/Marginal.lean`: `TauCeti.Probability.map_inv_inv_apply_nonsingularWishartMeasure`, `TauCeti.Probability.map_coe_apply_inverseWishartMeasure`, `TauCeti.Probability.hasLaw_inv_inv_apply_nonsingularWishartMeasure`, `TauCeti.Probability.hasLaw_coe_apply_inverseWishartMeasure`; `Probability/Distributions/Wishart/Inverse/Moments.lean`: `TauCeti.Probability.map_coe_apply_inverseWishartMeasure_one`; `MeasureTheory/Measure/SymmetricMatrix/Congruence.lean`: `Matrix.coe_symmetricCongruenceLinearMap_permMatrix_apply`, `Matrix.coe_symmetricCongruenceLinearMap_apply_self_of_apply_eq_zero`; `LinearAlgebra/Matrix/Cholesky/Basic.lean`: `Matrix.PosDef.exists_generalLinearGroup_mul_transpose_eq_and_apply_eq_zero`; `LinearAlgebra/Matrix/SchurComplement.lean`: `Matrix.PosDef.inv_inv_apply_self_eq_sub`; `Probability/Distributions/InverseGamma/Basic.lean`: `TauCeti.Probability.inverseGammaMeasure`.
 - Layer 7 (introduction). `Probability/Cdf.lean`: `MeasureTheory.Measure.leftLim_cdf`.
 - §7.1. `Probability/Distributions/Affine.lean`: `TauCeti.Probability.measurable_map_affine`, `TauCeti.Probability.map_affine_map_affine`, `TauCeti.Probability.affineDensity`, `TauCeti.Probability.map_affine_withDensity_volume`, `TauCeti.Probability.rnDeriv_map_affine`, `TauCeti.Probability.hasPDF_affine`, `TauCeti.Probability.pdf_affine`, `TauCeti.Probability.hasLaw_affine`, `TauCeti.Probability.cdf_map_affine_of_pos`, `TauCeti.Probability.cdf_map_affine_of_neg`, `TauCeti.Probability.memLp_id_map_affine_iff`, `TauCeti.Probability.integral_id_map_affine`, `TauCeti.Probability.variance_id_map_affine`, `TauCeti.Probability.moment_id_map_affine`, `TauCeti.Probability.centralMoment_id_map_affine`, `TauCeti.Probability.mgf_id_map_affine`, `TauCeti.Probability.integrableExpSet_id_map_affine`, `TauCeti.Probability.cgf_id_map_affine`, `TauCeti.Probability.charFun_map_affine`; `MeasureTheory/Measure/AtomMixture.lean`: `MeasureTheory.Measure.atomMixture`, `MeasureTheory.Measure.map_atomMixture`; `Probability/ConditionalProbability.lean`: `ProbabilityTheory.map_cond_preimage`; `Probability/Distributions/CompoundPoisson/Basic.lean`: `TauCeti.Probability.map_compoundPoissonMeasure`, `TauCeti.Probability.compoundPoissonMeasure`.
-- §7.2. `Probability/Quantile.lean`: `MeasureTheory.Measure.quantile_def`, `MeasureTheory.Measure.upperQuantile`, `MeasureTheory.Measure.upperQuantile_def`, `MeasureTheory.Measure.quantile_of_nonpos`, `MeasureTheory.Measure.quantile_of_one_lt`, `MeasureTheory.Measure.upperQuantile_of_neg`, `MeasureTheory.Measure.upperQuantile_of_one_le`, `MeasureTheory.Measure.bddBelow_setOf_le_cdf`, `MeasureTheory.Measure.nonempty_setOf_lt_cdf`, `MeasureTheory.Measure.bddBelow_setOf_lt_cdf`, `MeasureTheory.Measure.quantile_le_iff`, `MeasureTheory.Measure.le_upperQuantile_iff`, `MeasureTheory.Measure.upperQuantile_lt_iff`, `MeasureTheory.Measure.measureReal_Iio_quantile_le`, `MeasureTheory.Measure.le_cdf_quantile`, `MeasureTheory.Measure.measureReal_Iio_upperQuantile_le`, `MeasureTheory.Measure.le_cdf_upperQuantile`, `MeasureTheory.Measure.quantile_le_upperQuantile`, `MeasureTheory.Measure.upperQuantile_le_quantile`, `MeasureTheory.Measure.monotoneOn_quantile`, `MeasureTheory.Measure.monotoneOn_upperQuantile`, `MeasureTheory.Measure.measurable_quantile`, `MeasureTheory.Measure.measurable_upperQuantile`, `MeasureTheory.Measure.continuousWithinAt_Iio_quantile`, `MeasureTheory.Measure.continuousWithinAt_Ioi_upperQuantile`, `MeasureTheory.Measure.cdf_quantile`, `MeasureTheory.Measure.quantile_cdf`, `MeasureTheory.Measure.quantile_eq_of_cdf_eq`, `MeasureTheory.Measure.upperQuantile_eq_of_cdf_eq`, `MeasureTheory.Measure.quantile_eq_iff_of_ae_mem_of_strictMonoOn`, `Set.OrdConnected.quantile_mem`, `Set.OrdConnected.upperQuantile_mem`, `MeasureTheory.Measure.measurable_quantile_probabilityMeasure`, `MeasureTheory.Measure.measurable_upperQuantile_probabilityMeasure`, `MeasureTheory.Measure.measurable_quantile_cdf_family`, `MeasureTheory.Measure.measurable_upperQuantile_cdf_family`, `MeasureTheory.Measure.map_quantile_volume_Ioo`, `MeasureTheory.Measure.measurePreserving_quantile`, `MeasureTheory.Measure.cdf_map_eq_volume_restrict`, `MeasureTheory.Measure.tendsto_quantile_nhdsGT_zero`, `MeasureTheory.Measure.tendsto_quantile_nhdsLT_one`, `MeasureTheory.Measure.tendsto_upperQuantile_nhdsGT_zero`, `MeasureTheory.Measure.tendsto_upperQuantile_nhdsLT_one`; `Probability/Cdf.lean`: `MeasureTheory.Measure.nonempty_setOf_le_cdf`; `Probability/Distributions/Dirac.lean`: `MeasureTheory.Measure.quantile_dirac`, `MeasureTheory.Measure.upperQuantile_dirac`; `Probability/Distributions/Affine.lean`: `TauCeti.Probability.quantile_map_affine`, `TauCeti.Probability.quantile_map_affine_pos`, `TauCeti.Probability.quantile_map_affine_neg`, `TauCeti.Probability.upperQuantile_map_affine`, `TauCeti.Probability.upperQuantile_map_affine_pos`, `TauCeti.Probability.upperQuantile_map_affine_neg`; `Probability/Quantile/Map.lean`: `MeasureTheory.Measure.quantile_map_of_monotone`, `MeasureTheory.Measure.quantile_map_of_monotoneOn`, `MeasureTheory.Measure.quantile_map_of_antitoneOn`, `MeasureTheory.Measure.quantile_map_of_antitone`, `MeasureTheory.Measure.upperQuantile_map_of_monotone`, `MeasureTheory.Measure.upperQuantile_map_of_monotoneOn`, `MeasureTheory.Measure.upperQuantile_map_of_antitoneOn`, `MeasureTheory.Measure.quantile_map_exp`, `MeasureTheory.Measure.quantile_map_log`, `MeasureTheory.Measure.quantile_map_rpow`, `MeasureTheory.Measure.quantile_map_sqrt`, `MeasureTheory.Measure.quantile_map_inv`; `Probability/Quantile/Discrete.lean`: `MeasureTheory.Measure.quantile_map_natCast_eq_iff`, `MeasureTheory.Measure.quantile_map_intCast_eq_iff`, `MeasureTheory.Measure.quantile_map_natCast_eq_of_measureReal_Iic_eq_one`; `Probability/Quantile/Finite.lean`: `MeasureTheory.Measure.quantile_map_finite_eq_iff`.
+- §7.2. `Probability/Quantile.lean`: `MeasureTheory.Measure.quantile_def`, `MeasureTheory.Measure.upperQuantile`, `MeasureTheory.Measure.upperQuantile_def`, `MeasureTheory.Measure.quantile_of_nonpos`, `MeasureTheory.Measure.quantile_of_one_lt`, `MeasureTheory.Measure.upperQuantile_of_neg`, `MeasureTheory.Measure.upperQuantile_of_one_le`, `MeasureTheory.Measure.bddBelow_setOf_le_cdf`, `MeasureTheory.Measure.nonempty_setOf_lt_cdf`, `MeasureTheory.Measure.bddBelow_setOf_lt_cdf`, `MeasureTheory.Measure.quantile_le_iff`, `MeasureTheory.Measure.le_upperQuantile_iff`, `MeasureTheory.Measure.upperQuantile_lt_iff`, `MeasureTheory.Measure.measureReal_Iio_quantile_le`, `MeasureTheory.Measure.le_cdf_quantile`, `MeasureTheory.Measure.measureReal_Iio_upperQuantile_le`, `MeasureTheory.Measure.le_cdf_upperQuantile`, `MeasureTheory.Measure.quantile_le_upperQuantile`, `MeasureTheory.Measure.upperQuantile_le_quantile`, `MeasureTheory.Measure.monotoneOn_quantile`, `MeasureTheory.Measure.monotoneOn_upperQuantile`, `MeasureTheory.Measure.measurable_quantile`, `MeasureTheory.Measure.measurable_upperQuantile`, `MeasureTheory.Measure.continuousWithinAt_Iio_quantile`, `MeasureTheory.Measure.continuousWithinAt_Ioi_upperQuantile`, `MeasureTheory.Measure.cdf_quantile`, `MeasureTheory.Measure.quantile_cdf`, `MeasureTheory.Measure.quantile_eq_of_cdf_eq`, `MeasureTheory.Measure.upperQuantile_eq_of_cdf_eq`, `MeasureTheory.Measure.quantile_eq_iff_of_ae_mem_of_strictMonoOn`, `Set.OrdConnected.quantile_mem`, `Set.OrdConnected.upperQuantile_mem`, `MeasureTheory.Measure.measurable_quantile_probabilityMeasure`, `MeasureTheory.Measure.measurable_upperQuantile_probabilityMeasure`, `MeasureTheory.Measure.measurable_quantile_cdf_family`, `MeasureTheory.Measure.measurable_upperQuantile_cdf_family`, `MeasureTheory.Measure.map_quantile_volume_Ioo`, `MeasureTheory.Measure.measurePreserving_quantile`, `MeasureTheory.Measure.cdf_map_eq_volume_restrict`, `MeasureTheory.Measure.tendsto_quantile_nhdsGT_zero`, `MeasureTheory.Measure.tendsto_quantile_nhdsLT_one`, `MeasureTheory.Measure.tendsto_upperQuantile_nhdsGT_zero`, `MeasureTheory.Measure.tendsto_upperQuantile_nhdsLT_one`; `Probability/Cdf.lean`: `MeasureTheory.Measure.nonempty_setOf_le_cdf`; `Probability/Distributions/Dirac.lean`: `MeasureTheory.Measure.quantile_dirac`, `MeasureTheory.Measure.upperQuantile_dirac`; `Probability/Distributions/Affine.lean`: `TauCeti.Probability.quantile_map_affine`, `TauCeti.Probability.quantile_map_affine_pos`, `TauCeti.Probability.quantile_map_affine_neg`, `TauCeti.Probability.upperQuantile_map_affine`, `TauCeti.Probability.upperQuantile_map_affine_pos`, `TauCeti.Probability.upperQuantile_map_affine_neg`; `Probability/Quantile/Map.lean`: `MeasureTheory.Measure.quantile_map_of_monotone`, `MeasureTheory.Measure.quantile_map_of_monotoneOn`, `MeasureTheory.Measure.quantile_map_of_antitoneOn`, `MeasureTheory.Measure.quantile_map_of_antitone`, `MeasureTheory.Measure.upperQuantile_map_of_monotone`, `MeasureTheory.Measure.upperQuantile_map_of_monotoneOn`, `MeasureTheory.Measure.upperQuantile_map_of_antitoneOn`, `MeasureTheory.Measure.quantile_map_exp`, `MeasureTheory.Measure.quantile_map_log`, `MeasureTheory.Measure.quantile_map_rpow`, `MeasureTheory.Measure.quantile_map_sqrt`, `MeasureTheory.Measure.quantile_map_inv`; `Probability/Quantile/Discrete.lean`: `MeasureTheory.Measure.quantile_map_natCast_eq_iff`, `MeasureTheory.Measure.quantile_map_intCast_eq_iff`, `MeasureTheory.Measure.quantile_map_natCast_eq_of_measureReal_Iic_eq_one`; `Probability/Quantile/Finite.lean`: `MeasureTheory.Measure.quantile_map_finite_eq_iff`; `Probability/Distributions/Uniform/Basic.lean`: `TauCeti.Probability.uniformMeasure_eq_smul`.
 - §7.3. `Probability/ConditionalProbability.lean`: `Measurable.cond`, `Measurable.cond_const`, `Measurable.cond_preimage_Ioc`, `Measurable.cond_preimage_Icc`, `Measurable.cond_preimage_Ioo`, `Measurable.cond_preimage_Ico`, `MeasureTheory.Measure.cond_Icc_eq_cond_Ioc`, `MeasureTheory.Measure.cond_Ioo_eq_cond_Ioc`, `MeasureTheory.Measure.cond_Ico_eq_cond_Ioc`; `Probability/Distributions/Truncation.lean`: `MeasureTheory.Measure.cdf_cond`, `MeasureTheory.Measure.cdf_cond_Ioc`, `MeasureTheory.Measure.quantile_cond_Ioc`, `MeasureTheory.Measure.cdf_cond_sdiff`, `MeasureTheory.Measure.quantile_cond_sdiff`, `MeasureTheory.Measure.cdf_cond_Icc`, `MeasureTheory.Measure.quantile_cond_Icc`, `MeasureTheory.Measure.cdf_cond_Ioo`, `MeasureTheory.Measure.quantile_cond_Ioo`, `MeasureTheory.Measure.cdf_cond_Ico`, `MeasureTheory.Measure.quantile_cond_Ico`.
 - §7.4. `MeasureTheory/Measure/AtomMixture.lean`: `MeasureTheory.Measure.atomMixture_def`, `MeasureTheory.Measure.atomMixture_zero`, `MeasureTheory.Measure.atomMixture_one`, `MeasureTheory.Measure.isProbabilityMeasure_atomMixture`, `MeasureTheory.Measure.measurable_atomMixture`, `MeasureTheory.Measure.atomMixture_singleton`, `MeasureTheory.Measure.atomMixture_singleton_of_ne`, `MeasureTheory.Measure.integral_atomMixture`, `MeasureTheory.Measure.atomMixture_withDensity`; `Probability/Distributions/AtomMixture.lean`: `MeasureTheory.Measure.integral_id_atomMixture`, `MeasureTheory.Measure.variance_id_atomMixture`, `MeasureTheory.Measure.integrableExpSet_id_atomMixture`, `MeasureTheory.Measure.mgf_id_atomMixture`, `MeasureTheory.Measure.cgf_id_atomMixture`, `MeasureTheory.Measure.charFun_atomMixture`, `MeasureTheory.Measure.cdf_atomMixture`, `MeasureTheory.Measure.quantile_atomMixture`; `MeasureTheory/Measure/Mixture/Basic.lean`: `MeasureTheory.Measure.bind_eq_withDensity_of_ae_eq`, `MeasureTheory.Measure.rnDeriv_bind_withDensity`; `Probability/Distributions/Mixture.lean`: `TauCeti.Probability.hasPDF_of_hasLaw_bind_withDensity`, `TauCeti.Probability.pdf_eq_of_hasLaw_bind_withDensity`, `MeasureTheory.Measure.cdf_bind`, `MeasureTheory.Measure.charFun_bind`, `MeasureTheory.Measure.mem_integrableExpSet_bind_iff`, `MeasureTheory.Measure.mgf_bind`, `MeasureTheory.Measure.cgf_bind`, `TauCeti.Probability.finiteMixtureMeasure_eq_bind`, `TauCeti.Probability.isProbabilityMeasure_finiteMixtureMeasure`, `TauCeti.Probability.measurable_finiteMixtureMeasure`, `TauCeti.Probability.integrable_finiteMixtureMeasure_iff`; `MeasureTheory/Integral/Bind.lean`: `MeasureTheory.Measure.integral_bind`, `MeasureTheory.Measure.integrable_bind_iff`; `Probability/Moments/Mixture.lean`: `TauCeti.Probability.memLp_integral_bind`, `TauCeti.Probability.covariance_bind`, `TauCeti.Probability.variance_bind`, `ProbabilityTheory.Kernel.covariance_comp`, `ProbabilityTheory.Kernel.variance_comp`; `Probability/Distributions/Gaussian/Mixture/Basic.lean`: `TauCeti.Probability.gaussianMixtureMeasure_eq_sum_dirac_add_withDensity`, `TauCeti.Probability.gaussianMixtureMeasure_eq_withDensity`; `Probability/Distributions/Gaussian/Mixture/Quantile.lean`: `TauCeti.Probability.cdf_gaussianMixtureMeasure`, `TauCeti.Probability.quantile_gaussianMixtureMeasure_le_iff`; `Probability/Distributions/Gaussian/Mixture/Multivariate.lean`: `TauCeti.Probability.multivariateGaussianMixtureMeasure_eq_add_withDensity`, `TauCeti.Probability.multivariateGaussianMixtureMeasure_eq_withDensity`; `Probability/Distributions/Zero/Inflation.lean`: `MeasureTheory.Measure.atomMixture_zero_real_Iic`, `MeasureTheory.Measure.quantile_map_natCast_atomMixture_zero`; `Probability/ConditionalProbability.lean`: `ProbabilityTheory.cond_compl_singleton_eq_zero_iff`, `ProbabilityTheory.isProbabilityMeasure_cond_compl_singleton`, `ProbabilityTheory.cond_compl_singleton_real_singleton`; `Probability/Distributions/Zero/Truncation.lean`: `MeasureTheory.Measure.cond_compl_zero_real_Iic`, `MeasureTheory.Measure.integral_pow_map_natCast_cond_compl_zero`, `MeasureTheory.Measure.integral_id_map_natCast_cond_compl_zero`, `MeasureTheory.Measure.variance_id_map_natCast_cond_compl_zero`, `MeasureTheory.Measure.integrableExpSet_id_map_natCast_cond_compl_zero`, `MeasureTheory.Measure.cdf_map_natCast_cond_compl_zero`, `MeasureTheory.Measure.quantile_map_natCast_cond_compl_zero`; `Probability/Distributions/Zero/Hurdle.lean`: `MeasureTheory.Measure.cond_compl_zero_atomMixture_zero_real_singleton_zero`, `MeasureTheory.Measure.cond_compl_zero_atomMixture_zero_real_singleton`, `MeasureTheory.Measure.isProbabilityMeasure_cond_compl_zero_atomMixture_zero_iff`, `MeasureTheory.Measure.cdf_map_natCast_cond_compl_zero_atomMixture_zero`, `MeasureTheory.Measure.quantile_map_natCast_cond_compl_zero_atomMixture_zero`, `MeasureTheory.Measure.integral_id_map_natCast_cond_compl_zero_atomMixture_zero`, `MeasureTheory.Measure.variance_id_map_natCast_cond_compl_zero_atomMixture_zero`, `MeasureTheory.Measure.integrableExpSet_id_map_natCast_cond_compl_zero_atomMixture_zero`; `Probability/Distributions/Poisson/Zero/Inflated.lean`: `TauCeti.Probability.poissonMeasure_atomMixture_zero_real_singleton_zero`, `TauCeti.Probability.poissonMeasure_atomMixture_zero_real_singleton`, `TauCeti.Probability.integral_id_map_cast_poissonMeasure_atomMixture_zero`, `TauCeti.Probability.variance_id_map_cast_poissonMeasure_atomMixture_zero`, `TauCeti.Probability.integrableExpSet_id_map_cast_poissonMeasure_atomMixture_zero`, `TauCeti.Probability.cdf_map_cast_poissonMeasure_atomMixture_zero`, `TauCeti.Probability.quantile_map_cast_poissonMeasure_atomMixture_zero`; `Probability/Distributions/Poisson/Zero/Truncated.lean`: `TauCeti.Probability.poissonMeasure_cond_compl_zero_eq_zero_iff`, `TauCeti.Probability.poissonMeasure_cond_compl_zero_real_singleton`, `TauCeti.Probability.integral_id_map_cast_poissonMeasure_cond_compl_zero`, `TauCeti.Probability.variance_id_map_cast_poissonMeasure_cond_compl_zero`, `TauCeti.Probability.integrableExpSet_id_map_cast_poissonMeasure_cond_compl_zero`, `TauCeti.Probability.cdf_map_cast_poissonMeasure_cond_compl_zero`, `TauCeti.Probability.quantile_map_cast_poissonMeasure_cond_compl_zero`; `Probability/Distributions/Poisson/Zero/Hurdle.lean`: `TauCeti.Probability.poissonMeasure_cond_compl_zero_atomMixture_zero_real_singleton`, `TauCeti.Probability.integral_id_map_cast_poissonMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.variance_id_map_cast_poissonMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.integrableExpSet_id_map_cast_poissonMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.cdf_map_cast_poissonMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.quantile_map_cast_poissonMeasure_cond_compl_zero_atomMixture_zero`; `Probability/Distributions/NegativeBinomial/Zero/Inflated.lean`: `TauCeti.Probability.negativeBinomialMeasure_atomMixture_zero_real_singleton_zero`, `TauCeti.Probability.negativeBinomialMeasure_atomMixture_zero_real_singleton`, `TauCeti.Probability.integral_id_map_cast_negativeBinomialMeasure_atomMixture_zero`, `TauCeti.Probability.variance_id_map_cast_negativeBinomialMeasure_atomMixture_zero`, `TauCeti.Probability.integrableExpSet_id_map_cast_negativeBinomialMeasure_atomMixture_zero`, `TauCeti.Probability.cdf_map_cast_negativeBinomialMeasure_atomMixture_zero`, `TauCeti.Probability.quantile_map_cast_negativeBinomialMeasure_atomMixture_zero`; `Probability/Distributions/NegativeBinomial/Zero/Truncated.lean`: `TauCeti.Probability.negativeBinomialMeasure_cond_compl_zero_eq_zero_iff`, `TauCeti.Probability.negativeBinomialMeasure_cond_compl_zero_real_singleton`, `TauCeti.Probability.integral_id_map_cast_negativeBinomialMeasure_cond_compl_zero`, `TauCeti.Probability.variance_id_map_cast_negativeBinomialMeasure_cond_compl_zero`, `TauCeti.Probability.integrableExpSet_id_map_cast_negativeBinomialMeasure_cond_compl_zero`, `TauCeti.Probability.cdf_map_cast_negativeBinomialMeasure_cond_compl_zero`, `TauCeti.Probability.quantile_map_cast_negativeBinomialMeasure_cond_compl_zero`; `Probability/Distributions/NegativeBinomial/Zero/Hurdle.lean`: `TauCeti.Probability.negativeBinomialMeasure_cond_compl_zero_atomMixture_zero_real_singleton`, `TauCeti.Probability.integral_id_map_cast_negativeBinomialMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.variance_id_map_cast_negativeBinomialMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.integrableExpSet_id_map_cast_negativeBinomialMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.cdf_map_cast_negativeBinomialMeasure_cond_compl_zero_atomMixture_zero`, `TauCeti.Probability.quantile_map_cast_negativeBinomialMeasure_cond_compl_zero_atomMixture_zero`; `Probability/Distributions/Categorical.lean`: `TauCeti.Probability.categoricalMeasure`.
 - §7.5. `MeasureTheory/Group/Convolution/Power.lean`: `MeasureTheory.Measure.convolutionPower`, `MeasureTheory.Measure.convolutionPower_zero`, `MeasureTheory.Measure.convolutionPower_succ`, `MeasureTheory.Measure.isProbabilityMeasure_convolutionPower`, `MeasureTheory.Measure.measurable_convolutionPower`, `MeasureTheory.Measure.convolutionPower_add`; `Probability/Independence/ConvolutionPower.lean`: `ProbabilityTheory.iIndepFun.hasLaw_finset_sum_convolutionPower`; `Probability/Distributions/CompoundPoisson/Basic.lean`: `TauCeti.Probability.compoundPoissonMeasure_def`, `TauCeti.Probability.isProbabilityMeasure_compoundPoissonMeasure`, `TauCeti.Probability.measurable_compoundPoissonMeasure`, `TauCeti.Probability.measurable_compoundPoissonMeasure_probability`, `TauCeti.Probability.compoundPoissonMeasure_zero`, `TauCeti.Probability.compoundPoissonMeasure_dirac_zero`, `TauCeti.Probability.compoundPoissonMeasure_dirac`, `TauCeti.Probability.compoundPoissonMeasure_conv_compoundPoissonMeasure`, `ProbabilityTheory.IndepFun.hasLaw_add_compoundPoissonMeasure`, `TauCeti.Probability.charFun_compoundPoissonMeasure`, `TauCeti.Probability.compoundPoissonMeasure_real_singleton`, `TauCeti.Probability.exp_neg_le_compoundPoissonMeasure_real_singleton_zero`; `Probability/Distributions/CompoundPoisson/RandomSum.lean`: `ProbabilityTheory.iIndepFun.hasLaw_sum_range_compoundPoissonMeasure`; `Probability/Distributions/CompoundPoisson/Moments.lean`: `TauCeti.Probability.integral_id_compoundPoissonMeasure`, `TauCeti.Probability.covMatrix_compoundPoissonMeasure`, `TauCeti.Probability.covarianceBilin_compoundPoissonMeasure`, `TauCeti.Probability.covariance_compoundPoissonMeasure`, `TauCeti.Probability.variance_id_compoundPoissonMeasure`; `Probability/Distributions/CompoundPoisson/Transforms.lean`: `TauCeti.Probability.integrableExpSet_compoundPoissonMeasure`, `TauCeti.Probability.mgf_compoundPoissonMeasure`, `TauCeti.Probability.cgf_compoundPoissonMeasure`; `Probability/Distributions/CompoundPoisson/Cdf.lean`: `TauCeti.Probability.cdf_compoundPoissonMeasure`, `TauCeti.Probability.cdf_map_natCast_compoundPoissonMeasure`, `TauCeti.Probability.cdf_map_intCast_compoundPoissonMeasure`; `Probability/Distributions/CompoundPoisson/Quantile.lean`: `TauCeti.Probability.quantile_compoundPoissonMeasure_le_iff`, `TauCeti.Probability.quantile_map_natCast_compoundPoissonMeasure_eq_iff`, `TauCeti.Probability.quantile_map_intCast_compoundPoissonMeasure_eq_iff`.
@@ -10060,7 +10071,7 @@ the families on it, and §7.13 the common-uniform couplings of the stochastic or
 ## References
 
 - C. C. Heyde, [*On a Property of the Lognormal Distribution*](https://doi.org/10.1111/j.2517-6161.1963.tb00521.x), Journal of the Royal Statistical Society, Series B 25(2), 392–393, 1963 (the explicit moment-indeterminacy example).
-- J. P. Nolan, [*Univariate Stable Distributions: Models for Heavy Tailed Data*](https://doi.org/10.1007/978-3-030-52915-4), Springer, 2020 ([introductory chapter](https://edspace.american.edu/jpnolan/wp-content/uploads/sites/1720/2020/09/Chap1.pdf)); [SciPy stable distributions](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.levy_stable.html) records the `S₀` and `S₁` characteristic-function conventions.
+- J. P. Nolan, [*Univariate Stable Distributions: Models for Heavy Tailed Data*](https://doi.org/10.1007/978-3-030-52915-4), Springer, 2020 ([introductory chapter](https://edspace.american.edu/jpnolan/wp-content/uploads/sites/1720/2020/09/Chap1.pdf), the author's text of chapter 1, whose numbering and printed pages the locators of Layer 15 follow); [SciPy stable distributions](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.levy_stable.html) records the `S₀` and `S₁` characteristic-function conventions.
 - J. Aitchison and S. M. Shen, [*Logistic-normal distributions: Some properties and uses*](https://doi.org/10.1093/biomet/67.2.261), Biometrika 67(2), 261–272, 1980 (Gaussian log-ratio coordinates on the simplex).
 - [R noncentral Beta documentation](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/Beta.html) (ratio and Poisson-mixture conventions; the zero-numerator-shape extension is specified explicitly in Layer 10).
 - N. L. Johnson, S. Kotz, N. Balakrishnan, *Continuous Univariate Distributions*, [vol. 1](https://books.google.com/books?vid=ISBN9780471584957) (1994) and [vol. 2](https://books.google.com/books?id=BTANEAAAQBAJ) (1995), 2nd ed., Wiley (the scalar continuous families and their transformations).
@@ -10085,8 +10096,7 @@ the families on it, and §7.13 the common-uniform couplings of the stochastic or
 ### Design references and related work
 
 - Mathlib design proposals followed by the interfaces of this roadmap:
-  [mathlib4#40613](https://github.com/leanprover-community/mathlib4/pull/40613) and
-  [mathlib4#40916](https://github.com/leanprover-community/mathlib4/pull/40916) (binomial mean and
+  [mathlib4#40916](https://github.com/leanprover-community/mathlib4/pull/40916) (binomial
   variance), [mathlib4#35504](https://github.com/leanprover-community/mathlib4/pull/35504)
   (exponential moments, mgf and memorylessness),
   [mathlib4#34053](https://github.com/leanprover-community/mathlib4/pull/34053) (error functions;
@@ -10094,9 +10104,10 @@ the families on it, and §7.13 the common-uniform couplings of the stochastic or
   (lower quantile), [mathlib4#43070](https://github.com/leanprover-community/mathlib4/pull/43070) and
   the [Bessel functions discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Bessel.20functions/with/611260325)
   on the Lean Zulip (Bessel functions),
-  [mathlib4#42909](https://github.com/leanprover-community/mathlib4/pull/42909) (finite uniform
-  measures), [mathlib4#42821](https://github.com/leanprover-community/mathlib4/pull/42821) (PMFs
-  versus measures).
+  [mathlib4#42821](https://github.com/leanprover-community/mathlib4/pull/42821) (PMFs versus
+  measures). The binomial mean and the finite uniform measures are Mathlib declarations at the pin,
+  `ProbabilityTheory.integral_of_hasLaw_binomial` (`Probability/Distributions/Binomial.lean`) and
+  `MeasureTheory.Measure.uniformOfFinset` (`Probability/Distributions/Uniform.lean`).
 - Mathlib's undergraduate curriculum list,
   [`docs/undergrad.yaml`, lines 574–575](https://github.com/leanprover-community/mathlib4/blob/9caeba1000ef8f302920981f4a08651d325abc81/docs/undergrad.yaml#L574-L575)
   (probability generating functions, §1.12).

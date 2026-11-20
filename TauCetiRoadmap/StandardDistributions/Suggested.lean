@@ -5,9 +5,7 @@ import TauCeti.Probability.Distributions.LKJ.Normalizer
 import TauCeti.Probability.Distributions.Stable.Basic
 import TauCeti.Probability.Distributions.Stable.Exponent
 import TauCeti.Probability.Distributions.Stable.Tails
-import TauCeti.Probability.Distributions.Uniform.Basic
 import TauCeti.Probability.Distributions.Wishart.Basic
-import TauCeti.Probability.Quantile
 
 /-!
 # Standard probability distributions: target signatures
@@ -25,8 +23,6 @@ discrete, multivariate and circular families of Layers 0–13. The others are st
 
 * the Wick–Isserlis formula for Gaussian mixed moments of every even degree (§5.3);
 * the exact almost-sure rank of the Gaussian-Gram Wishart law (§6.4);
-* the quantile construction of a law on `ℝ` from the interval uniform law (§7.2), a short
-  consequence of the pinned quantile theory, stated here as the target the roadmap names;
 * the LKJ normalization, the LKJ law, its normalization, its Beta entry marginals, the independence
   of its partial correlations and its determinant moments (§14.2–§14.3);
 * the exact support, the moment threshold, the tail constants and the exponential-integrability
@@ -69,14 +65,6 @@ theorem ae_rank_wishartGramMeasure {p ν : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
     ∀ᵐ A : ↥(selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ))
         ∂TauCeti.Probability.wishartGramMeasure ν S,
       (A : Matrix (Fin p) (Fin p) ℝ).rank = min ν S.rank := by
-  sorry
-
-/-! ## Layer 7: affine laws, quantiles, and distribution constructions -/
-
-/-- **Quantile construction from the interval uniform law** (§7.2). For every probability law `μ`
-on `ℝ`, the image of the uniform law on `(0, 1]` under the lower quantile of `μ` is `μ`. -/
-theorem map_uniform_quantile (μ : Measure ℝ) [IsProbabilityMeasure μ] :
-    (TauCeti.Probability.uniformMeasure 0 1).map μ.quantile = μ := by
   sorry
 
 /-! ## Layer 14: LKJ correlation-matrix laws -/
