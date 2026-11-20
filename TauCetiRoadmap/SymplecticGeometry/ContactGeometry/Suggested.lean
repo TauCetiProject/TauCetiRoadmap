@@ -189,7 +189,9 @@ theorem exists_mpullback_eq_contactization_of_isLegendrian
 /-- The **Jacobi bracket** of two functions for a one-form `α`,
 `{f, g}_α = dα(X_f, X_g) + f R_α(g) - g R_α(f)`, where `X_f` is the contact Hamiltonian vector
 field of `f` (`α(X_f) = f`, `ι_(X_f) dα = (R_α f) α - df`) and `R_α` the Reeb vector field
-(README §6.1). For a contact form it equals `α([X_f, X_g])`. -/
+(README §6.1). For a contact form it equals `α([X_f, X_g])`: it is the Lie bracket of contact
+vector fields transported along `f ↦ X_f`, whose inverse is contraction with `α` (Kriegl–Michor,
+*The Convenient Setting of Global Analysis*, 43.15; Geiges, *Contact geometry*, Theorem 2.22). -/
 def jacobiBracket {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
     {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
     (α : SmoothForm I M ℝ 1) (f g : M → ℝ) (x : M) : ℝ :=
@@ -198,7 +200,8 @@ def jacobiBracket {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [To
 
 /-- **Contact vector fields form a Lie algebra under the Jacobi bracket** (README §6.1). For a
 contact form on a manifold without boundary and smooth functions `f` and `g`, the contact
-Hamiltonian vector field of `{f, g}_α` is the Lie bracket `[X_f, X_g]`. -/
+Hamiltonian vector field of `{f, g}_α` is the Lie bracket `[X_f, X_g]` (Kriegl–Michor, 43.15;
+Geiges, Theorem 2.22). -/
 theorem contactHamiltonianVectorField_jacobiBracket
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]
@@ -212,7 +215,7 @@ theorem contactHamiltonianVectorField_jacobiBracket
 
 /-- **The Jacobi identity for the Jacobi bracket of a contact form** (README §6.1). For a contact
 form on a manifold without boundary and smooth functions `f`, `g` and `h`,
-`{f, {g, h}} + {g, {h, f}} + {h, {f, g}} = 0`. -/
+`{f, {g, h}} + {g, {h, f}} + {h, {f, g}} = 0` (Kriegl–Michor, 43.15; Geiges, Theorem 2.22). -/
 theorem jacobiBracket_jacobi
     {E H M : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     [TopologicalSpace H] {I : ModelWithCorners ℝ E H} [TopologicalSpace M] [ChartedSpace H M]

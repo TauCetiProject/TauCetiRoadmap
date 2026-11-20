@@ -32,8 +32,9 @@ vector fields, the cooriented symplectization, the contactization, the standard 
 the Tau Ceti library; this roadmap builds the bundle-level and global theory on it.
 DifferentialGeometry supplies forms, flows and distributions; SmoothBundlesConnections bundle
 operations, connections and transport; GeometricTopology tubular neighbourhoods;
-CotangentLagrangian the Liouville form and the unit cosphere bundle, and it uses the contact
-predicate fixed here; SymplecticFieldTheory consumes the Reeb dynamics and the symplectization.
+CotangentLagrangian the Liouville form and the unit cosphere bundle, whose contact forms are stated
+with Tau Ceti's contact predicate, the one adopted in the Conventions; SymplecticFieldTheory
+consumes the Reeb dynamics and the symplectization.
 
 Layer 1 builds the contact line, coorientations, the volume criterion and the standard models; Layer
 2 the Reeb field, contact flows and contactomorphisms; Layer 3 proves Darboux and Gray; Layer 4
@@ -137,9 +138,12 @@ change-of-frame matrices that act on the complementary vectors modulo `D`. For a
 distribution `ξ` this is the **contact line** `L = TM/ξ`, the target of the Levi form
 (Courte–Guillermou, p. 35).
 *Needs:* Tau Ceti `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`,
+`TauCeti.IsContMDiffDistribution.fiberBundle`, `TauCeti.IsContMDiffDistribution.vectorBundle`,
+`TauCeti.IsContMDiffDistribution.contMDiffVectorBundle` (`D` as a smooth vector bundle),
 `TauCeti.distributionLeviForm`, `TauCeti.distributionLeviForm_apply`,
 `TauCeti.IsContactDistribution`; Mathlib `VectorBundle`, `ContMDiffVectorBundle`;
-SmoothBundlesConnections §B2.1 (dual and Hom bundles).
+SmoothBundlesConnections §B2.1 (dual and Hom bundles); LieGroupoidsPoisson §G0.1 (local frames of
+a subbundle extending to local frames of the ambient bundle).
 
 - The projection `TM → TM/D` is a smooth surjective bundle map with kernel `D`, and a smooth
   section of `TM/D` lifts locally to a smooth vector field.
@@ -174,8 +178,11 @@ coorientable when one exists.
 *Needs:* §1.1; Tau Ceti `TauCeti.IsContMDiffDistribution.exists_local_annihilator`,
 `TauCeti.IsContactDistribution.exists_isContactFormAt`,
 `TauCeti.SmoothForm.kerDistribution_eq_iff_existsUnique_fun_smul`,
-`TauCeti.SmoothForm.IsContactForm.isContactForm_iff_of_kerDistribution_eq`; Mathlib `Orientation`;
-SmoothBundlesConnections §B2.1.
+`TauCeti.SmoothForm.IsContactForm.isContactForm_iff_of_kerDistribution_eq`,
+`TauCeti.IsContMDiffDistribution.fiberBundle`, `TauCeti.IsContMDiffDistribution.vectorBundle`,
+`TauCeti.IsContMDiffDistribution.contMDiffVectorBundle`; Mathlib `Orientation`;
+SmoothBundlesConnections §B2.1; LieGroupoidsPoisson §G0.1 (kernels of constant-rank bundle maps as
+subbundles).
 
 - `ξ⁰ ≅ L*` as smooth line bundles, and the local contact forms with kernel `ξ` are exactly the
   nowhere-zero local sections of `ξ⁰`; every one of them is a contact form on its domain.
@@ -257,10 +264,11 @@ consumed through the adapter. Prove that
 
 ### Dependencies
 
-Tau Ceti: the Levi form, contact distributions and forms, local defining forms, transition
-functions, the linear normal form, the standard models and the sphere. Mathlib: smooth vector
-bundles, orientations, exterior algebra. DifferentialGeometry Layers 0, 1 and 4 (forms, exterior
-derivative, distributions and the contact acceptance examples). SmoothBundlesConnections §B2.1.
+Tau Ceti: distributions as smooth vector bundles, the Levi form, contact distributions and forms,
+local defining forms, transition functions, the linear normal form, the standard models and the
+sphere. Mathlib: smooth vector bundles, orientations, exterior algebra. DifferentialGeometry Layers
+0, 1 and 4 (forms, exterior derivative, distributions and the contact acceptance examples).
+SmoothBundlesConnections §B2.1. LieGroupoidsPoisson §G0.1.
 
 ## Layer 2: Reeb dynamics, contact vector fields and local flow
 
@@ -330,8 +338,8 @@ chosen forms when `F^*α' = α`. Prove that strict implies coorientation-preserv
 contactomorphism and that both implications are strict; that each class is closed under
 composition and inverses; that a contactomorphism `F` with `F^*α' = g α` carries the contact
 Hamiltonian vector field of `H'` to that of `(H' ∘ F)/g`, that is `F^* X_(H') = X_((H' ∘ F)/g)`;
-and that the flows of §2.2 consist of coorientation-preserving contactomorphisms, strict exactly
-when `R_α H = 0` along the orbit.
+that the flows of §2.2 consist of coorientation-preserving contactomorphisms; and that `gₜ(x) = 1`
+for every `t` at which `φₜ(x)` is defined if and only if `R_α H` vanishes along the orbit of `x`.
 *Needs:* §2.2; Layer 1 (§1.2 for coorientations); Tau Ceti
 `TauCeti.SmoothForm.kerDistribution_mpullback`, `Diffeomorph.isContactForm_mpullback_iff`,
 `TauCeti.SmoothForm.IsContactForm.mfderiv_reebVectorField_mpullback`.
@@ -820,7 +828,9 @@ define `jacobiBracket`, `{f, g}_α = dα(X_f, X_g) + f R_α(g) − g R_α(f)`. P
 in each argument with `{f, gh} = g{f, h} + h{f, g} − gh{f, 1}`, and satisfying the Jacobi
 identity, `jacobiBracket_jacobi`), and that `X_({f, g}) = [X_f, X_g]`
 (`contactHamiltonianVectorField_jacobiBracket`), so that `f ↦ X_f` is an isomorphism of Lie
-algebras from smooth functions with `{·, ·}_α` onto contact vector fields. The bracket is obtained
+algebras from smooth functions with `{·, ·}_α` onto contact vector fields, the Lie algebra that
+contraction with `α` maps bijectively onto smooth functions (Kriegl–Michor, 43.15, pp. 471–472;
+Geiges, Theorem 2.22, p. 16, with the equations of Convention 7). The bracket is obtained
 directly from the contact vector fields, without a general theory of Jacobi manifolds.
 *Needs:* Layer 2; Tau Ceti `TauCeti.SmoothForm.contactHamiltonianVectorField`,
 `TauCeti.SmoothForm.IsContactForm.isContactHamiltonianVectorField_iff_mlieDerivForm`,
@@ -936,8 +946,9 @@ fields and the symplecticity of `d(eᵗ α)`, which Layers 2 and 4 therefore do 
 Owned elsewhere and consumed here: forms, the exterior derivative, Cartan calculus, flows,
 time-dependent flows, distributions and the contact acceptance examples (DifferentialGeometry
 Layers 0, 1, 3, 4 and 5); dual, Hom and tensor bundles, connections and transport
-(SmoothBundlesConnections §§B2.1, B3.3, B5.0); tubular neighbourhoods (GeometricTopology §1.5); the
-symplectic Darboux theorem and Moser lemma on manifolds (HeegaardFloer §4.1); the cotangent
+(SmoothBundlesConnections §§B2.1, B3.3, B5.0); local frames of smooth subbundles and kernels of
+constant-rank bundle maps (LieGroupoidsPoisson §G0.1); tubular neighbourhoods (GeometricTopology
+§1.5); the symplectic Darboux theorem and Moser lemma on manifolds (HeegaardFloer §4.1); the cotangent
 Liouville form, conormal bundles and the unit cosphere bundle with its signed contact forms and
 metric-radial comparison (CotangentLagrangian Layer 1 (C1) and §2.2 (C2.2)); first jets of vector
 bundles and their connection splitting (PseudodifferentialOperators P1.0).
@@ -976,7 +987,11 @@ invariants from grid diagrams belong to CombinatorialHeegaardFloer (Lane G, item
   `TauCeti.mpullback_globalFlow_eq_exp_smul`; `TauCeti.SmoothTwoForm.IsSymplectic`.
 - Distributions: `TauCeti.IsContMDiffDistribution`, `TauCeti.IsDistributionFrameOn`,
   `TauCeti.IsInvolutiveDistribution`, `TauCeti.IsContMDiffDistribution.exists_local_annihilator`
-  (a hyperplane field is locally the kernel of a nowhere-zero covector field); the Levi form
+  (a hyperplane field is locally the kernel of a nowhere-zero covector field);
+  `TauCeti.IsContMDiffDistribution.fiberBundle`, `TauCeti.IsContMDiffDistribution.vectorBundle` and
+  `TauCeti.IsContMDiffDistribution.contMDiffVectorBundle` (with the subspace topology of the tangent
+  bundle and the trivializations of its local frames, a `C^n` distribution of rank `k` on a
+  `C^(n+1)` manifold is a `C^n` vector bundle with fibre `Fin k → ℝ`); the Levi form
   `TauCeti.distributionLeviForm` with `TauCeti.distributionLeviForm_apply` (it is `−[V, W] mod D` for
   any extensions tangent to `D`), `TauCeti.distributionLeviForm_swap`,
   `TauCeti.IsDistributionFrameOn.mlieBracket_sub_mlieBracket_mem` and
@@ -1079,6 +1094,12 @@ distribution through any point) and Layer 5 (the homotopy operator 5.4).
 dual bundles, as Mathlib's `CovariantDerivative`) and §B5.0 (horizontal transport along curves and
 the associated transport in vector bundles, smooth in parameters).
 
+### From TauCetiRoadmap.LieGroupoidsPoisson
+
+§G0.1, the finite-rank smooth-subbundle API: local frames of a smooth subbundle extend to local
+frames of the ambient bundle, and kernels of constant-rank smooth bundle maps are smooth subbundles
+of the stated rank.
+
 ### From TauCetiRoadmap.GeometricTopology
 
 §1.5: tubular neighbourhoods of smooth embeddings, with no compactness hypothesis (existence is Tau
@@ -1117,11 +1138,11 @@ cotangent bundles) and the contact-type conditions of Layer 6, item 4.
   §§1.1, 1.3, 2.2, 3.1–3.4, 5.1, 5.3, 5.5 and 6.2.
 - H. Geiges, *Contact geometry*, in Handbook of Differential Geometry, vol. 2, North-Holland (2006),
   315–382; cited in the numbering of [arXiv:math/0307242v2](https://arxiv.org/abs/math/0307242v2):
-  coorientability (§2, p. 4), Remark 2.2, Gray stability (Theorem 2.20), Darboux (Theorem 2.24), the
-  conformal symplectic normal bundle (§2.4.2), the isotropic neighbourhood theorem (Theorem 2.27)
-  and fronts of Legendrian curves (Lemma 2.45). Cited in §§1.2, 1.3, 3.2, 3.4, 5.1, 5.2 and the
-  Examples of Layer 5.
+  coorientability (§2, p. 4), Remark 2.2, Gray stability (Theorem 2.20), contact Hamiltonians
+  (Theorem 2.22), Darboux (Theorem 2.24), the conformal symplectic normal bundle (§2.4.2), the
+  isotropic neighbourhood theorem (Theorem 2.27) and fronts of Legendrian curves (Lemma 2.45). Cited
+  in §§1.2, 1.3, 3.2, 3.4, 5.1, 5.2, 6.1 and the Examples of Layer 5.
 - A. Kriegl and P. W. Michor, *The Convenient Setting of Global Analysis*, AMS (1997), §43,
-  43.17 and Proposition 43.18, pp. 472–473, for one-jet Legendrians and the strict Legendrian
-  neighbourhood construction; [author-hosted text](https://www.mat.univie.ac.at/~michor/apbook.pdf).
-  Cited in §5.3 and §5.4.
+  43.15, 43.17 and Proposition 43.18, pp. 471–473, for contact vector fields, one-jet Legendrians
+  and the strict Legendrian neighbourhood construction;
+  [author-hosted text](https://www.mat.univie.ac.at/~michor/apbook.pdf). Cited in §§5.3, 5.4 and 6.1.
