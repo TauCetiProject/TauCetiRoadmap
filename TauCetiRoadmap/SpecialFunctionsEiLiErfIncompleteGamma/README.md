@@ -20,13 +20,14 @@ them by specializing the parameter: `E_p(z) = z^{p−1} Γ(1 − p, z)`, `E₁ =
 continued-fraction and Mellin–Barnes machinery, comes last. Nikiforov–Uvarov (Ch. II §11) obtain the
 incomplete Gamma, error and incomplete Beta functions as the functions of the second kind of the
 Laguerre, Hermite and Jacobi polynomials. The content is drawn from Olver (Chs. 2–4), Temme (Chs. 7,
-11 and 13), Lebedev (*Special Functions and Their Applications*, Chs. 2–3 and §9.13), Cuyt,
+11 and 13), Lebedev (*Special Functions and Their Applications*, Chs. 1–3 and §9.13), Cuyt,
 Petersen, Verdonk, Waadeland and Jones (*Handbook of Continued Fractions for Special Functions*,
-Chs. 1, 3, 12–14 and 18), Andrews–Askey–Roy (§4.4), Beals–Wong (§§2.6 and 6.4), Paris–Kaminski
-(§§3.4 and 5.1), Wong (*Asymptotic Approximations of Integrals*, Ch. I), Nikiforov–Uvarov, Duverney
-(Ch. 6), Gautschi (*Orthogonal Polynomials*, §1.3) and the NIST *Digital Library of Mathematical
-Functions* (DLMF). The DLMF is the primary locator source: each headline carries its DLMF equation
-numbers and, where one of the books has the result, a locator there; see [References](#references).
+Chs. 1, 3, 12–14 and 18), Andrews–Askey–Roy (§4.4), Beals–Wong (§§2.6 and 6.4, Exercises 2.25,
+2.27 and 8.7), Paris–Kaminski (§§3.4 and 5.1), Wong (*Asymptotic Approximations of Integrals*,
+Ch. I), Nikiforov–Uvarov, Duverney (Ch. 6), Gautschi (*Orthogonal Polynomials*, §1.3) and the NIST
+*Digital Library of Mathematical Functions* (DLMF). The DLMF is the primary locator source: each
+headline carries its DLMF equation numbers and, where one of the books has the result, a locator
+there; see [References](#references).
 
 The roadmap covers:
 - definitions as entire or principal-branch functions, and analytic continuation in logarithmic
@@ -1105,7 +1106,7 @@ case `p = 1` of 8.19.17. 6.12.1 in `|ph z| ≤ 3π/2 − δ`, with the remainder
 - at most `csc |ph z|` times it in `π/2 ≤ |ph z| < π`.
 
 6.12.2 as `x → +∞` (`expIntegralEi_isBigO`), with the remainder bound `1 + χ(n + 1)` times the
-next term, where `χ(n) = π^{1/2} Γ(n/2 + 1)/Γ(n/2 + ½)` (DLMF 9.7.2) is written out. The expansion
+next term, where `χ(n) = π^{1/2} Γ(n/2 + 1)/Γ(n/2 + ½)` (DLMF 9.7.3) is written out. The expansion
 of `li(x)` follows.
 
 *Needs:* 8.1–8.2, 7.4, 7.6; AsymptoticExpansions §3.3 and §§4.2–4.3.
@@ -1281,8 +1282,10 @@ its limiting form at `a = −(2n + 1)`.
 
 ### 10.3 Special values and series
 
-DLMF 8.21.10–8.21.15. 8.21.10–8.21.11. 8.21.12–8.21.13 as limits along the positive axis with the
-stated exclusions. 8.21.14–8.21.15 hold by definition.
+DLMF 8.21.10–8.21.15. 8.21.10–8.21.11. 8.21.12–8.21.13 as limits along the positive axis, for
+`Re a < 1` and with the stated exclusions; by 8.21.8 the difference is `−si(a, x)`, of size
+`x^{Re a − 1}`, and at `a = 1` the values `Si(1, x) = 1 − cos x` and `Ci(1, x) = sin x` of 10.1
+have no limit. 8.21.14–8.21.15 hold by definition.
 
 *Needs:* 10.1–10.2.
 
@@ -1804,9 +1807,9 @@ source; the books are cited next to it where they contain the result.
 - G. E. Andrews, R. Askey and R. Roy, *Special Functions*, Cambridge University Press, 1999:
   §4.4 (the error function and the incomplete Gamma function as Kummer functions) and
   Appendix C.1 (the asymptotics of `erfc`).
--  R. Beals and R. Wong, *Special Functions: A Graduate Text*, Cambridge University Press, 2010:
+- R. Beals and R. Wong, *Special Functions: A Graduate Text*, Cambridge University Press, 2010:
   §2.6 (the incomplete Gamma functions and their continuation), §6.4 (the error function, the
-  incomplete Gamma function and the Fresnel integrals as Kummer functions), and Exercises 2.25–2.27
+  incomplete Gamma function and the Fresnel integrals as Kummer functions), and Exercises 2.25, 2.27
   and 8.7.
 - A. Cuyt, V. B. Petersen, B. Verdonk, H. Waadeland and W. B. Jones, *Handbook of Continued
   Fractions for Special Functions*, Springer, 2008: §§1.3–1.5 (determinant formula, equivalence
@@ -1847,9 +1850,9 @@ source; the books are cited next to it where they contain the result.
   Press, 2001: §3.4 (the Mellin–Barnes integrals of the incomplete Gamma functions) and §5.1.1
   (the exponential integral).
 - N. M. Temme, *Special Functions: An Introduction to the Classical Functions of Mathematical
-  Physics*, Wiley, 1996: Chapter 3 (the Gamma function), §§7.3.4–7.3.7 (special cases of
-  Kummer's function), §11.1 (the error functions), §11.2 (the incomplete Gamma functions), §11.3
-  (the incomplete Beta function) and §13.2 (minimal solutions of recurrences).
+  Physics*, Wiley, 1996: §§7.3.4–7.3.7 (special cases of Kummer's function), §11.1 (the error
+  functions), §11.2 (the incomplete Gamma functions), §11.3 (the incomplete Beta function) and
+  §13.2 (minimal solutions of recurrences).
 - F. G. Tricomi, Asymptotische Eigenschaften der unvollständigen Gammafunktion, *Math. Z.* 53
   (1950), 136–148.
 - R. Wong, *Asymptotic Approximations of Integrals*, SIAM Classics in Applied Mathematics, 2001:
