@@ -24,7 +24,7 @@ increments, and their connections to homogeneous Poisson processes.
 | Material | Owner and interface consumed here |
 | --- | --- |
 | Scalar probability laws, their convolution and moment identities | [StandardDistributions](../StandardDistributions/README.md), Layers 0–5 and 7; use the existing Poisson, exponential, geometric, Gaussian and uniform APIs |
-| Markov-chain path laws and recurrent excursion decomposition | [Exchangeability](../Exchangeability/README.md), Layer 8; consume `TauCeti.Probability.markovChainLaw` and the excursion API, and connect them to the return-time conventions below |
+| Markov-chain path laws and recurrent excursion decomposition | [Exchangeability](../../Completed/Exchangeability/README.md), Layer 8; consume `TauCeti.Probability.markovChainLaw` and the excursion API, and connect them to the return-time conventions below |
 | Random measures, point measures, Poisson construction and characterization | [PointProcesses][pp], Layers 0, 1 and 4 |
 | Restriction, mapping, independent marking, thinning and superposition | [PointProcesses][pp], Layer 6 |
 | Two-sided stationary renewal laws, Palm inversion and length bias | [PointProcesses][pp], Layer 8; ordinary renewal limits here do not require this layer |

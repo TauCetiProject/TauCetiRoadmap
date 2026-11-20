@@ -1,0 +1,12 @@
+# Progress log: QuadraticCharactersAndReduction
+
+An append-only record of what landed on the QuadraticCharactersAndReduction roadmap, one section per window of
+merged pull requests, oldest first. Generated; the prose is not security-validated.
+For a current snapshot instead, read `STATUS.md` beside this file.
+
+<!--tauceti-progress:v1 {"from_sha":"21fe70290a6ffb62d0adc0c14b917052e59f8081","prs":[35765],"roadmap":"QuadraticCharactersAndReduction","to_sha":"1c6a1a4e61e51f1bcef7784fdd6d5131235b7299"}-->
+## QuadraticCharactersAndReduction: 2026-11-10 to 2026-11-11 (`21fe702` to `1c6a1a4`)
+
+The first work on this roadmap is the trichotomy for quadratic algebras, the opening step of Layer 3 (TauCeti#35765). [`QuadraticAlgebra.trichotomy`](https://taucetiproject.org/docs/TauCeti/Algebra/QuadraticAlgebra/Trichotomy.html#QuadraticAlgebra.trichotomy) says that over any field with `2 ≠ 0`, the algebra `K[X]/(X² − r)` is either `K × K`, a field, or the ring of dual numbers. Each shape is pinned down by a condition on `r`: it splits exactly when `r` is a nonzero square ([`nonempty_algEquiv_prod_iff`](https://taucetiproject.org/docs/TauCeti/Algebra/QuadraticAlgebra/Trichotomy.html#QuadraticAlgebra.nonempty_algEquiv_prod_iff)), is a field exactly when `r` is not a square, in any characteristic ([`isField_iff_not_isSquare`](https://taucetiproject.org/docs/TauCeti/Algebra/QuadraticAlgebra/Trichotomy.html#QuadraticAlgebra.isField_iff_not_isSquare)), and is the dual numbers exactly when `r = 0`. The roadmap's finite-field statement is [`FiniteField.quadraticAlgebra_trichotomy`](https://taucetiproject.org/docs/TauCeti/Algebra/QuadraticAlgebra/Trichotomy.html#FiniteField.quadraticAlgebra_trichotomy), for fields of odd cardinality. In even cardinality the algebra is always the dual numbers and never `F × F`, so the oddness hypothesis is needed.
+
+The repeated-root case comes with an explicit isomorphism [`algEquivDualNumberOfDoubleRoot`](https://taucetiproject.org/docs/TauCeti/Algebra/QuadraticAlgebra/DualNumber.html#QuadraticAlgebra.algEquivDualNumberOfDoubleRoot) for the polynomial `(X − r)²`. It also has its norm `(x + ry)²` and its nilpotents, and the dual numbers are shown to be neither a field nor reduced. The split case gained its norm, trace and conjugation in coordinates. The Frobenius identities and the integral Frobenius congruence, which complete Layer 3, have not been started.

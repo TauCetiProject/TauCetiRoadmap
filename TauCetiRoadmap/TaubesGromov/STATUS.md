@@ -1,37 +1,59 @@
-<!--tauceti-status:v1 {"roadmap":"TaubesGromov","to_sha":"273ea28e12515bd7f9e5c2aefd933352264b83e1","ts":"2026-10-21T07:26:02Z"}-->
+<!--tauceti-status:v1 {"roadmap":"TaubesGromov","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
 # Status: TaubesGromov
 
-This file documents the status of the TaubesGromov roadmap up until `273ea28` (2026-10-21T07:26:02Z). There may have been subsequent updates.
+This file documents the status of the TaubesGromov roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Only algebra exists so far. That covers the four-twist local weights and the ray-product expansion of TG2, the intersection-lattice algebra behind TG3's good-curve structure theorem and TG6.2, and the symplectic-matrix normalization identities of TG11.2. None of the analytic or geometric layers has begun: embedded normal operators, compactness, vortices, large-r estimates, gluing, and the SW = Gr point equality.
+**At a glance.** Two results about plane vortices are proved: Taubes's classification, with moduli Sym^mℂ, and the Fredholm property of the deformation operator with index 2m. TG4 still lacks the smooth quotient and the compact-window families. Taubes's large-parameter estimates are proved, but only with the projected Weitzenböck inequalities as hypotheses. Nothing yet produces a large-r Seiberg–Witten solution, the count Gr_J, or SW = Gr.
 
 ### Named results
 
-- **The good-curve component inequality.** If e = Σ mᵢCᵢ with natural coefficients, the classes meet pairwise nonnegatively, and e·Cᵢ ≥ −1 whenever Cᵢ² < 0, then Σ mᵢ d(Cᵢ) ≤ d(e) ([`sum_mul_apply_self_sub_apply_canonical_le`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/GoodCycle.html#TauCeti.sum_mul_apply_self_sub_apply_canonical_le)).
-- **The structure of a good cycle through generic points.** The images are embedded and pairwise homologically disjoint, each contains exactly half its virtual dimension of the points, exceptional spheres [occur once](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/GoodCycle.html#TauCeti.IsGoodCycle.mult_eq_one_of_apply_self_neg), and a repeated image [has square zero](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/GoodCycle.html#TauCeti.IsGoodCycle.apply_self_eq_zero_of_one_lt_mult) and is κ-orthogonal. This is proved on an arbitrary integral bilinear form.
-- **The independent-component expansion on a ray.** The n-th coefficient of Π_c f_label(c)(t^{m_c}) is the sum over configurations of total class n·A₀ of the products of local weights ([`coeff_rayTorusWeightSeries`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/TorusWeight.html#TauCeti.coeff_rayTorusWeightSeries)). When each class has finitely many tori, the infinite product exists and is [computed by a finite cutoff](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/TorusWeight.html#TauCeti.coeff_tprod_expand_torusWeightSeries).
-- **The reciprocal-polynomial identity.** For a 2g × 2g symplectic P, the polynomial p(t) = det(1 − tP) satisfies p′(1) = g·det(1 − P) ([`derivative_eval_one_charpolyRev`](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/Charpoly/Symplectic.html#SymplecticGroup.derivative_eval_one_charpolyRev)). Consequently p(t)/(1 − t)² has [coefficients det(1 − P)(a + 1 − g)](https://taucetiproject.org/docs/TauCeti/LinearAlgebra/Matrix/Charpoly/Symplectic.html#SymplecticGroup.coeff_coe_charpolyRev_mul_mk_one_sq) for a ≥ 2g − 1.
-- **The cat-map test.** For [Arnold's cat map](https://taucetiproject.org/docs/TauCeti/Dynamics/CatMap.html#TauCeti.catMap), det(1 − P) = −1, [every iterate is nondegenerate](https://taucetiproject.org/docs/TauCeti/Dynamics/CatMap.html#TauCeti.det_one_sub_catMap_pow_neg), and (1 − 3t + t²)/(1 − t)² has [coefficient −n](https://taucetiproject.org/docs/TauCeti/Dynamics/CatMap.html#TauCeti.coeff_coe_charpolyRev_catMap_mul_mk_one_sq) in degree n ≥ 1.
+- **Taubes's classification of plane vortices.** Every effective divisor of degree m is the zero divisor of a smooth framed vortex ([`framedVortexDivisor_surjective`](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Existence.html#TauCeti.Vortex.framedVortexDivisor_surjective)), and the divisor determines the vortex up to framed gauge. The moduli space is therefore [Sym^mℂ as a set](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Existence.html#TauCeti.Vortex.framedVortexModuliEquiv), and the same holds [on the Sobolev scale](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/Moduli.html#TauCeti.Vortex.sobolevVortexModuliEquiv).
+- **Taubes's index theorem for plane vortices.** At a smooth framed degree-m vortex the gauge-fixed operator H¹ → L² is Fredholm and onto, and its kernel has dimension exactly 2m. Its [index is 2m](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/Index.html#TauCeti.Vortex.index_sobolevGaugeFixedOperator_eq_two_mul).
+- **Taubes's coarse pointwise bounds.** On a closed manifold, the projected Weitzenböck inequalities give [|α|² + |β|² ≤ 1 + O(1/r)](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/PointwiseBounds.html#TauCeti.SeibergWitten.norm_sq_add_norm_sq_le_one_add_div), |β|² ≤ (C/r)(1 − |α|²) + O(r⁻²) and the [gradient bound](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/GradientBound.html#TauCeti.SeibergWitten.norm_sq_add_mul_norm_sq_le). Those inequalities are still hypotheses.
+- **Horizontal curves cover orbit tori.** A nonconstant pseudoholomorphic horizontal curve in S¹ × Y_φ lies over a closed orbit of φ and maps onto its orbit torus ([`exists_surjective_orbitTorus_comp_eq_of_isPseudoholomorphicAt`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/Manifold/Suspension/Leaf.html#TauCeti.SmoothMappingTorus.exists_surjective_orbitTorus_comp_eq_of_isPseudoholomorphicAt)).
+- **The closed orbits give the orbit zeta function.** For an area-preserving surface diffeomorphism nondegenerate in every period, the orbit-torus series labelled by the return maps multiply to the [orbit zeta function](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/OrbitTorus/ClosedOrbit.html#TauCeti.SmoothMappingTorus.orbitZeta_closedOrbitHomologyClass_eq_mapRingHom_tprod_fixedPointDerivative). The labels come from dynamics, not yet from determinant signs.
 
 ### Notable definitions and infrastructure
 
-- **The local multiplicity series** [`torusWeightSeries`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/TorusWeight.html#TauCeti.torusWeightSeries) and its coefficients [`torusWeight`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/TorusWeight.html#TauCeti.torusWeight). These are the README's eight factors f_(±,i) as units of ℤ⟦t⟧, with the two signs inverse to each other. They make the multiplicity-m weight of a torus a well-defined integer.
-- **The ray weight series** [`rayTorusWeightSeries`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/TorusWeight.html#TauCeti.rayTorusWeightSeries). Together with general lemmas on products of expanded power series in the coefficientwise topology, it is the carrier the ray-only torus count will be stated in.
-- **[`IsGoodCycle`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/GoodCycle.html#TauCeti.IsGoodCycle)**, the numerical shadow of a positive J-curve cycle in a good class. Its hypotheses are exactly what the geometry still has to supply.
+- **The Sobolev gauge group as a manifold.** Through its [exponential charts](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/FramedGauge/Chart.html#TauCeti.Vortex.gaugeChart), G_s is an analytic Banach manifold, and the vortex equation is an [analytic map](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/Vortex/EquationMap.html#TauCeti.Vortex.sobolevEquation) between Sobolev spaces. With the index theorem, they make slice charts possible.
+- **Taubes's complex-linear deformation operator** [`complexDeformationOperator`](https://taucetiproject.org/docs/TauCeti/Analysis/PDE/SeibergWitten/ComplexDeformation.html#TauCeti.SeibergWitten.complexDeformationOperator) δ_ω. It is homotopic to δ₀ through operators with one elliptic symbol. The [naturality of orientation transport](https://taucetiproject.org/docs/TauCeti/Analysis/Fredholm/DeterminantLine/Naturality.html#TauCeti.detLineOrientationTransport_map_detLineCongr) for Fredholm families is the tool for carrying its complex orientation along that homotopy.
+- **The weighted counts** [`configurationCount`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/ConfigurationCount.html#TauCeti.configurationCount) and [`pointConfigurationCount`](https://taucetiproject.org/docs/TauCeti/Geometry/Symplectic/JHolomorphic/PointConfigurationCount.html#TauCeti.pointConfigurationCount). These are the finite sums Gr_J will be. Their candidates and weights are still inputs.
 
 ### Roadmap coverage
 
-TG2 is partial. The weight series, their inverses and coefficient recurrences, the finite-product expansion and the ray cutoff are done. The labels (σ, i) are still free parameters, though: the four flat sign lines, the twisted normal operators and the determinant signs that should define them are absent. So are the configuration carrier, Gr_(J,ω), and the disjointness theorem that turns the ray product into a count. TG3 and TG6.2 have their lattice algebra and nothing geometric. TG11.2 has the reciprocal-polynomial and coarse-coefficient identities and the cat-map series, but not the Wang torsion order |det(I − P)| or any orientation comparison. TG0, TG1, TG4–TG10, TG11.1, TG11.3 and TG11.4 have nothing that can be credited from the evidence here. The library does contain a gauge-fixed vortex operator at the vacuum and the Seiberg–Witten quadratic endomorphism, which are plausible early inputs to TG4–TG5, but no report has yet assessed them against this roadmap.
+**TG4 is partial.** Done:
+
+- existence, uniqueness and the set-level and Sobolev moduli;
+- decay, the bootstrap and Fredholmness with index 2m;
+- gauge-group charts and the analytic equation map;
+- the translation and rotation laws, uniform decay over compact windows, and the weighted right inverse at one vortex.
+
+Missing: the smooth quotient, smooth compact-window families of kernel projections and right inverses, and the full cluster estimates.
+
+**TG5 is partial.** The pointwise, gradient, L², L¹-defect, mass, cone and monotonicity estimates are all conditional on the projected Weitzenböck inequalities. Only a pointwise identity D_{A₀}u₀ = 0 exists, and there is no global A₀.
+
+**Other started layers:**
+
+- TG6.1 has disc charges and density bounds, but no reconstruction.
+- TG0.1 has δ₀, δ_ω and general orientation transport, but no transport along the actual homotopy.
+- TG0.2 has only conjugate-linear sign laws.
+- TG1 has only the normal linearization.
+- TG2, TG3 and TG6.2 have the weight and count algebra, area bounds and fold and pitchfork models, but no compactness and no Gr_J.
+- TG7 and TG8 have only generic tools: a parametrised contraction lemma, the flat-limit identification with vortices, and homological local degree.
+- TG10.1 and TG10.4 have cohomological algebra and a large-r wall gap, and TG10.2 has energy identities.
+- TG11.1, TG11.2 and TG11.4 have the zeta assembly, normal-operator kernels, Wang torsion, twisted-ODE signs and Hamiltonian twists.
+
+**Untouched:** TG6.3, TG9, TG10.3 and TG11.3.
 
 ## The frontier
 
-- **Four-twist labels from geometry (TG2).** Construct the sign lines χ: π₁(C) → {±1} and the twisted normal operators, then define σ(C) and i(C) by determinant transport, so that `torusWeightSeries` is fed actual labels. This needs TG1's embedded normal operator and the determinant orientations from HeegaardFloer and IndexTheory.
-- **Disjointness on a square-zero ray.** Prove that distinct relevant torus images on the ray of A₀ are disjoint, by positivity and zero intersection. The independent-component expansion then identifies the ray-only count, and the conditional comparison with the full Gr series follows.
-- **Instantiating `IsGoodCycle` (TG3).** Supply its hypotheses from actual curves: positivity of intersections, singular adjunction ind(C) = d(C) − 2δ(C), and the generic-point dimension bounds. This needs the bounded-window compactness and the stable-map adapter from AnalyticStableMaps.
-- **Weighted count at fixed J.** Build the finite configuration carrier and Gr_(J,ω)(A) as a finite sum, with point-constraint and cutoff independence. This is the first point where the weights become an invariant.
-- **TG11.2 normalization tests.** The integral Wang torsion order |det(I − P)| remains, as does the sign comparison saying the canonical orientation is opposite to the product orientation. The latter depends on the TG0.1 and TG11.2 orientation constructions.
+- **Smooth vortex moduli (TG4).** Use the index theorem and the gauge-group charts to build slice charts. That makes the quotient a smooth 2m-manifold over Sym^mℂ. Then make kernel projections and right inverses smooth over compact divisor windows, collisions included.
+- **Coarse bounds from the equations (TG5).** Build A₀ globally and derive the projected Weitzenböck inequalities for actual solutions. This makes the conditional estimates unconditional, and needs the SeibergWittenTheory supplier.
+- **Canonical orientation (TG0.1).** Apply the new orientation-transport naturality to the homotopy from δ_ω to δ₀ and to the rescaling,.
+- **Four-twist labels from normal operators (TG2, TG11.1–TG11.2).** Show that the return-map labels in the zeta assembly agree with the determinant signs of the actual orbit-torus normal operators.
+- **Weighted count at fixed J (TG3).** Instantiate the configuration candidates from actual curves. This needs bounded-window compactness, AnalyticStableMaps and the TG1 normal operators.

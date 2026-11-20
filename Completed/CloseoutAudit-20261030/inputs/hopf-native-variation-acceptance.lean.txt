@@ -1,0 +1,43 @@
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Existence
+import TauCeti.Geometry.Manifold.VectorBundle.CovariantDerivative.LeviCivita.Nondegenerate.Variation
+import TauCeti.Geometry.Manifold.VectorBundle.NondegenerateMetric.Variation
+
+open Bundle Manifold Set TauCeti.Manifold
+open scoped ContDiff Manifold
+
+noncomputable section
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  {H : Type*} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type*} [TopologicalSpace M] [ChartedSpace H M] [IsManifold I ∞ M]
+  {EP : Type*} [NormedAddCommGroup EP] [NormedSpace ℝ EP]
+  {HP : Type*} [TopologicalSpace HP] {IP : ModelWithCorners ℝ EP HP}
+  {P : Type*} [TopologicalSpace P] [ChartedSpace HP P] [IsManifold IP 1 P]
+  (g : ContMDiffNondegenerateMetricFamily I M IP P)
+
+-- Every parameter tangent direction gives the actual smooth variation tensor;
+-- no arbitrary curve, second derivative, positivity or boundaryless premise is added.
+example (p : P) (u : TangentSpace IP p) :
+    ContMDiff I (I.prod 𝓘(ℝ, E →L[ℝ] E →L[ℝ] ℝ)) ∞
+      (fun y : M ↦ TotalSpace.mk' (E →L[ℝ] E →L[ℝ] ℝ)
+        (E := fun z : M ↦ TangentSpace I z →L[ℝ] TangentSpace I z →L[ℝ] ℝ)
+        y (g.variation p u y)) :=
+  g.contMDiff_variation p u
+
+variable [FiniteDimensional ℝ E]
+
+-- The curve formula is specialized to the canonical native frozen connection,
+-- and the actual parameter derivative, not an independently supplied h or cov.
+example {c : ℝ → P} {t : ℝ} {x : M} (hc : ContMDiffAt 𝓘(ℝ) IP 2 c t)
+    {Y : Π x : M, TangentSpace I x} (hY : MDiffAt (T% Y) x)
+    (v w : TangentSpace I x) :
+    2 * g (c t, x)
+        (deriv (fun s ↦ (g.metric (c s)).leviCivitaConnection Y x v) t) w =
+      (g.metric (c t)).leviCivitaConnection.derivBilinearTensor
+        (g.variation (c t) (mfderiv 𝓘(ℝ) IP c t 1)) x (Y x) w v +
+      (g.metric (c t)).leviCivitaConnection.derivBilinearTensor
+        (g.variation (c t) (mfderiv 𝓘(ℝ) IP c t 1)) x v w (Y x) -
+      (g.metric (c t)).leviCivitaConnection.derivBilinearTensor
+        (g.variation (c t) (mfderiv 𝓘(ℝ) IP c t 1)) x v (Y x) w := by
+  exact g.two_mul_apply_deriv_eq_derivBilinearTensor_of_isLeviCivitaConnection hc
+    (fun s ↦ (g.metric (c s)).isLeviCivitaConnection_leviCivitaConnection) hY v w
