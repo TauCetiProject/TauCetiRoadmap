@@ -1,13 +1,13 @@
 # Roadmap: infinitary model existence, omitting types and interpolation
 
-The model theory of Lω₁ω beyond back-and-forth is built from one engine: the **model existence
-theorem** for consistency properties. Over a countable language, a family of sets of sentences that
-is closed under the decomposition of each connective and quantifier, and that never contains an
-outright contradiction, gives each of its countable members a countable model. Every classical
-construction in this roadmap is an instance: downward Löwenheim–Skolem for countable fragments, the
-omitting types theorem, Craig, Lyndon and Malitz interpolation for sentences, and Marker's
-well-ordering argument, which shows that the well-ordered models of a sentence have uniformly
-bounded countable order type and that no Lω₁ω sentence defines the class of well-orders.
+**Summary.** The model theory of Lω₁ω beyond back-and-forth is built from one engine: the **model
+existence theorem** for consistency properties. Over a countable language, a family of sets of
+sentences that is closed under the decomposition of each connective and quantifier, and that never
+contains an outright contradiction, gives each of its countable members a countable model. Every
+classical construction in this roadmap is an instance: downward Löwenheim–Skolem for countable
+fragments, the omitting types theorem, Craig, Lyndon and Malitz interpolation for sentences, and
+Marker's well-ordering argument, which shows that the well-ordered models of a sentence have
+uniformly bounded countable order type and that no Lω₁ω sentence defines the class of well-orders.
 
 The [InfinitaryLogic roadmap](../../Completed/InfinitaryLogic/README.md) built the syntax and semantics of Lω₁ω
 and L∞ω, back-and-forth equivalence, Karp's theorem and Scott's isomorphism theorem, and listed
@@ -52,7 +52,7 @@ TauCeti/ModelTheory/Interpolation/                   -- PC classes, Craig, Lyndo
 TauCeti/ModelTheory/WellOrdering.lean                -- boundedness of well-orderings
 ```
 
-## Scope and dependency order
+## How to read the build
 
 | Layer | Builds | Consumes | Acceptance check (compiles without later layers) |
 |---|---|---|---|
@@ -71,7 +71,7 @@ theorem) and L2 (for transporting types). L5 needs L4 only for the vocabulary of
 only L0 and L1. L7 and L8 need L3 and the sublanguage machinery of L0; L7 also needs the graph
 translation of L6 and uses L2 to pass between model universes. Both are independent of L4 and L5.
 
-## Standing conventions
+## Conventions
 
 Pin these once; every statement below uses them.
 
@@ -107,60 +107,6 @@ Pin these once; every statement below uses them.
 7. **Sentence level.** Interpolation and separation are stated for single sentences, or for
    countable theories reduced to one sentence by a countable conjunction. Statements about
    arbitrary sets of sentences are excluded (see [Out of scope](#out-of-scope)).
-
-## Existing library and ownership
-
-| Supplier | Consumed material |
-|---|---|
-| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/Infinitary/{Syntax,Semantics,IndexCoding,CodedConnectives,Reindex,Operations,Substitution,QuantifierRank,Equiv}.lean` at Tau Ceti `2fd255d99` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `BoundedFormulaInf.alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `BoundedFormula.toInf`/`BoundedFormulaInf.toOmega` with `BoundedFormula.realize_toInf`, `TauCeti.IndexCoding` and `IndexCoding.ofEncodableWith`, `BoundedFormulaInf.iInfAlong`/`iSupAlong` with their realization lemmas, `BoundedFormulaInf.reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `BoundedFormulaInf.qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`), all in the namespace `FirstOrder.Language` unless written with `TauCeti` |
-| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/{BackAndForth/Karp,BackAndForth/Equivalence,Scott/Sentence,Scott/Isomorphism}.lean` at `2fd255d99` | `TauCeti.InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `TauCeti.BFEquiv`, Scott sentences `TauCeti.scottSentence` and `TauCeti.scott_isomorphism`, used in worked examples; `BFEquiv` and `scottSentence` are defined for relational languages only, as the order languages of the worked examples are, and `scott_isomorphism` asserts that some sentence characterizes the countable structure, which `TauCeti.realize_scottSentence_iff` states for `scottSentence` |
-| Mathlib `ModelTheory/LanguageMap.lean` | `LHom`, `LHom.onTerm`, `LHom.reduct`, `LHom.IsExpansionOn`, `LHom.Injective`, `Language.sum`, `LHom.sumInl`/`sumInr`/`sumElim`, `withConstants` and `L.con`, `constantsOn` |
-| Mathlib `ModelTheory/Syntax.lean`, `Semantics.lean` | `Term.subst`, `Term.relabel`, `BoundedFormula.toFormula`, `BoundedFormula.constantsVarsEquiv`, `LHom.realize_onBoundedFormula`, `Theory.Model` |
-| Mathlib `ModelTheory/Satisfiability.lean`, `Bundled.lean` | `Theory.IsSatisfiable`, `Theory.ModelsBoundedFormula`, `Theory.ModelType` (nonempty models), first-order compactness `Theory.isSatisfiable_iff_isFinitelySatisfiable` |
-| Mathlib `ModelTheory/Substructures.lean`, `DirectLimit.lean`, `Skolem.lean` | `Substructure`, `Substructure.closure` and its cardinality bounds, `Substructure.subtype`, directed suprema, `DirectLimit`, and first-order downward Löwenheim–Skolem `exists_elementarySubstructure_card_eq` (the template for Layer 2) |
-| Mathlib set theory | `Cardinal.lift`, `Cardinal.mk`, `Ordinal.type`, `Ordinal.ToType`, `IsWellOrder`, `Cardinal.isRegular_aleph_one` |
-
-Mathlib has no infinitary language maps, occurrence sets, fragments, consistency properties,
-infinitary model existence, omitting types (first-order or infinitary), Morleyization, PC classes
-or interpolation theorems (checked at the pinned Mathlib); all are targets here.
-
-This roadmap owns the objects in the layers below. Its sibling roadmaps consume them:
-
-* **[CountableStructureSpaces](../CountableStructureSpaces/README.md)**
-  (spaces of countable structures and López–Escobar) consumes exactly `PCMem` and `pcSeparation`,
-  in the sum-language form of Layer 7, for the hard direction of López–Escobar. It owns the
-  structure space, López–Escobar and the non-Borelness of the well-order class.
-* **[HanfNumbers](../HanfNumbers/README.md)**
-  (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
-  * from 0.1, `onBoundedFormulaInf` and `realize_onBoundedFormulaInf`;
-  * from 0.2, `functionsIn`, `relationsIn`, their countability lemmas and
-    `realize_congr_of_agreeOn`;
-  * from 0.3, `symbSublang`, `symbSublangIncl`, `restrictSymbols`, `smallPresentation` and
-    `smallPresentationEquiv`;
-  * from 0.4, `substBounds`, `realize_substBounds` and `onBoundedFormulaInf_substBounds`;
-  * from 1.1 and 1.2, `Theoryω`, `Theoryω.Model`, `Theoryω.conjunction`, `Fragment`,
-    `Fragment.generated` and `Fragment.generated_countable`;
-  * from Layer 2, `AElementary`, `aElementary_of_tarskiVaught` and
-    `exists_countable_aElementary_substructure`;
-  * from 4.1, `infinitaryType`, `realizedTypes`, `exists_isolatingFormula` and the isolator seed;
-  * from Layer 6, `graphLanguage`, `graphExpansion`, `relationalize` with `realize_relationalize`,
-    `backTranslate` with `realize_backTranslate`, and `graphAxioms` with `reconstructStructure` and
-    the reconstruction law, for the countable-language forms of its complete-sentence and
-    categoricity theorems.
-
-  It does not consume model existence, direct limits, the cardinal-bound Löwenheim–Skolem theorem
-  or `fragmentType`. It owns smallness (`Lω₁ω`-small structures), small models, complete sentences
-  and everything about indiscernibles and Hanf numbers.
-* **[CountableModelCounting](../CountableModelCounting/README.md)** consumes `onBoundedFormulaInf`,
-  `realize_onBoundedFormulaInf`, `Fragment`, `Fragment.generated`, `Fragment.generated_countable`,
-  `Fragment.slice` with the realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`,
-  `morleyExpansion`, the relational and countable instances of `morleyize`,
-  `nonempty_morleyEquiv_iff`, `Theoryω.conjunction`, `smallPresentation` and
-  `smallPresentationEquiv`.
-
-This roadmap owns these interfaces, and no sibling roadmap builds a parallel API for them.
-Consumers cite them by name and section of this roadmap; where Tau Ceti implements one (see
-[Tau Ceti implementation](#tau-ceti-implementation)), they use the Tau Ceti declaration.
 
 ## Layer 0: the signature calculus of infinitary formulas
 
@@ -1265,6 +1211,62 @@ Among the targets that `Suggested.lean` states, Tau Ceti `2fd255d99` does not im
 `IsolatesFO`, `exists_countable_model_omitting_fo`, `exists_firstOrder_presentation`,
 `craig_interpolation`, `pcSeparation`, `relationsInSigned`, `lyndon_interpolation`,
 `universalSigned` or `malitz_interpolation`.
+
+## Scope and ownership
+
+This roadmap owns the objects in its layers. Its sibling roadmaps consume them:
+
+* **[CountableStructureSpaces](../CountableStructureSpaces/README.md)**
+  (spaces of countable structures and López–Escobar) consumes exactly `PCMem` and `pcSeparation`,
+  in the sum-language form of Layer 7, for the hard direction of López–Escobar. It owns the
+  structure space, López–Escobar and the non-Borelness of the well-order class.
+* **[HanfNumbers](../HanfNumbers/README.md)**
+  (Ehrenfeucht–Mostowski models and Hanf numbers) consumes:
+  * from 0.1, `onBoundedFormulaInf` and `realize_onBoundedFormulaInf`;
+  * from 0.2, `functionsIn`, `relationsIn`, their countability lemmas and
+    `realize_congr_of_agreeOn`;
+  * from 0.3, `symbSublang`, `symbSublangIncl`, `restrictSymbols`, `smallPresentation` and
+    `smallPresentationEquiv`;
+  * from 0.4, `substBounds`, `realize_substBounds` and `onBoundedFormulaInf_substBounds`;
+  * from 1.1 and 1.2, `Theoryω`, `Theoryω.Model`, `Theoryω.conjunction`, `Fragment`,
+    `Fragment.generated` and `Fragment.generated_countable`;
+  * from Layer 2, `AElementary`, `aElementary_of_tarskiVaught` and
+    `exists_countable_aElementary_substructure`;
+  * from 4.1, `infinitaryType`, `realizedTypes`, `exists_isolatingFormula` and the isolator seed;
+  * from Layer 6, `graphLanguage`, `graphExpansion`, `relationalize` with `realize_relationalize`,
+    `backTranslate` with `realize_backTranslate`, and `graphAxioms` with `reconstructStructure` and
+    the reconstruction law, for the countable-language forms of its complete-sentence and
+    categoricity theorems.
+
+  It does not consume model existence, direct limits, the cardinal-bound Löwenheim–Skolem theorem
+  or `fragmentType`. It owns smallness (`Lω₁ω`-small structures), small models, complete sentences
+  and everything about indiscernibles and Hanf numbers.
+* **[CountableModelCounting](../CountableModelCounting/README.md)** consumes `onBoundedFormulaInf`,
+  `realize_onBoundedFormulaInf`, `Fragment`, `Fragment.generated`, `Fragment.generated_countable`,
+  `Fragment.slice` with the realized truth assignment, `fragmentType`, `morleyize`, `lhomMorleyize`,
+  `morleyExpansion`, the relational and countable instances of `morleyize`,
+  `nonempty_morleyEquiv_iff`, `Theoryω.conjunction`, `smallPresentation` and
+  `smallPresentationEquiv`.
+
+This roadmap owns these interfaces, and no sibling roadmap builds a parallel API for them.
+Consumers cite them by name and section of this roadmap; where Tau Ceti implements one (see
+[Tau Ceti implementation](#tau-ceti-implementation)), they use the Tau Ceti declaration.
+
+## Exact supplier contracts
+
+| Supplier | Consumed material |
+|---|---|
+| [InfinitaryLogic, Layer 0](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/Infinitary/{Syntax,Semantics,IndexCoding,CodedConnectives,Reindex,Operations,Substitution,QuantifierRank,Equiv}.lean` at Tau Ceti `2fd255d99` | `BoundedFormulaInf`, `BoundedFormulaω`, `Sentenceω`, the derived connectives and `BoundedFormulaInf.alls`/`exs`, `BoundedFormulaInf.Realize`, `SentenceInf.Realize`, `BoundedFormula.toInf`/`BoundedFormulaInf.toOmega` with `BoundedFormula.realize_toInf`, `TauCeti.IndexCoding` and `IndexCoding.ofEncodableWith`, `BoundedFormulaInf.iInfAlong`/`iSupAlong` with their realization lemmas, `BoundedFormulaInf.reindex`, `mapBound`, `castLE`, `TauCeti.BoundedFormulaInf.subst` and `relabel` with their realization laws, `BoundedFormulaInf.qrank`, and invariance of realization under isomorphisms (`StrongHomClass.realize_sentenceInf`), all in the namespace `FirstOrder.Language` unless written with `TauCeti` |
+| [InfinitaryLogic, Layers 1–3](../../Completed/InfinitaryLogic/README.md) and its Tau Ceti implementation, `TauCeti/ModelTheory/{BackAndForth/Karp,BackAndForth/Equivalence,Scott/Sentence,Scott/Isomorphism}.lean` at `2fd255d99` | `TauCeti.InfEquivAt` (Lω₁ω-equivalence is `InfEquivAt ℕ`), `TauCeti.BFEquiv`, Scott sentences `TauCeti.scottSentence` and `TauCeti.scott_isomorphism`, used in worked examples; `BFEquiv` and `scottSentence` are defined for relational languages only, as the order languages of the worked examples are, and `scott_isomorphism` asserts that some sentence characterizes the countable structure, which `TauCeti.realize_scottSentence_iff` states for `scottSentence` |
+| Mathlib `ModelTheory/LanguageMap.lean` | `LHom`, `LHom.onTerm`, `LHom.reduct`, `LHom.IsExpansionOn`, `LHom.Injective`, `Language.sum`, `LHom.sumInl`/`sumInr`/`sumElim`, `withConstants` and `L.con`, `constantsOn` |
+| Mathlib `ModelTheory/Syntax.lean`, `Semantics.lean` | `Term.subst`, `Term.relabel`, `BoundedFormula.toFormula`, `BoundedFormula.constantsVarsEquiv`, `LHom.realize_onBoundedFormula`, `Theory.Model` |
+| Mathlib `ModelTheory/Satisfiability.lean`, `Bundled.lean` | `Theory.IsSatisfiable`, `Theory.ModelsBoundedFormula`, `Theory.ModelType` (nonempty models), first-order compactness `Theory.isSatisfiable_iff_isFinitelySatisfiable` |
+| Mathlib `ModelTheory/Substructures.lean`, `DirectLimit.lean`, `Skolem.lean` | `Substructure`, `Substructure.closure` and its cardinality bounds, `Substructure.subtype`, directed suprema, `DirectLimit`, and first-order downward Löwenheim–Skolem `exists_elementarySubstructure_card_eq` (the template for Layer 2) |
+| Mathlib set theory | `Cardinal.lift`, `Cardinal.mk`, `Ordinal.type`, `Ordinal.ToType`, `IsWellOrder`, `Cardinal.isRegular_aleph_one` |
+
+Mathlib has no infinitary language maps, occurrence sets, fragments, consistency properties,
+infinitary model existence, omitting types (first-order or infinitary), Morleyization, PC classes
+or interpolation theorems (checked at the pinned Mathlib); all are targets here.
 
 ## References
 
