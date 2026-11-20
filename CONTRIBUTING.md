@@ -205,7 +205,7 @@ Roadmap's human approval or GitHub merge-queue requirements.
 
 To hand a PR back to reviewers, post both `-awaiting-author` and `awaiting-review` on
 separate lines; the workflow changes only the labels you name. `administrative-hold`,
-`ai-approved`, CI labels, and generated roadmap-area labels remain outside this allowlist.
+`ai-found-no-errors`, CI labels, and generated roadmap-area labels remain outside this allowlist.
 
 ## Resolving review conversations
 
