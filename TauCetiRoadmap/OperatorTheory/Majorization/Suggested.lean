@@ -41,9 +41,9 @@ declarations (`LinearMap.IsPositive.sqrt` among them) are also declared by the a
 PolarDecomposition, which the acceptance files importing this one import as well; this file
 therefore names them instead of importing them.
 
-The roadmap's two targets that the library does not state, the progress step of the transfer
-closure (§1.2) and the attainment of the Ky Fan bound by the singular pairs (§1.4), are steps rather
-than headline theorems and live in the README only.
+The roadmap's two targets that the library does not state publicly, the progress step of the
+transfer closure (§1.2) and the attainment of the Ky Fan bound by the singular pairs (§1.4), are
+steps rather than headline theorems and live in the README only.
 
 The acceptance files of PrincipalAngles, OperatorIdeals and SpectralSubspacePerturbation state
 their estimates against the two declarations at the end of this file: the structure

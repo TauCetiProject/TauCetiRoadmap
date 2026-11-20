@@ -179,14 +179,17 @@ Analysis*, Chapters II–IV).
   (`TauCeti.IsWeaklyMajorizedBy.smul`). Appending the same number of zeros to both tuples
   preserves `x ≺w y` (`TauCeti.IsWeaklyMajorizedBy.append_zero`).
 
-**Progress by one transfer.** Prove: let `y, d : Fin n → ℝ` with `d` antitone,
-`∑ₘ dₘ = ∑ₘ yₘ`, `Pₗ(d) ≤ Pₗ(y)` for every `l`, and `y ≠ d`. Then there are coordinates `i, j`
-and a real `δ` with `0 ≤ δ ≤ yᵢ − yⱼ` such that the transfer `y' = TauCeti.robinHood y i j δ`
+**Progress by one transfer.** State as a public declaration: let `y, d : Fin n → ℝ` with `d`
+antitone, `∑ₘ dₘ = ∑ₘ yₘ`, `Pₗ(d) ≤ Pₗ(y)` for every `l`, and `y ≠ d`. Then there are coordinates
+`i, j` and a real `δ` with `0 ≤ δ ≤ yᵢ − yⱼ` such that the transfer `y' = TauCeti.robinHood y i j δ`
 still satisfies `Pₗ(d) ≤ Pₗ(y')` for every `l`, and `y'` agrees with `d` at strictly more
 coordinates than `y` does. No order or sign condition on `y` is assumed. This is the inductive step
 of the transfer closure `TauCeti.mem_of_prefixSum_le_of_sum_eq`: a set of tuples closed under
 elementary transfers that contains `y` contains every antitone `d` with the total sum of `y` and
-prefix sums bounded by those of `y`. Route: take `j` the first coordinate with `dⱼ > yⱼ`, which
+prefix sums bounded by those of `y`. The pinned Tau Ceti proves the step as the private theorem
+`exists_robinHood_card_lt` of `TauCeti/Analysis/Convex/Majorization.lean` and derives the transfer
+closure from it, choosing as `i` the first coordinate where `y` and `d` differ and as `j` the first
+later one where `y` is below `d`. Route: take `j` the first coordinate with `dⱼ > yⱼ`, which
 exists because the totals agree and `y ≠ d`; take `i < j` the last coordinate before `j` with
 `yᵢ > dᵢ`, which exists because `Pⱼ₊₁(d) ≤ Pⱼ₊₁(y)`; and transfer `δ = min(yᵢ − dᵢ, dⱼ − yⱼ)`
 from `i` to `j`. Then `δ ≤ yᵢ − yⱼ` because `d` is antitone, the prefix sums of lengths
@@ -577,9 +580,12 @@ The *orthogonal block sum* of `A : E₁ → F₁` and `B : E₂ → F₂` is
 - For `A = diag(3, 1)`, `σ(A ⊕ A) = (3, 3, 1, 1, 0, …)`, so `K₂(A ⊕ A) = 6 = 2 K₁(A)` and
   `K₄(A ⊕ A) = 8 = 2 K₂(A)`. Interleaving the two copies as `σ_(i mod 2)(A)` would give
   `(3, 1, 3, 1)`, which is not nonincreasing.
-- With `A = C = B = D` the identity of `𝕜`, the comparison gives `‖A ⊕ B‖ ≤ ‖C ⊕ D‖ = 1` for the
-  operator norm, while bounding the blocks separately and adding gives only `2`: the comparison
-  is sharp where the triangle inequality is not.
+- Take `A = B = I` on `𝕜²` and `C = D = diag(2, 0)`. For `k = 1, 2, 3, …`, `Kₖ(I) = 1, 2, 2, …` is
+  at most `Kₖ(diag(2, 0)) = 2, 2, 2, …`, and `A ⊕ B` is the identity of `𝕜⁴` while `C ⊕ D` has
+  singular values `(2, 2, 0, 0)`. The comparison gives `1 ≤ 2` for the operator norm, `2 ≤ 2√2`
+  for the Frobenius seminorm and `4 ≤ 4` for the nuclear seminorm, so the constant one cannot be
+  lowered. Bounding `A ⊕ 0` by `C ⊕ 0` and `0 ⊕ B` by `0 ⊕ D` and adding gives only
+  `‖A ⊕ B‖ ≤ 4`.
 
 ### 2.5 Concrete rectangular seminorms
 
@@ -717,9 +723,10 @@ defined here once, for square and rectangular maps.
 
 **Already in the library.** Every statement of Layers 1 and 2 is in the pinned Tau Ceti library or
 in Mathlib, under the declarations named above and listed under the supplier contracts, except two
-targets of this roadmap: the progress step of §1.2 and the attainment of the Ky Fan bound by the
-singular pairs in §1.4. The diagonal operator, its additivity and symmetry (§1.5) and the
-componentwise action and composition of block sums (§2.4) are Mathlib's; the rest is Tau Ceti's.
+targets of this roadmap: the progress step of §1.2, which Tau Ceti proves only as a private theorem,
+and the attainment of the Ky Fan bound by the singular pairs in §1.4. The diagonal operator, its
+additivity and symmetry (§1.5) and the componentwise action and composition of block sums (§2.4)
+are Mathlib's; the rest is Tau Ceti's.
 
 **Owned elsewhere and consumed here.**
 
@@ -734,6 +741,24 @@ componentwise action and composition of block sums (§2.4) are Mathlib's; the re
   dimension.
 - *Angles, the permutation-orbit hull for diagonals, Davis's bound and von Neumann's trace
   inequality*: PrincipalAngles.
+
+**Former labels.** Other roadmaps cite targets of this one by the former labels `MAJ-Ann` and
+`MAJ-Bnn`. The former Part A is Layer 1 and the former Part B is Layer 2, and each label resolves to
+the section above that treats it:
+
+| Former labels | Section |
+| --- | --- |
+| `MAJ-A01`–`MAJ-A06` | §1.1 |
+| `MAJ-A07`–`MAJ-A17` | §1.2 |
+| `MAJ-A18`–`MAJ-A25` | §1.3 |
+| `MAJ-A26`–`MAJ-A35` | §1.4 |
+| `MAJ-A36`–`MAJ-A40` | §1.5 |
+| `MAJ-B01`–`MAJ-B11` | §2.1 |
+| `MAJ-B14`–`MAJ-B21` | §2.2 |
+| `MAJ-B44`–`MAJ-B46` | §2.3 |
+| `MAJ-B22`–`MAJ-B29` | §2.4 |
+| `MAJ-B30`–`MAJ-B38` | §2.5 |
+| `MAJ-B40`–`MAJ-B43` | §2.6 |
 
 ## Exact supplier contracts
 
