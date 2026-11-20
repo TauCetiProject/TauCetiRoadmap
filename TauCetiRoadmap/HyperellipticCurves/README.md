@@ -6,210 +6,14 @@ end theorems classify genus-two curves by Igusa invariants, identify coordinate-
 with isomorphism classes, establish minimal models, and recover reduction and arithmetic
 invariants from equations and cluster pictures.
 
-## Scope and ownership
+## How to read the build
 
-A hyperelliptic curve of genus `g ≥ 2` over a field `k` is a smooth projective geometrically
-integral curve with a separable degree-`2` map to `ℙ¹` defined over `k`. In every characteristic
-such a curve has a **Weierstrass model**
-
-```
-y² + h(x) y = f(x),      deg h ≤ g + 1,   deg f ≤ 2g + 2,
-```
-
-and everything the LMFDB displays about a genus-2 curve over `ℚ` is computed from one such
-equation: the discriminant, the Igusa–Clebsch, Igusa and G2 invariants, the automorphism groups,
-the minimal equation, the primes of bad reduction, the cluster pictures at the odd bad primes with
-their Tamagawa numbers, root numbers and conductor exponents, the 2-torsion field and the
-2-Selmer rank of the Jacobian, the Euler factors, and the local solvability of the curve. This
-roadmap builds that equation-level theory, in every characteristic where the statement is true,
-and connects it to the function-field theory of the
-[algebraic curves roadmap](../AlgebraicCurves/README.md) on one side and to the Néron-model and
-Jacobian theory of the
-[Néron models and semistable abelian varieties roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md)
-and the [relative Jacobians and integral models roadmap](../RelativeJacobiansAndIntegralCurveModels/README.md)
-on the other.
-
-The primary object is the **model** `W = (f, h)`, a pair of polynomials over a commutative ring
-`R` with the degree bounds above, written `Model R g`, exactly as Mathlib's `WeierstrassCurve R`
-is a quintuple of coefficients rather than a scheme. A **hyperelliptic curve** is a model whose
-discriminant is a unit (`IsSmooth`), and two models define the same curve when a change of
-coordinates of Layer 1 carries one to the other. Every invariant is first defined on the model
-and then proved invariant under the changes of coordinates that preserve the curve; a
-“hyperelliptic curve” is never a bundled structure where a model with an `IsSmooth` instance says
-the same thing. Mathlib's `WeierstrassCurve` is the genus-`1` sub-case with `f` monic cubic and
-`deg h ≤ 1` (`ofWeierstrass`), and Layer 0 proves the two discriminants agree on it, so nothing
-here forks the elliptic theory; general genus-1 models (quartic double covers, possibly without
-rational points) need not be elliptic curves and stay outside that bridge.
-
-Suggested home: `TauCeti/AlgebraicGeometry/HyperellipticCurve/`, with files `Model.lean` (the
-carrier, the binary-form discriminant, smoothness), `FunctionField.lean` (the bridge to Tau Ceti's
-`IsHyperellipticFunctionField`), `VariableChange.lean` (the group `𝒢_g` and the transformation
-law), `Involution.lean`, `Twist.lean`, `Aut.lean`, `Genus2/Invariants.lean`, `Genus2/Igusa.lean`
-(the isomorphism theorem), `Genus2/Automorphisms.lean`, `Genus2/Mestre.lean`,
-`MinimalModel/Local.lean`, `MinimalModel/Global.lean`, `MinimalModel/Genus2.lean` (Liu),
-ClusterPicture/Basic.lean, ClusterPicture/Semistability.lean, ClusterPicture/SpecialFibre.lean,
-ClusterPicture/Invariants.lean (Tamagawa, conductor, root number, deficiency),
-ClusterPicture/Genus2.lean (the classification table), `Jacobian/TwoTorsion.lean`,
-`Jacobian/EulerFactor.lean`, `LocalSolvability.lean`, and `Examples/` for the worked suite.
-
-A predicate or quantity invariant under isomorphism belongs to this roadmap. Label components
-beyond the intrinsic prefix, orderings and normal forms fixed by convention, stored lists, and the
-completeness of database tables are not targets. Concretely, the genus-2 label
-`N.s.D.n` has the intrinsic prefix `(N, D)` = (conductor of the Jacobian, absolute minimal
-discriminant), both defined here; the isogeny-class letter `s` and the index `n` are enumerative
-and are not.
-
-### Owned here
-
-- The carrier `Model R g`, the characteristic-free discriminant `Δ`, the weighted-projective
-  model in `ℙ(1, g+1, 1)`, smoothness `⇔ Δ ≠ 0`, the function field of a model and its
-  comparison with Tau Ceti's `IsHyperellipticFunctionField`, the genus-1 comparison with
-  `WeierstrassCurve` (Layer 0).
-- The group `𝒢_g(R)` of changes of coordinates, its action on models, the transformation law of
-  `Δ`, the theorem that every isomorphism of hyperelliptic curves is induced by a change of
-  coordinates, the hyperelliptic involution, Weierstrass points and their count, the finite
-  automorphism group with its reduced quotient in `PGL₂`, twists (Layer 1).
-- The genus-2 invariants `I₂, I₄, I₆, I₁₀`, `J₂, J₄, J₆, J₈, J₁₀`, `(g₁, g₂, g₃)`, their
-  covariance, Igusa's theorem that they classify curves up to `k̄`-isomorphism, the classification
-  of automorphism groups in every characteristic, and Mestre's obstruction (Layer 2).
-- Integral and minimal Weierstrass models over a discrete valuation ring, the minimal
-  discriminant, global minimal models over a principal ideal domain and the obstruction class
-  over a Dedekind domain, Liu's determination of the stable reduction type of a genus-2 curve from
-  its Igusa invariants, and Liu's conductor–discriminant inequality in genus 2 (Layer 3).
-- Cluster pictures of Dokchitser–Dokchitser–Maistret–Morgan in odd residue characteristic: the
-  combinatorial carrier and its invariants, invariance under isomorphism, the semistability
-  criterion, the reduction dictionary for the curve and its Jacobian, the special fibre of the
-  minimal regular model, the Tamagawa number, conductor exponent, root number, deficiency and
-  minimal discriminant read off the picture, and the classification of semistable genus-2
-  reduction types (Layer 4).
-- The 2-torsion of the Jacobian of a hyperelliptic curve with its Galois module structure and
-  2-torsion field, the odd-degree `x − T` descent, the explicit good Euler factors in genus 2 and
-  the bad Euler factors at odd semistable primes, local solvability of hyperelliptic models, the
-  conductor bounds for abelian surfaces, the identification of the local factors of `L(J, s)`
-  with those of 5.3–5.4, the real period `Ω_J` and the BSD quotient as an implication (Layer 5).
-
-### Not owned here
-
-- **The function-field theory of hyperelliptic curves** — the existence of the index-2 rational
-  subfield, the genus formula, Weierstrass gaps, Kummer and Artin–Schreier models, regular
-  differentials, the Hurwitz bound: the
-  [algebraic curves roadmap](../AlgebraicCurves/README.md), Layers 10–11. Layer 0 here is the
-  equation-side dictionary to that theory.
-- **Néron models, component groups, conductors and local Euler factors as general notions**, and
-  the stable reduction theorem: the
-  [Néron models roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md), the
-  [relative Jacobians roadmap](../RelativeJacobiansAndIntegralCurveModels/README.md), and the
-  [stable reduction roadmap](../StableReduction/README.md). Here they are computed, not defined.
-- **The 2-Selmer group, Mordell–Weil group, rank, generators, regulator, canonical heights and
-  torsion subgroup** of the Jacobian: the
-  [heights roadmap](../HeightsRationalPointsAndObstructions/README.md) (Layers 1, 3). The LMFDB
-  fields `mw_rank`, `mw_gens`, `torsion`, `torsion_order` and `regulator` live there; this roadmap
-  supplies the 2-torsion of Layer 5.1, the local data of Layer 4, `tamagawa_product` (5.6), and
-  `real_period` and the BSD quotient `analytic_sha` (5.7).
-- **Chabauty–Coleman theory** — residue discs, annihilating differentials and the bounds on the
-  number of rational points of a curve whose Jacobian has rank below the genus: the
-  [effective Diophantine methods roadmap](../EffectiveDiophantineMethods/README.md), Layer 4
-  (Coleman's bound at a prime of good reduction is its §4.13).
-- **The global `L`-function of an abelian variety**, its continuation predicate, and the order and
-  leading coefficient of `L(J, s)` at `s = 1` (`analytic_rank`, `leading_coeff`): the
-  [periods roadmap](../PeriodsAndSpecialValues/README.md) PS.1.1, PS.1.8 (`Λ_1(A, s)`,
-  `SerreC9 A 1`) and PS.3.3. Layer 5.7 identifies its local factors for a genus-2 Jacobian with
-  those of 5.3–5.4.
-- **Endomorphism algebras, `GL₂`-type, geometric simplicity and decomposition, Sato–Tate groups**
-  (`end_alg`, `geom_end_alg`, `real_geom_end_alg`, `is_gl2_type`, `is_simple_geom`,
-  `end_lattice`, `st_group`, `st_label`): the sibling `SatoTateGroups` roadmap.
-- **Mod-`ℓ` and `ℓ`-adic Galois images in `GSp₄`, non-maximal primes** (`galois_image`,
-  `nonmax_primes`, `modell_image`): the sibling `AdelicImagesAndModularCurves` roadmap.
-- **Point counts and `L`-polynomials of curves over finite fields**: the zeta function, the point
-  counts and the `L`-polynomial are the function field arithmetic roadmap's (§§5.1, 5.3, 5.6), consumed
-  in Layer 5.3 here; the Weil bound is the scheme, stack, cohomology and intersection foundations
-  roadmap's §5.11, consumed in 5.5; the Weil polynomial of the reduction is the sibling
-  `CurvesOverFiniteFields` roadmap's, and the `av.fq` labels the LMFDB prints beside each good
-  Euler factor are that sibling's and `AbelianVarietiesOverFiniteFields`'.
-- **Labels, the choice of a reduced minimal equation among all minimal equations, the ordering of
-  curves in an isogeny class, completeness of the database**: not targets. In
-  particular the *set* of minimal equations (in genus `≥ 2` not a single `𝒢_g(ℤ)`-orbit) is
-  Layer 3's; which representative the LMFDB prints is not.
-- **Families of hyperelliptic curves with group actions** (the `hgcwa` `hyperelliptic` column —
-  whether a generating vector gives a hyperelliptic curve): the sibling
-  `GroupActionsOnRiemannSurfaces` roadmap; the equation-level criterion it needs (in characteristic `≠ 2`, a curve of genus
-  `g ≥ 2` is hyperelliptic iff it has an involution with `2g + 2` fixed points, Layer 1.4) is
-  supplied here.
-- **The Artin conductor and local root number of a general Weil–Deligne representation**: the
-  [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) (§3 for
-  the conductor, §2.7 `WeilDeligneRep.epsilon` for the local constant over finite extensions of ℚₚ),
-  and AutomorphicLFunctionsAndLocalFactors §AL.3.10.3 for equal-characteristic local constants, on the
-  [Néron models roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md) §5.4's
-  representation; the finite-image local constants are read from it by the sibling
-  `ArtinRepresentations` Layer 6. Layer 4 evaluates them on hyperelliptic curves from the cluster
-  picture.
-- Hyperelliptic curves in residue characteristic 2 beyond the model theory: cluster pictures are
-  stated for odd residue characteristic only, as in their source; the 2-adic invariants of a
-  genus-2 curve are reached only through the general theory of the Néron models roadmap.
-- Superelliptic curves `yⁿ = f(x)` with `n ≥ 3`, Picard curves, plane quartics, and the moduli
-  space `M₂` as a scheme.
-
-### The LMFDB genus-2 page, column by column
-
-The table records, for every field of `g2c_curves`, `g2c_endomorphisms`, `g2c_tamagawa`,
-`g2c_ratpts`, `g2c_galrep` and `cluster_pictures` that the page displays or that a search can
-filter on, which roadmap owns the mathematics. “Here N.M” is a milestone below.
-
-| LMFDB field | Mathematics | Owner |
-| --- | --- | --- |
-| `eqn` (minimal equation `[f, h]`) | a minimal model over `ℤ` | here 3.4 (the set); the chosen representative is not a target |
-| simplified equation `y² = 4f + h²` | 1.2 (a change of coordinates over `ℤ[1/2]`) | here |
-| `disc_sign`, `abs_disc` | minimal discriminant `Δ_min` and its sign | here 0.3, 3.4 |
-| `cond` | conductor of the Jacobian | Néron models §5.4; the value at odd `p` from clusters: here 4.9; the prime factorisation: here 5.6 |
-| `bad_primes` | primes dividing `Δ_min` | here 3.4, 3.6 |
-| `igusa_clebsch_inv`, `igusa_inv`, `g2_inv` | `I₂:I₄:I₆:I₁₀`, `J₂:…:J₁₀`, `(g₁,g₂,g₃)`; the stored representatives of convention 8 | here 2.1, 2.2, 2.5 (the vector `J(W_min)` is intrinsic, 3.4); the sign rule and the `d^k` reduction of `I` are not a target |
-| `aut_grp_label`, `aut_grp_tex`, `geom_aut_grp_label`, `geom_aut_grp_tex` | `Aut(C)`, `Aut(C_{ℚ̄})` as abstract groups | here 1.4, 2.6; isomorphism invariants: `FiniteGroupInvariants`; group labels are not a target |
-| `num_rat_wpts` | number of `ℚ`-rational Weierstrass points | here 1.3 |
-| `locally_solvable`, `non_solvable_places` | `C(ℚ_v) ≠ ∅` for all `v` | predicate: heights roadmap §6.1; hyperelliptic criteria: here 5.5 |
-| `two_selmer_rank` | `dim_{𝔽₂} Sel₂(J/ℚ)` | heights roadmap §1.3–1.5; descent interface: effective Diophantine methods §3.23 and here 5.2 |
-| `two_torsion_field` | `ℚ(J[2])` | here 5.1 |
-| `torsion_subgroup`, `torsion_order` | `J(ℚ)_tors` | heights roadmap §1.18, relative Jacobians §4.2–4.3; `J[2](ℚ)` only: here 5.1 |
-| `tamagawa_number` at `p` (`g2c_tamagawa`) | `#Φ_J(𝔽_p)` | Néron models §2.2; odd semistable `p`: here 4.8 |
-| `local_root_number` at `p` | `w_p(J)` | odd semistable `p`: here 4.12; general: arithmetic Galois representations §2.7 on Néron models §5.4 |
-| `cluster_label`, `cluster_pictures.{depth,size,potential_toric_rank,potential_good_reduction,potential_good_jacobian_reduction}` | the cluster picture at odd `p` and its invariants | here 4.1–4.5; the label string is not a target |
-| “tame reduction?” | semistable over a tame extension | here 4.5 |
-| `bad_lfactors` | `L_p(T)` at bad `p` | Néron models §5.6; odd semistable `p`: here 5.4 |
-| `euler_factors` (good `p`) | `L_p(T)` from `#C(𝔽_p), #C(𝔽_{p²})` | here 5.3 with function field arithmetic §5.3 |
-| `root_number` | `∏_v w_v` | product of the local ones; archimedean `(-1)^g`: here 4.12 |
-| `has_square_sha` | parity of the number of deficient places | here 4.11 with heights roadmap §3.17a, §3.18c |
-| `regulator`, `mw_rank`, `mw_gens`, `mw_invs`, `mw_heights`, `rat_pts`, `rat_pts_v`, `mw_gens_v` | Mordell–Weil data and rational points | heights roadmap (Layers 0–1, 3) |
-| `analytic_rank`, `leading_coeff`, `real_period`, `analytic_sha` | the order and leading coefficient of `L(J, s)` at `s = 1`, the real period, the BSD quotient | `L(J, s)`, its order and leading coefficient: periods roadmap PS.1.8, PS.3.3, with the local factors identified here in 5.7; `real_period` unconditionally and `analytic_sha` as an implication from `SerreC9 J 1` and holomorphy at 1: here 5.7 |
-| `st_group`, `st_label`, `real_geom_end_alg`, `end_alg`, `geom_end_alg`, `is_gl2_type`, `is_simple_geom`, `ring_base`, `ring_geom`, `lattice`, `fod_*`, `spl_*` | endomorphisms, decomposition, Sato–Tate | `SatoTateGroups` |
-| `non_maximal_primes`, `modell_image` | Galois images in `GSp₄(𝔽_ℓ)` | `AdelicImagesAndModularCurves` |
-| `label`, `class`, `Lhash` | enumerative data beyond the prefix `(N, D)` | not a target (database convention) |
-
-### Additional AlgebraicCurves ownership
-
-AlgebraicCurves Layer 10 supplies squarefree and Artin–Schreier models, Weierstrass gaps and
-the regular-differential basis; Layer 12 supplies the regular-proper curve/function-field
-dictionary and its two-chart construction. These are consumed as roadmap targets, independently
-of whether their implementations are available at the pins.
-
-### Additional scope boundaries
-
-- Cluster pictures in residue characteristic 2, and 2-adic Tamagawa numbers, root numbers and
-  conductor exponents of genus-2 curves beyond the general theory of the Néron models roadmap.
-- The Mordell–Weil group, heights and regulators (the
-  [heights roadmap](../HeightsRationalPointsAndObstructions/README.md)); the analytic
-  continuation of `L(J, s)` and modularity, which 5.7 takes as the periods roadmap's predicate
-  `SerreC9 J 1` and never proves.
-- Endomorphism rings, Sato–Tate groups, Galois images (`SatoTateGroups`,
-  `AdelicImagesAndModularCurves`).
-- The LMFDB's choice of reduced minimal equation among the minimal ones (Stoll's reduction theory
-  of binary forms) and the stored normal forms of convention 8; the set of minimal models and the
-  invariants are Layers 2–3.
-- Curves of genus `≥ 3` beyond what is uniform in `g`: the genus-3 invariants (Shioda), the
-  Shaska–Völklein automorphism tables in higher genus, and the moduli of hyperelliptic curves as a
-  stack.
-- Superelliptic and cyclic covers `yⁿ = f(x)`, `n ≥ 3` (Poonen–Schaefer's general descent is cited
-  only for the hyperelliptic case).
-- Modular interpretations of specific genus-2 curves (`X₀(N)`, `X₁(N)` quotients) — the
-  [modular curves roadmap](../ModularCurves/README.md) and `CanonicalModelsAndGonality`.
+Layer 0 connects equations to function fields. Layer 1 supplies coordinate changes and
+isomorphisms. Layer 2 develops genus-two invariant theory, while Layer 3 develops minimal
+models and then uses those invariants for Liu's criterion. Layer 4 connects valued root
+configurations to the supplied geometric reduction theory. Layer 5 connects these results
+to Jacobian torsion, descent, local factors, local solubility, periods and the BSD quotient.
+Each *Needs* line gives the statement's inputs and the inputs of the indicated proof route.
 
 ## Conventions
 
@@ -362,183 +166,6 @@ of whether their implementations are available at the pins.
     or need only the simple definitions retained there. Its module docstring names
     the remaining headlines and the missing constructions, including the geometric
     models, Igusa moduli and Mestre obstruction, cluster reduction dictionary and Jacobian.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Polynomials: `Polynomial` with `natDegree`, `coeff`, `eval`, `aeval`, `comp`, map,
-  `Splits`, `rootSet`, `roots`, `Separable` (smoothness over an imperfect field needs
-  separability, not `Squarefree`), `Polynomial.Gal` (`Mathlib/FieldTheory/PolynomialGaloisGroup.lean`), `AdjoinRoot` with its field instance under
-  `Fact (Irreducible f)` and `Algebra` tower; `RatFunc k`.
-- `Polynomial.resultant`, `Polynomial.sylvester`, `Polynomial.sylvesterDeriv`,
-  `Polynomial.discr` with `discr_of_degree_eq_two`, `discr_of_degree_eq_three`,
-  `resultant_deriv`, `resultant_eq_prod_roots_sub`
-  (`Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`): the universal discriminant of
-  convention 2 is built from `discr` over `MvPolynomial (Fin (n+1)) ℤ`.
-- `MvPolynomial` with `IsWeightedHomogeneous` and `weightedHomogeneousComponent`
-  (`Mathlib/RingTheory/MvPolynomial/WeightedHomogeneous.lean`) for the weights of `J_{2i}`.
-- `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.det`, `Units`, `MulAction`,
-  `MulAction.stabilizer`.
-- `WeierstrassCurve` with `Δ`, `b₂, b₄, b₆, b₈`, `IsElliptic`, `VariableChange` and its group
-  and action, `IsIntegral R W`, `IsMinimal R W`, `minimal`, `reduction`, HasGoodReduction,
-  `HasMultiplicativeReduction`, `HasAdditiveReduction`
-  (`Mathlib/AlgebraicGeometry/EllipticCurve/{Weierstrass,VariableChange,Reduction}.lean`).
-- `IsDiscreteValuationRing`, `IsDedekindDomain.HeightOneSpectrum`, `Localization.AtPrime`,
-  `IsFractionRing`, `AddValuation`, `Valued`, `HenselianLocalRing`, `ClassGroup`,
-  `IsAlgClosed`, `AlgebraicClosure`, `IsGalois`, `IntermediateField.fixingSubgroup`,
-  `Module.finrank`, `ZMod`, `Submodule.torsionBy`.
-- `Finset` combinatorics (`powerset`, `offDiag`, `inf'`) for the cluster-picture carrier, and
-  `Nat.card`, `Fintype.card` for counts.
-
-### From Tau Ceti
-
-At the pin (`.lake/packages/TauCeti`):
-
-- `TauCeti.IsFunctionField`, `TauCeti.Place`, `TauCeti.genus` (both arguments explicit, `genus k F`),
-  exactness of constants as Mathlib's `IsIntegrallyClosedIn k F`, divisors, Riemann–Roch spaces, the different, Weierstrass gaps and weights
-  (`TauCeti/FieldTheory/FunctionField/*`).
-- `TauCeti.IsHyperellipticFunctionField` and its intrinsic characterisation
-  `TauCeti.isHyperellipticFunctionField_iff_two_le_genus_and_exists_degree_eq_two_and_two_le_dim`;
-  genus two is hyperelliptic away from characteristic 2 (`TauCeti.isHyperellipticFunctionField_of_genus_eq_two`,
-  hypothesis `(2 : k) ≠ 0`)
-  (`TauCeti/FieldTheory/FunctionField/Hyperelliptic/Basic.lean`).
-- For `y² = f(x)` with `f` squarefree away from characteristic 2: the degree
-  `finrank_ratFunc_eq_two_of_sq_eq`, the ramified places
-  `Place.one_lt_ramificationIdx_iff_of_sq_eq`, the different degree
-  `degree_different_ratFunc_of_sq_eq`, exactness of constants `isIntegrallyClosedIn_of_sq_eq`,
-  the genus `genus_eq_of_sq_eq` (`g = ⌊(deg f − 1)/2⌋`), and
-  `TauCeti.isHyperellipticFunctionField_of_sq_eq` (`…/Hyperelliptic/Genus/Basic.lean`).
-- Branch places `branchPlaces` with `card_branchPlaces` (`2g + 2` over an algebraically closed
-  field), `smul_mem_branchPlaces`, the degree of the different `degree_different_adjoin`
-  (`…/Hyperelliptic/BranchPlaces.lean`); the uniqueness of the index-2 subfield
-  `adjoin_eq_adjoin_of_finrank_adjoin_eq_two` and `mem_adjoin_of_finrank_adjoin_le_genus`
-  (`…/Hyperelliptic/RationalSubfield.lean`); the restriction homomorphism `restrictAdjoinHom`
-  to `Aut(k(x)/k)` with kernel the fixing subgroup of `k(x)` (`ker_restrictAdjoinHom`), of order 2
-  by `IntermediateField.natCard_fixingSubgroup_of_finrank_eq_two` (`…/Hyperelliptic/Automorphism.lean`); the permutation
-  action on branch places `branchPermHom` with `ker_branchPermHom`, finiteness
-  `finite_algEquiv_of_finrank_adjoin_eq_two` and the bound
-  `card_algEquiv_le_of_finrank_adjoin_eq_two` (`…/Hyperelliptic/Finite.lean`).
-- Elliptic curves: `WeierstrassCurve.IsGlobalMinimal`, `IsSemiGlobalMinimal`, the local minimal
-  discriminant, obstruction exponents, defect ideal, Weierstrass class, semistability
-  (`TauCeti/AlgebraicGeometry/EllipticCurve/{GlobalMinimalModel,MinimalModel/*}.lean`); the
-  quadratic twist `quadraticTwistOf` with `Δ_quadraticTwistOf`
-  (`…/EllipticCurve/QuadraticTwist/Basic.lean`); `autGroup` as a stabiliser in `VariableChange`
-  (`…/EllipticCurve/Aut.lean`); the `x − T` map `μ`, `M = Aˣ/Aˣ²`, `normM` for an elliptic curve
-  (`…/EllipticCurve/MordellWeil/XSubT.lean`); and, on Mathlib's
-  `IsDedekindDomain.selmerGroup`, the maps `fromSUnit`, `toClassGroup`, `selmerGroupPi`
-  (`TauCeti/RingTheory/DedekindDomain/SInteger/SelmerGroup/*`).
-- `TauCeti.AlgebraicGeometry.AbelianVariety` with baseChange, `dim`, isogenies
-  (`TauCeti/AlgebraicGeometry/AbelianVariety/*`); `TauCeti.Model` over a discrete valuation ring,
-  nodes and numerical types (`TauCeti/AlgebraicGeometry/Curves/*`).
-- Binary forms of degree `w` as `homogeneousSubmodule (Fin 2) R w` with the substitution action
-  `TauCeti.binaryFormRep` / `linearSubstRep (Fin 2) R w`
-  (`TauCeti/NumberTheory/ModularForms/BinaryForms.lean`): the homogeneous substitution of 0.1 and
-  1.1 is this action written on `R[X]_{≤ w}`.
-
-### From named Tau Ceti roadmaps
-
-- From [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md)
-  §2.7: local epsilon constants over finite extensions of ℚₚ. From
-  [AutomorphicLFunctionsAndLocalFactors](../AutomorphicLFunctionsAndLocalFactors/README.md)
-  §AL.3.10.3, “Function-field local factors, multiplicity one and converse theorem”:
-  the equal-characteristic Galois-to-Weil–Deligne adapter and local epsilon constants,
-  with finite wild image, quasi-unipotent inertia, geometric Frobenius, a fixed nontrivial
-  residue additive character and its self-dual measure. Layer 4.12 applies these to 4.7;
-  the Artin conductor in either characteristic is ArithmeticGaloisRepresentations Layer 3's.
-
-- From the [algebraic curves roadmap](../AlgebraicCurves/README.md): the function-field
-  vocabulary at the pin (`TauCeti.IsFunctionField`, `TauCeti.Place`, `TauCeti.genus`,
-  Mathlib's `IsIntegrallyClosedIn`, divisors, Riemann–Roch); its Layer 10 model class
-  `TauCeti.IsHyperellipticFunctionField` with the intrinsic characterisation, the genus formula
-  `TauCeti.genus_eq_of_sq_eq`, the ramified places `TauCeti.Place.one_lt_ramificationIdx_iff_of_sq_eq`,
-  the branch places `TauCeti.branchPlaces` with `TauCeti.card_branchPlaces`, the uniqueness of the
-  index-2 subfield `TauCeti.adjoin_eq_adjoin_of_finrank_adjoin_eq_two`, and its Layer 11
-  finiteness `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two` (under `NeZero (2 : k)`) with the restriction
-  `TauCeti.restrictAdjoinHom` to `Aut(k(x)/k)`. Layer 0 here maps a model to that function field
-  and transports these; it re-proves none of them.
-- From the [elliptic curves roadmap](../EllipticCurves/README.md): Mathlib's `WeierstrassCurve`,
-  `VariableChange`, `IsIntegral`, `IsMinimal`, the reduction predicates, and Tau Ceti's
-  `WeierstrassCurve.IsGlobalMinimal`, `IsSemiGlobalMinimal`, the local minimal discriminant, the
-  defect ideal and the Weierstrass class (its Layers 4, 4.5a, 4.5b). Layer 3 here is the
-  higher-genus analogue and is stated so that at `g = 1` it specialises to those declarations
-  through the Layer 0 bridge; it introduces no second elliptic theory.
-- From the [local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md): local
-  fields, their finite extensions, the normalised valuation and its unique extension, ramification
-  index and residue degree, inertia and the tame quotient, the lower ramification filtration
-  (`LocalFieldsRamification.lowerRamificationGroup`), and the different. Layer 4 uses them to say
-  “`K(ℛ)/K` has ramification degree at most 2” and to compute the wild conductor term.
-- From the [stable reduction roadmap](../StableReduction/README.md): relative curves over a
-  discrete valuation ring (`TauCeti.Model`), nodes, regular and minimal regular models, numerical
-  types and the dual graph (its Layers 0–6), and the finiteness of the automorphism group of a
-  stable geometric fibre (its Layer 3), which 1.4 applies to a smooth curve of genus `≥ 2` over
-  `k̄` in every characteristic. Layer 4's special-fibre theorem identifies the
-  minimal regular model of a semistable hyperelliptic curve; it does not construct regular models.
-  Layers 7–8 supply a finite separable semistabilizing extension, compatibility with further
-  extension and stable-model uniqueness; taking a Galois closure supplies the extension in §4.6.
-- From the [Jacobian challenge](../JacobianChallenge/README.md): the Jacobian
-  `JacobianVariety X hdim : AbelianVariety k` (Layers D–E; `Pic⁰` is representable with no
-  `k`-point), the Abel–Jacobi map `abelJacobi X hdim x₀` of Layer F, which alone needs a rational
-  point `x₀`, and the abelian variety carrier `TauCeti.AlgebraicGeometry.AbelianVariety` at the
-  pin. Every statement about “the Jacobian of `C`” is about that object applied to the curve of a
-  smooth model.
-- From the [Néron models and semistable abelian varieties roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md):
-  the Néron model and its component group `Φ_A` with rational and geometric points (its §2.2), the
-  semistable reduction predicate (§3.1), the Picard–Néron identity comparison for semistable curves
-  (§3.8–3.9), including the unpointed smooth-family abelian scheme (`smooth_case` in §3.8)
-  and its Néron identification (§1.8), the monodromy pairing and the component group as its cokernel with the
-  intersection-matrix description (§4.3–4.7), the good-reduction Euler factor (§5.0b–5.0c), the
-  conductor interface with independence of `ℓ` (§5.4), the semistable conductor formula
-  `f(A) = t` (§5.5), and the local Euler polynomial at bad places (§5.6). This roadmap *reads these
-  invariants off the cluster picture*; the invariants themselves are that roadmap's definitions.
-- From the [relative Jacobians and integral models roadmap](../RelativeJacobiansAndIntegralCurveModels/README.md):
-  Raynaud's Néron comparison for regular models (§3.3), reduction to the full special fibre and
-  the component homomorphism (§4.1), torsion bounds at good and bad primes (§4.2–4.3), and the
-  normalized-multidegree component formula (§4.4). Layer 4.8 here identifies the Tamagawa number
-  of a semistable hyperelliptic Jacobian with the order of that roadmap's rational component
-  group.
-- From the [effective Diophantine methods roadmap](../EffectiveDiophantineMethods/README.md):
-  §3.23, the `x − T` descent for `y² = f(x)` with `f` sextic and `C(ℚ) ≠ ∅`, its items (a)–(d)
-  (the homomorphism `J(K) → L_K^×/(L_K^{×2} K^×)`, the unramified-outside-`S` subgroup, the index
-  `[ker(x − T) : 2J(K)]`, the local counts) and the resulting rank bound. Layer 5.2 here states the
-  odd-degree case in the same four items and consumes the even-degree one.
-- From the [heights, rational points and obstructions roadmap](../HeightsRationalPointsAndObstructions/README.md):
-  the Kummer maps, Selmer structures and `Ш` (§1.1–1.5), Mordell–Weil and regulators (§1.7–1.8),
-  torsion specialization (§1.18), two-coverings and `W[2]` (§1.12), two-Selmer sets (§1.14),
-  the local doubling indices `#(A(F)/2A(F))` at finite, real and complex places (§1.17),
-  adelic points (§2.1–2.5) and the local-solubility predicate `IsLocallySoluble` (§6.1), Selmer sets
-  of torsors (§3.3), the Cassels–Tate pairing (§3.17a) and the Poonen–Stoll parity of `#Ш`
-  (§3.18c). The LMFDB's `two_selmer_rank` is `dim_{𝔽₂} Sel₂(J/ℚ)` for that roadmap's `Sel₂`
-  (its §1.3); `locally_solvable` is its `IsLocallySoluble` evaluated on the curve of Layer 0.
-- From the [periods, motivic `L`-values and special-value conjectures roadmap](../PeriodsAndSpecialValues/README.md):
-  the Euler product of a compatible system and its convergence half-plane (PS.1.1), the
-  Hasse–Weil completion `Λ_1(A, s) = Λ(H¹(A), s)` of an abelian variety with its local factors
-  through the Néron models roadmap §6.10 and the continuation predicate `SerreC9 A 1` (PS.1.8),
-  and the order and leading coefficient of a nonzero meromorphic germ (PS.3.3). Layer 5.7 applies
-  them to `A = J` and proves that the local factors are 5.3's and 5.4's.
-- From the [function field arithmetic roadmap](../FunctionFieldArithmetic/README.md): the point
-  counts `pointCount` with `pointCount_eq` (the number of `𝔽_{q^r}`-points of the regular
-  projective model, §5.1) and the `L`-polynomial `L_F = (1 − T)(1 − qT) Z_F` of the function field
-  with `zeta_rationality` (§5.3), and Newton recovery of that numerator from the first g
-  point counts with reciprocal symmetry (§5.6). Layer 5.3 applies them to the function field of a smooth genus-2
-  model.
-- From the [scheme, stack, cohomology and intersection foundations roadmap](../SchemeAndStackFoundations/README.md):
-  the Weil bound `weil_bound_via_surfaces`, `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` for a smooth projective
-  geometrically irreducible curve of genus `g` over `𝔽_q` (§5.11), which 5.5 applies to the
-  reduction.
-- From the completed [number-field arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md):
-  the completions `v.adicCompletion K` as local fields and the local–global dictionary (Layer 5),
-  which is how a global curve over `ℚ` is handed to the local layers at each prime.
-
-
-## How to read the build
-
-Layer 0 connects equations to function fields. Layer 1 supplies coordinate changes and
-isomorphisms. Layer 2 develops genus-two invariant theory, while Layer 3 develops minimal
-models and then uses those invariants for Liu's criterion. Layer 4 connects valued root
-configurations to the supplied geometric reduction theory. Layer 5 connects these results
-to Jacobian torsion, descent, local factors, local solubility, periods and the BSD quotient.
-Each *Needs* line gives the statement's inputs and the inputs of the indicated proof route.
 
 ## Layer 0: Weierstrass models, the discriminant and the function field
 
@@ -755,6 +382,7 @@ The latter remains smooth modulo 2, where its Weierstrass form becomes 1.
 
 Mathlib polynomial discriminants and scheme charts; AlgebraicCurves Layers 10–12;
 JacobianChallenge Layer A. The elliptic bridge uses Mathlib’s Weierstrass curve.
+
 
 ## Layer 1: changes of coordinates, isomorphisms, automorphisms and twists
 
@@ -2634,6 +2262,378 @@ concern the conductor ideal of a normalisation.
     itself along the residue map keeps the discriminant a unit (`Polynomial.discrOfDegree_map`),
     the `h = 0`, odd residue characteristic case of the direction of 3.5 from `v(Δ) = 0` to a smooth
     reduction.
+
+## Scope and ownership
+
+A hyperelliptic curve of genus `g ≥ 2` over a field `k` is a smooth projective geometrically
+integral curve with a separable degree-`2` map to `ℙ¹` defined over `k`. In every characteristic
+such a curve has a **Weierstrass model**
+
+```
+y² + h(x) y = f(x),      deg h ≤ g + 1,   deg f ≤ 2g + 2,
+```
+
+and everything the LMFDB displays about a genus-2 curve over `ℚ` is computed from one such
+equation: the discriminant, the Igusa–Clebsch, Igusa and G2 invariants, the automorphism groups,
+the minimal equation, the primes of bad reduction, the cluster pictures at the odd bad primes with
+their Tamagawa numbers, root numbers and conductor exponents, the 2-torsion field and the
+2-Selmer rank of the Jacobian, the Euler factors, and the local solvability of the curve. This
+roadmap builds that equation-level theory, in every characteristic where the statement is true,
+and connects it to the function-field theory of the
+[algebraic curves roadmap](../AlgebraicCurves/README.md) on one side and to the Néron-model and
+Jacobian theory of the
+[Néron models and semistable abelian varieties roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md)
+and the [relative Jacobians and integral models roadmap](../RelativeJacobiansAndIntegralCurveModels/README.md)
+on the other.
+
+The primary object is the **model** `W = (f, h)`, a pair of polynomials over a commutative ring
+`R` with the degree bounds above, written `Model R g`, exactly as Mathlib's `WeierstrassCurve R`
+is a quintuple of coefficients rather than a scheme. A **hyperelliptic curve** is a model whose
+discriminant is a unit (`IsSmooth`), and two models define the same curve when a change of
+coordinates of Layer 1 carries one to the other. Every invariant is first defined on the model
+and then proved invariant under the changes of coordinates that preserve the curve; a
+“hyperelliptic curve” is never a bundled structure where a model with an `IsSmooth` instance says
+the same thing. Mathlib's `WeierstrassCurve` is the genus-`1` sub-case with `f` monic cubic and
+`deg h ≤ 1` (`ofWeierstrass`), and Layer 0 proves the two discriminants agree on it, so nothing
+here forks the elliptic theory; general genus-1 models (quartic double covers, possibly without
+rational points) need not be elliptic curves and stay outside that bridge.
+
+Suggested home: `TauCeti/AlgebraicGeometry/HyperellipticCurve/`, with files `Model.lean` (the
+carrier, the binary-form discriminant, smoothness), `FunctionField.lean` (the bridge to Tau Ceti's
+`IsHyperellipticFunctionField`), `VariableChange.lean` (the group `𝒢_g` and the transformation
+law), `Involution.lean`, `Twist.lean`, `Aut.lean`, `Genus2/Invariants.lean`, `Genus2/Igusa.lean`
+(the isomorphism theorem), `Genus2/Automorphisms.lean`, `Genus2/Mestre.lean`,
+`MinimalModel/Local.lean`, `MinimalModel/Global.lean`, `MinimalModel/Genus2.lean` (Liu),
+ClusterPicture/Basic.lean, ClusterPicture/Semistability.lean, ClusterPicture/SpecialFibre.lean,
+ClusterPicture/Invariants.lean (Tamagawa, conductor, root number, deficiency),
+ClusterPicture/Genus2.lean (the classification table), `Jacobian/TwoTorsion.lean`,
+`Jacobian/EulerFactor.lean`, `LocalSolvability.lean`, and `Examples/` for the worked suite.
+
+A predicate or quantity invariant under isomorphism belongs to this roadmap. Label components
+beyond the intrinsic prefix, orderings and normal forms fixed by convention, stored lists, and the
+completeness of database tables are not targets. Concretely, the genus-2 label
+`N.s.D.n` has the intrinsic prefix `(N, D)` = (conductor of the Jacobian, absolute minimal
+discriminant), both defined here; the isogeny-class letter `s` and the index `n` are enumerative
+and are not.
+
+### Owned here
+
+- The carrier `Model R g`, the characteristic-free discriminant `Δ`, the weighted-projective
+  model in `ℙ(1, g+1, 1)`, smoothness `⇔ Δ ≠ 0`, the function field of a model and its
+  comparison with Tau Ceti's `IsHyperellipticFunctionField`, the genus-1 comparison with
+  `WeierstrassCurve` (Layer 0).
+- The group `𝒢_g(R)` of changes of coordinates, its action on models, the transformation law of
+  `Δ`, the theorem that every isomorphism of hyperelliptic curves is induced by a change of
+  coordinates, the hyperelliptic involution, Weierstrass points and their count, the finite
+  automorphism group with its reduced quotient in `PGL₂`, twists (Layer 1).
+- The genus-2 invariants `I₂, I₄, I₆, I₁₀`, `J₂, J₄, J₆, J₈, J₁₀`, `(g₁, g₂, g₃)`, their
+  covariance, Igusa's theorem that they classify curves up to `k̄`-isomorphism, the classification
+  of automorphism groups in every characteristic, and Mestre's obstruction (Layer 2).
+- Integral and minimal Weierstrass models over a discrete valuation ring, the minimal
+  discriminant, global minimal models over a principal ideal domain and the obstruction class
+  over a Dedekind domain, Liu's determination of the stable reduction type of a genus-2 curve from
+  its Igusa invariants, and Liu's conductor–discriminant inequality in genus 2 (Layer 3).
+- Cluster pictures of Dokchitser–Dokchitser–Maistret–Morgan in odd residue characteristic: the
+  combinatorial carrier and its invariants, invariance under isomorphism, the semistability
+  criterion, the reduction dictionary for the curve and its Jacobian, the special fibre of the
+  minimal regular model, the Tamagawa number, conductor exponent, root number, deficiency and
+  minimal discriminant read off the picture, and the classification of semistable genus-2
+  reduction types (Layer 4).
+- The 2-torsion of the Jacobian of a hyperelliptic curve with its Galois module structure and
+  2-torsion field, the odd-degree `x − T` descent, the explicit good Euler factors in genus 2 and
+  the bad Euler factors at odd semistable primes, local solvability of hyperelliptic models, the
+  conductor bounds for abelian surfaces, the identification of the local factors of `L(J, s)`
+  with those of 5.3–5.4, the real period `Ω_J` and the BSD quotient as an implication (Layer 5).
+
+### Not owned here
+
+- **The function-field theory of hyperelliptic curves** — the existence of the index-2 rational
+  subfield, the genus formula, Weierstrass gaps, Kummer and Artin–Schreier models, regular
+  differentials, the Hurwitz bound: the
+  [algebraic curves roadmap](../AlgebraicCurves/README.md), Layers 10–11. Layer 0 here is the
+  equation-side dictionary to that theory.
+- **Néron models, component groups, conductors and local Euler factors as general notions**, and
+  the stable reduction theorem: the
+  [Néron models roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md), the
+  [relative Jacobians roadmap](../RelativeJacobiansAndIntegralCurveModels/README.md), and the
+  [stable reduction roadmap](../StableReduction/README.md). Here they are computed, not defined.
+- **The 2-Selmer group, Mordell–Weil group, rank, generators, regulator, canonical heights and
+  torsion subgroup** of the Jacobian: the
+  [heights roadmap](../HeightsRationalPointsAndObstructions/README.md) (Layers 1, 3). The LMFDB
+  fields `mw_rank`, `mw_gens`, `torsion`, `torsion_order` and `regulator` live there; this roadmap
+  supplies the 2-torsion of Layer 5.1, the local data of Layer 4, `tamagawa_product` (5.6), and
+  `real_period` and the BSD quotient `analytic_sha` (5.7).
+- **Chabauty–Coleman theory** — residue discs, annihilating differentials and the bounds on the
+  number of rational points of a curve whose Jacobian has rank below the genus: the
+  [effective Diophantine methods roadmap](../EffectiveDiophantineMethods/README.md), Layer 4
+  (Coleman's bound at a prime of good reduction is its §4.13).
+- **The global `L`-function of an abelian variety**, its continuation predicate, and the order and
+  leading coefficient of `L(J, s)` at `s = 1` (`analytic_rank`, `leading_coeff`): the
+  [periods roadmap](../PeriodsAndSpecialValues/README.md) PS.1.1, PS.1.8 (`Λ_1(A, s)`,
+  `SerreC9 A 1`) and PS.3.3. Layer 5.7 identifies its local factors for a genus-2 Jacobian with
+  those of 5.3–5.4.
+- **Endomorphism algebras, `GL₂`-type, geometric simplicity and decomposition, Sato–Tate groups**
+  (`end_alg`, `geom_end_alg`, `real_geom_end_alg`, `is_gl2_type`, `is_simple_geom`,
+  `end_lattice`, `st_group`, `st_label`): the sibling `SatoTateGroups` roadmap.
+- **Mod-`ℓ` and `ℓ`-adic Galois images in `GSp₄`, non-maximal primes** (`galois_image`,
+  `nonmax_primes`, `modell_image`): the sibling `AdelicImagesAndModularCurves` roadmap.
+- **Point counts and `L`-polynomials of curves over finite fields**: the zeta function, the point
+  counts and the `L`-polynomial are the function field arithmetic roadmap's (§§5.1, 5.3, 5.6), consumed
+  in Layer 5.3 here; the Weil bound is the scheme, stack, cohomology and intersection foundations
+  roadmap's §5.11, consumed in 5.5; the Weil polynomial of the reduction is the sibling
+  `CurvesOverFiniteFields` roadmap's, and the `av.fq` labels the LMFDB prints beside each good
+  Euler factor are that sibling's and `AbelianVarietiesOverFiniteFields`'.
+- **Labels, the choice of a reduced minimal equation among all minimal equations, the ordering of
+  curves in an isogeny class, completeness of the database**: not targets. In
+  particular the *set* of minimal equations (in genus `≥ 2` not a single `𝒢_g(ℤ)`-orbit) is
+  Layer 3's; which representative the LMFDB prints is not.
+- **Families of hyperelliptic curves with group actions** (the `hgcwa` `hyperelliptic` column —
+  whether a generating vector gives a hyperelliptic curve): the sibling
+  `GroupActionsOnRiemannSurfaces` roadmap; the equation-level criterion it needs (in characteristic `≠ 2`, a curve of genus
+  `g ≥ 2` is hyperelliptic iff it has an involution with `2g + 2` fixed points, Layer 1.4) is
+  supplied here.
+- **The Artin conductor and local root number of a general Weil–Deligne representation**: the
+  [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) (§3 for
+  the conductor, §2.7 `WeilDeligneRep.epsilon` for the local constant over finite extensions of ℚₚ),
+  and AutomorphicLFunctionsAndLocalFactors §AL.3.10.3 for equal-characteristic local constants, on the
+  [Néron models roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md) §5.4's
+  representation; the finite-image local constants are read from it by the sibling
+  `ArtinRepresentations` Layer 6. Layer 4 evaluates them on hyperelliptic curves from the cluster
+  picture.
+- Hyperelliptic curves in residue characteristic 2 beyond the model theory: cluster pictures are
+  stated for odd residue characteristic only, as in their source; the 2-adic invariants of a
+  genus-2 curve are reached only through the general theory of the Néron models roadmap.
+- Superelliptic curves `yⁿ = f(x)` with `n ≥ 3`, Picard curves, plane quartics, and the moduli
+  space `M₂` as a scheme.
+
+### The LMFDB genus-2 page, column by column
+
+The table records, for every field of `g2c_curves`, `g2c_endomorphisms`, `g2c_tamagawa`,
+`g2c_ratpts`, `g2c_galrep` and `cluster_pictures` that the page displays or that a search can
+filter on, which roadmap owns the mathematics. “Here N.M” is a milestone below.
+
+| LMFDB field | Mathematics | Owner |
+| --- | --- | --- |
+| `eqn` (minimal equation `[f, h]`) | a minimal model over `ℤ` | here 3.4 (the set); the chosen representative is not a target |
+| simplified equation `y² = 4f + h²` | 1.2 (a change of coordinates over `ℤ[1/2]`) | here |
+| `disc_sign`, `abs_disc` | minimal discriminant `Δ_min` and its sign | here 0.3, 3.4 |
+| `cond` | conductor of the Jacobian | Néron models §5.4; the value at odd `p` from clusters: here 4.9; the prime factorisation: here 5.6 |
+| `bad_primes` | primes dividing `Δ_min` | here 3.4, 3.6 |
+| `igusa_clebsch_inv`, `igusa_inv`, `g2_inv` | `I₂:I₄:I₆:I₁₀`, `J₂:…:J₁₀`, `(g₁,g₂,g₃)`; the stored representatives of convention 8 | here 2.1, 2.2, 2.5 (the vector `J(W_min)` is intrinsic, 3.4); the sign rule and the `d^k` reduction of `I` are not a target |
+| `aut_grp_label`, `aut_grp_tex`, `geom_aut_grp_label`, `geom_aut_grp_tex` | `Aut(C)`, `Aut(C_{ℚ̄})` as abstract groups | here 1.4, 2.6; isomorphism invariants: `FiniteGroupInvariants`; group labels are not a target |
+| `num_rat_wpts` | number of `ℚ`-rational Weierstrass points | here 1.3 |
+| `locally_solvable`, `non_solvable_places` | `C(ℚ_v) ≠ ∅` for all `v` | predicate: heights roadmap §6.1; hyperelliptic criteria: here 5.5 |
+| `two_selmer_rank` | `dim_{𝔽₂} Sel₂(J/ℚ)` | heights roadmap §1.3–1.5; descent interface: effective Diophantine methods §3.23 and here 5.2 |
+| `two_torsion_field` | `ℚ(J[2])` | here 5.1 |
+| `torsion_subgroup`, `torsion_order` | `J(ℚ)_tors` | heights roadmap §1.18, relative Jacobians §4.2–4.3; `J[2](ℚ)` only: here 5.1 |
+| `tamagawa_number` at `p` (`g2c_tamagawa`) | `#Φ_J(𝔽_p)` | Néron models §2.2; odd semistable `p`: here 4.8 |
+| `local_root_number` at `p` | `w_p(J)` | odd semistable `p`: here 4.12; general: arithmetic Galois representations §2.7 on Néron models §5.4 |
+| `cluster_label`, `cluster_pictures.{depth,size,potential_toric_rank,potential_good_reduction,potential_good_jacobian_reduction}` | the cluster picture at odd `p` and its invariants | here 4.1–4.5; the label string is not a target |
+| “tame reduction?” | semistable over a tame extension | here 4.5 |
+| `bad_lfactors` | `L_p(T)` at bad `p` | Néron models §5.6; odd semistable `p`: here 5.4 |
+| `euler_factors` (good `p`) | `L_p(T)` from `#C(𝔽_p), #C(𝔽_{p²})` | here 5.3 with function field arithmetic §5.3 |
+| `root_number` | `∏_v w_v` | product of the local ones; archimedean `(-1)^g`: here 4.12 |
+| `has_square_sha` | parity of the number of deficient places | here 4.11 with heights roadmap §3.17a, §3.18c |
+| `regulator`, `mw_rank`, `mw_gens`, `mw_invs`, `mw_heights`, `rat_pts`, `rat_pts_v`, `mw_gens_v` | Mordell–Weil data and rational points | heights roadmap (Layers 0–1, 3) |
+| `analytic_rank`, `leading_coeff`, `real_period`, `analytic_sha` | the order and leading coefficient of `L(J, s)` at `s = 1`, the real period, the BSD quotient | `L(J, s)`, its order and leading coefficient: periods roadmap PS.1.8, PS.3.3, with the local factors identified here in 5.7; `real_period` unconditionally and `analytic_sha` as an implication from `SerreC9 J 1` and holomorphy at 1: here 5.7 |
+| `st_group`, `st_label`, `real_geom_end_alg`, `end_alg`, `geom_end_alg`, `is_gl2_type`, `is_simple_geom`, `ring_base`, `ring_geom`, `lattice`, `fod_*`, `spl_*` | endomorphisms, decomposition, Sato–Tate | `SatoTateGroups` |
+| `non_maximal_primes`, `modell_image` | Galois images in `GSp₄(𝔽_ℓ)` | `AdelicImagesAndModularCurves` |
+| `label`, `class`, `Lhash` | enumerative data beyond the prefix `(N, D)` | not a target (database convention) |
+
+### Additional AlgebraicCurves ownership
+
+AlgebraicCurves Layer 10 supplies squarefree and Artin–Schreier models, Weierstrass gaps and
+the regular-differential basis; Layer 12 supplies the regular-proper curve/function-field
+dictionary and its two-chart construction. These are consumed as roadmap targets, independently
+of whether their implementations are available at the pins.
+
+### Additional scope boundaries
+
+- Cluster pictures in residue characteristic 2, and 2-adic Tamagawa numbers, root numbers and
+  conductor exponents of genus-2 curves beyond the general theory of the Néron models roadmap.
+- The Mordell–Weil group, heights and regulators (the
+  [heights roadmap](../HeightsRationalPointsAndObstructions/README.md)); the analytic
+  continuation of `L(J, s)` and modularity, which 5.7 takes as the periods roadmap's predicate
+  `SerreC9 J 1` and never proves.
+- Endomorphism rings, Sato–Tate groups, Galois images (`SatoTateGroups`,
+  `AdelicImagesAndModularCurves`).
+- The LMFDB's choice of reduced minimal equation among the minimal ones (Stoll's reduction theory
+  of binary forms) and the stored normal forms of convention 8; the set of minimal models and the
+  invariants are Layers 2–3.
+- Curves of genus `≥ 3` beyond what is uniform in `g`: the genus-3 invariants (Shioda), the
+  Shaska–Völklein automorphism tables in higher genus, and the moduli of hyperelliptic curves as a
+  stack.
+- Superelliptic and cyclic covers `yⁿ = f(x)`, `n ≥ 3` (Poonen–Schaefer's general descent is cited
+  only for the hyperelliptic case).
+- Modular interpretations of specific genus-2 curves (`X₀(N)`, `X₁(N)` quotients) — the
+  [modular curves roadmap](../ModularCurves/README.md) and `CanonicalModelsAndGonality`.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Polynomials: `Polynomial` with `natDegree`, `coeff`, `eval`, `aeval`, `comp`, map,
+  `Splits`, `rootSet`, `roots`, `Separable` (smoothness over an imperfect field needs
+  separability, not `Squarefree`), `Polynomial.Gal` (`Mathlib/FieldTheory/PolynomialGaloisGroup.lean`), `AdjoinRoot` with its field instance under
+  `Fact (Irreducible f)` and `Algebra` tower; `RatFunc k`.
+- `Polynomial.resultant`, `Polynomial.sylvester`, `Polynomial.sylvesterDeriv`,
+  `Polynomial.discr` with `discr_of_degree_eq_two`, `discr_of_degree_eq_three`,
+  `resultant_deriv`, `resultant_eq_prod_roots_sub`
+  (`Mathlib/RingTheory/Polynomial/Resultant/Basic.lean`): the universal discriminant of
+  convention 2 is built from `discr` over `MvPolynomial (Fin (n+1)) ℤ`.
+- `MvPolynomial` with `IsWeightedHomogeneous` and `weightedHomogeneousComponent`
+  (`Mathlib/RingTheory/MvPolynomial/WeightedHomogeneous.lean`) for the weights of `J_{2i}`.
+- `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.det`, `Units`, `MulAction`,
+  `MulAction.stabilizer`.
+- `WeierstrassCurve` with `Δ`, `b₂, b₄, b₆, b₈`, `IsElliptic`, `VariableChange` and its group
+  and action, `IsIntegral R W`, `IsMinimal R W`, `minimal`, `reduction`, HasGoodReduction,
+  `HasMultiplicativeReduction`, `HasAdditiveReduction`
+  (`Mathlib/AlgebraicGeometry/EllipticCurve/{Weierstrass,VariableChange,Reduction}.lean`).
+- `IsDiscreteValuationRing`, `IsDedekindDomain.HeightOneSpectrum`, `Localization.AtPrime`,
+  `IsFractionRing`, `AddValuation`, `Valued`, `HenselianLocalRing`, `ClassGroup`,
+  `IsAlgClosed`, `AlgebraicClosure`, `IsGalois`, `IntermediateField.fixingSubgroup`,
+  `Module.finrank`, `ZMod`, `Submodule.torsionBy`.
+- `Finset` combinatorics (`powerset`, `offDiag`, `inf'`) for the cluster-picture carrier, and
+  `Nat.card`, `Fintype.card` for counts.
+
+### From Tau Ceti
+
+At the pin (`.lake/packages/TauCeti`):
+
+- `TauCeti.IsFunctionField`, `TauCeti.Place`, `TauCeti.genus` (both arguments explicit, `genus k F`),
+  exactness of constants as Mathlib's `IsIntegrallyClosedIn k F`, divisors, Riemann–Roch spaces, the different, Weierstrass gaps and weights
+  (`TauCeti/FieldTheory/FunctionField/*`).
+- `TauCeti.IsHyperellipticFunctionField` and its intrinsic characterisation
+  `TauCeti.isHyperellipticFunctionField_iff_two_le_genus_and_exists_degree_eq_two_and_two_le_dim`;
+  genus two is hyperelliptic away from characteristic 2 (`TauCeti.isHyperellipticFunctionField_of_genus_eq_two`,
+  hypothesis `(2 : k) ≠ 0`)
+  (`TauCeti/FieldTheory/FunctionField/Hyperelliptic/Basic.lean`).
+- For `y² = f(x)` with `f` squarefree away from characteristic 2: the degree
+  `finrank_ratFunc_eq_two_of_sq_eq`, the ramified places
+  `Place.one_lt_ramificationIdx_iff_of_sq_eq`, the different degree
+  `degree_different_ratFunc_of_sq_eq`, exactness of constants `isIntegrallyClosedIn_of_sq_eq`,
+  the genus `genus_eq_of_sq_eq` (`g = ⌊(deg f − 1)/2⌋`), and
+  `TauCeti.isHyperellipticFunctionField_of_sq_eq` (`…/Hyperelliptic/Genus/Basic.lean`).
+- Branch places `branchPlaces` with `card_branchPlaces` (`2g + 2` over an algebraically closed
+  field), `smul_mem_branchPlaces`, the degree of the different `degree_different_adjoin`
+  (`…/Hyperelliptic/BranchPlaces.lean`); the uniqueness of the index-2 subfield
+  `adjoin_eq_adjoin_of_finrank_adjoin_eq_two` and `mem_adjoin_of_finrank_adjoin_le_genus`
+  (`…/Hyperelliptic/RationalSubfield.lean`); the restriction homomorphism `restrictAdjoinHom`
+  to `Aut(k(x)/k)` with kernel the fixing subgroup of `k(x)` (`ker_restrictAdjoinHom`), of order 2
+  by `IntermediateField.natCard_fixingSubgroup_of_finrank_eq_two` (`…/Hyperelliptic/Automorphism.lean`); the permutation
+  action on branch places `branchPermHom` with `ker_branchPermHom`, finiteness
+  `finite_algEquiv_of_finrank_adjoin_eq_two` and the bound
+  `card_algEquiv_le_of_finrank_adjoin_eq_two` (`…/Hyperelliptic/Finite.lean`).
+- Elliptic curves: `WeierstrassCurve.IsGlobalMinimal`, `IsSemiGlobalMinimal`, the local minimal
+  discriminant, obstruction exponents, defect ideal, Weierstrass class, semistability
+  (`TauCeti/AlgebraicGeometry/EllipticCurve/{GlobalMinimalModel,MinimalModel/*}.lean`); the
+  quadratic twist `quadraticTwistOf` with `Δ_quadraticTwistOf`
+  (`…/EllipticCurve/QuadraticTwist/Basic.lean`); `autGroup` as a stabiliser in `VariableChange`
+  (`…/EllipticCurve/Aut.lean`); the `x − T` map `μ`, `M = Aˣ/Aˣ²`, `normM` for an elliptic curve
+  (`…/EllipticCurve/MordellWeil/XSubT.lean`); and, on Mathlib's
+  `IsDedekindDomain.selmerGroup`, the maps `fromSUnit`, `toClassGroup`, `selmerGroupPi`
+  (`TauCeti/RingTheory/DedekindDomain/SInteger/SelmerGroup/*`).
+- `TauCeti.AlgebraicGeometry.AbelianVariety` with baseChange, `dim`, isogenies
+  (`TauCeti/AlgebraicGeometry/AbelianVariety/*`); `TauCeti.Model` over a discrete valuation ring,
+  nodes and numerical types (`TauCeti/AlgebraicGeometry/Curves/*`).
+- Binary forms of degree `w` as `homogeneousSubmodule (Fin 2) R w` with the substitution action
+  `TauCeti.binaryFormRep` / `linearSubstRep (Fin 2) R w`
+  (`TauCeti/NumberTheory/ModularForms/BinaryForms.lean`): the homogeneous substitution of 0.1 and
+  1.1 is this action written on `R[X]_{≤ w}`.
+
+### From named Tau Ceti roadmaps
+
+- From [ArithmeticGaloisRepresentations](../ArithmeticGaloisRepresentations/README.md)
+  §2.7: local epsilon constants over finite extensions of ℚₚ. From
+  [AutomorphicLFunctionsAndLocalFactors](../AutomorphicLFunctionsAndLocalFactors/README.md)
+  §AL.3.10.3, “Function-field local factors, multiplicity one and converse theorem”:
+  the equal-characteristic Galois-to-Weil–Deligne adapter and local epsilon constants,
+  with finite wild image, quasi-unipotent inertia, geometric Frobenius, a fixed nontrivial
+  residue additive character and its self-dual measure. Layer 4.12 applies these to 4.7;
+  the Artin conductor in either characteristic is ArithmeticGaloisRepresentations Layer 3's.
+
+- From the [algebraic curves roadmap](../AlgebraicCurves/README.md): the function-field
+  vocabulary at the pin (`TauCeti.IsFunctionField`, `TauCeti.Place`, `TauCeti.genus`,
+  Mathlib's `IsIntegrallyClosedIn`, divisors, Riemann–Roch); its Layer 10 model class
+  `TauCeti.IsHyperellipticFunctionField` with the intrinsic characterisation, the genus formula
+  `TauCeti.genus_eq_of_sq_eq`, the ramified places `TauCeti.Place.one_lt_ramificationIdx_iff_of_sq_eq`,
+  the branch places `TauCeti.branchPlaces` with `TauCeti.card_branchPlaces`, the uniqueness of the
+  index-2 subfield `TauCeti.adjoin_eq_adjoin_of_finrank_adjoin_eq_two`, and its Layer 11
+  finiteness `TauCeti.finite_algEquiv_of_finrank_adjoin_eq_two` (under `NeZero (2 : k)`) with the restriction
+  `TauCeti.restrictAdjoinHom` to `Aut(k(x)/k)`. Layer 0 here maps a model to that function field
+  and transports these; it re-proves none of them.
+- From the [elliptic curves roadmap](../EllipticCurves/README.md): Mathlib's `WeierstrassCurve`,
+  `VariableChange`, `IsIntegral`, `IsMinimal`, the reduction predicates, and Tau Ceti's
+  `WeierstrassCurve.IsGlobalMinimal`, `IsSemiGlobalMinimal`, the local minimal discriminant, the
+  defect ideal and the Weierstrass class (its Layers 4, 4.5a, 4.5b). Layer 3 here is the
+  higher-genus analogue and is stated so that at `g = 1` it specialises to those declarations
+  through the Layer 0 bridge; it introduces no second elliptic theory.
+- From the [local fields and ramification roadmap](../../Completed/LocalFieldsRamification/README.md): local
+  fields, their finite extensions, the normalised valuation and its unique extension, ramification
+  index and residue degree, inertia and the tame quotient, the lower ramification filtration
+  (`LocalFieldsRamification.lowerRamificationGroup`), and the different. Layer 4 uses them to say
+  “`K(ℛ)/K` has ramification degree at most 2” and to compute the wild conductor term.
+- From the [stable reduction roadmap](../StableReduction/README.md): relative curves over a
+  discrete valuation ring (`TauCeti.Model`), nodes, regular and minimal regular models, numerical
+  types and the dual graph (its Layers 0–6), and the finiteness of the automorphism group of a
+  stable geometric fibre (its Layer 3), which 1.4 applies to a smooth curve of genus `≥ 2` over
+  `k̄` in every characteristic. Layer 4's special-fibre theorem identifies the
+  minimal regular model of a semistable hyperelliptic curve; it does not construct regular models.
+  Layers 7–8 supply a finite separable semistabilizing extension, compatibility with further
+  extension and stable-model uniqueness; taking a Galois closure supplies the extension in §4.6.
+- From the [Jacobian challenge](../JacobianChallenge/README.md): the Jacobian
+  `JacobianVariety X hdim : AbelianVariety k` (Layers D–E; `Pic⁰` is representable with no
+  `k`-point), the Abel–Jacobi map `abelJacobi X hdim x₀` of Layer F, which alone needs a rational
+  point `x₀`, and the abelian variety carrier `TauCeti.AlgebraicGeometry.AbelianVariety` at the
+  pin. Every statement about “the Jacobian of `C`” is about that object applied to the curve of a
+  smooth model.
+- From the [Néron models and semistable abelian varieties roadmap](../NeronModelsAndSemistableAbelianVarieties/README.md):
+  the Néron model and its component group `Φ_A` with rational and geometric points (its §2.2), the
+  semistable reduction predicate (§3.1), the Picard–Néron identity comparison for semistable curves
+  (§3.8–3.9), including the unpointed smooth-family abelian scheme (`smooth_case` in §3.8)
+  and its Néron identification (§1.8), the monodromy pairing and the component group as its cokernel with the
+  intersection-matrix description (§4.3–4.7), the good-reduction Euler factor (§5.0b–5.0c), the
+  conductor interface with independence of `ℓ` (§5.4), the semistable conductor formula
+  `f(A) = t` (§5.5), and the local Euler polynomial at bad places (§5.6). This roadmap *reads these
+  invariants off the cluster picture*; the invariants themselves are that roadmap's definitions.
+- From the [relative Jacobians and integral models roadmap](../RelativeJacobiansAndIntegralCurveModels/README.md):
+  Raynaud's Néron comparison for regular models (§3.3), reduction to the full special fibre and
+  the component homomorphism (§4.1), torsion bounds at good and bad primes (§4.2–4.3), and the
+  normalized-multidegree component formula (§4.4). Layer 4.8 here identifies the Tamagawa number
+  of a semistable hyperelliptic Jacobian with the order of that roadmap's rational component
+  group.
+- From the [effective Diophantine methods roadmap](../EffectiveDiophantineMethods/README.md):
+  §3.23, the `x − T` descent for `y² = f(x)` with `f` sextic and `C(ℚ) ≠ ∅`, its items (a)–(d)
+  (the homomorphism `J(K) → L_K^×/(L_K^{×2} K^×)`, the unramified-outside-`S` subgroup, the index
+  `[ker(x − T) : 2J(K)]`, the local counts) and the resulting rank bound. Layer 5.2 here states the
+  odd-degree case in the same four items and consumes the even-degree one.
+- From the [heights, rational points and obstructions roadmap](../HeightsRationalPointsAndObstructions/README.md):
+  the Kummer maps, Selmer structures and `Ш` (§1.1–1.5), Mordell–Weil and regulators (§1.7–1.8),
+  torsion specialization (§1.18), two-coverings and `W[2]` (§1.12), two-Selmer sets (§1.14),
+  the local doubling indices `#(A(F)/2A(F))` at finite, real and complex places (§1.17),
+  adelic points (§2.1–2.5) and the local-solubility predicate `IsLocallySoluble` (§6.1), Selmer sets
+  of torsors (§3.3), the Cassels–Tate pairing (§3.17a) and the Poonen–Stoll parity of `#Ш`
+  (§3.18c). The LMFDB's `two_selmer_rank` is `dim_{𝔽₂} Sel₂(J/ℚ)` for that roadmap's `Sel₂`
+  (its §1.3); `locally_solvable` is its `IsLocallySoluble` evaluated on the curve of Layer 0.
+- From the [periods, motivic `L`-values and special-value conjectures roadmap](../PeriodsAndSpecialValues/README.md):
+  the Euler product of a compatible system and its convergence half-plane (PS.1.1), the
+  Hasse–Weil completion `Λ_1(A, s) = Λ(H¹(A), s)` of an abelian variety with its local factors
+  through the Néron models roadmap §6.10 and the continuation predicate `SerreC9 A 1` (PS.1.8),
+  and the order and leading coefficient of a nonzero meromorphic germ (PS.3.3). Layer 5.7 applies
+  them to `A = J` and proves that the local factors are 5.3's and 5.4's.
+- From the [function field arithmetic roadmap](../FunctionFieldArithmetic/README.md): the point
+  counts `pointCount` with `pointCount_eq` (the number of `𝔽_{q^r}`-points of the regular
+  projective model, §5.1) and the `L`-polynomial `L_F = (1 − T)(1 − qT) Z_F` of the function field
+  with `zeta_rationality` (§5.3), and Newton recovery of that numerator from the first g
+  point counts with reciprocal symmetry (§5.6). Layer 5.3 applies them to the function field of a smooth genus-2
+  model.
+- From the [scheme, stack, cohomology and intersection foundations roadmap](../SchemeAndStackFoundations/README.md):
+  the Weil bound `weil_bound_via_surfaces`, `|#C(𝔽_q) − (q + 1)| ≤ 2g√q` for a smooth projective
+  geometrically irreducible curve of genus `g` over `𝔽_q` (§5.11), which 5.5 applies to the
+  reduction.
+- From the completed [number-field arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md):
+  the completions `v.adicCompletion K` as local fields and the local–global dictionary (Layer 5),
+  which is how a global curve over `ℚ` is handed to the local layers at each prime.
 
 ## References
 
