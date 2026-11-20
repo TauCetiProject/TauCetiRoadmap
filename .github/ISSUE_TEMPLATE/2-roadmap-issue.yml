@@ -52,6 +52,7 @@ body:
         - ArithmeticInterpolationDeterminants
         - ArithmeticKTheory
         - ArithmeticLocallySymmetricSpaces
+        - ArithmeticLocallySymmetricSpacesPartII
         - ArithmeticStatisticsPartI
         - ArithmeticStatisticsPartII
         - ArithmeticStatisticsPartIII
@@ -183,6 +184,7 @@ body:
         - GeneralizedCohomology
         - GenericDoublePointInterpolation
         - GeometricCurrents
+        - GeometricFreyMazur
         - GeometricMeasureTheory
         - GeometricQuantization
         - GeometricRepresentationCategories
@@ -260,6 +262,7 @@ body:
         - MathematicalStatisticsSemiparametric
         - McKaySkewGroup
         - MetaplecticAutomorphicForms
+        - ModularCharactersAndBlocksPartII
         - ModularCurves
         - ModularCurvesPartII
         - ModularForms
@@ -416,9 +419,11 @@ body:
         - TopologicalSheafCohomology
         - TypeAHeckeAlgebras
         - VStackSheavesAndLisseCategories
+        - VStackSheavesAndLisseCategoriesPartII
         - VariationalMethods
         - Varifolds
         - VectorBundlesAndIsocrystals
+        - VectorBundlesAndIsocrystalsPartII
         - VirtualFundamentalClass
         - VonNeumannAlgebras
         - WeightsInEtaleCohomology
