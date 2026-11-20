@@ -34,94 +34,16 @@ toroidal roadmap lives in `TauCeti/Geometry/Shimura/Hilbert/Cusp`), with the pur
 layers (Hirzebruch–Jung continued fractions, cyclic quotient singularity data, the Siegel value)
 under `TauCeti/NumberTheory/HilbertModularSurface/`.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- The degree-two reading of HilbertModularForms' groups and cusps: the identification of its
-  `ℍ^Σ` with the ordered `ℍ²`, the projective groups `PΓ` and the quotients `PΓᵢ/PΓᵢ¹`, the
-  analytic quotient `Y(Γ)` as a ShimuraVarieties component, the cusp invariants `𝔰` and `𝔐`,
-  the `Γ₀`/`Γ₁` cusp parametrisation, the `sl` cusp count, the cusp types `G(M, V)` and the
-  all-level affine stabilizer with its translation class (Layers 0–1); the canonical two-form
-  of a weight-`(2, 2)` form on HilbertModularForms' spaces (0.5, 4.8).
-- The surface-theoretic reading of a cusp of `Ȳ(Γ)`: its type `G(M, V)` (Layer 1), the
-  extension of the supplied maximal-order minus periods to oriented full lattices with arbitrary
-  multiplier order, their compatibility with that construction (Layer 2), and the
-  theorem that the exceptional locus of `X(Γ) → Ȳ(Γ)` over a cusp of type `G(M, V)` is a cycle of
-  `dk` smooth rational curves with the self-intersection numbers `−b_i` (Layer 2).
-- Elliptic points of `Γ₀(𝔑)_𝔟` and `Γ₀¹(𝔑)_𝔟`: the dictionary with CM orders, the complete list
-  of possible orders, the class number `h(S)` of an `R`-order `S` in a quadratic extension of `F`
-  by its conductor (no roadmap states it beyond `F = ℚ`), the class-number formulas for their
-  number, the rotation types and their distribution, the Hirzebruch–Jung strings resolving them
-  and the local Chern cycles (Layer 3).
-- The volume `vol(Γ\ℍ²) = 2[Γ¹(1):Γ] ζ_F(−1)` normalised on `PSL₂(R)`, Siegel's closed formula for `ζ_F(−1)`,
-  Hirzebruch's formulas for `c₁² = K²` and `c₂ = e` of `X(Γ)`, the vanishing of the irregularity,
-  the application of Noether's formula to `χ`, the Hodge diamond, and the comparison
-  `Σ_{[𝔟]} χ(X₀(𝔑)_𝔟) = dim S₂(Γ₀(𝔑)) + h⁺` (Layer 4).
-- The surface-classification inputs this roadmap uses and no other roadmap states: the
-  Enriques–Kodaira table for minimal surfaces with irregularity zero, the configuration rationality and
-  K3/elliptic criteria of van der Geer, and the passage from `X(Γ)` to its minimal model
-  (Layer 5).
-- The Kodaira dimension of the level-one surfaces for small `D`, including rationality for `D ∈ {5, 8, 13, 17}`,
-  the complete classification for `D ≤ 500`, and the general-type theorem for `D > 500` (Layer 6).
-- The LMFDB record of a Hilbert modular surface: every column of the `hmsurface` pages as a
-  definition in terms of the layers above, including the Hodge diamond, the set of Kodaira
-  dimensions compatible with `(χ, K²)`, the lengths of the resolutions, the principal
-  polarizability of a component, and the per-type elliptic-point counts (Layer 7).
-
-### Consumed, not redefined
-
-| Object | Supplier |
-| --- | --- |
-| The polarization lattice `L_c = R ⊕ c⁻¹𝔡⁻¹`, ordered polarization modules, the complex moduli comparison, the Baily–Borel compactification of the canonical model at tame level and its cusp schemes | [HilbertModularVarietiesAndShimuraCurves](../HilbertModularVarietiesAndShimuraCurves/README.md) H0.3, H1.1, H1.10, H5.2 |
-| The domain `ℍ^Σ`, the group `GL₂⁺(F)` and its action with kernel the scalars, the weight-`k` slash in its arithmetic and unitary normalisations | [HilbertModularForms](../HilbertModularForms/README.md) §§0.1, 0.3–0.4 |
-| The lattices `L_𝔟 = R ⊕ 𝔟`, the groups `Γ₀(𝔑)_𝔟`, `Γ₁(𝔑)_𝔟`, `Γ(𝔑)_𝔟` and `Γ_i¹(𝔑)_𝔟`, their determinant images and sections `ε ↦ diag(ε, 1)`, the level index `N(𝔑)∏_{𝔭∣𝔑}(1 + N𝔭⁻¹)`, the `J`-conjugation to the `a ≡ 1` convention, commensurability and the component transport `diag(1, α)` | [HilbertModularForms](../HilbertModularForms/README.md) §§1.1–1.3 |
-| Cusps of `Γ₀(𝔑)_𝔟` as orbits in `ℙ¹(F)`, their finiteness, the level-one bijection with `Cl(R)`, the translation lattice and unit group of a cusp stabilizer, the count `h Σ_{𝔞∣𝔑} #((R/(𝔞 + 𝔑𝔞⁻¹))^×/U_𝔞)` per component and its fibres over the divisors `𝔞` and the ordinary classes | [HilbertModularForms](../HilbertModularForms/README.md) §1.4 |
-| Holomorphic forms `M_k(Γ)` for `Γ` commensurable with `Γ_𝔟`, Koecher's principle, the constant terms at every cusp and their vanishing in nonparallel weight, the cusp forms `S_k(Γ)`, the component tuples `M_k(𝔑; R)`, the invariant measure and finite covolume, finite dimensionality at nonzero level | [HilbertModularForms](../HilbertModularForms/README.md) §§2.2–2.3, 2.5–2.6, 3.2, 3.5 |
-| Proper discontinuity and neat subgroups of the component groups, the normal complex analytic structure of `Γ\X⁺`, finite analytic quotients | [ShimuraVarieties](../ShimuraVarieties/README.md) 0.4, 1.2, P.6 (HilbertModularForms supplies the groups and the action, not the quotient space) |
-| The normal analytic Baily–Borel quotient `Γ\(ℍ²)*`, its algebraization as a normal projective surface, the Koecher principle and boundary codimension | [ShimuraVarieties](../ShimuraVarieties/README.md) 2.5, 2.7, 2.8 |
-| Arithmetic cone systems and characteristic-zero toroidal charts at arbitrary compact open level; the Hilbert moduli specialization only under its tame hypotheses | ShimuraCompactifications §0.13, §§2.1–2.8; §§8.14–8.15, 8.23–8.25, 8.32–8.38, 8.56 |
-| The narrow class group `Cl⁺(R)`, its finiteness, the surjection `Cl⁺ → Cl` and its kernel (the image of the principal ideals, `1 → {±1}²/sgn(R^×) → Cl⁺ → Cl → 1`) | Tau Ceti `NumberField.NarrowClassGroup`, `toClassGroup_surjective`, `toClassGroup_ker`, `instFinite`, `card_eq_card_classGroup_mul_card_ker`; its identification with [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 2's `RayClassGroup (narrowModulus F)` is Tau Ceti's `narrowEquivNarrowClassGroup` |
-| Narrow ray class groups `Cl⁺(𝔪)`; orders `NumberFieldOrder`, `Pic O`, conductors | [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 2, Layer 11 |
-| Class numbers of imaginary quadratic orders `h(𝒪_f) = h(K) f/[𝒪_K^×:𝒪_f^×] ∏_{p∣f}(1 − χ_D(p)/p)` (the case `F = ℚ` of 3.4); `ζ_K(s) = ζ(s)L(s, χ_D)` for quadratic `K` on `Re s > 1` | [ImaginaryQuadraticClassNumber](../ImaginaryQuadraticClassNumber/README.md) H1.3, H1.4, H2.2 |
-| Intersection numbers on a smooth projective surface, adjunction, Riemann–Roch, Noether's formula `12χ = K² + c₂`, numerical equivalence, Hodge index | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §§5.9–5.10 |
-| Hodge decomposition, Hodge symmetry `h^{p,q} = h^{q,p}` and `b₁ = 2h^{1,0}` on compact Kähler manifolds; the Kähler metric of a complex submanifold of `ℂPⁿ` | [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K6.1; K7.2 (Fubini–Study) and K6.0 (restriction to complex submanifolds) |
-| Free properly discontinuous holomorphic quotients and descent of maps | [ComplexManifolds](../ComplexManifolds/README.md) Milestone 4 |
-| The one-variable elliptic chart and cusp datum; the compact modular curve `X(1)` | [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) Layers 1 and 3; 6.1 |
-| Toric fans, regular cones, the fan scheme and subdivisions | Tau Ceti `TauCeti/Geometry/Toric/Algebraic` and [AnalyticToricGeometry](../AnalyticToricGeometry/README.md) Layers 0, 2, 3 |
-| Plumbing graphs and their intersection matrices | Tau Ceti `TauCeti.PlumbingGraph` |
-| Total positivity and the unit-square index | Tau Ceti `NumberField.IsTotallyPositive`, `NumberField.units_sq_index_eq` in `TauCeti/NumberTheory/NumberField/Units/ElementaryTwoQuotient.lean` |
-| Reduced irrationals and periodic minus cycles of narrow ideal classes of a real quadratic maximal order, with transport under change of representative | AutomorphicSpectralTheory §4.17a |
-| Geometric Kodaira fibre types, including normalization genera, primitive multiplicities and incidence schemes | NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5; §5.3 here applies these configurations to divisors without assuming a fibration |
-| Rationality iff q = P₂ = 0 for smooth projective surfaces over an algebraically closed field | NeronModelsAndSemistableAbelianVarietiesPartII §6.1 |
-
-### Not owned here
-
-- **Labels, orderings and stored lists.** The field label `2.2.D.1`, the ideal labels of `𝔑`
-  and `𝔟`, the label `F-N-b-t` of a surface, the representative `𝔟` chosen for a narrow class,
-  the ordering of the rows of the cusp and elliptic-point tables, the starting point of a
-  resolution cycle (`self_intersections_minimal` with repetition), the `M_label` of a cusp,
-  and the normalisation of cusp coordinates `(a : c)` are not targets. This roadmap states the
-  intrinsic label prefix `(D, 𝔑, [𝔟] ∈ Cl⁺(R), type)` and every invariant as a function of it;
-  it never fixes an index.
-- **Hilbert modular forms as such.** The groups, their cusps, the form spaces, Koecher's
-  principle, finite dimensionality, Hecke operators, newforms and `L`-functions are
-  HilbertModularForms'. Here the spaces `M_k(Γ)` and `S_k(Γ)` are read from it, for the
-  irregularity (4.6) and the geometric comparison of §4.8 only.
-- **The moduli interpretation** (`X₀(𝔑)_𝔟` as a moduli space of abelian surfaces with real
-  multiplication, polarization modules, the knowl's "polarization module isomorphic to
-  `(𝔡_F 𝔟)⁻¹`"): HilbertModularVarietiesAndShimuraCurves H1; here `𝔟` is only the second
-  summand of the lattice `R ⊕ 𝔟`.
-- **Canonical models over the reflex field**, integral models, toroidal compactifications in
-  general, automorphic bundles: ShimuraVarieties, ShimuraCompactifications, AutomorphicBundles.
-- **Hilbert–Blumenthal surfaces for degree `> 2`** and the general theory of cusp singularities
-  of Hilbert modular varieties: the toroidal roadmap; this roadmap is two-dimensional throughout.
-- **Quaternionic Shimura curves:** HilbertModularVarietiesAndShimuraCurves R18 supplies their
-  general construction. Layer 6 owns the Hirzebruch–Zagier divisors as curves on the surfaces,
-  for every positive divisor index and every nonzero level, and their geometric intersections.
-- **General surface rationality:** the Castelnuovo–Zariski criterion is consumed from
-  NeronModelsAndSemistableAbelianVarietiesPartII §6.1; Layer 5 owns the additional configuration
-  criteria and the characteristic-zero classification inputs used here.
+Layer 0 reads HilbertModularForms' groups and forms in degree two and fixes the projective
+groups, the analytic quotient and the canonical two-form; Layer 1 reads its cusps and adds the
+cusp invariants, the parametrisation, the `sl` count and the affine stabilizers. Layer 2 resolves cusps, while Layer 3 counts and resolves elliptic
+points. Layer 4 combines these into Chern and Hodge invariants. Layer 5 supplies the additional
+surface classification criteria; Layer 6 proves the classification, and Layer 7 packages its
+invariants. The continued fractions and Siegel identity can be developed independently of the
+geometric quotient. Suggested.lean states the arithmetic headlines that the pinned carriers
+support; its docstring identifies each geometric headline that requires a constructed surface.
 
 ## Conventions
 
@@ -231,124 +153,6 @@ under `TauCeti/NumberTheory/HilbertModularSurface/`.
 14. **Conditional nothing.** No invariant here depends on a hypothesis: the only quantity the
     LMFDB stores as a set rather than a value is `kodaira_dims`, and it is the definition of
     convention 11, not a conjecture.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `UpperHalfPlane` with the `GL(2, ℝ)⁺` Möbius action
-  (`Mathlib/Analysis/Complex/UpperHalfPlane/MoebiusAction`) and its manifold structure.
-  Properness is `UpperHalfPlane.instProperSMul : ProperSMul SL(2, ℝ) ℍ`, and the discrete-subgroup
-  consequence is `UpperHalfPlane.instProperlyDiscontinuousSL2RSubgroup`
-  (`Mathlib/Analysis/Complex/UpperHalfPlane/ProperAction.lean`, lines 122–128).
-  The `GL₂⁺` action has a scalar kernel; the effective Hilbert arithmetic action uses
-  ShimuraVarieties §§0.4, 1.2 below. `Subgroup.IsArithmetic`,
-  `IsCusp`, `CuspOrbits` and `strictWidthInfty` for subgroups of `GL(2, ℝ)` in one variable
-  (`Mathlib/NumberTheory/ModularForms/Cusps`), the degree-one model of Layer 1.
-- `NumberField.InfinitePlace`, `IsReal`, `embedding_of_isReal`, `IsTotallyReal`, `discr`,
-  `classNumber`, `ClassGroup`, `Units.fundSystem`, `regulator`, `dedekindZeta_residue`;
-  `Int.IsFundamentalDiscr`; `Pell.Solution₁`, `Pell.IsFundamental`.
-- `DirichletCharacter.LFunction` with continuation, `completedLFunction_one_sub`,
-  `hurwitzZeta_neg_nat`, `riemannZeta_neg_nat_eq_bernoulli`: the inputs for `ζ_F(−1)` through
-  `ζ_F = ζ · L(χ_D)`.
-- `GenContFract`, `GenContFract.of`, `IntFractPair.stream`: the regular continued fraction.
-  Mathlib has no minus (Hirzebruch–Jung) continued fraction; Layer 2 builds it and relates the
-  two by the classical splitting `[[b_0, b_1, …]]` of a regular expansion.
-- `FractionalIdeal`, `FractionalIdeal.dual`, `Submodule.traceDual`, `Ideal.absNorm`, factorisation
-  in Dedekind domains, `Ideal.Quotient` and `ZMod`-style unit groups `(R ⧸ 𝔑)ˣ`.
-- `AlgebraicGeometry.Scheme`, `IsSmooth`, `IsProper`, `Scheme.Modules`, sheaf cohomology through
-  `Scheme.Modules.cohomology` as used by Tau Ceti's `eulerCharBelow`.
-
-### From Tau Ceti
-
-- `NumberField.IsTotallyPositive`, `isTotallyPositive_iff`, `IsTotallyPositive.mul`, `.inv`,
-  `isTotallyPositive_sq`, `totallyPositiveUnits`
-  (`TauCeti/NumberTheory/NumberField/TotallyPositive.lean`, lines 71–78, 96–107, 130): total
-  positivity means positivity at every real place; it is vacuous for a totally complex field.
-  Use `totallyPositiveIntegerUnits` (line 168 of the same file) for Rˣ, and the range of
-  squaring for the squares in Rˣ.
-- `NumberField.NarrowClassGroup`, `NarrowClassGroup.mk`, `toClassGroup`, `toClassGroup_ker`,
-  `instFinite`, `card_eq_card_classGroup_mul_card_ker`
-  (`TauCeti/NumberTheory/NumberField/NarrowClassGroup`), and `narrowEquivNarrowClassGroup`
-  (`TauCeti/NumberTheory/NumberField/Global/RayClass/Narrow`): `Cl⁺(R)`, the component set.
-- `TauCeti.PlumbingGraph`, `PlumbingGraph.intersectionMatrix`, `.intersectionForm`,
-  `.IsNegativeDefinite`, `isNegativeDefinite_iff`, `blowUpVertex`
-  (`TauCeti/LowDimTopology/Plumbing`): the intersection matrices of Hirzebruch–Jung strings and
-  of cycle graphs of length at least three are instances; the nodal and double-edge cases use
-  the matrix definition of §2.5. Vertex blow-up models a smooth point of the named component,
-  with separate intersection data for a crossing blow-up.
-- `TauCeti.Toric.Fan`, `IsToricCone`, `IsRegularCone`, fan subdivisions and the fan scheme
-  (`TauCeti/Geometry/Toric/Algebraic`): the Hirzebruch–Jung string is the regular subdivision of
-  the cone `⟨(0,1), (q, −r)⟩`, and individual finite charts of the cusp resolution use these carriers. The infinite
-  cone system of the cusp uses ShimuraCompactifications §0.13's arithmetic cone system;
-  `TauCeti.Toric.Fan.finite_cones` forbids treating it as a finite fan.
-- `TauCeti.BinaryQuadraticForm`, `IsReducedForm`, `reducedForms D`, `hurwitzClassNumber`: reduced quadratic-form data (the weighted Hurwitz count is not an
-  ordinary order class number), used in the level-one
-  formulas of Layer 3 for `D ≡ 1 mod 4`.
-- `Scheme.Modules.eulerCharBelow`, `Scheme.genus`, Mayer–Vietoris and the long exact sequence
-  (`TauCeti/AlgebraicGeometry/Cohomology`); `SchemeWeilDivisor` with Serre duality and the Euler
-  characteristic of divisors (`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme`); the affine
-  blow-up charts `affineBlowupι` (`TauCeti/AlgebraicGeometry/Blowup`); finite group quotients of
-  affine schemes (`TauCeti/AlgebraicGeometry/Quotient`).
-- `TauCeti.Hodge.HodgeStructureOn`, `hodgeNumber`, `hodgeType` (`TauCeti/Geometry/Hodge`): the
-  Hodge numbers of `H²(X, ℚ)` are read through this carrier.
-- `ModularForms.EllipticPoints` (`apply_I_eq_zero_of_not_dvd`, `apply_ρ_eq_zero_of_not_dvd`) and
-  `Subgroup.integerCuspWidth`: the degree-one elliptic points `i`, `ρ` and cusp widths; Layer 3
-  specialises to them when `F = ℚ` is admitted as a test.
-
-### From roadmaps
-
-Consume AutomorphicSpectralTheory §4.17a for the reduced representative and cyclic minus period
-of each narrow ideal class of a real quadratic maximal order, including representative transport
-and its primitive norm-one multiplier. Layer 2 extends this to arbitrary multiplier orders and
-identifies its maximal-order specialization with the supplied cycle. Consume
-NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5 for the geometric Kodaira-type
-conditions, including genera, primitive multiplicities and local incidence; §5.3 uses those
-conditions on a divisor of a surface without assuming that the divisor is already a fibre.
-
-Consume ShimuraVarieties §§0.1, 0.4, 1.2 and P.6 for arithmetic component groups, proper
-discontinuity, neat covers and finite analytic quotients, and §§2.5, 2.7–2.8 for the analytic
-minimal compactification and its projective algebraization. Consume ShimuraCompactifications
-§0.13 for arithmetic cone systems and §§2.1–2.8 for analytic boundary charts, quotients, gluing,
-algebraization and the map to the minimal compactification at arbitrary compact open level.
-Its §§8.14–8.15, 8.23–8.25, 8.32–8.38 and 8.56 supply the Hilbert moduli comparison and full
-affine stabilizer only in their stated tame range; §2.4 below proves the all-level surface
-comparison using the general characteristic-zero construction.
-
-Consume GlobalNumberFields Layers 2 and 11 for narrow ray classes, orders, conductors and Picard
-groups; ClassFieldTheory Layers 10–13 for reciprocity and narrow class fields. Consume
-ImaginaryQuadraticClassNumber §§H1.3–H1.4 for imaginary quadratic order class numbers and §H2.2
-for the quadratic Euler-product factorization, with the real quadratic specialization made in §4.2.
-Consume SchemeAndStackFoundations §§5.9–5.10 for surface intersection, adjunction, Riemann–Roch,
-Noether's formula and Hodge index; ComplexKahlerGeometry K6.0–K6.1 and K7.2 for projective
-Kähler metrics, decomposition and symmetry; ComplexManifolds Milestone 4 for free analytic
-quotients; FuchsianOrbifolds Layers 1 and 3 and §6.1 for the one-dimensional charts and X(1).
-Consume NeronModelsAndSemistableAbelianVarietiesPartII §6.1 for the Castelnuovo–Zariski
-rationality criterion over an algebraically closed field. Consume
-HilbertModularVarietiesAndShimuraCurves §§H0.3, H1.1, H1.10 and H5.2 for polarization modules,
-complex moduli and the tame-level comparison. Generic toric charts come from
-AnalyticToricGeometry Layers 0, 2–3. These inputs retain their own hypotheses.
-
-Consume HilbertModularForms §§0.1 and 0.3–0.4 for the domain `ℍ^Σ`, the group `GL₂⁺(F)`, its
-action and the slash in both normalisations; §§1.1–1.3 for the lattices `L_𝔟`, the groups of
-convention 2 with their determinant images, sections, level index, `J`-conjugation,
-commensurability and component transport; §1.4 for the cusps of `Γ₀(𝔑)_𝔟`, their finiteness,
-the translation lattices and unit groups of their stabilizers and their count; §§2.2–2.3,
-2.5–2.6, 3.2 and 3.5 for Koecher's principle, the spaces `M_k(Γ)` and `S_k(Γ)` with their
-constant terms, the component tuples, the invariant measure and finite dimensionality. Its
-statements are for every totally real `F` with the places unordered; §0.4 below reads them in
-degree two through the ordered pair `(v₁, v₂)`, and nothing of them is proved again here.
-
-## How to read the build
-
-Layer 0 reads HilbertModularForms' groups and forms in degree two and fixes the projective
-groups, the analytic quotient and the canonical two-form; Layer 1 reads its cusps and adds the
-cusp invariants, the parametrisation, the `sl` count and the affine stabilizers. Layer 2 resolves cusps, while Layer 3 counts and resolves elliptic
-points. Layer 4 combines these into Chern and Hodge invariants. Layer 5 supplies the additional
-surface classification criteria; Layer 6 proves the classification, and Layer 7 packages its
-invariants. The continued fractions and Siegel identity can be developed independently of the
-geometric quotient. Suggested.lean states the arithmetic headlines that the pinned carriers
-support; its docstring identifies each geometric headline that requires a constructed surface.
 
 ## Layer 0: the arithmetic frame
 
@@ -2058,6 +1862,202 @@ HilbertModularForms and the arithmetic and compactification contracts to the sur
 
 Dependency graph: `0 → {1, 3}`, `1 → 2`, `{2, 3} → 4`, `5 ∥ {0,…,4}`, `{4, 5} → 6 → 7`, with
 `2.1`, `4.2` and `5` as starting points that need no other layer of this roadmap.
+
+## Scope and ownership
+
+### Owned here
+
+- The degree-two reading of HilbertModularForms' groups and cusps: the identification of its
+  `ℍ^Σ` with the ordered `ℍ²`, the projective groups `PΓ` and the quotients `PΓᵢ/PΓᵢ¹`, the
+  analytic quotient `Y(Γ)` as a ShimuraVarieties component, the cusp invariants `𝔰` and `𝔐`,
+  the `Γ₀`/`Γ₁` cusp parametrisation, the `sl` cusp count, the cusp types `G(M, V)` and the
+  all-level affine stabilizer with its translation class (Layers 0–1); the canonical two-form
+  of a weight-`(2, 2)` form on HilbertModularForms' spaces (0.5, 4.8).
+- The surface-theoretic reading of a cusp of `Ȳ(Γ)`: its type `G(M, V)` (Layer 1), the
+  extension of the supplied maximal-order minus periods to oriented full lattices with arbitrary
+  multiplier order, their compatibility with that construction (Layer 2), and the
+  theorem that the exceptional locus of `X(Γ) → Ȳ(Γ)` over a cusp of type `G(M, V)` is a cycle of
+  `dk` smooth rational curves with the self-intersection numbers `−b_i` (Layer 2).
+- Elliptic points of `Γ₀(𝔑)_𝔟` and `Γ₀¹(𝔑)_𝔟`: the dictionary with CM orders, the complete list
+  of possible orders, the class number `h(S)` of an `R`-order `S` in a quadratic extension of `F`
+  by its conductor (no roadmap states it beyond `F = ℚ`), the class-number formulas for their
+  number, the rotation types and their distribution, the Hirzebruch–Jung strings resolving them
+  and the local Chern cycles (Layer 3).
+- The volume `vol(Γ\ℍ²) = 2[Γ¹(1):Γ] ζ_F(−1)` normalised on `PSL₂(R)`, Siegel's closed formula for `ζ_F(−1)`,
+  Hirzebruch's formulas for `c₁² = K²` and `c₂ = e` of `X(Γ)`, the vanishing of the irregularity,
+  the application of Noether's formula to `χ`, the Hodge diamond, and the comparison
+  `Σ_{[𝔟]} χ(X₀(𝔑)_𝔟) = dim S₂(Γ₀(𝔑)) + h⁺` (Layer 4).
+- The surface-classification inputs this roadmap uses and no other roadmap states: the
+  Enriques–Kodaira table for minimal surfaces with irregularity zero, the configuration rationality and
+  K3/elliptic criteria of van der Geer, and the passage from `X(Γ)` to its minimal model
+  (Layer 5).
+- The Kodaira dimension of the level-one surfaces for small `D`, including rationality for `D ∈ {5, 8, 13, 17}`,
+  the complete classification for `D ≤ 500`, and the general-type theorem for `D > 500` (Layer 6).
+- The LMFDB record of a Hilbert modular surface: every column of the `hmsurface` pages as a
+  definition in terms of the layers above, including the Hodge diamond, the set of Kodaira
+  dimensions compatible with `(χ, K²)`, the lengths of the resolutions, the principal
+  polarizability of a component, and the per-type elliptic-point counts (Layer 7).
+
+### Consumed, not redefined
+
+| Object | Supplier |
+| --- | --- |
+| The polarization lattice `L_c = R ⊕ c⁻¹𝔡⁻¹`, ordered polarization modules, the complex moduli comparison, the Baily–Borel compactification of the canonical model at tame level and its cusp schemes | [HilbertModularVarietiesAndShimuraCurves](../HilbertModularVarietiesAndShimuraCurves/README.md) H0.3, H1.1, H1.10, H5.2 |
+| The domain `ℍ^Σ`, the group `GL₂⁺(F)` and its action with kernel the scalars, the weight-`k` slash in its arithmetic and unitary normalisations | [HilbertModularForms](../HilbertModularForms/README.md) §§0.1, 0.3–0.4 |
+| The lattices `L_𝔟 = R ⊕ 𝔟`, the groups `Γ₀(𝔑)_𝔟`, `Γ₁(𝔑)_𝔟`, `Γ(𝔑)_𝔟` and `Γ_i¹(𝔑)_𝔟`, their determinant images and sections `ε ↦ diag(ε, 1)`, the level index `N(𝔑)∏_{𝔭∣𝔑}(1 + N𝔭⁻¹)`, the `J`-conjugation to the `a ≡ 1` convention, commensurability and the component transport `diag(1, α)` | [HilbertModularForms](../HilbertModularForms/README.md) §§1.1–1.3 |
+| Cusps of `Γ₀(𝔑)_𝔟` as orbits in `ℙ¹(F)`, their finiteness, the level-one bijection with `Cl(R)`, the translation lattice and unit group of a cusp stabilizer, the count `h Σ_{𝔞∣𝔑} #((R/(𝔞 + 𝔑𝔞⁻¹))^×/U_𝔞)` per component and its fibres over the divisors `𝔞` and the ordinary classes | [HilbertModularForms](../HilbertModularForms/README.md) §1.4 |
+| Holomorphic forms `M_k(Γ)` for `Γ` commensurable with `Γ_𝔟`, Koecher's principle, the constant terms at every cusp and their vanishing in nonparallel weight, the cusp forms `S_k(Γ)`, the component tuples `M_k(𝔑; R)`, the invariant measure and finite covolume, finite dimensionality at nonzero level | [HilbertModularForms](../HilbertModularForms/README.md) §§2.2–2.3, 2.5–2.6, 3.2, 3.5 |
+| Proper discontinuity and neat subgroups of the component groups, the normal complex analytic structure of `Γ\X⁺`, finite analytic quotients | [ShimuraVarieties](../ShimuraVarieties/README.md) 0.4, 1.2, P.6 (HilbertModularForms supplies the groups and the action, not the quotient space) |
+| The normal analytic Baily–Borel quotient `Γ\(ℍ²)*`, its algebraization as a normal projective surface, the Koecher principle and boundary codimension | [ShimuraVarieties](../ShimuraVarieties/README.md) 2.5, 2.7, 2.8 |
+| Arithmetic cone systems and characteristic-zero toroidal charts at arbitrary compact open level; the Hilbert moduli specialization only under its tame hypotheses | ShimuraCompactifications §0.13, §§2.1–2.8; §§8.14–8.15, 8.23–8.25, 8.32–8.38, 8.56 |
+| The narrow class group `Cl⁺(R)`, its finiteness, the surjection `Cl⁺ → Cl` and its kernel (the image of the principal ideals, `1 → {±1}²/sgn(R^×) → Cl⁺ → Cl → 1`) | Tau Ceti `NumberField.NarrowClassGroup`, `toClassGroup_surjective`, `toClassGroup_ker`, `instFinite`, `card_eq_card_classGroup_mul_card_ker`; its identification with [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 2's `RayClassGroup (narrowModulus F)` is Tau Ceti's `narrowEquivNarrowClassGroup` |
+| Narrow ray class groups `Cl⁺(𝔪)`; orders `NumberFieldOrder`, `Pic O`, conductors | [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 2, Layer 11 |
+| Class numbers of imaginary quadratic orders `h(𝒪_f) = h(K) f/[𝒪_K^×:𝒪_f^×] ∏_{p∣f}(1 − χ_D(p)/p)` (the case `F = ℚ` of 3.4); `ζ_K(s) = ζ(s)L(s, χ_D)` for quadratic `K` on `Re s > 1` | [ImaginaryQuadraticClassNumber](../ImaginaryQuadraticClassNumber/README.md) H1.3, H1.4, H2.2 |
+| Intersection numbers on a smooth projective surface, adjunction, Riemann–Roch, Noether's formula `12χ = K² + c₂`, numerical equivalence, Hodge index | [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §§5.9–5.10 |
+| Hodge decomposition, Hodge symmetry `h^{p,q} = h^{q,p}` and `b₁ = 2h^{1,0}` on compact Kähler manifolds; the Kähler metric of a complex submanifold of `ℂPⁿ` | [ComplexKahlerGeometry](../ComplexKahlerGeometry/README.md) K6.1; K7.2 (Fubini–Study) and K6.0 (restriction to complex submanifolds) |
+| Free properly discontinuous holomorphic quotients and descent of maps | [ComplexManifolds](../ComplexManifolds/README.md) Milestone 4 |
+| The one-variable elliptic chart and cusp datum; the compact modular curve `X(1)` | [FuchsianOrbifolds](../FuchsianOrbifolds/README.md) Layers 1 and 3; 6.1 |
+| Toric fans, regular cones, the fan scheme and subdivisions | Tau Ceti `TauCeti/Geometry/Toric/Algebraic` and [AnalyticToricGeometry](../AnalyticToricGeometry/README.md) Layers 0, 2, 3 |
+| Plumbing graphs and their intersection matrices | Tau Ceti `TauCeti.PlumbingGraph` |
+| Total positivity and the unit-square index | Tau Ceti `NumberField.IsTotallyPositive`, `NumberField.units_sq_index_eq` in `TauCeti/NumberTheory/NumberField/Units/ElementaryTwoQuotient.lean` |
+| Reduced irrationals and periodic minus cycles of narrow ideal classes of a real quadratic maximal order, with transport under change of representative | AutomorphicSpectralTheory §4.17a |
+| Geometric Kodaira fibre types, including normalization genera, primitive multiplicities and incidence schemes | NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5; §5.3 here applies these configurations to divisors without assuming a fibration |
+| Rationality iff q = P₂ = 0 for smooth projective surfaces over an algebraically closed field | NeronModelsAndSemistableAbelianVarietiesPartII §6.1 |
+
+### Not owned here
+
+- **Labels, orderings and stored lists.** The field label `2.2.D.1`, the ideal labels of `𝔑`
+  and `𝔟`, the label `F-N-b-t` of a surface, the representative `𝔟` chosen for a narrow class,
+  the ordering of the rows of the cusp and elliptic-point tables, the starting point of a
+  resolution cycle (`self_intersections_minimal` with repetition), the `M_label` of a cusp,
+  and the normalisation of cusp coordinates `(a : c)` are not targets. This roadmap states the
+  intrinsic label prefix `(D, 𝔑, [𝔟] ∈ Cl⁺(R), type)` and every invariant as a function of it;
+  it never fixes an index.
+- **Hilbert modular forms as such.** The groups, their cusps, the form spaces, Koecher's
+  principle, finite dimensionality, Hecke operators, newforms and `L`-functions are
+  HilbertModularForms'. Here the spaces `M_k(Γ)` and `S_k(Γ)` are read from it, for the
+  irregularity (4.6) and the geometric comparison of §4.8 only.
+- **The moduli interpretation** (`X₀(𝔑)_𝔟` as a moduli space of abelian surfaces with real
+  multiplication, polarization modules, the knowl's "polarization module isomorphic to
+  `(𝔡_F 𝔟)⁻¹`"): HilbertModularVarietiesAndShimuraCurves H1; here `𝔟` is only the second
+  summand of the lattice `R ⊕ 𝔟`.
+- **Canonical models over the reflex field**, integral models, toroidal compactifications in
+  general, automorphic bundles: ShimuraVarieties, ShimuraCompactifications, AutomorphicBundles.
+- **Hilbert–Blumenthal surfaces for degree `> 2`** and the general theory of cusp singularities
+  of Hilbert modular varieties: the toroidal roadmap; this roadmap is two-dimensional throughout.
+- **Quaternionic Shimura curves:** HilbertModularVarietiesAndShimuraCurves R18 supplies their
+  general construction. Layer 6 owns the Hirzebruch–Zagier divisors as curves on the surfaces,
+  for every positive divisor index and every nonzero level, and their geometric intersections.
+- **General surface rationality:** the Castelnuovo–Zariski criterion is consumed from
+  NeronModelsAndSemistableAbelianVarietiesPartII §6.1; Layer 5 owns the additional configuration
+  criteria and the characteristic-zero classification inputs used here.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `UpperHalfPlane` with the `GL(2, ℝ)⁺` Möbius action
+  (`Mathlib/Analysis/Complex/UpperHalfPlane/MoebiusAction`) and its manifold structure.
+  Properness is `UpperHalfPlane.instProperSMul : ProperSMul SL(2, ℝ) ℍ`, and the discrete-subgroup
+  consequence is `UpperHalfPlane.instProperlyDiscontinuousSL2RSubgroup`
+  (`Mathlib/Analysis/Complex/UpperHalfPlane/ProperAction.lean`, lines 122–128).
+  The `GL₂⁺` action has a scalar kernel; the effective Hilbert arithmetic action uses
+  ShimuraVarieties §§0.4, 1.2 below. `Subgroup.IsArithmetic`,
+  `IsCusp`, `CuspOrbits` and `strictWidthInfty` for subgroups of `GL(2, ℝ)` in one variable
+  (`Mathlib/NumberTheory/ModularForms/Cusps`), the degree-one model of Layer 1.
+- `NumberField.InfinitePlace`, `IsReal`, `embedding_of_isReal`, `IsTotallyReal`, `discr`,
+  `classNumber`, `ClassGroup`, `Units.fundSystem`, `regulator`, `dedekindZeta_residue`;
+  `Int.IsFundamentalDiscr`; `Pell.Solution₁`, `Pell.IsFundamental`.
+- `DirichletCharacter.LFunction` with continuation, `completedLFunction_one_sub`,
+  `hurwitzZeta_neg_nat`, `riemannZeta_neg_nat_eq_bernoulli`: the inputs for `ζ_F(−1)` through
+  `ζ_F = ζ · L(χ_D)`.
+- `GenContFract`, `GenContFract.of`, `IntFractPair.stream`: the regular continued fraction.
+  Mathlib has no minus (Hirzebruch–Jung) continued fraction; Layer 2 builds it and relates the
+  two by the classical splitting `[[b_0, b_1, …]]` of a regular expansion.
+- `FractionalIdeal`, `FractionalIdeal.dual`, `Submodule.traceDual`, `Ideal.absNorm`, factorisation
+  in Dedekind domains, `Ideal.Quotient` and `ZMod`-style unit groups `(R ⧸ 𝔑)ˣ`.
+- `AlgebraicGeometry.Scheme`, `IsSmooth`, `IsProper`, `Scheme.Modules`, sheaf cohomology through
+  `Scheme.Modules.cohomology` as used by Tau Ceti's `eulerCharBelow`.
+
+### From Tau Ceti
+
+- `NumberField.IsTotallyPositive`, `isTotallyPositive_iff`, `IsTotallyPositive.mul`, `.inv`,
+  `isTotallyPositive_sq`, `totallyPositiveUnits`
+  (`TauCeti/NumberTheory/NumberField/TotallyPositive.lean`, lines 71–78, 96–107, 130): total
+  positivity means positivity at every real place; it is vacuous for a totally complex field.
+  Use `totallyPositiveIntegerUnits` (line 168 of the same file) for Rˣ, and the range of
+  squaring for the squares in Rˣ.
+- `NumberField.NarrowClassGroup`, `NarrowClassGroup.mk`, `toClassGroup`, `toClassGroup_ker`,
+  `instFinite`, `card_eq_card_classGroup_mul_card_ker`
+  (`TauCeti/NumberTheory/NumberField/NarrowClassGroup`), and `narrowEquivNarrowClassGroup`
+  (`TauCeti/NumberTheory/NumberField/Global/RayClass/Narrow`): `Cl⁺(R)`, the component set.
+- `TauCeti.PlumbingGraph`, `PlumbingGraph.intersectionMatrix`, `.intersectionForm`,
+  `.IsNegativeDefinite`, `isNegativeDefinite_iff`, `blowUpVertex`
+  (`TauCeti/LowDimTopology/Plumbing`): the intersection matrices of Hirzebruch–Jung strings and
+  of cycle graphs of length at least three are instances; the nodal and double-edge cases use
+  the matrix definition of §2.5. Vertex blow-up models a smooth point of the named component,
+  with separate intersection data for a crossing blow-up.
+- `TauCeti.Toric.Fan`, `IsToricCone`, `IsRegularCone`, fan subdivisions and the fan scheme
+  (`TauCeti/Geometry/Toric/Algebraic`): the Hirzebruch–Jung string is the regular subdivision of
+  the cone `⟨(0,1), (q, −r)⟩`, and individual finite charts of the cusp resolution use these carriers. The infinite
+  cone system of the cusp uses ShimuraCompactifications §0.13's arithmetic cone system;
+  `TauCeti.Toric.Fan.finite_cones` forbids treating it as a finite fan.
+- `TauCeti.BinaryQuadraticForm`, `IsReducedForm`, `reducedForms D`, `hurwitzClassNumber`: reduced quadratic-form data (the weighted Hurwitz count is not an
+  ordinary order class number), used in the level-one
+  formulas of Layer 3 for `D ≡ 1 mod 4`.
+- `Scheme.Modules.eulerCharBelow`, `Scheme.genus`, Mayer–Vietoris and the long exact sequence
+  (`TauCeti/AlgebraicGeometry/Cohomology`); `SchemeWeilDivisor` with Serre duality and the Euler
+  characteristic of divisors (`TauCeti/AlgebraicGeometry/WeilDivisor/Scheme`); the affine
+  blow-up charts `affineBlowupι` (`TauCeti/AlgebraicGeometry/Blowup`); finite group quotients of
+  affine schemes (`TauCeti/AlgebraicGeometry/Quotient`).
+- `TauCeti.Hodge.HodgeStructureOn`, `hodgeNumber`, `hodgeType` (`TauCeti/Geometry/Hodge`): the
+  Hodge numbers of `H²(X, ℚ)` are read through this carrier.
+- `ModularForms.EllipticPoints` (`apply_I_eq_zero_of_not_dvd`, `apply_ρ_eq_zero_of_not_dvd`) and
+  `Subgroup.integerCuspWidth`: the degree-one elliptic points `i`, `ρ` and cusp widths; Layer 3
+  specialises to them when `F = ℚ` is admitted as a test.
+
+### From roadmaps
+
+Consume AutomorphicSpectralTheory §4.17a for the reduced representative and cyclic minus period
+of each narrow ideal class of a real quadratic maximal order, including representative transport
+and its primitive norm-one multiplier. Layer 2 extends this to arbitrary multiplier orders and
+identifies its maximal-order specialization with the supplied cycle. Consume
+NeronModelsAndSemistableAbelianVarietiesPartII §§2.3, 2.5 for the geometric Kodaira-type
+conditions, including genera, primitive multiplicities and local incidence; §5.3 uses those
+conditions on a divisor of a surface without assuming that the divisor is already a fibre.
+
+Consume ShimuraVarieties §§0.1, 0.4, 1.2 and P.6 for arithmetic component groups, proper
+discontinuity, neat covers and finite analytic quotients, and §§2.5, 2.7–2.8 for the analytic
+minimal compactification and its projective algebraization. Consume ShimuraCompactifications
+§0.13 for arithmetic cone systems and §§2.1–2.8 for analytic boundary charts, quotients, gluing,
+algebraization and the map to the minimal compactification at arbitrary compact open level.
+Its §§8.14–8.15, 8.23–8.25, 8.32–8.38 and 8.56 supply the Hilbert moduli comparison and full
+affine stabilizer only in their stated tame range; §2.4 below proves the all-level surface
+comparison using the general characteristic-zero construction.
+
+Consume GlobalNumberFields Layers 2 and 11 for narrow ray classes, orders, conductors and Picard
+groups; ClassFieldTheory Layers 10–13 for reciprocity and narrow class fields. Consume
+ImaginaryQuadraticClassNumber §§H1.3–H1.4 for imaginary quadratic order class numbers and §H2.2
+for the quadratic Euler-product factorization, with the real quadratic specialization made in §4.2.
+Consume SchemeAndStackFoundations §§5.9–5.10 for surface intersection, adjunction, Riemann–Roch,
+Noether's formula and Hodge index; ComplexKahlerGeometry K6.0–K6.1 and K7.2 for projective
+Kähler metrics, decomposition and symmetry; ComplexManifolds Milestone 4 for free analytic
+quotients; FuchsianOrbifolds Layers 1 and 3 and §6.1 for the one-dimensional charts and X(1).
+Consume NeronModelsAndSemistableAbelianVarietiesPartII §6.1 for the Castelnuovo–Zariski
+rationality criterion over an algebraically closed field. Consume
+HilbertModularVarietiesAndShimuraCurves §§H0.3, H1.1, H1.10 and H5.2 for polarization modules,
+complex moduli and the tame-level comparison. Generic toric charts come from
+AnalyticToricGeometry Layers 0, 2–3. These inputs retain their own hypotheses.
+
+Consume HilbertModularForms §§0.1 and 0.3–0.4 for the domain `ℍ^Σ`, the group `GL₂⁺(F)`, its
+action and the slash in both normalisations; §§1.1–1.3 for the lattices `L_𝔟`, the groups of
+convention 2 with their determinant images, sections, level index, `J`-conjugation,
+commensurability and component transport; §1.4 for the cusps of `Γ₀(𝔑)_𝔟`, their finiteness,
+the translation lattices and unit groups of their stabilizers and their count; §§2.2–2.3,
+2.5–2.6, 3.2 and 3.5 for Koecher's principle, the spaces `M_k(Γ)` and `S_k(Γ)` with their
+constant terms, the component tuples, the invariant measure and finite dimensionality. Its
+statements are for every totally real `F` with the places unordered; §0.4 below reads them in
+degree two through the ordered pair `(v₁, v₂)`, and nothing of them is proved again here.
 
 ## References
 
