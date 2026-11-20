@@ -1,7 +1,6 @@
 import Mathlib
 import TauCeti.Geometry.Lie.Tangent.LeftInvariantDerivation
 import TauCeti.Geometry.Lie.Exponential.Basic
-import TauCeti.Geometry.Lie.Adjoint.Derivation
 import TauCeti.Geometry.Lie.Functor
 import TauCeti.Geometry.Lie.Subgroup.LieAlgebra
 import TauCeti.Geometry.Lie.Subgroup.Immersed.Basic
@@ -16,10 +15,10 @@ import TauCeti.Analysis.Matrix.Normed
 The roadmap is `README.md`; this file is not the roadmap. It states the roadmap's headline
 theorems against the pinned Mathlib and Tau Ceti, each with `sorry`, with only the definitions
 those statements need. The carriers the pins provide are used by name: the Lie algebra
-`LeftInvariantDerivation I G`, `lieExp`, `TauCeti.Lie.Ad`, `lieMap`,
-`TauCeti.Lie.lieSubalgebraOfSubgroup`, the immersed-subgroup predicate
-`TauCeti.Lie.IsImmersedLieSubgroup`, maximal tori `TauCeti.Lie.IsMaximalTorus`, the Weyl group
-`Subgroup.normalizerQuotient` and the Weyl density `TauCeti.Lie.weylDensity`.
+`LeftInvariantDerivation I G`, `lieExp`, `lieMap`, `TauCeti.Lie.lieSubalgebraOfSubgroup`, the
+immersed-subgroup predicate `TauCeti.Lie.IsImmersedLieSubgroup`, maximal tori
+`TauCeti.Lie.IsMaximalTorus`, the Weyl group `Subgroup.normalizerQuotient` and the Weyl density
+`TauCeti.Lie.weylDensity`.
 
 Headline theorems of the README that the pinned Tau Ceti proves, and which are therefore not
 restated here: the Lie-algebra comparison of the closed-subgroup theorem
@@ -39,10 +38,10 @@ Headline theorems of the README that are not statable at the pins, and what each
   of the compact real root datum, and the positive-root form `∏ |1 − α(t)⁻¹|²` of the Weyl
   density: no root datum is attached to a compact Lie group at the pins; `TauCeti.Lie.weylDensity`
   is the determinant form.
-* Layer 7, the compact real form of a complex semisimple Lie algebra, its conjugacy, the
-  compact-complexification criterion and the algebraization `𝐊(ℂ) ≃ K_ℂ`: only the existence and
-  universal property of the complexification (for every connected `G`, and with injectivity for
-  compact connected `G`) and the holomorphic extension of representations are statable; the
+* Layer 7, the compact-complexification criterion and the algebraization `𝐊(ℂ) ≃ K_ℂ`: only the
+  existence and universal property of the complexification (for every connected `G`, and with
+  injectivity for compact connected `G`) are statable, and the holomorphic extension of a
+  representation of compact `G` is that universal property applied to `GL(V) = (V →L[ℂ] V)ˣ`; the
   Lie-algebra formula `Lie(G_ℂ) = (𝔤 ⊗ ℂ)/Lie(N)` and the period subgroup `N` need a
   complexification carrier. The universal properties are stated for target groups in the
   universes of the source; the README states them for every universe.
@@ -50,11 +49,12 @@ Headline theorems of the README that are not statable at the pins, and what each
   `TauCeti.TitsSystem` on `G_ℂ`, Borel–Weil and Borel–Weil–Bott: the pins have no complex reductive
   group carrier with its Borel subgroup, maximal torus and character lattice, and no comparison of
   such a group with `L(λ)`.
-* Layer 9, the restricted root system and the uniqueness of the middle `KAK` factor modulo the
-  restricted Weyl group: stated in the README on the `IwasawaData` fields; only existence of the
-  factorizations is stated here. The global exponential diffeomorphism of a connected immersed
-  subgroup of the positive triangular group is stated as bijectivity of `lieExp` together with the
-  ambient exponential bijection; the smoothness of the inverse is in the README.
+
+README targets that are not headline theorems, and so are not stated here: the compact real form of
+a complex semisimple Lie algebra and its conjugacy (Layer 7); the restricted root system, the
+uniqueness of the middle `KAK` factor modulo `N_K(𝔞)/Z_K(𝔞)`, and the smoothness of the inverse of
+the exponential bijection of a connected immersed subgroup of the positive triangular group
+(Layer 9).
 -/
 
 namespace TauCetiRoadmap.RepresentationTheory.LieGroups
@@ -321,32 +321,6 @@ theorem exists_complexification [CompactSpace G] [ConnectedSpace G] :
         (φ : G →* Gc'), Continuous (φ : G → Gc') →
         ∃! ψ : Gc →* Gc', ContMDiff Ic Ic' ∞ (ψ : Gc → Gc') ∧ ψ.comp ι = φ := sorry
 
-include I in
-/-- **Representations of compact `G` ↔ holomorphic representations of `G_ℂ`** (Weyl's unitary trick
-at the group level): every continuous finite-dimensional representation of a compact `G` extends to a
-holomorphic representation of its complexification. `Gc` must be the complexification: an injective
-continuous `ι` alone is not enough (`U(1)` in `SL₂(ℂ)`: its weight-one character extends to no
-holomorphic character of `SL₂(ℂ)`), so the universal property is a hypothesis, as provided by
-`exists_complexification`; injectivity of `ι` is not assumed, since for compact `G` it follows from
-the universal property through a faithful unitary representation. README, §7.11. -/
-theorem exists_holomorphic_extension [CompactSpace G] [ConnectedSpace G]
-    {V : Type u} [NormedAddCommGroup V] [NormedSpace ℂ V] [FiniteDimensional ℂ V]
-    {Ec : Type u} [NormedAddCommGroup Ec] [NormedSpace ℂ Ec] [FiniteDimensional ℂ Ec]
-    {Hc : Type v} [TopologicalSpace Hc] {Ic : ModelWithCorners ℂ Ec Hc}
-    {Gc : Type w} [TopologicalSpace Gc] [ChartedSpace Hc Gc]
-    [Group Gc] [LieGroup Ic ∞ Gc] (ι : G →* Gc) (hι : Continuous (ι : G → Gc))
-    (huniv : ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec')
-      (_ : FiniteDimensional ℂ Ec')
-      (Hc' : Type v) (_ : TopologicalSpace Hc') (Ic' : ModelWithCorners ℂ Ec' Hc')
-      (Gc' : Type w) (_ : TopologicalSpace Gc') (_ : ChartedSpace Hc' Gc')
-      (_ : Group Gc') (_ : LieGroup Ic' ∞ Gc')
-      (φ : G →* Gc'), Continuous (φ : G → Gc') →
-      ∃! ψ : Gc →* Gc', ContMDiff Ic Ic' ∞ (ψ : Gc → Gc') ∧ ψ.comp ι = φ)
-    (ρ : G →* (V →L[ℂ] V)ˣ) (hρ : Continuous (ρ : G → (V →L[ℂ] V)ˣ)) :
-    ∃ ρc : Gc →* (V →L[ℂ] V)ˣ,
-      ρc.comp ι = ρ ∧
-      ContMDiff Ic 𝓘(ℂ, V →L[ℂ] V) ∞ (fun g : Gc => ((ρc g : (V →L[ℂ] V)ˣ) : V →L[ℂ] V)) := sorry
-
 end Complexification
 
 /-! ## Layer 9: the Cartan, Iwasawa, and KAK decompositions
@@ -415,8 +389,8 @@ def IsRealReductive (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpac
 /-- **Iwasawa data**: the Cartan datum, the maximal compact `K = G^θ`, a maximal abelian `𝔞 ⊆ 𝔭`
 with its restricted roots and root spaces, an arbitrary closed connected exponential complement
 `N` normalized by `𝔞` (the `KAN` input), the canonical root-generated `Nplus`, and the closed
-positive chamber with its normalizer coverage and split-centre lineality. `N` is not forced to be
-`Nplus`; a closed spanning cone without restricted-root data is not a positive chamber. -/
+positive chamber with its split-centre lineality. `N` is not forced to be `Nplus`; a closed
+spanning cone without restricted-root data is not a positive chamber. -/
 structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpace G]
     [ChartedSpace H G] [Group G] [LieGroup I ∞ G] [T2Space G]
     [BoundarylessManifold I G] where
@@ -490,10 +464,6 @@ structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSp
   chamber_closed : IsClosed
     ((leftInvariantDerivationEquivGroupLieAlgebra (I := I) (G := G)
       BoundarylessManifold.isInteriorPoint) '' chamber)
-  /-- every element of `𝔞` is carried into the chamber by the normalizer of `𝔞` in `K` -/
-  chamber_normalizer_cover : ∀ X ∈ 𝔞, ∃ k : K,
-    (∀ Y ∈ 𝔞, TauCeti.Lie.Ad (I := I) (k : G) Y ∈ 𝔞) ∧
-    TauCeti.Lie.Ad (I := I) (k : G) X ∈ chamber
   /-- the whole split central direction is lineality -/
   chamber_split_center : ∀ X ∈ chamber,
     ∀ Z ∈ (LieAlgebra.center ℝ (LeftInvariantDerivation I G)).toSubmodule,

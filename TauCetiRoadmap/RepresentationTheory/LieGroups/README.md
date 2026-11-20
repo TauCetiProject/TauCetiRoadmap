@@ -226,9 +226,9 @@ is the identity component, and `G` itself when `G` is connected
 homomorphism with smooth underlying curve (`contMDiff_oneParameterSubgroup`):
 `lieExp ((s + t) • X) = lieExp (s • X) * lieExp (t • X)` and `lieExp (0 • X) = 1`. Conversely every
 continuous homomorphism `φ : Multiplicative ℝ →ₜ* G` is `oneParameterSubgroup X` for a unique `X`
-(`existsUnique_eq_oneParameterSubgroup`; Kirillov, online author copy, Thm. 3.7), so a continuous
-one-parameter subgroup is automatically smooth and `Hom_cont(ℝ, G) ≃ 𝔤`; this bijection is the
-justification of the definition of `𝔤`.
+(`existsUnique_eq_oneParameterSubgroup`; Kirillov, online author copy, Prop. 3.1, for smooth
+homomorphisms), so a continuous one-parameter subgroup is automatically smooth and
+`Hom_cont(ℝ, G) ≃ 𝔤`; this bijection is the justification of the definition of `𝔤`.
 *Needs:* §0.2; Tau Ceti as named.
 
 **Checks.**
@@ -301,7 +301,7 @@ The Lie-algebra adjoint is `LieAlgebra.ad ℝ 𝔤`, `ad X = ⁅X, ·⁆`, and i
 `TauCeti.Lie.mfderiv_Ad_apply_one` and `TauCeti.Lie.mfderiv_continuousAdjointRepresentation_one`
 prove `d(Ad)_1 X = ad X` on the derivation carrier, and `TauCeti.Lie.hasDerivAt_Ad_lieExp_smul_apply_zero`
 is its orbit form: `s ↦ Ad (lieExp (s • X)) Y` has derivative `⁅X, Y⁆` at `s = 0`. This is the
-geometric meaning of the bracket (Kirillov, online author copy, Thm. 3.7(5)).
+geometric meaning of the bracket (Kirillov, online author copy, Lemma 3.14(1)).
 *Needs:* §1.1; Mathlib `LieAlgebra.ad`; Tau Ceti as named.
 
 **Checks.**
@@ -410,8 +410,9 @@ subgroup: Neeb, *Towards a Lie theory of locally convex groups*, Rem. II.6.5(b) 
 ### 2.2 The closed-subgroup theorem
 
 For finite-dimensional real `G` and closed `K`, `K` is an embedded Lie subgroup
-(`TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`). The data `TauCeti.Lie.EmbeddedLieSubgroupData`
-carries a `LieGroup 𝓘(ℝ, E') ∞ K` structure for the subspace topology and a smooth inclusion with
+(`TauCeti.Lie.isEmbeddedLieSubgroup_of_isClosed`; Kirillov, online author copy, Thm. 2.8). The data
+`TauCeti.Lie.EmbeddedLieSubgroupData` carries a `LieGroup 𝓘(ℝ, E') ∞ K` structure for the subspace
+topology and a smooth inclusion with
 everywhere split differential, and the model space can be taken to be `K`'s own
 `lieSubalgebraOfSubgroup K` (`TauCeti.Lie.nonempty_embeddedLieSubgroupData_lieSubalgebraOfSubgroup_of_isClosed`).
 For every such data the differential of the inclusion is a Lie-algebra isomorphism of
@@ -420,8 +421,7 @@ For every such data the differential of the inclusion is a Lie-algebra isomorphi
 `TauCeti.Lie.EmbeddedLieSubgroupData.lieEquivLieSubalgebraOfSubgroup`), so `Lie(K) = 𝔨`, and by
 naturality (`map_lieExp`) the exponential of `K` is the restriction of that of `G`. The closed-`K`
 limit criterion is `TauCeti.Lie.mem_lieSubalgebraOfSubgroup_iff_exists_seq`: `X ∈ 𝔨` iff there are
-`tₙ → 0` with `tₙ > 0` and `Xₙ → X` with `lieExp (tₙ • Xₙ) ∈ K` eventually (Kirillov, online author
-copy, Thm. 2.8).
+`tₙ → 0` with `tₙ > 0` and `Xₙ → X` with `lieExp (tₙ • Xₙ) ∈ K` eventually.
 *Needs:* Tau Ceti as named; nothing of §2.1.
 
 **Checks.**
@@ -990,6 +990,7 @@ eigenvalues contributes `|λ⁻¹ − 1|² > 0`, so all local degrees are positi
 including when `𝔪 = 0`. Nonzero degree gives surjectivity; taking the closure of the cyclic subgroup
 of a generator of any maximal torus gives conjugacy. Exhaustion and surjectivity of `lieExp` follow.
 `SU(2)` recovers CompactGroups §E.1's torus conjugacy. The comparison with root data is §6.5.
+(Bröcker–tom Dieck, Ch. IV, §1.)
 *Needs:* §§5A.1, 6.1–6.2; DifferentialGeometry 10.3–10.5; Tau Ceti `TauCeti.Lie.IsMaximalTorus`.
 
 **Checks.**
@@ -1513,10 +1514,10 @@ Representations take values in `GL(V) = (V →L[ℂ] V)ˣ`, holomorphy of group 
 explicit condition. For compact `G`, construct the restriction equivalence between
 finite-dimensional holomorphic representations of `G_ℂ` and continuous representations of `G`, with
 its action on intertwiners, inverse functor, unit and counit, and compatibility with tensor products
-and duals; the extension half is `exists_holomorphic_extension` (every continuous finite-dimensional
-representation `ρ` of compact connected `G` is `ρ_ℂ ∘ η` for a holomorphic `ρ_ℂ` of `G_ℂ`, given the
-universal property of `η`). For connected `G`, extend the differential complex-linearly and
-integrate it on `H` of §7.3; by uniqueness its restriction along `j` is the original representation
+and duals; the extension half is the universal property of `exists_complexification` applied to the
+complex Lie group `GL(V)` (every continuous finite-dimensional representation `ρ` of compact
+connected `G` is `ρ_ℂ ∘ η` for a unique holomorphic `ρ_ℂ` of `G_ℂ`). For connected `G`, extend the
+differential complex-linearly and integrate it on `H` of §7.3; by uniqueness its restriction along `j` is the original representation
 pulled back along `p`; hence its closed complex kernel contains `j(ker p)`, and therefore `N`. Descend
 through `H/N` and prove uniqueness there. For finitely many components check the extended conjugation
 and multiplication-cocycle equations as well. This proves descent from the period law of the given
@@ -1966,7 +1967,8 @@ orbit is open and closed, and `G/K` is connected because `K` meets every compone
 inversion gives `KAN`, and the intersections give uniqueness. Prove smoothness of the inverse from
 the local differential and these global identifications. No extra nilpotence or `KAN` conclusion is
 assumed as a field. The positive-root `N₊` is a separate distinguished instance; comparing it with an
-arbitrary admissible `N` is a theorem. For `GL_n(ℝ)` and `SL_n(ℝ)` this is Gram–Schmidt.
+arbitrary admissible `N` is a theorem. For `GL_n(ℝ)` and `SL_n(ℝ)` this is Gram–Schmidt
+(`Matrix.GeneralLinearGroup.existsUnique_iwasawa`, `Matrix.SpecialLinearGroup.existsUnique_iwasawa`).
 *Needs:* §§9.2–9.3; Mathlib `LieAlgebra.isSolvable_of_killingForm_apply_lie_eq_zero`.
 
 **Checks** for `IwasawaData` and `IsIwasawaTriple`, on `G = SL₂(ℝ)` with `θ(g) = (gᵀ)⁻¹`, `K = SO(2)`,
@@ -2007,7 +2009,9 @@ the chamber input. Spherical and Harish-Chandra harmonic analysis are outside th
 
 ### Examples
 
-- `GL_n(ℝ)`: Cartan = polar decomposition, Iwasawa = Gram–Schmidt, `KAK` = singular value decomposition.
+- `GL_n(ℝ)`: Cartan = polar decomposition, Iwasawa = Gram–Schmidt, `KAK` = singular value decomposition
+  (`Matrix.GeneralLinearGroup.existsUnique_pos_antitone_and_eq_unitary_mul_diagonal_mul_unitary`),
+  with restricted Weyl group `S_n` (`TauCeti.unitaryNormalizerPosDiagonalQuotientMulEquivPerm`).
 - `SL₂(ℝ)`: `K = SO(2)`, `A` the positive diagonal matrices, `N` the upper unipotent group.
 
 ### Dependencies
@@ -2058,7 +2062,7 @@ compact real root, chamber and period data), SchubertGeometry (its S2's compact 
 representatives from §6.6, and its S7's and S9's flag cellular structure and cohomology and compact
 homogeneous flag model from Layer 8, read through the opposite-Borel transport of §8.3) and
 FormalConnectionsOpers (Layer 0's exponential map, Layer 6's maximal tori and Weyl group,
-Layer 7's complexification, compact real forms and lower analytic dictionary, in its §4.3) use this
+Layer 7's complexification and compact real forms, in its §4.3) use this
 roadmap, and none of them supplies it; what they build on these layers is theirs. LieGroupsPartII
 continues Layer 9 with minimal parabolic subgroups and the Bruhat decomposition of real reductive
 groups. RealSemisimpleLieGroups (Layers 0–5, 5A, 7 and 9), ArithmeticLocallySymmetricSpaces (Layers 2
@@ -2106,8 +2110,10 @@ exact declarations are in the supplier contracts below):
   chamber theorems of abstract root systems, and the maximal torus and Weyl group of `U(n)`.
 - Layers 7 and 9: the complexified Lie algebras of `U(n)`, `SU(n)`, `SO(n)` and `Sp(2l, ℝ)`, the
   Chevalley involution of a Serre presentation, completeness of left-invariant metrics, the matrix
-  polar and Cartan decompositions of `GL_n(ℝ)` and `GL_n(ℂ)`, the maximal compact subgroups of `GL`,
-  `SL` and `Sp`, and compact averaging into the unitary group.
+  polar and Cartan decompositions of `GL_n(ℝ)` and `GL_n(ℂ)`, the matrix Iwasawa decompositions of
+  `GL_n(ℝ)` and `SL_n(ℝ)`, the matrix `KAK` decompositions of `GL_n` and `SL_n` over `ℝ` and `ℂ` with
+  a unique decreasing positive diagonal, the restricted Weyl group `S_n` of `GL_n(ℝ)`, the maximal
+  compact subgroups of `GL`, `SL` and `Sp`, and compact averaging into the unitary group.
 
 **Left to other roadmaps.** The flow theory (DifferentialGeometry Layer 3), the Frobenius theorem and
 leaves (DifferentialGeometry 4.3–4.4), the smooth structure on covering spaces (DifferentialGeometry
@@ -2283,8 +2289,9 @@ recorded with them; "standing" means a finite-dimensional real model and `LieGro
 - *Compact groups* (`RepresentationTheory/Compact/`, `RepresentationTheory/SU2/`): `TauCeti.haarProb`,
   `ContRepresentation.isUnitarizable`, `TauCeti.representativeStarSubalgebra_separatesPoints`
   (`T1Space G`), `TauCeti.SU2.weyl_integration_formula`.
-- *Complexification, polar decomposition and maximal compact subgroups* (`Geometry/Lie/Subgroup/Complexification.lean`,
-  `Analysis/Matrix/`, `LinearAlgebra/Matrix/`, `Geometry/Manifold/Riemannian/LieGroup/`):
+- *Complexification, the polar, Iwasawa and `KAK` decompositions, and maximal compact subgroups*
+  (`Geometry/Lie/Subgroup/Complexification.lean`, `Analysis/Matrix/`, `LinearAlgebra/Matrix/`,
+  `Geometry/Manifold/Riemannian/LieGroup/`):
   `TauCeti.Lie.unitaryComplexificationLieEquiv`, `TauCeti.Lie.specialUnitaryComplexificationLieEquiv`,
   `TauCeti.Lie.specialOrthogonalBaseChangeLieEquiv`, `TauCeti.Lie.symplecticBaseChangeLieEquiv`;
   `Matrix.GeneralLinearGroup.cartanHomeomorph` (`𝕜 = ℝ` or `ℂ`, `U(n, 𝕜) × selfAdjoint ≃ₜ GL n 𝕜`,
@@ -2292,7 +2299,16 @@ recorded with them; "standing" means a finite-dimensional real model and `LieGro
   `Matrix.GeneralLinearGroup.exists_conj_smul_le_unitarySubgroup`,
   `Matrix.SpecialLinearGroup.eq_comap_unitarySubgroup_of_isCompact_of_le`,
   `TauCeti.GLSymplectic.eq_inf_unitarySubgroup_of_isCompact_of_le`, `SymplecticGroup.polarUnitary_mem`;
-  `TauCeti.completeSpace_leftInvariantMetric`.
+  `TauCeti.iwasawaHomeomorph` (`O(n) × A × N ≃ₜ GL_n(ℝ)`, `(k, a, u) ↦ k a u`, with `A` the positive
+  diagonal and `N` the upper unitriangular matrices) and `Matrix.GeneralLinearGroup.existsUnique_iwasawa`,
+  `Matrix.SpecialLinearGroup.existsUnique_iwasawa` (the same in `SL_n(ℝ)`, every factor of determinant
+  one); `Matrix.GeneralLinearGroup.existsUnique_pos_antitone_and_eq_unitary_mul_diagonal_mul_unitary`
+  (`𝕜 = ℝ` or `ℂ`: `g = U · diag(d) · V` with `U, V` unitary and `d` positive, decreasing and unique)
+  and its `SL_n` form
+  `Matrix.SpecialLinearGroup.existsUnique_pos_antitone_and_eq_specialUnitary_mul_diagonal_mul_specialUnitary`
+  (`U, V` special unitary, `∏ dᵢ = 1`); `TauCeti.unitaryNormalizerPosDiagonalQuotientMulEquivPerm`
+  (`N_K(A)/Z_K(A) ≃* S_n` in `GL_n` over a linearly ordered star field, `K` unitary, `A` positive
+  diagonal); `TauCeti.completeSpace_leftInvariantMetric`.
 - *Bruhat and cohomology* (`GroupTheory/TitsSystem/`, `AlgebraicGeometry/Cohomology/`):
   `TauCeti.TitsSystem` with its fields `subgroupB`, `subgroupN` and `simple`,
   `TauCeti.TitsSystem.WeylGroup` (`N ⧸ (B ∩ N)`), `TauCeti.TitsSystem.existsUnique_mem_bruhatCell`,
@@ -2389,7 +2405,8 @@ composition law) and C1.9 (projective GAGA).
   (Chs. 2–3). Theorem numbers above
   refer to the [author's online copy](https://www.math.stonybrook.edu/~kirillov/mat552/liegroups.pdf):
   Thm. 2.5 (universal cover), Thm. 2.8 (closed subgroups), Cor. 2.9 (generation by a neighbourhood of
-  `1`), Thm. 3.7 (the exponential map), Thm. 3.17 (the Lie functor, faithful on connected groups),
+  `1`), Prop. 3.1 (one-parameter subgroups), Lemma 3.14 (`ad` as the differential of `Ad`),
+  Thm. 3.17 (the Lie functor, faithful on connected groups),
   Thm. 3.32 (`Z(G) = ker Ad`), Thm. 3.34 (BCH), Thms. 3.38, 3.43, 3.46, 3.48 and Cors. 3.49–3.50 (the
   three fundamental theorems and the equivalence of categories).
 - D. Bump, *Lie Groups*, 2nd ed., Springer GTM 225 (2013): the matrix-group exponential, maximal tori,
