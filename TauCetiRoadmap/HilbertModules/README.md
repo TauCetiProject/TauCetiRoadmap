@@ -571,7 +571,7 @@ supplying the full-corner approximation arguments for the last two. Here A is CC
 `π(A) = K(H_π)` for every irreducible representation π, and type I when `π(A) ⊇ K(H_π)` for every
 irreducible π. σ-unitality of one algebra is not inferred from Morita equivalence with a σ-unital
 algebra.
-*Needs:* §§3.4–3.6; CStarAlgebras C2.6 (primitive spectra), C6.1–C6.2 (nuclearity), C7.1
+*Needs:* §§3.4–3.6; CStarAlgebras §2.6 (primitive spectra), C6.1–C6.2 (nuclearity), C7.1
 (exactness).
 
 **Checks.**
@@ -605,7 +605,7 @@ For nonseparable H, `K(H)` and ℂ are Morita equivalent, one σ-unital and the 
 ### Dependencies
 
 Layers 1–2. Tau Ceti's nondegenerate representations; Mathlib's GNS construction; CStarAlgebras
-C1.7, C2.6, C5.1, C6.1–C6.2, C7.1 and C9.7; VonNeumannAlgebras V0, V4.Normality and
+C1.7, §2.6, C5.1, C6.1–C6.2, C7.1 and C9.7; VonNeumannAlgebras V0, V4.Normality and
 V7.StandardAmplifications.
 
 ## Layer 4: countable generation and stabilization
@@ -700,7 +700,7 @@ C.21 and Theorems C.25–C.26). Distinguish a continuous field, for which the no
 is continuous, from a general `C₀(X)`-algebra, and prove that continuity is equivalent to openness
 of the map `Prim(A) → X`. Use the Dauns–Hofmann action when X is the Hausdorff primitive spectrum.
 *Needs:* Layer 1; Mathlib `ZeroAtInftyContinuousMap`, `DoubleCentralizer`; CStarAlgebras C1.3,
-C1.7, C2.6 (primitive spectra), C2.7 (Dauns–Hofmann).
+C1.7, §2.6 (primitive spectra), C2.7 (Dauns–Hofmann).
 
 ### 5.2 The commutative fibre example (H5.CommutativeFiberExample)
 
@@ -737,17 +737,21 @@ the ideal of functions vanishing at x, the continuous field they form with the s
 specified by Hilbert fibres and a `C(X)`-module Γ of sections satisfying: every norm function
 `x ↦ ‖ξ(x)‖` for `ξ ∈ Γ` is continuous; every fibre vector is the value of a section in Γ; and a
 section locally uniformly approximable by Γ belongs to Γ (Dixmier–Douady, Definition 1). Prove the
-construction from a generating family with merely dense evaluations by taking its local uniform
-closure (Dixmier–Douady, Proposition 4). Prove continuity of inner products by polarization, and
-construct the total-space topology with continuous norm and inner product. Give `Γ₀` its supremum
-norm and pointwise `C₀(X)`-action, prove completeness, and prove reconstruction in both directions,
-including the quotient-fibre identifications (Dixmier–Douady, §9). In the module-to-field direction
-form Γ by local uniform completion of E's sections, prove that it is a `C(X)`-module, and use
-compactly supported cutoffs to recover E as `Γ₀`; a `C(X)`-module reconstruction theorem is not
-applied directly to the `C₀(X)`-module E. Fullness holds exactly when every fibre is nonzero; zero
-fibres are permitted. Prove that the field of module-compact operators has fibres `K(E_x)`, with
-the rank-one section formula, and identify `K(E)` with its continuous sections vanishing at
-infinity. These fields need not be locally trivial and their fibre dimensions may vary.
+construction from a generating complex vector space of sections with continuous norm functions and
+merely dense evaluations by taking its local uniform closure (Dixmier–Douady, Proposition 3).
+Prove continuity of inner products by polarization (Dixmier–Douady, §9), and construct the
+total-space topology with continuous norm and inner product. Give `Γ₀` its supremum norm and
+pointwise `C₀(X)`-action, prove completeness, and prove reconstruction in both directions,
+including the quotient-fibre identifications; a `C(X)`-module with a continuous, definite,
+subadditive and `C(X)`-homogeneous norm function is the module of continuous sections of a
+continuous field exactly when it is complete for local uniform convergence (Dixmier–Douady,
+Proposition 4). In the module-to-field direction form Γ by local uniform completion of E's
+sections, prove that it is a `C(X)`-module, and use compactly supported cutoffs to recover E as
+`Γ₀`; a `C(X)`-module reconstruction theorem is not applied directly to the `C₀(X)`-module E.
+Fullness holds exactly when every fibre is nonzero; zero fibres are permitted. Prove that the field
+of module-compact operators has fibres `K(E_x)`, with the rank-one section formula, and identify
+`K(E)` with its continuous sections vanishing at infinity. These fields need not be locally trivial
+and their fibre dimensions may vary.
 
 For continuous finite-rank Hermitian vector bundles use the bundle category of
 [TopologicalKTheory](../TopologicalKTheory/README.md) T1: over compact X, identify their continuous
@@ -948,7 +952,7 @@ span of the positive a for which `[π] ↦ Tr(π(a))` is finite and continuous. 
 an ideal whose positive elements are precisely those positive a, and build its linear and ideal
 operations and the local cutoffs needed in the equivalence; it is not assumed that every positive
 element has finite trace.
-*Needs:* §3.7 (CCR); Mathlib `PositiveLinearMap.GNS`; CStarAlgebras C2.2, C2.6;
+*Needs:* §3.7 (CCR); Mathlib `PositiveLinearMap.GNS`; CStarAlgebras C2.2, §2.6;
 VonNeumannAlgebras V0, V4.Core.
 
 **Checks.**
@@ -1030,8 +1034,9 @@ B6.0.
   logarithm, so `C(𝕋, ℝ) → C(𝕋, 𝕋)` is not surjective: the sequence is exact only locally, which is
   why the connecting maps need refinements.
 - With the value ℤ on the empty set, the tuple complex of a cover is the cochain complex of the full
-  simplex on its index set and has the cohomology of a point, whatever the space: the value 0 on
-  empty intersections is what makes the comparison with constant coefficients possible.
+  simplex on its index set and has the cohomology of a point for every cover with a nonempty index
+  set (every cover of a nonempty space): the value 0 on empty intersections is what makes the
+  comparison with constant coefficients possible.
 
 ### 5.12 Compact-operator bundles and the lifting obstruction
 
@@ -1095,16 +1100,16 @@ finite-rank endomorphism bundles, and a compact-operator bundle over `S³` reali
 
 `C(Y)` over `C(X)` through a surjection (§5.2) is the commutative model of a `C₀(X)`-algebra, a
 continuous field exactly when the surjection is open. Over the torus the modules `M_k` and
-`Γ_(a,b)` exhaust the finitely generated projective `C(T²)`-modules, with rank b and Chern number
-−a (§§5.4–5.7). `C₀(X, K(ℓ²))` has continuous trace and trivial Dixmier–Douady class, and a
-compact-operator bundle over `S³` realizes a generator of `Ȟ³(S³, Z) ≅ ℤ` (§5.15).
+`Γ_(a,b)` exhaust the nonzero finitely generated projective `C(T²)`-modules, with rank b and
+Chern number −a (§§5.4–5.7). `C₀(X, K(ℓ²))` has continuous trace and trivial Dixmier–Douady
+class, and a compact-operator bundle over `S³` realizes a generator of `Ȟ³(S³, Z) ≅ ℤ` (§5.15).
 
 ### Dependencies
 
 Layers 1–4. Tau Ceti's Čech cohomology of presheaves on spaces, its point-neighbourhood covers and
 fixed-cover pullbacks, `TauCeti.FiniteRankBundleCore`, `TauCeti.cwComplexProd` and the connectivity
 of spheres; Mathlib's ideals of `C(Y)`, Tietze extension, partitions of unity and
-`cechComplexFunctor`. CStarAlgebras C1.3, C1.7, C2.2, C2.6, C2.7 and C5.1; VonNeumannAlgebras V0 and
+`cechComplexFunctor`. CStarAlgebras C1.3, C1.7, C2.2, §2.6, C2.7 and C5.1; VonNeumannAlgebras V0 and
 V4.Core; TopologicalKTheory T1; CharacteristicClasses C1.2b and C1.6; AlgebraicTopology §4.5;
 SmoothBundlesConnections B1.3, B3.3, B6.0, B6.2 and B6.3; DifferentialGeometry §5.2.
 
@@ -1231,7 +1236,7 @@ calculus; SelfAdjointSpectralTheory Parts C–D and its resolvent convention.
 
 ## Layer 7: localization, separation, and the local–global principle
 
-Kaad–Lesch, §§2–4, §6 and §7, with the erratum appended to that paper; Pierrot.
+Kaad–Lesch, §§2–7, with the erratum appended to that paper; Pierrot.
 
 ### 7.1 Localization
 
@@ -1246,27 +1251,30 @@ and resolvents with localization.
 
 Prove the separation theorem: for a nonempty closed convex `L ⊆ E` and `x ∉ L` there is a state ω
 with the image of x outside the closure of the image of L in the state localization `E^ω`
-(Kaad–Lesch, §4). For a proper closed submodule L, prove the stronger point-separation statement
-with a pure state, equivalently an irreducible cyclic representation and its cyclic vector
-(Kaad–Lesch, erratum, Theorem 2.1). Develop the module-compact right ideal `K_A(E, L)` and its
-adjoint left ideal `K_A(L, E)`, and induction through the E–`K_A(E)` equivalence (over `I_E` when E
-is not full) used in that proof, including the extension of nondegenerate representations from the
-ideal `I_E` to A. Retain the closure of the localized submodule; its algebraic image need not be
-closed.
+(Kaad–Lesch, §3, Theorem 3.1). For a proper closed submodule L, prove the stronger
+point-separation statement with a pure state, equivalently an irreducible cyclic representation
+and its cyclic vector (Kaad–Lesch, erratum, Theorem 2.1). Develop the module-compact right ideal
+`K_A(E, L)` and its adjoint left ideal `K_A(L, E)`, a pure state of `K_A(E)` whose left kernel
+contains `K_A(L, E)` and which does not vanish at `θ_(x,x)`, and induction through the
+E–`K_A(E)` equivalence (over `I_E` when E is not full) used in that proof, including the extension
+of nondegenerate representations from the ideal `I_E` to A. Retain the closure of the localized
+submodule; its algebraic image need not be closed.
 *Needs:* §§1.9, 2.3, 3.4–3.5, 7.1; Mathlib `geometric_hahn_banach_point_closed`;
-BanachSpaceTheory B1; CStarAlgebras C2.2; VonNeumannAlgebras V0.
+BanachSpaceTheory B1; CStarAlgebras C2.2 and §2.6 (pure-state separation from closed left ideals);
+VonNeumannAlgebras V0.
 
 ### 7.3 The local–global principle
 
-Prove the local–global principle, including its pure-state form (Kaad–Lesch, §4, and erratum,
-Theorem 1.3; Pierrot, Theorem 1.18): for a closed semiregular T, regularity is equivalent to
-`(T*)^π = (T^π)*` for every representation π, equivalent to that equality for every state, and
-equivalent to it for every pure state. For a closed, densely defined, symmetric T, selfadjoint
-regularity is equivalent to selfadjointness of all these localizations, with all representations,
-all states or all pure states. Relate the two statements through the operator `[[0, T*], [T, 0]]`
-on `dom(T) ⊕ dom(T*)` for operators `E → E` (§6.4). Prove that localization commutes with this block
-construction, retaining `(T*)^π` as the top-right entry before identifying it with `(T^π)*`. Use the
-strengthened separation theorem of §7.2 for the pure-state assertion.
+Prove the local–global principle, including its pure-state form (Kaad–Lesch, §4, Theorem 4.2; for
+pure states, Pierrot, Theorem 1.18, which is the erratum's Conjecture 1.1, and Kaad–Lesch,
+Theorem 5.6, with the erratum's Theorem 2.1): for a closed semiregular T, regularity is
+equivalent to `(T*)^π = (T^π)*` for every representation π, equivalent to that equality for every
+state, and equivalent to it for every pure state. For a closed, densely defined, symmetric T,
+selfadjoint regularity is equivalent to selfadjointness of all these localizations, with all
+representations, all states or all pure states. Relate the two statements through the operator
+`[[0, T*], [T, 0]]` on `dom(T) ⊕ dom(T*)` for operators `E → E` (§6.4). Prove that localization
+commutes with this block construction, retaining `(T*)^π` as the top-right entry before identifying
+it with `(T^π)*`. Use the strengthened separation theorem of §7.2 for the pure-state assertion.
 *Needs:* §§6.4, 7.1–7.2.
 
 ### 7.4 A selfadjoint operator that is not regular
@@ -1325,8 +1333,8 @@ selfadjointness and regularity of `[[0, S], [S, 0]]`, the block criterion of §6
 
 ### Dependencies
 
-Layers 1–3 and 6; Mathlib's Hahn–Banach separation; BanachSpaceTheory B1; CStarAlgebras C2.2;
-VonNeumannAlgebras V0; PDE §§1.1, 1.2 and 1.6.
+Layers 1–3 and 6; Mathlib's Hahn–Banach separation; BanachSpaceTheory B1; CStarAlgebras C2.2 and
+§2.6; VonNeumannAlgebras V0; PDE §§1.1, 1.2 and 1.6.
 
 ## Downstream consumers
 
@@ -1350,6 +1358,18 @@ VonNeumannAlgebras V0; PDE §§1.1, 1.2 and 1.6.
   §5.3 between Hermitian bundles and finitely generated projective section modules.
 - [SpectralManifolds](../SpectralManifolds/README.md) follows the opposite-algebra convention for
   right modules of Convention 2.
+- [UnboundedOperators](../OperatorTheory/UnboundedOperators/README.md) consumes Layer 6 (adjoints,
+  graph cores, sums and compositions, the deficiency decomposition and the classification of
+  selfadjoint extensions) and the interval example of §7.4.
+- [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) consumes Layers 1 and 3
+  (completion over a dense *-subalgebra, induced Hilbert spaces and imprimitivity bimodules).
+- [QuantumGroups](../QuantumGroups/README.md) consumes Layers 1–3 (the module `H ⊗ A`, adjointable
+  and module-compact operators, the multiplier identification and interior tensor products).
+- [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md) consumes Layer 3 (interior
+  tensor products, induction and the Rieffel correspondence) and Layer 5 (`C₀(X)`-algebras,
+  continuous Hilbert fields and the unitary dual of §5.8).
+- [FactorRigidity](../FactorRigidity/README.md) consumes Layers 1–3 for the interior tensor
+  product of correspondences.
 - The child roadmap [HeisenbergImprimitivity](HeisenbergImprimitivity/README.md) consumes Layers 1–3.
 
 ## Scope and ownership
@@ -1390,10 +1410,10 @@ sum criterion (Layer 7).
 **Left to named roadmaps.**
 
 - *C*-algebra structure theory*: ideals, approximate units, hereditary subalgebras, multipliers and
-  the strict topology, representations, primitive spectra, the Dauns–Hofmann theorem, spatial
-  tensor products, inductive limits, nuclearity and exactness are
-  [CStarAlgebras](../CStarAlgebras/README.md)' (C1.3, C1.4, C1.7, C2.2, C2.6, C2.7, C5.1, C5.4,
-  C6.1–C6.2, C7.1, C9.7).
+  the strict topology, representations, primitive spectra and the pure-state separation of closed
+  left ideals, the Dauns–Hofmann theorem, spatial tensor products, inductive limits, nuclearity and
+  exactness are [CStarAlgebras](../CStarAlgebras/README.md)' (C1.3, C1.4, C1.7, C2.2, §2.6, C2.7,
+  C5.1, C5.4, C6.1–C6.2, C7.1, C9.7).
 - *States, traces and normal modules*: states and GNS (V0), the trace class and the extended
   positive trace on `B(H)` (V4.Core), normality of representations (V4.Normality) and the normal
   Hilbert modules of finite factors with their coupling dimension (V7.StandardAmplifications,
@@ -1539,9 +1559,12 @@ Other roadmaps cite sections of this roadmap by the labels of its former numberi
 
 C1.3 (closed ideals and quotient C*-algebras), C1.4 (approximate units), C1.7 (multipliers and the
 strict topology), C2.2 (representations, and the correspondence between pure states and
-irreducible GNS representations), C2.6 (C2.AnnHull: primitive spectra with the hull–kernel
-topology), C2.7 (the Dauns–Hofmann theorem `Z(M(A)) ≅ C_b(Prim(A))`), C5.1 (the spatial tensor
-product `⊗min`, completed from the spatial norm of VonNeumannAlgebras), C5.4 (C*-inductive limits),
+irreducible GNS representations), §2.6, whose heading carries the label C2.AnnHull (primitive
+spectra with the hull–kernel topology, and, for §7.2, the separation of closed left ideals by pure
+states: every closed left ideal J is the intersection of the left kernels `{a : ω(a*a) = 0}` of
+the pure states ω whose left kernels contain J, and for each a ∉ J one of them has `ω(a*a) > 0`),
+C2.7 (the Dauns–Hofmann theorem `Z(M(A)) ≅ C_b(Prim(A))`), C5.1 (the spatial tensor product
+`⊗min`, completed from the spatial norm of VonNeumannAlgebras), C5.4 (C*-inductive limits),
 C6.1–C6.2 (nuclearity), C7.1 (exactness, by exactness of `A ⊗min −` on closed-ideal sequences) and
 C9.7 (exactness passes to quotients). They are assumed as stated there, for complex C*-algebras
 that need not be unital.
@@ -1622,9 +1645,10 @@ boundary traces, with the kernel of the trace the zero-boundary space). Used in 
   classification); Theorem 6.3 (the Brauer group).
 - J. Dixmier and A. Douady, [*Champs continus d'espaces hilbertiens et de
   C*-algèbres*](https://www.numdam.org/article/BSMF_1963__91__227_0.pdf), Bull. Soc. Math. France
-  91 (1963), 227–284: Definition 1, Proposition 4 and §9, for section axioms, Banach-field
-  reconstruction and Hilbert fields. §5.3 supplies the `C₀`-module specialization and the
-  quotient inner-product identifications.
+  91 (1963), 227–284: Definition 1 for the section axioms, Proposition 3 for the field generated by
+  a family with dense evaluations, Proposition 4 for Banach-field reconstruction from a module
+  complete for local uniform convergence, and §9 for Hilbert fields. §5.3 supplies the `C₀`-module
+  specialization and the quotient inner-product identifications.
 - D. P. Williams, *Crossed Products of C*-Algebras*, Mathematical Surveys and Monographs 134, AMS,
   2007, Appendix C: Definitions C.16 and C.21 and Theorems C.25–C.26, for upper semicontinuous
   bundles, sections and the reconstruction of `C₀(X)`-algebras.
@@ -1645,10 +1669,14 @@ boundary traces, with the kernel of the trace the zero-boundary space). Used in 
   for the Hilbert-space deficiency extension API; the convention `U = −V` translates his Cayley
   unitary to the displayed domain.
 - J. Kaad and M. Lesch, [*A Local Global Principle for Regular Operators in Hilbert
-  C*-Modules*](https://arxiv.org/abs/1107.2372): §§2–4 for regularity, localization and separation,
-  §6 for the boundary-condition examples, Assumption 7.1 and Theorem 7.10 for the sum theorem, and
-  the appended erratum, Theorems 1.3 and 2.1, for the pure-state principle and separation. The
-  erratum attributes the stronger principle to Pierrot, Theorem 1.18.
+  C*-Modules*](https://arxiv.org/abs/1107.2372): §2 for regularity and localization, §3,
+  Theorem 3.1, for state separation, §4, Theorem 4.2, for the local–global principle, Theorem 5.6
+  for its pure-state form given pure-state separation, §6 for the boundary-condition examples,
+  Assumption 7.1 and Theorem 7.10 for the sum theorem, and the appended erratum, Theorem 2.1, for
+  pure-state separation from a proper closed submodule. The pure-state principle for symmetric
+  operators is Theorem 1.18 of F. Pierrot, *Opérateurs réguliers dans les C*-modules et structure
+  des C*-algèbres de groupes de Lie semisimples complexes simplement connexes*, J. Lie Theory 16
+  (2006), 651–689; the erratum states it as its Conjecture 1.1 and credits it to Pierrot.
 - The [Mathlib discussion of the module convention](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/redefining%20%60Inner%60%20in%20%60InnerProductSpace%20%F0%9D%95%9C%20%F0%9D%95%9C%60)
   explains the use of the opposite algebra for right modules and the prevention of scalar-instance
   diamonds; the [`WithCStarModule` discussion](https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/defeq%20abuse%20in%20%60WithLp%60)
