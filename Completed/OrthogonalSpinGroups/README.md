@@ -1,5 +1,60 @@
 # Roadmap: orthogonal and spin groups
 
+**Summary.** Besides the determinant, the orthogonal group of a quadratic form carries a second
+invariant, with values in square classes: the spinor norm. If an isometry is a product of
+reflections `τ_{v₁} ⋯ τ_{v_r}`, its spinor norm θ is the class of `Q(v₁) ⋯ Q(v_r)` in `Kˣ/(Kˣ)²`.
+This roadmap develops the arithmetic of the orthogonal and spin groups over arbitrary fields, over ℝ
+and ℚ_p, and over the adeles of ℚ. Throughout, K is a field in which 2 is invertible and Q is a
+quadratic form on a finite-dimensional K-vector space. The groups are groups of points, O(Q), SO(Q)
+and Spin(Q), the last from Mathlib's Clifford algebra; no group schemes are built here.
+
+The first main results concern nondegenerate Q. The spinor norm is well defined, independent of the
+factorization, and a homomorphism. In positive dimension, the map from Spin(Q) to SO(Q) has kernel
+`{±1}`, and its image is exactly the kernel of θ on SO(Q), the spinor kernel. That map is onto when
+every unit of K is a square, but not in general: on the hyperbolic plane over ℚ, the element of the
+diagonal torus with parameter 2 has no preimage. The Clifford norm here is `reverse(g) · g`, giving
+a vector v the norm Q(v), while Mathlib's Spin uses the other anti-involution, giving −Q(v). The two
+spinor norms agree on SO(Q).
+
+The determinant and θ form a homomorphism χ from O(Q) to `{±1} × Kˣ/(Kˣ)²`, with kernel Ω(Q). Over a
+finite field of odd order q, for Q nondegenerate of dimension n ≥ 2, χ is surjective and Ω is
+exactly the commutator subgroup of O(Q), of index four. For n ≥ 5 and every odd q, including q = 3,
+Ω is perfect and its quotient by its centre is a nonabelian simple group. Smaller dimensions are
+tabulated; for n = 3 and q = 3, Ω is PSL₂(3) ≅ A₄, which is not perfect.
+
+Over any field, the image of χ consists of the pairs (1, t) and (−1, [a]t), with t in T = θ(SO(Q))
+and a any nonzero value of Q. Over ℚ, in dimension at least three, T consists of the positive square
+classes when Q is definite, and of all square classes when Q is indefinite over ℝ, isotropic over ℚ
+or not. Binary forms can give smaller groups: for x² + y², T consists of the positive classes in
+which every prime ≡ 3 mod 4 occurs to even valuation.
+
+Over ℚ_p the spinor norm takes every square class in dimension at least three; over ℝ a positive
+definite form has trivial spinor norm on all of O(Q). For a nondegenerate rational quadratic space,
+the adelic points of O, SO and Spin are built from restricted products, relative to compatible
+families of compact open subgroups. The rational points are discrete in the full adeles but not, in
+general, in the finite adeles. Under an explicit integral-lifting condition, which holds for the
+standard integral family, the image of the adelic Spin points in SO is exactly the kernel of the
+adelic spinor norm.
+
+Much of the algebraic part, including the spinor norm, exists in Tau Ceti and is imported.
+[QuadraticFormInvariants](../../TauCetiRoadmap/QuadraticFormInvariants/README.md) supplies square
+classes, Witt theory and the local classification of forms, and
+[RestrictedProducts](../RestrictedProducts/README.md) the generic restricted products. The rational
+part uses local–global theorems from GlobalQuadraticForms and ClassFieldTheory. Downstream,
+IntegralLattices builds its spinor genera from the spinor kernel. The successor
+OrthogonalTamagawaAndLatticeMass uses the adelic groups built here; the orthogonal case of strong
+approximation and Eichler's theorem belong there, not here.
+
+Layer 0 sets up O(Q), SO(Q) and reflections. Layer 1 builds the Clifford and spinor norms, the
+comparison with Spin, and χ over finite fields and over ℚ. It also shows that for nondegenerate Q of
+dimension one to five, Spin(Q) is the group of even Clifford units x with σ(x)x = 1, for the
+canonical involution σ. Layer 2 works over ℝ and ℚ_p, with the topology of the point groups, Eichler
+transvections lifted to Spin, and the local spinor norms. Layer 3 builds the adelic groups and the
+adelic spinor norm, and stops there. `Suggested.lean` states χ and a selection of its theorems in
+Lean, including `sorry` proofs.
+
+## Completion audit and introduction
+
 The final source audit on 2026-10-30 verified the complete roadmap against normal-merged
 Tau Ceti [`daa66339a578`](https://github.com/TauCetiProject/TauCeti/commit/daa66339a578b8c1c41c20b94839ca25444cc1e8).
 The [combined closeout audit](../CloseoutAudit-20261030.md) records the 934-root build
