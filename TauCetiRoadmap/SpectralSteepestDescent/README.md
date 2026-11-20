@@ -12,28 +12,13 @@ an explicit invariant band of the quintic used by the Muon optimizer and the num
 needed to enter it. It ends with a one-step descent guarantee for steepest descent under the
 operator norm, both with the exact polar factor and with Muon's five-step approximation.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- the real trace pairing on linear maps and its duality between the operator and nuclear
-  seminorms, with the maximizers;
-- the scaling, sign and spectral API of the canonical polar factor that the duality uses;
-- the Shampoo identity;
-- the Ky Fan form of singular-value perturbation and the Fan–Hoffman nearest-isometry theorem;
-- odd polynomial iterations on linear maps, their spectral form and their convergence;
-- the scalar dynamics of the cubic and quintic Newton–Schulz maps and of Muon's quintic;
-- the descent lemma for functions with Lipschitz derivative, and its instances for spectral
-  steepest descent;
-- the matrix forms of these statements over `𝕜`.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
-
-Out of scope: infinite-dimensional and Schatten-class dualities (these belong to
-[OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md)), dualities of
-vector `ℓᵖ` norms, momentum and stochastic-gradient convergence theory, and floating-point
-error.
+Each layer opens with its definitions, each followed by its **Checks**: three or more
+discriminating tests that a wrong convention would fail. Each numbered target ends with a
+*Needs:* line naming the targets and suppliers it uses. Every claim carries a source locator in
+parentheses, or says that it is proved here. `Suggested.lean` states the headline theorems of
+Layers 1–5 against the pinned APIs.
 
 ## Conventions
 
@@ -60,43 +45,6 @@ error.
 - The **Muon direction** with `k` steps is `muonDirection k A := N_m^[k](‖A‖_F⁻¹ • A)`, which
   is `0` at `A = 0`. The implementation constant `ε` added to `‖A‖_F` is not modelled.
 - `f^[k]` is the `k`-th iterate.
-
-## Exact supplier contracts
-
-- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md): PD-A29
-  (the modulus `LinearMap.operatorAbs`), PD-A52 (eigenvalue monotonicity), PD-B11 to PD-B16
-  (the canonical polar factor `LinearMap.polarFactor` with `A = U |A|`, its kernel, range and
-  partial-isometry API), PD-B19
-  (`polarFactor_adjoint`), PD-B20 (`exists_linearIsometryEquiv_eqOn_polarFactor`), and PD-C28
-  (the singular values of the modulus).
-- [OperatorTheory/Majorization](../OperatorTheory/Majorization/README.md): MAJ-A26
-  (`LinearMap.kyFanSum`), MAJ-A28 (`norm_sum_inner_le_kyFanSum`), MAJ-A31 (the Ky Fan triangle
-  inequality `LinearMap.kyFanSum_add_le`), MAJ-B01
-  (`TauCeti.UnitarilyInvariantSeminorm`), MAJ-B21 (Fan dominance `map_le_of_kyFanSum_le`), and
-  MAJ-B30 to MAJ-B37 (the `opNorm`, `frobenius`, `nuclear` and `kyFan` instances and the
-  nuclear singular-value formula).
-- [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md): OI-A50
-  (`LinearMap.abs_singularValues_sub_singularValues_le`, the Weyl perturbation bound).
-- Tau Ceti: the isometric embedding `LinearMap.polarIsometry` of an injective map
-  (`Polar/Isometry.lean`), `LinearMap.exists_linearIsometryEquiv_eq_polarFactor` for an
-  injective map between spaces of equal dimension (`Polar/Finite.lean`), the Hermitian dilation
-  `LinearMap.hermitianDilation` (`HermitianDilation/Basic.lean`) with the multiplicities of its
-  eigenvalues `LinearMap.finrank_eigenspace_hermitianDilation_eq_adjoint_comp_self`
-  (`HermitianDilation/Spectrum.lean`), and the unitary factor
-  `Units.polarUnitary` of a unit of a star-ordered algebra with a
-  real functional calculus (`TauCeti/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Polar`),
-  applied to `Matrix n n 𝕜`, and the real continuous functional calculus on `E →L[𝕜] E`
-  (`TauCeti/Analysis/InnerProductSpace/ContinuousFunctionalCalculus`).
-- Mathlib: `LinearMap.singularValues`, `LinearMap.adjoint`, `LinearMap.trace`, `cfc`,
-  `fderiv`, and `Matrix.toEuclideanLin`.
-
-## How to read the build
-
-Each layer opens with its definitions, each followed by its **Checks**: three or more
-discriminating tests that a wrong convention would fail. Each numbered target ends with a
-*Needs:* line naming the targets and suppliers it uses. Every claim carries a source locator in
-parentheses, or says that it is proved here. `Suggested.lean` states the headline theorems of
-Layers 1–5 against the pinned APIs.
 
 ## Layer 1: trace duality and the polar factor
 
@@ -557,6 +505,58 @@ singular value decomposition coordinates, is in
 converge and a five-step bound at `1/2`) and `SpectralForm.lean`. It is BSD-3 licensed, and its
 author contributed this roadmap. The roadmap generalizes it to rectangular and singular maps
 and to the canonical polar factor; the source is reference material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- the real trace pairing on linear maps and its duality between the operator and nuclear
+  seminorms, with the maximizers;
+- the scaling, sign and spectral API of the canonical polar factor that the duality uses;
+- the Shampoo identity;
+- the Ky Fan form of singular-value perturbation and the Fan–Hoffman nearest-isometry theorem;
+- odd polynomial iterations on linear maps, their spectral form and their convergence;
+- the scalar dynamics of the cubic and quintic Newton–Schulz maps and of Muon's quintic;
+- the descent lemma for functions with Lipschitz derivative, and its instances for spectral
+  steepest descent;
+- the matrix forms of these statements over `𝕜`.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope: infinite-dimensional and Schatten-class dualities (these belong to
+[OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md)), dualities of
+vector `ℓᵖ` norms, momentum and stochastic-gradient convergence theory, and floating-point
+error.
+
+## Exact supplier contracts
+
+- [OperatorTheory/PolarDecomposition](../OperatorTheory/PolarDecomposition/README.md): PD-A29
+  (the modulus `LinearMap.operatorAbs`), PD-A52 (eigenvalue monotonicity), PD-B11 to PD-B16
+  (the canonical polar factor `LinearMap.polarFactor` with `A = U |A|`, its kernel, range and
+  partial-isometry API), PD-B19
+  (`polarFactor_adjoint`), PD-B20 (`exists_linearIsometryEquiv_eqOn_polarFactor`), and PD-C28
+  (the singular values of the modulus).
+- [OperatorTheory/Majorization](../OperatorTheory/Majorization/README.md): MAJ-A26
+  (`LinearMap.kyFanSum`), MAJ-A28 (`norm_sum_inner_le_kyFanSum`), MAJ-A31 (the Ky Fan triangle
+  inequality `LinearMap.kyFanSum_add_le`), MAJ-B01
+  (`TauCeti.UnitarilyInvariantSeminorm`), MAJ-B21 (Fan dominance `map_le_of_kyFanSum_le`), and
+  MAJ-B30 to MAJ-B37 (the `opNorm`, `frobenius`, `nuclear` and `kyFan` instances and the
+  nuclear singular-value formula).
+- [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md): OI-A50
+  (`LinearMap.abs_singularValues_sub_singularValues_le`, the Weyl perturbation bound).
+- Tau Ceti: the isometric embedding `LinearMap.polarIsometry` of an injective map
+  (`Polar/Isometry.lean`), `LinearMap.exists_linearIsometryEquiv_eq_polarFactor` for an
+  injective map between spaces of equal dimension (`Polar/Finite.lean`), the Hermitian dilation
+  `LinearMap.hermitianDilation` (`HermitianDilation/Basic.lean`) with the multiplicities of its
+  eigenvalues `LinearMap.finrank_eigenspace_hermitianDilation_eq_adjoint_comp_self`
+  (`HermitianDilation/Spectrum.lean`), and the unitary factor
+  `Units.polarUnitary` of a unit of a star-ordered algebra with a
+  real functional calculus (`TauCeti/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Polar`),
+  applied to `Matrix n n 𝕜`, and the real continuous functional calculus on `E →L[𝕜] E`
+  (`TauCeti/Analysis/InnerProductSpace/ContinuousFunctionalCalculus`).
+- Mathlib: `LinearMap.singularValues`, `LinearMap.adjoint`, `LinearMap.trace`, `cfc`,
+  `fderiv`, and `Matrix.toEuclideanLin`.
 
 ## References
 
