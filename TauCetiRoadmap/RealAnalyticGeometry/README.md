@@ -236,8 +236,9 @@ Prove the local normal decomposition, part of the local theory of semianalytic s
 Łojasiewicz states without proof in §1: let
 `U ⊆ ℝⁿ` be open, `x ∈ U` and `f_1, …, f_k` analytic on `U`. There is an open neighbourhood
 `V ⊆ U` of `x` and a finite partition of `V` into connected, locally closed analytic submanifolds
-of `ℝⁿ` (the pieces) such that every `f_j` has constant sign (negative, zero or positive) on every
-piece; every piece is semianalytic, and so is every connected component of every sign-condition
+of `ℝⁿ` (the pieces) such that `x` lies in the closure of every piece (Łojasiewicz, §1.II.4,
+p. 452); every `f_j` has constant sign (negative, zero or positive) on every piece; every piece is
+semianalytic, and so is every connected component of every sign-condition
 set `{sign f_1 = ε_1, …, sign f_k = ε_k} ∩ V`, which is a union of pieces; inside `V` the closure of
 a piece is a union of pieces; and a piece contained in the closure of another, distinct piece has
 strictly smaller dimension.
@@ -260,10 +261,13 @@ and constancy of the ordered roots); its root functions are analytic on the base
 (`TauCeti.Delineation.analyticOnSubmanifold_root`; at simple roots also
 `AnalyticAt.exists_analyticAt_eventually_eq_zero_iff`), and Thom encodings (RealAlgebraicGeometry
 Layer 1) describe each section by sign conditions, which makes the sections and sectors
-semianalytic. Carry local connectedness at frontier points as an induction invariant, and prove
-from it and the root-matching neighbourhoods that the boundary of a section or sector is a union of
-lower sections and sectors. The induction terminates because each step lowers the dimension. A
-global refinement of an analytic atlas is not a substitute for this bad-set induction.
+semianalytic. The roots of a Weierstrass polynomial tend to the last coordinate of `x` as the base
+variable tends to the projection `x′` of `x`, so every section and sector over a base piece with
+`x′` in its closure has `x` in its closure. Carry local connectedness at frontier points as an
+induction invariant, and prove from it and the root-matching neighbourhoods that the boundary of a
+section or sector is a union of lower sections and sectors. The induction terminates because each
+step lowers the dimension. A global refinement of an analytic atlas is not a substitute for this
+bad-set induction.
 *Needs:* Tau Ceti `TauCeti.SemianalyticAt`, `TauCeti.semianalyticAt_real_iff`,
 `AnalyticAt.exists_complexification`, `TauCeti.analyticGerms.exists_complexify_eq_iff_eventually_apply_star`,
 `TauCeti.nonempty_delineation`, `TauCeti.Delineation.analyticOnSubmanifold_root`,
@@ -276,7 +280,7 @@ preparation and division); RealAlgebraicGeometry Layers 1, 2 and 4.
   and squarefree formulas have analytic coefficients.
 - *Shrinking.* The decomposition can be chosen inside any prescribed neighbourhood of `x`, and
   restricts to a decomposition of the same kind on every smaller open neighbourhood of `x` on
-  which the pieces stay connected.
+  which the pieces stay connected; `x` stays in the closure of every restricted piece.
 - *Compatibility.* For a semianalytic set `A` with a presentation near `x` by the functions
   `f_j`, every piece lies in `A` or in its complement, so `A ∩ V` is a union of pieces.
 
@@ -306,6 +310,11 @@ lower-dimensional closed set is not asserted to have smaller dimension.
 - For the closed segment `A = [0, 1] × {0} ⊂ ℝ²`, `dim A = 1`, `closure(A) ∖ A = ∅`, and the ambient
   boundary of `A` is `A` itself, of dimension `1`. A frontier statement written with the ambient
   boundary in place of `closure(A) ∖ A` would claim `dim A < dim A`.
+- For `A = {(1, 0)} ⊂ ℝ²` and `x = 0`, `dim_x A = −∞`, since `A` misses the disc of radius `1/2`.
+  Without the requirement of §1.0 that `x` lie in the closure of every piece, the partition of the
+  disc of radius `2` into `{(1, 0)}` and its complement would be admissible for
+  `f = (u − 1)² + v²` and would give `dim_x A = 0`: the local dimension would depend on the size of
+  the neighbourhood.
 - For the Whitney umbrella `W = {x² = z y²} ⊂ ℝ³`, points of `W` off the `z`-axis `S` have `y ≠ 0`
   and `z = x²/y² ≥ 0`, so `W ∖ S` is the graph of `x²/y²` over `{y ≠ 0}` and has the two components
   `T± = W ∩ {±y > 0}`. Since `(√z · y, y, z) → (0, 0, z)` as `y → 0⁺`, `closure(T₊) ∩ S` is the
@@ -355,10 +364,14 @@ Weierstrass factor of a Nash germ are Nash germs.
 **The Nash normal decomposition.** Prove §1.0 in the Nash category: for finitely many Nash germs
 at `x`, the neighbourhood `V` can be taken open and semialgebraic and the pieces semialgebraic
 analytic submanifolds, the root and graph maps are Nash, closures and frontiers of pieces are
-semialgebraic, and the dimension and frontier conditions of §1.0a hold. Prove that the dimension of
-§1.0a of a semialgebraic piece equals its semialgebraic dimension `TauCeti.semialgebraicDim`, the
-dimension of AffineMorseLefschetz §5.1.
+semialgebraic, and the dimension and frontier conditions of §1.0a hold. The dimension of §1.0a of
+a nonempty semialgebraic `k`-dimensional piece equals its semialgebraic dimension
+`TauCeti.semialgebraicDim`, the dimension of AffineMorseLefschetz §5.1: both are `k`, the second by
+`TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace` (a nonempty subset of `ℝⁿ` that is a
+topological manifold modelled on `ℝᵏ` has semialgebraic dimension `k`). Prove only the assembly:
+the charts on `ℝᵏ` that the analytic submanifold structure gives the piece.
 *Needs:* §§1.0–1.0a, the Nash Weierstrass coefficients; Tau Ceti `TauCeti.semialgebraicDim`,
+`TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace`,
 `TauCeti.semialgebraicAt_iff_exists_isNashBooleanCombination`,
 `TauCeti.IsSemialgebraic.semialgebraicDim_closure`.
 
@@ -415,9 +428,10 @@ band maps and the subdivision theorem named there.
 
 Call a *normal box* at `c ∈ ℝⁿ` an open coordinate box `Q` around `c`, in some affine coordinates,
 together with a finite partition of `Q` into connected analytic submanifolds `Γ^k_κ`, `0 ≤ k ≤ n`,
-such that each `Γ^k_κ` is a connected component of a locus cut out by successive Weierstrass
-polynomials in the last `n − k` coordinates together with the nonvanishing of the preceding
-discriminants; `Γ^k_κ` has dimension `k`; the pieces with `k = n` are open; a piece with `k < n` is
+such that each `Γ^k_κ` is a connected component of the locus `V^k` where the successive real
+distinguished (Weierstrass) polynomials `H^(n−1)_n, …, H^k_(k+1)` in the last `n − k` coordinates
+vanish and the next one, `H^(k−1)_k` in the coordinate `x_k`, does not, with `H^(−1)_0 = 1`;
+`Γ^k_κ` has dimension `k`; the pieces with `k = n` are open; a piece with `k < n` is
 the graph of an analytic map over an open subset of the first `k` coordinates; and the frontier of
 each piece in `Q` is a union of pieces of lower dimension (Łojasiewicz, §1.II, pp. 451–452). Prove,
 using §§1.0–1.0a, that near every point, after an affine change of coordinates and shrinking, there
@@ -667,7 +681,10 @@ Prove that every connected set compatible with the individual members is compati
 
 Record the six properties used later: (i) the members are partially semialgebraic topographic
 sets whose intersections with `B × ℝ` are bounded for every bounded `B ⊆ M`, the two boundary
-planes included; (ii) the family is locally finite; (iii) its tails are compact and disjoint;
+planes included; (ii) the family is locally finite; (iii) the tails `Γ ∩ {|t| ≥ 2}` of its
+members `Γ` are compact and pairwise disjoint, and empty for members of dimension below `n − 1`
+(Łojasiewicz, §4, step I, (3), p. 465, prints `dim Γ < n`, but every member is topographic, of
+dimension at most `n − 1`);
 (iv) its union is closed and has property (P); (v) over every base point the union meets both the
 positive and the negative vertical rays in unbounded sets; (vi) compatibility passes from the
 members to each `B_ν`.
@@ -1245,7 +1262,11 @@ Chapter VII of Hörmander's *An Introduction to Complex Analysis in Several Vari
 
 0. **The coherent module calculus.** Build the coherent analytic module sheaves and their calculus
    before the compact argument. Use Mathlib's `SheafOfModules` over the `RingCat`-valued holomorphic
-   structure sheaf `R_W` of an open `W` (ComplexKahlerGeometry K4, §4.1), with K4's locally free
+   structure sheaf `R_W` of an open `W` (ComplexKahlerGeometry K4, §4.1); for `W = X`, with `X`
+   modelled on `E` (Convention 1), it is
+   `TauCeti.SheafOfModules.ringCatSheaf (smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) X ℂ)`, the sheaf of
+   complex-smooth, that is holomorphic, functions with commutativity forgotten, and Mathlib's
+   `smoothSheafCommRing` takes `X` in `Type`, the universe of `ℂ`. Use it with K4's locally free
    section sheaves as examples, and K4's identification of the structure sheaf `O_U` of an open
    `U ⊆ W` with the restriction `U.sheafRestrict.obj R_W`, compatible with germ maps. Work with
    `SheafOfModules.over` on `J.over U`, `J = Opens.grothendieckTopology W`, with
@@ -1254,17 +1275,18 @@ Chapter VII of Hörmander's *An Introduction to Complex Analysis in Several Vari
    modules over `U.sheafRestrict.obj R_W`, built from `SheafOfModules.pushforwardPushforwardEquivalence`,
    with its unit comparisons `TopologicalSpace.Opens.sheafOfModulesEquivOverUnit` and
    `TopologicalSpace.Opens.sheafOfModulesEquivOverInverseUnit`; transport them along K4's analytic ring
-   isomorphism to obtain the equivalence `E` between modules over `O_U` and over `R_W.over U` and its
+   isomorphism to obtain the equivalence `Ψ` between modules over `O_U` and over `R_W.over U` and its
    unit comparisons in both directions. Own the analytic section, stalk and germ comparisons across
    this transport, so that the bundle section sheaf on a Stein `D` and `F|_D` are modules over the same
    ring sheaf. Use `SheafOfModules.IsFiniteType`, `SheafOfModules.GeneratingSections` and
    `SheafOfModules.LocalGeneratorsData`, and `SheafOfModules.IsLocallyFree`, and prove their
    comparisons with analytic local frames and finite tuples.
 
-   Define `F` to be *coherent* when it is of finite type and, for every open `U ⊆ W`, every `q ∈ ℕ` and
+   Define `F` to be *coherent* (`IsCoherentAnalyticSheaf`, for `W = X`) when it is of finite type
+   and, for every open `U ⊆ W`, every `q ∈ ℕ` and
    every morphism `free (ULift (Fin q)) → F.over U` of modules over `R_W.over U` on `J.over U`, its
    kernel is of finite type (`SheafOfModules.IsFiniteType`); the lifted finite index lies in the ring
-   and module universe. Own the lemmas transporting this condition to opens of `U`. Prove that `E` and
+   and module universe. Own the lemmas transporting this condition to opens of `U`. Prove that `Ψ` and
    its inverse preserve finite free modules, kernels, finite type, local freeness and finite
    presentation: use `SheafOfModules.GeneratingSections.map` with its colimit-preservation and
    unit-isomorphism hypotheses, and `SheafOfModules.QuasicoherentData.pushforward` with the unit
@@ -1358,10 +1380,12 @@ Chapter VII of Hörmander's *An Introduction to Complex Analysis in Several Vari
    topology, its independence of the finite presentation, the restriction maps and convergence.
 4. **Theorem A and coefficient lifting.** Deduce theorem A (7.2.8): approximate a finite local
    generating tuple near each point so that its coefficient matrix stays invertible, and prove that
-   `Γ(X, F) ⊗_(Γ(X, O)) O_x → F_x` is onto. Prove separately coefficient lifting (7.2.9): if global
-   sections `f_1, …, f_q` generate `F` on `X`, every global section is `Σ a_i f_i` with `a_i ∈ O(X)`;
-   stalk generation alone does not give this, which is proved by compact approximation and summable
-   gluing, before theorem B.
+   `Γ(X, F) ⊗_(Γ(X, O)) O_x → F_x` is onto at every `x`, equivalently that some family of global
+   sections of `F` induces an epimorphism onto `F` from a free module, a
+   `SheafOfModules.GeneratingSections` (`nonempty_generatingSections_of_isStein`). Prove separately
+   coefficient lifting (7.2.9): if global sections `f_1, …, f_q` generate `F` on `X`, every global
+   section is `Σ a_i f_i` with `a_i ∈ O(X)`; stalk generation alone does not give this, which is
+   proved by compact approximation and summable gluing, before theorem B.
 5. **Fine Stein covers.** Build arbitrarily fine locally finite Stein covers of uniformly finite
    order, and prove that their finite intersections with each regular sublevel of `q` are Stein.
    Choose a smooth Hermitian metric and a positive radius function below the local coordinate,
@@ -1386,7 +1410,8 @@ Chapter VII of Hörmander's *An Introduction to Complex Analysis in Several Vari
    compact neighbourhood argument. Exhaust `X` by regular Stein stages; in degrees `> 1` correct
    primitives recursively on earlier stages, and in degree `1` use coherent approximation and summable
    errors to correct the differences of `0`-cocycles. Prove the resulting limit and `Hᵏ(X, F) = 0` for
-   `k > 0`.
+   `k > 0` (`subsingleton_sheafH_of_isStein`), where `Hᵏ(X, F)` is Mathlib's sheaf cohomology
+   `Sheaf.H`, the `Ext` group from the constant sheaf `ℤ`, of the underlying abelian sheaf of `F`.
 
 Derive exactness of global sections, coherent ideal and quotient computations, and finite-point jet
 interpolation from theorem B, and compare the last with the scalar construction of §3.1.
@@ -1401,7 +1426,8 @@ generators), K4 (§4.1, structure sheaf and holomorphic bundles); ComplexManifol
 `SheafOfModules` and its finite-type, generating-sections, locally free, quasicoherent and
 finite-presentation API, `TopologicalSpace.Opens.sheafOfModulesEquivOver`,
 `SheafOfModules.pushforwardPushforwardEquivalence`, `CategoryTheory.Over.iteratedSliceEquiv`,
-`PresheafOfModules.germ_smul`.
+`PresheafOfModules.germ_smul`, `smoothSheafCommRing`, `SheafOfModules.toSheaf`, `Sheaf.H`; Tau Ceti
+`TauCeti.SheafOfModules.ringCatSheaf`.
 
 **Checks.**
 - On `X = ℂ`, the ideal sheaf of the discrete set `ℤ` is coherent and is generated at every stalk by
@@ -1611,8 +1637,8 @@ manifolds, partial semialgebraicity and realizations of abstract simplicial comp
 - ComplexComparisonPartII uses the Stein predicate and the Stein criterion (§§3.0–3.1), the weighted
   theorem, the complete metrics and approximation (§3.1), the coherent module calculus (§3.2, item 0)
   and Cartan's theorems (§3.2). SchubertGeometry uses the coherence predicate and Cartan's theorems
-  (§3.2), and GlobalHolomorphicFunctions the scalar Cousin I splitting and the vanishing of
-  `Hᵏ(X, O)` (§3.2, item 1).
+  (§3.2). GlobalHolomorphicFunctions proves the one-variable case of §3.2, item 1, on open subsets
+  of `ℂ` itself and takes nothing from §3.2.
 - Hyperfunctions uses the complexification of Layer 0 and §3.0 and the results of §§3.1–3.2, and
   AlgebraicTopologyPartII the bounded affine theorem with analytic simplex maps (§2.1).
 
@@ -1654,12 +1680,12 @@ declarations.
   the analytic inverse, implicit function and implicit root theorems.
 - *Semialgebraic and Nash geometry* (Tau Ceti): semialgebraic sets and functions, Tarski–Seidenberg
   and quantifier elimination with parameters, closures, interiors and balls, connected components,
-  semialgebraic dimension; Nash germs and their closure under the ring operations, inverses,
+  semialgebraic dimension and its value on subsets that are topological manifolds; Nash germs and
+  their closure under the ring operations, inverses,
   composition and directional derivatives; the local graph criterion in both directions, including
   nullified fibres and maps; one relation for a function Nash on a semialgebraic set; locally
   semialgebraic sets, their Nash Boolean presentations, Nash preimages and the theorem that a bounded
-  locally semialgebraic set is semialgebraic. These were planned in the Nash section; §1.1 keeps
-  only what is not stated there.
+  locally semialgebraic set is semialgebraic. §1.1 states only what these do not cover.
 - *Łojasiewicz's auxiliary lemmas* (Tau Ceti): partially semialgebraic sets with Boolean operations,
   locally finite unions and projections; Lemma 1, Lemma 2 and Lemma 6; the analytic ingredients of
   Lemma 10; the band calculus of Lemmas 11–14, including the analytic band isomorphisms and property
@@ -1750,6 +1776,12 @@ declarations.
   modules over `R.over U` are equivalent to modules over the restriction of `R` to `U`, unit to unit),
   `Opens.grothendieckTopology`, `CategoryTheory.Over.iteratedSliceEquiv`, `CategoryTheory.HasSheafify`
   and `CategoryTheory.GrothendieckTopology.WEqualsLocallyBijective`.
+- The holomorphic structure sheaf and sheaf cohomology: `smoothSheafCommRing`
+  (`Mathlib/Geometry/Manifold/Sheaf/Smooth.lean`, the sheaf of commutative rings of smooth functions
+  into a smooth ring, with the manifold and the ring in one universe), the forgetful functor
+  `SheafOfModules.toSheaf` to abelian sheaves (`Mathlib/Algebra/Category/ModuleCat/Sheaf.lean`), and
+  `Sheaf.H` (`Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean`: the `Ext` groups from the
+  constant sheaf `ℤ`, for a choice of universe in which `HasExt` holds).
 
 ### From Tau Ceti
 
@@ -1804,8 +1836,11 @@ Paths are under `TauCeti/`. Each declaration is assumed as stated there.
   `TauCeti.HasSemialgebraicProjections ℝ` (`CAD/Existence.lean`, Tarski–Seidenberg) and quantifier
   elimination with parameters `TauCeti.exists_isQF_realize_iff` (`Semialgebraic/QuantifierElimination.lean`);
   `TauCeti.isSemialgebraic_ball`, `TauCeti.IsSemialgebraic.closure`, `TauCeti.IsSemialgebraic.interior`
-  (`Semialgebraic/Topology.lean`); `TauCeti.semialgebraicDim` and
-  `TauCeti.IsSemialgebraic.semialgebraicDim_closure` (`Semialgebraic/Dimension/`);
+  (`Semialgebraic/Topology.lean`); `TauCeti.semialgebraicDim`,
+  `TauCeti.IsSemialgebraic.semialgebraicDim_closure` (`Semialgebraic/Dimension/`) and
+  `TauCeti.semialgebraicDim_eq_finrank_of_chartedSpace` (`Semialgebraic/Dimension/Manifold.lean`: a
+  nonempty subset of `Fin n → ℝ` with charts on a finite-dimensional real space `E`, for the subspace
+  topology, has semialgebraic dimension `finrank ℝ E`);
   `TauCeti.IsSemialgebraic.finite_image_connectedComponentIn` and
   `TauCeti.IsLocallySemialgebraic.locallyFinite_connectedComponentIn` (`Semialgebraic/Components.lean`);
   `TauCeti.SemialgebraicAt`, `TauCeti.IsLocallySemialgebraic` and
@@ -1876,6 +1911,9 @@ Paths are under `TauCeti/`. Each declaration is assumed as stated there.
   `AbstractSimplicialComplex.Realization` and
   `AbstractSimplicialComplex.isEmbedding_realization_coe_of_finite_vertex_stars`
   (`AlgebraicTopology/SimplicialComplex/Realization/`).
+- Sheaves of modules: `TauCeti.SheafOfModules.ringCatSheaf`
+  (`Algebra/Category/ModuleCat/Sheaf/Defs.lean`: a sheaf of commutative rings with commutativity
+  forgotten, the coefficient ring sheaf of `SheafOfModules`).
 
 ### From TauCetiRoadmap.RealAlgebraicGeometry
 

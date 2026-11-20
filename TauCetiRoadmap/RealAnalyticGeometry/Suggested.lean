@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Algebra.Category.ModuleCat.Sheaf.Defs
 import TauCeti.Analysis.Analytic.Submanifold.Basic
 import TauCeti.Geometry.Manifold.Complex.LeviForm
 import TauCeti.Geometry.RealAlgebraic.Semialgebraic.Function
@@ -28,6 +29,10 @@ Stated here:
   (`multiprojectiveChart`, `multiprojectiveChartSymm`), on Mathlib's quotient topology;
 * the Stein criterion (README §3.1), `isStein_of_strictlyPlurisubharmonic_exhaustion`, with the
   Stein predicate `IsStein` of README Convention 8 and the `holomorphicHull` it uses;
+* Cartan's theorems A and B (README §3.2, items 4 and 6), `nonempty_generatingSections_of_isStein`
+  and `subsingleton_sheafH_of_isStein`, with the coherence predicate `IsCoherentAnalyticSheaf` of
+  README §3.2, item 0, over Mathlib's sheaf of complex-smooth functions `smoothSheafCommRing`, which
+  takes the manifold in `Type`;
 * Grauert's proper real-analytic embedding theorem (README §4.2),
   `grauert_proper_real_analytic_embedding`, with the structure `ProperRealAnalyticEmbedding`;
 * Łojasiewicz's manifold theorem (Theorem 2, README §5.2),
@@ -43,10 +48,9 @@ Not statable at the pins:
 * Hörmander's weighted `L²` estimate for `∂̄` on complete Kähler manifolds (README §3.1): there are
   no square-integrable bundle-valued `(n, k)`-forms on a Kähler manifold, no curvature operator
   `[iΘ(E) + i∂∂̄φ, Λ]` and no maximal `∂̄` with its Hilbert adjoint.
-* Cartan's theorems A and B on Stein manifolds (README §3.2): there is no coherent analytic sheaf,
-  the coherence predicate over the holomorphic structure sheaf and its module calculus being
-  README §3.2, item 0.
 -/
+
+universe w
 
 noncomputable section
 open scoped ContDiff Manifold
@@ -272,6 +276,50 @@ theorem isStein_of_strictlyPlurisubharmonic_exhaustion {E X : Type*} [NormedAddC
     [SecondCountableTopology X] [ChartedSpace E X] [IsManifold 𝓘(ℂ, E) ∞ X] (q : X → ℝ)
     (hq : ContMDiff 𝓘(ℝ, E) 𝓘(ℝ) ∞ q) (hexh : ∀ c : ℝ, IsCompact {x | q x ≤ c})
     (hpsh : ∀ x, TauCeti.IsManifoldStrictlyPlurisubharmonicAt E q x) : IsStein E X := by
+  sorry
+
+/-- **Coherent analytic sheaves** (README §3.2, item 0). Let `F` be a sheaf of modules over the
+holomorphic structure sheaf of a complex manifold `X` modelled on `E` (Mathlib's sheaf of
+complex-smooth functions, with commutativity forgotten). It is coherent when it is of finite type
+and, for every open `U ⊆ X`, every `q` and every morphism `𝒪_U^q → F|_U` of sheaves of modules over
+the restricted structure sheaf, the kernel is of finite type. -/
+def IsCoherentAnalyticSheaf {E : Type*} {X : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    [TopologicalSpace X] [ChartedSpace E X]
+    (F : SheafOfModules.{0}
+      (TauCeti.SheafOfModules.ringCatSheaf (smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) X ℂ))) : Prop :=
+  F.IsFiniteType ∧ ∀ (U : TopologicalSpace.Opens (TopCat.of X)) (q : ℕ)
+    (φ : SheafOfModules.free
+      (R := (TauCeti.SheafOfModules.ringCatSheaf (smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) X ℂ)).over U)
+      (ULift (Fin q)) ⟶ F.over U),
+    (CategoryTheory.Limits.kernel φ).IsFiniteType
+
+/-- **Cartan's theorem A** (README §3.2, item 4; Hörmander 1990, (7.2.8)). On a Hausdorff,
+second-countable Stein manifold, the global sections of a coherent analytic sheaf `F` generate it:
+some family of global sections induces an epimorphism onto `F` from a free sheaf of modules, so
+that they generate the stalk `F_x` over `𝒪_x` at every point `x`. -/
+theorem nonempty_generatingSections_of_isStein {E : Type*} {X : Type} [NormedAddCommGroup E]
+    [NormedSpace ℂ E] [FiniteDimensional ℂ E] [TopologicalSpace X] [T2Space X]
+    [SecondCountableTopology X] [ChartedSpace E X] [IsManifold 𝓘(ℂ, E) ∞ X] (hX : IsStein E X)
+    (F : SheafOfModules.{0}
+      (TauCeti.SheafOfModules.ringCatSheaf (smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) X ℂ)))
+    (hF : IsCoherentAnalyticSheaf F) :
+    Nonempty F.GeneratingSections := by
+  sorry
+
+/-- **Cartan's theorem B** (README §3.2, item 6; Hörmander 1990, (7.4.3)). On a Hausdorff,
+second-countable Stein manifold, a coherent analytic sheaf `F` has `Hᵏ(X, F) = 0` for every
+`k > 0`, where `Hᵏ` is the sheaf cohomology (`Ext` from the constant sheaf `ℤ`) of the underlying
+abelian sheaf, computed in any universe `w` in which these `Ext` groups exist. -/
+theorem subsingleton_sheafH_of_isStein {E : Type*} {X : Type} [NormedAddCommGroup E]
+    [NormedSpace ℂ E] [FiniteDimensional ℂ E] [TopologicalSpace X] [T2Space X]
+    [SecondCountableTopology X] [ChartedSpace E X] [IsManifold 𝓘(ℂ, E) ∞ X]
+    [CategoryTheory.HasExt.{w}
+      (CategoryTheory.Sheaf (Opens.grothendieckTopology (TopCat.of X)) AddCommGrpCat.{0})]
+    (hX : IsStein E X)
+    (F : SheafOfModules.{0}
+      (TauCeti.SheafOfModules.ringCatSheaf (smoothSheafCommRing 𝓘(ℂ, E) 𝓘(ℂ) X ℂ)))
+    (hF : IsCoherentAnalyticSheaf F) (k : ℕ) (hk : 0 < k) :
+    Subsingleton (CategoryTheory.Sheaf.H ((SheafOfModules.toSheaf _).obj F) k) := by
   sorry
 
 /-! ## Layer 4: Grauert's proper real-analytic embedding -/
