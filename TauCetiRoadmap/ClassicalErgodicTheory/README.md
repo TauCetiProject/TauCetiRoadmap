@@ -28,49 +28,26 @@ and `TauCeti/Dynamics/Entropy/` (measure entropy, topological entropy and pressu
 existing modules `TauCeti/Dynamics/Ergodic/MeasurePreserving.lean`, `TauCeti/Probability/Ergodic/`
 and `TauCeti/Dynamics/Flow/` rather than restating their content.
 
-## Scope and ownership
+## How to read the build
 
-The ambient objects of each part are specified below. Each general construction includes its
-specialization and compatibility lemmas for maps, invertible maps and real flows.
+| Layer | Content | Prerequisites |
+| --- | --- | --- |
+| 0 | Monoid factors, finite observations, Radon probabilities, Koopman, natural extensions, joinings, induced maps and towers | Mathlib; Tau Ceti; GeometryOfNumbersAndQuadraticArithmetic §4.2 (Koopman, return times); MarkovChainsAndRenewal Layer 0 |
+| 1 | Mixing for filtered monoid actions; natural extensions and relative weak mixing for groups | Layer 0; ProbabilisticAndMetricNumberTheory §4.6; MarkovChainsAndRenewal Layer 3 |
+| 2 | Group representations, abelian spectral measures and Følner mean ergodic theorem | Layers 0–1; Herglotz, Bochner; AmenableGroups; MathematicalBilliards §§12.4–12.5 |
+| 3 | Measurable and continuous flows: time-`t` maps, weak mixing, suspension flows, invariant measures, almost-everywhere flows, rates of mixing | Layers 0–2; MathematicalBilliards §§8.2–8.3, 12.1–12.5 |
+| 4 | Kolmogorov–Sinai entropy theory, amenable entropy, relative entropy and addition, generators and natural extensions; amenable Shannon–McMillan–Breiman theorem, ergodic decomposition of action entropy | Layers 0–1; §2.5 for §4.7; ProbabilisticAndMetricNumberTheory §§4.1–4.3, 5.1a; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §§2.6–2.7; AmenableGroups |
+| 5 | Topological entropy and pressure for maps, amenable actions and flows | Layer 0; §4.6 limit lemma for §5.6; Mathlib topological entropy |
+| 6 | Measure entropy of continuous maps: small partitions, expansiveness, upper semicontinuity, Brin–Katok, Abramov's formula for flows | Layers 3–5; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7 |
+| 7 | Variational principles for maps, amenable actions and flows | Layers 3–6; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7 |
+| 8 | Equilibrium states and measures of maximal entropy; agreement with finite-entropy formulations; uniqueness under specification, subshifts of finite type, suspension flows and the Ruelle–Perron–Frobenius theorem | Layers 0, 3–7; ArithmeticDynamics §2.7; ProbabilisticAndMetricNumberTheoryPartII §3.3 |
 
-| Material | Generality and location |
-| --- | --- |
-| Factors, products, invariant σ-algebras, finite orbit observations, Koopman pullback | Measure-preserving actions of arbitrary monoids; §§0.1–0.2, 0.5. Elementary transport lemmas use arbitrary measures. |
-| Natural extensions | Probability-preserving endomorphisms of standard Borel spaces, with an honest measurable inverse on the history subtype; §0.7, §1.5, §4.2. |
-| Joinings and relative theory | Joinings for monoid actions; relatively independent products and relative weak mixing for countable group actions on standard Borel probability spaces, §§0.8, 1.5; relative entropy for endomorphisms, §4.8, and countably infinite amenable actions, §4.9. |
-| Mixing and its permanence properties | Monoid actions along a specified filter; diagonal weak mixing for monoid actions; §§1.0–1.3. |
-| Representation criteria for mixing and weak mixing | Unitary representations of groups, with strong continuity for topological groups; §2.4. |
-| Spectral measures and characters | Strongly continuous unitary representations of locally compact Hausdorff abelian groups; §§2.1–2.4. Noninvertible maps retain their isometric Koopman theory. |
-| Averaging and entropy | Countably infinite discrete amenable groups for entropy; countable discrete amenable groups for averaging; §§2.5, 4.6–4.7, 5.6, 7.4 and 8.3. |
-| Structural flow API | `Flow τ X` for additive topological monoids, with real-time integration and time-map theorems for `τ = ℝ`; Layer 3. |
-| Invariant Radon probabilities and open-cover entropy | Nonempty compact Hausdorff spaces; §§3.4, 5.1–5.2. Metric partitions, local entropy and the pressure variational principles use compact metrizable spaces. |
-| Suspension and entropy scaling | Measurable real flows on standard Borel probability spaces; §§3.3, 6.4. |
-| Uniqueness of equilibrium states | Expansive homeomorphisms and continuous flows with specification on compact metric spaces, potentials with the Bowen property; subshifts of finite type, Hölder potentials, the Ruelle transfer operator and suspension flows over them; §§8.4–8.6. |
-| Almost-everywhere flows | Measure-preserving real flows defined on a conull invariant subset of a standard Borel space, with disjoint unions and transport of densities; §3.5. |
-
-| Material | Owner |
-| --- | --- |
-| Measure-preserving maps, ergodicity, recurrence, ergodic actions, ergodic measures as extreme points, Birkhoff sums, empirical measures and Krylov–Bogolyubov, topological entropy by covers and nets, topological flows, subshifts, Følner filters | Mathlib |
-| Mean ergodic theorem in `L²`, fixed spaces, invariant σ-algebra, Koopman operator on `L⁰`, ergodicity of Bernoulli shifts, Herglotz and Bochner theorems, the cyclic spectral theorem for strongly continuous unitary representations, compact self-adjoint operators, Kullback–Leibler divergence, continuous flows, Markov chain laws, amenability and Følner sets, the cat map | Tau Ceti |
-| Pointwise Birkhoff theorem with invariant conditional-expectation limit; strong mixing of a map; finite-label Shannon entropy | ProbabilisticAndMetricNumberTheory §§4.1–4.3, 4.6, 5.1a |
-| Birkhoff's contraction theorem for linear maps between convex cones in real vector spaces | ProbabilisticAndMetricNumberTheoryPartII §3.3 |
-| Koopman representation of a measure-preserving group action on `Lᵖ`; return times and Kac's lemma for ergodic measurable equivalences; ergodic decomposition of group actions; countable-label and conditional label entropy, itineraries, entropy rates and measure entropy; tempered Følner sequences, the tempered maximal inequality and the tempered pointwise ergodic theorem | GeometryOfNumbersAndQuadraticArithmetic §4.2 |
-| Invariance of entropy under almost-everywhere equality of labels and the finite-partition supremum formula; conditional entropy of a finite partition given a σ-algebra and the future formula for the entropy rate; the map Shannon–McMillan–Breiman theorem for finite partitions; the ergodic decomposition of an endomorphism with entropy integration; small-diameter partitions with null boundaries and `h_μ(T) ≤ h_top(T)` with its localized form | ArithmeticDynamics §§2.6–2.7 |
-| Weak mixing of measure-preserving `ℝ`-actions as Cesàro decay, strong continuity of their Koopman groups, Wiener's lemma for finite measures on `ℝ`, the continuous-time mean ergodic projection and the eigenfunction criterion; polygonal billiard tables with holes, their phase space, singular set, billiard flow and Liouville measure | MathematicalBilliards §§12.1–12.5, Layers 7–8 |
-| Markov kernels, stationarity, path laws and convergence to equilibrium for countable-state chains | MarkovChainsAndRenewal Layers 0–3 |
-| Amenability, invariant means and the discrete Følner criterion | AmenableGroups Layer 5 |
-
-These roadmaps' sections are consumed with the names and signatures given there and are not
-restated here; [Exact supplier contracts](#exact-supplier-contracts) lists what is used. The
-Følner mean ergodic theorem, the amenable Shannon–McMillan–Breiman theorem and the entropy limit
-lemmas for actions are targets here.
-
-**Outside this roadmap.** Uniformly hyperbolic smooth dynamics (Anosov and Axiom A
-diffeomorphisms and flows, stable manifolds, Markov partitions and their symbolic codings, SRB
-measures), smooth ergodic theory (Pesin theory, Ruelle's inequality, Yomdin and Newhouse upper
-semicontinuity, Misiurewicz's smooth examples without measures of maximal entropy), and billiards
-with curved or spherical scatterers and the `N`-particle hard-sphere flow are not part of this
-roadmap; [Downstream consumers](#downstream-consumers) says what they use from it.
+Layer 0 builds the systems and their examples, Layer 1 the mixing hierarchy and Layer 2 its
+spectral form; Layer 3 transfers these to measurable and continuous flows. Layer 4 develops
+measure entropy on the suppliers' entropy, Layer 5 topological entropy and pressure, Layer 6
+compares the two for continuous maps, Layer 7 proves the variational principles and Layer 8
+studies the measures attaining them. The map-entropy sections §§4.0–4.5 and map-pressure sections
+§§5.1–5.5 are independent; the amenable branches use the dependencies shown in the table.
 
 ## Conventions
 
@@ -178,155 +155,6 @@ Hölder hypotheses are written with Mathlib's `HolderWith C r φ`, not a new pre
 carries the product uniformity and no metric instance, so there a `d_θ`-Lipschitz potential is
 written as the cylinder bound `|φ x - φ y| ≤ C θ ^ n` whenever `x` and `y` agree on the coordinates
 `|k| < n` (`k < n` one-sided); an `r`-Hölder potential for `d_θ` is `d_(θ ^ r)`-Lipschitz.
-
-## Exact supplier contracts
-
-Consume these declarations and extend their API rather than restating them.
-
-### From Mathlib
-
-| Foundation | Declarations |
-| --- | --- |
-| Measure-preserving maps, products and conjugation | `MeasureTheory.MeasurePreserving` (`Mathlib/Dynamics/Ergodic/MeasurePreserving.lean`), `MeasurePreserving.prodMap`, `MeasurePreserving.symm`; `MeasureTheory.map_trim_comap` (the pushforward of a trimmed measure along a measurable map, `Mathlib/MeasureTheory/Measure/Trim.lean`) |
-| Ergodicity and recurrence | `PreErgodic`, `Ergodic`, `QuasiErgodic`, `Ergodic.ae_eq_const_of_ae_eq_comp₀`, `ergodic_conjugate_iff` (`Mathlib/Dynamics/Ergodic/Ergodic.lean`, `Function.lean`); `Conservative`, `MeasurePreserving.conservative`, `Conservative.ae_frequently_mem_of_mem_nhds` (Poincaré recurrence, `Conservative.lean`) |
-| Ergodic actions | `ErgodicSMul`, `ErgodicVAdd`, `ergodicSMul_iterateMulAct` (`Mathlib/Dynamics/Ergodic/Action/Basic.lean`), `ergodic_mul_left_iff_denseRange_zpow` (`Action/OfMinimal.lean`) |
-| Ergodic measures as extreme points | `Ergodic.iff_mem_extremePoints`, `Ergodic.eq_of_absolutelyContinuous` (`Mathlib/Dynamics/Ergodic/Extreme.lean`) |
-| Examples on the circle | `ergodic_add_left`, `ergodic_nsmul`, `ergodic_zsmul_add` (`Mathlib/Dynamics/Ergodic/AddCircle.lean`, `AddCircleAdd.lean`) |
-| Birkhoff sums and averages | `birkhoffSum`, `birkhoffAverage` (`Mathlib/Dynamics/BirkhoffSum/`) |
-| Mean ergodic theorem and Koopman operators | `ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection` (`Mathlib/Analysis/InnerProductSpace/MeanErgodic.lean`), `Lp.compMeasurePreservingₗᵢ`, `Lp.compMeasurePreserving_continuous` |
-| Invariant measures of continuous maps | `empiricalMeasure`, `exists_measurePreserving_probabilityMeasure_of_compact_forwardInvariant` (`Mathlib/Dynamics/Ergodic/EmpiricalMeasure.lean`); compactness of `ProbabilityMeasure E` for compact `E` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`) |
-| Topological entropy | `Dynamics.dynEntourage`, `IsDynCoverOf`, `IsDynNetIn`, `coverMincard`, `netMaxcard`, `coverEntropy`, `coverEntropyInf`, `coverEntropy_eq_iSup_netEntropyEntourage`, `coverEntropy_image_of_comap` (`Mathlib/Dynamics/TopologicalEntropy/`) |
-| Radon probabilities | Riesz–Markov–Kakutani (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/`), weak-* compactness and `ProbabilityMeasure`; §0.6 supplies the compact Hausdorff comparisons |
-| Følner families | `IsFoelner`, `IsAddFoelner`, `maxFoelner` (`Mathlib/MeasureTheory/Group/FoelnerFilter.lean`): windows that are eventually measurable of finite nonzero measure, whose left translates `g • F i` differ from `F i` by a proportion tending to zero |
-| Topological dynamics | `Flow`, `Flow.fromIter`, `Homeomorph.flow` (`Mathlib/Dynamics/Flow.lean`), `MulAction.IsMinimal`, `MulAction.IsTopologicallyTransitive` |
-| Shifts and product measures | `mulShift`, `Subshift`, `cylinder` (`Mathlib/Dynamics/SymbolicDynamics/Basic.lean`), `Measure.infinitePi` |
-| Projective limits and disintegration | `IsProjectiveLimit.unique`, `Measure.condKernel`, `Measure.disintegrate`, `eq_condKernel_of_measure_eq_compProd`, `ProbabilityTheory.condExpKernel`; these supply the conditional kernels of §§0.7–0.8 |
-| Operators and Fourier analysis | `IsCompactOperator`, `spectrum.gelfand_formula`, `fourier`, `span_fourier_closure_eq_top` (`Mathlib/Analysis/Fourier/AddCircle.lean`), `UnitAddTorus`, `mFourier` (`AddCircleMulti.lean`) |
-| Entropy inequalities | `Real.negMulLog`, `Real.concaveOn_negMulLog`, `Subadditive.tendsto_lim` |
-| Hölder functions and matrices | `HolderWith`, `MemHolder`, `nnHolderNorm`, `spectralRadius` |
-
-### From Tau Ceti
-
-| Foundation | Declarations |
-| --- | --- |
-| Measure-preserving maps | `MeasurePreserving.isFiniteMeasure` (`TauCeti/Dynamics/Ergodic/MeasurePreserving.lean`) |
-| Ergodic actions | `ErgodicSMul.map`, `ergodicSMul_map_iff` (`TauCeti/Dynamics/Ergodic/Action/Map.lean`) |
-| Birkhoff sums | `Function.IsPeriodicPt.birkhoffSum_apply_eq` (`TauCeti/Dynamics/BirkhoffSum/Cyclic.lean`) |
-| Mean ergodic theorem and Koopman operators | `fixedSpace`, `metProjection`, `birkhoffAverage_tendsto_metProjection`, `metProjection_eq_condExpL2`, `fixedSpace_eq_lpMeas_invariants`, `koopmanMarkov` (`TauCeti/Probability/Ergodic/`) |
-| Amenability | `Amenable`, `HasFoelnerSets`, `Amenable.hasFoelnerSets`, `amenable_iff_hasFoelnerSets`, `hasFoelnerSets_iff_exists_seq`, `IsFoelner.tendsto_card_smul_symmDiff_div_card` and `Mean.tendsto_average_ofIsFoelner` (`TauCeti/GroupTheory/Amenable/`); the last concerns scalar means, not the Hilbert or pointwise ergodic theorems |
-| Flows | `Flow` API (`TauCeti/Dynamics/Flow/`) |
-| Shifts and Markov chains | `shift` (`TauCeti/Probability/Process/PathLaw/Basic.lean`), `ergodic_shift_infinitePi_const`, `ergodic_shift_of_iIndepFun` (`TauCeti/Probability/Ergodic/BernoulliShift.lean`), `markovChainLaw` (`TauCeti/Probability/Process/MarkovChain.lean`) |
-| Projective limits | `TauCeti.Measure.exists_isProjectiveLimit_of_countable` (`TauCeti/MeasureTheory/Measure/ProjectiveLimit/Countable.lean`), for the probability laws of §0.7 |
-| Positive-definite functions and spectral theorems | `exists_isFiniteMeasure_integral_zpow_eq` and `isPositiveDefiniteSub_iff_exists_isFiniteMeasure_integral_zpow_eq` (Herglotz, `TauCeti/Analysis/Bochner/Herglotz.lean`), `bochner` (`TauCeti/Analysis/Bochner/BochnerTheorem.lean`), `IsPositiveDefiniteSub.existsUnique_innerRegular_pontryaginMeasureTransform_eq_of_continuousAt` (`TauCeti/Analysis/Bochner/LocallyCompactGroup.lean`), `FiniteMeasure.pontryaginMeasureTransform_injOn_innerRegular` (`TauCeti/Analysis/Fourier/Pontryagin/Uniqueness.lean`), `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (the cyclic spectral theorem, `TauCeti/Analysis/Fourier/Pontryagin/StronglyContinuous.lean`) |
-| Compact self-adjoint operators | `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector` (a Hilbert basis of eigenvectors, `TauCeti/Analysis/InnerProductSpace/Spectrum.lean`), applied in §2.4 |
-| Kullback–Leibler divergence | `TauCeti/InformationTheory/KullbackLeibler/` |
-| Toral automorphism example | `catMap` (`TauCeti/Dynamics/CatMap.lean`) |
-| Positive matrices | `TauCeti.Matrix.hilbertProjectiveDist_mulVec_le` (Birkhoff's contraction for Hilbert's projective metric, `TauCeti/Data/Matrix/BirkhoffContraction.lean`) |
-
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory — §§4.1–4.3, 4.6, 5.1a
-
-Consume §4.1's `birkhoff_pointwise` and `birkhoff_pointwise_ergodic`, constructed in §§4.2–4.3:
-for a measure-preserving `T` of a probability space and an integrable real `f`, the time averages
-converge almost everywhere to the conditional expectation of `f` on the invariant σ-algebra, and to
-`∫ f dμ` when `T` is ergodic. Consume §4.6's `IsStrongMixing T μ` for `μ : ProbabilityMeasure X`:
-`MeasurePreserving T μ μ` and `μ.real (A ∩ T^[n] ⁻¹' B) → μ.real A * μ.real B` for all measurable
-`A`, `B`. Consume §5.1a's `labelEntropy` and `condLabelEntropy` of finite labels, with their chain
-rule, alphabet bound and additivity for independent labels.
-
-### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheoryPartII — §3.3
-
-Consume §3.3's `birkhoff_contraction`: let `C₁ ⊆ V` and `C₂ ⊆ W` be convex cones in real vector
-spaces with `Cᵢ ∩ -Cᵢ = {0}`, ordered by `f ≤ g` iff `g - f ∈ Cᵢ`, and `T : V → W` linear with
-`T(C₁) ⊆ C₂` and `Δ ≥ 0` such that any two images `T f`, `T g` of nonzero elements of `C₁` satisfy
-`a T f ≤ T g ≤ b T f` for some `a > 0` with `log (b / a) ≤ Δ`. If `f ∈ C₁` is nonzero and
-`a f ≤ g ≤ b f` with `a > 0`, then `a' T f ≤ T g ≤ b' T f` for some `a' > 0` with
-`log (b' / a') ≤ tanh (Δ / 4) * log (b / a)`. §8.6 applies it to the Ruelle operator on a cone of
-log-Lipschitz positive functions.
-
-### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic — §4.2
-
-Consume:
-
-- `scalarLpKoopman p μ hμ : ContRepresentation ℂ G (Lp ℂ p μ)` for a measure-preserving group
-  action and `1 ≤ p`, with `(π(g) f)(x) = f(g⁻¹ • x)` almost everywhere, and `scalarLpKoopman_strong`
-  (strong continuity for continuous actions on R₁ spaces with locally finite measures that are
-  inner regular on finite-measure sets, and finite `p`);
-- `positiveReturnTime T A x : ℕ∞` with `measurable_positiveReturnTime`, and
-  `kac_return_time_integral` (`∫ x in A, (positiveReturnTime T A x).toNat dμ = 1` for an ergodic
-  measurable equivalence and `0 < μ A`);
-- `ActionErgodicKernel μ U` with `exists_actionErgodicKernel`, for countable groups acting
-  measurably on nonempty standard Borel probability spaces with invariant measure;
-- the entropy paragraph's `countablePartitionEntropy`, `conditionalPartitionEntropy`,
-  `iteratedPartitionLabel`, `partitionEntropyRate` and `measureEntropy`, with their chain rule,
-  relabeling invariance, additivity for independent labels and the subadditive limit: for
-  measure-preserving `T` and a label `a` of finite entropy, `partitionEntropyRate μ T a`, defined
-  as `inf_(n ≥ 1) H(aⁿ)/n`, is the limit of `H(aⁿ)/n`; `measureEntropy μ T : ℝ≥0∞` is the supremum
-  of the rates of measurable `ℕ`-valued labels of finite entropy;
-- `TemperedFolnerSequence` (compact windows `A_j` of positive finite Haar measure `η` with
-  `η(⋃_(k<j) A_k⁻¹ A_j) ≤ C η(A_j)` and `η((K A_j) ∆ A_j)/η(A_j) → 0` for compact `K ∋ 1`),
-  `tempered_action_maximal_inequality` and `tempered_action_pointwise` (almost-everywhere
-  convergence of the window averages of an integrable function to its conditional expectation on
-  the invariant σ-algebra). For a countable discrete group, Haar measure is counting measure and
-  compact windows are finite sets.
-
-### From TauCetiRoadmap.ArithmeticDynamics — §§2.6–2.7
-
-For a measure-preserving endomorphism `T` of a probability space with arbitrary measurable
-structure, consume: §2.6's invariance of entropy under almost-everywhere equality of labels and the
-formula `h_μ(T) = sup_P h_μ(T, P)` over finite partitions, retaining `⊤`; §2.7's conditional entropy
-`H_μ(P | ℰ)` of a finite partition given a sub-σ-algebra, with independence of representatives,
-`0 ≤ H_μ(P | ℰ) ≤ H_μ(P)`, antitonicity in `ℰ`, the conditional chain rule and the future formula
-`h_μ(T, P) = H_μ(P | ⋁_(j ≥ 1) T⁻ʲ σ(P))`; §2.7's Shannon–McMillan–Breiman theorem for finite
-partitions (`-log μ(Pⁿ(x))/n` converges almost everywhere to an invariant integrable `g_P` with
-`∫ g_P dμ = h_μ(T, P)`, constant for ergodic `μ`); §2.7's finite Borel partitions of a compact
-metric space with small atom diameters and `μ`-null boundaries, the inequality
-`(h_μ(T) : EReal) ≤ coverEntropy T univ` for continuous `T` on a nonempty compact metric space, and
-for ergodic `μ` the bound by `coverEntropyInf T Y` for every Borel `Y` with `μ Y > 0`; and §2.7's
-ergodic decomposition `x ↦ μ_x` of an endomorphism of a nonempty standard Borel space, with
-almost-everywhere uniqueness, `g_P(x) = h_(μ_x)(T, P)` and `h_μ(T) = ∫⁻ h_(μ_x)(T) dμ(x)`.
-
-### From TauCetiRoadmap.MathematicalBilliards — §§12.1–12.5, Layers 7–8
-
-For a jointly measurable measure-preserving action of `ℝ` on a probability space, consume §12.1's
-weak mixing (`(1/T) ∫_0^T |μ((t +ᵥ ·) ⁻¹' A ∩ B) - μ A μ B| dt → 0` for all measurable `A`, `B`)
-and eigenfunctions (`f ∘ (t +ᵥ ·) = exp(2π i a t) f` almost everywhere for every `t`, the frequency
-convention of this roadmap), with ergodicity of the product of a weakly mixing action and an
-ergodic one; §12.2's ergodicity of weakly mixing actions; §12.3's strong continuity of the Koopman
-group; §12.4's Wiener lemma for finite measures on `ℝ`; §12.4.1's continuous-time mean ergodic
-projection; and §12.5's eigenfunction criterion: weak mixing holds iff every eigenfunction is
-almost everywhere constant. Layers 7–8's polygonal billiard flow is cited in §3.5 as a conull
-flow.
-
-### From TauCetiRoadmap.MarkovChainsAndRenewal — Layers 0–3
-
-Countable-state Markov kernels, stationarity and path laws (Layer 0) and convergence to
-equilibrium (Layer 3), for the Markov shifts of §§0.3 and 1.4.
-
-### From TauCetiRoadmap.AmenableGroups — Layer 5
-
-The Følner criterion for arbitrary discrete groups (Layer 5), whose Tau Ceti forms are listed
-above; §§2.5, 4.6 and 5.6 use it.
-
-## How to read the build
-
-| Layer | Content | Prerequisites |
-| --- | --- | --- |
-| 0 | Monoid factors, finite observations, Radon probabilities, Koopman, natural extensions, joinings, induced maps and towers | Mathlib; Tau Ceti; GeometryOfNumbersAndQuadraticArithmetic §4.2 (Koopman, return times); MarkovChainsAndRenewal Layer 0 |
-| 1 | Mixing for filtered monoid actions; natural extensions and relative weak mixing for groups | Layer 0; ProbabilisticAndMetricNumberTheory §4.6; MarkovChainsAndRenewal Layer 3 |
-| 2 | Group representations, abelian spectral measures and Følner mean ergodic theorem | Layers 0–1; Herglotz, Bochner; AmenableGroups; MathematicalBilliards §§12.4–12.5 |
-| 3 | Measurable and continuous flows: time-`t` maps, weak mixing, suspension flows, invariant measures, almost-everywhere flows, rates of mixing | Layers 0–2; MathematicalBilliards §§8.2–8.3, 12.1–12.5 |
-| 4 | Kolmogorov–Sinai entropy theory, amenable entropy, relative entropy and addition, generators and natural extensions; amenable Shannon–McMillan–Breiman theorem, ergodic decomposition of action entropy | Layers 0–1; §2.5 for §4.7; ProbabilisticAndMetricNumberTheory §§4.1–4.3, 5.1a; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §§2.6–2.7; AmenableGroups |
-| 5 | Topological entropy and pressure for maps, amenable actions and flows | Layer 0; §4.6 limit lemma for §5.6; Mathlib topological entropy |
-| 6 | Measure entropy of continuous maps: small partitions, expansiveness, upper semicontinuity, Brin–Katok, Abramov's formula for flows | Layers 3–5; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7 |
-| 7 | Variational principles for maps, amenable actions and flows | Layers 3–6; GeometryOfNumbersAndQuadraticArithmetic §4.2; ArithmeticDynamics §2.7 |
-| 8 | Equilibrium states and measures of maximal entropy; agreement with finite-entropy formulations; uniqueness under specification, subshifts of finite type, suspension flows and the Ruelle–Perron–Frobenius theorem | Layers 0, 3–7; ArithmeticDynamics §2.7; ProbabilisticAndMetricNumberTheoryPartII §3.3 |
-
-Layer 0 builds the systems and their examples, Layer 1 the mixing hierarchy and Layer 2 its
-spectral form; Layer 3 transfers these to measurable and continuous flows. Layer 4 develops
-measure entropy on the suppliers' entropy, Layer 5 topological entropy and pressure, Layer 6
-compares the two for continuous maps, Layer 7 proves the variational principles and Layer 8
-studies the measures attaining them. The map-entropy sections §§4.0–4.5 and map-pressure sections
-§§5.1–5.5 are independent; the amenable branches use the dependencies shown in the table.
 
 ## Layer 0: Systems, factors and examples
 
@@ -2439,6 +2267,178 @@ once expansiveness, specification on the mixing pieces (or a symbolic coding by 
 subshift of finite type with Hölder roof) and the Bowen property of Hölder potentials are proved.
 Billiards with curved or spherical scatterers and the hard-sphere flow consume §3.5's
 almost-everywhere flows.
+
+## Scope and ownership
+
+The ambient objects of each part are specified below. Each general construction includes its
+specialization and compatibility lemmas for maps, invertible maps and real flows.
+
+| Material | Generality and location |
+| --- | --- |
+| Factors, products, invariant σ-algebras, finite orbit observations, Koopman pullback | Measure-preserving actions of arbitrary monoids; §§0.1–0.2, 0.5. Elementary transport lemmas use arbitrary measures. |
+| Natural extensions | Probability-preserving endomorphisms of standard Borel spaces, with an honest measurable inverse on the history subtype; §0.7, §1.5, §4.2. |
+| Joinings and relative theory | Joinings for monoid actions; relatively independent products and relative weak mixing for countable group actions on standard Borel probability spaces, §§0.8, 1.5; relative entropy for endomorphisms, §4.8, and countably infinite amenable actions, §4.9. |
+| Mixing and its permanence properties | Monoid actions along a specified filter; diagonal weak mixing for monoid actions; §§1.0–1.3. |
+| Representation criteria for mixing and weak mixing | Unitary representations of groups, with strong continuity for topological groups; §2.4. |
+| Spectral measures and characters | Strongly continuous unitary representations of locally compact Hausdorff abelian groups; §§2.1–2.4. Noninvertible maps retain their isometric Koopman theory. |
+| Averaging and entropy | Countably infinite discrete amenable groups for entropy; countable discrete amenable groups for averaging; §§2.5, 4.6–4.7, 5.6, 7.4 and 8.3. |
+| Structural flow API | `Flow τ X` for additive topological monoids, with real-time integration and time-map theorems for `τ = ℝ`; Layer 3. |
+| Invariant Radon probabilities and open-cover entropy | Nonempty compact Hausdorff spaces; §§3.4, 5.1–5.2. Metric partitions, local entropy and the pressure variational principles use compact metrizable spaces. |
+| Suspension and entropy scaling | Measurable real flows on standard Borel probability spaces; §§3.3, 6.4. |
+| Uniqueness of equilibrium states | Expansive homeomorphisms and continuous flows with specification on compact metric spaces, potentials with the Bowen property; subshifts of finite type, Hölder potentials, the Ruelle transfer operator and suspension flows over them; §§8.4–8.6. |
+| Almost-everywhere flows | Measure-preserving real flows defined on a conull invariant subset of a standard Borel space, with disjoint unions and transport of densities; §3.5. |
+
+| Material | Owner |
+| --- | --- |
+| Measure-preserving maps, ergodicity, recurrence, ergodic actions, ergodic measures as extreme points, Birkhoff sums, empirical measures and Krylov–Bogolyubov, topological entropy by covers and nets, topological flows, subshifts, Følner filters | Mathlib |
+| Mean ergodic theorem in `L²`, fixed spaces, invariant σ-algebra, Koopman operator on `L⁰`, ergodicity of Bernoulli shifts, Herglotz and Bochner theorems, the cyclic spectral theorem for strongly continuous unitary representations, compact self-adjoint operators, Kullback–Leibler divergence, continuous flows, Markov chain laws, amenability and Følner sets, the cat map | Tau Ceti |
+| Pointwise Birkhoff theorem with invariant conditional-expectation limit; strong mixing of a map; finite-label Shannon entropy | ProbabilisticAndMetricNumberTheory §§4.1–4.3, 4.6, 5.1a |
+| Birkhoff's contraction theorem for linear maps between convex cones in real vector spaces | ProbabilisticAndMetricNumberTheoryPartII §3.3 |
+| Koopman representation of a measure-preserving group action on `Lᵖ`; return times and Kac's lemma for ergodic measurable equivalences; ergodic decomposition of group actions; countable-label and conditional label entropy, itineraries, entropy rates and measure entropy; tempered Følner sequences, the tempered maximal inequality and the tempered pointwise ergodic theorem | GeometryOfNumbersAndQuadraticArithmetic §4.2 |
+| Invariance of entropy under almost-everywhere equality of labels and the finite-partition supremum formula; conditional entropy of a finite partition given a σ-algebra and the future formula for the entropy rate; the map Shannon–McMillan–Breiman theorem for finite partitions; the ergodic decomposition of an endomorphism with entropy integration; small-diameter partitions with null boundaries and `h_μ(T) ≤ h_top(T)` with its localized form | ArithmeticDynamics §§2.6–2.7 |
+| Weak mixing of measure-preserving `ℝ`-actions as Cesàro decay, strong continuity of their Koopman groups, Wiener's lemma for finite measures on `ℝ`, the continuous-time mean ergodic projection and the eigenfunction criterion; polygonal billiard tables with holes, their phase space, singular set, billiard flow and Liouville measure | MathematicalBilliards §§12.1–12.5, Layers 7–8 |
+| Markov kernels, stationarity, path laws and convergence to equilibrium for countable-state chains | MarkovChainsAndRenewal Layers 0–3 |
+| Amenability, invariant means and the discrete Følner criterion | AmenableGroups Layer 5 |
+
+These roadmaps' sections are consumed with the names and signatures given there and are not
+restated here; [Exact supplier contracts](#exact-supplier-contracts) lists what is used. The
+Følner mean ergodic theorem, the amenable Shannon–McMillan–Breiman theorem and the entropy limit
+lemmas for actions are targets here.
+
+**Outside this roadmap.** Uniformly hyperbolic smooth dynamics (Anosov and Axiom A
+diffeomorphisms and flows, stable manifolds, Markov partitions and their symbolic codings, SRB
+measures), smooth ergodic theory (Pesin theory, Ruelle's inequality, Yomdin and Newhouse upper
+semicontinuity, Misiurewicz's smooth examples without measures of maximal entropy), and billiards
+with curved or spherical scatterers and the `N`-particle hard-sphere flow are not part of this
+roadmap; [Downstream consumers](#downstream-consumers) says what they use from it.
+
+## Exact supplier contracts
+
+Consume these declarations and extend their API rather than restating them.
+
+### From Mathlib
+
+| Foundation | Declarations |
+| --- | --- |
+| Measure-preserving maps, products and conjugation | `MeasureTheory.MeasurePreserving` (`Mathlib/Dynamics/Ergodic/MeasurePreserving.lean`), `MeasurePreserving.prodMap`, `MeasurePreserving.symm`; `MeasureTheory.map_trim_comap` (the pushforward of a trimmed measure along a measurable map, `Mathlib/MeasureTheory/Measure/Trim.lean`) |
+| Ergodicity and recurrence | `PreErgodic`, `Ergodic`, `QuasiErgodic`, `Ergodic.ae_eq_const_of_ae_eq_comp₀`, `ergodic_conjugate_iff` (`Mathlib/Dynamics/Ergodic/Ergodic.lean`, `Function.lean`); `Conservative`, `MeasurePreserving.conservative`, `Conservative.ae_frequently_mem_of_mem_nhds` (Poincaré recurrence, `Conservative.lean`) |
+| Ergodic actions | `ErgodicSMul`, `ErgodicVAdd`, `ergodicSMul_iterateMulAct` (`Mathlib/Dynamics/Ergodic/Action/Basic.lean`), `ergodic_mul_left_iff_denseRange_zpow` (`Action/OfMinimal.lean`) |
+| Ergodic measures as extreme points | `Ergodic.iff_mem_extremePoints`, `Ergodic.eq_of_absolutelyContinuous` (`Mathlib/Dynamics/Ergodic/Extreme.lean`) |
+| Examples on the circle | `ergodic_add_left`, `ergodic_nsmul`, `ergodic_zsmul_add` (`Mathlib/Dynamics/Ergodic/AddCircle.lean`, `AddCircleAdd.lean`) |
+| Birkhoff sums and averages | `birkhoffSum`, `birkhoffAverage` (`Mathlib/Dynamics/BirkhoffSum/`) |
+| Mean ergodic theorem and Koopman operators | `ContinuousLinearMap.tendsto_birkhoffAverage_orthogonalProjection` (`Mathlib/Analysis/InnerProductSpace/MeanErgodic.lean`), `Lp.compMeasurePreservingₗᵢ`, `Lp.compMeasurePreserving_continuous` |
+| Invariant measures of continuous maps | `empiricalMeasure`, `exists_measurePreserving_probabilityMeasure_of_compact_forwardInvariant` (`Mathlib/Dynamics/Ergodic/EmpiricalMeasure.lean`); compactness of `ProbabilityMeasure E` for compact `E` (`Mathlib/MeasureTheory/Measure/Prokhorov.lean`) |
+| Topological entropy | `Dynamics.dynEntourage`, `IsDynCoverOf`, `IsDynNetIn`, `coverMincard`, `netMaxcard`, `coverEntropy`, `coverEntropyInf`, `coverEntropy_eq_iSup_netEntropyEntourage`, `coverEntropy_image_of_comap` (`Mathlib/Dynamics/TopologicalEntropy/`) |
+| Radon probabilities | Riesz–Markov–Kakutani (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/`), weak-* compactness and `ProbabilityMeasure`; §0.6 supplies the compact Hausdorff comparisons |
+| Følner families | `IsFoelner`, `IsAddFoelner`, `maxFoelner` (`Mathlib/MeasureTheory/Group/FoelnerFilter.lean`): windows that are eventually measurable of finite nonzero measure, whose left translates `g • F i` differ from `F i` by a proportion tending to zero |
+| Topological dynamics | `Flow`, `Flow.fromIter`, `Homeomorph.flow` (`Mathlib/Dynamics/Flow.lean`), `MulAction.IsMinimal`, `MulAction.IsTopologicallyTransitive` |
+| Shifts and product measures | `mulShift`, `Subshift`, `cylinder` (`Mathlib/Dynamics/SymbolicDynamics/Basic.lean`), `Measure.infinitePi` |
+| Projective limits and disintegration | `IsProjectiveLimit.unique`, `Measure.condKernel`, `Measure.disintegrate`, `eq_condKernel_of_measure_eq_compProd`, `ProbabilityTheory.condExpKernel`; these supply the conditional kernels of §§0.7–0.8 |
+| Operators and Fourier analysis | `IsCompactOperator`, `spectrum.gelfand_formula`, `fourier`, `span_fourier_closure_eq_top` (`Mathlib/Analysis/Fourier/AddCircle.lean`), `UnitAddTorus`, `mFourier` (`AddCircleMulti.lean`) |
+| Entropy inequalities | `Real.negMulLog`, `Real.concaveOn_negMulLog`, `Subadditive.tendsto_lim` |
+| Hölder functions and matrices | `HolderWith`, `MemHolder`, `nnHolderNorm`, `spectralRadius` |
+
+### From Tau Ceti
+
+| Foundation | Declarations |
+| --- | --- |
+| Measure-preserving maps | `MeasurePreserving.isFiniteMeasure` (`TauCeti/Dynamics/Ergodic/MeasurePreserving.lean`) |
+| Ergodic actions | `ErgodicSMul.map`, `ergodicSMul_map_iff` (`TauCeti/Dynamics/Ergodic/Action/Map.lean`) |
+| Birkhoff sums | `Function.IsPeriodicPt.birkhoffSum_apply_eq` (`TauCeti/Dynamics/BirkhoffSum/Cyclic.lean`) |
+| Mean ergodic theorem and Koopman operators | `fixedSpace`, `metProjection`, `birkhoffAverage_tendsto_metProjection`, `metProjection_eq_condExpL2`, `fixedSpace_eq_lpMeas_invariants`, `koopmanMarkov` (`TauCeti/Probability/Ergodic/`) |
+| Amenability | `Amenable`, `HasFoelnerSets`, `Amenable.hasFoelnerSets`, `amenable_iff_hasFoelnerSets`, `hasFoelnerSets_iff_exists_seq`, `IsFoelner.tendsto_card_smul_symmDiff_div_card` and `Mean.tendsto_average_ofIsFoelner` (`TauCeti/GroupTheory/Amenable/`); the last concerns scalar means, not the Hilbert or pointwise ergodic theorems |
+| Flows | `Flow` API (`TauCeti/Dynamics/Flow/`) |
+| Shifts and Markov chains | `shift` (`TauCeti/Probability/Process/PathLaw/Basic.lean`), `ergodic_shift_infinitePi_const`, `ergodic_shift_of_iIndepFun` (`TauCeti/Probability/Ergodic/BernoulliShift.lean`), `markovChainLaw` (`TauCeti/Probability/Process/MarkovChain.lean`) |
+| Projective limits | `TauCeti.Measure.exists_isProjectiveLimit_of_countable` (`TauCeti/MeasureTheory/Measure/ProjectiveLimit/Countable.lean`), for the probability laws of §0.7 |
+| Positive-definite functions and spectral theorems | `exists_isFiniteMeasure_integral_zpow_eq` and `isPositiveDefiniteSub_iff_exists_isFiniteMeasure_integral_zpow_eq` (Herglotz, `TauCeti/Analysis/Bochner/Herglotz.lean`), `bochner` (`TauCeti/Analysis/Bochner/BochnerTheorem.lean`), `IsPositiveDefiniteSub.existsUnique_innerRegular_pontryaginMeasureTransform_eq_of_continuousAt` (`TauCeti/Analysis/Bochner/LocallyCompactGroup.lean`), `FiniteMeasure.pontryaginMeasureTransform_injOn_innerRegular` (`TauCeti/Analysis/Fourier/Pontryagin/Uniqueness.lean`), `ContRepresentation.exists_pontryaginMeasureTransform_eq_inner` (the cyclic spectral theorem, `TauCeti/Analysis/Fourier/Pontryagin/StronglyContinuous.lean`) |
+| Compact self-adjoint operators | `ContinuousLinearMap.exists_hilbertBasis_forall_hasEigenvector` (a Hilbert basis of eigenvectors, `TauCeti/Analysis/InnerProductSpace/Spectrum.lean`), applied in §2.4 |
+| Kullback–Leibler divergence | `TauCeti/InformationTheory/KullbackLeibler/` |
+| Toral automorphism example | `catMap` (`TauCeti/Dynamics/CatMap.lean`) |
+| Positive matrices | `TauCeti.Matrix.hilbertProjectiveDist_mulVec_le` (Birkhoff's contraction for Hilbert's projective metric, `TauCeti/Data/Matrix/BirkhoffContraction.lean`) |
+
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheory — §§4.1–4.3, 4.6, 5.1a
+
+Consume §4.1's `birkhoff_pointwise` and `birkhoff_pointwise_ergodic`, constructed in §§4.2–4.3:
+for a measure-preserving `T` of a probability space and an integrable real `f`, the time averages
+converge almost everywhere to the conditional expectation of `f` on the invariant σ-algebra, and to
+`∫ f dμ` when `T` is ergodic. Consume §4.6's `IsStrongMixing T μ` for `μ : ProbabilityMeasure X`:
+`MeasurePreserving T μ μ` and `μ.real (A ∩ T^[n] ⁻¹' B) → μ.real A * μ.real B` for all measurable
+`A`, `B`. Consume §5.1a's `labelEntropy` and `condLabelEntropy` of finite labels, with their chain
+rule, alphabet bound and additivity for independent labels.
+
+### From TauCetiRoadmap.ProbabilisticAndMetricNumberTheoryPartII — §3.3
+
+Consume §3.3's `birkhoff_contraction`: let `C₁ ⊆ V` and `C₂ ⊆ W` be convex cones in real vector
+spaces with `Cᵢ ∩ -Cᵢ = {0}`, ordered by `f ≤ g` iff `g - f ∈ Cᵢ`, and `T : V → W` linear with
+`T(C₁) ⊆ C₂` and `Δ ≥ 0` such that any two images `T f`, `T g` of nonzero elements of `C₁` satisfy
+`a T f ≤ T g ≤ b T f` for some `a > 0` with `log (b / a) ≤ Δ`. If `f ∈ C₁` is nonzero and
+`a f ≤ g ≤ b f` with `a > 0`, then `a' T f ≤ T g ≤ b' T f` for some `a' > 0` with
+`log (b' / a') ≤ tanh (Δ / 4) * log (b / a)`. §8.6 applies it to the Ruelle operator on a cone of
+log-Lipschitz positive functions.
+
+### From TauCetiRoadmap.GeometryOfNumbersAndQuadraticArithmetic — §4.2
+
+Consume:
+
+- `scalarLpKoopman p μ hμ : ContRepresentation ℂ G (Lp ℂ p μ)` for a measure-preserving group
+  action and `1 ≤ p`, with `(π(g) f)(x) = f(g⁻¹ • x)` almost everywhere, and `scalarLpKoopman_strong`
+  (strong continuity for continuous actions on R₁ spaces with locally finite measures that are
+  inner regular on finite-measure sets, and finite `p`);
+- `positiveReturnTime T A x : ℕ∞` with `measurable_positiveReturnTime`, and
+  `kac_return_time_integral` (`∫ x in A, (positiveReturnTime T A x).toNat dμ = 1` for an ergodic
+  measurable equivalence and `0 < μ A`);
+- `ActionErgodicKernel μ U` with `exists_actionErgodicKernel`, for countable groups acting
+  measurably on nonempty standard Borel probability spaces with invariant measure;
+- the entropy paragraph's `countablePartitionEntropy`, `conditionalPartitionEntropy`,
+  `iteratedPartitionLabel`, `partitionEntropyRate` and `measureEntropy`, with their chain rule,
+  relabeling invariance, additivity for independent labels and the subadditive limit: for
+  measure-preserving `T` and a label `a` of finite entropy, `partitionEntropyRate μ T a`, defined
+  as `inf_(n ≥ 1) H(aⁿ)/n`, is the limit of `H(aⁿ)/n`; `measureEntropy μ T : ℝ≥0∞` is the supremum
+  of the rates of measurable `ℕ`-valued labels of finite entropy;
+- `TemperedFolnerSequence` (compact windows `A_j` of positive finite Haar measure `η` with
+  `η(⋃_(k<j) A_k⁻¹ A_j) ≤ C η(A_j)` and `η((K A_j) ∆ A_j)/η(A_j) → 0` for compact `K ∋ 1`),
+  `tempered_action_maximal_inequality` and `tempered_action_pointwise` (almost-everywhere
+  convergence of the window averages of an integrable function to its conditional expectation on
+  the invariant σ-algebra). For a countable discrete group, Haar measure is counting measure and
+  compact windows are finite sets.
+
+### From TauCetiRoadmap.ArithmeticDynamics — §§2.6–2.7
+
+For a measure-preserving endomorphism `T` of a probability space with arbitrary measurable
+structure, consume: §2.6's invariance of entropy under almost-everywhere equality of labels and the
+formula `h_μ(T) = sup_P h_μ(T, P)` over finite partitions, retaining `⊤`; §2.7's conditional entropy
+`H_μ(P | ℰ)` of a finite partition given a sub-σ-algebra, with independence of representatives,
+`0 ≤ H_μ(P | ℰ) ≤ H_μ(P)`, antitonicity in `ℰ`, the conditional chain rule and the future formula
+`h_μ(T, P) = H_μ(P | ⋁_(j ≥ 1) T⁻ʲ σ(P))`; §2.7's Shannon–McMillan–Breiman theorem for finite
+partitions (`-log μ(Pⁿ(x))/n` converges almost everywhere to an invariant integrable `g_P` with
+`∫ g_P dμ = h_μ(T, P)`, constant for ergodic `μ`); §2.7's finite Borel partitions of a compact
+metric space with small atom diameters and `μ`-null boundaries, the inequality
+`(h_μ(T) : EReal) ≤ coverEntropy T univ` for continuous `T` on a nonempty compact metric space, and
+for ergodic `μ` the bound by `coverEntropyInf T Y` for every Borel `Y` with `μ Y > 0`; and §2.7's
+ergodic decomposition `x ↦ μ_x` of an endomorphism of a nonempty standard Borel space, with
+almost-everywhere uniqueness, `g_P(x) = h_(μ_x)(T, P)` and `h_μ(T) = ∫⁻ h_(μ_x)(T) dμ(x)`.
+
+### From TauCetiRoadmap.MathematicalBilliards — §§12.1–12.5, Layers 7–8
+
+For a jointly measurable measure-preserving action of `ℝ` on a probability space, consume §12.1's
+weak mixing (`(1/T) ∫_0^T |μ((t +ᵥ ·) ⁻¹' A ∩ B) - μ A μ B| dt → 0` for all measurable `A`, `B`)
+and eigenfunctions (`f ∘ (t +ᵥ ·) = exp(2π i a t) f` almost everywhere for every `t`, the frequency
+convention of this roadmap), with ergodicity of the product of a weakly mixing action and an
+ergodic one; §12.2's ergodicity of weakly mixing actions; §12.3's strong continuity of the Koopman
+group; §12.4's Wiener lemma for finite measures on `ℝ`; §12.4.1's continuous-time mean ergodic
+projection; and §12.5's eigenfunction criterion: weak mixing holds iff every eigenfunction is
+almost everywhere constant. Layers 7–8's polygonal billiard flow is cited in §3.5 as a conull
+flow.
+
+### From TauCetiRoadmap.MarkovChainsAndRenewal — Layers 0–3
+
+Countable-state Markov kernels, stationarity and path laws (Layer 0) and convergence to
+equilibrium (Layer 3), for the Markov shifts of §§0.3 and 1.4.
+
+### From TauCetiRoadmap.AmenableGroups — Layer 5
+
+The Følner criterion for arbitrary discrete groups (Layer 5), whose Tau Ceti forms are listed
+above; §§2.5, 4.6 and 5.6 use it.
 
 ## References
 
