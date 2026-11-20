@@ -36,7 +36,7 @@ triadic complex; this roadmap's theorems are stated over it. Dense graph limits 
 analytic cut norm, analytic weak regularity and the homomorphism densities of finite graphs) are a
 separate analytic theory, the roadmap DenseGraphLimits; the library's comparison theorems identify
 the finite energy and cut discrepancy with their graphon counterparts. The roadmap Exchangeability
-owns exchangeable arrays, for which the theorems here are deterministic inputs, and
+owns exchangeable arrays and their representation theorems, which are not targets here, and
 CoboundaryExpansion uses the graded hypergraph complexes.
 
 The specification has three layers, numbered 0, 8 and 9 below. Layer 0 defines homomorphism
@@ -49,11 +49,12 @@ The layers keep the numbers under which other roadmaps cite them. The material n
 (partitions and energy, the seeded Szemerédi lemma, finite Frieze–Kannan, strong graph regularity,
 the lower skeleton, polyads and top regularity), the vocabulary of Layers 0 and 8 and §§9.1–9.3
 (placements and the prediction, local counting, the excluded contributions) form no layer here:
-Scope and ownership says where each of them is. §0.1 depends only on the carriers of Conventions 3
-and 5. §8.1 bundles the conclusion of the approximation theorem, and §8.2 proves it. §9.4 needs
-§8.1 for the counting estimate over a strong regular approximation and §8.2 for the composed
-endpoint. Each *Needs:* line lists the inputs of its statement and of its route, so that a target
-proved by another route is not blocked behind an unrelated one.
+Scope and ownership says where each of them is. §0.1 uses no other layer: it needs the uniform
+hypergraphs of Convention 3 and, for the comparison at `r = 2`, the graph densities of
+DenseGraphLimits. §8.1 bundles the conclusion of the approximation theorem, and §8.2 proves it.
+§9.4 needs §8.1 for the counting estimate over a strong regular approximation and §8.2 for the
+composed endpoint. Each *Needs:* line lists the inputs of its statement and of its route, so
+that a target proved by another route is not blocked behind an unrelated one.
 
 ## Conventions
 
@@ -290,7 +291,15 @@ coloring is top-regular over most polyads; its potential is the polyad energy
 `TauCeti.Colored3Graph.polyadEnergy` (`polyadEnergy_mono_of_refines`,
 `polyadDensityDeviation_abs_le`). The lower skeleton is regularized by Mathlib's
 `szemeredi_regularity` and Tau Ceti's `SimpleGraph.exists_regular_equipartition_almost_refining`,
-applied to the pair-color classes. Top regularity passes to refinements by
+applied to the pair-color classes. Both leave a small proportion of irregular pairs of distinct
+cells, and neither tests a cell with itself. The pair coloring belongs to the complex, not to the
+host, so it is then changed on those cell pairs and inside each cell until every color is regular
+on every pair of cells. A single color fixed by the reversal does this: it is regular on two
+distinct cells, and on a cell with itself once the cell has more than `1/f` vertices, `f` the
+parameter of condition 3 (§8.1, Checks). Rödl–Schacht likewise change the pair classes on few
+pairs to make them regular on all pairs of distinct cells (Lemma 25 at `k = 2`). The polyads over
+the changed cell pairs carry a small proportion of the triples once the cells are numerous, and
+are charged to the exceptional mass. Top regularity passes to refinements by
 `TauCeti.Colored3Graph.TopRegularOverMostPolyads.of_refinement` and survives edits by
 `TauCeti.Colored3Graph.TopRegularOverMostPolyads.of_approximates3`. The source's divisibility
 conditions are discharged by padding and rebalancing, and the resulting edit and regularity errors
@@ -303,7 +312,8 @@ Ceti `TauCeti.TriadicComplex3`, `TauCeti.TriadicComplex3.VertexCellsControlled`,
 `SimpleGraph.exists_regular_equipartition_almost_refining`; Mathlib `szemeredi_regularity`.
 
 **Checks.**
-- The bound satisfies `B ≥ t₀`, so no version without a large-host hypothesis holds. A set with
+- Suppose `t₀ ≥ 1`. Then no version without a large-host hypothesis holds, since the empty host
+  already fails, and when `κ₃` is nonempty every admissible bound satisfies `B ≥ t₀`. A set with
   fewer than `t₀` elements has no partition into `t₀` nonempty cells, so
   `C.VertexCellsControlled t₀` fails for every complex on it.
 - Suppose `F n ≥ 1` for all `n` and `t₀ ≥ 1`. Then the two regularity conditions hold for every
@@ -470,16 +480,6 @@ These examples run through the library notions the layers rest on, with the conv
 - [CoboundaryExpansion](../CoboundaryExpansion/README.md) Layer 2 specializes the graded complexes
   `HypergraphComplex r V` it cites from Layer 5 of this roadmap. They are Tau Ceti's
   `TauCeti.HypergraphComplex` (Scope and ownership).
-- Representation theorems for exchangeable arrays, for which the finite regularity and counting
-  theorems here are deterministic inputs, are
-  [Exchangeability](../../Completed/Exchangeability/README.md)'s, in its Layer 8 (exchangeable
-  arrays and the Aldous–Hoover representation).
-- [DenseGraphLimits](../../Completed/DenseGraphLimits/README.md) leaves to this roadmap the
-  alignment of plain-graph densities with its `homDensityFin` and `injHomDensity` (its Layer 9a),
-  and expects its cut norm, step graphons and weak regularity to be consumed here only through
-  finite adapters. The plain-graph densities are those two declarations themselves, §0.1 aligns the
-  densities of uniform hypergraphs with them at `r = 2`, and the adapters are Tau Ceti's comparison
-  theorems (Scope and ownership).
 
 ## Provenance
 
@@ -542,49 +542,50 @@ specifies is Tau Ceti's at the pin and is consumed by name: the finite graph reg
 arity-3 vocabulary, the induced counting lemma over a regular triadic complex and the comparisons
 with dense graph limits. Other roadmaps cite it by the numbers below, which resolve as follows
 (modules under `TauCeti/Combinatorics/`; declarations and their statements in the supplier
-contracts). Where the library's statement differs from the specification, it is the stronger one,
-and the column says how.
+contracts).
 
 | Section | Content | At the pin |
 |---|---|---|
 | Layer 0 | uniform hypergraphs with edge and block densities and the bridge to Mathlib's `Hypergraph`; total colorings of triples; finite colored patterns and labelled induced copy counts; graph homomorphism and injective densities | `Hypergraph/Basic.lean`, `Hypergraph/Colored/Basic.lean`, `Hypergraph/Colored/Counting.lean`; the graph densities are DenseGraphLimits' `TauCeti.DenseGraphLimits.homDensityFin` and `TauCeti.DenseGraphLimits.injHomDensity` (`DenseGraphLimits/HomDensity/Finite.lean`) |
-| Layer 1 | block densities; the size-weighted energy, diagonal blocks included; the refinement parent; the exact weighted-square identity, the `√ε` absolute-deviation bound and refinement monotonicity; the hypergraph analogue | `Regularity/Partition/Energy.lean`, `Hypergraph/Energy.lean`, `Hypergraph/Basic.lean`; the deviation bound needs no hypothesis `0 ≤ ε` |
-| Layer 2 | almost-refinement with containment in the parent cell; the initial equitable partition; the seeded run of the energy induction; the refining regularity bound and theorem | `Regularity/Partition/AlmostRefines.lean`, `Regularity/Graph/SeededRegularity.lean`; the theorem needs no large-host hypothesis |
-| Layer 3 | stepped counts, the count-scaled cut discrepancy and its elimination lemma, finite Frieze–Kannan with its supremum and refining forms | `Regularity/Graph/CutDiscrepancy.lean`, `Regularity/Graph/FriezeKannan.lean`; the bound is `4^⌈1/ε²⌉`, smaller than `4^(⌈1/ε²⌉+1)` |
-| Layer 4 | nested refinement bound and exact refining regular equipartitions; strong regularity witnesses, their existence and bound; labelled induced three-vertex counts, the coarse prediction and the counting estimate, with its proof dependencies | `Regularity/Graph/SeededRegularity.lean`, `Regularity/Graph/StrongRegularity.lean`, `Regularity/Graph/InducedCount.lean`, `Regularity/Graph/SteppedInducedCount.lean`, `Regularity/Graph/Counting.lean`, `SimpleGraph/Regularity/Uniform.lean`; existence needs only `l ≤ |V|`; the estimate has constant `15` in place of `16` and needs neither `0 ≤ ε` nor `τ ≤ 1` |
+| Layer 1 | block densities; the size-weighted energy, diagonal blocks included; the refinement parent; the exact weighted-square identity, the `√ε` absolute-deviation bound and refinement monotonicity; the hypergraph analogue | `Regularity/Partition/Energy.lean`, `Hypergraph/Energy.lean`, `Hypergraph/Basic.lean` |
+| Layer 2 | almost-refinement with containment in the parent cell; the initial equitable partition; the seeded run of the energy induction; the refining regularity bound and theorem | `Regularity/Partition/AlmostRefines.lean`, `Regularity/Graph/SeededRegularity.lean` |
+| Layer 3 | stepped counts, the count-scaled cut discrepancy and its elimination lemma, finite Frieze–Kannan with its supremum and refining forms | `Regularity/Graph/CutDiscrepancy.lean`, `Regularity/Graph/FriezeKannan.lean`; the bound is `4^⌈1/ε²⌉` |
+| Layer 4 | nested refinement bound and exact refining regular equipartitions; strong regularity witnesses, their existence and bound; labelled induced three-vertex counts, the coarse prediction and the counting estimate, with its proof dependencies | `Regularity/Graph/SeededRegularity.lean`, `Regularity/Graph/StrongRegularity.lean`, `Regularity/Graph/InducedCount.lean`, `Regularity/Graph/SteppedInducedCount.lean`, `Regularity/Graph/Counting.lean`, `SimpleGraph/Regularity/Uniform.lean`; the estimate's error is `(15τ + 3√ε)|V|³ + 6m|V|²` for `τ = F #P` and coarse parts of at most `m` vertices |
 | Layer 5 | graded hypergraph complexes with both conversions and round trips; labelled copies of a complex; pair-color systems with involutive reversal, the option-valued color and the raw-coloring construction; pair-color densities and their laws; lower skeletons, pair-color regularity and lower-skeleton regularity; the comparison with graph uniformity | `Hypergraph/Complex/Basic.lean`, `Hypergraph/Complex/Counting.lean`, `Hypergraph/PairColor/{Basic,Density,Regular,Graph}.lean` |
-| Layer 6 | polyads with computed supports, extensionality, finiteness and the enumeration bound; the face-key dictionary; pair graphs; subpolyads, their supports and the vertex-subcell constructor; relative densities and their laws | `Hypergraph/Polyad/{Basic,Subpolyad,Density}.lean`, `Hypergraph/Colored/Density.lean`; the vertex-subcell constructor accepts arbitrary vertex sets |
+| Layer 6 | polyads with computed supports, extensionality, finiteness and the enumeration bound; the face-key dictionary; pair graphs; subpolyads, their supports and the vertex-subcell constructor; relative densities and their laws | `Hypergraph/Polyad/{Basic,Subpolyad,Density}.lean`, `Hypergraph/Colored/Density.lean`; the vertex-subcell constructor accepts vertex sets not contained in the cells |
 | Layer 7 | unions of subpolyads; top regularity over a polyad at rank `r`; vertex-box regularity and its comparison at arity 2; slicing, rank and exceptional-mass lemmas | `Hypergraph/Polyad/{TopRegular,Rank}.lean`, `Hypergraph/PairColor/VertexBox.lean`, `Hypergraph/Triadic/Slicing.lean` |
 | Layer 8 (vocabulary) | triadic complexes, complexity and the bridge to graded complexes with its four level equations; edit discrepancy and approximation; polyad decompositions; exceptional mass and top regularity over most polyads; controlled vertex cells | `Hypergraph/Triadic/Basic.lean`, `Hypergraph/Colored/EditDiscrepancy.lean`; a polyad decomposition is stated as a covering, disjointness being automatic |
 | §9.1 | pattern placements and transversality; pair-color routes and their polyads; finiteness; placed counts; the injection count with its falling-factorial, transversal and size-product identities; the local and global predictions | `Hypergraph/Triadic/Placement.lean`, `Hypergraph/Colored/Counting.lean` |
-| §9.2 | the counting parameters and route budget with their positivity and charges; lower-route counts and predictions; sparse routes; lower-route and placed counting | `Hypergraph/Triadic/{CountingParameters,SparseCounting,PlacedCounting,InducedCounting}.lean`; counting needs no density floor and rank one only (below) |
-| §9.3 | actual and predicted exceptional routes, nontransversal mass, edit transfer | `Hypergraph/Triadic/{Basic,ExceptionalPrediction,Nontransversal}.lean`, `Hypergraph/Colored/Stability.lean`; the factor `k³` is `k choose 3` |
+| §9.2 | the counting parameters and route budget with their positivity and charges; lower-route counts and predictions; sparse routes; lower-route and placed counting | `Hypergraph/Triadic/{CountingParameters,SparseCounting,PlacedCounting,InducedCounting}.lean`; local counting holds at rank one, with no lower bound on the densities (below) |
+| §9.3 | actual and predicted exceptional routes, nontransversal mass, edit transfer | `Hypergraph/Triadic/{Basic,ExceptionalPrediction,Nontransversal}.lean`, `Hypergraph/Colored/Stability.lean`; the edit-transfer and exceptional-route bounds carry the factor `k choose 3` |
 | §9.4 (part) | the fibration identities for actual and predicted counts; the error decomposition and its arithmetic; the counting lemma over a regular triadic complex | `Hypergraph/Triadic/{Placement,ErrorDecomposition,InducedCounting}.lean` |
 | comparisons | step graphon of a partition, cut discrepancy against the graphon cut norm, partition energy against graphon partition energy (any nonempty finite host by relabelling) | `Regularity/Graphon/Energy.lean`, `Regularity/Graphon/CutDiscrepancy.lean` |
 
-The local counting of §9.2 is stronger than the counting interface needs, which reduces that
-interface as follows. Rank one suffices for local counting, so the top-counting rank it requires is
-the constant `1`, every rank schedule `R ≥ 1` is adequate, and Convention 9 and §9.4 accept every
-such `R` in place of a rank schedule built from a required rank. Lower-route counting holds for
-every route at a transversal placement, with error `(k choose 2) · ε` times the cell-size product
-under `ε`-regularity (`TauCeti.abs_lowerRouteCountAt_sub_expectedLowerRouteCountAt_le`). It
-subsumes the dense-route counting and the pair-regularity threshold attached to a density floor;
-the sparse-route bounds are separate lemmas. Placed counting needs rank one
-(`TauCeti.Colored3Graph.abs_placedInducedCopyCount_sub_expectedInducedCountAt_le`) and holds at the
-counting schedule at every rank `r ≥ 1`
-(`TauCeti.Colored3Graph.abs_placedInducedCopyCount_sub_expectedInducedCountAt_le_routeBudget3`).
-The slack for discarded-route predictions is the pair-counting term of
-`TauCeti.Colored3Graph.exceptional_route_prediction_mass_le`. The counting parameters do not depend
-on the top palette.
+The local counting of §9.2 determines what §9.4 asks of the rank and of the densities. Placed
+counting holds at rank one
+(`TauCeti.Colored3Graph.abs_placedInducedCopyCount_sub_expectedInducedCountAt_le`) and, at the
+counting schedule, at every rank `r ≥ 1`
+(`TauCeti.Colored3Graph.abs_placedInducedCopyCount_sub_expectedInducedCountAt_le_routeBudget3`), so
+Convention 9 and §9.4 accept every rank schedule `R ≥ 1`. Lower-route counting holds for every
+route at a transversal placement, with error `(k choose 2) · ε` times the cell-size product under
+`ε`-regularity and no lower bound on the pair-color densities
+(`TauCeti.abs_lowerRouteCountAt_sub_expectedLowerRouteCountAt_le`); the sparse-route bounds are
+separate lemmas. The prediction along the routes that are not top-regular is bounded by
+`TauCeti.Colored3Graph.exceptional_route_prediction_mass_le`, whose second term is the lower-route
+counting error summed over all routes of all transversal placements. The counting parameters do
+not depend on the top palette.
 
 **Owned elsewhere.**
 
 - *Dense graph limits*: graphons, the analytic cut norm, cut distance, compactness, analytic
   Frieze–Kannan and sampling, and the graph homomorphism densities `homDensityFin` and
   `injHomDensity` (its Layer 9a), are
-  [DenseGraphLimits](../../Completed/DenseGraphLimits/README.md). The finite theory here and the
-  analytic theory are independent formulations, neither derived from the other, and the comparison
-  theorems above are proved after both.
+  [DenseGraphLimits](../../Completed/DenseGraphLimits/README.md). Its Layer 9a leaves to this
+  roadmap the alignment of this roadmap's densities with those two, which §0.1 makes for uniform
+  hypergraphs at `r = 2`. The finite theory here and the analytic theory are independent
+  formulations, neither derived from the other; DenseGraphLimits' cut norm, step graphons and
+  partition energy meet the finite theory only in the comparison theorems above, which are proved
+  after both.
 - *Exchangeability*: sequence exchangeability, de Finetti, exchangeable arrays and the
   Aldous–Hoover representation are [Exchangeability](../../Completed/Exchangeability/README.md)
   (Layer 8 for arrays).
@@ -790,12 +791,12 @@ Paths are under `TauCeti/Combinatorics/`. All the declarations below are proved 
   the strong-regularity exposition.
 - V. Rödl, M. Schacht, *Regular Partitions of Hypergraphs: Regularity Lemmas*, Combin. Probab.
   Comput. 16(6) (2007), 833–885 (Definition 15 for Convention 9; Theorems 14 and 17 and Lemma 25
-  for §8.1–§8.2). The theorem numbers are those of the authors' preprint on Schacht's web page,
-  which numbers its statements consecutively; the companion paper cites Theorems 14 and 17 as
-  Theorems 2.13 and 2.16. The companion *Regular Partitions of Hypergraphs: Counting Lemmas* is
-  ibid., 887–901 (Theorems 10 and 13 for §9.4). B. Nagle, V. Rödl, M. Schacht, *The counting
-  lemma for regular k-uniform hypergraphs*, Random Struct. Alg. 28 (2006), 113–179 (Definition 9
-  for Convention 9; Theorem 12 and Corollary 15 for §9.4).
+  for §8.1–§8.2). The companion *Regular Partitions of Hypergraphs: Counting Lemmas* is ibid.,
+  887–901 (Theorems 10 and 13 for §9.4). B. Nagle, V. Rödl, M. Schacht, *The counting lemma for
+  regular k-uniform hypergraphs*, Random Struct. Alg. 28 (2006), 113–179 (Definition 9 for
+  Convention 9; Theorem 12 and Corollary 15 for §9.4). For all three papers the numbers are those
+  of the authors' versions on Schacht's web page, which number their statements consecutively; the
+  counting paper cites Theorems 14 and 17 of the regularity paper as Theorems 2.13 and 2.16.
 - C. Terry, *Growth of regular partitions 4: strong regularity and the pairs partition*
   ([arXiv:2404.02030v3](https://arxiv.org/abs/2404.02030v3)): the pairs partition over all ordered
   pairs of cells, a cell paired with itself included (Definition 2.15, p. 9); the pair error
