@@ -31,7 +31,9 @@ The headline theorems are these.
   tends to `1`.
 
 The roadmap builds on Mathlib's Markov kernels and total variation distance.
-MarkovChainsAndRenewal supplies total variation on a countable set as a sum over points, and
+MarkovChainMixing supplies the coefficient itself: `δ(P)` is its distance `d̄(1)` between
+starting points after one step, with its range and its characterization as a supremum over
+initial laws. MarkovChainsAndRenewal supplies total variation on a countable set as a sum over points, and
 MathematicalStatisticsFoundations the reversibility of the Metropolis–Hastings kernel, which
 makes each Gibbs measure stationary for the annealing kernel at its temperature.
 
@@ -77,10 +79,16 @@ coefficient of their products and proves the convergence of annealing, using Lay
 
 ### 1.1 The coefficient
 
-Define `dobrushinCoeff κ`, written `δ(κ)`, for a kernel on a nonempty finite set, as the maximum
-over pairs `(x, y)` of `tvDist (κ x) (κ y) / 2`. For a Markov kernel `κ`:
+The coefficient is not a new object: `dobrushinCoeff κ`, written `δ(κ)`, is the name used here
+for `tvBetweenStarts κ 1` of MarkovChainMixing 1.2, its distance `d̄(1)` between starting points
+after one step. Since `κ ^ 1 = κ`, it is the maximum over pairs `(x, y)` of
+`tvDist (κ x) (κ y) / 2`, for a kernel on a nonempty finite set. `Suggested.lean` copies
+`tvBetweenStarts` verbatim and writes `dobrushinCoeff` as an abbreviation of it. From
+MarkovChainMixing 1.2 at `t = 1`, and not proved again here: `0 ≤ δ(κ) ≤ 1` for a Markov kernel,
+and `δ(κ)` is the supremum of the distance between `μκ` and `νκ` over probability measures `μ`,
+`ν`. Prove, for a Markov kernel `κ`:
 
-- `0 ≤ δ(κ) ≤ 1`, and `δ(κ) = 0` exactly when all rows `κ x` are equal;
+- `δ(κ) = 0` exactly when all rows `κ x` are equal;
 - `δ(κ) = 1 − min_(x,y) Σ_z min(κ(x, {z}), κ(y, {z}))` (Mitra–Romeo–Sangiovanni-Vincentelli,
   Definition 4.2, p. 17, where both expressions are given), by the formula of the total variation
   distance on a countable set as a sum over points;
@@ -98,7 +106,8 @@ over pairs `(x, y)` of `tvDist (κ x) (κ y) / 2`. For a Markov kernel `κ`:
   `x` is uniform on the two states other than `x` has every column minimum `0`, so the bound is
   `1`, while `δ = 1/2`.
 
-*Needs:* Mathlib `tvDist`, `tvDist_triangle`, `tvDist_comm`; MarkovChainsAndRenewal 3.5.
+*Needs:* MarkovChainMixing 1.2 (`tvBetweenStarts`, its range); Mathlib `tvDist`,
+`tvDist_triangle`, `tvDist_comm`; MarkovChainsAndRenewal 3.5.
 
 ### 1.2 Dobrushin's contraction
 
@@ -114,9 +123,11 @@ carried by the sets where `μ > ν` and `μ < ν`; then `μκ − νκ = s (ακ
 `0`, recalled there from Dobrushin; Polyanskiy–Wu, Theorem 33.4, p. 630, where the coefficient is
 shown to equal the largest ratio of the two distances.)
 
-- With `μ`, `ν` the point masses at a pair attaining the maximum, both sides equal `δ(κ)`; so on
-  at least two states `δ(κ)` is the least constant for which the inequality holds for all `μ`, `ν`.
-- Taking `‖μ − ν‖ ≤ 1`, the distance between `μκ` and `νκ` is at most `δ(κ)` for all initial laws.
+This sharpens the supremum characterization of MarkovChainMixing 1.2, which bounds the distance
+between `μκ` and `νκ` by `δ(κ)` for all initial laws: here the bound carries the factor
+`‖μ − ν‖`. With `μ`, `ν` the point masses at a pair attaining the maximum, both sides equal
+`δ(κ)`, so on at least two states `δ(κ)` is the least constant for which the inequality holds for
+all `μ`, `ν`.
 
 **Checks.**
 
@@ -133,7 +144,9 @@ Prove `dobrushinCoeff_comp_le`: for Markov kernels `κ`, `η` on a nonempty fini
 `δ(η ∘ₖ κ) ≤ δ(κ) δ(η)`, that is `δ(κη) ≤ δ(κ) δ(η)` for the kernel that applies `κ` first.
 Route: the rows of `η ∘ₖ κ` at `x` and `y` are `(κ x).bind η` and `(κ y).bind η`; apply 1.2 to `η`
 with `μ = κ x`, `ν = κ y`, and bound `‖κ x − κ y‖` by `δ(κ)`. (Attributed to Dobrushin; proved
-here from 1.2.)
+here from 1.2.) MarkovChainMixing 1.2's `d̄(s + t) ≤ d̄(s) d̄(t)` is the
+case `κ^s`, `κ^t` of this statement and stays there; 1.3 is the general statement, for two
+different kernels, which that roadmap does not state.
 
 - By induction, `δ(κ_1 ⋯ κ_n) ≤ δ(κ_1) ⋯ δ(κ_n)` for any finite sequence of Markov kernels.
 
@@ -157,8 +170,9 @@ On at least two states, the lazy kernel whose row at `x` is `(1 − ε) δ_x + �
 
 ### Dependencies
 
-Layer 1 uses Mathlib's `tvDist` with its triangle inequality, Mathlib's composition of kernels,
-and MarkovChainsAndRenewal 3.5.
+Layer 1 uses MarkovChainMixing 1.2 (the distance `d̄(1)`, with its range and its supremum
+characterization), Mathlib's `tvDist` with its triangle inequality, Mathlib's composition of
+kernels, and MarkovChainsAndRenewal 3.5.
 
 ## Layer 2: inhomogeneous chains, weak and strong ergodicity
 
@@ -468,8 +482,12 @@ divergence of the harmonic series.
 
 ## Scope and ownership
 
-This roadmap owns Dobrushin's coefficient with its contraction and its submultiplicativity for two
-different kernels, products of kernels of an inhomogeneous chain, weak and strong ergodicity with
+Dobrushin's coefficient is MarkovChainMixing 1.2's `d̄(1)`, and that roadmap owns it, with its
+range, its characterization as a supremum over initial laws and its submultiplicativity along the
+powers of one kernel. This roadmap depends on it and owns what it does not state: the formula of
+the coefficient through row overlaps and its bound by column minima (1.1), the contraction of the
+distance of two arbitrary initial laws by the factor `δ(κ)` (1.2), and the submultiplicativity for
+two different kernels (1.3). It also owns products of kernels of an inhomogeneous chain, weak and strong ergodicity with
 the block criterion and the Isaacson–Madsen theorem, Gibbs measures on a finite set with their
 concentration, monotonicity and summable variation, the Metropolis kernel of an energy, the block
 bound of 4.2 and the convergence of annealing under logarithmic cooling.
