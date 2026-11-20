@@ -1525,6 +1525,39 @@ counts on the invariants defined here. The Sobolev gauge groups at critical regu
 domains are YangMillsConnectionsAndCaloricGauge's; the abelian gauge group on a closed four-manifold is
 Layer 4's.
 
+Other roadmaps cite sections of this roadmap by the labels of its former numbering:
+
+| Former label | Now |
+|---|---|
+| SW1 | Layer 1 |
+| SW1.2 | §1.2 |
+| SW1.4 | §1.4 |
+| SW2 | Layer 2 |
+| SW3 | Layer 3 |
+| SW3.2 | §3.2 |
+| SW3.3a | §3.3a |
+| SW3.4 | §3.4 |
+| SW4 | Layer 4 |
+| SW4.1 | §4.1 |
+| SW4.4 | §4.4 |
+| SW4.5 | §4.5 |
+| SW5 | Layer 5 |
+| SW5.3 | §5.3 |
+| SW5.4 | §5.4 |
+| SW6 | Layer 6 |
+| SW6.1 | §6.1 |
+| SW6.2 | §6.2 |
+| SW7 | Layer 7 |
+| SW7.1 | §7.1 |
+| SW7.2 | §7.2 |
+| SW8 | Layer 8 |
+| SW8.3 | §8.3 |
+| SW9 | Layer 9 |
+| SW10 | Layer 10 |
+| SW11 | Layer 11 |
+| SW11.1 | §11.1 |
+| SW11.2 | §11.2 |
+
 ## Exact supplier contracts
 
 ### From Mathlib
