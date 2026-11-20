@@ -552,9 +552,10 @@ Left to other roadmaps:
   ManifoldOptimization O2.2, for matrices of full column rank and `St(n, p)`. This roadmap proves
   neither and uses the property only in 1.1, where either statement suffices.
 - **FirstOrderOptimization** 2.1 is the Euclidean statement that 3.2 and 5.3 parallel (gradient
-  descent with `η K ≤ 1` and `Σ ‖∇f(x_i)‖² ≤ 2 (f(x₀) − m)/η`); nothing of it is used.
-- **SpectralSubspacePerturbation** owns the Sylvester bounds (Part B, SSP-B09, which is 2.9 in
-  its sectioned numbering); Layer 2 consumes the Tau Ceti declaration.
+  descent with `η` times the smoothness constant at most `1` and
+  `Σ ‖∇f(x_i)‖² ≤ 2 (f(x₀) − m)/η`); nothing of it is used.
+- **SpectralSubspacePerturbation** owns the Sylvester bounds (Part B, SSP-B09); Layer 2 consumes
+  the Tau Ceti declaration.
 
 The closest published work on Layer 5 is Su and Huang, *An inexact Riemannian gradient descent
 algorithm on the Stiefel manifold with one Newton–Schulz iteration* (arXiv:2608.22774v1). Their
@@ -573,9 +574,9 @@ Their inequality (4) takes from Boumal–Absil–Cartis an unspecified constant 
 another retraction-free method on the orthogonal group; it adds a penalty term and is not treated
 here.
 
-Outside the scope: the quintic Newton–Schulz step, which converges only on `(0, 1]`
-(SpectralSteepestDescent 4.2) while the singular values of `X + Z` are at least `1`, so that it
-needs a normalization; Muon's quintic, which is not a retraction since its scalar map has
+Outside the scope: the quintic Newton–Schulz step, which SpectralSteepestDescent 4.2 treats on
+`(0, 1]`; at `X + Z` it maps singular values above `1` to values above `1`, so its iterates
+leave `B`; Muon's quintic, which is not a retraction since its scalar map has
 `m(1) ≠ 1` (SpectralSteepestDescent 4.3); the Cayley and Q-factor retractions; second-order
 methods, line searches and geodesics; complex matrices outside Layer 2; floating-point error.
 
@@ -594,8 +595,8 @@ methods, line searches and geodesics; complex matrices outside Layer 2; floating
 - `Mathlib/Analysis/InnerProductSpace/SingularValues.lean`: `LinearMap.singularValues`
   (zero-indexed, nonincreasing, zero from `finrank E` on).
 - `Mathlib/Analysis/Matrix/HermitianFunctionalCalculus.lean`:
-  `Matrix.IsHermitian.instContinuousFunctionalCalculus`, for `(1 + Zᵀ Z)^(±1/2)`;
-  `Matrix.IsHermitian.eigenvalues`.
+  `Matrix.IsHermitian.instContinuousFunctionalCalculus`, for `(1 + Zᵀ Z)^(±1/2)`.
+- `Mathlib/Analysis/Matrix/Spectrum.lean`: `Matrix.IsHermitian.eigenvalues`.
 - `fderiv`, `Matrix.trace`, `Finset.sum_range_succ`, and the mean value inequality
   `Convex.norm_image_sub_le_of_norm_fderiv_le` (for `f` differentiable on a convex set with
   `‖fderiv‖ ≤ C` there, `‖f y − f x‖ ≤ C ‖y − x‖`).
@@ -651,7 +652,7 @@ partial-isometry properties, which Tau Ceti's `LinearMap.polarFactor` implements
 
 ### From TauCetiRoadmap.SpectralSubspacePerturbation
 
-Part B, SSP-B09 (2.9 in its sectioned numbering): the interval/exterior Sylvester bound for
+Part B, SSP-B09: the interval/exterior Sylvester bound for
 unitarily invariant seminorms, which the Tau Ceti declaration above implements.
 
 ## References
