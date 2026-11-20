@@ -17,52 +17,19 @@ value. It ends with two applications: the permutation-sampling estimator of the 
 which is unbiased and satisfies a Hoeffding bound, and the baseline game of a function of several
 variables, whose Shapley value recovers the summands of an additive function.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
+Layer 1 is the algebra of set functions: the classes of games and the unanimity basis. Layer 2
+defines the core and the marginal vectors and relates them; it uses 1.1. Layer 3 is the
+Bondareva–Shapley theory; it uses only the core of 2.1. Layer 4 is the Shapley value; it uses
+the dividends of 1.2, the marginal vectors of 2.2 and, for 4.6 alone, the core and 2.3. Layer 5
+uses 1.2, 2.1, 2.2, 4.1 and 4.2. Layer 6 uses 2.2, 4.1 and 4.2. Layers 3 and 4 are independent
+of each other, and Layers 5 and 6 are independent of each other and of Layer 3.
 
-- set functions on the coalitions of a finite player set, the classes of superadditive, monotone
-  and convex games, unanimity games and Harsanyi dividends;
-- payoff vectors, imputations and the core;
-- orders of the players, marginal vectors, and the theorems of Shapley, Ichiishi and Weber
-  relating them to the core;
-- balanced weights, minimal balanced collections, the Bondareva–Shapley theorem and the linear
-  programming duality behind it;
-- the Shapley value: the coalition, random-order and dividend formulas, its properties, and the
-  characterizations of Shapley and of Young;
-- simple games and weighted voting games, the Shapley–Shubik index, and the Banzhaf value with
-  its dividend formula;
-- the permutation-sampling estimator of the Shapley value;
-- the baseline game of a function of several variables.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
-
-Out of scope:
-
-- games without transferable utility, bargaining problems and the Nash bargaining solution;
-- the nucleolus, the kernel, the bargaining set, stable sets, and the least core beyond the
-  duality statement 3.4;
-- values other than the Shapley and Banzhaf values: semivalues and probabilistic values, the
-  multilinear extension, the potential and consistency characterizations, weighted values, and
-  the characterizations of the Banzhaf value, which compare games on different player sets;
-- games with infinitely many players and values of non-atomic games, and set functions with
-  values in an ordered field other than `ℝ`;
-- coalition structures, games on graphs, and games with restricted cooperation;
-- cost-sharing mechanisms, mechanism design and auctions;
-- stable matching and assignment games;
-- submodular functions on a general lattice, their closure under sums and the lattices of their
-  minimizers, which [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) 4.1 owns
-  and Tau Ceti provides; 1.1 states the convexity of a game with that predicate;
-- noncooperative games: matrix games, Nash equilibria and correlated equilibria belong to the
-  RegretMinimizationAndEquilibria roadmap;
-- general linear programming duality and Farkas' lemma: 3.2 and 3.4 are proved from one theorem
-  of the alternative of Tau Ceti and state only the duality of the core;
-- the Möbius function of a general locally finite order, which is Mathlib's `IncidenceAlgebra`;
-  1.2 proves the inversion on the subset lattice with its explicit signs;
-- the complexity of computing values, and sampling schemes other than independent uniform orders;
-- attribution methods other than the baseline game: conditional-expectation games, integrated
-  gradients, and attributions for a random baseline.
+Each numbered target ends with a **Checks** list of tests that a wrong convention or a wrong
+constant would fail, and a *Needs:* line naming the targets and suppliers it uses. Every claim
+carries a source locator in parentheses, or says that it is proved here. `Suggested.lean` states
+the definitions and headline theorems named in this README against the pinned APIs.
 
 ## Conventions
 
@@ -99,80 +66,6 @@ Out of scope:
   definition or a displayed theorem is by a factorial, by a power of `2` or by the size of a
   coalition that contains a named player, except the division by `m` in the estimator of 6.1 and
   by `(b − a) ^ 2` in its bound; the Checks of 6.1 treat `m = 0` and `a = b`.
-
-## Exact supplier contracts
-
-- Tau Ceti:
-  - `TauCeti.IsSubmodular` (`TauCeti/Order/Lattice/Submodular.lean`): for `f : L → K` on a
-    lattice `L`, `IsSubmodular f` means `f (a ⊔ b) + f (a ⊓ b) ≤ f a + f b` for all `a`, `b`. On
-    `L = Finset ι` the join is the union and the meet is the intersection. `IsSubmodular.add`:
-    the pointwise sum of two submodular functions with values in an ordered additive commutative
-    monoid is submodular. `isSubmodular_finsetSum`: `S ↦ ∑ i ∈ S, f i` is submodular, for
-    `[DecidableEq ι]`.
-  - `TauCeti.exists_nonneg_sum_smul_eq_zero_and_coeff_add_dual_pos_at`
-    (`TauCeti/Geometry/Convex/Cone/Alternative.lean`), Tucker's key lemma: for a family
-    `a : J → V` indexed by a `Fintype J`, in a vector space `V` over a linearly ordered field `K`,
-    and an index `k`, there are `x : J → K` and `y : Module.Dual K V` with `0 ≤ x`,
-    `∑ j, x j • a j = 0`, `0 ≤ y (a j)` for all `j`, and `0 < x k + y (a k)`.
-  - `Finset.sum_Icc_neg_one_pow_card_sub_card_left` (`TauCeti/Data/Finset/Basic.lean`): for
-    finsets `s`, `t` of a type with decidable equality and a ring `R`,
-    `∑ u ∈ Finset.Icc s t, (-1 : R) ^ (u.card − s.card)` is `1` if `s = t` and `0` otherwise.
-  - `TauCeti.card_nonempty_finset` (same file): a finite type `ι` has `2 ^ Nat.card ι − 1`
-    nonempty finsets.
-- Mathlib:
-  - `Fintype.card_equiv` (`Mathlib/Data/Fintype/Perm.lean`): for finite types `α`, `β` and
-    `e : α ≃ β`, `Fintype.card (α ≃ β) = (Fintype.card α)!`;
-  - `Metric.isCompact_of_isClosed_isBounded` (`Mathlib/Topology/MetricSpace/Bounded.lean`): a
-    closed bounded subset of a proper metric space is compact;
-  - `IsCompact.exists_isMinOn` and `IsCompact.exists_isMaxOn`
-    (`Mathlib/Topology/Order/Compact.lean`): a real function continuous on a nonempty compact set
-    attains its minimum and its maximum there;
-  - `Set.Finite.isCompact_convexHull` (`Mathlib/Analysis/Convex/Topology.lean`): the convex hull
-    of a finite subset of a real topological vector space is compact;
-  - `geometric_hahn_banach_point_closed` (`Mathlib/Analysis/LocallyConvex/Separation.lean`): for
-    a closed convex set `t` in a locally convex real topological vector space and `x ∉ t`, there
-    are a continuous linear functional `f` and a real `u` with `f x < u` and `u < f b` for all
-    `b ∈ t`;
-  - `Finset.sum_range_by_parts` (`Mathlib/Algebra/BigOperators/Module.lean`): summation by parts
-    over `Finset.range n`;
-  - `extremePoints_convexHull_subset` (`Mathlib/Analysis/Convex/Extreme.lean`): the extreme
-    points of `convexHull 𝕜 A` lie in `A`;
-  - `closure_convexHull_extremePoints` (`Mathlib/Analysis/Convex/KreinMilman.lean`), the
-    Krein–Milman theorem: a compact convex subset `s` of a Hausdorff locally convex real
-    topological vector space is the closure of the convex hull of `s.extremePoints ℝ`;
-  - `ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc`
-    (`Mathlib/Probability/Moments/SubGaussian.lean`), Hoeffding's lemma: if `X` is almost
-    everywhere measurable and almost surely in `Set.Icc a b` under a probability measure `μ`,
-    then `X − μ[X]` has a sub-Gaussian moment generating function with parameter
-    `(‖b − a‖₊ / 2) ^ 2`;
-  - `ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun` (same file), Hoeffding's
-    inequality: for independent `X i` with sub-Gaussian parameters `c i` on a finset `s` and
-    `0 ≤ ε`, `μ.real {ω | ε ≤ ∑ i ∈ s, X i ω} ≤ exp (−ε ^ 2 / (2 * ∑ i ∈ s, c i))`;
-  - `ProbabilityTheory.iIndepFun_pi` (`Mathlib/Probability/Independence/Basic.lean`): functions
-    of distinct coordinates are independent under a product of probability measures, when each is
-    almost everywhere measurable;
-  - `ProbabilityTheory.uniformOn_univ` (`Mathlib/Probability/UniformOn.lean`): on a finite type
-    `Ω`, `uniformOn Set.univ s = Measure.count s / Fintype.card Ω`;
-  - `ProbabilityTheory.uniformOn_pi` (same file): for a finite index type, a finite type `Ω` in
-    which singletons are measurable and sets `f k` of `Ω`,
-    `uniformOn (Set.univ.pi f) = Measure.pi fun k ↦ uniformOn (f k)`;
-  - `Finset.piecewise` with `Finset.piecewise_empty` and `Finset.piecewise_univ`
-    (`Mathlib/Data/Finset/Piecewise.lean`): `S.piecewise x x₀ i` is `x i` for `i ∈ S` and `x₀ i`
-    otherwise; `∅.piecewise x x₀ = x₀` and `univ.piecewise x x₀ = x`.
-
-## How to read the build
-
-Layer 1 is the algebra of set functions: the classes of games and the unanimity basis. Layer 2
-defines the core and the marginal vectors and relates them; it uses 1.1. Layer 3 is the
-Bondareva–Shapley theory; it uses only the core of 2.1. Layer 4 is the Shapley value; it uses
-the dividends of 1.2, the marginal vectors of 2.2 and, for 4.6 alone, the core and 2.3. Layer 5
-uses 1.2, 2.1, 2.2, 4.1 and 4.2. Layer 6 uses 2.2, 4.1 and 4.2. Layers 3 and 4 are independent
-of each other, and Layers 5 and 6 are independent of each other and of Layer 3.
-
-Each numbered target ends with a **Checks** list of tests that a wrong convention or a wrong
-constant would fail, and a *Needs:* line naming the targets and suppliers it uses. Every claim
-carries a source locator in parentheses, or says that it is proved here. `Suggested.lean` states
-the definitions and headline theorems named in this README against the pinned APIs.
 
 ## Layer 1: set functions, unanimity games and dividends
 
@@ -1046,6 +939,113 @@ permutation sampling of 6.1; `scripts/demos/rs_shapley.py` computes exact five-p
 values over groups of spectral bands from the `32` coalition worths. In both, the worth of a
 coalition is a trained network's output with the absent players replaced by a baseline, as in
 6.2. No formalization of this material in Lean, Coq or Isabelle is used.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- set functions on the coalitions of a finite player set, the classes of superadditive, monotone
+  and convex games, unanimity games and Harsanyi dividends;
+- payoff vectors, imputations and the core;
+- orders of the players, marginal vectors, and the theorems of Shapley, Ichiishi and Weber
+  relating them to the core;
+- balanced weights, minimal balanced collections, the Bondareva–Shapley theorem and the linear
+  programming duality behind it;
+- the Shapley value: the coalition, random-order and dividend formulas, its properties, and the
+  characterizations of Shapley and of Young;
+- simple games and weighted voting games, the Shapley–Shubik index, and the Banzhaf value with
+  its dividend formula;
+- the permutation-sampling estimator of the Shapley value;
+- the baseline game of a function of several variables.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+Out of scope:
+
+- games without transferable utility, bargaining problems and the Nash bargaining solution;
+- the nucleolus, the kernel, the bargaining set, stable sets, and the least core beyond the
+  duality statement 3.4;
+- values other than the Shapley and Banzhaf values: semivalues and probabilistic values, the
+  multilinear extension, the potential and consistency characterizations, weighted values, and
+  the characterizations of the Banzhaf value, which compare games on different player sets;
+- games with infinitely many players and values of non-atomic games, and set functions with
+  values in an ordered field other than `ℝ`;
+- coalition structures, games on graphs, and games with restricted cooperation;
+- cost-sharing mechanisms, mechanism design and auctions;
+- stable matching and assignment games;
+- submodular functions on a general lattice, their closure under sums and the lattices of their
+  minimizers, which [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md) 4.1 owns
+  and Tau Ceti provides; 1.1 states the convexity of a game with that predicate;
+- noncooperative games: matrix games, Nash equilibria and correlated equilibria belong to the
+  RegretMinimizationAndEquilibria roadmap;
+- general linear programming duality and Farkas' lemma: 3.2 and 3.4 are proved from one theorem
+  of the alternative of Tau Ceti and state only the duality of the core;
+- the Möbius function of a general locally finite order, which is Mathlib's `IncidenceAlgebra`;
+  1.2 proves the inversion on the subset lattice with its explicit signs;
+- the complexity of computing values, and sampling schemes other than independent uniform orders;
+- attribution methods other than the baseline game: conditional-expectation games, integrated
+  gradients, and attributions for a random baseline.
+
+## Exact supplier contracts
+
+- Tau Ceti:
+  - `TauCeti.IsSubmodular` (`TauCeti/Order/Lattice/Submodular.lean`): for `f : L → K` on a
+    lattice `L`, `IsSubmodular f` means `f (a ⊔ b) + f (a ⊓ b) ≤ f a + f b` for all `a`, `b`. On
+    `L = Finset ι` the join is the union and the meet is the intersection. `IsSubmodular.add`:
+    the pointwise sum of two submodular functions with values in an ordered additive commutative
+    monoid is submodular. `isSubmodular_finsetSum`: `S ↦ ∑ i ∈ S, f i` is submodular, for
+    `[DecidableEq ι]`.
+  - `TauCeti.exists_nonneg_sum_smul_eq_zero_and_coeff_add_dual_pos_at`
+    (`TauCeti/Geometry/Convex/Cone/Alternative.lean`), Tucker's key lemma: for a family
+    `a : J → V` indexed by a `Fintype J`, in a vector space `V` over a linearly ordered field `K`,
+    and an index `k`, there are `x : J → K` and `y : Module.Dual K V` with `0 ≤ x`,
+    `∑ j, x j • a j = 0`, `0 ≤ y (a j)` for all `j`, and `0 < x k + y (a k)`.
+  - `Finset.sum_Icc_neg_one_pow_card_sub_card_left` (`TauCeti/Data/Finset/Basic.lean`): for
+    finsets `s`, `t` of a type with decidable equality and a ring `R`,
+    `∑ u ∈ Finset.Icc s t, (-1 : R) ^ (u.card − s.card)` is `1` if `s = t` and `0` otherwise.
+  - `TauCeti.card_nonempty_finset` (same file): a finite type `ι` has `2 ^ Nat.card ι − 1`
+    nonempty finsets.
+- Mathlib:
+  - `Fintype.card_equiv` (`Mathlib/Data/Fintype/Perm.lean`): for finite types `α`, `β` and
+    `e : α ≃ β`, `Fintype.card (α ≃ β) = (Fintype.card α)!`;
+  - `Metric.isCompact_of_isClosed_isBounded` (`Mathlib/Topology/MetricSpace/Bounded.lean`): a
+    closed bounded subset of a proper metric space is compact;
+  - `IsCompact.exists_isMinOn` and `IsCompact.exists_isMaxOn`
+    (`Mathlib/Topology/Order/Compact.lean`): a real function continuous on a nonempty compact set
+    attains its minimum and its maximum there;
+  - `Set.Finite.isCompact_convexHull` (`Mathlib/Analysis/Convex/Topology.lean`): the convex hull
+    of a finite subset of a real topological vector space is compact;
+  - `geometric_hahn_banach_point_closed` (`Mathlib/Analysis/LocallyConvex/Separation.lean`): for
+    a closed convex set `t` in a locally convex real topological vector space and `x ∉ t`, there
+    are a continuous linear functional `f` and a real `u` with `f x < u` and `u < f b` for all
+    `b ∈ t`;
+  - `Finset.sum_range_by_parts` (`Mathlib/Algebra/BigOperators/Module.lean`): summation by parts
+    over `Finset.range n`;
+  - `extremePoints_convexHull_subset` (`Mathlib/Analysis/Convex/Extreme.lean`): the extreme
+    points of `convexHull 𝕜 A` lie in `A`;
+  - `closure_convexHull_extremePoints` (`Mathlib/Analysis/Convex/KreinMilman.lean`), the
+    Krein–Milman theorem: a compact convex subset `s` of a Hausdorff locally convex real
+    topological vector space is the closure of the convex hull of `s.extremePoints ℝ`;
+  - `ProbabilityTheory.hasSubgaussianMGF_of_mem_Icc`
+    (`Mathlib/Probability/Moments/SubGaussian.lean`), Hoeffding's lemma: if `X` is almost
+    everywhere measurable and almost surely in `Set.Icc a b` under a probability measure `μ`,
+    then `X − μ[X]` has a sub-Gaussian moment generating function with parameter
+    `(‖b − a‖₊ / 2) ^ 2`;
+  - `ProbabilityTheory.HasSubgaussianMGF.measure_sum_ge_le_of_iIndepFun` (same file), Hoeffding's
+    inequality: for independent `X i` with sub-Gaussian parameters `c i` on a finset `s` and
+    `0 ≤ ε`, `μ.real {ω | ε ≤ ∑ i ∈ s, X i ω} ≤ exp (−ε ^ 2 / (2 * ∑ i ∈ s, c i))`;
+  - `ProbabilityTheory.iIndepFun_pi` (`Mathlib/Probability/Independence/Basic.lean`): functions
+    of distinct coordinates are independent under a product of probability measures, when each is
+    almost everywhere measurable;
+  - `ProbabilityTheory.uniformOn_univ` (`Mathlib/Probability/UniformOn.lean`): on a finite type
+    `Ω`, `uniformOn Set.univ s = Measure.count s / Fintype.card Ω`;
+  - `ProbabilityTheory.uniformOn_pi` (same file): for a finite index type, a finite type `Ω` in
+    which singletons are measurable and sets `f k` of `Ω`,
+    `uniformOn (Set.univ.pi f) = Measure.pi fun k ↦ uniformOn (f k)`;
+  - `Finset.piecewise` with `Finset.piecewise_empty` and `Finset.piecewise_univ`
+    (`Mathlib/Data/Finset/Piecewise.lean`): `S.piecewise x x₀ i` is `x i` for `i ∈ S` and `x₀ i`
+    otherwise; `∅.piecewise x x₀ = x₀` and `univ.piecewise x x₀ = x`.
 
 ## References
 
