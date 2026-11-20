@@ -139,7 +139,7 @@ instance [EssentiallySmall.{w} C] : IsGrothendieckAbelian.{w} (ModCat.{w} C) := 
 instance (M : ModCat.{w} C) : IsModularLattice (Subobject M) := sorry
 instance [EssentiallySmall.{w} C] (M : ModCat.{w} C) : IsCompactlyGenerated (Subobject M) := sorry
 
-instance [EssentiallySmall.{w} C] : LocallySmall.{w} (ModCat.{w} C) := sorry
+instance [EssentiallySmall.{w} C] : LocallySmall.{w} (ModCat.{w} C) := inferInstance
 
 variable {C} in
 /-- **0.1** Every nonzero finitely generated module has a maximal proper subobject. -/
@@ -2135,7 +2135,8 @@ instance IsLeftPerfectRing.isSemiperfectRing {A : Type u} [Ring A] [IsLeftPerfec
     TauCeti.IsSemiperfectRing A := sorry
 
 /-- **4.3, Small–Fisher theorem** Multiplicatively closed nil subsets of `End_R(M)` are nilpotent
-when `M` is Artinian or Noetherian ([Fisher-Nil, Thms. 1.5, 2.1]; [AF, Thm. 29.2]). -/
+when `M` is Artinian or Noetherian: an adaptation of [Fisher-Nil, Lemma 1.3, Thms. 1.5, 2.1],
+printed there for nil subrings (cf. [AF, Thm. 29.2] for nil one-sided ideals); see README 4.3. -/
 theorem Module.End.exists_prod_eq_zero_of_isNilpotent {R : Type u} [Ring R] {M : Type v}
     [AddCommGroup M] [Module R M] (hM : IsArtinian R M ∨ IsNoetherian R M)
     (I : Set (Module.End R M)) (hI : ∀ a ∈ I, ∀ b ∈ I, a * b ∈ I)

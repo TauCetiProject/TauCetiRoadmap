@@ -734,9 +734,9 @@ via filtered `TauCeti.FiniteFreeOver A M` and finite-free factorization;
 `TauCeti.ModCat.flat_iff_isIndObject`). For a ring `A`, `balancedFlat_lazard_tfae` gives the
 matching five-way equivalence on `M` (flatness, factorization of maps from finitely presented
 modules through `Fin n →₀ A`, filtered `FiniteFreeOver A M`, filtered colimit of finite free
-modules, and `ℵ₀`-purity of epimorphisms onto `M`). For additive `C`, `Flat F` agrees with
-`IsIndObject` on `F ⋙ forget` ([Krause-Smashing, §2.3, p. 115]; whereas Mathlib's covariant
-`RepresentablyFlat` corresponds to `Mod Cᵒᵖ`).
+modules, and `ℵ₀`-purity of epimorphisms onto `M`). For essentially small additive `C`, `Flat F`
+agrees with `IsIndObject` on `F ⋙ forget` ([Krause-Smashing, §2.3, p. 115]; whereas Mathlib's
+covariant `RepresentablyFlat` corresponds to `Mod Cᵒᵖ`).
 
 *Needs:* 0.9, 2.1, 2.2; Tau Ceti `FiniteFreeOver`, `FiniteFreeModuleCat` (pattern),
 `finiteFreeModuleInclusion`, `flatModuleFilteredFree`.
@@ -937,13 +937,12 @@ by left and right global dimension, vanishing on semisimple rings, and agreement
 - `weakGlobalDimension` is `0` for fields, `⊥` for `PUnit`, `1` for `ℤ`, `⊤` for `DualNumber k`, and
   `1` for `T₂(k)`; `CategoryTheory.Free k (Fin 2)` has global dimension `1` (via 1.7).
 - **Small's triangular ring** `R = [[ℤ, ℚ], [0, ℚ]]` ([Lam-LMR, (2.33), (5.62b)]): in Small's
-  construction, let `D` be a commutative Noetherian domain of global dimension `n > 0` with
-  fraction field `Q`. The triangular ring `T(D) = [[D, Q], [0, Q]]` is right but not left
-  Noetherian and has right global dimension `n`; its left global dimension is `n + 1` if `Q`
-  contains a `D`-submodule of projective dimension `n`, and `n` otherwise (*Proc. Nat. Acad. Sci.
-  U.S.A.* 54 (1965), Thm., p. 1035). For `D = ℤ`, `R` is right hereditary (`gldim Rᵐᵒᵖ =
-  wgldim R = 1`) but not left hereditary (p. 1036), so Auslander's equality holds on the right and
-  fails on the left.
+  construction, let `D` be a commutative Noetherian domain of global dimension `n > 0` with fraction
+  field `Q`. The triangular ring `T(D) = [[D, Q], [0, Q]]` is right but not left Noetherian and has
+  right global dimension `n`; its left global dimension is `n + 1` if `Q` contains a `D`-submodule
+  of projective dimension `n`, and `n` otherwise ([Small, Thm., p. 1035]). For `D = ℤ`, `R` is right
+  hereditary (`gldim Rᵐᵒᵖ = wgldim R = 1`) but not left hereditary (p. 1036), so Auslander's
+  equality holds on the right and fails on the left.
 - **Pierce's free Boolean ring** `B = 𝔽₂[x_j : j ∈ J] ⧸ (x_j² - x_j)` for `|J| = ℵ₂` is von
   Neumann regular (`wgldim B = 0`) with `gldim B = 3` ([Osofsky-Card, Thm. A, p. 644];
   [Osofsky-Nagoya, Cor. 1.4, p. 318]; [Pierce, Cor. 5.2, p. 97]).
@@ -1061,18 +1060,29 @@ radical on both sides.
 - **Endomorphism rings of finite-length modules** (`TauCeti.Module.End.isSemiprimaryRing` under
   `[IsNoetherian R M] [IsArtinian R M]`; [AF, Cor. 29.3, p. 324]): `S = Module.End R M` (`f * g =
   f ∘ g`) is semiprimary via four targets:
-  1. *Nil implies T-nilpotent* ([Fisher-Nil, Thms. 1.5, 2.1, pp. 76–77], stated there for nil
-     subrings; [AF, Thm. 29.2, pp. 323–324] states it for nil one-sided ideals of `S`; both proofs
-     use only closure under products): for a multiplicatively closed set `I ⊆ S` of nilpotent
-     endomorphisms,
-     if `M` is Artinian and `I` has a sequence with no vanishing product, inductively choose the
-     next term among sequences with no vanishing product extending the already chosen prefix so as
-     to minimize its image; if `M` is Noetherian, choose `s₁, s₂, …` with maximal kernels so that
-     `pₙ = sₙ ∘ ⋯ ∘ s₁` satisfies `Im pₙ ∩ Ker sₙ₊₁ = 0` and `sₘ ∘ pₙ = 0` for `n ≥ m`,
-     contradicting ascending sums of images.
-  2. *T-nilpotent implies nilpotent:* stabilize `Iʳ M` when `M` is Artinian and `ann_M(Iʳ)` when `M`
-     is Noetherian ([AF, Prop. 29.1, p. 323]; [Fisher-Nil, Lemmas 1.1–1.2, pp. 75–76] for subrings
-     of `End_R(M)` when `M` is Artinian, via left annihilators in `S`).
+  1. *Nil implies T-nilpotent for product-closed sets* (adapting [Fisher-Nil, Lemmas 1.1, 1.3,
+     Thms. 1.5, 2.1, pp. 75–77], printed there for nil subrings; [AF, Thm. 29.2, pp. 323–324] is
+     the parallel statement for nil one-sided ideals; the extension to product-closed sets and the
+     written Noetherian argument are this roadmap's, not independently audited): let `I ⊆ S` be
+     closed under composition with every member nilpotent. If `M` is Artinian, `S` has the
+     ascending chain condition on left annihilators ([Fisher-Nil, Lemma 1.1]); if `I` is not left
+     T-nilpotent, Fisher's selection ([Fisher-Nil, Lemma 1.3]), which maximizes left annihilators
+     among blocks `xᵢ ⋯ xⱼ` and `(xᵢ ⋯ xₙ) xᵢ` and so uses only that these lie in `I` and are
+     nilpotent, gives `xₙ ∈ I` with `x₁ ⋯ xₙ ≠ 0` and `(x₁ ⋯ xₙ) xᵢ = 0` for `n ≥ i`. For
+     `sᵢ = x₁ ⋯ xᵢ` the images `sᵢM` stabilize from some `k`, so `M = ker sᵢ + xᵢ₊₁M` for `i ≥ k`
+     while `xᵢ₊₁M ⊆ ker sⱼ` for `j > i`; hence the intersections `⋂_{i=k}^{j} ker sᵢ` strictly
+     decrease, contradicting the descending chain condition. If `M` is Noetherian, `S` has the
+     ascending chain condition on right annihilators (a right annihilator `A` consists exactly of
+     the maps with image in `∑_{a ∈ A} aM`); if `I` is not right T-nilpotent, the opposite
+     selection gives `pₙ = xₙ ⋯ x₁ ≠ 0` with `xᵢ pₙ = 0` for `n ≥ i`. Once `ker pᵢ` stabilizes,
+     `xᵢ₊₁` is injective on `Uᵢ = pᵢM` and kills every later `Uⱼ`, so the `Uᵢ` form an infinite
+     direct sum of nonzero submodules, contradicting the ascending chain condition.
+  2. *A uniform exponent:* for finite `F ⊆ I`, the nonzero words over `F` form a finitely branching
+     tree (extended on the right in the Artinian case, on the left in the Noetherian case), so
+     König's lemma and step 1 make all sufficiently long words vanish. Hence the additive span of
+     `I`, a possibly nonunital subring by product closure, is nil, and Fisher's printed theorems
+     ([Fisher-Nil, Thms. 1.5, 2.1]; cf. [AF, Prop. 29.1, p. 323]) make it nilpotent, giving one
+     exponent for all products of members of `I`.
   3. *Small–Fisher theorem* (`TauCeti.Module.End.exists_prod_eq_zero_of_isNilpotent`, covering nil
      left or right ideals): combines steps 1–2.
   4. *Finite-length corollary:* `M` is a finite sum of local-endomorphism summands (`S`
@@ -1454,7 +1464,7 @@ remains reserved for characteristic `p`.
   J. Algebra 8 (1968), 277–294. Prop. 1.3, Thm. 1.4, pp. 279–280; Thm. 2.4, p. 284; Cor. 2.9, p. 285
   (covariant, applied to `Cᵒᵖ`).
 - [Fisher-Nil] J. W. Fisher, *Nil subrings of endomorphism rings of modules*, Proc. Amer. Math. Soc.
-  34 (1972), 75–78. Lemmas 1.1–1.2, pp. 75–76; Thm. 1.5, pp. 76–77; Thm. 2.1 (credited to L. Small),
+  34 (1972), 75–78. Lemmas 1.1–1.3, pp. 75–76; Thm. 1.5, pp. 76–77; Thm. 2.1 (credited to L. Small),
   p. 77 (left-acting endomorphisms, matching Mathlib's product order).
 - [Govorov] V. E. Govorov, *On flat modules*, Sibirsk. Mat. Zh. 6 (1965), 300–304.
 - [Harada] M. Harada, *Perfect categories I*, Osaka J. Math. 10 (1973), 329–341. Thms. 3–4
@@ -1519,6 +1529,8 @@ remains reserved for characteristic `p`.
   Jacobson's terminology; together with the stated lifting of idempotents, this is semiperfectness
   in the terminology used here, while Koh's Thm. 1 is the noncommutative form under weaker lifting);
   Thms. 4–5, pp. 206–207.
+- [Small] L. W. Small, *An example in Noetherian rings*, Proc. Nat. Acad. Sci. U.S.A. 54 (1965),
+  1035–1036. Thm., p. 1035; p. 1036.
 - [Simson] D. Simson, *On pure global dimension of locally finitely presented Grothendieck
   categories*, Fund. Math. 96 (1977), 91–116 (covariant functors, applied to `Cᵒᵖ`, except Thm. 2.1
   (b)). §1, Prop. 1.2, Cor. 1.3 (a), pp. 92–94; Thm. 2.1 (b), p. 95; Thm. 2.12 (c), p. 98; Def. 3.1,
