@@ -68,10 +68,10 @@ independent of one another.
    `tsum`, limits of finite partial sums over `Finset ι`), and its summability is measured by the
    squared norms `‖v i‖ ^ 2`.
 8. **Names and labels.** Declarations of this roadmap go under
-   `TauCeti/Analysis/InnerProductSpace/`; the acceptance file `Suggested.lean` states them in
-   `TauCetiRoadmap.OrthogonalGeometry`. Other roadmaps cite items of this roadmap by the labels
-   `OG-nn`: a section below carries its labels in its heading, and the table under Scope and
-   ownership resolves every other label to its Tau Ceti declaration.
+   `TauCeti/Analysis/InnerProductSpace/`; the acceptance file `Suggested.lean` states the
+   roadmap's headline theorems in `TauCetiRoadmap.OrthogonalGeometry`. Other roadmaps cite items
+   of this roadmap by the labels `OG-nn`: a section below carries its labels in its heading, and
+   the table under Scope and ownership resolves every other label to its Tau Ceti declaration.
 
 ## Layer 1: Gram rigidity
 
@@ -97,12 +97,13 @@ Gram data.
 
 ### 1.1 Inner products of linear combinations (OG-04)
 
-Prove that for finite sets `s : Finset ι` and `t : Finset κ`, coefficients `a : ι → 𝕜` and
-`b : κ → 𝕜`, and families `φ : ι → E` and `ψ : κ → E`,
+Prove `inner_sum_smul_sum_smul`: for finite sets `s : Finset ι` and `t : Finset κ`, coefficients
+`a : ι → 𝕜` and `b : κ → 𝕜`, and families `φ : ι → E` and `ψ : κ → E`,
 
     ⟪∑ i ∈ s, a i • φ i, ∑ j ∈ t, b j • ψ j⟫_𝕜 = ∑ i ∈ s, ∑ j ∈ t, conj (a i) * b j * ⟪φ i, ψ j⟫_𝕜,
 
-and that for finitely supported coefficients `a : ι →₀ 𝕜` and `b : κ →₀ 𝕜`,
+and `inner_linearCombination_linearCombination`: for finitely supported coefficients
+`a : ι →₀ 𝕜` and `b : κ →₀ 𝕜`,
 
     ⟪Finsupp.linearCombination 𝕜 φ a, Finsupp.linearCombination 𝕜 ψ b⟫_𝕜
       = a.sum fun i α ↦ b.sum fun j β ↦ conj α * β * ⟪φ i, ψ j⟫_𝕜.
@@ -228,9 +229,9 @@ Let `v : ι → E` be pairwise orthogonal, `hv : Pairwise fun i j ↦ ⟪v i, v 
 arbitrary. Prove:
 
 - **Summability criterion.** If `E` is complete, `Summable v ↔ Summable fun i ↦ ‖v i‖ ^ 2`.
-- **Parseval's identity.** For every `x : E` with `HasSum v x`,
-  `HasSum (fun i ↦ ‖v i‖ ^ 2) (‖x‖ ^ 2)`; no completeness is assumed. Consequently, if
-  `Summable v`, then `‖∑' i, v i‖ ^ 2 = ∑' i, ‖v i‖ ^ 2`.
+- **Parseval's identity** (`hasSum_norm_sq_of_pairwise_inner_eq_zero`). For every `x : E` with
+  `HasSum v x`, `HasSum (fun i ↦ ‖v i‖ ^ 2) (‖x‖ ^ 2)`; no completeness is assumed. Consequently,
+  if `Summable v`, then `‖∑' i, v i‖ ^ 2 = ∑' i, ‖v i‖ ^ 2`.
 
 The routes below are complete proofs from the declarations they name (for Parseval's identity,
 finite Pythagoras and continuity of the norm), so the section needs no source.
