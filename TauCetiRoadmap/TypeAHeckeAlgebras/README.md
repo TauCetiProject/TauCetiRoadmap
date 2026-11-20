@@ -55,7 +55,8 @@ treat the root-of-unity and `Q = 1` traces through Wenzl's path models and Schur
 key input is that the literal first-site colour projections lie in the Hecke von Neumann algebra;
 §§4.17–4.18 collect the scalar endpoints and the invariants of every positive family. Each
 *Needs:* line lists what its statement and its route use, so that a target proved by another route
-is not blocked behind an unrelated section.
+is not blocked behind an unrelated section. Other roadmaps cite the former numbering: Layers 1–3
+were H1–H3, §§4.1–4.5 and 4.18 were H4, and §§4.6–4.17 were its sub-layer H4a.
 
 ## Conventions
 
@@ -164,21 +165,26 @@ declarations above; Mathlib `FreeAlgebra`, `RingQuot`, `CoxeterSystem`, `Coxeter
   sign twist to Hₙ(1) followed by it, Tᵢ ↦ −sᵢ. They differ by the sign character, so a comparison
   with the group algebra must name its generator map.
 - The sign twist sends T to −T and q to −q: `(−T)² = T² = (q − q⁻¹)T + 1 = ((−q) − (−q)⁻¹)(−T) + 1`.
-  The map T ↦ −T at the same parameter q is not a homomorphism unless q − q⁻¹ = 0.
+  The map T ↦ −T at the same parameter q is not a homomorphism unless 2(q − q⁻¹) = 0 (in
+  characteristic 2 it is the identity).
 
 ### 1.2 Split semisimplicity and the Specht modules
 
 Over a field K put `[r]_Q = 1 + Q + ⋯ + Q^(r−1)`. Prove `isSemisimpleRing_typeAHeckeAlgebra_iff`:
-Hₙ(q) is semisimple exactly when `∏_(r=1)^n [r]_Q ≠ 0`, and prove that it is then split
-semisimple. Prove the criterion from the cellular bilinear forms of the Specht modules (their
-Gram determinants and radicals), not by an appeal to q being generic. Fix one construction of the
-Specht module S^λ for each partition λ ⊢ n, built from the row symmetrizer of the Young parabolic
-subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the eigenvalue q, with
-a chosen basis indexed by the standard λ-tableaux and a stated normalization; every later statement
-about Specht modules refers to this fixed module and basis. Under the criterion prove that the
-S^λ are simple, pairwise non-isomorphic and absolutely simple, that every simple module is one of
-them, that `dim S^λ = f^λ`, and the Wedderburn decomposition `Hₙ(q) ≅ ∏_λ End_K(S^λ)` (Wenzl, §2,
-for the tableau representations).
+Hₙ(q) is semisimple exactly when `∏_(r=1)^n [r]_Q ≠ 0`, and prove
+`nonempty_algEquiv_pi_matrix_of_prod_ne_zero`: it is then split semisimple, isomorphic as a
+K-algebra to `∏_(λ⊢n) M_(f^λ)(K)`. Prove the criterion from the cellular bilinear forms of the
+Specht modules (their Gram determinants and radicals), not by an appeal to q being generic. Fix one
+construction of the Specht module S^λ for each partition λ ⊢ n, built from the row symmetrizer of
+the Young parabolic subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the
+eigenvalue q, with a chosen basis indexed by the standard λ-tableaux and a stated normalization;
+every later statement about Specht modules refers to this fixed module and basis. Under the
+criterion prove that the S^λ are simple, pairwise non-isomorphic and absolutely simple, that every
+simple module is one of them, that `dim S^λ = f^λ`, and the Wedderburn decomposition
+`Hₙ(q) ≅ ∏_λ End_K(S^λ)`, which realizes the isomorphism above on the fixed Specht modules. Over ℂ,
+when Q is not an l-th root of unity for any 2 ≤ l ≤ n (so Q ≠ 1), the irreducibility and pairwise
+non-isomorphism of the tableau representations and the faithfulness of their sum are Wenzl, Theorem
+2.2 (p. 365).
 
 - At q = 1 the module S^λ is carried by `groupAlgebraEquiv` to the Specht module S^λ of SchurWeyl
   Layer 3; at q = −1 the index character becomes the sign character, and S^λ goes to
@@ -225,7 +231,7 @@ the left and right bases of rank n + 1, are the induction and recursive-trace su
 
 When `∏_(r=1)^n [r]_Q = 0`, keep the cell modules (Specht modules) and their bilinear forms, and
 prove: the radical of each form is a submodule; the nonzero heads `D^λ = S^λ / rad S^λ` are simple,
-pairwise non-isomorphic and exhaust the simple modules; describe the blocks; and construct the
+pairwise non-isomorphic and exhaust the simple modules; and construct the
 semisimple quotient of Hₙ(q) by its Jacobson radical with its simple factors indexed by the λ with
 `D^λ ≠ 0`. Never extend the generic matrix units through a vanishing denominator. The canonical
 symmetrizing trace `TauCeti.TypeAHeckeAlgebra.canonicalTrace` is nondegenerate at every parameter
@@ -252,7 +258,7 @@ and the block embeddings `TauCeti.InfiniteTypeAHeckeAlgebra.blockIncl`, made exp
 tower maps.
 
 - Prove the cycle-block cocenter basis theorem: the classes of the ζ_λ, λ ⊢ n, form a basis of the
-  cocenter of Hₙ(q).
+  cocenter of Hₙ(q) (Neretin, §1.4, p. 5, which cites Geck–Pfeiffer, §8.2).
 - Hence two complex-linear trace functionals on Hₙ(q) that agree on every ζ_λ are equal.
 - Prove that the cycle-block elements are compatible with the tower maps and the block
   embeddings.
@@ -331,10 +337,12 @@ Let `χ^λ` be the character of S^λ. Define `q_m ∈ Λ_(ℚ(Q))` for m ≥ 1 b
 the power sums with coefficients in ℚ(Q). Put `q_μ = ∏_i q_(μ_i)`. Prove
 Ram's formula on the cycle-block elements: for λ, μ ⊢ n on a generic semisimple fibre,
 `χ^λ(ζ_μ) = ⟨q_μ, s_λ⟩`, the Hall form of SchurWeyl Layer 7, with these exact Q-dependent
-coefficients; at Q = 1, `q_m = p_m` and this is the Frobenius formula. Layers 3 and 4 consume it:
-the cocenter basis of §1.5 alone does not determine the Schur character weights. The power sums
-over ℂ are SchurWeyl §7.5's rational power-sum presentation of `Λ_ℂ` (Newton's identities), which
-this section uses for the change of basis between the `q_μ`, the `p_μ` and the `s_λ`.
+coefficients (Ram, Theorem 4.14, p. 475, with the generating function in the proof of Theorem
+4.13(b), p. 474; Ram's q is our Q); at Q = 1, `q_m = p_m` and this is the Frobenius formula.
+Layers 3 and 4 consume it: the cocenter basis of §1.5 alone does not determine the Schur
+character weights. The power sums over ℂ are SchurWeyl §7.5's rational power-sum presentation of
+`Λ_ℂ` (Newton's identities), which this section uses for the change of basis between the `q_μ`,
+the `p_μ` and the `s_λ`.
 
 *Needs:* §§1.2, 1.5; SchurWeyl §§7.5–7.6.
 
@@ -593,10 +601,10 @@ unlink and both one-crossing closures in the comparison.
 - The writhe-normalized trace gives the two-strand unlink `[N]²`, and both one-crossing closures
   σ₁, σ₁⁻¹ the unknot value `q^(∓N) q^(±N) [N] = [N]`.
 
-### 2.5 The course-note specialization and the hyperbolic parameters
+### 2.5 The hyperbolic specialization of the braid invariant
 
-The course notes transcribing Freyd et al. (physical pp. 87–89) specialize the invariant at the
-printed parameters `P_b(e^α, −e^(−α), 2i sinh θ)`, and their parameter line prints `tan θ`. The
+Freyd et al. (p. 245) specialize the invariant at the printed parameters
+`P_b(e^α, −e^(−α), 2i sinh θ)`, and their parameter line prints `tan θ`. The
 printed formula is kept as provenance and is not a theorem statement here. Fix the eigenprojection:
 `γ = i e^(−α) T`, `q = e^(−θ)`, and e the eigenprojection of γ for the eigenvalue `i e^(−α−θ)`,
 which is the native projection of Convention 4, so that
@@ -737,7 +745,7 @@ has Markov parameter η = τ on this tower.
 
 ### 3.3 The balanced projection carrier
 
-The course notes (p. 88) use instead the balanced relation
+Freyd et al. (p. 245) use instead the balanced relation
 `eᵢ eᵢ₊₁ eᵢ − τ eᵢ = eᵢ₊₁ eᵢ eᵢ₊₁ − τ eᵢ₊₁`, which equates the two defects and is not the individual
 Jones relation. The algebra is Tau Ceti's `TauCeti.BalancedProjectionAlgebra R τ`, with its stages,
 and the library proves the change of generators `T = (q + q⁻¹)e − q⁻¹` onto H∞(q) when
@@ -858,7 +866,13 @@ closed interval
 ```
 
 with `{a_d(Q) : d ∈ ℤ, d ≠ 0}`. The set is invariant under η ↦ 1 − η, so it is the same for the
-native and Wenzl's parameter; at Q = 1 the interval is the single point 1/2. Prove with it:
+native and Wenzl's parameter; at Q = 1 the interval is the single point 1/2. For Q ≠ 1 this is
+Wenzl, Theorem 3.6(a) (pp. 378–379), which assumes his q (our Q) is not a root of unity. At Q = 1,
+where H∞(±1) is the group algebra of `S_∞`, the input is instead Thoma's classification of the
+indecomposable characters of `S_∞` (Neretin, Remark after Theorem 1.1, p. 6): a positive Markov
+trace is block multiplicative, hence indecomposable, and its value `z^(m−1)` on an m-cycle equals
+`Σ_i α_i^m + (−1)^(m−1) Σ_j β_j^m` for m ≥ 2, which forces z = 0 (the regular trace, η = 1/2) or
+z = ±1/k (k letters of one sign, η = a_k(1) or a_(−k)(1)). Prove with it:
 
 - the generating identity of §3.13 after division by Q − 1 coefficientwise, so that its Q = 1
   specialization is substantive: `tr(ζ₁) = 1` and, for m ≥ 2,
@@ -963,12 +977,14 @@ identity `(eᵢ − eᵢ₊₁)³ = (1 − τ)(eᵢ − eᵢ₊₁)`, using the 
 functional calculus in the real cases, τ = 1 included; identify the universal C*-algebra with
 ℂ². The Markov rule then gives `η = μ(eᵢ) = μ(eᵢ²) = η²`, so the only normalized Markov states are
 the two scalar characters. No such collapse is asserted for the universal algebraic
-*-presentation. For the remaining positive real τ outside the positive range of §3.6, derive the
-same exclusion of Markov states from the Hecke comparison of §3.3. This is a theorem about
+*-presentation. For the remaining positive real τ outside the positive ranges of §§3.6–3.7, that is
+τ ∈ (1/4, 1) with `τ ≠ (4cos²(π/l))⁻¹` for every l ≥ 4, derive the same exclusion of Markov states
+from the Hecke comparison of §3.3. This is a theorem about
 normalized Markov states; the scalar characters prevent any unrestricted "nonzero if and only if"
 statement about the universal algebra.
 
-*Needs:* §§3.3, 3.6; Mathlib `ContinuousMap`, `cfc`, `CStarAlgebra`; VonNeumannAlgebras Layer 0.
+*Needs:* §§3.3, 3.6, 3.7; Mathlib `ContinuousMap`, `cfc`, `CStarAlgebra`; VonNeumannAlgebras
+Layer 0.
 
 **Checks.**
 - For idempotents e, f with `efe − τe = fef − τf` and d = e − f: `e d² = e − efe`, `f d² = f − fef`,
@@ -1384,28 +1400,30 @@ incomplete tensor product, tracial standard form, modular theory and centralizer
 
 **Checks.**
 - Two colours with weights (2/3, 1/3) (Q = 2): `[B : A] = 3/2 + 3 = 9/2`, and
-  `H(B|A) = 2(−(2/3)log(2/3) − (1/3)log(1/3)) ≈ 1.273 < log(9/2) ≈ 1.504`; the relative commutant is
-  not ℂ, so H < log[B : A], as for the diagonal corner inclusion of Subfactors §2.6. At equal weights
-  (1/2, 1/2) the two values are both log 4.
+  `H(B|A) = 2(−(2/3)log(2/3) − (1/3)log(1/3)) ≈ 1.273 < log(9/2) ≈ 1.504`; the weights are unequal,
+  so H < log[B : A], as for the diagonal corner inclusion of Subfactors §2.6. At equal weights
+  (1/2, 1/2) the relative commutant is still ℂ² and the two values are both log 4.
 - Geometric weights `w_j = (1 − t)t^(j−1)`: `Σ_j 1/w_j = ∞` while `Σ_j −w_j log w_j` is finite.
 
 ### 4.7 Finite positive colours from the fundamental quantum model
 
 For r ≥ 2 and Q > 0, Q ≠ 1, the fundamental-colour model may be derived from `U_Q(sl_r)` in Sawin's
-quantum-trace convention, or from the direct checked-R decomposition of §4.11. The QuantumGroups
-interfaces are rank one and do not supply the higher-rank package. If the quantum-group route is
-used, construct the type-A quantized enveloping Hopf *-algebra and every finite-dimensional type-1
-module indexed by a dominant integral highest weight occurring in tensor powers; give the compact
-real form, raising and lowering operators, coproduct, module characters, tensor-product
-decomposition, monodromy eigenvalues and normalized Clebsch maps; and construct the fundamental
-module, its positive invariant quantum trace, the normalized checked-R operator, the quantum
-exterior-square idempotent and the partial quantum trace, with exact formulas for each identity
-used below. A fundamental-module calculation alone does not supply the other modules or the signed
-countable-colour decomposition. Define `E_n = End(V^(⊗n))`, `M_n = End_(U_Q(sl_r))(V^(⊗n))` and
-`K_n = End_(U_Q(h))(V^(⊗n))`, embedded by `x ↦ x ⊗ 1`; give `E = ⋃ E_n` its compatible normalized
-quantum trace and form its GNS weak closure `E_Q` with faithful normal state φ (only the fixed
-algebra is tracial). Prove in this carrier, rather than importing a finite-level equality that is
-false in general:
+quantum-trace convention, or from the direct checked-R decomposition of §4.11. On the quantum-group
+route the algebra is QuantumEnvelopingAlgebras' Drinfeld–Jimbo algebra for a root datum of type
+`A_(r−1)` over ℂ at the parameter √Q, which is not a root of unity: its presentation, raising and
+lowering operators, coproduct, counit and antipode (QuantumEnvelopingAlgebras Layer 1) and its Verma
+and integrable highest-weight modules, quantum Casimir and characters (QuantumEnvelopingAlgebras
+§2.3) are consumed from there. Construct here the compact real form (the Hopf *-structure at real
+parameter), the complete reducibility of the tensor powers of the fundamental module with their
+tensor-product decomposition, the monodromy eigenvalues and the normalized Clebsch maps; and the
+fundamental module's positive invariant quantum trace, the normalized checked-R operator, the
+quantum exterior-square idempotent and the partial quantum trace, with exact formulas for each
+identity used below. A fundamental-module calculation alone does not supply the other modules or the
+signed countable-colour decomposition. Define `E_n = End(V^(⊗n))`, `M_n = End_(U_Q(sl_r))(V^(⊗n))`
+and `K_n = End_(U_Q(h))(V^(⊗n))`, embedded by `x ↦ x ⊗ 1`; give `E = ⋃ E_n` its compatible
+normalized quantum trace and form its GNS weak closure `E_Q` with faithful normal state φ (only the
+fixed algebra is tracial). Prove in this carrier, rather than importing a finite-level equality that
+is false in general:
 
 - positivity and compatibility of the quantum traces, and the finite-stage torus fixed algebras
   `K_n = E_n^T`;
@@ -1458,7 +1476,8 @@ the complementary parameter, and the finite-colour trace, phase fixed algebra, t
 and invariant formulas apply to both signs (Sawin, §1, Theorem 1, §3, Theorem 3 and
 Proposition 9).
 
-*Needs:* §§2.1, 3.10–3.12, 4.6; QuantumGroups Layer 8 (rank one only); Tau Ceti
+*Needs:* §§2.1, 3.10–3.12, 4.6; QuantumEnvelopingAlgebras Layer 1 and §2.3 (quantum-group route);
+QuantumGroups Layer 8 (rank one only); Tau Ceti
 `TauCeti.InfiniteTypeAHeckeAlgebra.existsUnique_isMarkovTrace`,
 `TauCeti.InfiniteTypeAHeckeAlgebra.complementEquiv`; VonNeumannAlgebras Layers 1, 2 and 10.
 
@@ -1636,12 +1655,15 @@ colour words. At every one-box step prove that the resulting q-Pieri (Clebsch) c
 orthogonal, complete on the new range and normalized in the ordinary tensor Hilbert norm, with
 phases fixed by the first nonzero coordinate. Prove the complete decomposition into Hecke modules
 of hook partitions, their multiplicity spaces, highest-weight labels and characters, and one-box
-branching, from the displayed matrices. If a higher-rank type-1 `U_Q(sl_r)` or a signed quantum-group
-model is used instead, construct all its finite-dimensional highest-weight modules, raising and
-lowering operators, coproduct, characters, monodromy eigenvalues and orthonormal Clebsch maps. No
-rank-one QuantumGroups interface, ordinary signed RSK statement or unproved quantum-supergroup
-semisimplicity supplies this decomposition; the signed RSK theorem of §4.8 supplies only the
-marginal shape law and the content limits.
+branching, from the displayed matrices. If the type-1 `U_Q(sl_r)` is used instead for an
+all-positive alphabet (s = 0), its algebra, coproduct, highest-weight modules and characters are
+QuantumEnvelopingAlgebras' (Layer 1 and §2.3), and its monodromy eigenvalues and orthonormal
+Clebsch maps are those constructed in §4.7. If a signed quantum-group model is used, construct all
+its finite-dimensional highest-weight modules, raising and lowering operators, coproduct,
+characters, monodromy eigenvalues and orthonormal Clebsch maps here. No rank-one QuantumGroups
+interface, ordinary signed RSK statement or unproved quantum-supergroup semisimplicity supplies
+this decomposition; the signed RSK theorem of §4.8 supplies only the marginal shape law and the
+content limits.
 
 The signed tableaux are concrete. A path of length n is a chain of hook partitions
 `∅ = λ^(0) ⊂ λ^(1) ⊂ ⋯ ⊂ λ^(n)` with `λ^(m)_(r+1) ≤ s` for an alphabet of r positive and s negative
@@ -1691,7 +1713,8 @@ identity, orthogonality and completeness of the edge ranges, and positivity of t
 exactly on positive-weight edges. The formula is an identity of matrix entries for the actual
 product density, not an additional normalization of the basis vectors.
 
-*Needs:* §§1.6, 3.10, 3.12, 4.10; Mathlib `Matrix`, `EuclideanSpace`, `gramSchmidt`.
+*Needs:* §§1.6, 3.10, 3.12, 4.10; Mathlib `Matrix`, `EuclideanSpace`, `gramSchmidt`; on the
+quantum-group route §4.7 and QuantumEnvelopingAlgebras Layer 1 and §2.3.
 
 **Checks.**
 - r = 1, s = 0: every word is constant, `R_m` acts by Q, `Y_m = Q^(m−1)`, and the only path is the
@@ -1722,8 +1745,9 @@ s_λ(A, At, …; B, Bt, …)
  = t^(n(λ)) ∏_((i,j)∈λ) (A + B t^(j−i)) / (1 − t^(h_λ(i,j))),       (H)
 ```
 
-where `n(λ) = Σ_i (i−1) λ_i` and `h_λ(i,j) = λ_i − j + λ′_j − i + 1`. A finite polynomial argument
-gives the identity, countable convergence included. The degree-d Jacobi–Trudi specialization
+where `n(λ) = Σ_i (i−1) λ_i` and `h_λ(i,j) = λ_i − j + λ′_j − i + 1` (Wenzl, (3.5), p. 376, with his
+a = A, b = −B and q = t, after Macdonald, Ch. I, §3, Ex. 3). A finite polynomial argument gives
+the identity, countable convergence included. The degree-d Jacobi–Trudi specialization
 `p_m = (1 − u^m)/(1 − t^m)` is polynomial in u. At `u = t^M`, M ≥ ℓ(λ), the finite geometric
 bialternant (Vandermonde) calculation gives
 
@@ -1975,9 +1999,10 @@ convergence Fₙ → P.
 - k = 1, l = 1, rest colour b with A the selected colour: the two masks carry
   `[[Q − 1, −√Q], [−√Q, 0]]`, and P = 1_(1∈S) is the projection onto the first mask, of rank one, as
   §1.10 predicts for `Sh_0(S^(1))`.
-- For λ = ∅, Λ = (1): ν ranges over ∅ only, `π_Λ(∅) = A/s_(1)(A;B) = A(1 − t)/(A + B)`, which is
-  A when A + B = 1 − t, and D₁(∅, ∅) = 1 (the case l = 0), so `c₁ = A`: at n = 1, where B₁ = ℂ, the
-  coefficient is `φ(P) = A`, the weight of the colour.
+- For λ = ∅, Λ = (1): ν ranges over ∅ and (1). With A + B = 1 − t, `s_(1)(A;B) = 1`, so
+  `π_Λ(∅) = A` and `π_Λ((1)) = s_(1)(At;B) = (At + B)/(1 − t) = 1 − A`; `D₁(∅, ∅) = 1` (the case
+  l = 0) and `D₁(∅, (1)) = 0` (ν₁ = Λ₁), so `c₁ = A`: at n = 1, where B₁ = ℂ, the coefficient is
+  `φ(P) = A`, the weight of the colour.
 
 ### 4.14 Deleting a recovered colour
 
@@ -2148,15 +2173,9 @@ is not obtained from the quantum-group weak-closure theorem at Q ≠ 1. For the 
 both cases identify the ambient algebra and its shifted tail with ℂ, and compute index 1 and
 relative entropy 0.
 
-Wenzl's final remark (printed p. 246) reads `R_(α,0)`, whereas printed p. 245 denotes the trace-GNS
-weak closure by `R_(τ,η)` and states that it is ℂ at η = 0, 1. Under the literal assignment τ = α,
-η = 0 the endpoint computation above gives the scalar identity inclusion, index 1 and relative
-entropy 0; so the print does not specify a nontrivial Wenzl parameter fibre under that assignment.
-The subscript may also use the hyperbolic slots (α, θ) of §2.5: setting θ = 0 at a fixed finite real
-α gives `Q = e^(−2θ) = 1` and the derived native parameter `η = ½(1 − tanh α tanh θ) = 1/2`, the
-regular middle trace. This reading does not identify (τ, η) with (α, θ), and neither reading is
-chosen from the subscript alone; the comparison targets use the explicit Hecke and Markov parameter
-maps and the real, root-of-unity and Q = 1 inclusions of this layer.
+The closing remark of Freyd et al. (p. 246) concerns the subfactor generated by e₂, e₃, … in the
+weak closure written there `R_(α,θ)`, in the hyperbolic parameters of §2.5: this is the tail
+inclusion A₁ ⊂ B of §4.1, whose index and relative entropy are those of §4.18.
 
 *Needs:* §§4.3, 4.4, 4.8, 4.9; SchurWeyl §7.2 (RSK); Tau Ceti `TauCeti.rowInsert`,
 `TauCeti.rowInsertEquiv`.
@@ -2172,9 +2191,8 @@ the tail inclusion, its relative commutant, the minimal corner weights, the inde
 entropy. For the atomic families at Q ≠ 1 use the full torus fixed algebra and the atomic corner
 theorem of §4.6 only after the colour-projection estimates of §§4.12–4.16 (and §4.7 for the finite
 discrete families) are proved. At Q = 1 use the finite-colour Schur–Weyl and regular group routes of
-§§4.3–4.4, not §4.6. Include the scalar endpoint calculation for the literal source assignment
-τ = α, η = 0 (§4.17), together with all the explicit nontrivial real, root-of-unity and Q = 1
-families.
+§§4.3–4.4, not §4.6. Include the scalar endpoints η = 0, 1 (§4.17), together with all the explicit
+nontrivial real, root-of-unity and Q = 1 families.
 
 *Needs:* §§3.14, 4.2–4.7, 4.16, 4.17.
 
@@ -2199,8 +2217,9 @@ their count, Schur polynomials and power sums, and the simultaneous empirical fr
 conditionally i.i.d. sequence. Mathlib: measures and almost-everywhere convergence, polynomials,
 matrices, Gram–Schmidt, `Real.negMulLog`. SchurWeyl Layers 0–8. Exchangeability's empirical
 frequencies, through Tau Ceti. VonNeumannAlgebras Layers 0–2, 6, 8, 10–11 and 13. Subfactors §§2.2,
-2.5, 2.6 and Layer 4. QuantumGroups Layer 8, for its rank-one interfaces only. None of these
-suppliers depends back on this layer.
+2.5, 2.6 and Layer 4. QuantumEnvelopingAlgebras Layer 1 and §2.3, on the quantum-group route of
+§§4.7 and 4.11. QuantumGroups Layer 8, for its rank-one interfaces only. None of these suppliers
+depends back on this layer.
 
 ## Downstream consumers
 
@@ -2222,7 +2241,7 @@ the spectral theory of the Jucys–Murphy elements, Ram's formula, the Hilbert s
 module with the induced-module isomorphism, the continuous Young projectors and the positive-real
 parabolic Pieri rule (Layer 1); the compatibility of the finite trace radicals of a Markov trace,
 the coefficient extensions and regularity statements of the braid invariant, the comparison of the
-Ocneanu trace with the weighted Jimbo trace and the course-note specialization (Layer 2); the
+Ocneanu trace with the weighted Jimbo trace and the hyperbolic specialization (Layer 2); the
 null-ideal quotient of a positive tracial state, the GNS instances of the Hecke and balanced
 carriers, the normalized Jones-quotient isomorphism and its trace parameter, the *-structure,
 C*-completion, Wenzl presentation and collapse theorems of the balanced carrier, the parameters
@@ -2233,8 +2252,9 @@ relative commutants, corners and relative entropy, the full phase fixed algebras
 fundamental quantum model, the Hecke-to-Thoma parameter adapter, the signed specialization, path
 measure and its law-of-large-numbers adapter, the finite joint edge law, the direct countable
 colour-projection theorem and its deletion, gauge and sign reductions (Layer 4). For finite colour
-sets the roadmap either constructs the required type-A modules in full or proves the equivalent
-finite checked-R decomposition and branching directly; the latter route owns the complete
+sets the roadmap either decomposes the tensor powers of the type-A fundamental module with
+QuantumEnvelopingAlgebras' highest-weight theory or proves the equivalent finite checked-R
+decomposition and branching directly; the latter route owns the complete
 finite-colour word-space decomposition, its q-Pieri matrices and the comparison with the specified
 first-site density.
 
@@ -2278,9 +2298,15 @@ supplier contracts list them; none is planned here. Mathlib's Hecke rings of dou
   index, the Pimsner–Popa inequality and local-index formulas, the index of a conditional
   expectation, relative entropy with the Pimsner–Popa formula, and commuting-square towers
   (§§2.2, 2.5, 2.6 and Layer 4).
-- *Quantum groups.* QuantumGroups supplies only its stated rank-one interfaces (Layer 8, generic
-  `U_q(sl₂)`); the higher-rank and signed-colour representation theory needed in §§4.7 and 4.11 is
-  built there in full or replaced by the direct checked-R decomposition.
+- *Quantum groups.* QuantumEnvelopingAlgebras owns the higher-rank Drinfeld–Jimbo algebra, here of
+  type `A_(r−1)` at the parameter √Q: its presentation and Hopf structure (Layer 1) and its Verma
+  and integrable highest-weight modules, quantum Casimir and character formula (§2.3), which the
+  quantum-group route of §§4.7 and 4.11 consumes. This roadmap owns on that route the compact real
+  form, the complete reducibility of the tensor powers of the fundamental module, the monodromy
+  eigenvalues, the normalized Clebsch maps, the positive quantum trace and Sawin's weak-closure
+  estimates, and the signed-colour decomposition, whether through a signed quantum-group model or
+  the direct checked-R decomposition. QuantumGroups supplies only its stated rank-one interfaces
+  (Layer 8, generic `U_q(sl₂)`).
 - *Knots.* GeometricTopology Layer 4 owns the link carrier, the geometric closure, Markov's theorem,
   the skein-defined HOMFLY polynomial and its comparison with the algebraic invariant of §2.3.
 - *The native comparison objects.* The Jimbo representation, Turaev's weighted trace and the
@@ -2289,7 +2315,8 @@ supplier contracts list them; none is planned here. Mathlib's Hecke rings of dou
   algebra, a generic Ocneanu trace or a positive-trace classification.
 
 The supplier graph is acyclic: SchurWeyl, Exchangeability, VonNeumannAlgebras, Subfactors,
-TemperleyLiebOperatorAlgebras and QuantumGroups do not depend on this roadmap.
+TemperleyLiebOperatorAlgebras, QuantumEnvelopingAlgebras and QuantumGroups do not depend on this
+roadmap.
 
 ## Exact supplier contracts
 
@@ -2427,6 +2454,15 @@ Layer 6 (tracial standard form and L²), Layer 8 (group von Neumann algebras), L
 (Tomita–Takesaki theory), Layer 11 (weights, Takesaki's conditional expectation and its tracial
 specialization, state centralizers) and Layer 13 (hyperfiniteness).
 
+### From TauCetiRoadmap.QuantumEnvelopingAlgebras
+
+Layer 1 (the Drinfeld–Jimbo algebra of a finite-rank symmetrizable datum on a full root datum, with
+its presentation, triangular decomposition, coproduct, counit and antipode) and §2.3 (category O,
+Verma modules, the quantum Casimir and the character formula of integrable highest-weight
+modules), as stated there over a field k and a parameter q ∈ k that is not a root of unity; here
+k = ℂ, q = √Q with Q > 0, Q ≠ 1, and a root datum of type `A_(r−1)`. Consumed only on the
+quantum-group route of §§4.7 and 4.11.
+
 ### From TauCetiRoadmap.QuantumGroups
 
 Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
@@ -2439,10 +2475,11 @@ Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
   (§§3.2, 3.4), which concern the extra relation (11.6).
 - H. Wenzl, *Hecke algebras of type A_n and subfactors*, Invent. Math. 92 (1988), 349–383,
   [DOI 10.1007/BF01404457](https://doi.org/10.1007/BF01404457): §§2–3 for the tableau
-  representations, the positive trace classification and the subfactor examples (§§1.2, 3.5–3.7,
-  4.2). The printed text has literal discrepancies on pp. 379–383, kept here: Theorem 3.6(b) and the
-  setup on p. 380 print `q = e^(±2πi/l)`, while Theorem 3.7 prints `q = e^(±πi/l)`; Theorem 3.7(a)
-  prints the denominator `sin²(π/l)`, while its proof for m > 1 and pp. 381–382 give `sin^(2m)(π/l)`.
+  representations (Theorem 2.2, §1.2), the positive trace classification (Theorem 3.6, §§3.5–3.7),
+  the countable hook product (3.5) (§4.12) and the subfactor examples (§4.2). The printed text has
+  literal discrepancies on pp. 379–383, kept here: Theorem 3.6(b) and the setup on p. 380 print
+  `q = e^(±2πi/l)`, while Theorem 3.7 prints `q = e^(±πi/l)`; Theorem 3.7(a) prints the denominator
+  `sin²(π/l)`, while its proof for m > 1 and pp. 381–382 give `sin^(2m)(π/l)`.
   The statements here use the angle 2π/l and the exponent 2m, as the context supports; this is a
   mathematical correction, not a claim about an erratum by the author. The setup on p. 380 labels
   its discrete parameter `a_k(q)`, whereas Theorem 3.6(b) states `a_(−k)(q)`; both lines are kept, and
@@ -2457,7 +2494,12 @@ Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
   [arXiv:2101.02133](https://arxiv.org/abs/2101.02133): §§1.6–1.7 and §3.1 for the signed character
   and the product model (§§3.12–3.13); its larger diagonal and site-permutation algebra is not
   thereby identified with the Hecke weak closure. Theorem 1.1, equations (1.7)–(1.8), and §3.3 for
-  the exact Q-dependent trace of the Hecke cycles and its α, β, γ parameterization (§§3.13, 4.8).
+  the exact Q-dependent trace of the Hecke cycles and its α, β, γ parameterization (§§3.13, 4.8);
+  §1.4, p. 5, for the cycle-block basis of the cocenter (§1.5); the Remark after Theorem 1.1,
+  p. 6, for Thoma's theorem at Q = 1 (§3.6).
+- A. Ram, *A Frobenius formula for the characters of the Hecke algebras*, Invent. Math. 106 (1991),
+  461–488, [DOI 10.1007/BF01243921](https://doi.org/10.1007/BF01243921): Theorem 4.14, p. 475,
+  with the generating function of Theorem 4.13(b), p. 474 (§1.7).
 - S. V. Kerov, *A q-analogue of the hook walk algorithm*, §4.2 "Random knot tableaux", printed
   pp. 128–129, for the coherent Young-graph transition `s_Λ(α;β)/s_λ(α;β)` shared by the characters of
   `S_∞` and of `H_∞(Q)`, Q > 0 (§4.8).
@@ -2465,10 +2507,13 @@ Layer 8 (generic `U_q(sl₂)`), only for its stated rank-one interfaces.
   152 (2012), 589–624, [arXiv:1001.2180](https://arxiv.org/abs/1001.2180), Theorem 1: for
   0 < q < 1 the row limits are `(1 − q)q^(i−1)`, and transposition gives the statement for columns at
   q > 1; an independent endpoint check of the geometric Thoma specialization (§4.9).
-- P. Freyd et al., *A new polynomial invariant of knots and links*, Bull. AMS 12 (1985), 239–246, as
-  transcribed on course-note physical pp. 87–89 (§§2.5, 3.3, 3.8). The printed parameter line
+- P. Freyd et al., *A new polynomial invariant of knots and links*, Bull. AMS 12 (1985), 239–246,
+  [DOI 10.1090/S0273-0979-1985-15361-3](https://doi.org/10.1090/S0273-0979-1985-15361-3): p. 245
+  for the balanced relation, the hyperbolic parameters, the exceptional lines and points, the braid
+  representation γ and the specialization of `P_b` (§§2.5, 3.3, 3.8), and the closing remark on
+  p. 246 for the subfactor generated by e₂, e₃, … (§4.17). The printed parameter line
   contains tan θ and the tuple `P_b(e^α, −e^(−α), 2i sinh θ)`, with the negative second HOMFLY
-  parameter also transcribed. The printed exceptional set is `(4 cos(π/n))^(−1)` with an unsquared
+  parameter. The printed exceptional set is `(4 cos(π/n))^(−1)` with an unsquared
   cosine, and the bound for the exceptional points is `1 ≤ k ≤ [(m−1)/2]` with literal square
   brackets. These literals are kept; the squared cosine and the full theorem with the complementary
   states follow from the algebraic and positive-trace arguments of Layer 3, and the targets derive

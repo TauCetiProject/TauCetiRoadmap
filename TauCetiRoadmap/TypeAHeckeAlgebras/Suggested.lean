@@ -11,6 +11,7 @@ import TauCeti.Algebra.TypeAHeckeAlgebra.UnitaryStar
 import TauCeti.KnotTheory.Jimbo.Basic
 import TauCeti.KnotTheory.Jimbo.Trace
 import TauCeti.Algebra.TemperleyLieb.MarkovTrace
+import TauCeti.Combinatorics.Young.StandardTableau.Basic
 
 /-!
 # Type-A Hecke algebras, braid traces and positive quotients: target signatures
@@ -27,15 +28,17 @@ file does not restate them.
 
 The headlines stated here are:
 
-* the semisimplicity criterion for `Hₙ(q)` over a field (README §1.2);
-* Wenzl's classification of the positive Markov traces at real parameters (README §3.6);
+* the semisimplicity criterion for `Hₙ(q)` over a field, and its split-semisimple Wedderburn form
+  with one matrix block of size `f^λ` for each partition `λ` of `n` (README §1.2);
+* the classification of the positive Markov traces at real parameters (Wenzl; Thoma at `Q = 1`)
+  (README §3.6);
 * Wenzl's classification of the positive Markov traces at unit-circle parameters (README §3.7).
 
 The other headline theorems are not statable at the pins, and nothing is stated in their place:
 
-* the Specht modules of `Hₙ(q)`, its Wedderburn decomposition and one-box branching (README
-  §§1.2–1.3), and the positive-real parabolic Pieri rule (README §1.10): the pins have no Specht
-  module and no induced module of a Hecke algebra;
+* the identification of the Wedderburn blocks of `Hₙ(q)` with its Specht modules and their tableau
+  bases, and one-box branching (README §§1.2–1.3), and the positive-real parabolic Pieri rule
+  (README §1.10): the pins have no Specht module and no induced module of a Hecke algebra;
 * the index `[B : A_m] = d ^ (2m)` and the relative commutant of Wenzl's subfactors (README
   §4.2), the finite-colour and regular inclusions at `Q = 1` (README §§4.3–4.4) and the index and
   relative-entropy formulas for the full phase fixed algebras (README §4.6): the pins have no
@@ -58,6 +61,18 @@ quadratic relation `(Tᵢ - q)(Tᵢ + q⁻¹) = 0` is semisimple exactly when th
 theorem isSemisimpleRing_typeAHeckeAlgebra_iff (K : Type*) [Field K] (q : Kˣ) (n : ℕ) :
     IsSemisimpleRing (TypeAHeckeAlgebra K q n) ↔
       ∏ r ∈ Finset.range n, ∑ j ∈ Finset.range (r + 1), ((q : K) ^ 2) ^ j ≠ 0 := by
+  sorry
+
+/-- **Split semisimplicity and the Wedderburn form.** Over a field `K`, when the Poincaré
+polynomial `∏_{r=1}^{n} [r]_Q`, `Q = q²`, is nonzero, the Hecke algebra on `n` strands is
+isomorphic as a `K`-algebra to the product, over the partitions `λ` of `n`, of the full matrix
+algebras of size `f^λ`, the number of standard `λ`-tableaux: it is split semisimple, its simple
+modules are indexed by the partitions of `n`, and the simple module of `λ` has dimension `f^λ`. -/
+theorem nonempty_algEquiv_pi_matrix_of_prod_ne_zero (K : Type*) [Field K] (q : Kˣ) (n : ℕ)
+    (h : ∏ r ∈ Finset.range n, ∑ j ∈ Finset.range (r + 1), ((q : K) ^ 2) ^ j ≠ 0) :
+    Nonempty (TypeAHeckeAlgebra K q n ≃ₐ[K]
+      Π μ : Nat.Partition n, Matrix (Fin (standardCount (YoungDiagram.ofPartition μ)))
+        (Fin (standardCount (YoungDiagram.ofPartition μ))) K) := by
   sorry
 
 /-! ## Layer 3: Positivity, quotient carriers and the two exceptional regimes -/
@@ -83,7 +98,8 @@ noncomputable def positiveMarkovSet (Q : ℝ) : Set ℝ :=
     {η | ∃ d : ℤ, d ≠ 0 ∧ η = wenzlParameter d Q}
 
 open scoped ComplexOrder in
-/-- **Positive Markov traces at real parameters** (Wenzl, §3). Let `q` be a real nonzero
+/-- **Positive Markov traces at real parameters** (Wenzl, Theorem 3.6(a), for `Q ≠ 1`; Thoma's
+theorem at `Q = 1`). Let `q` be a real nonzero
 parameter and `Q = q²`, and give the infinite type-A Hecke algebra over `ℂ` the involution
 fixing every generator and conjugating scalars. The Ocneanu trace with parameter `z` is positive,
 `τ (x* x) ≥ 0` for every `x`, exactly when its projection parameter
