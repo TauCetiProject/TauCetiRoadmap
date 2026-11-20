@@ -116,6 +116,8 @@ curves.
     Tau Ceti declarations, together with the predicates `IsApproxTangentPlane` and
     `IsTangentialDifferential` that two of them need.
 
+<a id="g1--rectifiable-curves-and-arclength"></a>
+
 ## Layer 1: rectifiable curves and arclength
 
 This layer completes the comparison of the length of a curve with its derivative. Its inputs are
@@ -378,6 +380,8 @@ Mathlib `LipschitzWith.ae_differentiableAt`, `exists_partition_approximatesLinea
 ### Dependencies
 
 Layer 1 is not used. The supplier contracts of the Layer 2 group and Mathlib's Rademacher theorem.
+
+<a id="g3--distributional-bv-and-variation-measures"></a>
 
 ## Layer 3: distributional BV and variation measures
 
