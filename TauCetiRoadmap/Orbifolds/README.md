@@ -692,12 +692,14 @@ For the globally collared domains of §1.6, construct triangulations relative to
 compatible collars to form the double of the domain along its labelled faces, a boundaryless
 presentation on which the reflections in the faces act and commute with the arrows, and apply the
 stratified form of §3.1 to it with these reflections adjoined. A labelled face is the fixed locus
-of its reflection. Near a point of the face, the points of its orbit type have its stabilizer, which
-contains the reflection, so every orbit-type stratum meeting the face lies in it, and the face is a
-union of open simplices (for one face and a compact Lie group acting on a manifold with boundary,
-Illman, Math. Ann. 262 (1983), §7, pp. 499–500). Prove that after refinement every labelled face is a
-subcomplex, and that a compact domain gives finite CW pairs. The smoothness statement below is not
-deduced from §3.1.
+of its reflection. The stabilizer of a frame over a point of the face, in `O(n)` times the group the
+reflections generate, contains an element whose component in the reflection group is that
+reflection, a property of the orbit type since conjugation does not change that component, and no
+stabilizer over a point off the face does; so every orbit-type stratum meeting the face lies in it,
+and the face is a union of open simplices (for one face and a compact Lie group acting on a
+manifold with boundary, Illman, Math. Ann. 262 (1983), §7, pp. 499–500). Prove that after
+refinement every labelled face is a subcomplex, and that a compact domain gives finite CW pairs.
+The smoothness statement below is not deduced from §3.1.
 
 Construct the quadrant diffeology on these models: a map from a Cartesian test space is a plot when
 it is locally the restriction of a smooth map into the ambient object manifold. Prove that its
