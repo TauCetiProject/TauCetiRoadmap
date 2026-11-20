@@ -175,11 +175,14 @@ def IsEntropySolution (f : ℝ → E) (u₀ : E → ℝ) (T : ℝ) (u : ℝ → 
           + (SignType.sign (u t x - k) : ℝ) * fderiv ℝ φ (t, x) (0, f (u t x) - f k)))
         + ∫ x, |u₀ x - k| * φ (0, x)
 
-/-- **The `L¹` contraction** (§6.2; Kružkov 1970, Theorem 1). -/
-theorem IsEntropySolution.integral_abs_sub_le {f : ℝ → E} (hf : LocallyLipschitz f)
+/-- **The `L¹` contraction** (§6.2; Kružkov 1970, Theorem 1). It is stated with lower Lebesgue
+integrals, so that it asserts the integrability of `u t - v t` when `u₀ - v₀` is integrable and
+is true, with right side `∞`, when it is not. -/
+theorem IsEntropySolution.lintegral_enorm_sub_le {f : ℝ → E} (hf : LocallyLipschitz f)
     {u₀ v₀ : E → ℝ} {T : ℝ} {u v : ℝ → E → ℝ} (hu : IsEntropySolution f u₀ T u)
-    (hv : IsEntropySolution f v₀ T v) (h₀ : Integrable (fun x ↦ u₀ x - v₀ x) volume) :
-    ∀ᵐ t ∂(volume.restrict (Ioo 0 T)), ∫ x, |u t x - v t x| ≤ ∫ x, |u₀ x - v₀ x| := by
+    (hv : IsEntropySolution f v₀ T v) :
+    ∀ᵐ t ∂(volume.restrict (Ioo 0 T)),
+      ∫⁻ x, ‖u t x - v t x‖ₑ ≤ ∫⁻ x, ‖u₀ x - v₀ x‖ₑ := by
   sorry
 
 /-- **Existence of entropy solutions** (§6.4; Kružkov 1970, Theorem 5). -/

@@ -160,8 +160,8 @@ nothing about `u`.
   `D⁺u(x) = D⁻u(x) = {fderiv ℝ u x}`.
 - Test-function characterization: `p ∈ D⁺u(x)` exactly when there is a `C¹` function `φ` on
   `V` with `fderiv ℝ φ x = p` such that `u − φ` has a local maximum at `x`; the maximum can be
-  taken strict, and `φ` can be taken `C^∞` on `V \ {x}` (Evans, §10.1.1; Crandall–Evans–Lions,
-  Proposition 1.1).
+  taken strict, and `φ` can be taken `C^∞` on `V \ {x}` (Evans, §10.1.2, Lemma;
+  Crandall–Evans–Lions, Proposition 1.1).
 - If `u` is continuous on an open set `Ω`, the points of `Ω` where `D⁺u` is nonempty are dense
   in `Ω`, and so are those where `D⁻u` is nonempty.
 - If `u − φ` has a local maximum at `x` and `φ` is differentiable at `x` then
@@ -248,7 +248,8 @@ Let `γ, g : E → ℝ` be `C²` near `x₀` with `γ(x₀) = 0` and `∇γ(x₀
 is *admissible* when `F(x₀, g(x₀), p₀) = 0` and `p₀ − ∇g(x₀)` is a multiple of `∇γ(x₀)`, and
 *noncharacteristic* when `⟪∂ₚF(x₀, g(x₀), p₀), ∇γ(x₀)⟫ ≠ 0`.
 
-Prove (Evans, §3.2.4, Lemma 2 and §3.2.5, Theorem 2): for an admissible noncharacteristic
+Prove (Evans, §3.2.3–§3.2.4: Lemma 1 on noncharacteristic data, Lemma 2 on local
+invertibility, and Theorem 2, the local existence theorem): for an admissible noncharacteristic
 triple there are a neighbourhood `W` of `x₀` and a `C²` function `u` on `W` with
 `F(x, u, ∇u) = 0` in `W`, `u = g` on `Γ ∩ W` and `∇u(x₀) = p₀`; and two such functions agree
 on a neighbourhood of `x₀`.
@@ -447,7 +448,7 @@ Define `IsViscositySubsolution F Ω u`, `IsViscositySupersolution F Ω u` and
   requiring `u(x₀) = φ(x₀)`.
 - Locality and monotonicity in `Ω`; `u` is a subsolution of `F = 0` exactly when `−u` is a
   supersolution of `−F(x, −r, −P) = 0`.
-- Consistency (Evans, §10.1.1, Theorem 1 and Lemma): a `C¹` function is a viscosity solution
+- Consistency (Evans, §10.1.2, Theorem 1 and Lemma): a `C¹` function is a viscosity solution
   exactly when `F(x, u, Du) = 0` pointwise in `Ω`; a viscosity solution satisfies the equation
   at every point of differentiability, so a locally Lipschitz viscosity solution satisfies it
   almost everywhere.
@@ -482,16 +483,17 @@ exactly when `u` is upper semicontinuous.
   supersolution.
 - If `𝒮` is a nonempty family of upper semicontinuous subsolutions, locally uniformly bounded
   above, then `(sup 𝒮)*` is a subsolution; dually for infima of lower semicontinuous
-  supersolutions.
+  supersolutions (Crandall–Ishii–Lions, Lemma 4.2, p. 23).
 - Stability (Evans, §10.1.1; Crandall–Evans–Lions, Theorem 1.2): if `Fₙ → F` and `uₙ → u`
   locally uniformly, the `uₙ` are continuous and `uₙ` is a subsolution of `Fₙ = 0`, then `u`
   is a subsolution of `F = 0`; likewise for supersolutions.
-- Half-relaxed limits (Barles–Perthame): for a locally uniformly bounded sequence of upper
+- Half-relaxed limits (Barles–Perthame; Crandall–Ishii–Lions, Lemma 6.1 with Remarks 6.2 and
+  6.3, pp. 34–35): for a locally uniformly bounded sequence of upper
   semicontinuous subsolutions `uₙ` of `Fₙ = 0` with `Fₙ → F` locally uniformly,
   `x ↦ limsup_{n → ∞, y → x} uₙ(y)` is a subsolution of `F = 0`; dually for supersolutions.
-- Vanishing viscosity (Evans, §10.1.1, Theorem 1): on `E`, if `u^ε` is `C²` with
-  `−εΔu^ε + F(x, u^ε, ∇u^ε) = 0` in `Ω` and `u^ε → u` locally uniformly as `ε → 0⁺`, then `u`
-  is a viscosity solution of `F = 0`.
+- Vanishing viscosity (Evans, §10.1.1, the computation that motivates the definition): on `E`,
+  if `u^ε` is `C²` with `−εΔu^ε + F(x, u^ε, ∇u^ε) = 0` in `Ω` and `u^ε → u` locally uniformly as
+  `ε → 0⁺`, then `u` is a viscosity solution of `F = 0`.
 
 **Checks.**
 
@@ -514,7 +516,8 @@ The *structure conditions* on `H : E → E → ℝ` are: `H` is continuous, and 
 for all `x, y, p, q`. Prove, by doubling the variables:
 
 - **Bounded domains** (Crandall–Lions; Bardi–Capuzzo-Dolcetta, Theorem II.3.1, for continuous
-  `u`, `v`). Let `Ω ⊆ E` be
+  `u`, `v`; Crandall–Ishii–Lions, Theorem 3.3, p. 18, whose conditions (3.13) and (3.14) hold
+  for `λr + H(x,p)` by `λ > 0` and `(S1)`). Let `Ω ⊆ E` be
   bounded and open, `λ > 0`, and `H` continuous satisfying `(S1)`. If `u` is upper
   semicontinuous on `closure Ω` and a subsolution of `λu + H(x, ∇u) = 0` in `Ω`, `v` is lower
   semicontinuous on `closure Ω` and a supersolution, and `u ≤ v` on `frontier Ω`, then
@@ -550,16 +553,18 @@ for all `x, y, p, q`. Prove, by doubling the variables:
 
 For a locally bounded function `w` on `Ω`, say that `w` is a *discontinuous subsolution* when
 `w*` is a subsolution, and a *discontinuous supersolution* when `w_*` is a supersolution.
-Prove Ishii's theorem (Ishii 1987, Theorem 3.1): let `w₋` be a discontinuous subsolution and
+Prove Ishii's theorem (Ishii 1987, Theorem 3.1; Crandall–Ishii–Lions, Theorem 4.1, p. 23, for
+the Dirichlet problem under a comparison principle): let `w₋` be a discontinuous subsolution and
 `w₊` a discontinuous supersolution of `F = 0` in `Ω` with `w₋ ≤ w₊`. Then
 
 `W(x) = sup {w(x) : w a discontinuous subsolution in Ω, w₋ ≤ w ≤ w₊}`
 
 has `W*` a subsolution and `W_*` a supersolution of `F = 0` in `Ω`.
 
-- The bump lemma: if `w` is a discontinuous subsolution and `w_*` fails the supersolution test
-  at `x₀`, then for every neighbourhood `U` of `x₀` there is a discontinuous subsolution
-  `w̃ ≥ w` with `w̃ = w` outside `U` and `w̃ > w` at some point of `U`.
+- The bump lemma (Crandall–Ishii–Lions, Lemma 4.4, p. 24): if `w` is a discontinuous subsolution
+  and `w_*` fails the supersolution test at `x₀`, then for every neighbourhood `U` of `x₀` there
+  is a discontinuous subsolution `w̃ ≥ w` with `w̃ = w` outside `U` and `w̃ > w` at some point
+  of `U`.
 - With a comparison principle for semicontinuous sub- and supersolutions, `W* ≤ W_*`, so `W`
   is continuous and is a viscosity solution.
 - The stationary problem on the whole space: for `λ > 0` and `H` satisfying `(S1)`, `(S2)`
@@ -618,7 +623,8 @@ bounded and Lipschitz. A *control* is a measurable `α : ℝ → A`. For `x : E`
 
 - Existence, uniqueness and Lipschitz dependence on `x` of trajectories for measurable
   controls, by the contraction principle on the integral equation.
-- The dynamic programming principle (Evans, §10.3.2, Theorem 1): for `t, h ≥ 0`,
+- The dynamic programming principle (Evans, §10.3.2, Theorem 1, there for a problem run to a
+  terminal time with a terminal cost, the time reversal of this one): for `t, h ≥ 0`,
   `v(t + h, x) = inf_α {∫₀ʰ ℓ(y(s), α(s)) ds + v(t, y(h))}`.
 - `v` is bounded and Lipschitz on `[0,T] × E` (Evans, §10.3.2, Lemma 1).
 - The Hamilton–Jacobi–Bellman equation (Evans, §10.3.3, Theorem 2): with
@@ -690,11 +696,12 @@ for every space-time test function `φ`.
 
 - A function that is `C¹` on `(0,T) × ℝ` and continuous on `[0,T) × ℝ` with `u(0) = u₀` is an
   integral solution on `(0,T)` exactly when `∂ₜu + f'(u)∂ₓu = 0`, for `f ∈ C¹`.
-- The Rankine–Hugoniot condition (Evans, §3.4.1, Theorem 1): let `W ⊆ (0,∞) × ℝ` be open, `s`
-  a `C¹` function of `t`, and `u` a function that is `C¹` on `W ∩ {x < s(t)}` and on
-  `W ∩ {x > s(t)}` with continuous extensions `u_l`, `u_r` to the curve from each side. Then
-  `u` satisfies the integral identity for test functions supported in `W` exactly when it is a
-  classical solution on each side and `f(u_l) − f(u_r) = ṡ (u_l − u_r)` along the curve.
+- The Rankine–Hugoniot condition (Evans, §3.4.1, where it is derived in the text): let
+  `W ⊆ (0,∞) × ℝ` be open, `s` a `C¹` function of `t`, and `u` a function that is `C¹` on
+  `W ∩ {x < s(t)}` and on `W ∩ {x > s(t)}` with continuous extensions `u_l`, `u_r` to the curve
+  from each side. Then `u` satisfies the integral identity for test functions supported in `W`
+  exactly when it is a classical solution on each side and `f(u_l) − f(u_r) = ṡ (u_l − u_r)`
+  along the curve.
 - Invariances: translations in `x` and `t`, the scaling `u(λt, λx)`, and for a flux
   `f(u) + au + b` the solution `u(t, x − at)`.
 
@@ -978,6 +985,18 @@ Kružkov entropy solutions with their `L¹` theory, and the viscous approximatio
   the subdifferential and the Hopf–Lax value with its subsolution inequality. Section 1.1 here
   adds only the real-valued theory for superlinear functions, and Layer 3 the analysis of the
   Hopf–Lax value as a solution.
+- **ConvexAnalysisAndDuality** plans, for extended-real functions on dual pairs, Hilbert
+  spaces and finite-dimensional spaces, strong convexity with its dual smoothness and
+  functions of Legendre type (its Layer 4), and the subdifferential calculus (its Layer 3). The bullets of §1.1 on the gradient
+  of `L` for strictly and uniformly convex `H` are the finite-dimensional, real-valued,
+  superlinear case of that theory, stated here in the form Layers 3 and 5 consume; the
+  Fréchet differentials of §1.2 are for functions that need not be convex and are not planned
+  there.
+- **SymmetricHyperbolicSystems** treats linear symmetric hyperbolic systems, and
+  **CompressibleEulerEquations** classical solutions of a quasilinear system, with Burgers'
+  equation as an example of blow-up; the second states that weak and entropy solutions are
+  outside it. Layers 5 and 6 here are the weak theory for one scalar equation, §2.4 gives the
+  breaking time of the scalar classical solution, and nothing here is about a system.
 - **PDE** owns Sobolev spaces including the Lipschitz representative of `W^{1,∞}` (its §1.4),
   the heat semigroup with its smoothing estimates (§6.3), the whole-space parabolic comparison
   principle and the linear Schauder theory (§6.5–§6.6), and Perron's method for harmonic
@@ -1143,6 +1162,9 @@ declarations above, consumed by §6.2 and §6.4.
   Hamilton–Jacobi equations*, Trans. Amer. Math. Soc. 282 (1984), 487–502: the equivalent
   definitions of §4.1 and the stability theorem of §4.2.
 - H. Ishii, *Perron's method for Hamilton–Jacobi equations*, Duke Math. J. 55 (1987), 369–384.
+- M. G. Crandall, H. Ishii, P.-L. Lions, *User's guide to viscosity solutions of second order
+  partial differential equations*, Bull. Amer. Math. Soc. 27 (1992), 1–67, arXiv:math/9207212:
+  cited in §4.2–§4.4 for the first-order case of its statements, with its page numbers.
 - G. Barles, B. Perthame, *Discontinuous solutions of deterministic optimal stopping time
   problems*, RAIRO Modél. Math. Anal. Numér. 21 (1987), 557–579: half-relaxed limits.
 - M. Bardi, L. C. Evans, *On Hopf's formulas for solutions of Hamilton–Jacobi equations*,
