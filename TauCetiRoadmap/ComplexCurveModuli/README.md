@@ -124,6 +124,8 @@ unrelated section. Other roadmaps cite these sections as D0–D8: item n of Dk i
    (References); a numbered locator such as "Robbin–Salamon 2006, 11.4" refers to that paper, with
    the numbering of its arXiv version.
 
+<a id="d0-smooth-curves-finite-type-and-the-classification-floor"></a>
+
 ## Layer 0: smooth surfaces, compact Riemann surfaces and uniformization
 
 This layer treats one component at a time: compact oriented surfaces with labelled boundary and
