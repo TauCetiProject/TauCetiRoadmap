@@ -34,71 +34,28 @@ Suggested home: `TauCeti/Statistics/HigherOrder/` for Layers 1–5 and
 `TauCeti/Statistics/Resampling/` for Layers 6–8, with Layer 9 in
 `TauCeti/Statistics/InformationGeometry/`.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layers 1–5 are about laws of sums. Layer 1 fixes the distances in which the statements of all other
+layers are measured, and the meaning of convergence of a random law. Layer 2 turns a bound on the
+difference of characteristic functions near the origin into a bound on the difference of
+distribution functions; every quantitative result of Layers 2 and 4 is one application of the
+smoothing inequality of 2.2, with the remaining work in bounding characteristic functions. Layer 3
+supplies the bounds away from the origin: a nonlattice law has `|φ| < 1` on compact sets avoiding
+`0`, and Cramér's condition makes this uniform at infinity. Layer 4 combines the two: Taylor
+expansion of `log φ` near the origin produces the Edgeworth polynomials, and Layer 3 controls the
+rest. Layer 5 is Layer 4 applied to a tilted law at its mean.
 
-1. **Distances and conditional laws.** The comparison of the Kolmogorov distance with total
-   variation, its invariance and jump bound, and Pólya's theorem; the bounded Lipschitz distance,
-   with the metrization of weak convergence supplied by Tau Ceti; random laws and their
-   conditional convergence in law in outer probability and outer almost surely, with the
-   equivalence of the bounded Lipschitz and Kolmogorov forms for a limit with continuous
-   distribution function.
-2. **Smoothing and Berry–Esseen.** Fourier–Stieltjes transforms of signed densities, the Pólya
-   density, Esseen's smoothing inequality, and the Berry–Esseen theorem for independent summands,
-   with its sharpness.
-3. **Lattice laws and Cramér's condition.** Lattice laws and their characterization by the
-   characteristic function; Cramér's condition, its sufficient conditions (an absolutely
-   continuous component, the moment curve of such a variable) and its consequences (nonlattice,
-   exponentially small atoms).
-4. **Edgeworth expansions.** Cumulants and the Edgeworth polynomials; the one-term expansion for
-   nonlattice means and its sharp constant; the one-term lattice expansion with the sawtooth term,
-   and the failure of every continuous expansion for lattice means; expansions of every order
-   under Cramér's condition in one and several dimensions; expansions for smooth functions of
-   means, for studentized statistics and for the `t` statistic; the local expansion of densities;
-   the Cornish–Fisher expansion of quantiles.
-5. **The saddlepoint approximation.** Exponential tilting of a sample mean and the saddlepoint
-   approximation to its density, with relative error `O(n⁻¹)`.
-6. **The bootstrap.** The resampling kernel and bootstrap laws; the bootstrap law as the
-   conditional law given the data; consistency for the mean and for the empirical distribution
-   function; the delta method for the bootstrap and its failure at a vanishing derivative; the
-   sample maximum: the atom of the bootstrap law, inconsistency, and consistency of the
-   `m`-out-of-`n` bootstrap.
-7. **Jackknife, subsampling and empirical likelihood.** Strong consistency of the jackknife
-   variance of a smooth function of means; consistency of subsampling and the coverage of the
-   subsampling interval; Owen's empirical likelihood theorem.
-8. **The studentized bootstrap.** The bootstrap Edgeworth expansion, second-order accuracy of the
-   studentized bootstrap in Kolmogorov distance, and the coverage of the normal-theory, percentile
-   and percentile-`t` intervals.
-9. **Čencov's theorem.** Congruent embeddings of probability simplices; invariance of the
-   Fisher–Rao metric and the Amari–Chentsov tensor; uniqueness of continuous invariant bilinear
-   and trilinear tensor fields up to a constant.
+Layers 6–8 are resampling. Layer 6 defines the bootstrap as a Markov kernel, so that a bootstrap
+law is a random law in the sense of Layer 1; its consistency theorems are limit theorems for
+triangular arrays drawn from the empirical law, applied along almost every data sequence.
+Layer 7 treats the resampling schemes that do not draw from the empirical law. Layer 8 applies
+Layer 4 twice, to the statistic and to its bootstrap version, and compares the expansions: the
+studentized statistic is asymptotically pivotal, so the leading terms agree to `O_P(n⁻¹)`.
 
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+Layer 9 is independent of Layers 1–8: it is finite-dimensional linear algebra on the simplices.
 
-**Not owned here.** The following are used, not built:
-- convergence in probability and in law, boundedness in probability, Slutsky's lemma, the delta
-  method, i.i.d. sequences and the weak law, the empirical distribution function, the sample
-  mean and the distribution-function bound `|cdf P t - cdf Q t| ≤ tvDist P Q / 2`: these are
-  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.1–8.5,
-  9.1 and 9.2;
-- the Kolmogorov distance with its metric facts: ArithmeticStatisticsPartVIII, §5.14 (subsection
-  "Kolmogorov distance");
-- the empirical-process toolkit of MathematicalStatisticsAsymptotic: outer integrals,
-  Hoffmann-Jørgensen weak convergence and asymptotic measurability, the space `ℓ^∞(T)` with its
-  Borel σ-algebra, the Brownian bridge laws, the Glivenko–Cantelli and classical Donsker theorems
-  for the empirical distribution function, Hadamard differentiability and the functional delta
-  method, the Lindeberg–Feller theorem and the multivariate central limit theorem;
-- the central limit theorem, the strong law and the Cramér–Wold device: Mathlib's
-  `tendstoInDistribution_inv_sqrt_mul_sum_sub`, `ProbabilityTheory.strong_law_ae` and
-  `tendstoInDistribution_iff_tendstoInDistribution_inner`;
-- Fourier inversion of characteristic functions: Tau Ceti's `charFunDensity`;
-- the chi-squared laws: Tau Ceti's `chiSquaredMeasure`;
-- Wiener measure and the standard Brownian bridge: StochasticCalculus, through the Brownian
-  bridge laws of MathematicalStatisticsAsymptotic.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are in build order: each layer needs only earlier layers and the suppliers.
 
 ## Conventions
 
@@ -161,141 +118,6 @@ These are fixed for every target. A statement that departs from them is a differ
 - **Locators** are `(Author, Theorem, printed page)` in the editions listed under
   [References](#references). A locator marked *by the same argument* names the theorem whose
   proof the target follows when the target's hypotheses differ from those printed.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Measures and kernels:** `Measure.pi`, `Measure.infinitePi`, `Measure.map`,
-  `Measure.withDensity`, `Kernel`, `IsMarkovKernel`, `Kernel.comap`, `Kernel.map`, composition
-  product `μ ⊗ₘ κ`, `condDistrib` with `condDistrib_ae_eq_of_measure_eq_compProd`,
-  `StandardBorelSpace`, `uniformOn`, `SignedMeasure`, and `Metric.thickening` for the boundary
-  neighbourhoods of 4.4.
-- **Probability:** `iIndepFun`, `variance` (`Var[X; μ]`), `cdf` with
-  `MeasureTheory.Measure.eq_of_cdf`, `gaussianReal`, `gaussianPDFReal`, `charFun_gaussianReal`,
-  `multivariateGaussian`, `ProbabilityTheory.strong_law_ae`,
-  `tendstoInDistribution_inv_sqrt_mul_sum_sub`,
-  `tendstoInDistribution_iff_tendstoInDistribution_inner`, `ProbabilityMeasure` and its
-  topology, `IsTightMeasureSet`, `tvDist`.
-- **Characteristic functions** (`Mathlib/MeasureTheory/Measure/CharacteristicFunction/`):
-  `charFun`, `norm_charFun_le_one`, `continuous_charFun`, `contDiff_charFun` and
-  `taylor_charFun_two`.
-- **Fourier analysis:** the Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`
-  (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`).
-- **Cumulants and tilting:** `mgf`, `cgf`, `complexMGF`, `integrableExpSet`, `Measure.tilted`,
-  `integral_tilted_mul_self` and `variance_tilted_mul` (`Mathlib/Probability/Moments/`).
-- **Analysis:** `Polynomial.hermite`, `Polynomial.deriv_gaussian_eq_hermite_mul_gaussian`,
-  `Polynomial.hermite_succ`, `LipschitzWith`, `BoundedContinuousFunction`, `lp`,
-  `Memℓp`, `ContDiffOn`, `fderiv`, `Real.tendsto_one_add_div_pow_exp`.
-
-### From Tau Ceti
-
-- **Empirical measures:** `TauCeti.Probability.empiricalMeasureOfFintype` (the empirical law of
-  `x : κ → α` for a nonempty finite `κ`, as a `ProbabilityMeasure`),
-  `measurable_empiricalMeasureOfFintype`, `empiricalMeasureOfFintype_eq_map_uniformOn` and
-  `integral_empiricalMeasureOfFintype` (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
-- **Product kernels:** `TauCeti.MeasureTheory.iidBlockKernel m`, the Markov kernel
-  `ProbabilityMeasure α → (Fin m → α)` sending `P` to `Pᵐ`, with `iidBlockKernel_apply` and
-  `measurable_probabilityMeasure_pi_const_toMeasure`
-  (`TauCeti/MeasureTheory/Measure/ProductKernel.lean`).
-- **Sampling with replacement:**
-  `TauCeti.Probability.pi_empiricalMeasureOfFintype_eq_map_uniformOn`, which writes `m` independent
-  draws from an empirical law as a uniform index map
-  (`TauCeti/Probability/PopulationSampling/Finite.lean`).
-- **Fourier inversion:** `MeasureTheory.Measure.charFunDensity`, `continuous_charFunDensity` and
-  `eq_withDensity_charFunDensity` (`TauCeti/Analysis/Bochner/CharFun/Inversion.lean`): a finite
-  law on `ℝ` with integrable characteristic function has the continuous density
-  `charFunDensity`.
-- **Bounded Lipschitz convergence:**
-  `TauCeti.tendsto_probabilityMeasure_iff_iSup_abs_integral_sub_integral_boundedLipschitz`
-  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/BoundedLipschitz.lean`): on a Polish space,
-  weak convergence is convergence to `0` of the supremum defining `boundedLipschitzDist` with
-  bound `R > 0`.
-- **Tilting:** `TauCeti.mgf_tilted_mul` and `TauCeti.cgf_tilted_mul`
-  (`TauCeti/Probability/Moments/Tilted.lean`).
-- **Distribution functions and quantiles:** `MeasureTheory.Measure.continuous_cdf_of_noAtoms` and
-  `MeasureTheory.Measure.leftLim_cdf` (`TauCeti/Probability/Cdf.lean`),
-  `MeasureTheory.Measure.quantile` and `measurePreserving_quantile`
-  (`TauCeti/Probability/Quantile.lean`).
-- **Chi-squared laws:** `TauCeti.Probability.chiSquaredMeasure` with
-  `isProbabilityMeasure_chiSquaredMeasure`.
-
-### From MathematicalStatisticsFoundations
-
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
-- 8.1, the adapters to `TendstoInDistribution` and `TendstoInMeasure`, and the probability
-  instance of `chiSquaredMeasure k` for natural `k` (local copy
-  `isProbabilityMeasure_chiSquaredMeasure_nat`);
-- 8.2, `IsBoundedInProbability`, measured by the outer measure;
-- 8.3–8.4, the algebra of convergence in probability, Slutsky's lemma without separability and
-  the delta method;
-- 8.5, `IsIndependentIdenticallyDistributed` and the weak law;
-- 9.1, the sample mean `sampleMean`, the empirical distribution function `empiricalCdf` and the
-  sample quantile;
-- 9.2, the distribution-function bound `|cdf P t - cdf Q t| ≤ tvDist P Q / 2`.
-
-### From ArithmeticStatisticsPartVIII
-
-ArithmeticStatisticsPartVIII, §5.14 (subsection "Kolmogorov distance"), owns the Kolmogorov
-distance of probability laws on `ℝ`, the supremum of `|cdf P t - cdf Q t|` built on Mathlib's
-`cdf`, with the facts that it lies in `[0, 1]`, is symmetric, satisfies the triangle inequality,
-vanishes exactly when `P = Q`, and dominates `|cdf P t - cdf Q t|` for every `t`. This roadmap
-consumes the definition and these facts (local copy `kolmogorovDist`) and builds the rest of 1.1.
-MathematicalStatisticsNonparametric refers to this roadmap for the Kolmogorov distance; it reaches
-the definition of §5.14 through 1.1.
-
-### From MathematicalStatisticsAsymptotic
-
-[MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) owns the
-empirical-process toolkit and the central limit theorems that Mathlib lacks. This roadmap consumes
-exactly:
-- **outer integrals and weak convergence:** `outerIntegral` and `innerIntegral` (2.1),
-  `TendstoInOuterDistribution` and asymptotic measurability (outer minus inner integrals of
-  bounded continuous functions tend to `0`), with the characterization of weak convergence to a
-  separable limit by the bounded Lipschitz supremum of outer expectations, the continuous mapping
-  theorem and Slutsky's lemma for outer probability (2.2). The real-valued
-  `outerIntegral` is used here only on bounded functions, where an integrable measurable majorant
-  exists; the outer Markov inequality is taken in the `ℝ≥0∞`-valued form, the extended outer
-  expectation of a nonnegative function with its Markov inequality (2.1);
-- **`ℓ^∞(T)`:** `Linfty T = lp (fun _ : T ↦ ℝ) ∞` with its Borel σ-algebra, `liftLinfty` and
-  `marginal` (2.3);
-- **Brownian bridges:** `IsBrownianBridgeLaw P f L` and the uniqueness of tight laws on `ℓ^∞(T)`
-  with given marginals (2.3, 2.4), the classical Donsker theorem for the empirical distribution
-  function of the uniform law with its Brownian bridge limit (3.4), and the asymptotic uniform
-  equicontinuity of a sequence converging to a tight Gaussian limit, with the standard-deviation
-  semimetric (2.3);
-- **Glivenko–Cantelli** for the empirical distribution function (3.4);
-- **Hadamard differentiability** `HasHadamardDerivWithinAt φ dom D₀ φ' θ` (4.1) and the
-  functional delta method (4.2);
-- **central limit theorems:** the Lindeberg–Feller theorem for triangular arrays and the
-  multivariate central limit theorem in `EuclideanSpace ℝ (Fin d)` (1.2);
-- **Gaussian quadratic forms:** the chi-squared law of `zᵀ Σ⁺ z` for `z ~ N(0, Σ)` with `Σ` of
-  rank `q` (1.3).
-
-The section numbers in this list are those of MathematicalStatisticsAsymptotic.
-
-## How to read the build
-
-Layers 1–5 are about laws of sums. Layer 1 fixes the distances in which the statements of all other
-layers are measured, and the meaning of convergence of a random law. Layer 2 turns a bound on the
-difference of characteristic functions near the origin into a bound on the difference of
-distribution functions; every quantitative result of Layers 2 and 4 is one application of the
-smoothing inequality of 2.2, with the remaining work in bounding characteristic functions. Layer 3
-supplies the bounds away from the origin: a nonlattice law has `|φ| < 1` on compact sets avoiding
-`0`, and Cramér's condition makes this uniform at infinity. Layer 4 combines the two: Taylor
-expansion of `log φ` near the origin produces the Edgeworth polynomials, and Layer 3 controls the
-rest. Layer 5 is Layer 4 applied to a tilted law at its mean.
-
-Layers 6–8 are resampling. Layer 6 defines the bootstrap as a Markov kernel, so that a bootstrap
-law is a random law in the sense of Layer 1; its consistency theorems are limit theorems for
-triangular arrays drawn from the empirical law, applied along almost every data sequence.
-Layer 7 treats the resampling schemes that do not draw from the empirical law. Layer 8 applies
-Layer 4 twice, to the statistic and to its bootstrap version, and compares the expansions: the
-studentized statistic is asymptotically pivotal, so the leading terms agree to `O_P(n⁻¹)`.
-
-Layer 9 is independent of Layers 1–8: it is finite-dimensional linear algebra on the simplices.
-
-The layers are in build order: each layer needs only earlier layers and the suppliers.
 
 ## Layer 1: distances and conditional laws
 
@@ -436,7 +258,8 @@ theorem for `ProbabilityMeasure` on `ℝ`; Tau Ceti `MeasureTheory.Measure.leftL
 
 ### Dependencies
 
-Mathlib, Foundations 9.2, and Tau Ceti's bounded Lipschitz characterization and `leftLim_cdf`.
+Mathlib, ArithmeticStatisticsPartVIII §5.14, Foundations 9.2, and Tau Ceti's bounded Lipschitz
+characterization and `leftLim_cdf`.
 
 ## Layer 2: smoothing and the Berry–Esseen theorem
 
@@ -544,7 +367,7 @@ integrable, and recombine by linearity. The result is that `(P - G) * h_T` has t
 
 ### Dependencies
 
-Mathlib, Tau Ceti's Fourier inversion, Foundations 8.5.
+Layer 1, Mathlib, Tau Ceti's Fourier inversion, Foundations 8.5.
 
 ## Layer 3: lattice laws and Cramér's condition
 
@@ -1708,6 +1531,188 @@ every rational point other than `c₂` maps to a centre `c_N` with `N ≥ 3`.
 
 Mathlib.
 
+## Downstream consumers
+
+No other roadmap consumes the results of this one.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Distances and conditional laws.** The comparison of the Kolmogorov distance with total
+   variation, its invariance and jump bound, and Pólya's theorem; the bounded Lipschitz distance,
+   with the metrization of weak convergence supplied by Tau Ceti; random laws and their
+   conditional convergence in law in outer probability and outer almost surely, with the
+   equivalence of the bounded Lipschitz and Kolmogorov forms for a limit with continuous
+   distribution function.
+2. **Smoothing and Berry–Esseen.** Fourier–Stieltjes transforms of signed densities, the Pólya
+   density, Esseen's smoothing inequality, and the Berry–Esseen theorem for independent summands,
+   with its sharpness.
+3. **Lattice laws and Cramér's condition.** Lattice laws and their characterization by the
+   characteristic function; Cramér's condition, its sufficient conditions (an absolutely
+   continuous component, the moment curve of such a variable) and its consequences (nonlattice,
+   exponentially small atoms).
+4. **Edgeworth expansions.** Cumulants and the Edgeworth polynomials; the one-term expansion for
+   nonlattice means and its sharp constant; the one-term lattice expansion with the sawtooth term,
+   and the failure of every continuous expansion for lattice means; expansions of every order
+   under Cramér's condition in one and several dimensions; expansions for smooth functions of
+   means, for studentized statistics and for the `t` statistic; the local expansion of densities;
+   the Cornish–Fisher expansion of quantiles.
+5. **The saddlepoint approximation.** Exponential tilting of a sample mean and the saddlepoint
+   approximation to its density, with relative error `O(n⁻¹)`.
+6. **The bootstrap.** The resampling kernel and bootstrap laws; the bootstrap law as the
+   conditional law given the data; consistency for the mean and for the empirical distribution
+   function; the delta method for the bootstrap and its failure at a vanishing derivative; the
+   sample maximum: the atom of the bootstrap law, inconsistency, and consistency of the
+   `m`-out-of-`n` bootstrap.
+7. **Jackknife, subsampling and empirical likelihood.** Strong consistency of the jackknife
+   variance of a smooth function of means; consistency of subsampling and the coverage of the
+   subsampling interval; Owen's empirical likelihood theorem.
+8. **The studentized bootstrap.** The bootstrap Edgeworth expansion, second-order accuracy of the
+   studentized bootstrap in Kolmogorov distance, and the coverage of the normal-theory, percentile
+   and percentile-`t` intervals.
+9. **Čencov's theorem.** Congruent embeddings of probability simplices; invariance of the
+   Fisher–Rao metric and the Amari–Chentsov tensor; uniqueness of continuous invariant bilinear
+   and trilinear tensor fields up to a constant.
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- convergence in probability and in law, boundedness in probability, Slutsky's lemma, the delta
+  method, i.i.d. sequences and the weak law, the empirical distribution function, the sample
+  mean and the distribution-function bound `|cdf P t - cdf Q t| ≤ tvDist P Q / 2`: these are
+  [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 8.1–8.5,
+  9.1 and 9.2;
+- the Kolmogorov distance with its metric facts: ArithmeticStatisticsPartVIII, §5.14 (subsection
+  "Kolmogorov distance");
+- the empirical-process toolkit of MathematicalStatisticsAsymptotic: outer integrals,
+  Hoffmann-Jørgensen weak convergence and asymptotic measurability, the space `ℓ^∞(T)` with its
+  Borel σ-algebra, the Brownian bridge laws, the Glivenko–Cantelli and classical Donsker theorems
+  for the empirical distribution function, Hadamard differentiability and the functional delta
+  method, the Lindeberg–Feller theorem and the multivariate central limit theorem;
+- the central limit theorem, the strong law and the Cramér–Wold device: Mathlib's
+  `tendstoInDistribution_inv_sqrt_mul_sum_sub`, `ProbabilityTheory.strong_law_ae` and
+  `tendstoInDistribution_iff_tendstoInDistribution_inner`;
+- Fourier inversion of characteristic functions: Tau Ceti's `charFunDensity`;
+- the chi-squared laws: Tau Ceti's `chiSquaredMeasure`;
+- Wiener measure and the standard Brownian bridge: StochasticCalculus, through the Brownian
+  bridge laws of MathematicalStatisticsAsymptotic.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Measures and kernels:** `Measure.pi`, `Measure.infinitePi`, `Measure.map`,
+  `Measure.withDensity`, `Kernel`, `IsMarkovKernel`, `Kernel.comap`, `Kernel.map`, composition
+  product `μ ⊗ₘ κ`, `condDistrib` with `condDistrib_ae_eq_of_measure_eq_compProd`,
+  `StandardBorelSpace`, `uniformOn`, `SignedMeasure`, and `Metric.thickening` for the boundary
+  neighbourhoods of 4.4.
+- **Probability:** `iIndepFun`, `variance` (`Var[X; μ]`), `cdf` with
+  `MeasureTheory.Measure.eq_of_cdf`, `gaussianReal`, `gaussianPDFReal`, `charFun_gaussianReal`,
+  `multivariateGaussian`, `ProbabilityTheory.strong_law_ae`,
+  `tendstoInDistribution_inv_sqrt_mul_sum_sub`,
+  `tendstoInDistribution_iff_tendstoInDistribution_inner`, `ProbabilityMeasure` and its
+  topology, `IsTightMeasureSet`, `tvDist`.
+- **Characteristic functions** (`Mathlib/MeasureTheory/Measure/CharacteristicFunction/`):
+  `charFun`, `norm_charFun_le_one`, `continuous_charFun`, `contDiff_charFun` and
+  `taylor_charFun_two`.
+- **Fourier analysis:** the Riemann–Lebesgue lemma `tendsto_integral_exp_inner_smul_cocompact`
+  (`Mathlib/Analysis/Fourier/RiemannLebesgueLemma.lean`).
+- **Cumulants and tilting:** `mgf`, `cgf`, `complexMGF`, `integrableExpSet`, `Measure.tilted`,
+  `integral_tilted_mul_self` and `variance_tilted_mul` (`Mathlib/Probability/Moments/`).
+- **Analysis:** `Polynomial.hermite`, `Polynomial.deriv_gaussian_eq_hermite_mul_gaussian`,
+  `Polynomial.hermite_succ`, `LipschitzWith`, `BoundedContinuousFunction`, `lp`,
+  `Memℓp`, `ContDiffOn`, `fderiv`, `Real.tendsto_one_add_div_pow_exp`.
+
+### From Tau Ceti
+
+- **Empirical measures:** `TauCeti.Probability.empiricalMeasureOfFintype` (the empirical law of
+  `x : κ → α` for a nonempty finite `κ`, as a `ProbabilityMeasure`),
+  `measurable_empiricalMeasureOfFintype`, `empiricalMeasureOfFintype_eq_map_uniformOn` and
+  `integral_empiricalMeasureOfFintype` (`TauCeti/Probability/Process/EmpiricalMeasure.lean`).
+- **Product kernels:** `TauCeti.MeasureTheory.iidBlockKernel m`, the Markov kernel
+  `ProbabilityMeasure α → (Fin m → α)` sending `P` to `Pᵐ`, with `iidBlockKernel_apply` and
+  `measurable_probabilityMeasure_pi_const_toMeasure`
+  (`TauCeti/MeasureTheory/Measure/ProductKernel.lean`).
+- **Sampling with replacement:**
+  `TauCeti.Probability.pi_empiricalMeasureOfFintype_eq_map_uniformOn`, which writes `m` independent
+  draws from an empirical law as a uniform index map
+  (`TauCeti/Probability/PopulationSampling/Finite.lean`).
+- **Fourier inversion:** `MeasureTheory.Measure.charFunDensity`, `continuous_charFunDensity` and
+  `eq_withDensity_charFunDensity` (`TauCeti/Analysis/Bochner/CharFun/Inversion.lean`): a finite
+  law on `ℝ` with integrable characteristic function has the continuous density
+  `charFunDensity`.
+- **Bounded Lipschitz convergence:**
+  `TauCeti.tendsto_probabilityMeasure_iff_iSup_abs_integral_sub_integral_boundedLipschitz`
+  (`TauCeti/MeasureTheory/OptimalTransport/Wasserstein/BoundedLipschitz.lean`): on a Polish space,
+  weak convergence is convergence to `0` of the supremum defining `boundedLipschitzDist` with
+  bound `R > 0`.
+- **Tilting:** `TauCeti.mgf_tilted_mul` and `TauCeti.cgf_tilted_mul`
+  (`TauCeti/Probability/Moments/Tilted.lean`).
+- **Distribution functions and quantiles:** `MeasureTheory.Measure.continuous_cdf_of_noAtoms` and
+  `MeasureTheory.Measure.leftLim_cdf` (`TauCeti/Probability/Cdf.lean`),
+  `MeasureTheory.Measure.quantile` and `measurePreserving_quantile`
+  (`TauCeti/Probability/Quantile.lean`).
+- **Chi-squared laws:** `TauCeti.Probability.chiSquaredMeasure` with
+  `isProbabilityMeasure_chiSquaredMeasure`.
+
+### From MathematicalStatisticsFoundations
+
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) supplies:
+- 8.1, the adapters to `TendstoInDistribution` and `TendstoInMeasure`, and the probability
+  instance of `chiSquaredMeasure k` for natural `k` (local copy
+  `isProbabilityMeasure_chiSquaredMeasure_nat`);
+- 8.2, `IsBoundedInProbability`, measured by the outer measure;
+- 8.3–8.4, the algebra of convergence in probability, Slutsky's lemma without separability and
+  the delta method;
+- 8.5, `IsIndependentIdenticallyDistributed` and the weak law;
+- 9.1, the sample mean `sampleMean`, the empirical distribution function `empiricalCdf` and the
+  sample quantile;
+- 9.2, the distribution-function bound `|cdf P t - cdf Q t| ≤ tvDist P Q / 2`.
+
+### From ArithmeticStatisticsPartVIII
+
+ArithmeticStatisticsPartVIII, §5.14 (subsection "Kolmogorov distance"), owns the Kolmogorov
+distance of probability laws on `ℝ`, the supremum of `|cdf P t - cdf Q t|` built on Mathlib's
+`cdf`, with the facts that it lies in `[0, 1]`, is symmetric, satisfies the triangle inequality,
+vanishes exactly when `P = Q`, and dominates `|cdf P t - cdf Q t|` for every `t`. This roadmap
+consumes the definition and these facts (local copy `kolmogorovDist`) and builds the rest of 1.1.
+MathematicalStatisticsNonparametric refers to this roadmap for the Kolmogorov distance; it reaches
+the definition of §5.14 through 1.1.
+
+### From MathematicalStatisticsAsymptotic
+
+[MathematicalStatisticsAsymptotic](../MathematicalStatisticsAsymptotic/README.md) owns the
+empirical-process toolkit and the central limit theorems that Mathlib lacks. This roadmap consumes
+exactly:
+- **outer integrals and weak convergence:** `outerIntegral` and `innerIntegral` (2.1),
+  `TendstoInOuterDistribution` and asymptotic measurability (outer minus inner integrals of
+  bounded continuous functions tend to `0`), with the characterization of weak convergence to a
+  separable limit by the bounded Lipschitz supremum of outer expectations, the continuous mapping
+  theorem and Slutsky's lemma for outer probability (2.2). The real-valued
+  `outerIntegral` is used here only on bounded functions, where an integrable measurable majorant
+  exists; the outer Markov inequality is taken in the `ℝ≥0∞`-valued form, the extended outer
+  expectation of a nonnegative function with its Markov inequality (2.1);
+- **`ℓ^∞(T)`:** `Linfty T = lp (fun _ : T ↦ ℝ) ∞` with its Borel σ-algebra, `liftLinfty` and
+  `marginal` (2.3);
+- **Brownian bridges:** `IsBrownianBridgeLaw P f L` and the uniqueness of tight laws on `ℓ^∞(T)`
+  with given marginals (2.3, 2.4), the classical Donsker theorem for the empirical distribution
+  function of the uniform law with its Brownian bridge limit (3.4), and the asymptotic uniform
+  equicontinuity of a sequence converging to a tight Gaussian limit, with the standard-deviation
+  semimetric (2.3);
+- **Glivenko–Cantelli** for the empirical distribution function (3.4);
+- **Hadamard differentiability** `HasHadamardDerivWithinAt φ dom D₀ φ' θ` (4.1) and the
+  functional delta method (4.2);
+- **central limit theorems:** the Lindeberg–Feller theorem for triangular arrays and the
+  multivariate central limit theorem in `EuclideanSpace ℝ (Fin d)` (1.2);
+- **Gaussian quadratic forms:** the chi-squared law of `zᵀ Σ⁺ z` for `z ~ N(0, Σ)` with `Σ` of
+  rank `q` (1.3).
+
+The section numbers in this list are those of MathematicalStatisticsAsymptotic.
+
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
 The following material is recorded only to fix the boundary. Contributors should not attempt it
@@ -1769,10 +1774,6 @@ Related libraries:
   resampling or information geometry.
 - No open Mathlib pull request concerns Berry–Esseen, Edgeworth expansions, the bootstrap,
   Pólya's theorem, Fourier inversion of characteristic functions or Čencov's theorem.
-
-## Downstream consumers
-
-No other roadmap consumes the results of this one.
 
 ## References
 

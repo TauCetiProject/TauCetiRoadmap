@@ -920,7 +920,7 @@ theorem bootstrap_edgeworth_expansion (μ : Measure Ω) [IsProbabilityMeasure μ
     (hmom : ∀ k : ℕ, Integrable (fun x ↦ ‖x‖ ^ k) P)
     (hcr : SatisfiesCramerCondition (P.map augmentedVector))
     (g : EuclideanSpace ℝ (Fin d) → ℝ) (hgm : Measurable g)
-    (hg : ∃ U ∈ 𝓝 (∫ x, x ∂P), ContDiffOn ℝ ⊤ g U)
+    (hg : ∃ U ∈ 𝓝 (∫ x, x ∂P), ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g U)
     (hσ : 0 < Var[fun x ↦ fderiv ℝ g (∫ y, y ∂P) x; P]) (j : ℕ) (hj : 1 ≤ j) (lam : ℝ)
     (hlam : 0 < lam) (ε : ℝ) (hε : ε ∈ Ioo 0 (1 / 2)) :
     let θ := g (∫ x, x ∂P)
@@ -967,7 +967,7 @@ theorem studentized_bootstrap_second_order_accuracy (μ : Measure Ω) [IsProbabi
     (hmom : ∀ k : ℕ, Integrable (fun x ↦ ‖x‖ ^ k) P)
     (hcr : SatisfiesCramerCondition (P.map augmentedVector))
     (g : EuclideanSpace ℝ (Fin d) → ℝ) (hgm : Measurable g)
-    (hg : ∃ U ∈ 𝓝 (∫ x, x ∂P), ContDiffOn ℝ ⊤ g U)
+    (hg : ∃ U ∈ 𝓝 (∫ x, x ∂P), ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g U)
     (hσ : 0 < Var[fun x ↦ fderiv ℝ g (∫ y, y ∂P) x; P]) (α : ℝ) (hα : α ∈ Ioo 0 (1 / 2)) :
     let θ := g (∫ x, x ∂P)
     let T := fun (n : ℕ) (x : Fin n → EuclideanSpace ℝ (Fin d)) ↦
@@ -994,7 +994,7 @@ theorem bootstrap_interval_coverage (μ : Measure Ω) [IsProbabilityMeasure μ]
     (hmom : ∀ k : ℕ, Integrable (fun x ↦ ‖x‖ ^ k) P)
     (hcr : SatisfiesCramerCondition (P.map augmentedVector))
     (g : EuclideanSpace ℝ (Fin d) → ℝ) (hgm : Measurable g)
-    (hg : ∃ U ∈ 𝓝 (∫ x, x ∂P), ContDiffOn ℝ ⊤ g U)
+    (hg : ∃ U ∈ 𝓝 (∫ x, x ∂P), ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) g U)
     (hσ : 0 < Var[fun x ↦ fderiv ℝ g (∫ y, y ∂P) x; P]) (α : ℝ) (hα : α ∈ Ioo 0 (1 / 2)) :
     let θ := g (∫ x, x ∂P)
     let σ := Real.sqrt (Var[fun x ↦ fderiv ℝ g (∫ y, y ∂P) x; P])
