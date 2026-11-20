@@ -1,60 +1,60 @@
-<!--tauceti-status:v1 {"roadmap":"EllipticCohomology","to_sha":"d92acc5c0393646e14960dfd4972fc836aad3ebe","ts":"2026-11-09T11:59:37+11:00"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"stack comparison, étale-site cohomology and duality, Hodge descent, height two at general p, Tate–Messing and Serre–Tate deformations","state":"partial"},{"id":"Layer 2","remaining":"every spectral target; only the Mahler translation-difference sequence and completion/fracture lemmas are in","state":"partial"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","state":"untouched"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"}],"readme_sha":"ce79eac42b7caf9e3e0758660080c40de51a90b168a258ce01815846b560cdd2","roadmap":"EllipticCohomology","to_sha":"d92acc5c0393646e14960dfd4972fc836aad3ebe"}-->
+<!--tauceti-status:v1 {"roadmap":"EllipticCohomology","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e","ts":"2026-11-19T18:22:01+11:00"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"stack comparison, étale-site cohomology and duality, Hodge descent, nodal Riemann–Roch, Tate–Messing and Serre–Tate deformations","state":"partial"},{"id":"Layer 2","remaining":"the Landweber condition for flat maps and every spectral target; only algebraic height-ideal, Mahler and completion inputs are in","state":"partial"},{"id":"Layer 3","state":"untouched"},{"id":"Layer 4","state":"untouched"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"}],"readme_sha":"a15fb6d766405b015e96123e41f418011751494982fb0f0fe02dd24d4c5acf54","roadmap":"EllipticCohomology","to_sha":"b2350004c40546f72a9ed4f47921b94b9517174e"}-->
 # Status: EllipticCohomology
 
-This file documents the status of the EllipticCohomology roadmap up until `d92acc5` (2026-11-09T11:59:37+11:00). There may have been subsequent updates.
+This file documents the status of the EllipticCohomology roadmap up until `b235000` (2026-11-19T18:22:01+11:00). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** The algebraic side of Layer 1 has reached its stated headline: Deligne's computation of integral modular forms on the Weierstrass Hopf algebroid, with the comparison to analytic q-expansions. The stack-theoretic parts of Layer 1 have not started, and neither has its deformation theory. Layer 2 has only a few algebraic lemmas about p-adic functions and completions. Nothing spectral exists: no sheaf O^top, no tmf, Tmf or TMF, and no MString or orientation, so Layers 3–6 are untouched.
+**At a glance.** The algebraic core of Layer 1 is in place. It includes Deligne's computation of integral modular forms on the Weierstrass Hopf algebroid, both q-expansion comparisons, and the height strata at every prime. Layer 1's stack theory and deformation theory have not started. Layer 2 has the algebraic Landweber inputs and some completion lemmas but nothing spectral, and Layers 3–6 are untouched.
 
 ### Named results
 
-- **Deligne's theorem on integral modular forms** — a polynomial in a₁, …, a₆ transforms with weight k under every coordinate change over every ring exactly when it lies in ℤ[c₄, c₆, Δ] and is weighted homogeneous of weight k ([`isIntegralModularForm_iff`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/ModularForm.html#WeierstrassCurve.isIntegralModularForm_iff)). This is the first of the roadmap's two target signatures.
-- **The presentation ℤ[c₄, c₆, Δ] = ℤ[C₄, C₆, D]/(C₄³ − C₆² − 1728D)** — the only relation among the three invariants is the classical one ([`ker_aeval_c₄_c₆_Δ`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Invariants/Presentation.html#WeierstrassCurve.ker_aeval_c₄_c₆_Δ)). This holds for any curve whose c₄ and c₆ are algebraically independent, and the universal curve qualifies ([`algebraicIndependent_c₄_c₆`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Invariants/AlgebraicIndependent.html#WeierstrassCurve.Universal.algebraicIndependent_c₄_c₆)).
-- **The integral q-expansion lattice** — a level-one analytic modular form with integer q-expansion is the Tate expansion of an integral modular form of the same weight ([`exists_isIntegralModularForm_specialize_tateCurve_eq`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/TateCurve/QExpansion.html#ModularForm.exists_isIntegralModularForm_specialize_tateCurve_eq)). The converse also holds, and the Tate curve's c₄, c₆ and Δ match E₄, −E₆ and the discriminant.
-- **Integral modular forms are the Hopf-algebroid invariants** — f has weight k exactly when η_R f = u⁻ᵏ η_L f in the arrow ring Γ ([`isIntegralModularForm_iff_rightUnit`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/VariableChange/HopfAlgebroid.html#WeierstrassCurve.isIntegralModularForm_iff_rightUnit)).
-- **Height strata in characteristics 2 and 3** — an elliptic curve is ordinary exactly when its formal group has height one, and supersingular exactly when it has height two ([`isSupersingular_iff_height_formalGroup_eq_two_of_char_three`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Char/Three.html#WeierstrassCurve.isSupersingular_iff_height_formalGroup_eq_two_of_char_three)). For a general prime there is so far only the height-one criterion ([`height_formalGroup_eq_one_iff`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Height.html#WeierstrassCurve.height_formalGroup_eq_one_iff)).
+- **Deligne's theorem on integral modular forms** — a polynomial in a₁, …, a₆ transforms with weight k under every coordinate change over every ring exactly when it lies in ℤ[c₄, c₆, Δ] and is weighted homogeneous of weight k ([`isIntegralModularForm_iff`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/ModularForm.html#WeierstrassCurve.isIntegralModularForm_iff)). The only relation among the three invariants is c₄³ − c₆² = 1728Δ ([`ker_aeval_c₄_c₆_Δ`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Invariants/Presentation.html#WeierstrassCurve.ker_aeval_c₄_c₆_Δ)).
+- **The comparison with analytic modular forms** — ℂ ⊗ ℤ[c₄, c₆, Δ] is isomorphic to the graded ring of level-one modular forms, proved from the two presentations without complex uniformization ([`complexAdjoinC₄C₆ΔEquivModularForms`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/TateCurve/QExpansion.html#TauCeti.complexAdjoinC₄C₆ΔEquivModularForms)). Integrally, a level-one form with integer q-expansion comes from an integral modular form of the same weight ([`exists_isIntegralModularForm_specialize_tateCurve_eq`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/TateCurve/QExpansion.html#ModularForm.exists_isIntegralModularForm_specialize_tateCurve_eq)).
+- **Height strata at every prime** — in characteristic p an elliptic curve is supersingular exactly when its formal group has height two ([`isSupersingular_iff_height_formalGroup_eq_two`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Height/Supersingular.html#WeierstrassCurve.isSupersingular_iff_height_formalGroup_eq_two)) and ordinary exactly when it has height one. Ordinarity is equivalent to the Hasse invariant being nonzero.
+- **Inseparable degree from the formal series** — the formal series of an isogeny has order equal to the isogeny's inseparable degree ([`order_formalSeries`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Isogeny/FormalSeries/Order.html#TauCeti.Isogeny.order_formalSeries)). It follows that isogenous curves have the same height.
+- **Landweber's v₁ is the Hasse invariant** — the height ideal (p, v₁) of a Weierstrass curve's formal group is generated by p and the Hasse invariant ([`heightIdeal_formalGroup_two`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/FormalGroup/Height/Ideal.html#WeierstrassCurve.heightIdeal_formalGroup_two)). For an elliptic curve over any ring, v₂ is a unit modulo (p, v₁).
 
 ### Notable definitions and infrastructure
 
-- **The Weierstrass Hopf algebroid** (A, Γ) carries its coproduct, counit and conjugation in the README's conventions, with coassociativity ([`coproduct_coassoc`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/VariableChange/HopfAlgebroid.html#TauCeti.WeierstrassHopfAlgebroid.coproduct_coassoc)), the counit laws and the antipode laws. Its source and target projections are smooth of relative dimension four ([`smoothOfRelativeDimension_source`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/VariableChange/Groupoid.html#TauCeti.WeierstrassHopfAlgebroid.smoothOfRelativeDimension_source)). E4 needs its cobar complex.
-- **The coordinate-change group** is corepresented by ℤ[u, u⁻¹, r, s, t] and decomposes as the Heisenberg group semidirect 𝔾ₘ ([`semidirectProductEquiv`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/VariableChange/SemidirectProduct.html#WeierstrassCurve.VariableChange.semidirectProductEquiv)), as the README requires.
-- **The cuspidal locus V(c₄, Δ)** has codimension two in the cubic atlas ([`height_span_c₄_Δ`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/Invariants/CuspidalLocus.html#WeierstrassCurve.Universal.height_span_c₄_Δ)), with the atlas-level Hartogs extension from D(c₄) ∪ D(Δ). This is the route to the compactified H⁰.
+- **The Weierstrass Hopf algebroid** (A, Γ) satisfies the groupoid laws in the README's conventions ([`coproduct_coassoc`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/VariableChange/HopfAlgebroid.html#TauCeti.WeierstrassHopfAlgebroid.coproduct_coassoc)), and it now restricts to the smooth-or-nodal open D(c₄) ∪ D(Δ) ([`compactifiedComposition`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/VariableChange/CompactifiedOpen/Composition.html#TauCeti.WeierstrassHopfAlgebroid.compactifiedComposition)), where Hartogs extension holds.
+- **The Tate curve's multiplicative formal group** over all of ℤ⟦q⟧, with invariant differential du/u ([`formalGroup_tateCurve`](https://taucetiproject.org/docs/TauCeti/AlgebraicGeometry/EllipticCurve/TateCurve/FormalGroup.html#TauCeti.formalGroup_tateCurve)). This is the input for showing that the Hasse invariant is a unit on the nodal multiplicative locus.
+- **Iterated adic completion** — the p-adic completion of a J-adic completion is the completion at the sum ([`iteratedEquivSup`](https://taucetiproject.org/docs/TauCeti/RingTheory/AdicCompletion/Iterated.html#AdicCompletion.iteratedEquivSup)). It yields the (p, v)-adic coefficient pullback square that Layer 2's fracture arguments need.
 
 ### Roadmap coverage
 
-Layer 1 is partial. Done:
-- the cubic Hopf algebroid and its groupoid laws
-- smoothness of the atlas projections
-- codimension two of the cusp and the atlas-level Hartogs extension
-- Deligne's invariant ring, its presentation and its ℤ[1/6] form
-- the analytic q-expansion comparison
-- the multiplicative formal group of the Tate curve at q = 0
-- height strata at p = 2, 3
+**Layer 1 is partial.** These parts are done:
+- the cubic Hopf algebroid and its restriction to the smooth-or-nodal open
+- codimension two of the cusp and Hartogs extension on the atlas
+- Deligne's invariant ring and its presentation
+- the integral and complex q-expansion comparisons
+- the Tate curve's multiplicative formal group
+- the ordinary/supersingular height strata at every prime
 
-Not started:
-- the moduli-stack comparison with M_(1,1) and the étale site
+These parts have not started:
+- the moduli-stack comparison and the étale site
 - stack cohomology, local cohomology and duality
-- Hodge-line descent and the stack form of the Hartogs comparison
+- Hodge-line descent and the stack form of Deligne's theorem
 - Riemann–Roch on nodal families
-- height-two strata at general p
-- Tate–Messing, Serre–Tate and the residue-field descent
+- Tate–Messing and Serre–Tate deformations with residue-field descent
 
-Layer 2 is partial in a narrow sense, with algebraic inputs only:
-- the translation-difference exact sequence on C(ℤ_p) and on the p-adic units modulo torsion
-- principal-adic completion exactness with torsion-free cokernel
-- the cartesian localization–completion square
+**Layer 2 is partial, with algebraic inputs only.** These are in:
+- v₁ as the Hasse invariant, a unit on the Tate locus
+- v₂ a unit modulo (p, v₁)
+- regularity of (p, Hasse) on the universal coefficient ring
+- the translation-difference sequence on C(ℤ_p)
+- completion and fracture lemmas
 
-None of Layer 2's spectral targets has begun. Layers 3–6 are untouched.
+The Landweber condition for flat maps and every spectral target are missing. **Layers 3–6 are untouched.**
 
 ## The frontier
 
-- **Height two at every prime** — extend the char 2/3 height strata to a general prime p: supersingular exactly when the height is two, and the height is always at most two. The height-one criterion through the invariant differential is already in place.
-- **The stack form of Deligne's theorem** — identify H⁰(Mbar_ell, ω^k) with the weight-k invariants. This is blocked on SchemeAndStackFoundations' stack carrier and §4.15's stable genus-one stack, and on descent of the Hodge line along the cubic atlas.
-- **Cobar comparison** — compare the Hopf algebroid's cobar complex with stack cohomology. This is the input to E4's coefficient computation, and it needs E1's site and cohomology constructions first.
-- **Formal deformations** — build the Tate–Messing equivalence and the ordinary/supersingular Serre–Tate split, with residue-field descent. These consume ModularCurves §§7C–7F and BordismFormalGroups F5.
-- **Layer 2's algebraic lane** — prove (p, v₁)-regularity on étale charts and apply the new completion and fracture lemmas to the coefficient pullback square. All spectral work waits on GeneralizedCohomology and on BordismFormalGroups F6.
+- **The Landweber condition for elliptic curves** — combine the height-ideal results into the statement that a flat classifying map gives a Landweber-exact formal group. Then apply F6's height bound to get E(2)-locality. This consumes BordismFormalGroups F5's exact-functor theorem.
+- **Formal deformations** — build the Tate–Messing equivalence and the split into supersingular (an equivalence) and ordinary (formally smooth of relative dimension one) deformations, with residue-field descent. Now that the height strata are in place, the main prerequisites are ModularCurves §§7C–7F and F5.
+- **The stack form of Deligne's theorem** — identify H⁰(Mbar_ell, ω^k) with the weight-k invariants. This is blocked on SchemeAndStackFoundations' stack carrier and §4.15's stable genus-one stack, and on Hodge-line descent along the cubic atlas.
+- **Cobar comparison** — compare the Hopf algebroid's cobar complex with stack cohomology. This is the input to E4's coefficient computation, and it needs E1's site and cohomology first.
+- **Spectral realization** — Morava E-theory at heights one and two, and the K(1)-local constructions. These wait on GeneralizedCohomology and BordismFormalGroups F6.
