@@ -65,65 +65,25 @@ and complex Stirling from [ZerosOfLFunctions](../ZerosOfLFunctions/README.md).
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Struve/`, beside the Bessel functions of
 SpecialFunctionsBessel.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
-
-1. **Inhomogeneous Bessel equations and their series solutions** (1.1–1.5).
-2. **Relations, recurrences and closed forms** (2.1–2.6).
-3. **Poisson, Laplace and Barnes integrals** (3.1–3.4).
-4. **Large argument** (4.1–4.4).
-5. **Integrals over the half-line** (5.1–5.2).
-6. **Large order** (6.1–6.3).
-7. **The turning point `z = ν`** (7.1–7.2).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
-README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
-targets of the same standing, stated in prose. Olver's uniform expansion (7.2) is not statable at
-the pins, since it needs the implicitly defined map `t(α, w)`, and the docstring of
-`Suggested.lean` names it.
-
-**Inputs.** Mathlib and Tau Ceti already prove, and the layers consume:
-- that `𝐅₁₂(b₁, b₂; x)` is entire in `x` for fixed `b₁`, `b₂`: Mathlib's
-  `Complex.analyticAt_regularizedHGFun_of_card_le` and
-  `Complex.radius_regularizedHGFunSeries_eq_top`;
-- its series as a `HasSum` statement: Tau Ceti's `Complex.hasSum_regularizedHGFun`;
-- Bessel's `J_ν` with its series and holomorphy: Mathlib's `Complex.besselJ_def` and
-  `Complex.analyticOnNhd_besselJ`.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
-provides:
-- superposition for `w″ + w′/z + (σ − ν²/z²) w = f` on the slit plane, `σ = ±1`: every solution is
-  one particular solution plus a solution of the homogeneous equation (1.1);
-- the removable singularities of the Lommel function `S_{μ,ν}` and of `𝐀_ν` in the parameters
-  (1.2, 1.5), and the equation of `𝐀_ν` (1.5);
-- the Hankel and Laplace representations of `S_{μ,ν}` (3.2, 3.3);
-- the reciprocal-Gamma bounds on the lines `Re s = N + ½`, uniform in `N`, and on the strips of
-  the line shifts (3.4);
-- Debye's leading term for `I_ν(λν)` with complex `ν` in `|ph ν| ≤ π/2 − δ` and fixed `λ > 0`
-  (6.2);
-- the power-series coefficients `c_k(λ)`, `a_k(λ)` and the saddle coefficients `b_k(λ)` of the
-  scaled expansions (6.2, 6.3), and the coefficients `q_s(α)` and the shifted Scorer moments
-  `Qiₛ` of the uniform expansion (7.2).
-
-**What it does not own:**
-- The Bessel and Hankel functions and their theory (SpecialFunctionsBessel), `Complex.besselJ`
-  and `Complex.regularizedHGFun` (Mathlib), Scorer's functions (SpecialFunctionsAiry), the
-  Fresnel integrals (SpecialFunctionsEiLiErfIncompleteGamma), the general asymptotic methods
-  (AsymptoticExpansions) and complex Stirling (ZerosOfLFunctions).
-- The generalized hypergeometric functions `pFq` beyond Mathlib's series, and the holomorphy of
-  `𝐅₁₂(b₁, b₂; x)` in its parameters, which belong to SpecialFunctionsGeneralizedHypergeometric.
-  This roadmap uses `𝐅₁₂` only as Mathlib's entire series.
-- The Struve functions of argument `x e^{±3πi/4}`, the Lommel functions of two variables and the
-  formulas of the Bessel theory through these functions other than DLMF 10.22.2 and 10.43.2; see
-  the last section.
-
-**The boundary in one sentence:** this roadmap owns the principal branches of `𝐇_ν`, `𝐋_ν`,
-`𝐊_ν`, `𝐌_ν`, `s_{μ,ν}`, `S_{μ,ν}`, `𝐉_ν`, `𝐄_ν` and `𝐀_ν` for all complex orders, and the results
-stated through them, the Bessel, Hankel, Scorer and Fresnel functions, `Γ` and elementary functions
-that the layers list, together with DLMF 10.22.2 and 10.43.2; it consumes the Bessel functions
-from SpecialFunctionsBessel.
+Layer 1 starts from the inhomogeneous Bessel equation. Every solution is one particular solution
+plus a solution of Bessel's equation (1.1), so each general-solution formula reduces to
+SpecialFunctionsBessel's span of `J_ν`, `Y_ν`. The Lommel functions are the power-series
+particular integrals for the forcing `z^{μ−1}` (1.2); the Struve functions are Mathlib's `₁F₂` at
+the forcing `z^{ν−1}` (1.3–1.4), and the Anger and Weber functions are defined by their integrals,
+whose equations follow by differentiating under the integral sign (1.5). Layer 2 is algebra on
+these series: the families are tied together first (2.1), and then the recurrences, primitives,
+half-odd orders, Bessel-series expansions and bounds are series manipulations. Identities between
+entire or holomorphic functions are proved for a parameter region or a disc and extended by the
+identity theorem, in the variable on the slit plane and in each order. Layer 3 evaluates the
+integral representations, and Layers 4, 6 and 7 apply AsymptoticExpansions to the Laplace
+integrals of Layer 3 and the trigonometric integrals of 1.5: Watson's lemma at large argument,
+Laplace's method and saddle points at large order, and the cubic normal form at the turning point.
+Layer 5 uses the large-argument behaviour of Layer 4 for the convergence of the integrals over the
+half-line. The `**Checks.**` and `### Examples` of each layer are statements to prove; they test
+the conventions on explicit values. Every decimal value in them was computed independently of the
+formula it checks.
 
 ## Conventions
 
@@ -212,129 +172,6 @@ angerWeberA n z = (π cos nπ)⁻¹ ∂_ν(𝐉_ν(z) − J_ν(z))|_{ν=n}      
   (Lagrange–Bürmann) and check DLMF's printed values. The saddle coefficients `b_k(λ)` of DLMF
   11.11.11 are defined in 6.3, and the coefficients `q_s(α)` and moments `Qiₛ` of Olver's uniform
   expansion in 7.2.
-
-## Exact supplier contracts
-
-### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
-
-- [Its Conventions](../SpecialFunctionsBessel/README.md#conventions): `Complex.besselY`,
-  `Complex.hankelH1`, `Complex.hankelH2`, `Complex.besselI`, `Complex.besselK : ℂ → ℂ → ℂ`, order
-  first, holomorphic on `Complex.slitPlane`, with `deriv` in the order at integer orders; the
-  sector filter; and the spherical functions `Complex.sphericalBesselJ` and
-  `Complex.modifiedSphericalBesselI1`, `…I2`.
-- 1.1, 1.4: Bessel's equation for `J_ν`, `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, uniqueness and the span of its
-  solutions on the slit plane, the connection formulas 10.4.1–10.4.8 and the Wronskians
-  10.5.1–10.5.5; 1.2: holomorphy in the order. For 1.2–1.5, 2.1, 3.1–3.3 and 4.1.
-- 1.5: the recurrences and derivatives 10.6.1–10.6.7, for 2.2.
-- 1.3–1.4: `I_ν`, `K_ν`, their equation, connection formulas and Wronskians, for 1.4.
-- Its Conventions and 2.1: the power series 10.2.2 and 10.8.1, and 2.2: the limiting forms, for
-  Layers 1–2.
-- 5.1: Bessel's integral 10.9.2, Poisson's integral 10.9.4 and Schläfli's integrals 10.9.6–10.9.7,
-  for Layer 3 and 1.5, and the Poisson integral 10.32.2 of `I_ν`, for 6.2.
-- 4.2: the multiplication and addition theorems 10.23.1–10.23.5, and 4.4: the Neumann expansion
-  10.23.15 of `(z/2)^ν`, for 2.5.
-- 2.3: the half-odd orders 10.16.1–10.16.2 and 10.39.1–10.39.2, for 2.4.
-- 6.1–6.2: the expansions of `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν`, `J_ν`, `Y_ν` and `I_ν` for large argument,
-  for Layer 4.
-- Its Conventions and 9.1: the Debye polynomials `Real.debyeU k` and Debye's expansions of `I_ν`,
-  `K_ν` for real large order, for the check in 6.2 and for 11.11.13_5 in 6.3.
-- 11.1: the primitive 10.22.1, and 11.4: the primitive 10.43.1, for 2.3; 11.2: the Mellin
-  transforms 10.22.43–10.22.44 of `J_ν` and `Y_ν`, for 3.2.
-- 6.1 also for 3.2–3.3: the large-argument expansions of `H⁽¹⁾_ν`, `H⁽²⁾_ν`; and 2.1, 4.4 for 2.5.
-- 3.1–3.2: the spherical functions and their explicit forms, for 2.4.
-
-### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
-
-- [Its Conventions](../SpecialFunctionsAiry/README.md#conventions) and 6.1: Scorer's function
-  `TauCeti.scorerHi`, `Hi(z) = π⁻¹ ∫₀^∞ exp(−t³/3 + z t) dt`, entire; and 6.2: its value
-  `Hi(0) = 2 Gi(0) = 2/(3^{7/6} Γ(⅔))`, with DLMF 9.12.6 for `Gi(0)`. For Layer 7.
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
-  `Complex.gaussHypergeometric a b c z`, the principal branch on `1 − z ∈ slitPlane`, which
-  `Suggested.lean` copies together with its auxiliary definitions `eulerIntegral` and
-  `IsEulerContinuation`; 1.2–1.4: its series on the unit disk and its holomorphy in the parameters;
-  3.1: the hypergeometric equation; 5.1: the connection formula 15.8.2 at `∞`. For the Laplace
-  representation of 3.3.
-
-### From SpecialFunctionsGeneralizedHypergeometric
-
-- 1.3–1.4: its regularized function is Mathlib's `Complex.regularizedHGFun` for `p ≤ q`, and is
-  jointly holomorphic in the parameters and the argument; at `p = 1`, `q = 2`, the map
-  `(b₁, b₂, x) ↦ 𝐅₁₂(b₁, b₂; x)` is holomorphic on `ℂ³`. For 1.1–1.3.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- [Its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions): the Fresnel
-  integrals `TauCeti.fresnelC`, `TauCeti.fresnelS` of DLMF 7.2.7–7.2.8, entire; and its 11.4:
-  their series 7.6.4–7.6.7. For 2.4.
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-- [Its Conventions](../AsymptoticExpansions/README.md#conventions):
-  `Asymptotics.HasAsymptoticExpansion` and the sector filters.
-- 1.5: integration of expansions, for 4.4.
-- 4.2: Watson's lemma in a sector (`hasAsymptoticExpansion_laplace_sector`), for Layer 4, 6.2 and
-  6.3; it is stated for `|ph z| ≤ π/2 − δ`.
-- 4.3: rotation of the path (`hasAsymptoticExpansion_rayLaplace`), which extends Watson's lemma to
-  `|ph z| ≤ π − δ`, for 3.3, Layer 4 and 6.3.
-- 5.1: the coefficients `b_s`, for 6.3; 5.2, 5.4–5.5: Laplace's method on the real line and on a
-  contour, and saddle points (`hasAsymptoticExpansion_laplace_method`,
-  `hasAsymptoticExpansion_laplace_contour`), for 4.2, 6.2, 6.3 and 7.1.
-- 6.2: stationary phase at an endpoint (`isBigO_stationaryPhase_remainder`), for 7.1.
-- 7.3: the cubic normal form of Chester, Friedman and Ursell, for 7.2.
-- 8.2: the line shift with simple poles (`integral_vertical_sub_eq_two_pi_mul_sum_residue`), and
-  8.6: the pole-separated bound for `Γ` on vertical strips (`exists_norm_Gamma_le`), for 3.4.
-
-### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
-
-- 1.2: Stirling's formula in the sector `|ph s| ≤ π − δ` (DLMF 5.11.1), for 4.4 and 6.1.
-- 1.3: `log |Γ|` on vertical strips (DLMF 5.11.9), for the reciprocal-Gamma bounds of 3.4.
-
-### From Tau Ceti
-
-- `Complex.hasSum_regularizedHGFun`
-  (`TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`): for `a.card ≤ b.card`,
-  `HasSum (fun n ↦ regularizedHGFunCoeff a b n * z ^ n) (regularizedHGFun a b z)` for every `z`.
-  For 1.3 and 2.1.
-
-### From Mathlib
-
-- **Bessel and hypergeometric series.** `Complex.besselJ` and its lemmas (`Complex.besselJ_def`,
-  `Complex.analyticOnNhd_besselJ`, `Complex.besselJ_int_neg`, `Complex.two_mul_self_mul_besselJ`);
-  `Complex.regularizedHGFun`, `Complex.regularizedHGFunCoeff`,
-  `Complex.analyticAt_regularizedHGFun_of_card_le`, `Complex.radius_regularizedHGFunSeries_eq_top`.
-- **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
-  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub` (reflection),
-  `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.betaIntegral`,
-  `Real.eulerMascheroniConstant`.
-- **Holomorphic functions.** `Complex.slitPlane`, `Complex.cpow`, `Complex.log`,
-  `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, the
-  Cauchy theorem for rectangles `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
-- **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
-  convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Asymptotics.IsEquivalent`,
-  `Asymptotics.IsBigO`, `HasSum`, `PowerSeries.coeff`, `PowerSeries.inv`.
-
-## How to read the build
-
-Layer 1 starts from the inhomogeneous Bessel equation. Every solution is one particular solution
-plus a solution of Bessel's equation (1.1), so each general-solution formula reduces to
-SpecialFunctionsBessel's span of `J_ν`, `Y_ν`. The Lommel functions are the power-series
-particular integrals for the forcing `z^{μ−1}` (1.2); the Struve functions are Mathlib's `₁F₂` at
-the forcing `z^{ν−1}` (1.3–1.4), and the Anger and Weber functions are defined by their integrals,
-whose equations follow by differentiating under the integral sign (1.5). Layer 2 is algebra on
-these series: the families are tied together first (2.1), and then the recurrences, primitives,
-half-odd orders, Bessel-series expansions and bounds are series manipulations. Identities between
-entire or holomorphic functions are proved for a parameter region or a disc and extended by the
-identity theorem, in the variable on the slit plane and in each order. Layer 3 evaluates the
-integral representations, and Layers 4, 6 and 7 apply AsymptoticExpansions to the Laplace
-integrals of Layer 3 and the trigonometric integrals of 1.5: Watson's lemma at large argument,
-Laplace's method and saddle points at large order, and the cubic normal form at the turning point.
-Layer 5 uses the large-argument behaviour of Layer 4 for the convergence of the integrals over the
-half-line. The `**Checks.**` and `### Examples` of each layer are statements to prove; they test
-the conventions on explicit values. Every decimal value in them was computed independently of the
-formula it checks.
 
 ## Layer 1: inhomogeneous Bessel equations and their series solutions
 
@@ -1266,6 +1103,169 @@ AsymptoticExpansions 5.2, 5.4, 6.2, 7.3.
 - A roadmap for the uniform expansions of the inhomogeneous Bessel equations for large order
   (Olver's treatment of the inhomogeneous modified Bessel equation) consumes the Lommel functions
   of 1.2, 3.2–3.3 and 4.1.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Inhomogeneous Bessel equations and their series solutions** (1.1–1.5).
+2. **Relations, recurrences and closed forms** (2.1–2.6).
+3. **Poisson, Laplace and Barnes integrals** (3.1–3.4).
+4. **Large argument** (4.1–4.4).
+5. **Integrals over the half-line** (5.1–5.2).
+6. **Large order** (6.1–6.3).
+7. **The turning point `z = ν`** (7.1–7.2).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the
+README attaches to it; it is not an exhaustive acceptance test, and the other headlines are
+targets of the same standing, stated in prose. Olver's uniform expansion (7.2) is not statable at
+the pins, since it needs the implicitly defined map `t(α, w)`, and the docstring of
+`Suggested.lean` names it.
+
+**Inputs.** Mathlib and Tau Ceti already prove, and the layers consume:
+- that `𝐅₁₂(b₁, b₂; x)` is entire in `x` for fixed `b₁`, `b₂`: Mathlib's
+  `Complex.analyticAt_regularizedHGFun_of_card_le` and
+  `Complex.radius_regularizedHGFunSeries_eq_top`;
+- its series as a `HasSum` statement: Tau Ceti's `Complex.hasSum_regularizedHGFun`;
+- Bessel's `J_ν` with its series and holomorphy: Mathlib's `Complex.besselJ_def` and
+  `Complex.analyticOnNhd_besselJ`.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib nor Tau Ceti
+provides:
+- superposition for `w″ + w′/z + (σ − ν²/z²) w = f` on the slit plane, `σ = ±1`: every solution is
+  one particular solution plus a solution of the homogeneous equation (1.1);
+- the removable singularities of the Lommel function `S_{μ,ν}` and of `𝐀_ν` in the parameters
+  (1.2, 1.5), and the equation of `𝐀_ν` (1.5);
+- the Hankel and Laplace representations of `S_{μ,ν}` (3.2, 3.3);
+- the reciprocal-Gamma bounds on the lines `Re s = N + ½`, uniform in `N`, and on the strips of
+  the line shifts (3.4);
+- Debye's leading term for `I_ν(λν)` with complex `ν` in `|ph ν| ≤ π/2 − δ` and fixed `λ > 0`
+  (6.2);
+- the power-series coefficients `c_k(λ)`, `a_k(λ)` and the saddle coefficients `b_k(λ)` of the
+  scaled expansions (6.2, 6.3), and the coefficients `q_s(α)` and the shifted Scorer moments
+  `Qiₛ` of the uniform expansion (7.2).
+
+**What it does not own:**
+- The Bessel and Hankel functions and their theory (SpecialFunctionsBessel), `Complex.besselJ`
+  and `Complex.regularizedHGFun` (Mathlib), Scorer's functions (SpecialFunctionsAiry), the
+  Fresnel integrals (SpecialFunctionsEiLiErfIncompleteGamma), the general asymptotic methods
+  (AsymptoticExpansions) and complex Stirling (ZerosOfLFunctions).
+- The generalized hypergeometric functions `pFq` beyond Mathlib's series, and the holomorphy of
+  `𝐅₁₂(b₁, b₂; x)` in its parameters, which belong to SpecialFunctionsGeneralizedHypergeometric.
+  This roadmap uses `𝐅₁₂` only as Mathlib's entire series.
+- The Struve functions of argument `x e^{±3πi/4}`, the Lommel functions of two variables and the
+  formulas of the Bessel theory through these functions other than DLMF 10.22.2 and 10.43.2; see
+  the last section.
+
+**The boundary in one sentence:** this roadmap owns the principal branches of `𝐇_ν`, `𝐋_ν`,
+`𝐊_ν`, `𝐌_ν`, `s_{μ,ν}`, `S_{μ,ν}`, `𝐉_ν`, `𝐄_ν` and `𝐀_ν` for all complex orders, and the results
+stated through them, the Bessel, Hankel, Scorer and Fresnel functions, `Γ` and elementary functions
+that the layers list, together with DLMF 10.22.2 and 10.43.2; it consumes the Bessel functions
+from SpecialFunctionsBessel.
+
+## Exact supplier contracts
+
+### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
+
+- [Its Conventions](../SpecialFunctionsBessel/README.md#conventions): `Complex.besselY`,
+  `Complex.hankelH1`, `Complex.hankelH2`, `Complex.besselI`, `Complex.besselK : ℂ → ℂ → ℂ`, order
+  first, holomorphic on `Complex.slitPlane`, with `deriv` in the order at integer orders; the
+  sector filter; and the spherical functions `Complex.sphericalBesselJ` and
+  `Complex.modifiedSphericalBesselI1`, `…I2`.
+- 1.1, 1.4: Bessel's equation for `J_ν`, `Y_ν`, `H⁽¹⁾_ν`, `H⁽²⁾_ν`, uniqueness and the span of its
+  solutions on the slit plane, the connection formulas 10.4.1–10.4.8 and the Wronskians
+  10.5.1–10.5.5; 1.2: holomorphy in the order. For 1.2–1.5, 2.1, 3.1–3.3 and 4.1.
+- 1.5: the recurrences and derivatives 10.6.1–10.6.7, for 2.2.
+- 1.3–1.4: `I_ν`, `K_ν`, their equation, connection formulas and Wronskians, for 1.4.
+- Its Conventions and 2.1: the power series 10.2.2 and 10.8.1, and 2.2: the limiting forms, for
+  Layers 1–2.
+- 5.1: Bessel's integral 10.9.2, Poisson's integral 10.9.4 and Schläfli's integrals 10.9.6–10.9.7,
+  for Layer 3 and 1.5, and the Poisson integral 10.32.2 of `I_ν`, for 6.2.
+- 4.2: the multiplication and addition theorems 10.23.1–10.23.5, and 4.4: the Neumann expansion
+  10.23.15 of `(z/2)^ν`, for 2.5.
+- 2.3: the half-odd orders 10.16.1–10.16.2 and 10.39.1–10.39.2, for 2.4.
+- 6.1–6.2: the expansions of `H⁽¹⁾_ν`, `H⁽²⁾_ν`, `K_ν`, `J_ν`, `Y_ν` and `I_ν` for large argument,
+  for Layer 4.
+- Its Conventions and 9.1: the Debye polynomials `Real.debyeU k` and Debye's expansions of `I_ν`,
+  `K_ν` for real large order, for the check in 6.2 and for 11.11.13_5 in 6.3.
+- 11.1: the primitive 10.22.1, and 11.4: the primitive 10.43.1, for 2.3; 11.2: the Mellin
+  transforms 10.22.43–10.22.44 of `J_ν` and `Y_ν`, for 3.2.
+- 6.1 also for 3.2–3.3: the large-argument expansions of `H⁽¹⁾_ν`, `H⁽²⁾_ν`; and 2.1, 4.4 for 2.5.
+- 3.1–3.2: the spherical functions and their explicit forms, for 2.4.
+
+### From [SpecialFunctionsAiry](../SpecialFunctionsAiry/README.md)
+
+- [Its Conventions](../SpecialFunctionsAiry/README.md#conventions) and 6.1: Scorer's function
+  `TauCeti.scorerHi`, `Hi(z) = π⁻¹ ∫₀^∞ exp(−t³/3 + z t) dt`, entire; and 6.2: its value
+  `Hi(0) = 2 Gi(0) = 2/(3^{7/6} Γ(⅔))`, with DLMF 9.12.6 for `Gi(0)`. For Layer 7.
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- [Its Conventions](../SpecialFunctionsHypergeometric/README.md#conventions):
+  `Complex.gaussHypergeometric a b c z`, the principal branch on `1 − z ∈ slitPlane`, which
+  `Suggested.lean` copies together with its auxiliary definitions `eulerIntegral` and
+  `IsEulerContinuation`; 1.2–1.4: its series on the unit disk and its holomorphy in the parameters;
+  3.1: the hypergeometric equation; 5.1: the connection formula 15.8.2 at `∞`. For the Laplace
+  representation of 3.3.
+
+### From SpecialFunctionsGeneralizedHypergeometric
+
+- 1.3–1.4: its regularized function is Mathlib's `Complex.regularizedHGFun` for `p ≤ q`, and is
+  jointly holomorphic in the parameters and the argument; at `p = 1`, `q = 2`, the map
+  `(b₁, b₂, x) ↦ 𝐅₁₂(b₁, b₂; x)` is holomorphic on `ℂ³`. For 1.1–1.3.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- [Its Conventions](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#conventions): the Fresnel
+  integrals `TauCeti.fresnelC`, `TauCeti.fresnelS` of DLMF 7.2.7–7.2.8, entire; and its 11.4:
+  their series 7.6.4–7.6.7. For 2.4.
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+- [Its Conventions](../AsymptoticExpansions/README.md#conventions):
+  `Asymptotics.HasAsymptoticExpansion` and the sector filters.
+- 1.5: integration of expansions, for 4.4.
+- 4.2: Watson's lemma in a sector (`hasAsymptoticExpansion_laplace_sector`), for Layer 4, 6.2 and
+  6.3; it is stated for `|ph z| ≤ π/2 − δ`.
+- 4.3: rotation of the path (`hasAsymptoticExpansion_rayLaplace`), which extends Watson's lemma to
+  `|ph z| ≤ π − δ`, for 3.3, Layer 4 and 6.3.
+- 5.1: the coefficients `b_s`, for 6.3; 5.2, 5.4–5.5: Laplace's method on the real line and on a
+  contour, and saddle points (`hasAsymptoticExpansion_laplace_method`,
+  `hasAsymptoticExpansion_laplace_contour`), for 4.2, 6.2, 6.3 and 7.1.
+- 6.2: stationary phase at an endpoint (`isBigO_stationaryPhase_remainder`), for 7.1.
+- 7.3: the cubic normal form of Chester, Friedman and Ursell, for 7.2.
+- 8.2: the line shift with simple poles (`integral_vertical_sub_eq_two_pi_mul_sum_residue`), and
+  8.6: the pole-separated bound for `Γ` on vertical strips (`exists_norm_Gamma_le`), for 3.4.
+
+### From [ZerosOfLFunctions](../ZerosOfLFunctions/README.md)
+
+- 1.2: Stirling's formula in the sector `|ph s| ≤ π − δ` (DLMF 5.11.1), for 4.4 and 6.1.
+- 1.3: `log |Γ|` on vertical strips (DLMF 5.11.9), for the reciprocal-Gamma bounds of 3.4.
+
+### From Tau Ceti
+
+- `Complex.hasSum_regularizedHGFun`
+  (`TauCeti/Analysis/SpecialFunctions/RegularizedHypergeometric.lean`): for `a.card ≤ b.card`,
+  `HasSum (fun n ↦ regularizedHGFunCoeff a b n * z ^ n) (regularizedHGFun a b z)` for every `z`.
+  For 1.3 and 2.1.
+
+### From Mathlib
+
+- **Bessel and hypergeometric series.** `Complex.besselJ` and its lemmas (`Complex.besselJ_def`,
+  `Complex.analyticOnNhd_besselJ`, `Complex.besselJ_int_neg`, `Complex.two_mul_self_mul_besselJ`);
+  `Complex.regularizedHGFun`, `Complex.regularizedHGFunCoeff`,
+  `Complex.analyticAt_regularizedHGFun_of_card_le`, `Complex.radius_regularizedHGFunSeries_eq_top`.
+- **Gamma.** `Complex.Gamma`, `Complex.Gamma_add_one`, `Complex.Gamma_ne_zero`,
+  `Complex.differentiable_one_div_Gamma`, `Complex.Gamma_mul_Gamma_one_sub` (reflection),
+  `Complex.Gamma_mul_Gamma_add_half` (duplication), `Complex.betaIntegral`,
+  `Real.eulerMascheroniConstant`.
+- **Holomorphic functions.** `Complex.slitPlane`, `Complex.cpow`, `Complex.log`,
+  `DifferentiableOn.analyticOnNhd`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, the
+  Cauchy theorem for rectangles `Complex.integral_boundary_rect_eq_zero_of_differentiableOn`.
+- **Analysis.** `intervalIntegral`, `MeasureTheory.integral` on `Set.Ioi`, Fubini, dominated
+  convergence, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `Asymptotics.IsEquivalent`,
+  `Asymptotics.IsBigO`, `HasSum`, `PowerSeries.coeff`, `PowerSeries.inv`.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
