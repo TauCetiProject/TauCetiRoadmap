@@ -10,8 +10,8 @@ and Tau Ceti, those headline theorems of the roadmap that are statable at the pi
 
 The headline theorems of the roadmap are:
 
-* the Yang–Cairns triangulation theorem (§3.1): the orbit space of a smooth action of a compact
-  Lie group on a second-countable Hausdorff manifold is triangulable. It is stated below, as
+* Yang's triangulation theorem (§3.1): the orbit space of a smooth action of a compact Lie group on
+  a second-countable Hausdorff manifold is triangulable. It is stated below, as
   `isTriangulable_orbitRel_quotient`.
 * Linear charts with retained arrows (§2.1): near every object a proper étale Lie groupoid is the
   action groupoid of its finite isotropy group acting linearly on a ball. Not statable: the pins
@@ -37,10 +37,11 @@ namespace TauCetiRoadmap.Orbifolds
 
 /-! ## Layer 3: Coarse triangulation, finite covers and boundary models -/
 
-/-- **Yang–Cairns** (§3.1; Yang, Bull. AMS 69 (1963), Theorem, p. 407). If a compact Lie group `K`
-acts smoothly on a second-countable Hausdorff smooth manifold `M`, the orbit space `M/K` is
-homeomorphic to the geometric realization of an abstract simplicial complex. No hypothesis on the
-stabilizers is made. -/
+/-- **Yang's triangulation theorem** (§3.1; Yang, Bull. AMS 69 (1963), Theorem, p. 407; proved by
+Verona, Manuscripta Math. 30 (1980), Corollary 3.8, p. 443). If a compact Lie group `K` acts smoothly
+on a second-countable Hausdorff smooth manifold `M`, the orbit space `M/K` is homeomorphic to the
+geometric realization of an abstract simplicial complex. No hypothesis on the stabilizers is
+made. -/
 theorem isTriangulable_orbitRel_quotient
     {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     {E' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']

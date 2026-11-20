@@ -19,8 +19,8 @@ Its headline theorems are these.
   finite, and near `x` the groupoid is isomorphic to `Γ_x` acting linearly on a ball in the tangent
   space `T_xΓ₀`, every isotropy arrow kept, including those acting as the identity.
 - *Triangulation.* If a compact Lie group acts smoothly on a second-countable Hausdorff manifold,
-  its orbit space is triangulable (Yang, after Cairns); consequently the coarse space of every
-  proper étale presentation has triangulations subordinate to any chart atlas.
+  its orbit space is triangulable (Yang; Verona); consequently the coarse space of every proper étale
+  presentation has triangulations subordinate to any chart atlas.
 - *The rational comparison and de Rham theorem.* For a proper étale presentation `Γ`, the coarse map
   `q : BΓ → |Γ|` induces an isomorphism of cohomology rings `H*(|Γ|; R) ≅ H*(BΓ; R)` for `R = ℚ` and
   `R = ℝ`, though not over `ℤ`, and the forms on `Γ₀` invariant under the arrows compute
@@ -223,8 +223,9 @@ above.
 
 For smooth functors `f : Γ → Λ` and `g : Δ → Λ` of proper étale presentations, construct the weak
 fibre product: its objects are the triples `(x, h, y)` with `x ∈ Γ₀`, `y ∈ Δ₀` and `h : f(x) → g(y)`
-an arrow of `Λ`, and its arrows are the pairs of arrows of `Γ` and `Δ` commuting with `h`. It is built
-from SmoothBundlesConnections B1.0's transverse fibre products. State the transversality of the
+an arrow of `Λ`, and its arrows are the pairs of arrows of `Γ` and `Δ` commuting with `h` (Moerdijk,
+*Orbifolds as Groupoids*, §2.3, p. 5). It is built from SmoothBundlesConnections B1.0's transverse
+fibre products. State the transversality of the
 object and arrow maps that is required; a submersion hypothesis on `f` or `g` is a sufficient case.
 Under these hypotheses prove that the weak fibre product is a proper étale presentation, that it
 has the universal property up to natural isomorphism, the composition and base-change laws, and
@@ -455,11 +456,11 @@ degree cohomology of a finite group vanishes when its order is a unit
 (`groupCohomology.subsingleton_of_isUnit_natCard`), with chain-level contraction
 `TauCeti.groupCohomology.averagingHomotopy`; consume AlgebraicTopology §8.8's bar and
 group-cohomology comparison to state the contraction with the native bar and action conventions.
-Invariant smooth partitions of unity and averaged metrics are Tau Ceti's for properly
-discontinuous actions (`SmoothPartitionOfUnity.exists_isSubordinate_smul_invariant`,
-`TauCeti.averageRiemannianMetric`); construct their versions on a presentation from the charts of
-§2.2. These statements carry their coefficient and order hypotheses; integral invariants are not
-claimed to be exact.
+Invariant smooth partitions of unity for properly discontinuous actions
+(`SmoothPartitionOfUnity.exists_isSubordinate_smul_invariant`) and averaged metrics for finite
+groups (`TauCeti.averageRiemannianMetric`) are Tau Ceti's; construct their versions on a presentation
+from the charts of §2.2. These statements carry their coefficient and order hypotheses; integral
+invariants are not claimed to be exact.
 
 Construct affine averaging of connections on a fixed equivariant bundle: after choosing a
 connection `∇₀`, differences of connections are `End(E)`-valued one-forms (SmoothBundlesConnections
@@ -589,40 +590,72 @@ is triangulable, that is homeomorphic to the realization of an abstract simplici
 Ceti's `TauCeti.IsTriangulable`) (Yang, Bull. AMS 69 (1963), Theorem, p. 407). No hypothesis on the
 stabilizers is made. The action is proper because `K` is compact. This is
 `isTriangulable_orbitRel_quotient`, stated with Mathlib's `LieGroup`, `IsManifold` and
-`ContMDiffSMul` on finite-dimensional real models. The route is Yang's. SmoothBundlesConnections
-B1.4's equivariant linear charts and slice theorem give, near each orbit, a slice on which the
-compact stabilizer acts orthogonally; prove from them that only finitely many orbit types meet each
-compact set, and construct regular locally polyhedral slice and join charts that are compatible
-along their frontiers. Yang's reduction rests on Cairns' locally polyhedral
-triangulation theorem (Cairns, *Lectures in Topology*, University of Michigan, 1941,
-pp. 143–157), and its full proof is a target here: the locally finite construction, relative
-subdivision and gluing of locally polyhedral charts, and the realized homeomorphism from the
-geometric realization of the resulting simplicial complex onto `M/K`.
+`ContMDiffSMul` on finite-dimensional real models.
+
+Prove it in the stratified form that §§3.2–3.4 use. For a closed subgroup `H` of `K` let `M_(H)` be
+the set of points whose stabilizer is conjugate to `H`, and call the connected components of the
+sets `M_(H)/K` the orbit-type strata of `M/K`. The triangulation can be chosen so that every
+orbit-type stratum is a union of open simplices, equivalently so that the conjugacy class of the
+stabilizer is constant on each open simplex (Verona, Manuscripta Math. 30 (1980), Definition 3.1 and
+Corollaries 3.7–3.8, pp. 437–443; Illman, Math. Ann. 262 (1983), §7, p. 499).
+`isTriangulable_orbitRel_quotient` states triangulability only, which does not give this (see the
+Checks).
+
+The route is Verona's. Yang's own proof rests on a triangulation theorem of Cairns for regular
+locally polyhedral spaces that is false (Verona, p. 426; Illman, p. 488), and it is not used here.
+SmoothBundlesConnections B1.4's equivariant linear charts and slice theorem give, near each orbit, a
+slice on which the compact stabilizer acts orthogonally. Prove from them that only finitely many
+orbit types meet each compact set, that the orbit-type strata are smooth manifolds forming a locally
+finite stratification of `M/K` with the frontier condition (Yang, Lemma 1, p. 405, and the proof of
+the Theorem, pp. 407–408), and construct control data for it, so that `M/K` is a Thom–Mather space in
+the sense of AlgebraicTopologyPartII §§16.1a–16.1b, whose strata have dimension at most `dim M`. Then
+prove Verona's theorem, a target here in full: every Thom–Mather space whose strata have bounded
+dimension has a triangulation in which each stratum is a union of open simplices (Verona, §1, p. 428,
+Theorem 3.5 and Corollary 3.7, pp. 440–442). Its proof removes a stratum of least
+dimension, triangulates its tube as a mapping cylinder and inducts; the step reduces to
+triangulating a smooth fibre bundle compatibly with a given triangulation of its base (Verona,
+Lemma 3.4, p. 439, from a theorem of Putz), which is a target here as well and uses
+GeometricTopology §11.3's smooth triangulations.
 
 Apply the theorem to each frame action `(F_n, O(n))` of §2.5 and take the disjoint union over
-`n`; through `|Γ^(n)| ≅ F_n/O(n)` this triangulates the coarse space of every presentation.
+`n`; through `|Γ^(n)| ≅ F_n/O(n)` this triangulates the coarse space of every presentation. The
+`O(n)`-stabilizer of a frame over `x` is the image of the effective isotropy group of `x` under its
+faithful tangent representation, so the orbit types of the frame action are the conjugacy classes
+in `O(n)` of these representations.
 
 *Needs:* SmoothBundlesConnections B1.4 (invariant metrics, equivariant linear charts and slices for
-actions of compact Lie groups); §2.5 (for the application to frame actions); GeometricTopology §11.1
-(simplicial complexes, subdivision and geometric realization); Tau Ceti `TauCeti.IsTriangulable`.
+actions of compact Lie groups); AlgebraicTopologyPartII §§16.1a–16.1b (smooth stratified spaces and
+control data); §2.5 (for the application to frame actions); GeometricTopology §11.1 (simplicial
+complexes, subdivision and geometric realization) and §11.3 (smooth triangulations); Tau Ceti
+`TauCeti.IsTriangulable`.
 
 **Checks.**
-- For `S¹` acting on `S³ ⊂ ℂ²` by `λ · (z, w) = (λ^a z, λ^b w)`, `a`, `b` coprime, the action is locally free,
-  with stabilizers `ℤ/a` and `ℤ/b` on the two coordinate circles, and the orbit space is homeomorphic to
-  `S²`, the boundary of a tetrahedron. For `ℝ` acting freely on the torus by an irrational linear flow,
-  every orbit is dense, so the orbit space has the indiscrete topology on uncountably many points and is
-  not Hausdorff, hence not triangulable: compactness of `K` is used.
+- For `S¹` acting on `S³ ⊂ ℂ²` by `λ · (z, w) = (λ^a z, λ^b w)`, `a`, `b` coprime positive integers, the
+  action is locally free, with stabilizers `ℤ/a` and `ℤ/b` on the two coordinate circles, and the orbit
+  space is homeomorphic to `S²`, the boundary of a tetrahedron. For `ℝ` acting freely on the torus by
+  an irrational linear flow, every orbit is dense, so the orbit space has the indiscrete topology on
+  uncountably many points and is not Hausdorff, hence not triangulable: compactness of `K` is used.
+- For `ℤ/m` with `m ≥ 2` rotating `ℝ³` about the `z`-axis, `(w, z) ↦ (w^m/|w|^(m−1), z)`, with
+  `w = x + iy`, identifies the orbit space with `ℝ³`; its orbit-type strata are the axis and its
+  complement. Composing a linear triangulation of `ℝ³` with the homeomorphism
+  `(x, y, z) ↦ (x, y + z², z)` gives a triangulation of the orbit space in which the axis corresponds
+  to the parabola `{(0, −t², t)}`. The parabola contains no segment and is uncountable, while the
+  vertices are countable, so it meets open simplices of positive dimension of every linear subdivision
+  without containing them, and on those the stabilizer jumps between `ℤ/m` and the trivial group:
+  triangulability alone does not give the stratified form.
 
 ### 3.2 Atlas-subordinate triangulations of the coarse space
 
-Transport the triangulation of §3.1 to `|Γ|` and construct stellar refinements subordinate to a
-given chart atlas (§2.2): every closed simplex and every sufficiently small closed star lies in a
-designated chart. Prove that the isotropy group is constant on each open simplex, that passing to a
-face gives an inclusion of isotropy subgroups, and that changing charts conjugates them. Prove that
-each simplex and each star lifts homeomorphically into its chart, compatibly with restriction to
-faces and smaller stars, and lift these to the original, possibly ineffective, charts with their
-full groups (Moerdijk–Pronk, *Simplicial cohomology of orbifolds*, §1.2). Prove that the
-triangulation is locally finite and that a compact coarse space has finitely many simplices.
+Transport the stratified triangulation of §3.1 to `|Γ|`, in which every orbit-type stratum of the
+frame actions is a union of open simplices, and construct stellar refinements subordinate to a given
+chart atlas (§2.2), which keep that property: every closed simplex and every sufficiently small
+closed star lies in a designated chart. Prove that the isotropy group is constant on each open
+simplex, that passing to a face gives an inclusion of isotropy subgroups, and that changing charts
+conjugates them. Prove that each simplex and each star lifts homeomorphically into its chart,
+compatibly with restriction to faces and smaller stars, and lift these to the original, possibly
+ineffective, charts with their full groups (Moerdijk–Pronk, *Simplicial cohomology of orbifolds*,
+§1.2). Prove that the triangulation is locally finite and that a compact coarse space has finitely
+many simplices.
 
 *Needs:* §3.1; §2.2; §2.3 (to pass from effective to full chart groups).
 
@@ -655,18 +688,25 @@ chains and their comparison with singular chains).
 
 ### 3.4 Face-adapted triangulations and the quadrant diffeology
 
-For the globally collared domains of §1.6, construct triangulations relative to the faces, using
-the compatible collars, the double along the faces, and the relative locally polyhedral gluing
-proof, which is a target here. Prove that after refinement every labelled face is a subcomplex,
-and that a compact domain gives finite CW pairs. Neither this nor the smoothness statement below
-is deduced from the boundaryless theorem of §3.1.
+For the globally collared domains of §1.6, construct triangulations relative to the faces. Use the
+compatible collars to form the double of the domain along its labelled faces, a boundaryless
+presentation on which the reflections in the faces act and commute with the arrows, and apply the
+stratified form of §3.1 to it with these reflections adjoined. A labelled face is the fixed locus
+of its reflection. Near a point of the face, the points of its orbit type have its stabilizer, which
+contains the reflection, so every orbit-type stratum meeting the face lies in it, and the face is a
+union of open simplices (for one face and a compact Lie group acting on a manifold with boundary,
+Illman, Math. Ann. 262 (1983), §7, pp. 499–500). Prove that after refinement every labelled face is a
+subcomplex, and that a compact domain gives finite CW pairs. The smoothness statement below is not
+deduced from §3.1.
 
 Construct the quadrant diffeology on these models: a map from a Cartesian test space is a plot when
 it is locally the restriction of a smooth map into the ambient object manifold. Prove that its
 D-topology is the given relative topology, and prove the smooth-extension criterion: a map out of a
 quadrant model is `DSmooth` exactly when it is smooth in the manifold-with-corners sense of the
-charts. Prove the laws for face-preserving gluing, refinement and finite products. Parameter
-coordinates carry trivial isotropy, and maps exchanging faces are excluded.
+charts (for the corner `[0, ∞)^n ⊂ ℝ^n` and for manifolds with corners, Gürer and Iglesias-Zemmour,
+Indag. Math. 30 (2019), §2, Theorem 1, and §3, Theorem). Prove the laws for face-preserving gluing,
+refinement and finite products. Parameter coordinates carry trivial isotropy, and maps exchanging
+faces are excluded.
 
 *Needs:* §1.6; §3.1; §2.6 (the diffeology conventions); GeometricTopology §1.1 (smooth
 collars); Mathlib `DiffeologicalSpace`, `DSmooth`, `dTopology`.
@@ -699,17 +739,19 @@ orientation).
 
 - For `Γ` the unit groupoid of a manifold, §§3.1–3.3 reduce to a smooth triangulation and its
   open-star cover, with trivial isotropy throughout.
-- For `ℤ/m` acting on `ℝ²` by rotations, the coarse space is homeomorphic to `ℝ²`; in a
-  subordinate triangulation with the origin as a vertex, the isotropy group is `ℤ/m` on that vertex
-  and trivial on every other open simplex, since the action is free away from the origin.
+- For `ℤ/m` acting on `ℝ²` by rotations, the coarse space is homeomorphic to `ℝ²`, and the origin is
+  an orbit-type stratum by itself, so it is a vertex of every stratified triangulation (§3.1); the
+  isotropy group is `ℤ/m` on that vertex and trivial on every other open simplex, since the action
+  is free away from the origin.
 - For `[*/ℤ/m]` the coarse space is a point, a finite CW complex, while `BΓ` has
   `H²ⁱ(BΓ;ℤ) ≅ ℤ/m` for every `i ≥ 1`: the coarse CW model and the classifying space are kept apart.
 
 ### Dependencies
 
 Layer 1 (§1.6 for §§3.4–3.5) and Layer 2 (§§2.1–2.3, 2.5, 2.6). External: SmoothBundlesConnections
-B1.4; GeometricTopology §§1.1 and 11.1 (collars, simplicial complexes, realization);
-AlgebraicTopology Layers 3–4; DifferentialGeometry Layer 2 and §5.1; Mathlib's diffeology.
+B1.4; AlgebraicTopologyPartII §§16.1a–16.1b (Thom–Mather spaces); GeometricTopology §§1.1, 11.1 and
+11.3 (collars, simplicial complexes, realization, smooth triangulations); AlgebraicTopology Layers
+3–4; DifferentialGeometry Layer 2 and §5.1; Mathlib's diffeology.
 
 ## Layer 4: Orbibundles, forms and the classifying-space comparison
 
@@ -1068,12 +1110,10 @@ of the compact set outside `X_n`, along increasing stage indices; each stage mee
 of its subsets, in finitely many points, hence in a closed set by T1, so the weak topology makes the
 chosen set closed and discrete, contradicting compactness. Since the stages are k-spaces, this
 criterion proves that the raw weak topology is already compactly generated, so the compactly
-generated realization is this normal Lindelöf T1 space. Prove that a regular Lindelöf space is
-paracompact: given an open cover, choose open `V_x` with closure inside a member `U_x`, select a
-countable subcover `V_n` by Lindelöfness, and set `W_n = U_n ∖ ⋃_{k<n} closure(V_k)`; the `W_n` refine the
-cover, cover the space (a point lies in `W_n` for the least `n` with the point in `closure(V_n)`) and are
-locally finite (a point of `V_m` has the neighbourhood `V_m`, which meets only the `W_n` with `n ≤ m`).
-Normal T1 also gives Hausdorff, so the realization is paracompact Hausdorff.
+generated realization is this normal Lindelöf T1 space. Normal T1 gives regular and Hausdorff, and
+a regular Lindelöf space is paracompact (Tau Ceti's
+`TauCeti.paracompactSpace_of_regularSpace_lindelofSpace`), so the realization is paracompact
+Hausdorff.
 
 Give the same closed-attachment and colimit proof for the torus bar realizations of §4.9c, whose
 levels are compact Hausdorff manifolds with closed latching inclusions; this proves them
@@ -1102,13 +1142,7 @@ This proves local contractibility under the stated hypotheses.
 
 *Needs:* §4.9; AlgebraicTopology §4.8 (compactly generated products and colimits) and §4.7
 (paracompactness of CW complexes); Mathlib's Urysohn lemma and Tietze extension theorem for normal
-spaces.
-
-**Checks.**
-- For the cover of `ℝ` by `U_n = (−n, n)` with `V_n = (−n + ½, n − ½)`, the construction gives `W_1 = (−1, 1)`
-  and `W_n = (−n, n) ∖ [−n + 3/2, n − 3/2]` for `n ≥ 2`: open, covering `ℝ`, and locally finite, since a
-  point of `V_m` lies in no `W_n` with `n > m`. Removing the open sets `V_k` instead of their closures
-  gives `(−n, n) ∖ (−n + 3/2, n − 3/2)`, which is not open.
+spaces; Tau Ceti's `TauCeti.paracompactSpace_of_regularSpace_lindelofSpace`.
 
 ### 4.9b The rational coarse comparison and the orbifold de Rham theorem on the nerve (O4-T)
 
@@ -1612,7 +1646,10 @@ their own models: R3 identifies its possibly ineffective level presentation, its
 refinement bibundles and restricted symplectic form with the action presentation of §1.4 and the
 invariant forms of §4.2, and ConvexityToric Layer 4 identifies its level principal torus bundle with
 the carriers of §§4.1–4.9c before evaluating classes, reduced volumes and Duistermaat–Heckman
-integrals on effective and ineffective presentations alike. The comparison with the effective
+integrals on effective and ineffective presentations alike. Both roadmaps also mention a later
+comparison, by the former block O7, of their forms, classes and completed models with other
+Hamiltonian carriers: it is not planned here, since it would take their carriers as inputs, and
+their own identifications above are what their applications use. The comparison with the effective
 reduction that those applications use is generic and is proved here. On a connected component of
 the coarse space where the ineffective kernel has order `k` (§2.3), compare a presentation with its
 effective reduction only through actual coarse, form and bundle data: the invariant forms of the two
@@ -1666,8 +1703,9 @@ fibre products, action presentations of locally free proper actions, topological
 of families and globally collared domains (Layer 1); linear charts with retained arrows,
 finite-chart atlases, the ineffective kernel and effective reduction on presentations, averaging,
 cutoffs and the nerve contraction on proper groupoids, frame bundles and the coarse diffeology
-(Layer 2); the Yang–Cairns triangulation with its relative form, atlas-subordinate triangulations,
-open-star covers and face orientations (Layer 3); orbibundles, invariant forms, the coarse map and
+(Layer 2); Yang's triangulation theorem in its stratified form, the triangulation of Thom–Mather
+spaces that proves it and its relative form, atlas-subordinate triangulations, open-star covers and
+face orientations (Layer 3); orbibundles, invariant forms, the coarse map and
 the comparisons of `BΓ` with `|Γ|`, the relative and compactly supported versions, the represented
 bundle, the simplicial Chern–Weil comparison and the thin, diagonal and torus-classifier models
 (Layer 4); weighted integration, Stokes, local homology, compact classes, rational duality, Thom
@@ -1690,10 +1728,10 @@ the tangent representation of an effective action (§2.5); the manifold and quot
 subductions, products and local finite-quotient charts (§2.6); the topological nerve, the fat
 realization and the fat classifying space with the open-restriction criterion, and the coarse map
 of an action groupoid (§4.3); invariant forms on action groupoids (§4.2); the invariant Poincaré
-lemmas (§4.5); the bisimplicial Alexander–Whitney map (§4.9); and the predicate of triangulability
-of a space (§3.1). Mathlib supplies action categories, orbit quotients, proper maps, finite averaging
-and diffeological spaces. The targets of the sections cited are what remains: the groupoid-level and
-smooth statements built from these.
+lemmas (§4.5); the bisimplicial Alexander–Whitney map (§4.9); the predicate of triangulability of
+a space (§3.1); and the paracompactness of regular Lindelöf spaces (§4.9a). Mathlib supplies action
+categories, orbit quotients, proper maps, finite averaging and diffeological spaces. The targets of
+the sections cited are what remains: the groupoid-level and smooth statements built from these.
 
 **Owned elsewhere and consumed here.**
 
@@ -1721,9 +1759,11 @@ smooth statements built from these.
   here (§§4.8–4.9c).
 - *Ordinary vector bundles and their classifiers*: TopologicalKTheory T1.1 and T1.6. *Orthogonal
   groups*: LieGroups Layer 2. *Simplicial complexes and their realization, smooth triangulations of
-  manifolds and smooth collars*: GeometricTopology §§11.1, 11.3 and 1.1; the orbit-stratum,
-  locally polyhedral and quotient-compatible triangulation theory for coarse spaces is built here
-  (Layer 3). *Complex orientations*: ComplexKahlerGeometry §1.1.
+  manifolds and smooth collars*: GeometricTopology §§11.1, 11.3 and 1.1; the orbit-type
+  stratification of orbit spaces with its control data, the stratum-compatible triangulation of
+  Thom–Mather spaces and the quotient-compatible triangulations of coarse spaces are built here
+  (Layer 3). *Smooth stratified spaces, control data and Thom–Mather spaces*: AlgebraicTopologyPartII
+  §§16.1a–16.1b. *Complex orientations*: ComplexKahlerGeometry §1.1.
 - *Fuchsian orbifolds*: FuchsianOrbifolds keeps its elliptic and cusp quotients and its area and
   signature calculations; §7.4 compares its elliptic charts (its Layer 1) and their hyperbolic area
   (its Layer 2 item 1) with the generic ones.
@@ -1856,6 +1896,8 @@ and continuous units and composition where needed.
   properly and smoothly; `Geometry/Diffeology/Slice.lean`).
 - *Triangulability* (§3.1): `TauCeti.IsTriangulable` (homeomorphic to the realization of an abstract
   simplicial complex; `Topology/Triangulable/Basic.lean`).
+- *Paracompactness* (§4.9a): `TauCeti.paracompactSpace_of_regularSpace_lindelofSpace` (a regular
+  Lindelöf space is paracompact, no Hausdorff hypothesis; `Topology/Compactness/Paracompact.lean`).
 - *Invariant forms* (§4.2): `TauCeti.ActionGroupoid.invariantForms`, for action groupoids of discrete
   monoids, with exterior derivative, wedge products and pullbacks
   (`Geometry/Manifold/GroupAction/ActionGroupoid/InvariantForm.lean`).
@@ -1926,6 +1968,13 @@ and continuous units and composition where needed.
 - §8.8: the bar construction of a discrete group and its identification of the cohomology of `BG`
   with group cohomology (§2.4).
 
+### From TauCetiRoadmap.AlgebraicTopologyPartII
+
+§16.1a: smooth stratified spaces, Hausdorff, locally compact and second countable, with a locally
+finite stratification by locally closed smooth manifolds satisfying the frontier condition; §16.1b:
+control data and Thom–Mather spaces. §3.1 equips the orbit space of a compact Lie group action with
+this structure and triangulates it.
+
 ### From TauCetiRoadmap.CharacteristicClasses
 
 - C1.1b: numerable join bundles, Milnor's universal bundle `E_join → B_join(T)` and the
@@ -1981,9 +2030,14 @@ whose weighted integral is compared in §7.4.
 - B. van den Berg and I. Moerdijk, *Univalent completion*, Math. Ann. (2018), §2.3, for the
   classifying space of a simplicial groupoid as the diagonal of its nerve.
 - C. T. Yang, *The triangulability of the orbit space of a differentiable transformation group*,
-  Bull. AMS 69 (1963), 405–408, and S. S. Cairns, contribution to *Lectures in Topology*,
-  University of Michigan, 1941, pp. 143–157, for the locally polyhedral triangulation used in the
-  orbit-space route; the triangulation and its relative form are targets of Layer 3.
+  Bull. AMS 69 (1963), 405–408, for the statement of §3.1 and the manifold structure of the
+  orbit-type strata; the last step of its proof rests on a theorem of Cairns that is false.
+- A. Verona, *Triangulation of stratified fibre bundles*, Manuscripta Math. 30 (1980), 425–445, for
+  the stratum-compatible triangulation of abstract prestratified spaces and of orbit spaces (§3.1).
+- S. Illman, *The equivariant triangulation theorem for actions of compact Lie groups*, Math. Ann.
+  262 (1983), 487–501, for the gap in Yang's proof and the doubling along the boundary (§§3.1, 3.4).
+- S. Gürer and P. Iglesias-Zemmour, *Differential forms on manifolds with boundary and corners*,
+  Indag. Math. 30 (2019), 920–929, for the diffeology of corners (§3.4).
 - A. Adem, J. Leida and Y. Ruan, *Orbifolds and Stringy Topology*, Cambridge, 2007, Chapters 1–2,
   for ineffective groupoids, bundles, forms and weighted integration.
 - Mathlib's diffeology, `Mathlib/Geometry/Diffeology/Basic.lean` (`DiffeologicalSpace`,
