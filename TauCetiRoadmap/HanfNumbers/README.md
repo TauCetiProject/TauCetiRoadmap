@@ -39,15 +39,6 @@ TauCeti/ModelTheory/Infinitary/Hanf/      -- Hanf bounds, Morley–Hanf, sharpne
 TauCeti/ModelTheory/Infinitary/Small/     -- small structures, complete sentences, categoricity
 ```
 
-## Scope and ownership
-
-Every layer below is required. The ordering is the dependency order: no layer uses a later one.
-This roadmap owns the partition results of Layer 0, indiscernible sequences and templates, Skolem
-towers and Ehrenfeucht–Mostowski models, Hanf bounds and Hanf numbers, smallness, complete
-sentences and categorical completions. Its suppliers are listed under
-[Exact supplier contracts](#exact-supplier-contracts), and what it leaves to other roadmaps under
-[Out of scope](#out-of-scope).
-
 ## How to read the build
 
 Each row is one layer: what it builds, what it consumes, and the acceptance check that compiles
@@ -150,106 +141,6 @@ only through the upper bound and the existence of a global Hanf bound.
   its reverse are two of cardinality `ℵ₁` with cofinalities `ℵ₁` and `ℵ₀`.
 - "There are exactly two elements" is `2`-categorical and also `ℵ₀`-categorical, vacuously:
   categoricity in `κ` does not ask for a model of cardinality `κ`.
-
-## Exact supplier contracts
-
-The following are suppliers, not requests to rebuild their objects.
-
-| Supplier | Consumed material |
-| --- | --- |
-| Mathlib cardinals and ordinals | `Cardinal.beth`, `Cardinal.beth_add_one`, `Cardinal.beth_limit`, `Cardinal.beth_eq_preBeth`, `Cardinal.aleph0_le_beth`, `Cardinal.isRegular_succ`, `Cardinal.isRegular_aleph_one`, `Cardinal.infinite_pigeonhole_card`, `Cardinal.exists_uncountable_fiber`, `Ordinal.omega`, `Cardinal.ord`, `Ordinal.ToType`, `exists_wellFoundedLT`, `Cardinal.countable_toType_of_lt_omega_one` |
-| Mathlib order theory | `OrderEmbedding` (`↪o`), `OrderIso` (`≃o`), `Finset.orderEmbOfFin`, `WellFoundedLT` |
-| Mathlib von Neumann hierarchy | `ZFSet.vonNeumann` (`V_`), `ZFSet.vonNeumann_add_one`, `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `ZFSet.vonNeumann_subset_of_le`, `ZFSet.card_vonNeumann` (`card (V_ o) = preBeth o`), `ZFSet.card` |
-| Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |
-| Mathlib first-order logic | `FirstOrder.Language`, `Structure`, `Term`, `Term.realize`, `LHom` (`→ᴸ`) and `LHom.reduct`, `Language.sum`, `M ≃[L] N`, `Substructure.closure`; the first-order Skolem language `Language.skolem₁` fixes the shape of the Skolem functions of Layer 2 |
-| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `FirstOrder.Language.BoundedFormulaInf` with `L.BoundedFormulaω` and `L.Sentenceω`, `BoundedFormulaInf.Realize` and `SentenceInf.Realize` with their simp lemmas, `TauCeti.IndexCoding` and the coded connectives `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `TauCeti.BoundedFormulaInf.subst` and `relabel`, `BoundedFormulaInf.mapBound` and `castLE`, and the finitary embedding `BoundedFormula.toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); Tau Ceti at this repository's pin (2fd255d99), [`ModelTheory/Infinitary/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary)`{Syntax, Semantics, IndexCoding, CodedConnectives, Substitution, Operations}.lean` |
-| InfinitaryLogic, Layers 1–3 | `TauCeti.BFEquiv` and `TauCeti.PotentialIso`, and the following Tau Ceti declarations at this repository's pin (Tau Ceti 2fd255d99): `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence` ([`Scott/Sentence.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Sentence.lean)), the last for a model of any cardinality in any universe; `TauCeti.potentialIso_iff_bfEquiv_all` ([`BackAndForth/AllLevels.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/AllLevels.lean)); and the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean)). They are built on the parent's contracts as Tau Ceti implements them at the pin: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), as `TauCeti.scottSentenceAt`, `TauCeti.realize_scottSentenceAt_self` and `TauCeti.isTupleBFSystem_of_realize_scottSentenceAt` in `Scott/Sentence.lean`; and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem, as `TauCeti.potentialIso_iff_exists_isTupleBFSystem` ([`BackAndForth/Presentation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Presentation.lean)) and `TauCeti.karp_theorem` (`BackAndForth/Karp.lean`). Except `PotentialIso` and `scottSentenceAt`, all of these assume `[L.IsRelational]`, as Layer 5.4 does |
-
-**From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) roadmap** (IME)
-this roadmap consumes exactly the following, cited by IME layer and section, and nothing else of
-it. Each item closes with its implementation in Tau Ceti at this repository's pin (2fd255d99),
-with names in `FirstOrder.Language` and paths under [`TauCeti/ModelTheory/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory); the three
-parts marked "not at the pin" remain IME targets.
-
-- **IME Layer 0.1, language maps.** `onBoundedFormulaInf (g : L →ᴸ L')` with
-  `realize_onBoundedFormulaInf` (realization under `g.IsExpansionOn M`), the functor laws, its
-  commutation with `mapBound` and the coded connectives, and injectivity for injective `g`; and,
-  from IME 0.4, its commutation with bound substitution `onBoundedFormulaInf_substBounds`. Layers 2,
-  3 and 5 move formulas between a language, its Skolem extensions and its reducts. At the pin:
-  `LHom.onBoundedFormulaInf`, written `g.onBoundedFormulaInf φ`, with
-  `LHom.realize_onBoundedFormulaInf`, `LHom.id_onBoundedFormulaInf`,
-  `LHom.comp_onBoundedFormulaInf`, `LHom.onBoundedFormulaInf_mapBound`,
-  `LHom.onBoundedFormulaInf_iInfAlong` and `_iSupAlong` (`Infinitary/LanguageMap.lean`), and
-  `LHom.onBoundedFormulaInf_substBounds` (`Infinitary/SubstBounds.lean`); injectivity is not at the
-  pin.
-- **IME Layer 0.2, occurrences and locality.** `functionsIn`, `relationsIn`,
-  `functionsIn_countable`, `relationsIn_countable`, and symbol locality
-  `realize_congr_of_agreeOn`. At the pin: the same names in `BoundedFormulaInf`
-  (`Infinitary/Symbols.lean`).
-- **IME Layer 0.3, sublanguages.** `symbSublang F R` with `symbSublangIncl F R`, `restrictSymbols`
-  and its round trip through `onBoundedFormulaInf (symbSublangIncl F R)`, the countable symbol
-  sublanguage of a sentence, and the small presentation `smallPresentation L : Language.{0, 0}` of a
-  language with countably many symbols, with `smallPresentationEquiv L : L ≃ᴸ smallPresentation L`
-  and `realize_smallPresentation`. Layers 3 and 5 reduce an arbitrary language to the countably many
-  symbols of `φ`. At the pin: `symbSublang`, `symbSublangIncl` (`Sublanguage.lean`),
-  `BoundedFormulaInf.restrictSymbols`, `BoundedFormulaInf.onBoundedFormulaInf_restrictSymbols`
-  (`Infinitary/Sublanguage.lean`), `smallPresentation`, `smallPresentationEquiv`,
-  `realize_smallPresentation` (`Infinitary/SmallPresentation.lean`); the countable symbol
-  sublanguage of a sentence is not at the pin as a named declaration.
-- **IME Layer 0.4, substitution for bound positions.** `substBounds` with `realize_substBounds`,
-  `mapBound f = substBounds (var ∘ Sum.inr ∘ f)`, and `onBoundedFormulaInf_substBounds`. Layer 2
-  substitutes Skolem terms for bound positions. At the pin: `BoundedFormulaInf.substBounds`,
-  `BoundedFormulaInf.realize_substBounds`, `BoundedFormulaInf.mapBound_eq_substBounds`
-  (`Infinitary/SubstBounds.lean`).
-- **IME Layer 1.1, theories.** `Theoryω`, `Theoryω.Model`, and `Theoryω.conjunction` with
-  `realize_conjunction_iff`. Layer 3 uses them for the countable-theory corollary, and Layer 5.6
-  for the graph axioms. At the pin: the same names, with `Theoryω.realize_conjunction_iff`
-  (`Infinitary/Theory.lean`).
-- **IME Layer 1.2, fragments.** `Fragment`, `Fragment.generated`, `Fragment.generated_countable`
-  (over any language). The formula set `Γ*` of Layer 2 is a `Fragment` of the Skolem language. At
-  the pin: the same names (`Infinitary/Fragment.lean`).
-- **IME Layer 2, fragment elementarity and Löwenheim–Skolem.** `AElementary`,
-  `aElementary_of_tarskiVaught` (2.2), and `exists_countable_aElementary_substructure` (2.3).
-  Layer 2 uses the Tarski–Vaught test for Skolem-closed substructures; Layer 5 uses the countable
-  substructure theorem for countable companions and for countable models of complete sentences. At
-  the pin: the same names (`ModelExistence/AElementary.lean`, `ModelExistence/LowenheimSkolem.lean`);
-  the substructure theorem assumes countably many function symbols only, which a relational
-  language has.
-- **IME Layer 4.1, types.** `infinitaryType M a` (the complete Lω₁ω-type: all formulas of
-  `L.BoundedFormulaω Empty n` true of `a`, not a fragment type), `realizedTypes M n`, the realized
-  type isolators `exists_isolatingFormula`, and the countable seed of isolators and their
-  one-variable existential closures. Layer 5 uses all of them. At the pin: `infinitaryType`,
-  `realizedTypes` and `exists_isolatingFormula` (`ModelExistence/Types.lean`), with no countability
-  or relational hypothesis; the packaged isolator seed is not at the pin.
-- **IME Layer 6, the graph translation.** The relational graph language of `L`, the graph
-  expansion of an `L`-structure, `relationalize` with `realize_relationalize`, `backTranslate` with
-  `realize_backTranslate`, and `graphAxioms` with reconstruction of an `L`-structure from a model
-  of them. Layer 5.6 moves smallness and complete sentences between a countable language and its
-  graph language. At the pin: `graphLanguage` with the instances `isRelational_graphLanguage` and
-  `countable_relations_graphLanguage`, and `graphExpansion`
-  (`Infinitary/GraphTranslation/Language.lean`);
-  `BoundedFormulaInf.relationalize`, `BoundedFormulaInf.realize_relationalize`
-  (`…/Relationalize.lean`); `graphAxioms` (a `Theoryω`, made one sentence by
-  `Theoryω.conjunction` with `Set.Countable.graphAxioms`), `model_graphAxioms_graphExpansion`,
-  `reconstructStructure` (on a nonempty carrier),
-  `BoundedFormulaInf.realize_relationalize_reconstructStructure` and
-  `graphExpansion_reconstructStructure_relMap_graph` (`…/Reconstruct.lean`);
-  `BoundedFormulaInf.backTranslate`, `BoundedFormulaInf.realize_backTranslate`
-  (`…/BackTranslate.lean`).
-
-IME owns all of these. `Suggested.lean` imports the declarations at the pin and has no stand-ins.
-
-IME's model existence (Layer 3), omitting types (Layer 4.2), Morleyization (Layer 5),
-interpolation (Layer 7) and well-ordering (Layer 8) are not consumed. The
-Ehrenfeucht–Mostowski model of Layer 2 is built directly as a term model from a template, over
-index orders of every cardinality, where model existence for countable languages does not apply.
-The Skolem tower of Layer 2 is not a second version of IME's witness hull (IME 2.2): the hull
-chooses witnesses inside one structure without changing the language, while the tower extends the
-language by function symbols so that witnesses become terms, which a term model over an arbitrary
-index order needs. Its elementarity statement is an application of IME's Tarski–Vaught test.
-
-Neither pinned library has an infinite Ramsey theorem, an Erdős–Rado theorem or partition-relation
-vocabulary; Layer 0 colours increasing tuples of a linear order of every arity and cardinality.
 
 ## Layer 0 — The partition calculus of the Morley–Hanf proof
 
@@ -1391,6 +1282,115 @@ directory at that commit; the linked dependency script is relative to the reposi
   `exists_complete_kCategorical_of_hasArbLargeModels`). The source's completeness argument uses an
   external Scott height and `ModelTheory/ArbitraryStabilization.lean`; this roadmap uses the
   parent's internal Scott sentence instead, as in 5.4.
+
+## Scope and ownership
+
+Every layer below is required. The ordering is the dependency order: no layer uses a later one.
+This roadmap owns the partition results of Layer 0, indiscernible sequences and templates, Skolem
+towers and Ehrenfeucht–Mostowski models, Hanf bounds and Hanf numbers, smallness, complete
+sentences and categorical completions. Its suppliers are listed under
+[Exact supplier contracts](#exact-supplier-contracts), and what it leaves to other roadmaps under
+[Out of scope](#out-of-scope).
+
+## Exact supplier contracts
+
+The following are suppliers, not requests to rebuild their objects.
+
+| Supplier | Consumed material |
+| --- | --- |
+| Mathlib cardinals and ordinals | `Cardinal.beth`, `Cardinal.beth_add_one`, `Cardinal.beth_limit`, `Cardinal.beth_eq_preBeth`, `Cardinal.aleph0_le_beth`, `Cardinal.isRegular_succ`, `Cardinal.isRegular_aleph_one`, `Cardinal.infinite_pigeonhole_card`, `Cardinal.exists_uncountable_fiber`, `Ordinal.omega`, `Cardinal.ord`, `Ordinal.ToType`, `exists_wellFoundedLT`, `Cardinal.countable_toType_of_lt_omega_one` |
+| Mathlib order theory | `OrderEmbedding` (`↪o`), `OrderIso` (`≃o`), `Finset.orderEmbOfFin`, `WellFoundedLT` |
+| Mathlib von Neumann hierarchy | `ZFSet.vonNeumann` (`V_`), `ZFSet.vonNeumann_add_one`, `ZFSet.mem_vonNeumann`, `ZFSet.isTransitive_vonNeumann`, `ZFSet.vonNeumann_subset_of_le`, `ZFSet.card_vonNeumann` (`card (V_ o) = preBeth o`), `ZFSet.card` |
+| Mathlib ordered fields | `HahnSeries` with the lexicographic order `Lex R⟦Γ⟧` and its `IsStrictOrderedRing` instance (`RingTheory/HahnSeries/Lex.lean`), `Subfield.closure`, `Subfield.cardinalMk_closure_le_max` |
+| Mathlib first-order logic | `FirstOrder.Language`, `Structure`, `Term`, `Term.realize`, `LHom` (`→ᴸ`) and `LHom.reduct`, `Language.sum`, `M ≃[L] N`, `Substructure.closure`; the first-order Skolem language `Language.skolem₁` fixes the shape of the Skolem functions of Layer 2 |
+| [InfinitaryLogic](../../Completed/InfinitaryLogic/README.md), Layer 0 | `FirstOrder.Language.BoundedFormulaInf` with `L.BoundedFormulaω` and `L.Sentenceω`, `BoundedFormulaInf.Realize` and `SentenceInf.Realize` with their simp lemmas, `TauCeti.IndexCoding` and the coded connectives `BoundedFormulaInf.iInfAlong`/`iSupAlong`, `TauCeti.BoundedFormulaInf.subst` and `relabel`, `BoundedFormulaInf.mapBound` and `castLE`, and the finitary embedding `BoundedFormula.toInf` (with its `ℕ`-carrier case `BoundedFormula.toOmega`); Tau Ceti at this repository's pin (2fd255d99), [`ModelTheory/Infinitary/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Infinitary)`{Syntax, Semantics, IndexCoding, CodedConnectives, Substitution, Operations}.lean` |
+| InfinitaryLogic, Layers 1–3 | `TauCeti.BFEquiv` and `TauCeti.PotentialIso`, and the following Tau Ceti declarations at this repository's pin (Tau Ceti 2fd255d99): `TauCeti.scottSentence`, `TauCeti.realize_scottSentence_self` and `TauCeti.bfEquiv_of_realize_scottSentence` ([`Scott/Sentence.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/Scott/Sentence.lean)), the last for a model of any cardinality in any universe; `TauCeti.potentialIso_iff_bfEquiv_all` ([`BackAndForth/AllLevels.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/AllLevels.lean)); and the forward Karp direction `TauCeti.PotentialIso.infEquivAt` ([`BackAndForth/Karp.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Karp.lean)). They are built on the parent's contracts as Tau Ceti implements them at the pin: Layer 3's `scottSentenceAt`, `realize_scottSentenceAt_self` and `isTupleBFSystem_of_realize_scottSentenceAt` (in any model `N`), as `TauCeti.scottSentenceAt`, `TauCeti.realize_scottSentenceAt_self` and `TauCeti.isTupleBFSystem_of_realize_scottSentenceAt` in `Scott/Sentence.lean`; and Layer 1's `potentialIso_iff_exists_isTupleBFSystem` and Karp theorem, as `TauCeti.potentialIso_iff_exists_isTupleBFSystem` ([`BackAndForth/Presentation.lean`](https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory/BackAndForth/Presentation.lean)) and `TauCeti.karp_theorem` (`BackAndForth/Karp.lean`). Except `PotentialIso` and `scottSentenceAt`, all of these assume `[L.IsRelational]`, as Layer 5.4 does |
+
+**From the [InfinitaryModelExistence](../InfinitaryModelExistence/README.md) roadmap** (IME)
+this roadmap consumes exactly the following, cited by IME layer and section, and nothing else of
+it. Each item closes with its implementation in Tau Ceti at this repository's pin (2fd255d99),
+with names in `FirstOrder.Language` and paths under [`TauCeti/ModelTheory/`](https://github.com/TauCetiProject/TauCeti/tree/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/ModelTheory); the three
+parts marked "not at the pin" remain IME targets.
+
+- **IME Layer 0.1, language maps.** `onBoundedFormulaInf (g : L →ᴸ L')` with
+  `realize_onBoundedFormulaInf` (realization under `g.IsExpansionOn M`), the functor laws, its
+  commutation with `mapBound` and the coded connectives, and injectivity for injective `g`; and,
+  from IME 0.4, its commutation with bound substitution `onBoundedFormulaInf_substBounds`. Layers 2,
+  3 and 5 move formulas between a language, its Skolem extensions and its reducts. At the pin:
+  `LHom.onBoundedFormulaInf`, written `g.onBoundedFormulaInf φ`, with
+  `LHom.realize_onBoundedFormulaInf`, `LHom.id_onBoundedFormulaInf`,
+  `LHom.comp_onBoundedFormulaInf`, `LHom.onBoundedFormulaInf_mapBound`,
+  `LHom.onBoundedFormulaInf_iInfAlong` and `_iSupAlong` (`Infinitary/LanguageMap.lean`), and
+  `LHom.onBoundedFormulaInf_substBounds` (`Infinitary/SubstBounds.lean`); injectivity is not at the
+  pin.
+- **IME Layer 0.2, occurrences and locality.** `functionsIn`, `relationsIn`,
+  `functionsIn_countable`, `relationsIn_countable`, and symbol locality
+  `realize_congr_of_agreeOn`. At the pin: the same names in `BoundedFormulaInf`
+  (`Infinitary/Symbols.lean`).
+- **IME Layer 0.3, sublanguages.** `symbSublang F R` with `symbSublangIncl F R`, `restrictSymbols`
+  and its round trip through `onBoundedFormulaInf (symbSublangIncl F R)`, the countable symbol
+  sublanguage of a sentence, and the small presentation `smallPresentation L : Language.{0, 0}` of a
+  language with countably many symbols, with `smallPresentationEquiv L : L ≃ᴸ smallPresentation L`
+  and `realize_smallPresentation`. Layers 3 and 5 reduce an arbitrary language to the countably many
+  symbols of `φ`. At the pin: `symbSublang`, `symbSublangIncl` (`Sublanguage.lean`),
+  `BoundedFormulaInf.restrictSymbols`, `BoundedFormulaInf.onBoundedFormulaInf_restrictSymbols`
+  (`Infinitary/Sublanguage.lean`), `smallPresentation`, `smallPresentationEquiv`,
+  `realize_smallPresentation` (`Infinitary/SmallPresentation.lean`); the countable symbol
+  sublanguage of a sentence is not at the pin as a named declaration.
+- **IME Layer 0.4, substitution for bound positions.** `substBounds` with `realize_substBounds`,
+  `mapBound f = substBounds (var ∘ Sum.inr ∘ f)`, and `onBoundedFormulaInf_substBounds`. Layer 2
+  substitutes Skolem terms for bound positions. At the pin: `BoundedFormulaInf.substBounds`,
+  `BoundedFormulaInf.realize_substBounds`, `BoundedFormulaInf.mapBound_eq_substBounds`
+  (`Infinitary/SubstBounds.lean`).
+- **IME Layer 1.1, theories.** `Theoryω`, `Theoryω.Model`, and `Theoryω.conjunction` with
+  `realize_conjunction_iff`. Layer 3 uses them for the countable-theory corollary, and Layer 5.6
+  for the graph axioms. At the pin: the same names, with `Theoryω.realize_conjunction_iff`
+  (`Infinitary/Theory.lean`).
+- **IME Layer 1.2, fragments.** `Fragment`, `Fragment.generated`, `Fragment.generated_countable`
+  (over any language). The formula set `Γ*` of Layer 2 is a `Fragment` of the Skolem language. At
+  the pin: the same names (`Infinitary/Fragment.lean`).
+- **IME Layer 2, fragment elementarity and Löwenheim–Skolem.** `AElementary`,
+  `aElementary_of_tarskiVaught` (2.2), and `exists_countable_aElementary_substructure` (2.3).
+  Layer 2 uses the Tarski–Vaught test for Skolem-closed substructures; Layer 5 uses the countable
+  substructure theorem for countable companions and for countable models of complete sentences. At
+  the pin: the same names (`ModelExistence/AElementary.lean`, `ModelExistence/LowenheimSkolem.lean`);
+  the substructure theorem assumes countably many function symbols only, which a relational
+  language has.
+- **IME Layer 4.1, types.** `infinitaryType M a` (the complete Lω₁ω-type: all formulas of
+  `L.BoundedFormulaω Empty n` true of `a`, not a fragment type), `realizedTypes M n`, the realized
+  type isolators `exists_isolatingFormula`, and the countable seed of isolators and their
+  one-variable existential closures. Layer 5 uses all of them. At the pin: `infinitaryType`,
+  `realizedTypes` and `exists_isolatingFormula` (`ModelExistence/Types.lean`), with no countability
+  or relational hypothesis; the packaged isolator seed is not at the pin.
+- **IME Layer 6, the graph translation.** The relational graph language of `L`, the graph
+  expansion of an `L`-structure, `relationalize` with `realize_relationalize`, `backTranslate` with
+  `realize_backTranslate`, and `graphAxioms` with reconstruction of an `L`-structure from a model
+  of them. Layer 5.6 moves smallness and complete sentences between a countable language and its
+  graph language. At the pin: `graphLanguage` with the instances `isRelational_graphLanguage` and
+  `countable_relations_graphLanguage`, and `graphExpansion`
+  (`Infinitary/GraphTranslation/Language.lean`);
+  `BoundedFormulaInf.relationalize`, `BoundedFormulaInf.realize_relationalize`
+  (`…/Relationalize.lean`); `graphAxioms` (a `Theoryω`, made one sentence by
+  `Theoryω.conjunction` with `Set.Countable.graphAxioms`), `model_graphAxioms_graphExpansion`,
+  `reconstructStructure` (on a nonempty carrier),
+  `BoundedFormulaInf.realize_relationalize_reconstructStructure` and
+  `graphExpansion_reconstructStructure_relMap_graph` (`…/Reconstruct.lean`);
+  `BoundedFormulaInf.backTranslate`, `BoundedFormulaInf.realize_backTranslate`
+  (`…/BackTranslate.lean`).
+
+IME owns all of these. `Suggested.lean` imports the declarations at the pin and has no stand-ins.
+
+IME's model existence (Layer 3), omitting types (Layer 4.2), Morleyization (Layer 5),
+interpolation (Layer 7) and well-ordering (Layer 8) are not consumed. The
+Ehrenfeucht–Mostowski model of Layer 2 is built directly as a term model from a template, over
+index orders of every cardinality, where model existence for countable languages does not apply.
+The Skolem tower of Layer 2 is not a second version of IME's witness hull (IME 2.2): the hull
+chooses witnesses inside one structure without changing the language, while the tower extends the
+language by function symbols so that witnesses become terms, which a term model over an arbitrary
+index order needs. Its elementarity statement is an application of IME's Tarski–Vaught test.
+
+Neither pinned library has an infinite Ramsey theorem, an Erdős–Rado theorem or partition-relation
+vocabulary; Layer 0 colours increasing tuples of a linear order of every arity and cardinality.
 
 ## References
 
