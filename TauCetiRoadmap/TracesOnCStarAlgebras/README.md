@@ -24,69 +24,17 @@ examples are the canonical trace on the compact operators (Schatten classes), Ra
 [Suggested.lean](Suggested.lean) states the Tr1–Tr3 headlines that are statable at the pinned
 libraries; its docstring records which carriers the remaining statements lack.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns, in four layers cited as Tr1–Tr4 (subsection `k.n` of layer Tr`k` is
-Tr`k.n`):
-
-- Tr1: traces on C*-algebras in Dixmier's sense and their faithfulness; the cone `𝔪_τ⁺`, the
-  ideals `𝔫_τ` and `𝔪_τ`, the linear extension of `τ` to `𝔪_τ` with its trace property, unitary
-  invariance, bounded traces as positive tracial functionals, pullback, sums and directed
-  suprema; lower semicontinuity with Combes's theorem for traces; Dixmier's semifiniteness,
-  density of the domain and its comparison with the Pedersen ideal; the lower semicontinuous
-  regularization of a densely defined trace; the amplified traces `τ_n` on `M_n(B)`.
-- Tr2: the GNS data `(H_τ, Λ_τ, π_τ, π_τᵒᵖ, J_τ)` of a trace; the Hilbert algebra `Λ_τ(𝔫_τ)` of a
-  lower semicontinuous trace; the von Neumann algebra `M_τ = π_τ(B)''` with its natural trace
-  `τ̄`; the normal-extension theorem `τ = τ̄ ∘ π_τ` on `B₊`, its uniqueness for densely defined
-  traces and the identification `H_τ ≅ L²(M_τ, τ̄)`; normal representations and Dixmier's
-  correspondence.
-- Tr3: the trace ideals `J_p`, `1 ≤ p < ∞`, with their gauges and Banach *-algebra norms,
-  Hölder's inequality, monotonicity, the endpoints, cyclicity, matrix amplification, the cyclic
-  multilinear trace forms, and the examples of Tr3.4, including the τ-compact operators of a
-  semifinite von Neumann algebra.
-- Tr4: the `K₀` and `K₁` isomorphisms induced by `J_p ⊆ B`; the trace homomorphism `τ_*` of a
-  densely defined trace with its comparisons; the classification of the densely defined lower
-  semicontinuous traces of an AF algebra by `τ_*`.
-
-It leaves the following to the named owners and consumes them by section.
-
-- **VonNeumannAlgebras** owns the GNS construction of bounded positive functionals and faithful
-  representations (V0), the bicommutant and Kaplansky theorems (V1), traces on finite-dimensional
-  algebras (V3), normal functionals and normality (V4), normal semifinite traces
-  (`IsNormalSemifiniteTrace`) with faithfulness, semifiniteness, finite-trace projection
-  exhaustion and the `L²` of a faithful normal semifinite trace (V6), the tracial `Lᵖ(M,τ)`,
-  `1 ≤ p < ∞`, with completeness, Hölder, adjoints, bounded left and right multiplication,
-  `L² = GNS` and `L¹ = M_*` (V10.TracialLp), and left Hilbert algebras with their commutants,
-  full closures, Tomita's theorem and canonical normal semifinite faithful weights (V11). Tr2–Tr3
-  apply these to `M_τ`; nothing about von Neumann algebras is restated.
-- **NoncommutativeIntegration** owns Hölder's inequality with constant one (its §1.4), the
-  identification `Lᵖ(B(H), Tr) = S_p` (§1.5), and `Lᵖ`–`L^q` duality with the cyclicity of the
-  trace pairing (§2.1). Exponents below `1` are not used here: the trace ideals are built for
-  `1 ≤ p < ∞`.
-- **CStarAlgebras** owns approximate units (C1.4), positive contractive right approximate
-  identities inside algebraic left ideals (C1.5), and the compact operators and the Pedersen ideal
-  `Ped(B)`, the smallest dense two-sided ideal (C1.6).
-- **AmenableTracesOnCStarAlgebras** owns tracial states and the GNS data of a tracial state (its
-  §§1.1 and 1.4). A bounded trace is the restriction to `B₊` of a positive tracial functional
-  (Tr1.1), and Tr2.2 compares the two GNS constructions; the approximation properties of tracial
-  states stay there.
-- **OperatorKTheory** owns `K₀` and `K₁` (K1–K2), the pairing of a positive tracial functional
-  with `K₀` and its compact-operator example (K1.5), continuity of `K₀` under inductive limits
-  (K2.3), and the K-theory of dense inverse-closed subalgebras with its Banach-norm sufficient
-  condition (K3.5). Tr4.1 applies K3.5 to `J_p`; Tr4.2 extends K1.5 to densely defined traces.
-- **NoncommutativeGeometry** owns cyclic cocycles with their pairings with idempotents and
-  invertibles (N1–N2), the Schatten-class characters of Fredholm modules (N3) and the Dixmier
-  traces of `L^(1,∞)` (N4). Tr4.2 compares `τ_*` with N2's degree-zero pairing and computes it for
-  Dixmier traces.
-- **CStarClassification** owns AF algebras with their presentations (its Layer 2) and the unital
-  comparison `T(A) ≅ S(K₀(A),[1])` (its §3.4); Tr4.3 extends the latter to densely defined lower
-  semicontinuous traces on arbitrary AF algebras.
-- **OperatorTheory/OperatorIdeals** owns the trace-class, Hilbert–Schmidt and Schatten families
-  (its Part B), consumed in the compact-operator example.
-
-Outside this roadmap: non-tracial weights on C*-algebras (lower semicontinuous and KMS weights)
-and their modular theory, quasitraces, the topology of the cone of lower semicontinuous traces,
-Cuntz comparison of positive elements, and group actions on traces.
+Tr1 is C*-algebraic: it fixes traces, their domains, the three regularity notions and the matrix
+amplification, without a Hilbert space. Tr2 turns a lower semicontinuous trace into a Hilbert
+algebra and, through VonNeumannAlgebras V11, into a von Neumann algebra with a faithful normal
+semifinite trace; its normal-extension theorem is the bridge that Tr3 crosses. Tr3 pulls the
+tracial `Lᵖ` of VonNeumannAlgebras V10.TracialLp back along `π_τ` to obtain the trace ideals and
+their norms. Tr4 feeds Tr3 into OperatorKTheory K3.5 and constructs the trace homomorphism. The
+layers are sequential, except that the construction of `τ_*` in Tr4.2 uses only Tr1 (it works
+for densely defined traces, lower semicontinuous or not); its comparison with `J₁` uses Tr3 and
+Tr4.1. Each layer ends with its dependencies.
 
 ## Conventions
 
@@ -139,136 +87,6 @@ Cuntz comparison of positive elements, and group actions on traces.
   matrices over `J_p^†`). For a densely defined trace, `τ_*([e] − [f]) = τ_n(e) − τ_n(f)` for
   projections `e, f ∈ M_n(B)` (Tr4.2). Witness: `Tr_*` sends the class of a rank-one projection of
   `K` to `1`, and the normalized trace `Tr/n` of `M_n(ℂ)` sends it to `1/n`.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
-
-- `NonUnitalCStarAlgebra` and `CStarAlgebra` with their `StarOrderedRing` orders; the instances
-  `IsSelfAdjoint.instNonUnitalContinuousFunctionalCalculus`
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Instances.lean`) and
-  `CStarAlgebra.instNonnegSpectrumClass'`
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Basic.lean`).
-- `CFC.abs` and `CFC.abs_nnrpow_two`
-  (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Abs.lean`); `CFC.nnrpow` with
-  its notation `a ^ (p : ℝ≥0)`, `CFC.sqrt`, `CFC.nnrpow_one` and `CFC.nnrpow_two`
-  (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean`);
-  `NonUnitalStarAlgHom.map_cfcₙ`
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Unique.lean`), which carries
-  `|b|^p` along `π_τ`.
-- `LowerSemicontinuousOn` (`Mathlib/Topology/Semicontinuity/Defs.lean`).
-- `CStarAlgebra.approximateUnit` and `Filter.IsIncreasingApproximateUnit`
-  (`Mathlib/Analysis/CStarAlgebra/ApproximateUnit.lean`).
-- `PositiveContinuousLinearMap` with notation `B →P[ℂ] ℂ`
-  (`Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Positive.lean`), for Combes's theorem and
-  bounded traces; `PositiveLinearMap.GNS` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`)
-  for the bounded comparison of Tr2.2; `geometric_hahn_banach_point_closed`
-  (`Mathlib/Analysis/LocallyConvex/Separation.lean`) for Combes's theorem.
-- `VonNeumannAlgebra` (`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`) and the strong operator
-  topology through `ContinuousLinearMap.toPointwiseConvergenceCLM`, as in V6's normality predicate.
-- `CStarMatrix` with its `NonUnitalCStarAlgebra`, `PartialOrder` and `StarOrderedRing` (spectral
-  order) instances on square matrices (`Mathlib/Analysis/CStarAlgebra/CStarMatrix.lean`);
-  `IsStarProjection` (`Mathlib/Algebra/Star/StarProjection.lean`).
-- `Unitization ℂ B`; `C₀(X, ℂ)` with its `NonUnitalCStarAlgebra` instance
-  (`Mathlib/Analysis/CStarAlgebra/ContinuousMap.lean`), `MeasureTheory.lintegral` and
-  `MeasureTheory.MemLp` for the measure examples; `IsCompactOperator`.
-
-Mathlib has no trace on a C*-algebra with infinite values, no GNS construction for such a trace, no
-Hilbert algebra and no trace ideal.
-
-### From Tau Ceti
-
-At Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
-
-- `NonUnitalStarAlgHom.IsNondegenerate`, `NonUnitalStarAlgHom.isNondegenerate_iff_tendsto` and
-  `NonUnitalStarAlgHom.multiplierExtension`
-  (`TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean`): nondegeneracy of `π_τ`, its
-  strong convergence along an increasing approximate unit, and the extension of a nondegenerate
-  representation to multipliers.
-- `VonNeumannAlgebra.adjoin` (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`): the von Neumann
-  algebra generated by a set of operators, the double commutant of the set and its adjoints.
-- `PositiveLinearMap.toGNS` and `PositiveLinearMap.denseRange_toGNS`
-  (`TauCeti/Analysis/CStarAlgebra/GNS.lean`) for the bounded comparison of Tr2.2.
-- `TauCeti.OperatorIdealFamily.traceClass` and `TauCeti.OperatorIdealFamily.schatten`
-  (`TauCeti/Analysis/OperatorIdeal/Family/TraceClass.lean` and `…/Family/Schatten.lean`) for the
-  compact-operator examples, and `TauCeti.dixmierTrace`
-  (`TauCeti/Analysis/OperatorIdeal/Family/DixmierTrace.lean`) for the Dixmier-trace check of Tr4.2.
-
-Tau Ceti has no trace on a C*-algebra in the sense above, no Hilbert algebra and no tracial `Lᵖ`.
-
-### From TauCetiRoadmap.VonNeumannAlgebras
-
-- V0: GNS of positive functionals; automatic boundedness of positive functionals.
-- V1: the bicommutant theorem and Kaplansky density.
-- V3: the traces of finite-dimensional C*-algebras (for Tr4.3).
-- V4: normal positive functionals, their equality from agreement on a strongly dense
-  *-subalgebra, and normal representations; V4.Core: the canonical trace on the trace class of
-  `B(H)`.
-- V6: `IsNormalSemifiniteTrace`, faithfulness, semifiniteness and its equivalent forms,
-  finite-trace projection exhaustion, and the `L²` of a faithful normal semifinite trace with
-  `JΛ(x) = Λ(x*)` and `JMJ = M'`.
-- V10.TracialLp: `Lᵖ(M,τ)` for a faithful normal semifinite trace, `1 ≤ p < ∞`, with completeness,
-  Hölder, adjoints, bounded left and right multiplication, `L² = GNS` and `L¹ = M_*`.
-- V11: left Hilbert algebras `𝔄`, their left von Neumann algebra `R_l(𝔄)`, their full closure `𝔄''`
-  with `R_l(𝔄'') = R_l(𝔄)`, Tomita's theorem `J R_l(𝔄) J = R_l(𝔄)'` for full left Hilbert
-  algebras, and the canonical normal semifinite faithful weight on `R_l(𝔄)` with
-  `φ(π_l(ξ)*π_l(ξ)) = ‖ξ‖²` for left-bounded `ξ`, with its recovery theorem (Takesaki II,
-  VII.2.5–VII.2.6, as cited there).
-
-### From TauCetiRoadmap.NoncommutativeIntegration
-
-§1.4 Hölder's inequality with constant one; §1.5 `Lᵖ(B(H), Tr) = S_p`; §2.1 `Lᵖ`–`L^q` duality and
-the cyclicity `τ(xy) = τ(yx)` for `x ∈ Lᵖ`, `y ∈ L^q`, `1/p + 1/q = 1`.
-
-### From TauCetiRoadmap.CStarAlgebras
-
-C1.4 approximate units; C1.5 the positive contractive right approximate identities
-`e_{F,δ} = b_F(δ + b_F)⁻¹`, `b_F = Σ_{x ∈ F} x*x`, inside an algebraic left ideal; C1.6 the
-compact operators and the Pedersen ideal with its minimality and the identifications
-`Ped(K(ℓ²))` = finite rank and `Ped(C₀(X)) = C_c(X)`.
-
-### From TauCetiRoadmap.AmenableTracesOnCStarAlgebras
-
-§1.1 tracial states; §1.4 the GNS data of a tracial state, with its vector trace.
-
-### From TauCetiRoadmap.OperatorKTheory
-
-K1–K2: `K₀`, `K₁`, the forced unitization, functoriality and Murray–von Neumann equivalence; K1.5
-the pairing `τ_*` of a positive tracial functional and its compact-operator example; K2.3
-continuity of `K₀` under inductive limits; K3.5: the inclusion of a dense *-subalgebra that is a
-Banach algebra for a norm `|||·||| ≥ ‖·‖` with `|||xy||| ≤ C(‖x‖|||y||| + |||x|||‖y‖)` induces
-isomorphisms on `K₀` and `K₁`, with the unitization normed by `|||a + λ1||| = |||a||| + |λ|`; the
-Bott class `β = [p] − [p(∞)]` of `C₀(ℝ²)` from its Conventions.
-
-### From TauCetiRoadmap.NoncommutativeGeometry
-
-N2: the degree-zero pairing `⟨[e],[φ]⟩ = (φ#Tr)(e)` of a trace with idempotents, in its relative
-unitization form, and the degree-two pairing of the Bott class; N3: the Schatten-class trace forms
-of Fredholm modules; N4: Dixmier traces on `L^(1,∞)`.
-
-### From TauCetiRoadmap.CStarClassification
-
-Layer 2: AF algebras as closures of increasing unions of finite-dimensional C*-subalgebras, with
-their presentations; §3.4: `T(A) ≅ S(K₀(A),[1])` for unital AF algebras.
-
-### From TauCetiRoadmap.OperatorTheory
-
-OperatorIdeals Part B: the trace class, the Hilbert–Schmidt class and the Schatten classes `S_p`,
-`1 ≤ p < ∞`.
-
-## How to read the build
-
-Tr1 is C*-algebraic: it fixes traces, their domains, the three regularity notions and the matrix
-amplification, without a Hilbert space. Tr2 turns a lower semicontinuous trace into a Hilbert
-algebra and, through VonNeumannAlgebras V11, into a von Neumann algebra with a faithful normal
-semifinite trace; its normal-extension theorem is the bridge that Tr3 crosses. Tr3 pulls the
-tracial `Lᵖ` of VonNeumannAlgebras V10.TracialLp back along `π_τ` to obtain the trace ideals and
-their norms. Tr4 feeds Tr3 into OperatorKTheory K3.5 and constructs the trace homomorphism. The
-layers are sequential, except that the construction of `τ_*` in Tr4.2 uses only Tr1 (it works
-for densely defined traces, lower semicontinuous or not); its comparison with `J₁` uses Tr3 and
-Tr4.1. Each layer ends with its dependencies.
 
 ## Layer Tr1: traces, domains and lower semicontinuity
 
@@ -768,7 +586,7 @@ CStarClassification Layer 2 and §3.4; VonNeumannAlgebras V3; Tau Ceti `TauCeti.
 
 ## Downstream consumers
 
-None of the following supplies anything to this roadmap beyond the contracts above; they are the
+None of the following supplies anything to this roadmap beyond the supplier contracts; they are the
 roadmaps whose statements this one extends, and which can consume it.
 
 - NoncommutativeGeometry: the trace forms of N3 are the case `(K(H), Tr)` of Tr3.3, and Tr4.2 (c)
@@ -778,6 +596,188 @@ roadmaps whose statements this one extends, and which can consume it.
 - CStarClassification: §3.4 is the unital normalized case of Tr4.3.
 - AmenableTracesOnCStarAlgebras: tracial states are the bounded normalized traces of Tr1.1, and
   their GNS data are the bounded case of Tr2.2.
+
+## Scope and ownership
+
+This roadmap owns, in four layers cited as Tr1–Tr4 (subsection `k.n` of layer Tr`k` is
+Tr`k.n`):
+
+- Tr1: traces on C*-algebras in Dixmier's sense and their faithfulness; the cone `𝔪_τ⁺`, the
+  ideals `𝔫_τ` and `𝔪_τ`, the linear extension of `τ` to `𝔪_τ` with its trace property, unitary
+  invariance, bounded traces as positive tracial functionals, pullback, sums and directed
+  suprema; lower semicontinuity with Combes's theorem for traces; Dixmier's semifiniteness,
+  density of the domain and its comparison with the Pedersen ideal; the lower semicontinuous
+  regularization of a densely defined trace; the amplified traces `τ_n` on `M_n(B)`.
+- Tr2: the GNS data `(H_τ, Λ_τ, π_τ, π_τᵒᵖ, J_τ)` of a trace; the Hilbert algebra `Λ_τ(𝔫_τ)` of a
+  lower semicontinuous trace; the von Neumann algebra `M_τ = π_τ(B)''` with its natural trace
+  `τ̄`; the normal-extension theorem `τ = τ̄ ∘ π_τ` on `B₊`, its uniqueness for densely defined
+  traces and the identification `H_τ ≅ L²(M_τ, τ̄)`; normal representations and Dixmier's
+  correspondence.
+- Tr3: the trace ideals `J_p`, `1 ≤ p < ∞`, with their gauges and Banach *-algebra norms,
+  Hölder's inequality, monotonicity, the endpoints, cyclicity, matrix amplification, the cyclic
+  multilinear trace forms, and the examples of Tr3.4, including the τ-compact operators of a
+  semifinite von Neumann algebra.
+- Tr4: the `K₀` and `K₁` isomorphisms induced by `J_p ⊆ B`; the trace homomorphism `τ_*` of a
+  densely defined trace with its comparisons; the classification of the densely defined lower
+  semicontinuous traces of an AF algebra by `τ_*`.
+
+It leaves the following to the named owners and consumes them by section.
+
+- **VonNeumannAlgebras** owns the GNS construction of bounded positive functionals and faithful
+  representations (V0), the bicommutant and Kaplansky theorems (V1), traces on finite-dimensional
+  algebras (V3), normal functionals and normality (V4), normal semifinite traces
+  (`IsNormalSemifiniteTrace`) with faithfulness, semifiniteness, finite-trace projection
+  exhaustion and the `L²` of a faithful normal semifinite trace (V6), the tracial `Lᵖ(M,τ)`,
+  `1 ≤ p < ∞`, with completeness, Hölder, adjoints, bounded left and right multiplication,
+  `L² = GNS` and `L¹ = M_*` (V10.TracialLp), and left Hilbert algebras with their commutants,
+  full closures, Tomita's theorem and canonical normal semifinite faithful weights (V11). Tr2–Tr3
+  apply these to `M_τ`; nothing about von Neumann algebras is restated.
+- **NoncommutativeIntegration** owns Hölder's inequality with constant one (its §1.4), the
+  identification `Lᵖ(B(H), Tr) = S_p` (§1.5), and `Lᵖ`–`L^q` duality with the cyclicity of the
+  trace pairing (§2.1). Exponents below `1` are not used here: the trace ideals are built for
+  `1 ≤ p < ∞`.
+- **CStarAlgebras** owns approximate units (C1.4), positive contractive right approximate
+  identities inside algebraic left ideals (C1.5), and the compact operators and the Pedersen ideal
+  `Ped(B)`, the smallest dense two-sided ideal (C1.6).
+- **AmenableTracesOnCStarAlgebras** owns tracial states and the GNS data of a tracial state (its
+  §§1.1 and 1.4). A bounded trace is the restriction to `B₊` of a positive tracial functional
+  (Tr1.1), and Tr2.2 compares the two GNS constructions; the approximation properties of tracial
+  states stay there.
+- **OperatorKTheory** owns `K₀` and `K₁` (K1–K2), the pairing of a positive tracial functional
+  with `K₀` and its compact-operator example (K1.5), continuity of `K₀` under inductive limits
+  (K2.3), and the K-theory of dense inverse-closed subalgebras with its Banach-norm sufficient
+  condition (K3.5). Tr4.1 applies K3.5 to `J_p`; Tr4.2 extends K1.5 to densely defined traces.
+- **NoncommutativeGeometry** owns cyclic cocycles with their pairings with idempotents and
+  invertibles (N1–N2), the Schatten-class characters of Fredholm modules (N3) and the Dixmier
+  traces of `L^(1,∞)` (N4). Tr4.2 compares `τ_*` with N2's degree-zero pairing and computes it for
+  Dixmier traces.
+- **CStarClassification** owns AF algebras with their presentations (its Layer 2) and the unital
+  comparison `T(A) ≅ S(K₀(A),[1])` (its §3.4); Tr4.3 extends the latter to densely defined lower
+  semicontinuous traces on arbitrary AF algebras.
+- **OperatorTheory/OperatorIdeals** owns the trace-class, Hilbert–Schmidt and Schatten families
+  (its Part B), consumed in the compact-operator example.
+
+Outside this roadmap: non-tracial weights on C*-algebras (lower semicontinuous and KMS weights)
+and their modular theory, quasitraces, the topology of the cone of lower semicontinuous traces,
+Cuntz comparison of positive elements, and group actions on traces.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+At Mathlib `1b1ccf4b088b32fa3f23f2de1127433254a81e1e`:
+
+- `NonUnitalCStarAlgebra` and `CStarAlgebra` with their `StarOrderedRing` orders; the instances
+  `IsSelfAdjoint.instNonUnitalContinuousFunctionalCalculus`
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Instances.lean`) and
+  `CStarAlgebra.instNonnegSpectrumClass'`
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Basic.lean`).
+- `CFC.abs` and `CFC.abs_nnrpow_two`
+  (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Abs.lean`); `CFC.nnrpow` with
+  its notation `a ^ (p : ℝ≥0)`, `CFC.sqrt`, `CFC.nnrpow_one` and `CFC.nnrpow_two`
+  (`Mathlib/Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Basic.lean`);
+  `NonUnitalStarAlgHom.map_cfcₙ`
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Unique.lean`), which carries
+  `|b|^p` along `π_τ`.
+- `LowerSemicontinuousOn` (`Mathlib/Topology/Semicontinuity/Defs.lean`).
+- `CStarAlgebra.approximateUnit` and `Filter.IsIncreasingApproximateUnit`
+  (`Mathlib/Analysis/CStarAlgebra/ApproximateUnit.lean`).
+- `PositiveContinuousLinearMap` with notation `B →P[ℂ] ℂ`
+  (`Mathlib/Topology/Algebra/Module/ContinuousLinearMap/Positive.lean`), for Combes's theorem and
+  bounded traces; `PositiveLinearMap.GNS` (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`)
+  for the bounded comparison of Tr2.2; `geometric_hahn_banach_point_closed`
+  (`Mathlib/Analysis/LocallyConvex/Separation.lean`) for Combes's theorem.
+- `VonNeumannAlgebra` (`Mathlib/Analysis/VonNeumannAlgebra/Basic.lean`) and the strong operator
+  topology through `ContinuousLinearMap.toPointwiseConvergenceCLM`, as in V6's normality predicate.
+- `CStarMatrix` with its `NonUnitalCStarAlgebra`, `PartialOrder` and `StarOrderedRing` (spectral
+  order) instances on square matrices (`Mathlib/Analysis/CStarAlgebra/CStarMatrix.lean`);
+  `IsStarProjection` (`Mathlib/Algebra/Star/StarProjection.lean`).
+- `Unitization ℂ B`; `C₀(X, ℂ)` with its `NonUnitalCStarAlgebra` instance
+  (`Mathlib/Analysis/CStarAlgebra/ContinuousMap.lean`), `MeasureTheory.lintegral` and
+  `MeasureTheory.MemLp` for the measure examples; `IsCompactOperator`.
+
+Mathlib has no trace on a C*-algebra with infinite values, no GNS construction for such a trace, no
+Hilbert algebra and no trace ideal.
+
+### From Tau Ceti
+
+At Tau Ceti `2fd255d997f47c0b5d834ee416c7015d55444ce5`:
+
+- `NonUnitalStarAlgHom.IsNondegenerate`, `NonUnitalStarAlgHom.isNondegenerate_iff_tendsto` and
+  `NonUnitalStarAlgHom.multiplierExtension`
+  (`TauCeti/Analysis/CStarAlgebra/Representation/Nondegenerate.lean`): nondegeneracy of `π_τ`, its
+  strong convergence along an increasing approximate unit, and the extension of a nondegenerate
+  representation to multipliers.
+- `VonNeumannAlgebra.adjoin` (`TauCeti/Analysis/VonNeumannAlgebra/Adjoin.lean`): the von Neumann
+  algebra generated by a set of operators, the double commutant of the set and its adjoints.
+- `PositiveLinearMap.toGNS` and `PositiveLinearMap.denseRange_toGNS`
+  (`TauCeti/Analysis/CStarAlgebra/GNS.lean`) for the bounded comparison of Tr2.2.
+- `TauCeti.OperatorIdealFamily.traceClass` and `TauCeti.OperatorIdealFamily.schatten`
+  (`TauCeti/Analysis/OperatorIdeal/Family/TraceClass.lean` and `…/Family/Schatten.lean`) for the
+  compact-operator examples, and `TauCeti.dixmierTrace`
+  (`TauCeti/Analysis/OperatorIdeal/Family/DixmierTrace.lean`) for the Dixmier-trace check of Tr4.2.
+
+Tau Ceti has no trace on a C*-algebra in the sense above, no Hilbert algebra and no tracial `Lᵖ`.
+
+### From TauCetiRoadmap.VonNeumannAlgebras
+
+- V0: GNS of positive functionals; automatic boundedness of positive functionals.
+- V1: the bicommutant theorem and Kaplansky density.
+- V3: the traces of finite-dimensional C*-algebras (for Tr4.3).
+- V4: normal positive functionals, their equality from agreement on a strongly dense
+  *-subalgebra, and normal representations; V4.Core: the canonical trace on the trace class of
+  `B(H)`.
+- V6: `IsNormalSemifiniteTrace`, faithfulness, semifiniteness and its equivalent forms,
+  finite-trace projection exhaustion, and the `L²` of a faithful normal semifinite trace with
+  `JΛ(x) = Λ(x*)` and `JMJ = M'`.
+- V10.TracialLp: `Lᵖ(M,τ)` for a faithful normal semifinite trace, `1 ≤ p < ∞`, with completeness,
+  Hölder, adjoints, bounded left and right multiplication, `L² = GNS` and `L¹ = M_*`.
+- V11: left Hilbert algebras `𝔄`, their left von Neumann algebra `R_l(𝔄)`, their full closure `𝔄''`
+  with `R_l(𝔄'') = R_l(𝔄)`, Tomita's theorem `J R_l(𝔄) J = R_l(𝔄)'` for full left Hilbert
+  algebras, and the canonical normal semifinite faithful weight on `R_l(𝔄)` with
+  `φ(π_l(ξ)*π_l(ξ)) = ‖ξ‖²` for left-bounded `ξ`, with its recovery theorem (Takesaki II,
+  VII.2.5–VII.2.6, as cited there).
+
+### From TauCetiRoadmap.NoncommutativeIntegration
+
+§1.4 Hölder's inequality with constant one; §1.5 `Lᵖ(B(H), Tr) = S_p`; §2.1 `Lᵖ`–`L^q` duality and
+the cyclicity `τ(xy) = τ(yx)` for `x ∈ Lᵖ`, `y ∈ L^q`, `1/p + 1/q = 1`.
+
+### From TauCetiRoadmap.CStarAlgebras
+
+C1.4 approximate units; C1.5 the positive contractive right approximate identities
+`e_{F,δ} = b_F(δ + b_F)⁻¹`, `b_F = Σ_{x ∈ F} x*x`, inside an algebraic left ideal; C1.6 the
+compact operators and the Pedersen ideal with its minimality and the identifications
+`Ped(K(ℓ²))` = finite rank and `Ped(C₀(X)) = C_c(X)`.
+
+### From TauCetiRoadmap.AmenableTracesOnCStarAlgebras
+
+§1.1 tracial states; §1.4 the GNS data of a tracial state, with its vector trace.
+
+### From TauCetiRoadmap.OperatorKTheory
+
+K1–K2: `K₀`, `K₁`, the forced unitization, functoriality and Murray–von Neumann equivalence; K1.5
+the pairing `τ_*` of a positive tracial functional and its compact-operator example; K2.3
+continuity of `K₀` under inductive limits; K3.5: the inclusion of a dense *-subalgebra that is a
+Banach algebra for a norm `|||·||| ≥ ‖·‖` with `|||xy||| ≤ C(‖x‖|||y||| + |||x|||‖y‖)` induces
+isomorphisms on `K₀` and `K₁`, with the unitization normed by `|||a + λ1||| = |||a||| + |λ|`; the
+Bott class `β = [p] − [p(∞)]` of `C₀(ℝ²)` from its Conventions.
+
+### From TauCetiRoadmap.NoncommutativeGeometry
+
+N2: the degree-zero pairing `⟨[e],[φ]⟩ = (φ#Tr)(e)` of a trace with idempotents, in its relative
+unitization form, and the degree-two pairing of the Bott class; N3: the Schatten-class trace forms
+of Fredholm modules; N4: Dixmier traces on `L^(1,∞)`.
+
+### From TauCetiRoadmap.CStarClassification
+
+Layer 2: AF algebras as closures of increasing unions of finite-dimensional C*-subalgebras, with
+their presentations; §3.4: `T(A) ≅ S(K₀(A),[1])` for unital AF algebras.
+
+### From TauCetiRoadmap.OperatorTheory
+
+OperatorIdeals Part B: the trace class, the Hilbert–Schmidt class and the Schatten classes `S_p`,
+`1 ≤ p < ∞`.
 
 ## References
 
