@@ -102,8 +102,8 @@ two-dimensional vorticity equation with vorticity in `L^∞(0,T; L¹ ∩ L^∞)`
 **Scaling.** If `(u, p)` solves Navier–Stokes with viscosity `ν` and `f = 0`, so does
 `u_λ(x,t) = λu(λx, λ²t)`, `p_λ(x,t) = λ²p(λx, λ²t)`, for every `λ > 0`. The norms
 `|u₀|_{Ḣ^{d/2−1}}` and `‖u₀‖_{L^d}` are invariant under `u₀ ↦ λu₀(λ·)`; smallness conditions
-are stated in these norms against `ν` and are scale-invariant. For Euler the two-parameter
-family `u_{λ,μ}(x,t) = (λ/μ)u(λx, t/μ)` preserves solutions.
+are stated in these norms against `ν` and are scale-invariant. For Euler, for every `a, b > 0`, the two-parameter
+family `u_{a,b}(x,t) = a u(bx, abt)`, `p_{a,b}(x,t) = a²p(bx, abt)` preserves solutions.
 
 **Estimates.** Every estimate states how its constant depends on `d`, on the exponents, on `ν`
 and on `T`. Constants named `C(d)`, `C(d,s)`, `C(p)` depend only on the displayed parameters,
@@ -476,10 +476,13 @@ passage to the limit are targets.
   with the energy equality.
 - The regularized solutions are bounded in the energy class, and their time derivatives are
   bounded in `L^{4/d}(0,T'; H⁻¹(E; E))`, uniformly in `ε`.
-- Leray's tail estimate: `∫_{‖x‖ > R}‖u_ε(t)‖² ≤ ∫_{‖x‖ > R/2}‖u₀‖² + C/R` with `C` depending
-  on `t`, `ν`, `‖u₀‖₂` and `‖f‖_{L²(0,t; L²)}` and not on `ε`. With the local compactness it gives
-  strong convergence in `L²(E)` at almost every time, and hence the strong energy inequality
-  for the solution constructed.
+- Spatial tightness of the regularized solutions: for every finite `T' < T` and `δ > 0`,
+  there is `R > 0` such that `sup_{0 < ε ≤ 1} sup_{0 ≤ t ≤ T'}
+  ∫_{‖x‖ > R}‖u_ε(t)‖² < δ`. Prove this by localized energy estimates retaining both the
+  spatial tail of `u₀` and the spatial tail of `f` in `L²(0,T'; L²)`; a bound depending only
+  on the total force norm cannot control its spatial tail. Combined with local compactness,
+  this gives strong convergence in `L²(0,T'; L²(E))`, then in `L²(E)` at almost every time,
+  and the strong energy inequality for the solution constructed.
 - Along a subsequence they converge weakly-star in `L^∞L²`, weakly in `L²H¹`, and strongly in
   `L²(0,T'; L²(B))` for every bounded `B`, by §3.4, to a Leray–Hopf solution; the energy
   inequality passes to the limit by weak lower semicontinuity, and strong attainment of the
@@ -687,15 +690,19 @@ Conventions, prove:
 - Conservation of energy, `‖u(t)‖₂ = ‖u₀‖₂`.
 - The vorticity equation `∂ₜΩ + (u·∇)Ω + Ω∇u + (∇u)ᵀΩ = 0`, which reads
   `∂ₜω + u·∇ω = 0` for `d = 2` and `∂ₜω + (u·∇)ω = (ω·∇)u` for `d = 3`.
-- The flow map `X(·,t)` of `u`: existence, uniqueness, joint `C¹` regularity, the group
-  property, and `det ∇X(α,t) = 1`, so `X(·,t)` preserves Lebesgue measure.
+- The two-time flow `X(t,s,α)` of `u`: existence, uniqueness and joint `C¹` regularity,
+  `X(s,s,α) = α`, and the composition law `X(t,r,X(r,s,α)) = X(t,s,α)`. Its inverse is
+  `X(s,t,·)`, and `det D_αX(t,s,α) = 1`, so it preserves Lebesgue measure. Write
+  `X(α,t) = X(t,0,α)` below; a one-parameter group law requires a stationary field.
 - The Cauchy vorticity formula `ω(X(α,t),t) = ∇X(α,t)ω₀(α)` for `d = 3`, and
   `ω(X(α,t),t) = ω₀(α)` for `d = 2`.
 - Conservation of helicity `∫⟪u, ω⟫` for `d = 3`, and of `∫ Φ(ω)` for every continuous `Φ`
   with `Φ(ω₀)` integrable for `d = 2`, in particular of every `‖ω(t)‖_p`.
 - Kelvin's circulation theorem: for a `C¹` loop `γ` and `γ_t = X(·,t) ∘ γ`, the circulation
   `∮_{γ_t} ⟪u, dl⟫` is constant in `t`.
-- The pressure is `p = Π(u ⊗ u)`, equivalently `−Δp = trace((∇u)²)`.
+- For the `Hˢ` solutions, the pressure may be chosen as `p = Π(u ⊗ u)`;
+  `−Δp = trace((∇u)²)`. The Poisson equation also holds for sufficiently smooth classical
+  solutions without decay, but alone determines pressure only up to a harmonic function.
 
 **Checks.**
 
@@ -709,12 +716,17 @@ Conventions, prove:
 - The Beltrami field `u = (A sin x₃ + C cos x₂, B sin x₁ + A cos x₃, C sin x₂ + B cos x₁)`
   has `curl u = u`, so `(u·∇)u = ∇(‖u‖²/2)` and `(u, −‖u‖²/2)` is a stationary Euler solution,
   while `(e^{−νt}u, −e^{−2νt}‖u‖²/2)` solves Navier–Stokes because `Δu = −u`.
-- Every radial vorticity `ω₀(x) = w(‖x‖)` on `ℝ²` gives a stationary solution.
+- Every smooth compactly supported radial vorticity `ω₀(x) = w(‖x‖)` on `ℝ²`, with
+  `u = K₂ ⋆ ω₀` as in §6.2, gives a stationary classical solution.
 
-These examples are classical solutions that are not in `L²`. They exercise the pointwise
-statements (the vorticity equation, the flow map and the pressure equation), which are proved
-for classical solutions without a decay hypothesis; the integral conservation laws are stated
-for `Hˢ` solutions only.
+The rotation, shear, strain and Beltrami examples are classical solutions outside `L²`
+(unless the field vanishes). They exercise the pointwise vorticity and pressure equations;
+prove the classical vorticity equation under sufficient differentiability, and the explicit
+flow formulas directly. A general classical field has a local flow; existence over the
+whole solution interval uses the boundedness and Lipschitz bounds supplied by `Hˢ`. Radial
+vorticity gives a stationary classical solution under the regularity and integrability
+hypotheses of §6.2, and can have finite energy when its total circulation vanishes.
+The integral conservation laws above are stated for `Hˢ` solutions only.
 
 *Needs:* §1.3; Mathlib `IsPicardLindelof`, `gronwallBound`, `crossProduct` and curve
 integrals.
@@ -725,8 +737,10 @@ For `d = 2`, prove that a solenoidal field `u ∈ H¹_σ` with vorticity `ω ∈
 `u = K₂ ⋆ ω` with `K₂(x) = x^⊥/(2π‖x‖²)`, and for `d = 3` that `u ∈ H¹_σ` with
 `ω ∈ L¹ ∩ L²` satisfies `u(x) = (1/4π)∫ ω(y) × (x − y)/‖x − y‖³ dy`.
 
-- `‖∇u‖_p ≤ C(d,p)‖Ω‖_p` for `1 < p < ∞` and solenoidal `u`, in every dimension: each `∂ₖuⱼ`
-  is a linear combination of the operators `RₐR_b` applied to the components of `Ω`.
+- For `1 < p < ∞` and a solenoidal `u ∈ H¹_σ` with `Ω ∈ Lᵖ`, in every dimension,
+  `∇u ∈ Lᵖ` and `‖∇u‖_p ≤ C(d,p)‖Ω‖_p`: each `∂ₖuⱼ` is a linear combination of
+  the operators `RₐR_b` applied to the components of `Ω`. The `H¹` hypothesis fixes the
+  harmonic ambiguity; a nonzero irrotational strain field is excluded.
 - `d = 2`, `ω ∈ L¹ ∩ L^∞`: `K₂ ⋆ ω` is defined pointwise, bounded with
   `‖K₂ ⋆ ω‖_∞ ≤ C‖ω‖₁^{1/2}‖ω‖_∞^{1/2}`, solenoidal with vorticity `ω`, and log-Lipschitz:
   `|u(x) − u(y)| ≤ C(‖ω‖₁ + ‖ω‖_∞)ℓ(‖x − y‖)` with `ℓ(r) = r(1 − log r)` for `r < 1` and
@@ -734,7 +748,9 @@ For `d = 2`, prove that a solenoidal field `u ∈ H¹_σ` with vorticity `ω ∈
 - For bounded compactly supported `ω`: `K₂ ⋆ ω(x) − (∫ω)K₂(x) = O(‖x‖^{−2})` as `‖x‖ → ∞`, so
   `K₂ ⋆ ω ∈ L²(ℝ²)` exactly when `∫ω = 0`.
 - The logarithmic estimate of Beale–Kato–Majda: for `u ∈ Hˢ_σ`, `s > d/2 + 1`,
-  `‖∇u‖_∞ ≤ C(d,s)(1 + ‖ω‖₂ + ‖ω‖_∞(1 + log⁺‖u‖_{Hˢ}))`.
+  `‖∇u‖_∞ ≤ C(d,s)(1 + ‖Ω‖₂ + ‖Ω‖_∞(1 + log⁺‖u‖_{Hˢ}))`,
+  with `Ω` the skew-adjoint vorticity tensor; in dimensions two and three this is
+  equivalently stated using `ω`, after adjusting the dimensional constant.
 
 **Checks.**
 
@@ -749,11 +765,12 @@ For `d = 2`, prove that a solenoidal field `u ∈ H¹_σ` with vorticity `ω ∈
 
 ### 6.3 Local well-posedness in `Hˢ` and the inviscid limit (E22)
 
-For `d ≥ 2`, `s > d/2 + 1`, `ν ≥ 0` and `u₀ ∈ Hˢ_σ(E)`, prove that there is
-`T ≥ 1/(C(d,s)‖u₀‖_{Hˢ})`, independent of `ν`, and a unique solution
+For `d ≥ 2`, `s > d/2 + 1`, `ν ≥ 0` and nonzero `u₀ ∈ Hˢ_σ(E)`, prove that for
+`T = 1/(2C(d,s)‖u₀‖_{Hˢ})`, independent of `ν`, there is a unique solution
 `u^ν ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−2})` of the Navier–Stokes equations for `ν > 0`, and of the
 Euler equations with `u⁰ ∈ C([0,T]; Hˢ) ∩ C¹([0,T]; H^{s−1})` for `ν = 0` (Kato 1972), with
-`‖u^ν(t)‖_{Hˢ} ≤ ‖u₀‖_{Hˢ}/(1 − C(d,s)t‖u₀‖_{Hˢ})`.
+`‖u^ν(t)‖_{Hˢ} ≤ ‖u₀‖_{Hˢ}/(1 − C(d,s)t‖u₀‖_{Hˢ}) ≤ 2‖u₀‖_{Hˢ}`
+on `[0,T]`. For `u₀ = 0`, the solution is zero for all time.
 
 - The energy estimate `d/dt ‖u‖_{Hˢ} ≤ C(d,s)‖∇u‖_∞‖u‖_{Hˢ}`, uniform in `ν ≥ 0`.
 - Uniqueness and `L²` stability: `‖u(t) − v(t)‖₂ ≤ ‖u₀ − v₀‖₂ exp(∫₀ᵗ‖∇v‖_∞)` for two
