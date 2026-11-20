@@ -56,80 +56,20 @@ Suggested home: `TauCeti/Analysis/Convex/` for Layers 2–5, next to the existin
 `Conjugate.lean`, `Subdifferential.lean` and `FenchelMoreau.lean`, with Layer 1 in
 `TauCeti/Geometry/Convex/` and Layer 6 in `TauCeti/Analysis/Convex/Choquet/`.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Each layer opens with a short orientation, then numbered subsections. In a subsection a **bold
+name** with a Lean name in parentheses is a headline stated in `Suggested.lean`; a bold name
+without one is a target of the same standing stated in prose. Locators follow the headline; an
+adaptation carries a *Proof route.* Every subsection ends with a *Needs:* line naming what it
+uses. **Checks.** are small cases computed by hand and recomputed numerically, one fact per
+bullet; at least one per definition is a negative control, a case that a plausible wrong
+convention or a dropped hypothesis gets wrong. Each layer closes with Examples and Dependencies.
 
-1. **Convex sets and cones.** Supporting hyperplanes at frontier points in finite dimension and
-   nontrivial support off the relative interior; the Minkowski–Carathéodory theorem; the
-   Minkowski–Weyl theorem for convex polyhedra, with bounded polyhedra as polytopes; Farkas'
-   lemma.
-2. **Operations on convex functions.** Support functions and their duality with indicators; the
-   one-sided polar and the bipolar theorem; infimal convolution with its conjugate; the recession
-   function as a limit of slopes and as the support function of the conjugate domain, and the
-   recession criterion for bounded sublevel sets; the closed perspective.
-3. **Subgradients and calculus.** The directional derivative and its relation to subgradients;
-   the max formula at points of continuity; nonempty subdifferentials on the relative interior;
-   differentiability and singleton subdifferentials, continuity of the gradient, and the
-   monotone-gradient test; Danskin's theorem; the sum and linear chain rules under a continuity
-   qualification on normed spaces and under the relative-interior qualification in finite
-   dimension; tangent and normal cones and the normal cone of an intersection; the
-   normal-cone characterization of nearest points and Moreau's decomposition for a closed convex
-   cone.
-4. **Strong convexity, Legendre functions and monotone structure.** Minimizers of strongly
-   convex functions; the duality between strong convexity and Lipschitz gradients; essential
-   smoothness, essential strict convexity and functions of Legendre type; maximal monotonicity of
-   subdifferentials, Rockafellar's cyclic monotonicity theorem and uniqueness of the potential;
-   Mazur's theorem and Fréchet differentiability on a dense `G_δ` when the dual is separable; the
-   `ε`-subdifferential and the Brøndsted–Rockafellar theorem.
-5. **Duality.** Fenchel–Rockafellar duality under a continuity qualification and under the
-   relative-interior qualification; the Karush–Kuhn–Tucker theorem under Slater's condition and
-   the sufficiency of its conditions; linear-programming duality with complementary slackness;
-   conic duality.
-6. **Integral representation.** Choquet's theorem for compact metrizable convex sets, and the
-   equivalence of the Choquet simplex property with uniqueness of the representing measures.
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-
-**Not owned here.** The following are used, not built:
-- separation of a point from a closed convex set and of a compact from a closed convex set,
-  extreme points and the Krein–Milman theorem, Carathéodory's, Radon's and Helly's theorems,
-  local Lipschitz continuity of convex functions on the interior and on the relative interior,
-  and Sion's minimax theorem: Mathlib;
-- the conjugate, Fenchel–Young, the Fenchel–Moreau theorem, subgradient reciprocity, the Fermat
-  rule, the subgradient of an affine perturbation, almost-everywhere differentiability and
-  Alexandrov's theorem, the Hessian test for convexity, convex polyhedra and Gordan's
-  alternative: Tau Ceti (the conjugate tower is the implementation of OptimalTransport §5.1–§5.2
-  and §5.4);
-- the indicator of a convex set, the normal cone for the evaluation pairing and the sum rule
-  `∂(E + δ_C)(u) = ∂E(u) + N_C(u)` for `E` continuous at a point of `C`: VariationalMethods §2.1.
-  This roadmap uses local copies of the indicator and the normal cone; its general sum rule 3.5
-  contains that indicator rule as the special case `g = E`, `f = δ_C`;
-- the direct method for convex functions on reflexive spaces: VariationalMethods §1.2 and §1.4;
-- the Bishop–Phelps theorem (density of support points and support functionals):
-  BanachSpaceTheory B2; John's ellipsoid theorem and the Banach–Mazur distance to `ℓ₂ⁿ`:
-  BanachSpaceTheory B7;
-- the proximal map of a closed proper convex function (its 3.2), the Baillon–Haddad theorem (its
-  1.2), projected and proximal gradient descent, the subgradient method and accelerated gradient
-  methods: the first-order-methods roadmap. That roadmap also owns existence, uniqueness and
-  quadratic growth for minimizers of continuous real-valued strongly convex functions (its 1.3),
-  of which 4.1 is the extended-real closed form, and the variational inequality for the
-  projection onto a closed convex set (its 3.1), of which `mem_normalCone_iff_isMinOn` in 3.8 is
-  the normal-cone form. Moreau envelopes, the Moreau decomposition for proximal maps and the
-  other splitting methods are in the boundary list;
-- the finite matrix Farkas certificate over the rationals, with nonnegative inequality and free
-  equality multipliers, among the rational polyhedron adapters of TensorProductCombinatorics
-  §1.3; Farkas' lemma 1.4 is the real matrix form for the standard system `A x = b`, `x ≥ 0`;
-- the Minkowski–Weyl theorem for cones: ScatteringDiagrams §1.1, consumed by 1.3 and 1.4;
-- Ekeland's variational principle: Tau Ceti
-  `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`, used by 4.6;
-- the matrix-game minimax theorem: RegretMinimizationAndEquilibria;
-- duality with both attainments for the finite transport linear program: Tau Ceti
-  `TauCeti.exists_cost_eq_finiteDualValue`, the target of OptimalTransport §2.3. It is the
-  transport instance of 5.3, proved directly there and not re-derived here.
-
-Every result that is not listed in a layer belongs to the
-[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+The layers are ordered by dependency: Layer 1 needs Mathlib and ScatteringDiagrams §1.1; Layer 2
+needs Layer 1 and the Tau Ceti conjugate; Layer 3 needs Layers 1–2; Layer 4 needs Layer 3;
+Layer 5 needs Layers 1 and 3; Layer 6 needs only 1.2 and Mathlib's measure theory, and can be
+built in parallel with Layers 2–5.
 
 ## Conventions
 
@@ -175,105 +115,6 @@ These are fixed for every target. A statement that departs from them is a differ
   generated pointed cone is `PointedCone.hull ℝ D` for a `Finset D`.
 - **Locators** are `(Author, Theorem, printed page)` in the editions listed under
   [References](#references).
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- **Separation and support:** `geometric_hahn_banach_point_closed`,
-  `geometric_hahn_banach_compact_closed` and `geometric_hahn_banach_of_nonempty_interior_point`
-  (`Mathlib/Analysis/LocallyConvex/Separation.lean`).
-- **Convex geometry:** `convexHull_eq_union` (Carathéodory), `Convex.radon_partition`,
-  `Convex.helly_theorem'`, `AffineIndependent.card_le_finrank_succ`, `Set.extremePoints`,
-  `IsCompact.extremePoints_nonempty` and `closure_convexHull_extremePoints` (Krein–Milman),
-  `intrinsicInterior` (`Mathlib/Analysis/Convex/Intrinsic.lean`).
-- **Cones:** `ProperCone`, `ProperCone.innerDual`, `ProperCone.hyperplane_separation'` and
-  `ProperCone.relative_hyperplane_separation` (`Mathlib/Analysis/Convex/Cone/InnerDual.lean`);
-  `PointedCone.hull`, `PointedCone.dual`, `PointedCone.DualFG`
-  (`Mathlib/Geometry/Convex/Cone/DualFinite.lean`) and `Submodule.FG`.
-- **Convex functions:** `ConvexOn`, `StrictConvexOn`, `StrongConvexOn` with
-  `strongConvexOn_iff_convex` (`Mathlib/Analysis/Convex/Strong.lean`),
-  `ConvexOn.continuousOn_tfae`, `ConvexOn.locallyLipschitzOn_interior`,
-  `ConvexOn.locallyLipschitzOn_intrinsicInterior` (`Mathlib/Analysis/Convex/Continuous.lean`),
-  `ConvexOn.sSup_affine_eq` (`Mathlib/Analysis/Convex/Approximation.lean`) and
-  `IsMinOn.of_isLocalMinOn_of_convexOn`.
-- **Hilbert spaces:** `exists_norm_eq_iInf_of_complete_convex` and
-  `norm_eq_iInf_iff_real_inner_le_zero`
-  (`Mathlib/Analysis/InnerProductSpace/Projection/Minimal.lean`), `innerₗ`,
-  `ContinuousLinearMap.adjoint`.
-- **Duals and derivatives:** `StrongDual`, `topDualPairing`, `Convex.toWeakSpace_closure`,
-  `posTangentConeAt`, `tangentConeAt`, `tangentConeAt_eq_univ`, `HasLineDerivAt`, `HasGradientAt`,
-  `gradient`, `DifferentiableAt`.
-- **Minimax:** `Sion.minimax` (`Mathlib/Topology/Sion.lean`).
-- **Order:** `Maximal`, `IsGreatest`, `IsMinOn`, `IsMaxOn`; measures `IsProbabilityMeasure`,
-  `MeasurableSet` and `IsGδ`; the Riesz–Markov–Kakutani theorem `RealRMK.rieszMeasure` and
-  `RealRMK.integral_rieszMeasure` (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
-
-### From Tau Ceti
-
-- **Conjugate** (`TauCeti/Analysis/Convex/Conjugate.lean`): `TauCeti.fenchelConjugate`,
-  `sub_le_fenchelConjugate`, `le_add_fenchelConjugate`.
-- **Subdifferential** (`TauCeti/Analysis/Convex/Subdifferential.lean`):
-  `TauCeti.subdifferential`, `mem_subdifferential_coe_iff_isMinOn_sub` (the Fermat rule),
-  `apply_le_apply_of_mem_subdifferential`, `mem_subdifferential_iff_add_fenchelConjugate_eq`
-  (Fenchel–Young equality), `mem_subdifferential_add_affine_iff`.
-- **Fenchel–Moreau** (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): `exists_affine_le_of_lt`,
-  `fenchelConjugate_flip_fenchelConjugate_eq`, `fenchelConjugate_flip_fenchelConjugate_eq_iff`,
-  `fenchelConjugate_innerₗ_fenchelConjugate_innerₗ`, and subgradient reciprocity
-  `mem_subdifferential_fenchelConjugate_iff`.
-- **Interior subgradients and differentiability:** `nonempty_subdifferential_of_mem_interior`
-  (`TauCeti/Analysis/Convex/SubgradientImage.lean`); `hasFDerivAt_apply_eq_of_mem_subdifferential`,
-  `mem_subdifferential_of_hasFDerivAt` and `hasGradientAt_toReal_of_continuousAt_subgradient`
-  (`TauCeti/Analysis/Convex/Differentiability.lean`); `convexOn_toReal`
-  (`TauCeti/Analysis/Convex/EffectiveDomain.lean`).
-- **Second order and almost everywhere:** `ConvexOn.isPositive_of_hasFDerivAt_gradient` and
-  `TauCeti.convexOn_of_hasFDerivAt_gradient` (`TauCeti/Analysis/Convex/Hessian.lean`),
-  `ConvexOn.ae_differentiableAt_of_mem_interior` (`TauCeti/Analysis/Calculus/Rademacher.lean`),
-  `ConvexOn.ae_existsUnique_isPositive_isLittleO` (`TauCeti/Analysis/Convex/Alexandrov.lean`).
-- **Strong convexity and superlinear conjugates:** `StrongConvexOn.add_add_le_of_hasFDerivWithinAt`
-  (`TauCeti/Analysis/Convex/Strong.lean`), `contDiff_fenchelConjugate_toReal_of_superlinear` and
-  `mem_subdifferential_iff_eq_gradient_fenchelConjugate_of_superlinear`
-  (`TauCeti/Analysis/Convex/Superlinear.lean`).
-- **Cyclic monotonicity** (`TauCeti/MeasureTheory/OptimalTransport/CTransform/Rockafellar.lean`
-  and its imports): `TauCeti.IsCyclicallyMonotone`, `TauCeti.pairingCost` (the cost
-  `-B x y`), and `isCyclicallyMonotone_pairingCost_iff_exists_fenchelConjugate`.
-- **Finite transport duality:** `TauCeti.exists_cost_eq_finiteDualValue`
-  (`TauCeti/MeasureTheory/OptimalTransport/Finite/Duality.lean`), the transport instance of 5.3.
-- **Polyhedra and alternatives:** `TauCeti.IsConvexPolyhedron`
-  (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`), Gordan's alternative
-  `exists_forall_dual_pos_iff` (`TauCeti/Geometry/Convex/Cone/Alternative.lean`).
-- **Duality in normed spaces:** `StrongDual.bipolar_eq_closedAbsConvexHull`
-  (`TauCeti/Analysis/LocallyConvex/Bipolar.lean`) and the weak compactness of bounded closed
-  convex sets `isCompact_toWeakSpace_of_isClosed_of_convex_of_isBounded`.
-- **One-variable recession constant:** `TauCeti.recessionConstant`
-  (`TauCeti/Analysis/Convex/RecessionConstant.lean`), which 2.4 generalizes.
-
-### From other roadmaps
-
-- **VariationalMethods §2.1:** the indicator of a convex set and the normal cone, of which
-  `convexIndicator` and `normalCone` are local copies with the same values (the normal cone of
-  §2.1 uses the evaluation pairing; the copy here takes the pairing as a parameter and agrees
-  with it for `(topDualPairing ℝ E).flip`).
-- **ScatteringDiagrams §1.1:** the Minkowski–Weyl theorem for cones, that a pointed cone in a
-  finite-dimensional real vector space, lineality allowed, is finitely generated exactly when it
-  is the dual of a finite set of linear forms. 1.3 and 1.4 use it.
-
-This roadmap consumes nothing else from other roadmaps.
-
-## How to read the build
-
-Each layer opens with a short orientation, then numbered subsections. In a subsection a **bold
-name** with a Lean name in parentheses is a headline stated in `Suggested.lean`; a bold name
-without one is a target of the same standing stated in prose. Locators follow the headline; an
-adaptation carries a *Proof route.* Every subsection ends with a *Needs:* line naming what it
-uses. **Checks.** are small cases computed by hand and recomputed numerically, one fact per
-bullet; at least one per definition is a negative control, a case that a plausible wrong
-convention or a dropped hypothesis gets wrong. Each layer closes with Examples and Dependencies.
-
-The layers are ordered by dependency: Layer 1 needs Mathlib and ScatteringDiagrams §1.1; Layer 2
-needs Layer 1 and the Tau Ceti conjugate; Layer 3 needs Layers 1–2; Layer 4 needs Layer 3;
-Layer 5 needs Layers 1 and 3; Layer 6 needs only 1.2 and Mathlib's measure theory, and can be
-built in parallel with Layers 2–5.
 
 ## Layer 1: convex sets and cones
 
@@ -1259,6 +1100,165 @@ by the extreme points (6.1).
   domain); 4.3 owns the predicate and the equivalence of the two forms.
 - The convergence theory of proximal and splitting algorithms rests on 3.5, 3.8 (the cone case
   of Moreau's decomposition), 4.1, 4.2 and 4.4.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Convex sets and cones.** Supporting hyperplanes at frontier points in finite dimension and
+   nontrivial support off the relative interior; the Minkowski–Carathéodory theorem; the
+   Minkowski–Weyl theorem for convex polyhedra, with bounded polyhedra as polytopes; Farkas'
+   lemma.
+2. **Operations on convex functions.** Support functions and their duality with indicators; the
+   one-sided polar and the bipolar theorem; infimal convolution with its conjugate; the recession
+   function as a limit of slopes and as the support function of the conjugate domain, and the
+   recession criterion for bounded sublevel sets; the closed perspective.
+3. **Subgradients and calculus.** The directional derivative and its relation to subgradients;
+   the max formula at points of continuity; nonempty subdifferentials on the relative interior;
+   differentiability and singleton subdifferentials, continuity of the gradient, and the
+   monotone-gradient test; Danskin's theorem; the sum and linear chain rules under a continuity
+   qualification on normed spaces and under the relative-interior qualification in finite
+   dimension; tangent and normal cones and the normal cone of an intersection; the
+   normal-cone characterization of nearest points and Moreau's decomposition for a closed convex
+   cone.
+4. **Strong convexity, Legendre functions and monotone structure.** Minimizers of strongly
+   convex functions; the duality between strong convexity and Lipschitz gradients; essential
+   smoothness, essential strict convexity and functions of Legendre type; maximal monotonicity of
+   subdifferentials, Rockafellar's cyclic monotonicity theorem and uniqueness of the potential;
+   Mazur's theorem and Fréchet differentiability on a dense `G_δ` when the dual is separable; the
+   `ε`-subdifferential and the Brøndsted–Rockafellar theorem.
+5. **Duality.** Fenchel–Rockafellar duality under a continuity qualification and under the
+   relative-interior qualification; the Karush–Kuhn–Tucker theorem under Slater's condition and
+   the sufficiency of its conditions; linear-programming duality with complementary slackness;
+   conic duality.
+6. **Integral representation.** Choquet's theorem for compact metrizable convex sets, and the
+   equivalence of the Choquet simplex property with uniqueness of the representing measures.
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+
+**Not owned here.** The following are used, not built:
+- separation of a point from a closed convex set and of a compact from a closed convex set,
+  extreme points and the Krein–Milman theorem, Carathéodory's, Radon's and Helly's theorems,
+  local Lipschitz continuity of convex functions on the interior and on the relative interior,
+  and Sion's minimax theorem: Mathlib;
+- the conjugate, Fenchel–Young, the Fenchel–Moreau theorem, subgradient reciprocity, the Fermat
+  rule, the subgradient of an affine perturbation, almost-everywhere differentiability and
+  Alexandrov's theorem, the Hessian test for convexity, convex polyhedra and Gordan's
+  alternative: Tau Ceti (the conjugate tower is the implementation of OptimalTransport §5.1–§5.2
+  and §5.4);
+- the indicator of a convex set, the normal cone for the evaluation pairing and the sum rule
+  `∂(E + δ_C)(u) = ∂E(u) + N_C(u)` for `E` continuous at a point of `C`: VariationalMethods §2.1.
+  This roadmap uses local copies of the indicator and the normal cone; its general sum rule 3.5
+  contains that indicator rule as the special case `g = E`, `f = δ_C`;
+- the direct method for convex functions on reflexive spaces: VariationalMethods §1.2 and §1.4;
+- the Bishop–Phelps theorem (density of support points and support functionals):
+  BanachSpaceTheory B2; John's ellipsoid theorem and the Banach–Mazur distance to `ℓ₂ⁿ`:
+  BanachSpaceTheory B7;
+- the proximal map of a closed proper convex function (its 3.2), the Baillon–Haddad theorem (its
+  1.2), projected and proximal gradient descent, the subgradient method and accelerated gradient
+  methods: the first-order-methods roadmap. That roadmap also owns existence, uniqueness and
+  quadratic growth for minimizers of continuous real-valued strongly convex functions (its 1.3),
+  of which 4.1 is the extended-real closed form, and the variational inequality for the
+  projection onto a closed convex set (its 3.1), of which `mem_normalCone_iff_isMinOn` in 3.8 is
+  the normal-cone form. Moreau envelopes, the Moreau decomposition for proximal maps and the
+  other splitting methods are in the boundary list;
+- the finite matrix Farkas certificate over the rationals, with nonnegative inequality and free
+  equality multipliers, among the rational polyhedron adapters of TensorProductCombinatorics
+  §1.3; Farkas' lemma 1.4 is the real matrix form for the standard system `A x = b`, `x ≥ 0`;
+- the Minkowski–Weyl theorem for cones: ScatteringDiagrams §1.1, consumed by 1.3 and 1.4;
+- Ekeland's variational principle: Tau Ceti
+  `LowerSemicontinuous.exists_add_mul_dist_le_and_lt_add_mul_dist`, used by 4.6;
+- the matrix-game minimax theorem: RegretMinimizationAndEquilibria;
+- duality with both attainments for the finite transport linear program: Tau Ceti
+  `TauCeti.exists_cost_eq_finiteDualValue`, the target of OptimalTransport §2.3. It is the
+  transport instance of 5.3, proved directly there and not re-derived here.
+
+Every result that is not listed in a layer belongs to the
+[boundary list](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement).
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- **Separation and support:** `geometric_hahn_banach_point_closed`,
+  `geometric_hahn_banach_compact_closed` and `geometric_hahn_banach_of_nonempty_interior_point`
+  (`Mathlib/Analysis/LocallyConvex/Separation.lean`).
+- **Convex geometry:** `convexHull_eq_union` (Carathéodory), `Convex.radon_partition`,
+  `Convex.helly_theorem'`, `AffineIndependent.card_le_finrank_succ`, `Set.extremePoints`,
+  `IsCompact.extremePoints_nonempty` and `closure_convexHull_extremePoints` (Krein–Milman),
+  `intrinsicInterior` (`Mathlib/Analysis/Convex/Intrinsic.lean`).
+- **Cones:** `ProperCone`, `ProperCone.innerDual`, `ProperCone.hyperplane_separation'` and
+  `ProperCone.relative_hyperplane_separation` (`Mathlib/Analysis/Convex/Cone/InnerDual.lean`);
+  `PointedCone.hull`, `PointedCone.dual`, `PointedCone.DualFG`
+  (`Mathlib/Geometry/Convex/Cone/DualFinite.lean`) and `Submodule.FG`.
+- **Convex functions:** `ConvexOn`, `StrictConvexOn`, `StrongConvexOn` with
+  `strongConvexOn_iff_convex` (`Mathlib/Analysis/Convex/Strong.lean`),
+  `ConvexOn.continuousOn_tfae`, `ConvexOn.locallyLipschitzOn_interior`,
+  `ConvexOn.locallyLipschitzOn_intrinsicInterior` (`Mathlib/Analysis/Convex/Continuous.lean`),
+  `ConvexOn.sSup_affine_eq` (`Mathlib/Analysis/Convex/Approximation.lean`) and
+  `IsMinOn.of_isLocalMinOn_of_convexOn`.
+- **Hilbert spaces:** `exists_norm_eq_iInf_of_complete_convex` and
+  `norm_eq_iInf_iff_real_inner_le_zero`
+  (`Mathlib/Analysis/InnerProductSpace/Projection/Minimal.lean`), `innerₗ`,
+  `ContinuousLinearMap.adjoint`.
+- **Duals and derivatives:** `StrongDual`, `topDualPairing`, `Convex.toWeakSpace_closure`,
+  `posTangentConeAt`, `tangentConeAt`, `tangentConeAt_eq_univ`, `HasLineDerivAt`, `HasGradientAt`,
+  `gradient`, `DifferentiableAt`.
+- **Minimax:** `Sion.minimax` (`Mathlib/Topology/Sion.lean`).
+- **Order:** `Maximal`, `IsGreatest`, `IsMinOn`, `IsMaxOn`; measures `IsProbabilityMeasure`,
+  `MeasurableSet` and `IsGδ`; the Riesz–Markov–Kakutani theorem `RealRMK.rieszMeasure` and
+  `RealRMK.integral_rieszMeasure` (`Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
+
+### From Tau Ceti
+
+- **Conjugate** (`TauCeti/Analysis/Convex/Conjugate.lean`): `TauCeti.fenchelConjugate`,
+  `sub_le_fenchelConjugate`, `le_add_fenchelConjugate`.
+- **Subdifferential** (`TauCeti/Analysis/Convex/Subdifferential.lean`):
+  `TauCeti.subdifferential`, `mem_subdifferential_coe_iff_isMinOn_sub` (the Fermat rule),
+  `apply_le_apply_of_mem_subdifferential`, `mem_subdifferential_iff_add_fenchelConjugate_eq`
+  (Fenchel–Young equality), `mem_subdifferential_add_affine_iff`.
+- **Fenchel–Moreau** (`TauCeti/Analysis/Convex/FenchelMoreau.lean`): `exists_affine_le_of_lt`,
+  `fenchelConjugate_flip_fenchelConjugate_eq`, `fenchelConjugate_flip_fenchelConjugate_eq_iff`,
+  `fenchelConjugate_innerₗ_fenchelConjugate_innerₗ`, and subgradient reciprocity
+  `mem_subdifferential_fenchelConjugate_iff`.
+- **Interior subgradients and differentiability:** `nonempty_subdifferential_of_mem_interior`
+  (`TauCeti/Analysis/Convex/SubgradientImage.lean`); `hasFDerivAt_apply_eq_of_mem_subdifferential`,
+  `mem_subdifferential_of_hasFDerivAt` and `hasGradientAt_toReal_of_continuousAt_subgradient`
+  (`TauCeti/Analysis/Convex/Differentiability.lean`); `convexOn_toReal`
+  (`TauCeti/Analysis/Convex/EffectiveDomain.lean`).
+- **Second order and almost everywhere:** `ConvexOn.isPositive_of_hasFDerivAt_gradient` and
+  `TauCeti.convexOn_of_hasFDerivAt_gradient` (`TauCeti/Analysis/Convex/Hessian.lean`),
+  `ConvexOn.ae_differentiableAt_of_mem_interior` (`TauCeti/Analysis/Calculus/Rademacher.lean`),
+  `ConvexOn.ae_existsUnique_isPositive_isLittleO` (`TauCeti/Analysis/Convex/Alexandrov.lean`).
+- **Strong convexity and superlinear conjugates:** `StrongConvexOn.add_add_le_of_hasFDerivWithinAt`
+  (`TauCeti/Analysis/Convex/Strong.lean`), `contDiff_fenchelConjugate_toReal_of_superlinear` and
+  `mem_subdifferential_iff_eq_gradient_fenchelConjugate_of_superlinear`
+  (`TauCeti/Analysis/Convex/Superlinear.lean`).
+- **Cyclic monotonicity** (`TauCeti/MeasureTheory/OptimalTransport/CTransform/Rockafellar.lean`
+  and its imports): `TauCeti.IsCyclicallyMonotone`, `TauCeti.pairingCost` (the cost
+  `-B x y`), and `isCyclicallyMonotone_pairingCost_iff_exists_fenchelConjugate`.
+- **Finite transport duality:** `TauCeti.exists_cost_eq_finiteDualValue`
+  (`TauCeti/MeasureTheory/OptimalTransport/Finite/Duality.lean`), the transport instance of 5.3.
+- **Polyhedra and alternatives:** `TauCeti.IsConvexPolyhedron`
+  (`TauCeti/Analysis/Convex/Polyhedron/Basic.lean`), Gordan's alternative
+  `exists_forall_dual_pos_iff` (`TauCeti/Geometry/Convex/Cone/Alternative.lean`).
+- **Duality in normed spaces:** `StrongDual.bipolar_eq_closedAbsConvexHull`
+  (`TauCeti/Analysis/LocallyConvex/Bipolar.lean`) and the weak compactness of bounded closed
+  convex sets `isCompact_toWeakSpace_of_isClosed_of_convex_of_isBounded`.
+- **One-variable recession constant:** `TauCeti.recessionConstant`
+  (`TauCeti/Analysis/Convex/RecessionConstant.lean`), which 2.4 generalizes.
+
+### From other roadmaps
+
+- **VariationalMethods §2.1:** the indicator of a convex set and the normal cone, of which
+  `convexIndicator` and `normalCone` are local copies with the same values (the normal cone of
+  §2.1 uses the evaluation pairing; the copy here takes the pairing as a parameter and agrees
+  with it for `(topDualPairing ℝ E).flip`).
+- **ScatteringDiagrams §1.1:** the Minkowski–Weyl theorem for cones, that a pointed cone in a
+  finite-dimensional real vector space, lineality allowed, is finitely generated exactly when it
+  is the dual of a finite set of linear forms. 1.3 and 1.4 use it.
+
+This roadmap consumes nothing else from other roadmaps.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
