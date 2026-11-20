@@ -178,7 +178,8 @@ The facts fixed by the library, in the conventions of this roadmap:
 
 Associate to the Spinᶜ lift P of FourManifolds §4.1 the Hermitian bundles `W± = P ×_(ρ±) S±` and the
 determinant line `L = P ×_(z²) ℂ`, as native associated bundles of SmoothBundlesConnections §B2.1 with
-the fibre metrics of §B2.2, together with specified unitary isomorphisms `det W⁺ ≃ L ≃ det W⁻`. Construct
+the fibre metrics of §B2.2, together with specified unitary isomorphisms `det W⁺ ≃ L ≃ det W⁻` (Okonek and
+Teleman, p. 3, for these bundles and their common determinant). Construct
 Clifford multiplication `c : T*X → Hom_ℂ(W⁺, W⁻) ⊕ Hom_ℂ(W⁻, W⁺)`, its grading, its pullback and its
 naturality under oriented isometries and their lifts. *Needs:* FourManifolds §4.1; SmoothBundlesConnections
 §§B2.1–B2.2; §1.1; Tau Ceti `CliffordAlgebra.comp_chirality_eq_chirality_comp`,
@@ -202,8 +203,8 @@ Given the Levi-Civita connection and a unitary connection A on L, construct the 
 ∇_A on W = W⁺ ⊕ W⁻ compatible with both, as the connection of SmoothBundlesConnections §B3.3 induced on
 the associated bundle, with its section-first native Koszul derivative. It is Hermitian, compatible
 with Clifford multiplication and preserves Γ. The construction does not choose a global Spin structure
-or Spin connection, which need not exist when X is not spin. Gauge conventions are Taubes's (Taubes,
-*The Seiberg–Witten and Gromov invariants*). A gauge transformation of L alone need not be the square of
+or Spin connection, which need not exist when X is not spin. The gauge action of Convention 4 is the one
+Okonek and Teleman write as a right action of f = u⁻¹ (p. 4). A gauge transformation of L alone need not be the square of
 a Spinᶜ gauge transformation. *Needs:* §1.2; SmoothBundlesConnections §§B3.1, B3.3, B4.1, B4.2; Tau Ceti
 `CliffordAlgebra.spinCGroup.det`, `AlgHom.lieMap_realCliffordSpinEvenSmoothHom_eq` (the differential of
 the spin action is the even Clifford action of the spin Lie algebra); Mathlib `CovariantDerivative`.
@@ -224,7 +225,8 @@ the spin action is the even Clifford action of the spin Lie algebra); Mathlib `C
 ### 1.4 Curvature normalization
 
 Compare the standard-character line L of §1.2 with the dual-character circle-bundle convention of
-SmoothBundlesConnections §§B6.2–B6.3 and prove `c₁(L)_ℝ = [iF_A/(2π)]`, with its behaviour under tensor
+SmoothBundlesConnections §§B6.2–B6.3 and prove `c₁(L)_ℝ = [iF_A/(2π)]` (the normalization of Okonek and
+Teleman, proof of Proposition 4 iii), p. 5), with its behaviour under tensor
 products, duals and pullbacks and its independence of the reference connection. Consequently
 `∫_X F_A ∧ F_A = −4π²⟨l², [X]⟩`. Establish the integral-period normalization of logarithmic derivatives
 of circle-valued maps used in Layer 4, keeping apart the weight-one action on spinors and the
@@ -405,11 +407,11 @@ W± → W∓. *Needs:* §1.3; SpinGeometry §6.1; ComplexKahlerGeometry §5.4 (S
 
 - In an orthonormal frame `D_A = Σ c(eᵢ) ∇_(A,eᵢ)`, and this agrees with the contraction of SpinGeometry
   §6.1 independently of the frame.
-- `D_A(fψ) = c(df)ψ + f D_Aψ` for real functions f; `D_(A+a) = D_A + c(a)/2` for imaginary one-forms a; and
-  `D_(Aᵘ)(uψ) = u D_Aψ` for u : X → U(1).
-- The formal L² adjoint of D_A⁺ is D_A⁻, with the comparison of weak and Sobolev domains.
-- The differential principal symbol of D_A⁺ at ξ is c(ξ) and its Fourier symbol is ic(ξ); an explicit
-  scalar homotopy joins their K-theory classes. Off ξ = 0 the inverse of the chiral symbol c(ξ) is
+- `D_(A+a) = D_A + c(a)/2` for imaginary one-forms a, and `D_(Aᵘ)(uψ) = u D_Aψ` for u : X → U(1). By
+  SpinGeometry §6.1 applied to (W, c, ∇_A), `D_A(fψ) = c(df)ψ + f D_Aψ` for real functions f.
+- By SpinGeometry §6.1 applied to (W, c, ∇_A), the formal L² adjoint of D_A⁺ is D_A⁻, with the comparison
+  of weak and Sobolev domains; the differential principal symbol of D_A⁺ at ξ is c(ξ), its Fourier symbol
+  is ic(ξ), and the phase homotopy `e^(iπt/2)c(ξ)` joins them. Off ξ = 0 the inverse of the chiral symbol c(ξ) is
   `−c(ξ)/|ξ|²`, mapping W⁻ to W⁺.
 
 **Checks.**
@@ -433,8 +435,8 @@ SpinGeometry §§6.2–6.3 (the general square formula and the twisted Lichnerow
 
 ### 3.3 The index of the Dirac operator
 
-Construct the chiral compact-support symbol of D_A⁺ and its comparison with the universal associated
-Spinᶜ Thom character. Using the universal Euler cancellation of §3.3a, apply the cohomological index
+Construct the compact-support class of the chiral symbol of D_A⁺, the symbol triple of SpinGeometry §6.1
+for (W, c, ∇_A), and its comparison with the universal associated Spinᶜ Thom character. Using the universal Euler cancellation of §3.3a, apply the cohomological index
 formula of IndexTheory Layer 6 (I6) to prove
 `ind_ℂ D_A⁺ = ⟨exp(l/2) Â(TX), [X]⟩ = (⟨l², [X]⟩ − σ(X))/8` (Witten, *op. cit.*, §2, the sentence before
 eq. (2.5), in his normalization). The rational class exp(l/2) does not
@@ -462,9 +464,10 @@ that the map of classifying spaces is a rational cohomology isomorphism; it is n
 covering. Consume the real torus and Borel restriction and the finite-degree rational coefficient
 comparison of CharacteristicClasses §§5.2–5.3 (C5.2–C5.3), specialized to SU(2)₊ × SU(2)₋ × U(1) and its
 rank-three torus. Construct the representation and root dictionary for this group, obtain injectivity
-of rational restriction to the torus from that coefficient comparison, prove that the real tangent
-Euler class restricts to the nonzero root product x₁x₂, that x₁x₂ is not a zero divisor there, and
-hence that the Euler class is not a zero divisor universally. In torus coordinates a₊, a₋, z put
+of rational restriction to the torus from that coefficient comparison, and prove that the real tangent
+Euler class restricts to the root product x₁x₂. This Euler class is not a zero divisor in the
+rational cohomology of B(Spin(4) × U(1)) by IndexTheory §6.3 (the case Spin(2ℓ) × U(k) with ℓ = 2, k = 1);
+the rational isomorphism above carries this to BSpinᶜ(4). In torus coordinates a₊, a₋, z put
 `x₁ = a₊ + a₋`, `x₂ = a₊ − a₋` and `l = 2z`; through the chirality comparison of §1.1 the half-spin
 characters are `z ± a₊` on W⁺ and `z ± a₋` on W⁻. Construct their root, classifying and representation
 maps and derive `ch(W⁺ − W⁻) = exp(z) ∏ⱼ 2 sinh(xⱼ/2)`. Use universal Euler cancellation to identify the
@@ -548,7 +551,8 @@ realification. Mathlib: Fredholm operators.
 ### 4.1 Sobolev completions
 
 Fix a smooth reference connection A₀ on L. For each integer s ≥ 3 define the configuration space
-`C_s = (A₀ + H^s(iT*X)) × H^s(W⁺)`, the gauge group `G_(s+1) = H^(s+1)(X, U(1))` and the perturbation
+`C_s = (A₀ + H^s(iT*X)) × H^s(W⁺)`, the gauge group `G_(s+1) = H^(s+1)(X, U(1))` (the orders of Okonek
+and Teleman, p. 4) and the perturbation
 space `P_s = H^s(iΛ⁺)`, on the compact-bundle Sobolev scale of ComplexKahlerGeometry §5.4. The equation
 ℱ of §3.5 takes values in `H^(s−1)(iΛ⁺ ⊕ W⁻)`, one order below the perturbation parameter. Since
 s + 1 ≥ 4 > 2, elements of `H^(s+1)` have continuous representatives, and the condition |u| = 1 is
@@ -569,7 +573,8 @@ imposed on them. *Needs:* §§2.3, 3.5; ComplexKahlerGeometry §5.4; Pseudodiffe
 For a smooth map u : X → U(1) prove that `dlog u = u⁻¹du` is closed with periods in 2πiℤ, and conversely
 that every smooth closed imaginary one-form with periods in 2πiℤ is dlog u for a smooth u, constructed by
 path integration. Prove the Sobolev version for `u ∈ G_(s+1)` by local logarithms and approximation;
-identify the component group of G_(s+1) with H¹(X;ℤ), and the integral harmonic one-forms with a lattice
+identify the component group of G_(s+1) with H¹(X;ℤ) (Okonek and Teleman, proof of Lemma 5, p. 6, for
+smooth gauge transformations), and the integral harmonic one-forms with a lattice
 in the harmonic forms. Through the finite CW and integral–de Rham comparisons prove that this lattice is
 discrete and of full rank b₁. On connected X the kernel of dlog is the constants. H¹(X;ℤ) is torsion
 free; the torsion of the Spinᶜ torsor is kept in the lift (§1.2) and is not lost by using H¹(X;ℤ) for
@@ -589,8 +594,8 @@ Write a connection form as `a = h + df + d*β` (harmonic, exact and coexact part
 for a mean-zero imaginary function ξ and put u = exp ξ, so that `d*(a − 2dξ) = 0`. Spinᶜ gauge
 transformations in the identity component act on the harmonic part trivially, and the large ones
 translate it by −4πiH¹(X;ℤ). Prove that the quotient of the harmonic part is the torus
-`H¹(X;iℝ)/(4πiH¹(X;ℤ))` (Taubes, *The Seiberg–Witten and Gromov invariants*, for the gauge
-normalization). Choose a compact closed parallelotope of the lattice for subsequence arguments; no
+`H¹(X;iℝ)/(4πiH¹(X;ℤ))` (Okonek and Teleman, §4.1, p. 10, where in the units of the ordinary lattice it
+is `H¹(X; ℝ)/2H¹(X; ℤ)`). Choose a compact closed parallelotope of the lattice for subsequence arguments; no
 continuous global selector is claimed. Give the estimates for ξ and its uniqueness modulo constants and
 the lattice. Allowing all gauge transformations of L would give the different lattice
 2πiH¹(X;ℤ) and is not the quotient taken here. *Needs:* §§4.1–4.2; ComplexKahlerGeometry §5.7 (Hodge
@@ -619,7 +624,7 @@ does not follow from the Hilbert space structure alone.
 Prove `d₀*d₀ = 4Δ + |ψ|²` on imaginary functions, with energy `⟨d₀*d₀ξ, ξ⟩ = 4‖dξ‖² + ∫_X |ψ|²|ξ|²`. If ψ is
 not identically zero, prove coercivity of this operator from a Poincaré inequality, a region where ψ
 does not vanish and Rellich compactness; obtain its H¹ variational inverse and its elliptic inverse
-`H^(s+1) → H^(s−1)`. Apply Mathlib's implicit function theorem
+`H^(s−1) → H^(s+1)`. Apply Mathlib's implicit function theorem
 (`HasStrictFDerivAt.implicitFunctionOfComplemented`) to the Coulomb map to construct local slices
 `ker d₀*` and compatible transition charts. At ψ = 0 invert only on mean-zero functions and keep the
 residual constant circle. No uniform invertibility as ψ tends to zero is claimed. *Needs:* §§3.5, 4.1;
@@ -932,8 +937,8 @@ For a fixed x₀ ∈ X, the based gauge group `G⁰ = {u : u(x₀) = 1}` gives t
 `P₀ = C_s*/G⁰ → B_s*`, with right action `[x] · z = [z⁻¹ · x]`. Its standard-character line is the
 diagonal quotient `(x, v) ∼ (u · x, u(x₀) v)`. Construct its principal and associated charts and define
 μ as the first Chern class of this line (Okonek and Teleman, the Remark after Lemma 5, p. 7, for the
-circle bundle of the based gauge group; Taubes, *The Seiberg–Witten and Gromov invariants*, for the
-point-insertion convention). For a variable point y ∈ X construct the line U over X × B_s* by
+circle bundle of the based gauge group, and Definition 6, p. 7, for its powers as the point
+insertion). For a variable point y ∈ X construct the line U over X × B_s* by
 `(x, y, v) ∼ (u · x, y, u(y) v)`. Joint evaluation is continuous at finite Sobolev order, so U is first a
 topological line, with smooth dependence on the configuration at fixed y; no jointly C∞ evaluation on
 `H^(s+1)(X, U(1))` is claimed. On smooth finite-dimensional moduli spaces and families, construct the
@@ -1020,7 +1025,8 @@ k > max(d + q, 0). *Needs:* §§5.4, 6.1–6.3, 7.1; HeegaardFloer §§2.1–2.2
 sets and the regular-parameter projection); Tau Ceti `TauCeti.isMeagre_image_criticalPoints_of_isFredholm`.
 
 - For a wall-free compact regular family the zero set modulo gauge is a compact neat oriented manifold
-  with the prescribed boundary and corner strata.
+  with the prescribed boundary and corner strata (Okonek and Teleman, Proposition 4 iv)–v), pp. 4–5, for
+  paths).
 - Generic transverse q-families avoid the reducible wall when q < b₂⁺. When q ≥ b₂⁺, transversality does
   not guarantee avoidance, although particular families may avoid the wall; in particular b₂⁺ = 2 does not
   make every two-parameter family wall free.
@@ -1039,8 +1045,8 @@ For the Spinᶜ structure P, regular wall-free parameters and an integer d ≥ 0
     SW^r_P(γ₁, …, γ_r) = ⟨ν(γ₁) ⌣ ⋯ ⌣ ν(γ_r) ⌣ μ^m, [M]⟩,
 
 where M is the compact oriented moduli space, γᵢ ∈ H₁(X; ℤ), and μ and ν are the classes of §§7.2–7.3
-restricted to M (Taubes, *The Seiberg–Witten and Gromov invariants*, for the point insertion; Okonek
-and Teleman, Definition 6, p. 7, for the full exterior insertions). Construct the integer pairing on the
+restricted to M (Okonek and Teleman, Definition 6, p. 7, for the point and the full exterior
+insertions). Construct the integer pairing on the
 moduli space through the comparison of its smooth orientation (§7.1) with a fundamental class, in the
 form of Tau Ceti's
 `TauCeti.HomologicalOrientation`, and identify SW^r_P with Tau Ceti's insertion form
@@ -1156,7 +1162,8 @@ TopologicalKTheory, and prove that it equals the same class I. This compares exi
 Construct the index comparison for the product family over the fixed closed X and the compact parameter
 space T. Form the relative K-theory symbol class on `T × D(T*X)` relative to `T × S(T*X)`; through uniform
 vertical smoothing, continuous quantization, parametrices depending on the parameter and bounded
-transforms, define its analytic index in K⁰(T), and identify it with the class I of §9.2. Extend the
+transforms, define its analytic index in K⁰(T), and identify it with the class I of §9.2 (Okonek and
+Teleman, §4.1, p. 13, state its cohomological form for this family). Extend the
 symbol-homotopy, excision, external-product and embedding and Bott normalization arguments of
 IndexTheory Layers 2–5 (I2–I5) to compact parameters, proving uniform continuity of the operators,
 compatibility with stabilized kernels and enlargement of supports at each step. For a fixed embedding of
@@ -1177,7 +1184,7 @@ are base first, with the graded Künneth multiplication
 of §9.1 and the chiral symbol of §3.1. Ω is not replaced by the determinant class, twice its size.
 *Needs:* §§3.3a, 9.1, 9.3; CharacteristicClasses §§6.1–6.5; Tau Ceti
 `LinearMap.BilinForm.apply_eq_zero_of_alternatingMap_of_sigPos_lt_three`,
-`LinearMap.BilinForm.IsCharacteristic`, `TopCat.integralCupProd_add_self_eq_zero`.
+`LinearMap.BilinForm.IsCharacteristic`, `TopCat.integralCupProd_add_self_eq_zero`; Mathlib `DividedPowers`.
 
 - If b₂⁺ = 1, every four-fold pairing `⟨a₁a₂a₃a₄, [X]⟩` of classes in H¹(X) vanishes: a nonzero alternating
   four-form on a four-dimensional subspace of H¹ would give a subspace of wedge squares of signature (3, 3)
@@ -1195,7 +1202,10 @@ of §9.1 and the chiral symbol of §3.1. Ω is not replaced by the determinant c
 - Divided powers on the integral exterior algebra of the torus: for `u = Σ_(i<j) a_ij ν_i ν_j` with integer
   a_ij, the coefficient of each monomial in u^k/k! is the signed sum over the unordered decompositions of
   its index set into k disjoint pairs, so u^k/k! is an integral class, defined without dividing by k! in
-  integral cohomology. Fix the hyperplane, universal-line and determinant orientations before
+  integral cohomology. These classes are the values at u of a divided-power structure, in the sense of
+  Mathlib's `DividedPowers`, on the ideal of positive-degree classes of the commutative ring of
+  even-degree integral cohomology of T; it is constructed here, and it is unique because that ring is
+  torsion free. Fix the hyperplane, universal-line and determinant orientations before
   identifying any polynomial of a source with these classes.
 
 **Checks.**
@@ -1374,12 +1384,13 @@ E × ℙ¹; CharacteristicClasses §§2.4–2.5, 3.1. Layer 10 supplies nothing 
 
 On an almost-complex four-manifold whose almost-complex orientation is the given one, with a compatible
 metric, define the canonical line `K = Λ^(2,0)T*X` and construct the canonical Spinᶜ lift from the
-reduction to U(2) (Taubes, *The Seiberg–Witten and Gromov invariants*, for the canonical Spinᶜ
-structures). Prove `W⁺_can = Λ^(0,0) ⊕ Λ^(0,2) ≃ 1 ⊕ K⁻¹`, `W⁻_can = Λ^(0,1)` and `L_can ≃ K⁻¹`, with the
+reduction to U(2), through the homomorphism U(2) → Spinᶜ(4), constructed here, that covers the inclusion
+U(2) ⊂ SO(4) and whose composite with the determinant character is the determinant of U(2) (Okonek and
+Teleman, §5, p. 22, for the canonical structure of a Kähler surface). Prove `W⁺_can = Λ^(0,0) ⊕ Λ^(0,2) ≃ 1 ⊕ K⁻¹`, `W⁻_can = Λ^(0,1)` and `L_can ≃ K⁻¹`, with the
 Clifford and exterior intertwiner (for the splitting of W⁺ on a Kähler surface, Witten, *op. cit.*, §4,
 first paragraph). The comparison with K⁻¹ is complex linear and Hermitian; it is not
-claimed holomorphic when J is not integrable. *Needs:* §§1.1–1.2; FourManifolds §4.1 (lifts from a
-U(2) reduction); Tau Ceti `TauCeti.AlmostComplexStructure.realFockAction`,
+claimed holomorphic when J is not integrable. *Needs:* §§1.1–1.2; FourManifolds §4.1 (Spinᶜ lifts and
+their determinant lines); Tau Ceti `TauCeti.AlmostComplexStructure.realFockAction`,
 `TauCeti.AlmostComplexStructure.positiveHalfSpinors_realFockAction`,
 `TauCeti.AlmostComplexStructure.kahlerForm`.
 
@@ -1400,11 +1411,11 @@ the degree-p part, so by −2i on 1 and +2i on Λ^(0,2) ≃ K⁻¹
 ### 11.2 Twists and dimension
 
 For every Hermitian line E construct the twisted lift, with `W⁺_E ≃ E ⊕ K⁻¹E` and `L_E ≃ K⁻¹E²`, keeping its
-full torsor class e = c₁(E), torsion included. With κ = c₁(K) prove `l = −κ + 2e` and
+full torsor class e = c₁(E), torsion included (Okonek and Teleman, §5, p. 22, for a Kähler surface). With κ = c₁(K) prove `l = −κ + 2e` and
 `d = ⟨e² − κe, [X]⟩`. Derive `κ² = 2χ + 3σ` from the complex-to-real comparisons
 `p₁(TX) = c₁(T^(1,0)X)² − 2c₂(T^(1,0)X)`, the equality of c₂(T^(1,0)X) with the Euler class of TX, the Euler
 pairing and the signed signature theorem. Compare the chiral symbol with the almost-complex Dolbeault symbol and the characteristic
-pairing `ch(E) Td(T^(1,0)X)`. No square root of a general determinant line is inferred (Taubes, *op. cit.*).
+pairing `ch(E) Td(T^(1,0)X)`. No square root of a general determinant line is inferred.
 *Needs:* §§1.2, 3.3, 3.5, 11.1; FourManifolds §4.1 (the torsor of twists); CharacteristicClasses §§3.2–3.3
 (Chern and Pontryagin classes); IndexTheory §§7.2–7.3 (the signature theorem and the Dolbeault
 operator).
@@ -1530,6 +1541,8 @@ Layer 4's.
 - Vector bundles and smooth vector bundles: `VectorBundle`, `ContMDiffVectorBundle`,
   `Bundle.Trivialization` (§§2.1, 4.5), with their sections and covariant derivatives
   (`CovariantDerivative`, `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`; §1.3).
+- `DividedPowers` (`Mathlib/RingTheory/DividedPowers/Basic.lean`): a divided-power structure on an ideal
+  of a commutative semiring, with the standard axioms on sums, products and composites (§9.4).
 
 ### From Tau Ceti
 
@@ -1658,14 +1671,15 @@ parametrices and Fredholm realizations), Layer 7 (P7: changes of order).
 
 ### From TauCetiRoadmap.SpinGeometry
 
-Layer 6 (G6): §6.1 (the Dirac operator of a Clifford module with a compatible connection, and its closed
-domains), §§6.2–6.3 (the general square formula and the twisted Lichnerowicz formula).
+Layer 6 (G6): §6.1 (the Dirac operator of a Clifford module with a compatible connection, its Leibniz
+rule, the adjoint pairing of its chiral pieces with their closed domains, its symbol triple and the phase
+homotopy to the Fourier symbol), §§6.2–6.3 (the general square formula and the twisted Lichnerowicz formula).
 
 ### From TauCetiRoadmap.IndexTheory
 
 Layers 1–7 (I1–I7): in particular Layers 2–5 (symbols, the analytic index, excision, external products,
 Bott normalization and embedding invariance), §6.1 (the cohomological index formula), §§6.2–6.3 (universal
-symbols and cancellation by the Euler class), §7.2 (the signature theorem, with `σ = ⟨p₁, [X]⟩/3` in
+symbols and cancellation by the Euler class, which is not a zero divisor for Spin(2ℓ) × U(k)), §7.2 (the signature theorem, with `σ = ⟨p₁, [X]⟩/3` in
 dimension four), §7.3 (the Dolbeault operator).
 
 ### From TauCetiRoadmap.HeegaardFloer
@@ -1714,9 +1728,6 @@ H5: the continuous section modules of Hilbert bundles over a compact space.
 
 Page numbers are those of the arXiv versions linked below.
 
-- C. H. Taubes, *The Seiberg–Witten and Gromov invariants*, Math. Res. Lett. 2 (1995), no. 2
-  (doi:10.4310/MRL.1995.v2.n2.a10): the determinant and gauge normalization, the canonical Spinᶜ
-  structures and the point-insertion convention (§§1.3, 4.3, 7.2, 8.2, 11.1–11.2).
 - E. Witten, [*Monopoles and four-manifolds*](https://arxiv.org/abs/hep-th/9411102v1), Math. Res. Lett. 1
   (1994): §2, eqs. (2.3)–(2.5) and the sentence before (2.5), for the deformation complex, the two indices
   and the expected dimension (§§3.3–3.5); §3, eq. (3.1) and the paragraph after it, for the integrated
@@ -1726,15 +1737,18 @@ Page numbers are those of the arXiv versions linked below.
   equations*](https://arxiv.org/abs/math/0203171v1): Lemma 2.2 (p. 5), Lemma 2.4 (p. 7), Theorem 2.7 (p. 8)
   and the Appendix (pp. 18–21), the route through a Carleman estimate for perturbed Dirac operators (§5.1).
 - C. Okonek and A. Teleman, [*Seiberg–Witten invariants for manifolds with b⁺ = 1, and the universal wall
-  crossing formula*](https://arxiv.org/abs/alg-geom/9603003v4): Definition 3 and Proposition 4 (pp. 4–6),
-  for properness, universal transversality, the reducibles and the codimension of the wall (§§5.4,
-  6.1–6.2, 8.3); Lemma 5 and the Remark after it (pp. 6–7), for the classes ν and the circle bundle of the
-  based gauge group (§§7.2–7.3); p. 7 with Definition 6, for the dimension, the orientation and the full
-  exterior insertions (§§6.3, 7.1, 8.2); Definitions 7 and 8 with the Remarks after them (pp. 8–9), for
+  crossing formula*](https://arxiv.org/abs/alg-geom/9603003v4): pp. 3–4, for the spinor bundles, the gauge
+  action and the Sobolev orders (§§1.2, 1.3, 4.1); Definition 3 and Proposition 4 (pp. 4–6), for
+  properness, universal transversality, the reducibles, the curvature normalization, bordisms along paths
+  and the codimension of the wall (§§1.4, 5.4, 6.1–6.2, 8.1, 8.3); Lemma 5 and the Remark after it
+  (pp. 6–7), for the gauge group, the classes ν and the circle bundle of the based gauge group (§§4.2,
+  7.2–7.3); p. 7 with Definition 6, for the dimension, the orientation and the point and full exterior
+  insertions (§§6.3, 7.1, 7.2, 8.2); Definitions 7 and 8 with the Remarks after them (pp. 8–9), for
   the chambers and the orientation rules (§§6.2, 7.1, 8.3, 10.4); §4.1 (pp. 10–13), for the Picard tori,
-  the universal lines and Lemma 13 (§§7.3, 9.1, 9.4); Propositions 14 and 15 and Theorem 16 (pp. 14–16),
+  the universal lines, the Chern character of the Dirac family and Lemma 13 (§§4.3, 7.3, 9.1, 9.3, 9.4); Propositions 14 and 15 and Theorem 16 (pp. 14–16),
   for the Segre recurrence and the wall-crossing formula (§§10.2–10.3); §4.2 (pp. 16–17), for the real
-  blowup (§10.1). Their first Chern class of the Dirac index (p. 13) is +u_c, without the graded Künneth
+  blowup (§10.1); §5 (p. 22), for the canonical Spinᶜ structure of a Kähler surface and its twists
+  (§§11.1–11.2). Their first Chern class of the Dirac index (p. 13) is +u_c, without the graded Künneth
   sign of §9.4; §10.3 records the resulting factor (−1)^k. The polynomial and the boundary coefficient
   are derived from this roadmap's own classes, clutching and orientation maps before any comparison with
   the conventions of the source.
