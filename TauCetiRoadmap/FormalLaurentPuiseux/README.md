@@ -823,6 +823,8 @@ exponents and their valuation, intermediate fields, power bases, commutative alg
 Tau Ceti: ramified embeddings, ramification indices and the level colimit, the Puiseux field, its
 levels, valuation and calculus, all named above.
 
+<a id="l5-newton-polygons-and-formal-newtonpuiseux"></a>
+
 ## Layer 5: Newton polygons and formal Newton–Puiseux
 
 ### 5.1 Newton polygons and initial polynomials over `F`
