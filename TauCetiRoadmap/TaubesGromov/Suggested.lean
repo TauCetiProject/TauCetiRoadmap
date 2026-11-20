@@ -60,8 +60,8 @@ def HasZeroDivisor (x : ℂ → EuclideanSpace ℝ (Fin 4)) (D : Multiset ℂ) :
     ∀ᶠ w in 𝓝 z, TauCeti.Vortex.sectionValue x w = (w - z) ^ D.count z * v w
 
 /-- **The zero divisor of a framed vortex has degree `m`.** The section of a framed degree-`m`
-plane vortex has finitely many zeros, of total multiplicity `m` (Taubes, *Gr ⇒ SW*; README §4.2
-and §4.4). -/
+plane vortex has finitely many zeros, of total multiplicity `m` (Taubes, *SW ⇒ Gr*,
+Proposition 4.1(3)(i)–(ii); README §4.2 and §4.4). -/
 theorem exists_hasZeroDivisor_of_isFramedVortex {m : ℕ} {x : ℂ → EuclideanSpace ℝ (Fin 4)}
     (hx : IsFramedVortex m x) :
     ∃ D : Multiset ℂ, Multiset.card D = m ∧ HasZeroDivisor x D := by
@@ -69,7 +69,8 @@ theorem exists_hasZeroDivisor_of_isFramedVortex {m : ℕ} {x : ℂ → Euclidean
 
 /-- **Existence of plane vortices with prescribed zeros.** Every effective divisor `D` of degree
 `m` on `ℂ` is the zero divisor of a framed degree-`m` plane vortex, repeated points included
-(Taubes, *Gr ⇒ SW*; README §4.4). -/
+(Taubes, *Arbitrary N-vortex solutions to the first order Ginzburg–Landau equations*; Taubes,
+*SW ⇒ Gr*, Proposition 4.1(3)(iii); README §4.4). -/
 theorem exists_isFramedVortex_hasZeroDivisor (D : Multiset ℂ) :
     ∃ x : ℂ → EuclideanSpace ℝ (Fin 4),
       IsFramedVortex (Multiset.card D) x ∧ HasZeroDivisor x D := by
@@ -77,8 +78,9 @@ theorem exists_isFramedVortex_hasZeroDivisor (D : Multiset ℂ) :
 
 /-- **Uniqueness of plane vortices with prescribed zeros.** Two framed degree-`m` plane vortices
 with the same zero divisor differ by a smooth framed gauge transformation, a smooth circle-valued
-map tending to one at infinity, acting by `(a, α) ↦ (a - u⁻¹ du, u α)` (Taubes, *Gr ⇒ SW*;
-README §4.4). -/
+map tending to one at infinity, acting by `(a, α) ↦ (a - u⁻¹ du, u α)` (Taubes, *Arbitrary
+N-vortex solutions to the first order Ginzburg–Landau equations*; Taubes, *SW ⇒ Gr*, Proposition
+4.1(3)(iii); README §4.4). -/
 theorem exists_mem_framedGaugeGroup_eq_gaugeTransform {m : ℕ}
     {x y : ℂ → EuclideanSpace ℝ (Fin 4)} {D : Multiset ℂ}
     (hx : IsFramedVortex m x) (hy : IsFramedVortex m y)

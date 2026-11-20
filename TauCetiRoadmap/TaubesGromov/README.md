@@ -87,14 +87,17 @@ its inputs, so that a target proved by another route is not blocked behind an un
    general comparison here is point-only. A line `E` with `d(e) < 0` has `SW⁰ = 0`.
 6. **The curve invariant** is Taubes's point-insertion count of embedded curves with the
    four-twist torus weights. It is not a stable-map Gromov–Witten invariant, and it is not McDuff's
-   modified invariant `Gr′`, which treats multiply covered exceptional spheres differently.
+   modified invariant `Gr′`, which treats multiply covered exceptional spheres differently (McDuff,
+   *Lectures on Gromov invariants for symplectic 4-manifolds*, Definition 3.2).
 7. **Chambers.** When `b₂⁺ = 1` the positive harmonic line through `ω` is fixed, and `C₊` is the
    chamber `w > 0` of SeibergWittenTheory's wall coordinate `w` (§9.3).
 8. **Local series** are elements of `PowerSeries ℤ` and their units, with Mathlib's
    `PowerSeries.invOfUnit` for inverses; global series over `H₁` are MorseNovikov's completed
    group rings. No new period-completion carrier is introduced.
 9. **Numbering.** Layer `k` has subsections `k.n`; a subsection numbered `k.na` follows `k.n`.
-   Statements of this roadmap without a declaration in `Suggested.lean` are written in prose.
+   Statements of this roadmap without a declaration in `Suggested.lean` are written in prose. In
+   the former numbering, TGk is Layer k and TGk.n is §k.n; the former TG6.1 is §6.1 together
+   with §6.1a–§6.1c.
 
 ## Layer 0: labels and canonical orientation
 
@@ -309,7 +312,9 @@ The local weight of a torus with label `(σ, i)` and multiplicity `m` is
 `w_(σ,i)(m) = [t^m] f_(σ,i)` for the series with constant term one
 `f_(+,0) = 1/(1 − t)`, `f_(+,1) = 1 + t`, `f_(+,2) = (1 + t)/(1 + t²)`,
 `f_(+,3) = (1 + t)(1 − t²)/(1 + t²)` and `f_(−,i) = 1/f_(+,i)` (Taubes, *Counting
-pseudo-holomorphic submanifolds in dimension 4*). These are Tau Ceti's
+pseudo-holomorphic submanifolds in dimension 4*; the same eight series, with the labels defined by
+the four twisted determinant signs, are in McDuff, *Lectures on Gromov invariants for symplectic
+4-manifolds*, §5.2, p. 34 of the arXiv version). These are Tau Ceti's
 `TauCeti.torusWeightSeries` and `TauCeti.torusWeight`, with `σ = true` for the positive sign; the
 weight is a power-series coefficient, not an automorphism reciprocal and not the orbit logarithm's
 `1/m`. Define the contribution of a configuration as the product of its component contributions:
@@ -355,7 +360,9 @@ Layer 1.
 **Checks.**
 - Two disjoint tori of label `(+,0)` have total weight `3` in total multiplicity `2`, the
   coefficient of `t²` in `f_(+,0)²`: the distributions `(2,0)`, `(1,1)` and `(0,2)` each have
-  weight one. Adding the two local series instead of multiplying them would give `2`.
+  weight one. Adding the two local series instead of multiplying them would give `2`. This is the
+  value `k + 1` at `k = 2` of McDuff, *Lectures*, Lemma 5.1, p. 33, for the two section tori of
+  `S² × T²`.
 - A torus `T` of class `A₀` and label `(+,0)` together with a torus `T′` of class `2A₀` and label
   `(+,1)` give the ray series `f_(+,0)(t) f_(+,1)(t²) = 1 + t + 2t² + 2t³ + ⋯`. Its coefficient in
   class `A₀` is `1`, from `T` alone; without the substitution `t ↦ t²` the product
@@ -363,8 +370,9 @@ Layer 1.
 
 ### Examples
 
-- A single torus with label `(−,0)` has series `1 − t`: it contributes `−1` in its own class and nothing in its multiples. A
-  torus with label `(+,1)` contributes `1` in its own class and in twice it, and nothing beyond.
+- A single torus with label `(−,0)` has series `1 − t`: it contributes `−1` in its own class and
+  nothing in its multiples. A torus with label `(+,1)` has series `1 + t`: it contributes `1` in
+  its own class and nothing in its multiples.
 
 ### Dependencies
 
@@ -518,7 +526,10 @@ Construct the equation map `x ↦ (∂̄_a α, *iF_a − (1 − |α|²)/8)` from
 `H^(k−1)(ℂ; ℝ ⊕ ℂ)` (Taubes, *Gr ⇒ SW*); pointwise it is `TauCeti.Vortex.equation`. For its
 solutions the curvature decays exponentially and is integrable (Tau Ceti's
 `TauCeti.Vortex.exists_abs_curvature_le_mul_exp` and `TauCeti.Vortex.integrable_curvature`).
-Prove the flux identity `(2π)⁻¹ ∫ iF_a = m` for a framed degree-`m` vortex; no `L¹` bound on the
+Prove the flux identity `(2π)⁻¹ ∫ iF_a = m` for a framed degree-`m` vortex (stated, in coordinates
+scaled by `√2` where the curvature coefficient is `1/4`, in Taubes, *SW ⇒ Gr*, Proposition
+4.1(3)(i)–(ii), p. 871, with `m` the number of zeros counted with multiplicity); no `L¹` bound on
+the
 curvature is asserted for arbitrary affine `H^k` fields. Construct the deformation complex
 `H^(k+1)(iℝ) → H^k(iT*ℂ ⊕ ℂ) → H^(k−1)(ℝ ⊕ ℂ)` with `d₁d₀ = 0` at a solution, the real `L²`
 coefficient metric `|b|² + |δα|²/4` for `a = ib`, the formal `L²` adjoint `d₀*` and the
@@ -581,7 +592,9 @@ on `ℂ` with finite energy whose section, multiplied by `(z/|z|)^(−m)`, tends
 section has *zero divisor* `D` (`HasZeroDivisor`) when at every point `z` it vanishes to order
 exactly the multiplicity of `z` in `D`, in the sense of a local factorization `(w − z)^n v(w)` with
 `v` continuous and nonzero at `z`; this order is determined by the section. Prove Taubes's
-classification (Taubes, *Gr ⇒ SW*):
+classification (Taubes, *Arbitrary N-vortex solutions to the first order Ginzburg–Landau
+equations*; stated, in coordinates scaled by `√2`, as Taubes, *SW ⇒ Gr*, Proposition 4.1(3), p. 871,
+whose proof on p. 880 refers to that paper):
 
 - the zero divisor of a framed degree-`m` vortex exists and has degree `m`
   (`exists_hasZeroDivisor_of_isFramedVortex`);
@@ -615,6 +628,11 @@ same divisor, and the moduli space.
 - The framed gauge group has no base-point condition. Asking also `u(0) = 1` would leave a free
   action of the circle of values `u(0)` on the quotient, and the moduli space would have real
   dimension `2m + 1`, not the index `2m` of §4.3.
+- The zero divisor records the oriented order of vanishing, not the growth of `|α|`. A field whose
+  section is `w̄` near `0` has no zero divisor: `w̄ = wⁿ v(w)` with `v` continuous and nonzero at
+  `0` fails for `n = 0` since `v(0) = 0`, for `n = 1` since `w̄/w` has no limit at `0`, and for
+  `n ≥ 2` since `|v(w)| = |w|^(1−n)` is unbounded. A definition by `|α(w)| ~ |w|ⁿ` would give it
+  order `1`.
 
 ### 4.5 Compact divisor windows: projections, right inverses and decay
 
@@ -685,11 +703,6 @@ multisets and symmetric products. PseudodifferentialOperators and ComplexKahlerG
 
 ## Layer 5: large-parameter equations and quantified forward bounds
 
-The analysis of this layer follows Taubes, *SW ⇒ Gr*, for a nowhere-vanishing symplectic form;
-the concentration architecture is that of Taubes, *Seiberg–Witten invariants and
-pseudo-holomorphic subvarieties for self-dual, harmonic 2-forms*, with the background curvature,
-forcing, eigenprojection and normalization comparisons constructed explicitly here.
-
 ### 5.1 The canonical connection and the projected equations
 
 Construct the canonical determinant connection `A₀` and the unit section `u₀` of the trivial
@@ -708,7 +721,9 @@ Ceti's `TauCeti.SeibergWitten.cliffordProjection`, `TauCeti.SeibergWitten.isStar
 `TauCeti.SeibergWitten.bivectorExterior_apply_of_cliffordProjection_apply_eq_self` and
 `TauCeti.SeibergWitten.coe_quadraticTwoForm_of_cliffordProjection_apply_eq_self`; the targets are
 the bundle-level statements and the frame and intertwiner comparison, constructed before a
-projected formula is transported from another convention.
+projected formula is transported from another convention. For `ρ = 0` the connection `A₀`, the
+section `u₀` and the projected equations are Taubes, *SW ⇒ Gr*, §1(c)–(d), (1.12)–(1.20),
+pp. 850–851.
 *Needs:* Layer 0; SeibergWittenTheory SW1–SW3 and SW11.1–SW11.3; Tau Ceti
 `TauCeti.SeibergWitten.cliffordProjection`, `TauCeti.SeibergWitten.quadraticTwoForm`,
 `TauCeti.SeibergWitten.coe_quadraticTwoForm_add_of_cliffordProjection`.
@@ -738,7 +753,9 @@ with every dependence explained, such that, with `w₊ = (1 − |α|²)₊`,
 All norms, connections and the positive-part and background terms are part of the statements.
 Derive the inequalities from the forced projected Weitzenböck system, weak maximum principles and
 Green's functions, and the Chern identities, including `F_(A₀)⁺`, `ρ` and their derivatives and
-`F_a = (F_A − F_(A₀))/2`.
+`F_a = (F_A − F_(A₀))/2`. For a fixed metric and `ρ = 0` the pointwise bounds are those of Taubes,
+*SW ⇒ Gr*, (1.24) with Propositions 2.1, 2.3, 2.4 and 2.8, pp. 853–860, and the `L¹` bound on the
+defect is its Lemma 2.6, p. 858.
 *Needs:* §5.1; SeibergWittenTheory SW3.2 (Weitzenböck constants) and SW5.2 (weak maximum and
 energy bounds); ComplexKahlerGeometry §5.7.
 
@@ -757,9 +774,11 @@ the forcing derivatives and all compact-family constants. Construct the regulari
 minimum-eigenvalue test and the weak limiting argument across eigenvalue crossings and zeros of
 `α`. Derive and close the differential and integral inequalities controlling the negative
 eigenvalue, with finite coefficient orders and uniform constants, rather than assuming that a
-scalar curvature inequality closes them. Monotonicity of the scalar defect and the classification
-of flat models are distinct theorems and do not give this bound. Every stronger rate used later is
-proved as its own quantitative output.
+scalar curvature inequality closes them. For a fixed metric and `ρ = 0` the refined bound is
+Taubes, *SW ⇒ Gr*, Proposition 3.4, p. 866, proved there by another route: a maximum-principle
+comparison whose barrier is built from the ball covering that the monotonicity formula of its
+Proposition 3.1 gives (Lemmas 3.5–3.6). Every stronger rate used later is proved as its own
+quantitative output.
 *Needs:* §5.1–§5.2.
 
 **Checks.**
@@ -779,7 +798,10 @@ in the coarea, almost-everywhere sense, with the stated controlled forcing. Dedu
 `E_r(B_σ) ≤ Cσ²` for `c r^(−1/2) ≤ σ ≤ σ₀`, and `E_r(B_σ) ≥ c′σ²` when the centre is a zero of
 `α`, specifying constants and ranges for every low-`α` variant used. Prove the packing bound
 `N(σ) ≤ Cσ⁻²` for maximal families of disjoint half-balls with centres at zeros, with the
-quantifier `r ≥ r₀(σ)`. This gives no monotonicity at radius zero and no statement over
+quantifier `r ≥ r₀(σ)`. For a fixed metric and `ρ = 0` these are Taubes, *SW ⇒ Gr*, Propositions
+3.1–3.2, p. 862 (the differential inequality there for balls centred where `|α| < 1/2`), and the
+packing bound is its Lemma 3.6, p. 867. This gives no monotonicity at radius zero and no statement
+over
 uncontrolled geometry.
 *Needs:* §5.2; Mathlib `MeasureTheory.Measure.hausdorffMeasure` and the coarea formula for
 Lipschitz distance functions.
@@ -804,7 +826,9 @@ where `dist(x, α⁻¹(0)) ≥ c₀ r^(−1/2)`, together with the derivative an
 that Layers 6–8 use. Differences use the line identification induced by `α`, not a global choice
 of phase. State the derivative order, the scaled norms and the background remainders of each
 stronger estimate, and prove compact-family uniformity and stability for the smaller regularization
-tolerance used later, keeping the integral line labels.
+tolerance used later, keeping the integral line labels. For a fixed metric and `ρ = 0` the
+rescaled limits on `ℝ⁴` are Taubes, *SW ⇒ Gr*, Proposition 4.2, p. 872, and the exponential decay
+of `F_a`, `∇_a α`, `β` and `1 − |α|²` away from `α⁻¹(0)` is its Proposition 4.4, p. 875.
 *Needs:* §5.2–§5.3; SeibergWittenTheory SW5.3–SW5.4.
 
 ### 5.6 Quantitative low-α zero localization
@@ -819,13 +843,17 @@ fixed `0 < θ < 1`, constants `K_θ` and `r_θ` such that `|α(x)| ≤ θ` impli
 `θ = 1/√2` to cover the whole support `|α|² ≤ 1/2` of the cutoff current. For the independently
 prescribed `ε_low(r) → 0`, choose eventually `ε_low ≤ 1/2` and use `K_(1/2)`, uniformly over the
 compact family of geometry and forcing. Derive these implications from the displayed equations
-and comparison, keeping their constants and thresholds.
+and comparison, keeping their constants and thresholds. For a fixed metric and `ρ = 0` the
+localization also follows from the decay of `r(1 − |α|²)` in Taubes, *SW ⇒ Gr*, Proposition 4.4,
+p. 875.
 *Needs:* §5.2, §5.5.
 
 ### 5.7 The mass bound for the curvature current
 
 Use the `L¹` bound on the defect, the `β` bound and both curvature bounds to prove an
-`r`-independent bound on the mass of the current `T_r(ζ) = ∫ (iF_a/2π) ∧ ζ`. The scaled `L²`
+`r`-independent bound on the mass of the current `T_r(ζ) = ∫ (iF_a/2π) ∧ ζ` (for a fixed metric
+and `ρ = 0`, Taubes, *SW ⇒ Gr*, (5.3), p. 882, from its Lemma 2.6 and Proposition 3.4). The scaled
+`L²`
 estimate alone only gives `‖F_a‖₂ = O(√r)` and does not suffice. Construct the topology of closed
 currents and all passages between overlaps, gauges and weak and smooth convergence. For a
 nowhere-vanishing symplectic form no distance to a zero set of the form and no noncompact boundary
@@ -863,8 +891,9 @@ anisotropic confinement; the integral line and relative Euler classes are Layer 
 
 - For `X` Kähler with `ρ = 0` and `E` trivial, the solution with `α ≡ 1`, `β = 0` and `A = A₀` is a
   large-`r` solution with no zeros; all bounds of §5.2 hold with `w₊ = 0`.
-- For the flat model `ℂ × ℂ` with a vortex in the normal factor, constant along the base, the
-  current `T_r` converges to the fibre class times the vortex degree.
+- For the flat model `ℂ × ℂ` with a degree-`m` vortex in the normal factor in the coordinate
+  `w = √(2r) y` of §4.7, constant along the base, the zeros lie at normal distance `O(r^(−1/2))`
+  and the current `T_r` converges to `m` times the current of integration over `ℂ × {0}`.
 
 ### Dependencies
 
@@ -876,8 +905,10 @@ two-form. Mathlib: Hausdorff measure and the coarea and covering lemmas.
 
 ### 6.1 General raw cycle and integral label
 
-Construct one reconstruction theorem from positive cohomology assignments (Taubes, *SW ⇒ Gr*),
-on a smooth real four-manifold `Y` without boundary, compact or not, with an almost complex
+Construct one reconstruction theorem from positive cohomology assignments (for a compact
+symplectic manifold with compatible `J`, Taubes, *SW ⇒ Gr*, Proposition 6.1 with the criteria
+(6.1), p. 891), on a smooth real four-manifold `Y` without boundary, compact or not, with an almost
+complex
 structure `J` tamed by a specified symplectic form `Ω` and its induced orientation. The inputs are
 a closed subset `Z` with locally finite two-dimensional Hausdorff measure, and an integer
 assignment to all continuous disc maps whose boundary avoids `Z`: zero when the whole disc misses
@@ -901,15 +932,17 @@ normalization in the tamed setting, uniqueness of the weighted image from its lo
 the restriction, excision and compact-support laws. Compact `Z` gives a compact normalization and
 a finite image decomposition. The theorem is independent of Seiberg–Witten theory, of good labels
 and of the inverse and counting constructions.
-*Needs:* AlgebraicTopology Stage 6 (relative orientation classes); HeegaardFloer §4.2 and §4.6e
+*Needs:* AlgebraicTopology §6.3 (relative orientation classes); HeegaardFloer §4.2 and §4.6e
 (local theory, positivity of intersections); PseudoholomorphicCurveAnalysis Layers 4–5
 (the weak pseudoholomorphic equation and bootstrapping); Tau Ceti `TauCeti.IsPseudoholomorphic`; Mathlib
 `MeasureTheory.Measure.hausdorffMeasure`.
 
 ### 6.1a Framed-charge stabilization
 
-Construct a framed-charge stabilization lemma for the physical and normal applications (Taubes,
-*SW ⇒ Gr*). Its inputs are closed smooth cutoff forms `Θ_n = iF_(a_n) + d(χτ_n)` of Hermitian
+Construct a framed-charge stabilization lemma for the physical and normal applications (the
+convergence of the disc integrals to integers is Taubes, *SW ⇒ Gr*, Proposition 5.6, p. 887, and
+Lemma 6.2, pp. 891–892). Its inputs are closed smooth cutoff forms `Θ_n = iF_(a_n) + d(χτ_n)` of
+Hermitian
 lines `E_n`, a locally mass-bounded weak limit, a closed support `Z`, and uniform vacuum and
 boundary-avoidance buffers outside `Z`, including the cutoff support and the nonvanishing framing
 by `α_n`. On each admissible smooth disc identify `∫ Θ_n/(2π)` with its framed relative Euler, or
@@ -928,7 +961,9 @@ support and vacuum and asserts neither positivity nor density.
 For actual solutions with `r_n → ∞` and the forcing bounds of Layer 5, construct the physical
 inputs in this order: Hausdorff convergence of the support and vacuum on compact sets; framed
 integer disc charges; strictly positive charges of holomorphic discs and retention of zeros; lower
-density at support points (Taubes, *SW ⇒ Gr*). Fix an admissible nonconstant `J`-holomorphic disc
+density at support points (Taubes, *SW ⇒ Gr*, Lemma 5.2, p. 884, for the finite Hausdorff
+measure of the support and a lower bound on its Hausdorff measure in balls, and Proposition 5.6,
+p. 887, for the positive integer charges). Fix an admissible nonconstant `J`-holomorphic disc
 `σ` with boundary outside `Z` and a smooth metric on its parameter disc, and keep every factor of
 `dσ` in the pulled-back projected Dirac equation. Prove bounds on declared compact subdiscs with
 constants depending on the disc, its finite derivative bounds and the boundary vacuum buffers;
@@ -968,7 +1003,8 @@ Construct `E ≃ O(Σ m_a C_a)` as topological line bundles: use the nonvanishin
 away from the limit, the local transverse degrees of the zeros and compatible gauge and clutching
 transitions, including the gluing on overlaps and the torsion data. Equivalently construct the
 comparison `Σ m_a [C_a] = PD(c₁(E))` of the integral cycle with the relative Euler class, with the
-line classification map. Weak convergence of curvature alone identifies only the real class. Prove
+line classification map. Weak convergence of curvature alone identifies only the real class (as in
+Taubes, *SW ⇒ Gr*, (5.4), p. 883). Prove
 that a limit with empty support forces `E` to be trivial. This general theorem precedes the
 admissible and inverse constructions.
 *Needs:* §6.1b; SmoothBundlesConnections §B6.2 (the first Chern class classifies circle
@@ -982,7 +1018,8 @@ bundles); CharacteristicClasses (relative Euler classes, Thom classes).
 
 ### 6.2 Canonical-cycle algebra and bad-class point vanishing
 
-Suppose `b₂⁺ > 1` and `SW⁰_X(s_ω ⊗ E) ≠ 0` (Taubes, *SW ⇒ Gr* and *GR = SW*). By §0.2 the
+Suppose `b₂⁺ > 1` and `SW⁰_X(s_ω ⊗ E) ≠ 0` (Taubes, *GR = SW*; the forward cycles come from
+Taubes, *SW ⇒ Gr*, Theorem 1.3, p. 852). By §0.2 the
 conjugate label `K ⊗ E⁻¹` has nonzero point invariant. At the count-admissible `J` of §1.3, with
 its unmarked moving-domain regularity for all simple normalizations in the canonical-area window,
 use SeibergWittenTheory's smooth genericity in a fixed bounded forcing ball and the invariance for
@@ -1026,10 +1063,12 @@ forward cycles and conjugation, before the inverse construction and the count eq
 
 ### 6.3 Point cutdowns and guarded admissible refinement
 
-Fix `good_J(e)`, `k(e) ≥ 0` and the generic distinct points of §3.2 (Taubes, *SW ⇒ Gr* and
-*GR = SW*). Before regularity or a truncation order is selected, construct the normalized
-point-evaluation sections `α(x_j)` of `E_(x_j) ⊗ U_(x_j)` on open neighbourhoods in
-SeibergWittenTheory SW4.5's irreducible `H^s` configuration quotient, `s ≥ 3`. Use SW7.2's
+Fix `good_J(e)`, `k(e) ≥ 0` and the generic distinct points of §3.2 (Taubes, *GR = SW*; the
+forward statement with point constraints is Taubes, *SW ⇒ Gr*, Theorem 1.3, p. 852, with the
+closed sets `Ω_i` taken to be the points). Before regularity or a truncation order is selected,
+construct the normalized point-evaluation sections `α(x_j)` of `E_(x_j) ⊗ U_(x_j)` on open
+neighbourhoods in SeibergWittenTheory SW4.5's irreducible `H^s` configuration quotient, `s ≥ 3`. Use
+SW7.2's
 charge-one line, bounded evaluation, principal gauge charts, buffered smaller chart neighbourhoods
 with closure in their domains, local frames and smooth Hilbert-chart cutoffs. Construct a finite
 spanning family `s_(r,a,ρ)` of sections, continuous together with the curvature data on its
@@ -1068,7 +1107,7 @@ constrained refinement separate from the general raw theorem.
 ### Dependencies
 
 Layers 0, 1, 3 and 5; SeibergWittenTheory SW4.5, SW6, SW7.2 and SW8.3; AlgebraicTopology
-Stage 6; HeegaardFloer Layer 4; PseudoholomorphicCurveAnalysis Layers 4–5; AnalyticStableMaps
+Layer 6; HeegaardFloer Layer 4; PseudoholomorphicCurveAnalysis Layers 4–5; AnalyticStableMaps
 Layer 3; SmoothBundlesConnections Layer 6; CharacteristicClasses. Tau Ceti: the canonical-cycle
 algebra and pseudoholomorphic maps. Mathlib: Hausdorff measure and Vitali covering.
 
@@ -2057,8 +2096,10 @@ integrally. In the large-`r` chamber `C₊` prove
     SW⁰_(X,C₊)(s_Ω ⊗ p*E_Y) = Gr_(J,Ω)(PD p*c₁(E_Y)).
 
 Run the same quantitative forward, inverse and regularized degree argument in this fixed wall-free
-chamber, with no exceptional-sphere case, and compare its canonical orientation. Construct the
-variation within the chamber and the product symplectic deformation that Layer 11 needs. There is
+chamber, with no exceptional-sphere case, and compare its canonical orientation; the forward
+existence theorem needs no hypothesis on `b₂⁺` (Taubes, *SW ⇒ Gr*, Theorem 1.3, p. 852, and its
+remark on `b₂⁺ = 1`, p. 847). Construct the variation within the chamber and the product symplectic
+deformation that Layer 11 needs. There is
 no general nonminimal `b₂⁺ = 1` equality here, and the full product insertion, support and wall
 application is Layer 10's, not an extension of this point theorem to curve insertions from `H₁`.
 *Needs:* §9.1's argument (Layers 5–8), §9.3, §10.1; Tau Ceti
@@ -2066,8 +2107,10 @@ application is Layer 10's, not an extension of this point theorem to curve inser
 
 **Checks.**
 - For `b₁(Y_φ) = 1`, `b₂(X) = b₁(Y) + b₂(Y) = 2` and the signature of `S¹ × Y_φ` is `0`, so
-  `b₂⁺ = 1`; the classes `v` and `t` form a hyperbolic pair (`v² = t² = 0`, `v · t = 1`), whose form
-  is even. A pullback label `e = av` has `d(e) = 2cq` with `c = 0`, so `d = 0`.
+  `b₂⁺ = 1`. Modulo torsion `H²(X; ℤ)` has the basis of §10.4: `v`, pulled back from `Y` and
+  pairing to one with the fibre, and `t = [ds ∧ dt]`. They form a hyperbolic pair
+  (`v² = t² = 0`, `v · t = 1`), whose form is even. A pullback label is `e = av` modulo torsion and
+  `κ = (2g − 2)v`, so `e² = a²v² = 0` and `κe = (2g − 2)a v² = 0`, and `d(e) = 0`.
 
 ### 9.5 Choice independence on the minimal product
 
@@ -2144,9 +2187,10 @@ The normalization of the `q`-adjoint gives the integrated identity
 Prove it first for smooth solutions, then through SeibergWittenTheory's bootstrap for Sobolev
 solutions. It assumes zero perturbation, not arbitrary curvature forcing, and no genericity or prior
 pullback label. Since `χ(X) = σ(X) = 0`, `d = ⟨l², [X]⟩/4 ≥ 0` forces `l² = 0` and `ι_T F_A = 0`, and
-Bianchi and Cartan then make `F_A` a basic closed two-form. (Baldridge, *Seiberg–Witten invariants,
-orbifolds, and circle actions*, gives an independent numerical comparison of pullback support; the
-energy proof here keeps its own insertion and chamber hypotheses.)
+Bianchi and Cartan then make `F_A` a basic closed two-form. For a fixed-point-free circle action
+and a perturbation pulled back from the quotient, the integrated identity is Baldridge,
+*Seiberg–Witten invariants, orbifolds, and circle actions*, Theorem 15, from which its Theorem A
+(§4.1 of the arXiv version) derives the pullback support.
 *Needs:* §10.1; SeibergWittenTheory SW1.4, SW3.2 and SW5.3; SpinGeometry.
 
 **Checks.**
@@ -2252,7 +2296,10 @@ signs and all finite-cover and trivialization laws, with HeegaardFloer's convent
 `CZ = −μ_RS`. After this determinant comparison the local factors of rank two are: positive
 hyperbolic, label `(−,0)`, `1 − x`; negative hyperbolic, label `(+,1)`, `1 + x`; elliptic, label
 `(+,0)`, `(1 − x)⁻¹`; the matching of these labels with the signed iterates of the return map is Tau
-Ceti's `TauCeti.X_mul_derivative_torusWeightSeries_of_det_eq_one`. The primitive real period, the
+Ceti's `TauCeti.X_mul_derivative_torusWeightSeries_of_det_eq_one`. The three factors, the signs of
+the iterates by orbit type and the matching of the types with these labels are Ionel–Parker,
+*Gromov invariants and symplectic maps*, Lemma 3.2, (3.9) and the paragraph after (3.12),
+pp. 11–13 of the arXiv version. The primitive real period, the
 integer winding in `t`, the homology divisibility, the covering multiplicity and Taubes's image
 multiplicity remain distinct; prove which coincide in the chosen suspension coordinates. A
 logarithmic `1/m` is not a torus weight.
@@ -2295,7 +2342,8 @@ numerical identification with `ℤ`. The normalization tests are Tau Ceti's: the
 order `|det(I − P)|` without fixed `H¹` (`TauCeti.MappingTorus.card_torsion_homology_one_eq_natAbs_det`),
 the reciprocal-polynomial identity `p′(1) = g p(1)` for `p(t) = det(I − tP)`
 (`SymplecticGroup.derivative_eval_one_charpolyRev`) and the coarse coefficients
-`det(I − P)(a + 1 − g)` for `a ≥ 2g − 1` (`SymplecticGroup.coeff_coe_charpolyRev_mul_mk_one_sq`).
+`det(I − P)(a + 1 − g)` for `a ≥ 2g − 1` (`SymplecticGroup.coeff_coe_charpolyRev_mul_mk_one_sq`)
+of `p(t)/(1 − t)²`, which for `det(I − P) = ±1` is the Gromov series of Ionel–Parker, Theorem 5.1.
 Keep individual torsion labels separate before the coarse specialization. A wall difference is not a
 single-chamber pullback value without a proved vanishing in the opposite chamber.
 *Needs:* §0.1, §10.1–§10.4; MorseNovikov Layers 4 and 6; SeibergWittenTheory SW7.1 and SW10; Tau
@@ -2337,7 +2385,11 @@ and `TauCeti.NovikovSeries.orbitZeta_eq_mapRingHom_eulerProduct`); prove the det
 of the torus and return normal operators before identifying its factors. For each of the two branch
 applications, with its own point comparison and the orientation map of §11.2, prove the
 coefficientwise integral identity of the point series with the zeta function, in the `b₁(Y) > 1` and
-the minimal pullback `b₁(Y) = 1` scopes. The series are indexed by integral line and curve labels,
+the minimal pullback `b₁(Y) = 1` scopes. In one variable, for the multiples of the section class
+when `det(I − P) = ±1` and for the Gromov series built from Ruan–Tian invariants, the identity of
+the curve series with the Lefschetz zeta function is Ionel–Parker, Theorem 0.1, proved in their §4,
+and the factorization of that zeta function over periodic orbits is their (3.10). The series are
+indexed by integral line and curve labels,
 the canonical vacuum coefficient for `E` trivial is `+1`, and torsion labels are kept.
 *Needs:* §2.3, §9.1–§9.5, §10.3, §11.1–§11.2; MorseNovikov Layers 1 and 5; Tau Ceti
 `TauCeti.NovikovSeries.orbitZeta`, `TauCeti.NovikovSeries.orbitZeta_eq_eulerProduct`.
@@ -2377,7 +2429,8 @@ identity.
 
 **Checks.**
 - For `φ` the identity of `T²`, every point is fixed and the return map is degenerate. The
-  homological Lefschetz series is `det(I − tP)/(1 − t)² = (1 − t)²/(1 − t)² = 1` for `P = I`, so every
+  homological Lefschetz series (Ionel–Parker, Lemma 3.1) is
+  `det(I − tP)/(1 − t)² = (1 − t)²/(1 − t)² = 1` for `P = I`, so every
   nonvacuum coefficient of the specialized series vanishes; an orbit product over the degenerate
   fixed set is undefined, which is why the extension is defined homologically.
 
@@ -2728,10 +2781,17 @@ Layers 1–2: the exponential map of a smooth metric, normal neighbourhoods and 
 - C. H. Taubes, *Counting pseudo-holomorphic submanifolds in dimension 4*, J. Differential Geom. 44
   (1996), 818–893, [doi:10.4310/jdg/1214459411](https://doi.org/10.4310/jdg/1214459411): the weighted
   embedded-curve invariant.
-- C. H. Taubes, *Seiberg–Witten invariants and pseudo-holomorphic subvarieties for self-dual,
-  harmonic 2-forms*, Geom. Topol. 3 (1999), 167–210, [arXiv:math/9907199](https://arxiv.org/abs/math/9907199):
-  the near-symplectic concentration architecture adapted in Layer 5.
+- C. H. Taubes, *Arbitrary N-vortex solutions to the first order Ginzburg–Landau equations*, Comm.
+  Math. Phys. 72 (1980), 277–292, [doi:10.1007/BF01197552](https://doi.org/10.1007/BF01197552): the
+  classification of plane vortices (§4.4).
 - D. McDuff, *Lectures on Gromov invariants for symplectic 4-manifolds*,
-  [arXiv:dg-ga/9606005](https://arxiv.org/abs/dg-ga/9606005): local examples of weighted curves.
+  [arXiv:dg-ga/9606005](https://arxiv.org/abs/dg-ga/9606005): the modified invariant `Gr′`
+  (Definition 3.2), the two-torus count (Lemma 5.1) and the eight torus series (§5.2), in the
+  numbering of the arXiv version.
+- E.-N. Ionel and T. H. Parker, *Gromov invariants and symplectic maps*, Math. Ann. 314 (1999),
+  [arXiv:dg-ga/9703013](https://arxiv.org/abs/dg-ga/9703013): the Gromov series of a symplectic
+  mapping torus and the orbit factorization of the Lefschetz zeta function (§11.1–§11.4), in the
+  numbering of the arXiv version.
 - S. Baldridge, *Seiberg–Witten invariants, orbifolds, and circle actions*, Trans. Amer. Math. Soc.
-  355 (2003), 1669–1697: an independent numerical comparison of pullback support (§10.2).
+  355 (2003), 1669–1697, [arXiv:math/0107092](https://arxiv.org/abs/math/0107092): the energy
+  identity and pullback support for circle actions (§10.2), in the numbering of the arXiv version.
