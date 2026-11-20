@@ -635,10 +635,12 @@ there is a rank-two self-duality with circle value `q + q⁻¹`: on `R²` take t
 `B⁻¹ = [[0, 1], [q⁻¹, 0]]`; the two snakes are `B B⁻¹ = B⁻¹ B = 1` and the circle is
 `∑_ij (B⁻¹)_ij B_ij = q + q⁻¹`. Through §3.1a this gives a monoidally `R`-linear functor
 `TL(R, q + q⁻¹) ⥤ ModuleCat R`, hence algebra maps `TL_n → End((R²)^⊗n)`. The square root is needed
-only for compatibility with the Kauffman braiding (§3.5), a separate statement: for a unit `A ∈ R`
-and `δ = −A² − A⁻²`, `V = R²` with the cap matrix `[[0, A], [−A⁻¹, 0]]` and the cup matrix
+only to state the Kauffman braiding (§3.5). The second construction, the `A`-form: for a unit
+`A ∈ R` and `δ = −A² − A⁻²`, `V = R²` with the cap matrix `[[0, A], [−A⁻¹, 0]]` and the cup matrix
 `[[0, −A], [A⁻¹, 0]]` (entries `0, ±A^(±1)`, circle value `δ`) gives through §3.1a a monoidal
-functor `TL(R, δ) ⥤ ModuleCat R`, and hence algebra maps `TL_n → End((R²)^⊗n)`. This is quantum
+functor `TL(R, δ) ⥤ ModuleCat R`. At `q = −A²`, `B` is `−A` times this cap and `B⁻¹` is `−A⁻¹`
+times this cup, so on a diagram `n → m` the functor of `B` is `(−A)^((n−m)/2)` times that of the
+`A`-form, and the two give the same algebra maps `TL_n → End((R²)^⊗n)`. This is quantum
 `sl₂` Schur–Weyl duality with no quantum group in sight and the first real test of the universal
 property; its faithfulness is §5.6 (over `ℂ(q^(1/2))`, with Tingley's `q^(1/2)` as `A`, the
 `A`-form is his Theorem 4.2 with his equation (18), up to multiplying the cap by `A` and the cup
@@ -1260,8 +1262,8 @@ braided and ribbon structures to `TauCeti.MonoidalQuotient I`; and that the laye
 Tau Ceti's finite semisimple categories `TauCeti.IsFiniteSemisimpleCategory` are defined on an
 abelian category, and PivotalSpherical's fusion results carry `[Abelian C]` and finite-dimensional
 Hom spaces. The envelope and the quotient above are additive and, after `Karoubi`, idempotent
-complete; that does not make them abelian. Prove, in general: a `K`-linear additive
-idempotent-complete category with a family of objects `X_i` such that `End(X_i) ≃ₐ[K] K`,
+complete; that does not make them abelian. Prove, in general: for a field `K`, a `K`-linear
+additive category with a family of objects `X_i` such that `End(X_i) ≃ₐ[K] K`,
 `Hom(X_i, X_j) = 0` for `i ≠ j`, and every object a finite biproduct of the `X_i`, is abelian and
 has finite-dimensional Hom spaces: morphisms between two decompositions are block matrices of
 scalars, so kernels and cokernels are computed by finite-dimensional linear algebra in each block,
@@ -1269,8 +1271,7 @@ and each `X_i` is simple. For the Temperley–Lieb envelope the inputs are the J
 computations of §§7.4–7.5: `Hom(X_a, X_b) = 0` for `a ≠ b`, `End(X_a) ≃ₐ[K] K`, and the finite
 Jones–Wenzl decomposition of every object (for every `a` generically, and for `0 ≤ a ≤ ℓ − 2` in the
 root-of-unity quotient). *Needs:* Mathlib `Abelian`, `Linear`, `HasFiniteBiproducts`,
-`CategoryTheory.IsIdempotentComplete`, `CategoryTheory.Simple`; Tau Ceti
-`TauCeti.IsFiniteSemisimpleCategory`.
+`CategoryTheory.Simple`; Tau Ceti `TauCeti.IsFiniteSemisimpleCategory`.
 
 **Checks.**
 
@@ -1280,10 +1281,9 @@ root-of-unity quotient). *Needs:* Mathlib `Abelian`, `Linear`, `HasFiniteBiprodu
   algebra of the quiver `• → •`: both indecomposable projectives have endomorphism ring `K` and every
   object is a finite biproduct of them, but the nonzero map between them is mono and epi in that
   category without being an isomorphism, so the category is not abelian.
-- Dropping `End(X_i) ≃ₐ[K] K` fails on the finite free modules over `K[ε]/(ε²)` (additive, and
-  idempotent complete since the ring is local), where `ε : X → X` has no kernel: `ε ≠ 0` and
-  `ε ≫ ε = 0`, while every morphism into `X` killed by `ε` has entries in `(ε)` and so is not mono
-  unless its source is `0`.
+- Dropping `End(X_i) ≃ₐ[K] K` fails on the finite free modules over `K[ε]/(ε²)` (additive), where
+  `ε : X → X` has no kernel: `ε ≠ 0` and `ε ≫ ε = 0`, while every morphism into `X` killed by `ε`
+  has entries in `(ε)` and so is not mono unless its source is `0`.
 
 ### 7.4 The generic classification
 
