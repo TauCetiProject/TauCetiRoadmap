@@ -1403,20 +1403,6 @@ yields `TauCeti.IsLeftPerfectRing.exists_isProjectiveCover` ([Lam-FC, (24.12), p
     Ring.jacobson R)]` hypotheses simplify to `[IsSemilocalRing R]`, and ArtinAlgebras §0.2's
     Krause criterion is stated with `IsSemiperfectCategory`.
 
-## How this roadmap was developed
-
-This roadmap grew out of a discussion about tensor products of modules over noncommutative rings.
-As we worked out which results to include, I proposed treating modules over preadditive categories
-throughout, with rings as the one-object case, and taking Bass's Theorem P as a main goal.
-Claude Opus 5.5 wrote the first draft. Opus and Codex (GPT-6) then developed it into a longer
-roadmap with proposed Lean statements. Gemini 4 Carbon shortened the exposition and revised the
-Lean file. Codex helped polish the text and coordinated the final review. I went through the
-roadmap and the Lean statements over several rounds. One change I asked for in review was to make
-explicit how bimodules over linear categories recover bimodules over algebras with a common
-scalar action.
-
-— Haruhisa Enomoto
-
 ## Sources and locators
 
 - [AB] M. Auslander, M. Bridger, *Stable module theory*, Mem. Amer. Math. Soc. 94 (1969). §2.1,
