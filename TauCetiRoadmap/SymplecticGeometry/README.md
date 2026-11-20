@@ -517,10 +517,10 @@ RepresentationTheory/LieGroups Layer 9 with H = C_ℝ or Sp_ℝ and π = id, and
 the semisimple, finite-centre, Killing-form and adjoint models are separate from those direct
 proofs and not premises of them. The generic subgroup theorems are those of the consuming
 LieGroups layers. CotangentLagrangian C2.0 is the ambient real and complex polar-decomposition
-package. ContactGeometry CG1 owns the contact predicate and the line-valued Levi form,
-independently of cotangent applications; CotangentLagrangian C2.2 consumes that predicate for its
-two signed cosphere forms, ContactGeometry CG4 and CG5 consume the cosphere application, and the
-contact Darboux, Gray and neighbourhood refinements are CG3–CG5. ContactGeometry CG6 offers the
+package. ContactGeometry CG1 builds the contact line and the line-valued Levi form on Tau Ceti's
+contact predicate, independently of cotangent applications; CotangentLagrangian C2.2 uses that
+predicate for its two signed cosphere forms, ContactGeometry CG5 consumes the cosphere application,
+and the contact Darboux, Gray and neighbourhood refinements are CG3–CG5. ContactGeometry CG6 offers the
 geometric boundary and sign adapters to HeegaardFloer and DGFloer, whose analytic and invariant
 endpoints remain theirs. CotangentLagrangian C4 builds the relative Poincaré refinements on
 DifferentialGeometry's homotopy operator.
