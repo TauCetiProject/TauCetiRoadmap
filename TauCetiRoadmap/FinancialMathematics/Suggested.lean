@@ -15,15 +15,16 @@ The headline theorems are:
   claim, for constant coefficients and for bounded progressive coefficients;
 * absence of arbitrage among admissible strategies (§2.3);
 * the pricing equation (§3.1, §3.2): a replicating price of class `C^{2,1}` solves the
-  Black–Scholes equation where the volatility does not vanish, and a solution with polynomial
-  growth and finite maximal moments is the replication price of its terminal claim;
+  Black–Scholes equation where the volatility does not vanish, and, for volatility bounded above
+  and away from zero and a bounded market price of risk, a solution continuous up to maturity with
+  polynomial growth and finite maximal moments is the replication price of its terminal claim;
 * existence and uniqueness of prices for general coefficients in a weighted parabolic Hölder class
   (§3.3);
 * replication of the Black–Scholes call and put by their delta hedges (§4.1);
 * uniqueness of the Black–Scholes call and put prices among classical solutions of linear growth
   (§4.2), stated below.
 
-Only the last is statable at the pins. The first four and the fifth need the stochastic integral
+Only the last is statable at the pins. The first three and the fifth need the stochastic integral
 against Brownian motion and the continuous-time self-financing strategies built on it
 (StochasticCalculus Layer 3); neither Mathlib nor Tau Ceti has a stochastic integral at the pins,
 and Tau Ceti's trading and arbitrage API covers simple strategies only. The pricing equation

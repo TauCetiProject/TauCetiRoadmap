@@ -16,12 +16,13 @@ and no admissible strategy is an arbitrage. The same holds for progressive coeff
 bounded above and away from zero and κ_t bounded. Second, the pricing equation: for coefficients
 depending on spot and time, a price C(s, t) of class C^(2,1) that is the wealth of a self-financing
 strategy from every starting point solves C_t + ½σ(s,t)²s²C_ss + r(sC_s − C) = 0 wherever
-σ(s, t) ≠ 0, the strategy holding ∂C/∂s shares; conversely, a solution with
-|C| + |s ∂C/∂s| ≤ A(1 + sᵖ) and terminal value h is the replication price of h(S_T) when the asset
-has finite maximal Q-moments of order 2p. Third, for constant r, σ > 0 and a strike K > 0, the call
-price s Φ(d₊) − K e^(−r(T−t)) Φ(d₋) is replicated by holding Φ(d₊) shares, and it is the only
-solution of the Black–Scholes equation of class C^(2,1) on s > 0, 0 < t < T, continuous on s ≥ 0,
-0 ≤ t ≤ T, bounded by A(1 + s), with terminal value (s − K)⁺; likewise for the put.
+σ(s, t) ≠ 0, the strategy holding ∂C/∂s shares; conversely, when |σ| is bounded above and away
+from zero and the market price of risk (μ − r)/σ is bounded, a solution continuous up to maturity
+with |C| + |s ∂C/∂s| ≤ A(1 + sᵖ) and terminal value h is the replication price of h(S_T) when the
+asset has finite maximal Q-moments of order 2p. Third, for constant r, σ > 0 and a strike K > 0,
+the call price s Φ(d₊) − K e^(−r(T−t)) Φ(d₋) is replicated by holding Φ(d₊) shares, and it is the
+only solution of the Black–Scholes equation of class C^(2,1) on s > 0, 0 < t < T, continuous on
+s ≥ 0, 0 ≤ t ≤ T, bounded by A(1 + s), with terminal value (s − K)⁺; likewise for the put.
 
 StochasticCalculus supplies the stochastic integral, Itô's formula, the asset's linear equation,
 Brownian martingale representation and Girsanov's theorem; PDE supplies the Schauder theory behind
@@ -88,20 +89,21 @@ Let r be deterministic and continuous on [0, T] and let β be the bond `TauCeti.
 measurable real processes with `∫₀ᵀ (|μ_t| + σ_t²) dt < ∞` almost surely, and S₀ a positive
 F₀-measurable random variable. Define the asset price S as the unique continuous adapted solution, up
 to indistinguishability, of `dS_t = μ_t S_t dt + σ_t S_t dW_t` with initial value S₀, the
-progressive-coefficient linear equation of StochasticCalculus §9.4, and prove that
+progressive-coefficient linear equation of StochasticCalculus §9.4. That section constructs the
+solution, with its progressive-integrand localization and its uniqueness by a stopped integrating
+factor; it proves the explicit formula
 
 `S_t = S₀ exp(∫₀ᵗ (μ_u − σ_u²/2) du + ∫₀ᵗ σ_u dW_u)`
 
-simultaneously in t, so that S_t > 0 for all t outside one null set. No moment assumption on S₀ is
-needed for existence, uniqueness or positivity; a moment estimate for S carries its own hypotheses,
-those of StochasticCalculus §9.4. This section supplies the positive initial value and the
-coefficient hypotheses of the asset model and identifies the solution; the construction of the
-solution, with its progressive-integrand localization and its uniqueness by a stopped integrating
-factor, is StochasticCalculus §9.4's.
+simultaneously in t, so that S_t > 0 for all t outside one null set, and its case σ = 0,
+S_t = S₀ exp(∫₀ᵗ μ_u du); and for deterministic μ, σ and S₀ it identifies the law of log S_t as
+Gaussian with mean `log S₀ + ∫₀ᵗ (μ_u − σ_u²/2) du` and variance `∫₀ᵗ σ_u² du`. These are used here
+as stated there. No moment assumption on S₀ is needed for existence, uniqueness or positivity; a
+moment estimate for S carries its own hypotheses, those of StochasticCalculus §9.4. This section
+supplies the positive initial value and the coefficient hypotheses of the asset model and identifies
+the solution:
 
-- If σ = 0, the asset is S_t = S₀ exp(∫₀ᵗ μ_u du); for μ = r and S₀ = β₀ it is the bond.
-- If μ and σ are deterministic functions of time and S₀ is deterministic, log S_t is Gaussian with
-  mean `log S₀ + ∫₀ᵗ (μ_u − σ_u²/2) du` and variance `∫₀ᵗ σ_u² du`.
+- If σ = 0, μ = r and S₀ = β₀, the asset is the bond.
 - If μ and σ are constants and S₀ = s is deterministic, S is indistinguishable from Tau Ceti's
   `TauCeti.Probability.geometricBrownianMotion s μ σ W`.
 - The discounted price S/β is the asset of this section with drift μ − r, volatility σ and initial
@@ -115,10 +117,10 @@ factor, is StochasticCalculus §9.4's.
 - For σ = 0 the asset is deterministic and equals S₀ exp(∫₀ᵗ μ_u du), whatever the Brownian path;
   a definition that kept a term in W would make it random.
 
-*Needs:* StochasticCalculus §9.4 (the linear equation, its explicit solution and uniqueness) and
-§3.4 (progressive integrands); Tau Ceti `TauCeti.Finance.bondPrice`,
-`TauCeti.Finance.hasDerivAt_bondPrice`, `TauCeti.Probability.geometricBrownianMotion`,
-`TauCeti.Probability.IsFilteredPreBrownianReal`.
+*Needs:* StochasticCalculus §9.4 (the linear equation, its explicit solution, uniqueness and
+positivity, and the Gaussian law of log S_t) and §3.4 (progressive integrands); Tau Ceti
+`TauCeti.Finance.bondPrice`, `TauCeti.Finance.hasDerivAt_bondPrice`,
+`TauCeti.Probability.geometricBrownianMotion`, `TauCeti.Probability.IsFilteredPreBrownianReal`.
 
 ### 1.2 Strategies, wealth and self-financing
 
@@ -140,8 +142,9 @@ integral as the pathwise integral `∫₀ᵗ b_u r_u β_u du`. Negative holdings
 - *Simple strategies.* For dates 0 = t₀ < t₁ < ⋯ < t_n = T and holdings a_j, b_j measurable at
   time t_j, held on (t_j, t_(j+1)] (and (a₀, b₀) at time 0), the stochastic integral of the simple holding is the
   elementary sum of Tau Ceti's `TauCeti.Finance.simpleGains`, so the strategy is self-financing in
-  the sense above exactly when it is in the sense of `TauCeti.Finance.IsSelfFinancing`: each
-  rebalancing is paid for by the old position. The simple-strategy formula is Tau Ceti's
+  the sense above exactly when the rebalancing identity of `TauCeti.Finance.IsSelfFinancing` (each
+  rebalancing is paid for by the old position) holds for P-almost every ω; the predicate itself
+  asks it for every ω. The simple-strategy formula is Tau Ceti's
   `TauCeti.Finance.isSelfFinancing_iff_forall_mem_Ioc`, and the simple holding is predictable by
   `TauCeti.Finance.isStronglyPredictable_simpleHolding`.
 - *Discounted form.* A strategy is self-financing if and only if its discounted wealth satisfies
@@ -437,16 +440,18 @@ declared filtration, with its true density and its predictable representation. L
 C^(2,1) on D and solve the Black–Scholes equation there, and let h be a real function on (0, ∞).
 For a start (s₀, t₀), assume:
 
-- the delta strategy `a_t = ∂C/∂s(S_t, t)`, `b_t = (C(S_t, t) − S_t a_t)/β_t` has predictable
-  representatives, a is stochastically integrable against S and b pathwise integrable against β on
-  the full horizon [t₀, T];
+- the delta strategy `a_t = ∂C/∂s(S_t, t)`, `b_t = (C(S_t, t) − S_t a_t)/β_t`, t ∈ [t₀, T), has
+  predictable representatives, a is stochastically integrable against S and b pathwise integrable
+  against β on the full horizon [t₀, T];
 - `C(S_t, t)/β_t`, t ∈ [t₀, T), extends to a square-integrable Q-martingale on [t₀, T];
 - `C(S_t, t) → h(S_T)` almost surely as t ↑ T.
 
-Prove that the delta strategy is admissible and self-financing on [t₀, T], that it replicates
-h(S_T), and that `C(S_t, t) = β_t E_Q[h(S_T)/β_T | F_t]`, the price of §2.2 and §2.4. Itô's formula
-alone makes `C(S_t, t)/β_t` only a local martingale; without the second and third conditions no
-admissibility is asserted.
+C is of class C^(2,1) only for t < T, so at maturity the delta strategy holds an F_T-measurable
+position (a_T, b_T) worth `a_T S_T + b_T β_T = h(S_T)`, for instance a_T = 0 and
+b_T = h(S_T)/β_T. Prove that the delta strategy is admissible and self-financing on [t₀, T], that
+it replicates h(S_T), and that `C(S_t, t) = β_t E_Q[h(S_T)/β_T | F_t]`, the price of §2.2 and §2.4.
+Itô's formula alone makes `C(S_t, t)/β_t` only a local martingale; without the second and third
+conditions no admissibility is asserted.
 
 Prove the **growth criterion**: the three conditions hold when, for some p > 0 and A ≥ 0,
 `|C(s, t)| + |s ∂C/∂s(s, t)| ≤ A(1 + sᵖ)` on D, C extends continuously to {s > 0, t ≤ T} with
@@ -573,14 +578,16 @@ Tau Ceti and is used here by name:
 ### 4.1 Replication of calls and puts
 
 For t ∈ [0, T) let `a_t = Φ(d₊(S_t, T − t))` and `b_t = −K e^(−r(T−t)) Φ(d₋(S_t, T − t))/β_t`,
-the delta hedge of the call, with any values at t = T. Prove that (a, b) is an admissible strategy
-(§2.2), self-financing, with wealth C(S_t, t) for t ∈ [0, T] and terminal payoff (S_T − K)⁺; it is
-therefore the replicating strategy of §2.2 for H = (S_T − K)⁺, and its initial cost is
-`TauCeti.BlackScholes.callPrice s r σ K T`. Prove the same for the put with
-`a_t = −Φ(−d₊(S_t, T − t))`, `b_t = K e^(−r(T−t)) Φ(−d₋(S_t, T − t))/β_t`, wealth P(S_t, t) and
-payoff (K − S_T)⁺. *Route:* the growth criterion of §3.2 with p = 1, whose inputs are in Tau Ceti:
-the equation (`TauCeti.BlackScholes.callValue_pde`), the bounds on the price and the delta, the
-martingale property and the square integrability of the discounted price under Q
+the delta hedge of the call, and at maturity let `a_T = 1{S_T > K}` and `b_T = −K 1{S_T > K}/β_T`,
+the almost-sure limits of the hedge as t ↑ T, worth (S_T − K)⁺. Prove that (a, b) is an admissible
+strategy (§2.2), self-financing, with wealth C(S_t, t) for t ∈ [0, T] and terminal payoff
+(S_T − K)⁺; it is therefore the replicating strategy of §2.2 for H = (S_T − K)⁺, and its initial
+cost is `TauCeti.BlackScholes.callPrice s r σ K T`. Prove the same for the put with
+`a_t = −Φ(−d₊(S_t, T − t))`, `b_t = K e^(−r(T−t)) Φ(−d₋(S_t, T − t))/β_t` for t < T,
+`a_T = −1{S_T < K}`, `b_T = K 1{S_T < K}/β_T`, wealth P(S_t, t) and payoff (K − S_T)⁺.
+*Route:* the growth criterion of §3.2 with p = 1, whose inputs are in Tau Ceti: the equation
+(`TauCeti.BlackScholes.callValue_pde`), the bounds on the price and the delta, the martingale
+property and the square integrability of the discounted price under Q
 (`TauCeti.Probability.IsFilteredPreBrownianReal.martingale_discounted_callValue_tilted`,
 `TauCeti.Probability.IsFilteredPreBrownianReal.memLp_discounted_callValue_tilted` and the put
 analogues), and the convergence to the payoff along every path continuous at T
@@ -720,6 +727,9 @@ carried in the layer headings.
   Feynman–Kac theorem (§10.3) is not used for the exponentially growing log-spot form.
 - [PDE](../PDE/README.md): parabolic Hölder spaces (§6.4), the backward terminal-data isomorphism for
   variable coefficients (§6.6) and spatial-weight transport (§6.9).
+
+**Owned elsewhere and not consumed here.**
+
 - [StandardDistributions](../StandardDistributions/README.md): the analytic theory of the Gaussian
   distribution function; the identities used here are in Mathlib and Tau Ceti.
 - [MarketImpact](MarketImpact/README.md): endogenous demand, equilibrium feedback, coupled pricing,
@@ -794,8 +804,9 @@ carried in the layer headings.
   `Limits.lean`, the derivatives, bond holdings, drift identity and limits listed there and in §3.1;
   in `GeometricBrownianMotion.lean`, `ConditionalPrice.lean`, `NoArbitrage.lean` and
   `ValueProcess.lean`, the expectation, conditional-price, simple no-arbitrage and value-process
-  statements listed in §2.1–§2.3 and §4.1, for W a Brownian motion relative to the filtration and the
-  risk-neutral measure `P.tilted (fun ω => -((μ - r) / σ) * W T ω)`.
+  statements listed in the preamble of Layer 2, §2.3, the head of Layer 4 and §4.1, for W a Brownian
+  motion relative to the filtration and the risk-neutral measure
+  `P.tilted (fun ω => -((μ - r) / σ) * W T ω)`.
 
 ### From TauCetiRoadmap.StochasticCalculus
 
@@ -805,8 +816,9 @@ integrands), §4.1 and §4.3 (uniqueness of the decomposition of a continuous se
 (Itô's formula and the product rule), §5.4 (stochastic exponentials, Novikov's criterion), §6.1
 (augmentation of the natural Brownian filtration, L² martingale representation in it), §7.3
 (density martingales, the Bayes formula), §7.4 (Girsanov's theorem on a finite horizon) and §9.4
-(the progressive-coefficient linear equation, its explicit solution, uniqueness and positivity, and
-the moments of geometric Brownian motion). Assumed as stated there.
+(the progressive-coefficient linear equation, its explicit solution, uniqueness and positivity, the
+Gaussian law of log S_t for deterministic coefficients, and the moments of geometric Brownian
+motion). Assumed as stated there.
 
 ### From TauCetiRoadmap.PDE
 
