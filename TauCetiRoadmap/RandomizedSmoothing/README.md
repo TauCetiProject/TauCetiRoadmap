@@ -11,31 +11,14 @@ proportion, its coverage, and its identification with a Beta quantile. Together 
 guarantee of the Monte Carlo certification procedure: the probability that it returns a
 certificate that is false is at most `α`.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- Gaussian smoothing of bounded functions and of classifiers on a finite-dimensional real
-  inner product space, and the positivity trichotomy for smoothed probabilities;
-- the Gaussian shift inequality, the Lipschitz property of the smoothed probit and of the
-  smoothing itself, with sharp constants;
-- the certified radius of the smoothed classifier and its sharpness;
-- the one-sided Clopper–Pearson bounds: definition, coverage, monotonicity, the Beta-quantile
-  form, the closed form at `k = N`, and lower bounds for them from a single tail evaluation;
-- the mean-value bounds for `Φ`;
-- the Monte Carlo certification procedure and its error guarantee, with and without a
-  selection stage.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts).
-
-The Neyman–Pearson lemma for general laws belongs to
-[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md), 6.2, and
-general confidence sets to its 1.4. This roadmap needs only the Gaussian shift case, stated
-directly. Out of scope: smoothing with non-Gaussian noise and certificates in norms other than
-`ℓ²`; Hoeffding-type and other non-exact confidence bounds; the abstaining prediction
-procedure and its binomial test; numerical evaluation of `Φ` and `Φ⁻¹`; training with noise;
-and deterministic certificates, which belong to the RobustnessCertificates roadmap.
+Each object is defined in the layer that first uses it, with its API and its **Checks**:
+three or more discriminating tests that a wrong convention would fail. Each numbered target
+ends with its source locator in parentheses, or says that it is proved here, then lists its
+Checks and a *Needs:* line naming the targets and suppliers it uses. Each layer ends with its
+Examples and Dependencies. `Suggested.lean` states every headline theorem of Layers 1–5 against
+the pinned APIs; the Lean name of each declared object or theorem is given at its statement.
 
 ## Conventions
 
@@ -45,39 +28,6 @@ and deterministic certificates, which belong to the RobustnessCertificates roadm
 - `Φ = cdf (gaussianReal 0 1)` (`stdNormalCDF`) and `Φ⁻¹ = (gaussianReal 0 1).quantile`
   (`probit`). Every statement about `Φ⁻¹ p` assumes `p ∈ (0, 1)`. `φ` is the standard Gaussian
   density.
-
-## Exact supplier contracts
-
-From Tau Ceti ([StandardDistributions](../StandardDistributions/README.md), Layers 1, 7 and
-13, as implemented):
-
-- `MeasureTheory.Measure.quantile` (`TauCeti/Probability/Quantile.lean`) and its comparison
-  lemmas `Measure.quantile_le_iff` and `Measure.lt_quantile_iff`, for `0 < p < 1`, and
-  `Measure.quantile_lt_iff`, applied with the continuity and strict monotonicity of `Φ`.
-  Together they give, for `p ∈ (0, 1)`: `Φ⁻¹ p ≤ t ↔ p ≤ Φ t`, `t < Φ⁻¹ p ↔ Φ t < p`, and
-  `Φ⁻¹ p < t ↔ p < Φ t`.
-- `TauCeti.Probability.quantile_gaussianReal` (`Distributions/Gaussian/Quantile.lean`): the
-  Gaussian quantile in closed form.
-- `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`
-  (`Distributions/Binomial/Tail.lean`): for `m ≤ n`,
-  `Bin(n, p).real {k | m ≤ k} = I_p(m, n - m + 1)`.
-- `TauCeti.Probability.cdf_betaMeasure_eq` (`Distributions/Beta/Cdf.lean`): for positive
-  parameters, the Beta cdf is the regularized incomplete Beta function.
-- `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli` (`Distributions/Binomial/Basic.lean`):
-  a sum of independent Bernoulli variables is binomial.
-
-From Mathlib: `gaussianReal`, `cdf`, `stdGaussian` on finite-dimensional real inner product
-spaces with `stdGaussian_eq_map_pi_orthonormalBasis`, `ProbabilityTheory.binomial` with the
-notation `Bin(n, p)`, `betaMeasure`, `Measure.pi`, `Measure.prod` and Fubini's theorem.
-
-## How to read the build
-
-Each object is defined in the layer that first uses it, with its API and its **Checks**:
-three or more discriminating tests that a wrong convention would fail. Each numbered target
-ends with its source locator in parentheses, or says that it is proved here, then lists its
-Checks and a *Needs:* line naming the targets and suppliers it uses. Each layer ends with its
-Examples and Dependencies. `Suggested.lean` states every headline theorem of Layers 1–5 against
-the pinned APIs; the Lean name of each declared object or theorem is given at its statement.
 
 ## Layer 1: Gaussian smoothing
 
@@ -467,6 +417,56 @@ Clopper–Pearson bound, its coverage, the law of the hit count), `Smoothing/Phi
 are applied to trained MNIST and CIFAR-10 networks. The roadmap restates them over general inner
 product spaces and Tau Ceti's quantile, adds sharpness, the Beta form and the selection stage;
 the source is reference material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- Gaussian smoothing of bounded functions and of classifiers on a finite-dimensional real
+  inner product space, and the positivity trichotomy for smoothed probabilities;
+- the Gaussian shift inequality, the Lipschitz property of the smoothed probit and of the
+  smoothing itself, with sharp constants;
+- the certified radius of the smoothed classifier and its sharpness;
+- the one-sided Clopper–Pearson bounds: definition, coverage, monotonicity, the Beta-quantile
+  form, the closed form at `k = N`, and lower bounds for them from a single tail evaluation;
+- the mean-value bounds for `Φ`;
+- the Monte Carlo certification procedure and its error guarantee, with and without a
+  selection stage.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts).
+
+The Neyman–Pearson lemma for general laws belongs to
+[MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md), 6.2, and
+general confidence sets to its 1.4. This roadmap needs only the Gaussian shift case, stated
+directly. Out of scope: smoothing with non-Gaussian noise and certificates in norms other than
+`ℓ²`; Hoeffding-type and other non-exact confidence bounds; the abstaining prediction
+procedure and its binomial test; numerical evaluation of `Φ` and `Φ⁻¹`; training with noise;
+and deterministic certificates, which belong to the RobustnessCertificates roadmap.
+
+## Exact supplier contracts
+
+From Tau Ceti ([StandardDistributions](../StandardDistributions/README.md), Layers 1, 7 and
+13, as implemented):
+
+- `MeasureTheory.Measure.quantile` (`TauCeti/Probability/Quantile.lean`) and its comparison
+  lemmas `Measure.quantile_le_iff` and `Measure.lt_quantile_iff`, for `0 < p < 1`, and
+  `Measure.quantile_lt_iff`, applied with the continuity and strict monotonicity of `Φ`.
+  Together they give, for `p ∈ (0, 1)`: `Φ⁻¹ p ≤ t ↔ p ≤ Φ t`, `t < Φ⁻¹ p ↔ Φ t < p`, and
+  `Φ⁻¹ p < t ↔ p < Φ t`.
+- `TauCeti.Probability.quantile_gaussianReal` (`Distributions/Gaussian/Quantile.lean`): the
+  Gaussian quantile in closed form.
+- `TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta`
+  (`Distributions/Binomial/Tail.lean`): for `m ≤ n`,
+  `Bin(n, p).real {k | m ≤ k} = I_p(m, n - m + 1)`.
+- `TauCeti.Probability.cdf_betaMeasure_eq` (`Distributions/Beta/Cdf.lean`): for positive
+  parameters, the Beta cdf is the regularized incomplete Beta function.
+- `TauCeti.Probability.iIndepFun.hasLaw_sum_bernoulli` (`Distributions/Binomial/Basic.lean`):
+  a sum of independent Bernoulli variables is binomial.
+
+From Mathlib: `gaussianReal`, `cdf`, `stdGaussian` on finite-dimensional real inner product
+spaces with `stdGaussian_eq_map_pi_orthonormalBasis`, `ProbabilityTheory.binomial` with the
+notation `Bin(n, p)`, `betaMeasure`, `Measure.pi`, `Measure.prod` and Fubini's theorem.
 
 ## References
 
