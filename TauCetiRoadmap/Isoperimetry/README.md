@@ -771,6 +771,8 @@ Layer 4 (§4.3, and Tau Ceti's sharp inequality); Tau Ceti's Schwarz rearrangeme
 formula; GeometricMeasureTheory G2 and G5; PDE Layer 1's weak derivatives, through Tau Ceti's
 carriers.
 
+<a id="i6--full-planar-jordan-theorem-and-compatibility"></a>
+
 ## Layer 6: Full planar Jordan theorem and compatibility
 
 Tau Ceti proves the Jordan curve theorem of ConformalMapping §5.3: the complement of a Jordan
