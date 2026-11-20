@@ -185,8 +185,11 @@ for standard λ-tableaux s, t is `T_(d(s))* x_λ T_(d(t))`, where x_λ is the ro
 Young parabolic subgroup of λ, Tau Ceti's `TauCeti.TypeAHeckeAlgebra.parabolicEigenSum` at the
 eigenvalue q, and d(t) is the permutation carrying the row-reading λ-tableau to t, the
 minimal-length element of its coset of that subgroup. This is Murphy's basis, cellular over every
-commutative ring and unit parameter (Mathas, Example 2.15, p. 6, in the normalization
-`(gᵢ − Q)(gᵢ + 1) = 0`, gᵢ = qTᵢ, where its elements are unit multiples of these). The Specht
+commutative ring and unit parameter (Mathas, Example 2.15, p. 6, quoting Murphy, in the
+normalization `(gᵢ − Q)(gᵢ + 1) = 0`, gᵢ = qTᵢ). The product of the gᵢ along a reduced word
+of w is `g_w = q^(ℓ(w)) T_w`, so Murphy's m_λ, the sum of the `g_w` over the Young parabolic
+subgroup of λ, is x_λ, and his `m_st = g_(d(s))* m_λ g_(d(t))` is `q^(ℓ(d(s)) + ℓ(d(t)))` times
+the element above. The Specht
 module S^λ is the cell module of λ, with its basis indexed by the standard λ-tableaux; every later
 statement about Specht modules refers to this fixed module and basis. The general theory of
 cellular algebras over a field (the
