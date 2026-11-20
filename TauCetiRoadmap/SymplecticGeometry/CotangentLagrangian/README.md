@@ -236,6 +236,8 @@ manifolds, vector bundles and the zero section.
 
 ## Layer 2: embedded Lagrangians, linear groups and basic examples
 
+<a id="c20-elementary-matrix-polar-package"></a>
+
 ### 2.0 Elementary matrix polar package
 
 Over ℝ and ℂ, the elementary matrix polar package is Tau Ceti's and is independent of LieGroups
@@ -285,6 +287,8 @@ preservation for its own closed subgroups; for Sp_R the preservation is Tau Ceti
   diag(2, 1/2) · A = [[0, −4], [1/4, 0]], which is not orthogonal. Here det A = 1, and both factors
   have determinant 1, as the restriction to determinant one requires.
 - At t = 1/2 the polar deformation of this A is diag(√2, 1/√2) · U, and at t = 1 it is U.
+
+<a id="c21-compact-intersections-and-group-applications"></a>
 
 ### 2.1 Compact intersections and group applications
 
@@ -420,6 +424,8 @@ LieGroups Layer 9.
   the ambient one.
 - C_R for n = 1 is {[[x, −y], [y, x]] : (x, y) ≠ (0, 0)} ≅ ℂ*, connected, whereas GL₂(ℝ), which
   contains it, has two components; −I = realify(−1) lies in U(1), as item 5 uses.
+
+<a id="c22-exact-lagrangians-and-basic-examples"></a>
 
 ### 2.2 Exact Lagrangians and basic examples
 
@@ -936,6 +942,8 @@ function theory and the intrinsic mixed Hessian. Mathlib: `mvfderiv`, `ModelWith
 implicit function theorem, `AddCircle` with its measure and compactness, and finite-measure
 recurrence. Within the layer, §3.1 needs §3.0a; §3.0 is independent of both. Nothing here depends on
 the other roadmaps of the family.
+
+<a id="c4-relative-symplectic-germs"></a>
 
 ## Layer 4: relative symplectic germs
 
