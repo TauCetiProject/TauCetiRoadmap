@@ -69,87 +69,33 @@ Pincherle's theorem.
 Suggested home: `TauCeti/Analysis/SpecialFunctions/Heun/`, with Layer 1 in
 `TauCeti/Analysis/ODE/Fuchsian.lean`.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 is about equations, not functions. A second-order equation whose singular points (with `∞`)
+are all regular has coefficients of a rigid partial-fraction form (Fuchs' theorem); the exponents
+then sum to the number of singular points minus two (the Fuchs relation). Three singular points
+leave nothing free, which is why every such equation is Riemann's and reduces to the hypergeometric
+one; four leave one constant, the accessory parameter `q`, and Heun's equation is the normal form of
+that family. Layer 2 collects the transformations that preserve Heun's form: multiplication by
+powers of `z`, `z − 1`, `z − a` and the homographies permuting `0, 1, a, ∞`; together they give 192
+equations, and the trigonometric and elliptic substitutions give the classical forms, Lamé's
+equation among them. Layer 3 builds the solution at `0` from the three-term recurrence and moves it
+to the other singular points with Layer 2; the connection between the solutions at `0` and at `1`
+has no closed form, and only its analytic structure in `q` is stated. Layers 4 and 5 are the two
+eigenvalue problems for `q`. In Layer 4 the recurrence terminates and the problem is a finite
+tridiagonal matrix; in Layer 5 it does not, and the eigenvalues are the zeros of an entire function,
+real and ordered when the parameters are real and positive, by a Sturm–Liouville argument on
+`(0, 1)`. Layer 6 is the analysis that the Lagrange identity gives: orthogonality on a segment and
+on a loop, double orthogonality of the polynomials in two variables, and integral transforms whose
+kernels solve `(D_z − D_t)K = 0`. Layer 7 lets singular points merge: the confluent equation is a
+limit of Heun's, and the doubly confluent, biconfluent and triconfluent equations are limits of it;
+the irregular singular point that appears is of rank one only for the confluent and doubly confluent
+equations, where AsymptoticExpansions applies. Layer 8 is the few cases in which `Hl` is a Gauss
+function.
 
-1. **Fuchsian equations and Heun's equation** (1.1–1.4).
-2. **Transformations of Heun's equation** (2.1–2.4).
-3. **Local solutions** (3.1–3.5).
-4. **Heun polynomials** (4.1–4.3).
-5. **Heun functions** (5.1–5.4).
-6. **Orthogonality and integral equations** (6.1–6.4).
-7. **Confluent forms** (7.1–7.4).
-8. **Reductions to the Gauss function** (8.1–8.2).
-
-The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
-`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the README
-attaches to it; it is not an exhaustive acceptance test, and the other headlines are targets of the
-same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer are statements to
-prove; they test the conventions on explicit values.
-
-**Inputs.** Cases of the targets that Mathlib, Tau Ceti or a roadmap on main already proves are
-inputs, not targets:
-- the Gauss series on the unit disc: Mathlib's `ordinaryHypergeometric` with
-  `ordinaryHypergeometricSeries_radius_eq_one`, and Tau Ceti's
-  `TauCeti.analyticOnNhd_ordinaryHypergeometric`, consumed in Layer 8;
-- the ordinary-point theorem, the Frobenius solutions at a regular singular point and the rank-one
-  theory at an irregular singular point: AsymptoticExpansions §§10.2–10.4, consumed in Layers 3, 5
-  and 7;
-- Riemann's equation, its invariance under homographies and its reduction to the hypergeometric
-  equation: SpecialFunctionsHypergeometric 3.4, consumed in 1.2;
-- Sturm comparison on an open interval: SpecialFunctionsBessel (an auxiliary result of its 10.1),
-  consumed in 5.2;
-- the solutions of a three-term recurrence with distinct characteristic roots and the recessive
-  solution (Perron's theorem in the form of DLMF 2.9.3–2.9.8): AsymptoticExpansions §12.1, consumed
-  in 3.1, 5.3 and 5.4;
-- Darboux's method: AsymptoticExpansions §13.6, consumed in 3.4;
-- Pincherle's theorem with complex coefficients: SpecialFunctionsEiLiErfIncompleteGamma 4.1,
-  consumed in 5.3.
-
-**Auxiliary results owned here**, which the layers need and which neither Mathlib, Tau Ceti nor a
-consumed roadmap provides in this form:
-- a meromorphic function on `ℂ` with finitely many poles and polynomial growth at `∞` is a rational
-  function, in the partial-fraction form that 1.1 uses;
-- tridiagonal matrices with real diagonal and positive products of opposite off-diagonal entries are
-  similar to real symmetric ones, so their eigenvalues are real and simple (4.2);
-- the Lagrange identity for Heun's operator with the weight `ρ` of [Conventions](#conventions), and
-  its two-variable form for products `w(s) w(t)` (6.1–6.3);
-- holomorphic dependence on `q` of solutions of Heun's equation normalized at a regular singular
-  point, and the continuity of local solutions under locally uniform convergence of the coefficients
-  (3.5, 7.2);
-- the outer asymptotics of Jacobi polynomials off `[0, 1]` that the convergence of the series of
-  Type II needs (5.4).
-
-**What it does not own:**
-- *The Gauss function and Riemann's equation.* `F(a, b; c; z)` on the cut plane, Riemann's equation,
-  the P-symbol, Kummer's 24 solutions and the connection formulas belong to
-  SpecialFunctionsHypergeometric (its Layers 1, 3 and 5). This roadmap applies them in 1.2, 5.4, 6.4
-  and Layer 8 and restates none of them.
-- *The local theory of linear equations.* Ordinary points, regular singularities (with the
-  logarithmic cases) and the irregular singularity of rank one at `∞` belong to AsymptoticExpansions
-  §§10.2–10.4. This roadmap applies them with their hypotheses.
-- *Lamé functions.* Lamé's equation appears in 2.4 as a special case of Heun's equation under a
-  change of variable; Lamé functions, Lamé polynomials and ellipsoidal harmonics are outside (see
-  [Beyond](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement)).
-- *Painlevé VI and isomonodromy.* Heun's equation with an additional apparent singular point, its
-  isomonodromic deformations and the Painlevé VI equation belong to
-  [PainleveEquations](../PainleveEquations/README.md) (its Layers 2–3 and its 7.4); this roadmap
-  treats Heun's equation for fixed parameters only.
-- *Jacobi polynomials.* The Jacobi polynomials and their orthogonality are LaguerreJacobi's (its
-  Layers 3–4); 5.4 consumes them.
-- *Recurrences and continued fractions.* The asymptotic solutions of three-term recurrences and
-  Darboux's method belong to AsymptoticExpansions (its §12.1 and §13.6), and Pincherle's theorem to
-  SpecialFunctionsEiLiErfIncompleteGamma (its 4.1); 3.1, 3.4, 5.3 and 5.4 apply them.
-
-**The boundary in one sentence:** this roadmap owns second-order Fuchsian equations as far as Layer
-1 states them, Heun's equation with its transformations, local solutions, Heun polynomials, Heun
-functions, their orthogonality and integral transforms, the four confluent equations as equations
-with their confluence limits and the local theory of the confluent equation at `∞`, and the
-reductions of `Hl` to the Gauss function; it consumes the Gauss function and Riemann's equation of
-SpecialFunctionsHypergeometric, the local theory, the recurrences and Darboux's method of
-AsymptoticExpansions, Sturm comparison of SpecialFunctionsBessel, the Jacobi polynomials of
-LaguerreJacobi and Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma.
+The harder material is in 3.5 (holomorphy of the connection coefficients), 5.2 (the real eigenvalue
+problem and its oscillation count), 5.4 (convergence of the hypergeometric expansions) and 7.2 (the
+confluence limit for solutions, not only for coefficients).
 
 ## Conventions
 
@@ -250,139 +196,6 @@ triconfluent      w″ + (γ + z) z w′ + (αz − q) w = 0                    
   Whittaker–Watson's recurrence (Ch. XXIII, Misc. Ex. 7, p. 576) has an error that Ronveaux Part A
   notes at (3.3.3), p. 35; the roadmap follows DLMF 31.3.3–31.3.4, which agrees with Ronveaux and
   Kristensson (8.4)–(8.6), pp. 143–144.
-
-## Exact supplier contracts
-
-### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
-
-- **Riemann's equation** ([3.4](../SpecialFunctionsHypergeometric/README.md#34-riemanns-equation)):
-  DLMF 15.11.1 with the condition 15.11.2 for three distinct finite singular points, its form with
-  one point at `∞`, Möbius invariance 15.11.6, the reduction 15.11.7 to the hypergeometric equation
-  and the multiplication rule 15.11.8, all stated for solutions; no P-symbol definition. 1.2
-  identifies the Fuchsian equations of 1.1 with three singular points with Riemann's equation.
-- **The hypergeometric equation and its solutions**
-  ([3.1](../SpecialFunctionsHypergeometric/README.md#31-the-equation-and-abels-identity),
-  [3.2](../SpecialFunctionsHypergeometric/README.md#32-fundamental-solutions)): 15.10.1, Abel's
-  identity, the span criterion and the fundamental pairs at `0`, `1`, `∞`. Used in 5.4 and 6.4.
-- **The series and the polynomial cases**
-  ([1.3](../SpecialFunctionsHypergeometric/README.md#13-the-series-and-the-polynomial-cases)):
-  Mathlib's `ordinaryHypergeometric` is `F(a, b; c; z)` on the unit disc for `c ∉ {0, −1, −2, …}`,
-  and terminates when `a` or `b` is a nonpositive integer. Used in Layer 8.
-- **Kummer's 24 solutions**
-  ([5.3](../SpecialFunctionsHypergeometric/README.md#53-kummers-24-solutions)), the hypergeometric
-  analogue of 2.3, used there only as a Check of the counting.
-
-### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
-
-- **Ordinary points** ([§10.2](../AsymptoticExpansions/README.md#102-ordinary-points)): for
-  coefficients holomorphic on a disc, the initial-value problem has a unique solution holomorphic on
-  the disc, with Taylor coefficients given by the recursion. Used for the continuation of local
-  solutions along paths avoiding the singular points (3.1, 3.5, 5.2).
-- **Regular singularities** ([§10.3](../AsymptoticExpansions/README.md#103-regular-singularities)):
-  on the slit punctured disc of radius `r` around `z₀`, with indicial roots `α₁, α₂`,
-  `Re α₁ ≥ Re α₂`, the Frobenius solution for each root `ρ` with `Q(ρ + s) ≠ 0` for `s ≥ 1`,
-  convergent on the whole disc; the logarithmic solution when `α₁ − α₂ ∈ ℕ`; nonvanishing Wronskian.
-  Used for the uniqueness in 3.1, for the solutions at the other singular points in 3.2 and for the
-  analytic solutions at `1` in 5.1–5.2.
-- **Irregular singularity of rank one**
-  ([§10.4](../AsymptoticExpansions/README.md#104-irregular-singularity-of-rank-one-at-infinity)):
-  for `f`, `g` convergent series in `z^{−1}` for `|z| > a₀` with unequal roots `λ₁ ≠ λ₂` of
-  `λ² + f₀λ + g₀`, the unique solutions `W₁`, `W₂` in logarithmic coordinates with the formal
-  behaviour `e^{λ_j z} z^{μ_j}`, `μ_j = −(f₁λ_j + g₁)/(f₀ + 2λ_j)`, in the sectors stated there, and
-  their Stokes multipliers. 7.4 applies it to the confluent equation 31.12.1 at `∞` (`a₀ = 1`,
-  `λ₁ = 0`, `λ₂ = −ε`, unequal exactly when `ε ≠ 0`) and to the doubly confluent equation at `∞`
-  and, after `z ↦ 1/z`, at `0`.
-- **Distinct characteristic roots**
-  ([§12.1](../AsymptoticExpansions/README.md#121-distinct-characteristic-roots)): for
-  `w(n + 2) + f(n) w(n + 1) + g(n) w(n) = 0` with `f`, `g` having Poincaré expansions in `n^{−1}`,
-  `g₀ ≠ 0` and `f₀² ≠ 4g₀`, solutions `w_j(n) ∼ ρ_jⁿ n^{α_j}`, and when `|ρ₁| < |ρ₂|` the recessive
-  solution `w₁`, unique up to a factor; in the tail form, without `g(n) ≠ 0` for every `n`. The
-  recurrence of 3.1, `c_{j+1} − ((Q_j + q)/R_j) c_j + (P_j/R_j) c_{j−1} = 0`, has rational
-  coefficients with `f₀ = −(1 + a)/a`, `g₀ = 1/a`, `f₀² − 4g₀ = (a − 1)²/a² ≠ 0` and roots `1`,
-  `1/a`, of distinct moduli for `|a| ≠ 1`. Used in 3.1, 5.3 and 5.4 (the recurrences of 31.11).
-- **Darboux's method**
-  ([§13.6](../AsymptoticExpansions/README.md#136-darbouxs-method)): DLMF 2.10.29–2.10.32, including
-  the form with finitely many exceptional points on the circle. Used in 3.4 with `r = 1` and the
-  one exceptional point `z = 1`.
-
-### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
-
-- **Pincherle's theorem**
-  ([4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)): for complex
-  `a n`, `b n` with every `a n ≠ 0`, the continued fraction `a₁/(b₁ + a₂/(b₂ + ⋯))` converges if
-  and only if `y(n + 1) = b n · y(n) + a n · y(n − 1)` has a minimal solution `f` with `f(0) ≠ 0`,
-  and its value is then `−f(1)/f(0)`. Used in 5.3 with `b n = (Q_n + q)/R_n` and
-  `a n = −P_n/R_n`, nonzero for `α, β ∉ {0, −1, −2, …}`.
-
-### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
-
-- Sturm comparison (an auxiliary result of its 10.1): for `p > 0` of class `C¹` and continuous
-  `q₁ ≤ q₂` on an open interval, between consecutive zeros of a nontrivial real solution of
-  `(p u′)′ + q₁ u = 0` every real solution of `(p v′)′ + q₂ v = 0` vanishes, unless `q₁ = q₂` there
-  and `v` is a multiple of `u`; and the zeros of a nontrivial real solution are simple and isolated.
-  5.2 applies it on `(0, 1)` with `p(t) = t^γ(1 − t)^δ(a − t)^ε` and `q_i(t) = (αβt − q_i) ρ(t)` for
-  two real values `q₂ < q₁` of the accessory parameter; `p` is positive and `C¹` on the open
-  interval, which is all the theorem asks.
-
-### From [LaguerreJacobi](../LaguerreJacobi/README.md)
-
-- The Jacobi polynomials `P_n^{(α,β)}` over `ℝ` and `ℂ`, their degree and recurrences (its 3.2–3.3)
-  and their orthogonality against the Jacobi weight (its Layer 4). Used for the series of Type II in
-  5.4.
-
-`Suggested.lean` imports none of these roadmaps; it needs no definition owned by them, since the
-statements of Layer 8 use Mathlib's `ordinaryHypergeometric` on the unit disc.
-
-### From Tau Ceti
-
-- `TauCeti.analyticOnNhd_ordinaryHypergeometric` and
-  `TauCeti.one_le_radius_ordinaryHypergeometricSeries`
-  (`TauCeti/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`), for Layer 8.
-- `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`), the real constancy
-  of the Wronskian, used on `(0, 1)` in 5.2 for real parameters.
-- `TauCeti.Real.jacobiSn` (`TauCeti/Analysis/SpecialFunctions/JacobiElliptic/Basic.lean`), the
-  Jacobian `sn` of real argument, used for the Jacobi form of 2.4 on the real interval `(0, K)`.
-
-### From Mathlib
-
-- `FormalMultilinearSeries.ofScalars`, `HasFPowerSeriesOnBall`,
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, for Layers 3 and 8.
-- `meromorphicOrderAt`, for 1.1.
-- `Matrix.det`, `Matrix.charpoly` and `Matrix.IsHermitian.eigenvalues`, for Layer 4.
-- `Complex.cpow` and `Complex.slitPlane`, throughout.
-- `TendstoLocallyUniformlyOn` and `TendstoLocallyUniformlyOn.differentiableOn`, for 7.2.
-- `_root_.hasDerivAt_integral_of_dominated_loc_of_deriv_le` and
-  `intervalIntegral.integral_comp_mul_deriv`, for 6.3.
-- `PeriodPair.weierstrassP`, for the Weierstrass form of 2.4.
-- `ordinaryHypergeometric` and `ordinaryHypergeometricSeries_radius_eq_one`, for Layer 8.
-
-## How to read the build
-
-Layer 1 is about equations, not functions. A second-order equation whose singular points (with `∞`)
-are all regular has coefficients of a rigid partial-fraction form (Fuchs' theorem); the exponents
-then sum to the number of singular points minus two (the Fuchs relation). Three singular points
-leave nothing free, which is why every such equation is Riemann's and reduces to the hypergeometric
-one; four leave one constant, the accessory parameter `q`, and Heun's equation is the normal form of
-that family. Layer 2 collects the transformations that preserve Heun's form: multiplication by
-powers of `z`, `z − 1`, `z − a` and the homographies permuting `0, 1, a, ∞`; together they give 192
-equations, and the trigonometric and elliptic substitutions give the classical forms, Lamé's
-equation among them. Layer 3 builds the solution at `0` from the three-term recurrence and moves it
-to the other singular points with Layer 2; the connection between the solutions at `0` and at `1`
-has no closed form, and only its analytic structure in `q` is stated. Layers 4 and 5 are the two
-eigenvalue problems for `q`. In Layer 4 the recurrence terminates and the problem is a finite
-tridiagonal matrix; in Layer 5 it does not, and the eigenvalues are the zeros of an entire function,
-real and ordered when the parameters are real and positive, by a Sturm–Liouville argument on
-`(0, 1)`. Layer 6 is the analysis that the Lagrange identity gives: orthogonality on a segment and
-on a loop, double orthogonality of the polynomials in two variables, and integral transforms whose
-kernels solve `(D_z − D_t)K = 0`. Layer 7 lets singular points merge: the confluent equation is a
-limit of Heun's, and the doubly confluent, biconfluent and triconfluent equations are limits of it;
-the irregular singular point that appears is of rank one only for the confluent and doubly confluent
-equations, where AsymptoticExpansions applies. Layer 8 is the few cases in which `Hl` is a Gauss
-function.
-
-The harder material is in 3.5 (holomorphy of the connection coefficients), 5.2 (the real eigenvalue
-problem and its oscillation count), 5.4 (convergence of the hypergeometric expansions) and 7.2 (the
-confluence limit for solutions, not only for coefficients).
 
 ## Layer 1: Fuchsian equations and Heun's equation
 
@@ -851,8 +664,8 @@ quotients inherit it. DLMF states no closed form for `A`, `B`, and none is a tar
 
 - `Hl(1, αβ; α, β, γ, δ; z) = F(α, β; γ; z)`: at `(α, β, γ, z) = (0.3, 1.1, 0.8, 0.3)` both are
   `1.16171 52329` for every `δ` (8.1).
-- The eight local solutions of 3.1–3.2 at `(3, 0.7; 0.3, 1.1, 0.8, 0.45)` are pairwise independent:
-  no two exponents at the same point differ by an integer.
+- At `(3, 0.7; 0.3, 1.1, 0.8, 0.45)` the two local solutions of 3.1–3.2 at each singular point are
+  independent: no two exponents at the same point differ by an integer.
 
 ### Dependencies
 
@@ -908,7 +721,7 @@ conditions the matrix is symmetrizable. Prove:
   real `δ`, the characteristic polynomial of `M_n` with `α = −n` has `n + 1` real simple roots
   `e₀ < ⋯ < e_n`, and no other complex roots;
 - **`a > 1`** (`heunPolyMatrix_eigenvalues_real_of_one_lt`): the same for real `a > 1`, `δ > 0`,
-  `β > 0` and real `γ ∉ {0, −1, −2, …}`.
+  `β > 0` and real `γ`.
 
 For `a < 0`: the products of opposite off-diagonal entries are
 `R_{j−1}P_j = a j(j − 1 + γ)(j − 1 − n)(j − 1 + β) > 0` for `1 ≤ j ≤ n`, so a diagonal similarity
@@ -916,13 +729,18 @@ makes `M_n` real symmetric (Mathlib's `Matrix.IsHermitian.eigenvalues`), and a r
 tridiagonal matrix with nonzero off-diagonal entries has simple eigenvalues. For `a > 1`:
 `z ↦ 1 − z` (2.2) maps the polynomial solutions with `(a, q; −n, β, γ, δ)` bijectively to those with
 `(1 − a, αβ − q; −n, β, δ, γ)`, and `1 − a < 0`, so the first bullet applies with `δ` in the role of
-`γ`; the two characteristic polynomials of degree `n + 1` have the same root sets.
+`γ`. For `γ ∉ {0, −1, −2, …}` this gives
+`det(x − M_n(a; γ, δ)) = (−1)^{n+1} det(αβ − x − M_n(1 − a; δ, γ))`; both sides are polynomials
+in `γ`, so the identity holds for every real `γ`, and the two root sets correspond under
+`x ↦ αβ − x`.
 
 **Checks.**
 - `a = −1`, `γ = δ = ε = 1`, `n = 1` (`β = 3`): `det(q − M₁) = q² − 3`, roots `±√3`; the polynomials
   `1 ∓ √3 z` vanish at `±1/√3`, one zero in `(0, 1)` and one in `(a, 0) = (−1, 0)`.
 - `a = 2`, `γ = 1`, `δ = 1`, `ε = −1`, `n = 1` (`β = 1`): roots `−2 ± √2`, real as the second bullet
   asserts.
+- `a = 2`, `γ = −1`, `δ = β = 1` (second bullet, `γ` a nonpositive integer): roots `±√2` for
+  `n = 1` and `2.56155`, `−1.56155`, `−4` for `n = 2`.
 - Negative control: `a = 2`, `γ = 1`, `δ = −1`, `ε = 1`, `n = 1` (`β = 1`, `δ < 0`): the roots are
   `−1 ± i`.
 - For random parameters with `a ∈ (−5, −0.2)`, `γ ∈ (0.1, 3)` (first bullet) or `a ∈ (1.1, 6)`,
@@ -971,7 +789,7 @@ Prove:
 - for `1 < |a|`, `γ, δ ∉ {0, −1, −2, …}`, the following are equivalent:
   `IsHeunEigenvalue01 a α β γ δ q`; the radius of the series of `Hl` is at least `|a|`; `Hl`
   continued along `(0, 1)` is a multiple of the solution `Hl(1 − a, αβ − q; α, β, δ, γ; 1 − z)` at
-  `1`; `B(q) = 0` (3.5);
+  `1`; when `δ ∉ ℤ`, `B(q) = 0` (3.5);
 - a solution analytic at two of the singular points `{s₁, s₂}` is carried by a transformation of
   Layer 2 to one analytic at `{0, 1}`, with Ronveaux's four classes (3.5.2) according to the
   exponents chosen at `s₁, s₂`;
@@ -1030,29 +848,36 @@ count tends to `∞` as `q → −∞` because then `−q ρ` dominates. Simplic
 
 Sources: DLMF 31.4.2; Ronveaux Part A, Appendix B, (B.22), p. 79, and §3.5, p. 40.
 
-Prove, for `1 < |a|` and `γ, δ ∉ {0, −1, −2, …}`:
+Prove, for `1 < |a|`, `γ, δ ∉ {0, −1, −2, …}` and `α, β ∉ {0, −1, −2, …}`:
 - the recurrence 31.3.3 has a minimal solution `(c*_j)` (one with `c*_j/c_j → 0` for every
   independent solution `c_j`), unique up to a factor, with `c*_{j+1}/c*_j → 1/a`;
 - `q` is an `(0, 1)`-eigenvalue if and only if the coefficients of `Hl` are the minimal solution;
-- for `α, β ∉ {0, −1, −2, …}` and at `q` with `Q_j + q ≠ 0` for all `j ≥ 1` and nonvanishing
-  partial denominators, that holds if and only if the continued fraction of 31.4.2 converges and
+- at `q` with `Q_j + q ≠ 0` for all `j ≥ 1` and nonvanishing partial denominators, that holds
+  if and only if the continued fraction of 31.4.2 converges and
   `q = aγP₁/(Q₁ + q − R₁P₂/(Q₂ + q − R₂P₃/(Q₃ + q − ⋯)))`.
 
-The first bullet: AsymptoticExpansions §12.1 for the recurrence of 3.1 (roots `1`, `1/a` of
-distinct moduli), whose recessive solution is the minimal one.
+The hypothesis on `α, β` makes every `P_j` (`j ≥ 1`) nonzero, so the solutions of 31.3.3 for
+`j ≥ 1` form a space of dimension `2` and none terminates. The first bullet: AsymptoticExpansions
+§12.1 for the recurrence of 3.1 (roots `1`, `1/a` of distinct moduli), whose recessive solution is
+the minimal one.
 The second: by 3.4's proof the coefficients are `O(j^{Re δ−2})` or decay like `|a|^{−j}`; the second
 happens exactly for the minimal solution and exactly when `Hl` is analytic in `‖z‖ < ‖a‖`. The third
 is Pincherle's theorem (SpecialFunctionsEiLiErfIncompleteGamma 4.1) for `b n = (Q_n + q)/R_n` and
-`a n = −P_n/R_n`, which asks `a n ≠ 0`, that is `α, β ∉ {0, −1, −2, …}`: the fraction converges if
+`a n = −P_n/R_n`, which asks `a n ≠ 0`, the hypothesis on `α, β`: the fraction converges if
 and only if a minimal solution with `f(0) ≠ 0` exists, its value is `−f(1)/f(0)`, and the ratios
 `c*_j/c*_{j−1}` are its tails; an equivalence transformation brings it to the form 31.4.2.
 
 **Checks.**
-- With `α = −1` the fraction terminates (`P₂ = 0`) and the equation is `q(Q₁ + q) = aγP₁`, which is
+- Negative control for the hypothesis on `α, β`: at `(a, α, β, γ, δ) = (3, −1, 2.4, 0.8, 0.45)`
+  (the Examples) `P₂ = 0`, and `(1, −2.4/(5.7 + q), 0, 0, …)` solves 31.3.3 for `j ≥ 1` at every
+  `q ≠ −5.7`; it is minimal, with no ratio limit `1/a`. At the third eigenvalue
+  `q₂ = −12.28267 66927` of 5.2 the coefficients of `Hl` are `c₂ = 3.34155`, `c₃ = 0.943765`,
+  `c₄ = 0.27399`, with `c₂₁/c₂₀ = 0.32137` tending to `1/3`: they do not terminate, so they are not
+  a multiple of the minimal solution although `q₂` is an eigenvalue.
+- With `α = −1` the fraction terminates and the equation is `q(Q₁ + q) = aγP₁`, which is
   `q² + Q₁q + aγβ = 0`, the characteristic polynomial of 4.1. It finds the two polynomial
-  eigenvalues (`−1.31295 73851` and `−4.38704 26149` at the parameters of the Examples) and none of
-  the infinitely many others of 5.2, which is why the third bullet assumes
-  `α, β ∉ {0, −1, −2, …}`.
+  eigenvalues (`−1.31295 73851` and `−4.38704 26149`) and not `q₂`, a second reason for the
+  hypothesis on `α, β`.
 - Negative control: dropping the term `q` from the partial denominators (writing `Q_j` for
   `Q_j + q`) gives `q = aγP₁/Q₁` at `α = −1`, which is not the polynomial condition.
 
@@ -1067,8 +892,10 @@ Sources: Ronveaux Part A, Ch. 4, (4.1.2), p. 46, (4.2.1), (4.2.7), (4.2.17)–(4
 Let `E` be the ellipse with foci `0`, `1` through `a` (Ronveaux (4.1.2)). Prove:
 - **Type I** (31.11.10–31.11.12): every Fuchs–Frobenius solution of 3.2 at `∞` is the sum of a
   series `∑ c_j P_j(z)` with `P_j` the solutions of Riemann's equations with exponents `{0, 1 − γ}`,
-  `{0, 1 − δ}`, `{λ + j, μ − j}` (31.11.2; `λ = α`, `μ = β − ε`), with the coefficients satisfying
-  the three-term recurrence 31.11.4–31.11.8; the series converges outside `E`;
+  `{0, 1 − δ}`, `{λ + j, μ − j}` (31.11.2; `λ = α`, `μ = β − ε` (31.11.10) for the solution
+  belonging to `α`, `λ = β`, `μ = α − ε` (31.11.11) for the one belonging to `β`), with the
+  coefficients satisfying the three-term recurrence 31.11.4–31.11.8; the series converges outside
+  `E`;
 - a solution analytic at `a` with exponent `α` at `∞` (a Heun function for the pair `(a, ∞)`) is
   such a series converging in the plane cut along `[0, 1]`, the segment joining its two singular
   points, with `q` a root of 31.11.13;
@@ -1181,7 +1008,8 @@ Prove:
 - the same with the segment replaced by `[0, 1]` and the bracket required to vanish in the limit at
   both ends, and by a Pochhammer loop, on which the bracket returns to its value;
 - when `w = w_m` is a `(0, 1)`-Heun function and `W` is again analytic at `0` and `1`, `W = κ w_m`
-  (an integral equation with eigenvalue `κ`), by 5.2's simplicity.
+  (an integral equation with eigenvalue `κ`), by 3.1's uniqueness: for `γ ∉ {0, −1, −2, …}` a
+  solution analytic at `0` is a multiple of `Hl`.
 
 `D_z W = ∫ D_z K w ρ = ∫ D_t K w ρ = ∫ K (D_t w) ρ + [p(∂_tK w − K w′)]`, by the Lagrange identity,
 and `D_t w = q w`; differentiation under the integral sign on the compact segment
@@ -1466,6 +1294,193 @@ Layer 3; SpecialFunctionsHypergeometric.
 - Mathieu and spheroidal wave functions, solutions of confluent Heun equations (7.4, Examples).
 - PainleveEquations, whose classification of the Painlevé III and V equations in its 7.2 cites
   Heun-class equations; the isomonodromic side stays there.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **Fuchsian equations and Heun's equation** (1.1–1.4).
+2. **Transformations of Heun's equation** (2.1–2.4).
+3. **Local solutions** (3.1–3.5).
+4. **Heun polynomials** (4.1–4.3).
+5. **Heun functions** (5.1–5.4).
+6. **Orthogonality and integral equations** (6.1–6.4).
+7. **Confluent forms** (7.1–7.4).
+8. **Reductions to the Gauss function** (8.1–8.2).
+
+The numbers are those of the layers below, and `k.n` names subsection `n` of Layer `k`.
+`Suggested.lean` states the headlines that carry a Lean name, each with every conclusion the README
+attaches to it; it is not an exhaustive acceptance test, and the other headlines are targets of the
+same standing, stated in prose. The `**Checks.**` and `### Examples` of each layer are statements to
+prove; they test the conventions on explicit values.
+
+**Inputs.** Cases of the targets that Mathlib, Tau Ceti or a roadmap on main already proves are
+inputs, not targets:
+- the Gauss series on the unit disc: Mathlib's `ordinaryHypergeometric` with
+  `ordinaryHypergeometricSeries_radius_eq_one`, and Tau Ceti's
+  `TauCeti.analyticOnNhd_ordinaryHypergeometric`, consumed in Layer 8;
+- the ordinary-point theorem, the Frobenius solutions at a regular singular point and the rank-one
+  theory at an irregular singular point: AsymptoticExpansions §§10.2–10.4, consumed in Layers 3, 5
+  and 7;
+- Riemann's equation, its invariance under homographies and its reduction to the hypergeometric
+  equation: SpecialFunctionsHypergeometric 3.4, consumed in 1.2;
+- Sturm comparison on an open interval: SpecialFunctionsBessel (an auxiliary result of its 10.1),
+  consumed in 5.2;
+- the solutions of a three-term recurrence with distinct characteristic roots and the recessive
+  solution (Perron's theorem in the form of DLMF 2.9.3–2.9.8): AsymptoticExpansions §12.1, consumed
+  in 3.1, 5.3 and 5.4;
+- Darboux's method: AsymptoticExpansions §13.6, consumed in 3.4;
+- Pincherle's theorem with complex coefficients: SpecialFunctionsEiLiErfIncompleteGamma 4.1,
+  consumed in 5.3.
+
+**Auxiliary results owned here**, which the layers need and which neither Mathlib, Tau Ceti nor a
+consumed roadmap provides in this form:
+- a meromorphic function on `ℂ` with finitely many poles and polynomial growth at `∞` is a rational
+  function, in the partial-fraction form that 1.1 uses;
+- tridiagonal matrices with real diagonal and positive products of opposite off-diagonal entries are
+  similar to real symmetric ones, so their eigenvalues are real and simple (4.2);
+- the Lagrange identity for Heun's operator with the weight `ρ` of [Conventions](#conventions), and
+  its two-variable form for products `w(s) w(t)` (6.1–6.3);
+- holomorphic dependence on `q` of solutions of Heun's equation normalized at a regular singular
+  point, and the continuity of local solutions under locally uniform convergence of the coefficients
+  (3.5, 7.2);
+- the outer asymptotics of Jacobi polynomials off `[0, 1]` that the convergence of the series of
+  Type II needs (5.4).
+
+**What it does not own:**
+- *The Gauss function and Riemann's equation.* `F(a, b; c; z)` on the cut plane, Riemann's equation,
+  the P-symbol, Kummer's 24 solutions and the connection formulas belong to
+  SpecialFunctionsHypergeometric (its Layers 1, 3 and 5). This roadmap applies them in 1.2, 5.4, 6.4
+  and Layer 8 and restates none of them.
+- *The local theory of linear equations.* Ordinary points, regular singularities (with the
+  logarithmic cases) and the irregular singularity of rank one at `∞` belong to AsymptoticExpansions
+  §§10.2–10.4. This roadmap applies them with their hypotheses.
+- *Lamé functions.* Lamé's equation appears in 2.4 as a special case of Heun's equation under a
+  change of variable; Lamé functions, Lamé polynomials and ellipsoidal harmonics are outside (see
+  [Beyond](#beyond-this-roadmap-a-roadmap-for-a-roadmap-do-not-implement)).
+- *Painlevé VI and isomonodromy.* Heun's equation with an additional apparent singular point, its
+  isomonodromic deformations and the Painlevé VI equation belong to
+  [PainleveEquations](../PainleveEquations/README.md) (its Layers 2–3 and its 7.4); this roadmap
+  treats Heun's equation for fixed parameters only.
+- *Jacobi polynomials.* The Jacobi polynomials and their orthogonality are LaguerreJacobi's (its
+  Layers 3–4); 5.4 consumes them.
+- *Recurrences and continued fractions.* The asymptotic solutions of three-term recurrences and
+  Darboux's method belong to AsymptoticExpansions (its §12.1 and §13.6), and Pincherle's theorem to
+  SpecialFunctionsEiLiErfIncompleteGamma (its 4.1); 3.1, 3.4, 5.3 and 5.4 apply them.
+
+**The boundary in one sentence:** this roadmap owns second-order Fuchsian equations as far as Layer
+1 states them, Heun's equation with its transformations, local solutions, Heun polynomials, Heun
+functions, their orthogonality and integral transforms, the four confluent equations as equations
+with their confluence limits and the local theory of the confluent equation at `∞`, and the
+reductions of `Hl` to the Gauss function; it consumes the Gauss function and Riemann's equation of
+SpecialFunctionsHypergeometric, the local theory, the recurrences and Darboux's method of
+AsymptoticExpansions, Sturm comparison of SpecialFunctionsBessel, the Jacobi polynomials of
+LaguerreJacobi and Pincherle's theorem of SpecialFunctionsEiLiErfIncompleteGamma.
+
+## Exact supplier contracts
+
+### From [SpecialFunctionsHypergeometric](../SpecialFunctionsHypergeometric/README.md)
+
+- **Riemann's equation** ([3.4](../SpecialFunctionsHypergeometric/README.md)):
+  DLMF 15.11.1 with the condition 15.11.2 for three distinct finite singular points, its form with
+  one point at `∞`, Möbius invariance 15.11.6, the reduction 15.11.7 to the hypergeometric equation
+  and the multiplication rule 15.11.8, all stated for solutions; no P-symbol definition. 1.2
+  identifies the Fuchsian equations of 1.1 with three singular points with Riemann's equation.
+- **The hypergeometric equation and its solutions**
+  ([3.1](../SpecialFunctionsHypergeometric/README.md#31-the-equation-and-abels-identity),
+  [3.2](../SpecialFunctionsHypergeometric/README.md)): 15.10.1, Abel's
+  identity, the span criterion and the fundamental pairs at `0`, `1`, `∞`. Used in 5.4 and 6.4.
+- **The series and the polynomial cases**
+  ([1.3](../SpecialFunctionsHypergeometric/README.md#13-the-series-and-the-polynomial-cases)):
+  Mathlib's `ordinaryHypergeometric` is `F(a, b; c; z)` on the unit disc for `c ∉ {0, −1, −2, …}`,
+  and terminates when `a` or `b` is a nonpositive integer. Used in Layer 8.
+- **Kummer's 24 solutions**
+  ([5.3](../SpecialFunctionsHypergeometric/README.md)), the hypergeometric
+  analogue of 2.3, used there only as a Check of the counting.
+
+### From [AsymptoticExpansions](../AsymptoticExpansions/README.md)
+
+- **Ordinary points** ([§10.2](../AsymptoticExpansions/README.md#102-ordinary-points)): for
+  coefficients holomorphic on a disc, the initial-value problem has a unique solution holomorphic on
+  the disc, with Taylor coefficients given by the recursion. Used for the continuation of local
+  solutions along paths avoiding the singular points (3.1, 3.5, 5.2).
+- **Regular singularities** ([§10.3](../AsymptoticExpansions/README.md#103-regular-singularities)):
+  on the slit punctured disc of radius `r` around `z₀`, with indicial roots `α₁, α₂`,
+  `Re α₁ ≥ Re α₂`, the Frobenius solution for each root `ρ` with `Q(ρ + s) ≠ 0` for `s ≥ 1`,
+  convergent on the whole disc; the logarithmic solution when `α₁ − α₂ ∈ ℕ`; nonvanishing Wronskian.
+  Used for the uniqueness in 3.1, for the solutions at the other singular points in 3.2 and for the
+  analytic solutions at `1` in 5.1–5.2.
+- **Irregular singularity of rank one**
+  ([§10.4](../AsymptoticExpansions/README.md#104-irregular-singularity-of-rank-one-at-infinity)):
+  for `f`, `g` convergent series in `z^{−1}` for `|z| > a₀` with unequal roots `λ₁ ≠ λ₂` of
+  `λ² + f₀λ + g₀`, the unique solutions `W₁`, `W₂` in logarithmic coordinates with the formal
+  behaviour `e^{λ_j z} z^{μ_j}`, `μ_j = −(f₁λ_j + g₁)/(f₀ + 2λ_j)`, in the sectors stated there, and
+  their Stokes multipliers. 7.4 applies it to the confluent equation 31.12.1 at `∞` (`a₀ = 1`,
+  `λ₁ = 0`, `λ₂ = −ε`, unequal exactly when `ε ≠ 0`) and to the doubly confluent equation at `∞`
+  and, after `z ↦ 1/z`, at `0`.
+- **Distinct characteristic roots**
+  ([§12.1](../AsymptoticExpansions/README.md#121-distinct-characteristic-roots)): for
+  `w(n + 2) + f(n) w(n + 1) + g(n) w(n) = 0` with `f`, `g` having Poincaré expansions in `n^{−1}`,
+  `g₀ ≠ 0` and `f₀² ≠ 4g₀`, solutions `w_j(n) ∼ ρ_jⁿ n^{α_j}`, and when `|ρ₁| < |ρ₂|` the recessive
+  solution `w₁`, unique up to a factor; in the tail form, without `g(n) ≠ 0` for every `n`. The
+  recurrence of 3.1, `c_{j+1} − ((Q_j + q)/R_j) c_j + (P_j/R_j) c_{j−1} = 0`, has rational
+  coefficients with `f₀ = −(1 + a)/a`, `g₀ = 1/a`, `f₀² − 4g₀ = (a − 1)²/a² ≠ 0` and roots `1`,
+  `1/a`, of distinct moduli for `|a| ≠ 1`. Used in 3.1, 5.3 and 5.4 (the recurrences of 31.11).
+- **Darboux's method**
+  ([§13.6](../AsymptoticExpansions/README.md#136-darbouxs-method)): DLMF 2.10.29–2.10.32, including
+  the form with finitely many exceptional points on the circle. Used in 3.4 with `r = 1` and the
+  one exceptional point `z = 1`.
+
+### From [SpecialFunctionsEiLiErfIncompleteGamma](../SpecialFunctionsEiLiErfIncompleteGamma/README.md)
+
+- **Pincherle's theorem**
+  ([4.1](../SpecialFunctionsEiLiErfIncompleteGamma/README.md#41-pincherles-theorem)): for complex
+  `a n`, `b n` with every `a n ≠ 0`, the continued fraction `a₁/(b₁ + a₂/(b₂ + ⋯))` converges if
+  and only if `y(n + 1) = b n · y(n) + a n · y(n − 1)` has a minimal solution `f` with `f(0) ≠ 0`,
+  and its value is then `−f(1)/f(0)`. Used in 5.3 with `b n = (Q_n + q)/R_n` and
+  `a n = −P_n/R_n`, nonzero for `α, β ∉ {0, −1, −2, …}`.
+
+### From [SpecialFunctionsBessel](../SpecialFunctionsBessel/README.md)
+
+- Sturm comparison (an auxiliary result of its 10.1): for `p > 0` of class `C¹` and continuous
+  `q₁ ≤ q₂` on an open interval, between consecutive zeros of a nontrivial real solution of
+  `(p u′)′ + q₁ u = 0` every real solution of `(p v′)′ + q₂ v = 0` vanishes, unless `q₁ = q₂` there
+  and `v` is a multiple of `u`; and the zeros of a nontrivial real solution are simple and isolated.
+  5.2 applies it on `(0, 1)` with `p(t) = t^γ(1 − t)^δ(a − t)^ε` and `q_i(t) = (αβt − q_i) ρ(t)` for
+  two real values `q₂ < q₁` of the accessory parameter; `p` is positive and `C¹` on the open
+  interval, which is all the theorem asks.
+
+### From [LaguerreJacobi](../LaguerreJacobi/README.md)
+
+- The Jacobi polynomials `P_n^{(α,β)}` over `ℝ` and `ℂ`, their degree and recurrences (its 3.2–3.3)
+  and their orthogonality against the Jacobi weight (its Layer 4). Used for the series of Type II in
+  5.4.
+
+`Suggested.lean` imports none of these roadmaps; it needs no definition owned by them, since the
+statements of Layer 8 use Mathlib's `ordinaryHypergeometric` on the unit disc.
+
+### From Tau Ceti
+
+- `TauCeti.analyticOnNhd_ordinaryHypergeometric` and
+  `TauCeti.one_le_radius_ordinaryHypergeometricSeries`
+  (`TauCeti/Analysis/SpecialFunctions/OrdinaryHypergeometric.lean`), for Layer 8.
+- `TauCeti.wronskian_eq_of_hasDerivAt` (`TauCeti/Analysis/ODE/Wronskian.lean`), the real constancy
+  of the Wronskian, used on `(0, 1)` in 5.2 for real parameters.
+- `TauCeti.Real.jacobiSn` (`TauCeti/Analysis/SpecialFunctions/JacobiElliptic/Basic.lean`), the
+  Jacobian `sn` of real argument, used for the Jacobi form of 2.4 on the real interval `(0, K)`.
+
+### From Mathlib
+
+- `FormalMultilinearSeries.ofScalars`, `HasFPowerSeriesOnBall`,
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`, for Layers 3 and 8.
+- `meromorphicOrderAt`, for 1.1.
+- `Matrix.det`, `Matrix.charpoly` and `Matrix.IsHermitian.eigenvalues`, for Layer 4.
+- `Complex.cpow` and `Complex.slitPlane`, throughout.
+- `TendstoLocallyUniformlyOn` and `TendstoLocallyUniformlyOn.differentiableOn`, for 7.2.
+- `_root_.hasDerivAt_integral_of_dominated_loc_of_deriv_le` and
+  `intervalIntegral.integral_comp_mul_deriv`, for 6.3.
+- `PeriodPair.weierstrassP`, for the Weierstrass form of 2.4.
+- `ordinaryHypergeometric` and `ordinaryHypergeometricSeries_radius_eq_one`, for Layer 8.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
