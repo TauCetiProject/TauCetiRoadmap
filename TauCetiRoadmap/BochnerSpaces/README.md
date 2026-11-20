@@ -1,39 +1,31 @@
-# Roadmap: bochner spaces
+# Roadmap: Bochner spaces
 
-**Summary.** Develop measurability, Bochner and Pettis integration, Bochner spaces,
-integral operators and vector measures for Banach-valued functions. Prove the
-general Pettis measurability theorem, Hille's theorem for closed operators,
-mixed-norm and tensor-product identifications, Pettis integrability criteria,
-and the characterization of Bochner-space duality by the Radon–Nikodým property,
-with restriction, approximation, transport, norm estimates and uniqueness results.
+**Summary.** A Banach-valued function is strongly measurable exactly when it
+has separable range and composition with each continuous linear functional is
+measurable. Develop Pettis integration and the graph-norm formulation of
+Hille's theorem for the Bochner integral. Construct the mixed-norm interchange map and identify Bochner L¹
+with the projective tensor product of scalar L¹ and the target space. For a
+σ-finite measure and `1≤p<∞`, prove that every functional on `Lᵖ(μ;X)` has an
+`L^q(μ;X*)` density, with `q` conjugate to `p`, exactly when `X*` has the
+Radon–Nikodým property with respect to `μ`.
 
-## Scope and ownership
+The constructions use Mathlib's Bochner integral and Lᵖ spaces and Tau Ceti's
+completed projective tensor product. Banach space theory supplies scalar
+duality and the density theorem for reflexive targets. The unit-interval
+characterization of the Radon–Nikodým property uses the measure-algebra
+classification from Von Neumann algebras.
 
-This roadmap extends Mathlib and Tau Ceti with general Banach-valued integration
-and duality. Existing library results are inputs.
+## How to read the build
 
-| Shared material | Owner and interface consumed here |
-| --- | --- |
-| Continuous duals, weak and weak-star topologies, Hahn–Banach separation, reflexivity and weak compactness | [Banach space theory](../BanachSpaceTheory/README.md), B1–B2; use native continuous duals, submodules and bidual embeddings |
-| Classical sequence spaces, basic sequences, small perturbations and their scalar dualities | [Banach space theory](../BanachSpaceTheory/README.md), B3; use `lp` and `C₀(ℕ, 𝕜)` |
-| Densities for bounded-variation measures with reflexive Banach targets on finite measure spaces | [Banach space theory](../BanachSpaceTheory/README.md), B4.0, its finite-measure density prerequisite; §7 consumes this theorem and supplies the general RNP interface and its consequences |
-| The weakly-unconditionally-Cauchy criterion for spaces containing no copy of c₀ | [Banach space theory](../BanachSpaceTheory/README.md), B4.1; §6.4 applies this series criterion to Pettis integrability |
-| Scalar `Lᵖ` duality, scalar measure representation and scalar Dunford–Pettis theory | [Banach space theory](../BanachSpaceTheory/README.md), B5; §8 owns the Banach-valued duality theorem |
-| Finite measure algebras, their scalar L² separability criterion and nonatomic interval classification | [Von Neumann algebras](../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors), V2; §3.3 extends the finite-set quotient to arbitrary measures and Banach-valued Lᵖ, and §7.5 constructs L¹ transport and RNP applications |
-
-Prove the finite-measure reflexive density theorem independently of §7–§8,
-and scalar duality independently of §8, to avoid circular dependencies.
-Build missing supplier results in their owning area with these interfaces.
-
-The support-restricted `L∞_σ` below uses global a.e. equivalence.
-It is distinct from B5's local-null `L∞` carrier for arbitrary Haar
-measures, whose construction and duality remain in B5.
-
-Martingale convergence, UMD spaces, stochastic integration, differentiability
-characterizations of the RNP, Hardy–BMO duality, and Fourier multiplier theory are
-outside this roadmap. Conditional expectation enters through the scalar
-projection, contraction, and integral-preservation results and the
-Banach-valued restriction formulas needed in §7.
+Layers 1–3 develop measurability, Bochner integration and Lᵖ approximation.
+Layer 4 treats mixed norms and tensor products, and Layer 5 applies convolution
+to approximation. Layer 6 builds Pettis integration directly on Layers 1–3.
+In Layer 7, start with vector measures (§7.1) and the definition of the
+Radon–Nikodým property (RNP) in §7.2. Prove representability for a fixed
+measure (§7.3) before separable determination and interval transport (§§7.4–7.5).
+These give universality in §7.2. Layer 8 uses the RNP to characterize
+surjectivity of the duality map. Its norming and atomic results are independent
+of the RNP. [Suggested.lean](Suggested.lean) gives signatures for the main results.
 
 ## Conventions
 
@@ -72,9 +64,12 @@ All equalities of `Lᵖ` elements and all formulas involving their representativ
 must be independent of representative choices.
 
 **Measures and endpoints.** Use arbitrary positive measures unless a target
-specifies otherwise. State finite, σ-finite, probability and restricted-
-measure assumptions separately. In particular, a sub-σ-algebra of a
-σ-finite measure space need not carry a σ-finite restricted measure.
+specifies otherwise. A measure is semifinite if every measurable set of
+positive measure contains a measurable subset of finite positive measure.
+For σ-finite measures, `Measure.exists_subset_measure_lt_top` gives such a
+subset with lower bound zero.
+A sub-σ-algebra of a σ-finite measure space need not carry a σ-finite
+restricted measure.
 Integral identities carry integrability hypotheses; a totalized integral's
 default zero value is not evidence of integrability. Use
 `ENNReal.HolderConjugate` for conjugate exponents, including `1,∞`.
@@ -83,182 +78,56 @@ default zero value is not evidence of integrability. Use
 means measurability of `s↦ A(s)x` for every fixed `x`.
 It is distinct from strong measurability into the operator-norm topology.
 
-## Exact supplier contracts
-
-**From Mathlib.** Use the following native carriers and theorems, with the measure
-hypotheses in their declarations.
-
-- [Strong measurability][ml-strong], [a.e. strong measurability][ml-aestrong] and
-  [finite-exponent localization][ml-strong-lp] supply simple approximations,
-  measurable/separable-range criteria, `AEFinStronglyMeasurable.exists_set_sigmaFinite`
-  and `MemLp.aefinStronglyMeasurable`.
-- [Bochner integration][ml-bochner] supplies `SimpleFunc.integral_eq_sum`,
-  `integral_add`, scalar multiplication, a.e. congruence and the integral norm bound.
-  [Continuous linear maps][ml-bochner-clm] supply integrability and integral commutation.
-  Use `tendsto_integral_of_dominated_convergence` from [dominated convergence][ml-dominated]
-  and `integrable_map_measure` from [integrability][ml-integrable] for the native
-  convergence and substitution results, including L¹ convergence.
-- [Convex integration][ml-convex-integral] supplies `Convex.integral_mem`,
-  `Convex.set_average_mem` and `ConvexOn.map_integral_le` for closed-convex
-  barycentres, normalized averages and the continuous case of Jensen's inequality.
-  Section 2.2 supplies countable convex representations and the lower-semicontinuous case.
-- [Product integration][ml-prod] supplies `Integrable.prod_right_ae`,
-  `Integrable.integral_prod_left` and `integral_prod` under their s-finiteness hypotheses.
-  Section 2.4 supplies the finite-support localization for arbitrary measures.
-- [Simple-function density][ml-simple] and [completeness][ml-lp-complete] supply
-  native `Lp`, `MemLp`, finite-exponent simple density, completeness and
-  a.e.-convergent subsequences. Section 3 supplies the additional comparisons.
-- [Hölder pairing of sequence spaces][ml-lp-holder] supplies `lp.dualPairing` and
-  `lp.norm_dualPairing`: for conjugate exponents `1 ≤ p, q ≤ ∞`, a family of continuous
-  bilinear maps of norm at most `K` (`K ≥ 0`) and a complete target, the pairing
-  `(e,f) ↦ ∑' i, B i (e i) (f i)` is bounded with norm at most `K`.
-  Section 8.3 supplies surjectivity and the isometry.
-- [Vector measures and densities][ml-density] supply `VectorMeasure`,
-  `VectorMeasure.variation`, `Measure.withDensityᵥ` and the variation-of-density
-  identity. [Variation][ml-variation] supplies `VectorMeasure.le_variation` and
-  `VectorMeasure.exists_lt_sum_of_lt_variation` for the finite-partition formula.
-  [Density uniqueness][ml-density-unique] supplies `Integrable.withDensityᵥ_eq_iff`:
-  for integrable `f,g` and a complete target,
-  `μ.withDensityᵥ f = μ.withDensityᵥ g ↔ f =ᵐ[μ] g`, without σ-finiteness.
-  Scalar signed/complex Radon–Nikodým theorems supply the scalar density
-  input; a Banach-valued density theorem is a separate supplier below.
-- [Completion][ml-null] supplies `NullMeasurableSpace`, `Measure.completion` and
-  `Measure.ae_completion`. [Measure exhaustion][ml-exhaustion] supplies
-  `Measure.sigmaFiniteSetWRT` with its stated hypotheses.
-- [Measured sets][ml-measured-sets] supplies `MeasuredSets μ` and
-  `MeasuredSets.edist_def`, the symmetric-difference pseudodistance. Use native
-  `SeparationQuotient` for its metric quotient in §3.3.
-  [Separable measures][ml-separable-measure] supplies `Measure.MeasureDense`,
-  `MeasureTheory.IsSeparable` and `MeasureTheory.Lp.SecondCountableTopology` for the
-  sufficient direction of Bochner-space separability. Section 3.3 supplies the
-  quotient comparison, converse and measurable decomposition.
-- [Conditional expectation][ml-ce], [the L² projection][ml-ce-l2] and
-  [the real order API][ml-ce-real] supply `condExp`, `condExpL2`, integral preservation,
-  positivity, the modulus inequality and L¹ contraction under their declared
-  hypotheses. In particular, `integral_condExpL2_eq` preserves integrals on
-  finite-measure sets of the smaller σ-algebra without assuming its measure is
-  σ-finite. Section 7.4 supplies the scalar L¹ extension for arbitrary measures,
-  compares the native realizations and uses Banach-valued conditional expectation
-  for densities.
-- Use native `LinearPMap` and its closed graph, continuous duals, the canonical
-  bidual embedding, Hahn–Banach separation, the closed graph theorem and uniform
-  boundedness.
-
-**From Tau Ceti.**
-
-- [Completed tensor products][tc-tensor-completion] supplies
-  `TauCeti.CompletedProjectiveTensor` and
-  `TauCeti.CompletedProjectiveTensor.liftIsometry`, the universal isometry between
-  bounded bilinear maps and bounded maps out of the completion.
-  [The projective norm][tc-tensor] supplies `TauCeti.ProjectiveTensor.tmulL`.
-  Section 4.4 identifies this carrier with Bochner L¹.
-- [Pettis measurability][tc-pettis] supplies
-  `TauCeti.aestronglyMeasurable_iff_forall_inner` and
-  `aestronglyMeasurable_strongDual_iff_forall_apply` for separable inner-product
-  spaces. Section 1 gives the general Banach-space scalar-test theorem.
-- [Carathéodory measurability][tc-caratheodory] supplies
-  `AEStronglyMeasurable.apply_of_forall_of_continuous`;
-  [inner regularity][tc-innerregular] supplies finite-support and orbit-measurability
-  results with their regularity assumptions.
-- [Lp duality][tc-duality] supplies scalar `Lp.toDual` and finite-exponent
-  inner-product norm tests. [L¹ duality][tc-l1dual] supplies `Lp.dualOneEquiv` for
-  finite measures. [Sequence duality][tc-seqdual] supplies scalar `lp.dualEquiv`.
-  [Hölder pairing][tc-holder] supplies `MemLp.integrable_apply`; the pairing map itself
-  is Mathlib's `ContinuousLinearMap.lpPairing` and its integral formula is
-  `ContinuousLinearMap.lpPairing_eq_integral`.
-- [Iterated norms][tc-iterated] supplies `eLpNorm_prod_eq_eLpNorm_eLpNorm` when the
-  second measure is s-finite. A section-norm identity alone does not give strong
-  measurability into an Lᵖ space.
-- [Minkowski's integral inequality][tc-minkowski] supplies
-  `TauCeti.lintegral_Lp_lintegral_le` for nonnegative extended-real integrands,
-  a finite real exponent at least one, a σ-finite outer measure and an s-finite
-  inner measure. Section 4.1 uses it after localization and constructs the
-  Banach-valued mixed-norm interchange map.
-- [Convolution][tc-convolution] supplies `convolutionLp`, Young's bound and the a.e.
-  formula for real kernels and finite exponents. [Approximate identities][tc-approx]
-  supplies normalized smooth-bump convergence for Banach-valued functions.
-- [Integration against vector densities][tc-density] connects the native density
-  vector measure to Bochner integration.
-
-**From [BanachSpaceTheory](../BanachSpaceTheory/README.md).** B1–B2 supply continuous-dual
-and weak-topology comparisons, annihilators, adjoints, reflexivity and weak compactness.
-B3 supplies the classical sequence-space comparisons, basic sequences and small
-perturbations. B4.1 supplies the equivalence between absence of a copy of c₀ and
-unconditional convergence of every series with uniformly bounded finite signed
-partial sums, used in §6.4. B4.0 supplies the finite-measure density theorem for
-bounded-variation measures with reflexive targets, independently of the general RNP
-and duality theorems here. B5 supplies scalar Lᵖ duality and scalar measure
-representation.
-
-**From [VonNeumannAlgebras](../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors).**
-V2 supplies the finite measure algebra modulo null sets, its Boolean operations,
-measure and metric `μ(A△B)`, and the equivalence of its separability with scalar
-L² separability. It also supplies a measure-preserving Boolean isomorphism
-between any separable atomless probability measure algebra and that of `[0,1]`,
-preserving countable operations. Use this measure-theoretic classification
-independently of the operator-algebra comparison.
-
-## How to read the build
-
-Layers 1–3 establish measurability, the additional integral interfaces and Bochner-space
-comparisons. Layer 4 gives mixed-norm and tensor identifications; Layer 5 gives convolution
-and approximation. Layer 6 develops Pettis integration from Layers 1–3, independently
-of Layers 4–5. In Layer 7, first prove §7.1 and
-§7.3 for a fixed measure, then §7.4–§7.5, and finally the universality assertions of §7.2;
-the definition in §7.2 is available throughout. Layer 8 uses these RNP results for duality;
-its pairing and atomic parts are independent of RNP. Layer 9 collects the counterexamples
-used by the preceding layers. Each *Needs:* line lists the inputs to that target.
-The README specifies the full theory; [Suggested.lean](Suggested.lean) gives suggested
-headline signatures, not an exhaustive checklist.
-
 ## Layer 1: Measurability
 
 ### 1.1 Pettis measurability on a measurable space
 
-For `f:S→ X` on a measurable space, prove that strong measurability is
-equivalent to a separable range together
-with measurability of every `x*∘ f`. Allow tests from a weak-star dense
-linear subspace of `X*`, equivalently a linear subspace separating the
-points of `X`. Build the countable separating and norming families on
-separable subspaces used to pass from scalar tests to norm-measurability.
-For separable `X`, identify the norm-Borel σ-algebra with the
-σ-algebra generated by these scalar evaluations.
-Express the latter using inverse images of Borel subsets of finite
-products of the scalar field. Record strong measurability as the conjunction
-of norm-Borel measurability and separable range; deduce coincidence of the
-three measurability notions for separable, in particular finite-dimensional,
-targets.
+For `f:S→X`, prove that strong measurability is equivalent to separable
+range and measurability of every scalar evaluation `x*∘f`. Use Mathlib's
+norm-Borel and separable-range criterion. [Strong measurability][ml-strong-criterion]
 
-`stronglyMeasurable_iff_scalar_tests` states the full-dual criterion.
+When the range lies in a complete separable linear subspace `E⊆X`,
+allow tests from a linear subspace of `X*` separating points of `E`.
+Extract a countable separating family from these tests. From a prescribed
+1-norming subset of the dual unit ball on a separable subspace, extract
+a countable 1-norming subset. Such tests recover distances to a countable
+dense set and hence the norm-Borel σ-algebra on a separable normed space.
+For separable Banach `X`, identify the
+norm-Borel σ-algebra with the one generated by any separating linear family
+of tests, equivalently any weak-star dense linear subspace of `X*`.
+This gives the coincidence of weak, norm-Borel and strong measurability
+for these targets, including finite-dimensional spaces.
+
+`stronglyMeasurable_iff_scalar_tests` states the full-dual criterion for normed
+targets. `stronglyMeasurable_iff_separating_tests` gives the criterion on a
+complete separable supporting subspace.
 
 (HvNVW, Proposition 1.1.1 and Corollary 1.1.2, p. 3; Theorem 1.1.6, p. 5; Corollary 1.1.10, pp. 6–7.)
 
 **API.**
 
-- Characterize measurability into it by measurability of each scalar evaluation, and give the finite-coordinate cylinder generators.
+- Define the σ-algebra generated by the chosen evaluations. Characterize measurability into it by the scalar tests and express its generators as inverse images of Borel sets in finite products of the scalar field.
 - Prove monotonicity when the family of tests is enlarged and measurability of bounded linear maps whose adjoints preserve the chosen test families.
-- Compare it with the norm-Borel σ-algebra under the stated separability and separation hypotheses, retaining the explicit measurable structure.
+- Compare this explicit σ-algebra with the norm-Borel σ-algebra on a separable Banach space.
 
-**Checks.**
-
-- On 𝕜², the two coordinate tests generate the product Borel σ-algebra; a map into 𝕜² is strongly measurable exactly when both coordinates are measurable.
-- The zero test alone generates the trivial σ-algebra on a nonzero space and cannot distinguish zero from a nonzero vector. The separation hypothesis is necessary.
-- On ℓ²(I) for uncountable I, the open unit ball is not in the evaluation-generated σ-algebra: any countable collection of functionals misses some coordinate i, so it has identical evaluations on 0 and eᵢ, whose norms are 0 and 1. Thus the norm-Borel comparison requires its separability hypothesis.
+**Check.** The zero functional alone generates the trivial σ-algebra, even on
+the scalar field. This is where separation of points enters the Borel comparison.
 
 *Needs:* Native strong measurability, Hahn–Banach and BanachSpaceTheory B1.
 
 ### 1.2 Pettis measurability on a measure space
 
 Characterize `AEStronglyMeasurable` by essential separability and scalar
-`AEMeasurable` tests. Prove the finite-support criterion using essential
-separability and `AEFinStronglyMeasurable` scalar tests. Give the equivalence
-between `AEFinStronglyMeasurable f μ` and a.e. strong measurability together
-with vanishing off a measurable set on which `μ` is σ-finite.
-Use countable test families to obtain common exceptional sets.
-Allow the scalar tests to range over a weak-star dense linear subspace.
-For a.e. strongly measurable `f,g`, scalar a.e. equality
-against every element of such a subspace implies `f=g` a.e., even when
-the scalar exceptional sets initially depend on the functional.
+`AEMeasurable` tests. For `AEFinStronglyMeasurable` use essential
+separability and scalar `AEFinStronglyMeasurable` tests. Apply Mathlib's
+pointwise support criterion to a representative. The a.e. finite-support
+condition amounts to a.e. strong measurability and vanishing a.e. off a
+measurable set on which `μ` is σ-finite. [Finite-support criterion][ml-finite-support]
+
+For a complete separable supporting subspace, allow separating tests as in
+§1.1. For a.e. strongly measurable `f,g`, scalar a.e. equality against each
+member of a separating linear family implies `f=g` a.e. Use a countable
+subfamily on their common separable range to obtain one exceptional set.
 
 `aestronglyMeasurable_iff_scalar_tests` and `aefinStronglyMeasurable_iff_scalar_tests` state the two distinct measure-space criteria.
 
@@ -268,63 +137,56 @@ the scalar exceptional sets initially depend on the functional.
 
 ### 1.3 Approximation and transport
 
-Supply norm-dominated simple approximants,
-with finite-measure support in the finite-support version; closed-subspace
-restriction and inclusion; a.e. congruence; limits; and composition with
-continuous maps between Banach spaces. Use preservation of separability
-under continuous images and the pointwise and a.e. composition APIs.
-Include continuous maps defined only on an open subset containing the
-range of `f`, using the subspace measurable structure.
-To preserve finite-support measurability require either σ-finite
-`μ` or that the composing map sends zero to zero.
+Construct simple approximants with `‖fₙ(s)‖≤‖f(s)‖` and pointwise
+convergence, or a.e. convergence with finite-measure supports in the
+finite-support case. Mathlib's `norm_approxOn_zero_le` gives the bound
+`2‖f(s)‖`. [Simple-function estimates][ml-norm-approximation]
+
+For any subset `D⊆X` containing the range of a strongly measurable `f`,
+apply the subtype embedding and continuous composition to `g:D→Y`.
+This gives strong measurability of `g∘f`, including closed-subspace
+restriction and inclusion. Use a.e. congruence when `f(s)∈D` only a.e.
+For finite-support measurability assume that `μ` is σ-finite or that
+`0∈D` and `g(0)=0`. Use native closure under limits. [Embedding criterion][ml-strong-embedding]
 
 (HvNVW, Corollaries 1.1.7–1.1.11 and Lemma 1.1.12, pp. 6–7; Corollaries 1.1.21–1.1.24, pp. 10–11; continuous composition as in the [errata][hvn-errata], entry for p. 7.)
 
-*Needs:* §1.1–§1.2, native continuous composition and preservation of separability under continuous images.
+*Needs:* §1.1–§1.2, `Embedding.comp_stronglyMeasurable_iff`, continuous composition and preservation of separability under continuous images.
 
 ### 1.4 Operator-valued functions
 
-Use the Carathéodory API to prove measurability of
-`s↦ A(s)f(s)` and of compositions of orbitwise measurable fields.
-Include pointwise, a.e., and finite-support forms. For separable `X`, prove
-measurability of `s↦‖A(s)‖` from a countable dense family of unit-ball
-vectors. Construct the bounded map
+Tau Ceti's Carathéodory theorem gives a.e. strong measurability of
+`s↦A(s)f(s)` from a.e. strongly measurable orbits and a.e. strongly
+measurable `f`. Apply it to compositions, and give the pointwise and finite-support forms.
+Include closure under addition and scalar multiplication. [Carathéodory measurability][tc-caratheodory-at]
+
+For separable `X`, prove measurability of `s↦‖A(s)‖` using a countable
+dense family in the unit ball. Construct the bounded map
 `x↦[s↦ A(s)x]` into `Lᵖ(μ;Y)` when every orbit belongs to that
 space, using the closed graph theorem. For `p=1`, integrate this map to
 obtain a continuous linear operator with the orbitwise integral formula.
 A common integrable majorant `‖A(s)x‖≤ g(s)‖x‖` gives operator norm
-at most `∫ g`. Compare with the operator-norm Bochner integral when that
-stronger integrability hypothesis holds.
+at most `∫ g`. Compare with the integral of `A` when the
+field is Bochner integrable in the operator norm. Tau Ceti gives convergence
+estimates for integrals of uniformly bounded operator fields. [Operator-field integrals][tc-operator-field]
 
 (HvNVW, Definition 1.1.27, Proposition 1.1.28 and Corollary 1.1.29, pp. 12–13; the orbit-integration conclusion follows from the closed graph theorem and native Bochner integration.)
-
-**API.**
-
-- Prove measurability of evaluation on a strongly measurable vector field, with pointwise, a.e. and finite-support versions.
-- Prove closure under addition, scalar multiplication and composition, keeping orbitwise and operator-norm hypotheses distinct.
-- Supply the orbit-map norm estimate and the operator-valued integration formula under the stated integrability hypotheses.
-
-**Checks.**
-
-- A constant field A(s) = T gives the constant orbit Tx and its usual operator norm.
-- Translations on L²(ℝ) have continuous orbits, but distinct translations are distance two in operator norm; orbit measurability cannot imply operator-norm strong measurability.
-- On a probability space, integrating the constant field T gives T; on a finite measure space it gives μ(S)T.
 
 *Needs:* §1.1–§1.3, Tau Ceti Carathéodory, closed graph and native Bochner integration.
 
 ### 1.5 Completion and preimages
 
-Use `NullMeasurableSpace S μ` and
-`μ.completion` for the completed domain. For a function with a globally
-separable range, prove that a.e. strong measurability is equivalent to
-strong measurability on the completed domain. Deduce the implication from
-`AEFinStronglyMeasurable`, and its converse when `μ` is σ-finite.
-Changes on a null set can destroy separability of the range.
-For an a.e. strongly measurable `f`, construct a strongly measurable
-representative `f̃`. For every norm-Borel set `B`, prove that
-`f̃^{-1}(B)` is measurable, that `f^{-1}(B)` is null measurable,
-and that their measures agree independently of the chosen representative.
-Use the native a.e. representative and measure APIs.
+On `NullMeasurableSpace S μ`, a function of globally separable range is
+strongly measurable exactly when it is a.e. strongly measurable for `μ`.
+This follows from Mathlib's pointwise and a.e. criteria, since measurability
+on the completion is null measurability for `μ`. Apply §1.2 for the implication
+from `AEFinStronglyMeasurable` and its converse under σ-finiteness.
+[Pointwise criterion][ml-strong-criterion] · [A.e. criterion][ml-aestrong-criterion] · [Completion][ml-null]
+
+For a.e. strongly measurable `f`, use its native strongly measurable
+representative `f̃`. For Borel `B`, the preimages under `f̃` and `f` agree
+a.e. The first is measurable, the second is null measurable, and their
+measures coincide for any such representative. [Representative][ml-strong-representative]
 
 (HvNVW, Proposition 1.1.16 and Remarks 1.1.18–1.1.19, p. 9.)
 
@@ -332,20 +194,18 @@ Use the native a.e. representative and measure APIs.
 
 ### 1.6 Injective operators and measurability
 
-If `X` is separable and `T:X→ Y` is an injective continuous linear map,
-prove that `T∘ f` is strongly measurable if and only if `f` is.
-Prove the a.e. and finite-support versions. Use the weak-star density of the
-adjoint range from BanachSpaceTheory B1; no bounded inverse or closed range
-is assumed. The nonseparable
-counterexample is a target in §9.
+Let the range of `f` lie in a complete separable linear subspace `E⊆X`.
+If a bounded linear map `T:X→Y` is injective on `E`, its restriction is a
+measurable embedding by Lusin–Souslin. Together with the separable-range
+criterion this gives strong measurability of `T∘f` if and only if `f` is
+strongly measurable. For the a.e. and finite-support versions assume
+`f(s)∈E` almost everywhere. Injectivity on `E` also identifies the nonzero
+supports there. A closed separable subspace of a Banach space satisfies the
+completeness hypothesis. [Measurable embedding][ml-measurable-embedding]
 
-(HvNVW, Example 1.1.26, pp. 11–12, and the adjoint-range argument preceding it.)
+(HvNVW, the injective-operator criterion in Example 1.1.26, pp. 11–12.)
 
-*Needs:* §1.1–§1.2 and BanachSpaceTheory B1 adjoint-range density.
-
-### Examples
-
-The nonseparable identity, moving indicators and translation fields in §9 distinguish norm-Borel, scalar, strong and orbitwise measurability (HvNVW, Examples 1.1.5 and 1.1.26, pp. 4–5 and 11–12).
+*Needs:* §§1.1–1.3 and Mathlib's measurable-embedding theorem.
 
 ### Dependencies
 
@@ -355,25 +215,24 @@ the closed graph theorem. Orbit integration uses the existing Bochner integral.
 ## Layer 2: The Bochner integral
 
 Use the native Bochner integral, `Integrable`, finite simple sums, dominated
-convergence, substitution and σ-finite Fubini supplied above. Their norm estimates,
+convergence, substitution and σ-finite Fubini. Their norm estimates,
 restriction and indicator rules, a.e. congruence and bounded-linear-map commutation
 are inputs (HvNVW, Definition 1.2.1 and Propositions 1.2.2–1.2.3, pp. 13–15;
 Propositions 1.2.5–1.2.7, pp. 16–18).
 
 ### 2.1 Hille's theorem
 
-Let `T : X →ₗ.[𝕜] Y` be a native `LinearPMap` with closed
-graph, without assuming a dense domain. If `f` and `g` are Bochner integrable
-and `(f(s),g(s))∈ graph T` almost everywhere, prove
-`(∫ f,∫ g)∈ graph T`. Give the equivalent statement
-`T∫ f=∫ Tf` with explicit domain membership. Construct the lift to
-the closed graph as a Bochner-integrable function. Identify this with
-integrability in the domain's graph norm, comparing the inherited product
-norm with `‖x‖+‖Tx‖`. Use completeness of the closed graph to obtain
-completeness of this graph-norm domain, and prove that its inclusion into
-`X` and the map `T` into `Y` are bounded, each with norm at most one.
+Let `T : X →ₗ.[𝕜] Y` have closed graph between Banach spaces, with arbitrary
+domain. For Bochner-integrable `f,g` satisfying `(f(s),g(s))∈graph T` a.e.,
+the image of `(f,g)` in the quotient by the graph is zero a.e. Commuting
+the quotient map with the integral gives `(∫ f,∫ g)∈graph T`, i.e. `∫ f`
+belongs to the domain and `T(∫ f)=∫ g`. The companion theorem is
+`integral_mem_graph`. [Integral commutation and product formula][ml-bochner-clm] · [Lean proof](Suggested.lean)
 
-`integral_mem_graph` states the closed-graph conclusion for complete X and Y.
+Identify the integrable lift of `(f,g)` to the graph with integrability in
+the domain's graph norm. Compare the inherited product norm with `‖x‖+‖Tx‖`,
+and deduce completeness of the graph-norm domain and norm bounds of one
+for its inclusion into `X` and the action of `T` into `Y`.
 
 (HvNVW, Theorem 1.2.4, pp. 15–16.)
 
@@ -381,38 +240,43 @@ completeness of this graph-norm domain, and prove that its inclusion into
 
 ### 2.2 Convexity and integration
 
-On a separable real normed space, express
-every closed convex set as a countable intersection of closed affine
-half-spaces. Express every real-valued lower-semicontinuous convex function
-as the pointwise supremum of a sequence of continuous affine minorants.
-Include the empty and whole-space cases for convex sets and the
-restriction-of-scalars versions for complex spaces.
-For a probability measure, an integrable `f`, and
-a real-valued lower-semicontinuous convex `φ` with `φ∘ f`
-integrable, prove `φ(∫ f)≤∫φ(f)`, using existing Jensen and
-separation results wherever their hypotheses apply; `ConvexOn.map_integral_le`
-supplies the continuous case. Give the lower-semicontinuous inequality also for
-normalized averages on sets of finite positive measure.
-Use Mathlib's `Convex.integral_mem` and `Convex.set_average_mem` for membership
-of these integrals and averages in closed convex sets containing `f` almost
-everywhere. Deduce membership in the closed convex hull of the values on any
-measurable full-measure set.
+On a separable normed space, Mathlib writes each closed convex set as a
+countable intersection of closed affine half-spaces, using real parts of
+functionals over `ℂ`. On a closed convex domain it writes a real-valued
+lower-semicontinuous convex function as the supremum of a sequence of
+continuous affine minorants. [Half-spaces][ml-countable-half-spaces] · [Affine minorants][ml-affine-minorants]
+
+For Bochner-integrable `f` with values a.e. in a closed convex set `C`
+on a probability space, `Convex.integral_mem` gives `∫f∈C`. For `φ:C→ℝ`
+convex and relatively lower semicontinuous with `φ∘f` integrable,
+`φ(∫f)≤∫φ(f)` is conditional Jensen on the trivial σ-algebra. State the
+hypotheses on `C` using any extension of `φ` to `X`. Normalizing the
+restricted measure gives both conclusions for averages on finite
+positive-measure sets. Taking `C` to be the closed convex hull of the
+values on a measurable full-measure set gives the hull conclusion.
+[Convex integrals and averages][ml-convex-integral] · [Conditional Jensen][ml-conditional-jensen] · [Expectation on the trivial σ-algebra][ml-condexp-bot]
 
 (HvNVW, Lemmas 1.2.9–1.2.10 and Propositions 1.2.11–1.2.12, pp. 18–20.)
 
-*Needs:* §1, native Bochner integration and Hahn–Banach separation.
+*Needs:* §1 and Mathlib's convex integration and separation theorems.
 
 ### 2.3 Detection by set integrals
 
-On a σ-finite space, if every
-finite-positive-measure average of an integrable `f` lies in a closed convex
-set `C`, prove `f∈ C` almost everywhere. For arbitrary measures also give
-the version with `0∈ C`, using finite-support localization. Prove a.e.
-equality, for arbitrary measures, of integrable functions whose set integrals
-agree on a generating pi-system containing the whole space. Include
+Let `μ` be semifinite and `C` closed and convex. If the average of an
+integrable `f` over every measurable set of finite positive measure lies in `C`,
+prove `f(s)∈C` almost everywhere. For a strongly measurable representative,
+a failure set of positive measure has a finite positive-measure subset on
+which to apply the finite-measure result. For arbitrary measures give
+the version with `0∈ C`, using finite-support localization. Include the
 closed-subspace and scalar-evaluation formulations.
 
-`ae_mem_of_set_averages` states the σ-finite convex-detection theorem.
+For arbitrary `μ`, equality of the set integrals of `f,g` on a generating
+π-system containing the whole space gives `f=g` a.e. Apply vector-measure
+extensionality to `μ.withDensityᵥ f` and `μ.withDensityᵥ g`, then use
+uniqueness of their integrable densities in a complete target.
+[π-system extensionality][ml-vector-measure-ext] · [Density uniqueness][ml-density-unique]
+
+`ae_mem_of_set_averages` states the semifinite convex-detection theorem.
 
 (HvNVW, Propositions 1.2.13–1.2.14, p. 20, with the measure hypotheses above.)
 
@@ -420,27 +284,27 @@ closed-subspace and scalar-evaluation formulations.
 
 ### 2.4 Finite-support comparison and localized Fubini
 
-For an a.e. strongly measurable function, connect native integrability with
-approximation in L¹ by finite-support simple functions and with integrability
-of its norm. Show that
-the limits of the simple integrals agree with the native integral, using the
-native simple-density and convergence results. Include the closed-target-subspace
-comparison and the compatibility with finite-support measurability from §1.
-For arbitrary measures μ, ν, if a jointly strongly measurable f vanishes off a
-countable union of measurable rectangles of finite measure in each variable,
-finiteness of either iterated norm integral gives both iterated Bochner integrals
-and their equality. Reduce to σ-finite restrictions and provide the representative
-adapters needed in §4. Include pointwise section measurability for strongly
-measurable functions, and, for σ-finite μ and ν, the corresponding a.e.
-statement for a.e. strongly measurable functions.
-(HvNVW, Proposition 1.2.2, p. 14, and Remark 1.2.8, p. 18;
-here localized to functions supported on countably many finite-measure rectangles.)
+For a.e. strongly measurable `f`, integrability is equivalent to
+integrability of `‖f‖` and to L¹ approximation by finite-support simple
+functions, whose integrals converge to `∫f`. Use these native results also
+in the closed target subspace and with the representatives from §1. [Integrability][ml-integrable] · [Simple density][ml-simple] · [Bochner integration][ml-bochner]
+
+Let `μ,ν` be arbitrary. For jointly strongly measurable `f` vanishing off
+a countable union of measurable rectangles of finite measure in each
+variable, prove that finiteness of either iterated norm integral gives both
+iterated Bochner integrals and their equality. Apply Fubini on the σ-finite
+restrictions. Tau Ceti identifies the integral on a measurable subtype with
+the ambient integral when the function vanishes a.e. on the complement.
+Use these identities for the section representatives in §4. Strong
+measurability gives strongly measurable sections pointwise, and under σ-finiteness
+of `μ,ν` the corresponding a.e. conclusion follows for a.e. strongly
+measurable functions. [Product integration][ml-prod] · [Subtype integrals][tc-bochner-subtype]
+
+(Diestel–Uhl, Chapter II, §2, and HvNVW, Proposition 1.2.2, p. 14, for simple
+approximation of the Bochner integral. See also HvNVW, Remark 1.2.8, p. 18,
+for the measure assumptions in Fubini's theorem.)
 
 *Needs:* §1, native simple density, dominated convergence, substitution and product integration.
-
-### Examples
-
-On S = {1,2} with counting measure, the π-system {{1}} generates all subsets but does not determine the integral on S: `𝟙_{2}x`, with x ≠ 0, and zero agree on its only test set. Adding S restores uniqueness. On a singleton of infinite measure there are no finite-positive-measure averages, which tests the convex-detection hypotheses.
 
 ### Dependencies
 
@@ -452,16 +316,18 @@ by restriction of scalars.
 
 ### 3.1 Bochner spaces and closed subspaces
 
-Use native `Lp`, its norm, completeness and bounded postcomposition. Construct
-the representative comparisons for closed target subspaces, restriction and
-extension by zero, and the closed subspace associated with a smaller σ-algebra
-and its trimmed measure. Prove their norm bounds and compatibility with
-composition, reusing native maps where their hypotheses apply.
-The native norm formulas, membership via `‖f‖` once measurability is
-supplied, the `L¹` quotient identification, and a.e.-convergent subsequences
-are inputs. Construct the closed submodule `L∞_σ`
-and its isometric comparison with the native endpoint under
-σ-finiteness.
+Use native `Lp`, its norm and completeness, the criterion via `‖f‖`,
+the L¹ quotient and a.e.-convergent subsequences. For a smaller σ-algebra,
+`lpMeasToLpTrimLie` identifies its measurable subspace isometrically with
+the trimmed-measure `Lp`. This subspace is closed for complete targets.
+Tau Ceti supplies extension by zero for restricted measures and the
+restriction/extension pair for a measurable subtype. [Trim isometry and closedness][ml-trim-isometry] · [Extension by zero][tc-extend-by-zero] · [Measurable subtypes][tc-lp-subtype]
+
+For a closed target subspace `Y⊆X`, identify `Lᵖ(μ;Y)` isometrically with
+the classes in `Lᵖ(μ;X)` whose values lie in `Y` a.e. Construct the closed
+submodule `L∞_σ` of native `L∞` and show that its inclusion is onto for
+σ-finite `μ`. Prove compatibility with bounded postcomposition, restriction
+and extension by zero using the native norm bounds.
 
 `linftySigma` is the native-L∞ submodule; `isClosed_linftySigma` states its closedness.
 
@@ -473,23 +339,24 @@ and its isometric comparison with the native endpoint under
 - The inclusion into native L∞ is linear and isometric; the submodule is closed and is complete when X is complete.
 - On σ-finite measures the inclusion is onto; bounded postcomposition, restriction and extension by zero preserve membership and their native norm bounds.
 
-**Checks.**
-
-- On a σ-finite space, L∞_σ equals native L∞, with identical norms.
-- On uncountable counting measure, the constant scalar one has native L∞ norm one and is absent from L∞_σ.
-- On a singleton of infinite measure, L∞_σ is zero while native scalar L∞ is nonzero.
+**Check.** On a singleton of infinite measure the constant scalar one has
+native L∞ norm one. Every simple function supported on a set of finite measure
+vanishes, so L∞_σ is zero.
 
 *Needs:* §1, native Lp maps, submodules, completeness and representative operations.
 
 ### 3.2 Approximation by μ-simple functions
 
-Reuse finite-support simple-function density for `p<∞`;
-give finite sums `∑_jφ_jx_j` with scalar `φ_j∈ Lᵖ` as a dense
-subspace. For finite measures, allow indicator sets from a generating
-algebra. For Lebesgue measure on `ℝᵈ`, `d≥1`, prove density of
-finite sums `∑_j𝟙_{Q_j}x_j` with bounded cubes `Q_j` whose sides
-are parallel to the coordinate axes; give rational dyadic cubes as a
-countable generating choice after restriction to bounded boxes.
+For `1≤p<∞`, finite-support simple density gives density of finite sums
+`∑_jφ_j x_j` with scalar `φ_j∈Lᵖ`. For a measure-dense family `𝒜`,
+Mathlib approximates each finite-measure indicator by indicators from
+`𝒜` in `Lp`. Their finite linear combinations are therefore dense. A
+generating algebra with a countable cover by finite-measure members is
+measure-dense, in particular for finite `μ`. [Indicator approximation][ml-indicator-closure] · [Generating algebras][ml-measure-dense-algebra]
+
+Apply this to finite unions of half-open dyadic cubes on bounded dyadic
+boxes to obtain density for bounded axis-parallel cubes in Lebesgue
+`Lᵖ(ℝᵈ;X)`, `d≥1`.
 For `p=∞`, prove bounded simple approximation locally in
 measure: on each finite-measure set and outside a set of arbitrarily small
 measure the approximation is uniformly accurate and has the same essential
@@ -502,7 +369,7 @@ its norm bound.
 
 (HvNVW, Lemma 1.2.19 and Remarks 1.2.20–1.2.21, pp. 23–24.)
 
-*Needs:* §1, §3.1, native simple density and Euclidean generating rectangles.
+*Needs:* §1, §3.1, native simple density, `Measure.MeasureDense` indicator approximation and Euclidean generating rectangles.
 
 ### 3.3 Separability of Bochner spaces
 
@@ -514,36 +381,26 @@ construction to arbitrary `μ` using `SeparationQuotient` of the finite-measure
 subtype of native `MeasuredSets μ`, converting its finite-valued extended
 distance to a real distance. For finite `μ`, identify this quotient isometrically
 with V2's measure algebra, preserving Boolean operations and measure, and use
-its scalar L² separability comparison.
+its scalar L² separability comparison. [Finite measure algebra and scalar L²][rm-v2-measure-algebra]
 Identify separability of this quotient with `MeasureTheory.IsSeparable μ`
 and reuse `MeasureTheory.Lp.SecondCountableTopology` for the sufficient direction.
+[Measure separability and Lᵖ][ml-lp-separability]
 Prove the converse and the equivalent measurable
 decomposition `S=S₀⊔ S₁`: the restriction to `S₀` is purely infinite
 (every measurable set has measure zero or infinity), and the restriction
 to `S₁` is generated modulo null sets by countably many finite-measure
 sets. Choose this generating family to cover `S₁` up to a null set.
-Prove `μ|_{S₁}` is σ-finite and restriction identifies the
-two `Lᵖ` spaces isometrically. Include the zero-space cases explicitly.
-Distinguish an exactly countably generated σ-algebra from generation
-modulo null sets by finite-measure sets. For `d≥1`, show that the Borel
-σ-algebra of `ℝᵈ` is countably generated and that its
-Lebesgue completion is generated modulo null sets by bounded rational
-boxes but is not exactly countably generated. Use native countable-generation
-and completion structures; prove the last assertion by cardinality.
+Prove that `μ|_{S₁}` is σ-finite and that restriction identifies the two
+`Lᵖ` spaces isometrically. The zero-space case occurs exactly when `X` is zero
+or every measurable set of finite measure is null.
 
-(HvNVW, Definition 1.2.27, Example 1.2.28 and Proposition 1.2.29, pp. 27–28.)
+(HvNVW, Definition 1.2.27 and Proposition 1.2.29, pp. 27–28.)
 
 **API.**
 
 - Identify equality in the separation quotient with null symmetric difference, and expose its distance formula using the native quotient metric.
 - Descend union, intersection and difference to the arbitrary-measure quotient, with their metric estimates; for finite measures transport V2's complement operation through the identification.
 - Prove invariance under completion and null modifications, and compatibility with restriction and measure-preserving maps.
-
-**Checks.**
-
-- Null modifications of A and B give distance zero in the quotient; without the quotient this would be only a pseudometric.
-- For finite counting measure, the distance between two set classes is the cardinality of their symmetric difference.
-- On a purely infinite measure space, the finite-measure-set quotient and every finite-exponent Lᵖ space are zero; this checks the nonzero-space qualification in the separability criterion.
 
 *Needs:* §3.1–§3.2, VonNeumannAlgebras V2's finite measure algebra and scalar L² separability comparison, native MeasuredSets, SeparationQuotient, measure separability and completion.
 
@@ -554,11 +411,14 @@ If `x*∘ f∈ Lᵖ(μ)` for every `x*∈ Y`, prove by the closed
 graph theorem that `T_f:x*↦[x*∘ f]` is a bounded linear map
 `Y→ Lᵖ(μ)`. Strong measurability of `f` is not a hypothesis of
 this scalar-evaluation result.
-For a.e. strongly measurable `f`, prove
-that scalar essential boundedness of `x*∘ f` for every `x*` implies
-essential boundedness of `f`, with
-`‖f‖_∞=sup_{‖x*‖≤1}‖x*∘ f‖_∞`.
-Derive the common bound from uniform boundedness and essential separability.
+For a.e. strongly measurable `f`, let `E` be a closed separable subspace
+with `f(s)∈E` a.e. Suppose `Y` is 1-norming on `E`, meaning
+`‖x‖=sup_{y∈B_Y}|y(x)|` for `x∈E`, where `B_Y` is the closed unit ball
+of `Y`. If `y∘f` is essentially bounded for every `y∈Y`, prove that `f`
+is essentially bounded and `‖f‖_∞=sup_{y∈B_Y}‖y∘f‖_∞=‖T_f‖` for `p=∞`.
+Obtain a countable norming family in `B_Y` by applying Tau Ceti's operator
+norming theorem to the separable image of `E→Y*`, `x↦(y↦y(x))`.
+[Countable norming sets for operators][tc-countable-norming]
 
 (HvNVW, Proposition 1.2.17 and Lemma 1.2.18, pp. 22–23; extend the closed-graph statement to every p ≥ 1.)
 
@@ -566,19 +426,9 @@ Derive the common bound from uniform boundedness and essential separability.
 
 - Characterize its value at each test functional by the scalar Lᵖ class, proving uniqueness and independence of a.e. representatives.
 - Prove linearity in f whenever the scalar Lᵖ hypotheses hold, restriction to closed test subspaces and compatibility with bounded target maps through their adjoints.
-- For f already in Bochner Lᵖ, bound the operator norm by ‖f‖_p; at infinity prove the exact norm under the full-dual and a.e.-strong-measurability hypotheses above.
+- For `f∈Lᵖ(μ;X)`, bound `‖T_f‖` by `‖f‖_p`. At infinity equality holds when `Y` is 1-norming on `E`.
 
-**Checks.**
-
-- On a probability space, a constant vector x gives a full-dual scalar-evaluation operator of norm ‖x‖ for every p≥1, including infinity.
-- For the zero test subspace, the operator is zero even for the unbounded, nonintegrable f(s)=1/s on (0,1).
-- For the field t↦e_t of §9.7, every scalar L∞ class is zero while ‖e_t‖=1 everywhere. The exact vector essential-bound formula therefore needs a.e. strong measurability.
-
-*Needs:* §1, native scalar Lp, closed graph and uniform boundedness.
-
-### Examples
-
-Use zero spaces, uncountable counting measure, the infinite-measure singleton and the Euclidean Borel/Lebesgue distinction in the checks above (HvNVW, Remarks 1.2.16 and 1.2.21, Example 1.2.28, pp. 21–22, 24 and 27).
+*Needs:* §1, native scalar Lp and the closed graph theorem.
 
 ### Dependencies
 
@@ -601,7 +451,9 @@ of the rectangle formula. Include independence of approximations and
 compatibility with bounded linear maps on `X`. At `p=q` construct the
 inverse and the linear isometric equivalence.
 Localize the countably many simple approximants to σ-finite restrictions
-in each variable before applying Fubini.
+in each variable before applying Fubini and Tau Ceti's scalar Minkowski
+inequality. Its nonnegative-integrand form applies to two s-finite measures.
+[Minkowski's integral inequality][tc-minkowski-sfinite]
 
 `exists_minkowskiContraction` states the arbitrary-measure contraction for complete X.
 
@@ -615,10 +467,12 @@ For σ-finite `μ,ν` and
 `1≤ p<∞`, construct
 `Lᵖ(μ;Lᵖ(ν;X))≃ Lᵖ(μ×ν;X)` as a linear isometry
 onto, with explicit rectangle formulas and a.e. section formulas for the
-inverse. Use the existing iterated-seminorm theorem; separately prove that
+inverse. Tau Ceti identifies the iterated and product seminorms. Prove that
 the map into `Lᵖ(ν;X)` is a.e. strongly measurable. Prove that this is the
 unique continuous linear extension of the finite-measure rectangle formula,
-using density of the rectangle tensors.
+using density of the rectangle tensors. The scalar Hilbert-space rectangle
+construction belongs to VonNeumannAlgebras V2.RectangularL2.
+[Iterated norms][tc-iterated] · [Hilbert rectangle construction][rm-rectangular-l2]
 
 `exists_fubiniEquiv` states the isometric equivalence and its nested a.e. section formula for complete X.
 
@@ -628,23 +482,23 @@ using density of the rectangle tensors.
 
 ### 4.3 Pointwise evaluation of Lᵖ-valued integrals
 
-For arbitrary `μ,ν`, finite
-`p≥1`, and Bochner-integrable `F:S→ Lᵖ(ν;X)`, construct a jointly
-strongly measurable representative `f(s,t)` with
-`[f(s,·)]=F(s)` for `μ`-almost every `s`. For `ν`-almost every `t`,
-prove integrability of `f(·,t)` and the a.e. representative identity
-`(∫ F)(t)=∫ f(s,t) dμ(s)`. Under σ-finiteness of both
-measures, prove uniqueness modulo product-measure null sets. Use representatives
-and integral estimates, since point evaluation is not well-defined on `Lᵖ`.
-Extend this statement to `p=∞` when `ν` is σ-finite, with
-the same section-integrability and a.e. integral formula; keep `μ`
-arbitrary for existence. If both measures are σ-finite, give the
-same product-a.e. uniqueness. Sections of a product-`L∞` function need not
-form an a.e. strongly measurable `L∞`-valued function (§9.4).
+For Bochner-integrable `F:S→Lᵖ(ν;X)`, construct a jointly strongly
+measurable representative `f(s,t)` with `[f(s,·)]=F(s)` for `μ`-almost every `s`.
+Treat arbitrary `μ,ν` for `1≤p<∞`, and arbitrary `μ` and σ-finite `ν`
+for `p=∞`. Show that `f(·,t)` is integrable for `ν`-almost every `t`
+and that `(∫ F)(t)=∫ f(s,t) dμ(s)` a.e. The companion statement is
+`exists_integral_Lp_representative`.
+
+Given a joint representative and finite `ν`, Tau Ceti proves product
+integrability for arbitrary `μ` and the evaluation identity for s-finite
+`μ`, for all `1≤p≤∞`. Use these results on finite-measure pieces. For
+arbitrary measures, joint representatives that agree `ν`-a.e. on
+`μ`-almost every section agree `μ.prod ν`-a.e. by the product-null lemma.
+[Integrability and evaluation in Lᵖ][tc-bochner-lp] · [Product-null lemma][ml-prod-null]
 
 (HvNVW, Proposition 1.2.25 and Remark 1.2.26, pp. 26–27.)
 
-*Needs:* §1–§3, finite-support approximation and §2.4; uniqueness also uses product-a.e. comparison.
+*Needs:* §1–§3, §2.4 and the finite-inner-measure integral formulas above.
 
 ### 4.4 L¹(S;X) as a projective tensor product
 
@@ -662,27 +516,29 @@ measure-preserving pullbacks.
 
 *Needs:* §3.2 and Tau Ceti projective tensor product, tmulL and liftIsometry.
 
-### Examples
-
-Finite rectangle tensors test interchange and the pure-tensor norm ‖φ ⊗ x‖ = ‖φ‖₁‖x‖ tests the projective identification. The diagonal and moving-indicator examples in §9 exclude an unrestricted product theorem and an L∞-valued Fubini isomorphism (HvNVW, Remark 1.2.8, p. 18, and the discussion after Proposition 1.2.24, p. 26).
-
 ### Dependencies
 
 §1–§3, Tau Ceti's scalar Minkowski integral inequality, native Tonelli and the product-integral API;
 §4.4 consumes Tau Ceti's completed projective tensor product and universal property.
 
-## Layer 5: Convolution and mollification on ℝᵈ
+## Layer 5: Convolution and mollification on finite-dimensional spaces
 
 ### 5.1 Convolution and Young's inequality
 
-For Lebesgue measure on `ℝᵈ`, `d≥1`, extend the existing real-kernel
-convolution API to scalar kernels over `𝕜` and the full range
-`1≤ p≤∞`. For `k∈ L¹(ℝᵈ)` and
-`f∈ Lᵖ(ℝᵈ;X)`, prove a.e. Bochner integrability of
-`y↦ k(y)f(x-y)`, the representative formula for `k*f`, and Young's bound
-`‖k*f‖_p≤‖k‖₁‖f‖_p`. At `p=∞`, construct the pointwise
-integrals and their a.e. class directly; translations need not be strongly
-continuous on `L∞`.
+Let `E` be a finite-dimensional real normed space with additive Haar
+measure `μ`, `k∈L¹(μ;𝕜)` and `f∈Lᵖ(μ;X)`, where `X` is Banach and
+`1≤p≤∞`. Use the Bochner convolution
+`(k*f)(x)=∫ k(y) • f(x−y) dμ(y)`. Tau Ceti's Young inequality for
+continuous bilinear maps gives `‖k*f‖_p≤‖k‖₁‖f‖_p` for real and complex
+kernels, including `p=∞`. Its group convolution theorems give a.e.
+integrability at all these exponents and the pointwise formula for the
+bundled operator at finite exponents. [Young's inequality][tc-young] · [Group convolution formulas][tc-group-convolution]
+
+For `p<∞`, transport the group formula to `E`, where `y⁻¹*x` becomes
+`x−y`, and identify it with `convolutionLp` for real kernels. At `p=∞`,
+form the native `L∞` class independently of both representatives.
+Use Mathlib's pointwise existence theorem for conjugate exponents `1,∞` and
+a.e. strong measurability of convolution. [Measurability and endpoint existence][ml-convolution]
 
 (HvNVW, Lemma 1.2.30, pp. 28–29; the [errata][hvn-errata], entry for p. 28, include the infinity endpoint.)
 
@@ -690,26 +546,27 @@ continuous on `L∞`.
 
 ### 5.2 Mollification and compact-support approximation
 
-For `p<∞`, connect compactly supported continuous-function density and
-translation continuity to the native APIs. Include the density statement for
-a locally compact Hausdorff domain with a regular Borel measure finite on
-compact sets, using the existing continuous-function approximation interfaces.
-Prove, for every scalar integrable kernel,
+For `1≤p<∞`, Mathlib gives density of compactly supported continuous
+functions in Banach-valued `Lᵖ` on locally compact Hausdorff spaces with
+regular Borel measure finite on compact sets. Tau Ceti proves convergence
+for normalized bumps and, on groups, for nonnegative kernels of integral
+one whose essential supports eventually lie in every identity neighborhood.
+[Compact-support density][ml-compact-support-density] · [Normalized bumps][tc-approx] · [Group approximate identities][tc-group-approximation]
 
-`k_ε(x)=ε^{-d}k(x/ε), k_ε*f→(∫ k)f in Lᵖ, ε↓0.`
+For `E,μ` as in §5.1, let `d=dim_ℝ E` and
+`k_ε(x)=ε^{-d}k(ε⁻¹ • x)` for `ε>0`. Prove for every real or complex
+integrable kernel, with arbitrary support, that
 
-Give the norm bounds, change-of-variables formula and compatibility with target
-operators. Recover Tau Ceti's normalized bump operators through equality of
-their a.e. representatives. Pointwise differentiation and Sobolev conclusions
-belong to the owning analysis roadmaps.
+`k_ε*f → (∫ k dμ)f in Lᵖ as ε↓0.`
+
+After the Haar change of variables, apply dominated convergence to the
+`Lᵖ`-valued translates of `f` weighted by `k`. Give the norm bound,
+compatibility with bounded target maps, and agreement with the normalized
+bump operators. [Haar scaling][ml-haar-scaling]
 
 (HvNVW, Lemma 1.2.31 and Proposition 1.2.32, pp. 29–30, including the locally compact variant preceding Lemma 1.2.31.)
 
-*Needs:* §5.1, continuous compact-support density and Tau Ceti approximate identities.
-
-### Examples
-
-A kernel with integral zero converges to zero after dilation; a kernel with integral one converges to f at finite exponents. A moving jump shows that translations are not strongly continuous on all of L∞. Young’s estimate still holds at infinity (HvNVW, Lemma 1.2.30 and Proposition 1.2.32, pp. 28–30).
+*Needs:* §5.1, continuous compact-support density, additive Haar scaling and Tau Ceti approximate identities.
 
 ### Dependencies
 
@@ -745,16 +602,9 @@ the adjoint of `T*|_W:W→ Y`. For a Bochner-integrable `f`, identify
 
 **API.**
 
-- Scalar evaluations determine the τ(X,Y)-integral uniquely, and its norm is bounded by the scalar-evaluation operator norm.
+- Scalar evaluations determine the τ(X,Y)-integral uniquely, and its norm is bounded by the scalar-evaluation operator norm. For an indicator `𝟙_B x` with `μ(B)<∞`, its value on `A` at `x*∈Y` is `μ(A∩B)x*(x)`.
 - Prove linearity, a.e. congruence, restriction and compatibility with inclusions of closed dual test subspaces.
 - Prove bounded-map functoriality through the restricted adjoint and agreement with the Bochner integral when the latter is integrable.
-
-**Checks.**
-
-- For a finite-measure indicator f = 𝟙_B x, every test subspace gives D_A^Y f(x*) = μ(A ∩ B)x*(x).
-- For scalar f(s) = s^(−1/3) on (0,1), the total Dunford integral and the norm of its scalar-evaluation operator are both 3/2.
-- The scalar function f(s) = 1/s on (0,1) is strongly measurable but not weakly integrable: the identity scalar test has norm integral ∞.
-- The disjoint-interval c₀ example in §9 has total Dunford integral (1,1,…) in ℓ∞, outside the canonical copy of c₀.
 
 *Needs:* §3.4, scalar integration, native duals and adjoints.
 
@@ -776,13 +626,7 @@ on arbitrary measures.
 
 - Prove uniqueness of the representing vector for each measurable set and a.e. invariance of Pettis integrability.
 - Prove linearity of the set integral, restriction and bounded-linear-map functoriality.
-- Prove stability under bounded measurable scalar multiplication, the adjoint characterization using native L∞ and agreement with Bochner integrability and its integral.
-
-**Checks.**
-
-- A Bochner-integrable f is Pettis integrable, and its representing vector on A is the native Bochner set integral.
-- The c₀ example of §9 is weakly integrable but not Pettis integrable; cancellation on two copies gives a total integral in c₀ while one half still has no representing vector.
-- With μ(Aₙ) = 2^(−n), the ℓ²-valued function ∑ₙ 𝟙_(Aₙ)(2ⁿ/n)eₙ is Pettis integrable but has norm integral ∑ₙ 1/n = ∞.
+- Prove stability under bounded measurable scalar multiplication and the adjoint characterization using native L∞. For a Bochner-integrable function the representing vector on each measurable set is its Bochner set integral.
 
 *Needs:* §6.1 and native bidual embedding; bounded scalar integration uses Hölder, not L¹-dual surjectivity.
 
@@ -791,7 +635,10 @@ on arbitrary measures.
 Prove norm-countable additivity of `A↦ x_A`. Supply the
 Orlicz–Pettis series theorem used here: a series for which every subseries
 converges weakly in a Banach space is unconditionally norm convergent.
-Relate the scalar-integral bound to semivariation; total variation may be infinite.
+Use Mathlib's `VectorMeasure.semivariation`, the supremum of the variations
+of the real scalar images over the dual unit ball. Relate it for this
+measure to the scalar integrals of `f`, using the underlying real space
+over `ℂ`. The total variation can be infinite. [Semivariation][ml-semivariation]
 
 For a weakly integrable `f` and arbitrary `μ`, prove that the setwise
 Pettis condition is also equivalent to `T_f* I_g` belonging to the canonical
@@ -821,11 +668,10 @@ a strongly measurable, scalarly `Lᵖ` function is Pettis integrable
 for `p>1`, including `p=∞`.
 Prove that a.e. strong measurability
 plus weak integrability suffices when `X` contains no closed subspace
-isomorphic to `c₀`. Consume B4.1's weakly-unconditionally-Cauchy criterion.
-Apply its contrapositive in the closed span to obtain the Bessaga–Pełczyński consequence:
-a sequence bounded away from zero with uniformly bounded finite signed
-partial sums has a closed span containing an isomorphic copy of `c₀`.
-Such a sequence cannot be the terms of an unconditionally convergent series.
+isomorphic to `c₀`. Apply B4.1's weakly-unconditionally-Cauchy criterion.
+A sequence bounded away from zero cannot be the terms of an unconditionally
+convergent series. If its finite signed partial sums are uniformly bounded,
+B4.1 applied in its closed span gives a copy of `c₀` (Bessaga–Pełczyński). [Banach space theory B4.1][rm-b4-no-c0]
 
 `pettisIntegrable_of_reflexive`, `pettisIntegrable_smul_of_weak_memLp` and
 `pettisIntegrable_of_forall_not_antilipschitz` state the reflexive, weak-Lᵖ
@@ -839,38 +685,28 @@ measurability formulation, since q is finite.
 
 ### 6.5 Convexity and uniqueness
 
-For a probability measure, a Pettis integrable `f`, and a real-valued
-lower-semicontinuous convex `φ` with `φ∘f` integrable, prove
-`φ((P)∫ f)≤∫φ(f)`. Prove that the Pettis integral belongs to any closed
-convex set containing `f` almost everywhere, and hence to the closed convex
-hull of its values on any measurable full-measure set. Neither conclusion
-requires essential separability or strong measurability of `f`; use
-Hahn–Banach separation without a countable representation of the target set.
-Prove the normalized-average versions on finite-positive-measure sets.
+For a probability measure and a Pettis integrable `f` lying a.e. in a closed
+convex set `C⊆X`, prove `(P)∫f∈C` by Hahn–Banach separation. Deduce membership
+in the closed convex hull of the values on any measurable full-measure set.
+For `φ:C→ℝ` convex and lower semicontinuous on `C`, with `φ∘f` integrable,
+prove `φ((P)∫f)≤∫φ(f)`. In the underlying real space the Pettis integral of
+`(f,φ∘f)` is `((P)∫f,∫φ(f))` by scalar tests. Apply convex-set membership
+to the closed epigraph. Give both conclusions for normalized averages on
+sets of finite positive measure. [Closed-epigraph criterion][ml-epigraph]
 
-For arbitrary measures, equality of Pettis set integrals over a generating
-π-system containing the whole space implies scalar a.e. equality for every
-continuous linear functional. With essential separability of both functions,
-deduce vector a.e. equality using a common null set. Prove the
-average-in-a-closed-convex-set criterion on σ-finite measure spaces under
-the same essential-separability hypothesis. Also prove it for arbitrary
-measures when `0∈C`: weak integrability and essential separability give a
-σ-finite support via §1.2, and the function is zero almost everywhere off
-that support.
+For arbitrary measures, apply §2.3's π-system uniqueness to each scalar
+evaluation. Equality of Pettis set integrals on a generating π-system
+containing the whole space then gives scalar a.e. equality. With essential
+separability of both functions, deduce vector a.e. equality using a common
+null set. For an essentially
+separably valued Pettis integrable `f`, prove the convex-detection criterion
+on semifinite spaces by restriction to finite positive-measure sets as in §2.3. For
+arbitrary measures and `0∈C`, weak integrability and essential separability
+give a σ-finite support via §1.2, and `f` vanishes a.e. off that support.
 
 (HvNVW, Propositions 1.2.42–1.2.45, p. 36; vector uniqueness and convex detection use the essential-separability, measure and generating-system hypotheses above.)
 
-**Checks.**
-
-- On the two-point counting space, the π-system {{1}} generates all sets, but
-  `f = 𝟙_{2}x` and g = 0 have equal integrals on {1} while their total integrals
-  are x ≠ 0 and 0. Including the whole space excludes this counterexample.
-
 *Needs:* §1.2, §2.2–§2.3 and §6.2–§6.3.
-
-### Examples
-
-The c₀, Pettis-but-not-Bochner and uncountable orthonormal-family examples in §9 test existence and uniqueness. The two-point π-system example of Layer 2 also applies to Pettis uniqueness (HvNVW, Example 1.2.39, p. 33; further examples in §9).
 
 ### Dependencies
 
@@ -882,27 +718,27 @@ consume B4.1's series criterion for the integration-specific application in §6.
 
 ### 7.1 Vector measures and bounded variation
 
-Use native `VectorMeasure S X`, its variation measure
-and `μ.withDensityᵥ f`. Reuse Mathlib's `VectorMeasure.le_variation` and
-`VectorMeasure.exists_lt_sum_of_lt_variation` for the variation formula:
-on a measurable set, variation is the supremum in `ℝ≥0∞` of `∑ᵢ ‖m(Aᵢ)‖ₑ`
-over finite disjoint measurable families contained in it, equivalently over
-finite measurable partitions of it. Record norm-countable
-additivity and unconditionality of the sums defining a vector measure;
-bounded variation means that its variation measure is finite.
-Connect null-set absolute continuity of a vector
-measure with absolute continuity of its variation. For finite total
-variation prove the equivalent small-set estimates in terms of
-`‖m(A)‖` and `|m|(A)`. Reuse the variation-of-density formula
-`|m|(A)=∫_A‖f‖` and `Integrable.withDensityᵥ_eq_iff` for uniqueness of
-integrable densities. Prove restriction, bounded pushforward in the target,
-and change to an equivalent scalar measure.
-Include localization on finite-measure sets where the variation is bounded
-by a constant multiple of the reference measure.
-In particular, an integrable essentially bounded density satisfies
-`|m|(A)≤‖f‖_∞μ(A)`.
-Supply the measurable-set exhaustion principle: on a finite measure
-space, a property `P` holds for every measurable set if it holds for all
+Use native `VectorMeasure S X`, its norm-countable additivity, its variation
+measure and `μ.withDensityᵥ f`. The variation on a measurable set is the
+supremum of `∑ᵢ ‖m(Aᵢ)‖ₑ` over finite disjoint measurable families contained
+in it, equivalently over finite measurable partitions. Use
+`VectorMeasure.le_variation` and `VectorMeasure.exists_lt_sum_of_lt_variation`.
+[Variation][ml-variation]
+
+Prove that null-set absolute continuity of `m` is equivalent to `|m|≪μ`.
+For finite total variation, apply the scalar small-set criterion to `|m|`
+and deduce the equivalent estimates in terms of `‖m(A)‖`. Use the variation
+formula under restriction and the variation bound under a bounded target
+map. [Small sets][tc-small-sets] · [Restriction][ml-variation-restrict] · [Bounded target maps][tc-variation-map]
+
+The density formula `|m|(A)=∫_A‖f‖` gives
+`|m|(A)≤‖f‖_∞μ(A)` for an integrable essentially bounded density. Densities
+agree a.e. by `Integrable.withDensityᵥ_eq_iff`. Use these results for
+restriction, bounded target maps and change to an equivalent scalar measure.
+[Variation of a density][ml-density] · [Uniqueness][ml-density-unique]
+
+Prove the following exhaustion principle on a finite measure space.
+A property `P` holds for every measurable set if it holds for all
 measurable null sets, every positive-measure measurable set has a positive-measure
 measurable subset with `P`, and `P` is closed under countable disjoint
 measurable unions. For σ-finite positive
@@ -910,24 +746,12 @@ measures `ν≪μ`, construct increasing measurable sets `Sₙ`
 covering the space such that `μ(Sₙ),ν(Sₙ)<∞` and, for finite
 constants `Cₙ≥0`, `ν(A)≤ Cₙμ(A)` for all measurable `A⊆ Sₙ`.
 Scalar Radon–Nikodým derivatives may be used for this construction.
-For σ-finite `μ`, construct a strictly positive integrable
-measurable weight `w≤1`, so that `wμ` is finite and has the same null
-sets as `μ`. Prove the density-transport formulas and the
-gluing of compatible densities along a finite-measure exhaustion.
+For σ-finite `μ`, truncate Mathlib's strictly positive integrable weight
+at one to obtain a finite equivalent measure `wμ`. Prove transport of
+densities under this change and gluing of compatible densities along a
+finite-measure exhaustion. [Positive weight][ml-positive-weight]
 
 (HvNVW, Definition 1.3.4 and Lemmas 1.3.6–1.3.8, pp. 40–43; Lemmas 1.3.11–1.3.12, pp. 44–45, and the localization constructions in the proof of Theorem 1.3.10, pp. 45–47.)
-
-**API.**
-
-- Relate absolute continuity of a vector measure and of its variation, retaining finite-variation assumptions in the small-set criterion.
-- Prove restriction, bounded-target-map transport and equivalent-measure transport of integrable densities.
-- Prove the bounded-density variation estimate and the localization/gluing formulas.
-
-**Checks.**
-
-- For m = μ.withDensityᵥ f, variation on A equals ∫_A ‖f‖; a constant x on a finite-measure set B gives |m|(A) = μ(A ∩ B)‖x‖.
-- For m(A) = ∑_(j∈A) j^(−1)eⱼ in ℓ², total variation is infinite although the measure is norm-countably additive.
-- The zero vector measure has zero variation and is absolutely continuous with respect to every positive measure, including the zero measure.
 
 *Needs:* §1–§3, native vector-measure variation, scalar Radon–Nikodým, densities and integrable-density uniqueness.
 
@@ -937,6 +761,8 @@ For a fixed measure `μ`, define the RNP
 of `X` with respect to `μ` by the assertion that every
 `m : VectorMeasure S X` with finite total variation and
 `|m|≪μ` has an integrable density `f`, with `m = μ.withDensityᵥ f`.
+For scalar targets Tau Ceti gives the density against a σ-finite reference
+measure. [Scalar Radon–Nikodým theorem][tc-scalar-rn]
 Define the intrinsic property using Lebesgue measure restricted to `[0,1]`.
 Prove its equivalence to the relative property for every finite measure
 space and for every σ-finite measure space. This equivalence fails for
@@ -952,50 +778,47 @@ arbitrary positive measures.
 - For the intrinsic property, prove equivalence with the relative property on all finite and all σ-finite spaces; transport along the preceding equivalences.
 - Connect both predicates to representability in §7.3, separable determination in §7.4 and the interval comparison in §7.5.
 
-**Checks.**
-
-- Relative RNP holds for the zero measure and for every Banach target: absolute continuity forces m = 0, with zero density.
-- Relative RNP holds for counting measure on ℕ for every Banach target: finite variation makes the atomic density summable. Thus a single relative property does not imply intrinsic RNP.
-- On a singleton of infinite measure, a nonzero finite scalar measure is absolutely continuous with respect to the reference measure but has no integrable density. This excludes universality over arbitrary measures.
-- Intrinsic RNP holds for the scalar field and for reflexive spaces, using the independent density supplier.
-- Intrinsic RNP fails for c₀ and for L¹(0,1), through the nonrepresentable operators in §9.
-- The space ℓ¹ has intrinsic RNP although it is not reflexive.
-
 *Needs:* Native variation and densities for the definitions; §7.1 and §7.3–§7.5 for universality.
 
 ### 7.3 Representable operators
 
 For arbitrary `μ`, call a bounded operator `T:L¹(μ)→ X` representable
 if there is a density `φ∈ L∞_σ(μ;X)` such that `Tf=∫ fφ` for every `f`.
-Construct the linear isometry
-`L∞_σ(μ;X)→𝓛(L¹(μ),X)`, `φ↦ T_φ=[f↦∫ fφ]`,
-and prove `‖T_φ‖=‖φ‖_∞` and a.e. uniqueness of the representing density.
-Obtain the norm identity by restriction to a measurable σ-finite support of
-the density, using restriction and extension by zero on scalar `L¹`.
-Identify this map with the restriction of the native bounded density map
-`representableOperatorMap`. Give indicator formulas and compatibility with
-bounded target maps.
-For σ-finite `μ`, identify `L∞_σ` with native `L∞` and prove that the
-resulting map is onto exactly when `X` has the RNP with respect to `μ`.
-For integrable `h`, prove relative norm compactness of `{∫_A h:A measurable }`;
-deduce range compactness for representable operators on finite measure spaces.
+Restrict the native integral pairing to `L∞_σ(μ;X)`, and prove that the
+map `φ↦T_φ` into `𝓛(L¹(μ),X)` is an isometry with a.e.-unique densities.
+[Integral pairing][ml-integral-pairing]
+On finite measure spaces, test on normalized indicators of sets where the
+density is close to a fixed vector. For semifinite `μ` the norm identity
+holds for every native `φ∈L∞(μ;X)`. Choose a strongly measurable representative.
+For `0≤a<‖φ‖_∞` take a measurable subset of `{‖φ‖>a}` of finite positive
+measure, apply the finite case there and extend
+scalar `L¹` tests by zero. For arbitrary `μ` apply this on the σ-finite
+support of an `L∞_σ` density. On a set `A` of finite measure,
+`T_φ(𝟙_A)=∫_A φ`. Prove compatibility with bounded target maps.
+On a finite measure space, associate to a bounded operator `T:L¹(μ)→X`
+the vector measure `m_T(A)=T(𝟙_A)` on measurable sets. Its variation
+satisfies `|m_T|(A)≤‖T‖μ(A)`. The bounded densities of `m_T` are exactly
+the functions representing `T`, by agreement on simple functions.
+Conversely, if `|m|≤Cμ`, apply Mathlib's `setToL1` to the dominated
+finitely additive data `A↦(c↦c • m(A))` to obtain the operator on L¹ of norm
+at most `C`. Use `setToL1'` for the complex-linear extension.
+[Extension from indicators][ml-set-to-l1] · [Norm bound][ml-set-to-l1-norm]
+Apply this correspondence on the
+finite-measure pieces in §7.1 and glue the densities. For σ-finite `μ` the
+map from native `L∞(μ;X)` is then onto exactly when `X` has the RNP with
+respect to `μ`.
+For integrable `h`, prove relative norm compactness of `{∫_A h : A measurable}`.
+For a representable operator on a finite measure space this gives relative
+norm compactness of its indicator images `{T(𝟙_A) : A measurable}`.
 
-`representableOperatorMap` uses native scalar multiplication and Lp pairing for arbitrary μ. `norm_representableOperatorMap` and `representableOperatorMap_surjective_iff` state the native-L∞ isometry and relative-RNP characterization for complete X under σ-finiteness.
+`representableOperatorMap` uses the native Lp pairing. For complete `X`,
+`norm_representableOperatorMap` gives the native norm identity for semifinite
+`μ`, and `representableOperatorMap_surjective_iff` gives the relative-RNP
+criterion for σ-finite `μ`.
 
-(HvNVW, Definition 1.3.15 and Theorem 1.3.16, pp. 48–50; Lemmas 1.3.19–1.3.20, pp. 51–52.)
-
-**API.**
-
-- Prove linearity in the density and in the input, the Bochner integral formula, and evaluation on finite-measure indicators.
-- Prove the exact operator norm, injectivity and a.e. uniqueness for L∞_σ densities under arbitrary measures, and compatibility with bounded target maps.
-- Under σ-finiteness identify the domain with native L∞ and characterize surjectivity by relative RNP; prove norm-relative compactness of indicator images on finite measure spaces.
-
-**Checks.**
-
-- On a probability space, the constant density x represents f ↦ (∫f)x, of norm ‖x‖.
-- On counting measure on ℕ, a bounded sequence (xₙ) represents (aₙ) ↦ ∑ₙ aₙxₙ, with norm supₙ ‖xₙ‖.
-- On a singleton of infinite measure, native L¹ is zero and native L∞ is nonzero, so the full native density map is not isometric. L∞_σ is zero, and its restricted density map is isometric.
-- The identity on L¹(0,1) is not representable: the indicators of distinct dyadic binary digits have pairwise L¹ distance 1/2, contradicting the compactness consequence above; §9.8 supplies the construction.
+(Diestel–Uhl, Chapter III, §1, for the correspondence between operators on L¹
+and vector measures. HvNVW, Definition 1.3.15 and Theorem 1.3.16, pp. 48–50,
+and Lemmas 1.3.19–1.3.20, pp. 51–52.)
 
 *Needs:* §1.2, §3.1–§3.2, §7.1, the relative-RNP definition in §7.2 and native Lp pairing.
 
@@ -1007,22 +830,21 @@ RNP of every closed
 separable subspace. Prove passage to sub-σ-algebras for finite measures,
 and the σ-finite variant assuming σ-finiteness of the
 trimmed measure.
-For arbitrary measures and any smaller σ-algebra, use native scalar
-`condExpL2` as the orthogonal projection onto its closed measurable
-subspace. Reuse `integral_condExpL2_eq` for its finite-measure measurable
-sets; prove positivity, the modulus inequality and the `L¹` contraction on
-`L¹∩L²`. Obtain the scalar `L¹` projection by density and prove agreement
-with `condExpL2` on this intersection. Localize to the σ-finite support of
-the projected function for the contraction argument. These `L²` and `L¹`
-results hold without σ-finiteness of the trimmed measure.
+For arbitrary measures and any smaller σ-algebra use the scalar L²
+projection `condExpL2`. Mathlib gives preservation of integrals and the real
+L¹ contraction estimate on each finite-measure set of the smaller σ-algebra.
+Localize to the σ-finite support of the projected function to obtain the
+global contraction on L¹∩L², then extend to L¹ by density. Prove positivity,
+the modulus inequality and agreement with the L² projection on L¹∩L².
+The native `condExpL1CLM` gives the comparison when the trimmed measure
+is σ-finite. [Local estimate][ml-condexp-l2-estimate] · [Native L¹ projection][ml-condexp-l1]
 Under σ-finiteness of the trimmed measure, construct the scalar
 `L∞` contraction as the adjoint of the `L¹` projection and prove
 agreement on intersections with `L²`, identifying the integrable realization
-with native conditional expectation. The totalized `condExp` is zero on
-nonintegrable functions, so it does not define this `L∞` extension.
-On finite measures, reuse native Banach-valued conditional expectation
-and its norm bound to obtain a density measurable for the smaller
-σ-algebra; prove the scalar-pairing and set-integral identities.
+with native conditional expectation. On finite measures use Tau Ceti's
+Banach-valued `condExpLpCLM`, a contraction for every `1≤p≤∞`, to obtain a
+density measurable for the smaller σ-algebra. Prove its scalar-pairing and
+set-integral identities. [Finite-measure conditional expectation][tc-condexp-lp]
 Obtain the σ-finite formulas by localization and gluing.
 
 (HvNVW, the conditional-expectation construction on pp. 50–51, Lemma 1.3.17 and Theorem 1.3.18, p. 51.)
@@ -1033,57 +855,44 @@ Obtain the σ-finite formulas by localization and gluing.
 - Prove idempotence, identify the range with the closed subspace of classes measurable for the smaller σ-algebra, and preserve integrals on its finite-measure sets.
 - Prove positivity, the modulus inequality, a.e. congruence and the tower law for nested σ-algebras. Under σ-finiteness of the trimmed measure, identify it with native L¹ conditional expectation and prove the L∞ adjoint formulas.
 
-**Checks.**
-
-- For the full σ-algebra, both scalar projections are the identity, including when the ambient measure is not σ-finite.
-- On the two-point space with masses 1 and 3, projection onto constants sends (2,0) to (1/2,1/2); its L¹ norm and integral are both 2, fixing the averaging normalization.
-- For Lebesgue measure on ℝ and the trivial σ-algebra, the scalar L² and L¹ measurable subspaces are zero, so both projections send 𝟙_[0,1] to zero. Finite-set integral preservation holds, but preservation of its total integral 1 fails; the trimmed measure is not σ-finite.
+**Check.** For Lebesgue measure on ℝ, the only integrable constant is zero.
+The L¹ projection onto the trivial σ-algebra therefore sends `𝟙_[0,1]` to
+zero, although its integral over ℝ is one.
 
 *Needs:* §3.1–§3.2, §7.1, the relative-RNP definition in §7.2, §7.3 representability, native scalar and Banach-valued conditional expectation, and BanachSpaceTheory B5's scalar L¹ duality for the L∞ adjoint; no universality input.
 
 ### 7.5 Universality of the unit interval [0,1]
 
-Use VonNeumannAlgebras V2's measure-preserving Boolean isomorphism between
-the measure algebra of an atomless probability space countably generated
-modulo null sets and that of `[0,1]` to construct the induced scalar `L¹`
-linear isometry. Prove divisibility of atomless finite measures:
-for measurable `A` and `0≤ t≤1`, construct a measurable subset of
-measure `tμ(A)` and its complementary part in `A`. Prove the converse
-and the characterization for σ-finite measures.
-Use this splitting to construct nested binary partitions with cell
-measures `2^{-n}`, generating the measure algebra of a countably
-generated atomless probability space. For an exactly countably generated
-σ-algebra, construct partitions generating that σ-algebra
-itself; distinguish this from generation modulo null sets on a completion.
-Prove the countably generated reductions at the measure-algebra level,
-without requiring a pointwise isomorphism of the underlying sets.
-Handle atomic parts separately. Prove RNP for
-separable dual spaces, where the **dual itself** is separable, and for
-reflexive spaces. For the latter, consume B4.0's finite-measure reflexive
-density theorem and the equivalences above. Obtain the classical `ℓᵖ`
-examples for `1≤ p<∞` and scalar `Lᵖ` examples for `1<p<∞`.
+Prove that the RNP with respect to Lebesgue measure on `[0,1]` implies the
+RNP with respect to every finite measure. Use §7.4 to reduce to a separable
+target. Show that each bounded operator `T:L¹(μ)→X` on a finite measure
+space then factors through conditional expectation onto a countably
+generated sub-σ-algebra. A density on that sub-σ-algebra represents `T`.
+
+On the atomic part, recover the density on each positive-mass atom `A` as
+`T(𝟙_A)/μ(A)`. Normalize the atomless part when it has positive mass.
+VonNeumannAlgebras V2 identifies its probability measure algebra with that
+of `[0,1]`. [Measure-algebra classification][rm-v2-interval]
+Transport scalar L¹ and Bochner densities through this
+measure-preserving Boolean isomorphism. This preserves representability by
+§7.3. Glue densities along a finite-measure exhaustion for σ-finite measures.
+
+Prove the RNP for a dual space that is itself separable. For reflexive
+spaces apply the independent finite-measure density theorem in
+BanachSpaceTheory B4.0 and the finite-measure characterization above.
+[Reflexive density theorem][rm-b4-density]
 
 `hasRNP_strongDual_of_separable` states the separable-real-dual theorem for complete X; complex duals use the real-dual comparison.
 
-(HvNVW, Theorem 1.3.21 and Example 1.3.23, pp. 53–54; Theorem 1.3.26 and Lemmas 1.3.28–1.3.29, pp. 55–59.)
+(Diestel–Uhl, Chapter III, §3, for separable dual spaces. HvNVW, Theorem
+1.3.21, p. 53, and Theorem 1.3.26 and its proof, pp. 55–59.)
 
 **API.**
 
-- Construct scalar L¹ transport from a measure-preserving Boolean isomorphism by mapping indicator classes; prove independence of representatives and simple-function decompositions.
-- Prove linearity, preservation of the integral and norm, and extension by simple-function density.
-- Prove that transport by the inverse Boolean isomorphism gives the inverse L¹ isometry, and that transport respects composition.
+- Send a simple tensor `𝟙_A x` to `𝟙_B x` when the Boolean isomorphism sends the class of `A` to that of `B`. Extend by simple-function density to linear isometries on scalar and Bochner L¹. Prove compatibility with inverse and composite isomorphisms.
+- Show that the Bochner isometry preserves essential bounds and transports the integral on `A` to the integral on `B`. These identities carry representing densities across the scalar L¹ isometry.
 
-**Checks.**
-
-- In a probability measure algebra, the distance from the zero class to the unit class is one; a null set represents zero even if it is nonempty as a set.
-- The dyadic partitions of [0,1] have 2ⁿ cells of measure 2^(−n), and their refinements preserve Boolean operations modulo null sets.
-- Transport of an indicator class preserves its L¹ norm μ(A); the isometry is independent of the chosen representative of the measurable set.
-
-*Needs:* §3.3, §7.1, §7.3–§7.4, VonNeumannAlgebras V2's finite measure algebra and nonatomic interval classification, and BanachSpaceTheory B4.0 independent reflexive density.
-
-### Examples
-
-The harmonic-coordinate measure tests variation. Atomic measures, the infinite-measure singleton, c₀ and L¹(0,1) distinguish relative and intrinsic RNP (HvNVW, Examples 1.3.5 and 1.3.23–1.3.25, pp. 40 and 54).
+*Needs:* §3.2–§3.3, §7.1, §7.3–§7.4, VonNeumannAlgebras V2's finite measure algebra and nonatomic interval classification, and BanachSpaceTheory B4.0's independent reflexive density theorem.
 
 ### Dependencies
 
@@ -1097,38 +906,43 @@ measure before using them in separable determination and universality.
 
 ### 8.1 The integral pairing and its isometry
 
-Construct the canonical bounded linear map
+Use Mathlib's `ContinuousLinearMap.lpPairing` for evaluation
+`X* × X → 𝕜`. For conjugate exponents its integral formula and Hölder bound
+give the canonical contraction
 
 `J:L^q(μ;X*)→(Lᵖ(μ;X))*, (Jg)(f)=∫⟨f(s),g(s)⟩ dμ(s).`
 
-Prove the Hölder bound and naturality for bounded target maps. On
-σ-finite spaces, for every conjugate pair `1≤ p,q≤∞`,
-prove that `J` is an isometry with closed, norming range. Allow `X*` to be
-replaced by any closed norming subspace. For arbitrary measures prove the
-same result for `1<p<∞`; give the endpoint versions using
-`L∞_σ` on the infinity side. For arbitrary `μ` and any norming linear
-subspace `Y⊆ X*`, without a closedness assumption, prove that the
-`X*`-valued μ-simple functions taking values in `Y` and having essential
-norm at most one already norm `L¹(μ;X)`.
+Tau Ceti supplies scalar and Hilbert-space norm tests, including tests by
+simple functions for a finite exponent and σ-finite measure.
+[Integral pairing][ml-integral-pairing] · [Hilbert norm tests][tc-hilbert-norm-tests]
 
-`bochnerDualMap` is the native integral pairing. `norm_bochnerDualMap`, `norm_bochnerDualMap_of_one_lt` and `norm_bochnerDualMap_linftySigma` distinguish the measure and endpoint assumptions. `norm_le_of_dual_pairing_bound` states that its range is norming.
+Prove naturality for bounded target maps. For σ-finite `μ` and every
+conjugate pair `1≤p,q≤∞`, prove that `J` is an isometry with closed,
+norming range. Allow any closed norming subspace of `X*`. At `p=1`
+semifiniteness suffices for the native map to be isometric. For
+`0≤a<‖g‖_∞`, take a finite positive-measure subset of `{‖g‖>a}` and
+extend its L¹ tests by zero. For arbitrary measures prove the isometry
+and norming range at interior exponents and give the endpoint versions
+using `L∞_σ` on the infinity side. For any norming linear subspace
+`Y⊆X*`, prove that the `Y`-valued μ-simple functions of essential norm
+at most one already norm `L¹(μ;X)`, for arbitrary `μ`.
+
+For `bochnerDualMap`, the norm identities are `norm_bochnerDualMap` (σ-finite),
+`norm_bochnerDualMap_of_one_lt` (interior), `norm_bochnerDualMap_one`
+(semifinite L¹ endpoint) and `norm_bochnerDualMap_linftySigma` (arbitrary
+measure at the support-restricted endpoint). `norm_le_of_dual_pairing_bound`
+gives the norming property.
 
 (HvNVW, Proposition 1.3.1 and Corollary 1.3.2, pp. 37–39; endpoint comparisons use the conventions above.)
 
 **API.**
 
-- Prove the integral formula, scalar integrability, bilinearity and the Hölder bound.
-- Prove compatibility with bounded target maps and a.e. representatives.
-- Establish isometry, closedness and norming range under each stated measure/exponent hypothesis, including the support-restricted endpoint comparisons.
-- Prove the μ-simple-function norming formula for every norming linear subspace Y, with no completeness or closedness hypothesis on Y.
+- Give the pairing's naturality formula for a bounded map and its adjoint, and its invariance under a.e. equality.
+- Identify the endpoint maps obtained by restricting the native pairing to `L∞_σ`.
 
-**Checks.**
-
-- On a one-point probability space, J is the identity comparison X* → X*, including its norm.
-- For complex scalars on that space, f = 1 and g = i give (Jg)(f) = i; conjugating the dual coefficient would give the wrong sign.
-- On a singleton of infinite measure, the (p,q) = (1,∞) pairing is zero despite nonzero native L∞; the support-restricted statement has zero domain.
-- Finite-support simple dual-valued functions norm L¹ even though they need not be norm dense in the full L∞ domain.
-- For X = c₀, the span of the coordinate functionals is a norming, nonclosed subspace of X*. μ-simple functions valued in this span still norm L¹(μ;c₀).
+**Check.** On a one-point probability space over ℂ, pairing the constant
+one with the functional `z ↦ iz` gives `i`. This fixes the complex scalar
+convention for the integral pairing.
 
 *Needs:* §1–§3, native Lp pairing and Hahn–Banach; no RNP input.
 
@@ -1140,7 +954,9 @@ prove that `J` is onto if and only if `X*` has the RNP with respect to
 formula. Derive surjectivity for reflexive `X` and for separable `X*`.
 If `X*` has the intrinsic RNP, prove surjectivity for arbitrary measures
 when `1<p<∞`, by localizing each functional to an appropriate
-σ-finite support. The localization lemma is part of this target.
+σ-finite support. Tau Ceti supplies the scalar isometric equivalence for
+interior exponents on σ-finite spaces and the scalar L¹ endpoint on finite
+spaces. [Scalar Lᵖ duality][tc-scalar-lp-dual] · [Scalar L¹ duality][tc-l1dual]
 
 `bochnerDualMap_surjective_iff` and `bochnerDualMap_surjective_of_hasRNP` state the relative and intrinsic RNP conclusions for complete X.
 
@@ -1148,19 +964,23 @@ when `1<p<∞`, by localizing each functional to an appropriate
 
 *Needs:* §8.1 and §7, with §7.1 localization for arbitrary measures.
 
-### 8.3 Duality of atomic Bochner spaces and ℓᵖ(I;X)
+### 8.3 Duality of atomic Bochner spaces and ℓᵖ sums
 
 Use Mathlib's [`lp.dualPairing`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpHolder.lean#L264) and
 [`lp.norm_dualPairing`](https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpHolder.lean#L275) for the sum pairing and its norm bound.
 
-Construct the vector-valued analogues of
-`lp.dualEquiv`: for arbitrary index sets and `1<p<∞`,
-`(ℓᵖ(I;X))*≃ℓ^q(I;X*)`, and
-`(ℓ¹(I;X))*≃ℓ∞(I;X*)` using the full space of bounded
-dual-valued families. Prove the coordinate and sum-pairing formulas and
-their agreement with scalar `lp.dualEquiv`. Transfer the finite-exponent
-result to measure spaces whose σ-algebra is generated by atoms,
-with atom weights as follows. For `1≤p<∞`, a measurable atom `A` with
+For any family of normed spaces `(Xᵢ)ᵢ∈I` and conjugate exponents
+`1<p,q<∞`, identify the dual of the `ℓᵖ` sum of the `Xᵢ` isometrically with
+the `ℓ^q` sum of the `Xᵢ*`. The `i`-th coordinate of `Φ` is `x↦Φ(ιᵢx)`, where `ιᵢ`
+is the coordinate inclusion. Test on finitely supported vectors to bound
+the `ℓ^q` norm of these restrictions by `‖Φ‖`. The sum pairing recovers `Φ`
+by finite-coordinate approximation (`lp.hasSum_single`). At `p=1`,
+BanachSpaceTheory B5.LocalHaarDual supplies the identification with all
+uniformly bounded families `xᵢ*∈Xᵢ*`. [Dependent ℓ¹ sums][rm-b5-l1-sums]
+Take constant
+fibres to recover `(ℓᵖ(I;X))*≃ℓ^q(I;X*)` and check agreement with scalar
+`lp.dualEquiv`. Transfer the constant-fibre result to measure spaces whose
+σ-algebra is generated by atoms. For `1≤p<∞`, a measurable atom `A` with
 `0<μ(A)<∞`, and `Φ ∈ (Lᵖ(μ;X))*`, set `x*_A(x) = Φ(𝟙_A x)` and prove
 `‖x*_A‖ ≤ μ(A)^(1/p)‖Φ‖`; the representing density on A is `x*_A/μ(A)`.
 Infinite-measure atoms contribute no nonzero finite-exponent vectors. Include the `p=1` Bochner-space statement
@@ -1168,158 +988,162 @@ for σ-finite atomic spaces. For uncountable `I`, bounded families
 need not have separable range, so the sequence-space infinity endpoint
 can differ from Bochner `L∞`.
 
-`exists_lpDualEquiv` states the arbitrary-index linear isometric equivalence
-and coordinate formula for complete X, including p=1 and q=∞, without an RNP assumption.
+`exists_lpDualEquiv` states the linear isometric equivalence and coordinate
+formula for normed fibres, including `p=1` and `q=∞`.
 
 (HvNVW, Proposition 1.3.3 and the atomic-measure discussion preceding it, pp. 39–40; the [errata][hvn-errata], entry for p. 39, give the atom-dependent functional bound.)
 
-*Needs:* §3.2, Mathlib `lp.dualPairing` and `lp.norm_dualPairing`, scalar lp.dualEquiv and BanachSpaceTheory B3 and B5; no RNP input.
-
-### Examples
-
-Use finite atomic spaces to check coordinate weights, the complex one-point pairing to check bilinearity, and uncountable counting measure to distinguish bounded families from strongly measurable L∞ classes (HvNVW, Proposition 1.3.3, pp. 39–40, and Example 1.3.14, pp. 47–48).
+*Needs:* §3.2, Mathlib `lp.dualPairing`, `lp.norm_dualPairing` and `lp.hasSum_single`, scalar `lp.dualEquiv`, and BanachSpaceTheory B3 and B5.LocalHaarDual.
 
 ### Dependencies
 
-§1–§4 and §7; BanachSpaceTheory B3 and B5's scalar duality inputs.
+§1–§4 and §7, BanachSpaceTheory B3, and B5's scalar duality and dependent `ℓ¹`-sum lemma.
 §8.1 and the atomic result do not require the RNP theorem.
-
-## Layer 9: Examples that distinguish the hypotheses
-
-### 9.1 Scalar and strong measurability
-
-On a nonseparable Banach space the identity is norm-Borel measurable but not
-strongly measurable, even when the domain carries the full power-set
-σ-algebra. For an uncountable index set, show that the cylindrical
-σ-algebra of `ℓ²(I)` is strictly smaller than its norm-Borel
-σ-algebra, using countable support of scalar tests.
-
-(HvNVW, Example 1.1.5, pp. 4–5; the cylindrical counterexample is obtained directly from the countable supports of continuous linear functionals on ℓ²(I).)
-
-*Needs:* §1.1 and native arbitrary-index Hilbert spaces.
-
-### 9.2 Finite-support measurability and infinity endpoints
-
-A nonzero constant is `AEFinStronglyMeasurable` exactly when the measure is
-σ-finite. On uncountable counting measure, the constant scalar one is
-in native `L∞` but outside `L∞_σ`. On a singleton of infinite
-measure, native `L¹` is zero and native `L∞` is nonzero, so the
-unqualified endpoint integral-pairing isometry fails.
-On uncountable counting measure, construct the summation functional on
-scalar `L¹` and prove that it has no representative in
-`L∞_σ`: testing singleton indicators forces the missing
-constant-one density. Also exhibit failure of finite-support measurability
-under composition with a map that sends zero to one.
-
-(HvNVW, Example 1.1.17, p. 9; Remark 1.2.16, pp. 21–22; Example 1.3.14, pp. 47–48. The infinite-measure singleton tests the native endpoint convention.)
-
-*Needs:* §1.2, §3.1 and §8.1.
-
-### 9.3 Injective operators and orbitwise measurability
-
-Let `f(t)=𝟙_{(0,t)}` on `(0,1)` with values in `L∞(0,1)`.
-Prove that its image under the injective inclusion into `L²(0,1)` is
-continuous, whereas `f` is not a.e. strongly measurable in `L∞`.
-
-The translation field on `L²(ℝ)` has continuous orbits but is not
-a.e. strongly measurable in operator norm: distinct translations have
-distance two in that norm.
-
-(HvNVW, Example 1.1.26, pp. 11–12, and Definition 1.1.27, p. 12; the translation example uses the native L² translation operator and its operator-norm estimate.)
-
-*Needs:* §1.4, §1.6 and native L² translations.
-
-### 9.4 Product measures and L∞-valued sections
-
-The diagonal indicator for Lebesgue measure in one variable and uncountable
-counting measure in the other has unequal iterated integrals. The function
-`𝟙_{(s,t) : 0 < s < t < 1}` is in product `L∞`, but its sections do not
-give an a.e. strongly measurable map into `L∞(0,1)`.
-
-(HvNVW, Remark 1.2.8, p. 18, and the discussion following Proposition 1.2.24, p. 26.)
-
-*Needs:* §2.4 and §4.2–§4.3.
-
-### 9.5 Weak, Pettis and Bochner integrability
-
-For disjoint positive-length intervals `Aₙ⊂(0,1)`,
-`f=∑ₙ𝟙_{Aₙ}eₙ/|Aₙ|` with values in `c₀` is strongly measurable
-and weakly integrable but not Pettis integrable: its Dunford integral is the
-constant one vector in `ℓ∞`. Also exhibit cancellation on two
-copies of the interval, so a total Dunford integral in `X` does not suffice
-to give Pettis integrability on every measurable subset.
-
-With `|Aₙ|=2^{-n}`, `n≥1`, the `ℓ²`-valued function
-`∑ₙ𝟙_{Aₙ}(2^n/n)eₙ` is Pettis integrable but not Bochner
-integrable. Its scalar integrals converge by Cauchy–Schwarz, whereas its
-norm integral is `∑ₙ1/n`.
-
-(HvNVW, Example 1.2.39 and its following cancellation construction, pp. 33–34; the ℓ² example is computed from the displayed series using Cauchy–Schwarz.)
-
-*Needs:* §6.1–§6.3 and native c₀ and ℓ².
-
-### 9.6 Vector measures of infinite variation
-
-For `1<p≤∞`, construct the `ℓᵖ`-valued measure on the positive
-integers given by
-`m(A)=∑_{j∈ A}j^{-1}e_j`. Prove norm-countable additivity, including
-the supremum-norm endpoint, and compute
-`|m|(A)=∑_{j∈ A}j^{-1}`. Its total variation is infinite.
-Compare with the native finite-variation theorem for scalar complex
-measures.
-
-(HvNVW, Example 1.3.5, p. 40.)
-
-*Needs:* §7.1 and native ℓᵖ.
-
-### 9.7 Scalar null sets and Pettis uniqueness
-
-The field `t↦ e_t∈ℓ²([0,1])` is scalarly zero almost everywhere
-for each fixed functional but has norm one everywhere. It is Pettis
-integrable with all set integrals zero. This prevents replacing the
-essential-separability hypotheses in §6.5 by weak measurability alone.
-
-(Each scalar functional on ℓ²([0,1]) has countable support, a Lebesgue-null set, whereas every basis vector has norm one.)
-
-*Needs:* §1.2, §6.2 and native arbitrary-index Hilbert spaces.
-
-### 9.8 Failure of the Radon–Nikodým property
-
-Show failure of RNP for `c₀`, `ℓ∞`, `C[0,1]`, `L∞(0,1)`,
-and `L¹(0,1)`. For `c₀`, use a nonrepresentable operator
-`L¹(0,1)→ c₀` with Rademacher-coordinate integrals: prove its coordinates
-tend to zero by dyadic step-function density, and that a representing
-density would have Rademacher coordinates almost everywhere. Transfer to
-spaces containing a closed copy of `c₀`. For every normalized sequence of
-continuous scalar functions on `[0,1]` with pairwise disjoint supports,
-prove `‖∑ₙ aₙ fₙ‖_∞=maxₙ |aₙ|` for finite nonempty sums and deduce an isometric
-copy of `c₀` onto their closed linear span. Use this to construct the
-`C[0,1]` example.
-Also construct the nonrepresentable sine-coordinate operator
-`(Tf)ₙ=∫₀¹f(t)sin(2π nt) dt`: prove the coefficient decay
-from step-function density. For every irrational `t∈(0,1)`, prove that
-the sine coordinates do not tend to zero; deduce the a.e. failure as well.
-For `L¹(0,1)`, use the identity operator and the noncompact family of dyadic
-indicator images, contradicting §7.3's compactness consequence.
-
-(HvNVW, Examples 1.3.24–1.3.25, pp. 54–55, for the sine-coordinate and L¹ examples. The Rademacher variant uses dyadic approximation.)
-
-*Needs:* §7.3–§7.4, BanachSpaceTheory B3, and the dyadic and closed-c₀ constructions specified here.
-
-### Examples
-
-§§9.1–9.4 test separability and measure assumptions; §§9.5–9.8 distinguish scalar, Pettis and Bochner integrability, finite variation and the RNP.
-
-### Dependencies
-
-the corresponding preceding layers; native sequence-space and Hilbert
-APIs; B3's classical-space comparisons. Construct the dyadic functions and the
-closed `c₀` embeddings used in the last example, including their norm estimates.
 
 ## Downstream consumers
 
-The integration, approximation and duality results support Banach-valued
-differentiation, harmonic analysis and stochastic integration.
+- Fourier inversion uses Lᵖ convergence of mollifiers (§5.2). Estimates
+  for Fourier type in higher dimensions use mixed-norm interchange (§4.1).
+  (HvNVW, §§2.4.a–2.4.b.)
+- The `ℓ^q`-valued Doob maximal inequality uses the norming integral pairing
+  (§8.1). Duality of Bessel potential spaces uses the same pairing and its
+  surjectivity when the dual target has the RNP (§8.2).
+  (HvNVW, §3.2.a, pp. 178–180, and §5.6.a, pp. 451–452.)
+
+## Scope and ownership
+
+The Bochner integration lemmas used in §§1.4, 2.4 and 4.3 are in Tau Ceti's
+measure-theory library. [Bochner integrals][tc-bochner-folder]
+
+Bochner's theorem on positive-definite functions belongs to the semigroup
+roadmap. The Bochner curvature identity belongs to Riemannian geometry.
+[Semigroup roadmap, Part C][rm-bochner] · [Fourier representation][tc-bochner-fourier] · [Riemannian identity][tc-bochner-riemannian]
+
+| Shared material | Owner and interface consumed here |
+| --- | --- |
+| Continuous duals, weak and weak-star topologies, Hahn–Banach separation, reflexivity and weak compactness | [Banach space theory](../BanachSpaceTheory/README.md), B1–B2; use native continuous duals, submodules and bidual embeddings |
+| Classical sequence spaces | [Banach space theory](../BanachSpaceTheory/README.md), B3, for the native `lp` and `C₀(ℕ, 𝕜)` comparisons in §§6.4 and 8.3 |
+| Densities for bounded-variation measures with reflexive Banach targets on finite measure spaces | [Banach space theory](../BanachSpaceTheory/README.md), B4.0, its finite-measure density prerequisite; §7 consumes this theorem and supplies the general RNP interface and its consequences |
+| The weakly-unconditionally-Cauchy criterion for spaces containing no copy of c₀ | [Banach space theory](../BanachSpaceTheory/README.md), B4.1; §6.4 applies this series criterion to Pettis integrability |
+| Scalar `Lᵖ` duality, scalar measure representation and scalar Dunford–Pettis theory | [Banach space theory](../BanachSpaceTheory/README.md), B5, including B5.LocalHaarDual's dependent `ℓ¹`-sum lemma. Section 8 owns Bochner-space duality. |
+| Finite measure algebras, their scalar L² separability criterion and nonatomic interval classification | [Von Neumann algebras](../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors), V2; §3.3 extends the finite-set quotient to arbitrary measures and Banach-valued Lᵖ, and §7.5 constructs L¹ transport and RNP applications |
+
+B4.0 supplies its reflexive density theorem independently of §§7–8.
+The scalar duality used in §8 comes from B5 independently of Bochner duality.
+
+The support-restricted `L∞_σ` below uses global a.e. equivalence.
+It is distinct from B5's local-null `L∞` carrier for arbitrary Haar
+measures, whose construction and duality remain in B5.
+
+Martingale convergence, UMD spaces, stochastic integration, differentiability
+characterizations of the RNP, Hardy–BMO duality, and Fourier multiplier theory are
+outside this roadmap. Section 5 treats Lᵖ convergence of mollifiers. Pointwise
+differentiation and Sobolev estimates belong to the corresponding analysis
+roadmaps. Conditional expectation enters through the scalar
+projection, contraction, and integral-preservation results and the
+Banach-valued restriction formulas needed in §7.
+
+## Exact supplier contracts
+
+The [project manifest](../../lake-manifest.json) pins the companion Lean file to
+Tau Ceti `2fd255d9`. Links to `8794ab32` cite additional library results,
+including the representative formula in §4.3 and the convolution bounds in §5.1.
+
+### From Mathlib
+
+- Use `StronglyMeasurable`, `AEStronglyMeasurable` and their finite-support
+  counterparts. `AEFinStronglyMeasurable.exists_set_sigmaFinite` supplies a σ-finite
+  support, and `MemLp.aefinStronglyMeasurable` applies at finite positive exponents.
+  [Strong measurability][ml-strong] · [A.e. strong measurability][ml-aestrong] · [Lᵖ localization][ml-strong-lp]
+- `SimpleFunc.integral_eq_sum`, linearity, the integral norm bound and a.e.
+  congruence supply the Bochner integral API. Use
+  `tendsto_integral_of_dominated_convergence` and `integrable_map_measure` for
+  convergence and substitution. [Bochner integration][ml-bochner] · [Dominated convergence][ml-dominated] · [Integrability][ml-integrable]
+- `RCLike.iInter_countable_halfSpaces_eq` and `ConvexOn.real_sSup_of_nat_affine_eq`
+  give the countable representations in §2.2. Use `Convex.integral_mem`,
+  `Convex.set_average_mem` and `ConvexOn.map_condExp_le` with `condExp_bot`.
+  [Half-spaces][ml-countable-half-spaces] · [Affine minorants][ml-affine-minorants] · [Convex integrals][ml-convex-integral] · [Jensen][ml-conditional-jensen]
+- `Integrable.prod_right_ae`, `Integrable.integral_prod_left` and `integral_prod`
+  apply under their s-finiteness hypotheses. For arbitrary measures,
+  `Measure.measure_prod_null_of_ae_null` gives product nullity from a.e. null
+  sections of a measurable set. [Product integration][ml-prod] · [Product measures][ml-prod-null]
+- Use finite-exponent simple density, completeness and a.e.-convergent
+  subsequences in native `Lp`. `MeasuredSets.edist_def` gives the
+  symmetric-difference pseudodistance for §3.3. `Measure.MeasureDense` and
+  `MeasureTheory.IsSeparable` supply the set approximation and sufficient
+  separability criterion in §§3.2–3.3. [Simple functions][ml-simple] · [Completeness][ml-lp-complete] · [Measured sets][ml-measured-sets] · [Separable measures][ml-separable-measure]
+- `ContinuousLinearMap.lpPairing` integrates a continuous bilinear map on
+  conjugate `Lp` spaces. For a family of bilinear maps with norms bounded
+  by `K≥0` and complete target, `lp.dualPairing` sums the coordinate pairings
+  and `lp.norm_dualPairing` bounds its norm by `K`. For finite `p` use
+  `lp.hasSum_single` for coordinate approximation. [Integral pairing][ml-integral-pairing] · [Sequence pairing][ml-lp-holder] · [Finite coordinates][ml-lp-sums]
+- `VectorMeasure.variation` and `Measure.withDensityᵥ` supply the variation
+  and density formulas in §7.1. `VectorMeasure.ext_of_generateFrom` and
+  `Integrable.withDensityᵥ_eq_iff` give §2.3's uniqueness corollary on
+  arbitrary measures with complete target. [Variation][ml-variation] · [Densities][ml-density] · [Extensionality][ml-vector-measure-ext] · [Uniqueness][ml-density-unique]
+- Use `NullMeasurableSpace`, `Measure.completion` and `Measure.ae_completion`
+  in §1.5, and `Measure.sigmaFiniteSetWRT` for the measure exhaustions in §7.1.
+  [Completion][ml-null] · [Exhaustion][ml-exhaustion]
+- `condExpL2` preserves integrals over finite-measure sets in the smaller
+  σ-algebra. Under a σ-finite trim, `condExpL1CLM` gives the L¹ comparison
+  and native conditional expectation supplies the order and norm estimates.
+  [L² projection][ml-ce-l2] · [L¹ projection][ml-condexp-l1] · [Conditional expectation][ml-ce] · [Order estimates][ml-ce-real]
+
+### From Tau Ceti
+
+- `TauCeti.CompletedProjectiveTensor.liftIsometry` identifies bounded
+  bilinear maps with bounded maps out of the completed projective tensor
+  product. Use `TauCeti.ProjectiveTensor.tmulL` on pure tensors in §4.4.
+  [Completion][tc-tensor-completion] · [Projective norm][tc-tensor]
+- For separable inner-product spaces, `aestronglyMeasurable_iff_forall_inner`
+  and `aestronglyMeasurable_strongDual_iff_forall_apply` give scalar tests.
+  For Carathéodory evaluation use `AEStronglyMeasurable.apply_of_forall_of_continuous`
+  at the project pin, or its continuous-at form. Finite-dimensional operator
+  fields have an orbitwise criterion for a.e. strong measurability in the
+  operator norm. For inner regular measures use the finite-support
+  evaluation lemmas. [Hilbert scalar tests][tc-pettis] · [Carathéodory][tc-caratheodory] · [Continuous-at form][tc-caratheodory-at] · [Finite-dimensional fields][tc-finite-operator-fields] · [Inner regularity][tc-innerregular]
+- `eLpNorm_prod_eq_eLpNorm_eLpNorm` gives the iterated norm for s-finite
+  inner measure. For `lintegral_Lp_lintegral_le` the project pin assumes a
+  σ-finite outer and s-finite inner measure. The s-finite version applies
+  to both measures. [Iterated norms][tc-iterated] · [Pinned Minkowski inequality][tc-minkowski] · [S-finite version][tc-minkowski-sfinite]
+- In §4.3, `Integrable.integrable_uncurry_of_ae_eq_Lp` and
+  `Integrable.coeFn_integral_Lp` use a joint representative and finite
+  inner measure. Only the integral evaluation requires an s-finite outer
+  measure. [Bochner integrals in Lᵖ][tc-bochner-lp]
+- `convolutionLp` gives the additive real-kernel operator at finite
+  exponents. The group operator `Lp.convolutionL` has an a.e. integral formula
+  at finite exponents for real or complex kernels. `eLpNorm_convolution_le`
+  gives Young's estimate for `1≤p≤∞`. [Additive convolution][tc-convolution] · [Group operator][tc-group-convolution] · [Young's inequality][tc-young]
+- Use `MemLp.integrable_apply` for the dual pairing. Scalar
+  `Lp.toDual` is isometric on σ-finite spaces. The scalar equivalences
+  are `Lp.dualEquiv` at interior exponents for σ-finite measures,
+  `Lp.dualOneEquiv` for L¹ on finite measures, and `lp.dualEquiv` for
+  scalar sequences. [Hölder][tc-holder] · [Isometry][tc-duality] · [Interior duality][tc-scalar-lp-dual] · [L¹ duality][tc-l1dual] · [Sequence duality][tc-seqdual]
+- Integration against `μ.withDensityᵥ f` agrees with Bochner integration
+  of the corresponding integrand against `μ`. [Vector densities][tc-density]
+
+### From Banach space theory
+
+[Banach space theory](../BanachSpaceTheory/README.md) supplies continuous-dual
+and weak-topology comparisons, annihilators, adjoints, reflexivity and weak
+compactness in B1–B2. B3 gives the classical sequence-space comparisons.
+B4.1 supplies the equivalence between absence of a copy of c₀ and
+unconditional convergence of every series with uniformly bounded finite signed
+partial sums, used in §6.4. B4.0 supplies the finite-measure density theorem for
+bounded-variation measures with reflexive targets, independently of the general RNP
+and duality theorems here. B5 supplies scalar Lᵖ duality and scalar measure
+representation. Use B5.LocalHaarDual's identification of the dual of a dependent
+`ℓ¹` sum by coordinate restriction for the `p=1` endpoint in §8.3.
+
+### From Von Neumann algebras
+
+[Von Neumann algebras V2](../VonNeumannAlgebras/README.md#layer-2-elementary-algebra-corners-and-tensors)
+supplies the finite measure algebra modulo null sets, its Boolean operations,
+measure and metric `μ(A△B)`, and the equivalence of its separability with scalar
+L² separability. It also supplies a measure-preserving Boolean isomorphism
+between any separable atomless probability measure algebra and that of `[0,1]`,
+preserving countable operations. Use this measure-theoretic classification
+independently of the operator-algebra comparison.
 
 ## References
 
@@ -1328,9 +1152,12 @@ differentiation, harmonic analysis and stochastic integration.
   Springer, 2016. Chapter 1, “Bochner spaces,” §§1.1–1.3, pp. 2–59.
   Apply the authors' [errata and corrigenda][hvn-errata] (June 18, 2026).
   Citations use this edition's numbering.
-- **Diestel–Uhl.** J. Diestel and J. J. Uhl, Jr., *Vector Measures*, Mathematical
-  Surveys 15, American Mathematical Society, 1977. Chapter I, §4, Corollary 4, p. 22,
-  supplies the Orlicz–Pettis series theorem used in §6.3.
+- **Diestel–Uhl.** J. Diestel and J. J. Uhl, Jr.,
+  [*Vector Measures*](https://doi.org/10.1090/surv/015), Mathematical Surveys 15,
+  American Mathematical Society, 1977. Chapter I, §4, Corollary 4, p. 22, gives
+  the Orlicz–Pettis series theorem. Chapter II, §2 treats Bochner integration.
+  Chapter III, §§1 and 3 treat representability of operators on L¹ and the
+  Radon–Nikodým property of separable dual spaces.
 - **Ryan.** R. A. Ryan, [*Introduction to Tensor Products of Banach Spaces*](https://doi.org/10.1007/978-1-4471-3903-4),
   Springer, 2002. Example 2.19, pp. 29–30, gives the Bochner-L¹ projective-tensor
   identification in §4.4.
@@ -1347,14 +1174,18 @@ differentiation, harmonic analysis and stochastic integration.
 [ml-bochner]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Bochner/Basic.lean
 [ml-bochner-clm]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Bochner/ContinuousLinearMap.lean
 [ml-convex-integral]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Convex/Integral.lean
+[ml-epigraph]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Topology/Semicontinuity/Basic.lean#L337
 [ml-prod]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Prod.lean
+[ml-prod-null]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/Prod.lean#L385-L396
 [ml-simple]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean
 [ml-lp-complete]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/LpSpace/Complete.lean
 [ml-lp-holder]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpHolder.lean
+[ml-lp-sums]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Normed/Lp/lpSpace.lean#L1169-L1173
+[ml-haar-scaling]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/Haar/NormedSpace.lean#L85-L94
 [ml-measured-sets]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/MeasuredSets.lean
 [ml-separable-measure]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/SeparableMeasure.lean
 [ml-density]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensityVec.lean
-[ml-density-unique]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensity.lean
+[ml-density-unique]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/WithDensity.lean#L169
 [ml-variation]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/Variation/Basic.lean
 [tc-pettis]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/Pettis.lean
 [tc-caratheodory]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/StronglyMeasurable/Caratheodory.lean
@@ -1380,3 +1211,57 @@ differentiation, harmonic analysis and stochastic integration.
 [tc-tensor]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Module/TensorProduct/ProjectiveSeminorm.lean
 [tc-holder]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/Holder.lean
 [hvn-errata]: https://fa.ewi.tudelft.nl/~neerven/ABS/errata-vol1.pdf
+[ml-aestrong-criterion]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean#L660
+[ml-affine-minorants]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Convex/Approximation.lean#L251
+[ml-compact-support-density]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/ContinuousMapDense.lean#L142
+[ml-condexp-bot]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/ConditionalExpectation/Basic.lean#L288
+[ml-condexp-l1]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/ConditionalExpectation/CondexpL1.lean#L313-L326
+[ml-condexp-l2-estimate]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/ConditionalExpectation/CondexpL2.lean#L145
+[ml-conditional-jensen]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/ConditionalExpectation/CondJensen.lean#L168
+[ml-convolution]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/Convolution.lean#L520-L553
+[ml-countable-half-spaces]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/Analysis/LocallyConvex/Separation.lean#L390
+[ml-finite-support]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/Basic.lean#L1231
+[ml-indicator-closure]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/SeparableMeasure.lean#L136
+[ml-integral-pairing]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/Holder.lean#L144-L155
+[ml-lp-separability]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/SeparableMeasure.lean#L427
+[ml-measurable-embedding]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Constructions/Polish/Basic.lean#L855
+[ml-measure-dense-algebra]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Measure/SeparableMeasure.lean#L269
+[ml-norm-approximation]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/SimpleFuncDenseLp.lean#L83
+[ml-positive-weight]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/Lebesgue/Countable.lean#L227
+[ml-semivariation]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/Variation/Semivariation.lean#L53
+[ml-set-to-l1]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/SetToL1/L1.lean#L53-L74
+[ml-set-to-l1-norm]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Integral/SetToL1/L1.lean#L257
+[ml-strong-criterion]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/Basic.lean#L713
+[ml-strong-embedding]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/Basic.lean#L769
+[ml-strong-representative]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/StronglyMeasurable/AEStronglyMeasurable.lean#L173
+[ml-trim-isometry]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/Function/ConditionalExpectation/AEMeasurable.lean#L285-L313
+[ml-variation-restrict]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/Variation/Basic.lean#L224
+[ml-vector-measure-ext]: https://github.com/leanprover-community/mathlib4/blob/1b1ccf4b088b32fa3f23f2de1127433254a81e1e/Mathlib/MeasureTheory/VectorMeasure/Basic.lean#L212
+[rm-b4-density]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/TauCetiRoadmap/BanachSpaceTheory/README.md#L381
+[rm-b4-no-c0]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/TauCetiRoadmap/BanachSpaceTheory/README.md#L768
+[rm-b5-l1-sums]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/TauCetiRoadmap/BanachSpaceTheory/README.md#L1087
+[rm-bochner]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/Completed/OneParameterSemigroups/README.md#L204
+[rm-rectangular-l2]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/TauCetiRoadmap/VonNeumannAlgebras/README.md#L1027
+[rm-v2-interval]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/TauCetiRoadmap/VonNeumannAlgebras/README.md#L1177
+[rm-v2-measure-algebra]: https://github.com/TauCetiProject/TauCetiRoadmap/blob/e0fe56074126d216a87245d40dc3fcc7a02a362b/TauCetiRoadmap/VonNeumannAlgebras/README.md#L1047
+[tc-bochner-folder]: https://github.com/TauCetiProject/TauCeti/tree/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Integral/Bochner
+[tc-bochner-fourier]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/Analysis/Bochner/BochnerTheorem.lean#L243
+[tc-bochner-lp]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Integral/Bochner/Lp.lean#L31-L61
+[tc-bochner-riemannian]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/Geometry/Manifold/Riemannian/Bochner/Basic.lean#L15
+[tc-bochner-subtype]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Integral/Bochner/Subtype.lean#L130-L141
+[tc-caratheodory-at]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Function/StronglyMeasurable/Caratheodory.lean#L41
+[tc-condexp-lp]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Function/ConditionalExpectation/CondexpLp.lean#L55
+[tc-countable-norming]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/Analysis/Normed/Operator/Norming.lean#L102
+[tc-extend-by-zero]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Function/Lp/ExtendByZero.lean#L80
+[tc-finite-operator-fields]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Function/StronglyMeasurable/FiniteDimensional.lean#L39
+[tc-group-approximation]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Group/Convolution/ApproximateIdentity.lean#L87
+[tc-group-convolution]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Group/Convolution/Pointwise.lean#L306-L323
+[tc-hilbert-norm-tests]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Function/Lp/Duality.lean#L245
+[tc-lp-subtype]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Function/Lp/Subtype.lean#L137
+[tc-minkowski-sfinite]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Integral/MinkowskiIntegral.lean#L153
+[tc-operator-field]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Integral/Bochner/OperatorField.lean#L41
+[tc-scalar-lp-dual]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/Function/Lp/Dual.lean#L39
+[tc-scalar-rn]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/MeasureTheory/VectorMeasure/Decomposition/RadonNikodym.lean#L105
+[tc-small-sets]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/Measure/AbsolutelyContinuous.lean#L87
+[tc-variation-map]: https://github.com/TauCetiProject/TauCeti/blob/2fd255d997f47c0b5d834ee416c7015d55444ce5/TauCeti/MeasureTheory/VectorMeasure/Variation/Basic.lean#L34
+[tc-young]: https://github.com/TauCetiProject/TauCeti/blob/8794ab329bb60340fa690a2902cf995f0571721b/TauCeti/Analysis/Convolution/Young.lean#L167

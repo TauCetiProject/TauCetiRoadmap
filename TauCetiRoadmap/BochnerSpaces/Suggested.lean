@@ -8,22 +8,11 @@ import TauCeti.Analysis.Normed.Module.TensorProduct.Completion
 /-!
 # Bochner spaces: target signatures
 
-The roadmap is `README.md`; this file is not the roadmap. It states headline theorems against
-the pinned Mathlib and Tau Ceti APIs. These are suggested forms, not an exhaustive checklist;
-the README remains the definitive specification. Proofs admitted with `sorry` are targets.
+Selected statements from the Bochner spaces roadmap in `README.md`. Hille's theorem
+(`integral_mem_graph`) is proved here. Declarations with `sorry` are roadmap targets.
 
-The carriers are Mathlib's `Lp`, `LinearPMap`, `StrongDual`, `VectorMeasure` and `Submodule`.
-The completed projective tensor product is Tau Ceti's `CompletedProjectiveTensor`.
-The duality map is Mathlib's existing `ContinuousLinearMap.lpPairing`. The predicates for
-weak/Pettis integrability and the Radon–Nikodým property have explicit mathematical content.
-The support-restricted infinity space is a submodule of native `Lp`, not another quotient.
-
-The principal milestones named in the README summary have signatures below. Supporting
-approximation, convolution, series, measure-algebra and example APIs remain in the README.
-
-All dual pairings are bilinear, including over `ℂ`. Real scalar structures used for Bochner
-integration are compatible with the declared `RCLike` scalar structure. Completeness,
-exponent bounds, and finite/σ-finite measure assumptions are explicit where needed.
+The integral pairings are bilinear over both `ℝ` and `ℂ`. The support-restricted
+infinity space is a submodule of Mathlib's `Lp`.
 -/
 
 noncomputable section
@@ -41,8 +30,7 @@ variable {X : Type v} [NormedAddCommGroup X] [NormedSpace 𝕜 X]
 
 /-! ## Layer 1: Measurability -/
 
-/-- §1.1: the general Pettis measurability theorem, with a closed separable linear range.
-The whole target need not be separable, and no measure on the source is required. -/
+/-- §1.1: Pettis measurability with full-dual tests on a normed space. -/
 theorem stronglyMeasurable_iff_scalar_tests (f : S → X) :
     StronglyMeasurable f ↔
       (∃ E : Submodule 𝕜 X, IsClosed (E : Set X) ∧ IsSeparable (E : Set X) ∧
@@ -50,8 +38,17 @@ theorem stronglyMeasurable_iff_scalar_tests (f : S → X) :
       ∀ x' : StrongDual 𝕜 X, Measurable (fun s => x' (f s)) := by
   sorry
 
-/-- §1.2: essential separability and scalar a.e. measurability. The scalar tests can have
-different exceptional sets; the theorem constructs a vector-valued representative. -/
+/-- §1.1: a linear family separating points of a complete separable subspace detects
+strong measurability of functions with range in that subspace. -/
+theorem stronglyMeasurable_iff_separating_tests (E : Submodule 𝕜 X)
+    [CompleteSpace E] [SeparableSpace E] (Y : Submodule 𝕜 (StrongDual 𝕜 X))
+    (hsep : ∀ x ∈ E, (∀ x' ∈ Y, x' x = 0) → x = 0)
+    (f : S → X) (hf : ∀ s, f s ∈ E) :
+    StronglyMeasurable f ↔ ∀ x' ∈ Y, Measurable (fun s => x' (f s)) := by
+  sorry
+
+/-- §1.2: essential separability and full-dual a.e. measurability. Each scalar test
+has its own exceptional set. -/
 theorem aestronglyMeasurable_iff_scalar_tests (f : S → X) :
     AEStronglyMeasurable f μ ↔
       (∃ E : Submodule 𝕜 X, IsClosed (E : Set X) ∧ IsSeparable (E : Set X) ∧
@@ -59,8 +56,7 @@ theorem aestronglyMeasurable_iff_scalar_tests (f : S → X) :
       ∀ x' : StrongDual 𝕜 X, AEMeasurable (fun s => x' (f s)) μ := by
   sorry
 
-/-- §1.2: the stronger finite-support convention uses the same convention in its scalar
-tests. It does not silently replace `AEFinStronglyMeasurable` by `AEStronglyMeasurable`. -/
+/-- §1.2: the finite-support criterion uses finite-support measurability of each scalar test. -/
 theorem aefinStronglyMeasurable_iff_scalar_tests (f : S → X) :
     AEFinStronglyMeasurable f μ ↔
       (∃ E : Submodule 𝕜 X, IsClosed (E : Set X) ∧ IsSeparable (E : Set X) ∧
@@ -82,11 +78,21 @@ theorem integral_mem_graph [CompleteSpace X] [CompleteSpace Y]
     {f : S → X} {g : S → Y} (hf : Integrable f μ) (hg : Integrable g μ)
     (hfg : ∀ᵐ s ∂μ, (f s, g s) ∈ T.graph) :
     (∫ s, f s ∂μ, ∫ s, g s ∂μ) ∈ T.graph := by
-  sorry
+  let graph := T.graph.restrictScalars ℝ
+  have : IsClosed (graph : Set (X × Y)) := hT
+  have hzero : (fun s => graph.mkQL (f s, g s)) =ᵐ[μ] 0 := by
+    filter_upwards [hfg] with s hs using (Submodule.Quotient.mk_eq_zero graph).2 hs
+  change (∫ s, f s ∂μ, ∫ s, g s ∂μ) ∈ graph
+  apply (Submodule.Quotient.mk_eq_zero graph).1
+  change graph.mkQL (∫ s, f s ∂μ, ∫ s, g s ∂μ) = 0
+  rw [← integral_pair hf hg, ← graph.mkQL.integral_comp_comm (hf.prodMk hg)]
+  simpa using integral_congr_ae hzero
 
-/-- §2.3: finite-positive-measure averages detect a closed convex constraint on a
-σ-finite space. The zero-measure case does not require the set to be nonempty. -/
-theorem ae_mem_of_set_averages [CompleteSpace X] [SigmaFinite μ]
+/-- §2.3: averages on finite positive-measure sets detect a closed convex constraint
+for a semifinite measure. -/
+theorem ae_mem_of_set_averages [CompleteSpace X]
+    (hμ : ∀ A : Set S, MeasurableSet A → 0 < μ A →
+      ∃ B, MeasurableSet B ∧ B ⊆ A ∧ 0 < μ B ∧ μ B < ∞)
     {f : S → X} (hf : Integrable f μ)
     {C : Set X} (hC : IsClosed C) (hconv : Convex ℝ C)
     (havg : ∀ A : Set S, MeasurableSet A → 0 < μ A → μ A < ∞ →
@@ -140,6 +146,16 @@ theorem exists_fubiniEquiv [CompleteSpace X] [SigmaFinite μ] [SigmaFinite ν]
     ∃ e : Lp X p (μ.prod ν) ≃ₗᵢ[𝕜] Lp (Lp X p ν) p μ,
       ∀ F : Lp X p (μ.prod ν),
         ∀ᵐ s ∂μ, ∀ᵐ t ∂ν, ((e F) s) t = F (s, t) := by
+  sorry
+
+/-- §4.3: a joint representative of an integrable `Lp`-valued function whose sections
+compute its Bochner integral. At exponent infinity the inner measure is σ-finite. -/
+theorem exists_integral_Lp_representative [NormedSpace ℝ X] [CompleteSpace X]
+    (hpν : p ≠ ∞ ∨ SigmaFinite ν) {F : S → Lp X p ν} (hF : Integrable F μ) :
+    ∃ f : S × T → X, StronglyMeasurable f ∧
+      (∀ᵐ s ∂μ, ⇑(F s) =ᵐ[ν] fun t => f (s, t)) ∧
+      ∀ᵐ t ∂ν, Integrable (fun s => f (s, t)) μ ∧
+        (∫ s, F s ∂μ) t = ∫ s, f (s, t) ∂μ := by
   sorry
 
 end Fubini
@@ -254,8 +270,10 @@ abbrev representableOperatorMap [CompleteSpace X] :
     Lp X ∞ μ →L[𝕜] (Lp 𝕜 1 μ →L[𝕜] X) :=
   (ContinuousLinearMap.lsmul 𝕜 𝕜 : 𝕜 →L[𝕜] X →L[𝕜] X).flip.lpPairing μ ∞ 1
 
-/-- §7.3: the representing map is isometric on a σ-finite space. -/
-theorem norm_representableOperatorMap [CompleteSpace X] [SigmaFinite μ] (g : Lp X ∞ μ) :
+/-- §7.3: the native density map is isometric for a semifinite measure. -/
+theorem norm_representableOperatorMap [CompleteSpace X]
+    (hμ : ∀ A : Set S, MeasurableSet A → 0 < μ A →
+      ∃ B, MeasurableSet B ∧ B ⊆ A ∧ 0 < μ B ∧ μ B < ∞) (g : Lp X ∞ μ) :
     ‖representableOperatorMap (𝕜 := 𝕜) g‖ = ‖g‖ := by
   sorry
 
@@ -285,6 +303,13 @@ variable {𝕜 X μ p q}
 /-- §8.1: all conjugate endpoints are included on σ-finite spaces. -/
 theorem norm_bochnerDualMap [SigmaFinite μ] (g : Lp (StrongDual 𝕜 X) q μ) :
     ‖bochnerDualMap (X := X) 𝕜 μ p q g‖ = ‖g‖ := by
+  sorry
+
+/-- §8.1: on a semifinite space, a native `L∞` density has its full norm on `L¹` tests. -/
+theorem norm_bochnerDualMap_one
+    (hμ : ∀ A : Set S, MeasurableSet A → 0 < μ A →
+      ∃ B, MeasurableSet B ∧ B ⊆ A ∧ 0 < μ B ∧ μ B < ∞) (g : Lp (StrongDual 𝕜 X) ∞ μ) :
+    ‖bochnerDualMap (X := X) 𝕜 μ 1 ∞ g‖ = ‖g‖ := by
   sorry
 
 /-- §8.1: the interior-exponent isometry does not require σ-finiteness. -/
@@ -321,14 +346,14 @@ theorem norm_bochnerDualMap_linftySigma (g : linftySigma 𝕜 (StrongDual 𝕜 X
     ‖bochnerDualMap (X := X) 𝕜 μ 1 ∞ (g : Lp (StrongDual 𝕜 X) ∞ μ)‖ = ‖g‖ := by
   sorry
 
-/-- §8.3: vector-valued sequence duality on arbitrary index sets, including the
-ℓ¹–ℓ∞ endpoint, with the coordinate formula and no RNP assumption. -/
-theorem exists_lpDualEquiv [CompleteSpace X] {I : Type w} [DecidableEq I]
+/-- §8.3: the dual of an ℓᵖ sum of normed spaces. The ℓ¹ endpoint is supplied by
+BanachSpaceTheory B5.LocalHaarDual. -/
+theorem exists_lpDualEquiv {I : Type w} [DecidableEq I] (E : I → Type v)
+    [∀ i, NormedAddCommGroup (E i)] [∀ i, NormedSpace 𝕜 (E i)]
     (p q : ℝ≥0∞) [Fact (1 ≤ p)] [Fact (1 ≤ q)] [p.HolderConjugate q]
     (hp : p ≠ ∞) :
-    ∃ e : StrongDual 𝕜 (lp (fun _ : I => X) p) ≃ₗᵢ[𝕜]
-        lp (fun _ : I => StrongDual 𝕜 X) q,
-      ∀ (Φ : StrongDual 𝕜 (lp (fun _ : I => X) p)) (i : I) (x : X),
+    ∃ e : StrongDual 𝕜 (lp E p) ≃ₗᵢ[𝕜] lp (fun i => StrongDual 𝕜 (E i)) q,
+      ∀ (Φ : StrongDual 𝕜 (lp E p)) (i : I) (x : E i),
         (e Φ) i x = Φ (lp.single p i x) := by
   sorry
 
