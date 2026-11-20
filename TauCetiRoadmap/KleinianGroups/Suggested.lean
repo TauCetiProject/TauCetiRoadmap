@@ -280,7 +280,7 @@ theorem isDiscrete_bianchi (F : Type*) [Field F] [NumberField F] [IsTotallyCompl
 `{-1, 0, 1}`, and trace `≡ 2 mod I` puts `3`, `2` or `1` in `I`. -/
 theorem isTorsionFreeKleinian_bianchiGamma (F : Type*) [Field F] [NumberField F]
     [IsTotallyComplex F] (hF : Module.finrank ℚ F = 2) (ι : F →+* ℂ) (I : Ideal (𝓞 F))
-    (hI : I ≠ ⊤) (h2 : (2 : 𝓞 F) ∉ I) (h3 : (3 : 𝓞 F) ∉ I) :
+    (h2 : (2 : 𝓞 F) ∉ I) (h3 : (3 : 𝓞 F) ∉ I) :
     IsTorsionFreeKleinian (bianchiGamma F ι I) := by
   sorry
 
@@ -422,16 +422,12 @@ theorem covolume_gammaEisenstein :
     (covolume gammaEisenstein ℍ³ volume).toReal = 21 * √3 * lchi3 := by
   sorry
 
-/-- The Euler product of `ζ_F(2)` over the maximal ideals of `𝓞 F`. -/
-theorem dedekindZeta_two_eq_tprod (F : Type*) [Field F] [NumberField F] :
-    dedekindZeta F 2 =
-      ∏' 𝔭 : {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal}, (1 - ((Ideal.absNorm 𝔭.1 : ℂ) ^ 2)⁻¹)⁻¹ := by
-  sorry
-
+/-- From Tau Ceti's `dedekindZeta_eq_riemannZeta_mul_LFunction` at `s = 2` and `d_F = -4`. -/
 theorem zeta_gaussian_two :
     dedekindZeta GaussianField 2 = riemannZeta 2 * (catalanConstant : ℂ) := by
   sorry
 
+/-- From Tau Ceti's `dedekindZeta_eq_riemannZeta_mul_LFunction` at `s = 2` and `d_F = -3`. -/
 theorem zeta_eisenstein_two :
     dedekindZeta EisensteinField 2 = riemannZeta 2 * (lchi3 : ℂ) := by
   sorry
