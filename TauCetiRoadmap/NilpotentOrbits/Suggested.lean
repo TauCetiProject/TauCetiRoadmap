@@ -41,9 +41,12 @@ These headline theorems are not statable at the pins:
   subscheme, and morphisms of schemes between it and the nilpotent scheme, are missing;
 * the Springer resolution `T*ℬ → 𝒩` (README §7.1): the pin represents `G/B` by a projective
   orbit scheme (`TauCeti.HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`),
-  but the cotangent bundle of that scheme and the incidence scheme `𝒩̃ ⊆ 𝔤 × ℬ` are missing: Tau
-  Ceti's locally free sheaf of differentials needs the scheme to be smooth, which the pin does not
-  prove;
+  smooth over the base field (`TauCeti.Comodule.smooth_projectiveOrbitToSpec`), so that its
+  cotangent bundle can be formed as the total space
+  (`TauCeti.AlgebraicGeometry.totalSpaceScheme`) of its sheaf of differentials
+  (`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.relativeDifferentials`), but the incidence
+  scheme `𝒩̃ ⊆ 𝔤 × ℬ`, its identification with that cotangent bundle, and hence the Springer map,
+  are missing;
 * the restriction of the Springer resolution to the slice as the minimal resolution of the
   subregular surface, with exceptional curves of self-intersection `−2` whose intersection matrix
   is the negative of the Cartan matrix of the surface type (README §§7.3 and 8.2): besides the
@@ -175,8 +178,11 @@ abbrev sliceConeRing (K : Type*) {L : Type*} [Field K] [LieRing L] [LieAlgebra K
     (nilpotentConeIdeal K L).map (restrictAffine K e (LinearMap.ker (ad K L f)))
 
 /-- The ideal of the point `e` of `S ∩ 𝒩` (README §6.1): the image in `sliceConeRing` of the
-augmentation ideal of `S((ker ad f)*)`, the polynomial functions vanishing at `v = 0`. When `ad e`
-is nilpotent it is a maximal ideal. -/
+augmentation ideal of `S((ker ad f)*)`, the polynomial functions vanishing at `v = 0`. When `e` is
+a common zero of `nilpotentConeIdeal` it is a maximal ideal with residue field `K`, and otherwise
+it is the whole ring. For `L` finite-dimensional with nondegenerate Killing form over a field of
+characteristic zero, the common zeros are the `e` with `ad e` nilpotent
+(`TauCeti.isNilpotent_ad_iff_forall_lift_eval_eq_zero`). -/
 noncomputable def basePointIdeal (K : Type*) {L : Type*} [Field K] [LieRing L] [LieAlgebra K L]
     (e f : L) : Ideal (sliceConeRing K e f) :=
   (RingHom.ker (SymmetricAlgebra.algebraMapInv (R := K)
@@ -215,8 +221,9 @@ open MvPolynomial in
 Dynkin type (README §§8.1 and 8.3): `xy + z^(n+1)` for `Aₙ`, `x² + y²z + z^(n-1)` for `Dₙ`,
 `x² + y³ + z⁴`, `x² + y³ + yz³` and `x² + y³ + z⁵` for `E₆`, `E₇` and `E₈`; for `Bₙ`, `Cₙ`, `F₄`
 and `G₂` the equation of `A₂ₙ₋₁`, `Dₙ₊₁`, `E₆` and `D₄`. Outside the valid rank ranges of
-`TauCeti.DynkinType.Valid` the values are not singularities of that type: `C 1` gives
-`x² + y²z + z`, which is smooth at the origin. -/
+`TauCeti.DynkinType.Valid` a value need not be the subregular singularity of the Lie algebra with
+that Cartan matrix: `C 1` has the Cartan matrix of `A 1`, whose subregular surface is the `A₁`
+singularity, but gives `x² + y²z + z`, which is smooth at the origin. -/
 noncomputable def subregularEquation (R : Type*) [CommRing R] :
     TauCeti.DynkinType → MvPolynomial (Fin 3) R
   | .A n => X 0 * X 1 + X 2 ^ (n + 1)

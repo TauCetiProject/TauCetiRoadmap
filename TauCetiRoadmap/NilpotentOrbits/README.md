@@ -326,8 +326,10 @@ Construct the flag variety `ℬ = G/B` as the quotient of ReductiveGroups Layer 
 `CommHopfAlgCat.fppfHomogeneousQuotient`, represented by a projective orbit scheme, locally closed in
 a projective space, by `TauCeti.HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`),
 parametrizing the Borel subgroups of `G` and the Borel subalgebras of `𝔤`. Construct its universal
-subbundle of Borel subalgebras and its universal nilradical subbundle. Prove that `ℬ` is smooth and
-proper, the latter by ReductiveGroups Layer 7's completeness of `G/B`. Prove the precise point
+subbundle of Borel subalgebras and its universal nilradical subbundle. The representing scheme is
+smooth over `ℂ`, as is every projective orbit scheme of a reduced affine group of finite type over
+an algebraically closed field (Tau Ceti `TauCeti.Comodule.smooth_projectiveOrbitToSpec`). Prove
+that `ℬ` is proper, by ReductiveGroups Layer 7's completeness of `G/B`. Prove the precise point
 dictionaries of the quotient and of the subbundles.
 
 Construct the closed incidence scheme `𝒩̃ = {(x, B′) : x ∈ Lie Rᵤ(B′)} ⊆ 𝔤 × ℬ` and its
@@ -340,7 +342,8 @@ flag-incidence and associated-bundle constructions.
 *Needs:* ReductiveGroups Layers 3 and 7; AlgebraicVectorBundles (the total spaces of the supplier
 contracts); Tau Ceti `CommHopfAlgCat.fppfHomogeneousQuotient`,
 `TauCeti.HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints`,
-`TauCeti.HopfIdeal.IsBorel`, `TauCeti.AlgebraicGeometry.totalSpaceScheme`.
+`TauCeti.Comodule.smooth_projectiveOrbitToSpec`, `TauCeti.HopfIdeal.IsBorel`,
+`TauCeti.AlgebraicGeometry.totalSpaceScheme`.
 
 **Checks.**
 - For `G = PGL₂`, `ℬ = ℙ¹` and `𝒩̃` is the set of pairs `(x, ℓ)` with `x(ℂ²) ⊆ ℓ ⊆ ker x`, the
@@ -1329,7 +1332,9 @@ All are proved at the pin.
   `TauCeti.centralizerHopfIdeal`, `CommHopfAlgCat.fppfHomogeneousQuotient`,
   `TauCeti.HopfIdeal.exists_fppfHomogeneousQuotient_iso_projectiveOrbitPoints` (reduced group of
   finite type over an algebraically closed field: the quotient by a closed subgroup is represented
-  by a projective orbit scheme), `TauCeti.fppfHomogeneousQuotientIsoAdjointOrbitPoints`,
+  by a projective orbit scheme), `TauCeti.Comodule.smooth_projectiveOrbitToSpec` (for such a
+  group, the projective orbit scheme of a line is smooth over the field),
+  `TauCeti.fppfHomogeneousQuotientIsoAdjointOrbitPoints`,
   `TauCeti.topologicalKrullDim_range_projectiveOrbitMap_add_ringKrullDim_centralizerHopfIdeal`
   (reduced group over an algebraically closed field),
   `TauCeti.topologicalKrullDim_range_projectiveOrbitMap_mk_one_eq_finrank_range_ad`
