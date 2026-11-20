@@ -189,8 +189,8 @@ state, `E(f) = Var_π(f)`, so `γ = 1` unless `π` is a point mass. Prove:
 
 - (`logSobolevConstant_const`) if `π(x) > 0` for every `x`, then
   `logSobolevConstant (Kernel.const S π) π = c(π_min)`. (Chen, Liu and Saloff-Coste, Example
-  (E6), p. 242, for every positive law on a finite set, proved there by reduction to the two-point
-  space; Aldous and Fill, Chapter 8, Example 30, state it for `π_min < 1/2` and refer the proof to
+  (E6), p. 242, for every positive law on a finite set, stated there with the proof, by reduction to
+  the two-point space, referred to the literature; Aldous and Fill, Chapter 8, Example 30, state it for `π_min < 1/2` and refer the proof to
   Diaconis and Saloff-Coste. The two-point case is 2.1. On one state both sides are `0`: `α` by
   the junk value and `c(1) = 0`.)
 - (`twoPointConstant_mul_spectralGap_le`) for every kernel `κ` and every probability measure `π`,
@@ -378,8 +378,9 @@ most `e`, and `e^(−γu) ≤ e^(−c)`. The decay `Var_π(H_u g) ≤ e^(−2γu
 
 ### Examples
 
-The redrawing chains, the two-state chains and the cube, for which 3.3 gives a time of order
-`(n/4) log n` with the constants of 2.3.
+The redrawing chains, the two-state chains and the cube, for which 3.3 gives the time
+`(n/2) log(n log 2) + c n` with the constants `α = 1/(2n)` and `γ = 1/n` of 2.3; its leading term
+`(n/2) log n` is where the lazy walk on the cube has its cutoff.
 
 ### Dependencies
 
@@ -409,11 +410,12 @@ Left to other roadmaps and to the libraries:
   `L^q` only, and is proved from the logarithmic Sobolev inequality. On the cube, `H_t` of the
   lazy walk is the noise operator with `ρ = e^(−t/n)`, and 3.2 with `α = 1/(2n)` gives its case
   `p = 2` for `0 < ρ ≤ 1`. This roadmap does not depend on that one.
-- ContinuousTimeMarkovChains (a roadmap not on main) treats the matrix exponential of
-  rate matrices: positivity and stochasticity of `exp(tQ)`, the Kolmogorov equations, uniformization
-  and convergence. This roadmap defines `H_t` for `Q = P − I` only and states none of those
-  theorems; the facts listed in 3.1 are read off Mathlib's exponential where a route needs them.
-  This roadmap does not depend on that one.
+- ContinuousTimeMarkovChains treats the matrix exponential of rate matrices: positivity and
+  stochasticity of `exp(tQ)` (its 1.2 and 1.3), the Kolmogorov equations, uniformization and
+  convergence. This roadmap defines `H_t` for `Q = P − I` only. The facts of 3.1 (nonnegative
+  entries, row sums `1`, the semigroup law) are the case `Q = P − I` of those theorems; 3.1 proves
+  that case directly from Mathlib's exponential, in three lines, because this roadmap does not
+  depend on that one.
 - RandomMatrices 2.2 owns logarithmic Sobolev and Poincaré inequalities for gradients on Euclidean
   spaces, their tensorization and Herbst's argument; the Dirichlet form of a chain here is a
   different energy, and no Euclidean statement is made.
