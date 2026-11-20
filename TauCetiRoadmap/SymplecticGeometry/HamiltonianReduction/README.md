@@ -106,6 +106,8 @@ Layer 4; and R5 is Layer 5.
    declaration of Tau Ceti, of Mathlib or of `Suggested.lean`, except a carrier attributed in the same
    sentence to the roadmap that proposes it, such as ComplexKahlerGeometry's `BundleSobolev E s`.
 
+<a id="r1-smooth-actions-moment-maps-and-equivariance"></a>
+
 ## Layer 1: smooth actions, moment maps and equivariance
 
 Tau Ceti already proves the general theory this layer rests on. It has fundamental vector fields
@@ -683,6 +685,8 @@ topologies, diffeotopies, Cartan's formula, proper exhaustions, the circle `AddC
 product manifolds and Lie groups. DifferentialGeometry §§1.4, 3.5, 5.4, 6.4, 8.3–8.4, 10.2 and
 Layer 10. DeRhamCohomologyAndDuality §2.4 and Layer 3. HeegaardFloer §4.1 (F2.1). CotangentLagrangian
 §§4.1, 4.7. GeometricTopology §§1.1, 1.3.1, 1.5. MorseTheory §2.4. AlgebraicTopology Layer 4 and §6.1.
+
+<a id="r2-coadjoint-orbits-and-kks"></a>
 
 ## Layer 2: coadjoint orbits and the Kirillov–Kostant–Souriau form
 
@@ -1931,6 +1935,19 @@ Ceti's
 `ω♭` need not be onto the dual. No theorem integrating the Lie algebra cocycle of a moment map to a central extension of the
 group is asserted without separate global data. No discreteness of `Γ_ω` or `Γ_(ω,c)`, Hausdorffness of
 the flux quotients or Lie structure on them is asserted.
+
+Other roadmaps cite sections of this roadmap by the labels of its former numbering:
+
+| Former label | Now |
+|---|---|
+| R1 | Layer 1 |
+| R1a | Layer 1a |
+| R2 | Layer 2 |
+| R2a | Layer 2a |
+| R3 | Layer 3 |
+| R3.1 | §3.1 |
+| R4 | Layer 4 |
+| R5 | Layer 5 |
 
 ## Exact supplier contracts
 
