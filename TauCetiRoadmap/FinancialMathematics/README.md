@@ -81,6 +81,8 @@ Layer 4 proves replication and uniqueness for the Black–Scholes call and put.
 9. **Lean names.** The acceptance file `Suggested.lean` states its theorems in the namespace
    `TauCetiRoadmap.FinancialMathematics`.
 
+<a id="m01-assets-and-trading"></a>
+
 ## Layer 1: assets and trading (M0.1)
 
 ### 1.1 The asset price
