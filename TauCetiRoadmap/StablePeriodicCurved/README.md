@@ -336,7 +336,7 @@ this form, not as an equivalence: by Convention 10 the stable category of `E` ne
 idempotent complete.
 *Needs:* §§1.1–1.2; Mathlib `CategoryTheory.Idempotents.Karoubi`; Tau Ceti
 `TauCeti.ExactStructure.karoubi`, `TauCeti.ExactStructure.isConflationExact_toKaroubi`;
-Bühler, §§7, 10–13, for exact structures on idempotent completions.
+Bühler, §6, Proposition 6.13, for the exact structure on the idempotent completion.
 
 **Checks.**
 - If `C` is idempotent complete, for instance finitely generated modules over a finite-dimensional
@@ -391,7 +391,11 @@ resolutions of the same module are homotopy equivalent
 generated modules over a noetherian ring, the description in the abelian category of finitely
 generated modules, `CategoryTheory.isGorensteinProjective`, agrees with this one (Tau Ceti
 `FGModuleCat.isGorensteinProjective_iff`). These definitions need no noetherian hypothesis; the
-theorems below state the noetherian hypotheses they use (Buchweitz, §4).
+theorems below state the noetherian hypotheses they use. Buchweitz's complete resolutions
+(Buchweitz, Definition 3.1.1) are acyclic complexes of finitely generated projectives with no
+condition on `Hom_R(P, R)`; over an Iwanaga–Gorenstein ring (§2.4) of self-injective dimension
+`d` that condition holds automatically, since every cycle module of such a complex is a `d`-th
+syzygy and so has `Ext^i(-, R) = 0` for `i ≥ 1`.
 *Needs:* Mathlib `HomologicalComplex.Acyclic`, `Module.Projective`, `Module.Finite`; Tau Ceti
 `CochainComplex.IsTotallyAcyclic`, `TauCeti.IsGorensteinProjective`.
 
@@ -424,13 +428,15 @@ resolution, and a stable map to the homotopy class of the chain map it induces b
 resolutions (Buchweitz, §4; for a general Frobenius category, Tau Ceti's
 `TauCeti.ExactStructure.IsFrobenius.completeResolutionFunctor`).
 
-Prove that the two descriptions of `stable(Gproj-R)` agree: for `R` right noetherian, the
+Prove that the two descriptions of `stable(Gproj-R)` agree: for a left noetherian ring `A`, the
 inclusion of finitely generated modules induces a triangle equivalence between the stable category
-of `TauCeti.GorensteinProjectiveModuleCat Rᵐᵒᵖ` and the stable category of the Frobenius exact
-category `CategoryTheory.GorensteinProjective.exactStructure (FGModuleCat Rᵐᵒᵖ)` of
-Gorenstein-projective objects of the abelian category of finitely generated right modules, the two
-having the same objects up to isomorphism by `FGModuleCat.isGorensteinProjective_iff`. Sections
-2.5, 2.6 and 7.5 pass between the two through this equivalence.
+of `TauCeti.GorensteinProjectiveModuleCat A` and the stable category of the Frobenius exact
+category `CategoryTheory.GorensteinProjective.exactStructure (FGModuleCat A)` of
+Gorenstein-projective objects of the abelian category of finitely generated `A`-modules, the two
+having the same objects up to isomorphism by `FGModuleCat.isGorensteinProjective_iff`. Right
+modules over a right noetherian `R` are the case `A = Rᵐᵒᵖ`, and modules over the commutative
+hypersurface `S/(w)` of §7.5 the case `A = S/(w)`. Sections 2.5, 2.6 and 7.5 pass between the two
+through this equivalence.
 *Needs:* §§1.1–1.2, 2.2; Mathlib `HomotopyCategory`; Tau Ceti
 `TauCeti.TotallyAcyclicComplex.stableCyclesEquivalence`,
 `CategoryTheory.GorensteinProjective.exactStructure`, `FGModuleCat.isGorensteinProjective_iff`,
@@ -453,7 +459,7 @@ perfect objects `TauCeti.DerivedCategory.Bounded.perfect C`, the thick closure o
 objects placed in degree zero; with enough projectives these are the bounded complexes of
 projectives (`DerivedCategory.Bounded.perfect_iff`). For a right noetherian `R`,
 `D_sg(R) = D^b(mod-R)/K^b(proj-R)` is `TauCeti.SingularityCategory (FGModuleCat Rᵐᵒᵖ)`, triangulated
-as a Verdier quotient (Buchweitz, §4).
+as a Verdier quotient (Buchweitz, Definition 1.2.2).
 *Needs:* Mathlib `DerivedCategory.Bounded`, `ObjectProperty.triangEnvelope`, `ObjectProperty.trW`,
 `HasInjectiveDimensionLE`; Tau Ceti `TauCeti.IsIwanagaGorenstein`, `TauCeti.SingularityCategory`.
 
@@ -764,7 +770,7 @@ isomorphic to it (`TauCeti.OrbitCategory.isoLift`). A record storing an unspecif
 a projection and a descent operation is not an orbit category: it is satisfied by categories with
 the wrong hom groups. No orbit category is claimed to be triangulated.
 *Needs:* Mathlib `HasShift`, `shiftFunctorAdd'`, `DirectSum`; Tau Ceti `TauCeti.OrbitCategory`;
-Keller, *On triangulated orbit categories*.
+Keller, *On triangulated orbit categories*, §1.
 
 **Checks.**
 - For `D = D^b(mod-k)` over a field and `n ≠ 0`, the endomorphisms of `k` in the orbit category
@@ -788,8 +794,9 @@ If every object of `A` has projective dimension less than `d`, relatively projec
 homotopically projective, and the homotopically projective complexes are exactly those homotopy
 equivalent to relatively projective ones
 (`TauCeti.PeriodicComplex.isHomotopicallyProjective_of_projective`,
-`TauCeti.PeriodicComplex.isHomotopicallyProjective_iff_exists_projective`; Stai, Proposition 3.10;
-Avramov–Buchweitz–Iyengar, §§1–2, for free flags). Under the same bound, the functor from the
+`TauCeti.PeriodicComplex.isHomotopicallyProjective_iff_exists_projective`; Stai, Proposition 3.10
+for `n = 1` and the remark closing §3.4 for general `n`; Avramov–Buchweitz–Iyengar, §§1–2, for free
+flags). Under the same bound, the functor from the
 full subcategory of `K_n(A)` on the periodic complexes of projectives to `D_n(A)` is an
 equivalence
 (`TauCeti.PeriodicComplex.DerivedCategory.projectiveEquivalence`).
@@ -799,7 +806,8 @@ Let `k` be a field and `Λ` a finite-dimensional `k`-algebra of finite global di
 dimension at most `d`, and let `n ≥ 1`. Prove `stai_projective_isEquivalence`: the periodic Verdier
 localization restricts to an equivalence `K_n(proj-Λ) → D_n(mod-Λ)` from the full subcategory of
 `K_n(mod-Λ)` on the periodic complexes of finitely generated projective right `Λ`-modules (Stai,
-§3). Prove moreover that the isomorphism closure of these complexes is a triangulated subcategory
+the remark closing §3.4). Prove moreover that the isomorphism closure of these complexes is a
+triangulated subcategory
 of `K_n(mod-Λ)` and that the equivalence is a triangle equivalence for its induced triangulation.
 *Route.* Every finitely generated right `Λ`-module has projective dimension at most `d` in
 `FGModuleCat Λᵐᵒᵖ`, which has enough projectives, so the statements above hold for `A = mod-Λ`.
@@ -826,7 +834,7 @@ orbit functor `TauCeti.PeriodicComplex.orbitDerivedCompressionFunctor n` from `D
 by `n`; by definition its restriction along the projection is compression.
 
 Prove `stai_orbitDerivedCompressionFunctor_full_faithful`: the orbit functor is full and faithful
-(Stai, Lemma 3.12).
+(Stai, Lemma 3.12 for `n = 1` and the remark following it for general `n`).
 *Route.* The orbit functor of bounded homotopy categories `K^b/[n] → K_n` is full and faithful
 (Tau Ceti `TauCeti.PeriodicComplex.full_orbitCompressionFunctor`,
 `TauCeti.PeriodicComplex.faithful_orbitCompressionFunctor`); in finite global dimension bounded
@@ -839,7 +847,8 @@ a bounded complex of finitely generated right `Λ`-modules (Stai, §3).
 
 Prove `stai_eq_top_of_essImage_le`: every isomorphism-closed triangulated subcategory of
 `D_n(mod-Λ)` containing the essential image of the orbit functor is all of `D_n(mod-Λ)` (Stai,
-Theorem 4.3). Consequently the thick envelope `ObjectProperty.triangEnvelope` of the essential
+Theorem 4.3 for `n = 1` and the remark following it for general `n`). Consequently the thick
+envelope `ObjectProperty.triangEnvelope` of the essential
 image is also everything.
 
 "Triangulated hull" means exactly these two statements about the triangulated category
@@ -849,7 +858,8 @@ attaches to the DG orbit category of an enhancement, whose triangulated hull is 
 closure of the representables, not their idempotent-complete thick closure. Prove the comparison
 with it: for the DG category `𝒟` of bounded complexes of finitely generated projective right
 `Λ`-modules, a DG enhancement of `D^b(mod-Λ)` in finite global dimension, the DG orbit category
-`𝒟/[n]` has Hom complexes `⊕_(j ∈ ℤ) Hom_𝒟(X, Y[nj])` (Keller), and `H⁰` of its pretriangulated
+`𝒟/[n]` has Hom complexes `⊕_(j ∈ ℤ) Hom_𝒟(X, Y[nj])` (Keller, *On triangulated orbit
+categories*, §5.1), and `H⁰` of its pretriangulated
 envelope (DGAInfinity, Layer 5) is triangle-equivalent to `D_n(mod-Λ)`, compatibly with the orbit
 functor, without an idempotent completion. No other notion of hull is used; an orbit category is
 not claimed to be triangulated or essentially surjective, and no hull statement is made without
@@ -867,12 +877,16 @@ the finite-global-dimension hypothesis.
 ### 4.5 Periodic projective resolutions and Eisenbud's periodicity
 
 Define an *eventually periodic projective resolution* of a module `M` as a projective resolution
-`P → M` together with a preperiod `p ≥ 0` and a period `m ≥ 1` such that `P_(i+m) = P_i` and
-`d_(i+m) = d_i` for `i ≥ p`. Prove that its tail beyond `p` is the unfolding
-(`TauCeti.PeriodicComplex.unfoldFunctor`) of the `m`-periodic complex obtained by compressing it,
-and that maps of modules lift to chain maps between such resolutions uniquely up to homotopy, so
-that an eventually periodic resolution is homotopy equivalent to every projective resolution of
-`M`. Prove that over a noetherian local ring `(R, 𝔪)`, in particular an artinian local ring, every
+`P → M`, with differentials `d_i : P_i → P_(i-1)`, together with a preperiod `p ≥ 0` and a period
+`m ≥ 1` such that `P_(i+m) = P_i` for `i ≥ p` and `d_(i+m) = d_i` for `i > p`. One period
+`P_p, …, P_(p+m-1)`, with `P_i` in degree `-i mod m` and the differentials `d_(p+1), …, d_(p+m)`
+(the last one `P_p = P_(p+m) → P_(p+m-1)`), is an `m`-periodic complex. Prove that the tail
+`⋯ → P_(p+1) → P_p`, with `P_i` in degree `-i`, is the truncation in degrees at most `-p` of the
+unfolding (`TauCeti.PeriodicComplex.unfoldFunctor`) of this `m`-periodic complex, which is itself
+unbounded in both directions; and that maps of modules lift to chain maps between such
+resolutions uniquely up to homotopy, so that an eventually periodic resolution is homotopy
+equivalent to every projective resolution of `M`. Prove that over a noetherian local ring `(R, 𝔪)`,
+in particular an artinian local ring, every
 finitely generated module, of finite or infinite projective dimension, has a *minimal* free
 resolution, by finitely generated free modules with every differential landing in `𝔪` times its
 target, and that any two minimal free resolutions are isomorphic as complexes over `M`.
@@ -902,8 +916,9 @@ minimality clauses of Eisenbud's Theorem 6.1.
   the derived category (`TauCeti.isZero_Q_obj_dualNumberPeriodicComplex`) of all modules, and it is
   not homotopically projective (`TauCeti.not_isHomotopicallyProjective_dualNumberPeriodicComplex`).
 - Over `A = k[x]/(x^n)`, the module `A/(x^i)` has the periodic resolution alternating `x^i` and
-  `x^(n-i)` (§8.2), whose compression to a two-periodic complex is the reduction of the matrix
-  factorization of §8.3.
+  `x^(n-i)` (§8.2), with preperiod `0` and period `2`; by §4.5, without `A/(x^i)`, it is the
+  truncation in degrees at most zero of the unfolding of the reduction modulo `x^n` of the matrix
+  factorization `(x^(n-i), x^i)` of §8.3.
 
 ### Dependencies
 
@@ -966,7 +981,7 @@ A right curved DG module over `(A, d, w)` is `TauCeti.IsCurvedDGRightModule h �
 `d_M²(m) = m*w`; bundled, these form `TauCeti.CurvedDGRightModuleCat h`. Left modules are
 `TauCeti.IsCurvedDGLeftModule`, with `d²(m) = -w*m`, and they are exactly the right modules over
 the graded opposite (`TauCeti.isCurvedDGLeftModule_iff_gradedOppositeRight`); left modules are never
-given the right-module square (Positselski, §6.2, Definitions 7.4–7.6).
+given the right-module square (Positselski, §6.2).
 *Needs:* §5.2; Tau Ceti `TauCeti.IsCurvedDGRightModule`, `TauCeti.CurvedDGRightModuleCat`.
 
 **Checks.**
@@ -1028,8 +1043,8 @@ homotopy categories.
 
 ### Examples
 
-- For an odd element `b` of a graded algebra, `d = [b, -]` and `w = -b²` form a curved DG algebra:
-  `d²(a) = [b², a] = a*w - w*a`, and `d(w) = -[b, b²] = 0`.
+- For an element `b` of degree one of a graded algebra, `d = [b, -]` and `w = -b²` form a curved
+  DG algebra: `d²(a) = [b², a] = a*w - w*a`, and `d(w) = -[b, b²] = 0`.
 - At curvature zero, ordinary DG modules are curved modules, and square-zero duplexes are
   two-periodic complexes (§3.1).
 
@@ -1244,7 +1259,8 @@ functor is an equivalence (Eisenbud, §5 and Theorem 6.1; Buchweitz, §4). With 
 comparison `HMF(S, w) ≃ stable(MCM R)`, and prove Eisenbud's minimality clause with it: the
 reduced matrix factorizations, those whose two maps have entries in `𝔪` in some bases, correspond
 through the cokernel bijectively, up to isomorphism, to the maximal Cohen–Macaulay `R`-modules
-without nonzero free summands. Eventual two-periodicity of resolutions is §4.5.
+without nonzero free summands (Eisenbud, Corollary 6.3). Eventual two-periodicity of resolutions is
+§4.5.
 *Route.* Over `S` regular local, a finitely generated Gorenstein-projective `R`-module has
 projective dimension at most one over `S`
 (`TauCeti.IsGorensteinProjective.hasProjectiveDimensionLE_restrictScalars_quotient_of_isRegularLocalRing`),
@@ -1265,9 +1281,12 @@ Let `X = Spec S` be a smooth affine variety over a field `k`, or more generally 
 a regular scheme satisfying Orlov's (ELF) conditions: separated, noetherian, of finite Krull
 dimension, with enough locally free sheaves of finite rank. Require the morphism `W : X → 𝔸¹`
 given by `w` to be flat, that is, `S` flat over `k[t]` through `t ↦ w`, and let `X₀ = Spec S/(w)` be
-its zero fibre; use finitely generated projective `S`-modules. Prove Orlov's theorem: the functor
-from `HMF(S, w)` to `D_sg(S/(w))` given by the cokernel functor of §7.4, the equivalence of §2.3 and
-the functor of §2.5 is an exact equivalence (Orlov, Proposition 3.3 and Theorem 3.9). Under these
+its zero fibre; use finitely generated projective `S`-modules. Modules over the commutative ring
+`S/(w)` are its left modules, as in §7.4, so that here `D_sg(S/(w))` is
+`TauCeti.SingularityCategory (FGModuleCat (S ⧸ Ideal.span {w}))`. Prove Orlov's theorem: the
+functor from `HMF(S, w)` to `D_sg(S/(w))` given by the cokernel functor of §7.4, the equivalence of
+§2.3 for `A = S/(w)` and the functor of §2.5 for `C = FGModuleCat (S ⧸ Ideal.span {w})` is an
+exact equivalence (Orlov, Proposition 3.3 and Theorem 3.9). Under these
 hypotheses no idempotent completion is inserted. A ring-theoretic non-zero-divisor condition does
 not replace the flatness of `W`, and the theorem is not applied at `w = 0`. If another source
 gives, in a global or non-affine setting, only density up to direct summands, its statement is made
@@ -1319,8 +1338,10 @@ in degrees `0` and `1` are finitely generated projective, compatibly with homoto
 
 ### Examples
 
-- For `S = k[x]` and `w = x^n`, the factorization `(x^i, x^(n-i))` reduces modulo `x^n` to the
-  periodic resolution of `A/(x^i)` over `A = k[x]/(x^n)` (§8.3).
+- For `S = k[x]` and `w = x^n`, the factorization `(x^i, x^(n-i))` reduces modulo `x^n` to a
+  two-periodic complex whose unfolding, truncated in degrees at most one, is the periodic
+  resolution of `A/(x^i)` over `A = k[x]/(x^n)` with `A/(x^i)` deleted and `P_k` in degree
+  `1 - k` (§§8.2–8.3).
 - Rank-one factorizations `w = ab` give cokernels `S/(a)` reduced modulo `w`, which are
   Gorenstein-projective over `S/(w)` for `w` a non-zero-divisor.
 
@@ -1388,8 +1409,10 @@ morphisms form a space of dimension `min(i, j, n - i, n - j)`
 Prove that for `1 ≤ i < n` the minimal free resolution of `M_i` is the complex alternating
 multiplication by `x^i` and by `x^(n-i)`, augmented by `A → M_i`: it is exact
 (`TauCeti.MatrixFactorization.powerXPeriodicComplex_acyclic`), every differential lands in `(x)`,
-and it is the unfolding of the two-periodic complex
-`TauCeti.MatrixFactorization.powerXPeriodicComplex`. Prove that `min(i, j, n - i, n - j)` equals
+and, with `M_i` deleted and `P_k` in degree `-k`, it is the truncation in degrees at most zero of
+the unfolding of the two-periodic complex `TauCeti.MatrixFactorization.powerXPeriodicComplex`
+taken at the exponent `n - i`, whose differential is `x^(n-i)` from parity zero to parity one and
+`x^i` from parity one to parity zero. Prove that `min(i, j, n - i, n - j)` equals
 `min(i, j) - max(0, i + j - n)`.
 *Needs:* §§0.4, 2.1, 4.5; Tau Ceti `TauCeti.FGModuleCat.finrank_stableModuleHom_cyclicModule_root_pow`,
 `TauCeti.MatrixFactorization.powerXPeriodicComplex`.
@@ -1405,8 +1428,10 @@ and it is the unfolding of the two-periodic complex
 
 Let `S = k[x]`, `w = x^n` and `1 ≤ i < n`. The factorization `S --x^i--> S --x^(n-i)--> S`,
 `TauCeti.MatrixFactorization.powerXOfLE`, has both composites multiplication by `x^n`; its base
-change to `A = S/(x^n)` is the two-periodic free resolution of §8.2
-(`TauCeti.MatrixFactorization.powerXOfLEBaseChangePeriodicIso`), and its cokernel is `M_i`
+change to `A = S/(x^n)` is the two-periodic complex
+`TauCeti.MatrixFactorization.powerXPeriodicComplex`
+of §8.2 at the exponent `i` (`TauCeti.MatrixFactorization.powerXOfLEBaseChangePeriodicIso`), and its
+cokernel is `M_i`
 (`TauCeti.MatrixFactorization.powerXOfLECokernelIso`).
 
 Prove that `k[x]` is a free `k[t]`-module through `t ↦ x^n`, with basis `1, x, …, x^(n-1)`, hence
@@ -1545,7 +1570,10 @@ The other items of each section, introduced by "Define", "Construct" or "Prove",
   take them from Tau Ceti and from GrothendieckEulerForms; this roadmap builds none of them.
 - The finite-global-dimension hypothesis of Layer 4 is the bound `TauCeti.globalDimension Λᵐᵒᵖ ≤ d`
   on Tau Ceti's global dimension, a uniform bound on the projective dimensions of all right modules
-  in the universe of the ring; no separate global-dimension predicate is defined here.
+  in the universe of the ring; no separate global-dimension predicate is defined here. The
+  predicate `HasFiniteGlobalDimension Λ d` that other roadmaps cite, every `M : ModuleCat Λᵐᵒᵖ`
+  having projective dimension at most `d`, is this bound
+  (`TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE`).
 
 **Outside this roadmap.** Choosing a Hopf algebra for an ADE or `E₈` application; quotienting an
 affine root system by its imaginary root; any `E₈` finiteness conjecture; categorical Niemeier or
@@ -1657,7 +1685,8 @@ Paths are under `TauCeti/`; every declaration below is proved at the pin.
   `CategoryTheory.GorensteinProjective.fullyFaithfulToSingularityCategory` (additive and fully
   faithful, for any abelian category), `TauCeti.SingularityCategory.exists_iso_Q_obj_singleFunctor_obj`
   (with enough projectives and `Ext`), `TauCeti.globalDimension` (the supremum of the projective
-  dimensions in `ModuleCat` of the given universe), `TauCeti.HomotopyCategory.Bounded`.
+  dimensions in `ModuleCat` of the given universe) with
+  `TauCeti.globalDimension_le_iff_hasProjectiveDimensionLE`, `TauCeti.HomotopyCategory.Bounded`.
 - *Periodic complexes* (`Algebra/Homology/Periodic/`, `CategoryTheory/Exact/HomologicalComplex/`):
   `TauCeti.DifferentialModule`, `TauCeti.DifferentialModule.onePeriodicComplexEquivalence`,
   `TauCeti.DifferentialModule.differentialObjectEquivalence`, `TauCeti.DifferentialModule.forgetParity`,
@@ -1797,19 +1826,22 @@ used for Keller's hull of the DG orbit category in §4.4.
   University Press (1988), Chapter I §2, especially Theorem I.2.6: the triangulated stable category
   of a Frobenius category.
 - Theo Bühler, [*Exact Categories*](https://doi.org/10.1016/j.exmath.2009.04.004), Expositiones
-  Mathematicae 28 (2010), 1–69, §§7, 10–13: exact categories, projectives and injectives, and
-  Frobenius categories.
+  Mathematicae 28 (2010), 1–69, §6 (Proposition 6.13) and §§7, 10–13: exact categories, the
+  exact structure on the idempotent completion, projectives and injectives, and Frobenius
+  categories.
 - Bernhard Keller, [*Chain complexes and stable
   categories*](https://webusers.imj-prg.fr/~bernhard.keller/publ/csc.pdf), Manuscripta
   Mathematica 67 (1990), 379–417, especially §§1–4: exact structures on complexes and stable and
   homotopy comparisons.
-- Bernhard Keller, *On triangulated orbit categories*, Documenta Mathematica 10 (2005), 551–581:
-  orbit categories, their universal property and their triangulated hulls.
+- Bernhard Keller, *On triangulated orbit categories*, Documenta Mathematica 10 (2005), 551–581,
+  §1 and §5.1: orbit categories, their universal property, the DG orbit category and triangulated
+  hulls.
 - Ragnar-Olaf Buchweitz, [*Maximal Cohen–Macaulay Modules and Tate
   Cohomology*](https://bookstore.ams.org/SURV/262), Mathematical Surveys and Monographs 262,
-  American Mathematical Society (2021; lightly edited from the 1986 manuscript), §4 and
-  Theorem 4.4.1: complete resolutions, stable maximal Cohen–Macaulay modules, and the singularity
-  category.
+  American Mathematical Society (2021; lightly edited from the 1986 manuscript), Definition 1.2.2,
+  Definition 3.1.1, §4 and Theorem 4.4.1: the singularity category, complete resolutions and
+  stable maximal Cohen–Macaulay modules. These locators are those of the 1986 manuscript, held by
+  the University of Toronto's institutional repository (handle 1807/16682).
 - Bernhard Keller and Dieter Vossieck, [*Sous les catégories
   dérivées*](https://webusers.imj-prg.fr/~bernhard.keller/publ/scdabs.html), C. R. Acad. Sci.
   Paris Série I 305 (1987), 225–228: the comparison of stable and derived quotients.
@@ -1820,16 +1852,18 @@ used for Keller's hull of the DG orbit category in §4.4.
 - Torkil Stai, [*The triangulated hull of periodic
   complexes*](https://www.intlpress.com/site/pub/files/_fulltext/journals/mrl/2018/0025/0001/MRL-2018-0025-0001-a009.pdf),
   Mathematical Research Letters 25 (2018), 199–236, §§3.1–3.4, Proposition 3.10, Lemma 3.12,
-  and Theorem 4.3: periodic homotopy and derived categories, projective flags, compression, and
-  triangulated hulls.
+  and Theorem 4.3, each stated for `n = 1`, with the general period in the remark closing §3.4
+  and the remarks following Lemma 3.12 and Theorem 4.3: periodic homotopy and derived categories,
+  projective flags, compression, and triangulated hulls. These locators are those of the preprint
+  [arXiv:1510.03574v1](https://arxiv.org/abs/1510.03574v1).
 - Leonid Positselski, [*Differential graded Koszul duality: an introductory
   survey*](https://arxiv.org/abs/2207.07063), Bulletin of the London Mathematical Society 55
   (2023), 1553–1640, §§6.2 and 7.6, Definitions 7.4–7.6 and Theorems 7.8–7.9: curved DG signs and
   derived categories of the second kind.
 - David Eisenbud, [*Homological algebra on a complete intersection, with an application to group
   representations*](https://doi.org/10.2307/1999875), Transactions of the American Mathematical
-  Society 260 (1980), 35–64, §5 and Theorem 6.1: matrix factorizations and eventual
-  two-periodicity over hypersurfaces.
+  Society 260 (1980), 35–64, §5, Theorem 6.1 and Corollary 6.3: matrix factorizations, eventual
+  two-periodicity over hypersurfaces, and reduced matrix factorizations.
 - Dmitri Orlov, [*Triangulated categories of singularities and D-branes in Landau–Ginzburg
   models*](https://arxiv.org/abs/math/0302304), Proceedings of the Steklov Institute of
   Mathematics 246 (2004), 227–248, §§1.2 and 3, Proposition 3.3 and Theorem 3.9: for affine

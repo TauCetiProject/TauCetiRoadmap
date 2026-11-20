@@ -22,13 +22,13 @@ right `R`-modules is `FGModuleCat.{u} Rᵐᵒᵖ`, in the universe of `R`.
 
 The headline theorems stated here:
 
-* Buchweitz's theorem (Layer 2): over an Iwanaga–Gorenstein ring, Chen's functor from the
-  stable category of finitely generated Gorenstein-projective right modules to the singularity
-  category is an equivalence.
-* Stai's Lemma 3.12 and Theorem 4.3 (Layer 4): for a finite-dimensional algebra of finite global
-  dimension, the orbit functor `Dᵇ(mod-Λ)/[n] ⥤ Dₙ(mod-Λ)` is fully faithful, and its essential
-  image generates `Dₙ(mod-Λ)` under shifts and cones; with the same hypotheses,
-  `Dₙ(mod-Λ) ≃ Kₙ(proj-Λ)`.
+* Buchweitz's theorem (Layer 2): over an Iwanaga–Gorenstein ring, the functor placing a module
+  in degree zero, from the stable category of finitely generated Gorenstein-projective right
+  modules to the singularity category, is an equivalence.
+* Stai's Lemma 3.12 and Theorem 4.3, with the remarks following them for general `n` (Layer 4):
+  for a finite-dimensional algebra of finite global dimension, the orbit functor
+  `Dᵇ(mod-Λ)/[n] ⥤ Dₙ(mod-Λ)` is fully faithful, and its essential image generates `Dₙ(mod-Λ)`
+  under shifts and cones; with the same hypotheses, `Dₙ(mod-Λ) ≃ Kₙ(proj-Λ)`.
 * Positselski's Theorems 7.8(a), 7.8(b), 7.9(a) and 7.9(b) (Layer 6), for right curved DG
   modules.
 * Eisenbud's comparison (Layer 7): over a regular local ring, the cokernel functor from the
@@ -41,9 +41,9 @@ Headline theorems of the README that are not statable at the pins:
   exact category, so neither `Dᵇ(E)` nor its quotient by `Kᵇ(ProjInj E)` exists.
 * Orlov's theorem (Layer 7): the pins have no functor from the homotopy category of matrix
   factorizations to `TauCeti.SingularityCategory`; the cokernel functor lands in the stable
-  category of `TauCeti.GorensteinProjectiveModuleCat`, while Chen's functor starts from the stable
-  category of `CategoryTheory.GorensteinProjective`, and the pins have no comparison between the
-  two.
+  category of `TauCeti.GorensteinProjectiveModuleCat`, while the functor placing a module in
+  degree zero starts from the stable category of `CategoryTheory.GorensteinProjective`, and the
+  pins have no comparison between the two.
 * Eisenbud's eventual two-periodicity of minimal free resolutions over a hypersurface (Layer 4):
   the pins have no minimal free resolution of a module of infinite projective dimension.
 * The comparison of the triangulated hull of Keller's DG orbit category with `Dₙ(mod-Λ)`
@@ -59,9 +59,9 @@ universe w u
 /-! ## Layer 2: self-injective modules, total acyclicity, and singularities -/
 
 /-- **Buchweitz's theorem.** Let `R` be an Iwanaga–Gorenstein ring: left and right noetherian,
-with finite self-injective dimension on both sides. Then Chen's functor from the stable category
+with finite self-injective dimension on both sides. Then the functor from the stable category
 of finitely generated Gorenstein-projective right `R`-modules to the singularity category
-`Dᵇ(mod-R)/Kᵇ(proj-R)`, which places a module in degree zero, is an equivalence (Buchweitz,
+`Dᵇ(mod-R)/Kᵇ(proj-R)` that places a module in degree zero is an equivalence (Buchweitz,
 Theorem 4.4.1). -/
 theorem buchweitz_isEquivalence (R : Type u) [Ring R] [IsIwanagaGorenstein R]
     [HasDerivedCategory.{w} (FGModuleCat.{u} Rᵐᵒᵖ)] :
@@ -73,8 +73,9 @@ theorem buchweitz_isEquivalence (R : Type u) [Ring R] [IsIwanagaGorenstein R]
 /-- **Stai, Lemma 3.12.** Let `Λ` be a finite-dimensional algebra over a field `k` of finite
 global dimension, stated as a bound on the projective dimension of every right `Λ`-module in the
 universe of `Λ`, and let `n ≥ 1`. Then the orbit functor `Dᵇ(mod-Λ)/[n] ⥤ Dₙ(mod-Λ)`, the descent
-of compression to the orbit category, is full and faithful. (The noetherian instance on `Λᵐᵒᵖ`
-follows from finite-dimensionality.) -/
+of compression to the orbit category, is full and faithful. Stai states and proves Lemma 3.12
+for `n = 1`; the remark following it asserts the general period. (The noetherian instance on
+`Λᵐᵒᵖ` follows from finite-dimensionality.) -/
 theorem stai_orbitDerivedCompressionFunctor_full_faithful (k : Type*) {Λ : Type u} [Field k]
     [Ring Λ] [Algebra k Λ] [FiniteDimensional k Λ] [IsNoetherianRing Λᵐᵒᵖ]
     [HasDerivedCategory.{w} (FGModuleCat.{u} Λᵐᵒᵖ)] (d : ℕ)
@@ -86,7 +87,8 @@ theorem stai_orbitDerivedCompressionFunctor_full_faithful (k : Type*) {Λ : Type
 /-- **Stai, Theorem 4.3.** Under the hypotheses of Lemma 3.12, every isomorphism-closed
 triangulated subcategory of `Dₙ(mod-Λ)` containing the essential image of the orbit functor is
 all of `Dₙ(mod-Λ)`: the image generates under shifts and cones alone, without retracts. Together
-with Lemma 3.12 this says that `Dₙ(mod-Λ)` is the triangulated hull of the orbit category. -/
+with Lemma 3.12 this says that `Dₙ(mod-Λ)` is the triangulated hull of the orbit category. Stai
+states and proves Theorem 4.3 for `n = 1`; the remark following it asserts the general period. -/
 theorem stai_eq_top_of_essImage_le (k : Type*) {Λ : Type u} [Field k] [Ring Λ] [Algebra k Λ]
     [FiniteDimensional k Λ] [IsNoetherianRing Λᵐᵒᵖ]
     [HasDerivedCategory.{w} (FGModuleCat.{u} Λᵐᵒᵖ)] (d : ℕ)
@@ -101,7 +103,10 @@ theorem stai_eq_top_of_essImage_le (k : Type*) {Λ : Type u} [Field k] [Ring Λ]
 /-- **Stai's projective model of `Dₙ(mod-Λ)`.** Under the hypotheses of Lemma 3.12, the periodic
 Verdier localization restricts to an equivalence from the full subcategory `Kₙ(proj-Λ)` of the
 periodic homotopy category on the periodic complexes of finitely generated projective right
-`Λ`-modules to `Dₙ(mod-Λ)` (Stai, §3). -/
+`Λ`-modules to `Dₙ(mod-Λ)` (Stai, the remark closing §3.4). At the pins this functor is that of
+`TauCeti.PeriodicComplex.DerivedCategory.projectiveEquivalence` for `C = FGModuleCat Λᵐᵒᵖ`, once
+the bound on projective dimensions is carried from all right modules to the objects of
+`FGModuleCat Λᵐᵒᵖ`. -/
 theorem stai_projective_isEquivalence (k : Type*) {Λ : Type u} [Field k] [Ring Λ]
     [Algebra k Λ] [FiniteDimensional k Λ] [IsNoetherianRing Λᵐᵒᵖ] (d : ℕ)
     (hΛ : globalDimension.{u} Λᵐᵒᵖ ≤ d) (n : ℕ) [NeZero n] :
@@ -202,7 +207,11 @@ end Positselski
 maximal ideal (a non-zero-divisor, since `S` is a domain). Then the cokernel functor from the
 homotopy category of finitely generated projective (equivalently, free) matrix factorizations of
 `w` to the stable category of finitely generated Gorenstein-projective `S/(w)`-modules is an
-equivalence (Eisenbud, §5 and Theorem 6.1, with Buchweitz, §4). -/
+equivalence (Eisenbud, §5 and Theorem 6.1, with Buchweitz, §4). The pins prove that the
+functor is fully faithful, that its essential image consists of the modules with a length-one
+resolution by finitely generated projective `S`-modules, and that every finitely generated
+Gorenstein-projective `S/(w)`-module has projective dimension at most one over `S` (README §7.4);
+essential surjectivity is the assembly of these. -/
 theorem eisenbud_isEquivalence {S : Type u} [CommRing S] [IsRegularLocalRing S] {w : S}
     (hw : w ∈ nonZeroDivisors S) (hw𝔪 : w ∈ IsLocalRing.maximalIdeal S) :
     (MatrixFactorization.HomotopyCategory.quotientGorensteinProjectiveStableCokernel
