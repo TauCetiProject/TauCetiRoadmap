@@ -13,55 +13,19 @@ bound of order `√(K n)` for Gaussian bandits, and the Lai–Robbins lower boun
 number of plays of an arm under a consistent policy. It ends with oblivious adversarial bandits:
 the importance-weighted estimators of Exp3 and its regret bound `√(2 n K log K)`.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap owns:
-
-- history-dependent randomized policies on a measurable arm space with real rewards, the law of
-  the interaction of a policy with an environment given by one reward kernel per round, and the
-  predicate saying that a policy plays in prescribed sets of arms;
-- stochastic bandits with finitely many arms: reward kernel, means, gaps, pull counts, empirical
-  means, regret, and the regret decomposition;
-- the sub-Gaussian bound for predictably weighted sums of reward noises along the interaction, and
-  its consequences for the first `m` rewards of an arm;
-- explore-then-commit and the upper confidence bound policy with a fixed confidence level, with
-  their regret bounds;
-- the divergence decomposition, the minimax lower bound for Gaussian bandits, consistency of a
-  policy over a class of bandits, and the Lai–Robbins lower bound;
-- oblivious adversarial bandits, the loss-based importance-weighted estimator, the Exp3 policy and
-  its regret bound.
-
-It consumes, and does not re-prove, the items listed under
-[Exact supplier contracts](#exact-supplier-contracts). In particular sub-Gaussian random variables,
-their Chernoff bound and Hoeffding's lemma for bounded variables are Mathlib's
-(`HasSubgaussianMGF`); the chain rule for the Kullback–Leibler divergence is Tau Ceti's; and the
-Bretagnolle–Huber inequality, the divergence between Gaussian laws and the bound of an event
-probability by the total variation distance are stated by
-[MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.3 and
-1.4 and [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.2.
-
-Out of scope:
-
-- infinitely many arms wherever a largest mean or a sum over the arms occurs, that is in the
-  gaps and the regret of 1.2 and 1.3 and in Layers 3 to 5, and uncountably many arms outside 1.1
-  (the law of the interaction of 1.1 is defined for every measurable arm space, and the reward
-  kernel, the pull counts and Layer 2 for countably many arms);
-- `ε`-greedy policies, the anytime and asymptotically optimal versions of the upper confidence
-  bound policy, MOSS, and KL-UCB for Bernoulli rewards;
-- Thompson sampling, Bayesian regret and Gittins indices;
-- contextual, linear, combinatorial and nonstationary stochastic bandits;
-- best-arm identification and other pure-exploration problems;
-- high-probability regret bounds, Exp3.P and Exp3-IX, adaptive adversaries, and the minimax
-  lower bound for adversarial bandits;
-- full-information online learning: Hedge, regret matching and their game-theoretic consequences
-  belong to [RegretMinimizationAndEquilibria](../RegretMinimizationAndEquilibria/README.md),
-  which leaves bandit feedback out of its scope;
-- Markov decision processes, which belong to
-  [MarkovDecisionProcesses](../MarkovDecisionProcesses/README.md). The history-dependent policies
-  and the trajectory law of its 1.1 are built from kernels on histories of states and actions
-  of a controlled Markov chain with a countable state space; a bandit has no state, and the
-  policies of 1.1 here are kernels on histories of arms and real rewards. The two constructions
-  share only Mathlib's `Kernel.trajMeasure`.
+Layer 1 constructs the law of the interaction of a policy with an environment (1.1), specializes
+it to stochastic bandits with their pull counts and empirical means (1.2), and defines the regret
+and proves its decomposition (1.3). Layer 2 proves the sub-Gaussian bound for weighted reward
+noises from 1.1 and 1.2. Layer 3 proves the regret upper bounds from Layers 1 and 2. Layer 4
+proves the lower bounds from Layer 1 and the supplier roadmaps; it uses neither Layer 2 nor
+Layer 3. Layer 5 treats adversarial bandits; it uses 1.1, and 1.2 and 1.3 only to compare its
+regret with that of a bandit of Dirac laws. The order is 1, 2, 3, 4, 5, and after Layer 1 the
+three blocks formed by Layers 2 and 3, by Layer 4 and by Layer 5 do not depend on one another.
+Each numbered target ends with **Checks** and a *Needs:* line, and every claim carries a source
+locator in parentheses or says that it is proved here. Lattimore and Szepesvári 2020 is cited
+by the result and equation numbers of the authors' online edition.
 
 ## Conventions
 
@@ -92,76 +56,6 @@ Out of scope:
   `0 * ∞` are `0`, as in `ℝ≥0∞`.
 - Real division by zero is `0` and `Real.log 0 = 0`, as in Mathlib; each statement in which such a
   value can occur says what it then asserts.
-
-## Exact supplier contracts
-
-- Mathlib:
-  - `Kernel.trajMeasure μ₀ κ` (`Mathlib/Probability/Kernel/IonescuTulcea/Traj.lean`): for Markov
-    kernels `κ n : Kernel (Π i : Iic n, X i) (X (n + 1))` and a measure `μ₀` on `X 0`, a measure
-    on `Π n, X n`, a probability measure when `μ₀` is one;
-    `Kernel.map_frestrictLe_trajMeasure_compProd_eq_map_trajMeasure` (same file): for a
-    probability measure `μ₀`, the law of `(frestrictLe a x, x (a + 1))` is
-    `(trajMeasure μ₀ κ).map (frestrictLe a) ⊗ₘ κ a`; `Kernel.condDistrib_trajMeasure` (same
-    file): for a probability measure `μ₀` and `X (a + 1)` standard Borel and nonempty, the
-    conditional law of the coordinate `a + 1` given the coordinates up to `a` is `κ a`;
-  - `MeasureTheory.IsProjectiveLimit.unique`
-    (`Mathlib/MeasureTheory/Constructions/Projective.lean`): two projective limits of one
-    projective family of finite measures are equal;
-  - `Kernel.compProd` and `Measure.compProd`; `Kernel.prodMkLeft`
-    (`Mathlib/Probability/Kernel/Composition/MapComap.lean`); `Kernel.ofFunOfCountable` and
-    `Kernel.deterministic` (`Mathlib/Probability/Kernel/Basic.lean`);
-    `Kernel.lintegral_compProd` (`Mathlib/Probability/Kernel/Composition/CompProd.lean`): for
-    s-finite kernels `κ`, `η` and measurable `f`,
-    `∫⁻ f ∂((κ ⊗ₖ η) a) = ∫⁻ b, ∫⁻ c, f (b, c) ∂(η (a, b)) ∂(κ a)`;
-    `MeasureTheory.Measure.lintegral_compProd`
-    (`Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean`): for s-finite `μ` and `κ` and
-    measurable `f`, `∫⁻ f ∂(μ ⊗ₘ κ) = ∫⁻ a, ∫⁻ b, f (a, b) ∂(κ a) ∂μ`;
-    `MeasureTheory.Measure.integral_compProd`
-    (`Mathlib/Probability/Kernel/Composition/IntegralCompProd.lean`): the same for `f`
-    integrable for `μ ⊗ₘ κ`;
-  - `Preorder.frestrictLe` (`Mathlib/Order/Restriction.lean`), `Finset.restrict`
-    (`Mathlib/Data/Finset/Pi.lean`), `DependsOn` (`Mathlib/Logic/Function/DependsOn.lean`):
-    `DependsOn f s` says that `f x = f y` whenever `x` and `y` agree on `s`;
-  - `HasSubgaussianMGF` (`Mathlib/Probability/Moments/SubGaussian.lean`), a structure with fields
-    `integrable_exp_mul` and `mgf_le`; `HasSubgaussianMGF.measure_ge_le`:
-    `μ.real {ω | ε ≤ X ω} ≤ exp (−ε² / (2 c))` for `ε ≥ 0`; `HasSubgaussianMGF.neg`;
-    `HasSubgaussianMGF.integrable`;
-  - `klDiv` (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`) and `klDiv_map_le`
-    (`Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`): for finite measures and
-    measurable `g`, `klDiv (μ.map g) (ν.map g) ≤ klDiv μ ν`;
-  - `gaussianReal`, `integral_id_gaussianReal` and `mgf_id_gaussianReal`
-    (`Mathlib/Probability/Distributions/Gaussian/Real.lean`): the mean of `gaussianReal μ v` is
-    `μ`, and its moment generating function is `t ↦ exp (μ t + v t² / 2)`;
-  - `Real.add_one_le_exp` (`Mathlib/Analysis/Complex/Exponential.lean`): `x + 1 ≤ exp x`.
-- Tau Ceti:
-  - `TauCeti.klDiv_compProd_eq_add_lintegral`
-    (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`): for finite measures `μ`, `ν` on
-    `α` and Markov kernels `κ`, `η` from `α` to `β`, with `α` countable or `β` countably
-    generated, `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ a, klDiv (κ a) (η a) ∂μ`;
-  - `TauCeti.klDiv_compProd_right` (same file): for a finite measure `μ` and finite kernels `κ`,
-    `η`, under the same countability condition,
-    `klDiv (μ ⊗ₘ κ) (μ ⊗ₘ η) = ∫⁻ a, klDiv (κ a) (η a) ∂μ`.
-- [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.2: for
-  probability measures and a measurable set `A`, `|P A − Q A| ≤ tvDist P Q / 2`.
-- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md):
-  - 1.3, `klDiv_gaussianReal`: for `v ≠ 0`,
-    `klDiv (gaussianReal a v) (gaussianReal b v) = ENNReal.ofReal ((a − b)² / (2 v))`;
-  - 1.4, `half_exp_neg_klDiv_le`, the Bretagnolle–Huber inequality: for probability measures
-    with `klDiv P Q ≠ ∞`, `exp (−(klDiv P Q).toReal) / 2 ≤ 1 − tvDist P Q / 2`.
-
-## How to read the build
-
-Layer 1 constructs the law of the interaction of a policy with an environment (1.1), specializes
-it to stochastic bandits with their pull counts and empirical means (1.2), and defines the regret
-and proves its decomposition (1.3). Layer 2 proves the sub-Gaussian bound for weighted reward
-noises from 1.1 and 1.2. Layer 3 proves the regret upper bounds from Layers 1 and 2. Layer 4
-proves the lower bounds from Layer 1 and the supplier roadmaps; it uses neither Layer 2 nor
-Layer 3. Layer 5 treats adversarial bandits; it uses 1.1, and 1.2 and 1.3 only to compare its
-regret with that of a bandit of Dirac laws. The order is 1, 2, 3, 4, 5, and after Layer 1 the
-three blocks formed by Layers 2 and 3, by Layer 4 and by Layer 5 do not depend on one another.
-Each numbered target ends with **Checks** and a *Needs:* line, and every claim carries a source
-locator in parentheses or says that it is proved here. Lattimore and Szepesvári 2020 is cited
-by the result and equation numbers of the authors' online edition.
 
 ## Layer 1: policies, environments and regret
 
@@ -972,6 +866,112 @@ on sequences of random variables on an arbitrary probability space, against the 
 [lean4-mlir](https://github.com/brettkoonce/lean4-mlir) (Lean 4, BSD-3) trains
 reinforcement-learning agents and contains no proofs on bandits. These are
 reference material, not the specification.
+
+## Scope and ownership
+
+This roadmap owns:
+
+- history-dependent randomized policies on a measurable arm space with real rewards, the law of
+  the interaction of a policy with an environment given by one reward kernel per round, and the
+  predicate saying that a policy plays in prescribed sets of arms;
+- stochastic bandits with finitely many arms: reward kernel, means, gaps, pull counts, empirical
+  means, regret, and the regret decomposition;
+- the sub-Gaussian bound for predictably weighted sums of reward noises along the interaction, and
+  its consequences for the first `m` rewards of an arm;
+- explore-then-commit and the upper confidence bound policy with a fixed confidence level, with
+  their regret bounds;
+- the divergence decomposition, the minimax lower bound for Gaussian bandits, consistency of a
+  policy over a class of bandits, and the Lai–Robbins lower bound;
+- oblivious adversarial bandits, the loss-based importance-weighted estimator, the Exp3 policy and
+  its regret bound.
+
+It consumes, and does not re-prove, the items listed under
+[Exact supplier contracts](#exact-supplier-contracts). In particular sub-Gaussian random variables,
+their Chernoff bound and Hoeffding's lemma for bounded variables are Mathlib's
+(`HasSubgaussianMGF`); the chain rule for the Kullback–Leibler divergence is Tau Ceti's; and the
+Bretagnolle–Huber inequality, the divergence between Gaussian laws and the bound of an event
+probability by the total variation distance are stated by
+[MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md) 1.3 and
+1.4 and [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.2.
+
+Out of scope:
+
+- infinitely many arms wherever a largest mean or a sum over the arms occurs, that is in the
+  gaps and the regret of 1.2 and 1.3 and in Layers 3 to 5, and uncountably many arms outside 1.1
+  (the law of the interaction of 1.1 is defined for every measurable arm space, and the reward
+  kernel, the pull counts and Layer 2 for countably many arms);
+- `ε`-greedy policies, the anytime and asymptotically optimal versions of the upper confidence
+  bound policy, MOSS, and KL-UCB for Bernoulli rewards;
+- Thompson sampling, Bayesian regret and Gittins indices;
+- contextual, linear, combinatorial and nonstationary stochastic bandits;
+- best-arm identification and other pure-exploration problems;
+- high-probability regret bounds, Exp3.P and Exp3-IX, adaptive adversaries, and the minimax
+  lower bound for adversarial bandits;
+- full-information online learning: Hedge, regret matching and their game-theoretic consequences
+  belong to [RegretMinimizationAndEquilibria](../RegretMinimizationAndEquilibria/README.md),
+  which leaves bandit feedback out of its scope;
+- Markov decision processes, which belong to
+  [MarkovDecisionProcesses](../MarkovDecisionProcesses/README.md). The history-dependent policies
+  and the trajectory law of its 1.1 are built from kernels on histories of states and actions
+  of a controlled Markov chain with a countable state space; a bandit has no state, and the
+  policies of 1.1 here are kernels on histories of arms and real rewards. The two constructions
+  share only Mathlib's `Kernel.trajMeasure`.
+
+## Exact supplier contracts
+
+- Mathlib:
+  - `Kernel.trajMeasure μ₀ κ` (`Mathlib/Probability/Kernel/IonescuTulcea/Traj.lean`): for Markov
+    kernels `κ n : Kernel (Π i : Iic n, X i) (X (n + 1))` and a measure `μ₀` on `X 0`, a measure
+    on `Π n, X n`, a probability measure when `μ₀` is one;
+    `Kernel.map_frestrictLe_trajMeasure_compProd_eq_map_trajMeasure` (same file): for a
+    probability measure `μ₀`, the law of `(frestrictLe a x, x (a + 1))` is
+    `(trajMeasure μ₀ κ).map (frestrictLe a) ⊗ₘ κ a`; `Kernel.condDistrib_trajMeasure` (same
+    file): for a probability measure `μ₀` and `X (a + 1)` standard Borel and nonempty, the
+    conditional law of the coordinate `a + 1` given the coordinates up to `a` is `κ a`;
+  - `MeasureTheory.IsProjectiveLimit.unique`
+    (`Mathlib/MeasureTheory/Constructions/Projective.lean`): two projective limits of one
+    projective family of finite measures are equal;
+  - `Kernel.compProd` and `Measure.compProd`; `Kernel.prodMkLeft`
+    (`Mathlib/Probability/Kernel/Composition/MapComap.lean`); `Kernel.ofFunOfCountable` and
+    `Kernel.deterministic` (`Mathlib/Probability/Kernel/Basic.lean`);
+    `Kernel.lintegral_compProd` (`Mathlib/Probability/Kernel/Composition/CompProd.lean`): for
+    s-finite kernels `κ`, `η` and measurable `f`,
+    `∫⁻ f ∂((κ ⊗ₖ η) a) = ∫⁻ b, ∫⁻ c, f (b, c) ∂(η (a, b)) ∂(κ a)`;
+    `MeasureTheory.Measure.lintegral_compProd`
+    (`Mathlib/Probability/Kernel/Composition/MeasureCompProd.lean`): for s-finite `μ` and `κ` and
+    measurable `f`, `∫⁻ f ∂(μ ⊗ₘ κ) = ∫⁻ a, ∫⁻ b, f (a, b) ∂(κ a) ∂μ`;
+    `MeasureTheory.Measure.integral_compProd`
+    (`Mathlib/Probability/Kernel/Composition/IntegralCompProd.lean`): the same for `f`
+    integrable for `μ ⊗ₘ κ`;
+  - `Preorder.frestrictLe` (`Mathlib/Order/Restriction.lean`), `Finset.restrict`
+    (`Mathlib/Data/Finset/Pi.lean`), `DependsOn` (`Mathlib/Logic/Function/DependsOn.lean`):
+    `DependsOn f s` says that `f x = f y` whenever `x` and `y` agree on `s`;
+  - `HasSubgaussianMGF` (`Mathlib/Probability/Moments/SubGaussian.lean`), a structure with fields
+    `integrable_exp_mul` and `mgf_le`; `HasSubgaussianMGF.measure_ge_le`:
+    `μ.real {ω | ε ≤ X ω} ≤ exp (−ε² / (2 c))` for `ε ≥ 0`; `HasSubgaussianMGF.neg`;
+    `HasSubgaussianMGF.integrable`;
+  - `klDiv` (`Mathlib/InformationTheory/KullbackLeibler/Basic.lean`) and `klDiv_map_le`
+    (`Mathlib/InformationTheory/KullbackLeibler/DataProcessing.lean`): for finite measures and
+    measurable `g`, `klDiv (μ.map g) (ν.map g) ≤ klDiv μ ν`;
+  - `gaussianReal`, `integral_id_gaussianReal` and `mgf_id_gaussianReal`
+    (`Mathlib/Probability/Distributions/Gaussian/Real.lean`): the mean of `gaussianReal μ v` is
+    `μ`, and its moment generating function is `t ↦ exp (μ t + v t² / 2)`;
+  - `Real.add_one_le_exp` (`Mathlib/Analysis/Complex/Exponential.lean`): `x + 1 ≤ exp x`.
+- Tau Ceti:
+  - `TauCeti.klDiv_compProd_eq_add_lintegral`
+    (`TauCeti/InformationTheory/KullbackLeibler/ChainRule.lean`): for finite measures `μ`, `ν` on
+    `α` and Markov kernels `κ`, `η` from `α` to `β`, with `α` countable or `β` countably
+    generated, `klDiv (μ ⊗ₘ κ) (ν ⊗ₘ η) = klDiv μ ν + ∫⁻ a, klDiv (κ a) (η a) ∂μ`;
+  - `TauCeti.klDiv_compProd_right` (same file): for a finite measure `μ` and finite kernels `κ`,
+    `η`, under the same countability condition,
+    `klDiv (μ ⊗ₘ κ) (μ ⊗ₘ η) = ∫⁻ a, klDiv (κ a) (η a) ∂μ`.
+- [MathematicalStatisticsFoundations](../MathematicalStatisticsFoundations/README.md) 9.2: for
+  probability measures and a measurable set `A`, `|P A − Q A| ≤ tvDist P Q / 2`.
+- [MathematicalStatisticsNonparametric](../MathematicalStatisticsNonparametric/README.md):
+  - 1.3, `klDiv_gaussianReal`: for `v ≠ 0`,
+    `klDiv (gaussianReal a v) (gaussianReal b v) = ENNReal.ofReal ((a − b)² / (2 v))`;
+  - 1.4, `half_exp_neg_klDiv_le`, the Bretagnolle–Huber inequality: for probability measures
+    with `klDiv P Q ≠ ∞`, `exp (−(klDiv P Q).toReal) / 2 ≤ 1 − tvDist P Q / 2`.
 
 ## References
 
