@@ -7,8 +7,8 @@ ordinary double points. This roadmap proves this in the scheme-theoretic form of
 Deligne–Mumford, and builds the scheme-level theory of stable maps. A *model* of a curve `C` over
 `K` is a flat finitely presented `R`-scheme with a chosen isomorphism from its generic fibre to `C`.
 A *stable curve* over `S` is a proper flat family whose geometric fibres are connected, at worst
-nodal, of arithmetic genus at least two, and free of rational tails and bridges (components with
-normalization `ℙ¹` meeting the rest of the curve in one point, or in two).
+nodal, of arithmetic genus at least two, and free of rational tails and bridges (smooth rational
+components meeting the rest of the curve in one point, or in two).
 
 The headline theorems are these.
 
@@ -403,9 +403,13 @@ and semicontinuity of `H¹` (`TauCeti.AlgebraicGeometry.upperSemicontinuous_finr
 
 The genus of a scheme over a field is Tau Ceti's `AlgebraicGeometry.Scheme.genus`, `dim H¹(X, 𝒪_X)`
 (contract J-B), defined once. Prove that it is defined (`H¹` finite-dimensional) for every proper
-curve over a field, prove the normalization and dual-graph formula of §1.4 for it, its invariance
-in a proper flat family, and the locally-free-rank description: arithmetic genus is locally constant
-on the base, and the predicate *has genus `g`* of `f : X → S` asks that `R¹f_*𝒪_X` be locally free
+curve over a field, and prove the normalization and dual-graph formula of §1.4 for it. For a
+family of curves `f : X → S` with `H⁰(X_s, 𝒪_{X_s}) = κ(s)` for every `s ∈ S`, prove that
+`R¹f_*𝒪_X` is finite locally free and that its formation commutes with arbitrary base change, so
+that the arithmetic genus of the fibres is locally constant on the base
+([Stacks Lemmas 109.9.3](https://stacks.math.columbia.edu/tag/0E1J) and
+[109.9.4](https://stacks.math.columbia.edu/tag/0E6K)); without that hypothesis on the fibres the
+genus can jump. The predicate *has genus `g`* of `f : X → S` asks that `R¹f_*𝒪_X` be locally free
 of constant rank `g`, with base change identifying its fibres with `H¹(X_s̄, 𝒪)`. Prove the fibrewise
 and Euler-characteristic formulations equivalent: for `f` proper, flat, with geometrically connected
 and geometrically reduced fibres, `f` has genus `g` exactly when every geometric fibre has
@@ -419,6 +423,11 @@ and geometrically reduced fibres, `f` has genus `g` exactly when every geometric
   normalization genera would see a genus drop.
 - Two disjoint lines over `k` have `H¹ = 0` and `H⁰ = k²`, so `χ = 2` and `1 − χ = −1 ≠ 0 = dim H¹`:
   the Euler-characteristic formulation needs geometrically connected fibres.
+- The twisted cubics in `ℙ³` given on `𝔸³` by `t ↦ (t² − 1, t³ − t, at)`, `a ≠ 0`, closed up over
+  the `a`-line, have at `a = 0` the fibre `X₀` with affine ideal `(z², xz, yz, y² − x²(x + 1))`: the
+  plane nodal cubic `Y` with an embedded point `P` at the node. From `0 → κ(P) → 𝒪_{X₀} → 𝒪_Y → 0`,
+  `h⁰(𝒪_{X₀}) = 2` and `h¹(𝒪_{X₀}) = 1`, against `1` and `0` on the fibres `ℙ¹`: `χ = 1` throughout,
+  but `dim H¹` jumps at the one fibre where `H⁰(X_s, 𝒪) = κ(s)` fails.
 
 ### 2.3 The relative dualizing sheaf
 
@@ -474,9 +483,15 @@ sheaf on `X` over `S`. Build projective morphisms over a general base, and the r
 finitely generated graded quasi-coherent algebra: Tau Ceti constructs
 `CategoryTheory.CommMon.relativeProj A` for graded quasi-coherent algebras
 (`TauCeti.AlgebraicGeometry.GradedQuasicoherentAlgebra`), with its affine charts, properness and
-twisting sheaves; prove its base change along `S' → S`, its functoriality in `A`, relative
-ampleness of `𝒪(1)` when `A` is generated in degree one, and its universal property, and connect the
-affine charts to Mathlib's `Proj`. Given a closed immersion `C ↪ ℙᴺ_K`, the proper model by
+twisting sheaves. For every graded quasi-coherent algebra `A`, finitely generated or not, prove
+that the formation of `relativeProj A` commutes with arbitrary base change `S' → S`, compatibly
+with the twisting sheaves ([Stacks Lemma 27.16.10](https://stacks.math.columbia.edu/tag/01O3)),
+that over an affine `S` it is Mathlib's `Proj` of the graded ring `A(S)`, and that a Veronese
+subalgebra `A^{(d)} = ⊕ₖ A_{dk}`, `d ≥ 1`, has the same relative `Proj`, its `𝒪(n)` corresponding
+to `𝒪(dn)` on `relativeProj A` (on affine charts,
+[Stacks Lemma 27.11.8](https://stacks.math.columbia.edu/tag/0B5J)). Prove its functoriality in
+`A`, relative ampleness of `𝒪(1)` when `A` is generated in degree one, and its universal property.
+Given a closed immersion `C ↪ ℙᴺ_K`, the proper model by
 scheme-theoretic closure in `ℙᴺ_R` is Tau Ceti's `TauCeti.Model.projectiveClosure`
 (`TauCeti.Model.isProper_projectiveClosure`).
 *Needs:* contracts J-A1, J-A2; Tau Ceti `TauCeti.AlgebraicGeometry.InvertibleSheaf`,
@@ -531,7 +546,8 @@ requires no Isom or Aut representability.
 ### 2.8 Effective étale descent of polarized schemes
 
 Build effective étale descent for schemes equipped with a compatible relatively ample invertible
-sheaf: descend the graded quasi-coherent section algebra and recover the scheme by relative `Proj`.
+sheaf: descend the graded quasi-coherent section algebra and recover the scheme by relative `Proj`
+(SGA 1, Exposé VIII, Proposition 7.8, along any faithfully flat quasi-compact morphism).
 Include descent of morphisms, sections, multiplication and the polarization, with cocycle and
 base-change coherence. Effectiveness of arbitrary scheme descent without a polarization is not used,
 and no moduli stack is invoked. Tau Ceti supplies descent of morphisms along effective epimorphisms
@@ -599,8 +615,10 @@ predicate of §2.2. Prove that, for a prestable family whose geometric fibres ha
 at least one, semistability is equivalent to the absence of rational tails in the geometric fibres
 and to fibrewise global generation of `ω_{X/S}^{⊗m}` for every `m ≥ 2`; and that, for genus at
 least two, stability is equivalent to the absence of rational tails and rational bridges and to
-relative ampleness of `ω_{X/S}`. On the dual graph of a geometric fibre (§1.4) the first
-equivalences are Tau Ceti's `DualGraph.isSemistable_iff_forall_not_isRationalTail` and
+relative ampleness of `ω_{X/S}` ([Stacks Lemmas 109.21.1](https://stacks.math.columbia.edu/tag/0E6Y)
+and [109.22.1](https://stacks.math.columbia.edu/tag/0E74)). On the dual graph of a geometric fibre
+(§1.4) the first equivalences are Tau Ceti's
+`DualGraph.isSemistable_iff_forall_not_isRationalTail` and
 `DualGraph.isStable_iff_forall_not_isRationalTail_and_not_isRationalBridge`, through the
 componentwise degree formula of §2.4. Each predicate is invariant under isomorphism and stable
 under base change (§3.4).
@@ -663,7 +681,10 @@ with automorphisms over `S` fixing every marking; automorphism groups are the or
 `CategoryTheory.Aut`. Prove that an `n`-pointed stable curve over an algebraically closed field has
 a finite automorphism group and no infinitesimal automorphisms: every automorphism of its base
 change to `k[ε]/(ε²)` that reduces to the identity modulo `ε` and fixes the markings is the
-identity. Representable relative Isom and Aut objects are outside this roadmap.
+identity (without markings, there are no nonzero vector fields by
+[Stacks Lemma 53.26.3](https://stacks.math.columbia.edu/tag/0E69), from Lemmas 53.26.1–53.26.2;
+markings enter as fixed points, as in Lemma 53.26.1(3)). Representable relative Isom and Aut
+objects are outside this roadmap.
 *Needs:* §3.3; §1.4, §2.3; Tau Ceti `PointedPrestableFamily.category`,
 `PointedPrestableFamily.toOver`, `PointedPrestableFamily.autToOver`,
 `PointedPrestableFamily.mem_range_autToOver_iff`.
@@ -744,8 +765,8 @@ Tau Ceti's: `DualGraph.IsStable.isSemistable_reindex_some`,
 Prove, locally uniformly on the base, global generation, `H¹`-vanishing and normal generation of
 sufficiently high powers of `B`. Use cohomology and base change to obtain locally free
 pushforwards and surjective evaluation and multiplication maps. Form a sufficiently divisible
-Veronese section algebra whose positive graded pieces commute with arbitrary base change, and
-prove that passing to it does not change the relative `Proj` (Knudsen II, §1).
+Veronese section algebra whose positive graded pieces commute with arbitrary base change; by the
+Veronese invariance of §2.5, passing to it does not change the relative `Proj` (Knudsen II, §1).
 *Needs:* §3.8; §2.1, §2.5, §2.6.
 
 ### 3.10 The single-marking contraction: the contraction morphism
@@ -794,7 +815,8 @@ finitely generated `I` (`IdealSheafData.isProper_blowupToBase`), cartesian flat 
 (`IdealSheafData.isPullback_blowupMap_of_flat`), the isomorphism away from the centre, the
 exceptional divisor and strict transforms. Prove that the blowup of a quasi-coherent ideal of finite
 type is a projective morphism in the sense of §2.5, with `𝒪(1)` the invertible ideal `I·𝒪` of the
-exceptional divisor, relatively ample.
+exceptional divisor, relatively ample
+([Stacks Lemma 31.33.13](https://stacks.math.columbia.edu/tag/02NS)).
 *Needs:* §2.5; Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.blowup`,
 `AlgebraicGeometry.Scheme.IdealSheafData.reesAlgebra`,
 `IdealSheafData.existsUnique_comp_blowupToBase_eq_of_isEffectiveCartier`,
@@ -948,10 +970,10 @@ the intersection relations `Σⱼ (Cᵢ · Cⱼ) mⱼ = 0` for every `i`
 `Cᵢ` of a regular proper model, `(Cᵢ · Cᵢ) + deg_k(ω_{X/R}|_{Cᵢ}) = −2χ_k(𝒪_{Cᵢ})` (Liu), and the
 genus formula expressing the genus of the generic fibre through the `mᵢ`, the `(Cᵢ · Cⱼ)` and the
 arithmetic genera of the `Cᵢ` ([Stacks Lemma 55.11.2](https://stacks.math.columbia.edu/tag/0CA3)).
-Prove that a model whose special fibre is geometrically reduced and connected, with geometrically
-smooth components and only ordinary nodes after algebraic closure, is a prestable model (through
-Tau Ceti's `TauCeti.Model.prestableFamily_toBase_iff`), and give the equivalent formulation with
-finite separable residue extensions at the singular points.
+Prove that a proper model whose special fibre is geometrically reduced and geometrically connected,
+with geometrically smooth components and only ordinary nodes after algebraic closure, is a
+prestable model (through Tau Ceti's `TauCeti.Model.prestableFamily_toBase_iff`), and give the
+equivalent formulation with finite separable residue extensions at the singular points.
 *Needs:* §4.3, §2.3, §2.2, §1.1; Tau Ceti `AlgebraicGeometry.Scheme.Hom.specialFiberMultiplicity`,
 `AlgebraicGeometry.Scheme.Hom.principalDivisor_eq_sum_specialFiber`,
 `TauCeti.isEffectiveCartier_ker_specialFiberι_of_isDiscreteValuationRing`,
@@ -961,6 +983,9 @@ finite separable residue extensions at the singular points.
 - In the special fibre `C + E + 2F` of §4.3's Check, the relations read `−2 + 0 + 2 = 0`,
   `0 − 2 + 2 = 0` and `1 + 1 − 2 = 0`; with all multiplicities taken to be one, the third would fail.
 - Adjunction on the exceptional line `F ≅ ℙ¹_k`: `F² + deg ω|_F = −1 + (−1) = −2 = −2χ(𝒪_F)`.
+- `ℙ¹_R` with one closed point of its special fibre removed is a model of `ℙ¹_K` whose special fibre,
+  `ℙ¹_k` minus a point, is geometrically reduced, geometrically connected and smooth; the model is
+  not proper, hence not prestable, so the criterion needs properness of the model.
 
 ### 5.4 Genus zero
 
@@ -1055,10 +1080,15 @@ special fibre ([Stacks, genus at least two](https://stacks.math.columbia.edu/tag
 rational point supplies, through the closed point of its section, a smooth `k`-point of the special
 fibre on a component of multiplicity one
 ([Stacks Lemma 55.11.7](https://stacks.math.columbia.edu/tag/0CE8)). The combinatorial input is
-Tau Ceti's `TauCeti.NumericalType.finrank_torsion_le_arithmeticGenus` with
+Tau Ceti's `NumericalType.IsMinimal.finrank_torsion_le_topologicalGenus_of_lt`,
+`dim_{𝔽_ℓ} Pic(T)[ℓ] ≤ g_top` for the minimal numerical type `T` of the model, `g_top` being the
+first Betti number of its intersection graph, with
 `NumericalType.IsMinimal.multiplicity_mul_abs_intersection_le` and
-`NumericalType.exists_chain_or_fork_or_exceptional`.
-*Needs:* §§6.1–6.3, §5.2; Tau Ceti `TauCeti.NumericalType.finrank_torsion_le_arithmeticGenus`,
+`NumericalType.exists_chain_or_fork_or_exceptional`. The bound by `g_top`, not by `g`, is what
+forces `mᵢ = 1`: through §6.2 it gives `2g − g_top ≤ dim_k H¹((X_k)_red, 𝒪) + g_geom`, and with
+`g ≥ dim_k H¹((X_k)_red, 𝒪) ≥ g_top + g_geom` every inequality becomes an equality.
+*Needs:* §§6.1–6.3, §5.2; Tau Ceti
+`NumericalType.IsMinimal.finrank_torsion_le_topologicalGenus_of_lt`,
 `NumericalType.IsMinimal.multiplicity_mul_abs_intersection_le`,
 `NumericalType.exists_chain_or_fork_or_exceptional`.
 
@@ -1232,9 +1262,12 @@ proper, flat, finitely presented and stable, and that the universal statements o
 ### 8.4 Stabilization on stable and tail-free families
 
 Prove that stabilization is the identity on a family that is already stable and commutes
-coherently with arbitrary base change. For a family without rational tails, identify the
-stabilization directly with the relative `Proj` of the pluricanonical algebra
-`⊕_m f_*(ω^{⊗m})`, after proving relative generation and base change. An arbitrary prestable
+coherently with arbitrary base change
+([Stacks Lemmas 109.23.4](https://stacks.math.columbia.edu/tag/0E8A) and
+[109.23.5](https://stacks.math.columbia.edu/tag/0E8B)). For a family without rational tails,
+identify the stabilization directly with the relative `Proj` of the pluricanonical algebra
+`⊕_m f_*(ω^{⊗m})`, after proving relative generation and base change (over a field,
+[Stacks Lemma 53.24.6](https://stacks.math.columbia.edu/tag/0E3Q)). An arbitrary prestable
 family can have rational tails of negative degree, so its pluricanonical evaluation map is not the
 construction.
 *Needs:* §8.3; §2.1, §2.5, §2.6.
@@ -1252,7 +1285,9 @@ Prove the classical stable reduction theorem by nodal reduction (§7.3) followed
 `g ≥ 2`, there are a finite separable extension `K'/K`, a maximal ideal `𝔪'` of the integral
 closure `R̃` of `R` in `K'` lying over the maximal ideal of `R`, and a stable family
 `X → Spec(R̃_{𝔪'})` of genus `g`, together with an isomorphism from its generic fibre to `C_{K'}`
-(Deligne–Mumford, Corollary 2.7). In Tau Ceti's vocabulary: a `TauCeti.FiniteDVRExtension R K`
+([Stacks Theorem 109.24.3(1)](https://stacks.math.columbia.edu/tag/0E98); Deligne–Mumford,
+Corollary 2.7, state it over the integral closure of `R` in a finite extension, not asserted
+separable). In Tau Ceti's vocabulary: a `TauCeti.FiniteDVRExtension R K`
 `E` and a proper `TauCeti.Model` of the base change of `C` to `E.extensionField` over
 `E.localRing` whose structure morphism is a stable family of genus `g`.
 *Needs:* §§8.2–8.4; §7.3; §3.2; Tau Ceti `TauCeti.FiniteDVRExtension`, `TauCeti.Model`,
@@ -1371,8 +1406,10 @@ Extend §9.4 from a smooth generic fibre to an already stable `n`-pointed nodal 
 §1.3 to split and label its nodes, branches and components after one finite separable extension;
 normalize; treat the paired branches as additional markings; apply §9.4 componentwise after one
 common finite extension; and glue the paired sections with the clutching of §§3.6–3.7. Prove that
-the glued family is nodal and stable and independent of all choices. The numerical bookkeeping is
-Tau Ceti's `DualGraph.cutComponent` with `DualGraph.forall_isStable_cutComponent_iff`.
+the glued family is nodal and stable and independent of all choices (Knudsen II, Theorem 2.7,
+p. 179, where the statement is part of properness of the stack of stable `n`-pointed curves,
+whose points include nodal curves). The numerical bookkeeping is Tau Ceti's
+`DualGraph.cutComponent` with `DualGraph.forall_isStable_cutComponent_iff`.
 *Needs:* §9.4; §1.3, §§3.6–3.7; Tau Ceti `DualGraph.cutComponent`,
 `DualGraph.forall_isStable_cutComponent_iff`,
 `TauCeti.FiniteDVRExtension.nonempty_binaryCofan`.
@@ -1474,8 +1511,9 @@ algebraically closed field, a component on which `F^*L` has degree zero is contr
 Define the predicate *stable map* on prestable maps fibrewise: on every geometric fibre, every
 contracted irreducible component `E` has positive log-canonical degree
 `2g(Ẽ) − 2 + #(special flags of E) > 0`, with normalization genus and special flags as in
-Convention 6 (Fulton–Pandharipande, the stability condition). Prove invariance under isomorphism
-and stability under arbitrary base change for every target. For a projective target with a
+Convention 6 (Behrend–Manin, Definition 3.2(3), p. 14; over `ℂ`, Fulton–Pandharipande, §1.1,
+p. 11). Prove invariance under isomorphism and stability under arbitrary base change for every
+target. For a projective target with a
 relatively ample invertible sheaf `L` over a locally Noetherian base, identify stability with
 fibrewise ampleness of `ω_{C/S}(Σsᵢ) ⊗ F^*(L^⊗3)` and apply the openness of ampleness of §2.7:
 stability is open on the base. Openness for general separated locally finitely presented targets is
@@ -1564,7 +1602,8 @@ polarization degree is the numerical invariant of record in this roadmap.
 Decorate the dual graph of a geometric fibre (§1.4) with marking legs and the component degrees of
 §11.1, as a Tau Ceti `TauCeti.DualGraph.DegreeDecoration`. Prove the genus and total-degree
 formulas for an actual map. A degree-zero vertex is stable exactly when
-`2g_v − 2 + val(v) + markings(v) > 0`, and a positive-degree vertex is automatically stable;
+`2g_v − 2 + val(v) + markings(v) > 0`, and a positive-degree vertex is automatically stable
+(Behrend–Manin, Definition 1.9, p. 6);
 equivalently, for a chosen polarization, `2g_v − 2 + val(v) + markings(v) + 3d_v > 0` at every
 vertex, with valence counting half-edges so that a loop counts twice. On abstract decorated graphs
 these are Tau Ceti's `DualGraph.DegreeDecoration.IsStable`,
@@ -1720,8 +1759,10 @@ differentials and normalization (Layer 0); the singular locus over a general bas
 and étale local structure of nodes, branches, normalization and the dual graph of an actual nodal
 curve with its genus formula, and geometric rational tails and bridges (Layer 1); coherent
 cohomology in families, arithmetic genus in families, the relative dualizing sheaf of a nodal curve
-and its component degrees, relative ampleness and projective morphisms, the remaining relative
-`Proj` API, the ampleness criterion, openness of ampleness and polarized étale descent (Layer 2);
+and its component degrees, relative ampleness and projective morphisms, the API of Tau Ceti's
+relative `Proj` that the library lacks (§2.5, including base change, the affine comparison with
+`Proj` and Veronese invariance for every graded quasi-coherent algebra), the ampleness criterion,
+openness of ampleness and polarized étale descent (Layer 2);
 semistable, stable and pointed stable families, their automorphisms, clutching and the
 single-marking contraction (Layer 3); projectivity of blowups, the resolution of `xy = πⁿ`,
 intersection theory on regular models, resolution by normalized blowups and contraction of
@@ -1729,6 +1770,12 @@ exceptional curves (Layer 4); regular and minimal models and the special fibre (
 numerical type of a regular model and the Artin–Winters argument (Layer 6); nodal reduction in
 genus one and in genus at least two with the uniform bound (Layer 7); stabilization and stable
 reduction (Layers 8–9); and the stability of maps with the stable-map constructions (Layers 10–11).
+
+[SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.3 states the same base
+change, affine comparison and Veronese invariance for `CategoryTheory.CommMon.relativeProj`. That
+roadmap consumes Layers 0–4 here, so these statements belong to §2.5, and its comparison of
+`relativeProj` with the relative `Proj` of Layer 2 is the identity, Layer 2 using Tau Ceti's
+construction itself.
 
 **Already in the library and consumed here.** Each object has one owner; this roadmap uses it by
 its Tau Ceti name and builds no second carrier. The exact declarations are listed under the supplier
@@ -2008,7 +2055,11 @@ Paths are relative to `TauCeti/AlgebraicGeometry/`. Every declaration below is p
   `TauCeti.NumericalType.Pic` and its comparison with the unweighted cokernel in `Picard/Basic.lean`;
   `TauCeti.NumericalType.torsion` in `Picard/Torsion/Basic.lean`;
   `TauCeti.NumericalType.finrank_torsion_le_arithmeticGenus` (`dim_{𝔽_ℓ} Pic(T)[ℓ] ≤ g` for a type of
-  genus `g ≥ 2` and every prime `ℓ > 768g − 768`) in `Picard/Torsion/Genus/Basic.lean`;
+  genus `g ≥ 2` and every prime `ℓ > 768g − 768`) and
+  `NumericalType.IsMinimal.finrank_torsion_le_topologicalGenus_of_lt` (`dim_{𝔽_ℓ} Pic(T)[ℓ] ≤ g_top`
+  for a minimal such type, `g_top` being `TauCeti.NumericalType.topologicalGenus`, the first Betti
+  number of the intersection graph, from `NumericalType/Topology.lean`) in
+  `Picard/Torsion/Genus/Basic.lean`;
   `NumericalType.twoComponentWeightTwoExample` in `Picard/WeightedExample.lean`.
 - **Nodal reduction** (Layer 7). `TauCeti.HasNodalReduction` (a proper model, at worst nodal of
   relative dimension one), `TauCeti.HasNodalReduction.baseChange` (along a finite DVR extension) and
