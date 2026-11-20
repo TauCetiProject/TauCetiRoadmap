@@ -101,6 +101,8 @@ way is not held behind an unrelated layer.
   `(e₁, i e₁, …, eₙ, i eₙ)`, and the standard real coordinates on `ℂⁿ` interleave real and imaginary
   parts, `(Re z₁, Im z₁, …, Re zₙ, Im zₙ)`. Products are ordered with the first factor first.
 
+<a id="milestone-1-restriction-of-scalars-and-atlas-transport"></a>
+
 ## Layer 1: restriction of scalars and atlas transport
 
 Fix a finite-dimensional complex normed space `E` and the boundaryless model `𝓘(ℂ, E)`; §1.1 and
