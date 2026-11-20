@@ -100,12 +100,13 @@ Boundaries with Mathlib, Tau Ceti, and neighboring roadmaps:
   Ceti's DG modules (`TauCeti/CategoryTheory/DG/Functor/Category.lean`) are out of scope.
 - **Finitely presented functors.** `mod C` is owned by
   [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md) §1.1, whose single-representable
-  predicate is implemented in Tau Ceti as `TauCeti.IsFinitelyPresentedFunctor`
-  (`TauCeti/CategoryTheory/FinitelyPresentedFunctor/Basic.lean`). 0.1 extends it to categories
-  without finite biproducts by finite sums of representables, keeping the name: the two agree when
-  `C` has finite biproducts (a named target of 0.1), but not on one-object categories, where over
-  `ℤ`, `ℤ²` is not a quotient of `ℤ`. Tau Ceti keeps one predicate; the single-representable form
-  becomes the theorem under `[HasFiniteBiproducts C]`.
+  predicate is `IsFinitelyPresentedFunctor` in ArtinAlgebras' `Suggested.lean` (implemented on
+  current Tau Ceti `main` as `TauCeti.IsFinitelyPresentedFunctor` in
+  `TauCeti/CategoryTheory/FinitelyPresentedFunctor/Basic.lean`, not yet at this roadmap's pin). 0.1
+  extends it to categories without finite biproducts by finite sums of representables, keeping the
+  name: the two agree when `C` has finite biproducts (a named target of 0.1), but not on one-object
+  categories, where over `ℤ`, `ℤ²` is not a quotient of `ℤ`. Tau Ceti keeps one predicate; the
+  single-representable form becomes the theorem under `[HasFiniteBiproducts C]`.
 - **Commutative flatness and `Tor`.** Over commutative rings, flatness remains Mathlib's
   `Module.Flat` (compared with `BalancedFlat` in 2.1, making `TauCeti.flatModuleFilteredFree` a
   corollary of 2.3). [Operator K-theory](../OperatorKTheory/README.md), §8.2, owns `ℤ`-specific
@@ -310,6 +311,8 @@ remains reserved for characteristic `p`.
 - [ArtinAlgebras](../RepresentationTheory/ArtinAlgebras/README.md), §0.2: `IsKrullSchmidt` and
   Krause's criterion (restated with `IsSemiperfectCategory` in 4.2); §0.3: uniqueness of
   Krull–Schmidt decompositions (used in a check of 0.9).
+- [SpectralSequencesAndConvergencePartII](../SpectralSequencesAndConvergencePartII/README.md),
+  §4.1: `nonempty_tor_iso_tor'`, whose `ModuleCat R` case is `nonempty_torIsoTor'` in 1.6.
 
 ## How to read the build
 
@@ -715,17 +718,16 @@ left projective vanishing, and the long exact sequence in the left-module variab
 - **Stable category `underline{mod C}` and transpose duality** (`TauCeti.ModCat.mod`,
   `TauCeti.ModCat.projInMod`, `TauCeti.ModCat.StableFP`, `TauCeti.ModCat.StableFP.ofPresentation`,
   `TauCeti.ModCat.stableFPToProjectiveStable`, `TauCeti.ModCat.exists_stableTransposeEquivalence`,
-  `TauCeti.ModCat.transpose`; [AB, §2.1,
-  pp. 48–52]): with no smallness or coherence hypothesis on `C`, `ModCat.StableFP C`
-  (`underline{mod C}`) is the quotient of `mod C` by `(ModCat.projInMod C).factorIdeal` (morphisms
-  factoring through `proj C`), which embeds fully and faithfully into the abelian projective-stable
-  category `underline{Mod C}` because for any factorization `X ⟶ P ⟶ Y` in `Mod C` with `X, Y ∈
-  mod C` and `P` projective, choosing an epimorphism `Q ↠ Y` from a finite sum of representables
-  `Q ∈ proj C` lifts `P ⟶ Y` to `P ⟶ Q`, factoring `X ⟶ Y` through `Q ∈ proj C`. Dualizing
-  presentations `P₁ ⟶ P₀ ⟶ X ⟶ 0` in `proj C` via 0.9's smallness-free dual `(-)^∨ = projDual C`
-  (`Tr f = coker(P₀^∨ → P₁^∨)`, `ModCat.transpose f`) induces an anti-equivalence
-  `(underline{mod C})ᵒᵖ ≌ underline{mod Cᵒᵖ}`, stated as one equivalence whose value on every
-  `StableFP.ofPresentation f` is `[Tr f]`, generalizing
+  `TauCeti.ModCat.transpose`; [AB, §2.1, pp. 48–52]): with no smallness or coherence hypothesis on
+  `C`, `ModCat.StableFP C` (`underline{mod C}`) is the quotient of `mod C` by `(ModCat.projInMod
+  C).factorIdeal` (morphisms factoring through `proj C`), which embeds fully and faithfully into the
+  projective-stable category of the abelian category `Mod C`, written `underline{Mod C}`, because
+  for any factorization `X ⟶ P ⟶ Y` in `Mod C` with `X, Y ∈ mod C` and `P` projective, choosing an
+  epimorphism `Q ↠ Y` from a finite sum of representables `Q ∈ proj C` lifts `P ⟶ Y` to `P ⟶ Q`,
+  factoring `X ⟶ Y` through `Q ∈ proj C`. Dualizing presentations `P₁ ⟶ P₀ ⟶ X ⟶ 0` in `proj C` via
+  0.9's smallness-free dual `(-)^∨ = projDual C` (`Tr f = coker(P₀^∨ → P₁^∨)`, `ModCat.transpose f`)
+  induces an anti-equivalence `(underline{mod C})ᵒᵖ ≌ underline{mod Cᵒᵖ}`, stated as one equivalence
+  whose value on every `StableFP.ofPresentation f` is `[Tr f]`, generalizing
   `TauCeti.stableTransposeEquivalence` from rings to arbitrary preadditive categories.
 - **Auslander–Bridger `Tor_1` formula** (`TauCeti.ModCat.exists_stableHomEquivTorTranspose`,
   [Auslander78, I, Prop. 3.2]; [AB, (2.8) (b),

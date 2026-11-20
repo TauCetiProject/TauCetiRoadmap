@@ -930,8 +930,8 @@ instance (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A] (M : Modu
 /-- **0.7** The right `A`-action `(f • a)(n) = f(a • n)` on `Hom_R(N, X)`. -/
 @[instance_reducible]
 noncomputable def homRightModule (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
-    (N : Type v) [AddCommGroup N] [Module A N] [Module R N] (X : Type*) [AddCommGroup X]
-    [Module R X] : Module Aᵐᵒᵖ (N →ₗ[R] X) :=
+    (N : Type v) [AddCommGroup N] [Module A N] [Module R N] [IsScalarTower R A N] (X : Type*)
+    [AddCommGroup X] [Module R X] : Module Aᵐᵒᵖ (N →ₗ[R] X) :=
   { smul a f := f.comp (addToLin (DistribSMul.toAddMonoidHom N a.unop) sorry)
     one_smul := sorry, mul_smul := sorry, smul_zero := sorry, smul_add := sorry,
     add_smul := sorry, zero_smul := sorry }
@@ -940,6 +940,7 @@ noncomputable def homRightModule (R : Type t) [CommRing R] (A : Type u) [Ring A]
 noncomputable def homRight (R : Type t) [CommRing R] (A : Type u) [Ring A] [Algebra R A]
     (N : ModuleCat.{v} A) : ModuleCat.{v} R ⥤ ModuleCat.{v} Aᵐᵒᵖ :=
   letI : Module R N := Module.compHom N (algebraMap R A)
+  haveI : IsScalarTower R A N := IsScalarTower.of_algebraMap_smul fun _ _ ↦ rfl
   { obj X := letI := homRightModule R A N X
       ModuleCat.of Aᵐᵒᵖ (N →ₗ[R] X)
     map {X Y} g := letI := homRightModule R A N X
@@ -1398,7 +1399,8 @@ theorem nonempty_balancedTorIsoTor (R : Type u) [CommRing R] (n : ℕ) :
       Tor (ModuleCat.{u} R) n) := sorry
 
 /-- **1.6** Symmetry `Tor (ModuleCat R) n ≅ Tor' (ModuleCat R) n` from balance: the `ModuleCat R`
-case of SpectralSequencesAndConvergencePartII §4.1's `nonempty_tor_iso_tor'`. -/
+case of SpectralSequencesAndConvergencePartII §4.1's `nonempty_tor_iso_tor'`, restated as that
+supplier's statement and not a target of this roadmap. -/
 theorem nonempty_torIsoTor' (R : Type u) [CommRing R] (n : ℕ) :
     Nonempty (Tor (ModuleCat.{u} R) n ≅ Tor' (ModuleCat.{u} R) n) := sorry
 
@@ -1517,7 +1519,7 @@ noncomputable def categoryAlgebraSingleObjRingEquiv (A : Type u) [Ring A] :
 theorem categoryAlgebraSingleObjRingEquiv_apply (A : Type u) [Ring A]
     (a : CategoryAlgebra (SingleObj Aᵐᵒᵖ)) :
     categoryAlgebraSingleObjRingEquiv A a =
-      MulOpposite.unop (a (SingleObj.star Aᵐᵒᵖ, SingleObj.star Aᵐᵒᵖ)) := sorry
+      MulOpposite.unop (a (SingleObj.star Aᵐᵒᵖ, SingleObj.star Aᵐᵒᵖ)) := rfl
 
 /-! ## Layer 2: flat modules and flat functors -/
 
