@@ -132,15 +132,19 @@ every `u ∈ U`, two admissible pairs from `(t, x)` with the same control have t
 agree on `[t, T]` (Liberzon, §3.3.1, pp. 67–69, for local existence and uniqueness with measurable
 locally bounded controls, stated there without proof).
 
-Route: the map `s ↦ f(y, α s)` is measurable in `s` for fixed `y` and Lipschitz in `y`, and
-`‖f(y, u)‖ ≤ C + K‖y‖` with `C` the maximum of `‖f(0, u)‖` over the compact `U`. Some iterate of
-the Picard map `y ↦ x + ∫ r in t..·, f(y r, α r)` on `C([t, T], ℝⁿ)` is a contraction, by the
-estimate `(K (s − t))^k / k!`, as in Tau Ceti's proof of
-`TauCeti.exists_continuousOn_eq_forall_mem_Icc_eq_picard` for linear equations. Along a
-continuous `y` the functions `s ↦ f(y s, α s)` and `s ↦ L(y s, α s)` are measurable and bounded on
-`[t, T]`, since `(y s, α s)` stays in a compact subset of `ℝⁿ × U`. Uniqueness: the difference of
-two trajectories satisfies `‖y₁ s − y₂ s‖ ≤ K ∫ r in t..s, ‖y₁ r − y₂ r‖`, so it vanishes by
-Grönwall's inequality (`TauCeti.le_mul_exp_of_le_add_mul_integral` with `c = 0`).
+Route: existence is a case of the nonlinear Carathéodory theorem of
+DiracScatteringAndNonlinearFourierTransform, Layer 1, §1.7, which owns the general statement in a
+Banach space. Apply it on `I = [t, T]` to `F(s, y) = f(y, α s)`: for fixed `y` the map
+`s ↦ f(y, α s)` is strongly measurable, as a continuous function of a measurable one;
+`‖F(s, y) − F(s, y')‖ ≤ K ‖y − y'‖`; and `‖F(s, x)‖ ≤ m` with `m` the maximum of `‖f(x, u)‖` over
+the compact `U`. Its solution is the trajectory, and its uniqueness clause gives uniqueness among
+continuous solutions of the integral equation. What the two statements here add for admissible
+pairs: along a continuous `y` the function `s ↦ L(y s, α s)` is measurable and bounded on `[t, T]`,
+since `(y s, α s)` stays in a compact subset of `ℝⁿ × U`, so the cost is defined; and
+`ControlProblem.eqOn_of_isAdmissiblePair` assumes only the Lipschitz bound and the integrability
+clauses of admissibility, without compactness of `U` or a growth bound: the difference of two
+trajectories satisfies `‖y₁ s − y₂ s‖ ≤ K ∫ r in t..s, ‖y₁ r − y₂ r‖`, so it vanishes by Grönwall's
+inequality (`TauCeti.le_mul_exp_of_le_add_mul_integral` with `c = 0`).
 
 **Checks.**
 - Mathlib's `IsPicardLindelof` asks for a field continuous in time, which `s ↦ f(y, α s)` is not
@@ -149,9 +153,9 @@ Grönwall's inequality (`TauCeti.le_mul_exp_of_le_add_mul_integral` with `c = 0`
 - Without the Lipschitz condition uniqueness fails: for `f(x, u) = 2 √|x|` (continuous, not
   Lipschitz at `0`) both `y = 0` and `y s = (s − t)²` solve the equation from `(t, 0)`.
 
-*Needs:* 1.1; Mathlib `ODE.picard`, interval integrals, `IsCompact.exists_isMaxOn`; Tau Ceti
-`TauCeti.le_mul_exp_of_le_add_mul_integral`. (Proved here, following the route of the cited Tau
-Ceti theorem.)
+*Needs:* 1.1; DiracScatteringAndNonlinearFourierTransform §1.7 (the nonlinear Carathéodory
+theorem); Mathlib interval integrals, `IsCompact.exists_isMaxOn`; Tau Ceti
+`TauCeti.le_mul_exp_of_le_add_mul_integral`.
 
 ### 1.3 Grönwall estimates
 
@@ -161,14 +165,18 @@ Prove the two estimates used in Layers 2 and 3, which we call the trajectory est
 `‖f(x, u)‖ ≤ M` on `ℝⁿ × U` and `(α, y)` is admissible from `(t, x)`, then `‖y s − x‖ ≤ M (s − t)`
 for `s ∈ [t, T]`. (Proved here.)
 
-Route: the first is Grönwall's inequality for `s ↦ ‖y s − y' s‖`, which is at most
-`‖x − x'‖ + K ∫ r in t..s, ‖y r − y' r‖`; the second bounds the integral of `f` by `M (s − t)`.
+Route: under the hypotheses of 1.2 the first is the dependence on the initial value of
+DiracScatteringAndNonlinearFourierTransform §1.7 with `L = K`; as stated here, for admissible pairs
+and without compactness of `U`, it is Grönwall's inequality for `s ↦ ‖y s − y' s‖`, which is at
+most `‖x − x'‖ + K ∫ r in t..s, ‖y r − y' r‖`. The second, which that section does not state,
+bounds the integral of `f` by `M (s − t)`.
 
 **Checks.**
 - For `f(x, u) = −x + u` (`K = 1`) and a common control, `y s − y' s = e^(−(s − t)) (x − x')`, below
   the bound `e^(s − t) ‖x − x'‖`; for `f(x, u) = x` (`K = 1`) the first estimate is an equality.
 
-*Needs:* 1.1; Tau Ceti `TauCeti.le_mul_exp_of_le_add_mul_integral`.
+*Needs:* 1.1; DiracScatteringAndNonlinearFourierTransform §1.7; Tau Ceti
+`TauCeti.le_mul_exp_of_le_add_mul_integral`.
 
 ### Examples
 
@@ -306,6 +314,10 @@ coming from a problem of the calculus of variations.)
 
 **Checks.**
 - For `ẏ = u`, `U = [−1, 1]`, `L = 0`: `H(x, p) = |p|`.
+- The sign in `−p(f)`: for `ẏ = u`, `U = [0, 1]`, `L = 0` and `g(x) = x` the value function is
+  `v(t, x) = x` (the control `0` is optimal), `H(x, p) = max(0, −p)` and
+  `−∂ₜv + H(x, ∂ₓv) = max(0, −1) = 0`; with `+p(f)` in place of `−p(f)` the left side would be
+  `max(0, 1) = 1`.
 - The factor `1 + ‖p‖` cannot be dropped: for `f(x, u) = u sin x`, `U = [−1, 1]`, `L = 0`, one has
   `H(x, p) = |p| |sin x|` and `|H(0.01, p) − H(0, p)| = |p| sin 0.01`, which is unbounded in `p`;
   the bound `|H(x, p) − H(y, p)| ≤ |x − y| (1 + |p|)` holds, since `|sin x − sin y| ≤ |x − y|`.
@@ -464,7 +476,7 @@ functions (Mathlib `AbsolutelyContinuousOnInterval.integral_deriv_eq_sub`) give
 **Checks.**
 - The hypothesis `t ≤ T` is needed: for `t > T` the interval `[t, T]` is empty and every
   measurable control with values in `U`, together with every curve, forms an admissible pair. With
-  `n = 1`, `L = 0` and `g(x) = x` the costs `g(y T)` are then all real numbers, and there is no
+  `n = 1`, `U = [−1, 1]`, `L = 0` and `g(x) = x` the costs `g(y T)` are then all real numbers, and there is no
   least cost.
 - For `ẏ = u`, `U = [−1, 1]`, `L = 0`, `g(x) = x`, the function `w(t, x) = x − (T − t)` has
   `∂ₜw + ∂ₓw u + L = 1 + u ≥ 0`, with equality for `u = −1`; so the constant control `−1` is optimal
@@ -611,12 +623,14 @@ Already in the libraries and therefore not targets:
   (`TauCeti.exists_continuousOn_eq_forall_mem_Icc_eq_picard`,
   `TauCeti.eqOn_of_forall_mem_Icc_eq_picard`), consumed for the variational and adjoint equations
   in Layer 6, and Grönwall's inequality in integral form
-  (`TauCeti.le_mul_exp_of_le_add_mul_integral`). The nonlinear existence theorem of 1.2 follows the
-  route of the first; it is not in the libraries. Tau Ceti's equations with measurable time
-  dependence are linear, its nonlinear global solution `ODE.globalSolution`
-  (`TauCeti/Analysis/ODE/GlobalSolution.lean`) is for autonomous globally Lipschitz fields, and
-  Mathlib's `IsPicardLindelof` asks for continuity in time; the field `s ↦ f(y, α s)` is
-  nonlinear, depends on time and is only measurable in it.
+  (`TauCeti.le_mul_exp_of_le_add_mul_integral`).
+- The nonlinear Carathéodory theorem (existence, uniqueness and dependence on the initial value
+  for equations measurable in time and Lipschitz in the state) is owned by
+  DiracScatteringAndNonlinearFourierTransform, Layer 1, §1.7; 1.2 and the first estimate of 1.3
+  are its case `F(s, y) = f(y, α s)`, stated for admissible pairs. It is not yet in the libraries:
+  Tau Ceti's equations with measurable time dependence are linear, its nonlinear global solution
+  `ODE.globalSolution` (`TauCeti/Analysis/ODE/GlobalSolution.lean`) is for autonomous globally
+  Lipschitz fields, and Mathlib's `IsPicardLindelof` asks for continuity in time.
 - Mathlib's Lebesgue differentiation theorem on intervals and fundamental theorem of calculus for
   absolutely continuous functions, consumed in Layers 5 and 6.
 - Tau Ceti's Hopf–Lax formula (`TauCeti.hopfLax`, `TauCeti/Analysis/PDE/HopfLax.lean`) is the value
@@ -693,6 +707,14 @@ method of characteristics; the Hopf–Lax formula; numerical schemes.
 - Named in the scope only: `TauCeti/Analysis/ODE/GlobalSolution.lean`: `ODE.globalSolution`;
   `TauCeti/Analysis/PDE/HopfLax.lean`: `TauCeti.hopfLax`;
   `TauCeti/Analysis/Convex/MongeAmpere/Viscosity.lean`: `TauCeti.IsMongeAmpereViscositySolution`.
+
+### From TauCetiRoadmap.DiracScatteringAndNonlinearFourierTransform
+
+- Layer 1, §1.7 (the nonlinear Carathéodory theorem): for `F : ℝ × E → E` with `t ↦ F(t, x)`
+  strongly measurable, `‖F(t, x) − F(t, y)‖ ≤ L(t) ‖x − y‖` and `‖F(t, x₀)‖ ≤ m(t)` with `L`, `m`
+  locally integrable, there is a continuous solution of `Y(t) = x₀ + ∫ F(s, Y(s)) ds` on the
+  interval, it is unique, and solutions from two initial values are at distance at most
+  `‖x₀ − x₀'‖ exp |∫ L|`. Used in 1.2 and 1.3 with `F(s, y) = f(y, α s)`, `L = K` and `m` constant.
 
 ## References
 
