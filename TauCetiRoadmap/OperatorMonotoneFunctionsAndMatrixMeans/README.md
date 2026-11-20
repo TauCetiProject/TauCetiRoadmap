@@ -39,61 +39,32 @@ targets of the same standing, stated in prose with their locators or proof route
 
 Suggested home: `TauCeti/Analysis/Matrix/OperatorMonotone/`, with one file per subsection.
 
-## Scope and ownership
+## How to read the build
 
-The roadmap is complete when Tau Ceti proves all of the following.
+Layer 1 fixes the vocabulary and settles what fails: the square is convex but not monotone, the
+cube is not convex on the half-line, and all counterexamples are explicit `2 × 2` matrices.
+Layer 2 is the engine of the subject. A single dilation trick, which turns a family of contractions
+into one unitary block matrix and then compresses, proves the Jensen operator inequality, Davis's
+criterion and the Hansen–Pedersen inequality; from these come the Choi–Davis–Jensen inequality,
+the equivalence of monotonicity and concavity on the half-line and the Bendat–Sherman criterion.
+Layer 3 proves the Daleckii–Krein formula and turns monotonicity into the positivity of the
+Loewner matrices, a finite-dimensional condition.
 
-1. **The notions.** Matrix and operator monotonicity, convexity and concavity of a real function
-   on a set, through the functional calculus of Hermitian matrices; composition and pointwise
-   limits; the powers, the inverse and the logarithm as examples; the square, the cube, the
-   absolute value and the exponential as counterexamples.
-2. **Jensen-type characterizations.** Davis's isometry criterion, the Jensen operator inequality
-   for families with `∑ Kⱼᴴ Kⱼ = 1`, the Hansen–Pedersen contraction inequality, the
-   Choi–Davis–Jensen inequality, monotone versus concave on the half-line, the Bendat–Sherman
-   criterion, the exact operator monotone and operator convex ranges of the powers, and the
-   operator convexity of `t log t`.
-3. **The differential theory.** Divided differences, Loewner matrices, the Daleckii–Krein
-   derivative of `t ↦ f(A + tH)`, Loewner's positivity criterion and the `C¹` regularity of
-   matrix monotone functions of order two.
-4. **Loewner's theorem.** Integral representation on `(-1, 1)` with a unique measure, the Pick
-   characterization on bounded open intervals, the representation of nonnegative operator
-   monotone functions on the half-line with unique data, and monotonicity on self-adjoint
-   elements of unital C⋆-algebras with spectra in an open interval.
-5. **Kubo–Ando means.** Representing functions, the formula mean, its extension to positive
-   semidefinite arguments, the axioms, the representation theorem with uniqueness, transposes,
-   the bounds for symmetric means, Ando's inequality and joint concavity.
-6. **The weighted geometric mean.** The identification with Tau Ceti's geometric mean at weight
-   one half, exchange, inversion and congruence, the commuting case and the determinant, the
-   harmonic–geometric–arithmetic order with equality only on the diagonal, and block
-   maximality.
-7. **The positive definite cone.** The affine-invariant distance, its invariances, the
-   exponential metric increasing property, the metric axioms, geodesics with uniqueness, the
-   length of paths, the semiparallelogram law, completeness and the Karcher barycenter.
-8. **Norm inequalities.** Kittaneh's lemma, the Bhatia–Kittaneh inequality for singular values and
-   for every unitarily invariant seminorm, the Bhatia–Davis inequality, the Heinz inequality and
-   the Bhatia–Kittaneh product inequality `4‖AB‖ ≤ ‖(A + B)²‖`.
+Layer 4 proves Loewner's theorem. The easy direction is a computation with the resolvent
+`t ↦ t / (1 + λt)`, and the hard direction is Krein–Milman applied to the compact convex set of
+normalized operator monotone functions on `(-1, 1)`, whose extreme points the Layer 2 and Layer 3
+results identify. Tau Ceti's Nevanlinna representation turns the integral form into the Pick form,
+and the half-line representation is the transfer of the integral form along a Möbius map.
 
-**Not owned here.**
-- Majorization, Ky Fan sums, unitarily invariant seminorms, Fan dominance and the block-sum
-  calculus of those seminorms: OperatorTheory/Majorization, Parts A and B (see the Summary for the
-  link). This roadmap consumes them and keeps a local copy of the seminorm structure.
-- Operator monotonicity of the square root on C⋆-algebras: Mathlib's `CFC.sqrt_le_sqrt`, which
-  [CStarAlgebras](../CStarAlgebras/README.md) consumes in its Section 1.1. This roadmap consumes it
-  as well.
-- Golden–Thompson and Lieb concavity: [RandomMatrices](../RandomMatrices/README.md), Section 2.6.
-- Trace inequalities, operator perspectives used for quantum entropy, relative entropies and
-  their monotonicity: Beyond.
-- Completely positive maps, Stinespring dilation and the Kadison–Schwarz inequality in C⋆-algebras:
-  [CStarAlgebras](../CStarAlgebras/README.md). The matrix inequalities of Layer 2 are proved here
-  for positive maps between matrix algebras without that machinery.
-- The Riemannian-manifold structure of the cone of real positive definite matrices (the metric
-  tensor `tr(X⁻¹UX⁻¹W)` as a Riemannian metric, its Riemannian distance as the metric-space
-  structure, the exponential map, completeness of that manifold): the roadmap
-  ManifoldOptimization, catalogue item O0.3. Layer 7 here owns the closed-form distance `δ` on
-  complex positive definite matrices and its matrix-analytic theory (7.1–7.4); the path-length
-  statement of 7.2 identifies `δ` with the least length of a `C¹` path, and it is the input for
-  the distance formula and the geodesic midpoint of O0.3. The connection, curvature and
-  Cartan–Hadamard on the complex cone are Beyond.
+Layers 5–7 are means and geometry. Layer 5 uses the half-line representation to prove the
+Kubo–Ando theorem and Ando's inequality, Layer 6 specializes to the powers and recovers Tau Ceti's
+geometric mean, and Layer 7 puts a metric on the positive definite cone in which `t ↦ A #ₜ B` is
+the geodesic. Layer 8 is independent of Layers 4–7: it uses Layer 1 and Majorization only.
+
+The layers are in build order with one exception: the operator convex range of the powers in 2.6
+excludes `r < -1` through the second-order criterion of 3.2, so that one part of 2.6 waits for
+Section 3.2. Layer 3 needs only Layer 1, and may be built before Layer 2; Layer 8 may be built
+right after Layer 1; Layer 4 needs Layers 2 and 3.
 
 ## Conventions
 
@@ -137,109 +108,6 @@ The roadmap is complete when Tau Ceti proves all of the following.
   `N`.
 - **Implementation namespace.** The Tau Ceti root namespace. The prototypes in `Suggested.lean` live
   in the roadmap's namespace.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-Paths are relative to `Mathlib/`.
-
-- Order and functional calculus of matrices: `Matrix.le_iff`, `Matrix.nonneg_iff_posSemidef`,
-  `Matrix.isStrictlyPositive_iff_posDef` (`Analysis/Matrix/Order.lean`);
-  `Matrix.IsHermitian.cfc_eq` with the instance for Hermitian matrices
-  (`Analysis/Matrix/HermitianFunctionalCalculus.lean`); `Matrix.IsHermitian.eigenvectorUnitary`,
-  `Matrix.IsHermitian.eigenvalues` and the spectral theorem `Matrix.IsHermitian.spectral_theorem`
-  (`Analysis/Matrix/Spectrum.lean`); the C⋆-algebra structure on matrices under
-  `open scoped Matrix.Norms.L2Operator` (`Analysis/CStarAlgebra/Matrix.lean`).
-- Schur products: `Matrix.PosSemidef.hadamard` (`Analysis/Matrix/Order.lean`).
-- Products in both orders: `Matrix.charpoly_mul_comm` (`LinearAlgebra/Matrix/Charpoly/Basic.lean`).
-- Block matrices, unitaries and Euclidean operators: `Matrix.fromBlocks`, `Matrix.unitaryGroup`,
-  `Matrix.toEuclideanLin`; the Schur complement criterion `Matrix.PosDef.fromBlocks₁₁`
-  (`LinearAlgebra/Matrix/PosDef.lean`).
-- Singular values: `LinearMap.singularValues` (`Analysis/InnerProductSpace/SingularValues.lean`).
-- C⋆-algebra order: `CFC.monotone_rpow` and `CFC.concaveOn_rpow` for exponents in `[0, 1]`, and
-  `CFC.sqrt_le_sqrt` (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Order.lean`);
-  `CFC.log_monotoneOn` and `CFC.concaveOn_log` (`…/ExpLog/Order.lean`); `CStarAlgebra.inv_le_inv`
-  (`Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Order.lean`);
-  `CStarAlgebra.convexOn_ringInverse` (`…/Rpow/RingInverseOrder.lean`); `CFC.conjSqrt`
-  (`…/Rpow/ConjSqrt.lean`).
-- Integral representation of the powers: `Real.rpowIntegrand₀₁`
-  (`…/Rpow/IntegralRepresentation.lean`), the model for 4.4.
-- Calculus under the functional calculus: `cfc_comp`, and `cfc_integral`
-  (`Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Integral.lean`).
-- Divided differences: `dslope` (`Analysis/Calculus/DSlope.lean`), the slope off the diagonal and
-  `deriv f a` on it.
-- Approximation and compactness: Weierstrass approximation `polynomialFunctions_closure_eq_top`
-  (`Topology/ContinuousMap/Weierstrass.lean`); `ContDiffBump` for mollifiers
-  (`Analysis/Calculus/BumpFunction/Basic.lean`); Arzelà–Ascoli
-  `BoundedContinuousFunction.arzela_ascoli` (`Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`).
-- Integration: the fundamental theorem `intervalIntegral.integral_eq_sub_of_hasDerivAt`
-  (`MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean`); Riesz–Markov–Kakutani
-  `RealRMK.integral_rieszMeasure` (`MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
-- Krein–Milman: `closure_convexHull_extremePoints` (`Analysis/Convex/KreinMilman.lean`).
-
-No operator monotone or operator convex predicate exists in Mathlib or Tau Ceti at the pin; Mathlib
-has the C⋆-algebra statements for the powers, the logarithm and the square root listed above. This
-roadmap defers to Mathlib's names for the general notion when they land and does not wait for
-them.
-
-### From Tau Ceti
-
-Paths are relative to `TauCeti/`.
-
-- Geometric mean in a C⋆-algebra setting: `TauCeti.geometricMean`, its symmetry
-  `TauCeti.geometricMean_comm`, the Riccati identity
-  `TauCeti.geometricMean_mul_ringInverse_mul_geometricMean` and its uniqueness
-  `TauCeti.eq_geometricMean_of_mul_ringInverse_mul`, and joint superadditivity
-  `TauCeti.geometricMean_add_geometricMean_le`
-  (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/GeometricMean.lean`).
-- Matrix specialization: the Riccati uniqueness `Matrix.PosDef.existsUnique_posSemidef_mul_mul`
-  (used in 6.1) and `Matrix.isHermitian_geometricMean` (used in 6.4)
-  (`Analysis/Matrix/GeometricMean.lean`).
-- Pick functions: `TauCeti.nevanlinnaKernel` and the Nevanlinna representation
-  `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add`
-  (`Analysis/Complex/Pick/Nevanlinna.lean`);
-  the Stieltjes–Perron vanishing theorem `TauCeti.measure_Icc_eq_zero_of_eq_nevanlinnaKernel_add`
-  and its half-line form `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add_of_im_eq_zero`
-  (`Analysis/Complex/Pick/Boundary.lean`).
-
-### From other roadmaps
-
-- **OperatorTheory/Majorization.** Part A: Ky Fan sums (MAJ-A26) and the Ky Fan variational upper
-  bound (MAJ-A28). Part B: the structure of unitarily invariant seminorms (MAJ-B01), determination
-  by singular values (MAJ-B19), Fan dominance (MAJ-B21) and the orthogonal block sums.
-  `Suggested.lean` keeps a local copy of the structure, named after the owner's.
-- **OperatorTheory/PolarDecomposition.** Eigenvalue monotonicity under the Loewner order
-  (PD-A52) and the polar decomposition of square matrices.
-- **CStarAlgebras.** Section 1.1, for the compression criterion `pTp ≤ T ↔ Commute p T` that
-  pairs with Davis's criterion in 2.1.
-
-## How to read the build
-
-Layer 1 fixes the vocabulary and settles what fails: the square is convex but not monotone, the
-cube is not convex on the half-line, and all counterexamples are explicit `2 × 2` matrices.
-Layer 2 is the engine of the subject. A single dilation trick, which turns a family of contractions
-into one unitary block matrix and then compresses, proves the Jensen operator inequality, Davis's
-criterion and the Hansen–Pedersen inequality; from these come the Choi–Davis–Jensen inequality,
-the equivalence of monotonicity and concavity on the half-line and the Bendat–Sherman criterion.
-Layer 3 proves the Daleckii–Krein formula and turns monotonicity into the positivity of the
-Loewner matrices, a finite-dimensional condition.
-
-Layer 4 proves Loewner's theorem. The easy direction is a computation with the resolvent
-`t ↦ t / (1 + λt)`, and the hard direction is Krein–Milman applied to the compact convex set of
-normalized operator monotone functions on `(-1, 1)`, whose extreme points the Layer 2 and Layer 3
-results identify. Tau Ceti's Nevanlinna representation turns the integral form into the Pick form,
-and the half-line representation is the transfer of the integral form along a Möbius map.
-
-Layers 5–7 are means and geometry. Layer 5 uses the half-line representation to prove the
-Kubo–Ando theorem and Ando's inequality, Layer 6 specializes to the powers and recovers Tau Ceti's
-geometric mean, and Layer 7 puts a metric on the positive definite cone in which `t ↦ A #ₜ B` is
-the geodesic. Layer 8 is independent of Layers 4–7: it uses Layer 1 and Majorization only.
-
-The layers are in build order with one exception: the operator convex range of the powers in 2.6
-excludes `r < -1` through the second-order criterion of 3.2, so that one part of 2.6 waits for
-Section 3.2. Layer 3 needs only Layer 1, and may be built before Layer 2; Layer 8 may be built
-right after Layer 1; Layer 4 needs Layers 2 and 3.
 
 ## Layer 1: the notions and the basic examples
 
@@ -1165,6 +1033,138 @@ Layer 1, OperatorTheory/Majorization, OperatorTheory/PolarDecomposition.
 - [CStarAlgebras](../CStarAlgebras/README.md), Section 1.1: its matrix-order examples are the
   `2 × 2` checks of Layer 1 in C⋆ form, and the C⋆ transfer 4.4 extends its consumption of
   `CFC.sqrt_le_sqrt` to every operator monotone function on an open interval.
+
+## Scope and ownership
+
+The roadmap is complete when Tau Ceti proves all of the following.
+
+1. **The notions.** Matrix and operator monotonicity, convexity and concavity of a real function
+   on a set, through the functional calculus of Hermitian matrices; composition and pointwise
+   limits; the powers, the inverse and the logarithm as examples; the square, the cube, the
+   absolute value and the exponential as counterexamples.
+2. **Jensen-type characterizations.** Davis's isometry criterion, the Jensen operator inequality
+   for families with `∑ Kⱼᴴ Kⱼ = 1`, the Hansen–Pedersen contraction inequality, the
+   Choi–Davis–Jensen inequality, monotone versus concave on the half-line, the Bendat–Sherman
+   criterion, the exact operator monotone and operator convex ranges of the powers, and the
+   operator convexity of `t log t`.
+3. **The differential theory.** Divided differences, Loewner matrices, the Daleckii–Krein
+   derivative of `t ↦ f(A + tH)`, Loewner's positivity criterion and the `C¹` regularity of
+   matrix monotone functions of order two.
+4. **Loewner's theorem.** Integral representation on `(-1, 1)` with a unique measure, the Pick
+   characterization on bounded open intervals, the representation of nonnegative operator
+   monotone functions on the half-line with unique data, and monotonicity on self-adjoint
+   elements of unital C⋆-algebras with spectra in an open interval.
+5. **Kubo–Ando means.** Representing functions, the formula mean, its extension to positive
+   semidefinite arguments, the axioms, the representation theorem with uniqueness, transposes,
+   the bounds for symmetric means, Ando's inequality and joint concavity.
+6. **The weighted geometric mean.** The identification with Tau Ceti's geometric mean at weight
+   one half, exchange, inversion and congruence, the commuting case and the determinant, the
+   harmonic–geometric–arithmetic order with equality only on the diagonal, and block
+   maximality.
+7. **The positive definite cone.** The affine-invariant distance, its invariances, the
+   exponential metric increasing property, the metric axioms, geodesics with uniqueness, the
+   length of paths, the semiparallelogram law, completeness and the Karcher barycenter.
+8. **Norm inequalities.** Kittaneh's lemma, the Bhatia–Kittaneh inequality for singular values and
+   for every unitarily invariant seminorm, the Bhatia–Davis inequality, the Heinz inequality and
+   the Bhatia–Kittaneh product inequality `4‖AB‖ ≤ ‖(A + B)²‖`.
+
+**Not owned here.**
+- Majorization, Ky Fan sums, unitarily invariant seminorms, Fan dominance and the block-sum
+  calculus of those seminorms: OperatorTheory/Majorization, Parts A and B (see the Summary for the
+  link). This roadmap consumes them and keeps a local copy of the seminorm structure.
+- Operator monotonicity of the square root on C⋆-algebras: Mathlib's `CFC.sqrt_le_sqrt`, which
+  [CStarAlgebras](../CStarAlgebras/README.md) consumes in its Section 1.1. This roadmap consumes it
+  as well.
+- Golden–Thompson and Lieb concavity: [RandomMatrices](../RandomMatrices/README.md), Section 2.6.
+- Trace inequalities, operator perspectives used for quantum entropy, relative entropies and
+  their monotonicity: Beyond.
+- Completely positive maps, Stinespring dilation and the Kadison–Schwarz inequality in C⋆-algebras:
+  [CStarAlgebras](../CStarAlgebras/README.md). The matrix inequalities of Layer 2 are proved here
+  for positive maps between matrix algebras without that machinery.
+- The Riemannian-manifold structure of the cone of real positive definite matrices (the metric
+  tensor `tr(X⁻¹UX⁻¹W)` as a Riemannian metric, its Riemannian distance as the metric-space
+  structure, the exponential map, completeness of that manifold): the roadmap
+  ManifoldOptimization, catalogue item O0.3. Layer 7 here owns the closed-form distance `δ` on
+  complex positive definite matrices and its matrix-analytic theory (7.1–7.4); the path-length
+  statement of 7.2 identifies `δ` with the least length of a `C¹` path, and it is the input for
+  the distance formula and the geodesic midpoint of O0.3. The connection, curvature and
+  Cartan–Hadamard on the complex cone are Beyond.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+Paths are relative to `Mathlib/`.
+
+- Order and functional calculus of matrices: `Matrix.le_iff`, `Matrix.nonneg_iff_posSemidef`,
+  `Matrix.isStrictlyPositive_iff_posDef` (`Analysis/Matrix/Order.lean`);
+  `Matrix.IsHermitian.cfc_eq` with the instance for Hermitian matrices
+  (`Analysis/Matrix/HermitianFunctionalCalculus.lean`); `Matrix.IsHermitian.eigenvectorUnitary`,
+  `Matrix.IsHermitian.eigenvalues` and the spectral theorem `Matrix.IsHermitian.spectral_theorem`
+  (`Analysis/Matrix/Spectrum.lean`); the C⋆-algebra structure on matrices under
+  `open scoped Matrix.Norms.L2Operator` (`Analysis/CStarAlgebra/Matrix.lean`).
+- Schur products: `Matrix.PosSemidef.hadamard` (`Analysis/Matrix/Order.lean`).
+- Products in both orders: `Matrix.charpoly_mul_comm` (`LinearAlgebra/Matrix/Charpoly/Basic.lean`).
+- Block matrices, unitaries and Euclidean operators: `Matrix.fromBlocks`, `Matrix.unitaryGroup`,
+  `Matrix.toEuclideanLin`; the Schur complement criterion `Matrix.PosDef.fromBlocks₁₁`
+  (`LinearAlgebra/Matrix/PosDef.lean`).
+- Singular values: `LinearMap.singularValues` (`Analysis/InnerProductSpace/SingularValues.lean`).
+- C⋆-algebra order: `CFC.monotone_rpow` and `CFC.concaveOn_rpow` for exponents in `[0, 1]`, and
+  `CFC.sqrt_le_sqrt` (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/Rpow/Order.lean`);
+  `CFC.log_monotoneOn` and `CFC.concaveOn_log` (`…/ExpLog/Order.lean`); `CStarAlgebra.inv_le_inv`
+  (`Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Order.lean`);
+  `CStarAlgebra.convexOn_ringInverse` (`…/Rpow/RingInverseOrder.lean`); `CFC.conjSqrt`
+  (`…/Rpow/ConjSqrt.lean`).
+- Integral representation of the powers: `Real.rpowIntegrand₀₁`
+  (`…/Rpow/IntegralRepresentation.lean`), the model for 4.4.
+- Calculus under the functional calculus: `cfc_comp`, and `cfc_integral`
+  (`Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Integral.lean`).
+- Divided differences: `dslope` (`Analysis/Calculus/DSlope.lean`), the slope off the diagonal and
+  `deriv f a` on it.
+- Approximation and compactness: Weierstrass approximation `polynomialFunctions_closure_eq_top`
+  (`Topology/ContinuousMap/Weierstrass.lean`); `ContDiffBump` for mollifiers
+  (`Analysis/Calculus/BumpFunction/Basic.lean`); Arzelà–Ascoli
+  `BoundedContinuousFunction.arzela_ascoli` (`Topology/ContinuousMap/Bounded/ArzelaAscoli.lean`).
+- Integration: the fundamental theorem `intervalIntegral.integral_eq_sub_of_hasDerivAt`
+  (`MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean`); Riesz–Markov–Kakutani
+  `RealRMK.integral_rieszMeasure` (`MeasureTheory/Integral/RieszMarkovKakutani/Real.lean`).
+- Krein–Milman: `closure_convexHull_extremePoints` (`Analysis/Convex/KreinMilman.lean`).
+
+No operator monotone or operator convex predicate exists in Mathlib or Tau Ceti at the pin; Mathlib
+has the C⋆-algebra statements for the powers, the logarithm and the square root listed above. This
+roadmap defers to Mathlib's names for the general notion when they land and does not wait for
+them.
+
+### From Tau Ceti
+
+Paths are relative to `TauCeti/`.
+
+- Geometric mean in a C⋆-algebra setting: `TauCeti.geometricMean`, its symmetry
+  `TauCeti.geometricMean_comm`, the Riccati identity
+  `TauCeti.geometricMean_mul_ringInverse_mul_geometricMean` and its uniqueness
+  `TauCeti.eq_geometricMean_of_mul_ringInverse_mul`, and joint superadditivity
+  `TauCeti.geometricMean_add_geometricMean_le`
+  (`Analysis/SpecialFunctions/ContinuousFunctionalCalculus/GeometricMean.lean`).
+- Matrix specialization: the Riccati uniqueness `Matrix.PosDef.existsUnique_posSemidef_mul_mul`
+  (used in 6.1) and `Matrix.isHermitian_geometricMean` (used in 6.4)
+  (`Analysis/Matrix/GeometricMean.lean`).
+- Pick functions: `TauCeti.nevanlinnaKernel` and the Nevanlinna representation
+  `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add`
+  (`Analysis/Complex/Pick/Nevanlinna.lean`);
+  the Stieltjes–Perron vanishing theorem `TauCeti.measure_Icc_eq_zero_of_eq_nevanlinnaKernel_add`
+  and its half-line form `TauCeti.exists_isFiniteMeasure_eq_nevanlinnaKernel_add_of_im_eq_zero`
+  (`Analysis/Complex/Pick/Boundary.lean`).
+
+### From other roadmaps
+
+- **OperatorTheory/Majorization.** Part A: Ky Fan sums (MAJ-A26) and the Ky Fan variational upper
+  bound (MAJ-A28). Part B: the structure of unitarily invariant seminorms (MAJ-B01), determination
+  by singular values (MAJ-B19), Fan dominance (MAJ-B21) and the orthogonal block sums.
+  `Suggested.lean` keeps a local copy of the structure, named after the owner's.
+- **OperatorTheory/PolarDecomposition.** Eigenvalue monotonicity under the Loewner order
+  (PD-A52) and the polar decomposition of square matrices.
+- **CStarAlgebras.** Section 1.1, for the compression criterion `pTp ≤ T ↔ Commute p T` that
+  pairs with Davis's criterion in 2.1.
 
 ## Beyond this roadmap (a roadmap for a roadmap; do not implement)
 
