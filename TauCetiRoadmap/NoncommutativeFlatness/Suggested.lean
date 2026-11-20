@@ -35,9 +35,11 @@ the roadmap. Existing Tau Ceti declarations carry their `TauCeti.` prefix.
 Every carrier, that is, every object the headline theorems are about, has a real body: the tensor
 product of categories, the regular bimodule, `I · M`, the coend tensor product and `Tor`, bimodule
 `⊗`, `Hom` and `Tor`, the dual `F^E`, `proj C`'s duality, the balanced tensor and `Hom` functors,
-the category algebra, and the module-category bridges. Their proof fields may still be `sorry`. The
-remaining `sorry` data are comparison isomorphisms, equivalences and adjunctions, together with the
-few lemmas that describe them. One-line lemmas such as the `ext` lemmas, `tmul_comp_tmul`, the
+the category algebra, and the module-category bridges. Their proof fields may still be `sorry`.
+Formula-given comparisons have real maps (the tensor product of one-object categories, ideals versus
+submodules of the regular bimodule, the one-object category algebra); comparisons whose existence is
+the content are stated as `Nonempty`/`∃` theorems, with dependent statements bundled so that one
+choice serves all of them. One-line lemmas such as the `ext` lemmas, `tmul_comp_tmul`, the
 `comp_mem` lemmas and `small_mulOpposite` are auxiliary API used by this file, not targets.
 
 For preadditive `C : Type u` with `Category.{v} C`, `ModCat C := Cᵒᵖ ⥤+ AddCommGrpCat.{w}` (with
@@ -189,8 +191,8 @@ noncomputable instance {F : ModCat.{w} C} : CompleteLattice (ModCat.Submodule F)
   completeLatticeOfInf _ fun _ ↦ sorry
 
 variable {C} in
-noncomputable def ModCat.Submodule.orderIsoSubobject (F : ModCat.{w} C) :
-    ModCat.Submodule F ≃o Subobject F := sorry
+theorem ModCat.Submodule.nonempty_orderIsoSubobject (F : ModCat.{w} C) :
+    Nonempty (ModCat.Submodule F ≃o Subobject F) := sorry
 
 end ModCat
 
@@ -332,7 +334,20 @@ instance (X : C₁) : (inrObj R C₂ X).Additive := sorry
 noncomputable def singleObjEquiv (R : Type t) [CommRing R] (A : Type u₁) [Ring A] [Algebra R A]
     (B : Type u₂) [Ring B] [Algebra R B] :
     Linear.TensorProduct R (SingleObj A) (SingleObj B) ≌
-      SingleObj (_root_.TensorProduct R A B) := sorry
+      SingleObj (_root_.TensorProduct R A B) where
+  functor :=
+    { obj _ := SingleObj.star _
+      map f := (f : _root_.TensorProduct R A B)
+      map_id := sorry
+      map_comp := sorry }
+  inverse :=
+    { obj _ := ⟨SingleObj.star _, SingleObj.star _⟩
+      map f := (f : _root_.TensorProduct R A B)
+      map_id := sorry
+      map_comp := sorry }
+  unitIso := NatIso.ofComponents (fun _ ↦ Iso.refl _) sorry
+  counitIso := NatIso.ofComponents (fun _ ↦ Iso.refl _) sorry
+  functor_unitIso_comp := sorry
 
 end Linear.TensorProduct
 
@@ -348,10 +363,10 @@ abbrev ModCat.Bimod (D : Type u₁) [Category.{v₁} D] [Preadditive D]
 
 /-- **0.3** Bridge between `R`-central bimodules over `SingleObj` and `ModuleCat (A ⊗[R] Bᵐᵒᵖ)`
 (`Mathlib/Algebra/Module/Bimodule.lean`). -/
-noncomputable def ModCat.LinearBimod.singleObjEquiv (R : Type t) [CommRing R]
+theorem ModCat.LinearBimod.nonempty_singleObjEquiv (R : Type t) [CommRing R]
     (A : Type u₁) [Ring A] [Algebra R A] (B : Type u₂) [Ring B] [Algebra R B] :
-    ModCat.LinearBimod.{v} R (SingleObj Aᵐᵒᵖ) (SingleObj Bᵐᵒᵖ) ≌
-      ModuleCat.{v} (_root_.TensorProduct R A Bᵐᵒᵖ) := sorry
+    Nonempty (ModCat.LinearBimod.{v} R (SingleObj Aᵐᵒᵖ) (SingleObj Bᵐᵒᵖ) ≌
+      ModuleCat.{v} (_root_.TensorProduct R A Bᵐᵒᵖ)) := sorry
 
 namespace ModCat.Bimod
 
@@ -359,13 +374,13 @@ variable {D : Type u₁} [Category.{v₁} D] [Preadditive D]
   {C : Type u₂} [Category.{v₂} C] [Preadditive C]
 
 /-- **0.3** Currying equivalences identifying `Bimod D C` with `C ⥤+ Mod D` and `Dᵒᵖ ⥤+ Mod Cᵒᵖ`. -/
-noncomputable def curryLeftEquiv (D : Type u₁) [Category.{v₁} D] [Preadditive D]
+theorem nonempty_curryLeftEquiv (D : Type u₁) [Category.{v₁} D] [Preadditive D]
     (C : Type u₂) [Category.{v₂} C] [Preadditive C] :
-    ModCat.Bimod.{w} D C ≌ (C ⥤+ ModCat.{w} D) := sorry
+    Nonempty (ModCat.Bimod.{w} D C ≌ (C ⥤+ ModCat.{w} D)) := sorry
 
-noncomputable def curryRightEquiv (D : Type u₁) [Category.{v₁} D] [Preadditive D]
+theorem nonempty_curryRightEquiv (D : Type u₁) [Category.{v₁} D] [Preadditive D]
     (C : Type u₂) [Category.{v₂} C] [Preadditive C] :
-    ModCat.Bimod.{w} D C ≌ (Dᵒᵖ ⥤+ ModCat.{w} Cᵒᵖ) := sorry
+    Nonempty (ModCat.Bimod.{w} D C ≌ (Dᵒᵖ ⥤+ ModCat.{w} Cᵒᵖ)) := sorry
 
 /-- **0.3** Left `D`-module slice `M(-, c)` and right `C`-module slice `M(d, -)`. -/
 noncomputable def sliceLeft (M : ModCat.Bimod.{w} D C) (c : C) : ModCat.{w} D :=
@@ -445,7 +460,15 @@ noncomputable def ModCat.regularBimod : ModCat.Bimod.{v} C C :=
 
 /-- **0.3** Two-sided ideals `MorphismIdeal C` are `(C, C)`-subbimodules of `_C C_C`. -/
 noncomputable def MorphismIdeal.orderIsoSubmoduleRegularBimod :
-    TauCeti.MorphismIdeal C ≃o ModCat.Submodule (ModCat.regularBimod C) := sorry
+    TauCeti.MorphismIdeal C ≃o ModCat.Submodule (ModCat.regularBimod C) where
+  toFun I := ⟨fun p ↦ I.hom p.unop.fst p.unop.snd.unop, sorry⟩
+  invFun S :=
+    { hom X Y := S.carrier (op ⟨X, op Y⟩)
+      comp_mem_left := sorry
+      comp_mem_right := sorry }
+  left_inv := sorry
+  right_inv := sorry
+  map_rel_iff' := sorry
 
 /-- **0.3** A left ideal of `C`: a left `C`-submodule of the `(C, C)`-bimodule `_C C_C`. -/
 abbrev LeftMorphismIdeal : Type (max u v) :=
@@ -677,11 +700,12 @@ instance [EssentiallySmall.{w} C] (R : Type*) [CommRing R] [Linear R C] (G : Mod
     ((linearTensor R).obj G).Additive := sorry
 
 /-- **0.4** Yoneda cancellation `G ⊗_C Hom(-, X) ≅ G(X)` and `Hom(X, -) ⊗_C F ≅ F(X)`. -/
-noncomputable def tensorObjYonedaIso [EssentiallySmall.{v} C] (G : ModCat.{v} Cᵒᵖ) (X : C) :
-    tensorObj G ((ModCat.yoneda C).obj X) ≅ G.obj.obj (op (op X)) := sorry
+theorem nonempty_tensorObjYonedaIso [EssentiallySmall.{v} C] (G : ModCat.{v} Cᵒᵖ) (X : C) :
+    Nonempty (tensorObj G ((ModCat.yoneda C).obj X) ≅ G.obj.obj (op (op X))) := sorry
 
-noncomputable def yonedaTensorObjIso [EssentiallySmall.{v} C] (X : C) (F : ModCat.{v} C) :
-    tensorObj ((ModCat.yoneda Cᵒᵖ).obj (Opposite.op X)) F ≅ F.obj.obj (Opposite.op X) := sorry
+theorem nonempty_yonedaTensorObjIso [EssentiallySmall.{v} C] (X : C) (F : ModCat.{v} C) :
+    Nonempty (tensorObj ((ModCat.yoneda Cᵒᵖ).obj (Opposite.op X)) F ≅
+      F.obj.obj (Opposite.op X)) := sorry
 
 section BimodTensorHom
 
@@ -790,9 +814,9 @@ noncomputable def Bimod.homCovLeft [EssentiallySmall.{w} D] (M : ModCat.Bimod.{w
   map_id := sorry
   map_comp := sorry
 
-noncomputable def Bimod.tensorLeftHomAdjunction [EssentiallySmall.{w} C] [EssentiallySmall.{w} D]
+theorem Bimod.nonempty_tensorLeftHomAdjunction [EssentiallySmall.{w} C] [EssentiallySmall.{w} D]
     (M : ModCat.Bimod.{w} D C) :
-    Bimod.tensorLeft M ⊣ Bimod.homCovLeft M := sorry
+    Nonempty (Bimod.tensorLeft M ⊣ Bimod.homCovLeft M) := sorry
 
 end BimodTensorHom
 
@@ -812,9 +836,10 @@ noncomputable def ModCat.opOpEquiv (C : Type u) [Category.{v} C] [Preadditive C]
     ModCat.{w} C ≌ ModCat.{w} Cᵒᵖᵒᵖ :=
   (ModCat.opOpFunctor.{w} C).asEquivalence
 
-noncomputable def ModCat.tensorObjSwapIso [EssentiallySmall.{w} C]
+theorem ModCat.nonempty_tensorObjSwapIso [EssentiallySmall.{w} C]
     (G : ModCat.{w} Cᵒᵖ) (F : ModCat.{w} C) :
-    ModCat.tensorObj G F ≅ ModCat.tensorObj ((ModCat.opOpEquiv C).functor.obj F) G := sorry
+    Nonempty (ModCat.tensorObj G F ≅
+      ModCat.tensorObj ((ModCat.opOpEquiv C).functor.obj F) G) := sorry
 
 end Tensor
 
@@ -850,39 +875,32 @@ def rTensor (f : M →ₗ[Aᵐᵒᵖ] M') :
   TauCeti.BalancedTensorProduct.map (f.restrictScalars R) LinearMap.id
     (fun a m ↦ f.map_smul (op a) m) (fun _ _ ↦ rfl)
 
-variable (M N) in
-/-- **0.7** Base change along `R → R' → A` onto `RestrictScalars R R' (M ⊗_A N)`. -/
-noncomputable def changeBaseLinearEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
+/-- **0.7** Base change along `R → R' → A`: the `R`-linear equivalence onto
+`RestrictScalars R R' (M ⊗_{A} N)` with `m ⊗ n ↦ m ⊗ n`. -/
+theorem exists_changeBaseLinearEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
     [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
     [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] :
-    TauCeti.BalancedTensorProduct R A M N ≃ₗ[R]
-      RestrictScalars R R' (TauCeti.BalancedTensorProduct R' A M N) := sorry
+    ∃ e : TauCeti.BalancedTensorProduct R A M N ≃ₗ[R]
+        RestrictScalars R R' (TauCeti.BalancedTensorProduct R' A M N),
+      ∀ (m : M) (n : N), e (TauCeti.BalancedTensorProduct.tmul R A m n) =
+        (RestrictScalars.addEquiv R R' _).symm (TauCeti.BalancedTensorProduct.tmul R' A m n) :=
+  sorry
 
-@[simp]
-theorem changeBaseLinearEquiv_tmul (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
-    [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
-    [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] (m : M) (n : N) :
-    changeBaseLinearEquiv R M N R' (TauCeti.BalancedTensorProduct.tmul R A m n) =
-      (RestrictScalars.addEquiv R R' _).symm (TauCeti.BalancedTensorProduct.tmul R' A m n) := sorry
-
-variable (M N) in
-noncomputable def changeBaseAddEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
+/-- **0.7** The additive form of base change, and its specialization along `ℤ → R`. -/
+theorem exists_changeBaseAddEquiv (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
     [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
     [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] :
-    TauCeti.BalancedTensorProduct R A M N ≃+ TauCeti.BalancedTensorProduct R' A M N :=
-  (changeBaseLinearEquiv R M N R').toAddEquiv.trans (RestrictScalars.addEquiv R R' _)
+    ∃ e : TauCeti.BalancedTensorProduct R A M N ≃+ TauCeti.BalancedTensorProduct R' A M N,
+      ∀ (m : M) (n : N), e (TauCeti.BalancedTensorProduct.tmul R A m n) =
+        TauCeti.BalancedTensorProduct.tmul R' A m n := by
+  obtain ⟨e, he⟩ := exists_changeBaseLinearEquiv R (A := A) (M := M) (N := N) R'
+  exact ⟨e.toAddEquiv.trans (RestrictScalars.addEquiv R R' _), fun m n ↦ by simp [he]⟩
 
-@[simp]
-theorem changeBaseAddEquiv_tmul (R' : Type*) [CommRing R'] [Algebra R R'] [Algebra R' A]
-    [IsScalarTower R R' A] [Module R' M] [IsScalarTower R' Aᵐᵒᵖ M] [IsScalarTower R R' M]
-    [Module R' N] [IsScalarTower R' A N] [IsScalarTower R R' N] (m : M) (n : N) :
-    changeBaseAddEquiv R M N R' (TauCeti.BalancedTensorProduct.tmul R A m n) =
-      TauCeti.BalancedTensorProduct.tmul R' A m n := by simp [changeBaseAddEquiv]
-
-variable (M N) in
-noncomputable def intAddEquiv :
-    TauCeti.BalancedTensorProduct ℤ A M N ≃+ TauCeti.BalancedTensorProduct R A M N :=
-  changeBaseAddEquiv ℤ M N R
+theorem exists_intAddEquiv :
+    ∃ e : TauCeti.BalancedTensorProduct ℤ A M N ≃+ TauCeti.BalancedTensorProduct R A M N,
+      ∀ (m : M) (n : N), e (TauCeti.BalancedTensorProduct.tmul ℤ A m n) =
+        TauCeti.BalancedTensorProduct.tmul R A m n :=
+  exists_changeBaseAddEquiv ℤ (A := A) (M := M) (N := N) R
 
 end Maps
 
@@ -931,11 +949,11 @@ noncomputable def homRight (R : Type t) [CommRing R] (A : Type u) [Ring A] [Alge
     map_comp := sorry }
 
 /-- **0.7** Comparison between the coend tensor over `SingleObj Aᵐᵒᵖ` and `M ⊗_A N`. -/
-noncomputable def tensorObjSingleObjIso {A : Type u} [Ring A] [Small.{v} A]
+theorem nonempty_tensorObjSingleObjIso {A : Type u} [Ring A] [Small.{v} A]
     (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) :
-    ModCat.tensorObj ((moduleCatMulOppositeEquivModCatOp.{v} A).functor.obj M)
+    Nonempty (ModCat.tensorObj ((moduleCatMulOppositeEquivModCatOp.{v} A).functor.obj M)
         ((moduleCatEquivModCat.{v} A).functor.obj N) ≅
-      AddCommGrpCat.of (TauCeti.BalancedTensorProduct ℤ A M N) := sorry
+      AddCommGrpCat.of (TauCeti.BalancedTensorProduct ℤ A M N)) := sorry
 
 /-- **0.7** Bimodule tensor functor `M ⊗_B - : ModuleCat B ⥤ ModuleCat A` and Tensor–Hom
 adjunction (lifting `TauCeti.BalancedTensorProduct.leftModule`). -/
@@ -980,9 +998,9 @@ noncomputable def bimodHomRight (A : Type u) [Ring A] (B : Type t) [Ring B] (M :
   map_id := sorry
   map_comp := sorry
 
-noncomputable def bimodLeftHomAdjunction (A : Type u) [Ring A] (B : Type t) [Ring B] (M : Type v)
+theorem nonempty_bimodLeftHomAdjunction (A : Type u) [Ring A] (B : Type t) [Ring B] (M : Type v)
     [AddCommGroup M] [Module A M] [Module Bᵐᵒᵖ M] [SMulCommClass A Bᵐᵒᵖ M] :
-    bimodLeftFunctor A B M ⊣ bimodHomRight A B M := sorry
+    Nonempty (bimodLeftFunctor A B M ⊣ bimodHomRight A B M) := sorry
 
 end BalancedTensorProduct
 
@@ -1011,8 +1029,9 @@ instance : IsIdempotentComplete (ModCat.proj C).FullSubcategory := sorry
 
 variable (C) in
 /-- **0.9** Equivalence `proj C ≌ Karoubi (Mat_ C)` ([Mitchell, §1, p. 12]). -/
-noncomputable def ModCat.projEquivKaroubiMat :
-    (ModCat.proj C).FullSubcategory ≌ CategoryTheory.Idempotents.Karoubi (Mat_ C) := sorry
+theorem ModCat.nonempty_projEquivKaroubiMat :
+    Nonempty ((ModCat.proj C).FullSubcategory ≌
+      CategoryTheory.Idempotents.Karoubi (Mat_ C)) := sorry
 
 variable (C) in
 /-- **0.9** Dual `Hom_{Mod C}(-, _C C_C) : (Mod C)ᵒᵖ ⥤ Mod Cᵒᵖ` on `Mod C` via the regular
@@ -1050,9 +1069,10 @@ noncomputable def ModCat.projDual :
     (ModCat.proj C).FullSubcategoryᵒᵖ ≌ (ModCat.proj Cᵒᵖ).FullSubcategory :=
   (ModCat.projDualFunctor C).asEquivalence
 
-noncomputable def ModCat.homAddEquivTensorObjProjDual [EssentiallySmall.{v} C]
+theorem ModCat.nonempty_homAddEquivTensorObjProjDual [EssentiallySmall.{v} C]
     (P : (ModCat.proj C).FullSubcategory) (F : ModCat.{v} C) :
-    (P.obj ⟶ F) ≃+ ModCat.tensorObj ((ModCat.projDual C).functor.obj (op P)).obj F := sorry
+    Nonempty ((P.obj ⟶ F) ≃+
+      ModCat.tensorObj ((ModCat.projDual C).functor.obj (op P)).obj F) := sorry
 
 /-- **0.9** Equivalence of cokernels in `proj C`, 0.1 finite presentation, and
 `IsFinitelyPresentable`. -/
@@ -1085,8 +1105,8 @@ universe u₁ v₁ u₂ v₂
 
 /-- **0.10** Restriction along `C ⥤ proj C` induces `Mod (proj C) ≌ Mod C` in every universe
 ([Mitchell, §1, p. 12]; [Simson, Thm. 5.6, p. 110]). -/
-noncomputable def ModCat.modCatProjEquiv (C : Type u) [Category.{v} C] [Preadditive C] :
-    ModCat.{w} (ModCat.proj C).FullSubcategory ≌ ModCat.{w} C := sorry
+theorem ModCat.nonempty_modCatProjEquiv (C : Type u) [Category.{v} C] [Preadditive C] :
+    Nonempty (ModCat.{w} (ModCat.proj C).FullSubcategory ≌ ModCat.{w} C) := sorry
 
 /-- **0.10** Categorical Morita theorem equating `Mod C ≌ Mod D`, `proj C ≌ proj D`,
 `Karoubi (Mat_ C) ≌ Karoubi (Mat_ D)`, and invertible bimodules ([Mitchell, §§1, 3, 6]). -/
@@ -1185,9 +1205,9 @@ noncomputable def Bimod.tor [EssentiallySmall.{w} C] (n : ℕ) :
 end BimodTor
 
 /-- **1.3** Balance isomorphism `Tor^C_n(G, F) ≅ Tor^{Cᵒᵖ}_n(F, G)` ([Weibel, Thm. 2.7.2]). -/
-noncomputable def torBalanceIso [EssentiallySmall.{w} C] (n : ℕ) :
-    (tor (C := C) n : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) ≅
-      ((ModCat.opOpEquiv C).functor ⋙ tor (C := Cᵒᵖ) n).flip := sorry
+theorem nonempty_torBalanceIso [EssentiallySmall.{w} C] (n : ℕ) :
+    Nonempty ((tor (C := C) n : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) ≅
+      ((ModCat.opOpEquiv C).functor ⋙ tor (C := Cᵒᵖ) n).flip) := sorry
 
 end ModCat
 
@@ -1202,18 +1222,18 @@ noncomputable def BalancedTor (n : ℕ) :
   map f := NatTrans.leftDerived ((BalancedTensorProduct.functor R A).map f) n
 
 /-- **1.1, rings** Comparison between `BalancedTor ℤ A n` and `ModCat.tor` over `SingleObj Aᵐᵒᵖ`. -/
-noncomputable def balancedTorIsoTorSingleObj (n : ℕ) :
-    BalancedTor.{v} ℤ A n ⋙
+theorem nonempty_balancedTorIsoTorSingleObj (n : ℕ) :
+    Nonempty (BalancedTor.{v} ℤ A n ⋙
         (Functor.whiskeringRight _ _ _).obj (forget₂ (ModuleCat.{v} ℤ) AddCommGrpCat.{v}) ≅
       (moduleCatMulOppositeEquivModCatOp.{v} A).functor ⋙
         ModCat.tor (C := SingleObj Aᵐᵒᵖ) n ⋙
-          (Functor.whiskeringLeft _ _ _).obj (moduleCatEquivModCat.{v} A).functor := sorry
+          (Functor.whiskeringLeft _ _ _).obj (moduleCatEquivModCat.{v} A).functor) := sorry
 
 /-- **1.3, rings** Balance swap `Tor_n^A(M, N) ≅ Tor_n^{Aᵐᵒᵖ}(N, M)`. -/
-noncomputable def balancedTorSwapIso (n : ℕ) :
-    BalancedTor.{v} R A n ≅
+theorem nonempty_balancedTorSwapIso (n : ℕ) :
+    Nonempty (BalancedTor.{v} R A n ≅
       (ModuleCat.restrictScalars.{v} (RingEquiv.opOp A).symm.toRingHom ⋙
-        BalancedTor.{v} R Aᵐᵒᵖ n).flip := sorry
+        BalancedTor.{v} R Aᵐᵒᵖ n).flip) := sorry
 
 end BalancedTor
 
@@ -1295,9 +1315,6 @@ noncomputable def ModCat.StableFP.ofPresentation {P₁ P₀ : (ModCat.proj C).Fu
     (f : P₁ ⟶ P₀) : ModCat.StableFP C :=
   (ModCat.projInMod C).factorIdeal.quotientFunctor.obj ⟨cokernel f.hom, sorry⟩
 
-variable (C) in
-noncomputable def ModCat.stableTransposeEquivalence :
-    (ModCat.StableFP C)ᵒᵖ ≌ ModCat.StableFP Cᵒᵖ := sorry
 
 /-- **1.4** Auslander–Bridger transpose `Tr f = coker(P₀^∨ → P₁^∨)` in `Mod Cᵒᵖ`, and its bridge
 with `stableTransposeEquivalence` in `underline{mod Cᵒᵖ}`. -/
@@ -1305,31 +1322,34 @@ noncomputable def ModCat.transpose {P₁ P₀ : (ModCat.proj C).FullSubcategory}
     ModCat.{v} Cᵒᵖ :=
   cokernel ((ModCat.projDual C).functor.map f.op).hom
 
-noncomputable def ModCat.stableTransposeEquivalenceObjIso
+variable (C) in
+/-- **1.4** Auslander–Bridger duality: one equivalence `(underline{mod C})ᵒᵖ ≌ underline{mod Cᵒᵖ}`
+sending the class of every presented cokernel to the class of the cokernel of its dual
+presentation ([AB, §2.1]). -/
+theorem ModCat.exists_stableTransposeEquivalence :
+    ∃ E : (ModCat.StableFP C)ᵒᵖ ≌ ModCat.StableFP Cᵒᵖ,
+      ∀ {P₁ P₀ : (ModCat.proj C).FullSubcategory} (f : P₁ ⟶ P₀),
+        Nonempty (E.functor.obj (op (ModCat.StableFP.ofPresentation f)) ≅
+          ModCat.StableFP.ofPresentation ((ModCat.projDual C).functor.map f.op)) := sorry
+
+/-- **1.4** `stable Hom(coker f, N) ≃+ Tor_1(Tr f, N)`, as one family natural in `N`
+([Auslander78, I, Prop. 3.2]). -/
+theorem ModCat.exists_stableHomEquivTorTranspose [EssentiallySmall.{v} C]
     {P₁ P₀ : (ModCat.proj C).FullSubcategory} (f : P₁ ⟶ P₀) :
-    (ModCat.stableTransposeEquivalence C).functor.obj (op (ModCat.StableFP.ofPresentation f)) ≅
-      ModCat.StableFP.ofPresentation ((ModCat.projDual C).functor.map f.op) := sorry
-
-/-- **1.4** `stable Hom(coker f, N) ≃+ Tor_1(Tr f, N)`, natural in `N` ([Auslander78, I, 3.2]). -/
-noncomputable def ModCat.stableHomEquivTorTranspose [EssentiallySmall.{v} C]
-    {P₁ P₀ : (ModCat.proj C).FullSubcategory} (f : P₁ ⟶ P₀) (N : ModCat.{v} C) :
-    ((TauCeti.ExactStructure.projectiveStableFunctor
-        (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj (cokernel f.hom) ⟶
-      (TauCeti.ExactStructure.projectiveStableFunctor
-        (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj N) ≃+
-      ((ModCat.tor 1).obj (ModCat.transpose f)).obj N := sorry
-
-theorem ModCat.stableHomEquivTorTranspose_comp [EssentiallySmall.{v} C]
-    {P₁ P₀ : (ModCat.proj C).FullSubcategory} (f : P₁ ⟶ P₀) {N N' : ModCat.{v} C} (g : N ⟶ N')
-    (φ : (TauCeti.ExactStructure.projectiveStableFunctor
-        (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj (cokernel f.hom) ⟶
-      (TauCeti.ExactStructure.projectiveStableFunctor
-        (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj N) :
-    ModCat.stableHomEquivTorTranspose f N'
-        (φ ≫ (TauCeti.ExactStructure.projectiveStableFunctor
-          (TauCeti.ExactStructure.abelian (ModCat.{v} C))).map g) =
-      (((ModCat.tor 1).obj (ModCat.transpose f)).map g)
-        (ModCat.stableHomEquivTorTranspose f N φ) := sorry
+    ∃ η : ∀ N : ModCat.{v} C,
+        ((TauCeti.ExactStructure.projectiveStableFunctor
+            (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj (cokernel f.hom) ⟶
+          (TauCeti.ExactStructure.projectiveStableFunctor
+            (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj N) ≃+
+          ((ModCat.tor 1).obj (ModCat.transpose f)).obj N,
+      ∀ {N N' : ModCat.{v} C} (g : N ⟶ N')
+        (φ : (TauCeti.ExactStructure.projectiveStableFunctor
+            (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj (cokernel f.hom) ⟶
+          (TauCeti.ExactStructure.projectiveStableFunctor
+            (TauCeti.ExactStructure.abelian (ModCat.{v} C))).obj N),
+        η N' (φ ≫ (TauCeti.ExactStructure.projectiveStableFunctor
+            (TauCeti.ExactStructure.abelian (ModCat.{v} C))).map g) =
+          (((ModCat.tor 1).obj (ModCat.transpose f)).map g) (η N φ) := sorry
 
 /-- **1.4** Projectivity criterion from vanishing of `Tor_1(Tr X, X)` ([CB, §1.3, p. 1646]). -/
 theorem ModCat.projective_of_isZero_tor_transpose [EssentiallySmall.{v} C]
@@ -1339,71 +1359,75 @@ theorem ModCat.projective_of_isZero_tor_transpose [EssentiallySmall.{v} C]
 
 open scoped ModuleCat.Algebra in
 /-- **1.4, rings** `stable Hom_A(X, N) ≃ₗ[R] Tor_1^A(Tr X, N)` for `AuslanderReitenTranspose`. -/
-noncomputable def stableHomEquivBalancedTorTranspose (R : Type t) [CommRing R] {A : Type u}
+theorem nonempty_stableHomEquivBalancedTorTranspose (R : Type t) [CommRing R] {A : Type u}
     [Ring A] [Algebra R A] {P₀ P₁ : Type u} [AddCommGroup P₀] [Module A P₀] [Module.Finite A P₀]
     [Module.Projective A P₀] [AddCommGroup P₁] [Module A P₁] [Module.Finite A P₁]
     [Module.Projective A P₁] {X : ModuleCat.{u} A} {f : P₁ →ₗ[A] P₀} {π : P₀ →ₗ[A] X}
     (hfπ : Function.Exact f π) (hπ : Function.Surjective π) (N : ModuleCat.{u} A) :
-    ((TauCeti.ExactStructure.projectiveStableFunctor
+    Nonempty (((TauCeti.ExactStructure.projectiveStableFunctor
         (TauCeti.ExactStructure.abelian (ModuleCat.{u} A))).obj X ⟶
       (TauCeti.ExactStructure.projectiveStableFunctor
         (TauCeti.ExactStructure.abelian (ModuleCat.{u} A))).obj N) ≃ₗ[R]
-      ((BalancedTor R A 1).obj (ModuleCat.of Aᵐᵒᵖ (TauCeti.AuslanderReitenTranspose f))).obj N :=
+      ((BalancedTor R A 1).obj (ModuleCat.of Aᵐᵒᵖ (TauCeti.AuslanderReitenTranspose f))).obj N) :=
   sorry
 
 /-- **1.5** Bifunctorial `Tor`–`Ext` duality `Hom_R(Tor^C_n(G, F), E) ≅ Ext^n(G, F^E)` for injective
 `E` ([CE, VI, Prop. 5.1]). -/
-noncomputable def ModCat.torExtDualityNatIso [EssentiallySmall.{w} C] (R : Type*) [CommRing R]
+theorem ModCat.nonempty_torExtDualityNatIso [EssentiallySmall.{w} C] (R : Type*) [CommRing R]
     [Linear R C] (E : ModuleCat.{w} R) [Injective E] (n : ℕ) :
-    (ModCat.linearTor (C := C) R n).op ⋙ Functor.opHom (ModCat.{w} C) (ModuleCat.{w} R) ⋙
+    Nonempty ((ModCat.linearTor (C := C) R n).op ⋙ Functor.opHom (ModCat.{w} C) (ModuleCat.{w} R) ⋙
         (Functor.whiskeringRight _ _ _).obj ((linearYoneda R (ModuleCat.{w} R)).obj E) ≅
       Abelian.linearExtFunctor R (ModCat.{w} Cᵒᵖ) n ⋙
-        (Functor.whiskeringLeft _ _ _).obj (ModCat.dual (C := C) R E) := sorry
+        (Functor.whiskeringLeft _ _ _).obj (ModCat.dual (C := C) R E)) := sorry
 
 open scoped ModuleCat.Algebra in
 /-- **1.5, rings** `Hom_R(Tor_n^A(M, N), E) ≃ₗ[R] Ext^n_{Aᵐᵒᵖ}(M, Hom_R(N, E))`
 ([Lambek, p. 241]). -/
-noncomputable def balancedTorExtDualityEquiv {R : Type t} [CommRing R] {A : Type u} [Ring A]
+theorem nonempty_balancedTorExtDualityEquiv {R : Type t} [CommRing R] {A : Type u} [Ring A]
     [Algebra R A] [Small.{v} A] (E : ModuleCat.{v} R) [Injective E]
     (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) (n : ℕ) :
-    ((((BalancedTor R A n).obj M).obj N) ⟶ E) ≃ₗ[R]
-      Abelian.Ext.{v} M ((BalancedTensorProduct.homRight R A N).obj E) n := sorry
+    Nonempty (((((BalancedTor R A n).obj M).obj N) ⟶ E) ≃ₗ[R]
+      Abelian.Ext.{v} M ((BalancedTensorProduct.homRight R A N).obj E) n) := sorry
 
 end TransposeAndDuality
 
 /-- **1.6** Over a commutative ring, `BalancedTor R R n` agrees with `CategoryTheory.Tor`. -/
-noncomputable def balancedTorIsoTor (R : Type u) [CommRing R] (n : ℕ) :
-    ModuleCat.restrictScalars.{u} (RingEquiv.toOpposite R).symm.toRingHom ⋙ BalancedTor.{u} R R n ≅
-      Tor (ModuleCat.{u} R) n := sorry
+theorem nonempty_balancedTorIsoTor (R : Type u) [CommRing R] (n : ℕ) :
+    Nonempty (ModuleCat.restrictScalars.{u} (RingEquiv.toOpposite R).symm.toRingHom ⋙
+        BalancedTor.{u} R R n ≅
+      Tor (ModuleCat.{u} R) n) := sorry
 
-/-- **1.6** Symmetry `Tor (ModuleCat R) n ≅ Tor' (ModuleCat R) n` from balance. -/
-noncomputable def torIsoTor' (R : Type u) [CommRing R] (n : ℕ) :
-    Tor (ModuleCat.{u} R) n ≅ Tor' (ModuleCat.{u} R) n := sorry
+/-- **1.6** Symmetry `Tor (ModuleCat R) n ≅ Tor' (ModuleCat R) n` from balance: the `ModuleCat R`
+case of SpectralSequencesAndConvergencePartII §4.1's `nonempty_tor_iso_tor'`. -/
+theorem nonempty_torIsoTor' (R : Type u) [CommRing R] (n : ℕ) :
+    Nonempty (Tor (ModuleCat.{u} R) n ≅ Tor' (ModuleCat.{u} R) n) := sorry
 
 section BalancedTorBase
 
 variable (R : Type t) [CommRing R] {A : Type u} [Ring A] [Algebra R A] [Small.{v} A]
 
 /-- **1.6** Base-change isomorphism for `BalancedTor` along `R → R' → A`. -/
-noncomputable def balancedTorRestrictScalarsIso (R' : Type*) [CommRing R'] [Algebra R R']
+theorem nonempty_balancedTorRestrictScalarsIso (R' : Type*) [CommRing R'] [Algebra R R']
     [Algebra R' A] [IsScalarTower R R' A] (n : ℕ) (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) :
-    (ModuleCat.restrictScalars (algebraMap R R')).obj (((BalancedTor R' A n).obj M).obj N) ≅
-      ((BalancedTor R A n).obj M).obj N := sorry
+    Nonempty ((ModuleCat.restrictScalars (algebraMap R R')).obj
+        (((BalancedTor R' A n).obj M).obj N) ≅
+      ((BalancedTor R A n).obj M).obj N) := sorry
 
-noncomputable def balancedTorIntIso (n : ℕ) (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) :
-    (ModuleCat.restrictScalars (algebraMap ℤ R)).obj (((BalancedTor R A n).obj M).obj N) ≅
-      ((BalancedTor ℤ A n).obj M).obj N :=
-  balancedTorRestrictScalarsIso ℤ R n M N
+theorem nonempty_balancedTorIntIso (n : ℕ) (M : ModuleCat.{v} Aᵐᵒᵖ) (N : ModuleCat.{v} A) :
+    Nonempty ((ModuleCat.restrictScalars (algebraMap ℤ R)).obj (((BalancedTor R A n).obj M).obj N) ≅
+      ((BalancedTor ℤ A n).obj M).obj N) :=
+  nonempty_balancedTorRestrictScalarsIso ℤ R n M N
 
 end BalancedTorBase
 
 /-- **1.6** `Tor_1^A(A ⧸ I, A ⧸ K) ≃+ (I ∩ K) ⧸ IK` ([Weibel, Exer. 3.1.3]). -/
-noncomputable def balancedTorOneQuotientEquiv (A : Type u) [Ring A] (I : Submodule Aᵐᵒᵖ A)
+theorem nonempty_balancedTorOneQuotientEquiv (A : Type u) [Ring A] (I : Submodule Aᵐᵒᵖ A)
     (K : Ideal A) :
-    (((BalancedTor.{u} ℤ A 1).obj (ModuleCat.of Aᵐᵒᵖ (A ⧸ I))).obj (ModuleCat.of A (A ⧸ K))) ≃+
+    Nonempty ((((BalancedTor.{u} ℤ A 1).obj (ModuleCat.of Aᵐᵒᵖ (A ⧸ I))).obj
+        (ModuleCat.of A (A ⧸ K))) ≃+
       ↥(I.toAddSubgroup ⊓ K.toAddSubgroup) ⧸
         (AddSubgroup.closure (Set.image2 (· * ·) (I : Set A) (K : Set A))).addSubgroupOf
-          (I.toAddSubgroup ⊓ K.toAddSubgroup) := sorry
+          (I.toAddSubgroup ⊓ K.toAddSubgroup)) := sorry
 
 /-! ### 1.7 Categories with finitely many objects -/
 
@@ -1466,25 +1490,28 @@ noncomputable instance (R : Type*) [CommRing R] [Linear R C] : Algebra R (Catego
 instance [LocallySmall.{w} C] : Small.{w} (CategoryAlgebra C) := by
   unfold CategoryAlgebra; infer_instance
 
-/-- **1.7** Morita equivalences and `Tor` comparison for `[Finite C]` ([Mitchell, Thm. 7.1]). -/
-noncomputable def modCatEquivCategoryAlgebra :
-    ModCat.{w} C ≌ ModuleCat.{w} (CategoryAlgebra C) := sorry
-
-noncomputable def modCatOpEquivCategoryAlgebra :
-    ModCat.{w} Cᵒᵖ ≌ ModuleCat.{w} (CategoryAlgebra C)ᵐᵒᵖ := sorry
-
-noncomputable def torCategoryAlgebraIso [EssentiallySmall.{w} C] (n : ℕ) :
-    (ModCat.tor (C := C) n : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) ≅
-      (modCatOpEquivCategoryAlgebra.{w} C).functor ⋙
-        (BalancedTor ℤ (CategoryAlgebra C) n ⋙
-          (Functor.whiskeringRight _ _ _).obj (forget₂ (ModuleCat.{w} ℤ) AddCommGrpCat.{w})) ⋙
-        (Functor.whiskeringLeft _ _ _).obj (modCatEquivCategoryAlgebra.{w} C).functor := sorry
+/-- **1.7** Morita equivalences for `[Finite C]`, chosen once together with the `Tor` comparison in
+every degree ([Mitchell, Thm. 7.1 and p. 37]). -/
+theorem exists_torCategoryAlgebraIso [EssentiallySmall.{w} C] :
+    ∃ (E₁ : ModCat.{w} C ≌ ModuleCat.{w} (CategoryAlgebra C))
+      (E₂ : ModCat.{w} Cᵒᵖ ≌ ModuleCat.{w} (CategoryAlgebra C)ᵐᵒᵖ), ∀ n : ℕ,
+        Nonempty ((ModCat.tor (C := C) n : ModCat.{w} Cᵒᵖ ⥤ ModCat.{w} C ⥤ AddCommGrpCat.{w}) ≅
+          E₂.functor ⋙
+            (BalancedTor ℤ (CategoryAlgebra C) n ⋙
+              (Functor.whiskeringRight _ _ _).obj (forget₂ (ModuleCat.{w} ℤ) AddCommGrpCat.{w})) ⋙
+            (Functor.whiskeringLeft _ _ _).obj E₁.functor) := sorry
 
 end CategoryAlgebra
 
 /-- **1.7** Ring isomorphism `CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≃+* A`. -/
 noncomputable def categoryAlgebraSingleObjRingEquiv (A : Type u) [Ring A] :
-    CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≃+* A := sorry
+    CategoryAlgebra (SingleObj Aᵐᵒᵖ) ≃+* A :=
+  RingEquiv.ofBijective
+    ({ toFun a := MulOpposite.unop
+         (show Aᵐᵒᵖ from a (SingleObj.star Aᵐᵒᵖ, SingleObj.star Aᵐᵒᵖ))
+       map_one' := sorry, map_mul' := sorry, map_zero' := sorry, map_add' := sorry } :
+      CategoryAlgebra (SingleObj Aᵐᵒᵖ) →+* A)
+    sorry
 
 @[simp]
 theorem categoryAlgebraSingleObjRingEquiv_apply (A : Type u) [Ring A]
@@ -1683,9 +1710,9 @@ theorem Module.balancedFlat_lazard_tfae {A : Type u} [Ring A] (M : Type u) [AddC
           IsCardinalPure Cardinal.aleph0.{u} (kernel.ι p)] := sorry
 
 /-- **2.3, rings** Lazard–Govorov density of finite free modules over a flat module. -/
-noncomputable def Module.BalancedFlat.denseAt {A : Type u} [Ring A] (M : Type u) [AddCommGroup M]
+theorem Module.BalancedFlat.isDenseAt {A : Type u} [Ring A] (M : Type u) [AddCommGroup M]
     [Module A M] [Module.BalancedFlat A M] :
-    (TauCeti.finiteFreeModuleInclusion A).DenseAt (ModuleCat.of A M) := sorry
+    (TauCeti.finiteFreeModuleInclusion A).isDenseAt (ModuleCat.of A M) := sorry
 
 section RepresentationTheorem
 
@@ -1710,9 +1737,9 @@ abbrev FinitelyPresented (𝒜 : Type u₁) [Category.{v₁} 𝒜] : Type _ :=
 
 /-- **2.4, Crawley-Boevey's representation theorem** `𝒜 ≌ Flat(fp(𝒜))`, characterizing finitely
 accessible additive categories up to equivalence ([CB, §1.4]). -/
-noncomputable def restrictedYonedaEquivFlat (𝒜 : Type u₁) [Category.{v₁} 𝒜] [Preadditive 𝒜]
+theorem nonempty_restrictedYonedaEquivFlat (𝒜 : Type u₁) [Category.{v₁} 𝒜] [Preadditive 𝒜]
     [HasFiniteBiproducts 𝒜] [IsFinitelyAccessibleCategory.{w} 𝒜] :
-    𝒜 ≌ (ModCat.flat.{w} (FinitelyPresented.{w} 𝒜)).FullSubcategory := sorry
+    Nonempty (𝒜 ≌ (ModCat.flat.{w} (FinitelyPresented.{w} 𝒜)).FullSubcategory) := sorry
 
 theorem isFinitelyAccessibleCategory_iff_nonempty_equiv_flat (𝒜 : Type u₁) [Category.{v₁} 𝒜]
     [Preadditive 𝒜] [HasFiniteBiproducts 𝒜] :
