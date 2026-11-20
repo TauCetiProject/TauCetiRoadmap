@@ -778,8 +778,8 @@ For every real `p ≥ 1` construct the symmetric normed ideal
 `L^(p,1) = {T compact : ‖T‖_(p,1) = Σ_(j≥0) (j + 1)^(1/p − 1) μ_j(T) < ∞}`,
 
 with OperatorIdeals' singular values and Ky Fan gauges (Tau Ceti `ContinuousLinearMap.singularValue`,
-`ContinuousLinearMap.kyFanGauge`) (Voiculescu 1979; Connes 2008, §9). Prove completeness, density of
-finite-rank operators, invariance under adjoints and unitaries, the two-sided estimate
+`ContinuousLinearMap.kyFanGauge`) (Voiculescu 1979, §1, p. 5; Connes 2008, §9). Prove completeness,
+density of finite-rank operators, invariance under adjoints and unitaries, the two-sided estimate
 `‖ATB‖_(p,1) ≤ ‖A‖ ‖T‖_(p,1) ‖B‖`, monotonicity (in the singular values, and the inclusions
 `L^(p,1) ⊂ L^(p′,1)` for `p ≤ p′`), and that `L^(1,1)` is the trace class, with equal norms.
 Prove `‖T‖_(p,1) ≤ C_p rank(T)^(1/p) ‖T‖` for finite rank and
@@ -800,12 +800,12 @@ singular-value sum estimates are proved directly, without an interpolation theor
 
 For a finite tuple `t = (t₁, …, t_p)` of bounded self-adjoint operators, define the quasicentral
 modulus `k_(p,1)(t)` as the liminf, along the directed set of finite-rank positive contractions `B`
-ordered by `≤` (so `B → Id` in the order filter), of `max_j ‖[B, t_j]‖_(p,1)` (Voiculescu 1979). Prove
-unitary invariance, the behaviour under restrictions and reducing direct sums, `k_(p,1)(t) = 0` on a
-finite-dimensional space, and estimates from finite-rank cutoffs. Prove that strongly convergent
-positive finite-rank contractions `R_n` still give an upper bound, by replacing `R_n` with
-`P + (1 − P) R_n (1 − P)` for every fixed finite-rank projection `P`; strong convergence alone does
-not make a sequence cofinal.
+ordered by `≤` (so `B → Id` in the order filter), of `max_j ‖[B, t_j]‖_(p,1)` (Voiculescu 1979, §1,
+p. 6). Prove unitary invariance, the behaviour under restrictions and reducing direct sums,
+`k_(p,1)(t) = 0` on a finite-dimensional space, and estimates from finite-rank cutoffs. Prove that
+strongly convergent positive finite-rank contractions `R_n` still give an upper bound, by replacing
+`R_n` with `P + (1 − P) R_n (1 − P)` for every fixed finite-rank projection `P`; strong convergence
+alone does not make a sequence cofinal.
 *Needs:* §4.1.
 
 **Checks.**
@@ -858,8 +858,8 @@ limit is used.
 `TauCeti.dixmierTrace`.
 
 **Checks.**
-- On the sequence `s_N = (−1)^N` the functional gives `0` (the log-mean of an oscillating bounded
-  sequence tends to `0`); on `s_N = 1` it gives `1`.
+- On the sequence `s_N = (−1)^N` the functional gives `0` (the integral of its interpolation against
+  `du/u` stays bounded, so its log-mean tends to `0`); on `s_N = 1` it gives `1`.
 - For `T` with `μ_j(T) = 1/(j + 1)` the log Ky Fan means tend to `1`, so the trace is `1`, as Tau
   Ceti's `TauCeti.dixmierTrace_eq_one_of_singularValue_eq` states for every generalized limit.
 
@@ -1565,7 +1565,8 @@ Neither Layer 6 nor its analytic prerequisites use the duality axiom.
 ### 9.1 The complex fundamental class
 
 Construct the complex fundamental class from the bounded transform `F_D = D(1 + D²)^(−1/2)` and the
-commuting left and right actions `π(a)` and `b°` (§1.6). For a noncommutative package require
+commuting left and right actions `π(a)` and `b°` (§1.6; Brodzki–Mathai–Rosenberg–Szabo 2008, §2.5 and
+Definition 2.11). For a noncommutative package require
 explicitly that the algebraic representation of `A ⊗ Aᵒᵖ` be continuous for the spatial (minimal)
 C*-tensor norm; nuclearity of `A` is a sufficient condition, proved separately. Commuting
 representations alone extend to the maximal tensor product and do not give this. Use OperatorKTheory
@@ -1586,11 +1587,14 @@ compatibility with the index pairing of NoncommutativeGeometry N2–N3.
 ### 9.2 The Poincaré duality axiom
 
 Define the strong complex **Poincaré duality axiom** as the existence of
-`β ∈ KK_(−d)(ℂ, Aᵒᵖ ⊗_min A)` such that both ordered zigzag products of `β` with `Δ_D` are the identity
-classes of `A` and `Aᵒᵖ`, with OperatorKTheory K6's graded exterior product, flip and parity-reduction
-signs (§§3.4, 5.1, 6.2 of that roadmap). Prove uniqueness of the dual class, the natural duality
-isomorphisms in both KK variables, all K-degree cap maps and the pairing consequences. The conclusion
-is an isomorphism of integral groups, not a determinant test on `K₀` modulo torsion.
+`β ∈ KK_(−d)(ℂ, Aᵒᵖ ⊗_min A)` whose ordered zigzag products with `Δ_D` are `β ⊗_(Aᵒᵖ) Δ_D = 1_A` and
+`β ⊗_A Δ_D = (−1)^d 1_(Aᵒᵖ)`, formed with OperatorKTheory K6's exterior product, the flip of tensor
+factors and the parity-reduction signs (§§3.4, 5.1, 6.2 of that roadmap). The sign `(−1)^d` comes
+from the graded commutativity of the exterior product, and replacing `β` by `−β` does not remove it
+(Brodzki–Mathai–Rosenberg–Szabo 2008, Definition 2.2 and the remark after (2.25)). Prove uniqueness
+of the dual class, the natural duality isomorphisms in both KK variables, all K-degree cap maps and
+the pairing consequences. The conclusion is an isomorphism of integral groups, not a determinant test
+on `K₀` modulo torsion.
 *Needs:* §9.1; OperatorKTheory K3–K6.
 
 **Checks.**
@@ -1607,8 +1611,9 @@ is an isomorphism of integral groups, not a determinant test on `K₀` modulo to
 Build the geometric diagonal (Thom) dual class for a closed Spinᶜ manifold, from the spinor Clifford
 module (§8.2), a tubular neighbourhood of the diagonal, Bott–Thom classes and IndexTheory's comparison
 of analytic and symbol classes (I2), and prove the two zigzag identities by the local Bott calculation
-and gluing. The index theorem of IndexTheory I3–I7 is consumed for the numerical characteristic-class
-formula, not for the reconstruction of Layer 6.
+and gluing (Brodzki–Mathai–Rosenberg–Szabo 2008, Example 2.5, states that `C(X)` of a closed Spinᶜ
+manifold `X` admits a fundamental class with such a dual). The index theorem of IndexTheory I3–I7 is
+consumed for the numerical characteristic-class formula, not for the reconstruction of Layer 6.
 *Needs:* §§8.2–8.3, 9.1–9.2; IndexTheory I2–I7; OperatorKTheory K3 (Bott periodicity and boundary
 maps).
 
@@ -1724,9 +1729,10 @@ Construct the associativity and factor-swap comparisons through the ordered grad
 model: give the auxiliary two-dimensional identifications in the odd branches and the induced phases
 on `D`, `γ` and `J`, and verify the pentagon and graded swap equations there; transport through those
 identifications. The bare ungraded Hilbert associator or bare flip need not intertwine the displayed
-real structures (Dąbrowski–Dossena §§2–5). In the odd/odd swap use the flip of the Hilbert factors
-followed by `U = (σ₁ + σ₂)/√2` on `ℂ²`: `U` exchanges `σ₁` and `σ₂` and sends `σ₃` to `−σ₃`, so the
-target has the reversed grading and orientation, not the same displayed `σ₃` grading. For the input
+real structures (the products are those of Dąbrowski–Dossena §4, which does not treat associativity or
+the swap). In the odd/odd swap use the flip of the Hilbert factors followed by `U = (σ₁ + σ₂)/√2` on
+`ℂ²`: `U` exchanges `σ₁` and `σ₂` and sends `σ₃` to `−σ₃`, so the target has the reversed grading
+and orientation, not the same displayed `σ₃` grading. For the input
 sign pairs `(ε₁′, ε₂′) = (+,+), (+,−), (−,+), (−,−)` compute `U M(ε₁′, ε₂′) Ū⁻¹ = ζ M(ε₂′, ε₁′)` with
 `ζ = 1, −i, i, −1` respectively: the swapped real structure is `ζ` times the standard swapped `J`. A
 scalar rephasing `z` of `U` (`|z| = 1`) changes `ζ` by `z/z̄ = z²`, so the choice `z² = ζ⁻¹` removes it;
@@ -2011,8 +2017,9 @@ almost-commutative fibrations or of quantum manifolds is inferred from them.
 - The product (§10.2) of the circle triple with a finite real triple of KO-dimension `m` over the
   algebra `ℂ` is a real commutative triple over the circle of KO-dimension `1 + m`; for `m = 0` and the
   triple `(ℂ, ℂ, 0)` with complex conjugation and `γ = 1`, it is the circle triple itself.
-- The product of the noncommutative torus with `(M_n(ℂ), M_n(ℂ), 0, J(x) = x*)` is an
-  almost-commutative example over `𝒜_θ ⊗ M_n(ℂ)`.
+- The product of the noncommutative torus with the finite real triple
+  `(M_n(ℂ), M_n(ℂ), 0, J(x) = x*)` is a real triple over `𝒜_θ ⊗ M_n(ℂ)`, almost-commutative when
+  `θ ∈ ℤ`.
 
 ### Dependencies
 
@@ -2364,6 +2371,11 @@ G5.5: the KO Thom orientation of a real spin bundle by the Clifford-module const
   1101.5908v4](https://arxiv.org/html/1101.5908v4), Definitions 2.7 and 2.9 (pre-orientability and
   Dirac type, §2.6), Corollary 2.19 and Appendix A: the weak-orientation perturbation argument; §7.8
   keeps all its domain, regularity and trace perturbation obligations.
+- J. Brodzki, V. Mathai, J. Rosenberg and R. J. Szabo, [*D-branes, RR-fields and duality on
+  noncommutative manifolds*, arXiv hep-th/0607020v3](https://arxiv.org/abs/hep-th/0607020v3), Comm.
+  Math. Phys. 277 (2008), 643–706, §§2.3 and 2.5: the index class of a spectral triple with an
+  opposite action (Definition 2.11, §9.1), strong Poincaré duality with its zigzag signs (Definition
+  2.2 and the remark after (2.25), §9.2) and closed Spinᶜ manifolds as examples (Example 2.5, §9.3).
 - D. Voiculescu, *Some results on norm-ideal perturbations of Hilbert space operators, I*, J. Operator
   Theory 2 (1979), 3–37, Theorem 4.5: the multiplicity theorem built in §4.3.
 - W. Rudin, *Functional Analysis*, 2nd ed., McGraw-Hill (1991), Theorem 2.11 (open mapping theorem for
