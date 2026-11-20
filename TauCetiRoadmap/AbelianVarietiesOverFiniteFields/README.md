@@ -39,135 +39,12 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 `WeakEquivalence`, `CohenMacaulayType`, `Overorders`, `Etale`) beside the pinned order files
 (`Basic`, `Lattice`, `Gorenstein`, `Quadratic/Basic`, `Discriminant`, `Picard`, `IdealClassMonoid`).
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- **The `L`-polynomial and the point-count API.** For the `q`-Frobenius `π_A ∈ End A`
-  (consumed, below), its characteristic polynomial `P_A` (consumed) and the count
-  `#A(𝔽_{q^m}) = deg(1 − π_A^m) = P_{A,m}(1)` (consumed from DWP.1 §1.5): the identification of
-  `A(L)` with the kernel of `1 − π_A^r` for *every* finite extension `L/K` of degree `r`, so that
-  the count does not depend on a chosen model of `𝔽_{q^r}`; the `L`-polynomial
-  `L_A = T^{2g} P_A(1/T)`; naturality `f ∘ π_A = π_B ∘ f` for every `K`-homomorphism; the
-  Frobenius of a product and of a base change; and the comparison with Tau Ceti's elliptic
-  `frobeniusIsogeny`, `pointCount` and `frobeniusTrace` (Layer 1).
-- **The isogeny relation** `IsIsogenous A B`, its equivalence-relation laws, and its invariants
-  (Layer 1).
-- **The Galois representation on the Tate module** of `A` over `𝔽_q` and **the endomorphism
-  field** (Layer 2); Tate's theorem itself and the isogeny criterion are consumed.
-- **The endomorphism algebras as the LMFDB displays them**: the three real exceptional classes and
-  the data `(F_i, D_i, inv_v)` of `End⁰(A_L)` for every `L` (Layer 3); the centre, dimension formula
-  and local invariants of `End⁰` of a simple `A` are consumed.
-- **Waterhouse's list** of the isogeny classes of elliptic curves over `𝔽_q` (Layer 4); Honda–Tate
-  itself is consumed.
-- **The data-bearing refinements** of an isogeny class: simple factors and multiplicities,
-  squarefreeness, geometric simplicity and squarefreeness, the endomorphism field and the
-  geometric extension degree, primitivity and base-change models, twists, the number field
-  and Galois group of a simple class (Layer 5); the `p`-rank, Newton polygon, ordinary,
-  supersingular and almost-ordinary predicates, Newton elevation, angle rank and corank *of an
-  abelian variety* (Layer 6); the group `A(𝔽_q)`, its structure, cyclicity and the non-cyclic
-  primes of a class, and the Jacobian obstruction the (consumed) virtual curve counts give (Layer 7).
-- **The Frobenius order** `ℤ[π, q/π]`, its index, real index and relative discriminant norm,
-  overorders, Bass orders, Cohen–Macaulay type, conductor-sum predicates, weak equivalence
-  classes, singular primes and the dimensions at them, and the generalization of Tau Ceti's
-  order library from a number field to a finite étale `ℚ`-algebra (Layer 8).
-- **Deligne modules**, Deligne's equivalence for ordinary abelian varieties, Centeleghe–Stix
-  for `q = p` as an equivalence of categories, Waterhouse's description of the elliptic case, the
-  exact count of isomorphism classes in a squarefree isogeny class through the ideal class monoid,
-  and the group structure of each member (Layer 9); the lattice classification of isomorphism
-  classes is consumed.
-- **Principal polarizability of an isogeny class**, Howe's description of polarizations of
-  Deligne modules, the structure of principally polarized abelian surfaces, Howe–Nart–Ritzenthaler,
-  and the Jacobian and hyperelliptic counts (Layer 10).
-- **The intrinsic label prefix** `g.q.P_A` and the page map (Layer 11).
-
-### Not owned here
-
-- **Abelian varieties over a general field**: rigidity, duals, polarizations, the Rosati
-  involution, degrees, characteristic polynomials of endomorphisms, finiteness of `Hom`,
-  Poincaré reducibility, semisimplicity of `End⁰`, Rosati positivity, Albert's classification
-  (*Abelian schemes and arithmetic moduli* A6, *PEL moduli* M0, JacobianChallenge Layer E).
-- **The `q`-Frobenius endomorphism itself** and the Weil estimate `|π| = √q`
-  (*Deligne weights, purity and the Weil bounds* DWP.1, §§1.1–1.4).
-- **Tate's theorem and the general lattice classification**: AS Tate and AS lattices.
-  The centre, local invariants and Honda–Tate are Part II F1.11 and F3.2.
-- **The Tate conjecture over number fields** and the finiteness theorems of Faltings
-  (`FaltingsFinitenessAndIsogenyTheorems` R28.4–R28.5).
-- **Zeta functions of curves and their bounds**: FunctionFieldArithmetic §§5.3–5.4 and
-  SchemeAndStackFoundations §5.11; the curve-specific Serre and Ihara refinements are outside
-  this roadmap.
-- **Weil polynomials as polynomials** — the predicate, symmetry
-  and the real Weil polynomial, slopes, `p`-rank, ordinarity, supersingularity and elevation, angles
-  and angle rank, the number field and Galois group, the factorization predicates, Weil powers,
-  polynomial twists, Weil roots, geometric irreducibility and the geometric extension degree, the
-  virtual point counts and the Jacobian-compatibility conditions — are CurvesOverFiniteFields
-  Layer 1 (its 1.1–1.11) and 3.4, consumed by section; nothing polynomial-level is defined here,
-  and every milestone below applies those objects to `P_A`.
-- **Counting and distribution**: `#A_g(𝔽_q)`, masses, equidistribution of Frobenius angles
-  (`ArithmeticStatisticsPartI`, `ArithmeticStatisticsPartVIII`); **Sato–Tate groups** and the
-  Galois endomorphism types of abelian varieties over number fields (`SatoTateGroups`).
-- **Enumerative indices and stored lists**: see *Explicit scope exclusions*. The intrinsic
-  prefixes are Layer 11.
-- **Dieudonné theory, `p`-divisible groups, crystalline cohomology**: the Newton polygon of `A`
-  is defined here through `P_A`, and the one geometric comparison (6.2) is stated against the
-  `p`-divisible group supplier of *Abelian schemes and arithmetic moduli* A4.5 and the
-  Dieudonné–Manin classification it names; no Dieudonné module is constructed here.
-- **Gorenstein and Bass orders in a quaternion algebra**: `QuaternionArithmetic` (its 2.2,
-  2.5, with the even Clifford correspondence and the Eichler symbol). 8.4 here and 2.2 there are
-  the two instances — commutative étale, quaternion — of one definition (the codifferent, here the
-  trace dual, is invertible) for orders in a finite-dimensional semisimple algebra, which no
-  roadmap states in that generality; each owns its instance.
-- **Genus-2 curves and their invariants** (Igusa–Clebsch, automorphism groups,
-  hyperellipticity in genus `≥ 3`): `HyperellipticCurves`. Layer 10 uses only
-  "the Jacobian of a smooth projective curve of genus `g` over `𝔽_q`" from JacobianChallenge and,
-  for a curve without a rational point, SchemeAndStackFoundations §3.6.
-- **The comparison of the étale cohomology of a curve with the torsion of its Jacobian**: the
-  Kummer sequence and Hilbert 90 on every scheme are SchemeAndStackFoundations §2.11, and the
-  Jacobian of a curve with no rational point is its §3.6; on `C_{K^{sep}}` they give the Kummer
-  isomorphism `H¹(C_{K^{sep}}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^{sep})`. The untwisted finite-level form
-  `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` is InverseGaloisAndArithmeticFundamentalGroups
-  §IG.0.T1, and its rational form `H¹(C_{K̄}, ℚ_ℓ) ≅ (V_ℓ J)^∨`, with geometric Frobenius of
-  characteristic polynomial `P_{π_J}`, is DWP.1 §1.7. 1.5 specializes SchemeAndStackFoundations
-  §§2.11 and 3.6 to `C_{K^{sep}}`, consumes DWP.1 §1.7, uses §IG.0.T1 only through DWP.1, and
-  proves no other comparison of cohomology with torsion.
-
-### Additional boundaries
-
-- **Abelian varieties over a general field** (duals, polarizations, Rosati, degrees, Poincaré
-  reducibility, Hom finiteness, Albert): *Abelian schemes and arithmetic moduli* A2–A3, A6 and
-  *PEL moduli* M0; consumed in Layers 1–3 and 10.
-- **Tate's theorem over a finite field, Honda–Tate and the lattice classification of isomorphism
-  classes**: AS Tate and AS lattices, with Honda–Tate from Part II F3.2; consumed in Layers 1–6 and 9–11.
-- **The `q`-Frobenius as an endomorphism and `|π| = √q`**: *Deligne weights, purity and the Weil
-  bounds* DWP.1. Every Lean statement here that would mention `π_A` is stated in prose until that
-  object is importable; `Suggested.lean` covers the carriers that do not need it (Waterhouse and the deep ideal-theoretic results).
-- **Dieudonné theory and `p`-divisible groups**: A4.5 and `FiniteFlatGroupsAndIntegralPadicHodgeTheory`
-  R07, with the slopes over a finite field from CrystallineCohomology §CR.4.7; used in 6.2–6.3 and 10.4 by citation only (Part II F1 builds the comparison at `p`).
-- **Zeta functions of curves and the Riemann hypothesis for curves**: FunctionFieldArithmetic
-  Layer 5, with the reversal convention of §1.5; 1.5 identifies
-  `P_{Jac C}` with that Weil polynomial.
-- **CM lifting and the Shimura–Taniyama formula** (Honda's existence inputs): *Shimura varieties*
-  §§5.5–5.8, assembled in Part II F3.1a–F3.1c.
-- **Counting and distribution** (`#A_g(𝔽_q)`, masses, Lipnowski–Tsimerman, equidistribution of
-  angles, the finiteness of isomorphism classes in a non-squarefree class):
-  `ArithmeticStatisticsPartI`, `ArithmeticStatisticsPartVIII`.
-- **The Madan–Pal classification** of simple isogeny classes with one rational point (knowl
-  `av.fq.one_rational_point`): only the positive-dimensional bound `q ≤ 4` (7.1) is here.
-- **Principal polarizability criteria in dimension `≥ 3`** in terms of `P_A` alone: none claimed;
-  10.2 gives the decidable ideal-theoretic criterion for squarefree ordinary or prime-field classes.
-- **Sato–Tate groups and Galois endomorphism types** (`SatoTateGroups`); **endomorphism algebras
-  over number fields** (same).
-- **Curve invariants** (Igusa–Clebsch, automorphism groups, hyperellipticity in genus `≥ 3`,
-  equations of curves): `HyperellipticCurves`; 10.6 uses only "`C` has genus `g` and `P_{Jac C} = P_A`".
-- **General quaternion arithmetic**: outside this roadmap; §9.6 uses the finite ideal-class set
-  supplied by AS lattices and the supersingular level pairs of ComplexMultiplicationAndExplicitReciprocity §5.2.
-- **Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
-  the completeness of database tables** are not targets: the indices `i`, `w`, `j`, `k` in
-  sub-labels, the order of simple factors on a page and of the `twists` list, the stored `curves`
-  list and the certification of `jacobian_count` and `hyp_count` against it, and the base-`26`
-  encoding. The prefix `g.q.isog` is 11.1, and the counts are defined in 10.6.
-- **The LMFDB value `0` ("unknown")** of `has_principal_polarization` and `has_jacobian`: not a
-  mathematical statement; the predicates here are `Prop`s.
+Milestones are `### N.M`, grouped into the layers below. Each names its direct prerequisites at the end (*Needs:*); every
+prerequisite is Mathlib, Tau Ceti at the pin, a supplier roadmap cited by its own numbering, or a
+strictly earlier milestone here. Throughout, `K` is a finite field, `q = Nat.card K`, `p = ringChar K`,
+`A` and `B` are abelian varieties over `K` of dimensions `g` and `h`, `π_A` and `P_A` are as pinned.
 
 
 ## Conventions
@@ -197,256 +74,6 @@ Suggested home: `TauCeti/AlgebraicGeometry/AbelianVariety/FiniteField/` for Laye
 | Polarization of an ordinary Deligne module | Howe's convention (10.1): a nondegenerate alternating form `b : M × M → ℤ` with `b(Fx, y) = b(x, Vy)` and the positivity condition `b(ι x, x) > 0` phrased through a fixed `p`-adic CM type `Φ` of `ℚ[F]`. `Φ` is part of the data of the equivalence and is pinned in 9.2. Nonordinary prime-field classes use the separate comparison of 10.1. |
 | Principally polarizable class | `has_principal_polarization = 1` means some member of the isogeny class admits a principal polarization over `K`; `= −1` means none does; the LMFDB `0` ("unknown") has no counterpart here: the predicate is a `Prop`, and a page value `0` is a datum this roadmap neither confirms nor denies. Likewise `has_jacobian`. |
 | Label prefix | The isogeny-class label `g.q.isog` is intrinsic: `g`, `q` and the coefficients `a_1, …, a_g` of `L_A` (Layer 11). Labels of endomorphism rings, weak equivalence classes, Deligne modules and polarizations carry enumerative indices, which are not targets; their intrinsic parts (the index `N`, the polarization degree `d`) are theorems here. |
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- Finite fields: `Finite K`, `Fintype.card`, `Nat.card`, `GaloisField p n`, `FiniteField.card`,
-  `ringChar`, `frobenius K p`, `CharP`, `ExpChar`; `AlgebraicClosure K`, `SeparableClosure`;
-  `FiniteField.Extension K p n` and `FiniteField.algEquivExtension` (every extension of `K` of
-  degree `n` is `K`-isomorphic to that model; `Mathlib/FieldTheory/Finite/Extension.lean`).
-- Polynomials: `Polynomial.Monic`, `roots`, `aroots`, `rootSet`, `reverse`, `Polynomial.Gal`,
-  `galActionHom`, `Polynomial.splittingField`, `Squarefree`, `Irreducible`,
-  `UniqueFactorizationMonoid.normalizedFactors`, `Polynomial.mahlerMeasure` and
-  `finite_mahlerMeasure_le` (through CurvesOverFiniteFields 1.3 and FaltingsFinitenessAndIsogenyTheorems
-  R28.5.1).
-- Linear algebra: `LinearMap.charpoly`, `Matrix.charpoly`, `Module.End.IsSemisimple`,
-  `Module.finrank`, `Module.Free`, `Module.Finite`, `AddCommGroup.equiv_directSum_zmod_of_finite`,
-  `Submodule.IsLattice`, `Submodule.span`, `FractionalIdeal`, `ClassGroup`, `IsDedekindDomain`,
-  `IsLocalization.AtPrime`, `Ideal.IsMaximal`, `IsArtinianRing.equivPi`,
-  `IsArtinianRing.isField_of_isReduced_of_isLocalRing`.
-- Number fields: `NumberField`, `𝓞 K`, `NumberField.discr`, `InfinitePlace`, `IsReal`,
-  `IsComplex`, `IsTotallyReal`, `IsTotallyComplex`, `IsCMField` with `complexConj` and
-  `K⁺` (`Mathlib/NumberTheory/NumberField/CMField.lean`), `HeightOneSpectrum`,
-  `adicCompletion`, `Padic`, `PadicInt`, `padicValRat`, `ClassGroup`, `classNumber`,
-  `Units.rank`, `Algebra.trace`, `Algebra.norm`.
-- Algebras: `Algebra.IsCentral` together with `IsSimpleRing` (Mathlib's spelling of "central
-  simple algebra"; `CSA K` bundles them), `IsSemisimpleRing`,
-  `isSemisimpleRing_iff_pi_matrix_divisionRing`, `Subalgebra.center`, `Algebra.adjoin`,
-  `BrauerGroup`, `IsBrauerEquivalent` (`Mathlib/Algebra/BrauerGroup/Defs.lean`),
-  `Algebra.Etale`, `IsReduced`, `IsArtinianRing.equivPi` (a reduced Artinian ring is the product
-  of its residue fields), `TensorProduct`, `Matrix`.
-- `Complex.arg`, `Real.pi`, `Complex.abs`, `Module.rank` over `ℚ`.
-
-
-### From Tau Ceti
-
-- `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: `AbelianVariety K`, `dim`, `zeroSection`,
-  `baseChange` with the invariance of `dim` under base change; `.../End/Basic`: `End A` as a ring with `toHom`, `ofHom`,
-  `mulBy`, `congr`; `.../End/BaseChange`: `End.baseChange : End A →+* End (A.baseChange L)`;
-  `.../Isogeny`: `IsIsogeny`, `isogenies` as a multiplicative morphism property respecting
-  isomorphisms, `IsIsogeny.baseChange`; `.../Product`: `prod`, `fst`, `snd`, `lift`, finite
-  products; `.../Hom/BaseChange`: `Hom.baseChange`, `baseChangeFunctor`; `.../MorphismGroup`:
-  the commutative group `A ⟶ B`, `leftComp`, `rightComp`.
-- `TauCeti.Algebra.Module.Torsion.TateModule`: `TateModule p A` for an additive group, with
-  `proj`, `lift`, `map`, `mapLinearMap`, the `ℤ_[p]`-module structure, the profinite topology.
-- `TauCeti.NumberTheory.NumberField.Global.Orders.*`: `NumberFieldOrder K`, `maximalNumberFieldOrder`,
-  `conductor`, `index`, `discr`, `discr_eq_index_sq_mul`, `natCast_index_mem_conductor`,
-  `multiplierRing`, `IsProperFractionalIdeal`, `invertibleProperFractionalIdeals`, `Pic`, `mkPic`,
-  `NarrowPic`, `narrowToPic`, `IdealClassMonoid` with `multiplierRing`, `IsProper`,
-  `picEquivUnits`, `Hom`, `mapFractionalIdeal`, `mapPic`, `integralIdealsAwayConductor`,
-  `integralIdealsAwayConductorEquiv`.
-- `TauCeti.AlgebraicGeometry.EllipticCurve.*`: `WeierstrassCurve.pointCount` (all `F`-points of
-  the projective model), `WeierstrassCurve.frobeniusTrace` (`q + 1 − pointCount`),
-  `hasse_bound`, `frobeniusIsogeny` with its degree and separable degree, `Isogeny.degree`.
-- `TauCeti.Algebra.CentralSimple.*` and `TauCeti.Algebra.BrauerGroup.*`: the tensor-product
-  group law, base change, splitting, quaternion classes, the real Brauer group, Wedderburn,
-  Skolem–Noether, centralizers, degree and index.
-- `TauCeti.NumberTheory.NumberField.ComplexConjugation.CMField`: CM fields and their involution.
-
-### From supplier roadmaps
-
-- From Tau Ceti: `AbelianVariety K`, `AbelianVariety.End A` (the ring `Additive (A ⟶ A)`),
-  `mulBy`, `IsIsogeny`, `prod`, `fst`, `snd`, `lift`, `baseChange`, `End.baseChange`,
-  `Hom.baseChange`; `TateModule p G` with its `ℤ_p`-module structure and topology; the orders
-  library `GlobalNumberFields.NumberFieldOrder` with `conductor`, `index`, `discr`,
-  `multiplierRing`, `IsProperFractionalIdeal`, `invertibleProperFractionalIdeals`, `Pic`,
-  `NarrowPic`, `IdealClassMonoid`, `Hom`, `mapPic`, `integralIdealsAwayConductor`; the elliptic
-  `frobeniusIsogeny`, `WeierstrassCurve.frobeniusTrace`, `WeierstrassCurve.pointCount`,
-  `hasse_bound`; `BrauerGroup` with `TauCeti.BrauerGroup.instCommGroup`, `CSA`, `quaternionClass`
-  and the central simple algebra library `TauCeti/Algebra/CentralSimple/`. Pinned order and elliptic declarations, by file:
-  `TauCeti/NumberTheory/NumberField/Global/Orders/Gorenstein.lean` (`NumberFieldOrder.traceDual`
-  and `NumberFieldOrder.IsGorenstein`, the trace dual being invertible), `.../Orders/Lattice.lean`
-  (a nonzero fractional ideal of an order is a free `ℤ`-module spanning the field),
-  `.../Orders/Quadratic/Basic.lean` (`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: the
-  proper fractional ideals of an order in a quadratic field are the invertible ones) and
-  `.../Orders/Gorenstein.lean` again (`NumberFieldOrder.isGorenstein_of_finrank_eq_two`: every
-  order in a quadratic field is Gorenstein),
-  `.../Orders/Discriminant.lean` (`discr_eq_index_sq_mul`), `.../Orders/Picard.lean` (`Pic O` is
-  `ClassGroup O.toSubalgebra`, so `Pic (maximalNumberFieldOrder K)` is `ClassGroup (𝓞 K)` by
-  definition), `TauCeti/Algebra/CrossedProduct/Comparison.lean` (`brauerCohomologyEquiv`),
-  `TauCeti/AlgebraicGeometry/EllipticCurve/Supersingular.lean` (`WeierstrassCurve.IsSupersingular p W`,
-  `WeierstrassCurve.IsOrdinary p W`) and `TauCeti/AlgebraicGeometry/AbelianVariety/Trivial.lean`
-  (`AbelianVariety.trivial` with `dim_trivial`, the dimension-zero variety). Consumed by section,
-  in prose: [EllipticCurves](../EllipticCurves/README.md) Layer 3 for the trace criterion
-  (`IsSupersingular E ↔ ringChar F ∣ frobeniusTrace E`), the finiteness of `E(𝔽_q)` and the zeta
-  function of an elliptic curve, and its Layer 1 for `End E` of an ordinary curve being an order
-  of `ℚ(π_q)` containing `ℤ[π_q]`; GlobalNumberFields Layer 11 for the conductor-prime extension
-  and contraction maps between invertible ideals of an order and ideals of the maximal order. The
-  identification of `A(K)` with the fixed points of `π_A` on `A(K^{sep})`, and the comparison of
-  `A(K^{sep})` with `A(AlgebraicClosure K)`, are 1.2 here.
-- From *Abelian schemes and arithmetic moduli*, Layer A6: `Hom.deg` and `End.degRat` (A6.1),
-  `homTateInjective` (A6.2), the abelian image (A6.3), `IsSimple`, `simpleEndDivision` (A6.4),
-  `poincareReducibility` with the uniqueness of simple factors and multiplicities (A6.5),
-  `homFreeFinite` (A6.7), `endQ_isSemisimple` (A6.8), `End.charpoly`, `End.charpoly_eval`,
-  `End.charpoly_monic`, `End.trace`, `End.charpoly_coeff_zero` (A6.10), `charpolyTate` (A6.11),
-  `traceDegreeSubfield` (A6.12), `polarizedIsogenyDegree` (A6.13), `rosatiPositivity` (A6.14),
-  `reducedTraceComparison` (A6.17), `polarizedAutomorphisms` (A6.18), `polarizationOrbits`
-  (A6.19), `frobeniusSemisimple` (A6.21: `π` central, `π^† π = q`, `ℚ[π]` a product of fields,
-  `π` semisimple on `V_ℓ A`), `weilRestriction`, `weilRestrictionAbelian`,
-  `weilRestrictionTate` (A6.30–A6.33), `QuadraticAbelianTwist` (A6.34); and its A4.1
-  `AbelianTate` (`T_ℓ A = TateModule ℓ (A(K^{sep}))`, free of rank `2g`, with its continuous
-  Galois action, `AbelianTate.map`, `AbelianTate.modPow`, `AbelianTate.dualPairing`; its target
-  signature is `OverField.tateModule A ℓ`, Tau Ceti's `TateModule` of `OverField.geometricPoints A`,
-  the morphisms `Spec (SeparableClosure K) ⟶ A` over `Spec K`, so the points are fixed on the
-  separable closure and 1.2 compares them with `AlgebraicClosure K`-points) and A3.9
-  `Polarization.rosati`. From its Layer A3 also: A3.4 (for `n ≠ 0` a homomorphism is divisible by
-  `n` iff it kills the finite flat group scheme `A[n]`, `p` included) and A3.5 (the dual of an
-  isogeny with kernel `H` is an isogeny with kernel the Cartier dual `H^D`; the Weil pairing).
-- From **AbelianSchemesAndArithmeticModuliPartII** (abbreviated Part II): F0.2
-  (Frobenius polynomial reciprocity and products), F0.3 (Weil numbers), F0.4 (isotropic image),
-  F0.5 (point-count invariance), F1.3 and F1.5 (the characteristic polynomial and q-Frobenius
-  on the p-realization), F1.11 (local invariants), F3.1a–F3.1d (Honda existence and descent),
-  F3.2 (Honda–Tate with its dimension formula), F3.8 (orders in nonreal simple prime-field
-  classes), and F3.10 (marked and unmarked prime-field classification, excluding the real
-  Weil number √p). No prime-field lattice assertion is used over a general finite field.
-- From **ArithmeticStatisticsPartI**, Supporting constructions, **Tate's theorem over a finite
-  field** (abbreviated AS Tate): the integral Hom isomorphism at every prime, the rational
-  commutants (opposite at p), the split-prime argument, the commutant dimension, and
-  A isogenous to B iff P_A = P_B. From **Finiteness of an isogeny class and of unpolarized
-  classes** (abbreviated AS lattices): the general all-prime marked-lattice correspondence,
-  its End⁰(A)ˣ-orbit quotient, and finiteness. At p this uses full F,V-stable W(𝔽_q)-lattices
-  with the inverse contravariant action; away from p it uses Frobenius-stable Tate lattices,
-  equal to the reference lattices almost everywhere. In dimension zero both sets are singletons.
-- From [CurvesOverFiniteFields](../CurvesOverFiniteFields/README.md), Layer 1 (Weil polynomials as
-  combinatorics on `ℤ[T]`), consumed by section and never redefined: 1.1 `IsWeilPolynomial q P`
-  (monic, every complex root of modulus `√q`, `P = 1` allowed) and the `q`-Weil numbers as its
-  roots, algebraic integers all of whose conjugates have modulus `√q`; 1.2 closure under products
-  and monic integral factors; 1.3 finiteness in each degree and the coefficient bounds
-  `|coeff j| ≤ binom(n, j) q^{(n−j)/2}`; 1.4 `IsWeilSymmetric q g P` (`natDegree P = 2g` and
-  `q^j · coeff j = q^g · coeff (2g − j)`), the real Weil polynomial `realWeilPolynomial q g P`,
-  written `h_P` here, with `P(T) = T^g h_P(T + q/T)` and roots in `[−2√q, 2√q]`, and the intrinsic
-  prefix `(g, q, c_1, …, c_g)` of a monic symmetric polynomial; 1.5 the `±√q` dictionary (a Weil
-  polynomial without real roots is symmetric, a symmetric one has even real-root multiplicities,
-  and the real-rooted irreducibles are `T ∓ √q`, `T² − q`); 1.6 the Newton polygon of `reverse P`
-  for the valuation `v_p / ord_p q`, its slope multiset in `[0, 1]`, `pRank p P`, `IsOrdinary q g P`
-  with `isOrdinary_iff_not_dvd_coeff`, `IsSupersingular q P` (equivalent to all slopes `1/2` for
-  Weil `P`), almost ordinarity and the elevation; 1.7 `frobeniusAngles P`, `angleRank P` and
-  `angleRank_eq_zero_iff`; 1.8 `weilNumberField P = AdjoinRoot P_ℚ` with
-  `isCMField_weilNumberField` and the native `Polynomial.Gal P_ℚ` as the Galois group; 1.9
-  irreducibility, isotypy (`P_ℚ = m^e`) and squarefreeness with the multiset of monic irreducible
-  factors; 1.10 `weilPower hP r` (roots `α_i^r`, `aroots_weilPower`), `weilPowerSum`, polynomial
-  twists at an exponent and the twist degree, `weilRoots r P` with `weilRoots_finite`, geometric
-  irreducibility and the geometric extension degree (the lcm of the orders of the root-of-unity
-  ratios of roots); 1.11 `virtualCurveCount q hP r = q^r + 1 − ∑ α_i^r`,
-  `virtualAbvarCount hP r = ∏ (1 − α_i^r)`, their bounds, `eq_of_virtualCurveCount_eq`,
-  `eq_of_virtualAbvarCount_eq` and the Jacobian-compatibility conditions; its 3.4 for those
-  conditions read against function fields; and its 2.3 for the Weil polynomial of a constant-field
-  extension as a Weil power. Where a name there takes a monicity proof `hP`, this roadmap writes
-  the polynomial alone (`weilPower P_A r`), `P_A` being monic (A6.10). That roadmap consumes
-  nothing from this one.
-- From [FunctionFieldArithmetic](../FunctionFieldArithmetic/README.md): §5.3 (`L_F(1) = h_F`) and
-  §5.4 (`L_F` is the reversed characteristic polynomial of the Frobenius of the Jacobian, and
-  `N_r = q^r + 1 − ∑ α_i^r`), used in 1.5 and 7.5.
-- From *Deligne weights, purity and the Weil bounds*, Layer DWP.1: §1.1 the Frobenius adapter
-  `AbelianVariety.frobenius A : End A` (the `q`-power scheme Frobenius of §0.29 of
-  SchemeAndStackFoundations as a group endomorphism, with `deg = q^g`, Tate action equal to
-  arithmetic Frobenius, and `π_{A_{𝔽_{q^m}}} = π_A^m`); §1.2 `π_A^∨ λ π_A = q λ`; §1.4 the Weil
-  estimate: every root of `P_{π_A}` has absolute value `q^{1/2}` under every complex embedding;
-  §1.5 the count `#A(𝔽_{q^m}) = deg(1 − π_A^m) = P_{π_A^m}(1) = ∏ (1 − a_i^m)` with its bound,
-  for its model of `𝔽_{q^m}`; §1.9 `P_{π_A^m}` has roots `a_i^m`. This roadmap writes `π_A`
-  for `AbelianVariety.frobenius A` and `P_A` for `End.charpoly π_A`. From the same layer, the
-  Jacobian clauses for a smooth projective geometrically connected curve `C` over `K` with
-  Jacobian `J`: §1.6, for the roots `a_i` of `P_{π_J}`, `#C(𝔽_{q^m}) = 1 − ∑ a_i^m + q^m` for every
-  `m ≥ 1` and `Z(C, t) = P_{π_J}^{rev}(t)/((1 − t)(1 − qt))`; §1.7, for `ℓ ≠ p`,
-  `H¹(C_{K̄}, ℚ_ℓ) ≅ H¹(J_{K̄}, ℚ_ℓ) ≅ (V_ℓ J)^∨`, on which geometric Frobenius has characteristic
-  polynomial `P_{π_J}`. 1.5 consumes both; the Kummer isomorphism with `μ_{ℓⁿ}` coefficients that
-  1.5 uses is read from SchemeAndStackFoundations §§2.11 and 3.6 (below).
-- From **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T1, consumed only through the
-  Jacobian clauses of DWP.1 §§1.6–1.7 in 1.5: for a smooth proper geometrically connected curve `C`
-  over `K` with Jacobian `J` and a prime `ℓ ≠ p`, the finite-level comparison
-  `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` over the separable closure, compatible with
-  reduction in `n`, and the curve trace `1 − Tr(H¹) + q` for the `q`-power Frobenius. No statement
-  here applies it directly; its twisted counterpart with `μ_{ℓⁿ}` coefficients is the Kummer
-  isomorphism of 1.5, read from SchemeAndStackFoundations §§2.11 and 3.6.
-- From *PEL moduli*, M0.1 `PositiveInvolution` and M0.2 `albertTypes`: the Albert
-  classification of division algebras with positive involution, used only to read off the
-  shape of `End⁰(A) ⊗ ℝ`.
-- From *Complex multiplication and explicit reciprocity*, 5.2: the ordinary order levels and the
-  supersingular level pairs that 8.3 and 9.6 compare with for `g = 1`.
-- From *Faltings finiteness and isogeny theorems*, R28.5.1 *Finitely many Weil polynomials*
-  (stated in prose there, from Mathlib's `Polynomial.finite_mahlerMeasure_le`): finitely many
-  monic integer polynomials of degree `n` with all roots of absolute value `r`; consumed only
-  through CurvesOverFiniteFields 1.3.
-- From [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 11:
-  everything in the orders library named above, and `O.IsGorenstein` with the trace-dual
-  criterion.
-- From [ClassFieldTheory](../ClassFieldTheory/README.md): Layer 5 `Br K`, `invMap` (normalized
-  by arithmetic Frobenius, so the fundamental class of a degree-`n` unramified layer has
-  invariant `1/n`); Layer 10 `finiteInvAt`, `infiniteInvAt`, `brauerSupport`, `sumLocalInv`,
-  `eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`, `exists_br_of_sum_eq_zero`.
-- From [QuadraticFormInvariants](../QuadraticFormInvariants/README.md) 7B: the comparison
-  `Additive (BrauerGroup K) ≃+ H²_cont(G_K, Kˢˣ)` characterized by
-  `brauerCohomologyEquiv_crossedProductClass`. Every local invariant of a central simple
-  algebra in this roadmap is `invMap` composed with this comparison at the completion.
-- From [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) §7.4 and
-  §7.21: `IntegralOrder.IsOrder Λ` (a `ℤ`-subalgebra of a finite-dimensional `ℚ`-algebra that
-  is `Submodule.IsLattice ℚ`) and `IntegralOrder.IsMaximalOrder`. Layer 8 states its
-  étale-algebra theorems with the hypothesis `Submodule.IsLattice ℚ (Subalgebra.toSubmodule Λ)`
-  spelled out, which is that predicate. §7.49 *One trace-dual lattice bounds every overorder*: for
-  an order `Λ` with a `ℚ`-basis `e_i ∈ Λ` and `r := det(Tr(e_i e_j)) ≠ 0`, every overorder of `Λ`
-  lies in `r⁻¹ ∑_i ℤ e_i`; 8.1 consumes it for the finiteness of `𝓞_E` and of the overorders.
-- From [JacobianChallenge](../JacobianChallenge/README.md) Layer E: the dual abelian variety
-  and `f^∨`, polarizations `φ_L`, principal polarizations as isomorphisms, the principal
-  polarization of a Jacobian, and `[n]` as an isogeny of degree `|n|^{2g}`. From its Layer D:
-  the Picard scheme `Pic_{Y/k}` of a projective geometrically integral scheme over any field, with
-  no rational point assumed. Its Layer E makes the neutral component `Pic⁰_{C/K}` the abelian
-  variety `Jac C` of dimension `g` for a curve with a chosen rational point; for a curve without
-  one this is SchemeAndStackFoundations §3.6 (below). Layer E builds the principal polarization
-  of `Jac C` from theta translated by the chosen point; for a curve without a rational point
-  (7.4, 10.2–10.3) it is the polarization of `Jac C_L` for a finite Galois `L/K` over which the
-  smooth curve `C` has a point, which Layer E makes compatible with field extension and
-  independent of the translation, hence invariant under `Gal(L/K)`; it descends to `K` along the
-  faithfully flat quasi-compact surjection `(Jac C)_L → Jac C`, an effective epimorphism of
-  schemes (Mathlib's `Scheme.fpqcTopology` is subcanonical), and is a principal polarization by
-  Layer E's criterion over an algebraic closure. From its Layer A: `Cl(X) ≅ Pic X` on a smooth
-  curve and `Pic⁰ X = ker deg`.
-- From [EllipticCurves](../EllipticCurves/README.md) Layer 3: `frobeniusTrace`, the Hasse
-  bound, the zeta function, the geometric predicates `IsSupersingular`/`IsOrdinary`
-  (`E[p](Kˢᵉᵖ) = 0` or not in that roadmap's prose; the pinned `WeierstrassCurve.IsSupersingular`
-  reads `E[p](AlgebraicClosure K)`, and the two agree over a finite field by 1.2) and the criterion
-  `IsSupersingular p E ↔ p ∣ frobeniusTrace E` over a finite field.
-- From **AbelianSchemesAndArithmeticModuli**, A3.13 and A6.15, rationalNSAmpleCone:
-  symmetric homomorphisms are Néron–Severi classes, and relative to a polarization the ample
-  cone is the positive Rosati cone in every characteristic. Section 10.1 transports this
-  cone through the prime-field anti-equivalence, including its integral duality data.
-- From **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.15–R07.2.16: the integral
-  consequences of the Dieudonné–Manin classification and the slope sequence of a `W`-free Dieudonné
-  module over a perfect field, defined after base change to an algebraic closure; and from
-  **CrystallineCohomology** §CR.4.7, *Slope decomposition on the existing isocrystal carrier*: the
-  canonical decomposition of a finite-dimensional isocrystal over a perfect field into isoclinic
-  parts and, over `𝔽_{p^a}`, the slopes as `v_p` of the eigenvalues of the linear `F^a` divided by
-  `a`. Used in 6.2–6.3 and in the supersingular branch of 10.4.
-- From **SchemeAndStackFoundations** §2.11: `hilbert90` (`H¹(X_ét, 𝔾_m) ≅ Pic(X)` for every scheme
-  `X`) and `fppf_kummer_sequence` (for `n ≥ 1` the sequence `1 → μ_n → 𝔾_m → 𝔾_m → 1` is exact on
-  the fppf site, and already on the étale site when `n` is invertible on `X`, giving
-  `0 → Γ(X, 𝒪_X)^×/n → H¹(X, μ_n) → Pic(X)[n] → 0`), with §2.9's `muEtale`. §3.6: for a smooth
-  projective geometrically connected curve `X` over a field `k`, with no rational point assumed,
-  `jacobian X := Pic⁰_{X/k}` as an `AbelianVariety k` (`picardComponent_zero`, and `jacobian_dim`:
-  its dimension is the genus), and `picardSheafPoints X = Pic_{X/k}(k)`, which receives `Pic(X)`
-  injectively with cokernel inside `Br(k)`; this is the Jacobian of a curve without a rational
-  point in 1.5, 7.4–7.5 and 10.6. §4.14: Hilbert schemes for projective space at a fixed
-  Hilbert polynomial. From **AlgebraicCurves** Layers 4–5 and 12: Riemann–Roch, the degree
-  criterion for very ampleness, and the function-field/smooth-projective-curve dictionary.
-  Section 10.6 applies these to the tricanonical bounded presentation over the base finite field.
-
-## How to read the build
-
-Milestones are `### N.M`, grouped into the layers below. Each names its direct prerequisites at the end (*Needs:*); every
-prerequisite is Mathlib, Tau Ceti at the pin, a supplier roadmap cited by its own numbering, or a
-strictly earlier milestone here. Throughout, `K` is a finite field, `q = Nat.card K`, `p = ringChar K`,
-`A` and `B` are abelian varieties over `K` of dimensions `g` and `h`, `π_A` and `P_A` are as pinned.
 
 ## Layer 1: the Frobenius, the `L`-polynomial and the isogeny relation
 
@@ -2304,7 +1931,6 @@ The prefix (1,5,[−2]) reconstructs the trace-2 elliptic polynomial.
 
 Layers 1 and 4; AS Tate; CurvesOverFiniteFields §1.4. The page map only indexes preceding results.
 
-
 ## Downstream consumers
 
 SiegelModularForms consumes 1.3 (the `L`-polynomial, which it applies to the reduction of an
@@ -2408,6 +2034,7 @@ nor a Jacobian** (10.4 (i)). `T⁴ − 3T³ + 6T² − 6T + 4 = (T² − 2T + 2)
 `s = 2`, `t = 1`, `Res(x − 2, x − 1) = 1`, **no Jacobian** by 10.5; likewise
 `2.3.d_i = (T² + T + 3)(T² + 2T + 3)`.
 
+
 ## Ordering
 
 ```
@@ -2497,6 +2124,379 @@ DWP.1 §1.4, for which the second has only the Riemann hypothesis for all smooth
   [`AlgebraicGeometry/EtaleCohomology/Curves/RootsOfUnityAlgClosed.lean`](https://github.com/AxiomMath/Weil/blob/27cdb2049be62ee2911429b47f54774078450e32/Weil/AlgebraicGeometry/EtaleCohomology/Curves/RootsOfUnityAlgClosed.lean)
   gives `H¹(C, μ_n) ≅ Pic(C)[n]` for a smooth projective curve `C` over an algebraically closed field
   in which `n` is invertible, the first step of the Kummer isomorphism of 1.5.
+
+## Scope and ownership
+
+### Owned here
+
+- **The `L`-polynomial and the point-count API.** For the `q`-Frobenius `π_A ∈ End A`
+  (consumed, below), its characteristic polynomial `P_A` (consumed) and the count
+  `#A(𝔽_{q^m}) = deg(1 − π_A^m) = P_{A,m}(1)` (consumed from DWP.1 §1.5): the identification of
+  `A(L)` with the kernel of `1 − π_A^r` for *every* finite extension `L/K` of degree `r`, so that
+  the count does not depend on a chosen model of `𝔽_{q^r}`; the `L`-polynomial
+  `L_A = T^{2g} P_A(1/T)`; naturality `f ∘ π_A = π_B ∘ f` for every `K`-homomorphism; the
+  Frobenius of a product and of a base change; and the comparison with Tau Ceti's elliptic
+  `frobeniusIsogeny`, `pointCount` and `frobeniusTrace` (Layer 1).
+- **The isogeny relation** `IsIsogenous A B`, its equivalence-relation laws, and its invariants
+  (Layer 1).
+- **The Galois representation on the Tate module** of `A` over `𝔽_q` and **the endomorphism
+  field** (Layer 2); Tate's theorem itself and the isogeny criterion are consumed.
+- **The endomorphism algebras as the LMFDB displays them**: the three real exceptional classes and
+  the data `(F_i, D_i, inv_v)` of `End⁰(A_L)` for every `L` (Layer 3); the centre, dimension formula
+  and local invariants of `End⁰` of a simple `A` are consumed.
+- **Waterhouse's list** of the isogeny classes of elliptic curves over `𝔽_q` (Layer 4); Honda–Tate
+  itself is consumed.
+- **The data-bearing refinements** of an isogeny class: simple factors and multiplicities,
+  squarefreeness, geometric simplicity and squarefreeness, the endomorphism field and the
+  geometric extension degree, primitivity and base-change models, twists, the number field
+  and Galois group of a simple class (Layer 5); the `p`-rank, Newton polygon, ordinary,
+  supersingular and almost-ordinary predicates, Newton elevation, angle rank and corank *of an
+  abelian variety* (Layer 6); the group `A(𝔽_q)`, its structure, cyclicity and the non-cyclic
+  primes of a class, and the Jacobian obstruction the (consumed) virtual curve counts give (Layer 7).
+- **The Frobenius order** `ℤ[π, q/π]`, its index, real index and relative discriminant norm,
+  overorders, Bass orders, Cohen–Macaulay type, conductor-sum predicates, weak equivalence
+  classes, singular primes and the dimensions at them, and the generalization of Tau Ceti's
+  order library from a number field to a finite étale `ℚ`-algebra (Layer 8).
+- **Deligne modules**, Deligne's equivalence for ordinary abelian varieties, Centeleghe–Stix
+  for `q = p` as an equivalence of categories, Waterhouse's description of the elliptic case, the
+  exact count of isomorphism classes in a squarefree isogeny class through the ideal class monoid,
+  and the group structure of each member (Layer 9); the lattice classification of isomorphism
+  classes is consumed.
+- **Principal polarizability of an isogeny class**, Howe's description of polarizations of
+  Deligne modules, the structure of principally polarized abelian surfaces, Howe–Nart–Ritzenthaler,
+  and the Jacobian and hyperelliptic counts (Layer 10).
+- **The intrinsic label prefix** `g.q.P_A` and the page map (Layer 11).
+
+### Not owned here
+
+- **Abelian varieties over a general field**: rigidity, duals, polarizations, the Rosati
+  involution, degrees, characteristic polynomials of endomorphisms, finiteness of `Hom`,
+  Poincaré reducibility, semisimplicity of `End⁰`, Rosati positivity, Albert's classification
+  (*Abelian schemes and arithmetic moduli* A6, *PEL moduli* M0, JacobianChallenge Layer E).
+- **The `q`-Frobenius endomorphism itself** and the Weil estimate `|π| = √q`
+  (*Deligne weights, purity and the Weil bounds* DWP.1, §§1.1–1.4).
+- **Tate's theorem and the general lattice classification**: AS Tate and AS lattices.
+  The centre, local invariants and Honda–Tate are Part II F1.11 and F3.2.
+- **The Tate conjecture over number fields** and the finiteness theorems of Faltings
+  (`FaltingsFinitenessAndIsogenyTheorems` R28.4–R28.5).
+- **Zeta functions of curves and their bounds**: FunctionFieldArithmetic §§5.3–5.4 and
+  SchemeAndStackFoundations §5.11; the curve-specific Serre and Ihara refinements are outside
+  this roadmap.
+- **Weil polynomials as polynomials** — the predicate, symmetry
+  and the real Weil polynomial, slopes, `p`-rank, ordinarity, supersingularity and elevation, angles
+  and angle rank, the number field and Galois group, the factorization predicates, Weil powers,
+  polynomial twists, Weil roots, geometric irreducibility and the geometric extension degree, the
+  virtual point counts and the Jacobian-compatibility conditions — are CurvesOverFiniteFields
+  Layer 1 (its 1.1–1.11) and 3.4, consumed by section; nothing polynomial-level is defined here,
+  and every milestone below applies those objects to `P_A`.
+- **Counting and distribution**: `#A_g(𝔽_q)`, masses, equidistribution of Frobenius angles
+  (`ArithmeticStatisticsPartI`, `ArithmeticStatisticsPartVIII`); **Sato–Tate groups** and the
+  Galois endomorphism types of abelian varieties over number fields (`SatoTateGroups`).
+- **Enumerative indices and stored lists**: see *Explicit scope exclusions*. The intrinsic
+  prefixes are Layer 11.
+- **Dieudonné theory, `p`-divisible groups, crystalline cohomology**: the Newton polygon of `A`
+  is defined here through `P_A`, and the one geometric comparison (6.2) is stated against the
+  `p`-divisible group supplier of *Abelian schemes and arithmetic moduli* A4.5 and the
+  Dieudonné–Manin classification it names; no Dieudonné module is constructed here.
+- **Gorenstein and Bass orders in a quaternion algebra**: `QuaternionArithmetic` (its 2.2,
+  2.5, with the even Clifford correspondence and the Eichler symbol). 8.4 here and 2.2 there are
+  the two instances — commutative étale, quaternion — of one definition (the codifferent, here the
+  trace dual, is invertible) for orders in a finite-dimensional semisimple algebra, which no
+  roadmap states in that generality; each owns its instance.
+- **Genus-2 curves and their invariants** (Igusa–Clebsch, automorphism groups,
+  hyperellipticity in genus `≥ 3`): `HyperellipticCurves`. Layer 10 uses only
+  "the Jacobian of a smooth projective curve of genus `g` over `𝔽_q`" from JacobianChallenge and,
+  for a curve without a rational point, SchemeAndStackFoundations §3.6.
+- **The comparison of the étale cohomology of a curve with the torsion of its Jacobian**: the
+  Kummer sequence and Hilbert 90 on every scheme are SchemeAndStackFoundations §2.11, and the
+  Jacobian of a curve with no rational point is its §3.6; on `C_{K^{sep}}` they give the Kummer
+  isomorphism `H¹(C_{K^{sep}}, μ_{ℓⁿ}) ≅ J[ℓⁿ](K^{sep})`. The untwisted finite-level form
+  `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` is InverseGaloisAndArithmeticFundamentalGroups
+  §IG.0.T1, and its rational form `H¹(C_{K̄}, ℚ_ℓ) ≅ (V_ℓ J)^∨`, with geometric Frobenius of
+  characteristic polynomial `P_{π_J}`, is DWP.1 §1.7. 1.5 specializes SchemeAndStackFoundations
+  §§2.11 and 3.6 to `C_{K^{sep}}`, consumes DWP.1 §1.7, uses §IG.0.T1 only through DWP.1, and
+  proves no other comparison of cohomology with torsion.
+
+### Additional boundaries
+
+- **Abelian varieties over a general field** (duals, polarizations, Rosati, degrees, Poincaré
+  reducibility, Hom finiteness, Albert): *Abelian schemes and arithmetic moduli* A2–A3, A6 and
+  *PEL moduli* M0; consumed in Layers 1–3 and 10.
+- **Tate's theorem over a finite field, Honda–Tate and the lattice classification of isomorphism
+  classes**: AS Tate and AS lattices, with Honda–Tate from Part II F3.2; consumed in Layers 1–6 and 9–11.
+- **The `q`-Frobenius as an endomorphism and `|π| = √q`**: *Deligne weights, purity and the Weil
+  bounds* DWP.1. Every Lean statement here that would mention `π_A` is stated in prose until that
+  object is importable; `Suggested.lean` covers the carriers that do not need it (Waterhouse and the deep ideal-theoretic results).
+- **Dieudonné theory and `p`-divisible groups**: A4.5 and `FiniteFlatGroupsAndIntegralPadicHodgeTheory`
+  R07, with the slopes over a finite field from CrystallineCohomology §CR.4.7; used in 6.2–6.3 and 10.4 by citation only (Part II F1 builds the comparison at `p`).
+- **Zeta functions of curves and the Riemann hypothesis for curves**: FunctionFieldArithmetic
+  Layer 5, with the reversal convention of §1.5; 1.5 identifies
+  `P_{Jac C}` with that Weil polynomial.
+- **CM lifting and the Shimura–Taniyama formula** (Honda's existence inputs): *Shimura varieties*
+  §§5.5–5.8, assembled in Part II F3.1a–F3.1c.
+- **Counting and distribution** (`#A_g(𝔽_q)`, masses, Lipnowski–Tsimerman, equidistribution of
+  angles, the finiteness of isomorphism classes in a non-squarefree class):
+  `ArithmeticStatisticsPartI`, `ArithmeticStatisticsPartVIII`.
+- **The Madan–Pal classification** of simple isogeny classes with one rational point (knowl
+  `av.fq.one_rational_point`): only the positive-dimensional bound `q ≤ 4` (7.1) is here.
+- **Principal polarizability criteria in dimension `≥ 3`** in terms of `P_A` alone: none claimed;
+  10.2 gives the decidable ideal-theoretic criterion for squarefree ordinary or prime-field classes.
+- **Sato–Tate groups and Galois endomorphism types** (`SatoTateGroups`); **endomorphism algebras
+  over number fields** (same).
+- **Curve invariants** (Igusa–Clebsch, automorphism groups, hyperellipticity in genus `≥ 3`,
+  equations of curves): `HyperellipticCurves`; 10.6 uses only "`C` has genus `g` and `P_{Jac C} = P_A`".
+- **General quaternion arithmetic**: outside this roadmap; §9.6 uses the finite ideal-class set
+  supplied by AS lattices and the supersingular level pairs of ComplexMultiplicationAndExplicitReciprocity §5.2.
+- **Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
+  the completeness of database tables** are not targets: the indices `i`, `w`, `j`, `k` in
+  sub-labels, the order of simple factors on a page and of the `twists` list, the stored `curves`
+  list and the certification of `jacobian_count` and `hyp_count` against it, and the base-`26`
+  encoding. The prefix `g.q.isog` is 11.1, and the counts are defined in 10.6.
+- **The LMFDB value `0` ("unknown")** of `has_principal_polarization` and `has_jacobian`: not a
+  mathematical statement; the predicates here are `Prop`s.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- Finite fields: `Finite K`, `Fintype.card`, `Nat.card`, `GaloisField p n`, `FiniteField.card`,
+  `ringChar`, `frobenius K p`, `CharP`, `ExpChar`; `AlgebraicClosure K`, `SeparableClosure`;
+  `FiniteField.Extension K p n` and `FiniteField.algEquivExtension` (every extension of `K` of
+  degree `n` is `K`-isomorphic to that model; `Mathlib/FieldTheory/Finite/Extension.lean`).
+- Polynomials: `Polynomial.Monic`, `roots`, `aroots`, `rootSet`, `reverse`, `Polynomial.Gal`,
+  `galActionHom`, `Polynomial.splittingField`, `Squarefree`, `Irreducible`,
+  `UniqueFactorizationMonoid.normalizedFactors`, `Polynomial.mahlerMeasure` and
+  `finite_mahlerMeasure_le` (through CurvesOverFiniteFields 1.3 and FaltingsFinitenessAndIsogenyTheorems
+  R28.5.1).
+- Linear algebra: `LinearMap.charpoly`, `Matrix.charpoly`, `Module.End.IsSemisimple`,
+  `Module.finrank`, `Module.Free`, `Module.Finite`, `AddCommGroup.equiv_directSum_zmod_of_finite`,
+  `Submodule.IsLattice`, `Submodule.span`, `FractionalIdeal`, `ClassGroup`, `IsDedekindDomain`,
+  `IsLocalization.AtPrime`, `Ideal.IsMaximal`, `IsArtinianRing.equivPi`,
+  `IsArtinianRing.isField_of_isReduced_of_isLocalRing`.
+- Number fields: `NumberField`, `𝓞 K`, `NumberField.discr`, `InfinitePlace`, `IsReal`,
+  `IsComplex`, `IsTotallyReal`, `IsTotallyComplex`, `IsCMField` with `complexConj` and
+  `K⁺` (`Mathlib/NumberTheory/NumberField/CMField.lean`), `HeightOneSpectrum`,
+  `adicCompletion`, `Padic`, `PadicInt`, `padicValRat`, `ClassGroup`, `classNumber`,
+  `Units.rank`, `Algebra.trace`, `Algebra.norm`.
+- Algebras: `Algebra.IsCentral` together with `IsSimpleRing` (Mathlib's spelling of "central
+  simple algebra"; `CSA K` bundles them), `IsSemisimpleRing`,
+  `isSemisimpleRing_iff_pi_matrix_divisionRing`, `Subalgebra.center`, `Algebra.adjoin`,
+  `BrauerGroup`, `IsBrauerEquivalent` (`Mathlib/Algebra/BrauerGroup/Defs.lean`),
+  `Algebra.Etale`, `IsReduced`, `IsArtinianRing.equivPi` (a reduced Artinian ring is the product
+  of its residue fields), `TensorProduct`, `Matrix`.
+- `Complex.arg`, `Real.pi`, `Complex.abs`, `Module.rank` over `ℚ`.
+
+
+### From Tau Ceti
+
+- `TauCeti.AlgebraicGeometry.AbelianVariety.Basic`: `AbelianVariety K`, `dim`, `zeroSection`,
+  `baseChange` with the invariance of `dim` under base change; `.../End/Basic`: `End A` as a ring with `toHom`, `ofHom`,
+  `mulBy`, `congr`; `.../End/BaseChange`: `End.baseChange : End A →+* End (A.baseChange L)`;
+  `.../Isogeny`: `IsIsogeny`, `isogenies` as a multiplicative morphism property respecting
+  isomorphisms, `IsIsogeny.baseChange`; `.../Product`: `prod`, `fst`, `snd`, `lift`, finite
+  products; `.../Hom/BaseChange`: `Hom.baseChange`, `baseChangeFunctor`; `.../MorphismGroup`:
+  the commutative group `A ⟶ B`, `leftComp`, `rightComp`.
+- `TauCeti.Algebra.Module.Torsion.TateModule`: `TateModule p A` for an additive group, with
+  `proj`, `lift`, `map`, `mapLinearMap`, the `ℤ_[p]`-module structure, the profinite topology.
+- `TauCeti.NumberTheory.NumberField.Global.Orders.*`: `NumberFieldOrder K`, `maximalNumberFieldOrder`,
+  `conductor`, `index`, `discr`, `discr_eq_index_sq_mul`, `natCast_index_mem_conductor`,
+  `multiplierRing`, `IsProperFractionalIdeal`, `invertibleProperFractionalIdeals`, `Pic`, `mkPic`,
+  `NarrowPic`, `narrowToPic`, `IdealClassMonoid` with `multiplierRing`, `IsProper`,
+  `picEquivUnits`, `Hom`, `mapFractionalIdeal`, `mapPic`, `integralIdealsAwayConductor`,
+  `integralIdealsAwayConductorEquiv`.
+- `TauCeti.AlgebraicGeometry.EllipticCurve.*`: `WeierstrassCurve.pointCount` (all `F`-points of
+  the projective model), `WeierstrassCurve.frobeniusTrace` (`q + 1 − pointCount`),
+  `hasse_bound`, `frobeniusIsogeny` with its degree and separable degree, `Isogeny.degree`.
+- `TauCeti.Algebra.CentralSimple.*` and `TauCeti.Algebra.BrauerGroup.*`: the tensor-product
+  group law, base change, splitting, quaternion classes, the real Brauer group, Wedderburn,
+  Skolem–Noether, centralizers, degree and index.
+- `TauCeti.NumberTheory.NumberField.ComplexConjugation.CMField`: CM fields and their involution.
+
+### From supplier roadmaps
+
+- From Tau Ceti: `AbelianVariety K`, `AbelianVariety.End A` (the ring `Additive (A ⟶ A)`),
+  `mulBy`, `IsIsogeny`, `prod`, `fst`, `snd`, `lift`, `baseChange`, `End.baseChange`,
+  `Hom.baseChange`; `TateModule p G` with its `ℤ_p`-module structure and topology; the orders
+  library `GlobalNumberFields.NumberFieldOrder` with `conductor`, `index`, `discr`,
+  `multiplierRing`, `IsProperFractionalIdeal`, `invertibleProperFractionalIdeals`, `Pic`,
+  `NarrowPic`, `IdealClassMonoid`, `Hom`, `mapPic`, `integralIdealsAwayConductor`; the elliptic
+  `frobeniusIsogeny`, `WeierstrassCurve.frobeniusTrace`, `WeierstrassCurve.pointCount`,
+  `hasse_bound`; `BrauerGroup` with `TauCeti.BrauerGroup.instCommGroup`, `CSA`, `quaternionClass`
+  and the central simple algebra library `TauCeti/Algebra/CentralSimple/`. Pinned order and elliptic declarations, by file:
+  `TauCeti/NumberTheory/NumberField/Global/Orders/Gorenstein.lean` (`NumberFieldOrder.traceDual`
+  and `NumberFieldOrder.IsGorenstein`, the trace dual being invertible), `.../Orders/Lattice.lean`
+  (a nonzero fractional ideal of an order is a free `ℤ`-module spanning the field),
+  `.../Orders/Quadratic/Basic.lean` (`isProperFractionalIdeal_iff_isUnit_of_finrank_eq_two`: the
+  proper fractional ideals of an order in a quadratic field are the invertible ones) and
+  `.../Orders/Gorenstein.lean` again (`NumberFieldOrder.isGorenstein_of_finrank_eq_two`: every
+  order in a quadratic field is Gorenstein),
+  `.../Orders/Discriminant.lean` (`discr_eq_index_sq_mul`), `.../Orders/Picard.lean` (`Pic O` is
+  `ClassGroup O.toSubalgebra`, so `Pic (maximalNumberFieldOrder K)` is `ClassGroup (𝓞 K)` by
+  definition), `TauCeti/Algebra/CrossedProduct/Comparison.lean` (`brauerCohomologyEquiv`),
+  `TauCeti/AlgebraicGeometry/EllipticCurve/Supersingular.lean` (`WeierstrassCurve.IsSupersingular p W`,
+  `WeierstrassCurve.IsOrdinary p W`) and `TauCeti/AlgebraicGeometry/AbelianVariety/Trivial.lean`
+  (`AbelianVariety.trivial` with `dim_trivial`, the dimension-zero variety). Consumed by section,
+  in prose: [EllipticCurves](../EllipticCurves/README.md) Layer 3 for the trace criterion
+  (`IsSupersingular E ↔ ringChar F ∣ frobeniusTrace E`), the finiteness of `E(𝔽_q)` and the zeta
+  function of an elliptic curve, and its Layer 1 for `End E` of an ordinary curve being an order
+  of `ℚ(π_q)` containing `ℤ[π_q]`; GlobalNumberFields Layer 11 for the conductor-prime extension
+  and contraction maps between invertible ideals of an order and ideals of the maximal order. The
+  identification of `A(K)` with the fixed points of `π_A` on `A(K^{sep})`, and the comparison of
+  `A(K^{sep})` with `A(AlgebraicClosure K)`, are 1.2 here.
+- From *Abelian schemes and arithmetic moduli*, Layer A6: `Hom.deg` and `End.degRat` (A6.1),
+  `homTateInjective` (A6.2), the abelian image (A6.3), `IsSimple`, `simpleEndDivision` (A6.4),
+  `poincareReducibility` with the uniqueness of simple factors and multiplicities (A6.5),
+  `homFreeFinite` (A6.7), `endQ_isSemisimple` (A6.8), `End.charpoly`, `End.charpoly_eval`,
+  `End.charpoly_monic`, `End.trace`, `End.charpoly_coeff_zero` (A6.10), `charpolyTate` (A6.11),
+  `traceDegreeSubfield` (A6.12), `polarizedIsogenyDegree` (A6.13), `rosatiPositivity` (A6.14),
+  `reducedTraceComparison` (A6.17), `polarizedAutomorphisms` (A6.18), `polarizationOrbits`
+  (A6.19), `frobeniusSemisimple` (A6.21: `π` central, `π^† π = q`, `ℚ[π]` a product of fields,
+  `π` semisimple on `V_ℓ A`), `weilRestriction`, `weilRestrictionAbelian`,
+  `weilRestrictionTate` (A6.30–A6.33), `QuadraticAbelianTwist` (A6.34); and its A4.1
+  `AbelianTate` (`T_ℓ A = TateModule ℓ (A(K^{sep}))`, free of rank `2g`, with its continuous
+  Galois action, `AbelianTate.map`, `AbelianTate.modPow`, `AbelianTate.dualPairing`; its target
+  signature is `OverField.tateModule A ℓ`, Tau Ceti's `TateModule` of `OverField.geometricPoints A`,
+  the morphisms `Spec (SeparableClosure K) ⟶ A` over `Spec K`, so the points are fixed on the
+  separable closure and 1.2 compares them with `AlgebraicClosure K`-points) and A3.9
+  `Polarization.rosati`. From its Layer A3 also: A3.4 (for `n ≠ 0` a homomorphism is divisible by
+  `n` iff it kills the finite flat group scheme `A[n]`, `p` included) and A3.5 (the dual of an
+  isogeny with kernel `H` is an isogeny with kernel the Cartier dual `H^D`; the Weil pairing).
+- From **AbelianSchemesAndArithmeticModuliPartII** (abbreviated Part II): F0.2
+  (Frobenius polynomial reciprocity and products), F0.3 (Weil numbers), F0.4 (isotropic image),
+  F0.5 (point-count invariance), F1.3 and F1.5 (the characteristic polynomial and q-Frobenius
+  on the p-realization), F1.11 (local invariants), F3.1a–F3.1d (Honda existence and descent),
+  F3.2 (Honda–Tate with its dimension formula), F3.8 (orders in nonreal simple prime-field
+  classes), and F3.10 (marked and unmarked prime-field classification, excluding the real
+  Weil number √p). No prime-field lattice assertion is used over a general finite field.
+- From **ArithmeticStatisticsPartI**, Supporting constructions, **Tate's theorem over a finite
+  field** (abbreviated AS Tate): the integral Hom isomorphism at every prime, the rational
+  commutants (opposite at p), the split-prime argument, the commutant dimension, and
+  A isogenous to B iff P_A = P_B. From **Finiteness of an isogeny class and of unpolarized
+  classes** (abbreviated AS lattices): the general all-prime marked-lattice correspondence,
+  its End⁰(A)ˣ-orbit quotient, and finiteness. At p this uses full F,V-stable W(𝔽_q)-lattices
+  with the inverse contravariant action; away from p it uses Frobenius-stable Tate lattices,
+  equal to the reference lattices almost everywhere. In dimension zero both sets are singletons.
+- From [CurvesOverFiniteFields](../CurvesOverFiniteFields/README.md), Layer 1 (Weil polynomials as
+  combinatorics on `ℤ[T]`), consumed by section and never redefined: 1.1 `IsWeilPolynomial q P`
+  (monic, every complex root of modulus `√q`, `P = 1` allowed) and the `q`-Weil numbers as its
+  roots, algebraic integers all of whose conjugates have modulus `√q`; 1.2 closure under products
+  and monic integral factors; 1.3 finiteness in each degree and the coefficient bounds
+  `|coeff j| ≤ binom(n, j) q^{(n−j)/2}`; 1.4 `IsWeilSymmetric q g P` (`natDegree P = 2g` and
+  `q^j · coeff j = q^g · coeff (2g − j)`), the real Weil polynomial `realWeilPolynomial q g P`,
+  written `h_P` here, with `P(T) = T^g h_P(T + q/T)` and roots in `[−2√q, 2√q]`, and the intrinsic
+  prefix `(g, q, c_1, …, c_g)` of a monic symmetric polynomial; 1.5 the `±√q` dictionary (a Weil
+  polynomial without real roots is symmetric, a symmetric one has even real-root multiplicities,
+  and the real-rooted irreducibles are `T ∓ √q`, `T² − q`); 1.6 the Newton polygon of `reverse P`
+  for the valuation `v_p / ord_p q`, its slope multiset in `[0, 1]`, `pRank p P`, `IsOrdinary q g P`
+  with `isOrdinary_iff_not_dvd_coeff`, `IsSupersingular q P` (equivalent to all slopes `1/2` for
+  Weil `P`), almost ordinarity and the elevation; 1.7 `frobeniusAngles P`, `angleRank P` and
+  `angleRank_eq_zero_iff`; 1.8 `weilNumberField P = AdjoinRoot P_ℚ` with
+  `isCMField_weilNumberField` and the native `Polynomial.Gal P_ℚ` as the Galois group; 1.9
+  irreducibility, isotypy (`P_ℚ = m^e`) and squarefreeness with the multiset of monic irreducible
+  factors; 1.10 `weilPower hP r` (roots `α_i^r`, `aroots_weilPower`), `weilPowerSum`, polynomial
+  twists at an exponent and the twist degree, `weilRoots r P` with `weilRoots_finite`, geometric
+  irreducibility and the geometric extension degree (the lcm of the orders of the root-of-unity
+  ratios of roots); 1.11 `virtualCurveCount q hP r = q^r + 1 − ∑ α_i^r`,
+  `virtualAbvarCount hP r = ∏ (1 − α_i^r)`, their bounds, `eq_of_virtualCurveCount_eq`,
+  `eq_of_virtualAbvarCount_eq` and the Jacobian-compatibility conditions; its 3.4 for those
+  conditions read against function fields; and its 2.3 for the Weil polynomial of a constant-field
+  extension as a Weil power. Where a name there takes a monicity proof `hP`, this roadmap writes
+  the polynomial alone (`weilPower P_A r`), `P_A` being monic (A6.10). That roadmap consumes
+  nothing from this one.
+- From [FunctionFieldArithmetic](../FunctionFieldArithmetic/README.md): §5.3 (`L_F(1) = h_F`) and
+  §5.4 (`L_F` is the reversed characteristic polynomial of the Frobenius of the Jacobian, and
+  `N_r = q^r + 1 − ∑ α_i^r`), used in 1.5 and 7.5.
+- From *Deligne weights, purity and the Weil bounds*, Layer DWP.1: §1.1 the Frobenius adapter
+  `AbelianVariety.frobenius A : End A` (the `q`-power scheme Frobenius of §0.29 of
+  SchemeAndStackFoundations as a group endomorphism, with `deg = q^g`, Tate action equal to
+  arithmetic Frobenius, and `π_{A_{𝔽_{q^m}}} = π_A^m`); §1.2 `π_A^∨ λ π_A = q λ`; §1.4 the Weil
+  estimate: every root of `P_{π_A}` has absolute value `q^{1/2}` under every complex embedding;
+  §1.5 the count `#A(𝔽_{q^m}) = deg(1 − π_A^m) = P_{π_A^m}(1) = ∏ (1 − a_i^m)` with its bound,
+  for its model of `𝔽_{q^m}`; §1.9 `P_{π_A^m}` has roots `a_i^m`. This roadmap writes `π_A`
+  for `AbelianVariety.frobenius A` and `P_A` for `End.charpoly π_A`. From the same layer, the
+  Jacobian clauses for a smooth projective geometrically connected curve `C` over `K` with
+  Jacobian `J`: §1.6, for the roots `a_i` of `P_{π_J}`, `#C(𝔽_{q^m}) = 1 − ∑ a_i^m + q^m` for every
+  `m ≥ 1` and `Z(C, t) = P_{π_J}^{rev}(t)/((1 − t)(1 − qt))`; §1.7, for `ℓ ≠ p`,
+  `H¹(C_{K̄}, ℚ_ℓ) ≅ H¹(J_{K̄}, ℚ_ℓ) ≅ (V_ℓ J)^∨`, on which geometric Frobenius has characteristic
+  polynomial `P_{π_J}`. 1.5 consumes both; the Kummer isomorphism with `μ_{ℓⁿ}` coefficients that
+  1.5 uses is read from SchemeAndStackFoundations §§2.11 and 3.6 (below).
+- From **InverseGaloisAndArithmeticFundamentalGroups** §IG.0.T1, consumed only through the
+  Jacobian clauses of DWP.1 §§1.6–1.7 in 1.5: for a smooth proper geometrically connected curve `C`
+  over `K` with Jacobian `J` and a prime `ℓ ≠ p`, the finite-level comparison
+  `H¹(C_{K^{sep}}, ℤ/ℓⁿ) ≅ Hom(J[ℓⁿ](K^{sep}), ℤ/ℓⁿ)` over the separable closure, compatible with
+  reduction in `n`, and the curve trace `1 − Tr(H¹) + q` for the `q`-power Frobenius. No statement
+  here applies it directly; its twisted counterpart with `μ_{ℓⁿ}` coefficients is the Kummer
+  isomorphism of 1.5, read from SchemeAndStackFoundations §§2.11 and 3.6.
+- From *PEL moduli*, M0.1 `PositiveInvolution` and M0.2 `albertTypes`: the Albert
+  classification of division algebras with positive involution, used only to read off the
+  shape of `End⁰(A) ⊗ ℝ`.
+- From *Complex multiplication and explicit reciprocity*, 5.2: the ordinary order levels and the
+  supersingular level pairs that 8.3 and 9.6 compare with for `g = 1`.
+- From *Faltings finiteness and isogeny theorems*, R28.5.1 *Finitely many Weil polynomials*
+  (stated in prose there, from Mathlib's `Polynomial.finite_mahlerMeasure_le`): finitely many
+  monic integer polynomials of degree `n` with all roots of absolute value `r`; consumed only
+  through CurvesOverFiniteFields 1.3.
+- From [GlobalNumberFields](../GlobalNumberFields/README.md) Layer 11:
+  everything in the orders library named above, and `O.IsGorenstein` with the trace-dual
+  criterion.
+- From [ClassFieldTheory](../ClassFieldTheory/README.md): Layer 5 `Br K`, `invMap` (normalized
+  by arithmetic Frobenius, so the fundamental class of a degree-`n` unramified layer has
+  invariant `1/n`); Layer 10 `finiteInvAt`, `infiniteInvAt`, `brauerSupport`, `sumLocalInv`,
+  `eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`, `exists_br_of_sum_eq_zero`.
+- From [QuadraticFormInvariants](../QuadraticFormInvariants/README.md) 7B: the comparison
+  `Additive (BrauerGroup K) ≃+ H²_cont(G_K, Kˢˣ)` characterized by
+  `brauerCohomologyEquiv_crossedProductClass`. Every local invariant of a central simple
+  algebra in this roadmap is `invMap` composed with this comparison at the completion.
+- From [ClassicalArithmeticCompletion](../ClassicalArithmeticCompletion/README.md) §7.4 and
+  §7.21: `IntegralOrder.IsOrder Λ` (a `ℤ`-subalgebra of a finite-dimensional `ℚ`-algebra that
+  is `Submodule.IsLattice ℚ`) and `IntegralOrder.IsMaximalOrder`. Layer 8 states its
+  étale-algebra theorems with the hypothesis `Submodule.IsLattice ℚ (Subalgebra.toSubmodule Λ)`
+  spelled out, which is that predicate. §7.49 *One trace-dual lattice bounds every overorder*: for
+  an order `Λ` with a `ℚ`-basis `e_i ∈ Λ` and `r := det(Tr(e_i e_j)) ≠ 0`, every overorder of `Λ`
+  lies in `r⁻¹ ∑_i ℤ e_i`; 8.1 consumes it for the finiteness of `𝓞_E` and of the overorders.
+- From [JacobianChallenge](../JacobianChallenge/README.md) Layer E: the dual abelian variety
+  and `f^∨`, polarizations `φ_L`, principal polarizations as isomorphisms, the principal
+  polarization of a Jacobian, and `[n]` as an isogeny of degree `|n|^{2g}`. From its Layer D:
+  the Picard scheme `Pic_{Y/k}` of a projective geometrically integral scheme over any field, with
+  no rational point assumed. Its Layer E makes the neutral component `Pic⁰_{C/K}` the abelian
+  variety `Jac C` of dimension `g` for a curve with a chosen rational point; for a curve without
+  one this is SchemeAndStackFoundations §3.6 (below). Layer E builds the principal polarization
+  of `Jac C` from theta translated by the chosen point; for a curve without a rational point
+  (7.4, 10.2–10.3) it is the polarization of `Jac C_L` for a finite Galois `L/K` over which the
+  smooth curve `C` has a point, which Layer E makes compatible with field extension and
+  independent of the translation, hence invariant under `Gal(L/K)`; it descends to `K` along the
+  faithfully flat quasi-compact surjection `(Jac C)_L → Jac C`, an effective epimorphism of
+  schemes (Mathlib's `Scheme.fpqcTopology` is subcanonical), and is a principal polarization by
+  Layer E's criterion over an algebraic closure. From its Layer A: `Cl(X) ≅ Pic X` on a smooth
+  curve and `Pic⁰ X = ker deg`.
+- From [EllipticCurves](../EllipticCurves/README.md) Layer 3: `frobeniusTrace`, the Hasse
+  bound, the zeta function, the geometric predicates `IsSupersingular`/`IsOrdinary`
+  (`E[p](Kˢᵉᵖ) = 0` or not in that roadmap's prose; the pinned `WeierstrassCurve.IsSupersingular`
+  reads `E[p](AlgebraicClosure K)`, and the two agree over a finite field by 1.2) and the criterion
+  `IsSupersingular p E ↔ p ∣ frobeniusTrace E` over a finite field.
+- From **AbelianSchemesAndArithmeticModuli**, A3.13 and A6.15, rationalNSAmpleCone:
+  symmetric homomorphisms are Néron–Severi classes, and relative to a polarization the ample
+  cone is the positive Rosati cone in every characteristic. Section 10.1 transports this
+  cone through the prime-field anti-equivalence, including its integral duality data.
+- From **FiniteFlatGroupsAndIntegralPadicHodgeTheory**, R07.2.15–R07.2.16: the integral
+  consequences of the Dieudonné–Manin classification and the slope sequence of a `W`-free Dieudonné
+  module over a perfect field, defined after base change to an algebraic closure; and from
+  **CrystallineCohomology** §CR.4.7, *Slope decomposition on the existing isocrystal carrier*: the
+  canonical decomposition of a finite-dimensional isocrystal over a perfect field into isoclinic
+  parts and, over `𝔽_{p^a}`, the slopes as `v_p` of the eigenvalues of the linear `F^a` divided by
+  `a`. Used in 6.2–6.3 and in the supersingular branch of 10.4.
+- From **SchemeAndStackFoundations** §2.11: `hilbert90` (`H¹(X_ét, 𝔾_m) ≅ Pic(X)` for every scheme
+  `X`) and `fppf_kummer_sequence` (for `n ≥ 1` the sequence `1 → μ_n → 𝔾_m → 𝔾_m → 1` is exact on
+  the fppf site, and already on the étale site when `n` is invertible on `X`, giving
+  `0 → Γ(X, 𝒪_X)^×/n → H¹(X, μ_n) → Pic(X)[n] → 0`), with §2.9's `muEtale`. §3.6: for a smooth
+  projective geometrically connected curve `X` over a field `k`, with no rational point assumed,
+  `jacobian X := Pic⁰_{X/k}` as an `AbelianVariety k` (`picardComponent_zero`, and `jacobian_dim`:
+  its dimension is the genus), and `picardSheafPoints X = Pic_{X/k}(k)`, which receives `Pic(X)`
+  injectively with cokernel inside `Br(k)`; this is the Jacobian of a curve without a rational
+  point in 1.5, 7.4–7.5 and 10.6. §4.14: Hilbert schemes for projective space at a fixed
+  Hilbert polynomial. From **AlgebraicCurves** Layers 4–5 and 12: Riemann–Roch, the degree
+  criterion for very ampleness, and the function-field/smooth-projective-curve dictionary.
+  Section 10.6 applies these to the tricanonical bounded presentation over the base finite field.
 
 ## References
 
