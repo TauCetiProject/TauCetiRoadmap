@@ -6,10 +6,12 @@ the singular values of `P_{V⊥} P_U`. Davis and Kahan bound this sine operator 
 a spectral gap, through the Sylvester equation `AX − XB = C`, which has one solution when the
 spectra of `A` and `B` are separated. The separation decides the constant: one spectrum in an
 interval and the other outside its `δ`-neighbourhood gives `δ N(X) ≤ N(C)` in every unitarily
-invariant norm `N`; spectra only `δ` apart pairwise give the sharp `δ N(X) ≤ (π/2) N(C)` (Bhatia,
-Davis and McIntosh), where `π/2` is the mass of an integrable kernel of Haagerup and Zsidó whose
-Fourier integral is `1/x` for `|x| ≥ 1`. Yu, Wang and Samworth give a variant for statistics with
-a gap in the unperturbed (population) operator alone.
+invariant norm `N`; spectra only `δ` apart pairwise give the sharp `δ N(X) ≤ (π/2) N(C)`.
+Bhatia, Davis and McIntosh proved the pairwise bound with a universal constant, the best one
+lying between `√3/2` and `2`; the sharp constant `π/2` is the least `L¹` norm of a function whose
+Fourier integral is `1/x` for `|x| ≥ 1`, and Layer 1 is an explicit kernel attaining it, which
+Tau Ceti calls the Haagerup–Zsidó kernel. Yu, Wang and Samworth give a variant for statistics
+with a gap in the unperturbed (population) operator alone.
 
 The headline theorems:
 
@@ -79,8 +81,9 @@ behind an unrelated one.
    map `X ↦ AX − XB` is Tau Ceti's `ContinuousLinearMap.sylvester`, written `A.sylvester B X`.
    For partial operators the *domain-aware* equation is Tau Ceti's
    `LinearPMap.SylvesterEquation A B X C`: `X` maps the domain of `B` into that of `A`, and
-   `AXy − XBy = Cy` for every `y` in the domain of `B`. `X` *intertwines* `A` and `B` when it
-   solves the domain-aware equation with `C = 0`.
+   `AXy − XBy = Cy` for every `y` in the domain of `B`. `X` solves it with `C = 0` exactly when
+   `XB ⊆ AX`, which is Tau Ceti's `LinearPMap.Intertwines B A X`: the operator on the source of
+   `X` comes first.
 4. **Subspaces, projections and angles.** Subspaces carry orthogonal projections
    (`Submodule.HasOrthogonalProjection`; on a complete space, closed subspaces), written `P_U`
    (Mathlib `U.starProjection`); `U⊥` is the orthogonal complement. The *directed sine map* from
@@ -145,9 +148,9 @@ Prove that for `a > 0` and every real `s`, `e^{−a|x|} = o(|x|^s)` as `|x| → 
 Mathlib's `Filter.cocompact ℝ`: `(fun x ↦ Real.exp (-(a * |x|))) =o[cocompact ℝ] (fun x ↦ |x| ^ s)`.
 This is the decay hypothesis of Mathlib's Poisson summation formula
 `Real.tsum_eq_tsum_fourier_of_rpow_decay`, in the form the Cauchy-kernel lattice identity of the
-Haagerup–Zsidó construction uses (Haagerup and Zsidó, as reconstructed by Albeverio, Makarov and
-Motovilov). Mathlib states only the one-sided limit `x → +∞` of `e^{−ax}`. Route: both functions
-are even, and on `[0, ∞)` the statement is Mathlib's `isLittleO_exp_neg_mul_rpow_atTop`.
+kernel's construction uses. Mathlib states only the one-sided limit `x → +∞` of `e^{−ax}`.
+Route: both functions are even, and on `[0, ∞)` the statement is Mathlib's
+`isLittleO_exp_neg_mul_rpow_atTop`.
 *Needs:* Mathlib `isLittleO_exp_neg_mul_rpow_atTop`, `Filter.cocompact`.
 
 ### Examples
@@ -209,11 +212,12 @@ symmetric with orthonormal eigenvectors `uᵢ`, `vⱼ` and eigenvalues `αᵢ`, 
 `AX − XB = C` (Tau Ceti `ContinuousLinearMap.sylvester_apply_eq_iff`). Prove that there are
 finitely many unitaries `Uₖ` of `E` and `Vₖ` of `F` and complex numbers `aₖ` with
 `∑ₖ |aₖ| ≤ π/2` such that `m_δ(C) = ∑ₖ aₖ Uₖ C Vₖ` for every `C`; the unitaries and the
-coefficients do not depend on `C` (Haagerup and Zsidó; Bhatia, Davis and McIntosh). Route: by the
-exterior Fourier identity, `m_δ(C) = ∫ δ k(δt) e^{itA} C e^{−itB} dt`, an integral of unitary
-actions with total mass `∫ |k| = π/2`; the maps `C ↦ λ U C V` with `|λ| = 1` form a compact set
-in finite dimension, so the normalised integral lies in its convex hull, and Carathéodory's
-theorem makes the combination finite. The statement is over `ℂ`; for real scalars the bound it
+coefficients do not depend on `C`. Route: by the exterior Fourier identity,
+`m_δ(C) = ∫ δ k(δt) e^{itA} C e^{−itB} dt` (the integral representation of Albeverio, Makarov and
+Motovilov 2003, Theorem 2.7, formula (2.12)), an integral of unitary actions with total mass
+`∫ |k| = π/2`; the maps `C ↦ λ U C V` with `|λ| = 1` form a compact set in finite dimension, so
+the normalised integral lies in its convex hull, and Carathéodory's theorem makes the combination
+finite. The statement is over `ℂ`; for real scalars the bound it
 implies, `δ N(X) ≤ (π/2) N(C)`, is Tau Ceti's
 `TauCeti.UnitarilyInvariantSeminorm.mul_map_le_pi_div_two_mul_map_sylvester_apply`, proved through
 the orbit hull of §2.14.
@@ -238,8 +242,12 @@ self-adjoint partial operators on complex Hilbert spaces and `δ > 0` with `δ �
 real point `a` of the spectrum of `A` and `b` of the spectrum of `B`
 (`LinearPMap.SpectralSetsSeparated A B univ univ δ`; the spectra are real). If bounded
 `X, C : F → E` satisfy the domain-aware equation `AX − XB = C`, then `δ‖X‖ ≤ (π/2)‖C‖`
-(Bhatia, Davis and McIntosh, with the Haagerup–Zsidó kernel). For bounded `A` and `B`, viewed as
-total partial operators, it is the operator-norm `π/2` bound on every Hilbert space. Route: `X` is
+(Seelmann 2014, Theorem 3.1; for weak solutions, Albeverio, Makarov and Motovilov 2003,
+Theorem 2.7). Bhatia, Davis and McIntosh proved the bound with a universal constant
+(Bhatia–Davis–McIntosh 1983, Theorem 4.1); by Albeverio, Makarov and Motovilov 2003, Remark 2.8,
+they placed the best constant between `√3/2` and `2`, the value `π/2` goes back to Sz.-Nagy, and
+its sharpness is McEachin's. For bounded `A` and `B`, viewed as total partial operators, it is the
+operator-norm `π/2` bound on every Hilbert space. Route: `X` is
 the weak integral `∫ k(δt) e^{itA} C e^{−itB} dt` of the unitary groups of `A` and `B` against the
 Haagerup–Zsidó kernel, whose norm is at most `(π/2)‖C‖/δ` by the kernel-mass bound. To identify it
 with `X`, cut `A` and `B` down by the spectral projections of bounded intervals: on their ranges
@@ -271,8 +279,11 @@ and SA-E37 (spectral ranges of bounded sets lie in the domain).
 Prove `eq_zero_of_intertwines_of_disjoint_spectrum`: let `A` on `E` and `B` on `F` be
 self-adjoint partial operators on complex Hilbert spaces with disjoint spectra. A bounded
 `X : F → E` that maps the domain of `B` into that of `A` and satisfies `AXy = XBy` for every `y`
-in the domain of `B` is zero (Rosenblum 1956). So the domain-aware Sylvester equation has at most
-one bounded solution. Route: the intertwining passes to resolvents (Tau Ceti
+in the domain of `B` (Tau Ceti's `LinearPMap.Intertwines B A X`) is zero. For bounded `A` this is
+part of a theorem of Krein, found independently by Daleckii and by Rosenblum (Albeverio, Makarov
+and Motovilov 2003, Lemma 2.5 and the paragraph before it; Rosenblum 1956); for spectra at positive
+distance it is the uniqueness in Seelmann 2014, Theorem 3.1. So the domain-aware Sylvester
+equation has at most one bounded solution. Route: the intertwining passes to resolvents (Tau Ceti
 `LinearPMap.intertwines_iff_comp_resolvent_eq`), hence to the spectral measures,
 `X P_B(J) = P_A(J) X` for Borel `J`; the spectral measure of `A` vanishes on Borel sets of
 resolvent points, so `X = X P_B(σ(B)) = P_A(σ(B)) X = 0`. A route without the Borel calculus uses
@@ -300,8 +311,9 @@ point) for the second route.
 
 Let `A` on `E` and `B` on `F` be bounded self-adjoint operators on complex Hilbert spaces whose
 spectra (Mathlib `spectrum ℂ`) are disjoint. Prove that every bounded `X : F → E` with `AX = XB`
-is zero (Rosenblum 1956). Route: viewed as total partial operators, `A` and `B` are self-adjoint
-with the same spectra and `X` solves the domain-aware equation with `C = 0` (Tau Ceti
+is zero (Rosenblum 1956; Albeverio, Makarov and Motovilov 2003, Lemma 2.5, which credits Krein
+first). Route: viewed as total partial operators, `A` and `B` are self-adjoint with the same
+spectra and `X` solves the domain-aware equation with `C = 0` (Tau Ceti
 `LinearPMap.isSelfAdjoint_toPMap_top`, `ContinuousLinearMap.spectrum_toPMap_top`,
 `LinearPMap.SylvesterEquation.ofBounded_iff`), so §2.17 applies. Directly, without §2.17: a
 continuous function equal to `1` on the spectrum of `B` and `0` on that of `A`, which are disjoint
@@ -347,7 +359,7 @@ is below `π/2`; and the tangent map `T_{Z,U} : Z → E`, defined in a right sin
 sine embedding of `Z` by the diagonal values `tan θⱼ` followed by the inclusion (Tau Ceti
 `Submodule.tanThetaMap Z U`), whose singular values are the principal tangents, satisfies
 `δ N(T_{Z,U}) ≤ N(R)` for every unitarily invariant seminorm `N` on the maps `Z → E` (Davis and
-Kahan 1970). The hypotheses force `Z ∩ U⊥ = 0`: a unit `z` there would have
+Kahan 1970, the `tan Θ` theorem). The hypotheses force `Z ∩ U⊥ = 0`: a unit `z` there would have
 `α + δ ≤ ⟪Az, z⟫ = ⟪Mz, z⟫ ≤ α`. Hence `dim Z ≤ dim U` always, and §3.28 and §3.29 together cover
 every case. Route: the proof of Davis and Kahan, in which the transversality makes `Z` the graph
 of the tangent operator from `U` to `U⊥`, the Ritz residual is orthogonal to `Z` (Tau Ceti
@@ -373,8 +385,9 @@ Under the hypotheses of §3.28 with `dim Z < dim U` in place of `dim Z = dim U`,
 two conclusions: the directed gap from `Z` to `U` is less than `1`, and the tangent map
 `T_{Z,U} : Z → E` of Tau Ceti's `Submodule.tanThetaMap Z U`, whose singular values are the
 principal tangents, satisfies `δ N(T_{Z,U}) ≤ N(R)` for every unitarily invariant seminorm `N` on
-the maps `Z → E` (Davis and Kahan 1970). Route: as for §3.28; the transversality now makes `Z` the
-graph of the tangent operator over the proper subspace `P_U Z` of `U`.
+the maps `Z → E` (Davis and Kahan 1970, the generalized `tan Θ` theorem). Route: as for §3.28;
+the transversality now makes `Z` the graph of the tangent operator over the proper subspace
+`P_U Z` of `U`.
 *Needs:* as §3.28.
 
 ### 3.31 The quarter-acute bound for off-diagonal perturbations
@@ -385,7 +398,8 @@ satisfies `b‖u‖² ≤ Re⟪Au, u⟫` for `u ∈ U` and `Re⟪Az, z⟫ ≤ a�
 satisfies the same two bounds relative to `V` and `V⊥`, and that `H` is off-diagonal relative to
 `U ⊕ U⊥`: `H(U) ⊆ U⊥` and `H(U⊥) ⊆ U`. Prove `‖P_U − P_V‖ < √2/2`. In finite dimension
 `dim U = dim V`, and the conclusion is equivalent to every principal angle from `U` to `V` being
-less than `π/4` (Davis and Kahan 1970). Route: the bounds and the off-diagonal shape of `H` give
+less than `π/4` (Davis and Kahan 1970, the `tan 2Θ` theorem, in the form of Kostrykin, Makarov
+and Motovilov 2004, (1.2) and (1.4)). Route: the bounds and the off-diagonal shape of `H` give
 `V ∩ U⊥ = 0` and `V⊥ ∩ U = 0` (a unit vector in either would have its form value both at most `a`
 and at least `b`, since `⟪Hz, z⟫ = 0` for `z` in `U` or in `U⊥`), so `V` is the graph of an angular
 operator `K` from `U` to `U⊥`; the Davis–Kahan `tan 2Θ` argument, of which Tau Ceti's per-vector
@@ -442,9 +456,10 @@ Hermitian dilations `[[0, A†], [A, 0]]` on `E ⊕ F` (Tau Ceti `LinearMap.herm
 `Module.End.pointSpectralSubspace`), and let `δ > 0`. If every eigenvalue of `D(A)` on
 `E_{D(A)}(Ω)` is at distance at least `δ` from every eigenvalue of `D(Â)` on `E_{D(Â)}(Ω)⊥`, prove
 `δ ‖P_{E_{D(Â)}(Ω)⊥} P_{E_{D(A)}(Ω)}‖ ≤ (π/2)‖D(Â) − D(A)‖`, and the right side equals
-`(π/2)‖Â − A‖` (the pairwise theorem of Bhatia, Davis and McIntosh, applied to Hermitian
-dilations). Route: Tau Ceti's pairwise `sin Θ` theorem on `E ⊕ F`, with the dilations symmetric and
-the point-spectral subspaces invariant, in the operator norm, and the dilation isometry.
+`(π/2)‖Â − A‖` (the pairwise `π/2` `sin Θ` bound, Seelmann 2014, Proposition 2.4, applied to
+Hermitian dilations). Route: Tau Ceti's pairwise `sin Θ` theorem on `E ⊕ F`, with the dilations
+symmetric and the point-spectral subspaces invariant, in the operator norm, and the dilation
+isometry.
 *Needs:* Tau Ceti
 `TauCeti.UnitarilyInvariantSeminorm.mul_map_starProjection_comp_starProjection_le_pi_div_two_mul_map_sub`,
 `TauCeti.UnitarilyInvariantSeminorm.opNorm`, `LinearMap.isSymmetric_hermitianDilation`,
@@ -464,8 +479,9 @@ Prove `yuWangSamworth_alignedBasis_le`: let `A` and `B` be symmetric on a finite
 product space of dimension `n`, `U` and `V` corresponding eigenblocks of rank `d` (Convention 9),
 and `Δ > 0` the internal gap of `A` at `U`, `Module.End.PointInternalGap A U Δ`. Then `U` and `V`
 have orthonormal bases `(uᵢ)` and `(vᵢ)`, `i < d`, with
-`(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2} ≤ 2√2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ`, `√2` times the bound of the
-population-gap `sin Θ` theorem (Yu, Wang and Samworth 2015). The discrepancy is the Frobenius
+`(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2} ≤ 2√2 min(√d ‖B − A‖, ‖B − A‖_F)/Δ` (Yu, Wang and Samworth 2015,
+Theorem 2, inequality (3), proved there for real matrices and a run of consecutive indices),
+`√2` times the bound of the population-gap `sin Θ` theorem. The discrepancy is the Frobenius
 norm `(∑ᵢ ‖vᵢ − uᵢ‖²)^{1/2}`, with `v` rotated inside `V`. Route: for eigenvectors spanning `U`
 the internal gap is the index gap of Tau Ceti's population-gap theorem; the Procrustes alignment
 gives a basis `v` of `V` with `∑ᵢ ‖vᵢ − uᵢ‖² ≤ 2 ‖sin Θ(U, V)‖_F²`.
@@ -486,8 +502,9 @@ Prove `yuWangSamworth_eigenvector_le`: let `A` and `B` be symmetric on a finite-
 product space, `u` and `v` unit eigenvectors of `A` and `B` at the same sorted index (their lines
 are corresponding eigenblocks), `λ` the eigenvalue of `u`, and `Δ > 0` with `Δ ≤ |λ − ν|` for
 every eigenvalue `ν` of `A` on `u⊥`. Then some scalar `c` with `|c| = 1` gives
-`‖cv − u‖ ≤ 2√2 ‖B − A‖/Δ` (Yu, Wang and Samworth 2015). Over `ℝ`, `c = ±1`. Route: §4.17 with
-`d = 1`, where `min(‖B − A‖, ‖B − A‖_F) = ‖B − A‖` and a unit vector of the line of `v` is `cv`.
+`‖cv − u‖ ≤ 2√2 ‖B − A‖/Δ`. Over `ℝ`, `c = ±1`, and this is Yu, Wang and Samworth 2015,
+Corollary 3, with `c` the sign that makes `⟪cv, u⟫ ≥ 0`. Route: §4.17 with `d = 1`, where
+`min(‖B − A‖, ‖B − A‖_F) = ‖B − A‖` and a unit vector of the line of `v` is `cv`.
 *Needs:* §4.17.
 
 **Checks.**
@@ -504,8 +521,8 @@ Let `E` and `F` be finite-dimensional inner product spaces, `A, Â : E → F`, a
 eigenvalue order (Mathlib's `LinearMap.IsSymmetric.eigenvectorBasis`), the *left singular
 vectors*, and let `s` be a set of indices with a squared-singular-value gap `Γ ≥ 0`:
 `Γ ≤ |λ_j(AA†) − λ_k(AA†)|` for `j ∈ s`, `k ∉ s`. Prove
-`Γ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, û_j⟫|² ≤ 4|s|((a + â)ε)²` (Yu, Wang and Samworth 2015). The right
-form, with `A†A`, `Â†Â` and their eigenvector bases indexed by `k < dim E`, is Tau Ceti's
+`Γ² ∑_{j∈s} ∑_{k∉s} |⟪u_k, û_j⟫|² ≤ 4|s|((a + â)ε)²` (Yu, Wang and Samworth 2015, Theorem 4,
+the remark after it, and steps (10)–(11) of its proof). The right form, with `A†A`, `Â†Â` and their eigenvector bases indexed by `k < dim E`, is Tau Ceti's
 `LinearMap.sq_mul_sum_sum_norm_inner_rightSingularBasis_sq_le_four_mul_card_mul_sq`, which needs
 no sign condition. Route: the right form for `A†` and `Â†`, whose right Gram operators are `AA†`
 and `ÂÂ†`, with `‖A†‖ = ‖A‖` and the singular values of the adjoint.
@@ -557,9 +574,9 @@ singular values.
 This section is secondary and prescribes nothing. An Apache-2.0 implementation of the material of
 all four layers exists in the
 [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization) (Kitware, Inc.).
-Material in the Sylvester and `sin Θ` lineage was adapted from the Spectra Formalization Project at
-upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`, with a recorded compatibility patch;
-the Haagerup–Zsidó kernel material has no such influence.
+That implementation adapted its Sylvester and `sin Θ` material from the Spectra Formalization
+Project (upstream revision `8dbaaf6728d1342ae16acf79fd7eef7c59b37e63`); its kernel material is
+not adapted from it.
 
 ## Scope and ownership
 
@@ -900,9 +917,16 @@ in the domain, where `A` acts boundedly). §2.16 and §2.17 consume them.
 - M. Rosenblum, *On the operator equation BX − XA = Q*, Duke Math. J. **23** (1956), 263–269.
 - R. Bhatia, C. Davis, A. McIntosh, *Perturbation of spectral subspaces and solution of linear
   operator equations*, Linear Algebra Appl. **52/53** (1983), 45–67.
-- U. Haagerup and L. Zsidó — the extremal kernel attaining `π/2`, followed through the
-  Albeverio–Makarov–Motovilov reconstruction of the provenance of the constant.
+- S. Albeverio, K. A. Makarov, A. K. Motovilov, *Graph subspaces and the spectral shift function*,
+  Canad. J. Math. **55** (2003), 449–503; arXiv:math/0105142, whose version 3 fixes the numbering
+  cited.
+- A. Seelmann, *Notes on the sin 2Θ theorem*, Integral Equations Operator Theory **79** (2014),
+  579–597; arXiv:1310.2036, whose version 1 fixes the numbering cited.
+- V. Kostrykin, K. A. Makarov, A. K. Motovilov, *A generalization of the tan 2Θ theorem*, Oper.
+  Theory Adv. Appl. **149** (2004), 349–372; arXiv:math/0302020, whose version 1 fixes the
+  numbering cited.
 - R. Bhatia, *Matrix Analysis*, GTM 169, Ch. VII.2 — the separated bound of Layer 2 (§2.7) is the
   half-line case of Theorem VII.2.3, by an integral-free proof.
 - Y. Yu, T. Wang, R. J. Samworth, *A useful variant of the Davis–Kahan theorem for
-  statisticians*, Biometrika **102** (2015), 315–323.
+  statisticians*, Biometrika **102** (2015), 315–323; arXiv:1405.0680, whose version 1 fixes the
+  numbering cited.
