@@ -19,9 +19,9 @@ three vertices.
 The headline theorem is the strong arity-3 regular approximation theorem. Fix a finite palette, an
 error ε > 0, a positive error schedule F, a rank schedule R ≥ 1 and a number t₀ of cells. There is
 a bound B such that every coloring H of the triples of a set with at least B elements has two
-companions. The first is a coloring H′ that disagrees with H on at most an ε-fraction of the
-triples. The second is a triadic complex C of complexity at most B with the following properties.
-Its vertex cells form an equipartition into at least t₀ cells, and its polyads decompose the
+companions. The first is a coloring H′ that disagrees with H on at most ε|V|³/6 triples. The
+second is a triadic complex C of complexity at most B with the following properties. Its vertex
+cells form an equipartition into at least t₀ cells, and its polyads decompose the
 injective triples. Its pair coloring is regular at F of its number of cells plus pair colors. H′ is
 top-regular over all its polyads except an ε-proportion, at tolerance F(complexity) and rank
 R(complexity). The second headline composes this with induced counting. At explicit counting
@@ -101,10 +101,10 @@ proved by another route is not blocked behind an unrelated one.
    divisor, the per-route errors do not add up to the global error. The divisor could be dropped
    only under an aggregate predicate controlling the palette as a whole.
 9. **Rank.** Top regularity at rank `r` is tested on unions of at most `r` subpolyads. A subpolyad
-   selects arbitrary subgraphs of the three pair graphs of its polyad, as in Rödl–Schacht and
-   Nagle–Rödl–Schacht, not only vertex boxes. The approximation theorem of §8.2 accepts every rank
-   schedule `R ≥ 1`. The induced counting of §9.4 needs rank one only, so every such schedule serves
-   it.
+   selects arbitrary subgraphs of the three pair graphs of its polyad, as in Rödl–Schacht
+   (*Regularity Lemmas*, Definition 15) and Nagle–Rödl–Schacht (Definition 9), not only vertex
+   boxes. The approximation theorem of §8.2 accepts every rank schedule `R ≥ 1`. The induced
+   counting of §9.4 needs rank one only, so every such schedule serves it.
 10. **Names.** Tau Ceti's declarations used here live in the namespaces `TauCeti`, `SimpleGraph`,
     `Finpartition` and `TauCeti.DenseGraphLimits`. The targets of Layers 0, 8 and 9 belong under
     `TauCeti/Combinatorics/Hypergraph/`. The acceptance file `Suggested.lean` states the headline
@@ -120,7 +120,8 @@ and 5.
 Let `F` be an `r`-uniform hypergraph on a finite type `U` with `k = |U|`, and `H` an `r`-uniform
 hypergraph on `V` with `n = |V|`, both `TauCeti.UniformHypergraph`. A homomorphism `F → H` is a
 map `f : U → V` sending every edge `e` of `F` onto an edge `f(e)` of `H`. Since the edges of `H`
-have `r` elements, `f` is injective on every edge of `F`. Define the following four quantities:
+have `r` elements, `f` is injective on every edge of `F`. Define the following four quantities,
+as Lovász and Szegedy do for graphs (*Limits of dense graph sequences*, §1 and §2.4):
 
 - the homomorphism count `hom(F, H)`, the number of homomorphisms;
 - the injective count `inj(F, H)`, the number of injective homomorphisms, which are the labelled
@@ -215,9 +216,10 @@ The approximant `H'` is explicit. Top regularity is asked of `H'`, not of `H`, a
 tolerance `F C.complexity` is a parameter separate from the exceptional-mass bound `ε`. The
 complexity bound is written as an inequality, not as a separate predicate. This is the conclusion
 of the regular approximation lemma of Rödl–Schacht (*Regular Partitions of Hypergraphs: Regularity
-Lemmas*, Theorem 2.2) with the explicit approximant, rank-`r` subpolyad tests and the lower error
+Lemmas*, Theorem 14) with the explicit approximant, rank-`r` subpolyad tests and the lower error
 schedule evaluated at the complexity of the pairs partition (Terry, *Growth of regular partitions
-4*).
+4*, Definition 2.15 and Theorem 2.19; the latter evaluates the pair error at the number of pair
+classes).
 
 - Monotonicity: a strong regular approximation at `(ε, F, R, b)` is one at `(ε', F', R', b')`
   whenever `ε ≤ ε'`, `F ≤ F'` and `R' ≤ R` pointwise, and `b ≤ b'`. Lower-skeleton regularity
@@ -254,29 +256,30 @@ bullets `TauCeti.Colored3Graph.Approximates3.mono`, `TauCeti.Colored3Graph.Appro
 ### 8.2 The strong regular approximation theorem
 
 Prove `exists_strong_regular_approximation3` (Rödl–Schacht, *Regular Partitions of Hypergraphs:
-Regularity Lemmas*, Theorem 2.2 and Lemma 4.2 for the edited approximation, Theorem 2.3 for the
-order of the schedules). Fix a finite top palette `κ₃`, an error `ε > 0`, an error schedule `F`
-with `F n > 0` for all `n`, a rank schedule `R` with `R n ≥ 1` for all `n`, and a number `t₀`. Then
-there is a natural number `B` such that, for every finite `V` with `|V| ≥ B` and every coloring
-`H : TauCeti.Colored3Graph κ₃ V`, there are a coloring `H'` and a triadic complex `C` with the
-following two properties. First, `C.VertexCellsControlled t₀` holds: the vertex cells form an
-equipartition into at least `t₀` cells. Second, `IsStrongRegularApproximation3 H H' C ε F R B`
-holds. The bound depends on `κ₃` (through its size, by relabelling), `ε`, `F`, `R` and `t₀`, and
-not on `V` or `H`. Call it the arity-three regularity bound.
+Regularity Lemmas*, Theorem 14 and, for a partition of the triples into several classes, Lemma 25
+for the edited approximation; Theorem 17 for the order of the schedules). Fix a finite top palette
+`κ₃`, an error `ε > 0`, an error schedule `F` with `F n > 0` for all `n`, a rank schedule `R` with
+`R n ≥ 1` for all `n`, and a number `t₀`. Then there is a natural number `B` such that, for every
+finite `V` with `|V| ≥ B` and every coloring `H : TauCeti.Colored3Graph κ₃ V`, there are a coloring
+`H'` and a triadic complex `C` with the following two properties. First,
+`C.VertexCellsControlled t₀` holds: the vertex cells form an equipartition into at least `t₀`
+cells. Second, `IsStrongRegularApproximation3 H H' C ε F R B` holds. The bound depends on `κ₃`
+(through its size, by relabelling), `ε`, `F`, `R` and `t₀`, and not on `V` or `H`. Call it
+the arity-three regularity bound.
 
 *Pinned choices.* The complex chooses its finite pair palette. Its complexity counts vertex cells,
 pair colors and polyads. The top tolerance `F C.complexity` is separate from the exceptional-mass
 bound `ε`, and top regularity is at rank `R C.complexity`. The quantifiers come in a fixed order:
 first the error and the two schedules; then the complexity bound; then, for a host above the bound,
 a complex at which the schedules are evaluated. The cells returned are equitable and at least `t₀`
-in number. This schedule order is that of Rödl–Schacht, Theorem 2.3, where the rank is a function
+in number. This schedule order is that of Rödl–Schacht, Theorem 17, where the rank is a function
 of the lower complexity data; that theorem alone is not the edited approximation statement. The
 scalar complexity bounds each component. Constructing a scalar majorant of the source's
 tuple-indexed schedule is part of the proof. Pairs inside one cell are tested like all others: the
 lower skeleton is regular on a cell paired with itself, and the triples meeting a cell twice lie in
 selected polyads.
 
-*Route.* Rödl–Schacht, Theorem 2.2 and Lemma 4.2, supply the edited approximation. Their regularity
+*Route.* Rödl–Schacht, Theorem 14 and Lemma 25, supply the edited approximation. Their regularity
 is at rank one. It is bridged to the rank-`r` subpolyad-union tests by choosing the rank-one
 discrepancy small enough for the loss over unions of at most `r` subpolyads, as in Tau Ceti's
 `TauCeti.Colored3Graph.IsTopRegularOverPolyad.of_rank_one`: rank one at `δ` gives rank `r` at `ε'`
@@ -320,8 +323,8 @@ Ceti `TauCeti.TriadicComplex3`, `TauCeti.TriadicComplex3.VertexCellsControlled`,
   itself, which Szemerédi's uniformity does not. The complexity plays the role of the number of
   fine parts in strong graph regularity, `SimpleGraph.StrongRegular`.
 - With one vertex cell `V` and one pair color, the single polyad has as support all `(n)_3`
-  injective triples. The complex has complexity `3`, and its lower skeleton is regular at `f < 1`
-  exactly when `n = 1` or `n > 1/f`.
+  injective triples. The complex has complexity `3`, and its lower skeleton is regular at
+  `0 < f < 1` exactly when `n = 1` or `n > 1/f`.
 
 ### Dependencies
 
@@ -350,15 +353,22 @@ palette:
   error schedule;
 - `TauCeti.diagonalControl3 k ε = ⌈24 (k choose 2) / ε⌉`, the number of vertex cells.
 
-They are positive for `ε > 0`.
+The first two are positive for `ε > 0`. The third is positive for `ε > 0` and `k ≥ 2`, and is `0`
+for `k ≤ 1`.
 
-Prove the counting estimate over a strong regular approximation (Rödl–Schacht, *Regular Partitions
-of Hypergraphs: Counting Lemmas*; Nagle–Rödl–Schacht, *The counting lemma for regular k-uniform
-hypergraphs*). Suppose that the vertex cells of `C` form an equipartition into at least
-`diagonalControl3 k ε` cells. Suppose that `(H', C)` is a strong regular approximation of `H` (§8.1)
-at `(inducedCountingParameter3 k ε, inducedCountingSchedule3 k ε, R, b)`, for some rank schedule
+State the counting estimate over a strong regular approximation, which is Tau Ceti's counting
+lemma over a regular triadic complex with its hypotheses bundled by §8.1. Suppose that the vertex
+cells of `C` form an equipartition into at least `diagonalControl3 k ε` cells. Suppose that
+`(H', C)` is a strong regular approximation of `H` (§8.1) at
+`(inducedCountingParameter3 k ε, inducedCountingSchedule3 k ε, R, b)`, for some rank schedule
 `R ≥ 1` and some `b`. Then
-`|inducedCopyCount H F₀ − expectedInducedCount H' C F₀| ≤ ε · |V|^k`.
+`|inducedCopyCount H F₀ − expectedInducedCount H' C F₀| ≤ ε · |V|^k`. The sources count copies of
+a pattern from both sides in the dense case, where every density of the complex is large compared
+with its regularity (Rödl–Schacht, *Regular Partitions of Hypergraphs: Counting Lemmas*, Theorems
+10 and 13). Without that assumption they count cliques from both sides (Nagle–Rödl–Schacht,
+Theorem 12) and copies of a general pattern from below (Nagle–Rödl–Schacht, Corollary 15). The
+two-sided count of the induced copies of a colored pattern, summed over a polyad decomposition and
+carried across an edit, is the statement of the library lemma.
 *Route.* Unfold §8.1 and apply Tau Ceti's counting lemma over a regular triadic complex,
 `TauCeti.Colored3Graph.abs_inducedCopyCount_sub_expectedInducedCount_le_of_topRegular`, at rank
 `R C.complexity ≥ 1`. The complexity bound is not used. That lemma splits the error into six
@@ -371,7 +381,7 @@ charges, each at most `(ε/6) |V|^k`:
 5. the actual and predicted copies of placements meeting a cell twice;
 6. the transfer from `H'` to `H` across the edit.
 
-Prove `exists_strong_regular_approximation3_counting`. For every rank schedule `R ≥ 1` there is a
+State `exists_strong_regular_approximation3_counting`. For every rank schedule `R ≥ 1` there is a
 bound `B`, independent of the host, with the following property. Every coloring `H` of the triples
 of a finite `V` with `|V| ≥ B` has a strong regular approximation `(H', C)` at
 `(inducedCountingParameter3 k ε, inducedCountingSchedule3 k ε, R, B)` with at least
@@ -380,7 +390,8 @@ of a finite `V` with `|V| ≥ B` has a strong regular approximation `(H', C)` at
 an arity-three regularity bound of §8.2 at error `inducedCountingParameter3 k ε`, schedule
 `inducedCountingSchedule3 k ε`, rank schedule `R` and `t₀ = diagonalControl3 k ε`, so the
 large-host hypothesis is exactly that bound. *Route.* Apply §8.2 at these parameters, which is
-possible since they are positive, and then the counting estimate above.
+possible since the first two are positive, and then the counting estimate above. `Suggested.lean`
+carries out this derivation from the statement of §8.2, so the endpoint is proved once §8.2 is.
 *Needs:* §8.1 for the counting estimate; §8.2 for the composed endpoint; Tau Ceti
 `TauCeti.Colored3Graph.abs_inducedCopyCount_sub_expectedInducedCount_le_of_topRegular`,
 `TauCeti.inducedCountingParameter3`, `TauCeti.inducedCountingParameter3_pos`,
@@ -778,13 +789,21 @@ Paths are under `TauCeti/Combinatorics/`. All the declarations below are proved 
 - Y. Zhao, *Graph Theory and Additive Combinatorics* (2023), ch. 2: graph regularity, counting, and
   the strong-regularity exposition.
 - V. Rödl, M. Schacht, *Regular Partitions of Hypergraphs: Regularity Lemmas*, Combin. Probab.
-  Comput. 16(6) (2007), 833–885 (Theorems 2.2 and 2.3, Lemma 4.2 for §8.2; the companion *Regular
-  Partitions of Hypergraphs: Counting Lemmas* is ibid., 887–901); B. Nagle, V. Rödl, M. Schacht,
-  *The counting lemma for regular k-uniform hypergraphs*, Random Struct. Alg. 28 (2006), 113–179.
+  Comput. 16(6) (2007), 833–885 (Definition 15 for Convention 9; Theorems 14 and 17 and Lemma 25
+  for §8.1–§8.2). The theorem numbers are those of the authors' preprint on Schacht's web page,
+  which numbers its statements consecutively; the companion paper cites Theorems 14 and 17 as
+  Theorems 2.13 and 2.16. The companion *Regular Partitions of Hypergraphs: Counting Lemmas* is
+  ibid., 887–901 (Theorems 10 and 13 for §9.4). B. Nagle, V. Rödl, M. Schacht, *The counting
+  lemma for regular k-uniform hypergraphs*, Random Struct. Alg. 28 (2006), 113–179 (Definition 9
+  for Convention 9; Theorem 12 and Corollary 15 for §9.4).
 - C. Terry, *Growth of regular partitions 4: strong regularity and the pairs partition*
-  ([arXiv:2404.02030](https://arxiv.org/abs/2404.02030)): the subtriad test surface (three
-  component bigraphs, one per role pair) and the lower error schedule evaluated at the
-  pairs-partition complexity.
+  ([arXiv:2404.02030v3](https://arxiv.org/abs/2404.02030v3)): the pairs partition over all ordered
+  pairs of cells, a cell paired with itself included (Definition 2.15, p. 9); the pair error
+  evaluated at the number of pair classes (Theorem 2.19, p. 10); sub-triads, with three component
+  bigraphs, one per role pair (p. 49).
+- L. Lovász, B. Szegedy, *Limits of dense graph sequences*, J. Combin. Theory Ser. B 96 (2006)
+  ([arXiv:math/0408173v2](https://arxiv.org/abs/math/0408173v2)): homomorphism and injective
+  homomorphism densities of graphs (§1 and §2.4), for §0.1.
 - W. T. Gowers, *Hypergraph regularity and the multidimensional Szemerédi theorem*, Ann. of Math.
   166 (2007); T. Tao, *A variant of the hypergraph removal lemma*, JCTA 113 (2006).
 - D. Conlon, J. Fox, *Graph removal lemmas* (survey, 2013).

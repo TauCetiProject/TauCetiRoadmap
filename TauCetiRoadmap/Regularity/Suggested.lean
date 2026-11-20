@@ -60,12 +60,12 @@ def IsStrongRegularApproximation3 {κ₃ : Type v} {V : Type u} [DecidableEq κ�
     H'.TopRegularOverMostPolyads C (F C.complexity) ε (R C.complexity) ∧ C.complexity ≤ b
 
 /-- **Strong arity-3 regular approximation** (README §8.2; Rödl–Schacht, *Regular partitions of
-hypergraphs: regularity lemmas*, Theorems 2.2 and 2.3). Fix a finite top palette `κ₃`, an error
-`ε > 0`, a positive error schedule `F`, a rank schedule `R ≥ 1` and a number `t₀` of vertex cells.
-There is a bound `B`, independent of the host, such that every coloring `H` of the triples of a
-finite set `V` with at least `B` elements has a strong regular approximation `(H', C)` at
-`ε, F, R` with complexity at most `B`, whose vertex cells form an equipartition into at least `t₀`
-cells. -/
+hypergraphs: regularity lemmas*, Theorems 14 and 17 and Lemma 25 in the numbering of the authors'
+preprint). Fix a finite top palette `κ₃`, an error `ε > 0`, a positive error schedule `F`, a rank
+schedule `R ≥ 1` and a number `t₀` of vertex cells. There is a bound `B`, independent of the host,
+such that every coloring `H` of the triples of a finite set `V` with at least `B` elements has a
+strong regular approximation `(H', C)` at `ε, F, R` with complexity at most `B`, whose vertex cells
+form an equipartition into at least `t₀` cells. -/
 theorem exists_strong_regular_approximation3 (κ₃ : Type v) [Fintype κ₃] [DecidableEq κ₃]
     (ε : ℝ) (hε : 0 < ε) (F : ℕ → ℝ) (hF : ∀ n, 0 < F n) (R : ℕ → ℕ) (hR : ∀ n, 1 ≤ R n)
     (t₀ : ℕ) :
