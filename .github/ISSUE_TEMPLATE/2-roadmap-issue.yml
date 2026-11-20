@@ -338,6 +338,7 @@ body:
         - QuadraticFormInvariantsPartII
         - QuantumEnvelopingAlgebras
         - QuantumGroups
+        - QuaternionArithmetic
         - QuaternionicAnalysis
         - QuiverRepresentationsPartII
         - RamificationOfCompleteDiscretelyValuedFields
