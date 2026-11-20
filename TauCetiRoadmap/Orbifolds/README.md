@@ -1781,6 +1781,21 @@ of §§4.3–4.9c and Layer 5, with its own character datum, and the identificat
 the carriers here. Both consume this roadmap, and this roadmap takes no input from either: no second
 moment map, symplectic reduction or toric classification is constructed here (§7.3).
 
+Other roadmaps cite sections of this roadmap by the labels of its former numbering:
+
+| Former label | Now |
+|---|---|
+| O1 | Layer 1 |
+| O1.4 | §1.4 |
+| O2 | Layer 2 |
+| O2.4 | §2.4 |
+| O3 | Layer 3 |
+| O4 | Layer 4 |
+| O4.2 | §4.2 |
+| O5 | Layer 5 |
+| O6 | Layer 6 |
+| O7 | Layer 7 |
+
 ## Exact supplier contracts
 
 ### From Mathlib
