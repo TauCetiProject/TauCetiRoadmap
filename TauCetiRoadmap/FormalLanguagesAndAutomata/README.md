@@ -336,7 +336,8 @@ Proposition 7.16, p. 250).
 Route (Watrous, proof of Lemma 10.1, pp. 98–101): take a grammar in Chomsky normal form for
 `L - 1` (3.1) with `m` nonterminals occurring in its rules or as its initial nonterminal, and put
 `p = 2ᵐ`; then every word of length at least `p` is nonempty. A derivation tree of a word of
-length at least `2ᵐ` has a path from the root with at least `m + 1` nonterminal nodes, so some
+length at least `2ᵐ` has depth more than `m`: a longest path from the root to a leaf has at
+least `m + 1` nonterminal nodes, so some
 nonterminal `X` repeats among the last `m + 1` of them; the subtrees at the two lowest occurrences
 give `X ⇒* v X y`, `X ⇒* x` and the bound `|v x y| ≤ 2ᵐ`, and `v y` is nonempty because each
 nonterminal node of a tree in Chomsky normal form has two nonterminal children or one terminal
@@ -372,8 +373,12 @@ the block structure, and in both cases it is not in the language.
   `u x z` and `u v² x y² z` in the language.
 - The two-block language `{0ⁿ 1ⁿ}` is context-free (`S → 0 S 1`, `S → ε`) and not regular: by
   Mathlib's pumping lemma for automata, `DFA.pumping_lemma`, pumping inside the first block of
-  `0ᵖ 1ᵖ` unbalances the blocks. So over a finite alphabet, where every regular language is
-  context-free (4.2), the regular languages are a proper part of the context-free ones. Over `ℕ`
+  `0ᵖ 1ᵖ` unbalances the blocks. So over a finite alphabet with at least
+  two letters, where every regular language is context-free (4.2), the regular languages are a
+  proper part of the context-free ones. Two letters are needed: over a one-letter alphabet every
+  context-free language is regular, by 3.2 (a language with pumping constant `p` is a finite set
+  together with finitely many arithmetic progressions of difference `p!`), and over the empty
+  alphabet the only languages are `∅` and `{[]}`. Over `ℕ`
   neither class contains the other: the language of all words is regular and not context-free
   (Check of 4.2), and `{0ⁿ 1ⁿ}` is context-free and not regular by the same argument.
 
