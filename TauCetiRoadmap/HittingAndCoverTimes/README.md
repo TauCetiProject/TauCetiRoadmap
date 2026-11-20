@@ -101,8 +101,7 @@ Prove `isLeast_meanHittingTime`: on a countable state space, for every Markov ke
 `A`, the function `x ↦ E_x τ_A` is the least function `h : S → ℝ≥0∞` with `h a = 0` for `a ∈ A`
 and `h x = 1 + Σ'_y P(x, y) h(y)` for `x ∉ A`. No irreducibility is assumed. This is the classical
 first-step analysis of absorption times; the mean hitting times as the minimal nonnegative
-solution are in J. R. Norris, *Markov chains* (Cambridge University Press, 1997), Section 1.3,
-cited here without a theorem number because the text was not opened for this roadmap.
+solution are in J. R. Norris, *Markov chains* (Cambridge University Press, 1997), Section 1.3.
 
 Route: the Markov property at time `1` (Tau Ceti's
 `Measure.markovChainLaw_map_prefix_shift_iterate_eq_compProd` with `n = 1`) shows that the mean
@@ -595,3 +594,5 @@ continuous-time chains and countable state spaces beyond 1.2.
   monograph, 2002, recompiled 2014; numbering as in the HTML edition linked from the first
   author's page, where the chapter dated September 10, 1999 is Chapter 2: §2.2.2, Lemmas 2.11 and
   2.12 and Corollaries 2.13 and 2.14.
+- J. R. Norris, *Markov chains*, Cambridge University Press, 1997: Section 1.3 (hitting times
+  and absorption probabilities), cited by section for 1.2.
