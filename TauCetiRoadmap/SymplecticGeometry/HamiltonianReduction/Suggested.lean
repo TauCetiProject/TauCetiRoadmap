@@ -1,7 +1,6 @@
-import TauCetiRoadmap.SymplecticGeometry.CotangentLagrangian.Suggested
+import Mathlib
 import TauCeti.Geometry.Lie.Adjoint.Basic
 import TauCeti.Geometry.Symplectic.Hamiltonian.Manifold
-import Mathlib.Geometry.Manifold.IsManifold.InteriorBoundary
 
 /-!
 These suggested forms are aids, not the specification. The README is definitive;
@@ -56,31 +55,6 @@ theorem fundamentalField_lie [CompleteSpace E] (σ : TauCeti.SmoothTwoForm I M)
     (ξ η : GroupLieAlgebra IG G) :
     fundamentalField (I := I) (M := M) ⁅ξ, η⁆ =
       -VectorField.mlieBracket I (fundamentalField (I := I) (M := M) ξ) (fundamentalField (I := I) (M := M) η) := by
-  sorry
-
-/-- Momentum for the intrinsic cotangent lift. Its value at `ξ` is Tau Ceti's
-`TauCeti.CotangentBundle.momentMap IG G z ξ`, which takes values in `Module.Dual`. -/
-def cotangentMomentum (z : Cotangent I M) : StrongDual ℝ EG :=
-  z.2.comp (mfderiv IG I (fun g : G ↦ g • z.1) 1)
-
-/-- Cotangent action explicitly transports covectors by inverse base derivative. For an action by
-smooth maps it is Tau Ceti's cotangent lift `g • z` (`TauCeti.CotangentBundle.smul_eq_mk`). -/
-def cotangentLiftedAction (g : G) (z : Cotangent I M) : Cotangent I M :=
-  Bundle.TotalSpace.mk' (E →L[ℝ] ℝ) (g • z.1)
-    (z.2.comp (mfderiv I I (fun q : M ↦ g⁻¹ • q) (g • z.1)))
-
-/-- Each component of the cotangent momentum is a Hamiltonian function, for the canonical form, of
-the fundamental field of the cotangent-lifted action. Tau Ceti's
-`TauCeti.CotangentBundle.isEquivariantMomentMap_momentMap` proves it, with equivariance, under the
-further hypotheses `[CompleteSpace EG]`, `[T2Space G]`, `[BoundarylessManifold IG G]`,
-`[T2Space M]` and `[I.Boundaryless]`. -/
-theorem cotangentMomentum_hamiltonian [FiniteDimensional ℝ E]
-    (ha : ContMDiff (IG.prod I) I ∞ (fun gx : G × M ↦ gx.1 • gx.2))
-    (ξ : GroupLieAlgebra IG G) :
-    TauCeti.SmoothTwoForm.IsHamiltonianVectorField (canonicalForm (M := M) I)
-      (fun z : Cotangent I M ↦ cotangentMomentum (IG := IG) (G := G) z ξ)
-      (fun z ↦ mfderiv IG (cotangentModel I)
-        (fun g : G ↦ cotangentLiftedAction g z) 1 ξ) := by
   sorry
 
 variable {F K Q : Type*} [NormedAddCommGroup F] [NormedSpace ℝ F]

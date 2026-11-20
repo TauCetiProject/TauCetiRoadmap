@@ -13,11 +13,13 @@ finite-dimensional, smooth, Hausdorff and second countable. Specify connectednes
 where required. A noncompact Lie group's coadjoint orbit carries the homogeneous manifold structure;
 its map into g* may be an immersion and must not be assumed embedded or closed.
 
-Consume [HamiltonianSystems #480](https://github.com/TauCetiProject/TauCetiRoadmap/pull/480):
-Layer 1's `SmoothTwoForm.IsHamiltonianVectorField` and `poissonBracket`, Layer 2's
-flow/symplectomorphism contracts, and Layer 3's `IsMomentMap`, `InfinitesimalAction`
-and cocycle. The #480 proposal states these contracts on Tau Ceti's existing
-legacy `SmoothTwoForm`. Consume them through DifferentialGeometry 0.4's
+Consume Tau Ceti's Hamiltonian calculus (`Geometry/Symplectic/Hamiltonian/`):
+`TauCeti.SmoothTwoForm.IsHamiltonianVectorField` and `TauCeti.SmoothTwoForm.poissonBracket`,
+the symplectic time-`t` maps of complete Hamiltonian flows
+(`TauCeti.SmoothTwoForm.IsSymplectic.mpullback_globalFlowDiffeomorph`), and
+`TauCeti.SmoothTwoForm.IsMomentMap`, `TauCeti.InfinitesimalAction` and the cocycle
+`TauCeti.SmoothTwoForm.momentCocycle`. These are stated on Tau Ceti's `SmoothTwoForm`,
+which is by definition `SmoothForm I M ℝ 2`. Consume them through DifferentialGeometry 0.4's
 `legacySmoothTwoFormEquiv`, evaluation law and closedness comparison; consume
 LieGroupoidsPoisson G4.2a's adapter equation for `IsHamiltonianVectorField`
 with the stated `ι_Xω=df` convention. The moment-map convention and exact
@@ -25,7 +27,7 @@ equations are unchanged here.
 This roadmap supplies the group-level connection and reduction geometry, not a
 second copy of that shared Hamiltonian API. Lie-group actions/exponentials/Ad are from
 [LieGroups](../../RepresentationTheory/LieGroups/README.md), principal bundles, connections and proper/free
-quotient charts from [SmoothBundlesConnections](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887),
+quotient charts from [SmoothBundlesConnections](../../SmoothBundlesConnections/README.md),
 forms and flows from [DifferentialGeometry](../../DifferentialGeometry/README.md), cotangent/Lagrangian
 geometry from [CotangentLagrangian](../CotangentLagrangian/README.md). The analytic gauge theorem below
 has its own explicit Fréchet/Sobolev hypotheses; finite-dimensional reduction is not applied to it unchanged.
@@ -34,12 +36,12 @@ has its own explicit Fréchet/Sobolev hypotheses; finite-dimensional reduction i
 
 Package a smooth left action using the existing `MulAction` law and joint `ContMDiff`; each element
 acts by a symplectomorphism. Define ξ_M(x)=d_(1)(g↦gx)(ξ) with `GroupLieAlgebra` and prove
-smoothness, linearity and the negative bracket identity. Relate it to PR480's `InfinitesimalAction`
+smoothness, linearity and the negative bracket identity. Relate it to Tau Ceti's `TauCeti.InfinitesimalAction.fundamental`
 and prove the exponential-flow formula; define stabilizers/orbit tangent images, kernel/isotropy Lie
 algebra and rank of the orbit map.
 
 A group-level moment map μ:M→g* is smooth, satisfies dμ_ξ=ι_ξMω and is coadjoint-equivariant.
-Retain PR480’s legacy-carrier `SmoothTwoForm.IsMomentMap` through the
+Retain Tau Ceti’s `TauCeti.SmoothTwoForm.IsMomentMap` through the
 DifferentialGeometry 0.4 migration equivalence for infinitesimal moment maps
 without group equivariance; group-level equivariance adds a separate condition. Build restriction to a
 Lie subgroup (compose dual inclusion), products (sum), opposite symplectic form (negate), invariant
@@ -50,7 +52,7 @@ a component condition.
 
 For connected nonempty M and a smooth infinitesimal moment map μ for a symplectic group action, with no equivariance assumption, define the group defect
 θ(g)=μ(gx)−Ad*_(g)μ(x), prove independence of x and
-θ(gh)=θ(g)+Ad*_(g)θ(h). Prove its derivative satisfies `(dθ₁(η))(ξ)=c_μ(ξ,η)` for PR480’s cocycle, describe constant-shift coboundaries, and prove equivariance for the affine action
+θ(gh)=θ(g)+Ad*_(g)θ(h). Prove its derivative satisfies `(dθ₁(η))(ξ)=c_μ(ξ,η)` for Tau Ceti’s cocycle `TauCeti.SmoothTwoForm.momentCocycle`, describe constant-shift coboundaries, and prove equivariance for the affine action
 ν↦Ad*_(g)ν+θ(g). Preserve global information: vanishing infinitesimal defect alone says nothing
 about disconnected components. This group defect retains information beyond the Lie-algebra central extension;
 no group central-extension integration theorem is asserted without separate global data.
@@ -65,12 +67,15 @@ where f maps to −X_f, a Lie homomorphism, and X maps to [ι_Xω]. The comparis
 with `π♯df` is proved by LieGroupoidsPoisson G4.3, so this exact sequence does
 not depend on the Poisson identification. Prove
 surjectivity onto H¹ by converting a closed one-form through nondegeneracy, and componentwise
-kernel exactness using DifferentialGeometry’s de Rham carrier. This finite-dimensional flux
-sequence extends PR480’s Hamiltonian-field kernel theorem; no Banach onto-dual assertion is made.
+kernel exactness using DifferentialGeometry’s de Rham carrier. For a nondegenerate form on a
+finite-dimensional manifold Tau Ceti proves this sequence
+(`TauCeti.SmoothTwoForm.IsNondegenerate.ker_negHamiltonianₗ`,
+`TauCeti.SmoothTwoForm.IsNondegenerate.exact_negHamiltonianₗ_interiorClass` and
+`TauCeti.SmoothTwoForm.IsNondegenerate.interiorClass_surjective`); no Banach onto-dual assertion is made.
 
 ### R1a. Global flux, Hamiltonian kernel and endpoint quotient
 
-Use R1's infinitesimal exact sequence, [HamiltonianSystems](https://github.com/TauCetiProject/TauCetiRoadmap/pull/480)'s Hamiltonian-field and symplectic-flow API, and [DifferentialGeometry](../../DifferentialGeometry/README.md) 0.4, 3.5–3.6, 5–6 and 7.3–10 for generic-form migration, time-dependent complete flows, homotopy, compact support, relative de Rham integration and degree. Consume [CotangentLagrangian C4](../CotangentLagrangian/README.md#c4-relative-symplectic-germs)'s relative diagonal germ; R1a.2 and R1a.4 prove its respective compact and support-stage applications. Use the existing `TauCeti.Diff`, `TauCeti.Diffeotopy`, evaluation `Diffeomorph.applyMulAction`, `Diffeomorph.fixingSubgroup` and weak-Whitney mapping-space APIs. On a compact Hausdorff manifold with locally compact model space, consume `Diffeomorph.continuous_trans`, `continuous_symm`, `isTopologicalGroup` and `isClosed_fixingSubgroup` with their `IsManifold` hypotheses. On noncompact M, R1a.4 constructs the fixed-support weak-Whitney comparison and the separate compact-support LF group topology, with their inclusion and path comparisons. The symplectic subgroup, flux, kernel and endpoint topology are the applications here.
+Use R1's infinitesimal exact sequence, Tau Ceti's Hamiltonian-field and symplectic-flow API (`Geometry/Symplectic/Hamiltonian/`), and [DifferentialGeometry](../../DifferentialGeometry/README.md) 0.4, 3.5–3.6, 5–6 and 7.3–10 for generic-form migration, time-dependent complete flows, homotopy, compact support, relative de Rham integration and degree. Consume [CotangentLagrangian C4](../CotangentLagrangian/README.md#c4-relative-symplectic-germs)'s relative diagonal germ; R1a.2 and R1a.4 prove its respective compact and support-stage applications. Use the existing `TauCeti.Diff`, `TauCeti.Diffeotopy`, evaluation `Diffeomorph.applyMulAction`, `Diffeomorph.fixingSubgroup` and weak-Whitney mapping-space APIs. On a compact Hausdorff manifold with locally compact model space, consume `Diffeomorph.continuous_trans`, `continuous_symm`, `isTopologicalGroup` and `isClosed_fixingSubgroup` with their `IsManifold` hypotheses. On noncompact M, R1a.4 constructs the fixed-support weak-Whitney comparison and the separate compact-support LF group topology, with their inclusion and path comparisons. The symplectic subgroup, flux, kernel and endpoint topology are the applications here.
 
 #### R1a.0. Smooth symplectic paths and flux
 
@@ -80,7 +85,7 @@ Let (M,ω) be nonempty, closed and connected. Give Symp(M,ω) the subgroup of th
 
 `Flux(φ)=[∫₀¹α_t dt]∈H¹_dR(M)`.
 
-Prove that it also equals `[∫₀¹φ_t*α_t dt]`. Consume HeegaardFloer F2.1’s time-dependent form-pullback differentiation and DifferentialGeometry 3.5’s two-time flow, then specialize with DG’s Cartan formula: for a smooth time-dependent symplectic field Y_t with flow Ψ_t prove ∂_t(Ψ_t*ω)=Ψ_t*(L_{Y_t}ω)=0 on its actual flow domain. The common-support constructions use this specialization. For every smooth integral one-cycle γ, identify its pairing with the swept two-chain (t,s)↦φ_t(γ(s)), oriented dt followed by the cycle orientation. Define the group of such paths modulo smooth homotopy fixing both time ends, with compatible collars. Use the pointwise path product `(φψ)_t=φ_t∘ψ_t` and inverse `φ_t⁻¹`; prove the product velocity identity `X_(φψ)=X_φ+φ_*X_ψ`, and hence the flux homomorphism using triviality of the isotopy action on H¹. Keep these operations distinct from temporal concatenation and reversal. Construct smooth collared concatenation and time reversal separately, and prove their endpoint-fixed path-class and flux laws. In the native diffeotopy API, `Diffeotopy.trans Φ Ψ` has slices `Ψ_t∘Φ_t`, while `Diffeotopy.symm Φ` has slices `Φ_t⁻¹`; hence the HR pointwise path product is represented by `Diffeotopy.trans ψ φ`. Native diffeotopies carry no collar data, so collar-constant paths are a separately specified subtype. Prove collar-fixed relative smoothing and reparametrization compatibility for all constructions. For a two-parameter family with X=(∂_tφ)φ⁻¹, Y=(∂_uφ)φ⁻¹ and β_t=φ*ι_Xω, β_u=φ*ι_Yω, prove
+Prove that it also equals `[∫₀¹φ_t*α_t dt]`. Consume HeegaardFloer F2.1’s time-dependent form-pullback differentiation and DifferentialGeometry 3.5’s two-time flow, then specialize with DG’s Cartan formula: for a smooth time-dependent symplectic field Y_t with flow Ψ_t prove ∂_t(Ψ_t*ω)=Ψ_t*(L_(Y_t)ω)=0 on its actual flow domain. The common-support constructions use this specialization. For every smooth integral one-cycle γ, identify its pairing with the swept two-chain (t,s)↦φ_t(γ(s)), oriented dt followed by the cycle orientation. Define the group of such paths modulo smooth homotopy fixing both time ends, with compatible collars. Use the pointwise path product `(φψ)_t=φ_t∘ψ_t` and inverse `φ_t⁻¹`; prove the product velocity identity `X_(φψ)=X_φ+φ_*X_ψ`, and hence the flux homomorphism using triviality of the isotopy action on H¹. Keep these operations distinct from temporal concatenation and reversal. Construct smooth collared concatenation and time reversal separately, and prove their endpoint-fixed path-class and flux laws. In the native diffeotopy API, `Diffeotopy.trans Φ Ψ` has slices `Ψ_t∘Φ_t`, while `Diffeotopy.symm Φ` has slices `Φ_t⁻¹`; hence the HR pointwise path product is represented by `Diffeotopy.trans ψ φ`. Native diffeotopies carry no collar data, so collar-constant paths are a separately specified subtype. Prove collar-fixed relative smoothing and reparametrization compatibility for all constructions. For a two-parameter family with X=(∂_tφ)φ⁻¹, Y=(∂_uφ)φ⁻¹ and β_t=φ*ι_Xω, β_u=φ*ι_Yω, prove
 
 `∂_uβ_t−∂_tβ_u=d_M(ω(X,Y)∘φ)`.
 
@@ -90,7 +95,7 @@ Integrating proves homotopy invariance with the actual end conditions. Retain na
 
 Use HeegaardFloer F2.1's symplectic contraction, primitive and Moser calculus in its stated scope. The following normalized degree-one application constructs its own fixed-path/radial operator; it needs neither a second good cover nor a degree-two loss estimate interpreted as a degree-one theorem. It supplies arbitrary finite-dimensional parameter families, including faces and collars, for both the compact kernel argument and the componentwise compact part of R1a.4.
 
-Construct a finite smooth period-dual basis θ_i of H¹_dR(M) and the continuous linear class-coordinate map on closed forms, using DG de Rham integration, real UCT and smooth one-cycle representatives. A compact manifold has finitely many connected components M_j. On each M_j fix x_{0,j}. For an exact α define f_{0,j}(x)=∫_(x_{0,j}→x)α; exactness proves path independence. On a finite coordinate cover represent this by a fixed piecewise smooth path to a chart center followed by radial coordinate segments. Differentiate the local integral formulas to prove df_{0,j}=α and joint smoothness for every smooth finite-dimensional parameter family, including corner/face charts. Set S_jα=f_{0,j}−(∫_{M_j} f_{0,j}ωⁿ)/(∫_{M_j}ωⁿ), and collect these componentwise selectors as Sα. Prove linearity and the unique componentwise mean-zero characterization. For a fixed compact auxiliary metric put D=max_j diam(M_j); then osc(f_{0,j})≤D‖α‖_C⁰. Together with df_{0,j}=α, finite-chart derivative comparisons give `‖Sα‖_(C^(k+1))≤C_k‖α‖_(C^k)`. Prove the same bounds after each declared parameter derivative by differentiating the fixed integration formulas and mean. Thus S is continuous linear on the exact-form subspace and has arbitrary finite-parameter smoothness; its uniqueness identifies restrictions to prescribed faces carrying the same componentwise normalization. Invert ω on θ_i to fields Y_i; Cartan gives L_(Y_i)ω=0 and compactness gives complete symplectic flows. The corresponding finite period coordinates, normalized operator and ordered-flow formulas are actual exported maps with their evaluation, restriction and estimate laws.
+Construct a finite smooth period-dual basis θ_i of H¹_dR(M) and the continuous linear class-coordinate map on closed forms, using DG de Rham integration, real UCT and smooth one-cycle representatives. A compact manifold has finitely many connected components M_j. On each M_j fix x_(0,j). For an exact α define f_(0,j)(x)=∫_(x_(0,j)→x)α; exactness proves path independence. On a finite coordinate cover represent this by a fixed piecewise smooth path to a chart center followed by radial coordinate segments. Differentiate the local integral formulas to prove df_(0,j)=α and joint smoothness for every smooth finite-dimensional parameter family, including corner/face charts. Set S_jα=f_(0,j)−(∫_(M_j) f_(0,j)ωⁿ)/(∫_(M_j)ωⁿ), and collect these componentwise selectors as Sα. Prove linearity and the unique componentwise mean-zero characterization. For a fixed compact auxiliary metric put D=max_j diam(M_j); then osc(f_(0,j))≤D‖α‖_C⁰. Together with df_(0,j)=α, finite-chart derivative comparisons give `‖Sα‖_(C^(k+1))≤C_k‖α‖_(C^k)`. Prove the same bounds after each declared parameter derivative by differentiating the fixed integration formulas and mean. Thus S is continuous linear on the exact-form subspace and has arbitrary finite-parameter smoothness; its uniqueness identifies restrictions to prescribed faces carrying the same componentwise normalization. Invert ω on θ_i to fields Y_i; Cartan gives L_(Y_i)ω=0 and compactness gives complete symplectic flows. The corresponding finite period coordinates, normalized operator and ordered-flow formulas are actual exported maps with their evaluation, restriction and estimate laws.
 
 For a path with `[α_t]=Σ_i a_i(t)[θ_i]`, put A_i(t)=∫₀^t a_i(v)dv and form ψ_t as the fixed ordered composition of the complete symplectic Y_i-flows for times A_i(t). Prove `[ι_(X_ψ,t)ω]=[α_t]`, using the trivial cohomological action of every intervening isotopy. Thus h_t=ψ_t⁻¹φ_t has a jointly smooth normalized Hamiltonian. If Flux(φ)=0, every A_i(1)=0, so ψ_1=id; replacing A_i(t) by uA_i(t) gives an endpoint-fixed symplectic contraction of ψ and an endpoint-fixed homotopy from φ to h. Prove the converse for Hamiltonian isotopies and invariance under endpoint-fixed homotopy. Export: a smooth path has zero flux exactly when it is endpoint-fixed homotopic to a Hamiltonian isotopy. This is a path-class theorem; an instantaneous closed form need not itself be exact merely because its time integral is exact.
 
@@ -310,7 +315,7 @@ P→Σ, tangent Ω¹(Σ,ad P). On this smooth affine Fréchet space express deri
 `mfderiv` on a fictitious Banach manifold. Construct Ω_A(a,b)=∫_Σ B(a∧b), prove weak
 nondegeneracy and closedness through those formulas,
 and define the affine smooth gauge action, its infinitesimal generator and the curvature
-moment pairing. Prove these affine directional identities directly; PR480’s normed-manifold API
+moment pairing. Prove these affine directional identities directly; Tau Ceti’s normed-manifold Hamiltonian API
 is used only after a compatible Sobolev model and its smoothness are established. Fix
 left gauge convention g·A=gAg⁻¹−(dg)g⁻¹ so ξ_A=−d_Aξ; then
 ⟨μ(A),ξ⟩=∫_Σ B(F_A,ξ) satisfies ι_ξAΩ=dμ_ξ. Prove the integration-by-parts identity on
@@ -347,7 +352,7 @@ For the framed/based flat quotient fix a point in P over the basepoint of Σ and
 
 ## Acceptance and order
 
-R1 consumes the actual PR480 Hamiltonian/moment API through DG0.4 and LGP G4.2a, with LieGroups action/exponential calculus. Raw R1a flux/two-parameter/ordered-flow algebra precedes the separate compact endpoint and common-support endpoint constructions; both supply their own selector, completeness and topology hypotheses. R1a is independent of R2–R5. R2 consumes SBC’s homogeneous quotient, LGP’s fixed Lie–Poisson/sharp convention, LG6’s compact REAL adapter and RS closed-wall theory; integral CT T1 and downstream T3 are not its premises. R2a follows R2 and the generic Morse core; its source/Lefschetz and Spin tests are later comparisons, and SchubertGeometry S9.7 follows its real Morse construction. No such application is a premise of LieGroups Layer6, compact cohomology or the generic root-data engine. R3 has separate free regular, locally-free orbifold and singular branches sharing valid level/kernel data. R4 consumes C1/C2, SBC connections/curvature and R3; its groupoid comparison consumes the actual G7.2–G7.4 regular/free/proper interfaces. R5 consumes SBC smooth gauge/holonomy, K5 smooth bundle scales and PDE scalar estimates before its own rough/slice/quotient applications. All cited application maps retain their source hypotheses; named high-level endpoints are not substitutes for those interfaces.
+R1 consumes Tau Ceti's Hamiltonian/moment API through DG0.4 and LGP G4.2a, with LieGroups action/exponential calculus. Raw R1a flux/two-parameter/ordered-flow algebra precedes the separate compact endpoint and common-support endpoint constructions; both supply their own selector, completeness and topology hypotheses. R1a is independent of R2–R5. R2 consumes SBC’s homogeneous quotient, LGP’s fixed Lie–Poisson/sharp convention, LG6’s compact REAL adapter and RS closed-wall theory; integral CT T1 and downstream T3 are not its premises. R2a follows R2 and the generic Morse core; its source/Lefschetz and Spin tests are later comparisons, and SchubertGeometry S9.7 follows its real Morse construction. No such application is a premise of LieGroups Layer6, compact cohomology or the generic root-data engine. R3 has separate free regular, locally-free orbifold and singular branches sharing valid level/kernel data. R4 consumes C1/C2, SBC connections/curvature and R3; its groupoid comparison consumes the actual G7.2–G7.4 regular/free/proper interfaces. R5 consumes SBC smooth gauge/holonomy, K5 smooth bundle scales and PDE scalar estimates before its own rough/slice/quotient applications. All cited application maps retain their source hypotheses; named high-level endpoints are not substitutes for those interfaces.
 Verify translations, linear quadratics, SO(3) sphere, Hermitian eigenvalue orbit, zero cotangent quotient,
 weighted projective line, reduction in stages for a product torus, U(1) flat connections over every closed oriented genus-g surface (including the torus), and the disconnected O(2) center-local-system and finite-group ineffective-kernel checks.
 For a nonabelian stages test take the left cotangent action on T*U(2), reduce first by
