@@ -32,101 +32,14 @@ estimates, the continuation hypothesis, the analytic order of Ш),
 the Manin constant, Stevens' curve) and `TauCeti/AlgebraicGeometry/EllipticCurve/FaltingsHeight/`
 (the lattice formulas and the Faltings ratio).
 
-## Scope and ownership
+## How to read the build
 
-The boundary in one sentence: an invariant of an elliptic curve over a number field that is
-*computed from its period lattices* or *from the map `X₀(N) → E`*, together with the real number
-the BSD formula defines, is here; the curve, its models, local data, Mordell–Weil group, heights
-and Selmer/Sha groups are the elliptic-curves roadmap's; the modular side of the parametrization is
-the modularity roadmap's; and lattice uniformization is ModularCurvesPartII §§1.1–1.4's.
-The conjugation and normalized Eisenstein-sum comparisons used to attach invariants to an
-equation are proved in §1.1 and §1.5 here.
-
-### Owned here
-
-- The **period lattice** `Λ(W) ⊂ ℂ` of an elliptic Weierstrass equation over `ℂ`, as a function
-  of the equation: its characterization by `g₂(Λ) = c₄/12`, `g₃(Λ) = c₆/216`, its scaling law
-  under a change of variables, its behaviour under complex conjugation, and, for an equation over
-  `ℝ`, its shape (rectangular or not according to the sign of `Δ`), its least positive real period
-  and the number of real components (Layer 1).
-- The **local periods** `Ω_v(E)` at the real and complex places of a number field `K`, the
-  **global period** `Ω(E/K)` with its correction for the absence of a global minimal model, their
-  invariance and their values on a global minimal model; over `ℚ`, the identification with the real
-  period of the reduced minimal model, the **Néron lattice** `Λ_E`, and the lattice form of an
-  isogeny, `α · Λ_E ⊆ Λ_{E'}` with index `deg ψ` (Layer 2).
-- The **analytic side of BSD as a definition**: nonvanishing of
-  `L(E/K, s)` for `Re s > 3/2`, its identification with the finite Hasse–Weil `L`-function of
-  `H¹(E)`, the pinned continuation hypothesis, the analytic rank and the
-  leading coefficient as functions of a continuation and their independence of it, the two
-  normalizations of the regulator, the **BSD quotient over `K`**, the **analytic order of Ш** as the
-  real number `|D_K|^{1/2} L^{(r)}(E/K,1)/r! · #E(K)_tors² / (Reg_NT · Ω · ∏ c_𝔭)`, and the weak and
-  strong BSD conjectures over `K` as statements (Layer 3).
-- **Optimality and the invariants of `φ`** for `E/ℚ`: `X₀(N)`- and `Γ₁(N)`-optimality with their
-  equivalent forms, the modular degree of every curve in an isogeny class, the **Manin constant of
-  a curve** (`|c_φ|` for an optimal `φ`, extended along the least-degree isogeny to every curve of
-  the class) with the lattice identity `Λ_E = c·Λ_f` and the covolume form
-  `deg φ · covol Λ_E = 4π² c² ‖f‖²` of the Petersson–degree identity, the congruence modulus and
-  its relation to the modular degree, the theorems of Mazur, Abbes–Ullmo, Raynaud, Česnavičius
-  and ARS Theorem 2.7 on the curve invariant, the covolume criterion for `c = 1` and Manin's conjecture as a
-  statement, **Stevens'
-  theorem** on the minimal curve and his conjecture, and Cremona's optimal-first convention as an
-  interface; with them the two bridges these need and no supplier states, the comparison of the
-  cuspidal integral symbols of `Γ₀(N)` with `H₁(X₀(N), ℤ)` and the lattice `S₂(Γ₀(N), ℤ)` of
-  integral cusp forms (Layer 4). Section 4.10 also owns the ring-class components
-  of the one-prime Iwasawa modules and their descent, Greenberg's structure theorem
-  for the one-prime module, the surjectivity of CM reduction onto the supersingular
-  locus, and Stevens' twisting theorem, all used in the two partial Stevens results;
-  the elliptic-unit main conjecture, its interpolation and the almost-all-character
-  unit theorem are consumed through a declared supplier contract (Exact supplier
-  contracts).
-- The **lattice formulas for the Faltings height** of an elliptic curve: `h = −½ log covol Λ_min`
-  over `ℚ`, the general-`K` formula through the local covolumes and the minimal discriminant, the
-  stable height through the denominator of `j`, the change along an isogeny, and the **Faltings
-  ratio** (Layer 5).
-
-### Not owned here
-
-- The curve and its arithmetic: models, local data, Tamagawa numbers, the conductor, torsion,
-  rank, heights, regulator, Selmer groups, `Ш`, Cassels' isogeny invariance of the BSD quotient
-  and the BSD statement over `ℚ` — [EllipticCurves](../EllipticCurves/README.md).
-- Rational cyclic-isogeny degree classifications — EllipticCurveModularityPartII
-  §§5.0a–5.0b.
-- The elliptic-unit main conjecture over the prime-to-ℓ part of a ring class field,
-  the Katz interpolation of the elliptic-unit quotient and Hida's almost-all-character
-  unit theorem — EulerSystemsCyclotomicMainConjecture, through the declared contract
-  `gap:eisenstein-elliptic-unit-inputs` of the supplier contracts. The one-prime
-  statements consumed there allow ℓ = 3 and nontrivial ℓ-class groups; they differ
-  from the rational-CM-curve, two-variable named hypotheses in
-  NoncommutativeAndEquivariantIwasawa §4.3. Ring class fields of quadratic orders and
-  global Artin reciprocity — ClassFieldTheory Layers 13 and 11.
-- Nonarchimedean unipotent dynamics (Ratner's theorem for p-adic groups, Cornut's
-  route to the reduction of CM points): not used. Section 4.10 proves the surjectivity
-  of CM reduction through Hecke operators on the supersingular module.
-- Modularity, the newform of `E`, the Hecke correspondences, `A_f`, the construction of `φ`, its
-  degree as a morphism of curves, and the analytic continuation of `L(E, s)` over `ℚ` —
-  [EllipticCurveModularity](../EllipticCurveModularity/README.md) and
-  [ModularCurvesPartII](../ModularCurvesPartII/README.md).
-- Elliptic functions, `℘`, `ζ`, `σ`, quasi-periods, Legendre's relation and the transcendence of
-  periods — ModularCurvesPartII §1.4a; transcendence is outside this roadmap. Complex tori as manifolds and their families —
-  [ComplexTori](../ComplexTori/README.md). The real period as a Legendre integral and the AGM —
-  [EllipticIntegrals](../EllipticIntegrals/README.md).
-- Periods of newforms as modular-symbol functionals, critical values and `p`-adic `L`-functions
-  — [ModularSymbolsPadicLFunctions](../ModularSymbolsPadicLFunctions/README.md).
-- The Faltings height of an abelian variety in general, the Hodge line and Faltings' isogeny
-  formula — [ArakelovGeometryAndAbelianHeights](../ArakelovGeometryAndAbelianHeights/README.md).
-- The Manin constant `c_φ` of a parametrization, its integrality and odd semistable `p`-unit
-  range, `c_φ ∣ 6 deg φ`, the Petersson–degree identity, and the Gross–Zagier formula —
-  [GrossZagierAndArithmeticHeights](../GrossZagierAndArithmeticHeights/README.md).
-- The `L`-function of a motive or of an abelian variety of any dimension, its completion, the
-  functional-equation predicates, and the order and leading term of a motivic `L`-function —
-  [PeriodsAndSpecialValues](../PeriodsAndSpecialValues/README.md).
-- Proving anything about `L(E/K, s)` beyond its half-plane of absolute convergence for
-  `[K : ℚ] > 1`, Kolyvagin, and the rank-`≤ 1` cases of BSD: not here and not in any supplier
-  named above; the statements of Layer 3 carry the continuation as a hypothesis.
-- Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
-  the completeness of database tables are not targets: the Cremona and LMFDB orderings of isogeny
-  classes and of curves within a class, the isogeny-class letter, the `990h` exception as a table
-  fact. Layer 4.11 states the intrinsic predicates and nothing about the order.
+Layer 1 attaches normalized lattices to equations; Layer 2 builds periods and the isogeny
+comparison. Layer 3 uses elliptic summability to define the analytic data. Layer 4 builds
+integral period and congruence comparisons, then the parametrization invariants and Stevens'
+curve. Layer 5 identifies the Arakelov heights with lattice expressions and the Faltings
+ratio with an index. The rank-zero period rationality in §4.12 also uses Layer 3, and §5.5
+uses Stevens' theorem from §4.10.
 
 ## Conventions
 
@@ -228,211 +141,6 @@ number-field equation; finiteness and nonvanishing theorems require ellipticity.
   `Im(w₂/w₁) > 0`, so that `covol = Im(w̄₁ w₂)`.
 - **The special value** of `L(E/K, s)` is the leading coefficient `F^{(r)}(1)/r!` of 3.4, the first
   nonzero Taylor coefficient at `1`; it is a real number (3.4), and no sign is claimed for it.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `WeierstrassCurve R`, `IsElliptic`, `VariableChange` with its action `C • W`, `map`,
-  `baseChange`, the invariants `b₂, b₄, b₆, c₄, c₆, Δ, j` and their transformation laws
-  (`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`, `VariableChange.lean`), the
-  two-torsion cubic `Ψ₂Sq`, reduction over a DVR with `minimal`, `HasGoodReduction`,
-  `HasSplitMultiplicativeReduction` (`Reduction.lean`).
-- `PeriodPair` with `lattice : Submodule ℤ ℂ`, its `DiscreteTopology` and `IsZLattice ℝ`
-  instances, `latticeBasis`, `G n`, `g₂`, `g₃`, `weierstrassP`, `derivWeierstrassP_sq`
-  (`Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`).
-- `ZLattice.covolume` with `covolume_pos`, `covolume_eq_det`, `covolume_comap` and
-  `covolume_div_covolume_eq_relIndex'` (`Mathlib/Algebra/Module/ZLattice/Covolume.lean`); the
-  Lebesgue measure on `ℂ` through `Complex.measurableEquivRealProd`.
-- `NumberField.InfinitePlace`: `embedding`, `mk_conjugate_eq`, `IsReal`, `IsComplex`,
-  `embedding_of_isReal`, `mult`, `card_add_two_mul_card_eq_rank`; `Algebra.norm ℚ`,
-  `Ideal.absNorm`, `NumberField.discr`, `NumberField.sign_discr`.
-- `WeierstrassCurve.localPolynomial`, `localEulerFactor`, `LFunction : ArithmeticFunction ℤ` and
-  `WeierstrassCurve.LSeries` over a number field (`Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean`),
-  on top of `LSeries`, `LSeriesSummable`, `LSeries.abscissaOfAbsConv`, Dirichlet convolution
-  (`NumberTheory/LSeries/`), and `analyticOrderAt`, `iteratedDeriv`, the identity theorem
-  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
-- `Height.logHeight`, the number-field instance `Height.instAdmissibleAbsValues` with
-  `mulHeight₁` as the product over all places with multiplicities `mult` and no `1/[K:ℚ]`
-  (`NumberTheory/Height/NumberField.lean`), and `absLogHeight₁` for the normalised one.
-- `Submodule.torsion ℤ`, `Nat.card`, `AddSubgroup.relIndex`, `Module.finrank`.
-
-### From Tau Ceti
-
-- `WeierstrassCurve.minimalDiscriminantIdeal O W : Ideal O` with `minimalDiscriminantIdeal_smul`,
-  `minimalDiscriminantIdeal_eq_span_of_isGlobalMinimal`,
-  `isGlobalMinimal_iff_minimalDiscriminantIdeal_eq_span`; `IsGlobalMinimal`,
-  `IsSemiGlobalMinimal`, `globalMinimalityClass`; `IsReducedMinimal`, `reducedMinimalModel E`
-  with `exists_smul_eq_reducedMinimalModel` and `existsUnique_reducedMinimal`
-  (`TauCeti/AlgebraicGeometry/EllipticCurve/MinimalModel/`, `GlobalMinimalModel.lean`).
-- `WeierstrassCurve.Affine.Point.canonicalHeight`, `canonicalHeight_parallelogram_law`,
-  `neronTatePairing` with `neronTatePairing_apply` (the halved polar form) and
-  `neronTatePairing_self`; `PointModTorsion`; `regulator` with
-  `regulator_eq_abs_det_neronTateGramMatrix`, `regulator_eq_one_of_finrank_eq_zero`
-  (`CanonicalHeight/Basic.lean`, `MordellWeil/PointModTorsion.lean`,
-  `MordellWeil/Regulator.lean`); `fg_point_of_numberField` (`MordellWeil/FinitelyGenerated.lean`).
-- `WeierstrassCurve.hasse_bound` over a finite field (`HasseBound.lean`).
-- `TauCeti.Isogeny W₁ W₂`, `TauCeti.Isogeny.Hom`, degrees, the dual, and the pullback of the
-  invariant differential: `Isogeny.pullbackDifferential`, `Hom.pullbackDifferential`,
-  `Hom.pullbackDifferential_zsmul_id_invariantDifferential` (`[n]^*ω = n • ω`),
-  `pullbackDifferential_negIsogeny_invariantDifferential`; `Affine.invariantDifferential` as a
-  basis of `Ω[K(E)/F]` with `existsUnique_smul_invariantDifferential`.
-- `UpperHalfPlane.peterssonInner k D f g = ∫_D conj(f) g (Im τ)^k`, `CuspForm.peterssonInnerFd`
-  over the level-one domain, and `CuspForm.peterssonInnerCosets`, the pairing over a fundamental
-  domain of a finite-index subgroup assembled from coset translates, with
-  `peterssonInnerCosets_definite` (`NumberTheory/ModularForms/Petersson/`); `Newform N k`.
-- `HeckeRing.GL2.Newform.analyticRank f hk`, the order of the entire `L`-function
-  `ModularForm.L hk f.toCuspForm` of a newform at the central point `k / 2`, with
-  `Newform.analyticRank_eq_analyticOrderNatAt` (any entire function agreeing with the
-  coefficient series on `Re s > k/2 + 1` computes it) and `analyticOrderAt_L_ne_top`
-  (`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`). Over `ℚ`, 3.4 proves its
-  analytic rank equal to this one for the newform attached to `E`.
-- `TauCeti.ModularSymbols`: `degreeZero`, the homological module `ModularSymbols R Γ w`, the
-  Manin symbols, `rawPairing`, `periodMap R Γ hk : CuspForm → (𝕄 →ₗ[R] ℂ)` with `periodMap_mk`
-  (`{α, β} ⊗ P ↦ ∫_β^α f(z) P(z, 1) dz`) and `periodMap_injective`
-  (`NumberTheory/ModularForms/ModularSymbols/`).
-
-### From the supplier roadmaps
-
-- From FaltingsFinitenessAndIsogenyTheorems R28.6.5–R28.6.6: finiteness of the
-  K-isomorphism classes in an elliptic K-isogeny class, and the infinite cyclic Hom
-  group between isogenous curves when the target has endomorphism ring ℤ. We use K = ℚ.
-- From GrossZagierAndArithmeticHeights §3.1: integral modular differential lattices
-  at bad primes, with the rational-singularity and Néron/dualizing-sheaf comparison
-  and its explicit residue-characteristic 2 and 3 bounds. From ModularCurvesPartII
-  §§7.5–7.6 and §14.15: the first-coefficient Hecke pairing and the same integral Hecke
-  action on Jacobians and homology. These supply the carriers for §4.8's comparison.
-- From EllipticCurveModularityPartII §§5.0a–5.0b: the prime and composite
-  rational cyclic-isogeny classifications, including arbitrary Galois characters
-  on the cyclic kernel and degree 25. Section 4.10 uses the full list
-  {1,…,19,21,25,27,37,43,67,163}, not a rational-torsion classification.
-- From PadicMeasuresIwasawaAlgebras §§1.7, 2.1, 4.1–4.6: the measure/completed
-  group-algebra comparison, power-series coordinate, finite character projectors,
-  pseudo-null modules and characteristic ideals over O⟦T⟧ for O the ring of
-  integers of a finite extension of ℚ_ℓ. Section 4.10 defines its arithmetic
-  modules on these carriers and consumes the main-conjecture equality, the
-  interpolation and the unit theorem through the contract below.
-- From ClassFieldTheory Layer 13 (`ringClassField` of a quadratic order, with
-  `gal_ringClassField_equiv_pic`) and Layer 11 (the global class formation and
-  global Artin reciprocity): the ring class field H_n of the order O_n = ℤ + pⁿO_K
-  with Gal(H_n/K) ≅ Pic(O_n), and the Artin map on ideals prime to the conductor.
-  From ImaginaryQuadraticClassNumber §H1.4: Pic(O_f), the conductor exact sequence
-  and the class number of O_f, h_K · f/[O_K^×:O_f^×] times the product over primes p dividing f of (1 − χ_D(p)/p). From
-  ImaginaryQuadraticClassNumber §H3.1: the CM dictionary between lattices with
-  complex multiplication, proper ideal classes and the reciprocity action on
-  values of modular functions; §4.10 uses it only in the CM-reduction target. From
-  GlobalNumberFields Layers 9–10: Hecke characters, conductor and infinity type.
-  These supply §4.10's class fields and characters.
-- From EulerSystemsCyclotomicMainConjecture. What EulerSystemsCyclotomicMainConjecture
-  must provide (gap:eisenstein-elliptic-unit-inputs): for an imaginary quadratic field K
-  with units {±1}, an odd prime ℓ split in K, a prime 𝔩 of K above ℓ, a finite abelian
-  extension F/K of degree prime to ℓ and the ℤ_ℓ-extension F_𝔩,∞ = F·K_𝔩,∞ unramified
-  outside 𝔩, supply the three statements restated with their hypotheses and conventions
-  in §4.10, namely (i) Rubin's one-variable main conjecture, that X^χ and (U/C̄)^χ are
-  torsion Λ-modules with char_Λ(X^χ) = char_Λ((U/C̄)^χ) for every character χ of
-  Gal(F/K) and every coefficient ring O of §4.10, with no hypothesis that ℓ ∤ h_K or that
-  F contains the Hilbert class field, (ii) the Katz–de Shalit interpolation, that
-  char_Λ((U/C̄)^χ) is generated by the series f_χ interpolating the imprimitive values
-  displayed in §4.10 whenever χ is ramified at p, and (iii) Hida's almost-all-character
-  unit theorem, that for a conductor-one Hecke character η of infinity type (k,0) the
-  number (k−1)!L_p(χ⁻¹η⁻¹,0)/Ω_∞^k is an ℓ-adic unit under the fixed ℓ-adic embedding for
-  all but finitely many anticyclotomic characters χ of p-power conductor, with every
-  imprimitive Euler factor retained. The same contract is declared by
-  HeegnerPointEulerSystems; nothing of it is proved here.
-- From GrossZagierAndArithmeticHeights §§0a.2 and 0.5: for a conductor c prime to N
-  and an ideal 𝔫 of the order O_c with O_c/𝔫 ≅ ℤ/N, the CM point of X₀(N) with its
-  cyclic 𝔫-level structure as a coarse point over the ring class field H_c, and the
-  arithmetic Artin action on these points. From ComplexMultiplicationAndExplicitReciprocity
-  §§5.1–5.2: potential good reduction of CM curves, supersingular reduction at primes
-  inert in K, Deuring's classification, and the Eichler order of a supersingular level
-  pair. From SerreWeightAndLevelOptimisation §2.6 (the Deuring–Eichler supersingular
-  comparison): the identification of the geometric supersingular points of X₀(N) in
-  characteristic q ∤ N with the right ideal class set B^×\B̂^×/R̂^× of an Eichler order R
-  of level N in the quaternion algebra B ramified at q and ∞, carrying the prime-to-qN
-  Hecke correspondences and the stabilizer weights w_x = |Aut(E,C)/{±1}|. From
-  HilbertModularVarietiesAndShimuraCurves §§R18.3.5–R18.3.7: the perfect weighted pairing
-  on definite quaternionic forms, the split Hecke normalization with Satake polynomial
-  X² − T_vX + q_vS_v, and the norm-fibre comparison under strong approximation, which
-  for F = ℚ and trivial coefficients makes the constants the whole (q_v+1)-eigenspace
-  (the Eisenstein support). From AdelicAlgebraicGroups §4.2: strong approximation for
-  the norm-one group of a definite quaternion algebra at a split finite place. These
-  supply the carriers of §4.10's CM-reduction target; the counting and positivity
-  argument is owned here.
-- From NeronModelsAndSemistableAbelianVarieties R11.1: Néron models and functorial
-  extension of isogenies. Section 4.10 proves its cyclic-isogeny factorization on those
-  models; it does not assume finite flat kernels at bad primes.
-
-- From [EllipticCurves](../EllipticCurves/README.md): the invariant differential and its pullback
-  along isogenies (Layer 1; Tau Ceti `invariantDifferential`, `Isogeny.pullbackDifferential`,
-  `Hom.pullbackDifferential_zsmul_id_invariantDifferential`); reduction types, the local index
-  `c_𝔭 = [E(K_𝔭) : E₀(K_𝔭)]` and the algorithmic conductor (Layer 4); the minimal discriminant
-  ideal, global and semi-global minimal models, the reduced minimal model over `ℚ` (Layers 4.5a–b;
-  Tau Ceti `minimalDiscriminantIdeal`, `IsGlobalMinimal`, `reducedMinimalModel`); Mordell–Weil, the
-  canonical height `canonicalHeight`, the Néron–Tate pairing and the regulator `regulator` with
-  its rank-zero convention (Layer 6); the Shafarevich–Tate group and the BSD quotient and
-  statement over `ℚ` (Layer 7). The real period over `ℝ` as an explicit integral is that
-  roadmap's Layer 7 object, the integral period specified there; Layer 2 below
-  identifies it with the lattice form and never redefines it.
-- From [ModularCurvesPartII](../ModularCurvesPartII/README.md) §§1.1–1.4: the lattice Weierstrass
-  model `W_L` of a `PeriodPair`, the pointed uniformization `ℂ/Λ ≅ E(ℂ)` with `ω ↦ dz`
-  (pointed elliptic uniformization), the homothety and isogeny comparison, and the theorem that
-  the period homomorphism of `ω` has image a full lattice `Λ_ω` (invariant differentials and periods).
-  Layer 1 here defines `Λ(W)` through `g₂, g₃` and *proves* it equals `Λ_ω`; it does not
-  reconstruct the uniformization. From the same roadmap, Layer 4 consumes the regular differential
-  `ω_f = 2πi f dτ` of a weight-two cusp form (§7.2), the rational structure `V_ℚ` of `S₂(Γ₀(N))`
-  with the first-coefficient Hecke pairing `β` (§§7.5–7.6), the comparison of the homological
-  symbol module with `H₁(X₀(N), cusps; ℤ)` (§14.12) and the quotient `A_f` of `J₁(N)` (§16.2).
-- From [EllipticCurveModularity](../EllipticCurveModularity/README.md) R29.3:
-  the normalized rational newform attached to E, invariant under isogeny. From R29.5:
-  the optimal J₀(N) quotient, its quotient isogenies to E, the nonconstant cusp-normalized
-  parametrization and its differential scalar; also the J₁(N) comparison. These are
-  mathematical contracts, not assumed declaration aliases. From R29.6, **Elliptic coefficient
-  summability**: the all-prime ideal coefficients, norm-fibre comparison and absolute
-  convergence for every number field and Re s > 3/2; from **Continuation and the functional
-  equation**, the entire completed L-function over ℚ.
-- From [ModularForms](../ModularForms/README.md): the Petersson pairing on `S₂(Γ₀(N))` over a
-  `Γ₀(N)`-fundamental domain (Layer 3; Tau Ceti `peterssonInnerCosets`), newforms and the
-  coefficient field (Layers 4, 8), `L(f, s)` and its entire extension (Layer 7), the homological
-  symbol module `𝕄` and the period map (Layer 8; Tau Ceti `TauCeti.ModularSymbols.periodMap`).
-- From [ModularSymbolsPadicLFunctions](../ModularSymbolsPadicLFunctions/README.md): the boundary
-  map on symbols and the cuspidal subspace (§0.4), through which the period lattice `Λ_f` of 4.4 is
-  the image of the cycles.
-- From [ArakelovGeometryAndAbelianHeights](../ArakelovGeometryAndAbelianHeights/README.md): the
-  Faltings norm `‖dz‖²_Fal = covol Λ` (§§2.1–2.2), its behaviour along isogenies (§2.3), the
-  elliptic formula through `|Δ(τ)|(Im τ)⁶` (§2.9), the relative Faltings height
-  `AbelianVariety.faltingsHeight` (§3.1) and the stable height stableFaltingsHeight (§3.4).
-  Layer 5 proves lattice formulas for these objects and defines neither.
-- From [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md): the
-  norm-fibre coefficients `normCoeff`, the Euler-product package `EulerProductData` of §3.1,
-  finite-prime products of §3.2 and the infinite Euler product under absolute convergence
-  of §3.3; elliptic summability comes from
-  EllipticCurveModularity R29.6.
-- From [GrossZagierAndArithmeticHeights](../GrossZagierAndArithmeticHeights/README.md) Layer 3:
-  the Manin constant `c_φ ∈ ℚ^×` of a nonconstant `φ : X₀(N) → E`, `φ^*ω_E = c_φ · 2πi f dτ`,
-  with its isogeny law `c_{ψ∘φ} = a_ψ c_φ` (§3.5); `c_φ ∈ ℤ` for every `φ`, and `p ∤ c_φ` for
-  `φ` `X₀(N)`-optimal and `p > 2` a semistable prime (§3.7); `c_φ ∣ 6 deg φ` with its exact `2`-
-  and `3`-adic exceptions (§3.8); the Petersson–degree identity
-  `|c_φ|² · 8π²(f, f) = deg φ · i∫_E ω_E ∧ ω̄_E` (§3.9); the valuation form
-  of the isogeny law and the transfer of `p`-units along isogenies of degree prime to `p` (§3.10).
-  Layer 4 defines the curve invariant maninConstant from `c_φ` and reads §§3.5, 3.9 on the Néron
-  lattices (4.4, 4.5, 4.7); it reproves none of these.
-- From [PeriodsAndSpecialValues](../PeriodsAndSpecialValues/README.md): the local factors
-  `P_v(T) = det(1 − T Fr_v | (ker N_v)^{I_v})` and the finite `L`-function of a compatible system
-  (PS.1.1), Serre's functional-equation predicate `SerreSystem` (PS.1.7), the Hasse–Weil completion
-  `Λ_1(A, s) = Λ(H¹(A), s)` of an abelian variety over a number field (PS.1.8), and the order and
-  leading coefficient of a finite `L`-function at a supplied nonzero germ (PS.3.3). Layer 3 is
-  stated on Mathlib's `WeierstrassCurve.LSeries`; 3.2 proves that it is the finite part of
-  PS.1.8's `Λ_1(E, s)`, and 3.3–3.4 read the continuation, the analytic rank and the leading
-  coefficient in those terms.
-
-## How to read the build
-
-Layer 1 attaches normalized lattices to equations; Layer 2 builds periods and the isogeny
-comparison. Layer 3 uses elliptic summability to define the analytic data. Layer 4 builds
-integral period and congruence comparisons, then the parametrization invariants and Stevens'
-curve. Layer 5 identifies the Arakelov heights with lattice expressions and the Faltings
-ratio with an index. The rank-zero period rationality in §4.12 also uses Layer 3, and §5.5
-uses Stevens' theorem from §4.10.
 
 ## Layer 1: the period lattice of a complex Weierstrass equation
 
@@ -2333,6 +2041,298 @@ alone does not give an isomorphism over the CM field.
   discriminant prefactor of 5.2 is load-bearing.
 - congruenceModulus and modularDegree differ for `54b1` (`6` versus `2`); the prime `3` has
   `3² ∣ 54`, as ARS congruence preprint Theorem 2.2 requires of any prime where they differ.
+
+## Scope and ownership
+
+The boundary in one sentence: an invariant of an elliptic curve over a number field that is
+*computed from its period lattices* or *from the map `X₀(N) → E`*, together with the real number
+the BSD formula defines, is here; the curve, its models, local data, Mordell–Weil group, heights
+and Selmer/Sha groups are the elliptic-curves roadmap's; the modular side of the parametrization is
+the modularity roadmap's; and lattice uniformization is ModularCurvesPartII §§1.1–1.4's.
+The conjugation and normalized Eisenstein-sum comparisons used to attach invariants to an
+equation are proved in §1.1 and §1.5 here.
+
+### Owned here
+
+- The **period lattice** `Λ(W) ⊂ ℂ` of an elliptic Weierstrass equation over `ℂ`, as a function
+  of the equation: its characterization by `g₂(Λ) = c₄/12`, `g₃(Λ) = c₆/216`, its scaling law
+  under a change of variables, its behaviour under complex conjugation, and, for an equation over
+  `ℝ`, its shape (rectangular or not according to the sign of `Δ`), its least positive real period
+  and the number of real components (Layer 1).
+- The **local periods** `Ω_v(E)` at the real and complex places of a number field `K`, the
+  **global period** `Ω(E/K)` with its correction for the absence of a global minimal model, their
+  invariance and their values on a global minimal model; over `ℚ`, the identification with the real
+  period of the reduced minimal model, the **Néron lattice** `Λ_E`, and the lattice form of an
+  isogeny, `α · Λ_E ⊆ Λ_{E'}` with index `deg ψ` (Layer 2).
+- The **analytic side of BSD as a definition**: nonvanishing of
+  `L(E/K, s)` for `Re s > 3/2`, its identification with the finite Hasse–Weil `L`-function of
+  `H¹(E)`, the pinned continuation hypothesis, the analytic rank and the
+  leading coefficient as functions of a continuation and their independence of it, the two
+  normalizations of the regulator, the **BSD quotient over `K`**, the **analytic order of Ш** as the
+  real number `|D_K|^{1/2} L^{(r)}(E/K,1)/r! · #E(K)_tors² / (Reg_NT · Ω · ∏ c_𝔭)`, and the weak and
+  strong BSD conjectures over `K` as statements (Layer 3).
+- **Optimality and the invariants of `φ`** for `E/ℚ`: `X₀(N)`- and `Γ₁(N)`-optimality with their
+  equivalent forms, the modular degree of every curve in an isogeny class, the **Manin constant of
+  a curve** (`|c_φ|` for an optimal `φ`, extended along the least-degree isogeny to every curve of
+  the class) with the lattice identity `Λ_E = c·Λ_f` and the covolume form
+  `deg φ · covol Λ_E = 4π² c² ‖f‖²` of the Petersson–degree identity, the congruence modulus and
+  its relation to the modular degree, the theorems of Mazur, Abbes–Ullmo, Raynaud, Česnavičius
+  and ARS Theorem 2.7 on the curve invariant, the covolume criterion for `c = 1` and Manin's conjecture as a
+  statement, **Stevens'
+  theorem** on the minimal curve and his conjecture, and Cremona's optimal-first convention as an
+  interface; with them the two bridges these need and no supplier states, the comparison of the
+  cuspidal integral symbols of `Γ₀(N)` with `H₁(X₀(N), ℤ)` and the lattice `S₂(Γ₀(N), ℤ)` of
+  integral cusp forms (Layer 4). Section 4.10 also owns the ring-class components
+  of the one-prime Iwasawa modules and their descent, Greenberg's structure theorem
+  for the one-prime module, the surjectivity of CM reduction onto the supersingular
+  locus, and Stevens' twisting theorem, all used in the two partial Stevens results;
+  the elliptic-unit main conjecture, its interpolation and the almost-all-character
+  unit theorem are consumed through a declared supplier contract (Exact supplier
+  contracts).
+- The **lattice formulas for the Faltings height** of an elliptic curve: `h = −½ log covol Λ_min`
+  over `ℚ`, the general-`K` formula through the local covolumes and the minimal discriminant, the
+  stable height through the denominator of `j`, the change along an isogeny, and the **Faltings
+  ratio** (Layer 5).
+
+### Not owned here
+
+- The curve and its arithmetic: models, local data, Tamagawa numbers, the conductor, torsion,
+  rank, heights, regulator, Selmer groups, `Ш`, Cassels' isogeny invariance of the BSD quotient
+  and the BSD statement over `ℚ` — [EllipticCurves](../EllipticCurves/README.md).
+- Rational cyclic-isogeny degree classifications — EllipticCurveModularityPartII
+  §§5.0a–5.0b.
+- The elliptic-unit main conjecture over the prime-to-ℓ part of a ring class field,
+  the Katz interpolation of the elliptic-unit quotient and Hida's almost-all-character
+  unit theorem — EulerSystemsCyclotomicMainConjecture, through the declared contract
+  `gap:eisenstein-elliptic-unit-inputs` of the supplier contracts. The one-prime
+  statements consumed there allow ℓ = 3 and nontrivial ℓ-class groups; they differ
+  from the rational-CM-curve, two-variable named hypotheses in
+  NoncommutativeAndEquivariantIwasawa §4.3. Ring class fields of quadratic orders and
+  global Artin reciprocity — ClassFieldTheory Layers 13 and 11.
+- Nonarchimedean unipotent dynamics (Ratner's theorem for p-adic groups, Cornut's
+  route to the reduction of CM points): not used. Section 4.10 proves the surjectivity
+  of CM reduction through Hecke operators on the supersingular module.
+- Modularity, the newform of `E`, the Hecke correspondences, `A_f`, the construction of `φ`, its
+  degree as a morphism of curves, and the analytic continuation of `L(E, s)` over `ℚ` —
+  [EllipticCurveModularity](../EllipticCurveModularity/README.md) and
+  [ModularCurvesPartII](../ModularCurvesPartII/README.md).
+- Elliptic functions, `℘`, `ζ`, `σ`, quasi-periods, Legendre's relation and the transcendence of
+  periods — ModularCurvesPartII §1.4a; transcendence is outside this roadmap. Complex tori as manifolds and their families —
+  [ComplexTori](../ComplexTori/README.md). The real period as a Legendre integral and the AGM —
+  [EllipticIntegrals](../EllipticIntegrals/README.md).
+- Periods of newforms as modular-symbol functionals, critical values and `p`-adic `L`-functions
+  — [ModularSymbolsPadicLFunctions](../ModularSymbolsPadicLFunctions/README.md).
+- The Faltings height of an abelian variety in general, the Hodge line and Faltings' isogeny
+  formula — [ArakelovGeometryAndAbelianHeights](../ArakelovGeometryAndAbelianHeights/README.md).
+- The Manin constant `c_φ` of a parametrization, its integrality and odd semistable `p`-unit
+  range, `c_φ ∣ 6 deg φ`, the Petersson–degree identity, and the Gross–Zagier formula —
+  [GrossZagierAndArithmeticHeights](../GrossZagierAndArithmeticHeights/README.md).
+- The `L`-function of a motive or of an abelian variety of any dimension, its completion, the
+  functional-equation predicates, and the order and leading term of a motivic `L`-function —
+  [PeriodsAndSpecialValues](../PeriodsAndSpecialValues/README.md).
+- Proving anything about `L(E/K, s)` beyond its half-plane of absolute convergence for
+  `[K : ℚ] > 1`, Kolyvagin, and the rank-`≤ 1` cases of BSD: not here and not in any supplier
+  named above; the statements of Layer 3 carry the continuation as a hypothesis.
+- Label components beyond the intrinsic prefix, orderings fixed by convention, stored lists, and
+  the completeness of database tables are not targets: the Cremona and LMFDB orderings of isogeny
+  classes and of curves within a class, the isogeny-class letter, the `990h` exception as a table
+  fact. Layer 4.11 states the intrinsic predicates and nothing about the order.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `WeierstrassCurve R`, `IsElliptic`, `VariableChange` with its action `C • W`, `map`,
+  `baseChange`, the invariants `b₂, b₄, b₆, c₄, c₆, Δ, j` and their transformation laws
+  (`Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.lean`, `VariableChange.lean`), the
+  two-torsion cubic `Ψ₂Sq`, reduction over a DVR with `minimal`, `HasGoodReduction`,
+  `HasSplitMultiplicativeReduction` (`Reduction.lean`).
+- `PeriodPair` with `lattice : Submodule ℤ ℂ`, its `DiscreteTopology` and `IsZLattice ℝ`
+  instances, `latticeBasis`, `G n`, `g₂`, `g₃`, `weierstrassP`, `derivWeierstrassP_sq`
+  (`Mathlib/Analysis/SpecialFunctions/Elliptic/Weierstrass.lean`).
+- `ZLattice.covolume` with `covolume_pos`, `covolume_eq_det`, `covolume_comap` and
+  `covolume_div_covolume_eq_relIndex'` (`Mathlib/Algebra/Module/ZLattice/Covolume.lean`); the
+  Lebesgue measure on `ℂ` through `Complex.measurableEquivRealProd`.
+- `NumberField.InfinitePlace`: `embedding`, `mk_conjugate_eq`, `IsReal`, `IsComplex`,
+  `embedding_of_isReal`, `mult`, `card_add_two_mul_card_eq_rank`; `Algebra.norm ℚ`,
+  `Ideal.absNorm`, `NumberField.discr`, `NumberField.sign_discr`.
+- `WeierstrassCurve.localPolynomial`, `localEulerFactor`, `LFunction : ArithmeticFunction ℤ` and
+  `WeierstrassCurve.LSeries` over a number field (`Mathlib/AlgebraicGeometry/EllipticCurve/LFunction.lean`),
+  on top of `LSeries`, `LSeriesSummable`, `LSeries.abscissaOfAbsConv`, Dirichlet convolution
+  (`NumberTheory/LSeries/`), and `analyticOrderAt`, `iteratedDeriv`, the identity theorem
+  `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
+- `Height.logHeight`, the number-field instance `Height.instAdmissibleAbsValues` with
+  `mulHeight₁` as the product over all places with multiplicities `mult` and no `1/[K:ℚ]`
+  (`NumberTheory/Height/NumberField.lean`), and `absLogHeight₁` for the normalised one.
+- `Submodule.torsion ℤ`, `Nat.card`, `AddSubgroup.relIndex`, `Module.finrank`.
+
+### From Tau Ceti
+
+- `WeierstrassCurve.minimalDiscriminantIdeal O W : Ideal O` with `minimalDiscriminantIdeal_smul`,
+  `minimalDiscriminantIdeal_eq_span_of_isGlobalMinimal`,
+  `isGlobalMinimal_iff_minimalDiscriminantIdeal_eq_span`; `IsGlobalMinimal`,
+  `IsSemiGlobalMinimal`, `globalMinimalityClass`; `IsReducedMinimal`, `reducedMinimalModel E`
+  with `exists_smul_eq_reducedMinimalModel` and `existsUnique_reducedMinimal`
+  (`TauCeti/AlgebraicGeometry/EllipticCurve/MinimalModel/`, `GlobalMinimalModel.lean`).
+- `WeierstrassCurve.Affine.Point.canonicalHeight`, `canonicalHeight_parallelogram_law`,
+  `neronTatePairing` with `neronTatePairing_apply` (the halved polar form) and
+  `neronTatePairing_self`; `PointModTorsion`; `regulator` with
+  `regulator_eq_abs_det_neronTateGramMatrix`, `regulator_eq_one_of_finrank_eq_zero`
+  (`CanonicalHeight/Basic.lean`, `MordellWeil/PointModTorsion.lean`,
+  `MordellWeil/Regulator.lean`); `fg_point_of_numberField` (`MordellWeil/FinitelyGenerated.lean`).
+- `WeierstrassCurve.hasse_bound` over a finite field (`HasseBound.lean`).
+- `TauCeti.Isogeny W₁ W₂`, `TauCeti.Isogeny.Hom`, degrees, the dual, and the pullback of the
+  invariant differential: `Isogeny.pullbackDifferential`, `Hom.pullbackDifferential`,
+  `Hom.pullbackDifferential_zsmul_id_invariantDifferential` (`[n]^*ω = n • ω`),
+  `pullbackDifferential_negIsogeny_invariantDifferential`; `Affine.invariantDifferential` as a
+  basis of `Ω[K(E)/F]` with `existsUnique_smul_invariantDifferential`.
+- `UpperHalfPlane.peterssonInner k D f g = ∫_D conj(f) g (Im τ)^k`, `CuspForm.peterssonInnerFd`
+  over the level-one domain, and `CuspForm.peterssonInnerCosets`, the pairing over a fundamental
+  domain of a finite-index subgroup assembled from coset translates, with
+  `peterssonInnerCosets_definite` (`NumberTheory/ModularForms/Petersson/`); `Newform N k`.
+- `HeckeRing.GL2.Newform.analyticRank f hk`, the order of the entire `L`-function
+  `ModularForm.L hk f.toCuspForm` of a newform at the central point `k / 2`, with
+  `Newform.analyticRank_eq_analyticOrderNatAt` (any entire function agreeing with the
+  coefficient series on `Re s > k/2 + 1` computes it) and `analyticOrderAt_L_ne_top`
+  (`NumberTheory/ModularForms/Newforms/AnalyticInvariants.lean`). Over `ℚ`, 3.4 proves its
+  analytic rank equal to this one for the newform attached to `E`.
+- `TauCeti.ModularSymbols`: `degreeZero`, the homological module `ModularSymbols R Γ w`, the
+  Manin symbols, `rawPairing`, `periodMap R Γ hk : CuspForm → (𝕄 →ₗ[R] ℂ)` with `periodMap_mk`
+  (`{α, β} ⊗ P ↦ ∫_β^α f(z) P(z, 1) dz`) and `periodMap_injective`
+  (`NumberTheory/ModularForms/ModularSymbols/`).
+
+### From the supplier roadmaps
+
+- From FaltingsFinitenessAndIsogenyTheorems R28.6.5–R28.6.6: finiteness of the
+  K-isomorphism classes in an elliptic K-isogeny class, and the infinite cyclic Hom
+  group between isogenous curves when the target has endomorphism ring ℤ. We use K = ℚ.
+- From GrossZagierAndArithmeticHeights §3.1: integral modular differential lattices
+  at bad primes, with the rational-singularity and Néron/dualizing-sheaf comparison
+  and its explicit residue-characteristic 2 and 3 bounds. From ModularCurvesPartII
+  §§7.5–7.6 and §14.15: the first-coefficient Hecke pairing and the same integral Hecke
+  action on Jacobians and homology. These supply the carriers for §4.8's comparison.
+- From EllipticCurveModularityPartII §§5.0a–5.0b: the prime and composite
+  rational cyclic-isogeny classifications, including arbitrary Galois characters
+  on the cyclic kernel and degree 25. Section 4.10 uses the full list
+  {1,…,19,21,25,27,37,43,67,163}, not a rational-torsion classification.
+- From PadicMeasuresIwasawaAlgebras §§1.7, 2.1, 4.1–4.6: the measure/completed
+  group-algebra comparison, power-series coordinate, finite character projectors,
+  pseudo-null modules and characteristic ideals over O⟦T⟧ for O the ring of
+  integers of a finite extension of ℚ_ℓ. Section 4.10 defines its arithmetic
+  modules on these carriers and consumes the main-conjecture equality, the
+  interpolation and the unit theorem through the contract below.
+- From ClassFieldTheory Layer 13 (`ringClassField` of a quadratic order, with
+  `gal_ringClassField_equiv_pic`) and Layer 11 (the global class formation and
+  global Artin reciprocity): the ring class field H_n of the order O_n = ℤ + pⁿO_K
+  with Gal(H_n/K) ≅ Pic(O_n), and the Artin map on ideals prime to the conductor.
+  From ImaginaryQuadraticClassNumber §H1.4: Pic(O_f), the conductor exact sequence
+  and the class number of O_f, h_K · f/[O_K^×:O_f^×] times the product over primes p dividing f of (1 − χ_D(p)/p). From
+  ImaginaryQuadraticClassNumber §H3.1: the CM dictionary between lattices with
+  complex multiplication, proper ideal classes and the reciprocity action on
+  values of modular functions; §4.10 uses it only in the CM-reduction target. From
+  GlobalNumberFields Layers 9–10: Hecke characters, conductor and infinity type.
+  These supply §4.10's class fields and characters.
+- From EulerSystemsCyclotomicMainConjecture. What EulerSystemsCyclotomicMainConjecture
+  must provide (gap:eisenstein-elliptic-unit-inputs): for an imaginary quadratic field K
+  with units {±1}, an odd prime ℓ split in K, a prime 𝔩 of K above ℓ, a finite abelian
+  extension F/K of degree prime to ℓ and the ℤ_ℓ-extension F_𝔩,∞ = F·K_𝔩,∞ unramified
+  outside 𝔩, supply the three statements restated with their hypotheses and conventions
+  in §4.10, namely (i) Rubin's one-variable main conjecture, that X^χ and (U/C̄)^χ are
+  torsion Λ-modules with char_Λ(X^χ) = char_Λ((U/C̄)^χ) for every character χ of
+  Gal(F/K) and every coefficient ring O of §4.10, with no hypothesis that ℓ ∤ h_K or that
+  F contains the Hilbert class field, (ii) the Katz–de Shalit interpolation, that
+  char_Λ((U/C̄)^χ) is generated by the series f_χ interpolating the imprimitive values
+  displayed in §4.10 whenever χ is ramified at p, and (iii) Hida's almost-all-character
+  unit theorem, that for a conductor-one Hecke character η of infinity type (k,0) the
+  number (k−1)!L_p(χ⁻¹η⁻¹,0)/Ω_∞^k is an ℓ-adic unit under the fixed ℓ-adic embedding for
+  all but finitely many anticyclotomic characters χ of p-power conductor, with every
+  imprimitive Euler factor retained. The same contract is declared by
+  HeegnerPointEulerSystems; nothing of it is proved here.
+- From GrossZagierAndArithmeticHeights §§0a.2 and 0.5: for a conductor c prime to N
+  and an ideal 𝔫 of the order O_c with O_c/𝔫 ≅ ℤ/N, the CM point of X₀(N) with its
+  cyclic 𝔫-level structure as a coarse point over the ring class field H_c, and the
+  arithmetic Artin action on these points. From ComplexMultiplicationAndExplicitReciprocity
+  §§5.1–5.2: potential good reduction of CM curves, supersingular reduction at primes
+  inert in K, Deuring's classification, and the Eichler order of a supersingular level
+  pair. From SerreWeightAndLevelOptimisation §2.6 (the Deuring–Eichler supersingular
+  comparison): the identification of the geometric supersingular points of X₀(N) in
+  characteristic q ∤ N with the right ideal class set B^×\B̂^×/R̂^× of an Eichler order R
+  of level N in the quaternion algebra B ramified at q and ∞, carrying the prime-to-qN
+  Hecke correspondences and the stabilizer weights w_x = |Aut(E,C)/{±1}|. From
+  HilbertModularVarietiesAndShimuraCurves §§R18.3.5–R18.3.7: the perfect weighted pairing
+  on definite quaternionic forms, the split Hecke normalization with Satake polynomial
+  X² − T_vX + q_vS_v, and the norm-fibre comparison under strong approximation, which
+  for F = ℚ and trivial coefficients makes the constants the whole (q_v+1)-eigenspace
+  (the Eisenstein support). From AdelicAlgebraicGroups §4.2: strong approximation for
+  the norm-one group of a definite quaternion algebra at a split finite place. These
+  supply the carriers of §4.10's CM-reduction target; the counting and positivity
+  argument is owned here.
+- From NeronModelsAndSemistableAbelianVarieties R11.1: Néron models and functorial
+  extension of isogenies. Section 4.10 proves its cyclic-isogeny factorization on those
+  models; it does not assume finite flat kernels at bad primes.
+
+- From [EllipticCurves](../EllipticCurves/README.md): the invariant differential and its pullback
+  along isogenies (Layer 1; Tau Ceti `invariantDifferential`, `Isogeny.pullbackDifferential`,
+  `Hom.pullbackDifferential_zsmul_id_invariantDifferential`); reduction types, the local index
+  `c_𝔭 = [E(K_𝔭) : E₀(K_𝔭)]` and the algorithmic conductor (Layer 4); the minimal discriminant
+  ideal, global and semi-global minimal models, the reduced minimal model over `ℚ` (Layers 4.5a–b;
+  Tau Ceti `minimalDiscriminantIdeal`, `IsGlobalMinimal`, `reducedMinimalModel`); Mordell–Weil, the
+  canonical height `canonicalHeight`, the Néron–Tate pairing and the regulator `regulator` with
+  its rank-zero convention (Layer 6); the Shafarevich–Tate group and the BSD quotient and
+  statement over `ℚ` (Layer 7). The real period over `ℝ` as an explicit integral is that
+  roadmap's Layer 7 object, the integral period specified there; Layer 2 below
+  identifies it with the lattice form and never redefines it.
+- From [ModularCurvesPartII](../ModularCurvesPartII/README.md) §§1.1–1.4: the lattice Weierstrass
+  model `W_L` of a `PeriodPair`, the pointed uniformization `ℂ/Λ ≅ E(ℂ)` with `ω ↦ dz`
+  (pointed elliptic uniformization), the homothety and isogeny comparison, and the theorem that
+  the period homomorphism of `ω` has image a full lattice `Λ_ω` (invariant differentials and periods).
+  Layer 1 here defines `Λ(W)` through `g₂, g₃` and *proves* it equals `Λ_ω`; it does not
+  reconstruct the uniformization. From the same roadmap, Layer 4 consumes the regular differential
+  `ω_f = 2πi f dτ` of a weight-two cusp form (§7.2), the rational structure `V_ℚ` of `S₂(Γ₀(N))`
+  with the first-coefficient Hecke pairing `β` (§§7.5–7.6), the comparison of the homological
+  symbol module with `H₁(X₀(N), cusps; ℤ)` (§14.12) and the quotient `A_f` of `J₁(N)` (§16.2).
+- From [EllipticCurveModularity](../EllipticCurveModularity/README.md) R29.3:
+  the normalized rational newform attached to E, invariant under isogeny. From R29.5:
+  the optimal J₀(N) quotient, its quotient isogenies to E, the nonconstant cusp-normalized
+  parametrization and its differential scalar; also the J₁(N) comparison. These are
+  mathematical contracts, not assumed declaration aliases. From R29.6, **Elliptic coefficient
+  summability**: the all-prime ideal coefficients, norm-fibre comparison and absolute
+  convergence for every number field and Re s > 3/2; from **Continuation and the functional
+  equation**, the entire completed L-function over ℚ.
+- From [ModularForms](../ModularForms/README.md): the Petersson pairing on `S₂(Γ₀(N))` over a
+  `Γ₀(N)`-fundamental domain (Layer 3; Tau Ceti `peterssonInnerCosets`), newforms and the
+  coefficient field (Layers 4, 8), `L(f, s)` and its entire extension (Layer 7), the homological
+  symbol module `𝕄` and the period map (Layer 8; Tau Ceti `TauCeti.ModularSymbols.periodMap`).
+- From [ModularSymbolsPadicLFunctions](../ModularSymbolsPadicLFunctions/README.md): the boundary
+  map on symbols and the cuspidal subspace (§0.4), through which the period lattice `Λ_f` of 4.4 is
+  the image of the cycles.
+- From [ArakelovGeometryAndAbelianHeights](../ArakelovGeometryAndAbelianHeights/README.md): the
+  Faltings norm `‖dz‖²_Fal = covol Λ` (§§2.1–2.2), its behaviour along isogenies (§2.3), the
+  elliptic formula through `|Δ(τ)|(Im τ)⁶` (§2.9), the relative Faltings height
+  `AbelianVariety.faltingsHeight` (§3.1) and the stable height stableFaltingsHeight (§3.4).
+  Layer 5 proves lattice formulas for these objects and defines neither.
+- From [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md): the
+  norm-fibre coefficients `normCoeff`, the Euler-product package `EulerProductData` of §3.1,
+  finite-prime products of §3.2 and the infinite Euler product under absolute convergence
+  of §3.3; elliptic summability comes from
+  EllipticCurveModularity R29.6.
+- From [GrossZagierAndArithmeticHeights](../GrossZagierAndArithmeticHeights/README.md) Layer 3:
+  the Manin constant `c_φ ∈ ℚ^×` of a nonconstant `φ : X₀(N) → E`, `φ^*ω_E = c_φ · 2πi f dτ`,
+  with its isogeny law `c_{ψ∘φ} = a_ψ c_φ` (§3.5); `c_φ ∈ ℤ` for every `φ`, and `p ∤ c_φ` for
+  `φ` `X₀(N)`-optimal and `p > 2` a semistable prime (§3.7); `c_φ ∣ 6 deg φ` with its exact `2`-
+  and `3`-adic exceptions (§3.8); the Petersson–degree identity
+  `|c_φ|² · 8π²(f, f) = deg φ · i∫_E ω_E ∧ ω̄_E` (§3.9); the valuation form
+  of the isogeny law and the transfer of `p`-units along isogenies of degree prime to `p` (§3.10).
+  Layer 4 defines the curve invariant maninConstant from `c_φ` and reads §§3.5, 3.9 on the Néron
+  lattices (4.4, 4.5, 4.7); it reproves none of these.
+- From [PeriodsAndSpecialValues](../PeriodsAndSpecialValues/README.md): the local factors
+  `P_v(T) = det(1 − T Fr_v | (ker N_v)^{I_v})` and the finite `L`-function of a compatible system
+  (PS.1.1), Serre's functional-equation predicate `SerreSystem` (PS.1.7), the Hasse–Weil completion
+  `Λ_1(A, s) = Λ(H¹(A), s)` of an abelian variety over a number field (PS.1.8), and the order and
+  leading coefficient of a finite `L`-function at a supplied nonzero germ (PS.3.3). Layer 3 is
+  stated on Mathlib's `WeierstrassCurve.LSeries`; 3.2 proves that it is the finite part of
+  PS.1.8's `Λ_1(E, s)`, and 3.3–3.4 read the continuation, the analytic rank and the leading
+  coefficient in those terms.
 
 ## References
 
