@@ -204,6 +204,8 @@ alone.
 Layer 1 rests on the Tau Ceti invariant algebra, Reynolds operator, Molien formula and Noether's
 bound named above, and on Mathlib. §1.1 and §1.2 are independent of each other.
 
+<a id="2-complex-branch-shephardtodd-in-both-directions"></a>
+
 ## Layer 2: pseudoreflection groups and the Shephard–Todd theorem
 
 In this layer `G` is finite and `V` finite-dimensional. The pseudoreflection subgroup is normal
@@ -653,6 +655,8 @@ at `t = q²`.
 §3.1 and RootSystems §2.1; §3.3 uses §2.1; §3.4 uses §3.3; §3.5 uses §2.1 and §3.1; §3.6 uses §2.2,
 §3.3 and §3.5; §3.7 uses §3.3 and LieGroups Layers 5A–6; §3.8 uses §3.2, §3.5, §3.7 and LieGroups
 Layer 8. No topological statement is an input to §§3.1–3.6.
+
+<a id="4-crystallographic-weylcoxeter-dictionary"></a>
 
 ## Layer 4: the crystallographic Weyl/Coxeter dictionary
 
