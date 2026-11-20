@@ -45,112 +45,15 @@ headline theorems. API targets and Checks are specified in this README in prose.
 any group in Type. The maps `toGLK` and `sl2Image` need only the field and its ring of
 integers. The arithmetic assertions retain the standing number-field hypotheses.
 
-## Scope and ownership
+## How to read the build
 
-This roadmap serves the LMFDB's **Bianchi newform** pages (`bmf`) and the Bianchi side of its
-**elliptic curves over imaginary quadratic fields** pages (`ecnf`). Every column of the
-`bmf_forms` and `bmf_dims` tables is listed in Layer 1 or Layer 4 and assigned an owner.
-
-### Owned here
-
-- The congruence subgroups `Γ₀(𝔫)`, `Γ₁(𝔫)`, `Γ(𝔫)` of `GL₂(𝓞_K)`, their `SL₂` versions, the
-  component groups `Γ₀(𝔫, 𝔞)`, their indices, cusps and cusp stabilizers (Layer 0).
-- The cohomological spaces `H¹(Γ, E_k)`, their cuspidal and Eisenstein parts, finiteness,
-  the rational and integral structures, the sum over ideal classes with its central operators and
-  trivial-central-character subspace, and the comparison with the Betti cohomology of the locally
-  symmetric space (Layer 1).
-- The weight-two harmonic forms on `ℍ³`, the slash action, growth and cuspidality, the
-  Fourier–Bessel expansion with the coefficient map `c(𝔪)` indexed by integral ideals, and the
-  Petersson inner product (Layer 2).
-- The classical Eichler–Shimura–Harder comparison, assembled from the adelization of the
-  classical forms and the adelic comparison of the Langlands-extensions roadmap (Layer 3).
-- Hecke operators `T_𝔭` for every prime ideal `𝔭` on the total space over the ideal classes,
-  `U_𝔭` at `𝔭 ∣ 𝔫`, the Hecke algebra, its commutativity, integrality and self-adjointness,
-  eigenforms, Hecke fields, and the eigenvalue–coefficient comparison (Layer 4).
-- Degeneracy and trace maps, oldforms and newforms, multiplicity one, strong multiplicity one,
-  Atkin–Lehner operators `W_𝔮` and the Fricke operator `W_𝔫` with their signs (Layer 5).
-- The `L`-function `L(F, s)`, its Euler product, the completed function `Λ(F, s)`, the
-  functional equation and its sign, the analytic rank, and Cremona's `L`-ratio (Layer 6).
-- Twists by finite-order Hecke characters, base change from classical newforms with the
-  LMFDB's `bc` invariant, and CM forms with the LMFDB's `CM` invariant (Layer 7).
-- The relation to elliptic curves over `K`: the predicate "`F` has an elliptic curve", the
-  direction from curves to forms as a consumed theorem, the CM and Eisenstein cases, and the
-  distinction between base-change forms and base-change curves (Layer 8).
-- Modular symbols over `K`, the finite cellular presentation of `H¹_cusp` and its Hecke action, and the Bianchi–Swan–Cremona fundamental domains of the
-  nine class-number-one fields (Layer 9).
-
-### Not owned here
-
-- Pseudobases, rank/Steinitz classification and simultaneous invariant factors are
-  ClassicalArithmeticCompletion §7.0(a)–(d); Layer 0 specializes them to level pairs.
-- The K-Bessel Mellin transform is MaassForms §2.1(v); Layer 6 specializes and rescales it.
-- The proper-order Picard/CM dictionary, conjugation and thirteen-order classification are
-  ImaginaryQuadraticClassNumber §§H1.4, H3.1 and H3.6; §8.4 makes the deduction over K.
-
-- **Everything indexed by an ordering or a stored list**: the ideal labels `N.i`, the suffix
-  `a, b, …` of a newform in a level, the `short_label`, `level_number`, the choice of
-  defining polynomial of the Hecke field (`hecke_poly`), the ordering of the eigenvalue table,
-  and the completeness and reliability statements of the database are not targets. This
-  roadmap states the **intrinsic label prefix**: the field
-  `K`, the level ideal `𝔫`, and the invariants a form is sorted by (dimension, then the
-  eigenvalue sequence), never the index.
-- **Weight `k > 2` arithmetic**: Hecke theory, newforms and `L`-functions of higher weight are
-  the adelic theory of the Langlands-extensions roadmap (§4.27); here only the cohomological
-  spaces of all weights are defined (1.3), for the dimension tables.
-- **Nontrivial nebentypus**: the LMFDB's Bianchi forms have trivial character; `Γ₁(𝔫)` appears
-  only as the comparison group of 1.7.
-- **Mordell–Weil data of the curves** over `K`: `rank`, `torsion`, `regulator`, `sha` and
-  `tamagawa` are the [elliptic-curves roadmap](../EllipticCurves/README.md)'s and are in Tau Ceti
-  for every number field (`fg_point_of_numberField` and `regulator` at the pin);
-  the period `omega` over `K` is
-  `EllipticCurvePeriodsAndModularParametrizations` 2.5 (`globalPeriod`), and the BSD formula over
-  `K` is its 3.6 (`bsdFactor`, `analyticShaOrder`) and 3.7 (`WeakBSD`, `StrongBSD`). The
-  elliptic-curves roadmap pins its own BSD quotient to `K = ℚ` and is not the owner over `K`.
-  Only the analytic side of the correspondence is here.
-- **Humbert's volume formula** for a general imaginary quadratic field and the Eisenstein series
-  on `ℍ³` that prove it: named in the Kleinian-groups roadmap as a roadmap-for-a-roadmap; the two
-  covolumes it supplies are consumed, nothing is added.
-- **Maass forms on `ℍ³`**: the weight-`0` Laplace eigenfunction theory for the one group
-  `PSL₂(ℤ[i])` (its Fourier–Bessel expansion, Hecke operators and `L`-function) is `MaassForms`
-  Layer 7, which states no other Bianchi group, no level, no continuous spectrum and no trace
-  formula. This roadmap uses none of these: its Laplacian is the Hodge Laplacian on `1`-forms
-  (2.2), and the spectral theory of `Γ \ ℍ³` beyond `MaassForms` Layer 7 is not a target here.
-- **Hilbert modular forms** and the real quadratic side of the `ecnf` pages: `HilbertModularForms`.
-- **Torsion in `H¹(Γ, ℤ)`**, Galois representations attached to torsion classes, and the
-  `p`-adic theory: the Langlands-extensions and locally-symmetric-spaces roadmaps.
-
-### The LMFDB boundary rule
-
-A predicate invariant under isomorphism of the form (its eigensystem) is defined here; anything
-that depends on an ordering, a normal form or a system convention is not a target.
-The columns of `bmf_forms` map as follows: `field_label` (the field `K`, prefix only),
-`level_label` and `level_norm` (the ideal `𝔫` and `N𝔫`, 0.1), `label_suffix`, `short_label`,
-`level_number`, `label` (labels), `weight` (always `2`), `dimension` (4.7), `hecke_eigs` and
-`hecke_poly` (4.5, 4.7), `AL_eigs` (5.6), `sfe` (6.3), Lratio (6.6), `bc` (7.5), `CM` (7.7),
-`curve_status` (8.2), `field_bad_primes` and `level_bad_primes` (0.1), `cuspidal` (1.2). The
-columns of `bmf_dims` are `gl2_dims` and `sl2_dims` with `cuspidal_dim` and `new_dim` per weight
-(1.3, 5.2).
-
-### Further scope boundaries
-
-- Ideal labels, newform suffixes, `hecke_poly`'s polredabs normalization, eigenvalue orderings,
-  and the completeness tables are database conventions, not targets.
-- Weight `k > 2` Hecke theory, newforms, `L`-functions and higher-weight base change: the
-  Langlands-extensions roadmap's adelic theory (§4.27, §4.40–4.43).
-- Nontrivial nebentypus and `Γ₁(𝔫)`-newforms.
-- Humbert's formula and Eisenstein series on `ℍ³`; the spectral theory of the Laplacian on
-  functions on `Γ \ ℍ³` (`MaassForms` Layer 7 for `PSL₂(ℤ[i])` only).
-- Torsion in `H¹(Γ, ℤ)` and its Galois representations; `p`-adic Bianchi forms; the Galois
-  representations attached to Bianchi newforms (Harris–Soudry–Taylor, Berger–Harcos, and
-  Scholze) and their local–global compatibility beyond what 8.1 consumes.
-- Dimension formulas by the trace formula; the Bianchi Eichler–Selberg trace formula.
-- Mordell–Weil data, periods, regulators and the BSD formula for curves over `K` (the
-  elliptic-curves roadmap and Tau Ceti; `EllipticCurvePeriodsAndModularParametrizations` 2.5,
-  3.6–3.7 for the period and the BSD quotient); modular parametrizations of curves over `K`
-  by Bianchi forms (none exist: `Y₀(𝔫)` is a real three-fold).
-- The QM abelian surfaces of rational newforms without elliptic curves; Bianchi forms over fields
-  of class number `h_K > 1` are in scope (Layers 0–8 are stated for all `K`), but the
-  Eichler–Shimura–Harder theorem for `GL₂` over non-imaginary-quadratic number fields is not.
+Layer 0 builds the arithmetic quotients and cusps. Layer 1 supplies their cohomology and
+integral lattices; Layers 2–3 identify harmonic forms with that cohomology and establish the
+compactified homology pair. Layers 4–5 build all-prime correspondences, new eigenlines and
+the rational relative pairing. Layer 6 supplies the functional equation and period ratio;
+Layers 7–8 compare twists, base change, CM and elliptic curves. Layer 9 proves the cellular
+presentation and the full level-one vanishing classification. Each target lists the inputs
+needed by its statement or proposed proof route.
 
 
 ## Conventions
@@ -186,149 +89,6 @@ coefficient ring and the group in one universe and `ℂ : Type`; nothing else pi
 | CM | `F` has CM when `F ⊗ ψ = F` for a quadratic ray class character `ψ ≠ 1` of `K`; the CM field is the quadratic extension `L_ψ/K`. When `L_ψ = K M` for an imaginary quadratic field `M ≠ K`, the LMFDB's integer `CM` is the discriminant of `M`; `M` is unique (7.7). |
 | Rational primes | `p` is **inert** when `p𝓞_K` is prime, equivalently `𝔭 = (p)` for the prime `𝔭` above `p`; otherwise `𝔭 ∣ p` has residue degree `1`. In Lean this is the test `𝔭.asIdeal = Ideal.span {(p : 𝓞 K)}`. |
 | No `native_decide` | Finite checks on explicit matrices are `decide` or `norm_num`, as in the Kleinian-groups roadmap. |
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `NumberField K`, `𝓞 K`, `NumberField.discr`, `NumberField.classNumber`, `ClassGroup (𝓞 K)`
-  with `ClassGroup.mk0` and `ClassGroup.mk0_surjective`, `Ideal.absNorm`,
-  `Ideal.finite_setOfPred_absNorm_eq`, `IsDedekindDomain.HeightOneSpectrum` with
-  `HeightOneSpectrum.isMaximal`, finite residue fields, `FractionalIdeal` with inverses,
-  `IsTotallyComplex`.
-- `Matrix.GeneralLinearGroup` (`GL (Fin 2) R`), `Matrix.SpecialLinearGroup`,
-  `Matrix.ProjectiveSpecialLinearGroup`, `Matrix.GeneralLinearGroup.toLin`, `Projectivization`
-  with its `MulAction` instance for any group acting linearly (so for `GL (Fin 2) K` and its
-  subgroups), `MulAction.stabilizer`,
-  `MulAction.orbitRel.Quotient`, `Subgroup.relIndex`, the double coset `DoubleCoset.doubleCoset`
-  and its relation `DoubleCoset.setoid` (`Mathlib/GroupTheory/DoubleCoset.lean`),
-  and the Hecke ring carrier `HeckeRing Δ H R` (notation `𝕋 Δ H R`, the finitely supported
-  `R`-combinations of double cosets `H\Δ/H`) of `Mathlib/NumberTheory/HeckeRing/Defs.lean`.
-- `groupCohomology` with `H1`, `H1π`, `H1IsoOfIsTrivial : H1 A ≅ (Additive G →+ A)` for a
-  trivial representation, `Rep.trivial`, and the functoriality `groupCohomology.map`.
-- `LSeries`, `LSeries.abscissaOfAbsConv`, `analyticOrderNatAt`, `Complex.Gamma`.
-- `WeierstrassCurve`, `WeierstrassCurve.map`, `WeierstrassCurve.baseChange`,
-  `WeierstrassCurve.IsElliptic`.
-- `Complex.besselJ` is the only Bessel function in Mathlib; `K₀`, `K₁` are consumed from the
-  automorphic-forms roadmap's §4.5, not built here.
-
-### From Tau Ceti
-
-- `TauCeti.summable_absNorm_rpow_ideal_iff`
-  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Convergence.lean`): for a number
-  field K and real t, the sum of N𝔞^(−t) over nonzero integral ideals converges
-  exactly when t > 1; §6.1 applies this twice to the ideal-divisor majorant.
-- `TauCeti.normCoeff` and `TauCeti.normCoeff_eq_sum_normFiber`
-  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/NormCoeff.lean`), and
-  `TauCeti.regroupByNorm`, `TauCeti.LSeriesSummable_normCoeff`, `TauCeti.LSeries_normCoeff`
-  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Regroup.lean`): apply the native
-  finite norm sums and absolute-convergence regrouping to the Bianchi ideal coefficients.
-
-- `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `idealClass`, `integralIdealsPrimeTo`,
-  `RayClassCharacter 𝔪 = RayClassGroup 𝔪 →* ℂˣ`, `HeckeCharacter K`, `IsFiniteOrder`,
-  `ofRayClassCharacter`, `rayClassCharacterAt`, `isFiniteOrder_iff_exists_rayClassCharacter`
-  (`TauCeti/NumberTheory/NumberField/Global/{RayClass,HeckeCharacter}/`).
-- `HeckeRing.GL2.Newform N k` with `χ`, `eigenvalue n hn` at indices coprime to `N`, `analyticRank`,
-  and, for trivial nebentypus, the Fricke sign of `TauCeti/NumberTheory/ModularForms/LFunction/Sign.lean`
-  (`frickeCompletedL_sub_eq` takes `f.χ = 1`).
-- `WeierstrassCurve.frobeniusTrace` and `WeierstrassCurve.pointCount` for a Weierstrass curve
-  over a finite field (`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`), with the
-  Hasse bound.
-- The convolution product making Mathlib's `𝕋 Δ H R` a semiring, and a ring when `R` is one, for
-  a Hecke pair (`IsHeckeTriple Δ H H`), the degree and the commutativity criterion, from
-  `TauCeti/NumberTheory/HeckeRing/`; the lattice-pair description of 4.1 is compared with
-  the double-coset ring of `(Γ₀(𝔫, 𝔞), Δ₀(𝔫, 𝔞))` in 4.3.
-- Nothing on `ℍ³`, Bianchi groups, Bianchi forms, Bessel functions of the second kind, or
-  `L`-functions of `GL₂` over number fields: those are the roadmaps named above.
-
-### From named roadmaps
-
-- From ClassicalArithmeticCompletion §7.0(a)–(d): pseudobases of lattices over a
-  Dedekind domain, classification by rank and Steinitz class, and simultaneous invariant
-  factors for an inclusion. Apply (c) to L and (d) to M ⊂ L with cyclic quotient 𝓞_K/𝔫
-  in §0.2; these are distinct inputs (Voight, Theorems 9.3.6, 9.3.9–9.3.10, pp.138–139;
-  Weibel, The K-book I§3, Propositions 3.4–3.5, pp.17–18, as located by that supplier).
-- From MaassForms §2.1(v): for complex μ, ν with Re μ > |Re ν|,
-  ∫₀∞ K_ν(y)y^(μ−1)dy = 2^(μ−2)Γ((μ−ν)/2)Γ((μ+ν)/2)
-  (DLMF 10.43.19). Section 6.2 uses ν = 0 and y ↦ λy with λ > 0.
-- From ImaginaryQuadraticClassNumber §H1.4: proper invertible ideal Picard groups
-  and the surjection on passage to the maximal order; §H3.1: irreducibility and degree
-  h(𝒪) of the class polynomial, its CM roots, and complex conjugation acting by inversion
-  on their proper ideal classes; §H3.6: the thirteen class-number-one order discriminants.
-- From AutomorphicLFunctionsAndLocalFactors §§AL.2.2.1–AL.2.2.5: local last-row levels,
-  conductor, Casselman's dimension formula and the normalized Whittaker newvector
-  (Casselman, Theorem 1, p.302 and Corollary to the Proof, p.306). Section 5.2 uses
-  dimension max(0,r−c(π)+1) with the trivial central character, at every finite place.
-
-- From the [Kleinian-groups roadmap](../KleinianGroups/README.md): `H3` with `volume`, `dist`,
-  `height`, the quaternionic Möbius action of `PSL(2, ℂ)` (its Layer 0); discreteness, proper
-  discontinuity, fundamental domains and `covolume` (Layer 1); Dirichlet domains and the
-  face-pairing criterion `isFundamentalDomain_of_facePairing` (Layer 2); `bianchi F ι` and the
-  principal congruence subgroups `bianchiGamma` with their torsion-freeness and indices
-  (Layer 3); the two covolumes `catalanConstant / 3` and `√3 · L(2, χ₋₃) / 8` and the
-  statement of Humbert's formula (Layer 4). This roadmap adds no second hyperbolic space, no
-  second measure, and no second Bianchi group: `Γ₀(𝔫)` is a subgroup of `GL₂(𝓞_K)` mapped into
-  `PSL(2, ℂ)` through that roadmap's embedding `ι`.
-- From the [arithmetic locally symmetric spaces roadmap](../ArithmeticLocallySymmetricSpaces/README.md):
-  the adelic quotient `X_K` and its decomposition into arithmetic quotients (ALS.0.6–0.7), Betti
-  cohomology as group cohomology (ALS.1.5), finiteness of Betti cohomology (ALS.2.4), Hecke
-  correspondences and their composition (ALS.3.5, ALS.3.8), degeneracy maps and the old-space
-  splitting at a prime (ALS.3.14), the boundary triangle (ALS.4.1), unnormalized spherical Satake and its action on
-  transported boundary strata (ALS.4.2–4.3, used on a neat cover and descended over ℚ),
-  and automorphic forms, constant
-  terms and cusp forms (ALS.F.6).
-- From the [modularity-and-Langlands-extensions roadmap](../ModularityAndLanglandsExtensions/README.md):
-  the planned adelic eigenform carrier, normalized ideal coefficients and associated
-  cuspidal representation (§4.27); the planned Hecke-equivariant isomorphism and its inverse
-  between adelic cusp forms of weight `k` and parabolic cohomology of
-  `Y₁(𝔫)` over **all** ideal classes (§4.26); the Ramanujan bound
-  `|c(𝔭, f)| ≤ 2 N𝔭^{(k−1)/2}` (§4.40) and its cohomological form (§4.43).
-- From the [automorphic-forms roadmap](../AutomorphicFormsOnReductiveGroups/README.md): the
-  `K`-Bessel function `K_ν(u) = ∫₀^∞ e^{−u cosh t} cosh(νt) dt` with its differential equation
-  `u²K'' + uK' − (u² + ν²)K = 0`, `K_ν = K_{−ν}` and the asymptotic `√(π/2u) e^{−u}` (§4.5), and
-  the `GL₂` adelization dictionary (§§7.2–7.3). Only `K₀` and `K₁` occur here.
-- From the [`GL₂` automorphic representations roadmap](../GL2AutomorphicRepresentationsAndTransfer/README.md):
-  cuspidal automorphic representations of `GL₂(𝔸_K)`, their Whittaker expansions and strong
-  multiplicity one (R16.4), the classical-to-adelic dictionary over `ℚ` (R16.6.1), the unramified
-  base-change Satake rule (R17.4.1), quadratic base change (R17.4.2), all-place Weil–Deligne restriction including wild places
-  (R17.4.3), and its cuspidality
-  criterion (R17.4.5).
-- From the [elliptic-curve modularity roadmap](../EllipticCurveModularityImaginaryQuadratic/README.md):
-  `imaginary_quadratic_modularity`, the automorphic representation `π_E` of every elliptic
-  curve `E/K`, cuspidal for geometrically non-CM `E`, with `L(E/K, s) = L(π_E, s − 1/2)`.
-- From the [`L`-functions roadmap](../LFunctions/README.md): the analytic card
-  `AnalyticLFunctionData` with `HasFunctionalEquation`, `ArithmeticLFunctionData` and the
-  normalization translation (Layer 0), and the Grossencharacter cards `grossencharacterData`
-  (Layer 6) that the CM forms' `L`-functions factor through.
-- From the [modular-forms roadmap](../ModularForms/README.md) and Tau Ceti: the classical
-  newform carrier `HeckeRing.GL2.Newform N k` with `eigenvalue`, `χ` and `analyticRank`
-  (Layers 4 and 6 there), the Fricke sign for **trivial nebentypus** (Layer 7 there; Tau Ceti's
-  `frickeCompletedL_sub_eq`, stated for `f.χ = 1`, the only case 6.4 uses), CM forms as
-  self-twists (Layer 9), and the conjugate newform `f^σ` (Layer 8G).
-- From the [global-number-fields roadmap](../GlobalNumberFields/README.md) and Tau Ceti:
-  `Modulus`, `RayClassGroup`, `idealClass`, `RayClassCharacter`, `HeckeCharacter`,
-  `IsFiniteOrder`, `isFiniteOrder_iff_exists_rayClassCharacter` (Layers 2 and 9), and
-  `rayClassQuotient` with `ker_rayClassQuotient`.
-- From the [class-field-theory roadmap](../ClassFieldTheory/README.md): Tau Ceti's `classField`,
-  the class field `globalClassField K N` of an open finite-index subgroup `N ≤ C_K` with
-  `globalClassField_index` (Layer 12), the ray-class Artin map with `rayClassArtinMap_idealClass`
-  (Layer 12), and the arithmetic Frobenius normalization `globalArtinMap_isArithFrobAt`
-  (Layer 11). That roadmap names neither the field cut out by a ray class character nor the
-  splitting dictionary `ψ(𝔭) = 1 ⟺ 𝔭` splits; both are built here from these declarations (7.1).
-- From the [elliptic-curves roadmap](../EllipticCurves/README.md) and Tau Ceti: base change of
-  Weierstrass curves (Layer 0.5), `frobeniusTrace` and `pointCount` over finite fields (Layer 3),
-  the local conductor exponent and the conductor ideal `𝔫_E` of a curve over a number field
-  (Layer 4), and complex multiplication of a curve (Layer 1).
-
-## How to read the build
-
-Layer 0 builds the arithmetic quotients and cusps. Layer 1 supplies their cohomology and
-integral lattices; Layers 2–3 identify harmonic forms with that cohomology and establish the
-compactified homology pair. Layers 4–5 build all-prime correspondences, new eigenlines and
-the rational relative pairing. Layer 6 supplies the functional equation and period ratio;
-Layers 7–8 compare twists, base change, CM and elliptic curves. Layer 9 proves the cellular
-presentation and the full level-one vanishing classification. Each target lists the inputs
-needed by its statement or proposed proof route.
 
 ## Layer 0: the groups and the cusps
 
@@ -2489,6 +2249,246 @@ labelling code; the index inside the label is not a target.
 - HasEllipticCurve is not implied by rationality: `2.0.4.1-34225.3-a` (8.2).
 - `Γ₀((2+i)²)` over `ℚ(i)` has `3` cusps and not `1 + 4 + 1 = 6`: the units act on
   `(𝓞_K/𝔭)ˣ = 𝔽₅ˣ` transitively (0.5).
+
+## Scope and ownership
+
+This roadmap serves the LMFDB's **Bianchi newform** pages (`bmf`) and the Bianchi side of its
+**elliptic curves over imaginary quadratic fields** pages (`ecnf`). Every column of the
+`bmf_forms` and `bmf_dims` tables is listed in Layer 1 or Layer 4 and assigned an owner.
+
+### Owned here
+
+- The congruence subgroups `Γ₀(𝔫)`, `Γ₁(𝔫)`, `Γ(𝔫)` of `GL₂(𝓞_K)`, their `SL₂` versions, the
+  component groups `Γ₀(𝔫, 𝔞)`, their indices, cusps and cusp stabilizers (Layer 0).
+- The cohomological spaces `H¹(Γ, E_k)`, their cuspidal and Eisenstein parts, finiteness,
+  the rational and integral structures, the sum over ideal classes with its central operators and
+  trivial-central-character subspace, and the comparison with the Betti cohomology of the locally
+  symmetric space (Layer 1).
+- The weight-two harmonic forms on `ℍ³`, the slash action, growth and cuspidality, the
+  Fourier–Bessel expansion with the coefficient map `c(𝔪)` indexed by integral ideals, and the
+  Petersson inner product (Layer 2).
+- The classical Eichler–Shimura–Harder comparison, assembled from the adelization of the
+  classical forms and the adelic comparison of the Langlands-extensions roadmap (Layer 3).
+- Hecke operators `T_𝔭` for every prime ideal `𝔭` on the total space over the ideal classes,
+  `U_𝔭` at `𝔭 ∣ 𝔫`, the Hecke algebra, its commutativity, integrality and self-adjointness,
+  eigenforms, Hecke fields, and the eigenvalue–coefficient comparison (Layer 4).
+- Degeneracy and trace maps, oldforms and newforms, multiplicity one, strong multiplicity one,
+  Atkin–Lehner operators `W_𝔮` and the Fricke operator `W_𝔫` with their signs (Layer 5).
+- The `L`-function `L(F, s)`, its Euler product, the completed function `Λ(F, s)`, the
+  functional equation and its sign, the analytic rank, and Cremona's `L`-ratio (Layer 6).
+- Twists by finite-order Hecke characters, base change from classical newforms with the
+  LMFDB's `bc` invariant, and CM forms with the LMFDB's `CM` invariant (Layer 7).
+- The relation to elliptic curves over `K`: the predicate "`F` has an elliptic curve", the
+  direction from curves to forms as a consumed theorem, the CM and Eisenstein cases, and the
+  distinction between base-change forms and base-change curves (Layer 8).
+- Modular symbols over `K`, the finite cellular presentation of `H¹_cusp` and its Hecke action, and the Bianchi–Swan–Cremona fundamental domains of the
+  nine class-number-one fields (Layer 9).
+
+### Not owned here
+
+- Pseudobases, rank/Steinitz classification and simultaneous invariant factors are
+  ClassicalArithmeticCompletion §7.0(a)–(d); Layer 0 specializes them to level pairs.
+- The K-Bessel Mellin transform is MaassForms §2.1(v); Layer 6 specializes and rescales it.
+- The proper-order Picard/CM dictionary, conjugation and thirteen-order classification are
+  ImaginaryQuadraticClassNumber §§H1.4, H3.1 and H3.6; §8.4 makes the deduction over K.
+
+- **Everything indexed by an ordering or a stored list**: the ideal labels `N.i`, the suffix
+  `a, b, …` of a newform in a level, the `short_label`, `level_number`, the choice of
+  defining polynomial of the Hecke field (`hecke_poly`), the ordering of the eigenvalue table,
+  and the completeness and reliability statements of the database are not targets. This
+  roadmap states the **intrinsic label prefix**: the field
+  `K`, the level ideal `𝔫`, and the invariants a form is sorted by (dimension, then the
+  eigenvalue sequence), never the index.
+- **Weight `k > 2` arithmetic**: Hecke theory, newforms and `L`-functions of higher weight are
+  the adelic theory of the Langlands-extensions roadmap (§4.27); here only the cohomological
+  spaces of all weights are defined (1.3), for the dimension tables.
+- **Nontrivial nebentypus**: the LMFDB's Bianchi forms have trivial character; `Γ₁(𝔫)` appears
+  only as the comparison group of 1.7.
+- **Mordell–Weil data of the curves** over `K`: `rank`, `torsion`, `regulator`, `sha` and
+  `tamagawa` are the [elliptic-curves roadmap](../EllipticCurves/README.md)'s and are in Tau Ceti
+  for every number field (`fg_point_of_numberField` and `regulator` at the pin);
+  the period `omega` over `K` is
+  `EllipticCurvePeriodsAndModularParametrizations` 2.5 (`globalPeriod`), and the BSD formula over
+  `K` is its 3.6 (`bsdFactor`, `analyticShaOrder`) and 3.7 (`WeakBSD`, `StrongBSD`). The
+  elliptic-curves roadmap pins its own BSD quotient to `K = ℚ` and is not the owner over `K`.
+  Only the analytic side of the correspondence is here.
+- **Humbert's volume formula** for a general imaginary quadratic field and the Eisenstein series
+  on `ℍ³` that prove it: named in the Kleinian-groups roadmap as a roadmap-for-a-roadmap; the two
+  covolumes it supplies are consumed, nothing is added.
+- **Maass forms on `ℍ³`**: the weight-`0` Laplace eigenfunction theory for the one group
+  `PSL₂(ℤ[i])` (its Fourier–Bessel expansion, Hecke operators and `L`-function) is `MaassForms`
+  Layer 7, which states no other Bianchi group, no level, no continuous spectrum and no trace
+  formula. This roadmap uses none of these: its Laplacian is the Hodge Laplacian on `1`-forms
+  (2.2), and the spectral theory of `Γ \ ℍ³` beyond `MaassForms` Layer 7 is not a target here.
+- **Hilbert modular forms** and the real quadratic side of the `ecnf` pages: `HilbertModularForms`.
+- **Torsion in `H¹(Γ, ℤ)`**, Galois representations attached to torsion classes, and the
+  `p`-adic theory: the Langlands-extensions and locally-symmetric-spaces roadmaps.
+
+### The LMFDB boundary rule
+
+A predicate invariant under isomorphism of the form (its eigensystem) is defined here; anything
+that depends on an ordering, a normal form or a system convention is not a target.
+The columns of `bmf_forms` map as follows: `field_label` (the field `K`, prefix only),
+`level_label` and `level_norm` (the ideal `𝔫` and `N𝔫`, 0.1), `label_suffix`, `short_label`,
+`level_number`, `label` (labels), `weight` (always `2`), `dimension` (4.7), `hecke_eigs` and
+`hecke_poly` (4.5, 4.7), `AL_eigs` (5.6), `sfe` (6.3), Lratio (6.6), `bc` (7.5), `CM` (7.7),
+`curve_status` (8.2), `field_bad_primes` and `level_bad_primes` (0.1), `cuspidal` (1.2). The
+columns of `bmf_dims` are `gl2_dims` and `sl2_dims` with `cuspidal_dim` and `new_dim` per weight
+(1.3, 5.2).
+
+### Further scope boundaries
+
+- Ideal labels, newform suffixes, `hecke_poly`'s polredabs normalization, eigenvalue orderings,
+  and the completeness tables are database conventions, not targets.
+- Weight `k > 2` Hecke theory, newforms, `L`-functions and higher-weight base change: the
+  Langlands-extensions roadmap's adelic theory (§4.27, §4.40–4.43).
+- Nontrivial nebentypus and `Γ₁(𝔫)`-newforms.
+- Humbert's formula and Eisenstein series on `ℍ³`; the spectral theory of the Laplacian on
+  functions on `Γ \ ℍ³` (`MaassForms` Layer 7 for `PSL₂(ℤ[i])` only).
+- Torsion in `H¹(Γ, ℤ)` and its Galois representations; `p`-adic Bianchi forms; the Galois
+  representations attached to Bianchi newforms (Harris–Soudry–Taylor, Berger–Harcos, and
+  Scholze) and their local–global compatibility beyond what 8.1 consumes.
+- Dimension formulas by the trace formula; the Bianchi Eichler–Selberg trace formula.
+- Mordell–Weil data, periods, regulators and the BSD formula for curves over `K` (the
+  elliptic-curves roadmap and Tau Ceti; `EllipticCurvePeriodsAndModularParametrizations` 2.5,
+  3.6–3.7 for the period and the BSD quotient); modular parametrizations of curves over `K`
+  by Bianchi forms (none exist: `Y₀(𝔫)` is a real three-fold).
+- The QM abelian surfaces of rational newforms without elliptic curves; Bianchi forms over fields
+  of class number `h_K > 1` are in scope (Layers 0–8 are stated for all `K`), but the
+  Eichler–Shimura–Harder theorem for `GL₂` over non-imaginary-quadratic number fields is not.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `NumberField K`, `𝓞 K`, `NumberField.discr`, `NumberField.classNumber`, `ClassGroup (𝓞 K)`
+  with `ClassGroup.mk0` and `ClassGroup.mk0_surjective`, `Ideal.absNorm`,
+  `Ideal.finite_setOfPred_absNorm_eq`, `IsDedekindDomain.HeightOneSpectrum` with
+  `HeightOneSpectrum.isMaximal`, finite residue fields, `FractionalIdeal` with inverses,
+  `IsTotallyComplex`.
+- `Matrix.GeneralLinearGroup` (`GL (Fin 2) R`), `Matrix.SpecialLinearGroup`,
+  `Matrix.ProjectiveSpecialLinearGroup`, `Matrix.GeneralLinearGroup.toLin`, `Projectivization`
+  with its `MulAction` instance for any group acting linearly (so for `GL (Fin 2) K` and its
+  subgroups), `MulAction.stabilizer`,
+  `MulAction.orbitRel.Quotient`, `Subgroup.relIndex`, the double coset `DoubleCoset.doubleCoset`
+  and its relation `DoubleCoset.setoid` (`Mathlib/GroupTheory/DoubleCoset.lean`),
+  and the Hecke ring carrier `HeckeRing Δ H R` (notation `𝕋 Δ H R`, the finitely supported
+  `R`-combinations of double cosets `H\Δ/H`) of `Mathlib/NumberTheory/HeckeRing/Defs.lean`.
+- `groupCohomology` with `H1`, `H1π`, `H1IsoOfIsTrivial : H1 A ≅ (Additive G →+ A)` for a
+  trivial representation, `Rep.trivial`, and the functoriality `groupCohomology.map`.
+- `LSeries`, `LSeries.abscissaOfAbsConv`, `analyticOrderNatAt`, `Complex.Gamma`.
+- `WeierstrassCurve`, `WeierstrassCurve.map`, `WeierstrassCurve.baseChange`,
+  `WeierstrassCurve.IsElliptic`.
+- `Complex.besselJ` is the only Bessel function in Mathlib; `K₀`, `K₁` are consumed from the
+  automorphic-forms roadmap's §4.5, not built here.
+
+### From Tau Ceti
+
+- `TauCeti.summable_absNorm_rpow_ideal_iff`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Convergence.lean`): for a number
+  field K and real t, the sum of N𝔞^(−t) over nonzero integral ideals converges
+  exactly when t > 1; §6.1 applies this twice to the ideal-divisor majorant.
+- `TauCeti.normCoeff` and `TauCeti.normCoeff_eq_sum_normFiber`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/NormCoeff.lean`), and
+  `TauCeti.regroupByNorm`, `TauCeti.LSeriesSummable_normCoeff`, `TauCeti.LSeries_normCoeff`
+  (`TauCeti/NumberTheory/ArithmeticDirichletSeries/Regroup.lean`): apply the native
+  finite norm sums and absolute-convergence regrouping to the Bianchi ideal coefficients.
+
+- `TauCeti.GlobalNumberFields.Modulus`, `RayClassGroup`, `idealClass`, `integralIdealsPrimeTo`,
+  `RayClassCharacter 𝔪 = RayClassGroup 𝔪 →* ℂˣ`, `HeckeCharacter K`, `IsFiniteOrder`,
+  `ofRayClassCharacter`, `rayClassCharacterAt`, `isFiniteOrder_iff_exists_rayClassCharacter`
+  (`TauCeti/NumberTheory/NumberField/Global/{RayClass,HeckeCharacter}/`).
+- `HeckeRing.GL2.Newform N k` with `χ`, `eigenvalue n hn` at indices coprime to `N`, `analyticRank`,
+  and, for trivial nebentypus, the Fricke sign of `TauCeti/NumberTheory/ModularForms/LFunction/Sign.lean`
+  (`frickeCompletedL_sub_eq` takes `f.χ = 1`).
+- `WeierstrassCurve.frobeniusTrace` and `WeierstrassCurve.pointCount` for a Weierstrass curve
+  over a finite field (`TauCeti/AlgebraicGeometry/EllipticCurve/PointCount.lean`), with the
+  Hasse bound.
+- The convolution product making Mathlib's `𝕋 Δ H R` a semiring, and a ring when `R` is one, for
+  a Hecke pair (`IsHeckeTriple Δ H H`), the degree and the commutativity criterion, from
+  `TauCeti/NumberTheory/HeckeRing/`; the lattice-pair description of 4.1 is compared with
+  the double-coset ring of `(Γ₀(𝔫, 𝔞), Δ₀(𝔫, 𝔞))` in 4.3.
+- Nothing on `ℍ³`, Bianchi groups, Bianchi forms, Bessel functions of the second kind, or
+  `L`-functions of `GL₂` over number fields: those are the roadmaps named above.
+
+### From named roadmaps
+
+- From ClassicalArithmeticCompletion §7.0(a)–(d): pseudobases of lattices over a
+  Dedekind domain, classification by rank and Steinitz class, and simultaneous invariant
+  factors for an inclusion. Apply (c) to L and (d) to M ⊂ L with cyclic quotient 𝓞_K/𝔫
+  in §0.2; these are distinct inputs (Voight, Theorems 9.3.6, 9.3.9–9.3.10, pp.138–139;
+  Weibel, The K-book I§3, Propositions 3.4–3.5, pp.17–18, as located by that supplier).
+- From MaassForms §2.1(v): for complex μ, ν with Re μ > |Re ν|,
+  ∫₀∞ K_ν(y)y^(μ−1)dy = 2^(μ−2)Γ((μ−ν)/2)Γ((μ+ν)/2)
+  (DLMF 10.43.19). Section 6.2 uses ν = 0 and y ↦ λy with λ > 0.
+- From ImaginaryQuadraticClassNumber §H1.4: proper invertible ideal Picard groups
+  and the surjection on passage to the maximal order; §H3.1: irreducibility and degree
+  h(𝒪) of the class polynomial, its CM roots, and complex conjugation acting by inversion
+  on their proper ideal classes; §H3.6: the thirteen class-number-one order discriminants.
+- From AutomorphicLFunctionsAndLocalFactors §§AL.2.2.1–AL.2.2.5: local last-row levels,
+  conductor, Casselman's dimension formula and the normalized Whittaker newvector
+  (Casselman, Theorem 1, p.302 and Corollary to the Proof, p.306). Section 5.2 uses
+  dimension max(0,r−c(π)+1) with the trivial central character, at every finite place.
+
+- From the [Kleinian-groups roadmap](../KleinianGroups/README.md): `H3` with `volume`, `dist`,
+  `height`, the quaternionic Möbius action of `PSL(2, ℂ)` (its Layer 0); discreteness, proper
+  discontinuity, fundamental domains and `covolume` (Layer 1); Dirichlet domains and the
+  face-pairing criterion `isFundamentalDomain_of_facePairing` (Layer 2); `bianchi F ι` and the
+  principal congruence subgroups `bianchiGamma` with their torsion-freeness and indices
+  (Layer 3); the two covolumes `catalanConstant / 3` and `√3 · L(2, χ₋₃) / 8` and the
+  statement of Humbert's formula (Layer 4). This roadmap adds no second hyperbolic space, no
+  second measure, and no second Bianchi group: `Γ₀(𝔫)` is a subgroup of `GL₂(𝓞_K)` mapped into
+  `PSL(2, ℂ)` through that roadmap's embedding `ι`.
+- From the [arithmetic locally symmetric spaces roadmap](../ArithmeticLocallySymmetricSpaces/README.md):
+  the adelic quotient `X_K` and its decomposition into arithmetic quotients (ALS.0.6–0.7), Betti
+  cohomology as group cohomology (ALS.1.5), finiteness of Betti cohomology (ALS.2.4), Hecke
+  correspondences and their composition (ALS.3.5, ALS.3.8), degeneracy maps and the old-space
+  splitting at a prime (ALS.3.14), the boundary triangle (ALS.4.1), unnormalized spherical Satake and its action on
+  transported boundary strata (ALS.4.2–4.3, used on a neat cover and descended over ℚ),
+  and automorphic forms, constant
+  terms and cusp forms (ALS.F.6).
+- From the [modularity-and-Langlands-extensions roadmap](../ModularityAndLanglandsExtensions/README.md):
+  the planned adelic eigenform carrier, normalized ideal coefficients and associated
+  cuspidal representation (§4.27); the planned Hecke-equivariant isomorphism and its inverse
+  between adelic cusp forms of weight `k` and parabolic cohomology of
+  `Y₁(𝔫)` over **all** ideal classes (§4.26); the Ramanujan bound
+  `|c(𝔭, f)| ≤ 2 N𝔭^{(k−1)/2}` (§4.40) and its cohomological form (§4.43).
+- From the [automorphic-forms roadmap](../AutomorphicFormsOnReductiveGroups/README.md): the
+  `K`-Bessel function `K_ν(u) = ∫₀^∞ e^{−u cosh t} cosh(νt) dt` with its differential equation
+  `u²K'' + uK' − (u² + ν²)K = 0`, `K_ν = K_{−ν}` and the asymptotic `√(π/2u) e^{−u}` (§4.5), and
+  the `GL₂` adelization dictionary (§§7.2–7.3). Only `K₀` and `K₁` occur here.
+- From the [`GL₂` automorphic representations roadmap](../GL2AutomorphicRepresentationsAndTransfer/README.md):
+  cuspidal automorphic representations of `GL₂(𝔸_K)`, their Whittaker expansions and strong
+  multiplicity one (R16.4), the classical-to-adelic dictionary over `ℚ` (R16.6.1), the unramified
+  base-change Satake rule (R17.4.1), quadratic base change (R17.4.2), all-place Weil–Deligne restriction including wild places
+  (R17.4.3), and its cuspidality
+  criterion (R17.4.5).
+- From the [elliptic-curve modularity roadmap](../EllipticCurveModularityImaginaryQuadratic/README.md):
+  `imaginary_quadratic_modularity`, the automorphic representation `π_E` of every elliptic
+  curve `E/K`, cuspidal for geometrically non-CM `E`, with `L(E/K, s) = L(π_E, s − 1/2)`.
+- From the [`L`-functions roadmap](../LFunctions/README.md): the analytic card
+  `AnalyticLFunctionData` with `HasFunctionalEquation`, `ArithmeticLFunctionData` and the
+  normalization translation (Layer 0), and the Grossencharacter cards `grossencharacterData`
+  (Layer 6) that the CM forms' `L`-functions factor through.
+- From the [modular-forms roadmap](../ModularForms/README.md) and Tau Ceti: the classical
+  newform carrier `HeckeRing.GL2.Newform N k` with `eigenvalue`, `χ` and `analyticRank`
+  (Layers 4 and 6 there), the Fricke sign for **trivial nebentypus** (Layer 7 there; Tau Ceti's
+  `frickeCompletedL_sub_eq`, stated for `f.χ = 1`, the only case 6.4 uses), CM forms as
+  self-twists (Layer 9), and the conjugate newform `f^σ` (Layer 8G).
+- From the [global-number-fields roadmap](../GlobalNumberFields/README.md) and Tau Ceti:
+  `Modulus`, `RayClassGroup`, `idealClass`, `RayClassCharacter`, `HeckeCharacter`,
+  `IsFiniteOrder`, `isFiniteOrder_iff_exists_rayClassCharacter` (Layers 2 and 9), and
+  `rayClassQuotient` with `ker_rayClassQuotient`.
+- From the [class-field-theory roadmap](../ClassFieldTheory/README.md): Tau Ceti's `classField`,
+  the class field `globalClassField K N` of an open finite-index subgroup `N ≤ C_K` with
+  `globalClassField_index` (Layer 12), the ray-class Artin map with `rayClassArtinMap_idealClass`
+  (Layer 12), and the arithmetic Frobenius normalization `globalArtinMap_isArithFrobAt`
+  (Layer 11). That roadmap names neither the field cut out by a ray class character nor the
+  splitting dictionary `ψ(𝔭) = 1 ⟺ 𝔭` splits; both are built here from these declarations (7.1).
+- From the [elliptic-curves roadmap](../EllipticCurves/README.md) and Tau Ceti: base change of
+  Weierstrass curves (Layer 0.5), `frobeniusTrace` and `pointCount` over finite fields (Layer 3),
+  the local conductor exponent and the conductor ideal `𝔫_E` of a curve over a number field
+  (Layer 4), and complex multiplication of a curve (Layer 1).
 
 ## References
 
