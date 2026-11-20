@@ -271,9 +271,10 @@ theorem exists_diffeomorph_opens_cotangent_of_isLagrangianEmbedding
 
 open TopologicalSpace in
 /-- Uniqueness of coisotropic neighborhoods (Cannas da Silva, Thm. 8.6, p. 49, for two forms on
-one ambient manifold): two coisotropic embeddings `i : Q → M` and `j : Q → N` of a compact
-manifold that induce the same two-form on `Q` have symplectomorphic open neighborhoods, by a
-map sending `i q` to `j q`. -/
+one ambient manifold, stated there without compactness and without proof; Gotay, Local
+Uniqueness Theorem, p. 111, for closed embeddings): two coisotropic embeddings `i : Q → M` and
+`j : Q → N` of a compact manifold that induce the same two-form on `Q` have symplectomorphic open
+neighborhoods, by a map sending `i q` to `j q`. -/
 theorem exists_diffeomorph_opens_of_isCoisotropicMap
     {E' H' N : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [TopologicalSpace H']
     {I' : ModelWithCorners ℝ E' H'} [TopologicalSpace N] [ChartedSpace H' N] [IsManifold I' ∞ N]

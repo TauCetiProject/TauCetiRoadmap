@@ -959,14 +959,22 @@ box, let i : Q → M be the zero-section inclusion and r the retraction. For a c
 positive degree, construct β with dβ = η − r*(i*η) and with β zero as a full ambient tensor along Q
 (Cannas da Silva, Prop. 6.8, p. 39, for i*η = 0; the tube is Thm. 6.5, p. 37). In particular i*η = 0
 gives dβ = η, even when η does not vanish as a full ambient tensor along Q; full ambient vanishing
-of η is a stronger hypothesis that also gives the primitive with zero first jet of §4.3. Build the
-relative, parameter-preserving version for smooth families of closed forms by tubular fibre scaling
+of η is a stronger hypothesis that also gives the primitive with zero first jet of §4.3. The
+coordinate-box case is Tau Ceti's, on an open convex subset of a product E × N of normed spaces
+that is stable under scaling the normal coordinate by t ∈ [0, 1]: the fibre-scaling operator
+`TauCeti.fiberwisePoincareHomotopy` vanishes as a full ambient tensor at every point (q, 0)
+(`TauCeti.fiberwisePoincareHomotopy_zeroSection`), its differential is η − r*η for a closed C¹
+form η (`Convex.extDeriv_fiberwisePoincareHomotopy`), and it gives a C^r primitive of a closed C^r
+form η, 1 ≤ r ≤ ∞, with i*η = 0 (`Convex.exists_contDiffOn_relative_primitive`); the target is
+their transport to a tube on a manifold. Build the relative, parameter-preserving version for
+smooth families of closed forms by tubular fibre scaling
 and the homotopy operator, the primitives vanishing along the fixed submanifold, consuming the local
 smooth-parameter primitive selection and the time-dependent pullback differentiation identity of
 HeegaardFloer §4.1. Consume the domain-local Moser lemma of HeegaardFloer §4.1 and prove its
 refinement fixing the submanifold, from these relative primitives. *Needs:* Tau Ceti
-`TauCeti.homotopyOperator`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`;
-DifferentialGeometry §5.4; GeometricTopology §1.5; HeegaardFloer §4.1.
+`TauCeti.homotopyOperator`, `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset`,
+`Convex.exists_contDiffOn_relative_primitive`; DifferentialGeometry §5.4; GeometricTopology §1.5;
+HeegaardFloer §4.1.
 
 **Checks.**
 - On M = ℝ² with Q the x-axis, r(x, y) = (x, 0) and η = dx ∧ dy (so i*η = 0), fibre scaling
@@ -1123,10 +1131,11 @@ near the zero section of the dual (ker σ)* of the kernel bundle and prove nonde
 `exists_diffeomorph_opens_of_isCoisotropicMap`: for a compact Q and smooth embeddings i : Q → M and
 j : Q → N with coisotropic tangent images and i*ω_M = j*ω_N, there are open neighbourhoods of i(Q) and j(Q) and a
 symplectomorphism between them sending i(q) to j(q) (Cannas da Silva, Thm. 8.6, p. 49, for two forms
-on one ambient manifold). For an embedded coisotropic submanifold the rank of the kernel of the
-pulled-back form equals the codimension automatically. Compactness is used only for uniform
-neighbourhoods, not for the fibrewise linear statements. Develop the kernel, leaf and quotient
-tangent API that HamiltonianReduction R3 and ConvexityToric Layer 4 use. *Needs:* §2.3, §4.3 or
+on one ambient manifold, stated there without compactness and without proof; Gotay, Local
+Uniqueness Theorem, p. 111, proved in §III, p. 113, for closed embeddings). For an embedded
+coisotropic submanifold the rank of the kernel of the pulled-back form equals the codimension
+automatically. Compactness is used only for uniform neighbourhoods, not for the fibrewise linear
+statements. Develop the kernel, leaf and quotient tangent API. *Needs:* §2.3, §4.3 or
 §4.5; DifferentialGeometry Layer 4; GeometricTopology §1.5; SmoothBundlesConnections §B2.1 (dual
 bundles).
 
@@ -1173,11 +1182,10 @@ smooth-parameter primitives, time-dependent pullback and flows); DifferentialGeo
   p. 106); the group-action momentum theorem is R1's. For the trivial action both the fundamental
   field and H are zero, and on a zero-dimensional base the cotangent model is zero and the form is
   zero, nondegenerate on that zero space. The Checks of §1.2 test this convention.
-- HamiltonianReduction R3 and ConvexityToric Layer 4 use the coisotropic kernel, leaf and quotient
-  API of §4.8; HamiltonianReduction applies the tubular fibre-homotopy construction of §4.1–§4.3 to
-  its orbit slices.
-- IntegrableSystems I5.2 instantiates the chain dictionary of §3.1, after its sign change and deck
-  quotient, with its cyclic configurations.
+- HamiltonianReduction R3 applies the tubular fibre-homotopy construction of §4.1–§4.3 to its
+  orbit slices.
+- IntegrableSystems §5.2 (I5.2), the finite action and periodic-orbit dictionary, instantiates the
+  chain dictionary of §3.1, after its sign change and deck quotient, with its cyclic configurations.
 - MathematicalBilliards builds on the convex billiards of §3.1 and on
   `exists_billiard_periodic_reflection`.
 - LieGroups Layers 7 and 9 use the ambient polar coordinates of §2.0, and Layer 9 uses the matrix
@@ -1200,9 +1208,9 @@ with diffeomorphic projections, the local Liouville flow rescaling and the Kodai
 transport of Lagrangian immersions and the tangent-image forms of the linear facts (§2.3); the
 composition of Lagrangian correspondences (§3.0); generating functions on manifolds, with branch
 uniqueness, exact primitive, composition and families (§3.0a); the discrete action, iterates, open
-chains, convex billiards and recurrence (§3.1); and the relative Poincaré lemma and the relative
-Moser, Darboux, prescribed-derivative, symplectic, Lagrangian and coisotropic neighbourhood theorems
-(§4.1–§4.8).
+chains, convex billiards and recurrence (§3.1); and the relative Poincaré lemma on tubes and in
+families and the relative Moser, Darboux, prescribed-derivative, symplectic, Lagrangian and
+coisotropic neighbourhood theorems (§4.1–§4.8).
 
 **In the library at the pins and used by name above.** Tau Ceti has the cotangent bundle, its
 charts, the Liouville and canonical forms with their chart formulas, cotangent lifts and the
@@ -1223,7 +1231,8 @@ Lagrangian embeddings and immersions with their invariance, dimension, product, 
 rescaling laws, and the linear symplectic facts (§2.3); the transpose, product and diagonal of
 correspondences and the linear relational composition (§3.0); the normed-space generating function
 theory, the intrinsic mixed Hessian and the free-particle and oscillator examples (§3.0a); and the
-tubular neighbourhood theorem and the symplectic Witt extension (Layer 4). Mathlib has finite-measure recurrence (§3.1). The exact
+tubular neighbourhood theorem, the relative Poincaré lemma on an adapted coordinate box and the
+symplectic Witt extension (Layer 4). Mathlib has finite-measure recurrence (§3.1). The exact
 declarations are in the supplier contracts. The instances and lemmas needed to connect these
 interfaces with each other and with the owners below are explicit work, of this roadmap or of the
 owner, and never assumptions.
@@ -1253,6 +1262,11 @@ owner, and never assumptions.
 - Floer theory, quantum invariants and contact topology stay with their owners, among them
   HeegaardFloer and ContactGeometry; the Liouville measure of a higher-dimensional phase space is
   not a target of this roadmap.
+
+**Former numbering.** Citations of the former section ids resolve as follows: C1 is now Layer 1,
+its item n being §1.n; C2 is now Layer 2, its opening paragraphs being §2.3; C2.0, C2.1 and C2.2
+are now §2.0, §2.1 and §2.2; C3 is now Layer 3, its opening paragraphs being §3.0 and §3.0a; C3.1
+is now §3.1; and C4 is now Layer 4, §4.1–§4.8 in the same order.
 
 ## Exact supplier contracts
 
@@ -1438,7 +1452,14 @@ statement there.
   `TauCeti.mextDeriv_homotopyOperator_add_homotopyOperator_mextDeriv` (the identity
   ι₁*ω − ι₀*ω = d(hω) + h(dω) for a C¹ form on a C² manifold, boundary allowed),
   `TauCeti.mextDeriv_homotopyOperator`, `TauCeti.IsSmoothForm.homotopyOperator` (C^r regularity on a
-  C^(r+1) manifold); `TauCeti.SmoothEmbedding.NormalSpace` and
+  C^(r+1) manifold); `TauCeti.fiberwisePoincareHomotopy`,
+  `TauCeti.fiberwisePoincareHomotopy_zeroSection`, `Convex.extDeriv_fiberwisePoincareHomotopy` and
+  `Convex.exists_contDiffOn_relative_primitive` (forms on a product E × N of normed spaces with
+  values in a normed space F, complete for the last two: the fibre-scaling operator K vanishes at
+  every (q, 0); on an open convex set stable under (q, p) ↦ (q, tp) for t ∈ [0, 1], a closed C¹ form
+  ω satisfies dKω = ω − r*ω with r(q, p) = (q, 0), and a closed C^r form, 1 ≤ r ≤ ∞, whose restriction
+  to the zero section vanishes has a C^r primitive vanishing at every (q, 0));
+  `TauCeti.SmoothEmbedding.NormalSpace` and
   `TauCeti.SmoothEmbedding.exists_diffeomorph_normalBundle_subset` (the tubular neighbourhood
   theorem: for a smooth embedding between finite-dimensional boundaryless manifolds, the target
   Hausdorff and second countable, the normal bundle is diffeomorphic to an open neighbourhood of the
@@ -1509,3 +1530,6 @@ CG1: the contact predicate on cooriented one-forms, used for the two signed cosp
   neighbourhoods; Thm. 8.4 is Weinstein's Lagrangian neighbourhood theorem) and Thm. 9.1 (the normal
   bundle of a Lagrangian). Page numbers are those of the author's 2006 version. The cotangent-lift
   Hamiltonian identity is the exercise in §18.1, p. 106.
+- M. J. Gotay, [*On coisotropic imbeddings of presymplectic manifolds*](https://www.ams.org/journals/proc/1982-084-01/S0002-9939-1982-0633290-X/S0002-9939-1982-0633290-X.pdf),
+  Proc. Amer. Math. Soc. 84 (1982), 111–114; the Local Uniqueness Theorem (p. 111, proof in §III,
+  p. 113).
