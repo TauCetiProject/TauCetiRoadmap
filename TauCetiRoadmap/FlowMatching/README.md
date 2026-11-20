@@ -394,8 +394,8 @@ and, for measurable `α`, `β`:
 
   is an interpolant velocity. For the linear schedule this is `w t x = (x + (1 − t) s_t x)/t`.
   The measurability of `(t, x) ↦ s_t x` on `(a, b) × E` that a marginal velocity needs is proved
-  here: `α` and `β` are continuous, so the smoothed density and its gradient are continuous in
-  `(t, x)` where `β t > 0`, by dominated convergence.
+  here: the smoothed density and its gradient are continuous in `(c, s, y)` on `s > 0`, by
+  dominated convergence, and `α`, `β` are measurable.
 
 All three identities follow from `x = α t • x₁ + β t • x₀` on the support and the linearity of
 the conditional expectation. (Albergo and Vanden-Eijnden 2023, Proposition 4 and Appendix F,
