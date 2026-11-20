@@ -1,0 +1,167 @@
+import Mathlib
+
+/-!
+# Formal languages and automata: target signatures
+
+**This file is not the roadmap.** The roadmap is `README.md`. This file states the roadmap's
+headline theorems against the pinned Mathlib, each with `sorry`, together with the few definitions
+they need; every definition has a real body. Every headline theorem of the README is statable at
+the pins and is stated here. The README's remaining targets, API lists and Checks are not
+restated.
+
+Languages are Mathlib's `Language α`, sets of lists over an alphabet `α` of any size. A language
+is regular when a deterministic automaton with finitely many states accepts it
+(`Language.IsRegular`), and context-free when some `ContextFreeGrammar`, which has finitely many
+rules and may have rules with empty right-hand side, generates it (`Language.IsContextFree`).
+Regular expressions are Mathlib's `RegularExpression α` with their language `matches'`. The
+alphabet is assumed finite exactly where a statement needs it: in the passage from a regular
+language to a regular expression and from a regular language to a grammar.
+-/
+
+namespace TauCetiRoadmap.FormalLanguagesAndAutomata
+
+open scoped Computability
+
+universe u v w
+
+/-! ## Layer 1: Kleene's theorem -/
+
+/-- 1.1 The concatenation of two regular languages is regular, over any alphabet. -/
+theorem isRegular_mul {α : Type u} {L₁ L₂ : Language α} (h₁ : L₁.IsRegular)
+    (h₂ : L₂.IsRegular) : (L₁ * L₂).IsRegular := by
+  sorry
+
+/-- 1.1 The Kleene star of a regular language is regular, over any alphabet. -/
+theorem isRegular_kstar {α : Type u} {L : Language α} (h : L.IsRegular) : (L∗).IsRegular := by
+  sorry
+
+/-- 1.2 Kleene's theorem, first half: the language matched by a regular expression is regular,
+over any alphabet. -/
+theorem isRegular_matches' {α : Type u} (P : RegularExpression α) : P.matches'.IsRegular := by
+  sorry
+
+/-- 1.3 Kleene's theorem, second half: over a finite alphabet, every regular language is the
+language matched by some regular expression. -/
+theorem exists_matches'_eq_of_isRegular {α : Type u} [Finite α] {L : Language α}
+    (h : L.IsRegular) : ∃ P : RegularExpression α, P.matches' = L := by
+  sorry
+
+/-! ## Layer 2: minimal automata -/
+
+/-- 2.1 An automaton is accessible when every state is reached from the start state by some
+word. -/
+def IsAccessible {α : Type u} {σ : Type v} (M : DFA α σ) : Prop :=
+  ∀ s : σ, ∃ x : List α, M.eval x = s
+
+/-- 2.1 An automaton is reduced when distinct states accept distinct languages. -/
+def IsReduced {α : Type u} {σ : Type v} (M : DFA α σ) : Prop :=
+  Function.Injective M.acceptsFrom
+
+/-- 2.1 An accessible and reduced automaton is isomorphic to the automaton of left quotients of
+the language it accepts: some bijection of states carries it onto `Language.toDFA`. No
+finiteness is assumed. -/
+theorem exists_reindex_eq_toDFA {α : Type u} {σ : Type v} (M : DFA α σ)
+    (hA : IsAccessible M) (hR : IsReduced M) :
+    ∃ e : σ ≃ Set.range M.accepts.leftQuotient, DFA.reindex e M = M.accepts.toDFA := by
+  sorry
+
+/-- 2.2 A finite automaton is minimal when every automaton on `Fin n` that accepts the same
+language has at least as many states. -/
+def IsMinimal {α : Type u} {σ : Type v} [Fintype σ] (M : DFA α σ) : Prop :=
+  ∀ (n : ℕ) (N : DFA α (Fin n)), N.accepts = M.accepts → Fintype.card σ ≤ n
+
+/-- 2.2 Every regular language is accepted by a minimal automaton. -/
+theorem exists_isMinimal {α : Type u} {L : Language α} (h : L.IsRegular) :
+    ∃ (σ : Type) (_ : Fintype σ) (M : DFA α σ), M.accepts = L ∧ IsMinimal M := by
+  sorry
+
+/-- 2.2 A finite automaton is minimal if and only if it is accessible and reduced. -/
+theorem isMinimal_iff {α : Type u} {σ : Type v} [Fintype σ] (M : DFA α σ) :
+    IsMinimal M ↔ IsAccessible M ∧ IsReduced M := by
+  sorry
+
+/-- 2.2 A minimal automaton has exactly as many states as its language has left quotients. -/
+theorem IsMinimal.card_eq {α : Type u} {σ : Type v} [Fintype σ] {M : DFA α σ}
+    (hM : IsMinimal M) : Fintype.card σ = Nat.card (Set.range M.accepts.leftQuotient) := by
+  sorry
+
+/-- 2.3 Uniqueness of the minimal automaton: two minimal automata accepting the same language
+are isomorphic. -/
+theorem IsMinimal.exists_reindex_eq {α : Type u} {σ : Type v} {τ : Type w} [Fintype σ]
+    [Fintype τ] {M : DFA α σ} {N : DFA α τ} (hM : IsMinimal M) (hN : IsMinimal N)
+    (h : M.accepts = N.accepts) : ∃ e : σ ≃ τ, DFA.reindex e M = N := by
+  sorry
+
+/-! ## Layer 3: Chomsky normal form and the pumping lemma -/
+
+/-- 3.1 A grammar is in Chomsky normal form when the right-hand side of every rule is a single
+terminal or two nonterminals. -/
+def IsChomskyNormalForm {T : Type u} (g : ContextFreeGrammar T) : Prop :=
+  ∀ r ∈ g.rules, (∃ a : T, r.output = [Symbol.terminal a]) ∨
+    ∃ B C : g.NT, r.output = [Symbol.nonterminal B, Symbol.nonterminal C]
+
+/-- 3.1 For every context-free language `L`, the language `L` with the empty word removed is
+generated by a grammar in Chomsky normal form. -/
+theorem exists_isChomskyNormalForm {T : Type u} {L : Language T} (h : L.IsContextFree) :
+    ∃ g : ContextFreeGrammar T, IsChomskyNormalForm g ∧ g.language = L - 1 := by
+  sorry
+
+/-- 3.2 The pumping lemma for context-free languages (Bar-Hillel, Perles and Shamir): every word
+of length at least `p` splits as `u v x y z` with `v y` nonempty and `|v x y| ≤ p`, and
+`u vⁱ x yⁱ z` lies in the language for every `i`. -/
+theorem exists_pumping {T : Type u} {L : Language T} (h : L.IsContextFree) :
+    ∃ p : ℕ, 0 < p ∧ ∀ w ∈ L, p ≤ w.length → ∃ u v x y z : List T,
+      w = u ++ v ++ x ++ y ++ z ∧ (v ++ x ++ y).length ≤ p ∧ v ++ y ≠ [] ∧
+      ∀ i : ℕ, u ++ (List.replicate i v).flatten ++ x ++ (List.replicate i y).flatten ++ z ∈ L := by
+  sorry
+
+/-- 3.3 The words `0ⁿ 1ⁿ 2ⁿ`, `n ≥ 0`, over the alphabet `Fin 3`. -/
+def equalBlocks : Language (Fin 3) :=
+  {w | ∃ n : ℕ, w = List.replicate n 0 ++ List.replicate n 1 ++ List.replicate n 2}
+
+/-- 3.3 The language of the words `0ⁿ 1ⁿ 2ⁿ` is not context-free. -/
+theorem not_isContextFree_equalBlocks : ¬ equalBlocks.IsContextFree := by
+  sorry
+
+/-! ## Layer 4: closure properties -/
+
+/-- 4.1 The union of two context-free languages is context-free. -/
+theorem isContextFree_add {T : Type u} {L₁ L₂ : Language T} (h₁ : L₁.IsContextFree)
+    (h₂ : L₂.IsContextFree) : (L₁ + L₂).IsContextFree := by
+  sorry
+
+/-- 4.1 The concatenation of two context-free languages is context-free. -/
+theorem isContextFree_mul {T : Type u} {L₁ L₂ : Language T} (h₁ : L₁.IsContextFree)
+    (h₂ : L₂.IsContextFree) : (L₁ * L₂).IsContextFree := by
+  sorry
+
+/-- 4.1 The Kleene star of a context-free language is context-free. -/
+theorem isContextFree_kstar {T : Type u} {L : Language T} (h : L.IsContextFree) :
+    (L∗).IsContextFree := by
+  sorry
+
+/-- 4.2 Over a finite alphabet, every regular language is context-free. -/
+theorem isContextFree_of_isRegular {T : Type u} [Finite T] {L : Language T} (h : L.IsRegular) :
+    L.IsContextFree := by
+  sorry
+
+/-- 4.3 The intersection of a context-free language and a regular language is context-free,
+over any alphabet. -/
+theorem isContextFree_inf {T : Type u} {L R : Language T} (hL : L.IsContextFree)
+    (hR : R.IsRegular) : (L ⊓ R).IsContextFree := by
+  sorry
+
+/-- 4.4 The context-free languages over a three-letter alphabet are not closed under
+intersection. -/
+theorem exists_not_isContextFree_inf :
+    ∃ L₁ L₂ : Language (Fin 3), L₁.IsContextFree ∧ L₂.IsContextFree ∧
+      ¬ (L₁ ⊓ L₂).IsContextFree := by
+  sorry
+
+/-- 4.4 The context-free languages over a three-letter alphabet are not closed under
+complement. -/
+theorem exists_not_isContextFree_compl :
+    ∃ L : Language (Fin 3), L.IsContextFree ∧ ¬ Lᶜ.IsContextFree := by
+  sorry
+
+end TauCetiRoadmap.FormalLanguagesAndAutomata
