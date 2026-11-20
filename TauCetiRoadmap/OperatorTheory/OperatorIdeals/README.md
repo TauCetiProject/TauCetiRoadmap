@@ -112,19 +112,20 @@ unrelated section.
 
 For a bounded map `T : E → F` between seminormed spaces over a nontrivially normed field, the
 approximation numbers `aₙ(T)` of Convention 3 are `ContinuousLinearMap.singularValue` (OI-A01;
-Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn; Ullrich 2024, p. 2, one-based, on real or
-complex Banach spaces). Two bounded maps `S : E → F` and `T : G → H`, possibly between different
-pairs of spaces, *have the same approximation numbers*
+Pietsch, *Eigenvalues and s-Numbers*, Ch. 2; Gohberg and Kreĭn, Ch. II, for compact operators on
+Hilbert space; Ullrich 2024, p. 2, one-based, on real or complex Banach spaces). Two bounded maps
+`S : E → F` and `T : G → H`, possibly between different pairs of spaces, *have the same
+approximation numbers*
 when `aₙ(S) = aₙ(T)` for every `n`; this relation is `ContinuousLinearMap.SameSingularValues`
 (OI-A02, unfolded by `ContinuousLinearMap.sameSingularValues_iff`), and it is reflexive (OI-A03,
 `ContinuousLinearMap.sameSingularValues_refl`), symmetric (OI-A04,
 `ContinuousLinearMap.sameSingularValues_symm`) and transitive (OI-A05,
 `ContinuousLinearMap.sameSingularValues_trans`).
 The Ky Fan gauge `Kₖ(T)` of Convention 5 is `ContinuousLinearMap.kyFanGauge`, in the same setting
-(OI-A06). The calculus below holds in this generality (Pietsch, *Eigenvalues and s-Numbers*). On
-real or complex Banach spaces and in the one-based convention, OI-A12 with OI-A13, OI-A16 and
-OI-A20 are the s-number axioms (S1), (S2) and (S3) of Ullrich 2024, p. 2, which the approximation
-numbers satisfy, and Remark 1 there states OI-A17 and OI-A22.
+(OI-A06). The calculus below holds in this generality (Pietsch, *Eigenvalues and s-Numbers*,
+Ch. 2). On real or complex Banach spaces and in the one-based convention, OI-A12 with OI-A13,
+OI-A16 and OI-A20 are the s-number axioms (S1), (S2) and (S3) of Ullrich 2024, p. 2, which the
+approximation numbers satisfy, and Remark 1 there states OI-A17 and OI-A22.
 
 - *Infimum formula* (OI-A07). `aₙ(T)` is the greatest lower bound of the set of `‖T − R‖` over the
   bounded `R` with `rank R ≤ n` (`ContinuousLinearMap.isGLB_singularValue`).
@@ -173,7 +174,8 @@ numbers satisfy, and Remark 1 there states OI-A17 and OI-A22.
 ### 1.2 Rank, approximability and compactness (OI-A23–OI-A29)
 
 The vanishing of `aₙ(T)` encodes rank, and its decay encodes approximability by maps of finite
-rank (Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn).
+rank (Pietsch, *Eigenvalues and s-Numbers*, Ch. 2; Gohberg and Kreĭn, Ch. II, for compact
+operators).
 
 - *Vanishing from rank* (OI-A23). If `rank T ≤ n`, then `aₙ(T) = 0`
   (`ContinuousLinearMap.singularValue_eq_zero_of_rank_le`; axiom (S5) of Ullrich 2024, p. 2); in
@@ -217,7 +219,8 @@ rank (Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn).
 ### 1.3 Hilbert-space invariance and lower bounds (OI-A30–OI-A34)
 
 Adjoints and moduli preserve the approximation numbers, and coercivity on a large subspace bounds
-them from below (Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn).
+them from below (Pietsch, *Eigenvalues and s-Numbers*, Ch. 2; Gohberg and Kreĭn, Ch. II, for
+compact operators).
 
 - *Adjoint invariance* (OI-A30). Over `ℝ` or `ℂ`, for `T` between Hilbert spaces,
   `aₙ(T†) = aₙ(T)` for every `n` (`ContinuousLinearMap.singularValue_adjoint`): an approximant `R`
@@ -243,7 +246,7 @@ them from below (Pietsch, *Eigenvalues and s-Numbers*; Gohberg and Kreĭn).
 
 Over `ℝ` or `ℂ`, with `E` an inner product space, the approximation numbers localize to orthogonal
 complements of small subspaces and to finite restrictions (Horn and Johnson, *Matrix Analysis*,
-for the matrix min–max principle; Gohberg and Kreĭn).
+Thm 4.2.6, for the matrix min–max principle; Gohberg and Kreĭn).
 
 - *Orthogonal-tail formula* (OI-A35). If `E` is complete, `aₙ(T)` is the infimum, over subspaces
   `V ≤ E` with `rank V ≤ n`, of the operator norm of `T` restricted to `V⊥`
@@ -325,7 +328,8 @@ Mathlib `LinearMap.singularValues`; Tau Ceti the declarations named above.
 ### 1.6 Finite and diagonal models (OI-A51–OI-A56)
 
 Identities, projections and diagonal maps exercise the indexing, the rank cutoff, the min–max
-formula and the decay of the approximation numbers (Pietsch, *Eigenvalues and s-Numbers*).
+formula and the decay of the approximation numbers (Pietsch, *Eigenvalues and s-Numbers*, Ch. 2;
+for diagonal operators, Pietsch, *Operator Ideals*, Thm 11.11.3).
 
 - *Identity* (OI-A51). On a normed space `E` over a nontrivially normed field, of rank `r`, a
   possibly infinite cardinal, `aₙ(id) = 1` for `n < r` and `aₙ(id) = 0` for `n ≥ r`
@@ -439,7 +443,7 @@ named above.
 
 The operator-norm, Ky Fan, trace-class and Hilbert–Schmidt families instantiate §2.1; the
 Hilbert–Schmidt gauge comes from the energy of the columns (Pietsch, *Operator Ideals*; Simon,
-*Trace Ideals*; Reed and Simon I, for the Hilbert–Schmidt class).
+*Trace Ideals*, Ch. 2; Reed and Simon I, Thm VI.22, for the Hilbert–Schmidt class).
 
 - *Operator-norm family* (OI-B25, OI-B26, OI-B20). The family with gauge `‖T‖ₑ` is
   `TauCeti.OperatorIdealFamily.opNorm` (`TauCeti.OperatorIdealFamily.gauge_opNorm`); its ideal is
@@ -582,7 +586,8 @@ declarations named above.
 
 A symmetric gauge on finitely supported sequences extends by a supremum over dominated finitely
 supported sequences; applied to the approximation numbers it gives an operator-ideal family
-(Gohberg and Kreĭn, symmetric norming functions; Mirsky 1960).
+(Gohberg and Kreĭn, Ch. III: symmetric norming functions from p. 71, and the bounds of OI-B57 and
+OI-B58 as relation (3.12) of §3, p. 76; Mirsky 1960).
 
 - *Symmetric gauge* (OI-B56). A *symmetric gauge* is a function `Φ : (ℕ →₀ ℝ≥0) → ℝ≥0` that is
   subadditive, positively homogeneous (`Φ(c a) = c Φ(a)` for `c ∈ ℝ≥0`), invariant under every
@@ -621,7 +626,9 @@ supported sequences; applied to the approximation numbers it gives an operator-i
 - *Symmetric view* (OI-B71). On one universe the induced family is a symmetric family,
   `TauCeti.SymmetricGauge.symmetricOperatorIdealFamily`.
 - *Faithfulness* (OI-B72). If two symmetric gauges `Φ` and `Ψ` induce the same family over `𝕜`,
-  then `Φ∞(a) = Ψ∞(a)` for every antitone `a : ℕ → ℝ≥0∞`. For `𝕜` and the spaces of the families
+  then `Φ∞(a) = Ψ∞(a)` for every antitone `a : ℕ → ℝ≥0∞`. Classically, `Φ` is recovered from the
+  symmetrically normed ideal it generates: for finitely supported `ξ`, `Φ(ξ)` is the norm of
+  `diag(ξ)` in that ideal (Gohberg and Kreĭn, Ch. III). For `𝕜` and the spaces of the families
   in the lowest universe this is `TauCeti.SymmetricGauge.extend_eq_of_operatorIdealFamily_eq`.
   **Target:** prove it for `𝕜` in an arbitrary universe `u` and families over sources in an
   arbitrary universe `v` and targets in an arbitrary universe `w`, `symmetricGaugeFamily_injective`.
@@ -666,7 +673,8 @@ supported sequences; applied to the approximation numbers it gives an operator-i
 ### 2.5 Ky Fan transfer and the Schatten scale (OI-B24, OI-B74–OI-B88, OI-B90)
 
 Weak majorization transfers prefix-sum comparisons to every symmetric gauge, and the `ℓᵖ` gauges
-produce the Schatten scale with its endpoints (Bhatia, *Matrix Analysis*; Simon, *Trace Ideals*).
+produce the Schatten scale with its endpoints (Bhatia, *Matrix Analysis*; Simon, *Trace Ideals*,
+Ch. 2).
 
 - *Weak-majorization transfer* (OI-B74). For `a, b : ℕ → ℝ≥0∞` with `a` antitone, if
   `∑_{n<k} aₙ ≤ ∑_{n<k} bₙ` for every `k`, then `Φ∞(a) ≤ Φ∞(b)`
@@ -803,8 +811,8 @@ declarations named in §§2.1–2.6.
 
 Relative to a Hilbert basis `b` of the source, an operator is determined by its columns, and the
 operators of finite energy are exactly those with square-summable columns (Reed and Simon I;
-Simon, *Trace Ideals*). Throughout, `𝕜` is `ℝ` or `ℂ`, `E` an inner product space and `b` a Hilbert
-basis of `E`.
+Simon, *Trace Ideals*, Ch. 2). Throughout, `𝕜` is `ℝ` or `ℂ`, `E` an inner product space and `b` a
+Hilbert basis of `E`.
 
 - *Columns* (OI-C01). The column family of `T : E → F` is the function `i ↦ T bᵢ` (Convention 8);
   the statements below are written with this function, and no separate declaration is needed.
@@ -1222,7 +1230,8 @@ rectangular seminorms*: the operator-norm, nuclear and Frobenius seminorms (Tau 
 - I. C. Gohberg and M. G. Kreĭn, *Introduction to the Theory of Linear Nonselfadjoint Operators in
   Hilbert Space*, Translations of Mathematical Monographs 18, AMS, 1969.
 - B. Simon, *Trace Ideals and Their Applications*, 2nd ed., AMS, 2005; M. Reed and B. Simon,
-  *Methods of Modern Mathematical Physics I*: the Hilbert–Schmidt class as `ℓ²` of columns.
+  *Methods of Modern Mathematical Physics I: Functional Analysis*, Academic Press, 1980: the
+  Hilbert–Schmidt class as `ℓ²` of columns.
 - R. Bhatia, *Matrix Analysis*, GTM 169, Springer, 1997: Ky Fan inequalities and majorization.
 - C. Eckart and G. Young, "The approximation of one matrix by another of lower rank",
   *Psychometrika* **1** (1936), 211–218.
