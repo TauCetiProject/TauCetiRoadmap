@@ -51,124 +51,31 @@ degree-`6` classifications, and — under `TauCeti/NumberTheory/SatoTate/Arithme
 endomorphism vocabulary, the Sato–Tate group of an abelian variety and of a newform, and
 equidistribution.
 
-## Scope and ownership
+## How to read the build
 
-Eight roadmaps border this one; the boundary with each is drawn below. The LMFDB boundary rule
-applies throughout: a predicate invariant under conjugacy (for groups) or isomorphism and isogeny
-(for abelian varieties) belongs here.
+Layers 0–4 are the group-theoretic foundation, Layers 5–7 the classifications, Layers 8–9 the
+arithmetic, Layer 10 equidistribution. Milestones are numbered `N.M`; each rests only on Mathlib,
+Tau Ceti, a milestone with a smaller number, or a cited supplier milestone.
 
-### Owned here
-
-- The **ambient groups** `USp(d)` and `O(d)` as closed subgroups of `U(d)`, the standard
-  symplectic form, torus conjugacy in `USp(2g)`, and the **coefficient map** `g ↦ (a_i(g))` to
-  the coefficients of the reversed characteristic polynomial `det(1 − Tg)` (Layer 0).
-- For a closed subgroup `G ≤ U(d)`: the **identity component** `G⁰`, the **component group**
-  `G/G⁰` and its finiteness, the **real dimension**, the **Lie algebra**, Haar measure on each
-  component, the pushforward laws of the coefficients and of the trace, and the measure on
-  conjugacy classes (Layer 1).
-- The **Sato–Tate axioms** — Hodge numbers, Hodge circles, the Hodge condition, the rationality
-  condition in its moment and character forms, self-duality, and the Lefschetz condition — with
-  their first consequences (Layer 2).
-- The **statistics** the LMFDB stores: coefficient and trace moments, the moment simplex, the
-  moment matrix and character diagonal, event probabilities `Pr[a_i = n]`, the trace zero density,
-  the `z`-vectors, the component-counting theorem for event probabilities, and integrality (Layer 3).
-- **Weyl integration for `USp(2g)`**, `U(1)^g`, `SU(2)^g` and their block products, the genus-one
-  distributions (semicircle and arcsine), the `USp(4)` joint density and moment formulas, and the
-  connected groups of degrees `4` and `6` with their dimensions, Hodge circles and moments
-  (Layer 4).
-- The **classifications**: degree `2` proved (`U(1)`, `N(U(1))`, `SU(2)`), the non-self-dual
-  degree-`2` families and `μ(n)`; the **fifty-seven groups of degree `4`** with explicit
-  generators, the proof that they exhaust the groups satisfying the axioms, every stored
-  invariant of each, their distinctness and their inclusion lattice (Layers 5–6); the
-  finiteness theorem for the axioms, the sixteen connected Lefschetz groups of degree `6`,
-  and their normalizer-subgroup classification (Layer 7).
-- The **arithmetic vocabulary**: endomorphisms over `k` and over `k̄`, the Galois action on
-  `End(A_k̄)`, the **endomorphism field**, the **real geometric endomorphism algebra** and its
-  finite lists of types in dimensions `≤ 3`, the predicates **geometrically simple**,
-  **squarefree**, **primitive**, **isotypic**, the `g2c` classifications `end_alg`,
-  `geom_end_alg`, `real_geom_end_alg`, the LMFDB's `GL₂`-type predicate for surfaces, and the
-  **Galois endomorphism type** (Layer 8).
-- **`ST(A)`** from the `ℓ`-adic image, the **algebraic Sato–Tate conjecture** and the
-  **Mumford–Tate conjecture** as named hypotheses, the normalized Frobenius classes, the axioms
-  for `ST(A)`, the component group as `Gal(K/k)`, the elliptic-curve trichotomy, the dimension-`2`
-  dictionary between Galois endomorphism types and the fifty-two groups, the thirty-four groups
-  over `ℚ`, **`ST(f)`** for a newform in terms of its CM status and the order of its character,
-  and the **minimal splitting fields** and **rational and real endomorphism lattices** of a surface (Layer 9).
-- **Equidistribution**: the pushforward and dense-subspace lemmas for the consumed predicate,
-  the Weyl criterion on `Conj(G)`, the specialization of Serre's L-function criterion to closed
-  subgroups of `U(d)` with its converse and its finite case, the Sato–Tate conjecture as
-  a statement, Hecke's equidistribution of unitarized Grossencharacter values, and the
-  **theorem for CM elliptic curves** over every number field (Layer 10).
-
-Generic Mumford–Tate groups belong to ShimuraData §1.2; here they are specialized to
-abelian varieties and compared with Galois monodromy. Maximal-compact existence and
-conjugacy belong to ArithmeticLocallySymmetricSpaces ALS.F.1; here they are applied to
-complex monodromy groups. Bogomolov's openness theorem — the image of a rational weakly
-compatible system is open in the `ℚ_ℓ`-points of its algebraic monodromy group — is a target of
-PotentialModularityAndCompatibleSystems §1.20; 9.2 applies it to the Tate-module system of an
-abelian variety and owns the similitude kernel, the homothety cocharacter and the
-component-group comparison. Absolute Hodge tensor realizations belong to AutomorphicBundles §§1.2–1.3; 9.10 owns
-the connected Galois-monodromy inclusion. Section 8.4 owns the low-dimensional geometric
-endomorphism restrictions, beyond the algebraic classification of positive involutions.
-
-### Not owned here
-
-- **Labels, names and orderings.** The letter identifying the identity component within a weight
-  and degree, the final letter distinguishing groups with equal invariants, the `name`/`pretty`
-  strings, the ordering of the moment simplex rows in the stored `simplex` and of the irreducible
-  characters in `character_matrix`, the `old_label` scheme and the GAP identifier of the component
-  group are not targets. This roadmap states the **intrinsic label prefix**
-  (weight, degree, conjugacy class of `G⁰`, number of components, isomorphism class of `G/G⁰`;
-  8.8 of the label milestone below) and nothing enumerative. The stored trace-histogram image is
-  not an invariant and is nobody's.
-- **Non-CM equidistribution theorems**, potential automorphy and symmetric-power functoriality:
-  *Modularity and Langlands extensions* §§4.28, 4.34, 4.39, 4.42 and its suppliers.
-- **The analytic theory of Hecke L-functions** (continuation, functional equation, nonvanishing):
-  *L-functions — completions and functional equations*. This roadmap consumes its boundary data.
-- **Serre's equidistribution criterion through L-functions**, for a compact group and conjugacy
-  classes indexed by the primes of a number field: *Modularity and Langlands extensions* §4.25;
-  10.2 specializes it to closed subgroups of `U(d)` and adds the converse and the finite case.
-- **Algebraic monodromy groups**: the Zariski closure of a Galois image, its identity component
-  and component field, and reductivity of the closure of a semisimple representation in
-  characteristic zero: ArithmeticGaloisRepresentations §7.6. **The compatible system and the
-  `p`-adic comparison of the Tate module** of an abelian variety (de Rham at every prime,
-  crystalline at good primes): *Néron models and semistable abelian varieties* §6.10 and its
-  `p`-adic comparison target.
-- **The arcsine and semicircle laws as measures**: StandardDistributions §10.20 (the arcsine law
-  `betaMeasure (1/2) (1/2)` on `[0, 1]` and the unit semicircle) and RandomMatrices §3.3
-  (`semicircleReal a v`); this roadmap keeps only their transports to the trace interval
-  `[−2, 2]` and to the eigenangle (4.4).
-- **Foundations of abelian varieties** — duals, polarizations, Poincaré reducibility, the Rosati
-  involution, the Tate module of an abelian variety, the Néron–Ogg–Shafarevich criterion: *Abelian
-  schemes and arithmetic moduli* and *Néron models and semistable abelian varieties*.
-- **Albert's classification** of division algebras with positive involution: *Siegel and PEL
-  moduli problems* M0.1–M0.2.
-- **`GL₂`-type varieties, ℚ-curves, modularity**: *Abelian varieties of GL₂-type and modularity of
-  ℚ-curves*; **CM forms and inner twists** of newforms: [ModularForms](../ModularForms/README.md).
-- **Galois images**: Serre's open image theorem, adelic indices, mod-`ℓ` images, `GSp₄` images of
-  abelian surfaces, `nonmax_primes`: the sibling `AdelicImagesAndModularCurves`.
-- **Artin motives beyond the degree-one case**: images of Artin representations and their
-  Sato–Tate groups (finite subgroups of `U(d)`): the sibling `ArtinRepresentations` (its 7.4 image
-  group read inside `U(d)`; Layers 1–3 here supply the ambient group and the statistics).
-- **Sato–Tate groups of even weight and degree `> 1`** (hypergeometric motives, K3 surfaces): no
-  LMFDB page displays one (the `st_group` tables hold weight `0` in degree `1` and weight `1` in
-  degrees `≤ 6` only), the sibling `HypergeometricMotives` names none, and no roadmap here owns
-  them. Weight-`0` degree-`1` and the even-weight ambient `O(d)` are defined here; no even-weight
-  classification is.
-- **Abelian varieties over finite fields**, Weil polynomials and their Newton polygons: the
-  siblings `AbelianVarietiesOverFiniteFields` and `CurvesOverFiniteFields`; the Weil bounds
-  themselves are *Deligne weights, purity and the Weil bounds*.
-- **General Lie theory**: the closed-subgroup theorem, maximal tori, the general Weyl integration
-  formula and Cartan decomposition: [LieGroups](../RepresentationTheory/LieGroups/README.md).
-  Maximal-compact existence and conjugacy are ArithmeticLocallySymmetricSpaces ALS.F.1.
-- **Peter–Weyl and compact-group character theory**: Tau Ceti, built to
-  [CompactGroups](../RepresentationTheory/CompactGroups/README.md).
-
-- Genus-two models, Igusa–Clebsch invariants, automorphisms and 2-Selmer data belong to
-  HyperellipticCurves; this roadmap supplies its endomorphism and Sato–Tate invariants.
-- Sato–Tate groups in dimension at least four are included in the definitions of Layer 9;
-  their classification is outside this roadmap. Half-integral weight, Siegel, Hilbert and
-  Bianchi forms retain their own roadmap ownership.
+`Suggested.lean` states the headline theorems of this roadmap, and only those, over Mathlib and
+the pinned Tau Ceti, with the few definitions they need — torus conjugacy (0.5),
+the finiteness of the component group (1.2), the first consequences of the axioms (2.2, 2.5), the
+trace-moment and vanishing laws (3.2–3.3), the component-counting theorem (3.5), Weyl integration
+for `USp(2g)` with the product law and the `USp(4)` moments (4.2–4.5), the classification in
+degree `2` (5.2–5.3), the fifty-seven groups of degree `4` as explicit closed subgroups with the
+identity-component, classification and distinctness theorems (6.3–6.4, 6.6–6.8), finiteness and
+the connected groups of degree `6` (7.2–7.3), the real geometric endomorphism algebras of
+surfaces (8.4), the Weyl criterion (10.1), Hecke equidistribution (10.4) and the CM elliptic-curve
+theorems in the form of the equidistribution of the normalized Frobenius traces (10.5–10.6).
+Every API lemma, every Check, every computed invariant and the irrational families `μ(n)`,
+`SU(2)[C_n]`, `U(1)[D_n]` stay in this README. The Galois action on `End(A_k̄)`, the endomorphism
+field and the Galois endomorphism type (8.1–8.2, 8.7) need the transport of endomorphisms along
+Galois base change, which Tau Ceti's `AbelianVariety.baseChange` lacks; `ST(A)` and everything
+built on it (9.3–9.12, 10.3, 10.8) needs the Zariski closure of the `ℓ`-adic image and a maximal
+compact subgroup of its complex points, which neither Mathlib nor Tau Ceti has; the degree-six completeness headline (7.4) needs its concrete finite-subgroup families,
+which cannot be supplied by a few simple definitions at the pins. The statistical records
+and inclusion lattices (3.6, 6.7, 6.9) are mathematical targets. These are specified in this
+README only, each definition with a **Checks** list of tests a formalisation must pass.
 
 ## Conventions
 
@@ -284,276 +191,6 @@ endomorphism restrictions, beyond the algebraic classification of positive invol
   the component group of this group is `C_n × C_2`, not dihedral, 5.5), where `J = [[0, 1], [−1, 0]]`,
   `ζ_n = e^{2πi/n}` and `U(1)` is the diagonal `diag(u, ū)`. The LMFDB's `cmf` column is the
   label of `SU(2)[C_n]` resp. `U(1)[D_n]` in both cases.
-
-## Exact supplier contracts
-
-### From ShimuraData
-
-Section 1.2 supplies the minimal rational algebraic subgroup attached to a rational
-Hodge structure, its Hopf-ideal construction and basis independence. Apply it to H₁(A).
-
-### From ArithmeticLocallySymmetricSpaces
-
-ALS.F.1 supplies maximal-compact existence, containment and conjugacy for real linear
-algebraic groups with reductive identity component, without assuming connectedness,
-and the polar decomposition in a transpose-stable embedding. Apply restriction of
-scalars from ℂ to ℝ in 9.3.
-
-### From PotentialModularityAndCompatibleSystems
-
-Section 1.20 states, among its targets, Bogomolov's openness theorem in the form in which the
-proof of Barnet-Lamb–Gee–Geraghty–Taylor's Proposition 5.2.2 uses it: for a rational weakly
-compatible system `(r_ℓ)` of a number field (its §1.18), the image `Γ_ℓ = r_ℓ(G_k)` is open in the
-`ℚ_ℓ`-points of its algebraic monodromy group `G_ℓ`, the Zariski closure of the image. What is
-assumed of it here is exactly this statement, at every prime `ℓ`, for the system of §1.18; the
-density-one integral-monodromy package of the same section (unramified integral models,
-hyperspecial maximality, the central index bound, invariant lattices) is not consumed. Section
-9.2 applies it to the Tate-module system of an abelian variety, which is such a system by the
-compatible-system export of *Néron models and semistable abelian varieties* §6.10 together with
-its `p`-adic comparison target (the Tate module is de Rham at every prime, so Hodge–Tate with
-weights `0` and `1`; this is the hypothesis Serre records for Bogomolov's theorem, *Lectures on
-N_X(p)*, §8.3.2, footnote 60).
-
-### From AutomorphicBundles
-
-Sections 1.2–1.3 supply absolute Hodge tensors and their compatible Betti, de Rham and
-étale realizations. Section 9.10 proves the finite-extension invariance argument for
-connected Galois monodromy using Deligne's finite-action theorem.
-
-### From named roadmaps
-
-- From Tau Ceti's compact-group library (built to [CompactGroups](../RepresentationTheory/CompactGroups/README.md)):
-  `TauCeti.haarProb` and `isProbabilityMeasure_haarProb`, `isMulLeftInvariant_haarProb`,
-  `isMulRightInvariant_haarProb`, `isInvInvariant_haarProb`,
-  `eq_haarProb_of_isHaarMeasure_of_isProbabilityMeasure` (Layer 0 of that roadmap); the
-  character integral `ContRepresentation.integral_character_eq_finrank_invariants` (its Layer 6), the class
-  functions `classFunctionLp` and the character basis `characterBasis` (Peter–Weyl, Layers 5–6);
-  the engine `TauCeti.SU2` with `torusHom`, `torusExp`, `torus`, `exists_conj_mem_torus`,
-  `isConj_iff_trace_eq`, `symPower`, `character_symPower_eq_chebyshevU_eval`,
-  `weyl_integration_formula`, `weyl_integration_formula_normalized` and
-  `integral_character_symPower_mul_conj` (its engine case). The compactness of `U(d)` and
-  `SU(d)` is Tau Ceti's `TauCeti.Topology.Algebra.UnitaryGroup`, and torus conjugacy in `U(d)` is
-  `TauCeti.exists_conj_mem_unitaryTorus`. None of these is restated; `USp(2)` is identified with
-  `TauCeti.SU2` (0.2) and every degree-`2` statement is made on that identification.
-- From [LieGroups](../RepresentationTheory/LieGroups/README.md): the exponential chart (Layer 0),
-  the closed-subgroup theorem (Layer 2: a closed subgroup of a Lie group is an embedded Lie
-  subgroup, with Lie algebra `{X | ∀ t, exp(tX) ∈ G}`), maximal tori, the Weyl group and the
-  general Weyl integration formula `∫_G f = |W|⁻¹ ∫_T f |Δ|²` (Layer 6), and Cartan decomposition for a given maximal compact subgroup (Layer 9).
-- From [ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): the dominant-weight
-  parametrization of the irreducibles of `GL_d`, `Sp_{2g}` and `O_d` and their characters as
-  (symplectic) Schur polynomials (Layers 3–4), for 2.3 and 3.3.
-- From [RootSystems](../RepresentationTheory/RootSystems/README.md) and
-  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md): the list of compact
-  Lie algebras of rank `≤ 3` and the dimensions of their irreducible representations, for 6.6
-  and 7.3.
-- From Tau Ceti's abelian varieties (built to [JacobianChallenge](../JacobianChallenge/README.md)
-  Layer E): `AbelianVariety K`, `AbelianVariety.dim`, `AbelianVariety.End A` with its ring
-  structure and `mulBy`, `AbelianVariety.baseChange`, `AbelianVariety.End.baseChange`,
-  `AbelianVariety.End.congr`, `AbelianVariety.IsIsogeny`, `AbelianVariety.prod`.
-- From *Abelian schemes and arithmetic moduli*, Layer A6, cited by milestone number: `IsSimple`
-  with `simpleEndDivision` (A6.4), Poincaré complete reducibility (A6.5), `homFreeFinite`
-  (A6.7), `endQ_isSemisimple` (A6.8), `charpolyTate` (A6.11), `rosatiPositivity` (A6.14),
-  Frobenius semisimplicity on `V_ℓ` (A6.21),
-  `rosatiRegularRepresentation`, `realCentralDivisionAlgebra` and `realRosatiDecomposition`
-  (A6.15), `reducedTraceComparison` (A6.17), the integral Tate module `T_ℓ(A)` with its Galois
-  action (A4.1) and the complex uniformization of `A(ℂ)` (A5). Layer 8 below adds no second
-  definition of simplicity, of `End⁰`, or of the Rosati involution.
-- From *Siegel and PEL moduli problems*: `PositiveInvolution` and `PositiveInvolution.center_classification`
-  (M0.1) and the Albert types `albertTypes` (M0.2), the inputs to the finite lists of real and
-  rational endomorphism algebras (8.4–8.5).
-- From *Abelian varieties of GL₂-type and modularity of ℚ-curves*: `End0 A = ℚ ⊗[ℤ] End A` as
-  the rational endomorphism algebra and `IsSimpleOverQ`, the primitive/power dichotomy (§1.2,
-  GT.1/primitive), the endomorphism field of a `ℚ`-simple `GL₂`-type variety (§1.4) with the
-  alternative `totallyRealOrCm` (§1.5), and ℚ-curves as `IsGeometricQCurve` (§5.1). This
-  roadmap's endField (8.2) is the general endomorphism field of any abelian variety over any
-  field of characteristic zero; its restriction to a `ℚ`-simple `GL₂`-type variety is that
-  roadmap's field of §1.4, and the agreement is a stated milestone, not an assumption.
-- From *Modularity and Langlands extensions*: the determinant kernel `{g ∈ U(2) : det(g)^a = 1}`
-  on `Matrix.unitaryGroup (Fin 2) ℂ`, with its compactness and its conjugacy classes `[π_v]`
-  (§4.39, the Sato–Tate group of a non-CM `GL₂` representation whose central character has
-  finite order `a`), the Sato–Tate theorem for non-CM elliptic curves over `ℚ`
-  `satoTate_elliptic` (§4.34), the conditional theorem over arbitrary number fields (§4.28) and
-  the parallel-weight theorem over imaginary CM fields (§4.42), and Serre's equidistribution
-  criterion through L-functions of representations of a compact group (§4.25: for every
-  nontrivial irreducible representation, meromorphic continuation to `ℂ`, holomorphic and
-  nonvanishing on `Re s = 1`, gives Haar equidistribution of the classes ordered by norm), which
-  10.2 specializes and 10.4–10.6 apply. This roadmap **states** no non-CM equidistribution
-  theorem of its own and no second form of the criterion; 9.9 and 10.7 cite those.
-- From *L-functions — completions and functional equations*: `Grossencharacter K 𝔪`, its
-  `unitaryWeight` and `infinityType` (Layer 6), and the nonvanishing of `L(χ, s)` on `Re s = 1`
-  for every Grossencharacter outside the pure-norm-twist exception, with the continuous
-  extension of the logarithmic derivative to `Re s ≥ 1` (Layer 7). Tau Ceti's
-  `TauCeti.GlobalNumberFields.HeckeCharacter` is the underlying object.
-- From *Complex multiplication and explicit reciprocity*, Layer 4, the three targets of 4.1 —
-  the algebraic Hecke character of a CM abelian variety, the one-dimensional CM components of the
-  Tate module, and the Frobenius and infinity-type identities: for a CM elliptic curve over a
-  field containing the CM field, `V_ℓ(E) ⊗ ℚ̄_ℓ = ψ ⊕ ψ̄` and `a_𝔭 = ψ(𝔭) + ψ̄(𝔭)` with
-  `|ψ(𝔭)| = N𝔭^{1/2}` (Deuring).
-- From [Chebotarev](../Chebotarev/README.md): natural density of the primes with prescribed
-  Frobenius in a quadratic extension (Layer 14) and the Tauberian theorem `wienerIkehara` it
-  consumes from Arithmetic Dirichlet Series (Layer 12).
-- From *Deligne weights, purity and the Weil bounds*: Zariski density of open subgroups of
-  `Sp(V)(ℚ_ℓ)` (§2.2) and the Weil bound for the Frobenius eigenvalues of an abelian variety over
-  a finite field (absolute value `q^{1/2}`), used in 9.2 and 9.6; and the finite-field
-  equidistribution of §10.5, which is not reproved here.
-- From ArithmeticGaloisRepresentations §7.6: the algebraic monodromy group of a continuous
-  representation over a Hausdorff topological field (the Zariski closure of its image, a closed
-  subgroup scheme), its identity component and component field, the closure of a finite-index
-  subgroup, commutation of closures with field extension, and the theorem that in characteristic
-  zero a semisimple representation has reductive identity component of its monodromy group; used
-  in 9.2.
-- From *Néron models and semistable abelian varieties*: the compatible system of an abelian
-  variety (§6.10: the strictly compatible system over `ℚ` formed by the `H^i_ét(A_k̄, ℚ_ℓ)`, with
-  `H¹` the dual of the Tate module) and its `p`-adic comparison target (the Tate module is de
-  Rham at every prime and crystalline at the primes of good reduction above it), the inputs of
-  the openness statement of 9.2; the Néron–Ogg–Shafarevich criterion (Layer 5, 8.2); and, at a
-  prime of good reduction not above `ℓ`, the action of arithmetic Frobenius on the Tate module as
-  the Frobenius endomorphism of the reduction (§5.0b, 9.2).
-- From [ReductiveGroups](../ReductiveGroups/README.md) Layer 3: identity components and component
-  groups of affine algebraic groups, and the Zariski closure of a subgroup of the rational points
-  as a closed subgroup scheme.
-- From [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
-  §2.1: the predicate `AsympEquidistributed x μ := Tendsto (TauCeti.Probability.empiricalMeasure x)
-  atTop (𝓝 μ)` for a sequence `x : ℕ → X` in a topological space with measurable open sets and
-  `μ : ProbabilityMeasure X`, with its bounded-continuous criteria
-  `asympEquidistributed_iff_integral_tendsto` and `asympEquidistributed_iff_integral_tendsto_complex`,
-  the index-shift law `asympEquidistributed_comp_add_iff`, the uniqueness of the limit measure
-  and the frequency law (Portmanteau applied to the empirical measures: `#{n < N | x n ∈ E}/N → μ(E)`
-  whenever `μ(∂E) = 0`), all of its §2.1. Every
-  equidistribution statement of Layer 10 is this predicate on `Conj(G)` (compact metrizable) or on
-  `ℝ` (for eigenangle sequences in `[0, π]`), so the `HasOuterApproxClosed` and `BorelSpace`
-  hypotheses of that API hold. `Suggested.lean` writes the predicate's defining `Tendsto` on Tau
-  Ceti's `empiricalMeasure` and introduces no second notion of equidistribution.
-- From the roadmap `FiniteGroupInvariants`: Jordan's theorem over any field of
-  characteristic zero, the bound `jordanBound` and the theorem
-  `jordan_exists_abelian_normal_index_le` (10.5, consumed in 7.1), and the isomorphism invariants
-  of component groups (their small-group identifiers are not targets). No other roadmap
-  supplies this roadmap: `AdelicImagesAndModularCurves`, `ArtinRepresentations` and
-  `HyperellipticCurves` consume it (*Downstream consumers*).
-
-### From Mathlib
-
-- **Matrix groups.** `Matrix.unitaryGroup n α` (`= unitary (Matrix n n α)`),
-  `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup n R` (`= unitaryGroup n R` for a trivial
-  star), `Matrix.symplecticGroup l R` on the index type `l ⊕ l` with `Matrix.J l R =
-  fromBlocks 0 (−1) 1 0`, `SymplecticGroup.mem_iff` (`LinearAlgebra/UnitaryGroup.lean`,
-  `LinearAlgebra/SymplecticGroup.lean`); the topology of `Matrix` (`Topology/Instances/Matrix.lean`)
-  with `ContinuousStar`, and the topological-group structure of `unitary R`; `Matrix.GeneralLinearGroup`,
-  `Matrix.unitaryGroup.toGL`.
-- **Characteristic polynomials.** `Matrix.charpoly`, `Matrix.charpolyRev` with
-  `reverse_charpoly`, `coeff_charpolyRev_eq_neg_trace`, `charpoly_coeff_eq_prod_coeff_of_le`,
-  `charpoly_coeff_eq_sum_minors` (`LinearAlgebra/Matrix/Charpoly/Coeff.lean`); the eigenvalues
-  of a Hermitian matrix and its spectral theorem `Matrix.IsHermitian.spectral_theorem`
-  (`Analysis/Matrix/Spectrum.lean`, Hermitian matrices only; the unitary diagonalization of a
-  normal or unitary matrix is Tau Ceti's, below).
-- **Symmetric polynomials.** `MvPolynomial.esymm`, `psum`, `IsSymmetric`, the
-  `symmetricSubalgebra`, Newton's identities (`RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean`)
-  and the fundamental theorem `MvPolynomial.esymmAlgHom` is bijective
-  (`RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`).
-- **Topological groups.** `Subgroup.connectedComponentOfOne`, `mul_mem_connectedComponent_one`,
-  `inv_mem_connectedComponent_one` (`Topology/Algebra/Group/Subgroup.lean`); `ClosedSubgroup`
-  (`Topology/Algebra/Group/ClosedSubgroup.lean`); `IsClosed.isCompact`,
-  `isCompact_iff_compactSpace`; `ConjClasses`; `Circle`, `Circle.exp`, `AddCircle`,
-  `AddCircle.haarAddCircle`, `fourierBasis`; `ContinuousMonoidHom` (`→ₜ*`).
-- **Measure theory.** `MeasureTheory.Measure.haar`, `IsHaarMeasure`,
-  `isHaarMeasure_eq_of_isProbabilityMeasure`, `Measure.map`, `Measure.restrict`, `Measure.real`,
-  `Measure.prod`, the Bochner integral, `ProbabilityTheory.moment`, `MeasureTheory.Measure.count`;
-  the change-of-variables formula `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`;
-  `intervalIntegral` with `integral_sin_pow`, `integral_cos_pow`.
-- **Analysis.** `NormedSpace.exp` and `Matrix.exp`; the identity theorem
-  `AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero`; `Polynomial.Chebyshev.U`.
-- **Lie groups.** `LieGroup I n G`, `LeftInvariantDerivation` (`Geometry/Manifold/Algebra/`),
-  used only through [LieGroups](../RepresentationTheory/LieGroups/README.md).
-- **Representations.** `ContRepresentation`, `Representation.character`, `FDRep.character`,
-  `Representation.IsIrreducible`, `SymmetricPower`, `exteriorPower`.
-- **Number fields and Galois theory.** `NumberField`, `NumberField.IsCMField` with
-  `IsCMField.complexConj`, `NumberField.IsTotallyReal`, `AlgebraicClosure`,
-  `Field.absoluteGaloisGroup` (`AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K`), `IntermediateField.fixedField`,
-  `IsGalois`, `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`; `Padic`/`ℚ_[ℓ]`;
-  `WeierstrassCurve` with `IsElliptic`, `baseChange`, `Affine.Point`.
-- **Combinatorics.** `Nat.centralBinom`, `catalan`, `Nat.Partition`, `YoungDiagram`.
-
-### From Tau Ceti
-
-- **Compact groups** (`TauCeti.RepresentationTheory.Compact.*`): `haarProb` and its invariance
-  and uniqueness lemmas (`Haar.lean`), `haarAverage` (`Averaging.lean`), `matrixCoeff`,
-  `characterLp`, `character_orthonormal_self`/`_distinct` (`Character/Basic.lean`),
-  `ContRepresentation.integral_character_eq_finrank_invariants` (`Invariants.lean`), for continuous representations on finite-dimensional complex spaces, `classFunctionLp` and
-  `characterBasis`/`stdCharacterBasis` (`ClassFunctionLp.lean`, `Character/Basis.lean`),
-  `peterWeylBasis`, `IrrepModel`, `IsIrrepSkeleton` (`PeterWeyl.lean`), the finite-group and
-  circle specializations (`Finite.lean`, `Circle.lean`).
-- **`SU(2)`** (`TauCeti.RepresentationTheory.SU2.*`): `SU2`, `torusMatrix`, `torusHom`, `torus`,
-  `torusExp`, `SU2.trace_torusExp`, `torusContinuousMulEquiv : Circle ≃ₜ* torus` (`Basic.lean`);
-  Borel structure (`Borel.lean`); `exists_conj_mem_torus`, `exists_isConj_torusExp`
-  (`TorusConjugacy.lean`); `isConj_iff_trace_eq`, `norm_trace_le_two`,
-  `exists_isConj_torusExp_mem_Icc` (`ConjugacyClasses.lean`); `symPower`, `finrank_symPower`,
-  `character_symPower_torusExp` (`SymmetricPower.lean`); `isIrreducible_symPower`,
-  `nonempty_equiv_symPower_iff`, exhaustion (`Irreducible.lean`, `Exhaustion.lean`);
-  `character_symPower_eq_chebyshevU_eval`, `characterSpan` and its density in the class
-  functions (`Completeness.lean`); the Weyl group of order `2` (`Weyl/Basic.lean`), the Weyl
-  character formula (`Weyl/Character.lean`), `weyl_integration_formula`,
-  `integral_character_symPower_mul_conj` (`Weyl/Integration.lean`),
-  `weyl_integration_formula_normalized` (`Weyl/Orthogonality.lean`).
-- **Unitary groups** (`TauCeti.Topology.Algebra.UnitaryGroup`, `TauCeti.Analysis.Matrix.UnitaryGroup.*`):
-  `CompactSpace (unitaryGroup n 𝕜)`, `isClosed_specialUnitaryGroup`, `CompactSpace
-  (specialUnitaryGroup n 𝕜)`; `Matrix.diagonal_mem_unitaryGroup_iff`,
-  `Matrix.exists_circle_smul_mem_specialUnitaryGroup`; `unitaryTorusHom`, `unitaryTorus`,
-  `exists_conj_mem_unitaryTorus`, `exists_isConj_unitaryTorusHom`; the spectral theorem for
-  normal matrices `Matrix.exists_mem_unitaryGroup_star_mul_mul_eq_diagonal`
-  (`Analysis/Matrix/Normal.lean`, for `A : Matrix n n ℂ` with `[IsStarNormal A]`), through
-  which `exists_conj_mem_unitaryTorus` is proved;
-  `TauCeti.Topology.Algebra.OrthogonalGroup`: `isClosed_orthogonalGroup`,
-  `isClosed_specialOrthogonalGroup`.
-- **Classical groups** (`TauCeti.RepresentationTheory.ClassicalGroups.*`): `stdRep`,
-  `symplecticGroupToGL`, `stdSymplecticRep`, `stdSymplecticBilinForm`, dominant weights,
-  `symPowerRep`, `extPowerRep`, characters as symmetric polynomials.
-- **Abelian varieties** (`TauCeti.AlgebraicGeometry.AbelianVariety.*`): `AbelianVariety K`,
-  `dim`, `TangentSpace`, `finrank_tangentSpace_eq_dim`, `Hom`, `prod`, `IsIsogeny`,
-  `isIsogeny_mulBy_neg_one`, `End A` with `instRing`, `mulBy`, `End.congr`, `baseChange`,
-  `baseChangeFunctor`, `Hom.baseChange`, `End.baseChange : End A →+* End (A.baseChange L)`,
-  `baseChange_mulBy`.
-- **Elliptic curves** (`TauCeti.AlgebraicGeometry.EllipticCurve.*`): `pointCount`,
-  `frobeniusTrace` with `frobeniusTrace_eq_card_point` (`PointCount.lean`), `hasse_bound`
-  (`HasseBound.lean`), the Tate module `TauCeti.TateModule` with `natCard_tateModuleLevel`,
-  `finrank_tateModule` (`TateModule/Basic.lean`), `tateModuleGaloisRepresentation` with
-  `continuous_tateModuleGaloisRepresentation_apply` (`TateModule/Galois.lean`),
-  `det_tateModuleGaloisRepresentation` (`TateModule/Determinant.lean`), the Weil pairing,
-  isogenies `TauCeti.Isogeny` with `[n]` (`Isogeny/*`), `GaloisDescent.lean`.
-- **Number theory**: `TauCeti.GlobalNumberFields.HeckeCharacter` with `IsFiniteOrder`,
-  `ofRayClassCharacter`, `infinityType`, `IsAlgebraic`, `normCharacter`, `shift`
-  (`NumberTheory/NumberField/Global/HeckeCharacter/*`); `TauCeti.NumberField.complexConj_eq_complexConjugationAt`
-  (`ComplexConjugation/CMField.lean`); Chebotarev density (`NumberTheory/Chebotarev/*`);
-  `TauCeti.LFunctions.primeIdealVonMangoldtBoundary`.
-- **Probability**: `TauCeti.Probability.HasLaw`, moments (`Probability/Moments`); the empirical
-  measures `TauCeti.Probability.empiricalMeasure x n : ProbabilityMeasure α` of the first `n + 1`
-  terms of a sequence, with `integral_empiricalMeasure` and `empiricalMeasure_apply_toReal`
-  (`Probability/Process/EmpiricalMeasure.lean`).
-
-## How to read the build
-
-Layers 0–4 are the group-theoretic foundation, Layers 5–7 the classifications, Layers 8–9 the
-arithmetic, Layer 10 equidistribution. Milestones are numbered `N.M`; each rests only on Mathlib,
-Tau Ceti, a milestone with a smaller number, or a cited supplier milestone.
-
-`Suggested.lean` states the headline theorems of this roadmap, and only those, over Mathlib and
-the pinned Tau Ceti, with the few definitions they need — torus conjugacy (0.5),
-the finiteness of the component group (1.2), the first consequences of the axioms (2.2, 2.5), the
-trace-moment and vanishing laws (3.2–3.3), the component-counting theorem (3.5), Weyl integration
-for `USp(2g)` with the product law and the `USp(4)` moments (4.2–4.5), the classification in
-degree `2` (5.2–5.3), the fifty-seven groups of degree `4` as explicit closed subgroups with the
-identity-component, classification and distinctness theorems (6.3–6.4, 6.6–6.8), finiteness and
-the connected groups of degree `6` (7.2–7.3), the real geometric endomorphism algebras of
-surfaces (8.4), the Weyl criterion (10.1), Hecke equidistribution (10.4) and the CM elliptic-curve
-theorems in the form of the equidistribution of the normalized Frobenius traces (10.5–10.6).
-Every API lemma, every Check, every computed invariant and the irrational families `μ(n)`,
-`SU(2)[C_n]`, `U(1)[D_n]` stay in this README. The Galois action on `End(A_k̄)`, the endomorphism
-field and the Galois endomorphism type (8.1–8.2, 8.7) need the transport of endomorphisms along
-Galois base change, which Tau Ceti's `AbelianVariety.baseChange` lacks; `ST(A)` and everything
-built on it (9.3–9.12, 10.3, 10.8) needs the Zariski closure of the `ℓ`-adic image and a maximal
-compact subgroup of its complex points, which neither Mathlib nor Tau Ceti has; the degree-six completeness headline (7.4) needs its concrete finite-subgroup families,
-which cannot be supplied by a few simple definitions at the pins. The statistical records
-and inclusion lattices (3.6, 6.7, 6.9) are mathematical targets. These are specified in this
-README only, each definition with a **Checks** list of tests a formalisation must pass.
 
 ## Layer 0: ambient groups and the coefficient map
 
@@ -2985,6 +2622,369 @@ with maximal component orders `192`, `432`, `336`.
   it `GL₂`-type in Ribet's (8.6).
 - The normalization `a_1 = −t`: for `μ(1) = {1}`, `E[t] = 1` and `E[a_1] = −1`; the stored
   trace-moment row `1, 1, 1, …` of `0.1.1` is the trace row, not the `a_1` row (3.2).
+
+## Scope and ownership
+
+Eight roadmaps border this one; the boundary with each is drawn below. The LMFDB boundary rule
+applies throughout: a predicate invariant under conjugacy (for groups) or isomorphism and isogeny
+(for abelian varieties) belongs here.
+
+### Owned here
+
+- The **ambient groups** `USp(d)` and `O(d)` as closed subgroups of `U(d)`, the standard
+  symplectic form, torus conjugacy in `USp(2g)`, and the **coefficient map** `g ↦ (a_i(g))` to
+  the coefficients of the reversed characteristic polynomial `det(1 − Tg)` (Layer 0).
+- For a closed subgroup `G ≤ U(d)`: the **identity component** `G⁰`, the **component group**
+  `G/G⁰` and its finiteness, the **real dimension**, the **Lie algebra**, Haar measure on each
+  component, the pushforward laws of the coefficients and of the trace, and the measure on
+  conjugacy classes (Layer 1).
+- The **Sato–Tate axioms** — Hodge numbers, Hodge circles, the Hodge condition, the rationality
+  condition in its moment and character forms, self-duality, and the Lefschetz condition — with
+  their first consequences (Layer 2).
+- The **statistics** the LMFDB stores: coefficient and trace moments, the moment simplex, the
+  moment matrix and character diagonal, event probabilities `Pr[a_i = n]`, the trace zero density,
+  the `z`-vectors, the component-counting theorem for event probabilities, and integrality (Layer 3).
+- **Weyl integration for `USp(2g)`**, `U(1)^g`, `SU(2)^g` and their block products, the genus-one
+  distributions (semicircle and arcsine), the `USp(4)` joint density and moment formulas, and the
+  connected groups of degrees `4` and `6` with their dimensions, Hodge circles and moments
+  (Layer 4).
+- The **classifications**: degree `2` proved (`U(1)`, `N(U(1))`, `SU(2)`), the non-self-dual
+  degree-`2` families and `μ(n)`; the **fifty-seven groups of degree `4`** with explicit
+  generators, the proof that they exhaust the groups satisfying the axioms, every stored
+  invariant of each, their distinctness and their inclusion lattice (Layers 5–6); the
+  finiteness theorem for the axioms, the sixteen connected Lefschetz groups of degree `6`,
+  and their normalizer-subgroup classification (Layer 7).
+- The **arithmetic vocabulary**: endomorphisms over `k` and over `k̄`, the Galois action on
+  `End(A_k̄)`, the **endomorphism field**, the **real geometric endomorphism algebra** and its
+  finite lists of types in dimensions `≤ 3`, the predicates **geometrically simple**,
+  **squarefree**, **primitive**, **isotypic**, the `g2c` classifications `end_alg`,
+  `geom_end_alg`, `real_geom_end_alg`, the LMFDB's `GL₂`-type predicate for surfaces, and the
+  **Galois endomorphism type** (Layer 8).
+- **`ST(A)`** from the `ℓ`-adic image, the **algebraic Sato–Tate conjecture** and the
+  **Mumford–Tate conjecture** as named hypotheses, the normalized Frobenius classes, the axioms
+  for `ST(A)`, the component group as `Gal(K/k)`, the elliptic-curve trichotomy, the dimension-`2`
+  dictionary between Galois endomorphism types and the fifty-two groups, the thirty-four groups
+  over `ℚ`, **`ST(f)`** for a newform in terms of its CM status and the order of its character,
+  and the **minimal splitting fields** and **rational and real endomorphism lattices** of a surface (Layer 9).
+- **Equidistribution**: the pushforward and dense-subspace lemmas for the consumed predicate,
+  the Weyl criterion on `Conj(G)`, the specialization of Serre's L-function criterion to closed
+  subgroups of `U(d)` with its converse and its finite case, the Sato–Tate conjecture as
+  a statement, Hecke's equidistribution of unitarized Grossencharacter values, and the
+  **theorem for CM elliptic curves** over every number field (Layer 10).
+
+Generic Mumford–Tate groups belong to ShimuraData §1.2; here they are specialized to
+abelian varieties and compared with Galois monodromy. Maximal-compact existence and
+conjugacy belong to ArithmeticLocallySymmetricSpaces ALS.F.1; here they are applied to
+complex monodromy groups. Bogomolov's openness theorem — the image of a rational weakly
+compatible system is open in the `ℚ_ℓ`-points of its algebraic monodromy group — is a target of
+PotentialModularityAndCompatibleSystems §1.20; 9.2 applies it to the Tate-module system of an
+abelian variety and owns the similitude kernel, the homothety cocharacter and the
+component-group comparison. Absolute Hodge tensor realizations belong to AutomorphicBundles §§1.2–1.3; 9.10 owns
+the connected Galois-monodromy inclusion. Section 8.4 owns the low-dimensional geometric
+endomorphism restrictions, beyond the algebraic classification of positive involutions.
+
+### Not owned here
+
+- **Labels, names and orderings.** The letter identifying the identity component within a weight
+  and degree, the final letter distinguishing groups with equal invariants, the `name`/`pretty`
+  strings, the ordering of the moment simplex rows in the stored `simplex` and of the irreducible
+  characters in `character_matrix`, the `old_label` scheme and the GAP identifier of the component
+  group are not targets. This roadmap states the **intrinsic label prefix**
+  (weight, degree, conjugacy class of `G⁰`, number of components, isomorphism class of `G/G⁰`;
+  8.8 of the label milestone below) and nothing enumerative. The stored trace-histogram image is
+  not an invariant and is nobody's.
+- **Non-CM equidistribution theorems**, potential automorphy and symmetric-power functoriality:
+  *Modularity and Langlands extensions* §§4.28, 4.34, 4.39, 4.42 and its suppliers.
+- **The analytic theory of Hecke L-functions** (continuation, functional equation, nonvanishing):
+  *L-functions — completions and functional equations*. This roadmap consumes its boundary data.
+- **Serre's equidistribution criterion through L-functions**, for a compact group and conjugacy
+  classes indexed by the primes of a number field: *Modularity and Langlands extensions* §4.25;
+  10.2 specializes it to closed subgroups of `U(d)` and adds the converse and the finite case.
+- **Algebraic monodromy groups**: the Zariski closure of a Galois image, its identity component
+  and component field, and reductivity of the closure of a semisimple representation in
+  characteristic zero: ArithmeticGaloisRepresentations §7.6. **The compatible system and the
+  `p`-adic comparison of the Tate module** of an abelian variety (de Rham at every prime,
+  crystalline at good primes): *Néron models and semistable abelian varieties* §6.10 and its
+  `p`-adic comparison target.
+- **The arcsine and semicircle laws as measures**: StandardDistributions §10.20 (the arcsine law
+  `betaMeasure (1/2) (1/2)` on `[0, 1]` and the unit semicircle) and RandomMatrices §3.3
+  (`semicircleReal a v`); this roadmap keeps only their transports to the trace interval
+  `[−2, 2]` and to the eigenangle (4.4).
+- **Foundations of abelian varieties** — duals, polarizations, Poincaré reducibility, the Rosati
+  involution, the Tate module of an abelian variety, the Néron–Ogg–Shafarevich criterion: *Abelian
+  schemes and arithmetic moduli* and *Néron models and semistable abelian varieties*.
+- **Albert's classification** of division algebras with positive involution: *Siegel and PEL
+  moduli problems* M0.1–M0.2.
+- **`GL₂`-type varieties, ℚ-curves, modularity**: *Abelian varieties of GL₂-type and modularity of
+  ℚ-curves*; **CM forms and inner twists** of newforms: [ModularForms](../ModularForms/README.md).
+- **Galois images**: Serre's open image theorem, adelic indices, mod-`ℓ` images, `GSp₄` images of
+  abelian surfaces, `nonmax_primes`: the sibling `AdelicImagesAndModularCurves`.
+- **Artin motives beyond the degree-one case**: images of Artin representations and their
+  Sato–Tate groups (finite subgroups of `U(d)`): the sibling `ArtinRepresentations` (its 7.4 image
+  group read inside `U(d)`; Layers 1–3 here supply the ambient group and the statistics).
+- **Sato–Tate groups of even weight and degree `> 1`** (hypergeometric motives, K3 surfaces): no
+  LMFDB page displays one (the `st_group` tables hold weight `0` in degree `1` and weight `1` in
+  degrees `≤ 6` only), the sibling `HypergeometricMotives` names none, and no roadmap here owns
+  them. Weight-`0` degree-`1` and the even-weight ambient `O(d)` are defined here; no even-weight
+  classification is.
+- **Abelian varieties over finite fields**, Weil polynomials and their Newton polygons: the
+  siblings `AbelianVarietiesOverFiniteFields` and `CurvesOverFiniteFields`; the Weil bounds
+  themselves are *Deligne weights, purity and the Weil bounds*.
+- **General Lie theory**: the closed-subgroup theorem, maximal tori, the general Weyl integration
+  formula and Cartan decomposition: [LieGroups](../RepresentationTheory/LieGroups/README.md).
+  Maximal-compact existence and conjugacy are ArithmeticLocallySymmetricSpaces ALS.F.1.
+- **Peter–Weyl and compact-group character theory**: Tau Ceti, built to
+  [CompactGroups](../RepresentationTheory/CompactGroups/README.md).
+
+- Genus-two models, Igusa–Clebsch invariants, automorphisms and 2-Selmer data belong to
+  HyperellipticCurves; this roadmap supplies its endomorphism and Sato–Tate invariants.
+- Sato–Tate groups in dimension at least four are included in the definitions of Layer 9;
+  their classification is outside this roadmap. Half-integral weight, Siegel, Hilbert and
+  Bianchi forms retain their own roadmap ownership.
+
+## Exact supplier contracts
+
+### From ShimuraData
+
+Section 1.2 supplies the minimal rational algebraic subgroup attached to a rational
+Hodge structure, its Hopf-ideal construction and basis independence. Apply it to H₁(A).
+
+### From ArithmeticLocallySymmetricSpaces
+
+ALS.F.1 supplies maximal-compact existence, containment and conjugacy for real linear
+algebraic groups with reductive identity component, without assuming connectedness,
+and the polar decomposition in a transpose-stable embedding. Apply restriction of
+scalars from ℂ to ℝ in 9.3.
+
+### From PotentialModularityAndCompatibleSystems
+
+Section 1.20 states, among its targets, Bogomolov's openness theorem in the form in which the
+proof of Barnet-Lamb–Gee–Geraghty–Taylor's Proposition 5.2.2 uses it: for a rational weakly
+compatible system `(r_ℓ)` of a number field (its §1.18), the image `Γ_ℓ = r_ℓ(G_k)` is open in the
+`ℚ_ℓ`-points of its algebraic monodromy group `G_ℓ`, the Zariski closure of the image. What is
+assumed of it here is exactly this statement, at every prime `ℓ`, for the system of §1.18; the
+density-one integral-monodromy package of the same section (unramified integral models,
+hyperspecial maximality, the central index bound, invariant lattices) is not consumed. Section
+9.2 applies it to the Tate-module system of an abelian variety, which is such a system by the
+compatible-system export of *Néron models and semistable abelian varieties* §6.10 together with
+its `p`-adic comparison target (the Tate module is de Rham at every prime, so Hodge–Tate with
+weights `0` and `1`; this is the hypothesis Serre records for Bogomolov's theorem, *Lectures on
+N_X(p)*, §8.3.2, footnote 60).
+
+### From AutomorphicBundles
+
+Sections 1.2–1.3 supply absolute Hodge tensors and their compatible Betti, de Rham and
+étale realizations. Section 9.10 proves the finite-extension invariance argument for
+connected Galois monodromy using Deligne's finite-action theorem.
+
+### From named roadmaps
+
+- From Tau Ceti's compact-group library (built to [CompactGroups](../RepresentationTheory/CompactGroups/README.md)):
+  `TauCeti.haarProb` and `isProbabilityMeasure_haarProb`, `isMulLeftInvariant_haarProb`,
+  `isMulRightInvariant_haarProb`, `isInvInvariant_haarProb`,
+  `eq_haarProb_of_isHaarMeasure_of_isProbabilityMeasure` (Layer 0 of that roadmap); the
+  character integral `ContRepresentation.integral_character_eq_finrank_invariants` (its Layer 6), the class
+  functions `classFunctionLp` and the character basis `characterBasis` (Peter–Weyl, Layers 5–6);
+  the engine `TauCeti.SU2` with `torusHom`, `torusExp`, `torus`, `exists_conj_mem_torus`,
+  `isConj_iff_trace_eq`, `symPower`, `character_symPower_eq_chebyshevU_eval`,
+  `weyl_integration_formula`, `weyl_integration_formula_normalized` and
+  `integral_character_symPower_mul_conj` (its engine case). The compactness of `U(d)` and
+  `SU(d)` is Tau Ceti's `TauCeti.Topology.Algebra.UnitaryGroup`, and torus conjugacy in `U(d)` is
+  `TauCeti.exists_conj_mem_unitaryTorus`. None of these is restated; `USp(2)` is identified with
+  `TauCeti.SU2` (0.2) and every degree-`2` statement is made on that identification.
+- From [LieGroups](../RepresentationTheory/LieGroups/README.md): the exponential chart (Layer 0),
+  the closed-subgroup theorem (Layer 2: a closed subgroup of a Lie group is an embedded Lie
+  subgroup, with Lie algebra `{X | ∀ t, exp(tX) ∈ G}`), maximal tori, the Weyl group and the
+  general Weyl integration formula `∫_G f = |W|⁻¹ ∫_T f |Δ|²` (Layer 6), and Cartan decomposition for a given maximal compact subgroup (Layer 9).
+- From [ClassicalGroups](../RepresentationTheory/ClassicalGroups/README.md): the dominant-weight
+  parametrization of the irreducibles of `GL_d`, `Sp_{2g}` and `O_d` and their characters as
+  (symplectic) Schur polynomials (Layers 3–4), for 2.3 and 3.3.
+- From [RootSystems](../RepresentationTheory/RootSystems/README.md) and
+  [LieHighestWeight](../RepresentationTheory/LieHighestWeight/README.md): the list of compact
+  Lie algebras of rank `≤ 3` and the dimensions of their irreducible representations, for 6.6
+  and 7.3.
+- From Tau Ceti's abelian varieties (built to [JacobianChallenge](../JacobianChallenge/README.md)
+  Layer E): `AbelianVariety K`, `AbelianVariety.dim`, `AbelianVariety.End A` with its ring
+  structure and `mulBy`, `AbelianVariety.baseChange`, `AbelianVariety.End.baseChange`,
+  `AbelianVariety.End.congr`, `AbelianVariety.IsIsogeny`, `AbelianVariety.prod`.
+- From *Abelian schemes and arithmetic moduli*, Layer A6, cited by milestone number: `IsSimple`
+  with `simpleEndDivision` (A6.4), Poincaré complete reducibility (A6.5), `homFreeFinite`
+  (A6.7), `endQ_isSemisimple` (A6.8), `charpolyTate` (A6.11), `rosatiPositivity` (A6.14),
+  Frobenius semisimplicity on `V_ℓ` (A6.21),
+  `rosatiRegularRepresentation`, `realCentralDivisionAlgebra` and `realRosatiDecomposition`
+  (A6.15), `reducedTraceComparison` (A6.17), the integral Tate module `T_ℓ(A)` with its Galois
+  action (A4.1) and the complex uniformization of `A(ℂ)` (A5). Layer 8 below adds no second
+  definition of simplicity, of `End⁰`, or of the Rosati involution.
+- From *Siegel and PEL moduli problems*: `PositiveInvolution` and `PositiveInvolution.center_classification`
+  (M0.1) and the Albert types `albertTypes` (M0.2), the inputs to the finite lists of real and
+  rational endomorphism algebras (8.4–8.5).
+- From *Abelian varieties of GL₂-type and modularity of ℚ-curves*: `End0 A = ℚ ⊗[ℤ] End A` as
+  the rational endomorphism algebra and `IsSimpleOverQ`, the primitive/power dichotomy (§1.2,
+  GT.1/primitive), the endomorphism field of a `ℚ`-simple `GL₂`-type variety (§1.4) with the
+  alternative `totallyRealOrCm` (§1.5), and ℚ-curves as `IsGeometricQCurve` (§5.1). This
+  roadmap's endField (8.2) is the general endomorphism field of any abelian variety over any
+  field of characteristic zero; its restriction to a `ℚ`-simple `GL₂`-type variety is that
+  roadmap's field of §1.4, and the agreement is a stated milestone, not an assumption.
+- From *Modularity and Langlands extensions*: the determinant kernel `{g ∈ U(2) : det(g)^a = 1}`
+  on `Matrix.unitaryGroup (Fin 2) ℂ`, with its compactness and its conjugacy classes `[π_v]`
+  (§4.39, the Sato–Tate group of a non-CM `GL₂` representation whose central character has
+  finite order `a`), the Sato–Tate theorem for non-CM elliptic curves over `ℚ`
+  `satoTate_elliptic` (§4.34), the conditional theorem over arbitrary number fields (§4.28) and
+  the parallel-weight theorem over imaginary CM fields (§4.42), and Serre's equidistribution
+  criterion through L-functions of representations of a compact group (§4.25: for every
+  nontrivial irreducible representation, meromorphic continuation to `ℂ`, holomorphic and
+  nonvanishing on `Re s = 1`, gives Haar equidistribution of the classes ordered by norm), which
+  10.2 specializes and 10.4–10.6 apply. This roadmap **states** no non-CM equidistribution
+  theorem of its own and no second form of the criterion; 9.9 and 10.7 cite those.
+- From *L-functions — completions and functional equations*: `Grossencharacter K 𝔪`, its
+  `unitaryWeight` and `infinityType` (Layer 6), and the nonvanishing of `L(χ, s)` on `Re s = 1`
+  for every Grossencharacter outside the pure-norm-twist exception, with the continuous
+  extension of the logarithmic derivative to `Re s ≥ 1` (Layer 7). Tau Ceti's
+  `TauCeti.GlobalNumberFields.HeckeCharacter` is the underlying object.
+- From *Complex multiplication and explicit reciprocity*, Layer 4, the three targets of 4.1 —
+  the algebraic Hecke character of a CM abelian variety, the one-dimensional CM components of the
+  Tate module, and the Frobenius and infinity-type identities: for a CM elliptic curve over a
+  field containing the CM field, `V_ℓ(E) ⊗ ℚ̄_ℓ = ψ ⊕ ψ̄` and `a_𝔭 = ψ(𝔭) + ψ̄(𝔭)` with
+  `|ψ(𝔭)| = N𝔭^{1/2}` (Deuring).
+- From [Chebotarev](../Chebotarev/README.md): natural density of the primes with prescribed
+  Frobenius in a quadratic extension (Layer 14) and the Tauberian theorem `wienerIkehara` it
+  consumes from Arithmetic Dirichlet Series (Layer 12).
+- From *Deligne weights, purity and the Weil bounds*: Zariski density of open subgroups of
+  `Sp(V)(ℚ_ℓ)` (§2.2) and the Weil bound for the Frobenius eigenvalues of an abelian variety over
+  a finite field (absolute value `q^{1/2}`), used in 9.2 and 9.6; and the finite-field
+  equidistribution of §10.5, which is not reproved here.
+- From ArithmeticGaloisRepresentations §7.6: the algebraic monodromy group of a continuous
+  representation over a Hausdorff topological field (the Zariski closure of its image, a closed
+  subgroup scheme), its identity component and component field, the closure of a finite-index
+  subgroup, commutation of closures with field extension, and the theorem that in characteristic
+  zero a semisimple representation has reductive identity component of its monodromy group; used
+  in 9.2.
+- From *Néron models and semistable abelian varieties*: the compatible system of an abelian
+  variety (§6.10: the strictly compatible system over `ℚ` formed by the `H^i_ét(A_k̄, ℚ_ℓ)`, with
+  `H¹` the dual of the Tate module) and its `p`-adic comparison target (the Tate module is de
+  Rham at every prime and crystalline at the primes of good reduction above it), the inputs of
+  the openness statement of 9.2; the Néron–Ogg–Shafarevich criterion (Layer 5, 8.2); and, at a
+  prime of good reduction not above `ℓ`, the action of arithmetic Frobenius on the Tate module as
+  the Frobenius endomorphism of the reduction (§5.0b, 9.2).
+- From [ReductiveGroups](../ReductiveGroups/README.md) Layer 3: identity components and component
+  groups of affine algebraic groups, and the Zariski closure of a subgroup of the rational points
+  as a closed subgroup scheme.
+- From [ProbabilisticAndMetricNumberTheory](../ProbabilisticAndMetricNumberTheory/README.md)
+  §2.1: the predicate `AsympEquidistributed x μ := Tendsto (TauCeti.Probability.empiricalMeasure x)
+  atTop (𝓝 μ)` for a sequence `x : ℕ → X` in a topological space with measurable open sets and
+  `μ : ProbabilityMeasure X`, with its bounded-continuous criteria
+  `asympEquidistributed_iff_integral_tendsto` and `asympEquidistributed_iff_integral_tendsto_complex`,
+  the index-shift law `asympEquidistributed_comp_add_iff`, the uniqueness of the limit measure
+  and the frequency law (Portmanteau applied to the empirical measures: `#{n < N | x n ∈ E}/N → μ(E)`
+  whenever `μ(∂E) = 0`), all of its §2.1. Every
+  equidistribution statement of Layer 10 is this predicate on `Conj(G)` (compact metrizable) or on
+  `ℝ` (for eigenangle sequences in `[0, π]`), so the `HasOuterApproxClosed` and `BorelSpace`
+  hypotheses of that API hold. `Suggested.lean` writes the predicate's defining `Tendsto` on Tau
+  Ceti's `empiricalMeasure` and introduces no second notion of equidistribution.
+- From the roadmap `FiniteGroupInvariants`: Jordan's theorem over any field of
+  characteristic zero, the bound `jordanBound` and the theorem
+  `jordan_exists_abelian_normal_index_le` (10.5, consumed in 7.1), and the isomorphism invariants
+  of component groups (their small-group identifiers are not targets). No other roadmap
+  supplies this roadmap: `AdelicImagesAndModularCurves`, `ArtinRepresentations` and
+  `HyperellipticCurves` consume it (*Downstream consumers*).
+
+### From Mathlib
+
+- **Matrix groups.** `Matrix.unitaryGroup n α` (`= unitary (Matrix n n α)`),
+  `Matrix.specialUnitaryGroup`, `Matrix.orthogonalGroup n R` (`= unitaryGroup n R` for a trivial
+  star), `Matrix.symplecticGroup l R` on the index type `l ⊕ l` with `Matrix.J l R =
+  fromBlocks 0 (−1) 1 0`, `SymplecticGroup.mem_iff` (`LinearAlgebra/UnitaryGroup.lean`,
+  `LinearAlgebra/SymplecticGroup.lean`); the topology of `Matrix` (`Topology/Instances/Matrix.lean`)
+  with `ContinuousStar`, and the topological-group structure of `unitary R`; `Matrix.GeneralLinearGroup`,
+  `Matrix.unitaryGroup.toGL`.
+- **Characteristic polynomials.** `Matrix.charpoly`, `Matrix.charpolyRev` with
+  `reverse_charpoly`, `coeff_charpolyRev_eq_neg_trace`, `charpoly_coeff_eq_prod_coeff_of_le`,
+  `charpoly_coeff_eq_sum_minors` (`LinearAlgebra/Matrix/Charpoly/Coeff.lean`); the eigenvalues
+  of a Hermitian matrix and its spectral theorem `Matrix.IsHermitian.spectral_theorem`
+  (`Analysis/Matrix/Spectrum.lean`, Hermitian matrices only; the unitary diagonalization of a
+  normal or unitary matrix is Tau Ceti's, below).
+- **Symmetric polynomials.** `MvPolynomial.esymm`, `psum`, `IsSymmetric`, the
+  `symmetricSubalgebra`, Newton's identities (`RingTheory/MvPolynomial/Symmetric/NewtonIdentities.lean`)
+  and the fundamental theorem `MvPolynomial.esymmAlgHom` is bijective
+  (`RingTheory/MvPolynomial/Symmetric/FundamentalTheorem.lean`).
+- **Topological groups.** `Subgroup.connectedComponentOfOne`, `mul_mem_connectedComponent_one`,
+  `inv_mem_connectedComponent_one` (`Topology/Algebra/Group/Subgroup.lean`); `ClosedSubgroup`
+  (`Topology/Algebra/Group/ClosedSubgroup.lean`); `IsClosed.isCompact`,
+  `isCompact_iff_compactSpace`; `ConjClasses`; `Circle`, `Circle.exp`, `AddCircle`,
+  `AddCircle.haarAddCircle`, `fourierBasis`; `ContinuousMonoidHom` (`→ₜ*`).
+- **Measure theory.** `MeasureTheory.Measure.haar`, `IsHaarMeasure`,
+  `isHaarMeasure_eq_of_isProbabilityMeasure`, `Measure.map`, `Measure.restrict`, `Measure.real`,
+  `Measure.prod`, the Bochner integral, `ProbabilityTheory.moment`, `MeasureTheory.Measure.count`;
+  the change-of-variables formula `MeasureTheory.integral_image_eq_integral_abs_det_fderiv_smul`;
+  `intervalIntegral` with `integral_sin_pow`, `integral_cos_pow`.
+- **Analysis.** `NormedSpace.exp` and `Matrix.exp`; the identity theorem
+  `AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero`; `Polynomial.Chebyshev.U`.
+- **Lie groups.** `LieGroup I n G`, `LeftInvariantDerivation` (`Geometry/Manifold/Algebra/`),
+  used only through [LieGroups](../RepresentationTheory/LieGroups/README.md).
+- **Representations.** `ContRepresentation`, `Representation.character`, `FDRep.character`,
+  `Representation.IsIrreducible`, `SymmetricPower`, `exteriorPower`.
+- **Number fields and Galois theory.** `NumberField`, `NumberField.IsCMField` with
+  `IsCMField.complexConj`, `NumberField.IsTotallyReal`, `AlgebraicClosure`,
+  `Field.absoluteGaloisGroup` (`AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K`), `IntermediateField.fixedField`,
+  `IsGalois`, `IsDedekindDomain.HeightOneSpectrum`, `Ideal.absNorm`; `Padic`/`ℚ_[ℓ]`;
+  `WeierstrassCurve` with `IsElliptic`, `baseChange`, `Affine.Point`.
+- **Combinatorics.** `Nat.centralBinom`, `catalan`, `Nat.Partition`, `YoungDiagram`.
+
+### From Tau Ceti
+
+- **Compact groups** (`TauCeti.RepresentationTheory.Compact.*`): `haarProb` and its invariance
+  and uniqueness lemmas (`Haar.lean`), `haarAverage` (`Averaging.lean`), `matrixCoeff`,
+  `characterLp`, `character_orthonormal_self`/`_distinct` (`Character/Basic.lean`),
+  `ContRepresentation.integral_character_eq_finrank_invariants` (`Invariants.lean`), for continuous representations on finite-dimensional complex spaces, `classFunctionLp` and
+  `characterBasis`/`stdCharacterBasis` (`ClassFunctionLp.lean`, `Character/Basis.lean`),
+  `peterWeylBasis`, `IrrepModel`, `IsIrrepSkeleton` (`PeterWeyl.lean`), the finite-group and
+  circle specializations (`Finite.lean`, `Circle.lean`).
+- **`SU(2)`** (`TauCeti.RepresentationTheory.SU2.*`): `SU2`, `torusMatrix`, `torusHom`, `torus`,
+  `torusExp`, `SU2.trace_torusExp`, `torusContinuousMulEquiv : Circle ≃ₜ* torus` (`Basic.lean`);
+  Borel structure (`Borel.lean`); `exists_conj_mem_torus`, `exists_isConj_torusExp`
+  (`TorusConjugacy.lean`); `isConj_iff_trace_eq`, `norm_trace_le_two`,
+  `exists_isConj_torusExp_mem_Icc` (`ConjugacyClasses.lean`); `symPower`, `finrank_symPower`,
+  `character_symPower_torusExp` (`SymmetricPower.lean`); `isIrreducible_symPower`,
+  `nonempty_equiv_symPower_iff`, exhaustion (`Irreducible.lean`, `Exhaustion.lean`);
+  `character_symPower_eq_chebyshevU_eval`, `characterSpan` and its density in the class
+  functions (`Completeness.lean`); the Weyl group of order `2` (`Weyl/Basic.lean`), the Weyl
+  character formula (`Weyl/Character.lean`), `weyl_integration_formula`,
+  `integral_character_symPower_mul_conj` (`Weyl/Integration.lean`),
+  `weyl_integration_formula_normalized` (`Weyl/Orthogonality.lean`).
+- **Unitary groups** (`TauCeti.Topology.Algebra.UnitaryGroup`, `TauCeti.Analysis.Matrix.UnitaryGroup.*`):
+  `CompactSpace (unitaryGroup n 𝕜)`, `isClosed_specialUnitaryGroup`, `CompactSpace
+  (specialUnitaryGroup n 𝕜)`; `Matrix.diagonal_mem_unitaryGroup_iff`,
+  `Matrix.exists_circle_smul_mem_specialUnitaryGroup`; `unitaryTorusHom`, `unitaryTorus`,
+  `exists_conj_mem_unitaryTorus`, `exists_isConj_unitaryTorusHom`; the spectral theorem for
+  normal matrices `Matrix.exists_mem_unitaryGroup_star_mul_mul_eq_diagonal`
+  (`Analysis/Matrix/Normal.lean`, for `A : Matrix n n ℂ` with `[IsStarNormal A]`), through
+  which `exists_conj_mem_unitaryTorus` is proved;
+  `TauCeti.Topology.Algebra.OrthogonalGroup`: `isClosed_orthogonalGroup`,
+  `isClosed_specialOrthogonalGroup`.
+- **Classical groups** (`TauCeti.RepresentationTheory.ClassicalGroups.*`): `stdRep`,
+  `symplecticGroupToGL`, `stdSymplecticRep`, `stdSymplecticBilinForm`, dominant weights,
+  `symPowerRep`, `extPowerRep`, characters as symmetric polynomials.
+- **Abelian varieties** (`TauCeti.AlgebraicGeometry.AbelianVariety.*`): `AbelianVariety K`,
+  `dim`, `TangentSpace`, `finrank_tangentSpace_eq_dim`, `Hom`, `prod`, `IsIsogeny`,
+  `isIsogeny_mulBy_neg_one`, `End A` with `instRing`, `mulBy`, `End.congr`, `baseChange`,
+  `baseChangeFunctor`, `Hom.baseChange`, `End.baseChange : End A →+* End (A.baseChange L)`,
+  `baseChange_mulBy`.
+- **Elliptic curves** (`TauCeti.AlgebraicGeometry.EllipticCurve.*`): `pointCount`,
+  `frobeniusTrace` with `frobeniusTrace_eq_card_point` (`PointCount.lean`), `hasse_bound`
+  (`HasseBound.lean`), the Tate module `TauCeti.TateModule` with `natCard_tateModuleLevel`,
+  `finrank_tateModule` (`TateModule/Basic.lean`), `tateModuleGaloisRepresentation` with
+  `continuous_tateModuleGaloisRepresentation_apply` (`TateModule/Galois.lean`),
+  `det_tateModuleGaloisRepresentation` (`TateModule/Determinant.lean`), the Weil pairing,
+  isogenies `TauCeti.Isogeny` with `[n]` (`Isogeny/*`), `GaloisDescent.lean`.
+- **Number theory**: `TauCeti.GlobalNumberFields.HeckeCharacter` with `IsFiniteOrder`,
+  `ofRayClassCharacter`, `infinityType`, `IsAlgebraic`, `normCharacter`, `shift`
+  (`NumberTheory/NumberField/Global/HeckeCharacter/*`); `TauCeti.NumberField.complexConj_eq_complexConjugationAt`
+  (`ComplexConjugation/CMField.lean`); Chebotarev density (`NumberTheory/Chebotarev/*`);
+  `TauCeti.LFunctions.primeIdealVonMangoldtBoundary`.
+- **Probability**: `TauCeti.Probability.HasLaw`, moments (`Probability/Moments`); the empirical
+  measures `TauCeti.Probability.empiricalMeasure x n : ProbabilityMeasure α` of the first `n + 1`
+  terms of a sequence, with `integral_empiricalMeasure` and `empiricalMeasure_apply_toReal`
+  (`Probability/Process/EmpiricalMeasure.lean`).
 
 ## References
 
