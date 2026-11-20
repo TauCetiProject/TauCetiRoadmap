@@ -32,177 +32,14 @@ Suggested home: `TauCeti/NumberTheory/MaassForms/`, with separate files for char
 Laplacian and the cuspidal spectrum, Hecke and Atkin–Lehner operators with newforms, the `3/16`
 theorem, `L`-functions, the Picard group, and the LMFDB layer.
 
-## Scope and ownership
+## How to read the build
 
-### Owned here
-
-- The comparison between the unitary weight convention and AutomorphicSpectralTheory §1.16’s
-  weight Laplacian, together with the character and cusp extensions at weight zero (Layer 0).
-- The weight-zero specialization of the native nebentypus space, regular and irregular
-  cusps of `(Γ₀(N), χ)`, the constant term at a cusp, the cuspidality predicate, square-integrability
-  through fundamental domains, the Petersson inner product of weight `0`, and the Hilbert space
-  `L²(N, χ)` as the `χ`-isotypic subspace of `L²(Γ₁(N)\ℍ)` (Layer 0).
-- The **carrier**: Maass forms and Maass cusp forms `M(N, χ, λ)`, `S(N, χ, λ)` for every level,
-  character and eigenvalue, and the eigenvalue/spectral-parameter dictionary `λ = 1/4 + r² = s(1-s)`
-  (Layer 1).
-- The **`K`-Bessel supplements** beyond what §4.5 of the automorphic-forms roadmap supplies: uniform
-  bounds in the order, small-argument behaviour, the Mellin transform, real-valuedness for imaginary
-  order (Layer 2).
-- The **Fourier–Whittaker expansion** at every cusp of `Γ₀(N)`, the Fourier coefficients with
-  their trivial bound, the `K`-free limit characterization, exponential decay of cusp forms, the
-  comparison with the level-one expansion of §4.5, and the reality and positivity of the eigenvalue
-  of a cusp form (Layer 2).
-- The **`χ`-isotypic Laplacian** `Δ_{N,χ}`, the restriction of the self-adjoint Laplacian of
-  `Γ₁(N)\ℍ` to `L²(N, χ)`, with its domain, its kernel and its identification at trivial `χ` with
-  the `Γ₀(N)` operator; the cuspidal subspace `L²_cusp(N, χ)`, the discreteness and finite
-  multiplicity of its spectrum, an orthonormal basis of Maass cusp forms, `λ₁(N, χ)` and the
-  counting function `cuspCount` (Layer 3). The operators themselves and their compact cuspidal
-  resolvent are consumed.
-- **Hecke operators** `Tₙ` at level `N` with character for every `n ≥ 1`, their coefficient
-  formula, multiplicativity and adjoints; the **reflection** `ι` with the even/odd symmetry;
-  **Atkin–Lehner and Fricke involutions** on weight-`0` forms; **oldforms, newforms, strong
-  multiplicity one**, the bad-prime eigenvalues and the Fricke sign of a newform (Layer 4).
-- **Selberg's theorem `λ ≥ 3/16`** for `(Γ₀(N), χ)`, as a corollary of the consumed congruence
-  spectral gap; the elementary level-one bound `λ₁ ≥ 3π²/2`; **Selberg's eigenvalue
-  conjecture** as a named proposition; the **scattering matrix** of `Γ₀(N)` and **Weyl's law** for
-  the cuspidal spectrum of `(Γ₀(N), χ)` (Layer 5).
-- The **`L`-function** of a Hecke–Maass newform: Dirichlet series, Euler product, completion,
-  entire continuation, functional equation and root number, and its card in the completed-`L`-function
-  data model (Layer 6).
-- **Maass forms on `PSL₂(ℤ[i])\H³`**: the Laplacian on `H³`, the carrier, the Fourier–Bessel
-  expansion `y K_{ir}(2π|n|y) e(Re(n x))`, the two symmetries, Hecke operators indexed by Gaussian
-  integers up to sign, and the `L`-function (Layer 7).
-- The **LMFDB layer**: the invariant dictionary for the section, the intrinsic label prefix, the
-  multiplicity-one proposition for squarefree level, and the **certificate semantics** of a rigorous
-  Maass form (Layer 8).
-
-### Shared objects and their owners
-
-- From the [automorphic forms on reductive groups roadmap](../AutomorphicFormsOnReductiveGroups/README.md),
-  §4.5 *Maass forms, the Fourier ODE and Hecke normalization*: the level-one carrier
-  `MaassCuspForm(Γ, λ)` for a finite-index congruence subgroup, the Bessel function
-  `K_ν(u) = ∫₀^∞ e^{-u cosh t} cosh(νt) dt` with its absolute convergence, differentiation in `u`,
-  `K_ν = K_{-ν}`, the equation `u²K'' + uK' - (u² + ν²)K = 0` and the asymptotic
-  `K_ν(u) ~ √(π/(2u)) e^{-u}`; the factor-two Fourier expansion
-  `φ(z) = 2√y Σ_{n≠0} a(n) K_{ir}(2π|n|y) e(nx)` with `fourierCoefficient` and `fourierExpansion`;
-  `maassHecke(m) = m^{-1/2} Σ_{ad=m} Σ_{b mod d} φ((az+b)/d)` with its self-adjointness,
-  commutativity and relations; the parity `ε`; `NormalizedMaassEigenform(r, δ)` with
-  `maassHeckeRecurrence`; the adelic comparison `maassClassicalEquiv`. This roadmap generalizes each
-  of these to `(Γ₀(N), χ)` and proves, at `N = 1` and trivial `χ`, that its object restricts to
-  §4.5's (milestones 1.1, 2.3, 4.1); it adds no second level-one carrier and no second `K_ν`.
-  Since the file holding `K_ν` is a roadmap target and not a Tau Ceti module, `Suggested.lean`
-  writes the Bessel function as its defining integral wherever a signature needs it, and declares
-  no Bessel function of its own.
-- From the [automorphic spectral theory roadmap](../AutomorphicSpectralTheory/README.md):
-  §1.16 `weight_laplacian` `Δ_k` with `weight_laplacian_slash` and `weight_laplacian_power`; §1.16a
-  `modular_laplacian_realization`, the Friedrichs realization of `Δ` on `L²(Γ₀(N)/{±I}\ℍ)` with
-  trivial character, which the congruence spectral gap roadmap's §0.2 identifies with its
-  `Δ_{Γ₀(N)}`; §4.8 `gl2_spectral_expansion`; §4.9 `modular_weyl_estimates` (`N(X) ~ X/12` at level
-  one); Layer 6's trace formula. The general spectral decomposition and Eisenstein continuation are imported; the
-  character-weighted classical cusp comparison is owned by §5.5 below.
-- From the [congruence spectral gap roadmap](../CongruenceSpectralGap/README.md), for a congruence
-  subgroup `Γ ≤ SL(2, ℤ)` acting through its effective image: §0.1 the quotient measure `μ_Γ` on
-  `X_Γ = Γ\ℍ`, the pushforward of `volume` restricted to any measurable fundamental domain,
-  independent of the domain, with `0 < μ_Γ(X_Γ) < ∞` and `μ_Γ(X_Γ) = π/3` at `Γ = SL(2, ℤ)`; §0.2
-  the nonnegative self-adjoint Friedrichs realization `Δ_Γ` of `-y²(∂ₓ² + ∂ᵧ²)` on
-  `L²(X_Γ, μ_Γ)`, densely defined, with kernel the constants, with maximal domain (the classes whose
-  `Γ`-invariant lift has distributional `-y²(∂ₓ² + ∂ᵧ²)` in `L²`), and agreeing at `Γ = Γ₀(N)` with
-  §1.16a's `modular_laplacian_realization`; §0.5b the compact resolvent of `Δ_{Γ(N)}` on its closed
-  cuspidal subspace (zero constant term at every cusp), with pure point spectrum, finite-dimensional
-  eigenspaces and finitely many eigenvalues in every bounded interval; §0.6 the congruence spectral
-  description (the residual spectrum is the constants, the absolutely continuous spectrum is
-  `[1/4, ∞)` with one channel per cusp, and every spectral value in `(0, 1/4)` is a
-  finite-multiplicity eigenvalue whose eigenspace consists of Maass cusp forms); §5.3
-  `congruence_eigenvalue_bound`, `21/100 ≤ λ` for every nonconstant bounded `Γ`-invariant `C²`
-  function `u` on `ℍ` with `-(im z)² Δu = λu`. Layer 3 reads `(Γ₀(N), χ)` off `Γ₁(N)` as a
-  `χ`-isotypic reducing subspace, and 5.3 reads `3/16` off `21/100`; no measure, operator or bound
-  of that roadmap is restated, and `Suggested.lean` declares none of them.
-- From the [modular-forms roadmap](../ModularForms/README.md) and the Tau Ceti modules built to it:
-  the conventions on levels and characters (`[NeZero N]`, the two faces of `χ` bridged by
-  `MulChar.equivToUnitHom`, the zero extension `χ(p) = 0` for `p ∣ N`), the nebentypus spaces
-  `modFormCharSpace`/`cuspFormCharSpace` as the model for how a character enters (an eigenspace
-  condition inside a bare-group space, with the transformation law a theorem), the definition of
-  exact divisor `Q ‖ N`, the Fricke matrix `W_N = [0, -1; N, 0]` and the Atkin–Lehner matrices
-  `W_Q` of its *Layer 6*, the shape of its *Layer 3* oldspace, *Layer 4* newforms and *Layer 5*
-  strong multiplicity one, and its *Layer 9* predicate IsSelfDual. The Hecke coset
-  representatives `[a, b; 0, d]`, `ad = n`, `(a, N) = 1`, `b mod d` are consumed from
-  `TauCeti.NumberTheory.HeckeRing.GL2.Gamma0` (`CosetDecomposition`, `UpperTriangularDelta0`).
-- From the [L-functions roadmap](../LFunctions/README.md), Layer 0: `AnalyticLFunctionData` (norm-indexed
-  coefficients, positive integral conductor, real and complex gamma-shift multisets, root number,
-  completed function, finitely supported polar divisor), its degree and gamma factor, the dual
-  record, and the predicates *Dirichlet-series agreement*, *meromorphic continuation with exact
-  poles*, *functional equation with unit-modulus root number*, *average coefficient growth*.
-  Milestone 6.4 produces this card for a Hecke–Maass newform; it defines no second card.
-- From the [Kleinian-groups roadmap](../KleinianGroups/README.md): `H^3` as
-  `{p : EuclideanSpace ℝ (Fin 3) // 0 < p 2}` with `height`, the `MeasureSpace` instance with
-  `volume_def` (density `(p 2)⁻³`), the quaternionic action of `PSL(2, ℂ)` with `smul_def`,
-  `isometry_smul` and `SMulInvariantMeasure` (Layer 0); `bianchi F ι` and
-  `isDiscrete_bianchi` (Layer 3); and `covolume_bianchiGaussian : catalanConstant / 3`
-  (Layer 4, using Layer 1’s index law). Layer 7 builds on this carrier and adds no
-  second half-space.
-- From the [Fuchsian-orbifolds roadmap](../FuchsianOrbifolds/README.md) and Tau Ceti: fundamental
-  domains and covolume, cusp data with widths, horodiscs, the `q`-coordinate, finiteness of cusp
-  orbits for a cofinite group, and the compactified quotient.
-- From Mathlib and the analysis roadmaps: everything listed under *Prerequisites*.
-
-### Not owned here
-
-- **Holomorphic modular forms** of any weight, their Hecke theory, newforms, `L`-functions,
-  dimension formulas and trace formula: the [modular-forms roadmap](../ModularForms/README.md).
-  The weight-`k` Maass forms whose constant term is `y^{k/2}` times a holomorphic form are mentioned
-  only in the weight dictionary of 0.1.
-- **Half-integral weight Maass forms**, the Kohnen plus space and the Shimura lift: the
-  [metaplectic automorphic forms roadmap](../MetaplecticAutomorphicForms/README.md), §7.2
-  `halfWeightMaass` and 7.32 `biroLevelSpaces`.
-- **Eisenstein series, their meromorphic continuation, the Maass–Selberg relations, the continuous
-  spectrum, the full spectral decomposition of `L²(Γ\ℍ)` and the Selberg trace formula**: the
-  [automorphic spectral theory roadmap](../AutomorphicSpectralTheory/README.md), Layers 1–4 and 6.
-  Layer 5 here consumes the trace formula to prove Weyl's law and owns only the scattering matrix of
-  `Γ₀(N)` as an explicit object.
-- **The adelic theory**: automorphic representations of `GL₂`, the adelization of Maass forms
-  (§4.5's `maassAdelization`), Kuznetsov's formula and the Kim–Sarnak bound `|λ(p)| ≤ p^{7/64} + p^{-7/64}`
-  (symmetric-power functoriality): the automorphic-forms, automorphic-spectral-theory and
-  `GL₂`-transfer roadmaps. The Ramanujan–Petersson conjecture for Maass forms is a named hypothesis
-  here (6.3), never a theorem.
-- **Maass forms on `GL(n)` for `n ≥ 3`** (the LMFDB `L`-function instance types `MaassGL3`,
-  `MaassGL4`, `MaassGSp4`): the automorphic-forms roadmap's Whittaker theory, §4.3; nothing here
-  is stated beyond `GL₂` over `ℚ` and over `ℚ(i)`.
-- **Bianchi modular forms** of weight `2` as cuspidal cohomology classes and harmonic forms on
-  `H³`, their Hecke theory, base change and the elliptic-curve correspondence: the sibling roadmap
-  `BianchiModularForms`. Layer 7 here is the weight-`0` Laplace eigenfunction theory for the one
-  group `PSL₂(ℤ[i])`; its Hecke operators and `L`-function are stated for that group, and the
-  general level-`𝔫` Bianchi theory is not.
-- **Labels and orderings**: label components beyond the intrinsic prefix, orderings fixed by
-  convention, stored lists, and the completeness of database tables are not targets: the spectral
-  index `m` and the index `d` among forms with equal eigenvalue in the label `N.k.a.m.d`, the
-  Conrey labelling of characters, the stored encodings of symmetry and Fricke sign, and the
-  completeness ranges of the database. Layer 8 states the intrinsic prefix `(N, k, χ)` and the invariants
-  the labels are built from.
-- **Kloosterman sums modulo `c` with character**, their multiplicativity, Salié's evaluation and
-  Weil's bound at every modulus, Gauss and Jacobi sums: `CharacterSumsOverFiniteFields`.
-- **Elliptic regularity, Sobolev spaces, the Friedrichs extension in the abstract, the spectral
-  theorem for unbounded self-adjoint operators**: the PDE and self-adjoint-spectral-theory roadmaps.
-  3.3 and Layer 7 apply them.
-- **Numerical algorithms** (Hejhal's algorithm, the Stark–Hejhal collocation, the computation of
-  `R` and of the coefficients), portraits, and the heuristic data: Layer 8 states what a certificate
-  proves and never asserts that a particular decimal is a Maass form.
-
-### Further boundaries
-
-- General adelic Eisenstein theory belongs to AutomorphicSpectralTheory §§2.4 and 4.3–4.4;
-  §§3.5 and 5.5 construct its character-weighted classical comparison at regular cusps.
-- No trace formula is proved here; 5.5 consumes it.
-- No bound on `λ_f(p)` with an absolute constant is a target: only the `f`-dependent trivial bound of
-  2.4 is proved, and 6.3 names the Ramanujan–Petersson conjecture.
-- No Maass form of weight `k ≠ 0`, no multiplier system, no eta multiplier; 0.1 defines the operator
-  only.
-- No Kuznetsov formula, no Kloosterman sums, Poincaré series or Kloosterman zeta functions, no
-  equidistribution of eigenvalues or of Hecke eigenvalues.
-- No spectral-gap argument: the congruence Laplacian, its spectral description and the bound
-  `21/100` are consumed, and 5.3 deduces `3/16` from them.
-- No Bianchi group other than `PSL₂(ℤ[i])`, no level in Layer 7, no class-number bookkeeping.
-- No algorithm: Hejhal's method, the computation of `R`, portraits.
-- No labels, orderings or completeness statements about the database.
+Layers 0–1 fix character spaces and the Maass carrier; Layer 2 proves the all-cusp expansion.
+Layer 3 restricts the supplied quotient Laplacian, Layer 4 builds classical newforms, Layer 5
+proves spectral bounds and counting, and Layer 6 identifies completed L-functions. Layer 7
+carries the same analytic comparisons to the Picard quotient, and Layer 8 gives invariant and
+error-bound semantics. Each *Needs:* line names the inputs to the statement and the indicated
+proof route.
 
 
 ## Conventions
@@ -307,116 +144,6 @@ Each of these could go two ways; every milestone uses the choice made here.
   RamanujanPetersson N f and MultiplicityOne N χ are `Prop`s with their statements; the
   theorems below prove the instances that are theorems (`3/16`, level one) and conclude nothing
   from the propositions except as stated implications.
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `UpperHalfPlane` with `coe`, `ofComplex` (`ofComplex_apply_of_im_pos`), `im`, `re`, the
-  `SL(2, R)` action `SLAction` for `R = ℤ, ℝ`, the `GL(2, ℝ)⁺` action and `ModularGroup.S`, `T`;
-  the measure `volume` with `volume_def`, local finiteness and `SMulInvariantMeasure (GL (Fin 2) ℝ) ℍ volume`.
-- `CongruenceSubgroup.Gamma0 N`, `Gamma1 N`, `Gamma N`, `Gamma0Map`, `Gamma1'`, and in
-  `Cusps.lean` the parabolic-fixed-point cusps `IsCusp`, transitivity of `SL(2, ℤ)` on
-  `OnePoint ℚ` (`OnePoint.exists_mem_SL2`), `strictWidthInfty`, `widthInfty`, and the arithmetic
-  subgroup class `Subgroup.IsArithmetic`.
-- `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `IsPrimitive`, the Gauss sums `gaussSum`,
-  `MulChar.equivToUnitHom`/`ofUnitHom`; `ZMod` units and `Nat.divisorsAntidiagonal` for Hecke sums.
-- `InnerProductSpace.laplacian`/`laplacianWithin` with `laplacian_eq_iteratedFDeriv_complexPlane`
-  (so that `Δ` on `ℂ` is `∂ₓ² + ∂ᵧ²`), `ContDiffOn`, `iteratedFDeriv`.
-- `MeasureTheory.IsFundamentalDomain` with `setIntegral_eq`, `integrableOn_iff`, `covolume`,
-  `HasFundamentalDomain`; `Lp ℂ 2 μ` as a Hilbert space; `intervalIntegral`.
-- `LinearPMap`, `LinearPMap.adjoint`, `IsSelfAdjoint` (with `IsSelfAdjoint.isClosed`,
-  `IsSelfAdjoint.dense_domain`), `HilbertBasis` with `mkOfOrthogonalEqBot`, and the finite-dimensional
-  joint diagonalization `LinearMap.IsSymmetric.iSup_iInf_eq_top_of_commute`,
-  `LinearMap.IsSymmetric.directSum_isInternal_of_commute`.
-- `LSeries`, `LSeriesSummable`, `LSeries.abscissaOfAbsConv`, Euler products for multiplicative
-  coefficients, `Complex.Gammaℝ`, `Complex.Gamma`, `mellin`, `WeakFEPair`; `Complex.besselJ`
-  (the function of the first kind, analytic on the slit plane) and `regularizedHGFun`.
-- `GaussianInt` for `ℤ[i]`, `Zsqrtd`, and the arithmetic of `ZMod`;
-  `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one` for finite
-  additive-character sums (`Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean`,
-  lines 240 and 250).
-
-### From Tau Ceti
-
-- `TauCeti.Analysis.Complex.Fuchsian.Covolume` (`Subgroup.IsCofinite`, `hasFundamentalDomain`,
-  `exists_isFundamentalDomain`) and `TauCeti.Analysis.Complex.Fuchsian.Cusp.*` (`IsCuspPoint`,
-  `CuspOrbit`, `CuspDatum` with `scaling`, `generator`, `width`, `zpowers_generator`,
-  `scaling_mul_generator_mul_inv`, horodiscs, `coordinate`, `qCoordinate`, finiteness of cusp orbits,
-  `widthIndex`); `TauCeti.Analysis.Complex.UpperHalfPlane.*` (`FundamentalDomain`,
-  `DirichletDomain`, `CuspCoordinate`, `Growth`, `Stabilizer`). The Dirichlet domain of a group
-  acting on a metric space is `TauCeti.dirichletDomain G p` in
-  `TauCeti/MeasureTheory/Group/DirichletDomain/Basic.lean`, the points at least as close to `p` as
-  to every point of its orbit; `Subgroup.isFundamentalDomain_dirichletDomain` in
-  `TauCeti/Analysis/Complex/Fuchsian/DirichletDomain.lean` makes it a measurable fundamental domain
-  for every discrete `Γ ≤ PSL(2, ℝ)` and every centre `p ∈ ℍ` with trivial stabilizer in `Γ`
-  (`freeLocus Γ ℍ`), and the image of `PSL(2, ℤ)` in `PSL(2, ℝ)` is discrete (the instance
-  `DiscreteTopology psl2zToPSL2R.range` in
-  `TauCeti/Topology/Algebra/Matrix/ProjectiveSpecialLinearGroup.lean`). Section 0.5 integrates the
-  Petersson product over the Dirichlet domain of `Γ̄₀(N)` centred at `2i`.
-- `TauCeti.NumberTheory.ModularForms.DiamondOperators`, `CharacterDecomp`, `Parity`
-  (`diamondOp`, `modFormCharSpace`, `cuspFormCharSpace`, `mem_modFormCharSpace_iff_nebentypus`),
-  `TauCeti.NumberTheory.ModularForms.Fricke.*` (`frickeGL`, `frickeOperator`, `frickeScalar`,
-  `Involution`, `AtkinLehnerBar`, `Hecke`), `TauCeti.NumberTheory.ModularForms.AtkinLehner.Matrix`
-  and `.Operator` (`IsAtkinLehnerMatrix`, `atkinLehnerMatrix`, `isAtkinLehnerMatrix_atkinLehnerMatrix`,
-  `atkinLehnerGL` and the matrix identities §4.4 applies; the operators there act on
-  `M_k(Γ₀(N))` and are not used), `TauCeti.NumberTheory.HeckeRing.GL2.Gamma0.*`
-  (`Delta0`, `CosetDecomposition`, `UpperTriangularDelta0`, `CoprimeDetCoset`, `AtkinLehner`,
-  `NebentypusChar`), `TauCeti.NumberTheory.DirichletCharacter.*` (`Conductor`, `Even`, `GaussSum`).
-- `TauCeti.Analysis.PDE.*` (`Regularity`, `Spectrum`, `SymmetricEnergy`, `EnergyForm`),
-  `TauCeti.Analysis.Sobolev.*` (`RellichKondrachov`, `WeakDeriv`, `W1p`) and
-  `TauCeti.Analysis.ODE.*` (`Linear`, `Regularity`, `Frobenius`): the elliptic-regularity,
-  compactness and second-order ODE tools Layers 2, 3 and 7 apply.
-- The plain-function character space is `functionCharSpace` in
-  `TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/Ring.lean`, line 88: the slash law
-  for every element of Γ₀(N), with no smoothness, holomorphicity or integrability condition.
-  Use weight zero and `MulChar.equivToUnitHom χ`; `IsAutomorphic` is membership in this space.
-  The weighted double-coset sum is `HeckeRing.GL2.twistedHeckeSlashSum` in
-  `TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/Basic.lean`, line 121.
-  Section 4.1 compares its unitary scalar and upper-triangular representatives with that sum.
-
-### From TauCetiRoadmap.AutomorphicSpectralTheory
-
-Consume §1.16’s weight-zero Laplacian, power and slash-invariance laws; §§0.25–0.28’s
-complex-order modified Bessel I, Whittaker comparison and growing asymptotics for positive
-arguments. The range used here is imaginary order, including zero, or real order in [0,1]
-(the H³ constant eigenfunction reaches order 1). The Wronskian comparison with the integral
-K-kernel in §2.1 fixes the orientation `K I′ − K′ I = 1/u`.
-Consume §§2.4 and 4.3–4.4 for general Eisenstein continuation and the spectral decomposition,
-§§1.23 and 4.8 for the untwisted classical comparison, §4.9 for the level-one Weyl law, and
-Layer 6 for the trace formula. Section 5.5 constructs the character-weighted classical comparison.
-
-### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
-
-Consume AL.3.5.3’s global Rankin–Selberg unfolding and AL.3.6.1’s positive self-pair pole
-criterion and absolute Euler convergence on Re s > 1. Section 6.1 identifies the
-classical normalized coefficients with the GL₂ Whittaker coefficients at every place and
-transports these results; it does not build a second Rankin–Selberg theory.
-AL.2.6.1–AL.2.6.4 give the level-one completion and normalization comparisons, which remain
-level-one statements. The character and exceptional-parameter comparisons are made here.
-For §4.6 consume AL.2.1.4’s standard local factors, AL.2.2.4–AL.2.2.5’s normalized
-newvector and AL.3.7.1’s strong multiplicity one; identify the classical p-th coefficient
-with the local newvector parameter before forming the L-series in Layer 6.
-
-### From the other named suppliers
-
-The section-by-section contracts in Scope and ownership fix the quotient measure and
-Laplacian from CongruenceSpectralGap §§0.1–0.2, compact cuspidal resolvent from §0.5b and
-spectral bound from §5.3; the cusp data from FuchsianOrbifolds; the newform and matrix
-conventions from ModularForms Layers 0 and 3–6; the card from LFunctions Layer 0; the H³
-carrier and action from KleinianGroups Layer 0, the Gaussian group from Layer 3 and its
-covolume from Layer 4, using Layer 1’s index law; PDE Lane E for
-elliptic regularity; SelfAdjointSpectralTheory Parts C–E for the resolvent and spectral
-projections; and OrthogonalL2Bases B2 for Hilbert-basis packaging.
-
-## How to read the build
-
-Layers 0–1 fix character spaces and the Maass carrier; Layer 2 proves the all-cusp expansion.
-Layer 3 restricts the supplied quotient Laplacian, Layer 4 builds classical newforms, Layer 5
-proves spectral bounds and counting, and Layer 6 identifies completed L-functions. Layer 7
-carries the same analytic comparisons to the Picard quotient, and Layer 8 gives invariant and
-error-bound semantics. Each *Needs:* line names the inputs to the statement and the indicated
-proof route.
 
 ## Layer 0: the Laplacian, automorphy with character, cusps and the Petersson product
 
@@ -1978,6 +1705,279 @@ Layer 8 (LMFDB layer, certificates)                    → Layers 1–6
 Layer 0 and 2.1–2.2 start together; 5.3 needs only 0.4, 1.1 and 2.4; Layer 7 can start as soon
 as 2.1 and the Kleinian-groups carrier exist and proceeds in parallel with Layers 3–6; Layer 6
 waits only for 4.6. Nothing waits on Mathlib.
+
+## Scope and ownership
+
+### Owned here
+
+- The comparison between the unitary weight convention and AutomorphicSpectralTheory §1.16’s
+  weight Laplacian, together with the character and cusp extensions at weight zero (Layer 0).
+- The weight-zero specialization of the native nebentypus space, regular and irregular
+  cusps of `(Γ₀(N), χ)`, the constant term at a cusp, the cuspidality predicate, square-integrability
+  through fundamental domains, the Petersson inner product of weight `0`, and the Hilbert space
+  `L²(N, χ)` as the `χ`-isotypic subspace of `L²(Γ₁(N)\ℍ)` (Layer 0).
+- The **carrier**: Maass forms and Maass cusp forms `M(N, χ, λ)`, `S(N, χ, λ)` for every level,
+  character and eigenvalue, and the eigenvalue/spectral-parameter dictionary `λ = 1/4 + r² = s(1-s)`
+  (Layer 1).
+- The **`K`-Bessel supplements** beyond what §4.5 of the automorphic-forms roadmap supplies: uniform
+  bounds in the order, small-argument behaviour, the Mellin transform, real-valuedness for imaginary
+  order (Layer 2).
+- The **Fourier–Whittaker expansion** at every cusp of `Γ₀(N)`, the Fourier coefficients with
+  their trivial bound, the `K`-free limit characterization, exponential decay of cusp forms, the
+  comparison with the level-one expansion of §4.5, and the reality and positivity of the eigenvalue
+  of a cusp form (Layer 2).
+- The **`χ`-isotypic Laplacian** `Δ_{N,χ}`, the restriction of the self-adjoint Laplacian of
+  `Γ₁(N)\ℍ` to `L²(N, χ)`, with its domain, its kernel and its identification at trivial `χ` with
+  the `Γ₀(N)` operator; the cuspidal subspace `L²_cusp(N, χ)`, the discreteness and finite
+  multiplicity of its spectrum, an orthonormal basis of Maass cusp forms, `λ₁(N, χ)` and the
+  counting function `cuspCount` (Layer 3). The operators themselves and their compact cuspidal
+  resolvent are consumed.
+- **Hecke operators** `Tₙ` at level `N` with character for every `n ≥ 1`, their coefficient
+  formula, multiplicativity and adjoints; the **reflection** `ι` with the even/odd symmetry;
+  **Atkin–Lehner and Fricke involutions** on weight-`0` forms; **oldforms, newforms, strong
+  multiplicity one**, the bad-prime eigenvalues and the Fricke sign of a newform (Layer 4).
+- **Selberg's theorem `λ ≥ 3/16`** for `(Γ₀(N), χ)`, as a corollary of the consumed congruence
+  spectral gap; the elementary level-one bound `λ₁ ≥ 3π²/2`; **Selberg's eigenvalue
+  conjecture** as a named proposition; the **scattering matrix** of `Γ₀(N)` and **Weyl's law** for
+  the cuspidal spectrum of `(Γ₀(N), χ)` (Layer 5).
+- The **`L`-function** of a Hecke–Maass newform: Dirichlet series, Euler product, completion,
+  entire continuation, functional equation and root number, and its card in the completed-`L`-function
+  data model (Layer 6).
+- **Maass forms on `PSL₂(ℤ[i])\H³`**: the Laplacian on `H³`, the carrier, the Fourier–Bessel
+  expansion `y K_{ir}(2π|n|y) e(Re(n x))`, the two symmetries, Hecke operators indexed by Gaussian
+  integers up to sign, and the `L`-function (Layer 7).
+- The **LMFDB layer**: the invariant dictionary for the section, the intrinsic label prefix, the
+  multiplicity-one proposition for squarefree level, and the **certificate semantics** of a rigorous
+  Maass form (Layer 8).
+
+### Shared objects and their owners
+
+- From the [automorphic forms on reductive groups roadmap](../AutomorphicFormsOnReductiveGroups/README.md),
+  §4.5 *Maass forms, the Fourier ODE and Hecke normalization*: the level-one carrier
+  `MaassCuspForm(Γ, λ)` for a finite-index congruence subgroup, the Bessel function
+  `K_ν(u) = ∫₀^∞ e^{-u cosh t} cosh(νt) dt` with its absolute convergence, differentiation in `u`,
+  `K_ν = K_{-ν}`, the equation `u²K'' + uK' - (u² + ν²)K = 0` and the asymptotic
+  `K_ν(u) ~ √(π/(2u)) e^{-u}`; the factor-two Fourier expansion
+  `φ(z) = 2√y Σ_{n≠0} a(n) K_{ir}(2π|n|y) e(nx)` with `fourierCoefficient` and `fourierExpansion`;
+  `maassHecke(m) = m^{-1/2} Σ_{ad=m} Σ_{b mod d} φ((az+b)/d)` with its self-adjointness,
+  commutativity and relations; the parity `ε`; `NormalizedMaassEigenform(r, δ)` with
+  `maassHeckeRecurrence`; the adelic comparison `maassClassicalEquiv`. This roadmap generalizes each
+  of these to `(Γ₀(N), χ)` and proves, at `N = 1` and trivial `χ`, that its object restricts to
+  §4.5's (milestones 1.1, 2.3, 4.1); it adds no second level-one carrier and no second `K_ν`.
+  Since the file holding `K_ν` is a roadmap target and not a Tau Ceti module, `Suggested.lean`
+  writes the Bessel function as its defining integral wherever a signature needs it, and declares
+  no Bessel function of its own.
+- From the [automorphic spectral theory roadmap](../AutomorphicSpectralTheory/README.md):
+  §1.16 `weight_laplacian` `Δ_k` with `weight_laplacian_slash` and `weight_laplacian_power`; §1.16a
+  `modular_laplacian_realization`, the Friedrichs realization of `Δ` on `L²(Γ₀(N)/{±I}\ℍ)` with
+  trivial character, which the congruence spectral gap roadmap's §0.2 identifies with its
+  `Δ_{Γ₀(N)}`; §4.8 `gl2_spectral_expansion`; §4.9 `modular_weyl_estimates` (`N(X) ~ X/12` at level
+  one); Layer 6's trace formula. The general spectral decomposition and Eisenstein continuation are imported; the
+  character-weighted classical cusp comparison is owned by §5.5 below.
+- From the [congruence spectral gap roadmap](../CongruenceSpectralGap/README.md), for a congruence
+  subgroup `Γ ≤ SL(2, ℤ)` acting through its effective image: §0.1 the quotient measure `μ_Γ` on
+  `X_Γ = Γ\ℍ`, the pushforward of `volume` restricted to any measurable fundamental domain,
+  independent of the domain, with `0 < μ_Γ(X_Γ) < ∞` and `μ_Γ(X_Γ) = π/3` at `Γ = SL(2, ℤ)`; §0.2
+  the nonnegative self-adjoint Friedrichs realization `Δ_Γ` of `-y²(∂ₓ² + ∂ᵧ²)` on
+  `L²(X_Γ, μ_Γ)`, densely defined, with kernel the constants, with maximal domain (the classes whose
+  `Γ`-invariant lift has distributional `-y²(∂ₓ² + ∂ᵧ²)` in `L²`), and agreeing at `Γ = Γ₀(N)` with
+  §1.16a's `modular_laplacian_realization`; §0.5b the compact resolvent of `Δ_{Γ(N)}` on its closed
+  cuspidal subspace (zero constant term at every cusp), with pure point spectrum, finite-dimensional
+  eigenspaces and finitely many eigenvalues in every bounded interval; §0.6 the congruence spectral
+  description (the residual spectrum is the constants, the absolutely continuous spectrum is
+  `[1/4, ∞)` with one channel per cusp, and every spectral value in `(0, 1/4)` is a
+  finite-multiplicity eigenvalue whose eigenspace consists of Maass cusp forms); §5.3
+  `congruence_eigenvalue_bound`, `21/100 ≤ λ` for every nonconstant bounded `Γ`-invariant `C²`
+  function `u` on `ℍ` with `-(im z)² Δu = λu`. Layer 3 reads `(Γ₀(N), χ)` off `Γ₁(N)` as a
+  `χ`-isotypic reducing subspace, and 5.3 reads `3/16` off `21/100`; no measure, operator or bound
+  of that roadmap is restated, and `Suggested.lean` declares none of them.
+- From the [modular-forms roadmap](../ModularForms/README.md) and the Tau Ceti modules built to it:
+  the conventions on levels and characters (`[NeZero N]`, the two faces of `χ` bridged by
+  `MulChar.equivToUnitHom`, the zero extension `χ(p) = 0` for `p ∣ N`), the nebentypus spaces
+  `modFormCharSpace`/`cuspFormCharSpace` as the model for how a character enters (an eigenspace
+  condition inside a bare-group space, with the transformation law a theorem), the definition of
+  exact divisor `Q ‖ N`, the Fricke matrix `W_N = [0, -1; N, 0]` and the Atkin–Lehner matrices
+  `W_Q` of its *Layer 6*, the shape of its *Layer 3* oldspace, *Layer 4* newforms and *Layer 5*
+  strong multiplicity one, and its *Layer 9* predicate IsSelfDual. The Hecke coset
+  representatives `[a, b; 0, d]`, `ad = n`, `(a, N) = 1`, `b mod d` are consumed from
+  `TauCeti.NumberTheory.HeckeRing.GL2.Gamma0` (`CosetDecomposition`, `UpperTriangularDelta0`).
+- From the [L-functions roadmap](../LFunctions/README.md), Layer 0: `AnalyticLFunctionData` (norm-indexed
+  coefficients, positive integral conductor, real and complex gamma-shift multisets, root number,
+  completed function, finitely supported polar divisor), its degree and gamma factor, the dual
+  record, and the predicates *Dirichlet-series agreement*, *meromorphic continuation with exact
+  poles*, *functional equation with unit-modulus root number*, *average coefficient growth*.
+  Milestone 6.4 produces this card for a Hecke–Maass newform; it defines no second card.
+- From the [Kleinian-groups roadmap](../KleinianGroups/README.md): `H^3` as
+  `{p : EuclideanSpace ℝ (Fin 3) // 0 < p 2}` with `height`, the `MeasureSpace` instance with
+  `volume_def` (density `(p 2)⁻³`), the quaternionic action of `PSL(2, ℂ)` with `smul_def`,
+  `isometry_smul` and `SMulInvariantMeasure` (Layer 0); `bianchi F ι` and
+  `isDiscrete_bianchi` (Layer 3); and `covolume_bianchiGaussian : catalanConstant / 3`
+  (Layer 4, using Layer 1’s index law). Layer 7 builds on this carrier and adds no
+  second half-space.
+- From the [Fuchsian-orbifolds roadmap](../FuchsianOrbifolds/README.md) and Tau Ceti: fundamental
+  domains and covolume, cusp data with widths, horodiscs, the `q`-coordinate, finiteness of cusp
+  orbits for a cofinite group, and the compactified quotient.
+- From Mathlib and the analysis roadmaps: everything listed under *Prerequisites*.
+
+### Not owned here
+
+- **Holomorphic modular forms** of any weight, their Hecke theory, newforms, `L`-functions,
+  dimension formulas and trace formula: the [modular-forms roadmap](../ModularForms/README.md).
+  The weight-`k` Maass forms whose constant term is `y^{k/2}` times a holomorphic form are mentioned
+  only in the weight dictionary of 0.1.
+- **Half-integral weight Maass forms**, the Kohnen plus space and the Shimura lift: the
+  [metaplectic automorphic forms roadmap](../MetaplecticAutomorphicForms/README.md), §7.2
+  `halfWeightMaass` and 7.32 `biroLevelSpaces`.
+- **Eisenstein series, their meromorphic continuation, the Maass–Selberg relations, the continuous
+  spectrum, the full spectral decomposition of `L²(Γ\ℍ)` and the Selberg trace formula**: the
+  [automorphic spectral theory roadmap](../AutomorphicSpectralTheory/README.md), Layers 1–4 and 6.
+  Layer 5 here consumes the trace formula to prove Weyl's law and owns only the scattering matrix of
+  `Γ₀(N)` as an explicit object.
+- **The adelic theory**: automorphic representations of `GL₂`, the adelization of Maass forms
+  (§4.5's `maassAdelization`), Kuznetsov's formula and the Kim–Sarnak bound `|λ(p)| ≤ p^{7/64} + p^{-7/64}`
+  (symmetric-power functoriality): the automorphic-forms, automorphic-spectral-theory and
+  `GL₂`-transfer roadmaps. The Ramanujan–Petersson conjecture for Maass forms is a named hypothesis
+  here (6.3), never a theorem.
+- **Maass forms on `GL(n)` for `n ≥ 3`** (the LMFDB `L`-function instance types `MaassGL3`,
+  `MaassGL4`, `MaassGSp4`): the automorphic-forms roadmap's Whittaker theory, §4.3; nothing here
+  is stated beyond `GL₂` over `ℚ` and over `ℚ(i)`.
+- **Bianchi modular forms** of weight `2` as cuspidal cohomology classes and harmonic forms on
+  `H³`, their Hecke theory, base change and the elliptic-curve correspondence: the sibling roadmap
+  `BianchiModularForms`. Layer 7 here is the weight-`0` Laplace eigenfunction theory for the one
+  group `PSL₂(ℤ[i])`; its Hecke operators and `L`-function are stated for that group, and the
+  general level-`𝔫` Bianchi theory is not.
+- **Labels and orderings**: label components beyond the intrinsic prefix, orderings fixed by
+  convention, stored lists, and the completeness of database tables are not targets: the spectral
+  index `m` and the index `d` among forms with equal eigenvalue in the label `N.k.a.m.d`, the
+  Conrey labelling of characters, the stored encodings of symmetry and Fricke sign, and the
+  completeness ranges of the database. Layer 8 states the intrinsic prefix `(N, k, χ)` and the invariants
+  the labels are built from.
+- **Kloosterman sums modulo `c` with character**, their multiplicativity, Salié's evaluation and
+  Weil's bound at every modulus, Gauss and Jacobi sums: `CharacterSumsOverFiniteFields`.
+- **Elliptic regularity, Sobolev spaces, the Friedrichs extension in the abstract, the spectral
+  theorem for unbounded self-adjoint operators**: the PDE and self-adjoint-spectral-theory roadmaps.
+  3.3 and Layer 7 apply them.
+- **Numerical algorithms** (Hejhal's algorithm, the Stark–Hejhal collocation, the computation of
+  `R` and of the coefficients), portraits, and the heuristic data: Layer 8 states what a certificate
+  proves and never asserts that a particular decimal is a Maass form.
+
+### Further boundaries
+
+- General adelic Eisenstein theory belongs to AutomorphicSpectralTheory §§2.4 and 4.3–4.4;
+  §§3.5 and 5.5 construct its character-weighted classical comparison at regular cusps.
+- No trace formula is proved here; 5.5 consumes it.
+- No bound on `λ_f(p)` with an absolute constant is a target: only the `f`-dependent trivial bound of
+  2.4 is proved, and 6.3 names the Ramanujan–Petersson conjecture.
+- No Maass form of weight `k ≠ 0`, no multiplier system, no eta multiplier; 0.1 defines the operator
+  only.
+- No Kuznetsov formula, no Kloosterman sums, Poincaré series or Kloosterman zeta functions, no
+  equidistribution of eigenvalues or of Hecke eigenvalues.
+- No spectral-gap argument: the congruence Laplacian, its spectral description and the bound
+  `21/100` are consumed, and 5.3 deduces `3/16` from them.
+- No Bianchi group other than `PSL₂(ℤ[i])`, no level in Layer 7, no class-number bookkeeping.
+- No algorithm: Hejhal's method, the computation of `R`, portraits.
+- No labels, orderings or completeness statements about the database.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `UpperHalfPlane` with `coe`, `ofComplex` (`ofComplex_apply_of_im_pos`), `im`, `re`, the
+  `SL(2, R)` action `SLAction` for `R = ℤ, ℝ`, the `GL(2, ℝ)⁺` action and `ModularGroup.S`, `T`;
+  the measure `volume` with `volume_def`, local finiteness and `SMulInvariantMeasure (GL (Fin 2) ℝ) ℍ volume`.
+- `CongruenceSubgroup.Gamma0 N`, `Gamma1 N`, `Gamma N`, `Gamma0Map`, `Gamma1'`, and in
+  `Cusps.lean` the parabolic-fixed-point cusps `IsCusp`, transitivity of `SL(2, ℤ)` on
+  `OnePoint ℚ` (`OnePoint.exists_mem_SL2`), `strictWidthInfty`, `widthInfty`, and the arithmetic
+  subgroup class `Subgroup.IsArithmetic`.
+- `DirichletCharacter ℂ N`, `changeLevel`, `conductor`, `IsPrimitive`, the Gauss sums `gaussSum`,
+  `MulChar.equivToUnitHom`/`ofUnitHom`; `ZMod` units and `Nat.divisorsAntidiagonal` for Hecke sums.
+- `InnerProductSpace.laplacian`/`laplacianWithin` with `laplacian_eq_iteratedFDeriv_complexPlane`
+  (so that `Δ` on `ℂ` is `∂ₓ² + ∂ᵧ²`), `ContDiffOn`, `iteratedFDeriv`.
+- `MeasureTheory.IsFundamentalDomain` with `setIntegral_eq`, `integrableOn_iff`, `covolume`,
+  `HasFundamentalDomain`; `Lp ℂ 2 μ` as a Hilbert space; `intervalIntegral`.
+- `LinearPMap`, `LinearPMap.adjoint`, `IsSelfAdjoint` (with `IsSelfAdjoint.isClosed`,
+  `IsSelfAdjoint.dense_domain`), `HilbertBasis` with `mkOfOrthogonalEqBot`, and the finite-dimensional
+  joint diagonalization `LinearMap.IsSymmetric.iSup_iInf_eq_top_of_commute`,
+  `LinearMap.IsSymmetric.directSum_isInternal_of_commute`.
+- `LSeries`, `LSeriesSummable`, `LSeries.abscissaOfAbsConv`, Euler products for multiplicative
+  coefficients, `Complex.Gammaℝ`, `Complex.Gamma`, `mellin`, `WeakFEPair`; `Complex.besselJ`
+  (the function of the first kind, analytic on the slit plane) and `regularizedHGFun`.
+- `GaussianInt` for `ℤ[i]`, `Zsqrtd`, and the arithmetic of `ZMod`;
+  `AddChar.sum_eq_zero_of_ne_one` and `AddChar.sum_eq_card_of_eq_one` for finite
+  additive-character sums (`Mathlib/NumberTheory/LegendreSymbol/AddCharacter.lean`,
+  lines 240 and 250).
+
+### From Tau Ceti
+
+- `TauCeti.Analysis.Complex.Fuchsian.Covolume` (`Subgroup.IsCofinite`, `hasFundamentalDomain`,
+  `exists_isFundamentalDomain`) and `TauCeti.Analysis.Complex.Fuchsian.Cusp.*` (`IsCuspPoint`,
+  `CuspOrbit`, `CuspDatum` with `scaling`, `generator`, `width`, `zpowers_generator`,
+  `scaling_mul_generator_mul_inv`, horodiscs, `coordinate`, `qCoordinate`, finiteness of cusp orbits,
+  `widthIndex`); `TauCeti.Analysis.Complex.UpperHalfPlane.*` (`FundamentalDomain`,
+  `DirichletDomain`, `CuspCoordinate`, `Growth`, `Stabilizer`). The Dirichlet domain of a group
+  acting on a metric space is `TauCeti.dirichletDomain G p` in
+  `TauCeti/MeasureTheory/Group/DirichletDomain/Basic.lean`, the points at least as close to `p` as
+  to every point of its orbit; `Subgroup.isFundamentalDomain_dirichletDomain` in
+  `TauCeti/Analysis/Complex/Fuchsian/DirichletDomain.lean` makes it a measurable fundamental domain
+  for every discrete `Γ ≤ PSL(2, ℝ)` and every centre `p ∈ ℍ` with trivial stabilizer in `Γ`
+  (`freeLocus Γ ℍ`), and the image of `PSL(2, ℤ)` in `PSL(2, ℝ)` is discrete (the instance
+  `DiscreteTopology psl2zToPSL2R.range` in
+  `TauCeti/Topology/Algebra/Matrix/ProjectiveSpecialLinearGroup.lean`). Section 0.5 integrates the
+  Petersson product over the Dirichlet domain of `Γ̄₀(N)` centred at `2i`.
+- `TauCeti.NumberTheory.ModularForms.DiamondOperators`, `CharacterDecomp`, `Parity`
+  (`diamondOp`, `modFormCharSpace`, `cuspFormCharSpace`, `mem_modFormCharSpace_iff_nebentypus`),
+  `TauCeti.NumberTheory.ModularForms.Fricke.*` (`frickeGL`, `frickeOperator`, `frickeScalar`,
+  `Involution`, `AtkinLehnerBar`, `Hecke`), `TauCeti.NumberTheory.ModularForms.AtkinLehner.Matrix`
+  and `.Operator` (`IsAtkinLehnerMatrix`, `atkinLehnerMatrix`, `isAtkinLehnerMatrix_atkinLehnerMatrix`,
+  `atkinLehnerGL` and the matrix identities §4.4 applies; the operators there act on
+  `M_k(Γ₀(N))` and are not used), `TauCeti.NumberTheory.HeckeRing.GL2.Gamma0.*`
+  (`Delta0`, `CosetDecomposition`, `UpperTriangularDelta0`, `CoprimeDetCoset`, `AtkinLehner`,
+  `NebentypusChar`), `TauCeti.NumberTheory.DirichletCharacter.*` (`Conductor`, `Even`, `GaussSum`).
+- `TauCeti.Analysis.PDE.*` (`Regularity`, `Spectrum`, `SymmetricEnergy`, `EnergyForm`),
+  `TauCeti.Analysis.Sobolev.*` (`RellichKondrachov`, `WeakDeriv`, `W1p`) and
+  `TauCeti.Analysis.ODE.*` (`Linear`, `Regularity`, `Frobenius`): the elliptic-regularity,
+  compactness and second-order ODE tools Layers 2, 3 and 7 apply.
+- The plain-function character space is `functionCharSpace` in
+  `TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/Ring.lean`, line 88: the slash law
+  for every element of Γ₀(N), with no smoothness, holomorphicity or integrability condition.
+  Use weight zero and `MulChar.equivToUnitHom χ`; `IsAutomorphic` is membership in this space.
+  The weighted double-coset sum is `HeckeRing.GL2.twistedHeckeSlashSum` in
+  `TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/Basic.lean`, line 121.
+  Section 4.1 compares its unitary scalar and upper-triangular representatives with that sum.
+
+### From TauCetiRoadmap.AutomorphicSpectralTheory
+
+Consume §1.16’s weight-zero Laplacian, power and slash-invariance laws; §§0.25–0.28’s
+complex-order modified Bessel I, Whittaker comparison and growing asymptotics for positive
+arguments. The range used here is imaginary order, including zero, or real order in [0,1]
+(the H³ constant eigenfunction reaches order 1). The Wronskian comparison with the integral
+K-kernel in §2.1 fixes the orientation `K I′ − K′ I = 1/u`.
+Consume §§2.4 and 4.3–4.4 for general Eisenstein continuation and the spectral decomposition,
+§§1.23 and 4.8 for the untwisted classical comparison, §4.9 for the level-one Weyl law, and
+Layer 6 for the trace formula. Section 5.5 constructs the character-weighted classical comparison.
+
+### From TauCetiRoadmap.AutomorphicLFunctionsAndLocalFactors
+
+Consume AL.3.5.3’s global Rankin–Selberg unfolding and AL.3.6.1’s positive self-pair pole
+criterion and absolute Euler convergence on Re s > 1. Section 6.1 identifies the
+classical normalized coefficients with the GL₂ Whittaker coefficients at every place and
+transports these results; it does not build a second Rankin–Selberg theory.
+AL.2.6.1–AL.2.6.4 give the level-one completion and normalization comparisons, which remain
+level-one statements. The character and exceptional-parameter comparisons are made here.
+For §4.6 consume AL.2.1.4’s standard local factors, AL.2.2.4–AL.2.2.5’s normalized
+newvector and AL.3.7.1’s strong multiplicity one; identify the classical p-th coefficient
+with the local newvector parameter before forming the L-series in Layer 6.
+
+### From the other named suppliers
+
+The section-by-section contracts in Scope and ownership fix the quotient measure and
+Laplacian from CongruenceSpectralGap §§0.1–0.2, compact cuspidal resolvent from §0.5b and
+spectral bound from §5.3; the cusp data from FuchsianOrbifolds; the newform and matrix
+conventions from ModularForms Layers 0 and 3–6; the card from LFunctions Layer 0; the H³
+carrier and action from KleinianGroups Layer 0, the Gaussian group from Layer 3 and its
+covolume from Layer 4, using Layer 1’s index law; PDE Lane E for
+elliptic regularity; SelfAdjointSpectralTheory Parts C–E for the resolvent and spectral
+projections; and OrthogonalL2Bases B2 for Hilbert-basis packaging.
 
 ## References
 
