@@ -1329,7 +1329,8 @@ equivalent (Deligne–Mumford, Proposition 2.3, pp. 88–89, and Theorem 2.4 wit
 pp. 89–92). The converse carries the residue-field hypothesis under which the sources state it:
 Deligne–Mumford assume `k` algebraically closed throughout their §2 (p. 87), and
 [Stacks, Remark 55.18.2, tag 0CEK](https://stacks.math.columbia.edu/tag/0CEK) records the
-equivalence for perfect `k`.
+equivalence for perfect `k`. No step of the route below uses that `k` is perfect; the hypothesis
+is kept only because the sources state the converse under it.
 
 For the forward direction, the singular points of the total space of a nodal model lie at nodes
 of the special fibre, where it is étale-locally `uv = πⁿ` (StableReduction Layer 1), and
