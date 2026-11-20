@@ -595,6 +595,8 @@ the merge and split maps on resolutions with their face relations. Mathlib: dual
 coalgebras and the Frobenius class, piecewise tensor products, graded objects and their monoidal
 structure, preadditive and quotient categories, and `CategoryTheory.Mat_`.
 
+<a id="k3-signed-cubes-complexes-and-euler-characteristic"></a>
+
 ## Layer 3: signed cubes, complexes and Euler characteristic
 
 ### 3.1 Signed cube totalization
@@ -844,6 +846,8 @@ its support, base change and homology; the enhanced state sum, the graded Euler 
 the Jones comparison; the Koszul braiding of cochain complexes. Mathlib: cochain complexes and
 their homology, graded objects with their total object and monoidal structure, and
 `CategoryTheory.Mat_`. The Jones polynomial enters only through Tau Ceti's state-sum definition.
+
+<a id="g-plane-geometry-relative-extension-and-smooth-link-comparison"></a>
 
 ## Layer 8: plane geometry, relative extension and smooth link comparison
 
