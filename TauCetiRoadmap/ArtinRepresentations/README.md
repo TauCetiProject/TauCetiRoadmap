@@ -50,374 +50,6 @@ elliptic curves), `Invariants/` (the LMFDB invariants, projective images, Klein'
 containers, stem fields, Galois conjugates), `Conjectures/` (Artin, weight one, Stark), and
 `ModL/` (finite-image representations over finite fields).
 
-## Scope and ownership
-
-### Owned here
-
-- **The carrier and its basic theory** (Layer 1): Artin representations of an arbitrary field
-  `F`, open kernel and finite image, the Artin field `K_ρ` and the faithful finite-level
-  representation, inflation from any finite Galois extension through which `ρ` factors,
-  isomorphism, direct sums, tensor products, duals, restriction to the open subgroup `G_L` of a
-  finite extension `L/F`, induction from it, the character as a class function on `G_F`,
-  semisimplicity and the decomposition into irreducibles, the Galois action on representations
-  and characters, the character field, and the Grothendieck group of virtual Artin representations
-  with Brauer induction read on it.
-- **Local Artin representations** (Layer 2): carrier and normalization adapters for the imported local-factor formalism, inertia and wild-inertia invariants, the unramified
-  and tame predicates, the local polynomial P(ρ, X) = det(1 − X ρ(Φ) | V^(I_K)) and its
-  independence of the Frobenius lift, the local Euler factor, its behaviour under direct sums,
-  unramified twists, induction and inflation, and the comparison with the arithmetic Frobenius
-  characteristic polynomial at an unramified `ρ`.
-- **Global local data** (Layer 3): adapters to AdelicAlgebraicGroups AA.2.4 for the local polynomial `P_v(ρ, X)` of a global `ρ` at a finite
-  place `v` through the decomposition group of a prime above `v` in the Artin field, the ramified
-  set and the ramified primes of the Artin field, Frobenius characteristic polynomials at
-  unramified places, the local polynomial at a real place (the `±1`-eigenspace dimensions of
-  complex conjugation), and the Euler product `L(s, ρ)` on `Re s > 1` with Artin's formalism.
-- **The Artin L-function as a meromorphic function** (Layer 4): artinLFunctionC ρ, its
-  characterization, and the adapters from ClassicalArithmeticCompletion §7.30's finite-character
-  completion, functional equation and analytic root number to `ArtinRep F V` through finite
-  Galois factorization. These give completedArtinLFunction ρ and the root number `W(ρ)` with `|W(ρ)| = 1` and `W(ρ^∨) = conj W(ρ)`, the order of vanishing at `s = 0`, the
-  analytic card of the L-functions roadmap, and Artin's conjecture as a named proposition.
-- **The conductor–discriminant formula** (Layer 5) for an arbitrary finite Galois extension of
-  number fields, and the identification of the conductor of a one-dimensional `ρ` with the
-  conductor of its Hecke character and, over `ℚ`, of its Dirichlet character.
-- **Root numbers** (Layer 6): the product formula `W(ρ) = ∏_v W(ρ_v, ψ_v)` read on this roadmap's
-  carrier, `W(ρ) = 1` for orthogonal `ρ`, `W(ρ) = ±1` for symplectic `ρ`, the root number of a
-  `p`-adic field in the LMFDB's normalization with its fourth-root-of-unity property, and the local
-  root numbers of elliptic curves with Rohrlich's formulas.
-- **The LMFDB invariants** (Layer 7): dimension, conductor, determinant as a Dirichlet or Hecke
-  character, parity, the trace of complex conjugation and the eigenspace dimensions `n₊, n₋`,
-  Frobenius–Schur indicator, character field and Galois conjugates, image group, projective image
-  and the projective type predicates with Klein's classification of the finite subgroups of
-  `PGL₂(ℂ)`, Artin field, stem fields, projective field and projective stem fields, the smallest
-  permutation container, ramified primes, the cycle-type recipe for Frobenius away from the
-  discriminant of a defining polynomial, and the local polynomial table.
-- **The conjectures as statements** (Layer 8): Artin's conjecture, the strong Artin conjecture
-  and the weight-one dictionary as propositions on this carrier, with the proved cases consumed;
-  the identification of a weight-one newform's Euler factors at the primes dividing its level
-  with the local factors of its cuspidal class; the order of vanishing at `s = 0`; Stark's
-  conjecture at `s = 0` in Tate's formulation and Chinburg's weight-one Stark unit.
-- **Finite-image representations over finite fields** (Layer 9): the carrier
-  `ρ̄ : G_F → GL_n(𝔽)`, image, order, index, surjectivity, determinant and determinant index,
-  abelian and solvable images, irreducibility and absolute irreducibility, Frobenius matrices
-  with their characteristic polynomials, traces, determinants and orders, generating sets of
-  Frobenius classes, the splitting field and the projective kernel field, the top slope, the
-  comparison with the reduction of an Artin representation, and Chebotarev recognition read on
-  this carrier.
-
-### Consumed, not redefined
-
-- From Mathlib: the declarations listed under *From Mathlib* — the absolute Galois
-  group with its Krull topology, `ContRepresentation`, the finite-group representation theory
-  (`Representation`, `FDRep`, characters, invariants, duals, induction, irreducibility,
-  semisimplicity), `IsArithFrobAt` and `Ideal.inertia`, infinite places and complex embeddings,
-  Dirichlet characters, `LSeries` and `dedekindZeta`, the gamma factors and meromorphy,
-  `Matrix.ProjGenLinGroup`, the dihedral, alternating and symmetric groups, the reduction classes
-  of a Weierstrass curve over a discrete valuation ring, and `IsNonarchimedeanLocalField`.
-- From Tau Ceti: the declarations listed by module under *From Tau Ceti* — profiniteness
-  of `G_F` and the open subgroups of finite extensions, `Representation.isOpen_ker_of_finite`, the
-  character table and Frobenius–Schur library, induction and Brauer induction, projective
-  representations, Frobenius elements and the Artin symbol, complex conjugation, ramified primes,
-  decomposition groups, the local inertia and ramification filtrations, Hecke characters and
-  `ratDirichletEquiv`, Euler product data, and the Tate module of an elliptic curve.
-- From the [étale cohomology foundations roadmap](../EtaleCohomologyFoundations/README.md)
-  §F.4.0: `ContinuousRep Γ A M` (a `Representation` with a joint-continuity proof), its Iso,
-  `ofCharacter` and baseChange. For `Γ = G_F`, `A = ℂ` and `M = V` finite-dimensional this is the
-  same object as `ArtinRep F V`; Layer 1.1 records the comparison and duplicates nothing.
-- From the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md),
-  by milestone: §1.4 *No small subgroups* (a continuous homomorphism from a profinite group to
-  `GL_n(ℂ)` has open kernel; `subgroup_units_eq_bot_of_norm_sub_one_le`,
-  continuous_iff_isOpen_ker); §2.7 *Arithmetic character constants* (`tateLocalConstant`),
-  *Root-number product formula* (`rootNumber_eq_prod_tateLocalConstant`) and
-  *Finite-order character globalisation*;
-  §3.1 (`Conductor.breaks`, `Conductor.highestBreak`, `Conductor.swanConductor`); §3.2
-  (`Conductor.artinConductor`, `Conductor.artinConductorNat`, the comparison with
-  `characterConductorExp`); §3.3 (`Conductor.globalConductor`, `Conductor.primeToPConductor`,
-  `AdmissibleExcludedPlaces`); §3.4 functoriality; §3.5 *The local induction formula* and
-  *The global induction formula*, *Hasse–Arf integrality*; §3.6 conductors of reductions; §4.1
-  (`GaloisRep.IsComplexConjugation`, `GaloisRep.IsOdd`); §4.4 Dickson's classification
-  (`GL2Subgroup.dickson_projectiveImage`); §5.1 (`GaloisRep.dense_frobeniusSet`); §5.3
-  (`GaloisRep.iso_of_charpoly_eq_on_dense`, `GaloisRep.iso_of_frobenius_charpoly_eq`); §5.7
-  (`GaloisRep.realizable_of_charpoly_mem`). This roadmap's local Euler factors are stated with
-  arithmetic Frobenius on the representation itself; that roadmap's GaloisRep.localEulerFactor
-  uses geometric Frobenius, and its §2.5a records that the two agree on dual representations.
-- From the [L-functions roadmap](../LFunctions/README.md): Layer 0 (`AnalyticLFunctionData`,
-  the dual record, the continuation and functional-equation predicates, `EqOffZero`); Layer 3
-  (`dedekindZetaC`, `completedDedekindZeta`, `eq_of_meromorphic_of_eqOn_halfPlane`,
-  `eventuallyEq_of_meromorphic_of_eqOn_halfPlane`); Layer 4 (`dirichletData`); Layer 5
-  (`heckeLFunctionC`, `PrimitiveRayClassCharacter`, `completedHeckeLFunction`, its Gauss sum and
-  root number, `eulerCorrection`, `finiteEulerCorrection`, the functional equation
-  `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)` and entirety for nontrivial primitive `χ`). The continuation of
-  `L(s, ρ)` in Layer 4 is assembled from `heckeLFunctionC` by Brauer induction; no second Hecke
-  L-function is built.
-- From the [class field theory roadmap](../ClassFieldTheory/README.md): Layer 7 (`artinMap`,
-  `conductorExponent`, `characterConductorExp`, `unramifiedCoordinate`,
-  `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`); Layer 9 (`WeilGroup`, `weilRestrict`);
-  Layer 11 (`globalArtinMap`, `globalArtinMap_local`, `globalArtinMap_ideal`); Layer 12
-  (`globalAbelianExistence`); Layer 13 (`abelianConductor`, `kroneckerWeber`, the abelian
-  conductor–discriminant formula). The dictionary between one-dimensional Artin representations
-  and finite-order Hecke characters is read through `globalArtinMap`.
-- From [`RepresentationTheory/CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md):
-  Layer 4 (character values in `ℚ(ζ_e)`, the Galois action by power maps, the field of values) and
-  Layer 7 (the Frobenius–Schur indicator and the orthogonal/complex/symplectic trichotomy); from
-  [`RepresentationTheory/InductionRestriction`](../RepresentationTheory/InductionRestriction/README.md):
-  Layer 2 (induced characters, Frobenius reciprocity), Layer 6 (the virtual-character ring, Artin
-  and Brauer induction, elementary subgroups) and Layer 7 (projective representations and the
-  lifting of a homomorphism to `PGL`).
-- From the [local fields and ramification roadmap](../LocalFieldsRamification/README.md): Layer 2
-  (Frobenius of unramified extensions), Layer 3 (the lower and upper filtrations, Herbrand
-  functions, Hasse–Arf) and Layer 4 (the tame quotient); from the
-  [local Galois groups roadmap](../LocalGaloisGroups/README.md): the conventions on `G_K` for a
-  `p`-adic field and nothing else.
-- From the [completed number-field arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md):
-  Layer 2 (`artinSymbol`, `artinHomAway`, the tower formula), Layer 4 (`relDiscr`), Layer 5 (the
-  completion at a finite place, `decompositionHom`), Layer 6 (the global ramification groups).
-- From the [Chebotarev roadmap](../Chebotarev/README.md): `frobeniusPrimeSet`,
-  `hasDirichletDensity_frobeniusPrimeSet`, `hasNaturalDensity_frobeniusPrimeSet`.
-- From the [`GL₂` automorphic representations roadmap](../GL2AutomorphicRepresentationsAndTransfer/README.md):
-  R16.5.1 (the unfolding of the Hecke integral of a cusp form into local Whittaker zeta
-  integrals), R16.6.6 (the cuspidal class of a weight-one newform, with its newvector
-  comparison), R17.5.5 (the all-place upgrade of weak Artin matching), R17.5.1, R17.5.6–R17.5.8 (dihedral,
-  tetrahedral, octahedral and solvable strong Artin), R17.5.9
-  and R17.5.10 (odd solvable Artin representations and weight one); from the
-  [automorphic Galois representations roadmap](../AutomorphicGaloisRepresentations/README.md):
-  §2.10 (the Deligne–Serre representation of a weight-one eigenform); from the
-  [modularity and Langlands extensions roadmap](../ModularityAndLanglandsExtensions/README.md):
-  §1.2 (`IsAutomorphicArtin`, `IsWeaklyAutomorphicArtin`, `IsAutomorphicArtin.lFunction_entire`)
-  and §1.9 (the odd Artin conjecture over totally real fields); from the
-  [analytic number theory roadmap](../AnalyticNumberTheoryPartI/README.md): §2.31 (continuation
-  near `Re s = 1` of the incomplete Artin L-function) and §2.39 (Aramata–Brauer). The predicates
-  `ArtinHolomorphy` and ArtinConjecture of its §2.41 are the same propositions as Layer 8.1
-  here, read on the unique meromorphic continuation; Layer 8.1 records the agreement.
-- From the [adelic algebraic groups roadmap](../AdelicAlgebraicGroups/README.md) AA.2.4,
-  *artin-local-factors*: inertia-fixed arithmetic-Frobenius factors, choice independence,
-  direct sums, induction including ramified places, and Artin–Hecke comparison with the
-  finite correction for imprimitive ray-class presentations. Its *convergence-factors*
-  target supplies meromorphic assembly. Sections 3.1–3.4 here supply the comparisons
-  with the Artin carrier, reversed polynomials and norm-indexed coefficients, not a second
-  construction of those factors or a new proof of their formalism.
-- From the sibling `PadicExtensionFamilies` 2.7: the top slope topSlope K L of a finite extension
-  of `p`-adic fields (the largest Artin slope `1 + u` of its Galois closure, `0` when unramified,
-  `1` when tamely ramified), which 9.2 applies to the completions of the splitting field of a
-  mod-`ℓ` representation at the places above `ℓ` and maximizes over them.
-
-### Not owned here
-
-- **Conductors.** The Artin conductor, the Swan conductor, the breaks, Hasse–Arf integrality,
-  the induction and twist formulas, the conductor of a Weil–Deligne representation, global
-  conductors and the prime-to-`ℓ` conductor of a residual representation belong to the
-  [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) Layer 3
-  and are consumed by name. This roadmap defines no conductor exponent and no second ramification
-  filtration; the conductor–discriminant formula of Layer 5 is an assembly of that roadmap's §3.5.
-- **Scalar local constants.** ArithmeticGaloisRepresentations §2.7 supplies finite Gauss sums,
-  additive characters, measures, scalar globalization and the rank-one product formula.
-  The characteristic-zero higher-rank existence theorem, Weil–Deligne extension and transfer
-  are owned by §2.4 here; equal-characteristic constants come from AutomorphicLFunctionsAndLocalFactors AL.3.10.3. Their global comparison is §6.1.
-- **The proved cases of Artin's conjecture and of the weight-one dictionary.** Dihedral,
-  tetrahedral, octahedral and solvable strong Artin, the weight-one newform attached to an odd
-  solvable two-dimensional `ρ`, the Deligne–Serre representation of a weight-one eigenform, and
-  the odd Artin conjecture over totally real fields are the three Langlands-family roadmaps named
-  above. Layer 8 states the dictionary on this carrier and cites the proofs.
-- **Analytic consequences.** Nonvanishing on `Re s = 1`, zero-free regions, the Brauer–Siegel and
-  Heilbronn–Aramata theorems, effective Chebotarev, and every estimate uniform in the conductor
-  belong to the [analytic number theory roadmap](../AnalyticNumberTheoryPartI/README.md) and the
-  zeros roadmaps; Chebotarev density itself belongs to the [Chebotarev roadmap](../Chebotarev/README.md).
-- **Finite-character analytic completion and Galois module structure.**
-  [`ClassicalArithmeticCompletion`](../ClassicalArithmeticCompletion/README.md) §7.30 owns
-  completedArtinLFunction on finite Galois characters, analyticArtinRootNumber, its
-  functional equation, uniqueness and normalized all-place product. Sections 4.2–4.3
-  and 6.1 here transport that interface to ArtinRep through finite Galois factorization
-  and compare it with §2.4's local constants. Its tame algebraic Gauss factors,
-  symplectic root signs, Fröhlich Hom-description and Taylor theorem remain in its Layer 7.
-- **Labels, orderings and normal forms.** Label components beyond the intrinsic prefix (the
-  orbit letter `a` and the conjugate letter `b` of a label `dim.cond.dtj.a.b`, and the `T`-number
-  of a container of degree above 5), the choice of displayed stem field among several, the stored
-  `HardPrimes` set (the primes dividing the discriminant of the stored defining polynomial of the
-  stem field), the canonical sequence of generating primes of a mod-`ℓ` representation, the
-  minimal sibling of a splitting field, the `image_label`, and every stored list are not targets.
-  This roadmap states the intrinsic label prefix (dimension and conductor), the predicates a label
-  is built from, and the permutation group of the container up to conjugacy, never a letter or an
-  index.
-- **Transitive-group classification.** The classification of transitive subgroups of `Sₙ` and
-  the data of `nTj` belong to the [polynomial Galois groups roadmap](../PolynomialGaloisGroups/README.md).
-- **Sato–Tate groups as objects** — the ambient groups, the axioms, the statistics, and the
-  weight-`0` degree-`1` groups `μ(n)` — belong to `SatoTateGroups`; the Sato–Tate group of an
-  Artin representation of dimension `d` is its image group (7.4) read inside `U(d)` through a
-  `G_F`-invariant Hermitian form, an instance of that roadmap's Layer 1–3 objects that no LMFDB
-  page displays beyond `d = 1` and that no milestone here states beyond 7.4; the `ℓ`-adic images of elliptic curves and modular forms to
-  `AdelicImagesAndModularCurves`; the arithmetic of `p`-adic field families and the Galois
-  splitting models of the `lf` pages to `PadicExtensionFamilies`; the Hilbert weight-one
-  dictionary over totally real fields to `HilbertModularForms`, which consumes R17.5.10 and
-  Layer 8.3 here; the isomorphism invariants of the image groups as abstract groups to
-  `FiniteGroupInvariants`; their labels (`gps_groups`) are not a target.
-- **Weil–Deligne representations and `ℓ`-adic representations** with infinite image, Tate
-  modules, compatible systems, and the elliptic conductor are the arithmetic Galois
-  representations roadmap's; Layer 6.5 consumes the Weil–Deligne representation of an elliptic
-  curve only to name its local root number.
-- **The dual pair of algebras** of a mod-`ℓ` representation (its presentation as a finite étale
-  group scheme) is not an invariant of the representation but a presentation of a group scheme;
-  no milestone here states it, and no roadmap in this repository owns it.
-
-## Conventions
-
-Decide these once. Every one of them has two spellings in the literature, and a roadmap that
-leaves one open gets implemented twice.
-
-| Object | Convention |
-|---|---|
-| Carrier | `ArtinRep F V`, the structure extending Mathlib's `ContRepresentation ℂ (Field.absoluteGaloisGroup F) V` by the single field `continuous_toFun : Continuous ρ`, for `F` any field and `V` a finite-dimensional complex normed space (`[NormedAddCommGroup V] [NormedSpace ℂ V] [FiniteDimensional ℂ V]`). Mathlib's structure is a bare homomorphism `G_F →* (V →L[ℂ] V)`; `G_F` carries its Krull topology (Mathlib's instance; Tau Ceti's `CompactSpace`), `V →L[ℂ] V` the operator-norm topology, and Layer 1.1 proves continuity equivalent to ρ.ker being open and implies that `Set.range ρ` is finite (continuous_iff_isOpen_ker), so the field is the only condition added. No joint-continuity carrier and no "finite image" predicate is introduced; the jointly continuous `ContinuousRep G_F ℂ V` of the [étale cohomology foundations roadmap](../EtaleCohomologyFoundations/README.md) §F.4.0 is the same object and Layer 1.1 records the comparison. |
-| Finite level | A finite Galois extension is an `L : IntermediateField F (AlgebraicClosure F)` with `[IsGalois F L] [FiniteDimensional F L]`, or a separate `[Field L] [Algebra F L] [IsGalois F L] [FiniteDimensional F L]`; its representations are `Representation ℂ (L ≃ₐ[F] L) V`. Inflation is composition with `AlgEquiv.restrictNormalHom L`. The Artin field is the fixed field in `SeparableClosure F` of the kernel transported through `TauCeti.absoluteGaloisGroupRestrictEquiv F`; its image in `AlgebraicClosure F` is the intersection of the algebraic-closure fixed field with `separableClosure F (AlgebraicClosure F)`. |
-| Frobenius | **Arithmetic**, everywhere: Mathlib's `IsArithFrobAt` at a prime of a number field, Tau Ceti's `IsArithFrobeniusLift` in `G_K` for a local field `K`, Tau Ceti's `artinSymbol` for the conjugacy class. Geometric Frobenius is its inverse and is always called geometric. |
-| Local polynomial | P(ρ, X) := det(1 − X ρ(Φ) | V^(ρ(I))), for `Φ` any arithmetic Frobenius lift and `V^{ρ(I)}` the inertia invariants (Mathlib's `Representation.invariants` of the restriction to inertia); as a polynomial, `(LinearMap.charpoly (ρ Φ restricted to V^{ρ(I)})).reverse`. At an unramified `ρ` it is the reversed characteristic polynomial of `ρ(Frob)`. This is the LMFDB's `LocalFactors` entry and Neukirch VII (10.1)'s local factor; it is **not** the characteristic polynomial det(X − ρ(Frob)), whose name here is frobeniusCharpoly. |
-| Euler factor and L-function | `L_v(s, ρ) := P_v(ρ, Nv^{−s})^{−1}`, `L(s, ρ) := ∏_{v finite} L_v(s, ρ)` on `Re s > 1`, over **all** finite places including the ramified ones; no archimedean factor is part of `L(s, ρ)`. With arithmetic Frobenius this is the function whose one-dimensional case is the Hecke L-function of the character `χ ∘ globalArtinMap` with `χ(Frob_v) = L_v`-eigenvalue, and whose trivial case is `ζ_F`. The [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) writes its `ℓ`-adic Euler factors with geometric Frobenius; on a finite-image `ρ` its factor is this roadmap's factor of `ρ^∨`. |
-| Dual | ρ^∨ := Representation.dual made continuous; its character is `χ̄` (`FDRep.conj_char`). The functional equation reflects `ρ` to `ρ^∨`, never to a "conjugate representation" defined separately. |
-| Conductor | `𝔣(ρ) := Conductor.globalConductor ρ ∅` and its exponents `a_v(ρ) := Conductor.artinConductorNat (ρ at v)` of the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) §§3.2–3.3, with `Σ = ∅` admissible for Artin representations. `a_v(ρ) = Σ_{i ≥ 0} (|G_i|/|G_0|) codim V^{G_i}` over the lower filtration of any finite Galois quotient through which `ρ_v` factors, `G_0` inertia, is that roadmap's lower-sum formula and the LMFDB's `artin.conductor` knowl. The **analytic conductor** is `C(ρ) := |disc F|^{dim ρ} · N(𝔣(ρ))`, a positive integer; over `ℚ` it is `N(𝔣(ρ))`, the LMFDB's `Conductor`. |
-| Complex conjugation | At a real place `v` of `F`, a complex conjugation is any `c ∈ G_F` with `ι ∘ c = conj ∘ ι` for an embedding `ι : F̄ → ℂ` above `v` (`GaloisRep.IsComplexConjugation v c` of that roadmap's §4.1); at the finite level it is Tau Ceti's `complexConjugationAt w hw` for a ramified `w` above `v` and `1` for an unramified one. `n₊(ρ, v)`, `n₋(ρ, v)` are the dimensions of the `+1` and `−1` eigenspaces of `ρ(c)`; they do not depend on the choice of `c`. |
-| Gamma factors | `Γ_ℝ(s) = π^{−s/2} Γ(s/2)` and `Γ_ℂ(s) = 2 (2π)^{−s} Γ(s)` are Mathlib's `Complex.Gammaℝ` and `Complex.Gammaℂ`. The archimedean factor of `ρ` is `∏_{v real} Γ_ℝ(s)^{n₊(ρ,v)} Γ_ℝ(s+1)^{n₋(ρ,v)} · ∏_{v complex} Γ_ℂ(s)^{dim ρ}`. |
-| Completion and functional equation | `Λ(s, ρ) := C(ρ)^{s/2} · (archimedean factor) · L(s, ρ)`, the conductor power inside the completion as in the L-functions roadmap; `Λ(s, ρ) = W(ρ) Λ(1 − s, ρ^∨)` with `|W(ρ)| = 1`, as an equality of meromorphic germs at every point and of values away from the polar loci. The analytic normalization reflects `s ↦ 1 − s`; no arithmetic weight occurs. |
-| Root number | `W(ρ)` is the constant of that equation; it is a function of the isomorphism class of `ρ`, satisfies `W(ρ ⊕ ρ') = W(ρ) W(ρ')`, `W(ρ^∨) = conj W(ρ)`, `W(Ind ρ) = W(ρ)`, and is the LMFDB's `Sign` (`root_number`). For one-dimensional `ρ` over `ℚ` it is the Gauss-sum root number `τ(χ)/(i^a √N)` of the primitive Dirichlet character `χ`, `a ∈ {0, 1}` its parity. |
-| Additive characters and local root numbers | The standard character `ψ_F = ψ_ℚ ∘ Tr_{F/ℚ}` with `ψ_{ℚ,∞}(x) = e^{2πix}` and `ψ_{ℚ,p}(x) = e^{−2πi{x}_p}`, and the self-dual measures `dx_ψ`, are the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) §2.7's. `W(ρ_v, ψ_v) := ε(ρ_v ⊗ |·|_v^{1/2}, ψ_v, dx_{ψ_v})`, `|W(ρ_v, ψ_v)| = 1`, and `W(ρ) = ∏_v W(ρ_v, ψ_v)` for every global additive character trivial on `F`; each local factor depends on `ψ_v` through W(ρ_v, ψ_v(b·)) = det ρ_v(b) W(ρ_v, ψ_v) for `b ∈ F_v^×` (with det ρ_v(b) meaning det ρ_v at `Art_{F_v}(b)`), the product does not. At a real place `W(1) = 1` and `W(sgn, ψ_∞) = i`. |
-| The root number of a `p`-adic field | The LMFDB's `lf.root_number` uses the **conjugate** character `ψ̄_p(x) = e^{2πi{x}_p}`, for which `W(sgn, ψ̄_∞) = −i` is the value its knowl states. So rootNumber K := W(Ind_(G_K)^(G_(ℚ_p)) 1, ψ̄_p) = det(Ind 1)(Art(−1)) · W(Ind 1, ψ_p), with det(Ind 1) the quadratic character of the discriminant root field `ℚ_p(√disc K)` (the LMFDB's `rf`). It lies in `{1, i, −1, −i}` (Layer 6.4). The two conventions are related, never conflated. |
-| Determinant as a character | det ρ : G_F → ℂ^× is the determinant of the representation (LinearMap.det ∘ ρ), a one-dimensional Artin representation. Over a number field its **Hecke character** is det ρ ∘ globalArtinMap, a finite-order `HeckeCharacter F` of conductor 𝔣(det ρ). Over `ℚ` its **Dirichlet character** is the primitive `χ : DirichletCharacter ℂ N`, N = N(𝔣(det ρ)), with χ(p) = det ρ(Frob_p) for `p ∤ N` (arithmetic Frobenius; by Kronecker–Weber and `ratDirichletEquiv`), so that χ(−1) = det ρ(c). The LMFDB's `Dets` and `central_character`, and its displayed determinant, are this character, and in dimension one it is the representation itself. |
-| Parity | `ρ` is **even** when det ρ(c) = 1 and **odd** when det ρ(c) = −1, for `c` any complex conjugation (the LMFDB's `Is_Even`); it is a property of det ρ, not of `ρ(c)`. Over a number field with several real places the predicates are per place and "totally odd" is odd at every real place. |
-| Frobenius–Schur indicator | Tau Ceti's frobeniusSchurIndicator, `ν₂(ρ) = |G|⁻¹ Σ_g χ(g²)` on the image group, with, for irreducibles, `+1` orthogonal, `−1` symplectic, `0` complex (the LMFDB's `Indicator`); an **irreducible** `ρ` is self-dual iff `ν₂(ρ) ≠ 0`. The indicator is additive, so the equivalence fails for reducible `ρ`: `χ ⊕ χ̄` with `χ ≠ χ̄` is self-dual with `ν₂ = 0`. |
-| Character field and Galois conjugates | `ℚ(χ) ⊆ ℂ` is the subfield generated by the character values; it is an abelian number field inside `ℚ(ζ_e)`, `e` the exponent of the image, and its **conductor** `n` (the least `n` with `ℚ(χ) ⊆ ℚ(ζ_n)`) is the LMFDB's `CharacterField`. `Aut(ℂ)` acts on Artin representations by applying `σ` to matrix entries (`ρ^σ`), on characters by `σ ∘ χ`; the action factors through `Gal(ℚ(ζ_e)/ℚ) ≅ (ℤ/e)^×` acting by `χ ↦ (g ↦ χ(g^k))`. The **Galois orbit** is the orbit of the isomorphism class; its size is the LMFDB's `galois_conjugacy_size`. |
-| Projective image | `Pρ : G_F → PGL(V)` is `ρ` followed by the quotient by scalars; the projective image is `ρ(G_F)ℂ^×/ℂ^×`, a finite subgroup of `PGL(V)` given up to conjugacy, and the projective field is the fixed field of the transported projective kernel in the separable closure. In dimension two the **type** is one of `cyclic`, `dihedral n` (`n ≥ 2`, `D₂ = V₄`, the LMFDB's `Dn`), `A₄`, `S₄`, `A₅`, by Klein's classification (Layer 7.6); an irreducible two-dimensional `ρ` never has cyclic projective image. |
-| Stem field | IsStemField ρ E: `E` is an intermediate field `F ⊆ E ⊆ K_ρ` whose Galois closure over `F` is `K_ρ`, equivalently `Gal(K_ρ/E)` contains no nontrivial normal subgroup of `Gal(K_ρ/F)`. The LMFDB's `NFGal`/`stem_field` is one stem field of minimal degree; which one is a labelling choice. |
-| Container | containerDegree ρ := min {[G : H] : H ≤ G, V^(ρ(H)) ≠ 0} for `G = Gal(K_ρ/F)` and `ρ` irreducible; by Frobenius reciprocity it is the least degree of a permutation representation of `G` containing `ρ`, and the permutation group `G ↷ G/H` for a minimizing `H` is the container up to conjugacy. Its `T`-number is not formed here. |
-| Ramified, bad, hard primes | `ρ` is **unramified at** `v` when I_v ⊆ ker ρ, equivalently `a_v(ρ) = 0`; the ramified primes are the LMFDB's `BadPrimes` (support of the conductor), and they are exactly the primes ramified in the Artin field `K_ρ`, since `ρ` is faithful on `Gal(K_ρ/F)`. The LMFDB's `HardPrimes` are the primes dividing the discriminant of the **stored** defining polynomial of the stem field, those at which the Frobenius class is not read from the factorization type; the set contains the bad primes, depends on the polynomial, and is not a target. What is intrinsic here is the recipe (7.8): at a prime not dividing the discriminant of a defining polynomial `f` of a stem field, the image of the Frobenius class under the cycle-type map is the factorization type of `f` modulo the prime; this map need not be injective. |
-| Mod-`ℓ` carrier | `ρ̄ : G_F →* GL n 𝔽` continuous for the discrete topology on a finite field `𝔽` of characteristic `ℓ`; equivalently of open kernel. The **codomain** is `GL n (ZMod ℓ)` (or the symplectic similitude group) when `𝔽 = 𝔽_ℓ`; image, order and index are of the image in that codomain; the determinant index is [𝔽_ℓ^× : det ρ̄(G_F)]. Frobenius matrices at an unramified `p ∤ ℓ` are the conjugacy class of `ρ̄(Frob_p)` in the codomain. The **conductor** is the prime-to-`ℓ` conductor `Conductor.primeToPConductor ρ̄`, which excludes the places above `ℓ` rather than assigning them exponent `0`. The **top slope** is the largest Artin slope of the splitting field at the places above `ℓ`: `1 + u` for `u` the largest upper ramification break there, `0` when unramified, `1` when tamely ramified. |
-| Classifications | Klein's classification of finite subgroups of `PGL₂(ℂ)` is proved as a theorem. No finite subgroup of `PGL_n(ℂ)` for `n ≥ 3`, no transitive-group table and no list of groups `nTj` is asserted. |
-| LMFDB intrinsic label prefix | `dim.cond` with `dim = dim ρ` and `cond = N(𝔣(ρ))` for `F = ℚ`; the container `dtj` (whose `T`-number is the polynomial Galois groups roadmap's `TransitiveGroupLabel` for `d ≤ 5`, by its Layer 6), the orbit letter `a` and the conjugate letter `b` of a full label `dim.cond.dtj.a.b` are not formed here and are not targets. |
-
-## Exact supplier contracts
-
-### From Mathlib
-
-- `Field.absoluteGaloisGroup F := AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F` with the Krull
-  topology and `IsTopologicalGroup`; `IntermediateField.fixingSubgroup_isOpen`,
-  `isOpen_iff_finite` (an intermediate field is finite-dimensional iff its fixing subgroup is
-  open), `fixedField_fixingSubgroup` for the Galois correspondence of a Galois extension.
-- `ContRepresentation R G V` (a homomorphism `G →* V →L[R] V`), its `toRepresentation`;
-  `Representation`, Representation.character with `char_one`, `char_conj`, `char_dual`,
-  `char_tensor`, `char_iso`, `char_orthonormal`; `Representation.invariants`, `averageMap`;
-  Representation.dual, `tprod`, prod, `ind` (`Mathlib/RepresentationTheory/Induced.lean`),
-  IsIrreducible, `IsSemisimpleRepresentation`, Maschke; `FDRep`, `FDRep.of`, FDRep.character.
-- `AlgHom.IsArithFrobAt`, `IsArithFrobAt` with `exists_of_isInvariant`, `conj`,
-  `mul_inv_mem_inertia`, `eq_of_isUnramifiedAt`; `Ideal.inertia`, `MulAction.stabilizer`,
-  `Ideal.Quotient.stabilizerHom`; Algebra.IsUnramifiedAt, `Ideal.ramificationIdx`,
-  `Ideal.inertiaDeg`, `Ideal.primesOver`.
-- `NumberField.InfinitePlace`, `IsReal`, `IsComplex`, `ComplexEmbedding.IsConj`,
-  `InfinitePlace.IsRamified`; `NumberField.discr`, `Ideal.absNorm`, `differentIdeal`.
-- `DirichletCharacter`, `conductor`, `Odd`, `Even`, `gaussSum`; `LSeries`; `NumberField.dedekindZeta`,
-  `dedekindZeta_residue`; `Complex.Gammaℝ`, `Complex.Gammaℂ`, `riemannZeta`, `completedRiemannZeta`;
-  `MeromorphicOn`, `MeromorphicAt`, `meromorphicOrderAt`, `AnalyticOnNhd`.
-- `LinearMap.charpoly`, `Polynomial.reverse`, LinearMap.det, LinearMap.restrict,
-  `Module.End.eigenspace`; `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup` with `mk`,
-  `lift`, `signDet`; `DihedralGroup`, `alternatingGroup`, `Equiv.Perm`, `QuaternionGroup`,
-  `IsCyclic`, `Subgroup.index`, `Subgroup.normalCore`.
-- `IsNonarchimedeanLocalField`, `ValuativeRel`, `IsLocalRing.ResidueField`, `Padic`.
-- `WeierstrassCurve.IsMinimal R`, `HasGoodReduction R`, `HasMultiplicativeReduction R`,
-  `HasSplitMultiplicativeReduction R`, `HasAdditiveReduction R` for a Weierstrass curve over the
-  fraction field of a discrete valuation ring `R` (`Mathlib/AlgebraicGeometry/EllipticCurve/Reduction.lean`),
-  and WeierstrassCurve.localPolynomial.
-
-### From Tau Ceti
-
-- `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/`: `CompactSpace (Field.absoluteGaloisGroup K)`,
-  `galoisSubgroup K L σ : OpenSubgroup G_K` with `galoisSubgroup_index`, `galoisSubgroupEquiv`
-  (`G_L ≃ₜ* galoisSubgroup`), `absoluteGaloisGroupExtend`, `exists_absoluteGaloisGroupExtend_eq_conj`.
-- `TauCeti/RepresentationTheory/GaloisLattice/FiniteQuotient.lean`: `Representation.isOpen_ker_of_finite`.
-- `TauCeti/RepresentationTheory/CharacterTable/`: `ClassFunction k G` (a `Submodule k (G → k)`)
-  with `comap`, `map`, `powMap`, `invMap`, `ofCharacter`, `ofFDRep`, `equivConjClasses`;
-  `virtualCharacters k G : AddSubgroup (G → k)`, `irreducibleCharacters`,
-  `irreducibleCharacter`, `irreducibleRepresentation`, `characterDegree`, `characterPairing`;
-  frobeniusSchurIndicator ρ, FDRep.frobeniusSchurIndicator, `TauCeti.Representation.frobeniusSchurIndicator_eq_one_iff`,
-  `_eq_neg_one_iff`, `_eq_zero_iff`, `Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`;
-  `FDRep.conj_char` (`χ(g⁻¹) = conj χ(g)` over `ℂ`), `char_mem_adjoin_of_isPrimitiveRoot`,
-  `isIntegral_char`, `norm_char_le_finrank`, `FDRep.exists_apply_eq_smul_of_norm_char_eq_finrank`;
-  `FDRep.mem_ker_iff_char_eq`, `FDRep.ker_eq_ker_of_char_eq`; the Galois action
-  `FDRep.map_character_eq_character_pow`, `FDRep.character_pow_eq_character_of_mem_range`.
-- `TauCeti/RepresentationTheory/Induction/`: `indFDRep`, `finrank_indFDRep`, `TauCeti.character_indFDRep`,
-  `indClassFun`, `FrobeniusReciprocity.lean` (`frobenius_reciprocity`), `Permutation.lean`
-  (`indTrivialIso`, `char_ind_trivial`,
-  `char_ofMulAction`), `VirtualCharacter.lean`, `Artin/Basic.lean`
-  (`natCard_nsmul_mem_indVirtualCharacters_isCyclic`), `Brauer/Induction.lean`
-  (`ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`,
-  `ClassFunction.character_mem_indCharacterSpanInt_isElementary`), `Brauer/Characterization.lean`
-  (`mem_virtualCharacters_iff_forall_comp_subtype_isElementary`), `Monomial.lean`.
-- `TauCeti/RepresentationTheory/ProjectiveRepresentation/`: `IsProjectiveRep`, `toPGL`,
-  `exists_isProjectiveRep_toPGL_eq`, `schurMultiplier`.
-- `TauCeti/NumberTheory/NumberField/`: `Frobenius.lean` (`exists_isArithFrobAt`,
-  `isArithFrobAt_eq_of_isUnramifiedAt`, `subsingleton_isArithFrobAt`, `isArithFrobAt_autCongr`),
-  `Frobenius/Restriction.lean`, `Frobenius/Tower.lean`, `Frobenius/DecompositionGroup.lean`
-  (`Ideal.isUnramifiedAt_iff_inertia_eq_bot`), `ArtinSymbol.lean` (`artinSymbol`,
-  `artinSymbol_eq_mk_of_isArithFrobAt`, `artinSymbol_map_restrictNormalHom`,
-  `artinSymbol_eq_one_iff_inertiaDeg_eq_one`), `Ideal/ArtinMap.lean` (`artinElement`,
-  `artinHomAway`), `ComplexConjugation/Basic.lean` (`complexConjugationAt`,
-  `isConj_complexConjugationAt`, `orderOf_complexConjugationAt`,
-  `complexConjugationAt_restrictNormal_eq_one_of_isReal`, `_of_isComplex`),
-  `RamifiedPrimes.lean`, `LocalGlobal/DecompositionGroup.lean` (`decompositionHom`,
-  `decompositionEquiv`), `LocalGlobal/RamificationGroup.lean` (`ramificationGroup`,
-  `card_ramificationGroup_eq_card_lowerRamificationGroup`), `LocalGlobal/Frobenius.lean`
-  (`decompositionHom_eq_frobeniusAlgEquiv`), `DedekindZeta.lean`,
-  `Global/HeckeCharacter/` (`HeckeCharacter`, `IsFiniteOrder`, `ofRayClassCharacter`,
-  `conductor`, `finiteConductor`, `conductorExponent`, `infinityType`),
-  `Global/RayClass/Character/Dirichlet.lean` (`ratDirichletEquiv`, `even_ratDirichletEquiv_iff`,
-  `conductor_finitePart_eq_span`).
-- `TauCeti/NumberTheory/LocalField/`: `Unramified/Inertia/Basic.lean` (`inertiaSubgroup`,
-  `IsArithFrobeniusLift`, `exists_isArithFrobeniusLift`, `unramifiedQuotient`),
-  `WildInertia.lean` (`wildInertiaSubgroup`, `isProP_wildInertiaSubgroup`), `RamificationGroup.lean`
-  (`lowerRamificationGroup`, `largestLowerJump`), `Herbrand/` (`upperRamificationGroup`,
-  `UpperJump`, `herbrand`, `HasseArf.lean`), `Tame/` (`tameQuotient`), `Frobenius.lean`.
-- `TauCeti/NumberTheory/ClassFieldTheory/`: `Local/ArtinMap.lean`, `ClassField.lean`
-  (`classField`, `galClassFieldEquiv`), `Global/`.
-- `TauCeti/NumberTheory/ArithmeticDirichletSeries/`: `IdealArithmeticFunction`, `EulerProductData`
-  with `localPowerSeries`, `eulerFactor`, `idealTerm`, `UnitaryIdealWeight`.
-- `TauCeti/AlgebraicGeometry/EllipticCurve/`: `tateModuleGaloisRepresentation`,
-  `tateModuleWeilPairing`, `IsSemistable`, and the minimal-model and local-polynomial theorems over
-  Mathlib's reduction classes.
-- `TauCeti/NumberTheory/ModularForms/Newforms/Newform.lean`: `HeckeRing.GL2.Newform`
-  bundles a nonzero cusp form, its nebentypus and good Hecke eigenconditions, membership
-  in the new subspace, and first Fourier coefficient 1. It imposes no bad-prime
-  eigencondition; `Newforms/FullEigenform.lean` (`HeckeRing.GL2.Newform.toEigenform`) proves
-  that it is an eigenform at every prime, and `LFunction/EulerProduct.lean`
-  (`HeckeRing.GL2.Newform.L_eulerProduct_tprod`) writes its L-series as the Euler product over
-  all primes, with factor `(1 − a_p p^{−s})^{−1}` at `p ∣ N`, on `Re s > k/2 + 1`.
-- `TauCeti/NumberTheory/Chebotarev/`: `frobeniusPrimeSet`, `mem_frobeniusPrimeSet_iff_artinSymbol_eq`.
-
-### From named roadmaps
-
-The section contracts in Scope and ownership fix the imported objects and their conventions.
-From ClassicalArithmeticCompletion §7.30, **Analytic Artin root numbers**, consume the
-finite-character completedArtinLFunction, analyticArtinRootNumber, functional-equation
-and uniqueness statements, and the normalized all-place product. Its arithmetic-Frobenius
-completion uses `Cχ = |disc F|^χ(1) Nfχ`, the exponent s/2, real shifts n₊, n₋, and
-complex factor Γℂ(s)^χ(1), exactly as here. The comparison takes the character of any
-finite Galois presentation of ρ, with independence under inflation and isomorphism.
-This contract imports the finite-character interface; §2.4 separately constructs the
-characteristic-zero higher-rank local constants from ArithmeticGaloisRepresentations §2.7's
-scalar constants and globalization. No higher-rank existence theorem is assumed from
-that scalar contract. GL2AutomorphicRepresentationsAndTransfer R17.5's local-constant
-contracts likewise supply no additional construction to §2.4.
-AutomorphicLFunctionsAndLocalFactors AL.3.10.3 supplies the equal-characteristic
-local-constant construction, including monodromy, norm twisting and conductor compatibility;
-§2.4 here compares its coefficient models with complex Artin representations.
-Its AL.2.2.4–AL.2.2.5 (the `GL₂` newvector line at the conductor and its Whittaker
-normalization) and AL.3.3.5 at `n = 2` (the zeta integral of the normalized newvector is the
-standard local factor) give §8.2 the factors of a weight-one newform at the primes dividing
-its level.
-For orthogonal obstructions, additionally consume GeneralizedCohomology G5, item 4
-(the real Pin⁺ double cover with its rank-zero convention), and OrthogonalSpinGroups Layer 1A–1E
-(Clifford norm and the vector action, including the distinction between reverse and star),
-ProfiniteCohomology Layers 2–3, 6, 8–9 (explicit degree-two cocycles, comparison,
-inflation, cup products and separable-closure coefficients), and ClassFieldTheory Layer 5
-(the local Brauer carrier and `invMap`). Section 6.3 owns the representation-specific
-pullback to a finite orthogonal representation and local obstruction map.
-The group-extension class is `TauCeti.FactorSet.cohomologyClass` and its
-section-independence theorem `TauCeti.GroupExtension.cohomologyClass_factorSet_eq`
-in `TauCeti/GroupTheory/GroupExtension/Cohomology.lean`; the finite group is transported
-to a small finite model for this pinned `Type`-valued interface, with independence under isomorphism.
-
 ## How to read the build
 
 Layer 1 passes from continuous representations to finite Galois groups. Layer 2 develops
@@ -463,6 +95,38 @@ Every Artin representation has a finite presentation by Layer 1, so these signat
 the full arithmetic scope. The missing conductor, epsilon and regulator carriers prevent
 the corresponding refinements, including equality of the Artin conductor with the newform
 level; the module docstring distinguishes these from the full weight-one L-series equality.
+
+## Conventions
+
+Decide these once. Every one of them has two spellings in the literature, and a roadmap that
+leaves one open gets implemented twice.
+
+| Object | Convention |
+|---|---|
+| Carrier | `ArtinRep F V`, the structure extending Mathlib's `ContRepresentation ℂ (Field.absoluteGaloisGroup F) V` by the single field `continuous_toFun : Continuous ρ`, for `F` any field and `V` a finite-dimensional complex normed space (`[NormedAddCommGroup V] [NormedSpace ℂ V] [FiniteDimensional ℂ V]`). Mathlib's structure is a bare homomorphism `G_F →* (V →L[ℂ] V)`; `G_F` carries its Krull topology (Mathlib's instance; Tau Ceti's `CompactSpace`), `V →L[ℂ] V` the operator-norm topology, and Layer 1.1 proves continuity equivalent to ρ.ker being open and implies that `Set.range ρ` is finite (continuous_iff_isOpen_ker), so the field is the only condition added. No joint-continuity carrier and no "finite image" predicate is introduced; the jointly continuous `ContinuousRep G_F ℂ V` of the [étale cohomology foundations roadmap](../EtaleCohomologyFoundations/README.md) §F.4.0 is the same object and Layer 1.1 records the comparison. |
+| Finite level | A finite Galois extension is an `L : IntermediateField F (AlgebraicClosure F)` with `[IsGalois F L] [FiniteDimensional F L]`, or a separate `[Field L] [Algebra F L] [IsGalois F L] [FiniteDimensional F L]`; its representations are `Representation ℂ (L ≃ₐ[F] L) V`. Inflation is composition with `AlgEquiv.restrictNormalHom L`. The Artin field is the fixed field in `SeparableClosure F` of the kernel transported through `TauCeti.absoluteGaloisGroupRestrictEquiv F`; its image in `AlgebraicClosure F` is the intersection of the algebraic-closure fixed field with `separableClosure F (AlgebraicClosure F)`. |
+| Frobenius | **Arithmetic**, everywhere: Mathlib's `IsArithFrobAt` at a prime of a number field, Tau Ceti's `IsArithFrobeniusLift` in `G_K` for a local field `K`, Tau Ceti's `artinSymbol` for the conjugacy class. Geometric Frobenius is its inverse and is always called geometric. |
+| Local polynomial | P(ρ, X) := det(1 − X ρ(Φ) | V^(ρ(I))), for `Φ` any arithmetic Frobenius lift and `V^{ρ(I)}` the inertia invariants (Mathlib's `Representation.invariants` of the restriction to inertia); as a polynomial, `(LinearMap.charpoly (ρ Φ restricted to V^{ρ(I)})).reverse`. At an unramified `ρ` it is the reversed characteristic polynomial of `ρ(Frob)`. This is the LMFDB's `LocalFactors` entry and Neukirch VII (10.1)'s local factor; it is **not** the characteristic polynomial det(X − ρ(Frob)), whose name here is frobeniusCharpoly. |
+| Euler factor and L-function | `L_v(s, ρ) := P_v(ρ, Nv^{−s})^{−1}`, `L(s, ρ) := ∏_{v finite} L_v(s, ρ)` on `Re s > 1`, over **all** finite places including the ramified ones; no archimedean factor is part of `L(s, ρ)`. With arithmetic Frobenius this is the function whose one-dimensional case is the Hecke L-function of the character `χ ∘ globalArtinMap` with `χ(Frob_v) = L_v`-eigenvalue, and whose trivial case is `ζ_F`. The [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) writes its `ℓ`-adic Euler factors with geometric Frobenius; on a finite-image `ρ` its factor is this roadmap's factor of `ρ^∨`. |
+| Dual | ρ^∨ := Representation.dual made continuous; its character is `χ̄` (`FDRep.conj_char`). The functional equation reflects `ρ` to `ρ^∨`, never to a "conjugate representation" defined separately. |
+| Conductor | `𝔣(ρ) := Conductor.globalConductor ρ ∅` and its exponents `a_v(ρ) := Conductor.artinConductorNat (ρ at v)` of the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) §§3.2–3.3, with `Σ = ∅` admissible for Artin representations. `a_v(ρ) = Σ_{i ≥ 0} (|G_i|/|G_0|) codim V^{G_i}` over the lower filtration of any finite Galois quotient through which `ρ_v` factors, `G_0` inertia, is that roadmap's lower-sum formula and the LMFDB's `artin.conductor` knowl. The **analytic conductor** is `C(ρ) := |disc F|^{dim ρ} · N(𝔣(ρ))`, a positive integer; over `ℚ` it is `N(𝔣(ρ))`, the LMFDB's `Conductor`. |
+| Complex conjugation | At a real place `v` of `F`, a complex conjugation is any `c ∈ G_F` with `ι ∘ c = conj ∘ ι` for an embedding `ι : F̄ → ℂ` above `v` (`GaloisRep.IsComplexConjugation v c` of that roadmap's §4.1); at the finite level it is Tau Ceti's `complexConjugationAt w hw` for a ramified `w` above `v` and `1` for an unramified one. `n₊(ρ, v)`, `n₋(ρ, v)` are the dimensions of the `+1` and `−1` eigenspaces of `ρ(c)`; they do not depend on the choice of `c`. |
+| Gamma factors | `Γ_ℝ(s) = π^{−s/2} Γ(s/2)` and `Γ_ℂ(s) = 2 (2π)^{−s} Γ(s)` are Mathlib's `Complex.Gammaℝ` and `Complex.Gammaℂ`. The archimedean factor of `ρ` is `∏_{v real} Γ_ℝ(s)^{n₊(ρ,v)} Γ_ℝ(s+1)^{n₋(ρ,v)} · ∏_{v complex} Γ_ℂ(s)^{dim ρ}`. |
+| Completion and functional equation | `Λ(s, ρ) := C(ρ)^{s/2} · (archimedean factor) · L(s, ρ)`, the conductor power inside the completion as in the L-functions roadmap; `Λ(s, ρ) = W(ρ) Λ(1 − s, ρ^∨)` with `|W(ρ)| = 1`, as an equality of meromorphic germs at every point and of values away from the polar loci. The analytic normalization reflects `s ↦ 1 − s`; no arithmetic weight occurs. |
+| Root number | `W(ρ)` is the constant of that equation; it is a function of the isomorphism class of `ρ`, satisfies `W(ρ ⊕ ρ') = W(ρ) W(ρ')`, `W(ρ^∨) = conj W(ρ)`, `W(Ind ρ) = W(ρ)`, and is the LMFDB's `Sign` (`root_number`). For one-dimensional `ρ` over `ℚ` it is the Gauss-sum root number `τ(χ)/(i^a √N)` of the primitive Dirichlet character `χ`, `a ∈ {0, 1}` its parity. |
+| Additive characters and local root numbers | The standard character `ψ_F = ψ_ℚ ∘ Tr_{F/ℚ}` with `ψ_{ℚ,∞}(x) = e^{2πix}` and `ψ_{ℚ,p}(x) = e^{−2πi{x}_p}`, and the self-dual measures `dx_ψ`, are the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) §2.7's. `W(ρ_v, ψ_v) := ε(ρ_v ⊗ |·|_v^{1/2}, ψ_v, dx_{ψ_v})`, `|W(ρ_v, ψ_v)| = 1`, and `W(ρ) = ∏_v W(ρ_v, ψ_v)` for every global additive character trivial on `F`; each local factor depends on `ψ_v` through W(ρ_v, ψ_v(b·)) = det ρ_v(b) W(ρ_v, ψ_v) for `b ∈ F_v^×` (with det ρ_v(b) meaning det ρ_v at `Art_{F_v}(b)`), the product does not. At a real place `W(1) = 1` and `W(sgn, ψ_∞) = i`. |
+| The root number of a `p`-adic field | The LMFDB's `lf.root_number` uses the **conjugate** character `ψ̄_p(x) = e^{2πi{x}_p}`, for which `W(sgn, ψ̄_∞) = −i` is the value its knowl states. So rootNumber K := W(Ind_(G_K)^(G_(ℚ_p)) 1, ψ̄_p) = det(Ind 1)(Art(−1)) · W(Ind 1, ψ_p), with det(Ind 1) the quadratic character of the discriminant root field `ℚ_p(√disc K)` (the LMFDB's `rf`). It lies in `{1, i, −1, −i}` (Layer 6.4). The two conventions are related, never conflated. |
+| Determinant as a character | det ρ : G_F → ℂ^× is the determinant of the representation (LinearMap.det ∘ ρ), a one-dimensional Artin representation. Over a number field its **Hecke character** is det ρ ∘ globalArtinMap, a finite-order `HeckeCharacter F` of conductor 𝔣(det ρ). Over `ℚ` its **Dirichlet character** is the primitive `χ : DirichletCharacter ℂ N`, N = N(𝔣(det ρ)), with χ(p) = det ρ(Frob_p) for `p ∤ N` (arithmetic Frobenius; by Kronecker–Weber and `ratDirichletEquiv`), so that χ(−1) = det ρ(c). The LMFDB's `Dets` and `central_character`, and its displayed determinant, are this character, and in dimension one it is the representation itself. |
+| Parity | `ρ` is **even** when det ρ(c) = 1 and **odd** when det ρ(c) = −1, for `c` any complex conjugation (the LMFDB's `Is_Even`); it is a property of det ρ, not of `ρ(c)`. Over a number field with several real places the predicates are per place and "totally odd" is odd at every real place. |
+| Frobenius–Schur indicator | Tau Ceti's frobeniusSchurIndicator, `ν₂(ρ) = |G|⁻¹ Σ_g χ(g²)` on the image group, with, for irreducibles, `+1` orthogonal, `−1` symplectic, `0` complex (the LMFDB's `Indicator`); an **irreducible** `ρ` is self-dual iff `ν₂(ρ) ≠ 0`. The indicator is additive, so the equivalence fails for reducible `ρ`: `χ ⊕ χ̄` with `χ ≠ χ̄` is self-dual with `ν₂ = 0`. |
+| Character field and Galois conjugates | `ℚ(χ) ⊆ ℂ` is the subfield generated by the character values; it is an abelian number field inside `ℚ(ζ_e)`, `e` the exponent of the image, and its **conductor** `n` (the least `n` with `ℚ(χ) ⊆ ℚ(ζ_n)`) is the LMFDB's `CharacterField`. `Aut(ℂ)` acts on Artin representations by applying `σ` to matrix entries (`ρ^σ`), on characters by `σ ∘ χ`; the action factors through `Gal(ℚ(ζ_e)/ℚ) ≅ (ℤ/e)^×` acting by `χ ↦ (g ↦ χ(g^k))`. The **Galois orbit** is the orbit of the isomorphism class; its size is the LMFDB's `galois_conjugacy_size`. |
+| Projective image | `Pρ : G_F → PGL(V)` is `ρ` followed by the quotient by scalars; the projective image is `ρ(G_F)ℂ^×/ℂ^×`, a finite subgroup of `PGL(V)` given up to conjugacy, and the projective field is the fixed field of the transported projective kernel in the separable closure. In dimension two the **type** is one of `cyclic`, `dihedral n` (`n ≥ 2`, `D₂ = V₄`, the LMFDB's `Dn`), `A₄`, `S₄`, `A₅`, by Klein's classification (Layer 7.6); an irreducible two-dimensional `ρ` never has cyclic projective image. |
+| Stem field | IsStemField ρ E: `E` is an intermediate field `F ⊆ E ⊆ K_ρ` whose Galois closure over `F` is `K_ρ`, equivalently `Gal(K_ρ/E)` contains no nontrivial normal subgroup of `Gal(K_ρ/F)`. The LMFDB's `NFGal`/`stem_field` is one stem field of minimal degree; which one is a labelling choice. |
+| Container | containerDegree ρ := min {[G : H] : H ≤ G, V^(ρ(H)) ≠ 0} for `G = Gal(K_ρ/F)` and `ρ` irreducible; by Frobenius reciprocity it is the least degree of a permutation representation of `G` containing `ρ`, and the permutation group `G ↷ G/H` for a minimizing `H` is the container up to conjugacy. Its `T`-number is not formed here. |
+| Ramified, bad, hard primes | `ρ` is **unramified at** `v` when I_v ⊆ ker ρ, equivalently `a_v(ρ) = 0`; the ramified primes are the LMFDB's `BadPrimes` (support of the conductor), and they are exactly the primes ramified in the Artin field `K_ρ`, since `ρ` is faithful on `Gal(K_ρ/F)`. The LMFDB's `HardPrimes` are the primes dividing the discriminant of the **stored** defining polynomial of the stem field, those at which the Frobenius class is not read from the factorization type; the set contains the bad primes, depends on the polynomial, and is not a target. What is intrinsic here is the recipe (7.8): at a prime not dividing the discriminant of a defining polynomial `f` of a stem field, the image of the Frobenius class under the cycle-type map is the factorization type of `f` modulo the prime; this map need not be injective. |
+| Mod-`ℓ` carrier | `ρ̄ : G_F →* GL n 𝔽` continuous for the discrete topology on a finite field `𝔽` of characteristic `ℓ`; equivalently of open kernel. The **codomain** is `GL n (ZMod ℓ)` (or the symplectic similitude group) when `𝔽 = 𝔽_ℓ`; image, order and index are of the image in that codomain; the determinant index is [𝔽_ℓ^× : det ρ̄(G_F)]. Frobenius matrices at an unramified `p ∤ ℓ` are the conjugacy class of `ρ̄(Frob_p)` in the codomain. The **conductor** is the prime-to-`ℓ` conductor `Conductor.primeToPConductor ρ̄`, which excludes the places above `ℓ` rather than assigning them exponent `0`. The **top slope** is the largest Artin slope of the splitting field at the places above `ℓ`: `1 + u` for `u` the largest upper ramification break there, `0` when unramified, `1` when tamely ramified. |
+| Classifications | Klein's classification of finite subgroups of `PGL₂(ℂ)` is proved as a theorem. No finite subgroup of `PGL_n(ℂ)` for `n ≥ 3`, no transitive-group table and no list of groups `nTj` is asserted. |
+| LMFDB intrinsic label prefix | `dim.cond` with `dim = dim ρ` and `cond = N(𝔣(ρ))` for `F = ℚ`; the container `dtj` (whose `T`-number is the polynomial Galois groups roadmap's `TransitiveGroupLabel` for `d ≤ 5`, by its Layer 6), the orbit letter `a` and the conjugate letter `b` of a full label `dim.cond.dtj.a.b` are not formed here and are not targets. |
 
 ## Layer 1: Artin representations of a field
 
@@ -2359,6 +2023,342 @@ The layer numbering is a dependency order. The useful extra information:
 - **Layer 8** needs Layer 4 (8.1), 7.6 and 3.4 (8.2), 4.4 (8.3); the three are independent.
 - **Layer 9** needs Layers 1.1–1.2 and 3.1 and the supplier's Layers 3–5; it is independent of
   Layers 4–8 and can proceed in parallel with them.
+
+## Scope and ownership
+
+### Owned here
+
+- **The carrier and its basic theory** (Layer 1): Artin representations of an arbitrary field
+  `F`, open kernel and finite image, the Artin field `K_ρ` and the faithful finite-level
+  representation, inflation from any finite Galois extension through which `ρ` factors,
+  isomorphism, direct sums, tensor products, duals, restriction to the open subgroup `G_L` of a
+  finite extension `L/F`, induction from it, the character as a class function on `G_F`,
+  semisimplicity and the decomposition into irreducibles, the Galois action on representations
+  and characters, the character field, and the Grothendieck group of virtual Artin representations
+  with Brauer induction read on it.
+- **Local Artin representations** (Layer 2): carrier and normalization adapters for the imported local-factor formalism, inertia and wild-inertia invariants, the unramified
+  and tame predicates, the local polynomial P(ρ, X) = det(1 − X ρ(Φ) | V^(I_K)) and its
+  independence of the Frobenius lift, the local Euler factor, its behaviour under direct sums,
+  unramified twists, induction and inflation, and the comparison with the arithmetic Frobenius
+  characteristic polynomial at an unramified `ρ`.
+- **Global local data** (Layer 3): adapters to AdelicAlgebraicGroups AA.2.4 for the local polynomial `P_v(ρ, X)` of a global `ρ` at a finite
+  place `v` through the decomposition group of a prime above `v` in the Artin field, the ramified
+  set and the ramified primes of the Artin field, Frobenius characteristic polynomials at
+  unramified places, the local polynomial at a real place (the `±1`-eigenspace dimensions of
+  complex conjugation), and the Euler product `L(s, ρ)` on `Re s > 1` with Artin's formalism.
+- **The Artin L-function as a meromorphic function** (Layer 4): artinLFunctionC ρ, its
+  characterization, and the adapters from ClassicalArithmeticCompletion §7.30's finite-character
+  completion, functional equation and analytic root number to `ArtinRep F V` through finite
+  Galois factorization. These give completedArtinLFunction ρ and the root number `W(ρ)` with `|W(ρ)| = 1` and `W(ρ^∨) = conj W(ρ)`, the order of vanishing at `s = 0`, the
+  analytic card of the L-functions roadmap, and Artin's conjecture as a named proposition.
+- **The conductor–discriminant formula** (Layer 5) for an arbitrary finite Galois extension of
+  number fields, and the identification of the conductor of a one-dimensional `ρ` with the
+  conductor of its Hecke character and, over `ℚ`, of its Dirichlet character.
+- **Root numbers** (Layer 6): the product formula `W(ρ) = ∏_v W(ρ_v, ψ_v)` read on this roadmap's
+  carrier, `W(ρ) = 1` for orthogonal `ρ`, `W(ρ) = ±1` for symplectic `ρ`, the root number of a
+  `p`-adic field in the LMFDB's normalization with its fourth-root-of-unity property, and the local
+  root numbers of elliptic curves with Rohrlich's formulas.
+- **The LMFDB invariants** (Layer 7): dimension, conductor, determinant as a Dirichlet or Hecke
+  character, parity, the trace of complex conjugation and the eigenspace dimensions `n₊, n₋`,
+  Frobenius–Schur indicator, character field and Galois conjugates, image group, projective image
+  and the projective type predicates with Klein's classification of the finite subgroups of
+  `PGL₂(ℂ)`, Artin field, stem fields, projective field and projective stem fields, the smallest
+  permutation container, ramified primes, the cycle-type recipe for Frobenius away from the
+  discriminant of a defining polynomial, and the local polynomial table.
+- **The conjectures as statements** (Layer 8): Artin's conjecture, the strong Artin conjecture
+  and the weight-one dictionary as propositions on this carrier, with the proved cases consumed;
+  the identification of a weight-one newform's Euler factors at the primes dividing its level
+  with the local factors of its cuspidal class; the order of vanishing at `s = 0`; Stark's
+  conjecture at `s = 0` in Tate's formulation and Chinburg's weight-one Stark unit.
+- **Finite-image representations over finite fields** (Layer 9): the carrier
+  `ρ̄ : G_F → GL_n(𝔽)`, image, order, index, surjectivity, determinant and determinant index,
+  abelian and solvable images, irreducibility and absolute irreducibility, Frobenius matrices
+  with their characteristic polynomials, traces, determinants and orders, generating sets of
+  Frobenius classes, the splitting field and the projective kernel field, the top slope, the
+  comparison with the reduction of an Artin representation, and Chebotarev recognition read on
+  this carrier.
+
+### Consumed, not redefined
+
+- From Mathlib: the declarations listed under *From Mathlib* — the absolute Galois
+  group with its Krull topology, `ContRepresentation`, the finite-group representation theory
+  (`Representation`, `FDRep`, characters, invariants, duals, induction, irreducibility,
+  semisimplicity), `IsArithFrobAt` and `Ideal.inertia`, infinite places and complex embeddings,
+  Dirichlet characters, `LSeries` and `dedekindZeta`, the gamma factors and meromorphy,
+  `Matrix.ProjGenLinGroup`, the dihedral, alternating and symmetric groups, the reduction classes
+  of a Weierstrass curve over a discrete valuation ring, and `IsNonarchimedeanLocalField`.
+- From Tau Ceti: the declarations listed by module under *From Tau Ceti* — profiniteness
+  of `G_F` and the open subgroups of finite extensions, `Representation.isOpen_ker_of_finite`, the
+  character table and Frobenius–Schur library, induction and Brauer induction, projective
+  representations, Frobenius elements and the Artin symbol, complex conjugation, ramified primes,
+  decomposition groups, the local inertia and ramification filtrations, Hecke characters and
+  `ratDirichletEquiv`, Euler product data, and the Tate module of an elliptic curve.
+- From the [étale cohomology foundations roadmap](../EtaleCohomologyFoundations/README.md)
+  §F.4.0: `ContinuousRep Γ A M` (a `Representation` with a joint-continuity proof), its Iso,
+  `ofCharacter` and baseChange. For `Γ = G_F`, `A = ℂ` and `M = V` finite-dimensional this is the
+  same object as `ArtinRep F V`; Layer 1.1 records the comparison and duplicates nothing.
+- From the [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md),
+  by milestone: §1.4 *No small subgroups* (a continuous homomorphism from a profinite group to
+  `GL_n(ℂ)` has open kernel; `subgroup_units_eq_bot_of_norm_sub_one_le`,
+  continuous_iff_isOpen_ker); §2.7 *Arithmetic character constants* (`tateLocalConstant`),
+  *Root-number product formula* (`rootNumber_eq_prod_tateLocalConstant`) and
+  *Finite-order character globalisation*;
+  §3.1 (`Conductor.breaks`, `Conductor.highestBreak`, `Conductor.swanConductor`); §3.2
+  (`Conductor.artinConductor`, `Conductor.artinConductorNat`, the comparison with
+  `characterConductorExp`); §3.3 (`Conductor.globalConductor`, `Conductor.primeToPConductor`,
+  `AdmissibleExcludedPlaces`); §3.4 functoriality; §3.5 *The local induction formula* and
+  *The global induction formula*, *Hasse–Arf integrality*; §3.6 conductors of reductions; §4.1
+  (`GaloisRep.IsComplexConjugation`, `GaloisRep.IsOdd`); §4.4 Dickson's classification
+  (`GL2Subgroup.dickson_projectiveImage`); §5.1 (`GaloisRep.dense_frobeniusSet`); §5.3
+  (`GaloisRep.iso_of_charpoly_eq_on_dense`, `GaloisRep.iso_of_frobenius_charpoly_eq`); §5.7
+  (`GaloisRep.realizable_of_charpoly_mem`). This roadmap's local Euler factors are stated with
+  arithmetic Frobenius on the representation itself; that roadmap's GaloisRep.localEulerFactor
+  uses geometric Frobenius, and its §2.5a records that the two agree on dual representations.
+- From the [L-functions roadmap](../LFunctions/README.md): Layer 0 (`AnalyticLFunctionData`,
+  the dual record, the continuation and functional-equation predicates, `EqOffZero`); Layer 3
+  (`dedekindZetaC`, `completedDedekindZeta`, `eq_of_meromorphic_of_eqOn_halfPlane`,
+  `eventuallyEq_of_meromorphic_of_eqOn_halfPlane`); Layer 4 (`dirichletData`); Layer 5
+  (`heckeLFunctionC`, `PrimitiveRayClassCharacter`, `completedHeckeLFunction`, its Gauss sum and
+  root number, `eulerCorrection`, `finiteEulerCorrection`, the functional equation
+  `Λ(χ, s) = W(χ) Λ(χ⁻¹, 1 − s)` and entirety for nontrivial primitive `χ`). The continuation of
+  `L(s, ρ)` in Layer 4 is assembled from `heckeLFunctionC` by Brauer induction; no second Hecke
+  L-function is built.
+- From the [class field theory roadmap](../ClassFieldTheory/README.md): Layer 7 (`artinMap`,
+  `conductorExponent`, `characterConductorExp`, `unramifiedCoordinate`,
+  `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`); Layer 9 (`WeilGroup`, `weilRestrict`);
+  Layer 11 (`globalArtinMap`, `globalArtinMap_local`, `globalArtinMap_ideal`); Layer 12
+  (`globalAbelianExistence`); Layer 13 (`abelianConductor`, `kroneckerWeber`, the abelian
+  conductor–discriminant formula). The dictionary between one-dimensional Artin representations
+  and finite-order Hecke characters is read through `globalArtinMap`.
+- From [`RepresentationTheory/CharacterTheory`](../RepresentationTheory/CharacterTheory/README.md):
+  Layer 4 (character values in `ℚ(ζ_e)`, the Galois action by power maps, the field of values) and
+  Layer 7 (the Frobenius–Schur indicator and the orthogonal/complex/symplectic trichotomy); from
+  [`RepresentationTheory/InductionRestriction`](../RepresentationTheory/InductionRestriction/README.md):
+  Layer 2 (induced characters, Frobenius reciprocity), Layer 6 (the virtual-character ring, Artin
+  and Brauer induction, elementary subgroups) and Layer 7 (projective representations and the
+  lifting of a homomorphism to `PGL`).
+- From the [local fields and ramification roadmap](../LocalFieldsRamification/README.md): Layer 2
+  (Frobenius of unramified extensions), Layer 3 (the lower and upper filtrations, Herbrand
+  functions, Hasse–Arf) and Layer 4 (the tame quotient); from the
+  [local Galois groups roadmap](../LocalGaloisGroups/README.md): the conventions on `G_K` for a
+  `p`-adic field and nothing else.
+- From the [completed number-field arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md):
+  Layer 2 (`artinSymbol`, `artinHomAway`, the tower formula), Layer 4 (`relDiscr`), Layer 5 (the
+  completion at a finite place, `decompositionHom`), Layer 6 (the global ramification groups).
+- From the [Chebotarev roadmap](../Chebotarev/README.md): `frobeniusPrimeSet`,
+  `hasDirichletDensity_frobeniusPrimeSet`, `hasNaturalDensity_frobeniusPrimeSet`.
+- From the [`GL₂` automorphic representations roadmap](../GL2AutomorphicRepresentationsAndTransfer/README.md):
+  R16.5.1 (the unfolding of the Hecke integral of a cusp form into local Whittaker zeta
+  integrals), R16.6.6 (the cuspidal class of a weight-one newform, with its newvector
+  comparison), R17.5.5 (the all-place upgrade of weak Artin matching), R17.5.1, R17.5.6–R17.5.8 (dihedral,
+  tetrahedral, octahedral and solvable strong Artin), R17.5.9
+  and R17.5.10 (odd solvable Artin representations and weight one); from the
+  [automorphic Galois representations roadmap](../AutomorphicGaloisRepresentations/README.md):
+  §2.10 (the Deligne–Serre representation of a weight-one eigenform); from the
+  [modularity and Langlands extensions roadmap](../ModularityAndLanglandsExtensions/README.md):
+  §1.2 (`IsAutomorphicArtin`, `IsWeaklyAutomorphicArtin`, `IsAutomorphicArtin.lFunction_entire`)
+  and §1.9 (the odd Artin conjecture over totally real fields); from the
+  [analytic number theory roadmap](../AnalyticNumberTheoryPartI/README.md): §2.31 (continuation
+  near `Re s = 1` of the incomplete Artin L-function) and §2.39 (Aramata–Brauer). The predicates
+  `ArtinHolomorphy` and ArtinConjecture of its §2.41 are the same propositions as Layer 8.1
+  here, read on the unique meromorphic continuation; Layer 8.1 records the agreement.
+- From the [adelic algebraic groups roadmap](../AdelicAlgebraicGroups/README.md) AA.2.4,
+  *artin-local-factors*: inertia-fixed arithmetic-Frobenius factors, choice independence,
+  direct sums, induction including ramified places, and Artin–Hecke comparison with the
+  finite correction for imprimitive ray-class presentations. Its *convergence-factors*
+  target supplies meromorphic assembly. Sections 3.1–3.4 here supply the comparisons
+  with the Artin carrier, reversed polynomials and norm-indexed coefficients, not a second
+  construction of those factors or a new proof of their formalism.
+- From the sibling `PadicExtensionFamilies` 2.7: the top slope topSlope K L of a finite extension
+  of `p`-adic fields (the largest Artin slope `1 + u` of its Galois closure, `0` when unramified,
+  `1` when tamely ramified), which 9.2 applies to the completions of the splitting field of a
+  mod-`ℓ` representation at the places above `ℓ` and maximizes over them.
+
+### Not owned here
+
+- **Conductors.** The Artin conductor, the Swan conductor, the breaks, Hasse–Arf integrality,
+  the induction and twist formulas, the conductor of a Weil–Deligne representation, global
+  conductors and the prime-to-`ℓ` conductor of a residual representation belong to the
+  [arithmetic Galois representations roadmap](../ArithmeticGaloisRepresentations/README.md) Layer 3
+  and are consumed by name. This roadmap defines no conductor exponent and no second ramification
+  filtration; the conductor–discriminant formula of Layer 5 is an assembly of that roadmap's §3.5.
+- **Scalar local constants.** ArithmeticGaloisRepresentations §2.7 supplies finite Gauss sums,
+  additive characters, measures, scalar globalization and the rank-one product formula.
+  The characteristic-zero higher-rank existence theorem, Weil–Deligne extension and transfer
+  are owned by §2.4 here; equal-characteristic constants come from AutomorphicLFunctionsAndLocalFactors AL.3.10.3. Their global comparison is §6.1.
+- **The proved cases of Artin's conjecture and of the weight-one dictionary.** Dihedral,
+  tetrahedral, octahedral and solvable strong Artin, the weight-one newform attached to an odd
+  solvable two-dimensional `ρ`, the Deligne–Serre representation of a weight-one eigenform, and
+  the odd Artin conjecture over totally real fields are the three Langlands-family roadmaps named
+  above. Layer 8 states the dictionary on this carrier and cites the proofs.
+- **Analytic consequences.** Nonvanishing on `Re s = 1`, zero-free regions, the Brauer–Siegel and
+  Heilbronn–Aramata theorems, effective Chebotarev, and every estimate uniform in the conductor
+  belong to the [analytic number theory roadmap](../AnalyticNumberTheoryPartI/README.md) and the
+  zeros roadmaps; Chebotarev density itself belongs to the [Chebotarev roadmap](../Chebotarev/README.md).
+- **Finite-character analytic completion and Galois module structure.**
+  [`ClassicalArithmeticCompletion`](../ClassicalArithmeticCompletion/README.md) §7.30 owns
+  completedArtinLFunction on finite Galois characters, analyticArtinRootNumber, its
+  functional equation, uniqueness and normalized all-place product. Sections 4.2–4.3
+  and 6.1 here transport that interface to ArtinRep through finite Galois factorization
+  and compare it with §2.4's local constants. Its tame algebraic Gauss factors,
+  symplectic root signs, Fröhlich Hom-description and Taylor theorem remain in its Layer 7.
+- **Labels, orderings and normal forms.** Label components beyond the intrinsic prefix (the
+  orbit letter `a` and the conjugate letter `b` of a label `dim.cond.dtj.a.b`, and the `T`-number
+  of a container of degree above 5), the choice of displayed stem field among several, the stored
+  `HardPrimes` set (the primes dividing the discriminant of the stored defining polynomial of the
+  stem field), the canonical sequence of generating primes of a mod-`ℓ` representation, the
+  minimal sibling of a splitting field, the `image_label`, and every stored list are not targets.
+  This roadmap states the intrinsic label prefix (dimension and conductor), the predicates a label
+  is built from, and the permutation group of the container up to conjugacy, never a letter or an
+  index.
+- **Transitive-group classification.** The classification of transitive subgroups of `Sₙ` and
+  the data of `nTj` belong to the [polynomial Galois groups roadmap](../PolynomialGaloisGroups/README.md).
+- **Sato–Tate groups as objects** — the ambient groups, the axioms, the statistics, and the
+  weight-`0` degree-`1` groups `μ(n)` — belong to `SatoTateGroups`; the Sato–Tate group of an
+  Artin representation of dimension `d` is its image group (7.4) read inside `U(d)` through a
+  `G_F`-invariant Hermitian form, an instance of that roadmap's Layer 1–3 objects that no LMFDB
+  page displays beyond `d = 1` and that no milestone here states beyond 7.4; the `ℓ`-adic images of elliptic curves and modular forms to
+  `AdelicImagesAndModularCurves`; the arithmetic of `p`-adic field families and the Galois
+  splitting models of the `lf` pages to `PadicExtensionFamilies`; the Hilbert weight-one
+  dictionary over totally real fields to `HilbertModularForms`, which consumes R17.5.10 and
+  Layer 8.3 here; the isomorphism invariants of the image groups as abstract groups to
+  `FiniteGroupInvariants`; their labels (`gps_groups`) are not a target.
+- **Weil–Deligne representations and `ℓ`-adic representations** with infinite image, Tate
+  modules, compatible systems, and the elliptic conductor are the arithmetic Galois
+  representations roadmap's; Layer 6.5 consumes the Weil–Deligne representation of an elliptic
+  curve only to name its local root number.
+- **The dual pair of algebras** of a mod-`ℓ` representation (its presentation as a finite étale
+  group scheme) is not an invariant of the representation but a presentation of a group scheme;
+  no milestone here states it, and no roadmap in this repository owns it.
+
+## Exact supplier contracts
+
+### From Mathlib
+
+- `Field.absoluteGaloisGroup F := AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F` with the Krull
+  topology and `IsTopologicalGroup`; `IntermediateField.fixingSubgroup_isOpen`,
+  `isOpen_iff_finite` (an intermediate field is finite-dimensional iff its fixing subgroup is
+  open), `fixedField_fixingSubgroup` for the Galois correspondence of a Galois extension.
+- `ContRepresentation R G V` (a homomorphism `G →* V →L[R] V`), its `toRepresentation`;
+  `Representation`, Representation.character with `char_one`, `char_conj`, `char_dual`,
+  `char_tensor`, `char_iso`, `char_orthonormal`; `Representation.invariants`, `averageMap`;
+  Representation.dual, `tprod`, prod, `ind` (`Mathlib/RepresentationTheory/Induced.lean`),
+  IsIrreducible, `IsSemisimpleRepresentation`, Maschke; `FDRep`, `FDRep.of`, FDRep.character.
+- `AlgHom.IsArithFrobAt`, `IsArithFrobAt` with `exists_of_isInvariant`, `conj`,
+  `mul_inv_mem_inertia`, `eq_of_isUnramifiedAt`; `Ideal.inertia`, `MulAction.stabilizer`,
+  `Ideal.Quotient.stabilizerHom`; Algebra.IsUnramifiedAt, `Ideal.ramificationIdx`,
+  `Ideal.inertiaDeg`, `Ideal.primesOver`.
+- `NumberField.InfinitePlace`, `IsReal`, `IsComplex`, `ComplexEmbedding.IsConj`,
+  `InfinitePlace.IsRamified`; `NumberField.discr`, `Ideal.absNorm`, `differentIdeal`.
+- `DirichletCharacter`, `conductor`, `Odd`, `Even`, `gaussSum`; `LSeries`; `NumberField.dedekindZeta`,
+  `dedekindZeta_residue`; `Complex.Gammaℝ`, `Complex.Gammaℂ`, `riemannZeta`, `completedRiemannZeta`;
+  `MeromorphicOn`, `MeromorphicAt`, `meromorphicOrderAt`, `AnalyticOnNhd`.
+- `LinearMap.charpoly`, `Polynomial.reverse`, LinearMap.det, LinearMap.restrict,
+  `Module.End.eigenspace`; `Matrix.GeneralLinearGroup`, `Matrix.ProjGenLinGroup` with `mk`,
+  `lift`, `signDet`; `DihedralGroup`, `alternatingGroup`, `Equiv.Perm`, `QuaternionGroup`,
+  `IsCyclic`, `Subgroup.index`, `Subgroup.normalCore`.
+- `IsNonarchimedeanLocalField`, `ValuativeRel`, `IsLocalRing.ResidueField`, `Padic`.
+- `WeierstrassCurve.IsMinimal R`, `HasGoodReduction R`, `HasMultiplicativeReduction R`,
+  `HasSplitMultiplicativeReduction R`, `HasAdditiveReduction R` for a Weierstrass curve over the
+  fraction field of a discrete valuation ring `R` (`Mathlib/AlgebraicGeometry/EllipticCurve/Reduction.lean`),
+  and WeierstrassCurve.localPolynomial.
+
+### From Tau Ceti
+
+- `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/`: `CompactSpace (Field.absoluteGaloisGroup K)`,
+  `galoisSubgroup K L σ : OpenSubgroup G_K` with `galoisSubgroup_index`, `galoisSubgroupEquiv`
+  (`G_L ≃ₜ* galoisSubgroup`), `absoluteGaloisGroupExtend`, `exists_absoluteGaloisGroupExtend_eq_conj`.
+- `TauCeti/RepresentationTheory/GaloisLattice/FiniteQuotient.lean`: `Representation.isOpen_ker_of_finite`.
+- `TauCeti/RepresentationTheory/CharacterTable/`: `ClassFunction k G` (a `Submodule k (G → k)`)
+  with `comap`, `map`, `powMap`, `invMap`, `ofCharacter`, `ofFDRep`, `equivConjClasses`;
+  `virtualCharacters k G : AddSubgroup (G → k)`, `irreducibleCharacters`,
+  `irreducibleCharacter`, `irreducibleRepresentation`, `characterDegree`, `characterPairing`;
+  frobeniusSchurIndicator ρ, FDRep.frobeniusSchurIndicator, `TauCeti.Representation.frobeniusSchurIndicator_eq_one_iff`,
+  `_eq_neg_one_iff`, `_eq_zero_iff`, `Representation.frobeniusSchurIndicator_eq_one_iff_isRealizableOverReal`;
+  `FDRep.conj_char` (`χ(g⁻¹) = conj χ(g)` over `ℂ`), `char_mem_adjoin_of_isPrimitiveRoot`,
+  `isIntegral_char`, `norm_char_le_finrank`, `FDRep.exists_apply_eq_smul_of_norm_char_eq_finrank`;
+  `FDRep.mem_ker_iff_char_eq`, `FDRep.ker_eq_ker_of_char_eq`; the Galois action
+  `FDRep.map_character_eq_character_pow`, `FDRep.character_pow_eq_character_of_mem_range`.
+- `TauCeti/RepresentationTheory/Induction/`: `indFDRep`, `finrank_indFDRep`, `TauCeti.character_indFDRep`,
+  `indClassFun`, `FrobeniusReciprocity.lean` (`frobenius_reciprocity`), `Permutation.lean`
+  (`indTrivialIso`, `char_ind_trivial`,
+  `char_ofMulAction`), `VirtualCharacter.lean`, `Artin/Basic.lean`
+  (`natCard_nsmul_mem_indVirtualCharacters_isCyclic`), `Brauer/Induction.lean`
+  (`ClassFunction.indVirtualCharacters_eq_virtualCharacters_isElementary`,
+  `ClassFunction.character_mem_indCharacterSpanInt_isElementary`), `Brauer/Characterization.lean`
+  (`mem_virtualCharacters_iff_forall_comp_subtype_isElementary`), `Monomial.lean`.
+- `TauCeti/RepresentationTheory/ProjectiveRepresentation/`: `IsProjectiveRep`, `toPGL`,
+  `exists_isProjectiveRep_toPGL_eq`, `schurMultiplier`.
+- `TauCeti/NumberTheory/NumberField/`: `Frobenius.lean` (`exists_isArithFrobAt`,
+  `isArithFrobAt_eq_of_isUnramifiedAt`, `subsingleton_isArithFrobAt`, `isArithFrobAt_autCongr`),
+  `Frobenius/Restriction.lean`, `Frobenius/Tower.lean`, `Frobenius/DecompositionGroup.lean`
+  (`Ideal.isUnramifiedAt_iff_inertia_eq_bot`), `ArtinSymbol.lean` (`artinSymbol`,
+  `artinSymbol_eq_mk_of_isArithFrobAt`, `artinSymbol_map_restrictNormalHom`,
+  `artinSymbol_eq_one_iff_inertiaDeg_eq_one`), `Ideal/ArtinMap.lean` (`artinElement`,
+  `artinHomAway`), `ComplexConjugation/Basic.lean` (`complexConjugationAt`,
+  `isConj_complexConjugationAt`, `orderOf_complexConjugationAt`,
+  `complexConjugationAt_restrictNormal_eq_one_of_isReal`, `_of_isComplex`),
+  `RamifiedPrimes.lean`, `LocalGlobal/DecompositionGroup.lean` (`decompositionHom`,
+  `decompositionEquiv`), `LocalGlobal/RamificationGroup.lean` (`ramificationGroup`,
+  `card_ramificationGroup_eq_card_lowerRamificationGroup`), `LocalGlobal/Frobenius.lean`
+  (`decompositionHom_eq_frobeniusAlgEquiv`), `DedekindZeta.lean`,
+  `Global/HeckeCharacter/` (`HeckeCharacter`, `IsFiniteOrder`, `ofRayClassCharacter`,
+  `conductor`, `finiteConductor`, `conductorExponent`, `infinityType`),
+  `Global/RayClass/Character/Dirichlet.lean` (`ratDirichletEquiv`, `even_ratDirichletEquiv_iff`,
+  `conductor_finitePart_eq_span`).
+- `TauCeti/NumberTheory/LocalField/`: `Unramified/Inertia/Basic.lean` (`inertiaSubgroup`,
+  `IsArithFrobeniusLift`, `exists_isArithFrobeniusLift`, `unramifiedQuotient`),
+  `WildInertia.lean` (`wildInertiaSubgroup`, `isProP_wildInertiaSubgroup`), `RamificationGroup.lean`
+  (`lowerRamificationGroup`, `largestLowerJump`), `Herbrand/` (`upperRamificationGroup`,
+  `UpperJump`, `herbrand`, `HasseArf.lean`), `Tame/` (`tameQuotient`), `Frobenius.lean`.
+- `TauCeti/NumberTheory/ClassFieldTheory/`: `Local/ArtinMap.lean`, `ClassField.lean`
+  (`classField`, `galClassFieldEquiv`), `Global/`.
+- `TauCeti/NumberTheory/ArithmeticDirichletSeries/`: `IdealArithmeticFunction`, `EulerProductData`
+  with `localPowerSeries`, `eulerFactor`, `idealTerm`, `UnitaryIdealWeight`.
+- `TauCeti/AlgebraicGeometry/EllipticCurve/`: `tateModuleGaloisRepresentation`,
+  `tateModuleWeilPairing`, `IsSemistable`, and the minimal-model and local-polynomial theorems over
+  Mathlib's reduction classes.
+- `TauCeti/NumberTheory/ModularForms/Newforms/Newform.lean`: `HeckeRing.GL2.Newform`
+  bundles a nonzero cusp form, its nebentypus and good Hecke eigenconditions, membership
+  in the new subspace, and first Fourier coefficient 1. It imposes no bad-prime
+  eigencondition; `Newforms/FullEigenform.lean` (`HeckeRing.GL2.Newform.toEigenform`) proves
+  that it is an eigenform at every prime, and `LFunction/EulerProduct.lean`
+  (`HeckeRing.GL2.Newform.L_eulerProduct_tprod`) writes its L-series as the Euler product over
+  all primes, with factor `(1 − a_p p^{−s})^{−1}` at `p ∣ N`, on `Re s > k/2 + 1`.
+- `TauCeti/NumberTheory/Chebotarev/`: `frobeniusPrimeSet`, `mem_frobeniusPrimeSet_iff_artinSymbol_eq`.
+
+### From named roadmaps
+
+The section contracts in Scope and ownership fix the imported objects and their conventions.
+From ClassicalArithmeticCompletion §7.30, **Analytic Artin root numbers**, consume the
+finite-character completedArtinLFunction, analyticArtinRootNumber, functional-equation
+and uniqueness statements, and the normalized all-place product. Its arithmetic-Frobenius
+completion uses `Cχ = |disc F|^χ(1) Nfχ`, the exponent s/2, real shifts n₊, n₋, and
+complex factor Γℂ(s)^χ(1), exactly as here. The comparison takes the character of any
+finite Galois presentation of ρ, with independence under inflation and isomorphism.
+This contract imports the finite-character interface; §2.4 separately constructs the
+characteristic-zero higher-rank local constants from ArithmeticGaloisRepresentations §2.7's
+scalar constants and globalization. No higher-rank existence theorem is assumed from
+that scalar contract. GL2AutomorphicRepresentationsAndTransfer R17.5's local-constant
+contracts likewise supply no additional construction to §2.4.
+AutomorphicLFunctionsAndLocalFactors AL.3.10.3 supplies the equal-characteristic
+local-constant construction, including monodromy, norm twisting and conductor compatibility;
+§2.4 here compares its coefficient models with complex Artin representations.
+Its AL.2.2.4–AL.2.2.5 (the `GL₂` newvector line at the conductor and its Whittaker
+normalization) and AL.3.3.5 at `n = 2` (the zeta integral of the normalized newvector is the
+standard local factor) give §8.2 the factors of a weight-one newform at the primes dividing
+its level.
+For orthogonal obstructions, additionally consume GeneralizedCohomology G5, item 4
+(the real Pin⁺ double cover with its rank-zero convention), and OrthogonalSpinGroups Layer 1A–1E
+(Clifford norm and the vector action, including the distinction between reverse and star),
+ProfiniteCohomology Layers 2–3, 6, 8–9 (explicit degree-two cocycles, comparison,
+inflation, cup products and separable-closure coefficients), and ClassFieldTheory Layer 5
+(the local Brauer carrier and `invMap`). Section 6.3 owns the representation-specific
+pullback to a finite orthogonal representation and local obstruction map.
+The group-extension class is `TauCeti.FactorSet.cohomologyClass` and its
+section-independence theorem `TauCeti.GroupExtension.cohomologyClass_factorSet_eq`
+in `TauCeti/GroupTheory/GroupExtension/Cohomology.lean`; the finite group is transported
+to a small finite model for this pinned `Type`-valued interface, with independence under isomorphism.
 
 ## References
 
