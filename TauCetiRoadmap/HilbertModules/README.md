@@ -515,9 +515,17 @@ gets an induced representation on it. Prove nondegeneracy of the induced represe
 nondegeneracy of that action, functoriality on bounded intertwiners, induction in stages, and
 compatibility with direct sums. For a state ω of A and a Hilbert A-module E, identify the state
 localization, the completion of E modulo `{x : ω(⟨x, x⟩) = 0}` with inner product `ω(⟨x, y⟩)`,
-with `E ⊗_A H_ω`, through `x ↦ x ⊗ ξ_ω` for the cyclic GNS vector `ξ_ω`.
-*Needs:* §§3.1–3.2; Tau Ceti `NonUnitalStarAlgHom.IsNondegenerate`; Mathlib
-`PositiveLinearMap.GNS`, `PositiveLinearMap.gnsStarAlgHom`; VonNeumannAlgebras V0 (states).
+with `E ⊗_A H_ω`, through `x ↦ x ⊗ ξ_ω` for the cyclic GNS vector `ξ_ω`. For unital A, `ξ_ω` is
+Tau Ceti's `PositiveLinearMap.gnsVector`, the class of the unit. For nonunital A, construct `ξ_ω` as
+the limit in `H_ω` of the classes `[e]` along Mathlib's `CStarAlgebra.approximateUnit`, and prove
+`π_ω(a)ξ_ω = [a]` and `⟨ξ_ω, π_ω(a)ξ_ω⟩ = ω(a)`. The classes converge because, in the GNS space of
+the state ω̃ of the unitization extending ω, `‖[1] − [e]‖² = ω̃((1 − e)²) ≤ 1 − ω(e)` for
+`0 ≤ e`, `‖e‖ ≤ 1`, and ω(e) tends to `‖ω‖ = 1` (`PositiveContinuousLinearMap.tendsto_nhds_opNorm`).
+*Needs:* §§3.1–3.2; Tau Ceti `NonUnitalStarAlgHom.IsNondegenerate`, `PositiveLinearMap.gnsVector`;
+Mathlib `PositiveLinearMap.GNS`, `PositiveLinearMap.gnsNonUnitalStarAlgHom`,
+`PositiveLinearMap.gnsStarAlgHom`, `CStarAlgebra.approximateUnit`,
+`PositiveContinuousLinearMap.tendsto_nhds_opNorm`; VonNeumannAlgebras V0 (states and their
+extension to the unitization).
 
 **Checks.**
 
@@ -529,13 +537,19 @@ with `E ⊗_A H_ω`, through `x ↦ x ⊗ ξ_ω` for the cyclic GNS vector `ξ_�
 Define an A–B imprimitivity bimodule as a full right Hilbert B-module E with a specified
 *-isomorphism `A ≅ K_B(E)`. Construct its left inner product `_A⟨x, y⟩` by pulling back
 `θ_(x,y)`; it is linear in its first variable. Prove the equivalence with the definition by two
-full inner products and the compatibility identity `_A⟨x, y⟩z = x⟨y, z⟩_B`. Develop the conjugate
+full inner products and the compatibility identity `_A⟨x, y⟩z = x⟨y, z⟩_B`. For dense
+*-subalgebras `A₀ ⊆ A` and `B₀ ⊆ B`, an `A₀`–`B₀` pre-imprimitivity bimodule is an
+`A₀`–`B₀` bimodule with a left `A₀`-valued and a right `B₀`-valued pre-inner product, positive in
+A and in B as in §1.2, whose values span dense subspaces of A and of B, such that
+`⟨ax, y⟩_B = ⟨x, a*y⟩_B`, `_A⟨xb, y⟩ = _A⟨x, yb*⟩` and `_A⟨x, y⟩z = x⟨y, z⟩_B`. Prove that if
+moreover `⟨ax, ax⟩_B ≤ ‖a‖²⟨x, x⟩_B` and `_A⟨xb, xb⟩ ≤ ‖b‖² _A⟨x, x⟩`, its separated completion
+for the B-valued inner product (§1.2) is an A–B imprimitivity bimodule. Develop the conjugate
 B–A module E*, interior products of imprimitivity bimodules, and the evaluation unitaries
 `E ⊗_B E* ≅ A`, `x ⊗ ȳ ↦ _A⟨x, y⟩`, and `E* ⊗_A E ≅ B`, `x̄ ⊗ y ↦ ⟨x, y⟩_B`, with their associativity
 compatibilities. Prove that strong Morita equivalence, the existence of an imprimitivity bimodule,
 is an equivalence relation, and that induction along E is an equivalence of the categories of
 nondegenerate representations, with inverse induction along E* (Raeburn–Williams, Chapter 3).
-*Needs:* §§2.3–2.4, 3.2, 3.4.
+*Needs:* §§1.2, 2.3–2.4, 3.2, 3.4.
 
 **Checks.**
 
@@ -604,7 +618,8 @@ For nonseparable H, `K(H)` and ℂ are Morita equivalent, one σ-unital and the 
 
 ### Dependencies
 
-Layers 1–2. Tau Ceti's nondegenerate representations; Mathlib's GNS construction; CStarAlgebras
+Layers 1–2. Tau Ceti's nondegenerate representations and GNS vector; Mathlib's GNS construction,
+approximate unit and norm of positive functionals along it; CStarAlgebras
 C1.7, §2.6, C5.1, C6.1–C6.2, C7.1 and C9.7; VonNeumannAlgebras V0, V4.Normality and
 V7.StandardAmplifications.
 
@@ -989,10 +1004,12 @@ refinement functions, independence of the cofinal system, functoriality in the p
 restriction to open subsets and the pullback of fixed-cover complexes along continuous maps are
 supplied at the Tau Ceti pin (supplier contracts below).
 
-Construct the three sheaves used below as sheaves of abelian groups on X, each with value 0 on the
-empty open set: the continuous real-valued functions `C(−, ℝ)`, the continuous circle-valued
-functions `C(−, 𝕋)` and the locally constant integer-valued functions Z. Identify the circle's
-additive module notation with its multiplicative cocycle notation. Construct, for each of the
+The three sheaves used below are sheaves of abelian groups on X, each with value 0 on the empty
+open set. Construct the continuous real-valued functions `C(−, ℝ)` and the continuous
+circle-valued functions `C(−, 𝕋)`. The locally constant integer-valued functions Z are Tau Ceti's
+sheaf of commutative rings `TopCat.locallyConstantSheaf X R` for R = ℤ, lifted to the universe of
+X, viewed as a sheaf of abelian groups. Identify the circle's additive module notation with its
+multiplicative cocycle notation. Construct, for each of the
 three sheaves, the pullback `Ȟⁿ(Y, 𝓕) → Ȟⁿ(X, 𝓕)` along a continuous map `f : X → Y` of such bases,
 by composing sections with f: cocycles pull back along the preimage cover, compatibly with sheaf
 maps, refinements and common refinements. Construct the
@@ -1000,7 +1017,7 @@ nonabelian `Ȟ¹` with coefficients in a sheaf of groups, as the pointed set of 
 coboundaries, used in §5.12; that cocycle and lifting theory is not an application of the abelian
 cochain differential to a nonabelian group.
 *Needs:* Tau Ceti `TauCeti.Topology.cechCohomology`, `TauCeti.Topology.PointOpenCover`,
-`TopCat.Hom.cechComplexPullback`; Mathlib `cechComplexFunctor`.
+`TopCat.Hom.cechComplexPullback`, `TopCat.locallyConstantSheaf`; Mathlib `cechComplexFunctor`.
 
 **Checks.**
 
@@ -1107,8 +1124,8 @@ class, and a compact-operator bundle over `S³` realizes a generator of `Ȟ³(S�
 ### Dependencies
 
 Layers 1–4. Tau Ceti's Čech cohomology of presheaves on spaces, its point-neighbourhood covers and
-fixed-cover pullbacks, `TauCeti.FiniteRankBundleCore`, `TauCeti.cwComplexProd` and the connectivity
-of spheres; Mathlib's ideals of `C(Y)`, Tietze extension, partitions of unity and
+fixed-cover pullbacks, its sheaf of locally constant functions, `TauCeti.FiniteRankBundleCore`,
+`TauCeti.cwComplexProd` and the connectivity of spheres; Mathlib's ideals of `C(Y)`, Tietze extension, partitions of unity and
 `cechComplexFunctor`. CStarAlgebras C1.3, C1.7, C2.2, §2.6, C2.7 and C5.1; VonNeumannAlgebras V0 and
 V4.Core; TopologicalKTheory T1; CharacteristicClasses C1.2b and C1.6; AlgebraicTopology §4.5;
 SmoothBundlesConnections B1.3, B3.3, B6.0, B6.2 and B6.3; DifferentialGeometry §5.2.
@@ -1362,7 +1379,8 @@ Layers 1–3 and 6; Mathlib's Hahn–Banach separation; BanachSpaceTheory B1; CS
   graph cores, sums and compositions, the deficiency decomposition and the classification of
   selfadjoint extensions) and the interval example of §7.4.
 - [OperatorAlgebraDynamics](../OperatorAlgebraDynamics/README.md) consumes Layers 1 and 3
-  (completion over a dense *-subalgebra, induced Hilbert spaces and imprimitivity bimodules).
+  (completion over a dense *-subalgebra, induced Hilbert spaces, imprimitivity bimodules and the
+  completion of pre-imprimitivity bimodules of §3.5).
 - [QuantumGroups](../QuantumGroups/README.md) consumes Layers 1–3 (the module `H ⊗ A`, adjointable
   and module-compact operators, the multiplier identification and interior tensor products).
 - [NoncompactQuantumSymmetry](../NoncompactQuantumSymmetry/README.md) consumes Layer 3 (interior
@@ -1401,9 +1419,11 @@ sum criterion (Layer 7).
 - *Tau Ceti*: the cover-theoretic Čech cohomology of presheaves on a topological space (fixed-cover
   tuple complexes, refinement maps with their laws and homotopies, the colimit over
   point-neighbourhood covers, independence of the cofinal system, restriction and pullback of
-  fixed-cover complexes), which §5.10 consumes; nondegenerate representations and their extension
-  to multipliers; the Cayley transform of a selfadjoint Hilbert-space operator, which §6.5 extends
-  to symmetric operators; the finite-rank bundle core; the CW product; the connectivity of spheres.
+  fixed-cover complexes), which §5.10 consumes, and the sheaf of locally constant functions, which
+  gives §5.10's coefficient sheaf Z; nondegenerate representations and their extension to
+  multipliers; the cyclic GNS vector of a positive functional on a unital algebra; the Cayley
+  transform of a selfadjoint Hilbert-space operator, which §6.5 extends to symmetric operators; the
+  finite-rank bundle core; the CW product; the connectivity of spheres.
   CharacteristicClasses C1.2b also plans a point-neighbourhood cover system; §5.10 uses Tau
   Ceti's.
 
@@ -1493,8 +1513,12 @@ Other roadmaps cite sections of this roadmap by the labels of its former numberi
   `DoubleCentralizer`, notation `𝓜(ℂ, A)` (`Mathlib/Analysis/CStarAlgebra/Multiplier.lean`; §§2.4–2.5,
   5.1).
 - *Approximate units*: `Filter.IsIncreasingApproximateUnit` and `CStarAlgebra.approximateUnit`
-  (`Mathlib/Analysis/CStarAlgebra/ApproximateUnit.lean`; §1.3).
-- *GNS*: `PositiveLinearMap.GNS` and `PositiveLinearMap.gnsStarAlgHom`
+  (`Mathlib/Analysis/CStarAlgebra/ApproximateUnit.lean`; §§1.3, 3.4), and
+  `PositiveContinuousLinearMap.tendsto_nhds_opNorm`
+  (`Mathlib/Analysis/CStarAlgebra/PositiveLinearFunctional.lean`; along an increasing approximate
+  unit a positive functional tends to its norm; §3.4).
+- *GNS*: `PositiveLinearMap.GNS`, the representation `PositiveLinearMap.gnsNonUnitalStarAlgHom` of
+  a possibly nonunital A and, for unital A, `PositiveLinearMap.gnsStarAlgHom`
   (`Mathlib/Analysis/CStarAlgebra/GelfandNaimarkSegal.lean`; §§3.4, 5.8).
 - *Operators on Banach and Hilbert spaces*: the closed graph theorem
   `LinearMap.continuous_of_isClosed_graph` (`Mathlib/Analysis/Normed/Operator/Banach.lean`; for
@@ -1538,11 +1562,17 @@ Other roadmaps cite sections of this roadmap by the labels of its former numberi
   topological Čech diagrams `TauCeti.TopCat.cechOpenDiagram`, `TauCeti.TopCat.cechTopDiagram` and
   `TauCeti.TopCat.cechRefinementNatTrans` give the same tuple intersections and refinements in
   `TopCat`. Used in §§5.10–5.13.
+- *Locally constant functions*: `TopCat.locallyConstantSheaf X R`
+  (`TauCeti/Topology/Sheaves/LocallyConstant.lean`; for a commutative ring R in the universe of X,
+  the sheaf of commutative rings of locally constant R-valued functions, glued by
+  `TopCat.isSheaf_locallyConstantRingCatPresheaf`). With R = ℤ it gives the sheaf Z of §5.10.
 - *Representations and multipliers* (`TauCeti/Analysis/CStarAlgebra/`):
   `NonUnitalStarAlgHom.IsNondegenerate` (the vectors `π a ξ` span a dense subspace) and
   `NonUnitalStarAlgHom.multiplierExtension` (the unique extension of a nondegenerate representation
   to `𝓜(ℂ, A)`), in `Representation/Nondegenerate.lean`; `DoubleCentralizer.congr`, the extension of
-  a *-isomorphism to the multiplier algebras, in `Multiplier.lean`. Used in §§3.4, 5.9, 7.2.
+  a *-isomorphism to the multiplier algebras, in `Multiplier.lean`; `PositiveLinearMap.gnsVector`,
+  the class of the unit in the GNS space of a positive functional on a unital algebra, in
+  `GNS.lean`. Used in §§3.4, 5.9, 7.2.
 - *Bundles and CW structures*: `TauCeti.FiniteRankBundleCore`
   (`TauCeti/Topology/VectorBundle/FiniteRank/Basic.lean`; finite-rank bundles glued from continuous
   matrix-valued transition functions), the product CW structure `TauCeti.cwComplexProd`
@@ -1581,8 +1611,9 @@ bounded approximate units, used in §1.3 for `x = ya`.
 
 ### From TauCetiRoadmap.VonNeumannAlgebras
 
-V0 (states of C*-algebras, with GNS through Mathlib), V4.Core (the trace `Tr` on `B(H)` with values
-in `[0, ∞]`, for arbitrary, possibly nonseparable, H), V4.Normality (normal representations) and
+V0 (states of C*-algebras and their extension to the unitization, with GNS through Mathlib),
+V4.Core (the trace `Tr` on `B(H)` with values in `[0, ∞]`, for arbitrary, possibly nonseparable,
+H), V4.Normality (normal representations) and
 V7.StandardAmplifications (normal Hilbert modules of a finite factor, with a right action recorded
 as a left action of the opposite algebra). Used in §§3.4, 3.8, 5.8, 7.2.
 
